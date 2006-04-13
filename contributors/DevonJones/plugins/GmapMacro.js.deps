@@ -1,1 +1,1 @@
-script=contributors/DevonJones/scripts/GmapScript.script
+script: ../scripts/GmapScript.script
