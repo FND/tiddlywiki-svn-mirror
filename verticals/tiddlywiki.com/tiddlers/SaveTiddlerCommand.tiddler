@@ -1,0 +1,1 @@
+<div tiddler="SaveTiddlerCommand" modifier="JeremyRuston" modified="200512081602" created="200512081556" tags="commands">Saves any pending edits to the current tiddler, and switches it to the default view. It is used with the ToolbarMacro like this:\n{{{\n&lt;&lt;toolbar saveTiddler&gt;&gt;\n}}}</div>

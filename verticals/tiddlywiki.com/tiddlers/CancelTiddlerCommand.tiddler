@@ -1,0 +1,1 @@
+<div tiddler="CancelTiddlerCommand" modifier="JeremyRuston" modified="200512081602" created="200512081557" tags="commands">Abandons any pending edits to the current tiddler, and switches it the default view. It is used with the ToolbarMacro like this:\n{{{\n&lt;&lt;toolbar cancelTiddler&gt;&gt;\n}}}</div>
