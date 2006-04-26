@@ -104,4 +104,8 @@
 *.meta = svn:eol-style=native
 *.script = svn:eol-style=native
 *.recipe = svn:eol-style=native
+*.html = svn:eol-style=native
+*.js = svn:eol-style=native
+*.rb = svn:eol-style=native
+
 
