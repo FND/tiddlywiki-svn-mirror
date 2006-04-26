@@ -106,6 +106,6 @@
 *.recipe = svn:eol-style=native
 *.html = svn:eol-style=native
 *.js = svn:eol-style=native
-*.rb = svn:eol-style=native
+*.rb = svn:eol-style=native;svn:keywords=Date Revision Author HeadURL Id;svn:executable
 
 
