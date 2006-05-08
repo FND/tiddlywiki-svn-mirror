@@ -1,5 +1,5 @@
 recipe: ../../core/tiddlywiki.html.recipe
 prehead: ../../core/html/rss.link.html
 title: html/title.html
-recipe: tiddlers/split.recipe
-recipe: images.recipe
+tiddler: tiddlers/StyleSheet.tiddler
+tiddler: tiddlers/PageTemplate.tiddler
