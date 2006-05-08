@@ -1,0 +1,1 @@
+<div tiddler="EmptyTemplatePageTitle" modifier="JeremyRuston" modified="200601131632" created="200601131632" tags="bugs">When you first load a new EmptyTemplate, the &lt;title&gt; tag is set to the title of the parent TiddlyWiki, rather than the shadow SiteTitle and SiteSubtitle.</div>

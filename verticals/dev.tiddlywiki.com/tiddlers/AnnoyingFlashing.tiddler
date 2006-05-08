@@ -1,0 +1,1 @@
+<div tiddler="AnnoyingFlashing" modifier="JeremyRuston" modified="200512181841" created="200512181841" tags="bugs">In Firefox on the Mac, there seems to be some interaction between the stylesheet and template mechanisms that can cause brief flashes to appear with the wrong styles (for example, on completing editting a tiddler).</div>
