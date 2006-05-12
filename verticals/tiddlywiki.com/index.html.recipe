@@ -3,3 +3,5 @@ prehead: ../../core/html/rss.link.html
 title: html/title.html
 recipe: tiddlers/split.recipe
 recipe: images.recipe
+copy: attachments/firstversion.html
+copy: attachments/secondversion.html
