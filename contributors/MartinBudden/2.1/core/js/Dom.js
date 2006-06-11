@@ -39,6 +39,11 @@ function createTiddlyElement(theParent,theElement,theID,theClass,theText)
 	return(e);
 }
 
+function createTiddlyElement2(parent,element)
+{
+	return parent.appendChild(document.createElement(element));
+}
+
 // Add an event handler
 // Thanks to John Resig, via QuirksMode
 function addEvent(obj,type,fn)
