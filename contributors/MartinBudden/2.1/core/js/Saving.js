@@ -25,10 +25,8 @@ function checkUnsavedChanges()
 }
 
 // Save this tiddlywiki with the pending changes
-function saveChanges(onlyIfDirty)
+function saveChanges()
 {
-	if(onlyIfDirty && !store.isDirty())
-		return;
 	clearMessage();
 	// Get the URL of the document
 	var originalPath = document.location.toString();
@@ -96,8 +94,8 @@ function saveChanges(onlyIfDirty)
 			alert(config.messages.emptyFailed);
 		}
 	// Save new file
-	var revised = original.substr(0,posOpeningDiv + startSaveArea.length) +
-				convertUnicodeToUTF8(allTiddlersAsHtml()) + "\n\t\t" +
+	var revised = original.substr(0,posOpeningDiv + startSaveArea.length) + "\n\t" +
+				convertUnicodeToUTF8(allTiddlersAsHtml()) + "\n\t" +
 				original.substr(posClosingDiv);
 	var newSiteTitle = convertUnicodeToUTF8((wikifyPlain("SiteTitle") + " - " + wikifyPlain("SiteSubtitle")).htmlEncode());
 	revised = revised.replaceChunk("<title"+">","</title"+">"," " + newSiteTitle + " ");
