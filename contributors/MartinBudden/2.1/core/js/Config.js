@@ -141,7 +141,7 @@ if(config.browser.isBadSafari)
 		lowerLetter: "[a-z0-9\\-\u00df-\u00ff]",
 		anyLetter:   "[A-Za-z0-9\\-\u00c0-\u00de\u00df-\u00ff]"
 		}
-config.textPrimitives.urlPattern = "(?:file|http|https|mailto|ftp|notes):[^\\s'\"]+(?:/|\\b)";
+config.textPrimitives.urlPattern = "(?:file|http|https|mailto|ftp):[^\\s'\"]+(?:/|\\b)";
 config.textPrimitives.unWikiLink = "~";
 config.textPrimitives.wikiLink = "(?:" + config.textPrimitives.unWikiLink + "{0,1})(?:(?:" + config.textPrimitives.upperLetter + "+" +
 												  config.textPrimitives.lowerLetter + "+" +
