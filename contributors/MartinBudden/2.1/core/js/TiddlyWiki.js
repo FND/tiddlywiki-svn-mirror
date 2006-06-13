@@ -346,3 +346,13 @@ TiddlyWiki.prototype.getShadowed = function()
 	return results;
 }
 
+// Return an array of all the tiddlers formatted for storage in an HTML DIV
+TiddlyWiki.prototype.allTiddlersAsHtml = function()
+{
+	var results = [];
+	var tiddlers = this.getTiddlers("title");
+	for (var t = 0; t < tiddlers.length; t++)
+		results.push(tiddlers[t].saveToDiv());
+	return results.join("\n");
+}
+
