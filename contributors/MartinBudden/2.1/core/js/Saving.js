@@ -95,7 +95,7 @@ function saveChanges()
 		}
 	// Save new file
 	var revised = original.substr(0,posOpeningDiv + startSaveArea.length) + "\n" +
-				convertUnicodeToUTF8(allTiddlersAsHtml()) + "\n\t" +
+				convertUnicodeToUTF8(store.allTiddlersAsHtml()) + "\n\t" +
 				original.substr(posClosingDiv);
 	var newSiteTitle = convertUnicodeToUTF8((wikifyPlain("SiteTitle") + " - " + wikifyPlain("SiteSubtitle")).htmlEncode());
 	revised = revised.replaceChunk("<title"+">","</title"+">"," " + newSiteTitle + " ");
@@ -194,9 +194,5 @@ function generateRss()
 
 function allTiddlersAsHtml()
 {
-	var savedTiddlers = [];
-	var tiddlers = store.getTiddlers("title");
-	for (var t = 0; t < tiddlers.length; t++)
-		savedTiddlers.push(tiddlers[t].saveToDiv());
-	return savedTiddlers.join("\n");
+	return store.allTiddlersAsHtml();
 }
