@@ -7,129 +7,128 @@ config.formatters = [
 	name: "table",
 	match: "^\\|(?:[^\\n]*)\\|(?:[fhck]?)$",
 	lookahead: "^\\|([^\\n]*)\\|([fhck]?)$",
-	rowTerminator: "\\|(?:[fhck]?)$\\n?",
+	rowTerm: "\\|(?:[fhck]?)$\\n?",
 	cellPattern: "(?:\\|([^\\n\\|]*)\\|)|(\\|[fhck]?$\\n?)",
-	cellTerminator: "(?:\\x20*)\\|",
-	rowTypes: {"c": "caption", "h": "thead", "": "tbody", "f": "tfoot"},
+	cellTerm: "(?:\\x20*)\\|",
+	rowTypes: {"c":"caption", "h":"thead", "":"tbody", "f":"tfoot"},
+	lookaheadRegExp: null,
+	cellRegExp: null,
+	cellTermRegExp: null,
 	handler: function(w)
 	{
+		if(this.lookaheadRegExp==null)
+			{
+			this.lookaheadRegExp = new RegExp(this.lookahead,"mg");
+			this.cellRegExp = new RegExp(this.cellPattern,"mg");
+			this.cellTermRegExp = new RegExp("(" + this.cellTerm + ")","mg");
+			}
 		var table = createTiddlyElement(w.output,"table");
-		w.nextMatch = w.matchStart;
-		var lookaheadRegExp = new RegExp(this.lookahead,"mg");
-		var currRowType = null, nextRowType;
-		var rowContainer, rowElement;
 		var prevColumns = [];
+		var currRowType = null;
+		var rowContainer;
 		var rowCount = 0;
-		do {
-			lookaheadRegExp.lastIndex = w.nextMatch;
-			var lookaheadMatch = lookaheadRegExp.exec(w.source);
-			var matched = lookaheadMatch && lookaheadMatch.index == w.nextMatch;
-			if(matched)
+		w.nextMatch = w.matchStart;
+		this.lookaheadRegExp.lastIndex = w.nextMatch;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch)
+			{
+			var nextRowType = lookaheadMatch[2];
+			if(nextRowType == "k")
 				{
-				nextRowType = lookaheadMatch[2];
-				if(nextRowType == "k")
-					{
-					table.className = lookaheadMatch[1];
-					w.nextMatch += lookaheadMatch[0].length+1;
-					continue;
-					}
+				table.className = lookaheadMatch[1];
+				w.nextMatch += lookaheadMatch[0].length+1;
+				}
+			else
+				{
 				if(nextRowType != currRowType)
-					rowContainer = createTiddlyElement(table,this.rowTypes[nextRowType]);
-				currRowType = nextRowType;
-				if(currRowType == "c")
 					{
-					if(rowCount == 0)
-						rowContainer.setAttribute("align","top");
-					else
-						rowContainer.setAttribute("align","bottom");
-					w.nextMatch = w.nextMatch + 1;
-					w.subWikify(rowContainer,this.rowTerminator);
+					rowContainer = createTiddlyElement(table,this.rowTypes[nextRowType]);
+					currRowType = nextRowType;
+					}
+				if(currRowType == "c")
+					{//caption
+					w.nextMatch++;
 					table.insertBefore(rowContainer,table.firstChild);
+					rowContainer.setAttribute("align",rowCount == 0?"top":"bottom");
+					w.subWikify(rowContainer,this.rowTerm);
 					}
 				else
 					{
-					var rowClass = (rowCount & 1) ? "oddRow" : "evenRow";
-					rowElement = createTiddlyElement(rowContainer,"tr",null,rowClass);
-					this.rowHandler(w,rowElement,prevColumns);
+					this.rowHandler(w,createTiddlyElement(rowContainer,"tr",null,(rowCount&1)?"oddRow":"evenRow"),prevColumns);
+					rowCount++;
 					}
-				rowCount++;
 				}
-		} while(matched);
+			this.lookaheadRegExp.lastIndex = w.nextMatch;
+			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+			}
 	},
 	rowHandler: function(w,e,prevColumns)
 	{
 		var col = 0;
 		var currColCount = 1;
-		var matched;
-		var cellRegExp = new RegExp(this.cellPattern,"mg");
-		do {
-			cellRegExp.lastIndex = w.nextMatch;
-			var cellMatch = cellRegExp.exec(w.source);
-			matched = cellMatch && cellMatch.index == w.nextMatch;
-			if(matched)
-				{
-				if(cellMatch[1] == "~")
+		this.cellRegExp.lastIndex = w.nextMatch;
+		var cellMatch = this.cellRegExp.exec(w.source);
+		while(cellMatch && cellMatch.index == w.nextMatch)
+			{
+			if(cellMatch[1] == "~")
+				{//rowspan
+				var last = prevColumns[col];
+				if(last)
 					{
-					var last = prevColumns[col];
-					if(last)
-						{
-						last.rowCount++;
-						last.element.setAttribute("rowSpan",last.rowCount);
-						last.element.setAttribute("rowspan",last.rowCount);
-						last.element.valign = "center";
-						}
-					w.nextMatch = cellMatch.index + cellMatch[0].length-1;
+					last.rowCount++;
+					last.element.setAttribute("rowspan",last.rowCount);
+					last.element.valign = "center";
 					}
-				else if(cellMatch[1] == ">")
+				w.nextMatch = this.cellRegExp.lastIndex-1;
+				}
+			else if(cellMatch[1] == ">")
+				{//colspan
+				currColCount++;
+				w.nextMatch = this.cellRegExp.lastIndex-1;
+				}
+			else if(cellMatch[2])
+				{//end of row
+				w.nextMatch = this.cellRegExp.lastIndex;
+				break;
+				}
+			else
+				{//cell
+				w.nextMatch++;
+				var styles = config.formatterHelpers.inlineCssHelper(w);
+				var spaceLeft = false;
+				var chr = w.source.substr(w.nextMatch,1);
+				while(chr == " ")
 					{
-					currColCount++;
-					w.nextMatch = cellMatch.index + cellMatch[0].length-1;
+					spaceLeft = true;
+					w.nextMatch++;
+					chr = w.source.substr(w.nextMatch,1);
 					}
-				else if(cellMatch[2])
+				var cell;
+				if(chr == "!")
 					{
-					w.nextMatch = cellMatch.index + cellMatch[0].length;;
-					break;
+					cell = createTiddlyElement(e,"th");
+					w.nextMatch++;
 					}
 				else
+					cell = createTiddlyElement(e,"td");
+				prevColumns[col] = {rowCount:1, element:cell};
+				if(currColCount > 1)
 					{
-					var spaceLeft = false, spaceRight = false;
-					w.nextMatch++;
-					var styles = config.formatterHelpers.inlineCssHelper(w);
-					while(w.source.substr(w.nextMatch,1) == " ")
-						{
-						spaceLeft = true;
-						w.nextMatch++;
-						}
-					var cell;
-					if(w.source.substr(w.nextMatch,1) == "!")
-						{
-						cell = createTiddlyElement(e,"th");
-						w.nextMatch++;
-						}
-					else
-						cell = createTiddlyElement(e,"td");
-					prevColumns[col] = {rowCount: 1, element: cell};
-					if(currColCount > 1)
-						{
-						cell.setAttribute("colSpan",currColCount);
-						cell.setAttribute("colspan",currColCount);
-						currColCount = 1;
-						}
-					config.formatterHelpers.applyCssHelper(cell,styles);
-					w.subWikify(cell,this.cellTerminator);
-					if(w.matchText.substr(w.matchText.length-2,1) == " ")
-						spaceRight = true;
-					if(spaceLeft && spaceRight)
-						cell.align = "center";
-					else if (spaceLeft)
-						cell.align = "right";
-					else if (spaceRight)
-						cell.align = "left";
-					w.nextMatch = w.nextMatch-1;
+					cell.setAttribute("colspan",currColCount);
+					currColCount = 1;
 					}
-				col++;
+				config.formatterHelpers.applyCssHelper(cell,styles);
+				w.subWikifyTerm(cell,this.cellTermRegExp);
+				if(w.matchText.substr(w.matchText.length-2,1)==" ")//spaceRight
+					cell.align = spaceLeft ? "center" : "left";
+				else if(spaceLeft)
+					cell.align = "right";
+				w.nextMatch--;
 				}
-		} while(matched);		
+			col++;
+			this.cellRegExp.lastIndex = w.nextMatch;
+			cellMatch = this.cellRegExp.exec(w.source);
+			}
 	}
 },
 
@@ -260,7 +259,6 @@ config.formatters = [
 		var placeStack = [w.output];
 		var currLevel = 0, currType = null;
 		var listLevel, listType, itemType;
-
 		var lookaheadRegExp = new RegExp(this.lookahead,"mg");
 		w.nextMatch = w.matchStart;
 		lookaheadRegExp.lastIndex = w.nextMatch;
@@ -292,7 +290,7 @@ config.formatters = [
 			if(listLevel > currLevel)
 				{
 				for(var t=currLevel; t<listLevel; t++)
-					placeStack.push(createTiddlyElement2(placeStack[placeStack.length-1],listType));
+					placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],listType));
 				}
 			else if(listLevel < currLevel)
 				{
@@ -302,16 +300,16 @@ config.formatters = [
 			else if(listLevel == currLevel && listType != currType)
 				{
 				placeStack.pop();
-				placeStack.push(createTiddlyElement2(placeStack[placeStack.length-1],listType));
+				placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],listType));
 				}
 			currLevel = listLevel;
 			currType = listType;
-			var e = createTiddlyElement2(placeStack[placeStack.length-1],itemType);
+			var e = createTiddlyElement(placeStack[placeStack.length-1],itemType);
 			w.subWikify(e,this.terminator);
 			lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = lookaheadRegExp.exec(w.source);
-		}// end while
-	}//end handler
+		}
+	}
 },
 
 {
@@ -353,12 +351,12 @@ config.formatters = [
 			{
 			var e;
 			var text = lookaheadMatch[1];
-			if (lookaheadMatch[2])
-				{// Simple bracketted link
+			if (lookaheadMatch[2]) // Simple bracketted link
+				{
 				e = createTiddlyLink(w.output,text,false);
 				}
-			else if(lookaheadMatch[3])
-				{// Pretty bracketted link
+			else if(lookaheadMatch[3]) // Pretty bracketted link
+				{
 				var link = lookaheadMatch[4];
 				e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
 				}
