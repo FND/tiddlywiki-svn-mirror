@@ -111,16 +111,22 @@ var regexpCarriageReturn = new RegExp("\r","mg");
 // Static method to Convert "\n" to newlines, "\s" to "\"
 Tiddler.unescapeLineBreaks = function(text)
 {
-	if(text && text != "")
+	if(text)
 		return text.replace(regexpBackSlashEn,"\n").replace(regexpBackSlashEss,"\\").replace(regexpCarriageReturn,"");
 	else
 		return "";
 }
 
 // Convert newlines to "\n", "\" to "\s"
+function escapeLineBreaks(text)
+{
+	return text.replace(regexpBackSlash,"\\s").replace(regexpNewLine,"\\n").replace(regexpCarriageReturn,"");
+}
+
+// Convert newlines to "\n", "\" to "\s"
 Tiddler.prototype.escapeLineBreaks = function()
 {
-	return this.text.replace(regexpBackSlash,"\\s").replace(regexpNewLine,"\\n").replace(regexpCarriageReturn,"");
+	return escapeLineBreaks(this.text);
 }
 
 // Updates the secondary information (like links[] array) after a change to a tiddler
