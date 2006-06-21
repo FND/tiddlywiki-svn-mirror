@@ -15,6 +15,11 @@ var safeMode = false; // Disable all plugins and cookies
 // Starting up
 function main()
 {
+	// Hide the storeArea when scripting is enabled (i.e. this code is executed)
+	var storeArea = document.getElementById("storeArea");
+	if(storeArea)
+		storeArea.style.display = "none";
+
 	var now, then = new Date();
 	params = getParameters();
 	if(params)

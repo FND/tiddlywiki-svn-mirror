@@ -1,10 +1,14 @@
 <!--PRE-BODY-END-->
-	<script>
+	<script type="text/javascript">
+//<![CDATA[
+	window.onbeforeunload = function(e) {if(window.confirmExit) return confirmExit();};
+	
 	if (detectPlugin("TiddlyWiki Saver"))
 		{
 		document.write('<embed style="display: none" name="tiddlyWikiSafariSaver" width="0" height="0" type="application/x-webkit-tiddlywiki-saver"></embed>'); 
 		saveUsingSafari = true;
 		}
+//]]>
 	</script>
 	<div id="copyright">
 	Welcome to TiddlyWiki by Jeremy Ruston, Copyright &copy; 2005 Osmosoft Limited
