@@ -195,4 +195,17 @@ function merge(dst,src)
 	return dst;
 }
 
+//Returns a string containing the description of the exception/error, 
+//taking care of browser specifics regarding the error object.
+//
+//When message is given the returned text starts with a line containing 
+//that message.
+function exceptionText(e, message) {
+	var s = e.description ? e.description : e.toString();
+	return message ? "%0:\n%1".format([message, s]) : s;
+}
 
+// Shows an alert with the text defined by the [[function exceptionText(e, message)]].
+function showException(e, message) {
+	alert(exceptionText(e, message));
+}
