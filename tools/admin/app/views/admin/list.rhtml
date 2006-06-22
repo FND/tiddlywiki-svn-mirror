@@ -1,0 +1,24 @@
+<h1>Listing users</h1>
+
+<table>
+  <tr> 
+	 <th>Login</th>
+	 <th>Admin</th> 
+  </tr>
+  
+<% for user in @users %>
+  <tr>
+    <td><%=h user.login %></td>   
+    <td><%=h user.admin %></td>    
+    <td><%= link_to 'Edit', :action => 'edit', :id => user %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => user }, :confirm => 'Are you sure?', :post => true %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @user_pages.current.previous } if @user_pages.current.previous %>
+<%= link_to 'Next page', { :page => @user_pages.current.next } if @user_pages.current.next %> 
+
+<br />
+
+<%= link_to 'Sync users with system', :action => 'syncUsers' %>

@@ -1,0 +1,43 @@
+lee's development notes
+
+For user authentication there is a decent implementation of RBAC at: activerbac.turingstudio.com/releases
+We will need to build a schema that can hold user data, and each of their individual tiddlers. 
+Once that database exists we can create a web service back end (using XML_RPC) calls to login/read/write/create/delete to each tiddler based upon the tiddler ID
+and the user session.                                                                  
+
+
+Questions:
+What does each tiddler look like to the database ? 
+How much meta-data do we want to store for each tiddler ?                 
+Do we want to store baseline versions of each of the tiddlers ?           
+    
+
+hours: Friday - 4 hours April 21st
+
+current tasks:
+need a page where a user can select their recipes as listed in the SVN repo
+need a screen where an admin can associate a given user with a web space
+when we associate a user with a given web space we create a new directory in a specific area (on disk) 
+and link those two together, the root for this dir needs to be configured 
+we will need to create directories for both the beta and production areas
+                                                                                                       
+                
+hours: Monday - 4 hours April 24th
+users table linked to join table with 
+tables:                           
+models 
+directories
+recipes 
+link table between users and directories
+link table between directories and recipes
+
+
+models:
+users 
+directories
+recipes
+
+a user can have multiple directories
+a directory can have multiple recipes
+
+hours: Wednesday - 4 hours April 26th

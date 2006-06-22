@@ -1,0 +1,14 @@
+<html>
+<head>
+  <title>Admin: <%= controller.action_name %></title>          
+  <%= javascript_include_tag "prototype" %>   
+  <%= stylesheet_link_tag 'scaffold' %>
+</head>
+<body>
+
+<p style="color: green"><%= flash[:notice] %></p>
+
+<%= @content_for_layout %>
+
+</body>
+</html>

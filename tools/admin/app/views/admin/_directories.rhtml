@@ -1,0 +1,48 @@
+<%= error_messages_for 'directory' %>
+
+
+<h2>Linked directories</h2>
+            
+                                                                                                                                         
+<select id="directory_user_id" name="directory_id">  <%= options_from_collection_for_select @directory_list, "id", "path"%>  </select> 
+         
+
+<script>
+  function addSelectedDirectory() {
+	 var directorySelect = document.getElementById("directory_user_id");  
+	 var login = document.getElementById("user_login")
+	 var selectedValue = directorySelect.options[ directorySelect.selectedIndex ].value;    
+	 var loginValue = login.value;
+	 var url = "/admin/add_directory?directory_id="+ selectedValue + '&login=' + loginValue + '';
+
+	 new Ajax.Updater(
+		'directory_list',
+		url,
+		{asynchronous:true, evalScripts:true} );
+
+  }
+</script>
+
+<a href="#" onclick=addSelectedDirectory();return false;>&lt;= add this directory</a>
+  
+       
+<div id="directory_list">      
+
+<%if(@user.directories)	%>  
+<table>
+  
+<% for directory in @user.directories %>
+  <tr>
+  <% for column in Directory.content_columns %>
+    <td><%=h directory .send(column.name) %></td>
+  <% end %>        
+
+    <td><%= link_to_remote "Remove", :url => { :action => "remove_directory", :user_id => @user,  :directory_id => directory }, :update => { :success => "directory_list", :failure => "error" } %></td>  
+     	     	 
+  </tr>
+<% end %>
+</table>         
+
+<%end%>
+
+</div>
