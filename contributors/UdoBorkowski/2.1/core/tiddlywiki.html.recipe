@@ -12,6 +12,8 @@ js/Formatter.js
 js/Wikifier.js
 js/Macros.js
 js/Commands.js
+js/LoaderSaver.Lingo.js
+js/LoaderSaver.js
 js/Tiddler.js
 js/TiddlyWiki.js
 js/Story.js
@@ -31,6 +33,8 @@ js/Strings.js
 js/RGB.js
 js/Dates.js
 js/Dom.js
+js/TW20Loader.js
+js/TW20Saver.js
 html/postscript.html
 html/style.html
 html/postheadstart.html
