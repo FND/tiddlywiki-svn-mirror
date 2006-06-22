@@ -31,6 +31,8 @@ function createTiddlyLink(place,title,includeText,theClass)
 {
 	var text = includeText ? title : null;
 	var btn = createTiddlyButton(place,text,null,onClickTiddlerLink,theClass);
+	if(!theClass)
+		removeClass(btn,"button");
 	btn.setAttribute("refresh","link");
 	btn.setAttribute("tiddlyLink",title);
 	refreshTiddlyLink(btn,title);
@@ -193,4 +195,16 @@ function merge(dst,src)
 	return dst;
 }
 
+// Returns a string containing the description of an exception, optionally prepended by a message
+function exceptionText(e, message)
+{
+	var s = e.description ? e.description : e.toString();
+	return message ? "%0:\n%1".format([message, s]) : s;
+}
+
+// Displays an alert of an exception description with optional message
+function showException(e, message)
+{
+	alert(exceptionText(e, message));
+}
 

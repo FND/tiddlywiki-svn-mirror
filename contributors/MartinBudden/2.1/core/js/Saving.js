@@ -25,8 +25,10 @@ function checkUnsavedChanges()
 }
 
 // Save this tiddlywiki with the pending changes
-function saveChanges()
+function saveChanges(onlyIfDirty)
 {
+	if(onlyIfDirty && !store.isDirty())
+		return;
 	clearMessage();
 	// Get the URL of the document
 	var originalPath = document.location.toString();
@@ -50,7 +52,8 @@ function saveChanges()
 		}
 	// Locate the storeArea div's
 	var posOpeningDiv = original.indexOf(startSaveArea);
-	var posClosingDiv = original.lastIndexOf(endSaveArea);
+	var limitClosingDiv = original.indexOf("<!--POST-BODY-START--"+">");
+	var posClosingDiv = original.lastIndexOf(endSaveArea,limitClosingDiv == -1 ? original.length : limitClosingDiv);
 	if((posOpeningDiv == -1) || (posClosingDiv == -1))
 		{
 		alert(config.messages.invalidFileError.format([localPath]));
@@ -95,7 +98,7 @@ function saveChanges()
 		}
 	// Save new file
 	var revised = original.substr(0,posOpeningDiv + startSaveArea.length) + "\n" +
-				convertUnicodeToUTF8(store.allTiddlersAsHtml()) + "\n\t" +
+				convertUnicodeToUTF8(store.allTiddlersAsHtml()) + "\n\t\t" +
 				original.substr(posClosingDiv);
 	var newSiteTitle = convertUnicodeToUTF8((wikifyPlain("SiteTitle") + " - " + wikifyPlain("SiteSubtitle")).htmlEncode());
 	revised = revised.replaceChunk("<title"+">","</title"+">"," " + newSiteTitle + " ");
@@ -165,7 +168,7 @@ function generateRss()
 {
 	var s = [];
 	var d = new Date();
-	var u = store.getTiddlerText("SiteUrl",null);
+	var u = store.getTiddlerText("SiteUrl");
 	// Assemble the header
 	s.push("<" + "?xml version=\"1.0\"?" + ">");
 	s.push("<rss version=\"2.0\">");
@@ -192,6 +195,7 @@ function generateRss()
 	return s.join("\n");
 }
 
+// Deprecated; use store.allTiddlersAsHtml() instead
 function allTiddlersAsHtml()
 {
 	return store.allTiddlersAsHtml();

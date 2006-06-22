@@ -104,7 +104,7 @@ TiddlyWiki.prototype.tiddlerExists = function(title)
 TiddlyWiki.prototype.isShadowTiddler = function(title)
 {
 	var s = config.shadowTiddlers[title];
-	return (s != undefined && typeof s == "string");
+	return (typeof s == "string");
 }
 
 TiddlyWiki.prototype.getTiddler = function(title)
@@ -221,6 +221,16 @@ TiddlyWiki.prototype.loadFromDiv = function(srcID,idPrefix)
 	for(var t = 0;t<tiddlers.length; t++)
 		tiddlers[t].changed();
 	this.setDirty(false);
+}
+
+// Return all tiddlers formatted as a sequence of HTML DIVs
+TiddlyWiki.prototype.allTiddlersAsHtml = function()
+{
+	var results = [];
+	var tiddlers = this.getTiddlers("title");
+	for (var t = 0; t < tiddlers.length; t++)
+		results.push(tiddlers[t].saveToDiv());
+	return results.join("\n");
 }
 
 // Return an array of tiddlers matching a search regular expression
@@ -344,15 +354,5 @@ TiddlyWiki.prototype.getShadowed = function()
 			results.push(t);
 	results.sort();
 	return results;
-}
-
-// Return an array of all the tiddlers formatted for storage in an HTML DIV
-TiddlyWiki.prototype.allTiddlersAsHtml = function()
-{
-	var results = [];
-	var tiddlers = this.getTiddlers("title");
-	for (var t = 0; t < tiddlers.length; t++)
-		results.push(tiddlers[t].saveToDiv());
-	return results.join("\n");
 }
 

@@ -40,8 +40,8 @@ merge(config.messages.messageClose,{
 
 config.messages.dates.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November","December"];
 config.messages.dates.days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-config.messages.dates.monthAbbrs = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-config.messages.dates.dayAbbrs = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+config.messages.dates.shortMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+config.messages.dates.shortDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 merge(config.views.wikified.tag,{
 	labelNoTags: "no tags",
@@ -55,7 +55,8 @@ merge(config.views.wikified.tag,{
 merge(config.views.wikified,{
 	defaultText: "The tiddler '%0' doesn't yet exist. Double-click to create it",
 	defaultModifier: "(missing)",
-	shadowModifier: "(shadow)"});
+	shadowModifier: "(shadow)",
+	createdPrompt: "created"});
 
 merge(config.views.editor,{
 	tagPrompt: "Type tags separated with spaces, [[use double square brackets]] if necessary, or add existing",

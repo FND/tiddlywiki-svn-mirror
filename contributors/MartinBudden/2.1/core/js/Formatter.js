@@ -46,7 +46,8 @@ config.formatters = [
 					currRowType = nextRowType;
 					}
 				if(currRowType == "c")
-					{//caption
+					{
+					// Caption
 					w.nextMatch++;
 					table.insertBefore(rowContainer,table.firstChild);
 					rowContainer.setAttribute("align",rowCount == 0?"top":"bottom");
@@ -71,7 +72,8 @@ config.formatters = [
 		while(cellMatch && cellMatch.index == w.nextMatch)
 			{
 			if(cellMatch[1] == "~")
-				{//rowspan
+				{
+				// Rowspan
 				var last = prevColumns[col];
 				if(last)
 					{
@@ -82,17 +84,20 @@ config.formatters = [
 				w.nextMatch = this.cellRegExp.lastIndex-1;
 				}
 			else if(cellMatch[1] == ">")
-				{//colspan
+				{
+				// Colspan
 				currColCount++;
 				w.nextMatch = this.cellRegExp.lastIndex-1;
 				}
 			else if(cellMatch[2])
-				{//end of row
+				{
+				// End of row
 				w.nextMatch = this.cellRegExp.lastIndex;
 				break;
 				}
 			else
-				{//cell
+				{
+				// Cell
 				w.nextMatch++;
 				var styles = config.formatterHelpers.inlineCssHelper(w);
 				var spaceLeft = false;
@@ -119,7 +124,7 @@ config.formatters = [
 					}
 				config.formatterHelpers.applyCssHelper(cell,styles);
 				w.subWikifyTerm(cell,this.cellTermRegExp);
-				if(w.matchText.substr(w.matchText.length-2,1)==" ")//spaceRight
+				if(w.matchText.substr(w.matchText.length-2,1) == " ") // spaceRight
 					cell.align = spaceLeft ? "center" : "left";
 				else if(spaceLeft)
 					cell.align = "right";
@@ -530,7 +535,7 @@ config.formatters = [
 	lookahead: "(?:([^\\(@]+)\\(([^\\)]+)(?:\\):))|(?:([^:@]+):([^;]+);)",
 	handler:  function(w)
 	{
-		var e = createTiddlyElement(w.output,"span",null,null,null);
+		var e = createTiddlyElement(w.output,"span");
 		var styles = config.formatterHelpers.inlineCssHelper(w);
 		if(styles.length == 0)
 			e.className = "marked";

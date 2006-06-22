@@ -7,7 +7,7 @@ function wikify(source,output,highlightRegExp,tiddler)
 	if(source && source != "")
 		{
 		var wikifier = new Wikifier(source,formatter,highlightRegExp,tiddler);
-		wikifier.subWikify(output,null);
+		wikifier.subWikify(output);
 		}
 }
 
@@ -28,7 +28,7 @@ function highlightify(source,output,highlightRegExp)
 {
 	if(source && source != "")
 		{
-		var wikifier = new Wikifier(source,formatter,highlightRegExp,null);
+		var wikifier = new Wikifier(source,formatter,highlightRegExp);
 		wikifier.outputText(output,0,source.length);
 		}
 }
@@ -58,7 +58,7 @@ Wikifier.prototype.wikifyPlain = function()
 {
 	var e = createTiddlyElement(document.body,"div");
 	e.style.display = "none";
-	this.subWikify(e,null);
+	this.subWikify(e);
 	var text = getPlainText(e);
 	e.parentNode.removeChild(e);
 	return text;
@@ -66,32 +66,34 @@ Wikifier.prototype.wikifyPlain = function()
 
 Wikifier.prototype.subWikify = function(output,terminator)
 {
+	// Handle the terminated and unterminated cases separately
 	if (terminator)
-		{
-		var terminatorRegExp = new RegExp("(" + terminator + ")","mg");
-		this.subWikifyTermRegExp(output,terminatorRegExp);
-		return;
-		}
-	// Temporarily replace the output pointer, subWikify is recursive
+		this.subWikifyTerm(output,new RegExp("(" + terminator + ")","mg"));
+	else
+		this.subWikifyUnterm(output);
+}
+
+Wikifier.prototype.subWikifyUnterm = function(output)
+{
+	// subWikify() can be indirectly recursive, so we need to save the old output pointer
 	var oldOutput = this.output;
 	this.output = output;
-
-	// get the first match
+	// Get the first match
 	this.formatter.formatterRegExp.lastIndex = this.nextMatch;
 	var formatterMatch = this.formatter.formatterRegExp.exec(this.source);
 	while(formatterMatch)
 		{
+		// Output any text before the match
 		if(formatterMatch.index > this.nextMatch)
-			{// Output any text before the match
 			this.outputText(this.output,this.nextMatch,formatterMatch.index);
-			}
 		// Set the match parameters for the handler
 		this.matchStart = formatterMatch.index;
 		this.matchLength = formatterMatch[0].length;
 		this.matchText = formatterMatch[0];
 		this.nextMatch = this.formatter.formatterRegExp.lastIndex;
+		// Figure out which formatter matched and call its handler
 		for(var t=1; t<formatterMatch.length; t++)
-			{// Figure out which formatter matched and call its handler
+			{
 			if(formatterMatch[t])
 				{
 				this.formatter.formatters[t-1].handler(this);
@@ -99,12 +101,12 @@ Wikifier.prototype.subWikify = function(output,terminator)
 				break;
 				}
 			}
-		// get the next match
+		// Get the next match
 		formatterMatch = this.formatter.formatterRegExp.exec(this.source);
-		}// end while
-
+		}
+	// Output any text after the last match
 	if(this.nextMatch < this.source.length)
-		{// Output any text after the last match
+		{
 		this.outputText(this.output,this.nextMatch,this.source.length);
 		this.nextMatch = this.source.length;
 		}
@@ -112,46 +114,44 @@ Wikifier.prototype.subWikify = function(output,terminator)
 	this.output = oldOutput;
 }
 
-Wikifier.prototype.subWikifyTermRegExp = function(output,terminatorRegExp)
+Wikifier.prototype.subWikifyTerm = function(output,terminatorRegExp)
 {
-	// Temporarily replace the output pointer, subWikify is recursive
+	// subWikify() can be indirectly recursive, so we need to save the old output pointer
 	var oldOutput = this.output;
 	this.output = output;
-
-	// Prepare the format and terminator RegExp and get the first matches
+	// Get the first matches for the formatter and terminator RegExps
 	terminatorRegExp.lastIndex = this.nextMatch;
 	var terminatorMatch = terminatorRegExp.exec(this.source);
 	this.formatter.formatterRegExp.lastIndex = this.nextMatch;
-	var formatterMatch = this.formatter.formatterRegExp.exec(terminatorMatch?this.source.substr(0,terminatorMatch.index):this.source);
+	var formatterMatch = this.formatter.formatterRegExp.exec(terminatorMatch ? this.source.substr(0,terminatorMatch.index) : this.source);
 	while(terminatorMatch || formatterMatch)
 		{
+		// Check for a terminator match  before the next formatter match
 		if(terminatorMatch && (!formatterMatch || terminatorMatch.index <= formatterMatch.index))
-			{// the terminator match is before the next formatter match
+			{
+			// Output any text before the match
 			if(terminatorMatch.index > this.nextMatch)
-				{// Output any text before the match
 				this.outputText(this.output,this.nextMatch,terminatorMatch.index);
-				}
-			// Set the match parameters for the handler
+			// Set the match parameters
 			this.matchText = terminatorMatch[1];
 			this.matchLength = terminatorMatch[1].length;
 			this.matchStart = terminatorMatch.index;
 			this.nextMatch = this.matchStart + this.matchLength;
-			// Restore the output pointer and exit
+			// Restore the output pointer
 			this.output = oldOutput;
 			return;
 			}
-		// it must be a formatter match
+		// It must be a formatter match; output any text before the match
 		if(formatterMatch.index > this.nextMatch)
-			{// Output any text before the match
 			this.outputText(this.output,this.nextMatch,formatterMatch.index);
-			}
 		// Set the match parameters
 		this.matchStart = formatterMatch.index;
 		this.matchLength = formatterMatch[0].length;
 		this.matchText = formatterMatch[0];
 		this.nextMatch = this.formatter.formatterRegExp.lastIndex;
+		// Figure out which formatter matched and call its handler
 		for(var t=1; t<formatterMatch.length; t++)
-			{// Figure out which formatter matched and call its handler
+			{
 			if(formatterMatch[t])
 				{
 				this.formatter.formatters[t-1].handler(this);
@@ -159,14 +159,14 @@ Wikifier.prototype.subWikifyTermRegExp = function(output,terminatorRegExp)
 				break;
 				}
 			}
-		// get the next match
+		// Get the next match
 		terminatorRegExp.lastIndex = this.nextMatch;
 		terminatorMatch = terminatorRegExp.exec(this.source);
-		formatterMatch = this.formatter.formatterRegExp.exec(terminatorMatch?this.source.substr(0,terminatorMatch.index):this.source);//mb**opt
-		}// end while
-
+		formatterMatch = this.formatter.formatterRegExp.exec(terminatorMatch ? this.source.substr(0,terminatorMatch.index) : this.source);
+		}
+	// Output any text after the last match
 	if(this.nextMatch < this.source.length)
-		{// Output any text after the last match
+		{
 		this.outputText(this.output,this.nextMatch,this.source.length);
 		this.nextMatch = this.source.length;
 		}

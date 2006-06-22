@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------------
-// Formatter
+// Formatter helpers
 // ---------------------------------------------------------------------------------
 
 function Formatter(formatters)
@@ -18,7 +18,8 @@ config.formatterHelpers = {
 
 	charFormatHelper: function(w)
 	{
-		w.subWikify(createTiddlyElement2(w.output,this.element),this.terminator);
+		var e = w.output.appendChild(document.createElement(this.element));
+		w.subWikify(e,this.terminator);
 	},
 
 	inlineCssHelper: function(w)
@@ -80,9 +81,8 @@ config.formatterHelpers = {
 
 	isExternalLink: function(link)
 	{
-		var urlRegExp = new RegExp(config.textPrimitives.urlPattern,"mg");
-		urlRegExp.lastIndex = 0;
-		return urlRegExp.exec(link) ? true : false;
+		return !(store.tiddlerExists(link) || store.isShadowTiddler(link));
 	}
+
 };
 
