@@ -1,1 +1,0 @@
-<div tiddler="WebEditTemplate" modifier="YourName" modified="200606121623" created="200606121623" tags="webview">&lt;!--{{{--&gt;\n&lt;div class='toolbar' macro='toolbar -cancelTiddler'&gt;&lt;/div&gt;\n&lt;div class='title'&gt;&lt;span macro='view title'&gt;&lt;/span&gt; (source code)&lt;/div&gt;\n&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;\n&lt;!--}}}--&gt;\n</div>
