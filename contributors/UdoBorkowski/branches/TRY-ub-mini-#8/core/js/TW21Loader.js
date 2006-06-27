@@ -15,7 +15,6 @@ TW21Loader.getMetaDataFromAttributes = function(tiddlerDiv) {
 	return result;
 }
 
-
 TW21Loader.prototype = new LoaderByElems();
 
 TW21Loader.prototype.getTitle = function(store, e) {
@@ -47,5 +46,3 @@ TW21Loader.prototype.initTiddler = function(store, tiddler, title, data) {
 	tiddler.assign(title,text,modifier,modified,tags,created, metadata);
 	return tiddler;
 };
-
-config.store.loader['tw21'] = TW21Loader;
