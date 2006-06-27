@@ -1,0 +1,1 @@
+<div tiddler="CSSForPrint" modifier="YourName" modified="200605310003" created="200605310003" tags="">@media print {\n#mainMenu, #sidebar, #messageArea {display: none ! important;}\n#displayArea {margin: 1em 1em 0em 1em;}\n/* Fixes a feature in Firefox 1.5.0.2 where print preview displays the noscript content */\nnoscript {display:none;}\n}</div>
