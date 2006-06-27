@@ -101,7 +101,24 @@ config.formatterHelpers = {
 
 	isExternalLink: function(link)
 	{
-		return !(store.tiddlerExists(link) || store.isShadowTiddler(link));
+		if(store.tiddlerExists(link) || store.isShadowTiddler(link))
+			{
+			// definitely not an external link
+			return false;
+			}
+		var urlRegExp = new RegExp(config.textPrimitives.urlPattern,"mg");
+		if(urlRegExp.exec(link))
+			{
+			// definitely an external link
+			return true;
+			}
+		if (link.indexOf(".")!=-1 || link.indexOf("\\")!=-1 || link.indexOf("/")!=-1)
+			{
+			// link contains . / or \ so is probably an external link
+			return true;
+			}
+		// otherwise assume it is not an external link
+		return false;
 	}
 
 };
