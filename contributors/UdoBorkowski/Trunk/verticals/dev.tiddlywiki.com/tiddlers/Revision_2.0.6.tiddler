@@ -1,0 +1,1 @@
+<div tiddler="Revision 2.0.6" modifier="JeremyRuston" modified="200602241823" created="200602241823" tags="history">//Released on 24th February 2006//\n* Fixed problem with InternetExplorer under Windows\n** Removed incompatible fix for problem with empty string macro parameters</div>

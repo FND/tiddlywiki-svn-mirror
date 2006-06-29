@@ -1,0 +1,1 @@
+<div tiddler="HtmlEntitiesInTitles" modifier="JeremyRuston" modified="200601031135" created="200601031135" tags="bugs">HTML character entities (such as {{{&amp;copy;}}} and {{{&amp;amp;}}}) don't work correctly in the titles of tiddlers (they work fine in tiddler bodies, though).</div>

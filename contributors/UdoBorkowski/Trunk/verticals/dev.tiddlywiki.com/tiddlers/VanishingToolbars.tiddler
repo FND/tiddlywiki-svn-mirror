@@ -1,0 +1,1 @@
+<div tiddler="VanishingToolbars" modifier="JeremyRuston" modified="200512301601" created="200512301601" tags="bugs">Currently, moving the mouse into a popup menu from a toolbar (eg, from 'references' or 'jump') causes the toolbar to disappear, leaving the popup menu hanging. It doesn't do any harm, but doesn't look great.</div>

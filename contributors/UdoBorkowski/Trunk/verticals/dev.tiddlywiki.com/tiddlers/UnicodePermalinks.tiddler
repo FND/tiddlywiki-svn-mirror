@@ -1,0 +1,1 @@
+<div tiddler="UnicodePermalinks" modifier="JeremyRuston" modified="200603122150" created="200603122150" tags="bugs">Permalinks don't work for tiddlers whose titles include Unicode characters that are not also in the ANSI character set (eg, 标题中包含中文).</div>
