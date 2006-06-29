@@ -71,6 +71,7 @@ config.formatters = [
 					{
 					last.rowCount++;
 					last.element.setAttribute("rowspan",last.rowCount);
+					last.element.setAttribute("rowSpan",last.rowCount);// required for IE
 					last.element.valign = "center";
 					}
 				w.nextMatch = this.cellRegExp.lastIndex-1;
@@ -112,6 +113,7 @@ config.formatters = [
 				if(currColCount > 1)
 					{
 					cell.setAttribute("colspan",currColCount);
+					cell.setAttribute("colSpan",currColCount);// required for IE
 					currColCount = 1;
 					}
 				config.formatterHelpers.applyCssHelper(cell,styles);
