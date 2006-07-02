@@ -1,8 +1,4 @@
-var regexpBackSlashEn = new RegExp("\\\\n","mg");
-var regexpBackSlash = new RegExp("\\\\","mg");
-var regexpBackSlashEss = new RegExp("\\\\s","mg");
 var regexpNewLine = new RegExp("\n","mg");
-var regexpCarriageReturn = new RegExp("\r","mg");
 
 // Get characters from the right end of a string
 String.prototype.right = function(n)
@@ -32,7 +28,7 @@ String.prototype.unDash = function()
 // Substitute substrings from an array into a format string that includes '%1'-type specifiers
 String.prototype.format = function(substrings)
 {
-	var subRegExp = new RegExp("(?:%(\\d+))","mg");
+	var subRegExp = /(?:%(\d+))/mg;
 	var currPos = 0;
 	var r = [];
 	do {
@@ -63,21 +59,13 @@ String.prototype.escapeRegExp = function()
 // Convert & to "&amp;", < to "&lt;", > to "&gt;" and " to "&quot;"
 String.prototype.htmlEncode = function()
 {
-	var regexpAmp = new RegExp("&","mg");
-	var regexpLessThan = new RegExp("<","mg");
-	var regexpGreaterThan = new RegExp(">","mg");
-	var regexpQuote = new RegExp("\"","mg");
-	return(this.replace(regexpAmp,"&amp;").replace(regexpLessThan,"&lt;").replace(regexpGreaterThan,"&gt;").replace(regexpQuote,"&quot;"));
+	return(this.replace(/&/mg,"&amp;").replace(/</mg,"&lt;").replace(/>/mg,"&gt;").replace(/\"/mg,"&quot;"));
 }
 
 // Convert "&amp;" to &, "&lt;" to <, "&gt;" to > and "&quot;" to "
 String.prototype.htmlDecode = function()
 {
-	var regexpAmp = new RegExp("&amp;","mg");
-	var regexpLessThan = new RegExp("&lt;","mg");
-	var regexpGreaterThan = new RegExp("&gt;","mg");
-	var regexpQuote = new RegExp("&quot;","mg");
-	return(this.replace(regexpLessThan,"<").replace(regexpGreaterThan,">").replace(regexpQuote,"\"").replace(regexpAmp,"&"));
+	return(this.replace(/&amp;/mg,"&").replace(/&lt;/mg,"<").replace(/&gt;/mg,">").replace(/&quot;/mg,"\""));
 }
 
 // Parse a space-separated string of name:value parameters where:
@@ -229,13 +217,13 @@ String.zeroPad = function(n,d)
 // Convert newlines to "\n", "\" to "\s" (and removes carriage returns)
 String.prototype.escapeLineBreaks = function()
 {
-	return this.replace(regexpBackSlash,"\\s").replace(regexpNewLine,"\\n").replace(regexpCarriageReturn,"");
+	return this.replace(/\n/mg,"\\n").replace(/\\/mg,"\\s").replace(/\r/mg,"");
 }
 
 // Convert "\n" to newlines, "\s" to "\" (and removes carriage returns)
 String.prototype.unescapeLineBreaks = function(text)
 {
-	return this.replace(regexpBackSlashEn,"\n").replace(regexpBackSlashEss,"\\").replace(regexpCarriageReturn,"");
+	return this.replace(/\\n/mg,"\n").replace(/\\s/mg,"\\").replace(/\r/mg,"");
 }
 
 String.prototype.startsWith = function(prefix) 
