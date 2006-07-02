@@ -31,6 +31,7 @@ js/BasicTypes.js
 js/Strings.js
 js/RGB.js
 js/Dates.js
+js/Codec.js
 js/Dom.js
 js/TW21Loader.js
 js/TW21Saver.js

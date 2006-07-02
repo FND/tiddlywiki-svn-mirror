@@ -155,3 +155,30 @@ Tiddler.prototype.linkWikiWords = function()
 	return this.tags.find("systemConfig") == null && this.tags.find("excludeMissing") == null;
 }
 
+Tiddler.prototype.useSecureHash = function()
+{
+	return this.tags.find("systemUseSecureHash") != null;
+}
+
+Tiddler.prototype.getSecureHash = function(forceCalculationIfNull)
+{
+	if (this.useSecureHash()==false)
+		this.secureHash = null;
+	if(this.secureHash=="")
+		this.secureHash = null;
+	if(this.secureHash==null && forceCalculationIfNull!=undefined && forceCalculationIfNull==true)
+		this.secureHash = this.calculateSecureHash();
+	return this.secureHash;
+}
+
+Tiddler.prototype.calculateSecureHash = function()
+{
+	this.secureHash = "0x" + Codec.hexSha1Str(this.text);
+	return this.secureHash;
+}
+
+Tiddler.prototype.clearSecureHash = function()
+{
+	this.secureHash = null;
+}
+
