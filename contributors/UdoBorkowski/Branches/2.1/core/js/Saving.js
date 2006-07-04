@@ -4,8 +4,7 @@
 
 var saveUsingSafari = false;
 
-// Split up into two so that indexOf() of this source doesn't find it
-var startSaveAreaRE = /\<div id=\"storeArea\"( class=\"[^\"]+\")?\>/; 
+var startSaveArea = '<div id="' + 'storeArea">'; // Split up into two so that indexOf() of this source doesn't find it
 var endSaveArea = '</d' + 'iv>';
 
 // If there are unsaved changes, force the user to confirm before exitting
@@ -28,9 +27,13 @@ function checkUnsavedChanges()
 
 function getSaveAreaStartText(store)
 {
-	return '<div id="' + 'storeArea">';
+	return startSaveArea;
 }
 
+function getStartSaveAreaPos(s, store)
+{
+	return s.indexOf(getSaveAreaStartText(store));
+}
 
 function updateMarkupBlock(s,blockName,tiddlerName)
 {
@@ -67,8 +70,7 @@ function saveChanges(onlyIfDirty)
 		return;
 		}
 	// Locate the storeArea div's
-	var m = original.match(startSaveAreaRE);
-	var posOpeningDiv = m ? m.index : -1;
+	var posOpeningDiv = getStartSaveAreaPos(original, store);
 	var limitClosingDiv = original.indexOf("<!--POST-BODY-START--"+">");
 	var posClosingDiv = original.lastIndexOf(endSaveArea,limitClosingDiv == -1 ? original.length : limitClosingDiv);
 	if((posOpeningDiv == -1) || (posClosingDiv == -1))
