@@ -89,8 +89,16 @@ String.prototype.htmlDecode = function()
 // The result is an array of objects:
 //   result[0] = object with a member for each parameter name, value of that member being an array of values
 //   result[1..n] = one object for each parameter, with 'name' and 'value' members
-String.prototype.parseParams = function(defaultName,defaultValue,allowEval,noNames)
+//#
+//# @params options [may be null/undefined]
+//#			options.useLastNameAsDefault 	when true for unnamed values the last name specified before a value 
+//#											is used as its named (instead of the defaultName). This way one can easily 
+//#											an array of values to one name. 
+//#											E.g. "with: arg1 arg2 arg3 arg4" will attach all four args to the name "with".
+String.prototype.parseParams = function(defaultName,defaultValue,allowEval,noNames,options)
 {
+	var useLastNameAsDefault = options && options.useLastNameAsDefault;
+	
 	var parseToken = function(match,p)
 		{
 		var n;
@@ -145,6 +153,8 @@ String.prototype.parseParams = function(defaultName,defaultValue,allowEval,noNam
 				else if(v == null && defaultValue)
 					v = defaultValue;
 				r.push({name: n, value: v});
+				if (n && useLastNameAsDefault)
+					defaultName = n;
 				}
 			}
 	} while(match);
