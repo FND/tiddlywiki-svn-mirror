@@ -1,0 +1,1 @@
+<div tiddler="SaveChangesReadonly" modifier="YourName" modified="200607112259" created="200607112259" tags="">&lt;script&gt;if (readOnly) return &quot;save your changes&quot;;\nelse return &quot;&lt;&lt;saveChanges&gt;&gt;&quot;;\n&lt;/script&gt;</div>

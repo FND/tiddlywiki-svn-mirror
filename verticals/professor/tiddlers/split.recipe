@@ -30,12 +30,14 @@ tiddler: InstitutionNickname.tiddler
 tiddler: Links.tiddler
 tiddler: Location.tiddler
 tiddler: MainMenu.tiddler
+tiddler: MakeItYourOwn.tiddler
 tiddler: MyEpigraph.tiddler
 tiddler: MyName.tiddler
 tiddler: MyTitle.tiddler
 tiddler: PageTemplate.tiddler
 tiddler: People.tiddler
 tiddler: PublishMode.tiddler
+tiddler: SaveChangesReadonly.tiddler
 tiddler: SaveYourOwnCopy.tiddler
 tiddler: SelectStylesheetPlugin.js
 tiddler: Setup.tiddler
