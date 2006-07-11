@@ -1,0 +1,1 @@
+<div tiddler="StylesheetProfessor" modifier="BraddeGraf" modified="200607102156" created="200607102154" tags="">\n\n/***\nPlace your custom CSS here\n***/\n/*{{{*/\n\n\n.siteTitle a , .siteSubtitle a{\ntext-decoration: none;\ncolor: #333;\n}\n\n\n.header {\npadding: 10px;\n}\n\n/*}}}*/\n</div>

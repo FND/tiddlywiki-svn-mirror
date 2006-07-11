@@ -1,0 +1,6 @@
+recipe: ../../core/tiddlywiki.html.recipe
+title: html/title.html
+recipe: tiddlers/split.recipe
+tiddler: ../../contributors/EricShulman/plugins/ExportTiddlersPlugin.js
+tiddler: ../../contributors/EricShulman/plugins/ImportTiddlersPlugin.js
+tiddler: ../../contributors/EricShulman/plugins/NestedSlidersPlugin.js
