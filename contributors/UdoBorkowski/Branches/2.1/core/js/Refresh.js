@@ -89,7 +89,7 @@ function applyPageTemplate(title)
 	var wrapper = document.getElementById("contentWrapper");
 	if(!title)
 		title = "PageTemplate";
-	var html = store.getTiddlerText(title);
+	var html = store.getRecursiveTiddlerText(title,null,10);
 	wrapper.innerHTML = html;
 	applyHtmlMacros(wrapper);
 	refreshElements(wrapper);
@@ -101,6 +101,16 @@ function applyPageTemplate(title)
 	for(t=nodes.length-1; t>=0; t--)
 		display.appendChild(nodes[t]);
 	stash.parentNode.removeChild(stash);
+}
+
+function refreshEverything()
+{
+	refreshPageTemplate();
+	refreshDisplay();
+	refreshStyles("StyleSheet");
+	refreshStyles("StyleSheetColors");
+	refreshStyles("StyleSheetLayout");
+	refreshStyles("StyleSheetPrint");
 }
 
 function refreshDisplay(hint)

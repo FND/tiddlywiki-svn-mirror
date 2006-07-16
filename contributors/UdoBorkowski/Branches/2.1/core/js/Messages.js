@@ -2,26 +2,28 @@
 // Message area
 // ---------------------------------------------------------------------------------
 
-function addMessageDiv()
+function getMessageDiv()
 {
 	var msgArea = document.getElementById("messageArea");
 	if(!msgArea)
 		return null;
 	if(!msgArea.hasChildNodes())
-		createTiddlyButton(createTiddlyElement(msgArea,"div",null,"messageToolbar"),config.messages.messageClose.text,config.messages.messageClose.tooltip,clearMessage);
+		createTiddlyButton(createTiddlyElement(msgArea,"div",null,"messageToolbar"),
+			config.messages.messageClose.text,
+			config.messages.messageClose.tooltip,
+			clearMessage);
 	msgArea.style.display = "block";
 	return createTiddlyElement(msgArea,"div");
 }
 
 function displayMessage(text,linkText)
 {
-	var e = addMessageDiv();
+	var e = getMessageDiv();
 	if(!e)
 		{
 		alert(text);
 		return;
 		}
-		
 	if(linkText)
 		{
 		var link = createTiddlyElement(e,"a",null,null,text);

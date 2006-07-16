@@ -11,6 +11,7 @@ function Tiddler()
 	this.created = new Date();
 	this.links = [];
 	this.tags = [];
+	this.cacheFingerprint = null;
 	return this;
 }
 
@@ -100,6 +101,7 @@ Tiddler.prototype.escapeLineBreaks = function()
 // Updates the secondary information (like links[] array) after a change to a tiddler
 Tiddler.prototype.changed = function()
 {
+	this.cacheFingerprint = null;
 	this.links = [];
 	var aliasedPrettyLink = "\\[\\[([^\\[\\]\\|]+)\\|([^\\[\\]\\|]+)\\]\\]";
 	var prettyLink = "\\[\\[([^\\]]+)\\]\\]";
@@ -109,7 +111,7 @@ Tiddler.prototype.changed = function()
 		var formatMatch = wikiNameRegExp.exec(this.text);
 		if(formatMatch)
 			{
-			if(formatMatch[1] && formatMatch[1] != this.title && this.linkWikiWords())
+			if(formatMatch[1] && formatMatch[1] != this.title && this.hasWikiLinks())
 				{
 				if(formatMatch.index > 0)
 					{
@@ -150,34 +152,15 @@ Tiddler.prototype.isReadOnly = function()
 	return readOnly;
 }
 
-Tiddler.prototype.linkWikiWords = function()
+Tiddler.prototype.hasWikiLinks = function()
 {
-	return this.tags.find("systemConfig") == null && this.tags.find("excludeMissing") == null;
+	return this.isTagged("systemConfig") == null && this.isTagged("excludeMissing") == null;
 }
 
-// Returns the chunk of text of the given name
-//#
-//# A text chunk is a substring in the tiddler's text that is defined 
-//# either like this
-//#    aName:  textChunk
-//# or 
-//#    |aName:| textChunk |
-//# or 
-//#    |aName| textChunk |
-//#
-//# In the text the name (or name:) may be decorated with '' or //. I.e.
-//# this would also a possible text chunk:
-//#
-//#    |''aName:''| textChunk |
-//# 
-//#
-//# @param name should only contain "word characters" (i.e. "a-ZA-Z_0-9")
-//# @return [may be undefined] the (trimmed) text of the specified chunk.
-Tiddler.prototype.getTextChunk = function(name)
+Tiddler.prototype.getFingerprint = function()
 {
-	var reString = "(?:[\\'/]*(?:%0)[\\'/]*\\:[\\'/]*\\s*(.*?)\\s*$)|(?:\\|[\\'/]*(?:%0)\\:?[\\'/]*\\|\\s*(.*?)\\s*\\|)".format([name.escapeRegExp()]);
-	var m = this.text.match(new RegExp(reString, "m"));
-	if (!m)
-		return undefined;
-	return m[1] ? m[1] : m[2];
+	if(!this.cacheFingerprint)
+		this.cacheFingerprint = "0x" + Hash.hexSha1Str(this.text);
+	return this.cacheFingerprint;
 }
+

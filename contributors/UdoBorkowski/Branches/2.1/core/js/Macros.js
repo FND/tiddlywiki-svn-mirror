@@ -173,15 +173,17 @@ config.macros.search.onFocus = function(e)
 
 config.macros.tiddler.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-	var extParams = paramString.parseParams("names",null,true,false,{useLastNameAsDefault:true});
-	var names = extParams[0]["names"];
+	var params = paramString.parseParams("name",null,true,false,true);
+	var names = params[0]["name"];
 	var tiddlerName = names[0];
 	var className = names[1] ? names[1] : null;
-	var args = extParams[0]["with"];
-	
+	var args = params[0]["with"];
 	var wrapper = createTiddlyElement(place,"span",null,className);
-	wrapper.setAttribute("refresh","content");
-	wrapper.setAttribute("tiddler",tiddlerName);
+	if(!args)
+		{
+		wrapper.setAttribute("refresh","content");
+		wrapper.setAttribute("tiddler",tiddlerName);
+		}
 	var text = store.getTiddlerText(tiddlerName);
 	if(text)
 		{
@@ -191,14 +193,13 @@ config.macros.tiddler.handler = function(place,macroName,params,wikifier,paramSt
 		stack.push(tiddlerName);
 		try
 			{
-			// replace the parameter 
 			var n = args ? Math.min(args.length,9) : 0;
-			for (var i = 0;i < n;i++) 
+			for(var i=0; i<n; i++) 
 				{
-				var placeholderRE = new RegExp("\\$"+(i+1),"mg");
+				var placeholderRE = new RegExp("\\$" + (i + 1),"mg");
 				text = text.replace(placeholderRE,args[i]);
 				}
-			config.macros.tiddler.renderText(wrapper,text,tiddlerName,extParams);
+			config.macros.tiddler.renderText(wrapper,text,tiddlerName,params);
 			}
 		finally
 			{
@@ -207,7 +208,7 @@ config.macros.tiddler.handler = function(place,macroName,params,wikifier,paramSt
 		}
 }
 
-config.macros.tiddler.renderText = function(place,text,tiddlerName,extParams) 
+config.macros.tiddler.renderText = function(place,text,tiddlerName,params) 
 {
 	wikify(text,place,null,store.getTiddler(tiddlerName));
 }
@@ -369,15 +370,28 @@ config.macros.option.handler = function(place,macroName,params)
 
 config.macros.newTiddler.onClick = function()
 {
-	story.displayTiddler(null,config.macros.newTiddler.title,DEFAULT_EDIT_TEMPLATE);
-	story.focusTiddler(config.macros.newTiddler.title,"title");
+	var title = this.getAttribute("newTitle");
+	var params = this.getAttribute("params").split("|");
+	var focus = this.getAttribute("newFocus");
+	story.displayTiddler(null,title,DEFAULT_EDIT_TEMPLATE);
+	for(var t=1;t<params.length;t++)
+		story.setTiddlerTag(title,params[t],+1);
+	story.focusTiddler(title,focus);
 	return false;
 }
 
-config.macros.newTiddler.handler = function(place)
+config.macros.newTiddler.handler = function(place,macroName,params)
 {
 	if(!readOnly)
-		createTiddlyButton(place,this.label,this.prompt,this.onClick,null,null,this.accessKey);
+		{
+		var title = this.title;
+		if(params[0])
+			title = params[0];
+		var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick,null,null,this.accessKey);
+		btn.setAttribute("newTitle",title);
+		btn.setAttribute("params",params.join("|"));
+		btn.setAttribute("newFocus","title");
+		}
 }
 
 config.macros.newJournal.handler = function(place,macroName,params)
@@ -386,21 +400,11 @@ config.macros.newJournal.handler = function(place,macroName,params)
 		{
 		var now = new Date();
 		var title = now.formatString(params[0].trim());
-		var btn = createTiddlyButton(place,this.label,this.prompt,this.createJournal,null,null,this.accessKey);
-		btn.setAttribute("journalTitle",title);
+		var btn = createTiddlyButton(place,this.label,this.prompt,config.macros.newTiddler.onClick,null,null,this.accessKey);
+		btn.setAttribute("newTitle",title);
 		btn.setAttribute("params",params.join("|"));
+		btn.setAttribute("newFocus","text");
 		}
-}
-
-config.macros.newJournal.createJournal = function(e)
-{
-	var title = this.getAttribute("journalTitle");
-	var params = this.getAttribute("params").split("|");
-	story.displayTiddler(null,title,DEFAULT_EDIT_TEMPLATE);
-	for(var t=1;t<params.length;t++)
-		story.setTiddlerTag(title,params[t],+1);
-	story.focusTiddler(title,"text");
-	return false;
 }
 
 config.macros.sparkline.handler = function(place,macroName,params)

@@ -7,6 +7,7 @@ function TiddlyWiki()
 	var tiddlers = {}; // Hashmap by name of tiddlers
 	this.namedNotifications = []; // Array of {name:,notify:} of notification functions
 	this.notificationLevel = 0;
+	this.sliceNameRegExpCache = {}; // Hashmap by name of regexps for getTiddlerSlice
 	this.clear = function() {
 		tiddlers = {};
 		this.setDirty(false);
@@ -117,17 +118,68 @@ TiddlyWiki.prototype.getTiddler = function(title)
 
 TiddlyWiki.prototype.getTiddlerText = function(title,defaultText)
 {
-	if(!title)
-		return(defaultText);
 	var tiddler = this.fetchTiddler(title);
 	if(tiddler)
 		return tiddler.text;
-	else if(this.isShadowTiddler(title))
-		return config.shadowTiddlers[title];
-	else if(defaultText != undefined)
+	if(!title)
 		return defaultText;
-	else
-		return null;
+	var pos = title.indexOf(config.textPrimitives.sliceSeparator);
+	if(pos != -1)
+		{
+		var slice = this.getTiddlerSlice(title.substr(0,pos),title.substr(pos + config.textPrimitives.sliceSeparator.length));
+		if(slice)
+			return slice;
+		}
+	if(this.isShadowTiddler(title))
+		return config.shadowTiddlers[title];
+	if(defaultText != undefined)
+		return defaultText;
+	return null;
+}
+
+// Returns the slice of text of the given name
+//#
+//# A text slice is a substring in the tiddler's text that is defined
+//# either like this
+//#    aName:  textSlice
+//# or
+//#    |aName:| textSlice |
+//# or
+//#    |aName| textSlice |
+//#
+//# In the text the name (or name:) may be decorated with '' or //. I.e.
+//# this would also a possible text slice:
+//#
+//#    |''aName:''| textSlice |
+//#
+//# @param name should only contain "word characters" (i.e. "a-ZA-Z_0-9")
+//# @return [may be undefined] the (trimmed) text of the specified slice.
+TiddlyWiki.prototype.getTiddlerSlice = function(title,sliceName)
+{
+	var re = this.sliceNameRegExpCache[sliceName];
+	if(!re)
+		{
+	 	re = new RegExp("(?:[\\'/]*(?:%0)[\\'/]*\\:[\\'/]*\\s*(.*?)\\s*$)|(?:\\|[\\'/]*(?:%0)\\:?[\\'/]*\\|\\s*(.*?)\\s*\\|)".format([sliceName.escapeRegExp()]), "m");
+		this.sliceNameRegExpCache[sliceName] = re;
+		}
+	var text = this.getTiddlerText(title,"");
+	var m = text.match(re);
+	if (!m)
+		return undefined;
+	return m[1] ? m[1] : m[2];
+}
+
+// Build an hashmap of the specified named slices of a tiddler
+TiddlyWiki.prototype.getTiddlerSlices = function(title,sliceNames)
+{
+	var r = {};
+	for(var t=0; t<sliceNames.length; t++)
+		{
+		var slice = this.getTiddlerSlice(title,sliceNames[t]);
+		if(slice)
+			r[sliceNames[t]] = slice;
+		}
+	return r;
 }
 
 TiddlyWiki.prototype.getRecursiveTiddlerText = function(title,defaultText,depth)
@@ -286,7 +338,7 @@ TiddlyWiki.prototype.getTiddlers = function(field,excludeTag)
 {
 	var results = [];
 	this.forEachTiddler(function(title,tiddler) {
-		if(excludeTag == undefined || tiddler.tags.find(excludeTag) == null)
+		if(excludeTag == undefined || tiddler.isTagged(excludeTag) == null)
 			results.push(tiddler);
 		});
 	if(field)
