@@ -1,22 +1,9 @@
 //--------------------------------
-// TW21Loader (inherits from LoaderByElems)
+// TW21Loader (inherits from LoaderBase)
 
 function TW21Loader() {};
 
-TW21Loader.getMetaDataFromAttributes = function(tiddlerDiv) {
-	var result = {};
-	var attrs = tiddlerDiv.attributes;
-	for(var i = attrs.length-1; i >= 0; i--) {
-		var name = attrs[i].name;
-		if (!TiddlyWiki.isLegacyField(name)) {
-			result[name] = attrs[i].value.unescapeLineBreaks();
-		}
-	}
-	return result;
-}
-
-
-TW21Loader.prototype = new LoaderByElems();
+TW21Loader.prototype = new LoaderBase();
 
 TW21Loader.prototype.getTitle = function(store, e) {
 	var title = null;
@@ -30,7 +17,7 @@ TW21Loader.prototype.getTitle = function(store, e) {
 	return title;
 }
 
-TW21Loader.prototype.initTiddler = function(store, tiddler, title, data) {
+TW21Loader.prototype.internalizeTiddler = function(store, tiddler, title, data) {
 	var text= ""; 
 	var e = data.firstChild;
 	while (e && e.nodeName == "#text")
@@ -44,8 +31,15 @@ TW21Loader.prototype.initTiddler = function(store, tiddler, title, data) {
 	var c = data.getAttribute("created");
 	var created = c ? Date.convertFromYYYYMMDDHHMM(c) : modified;
 	var tags = data.getAttribute("tags");
-	var metadata = TW21Loader.getMetaDataFromAttributes(data);
-	tiddler.assign(title,text,modifier,modified,tags,created, metadata);
+	var fields = {};
+	var attrs = data.attributes;
+	for(var i = attrs.length-1; i >= 0; i--) {
+		var name = attrs[i].name;
+		if (!TiddlyWiki.isStandardField(name)) {
+			fields[name] = attrs[i].value.unescapeLineBreaks();
+		}
+	}
+	tiddler.assign(title,text,modifier,modified,tags,created, fields);
 	return tiddler;
 };
 

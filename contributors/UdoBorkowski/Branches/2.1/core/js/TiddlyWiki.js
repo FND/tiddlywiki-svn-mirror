@@ -210,7 +210,7 @@ TiddlyWiki.prototype.getRecursiveTiddlerText = function(title,defaultText,depth)
 	return(textOut.join(""));
 }
 
-TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,metadata)
+TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields)
 {
 	var tiddler = this.fetchTiddler(title);
 	var created;
@@ -224,7 +224,7 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 		tiddler = new Tiddler();
 		created = modified;
 		}
-	tiddler.set(newTitle,newBody,modifier,modified,tags,created,metadata);
+	tiddler.set(newTitle,newBody,modifier,modified,tags,created,fields);
 	this.addTiddler(tiddler);
 	if(title != newTitle)
 		this.notify(title,true);
@@ -260,7 +260,7 @@ TiddlyWiki.prototype.loadFromDiv = function(srcID,idPrefix)
 // Return all tiddlers formatted as a sequence of HTML DIVs
 TiddlyWiki.prototype.allTiddlersAsHtml = function()
 {
-	return store.getSaver().serialize(store);
+	return store.getSaver().externalize(store);
 }
 
 // Return an array of tiddlers matching a search regular expression
