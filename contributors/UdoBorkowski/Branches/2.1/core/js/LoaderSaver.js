@@ -34,7 +34,7 @@ LoaderBase.prototype.loadTiddlers = function(store,nodes)
 			}
 		catch(e)
 			{
-			showException(e, config.messages.tiddlerLoadError.format([this.getTitle(store, e)]));
+			showException(e, config.messages.tiddlerLoadError.format([this.getTitle(store, nodes[t])]));
 			}
 		}
 	return tiddlers;
