@@ -257,7 +257,7 @@ TiddlyWiki.prototype.loadFromDiv = function(srcID,idPrefix)
 	this.setDirty(false);
 }
 
-// Return all tiddlers formatted as a sequence of HTML DIVs
+// Return all tiddlers formatted as an HTML string
 TiddlyWiki.prototype.allTiddlersAsHtml = function()
 {
 	return store.getSaver().externalize(store);
