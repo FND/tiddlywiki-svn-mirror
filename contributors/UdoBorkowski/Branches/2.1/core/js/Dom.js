@@ -266,3 +266,15 @@ function replaceSelection(e,text)
 			}
 		}
 }
+
+// Returns the text of the given (text) node, with unescapedLineBreaks, possibly merging subsequent text nodes
+function unescapeLineBreaks(e)
+{
+	var text= ""; 
+	while (e && e.nodeName == "#text")
+		{
+		text += e.nodeValue;
+		e = e.nextSibling;
+		}
+	return text ? text.unescapeLineBreaks() : "";
+}

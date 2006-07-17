@@ -18,14 +18,7 @@ TW21Loader.prototype.getTitle = function(store, e) {
 }
 
 TW21Loader.prototype.internalizeTiddler = function(store, tiddler, title, data) {
-	var text= ""; 
-	var e = data.firstChild;
-	while (e && e.nodeName == "#text")
-		{
-		text += e.nodeValue;
-		e = e.nextSibling;
-		}
-	text = text.unescapeLineBreaks();
+	var text = unescapeLineBreaks(data.firstChild);
 	var modifier = data.getAttribute("modifier");
 	var modified = Date.convertFromYYYYMMDDHHMM(data.getAttribute("modified"));
 	var c = data.getAttribute("created");
