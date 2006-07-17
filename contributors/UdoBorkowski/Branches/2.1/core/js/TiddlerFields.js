@@ -180,4 +180,4 @@ TiddlyWiki.prototype.forEachField = function(tiddler, callback, onlyExtendedFiel
 	}
 
 	return undefined;
-}
+};
