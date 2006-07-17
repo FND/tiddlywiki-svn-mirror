@@ -5,11 +5,6 @@ function TW21Saver() {};
 
 TW21Saver.prototype = new SaverBase();
 
-TW21Saver.prototype.getFormat = function(store) 
-{
-	return 'tw21';
-}
-
 TW21Saver.prototype.externalizeTiddler = function(store, tiddler) 
 {
 	try {

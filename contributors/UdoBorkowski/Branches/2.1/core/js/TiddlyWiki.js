@@ -394,11 +394,15 @@ TiddlyWiki.prototype.resolveTiddler = function(tiddler)
 
 TiddlyWiki.prototype.getLoader = function() 
 {
-	return new TW21Loader();
+	if (!this.loader) 
+		this.loader = new TW21Loader();
+	return this.loader;
 }
  
 TiddlyWiki.prototype.getSaver = function() 
 {
-	return new TW21Saver();
+	if (!this.saver) 
+		this.saver = new TW21Saver();
+	return this.saver;
 }
 
