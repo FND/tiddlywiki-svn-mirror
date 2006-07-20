@@ -120,6 +120,7 @@ Story.prototype.positionTiddler = function(srcElement)
 Story.prototype.createTiddler = function(place,before,title,template)
 {
 	var theTiddler = createTiddlyElement(null,"div",this.idPrefix + title,"tiddler");
+	theTiddler.setAttribute("refresh","tiddler");
 	place.insertBefore(theTiddler,before);
 	this.refreshTiddler(title,template);
 	return theTiddler;
@@ -138,7 +139,7 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 // Overridable for extracting the text of a template from a tiddler
 Story.prototype.getTemplateForTiddler = function(title,template,tiddler)
 {
-	return store.getTiddlerText(template);
+	return store.getRecursiveTiddlerText(template,null,10);
 }
 
 // Apply a template to an existing tiddler if it is not already displayed using that template
@@ -240,8 +241,16 @@ Story.prototype.onTiddlerKeyPress = function(e)
 	clearMessage();
 	var consume = false;
 	var title = this.getAttribute("tiddler");
+	var target = resolveTarget(e);
 	switch(e.keyCode)
 		{
+		case 9: // Tab
+			if(config.options.chkInsertTabs && (target.tagName.toLowerCase() == "input" || target.tagName.toLowerCase() == "textarea"))
+				{
+				replaceSelection(resolveTarget(e),String.fromCharCode(9));
+				consume = true;
+				}
+			break;
 		case 13: // Ctrl-Enter
 		case 10: // Ctrl-Enter on IE PC
 		case 77: // Ctrl-Enter is "M" on some platforms
@@ -503,6 +512,7 @@ Story.prototype.saveTiddler = function(title,minorUpdate)
 			}
 		tiddler.id = this.idPrefix + newTitle;
 		tiddler.setAttribute("tiddler",newTitle);
+		tiddler.setAttribute("template",DEFAULT_VIEW_TEMPLATE);
 		tiddler.setAttribute("dirty","false");
 		if(config.options.chkForceMinorUpdate)
 			minorUpdate = !minorUpdate;

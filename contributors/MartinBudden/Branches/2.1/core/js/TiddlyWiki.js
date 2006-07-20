@@ -7,6 +7,7 @@ function TiddlyWiki()
 	var tiddlers = {}; // Hashmap by name of tiddlers
 	this.namedNotifications = []; // Array of {name:,notify:} of notification functions
 	this.notificationLevel = 0;
+	this.slices = {}; // map tiddlerName->(map sliceName->sliceValue). Lazy.
 	this.clear = function() {
 		tiddlers = {};
 		this.setDirty(false);
@@ -15,9 +16,11 @@ function TiddlyWiki()
 		return tiddlers[title];
 		};
 	this.deleteTiddler = function(title) {
+		 delete this.slices[title];
 		 delete tiddlers[title];
 		};
 	this.addTiddler = function(tiddler) {
+		 delete this.slices[tiddler.title];
 		 tiddlers[tiddler.title] = tiddler;
 		};
 	this.forEachTiddler = function(callback) {
@@ -70,7 +73,8 @@ TiddlyWiki.prototype.notifyAll = function()
 		for(var t=0; t<this.namedNotifications.length; t++)
 			{
 			var n = this.namedNotifications[t];
-			n.notify(n.name);
+			if (n.name)
+				n.notify(n.name);
 			}
 }
 
@@ -117,17 +121,85 @@ TiddlyWiki.prototype.getTiddler = function(title)
 
 TiddlyWiki.prototype.getTiddlerText = function(title,defaultText)
 {
-	if(!title)
-		return(defaultText);
 	var tiddler = this.fetchTiddler(title);
 	if(tiddler)
 		return tiddler.text;
-	else if(this.isShadowTiddler(title))
-		return config.shadowTiddlers[title];
-	else if(defaultText != undefined)
+	if(!title)
 		return defaultText;
-	else
-		return null;
+	var pos = title.indexOf(config.textPrimitives.sliceSeparator);
+	if(pos != -1)
+		{
+		var slice = this.getTiddlerSlice(title.substr(0,pos),title.substr(pos + config.textPrimitives.sliceSeparator.length));
+		if(slice)
+			return slice;
+		}
+	if(this.isShadowTiddler(title))
+		return config.shadowTiddlers[title];
+	if(defaultText != undefined)
+		return defaultText;
+	return null;
+}
+
+TiddlyWiki.prototype.slicesRE = /(?:[\'\/]*(\w+)[\'\/]*\:[\'\/]*\s*(.*?)\s*$)|(?:\|[\'\/]*(\w+)\:?[\'\/]*\|\s*(.*?)\s*\|)/gm
+
+TiddlyWiki.prototype.calcAllSlices = function(title) 
+{
+	var slices = {};
+	var text = this.getTiddlerText(title,"");
+	this.slicesRE.lastIndex = 0;
+	do 
+		{
+			var m = this.slicesRE.exec(text);
+			if (m) 
+				{
+					if (m[1])
+						slices[m[1]] = m[2];
+					else
+						slices[m[3]] = m[4];
+				}
+		}
+	while(m);
+	return slices;
+}
+
+// Returns the slice of text of the given name
+//#
+//# A text slice is a substring in the tiddler's text that is defined
+//# either like this
+//#    aName:  textSlice
+//# or
+//#    |aName:| textSlice |
+//# or
+//#    |aName| textSlice |
+//#
+//# In the text the name (or name:) may be decorated with '' or //. I.e.
+//# this would also a possible text slice:
+//#
+//#    |''aName:''| textSlice |
+//#
+//# @param name should only contain "word characters" (i.e. "a-ZA-Z_0-9")
+//# @return [may be undefined] the (trimmed) text of the specified slice.
+TiddlyWiki.prototype.getTiddlerSlice = function(title,sliceName)
+{
+	var slices = this.slices[title];
+	if (!slices) {
+		slices = this.calcAllSlices(title);
+		this.slices[title] = slices;
+	}
+	return slices[sliceName];
+}
+
+// Build an hashmap of the specified named slices of a tiddler
+TiddlyWiki.prototype.getTiddlerSlices = function(title,sliceNames)
+{
+	var r = {};
+	for(var t=0; t<sliceNames.length; t++)
+		{
+		var slice = this.getTiddlerSlice(title,sliceNames[t]);
+		if(slice)
+			r[sliceNames[t]] = slice;
+		}
+	return r;
 }
 
 TiddlyWiki.prototype.getRecursiveTiddlerText = function(title,defaultText,depth)
@@ -158,7 +230,23 @@ TiddlyWiki.prototype.getRecursiveTiddlerText = function(title,defaultText,depth)
 	return(textOut.join(""));
 }
 
-TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,metadata)
+TiddlyWiki.prototype.setTiddlerTag = function(title,status,tag)
+{
+	var tiddler = this.fetchTiddler(title);
+	if(tiddler)
+		{
+		var t = tiddler.tags.find(tag);
+		if(t != null)
+			tiddler.tags.splice(t,1);
+		if(status)
+			tiddler.tags.push(tag);
+		tiddler.changed();
+		this.notify(title,true);
+		this.setDirty(true);
+		}
+}
+
+TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields)
 {
 	var tiddler = this.fetchTiddler(title);
 	var created;
@@ -172,7 +260,7 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 		tiddler = new Tiddler();
 		created = modified;
 		}
-	tiddler.set(newTitle,newBody,modifier,modified,tags,created,metadata);
+	tiddler.set(newTitle,newBody,modifier,modified,tags,created,fields);
 	this.addTiddler(tiddler);
 	if(title != newTitle)
 		this.notify(title,true);
@@ -205,10 +293,10 @@ TiddlyWiki.prototype.loadFromDiv = function(srcID,idPrefix)
 	this.setDirty(false);
 }
 
-// Return all tiddlers formatted as a sequence of HTML DIVs
+// Return all tiddlers formatted as an HTML string
 TiddlyWiki.prototype.allTiddlersAsHtml = function()
 {
-	return store.getSaver().serialize(store);
+	return store.getSaver().externalize(store);
 }
 
 // Return an array of tiddlers matching a search regular expression
@@ -286,7 +374,7 @@ TiddlyWiki.prototype.getTiddlers = function(field,excludeTag)
 {
 	var results = [];
 	this.forEachTiddler(function(title,tiddler) {
-		if(excludeTag == undefined || tiddler.tags.find(excludeTag) == null)
+		if(excludeTag == undefined || !tiddler.isTagged(excludeTag))
 			results.push(tiddler);
 		});
 	if(field)
@@ -342,11 +430,15 @@ TiddlyWiki.prototype.resolveTiddler = function(tiddler)
 
 TiddlyWiki.prototype.getLoader = function() 
 {
-	return new TW21Loader();
+	if (!this.loader) 
+		this.loader = new TW21Loader();
+	return this.loader;
 }
  
 TiddlyWiki.prototype.getSaver = function() 
 {
-	return new TW21Saver();
+	if (!this.saver) 
+		this.saver = new TW21Saver();
+	return this.saver;
 }
 

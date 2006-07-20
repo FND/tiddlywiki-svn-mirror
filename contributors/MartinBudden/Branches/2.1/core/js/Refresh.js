@@ -8,6 +8,16 @@ config.refreshers = {
 		var title = e.getAttribute("tiddlyLink");
 		refreshTiddlyLink(e,title);
 		},
+	
+	tiddler: function(e,changeList)
+		{
+		var title = e.getAttribute("tiddler");
+		var template = e.getAttribute("template");
+		if(changeList && changeList.find(title) != null && !story.isDirty(title))
+			story.refreshTiddler(title,template,true);
+		else
+			refreshElements(e,changeList);
+		},
 
 	content: function(e,changeList)
 		{
@@ -18,6 +28,16 @@ config.refreshers = {
 			removeChildren(e);
 			wikify(store.getTiddlerText(title,title),e);
 			}
+		},
+
+	macro: function(e,changeList)
+		{
+		var macro = e.getAttribute("macroName");
+		var params = e.getAttribute("params");
+		if(macro)
+			macro = config.macros[macro];
+		if(macro && macro.refresh)
+			macro.refresh(e,params);
 		}
 };
 
@@ -89,7 +109,7 @@ function applyPageTemplate(title)
 	var wrapper = document.getElementById("contentWrapper");
 	if(!title)
 		title = "PageTemplate";
-	var html = store.getTiddlerText(title);
+	var html = store.getRecursiveTiddlerText(title,null,10);
 	wrapper.innerHTML = html;
 	applyHtmlMacros(wrapper);
 	refreshElements(wrapper);
@@ -106,7 +126,9 @@ function applyPageTemplate(title)
 function refreshDisplay(hint)
 {
 	var e = document.getElementById("contentWrapper");
-	refreshElements(e,hint == null ? null : [hint]);
+	if(typeof hint == "string")
+		hint = [hint];
+	refreshElements(e,hint);
 }
 
 function refreshPageTitle()

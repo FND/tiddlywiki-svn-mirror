@@ -81,15 +81,18 @@ String.prototype.htmlDecode = function()
 }
 
 // Parse a space-separated string of name:value parameters where:
-//   - the name or the value can be optional (and a separate default is used instead)
+//   - the name or the value can be optional (in which case separate defaults are used instead)
 //     - in case of ambiguity, a lone word is taken to be a value
+//     - if 'cascadeDefaults' is set to true, then the defaults are modified by updated by each specified name or value
+//     - name prefixes are not allowed if the 'noNames' parameter is true
 //   - if both the name and value are present they must be separated by a colon
 //   - the name and the value may both be quoted with single- or double-quotes, double-square brackets
 //   - names or values quoted with {{double-curly braces}} are evaluated as a JavaScript expression
+//     - as long as the 'allowEval' parameter is true
 // The result is an array of objects:
 //   result[0] = object with a member for each parameter name, value of that member being an array of values
 //   result[1..n] = one object for each parameter, with 'name' and 'value' members
-String.prototype.parseParams = function(defaultName,defaultValue,allowEval,noNames)
+String.prototype.parseParams = function(defaultName,defaultValue,allowEval,noNames,cascadeDefaults)
 {
 	var parseToken = function(match,p)
 		{
@@ -145,6 +148,11 @@ String.prototype.parseParams = function(defaultName,defaultValue,allowEval,noNam
 				else if(v == null && defaultValue)
 					v = defaultValue;
 				r.push({name: n, value: v});
+				if(cascadeDefaults)
+					{
+					defaultName = n;
+					defaultValue = v;
+					}
 				}
 			}
 	} while(match);
@@ -181,18 +189,36 @@ String.prototype.readBracketedList = function(unique)
 	return n;
 }
 
-// Replace a chunk of a string given start and end markers
-String.prototype.replaceChunk = function(start,end,sub)
+// Returns array with start and end index of chunk between given start and end marker, or undefined.
+String.prototype.getChunkRange = function(start,end) 
 {
 	var s = this.indexOf(start);
 	if(s != -1)
 		{
+		s += start.length;
 		var e = this.indexOf(end,s + start.length);
 		if(e != -1)
-			return this.substring(0,s + start.length) + sub + this.substring(e);
+			return [s, e];
 		}
-	return this;
 }
+
+// Replace a chunk of a string given start and end markers
+String.prototype.replaceChunk = function(start,end,sub)
+{
+	var r = this.getChunkRange(start,end);
+	return r 
+		? this.substring(0,r[0]) + sub + this.substring(r[1])
+		: this;
+}
+
+// Returns a chunk of a string between start and end markers, or undefined
+String.prototype.getChunk = function(start,end)
+{
+	var r = this.getChunkRange(start,end);
+	if (r)
+		return this.substring(r[0],r[1]);
+}
+
 
 // Static method to bracket a string with double square brackets if it contains a space
 String.encodeTiddlyLink = function(title)
@@ -233,7 +259,7 @@ String.prototype.escapeLineBreaks = function()
 }
 
 // Convert "\n" to newlines, "\s" to "\" (and removes carriage returns)
-String.prototype.unescapeLineBreaks = function(text)
+String.prototype.unescapeLineBreaks = function()
 {
 	return this.replace(regexpBackSlashEn,"\n").replace(regexpBackSlashEss,"\\").replace(regexpCarriageReturn,"");
 }
@@ -242,3 +268,26 @@ String.prototype.startsWith = function(prefix)
 {
 	return !prefix || this.substring(0,prefix.length) == prefix;
 }
+
+// Returns the first value of the given named parameter.
+//#
+//# @param params
+//#         as returned by parseParams or null/undefined
+//# @return [may be null/undefined]
+//#
+function getParam(params, name, defaultValue) {
+	if (!params)
+		return defaultValue;
+	var p = params[0][name];
+	return p ? p[0] : defaultValue;
+}
+
+// Returns the first value of the given boolean named parameter.
+//#
+//# @param params
+//#         as returned by parseParams or null/undefined
+//#
+function getFlag(params, name, defaultValue) {
+	return !!getParam(params, name, defaultValue);
+} 
+	

@@ -25,6 +25,18 @@ function createTiddlyText(theParent,theText)
 	return theParent.appendChild(document.createTextNode(theText));
 }
 
+function createTiddlyCheckbox(theParent,caption,checked,onChange)
+{
+	var cb = document.createElement("input");
+	cb.setAttribute("type","checkbox");
+	cb.onclick = onChange;
+	theParent.appendChild(cb);
+	cb.checked = checked;
+	if(caption)
+		createTiddlyText(theParent,caption);
+	return cb;
+}
+
 function createTiddlyElement(theParent,theElement,theID,theClass,theText)
 {
 	var e = document.createElement(theElement);
@@ -93,6 +105,18 @@ function hasClass(e,theClass)
 				return true;
 		}
 	return false;
+}
+
+// Find the closest relative with a given property value (property defaults to tagName, relative defaults to parentNode)
+function findRelated(e,value,name,relative)
+{
+	name = name ? name : "tagName";
+	relative = relative ? relative : "parentNode";
+	while(e && e[name] != value)
+		{
+		e = e[relative];
+		}
+	return e;
 }
 
 // Resolve the target object of an event
@@ -238,4 +262,43 @@ function setStylesheet(s,id)
 			document.getElementsByTagName("head")[0].appendChild(n);
 			}
 		}
+}
+
+// Replace the current selection of a textarea or text input and scroll it into view
+function replaceSelection(e,text)
+{
+	if (e.setSelectionRange)
+		{
+		e.value = e.value.substr(0,e.selectionStart) + text + e.value.substr(e.selectionStart);
+		e.setSelectionRange(e.selectionStart+1,e.selectionStart+1);
+		var linecount = e.value.split('\n').length;
+		var thisline = e.value.substr(0,e.selectionStart).split('\n').length-1;
+		e.scrollTop = Math.floor((thisline-e.rows/2)*e.scrollHeight/linecount);
+		}
+	else if (document.selection)
+		{
+		var range = document.selection.createRange();
+		if (range.parentElement() == e)
+			{
+			var isCollapsed = range.text == "";
+			range.text = text;
+			 if (!isCollapsed)
+				{
+				range.moveStart('character', -text.length);
+				range.select();
+				}
+			}
+		}
+}
+
+// Returns the text of the given (text) node, possibly merging subsequent text nodes
+function getNodeText(e)
+{
+	var t = ""; 
+	while (e && e.nodeName == "#text")
+		{
+		t += e.nodeValue;
+		e = e.nextSibling;
+		}
+	return t;
 }
