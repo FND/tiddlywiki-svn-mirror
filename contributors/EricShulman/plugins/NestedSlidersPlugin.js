@@ -119,6 +119,8 @@ import (or copy/paste) the following tiddlers into your document:
 <<<
 !!!!!Revision History
 <<<
+''2006.06.29 - 1.9.2'' in onClickNestedSlider(), when setting focus to first control, skip over type="hidden"
+''2006.06.22 - 1.9.1'' added panel.defaultPanelWidth to save requested panel width, even after resizing has changed the style value
 ''2006.05.11 - 1.9.0'' added optional '^width^' syntax for floating sliders and '=key' syntax for setting an access key on a slider label
 ''2006.05.09 - 1.8.0'' in onClickNestedSlider(), when showing panel, set focus to first child input/textarea/select element
 ''2006.04.24 - 1.7.8'' in adjustSliderPos(), if floating panel is contained inside another floating panel, subtract offset of containing panel to find correct position
@@ -156,7 +158,7 @@ This feature was implemented by EricShulman from [[ELS Design Studios|http:/www.
 !!!!!Code
 ***/
 //{{{
-version.extensions.nestedSliders = {major: 1, minor: 9, revision: 0, date: new Date(2006,5,11)};
+version.extensions.nestedSliders = {major: 1, minor: 9, revision: 2, date: new Date(2006,6,29)};
 //}}}
 
 //{{{
@@ -236,10 +238,11 @@ config.formatters.push( {
 				// create slider panel
 				var panelClass=lookaheadMatch[4]?"floatingPanel":"sliderPanel";
 				var panel=createTiddlyElement(place,"div",null,panelClass,null);
-				panel.style.display = show;
-				if (lookaheadMatch[4] && lookaheadMatch[4].length>2) panel.style.width=lookaheadMatch[4].slice(1,-1); // custom width
 				panel.button = btn; // so the slider panel know which button it belongs to
+				panel.defaultPanelWidth=(lookaheadMatch[4] && lookaheadMatch[4].length>2)?lookaheadMatch[4].slice(1,-1):""; // save requested panel size
 				btn.sliderPanel=panel;
+				panel.style.display = show;
+				panel.style.width=panel.defaultPanelWidth;
 
 				// render slider (or defer until shown) 
 				w.nextMatch = lookaheadMatch.index + lookaheadMatch[0].length;
@@ -322,19 +325,21 @@ window.onClickNestedSlider=function(e)
 		anim.startAnimating(new Slider(theSlider,!isOpen,e.shiftKey || e.altKey,"none"));
 	else
 		theSlider.style.display = isOpen ? "none" : "block";
+	// reset to default width (might have been changed via plugin code)
+	theSlider.style.width=theSlider.defaultPanelWidth;
+	// align slider/floater position with target button
+	if (!isOpen) adjustSliderPos(theSlider.parentNode,theTarget,theSlider,theSlider.className);
 	// if showing panel, set focus to first 'focus-able' element in panel
 	if (theSlider.style.display!="none") {
 		var ctrls=theSlider.getElementsByTagName("*");
 		for (var c=0; c<ctrls.length; c++) {
 			var t=ctrls[c].tagName.toLowerCase();
-			if (t=="input" || t=="textarea" || t=="select")
+			if ((t=="input" && ctrls[c].type!="hidden") || t=="textarea" || t=="select")
 				{ ctrls[c].focus(); break; }
 		}
 	}
 	if (this.sliderCookie && this.sliderCookie.length)
 		{ config.options[this.sliderCookie]=!isOpen; saveOptionCookie(this.sliderCookie); }
-	// align slider/floater position with target button
-	adjustSliderPos(theSlider.parentNode,theTarget,theSlider,theSlider.className);
 	return false;
 }
 
