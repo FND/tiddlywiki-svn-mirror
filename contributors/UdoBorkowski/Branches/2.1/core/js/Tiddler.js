@@ -11,22 +11,7 @@ function Tiddler()
 	this.created = new Date();
 	this.links = [];
 	this.tags = [];
-	this.cacheFingerprint = null;
 	return this;
-}
-
-// Load a tiddler from an HTML DIV. The caller should make sure to later call Tiddler.changed()
-// @Deprecated
-Tiddler.prototype.loadFromDiv = function(divRef,title)
-{
-	return store.getLoader().internalizeTiddler(store,this,title,divRef);
-}
-
-// Format the text for storage in an HTML DIV
-// @Deprecated Use store.getSaver().externalizeTiddler instead.
-Tiddler.prototype.saveToDiv = function()
-{
-	return store.getSaver().externalizeTiddler(store,this);
 }
 
 // Format the text for storage in an RSS item
@@ -35,7 +20,7 @@ Tiddler.prototype.saveToRss = function(url)
 	var s = [];
 	s.push("<item>");
 	s.push("<title>" + this.title.htmlEncode() + "</title>");
-	s.push("<description>" + this.text.replace(regexpNewLine,"<br />").htmlEncode() + "</description>");
+	s.push("<description>" + this.text.replace(/\n/mg,"<br />").htmlEncode() + "</description>");
 	for(var t=0; t<this.tags.length; t++)
 		s.push("<category>" + this.tags[t] + "</category>");
 	s.push("<link>" + url + "#" + encodeURIComponent(String.encodeTiddlyLink(this.title)) + "</link>");
@@ -101,7 +86,6 @@ Tiddler.prototype.escapeLineBreaks = function()
 // Updates the secondary information (like links[] array) after a change to a tiddler
 Tiddler.prototype.changed = function()
 {
-	this.cacheFingerprint = null;
 	this.links = [];
 	var aliasedPrettyLink = "\\[\\[([^\\[\\]\\|]+)\\|([^\\[\\]\\|]+)\\]\\]";
 	var prettyLink = "\\[\\[([^\\]]+)\\]\\]";
@@ -159,8 +143,6 @@ Tiddler.prototype.hasWikiLinks = function()
 
 Tiddler.prototype.getFingerprint = function()
 {
-	if(!this.cacheFingerprint)
-		this.cacheFingerprint = "0x" + Crypto.hexSha1Str(this.text);
-	return this.cacheFingerprint;
+	return "0x" + Crypto.hexSha1Str(this.text);
 }
 

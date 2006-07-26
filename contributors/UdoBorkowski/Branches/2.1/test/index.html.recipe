@@ -1,4 +1,5 @@
 recipe: ../core/tiddlywiki.html.recipe
+recipe: plugins.recipe
 prehead: ../core/html/rss.link.html
 title: html/title.html
 recipe: tiddlers/split.recipe

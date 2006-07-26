@@ -16,16 +16,9 @@ function Formatter(formatters)
 
 config.formatterHelpers = {
 
-	charFormatHelper: function(w)
-	{
-		var e = createTiddlyElement(w.output,this.element);
-		w.subWikify(e,this.terminator);
-	},
-
 	createElementAndWikify: function(w)
 	{
-		var e = createTiddlyElement(w.output,this.element);
-		w.subWikifyTerm(e,this.termRegExp);
+		w.subWikifyTerm(createTiddlyElement(w.output,this.element),this.termRegExp);
 	},
 	
 	inlineCssHelper: function(w)
@@ -70,21 +63,6 @@ config.formatterHelpers = {
 			}
 	},
 
-	monospacedByLineHelper: function(w)
-	{
-		var lookaheadRegExp = new RegExp(this.lookahead,"mg");
-		lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			{
-			var text = lookaheadMatch[1];
-			if(config.browser.isIE)
-				text = text.replace(/\n/g,"\r");
-			var e = createTiddlyElement(w.output,"pre",null,null,text);
-			w.nextMatch = lookaheadMatch.index + lookaheadMatch[0].length;
-			}
-	},
-
 	enclosedTextHelper: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
@@ -94,7 +72,7 @@ config.formatterHelpers = {
 			var text = lookaheadMatch[1];
 			if(config.browser.isIE)
 				text = text.replace(/\n/g,"\r");
-			var e = createTiddlyElement(w.output,this.element,null,null,text);
+			createTiddlyElement(w.output,this.element,null,null,text);
 			w.nextMatch = lookaheadMatch.index + lookaheadMatch[0].length;
 			}
 	},
@@ -103,7 +81,7 @@ config.formatterHelpers = {
 	{
 		if(store.tiddlerExists(link) || store.isShadowTiddler(link))
 			{
-			// Definitely not an external link
+			//# Definitely not an external link
 			return false;
 			}
 		var urlRegExp = new RegExp(config.textPrimitives.urlPattern,"mg");
@@ -114,10 +92,10 @@ config.formatterHelpers = {
 			}
 		if (link.indexOf(".")!=-1 || link.indexOf("\\")!=-1 || link.indexOf("/")!=-1)
 			{
-			// Link contains . / or \ so is probably an external link
+			//# Link contains . / or \ so is probably an external link
 			return true;
 			}
-		// Otherwise assume it is not an external link
+		//# Otherwise assume it is not an external link
 		return false;
 	}
 
