@@ -140,7 +140,7 @@ TiddlyWiki.prototype.getTiddlerText = function(title,defaultText)
 	return null;
 }
 
-TiddlyWiki.prototype.slicesRE = /(?:[\'\/]*(\w+)[\'\/]*\:[\'\/]*\s*(.*?)\s*$)|(?:\|[\'\/]*(\w+)\:?[\'\/]*\|\s*(.*?)\s*\|)/gm
+TiddlyWiki.prototype.slicesRE = /(?:[\'\/]*~?(\w+)[\'\/]*\:[\'\/]*\s*(.*?)\s*$)|(?:\|[\'\/]*~?(\w+)\:?[\'\/]*\|\s*(.*?)\s*\|)/gm
 
 TiddlyWiki.prototype.calcAllSlices = function(title) 
 {
@@ -205,9 +205,9 @@ TiddlyWiki.prototype.getTiddlerSlices = function(title,sliceNames)
 TiddlyWiki.prototype.getRecursiveTiddlerText = function(title,defaultText,depth)
 {
 	var bracketRegExp = new RegExp("(?:\\[\\[([^\\]]+)\\]\\])","mg");
-	var text = this.getTiddlerText(title,defaultText);
+	var text = this.getTiddlerText(title,null);
 	if(text == null)
-		return "";
+		return defaultText;
 	var textOut = [];
 	var lastPos = 0;
 	do {
@@ -220,7 +220,7 @@ TiddlyWiki.prototype.getRecursiveTiddlerText = function(title,defaultText,depth)
 				if(depth <= 0)
 					textOut.push(match[1]);
 				else
-					textOut.push(this.getRecursiveTiddlerText(match[1],match[1],depth-1));
+					textOut.push(this.getRecursiveTiddlerText(match[1],"[[" + match[1] + "]]",depth-1));
 				}
 			lastPos = match.index + match[0].length;
 			}
@@ -283,10 +283,10 @@ TiddlyWiki.prototype.createTiddler = function(title)
 }
 
 // Load contents of a tiddlywiki from an HTML DIV
-TiddlyWiki.prototype.loadFromDiv = function(srcID,idPrefix)
+TiddlyWiki.prototype.loadFromDiv = function(src,idPrefix)
 {
 	this.idPrefix = idPrefix;
-	var storeElem = document.getElementById(srcID);
+	var storeElem = (typeof src == "string") ? document.getElementById(src) : src;
 	var tiddlers = this.getLoader().loadTiddlers(this,storeElem.childNodes);
 	for(var t=0; t<tiddlers.length; t++)
 		tiddlers[t].changed();
