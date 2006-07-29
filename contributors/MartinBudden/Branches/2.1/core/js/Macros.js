@@ -82,7 +82,7 @@ config.macros.timeline.handler = function(place,macroName,params)
 	for(var t=tiddlers.length-1; t>=last; t--)
 		{
 		var tiddler = tiddlers[t];
-		var theDay = tiddler[field].convertToLocalYYYYMMDDHHMM().substr(0,8);
+		var theDay = tiddler[field].convertToLocalYYYYMMDD();
 		if(theDay != lastDay)
 			{
 			var theDateList = document.createElement("ul");
