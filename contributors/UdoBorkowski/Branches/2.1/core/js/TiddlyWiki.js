@@ -205,9 +205,9 @@ TiddlyWiki.prototype.getTiddlerSlices = function(title,sliceNames)
 TiddlyWiki.prototype.getRecursiveTiddlerText = function(title,defaultText,depth)
 {
 	var bracketRegExp = new RegExp("(?:\\[\\[([^\\]]+)\\]\\])","mg");
-	var text = this.getTiddlerText(title,defaultText);
+	var text = this.getTiddlerText(title,null);
 	if(text == null)
-		return "";
+		return defaultText;
 	var textOut = [];
 	var lastPos = 0;
 	do {
@@ -220,7 +220,7 @@ TiddlyWiki.prototype.getRecursiveTiddlerText = function(title,defaultText,depth)
 				if(depth <= 0)
 					textOut.push(match[1]);
 				else
-					textOut.push(this.getRecursiveTiddlerText(match[1],match[1],depth-1));
+					textOut.push(this.getRecursiveTiddlerText(match[1],"[[" + match[1] + "]]",depth-1));
 				}
 			lastPos = match.index + match[0].length;
 			}
@@ -283,14 +283,19 @@ TiddlyWiki.prototype.createTiddler = function(title)
 }
 
 // Load contents of a tiddlywiki from an HTML DIV
-TiddlyWiki.prototype.loadFromDiv = function(srcID,idPrefix)
+TiddlyWiki.prototype.loadFromDiv = function(src,idPrefix)
 {
 	this.idPrefix = idPrefix;
-	var storeElem = document.getElementById(srcID);
+	var storeElem = (typeof src == "string") ? document.getElementById(src) : src;
 	var tiddlers = this.getLoader().loadTiddlers(this,storeElem.childNodes);
-	for(var t=0; t<tiddlers.length; t++)
-		tiddlers[t].changed();
 	this.setDirty(false);
+}
+
+TiddlyWiki.prototype.updateTiddlers = function()
+{
+	this.forEachTiddler(function(title,tiddler) {
+		tiddler.changed();
+		});
 }
 
 // Return all tiddlers formatted as an HTML string
@@ -311,7 +316,7 @@ TiddlyWiki.prototype.search = function(searchRegExp,sortField,excludeTag)
 		}
 	if(!sortField)
 		sortField = "title";
-	results.sort(function (a,b) {if(a[sortField] == b[sortField]) return(0); else return (a[sortField] < b[sortField]) ? -1 : +1; });
+	results.sort(function(a,b) {return a[sortField] < b[sortField] ? -1 : (a[sortField] == b[sortField] ? 0 : +1);});
 	return results;
 }
 
@@ -334,7 +339,7 @@ TiddlyWiki.prototype.getTags = function()
 				results.push([tag,1]);
 			}
 		});
-	results.sort(function (a,b) {if(a[0].toLowerCase() == b[0].toLowerCase()) return(0); else return (a[0].toLowerCase() < b[0].toLowerCase()) ? -1 : +1; });
+	results.sort(function(a,b) {return a[0].toLowerCase() < b[0].toLowerCase() ? -1 : (a[0].toLowerCase() == b[0].toLowerCase() ? 0 : +1);});
 	return results;
 }
 
@@ -365,7 +370,7 @@ TiddlyWiki.prototype.reverseLookup = function(lookupField,lookupValue,lookupMatc
 		});
 	if(!sortField)
 		sortField = "title";
-	results.sort(function (a,b) {if(a[sortField] == b[sortField]) return(0); else return (a[sortField] < b[sortField]) ? -1 : +1; });
+	results.sort(function(a,b) {return a[sortField] < b[sortField] ? -1 : (a[sortField] == b[sortField] ? 0 : +1);});
 	return results;
 }
 
@@ -378,7 +383,7 @@ TiddlyWiki.prototype.getTiddlers = function(field,excludeTag)
 			results.push(tiddler);
 		});
 	if(field)
-		results.sort(function (a,b) {if(a[field] == b[field]) return(0); else return (a[field] < b[field]) ? -1 : +1; });
+		results.sort(function(a,b) {return a[field] < b[field] ? -1 : (a[field] == b[field] ? 0 : +1);});
 	return results;
 }
 

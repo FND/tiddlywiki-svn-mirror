@@ -2,12 +2,14 @@
 // Translateable strings
 // ---------------------------------------------------------------------------------
 
+// Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
 merge(config.options,{
 	txtUserName: "YourName"});
 
 merge(config.messages,{
-	customConfigError: "Errors were encountered loading plugins. See PluginManager for details",
+	customConfigError: "Problems were encountered loading plugins. See PluginManager for details",
+	pluginError: "Error: %0",
 	nothingSelected: "Nothing is selected. You must select one or more items first",
 	savedSnapshotError: "It appears that this TiddlyWiki has been incorrectly saved. Please see http://www.tiddlywiki.com/#DownloadSoftware for details",
 	subtitleUnknown: "(unknown)",
@@ -128,33 +130,61 @@ merge(config.macros.plugins,{
 	noPluginText: "There are no plugins installed",
 	confirmDeleteText: "Are you sure you want to delete these tiddlers:\n\n%0",
 	listViewTemplate : {
-		// Fields needing localisation are: title, trueText, falseText and caption
 		columns: [
-			{name: "Selected", field: "Selected", rowName: "title", type: "Selector"},
-			{name: "Title", field: "title", tiddlerLink: "title", title: "Title", type: "TiddlerLink"},
-			{name: "Executed", field: "executed", title: "Executed?", type: "Boolean", trueText: "Yes", falseText: "No"},
-			{name: "Error", field: "error", title: "Result", type: "Boolean", trueText: "Error", falseText: "OK"},
-			{name: "Forced", field: "forced", title: "Forced", tag: "forceSystemConfig", type: "TagCheckbox"},
-			{name: "Disabled", field: "disabled", title: "Disabled", tag: "disableSystemConfig", type: "TagCheckbox"},
-			{name: "Log", field: "log", title: "Log", type: "StringList"}
+			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
+			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "Title", type: 'TiddlerLink'},
+			{name: 'Forced', field: 'forced', title: "Forced", tag: 'systemConfigForce', type: 'TagCheckbox'},
+			{name: 'Disabled', field: 'disabled', title: "Disabled", tag: 'systemConfigDisable', type: 'TagCheckbox'},
+			{name: 'Executed', field: 'executed', title: "Executed", type: 'Boolean', trueText: "Yes", falseText: "No"},
+			{name: 'Error', field: 'error', title: "Result", type: 'Boolean', trueText: "Error", falseText: "OK"},
+			{name: 'Log', field: 'log', title: "Log", type: 'StringList'}
 			],
 		rowClasses: [
-			{className: "error", field: "error"}
-			],
-		sort: [
-			{name: "Executed", sortType: "asc"},
-			{name: "Name", sortType: "desc"}
+			{className: 'error', field: 'error'},
+			{className: 'warning', field: 'warning'}
 			],
 		actions: [
-			{caption: "More actions...", name: ""},
-			{caption: "Remove 'systemConfig' tag", name: "remove"},
-			{caption: "Delete forever", name: "delete"}
+			{caption: "More actions...", name: ''},
+			{caption: "Remove systemConfig tag", name: 'remove'},
+			{caption: "Delete these tiddlers forever", name: 'delete'}
 			]}
 	});
 
 merge(config.macros.refreshDisplay,{
 	label: "refresh",
 	prompt: "Redraw the entire TiddlyWiki display"
+	});
+
+merge(config.macros.importTiddlers,{
+	defaultPath: "http://www.tiddlywiki.com/index.html",
+	fetchLabel: "fetch",
+	fetchPrompt: "Fetch the tiddlywiki file",
+	fetchError: "There were problems fetching the tiddlywiki file",
+	confirmOverwriteText: "Are you sure you want to overwrite these tiddlers:\n\n%0",
+	wizardTitle: "Import tiddlers from another TiddlyWiki file",
+	step1: "Step 1: Locate the TiddlyWiki file",
+	step1prompt: "Enter the URL or pathname here: ",
+	step1promptFile: "...or browse for a file: ",
+	step1promptFeeds: "...or select a pre-defined feed: ",
+	step1feedPrompt: "Choose...",
+	step2: "Step 2: Loading TiddlyWiki file",
+	step2Text: "Please wait while the file is loaded from: %0",
+	step3: "Step 3: Choose the tiddlers to import",
+	step4: "%0 tiddler(s) imported",
+	step5: "Done",
+	listViewTemplate: {
+		columns: [
+			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
+			{name: 'Title', field: 'title', title: "Title", type: 'String'},
+			{name: 'Snippet', field: 'text', title: "Snippet", type: 'String'},
+			{name: 'Tags', field: 'tags', title: "Tags", type: 'Tags'},
+			],
+		rowClasses: [
+			],
+		actions: [
+			{caption: "More actions...", name: ''},
+			{caption: "Import these tiddlers", name: 'import'}
+			]}
 	});
 
 merge(config.commands.closeTiddler,{

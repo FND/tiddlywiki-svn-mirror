@@ -80,29 +80,29 @@ function removeEvent(obj,type,fn)
 
 function addClass(e,theClass)
 {
-	removeClass(e,theClass);
-	e.className += " " + theClass;
+	var currClass = e.className.split(" ");
+	if(currClass.indexOf(theClass) == -1)
+		e.className += " " + theClass;
 }
 
 function removeClass(e,theClass)
 {
-	var newClass = [];
 	var currClass = e.className.split(" ");
-	for(var t=0; t<currClass.length; t++)
-		if(currClass[t] != theClass)
-			newClass.push(currClass[t]);
-	e.className = newClass.join(" ");
+	var i = currClass.indexOf(theClass);
+	while(i != -1)
+		{
+		currClass.splice(i,1);
+		i = currClass.indexOf(theClass);
+		}
+	e.className = currClass.join(" ");
 }
 
 function hasClass(e,theClass)
 {
-	var c = e.className;
-	if(c)
+	if(e.className)
 		{
-		c = c.split(" ");
-		for(var t=0; t<c.length; t++)
-			if(c[t] == theClass)
-				return true;
+		if(e.className.split(" ").indexOf(theClass) != -1)
+			return true;
 		}
 	return false;
 }
@@ -112,9 +112,19 @@ function findRelated(e,value,name,relative)
 {
 	name = name ? name : "tagName";
 	relative = relative ? relative : "parentNode";
-	while(e && e[name] != value)
+	if(name == "className")
 		{
-		e = e[relative];
+		while(e && !hasClass(e,value))
+			{
+			e = e[relative];
+			}
+		}
+	else
+		{
+		while(e && e[name] != value)
+			{
+			e = e[relative];
+			}
 		}
 	return e;
 }
@@ -265,12 +275,14 @@ function setStylesheet(s,id)
 }
 
 // Replace the current selection of a textarea or text input and scroll it into view
+
 function replaceSelection(e,text)
 {
 	if (e.setSelectionRange)
 		{
+		var oldpos = e.selectionStart + 1;
 		e.value = e.value.substr(0,e.selectionStart) + text + e.value.substr(e.selectionStart);
-		e.setSelectionRange(e.selectionStart+1,e.selectionStart+1);
+		e.setSelectionRange( oldpos, oldpos);
 		var linecount = e.value.split('\n').length;
 		var thisline = e.value.substr(0,e.selectionStart).split('\n').length-1;
 		e.scrollTop = Math.floor((thisline-e.rows/2)*e.scrollHeight/linecount);

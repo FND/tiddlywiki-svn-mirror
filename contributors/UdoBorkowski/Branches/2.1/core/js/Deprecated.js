@@ -24,6 +24,21 @@ config.formatterHelpers.monospacedByLineHelper = function(w)
 		}
 }
 
+// Find an entry in an array. Returns the array index or null
+// @Deprecated: Use indexOf instead
+Array.prototype.find = function(item)
+{
+	var i = this.indexOf(item);
+	return i == -1 ? null : i;
+}
+
+// Return whether an entry exists in an array
+// @Deprecated: Use indexOf instead
+Array.prototype.contains = function(item)
+{
+	return this.indexOf(item) != -1;
+};
+
 // Load a tiddler from an HTML DIV. The caller should make sure to later call Tiddler.changed()
 // @Deprecated: Use store.getLoader().internalizeTiddler instead
 Tiddler.prototype.loadFromDiv = function(divRef,title)
@@ -43,6 +58,17 @@ function allTiddlersAsHtml()
 {
 	return store.allTiddlersAsHtml();
 }
+
+// @Deprecated: Use refreshPageTemplate instead
+function applyPageTemplate(title)
+{
+	refreshPageTemplate(title);
+}
+
+// @Deprecated: Use functions on right hand side directly instead
+var createTiddlerPopup = Popup.create;
+var scrollToTiddlerPopup = Popup.show;
+var hideTiddlerPopup = Popup.remove;
 
 // @Deprecated: Use right hand side directly instead
 var regexpBackSlashEn = new RegExp("\\\\n","mg");

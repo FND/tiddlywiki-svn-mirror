@@ -6,7 +6,7 @@
 |''Source:''|http://www.tiddlywiki.com/#ExamplePlugin|
 |''Author:''|JeremyRuston (jeremy (at) osmosoft (dot) com)|
 |''License:''|[[BSD open source license]]|
-|''CoreVersion:''|2.2.0|
+|''~CoreVersion:''|2.2.0|
 |''Browser:''|Firefox 1.0.4+; Firefox 1.5; InternetExplorer 6.0|
 ***/
 

@@ -2,12 +2,29 @@
 // Wikifier
 // ---------------------------------------------------------------------------------
 
+function getFormatter(source,tiddler)
+{
+	var f = formatter;
+	if(tiddler!=null)
+		{
+		for(var i in formatters)
+			{
+			if(tiddler.isTagged(formatters[i].formatTag))
+				{
+				f = formatters[i];
+				break;
+				}
+			}
+		}
+	return f;
+}
+
 function wikify(source,output,highlightRegExp,tiddler)
 {
 	if(source && source != "")
 		{
-		var wikifier = new Wikifier(source,formatter,highlightRegExp,tiddler);
-		wikifier.subWikify(output);
+		var wikifier = new Wikifier(source,getFormatter(source,tiddler),highlightRegExp,tiddler);
+		wikifier.subWikifyUnterm(output);
 		}
 }
 
@@ -44,7 +61,7 @@ function Wikifier(source,formatter,highlightRegExp,tiddler)
 	this.output = null;
 	this.formatter = formatter;
 	this.nextMatch = 0;
-	this.hasWikiLinks = tiddler && tiddler.hasWikiLinks() == false ? false : true;
+	this.autoLinkWikiWords = tiddler && tiddler.autoLinkWikiWords() == false ? false : true;
 	this.highlightRegExp = highlightRegExp;
 	this.highlightMatch = null;
 	if(highlightRegExp)

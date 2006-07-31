@@ -6,12 +6,14 @@
 |''Source:''|http://www.tiddlywiki.com/#ExamplePlugin|
 |''Author:''|JeremyRuston (jeremy (at) osmosoft (dot) com)|
 |''License:''|[[BSD open source license]]|
-|''CoreVersion:''|2.1.0|
+|''~CoreVersion:''|2.1.0|
 |''Browser:''|Firefox 1.0.4+; Firefox 1.5; InternetExplorer 6.0|
 ***/
 
 //{{{
-// Don't do anything, this is just an example
+// Don't do anything very much, this is just an example
 //}}}
 
-deliberateError();
+// deliberateError();
+// Log a message
+pluginInfo.log.push("This is a test message from " + tiddler.title);

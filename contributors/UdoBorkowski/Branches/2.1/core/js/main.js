@@ -6,6 +6,7 @@ var params = null; // Command line parameters
 var store = null; // TiddlyWiki storage
 var story = null; // Main story
 var formatter = null; // Default formatters for the wikifier
+var formatters = {}; // Hashmap of alternative formatters for the wikifier
 var anim = new Animator(); // Animation engine
 var readOnly = false; // Whether we're in readonly mode
 var highlightHack = null; // Embarrassing hack department...
@@ -33,8 +34,9 @@ function main()
 	for(var s=0; s<config.notifyTiddlers.length; s++)
 		store.addNotification(config.notifyTiddlers[s].name,config.notifyTiddlers[s].notify);
 	store.loadFromDiv("storeArea","store");
+	store.updateTiddlers();
 	invokeParamifier(params,"onload");
-	var pluginProblem = loadSystemConfig();
+	var pluginProblem = loadPlugins();
 	formatter = new Formatter(config.formatters);
 	readOnly = (window.location.protocol == "file:") ? false : config.options.chkHttpReadOnly;
 	invokeParamifier(params,"onconfig");
@@ -70,7 +72,7 @@ function saveTest()
 	saveTest.appendChild(document.createTextNode("savetest"));
 }
 
-function loadSystemConfig()
+function loadPlugins()
 {
 	if(safeMode)
 		return;
@@ -81,20 +83,27 @@ function loadSystemConfig()
 		{
 		var tiddler = configTiddlers[t];
 		var p = getPluginInfo(tiddler);
-		if(p.executed)
+		if(isPluginExecutable(p))
 			{
-			var ex = processConfig(tiddler.text);
-			if(ex)
+			p.executed = true;
+			p.error = false;
+			try
 				{
-				p.log.push(config.messages.customConfigError.format([p.title,ex]));
+				if(tiddler.text && tiddler.text != "")
+					{
+					var f = window.eval("function(tiddler,pluginInfo){%0\n}".format([tiddler.text]));
+					f(tiddler,p);
+					}
+				}
+			catch(e)
+				{
+				p.log.push(config.messages.pluginError.format([exceptionText(e)]));
 				p.error = true;
 				hadProblem = true;
 				}
-			else
-				p.error = false;
 			}
 		else
-			hadProblem = true;
+			p.warning = true;
 		installedPlugins.push(p);
 		}
 	return hadProblem;
@@ -106,22 +115,22 @@ function getPluginInfo(tiddler)
 	p.tiddler = tiddler;
 	p.title = tiddler.title;
 	p.log = [];
-	p.executed = verifyPlugin(p);
 	return p;
 }
 
-// Verify that a particular plugin is OK to execute
-function verifyPlugin(plugin)
+// Check that a particular plugin is valid for execution
+function isPluginExecutable(plugin)
 {
-	if(plugin.tiddler.isTagged("disableSystemConfig"))
-		return verifyTail(plugin,false,"Not executed because disabled via 'disableSystemConfig' tag");
-	if(plugin.tiddler.isTagged("forceSystemConfig"))
-		return verifyTail(plugin,true,"Executed because forced via 'forceSystemConfig' tag");
-	if(!plugin["CoreVersion"])
-		return verifyTail(plugin,false,"Not executed because CoreVersion property is missing");
-	var coreVersion = plugin["CoreVersion"].split(".");
-	if(parseInt(coreVersion[0]) < version.major || parseInt(coreVersion[1]) < version.minor || parseInt(coreVersion[2]) < version.revision)
-		return verifyTail(plugin,false,"Not executed because specified CoreVersion is too old");
+	if(plugin.tiddler.isTagged("systemConfigDisable"))
+		return verifyTail(plugin,false,"Not executed because disabled via 'systemConfigDisable' tag");
+	if(plugin.tiddler.isTagged("systemConfigForce"))
+		return verifyTail(plugin,true,"Executed because forced via 'systemConfigForce' tag");
+	if(plugin["CoreVersion"])
+		{
+		var coreVersion = plugin["CoreVersion"].split(".");
+		if(parseInt(coreVersion[0]) < version.major || parseInt(coreVersion[1]) < version.minor || parseInt(coreVersion[2]) < version.revision)
+			return verifyTail(plugin,false,"Not executed because specified CoreVersion is too old");
+		}
 	return true;
 }
 
@@ -129,22 +138,6 @@ function verifyTail(plugin,result,message)
 {
 	plugin.log.push(message);
 	return result;
-}
-
-// Merge a custom configuration over the top of the current configuration
-// Returns a string error message or null if it went OK
-function processConfig(customConfig)
-{
-	try
-		{
-		if(customConfig && customConfig != "")
-			window.eval(customConfig);
-		}
-	catch(e)
-		{
-		return(exceptionText(e));
-		}
-	return null;
 }
 
 function invokeMacro(place,macro,params,wikifier,tiddler)
