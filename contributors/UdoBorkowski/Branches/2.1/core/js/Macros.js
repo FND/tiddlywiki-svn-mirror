@@ -607,7 +607,7 @@ config.macros.view.handler = function(place,macroName,params,wikifier,paramStrin
 config.macros.edit.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	var field = params[0];
-	if((tiddler instanceof Tiddler) && field && (tiddler[field] != undefined))
+	if((tiddler instanceof Tiddler) && field)
 		{
 		story.setDirty(tiddler.title,true);
 		if (field != "text")
@@ -617,7 +617,10 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 					e.setAttribute("readOnly","readOnly");
 				e.setAttribute("edit",field);
 				e.setAttribute("type","text");
-				e.value = store.getValue(tiddler,field);
+				var v = store.getValue(tiddler,field);
+				if (!v) 
+					v = "";
+				e.value = v;
 				e.setAttribute("size","40");
 				e.setAttribute("autocomplete","off");
 			}
@@ -629,6 +632,8 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 				if(tiddler.isReadOnly())
 					e.setAttribute("readOnly","readOnly");
 				var v = store.getValue(tiddler,field);
+				if (!v) 
+					v = "";
 				e.value = v;
 				var rows = 10;
 				var lines = v.match(/\n/mg);
