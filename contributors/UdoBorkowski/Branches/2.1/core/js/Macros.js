@@ -604,51 +604,58 @@ config.macros.view.handler = function(place,macroName,params,wikifier,paramStrin
 		}
 }
 
+
+function createTextLineEditor(place,tiddler,field,paramString) 
+{
+	var e = createTiddlyElement(place,"input");
+	if(tiddler.isReadOnly())
+		e.setAttribute("readOnly","readOnly");
+	e.setAttribute("edit",field);
+	e.setAttribute("type","text");
+	var value = store.getValue(tiddler,field);
+	if (value === undefined)
+		value = "";
+	e.value = value;
+	e.setAttribute("size","40");
+	e.setAttribute("autocomplete","off");
+	return e;
+}
+
+function createTextAreaEditor(place,tiddler,field,paramString) 
+{
+	var wrapper1 = createTiddlyElement(place,"fieldset",null,"fieldsetFix");
+	var wrapper2 = createTiddlyElement(wrapper1,"div");
+	var e = createTiddlyElement(wrapper2,"textarea");
+	if(tiddler.isReadOnly())
+		e.setAttribute("readOnly","readOnly");
+	var value = store.getValue(tiddler,field);
+	if (value === undefined)
+		value = "";
+	e.value = value;
+	var rows = 10;
+	var lines = value.match(/\n/mg);
+	var maxLines = Math.max(parseInt(config.options.txtMaxEditRows),5);
+	if(lines != null && lines.length > rows)
+		rows = lines.length + 5;
+	rows = Math.min(rows,maxLines);
+	e.setAttribute("rows",rows);
+	e.setAttribute("edit","text");
+	return e;
+}
+
+config.macros.edit.getEditorCreator = function(tiddler,field,paramString) 
+{
+	return (field == "text") ? createTextAreaEditor : createTextLineEditor;
+}
+
 config.macros.edit.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	var field = params[0];
-	if((tiddler instanceof Tiddler) && field && (tiddler[field] != undefined))
+	if((tiddler instanceof Tiddler) && field)
 		{
 		story.setDirty(tiddler.title,true);
-		switch(field)
-			{
-			case "title":
-				var e = createTiddlyElement(place,"input");
-				if(tiddler.isReadOnly())
-					e.setAttribute("readOnly","readOnly");
-				e.setAttribute("edit","title");
-				e.setAttribute("type","text");
-				e.value = tiddler.title;
-				e.setAttribute("size","40");
-				e.setAttribute("autocomplete","off");
-				break;
-			case "text":
-				var wrapper1 = createTiddlyElement(place,"fieldset",null,"fieldsetFix");
-				var wrapper2 = createTiddlyElement(wrapper1,"div");
-				var e = createTiddlyElement(wrapper2,"textarea");
-				if(tiddler.isReadOnly())
-					e.setAttribute("readOnly","readOnly");
-				e.value = tiddler.text;
-				var rows = 10;
-				var lines = tiddler.text.match(/\n/mg);
-				var maxLines = Math.max(parseInt(config.options.txtMaxEditRows),5);
-				if(lines != null && lines.length > rows)
-					rows = lines.length + 5;
-				rows = Math.min(rows,maxLines);
-				e.setAttribute("rows",rows);
-				e.setAttribute("edit","text");
-				break;
-			case "tags":
-				var e = createTiddlyElement(place,"input");
-				if(tiddler.isReadOnly())
-					e.setAttribute("readOnly","readOnly");
-				e.setAttribute("edit","tags");
-				e.setAttribute("type","text");
-				e.value = tiddler.getTags();
-				e.setAttribute("size","40");
-				e.setAttribute("autocomplete","off");
-				break;
-			}
+		var creator = config.macros.edit.getEditorCreator(tiddler,field,paramString);
+		creator(place,tiddler,field,paramString);
 		}
 }
 
