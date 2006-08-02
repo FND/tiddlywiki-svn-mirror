@@ -905,7 +905,7 @@ config.macros.importTiddlers.onFeedChange = function(e)
 config.macros.importTiddlers.onBrowseChange = function(e)
 {
 	var importer = findRelated(this,"importTiddler","className","parentNode");
-	importer.inputBox.value = this.value;
+	importer.inputBox.value = "file://" + this.value;
 }
 
 config.macros.importTiddlers.onFetch = function(e)
@@ -932,12 +932,12 @@ config.macros.importTiddlers.onLoad = function(status,params,responseText,url,xh
 		return;
 		}
 	var importer = params;
-	// Check that the tiddler we're in hasn't been closed
-	var p = importer;
-	while(p.parentNode)
-		p = p.parentNode;
-	if(!(p instanceof HTMLDocument))
-		return;
+	// Check that the tiddler we're in hasn't been closed - doesn't work on IE
+//	var p = importer;
+//	while(p.parentNode)
+//		p = p.parentNode;
+//	if(!(p instanceof HTMLDocument))
+//		return;
 	// Crack out the content - (should be refactored)
 	var posOpeningDiv = responseText.indexOf(startSaveArea);
 	var limitClosingDiv = responseText.indexOf("<!--POST-BODY-START--"+">");

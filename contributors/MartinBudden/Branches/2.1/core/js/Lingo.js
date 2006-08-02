@@ -10,6 +10,9 @@ merge(config.options,{
 merge(config.messages,{
 	customConfigError: "Problems were encountered loading plugins. See PluginManager for details",
 	pluginError: "Error: %0",
+	pluginDisabled: "Not executed because disabled via 'systemConfigDisable' tag",
+	pluginForced: "Executed because forced via 'systemConfigForce' tag",
+	pluginVersionError: "Not executed because this plugin needs a newer version of TiddlyWiki",
 	nothingSelected: "Nothing is selected. You must select one or more items first",
 	savedSnapshotError: "It appears that this TiddlyWiki has been incorrectly saved. Please see http://www.tiddlywiki.com/#DownloadSoftware for details",
 	subtitleUnknown: "(unknown)",
@@ -177,7 +180,7 @@ merge(config.macros.importTiddlers,{
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Title', field: 'title', title: "Title", type: 'String'},
 			{name: 'Snippet', field: 'text', title: "Snippet", type: 'String'},
-			{name: 'Tags', field: 'tags', title: "Tags", type: 'Tags'},
+			{name: 'Tags', field: 'tags', title: "Tags", type: 'Tags'}
 			],
 		rowClasses: [
 			],
