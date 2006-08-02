@@ -33,7 +33,7 @@ function main()
 	loadOptionsCookie();
 	for(var s=0; s<config.notifyTiddlers.length; s++)
 		store.addNotification(config.notifyTiddlers[s].name,config.notifyTiddlers[s].notify);
-	store.loadFromDiv("storeArea","store");
+	store.loadFromDiv("storeArea","store",true);
 	store.updateTiddlers();
 	invokeParamifier(params,"onload");
 	var pluginProblem = loadPlugins();
@@ -91,7 +91,7 @@ function loadPlugins()
 				{
 				if(tiddler.text && tiddler.text != "")
 					{
-					var f = window.eval("function(tiddler,pluginInfo){%0\n}".format([tiddler.text]));
+					var f = new Function("tiddler","pluginInfo",tiddler.text);
 					f(tiddler,p);
 					}
 				}
@@ -122,14 +122,19 @@ function getPluginInfo(tiddler)
 function isPluginExecutable(plugin)
 {
 	if(plugin.tiddler.isTagged("systemConfigDisable"))
-		return verifyTail(plugin,false,"Not executed because disabled via 'systemConfigDisable' tag");
+		return verifyTail(plugin,false,config.messages.pluginDisabled);
 	if(plugin.tiddler.isTagged("systemConfigForce"))
-		return verifyTail(plugin,true,"Executed because forced via 'systemConfigForce' tag");
+		return verifyTail(plugin,true,config.messages.pluginForced);
 	if(plugin["CoreVersion"])
 		{
 		var coreVersion = plugin["CoreVersion"].split(".");
-		if(parseInt(coreVersion[0]) < version.major || parseInt(coreVersion[1]) < version.minor || parseInt(coreVersion[2]) < version.revision)
-			return verifyTail(plugin,false,"Not executed because specified CoreVersion is too old");
+		var w = parseInt(coreVersion[0]) - version.major;
+		if(w == 0 && coreVersion[1])
+			w = parseInt(coreVersion[1]) - version.minor;
+		if(w == 0 && coreVersion[2])
+		 	w = parseInt(coreVersion[2]) - version.revision;
+		if(w > 0)
+			return verifyTail(plugin,false,config.messages.pluginVersionError);
 		}
 	return true;
 }
