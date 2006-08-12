@@ -384,6 +384,7 @@ config.macros.newTiddler.createNewTiddlerButton = function(place,title,params,la
 	btn.setAttribute("newTitle",title);
 	btn.setAttribute("params",tags.join("|"));
 	btn.setAttribute("newFocus",newFocus);
+	btn.setAttribute("viewOnly",getFlag(params,"viewOnly"));
 	var text = getParam(params,"text");
 	if (text !== undefined) 
 		btn.setAttribute("newText",text);
@@ -401,7 +402,10 @@ config.macros.newTiddler.onClickNewTiddler = function()
 		story.getTiddlerField(title,"text").value = text.format([title]);
 	for(var t=0;t<params.length;t++)
 		story.setTiddlerTag(title,params[t],+1);
-	story.focusTiddler(title,focus);
+	if (this.getAttribute("viewOnly"))
+	   config.commands.saveTiddler.handler({},null,title);
+	else
+		story.focusTiddler(title,focus);
 	return false;
 }
 
