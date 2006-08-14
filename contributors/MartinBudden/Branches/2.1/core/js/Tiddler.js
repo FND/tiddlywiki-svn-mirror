@@ -139,7 +139,7 @@ Tiddler.prototype.autoLinkWikiWords = function()
 	return !this.isTagged("systemConfig") && !this.isTagged("excludeMissing");
 }
 
-Tiddler.prototype.getFingerprint = function()
+Tiddler.prototype.calculateFingerprint = function()
 {
 	return "0x" + Crypto.hexSha1Str(this.text);
 }
