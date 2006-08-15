@@ -1,0 +1,15 @@
+## Script (Python) "get_all_as_divs"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=root=None, for_export=0
+##title=
+##
+tiddlers = []
+for t in container.get_all(root=root):
+  tiddler = '<div tiddler="%s" modifier="%s" modified="%s" created="%s" tags="%s">%s</div>' % (t['title'], t['modifier'], t['modified'], t['created'], t['tags'], t['body'])
+  tiddlers.append(tiddler)
+
+return '\n'.join(tiddlers)

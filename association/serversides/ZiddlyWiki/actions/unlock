@@ -1,0 +1,32 @@
+## Script (Python) "unlock"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=root=None
+##title=
+##
+if root: context = root
+
+req = context.REQUEST
+id = container.scripts.sanitize_id(req.get('id'))
+
+username = context.REQUEST.AUTHENTICATED_USER.getUserName()
+
+# restrict anonymous unless anonymous editing is enabled
+anon_edit = getattr(context, 'zw_anon_edit', 0)
+if not anon_edit and 'Authenticated' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
+  raise 'Unauthorized'
+
+try:
+  tiddler = context.tiddlers[id]
+except:
+  pass
+else:
+  if getattr(tiddler, 'lock_user', '') == username:
+    tiddler.manage_delProperties(['lock_time', 'lock_user'])
+    try: tiddler.manage_addProperty('ignore_revision', 1, 'boolean')
+    except: pass
+
+return 'unlocked'

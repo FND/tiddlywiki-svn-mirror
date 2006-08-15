@@ -1,0 +1,51 @@
+## Script (Python) "get"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=root=None
+##title=
+##
+if root: context = root
+path = '/'.join(context.getPhysicalPath())
+
+req = context.REQUEST
+revision = req.get('revision', None)
+title = req.get('id')
+update_timeline = req.get('updatetimeline', 0)
+
+id = container.scripts.sanitize_id(title)
+
+try: tiddler = context.tiddlers[id]
+except: return '-'
+
+tags = getattr(tiddler, 'tags', '')
+if 'private' in tags.split() and 'Authenticated' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
+  return '-'
+if 'onlyAdmin' in tags.split() and 'Manager' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
+  return '-'
+
+if revision:
+  try: tiddler = tiddler.HistoricalRevisions[revision]
+  except: pass
+
+modified = container.scripts.get_modified(tiddler)
+
+if hasattr(tiddler, 'created'):
+  created = tiddler.created
+else:
+  created = modified
+
+parts = []
+#parts.append(title.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
+parts.append(title)
+parts.append(tiddler(context, context.REQUEST).replace('\\', '\\s').replace('\n', '\\n').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
+parts.append(getattr(tiddler, 'modifier', ''))
+parts.append(modified)
+parts.append(created)
+try: parts.append(tiddler.tags.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
+except: parts.append('')
+if update_timeline: parts.append('update timeline')
+else: parts.append('')
+return '\n'.join(parts)

@@ -1,0 +1,16 @@
+## Script (Python) "to_date"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=datestr
+##title=
+##
+try:
+  if len(datestr) == 19:
+    return DateTime(datestr[:4] + '-' + datestr[4:6] + '-' + datestr[6:8] + ' ' + datestr[9:11] + ':' + datestr[11:13] + ':' + datestr[13:15] + '.' + datestr[15:])
+  else:
+    return DateTime(datestr[:4] + '-' + datestr[4:6] + '-' + datestr[6:8] + ' ' + datestr[8:10] + ':' + datestr[10:])
+except:
+  return None

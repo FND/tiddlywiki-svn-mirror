@@ -1,0 +1,22 @@
+## Script (Python) "backup"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=root=None
+##title=
+##
+context = root
+
+# only Managers please
+if 'Manager' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
+  raise 'Unauthorized'
+
+backup_id = 'tiddlers_backup_%s' % DateTime().strftime('%Y-%m-%d_%H%M%S')
+context.manage_addFolder(id=backup_id)
+
+tiddlers = context.tiddlers.manage_copyObjects(context.tiddlers.objectIds())
+context[backup_id].manage_pasteObjects(tiddlers)
+
+return 'Backup saved to %s' % backup_id

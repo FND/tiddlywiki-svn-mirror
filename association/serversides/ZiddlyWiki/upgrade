@@ -1,0 +1,27 @@
+## Script (Python) "upgrade"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=
+##title=
+##
+#if root: context = root
+path = '/'.join(context.getPhysicalPath())
+
+tiddler = []
+tiddlers = []
+
+for tiddlerid in context.tiddlers.objectIds('DTML Document'):
+  try: tiddler = context.tiddlers[tiddlerid]
+  except: continue # if we don't have permission (private tiddlers)
+
+  body = tiddler(context, context.REQUEST).replace('&gt;', '>').replace('&lt;', '<')
+  tiddler.manage_edit(data=body, title=tiddler.title_or_id())
+
+  tags = getattr(tiddler, 'tags', '').split(' ')
+  if 'private' in tags:
+      tiddler.manage_permission('View', ['Authenticated', 'Manager', 'Owner'], acquire=0)
+
+return "Site upgraded."
