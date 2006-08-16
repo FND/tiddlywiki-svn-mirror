@@ -39,14 +39,12 @@ js_path = container.javascripts.absolute_url()
 user = context.REQUEST.AUTHENTICATED_USER
 status_vars = """
 <script type="text/javascript">
-  zw = {
-    loggedIn: %s,
-    anonEdit: %s,
-    ziddlyPath: '%s',
-    isAdmin: %s,
-    latestTiddler: %s,
-    username: '%s'
-  };
+  zw.loggedIn = %s;
+  zw.anonEdit = %s;
+  zw.ziddlyPath = '%s';
+  zw.isAdmin = %s;
+  zw.latestTiddler = %s;
+  zw.username = '%s';
   version.extensions.ZiddlyWiki = %s;
 </script>
 """ % (

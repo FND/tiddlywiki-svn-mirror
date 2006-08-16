@@ -1,9 +1,16 @@
 <dtml-call "REQUEST.RESPONSE.setHeader('Content-Type', 'text/javascript')">
 
-zw_main = main;
+// Place to store my junk
+var zw = {};
+zw.main = main;
+zw.checkUnsavedChanges = false;
+zw.confirmExit = false;
+zw.ieurl = (navigator.appVersion.indexOf('MSIE') > -1) ? 'ie=1&' : '';
+zw.editingTiddlers = {};
+
 main = function() {
   config.options.chkHttpReadOnly = (zw.loggedIn || zw.anonEdit) ? false : true;
-  zw_main();
+  zw.main();
 };
 
 zw.get_url = function(with_hash) {
@@ -14,13 +21,9 @@ zw.get_url = function(with_hash) {
   return url
 };
 
-checkUnsavedChanges = false;
-confirmExit = false;
-
 config.messages.loginToEdit = 'You must be logged in to make changes. Click OK to log in now. Click Cancel to view the source.';
 config.messages.errorDeleting = 'An error has occurred. Review your Zope error log for details.';
 config.messages.errorSaving = 'An error has occurred. Review your Zope error log for details. If you navigate away from this page now, you will lose your changes.';
-config.messages.noChangesMade = 'No changes were made, so nothing was saved.';
 config.messages.protectedTiddler = 'You are not allowed to edit here. Click OK to view the source.';
 config.messages.lockedTiddler = 'This tiddler is currently being edited by %s. Please try again in a few minutes.';
 config.messages.lockedTiddlerYou = 'This tiddler is currently locked by you. Would you like to edit anyway?';
@@ -67,7 +70,9 @@ config.macros.login = {
       var link = createTiddlyLink(place, zw.username, true);
       link.innerHTML = zw.username + ' (logged in)';
     } else {
-      createTiddlyButton(place,this.label,this.prompt,function(){setTimeout("location.replace('?action=login&' + ieurl + 'redirect_to=' + zw.get_url(true))", 10)});
+      createTiddlyButton(place,this.label,this.prompt,function(){
+          setTimeout("location.replace('?action=login&' + zw.ieurl + 'redirect_to=' + zw.get_url(true))", 10)
+      });
     }
   }
 };
@@ -75,22 +80,31 @@ config.macros.login = {
 config.macros.logout = {
   label: 'logout',
   prompt: 'Log out of the system',
-  handler: function(place) { if(zw.loggedIn) createTiddlyButton(place,this.label,this.prompt,function(){setTimeout("location.replace('?action=logout&' + ieurl + 'redirect_to=' + zw.get_url(true))", 10)}) }
+  handler: function(place) { 
+      if(zw.loggedIn) 
+          createTiddlyButton(place,this.label,this.prompt, function(){
+              setTimeout("location.replace('?action=logout&' + zw.ieurl + 'redirect_to=' + zw.get_url(true))", 10)
+          }) 
+  }
 };
-
-ie = navigator.appVersion.indexOf('MSIE') > -1;
-ieurl = ie ? 'ie=1&' : '';
 
 config.macros.ziddlyversion = {
   handler: function(place) {
-    createTiddlyElement(place,"span",null,null,version.major + "." + version.minor + "." + version.revision + (version.beta ? "(b" + version.beta + ")" : "") + "." + version.extensions.ZiddlyWiki);
+    createTiddlyElement(place,"span",null,null,version.major + "." 
+        + version.minor + "." + version.revision 
+        + (version.beta ? "(b" + version.beta + ")" : "") + "." 
+        + version.extensions.ZiddlyWiki);
   }
 };
 
 config.macros.exportLink = {
   label: config.messages.exportLinkLabel,
   prompt: config.messages.exportLinkPrompt,
-  handler: function(place) { createTiddlyButton(place,this.label,this.prompt,function(){location.href='?action=export';return false;}) }
+  handler: function(place) { 
+      createTiddlyButton(place,this.label,this.prompt,function(){
+          location.href='?action=export';return false;
+      }) 
+  }
 };
 
 config.macros.importLink = {
@@ -134,14 +148,23 @@ TiddlyWiki.prototype.removeTiddler = function(title) {
 
 TiddlyWiki.prototype.zw_saveTiddler = TiddlyWiki.prototype.saveTiddler;
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags) {
+  zw.status('saving '+title+'...');
   newBody = replaceBodyCharacters(newBody);
-  zw.status('saving...');
   var callback = function(r){
-    zw.status(false);
-    if(r == 'no changes') displayMessage(config.messages.noChangesMade);
-    else if(r != 'success') alert(config.messages.errorSaving);
+    var parts = r.split('\n');
+    var tiddler = store.fetchTiddler(parts[0])
+    tiddler.revisionKey = parts[7];
+    if(parts[1] != tiddler.escapeLineBreaks().htmlEncode()) 
+        alert("ZiddlyWiki error: Saved tiddler '"+parts[0]+"' is not the same as what was just saved.\n");
   };
-  ajax.post(zw.get_url(), callback, 'action=save&id=' + encodeURIComponent(title) + '&title=' + encodeURIComponent(newTitle) + '&body=' + encodeURIComponent(newBody) + '&tags=' + encodeURIComponent(tags) + '&modified=' + encodeURIComponent((modified||store.fetchTiddler(title).modified).convertToYYYYMMDDHHMM()) + '&' + zw.no_cache());
+// FIXME by using async ajax here, a reload timeout may come between the save
+// and the callback's return, which causes the tiddler to be double-rendered.
+  ajax.post(zw.get_url(), callback, 'action=save&id=' + encodeURIComponent(title) + '&title=' 
+        + encodeURIComponent(newTitle) + '&body=' + encodeURIComponent(newBody) + '&tags=' 
+        + encodeURIComponent(tags) + '&modified=' 
+        + encodeURIComponent((modified||store.fetchTiddler(title).modified).convertToYYYYMMDDHHMM()) 
+        + '&' + zw.no_cache());
+  zw.status(false);
   return this.zw_saveTiddler(title,newTitle,newBody,modifier,modified,tags);
 };
 
@@ -165,7 +188,8 @@ config.commands.revisions = {
     var callback = function(r) {
       if(popup) {
         if(r == '-') {
-          createTiddlyText(createTiddlyElement(popup,"li",null,"disabled"),config.views.wikified.toolbarRevisions.popupNone);
+          createTiddlyText(createTiddlyElement(popup,"li",null,"disabled"),
+            config.views.wikified.toolbarRevisions.popupNone);
         } else {
           var revs = r.split('\n');
           for(var i=0; i<revs.length; i++) {
@@ -173,7 +197,13 @@ config.commands.revisions = {
             if(parts.length>1) {
               var modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
               var key = parts[1];
-              var button = createTiddlyButton(createTiddlyElement(popup,"li"), modified.toLocaleString(), config.messages.viewRevisionTooltip, function(){displayTiddlerRevision(this.getAttribute('tiddlerTitle'), this.getAttribute('revisionKey'), this); return false;}, 'tiddlyLinkExisting tiddlyLink');
+              var button = createTiddlyButton(createTiddlyElement(popup,"li"), modified.toLocaleString(), 
+                    config.messages.viewRevisionTooltip, 
+                    function(){
+                        displayTiddlerRevision(this.getAttribute('tiddlerTitle'), 
+                        this.getAttribute('revisionKey'), this); 
+                        return false;
+                    }, 'tiddlyLinkExisting tiddlyLink');
               button.setAttribute('tiddlerTitle', title);
               button.setAttribute('revisionKey', key);
               var t = store.fetchTiddler(title);
@@ -191,13 +221,13 @@ config.commands.revisions = {
   }
 }
 
-currentTiddlerRevisions = [];
 function displayTiddlerRevision(title, revision, src, updateTimeline) {
+  if(store.fetchTiddler(title).revisionKey == revision) return;
   zw.status('loading...');
-  currentTiddlerRevisions[title] = revision;
   revision = revision ? '&revision=' + revision : '';
   updateTimeline = updateTimeline ? '&updatetimeline=1' : '';
-  ajax.get('?action=get&id=' + encodeURIComponent(title) + revision + updateTimeline + '&' + zw.no_cache(), displayTiddlerRevisionCallback)
+  ajax.get('?action=get&id=' + encodeURIComponent(title) + revision 
+      + updateTimeline + '&' + zw.no_cache(), displayTiddlerRevisionCallback)
 };
 
 function displayTiddlerRevisionCallback(encoded) {
@@ -205,8 +235,10 @@ function displayTiddlerRevisionCallback(encoded) {
     var parts = encoded.split('\n');
     var tiddler = new Tiddler();
     var title = parts[0];
-    tiddler.set(title, Tiddler.unescapeLineBreaks(parts[1].replace(/&quot;/g,'"').replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g,'&')), parts[2], Date.convertFromYYYYMMDDHHMM(parts[3]), parts[5], Date.convertFromYYYYMMDDHHMM(parts[4]));
-    tiddler.revisionKey = currentTiddlerRevisions[title];
+    tiddler.set(title, Tiddler.unescapeLineBreaks(parts[1].htmlDecode()), parts[2], 
+        Date.convertFromYYYYMMDDHHMM(parts[3]), parts[5], 
+        Date.convertFromYYYYMMDDHHMM(parts[4]));
+    tiddler.revisionKey = parts[7];
     store.addTiddler(tiddler);
     story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
     if(parts[6] == 'update timeline')
@@ -229,7 +261,7 @@ function permaviewHash() {
 
 zw.ask_to_login = function() {
   if(confirm(config.messages.loginToEdit)) {
-    setTimeout("location.replace('?action=login&' + ieurl + 'redirect_to=' + zw.get_url(true));", 10);
+    setTimeout("location.replace('?action=login&' + zw.ieurl + 'redirect_to=' + zw.get_url(true));", 10);
     return true;
   } else {
     return false;
@@ -240,34 +272,48 @@ Tiddler.prototype.isReadOnly = function() {
   return isProtectedTiddler(this.title) || (!zw.anonEdit && !zw.loggedIn);
 };
 
-editingTiddlers = {};
 config.commands.editTiddler.zw_handler = config.commands.editTiddler.handler;
 config.commands.editTiddler.handler = function(event,src,title) {
   if(readOnly) {
     this.zw_handler(event,src,title);
   } else {
-    zw.status('loading...');
+    zw.status('loading '+title+'...');
     var obj = this;
     var callback = function(r) {
       zw.status(false);
       if(r == '-') { // doesn't exist (might be a shadow tiddler)
-        editingTiddlers[title] = true;
+        zw.editingTiddlers[title] = true;
         obj.zw_handler(event,src,title);
       } else if(r.match(/^locked/)) {
         r = r.replace(/^locked\n/, '');
-        if(!store.fetchTiddler(title).revisionKey) {
-          var parts = r.split('\n');
-          var tiddler = new Tiddler();
-          tiddler.set(parts[0], Tiddler.unescapeLineBreaks(parts[1].replace(/&quot;/g, '"').replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g,'&')), parts[2], Date.convertFromYYYYMMDDHHMM(parts[3]), parts[5], Date.convertFromYYYYMMDDHHMM(parts[4]));
-          store.addTiddler(tiddler);
+        var parts = r.split('\n');
+        var tiddler = store.fetchTiddler(title);
+        // We're editing a deleted tiddler, or one that was added by someone else
+        // since we loaded our TiddlyWiki store.
+        if(!tiddler) { 
+          tiddler = new Tiddler();
         }
-        editingTiddlers[title] = true;
+        if(tiddler.revisionKey != parts[7]) {
+          var tags = parts[5].readBracketedList();
+          if(tags.indexOf('deleted') != -1) { // Remove the deleted tag on edit
+              alert("This tiddler was deleted on the server.  Editing the old deleted version.");
+              tags.splice(tags.indexOf('deleted'),1);
+              tiddler.deletedOnServer = true;
+          }
+          tiddler.set(parts[0], Tiddler.unescapeLineBreaks(parts[1].htmlDecode()), parts[2], 
+                      Date.convertFromYYYYMMDDHHMM(parts[3]), tags, 
+                      Date.convertFromYYYYMMDDHHMM(parts[4]));
+          tiddler.revisionKey = parts[7];
+        }
+        if(!store.fetchTiddler(title))
+          store.addTiddler(tiddler);
+        zw.editingTiddlers[title] = true;
         obj.zw_handler(event,src,title);
       } else if(r.match(/^already locked by/)) {
         var lock_user = r.replace('already locked by ', '');
         if(lock_user == zw.username) {
           if(confirm(config.messages.lockedTiddlerYou)) {
-            editingTiddlers[title] = true;
+            zw.editingTiddlers[title] = true;
             obj.zw_handler(event,src,title);
           }
         } else {
@@ -278,35 +324,39 @@ config.commands.editTiddler.handler = function(event,src,title) {
       }
     };
     ajax.post(zw.get_url(), callback, 'action=lock&id=' + title + '&' + zw.no_cache());
-    return false;
   }
+  return false;
 };
 
 config.commands.saveTiddler.zw_handler = config.commands.saveTiddler.handler;
 config.commands.saveTiddler.handler = function(event,src,title) {
   if((zw.loggedIn || zw.anonEdit) && !isProtectedTiddler(title)) {
-    editingTiddlers[title] = false;
+    zw.editingTiddlers[title] = false;
     return this.zw_handler(event,src,title);
   } else {
     config.commands.cancelTiddler.zw_handler(null,null,title);
   }
+  return false;
 };
 
 config.commands.deleteTiddler.zw_handler = config.commands.deleteTiddler.handler;
 config.commands.deleteTiddler.handler = function(event,src,title) {
   if((zw.loggedIn || zw.anonEdit) && !isProtectedTiddler(title)) {
-    editingTiddlers[title] = false;
+    zw.editingTiddlers[title] = false;
     return this.zw_handler(event,src,title);
   } else {
     config.commands.cancelTiddler.zw_handler(null,null,title);
   }
+  return false;
 };
 
 config.commands.cancelTiddler.zw_handler = config.commands.cancelTiddler.handler;
 config.commands.cancelTiddler.handler = function(event,src,title) {
   if(!config.options.chkHttpReadOnly) {
-      editingTiddlers[title] = false;
+      zw.editingTiddlers[title] = false;
       ajax.post(zw.get_url(), function(r){}, 'action=unlock&id=' + title + '&' + zw.no_cache());
+      if(store.fetchTiddler(title).deletedOnServer)
+          store.removeTiddler(title);
   }
   return this.zw_handler(event,src,title);
 };
@@ -335,13 +385,17 @@ zw.refresh_tiddlers = function() {
   }
 };
 
+// Receives a list of updated tiddler [timestamp, [title, modified, revisionKey], ...]
+// If TW supports higher resolution modification stamps (currently: 1 minute) we can use
+// that as an identifier instead of revisionKey
 zw.refresh_tiddlers_callback = function(tiddlers) {
   if(tiddlers == '') return;
-  tiddlers = tiddlers.split('\n');
+  tiddlers = tiddlers.split('\n\n');
   zw.latestTiddler = parseInt(tiddlers[0]);
   for(var i=1; i<tiddlers.length; i++) {
-    if(!editingTiddlers[tiddlers[i]])
-      displayTiddlerRevision(tiddlers[i], null, null, true);
+    var l = tiddlers[i].split('\n'); // [title, modified, revisionKey]
+    if(!zw.editingTiddlers[l[0]])  // FIXME if it's being edited and we just found out someone else modified it, we should issue a warning.
+      displayTiddlerRevision(l[0], l[2], null, true);
   }
 };
 

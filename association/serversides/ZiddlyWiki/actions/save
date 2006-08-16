@@ -7,6 +7,13 @@
 ##parameters=root=None, only_if_newer=0, req_args={}
 ##title=
 ##
+# FIXME: Make this use webdav locks instead, so it's compatible with external editor.
+def remove_locks(tiddler):
+  try: tiddler.manage_delProperties(['lock_time', 'lock_user'])
+  except: pass
+  try: tiddler.manage_delProperties(['ignore_revision'])
+  except: pass
+
 if root: context = root
 path = '/'.join(context.getPhysicalPath())
 
@@ -53,11 +60,14 @@ body = body.replace('\r\n', '\n')
 # if only_is_newer is specified and the tiddler isn't, then quit
 is_newer = modified and container.scripts.to_date(modified) > container.scripts.to_date(container.scripts.get_modified(tiddler))
 if only_if_newer and not just_created and not is_newer:
-  return 'not newer'
+  remove_locks(tiddler)
+  return context.REQUEST.RESPONSE.redirect("?action=get&id="+req.get('id'))
 
 try:
   if tiddler() == body and tiddler.title == title and getattr(tiddler, 'tags', None) == tags:
-    return 'no changes'
+    remove_locks(tiddler)
+    return context.REQUEST.RESPONSE.redirect("?action=get&id="+req.get('id'))
+
 except:
   pass
 
@@ -89,15 +99,11 @@ if hasattr(tiddler, 'modifier'):
 else:
   tiddler.manage_addProperty('modifier', username, 'string')
 
-try: tiddler.manage_delProperties(['lock_time', 'lock_user'])
-except: pass
-
-try: tiddler.manage_delProperties(['ignore_revision'])
-except: pass
+remove_locks(tiddler)
 
 if 'private' in tags.split():
   tiddler.manage_permission('View', ['Authenticated', 'Manager', 'Owner'], acquire=0)
 else:
   tiddler.manage_permission('View', ['Anonymous'], acquire=1)
 
-return 'success'
+return context.REQUEST.RESPONSE.redirect("?action=get&id="+req.get('id'))

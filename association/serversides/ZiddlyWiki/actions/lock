@@ -29,6 +29,9 @@ if hasattr(tiddler, 'lock_time'):
   else:
     return 'already locked by %s' % tiddler.lock_user
 
+if tiddler.wl_isLocked():
+    return 'already locked by WebDAV'
+
 tiddler.manage_addProperty('lock_time', DateTime(), 'date')
 tiddler.manage_addProperty('lock_user', username, 'string')
 try: tiddler.manage_addProperty('ignore_revision', 1, 'boolean')

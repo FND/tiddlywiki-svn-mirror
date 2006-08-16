@@ -18,7 +18,7 @@ update_timeline = req.get('updatetimeline', 0)
 id = container.scripts.sanitize_id(title)
 
 try: tiddler = context.tiddlers[id]
-except: return '-'
+except: return '-\nexception finding tiddler '+id
 
 tags = getattr(tiddler, 'tags', '')
 if 'private' in tags.split() and 'Authenticated' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
@@ -38,7 +38,6 @@ else:
   created = modified
 
 parts = []
-#parts.append(title.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
 parts.append(title)
 parts.append(tiddler(context, context.REQUEST).replace('\\', '\\s').replace('\n', '\\n').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
 parts.append(getattr(tiddler, 'modifier', ''))
@@ -48,4 +47,5 @@ try: parts.append(tiddler.tags.replace('&', '&amp;').replace('<', '&lt;').replac
 except: parts.append('')
 if update_timeline: parts.append('update timeline')
 else: parts.append('')
+parts.append(tiddler.manage_change_history()[0]['key'])
 return '\n'.join(parts)

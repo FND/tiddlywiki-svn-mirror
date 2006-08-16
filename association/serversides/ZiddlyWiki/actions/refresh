@@ -23,9 +23,9 @@ else:
     try: tiddler = context.tiddlers[tiddlerid]
     except: continue
     if int(float(tiddler.bobobase_modification_time()) * 100) > latest:
-      updated.append(tiddler.title)
+      updated.append(tiddler.title + '\n' + tiddler.modified + '\n' + tiddler.manage_change_history()[0]['key'])
 
   if len(updated) > 1:
-    return '\n'.join(updated)
+    return '\n\n'.join(updated)
   else:
     return ''
