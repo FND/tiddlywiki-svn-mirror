@@ -1,0 +1,30 @@
+Some ideas for ways to improve ZiddlyWiki.  If you want one of the below
+featuers, feel free to work on it and send a patch th
+TiddlyWikiDev@googlegroups.com!  See:
+    http://www.ziddlywiki.org/#ZiddlyContributions
+for instructions on how to make a patch file.
+
+* Display a message if a newer revision is available on "view"
+
+* Check if someone is editing a tiddler when it is being displayed.  Grey out
+    edit button or something, or change it to 'editing: Joe'...
+
+* An empty edit generates a lock, and forces all users to reload the tiddler.
+
+* Make these locks compatible with WEBDAV locks:
+
+    It seems WebDAV locks can't obtain the identity of the person holding
+    the lock.
+
+    Again, could use lock_user as an object attribute, but that incurs a
+    history change and revisionKey change.
+
+* Make an external editor link on the toolbar if it's configured (use DTML to
+    modify the default ViewTemplate)
+
+* The core uses store.dirty to indicate that the wiki needs to be saved.  This
+  functionality is essentially disabled right now.  Instead we need a
+  "saveFailed" flag which indicates that the current store has changes that
+  were not uploaded.  First we should try to re-upload those changes (in case
+  the network went down), and we should issue the "Unsaved Changes" dialog if
+  the user tries to leave the page.
