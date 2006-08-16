@@ -39,6 +39,7 @@ js_path = container.javascripts.absolute_url()
 user = context.REQUEST.AUTHENTICATED_USER
 status_vars = """
 <script type="text/javascript">
+  if(typeof zw == "undefined") var zw = {};
   zw.loggedIn = %s;
   zw.anonEdit = %s;
   zw.ziddlyPath = '%s';

@@ -1,7 +1,7 @@
 <dtml-call "REQUEST.RESPONSE.setHeader('Content-Type', 'text/javascript')">
 
 // Place to store my junk
-var zw = {};
+if(typeof zw == "undefined") var zw = {};
 zw.main = main;
 zw.checkUnsavedChanges = false;
 zw.confirmExit = false;
@@ -155,7 +155,12 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
     var tiddler = store.fetchTiddler(parts[0])
     tiddler.revisionKey = parts[7];
     if(parts[1] != tiddler.escapeLineBreaks().htmlEncode()) 
-        alert("ZiddlyWiki error: Saved tiddler '"+parts[0]+"' is not the same as what was just saved.\n");
+        alert("ZiddlyWiki error: Saved tiddler '"+parts[0]+"' is not the same as what was just saved."
+            +"\n-------------------before---------------------\n"+parts[1]
+            +"\n-------------------after----------------------\n"+tiddler.escapeLineBreaks().htmlEncode()
+        );
+    else
+        store.setDirty(false);
   };
 // FIXME by using async ajax here, a reload timeout may come between the save
 // and the callback's return, which causes the tiddler to be double-rendered.
