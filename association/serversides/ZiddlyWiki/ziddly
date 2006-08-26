@@ -10,7 +10,7 @@
 # Grab the TiddlyWiki source, insert some stuff,
 # and return the modified source to the client
 
-ziddly_point_release = 2
+ziddly_point_release = 3
 
 if get_release:
   return ziddly_point_release
