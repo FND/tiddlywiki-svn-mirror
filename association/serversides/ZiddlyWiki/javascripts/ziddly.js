@@ -274,8 +274,25 @@ zw.ask_to_login = function() {
 };
 
 Tiddler.prototype.isReadOnly = function() {
-  return isProtectedTiddler(this.title) || (!zw.anonEdit && !zw.loggedIn);
+  if(zw.isAdmin) return false;
+  if(zw.loggedIn && this.modifier == zw.username) return false;
+  return isProtectedTiddler(this.title) || !(zw.anonEdit || zw.loggedIn);
 };
+
+// Add the protected tag to tiddlers in config.protectedTiddlers
+Tiddler.prototype.zw_set = Tiddler.prototype.set;
+Tiddler.prototype.set = function(title,text,modifier,modified,tags,created) {
+    if(!tags) tags = [];
+    if(!store.tiddlerExists(title) && store.isShadowTiddler(title)) {
+        for(var i=0;i<config.protectedTiddlers.length;i++) {
+            if(config.protectedTiddlers[i] == title) {
+                tags.push('protected');
+                break;
+            }
+        }
+    }
+    return this.zw_set(title, text, modifier, modified, tags, created);
+}
 
 config.commands.editTiddler.zw_handler = config.commands.editTiddler.handler;
 config.commands.editTiddler.handler = function(event,src,title) {
@@ -368,9 +385,10 @@ config.commands.cancelTiddler.handler = function(event,src,title) {
 
 function isProtectedTiddler(title) {
   var tiddler = store.fetchTiddler(title);
-  if(zw.isAdmin || !tiddler || !tiddler.modifier || tiddler.modifier == zw.username) return false;
-  for(var i=0;i<config.protectedTiddlers.length;i++) {
-    if(config.protectedTiddlers[i] == title) return true;
+  if(!tiddler) {  // Must be a shadow
+    for(var i=0;i<config.protectedTiddlers.length;i++) {
+      if(config.protectedTiddlers[i] == title) return true;
+    }
   }
   if(tiddler && tiddler.tags) {
     for(var i=0;i<tiddler.tags.length;i++) {
