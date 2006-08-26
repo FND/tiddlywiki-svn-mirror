@@ -352,7 +352,9 @@ config.commands.editTiddler.handler = function(event,src,title) {
 
 config.commands.saveTiddler.zw_handler = config.commands.saveTiddler.handler;
 config.commands.saveTiddler.handler = function(event,src,title) {
-  if((zw.loggedIn || zw.anonEdit) && !isProtectedTiddler(title)) {
+  if(zw.isAdmin 
+      || (zw.loggedIn || zw.anonEdit) && !isProtectedTiddler(title)
+      || (isProtectedTiddler(title) && zw.loggedIn && this.modifier == zw.username)) {
     zw.editingTiddlers[title] = false;
     return this.zw_handler(event,src,title);
   } else {
@@ -363,7 +365,9 @@ config.commands.saveTiddler.handler = function(event,src,title) {
 
 config.commands.deleteTiddler.zw_handler = config.commands.deleteTiddler.handler;
 config.commands.deleteTiddler.handler = function(event,src,title) {
-  if((zw.loggedIn || zw.anonEdit) && !isProtectedTiddler(title)) {
+  if(zw.isAdmin 
+      || (zw.loggedIn || zw.anonEdit) && !isProtectedTiddler(title)
+      || (isProtectedTiddler(title) && zw.loggedIn && this.modifier == zw.username)) {
     zw.editingTiddlers[title] = false;
     return this.zw_handler(event,src,title);
   } else {
@@ -375,9 +379,11 @@ config.commands.deleteTiddler.handler = function(event,src,title) {
 config.commands.cancelTiddler.zw_handler = config.commands.cancelTiddler.handler;
 config.commands.cancelTiddler.handler = function(event,src,title) {
   if(!config.options.chkHttpReadOnly) {
+      if(zw.editingTiddlers[title])
+          ajax.post(zw.get_url(), function(r){}, 'action=unlock&id=' + title + '&' + zw.no_cache());
       zw.editingTiddlers[title] = false;
-      ajax.post(zw.get_url(), function(r){}, 'action=unlock&id=' + title + '&' + zw.no_cache());
-      if(store.fetchTiddler(title).deletedOnServer)
+      var tiddler = store.fetchTiddler(title);
+      if(tiddler && tiddler.deletedOnServer)
           store.removeTiddler(title);
   }
   return this.zw_handler(event,src,title);

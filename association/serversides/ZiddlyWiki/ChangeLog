@@ -1,6 +1,9 @@
 Release 2.0.11.3
 * handle config.protectedTiddlers better -- explicitly add the 'protected'
   when these shadow tiddlers are displayed.
+* Adjust editing logic
+* Don't unlock when not editing (e.g. viewing a read only tiddler)
+* Make cancelling the edit of a non-existing (i.e. shadow) tiddler work
 
 Release 2.0.11.2
 * Set revisionKey on get and save (prevents ZiddlyWiki from reloading the
