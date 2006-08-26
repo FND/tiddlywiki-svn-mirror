@@ -384,6 +384,7 @@ config.macros.newTiddler.createNewTiddlerButton = function(place,title,params,la
 	btn.setAttribute("newTitle",title);
 	btn.setAttribute("params",tags.join("|"));
 	btn.setAttribute("newFocus",newFocus);
+	btn.setAttribute("newTemplate",getParam(params,"template",DEFAULT_EDIT_TEMPLATE));
 	var text = getParam(params,"text");
 	if (text !== undefined) 
 		btn.setAttribute("newText",text);
@@ -395,7 +396,8 @@ config.macros.newTiddler.onClickNewTiddler = function()
 	var title = this.getAttribute("newTitle");
 	var params = this.getAttribute("params").split("|");
 	var focus = this.getAttribute("newFocus");
-	story.displayTiddler(null,title,DEFAULT_EDIT_TEMPLATE);
+	var template = this.getAttribute("newTemplate");
+	story.displayTiddler(null,title,template);
 	var text = this.getAttribute("newText");
 	if (typeof text == "string")
 		story.getTiddlerField(title,"text").value = text.format([title]);
@@ -581,26 +583,29 @@ config.macros.message.handler = function(place,macroName,params)
 
 config.macros.view.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-	if((tiddler instanceof Tiddler) && params[0] && (tiddler[params[0]] != undefined))
+	if((tiddler instanceof Tiddler) && params[0])
 		{
-		switch(params[1])
-			{
-			case undefined:
-				highlightify(tiddler[params[0]],place,highlightHack);
-				break;
-			case "link":
-				createTiddlyLink(place,tiddler[params[0]],true);
-				break;
-			case "wikified":
-				wikify(tiddler[params[0]],place,highlightHack,tiddler);
-				break;
-			case "date":
-				if(params[2])
-					createTiddlyText(place,tiddler[params[0]].formatString(params[2]));
-				else
-					createTiddlyText(place,tiddler[params[0]]);
-				break;
-			}
+		var value = store.getValue(tiddler,params[0]);
+		if(value != undefined)
+			switch(params[1])
+				{
+				case undefined:
+					highlightify(value,place,highlightHack);
+					break;
+				case "link":
+					createTiddlyLink(place,value,true);
+					break;
+				case "wikified":
+					wikify(value,place,highlightHack,tiddler);
+					break;
+				case "date":
+					value = Date.convertFromYYYYMMDDHHMM(value);
+					if(params[2])
+						createTiddlyText(place,value.formatString(params[2]));
+					else
+						createTiddlyText(place,value);
+					break;
+				}
 		}
 }
 

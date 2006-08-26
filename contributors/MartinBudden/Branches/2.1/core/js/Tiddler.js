@@ -28,7 +28,7 @@ Tiddler.prototype.saveToRss = function(url)
 	var s = [];
 	s.push("<item>");
 	s.push("<title>" + this.title.htmlEncode() + "</title>");
-	s.push("<description>" + this.text.replace(/\n/mg,"<br />").htmlEncode() + "</description>");
+	s.push("<description>" + wikifyStatic(this.text,null,this).htmlEncode() + "</description>");
 	for(var t=0; t<this.tags.length; t++)
 		s.push("<category>" + this.tags[t] + "</category>");
 	s.push("<link>" + url + "#" + encodeURIComponent(String.encodeTiddlyLink(this.title)) + "</link>");
@@ -145,10 +145,10 @@ Tiddler.prototype.isReadOnly = function()
 
 Tiddler.prototype.autoLinkWikiWords = function()
 {
-	return !this.isTagged("systemConfig") && !this.isTagged("excludeMissing");
+	return !(this.isTagged("systemConfig") || this.isTagged("excludeMissing"));
 }
 
-Tiddler.prototype.calculateFingerprint = function()
+Tiddler.prototype.generateFingerprint = function()
 {
 	return "0x" + Crypto.hexSha1Str(this.text);
 }

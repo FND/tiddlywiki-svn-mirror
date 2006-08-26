@@ -168,7 +168,7 @@ Story.prototype.refreshTiddler = function(title,template,force)
 			theTiddler.onmouseover = this.onTiddlerMouseOver;
 			theTiddler.onmouseout = this.onTiddlerMouseOut;
 			theTiddler.ondblclick = this.onTiddlerDblClick;
-			theTiddler.onkeypress = this.onTiddlerKeyPress;
+			theTiddler[window.event?"onkeydown":"onkeypress"] = this.onTiddlerKeyPress;
 			var html = this.getTemplateForTiddler(title,template,tiddler);
 			theTiddler.innerHTML = html;
 			applyHtmlMacros(theTiddler,tiddler);
@@ -224,21 +224,28 @@ Story.prototype.onTiddlerDblClick = function(e)
 		return false;
 }
 
-// Default tiddler onkeypress event handler
 Story.prototype.onTiddlerKeyPress = function(e)
 {
 	if (!e) var e = window.event;
 	clearMessage();
-	var consume = false;
+	var consume = false; 
 	var title = this.getAttribute("tiddler");
 	var target = resolveTarget(e);
 	switch(e.keyCode)
 		{
 		case 9: // Tab
-			if(config.options.chkInsertTabs && (target.tagName.toLowerCase() == "input" || target.tagName.toLowerCase() == "textarea"))
+			if(config.options.chkInsertTabs && ( target.tagName.toLowerCase() == "input" || target.tagName.toLowerCase() == "textarea"))
 				{
-				replaceSelection(resolveTarget(e),String.fromCharCode(9));
-				consume = true;
+				replaceSelection(target,String.fromCharCode(9));
+				consume = true; 
+				}
+			if(config.isOpera)
+				{
+				target.onblur = function()
+					{
+					this.focus();
+					this.onblur = null;
+					}
 				}
 			break;
 		case 13: // Ctrl-Enter
@@ -250,7 +257,7 @@ Story.prototype.onTiddlerKeyPress = function(e)
 				config.macros.toolbar.invokeCommand(this,"defaultCommand",e);
 				consume = true;
 				}
-			break;
+			break; 
 		case 27: // Escape
 			blurElement(this);
 			config.macros.toolbar.invokeCommand(this,"cancelCommand",e);
@@ -259,7 +266,11 @@ Story.prototype.onTiddlerKeyPress = function(e)
 		}
 	e.cancelBubble = consume;
 	if(consume)
-		if (e.stopPropagation) e.stopPropagation();
+		{
+		if (e.stopPropagation) e.stopPropagation(); // Stop Propagation
+		e.returnValue = true; // Cancel The Event in IE
+		if (e.preventDefault ) e.preventDefault(); // Cancel The Event in Moz
+		}
 	return(!consume);
 };
 
@@ -309,39 +320,25 @@ Story.prototype.blurTiddler = function (title)
 		}
 }
 
-// Adds a specified tag to the edit controls (if any) for a particular tiddler)
-// title - name of tiddler
-// tag - name of tag, without any [[brackets]]
-// mode - +1 to add the tag, -1 to remove it, 0 to toggle it
-Story.prototype.setTiddlerTag = function(title,tag,add)
+// Adds a specified value to the edit controls (if any) of a particular
+// array-formatted field of a particular tiddler (eg "tags")
+//  title - name of tiddler
+//  tag - value of field, without any [[brackets]]
+//  mode - +1 to add the tag, -1 to remove it, 0 to toggle it
+//  field - name of field (eg "tags")
+Story.prototype.setTiddlerField = function(title,tag,mode,field)
 {
-	var tiddler = document.getElementById(this.idPrefix + title);
-	if(tiddler != null)
-		{
-		var children = tiddler.getElementsByTagName("input")
-		for (var t=0; t<children.length; t++)
-			{
-			var c = children[t];
-			if(c.tagName.toLowerCase() == "input" && c.getAttribute("edit") == "tags")
-				{
-				var tags = c.value.readBracketedList();
-				var p = tags.find(tag);
-				if(add == 0)
-				    add = (p == null) ? +1 : -1;
-				if(add == +1)
-					{
-					if(p == null)
-						tags.push(tag);
-					}
-				else if(add == -1)
-					{
-					if(p != null)
-						tags.splice(p,1);
-					}
-				c.value = String.encodeTiddlyLinkList(tags);
-				}
-			}
-		}
+	var c = story.getTiddlerField(title,field);
+
+	var tags = c.value.readBracketedList();
+	tags.setItem(tag,mode);
+	c.value = String.encodeTiddlyLinkList(tags);
+}
+
+// The same as setTiddlerField but preset to the "tags" field
+Story.prototype.setTiddlerTag = function(title,tag,mode)
+{
+	Story.prototype.setTiddlerField(title,tag,mode,"tags");
 }
 
 // Close a specified tiddler
