@@ -28,3 +28,8 @@ for instructions on how to make a patch file.
   were not uploaded.  First we should try to re-upload those changes (in case
   the network went down), and we should issue the "Unsaved Changes" dialog if
   the user tries to leave the page.
+
+
+* 2.1's Import Tiddlers also calls addTiddler, which doesn't trigger ZW's save
+  machinery.
+
