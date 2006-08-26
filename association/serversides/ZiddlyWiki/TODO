@@ -28,3 +28,5 @@ for instructions on how to make a patch file.
   were not uploaded.  First we should try to re-upload those changes (in case
   the network went down), and we should issue the "Unsaved Changes" dialog if
   the user tries to leave the page.
+
+* Cancelling an edit of a non-existing tiddler (e.g. shadow tiddler) fails.

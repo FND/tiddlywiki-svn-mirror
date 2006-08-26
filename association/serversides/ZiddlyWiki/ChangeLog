@@ -1,17 +1,6 @@
-Release 2.0.11.1
-* If chkHttpReadOnly, do not attempt to unlock tiddlers on 'view'
-* Fix escaping to match the core.  (WRT HTML entities &quot;, &lt;,
-  &gt;, &amp;, <, >)  WARNING -- this will require you to convert your
-  tiddlers in Zope.  A new script is provided for this:
-  ZiddlyWiki/upgrade.  Copy it to the location of your 'tiddlers' folder
-  and run it like http://your.site/TiddlySite/upgrade.  Do this only
-  ONCE for each tiddlywiki site you're running, then delete the upgrade
-  script.
-* When a tiddler tagged with 'private' is saved, the Zope permissions
-  will be set to make it not accessable through
-  http://your.site/TiddlySite/tiddlers/<private tiddler> The above
-  upgrade script will also add these permissions to any existing private
-  tiddlers.
+Release 2.0.11.3
+* handle config.protectedTiddlers better -- explicitly add the 'protected'
+  when these shadow tiddlers are displayed.
 
 Release 2.0.11.2
 * Set revisionKey on get and save (prevents ZiddlyWiki from reloading the
@@ -29,3 +18,18 @@ Release 2.0.11.2
   Changes" dialog isn't shown when the user leaves.  This still needs some work
   -- it's still possible that the wiki in your browser was at some time unable
   to save to the server but the "Unsaved Changes" dialog won't appear.
+
+Release 2.0.11.1
+* If chkHttpReadOnly, do not attempt to unlock tiddlers on 'view'
+* Fix escaping to match the core.  (WRT HTML entities &quot;, &lt;,
+  &gt;, &amp;, <, >)  WARNING -- this will require you to convert your
+  tiddlers in Zope.  A new script is provided for this:
+  ZiddlyWiki/upgrade.  Copy it to the location of your 'tiddlers' folder
+  and run it like http://your.site/TiddlySite/upgrade.  Do this only
+  ONCE for each tiddlywiki site you're running, then delete the upgrade
+  script.
+* When a tiddler tagged with 'private' is saved, the Zope permissions
+  will be set to make it not accessable through
+  http://your.site/TiddlySite/tiddlers/<private tiddler> The above
+  upgrade script will also add these permissions to any existing private
+  tiddlers.
