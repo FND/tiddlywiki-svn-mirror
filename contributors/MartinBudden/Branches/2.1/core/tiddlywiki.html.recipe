@@ -34,7 +34,6 @@ js/BasicTypes.js
 js/Strings.js
 js/Dates.js
 js/Crypto.js
-js/SHA-1.js
 js/RGB.js
 js/Dom.js
 js/TW21Loader.js
@@ -52,3 +51,4 @@ html/body.html
 html/posttiddlers.html
 @postbody@
 html/footer.html
+copy: java/TiddlySaver.jar
