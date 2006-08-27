@@ -14,6 +14,7 @@ function TiddlyWiki()
 		this.setDirty(false);
 		};
 	this.fetchTiddler = function(title) {
+                if(typeof(tiddlers[title]) == "undefined") return null;
 		return tiddlers[title];
 		};
 	this.deleteTiddler = function(title) {

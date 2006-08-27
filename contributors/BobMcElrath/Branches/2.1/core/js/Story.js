@@ -209,7 +209,7 @@ Story.prototype.onTiddlerMouseOut = function(e)
 // Default tiddler ondblclick event handler
 Story.prototype.onTiddlerDblClick = function(e)
 {
-	if (!e) var e = window.event;
+	if (!e) e = window.event;
 	var theTarget = resolveTarget(e);
 	if(theTarget && theTarget.nodeName.toLowerCase() != "input" && theTarget.nodeName.toLowerCase() != "textarea")
 		{
@@ -226,7 +226,7 @@ Story.prototype.onTiddlerDblClick = function(e)
 
 Story.prototype.onTiddlerKeyPress = function(e)
 {
-	if (!e) var e = window.event;
+	if (!e) e = window.event;
 	clearMessage();
 	var consume = false; 
 	var title = this.getAttribute("tiddler");

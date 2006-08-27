@@ -30,7 +30,7 @@ config.macros.list.handler = function(place,macroName,params)
 		results = this[type].handler(params);
 	for (var t = 0; t < results.length; t++)
 		{
-		theListItem = document.createElement("li")
+		var theListItem = document.createElement("li")
 		theList.appendChild(theListItem);
 		if(typeof results[t] == "string")
 			createTiddlyLink(theListItem,results[t],true);
@@ -137,7 +137,7 @@ config.macros.search.onClick = function(e)
 
 config.macros.search.onKeyPress = function(e)
 {
-	if (!e) var e = window.event;
+	if (!e) e = window.event;
 	switch(e.keyCode)
 		{
 		case 13: // Ctrl-Enter
@@ -173,7 +173,7 @@ config.macros.search.onFocus = function(e)
 
 config.macros.tiddler.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-	var params = paramString.parseParams("name",null,true,false,true);
+	params = paramString.parseParams("name",null,true,false,true);
 	var names = params[0]["name"];
 	var tiddlerName = names[0];
 	var className = names[1] ? names[1] : null;
@@ -280,7 +280,7 @@ config.macros.saveChanges.onClick = function(e)
 
 config.macros.slider.onClickSlider = function(e)
 {
-	if (!e) var e = window.event;
+	if (!e) e = window.event;
 	var n = this.nextSibling;
 	var cookie = n.getAttribute("cookie");
 	var isOpen = n.style.display != "none";
@@ -295,7 +295,7 @@ config.macros.slider.onClickSlider = function(e)
 
 config.macros.slider.createSlider = function(place,cookie,title,tooltip)
 {
-	var cookie = cookie ? cookie : "";
+        if(typeof(cookie) == "undefined" || !cookie) cookie = "";
 	var btn = createTiddlyButton(place,title,tooltip,this.onClickSlider);
 	var panel = createTiddlyElement(null,"div",null,"sliderPanel");
 	panel.setAttribute("cookie",cookie);
@@ -412,7 +412,7 @@ config.macros.newTiddler.handler = function(place,macroName,params,wikifier,para
 {
 	if(!readOnly)
 		{
-		var params = paramString.parseParams("anon",null,true,false,false);
+		params = paramString.parseParams("anon",null,true,false,false);
 		var title = params[1] && params[1].name == "anon" ? params[1].value : this.title;
 		title = getParam(params,"title",title);
 		this.createNewTiddlerButton(place,title,params,this.label,this.prompt,this.accessKey,"title");
@@ -423,7 +423,7 @@ config.macros.newJournal.handler = function(place,macroName,params,wikifier,para
 {
 	if(!readOnly)
 		{
-		var params = paramString.parseParams("anon",null,true,false,false);
+		params = paramString.parseParams("anon",null,true,false,false);
 		var now = new Date();
 		var title = params[1] && params[1].name == "anon" ? params[1].value : "";
 		title = getParam(params,"title",title);
@@ -588,12 +588,12 @@ config.macros.view.handler = function(place,macroName,params,wikifier,paramStrin
 	if((tiddler instanceof Tiddler) && params[0])
 		{
 		var value = store.getValue(tiddler,params[0]);
-		if(value != undefined)
-			switch(params[1])
+		if(value != undefined) 
+                        {
+                        if(typeof(params[1]) == "undefined")
+                                highlightify(tiddler[params[0]],place,highlightHack);
+                        else switch(params[1])
 				{
-				case undefined:
-					highlightify(value,place,highlightHack);
-					break;
 				case "link":
 					createTiddlyLink(place,value,true);
 					break;
@@ -608,6 +608,7 @@ config.macros.view.handler = function(place,macroName,params,wikifier,paramStrin
 						createTiddlyText(place,value);
 					break;
 				}
+                        }
 		}
 }
 
@@ -658,7 +659,7 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 
 config.macros.tagChooser.onClick = function(e)
 {
-	if (!e) var e = window.event;
+	if (!e) e = window.event;
 	var lingo = config.views.editor.tagChooser;
 	var popup = Popup.create(this);
 	var tags = store.getTags();
@@ -678,7 +679,7 @@ config.macros.tagChooser.onClick = function(e)
 
 config.macros.tagChooser.onTagClick = function(e)
 {
-	if (!e) var e = window.event;
+	if (!e) e = window.event;
 	var tag = this.getAttribute("tag");
 	var title = this.getAttribute("tiddler");
 	var tiddler = store.getTiddler(title);
@@ -734,7 +735,7 @@ config.macros.toolbar.createCommand = function(place,commandName,tiddler,theClas
 
 config.macros.toolbar.onClickCommand = function(e)
 {
-	if (!e) var e = window.event;
+	if (!e) e = window.event;
 	var command = config.commands[this.getAttribute("commandName")];
 	return command.handler(e,this,this.getAttribute("tiddler"));
 }
@@ -891,7 +892,7 @@ config.macros.importTiddlers.handler = function(place,macroName,params,wikifier,
 	step.appendChild(fileInput);
 	createTiddlyElement(step,"br");
 	createTiddlyText(step,this.step1promptFeeds);
-	feeds = this.getFeeds([{caption: this.step1feedPrompt, name: ""}]);
+	var feeds = this.getFeeds([{caption: this.step1feedPrompt, name: ""}]);
 	createTiddlyDropDown(step,this.onFeedChange,feeds);
 	createTiddlyElement(step,"br");
 	createTiddlyButton(step,this.fetchLabel,this.fetchPrompt,this.onFetch,null,null,null);
@@ -922,7 +923,7 @@ config.macros.importTiddlers.onBrowseChange = function(e)
 config.macros.importTiddlers.onFetch = function(e)
 {
 	var importer = findRelated(this,"importTiddler","className","parentNode");
-	url = importer.inputBox.value;
+	var url = importer.inputBox.value;
 	var cutoff = findRelated(importer.firstChild,"step2","className","nextSibling");
 	while(cutoff)
 		{
