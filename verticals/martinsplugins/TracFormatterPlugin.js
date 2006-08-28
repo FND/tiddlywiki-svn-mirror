@@ -3,7 +3,7 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[Trac|http://trac.edgewall.org/wiki/WikiFormatting]] text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#TracFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.3|
+|''Version:''|0.1.4|
 |''Status:''|alpha pre-release|
 |''Date:''|Aug 12, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -487,9 +487,16 @@ config.tracFormatters = [
 ];
 
 
-//formatters.push({formatter: new Formatter(config.tracFormatters), formatTag: "TracFormat"});
-formatters.tracFormatter = new Formatter(config.tracFormatters);
-formatters.tracFormatter.formatTag = "TracFormat";
+if(config.parsers)
+	{
+	config.parsers.tracFormatter = new Formatter(config.tracFormatters);
+	config.parsers.tracFormatter.formatTag = "TracFormat";
+	}
+else
+	{
+	formatters.tracFormatter = new Formatter(config.tracFormatters);
+	formatters.tracFormatter.formatTag = "TracFormat";
+	}
 
 } // end of "install only once"
 //}}}
