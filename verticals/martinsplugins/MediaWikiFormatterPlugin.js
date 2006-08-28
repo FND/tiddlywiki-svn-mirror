@@ -1,6 +1,6 @@
 /***
 |''Name:''|MediaWikiFormatterPlugin|
-|''Description:''|Pre-release - Allows Tiddlers to use [[MediaWiki|http://en.wikipedia.org/wiki/Help:Wikitext_quick_reference#Basic_text_formatting]] (WikiPedia) text formatting|
+|''Description:''|Pre-release - Allows Tiddlers to use [[MediaWiki|http://meta.wikimedia.org/wiki/Help:Wikitext]] (WikiPedia) text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Version:''|0.1.3|
@@ -49,7 +49,10 @@ wikify = function (source,output,highlightRegExp,tiddler)
 {
 	if(source && source != "")
 		{
-		var w = new Wikifier(source,getFormatter(source,tiddler),highlightRegExp,tiddler);
+		if(config.parsers)
+			var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
+		else
+			var w = new Wikifier(source,getFormatter(source,tiddler),highlightRegExp,tiddler);
 		w.output = tiddler==null ? output : createTiddlyElement(output,"p");
 		//w.output = createTiddlyElement(output,"p");
 		w.subWikifyUnterm(w.output);
@@ -64,7 +67,7 @@ if(config.options.chkDisplayEnableThumbZoom == undefined)
 endOfParams = function(text)
 {
 	var i = text.indexOf("|");
-	if(i=-1) return -1;
+	if(i==-1) return -1;
 	var n = text.indexOf("\n");
 	if(n!=-1 & n<i) return -1;
 	var b = text.indexOf("\\[");
@@ -75,7 +78,7 @@ endOfParams = function(text)
 applyParams = function(text,params)
 {
 	var ret = text.replace(/\{\{\{/mg,"").replace(/\}\}\}/mg,"");
-	ret = ret.replace(/<noinclude>((?:.|\n)*?)</noinclude>/mg,"");
+	ret = ret.replace(/<noinclude>((?:.|\n)*?)<\/noinclude>/mg,"");
 	return ret;
 }
 
@@ -168,15 +171,19 @@ getParams = function(w)
 
 config.formatterHelpers.setAttributesFromParams = function(e,p)
 {
-	var re = /(\s*(.*?)=(?:["'](.*?)["']|((?:\w|%|#)+)))/mg;
+	var re = /\s*(.*?)=(?:"(.*?)")|(?:'(.*?)')|((?:\w|%|#)+)/mg;
 	var match = re.exec(p);
 	while(match)
 		{
-		var s = match[2].unDash();
+		var s = match[1].unDash();
 		if (s=="bgcolor")
 			s = "backgroundColor";
-		var v = match[3];
-		e.setAttribute(s,v?v:match[4]);
+		if(match[2])
+			e.setAttribute(s,match[2]);
+		else if(match[3])
+			e.setAttribute(s,match[3]);
+		else
+			e.setAttribute(s,match[4]);
 		match = re.exec(p);
 		}
 }
@@ -998,11 +1005,10 @@ name=Stockholm|
 
 {
 	name: "mediaWikiTag",
-	match: "<[a-zA-Z]{2,}(?:\\s*(?:(?:.*?)=\"(?:.*?)\"))?>",
-	lookaheadRegExp: /<([a-zA-Z]{2,})(\s+(.*?)="(.*?)")?>/mg,
+	match: "<[a-zA-Z]{2,}(?:\\s*(?:(?:.*?)=\"(?:.*?)\"))*>",
+	lookaheadRegExp: /<([a-zA-Z]{2,})((?:\s+(.*?)="(.*?)")*)>/mg,
 	handler: function(w)
 	{
-//!!!! need while loop here to allow multiple attributes
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
@@ -1026,8 +1032,16 @@ name=Stockholm|
 
 ];
 
-formatters.mediaWikiFormatter = new Formatter(config.mediaWikiFormatters);
-formatters.mediaWikiFormatter.formatTag = "MediaWikiFormat";
+if(config.parsers)
+	{
+	config.parsers.mediaWikiFormatter = new Formatter(config.mediaWikiFormatters);
+	config.parsers.mediaWikiFormatter.formatTag = "MediaWikiFormat";
+	}
+else
+	{
+	formatters.mediaWikiFormatter = new Formatter(config.mediaWikiFormatters);
+	formatters.mediaWikiFormatter.formatTag = "MediaWikiFormat";
+	}
 
 } // end of "install only once"
 //}}}
