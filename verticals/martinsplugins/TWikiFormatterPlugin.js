@@ -3,7 +3,7 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[TWiki|http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules]] text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#TWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.1|
+|''Version:''|0.1.2|
 |''Status:''|alpha pre-release|
 |''Date:''|Aug 5, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -518,7 +518,7 @@ config.twikiFormatters = [
 
 {
 	name: "twikiExplicitLineBreak",
-	match: "%BR%",
+	match: "%BR%|<br ?/?>",
 	handler: function(w)
 	{
 		createTiddlyElement(w.output,"br");
@@ -536,8 +536,16 @@ config.twikiFormatters = [
 
 ];
 
-formatters.twikiFormatter = new Formatter(config.twikiFormatters);
-formatters.twikiFormatter.formatTag = "TWikiFormat";
+if(config.parsers)
+	{
+	config.parsers.twikiFormatter = new Formatter(config.twikiFormatters);
+	config.parsers.twikiFormatter.formatTag = "TWikiFormat";
+	}
+else
+	{
+	formatters.twikiFormatter = new Formatter(config.twikiFormatters);
+	formatters.twikiFormatter.formatTag = "TWikiFormat";
+	}
 
 } // end of "install only once"
 //}}}
