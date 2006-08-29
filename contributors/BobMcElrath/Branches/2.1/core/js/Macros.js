@@ -354,7 +354,7 @@ config.macros.option.handler = function(place,macroName,params)
 			c = document.createElement("input");
 			c.onkeyup = this.onChangeOption;
 			c.setAttribute("option",opt);
-			c.size = 15;
+			c.className = "txtOptionInput";
 			place.appendChild(c);
 			c.value = config.options[opt];
 			break;
@@ -363,6 +363,7 @@ config.macros.option.handler = function(place,macroName,params)
 			c.setAttribute("type","checkbox");
 			c.onclick = this.onChangeOption;
 			c.setAttribute("option",opt);
+			c.className = "chkOptionInput";
 			place.appendChild(c);
 			c.checked = config.options[opt];
 			break;
