@@ -36,27 +36,7 @@ stylesheet_tag = '<style type="text/css">@import url(%s);</style>\n'
 js_path = container.javascripts.absolute_url()
 
 # get ready to insert some extra stuff
-user = context.REQUEST.AUTHENTICATED_USER
-status_vars = """
-<script type="text/javascript">
-  if(typeof zw == "undefined") var zw = {};
-  zw.loggedIn = %s;
-  zw.anonEdit = %s;
-  zw.ziddlyPath = '%s';
-  zw.isAdmin = %s;
-  zw.latestTiddler = %s;
-  zw.username = '%s';
-  version.extensions.ZiddlyWiki = %s;
-</script>
-""" % (
-  ('Authenticated' in user.getRoles()) and 'true' or 'false',
-  getattr(context, 'zw_anon_edit', None) and 'true' or 'false',
-  container.absolute_url(),
-  ('Manager' in context.REQUEST.AUTHENTICATED_USER.getRoles()) and 'true' or 'false',
-  container.actions.get_timestamp(root=root),
-  user.getUserName(),
-  ziddly_point_release,
-)
+status_vars = container.html['status.html']()
 base_css = """
 <style type="text/css">
   #statusMessage {
@@ -90,7 +70,7 @@ context.REQUEST.RESPONSE.appendHeader('Cache-Control', 'no-cache')
 #context.REQUEST.RESPONSE.setHeader('Content-Type', 'application/xhtml+xml;charset=utf-8')
 
 # get the TiddlyWiki source
-src = container['empty.html']()
+src = container.html['empty.html']()
 
 # hack out the automatic Zope <base> tag
 src = src.replace('<head>', '<!--<head>hack for Zope base tag-->\n<head>', 1)

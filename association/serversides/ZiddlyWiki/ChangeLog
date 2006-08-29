@@ -1,3 +1,5 @@
+* Move status variables from ziddly to DTML status.html
+
 Release 2.0.11.3
 * handle config.protectedTiddlers better -- explicitly add the 'protected'
   when these shadow tiddlers are displayed.
