@@ -43,7 +43,8 @@ config.shadowTiddlers.GettingStarted =
 	+"* MainMenu: The menu (usually on the left)\n"
 	+"* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the ZiddlyWiki is opened\n";
 config.shadowTiddlers.PageTemplate = 
-	 "<div class='header' macro='gradient vert #18f #04b'>\n"
+	 "<!--{{{-->\n"
+	+"<div class='header' macro='gradient vert #18f #04b'>\n"
 	+"<div class='headerShadow'>\n"
 	+"<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;\n"
 	+"<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>\n"
@@ -63,15 +64,18 @@ config.shadowTiddlers.PageTemplate =
 	+"<div id='displayArea'>\n"
 	+"<div id='messageArea'></div>\n"
 	+"<div id='tiddlerDisplay'></div>\n"
-	+"</div>";
+	+"</div>\n";
+	+"<!--}}}-->";
 config.shadowTiddlers.ViewTemplate = 
-	 "<div class='toolbar' macro='toolbar -closeTiddler closeOthers +editTiddler permalink references revisions jump'></div>\n"
+	 "<!--{{{-->\n"
+	+"<div class='toolbar' macro='toolbar -closeTiddler closeOthers +editTiddler permalink references revisions jump'></div>\n"
 	+"<div class='title' macro='view title'></div>\n"
 	+"<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date [[DD MMM YYYY]]'></span> (created <span macro='view created date [[DD MMM YYYY]]'></span>)</div>\n"
 	+"<div class='tagging' macro='tagging'></div>\n"
 	+"<div class='tagged' macro='tags'></div>\n"
 	+"<div class='viewer' macro='view text wikified'></div>\n"
-	+"<div class='tagClear'></div>";
+	+"<div class='tagClear'></div>\n"
+	+"<!--}}}-->";
 config.shadowTiddlers.SideBarOptions = "<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal 'DD MMM YYYY'>><<slider chkSliderOptionsPanel OptionsPanel 'options »' 'Open options panel'>><<exportLink>><<importLink>><<login>>";
 config.shadowTiddlers.OptionsPanel = 
 	 "<<option chkRegExpSearch>> ~RegExp Search\n"
@@ -88,13 +92,15 @@ if(version.major == 2 && version.minor == 1)
 config.shadowTiddlers.ZiddlyFormats = "Formats: [[XML|?format=xml]] | [[YAML|?format=yaml]]";
 config.shadowTiddlers.ZiddlyPowered = "Powered by [[ZiddlyWiki|http://ziddlywiki.com]]";
 config.shadowTiddlers.StyleSheetColors += 
-    '#ZiddlyFormats,#ZiddlyPowered,#ZiddlyFormats a,#ZiddlyPowered a{color:#fff}';
+    '\n/*{{{*/#ZiddlyFormats,#ZiddlyPowered,#ZiddlyFormats a,#ZiddlyPowered a{color:#fff}/*}}}*/';
 config.shadowTiddlers.StyleSheetLayout += 
-	 '#sidebarOptions .sliderPanel .txtOptionInput {\n'
+         '\n/*{{{*/'
+	+'#sidebarOptions .sliderPanel .txtOptionInput {\n'
 	+'	width: 3em;\n'
 	+'	font-family: mono;\n'
 	+'}\n'
-	+'#ZiddlyFormats, #ZiddlyPowered { margin:5px }';
+	+'#ZiddlyFormats, #ZiddlyPowered { margin:5px }\n'
+        +'/*}}}*/';
 
 config.protectedTiddlers = ['DefaultTiddlers', 'MainMenu', 'SiteTitle', 
 	'SiteSubtitle', 'StyleSheet'];
