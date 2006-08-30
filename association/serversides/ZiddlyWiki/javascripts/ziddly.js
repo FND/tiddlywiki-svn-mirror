@@ -152,7 +152,7 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
   newBody = replaceBodyCharacters(newBody);
   var callback = function(r){
     var parts = r.split('\n');
-    var tiddler = store.fetchTiddler(parts[0])
+    var tiddler = store.fetchTiddler(parts[0]);
     tiddler.revisionKey = parts[7];
     if(parts[1] != tiddler.escapeLineBreaks().htmlEncode()) 
         alert("ZiddlyWiki error: Saved tiddler '"+parts[0]+"' is not the same as what was just saved."
@@ -164,13 +164,14 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
   };
 // FIXME by using async ajax here, a reload timeout may come between the save
 // and the callback's return, which causes the tiddler to be double-rendered.
+  var tiddler = this.zw_saveTiddler(title,newTitle,newBody,modifier,modified,tags);
   ajax.post(zw.get_url(), callback, 'action=save&id=' + encodeURIComponent(title) + '&title=' 
         + encodeURIComponent(newTitle) + '&body=' + encodeURIComponent(newBody) + '&tags=' 
         + encodeURIComponent(tags) + '&modified=' 
         + encodeURIComponent((modified||store.fetchTiddler(title).modified).convertToYYYYMMDDHHMM()) 
         + '&' + zw.no_cache());
   zw.status(false);
-  return this.zw_saveTiddler(title,newTitle,newBody,modifier,modified,tags);
+  return tiddler;
 };
 
 function replaceBodyCharacters(body) {
@@ -283,6 +284,7 @@ Tiddler.prototype.isReadOnly = function() {
 Tiddler.prototype.zw_set = Tiddler.prototype.set;
 Tiddler.prototype.set = function(title,text,modifier,modified,tags,created) {
     if(!tags) tags = [];
+    if(typeof tags == "string") tags = tags.readBracketedList();
     if(!store.tiddlerExists(title) && store.isShadowTiddler(title)) {
         for(var i=0;i<config.protectedTiddlers.length;i++) {
             if(config.protectedTiddlers[i] == title) {
