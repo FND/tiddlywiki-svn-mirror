@@ -28,28 +28,76 @@ config.messages.protectedTiddler = 'You are not allowed to edit here. Click OK t
 config.messages.lockedTiddler = 'This tiddler is currently being edited by %s. Please try again in a few minutes.';
 config.messages.lockedTiddlerYou = 'This tiddler is currently locked by you. Would you like to edit anyway?';
 config.messages.viewRevisionTooltip = 'View this revision.';
-config.messages.exportLinkLabel = 'save to file';
+config.messages.exportLinkLabel = 'export to file';
 config.messages.exportLinkPrompt = 'Export to a TiddlyWiki file';
-config.messages.importLinkLabel = 'update from file';
-config.messages.importLinkPrompt = 'Import a TiddlyWiki file';
+config.messages.importLinkLabel = 'import from file';
+config.messages.importLinkPrompt = 'Import from a TiddlyWiki file';
 
 config.views.wikified.toolbarRevisions = {text: "revisions", tooltip: "View another revision of this tiddler", popupNone: "No revisions"};
 
 config.shadowTiddlers.SiteTitle = "My ZiddlyWiki";
 config.shadowTiddlers.SiteSubtitle = "a reusable non-linear personal/public/collaborative web notebook";
-config.shadowTiddlers.GettingStarted = "To get started with this blank ZiddlyWiki, you'll need to modify the following tiddlers:\n* SiteTitle & SiteSubtitle: The title and subtitle of the site, as shown above\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the ZiddlyWiki is opened\n";
-config.shadowTiddlers.PageTemplate = "<div class='header' macro='gradient vert #18f #04b'>\n<div class='headerShadow'>\n<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;\n<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>\n</div>\n<div class='headerForeground'>\n<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;\n<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>\n</div>\n</div>\n<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>\n<div id='sidebar'>\n<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>\n<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>\n<div id='ZiddlyFormats' refresh='content' tiddler='ZiddlyFormats'></div>\n<div id='ZiddlyPowered' refresh='content' tiddler='ZiddlyPowered'></div>\n</div>\n<div id='displayArea'>\n<div id='messageArea'></div>\n<div id='tiddlerDisplay'></div>\n</div>";
-config.shadowTiddlers.ViewTemplate = "<div class='toolbar' macro='toolbar -closeTiddler closeOthers +editTiddler permalink references revisions jump'></div>\n<div class='title' macro='view title'></div>\n<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date [[DD MMM YYYY]]'></span> (created <span macro='view created date [[DD MMM YYYY]]'></span>)</div>\n<div class='tagging' macro='tagging'></div>\n<div class='tagged' macro='tags'></div>\n<div class='viewer' macro='view text wikified'></div>\n<div class='tagClear'></div>";
-config.shadowTiddlers.SideBarOptions = "<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal 'DD MMM YYYY'>><<slider chkSliderOptionsPanel OptionsPanel 'options' 'Change advanced options'>><<exportLink>><<importLink>><<login>>";
-config.shadowTiddlers.OptionsPanel = "These InterfaceOptions are saved in your browser\n\n<<option chkRegExpSearch>> RegExpSearch\n<<option chkCaseSensitiveSearch>> CaseSensitiveSearch\n<<option chkAnimate>> EnableAnimations\n\nSee AdvancedOptions";
-config.shadowTiddlers.AdvancedOptions = "<<option chkOpenInNewWindow>> OpenLinksInNewWindow\n<<option chkToggleLinks>> Clicking on links to tiddlers that are already open causes them to close\n^^(override with Control or other modifier key)^^\n<<option chkForceMinorUpdate>> Treat edits as MinorChanges by preserving date and time\n^^(override with Shift key when clicking 'done' or by pressing Ctrl-Shift-Enter^^\n<<option chkConfirmDelete>> ConfirmBeforeDeleting";
+config.shadowTiddlers.GettingStarted = 
+	 "To get started with this blank ZiddlyWiki, you'll need to modify the following tiddlers:\n"
+	+"* SiteTitle & SiteSubtitle: The title and subtitle of the site, as shown above\n"
+	+"* MainMenu: The menu (usually on the left)\n"
+	+"* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the ZiddlyWiki is opened\n";
+config.shadowTiddlers.PageTemplate = 
+	 "<div class='header' macro='gradient vert #18f #04b'>\n"
+	+"<div class='headerShadow'>\n"
+	+"<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;\n"
+	+"<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>\n"
+	+"</div>\n"
+	+"<div class='headerForeground'>\n"
+	+"<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;\n"
+	+"<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>\n"
+	+"</div>\n"
+	+"</div>\n"
+	+"<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>\n"
+	+"<div id='sidebar'>\n"
+	+"<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>\n"
+	+"<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>\n"
+	+"<div id='ZiddlyFormats' refresh='content' tiddler='ZiddlyFormats'></div>\n"
+	+"<div id='ZiddlyPowered' refresh='content' tiddler='ZiddlyPowered'></div>\n"
+	+"</div>\n"
+	+"<div id='displayArea'>\n"
+	+"<div id='messageArea'></div>\n"
+	+"<div id='tiddlerDisplay'></div>\n"
+	+"</div>";
+config.shadowTiddlers.ViewTemplate = 
+	 "<div class='toolbar' macro='toolbar -closeTiddler closeOthers +editTiddler permalink references revisions jump'></div>\n"
+	+"<div class='title' macro='view title'></div>\n"
+	+"<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date [[DD MMM YYYY]]'></span> (created <span macro='view created date [[DD MMM YYYY]]'></span>)</div>\n"
+	+"<div class='tagging' macro='tagging'></div>\n"
+	+"<div class='tagged' macro='tags'></div>\n"
+	+"<div class='viewer' macro='view text wikified'></div>\n"
+	+"<div class='tagClear'></div>";
+config.shadowTiddlers.SideBarOptions = "<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal 'DD MMM YYYY'>><<slider chkSliderOptionsPanel OptionsPanel 'options »' 'Open options panel'>><<exportLink>><<importLink>><<login>>";
+config.shadowTiddlers.OptionsPanel = 
+	 "<<option chkRegExpSearch>> ~RegExp Search\n"
+	+"<<option chkCaseSensitiveSearch>> Case sensitive search\n"
+	+"<<option chkAnimate>> Enable animations\n"
+	+"<<option chkOpenInNewWindow>> Open links in new window\n"
+	+"<<option chkToggleLinks>> Links close open tiddlers\n"
+	+"<<option chkConfirmDelete>> Confirm before deleting\n"
+	+"<<option chkForceMinorUpdate>> Preserve date/time on edit\n"
+	+"<<option chkInsertTabs>> Insert tab characters\n"
+	+"<<option txtMaxEditRows>> Maximum editor rows\n";
+if(version.major == 2 && version.minor == 1)
+    config.shadowTiddlers.OptionsPanel += '----\nPluginManager\n';
 config.shadowTiddlers.ZiddlyFormats = "Formats: [[XML|?format=xml]] | [[YAML|?format=yaml]]";
 config.shadowTiddlers.ZiddlyPowered = "Powered by [[ZiddlyWiki|http://ziddlywiki.com]]";
-config.shadowTiddlers.StyleSheetColors += '#ZiddlyFormats,#ZiddlyPowered,#ZiddlyFormats a,#ZiddlyPowered a{color:#fff}';
-config.shadowTiddlers.StyleSheetLayout += '#ZiddlyFormats,#ZiddlyPowered{margin:5px}';
-config.shadowTiddlers.ImportTiddlyWiki = 'Select a TiddlyWiki file to import...\n\n<html><form action="' + zw.get_url() + '" enctype="multipart/form-data" method="post" onsubmit="return confirm(\'Are you sure you want to import this file?\')"><input type="hidden" name="action" value="import"/><input type="hidden" name="redirect_to" value="' + zw.get_url() + '"/><input type="file" name="file"/><br/><input type="checkbox" id="keep_newest" name="keep_newest" value="yes" checked="checked"/><label for="keep_newest">Only import newer content</label><br/><input type="checkbox" id="delete_missing" name="delete_missing" value="yes"/><label for="delete_missing">Delete missing content</label><br/><input type="submit" value="Import"/></form></html>';
+config.shadowTiddlers.StyleSheetColors += 
+    '#ZiddlyFormats,#ZiddlyPowered,#ZiddlyFormats a,#ZiddlyPowered a{color:#fff}';
+config.shadowTiddlers.StyleSheetLayout += 
+	 '#sidebarOptions .sliderPanel .txtOptionInput {\n'
+	+'	width: 3em;\n'
+	+'	font-family: mono;\n'
+	+'}\n'
+	+'#ZiddlyFormats, #ZiddlyPowered { margin:5px }';
 
-config.protectedTiddlers = ['DefaultTiddlers', 'MainMenu', 'SiteTitle', 'SiteSubtitle', 'StyleSheet'];
+config.protectedTiddlers = ['DefaultTiddlers', 'MainMenu', 'SiteTitle', 
+	'SiteSubtitle', 'StyleSheet'];
 
 config.replaceBodyCharacters = [
   [/‘/g, "'"],
@@ -111,11 +159,10 @@ config.macros.importLink = {
   label: config.messages.importLinkLabel,
   prompt: config.messages.importLinkPrompt,
   handler: function(place) {
-    if(zw.loggedIn) {
-      var link = createTiddlyLink(place,'ImportTiddlyWiki',false);
-      link.innerHTML = this.label;
-      link.className = 'button';
-      link.title = this.prompt;
+    if(zw.loggedIn || zw.anonEdit) {
+      createTiddlyButton(place,this.label,this.prompt,function(){
+          displayTiddler(null, "ImportTiddlers");
+      });
     }
   }
 };
