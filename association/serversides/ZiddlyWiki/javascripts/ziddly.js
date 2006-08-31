@@ -397,7 +397,23 @@ config.commands.editTiddler.handler = function(event,src,title) {
           alert(config.messages.lockedTiddler.replace(/%s/g, lock_user));
         }
       } else {
-        alert(r);
+        // Lock failed, we must not be logged in, or something changed underneath us.
+	zw.loggedIn = false;
+	zw.isAdmin = false;
+	readOnly = true;
+	refreshDisplay("SideBarOptions");
+	var place = document.getElementById(story.container);
+	var e = place.firstChild;
+	var refreshList = [e.getAttribute("tiddler")];
+        while(e = e.nextSibling)  {
+	    var refreshTitle = e.getAttribute("tiddler");
+	    if(refreshTitle) refreshList.push(refreshTitle);
+	}
+	refreshElements(place, refreshList);
+	if(confirm(config.messages.loginToEdit))
+	    setTimeout("location.replace('?action=login&' + zw.ieurl + 'redirect_to=' + zw.get_url(true));", 10);
+	else 
+	    config.commands.editTiddler.zw_handler(event,src,title);
       }
     };
     ajax.post(zw.get_url(), callback, 'action=lock&id=' + title + '&' + zw.no_cache());
