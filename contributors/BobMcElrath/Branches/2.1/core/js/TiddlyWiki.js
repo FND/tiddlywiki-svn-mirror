@@ -189,7 +189,9 @@ TiddlyWiki.prototype.getTiddlerSlice = function(title,sliceName)
 		slices = this.calcAllSlices(title);
 		this.slices[title] = slices;
 	}
-	return slices[sliceName];
+	if(typeof slices[sliceName] != "undefined")
+		return slices[sliceName];
+	return null;
 }
 
 // Build an hashmap of the specified named slices of a tiddler

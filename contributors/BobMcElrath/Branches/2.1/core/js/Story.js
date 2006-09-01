@@ -239,7 +239,6 @@ Story.prototype.onTiddlerKeyPress = function(e)
 	if (!e) e = window.event;
 	clearMessage();
 	var consume = false; 
-	var title = this.getAttribute("tiddler");
 	var target = resolveTarget(e);
 	switch(e.keyCode)
 		{
