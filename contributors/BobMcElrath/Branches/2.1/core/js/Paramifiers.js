@@ -21,7 +21,7 @@ function invokeParamifier(params,handler)
 	for(var t=1; t<params.length; t++)
 		{
 		var p = config.paramifiers[params[t].name];
-		if(p && p[handler] instanceof Function)
+		if(p && typeof p[handler] != "undefined" && p[handler] instanceof Function)
 			p[handler](params[t].value);
 		}
 }
