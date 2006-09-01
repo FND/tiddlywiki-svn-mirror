@@ -21,7 +21,7 @@ zw.get_url = function(with_hash) {
   return url
 };
 
-config.messages.loginToEdit = 'You must be logged in to make changes. Click OK to log in now. Click Cancel to view the source.';
+config.messages.loginToEdit = 'You must be logged in to make changes.  Viewing source instead.';
 config.messages.errorDeleting = 'An error has occurred. Review your Zope error log for details.';
 config.messages.errorSaving = 'An error has occurred. Review your Zope error log for details. If you navigate away from this page now, you will lose your changes.';
 config.messages.protectedTiddler = 'You are not allowed to edit here. Click OK to view the source.';
@@ -119,15 +119,55 @@ config.options.txtUserName = zw.username;
 config.macros.login = {
   label: 'login',
   prompt: 'Log into the system',
+  sizeTextbox: 15,
   handler: function(place) {
     if(zw.loggedIn) {
       var link = createTiddlyLink(place, zw.username, true);
       link.innerHTML = zw.username + ' (logged in)';
     } else {
-      createTiddlyButton(place,this.label,this.prompt,function(){
-          setTimeout("location.replace('?action=login&' + zw.ieurl + 'redirect_to=' + zw.get_url(true))", 10)
-      });
+      var u = createTiddlyElement(null, "input", "zw_username");
+      u.value = "YourName";
+      u.onclick = this.clearInput;
+      u.size = this.sizeTextbox;
+      u.onkeypress = this.enterSubmit;
+      var p = createTiddlyElement(null, "input", "zw_password");
+      p.value = "password";
+      p.size = this.sizeTextbox;
+      p.onclick = this.clearInput;
+      p.onkeypress = this.enterSubmit;
+      place.appendChild(u);
+      place.appendChild(p);
+      createTiddlyButton(place,this.label,this.prompt,this.doLogin);
     }
+  },
+  clearInput: function(e) {
+      var u = document.getElementById("zw_username");
+      var p = document.getElementById("zw_password");
+      if((e.target == u || e.target == p) && p.type != "password") { 
+	  u.value = ''; 
+	  p.value=''; 
+	  p.type = "password";
+      }
+  },
+  enterSubmit: function(e) {
+      if(e.keyCode == 13 || e.keyCode == 10) config.macros.login.doLogin(e);
+  },
+  doLogin: function(e) {
+      var u = document.getElementById("zw_username");
+      var p = document.getElementById("zw_password");
+      var str = ajax.posts(zw.get_url(),"action=login&__ac_name="+u.value+"&__ac_password="+p.value);
+      // Add HTTP Basic auth credentials?
+      zw.loggedIn = str.match("zw.loggedIn *= *(true|false)")[1] == "true";
+      zw.anonEdit = str.match("zw.anonEdit *= *(true|false)")[1] == "true";
+      zw.ziddlyPath = str.match("zw.ziddlyPath *= *'([^']*)'")[1];
+      zw.isAdmin = str.match("zw.isAdmin *= *(true|false)")[1] == "true";
+      zw.latestTiddler = str.match("zw.latestTiddler *= *([0-9]*)")[1];
+      zw.username = str.match("zw.username *= *'([^']*)'")[1];
+      readOnly = !zw.loggedIn;
+      if(!zw.loggedIn)
+	  alert("Authentication failed.  Did you type your username and password correctly?");
+      refreshDisplay("SideBarOptions");
+      story.refresh();
   }
 };
 
@@ -402,18 +442,9 @@ config.commands.editTiddler.handler = function(event,src,title) {
 	zw.isAdmin = false;
 	readOnly = true;
 	refreshDisplay("SideBarOptions");
-	var place = document.getElementById(story.container);
-	var e = place.firstChild;
-	var refreshList = [e.getAttribute("tiddler")];
-        while(e = e.nextSibling)  {
-	    var refreshTitle = e.getAttribute("tiddler");
-	    if(refreshTitle) refreshList.push(refreshTitle);
-	}
-	refreshElements(place, refreshList);
-	if(confirm(config.messages.loginToEdit))
-	    setTimeout("location.replace('?action=login&' + zw.ieurl + 'redirect_to=' + zw.get_url(true));", 10);
-	else 
-	    config.commands.editTiddler.zw_handler(event,src,title);
+	story.refresh();
+	alert(config.messages.loginToEdit);
+	config.commands.editTiddler.zw_handler(event,src,title);
       }
     };
     ajax.post(zw.get_url(), callback, 'action=lock&id=' + title + '&' + zw.no_cache());

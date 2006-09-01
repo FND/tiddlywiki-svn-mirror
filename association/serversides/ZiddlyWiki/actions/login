@@ -7,13 +7,8 @@
 ##parameters=root=None
 ##title=
 ##
-# This script simply forces a login.
-# This should be only viewable by the "Authenticated" role.
+# This script returns javascript containing ZW's status variables
+# (username, loggedIn, etc).  If the user doesn't have the proper credentials,
+# loggedIn will be false...
 
-ie = context.REQUEST.get('ie', 0)
-redirect_to = context.REQUEST.get('redirect_to', './')
-
-if ie:
-  return '<html><head><script type="text/javascript">location.replace("%s");</script></head><body></body></html>' % redirect_to
-else:
-  return context.REQUEST.RESPONSE.redirect(redirect_to)
+return container.html['status.html']()
