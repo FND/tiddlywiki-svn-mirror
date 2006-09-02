@@ -1,0 +1,25 @@
+/*
+ * existDialog
+ *    triggered when a user in non-expert mode attempts to store a tiddler with a title
+ * which is already in use. Allows user to rename (go back and change), append (add text
+ * to existing tiddler) or overwrite (replace existing tiddler).
+ */
+
+const TITLE_RENAME    = null;
+const TITLE_OVERWRITE = "overwrite";
+const TITLE_APPEND    = "append";
+
+var params;
+
+// Grab parameters from the window.
+function initExistDialog()
+{
+    params = window.arguments[0];
+    document.getElementById('tiddlerTitle').value = params.title;
+}
+
+function choose(action)
+{
+    params.writeMode = action;
+    window.close();
+}

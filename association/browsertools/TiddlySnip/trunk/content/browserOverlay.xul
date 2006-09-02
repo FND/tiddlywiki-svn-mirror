@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<overlay id="tiddlySnipOverlay" 
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script type="application/x-javascript" src="browserOverlay.js"/>
+    <script type="application/x-javascript" src="fileIO.js"/>
+    <script type="application/x-javascript" src="twUtils.js"/>
+    <script type="application/x-javascript" src="categories.js"/>
+    <script type="application/x-javascript" src="tiddlySnip.js"/>
+    <script type="application/x-javascript" src="tiddler.js"/>
+    <script type="application/x-javascript" src="upload.js"/>
+
+    <popup id="contentAreaContextMenu">
+	    <menu id="contextTiddlySnip" label="TiddlySnip Selection as.." insertafter="context-savelink">
+	        <menupopup id="contextTiddlySnipPopup" onpopupshowing="createCategoryPopups('Snip')"/>
+        </menu>
+   	    <menuitem id="contextSimpleTiddlySnip"
+	        label="TiddlySnip Selection"
+	        accesskey="T"
+	        insertafter="context-savelink"
+	        oncommand="tiddlySnip('Snip','','')"
+            />
+	    <menu id="contextTiddlyClip" label="TiddlySnip Clipboard as.." insertafter="context-stop">
+	        <menupopup id="contextTiddlyClipPopup" onpopupshowing="createCategoryPopups('Clip')"/>
+        </menu>
+   	    <menuitem id="contextSimpleTiddlyClip"
+	        label="TiddlySnip Clipboard"
+	        accesskey="T"
+	        insertafter="context-stop"
+	        oncommand="tiddlySnip('Clip','','')"
+            />
+    </popup>
+
+    <menupopup id="menu_ToolsPopup">
+	<menuitem insertafter="devToolsSeparator" 
+	    label="TiddlySnip Preferences"
+	    oncommand="tiddlySnipPrefs();" />
+    </menupopup>
+</overlay>

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin" type="text/css"?>
+
+    <window title="Title already in use"
+	id="existWindow"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	width="400"
+	height="150"
+	onload="initExistDialog()"
+	>
+    <script type="application/x-javascript" src="existDialog.js"/>
+
+    <vbox>
+	<caption label="A tiddler with this title exists:"/>
+
+	<html:blockquote><label id="tiddlerTitle"/></html:blockquote>
+
+	<hbox pack="center">
+	    <button label="Rename" flex="0" oncommand="choose(TITLE_RENAME)" default="true"/>
+	    <button label="Append" flex="0" oncommand="choose(TITLE_APPEND)"/>
+	    <button label="Overwrite" flex="0" oncommand="choose(TITLE_OVERWRITE)"/>
+	</hbox>
+    </vbox>
+</window>
+

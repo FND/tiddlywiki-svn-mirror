@@ -1,0 +1,2 @@
+content 	tiddlysnip  					jar:chrome/tiddlysnip.jar!/content/
+overlay		chrome://browser/content/browser.xul		chrome://tiddlysnip/content/browserOverlay.xul
