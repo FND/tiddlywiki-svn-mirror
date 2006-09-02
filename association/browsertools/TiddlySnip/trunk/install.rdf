@@ -5,7 +5,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="{4f228d6e-0874-48f8-9270-0bf1acb574f6}"
                    em:name="TiddlySnip"
-                   em:version="0.1a2"
+                   em:version="0.2beta"
                    em:description="TiddlyWiki extension for clipboard magic"
                    em:updateURL="http://tiddlysnip.enrogue.com/update.rdf"
                    em:optionsURL="chrome://tiddlysnip/content/prefs.xul">
