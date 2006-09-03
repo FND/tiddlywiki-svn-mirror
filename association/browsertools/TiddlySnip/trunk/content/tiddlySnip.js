@@ -163,7 +163,7 @@ function modifyTW(writeMode,oldTW,storeStart,tiddlerMarkers,category,mode,title,
        }
    else if (writeMode == "append")
       {
-      var newTW = oldTW.substr(0,tiddlerMarkers[1]) + "\n\n" + mozConvertUnicodeToUTF8(text) + oldTW.substr(tiddlerMarkers[1]);
+      var newTW = oldTW.substr(0,tiddlerMarkers[1]) + "\n\n" + (isOnline()? text :mozConvertUnicodeToUTF8(text)) + oldTW.substr(tiddlerMarkers[1]);
       }
    return newTW;
 }
@@ -215,7 +215,7 @@ function createTiddlyEncodedDiv(category,mode,title,tags,text)
                     sourcetitle.htmlEncode(),
                     category.htmlEncode()
             ]);
-    return mozConvertUnicodeToUTF8(tiddler);
+    return isOnline()? tiddler : mozConvertUnicodeToUTF8(tiddler);
 }
 
 function showTW(title)
