@@ -3,9 +3,9 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[MediaWiki|http://meta.wikimedia.org/wiki/Help:Wikitext]] (WikiPedia) text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.3.1|
+|''Version:''|0.3.2|
 |''Status:''|alpha pre-release|
-|''Date:''|Aug 29, 2006|
+|''Date:''|Sep 3, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -672,6 +672,8 @@ config.mediaWikiFormatters = [
 				{// no (eg) en:
 				var e;
 				var link = lookaheadMatch[3];
+				var text = link;
+				link = link.substr(0,1).toUpperCase() + link.substring(1)
 				if(lookaheadMatch[4])
 					{// Simple bracketted link
 					if(lookaheadMatch[2])
@@ -683,8 +685,8 @@ config.mediaWikiFormatters = [
 						{
 						e = createTiddlyLink(w.output,link,false);
 						if(lookaheadMatch[5])
-							link += lookaheadMatch[5];//add any non-space after the ]]
-						createTiddlyText(e,link);
+							text += lookaheadMatch[5];//add any non-space after the ]]
+						createTiddlyText(e,text);
 						}
 					}
 				else if(lookaheadMatch[6])
@@ -783,8 +785,8 @@ config.mediaWikiFormatters = [
 },
 
 {
-	name: "mediaWikiHtmlTag",
-	match: "<br(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?>",
+	name: "mediaWikiExplicitLineBreak",
+	match: "<br(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?\\s*/?>",
 	lookaheadRegExp: /<br((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*\/?>/mg,
 	handler: function(w)
 	{
