@@ -22,8 +22,7 @@
 
     <RDF:Description about="urn:mozilla:package:tiddlysnip"
 	chrome:displayName="TiddlySnip 0.1a2"
-	chrome:author="Kalle Alm"
-	chrome:authorURL="http://www.kallewoof.com"
+	chrome:author="Kalle Alm, Saq Imtiaz"
 	chrome:name="tiddlysnip"
 	chrome:extension="true"
 	chrome:description="TiddlyWiki clipboard magic">
