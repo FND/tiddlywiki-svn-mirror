@@ -3,9 +3,9 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[TWiki|http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules]] text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#TWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.2|
+|''Version:''|0.1.3|
 |''Status:''|alpha pre-release|
-|''Date:''|Aug 5, 2006|
+|''Date:''|Sep 5, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -404,7 +404,7 @@ config.twikiFormatters = [
 	lookaheadRegExp: /\*(?!\s)(?:(?:.|\n)*?)(?!\s)\*(?=\s)/mg,
 	termRegExp: /((?!\s)\*(?=\s))/mg,
 	element: "strong",
-	handler: singleCharFormat
+	handler: config.formatterHelpers.singleCharFormat
 },
 
 {
@@ -417,7 +417,7 @@ config.twikiFormatters = [
 	termRegExp: /((?!\s)__(?=\s))/mg,
 	element: "strong",
 	element2: "em",
-	handler: doubleCharFormat
+	handler: config.formatterHelpers.doubleCharFormat
 },
 
 {
@@ -426,7 +426,7 @@ config.twikiFormatters = [
 	lookaheadRegExp: /_(?!\s)(?:(?:.|\n)*?)(?!\s)_(?=\s)/mg,
 	termRegExp: /((?!\s)_(?=\s))/mg,
 	element: "em",
-	handler: singleCharFormat
+	handler: config.formatterHelpers.singleCharFormat
 },
 
 {
@@ -436,7 +436,7 @@ config.twikiFormatters = [
 	termRegExp: /((?!\s)==(?=\s))/mg,
 	element: "strong",
 	element2: "code",
-	handler: doubleCharFormat
+	handler: config.formatterHelpers.doubleCharFormat
 },
 
 {
@@ -445,7 +445,7 @@ config.twikiFormatters = [
 	lookaheadRegExp: /=(?!\s)(?:(?:.|\n)*?)(?!\s)=(?=\s)/mg,
 	termRegExp: /((?!\s)=(?=\s))/mg,
 	element: "code",
-	handler: singleCharFormat
+	handler: config.formatterHelpers.singleCharFormat
 },
 
 {
