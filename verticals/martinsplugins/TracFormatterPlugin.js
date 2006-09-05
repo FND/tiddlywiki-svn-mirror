@@ -306,25 +306,16 @@ config.tracFormatters = [
 {
 	name: "tracExplicitLink",
 	match: "\\[",
-	lookaheadRegExp: /\[([^\s\]]*?)(?:(\])|(?:\s(.*?))\])/mg,
+	lookaheadRegExp: /\[([^\s\]]*?)(?:(?:\])|(?:\s(.*?))\])/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
-			var e;
 			var link = lookaheadMatch[1];
-			var text = link;
-			if(lookaheadMatch[2]) // Simple bracketted link
-				{
-				e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
-				}
-			else // Titled bracketted link
-				{
-				text = lookaheadMatch[3];
-				e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
-				}
+			text = lookaheadMatch[2] ? lookaheadMatch[2] : link;
+			var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}
@@ -356,15 +347,12 @@ config.tracFormatters = [
 				return;
 				}
 			}
+		var output = w.output;
 		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText))
 			{
-			var link = createTiddlyLink(w.output,w.matchText,false,null,w.isStatic);
-			w.outputText(link,w.matchStart,w.nextMatch);
+			output = createTiddlyLink(w.output,w.matchText,false,null,w.isStatic);
 			}
-		else
-			{
-			w.outputText(w.output,w.matchStart,w.nextMatch);
-			}
+		w.outputText(output,w.matchStart,w.nextMatch);
 	}
 },
 
@@ -429,32 +417,16 @@ config.tracFormatters = [
 	name: "tracMonospacedByChar0",
 	match: "`",
 	lookaheadRegExp: /`((?:.|\n)*?)`/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			{
-			createTiddlyElement(w.output,"code",null,null,lookaheadMatch[1]);
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-			}
-	}
+	element: "code",
+	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 {
 	name: "tracMonospacedByChar",
 	match: "\\{\\{\\{",
 	lookaheadRegExp: /\{\{\{((?:.|\n)*?)\}\}\}/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			{
-			createTiddlyElement(w.output,"code",null,null,lookaheadMatch[1]);
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-			}
-	}
+	element: "code",
+	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 {
