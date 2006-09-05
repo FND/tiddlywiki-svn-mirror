@@ -784,6 +784,15 @@ config.mediaWikiFormatters = [
 	}
 },
 
+/*{
+	name: "mediaWikiExplicitLineBreak",
+	match: "<br ?/?>",
+	handler: function(w)
+	{
+		createTiddlyElement(w.output,"br");
+	}
+},*/
+
 {
 	name: "mediaWikiExplicitLineBreak",
 	match: "<br(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?\\s*/?>",
@@ -802,14 +811,6 @@ config.mediaWikiFormatters = [
 			}
 	}
 },
-/*{
-	name: "mediaWikiExplicitLineBreak",
-	match: "<br ?/?>",
-	handler: function(w)
-	{
-		createTiddlyElement(w.output,"br");
-	}
-},*/
 
 {
 	name: "mediaWikiLink",
