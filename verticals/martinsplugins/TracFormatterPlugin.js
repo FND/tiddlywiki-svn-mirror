@@ -37,6 +37,16 @@ tracDebug = function(out,str)
 
 config.tracFormatters = [
 {
+	name: "tracHeading",
+	match: "^={1,6} ",
+	termRegExp: /( ={1,6}$\n?)/mg,
+	handler: function(w)
+	{
+		w.subWikifyTerm(createTiddlyElement(w.output,"h" + (w.matchLength-1)),this.termRegExp);
+	}
+},
+
+{
 	name: "tracTable",
 	match: "^\\|\\|(?:[^\\n]*)\\|\\|$",
 	lookaheadRegExp: /^\|\|([^\n]*)\|\|$/mg,
@@ -123,16 +133,6 @@ config.tracFormatters = [
 			cellMatch = this.cellRegExp.exec(w.source);
 			}
 	}//# end rowHandler
-},
-
-{
-	name: "tracHeading",
-	match: "^={1,6} ",
-	termRegExp: /( ={1,6}$\n?)/mg,
-	handler: function(w)
-	{
-		w.subWikifyTerm(createTiddlyElement(w.output,"h" + (w.matchLength-1)),this.termRegExp);
-	}
 },
 
 {
@@ -306,7 +306,7 @@ config.tracFormatters = [
 {
 	name: "tracExplicitLink",
 	match: "\\[",
-	lookaheadRegExp: /\[([^\s\]]*?)(?:(\])|(\s(.*?))\])/mg,
+	lookaheadRegExp: /\[([^\s\]]*?)(?:(\])|(?:\s(.*?))\])/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
@@ -316,14 +316,14 @@ config.tracFormatters = [
 			var e;
 			var link = lookaheadMatch[1];
 			var text = link;
-			if(lookaheadMatch[2]) // Titled bracketted link
+			if(lookaheadMatch[2]) // Simple bracketted link
 				{
-				e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
+				e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 				}
-			else// Titled bracketted link
+			else // Titled bracketted link
 				{
-				text = lookaheadMatch[4];
-				e = createTiddlyLink(w.output,link,false); // Simple bracketted link
+				text = lookaheadMatch[3];
+				e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 				}
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
@@ -358,7 +358,7 @@ config.tracFormatters = [
 			}
 		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText))
 			{
-			var link = createTiddlyLink(w.output,w.matchText,false);
+			var link = createTiddlyLink(w.output,w.matchText,false,null,w.isStatic);
 			w.outputText(link,w.matchStart,w.nextMatch);
 			}
 		else
