@@ -334,7 +334,7 @@ function displayTiddlerRevisionCallback(encoded) {
     var parts = encoded.split('\n');
     var tiddler = new Tiddler();
     var title = parts[0];
-    tiddler.set(title, Tiddler.unescapeLineBreaks(parts[1].htmlDecode()), parts[2], 
+    tiddler.set(title, Tiddler.unescapeLineBreaks(parts[1]), parts[2], 
         Date.convertFromYYYYMMDDHHMM(parts[3]), parts[5], 
         Date.convertFromYYYYMMDDHHMM(parts[4]));
     tiddler.revisionKey = parts[7];
@@ -417,7 +417,7 @@ config.commands.editTiddler.handler = function(event,src,title) {
               tags.splice(tags.indexOf('deleted'),1);
               tiddler.deletedOnServer = true;
           }
-          tiddler.set(parts[0], Tiddler.unescapeLineBreaks(parts[1].htmlDecode()), parts[2], 
+          tiddler.set(parts[0], Tiddler.unescapeLineBreaks(parts[1]), parts[2], 
                       Date.convertFromYYYYMMDDHHMM(parts[3]), tags, 
                       Date.convertFromYYYYMMDDHHMM(parts[4]));
           tiddler.revisionKey = parts[7];
