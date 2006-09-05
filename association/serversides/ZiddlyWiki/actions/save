@@ -23,7 +23,7 @@ body = req.get('body')
 tags = req.get('tags')
 modified = req.get('modified', '')
 created = req.get('created', '')
-id = req.get('id')
+id = req.get('id', title)
 
 id = container.scripts.sanitize_id(id)
 new_id = container.scripts.sanitize_id(title)
