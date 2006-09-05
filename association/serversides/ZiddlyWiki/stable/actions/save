@@ -1,0 +1,109 @@
+## Script (Python) "save"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=root=None, only_if_newer=0, req_args={}
+##title=
+##
+# FIXME: Make this use webdav locks instead, so it's compatible with external editor.
+def remove_locks(tiddler):
+  try: tiddler.manage_delProperties(['lock_time', 'lock_user'])
+  except: pass
+  try: tiddler.manage_delProperties(['ignore_revision'])
+  except: pass
+
+if root: context = root
+path = '/'.join(context.getPhysicalPath())
+
+req = req_args or context.REQUEST
+title = req.get('title')
+body = req.get('body')
+tags = req.get('tags')
+modified = req.get('modified', '')
+created = req.get('created', '')
+id = req.get('id', title)
+
+id = container.scripts.sanitize_id(id)
+new_id = container.scripts.sanitize_id(title)
+
+# restrict anonymous unless anonymous editing is enabled
+anon_edit = getattr(context, 'zw_anon_edit', 0)
+if not anon_edit and 'Authenticated' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
+  raise 'Unauthorized'
+
+# things only a manager (admin) can do
+if 'Manager' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
+  if 'systemConfig' in tags.split():
+    raise 'Unauthorized'
+  if new_id in ['DefaultTiddlers', 'MainMenu', 'SiteTitle', 'SiteSubtitle', 'StyleSheet']:
+    raise 'Unauthorized'
+
+# get or create the tiddler
+just_created = 0
+try:
+  tiddler = context.tiddlers[id]
+except:
+  try: context.tiddlers.manage_addDTMLDocument(id=new_id, title=title)
+  except: pass
+  else: just_created = 1
+  tiddler = context.tiddlers[new_id]
+  try: tiddler.manage_addProperty('created', modified, 'string')
+  except: pass
+else:
+  if id != new_id: # name changed - rename it
+    context.tiddlers.manage_renameObject(id, new_id)
+
+body = body.replace('\r\n', '\n')
+
+# if only_is_newer is specified and the tiddler isn't, then quit
+is_newer = modified and container.scripts.to_date(modified) > container.scripts.to_date(container.scripts.get_modified(tiddler))
+if only_if_newer and not just_created and not is_newer:
+  remove_locks(tiddler)
+  return context.REQUEST.RESPONSE.redirect("?action=get&id="+req.get('id'))
+
+try:
+  if tiddler() == body and tiddler.title == title and getattr(tiddler, 'tags', None) == tags:
+    remove_locks(tiddler)
+    return context.REQUEST.RESPONSE.redirect("?action=get&id="+req.get('id'))
+
+except:
+  pass
+
+tiddler.manage_edit(data=body, title=title)
+
+if hasattr(tiddler, 'tags'):
+  tiddler.manage_changeProperties(tags=tags)
+else:
+  tiddler.manage_addProperty('tags', tags, 'string')
+
+if modified:
+  if hasattr(tiddler, 'modified'):
+    tiddler.manage_changeProperties(modified=modified)
+  else:
+    tiddler.manage_addProperty('modified', modified, 'string')
+
+if hasattr(tiddler, 'created'):
+  if created:
+    tiddler.manage_changeProperties(created=created)
+else:
+  if created:
+    tiddler.manage_addProperty('created', created, 'string')
+  else:
+    tiddler.manage_addProperty('created', modified, 'string')
+
+username = context.REQUEST.AUTHENTICATED_USER.getUserName()
+if hasattr(tiddler, 'modifier'):
+  tiddler.manage_changeProperties(modifier=username)
+else:
+  tiddler.manage_addProperty('modifier', username, 'string')
+
+remove_locks(tiddler)
+
+if 'private' in tags.split():
+  tiddler.manage_permission('View', ['Authenticated', 'Manager', 'Owner'], acquire=0)
+else:
+  tiddler.manage_permission('View', ['Anonymous'], acquire=1)
+
+return context.REQUEST.RESPONSE.redirect("?action=get&id="+req.get('id'))

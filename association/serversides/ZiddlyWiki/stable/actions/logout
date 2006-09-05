@@ -1,0 +1,21 @@
+## Script (Python) "logout"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=root
+##title=
+##
+# This isn't really being used right now cuz it's so ugly.
+# Logging out with Basic HTTP Auth is all but impossible.
+
+raise 'Unauthorized'
+
+ie = context.REQUEST.get('ie', 0)
+redirect_to = context.REQUEST.get('redirect_to', './')
+
+if ie:
+  return '<html><head><script type="text/javascript">location.replace("%s");</script></head><body></body></html>' % redirect_to
+else:
+  return context.REQUEST.RESPONSE.redirect(redirect_to)

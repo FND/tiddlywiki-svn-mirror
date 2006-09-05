@@ -1,0 +1,19 @@
+## Script (Python) "login"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=root=None
+##title=
+##
+# This script simply forces a login.
+# This should be only viewable by the "Authenticated" role.
+
+ie = context.REQUEST.get('ie', 0)
+redirect_to = context.REQUEST.get('redirect_to', './')
+
+if ie:
+  return '<html><head><script type="text/javascript">location.replace("%s");</script></head><body></body></html>' % redirect_to
+else:
+  return context.REQUEST.RESPONSE.redirect(redirect_to)

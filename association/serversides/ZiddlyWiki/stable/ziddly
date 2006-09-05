@@ -1,0 +1,114 @@
+## Script (Python) "ziddly"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=root=None, skin=None, get_release=0, js=[], css=[]
+##title=
+##
+# Grab the TiddlyWiki source, insert some stuff,
+# and return the modified source to the client
+
+ziddly_point_release = 4
+
+if get_release:
+  return ziddly_point_release
+
+if root: context = root
+path = '/'.join(context.getPhysicalPath())
+
+format = context.REQUEST.get('format', None)
+if format:
+  return container[format](root=root, zw=container)
+
+action = context.REQUEST.get('action', None)
+if action:
+  return container.actions[action](root=root)
+
+# make sure our tiddlers folder exists
+if not hasattr(context, 'tiddlers'):
+  context.manage_addFolder(id='tiddlers')
+
+javascript_tag = '<script type="text/javascript" src="%s"></script>\n'
+stylesheet_tag = '<style type="text/css">@import url(%s);</style>\n'
+
+js_path = container.javascripts.absolute_url()
+
+# get ready to insert some extra stuff
+user = context.REQUEST.AUTHENTICATED_USER
+status_vars = """
+<script type="text/javascript">
+  if(typeof zw == "undefined") var zw = {};
+  zw.loggedIn = %s;
+  zw.anonEdit = %s;
+  zw.ziddlyPath = '%s';
+  zw.isAdmin = %s;
+  zw.latestTiddler = %s;
+  zw.username = '%s';
+  version.extensions.ZiddlyWiki = %s;
+</script>
+""" % (
+  ('Authenticated' in user.getRoles()) and 'true' or 'false',
+  getattr(context, 'zw_anon_edit', None) and 'true' or 'false',
+  container.absolute_url(),
+  ('Manager' in context.REQUEST.AUTHENTICATED_USER.getRoles()) and 'true' or 'false',
+  container.actions.get_timestamp(root=root),
+  user.getUserName(),
+  ziddly_point_release,
+)
+base_css = """
+<style type="text/css">
+  #statusMessage {
+    position: fixed;
+    position: expression('absolute'); /* for IE */
+    display: none;
+    background-color: red;
+    color: white;
+    top: 3px;
+    right: 3px;
+    padding: 2px;
+    z-index: 100;
+  }
+</style>
+"""
+rss = '<link rel="alternate" type="application/rss+xml" title="RSS" href="?format=xml" />\n'
+scripts = ''
+
+# get the javascript ready
+scripts = scripts + javascript_tag % (js_path + '/ajax.js')
+scripts = scripts + javascript_tag % (js_path + '/ziddly.js')
+
+# insert additional js and css (if specified)
+for src in js: scripts = scripts + javascript_tag % src
+for src in css: scripts = scripts + stylesheet_tag % src
+
+# disable caching
+context.REQUEST.RESPONSE.appendHeader('Cache-Control', 'no-cache')
+
+# XHTML
+#context.REQUEST.RESPONSE.setHeader('Content-Type', 'application/xhtml+xml;charset=utf-8')
+
+# get the TiddlyWiki source
+src = container['empty.html']()
+
+# hack out the automatic Zope <base> tag
+src = src.replace('<head>', '<!--<head>hack for Zope base tag-->\n<head>', 1)
+
+# change the title
+try: title = root.tiddlers.SiteTitle(context, context.REQUEST).replace('<', '&lt;').replace('>', '&gt;').replace('[[', '').replace(']]', '')
+except: title = context.title_or_id()
+#src = src.replace('<title>TiddlyWiki - a reusable non-linear personal web notebook</title>', '<title>%s</title>' % title)
+pre_title = src.split('<title>')[0]
+post_title = '</title>'.join(src.split('</title>')[1:])
+src = pre_title + '<title>' + title + '</title>' + post_title
+
+# insert the extra stuff
+src = src.replace('</head>', '%s</head>' % (status_vars + base_css + rss + scripts))
+
+# insert all the tiddlers from the "tiddlers" folder
+store_area = '<div id="storeArea">\n%s\n</div>' % container.actions.get_all_as_divs(root)
+src = src.split('<div id="storeArea">')[0] + store_area + '\n</body>\n</html>'
+
+# give the client the modified TiddlyWiki source
+return src

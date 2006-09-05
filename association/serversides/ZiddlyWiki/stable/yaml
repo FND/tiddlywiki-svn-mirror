@@ -1,0 +1,30 @@
+<dtml-call "root.REQUEST.RESPONSE.setHeader('content-type', 'text/plain')">
+<dtml-let site_url="root.absolute_url()" scripts="zw.actions.scripts">
+---- 
+title: <dtml-try><dtml-var expr="root.tiddlers.SiteTitle" html_quote>
+<dtml-except><dtml-var expr="root.title_or_id">
+</dtml-try>
+link: <dtml-var site_url>
+description: <dtml-try><dtml-var expr="root.tiddlers.SiteSubtitle" html_quote>
+<dtml-except>
+</dtml-try>
+tiddlers:
+<dtml-in expr="_.sequence.sort(root.tiddlers.objectValues('DTML Document'), (('bobobase_modification_time','cmp','desc'),))" prefix="tiddler">
+<dtml-if expr="not scripts.tagged_with(tiddler_tags=tags, tags=['private', 'deleted', 'systemConfig', 'systemTiddlers', 'onlyAdmin'])">
+    - title: <dtml-var title_or_id>
+      link: <dtml-var expr="site_url + '/#'"><dtml-var expr="test(title_or_id().find(' ')>-1, '[['+title_or_id()+']]', title_or_id())" url_quote>
+      modifier: <dtml-try><dtml-var modifer>
+      <dtml-except><dtml-var expr="owner_info()['id']">
+</dtml-try>
+      modified: <dtml-var expr="bobobase_modification_time().strftime('%Y-%m-%d %H:%M:%S.00')">
+<dtml-if tags>
+      tags:
+<dtml-in expr="[tag for tag in tags.split() if tag]">
+          - <dtml-var sequence-item>
+</dtml-in>
+</dtml-if>
+      body: >
+<dtml-var expr="'\n'.join([(' '*10)+line for line in tiddler_item().split('\n')])">
+</dtml-if>
+</dtml-in>
+</dtml-let>

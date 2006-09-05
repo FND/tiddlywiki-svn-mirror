@@ -1,0 +1,23 @@
+## Script (Python) "get_timestamp"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=root=None
+##title=
+##
+context = root
+
+latest = 0
+
+tiddler = []
+
+for tiddlerid in context.tiddlers.objectIds('DTML Document'):
+  try: tiddler = context.tiddlers[tiddlerid]
+  except: continue
+  modified = tiddler.bobobase_modification_time()
+  if modified > latest:
+    latest = modified
+
+return int(float(latest) * 100)

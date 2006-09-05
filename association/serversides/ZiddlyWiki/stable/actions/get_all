@@ -1,0 +1,64 @@
+## Script (Python) "get_all"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=root=None
+##title=
+##
+if root: context = root
+path = '/'.join(context.getPhysicalPath())
+
+tiddler = []
+tiddlers = []
+
+for tiddlerid in context.tiddlers.objectIds('DTML Document'):
+  try: tiddler = context.tiddlers[tiddlerid]
+  except: continue # if we don't have permission (private tiddlers)
+
+  # get basic details
+  modified = container.scripts.get_modified(tiddler)
+
+  # add necessary properties (for backwards compat)
+  if not hasattr(tiddler, 'modified'):
+    tiddler.manage_addProperty('modified', modified, 'string')
+  if not hasattr(tiddler, 'created'):
+    tiddler.manage_addProperty('created', modified, 'string')
+
+  # get other basic details
+#  title = tiddler.title_or_id().replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
+  title = tiddler.title_or_id()
+  created = tiddler.created
+  modifier = getattr(tiddler, 'modifier', '')
+  tags = getattr(tiddler, 'tags', '').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
+  body = tiddler(context, context.REQUEST).replace('\\', '\\s').replace('\n', '\\n').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
+
+  # check that the tiddler's id is correct (for backwards compat)
+  id = container.scripts.sanitize_id(title)
+  if id != tiddler.id():
+    try:
+      context.tiddlers.manage_renameObject(tiddler.id(), id)
+    except:
+      raise Exception, 'I was unable to automatically migrate your tiddler ids because you have two or more tiddlers with the title "%s". Please browse to %s and delete the tiddler(s) you do not want to keep.' % (tiddler.title, context.tiddlers.absolute_url()+'/manage/')
+
+  # check for special tags and privileges
+  if 'private' in tags.split() and 'Authenticated' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
+    continue
+  if 'onlyAdmin' in tags.split() and 'Manager' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
+    continue
+  if 'deleted' in tags.split():
+    continue
+
+  # assemble the details
+  tiddler = {
+    'title': title,
+    'created': created,
+    'modified': modified,
+    'modifier': modifier,
+    'tags': tags,
+    'body': body,
+  }
+  tiddlers.append(tiddler)
+
+return tiddlers

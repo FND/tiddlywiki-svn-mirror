@@ -1,0 +1,35 @@
+## Script (Python) "delete"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=root=None
+##title=
+##
+if root: context = root
+path = '/'.join(context.getPhysicalPath())
+
+req = context.REQUEST
+id = req.get('id')
+
+anon_edit = getattr(context, 'zw_anon_edit', 0)
+if not anon_edit and 'Authenticated' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
+  raise 'Unauthorized'
+
+id = container.scripts.sanitize_id(id)
+tiddler = context.tiddlers[id]
+
+# add "deleted" tag
+if hasattr(tiddler, 'tags'):
+  tags = tiddler.tags
+  if tags: tags = tags + ' deleted'
+  else: tags = 'deleted'
+  tiddler.manage_changeProperties(tags=tags)
+else:
+  tiddler.manage_addProperty('tags', 'deleted', 'string')
+
+try: tiddler.manage_delProperties(['ignore_revision'])
+except: pass
+
+return 'success'

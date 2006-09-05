@@ -1,0 +1,40 @@
+## Script (Python) "lock"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=root=None
+##title=
+##
+if root: context = root
+
+req = context.REQUEST
+id = container.scripts.sanitize_id(req.get('id'))
+
+username = context.REQUEST.AUTHENTICATED_USER.getUserName()
+
+# restrict anonymous unless anonymous editing is enabled
+anon_edit = getattr(context, 'zw_anon_edit', 0)
+if not anon_edit and 'Authenticated' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
+  raise 'Unauthorized'
+
+try: tiddler = context.tiddlers[id]
+except: return '-'
+
+if hasattr(tiddler, 'lock_time'):
+  length = (DateTime() - tiddler.lock_time) * 24.0 * 60.0 # minutes
+  if length > getattr(context, 'zw_lock_minutes', 5.0):
+    tiddler.manage_delProperties(['lock_time', 'lock_user'])
+  else:
+    return 'already locked by %s' % tiddler.lock_user
+
+if tiddler.wl_isLocked():
+    return 'already locked by WebDAV'
+
+tiddler.manage_addProperty('lock_time', DateTime(), 'date')
+tiddler.manage_addProperty('lock_user', username, 'string')
+try: tiddler.manage_addProperty('ignore_revision', 1, 'boolean')
+except: pass
+
+return 'locked\n' + container.get(root=root)

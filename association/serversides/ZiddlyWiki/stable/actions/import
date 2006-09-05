@@ -1,0 +1,64 @@
+## Script (Python) "import"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=root=None
+##title=
+##
+if root: context = root
+path = '/'.join(context.getPhysicalPath())
+
+req = context.REQUEST
+file = req.get('file', None)
+keep_newest = req.get('keep_newest', 0)
+delete_missing = req.get('delete_missing', 0)
+redirect_to = req.get('redirect_to', '/')
+
+if file:
+  html = file.read()
+  tiddlers = html.split('<div id="storeArea">')[1].replace('</body>', '').replace('</html>', '').replace('</div>', '').replace('<div ', '').split('\n')
+  imported = []
+  for tiddler in tiddlers:
+    try:
+      details, body = tiddler.split('>')
+    except:
+      pass
+    else:
+      if details.find('created="') > -1: # TiddlyWiki 2.0.0 and later
+        details = details.split('"')
+        title = details[1]
+        modifier = details[3] # not really used
+        modified = details[5]
+        created = details[7]
+        tags = details[9]
+      elif details.find('tiddler="') > -1: # TiddlyWiki 1.2.23 thru TiddlyWiki 1.2.39
+        details = details.split('"')
+        title = details[1]
+        modified = details[3]
+        modifier = details[5] # not really used
+        tags = details[7]
+      elif details.find('id="') > -1: # TiddlyWiki 1.2.22 and before
+        details = details.split('"')
+        title = details[1][5:]
+        modified = details[3]
+        modifier = details[5] # not really used
+        tags = details[7]
+      else:
+        raise Exception, "Cannot determine TiddlyWiki version. Import failed."
+      outcome = container.actions.save(root=root, only_if_newer=keep_newest, req_args={'id':title, 'title':title, 'body':body.replace('\\n', '\n'), 'tags':tags, 'modified':modified, 'created':created})
+      imported.append(title)
+  if delete_missing:
+    for tiddler in context.tiddlers.objectValues('DTML Document'):
+      title = tiddler.title_or_id()
+      if title not in imported:
+        container.actions.delete(title, path=path)
+  return context.REQUEST.RESPONSE.redirect(redirect_to)
+
+else:
+  context.REQUEST.RESPONSE.setHeader('Content-Type', 'text/html')
+  html = '<html><head><title>Import to ZiddlyWiki</title></head><body>%s %s</body></html>'
+  message = '<p>Select a TiddlyWiki file to import into ZiddlyWiki...</p>'
+  form = '<form enctype="multipart/form-data" method="post" onsubmit="return confirm(\'Are you sure you want to import this TiddlyWiki file?\')"><input type="hidden" name="action" value="import"/><input type="hidden" name="path" value="' + path + '"/><input type="file" name="file"/><br/><input type="checkbox" id="keep_newest" name="keep_newest" value="yes" checked="checked"/><label for="keep_newest">Only Import Newer Tiddlers</label><br/><input type="checkbox" id="delete_missing" name="delete_missing" value="yes"/><label for="delete_missing">Delete Missing Tiddlers</label><br/><input type="submit" value="Import"/></form>'
+  return html % (message, form)

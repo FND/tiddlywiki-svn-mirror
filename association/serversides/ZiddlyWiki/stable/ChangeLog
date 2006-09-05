@@ -1,0 +1,44 @@
+Release 2.0.11.4
+* Don't htmlDecode() on edit or displaying revisions -- it's not needed.
+* Allow save to not pass zope id, and recompute it from title.
+* Fix race condition when saving.
+* Fix javascript error on editing shadow tiddlers.
+
+Release 2.0.11.3
+* handle config.protectedTiddlers better -- explicitly add the 'protected'
+  when these shadow tiddlers are displayed.
+* Adjust editing logic
+* Don't unlock when not editing (e.g. viewing a read only tiddler)
+* Make cancelling the edit of a non-existing (i.e. shadow) tiddler work
+
+Release 2.0.11.2
+* Set revisionKey on get and save (prevents ZiddlyWiki from reloading the
+  tiddler you just edited).
+* Perform a redirect on save so that the user gets the revisionKey for the
+  newly modified tiddler.
+* Remove editing locks if no changes are made.
+* Check to see if a WebDAV lock is held on tiddlers before editing.
+* Editing a tiddler that exists on the server but not in your browser will
+  fetch the text from the server, rather than editing an empty tiddler.
+* Editing a tiddler that exists on the server but is deleted will display a
+  message, and edit the text that is on the server.  Cancelling the edit will
+  leave it deleted.
+* Unset store.dirty after a tiddler is successfully saved, so the "Unsaved
+  Changes" dialog isn't shown when the user leaves.  This still needs some work
+  -- it's still possible that the wiki in your browser was at some time unable
+  to save to the server but the "Unsaved Changes" dialog won't appear.
+
+Release 2.0.11.1
+* If chkHttpReadOnly, do not attempt to unlock tiddlers on 'view'
+* Fix escaping to match the core.  (WRT HTML entities &quot;, &lt;,
+  &gt;, &amp;, <, >)  WARNING -- this will require you to convert your
+  tiddlers in Zope.  A new script is provided for this:
+  ZiddlyWiki/upgrade.  Copy it to the location of your 'tiddlers' folder
+  and run it like http://your.site/TiddlySite/upgrade.  Do this only
+  ONCE for each tiddlywiki site you're running, then delete the upgrade
+  script.
+* When a tiddler tagged with 'private' is saved, the Zope permissions
+  will be set to make it not accessable through
+  http://your.site/TiddlySite/tiddlers/<private tiddler> The above
+  upgrade script will also add these permissions to any existing private
+  tiddlers.

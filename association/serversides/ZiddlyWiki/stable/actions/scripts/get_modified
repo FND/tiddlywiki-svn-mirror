@@ -1,0 +1,29 @@
+## Script (Python) "get_modified"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=tiddler
+##title=
+##
+def realToZone(datetime, zone):
+  "To work around what I think might be a bug in some versions of Zope."
+  return DateTime(' '.join(str(datetime.toZone(zone)).split()[:-1]))
+
+zone = getattr(container, 'zw_client_timezone', None)
+
+if hasattr(tiddler, 'modified') and same_type(tiddler.modified, '') and tiddler.modified:
+  modified = tiddler.modified
+else:
+  try:
+    #modified = tiddler.manage_change_history()[0]['time']
+    modified = tiddler.bobobase_modification_time()
+  except:
+    modified = None
+  else:
+    if zone:
+      modified = realToZone(modified, zone)
+    modified = modified.strftime('%Y%m%d%H%M')
+
+return modified

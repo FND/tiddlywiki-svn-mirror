@@ -1,0 +1,31 @@
+## Script (Python) "refresh"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind subpath=traverse_subpath
+##parameters=root=None
+##title=
+##
+context = root
+
+req = context.REQUEST
+
+try:
+  latest = int(req.get('latest'))
+except:
+  return ''
+else:
+  updated = [str(container.get_timestamp(root=root))]
+
+  tiddler = []
+  for tiddlerid in context.tiddlers.objectIds('DTML Document'):
+    try: tiddler = context.tiddlers[tiddlerid]
+    except: continue
+    if int(float(tiddler.bobobase_modification_time()) * 100) > latest:
+      updated.append(tiddler.title + '\n' + tiddler.modified + '\n' + tiddler.manage_change_history()[0]['key'])
+
+  if len(updated) > 1:
+    return '\n\n'.join(updated)
+  else:
+    return ''
