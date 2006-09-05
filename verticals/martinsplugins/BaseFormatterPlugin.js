@@ -30,17 +30,38 @@ version.extensions.BaseFormatterPlugin = {installed:true};
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
 	alertAndThrow("BaseFormatterPlugin requires TiddlyWiki 2.1 or later.");
 
+baseFormatter = {}; // "namespace" for local functions
+
 baseDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
 	createTiddlyElement(out,"br");
 }
 
+config.formatterHelpers.setAttributesFromParams = function(e,p)
+{
+	var re = /\s*(.*?)=(?:(?:"(.*?)")|(?:'(.*?)')|((?:\w|%|#)*))/mg;
+	var match = re.exec(p);
+	while(match)
+		{
+		var s = match[1].unDash();
+		if(s=="bgcolor")
+			s = "backgroundColor";
+		if(match[2])
+			e.setAttribute(s,match[2]);
+		else if(match[3])
+			e.setAttribute(s,match[3]);
+		else
+			e.setAttribute(s,match[4]);
+		match = re.exec(p);
+		}
+}
+
 config.baseFormatters = [
 {
 	name: "baseHeading",
 	match: "^={1,6}",
-	termRegExp: /(={1,6}$\n?)/mg,
+	termRegExp: /(={0,6}$\n?)/mg,
 	handler: function(w)
 	{
 //var debug = createTiddlyElement(w.output,"p");
@@ -127,7 +148,7 @@ config.baseFormatters = [
 				return;
 				}
 			}
-		if(w.hasWikiLinks == true || store.isShadowTiddler(w.matchText))
+		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText))
 			{
 			var link = createTiddlyLink(w.output,w.matchText,false);
 			w.outputText(link,w.matchStart,w.nextMatch);
@@ -200,16 +221,8 @@ config.baseFormatters = [
 	name: "baseMonospacedByChar",
 	match: "\\{\\{\\{",
 	lookaheadRegExp: /\{\{\{((?:.|\n)*?)\}\}\}/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			{
-			createTiddlyElement(w.output,"code",null,null,lookaheadMatch[1]);
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-			}
-	}
+	element: "code",
+	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 {
@@ -218,6 +231,15 @@ config.baseFormatters = [
 	handler: function(w)
 	{
 		createTiddlyElement(w.output,"p");
+	}
+},
+
+{
+	name: "baseExplicitLineBreak",
+	match: "<br ?/?>",
+	handler: function(w)
+	{
+		createTiddlyElement(w.output,"br");
 	}
 },
 
@@ -231,19 +253,59 @@ config.baseFormatters = [
 },
 
 {
+	name: "baseComment",
+	match: "<!\\-\\-",
+	lookaheadRegExp: /<!\-\-((?:.|\n)*?)\-\-!>/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+	}
+},
+
+{
 	name: "baseHtmlEntitiesEncoding",
 	match: "&#?[a-zA-Z0-9]{2,8};",
 	handler: function(w)
 		{
 		createTiddlyElement(w.output,"span").innerHTML = w.matchText;
 		}
-}
+},
 
+{
+	name: "mediaWikiHtmlTag",
+	match: "<[a-zA-Z]{2,}(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?>",
+	lookaheadRegExp: /<([a-zA-Z]{2,})((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*(\/)?>/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
+			{
+			var e =createTiddlyElement(w.output,lookaheadMatch[1]);
+			if(lookaheadMatch[2])
+				config.formatterHelpers.setAttributesFromParams(e,lookaheadMatch[2])
+			if(lookaheadMatch[3])
+				w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
+			else
+				w.subWikify(e,"</"+lookaheadMatch[1]+">");
+			}
+	}
+}
 ];
 
-//formatters.push({formatter: new Formatter(config.baseFormatters), formatTag: "BaseFormat"});
-formatters.baseFormatter = new Formatter(config.baseFormatters);
-formatters.baseFormatter.formatTag = "BaseFormat";
+if(config.parsers)
+	{
+	config.parsers.baseFormatter = new Formatter(config.baseFormatters);
+	config.parsers.baseFormatter.formatTag = "BaseFormat";
+	}
+else
+	{
+	formatters.baseFormatter = new Formatter(config.baseFormatters);
+	formatters.baseFormatter.formatTag = "BaseFormat";
+	}
 
 } // end of "install only once"
 //}}}
