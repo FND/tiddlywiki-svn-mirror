@@ -1,0 +1,76 @@
+^^ Markup
+
+*bold*
+_italic_
+-strikethrough-
+`monospace`
+
+.pre
+Block of text with no *special* punctuation
+.pre
+
+{{*this text is not bold*}}
+
+^^ Headings
+^ H1
+^^ H2
+^^^ H3
+^^^^ H4
+^^^^^ H5
+^^^^^^ H6
+
+
+^^ Rule:
+----
+
+^^ Numbered list:
+# item 1
+## subitem 1
+# item 2
+
+^^ Bulleted list:
+* item 1
+** subitem 1
+* item 2
+
+^^ Indented text
+> Indented
+>> Indented twice
+
+^^ Table
+|a | b| c |
+|d | e| f |
+
+^^ Misc
+
+trademark {tm}
+
+
+^^ Images
+Image attachment: {image: http://www.eu.socialtext.net/favicon.ico}
+External image:	<http://www.socialtext.com/images/socialtext-140.gif>
+
+
+^^ Links
+
+Page Link	[Page Link]
+Link text	"Link text" [Page Link]
+Socialtext Home Page	"Socialtext Home Page"<http://www.socialtext.com>
+info@socialtext.com	info@socialtext.com
+Socialtext Email	"Socialtext Email"<mailto:info@socialtext.com>
+http://www.socialtext.com/	http://www.socialtext.com/
+proposal.pdf on this page	{file: proposal.pdf} on this page
+
+----
+
+Page Link to different-workspace	{link: different-workspace [Page link]} to different-workspace
+Link to section of a page	{link: different-workspace [Page link] Section} to (optional) different-workspace
+Page section	{section: Name}
+	----
+[image attachment]	{image: socialtext-140.gif} (image attached to page)
+proposal.pdf on this page	{file: proposal.pdf} on this page
+proposal.pdf on page name	{file: [page name] proposal.pdf} on [page name]
+My Weblog weblog	{weblog: My Weblog}
+Meeting notes category	{category: Meeting Notes}
+Yahoo user yahoouser presence	Yahoo user {ymsgr:yahoouser} presence
+AOL user aimuser presence	AOL user {aim:aimuser} presence
