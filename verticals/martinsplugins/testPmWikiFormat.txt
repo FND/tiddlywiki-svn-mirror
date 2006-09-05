@@ -1,0 +1,131 @@
+This page provides a test of some of the markup sequences available in PmWiki.
+
+----
+
+!! Paragraphs
+
+To create paragraphs, simply enter text.  Use a blank line to start a new paragraph.
+
+Words on two lines in a row will wrap and fill as needed (the normal XHTML behavior).
+
+* Use [@\@] (single backslash) at the end of a line to join the current line to the next one.
+* Use [@\\@] (two backslashes) at the end of a line to force a line break.
+* Use [@\\\@] (three backslashes) at the end of a line to force 2 line breaks.
+* Use [@[[<<]]@] to force a line break that will clear floating elements.
+
+
+!! Indented Paragraphs ''(Quotes)''
+
+Arrows ([@->@]) at the beginning of a paragraph can be used to produce an indented paragraph.  More hyphens at the beginning ([@--->@]) produce larger indents.
+
+(:markup:)
+->Four score and seven years ago our fathers placed upon this continent a new nation, conceived in liberty and dedicated to the proposition that all men are created equal.
+(:markupend:)
+
+Inverted Arrows ([@-<@]) at the beginning of a paragraph can be used to produce a paragraph with a hanging indent.  Adding hyphens at the beginning ([@---<@]) causes all the text to indent.
+
+(:markup:)
+-<Four score and seven years ago our fathers placed upon this continent a new nation, conceived in liberty and dedicated to the proposition that all men are created equal. 
+(:markupend:)
+
+(:markup:)
+--<Four score and seven years ago our fathers placed upon this continent a new nation, conceived in liberty and dedicated to the proposition that all men are created equal.  And that food would be good to.
+(:markupend:)
+
+
+!! Bulleted and Numbered Lists
+
+Bullet lists are made by placing asterisks at the left margin. Numbered lists are made by placing number-signs (#) at the left margin.  More asterisks/number-signs increases the level of bullet:
+
+(:markup:) 
+* First-level list item
+** Second-level list item
+### Order this
+#### And this (optional)
+### Then this
+** Another second-level item
+* A first-level item: cooking
+## Prepare the experiment
+### Unwrap the pop-tart
+### Insert the pop-tart into the toaster
+## Begin cooking the pop tart
+## Stand back
+(:markupend:)
+
+
+!! Horizontal Line
+
+Four or more dashes ([=----=]) at the beginning of a line produce a horizontal line.
+
+----
+
+
+!! Emphasis
+
+* Enclose text in doubled single-quotes ([=''text''=]), i.e., ''two apostrophes'', for emphasis (usually ''italics'')
+* Enclose text in tripled single-quotes ([='''text'''=]), i.e. ''three apostrophes'', for strong emphasis (usually '''bold''')
+* Enclose text in five single-quotes ([='''''text'''''=]), or triples within doubles (''five apostrophes''), for some other kind of emphasis (usually '''''bold italics''''')
+* Enclose text in doubled at-signs ([=@@text@@=]) for @@monospace@@ text
+* Use [=[+large+]=] for [+large+] text, [=[++larger++]=] for [++larger++], [=[-small-]=] for [-small-] text, and [=[--smaller--]=] for [--smaller--].
+* Emphasis can be used multiple times within a line, but cannot span across markup line boundaries (i.e., you can't put a paragraph break in the middle of bold text).
+
+Other styling 
+(:markup:)
+'+big+', '-small-', '^super^', '_sub_', 
+
+{+insert or underscore+}, 
+
+{-delete or strikethrough or strikeout-}
+(:markupend:)
+* [@`WikiWord@] `WikiWord neutralisation
+
+
+!! References
+
+* Use words and phrases in double brackets (e.g., [=[[text formatting rules]]=]) to create links to other pages on this wiki.
+* Capitalized words joined together (e.g., [[WikiWord]]s) can also be used to make references to other pages without needing the double-brackets.
+* Precede [=URLs=] with "@@http:@@", "@@ftp:@@", or "@@mailto:@@" to create links automatically, as in http://www.pmichaud.com/toast.
+* '''NOT DONE YET:''' [=URLs=] ending with @@.gif@@, @@.jpg@@, or @@.png@@ are displayed as images in the page
+* '''NOT DONE YET:''' Links with arbitrary text can be created as either [=[[=]''target'' | ''text'']] or [=[[=]''text'' -> ''target''[=]]=].  ''Text'' can be an image URL, in which case the image becomes the link to the remote ''url'' or ''[[WikiWord]]''.
+* '''NOT DONE YET:''' [[#Anchors]] Anchor targets within pages (#-links) can be created using @@[=[[#target]]=]@@.
+
+
+!! Headings
+
+Headings are made by placing an exclamation mark ('''!''') at the left margin.  More exclamation marks increase the level of heading.  For example,
+
+(:markup:)
+! Level 1 Heading
+!! Level 2 Heading
+!!! Level 3 Heading
+!!!! Level 4 Heading
+(:markupend:)
+
+
+!! Escape sequence
+
+Anything placed between [=[= and =]=] is not interpreted by PmWiki.  This makes it possible to turn off  special formatting interpretations and neutralise [=WikiWords=] that are not links (even easier is to use a tick ` in front, like [=`WikiWord=]).
+
+For preformatted text blocks, use the [=[@...@]=] markup. 
+
+(:markup:)
+[@
+Code goes here like [[PmWiki.PmWiki]]
+'$CurrentTime $[by] $AuthorLink:  [=$ChangeSummary=]'; #just some code
+@]
+(:markupend:)
+
+!! Tables
+
+Tables are defined by enclosing cells with '||'.  A cell with leading and trailing spaces is centered; a cell with leading spaces is right-aligned; all other cells are left-aligned.  An empty cell will cause the previous cell to span multiple columns.  (There is currently no mechanism for spanning multiple rows.) A '!' as the first character in a cell provides emphasis that can be used to provide headings.
+
+'''NOT DONE YET:''' A line beginning with '||' specifies the table attributes for subsequent tables.
+(:markup:)
+
+||border=1 width=50%
+||!Table||!Heading||!Example||
+||!Left   || Center || Right||
+||A       ||!  a B   ||     C||
+||        || single ||      ||
+||        || multi span   ||||
+(:markupend:)
