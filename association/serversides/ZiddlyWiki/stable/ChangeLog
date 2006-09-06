@@ -1,5 +1,4 @@
 Release 2.0.11.4
-* Don't htmlDecode() on edit or displaying revisions -- it's not needed.
 * Allow save to not pass zope id, and recompute it from title.
 * Fix race condition when saving.
 * Fix javascript error on editing shadow tiddlers.
