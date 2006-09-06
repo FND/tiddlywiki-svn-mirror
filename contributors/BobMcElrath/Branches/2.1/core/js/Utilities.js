@@ -16,7 +16,7 @@ function createTiddlyButton(theParent,theText,theTooltip,theAction,theClass,theI
 		{
                 var m = theText.match(/^<html>(.*)<\/html>$/);
 		if(m)
-			e.innerHTML = m[1];
+			theButton.innerHTML = m[1];
 		else
 			theButton.appendChild(document.createTextNode(theText));
 		}
