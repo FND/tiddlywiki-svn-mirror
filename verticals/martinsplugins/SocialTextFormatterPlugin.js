@@ -3,7 +3,7 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[SocialText|http://www.socialtext.com/]] text formatting|
 |''Source:''|http://martinsplugins.tiddlywiki.com/index.html#SocialTextFormatterPlugin|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.2|
+|''Version:''|0.1.4|
 |''Status:''|alpha pre-release|
 |''Date:''|Sep 5, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -41,13 +41,13 @@ if(!version.extensions.SocialTextFormatterPlugin) {
 version.extensions.SocialTextFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	alertAndThrow("SocialTextFormatterPlugin requires TiddlyWiki 2.1 or later.");
+	{alertAndThrow("SocialTextFormatterPlugin requires TiddlyWiki 2.1 or later.");}
 
 stDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
 	createTiddlyElement(out,"br");
-}
+};
 
 config.formatterHelpers.singleCharFormat = function(w)
 {
@@ -62,7 +62,7 @@ config.formatterHelpers.singleCharFormat = function(w)
 		{
 		w.outputText(w.output,w.matchStart,w.nextMatch);
 		}
-}
+};
 
 config.socialTextFormatters = [
 {
@@ -79,9 +79,8 @@ config.socialTextFormatters = [
 {
 	name: "socialTextTable",
 	match: "^\\|(?:[^\\n]*)\\|$",
-	lookaheadRegExp: /^\|([^\n]*)\|$/mg,
-	rowTermRegExp: /(\|$\n?)/mg,
-	cellRegExp: /(?:\|([^\n\|]*)\|)|(\|$\n?)/mg,
+	lookaheadRegExp: /^\|(?:[^\n]*)\|$/mg,
+	cellRegExp: /(?:\|(?:[^\n\|]*)\|)|(\|$\n?)/mg,
 	cellTermRegExp: /((?:\x20*)\|)/mg,
 
 	handler: function(w)
@@ -93,20 +92,18 @@ config.socialTextFormatters = [
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch)
 			{
-			var rowContainer = createTiddlyElement(table,"tbody");
-			this.rowHandler(w,createTiddlyElement(rowContainer,"tr"),prevColumns);
+			this.rowHandler(w,createTiddlyElement(createTiddlyElement(table,"tbody"),"tr"),prevColumns);
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			}
 	},
 	rowHandler: function(w,e,prevColumns)
 	{
-		var col = 0;
 		this.cellRegExp.lastIndex = w.nextMatch;
 		var cellMatch = this.cellRegExp.exec(w.source);
 		while(cellMatch && cellMatch.index == w.nextMatch)
 			{
-			if(cellMatch[2])
+			if(cellMatch[1])
 				{// End of row
 				w.nextMatch = this.cellRegExp.lastIndex;
 				break;
@@ -114,26 +111,10 @@ config.socialTextFormatters = [
 			else
 				{// Cell
 				w.nextMatch++;
-				var styles = config.formatterHelpers.inlineCssHelper(w);
-				var spaceLeft = false;
-				var chr = w.source.substr(w.nextMatch,1);
-				while(chr == " ")
-					{
-					spaceLeft = true;
-					w.nextMatch++;
-					chr = w.source.substr(w.nextMatch,1);
-					}
 				var cell = createTiddlyElement(e,"td");
-				prevColumns[col] = {rowSpanCount:1, element:cell};
-				config.formatterHelpers.applyCssHelper(cell,styles);
 				w.subWikifyTerm(cell,this.cellTermRegExp);
-				if(w.matchText.substr(w.matchText.length-2,1) == " ") // spaceRight
-					cell.align = spaceLeft ? "center" : "left";
-				else if(spaceLeft)
-					cell.align = "right";
 				w.nextMatch--;
 				}
-			col++;
 			this.cellRegExp.lastIndex = w.nextMatch;
 			cellMatch = this.cellRegExp.exec(w.source);
 			}
@@ -170,12 +151,12 @@ config.socialTextFormatters = [
 			if(listLevel > currLevel)
 				{
 				for(var i=currLevel; i<listLevel; i++)
-					placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],listType));
+					{placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],listType));}
 				}
 			else if(listLevel < currLevel)
 				{
-				for(var i=currLevel; i>listLevel; i--)
-					placeStack.pop();
+				for(i=currLevel; i>listLevel; i--)
+					{placeStack.pop();}
 				}
 			else if(listLevel == currLevel && listType != currType)
 				{
@@ -192,6 +173,43 @@ config.socialTextFormatters = [
 	}
 },
 
+{
+	name: "quoteByLine",
+	match: "^>+",
+	lookaheadRegExp: /^>+/mg,
+	termRegExp: /(\n)/mg,
+	element: "blockquote",
+	handler: function(w)
+	{
+		var placeStack = [w.output];
+		var currLevel = 0;
+		var newLevel = w.matchLength;
+		var i;
+		do {
+			if(newLevel > currLevel)
+				{
+				for(i=currLevel; i<newLevel; i++)
+					{placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],this.element));}
+				}
+			else if(newLevel < currLevel)
+				{
+				for(i=currLevel; i>newLevel; i--)
+					{placeStack.pop();}
+				}
+			currLevel = newLevel;
+			w.subWikifyTerm(placeStack[placeStack.length-1],this.termRegExp);
+			createTiddlyElement(placeStack[placeStack.length-1],"br");
+			this.lookaheadRegExp.lastIndex = w.nextMatch;
+			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+			var matched = lookaheadMatch && lookaheadMatch.index == w.nextMatch;
+			if(matched)
+				{
+				newLevel = lookaheadMatch[0].length;
+				w.nextMatch += lookaheadMatch[0].length;
+				}
+		} while(matched);
+	}
+},
 {
 	name: "socialTextRule",
 	match: "^----+$\\n?",
@@ -227,36 +245,17 @@ config.socialTextFormatters = [
 
 {
 	name: "socialTextExplicitLink",
-	match: "\\[",
-	lookaheadRegExp: /\[([^\]]*?)\]/mg,
+	match: '(?:".*?" ?)?\\[',
+	lookaheadRegExp: /(?:\"(.*?)\" ?)?\[([^\]]*?)\]/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
-			var link = lookaheadMatch[1];
-			var e = createTiddlyLink(w.output,link,false,null,w.isStatic);
-			createTiddlyText(e,link);
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-			}
-	}
-},
-
-{
-	name: "socialTextTitledExplicitLink",
-	match: '".*?" ?\\[',
-	lookaheadRegExp: /\"(.*?)\" ?\[([^\]]*?)\]/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			{
-			var text = lookaheadMatch[1];
 			var link = lookaheadMatch[2];
-			var e = createTiddlyLink(w.output,link,false,null,w.isStatic);
-			createTiddlyText(e,text);
+			var text = lookaheadMatch[1] ? lookaheadMatch[1] : link;
+			createTiddlyText(createTiddlyLink(w.output,link,false,null,w.isStatic),text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}
 	}
@@ -279,27 +278,26 @@ config.socialTextFormatters = [
 				{
 				var img = createTiddlyElement(w.output,"img");
 				if(lookaheadMatch[1])
-					img.title = text;
+					{img.title = text;}
 				img.src = link;
 				}
 			else
 				{
-				var e = createExternalLink(w.output,link);
-				createTiddlyText(e,text);
+				createTiddlyText(createExternalLink(w.output,link),text);
 				}
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}
 	}
 },
 
-/*{
+{
 	name: "socialTextImage",
 	match: "\\{image:",
 	lookaheadRegExp: /\{image: ?(.*?)\}/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
 			var img = createTiddlyElement(w.output,"img");
@@ -307,7 +305,7 @@ config.socialTextFormatters = [
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}
 	}
-},*/
+},
 
 {
 	name: "socialTextUrlLink",
@@ -319,36 +317,36 @@ config.socialTextFormatters = [
 },
 
 {
-	name: "socialTextBoldByChar",
+	name: "socialTextBold",
 	match: "\\*(?!\\s)",
-	lookaheadRegExp: /\*(?!\s)(?:(?:.|\n)*?)(?!\s)\*(?=\s)/mg,
+	lookaheadRegExp: /\*(?!\s)(?:.*?)(?!\s)\*(?=\s)/mg,
 	termRegExp: /((?!\s)\*(?=\s))/mg,
 	element: "strong",
 	handler: config.formatterHelpers.singleCharFormat
 },
 
 {
-	name: "socialTextItalicByChar",
+	name: "socialTextItalic",
 	match: "_(?![\\s|_])",
-	lookaheadRegExp: /_(?!\s)(?:(?:.|\n)*?)(?!\s)_(?=\s)/mg,
+	lookaheadRegExp: /_(?!\s)(?:.*?)(?!\s)_(?=\s)/mg,
 	termRegExp: /((?!\s)_(?=\s))/mg,
 	element: "em",
 	handler: config.formatterHelpers.singleCharFormat
 },
 
 {
-	name: "socialTextStrikeByChar",
+	name: "socialTextStrike",
 	match: "-(?![\\s|-])",
-	lookaheadRegExp: /-(?!\s)(?:(?:.|\n)*?)(?!\s)-(?=\s)/mg,
+	lookaheadRegExp: /-(?!\s)(?:.*?)(?!\s)-(?=\s)/mg,
 	termRegExp: /((?!\s)-(?=\s))/mg,
 	element: "strike",
 	handler: config.formatterHelpers.singleCharFormat
 },
 
 {
-	name: "socialTextMonoSpacedByChar",
+	name: "socialTextMonoSpaced",
 	match: "`(?![\\s|`])",
-	lookaheadRegExp: /`(?!\s)(?:(?:.|\n)*?)(?!\s)`(?=\s)/mg,
+	lookaheadRegExp: /`(?!\s)(?:.*?)(?!\s)`(?=\s)/mg,
 	termRegExp: /((?!\s)`(?=\s))/mg,
 	element: "code",
 	handler: config.formatterHelpers.singleCharFormat
@@ -364,7 +362,7 @@ config.socialTextFormatters = [
 },
 
 {
-	name: "socialTextExplicitLineBreak",
+	name: "socialTextLineBreak",
 	match: "\\n",
 	handler: function(w)
 	{
