@@ -44,8 +44,14 @@ function createTiddlyElement(theParent,theElement,theID,theClass,theText)
 		e.className = theClass;
 	if(theID != null)
 		e.setAttribute("id",theID);
-	if(theText != null)
-                e.innerHTML = theText;
+	if(theText != null) 
+		{
+                var m = theText.match(/^<html>(.*)<\/html>$/);
+		if(m)
+			e.innerHTML = m[1];
+		else
+			e.appendChild(document.createTextNode(theText));
+		}
 	if(theParent != null)
 		theParent.appendChild(e);
 	return(e);

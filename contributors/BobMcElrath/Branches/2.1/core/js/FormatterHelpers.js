@@ -72,7 +72,7 @@ config.formatterHelpers = {
 			var text = lookaheadMatch[1];
 			if(config.browser.isIE)
 				text = text.replace(/\n/g,"\r");
-			createTiddlyElement(w.output,this.element,null,null,text.htmlEncode());
+			createTiddlyElement(w.output,this.element,null,null,text);
 			w.nextMatch = lookaheadMatch.index + lookaheadMatch[0].length;
 			}
 	},
