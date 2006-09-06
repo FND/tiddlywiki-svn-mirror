@@ -1,6 +1,6 @@
 ^^ Markup
 
-*bold*
+*bold* * notbold* *notbold *
 _italic_
 -strikethrough-
 `monospace`
@@ -38,8 +38,8 @@ Block of text with no *special* punctuation
 >> Indented twice
 
 ^^ Table
-|a | b| c |
-|d | e| f |
+|aa | bb| cc |
+|dd | ee| ff |
 
 ^^ Misc
 
@@ -49,8 +49,7 @@ trademark {tm}
 ^^ Images
 Image attachment: {image: http://www.eu.socialtext.net/favicon.ico}
 External image:	<http://www.eu.socialtext.net/favicon.ico>
-
-
+External image:	<http://www.eu.socialtext.net/exchange/index.cgi/new.gif?action=attachments_download;page_name=socialtext_customer_exchange;id=20060723182743-1>
 
 ^^ Links
 
@@ -62,19 +61,21 @@ info@socialtext.com	info@socialtext.com
 Socialtext Email	"Socialtext Email"<mailto:info@socialtext.com>
 http://www.socialtext.com/	http://www.socialtext.com/
 
-----
 
-proposal.pdf on this page	{file: proposal.pdf} on this page
-Page Link to different-workspace	{link: different-workspace [Page link]} to different-workspace
-Link to section of a page	{link: different-workspace [Page link] Section} to (optional) different-workspace
-Page section	{section: Name}
 
 ----
 
-[image attachment]	{image: socialtext-140.gif} (image attached to page)
+^^ Not supported
+
 proposal.pdf on this page	{file: proposal.pdf} on this page
 proposal.pdf on page name	{file: [page name] proposal.pdf} on [page name]
+
+Page Link to different-workspace	{link: different-workspace [Page link]} to different-workspace
+Link to section of a page	{link: different-workspace [Page link] Section} to (optional) different-workspace
+
+Page section	{section: Name}
 My Weblog weblog	{weblog: My Weblog}
 Meeting notes category	{category: Meeting Notes}
+
 Yahoo user yahoouser presence	Yahoo user {ymsgr:yahoouser} presence
 AOL user aimuser presence	AOL user {aim:aimuser} presence
