@@ -3,7 +3,7 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[PmWiki|http://pmwiki.org/wiki/PmWiki/TextFormattingRules]] text formatting|
 |''Source:''|http://martinsplugins.tiddlywiki.com/index.html#PmWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.2.1|
+|''Version:''|0.2.2|
 |''Status:''|alpha pre-release|
 |''Date:''|Sep 3, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -42,7 +42,7 @@ if(!version.extensions.PmWikiFormatterPlugin) {
 version.extensions.PmWikiFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	alertAndThrow("PmWikiFormatterPlugin requires TiddlyWiki 2.1 or later.");
+	{alertAndThrow("PmWikiFormatterPlugin requires TiddlyWiki 2.1 or later.");}
 
 PmWikiFormatter = {}; // "namespace" for local functions
 
@@ -50,7 +50,7 @@ pmDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
 	createTiddlyElement(out,"br");
-}
+};
 
 PmWikiFormatter.setFromParams = function(w,p)
 {
@@ -61,15 +61,21 @@ PmWikiFormatter.setFromParams = function(w,p)
 		{
 		var s = match[1].unDash();
 		if(match[2])
+			{
 			r[s] = match[2];
+			}
 		else if(match[3])
+			{
 			r[s] = match[3];
+			}
 		else
+			{
 			r[s] = match[4];
+			}
 		match = re.exec(p);
 		}
 	return r;
-}
+};
 
 config.formatterHelpers.enclosedTextHelper = function(w)
 {
@@ -79,12 +85,15 @@ config.formatterHelpers.enclosedTextHelper = function(w)
 		{
 		var text = lookaheadMatch[1];
 		if(config.browser.isIE)
+			{
 			text = text.replace(/\n/g,"\r");
+			}
 //function createTiddlyElement(theParent,theElement,theID,theClass,theText)
-		createTiddlyElement(w.output,this.element,null,this.class,text);
-		w.nextMatch = lookaheadMatch.index + lookaheadMatch[0].length;
+		createTiddlyElement(w.output,this.element,null,this.cls,text);
+		w.nextMatch = this.lookaheadRegExp.lastIndex;
+		//w.nextMatch = lookaheadMatch.index + lookaheadMatch[0].length;
 		}
-}
+};
 
 config.formatterHelpers.setAttributesFromParams = function(e,p)
 {
@@ -94,16 +103,24 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 		{
 		var s = match[1].unDash();
 		if(s=="bgcolor")
+			{
 			s = "backgroundColor";
+			}
 		if(match[2])
+			{
 			e.setAttribute(s,match[2]);
+			}
 		else if(match[3])
+			{
 			e.setAttribute(s,match[3]);
+			}
 		else
+			{
 			e.setAttribute(s,match[4]);
+			}
 		match = re.exec(p);
 		}
-}
+};
 
 config.pmWikiFormatters = [
 {
@@ -135,7 +152,9 @@ all men are created equal.
 //mwDebug(w.output,"lm1:"+lookaheadMatch[1]);
 			var text = lookaheadMatch[1];
 			if(config.browser.isIE)
+				{
 				text = text.replace(/\n/g,"\r");
+				}
 			var t = createTiddlyElement(w.output,"table",null,"markup vert");
 			var tr1 = createTiddlyElement(t,"tr");
 			var td1 = createTiddlyElement(tr1,"td",null,"markup1");
@@ -172,7 +191,7 @@ all men are created equal.
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
 			/*if(!w.tableParams)
@@ -249,7 +268,9 @@ all men are created equal.
 					chr = w.source.substr(w.nextMatch,1);
 					}
 				else
+					{
 					cell = createTiddlyElement(e,"td");
+					}
 				var spaceLeft = false;
 				while(chr == " ")
 					{
@@ -265,9 +286,13 @@ all men are created equal.
 					}
 				w.subWikifyTerm(cell,this.cellTermRegExp);
 				if(w.matchText.substr(w.matchText.length-3,1) == " ") // spaceRight
+					{
 					cell.align = spaceLeft ? "center" : "left";
+					}
 				else if(spaceLeft)
+					{
 					cell.align = "right";
+					}
 				prevCell = cell;
 				w.nextMatch -= 2;
 				}
@@ -307,13 +332,13 @@ all men are created equal.
 			w.nextMatch += lookaheadMatch[0].length;
 			if(listLevel > currLevel)
 				{
-				for(var t=currLevel; t<listLevel; t++)
-					placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],listType));
+				for(var i=currLevel; i<listLevel; i++)
+					{placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],listType));}
 				}
 			else if(listLevel < currLevel)
 				{
-				for(var t=currLevel; t>listLevel; t--)
-					placeStack.pop();
+				for(i=currLevel; i>listLevel; i--)
+					{placeStack.pop();}
 				}
 			else if(listLevel == currLevel && listType != currType)
 				{
@@ -380,9 +405,13 @@ all men are created equal.*/
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			if(lookaheadMatch && lookaheadMatch.index == w.nextMatch)
+				{
 				w.nextMatch += lookaheadMatch[0].length;
+				}
 			else
+				{
 				break;
+				}
 			}
 	}
 },
@@ -394,7 +423,7 @@ all men are created equal.*/
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
 			var e;
@@ -413,7 +442,7 @@ all men are created equal.*/
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}
-	},
+	}
 },
 
 {
@@ -568,7 +597,9 @@ all men are created equal.*/
 	{
 		createTiddlyElement(w.output,"br");
 		if(w.matchLength==4)
+			{
 			createTiddlyElement(w.output,"br");
+			}
 	}
 },
 
@@ -586,7 +617,7 @@ all men are created equal.*/
 	match: "\\[=",
 	lookaheadRegExp: /\[=((?:.|\n)*?)=\]/mg,
 	element: "span",
-	class: "escaped",
+	cls: "escaped",
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 
@@ -595,7 +626,7 @@ all men are created equal.*/
 	match: "\\[@",
 	lookaheadRegExp: /\[@((?:.|\n)*?)@\]/mg,
 	element: "code",
-	class: "escaped",
+	cls: "escaped",
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 
@@ -606,9 +637,11 @@ all men are created equal.*/
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
+			{
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
+			}
 	}
 },
 
