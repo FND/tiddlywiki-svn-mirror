@@ -13,7 +13,7 @@ function createTiddlyButton(theParent,theText,theTooltip,theAction,theClass,theI
 	if(theTooltip)
 		theButton.setAttribute("title",theTooltip);
 	if(theText)
-		theButton.appendChild(document.createTextNode(theText));
+		theButton.innerHTML = theText;
 	if(theClass)
 		theButton.className = theClass;
 	else
