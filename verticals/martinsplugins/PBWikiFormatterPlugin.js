@@ -3,7 +3,7 @@
 |''Description:''|Allows Tiddlers to use [[PBWiki|http://yummy.pbwiki.com/WikiStyle]] text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#PBWikiFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.2|
+|''Version:''|0.1.3|
 |''Status:''|alpha pre-release|
 |''Date:''|Sep 3, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -37,7 +37,7 @@ if(!version.extensions.PBWikiFormatterPlugin) {
 version.extensions.PBWikiFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	alertAndThrow("PBWikiFormatterPlugin requires TiddlyWiki 2.1 or later.");
+	{alertAndThrow("PBWikiFormatterPlugin requires TiddlyWiki 2.1 or later.");}
 
 PBWikiFormatter = {}; // "namespace" for local functions
 
@@ -45,7 +45,7 @@ pbDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
 	createTiddlyElement(out,"br");
-}
+};
 
 /*wikify = function(source,output,highlightRegExp,tiddler)
 {
@@ -72,16 +72,24 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 		{
 		var s = match[1].unDash();
 		if(s=="bgcolor")
+			{
 			s = "backgroundColor";
+			}
 		if(match[2])
+			{
 			e.setAttribute(s,match[2]);
+			}
 		else if(match[3])
+			{
 			e.setAttribute(s,match[3]);
+			}
 		else
+			{
 			e.setAttribute(s,match[4]);
+			}
 		match = re.exec(p);
 		}
-}
+};
 
 config.pbWikiFormatters = [
 {
@@ -145,10 +153,14 @@ config.pbWikiFormatters = [
 				prevColumns[col] = {rowSpanCount:1, element:cell};
 				config.formatterHelpers.applyCssHelper(cell,styles);
 				w.subWikifyTerm(cell,this.cellTermRegExp);
-				if(w.matchText.substr(w.matchText.length-2,1) == " ") // spaceRight
+				if(w.matchText.substr(w.matchText.length-2,1) == " ")
+					{// spaceRight
 					cell.align = spaceLeft ? "center" : "left";
+					}
 				else if(spaceLeft)
+					{
 					cell.align = "right";
+					}
 				w.nextMatch--;
 				}
 			col++;
@@ -188,12 +200,12 @@ config.pbWikiFormatters = [
 			if(listLevel > currLevel)
 				{
 				for(var i=currLevel; i<listLevel; i++)
-					placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],listType));
+					{placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],listType));}
 				}
 			else if(listLevel < currLevel)
 				{
-				for(var i=currLevel; i>listLevel; i--)
-					placeStack.pop();
+				for(i=currLevel; i>listLevel; i--)
+					{placeStack.pop();}
 				}
 			else if(listLevel == currLevel && listType != currType)
 				{
@@ -226,7 +238,7 @@ config.pbWikiFormatters = [
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[1])
 			{
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
@@ -242,16 +254,18 @@ config.pbWikiFormatters = [
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
 			var link = lookaheadMatch[1];
 			var text = lookaheadMatch[2] ? lookaheadMatch[2] : link;
-			if(/.*\.gif|jpg|png/g.exec(link))
+			if(/.*\.(?:gif|jpg|png)/g.exec(link))
 				{
 				var img = createTiddlyElement(w.output,"img");
 				if(lookaheadMatch[2])
+					{
 					img.title = text;
+					}
 				img.src = link;
 				}
 			else
@@ -294,7 +308,9 @@ pbDebug(w.output,"lm4:"+lookaheadMatch[4]);
 					}
 				var img = createTiddlyElement(e,"img");
 				if(lookaheadMatch[1])
+					{
 					img.title = lookaheadMatch[1];
+					}
 				img.src = lookaheadMatch[2];
 				}
 			else
@@ -340,15 +356,12 @@ pbDebug(w.output,"lm4:"+lookaheadMatch[4]);
 				return;
 				}
 			}
+		var output = w.output;
 		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText))
 			{
-			var link = createTiddlyLink(w.output,w.matchText,false);
-			w.outputText(link,w.matchStart,w.nextMatch);
+			output = createTiddlyLink(w.output,w.matchText,false);
 			}
-		else
-			{
-			w.outputText(w.output,w.matchStart,w.nextMatch);
-			}
+		w.outputText(output,w.matchStart,w.nextMatch);
 	}
 },
 
@@ -461,16 +474,22 @@ pbDebug(w.output,"lm4:"+lookaheadMatch[4]);
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
 			var e =createTiddlyElement(w.output,lookaheadMatch[1]);
 			if(lookaheadMatch[2])
-				config.formatterHelpers.setAttributesFromParams(e,lookaheadMatch[2])
+				{
+				config.formatterHelpers.setAttributesFromParams(e,lookaheadMatch[2]);
+				}
 			if(lookaheadMatch[3])
+				{
 				w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
+				}
 			else
+				{
 				w.subWikify(e,"</"+lookaheadMatch[1]+">");
+				}
 			}
 	}
 }
