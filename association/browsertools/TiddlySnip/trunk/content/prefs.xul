@@ -67,6 +67,17 @@
 				    type="checkbox"
 				    oncommand="changePref('enableclipboard',this.checked);"
 				    />
+                 <checkbox id="show_enablenotifications"
+				    label="Enable notifications on snippet save"
+				    type="checkbox"
+				    oncommand="changePref('enablenotifications',this.checked);"
+				    />
+                 <checkbox id="show_enablenotifsounds"
+				    label="Enable notifications sounds"
+				    type="checkbox"
+				    class="indent"
+				    oncommand="changePref('enablenotifsounds',this.checked);"
+				    />
 			    </vbox>
 			</groupbox>
 		    </vbox>

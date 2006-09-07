@@ -1,7 +1,7 @@
 // Gain access to the Prefences service.
 var pref = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch);
 
-var tiddlySnipUploading = false;    
+var tiddlySnipUploading = false;
 
 // Open prefs window.
 function tiddlySnipPrefs()
@@ -49,7 +49,7 @@ function toggleTSContextMenu()
         {
         if(tiddlySnipUploading)
             menus[i].setAttribute("disabled",true);
-        else 
+        else
             menus[i].setAttribute("disabled",false);
         }
 }

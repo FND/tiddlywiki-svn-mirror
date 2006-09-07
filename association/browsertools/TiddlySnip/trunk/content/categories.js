@@ -34,7 +34,6 @@ function editCategory()
     var categoriesTree = document.getElementById("categoriesTree");
     var selectedIndex = categoriesTree.currentIndex;
 
-    /* Ignore the button if no schedule selected */
     if(selectedIndex == -1)
         return;
 
@@ -136,23 +135,37 @@ function createCategoryPopups(mode)
         menu.removeChild(menu.childNodes.item(i));
     }
 
-    //add no categories message?
     //link to edit categories?
-    var categories = getCategories();
-    for(var n in categories)
-    {
-        // Create a new menu item to be added
-        var tempItem = document.createElement("menuitem");
+    if (noCategories())
+        {
+        var item = document.createElement("menuitem");
+        item.setAttribute("label","No categories defined");
+        menu.appendChild(item);
+        }
+    else
+        {
+        var categories = getCategories();
+        for(var n in categories)
+            {
+            // Create a new menu item to be added
+            var tempItem = document.createElement("menuitem");
 
-        // Set the new menu item's label
-        tempItem.setAttribute("label",n);
+            // Set the new menu item's label
+            tempItem.setAttribute("label",n);
 
-        //Set the function to fire when clicked
-        tempItem.setAttribute("oncommand", "tiddlySnip('"+mode+"','"+ categories[n]+"','"+n+"')");
+            //Set the function to fire when clicked
+            tempItem.setAttribute("oncommand", "tiddlySnip('"+mode+"','"+ categories[n]+"','"+n+"')");
 
-        // Add the item to our menu
-        menu.appendChild(tempItem);
-    }
+            // Add the item to our menu
+            menu.appendChild(tempItem);
+            }
+        }
+}
+
+function noCategories()
+{
+     var prefString = pref.getCharPref("tiddlysnip.categories");
+     return (prefString == '');
 }
 
 

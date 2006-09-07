@@ -29,6 +29,8 @@ function initPrefs()
     prefMap['uploadusername'] = readCharPref("uploadusername");
     prefMap['uploaddir'] = readCharPref("uploaddir");
     prefMap['uploadbackupdir'] = readCharPref("uploadbackupdir");
+    prefMap['enablenotifications'] = readBoolPref("enablenotifications");
+    prefMap['enablenotifsounds'] = readBoolPref("enablenotifsounds");
 
     document.getElementById("show_uploadpass").value = getUploadPassword();
     populateCategoriesList();
@@ -82,6 +84,7 @@ function toggleFields()
     document.getElementById('show_backuppath').setAttribute("disabled", !document.getElementById('show_togglebackuppath').checked || !document.getElementById('show_enablebackups').checked);
     document.getElementById('show_backuppathbutton').setAttribute("disabled", !document.getElementById('show_togglebackuppath').checked || !document.getElementById('show_enablebackups').checked);
     document.getElementById('show_togglebackuppath').setAttribute("disabled", !document.getElementById('show_enablebackups').checked);
+    document.getElementById('show_enablenotifsounds').setAttribute("disabled", !document.getElementById('show_enablenotifications').checked);
     for (var t=0; t<4; t++)
         {
         document.getElementById('show_tabchoice').childNodes[t].setAttribute("disabled", !document.getElementById('show_showtwaftersave').checked);

@@ -10,6 +10,7 @@
     <script type="application/x-javascript" src="tiddlySnip.js"/>
     <script type="application/x-javascript" src="tiddler.js"/>
     <script type="application/x-javascript" src="upload.js"/>
+    <script type="application/x-javascript" src="notifier.js"/>
 
     <popup id="contentAreaContextMenu">
 	    <menu id="contextTiddlySnip" label="TiddlySnip Selection as.." insertafter="context-savelink">
@@ -37,4 +38,13 @@
 	    label="TiddlySnip Preferences"
 	    oncommand="tiddlySnipPrefs();" />
     </menupopup>
+    
+    
+      <statusbar id="status-bar">
+    <hbox>
+      <popupset style="overflow: auto;">
+        <tooltip id="tiddlysnip-popup" style="max-height: none; max-width: none;" onclick="this.hidePopup();"/>
+      </popupset>
+    </hbox>
+  </statusbar>
 </overlay>

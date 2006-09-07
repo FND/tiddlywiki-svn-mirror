@@ -44,7 +44,7 @@ var tiddlySnipUploadObserver =
             }
         else status = false;
         subject.data = status;
-    },
+        },
 
     register: function()
         {
@@ -53,12 +53,12 @@ var tiddlySnipUploadObserver =
         observerService.addObserver(tiddlySnipUploadObserver, "quit-application-requested", false);
         },
 
-  unregister: function()
-      {
-      var observerService = Components.classes["@mozilla.org/observer-service;1"]
+    unregister: function()
+        {
+        var observerService = Components.classes["@mozilla.org/observer-service;1"]
                             .getService(Components.interfaces.nsIObserverService);
-      observerService.removeObserver(tiddlySnipUploadObserver, "quit-application-requested");
-      }
+        observerService.removeObserver(tiddlySnipUploadObserver, "quit-application-requested");
+        }
 };
 
 function uploadTW(content,title)
@@ -96,15 +96,21 @@ function uploadTW(content,title)
                     tiddlySnipUploadObserver.unregister();
 	                if(request.responseText.substr(0,1)==0)
 	                    {
-	                    alert("Snippet saved!");
-	                    //callbackFn(request.responseText);  // call notifications function here?
+	                    notifier("TiddlySnip","Snippet saved: " + title,true);
 	                    showTW(title);
                         }
 		            else
+		                {
 		                alert(request.responseText);
+		                errorSound();
+		                }
                     }
-                  else
-                      alert("Upload failed");
+                else
+                    {
+                    tiddlySnipUploadObserver.unregister();
+                    alert("Upload failed");
+                    errorSound();
+                    }
 		        }
 			};
 		request.setRequestHeader("Content-Length",data.length);

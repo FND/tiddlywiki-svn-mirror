@@ -185,6 +185,7 @@ function saveTW(fileLoc,oldTW,newTW,title)
             makeBackup(oldTW,fileLoc);
         saveFile(fileLoc,newTW);
         // call notifications here
+        notifier("TiddlySnip","Snippet saved: " + title,true);
         showTW(title);
         }
 }
