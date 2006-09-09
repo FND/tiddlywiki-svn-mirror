@@ -4,7 +4,7 @@ html/pretitle.html
 @title@
 html/prescript.html
 js/Config.js
-js/locales/locale.en.js
+js/Lingo.js
 js/main.js
 js/Paramifiers.js
 js/FormatterHelpers.js
