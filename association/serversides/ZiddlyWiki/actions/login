@@ -11,4 +11,4 @@
 # (username, loggedIn, etc).  If the user doesn't have the proper credentials,
 # loggedIn will be false...
 
-return container.html['status.html']()
+return container.javascripts['status.js'](context)

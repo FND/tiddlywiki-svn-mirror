@@ -24,7 +24,7 @@ if 'onlyAdmin' in tags.split() and 'Manager' not in context.REQUEST.AUTHENTICATE
   return '-'
 
 revisions = [
-  container.scripts.get_modified(tiddler.HistoricalRevisions[rev['key']]) + ' ' + rev['key']
+  container.scripts.get_modified(tiddler.HistoricalRevisions[rev['key']]) + ' ' + rev['key'] + ' ' +getattr(tiddler.HistoricalRevisions[rev['key']],'modifier','unknown')
   for rev in tiddler.manage_change_history()
   if not hasattr(tiddler.HistoricalRevisions[rev['key']], 'ignore_revision')][:MAX_REVISIONS]
 

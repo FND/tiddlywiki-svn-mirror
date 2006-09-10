@@ -39,6 +39,7 @@ else:
 
 parts = []
 parts.append(title)
+parts.append(tiddler.title)
 parts.append(tiddler(context, context.REQUEST).replace('\\', '\\s').replace('\n', '\\n').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
 parts.append(getattr(tiddler, 'modifier', ''))
 parts.append(modified)
@@ -47,5 +48,8 @@ try: parts.append(tiddler.tags.replace('&', '&amp;').replace('<', '&lt;').replac
 except: parts.append('')
 if update_timeline: parts.append('update timeline')
 else: parts.append('')
-parts.append(tiddler.manage_change_history()[0]['key'])
+if revision:
+    parts.append(revision)
+else:
+    parts.append(tiddler.manage_change_history()[0]['key'])
 return '\n'.join(parts)

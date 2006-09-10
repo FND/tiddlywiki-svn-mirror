@@ -125,18 +125,22 @@ config.macros.login = {
       var link = createTiddlyLink(place, zw.username, true);
       link.innerHTML = zw.username + ' (logged in)';
     } else {
-      var u = createTiddlyElement(null, "input", "zw_username");
+      // FIXME Only make login form if cookie-based login are enabled.
+      var form = document.createElement("form");
+      form.action = "?action=login";
+      var u = createTiddlyElement(form, "input", "zw_username");
       u.value = "YourName";
       u.onclick = this.clearInput;
       u.size = this.sizeTextbox;
       u.onkeypress = this.enterSubmit;
-      var p = createTiddlyElement(null, "input", "zw_password");
+      u.name = "__ac_name";
+      var p = createTiddlyElement(form, "input", "zw_password");
       p.value = "password";
       p.size = this.sizeTextbox;
       p.onclick = this.clearInput;
       p.onkeypress = this.enterSubmit;
-      place.appendChild(u);
-      place.appendChild(p);
+      p.name = "__ac_password";
+      place.appendChild(form);
       createTiddlyButton(place,this.label,this.prompt,this.doLogin);
     }
   },
@@ -153,21 +157,55 @@ config.macros.login = {
       if(e.keyCode == 13 || e.keyCode == 10) config.macros.login.doLogin(e);
   },
   doLogin: function(e) {
+      zw.status('Logging in...');
       var u = document.getElementById("zw_username");
       var p = document.getElementById("zw_password");
-      var str = ajax.posts(zw.get_url(),"action=login&__ac_name="+u.value+"&__ac_password="+p.value);
+      ajax.post(zw.get_url(),config.macros.login.doneLogin,"action=login&__ac_name="+u.value+"&__ac_password="+p.value);
+  },
+  doneLogin: function(str) {
       // Add HTTP Basic auth credentials?
-      zw.loggedIn = str.match("zw.loggedIn *= *(true|false)")[1] == "true";
-      zw.anonEdit = str.match("zw.anonEdit *= *(true|false)")[1] == "true";
-      zw.ziddlyPath = str.match("zw.ziddlyPath *= *'([^']*)'")[1];
-      zw.isAdmin = str.match("zw.isAdmin *= *(true|false)")[1] == "true";
-      zw.latestTiddler = str.match("zw.latestTiddler *= *([0-9]*)")[1];
-      zw.username = str.match("zw.username *= *'([^']*)'")[1];
+      window.eval(str);
       readOnly = !zw.loggedIn;
       if(!zw.loggedIn)
 	  alert("Authentication failed.  Did you type your username and password correctly?");
       refreshDisplay("SideBarOptions");
-      story.refresh();
+      story.refresh(); // FIXME change to story.refreshAllTiddlers() once synced with trunk.
+      zw.status(false);
+      // Check for new tiddlers
+      var numtofetch = 0;
+      for(var t in zw.tiddlerList) if(!store.fetchTiddler(t)) numtofetch++;
+      var fetched = 0;
+      var updateTimeline = "";
+      for(var t in zw.tiddlerList) {
+          if(!store.fetchTiddler(t)) {
+              if(++fetched == numtofetch) 
+                  updateTimeline = "updatetimeline=1&";
+              ajax.get('?action=get&id=' + encodeURIComponent(t)
+              + "&" + updateTimeline + zw.no_cache(), 
+              config.macros.login.addTiddler)
+          }
+      }
+  },
+  addTiddler: function(str) {
+      if(str.indexOf('\n') > -1) {
+        var parts = str.split('\n');
+        var tiddler = new Tiddler();
+        var title = parts[0];
+        var oldtitle = parts[1];
+        var oldtiddler = store.fetchTiddler(title);
+        tiddler.set(title, Tiddler.unescapeLineBreaks(parts[2].htmlDecode()), parts[3], 
+            Date.convertFromYYYYMMDDHHMM(parts[4]), parts[6], 
+            Date.convertFromYYYYMMDDHHMM(parts[5]));
+        tiddler.fields = { revisionkey: parts[8] };
+        store.addTiddler(tiddler);
+        story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
+        if(parts[7] == 'update timeline') {
+            refreshPageTemplate();  // Just redraw everything.
+            store.notify('TabTimeline', true)
+        }
+      } else if(str != '-') {
+        alert(str); // error message
+      }
   }
 };
 
@@ -245,11 +283,11 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
   newBody = replaceBodyCharacters(newBody);
   var callback = function(r){
     var parts = r.split('\n');
-    var tiddler = store.fetchTiddler(parts[0]);
-    tiddler.revisionKey = parts[7];
-    if(parts[1] != tiddler.escapeLineBreaks().htmlEncode()) 
-        alert("ZiddlyWiki error: Saved tiddler '"+parts[0]+"' is not the same as what was just saved."
-            +"\n-------------------before---------------------\n"+parts[1]
+    var tiddler = store.fetchTiddler(parts[1]);
+    tiddler.fields.revisionkey = parts[8];
+    if(parts[2] != tiddler.escapeLineBreaks().htmlEncode()) 
+        alert("ZiddlyWiki error: Saved tiddler '"+parts[1]+"' is not the same as what was just saved."
+            +"\n-------------------before---------------------\n"+parts[2]
             +"\n-------------------after----------------------\n"+tiddler.escapeLineBreaks().htmlEncode()
         );
     else
@@ -281,6 +319,7 @@ config.commands.revisions = {
   text: config.views.wikified.toolbarRevisions.text,
   tooltip: config.views.wikified.toolbarRevisions.tooltip,
   popupNone: config.views.wikified.toolbarRevisions.popupNone,
+  hideShadow: true,
   handler: function(event,src,title) {
     var popup = Popup.create(src);
     Popup.show(popup,false);
@@ -296,17 +335,19 @@ config.commands.revisions = {
             if(parts.length>1) {
               var modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
               var key = parts[1];
-              var button = createTiddlyButton(createTiddlyElement(popup,"li"), modified.toLocaleString(), 
+              var modifier = parts[2];
+              var button = createTiddlyButton(createTiddlyElement(popup,"li"), modified.toLocaleString() +" "+ modifier, 
                     config.messages.viewRevisionTooltip, 
                     function(){
                         displayTiddlerRevision(this.getAttribute('tiddlerTitle'), 
-                        this.getAttribute('revisionKey'), this); 
+                        this.getAttribute('revisionkey'), this); 
                         return false;
                     }, 'tiddlyLinkExisting tiddlyLink');
               button.setAttribute('tiddlerTitle', title);
-              button.setAttribute('revisionKey', key);
+              button.setAttribute('revisionkey', key);
               var t = store.fetchTiddler(title);
-              if(t.revisionKey == key || (!t.revisionKey && i==0))
+              if(!t) alert("Attempt to find revisions for non-existant tiddler '"+title+"'!");
+              if(t && (t.fields.revisionkey == key))
                 button.className = 'revisionCurrent';
             }
           }
@@ -321,7 +362,13 @@ config.commands.revisions = {
 }
 
 function displayTiddlerRevision(title, revision, src, updateTimeline) {
-  if(store.fetchTiddler(title).revisionKey == revision) return;
+  var tiddler = store.fetchTiddler(title);
+  if(typeof tiddler == "undefined" || !tiddler) {
+      alert("Attempt to find revisions for non-existant tiddler '"+title+"'!");
+      return;
+  }
+  if(typeof tiddler.fields.revisionkey != "undefined" && tiddler.fields.revisionkey == revision) 
+    return;
   zw.status('loading...');
   revision = revision ? '&revision=' + revision : '';
   updateTimeline = updateTimeline ? '&updatetimeline=1' : '';
@@ -334,13 +381,24 @@ function displayTiddlerRevisionCallback(encoded) {
     var parts = encoded.split('\n');
     var tiddler = new Tiddler();
     var title = parts[0];
-    tiddler.set(title, Tiddler.unescapeLineBreaks(parts[1]), parts[2], 
-        Date.convertFromYYYYMMDDHHMM(parts[3]), parts[5], 
-        Date.convertFromYYYYMMDDHHMM(parts[4]));
-    tiddler.revisionKey = parts[7];
+    var oldtitle = parts[1];
+    var oldtiddler = store.fetchTiddler(title);
+    if(oldtiddler.modified != parts[4]) {
+        if (!tiddler.fields) 
+            tiddler.fields = {};
+        tiddler.fields["revisioninfo"] = " (Historical revision " + parts[8];
+        if(title != oldtitle) {
+            tiddler.fields["revisioninfo"] += " renamed from "+oldtitle;
+        }
+        tiddler.fields["revisioninfo"] += ")";
+    }
+    tiddler.set(title, Tiddler.unescapeLineBreaks(parts[2].htmlDecode()), parts[3], 
+        Date.convertFromYYYYMMDDHHMM(parts[4]), parts[6], 
+        Date.convertFromYYYYMMDDHHMM(parts[5]));
+    tiddler.fields.revisionkey = parts[8];
     store.addTiddler(tiddler);
     story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
-    if(parts[6] == 'update timeline')
+    if(parts[7] == 'update timeline')
       store.notify('TabTimeline', true)
   } else if(encoded != '-') {
     alert(encoded); // error message
@@ -410,17 +468,17 @@ config.commands.editTiddler.handler = function(event,src,title) {
         if(!tiddler) { 
           tiddler = new Tiddler();
         }
-        if(tiddler.revisionKey != parts[7]) {
-          var tags = parts[5].readBracketedList();
+        if(tiddler.fields.revisionkey != parts[8]) {
+          var tags = parts[6].readBracketedList();
           if(tags.indexOf('deleted') != -1) { // Remove the deleted tag on edit
               alert("This tiddler was deleted on the server.  Editing the old deleted version.");
               tags.splice(tags.indexOf('deleted'),1);
               tiddler.deletedOnServer = true;
           }
-          tiddler.set(parts[0], Tiddler.unescapeLineBreaks(parts[1]), parts[2], 
-                      Date.convertFromYYYYMMDDHHMM(parts[3]), tags, 
-                      Date.convertFromYYYYMMDDHHMM(parts[4]));
-          tiddler.revisionKey = parts[7];
+          tiddler.set(parts[1], Tiddler.unescapeLineBreaks(parts[2].htmlDecode()), parts[3], 
+                      Date.convertFromYYYYMMDDHHMM(parts[4]), tags, 
+                      Date.convertFromYYYYMMDDHHMM(parts[5]));
+          tiddler.fields.revisionkey = parts[8];
         }
         if(!store.fetchTiddler(title))
           store.addTiddler(tiddler);
@@ -531,3 +589,4 @@ zw.refresh_tiddlers_callback = function(tiddlers) {
 };
 
 zw.refresh_interval_id = setInterval('zw.refresh_tiddlers()', 60000); // refresh every minute
+
