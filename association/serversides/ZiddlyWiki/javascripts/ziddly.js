@@ -157,7 +157,7 @@ config.macros.login = {
       if(e.keyCode == 13 || e.keyCode == 10) config.macros.login.doLogin(e);
   },
   doLogin: function(e) {
-      zw.status('Logging in...');
+      displayMessage('Logging in...');
       var u = document.getElementById("zw_username");
       var p = document.getElementById("zw_password");
       ajax.post(zw.get_url(),config.macros.login.doneLogin,"action=login&__ac_name="+u.value+"&__ac_password="+p.value);
@@ -170,7 +170,7 @@ config.macros.login = {
 	  alert("Authentication failed.  Did you type your username and password correctly?");
       refreshDisplay("SideBarOptions");
       story.refresh(); // FIXME change to story.refreshAllTiddlers() once synced with trunk.
-      zw.status(false);
+      clearMessage();
       // Check for new tiddlers
       var numtofetch = 0;
       for(var t in zw.tiddlerList) if(!store.fetchTiddler(t)) numtofetch++;
@@ -251,26 +251,11 @@ config.macros.importLink = {
   }
 };
 
-zw.status = function(message) {
-  if(!zw.status_elm) { // create the "status" element
-    zw.status_elm = document.createElement('div');
-    zw.status_elm.id = 'statusMessage';
-    zw.status_elm.style.display = 'none';
-    document.body.appendChild(zw.status_elm);
-  }
-  if(message) {
-    zw.status_elm.innerHTML = message;
-    zw.status_elm.style.display = 'block';
-  } else {
-    setTimeout("zw.status_elm.style.display = 'none'", 100);
-  }
-};
-
 TiddlyWiki.prototype.zw_removeTiddler = TiddlyWiki.prototype.removeTiddler;
 TiddlyWiki.prototype.removeTiddler = function(title) {
-  zw.status('deleting...');
+  displayMessage("Deleting '"+title+"' on server...");
   var callback = function(r){
-    zw.status(false);
+    clearMessage();
     if(r!='success') alert(config.messages.errorDeleting);
   };
   ajax.post(zw.get_url(), callback, 'action=delete&id=' + encodeURIComponent(title) + '&' + zw.no_cache());
@@ -279,7 +264,7 @@ TiddlyWiki.prototype.removeTiddler = function(title) {
 
 TiddlyWiki.prototype.zw_saveTiddler = TiddlyWiki.prototype.saveTiddler;
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags) {
-  zw.status('saving '+title+'...');
+  displayMessage("Saving '"+title+"'...");
   newBody = replaceBodyCharacters(newBody);
   var callback = function(r){
     var parts = r.split('\n');
@@ -301,7 +286,7 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
         + encodeURIComponent(tags) + '&modified=' 
         + encodeURIComponent((modified||store.fetchTiddler(title).modified).convertToYYYYMMDDHHMM()) 
         + '&' + zw.no_cache());
-  zw.status(false);
+  clearMessage();
   return tiddler;
 };
 
@@ -369,7 +354,7 @@ function displayTiddlerRevision(title, revision, src, updateTimeline) {
   }
   if(typeof tiddler.fields.revisionkey != "undefined" && tiddler.fields.revisionkey == revision) 
     return;
-  zw.status('loading...');
+  displayMessage("Loading revision information for '"+title+"'...");
   revision = revision ? '&revision=' + revision : '';
   updateTimeline = updateTimeline ? '&updatetimeline=1' : '';
   ajax.get('?action=get&id=' + encodeURIComponent(title) + revision 
@@ -403,7 +388,7 @@ function displayTiddlerRevisionCallback(encoded) {
   } else if(encoded != '-') {
     alert(encoded); // error message
   }
-  zw.status(false);
+  clearMessage();
 };
 
 function permaviewHash() {
@@ -452,10 +437,10 @@ config.commands.editTiddler.handler = function(event,src,title) {
   if(readOnly) {
     this.zw_handler(event,src,title);
   } else {
-    zw.status('loading '+title+'...');
+    displayMessage("Loading '"+title+"'...");
     var obj = this;
     var callback = function(r) {
-      zw.status(false);
+      clearMessage();
       if(r == '-') { // doesn't exist (might be a shadow tiddler)
         zw.editingTiddlers[title] = true;
         obj.zw_handler(event,src,title);
