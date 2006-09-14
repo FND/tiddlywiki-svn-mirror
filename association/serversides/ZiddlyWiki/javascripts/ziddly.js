@@ -166,8 +166,11 @@ config.macros.login = {
       // Add HTTP Basic auth credentials?
       window.eval(str);
       readOnly = !zw.loggedIn;
-      if(!zw.loggedIn)
+      if(!zw.loggedIn) {
 	  alert("Authentication failed.  Did you type your username and password correctly?");
+          clearMessage();
+          return false;
+      }
       refreshDisplay("SideBarOptions");
       story.refresh(); // FIXME change to story.refreshAllTiddlers() once synced with trunk.
       clearMessage();
