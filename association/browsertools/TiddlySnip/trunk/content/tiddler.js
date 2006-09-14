@@ -14,8 +14,30 @@ function previewTiddler()
     if (isOnline())
         {
         document.getElementById("tiddlerSaveButton").disabled = true;
-        downloadTW();
+        getLock();
         }
+}
+
+function getLock()
+{
+    var url = pref.getCharPref("tiddlysnip.uploadstoreurl").replace("store","lock") + "?action=status";
+    req = new XMLHttpRequest();
+    req.open('GET', url, true);
+    req.onreadystatechange = function()
+        {
+        var locked = false;
+        if (req.readyState == 4) {
+            if(req.status == 200) {
+                if(req.responseText.indexOf("file is locked")!=-1)
+                    locked = true;
+                }
+            }
+        if (locked)
+            alert("Target TW file is locked, cannot save snippets");
+        else
+            downloadTW();
+        }
+    req.send(null);
 }
 
 function downloadTW()
