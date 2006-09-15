@@ -32,6 +32,7 @@ tiddler: EnableAnimations.tiddler
 tiddler: Esperanto.tiddler
 tiddler: ExampleStyleSheet.tiddler
 tiddler: ExampleSystemConfig.tiddler
+tiddler: Examples.tiddler
 tiddler: ExtendedFormatting.tiddler
 tiddler: Finnish.tiddler
 tiddler: FireFox.tiddler
@@ -40,6 +41,7 @@ tiddler: FirstVersion.tiddler
 tiddler: FirstVersionAdaptations.tiddler
 tiddler: FlickrBadge.tiddler
 tiddler: French.tiddler
+tiddler: Galician.tiddler
 tiddler: GTDTiddlyWiki.tiddler
 tiddler: GenerateAnRssFeed.tiddler
 tiddler: German.tiddler
@@ -136,7 +138,6 @@ tiddler: TiddlerComments.tiddler
 tiddler: TiddlyWiki.tiddler
 tiddler: TiddlyWiki_Dev.tiddler
 tiddler: TiddlyWikiAdaptations.tiddler
-tiddler: TiddlyWikiExamples.tiddler
 tiddler: TiddlyWikiFiction.tiddler
 tiddler: TiddlyWikiPod.tiddler
 tiddler: TiddlyWikiTools.tiddler
@@ -150,4 +151,5 @@ tiddler: WikiWikiWeb.tiddler
 tiddler: WikiWord.tiddler
 tiddler: WikiWordEscape.tiddler
 tiddler: WritingStyle.tiddler
+tiddler: browsers.tiddler
 tiddler: translations.tiddler
