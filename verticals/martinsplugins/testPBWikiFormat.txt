@@ -7,6 +7,17 @@ PBwiki uses standard, simple wiki formatting. You can click the "view page sourc
 # Use ''# + a space'' at the beginning of a line to make a numbered list, like this.
 ## Nested lists like this one are made by doubling the * or # for subpoints
 
+# item1
+# item2
+## item2.1
+### item2.1.1
+# item3
+
+* item1
+* item2
+** item2.1
+* item3
+
 !!Character Formatting
 Character formatting is quite easy:
 
@@ -27,12 +38,11 @@ Here it is at a glance:
 * Two !! make a big headline (like "Sections" over the Sections section right here)
 * Three !!! and more--up to 6--make successively smaller headlines
 
-!!Other
-* 1 <raw>|</raw> (vertical bar) before and after something puts a |box around it|
-* 3 - (hypen) on a line by themselves make a dividing line (horizontal rule) like the one below the boxed text below this
+!Heading1
+!!Heading2
+!!!Heading3
 
- A box like this is made by putting a space in front of the line. ''If it doesn't seem to work, try adding an extra blank line before/after it.''
-
+* 3 - (hypen) on a line by themselves make a dividing line (horizontal rule) like the one below
 
 ---
 
@@ -40,20 +50,12 @@ Here it is at a glance:
 * **If you use two capital letters in a word with lowercase letters in between, PBwiki will automatically recognize the word as a link to a page.** For example, LookFunny and SandBox link to pages, but sandbox and Sandbox don't. If you use a word like FunnyWord but don't yet have a page called FunnyWord, you can create that page just by clicking on the word. (Until the page is created, the link will have a dashed underline decoration. This way you can tell at a glance which pages have been created and which haven't.) On the other hand, to prevent the word from becoming a link, add ~ in front of it.
 * **You can also just type or paste in URLs** like http://pbwiki.com/ or put <raw>[ ]</raw> brackets around a word. Brackets will force the word to become a link even if it isn't in the FunnyWord style.
 * You can beautify links by using <raw>[ ]</raw> brackets and <raw>|</raw>, like <raw>[http://pbwiki.com/|PBwiki]</raw> to get [http://pbwiki.com/|PBwiki].
-* **Just type in email addresses** like support@pbwiki.com.
-* Or type them in and beautify them by adding brackets: <raw>[support@pbwiki.com|help!!]</raw> gives [support@pbwiki.com|help!!].
-* **A special "top" link (to return a user to the top of the page) can be made with <top>.** The top link can be customized by inserting your own link description inside the angle brackets: <top link description>.
 
 
 ! Pictures
 * You can also show pictures in your wiki. Just add the link to the picture in <raw>[ ]</raw> brackets! For example, <raw>[http://pbwiki.com/sandwch2.jpg]</raw> gives:
 
 [http://pbwiki.com/sandwch2.jpg]
-
-
-!Uploaded Files
-
-* Uploaded files can be linked to in the same way as everything else--you'll just need the file's location (URL). You can find a list of all the files you have uploaded to your wiki by selecting the 'Files' link at the top or bottom of the page. While there, right-click on a file link to copy its URL.
 
 
 ---
@@ -69,12 +71,6 @@ Here it is at a glance:
 |a|b|
 |c|d|
 
----
-
-!Table of Contents
-* A table with links to all the (!, !!, and !!!) sections on that page can be made by inserting <toc> wherever you'd like the table. See the top of this page for an example.
-* To make the table only link to the largest (!) headlines, use <toc!>.
-* To make the table only link to the largest and second-largest headlines (! and !!), use <toc!!>.
 
 ---
 
@@ -83,17 +79,34 @@ Here it is at a glance:
 * The tags &lt;raw> and &lt;verbatim> can be used to prevent PBwiki from interpreting special characters like <raw>**</raw> before and after a word, which normally would make the word bold. For shorter sections of text (a few words), use &lt;raw>; for longer sections, use &lt;verbatim>.
 * These tags act like HTML tags in that there is both an opening tag and a closing tag, the opening before the text and the closing after the text: &lt;raw><raw>**words that aren't bolded**</raw>&lt;/raw>.
 
+
 ---
 
 !More
 
-* To display the view count for a page, insert <views> where you'd like to see it.
-* To link to a random page, insert <random>
 * PBwiki accepts HTML, so if there's something that you'd like to do that can't be done with WikiStyle--and you know HTML--go for it!
 
 ---
 
-! Special Pages
+!Not supported yet
+
+* 1 <raw>|</raw> (vertical bar) before and after something puts a |box around it|
+
+A box like this is made by putting a space in front of the line. ''If it doesn't seem to work, try adding an extra blank line before/after it.''
+
+* **Just type in email addresses** like support@pbwiki.com.
+* Or type them in and beautify them by adding brackets: <raw>[support@pbwiki.com|help!!]</raw> gives [support@pbwiki.com|help!!].
+
+
+!Not supported
+
+* **A special "top" link (to return a user to the top of the page) can be made with <top>.** The top link can be customized by inserting your own link description inside the angle brackets: <top link description>.
+* Uploaded files can be linked to in the same way as everything else--you'll just need the file's location (URL). You can find a list of all the files you have uploaded to your wiki by selecting the 'Files' link at the top or bottom of the page. While there, right-click on a file link to copy its URL.
+* A table with links to all the (!, !!, and !!!) sections on that page can be made by inserting <toc> wherever you'd like the table. See the top of this page for an example.
+* To make the table only link to the largest (!) headlines, use <toc!>.
+* To make the table only link to the largest and second-largest headlines (! and !!), use <toc!!>.
+* To display the view count for a page, insert <views> where you'd like to see it.
+* To link to a random page, insert <random>
 * RecentChanges (the 'Changes' link at the top and bottom) shows you all of the changes made to the wiki.
 * AllPages lists all of the pages in the wiki. Choosing "except revisions" at the top of AllPages reveals the earlier versions of the pages as well. AllPages is also the place to go if you would like to delete pages or revisions.
 * The SideBar that appears in the upper right may be edited like any other page in the wiki. If you don't have a SideBar, simply create a page with this name and add something to it.
