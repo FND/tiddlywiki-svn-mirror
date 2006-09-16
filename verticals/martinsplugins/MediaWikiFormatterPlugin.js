@@ -3,17 +3,17 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[MediaWiki|http://meta.wikimedia.org/wiki/Help:Wikitext]] (WikiPedia) text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.3.4|
+|''Version:''|0.3.5|
 |''Status:''|alpha pre-release|
-|''Date:''|Sep 3, 2006|
+|''Date:''|Sep 14, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
-|''Display empty template links:''|<<option chkDisplayEmptyTemplateLinks>>|
-|''Allow zooming of thumbnail images''|<<option chkDisplayEnableThumbZoom>>|
 |''Display instrumentation on load''|<<option chkDisplayInstrumentation>>|
-|''List references''|<<option chkListReferences>>|
+|''Display empty template links:''|<<option chkMediaWikiDisplayEmptyTemplateLinks>>|
+|''Allow zooming of thumbnail images''|<<option chkMediaWikiDisplayEnableThumbZoom>>|
+|''List references''|<<option chkMediaWikiListReferences>>|
 
 
 This is an early release of the MediaWikiFormatterPlugin, which allows you to insert MediaWiki formated
@@ -29,11 +29,7 @@ This is an early alpha release, with (at least) the following known issues:
 # Styles for tables don't yet match Wikipedia styles.
 # Styles for image galleries don't yet match Wikipedia styles.
 # Anchors not yet supported.
-# Template parameters not supported.
-# Text in mediaWikiTitledUrlLink not subwikified.
 
-!!!Todo
-# Add template parameter substitution. (The big one.)
 
 !!!Not supported
 # Magic words and variables http://meta.wikimedia.org/wiki/Help:Magic_words
@@ -51,14 +47,15 @@ version.extensions.MediaWikiFormatterPlugin = {installed:true};
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
 	{alertAndThrow("MediaWikiFormatterPlugin requires TiddlyWiki 2.1 or later.");}
 
-if(config.options.chkDisplayEmptyTemplateLinks == undefined)
-	{config.options.chkDisplayEmptyTemplateLinks = false;}
-if(config.options.chkDisplayEnableThumbZoom == undefined)
-	{config.options.chkDisplayEnableThumbZoom = false;}
 if(config.options.chkDisplayInstrumentation == undefined)
 	{config.options.chkDisplayInstrumentation = false;}
-if(config.options.chkListReferences == undefined)
-	{config.options.chkListReferences = false;}
+
+if(config.options.chkMediaWikiDisplayEmptyTemplateLinks == undefined)
+	{config.options.chkMediaWikiDisplayEmptyTemplateLinks = false;}
+if(config.options.chkMediaWikiDisplayEnableThumbZoom == undefined)
+	{config.options.chkMediaWikiDisplayEnableThumbZoom = false;}
+if(config.options.chkMediaWikiListReferences == undefined)
+	{config.options.chkMediaWikiListReferences = false;}
 
 MediaWikiFormatter = {}; // "namespace" for local functions
 
@@ -89,7 +86,7 @@ MediaWikiFormatter.getTemplateParams = function(w)
 //{{test|n=a|m=b}}
 	var params = {};
 
-	var pi = 1;
+	var i = 1;
 	var text = w.source + "|";
 	var pRegExp = /(?:([^\|]*)=)?([^\|]*)\|/mg;
 	var match = pRegExp.exec(text);
@@ -99,18 +96,18 @@ MediaWikiFormatter.getTemplateParams = function(w)
 		}
 	while(match)
 		{
+		//params[match[1] ? match[1] : i++] = match[2];
 		if(match[1])
 			{
 			params[match[1]] = match[2];
 			}
 		else
 			{
-			params[pi] = match[2];
-			pi++;
+			params[i] = match[2];
+			i++;
 			}
 		match = pRegExp.exec(text);
 		}
-
 	return params;
 };
 
@@ -135,21 +132,13 @@ MediaWikiFormatter.expandTemplate = function(w,tiddler,params)
 	match = paramsRegExp.exec(text);
 	while(match)
 		{
-//mwDebug(w.output,"m:"+match);
-//mwDebug(w.output,"m1:"+match[1]);
-//mwDebug(w.output,"m2:"+match[2]);
 		var name = match[1];
 		var def = match[2];
 		var val = params[name];
-//mwDebug(w.output,"v1:"+val);
 		if(!val)
 			{val = def;}
-//mwDebug(w.output,"v2:"+val);
 		if(!val)
 			{val = match[0];}
-//mwDebug(w.output,"v3:"+val);
-//mwDebug(w.output,"mi:"+match.index+" pi:"+pi);
-//mwDebug(w.output,"s:"+text.substring(pi,match.index));
 		t += text.substring(pi,match.index) + val;
 		pi = paramsRegExp.lastIndex;
 		match = paramsRegExp.exec(text);
@@ -157,16 +146,31 @@ MediaWikiFormatter.expandTemplate = function(w,tiddler,params)
 	return t == "" ? text : t;
 };
 
-MediaWikiFormatter.endOfParams = function(text)
+MediaWikiFormatter.endOfParams = function(w,text)
 {
+	var p = 0;
 	var i = text.indexOf("|");
 	if(i==-1) {return -1;}
 	var n = text.indexOf("\n");
 	if(n!=-1 && n<i) {return -1;}
-	n = text.indexOf("[[");
-	if(n!=-1 && n<i)
-		{// have [[ before |, so need to find first "|" after "[[..]]" pairs
-		return -1;
+	var b = text.indexOf("[[");
+	if(b!=-1 && b<i) {return -1;}// can't have [[ in parameters
+	
+	b = text.indexOf("{{");
+	while(b!=-1 && b<i)
+		{// have {{ before |, so need to find first "|" after "{{..}}" pairs
+		//cut off the ..{{, find the }} cut off and repeat
+		p += b;
+		text = text.substr(b);
+		var c = text.indexOf("}}");
+		p += c;
+		text = text.substr(c);
+		i = text.indexOf("|");
+		if(i==-1) {return -1;}
+		n = text.indexOf("\n");
+		if(n!=-1 && n<i) {return -1;}
+		b = text.indexOf("{{");
+		i = -1;
 		}
 	return i;
 };
@@ -175,9 +179,9 @@ MediaWikiFormatter.readToDelim = function(w)
 //!!! this is a bit rubish, needs doing properly.
 {
 //#delimiter, startBracket terminatorBracket
-	var dRegExp = new RegExp("\\|","mg");
-	var sRegExp = new RegExp("\\[\\[","mg");
-	var tRegExp = new RegExp("\\]\\]","mg");
+	var dRegExp = /\|/mg;
+	var sRegExp = /\[\[/mg;
+	var tRegExp = /\]\]/mg;
 
 	dRegExp.lastIndex = w.startMatch;
 	var dMatch = dRegExp.exec(w.source);
@@ -295,6 +299,7 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 			{
 			s = "backgroundColor";
 			}
+		try {
 		if(match[2])
 			{
 			e.setAttribute(s,match[2]);
@@ -307,6 +312,8 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 			{
 			e.setAttribute(s,match[4]);
 			}
+		}
+		catch(ex) {}
 		match = re.exec(p);
 		}
 };
@@ -386,7 +393,7 @@ config.mediaWikiFormatters = [
 			var captionText = w.source.substring(w.nextMatch);
 			var n = captionText.indexOf("\n");
 			captionText = captionText.substr(0,n);
-			i = MediaWikiFormatter.endOfParams(captionText);
+			i = MediaWikiFormatter.endOfParams(w,captionText);
 			if(i!=-1)
 				{
 				captionText = w.source.substr(w.nextMatch,i);
@@ -496,7 +503,7 @@ config.mediaWikiFormatters = [
 					}
 				var cellText = w.source.substr(w.nextMatch,lookahead.index-w.nextMatch);
 				var oldSource = w.source;
-				var i = MediaWikiFormatter.endOfParams(cellText);//cellText.indexOf("|");
+				var i = MediaWikiFormatter.endOfParams(w,cellText);//cellText.indexOf("|");
 				if(i!=-1)
 					{
 					cellText = cellText.replace(/^\+/mg,"");  //!!hack until I fix this properly
@@ -702,7 +709,7 @@ config.mediaWikiFormatters = [
 				var s = createTiddlyElement(t,"div");
 				s.style["width"] = Number(px) + 2 + "px";
 				var a = createTiddlyElement(s,"a",null,"internal");
-				if(config.options.chkDisplayEnableThumbZoom)
+				if(config.options.chkMediaWikiDisplayEnableThumbZoom)
 					{
 					a.href = src;
 					}
@@ -719,7 +726,7 @@ config.mediaWikiFormatters = [
 				w.subWikifyUnterm(tc);
 				w.source = oldSource; w.nextMatch = oldMatch;
 
-				if(config.options.chkDisplayEnableThumbZoom)
+				if(config.options.chkMediaWikiDisplayEnableThumbZoom)
 					{
 					var tm = createTiddlyElement(tc,"div",null,"magnify");
 					tm.style["float"] = "right";
@@ -849,7 +856,7 @@ config.mediaWikiFormatters = [
 				}
 			else
 				{
-				if(config.options.chkDisplayEmptyTemplateLinks)
+				if(config.options.chkMediaWikiDisplayEmptyTemplateLinks)
 					{// for conveniece, output the name of the template so can click on it and create tiddler
 					w.source = "[["+title+"]]";
 					w.nextMatch = 0;
@@ -882,7 +889,7 @@ config.mediaWikiFormatters = [
 },
 
 {
-	name: "mediaWikiExplicitLineBreak",
+	name: "mediaWikiExplicitLineBreakWithParams",
 	match: "<br(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?\\s*/?>",
 	lookaheadRegExp: /<br((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*\/?>/mg,
 	handler: function(w)
@@ -1052,7 +1059,7 @@ config.mediaWikiFormatters = [
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(config.options.chkListReferences && w.referenceCount)
+		if(config.options.chkMediaWikiListReferences && w.referenceCount)
 			{
 			var ol = createTiddlyElement(w.output,"ol",null,"references");
 			var oldSource = w.source;
@@ -1252,7 +1259,7 @@ config.mediaWikiFormatters = [
 			t.style["padding"] = "26px 0";
 
 			var a = createTiddlyElement(t,"a");
-			if(config.options.chkDisplayEnableThumbZoom)
+			if(config.options.chkMediaWikiDisplayEnableThumbZoom)
 				{a.href = src;}
 			a.title = ptitle;
 			var img = createTiddlyElement(a,"img");
