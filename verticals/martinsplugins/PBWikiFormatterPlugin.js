@@ -3,7 +3,7 @@
 |''Description:''|Allows Tiddlers to use [[PBWiki|http://yummy.pbwiki.com/WikiStyle]] text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#PBWikiFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.3|
+|''Version:''|0.1.4|
 |''Status:''|alpha pre-release|
 |''Date:''|Sep 3, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -23,7 +23,7 @@ Please report any defects you find at http://groups.google.co.uk/group/TiddlyWik
 This is an early alpha release, with (at least) the following known issues:
 
 !!!Issues
-# Strikethrough not supported.
+# Strikethrough yet not supported.
 # Vertical bars to create |boxes| not supported.
 # Space at the begining of a line to create a box not supported.
 # email links not supported.
@@ -51,19 +51,13 @@ pbDebug = function(out,str)
 {
 	if(source && source != "")
 		{
-		if(config.parsers)
-			var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
-		else
-			var w = new Wikifier(source,getFormatter(source,tiddler),highlightRegExp,tiddler);
-		w.linkCount = 0;
-		//w.container = output;
+		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
 		w.output = tiddler==null ? output : createTiddlyElement(output,"p");
 		w.subWikifyUnterm(w.output);
 		}
-//at point of usage can use:
-//var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
 }*/
 
+if(!config.formatterHelpers.setAttributesFromParams) {
 config.formatterHelpers.setAttributesFromParams = function(e,p)
 {
 	var re = /\s*(.*?)=(?:(?:"(.*?)")|(?:'(.*?)')|((?:\w|%|#)*))/mg;
@@ -90,6 +84,7 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 		match = re.exec(p);
 		}
 };
+}
 
 config.pbWikiFormatters = [
 {
@@ -495,16 +490,7 @@ pbDebug(w.output,"lm4:"+lookaheadMatch[4]);
 }
 ];
 
-if(config.parsers)
-	{
-	config.parsers.pBWikiFormatter = new Formatter(config.pbWikiFormatters);
-	config.parsers.pBWikiFormatter.formatTag = "PBWikiFormat";
-	}
-else
-	{
-	formatters.pBWikiFormatter = new Formatter(config.pbWikiFormatters);
-	formatters.pBWikiFormatter.formatTag = "PBWikiFormat";
-	}
-
+config.parsers.pBWikiFormatter = new Formatter(config.pbWikiFormatters);
+config.parsers.pBWikiFormatter.formatTag = "PBWikiFormat";
 } // end of "install only once"
 //}}}
