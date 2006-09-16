@@ -3,7 +3,7 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[PmWiki|http://pmwiki.org/wiki/PmWiki/TextFormattingRules]] text formatting|
 |''Source:''|http://martinsplugins.tiddlywiki.com/index.html#PmWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.2.2|
+|''Version:''|0.2.3|
 |''Status:''|alpha pre-release|
 |''Date:''|Sep 3, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -77,24 +77,7 @@ PmWikiFormatter.setFromParams = function(w,p)
 	return r;
 };
 
-config.formatterHelpers.enclosedTextHelper = function(w)
-{
-	this.lookaheadRegExp.lastIndex = w.matchStart;
-	var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-	if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-		{
-		var text = lookaheadMatch[1];
-		if(config.browser.isIE)
-			{
-			text = text.replace(/\n/g,"\r");
-			}
-//function createTiddlyElement(theParent,theElement,theID,theClass,theText)
-		createTiddlyElement(w.output,this.element,null,this.cls,text);
-		w.nextMatch = this.lookaheadRegExp.lastIndex;
-		//w.nextMatch = lookaheadMatch.index + lookaheadMatch[0].length;
-		}
-};
-
+if(!config.formatterHelpers.setAttributesFromParams) {
 config.formatterHelpers.setAttributesFromParams = function(e,p)
 {
 	var re = /\s*(.*?)=(?:(?:"(.*?)")|(?:'(.*?)')|((?:\w|%|#)*))/mg;
@@ -121,6 +104,7 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 		match = re.exec(p);
 		}
 };
+}
 
 config.pmWikiFormatters = [
 {
@@ -649,23 +633,14 @@ all men are created equal.*/
 	name: "pmWikiHtmlEntitiesEncoding",
 	match: "&#?[a-zA-Z0-9]{2,8};",
 	handler: function(w)
-		{
+	{
 		createTiddlyElement(w.output,"span").innerHTML = w.matchText;
-		}
+	}
 }
 
 ];
 
-if(config.parsers)
-	{
-	config.parsers.mediaWikiFormatter = new Formatter(config.pmWikiFormatters);
-	config.parsers.mediaWikiFormatter.formatTag = "PmWikiFormat";
-	}
-else
-	{
-	formatters.mediaWikiFormatter = new Formatter(config.pmWikiFormatters);
-	formatters.mediaWikiFormatter.formatTag = "PmWikiFormat";
-	}
-
+config.parsers.pmWikiFormatter = new Formatter(config.pmWikiFormatters);
+config.parsers.pmWikiFormatter.formatTag = "PmWikiFormat";
 } // end of "install only once"
 //}}}
