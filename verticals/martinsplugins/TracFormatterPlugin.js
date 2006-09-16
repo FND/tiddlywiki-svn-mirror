@@ -3,7 +3,7 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[Trac|http://trac.edgewall.org/wiki/WikiFormatting]] text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#TracFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.4|
+|''Version:''|0.1.5|
 |''Status:''|alpha pre-release|
 |''Date:''|Aug 12, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -27,13 +27,13 @@ if(!version.extensions.TracFormatterPlugin) {
 version.extensions.TracFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	alertAndThrow("TracFormatterPlugin requires TiddlyWiki 2.1 or later.");
+	{alertAndThrow("TracFormatterPlugin requires TiddlyWiki 2.1 or later.");}
 
 tracDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
 	createTiddlyElement(out,"br");
-}
+};
 
 config.tracFormatters = [
 {
@@ -106,7 +106,9 @@ config.tracFormatters = [
 					chr = w.source.substr(w.nextMatch,1);
 					}
 				else
+					{
 					cell = createTiddlyElement(e,"td");
+					}
 				var spaceLeft = false;
 				while(chr == " ")
 					{
@@ -121,10 +123,14 @@ config.tracFormatters = [
 					colSpanCount = 1;
 					}
 				w.subWikifyTerm(cell,this.cellTermRegExp);
-				if(w.matchText.substr(w.matchText.length-3,1) == " ") // spaceRight
+				if(w.matchText.substr(w.matchText.length-3,1) == " ")
+					{// SpaceRight
 					cell.align = spaceLeft ? "center" : "left";
+					}
 				else if(spaceLeft)
+					{
 					cell.align = "right";
+					}
 				prevCell = cell;
 				w.nextMatch -= 2;
 				}
@@ -159,12 +165,14 @@ config.tracFormatters = [
 					w.nextMatch++;
 					}
 				w.subWikifyTerm(dd,/(\n)/mg);
-				l2Match = this.l2RegExp.exec(w.source)
+				l2Match = this.l2RegExp.exec(w.source);
 				if(l2Match)
+					{
 					createTiddlyText(dd," ");
+					}
 				}
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
-			lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			}
 	}
 },
@@ -208,13 +216,13 @@ config.tracFormatters = [
 			w.nextMatch += lookaheadMatch[0].length;
 			if(listLevel > currLevel)
 				{
-				for(var t=currLevel; t<listLevel; t++)
-					placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],listType));
+				for(var i=currLevel; i<listLevel; i++)
+					{placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],listType));}
 				}
 			else if(listLevel < currLevel)
 				{
-				for(var t=currLevel; t>listLevel; t--)
-					placeStack.pop();
+				for(i=currLevel; i>listLevel; i--)
+					{placeStack.pop();}
 				}
 			else if(listLevel == currLevel && listType != currType)
 				{
@@ -261,7 +269,7 @@ config.tracFormatters = [
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
 			createTiddlyElement(w.output,"span").innerHTML = lookaheadMatch[1];
@@ -285,7 +293,7 @@ config.tracFormatters = [
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[1])
 			{
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
@@ -310,11 +318,11 @@ config.tracFormatters = [
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
 			var link = lookaheadMatch[1];
-			text = lookaheadMatch[2] ? lookaheadMatch[2] : link;
+			var text = lookaheadMatch[2] ? lookaheadMatch[2] : link;
 			var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
@@ -458,17 +466,7 @@ config.tracFormatters = [
 
 ];
 
-
-if(config.parsers)
-	{
-	config.parsers.tracFormatter = new Formatter(config.tracFormatters);
-	config.parsers.tracFormatter.formatTag = "TracFormat";
-	}
-else
-	{
-	formatters.tracFormatter = new Formatter(config.tracFormatters);
-	formatters.tracFormatter.formatTag = "TracFormat";
-	}
-
+config.parsers.tracFormatter = new Formatter(config.tracFormatters);
+config.parsers.tracFormatter.formatTag = "TracFormat";
 } // end of "install only once"
 //}}}
