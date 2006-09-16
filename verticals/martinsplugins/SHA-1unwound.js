@@ -3,29 +3,29 @@
 |''Description:''|Faster wersion of SHA-1 with unwound loops|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#SHA-1unwoundPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|1.0.1|
+|''Version:''|1.0.2|
 |''Status:''|beta pre-release|
 |''Date:''|Jul 21, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
-This is beta release of the SHA-1unwoundPlugin, a faster (but larger) SHA-1 hash algorithm with unwound loops.
+This is beta release of the SHA1UnwoundPlugin, a faster (but larger) SHA-1 hash algorithm with unwound loops.
 ***/
 
 //{{{
-// Ensure that the SHA-1UnwoundPlugin is only installed once.
-if(!version.extensions.SHA-1UnwoundPlugin) {
-version.extensions.SHA-1UnwoundPlugin = {installed:true};
+// Ensure that the SHA1UnwoundPlugin is only installed once.
+if(!version.extensions.SHA1UnwoundPlugin) {
+version.extensions.SHA1UnwoundPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	alertAndThrow("SHA-1UnwoundPlugin requires TiddlyWiki 2.1 or newer.");
+	{alertAndThrow("SHA-1UnwoundPlugin requires TiddlyWiki 2.1 or newer.");}
 
 // Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
 Crypto.sha1 = function(x,blen)
 {
 	if(blen==null)
-		return null;
+		{return null;}
 
 	// Add 32-bit integers, wrapping at 32 bits
 	//# Uses 16-bit operations internally to work around bugs in some JavaScript interpreters.
@@ -165,7 +165,7 @@ Crypto.sha1 = function(x,blen)
 		h4=a32(h4,e);
 		}
 	return Array(h0,h1,h2,h3,h4);
-}
+};
 
 } // end of "install only once"
 //}}}
