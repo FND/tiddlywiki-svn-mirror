@@ -3,7 +3,7 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[SocialText|http://www.socialtext.com/]] text formatting|
 |''Source:''|http://martinsplugins.tiddlywiki.com/index.html#SocialTextFormatterPlugin|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.4|
+|''Version:''|0.1.5|
 |''Status:''|alpha pre-release|
 |''Date:''|Sep 5, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -49,10 +49,11 @@ stDebug = function(out,str)
 	createTiddlyElement(out,"br");
 };
 
+if(!config.formatterHelpers.singleCharFormat) {
 config.formatterHelpers.singleCharFormat = function(w)
 {
 	this.lookaheadRegExp.lastIndex = w.matchStart;
-	var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+	var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 	if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[0].substr(lookaheadMatch[0].length-2,1) != " ")
 		{
 		w.subWikifyTerm(createTiddlyElement(w.output,this.element),this.termRegExp);
@@ -63,6 +64,7 @@ config.formatterHelpers.singleCharFormat = function(w)
 		w.outputText(w.output,w.matchStart,w.nextMatch);
 		}
 };
+}
 
 config.socialTextFormatters = [
 {
@@ -234,7 +236,7 @@ config.socialTextFormatters = [
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[1])
 			{
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
@@ -250,7 +252,7 @@ config.socialTextFormatters = [
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
 			var link = lookaheadMatch[2];
@@ -268,7 +270,7 @@ config.socialTextFormatters = [
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
 			var link = lookaheadMatch[2];
@@ -391,24 +393,14 @@ config.socialTextFormatters = [
 	name: "socialTextHtmlEntitiesEncoding",
 	match: "&#?[a-zA-Z0-9]{2,8};",
 	handler: function(w)
-		{
+	{
 		createTiddlyElement(w.output,"span").innerHTML = w.matchText;
-		}
+	}
 }
 
 ];
 
-if(config.parsers)
-	{
-	config.parsers.socialTextFormatter = new Formatter(config.socialTextFormatters);
-	config.parsers.socialTextFormatter.formatTag = "SocialTextFormat";
-	}
-else
-	{
-	formatters.socialTextFormatter = new Formatter(config.socialTextFormatters);
-	formatters.socialTextFormatter.formatTag = "SocialTextFormat";
-	}
-
+config.parsers.socialTextFormatter = new Formatter(config.socialTextFormatters);
+config.parsers.socialTextFormatter.formatTag = "SocialTextFormat";
 } // end of "install only once"
-
 //}}}
