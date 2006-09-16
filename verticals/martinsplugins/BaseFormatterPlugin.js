@@ -3,17 +3,18 @@
 |''Description:''|Allows Tiddlers to use Base text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#BaseFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.1|
+|''Version:''|0.1.4|
 |''Status:''|alpha pre-release|
 |''Date:''|Jul 21, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
-This is an early release of the BaseFormatterPlugin, which allows you to insert Base formated text into a TiddlyWiki.
+This is an early release of the BaseFormatterPlugin, which allows you to insert Base formated text into
+a TiddlyWiki.
 
-The aim is not to fully emulate Base, but to allow you to create Base content off-line and then paste the content
-into your Base wiki later on, with the expectation that only minor edits will be required.
+The aim is not to fully emulate Base, but to allow you to create Base content off-line and then paste
+the content into your Base wiki later on, with the expectation that only minor edits will be required.
 
 To use Base format in a Tiddler, tag the Tiddler with BaseFormat. See [[testBaseFormat]] for an example.
 
@@ -28,7 +29,7 @@ if(!version.extensions.BaseFormatterPlugin) {
 version.extensions.BaseFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	alertAndThrow("BaseFormatterPlugin requires TiddlyWiki 2.1 or later.");
+	{alertAndThrow("BaseFormatterPlugin requires TiddlyWiki 2.1 or later.");}
 
 baseFormatter = {}; // "namespace" for local functions
 
@@ -36,7 +37,7 @@ baseDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
 	createTiddlyElement(out,"br");
-}
+};
 
 config.formatterHelpers.setAttributesFromParams = function(e,p)
 {
@@ -46,26 +47,35 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 		{
 		var s = match[1].unDash();
 		if(s=="bgcolor")
+			{
 			s = "backgroundColor";
+			}
+		try {
 		if(match[2])
+			{
 			e.setAttribute(s,match[2]);
+			}
 		else if(match[3])
+			{
 			e.setAttribute(s,match[3]);
+			}
 		else
+			{
 			e.setAttribute(s,match[4]);
+			}
+		}
+		catch(ex) {}
 		match = re.exec(p);
 		}
-}
+};
 
 config.baseFormatters = [
 {
 	name: "baseHeading",
 	match: "^={1,6}",
-	termRegExp: /(={0,6}$\n?)/mg,
+	termRegExp: /(={1,6}$\n?)/mg,
 	handler: function(w)
 	{
-//var debug = createTiddlyElement(w.output,"p");
-//baseDebug(debug,"hello");
 		w.subWikifyTerm(createTiddlyElement(w.output,"h"+w.matchLength),this.termRegExp);
 	}
 },
@@ -86,7 +96,7 @@ config.baseFormatters = [
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[1])
 			{
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
@@ -102,7 +112,7 @@ config.baseFormatters = [
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
 			var e, text;
@@ -120,7 +130,7 @@ config.baseFormatters = [
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}
-	},
+	}
 },
 
 {
@@ -148,15 +158,12 @@ config.baseFormatters = [
 				return;
 				}
 			}
+		var output = w.output;
 		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText))
 			{
-			var link = createTiddlyLink(w.output,w.matchText,false);
-			w.outputText(link,w.matchStart,w.nextMatch);
+			output = createTiddlyLink(w.output,w.matchText,false);
 			}
-		else
-			{
-			w.outputText(w.output,w.matchStart,w.nextMatch);
-			}
+		w.outputText(output,w.matchStart,w.nextMatch);
 	}
 },
 
@@ -171,16 +178,16 @@ config.baseFormatters = [
 
 {
 	name: "baseBoldByChar",
-	match: "'''",
-	termRegExp: /(''')/mg,
+	match: "**",
+	termRegExp: /(**|(?=\n\n))/mg,
 	element: "strong",
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
 	name: "baseItalicByChar",
-	match: "''",
-	termRegExp: /('')/mg,
+	match: "//",
+	termRegExp: /(//|(?=\n\n))/mg,
 	element: "em",
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -188,15 +195,15 @@ config.baseFormatters = [
 {
 	name: "baseUnderlineByChar",
 	match: "__",
-	termRegExp: /(__)/mg,
+	termRegExp: /(__|(?=\n\n))/mg,
 	element: "u",
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
 	name: "baseStrikeByChar",
-	match: "--",
-	termRegExp: /(--)/mg,
+	match: "--(?!\\s|$)",
+	termRegExp: /((?!\s)--|(?=\n\n))/mg,
 	element: "strike",
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -204,7 +211,7 @@ config.baseFormatters = [
 {
 	name: "baseSuperscriptByChar",
 	match: "\\^\\^",
-	termRegExp: /(\^\^)/mg,
+	termRegExp: /(\^\^|(?=\n\n))/mg,
 	element: "sup",
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -212,7 +219,7 @@ config.baseFormatters = [
 {
 	name: "baseSubscriptByChar",
 	match: "~~",
-	termRegExp: /(~~)/mg,
+	termRegExp: /(~~|(?=\n\n))/mg,
 	element: "sub",
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -235,17 +242,8 @@ config.baseFormatters = [
 },
 
 {
-	name: "baseExplicitLineBreak",
-	match: "<br ?/?>",
-	handler: function(w)
-	{
-		createTiddlyElement(w.output,"br");
-	}
-},
-
-{
 	name: "baseLineBreak",
-	match: "\\n",
+	match: "\\n|<br ?/?>",
 	handler: function(w)
 	{
 		createTiddlyElement(w.output,"br");
@@ -259,9 +257,9 @@ config.baseFormatters = [
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
+			{w.nextMatch = this.lookaheadRegExp.lastIndex;}
 	}
 },
 
@@ -281,31 +279,28 @@ config.baseFormatters = [
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
 			var e =createTiddlyElement(w.output,lookaheadMatch[1]);
 			if(lookaheadMatch[2])
-				config.formatterHelpers.setAttributesFromParams(e,lookaheadMatch[2])
+				{
+				config.formatterHelpers.setAttributesFromParams(e,lookaheadMatch[2]);
+				}
 			if(lookaheadMatch[3])
+				{
 				w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
+				}
 			else
+				{
 				w.subWikify(e,"</"+lookaheadMatch[1]+">");
+				}
 			}
 	}
 }
 ];
 
-if(config.parsers)
-	{
-	config.parsers.baseFormatter = new Formatter(config.baseFormatters);
-	config.parsers.baseFormatter.formatTag = "BaseFormat";
-	}
-else
-	{
-	formatters.baseFormatter = new Formatter(config.baseFormatters);
-	formatters.baseFormatter.formatTag = "BaseFormat";
-	}
-
+config.parsers.baseFormatter = new Formatter(config.baseFormatters);
+config.parsers.baseFormatter.formatTag = "BaseFormat";
 } // end of "install only once"
 //}}}
