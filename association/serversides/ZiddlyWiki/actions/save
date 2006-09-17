@@ -61,7 +61,7 @@ body = body.replace('\r\n', '\n')
 is_newer = modified and container.scripts.to_date(modified) > container.scripts.to_date(container.scripts.get_modified(tiddler))
 if only_if_newer and not just_created and not is_newer:
   remove_locks(tiddler)
-  return context.REQUEST.RESPONSE.redirect("?action=get&id="+req.get('id'))
+  return context.REQUEST.RESPONSE.redirect("?action=get&id="+id)
 
 try:
   if tiddler() == body and tiddler.title == title and getattr(tiddler, 'tags', None) == tags:
