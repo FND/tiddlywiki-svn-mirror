@@ -115,7 +115,7 @@ function changeWikiFile()
 {
     var nsIFilePicker = Components.interfaces.nsIFilePicker;
     var filePicker = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-    filePicker.init(window,"Pick a TiddlyWiki in which to save Snippets",nsIFilePicker.modeOpen);
+    filePicker.init(window,getStr("pickTW"),nsIFilePicker.modeOpen);
     filePicker.appendFilters(nsIFilePicker.filterHTML);
     var res = filePicker.show();
     if(res == nsIFilePicker.returnCancel)
@@ -130,13 +130,13 @@ function changeWikiFile()
 
 function changeBackupPath()
 {
-    var nsIFilePicker = Components.interfaces.nsIFilePicker;
-    var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-    fp.init(window, "Select a File", nsIFilePicker.modeOpen);
+    //var nsIFilePicker = Components.interfaces.nsIFilePicker;
+    //var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
+    //fp.init(window, "Select a File", nsIFilePicker.modeOpen);
 
     var nsIFilePicker = Components.interfaces.nsIFilePicker;
     var filePicker = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-    filePicker.init(window, "Select folder for backup files", nsIFilePicker.modeGetFolder);
+    filePicker.init(window, getStr("selectFolder"), nsIFilePicker.modeGetFolder);
     var res = filePicker.show();
     if(res == nsIFilePicker.returnCancel)
         {

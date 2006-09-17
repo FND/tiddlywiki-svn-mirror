@@ -139,7 +139,7 @@ function createCategoryPopups(mode)
     if (noCategories())
         {
         var item = document.createElement("menuitem");
-        item.setAttribute("label","No categories defined");
+        item.setAttribute("label",getStr("noCategoriesLabel"));
         menu.appendChild(item);
         }
     else

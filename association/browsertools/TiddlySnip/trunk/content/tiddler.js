@@ -33,7 +33,7 @@ function getLock()
                 }
             }
         if (locked)
-            alert("Target TW file is locked, cannot save snippets");
+            alert(getStr("twLocked"));
         else
             downloadTW();
         }
@@ -60,7 +60,7 @@ function downloadTW()
 				document.getElementById("tiddlerSaveButton").disabled = false;
 			}
 			else
-				alert("Couldn't grab the TW file!");
+				alert(getStr("cantDownloadTW"));
 		}
 	};
 	request.send(null);
@@ -75,7 +75,7 @@ function saveTiddlerWindow(tw)
     var storeStart = findTwStore(tw);
     if (storeStart == -1)
         {
-        alert("Not a valid TW file!");
+        alert(getStr("notValidTW"));
         tiddlySnipPrefs();
         return false;
         }

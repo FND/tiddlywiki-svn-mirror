@@ -40,7 +40,7 @@ var tiddlySnipUploadObserver =
         var status;
         if (tiddlySnipUploading)
             {
-            status = !confirm("There is a TiddlySnip upload in progress, if you exit now the snippet will be lost.\nAre you sure you want to exit?");
+            status = !confirm(getStr("uploadInProgress"));
             }
         else status = false;
         subject.data = status;
@@ -96,7 +96,7 @@ function uploadTW(content,title)
                     tiddlySnipUploadObserver.unregister();
 	                if(request.responseText.substr(0,1)==0)
 	                    {
-	                    notifier("TiddlySnip","Snippet saved: " + title,true);
+	                    notifier("TiddlySnip",getStr("snippetSaved") +" " + title,true);
 	                    showTW(title);
                         }
 		            else
@@ -108,7 +108,7 @@ function uploadTW(content,title)
                 else
                     {
                     tiddlySnipUploadObserver.unregister();
-                    alert("Upload failed");
+                    alert(getStr("uploadFailed"));
                     errorSound();
                     }
 		        }

@@ -1,2 +1,5 @@
 content 	tiddlysnip  					jar:chrome/tiddlysnip.jar!/content/
+
+locale tiddlysnip en-US jar:chrome/tiddlysnip.jar!/locale/en-US/TiddlySnip/
+
 overlay		chrome://browser/content/browser.xul		chrome://tiddlysnip/content/browserOverlay.xul

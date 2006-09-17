@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Localization Information -->
+<!DOCTYPE overlay SYSTEM "chrome://tiddlysnip/locale/tiddlysnip.dtd">
 
 <overlay id="tiddlySnipOverlay" 
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    
+<stringbundleset id="stringbundleset">
+    <stringbundle id="tiddlysnip-strings"
+        src="chrome://tiddlysnip/locale/tiddlysnip.properties"/>
+</stringbundleset>
 
     <script type="application/x-javascript" src="browserOverlay.js"/>
     <script type="application/x-javascript" src="fileIO.js"/>
@@ -13,20 +20,20 @@
     <script type="application/x-javascript" src="notifier.js"/>
 
     <popup id="contentAreaContextMenu">
-	    <menu id="contextTiddlySnip" label="TiddlySnip Selection as.." insertafter="context-savelink">
+	    <menu id="contextTiddlySnip" label="&contextselection.label;" insertafter="context-savelink">
 	        <menupopup id="contextTiddlySnipPopup" onpopupshowing="createCategoryPopups('Snip')"/>
         </menu>
    	    <menuitem id="contextSimpleTiddlySnip"
-	        label="TiddlySnip Selection"
+	        label="&contextsimpleselection.label;"
 	        accesskey="T"
 	        insertafter="context-savelink"
 	        oncommand="tiddlySnip('Snip','','')"
             />
-	    <menu id="contextTiddlyClip" label="TiddlySnip Clipboard as.." insertafter="context-stop">
+	    <menu id="contextTiddlyClip" label="&contextclipboard.label;" insertafter="context-stop">
 	        <menupopup id="contextTiddlyClipPopup" onpopupshowing="createCategoryPopups('Clip')"/>
         </menu>
    	    <menuitem id="contextSimpleTiddlyClip"
-	        label="TiddlySnip Clipboard"
+	        label="&contextsimpleclipboard.label;"
 	        accesskey="T"
 	        insertafter="context-stop"
 	        oncommand="tiddlySnip('Clip','','')"

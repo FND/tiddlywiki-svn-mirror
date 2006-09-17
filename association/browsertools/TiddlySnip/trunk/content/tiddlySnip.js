@@ -1,3 +1,11 @@
+
+
+function getStr(name)
+{
+    var tsnipStr = document.getElementById("tiddlysnip-strings");
+    return tsnipStr.getString(name);
+}
+
 // Return plain text selection as a string.
 function getSelectedText()
 {

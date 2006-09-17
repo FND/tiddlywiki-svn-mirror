@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Localization Information -->
+<!DOCTYPE overlay SYSTEM "chrome://tiddlysnip/locale/tiddlysnip.dtd">
+
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
 <window id="pref-window"
     xmlns:html="http://www.w3.org/1999/xhtml"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
     onload="initPrefs();"
-    title="TiddlySnip Preferences"
+    title="&prefwindow.title;"
     flex="1"
     orient="vertical" windowtype="tiddlysnip:preferences"
     persist="screenX screenY"
     >
+
+	<stringbundleset id="stringbundleset">
+        <stringbundle id="tiddlysnip-strings"
+            src="chrome://tiddlysnip/locale/tiddlysnip.properties"/>
+    </stringbundleset>
 
     <script type="application/x-javascript" src="prefs.js"/>
     <script type="application/x-javascript" src="categories.js"/>
@@ -20,60 +28,60 @@
     <vbox flex="1">
 	<tabbox>
 	    <tabs>
-            <tab label="General" selected="true" id="generalpaneltab"/>
-		    <tab label="Backup options" selected="false" id="backuppaneltab"/>
-		    <tab label="Upload options" selected="false" id="uploadpaneltab"/>
-		    <tab label="View TW options" selected="false" id="viewtwpaneltab"/>
-		    <tab label="Categories" selected="false" id="categoriespaneltab"/>
+            <tab label="&preftabgeneral.label;" selected="true" id="generalpaneltab"/>
+		    <tab label="&preftabbackup.label;" selected="false" id="backuppaneltab"/>
+		    <tab label="&preftabupload.label;" selected="false" id="uploadpaneltab"/>
+		    <tab label="&preftabviewtw.label;" selected="false" id="viewtwpaneltab"/>
+		    <tab label="&preftabcategories.label;" selected="false" id="categoriespaneltab"/>
 	    </tabs>
 	    <tabpanels flex="1">
 		<tabpanel id="generalpanel">
 		    <vbox flex="0">
    			<groupbox>
-			    <caption label="TiddlyWiki options" />
-                <label>File location:</label>
+			    <caption label="&twoptions.label;" />
+                <label>&twfileloc.label;</label>
                 <hbox>
                     <textbox class="padded" flex="5"
                          id="show_wikifile" oninput="toggleUploadTab()" onchange="changePref('wikifile',this.value);"
                          />
                     <button label="Browse" onclick="changeWikiFile()"/>
                 </hbox>
-				<label>TW username:</label>
+				<label>&twuser.label;</label>
 		        <textbox class="padded" flex="5"
                     id="show_wikiuser"
 				    type="autocomplete" autocompletesearch="form-history" onchange="changePref('wikiuser',this.value);"
 				    />
-				<label>Snippet tiddler tags:</label>
+				<label>&snippettags.label;</label>
 		        <textbox class="padded" flex="5"
                     id="show_tiddlertags"
 				    type="autocomplete" autocompletesearch="form-history" onchange="changePref('tiddlertags',this.value);"
 				    />
 			</groupbox>
 			<groupbox >
-			    <caption label="Misc options" />
+			    <caption label="&miscoptions.label;" />
 			    <vbox flex="0">
 				<checkbox id="show_includesourceinfo"
-				    label="Create link to source document in snippet tiddler"
+				    label="&incsource.label;"
 				    type="checkbox"
 				    oncommand="changePref('includesourceinfo',this.checked);"
 				    />
                  <checkbox id="show_enablecategories"
-				    label="Enable Advanced Mode (multiple snippet categories)"
+				    label="&advancedmode.label;"
 				    type="checkbox"
 				    oncommand="changePref('enablecategories',this.checked);"
 				    />
                  <checkbox id="show_enableclipboard"
-				    label="Enable saving from clipboard"
+				    label="&enableclipboard.label;"
 				    type="checkbox"
 				    oncommand="changePref('enableclipboard',this.checked);"
 				    />
                  <checkbox id="show_enablenotifications"
-				    label="Enable notifications on snippet save"
+				    label="&enablenotifications.label;"
 				    type="checkbox"
 				    oncommand="changePref('enablenotifications',this.checked);"
 				    />
                  <checkbox id="show_enablenotifsounds"
-				    label="Enable notifications sounds"
+				    label="&enablesounds.label;"
 				    type="checkbox"
 				    class="indent"
 				    oncommand="changePref('enablenotifsounds',this.checked);"
@@ -85,28 +93,28 @@
 		<tabpanel id="backuppanel">
 		    <vbox flex="1">
             <groupbox >
-                <caption label="Backup options" />
+                <caption label="&backupoptions.label;" />
                 <hbox flex="0" align="center">
                     <checkbox id="show_enablebackups"
-                    label="Enable Backups"
+                    label="&enablebackups.label;"
                     type="checkbox"
                     oncommand="changePref('enablebackups',this.checked);"
                     />
                 </hbox>
                 <hbox flex="0" align="center">
                     <checkbox id="show_togglebackuppath"
-                    label="Custom Backup Path"
+                    label="&custombackuppath.label;"
                     type="checkbox"
                     oncommand="changePref('togglebackuppath',this.checked);"
                     />
                 </hbox>
-                <label>Folder for backup files:</label>
+                <label>&backupfolder.label;</label>
                 <hbox flex="0" class="indent">
                     <textbox class="padded" flex="5"
                         id="show_backuppath"
                         type="autocomplete" autocompletesearch="history"
                         />
-                    <button id="show_backuppathbutton" label="Browse" onclick="changeBackupPath()"/>
+                    <button id="show_backuppathbutton" label="&browse.label;" onclick="changeBackupPath()"/>
                 </hbox>
             </groupbox>
             </vbox>
@@ -114,34 +122,34 @@
         <tabpanel id="uploadpanel">
             <vbox flex="1">
             <groupbox>
-                <caption label="Upload Options" />
+                <caption label="&uploadoptions.label;" />
                 <vbox>
-  				    <label>Store url:</label>
+  				    <label>&storeurl.label;</label>
 		            <textbox class="padded" flex="5"
                         id="show_uploadstoreurl"
 				        type="autocomplete" autocompletesearch="form-history" onchange="changePref('uploadstoreurl',this.value);"
 				        />
-                    <label>File name:</label>
+                    <label>&filename.label;</label>
 		            <textbox class="padded" flex="5"
                         id="show_uploadfilename"
 				        type="autocomplete" autocompletesearch="form-history" onchange="changePref('uploadfilename',this.value);"
 				        />
-				    <label>Backup Directory:</label>
+				    <label>&backupdir.label;</label>
 		            <textbox class="padded" flex="5"
                         id="show_uploadbackupdir"
 				        type="autocomplete" autocompletesearch="form-history" onchange="changePref('uploadbackupdir',this.value);"
 				        />
-                    <label>Upload Directory:</label>
+                    <label>&uploaddir.label;</label>
 		            <textbox class="padded" flex="5"
                         id="show_uploaddir"
 				        type="autocomplete" autocompletesearch="form-history" onchange="changePref('uploaddir',this.value);"
 				        />
-                    <label>Username:</label>
+                    <label>&username.label;</label>
 		            <textbox class="padded" flex="5"
                         id="show_uploadusername"
 				        type="autocomplete" autocompletesearch="form-history" onchange="changePref('uploadusername',this.value);"
 				        />
-				    <label>Password:</label>
+				    <label>&password.label;</label>
 		            <textbox class="padded" flex="5"
                         id="show_uploadpass"
 				        type="password" autocompletesearch="form-history"
@@ -153,26 +161,26 @@
 		<tabpanel id="viewtwpanel">
 		    <vbox flex="0">
 		        <checkbox id="show_showtwaftersave"
-			    label="Open TW after saving"
+			    label="&opentw.label;"
 		            type="checkbox"
 		            oncommand="changePref('showtwaftersave',this.checked);"
 		            />
 			<groupbox class="indent">
-			    <caption label="Open TW in:" />
+			    <caption label="&opentwin.label;" />
 			    <radiogroup id="show_tabchoice">
-				<radio label="Current tab or window"
+				<radio label="&curtab.label;"
 				    oncommand="changePref('tabchoice',this.value);"
 				    value="0"
 				    />
-				<radio label="New window"
+				<radio label="&newwindow.label;"
 				    oncommand="changePref('tabchoice',this.value);"
 				    value="1"
 				    />
-				<radio label="New foreground tab"
+				<radio label="&foregroundtab.label;"
 				    oncommand="changePref('tabchoice',this.value);"
 				    value="2"
 				    />
-				<radio label="New background tab"
+				<radio label="&backgroundtab.label;"
 				    oncommand="changePref('tabchoice',this.value);"
 				    value="3"
 				    />
@@ -182,13 +190,13 @@
 		</tabpanel>
 		<tabpanel id="categoriespanel">
 		    <vbox>
-			<html:b><caption label="Snippet Categories" /></html:b>
+			<html:b><caption label="&snippetcategories.label;" /></html:b>
 			<tree id="categoriesTree" flex="1" seltype="single" hidecolumnpicker="true"
 			    rows="7">
 			    <treecols>
-				<treecol id="nameColLabel" label="Name" flex="5" />
+				<treecol id="nameColLabel" label="&cat_name.label;" flex="5" />
 				<splitter class="tree-splitter" />
-				<treecol id="tagsColLabel" label="Tags" flex="90" />
+				<treecol id="tagsColLabel" label="&cat_tags.label;" flex="90" />
 			    </treecols>
 			    <treechildren id="categoriesList">
 				<!-- to be populated by the javascript on pane load -->
@@ -196,7 +204,7 @@
 			</tree>
 			
 			<groupbox id="categoriesGroupBox">
-			    <caption label="Save/Edit Categories" />
+			    <caption label="&saveeditcat.label;" />
 			    <grid flex="1">
                     <columns>
                         <column flex="0"/>
@@ -204,14 +212,14 @@
                     </columns>
                     <rows>
                         <row>
-                            <label value="Name:" />
+                            <label value="&cat_namefield.label;" />
                             <textbox class="padded" flex="1"
                                 id="editCategoryName"
                                 type="autocomplete" autocompletesearch="form-history"
                                 />
                         </row>
                         <row>
-                            <label value="Tags:"/>
+                            <label value="&cat_tagsfield.label;"/>
                             <textbox class="padded" flex="1"
                                 id="editCategoryTags"
                                 type="autocomplete" autocompletesearch="form-history"
@@ -221,13 +229,13 @@
                 </grid>
 			    <separator/>
 			    <hbox align="center" pack="end">
-                    <button label="Edit"
+                    <button label="&edit.label;"
                         oncommand="editCategory();" />
-                    <button label="Cancel"
+                    <button label="&cancel.label;"
                         oncommand="cancelEditCategory();" />
-                    <button label="Delete"
+                    <button label="&delete.label;"
                         oncommand="deleteCategory();" />
-                    <button label="Save"
+                    <button label="&save.label;"
                         oncommand="saveCategory();" />
 			    </hbox>
 			</groupbox>
@@ -235,8 +243,8 @@
 		</tabpanel>
 	    </tabpanels>
 	</tabbox>
-	<button label="Submit Changes" default="true" onclick="saveAndExit();"/>
-	<button label="Cancel" onclick="cancelAndExit();"/>
+	<button label="&submitchanges.label;" default="true" onclick="saveAndExit();"/>
+	<button label="&cancel.label;" onclick="cancelAndExit();"/>
     </vbox>
 </window>
 
