@@ -39,6 +39,18 @@ baseDebug = function(out,str)
 	createTiddlyElement(out,"br");
 };
 
+wikify = function(source,output,highlightRegExp,tiddler)
+{
+	if(source && source != "")
+		{
+		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
+		w.output = tiddler==null ? output : createTiddlyElement(output,"p");
+		w.subWikifyUnterm(w.output);
+		}
+//at point of usage can use:
+//var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
+};
+
 config.formatterHelpers.setAttributesFromParams = function(e,p)
 {
 	var re = /\s*(.*?)=(?:(?:"(.*?)")|(?:'(.*?)')|((?:\w|%|#)*))/mg;
@@ -76,7 +88,9 @@ config.baseFormatters = [
 	termRegExp: /(={1,6}$\n?)/mg,
 	handler: function(w)
 	{
-		w.subWikifyTerm(createTiddlyElement(w.output,"h"+w.matchLength),this.termRegExp);
+		var output = w.output.parentNode;
+		w.subWikifyTerm(createTiddlyElement(output,"h"+w.matchLength),this.termRegExp);
+		w.output = createTiddlyElement(output,"p");
 	}
 },
 
@@ -85,7 +99,9 @@ config.baseFormatters = [
 	match: "^---+$\\n?",
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"hr");
+		var output = w.output.parentNode;
+		createTiddlyElement(output,"hr");
+		w.output = createTiddlyElement(output,"p");
 	}
 },
 
@@ -237,7 +253,7 @@ config.baseFormatters = [
 	match: "\\n{2,}",
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"p");
+		w.output = createTiddlyElement(w.output.parentNode,"p");
 	}
 },
 
