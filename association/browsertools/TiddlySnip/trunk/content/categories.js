@@ -140,6 +140,7 @@ function createCategoryPopups(mode)
         {
         var item = document.createElement("menuitem");
         item.setAttribute("label",getStr("noCategoriesLabel"));
+        item.setAttribute("disabled",true);
         menu.appendChild(item);
         }
     else
