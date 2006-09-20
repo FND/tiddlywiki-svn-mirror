@@ -200,7 +200,7 @@ config.macros.login = {
         tiddler.set(title, Tiddler.unescapeLineBreaks(parts[2].htmlDecode()), parts[3], 
             Date.convertFromYYYYMMDDHHMM(parts[4]), parts[6], 
             Date.convertFromYYYYMMDDHHMM(parts[5]));
-        tiddler.fields = { revisionkey: parts[8] };
+        tiddler.setValue('revisionkey', parts[8]);
         store.addTiddler(tiddler);
         story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
         if(parts[7] == 'update timeline') {
@@ -273,8 +273,7 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
   var callback = function(r){
     var parts = r.split('\n');
     var tiddler = store.fetchTiddler(parts[1]);
-    if(!tiddler.fields) tiddler.fields = {};
-    tiddler.fields.revisionkey = parts[8];
+    store.setValue(tiddler,'revisionkey', parts[8]);
     if(parts[2] != tiddler.escapeLineBreaks().htmlEncode()) 
         alert("ZiddlyWiki error: Saved tiddler '"+parts[1]+"' is not the same as what was just saved."
             +"\n-------------------before---------------------\n"+parts[2]
@@ -337,7 +336,7 @@ config.commands.revisions = {
               button.setAttribute('revisionkey', key);
               var t = store.fetchTiddler(title);
               if(!t) alert("Attempt to find revisions for non-existant tiddler '"+title+"'!");
-              if(t && (t.fields.revisionkey == key))
+              if(t && (store.getValue(t, 'revisionkey') == key))
                 button.className = 'revisionCurrent';
             }
           }
@@ -354,8 +353,7 @@ config.commands.revisions = {
 function displayTiddlerRevision(title, revision, src, updateTimeline) {
   var tiddler = store.fetchTiddler(title);
 // We already have the latest version
-  if(tiddler && typeof tiddler.fields.revisionkey != "undefined" 
-      && tiddler.fields.revisionkey == revision) return;
+  if(tiddler && store.getValue(tiddler, 'revisionkey') == revision) return;
   displayMessage("Loading revision information for '"+title+"'...");
   revision = revision ? '&revision=' + revision : '';
   updateTimeline = updateTimeline ? '&updatetimeline=1' : '';
@@ -371,18 +369,17 @@ function displayTiddlerRevisionCallback(encoded) {
     var oldtitle = parts[1];
     var oldtiddler = store.fetchTiddler(title);
     if(oldtiddler.modified != parts[4]) {
-        if (!tiddler.fields) 
-            tiddler.fields = {};
-        tiddler.fields["revisioninfo"] = " (Historical revision " + parts[8];
+        var tmpstr = " (Historical revision " + parts[8];
         if(title != oldtitle) {
-            tiddler.fields["revisioninfo"] += " renamed from "+oldtitle;
+            tmpstr += " renamed from " + oldtitle;
         }
-        tiddler.fields["revisioninfo"] += ")";
+        tmpstr += ")";
+        store.setValue(tiddler, "revisioninfo", tmpstr);
     }
     tiddler.set(title, Tiddler.unescapeLineBreaks(parts[2].htmlDecode()), parts[3], 
         Date.convertFromYYYYMMDDHHMM(parts[4]), parts[6], 
         Date.convertFromYYYYMMDDHHMM(parts[5]));
-    tiddler.fields.revisionkey = parts[8];
+    store.setValue(tiddler, 'revisionkey', parts[8]);
     store.addTiddler(tiddler);
     if(tiddler.tags.contains('deleted')) store.deleteTiddler(title);
     story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
@@ -456,7 +453,7 @@ config.commands.editTiddler.handler = function(event,src,title) {
         if(!tiddler) { 
           tiddler = new Tiddler();
         }
-        if(!tiddler.fields || tiddler.fields.revisionkey != parts[8]) {
+        if(store.getValue(tiddler, 'revisionkey') != parts[8]) {
           var tags = parts[6].readBracketedList();
           if(tags.indexOf('deleted') != -1) { // Remove the deleted tag on edit
               alert("This tiddler was deleted on the server.  Editing the old deleted version.");
@@ -466,7 +463,7 @@ config.commands.editTiddler.handler = function(event,src,title) {
           tiddler.set(parts[1], Tiddler.unescapeLineBreaks(parts[2].htmlDecode()), parts[3], 
                       Date.convertFromYYYYMMDDHHMM(parts[4]), tags, 
                       Date.convertFromYYYYMMDDHHMM(parts[5]));
-          tiddler.fields.revisionkey = parts[8];
+          store.setValue('revisionkey', parts[8]);
         }
         if(!store.fetchTiddler(title))
           store.addTiddler(tiddler);
