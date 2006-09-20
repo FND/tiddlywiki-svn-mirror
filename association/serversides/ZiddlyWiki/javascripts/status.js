@@ -1,4 +1,3 @@
-<dtml-call "REQUEST.RESPONSE.setHeader('Content-Type', 'text/javascript')">
 if(typeof zw == "undefined") var zw = {};
 zw.loggedIn = <dtml-var "('Authenticated' in REQUEST.AUTHENTICATED_USER.getRoles()) and 'true' or 'false'">;
 zw.anonEdit = <dtml-var "getattr(_, 'zw_anon_edit', None) and 'true' or 'false'">;
