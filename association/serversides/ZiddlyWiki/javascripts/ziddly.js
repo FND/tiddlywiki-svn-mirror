@@ -96,8 +96,9 @@ config.shadowTiddlers.StyleSheetColors +=
 config.shadowTiddlers.StyleSheetLayout += 
          '\n/*{{{*/'
 	+'#sidebarOptions .sliderPanel .txtOptionInput {\n'
-	+'	width: 3em;\n'
+	+'	width: 2em;\n'
 	+'	font-family: mono;\n'
+        +'      font-size: 1em;\n'
 	+'}\n'
 	+'#ZiddlyFormats, #ZiddlyPowered { margin:5px }\n'
         +'/*}}}*/';
