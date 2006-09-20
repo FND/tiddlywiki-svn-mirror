@@ -241,13 +241,13 @@ String.zeroPad = function(n,d)
 // Convert "\" to "\s", newlines to "\n" (and remove carriage returns)
 String.prototype.escapeLineBreaks = function()
 {
-	return this.replace(/\\/mg,"\\s").replace(/\n/mg,"\\n").replace(/\r/mg,"");
+	return this.replace(/\\/mg,"\\s").replace(/\n/mg,"\\n").replace(/ /mg,"\\ ").replace(/\r/mg,"");
 }
 
 // Convert "\n" to newlines, "\s" to "\" (and remove carriage returns)
 String.prototype.unescapeLineBreaks = function()
 {
-	return this.replace(/\\n/mg,"\n").replace(/\\s/mg,"\\").replace(/\r/mg,"");
+	return this.replace(/\\ /mg," ").replace(/\\n/mg,"\n").replace(/\\s/mg,"\\").replace(/\r/mg,"");
 }
 
 String.prototype.startsWith = function(prefix) 
