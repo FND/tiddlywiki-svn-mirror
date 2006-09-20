@@ -263,7 +263,6 @@ TiddlyWiki.prototype.removeTiddler = function(title) {
     if(r!='success') alert(config.messages.errorDeleting);
   };
   ajax.post(zw.get_url(), callback, 'action=delete&id=' + encodeURIComponent(title) + '&' + zw.no_cache());
-  delete zw.tiddlerList[title];
   return this.zw_removeTiddler(title);
 };
 
@@ -274,6 +273,7 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
   var callback = function(r){
     var parts = r.split('\n');
     var tiddler = store.fetchTiddler(parts[1]);
+    if(!tiddler.fields) tiddler.fields = {};
     tiddler.fields.revisionkey = parts[8];
     if(parts[2] != tiddler.escapeLineBreaks().htmlEncode()) 
         alert("ZiddlyWiki error: Saved tiddler '"+parts[1]+"' is not the same as what was just saved."

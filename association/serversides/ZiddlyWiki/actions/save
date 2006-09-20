@@ -106,4 +106,4 @@ if 'private' in tags.split():
 else:
   tiddler.manage_permission('View', ['Anonymous'], acquire=1)
 
-return context.REQUEST.RESPONSE.redirect("?action=get&id="+req.get('id'))
+return context.REQUEST.RESPONSE.redirect("?action=get&id="+new_id)
