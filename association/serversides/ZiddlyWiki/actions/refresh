@@ -23,6 +23,8 @@ else:
     try: tiddler = context.tiddlers[tiddlerid]
     except: continue
     tags = tiddler.tags.split()
+    if 'deleted' in tags:
+      continue
     if 'private' in tags and 'Authenticated' not in req.AUTHENTICATED_USER.getRoles():
       continue
     if 'onlyAdmin' in tags and 'Manager' not in req.AUTHENTICATED_USER.getRoles():
