@@ -35,7 +35,11 @@ for tiddlerid in context.tiddlers.objectIds('DTML Document'):
   modifier = getattr(tiddler, 'modifier', '')
   tags = getattr(tiddler, 'tags', '').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
   body = tiddler(context, context.REQUEST).replace('\\', '\\s').replace('\n', '\\n').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
-  key =tiddler.manage_change_history()[0]['key']
+  context.REQUEST.set('last_transaction', 200) # Force it to go further back in history
+  for rev in tiddler.manage_change_history():
+      if not hasattr(tiddler.HistoricalRevisions[rev['key']],'ignore_revision'):
+          key = rev['key']
+          break
 
   # check that the tiddler's id is correct (for backwards compat)
   id = container.scripts.sanitize_id(title)

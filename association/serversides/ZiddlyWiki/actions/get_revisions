@@ -23,6 +23,7 @@ if 'private' in tags.split() and 'Authenticated' not in context.REQUEST.AUTHENTI
 if 'onlyAdmin' in tags.split() and 'Manager' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
   return '-'
 
+context.REQUEST.set('last_transaction', 200) # Force it to go further back in history
 revisions = [
   container.scripts.get_modified(tiddler.HistoricalRevisions[rev['key']]) + ' ' + rev['key'] + ' ' +getattr(tiddler.HistoricalRevisions[rev['key']],'modifier','unknown')
   for rev in tiddler.manage_change_history()

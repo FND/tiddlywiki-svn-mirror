@@ -28,7 +28,12 @@ else:
     if 'onlyAdmin' in tags and 'Manager' not in req.AUTHENTICATED_USER.getRoles():
       continue
     if int(float(tiddler.bobobase_modification_time()) * 100) > latest:
-      updated.append(tiddler.title + '\n' + tiddler.modified + '\n' + tiddler.manage_change_history()[0]['key'])
+      context.REQUEST.set('last_transaction', 200) # Force it to go further back in history
+      for rev in tiddler.manage_change_history():
+          if not hasattr(tiddler.HistoricalRevisions[rev['key']],'ignore_revision'):
+              key = rev['key']
+              break
+      updated.append(tiddler.title + '\n' + tiddler.modified + '\n' + key)
 
   if len(updated) > 1:
     return '\n\n'.join(updated)
