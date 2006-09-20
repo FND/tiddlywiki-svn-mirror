@@ -15,7 +15,7 @@ main = function() {
 
 zw.get_url = function(with_hash) {
   var p = location.pathname;
-  if(p.substring(p.length-1) != '/') p += '/';
+  if(p.substring(p.length-1) == '/') p = p.substring(0,p.length-1);
   var url = location.protocol + '//' + location.host + p;
   if(with_hash) url += '%23' + permaviewHash();
   return url
@@ -114,8 +114,6 @@ config.replaceBodyCharacters = [
   [/–/g, ' -- ']
 ];
 
-config.options.txtUserName = zw.username;
-
 config.macros.login = {
   label: 'login',
   prompt: 'Log into the system',
@@ -160,13 +158,14 @@ config.macros.login = {
       displayMessage('Logging in...');
       var u = document.getElementById("zw_username");
       var p = document.getElementById("zw_password");
-      ajax.post(zw.get_url(),config.macros.login.doneLogin,"action=login&__ac_name="+u.value+"&__ac_password="+p.value);
+      ajax.post(zw.get_url().replace("http://","http://"+u.value+":"+p.value+"@")
+          ,config.macros.login.doneLogin,
+          "action=login&__ac_name="+u.value+"&__ac_password="+p.value);
   },
-  doneLogin: function(str) {
-      // Add HTTP Basic auth credentials?
-      window.eval(str);
-      readOnly = !zw.loggedIn;
-      if(!zw.loggedIn) {
+  doneLogin: function(str,status,statusText) {
+      if(status == 200) window.eval(str);   // We may get either a 401 Unauthorized
+      readOnly = !zw.loggedIn;              // or status.js which indicates we are 
+      if(!zw.loggedIn) {                    // still not logged in.
 	  alert("Authentication failed.  Did you type your username and password correctly?");
           clearMessage();
           return false;
@@ -188,6 +187,7 @@ config.macros.login = {
               config.macros.login.addTiddler)
           }
       }
+      return true;
   },
   addTiddler: function(str) {
       if(str.indexOf('\n') > -1) {
