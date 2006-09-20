@@ -3,10 +3,11 @@
 // Place to store my junk
 if(typeof zw == "undefined") var zw = {};
 zw.main = main;
-zw.checkUnsavedChanges = false;
-zw.confirmExit = false;
+config.options.checkUnsavedChanges = false;
+config.options.confirmExit = false;
 zw.ieurl = (navigator.appVersion.indexOf('MSIE') > -1) ? 'ie=1&' : '';
 zw.editingTiddlers = {};
+zw.dirty = false;  // flag for when ZW was unable to save something
 
 main = function() {
   config.options.chkHttpReadOnly = (zw.loggedIn || zw.anonEdit) ? false : true;
@@ -32,6 +33,7 @@ config.messages.exportLinkLabel = 'export to file';
 config.messages.exportLinkPrompt = 'Export to a TiddlyWiki file';
 config.messages.importLinkLabel = 'import from file';
 config.messages.importLinkPrompt = 'Import from a TiddlyWiki file';
+config.messages.unsavedChangesWarning = 'Something has gone wrong and ZiddlyWiki was unable to save all changes to the server.\nIf you navigate away from this page, those changes will be lost.\nPress OK to save a backup to a local file.';
 
 config.views.wikified.toolbarRevisions = {text: "revisions", tooltip: "View another revision of this tiddler", popupNone: "No revisions"};
 
@@ -209,6 +211,7 @@ config.macros.login = {
         }
       } else if(str != '-') {
         alert(str); // error message
+        zw.dirty = true;
       }
   }
 };
@@ -260,7 +263,10 @@ TiddlyWiki.prototype.removeTiddler = function(title) {
   displayMessage("Deleting '"+title+"' on server...");
   var callback = function(r){
     clearMessage();
-    if(r!='success') alert(config.messages.errorDeleting);
+    if(r!='success') {
+        alert(config.messages.errorDeleting);
+        zw.dirty = true;
+    }
   };
   ajax.post(zw.get_url(), callback, 'action=delete&id=' + encodeURIComponent(title) + '&' + zw.no_cache());
   return this.zw_removeTiddler(title);
@@ -274,13 +280,13 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
     var parts = r.split('\n');
     var tiddler = store.fetchTiddler(parts[1]);
     store.setValue(tiddler,'revisionkey', parts[8]);
-    if(parts[2] != tiddler.escapeLineBreaks().htmlEncode()) 
+    if(parts[2] != tiddler.escapeLineBreaks().htmlEncode()) {
         alert("ZiddlyWiki error: Saved tiddler '"+parts[1]+"' is not the same as what was just saved."
             +"\n-------------------before---------------------\n"+parts[2]
             +"\n-------------------after----------------------\n"+tiddler.escapeLineBreaks().htmlEncode()
         );
-    else
-        store.setDirty(false);
+        zw.dirty = true;
+    }
   };
 // FIXME by using async ajax here, a reload timeout may come between the save
 // and the callback's return, which causes the tiddler to be double-rendered.
@@ -558,6 +564,23 @@ zw.refresh_tiddlers = function() {
     ajax.get(zw.get_url() + '?action=refresh&latest=' + zw.latestTiddler, zw.refresh_tiddlers_callback);
   }
 };
+
+// If there are unsaved changes, force the user to confirm before exitting
+function confirmExit()
+{
+        hadConfirmExit = true;
+        if(zw.dirty) return config.messages.confirmExit;
+}
+
+// Give the user a chance to save changes before exitting
+function checkUnsavedChanges()
+{
+        if(zw.dirty && window.hadConfirmExit === false)
+                {
+                if(confirm(config.messages.unsavedChangesWarning))
+                        saveChanges();
+                }
+}
 
 // Receives a list of updated tiddler [timestamp, [title, modified, revisionKey], ...]
 // If TW supports higher resolution modification stamps (currently: 1 minute) we can use
