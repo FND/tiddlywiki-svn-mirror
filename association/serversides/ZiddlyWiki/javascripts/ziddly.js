@@ -263,6 +263,7 @@ TiddlyWiki.prototype.removeTiddler = function(title) {
     if(r!='success') alert(config.messages.errorDeleting);
   };
   ajax.post(zw.get_url(), callback, 'action=delete&id=' + encodeURIComponent(title) + '&' + zw.no_cache());
+  delete zw.tiddlerList[title];
   return this.zw_removeTiddler(title);
 };
 
@@ -352,12 +353,9 @@ config.commands.revisions = {
 
 function displayTiddlerRevision(title, revision, src, updateTimeline) {
   var tiddler = store.fetchTiddler(title);
-  if(typeof tiddler == "undefined" || !tiddler) {
-      alert("Attempt to find revisions for non-existant tiddler '"+title+"'!");
-      return;
-  }
-  if(typeof tiddler.fields.revisionkey != "undefined" && tiddler.fields.revisionkey == revision) 
-    return;
+// We already have the latest version
+  if(tiddler && typeof tiddler.fields.revisionkey != "undefined" 
+      && tiddler.fields.revisionkey == revision) return;
   displayMessage("Loading revision information for '"+title+"'...");
   revision = revision ? '&revision=' + revision : '';
   updateTimeline = updateTimeline ? '&updatetimeline=1' : '';
@@ -386,6 +384,7 @@ function displayTiddlerRevisionCallback(encoded) {
         Date.convertFromYYYYMMDDHHMM(parts[5]));
     tiddler.fields.revisionkey = parts[8];
     store.addTiddler(tiddler);
+    if(tiddler.tags.contains('deleted')) store.deleteTiddler(title);
     story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
     if(parts[7] == 'update timeline')
       store.notify('TabTimeline', true)
@@ -457,7 +456,7 @@ config.commands.editTiddler.handler = function(event,src,title) {
         if(!tiddler) { 
           tiddler = new Tiddler();
         }
-        if(tiddler.fields.revisionkey != parts[8]) {
+        if(!tiddler.fields || tiddler.fields.revisionkey != parts[8]) {
           var tags = parts[6].readBracketedList();
           if(tags.indexOf('deleted') != -1) { // Remove the deleted tag on edit
               alert("This tiddler was deleted on the server.  Editing the old deleted version.");
