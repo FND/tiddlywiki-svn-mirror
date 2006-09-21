@@ -1,1 +1,2 @@
 This is the first line in a test file
+This is the second line. It was added to the copy of testdirectory called testdirectorycopy
