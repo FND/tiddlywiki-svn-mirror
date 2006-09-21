@@ -29,8 +29,7 @@ for tiddlerid in context.tiddlers.objectIds('DTML Document'):
     tiddler.manage_addProperty('created', modified, 'string')
 
   # get other basic details
-#  title = tiddler.title_or_id().replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
-  title = tiddler.title_or_id()
+  title = tiddler.title_or_id().replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
   created = tiddler.created
   modifier = getattr(tiddler, 'modifier', '')
   tags = getattr(tiddler, 'tags', '').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
@@ -42,12 +41,12 @@ for tiddlerid in context.tiddlers.objectIds('DTML Document'):
           break
 
   # check that the tiddler's id is correct (for backwards compat)
-  id = container.scripts.sanitize_id(title)
+  id = container.scripts.sanitize_id(tiddler.title_or_id())
   if id != tiddler.id():
     try:
       context.tiddlers.manage_renameObject(tiddler.id(), id)
     except:
-      raise Exception, 'I was unable to automatically migrate your tiddler ids because you have two or more tiddlers with the title "%s". Please browse to %s and delete the tiddler(s) you do not want to keep.' % (tiddler.title, context.tiddlers.absolute_url()+'/manage/')
+      raise Exception, 'I was unable to automatically migrate your tiddler ids because you have two or more tiddlers with the title "%s". Please browse to %s and delete the tiddler(s) you do not want to keep.' % (tiddler.title_or_id(), context.tiddlers.absolute_url()+'/manage/')
 
   # check for special tags and privileges
   taglist = tags.split()

@@ -280,7 +280,11 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
     var parts = r.split('\n');
     var tiddler = store.fetchTiddler(parts[1]);
     store.setValue(tiddler,'revisionkey', parts[8]);
-    if(parts[2] != tiddler.escapeLineBreaks().htmlEncode()) {
+    if(!tiddler) {
+        alert("ZiddlyWiki error: The tiddler '"+parts[1]+"' that I just tried to save\n"
+        +"doesn't exist after the save!");
+        zw.dirty = true;
+    } else if(parts[2] != tiddler.escapeLineBreaks().htmlEncode()) {
         alert("ZiddlyWiki error: Saved tiddler '"+parts[1]+"' is not the same as what was just saved."
             +"\n-------------------before---------------------\n"+parts[2]
             +"\n-------------------after----------------------\n"+tiddler.escapeLineBreaks().htmlEncode()

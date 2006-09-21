@@ -8,6 +8,20 @@
 ##title=
 ##
 # FIXME: Make this use webdav locks instead, so it's compatible with external editor.
+
+# Stolen from urllib, since I can't import it here without gymnastics
+always_safe = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+               'abcdefghijklmnopqrstuvwxyz'
+               '0123456789' '_.-')
+def quote(s, safe = '/'):
+    safe = always_safe + safe
+    res = list(s)
+    for i in range(len(res)):
+        c = res[i]
+        if c not in safe:
+            res[i] = '%%%02X' % ord(c)
+    return ''.join(res)
+
 def remove_locks(tiddler):
   try: tiddler.manage_delProperties(['lock_time', 'lock_user'])
   except: pass
@@ -106,4 +120,4 @@ if 'private' in tags.split():
 else:
   tiddler.manage_permission('View', ['Anonymous'], acquire=1)
 
-return context.REQUEST.RESPONSE.redirect("?action=get&id="+new_id)
+return context.REQUEST.RESPONSE.redirect("?action=get&id="+quote(title))
