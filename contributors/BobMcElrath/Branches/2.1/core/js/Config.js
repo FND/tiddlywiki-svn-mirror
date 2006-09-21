@@ -114,7 +114,7 @@ config.commands = {
 	editTiddler: {},
 	saveTiddler: {hideReadOnly: true},
 	cancelTiddler: {},
-	deleteTiddler: {hideReadOnly: true},
+	deleteTiddler: {hideReadOnly: true, hideShadow: true},
 	permalink: {},
 	references: {},
 	jump: {}
