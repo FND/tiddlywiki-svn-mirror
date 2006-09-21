@@ -1,6 +1,8 @@
+tiddler: AbegoSoftware.tiddler
 tiddler: AnotherExampleStyleSheet.tiddler
 tiddler: AutoSave.tiddler
 tiddler: Basque.tiddler
+tiddler: BidiXTW.tiddler
 tiddler: BlockQuotes.tiddler
 tiddler: Bulgarian.tiddler
 tiddler: BulletPoints.tiddler
@@ -67,6 +69,7 @@ tiddler: Japanese.tiddler
 tiddler: JeremyRuston.tiddler
 tiddler: JumpCommand.tiddler
 tiddler: KeyboardShortcuts.tiddler
+tiddler: LewcidTW.tiddler
 tiddler: LinkToFolders.tiddler
 tiddler: Macros.tiddler
 tiddler: MainFeatures.tiddler
@@ -74,6 +77,7 @@ tiddler: MainMenu.tiddler
 tiddler: MicroContent.tiddler
 tiddler: MinorChanges.tiddler
 tiddler: MissingTiddlers.tiddler
+tiddler: MonkeyPirateTW.tiddler
 tiddler: MonospacedText.tiddler
 tiddler: MoreTab.tiddler
 tiddler: NestedStyleSheets.tiddler
@@ -135,6 +139,8 @@ tiddler: Tags.tiddler
 tiddler: ThirdVersion.tiddler
 tiddler: Tiddler.tiddler
 tiddler: TiddlerComments.tiddler
+tiddler: TiddlyStyles.tiddler
+tiddler: TiddlyTools.tiddler
 tiddler: TiddlyWiki.tiddler
 tiddler: TiddlyWiki_Dev.tiddler
 tiddler: TiddlyWikiAdaptations.tiddler
