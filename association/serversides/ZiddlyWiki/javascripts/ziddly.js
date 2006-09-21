@@ -192,8 +192,11 @@ config.macros.login = {
       }
       return true;
   },
-  addTiddler: function(str) {
-      if(str.indexOf('\n') > -1) {
+  addTiddler: function(str,status) {
+      if(status != 200) {
+        alert(str); // error message
+        zw.dirty = true;
+      } else if(str.indexOf('\n') > -1) {
         var parts = str.split('\n');
         var tiddler = new Tiddler();
         var title = parts[0];
@@ -209,9 +212,6 @@ config.macros.login = {
             refreshPageTemplate();  // Just redraw everything.
             store.notify('TabTimeline', true)
         }
-      } else if(str != '-') {
-        alert(str); // error message
-        zw.dirty = true;
       }
   }
 };
@@ -322,9 +322,9 @@ config.commands.revisions = {
   handler: function(event,src,title) {
     var popup = Popup.create(src);
     Popup.show(popup,false);
-    var callback = function(r) {
+    var callback = function(r,status) {
       if(popup) {
-        if(r == '-') {
+        if(status != 200) {
           createTiddlyText(createTiddlyElement(popup,"li",null,"disabled"),
             config.views.wikified.toolbarRevisions.popupNone);
         } else {
@@ -371,8 +371,10 @@ function displayTiddlerRevision(title, revision, src, updateTimeline) {
       + updateTimeline + '&' + zw.no_cache(), displayTiddlerRevisionCallback)
 };
 
-function displayTiddlerRevisionCallback(encoded) {
-  if(encoded.indexOf('\n') > -1) {
+function displayTiddlerRevisionCallback(encoded,status) {
+  if(status != 200) {
+    alert(encoded); // error message
+  } else if(encoded.indexOf('\n') > -1) {
     var parts = encoded.split('\n');
     var tiddler = new Tiddler();
     var title = parts[0];
@@ -395,8 +397,6 @@ function displayTiddlerRevisionCallback(encoded) {
     story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
     if(parts[7] == 'update timeline')
       store.notify('TabTimeline', true)
-  } else if(encoded != '-') {
-    alert(encoded); // error message
   }
   clearMessage();
 };
@@ -449,9 +449,9 @@ config.commands.editTiddler.handler = function(event,src,title) {
   } else {
     displayMessage("Loading '"+title+"'...");
     var obj = this;
-    var callback = function(r) {
+    var callback = function(r,status) {
       clearMessage();
-      if(r == '-') { // doesn't exist (might be a shadow tiddler)
+      if(status == 404) { // doesn't exist (might be a shadow tiddler)
         zw.editingTiddlers[title] = true;
         obj.zw_handler(event,src,title);
       } else if(r.match(/^locked/)) {
@@ -473,7 +473,8 @@ config.commands.editTiddler.handler = function(event,src,title) {
           tiddler.set(parts[1], Tiddler.unescapeLineBreaks(parts[2].htmlDecode()), parts[3], 
                       Date.convertFromYYYYMMDDHHMM(parts[4]), tags, 
                       Date.convertFromYYYYMMDDHHMM(parts[5]));
-          store.setValue('revisionkey', parts[8]);
+          store.addTiddler(tiddler);
+          store.setValue(tiddler, 'revisionkey', parts[8]);
         }
         if(!store.fetchTiddler(title))
           store.addTiddler(tiddler);
@@ -500,7 +501,7 @@ config.commands.editTiddler.handler = function(event,src,title) {
 	config.commands.editTiddler.zw_handler(event,src,title);
       }
     };
-    ajax.post(zw.get_url(), callback, 'action=lock&id=' + title + '&' + zw.no_cache());
+    ajax.post(zw.get_url(), callback, 'action=lock&id=' + encodeURIComponent(title) + '&' + zw.no_cache());
   }
   return false;
 };
@@ -535,7 +536,7 @@ config.commands.cancelTiddler.zw_handler = config.commands.cancelTiddler.handler
 config.commands.cancelTiddler.handler = function(event,src,title) {
   if(!config.options.chkHttpReadOnly) {
       if(zw.editingTiddlers[title])
-          ajax.post(zw.get_url(), function(r){}, 'action=unlock&id=' + title + '&' + zw.no_cache());
+          ajax.post(zw.get_url(), function(r){}, 'action=unlock&id=' + encodeURIComponent(title) + '&' + zw.no_cache());
       zw.editingTiddlers[title] = false;
       var tiddler = store.fetchTiddler(title);
       if(tiddler && tiddler.deletedOnServer)
@@ -601,4 +602,3 @@ zw.refresh_tiddlers_callback = function(tiddlers) {
 };
 
 zw.refresh_interval_id = setInterval('zw.refresh_tiddlers()', 60000); // refresh every minute
-

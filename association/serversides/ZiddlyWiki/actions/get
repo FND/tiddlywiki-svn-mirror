@@ -18,12 +18,16 @@ update_timeline = req.get('updatetimeline', 0)
 id = container.scripts.sanitize_id(title)
 
 try: tiddler = context.tiddlers[id]
-except: return '-\nexception finding tiddler '+id
+except: 
+    req.RESPONSE.setStatus(404)
+    return '-'
 
 tags = getattr(tiddler, 'tags', '')
 if 'private' in tags.split() and 'Authenticated' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
+  req.RESPONSE.setStatus(401)
   return '-'
 if 'onlyAdmin' in tags.split() and 'Manager' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
+  req.RESPONSE.setStatus(401)
   return '-'
 
 if revision:

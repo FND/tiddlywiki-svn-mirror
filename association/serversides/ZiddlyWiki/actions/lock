@@ -20,7 +20,9 @@ if not anon_edit and 'Authenticated' not in context.REQUEST.AUTHENTICATED_USER.g
   raise 'Unauthorized'
 
 try: tiddler = context.tiddlers[id]
-except: return '-'
+except: # FIXME finer-grained exceptions here, not found, unauthorized, etc.
+    req.RESPONSE.setStatus(404)
+    return '-'
 
 if hasattr(tiddler, 'lock_time'):
   length = (DateTime() - tiddler.lock_time) * 24.0 * 60.0 # minutes

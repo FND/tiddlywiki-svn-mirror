@@ -15,12 +15,16 @@ MAX_REVISIONS = 30
 id = container.scripts.sanitize_id(context.REQUEST.get('id'))
 
 try: tiddler = context.tiddlers[id]
-except: return '-'
+except: 
+    context.REQUEST.RESPONSE.setStatus(404)
+    return '-'
 
 tags = getattr(tiddler, 'tags', '')
 if 'private' in tags.split() and 'Authenticated' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
+  context.REQUEST.RESPONSE.setStatus(401)
   return '-'
 if 'onlyAdmin' in tags.split() and 'Manager' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
+  context.REQUEST.RESPONSE.setStatus(401)
   return '-'
 
 context.REQUEST.set('last_transaction', 200) # Force it to go further back in history
