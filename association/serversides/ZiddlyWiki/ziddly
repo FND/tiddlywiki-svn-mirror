@@ -74,6 +74,7 @@ context.REQUEST.RESPONSE.appendHeader('Cache-Control', 'no-cache')
 
 # XHTML
 #context.REQUEST.RESPONSE.setHeader('Content-Type', 'application/xhtml+xml;charset=utf-8')
+context.REQUEST.RESPONSE.setHeader('Content-Type', 'text/html;charset=utf-8')
 
 # get the TiddlyWiki source
 src = container.html['empty.html']()
