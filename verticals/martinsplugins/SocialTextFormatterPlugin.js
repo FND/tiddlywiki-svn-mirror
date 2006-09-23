@@ -3,9 +3,9 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[SocialText|http://www.socialtext.com/]] text formatting|
 |''Source:''|http://martinsplugins.tiddlywiki.com/index.html#SocialTextFormatterPlugin|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.5|
+|''Version:''|0.1.6|
 |''Status:''|alpha pre-release|
-|''Date:''|Sep 5, 2006|
+|''Date:''|Sep 23, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -69,12 +69,11 @@ config.formatterHelpers.singleCharFormat = function(w)
 config.socialTextFormatters = [
 {
 	name: "socialTextHeading",
-	match: "^\\^{1,6} ",
+	match: "^\\^{1,6}",
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
-//stDebug(w.output,"wt:"+w.matchText+" ws:"+w.matchStart+" wn:"+w.nextMatch+" wl:"+w.matchLength);
-		w.subWikifyTerm(createTiddlyElement(w.output,"h" + (w.matchLength-1)),this.termRegExp);
+		w.subWikifyTerm(createTiddlyElement(w.output,"h" + w.matchLength),this.termRegExp);
 	}
 },
 
@@ -88,13 +87,14 @@ config.socialTextFormatters = [
 	handler: function(w)
 	{
 		var table = createTiddlyElement(w.output,"table");
+		var rowContainer = createTiddlyElement(table,"tbody");
 		var prevColumns = [];
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch)
 			{
-			this.rowHandler(w,createTiddlyElement(createTiddlyElement(table,"tbody"),"tr"),prevColumns);
+			this.rowHandler(w,createTiddlyElement(rowContainer,"tr"),prevColumns);
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			}
