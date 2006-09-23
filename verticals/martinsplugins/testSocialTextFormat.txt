@@ -13,7 +13,7 @@ Block of text with no *special* punctuation
 
 ^^ Headings
 ^ H1
-^^ H2
+^^H2
 ^^^ H3
 ^^^^ H4
 ^^^^^ H5
@@ -47,20 +47,20 @@ trademark {tm}
 
 
 ^^ Images
-Image attachment: {image: http://www.eu.socialtext.net/favicon.ico}
-External image:	<http://www.eu.socialtext.net/favicon.ico>
-External image:	<http://www.eu.socialtext.net/exchange/index.cgi/new.gif?action=attachments_download;page_name=socialtext_customer_exchange;id=20060723182743-1>
+Image attachment(.ico): {image: http://www.eu.socialtext.net/favicon.ico}
+Image attachment(.gif): {image: http://www.eu.socialtext.net/static/images/socialtext-logo-30.gif}
+
+External image(.ico):	<http://www.eu.socialtext.net/favicon.ico>
+External image(.gif): <http://www.eu.socialtext.net/static/images/socialtext-logo-30.gif>
 
 ^^ Links
 
-Page Link	[Page Link]
-Link text	"Link text" [Page Link]
-External link  <http://www.socialtext.com>
-Socialtext Home Page	"Socialtext Home Page"<http://www.socialtext.com>
-info@socialtext.com	info@socialtext.com
-Socialtext Email	"Socialtext Email"<mailto:info@socialtext.com>
-http://www.socialtext.com/	http://www.socialtext.com/
-
+Page Link:	[Page Link]
+Link text:	"Link text" [Page Link]
+External link:  <http://www.socialtext.com>
+Socialtext Home Page:	"Socialtext Home Page"<http://www.socialtext.com>
+Socialtext Email:	"Socialtext Email"<mailto:info@socialtext.com>
+URL link:	http://www.socialtext.com/
 
 
 ----
@@ -70,12 +70,15 @@ http://www.socialtext.com/	http://www.socialtext.com/
 proposal.pdf on this page	{file: proposal.pdf} on this page
 proposal.pdf on page name	{file: [page name] proposal.pdf} on [page name]
 
-Page Link to different-workspace	{link: different-workspace [Page link]} to different-workspace
-Link to section of a page	{link: different-workspace [Page link] Section} to (optional) different-workspace
+Mail link:	info@socialtext.com
+Page Link to different-workspace:	{link: different-workspace [Page link]} to different-workspace
+Link to section of a page:	{link: different-workspace [Page link] Section} to (optional) different-workspace
 
 Page section	{section: Name}
 My Weblog weblog	{weblog: My Weblog}
 Meeting notes category	{category: Meeting Notes}
 
-Yahoo user yahoouser presence	Yahoo user {ymsgr:yahoouser} presence
-AOL user aimuser presence	AOL user {aim:aimuser} presence
+Yahoo user (yahoouser) presence	{ymsgr:yahoouser}
+AOL user (aimuser) presence	{aim:aimuser}
+
+Table of contents {toc}
