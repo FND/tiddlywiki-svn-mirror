@@ -3,9 +3,9 @@
 |''Description:''|Allows Tiddlers to use [[PBWiki|http://yummy.pbwiki.com/WikiStyle]] text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#PBWikiFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.4|
+|''Version:''|0.1.5|
 |''Status:''|alpha pre-release|
-|''Date:''|Sep 3, 2006|
+|''Date:''|Sep 23, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -55,9 +55,8 @@ pbDebug = function(out,str)
 		w.output = tiddler==null ? output : createTiddlyElement(output,"p");
 		w.subWikifyUnterm(w.output);
 		}
-}*/
+};*/
 
-if(!config.formatterHelpers.setAttributesFromParams) {
 config.formatterHelpers.setAttributesFromParams = function(e,p)
 {
 	var re = /\s*(.*?)=(?:(?:"(.*?)")|(?:'(.*?)')|((?:\w|%|#)*))/mg;
@@ -69,6 +68,7 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 			{
 			s = "backgroundColor";
 			}
+		try {
 		if(match[2])
 			{
 			e.setAttribute(s,match[2]);
@@ -81,10 +81,11 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 			{
 			e.setAttribute(s,match[4]);
 			}
+		}
+		catch(ex) {}
 		match = re.exec(p);
 		}
 };
-}
 
 config.pbWikiFormatters = [
 {
@@ -108,13 +109,13 @@ config.pbWikiFormatters = [
 	handler: function(w)
 	{
 		var table = createTiddlyElement(w.output,"table");
+		var rowContainer = createTiddlyElement(table,"tbody");
 		var prevColumns = [];
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch)
 			{
-			var rowContainer = createTiddlyElement(table,"tbody");
 			this.rowHandler(w,createTiddlyElement(rowContainer,"tr"),prevColumns);
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
@@ -135,7 +136,6 @@ config.pbWikiFormatters = [
 			else
 				{// Cell
 				w.nextMatch++;
-				var styles = config.formatterHelpers.inlineCssHelper(w);
 				var spaceLeft = false;
 				var chr = w.source.substr(w.nextMatch,1);
 				while(chr == " ")
@@ -145,8 +145,8 @@ config.pbWikiFormatters = [
 					chr = w.source.substr(w.nextMatch,1);
 					}
 				var cell = createTiddlyElement(e,"td");
+
 				prevColumns[col] = {rowSpanCount:1, element:cell};
-				config.formatterHelpers.applyCssHelper(cell,styles);
 				w.subWikifyTerm(cell,this.cellTermRegExp);
 				if(w.matchText.substr(w.matchText.length-2,1) == " ")
 					{// spaceRight
@@ -245,7 +245,7 @@ config.pbWikiFormatters = [
 {
 	name: "pBWikiExplicitLink",
 	match: "\\[",
-	lookaheadRegExp: /\[([^\|\]]*?)(?:\]|(?:\|(.*?))\])/mg,
+	lookaheadRegExp: /\[(.*?)(?:\|(.*?))?\]/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
@@ -272,59 +272,6 @@ config.pbWikiFormatters = [
 			}
 	}
 },
-
-/*{
-	name: "pBWikiExplicitLink",
-	match: "\\[",
-	lookaheadRegExp: /\[([^\|\]]*?)(?:(\])|(\|(.*?)\]))/mg,
-	handler: function(w)
-	{
-//URLs ending with .gif, .jpg, or .png are displayed as images in the page
-//pbDebug(w.output,"wt:"+w.matchText+" ws:"+w.matchStart+" wn:"+w.nextMatch+" wl:"+w.matchLength);
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			{
-pbDebug(w.output,"lm:"+lookaheadMatch);
-pbDebug(w.output,"lm1:"+lookaheadMatch[1]);
-pbDebug(w.output,"lm2:"+lookaheadMatch[2]);
-pbDebug(w.output,"lm3:"+lookaheadMatch[3]);
-pbDebug(w.output,"lm4:"+lookaheadMatch[4]);
-			var e;
-			var link = lookaheadMatch[1];
-			if(/.*\.gif|jpg|png/g.exec(link))
-				{
-				var e = w.output;
-				if(lookaheadMatch[3]) // Titled bracketted link
-					{
-					var link = lookaheadMatch[3];
-					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
-					addClass(e,"imageLink");
-					}
-				var img = createTiddlyElement(e,"img");
-				if(lookaheadMatch[1])
-					{
-					img.title = lookaheadMatch[1];
-					}
-				img.src = lookaheadMatch[2];
-				}
-			else
-				{
-				if (lookaheadMatch[2]) // Simple bracketted link
-					{
-					e = createTiddlyLink(w.output,link,false,null,w.isStatic);
-					}
-				else if(lookaheadMatch[3]) // Titled bracketted link
-					{
-					var text = lookaheadMatch[4];
-					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
-					}
-				createTiddlyText(e,text);
-				}
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-			}
-	}
-},*/
 
 {
 	name: "pbWikiNotWikiLink",
