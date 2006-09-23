@@ -358,7 +358,7 @@ config.pbWikiFormatters = [
 },
 
 {
-	name: "mediaWikiExplicitLineBreak",
+	name: "pbWikiExplicitLineBreak",
 	match: "<br ?/?>",
 	handler: function(w)
 	{
@@ -410,7 +410,7 @@ config.pbWikiFormatters = [
 },
 
 {
-	name: "mediaWikiHtmlTag",
+	name: "pbWikiHtmlTag",
 	match: "<[a-zA-Z]{2,}(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?>",
 	lookaheadRegExp: /<([a-zA-Z]{2,})((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
