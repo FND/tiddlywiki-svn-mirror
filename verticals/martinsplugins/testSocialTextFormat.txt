@@ -49,9 +49,9 @@ trademark {tm}
 ^^ Images
 Image attachment(.ico): {image: http://www.eu.socialtext.net/favicon.ico}
 Image attachment(.gif): {image: http://www.eu.socialtext.net/static/images/socialtext-logo-30.gif}
-
-External image(.ico):	<http://www.eu.socialtext.net/favicon.ico>
+External image(.ico): <http://www.eu.socialtext.net/favicon.ico>
 External image(.gif): <http://www.eu.socialtext.net/static/images/socialtext-logo-30.gif>
+External image(.gif): <http://www.eu.socialtext.net/exchange/index.cgi/new.gif>
 
 ^^ Links
 
