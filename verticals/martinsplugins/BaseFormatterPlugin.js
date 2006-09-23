@@ -3,9 +3,9 @@
 |''Description:''|Allows Tiddlers to use Base text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#BaseFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.4|
+|''Version:''|0.1.5|
 |''Status:''|alpha pre-release|
-|''Date:''|Jul 21, 2006|
+|''Date:''|Sep 23, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -85,7 +85,7 @@ config.baseFormatters = [
 {
 	name: "baseHeading",
 	match: "^={1,6}",
-	termRegExp: /(={1,6}$\n?)/mg,
+	termRegExp: /(={1,6}$\n)/mg,
 	handler: function(w)
 	{
 		var output = w.output.parentNode;
@@ -124,25 +124,16 @@ config.baseFormatters = [
 {
 	name: "baseExplicitLink",
 	match: "\\[\\[",
-	lookaheadRegExp: /\[\[([^\|\]]*?)(?:(\]\])|(\|(.*?)\]\]))/mg,
+	lookaheadRegExp: /\[\[(.*?)(?:\|(.*?))?\]\]/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
-			var e, text;
 			var link = lookaheadMatch[1];
-			if(lookaheadMatch[2])
-				{// Simple bracketted link
-				e = createTiddlyLink(w.output,link,false);
-				text = link;
-				}
-			else if(lookaheadMatch[3])
-				{// Titled link
-				e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
-				text = lookaheadMatch[4];
-				}
+			var text = lookaheadMatch[2] ? lookaheadMatch[2] : link;
+			var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}
@@ -194,8 +185,8 @@ config.baseFormatters = [
 
 {
 	name: "baseBoldByChar",
-	match: "**",
-	termRegExp: /(**|(?=\n\n))/mg,
+	match: "\\*\\*",
+	termRegExp: /(\*\*|(?=\n\n))/mg,
 	element: "strong",
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -203,7 +194,7 @@ config.baseFormatters = [
 {
 	name: "baseItalicByChar",
 	match: "//",
-	termRegExp: /(//|(?=\n\n))/mg,
+	termRegExp: /(\/\/|(?=\n\n))/mg,
 	element: "em",
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -289,7 +280,7 @@ config.baseFormatters = [
 },
 
 {
-	name: "mediaWikiHtmlTag",
+	name: "baseHtmlTag",
 	match: "<[a-zA-Z]{2,}(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?>",
 	lookaheadRegExp: /<([a-zA-Z]{2,})((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
