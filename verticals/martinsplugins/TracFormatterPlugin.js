@@ -17,8 +17,13 @@ into your Trac wiki later on, with the expectation that only minor edits will be
 
 To use Trac format in a Tiddler, tag the Tiddler with TracFormat. See [[testTracFormat]] for an example.
 
-This is an early alpha release and may contain defects.
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
+
+This is an early alpha release, with (at least) the following known issues:
+
+!!!Issues
+# Citations yet not supported.
+# Trac macros not supported.
 ***/
 
 //{{{
@@ -39,7 +44,7 @@ config.tracFormatters = [
 {
 	name: "tracHeading",
 	match: "^={1,6} ",
-	termRegExp: /( ={1,6}$\n?)/mg,
+	termRegExp: /( ={1,6}.*?$\n?)/mg,
 	handler: function(w)
 	{
 		w.subWikifyTerm(createTiddlyElement(w.output,"h" + (w.matchLength-1)),this.termRegExp);
