@@ -707,7 +707,7 @@ config.twikiFormatters = [
 },
 
 {
-	name: "mediaWikiHtmlTag",
+	name: "twikiHtmlTag",
 	match: "<[a-zA-Z]{2,}(?:\\s*(?:[a-z]*?=[\"']?[^>]*?[\"']?))*?>",
 	lookaheadRegExp: /<([a-zA-Z]{2,})((?:\s+[a-z]*?=["']?[^>\/\"\']*?["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
