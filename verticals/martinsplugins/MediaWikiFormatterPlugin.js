@@ -3,9 +3,9 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[MediaWiki|http://meta.wikimedia.org/wiki/Help:Wikitext]] (WikiPedia) text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.3.5|
+|''Version:''|0.3.6|
 |''Status:''|alpha pre-release|
-|''Date:''|Sep 23, 2006|
+|''Date:''|Sep 24, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -420,7 +420,7 @@ config.mediaWikiFormatters = [
 				{
 				if(match2[3])
 					{// no first row marker
-					eot = this.rowHandler(w,createTiddlyElement(rowContainer,"tr",null,(rowCount&1)?"oddRow":"evenRow"));
+					eot = this.rowHandler(w,createTiddlyElement(rowContainer,"tr"));
 					rowCount++;
 					}
 				}
@@ -432,7 +432,7 @@ config.mediaWikiFormatters = [
 		else if(match[4])
 			{// cell, no first row marker in table
 			w.nextMatch = this.captionRegExp.lastIndex-match[4].length;// rewind to before the match
-			eot = this.rowHandler(w,createTiddlyElement(rowContainer,"tr",null,(rowCount&1)?"oddRow":"evenRow"));
+			eot = this.rowHandler(w,createTiddlyElement(rowContainer,"tr"));
 			rowCount++;
 			}
 
@@ -450,7 +450,7 @@ config.mediaWikiFormatters = [
 				}
 			else if(match[2])
 				{// row
-				var rowElement = createTiddlyElement(rowContainer,"tr",null,(rowCount&1)?"oddRow":"evenRow");
+				var rowElement = createTiddlyElement(rowContainer,"tr");
 				w.nextMatch += match[2].length;// skip over the match
 				i = w.source.indexOf("\n",w.nextMatch);
 				if(i>w.nextMatch)
@@ -666,7 +666,8 @@ config.mediaWikiFormatters = [
 			{
 			var params = MediaWikiFormatter.getParams(w);
 			var src = params[1];
-			src = src.replace(/ /mg,"_");
+			src = src.trim().replace(/ /mg,"_");
+			src = src.substr(0,1).toUpperCase() + src.substring(1);
 			var palign = null;
 			var ptitle = null;
 			var psrc = false;
@@ -676,6 +677,7 @@ config.mediaWikiFormatters = [
 			for(var i=2;i<params.length;i++)
 				{//right, left, center, none, sizepx, thumbnail (thumb), frame, and alternate (caption) text.
 				var p = params[i];
+//mwDebug(w.output,"p"+i+":"+p);
 				if(p=="right"||p=="left"||p=="center"||p=="none")
 					{
 					palign = p;
@@ -688,10 +690,9 @@ config.mediaWikiFormatters = [
 					{
 					pframed = true;
 					}
-				else if(/\d{2,4}px/.exec(p))
+				else if(/\d{1,4} ?px/.exec(p))
 					{
-					psrc = p + "-" + src;
-					px = p.substr(0,p.length-2);
+					px = p.substr(0,p.length-2).trim();
 					}
 				else
 					{
@@ -709,8 +710,8 @@ config.mediaWikiFormatters = [
 				if(!px)
 					{
 					px = 180;
-					psrc = "180px-" + src;
 					}
+				psrc = px + "px-" + src;
 				var t = createTiddlyElement(output,"div",null,"thumb"+(palign?" t"+palign:""));
 				var s = createTiddlyElement(t,"div");
 				s.style["width"] = Number(px) + 2 + "px";
@@ -751,7 +752,7 @@ config.mediaWikiFormatters = [
 					{
 					img.align = palign;
 					}
-				img.src = psrc ? psrc : src;
+				img.src = px ? px + "px-" + src : src;
 				if(px) {img.width = px;}
 				img.longdesc = "Image:" + src;
 				img.alt = ptitle;
@@ -842,8 +843,7 @@ config.mediaWikiFormatters = [
 				}
 			var i = contents.indexOf("|");
 			var title = i==-1 ? contents : contents.substr(0,i);
-			title = title.trim();
-			title = title.replace(/_/mg," ");// Underscore in template name is equivalent to space
+			title = title.trim().replace(/_/mg," ");// Underscore in template name is equivalent to space
 			title = "Template:" + title.substr(0,1).toUpperCase() + title.substring(1);
 			var tiddler = store.fetchTiddler(title);
 			var oldSource = w.source;
@@ -964,8 +964,8 @@ config.mediaWikiFormatters = [
 
 {
 	name: "mediaWikiItalic",
-	match: "''",
-	termRegExp: /(''|\n)/mg,
+	match: "''(?!')",
+	termRegExp: /(''(?!')|\n)/mg,
 	element: "em",
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -973,7 +973,7 @@ config.mediaWikiFormatters = [
 {
 	name: "mediaWikiUnderline",
 	match: "<u>",
-	termRegExp: /(<\/u>)/mg,
+	termRegExp: /(<\/u>|\n)/mg,
 	element: "u",
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -981,7 +981,7 @@ config.mediaWikiFormatters = [
 {
 	name: "mediaWikiStrike",
 	match: "<s>",
-	termRegExp: /(<\/s>)/mg,
+	termRegExp: /(<\/s>|\n)/mg,
 	element: "strike",
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -989,7 +989,7 @@ config.mediaWikiFormatters = [
 {
 	name: "mediaWikiBoldTag",
 	match: "<b>",
-	termRegExp: /(<\/b>)/mg,
+	termRegExp: /(<\/b>|\n)/mg,
 	element: "b",
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -1221,7 +1221,8 @@ config.mediaWikiFormatters = [
 			w.nextMatch = 0;
 			var params = MediaWikiFormatter.getParams(w);
 			var src = params[1];
-			src = src.replace(/ /mg,"_");
+			src = src.trim().replace(/ /mg,"_");
+			src = src.substr(0,1).toUpperCase() + src.substring(1);
 			var palign = "right"; 
 			var psrc = "120px-"+src;
 			var px = 120;
@@ -1238,10 +1239,10 @@ config.mediaWikiFormatters = [
 					{
 					pframed = true;
 					}
-				else if(/\d{2,4}px/.exec(p))
+				else if(/\d{1,4}px/.exec(p))
 					{
-					psrc = p + "-" + src;
-					px = p.substr(0,p.length-2);
+					px = p.substr(0,p.length-2).trim();
+					psrc = px + "px-" + src;
 					}
 				else
 					{
