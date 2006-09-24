@@ -5,31 +5,32 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Version:''|0.3.5|
 |''Status:''|alpha pre-release|
-|''Date:''|Sep 14, 2006|
+|''Date:''|Sep 23, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
-|''Display instrumentation on load''|<<option chkDisplayInstrumentation>>|
+|''Display instrumentation''|<<option chkDisplayInstrumentation>>|
 |''Display empty template links:''|<<option chkMediaWikiDisplayEmptyTemplateLinks>>|
 |''Allow zooming of thumbnail images''|<<option chkMediaWikiDisplayEnableThumbZoom>>|
 |''List references''|<<option chkMediaWikiListReferences>>|
 
+This is an early release of the MediaWikiFormatterPlugin, which allows you to insert MediaWiki
+formated text into a TiddlyWiki.
 
-This is an early release of the MediaWikiFormatterPlugin, which allows you to insert MediaWiki formated
-text into a TiddlyWiki.
+The aim is not to fully emulate MediaWiki, but to allow you to create MediaWiki content off-line
+and then paste the content into your MediaWiki later on, with the expectation that only minor
+edits will be required.
 
-The aim is not to fully emulate MediaWiki, but to allow you to create MediaWiki content off-line and
-then paste the content into your MediaWiki later on, with the expectation that only minor edits will be required.
-
-To use MediaWiki format in a Tiddler, tag the Tiddler with MediaWikiFormat. See [[testMediaWikiFormat]] for an example.
+To use MediaWiki format in a Tiddler, tag the Tiddler with MediaWikiFormat. See [[testMediaWikiFormat]]
+for an example.
 
 !!!Issues
 This is an early alpha release, with (at least) the following known issues:
-# Styles for tables don't yet match Wikipedia styles.
-# Styles for image galleries don't yet match Wikipedia styles.
+# Not all styles from http://meta.wikimedia.org/wiki/MediaWiki:Common.css incorporated
+## Styles for tables don't yet match Wikipedia styles.
+## Styles for image galleries don't yet match Wikipedia styles.
 # Anchors not yet supported.
-
 
 !!!Not supported
 # Magic words and variables http://meta.wikimedia.org/wiki/Help:Magic_words
@@ -72,9 +73,16 @@ wikify = function(source,output,highlightRegExp,tiddler)
 		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
 		w.linkCount = 0;
 		w.tableDepth = 0;
-		//w.container = output;
 		w.output = tiddler==null ? output : createTiddlyElement(output,"p");
+var time1,time0 = new Date();
 		w.subWikifyUnterm(w.output);
+if(config.options.chkDisplayInstrumentation)
+{
+time1 = new Date();
+var t = tiddler ? tiddler.title : source.substr(0,10);
+if(tiddler!=null) 
+displayMessage("Wikify '"+t+"' in " + (time1-time0) + " ms");
+}
 		}
 //at point of usage can use:
 //var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
@@ -287,8 +295,7 @@ MediaWikiFormatter.setFromParams = function(w,p)
 	return r;
 };
 
-if(!config.formatterHelpers.setAttributesFromParams) {
-config.formatterHelpers.setAttributesFromParams = function(e,p)
+MediaWikiFormatter.setAttributesFromParams = function(e,p)
 {
 	var re = /\s*(.*?)=(?:(?:"(.*?)")|(?:'(.*?)')|((?:\w|%|#)*))/mg;
 	var match = re.exec(p);
@@ -317,7 +324,6 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 		match = re.exec(p);
 		}
 };
-}
 
 config.mediaWikiFormatters = [
 {
@@ -379,7 +385,7 @@ config.mediaWikiFormatters = [
 		var i = w.source.indexOf("\n",w.nextMatch);
 		if(i>w.nextMatch)
 			{
-			config.formatterHelpers.setAttributesFromParams(table,w.source.substring(w.nextMatch,i));
+			MediaWikiFormatter.setAttributesFromParams(table,w.source.substring(w.nextMatch,i));
 			w.nextMatch = i;
 			}
 
@@ -398,7 +404,7 @@ config.mediaWikiFormatters = [
 				{
 				captionText = w.source.substr(w.nextMatch,i);
 				//captionText = captionText.replace(/^\+/mg,"")//!!hack until I fix this properly
-				//config.formatterHelpers.setAttributesFromParams(caption,captionText);
+				//MediaWikiFormatter.setAttributesFromParams(caption,captionText);
 				w.nextMatch += i+1;
 				}
 			if(caption != table.firstChild)
@@ -449,7 +455,7 @@ config.mediaWikiFormatters = [
 				i = w.source.indexOf("\n",w.nextMatch);
 				if(i>w.nextMatch)
 					{
-					config.formatterHelpers.setAttributesFromParams(rowElement,w.source.substring(w.nextMatch,i));
+					MediaWikiFormatter.setAttributesFromParams(rowElement,w.source.substring(w.nextMatch,i));
 					w.nextMatch = i;
 					}
 				eot = this.rowHandler(w,rowElement);
@@ -507,7 +513,7 @@ config.mediaWikiFormatters = [
 				if(i!=-1)
 					{
 					cellText = cellText.replace(/^\+/mg,"");  //!!hack until I fix this properly
-					config.formatterHelpers.setAttributesFromParams(cell,cellText.substr(0,i-1));
+					MediaWikiFormatter.setAttributesFromParams(cell,cellText.substr(0,i-1));
 					cellText = cellText.substring(i+1);
 					}
 				cellText = cellText.replace(/^\s*/mg,""); //# remove leading spaces so not treated as preformatted
@@ -901,7 +907,7 @@ config.mediaWikiFormatters = [
 			{
 			var e =createTiddlyElement(w.output,"br");
 			if(lookaheadMatch[1])
-				{config.formatterHelpers.setAttributesFromParams(e,lookaheadMatch[1]);}
+				{MediaWikiFormatter.setAttributesFromParams(e,lookaheadMatch[1]);}
 			w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
 			}
 	}
@@ -1008,7 +1014,6 @@ config.mediaWikiFormatters = [
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
-			var name;
 			var x = {id:"",value:""};
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			if(!w.referenceCount)
@@ -1023,7 +1028,7 @@ config.mediaWikiFormatters = [
 				{
 				var r = {};
 				r = MediaWikiFormatter.setFromParams(w,lookaheadMatch[1]);
-				name = r.name.trim();
+				var name = r.name ? r.name.trim() : "";
 				name = name.replace(/ /g,"_");
 				s.id = prefix + "_ref-" + name;// + "_" + nameCount;(w.referenceCount+1);
 				if(!w.references[name])
@@ -1063,18 +1068,21 @@ config.mediaWikiFormatters = [
 			{
 			var ol = createTiddlyElement(w.output,"ol",null,"references");
 			var oldSource = w.source;
-			for(var i in w.references)
+			if(w.referenceCount>0)
 				{
-				var li = createTiddlyElement(ol,"li");
-				var prefix = w.tiddler ? w.tiddler.title + ":" : "";
-				var b = createTiddlyElement(li,"b");
-				var a = createTiddlyElement(b,"a");
-				li.id = prefix + "_note-" + i;
-				a.href = "#" + prefix + "_ref-" + i;
-				a.innerHTML = "^";
-				w.source = w.references[i].value;
-				w.nextMatch = 0;
-				w.subWikifyUnterm(li);
+				for(var i in w.references)
+					{
+					var li = createTiddlyElement(ol,"li");
+					var prefix = w.tiddler ? w.tiddler.title + ":" : "";
+					var b = createTiddlyElement(li,"b");
+					var a = createTiddlyElement(b,"a");
+					li.id = prefix + "_note-" + i;
+					a.href = "#" + prefix + "_ref-" + i;
+					a.innerHTML = "^";
+					w.source = w.references[i].value;
+					w.nextMatch = 0;
+					w.subWikifyUnterm(li);
+					}
 				}
 			w.source = oldSource;
 			}
@@ -1092,7 +1100,6 @@ config.mediaWikiFormatters = [
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
-			var name;
 			var x = {id:"",value:""};
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 //#<ref name="foreign ministry">
@@ -1104,10 +1111,10 @@ config.mediaWikiFormatters = [
 				{
 				var r = {};
 				r = MediaWikiFormatter.setFromParams(w,lookaheadMatch[1]);
-				name = r.name.trim();
+				var name = r.name ? r.name.trim() : "";
 				name = name.replace(/ /g,"_");
 				s.id = prefix + "_ref-" + name +"_" + (w.referenceCount+1);
-				var count = w.references[name] ? (w.references[name].id+1) : "?";
+				var count = w.references && w.references[name] ? (w.references[name].id+1) : "?";
 				}
 			a.href = "#" + prefix + "_note-" + name;
 			a.innerHTML = "["+count+"]";
@@ -1299,7 +1306,7 @@ config.mediaWikiFormatters = [
 			{
 			var e =createTiddlyElement(w.output,lookaheadMatch[1]);
 			if(lookaheadMatch[2])
-				{config.formatterHelpers.setAttributesFromParams(e,lookaheadMatch[2]);}
+				{MediaWikiFormatter.setAttributesFromParams(e,lookaheadMatch[2]);}
 			if(lookaheadMatch[3])
 				{
 				w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
