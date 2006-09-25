@@ -181,13 +181,20 @@ config.macros.login = {
       for(var t in zw.tiddlerList) if(!store.fetchTiddler(t)) numtofetch++;
       var fetched = 0;
       var updateTimeline = "";
+      this.fetchlist = [];
       for(var t in zw.tiddlerList) {
           if(!store.fetchTiddler(t)) {
+              fetchlist.push(t);
               if(++fetched == numtofetch) 
                   updateTimeline = "updatetimeline=1&";
               ajax.get('?action=get&id=' + encodeURIComponent(t.htmlDecode())
               + "&" + updateTimeline + zw.no_cache(), 
               config.macros.login.addTiddler)
+              // This seems to be perceptibly slower...
+              //setTimeout(" ajax.get('?action=get&id=" + encodeURIComponent(t.htmlDecode()).replace("'","\\'")
+              //    + "&" + updateTimeline + zw.no_cache() + "', config.macros.login.addTiddler)",
+              //    timeout);
+              //timeout += 10;
           }
       }
       return true;
@@ -202,15 +209,20 @@ config.macros.login = {
         var title = parts[0];
         var oldtitle = parts[1];
         var oldtiddler = store.fetchTiddler(title);
-        tiddler.set(title, Tiddler.unescapeLineBreaks(parts[2].htmlDecode()), parts[3], 
+        tiddler.assign(title, Tiddler.unescapeLineBreaks(parts[2].htmlDecode()), parts[3], 
             Date.convertFromYYYYMMDDHHMM(parts[4]), parts[6], 
             Date.convertFromYYYYMMDDHHMM(parts[5]));
         store.setValue(tiddler, 'revisionkey', parts[8]);
         store.addTiddler(tiddler);
-        story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
+//        story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
         if(parts[7] == 'update timeline') {
+            alert("Loaded tiddlers");
+            displayMessage("Processing new tiddlers...");
+            for(t in this.fetchlist) {
+                store.fetchTiddler(t).changed();
+            }
             refreshPageTemplate();  // Just redraw everything.
-            store.notify('TabTimeline', true)
+            //store.notify('TabTimeline', true)
             clearMessage();
         }
       }
@@ -381,7 +393,7 @@ function displayTiddlerRevisionCallback(encoded,status) {
     var title = parts[0];
     var oldtitle = parts[1];
     var oldtiddler = store.fetchTiddler(title);
-    if(oldtiddler.modified != parts[4]) {
+    if(oldtiddler && oldtiddler.modified != parts[4]) {
         var tmpstr = " (Historical revision " + parts[8];
         if(title != oldtitle) {
             tmpstr += " renamed from " + oldtitle;
