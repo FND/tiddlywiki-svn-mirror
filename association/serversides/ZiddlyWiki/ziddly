@@ -26,14 +26,33 @@ action = context.REQUEST.get('action', None)
 if action:
   return container.actions[action](root=root)
 
-# make sure our tiddlers folder exists
-if not hasattr(context, 'tiddlers'):
-  context.manage_addFolder(id='tiddlers')
-# FIXME 'View History' for 'Anonymous' property must be added to all
-# tiddlywiki's for on-demand loading (at login) and revisions to work.
-# User must be a manager to make this change...
-#if not context.REQUEST.AUTHENTICATED_USER.has_permission('View History', context.tiddlers):
-#  context.manage_
+# Perform auto-upgrade actions if necessary
+if not hasattr(context, 'tiddlers') or context.REQUEST.AUTHENTICATED_USER.has_permission('View History', context.tiddlers):
+    try:
+        if not hasattr(context, 'tiddlers'):
+            context.manage_addFolder(id='tiddlers')
+        context.tiddlers.manage_permission('View History', ['Anonymous'], acquire=0)
+        for tiddlerid in context.tiddlers.objectIds('DTML Document'):
+            tiddler = context.tiddlers[tiddlerid]
+            # This upgrade is DANGEROUS and should be performed only once.
+            # We have no reliable way to determine automatically if it should
+            # be performed.  The user will have to do it himself by hand.
+            if context.REQUEST.get('upgrade2.0.11', None):
+                body = tiddler(context, context.REQUEST).replace('&gt;', '>').replace('&lt;', '<')
+                tiddler.manage_edit(data=body, title=tiddler.title_or_id())
+            tags = getattr(tiddler, 'tags', '').split(' ')
+            if 'private' in tags: # FIXME private logic will fail if someone has a tag [[foo private bar]]
+                tiddler.manage_permission('View', ['Authenticated', 'Manager', 'Owner'], acquire=0)
+        # This tracks versions of the 'tiddlers' folder.  If an upgrade
+        # requires mass conversion, we can tell what the old version was by
+        # looking at this.
+        context.tiddlers.manage_addProperty('storeversion', 0, 'integer')           
+        # Future stores will:
+        # 1) use File objects instead of DTML Documents
+        # 2) store tiddlers as div's.
+    except: 
+        context.REQUEST.RESPONSE.setStatus(401)
+        return "You have just upgraded ZiddlyWiki and some changes need to be made that require Manager access.  Please reload this page and log in as a Manager to perform the upgrade.";
 
 javascript_tag = '<script type="text/javascript" src="%s"></script>\n'
 javascript_tag_inline = '<script type="text/javascript">%s</script>\n'
