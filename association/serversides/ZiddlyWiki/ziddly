@@ -27,7 +27,7 @@ if action:
   return container.actions[action](root=root)
 
 # Perform auto-upgrade actions if necessary
-if not hasattr(context, 'tiddlers') or context.REQUEST.AUTHENTICATED_USER.has_permission('View History', context.tiddlers):
+if not hasattr(context, 'tiddlers') or not context.REQUEST.AUTHENTICATED_USER.has_permission('View History', context.tiddlers):
     try:
         if not hasattr(context, 'tiddlers'):
             context.manage_addFolder(id='tiddlers')
