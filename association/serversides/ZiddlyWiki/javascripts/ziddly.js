@@ -174,7 +174,7 @@ config.macros.login = {
           return false;
       }
       refreshDisplay("SideBarOptions");
-      story.refresh(); // FIXME change to story.refreshAllTiddlers() once synced with trunk.
+      story.refreshAllTiddlers();
       clearMessage();
       // Check for new tiddlers
       var numtofetch = 0;
@@ -185,7 +185,7 @@ config.macros.login = {
           if(!store.fetchTiddler(t)) {
               if(++fetched == numtofetch) 
                   updateTimeline = "updatetimeline=1&";
-              ajax.get('?action=get&id=' + encodeURIComponent(t)
+              ajax.get('?action=get&id=' + encodeURIComponent(t.htmlDecode())
               + "&" + updateTimeline + zw.no_cache(), 
               config.macros.login.addTiddler)
           }
@@ -194,7 +194,7 @@ config.macros.login = {
   },
   addTiddler: function(str,status) {
       if(status != 200) {
-        alert(str); // error message
+        alert("config.macros.login.addTiddler error (HTTP status"+status+"): "+str); // error message
         zw.dirty = true;
       } else if(str.indexOf('\n') > -1) {
         var parts = str.split('\n');
@@ -205,12 +205,13 @@ config.macros.login = {
         tiddler.set(title, Tiddler.unescapeLineBreaks(parts[2].htmlDecode()), parts[3], 
             Date.convertFromYYYYMMDDHHMM(parts[4]), parts[6], 
             Date.convertFromYYYYMMDDHHMM(parts[5]));
-        tiddler.setValue('revisionkey', parts[8]);
+        store.setValue(tiddler, 'revisionkey', parts[8]);
         store.addTiddler(tiddler);
         story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
         if(parts[7] == 'update timeline') {
             refreshPageTemplate();  // Just redraw everything.
             store.notify('TabTimeline', true)
+            clearMessage();
         }
       }
   }
@@ -353,7 +354,7 @@ config.commands.revisions = {
         }
       }
     };
-    ajax.get('?action=get_revisions&id=' + encodeURIComponent(title) + '&' + zw.no_cache(), callback);
+    ajax.get('?action=get_revisions&id=' + encodeURIComponent(title.htmlDecode()) + '&' + zw.no_cache(), callback);
     event.cancelBubble = true;
     if (event.stopPropagation) event.stopPropagation();
     return true;
@@ -367,13 +368,13 @@ function displayTiddlerRevision(title, revision, src, updateTimeline) {
   displayMessage("Loading revision information for '"+title+"'...");
   revision = revision ? '&revision=' + revision : '';
   updateTimeline = updateTimeline ? '&updatetimeline=1' : '';
-  ajax.get('?action=get&id=' + encodeURIComponent(title) + revision 
+  ajax.get('?action=get&id=' + encodeURIComponent(title.htmlDecode()) + revision 
       + updateTimeline + '&' + zw.no_cache(), displayTiddlerRevisionCallback)
 };
 
 function displayTiddlerRevisionCallback(encoded,status) {
   if(status != 200) {
-    alert(encoded); // error message
+    alert("displayTiddlerRevisionCallback error (HTTP code "+status+"): "+encoded); // error message
   } else if(encoded.indexOf('\n') > -1) {
     var parts = encoded.split('\n');
     var tiddler = new Tiddler();
@@ -496,7 +497,7 @@ config.commands.editTiddler.handler = function(event,src,title) {
 	zw.isAdmin = false;
 	readOnly = true;
 	refreshDisplay("SideBarOptions");
-	story.refresh();
+	story.refreshAllTiddlers();
 	alert(config.messages.loginToEdit);
 	config.commands.editTiddler.zw_handler(event,src,title);
       }
