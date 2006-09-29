@@ -2,6 +2,7 @@ recipe: ../../core/tiddlywiki.html.recipe
 prehead: ../../core/html/rss.link.html
 title: html/title.html
 recipe: tiddlers/split.recipe
+tiddler: ../../association/plugins/LegacyStrikeThroughPlugin/LegacyStrikeThroughPlugin.js
 recipe: images.recipe
 copy: attachments/firstversion.html
 copy: attachments/secondversion.html
