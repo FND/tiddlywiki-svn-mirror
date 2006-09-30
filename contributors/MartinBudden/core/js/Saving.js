@@ -34,7 +34,7 @@ function updateMarkupBlock(s,blockName,tiddlerName)
 }
 
 // Save this tiddlywiki with the pending changes
-function saveChanges(onlyIfDirty)
+function saveChanges(onlyIfDirty,tiddler)
 {
 	if(onlyIfDirty && !store.isDirty())
 		return;
@@ -78,6 +78,16 @@ function saveChanges(onlyIfDirty)
 		else
 			alert(config.messages.backupFailed);
 		}
+	if(tiddler && config.options.chkSaveTiddlerBackup)
+		{
+		var backupPath = getBackupPath(localPath,tiddler.title,"tiddler");
+		var tiddlerBackup = saveFile(backupPath,store.getSaver().externalizeTiddler(store,tiddler));
+		if(tiddlerBackup)
+			displayMessage(config.messages.backupSaved,"file://" + backupPath);
+		else
+			alert(config.messages.backupFailed);
+		}
+
 	// Save Rss
 	if(config.options.chkGenerateAnRssFeed)
 		{
@@ -164,20 +174,26 @@ function getLocalPath(originalPath)
 	return localPath;
 }
 
-function getBackupPath(localPath)
+function getBackupPath(localPath,title,extension)
 {
-	var backSlash = true;
+	var slash = "\\";
 	var dirPathPos = localPath.lastIndexOf("\\");
 	if(dirPathPos == -1)
 		{
 		dirPathPos = localPath.lastIndexOf("/");
-		backSlash = false;
+		slash = "/";
 		}
 	var backupFolder = config.options.txtBackupFolder;
 	if(!backupFolder || backupFolder == "")
 		backupFolder = ".";
-	var backupPath = localPath.substr(0,dirPathPos) + (backSlash ? "\\" : "/") + backupFolder + localPath.substr(dirPathPos);
-	backupPath = backupPath.substr(0,backupPath.lastIndexOf(".")) + "." + (new Date()).convertToYYYYMMDDHHMMSSMMM() + ".html";
+	var backupPath = localPath.substr(0,dirPathPos) + slash + backupFolder + localPath.substr(dirPathPos);
+	backupPath = backupPath.substr(0,backupPath.lastIndexOf(".")) + ".";
+	if(title)
+		{
+		// replace illegal filename characters(\/*?"|:<>) and space with underscore 
+		backupPath += title.replace(/[\\\/\*\?\"\|:<> ]/g,"_") + ".";
+		}
+	backupPath += (new Date()).convertToYYYYMMDDHHMMSSMMM() + "." + (extension ? extension : "html");
 	return backupPath;
 }
 
