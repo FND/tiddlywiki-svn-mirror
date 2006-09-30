@@ -6,13 +6,14 @@ var params = null; // Command line parameters
 var store = null; // TiddlyWiki storage
 var story = null; // Main story
 var formatter = null; // Default formatters for the wikifier
-var formatters = {}; // Hashmap of alternative formatters for the wikifier
+config.parsers = {}; // Hashmap of alternative parsers for the wikifier
 var anim = new Animator(); // Animation engine
 var readOnly = false; // Whether we're in readonly mode
 var highlightHack = null; // Embarrassing hack department...
 var hadConfirmExit = false; // Don't warn more than once
 var safeMode = false; // Disable all plugins and cookies
 var installedPlugins = []; // Information filled in when plugins are executed
+var startingUp = false; // Whether we're in the process of starting up
 
 // Whether to use the JavaSaver applet
 var useJavaSaver = config.browser.isSafari || config.browser.isOpera;
@@ -21,6 +22,7 @@ var useJavaSaver = config.browser.isSafari || config.browser.isOpera;
 function main()
 {
 	var now, then = new Date();
+	startingUp = true;
 	window.onbeforeunload = function(e) {if(window.confirmExit) return confirmExit();};
 	params = getParameters();
 	if(params)
@@ -46,9 +48,10 @@ function main()
 		displayTiddler(null,"PluginManager");
 		displayMessage(config.messages.customConfigError);
 		}
-	// Just for the beta
 	now = new Date();
-	displayMessage("TiddlyWiki startup in " + (now-then) + " milliseconds");
+	if(config.displayStartupTime)
+		displayMessage("TiddlyWiki startup in " + (now-then)/1000 + " seconds");
+	startingUp = false;
 }
 
 // Restarting

@@ -325,7 +325,7 @@ config.formatters = [
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[1])
 			{
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
@@ -492,8 +492,8 @@ config.formatters = [
 
 {
 	name: "strikeByChar",
-	match: "--",
-	termRegExp: /(--)/mg,
+	match: "--(?!\\s|$)",
+	termRegExp: /((?!\s)--|(?=\n\n))/mg,
 	element: "strike",
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -548,11 +548,20 @@ config.formatters = [
 
 {
 	name: "lineBreak",
-	match: "\\n",
+	match: "\\n|<br ?/?>",
 	handler: function(w)
 	{
 		createTiddlyElement(w.output,"br");
 	}
+},
+
+{
+	name: "mdash",
+	match: "--",
+	handler: function(w)
+		{
+		createTiddlyElement(w.output,"span").innerHTML = "&mdash";
+		}
 },
 
 {

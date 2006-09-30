@@ -194,7 +194,7 @@ Story.prototype.refreshTiddler = function(title,template,force)
 }
 
 // Refresh all tiddlers in the Story
-Story.prototype.refresh = function() 
+Story.prototype.refreshAllTiddlers = function() 
 {
 	var place = document.getElementById(this.container);
 	var e = place.firstChild; 

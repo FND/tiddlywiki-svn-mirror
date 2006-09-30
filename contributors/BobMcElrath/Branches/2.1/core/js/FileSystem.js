@@ -6,10 +6,10 @@
 
 function convertUTF8ToUnicode(u)
 {
-	if(window.Components)
-		return mozConvertUTF8ToUnicode(u);
-	else
+	if(window.netscape == undefined)
 		return manualConvertUTF8ToUnicode(u);
+	else
+		return mozConvertUTF8ToUnicode(u);
 }
 
 function manualConvertUTF8ToUnicode(utf)
@@ -43,18 +43,16 @@ function manualConvertUTF8ToUnicode(utf)
 
 function mozConvertUTF8ToUnicode(u)
 {
-	if (window.netscape == undefined)
-		return manualConvertUTF8ToUnicode(u); // fallback
 	try
 		{
 		netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+		var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+		converter.charset = "UTF-8";
 		}
 	catch(e)
 		{
 		return manualConvertUTF8ToUnicode(u);
 		} // fallback
-	var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
-	converter.charset = "UTF-8";
 	var s = converter.ConvertToUnicode(u);
 	var fin = converter.Finish();
 	return (fin.length > 0) ? s+fin : s;
@@ -62,10 +60,10 @@ function mozConvertUTF8ToUnicode(u)
 
 function convertUnicodeToUTF8(s)
 {
-	if(window.Components)
-		return mozConvertUnicodeToUTF8(s);
-	else
+	if(window.netscape == undefined)
 		return manualConvertUnicodeToUTF8(s);
+	else
+		return mozConvertUnicodeToUTF8(s);
 }
 
 function manualConvertUnicodeToUTF8(s)
@@ -76,9 +74,16 @@ function manualConvertUnicodeToUTF8(s)
 
 function mozConvertUnicodeToUTF8(s)
 {
-	netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-	var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
-	converter.charset = "UTF-8";
+	try
+		{
+		netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+		var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+		converter.charset = "UTF-8";
+		}
+	catch(e)
+		{
+		return manualConvertUnicodeToUTF8(u);
+		} // fallback
 	var u = converter.ConvertFromUnicode(s);
 	var fin = converter.Finish();
 	if(fin.length > 0)

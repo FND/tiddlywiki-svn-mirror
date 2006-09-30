@@ -28,7 +28,7 @@ config.macros.list.handler = function(place,macroName,params)
 	var results;
 	if(this[type].handler)
 		results = this[type].handler(params);
-	for (var t = 0; t < results.length; t++)
+	for(var t = 0; t < results.length; t++)
 		{
 		var theListItem = document.createElement("li")
 		theList.appendChild(theListItem);
@@ -142,8 +142,8 @@ config.macros.search.onKeyPress = function(e)
 		{
 		case 13: // Ctrl-Enter
 		case 10: // Ctrl-Enter on IE PC
-		  config.macros.search.doSearch(this);
-		  break;
+			config.macros.search.doSearch(this);
+			break;
 		case 27: // Escape
 			this.value = "";
 			clearMessage();
@@ -300,7 +300,7 @@ config.macros.slider.createSlider = function(place,cookie,title,tooltip)
 	var panel = createTiddlyElement(null,"div",null,"sliderPanel");
 	panel.setAttribute("cookie",cookie);
 	panel.style.display = config.options[cookie] ? "block" : "none";
-        place.appendChild(panel);
+	place.appendChild(panel);
 	return panel;
 }
 
@@ -390,7 +390,7 @@ config.macros.newTiddler.createNewTiddlerButton = function(place,title,params,la
 	btn.setAttribute("newFocus",newFocus);
 	btn.setAttribute("newTemplate",getParam(params,"template",DEFAULT_EDIT_TEMPLATE));
 	var text = getParam(params,"text");
-	if (text !== undefined) 
+	if(text !== undefined) 
 		btn.setAttribute("newText",text);
 	return btn;
 }
@@ -403,7 +403,7 @@ config.macros.newTiddler.onClickNewTiddler = function()
 	var template = this.getAttribute("newTemplate");
 	story.displayTiddler(null,title,template);
 	var text = this.getAttribute("newText");
-	if (typeof text == "string")
+	if(typeof text == "string")
 		story.getTiddlerField(title,"text").value = text.format([title]);
 	for(var t=0;t<params.length;t++)
 		story.setTiddlerTag(title,params[t],+1);
@@ -496,7 +496,7 @@ config.macros.tabs.handler = function(place,macroName,params)
 	if(!validTab)
 		config.options[cookie] = params[1];
 	this.switchTab(tabset,config.options[cookie]);
-        place.appendChild(wrapper);
+	place.appendChild(wrapper);
 }
 
 config.macros.tabs.onClickTab = function(e)
@@ -591,7 +591,7 @@ config.macros.view.handler = function(place,macroName,params,wikifier,paramStrin
 	if((tiddler instanceof Tiddler) && params[0])
 		{
 		var value = store.getValue(tiddler,params[0]);
-		if(value != undefined) 
+		if(value != undefined)
                         {
                         if(typeof(params[1]) == "undefined")
                                 highlightify(tiddler[params[0]],place,highlightHack);
@@ -621,7 +621,7 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 	if((tiddler instanceof Tiddler) && field)
 		{
 		story.setDirty(tiddler.title,true);
-		if (field != "text")
+		if(field != "text")
 			{
 				var e = createTiddlyElement(null,"input");
 				if(tiddler.isReadOnly())
@@ -629,12 +629,12 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 				e.setAttribute("edit",field);
 				e.setAttribute("type","text");
 				var v = store.getValue(tiddler,field);
-				if (!v) 
+				if(!v) 
 					v = "";
 				e.value = v;
 				e.setAttribute("size","40");
 				e.setAttribute("autocomplete","off");
-                                place.appendChild(e);
+				place.appendChild(e);
 			}
 		else
 			{
@@ -644,7 +644,7 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 				if(tiddler.isReadOnly())
 					e.setAttribute("readOnly","readOnly");
 				var v = store.getValue(tiddler,field);
-				if (!v) 
+				if(!v) 
 					v = "";
 				e.value = v;
 				var rows = 10;
@@ -655,8 +655,8 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 				rows = Math.min(rows,maxLines);
 				e.setAttribute("rows",rows);
 				e.setAttribute("edit",field);
-                                place.appendChild(wrapper1);
-			} 
+				place.appendChild(wrapper1);
+			}
 		}
 }
 
@@ -668,7 +668,7 @@ config.macros.tagChooser.onClick = function(e)
 	var tags = store.getTags();
 	if(tags.length == 0)
 		createTiddlyText(createTiddlyElement(popup,"li"),lingo.popupNone);
-	for (var t=0; t<tags.length; t++)
+	for(var t=0; t<tags.length; t++)
 		{
 		var theTag = createTiddlyButton(createTiddlyElement(popup,"li"),tags[t][0],lingo.tagTooltip.format([tags[t][0]]),config.macros.tagChooser.onTagClick);
 		theTag.setAttribute("tag",tags[t][0]);
@@ -676,7 +676,7 @@ config.macros.tagChooser.onClick = function(e)
 		}
 	Popup.show(popup,false);
 	e.cancelBubble = true;
-	if (e.stopPropagation) e.stopPropagation();
+	if(e.stopPropagation) e.stopPropagation();
 	return(false);
 }
 
@@ -733,7 +733,7 @@ config.macros.toolbar.createCommand = function(place,commandName,tiddler,theClas
 			btn.setAttribute("tiddler", title);
 			if(theClass)
 				addClass(btn,theClass);
-                        place.appendChild(btn);
+			place.appendChild(btn);
 			}
 		}
 }
@@ -749,7 +749,7 @@ config.macros.toolbar.onClickCommand = function(e)
 config.macros.toolbar.invokeCommand = function(place,theClass,event)
 {
 	var children = place.getElementsByTagName("a")
-	for (var t=0; t<children.length; t++)
+	for(var t=0; t<children.length; t++)
 		{
 		var c = children[t];
 		if(hasClass(c,theClass) && c.getAttribute && c.getAttribute("commandName"))
@@ -781,11 +781,6 @@ config.macros.toolbar.handler = function(place,macroName,params,wikifier,paramSt
 		if(c in config.commands)
 			this.createCommand(place,c,tiddler,theClass);
 		}
-}
-
-config.macros.br.handler = function(place)
-{
-	createTiddlyElement(place,"br");
 }
 
 config.macros.plugins.handler = function(place,macroName,params,wikifier,paramString,tiddler)
@@ -864,12 +859,7 @@ config.macros.refreshDisplay.handler = function(place)
 
 config.macros.refreshDisplay.onClick = function(e)
 {
-	refreshPageTemplate();
-	refreshDisplay();
-	refreshStyles("StyleSheet");
-	refreshStyles("StyleSheetColors");
-	refreshStyles("StyleSheetLayout");
-	refreshStyles("StyleSheetPrint");
+	refreshAll();
 	return false;
 }
 
@@ -967,12 +957,12 @@ config.macros.importTiddlers.onLoad = function(status,params,responseText,url,xh
 	var content = "<html><body>" + responseText.substring(posOpeningDiv,posClosingDiv + endSaveArea.length) + "</body></html>";
 	// Create the iframe
 	var iframe = document.createElement("iframe");
-        iframe.style.display = "none";
+	iframe.style.display = "none";
 	importer.insertBefore(iframe,importer.firstChild);
 	var doc = iframe.document;
-	if (iframe.contentDocument)
+	if(iframe.contentDocument)
 		doc = iframe.contentDocument; // For NS6
-	else if (iframe.contentWindow)
+	else if(iframe.contentWindow)
 		doc = iframe.contentWindow.document; // For IE5.5 and IE6
 	// Put the content in the iframe
 	doc.open();
