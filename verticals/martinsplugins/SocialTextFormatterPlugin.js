@@ -3,21 +3,18 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[SocialText|http://www.socialtext.com/]] text formatting|
 |''Source:''|http://martinsplugins.tiddlywiki.com/index.html#SocialTextFormatterPlugin|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.6|
+|''Version:''|0.1.8|
 |''Status:''|alpha pre-release|
-|''Date:''|Sep 23, 2006|
+|''Date:''|Oct 1, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
-This is an early release of the SocialTextFormatterPlugin, which allows you to insert SocialText formated text
-into a TiddlyWiki.
+This is an early release of the SocialTextFormatterPlugin, which allows you to insert SocialText formated text into a TiddlyWiki.
 
-The aim is not to fully emulate SocialText, but to allow you to create SocialText content off-line and then paste
-the content into your SocialText wiki later on, with the expectation that only minor edits will be required.
+The aim is not to fully emulate SocialText, but to allow you to create SocialText content off-line and then paste the content into your SocialText wiki later on, with the expectation that only minor edits will be required.
 
-To use SocialText format in a Tiddler, tag the Tiddler with SocialTextFormat. See [[testSocialTextFormat]] for
-an example.
+To use SocialText format in a Tiddler, tag the Tiddler with SocialTextFormat. See [[testSocialTextFormat]] for an example.
 
 This is an early alpha release and may contain defects.
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
@@ -43,13 +40,45 @@ version.extensions.SocialTextFormatterPlugin = {installed:true};
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
 	{alertAndThrow("SocialTextFormatterPlugin requires TiddlyWiki 2.1 or later.");}
 
+wikify = function(source,output,highlightRegExp,tiddler)
+{
+	if(source && source != "")
+		{
+		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
+		w.linkCount = 0;
+		w.tableDepth = 0;
+		var out = output;
+		if(tiddler && tiddler.isTagged("SocialTextFormat"))
+			{
+//function createTiddlyElement(theParent,theElement,theID,theClass,theText)
+//<div id="content-display-body" class="content-section-visible">
+//<div id='wikipage'><div class="wiki">
+			var d1 = createTiddlyElement(output,"div","content-display-body","content-section-visible");
+			var d2 = createTiddlyElement(d1,"div","wikipage");
+			out = createTiddlyElement(d2,"div",null,"wiki");
+			}
+		w.output = tiddler==null ? out : createTiddlyElement(out,"p");
+
+		var time1,time0 = new Date();
+		w.subWikifyUnterm(w.output);
+		if(config.options.chkDisplayInstrumentation)
+			{
+			time1 = new Date();
+			var t = tiddler ? tiddler.title : source.substr(0,10);
+			if(tiddler!=null) 
+				{displayMessage("Wikify '"+t+"' in " + (time1-time0) + " ms");}
+			}
+		}
+//at point of usage can use:
+//var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
+};
+
 stDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
 	createTiddlyElement(out,"br");
 };
 
-if(!config.formatterHelpers.singleCharFormat) {
 config.formatterHelpers.singleCharFormat = function(w)
 {
 	this.lookaheadRegExp.lastIndex = w.matchStart;
@@ -57,35 +86,38 @@ config.formatterHelpers.singleCharFormat = function(w)
 	if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[0].substr(lookaheadMatch[0].length-2,1) != " ")
 		{
 		w.subWikifyTerm(createTiddlyElement(w.output,this.element),this.termRegExp);
-		w.nextMatch = this.lookaheadRegExp.lastIndex;
+		//w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	else
 		{
 		w.outputText(w.output,w.matchStart,w.nextMatch);
 		}
 };
-}
 
 config.socialTextFormatters = [
 {
 	name: "socialTextHeading",
-	match: "^\\^{1,6}",
-	termRegExp: /(\n)/mg,
+	match: "^\\^{1,6} ?",
+	termRegExp: /(\n+)/mg,
 	handler: function(w)
 	{
-		w.subWikifyTerm(createTiddlyElement(w.output,"h" + w.matchLength),this.termRegExp);
+		var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
+		var len = w.matchText.trim().length;
+		w.subWikifyTerm(createTiddlyElement(output,"h" + len),this.termRegExp);
+		w.output = createTiddlyElement(output,"p");
 	}
 },
 
 {
 	name: "socialTextTable",
-	match: "^\\|(?:[^\\n]*)\\|$",
-	lookaheadRegExp: /^\|(?:[^\n]*)\|$/mg,
-	cellRegExp: /(?:\|(?:[^\n\|]*)\|)|(\|$\n?)/mg,
+	match: "^\\|(?:(?:.|\n)*)\\|$",
+	lookaheadRegExp: /^\|(?:(?:.|\n)*)\|$/mg,
+	cellRegExp: /(?:\|(?:[^\|]*)\|)(\n|$)?/mg,
 	cellTermRegExp: /((?:\x20*)\|)/mg,
 
 	handler: function(w)
 	{
+//	w.debug = w.output;
 		var table = createTiddlyElement(w.output,"table");
 		var rowContainer = createTiddlyElement(table,"tbody");
 		var prevColumns = [];
@@ -94,7 +126,12 @@ config.socialTextFormatters = [
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch)
 			{
-			this.rowHandler(w,createTiddlyElement(rowContainer,"tr"),prevColumns);
+			var r = this.rowHandler(w,createTiddlyElement(rowContainer,"tr"),prevColumns);
+			if(!r)
+				{
+				w.nextMatch++;
+				break;
+				}
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			}
@@ -105,21 +142,26 @@ config.socialTextFormatters = [
 		var cellMatch = this.cellRegExp.exec(w.source);
 		while(cellMatch && cellMatch.index == w.nextMatch)
 			{
+//stDebug(w.debug,"ws:"+w.source.substr(w.nextMatch,50));
+//stDebug(w.debug,"mt:"+w.matchText);
+			w.nextMatch++;
+			var cell = createTiddlyElement(e,"td");
+			w.subWikifyTerm(cell,this.cellTermRegExp);
 			if(cellMatch[1])
 				{// End of row
 				w.nextMatch = this.cellRegExp.lastIndex;
-				break;
+//stDebug(w.debug,"nmcm:"+w.nextMatch);
+				return true;
 				}
 			else
 				{// Cell
-				w.nextMatch++;
-				var cell = createTiddlyElement(e,"td");
-				w.subWikifyTerm(cell,this.cellTermRegExp);
 				w.nextMatch--;
+//stDebug(w.debug,"nm:"+w.nextMatch);
 				}
 			this.cellRegExp.lastIndex = w.nextMatch;
 			cellMatch = this.cellRegExp.exec(w.source);
 			}
+		return false;
 	}
 },
 
@@ -127,10 +169,11 @@ config.socialTextFormatters = [
 	name: "socialTextWikilist",
 	match: "^(?:(?:(?:\\*)|(?:#))+) ",
 	lookaheadRegExp: /^(?:(?:(\*)|(#))+) /mg,
-	termRegExp: /(\n)/mg,
+	termRegExp: /(\n+)/mg,
 	handler: function(w)
 	{
-		var placeStack = [w.output];
+		var output = w.output.parentNode;
+		var placeStack = [output];
 		var currLevel = 0, currType = null;
 		var listLevel, listType, itemType;
 		w.nextMatch = w.matchStart;
@@ -172,11 +215,12 @@ config.socialTextFormatters = [
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			}
+		w.output = createTiddlyElement(output,"p");
 	}
 },
 
 {
-	name: "quoteByLine",
+	name: "socialTextQuoteByLine",
 	match: "^>+",
 	lookaheadRegExp: /^>+/mg,
 	termRegExp: /(\n)/mg,
@@ -212,12 +256,15 @@ config.socialTextFormatters = [
 		} while(matched);
 	}
 },
+
 {
 	name: "socialTextRule",
-	match: "^----+$\\n?",
+	match: "^----+$\\n+",
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"hr");
+		var output = w.output.parentNode;
+		createTiddlyElement(output,"hr");
+		w.output = createTiddlyElement(output,"p");
 	}
 },
 
@@ -227,6 +274,22 @@ config.socialTextFormatters = [
 	lookaheadRegExp: /^.pre\s*\n((?:.|\n)*?)\n.pre\s*\n/mg,
 	element: "pre",
 	handler: config.formatterHelpers.enclosedTextHelper
+},
+
+{
+	name: "socialTextHtml",
+	match: "^\\.html",
+	lookaheadRegExp: /\.html((?:.|\n)*?)\.html/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
+			{
+			createTiddlyElement(w.output,"span").innerHTML = lookaheadMatch[1];
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+			}
+	}
 },
 
 {
@@ -265,8 +328,8 @@ config.socialTextFormatters = [
 
 {
 	name: "socialTextExternalLink",
-	match: '(?:".*?" ?)?<',
-	lookaheadRegExp: /(?:\"(.*?)\" ?)?<([^>]*?)>/mg,
+	match: '(?:".*?" ?)?<[a-z]{2,8}:',
+	lookaheadRegExp: /(?:\"(.*?)\" ?)?<([a-z]{2,8}:.*?)>/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
@@ -293,17 +356,18 @@ config.socialTextFormatters = [
 },
 
 {
-	name: "socialTextImage",
-	match: "\\{image:",
-	lookaheadRegExp: /\{image: ?(.*?)\}/mg,
+	name: "socialTextMailTo",
+	match: "[a-z]+\.[a-z\.]+@[a-z]+\.[a-z\.]+",
+	lookaheadRegExp: /([a-z]+\.[a-z\.]+@[a-z]+\.[a-z\.]+)/mg,
 	handler: function(w)
 	{
+//<a href="mailto:casey.west@socialtext.com">casey.west@socialtext.com</a>
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
-			var img = createTiddlyElement(w.output,"img");
-			img.src = lookaheadMatch[1];
+			var text = lookaheadMatch[1];
+			createTiddlyText(createExternalLink(w.output,"mailto:"+text),text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}
 	}
@@ -320,37 +384,37 @@ config.socialTextFormatters = [
 
 {
 	name: "socialTextBold",
-	match: "\\*(?!\\s)",
-	lookaheadRegExp: /\*(?!\s)(?:.*?)(?!\s)\*(?=\s)/mg,
-	termRegExp: /((?!\s)\*(?=\s))/mg,
+	match: "\\*(?![\\s\\*])",
+	lookaheadRegExp: /\*(?!\s)(?:.*?)(?!\s)\*(?=[\s\._\-])/mg,
+	termRegExp: /((?!\s)\*(?=[\s\.\-_]))/mg,
 	element: "strong",
 	handler: config.formatterHelpers.singleCharFormat
 },
 
 {
 	name: "socialTextItalic",
-	match: "_(?![\\s|_])",
-	lookaheadRegExp: /_(?!\s)(?:.*?)(?!\s)_(?=\s)/mg,
-	termRegExp: /((?!\s)_(?=\s))/mg,
+	match: "_(?![\\s_])",
+	lookaheadRegExp: /_(?!\s)(?:.*?)(?!\s)_(?=[\s\.\*\-])/mg,
+	termRegExp: /((?!\s)_(?=[\s\.\*\-]))/mg,
 	element: "em",
 	handler: config.formatterHelpers.singleCharFormat
 },
 
 {
 	name: "socialTextStrike",
-	match: "-(?![\\s|-])",
-	lookaheadRegExp: /-(?!\s)(?:.*?)(?!\s)-(?=\s)/mg,
-	termRegExp: /((?!\s)-(?=\s))/mg,
-	element: "strike",
+	match: "-(?![\\s\\-])",
+	lookaheadRegExp: /-(?!\s)(?:.*?)(?!\s)-(?=[\s\.\*_])/mg,
+	termRegExp: /((?!\s)-(?=[\s\.\*_]))/mg,
+	element: "del",
 	handler: config.formatterHelpers.singleCharFormat
 },
 
 {
 	name: "socialTextMonoSpaced",
-	match: "`(?![\\s|`])",
-	lookaheadRegExp: /`(?!\s)(?:.*?)(?!\s)`(?=\s)/mg,
-	termRegExp: /((?!\s)`(?=\s))/mg,
-	element: "code",
+	match: "`(?![\\s`])",
+	lookaheadRegExp: /`(?!\s)(?:.*?)(?!\s)`(?=[\s\.\*\-_])/mg,
+	termRegExp: /((?!\s)`(?=[\s\.\*\-_]))/mg,
+	element: "tt",
 	handler: config.formatterHelpers.singleCharFormat
 },
 
@@ -387,6 +451,161 @@ config.socialTextFormatters = [
 		{
 		createTiddlyElement(w.output,"span").innerHTML = "&trade;";
 		}
+},
+
+{
+	name: "socialTextImage",
+	match: "\\{image:",
+	lookaheadRegExp: /\{image: ?(.*?)\}/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
+			{
+			var s = createTiddlyElement(w.output,"span",null,"wafl_existence_error");
+			//var img = createTiddlyElement(w.output,"img");
+			//img.src = lookaheadMatch[1];
+			createTiddlyText(s,lookaheadMatch[1]);
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+			}
+	}
+},
+
+{
+	name: "socialTextFile",
+	match: "\\{file: ?.*?\\}",
+	lookaheadRegExp: /\{file: ?(.*?)\}/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
+			{
+			var s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			createTiddlyText(createTiddlyElement(s,"span",null,"wafl_existence_error"),lookaheadMatch[1]);
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+			}
+	}
+},
+
+{
+	name: "socialTextLink",
+	match: "\\{link: ?.*?\\}",
+	lookaheadRegExp: /\{link: ?(.*?)\}/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
+			{
+			var s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			var a = createExternalLink(s,"#"+lookaheadMatch[1]);
+			a.title = "section link";
+			createTiddlyText(a,lookaheadMatch[1]);
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+			}
+	}
+},
+
+{
+	name: "socialTextLink",
+	match: "\\{weblog: ?.*?\\}",
+	lookaheadRegExp: /\{weblog: ?(.*?)\}/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
+			{
+			var s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			//var a = createExternalLink(s,"/tiddlytext/index.cgi?action=weblog_display;category="+lookaheadMatch[1]);
+			//a.title = "weblog link";
+			createTiddlyText(s,lookaheadMatch[1]);
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+			}
+	}
+},
+
+{
+	name: "socialTextSection",
+	match: "\\{section: ?.*?\\}",
+	lookaheadRegExp: /\{section: ?(.*?)\}/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
+			{
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+			}
+	}
+},
+
+{
+	name: "socialTextRt",
+	match: "\\{rt: ?\\d+\\}",
+	lookaheadRegExp: /\{rt: ?(\d*?)\}/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
+			{
+			var s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			var a = createExternalLink(s,"http://rt.socialtext.net/Ticket/Display.html?id="+lookaheadMatch[1]);
+			createTiddlyText(a,lookaheadMatch[1]);
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+			}
+	}
+},
+
+{
+	name: "socialTextPresence",
+	match: "(?:aim|yahoo|ymsgr|skype|callto|asap):[a-z]+",
+	lookaheadRegExp: /(aim|yahoo|ymsgr|skype|callto|asap):([a-z]+)/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
+			{
+			var p = lookaheadMatch[1];
+			var text = lookaheadMatch[2];
+			var link;
+			var src;
+			if(p=="aim")
+				{
+				link = "aim:goim?screenname=" + text + "&message=hello";
+				src = "http://big.oscar.aol.com/sleepleft?on_url=http://www.aim.com/remote/gr/MNB_online.gif&amp;off_url=http://www.aim.com/remote/gr/MNB_offline.gif";
+				}
+			else if(p=="yahoo"||p=="ymsgr")
+				{
+				link = "ymsgr:sendIM?"+text;
+				src = "http://opi.yahoo.com/online?u=chrislondonbridge&f=.gif";
+				}
+			else if(p=="skype"||p=="callto")
+				{
+				link = "callto:"+text;
+				src = "http://goodies.skype.com/graphics/skypeme_btn_small_green.gif";
+				}
+			else if(p=="asap")
+				{
+				link = "http://asap2.convoq.com/AsapLinks/Meet.aspx?l="+text;
+				src = "http://asap2.convoq.com/AsapLinks/Presence.aspx?l="+text;
+				}
+			var s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			var a = createExternalLink(s,link);
+			var img = createTiddlyElement(a,"img");
+			createTiddlyText(a,text);
+			img.src = src;
+			img.border="0";
+			img.alt = "(" + lookaheadMatch[1] + ")";
+			if(p=="aim")
+				{img.width="11"; img.height="13";}
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+			}
+	}
 },
 
 {
