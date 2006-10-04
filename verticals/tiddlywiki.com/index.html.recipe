@@ -6,3 +6,4 @@ tiddler: ../../association/plugins/LegacyStrikeThroughPlugin/LegacyStrikeThrough
 recipe: images.recipe
 copy: attachments/firstversion.html
 copy: attachments/secondversion.html
+copy: attachments/.java.policy
