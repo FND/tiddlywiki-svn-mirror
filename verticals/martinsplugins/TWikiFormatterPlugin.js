@@ -3,9 +3,9 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[TWiki|http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules]] text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#TWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.6|
+|''Version:''|0.1.7|
 |''Status:''|alpha pre-release|
-|''Date:''|Sep 5, 2006|
+|''Date:''|Oct 5, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -224,7 +224,7 @@ config.twikiFormatters = [
 //<h1><a name="TWiki_Text_Formatting"></a> TWiki Text Formatting </h1>
 	name: "twikiHeading",
 	match: "^---[\\+#]{0,5}",
-	lookaheadRegExp: /^---[\+#]{0,5}(.*?)\n/mg,
+	lookaheadRegExp: /^---[\+#]{0,5}(?:!!)? ?(.*?)\n/mg,
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
@@ -238,6 +238,7 @@ config.twikiFormatters = [
 			var name = "#"+ prefix + lookaheadMatch[1];
 			name = name.replace(/ /g,"_");
 			a.name = name;
+			w.nextMatch = this.lookaheadRegExp.lastIndex - lookaheadMatch[1].length - 1;
 			w.subWikifyTerm(h,this.termRegExp);
 			}
 	}
@@ -286,11 +287,12 @@ config.twikiFormatters = [
 
 {
 	name: "twikiList",
-	match: "^(?:   )+(?:(?:\\* )|(?:1\\. )|(?:A\\. )|(?:a\\. )|(?:I\\. )|(?:i\\. ))",
-	lookaheadRegExp: /^(?:   )+(?:(\* )|(1\. )|(A\. )|(a\. )|(I\. )|(i\. ))/mg,
+	match: "^(?:   )+(?:(?:\\*)|(?:[1AaIi](?:\\.)?)) ",
+	lookaheadRegExp: /^(?:   )+(?:(\*)|(?:([1AaIi])(\.)?)) /mg,
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
+//twDebug(w.output,"mt:"+w.matchText);
 		var placeStack = [w.output];
 		var currLevel = 0;
 		var currType = null;
@@ -300,33 +302,33 @@ config.twikiFormatters = [
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch)
 			{
+//twDebug(w.output,"lm0:"+lookaheadMatch[0]);
 			listType = "ol";
 			itemType = "li";
-			listLevel = (lookaheadMatch[0].length-3)/3;
+			listLevel = (lookaheadMatch[0].length-(lookaheadMatch[3]?3:2))/3;
 			var style = null;
-			if(lookaheadMatch[1])
-				{//*
+			if(lookaheadMatch[1]=="*")
+				{
 				listType = "ul";
-				listLevel = (lookaheadMatch[0].length-2)/3;
 				}
-			else if(lookaheadMatch[2])
-				{//1.
+			else if(lookaheadMatch[2]=="1")
+				{
 				style = "decimal";
 				}
-			else if(lookaheadMatch[3])
-				{//A.
+			else if(lookaheadMatch[2]=="A")
+				{
 				style = "upper-alpha";
 				}
-			else if(lookaheadMatch[4])
-				{//a.
+			else if(lookaheadMatch[2]=="a")
+				{
 				style = "lower-alpha";
 				}
-			else if(lookaheadMatch[5])
-				{//I.
+			else if(lookaheadMatch[2]=="I")
+				{
 				style = "upper-roman";
 				}
-			else if(lookaheadMatch[6])
-				{//i.
+			else if(lookaheadMatch[2]=="i")
+				{
 				style = "lower-roman";
 				}
 			w.nextMatch += lookaheadMatch[0].length;
@@ -675,14 +677,14 @@ config.twikiFormatters = [
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
-			if(lookaheadMatch[2])
+			if(lookaheadMatch[1])
+				{// ! - escape variable
+				w.outputText(w.output,w.matchStart+1,w.nextMatch);
+				}
+			else if(lookaheadMatch[2])
 				{//nop
 				var text = w.matchText.replace(/<nop>/g,"");
 				createTiddlyText(w.output,text);
-				}
-			else if(lookaheadMatch[1])
-				{// !
-				w.outputText(w.output,w.matchStart+1,w.nextMatch);
 				}
 			else
 				{// deal with variables by name here
@@ -690,6 +692,10 @@ config.twikiFormatters = [
 					{
 					createTiddlyElement(w.output,"br");
 					createTiddlyElement(w.output,"span").innerHTML = "&bull;";
+					}
+				else
+					{// just output the text of any variables that are not understood
+					w.outputText(w.output,w.matchStart,w.nextMatch);
 					}
 				}
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
@@ -707,9 +713,24 @@ config.twikiFormatters = [
 },
 
 {
+	name: "twikiComment",
+	match: "<!\\-\\-",
+	lookaheadRegExp: /<!\-\-((?:.|\n)*?)\-\->/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
+			{
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+			}
+	}
+},
+
+{
 	name: "twikiHtmlTag",
-	match: "<[a-zA-Z]{2,}(?:\\s*(?:[a-z]*?=[\"']?[^>]*?[\"']?))*?>",
-	lookaheadRegExp: /<([a-zA-Z]{2,})((?:\s+[a-z]*?=["']?[^>\/\"\']*?["']?)*?)?\s*(\/)?>/mg,
+	match: "<[a-zA-Z]+(?:\\s*(?:[a-z]*?=[\"']?[^>]*?[\"']?))*?>",
+	lookaheadRegExp: /<([a-zA-Z]+)((?:\s+[a-z]*?=["']?[^>\/\"\']*?["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
