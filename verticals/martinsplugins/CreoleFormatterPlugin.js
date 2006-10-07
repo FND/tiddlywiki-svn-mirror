@@ -11,7 +11,7 @@
 |''~CoreVersion:''|2.1.0|
 
 This is an early release of the CreoleFormatterPlugin, which extends the TiddlyWiki syntax to support Creole
-text formatting.
+text formatting. See [[testCreoleFormat]] for an example
 
 See: http://www.wikicreole.org/wiki/Home
 
