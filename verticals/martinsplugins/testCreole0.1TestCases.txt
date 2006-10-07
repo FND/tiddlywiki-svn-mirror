@@ -1,0 +1,58 @@
+== This a test for creole 0.1 (1)
+=== This is a Subheading (2)
+==== Subsub (3)
+===== Subsubsub (4)
+
+You can make things **bold** or //italic// or **//both//**.
+
+Character formatting extends across line breaks: **bold,
+this is still bold. This line deliberately does not end in star-star.
+
+Not bold. Character formatting does not cross paragraph boundaries.
+
+You can use [[InternalLinks]] or [[http://www.wikicreole.org|external Links]], give the link a [[InternalLinks| different]] name.
+
+Here's another sentence: This Wisdom is taken from [[Ward Cunninghams]] [[http://www.c2.com/doc/wikisym/WikiSym2006.pdf|Presentation at the Wikisym 06]]
+
+you can use this to draw a line to seperate the page
+----
+
+you can format a adress by simply adding linebreaks
+
+My contact dates:
+Pone: xyz
+Fax: +45
+Mobile: abc
+
+You can use lists, start it at the first column for now, please...
+
+unnumbered lists are like
+* item a
+* item b
+* **bold item c**
+
+or you can number them
+# [[item a]]
+# item b
+# // italic item c //
+
+up to five levels
+* 1
+** 2
+*** 3
+**** 4
+***** 5
+
+you can use nowiki syntax if you would like do stuff like this
+
+{{{
+Guitar Chord C:
+
+||---|---|---|
+||-0-|---|---|
+||---|-0-|---|
+||---|---|-0-|
+||---|---|---|
+}}}
+
+or if you need that {{{ in a sentence }}} like this.
