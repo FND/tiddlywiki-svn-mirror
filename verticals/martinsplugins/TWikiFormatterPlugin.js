@@ -3,9 +3,9 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[TWiki|http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules]] text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#TWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.7|
+|''Version:''|0.1.8|
 |''Status:''|alpha pre-release|
-|''Date:''|Oct 5, 2006|
+|''Date:''|Oct 7, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -289,7 +289,7 @@ config.twikiFormatters = [
 	name: "twikiList",
 	match: "^(?:   )+(?:(?:\\*)|(?:[1AaIi](?:\\.)?)) ",
 	lookaheadRegExp: /^(?:   )+(?:(\*)|(?:([1AaIi])(\.)?)) /mg,
-	termRegExp: /(\n)/mg,
+	termRegExp: /(\n\n|\n(?=(?:   )+[\\*1AaIi]))/mg,
 	handler: function(w)
 	{
 //twDebug(w.output,"mt:"+w.matchText);
@@ -350,14 +350,7 @@ config.twikiFormatters = [
 			currLevel = listLevel;
 			currType = listType;
 			var e = createTiddlyElement(placeStack[placeStack.length-1],itemType);
-			if(config.browser.isIE)
-				{
-				e.style["list-style-type"] = style;
-				}
-			else
-				{
-				e.style["listStyleType"] = style;
-				}
+			e.style[config.browser.isIE ? "list-style-type" : "listStyleType"] = style;
 			w.subWikifyTerm(e,this.termRegExp);
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
