@@ -1,7 +1,7 @@
 /***
 |''Name:''|BaseFormatterPlugin|
 |''Description:''|Allows Tiddlers to use Base text formatting|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#BaseFormatterPlugin - for pre-release|
+|''Source:''|http://martinswiki.com/prereleases.html#BaseFormatterPlugin|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Version:''|0.1.5|
 |''Status:''|alpha pre-release|
