@@ -99,7 +99,7 @@ config.macros.search.handler = function(place,macroName,params)
 {
 	var searchTimeout = null;
 	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
-	var txt = createTiddlyElement(place,"input");
+	var txt = createTiddlyElement(place,"input",null,"txtOptionInput");
 	if(params[0])
 		txt.value = params[0];
 	txt.onkeyup = this.onKeyPress;
@@ -222,26 +222,41 @@ config.macros.tag.handler = function(place,macroName,params)
 
 config.macros.tags.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
+	params = paramString.parseParams("anon",null,true,false,false);
 	var theList = createTiddlyElement(place,"ul");
-	if(params[0] && store.tiddlerExists(params[0]))
-		tiddler = store.getTiddler(params[0]);
+	var title = getParam(params,"anon","");
+	if(title && store.tiddlerExists(title))
+		tiddler = store.getTiddler(title);
+	var sep = getParam(params,"sep"," ");
 	var lingo = config.views.wikified.tag;
 	var prompt = tiddler.tags.length == 0 ? lingo.labelNoTags : lingo.labelTags;
 	createTiddlyElement(theList,"li",null,"listTitle",prompt.format([tiddler.title]));
 	for(var t=0; t<tiddler.tags.length; t++)
+		{
 		createTagButton(createTiddlyElement(theList,"li"),tiddler.tags[t],tiddler.title);
+		if(t<tiddler.tags.length-1)
+			createTiddlyText(theList,sep);
+		}
 }
 
 config.macros.tagging.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
+	params = paramString.parseParams("anon",null,true,false,false);
 	var theList = createTiddlyElement(place,"ul");
-	var title = params[0] ? params[0] : (tiddler instanceof Tiddler ? tiddler.title : "");
+	var title = getParam(params,"anon","");
+	if(title == "" && tiddler instanceof Tiddler)
+		title = tiddler.title;
+	var sep = getParam(params,"sep"," ");
 	theList.setAttribute("title",this.tooltip.format([title]));
 	var tagged = store.getTaggedTiddlers(title);
 	var prompt = tagged.length == 0 ? this.labelNotTag : this.label;
 	createTiddlyElement(theList,"li",null,"listTitle",prompt.format([title,tagged.length]));
 	for(var t=0; t<tagged.length; t++)
+		{
 		createTiddlyLink(createTiddlyElement(theList,"li"),tagged[t].title,true);
+		if(t<tagged.length-1)
+			createTiddlyText(theList,sep);
+		}
 }
 
 config.macros.closeAll.handler = function(place)
@@ -871,14 +886,14 @@ config.macros.importTiddlers.handler = function(place,macroName,params,wikifier,
 	createTiddlyElement(importer,"h2",null,"step1",this.step1);
 	var step = createTiddlyElement(importer,"div",null,"wizardStep");
 	createTiddlyText(step,this.step1prompt);
-	var input = createTiddlyElement(null,"input");
+	var input = createTiddlyElement(null,"input",null,"txtOptionInput");
 	input.type = "text";
 	input.size = 50;
 	step.appendChild(input);
 	importer.inputBox = input;
 	createTiddlyElement(step,"br");
 	createTiddlyText(step,this.step1promptFile);
-	var fileInput = createTiddlyElement(null,"input");
+	var fileInput = createTiddlyElement(null,"input",null,"txtOptionInput");
 	fileInput.type = "file";
 	fileInput.size = 50;
 	fileInput.onchange = this.onBrowseChange;
@@ -895,7 +910,7 @@ config.macros.importTiddlers.handler = function(place,macroName,params,wikifier,
 
 config.macros.importTiddlers.getFeeds = function(feeds)
 {
-	var tagged = store.getTaggedTiddlers("feed","title");
+	var tagged = store.getTaggedTiddlers("contentPublisher","title");
 	for(var t=0; t<tagged.length; t++)
 		feeds.push({caption: tagged[t].title, name: store.getTiddlerSlice(tagged[t].title,"URL")});
 	return feeds;

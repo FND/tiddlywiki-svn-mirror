@@ -489,11 +489,11 @@ Story.prototype.hasChanges = function(title)
 // returns: title of saved tiddler, or null if not saved
 Story.prototype.saveTiddler = function(title,minorUpdate)
 {
-	var tiddlerElem = document.getElementById(this.idPrefix + title);
-	if(tiddlerElem != null)
+	var tiddler = document.getElementById(this.idPrefix + title);
+	if(tiddler != null)
 		{
 		var fields = {};
-		this.gatherSaveFields(tiddlerElem,fields);
+		this.gatherSaveFields(tiddler,fields);
 		var newTitle = fields.title ? fields.title : title;
 		if(store.tiddlerExists(newTitle) && newTitle != title)
 			{
@@ -502,19 +502,19 @@ Story.prototype.saveTiddler = function(title,minorUpdate)
 			else
 				return null;
 			}
-		tiddlerElem.id = this.idPrefix + newTitle;
-		tiddlerElem.setAttribute("tiddler",newTitle);
-		tiddlerElem.setAttribute("template",DEFAULT_VIEW_TEMPLATE);
-		tiddlerElem.setAttribute("dirty","false");
+		tiddler.id = this.idPrefix + newTitle;
+		tiddler.setAttribute("tiddler",newTitle);
+		tiddler.setAttribute("template",DEFAULT_VIEW_TEMPLATE);
+		tiddler.setAttribute("dirty","false");
 		if(config.options.chkForceMinorUpdate)
 			minorUpdate = !minorUpdate;
 		var newDate = new Date();
-		var tiddler = store.saveTiddler(title,newTitle,fields.text,config.options.txtUserName,minorUpdate ? undefined : newDate,fields.tags);
+		store.saveTiddler(title,newTitle,fields.text,config.options.txtUserName,minorUpdate ? undefined : newDate,fields.tags);
 		for (var n in fields) 
 			if (!TiddlyWiki.isStandardField(n))
 				store.setValue(newTitle,n,fields[n]);
 		if(config.options.chkAutoSave)
-			saveChanges(null,tiddler);
+			saveChanges();
 		return newTitle;
 		}
 	return null;
