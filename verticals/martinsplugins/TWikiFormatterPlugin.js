@@ -3,12 +3,14 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[TWiki|http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules]] text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#TWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.8|
+|''Version:''|0.1.9|
 |''Status:''|alpha pre-release|
 |''Date:''|Oct 7, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
+
+|''Display unsupported TWiki variables''|<<option chkDisplayTWikiVariables>>|
 
 This is an early release of the TWikiFormatterPlugin, which allows you to insert TWiki formated text into
 a TiddlyWiki.
@@ -35,6 +37,9 @@ version.extensions.TWikiFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
 	{alertAndThrow("TWikiFormatterPlugin requires TiddlyWiki 2.1 or later.");}
+
+if(config.options.chkDisplayTWikiVariables == undefined)
+	{config.options.chkDisplayTWikiVariables = false;}
 
 twDebug = function(out,str)
 {
@@ -289,7 +294,8 @@ config.twikiFormatters = [
 	name: "twikiList",
 	match: "^(?:   )+(?:(?:\\*)|(?:[1AaIi](?:\\.)?)) ",
 	lookaheadRegExp: /^(?:   )+(?:(\*)|(?:([1AaIi])(\.)?)) /mg,
-	termRegExp: /(\n\n|\n(?=(?:   )+[\\*1AaIi]))/mg,
+	//termRegExp: /(\n\n|\n(?=(?:   )+[\\*1AaIi]))/mg,
+	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
 //twDebug(w.output,"mt:"+w.matchText);
@@ -686,7 +692,7 @@ config.twikiFormatters = [
 					createTiddlyElement(w.output,"br");
 					createTiddlyElement(w.output,"span").innerHTML = "&bull;";
 					}
-				else
+				else if(config.options.chkDisplayTWikiVariables)
 					{// just output the text of any variables that are not understood
 					w.outputText(w.output,w.matchStart,w.nextMatch);
 					}
@@ -722,8 +728,8 @@ config.twikiFormatters = [
 
 {
 	name: "twikiHtmlTag",
-	match: "<[a-zA-Z]+(?:\\s*(?:[a-z]*?=[\"']?[^>]*?[\"']?))*?>",
-	lookaheadRegExp: /<([a-zA-Z]+)((?:\s+[a-z]*?=["']?[^>\/\"\']*?["']?)*?)?\s*(\/)?>/mg,
+	match: "<[a-zA-Z]{2,}(?:\\s*(?:[a-z]*?=[\"']?[^>]*?[\"']?))*?>",
+	lookaheadRegExp: /<([a-zA-Z]{2,})((?:\s+[a-z]*?=["']?[^>\/\"\']*?["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
