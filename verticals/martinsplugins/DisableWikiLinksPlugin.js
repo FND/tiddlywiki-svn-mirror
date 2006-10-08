@@ -1,7 +1,7 @@
 /***
 |''Name:''|DisableWikiLinksPlugin|
-|''Description:''|Pre-release allows you to disable TiddlyWiki's automatic linking of WikiWords|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#DisableWikiLinksPlugin - for pre-release|
+|''Description:''|Allows you to disable TiddlyWiki's automatic linking of WikiWords|
+|''Source:''|http://martinswiki.com/prereleases.html#DisableWikiLinksPlugin|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Version:''|0.1.2|
 |''Status:''|beta pre-release|

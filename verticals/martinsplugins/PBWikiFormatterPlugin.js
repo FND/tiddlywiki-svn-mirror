@@ -1,7 +1,7 @@
 /***
 |''Name:''|PBWikiFormatterPlugin|
 |''Description:''|Allows Tiddlers to use [[PBWiki|http://yummy.pbwiki.com/WikiStyle]] text formatting|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#PBWikiFormatterPlugin - for pre-release|
+|''Source:''|http://martinswiki.com/prereleases.html#PBWikiFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Version:''|0.1.5|
 |''Status:''|alpha pre-release|

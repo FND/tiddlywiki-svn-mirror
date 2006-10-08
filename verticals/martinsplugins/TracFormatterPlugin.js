@@ -1,7 +1,7 @@
 /***
 |''Name:''|TracFormatterPlugin|
 |''Description:''|Pre-release - Allows Tiddlers to use [[Trac|http://trac.edgewall.org/wiki/WikiFormatting]] text formatting|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#TracFormatterPlugin - for pre-release|
+|''Source:''|http://martinswiki.com/prereleases.html#TracFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Version:''|0.1.5|
 |''Status:''|alpha pre-release|

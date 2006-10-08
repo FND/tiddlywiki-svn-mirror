@@ -1,11 +1,11 @@
 /***
 |''Name:''|PmWikiFormatterPlugin|
 |''Description:''|Pre-release - Allows Tiddlers to use [[PmWiki|http://pmwiki.org/wiki/PmWiki/TextFormattingRules]] text formatting|
-|''Source:''|http://martinsplugins.tiddlywiki.com/index.html#PmWikiFormatterPlugin - for pre-release|
+|''Source:''|http://martinswiki.com/prereleases.html#PmWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.2.3|
+|''Version:''|0.2.4|
 |''Status:''|alpha pre-release|
-|''Date:''|Sep 3, 2006|
+|''Date:''|Sep 23, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -77,7 +77,6 @@ PmWikiFormatter.setFromParams = function(w,p)
 	return r;
 };
 
-if(!config.formatterHelpers.setAttributesFromParams) {
 config.formatterHelpers.setAttributesFromParams = function(e,p)
 {
 	var re = /\s*(.*?)=(?:(?:"(.*?)")|(?:'(.*?)')|((?:\w|%|#)*))/mg;
@@ -89,6 +88,7 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 			{
 			s = "backgroundColor";
 			}
+		try {
 		if(match[2])
 			{
 			e.setAttribute(s,match[2]);
@@ -101,10 +101,11 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 			{
 			e.setAttribute(s,match[4]);
 			}
+		}
+		catch(ex) {}
 		match = re.exec(p);
 		}
 };
-}
 
 config.pmWikiFormatters = [
 {
@@ -126,14 +127,10 @@ all men are created equal.
 	lookaheadRegExp: /\(:markup:\)\s*\n((?:.|\n)*?)\(:markupend:\)/mg,
 	handler: function(w)
 	{
-//mwDebug(w.output,"wt:"+w.matchText+" ws:"+w.matchStart+" wn:"+w.nextMatch+" wl:"+w.matchLength);
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
-//mwDebug(w.output,"lm:"+lookaheadMatch);
-//mwDebug(w.output,"lmi:"+lookaheadMatch.index+" lI:"+this.lookaheadRegExp.lastIndex);
-//mwDebug(w.output,"lm1:"+lookaheadMatch[1]);
 			var text = lookaheadMatch[1];
 			if(config.browser.isIE)
 				{
@@ -161,10 +158,8 @@ all men are created equal.
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
-		var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
-		var e = createTiddlyElement(output,"h" + w.matchLength);
+		var e = createTiddlyElement(w.output,"h" + w.matchLength);
 		w.subWikifyTerm(e,this.termRegExp);
-		w.output = createTiddlyElement(output,"p");
 	}
 },
 
@@ -348,11 +343,8 @@ all men are created equal.
 	}
 },
 
-/*->Four score and seven years ago our fathers placed upon this continent
-a new nation, conceived in liberty and dedicated to the proposition that
-all men are created equal.*/
-//Multiple indents are dealt with in PmWiki as: <dl><dd><div class='indent'>indentedevenmore</div></dd></dl>
 {
+//Multiple indents are dealt with in PmWiki as: <dl><dd><div class='indent'>indentedevenmore</div></dd></dl>
 	name: "pmWikiIndent",
 	match: "^-+>",
 	termRegExp: /(\n)/mg,
@@ -403,25 +395,23 @@ all men are created equal.*/
 {
 	name: "pmWikiExplicitLink",
 	match: "\\[\\[",
-	lookaheadRegExp: /\[\[([^\|\]]*?)(?:(\]\])|(\|(.*?)\]\]))/mg,
+	lookaheadRegExp: /\[\[(.*?)(?:\|(.*?))?\]\]/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
-			var e;
-			var text;
 			var link = lookaheadMatch[1];
 			if(lookaheadMatch[2])
+				{// Titled link
+				var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
+				var text = lookaheadMatch[2];
+				}
+			else
 				{// Simple bracketted link
 				e = createTiddlyLink(w.output,link,false);
 				text = link;
-				}
-			else if(lookaheadMatch[3])
-				{// Piped link
-				e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
-				text = lookaheadMatch[4];
 				}
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
@@ -454,15 +444,12 @@ all men are created equal.*/
 				return;
 				}
 			}
+		var output = w.output;
 		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText))
 			{
-			var link = createTiddlyLink(w.output,w.matchText,false);
-			w.outputText(link,w.matchStart,w.nextMatch);
+			output = createTiddlyLink(w.output,w.matchText,false);
 			}
-		else
-			{
-			w.outputText(w.output,w.matchStart,w.nextMatch);
-			}
+		w.outputText(output,w.matchStart,w.nextMatch);
 	}
 },
 

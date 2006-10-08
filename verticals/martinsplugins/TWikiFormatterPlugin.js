@@ -1,7 +1,7 @@
 /***
 |''Name:''|TWikiFormatterPlugin|
 |''Description:''|Pre-release - Allows Tiddlers to use [[TWiki|http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules]] text formatting|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#TWikiFormatterPlugin - for pre-release|
+|''Source:''|http://martinswiki.com/prereleases.html#TWikiFormatterPlugin|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Version:''|0.1.9|
 |''Status:''|alpha pre-release|
@@ -162,7 +162,7 @@ config.twikiFormatters = [
 					}
 				w.nextMatch = this.cellRegExp.lastIndex-1;
 				}
-			else if(cellMatch[1] == "")
+			else if(cellMatch[1] === "")
 				{// Colspan
 				colSpanCount++;
 				w.nextMatch = this.cellRegExp.lastIndex-1;

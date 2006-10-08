@@ -1,7 +1,7 @@
 /***
 |''Name:''|SocialTextFormatterPlugin|
 |''Description:''|Pre-release - Allows Tiddlers to use [[SocialText|http://www.socialtext.com/]] text formatting|
-|''Source:''|http://martinsplugins.tiddlywiki.com/index.html#SocialTextFormatterPlugin|
+|''Source:''|http://martinswiki.com/prereleases.html#SocialTextFormatterPlugin|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Version:''|0.1.8|
 |''Status:''|alpha pre-release|
@@ -86,7 +86,6 @@ config.formatterHelpers.singleCharFormat = function(w)
 	if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[0].substr(lookaheadMatch[0].length-2,1) != " ")
 		{
 		w.subWikifyTerm(createTiddlyElement(w.output,this.element),this.termRegExp);
-		//w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	else
 		{
@@ -459,14 +458,32 @@ config.socialTextFormatters = [
 	lookaheadRegExp: /\{image: ?(.*?)\}/mg,
 	handler: function(w)
 	{
+		noImage = function()
+		{
+			alert('That image does no exist!');
+			createTiddlyElement(w.output,"span",null,"wafl_existence_error");
+				displayMessage("xxx");
+		};
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
-			var s = createTiddlyElement(w.output,"span",null,"wafl_existence_error");
-			//var img = createTiddlyElement(w.output,"img");
-			//img.src = lookaheadMatch[1];
-			createTiddlyText(s,lookaheadMatch[1]);
+			//var s = createTiddlyElement(w.output,"span",null,"wafl_existence_error");
+			var img = createTiddlyElement(w.output,"img");
+			var src = w.tiddler.title + "/" + lookaheadMatch[1];
+			img.onerror = noImage;
+			img.onError = noImage;
+			try
+				{
+				img.src = src;
+				}
+			catch(e)
+				{
+				img.class = "wafl_existence_error";
+			alert('That image does no exist!');
+				displayMessage("xxx");
+				}
+			createTiddlyText(img,lookaheadMatch[1]);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}
 	}
