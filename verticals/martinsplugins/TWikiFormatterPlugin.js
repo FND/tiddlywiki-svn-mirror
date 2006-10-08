@@ -21,7 +21,7 @@ To use TWiki format in a Tiddler, tag the Tiddler with TWikiFormat. See [[testTw
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
 
 This is an early alpha release, with (at least) the following known issues:
-#Table code is incomplete.
+# Table code is incomplete.
 ## Table headings not yet supported.
 # Anchors not yet supported.
 # TWiki variables not supported
