@@ -1,6 +1,6 @@
 /***
 |''Name:''|MediaWikiFormatterPlugin|
-|''Description:''|Pre-release - Allows Tiddlers to use [[MediaWiki|http://meta.wikimedia.org/wiki/Help:Wikitext]] (WikiPedia) text formatting|
+|''Description:''|Pre-release - Allows Tiddlers to use [[MediaWiki|http://meta.wikimedia.org/wiki/Help:Wikitext]] ([[WikiPedia|http://meta.wikipedia.org/]]) text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Version:''|0.3.6|
