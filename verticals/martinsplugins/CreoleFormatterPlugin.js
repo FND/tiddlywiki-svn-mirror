@@ -3,7 +3,7 @@
 |''Description:''|Extension of TiddlyWiki syntax to support [[Creole|http://www.wikicreole.org/]] text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#CreoleFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.2|
+|''Version:''|0.1.3|
 |''Status:''|alpha pre-release|
 |''Date:''|Oct 7, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -78,6 +78,8 @@ for(var i in config.formatters)
 			var text = lookaheadMatch[2];
 			if(text)
 				{// both text and link defined, so try and workout which is which
+				var wlRegExp = new RegExp(config.textPrimitives.wikiLink,"mg");
+				wlRegExp.lastIndex = 0;
 				if(w.tiddler.isTagged("legacyLinkFormat"))
 					{// legacy format is [[text|link]]
 					link = text;
@@ -100,13 +102,19 @@ for(var i in config.formatters)
 					}
 				else if(store.tiddlerExists(link))
 					{
-					createTiddlyLink(w.output,link,false);
+					e = createTiddlyLink(w.output,link,false);
 					}
 				else if(store.tiddlerExists(text))
 					{
 					link = text;
 					text = lookaheadMatch[1];
-					e = createExternalLink(w.output,link);
+					e = createTiddlyLink(w.output,link,false);
+					}
+				else if(wlRegExp.exec(text))
+					{//text is a WikiWord, so assume its a tiddler link
+					link = text;
+					text = lookaheadMatch[1];
+					e = createTiddlyLink(w.output,link,false);
 					}
 				else
 					{// assume standard link format
