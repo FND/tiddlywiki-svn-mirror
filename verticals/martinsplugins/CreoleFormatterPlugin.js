@@ -11,7 +11,20 @@
 |''~CoreVersion:''|2.1.0|
 
 This is an early release of the CreoleFormatterPlugin, which extends the TiddlyWiki syntax to support Creole
-text formatting. See [[testCreoleFormat]] for an example
+text formatting. See [[testCreoleFormat]] for an example.
+
+The Creole formatter is different from the other formatters in that Tiddlers are not required to be
+tagged: instead the Creole format adds formatting that augments TiddlyWiki's format.
+
+The Creole formatter adds the following:
+# {{{**}}} for bold
+# {{{== Heading 2==}}} with 2 to 6 equals signs for headings
+# {{{[[link|title]]}}} format for links (rather than TW's {{{[[title|link]]}}}).
+
+Since Creole augments rather than replaces TW's formatting there is a problem of how to resolve a prettyLink:
+the formatter has some intelligence to determine if whether a link is a TW style link or a Creole style link.
+Additionally a tiddler can be tagged "titleThenLinkFormat" or "linkThenTitleFormat" to force resolution one
+way or the other.
 
 See: http://www.wikicreole.org/wiki/Home
 
@@ -80,13 +93,13 @@ for(var i in config.formatters)
 				{// both text and link defined, so try and workout which is which
 				var wlRegExp = new RegExp(config.textPrimitives.wikiLink,"mg");
 				wlRegExp.lastIndex = 0;
-				if(w.tiddler.isTagged("legacyLinkFormat"))
-					{// legacy format is [[text|link]]
+				if(w.tiddler.isTagged("titleThenLinkFormat"))
+					{// format is [[text|link]]
 					link = text;
 					text = lookaheadMatch[1];
 					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
 					}
-				else if(w.tiddler.isTagged("standardLinkFormat"))
+				else if(w.tiddler.isTagged("linkThenTitleFormat"))
 					{// standard format is [[link|text]]
 					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
 					}
