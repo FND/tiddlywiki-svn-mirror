@@ -4,3 +4,4 @@ title: html/title.html
 recipe: tiddlers/split.recipe
 tiddler: ../../verticals/martinsplugins/DisableWikiLinksPlugin.js
 tiddler: ../../verticals/martinsplugins/SocialTextFormatterPlugin.js
+posttiddlers: pagelist.html
