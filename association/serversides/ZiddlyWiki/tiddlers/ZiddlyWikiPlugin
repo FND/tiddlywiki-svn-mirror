@@ -240,19 +240,6 @@ config.macros.login = {
   }
 };
 
-/*
-config.macros.logout = {
-  label: 'logout',
-  prompt: 'Log out of the system',
-  handler: function(place) { 
-      if(zw.loggedIn) 
-          createTiddlyButton(place,this.label,this.prompt, function(){
-              setTimeout("location.replace('?action=logout&' + zw.ieurl + 'redirect_to=' + zw.get_url(true))", 10)
-          }) 
-  }
-};
-*/
-
 config.macros.ziddlyversion = {
   handler: function(place) {
     createTiddlyElement(place,"span",null,null,version.major + "." 
@@ -426,16 +413,6 @@ function displayTiddlerRevisionCallback(encoded,status) {
   }
   clearMessage();
 };
-
-function permaviewHash() {
-  var tiddlerDisplay = document.getElementById("tiddlerDisplay");
-  var links = [];
-  for(var t=0; t<tiddlerDisplay.childNodes.length; t++) {
-    var tiddlerName = tiddlerDisplay.childNodes[t].id.substr(7);
-    links.push(String.encodeTiddlyLink(tiddlerName));
-  }
-  return encodeURIComponent(links.join(" "));
-}
 
 Tiddler.prototype.isReadOnly = function() {
   if(zw.isAdmin) return false;

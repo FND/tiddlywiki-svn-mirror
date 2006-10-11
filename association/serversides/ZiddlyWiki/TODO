@@ -32,8 +32,6 @@ for instructions on how to make a patch file.
 * 2.1's Import Tiddlers also calls addTiddler, which doesn't trigger ZW's save
   machinery.
 
-* Put CSS in ziddly in a separate file, or a tiddler.  StyleSheetZiddlyWiki?
-
 * Put core js into js, rename javascripts -> js, and include them rather than
   assembling big file.  (Note this means saveChanges must be rewritten)
 
@@ -44,10 +42,6 @@ for instructions on how to make a patch file.
   functionality of cook, and give ziddlywiki an empty.html.recipe.
 
 * Modify installer and download to get the new files (e.g. html/status.html)
-
-* Get rid of all the shadow tiddlers in ziddly.js.  Instead make a tiddlers/
-  directory and stitch them into the file, letting the user's tiddlers/
-  directory take precedence.
 
 * Remove ImportTiddlyWiki in favor of 2.1's ImportTiddlers
 
@@ -80,11 +74,6 @@ for instructions on how to make a patch file.
 
 * Ignore saves/changes that have the same modifier, text, title, and tags.
 
-* The tiddler gets the revisionKey corresponding to the current version, but if
-  ignore_revision is set (which it always seems to be for the most recent
-  edit?) then displayRevisions gets a list from the server that *doesn't*
-  contain the current version.
-
 * chkInsertTab should not insert tabs to input boxes, only textareas
 
 * Creating new tiddlers is giving them AnonymousUser... (sequence: load
@@ -93,10 +82,6 @@ for instructions on how to make a patch file.
 * Plugin: jsMath is linear in time with the number of math elements *in the
   document*, not the number of elements being wikified!  LatexMathML is about
   twice as fast.
-
-* Make the ZiddlyWiki code a plugin.
-
-    * store server's url as a field?  Or in a place the user can manage?
 
 * Remove the id argument of actions/save.  This can be computed on the
   server-side and the client side shouldn't care what the id is.
@@ -113,9 +98,6 @@ for instructions on how to make a patch file.
   folder.  Need to use a script to give a list of tiddlers.  (and while I'm at
   it...I might as well return revisionKey's too!)  Then status.js should
   replace get_modified.
-
-* Need 'View History' permission on tiddlers folder.  Make a note about this in
-  changelog, and/or an upgrade script.
 
 * permaviewHash used only by <<logout>> which doesn't work anyway...
 
@@ -135,7 +117,16 @@ for instructions on how to make a patch file.
 
   * proxy http:// requests.
 
-* Add note in docs: anything placed in ZiddlyWiki/tiddlers will be added to
-  *every* tiddlywiki.
+* Add notes in docs: 
 
+    * anything placed in ZiddlyWiki/tiddlers will be added to *every* tiddlywiki.
+
+    * Need 'View History' permission on tiddlers folder.  Make a note about
+      this in changelog, and/or an upgrade script.
+
+* TEST:
+    
+    * upgrade script 2.0.11.4 -> 2.1 ('View History' permissions)
+
+    * upgrade 2.0.10.1 -> 2.1 ('View History', tiddler unescape)
 
