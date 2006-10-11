@@ -55,8 +55,6 @@ for instructions on how to make a patch file.
   edit the deleted version, rather than the shadowed version.  Ask user
   instead.
 
-* AJAX login with no page reloads or redirects.
-
 * If login fails, don't redirect, display a message error in TW
 
 * Make instructions for how to use cookie-based login rather than HTTP Basic.
@@ -98,6 +96,8 @@ for instructions on how to make a patch file.
 
 * Make the ZiddlyWiki code a plugin.
 
+    * store server's url as a field?  Or in a place the user can manage?
+
 * Remove the id argument of actions/save.  This can be computed on the
   server-side and the client side shouldn't care what the id is.
 
@@ -119,8 +119,23 @@ for instructions on how to make a patch file.
 
 * permaviewHash used only by <<logout>> which doesn't work anyway...
 
-* don't display <<revisions>> for shadow tiddlers.
-
 * Revisions seem to work now, but still need to deal with: 
     1) renames, 
     2) If a spurious lock exists, the most recent revision has ignore_revision...
+
+* Option for refresh interval
+
+* Timer calls zw.refresh_tiddlers which uses a FILE url from zw.get_url to load
+  the file...  Need to check if we're on a file url and turn this off...
+
+* ImportTiddlers simply won't work.  It can't read from foreign http:// or
+  file:// url's at all.  Other options:
+
+  * use a form to upload a file, then return it directly back to the client.
+
+  * proxy http:// requests.
+
+* Add note in docs: anything placed in ZiddlyWiki/tiddlers will be added to
+  *every* tiddlywiki.
+
+

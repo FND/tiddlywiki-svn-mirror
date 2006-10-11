@@ -1,4 +1,11 @@
-* Move status variables from ziddly to DTML status.js
+Release 2.1.2.1
+* Move status variables from ziddly to a tiddler ZiddlyStatus
+* Move ajax.js and ziddly.js into tiddler ZiddlyWikiPlugin
+* Enable Markup* tiddlers
+* Move RSS into MarkupPostBody
+* Combine common tiddlers (like the above) from ZiddlyWiki/tiddlers with site
+  tiddlers.
+* Fix setting title
 
 Release 2.0.11.3
 * handle config.protectedTiddlers better -- explicitly add the 'protected'

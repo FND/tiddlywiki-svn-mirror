@@ -1,5 +1,28 @@
-<dtml-call "REQUEST.RESPONSE.setHeader('Content-Type', 'text/javascript')">
+/***
+|''Name:''|Plugin: ZiddlyWiki|
+|''Description:''|Client-side component of the ZiddlyWiki server-side for TiddlyWiki|
+|''Version:''|1.0.0|
+|''Date:''|Sep 30, 2006|
+|''Source:''|http://ziddlywiki.com|
+|''Author:''|BobMcElrath|
+|''Email:''|my first name at my last name dot org|
+|''License:''|[[GPL open source license|http://www.gnu.org/licenses/gpl.html]]|
+|''~CoreVersion:''|2.1.0|
+!Description
+This plugin is useful only in conjunction with the ZiddlyWiki server-side for
+TiddlyWiki.  This plugin is automatically added to any TiddlyWiki downloaded
+from a ZiddlyWiki server, and should not be added by hand to your TiddlyWiki.
 
+If you want to use the ZiddlyWiki server, install that first, and you will
+automatically get this plugin.
+!My Server
+This ZiddlyWiki lives at: 
+{{{
+    <dtml-var "REQUEST.PARENTS[0].absolute_url()">
+}}}
+!Code
+***/
+//{{{
 // Place to store my junk
 if(typeof zw == "undefined") var zw = {};
 zw.main = main;
@@ -8,18 +31,11 @@ config.options.confirmExit = false;
 zw.ieurl = (navigator.appVersion.indexOf('MSIE') > -1) ? 'ie=1&' : '';
 zw.editingTiddlers = {};
 zw.dirty = false;  // flag for when ZW was unable to save something
+zw.serverUrl = "<dtml-var "REQUEST.PARENTS[0].absolute_url()">";
 
 main = function() {
-  config.options.chkHttpReadOnly = (zw.loggedIn || zw.anonEdit) ? false : true;
+  config.options.chkHttpReadOnly = (zw.loggedIn || zw.anonEdit || location.protocol == "file:") ? false : true;
   zw.main();
-};
-
-zw.get_url = function(with_hash) {
-  var p = location.pathname;
-  if(p.substring(p.length-1) == '/') p = p.substring(0,p.length-1);
-  var url = location.protocol + '//' + location.host + p;
-  if(with_hash) url += '%23' + permaviewHash();
-  return url
 };
 
 config.messages.loginToEdit = 'You must be logged in to make changes.  Viewing source instead.';
@@ -161,7 +177,7 @@ config.macros.login = {
       displayMessage('Logging in...');
       var u = document.getElementById("zw_username");
       var p = document.getElementById("zw_password");
-      ajax.post(zw.get_url().replace("http://","http://"+u.value+":"+p.value+"@")
+      ajax.post(zw.serverUrl.replace("http://","http://"+u.value+":"+p.value+"@")
           ,config.macros.login.doneLogin,
           "action=login&__ac_name="+u.value+"&__ac_password="+p.value);
   },
@@ -182,19 +198,16 @@ config.macros.login = {
       var fetched = 0;
       var updateTimeline = "";
       this.fetchlist = [];
-      for(var t in zw.tiddlerList) {
-          if(!store.fetchTiddler(t)) {
-              fetchlist.push(t);
+      if(zw.tiddlerList.length == 0) {
+        clearMessage();
+      } else for(var t in zw.tiddlerList) {
+          if(!store.fetchTiddler(t.htmlDecode())) {
+              this.fetchlist.push(t);
               if(++fetched == numtofetch) 
                   updateTimeline = "updatetimeline=1&";
               ajax.get('?action=get&id=' + encodeURIComponent(t.htmlDecode())
               + "&" + updateTimeline + zw.no_cache(), 
               config.macros.login.addTiddler)
-              // This seems to be perceptibly slower...
-              //setTimeout(" ajax.get('?action=get&id=" + encodeURIComponent(t.htmlDecode()).replace("'","\\'")
-              //    + "&" + updateTimeline + zw.no_cache() + "', config.macros.login.addTiddler)",
-              //    timeout);
-              //timeout += 10;
           }
       }
       return true;
@@ -216,19 +229,18 @@ config.macros.login = {
         store.addTiddler(tiddler);
 //        story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
         if(parts[7] == 'update timeline') {
-            alert("Loaded tiddlers");
             displayMessage("Processing new tiddlers...");
-            for(t in this.fetchlist) {
-                store.fetchTiddler(t).changed();
-            }
-            refreshPageTemplate();  // Just redraw everything.
-            //store.notify('TabTimeline', true)
+            for(var t=0;t<this.fetchlist.length;t++)
+                store.fetchTiddler(this.fetchlist[t].htmlDecode()).changed();
+            store.notify('TabTimeline', true)
+            refreshAll();  // Just redraw everything.
             clearMessage();
         }
       }
   }
 };
 
+/*
 config.macros.logout = {
   label: 'logout',
   prompt: 'Log out of the system',
@@ -239,6 +251,7 @@ config.macros.logout = {
           }) 
   }
 };
+*/
 
 config.macros.ziddlyversion = {
   handler: function(place) {
@@ -281,7 +294,7 @@ TiddlyWiki.prototype.removeTiddler = function(title) {
         zw.dirty = true;
     }
   };
-  ajax.post(zw.get_url(), callback, 'action=delete&id=' + encodeURIComponent(title) + '&' + zw.no_cache());
+  ajax.post(zw.serverUrl, callback, 'action=delete&id=' + encodeURIComponent(title) + '&' + zw.no_cache());
   return this.zw_removeTiddler(title);
 };
 
@@ -308,7 +321,7 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 // FIXME by using async ajax here, a reload timeout may come between the save
 // and the callback's return, which causes the tiddler to be double-rendered.
   var tiddler = this.zw_saveTiddler(title,newTitle,newBody,modifier,modified,tags);
-  ajax.post(zw.get_url(), callback, 'action=save&id=' + encodeURIComponent(title) + '&title=' 
+  ajax.post(zw.serverUrl, callback, 'action=save&id=' + encodeURIComponent(title) + '&title=' 
         + encodeURIComponent(newTitle) + '&body=' + encodeURIComponent(newBody) + '&tags=' 
         + encodeURIComponent(tags) + '&modified=' 
         + encodeURIComponent((modified||store.fetchTiddler(title).modified).convertToYYYYMMDDHHMM()) 
@@ -424,18 +437,10 @@ function permaviewHash() {
   return encodeURIComponent(links.join(" "));
 }
 
-zw.ask_to_login = function() {
-  if(confirm(config.messages.loginToEdit)) {
-    setTimeout("location.replace('?action=login&' + zw.ieurl + 'redirect_to=' + zw.get_url(true));", 10);
-    return true;
-  } else {
-    return false;
-  }
-};
-
 Tiddler.prototype.isReadOnly = function() {
   if(zw.isAdmin) return false;
   if(zw.loggedIn && this.modifier == zw.username) return false;
+  if(location.protocol == "file:") return false;
   return isProtectedTiddler(this.title) || !(zw.anonEdit || zw.loggedIn);
 };
 
@@ -514,7 +519,7 @@ config.commands.editTiddler.handler = function(event,src,title) {
 	config.commands.editTiddler.zw_handler(event,src,title);
       }
     };
-    ajax.post(zw.get_url(), callback, 'action=lock&id=' + encodeURIComponent(title) + '&' + zw.no_cache());
+    ajax.post(zw.serverUrl, callback, 'action=lock&id=' + encodeURIComponent(title) + '&' + zw.no_cache());
   }
   return false;
 };
@@ -549,7 +554,7 @@ config.commands.cancelTiddler.zw_handler = config.commands.cancelTiddler.handler
 config.commands.cancelTiddler.handler = function(event,src,title) {
   if(!config.options.chkHttpReadOnly) {
       if(zw.editingTiddlers[title])
-          ajax.post(zw.get_url(), function(r){}, 'action=unlock&id=' + encodeURIComponent(title) + '&' + zw.no_cache());
+          ajax.post(zw.serverUrl, function(r){}, 'action=unlock&id=' + encodeURIComponent(title) + '&' + zw.no_cache());
       zw.editingTiddlers[title] = false;
       var tiddler = store.fetchTiddler(title);
       if(tiddler && tiddler.deletedOnServer)
@@ -579,7 +584,7 @@ zw.refresh_tiddlers = function() {
   if(zw.refresh_count > 30) { // thirty minutes
     clearInterval(zw.refresh_interval_id);
   } else {
-    ajax.get(zw.get_url() + '?action=refresh&latest=' + zw.latestTiddler, zw.refresh_tiddlers_callback);
+    ajax.get(zw.serverUrl + '?action=refresh&latest=' + zw.latestTiddler, zw.refresh_tiddlers_callback);
   }
 };
 
@@ -615,3 +620,27 @@ zw.refresh_tiddlers_callback = function(tiddlers) {
 };
 
 zw.refresh_interval_id = setInterval('zw.refresh_tiddlers()', 60000); // refresh every minute
+
+// mini/ajax.js - http://timmorgan.org/mini
+
+function $(e){if(typeof e=='string')e=document.getElementById(e);return e};
+function collect(a,f){var n=[];for(var i=0;i<a.length;i++){var v=f(a[i]);if(v!=null)n.push(v)}return n};
+
+var ajax={};
+ajax.x=function(){try{return new ActiveXObject('Msxml2.XMLHTTP')}catch(e){try{return new ActiveXObject('Microsoft.XMLHTTP')}catch(e){return new XMLHttpRequest()}}};
+ajax.serialize=function(f){var g=function(n){return f.getElementsByTagName(n)};var nv=function(e){if(e.name)return encodeURIComponent(e.name)+'='+encodeURIComponent(e.value);else return ''};var i=collect(g('input'),function(i){if((i.type!='radio'&&i.type!='checkbox')||i.checked)return nv(i)});var s=collect(g('select'),nv);
+var t=collect(g('textarea'),nv);return i.concat(s).concat(t).join('&');};
+ajax.send=function(u,f,m,a){var x=ajax.x();x.open(m,u,true);x.onreadystatechange=function(){if(x.readyState==4)f(x.responseText,x.status,x.statusText)};if(m=='POST')x.setRequestHeader('Content-type','application/x-www-form-urlencoded');x.send(a)};
+ajax.get=function(url,func){ajax.send(url,func,'GET')};
+ajax.gets=function(url){var x=ajax.x();x.open('GET',url,false);x.send(null);return x.responseText};
+ajax.post=function(url,func,args){ajax.send(url,func,'POST',args)};
+ajax.posts=function(url,args){var x=ajax.x();x.open('POST',url,false);x.setRequestHeader('Content-type','application/x-www-form-urlencoded');x.send(args);return x.responseText};
+ajax.update=function(url,elm){var e=$(elm);var f=function(r){e.innerHTML=r};ajax.get(url,f)};
+ajax.submit=function(url,elm,frm){var e=$(elm);var f=function(r){e.innerHTML=r};ajax.post(url,f,ajax.serialize(frm))};
+
+//if(window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
+//window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+//window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserWrite");
+//window.netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+
+//}}}

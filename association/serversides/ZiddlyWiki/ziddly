@@ -54,40 +54,6 @@ if not hasattr(context, 'tiddlers') or not context.REQUEST.AUTHENTICATED_USER.ha
         context.REQUEST.RESPONSE.setStatus(401)
         return "You have just upgraded ZiddlyWiki and some changes need to be made that require Manager access.  Please reload this page and log in as a Manager to perform the upgrade.";
 
-javascript_tag = '<script type="text/javascript" src="%s"></script>\n'
-javascript_tag_inline = '<script type="text/javascript">%s</script>\n'
-stylesheet_tag = '<style type="text/css">@import url(%s);</style>\n'
-
-js_path = container.javascripts.absolute_url()
-
-# get ready to insert some extra stuff
-base_css = """
-<style type="text/css">
-  #statusMessage {
-    position: fixed;
-    position: expression('absolute'); /* for IE */
-    display: none;
-    background-color: red;
-    color: white;
-    top: 3px;
-    right: 3px;
-    padding: 2px;
-    z-index: 100;
-  }
-</style>
-"""
-rss = '<link rel="alternate" type="application/rss+xml" title="RSS" href="?format=xml" />\n'
-scripts = ''
-
-# get the javascript ready
-scripts = scripts + javascript_tag % (js_path + '/ajax.js')
-scripts = scripts + javascript_tag % (js_path + '/ziddly.js')
-scripts = scripts + javascript_tag_inline % (container.javascripts['status.js'](context))
-
-# insert additional js and css (if specified)
-for src in js: scripts = scripts + javascript_tag % src
-for src in css: scripts = scripts + stylesheet_tag % src
-
 # disable caching
 context.REQUEST.RESPONSE.appendHeader('Cache-Control', 'no-cache')
 
@@ -101,16 +67,41 @@ src = container.html['empty.html']()
 # change the title
 try: title = root.tiddlers.SiteTitle(context, context.REQUEST).replace('<', '&lt;').replace('>', '&gt;').replace('[[', '').replace(']]', '')
 except: title = context.title_or_id()
-#src = src.replace('<title>TiddlyWiki - a reusable non-linear personal web notebook</title>', '<title>%s</title>' % title)
-pre_title = src.split('<title>')[0]
-post_title = '</title>'.join(src.split('</title>')[1:])
-src = pre_title + '<title>' + title + '</title>' + post_title
+# empty.html does not have a title, so create a new one
+src = src.replace('<!--PRE-HEAD-END-->', '<!--PRE-HEAD-END-->\n<title>%s</title>' % (title))
 
 # insert the extra stuff
-src = src.replace('<!--POST-HEAD-END-->', '%s<!--POST-HEAD-END-->' % (base_css + rss + scripts))
+pre_head = ''
+try: pre_head += container.tiddlers['MarkupPreHead']()
+except KeyError: pass
+try: pre_head += root.tiddlers['MarkupPreHead']()
+except KeyError: pass
+post_head = ''
+try: post_head += container.tiddlers['MarkupPostHead']()
+except KeyError: pass
+try: post_head += root.tiddlers['MarkupPostHead']()
+except KeyError: pass
+pre_body = ''
+try: pre_body += container.tiddlers['MarkupPreBody']()
+except KeyError: pass
+try: pre_body += root.tiddlers['MarkupPreBody']()
+except KeyError: pass
+post_body = ''
+try: post_body += container.tiddlers['MarkupPostBody']()
+except KeyError: pass
+try: post_body += root.tiddlers['MarkupPostBody']()
+except KeyError: pass
+
+src = src.replace('<!--PRE-HEAD-END-->', '%s<!--PRE-HEAD-END-->' % (pre_head))
+src = src.replace('<!--POST-HEAD-END-->','%s<!--POST-HEAD-END-->'% (post_head))
+src = src.replace('<!--PRE-BODY-END-->', '%s<!--PRE-BODY-END-->' % (pre_body))
+src = src.replace('<!--POST-BODY-END-->','%s<!--POST-BODY-END-->'% (post_body))
 
 # insert all the tiddlers from the "tiddlers" folder
-store_area = '<div id="storeArea">\n%s\n</div>' % container.actions.get_all_as_divs(root)
+store_area = '<div id="storeArea">\n%s\n</div>' % (\
+    container.actions.get_all_as_divs(root) \
+    + container.actions.get_all_as_divs(container))
+# FIXME what if the same tiddler exists in both places?
 src = src.split('<div id="storeArea">')[0] + store_area + '\n</body>\n</html>'
 
 # give the client the modified TiddlyWiki source
