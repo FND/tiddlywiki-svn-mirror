@@ -1,7 +1,5 @@
 /***
-This tiddler is a special status tiddler. It uses DTML to interrogate Zope about the status of your tiddlers. The variables
-below are dynamic and this tiddler is reloaded when you login. Editing this tiddler through ZiddlyWiki will break your
-ZiddlyWiki. (If you need to make modifications, edit it in the ZMI)
+This tiddler is a special status tiddler. It is a DTML script that interrogates Zope about the status of your tiddlers. The variables below are dynamic and this tiddler is reloaded when you login. Editing this tiddler through ZiddlyWiki will break your ZiddlyWiki. (If you need to make modifications, edit it in the ZMI)
 ***/
 //{{{
 if(typeof zw == "undefined") var zw = {};

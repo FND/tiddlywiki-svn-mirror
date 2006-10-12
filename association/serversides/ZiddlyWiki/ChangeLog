@@ -6,7 +6,7 @@ Release 2.1.2.1
 * Combine common tiddlers (like the above) from ZiddlyWiki/tiddlers with site
   tiddlers.
 * Fix setting title
-* Remove logout code (doesn't work)
+* Rewrite logout code
 * Remove permaviewHash (used only when redirecting -- we use ajax now and
   don't do redirects)
 

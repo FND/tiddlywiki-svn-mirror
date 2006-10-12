@@ -117,6 +117,17 @@ for instructions on how to make a patch file.
 
   * proxy http:// requests.
 
+* On login, update ZiddlyStatus tiddler.
+
+* Search is not highlighting the match.
+
+* rewrite doLogin and doneLogin to just call refresh("ZiddlyStatus") which
+  should do the dirty work.
+
+* ZiddlyStatus needs the readOnly extended field.
+
+* Get rid of html directory.
+
 * Add notes in docs: 
 
     * anything placed in ZiddlyWiki/tiddlers will be added to *every* tiddlywiki.
@@ -129,4 +140,5 @@ for instructions on how to make a patch file.
     * upgrade script 2.0.11.4 -> 2.1 ('View History' permissions)
 
     * upgrade 2.0.10.1 -> 2.1 ('View History', tiddler unescape)
+
 

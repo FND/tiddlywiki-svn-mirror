@@ -92,17 +92,16 @@ except KeyError: pass
 try: post_body += root.tiddlers['MarkupPostBody']()
 except KeyError: pass
 
-src = src.replace('<!--PRE-HEAD-END-->', '%s<!--PRE-HEAD-END-->' % (pre_head))
-src = src.replace('<!--POST-HEAD-END-->','%s<!--POST-HEAD-END-->'% (post_head))
-src = src.replace('<!--PRE-BODY-END-->', '%s<!--PRE-BODY-END-->' % (pre_body))
-src = src.replace('<!--POST-BODY-END-->','%s<!--POST-BODY-END-->'% (post_body))
+src = src.replace('<!--PRE-HEAD-END-->',  pre_head  + '<!--PRE-HEAD-END-->' )
+src = src.replace('<!--POST-HEAD-END-->', post_head + '<!--POST-HEAD-END-->')
+src = src.replace('<!--PRE-BODY-END-->',  pre_body  + '<!--PRE-BODY-END-->' )
+src = src.replace('<!--POST-BODY-END-->', post_body + '<!--POST-BODY-END-->')
 
 # insert all the tiddlers from the "tiddlers" folder
-store_area = '<div id="storeArea">\n%s\n</div>' % (\
-    container.actions.get_all_as_divs(root) \
-    + container.actions.get_all_as_divs(container))
+store_area = container.actions.get_all_as_divs(root) \
+    + container.actions.get_all_as_divs(container)
 # FIXME what if the same tiddler exists in both places?
-src = src.split('<div id="storeArea">')[0] + store_area + '\n</body>\n</html>'
+src = src.replace('<div id="storeArea">', '<div id="storeArea">\n' + store_area)
 
 # give the client the modified TiddlyWiki source
 return src

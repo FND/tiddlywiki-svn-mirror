@@ -25,18 +25,12 @@ This ZiddlyWiki lives at:
 //{{{
 // Place to store my junk
 if(typeof zw == "undefined") var zw = {};
-zw.main = main;
 config.options.checkUnsavedChanges = false;
 config.options.confirmExit = false;
-zw.ieurl = (navigator.appVersion.indexOf('MSIE') > -1) ? 'ie=1&' : '';
+//zw.ieurl = (navigator.appVersion.indexOf('MSIE') > -1) ? 'ie=1&' : '';
 zw.editingTiddlers = {};
 zw.dirty = false;  // flag for when ZW was unable to save something
 zw.serverUrl = "<dtml-var "REQUEST.PARENTS[0].absolute_url()">";
-
-main = function() {
-  config.options.chkHttpReadOnly = (zw.loggedIn || zw.anonEdit || location.protocol == "file:") ? false : true;
-  zw.main();
-};
 
 config.messages.loginToEdit = 'You must be logged in to make changes.  Viewing source instead.';
 config.messages.errorDeleting = 'An error has occurred. Review your Zope error log for details.';
@@ -141,6 +135,7 @@ config.macros.login = {
     if(zw.loggedIn) {
       var link = createTiddlyLink(place, zw.username, true);
       link.innerHTML = zw.username + ' (logged in)';
+      createTiddlyButton(place, "logout", "Log out of the system", this.doLogout);
     } else {
       // FIXME Only make login form if cookie-based login are enabled.
       var form = document.createElement("form");
@@ -174,24 +169,54 @@ config.macros.login = {
       if(e.keyCode == 13 || e.keyCode == 10) config.macros.login.doLogin(e);
   },
   doLogin: function(e) {
+      clearMessage();
       displayMessage('Logging in...');
       var u = document.getElementById("zw_username");
       var p = document.getElementById("zw_password");
+      zw.loggingIn = true;
       ajax.post(zw.serverUrl.replace("http://","http://"+u.value+":"+p.value+"@")
           ,config.macros.login.doneLogin,
           "action=login&__ac_name="+u.value+"&__ac_password="+p.value);
   },
-  doneLogin: function(str,status,statusText) {
-      if(status == 200) window.eval(str);   // We may get either a 401 Unauthorized
-      readOnly = !zw.loggedIn;              // or status.js which indicates we are 
-      if(!zw.loggedIn) {                    // still not logged in.
-	  alert("Authentication failed.  Did you type your username and password correctly?");
-          clearMessage();
-          return false;
-      }
-      refreshDisplay("SideBarOptions");
-      story.refreshAllTiddlers();
+  doLogout: function(e) {
       clearMessage();
+      displayMessage('Logging out...');
+      zw.loggingIn=false;
+      ajax.post(zw.serverUrl.replace("http://","http://:@")
+          ,config.macros.login.doneLogin,
+          "action=login&__ac_name=&__ac_password=");
+  },
+  statusChange: function() {
+      var oldreadOnly = readOnly;
+      config.options.chkHttpReadOnly = (zw.loggedIn || zw.anonEdit || location.protocol == "file:") ? false:true;
+      readOnly = !zw.loggedIn;
+      // When readOnly changes, the "edit" button changes to "view".
+      if(oldreadOnly != readOnly) {
+          alert("statusChange");
+          story.refreshAllTiddlers();
+          //refreshDisplay(["ViewTemplate", "EditTemplate", "Bar"]);
+      }
+  },
+  doneLogin: function(str,status,statusText) {
+      if(status == 200) { 
+          window.eval(str);   // We may get either a 401 Unauthorized
+          var s = store.fetchTiddler("ZiddlyStatus");
+          s.assign(null,str,"ZiddlyWiki", new Date());
+          store.addTiddler(s);
+          store.setValue(s, "readOnly", true);
+          store.notify("ZiddlyStatus");
+      } else {
+          alert("config.macros.login.doneLogin got strange status="+status+"\n\n"+str);
+      }
+      if(!zw.loggedIn && zw.loggingIn) {    // still not logged in.
+          clearMessage();
+	  displayMessage("Authentication failed.  Did you type your username and password correctly?");
+      }
+      // FIXME refreshing here doesn't properly change edit template or update
+      // content when using edit template.
+      refreshDisplay(["ZiddlyStatus","SideBarOptions","ViewTemplate","EditTemplate"]);
+      //refreshAll();
+      if(!zw.loggingIn || (zw.loggedIn && zw.loggingIn)) clearMessage();
       // Check for new tiddlers
       var numtofetch = 0;
       for(var t in zw.tiddlerList) if(!store.fetchTiddler(t)) numtofetch++;
@@ -239,6 +264,8 @@ config.macros.login = {
       }
   }
 };
+// This causes our doneLogin method above to be called on startup.
+store.addNotification("ZiddlyStatus", config.macros.login.statusChange);
 
 config.macros.ziddlyversion = {
   handler: function(place) {
@@ -580,6 +607,10 @@ function checkUnsavedChanges()
                 if(confirm(config.messages.unsavedChangesWarning))
                         saveChanges();
                 }
+}
+
+Tiddler.prototype.isReadOnly = function() {
+    return readOnly || store.getValue(this.title, "readOnly");
 }
 
 // Receives a list of updated tiddler [timestamp, [title, modified, revisionKey], ...]
