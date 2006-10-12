@@ -2,6 +2,6 @@ recipe: ../../core/tiddlywiki.html.recipe
 prehead: ../../core/html/rss.link.html
 title: html/title.html
 recipe: tiddlers/split.recipe
-tiddler: ../../verticals/martinsplugins/DisableWikiLinksPlugin.js
-tiddler: ../../verticals/martinsplugins/SocialTextFormatterPlugin.js
+tiddler: ../../contributors/MartinBudden/plugins/DisableWikiLinksPlugin.js
+tiddler: ../../contributors/MartinBudden/plugins/SocialtextFormatterPlugin.js
 posttiddlers: pagelist.html
