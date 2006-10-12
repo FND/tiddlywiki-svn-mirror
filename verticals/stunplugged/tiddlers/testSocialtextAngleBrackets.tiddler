@@ -1,1 +1,1 @@
-<div tiddler="testSocialTextAngleBrackets" modifier="MartinBudden" modified="200609300000" created="200609300000" tags="SocialTextFormat test">Preserve pairs of angle brackets:\n&lt;h1&gt;\n&lt;ugly style=&quot;stupid&quot;&gt;\n&lt;&gt;\n&lt;.&gt;\n&lt; &gt;\n&lt;&lt;&lt;&gt;\n</div>
+<div tiddler="testSocialtextAngleBrackets" modifier="MartinBudden" modified="200609300000" created="200609300000" tags="SocialtextFormat test">Preserve pairs of angle brackets:\n&lt;h1&gt;\n&lt;ugly style=&quot;stupid&quot;&gt;\n&lt;&gt;\n&lt;.&gt;\n&lt; &gt;\n&lt;&lt;&lt;&gt;\n</div>
