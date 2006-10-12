@@ -1,7 +1,7 @@
 /***
-|''Name:''|SocialTextFormatterPlugin|
-|''Description:''|Pre-release - Allows Tiddlers to use [[SocialText|http://www.socialtext.com/]] text formatting|
-|''Source:''|http://martinswiki.com/prereleases.html#SocialTextFormatterPlugin|
+|''Name:''|SocialtextFormatterPlugin|
+|''Description:''|Pre-release - Allows Tiddlers to use [[Socialtext|http://www.socialtext.com/]] text formatting|
+|''Source:''|http://martinswiki.com/prereleases.html#SocialtextFormatterPlugin|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Version:''|0.1.9|
 |''Status:''|alpha pre-release|
@@ -10,11 +10,11 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
-This is an early release of the SocialTextFormatterPlugin, which allows you to insert SocialText formated text into a TiddlyWiki.
+This is an early release of the SocialtextFormatterPlugin, which allows you to insert Socialtext formated text into a TiddlyWiki.
 
-The aim is not to fully emulate SocialText, but to allow you to create SocialText content off-line and then paste the content into your SocialText wiki later on, with the expectation that only minor edits will be required.
+The aim is not to fully emulate Socialtext, but to allow you to create Socialtext content off-line and then paste the content into your Socialtext wiki later on, with the expectation that only minor edits will be required.
 
-To use SocialText format in a Tiddler, tag the Tiddler with SocialTextFormat. See [[testSocialTextFormat]] for an example.
+To use Socialtext format in a Tiddler, tag the Tiddler with SocialtextFormat. See [[testSocialtextFormat]] for an example.
 
 This is an early alpha release and may contain defects.
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
@@ -61,12 +61,12 @@ This is an early alpha release, with (at least) the following known issues:
 
 //{{{
 
-// Ensure that the SocialTextFormatter Plugin is only installed once.
-if(!version.extensions.SocialTextFormatterPlugin) {
-version.extensions.SocialTextFormatterPlugin = {installed:true};
+// Ensure that the SocialtextFormatter Plugin is only installed once.
+if(!version.extensions.SocialtextFormatterPlugin) {
+version.extensions.SocialtextFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	{alertAndThrow("SocialTextFormatterPlugin requires TiddlyWiki 2.1 or later.");}
+	{alertAndThrow("SocialtextFormatterPlugin requires TiddlyWiki 2.1 or later.");}
 
 wikify = function(source,output,highlightRegExp,tiddler)
 {
@@ -76,7 +76,7 @@ wikify = function(source,output,highlightRegExp,tiddler)
 		w.linkCount = 0;
 		w.tableDepth = 0;
 		var out = output;
-		if(tiddler && tiddler.isTagged("SocialTextFormat"))
+		if(tiddler && tiddler.isTagged("SocialtextFormat"))
 			{
 //function createTiddlyElement(theParent,theElement,theID,theClass,theText)
 //<div id="content-display-body" class="content-section-visible">
@@ -694,6 +694,6 @@ config.socialTextFormatters = [
 ];
 
 config.parsers.socialTextFormatter = new Formatter(config.socialTextFormatters);
-config.parsers.socialTextFormatter.formatTag = "SocialTextFormat";
+config.parsers.socialTextFormatter.formatTag = "SocialtextFormat";
 } // end of "install only once"
 //}}}
