@@ -198,6 +198,7 @@ Story.prototype.refreshAllTiddlers = function()
 {
 	var place = document.getElementById(this.container);
 	var e = place.firstChild; 
+        if(!e) return;
 	this.refreshTiddler(e.getAttribute("tiddler"),e.getAttribute("template"),true);
 	while((e = e.nextSibling) != null) 
 		this.refreshTiddler(e.getAttribute("tiddler"),e.getAttribute("template"),true);
