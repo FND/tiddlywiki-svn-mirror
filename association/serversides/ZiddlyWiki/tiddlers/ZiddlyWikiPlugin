@@ -190,33 +190,6 @@ config.macros.login = {
       var oldreadOnly = readOnly;
       config.options.chkHttpReadOnly = (zw.loggedIn || zw.anonEdit || location.protocol == "file:") ? false:true;
       readOnly = !zw.loggedIn;
-      // When readOnly changes, the "edit" button changes to "view".
-      if(oldreadOnly != readOnly) {
-          alert("statusChange");
-          story.refreshAllTiddlers();
-          //refreshDisplay(["ViewTemplate", "EditTemplate", "Bar"]);
-      }
-  },
-  doneLogin: function(str,status,statusText) {
-      if(status == 200) { 
-          window.eval(str);   // We may get either a 401 Unauthorized
-          var s = store.fetchTiddler("ZiddlyStatus");
-          s.assign(null,str,"ZiddlyWiki", new Date());
-          store.addTiddler(s);
-          store.setValue(s, "readOnly", true);
-          store.notify("ZiddlyStatus");
-      } else {
-          alert("config.macros.login.doneLogin got strange status="+status+"\n\n"+str);
-      }
-      if(!zw.loggedIn && zw.loggingIn) {    // still not logged in.
-          clearMessage();
-	  displayMessage("Authentication failed.  Did you type your username and password correctly?");
-      }
-      // FIXME refreshing here doesn't properly change edit template or update
-      // content when using edit template.
-      refreshDisplay(["ZiddlyStatus","SideBarOptions","ViewTemplate","EditTemplate"]);
-      //refreshAll();
-      if(!zw.loggingIn || (zw.loggedIn && zw.loggingIn)) clearMessage();
       // Check for new tiddlers
       var numtofetch = 0;
       for(var t in zw.tiddlerList) if(!store.fetchTiddler(t)) numtofetch++;
@@ -235,6 +208,29 @@ config.macros.login = {
               config.macros.login.addTiddler)
           }
       }
+      // When readOnly changes, the "edit" button changes to "view".
+      if(oldreadOnly != readOnly)
+          story.refreshAllTiddlers();
+  },
+  doneLogin: function(str,status,statusText) {
+      if(status == 200) { 
+          window.eval(str);   // We may get either a 401 Unauthorized
+          var s = store.fetchTiddler("ZiddlyStatus");
+          s.assign(null,str,"ZiddlyWiki", new Date());
+          store.addTiddler(s);
+          store.setValue(s, "readOnly", true);
+          store.notify("ZiddlyStatus");
+      } else {
+          alert("config.macros.login.doneLogin got strange status="+status+"\n\n"+str);
+      }
+      if(!zw.loggedIn && zw.loggingIn) {    // still not logged in.
+          clearMessage();
+	  displayMessage("Authentication failed.  Did you type your username and password correctly?");
+      }
+      // FIXME refreshing here doesn't properly change edit template or update
+      // content when using edit template.  (Do we care?)
+      refreshDisplay(["ZiddlyStatus","SideBarOptions","ViewTemplate","EditTemplate"]);
+      if(!zw.loggingIn || (zw.loggedIn && zw.loggingIn)) clearMessage();
       return true;
   },
   addTiddler: function(str,status) {

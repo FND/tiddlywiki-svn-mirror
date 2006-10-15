@@ -117,12 +117,7 @@ for instructions on how to make a patch file.
 
   * proxy http:// requests.
 
-* On login, update ZiddlyStatus tiddler.
-
 * Search is not highlighting the match.
-
-* rewrite doLogin and doneLogin to just call refresh("ZiddlyStatus") which
-  should do the dirty work.
 
 * ZiddlyStatus needs the readOnly extended field.
 
