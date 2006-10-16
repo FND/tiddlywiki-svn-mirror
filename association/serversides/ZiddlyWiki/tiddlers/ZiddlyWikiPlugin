@@ -131,6 +131,8 @@ config.macros.login = {
   label: 'login',
   prompt: 'Log into the system',
   sizeTextbox: 15,
+  // FIXME onmouseover, etc... do these cause a problem?  Add (?!onmouseover|onmouseout...)
+  innerHTMLSafe: /^<div( ([a-z0-9_]+)="[^"]+")+>[^<>]*<\/div>$/,
   handler: function(place) {
     if(zw.loggedIn) {
       var link = createTiddlyLink(place, zw.username, true);
@@ -139,7 +141,7 @@ config.macros.login = {
     } else {
       // FIXME Only make login form if cookie-based login are enabled.
       var form = document.createElement("form");
-      form.action = "?action=login";
+      form.action = "?action=get_div&title=ZiddlyStatus";
       var u = createTiddlyElement(form, "input", "zw_username");
       u.value = "YourName";
       u.onclick = this.clearInput;
@@ -175,16 +177,17 @@ config.macros.login = {
       var p = document.getElementById("zw_password");
       zw.loggingIn = true;
       ajax.post(zw.serverUrl.replace("http://","http://"+u.value+":"+p.value+"@")
-          ,config.macros.login.doneLogin,
-          "action=login&__ac_name="+u.value+"&__ac_password="+p.value);
+          ,config.macros.login.addTiddler,
+          "action=get_div&title=ZiddlyStatus&__ac_name="+u.value+"&__ac_password="+p.value);
   },
   doLogout: function(e) {
       clearMessage();
       displayMessage('Logging out...');
       zw.loggingIn=false;
-      ajax.post(zw.serverUrl.replace("http://","http://:@")
-          ,config.macros.login.doneLogin,
-          "action=login&__ac_name=&__ac_password=");
+      // FIXME this will fail if " " is a valid username
+      ajax.post(zw.serverUrl.replace("http://","http:// :@")
+          ,config.macros.login.addTiddler,
+          "action=get_div&title=ZiddlyStatus&__ac_name=&__ac_password=");
   },
   statusChange: function() {
       var oldreadOnly = readOnly;
@@ -192,72 +195,68 @@ config.macros.login = {
       readOnly = !zw.loggedIn;
       // Check for new tiddlers
       var numtofetch = 0;
-      for(var t in zw.tiddlerList) if(!store.fetchTiddler(t)) numtofetch++;
+      var missingtiddlers = "";
+      for(var t in zw.tiddlerList) {
+          if(!store.fetchTiddler(t.htmlDecode())) {
+              numtofetch++;
+              missingtiddlers += "\n" + t;
+          }
+      }
       var fetched = 0;
-      var updateTimeline = "";
       this.fetchlist = [];
       if(zw.tiddlerList.length == 0) {
         clearMessage();
       } else for(var t in zw.tiddlerList) {
           if(!store.fetchTiddler(t.htmlDecode())) {
+              var callback = config.macros.login.addTiddler;
               this.fetchlist.push(t);
               if(++fetched == numtofetch) 
-                  updateTimeline = "updatetimeline=1&";
-              ajax.get('?action=get&id=' + encodeURIComponent(t.htmlDecode())
-              + "&" + updateTimeline + zw.no_cache(), 
-              config.macros.login.addTiddler)
+                  callback = config.macros.login.addLastTiddler;
+              ajax.get('?action=get_div&title=' + encodeURIComponent(t.htmlDecode())
+                  + "&" + zw.no_cache(), callback)
           }
       }
-      // When readOnly changes, the "edit" button changes to "view".
-      if(oldreadOnly != readOnly)
+      if(oldreadOnly != readOnly || numtofetch == 0) {
+          refreshDisplay(["ViewTemplate", "EditTemplate"]);
           story.refreshAllTiddlers();
-  },
-  doneLogin: function(str,status,statusText) {
-      if(status == 200) { 
-          window.eval(str);   // We may get either a 401 Unauthorized
-          var s = store.fetchTiddler("ZiddlyStatus");
-          s.assign(null,str,"ZiddlyWiki", new Date());
-          store.addTiddler(s);
-          store.setValue(s, "readOnly", true);
-          store.notify("ZiddlyStatus");
-      } else {
-          alert("config.macros.login.doneLogin got strange status="+status+"\n\n"+str);
+          refreshAll();
       }
+  },
+  doneLoginout: function() {
+      var evalme = store.fetchTiddler("ZiddlyStatus").text;
+      window.eval(evalme);
+      readOnly = !zw.loggedIn;
       if(!zw.loggedIn && zw.loggingIn) {    // still not logged in.
           clearMessage();
 	  displayMessage("Authentication failed.  Did you type your username and password correctly?");
       }
-      // FIXME refreshing here doesn't properly change edit template or update
-      // content when using edit template.  (Do we care?)
-      refreshDisplay(["ZiddlyStatus","SideBarOptions","ViewTemplate","EditTemplate"]);
+      store.notify(["ZiddlyStatus"], true);
       if(!zw.loggingIn || (zw.loggedIn && zw.loggingIn)) clearMessage();
       return true;
   },
   addTiddler: function(str,status) {
       if(status != 200) {
-        alert("config.macros.login.addTiddler error (HTTP status"+status+"): "+str); // error message
+        alert("config.macros.login.addTiddler error (HTTP status "
+            +status+"): "+str); // error message
         zw.dirty = true;
-      } else if(str.indexOf('\n') > -1) {
-        var parts = str.split('\n');
-        var tiddler = new Tiddler();
-        var title = parts[0];
-        var oldtitle = parts[1];
-        var oldtiddler = store.fetchTiddler(title);
-        tiddler.assign(title, Tiddler.unescapeLineBreaks(parts[2].htmlDecode()), parts[3], 
-            Date.convertFromYYYYMMDDHHMM(parts[4]), parts[6], 
-            Date.convertFromYYYYMMDDHHMM(parts[5]));
-        store.setValue(tiddler, 'revisionkey', parts[8]);
-        store.addTiddler(tiddler);
-//        story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
-        if(parts[7] == 'update timeline') {
-            displayMessage("Processing new tiddlers...");
-            for(var t=0;t<this.fetchlist.length;t++)
-                store.fetchTiddler(this.fetchlist[t].htmlDecode()).changed();
-            store.notify('TabTimeline', true)
-            refreshAll();  // Just redraw everything.
-            clearMessage();
-        }
+        return;
+      } 
+      var tiddler = new Tiddler();
+      var d = document.createElement("div");
+      if(!str.match(config.macros.login.innerHTMLSafe)) { 
+          alert("This tiddler appears to contain HTML and may be dangerous\n\n"+str);
       }
+      d.innerHTML = str;  // FIXME dangerous -- response could contain <script>
+      var title = store.getLoader().getTitle(store, d.firstChild);
+      tiddler = store.getLoader().internalizeTiddler(store, tiddler, title, d.firstChild);
+      tiddler.changed();
+      store.addTiddler(tiddler);
+      if(tiddler.title == "ZiddlyStatus")
+          config.macros.login.doneLoginout();
+  },
+  addLastTiddler: function(str,status) {
+      store.addTiddler(str,status);
+      refreshAll();  // Just redraw everything.
   }
 };
 // This causes our doneLogin method above to be called on startup.
@@ -402,9 +401,9 @@ function displayTiddlerRevision(title, revision, src, updateTimeline) {
   if(tiddler && store.getValue(tiddler, 'revisionkey') == revision) return;
   displayMessage("Loading revision information for '"+title+"'...");
   revision = revision ? '&revision=' + revision : '';
-  updateTimeline = updateTimeline ? '&updatetimeline=1' : '';
-  ajax.get('?action=get&id=' + encodeURIComponent(title.htmlDecode()) + revision 
-      + updateTimeline + '&' + zw.no_cache(), displayTiddlerRevisionCallback)
+  //updateTimeline = updateTimeline ? '&updatetimeline=1' : '';
+  ajax.get('?action=get_div&title=' + encodeURIComponent(title.htmlDecode()) + revision 
+      + '&' + zw.no_cache(), displayTiddlerRevisionCallback)
 };
 
 function displayTiddlerRevisionCallback(encoded,status) {

@@ -119,9 +119,12 @@ for instructions on how to make a patch file.
 
 * Search is not highlighting the match.
 
-* ZiddlyStatus needs the readOnly extended field.
+* ZiddlyStatus needs the readOnly extended field.  (if logged in, Initial load
+  will make it editable)
 
 * Get rid of html directory.
+
+* Change id= argument to title= everywhere.
 
 * Add notes in docs: 
 
