@@ -1,6 +1,5 @@
 tiddler: Advanced_Getting_Around.tiddler
 tiddler: Babel.tiddler
-tiddler: BaseFormatterPlugin.js
 tiddler: Can_I_change_something_.tiddler
 tiddler: CategoryListFull.tiddler
 tiddler: CategoryListWafl.tiddler
@@ -31,7 +30,6 @@ tiddler: SocialtextStyleSheetAbridged.tiddler
 tiddler: Socialtext_Links_and_WAFLs_-_Summary.tiddler
 tiddler: Socialtext_WAFL_syntax.tiddler
 tiddler: Socialtext_formatter_syntax.tiddler
-tiddler: SocialtextFormatterPlugin.js
 tiddler: StyleSheet.tiddler
 tiddler: StyleSheetColors.tiddler
 tiddler: StyleSheetLayout.tiddler
@@ -45,7 +43,6 @@ tiddler: WeblogListWafl.tiddler
 tiddler: WikiwygFormattingTest.tiddler
 tiddler: WikiwygFormattingToDo.tiddler
 tiddler: Workspace_Tour_-_Table_of_Contents.tiddler
-tiddler: [%_tiddler.title_%].tiddler
 tiddler: testFormatCombinations.tiddler
 tiddler: testHeader.tiddler
 tiddler: testParagraph.tiddler
