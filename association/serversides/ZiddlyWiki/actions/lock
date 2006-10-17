@@ -30,11 +30,11 @@ if hasattr(tiddler, 'lock_time'):
   if length > getattr(context, 'zw_lock_minutes', 5.0):
     tiddler.manage_delProperties(['lock_time', 'lock_user'])
   else:
-    req.RESPONSE.setStatus(409) # conflict
+    req.RESPONSE.setStatus(503) # Temporarily Unavailable
     return tiddler.lock_user # FIXME Zope doesn't send the content with this respones
 
 if tiddler.wl_isLocked():
-    req.RESPONSE.setStatus(409) # conflict
+    req.RESPONSE.setStatus(503) # Temporarily Unavailable
     return 'WebDAV'
 
 req.set('last_transaction', 200) # Force it to go further back in history

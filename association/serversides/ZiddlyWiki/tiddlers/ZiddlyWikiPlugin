@@ -142,7 +142,7 @@ config.macros.login = {
     } else {
       // FIXME Only make login form if cookie-based login are enabled.
       var form = document.createElement("form");
-      form.action = "?action=get_div&title=ZiddlyStatus";
+      form.action = "?action=get&title=ZiddlyStatus";
       var u = createTiddlyElement(form, "input", "zw_username");
       u.value = "YourName";
       u.onclick = this.clearInput;
@@ -179,7 +179,7 @@ config.macros.login = {
       zw.loggingIn = true;
       ajax.post(zw.serverUrl.replace("http://","http://"+u.value+":"+p.value+"@")
           ,zw.addTiddler,
-          "action=get_div&title=ZiddlyStatus&__ac_name="+u.value+"&__ac_password="+p.value);
+          "action=get&title=ZiddlyStatus&__ac_name="+u.value+"&__ac_password="+p.value);
   },
   doLogout: function(e) {
       clearMessage();
@@ -188,7 +188,7 @@ config.macros.login = {
       // FIXME this will fail if " " is a valid username
       ajax.post(zw.serverUrl.replace("http://","http:// :@")
           ,zw.addTiddler,
-          "action=get_div&title=ZiddlyStatus&__ac_name=&__ac_password=");
+          "action=get&title=ZiddlyStatus&__ac_name=&__ac_password=");
   },
   statusChange: function() {
       var oldreadOnly = readOnly;
@@ -213,7 +213,7 @@ config.macros.login = {
               this.fetchlist.push(t);
               if(++fetched == numtofetch) 
                   callback = config.macros.login.addLastTiddler;
-              ajax.get('?action=get_div&title=' + encodeURIComponent(t.htmlDecode())
+              ajax.get('?action=get&title=' + encodeURIComponent(t.htmlDecode())
                   + "&" + zw.no_cache(), callback)
           }
       }
@@ -245,7 +245,7 @@ store.addNotification("ZiddlyStatus", config.macros.login.statusChange);
 
 // Dynamically load a tiddler
 zw.loadTiddler = function(t) {
-    var str = ajax.gets('?action=get_div&title=' + encodeURIComponent(t.htmlDecode())
+    var str = ajax.gets('?action=get&title=' + encodeURIComponent(t.htmlDecode())
         + "&" + zw.no_cache());
     return zw.addTiddler(str, 200);
 }
@@ -411,7 +411,7 @@ function displayTiddlerRevision(title, revision, src, updateTimeline) {
   displayMessage("Loading revision information for '"+title+"'...");
   revision = revision ? '&revision=' + revision : '';
   //updateTimeline = updateTimeline ? '&updatetimeline=1' : '';
-  ajax.get('?action=get_div&title=' + encodeURIComponent(title.htmlDecode()) + revision 
+  ajax.get('?action=get&title=' + encodeURIComponent(title.htmlDecode()) + revision 
       + '&' + zw.no_cache(), displayTiddlerRevisionCallback)
 };
 
@@ -476,7 +476,7 @@ config.commands.editTiddler.handler = function(event,src,title) {
     displayMessage("Loading '"+title+"'...");
     var obj = this;
     var callback = function(r,status) {
-      //clearMessage();
+      clearMessage();
       if(status == 404) { // doesn't exist (might be a shadow tiddler)
         zw.editingTiddlers[title] = true;
         obj.zw_handler(event,src,title);
@@ -492,7 +492,7 @@ config.commands.editTiddler.handler = function(event,src,title) {
         }
         zw.editingTiddlers[title] = true;
         obj.zw_handler(event,src,title);
-      } else if(status == 409) { // Conflict
+      } else if(status == 503) { // "Temporarily Unavailable" Conflict
         if(r == zw.username) {
           if(confirm(config.messages.lockedTiddlerYou)) {
             zw.editingTiddlers[title] = true;

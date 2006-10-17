@@ -1,4 +1,4 @@
-## Script (Python) "get"
+## Script (Python) "get_div"
 ##bind container=container
 ##bind context=context
 ##bind namespace=
@@ -7,32 +7,41 @@
 ##parameters=root=None
 ##title=
 ##
+
 if root: context = root
 path = '/'.join(context.getPhysicalPath())
 
 req = context.REQUEST
 revision = req.get('revision', None)
-title = req.get('id')
-update_timeline = req.get('updatetimeline', 0)
-
-id = container.scripts.sanitize_id(title)
+id = container.scripts.sanitize_id(req.get('title'))
 
 try: tiddler = context.tiddlers[id]
-except: 
-    req.RESPONSE.setStatus(404)
-    return '-'
+except:
+    try: tiddler = container.aq_parent.tiddlers[id]
+    except:
+        context.REQUEST.RESPONSE.setStatus(404) # detail.value);
+        return
 
+# FIXME permission denied
 tags = getattr(tiddler, 'tags', '')
 if 'private' in tags.split() and 'Authenticated' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
-  req.RESPONSE.setStatus(401)
-  return '-'
+    context.REQUEST.RESPONSE.setStatus(403, "Log in to see private tiddlers")
+    return
 if 'onlyAdmin' in tags.split() and 'Manager' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
-  req.RESPONSE.setStatus(401)
-  return '-'
+    context.REQUEST.RESPONSE.setStatus(403, "Log in to see onlyAdmin tiddlers")
+    return
 
 if revision:
   try: tiddler = tiddler.HistoricalRevisions[revision]
-  except: pass
+  except: 
+    context.REQUEST.RESPONSE.setStatus(404)
+    return
+else:
+    context.REQUEST.set('last_transaction', 200) # Force it to go further back in history
+    for rev in tiddler.manage_change_history():
+        if not hasattr(tiddler.HistoricalRevisions[rev['key']],'ignore_revision'):
+            revision = rev['key']
+            break
 
 modified = container.scripts.get_modified(tiddler)
 
@@ -41,24 +50,8 @@ if hasattr(tiddler, 'created'):
 else:
   created = modified
 
-parts = []
-parts.append(title)
-parts.append(tiddler.title)
-parts.append(tiddler(context, context.REQUEST).replace('\\', '\\s').replace('\n', '\\n').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
-parts.append(getattr(tiddler, 'modifier', ''))
-parts.append(modified)
-parts.append(created)
-try: parts.append(tiddler.tags.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
-except: parts.append('')
-if update_timeline: parts.append('update timeline')
-else: parts.append('')
-if revision:
-    parts.append(revision)
-else:
-    context.REQUEST.set('last_transaction', 200) # Force it to go further back in history
-    for rev in tiddler.manage_change_history():
-        if not hasattr(tiddler.HistoricalRevisions[rev['key']],'ignore_revision'):
-            parts.append(rev['key'])
-            break
-
-return '\n'.join(parts)
+return '<div tiddler="%s" modifier="%s" modified="%s" created="%s" tags="%s" revisionkey="%s">%s</div>'\
+    %(tiddler.title, getattr(tiddler, 'modifier', ''), modified, created, \
+      tiddler.tags.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'),\
+      revision,\
+      tiddler(context, context.REQUEST).replace('\\', '\\s').replace('\n', '\\n').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
