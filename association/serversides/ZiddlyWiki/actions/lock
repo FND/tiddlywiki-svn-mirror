@@ -10,33 +10,42 @@
 if root: context = root
 
 req = context.REQUEST
-id = container.scripts.sanitize_id(req.get('id'))
+id = container.scripts.sanitize_id(req.get('title'))
 
 username = context.REQUEST.AUTHENTICATED_USER.getUserName()
 
 # restrict anonymous unless anonymous editing is enabled
 anon_edit = getattr(context, 'zw_anon_edit', 0)
 if not anon_edit and 'Authenticated' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
-  raise 'Unauthorized'
+    req.RESPONSE.setStatus(403) # Unauthorized
+    return
 
 try: tiddler = context.tiddlers[id]
 except: # FIXME finer-grained exceptions here, not found, unauthorized, etc.
     req.RESPONSE.setStatus(404)
-    return '-'
+    return
 
 if hasattr(tiddler, 'lock_time'):
   length = (DateTime() - tiddler.lock_time) * 24.0 * 60.0 # minutes
   if length > getattr(context, 'zw_lock_minutes', 5.0):
     tiddler.manage_delProperties(['lock_time', 'lock_user'])
   else:
-    return 'already locked by %s' % tiddler.lock_user
+    req.RESPONSE.setStatus(409) # conflict
+    return tiddler.lock_user # FIXME Zope doesn't send the content with this respones
 
 if tiddler.wl_isLocked():
-    return 'already locked by WebDAV'
+    req.RESPONSE.setStatus(409) # conflict
+    return 'WebDAV'
+
+req.set('last_transaction', 200) # Force it to go further back in history
+for rev in tiddler.manage_change_history():
+    if not hasattr(tiddler.HistoricalRevisions[rev['key']],'ignore_revision'):
+        revision = rev['key']
+        break
 
 tiddler.manage_addProperty('lock_time', DateTime(), 'date')
 tiddler.manage_addProperty('lock_user', username, 'string')
 try: tiddler.manage_addProperty('ignore_revision', 1, 'boolean')
 except: pass
 
-return 'locked\n' + container.get(root=root)
+return revision

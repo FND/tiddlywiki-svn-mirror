@@ -11,13 +11,12 @@ if root: context = root
 path = '/'.join(context.getPhysicalPath())
 
 req = context.REQUEST
-id = req.get('id')
 
 anon_edit = getattr(context, 'zw_anon_edit', 0)
 if not anon_edit and 'Authenticated' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
   raise 'Unauthorized'
 
-id = container.scripts.sanitize_id(id)
+id = container.scripts.sanitize_id(req.get('title'))
 tiddler = context.tiddlers[id]
 
 # add "deleted" tag

@@ -126,6 +126,8 @@ for instructions on how to make a patch file.
 
 * Change id= argument to title= everywhere.
 
+* On lock, return "locked revisionkey" and check revisionkey.  Reload if necessary.
+
 * Add notes in docs: 
 
     * anything placed in ZiddlyWiki/tiddlers will be added to *every* tiddlywiki.

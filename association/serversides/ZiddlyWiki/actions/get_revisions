@@ -12,7 +12,7 @@ path = '/'.join(context.getPhysicalPath())
 
 MAX_REVISIONS = 30
 
-id = container.scripts.sanitize_id(context.REQUEST.get('id'))
+id = container.scripts.sanitize_id(context.REQUEST.get('title'))
 
 try: tiddler = context.tiddlers[id]
 except: 

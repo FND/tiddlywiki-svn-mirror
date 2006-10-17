@@ -10,7 +10,7 @@
 if root: context = root
 
 req = context.REQUEST
-id = container.scripts.sanitize_id(req.get('id'))
+id = container.scripts.sanitize_id(req.get('title'))
 
 username = context.REQUEST.AUTHENTICATED_USER.getUserName()
 
