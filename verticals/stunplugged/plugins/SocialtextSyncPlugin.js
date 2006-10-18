@@ -45,7 +45,8 @@ config.macros.socialtextSync.onClick = function(e)
 	var password = prompt("Please enter your Socialtext password");
 	var syncList = [];
 	store.forEachTiddler(function(title,tiddler) {
-			syncList.push({tiddler: tiddler,
+			syncList.push({title: title,
+				tiddler: tiddler,
 				server: store.getValue(tiddler,"socialtext.server"),
 				origin: store.getValue(tiddler,"socialtext.origin"),
 				version: store.getValue(tiddler,"socialtext.version"),
@@ -56,13 +57,14 @@ config.macros.socialtextSync.onClick = function(e)
 		sync = syncList[t];
 		if(sync.server && sync.origin)
 			{
-			displayMessage("Putting to " + sync.origin);
+			var url = sync.server + sync.origin;
+			displayMessage("Putting " + sync.title + " to " + url);
 			doHttp("PUT",
-				sync.server+sync.origin,
+				url,
 				sync.tiddler.text,
 				username,password,
 				config.macros.socialtextSync.donePut,
-				sync.origin);
+				sync);
 			}
 		}
 }
@@ -70,7 +72,10 @@ config.macros.socialtextSync.onClick = function(e)
 
 config.macros.socialtextSync.donePut = function(status,params,responseText,xhr)
 {
-	displayMessage("done " + status + ", params=" + params);
+	if(status)
+		displayMessage("Saved " + params.title + " successfully");
+	else
+		displayMessage("Failed to save " + params.title);
 }
 
 // HTTP status codes
@@ -123,7 +128,6 @@ function doHttp(type,url,data,username,password,callback,params)
 		{
 		if (x.readyState == 4 && callback)
 			{
-				displayMessage("With params=" + params + ", status is " + x.status);
 			if ((x.status == 0 || x.status == httpStatus.OK || x.status == httpStatus.ContentCreated || x.status == httpStatus.NoContent))
 				callback(true,params,x.responseText,url,x);
 			else
