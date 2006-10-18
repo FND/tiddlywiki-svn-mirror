@@ -4,5 +4,7 @@ title: html/title.html
 recipe: tiddlers/split.recipe
 tiddler: ../../contributors/MartinBudden/plugins/BaseFormatterPlugin.js
 tiddler: ../../contributors/MartinBudden/plugins/DisableWikiLinksPlugin.js
+postjs: plugins/SocialtextSyncPlugin.js
 postjs: ../../contributors/MartinBudden/plugins/SocialtextFormatterPlugin.js
+posttiddlers: SyncTest.tiddler
 posttiddlers: pagelist.html
