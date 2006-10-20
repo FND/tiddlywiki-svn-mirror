@@ -29,7 +29,7 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1))
 
 // Translateable strings
 config.macros.socialtextSync = {
-	label: "re-plug",
+	label: "sync",
 	prompt: "Plug back in to the Socialtext server and synchronize changes"
 };
 
@@ -73,7 +73,7 @@ config.macros.socialtextSync.onClick = function(e)
 config.macros.socialtextSync.donePut = function(status,params,responseText,xhr)
 {
 	if(status)
-		displayMessage("Saved " + params.title + " successfully");
+		displayMessage("Synced " + params.title + " successfully");
 	else
 		displayMessage("Failed to save " + params.title);
 }
