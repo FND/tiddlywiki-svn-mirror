@@ -3,7 +3,7 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[TWiki|http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules]] text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#TWikiFormatterPlugin|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.9|
+|''Version:''|0.1.10|
 |''Status:''|alpha pre-release|
 |''Date:''|Oct 7, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -46,6 +46,14 @@ twDebug = function(out,str)
 	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
 	createTiddlyElement(out,"br");
 };
+
+Tiddler.prototype.escapeLineBreaks = function()
+{
+	var r = this.text.escapeLineBreaks();
+	if(this.isTagged("TWikiFormat"))
+		r.replace(/   /mg,"\b \b").replace(/  /mg,"\b ");
+	return r;
+}
 
 config.textPrimitives.twikiLink = "(?:" + 
 	config.textPrimitives.upperLetter + "+" + config.textPrimitives.lowerLetter + "+" +
