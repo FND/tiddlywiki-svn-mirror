@@ -3,9 +3,9 @@
 |''Description:''|Extension of TiddlyWiki syntax to support [[Creole|http://www.wikicreole.org/]] text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#CreoleFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.3|
+|''Version:''|0.1.4|
 |''Status:''|alpha pre-release|
-|''Date:''|Oct 7, 2006|
+|''Date:''|Oct 21, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -97,11 +97,11 @@ for(var i in config.formatters)
 					{// format is [[text|link]]
 					link = text;
 					text = lookaheadMatch[1];
-					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
+					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 					}
 				else if(w.tiddler.isTagged("linkThenTitleFormat"))
 					{// standard format is [[link|text]]
-					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
+					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 					}
 				else if(config.formatterHelpers.isExternalLink(link))
 					{
@@ -115,29 +115,29 @@ for(var i in config.formatters)
 					}
 				else if(store.tiddlerExists(link))
 					{
-					e = createTiddlyLink(w.output,link,false);
+					e = createTiddlyLink(w.output,link,false,null,w.isStatic);
 					}
 				else if(store.tiddlerExists(text))
 					{
 					link = text;
 					text = lookaheadMatch[1];
-					e = createTiddlyLink(w.output,link,false);
+					e = createTiddlyLink(w.output,link,false,null,w.isStatic);
 					}
 				else if(wlRegExp.exec(text))
 					{//text is a WikiWord, so assume its a tiddler link
 					link = text;
 					text = lookaheadMatch[1];
-					e = createTiddlyLink(w.output,link,false);
+					e = createTiddlyLink(w.output,link,false,null,w.isStatic);
 					}
 				else
 					{// assume standard link format
-					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
+					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 					}
 				}
 			else
 				{
 				text = link;
-				e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
+				e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 				}
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;

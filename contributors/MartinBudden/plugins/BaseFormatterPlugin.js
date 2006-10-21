@@ -3,7 +3,7 @@
 |''Description:''|Allows Tiddlers to use Base text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#BaseFormatterPlugin|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.5|
+|''Version:''|0.1.6|
 |''Status:''|alpha pre-release|
 |''Date:''|Sep 23, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -133,7 +133,7 @@ config.baseFormatters = [
 			{
 			var link = lookaheadMatch[1];
 			var text = lookaheadMatch[2] ? lookaheadMatch[2] : link;
-			var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
+			var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}
@@ -168,7 +168,7 @@ config.baseFormatters = [
 		var output = w.output;
 		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText))
 			{
-			output = createTiddlyLink(w.output,w.matchText,false);
+			output = createTiddlyLink(w.output,w.matchText,false,null,w.isStatic);
 			}
 		w.outputText(output,w.matchStart,w.nextMatch);
 	}

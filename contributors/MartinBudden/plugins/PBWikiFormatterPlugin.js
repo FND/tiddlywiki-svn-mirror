@@ -3,9 +3,9 @@
 |''Description:''|Allows Tiddlers to use [[PBWiki|http://yummy.pbwiki.com/WikiStyle]] text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#PBWikiFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.5|
+|''Version:''|0.1.6|
 |''Status:''|alpha pre-release|
-|''Date:''|Sep 23, 2006|
+|''Date:''|Oct 21, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -301,7 +301,7 @@ config.pbWikiFormatters = [
 		var output = w.output;
 		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText))
 			{
-			output = createTiddlyLink(w.output,w.matchText,false);
+			output = createTiddlyLink(w.output,w.matchText,false,null,w.isStatic);
 			}
 		w.outputText(output,w.matchStart,w.nextMatch);
 	}

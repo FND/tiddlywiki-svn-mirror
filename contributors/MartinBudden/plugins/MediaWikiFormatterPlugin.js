@@ -3,9 +3,9 @@
 |''Description:''|Allows Tiddlers to use [[MediaWiki|http://meta.wikimedia.org/wiki/Help:Wikitext]] ([[WikiPedia|http://meta.wikipedia.org/]]) text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#MediaWikiFormatterPlugin|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.3.6|
+|''Version:''|0.3.7|
 |''Status:''|alpha pre-release|
-|''Date:''|Sep 24, 2006|
+|''Date:''|Oct 21, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -786,7 +786,7 @@ config.mediaWikiFormatters = [
 						}
 					else
 						{
-						e = createTiddlyLink(w.output,link,false);
+						e = createTiddlyLink(w.output,link,false,null,w.isStatic);
 						if(lookaheadMatch[5])
 							{
 							text += lookaheadMatch[5];//add any non-space after the ]]
@@ -802,7 +802,7 @@ config.mediaWikiFormatters = [
 						}
 					else
 						{
-						e = createTiddlyLink(w.output,link,false);
+						e = createTiddlyLink(w.output,link,false,null,w.isStatic);
 						}
 					var oldSource = w.source; var oldMatch = w.nextMatch;
 					w.source = lookaheadMatch[7].trim(); w.nextMatch = 0;

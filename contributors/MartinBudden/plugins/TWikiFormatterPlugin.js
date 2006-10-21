@@ -3,9 +3,9 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[TWiki|http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules]] text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#TWikiFormatterPlugin|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.10|
+|''Version:''|0.1.11|
 |''Status:''|alpha pre-release|
-|''Date:''|Oct 7, 2006|
+|''Date:''|Oct 21, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -466,7 +466,7 @@ config.twikiFormatters = [
 			if (lookaheadMatch[2])
 				{// titled bracketted link
 				var text = lookaheadMatch[2];
-				e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
+				e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 				}
 			else
 				{// simple bracketted link
@@ -482,12 +482,12 @@ config.twikiFormatters = [
 						}
 					else
 						{
-						e = createTiddlyLink(w.output,text,false);
+						e = createTiddlyLink(w.output,text,false,null,w.isStatic);
 						}
 					}
 				else
 					{
-					e = createTiddlyLink(w.output,link,false);
+					e = createTiddlyLink(w.output,link,false,null,w.isStatic);
 					}
 				}
 			createTiddlyText(e,text);
@@ -523,7 +523,7 @@ config.twikiFormatters = [
 			}
 		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText))
 			{
-			var link = createTiddlyLink(w.output,w.matchText,false);
+			var link = createTiddlyLink(w.output,w.matchText,false,null,w.isStatic);
 			w.outputText(link,w.matchStart,w.nextMatch);
 			}
 		else

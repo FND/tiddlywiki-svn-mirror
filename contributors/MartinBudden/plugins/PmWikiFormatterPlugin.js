@@ -3,9 +3,9 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[PmWiki|http://pmwiki.org/wiki/PmWiki/TextFormattingRules]] text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#PmWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.2.4|
+|''Version:''|0.2.5|
 |''Status:''|alpha pre-release|
-|''Date:''|Sep 23, 2006|
+|''Date:''|Oct 21, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -405,12 +405,12 @@ all men are created equal.
 			var link = lookaheadMatch[1];
 			if(lookaheadMatch[2])
 				{// Titled link
-				var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false);
+				var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 				var text = lookaheadMatch[2];
 				}
 			else
 				{// Simple bracketted link
-				e = createTiddlyLink(w.output,link,false);
+				e = createTiddlyLink(w.output,link,false,null,w.isStatic);
 				text = link;
 				}
 			createTiddlyText(e,text);
@@ -447,7 +447,7 @@ all men are created equal.
 		var output = w.output;
 		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText))
 			{
-			output = createTiddlyLink(w.output,w.matchText,false);
+			output = createTiddlyLink(w.output,w.matchText,false,null,w.isStatic);
 			}
 		w.outputText(output,w.matchStart,w.nextMatch);
 	}

@@ -3,9 +3,9 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[SnipSnap|http://snipsnap.org/space/snipsnap-help]] text formatting|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#SnipSnapFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.6|
+|''Version:''|0.1.7|
 |''Status:''|alpha pre-release|
-|''Date:''|Sep 23, 2006|
+|''Date:''|Oct 21, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -283,7 +283,7 @@ config.snipSnapFormatters = [
 		var output = w.output;
 		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText))
 			{
-			output = createTiddlyLink(w.output,w.matchText,false);
+			output = createTiddlyLink(w.output,w.matchText,false,null,w.isStatic);
 			}
 		w.outputText(output,w.matchStart,w.nextMatch);
 	}
