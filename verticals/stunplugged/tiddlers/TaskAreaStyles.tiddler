@@ -1,1 +1,0 @@
-<div tiddler="TaskAreaStyles" modifier="JeremyRuston" modified="200610181353" created="200610181352" tags="">#taskArea {\n	display: none;\n	background-color: [[ColorPalette#Foreground]];\n	color: [[ColorPalette#Background]];\n	height: 3em;\n}\n</div>

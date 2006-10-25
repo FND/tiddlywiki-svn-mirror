@@ -30,7 +30,63 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1))
 // Translateable strings
 config.macros.socialtextSync = {
 	label: "sync",
-	prompt: "Plug back in to the Socialtext server and synchronize changes"
+	prompt: "Plug back in to the Socialtext server and synchronize changes",
+	urlPutPage: "%0data/workspaces/%1/pages/%2",
+	urlGetPageset: "%0data/workspaces/%1/pages",
+	listViewTemplate: {
+		columns: [
+			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
+			{name: 'Title', field: 'title', title: "Title", type: 'String'},
+			{name: 'Status', field: 'status', title: "Status", type: 'String'},
+			{name: 'Server', field: 'server', title: "Server", type: 'String'},
+			{name: 'Workspace', field: 'workspace', title: "Workspace", type: 'String'},
+			{name: 'Page', field: 'page', title: "Page", type: 'String'},
+			{name: 'Version', field: 'version', title: "Version", type: 'String'},
+			{name: 'Fingerprint', field: 'fingerprint', title: "Fingerprint", type: 'String'}
+			],
+		rowClasses: [
+			],
+		actions: [
+			{caption: "More actions...", name: ''},
+			{caption: "Sync these tiddlers", name: 'sync'}
+			]}
+};
+
+// Backstage handling
+var backstage = {
+	backstage: null, // Backstage element
+	cloak: null, // Cloak element
+	panel: null, // Panel element
+
+	create: function()
+	{
+		this.cloak = document.getElementById("cloak");
+		this.cloak.style.display = "block";
+		this.backstage = document.getElementById("backstage");
+		this.panel = createTiddlyElement(this.backstage,"div",null,"panel");
+		return this.panel;
+	},
+
+	show: function()
+	{
+		if(this.panel)
+			anim.startAnimating(new Slider(this.panel,true,false,"none"),new Scroller(this.panel,false));
+	},
+	
+	remove: function(panel,cloak)
+	{
+		if(anim && config.options.chkAnimate)
+			anim.startAnimating(new Slider(this.panel,false,false,"all"));
+		else
+			this.panel.parentNode.removeChild(this.panel);
+		this.cloak.style.display = "none";
+	}
+};
+
+// Sync state data
+sync = {
+	syncList: [], // List of sync objects (title, tiddler, server, workspace, page, version, fingerprint)
+	listView: null // DOM element of the listView table
 };
 
 // socialtextSync macro
@@ -41,41 +97,107 @@ config.macros.socialtextSync.handler = function(place,macroName,params,wikifier,
 
 config.macros.socialtextSync.onClick = function(e)
 {
-	var username = prompt("Please enter your Socialtext username");
-	var password = prompt("Please enter your Socialtext password");
-	var syncList = [];
+	config.macros.socialtextSync.doSync();
+	return false;
+}
+config.macros.socialtextSync.doSync = function()
+{
+	// Get the list of syncable tiddlers
+	sync.syncList = [];
 	store.forEachTiddler(function(title,tiddler) {
-			syncList.push({title: title,
-				tiddler: tiddler,
-				server: store.getValue(tiddler,"socialtext.server"),
-				origin: store.getValue(tiddler,"socialtext.origin"),
-				version: store.getValue(tiddler,"socialtext.version"),
-				fingerprint: store.getValue(tiddler,"socialtext.fingerprint")});
+		var syncData = {title: title,
+			tiddler: tiddler,
+			server: store.getValue(tiddler,"socialtext.server"),
+			workspace: store.getValue(tiddler,"socialtext.workspace"),
+			page: store.getValue(tiddler,"socialtext.page"),
+			version: store.getValue(tiddler,"socialtext.version"),
+			fingerprint: store.getValue(tiddler,"socialtext.fingerprint"),
+			status: "Checking server..."};
+		if(syncData.server && syncData.workspace && syncData.page)
+			sync.syncList.push(syncData);
 		});
-	for(var t=0; t<syncList.length; t++)
+	// Create the UI, including listview and cancel button
+	var panel = backstage.create();
+	sync.listView = ListView.create(panel,sync.syncList,this.listViewTemplate,this.onSelectCommand);
+	createTiddlyButton(panel,"cancel","Cancel this sync",function () {
+		backstage.remove();
+		});
+	backstage.show();
+	// Get the pageset info from each server/workspace combo
+	var done = {};
+	for(t=0; t<sync.syncList.length; t++)
 		{
-		sync = syncList[t];
-		if(sync.server && sync.origin)
+		var s = sync.syncList[t];
+		s.statusElement = s.colElements["status"];
+		var u = s.server + s.workspace;
+		if(!done[u])
 			{
-			var url = sync.server + sync.origin;
-			displayMessage("Putting " + sync.title + " to " + url);
-			doHttp("PUT",
+			done[u] = true;
+			var url = this.urlGetPageset.format([s.server,s.workspace]);
+			displayMessage("Getting " +url);
+			doHttp("GET",
 				url,
-				sync.tiddler.text,
-				username,password,
-				config.macros.socialtextSync.donePut,
-				sync);
+				undefined,
+				null,null,
+				config.macros.socialtextSync.doneGetPageset,
+				{server: s.server, workspace: s.workspace},
+				"application/json");
 			}
 		}
 }
 
-
-config.macros.socialtextSync.donePut = function(status,params,responseText,xhr)
+config.macros.socialtextSync.doneGetPageset = function(status,params,responseText,url,xhr)
 {
+	// Get the pageset info from the response
+	var pagesetInfo = status ? window.eval(responseText) : null;
+	// Save each syncable tiddler belonging to this server/workspace combo
+	for(var t=0; t<sync.syncList.length; t++)
+		{
+		var s = sync.syncList[t];
+		if(s.server == params.server && s.workspace == params.workspace)
+			{
+			removeChildren(s.statusElement);
+			if(status)
+				{
+				var url = config.macros.socialtextSync.urlPutPage.format([s.server,s.workspace,s.page]);
+				var pageInfo = pagesetInfo.findByField("name",s.title);
+				if(pageInfo)
+					{
+					if(pageInfo.revision_id > s.version)
+						createTiddlyElement(s.statusElement,"div",null,null,"Updating even though server version " + pageInfo.revision_id + " is newer than " + s.version + " for " + url);
+					else
+						createTiddlyElement(s.statusElement,"div",null,null,"Updating over unchanged server version " + pageInfo.revision_id + " same as " + s.version + " for " + url);
+					}
+				else
+					createTiddlyElement(s.statusElement,"div",null,null,"Creating first version of '" + s.page + "' at " + url);
+				doHttp("PUT",
+					url,
+					s.tiddler.text,
+					null,null,
+					config.macros.socialtextSync.donePut,
+					s);
+				}
+			else
+				createTiddlyElement(s.statusElement,"div",null,null,"Failed: " + xhr.statusText + " (" + xhr.status + ")");
+			}
+		}
+}
+
+// pagesetInfo is like:
+// {"page_uri":"http://www.socialtext.net/tiddlytext/index.cgi?including_other_pages_and_lists_into_a_page","name":"Including other pages and lists into a page","page_id":"including_other_pages_and_lists_into_a_page","modified_time":1159648713,"uri":"including_other_pages_and_lists_into_a_page","revision_id":20060930203833,"last_edit_time":"2006-09-30 20:38:33 GMT","revision_count":3,"last_editor":"ken.pier@socialtext.com"}
+
+config.macros.socialtextSync.onSelectCommand = function(listView,command,rowNames)
+{
+	alert("Commanding " + command);
+}
+
+config.macros.socialtextSync.donePut = function(status,params,responseText,url,xhr)
+{
+	removeChildren(params.statusElement);
 	if(status)
-		displayMessage("Synced " + params.title + " successfully");
+		createTiddlyText(params.statusElement,"Done");
 	else
-		displayMessage("Failed to save " + params.title);
+		createTiddlyText(params.statusElement,"Failed: " + xhr.statusText + " (" + xhr.status + ")");
 }
 
 // HTTP status codes
@@ -97,14 +219,16 @@ var httpStatus = {
 //   password - optional password for basic authentication
 //   callback - function to call when there's a response
 //   params - parameter object that gets passed to the callback for storing it's state
+//   accept - optional MIME type for Accept header
 // Return value is the underlying XMLHttpRequest object, or 'null' if there was an error
 // Callback function is called like this:
 //   callback(status,params,responseText,xhr)
 //     status - true if OK, false if error
 //     params - the parameter object provided to loadRemoteFile()
 //     responseText - the text of the file
+//     url - requested URL
 //     xhr - the underlying XMLHttpRequest object
-function doHttp(type,url,data,username,password,callback,params)
+function doHttp(type,url,data,username,password,callback,params,accept)
 {
 	// Get an xhr object
 	var x;
@@ -128,7 +252,7 @@ function doHttp(type,url,data,username,password,callback,params)
 		{
 		if (x.readyState == 4 && callback)
 			{
-			if ((x.status == 0 || x.status == httpStatus.OK || x.status == httpStatus.ContentCreated || x.status == httpStatus.NoContent))
+			if([0, httpStatus.OK, httpStatus.ContentCreated, httpStatus.NoContent].contains(x.status))
 				callback(true,params,x.responseText,url,x);
 			else
 				callback(false,params,null,url,x);
@@ -147,6 +271,8 @@ function doHttp(type,url,data,username,password,callback,params)
 			x.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		if (x.overrideMimeType)
 			x.setRequestHeader("Connection", "close");
+		if(accept)
+			x.setRequestHeader("Accept",accept);
 		x.setRequestHeader("X-Requested-With", "TiddlyWiki " + version.major + "." + version.minor + "." + version.revision + (version.beta ? " (beta " + version.beta + ")" : ""));
 		x.send(data);
 		}
