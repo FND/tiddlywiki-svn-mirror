@@ -7,5 +7,4 @@ tiddler: ../../contributors/MartinBudden/plugins/DisableWikiLinksPlugin.js
 postjs: plugins/SocialtextSyncPlugin.js
 postjs: ../../contributors/MartinBudden/plugins/SocialtextFormatterPlugin.js
 posttiddlers: SyncTest.tiddler
-posttiddlers: TestTiddlers.tiddler
 posttiddlers: pagelist.html

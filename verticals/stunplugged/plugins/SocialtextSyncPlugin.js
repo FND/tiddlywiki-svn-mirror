@@ -48,7 +48,8 @@ config.macros.socialtextSync = {
 			],
 		actions: [
 			{caption: "More actions...", name: ''},
-			{caption: "Sync these tiddlers", name: 'sync'}
+			{caption: "Sync these tiddlers", name: 'sync'},
+			{caption: "Cancel this sync", name: 'cancel'}
 			]}
 };
 
@@ -119,9 +120,6 @@ config.macros.socialtextSync.doSync = function()
 	// Create the UI, including listview and cancel button
 	var panel = backstage.create();
 	sync.listView = ListView.create(panel,sync.syncList,this.listViewTemplate,this.onSelectCommand);
-	createTiddlyButton(panel,"cancel","Cancel this sync",function () {
-		backstage.remove();
-		});
 	backstage.show();
 	// Get the pageset info from each server/workspace combo
 	var done = {};
@@ -134,7 +132,6 @@ config.macros.socialtextSync.doSync = function()
 			{
 			done[u] = true;
 			var url = this.urlGetPageset.format([s.server,s.workspace]);
-			displayMessage("Getting " +url);
 			doHttp("GET",
 				url,
 				undefined,
@@ -143,6 +140,16 @@ config.macros.socialtextSync.doSync = function()
 				{server: s.server, workspace: s.workspace},
 				"application/json");
 			}
+		}
+}
+
+config.macros.socialtextSync.onSelectCommand = function(listView,command,rowNames)
+{
+	switch(command)
+		{
+		case "cancel":
+			backstage.remove();
+			break;
 		}
 }
 
@@ -156,20 +163,22 @@ config.macros.socialtextSync.doneGetPageset = function(status,params,responseTex
 		var s = sync.syncList[t];
 		if(s.server == params.server && s.workspace == params.workspace)
 			{
-			removeChildren(s.statusElement);
+			//removeChildren(s.statusElement);
 			if(status)
 				{
 				var url = config.macros.socialtextSync.urlPutPage.format([s.server,s.workspace,s.page]);
 				var pageInfo = pagesetInfo.findByField("name",s.title);
+				if(s.title == "Quick Start")
+					alert("Got it " + pagesetInfo[3].name);
 				if(pageInfo)
 					{
 					if(pageInfo.revision_id > s.version)
-						createTiddlyElement(s.statusElement,"div",null,null,"Updating even though server version " + pageInfo.revision_id + " is newer than " + s.version + " for " + url);
+						createTiddlyElement(s.statusElement,"div",null,null,"Updating '" + s.title + "' even though server version " + pageInfo.revision_id + " is newer than " + s.version + " for " + url);
 					else
-						createTiddlyElement(s.statusElement,"div",null,null,"Updating over unchanged server version " + pageInfo.revision_id + " same as " + s.version + " for " + url);
+						createTiddlyElement(s.statusElement,"div",null,null,"Updating '" + s.title + "' over unchanged server version " + pageInfo.revision_id + " same as " + s.version + " for " + url);
 					}
 				else
-					createTiddlyElement(s.statusElement,"div",null,null,"Creating first version of '" + s.page + "' at " + url);
+					createTiddlyElement(s.statusElement,"div",null,null,"Couldn't find existing '" + s.title + "'; creating at " + url);
 				doHttp("PUT",
 					url,
 					s.tiddler.text,
@@ -183,17 +192,9 @@ config.macros.socialtextSync.doneGetPageset = function(status,params,responseTex
 		}
 }
 
-// pagesetInfo is like:
-// {"page_uri":"http://www.socialtext.net/tiddlytext/index.cgi?including_other_pages_and_lists_into_a_page","name":"Including other pages and lists into a page","page_id":"including_other_pages_and_lists_into_a_page","modified_time":1159648713,"uri":"including_other_pages_and_lists_into_a_page","revision_id":20060930203833,"last_edit_time":"2006-09-30 20:38:33 GMT","revision_count":3,"last_editor":"ken.pier@socialtext.com"}
-
-config.macros.socialtextSync.onSelectCommand = function(listView,command,rowNames)
-{
-	alert("Commanding " + command);
-}
-
 config.macros.socialtextSync.donePut = function(status,params,responseText,url,xhr)
 {
-	removeChildren(params.statusElement);
+	//removeChildren(params.statusElement);
 	if(status)
 		createTiddlyText(params.statusElement,"Done");
 	else
