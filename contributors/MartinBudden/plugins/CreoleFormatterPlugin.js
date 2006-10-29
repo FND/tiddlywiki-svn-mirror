@@ -3,9 +3,9 @@
 |''Description:''|Extension of TiddlyWiki syntax to support [[Creole|http://www.wikicreole.org/]] text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#CreoleFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.4|
+|''Version:''|0.1.5|
 |''Status:''|alpha pre-release|
-|''Date:''|Oct 21, 2006|
+|''Date:''|Oct 28, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -40,28 +40,19 @@ This is an early alpha release, with (at least) the following known issues:
 if(!version.extensions.CreoleFormatterPlugin) {
 version.extensions.CreoleFormatterPlugin = {installed:true};
 
-if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	{alertAndThrow("CreoleFormatterPlugin requires TiddlyWiki 2.1 or later.");}
+if(version.major < 2 || (version.major == 2 && version.minor < 1)) {
+	alertAndThrow("CreoleFormatterPlugin requires TiddlyWiki 2.1 or later.");
+}
 
 creoleFormatter = {}; // "namespace" for local functions
-
-creoleDebug = function(out,str)
-{
-	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
-	createTiddlyElement(out,"br");
-};
 
 config.creoleFormatters = [
 {
 	name: "creoleHeading",
 	match: "^={2,6}(?!=)",
 	termRegExp: /(={0,6}\n+)/mg,
-	handler: function(w)
-	{
-		w.subWikifyTerm(createTiddlyElement(w.output,"h" + w.matchLength),this.termRegExp);
-	}
+	handler: function(w) {w.subWikifyTerm(createTiddlyElement(w.output,"h" + w.matchLength),this.termRegExp);}
 },
-
 {
 	name: "creoleBoldByChar",
 	match: "\\*\\*",
@@ -71,12 +62,7 @@ config.creoleFormatters = [
 }
 ];
 
-for(var i in config.formatters)
-	{// replace formatters as required
-	if(config.formatters[i].name == "prettyLink")
-		{
-		config.formatters[i] = 
-{
+creoleFormatter.explicitLink = {
 	name: "creoleExplicitLink",
 	match: "\\[\\[",
 	lookaheadRegExp: /\[\[(.*?)(?:\|(.*?))?\]\]/mg,
@@ -84,82 +70,69 @@ for(var i in config.formatters)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			{
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var e;
 			var link = lookaheadMatch[1];
 			var text = lookaheadMatch[2];
-			if(text)
-				{// both text and link defined, so try and workout which is which
+			if(text) {
+				// both text and link defined, so try and workout which is which
 				var wlRegExp = new RegExp(config.textPrimitives.wikiLink,"mg");
 				wlRegExp.lastIndex = 0;
-				if(w.tiddler.isTagged("titleThenLinkFormat"))
-					{// format is [[text|link]]
+				if(w.tiddler.isTagged("titleThenLinkFormat")) {
+					// format is [[text|link]]
 					link = text;
 					text = lookaheadMatch[1];
 					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
-					}
-				else if(w.tiddler.isTagged("linkThenTitleFormat"))
-					{// standard format is [[link|text]]
+				} else if(w.tiddler.isTagged("linkThenTitleFormat")) {
+					// standard format is [[link|text]]
 					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
-					}
-				else if(config.formatterHelpers.isExternalLink(link))
-					{
+				} else if(config.formatterHelpers.isExternalLink(link)) {
 					e = createExternalLink(w.output,link);
-					}
-				else if(config.formatterHelpers.isExternalLink(text))
-					{
+				} else if(config.formatterHelpers.isExternalLink(text)) {
 					link = text;
 					text = lookaheadMatch[1];
 					e = createExternalLink(w.output,link);
-					}
-				else if(store.tiddlerExists(link))
-					{
+				} else if(store.tiddlerExists(link)) {
 					e = createTiddlyLink(w.output,link,false,null,w.isStatic);
-					}
-				else if(store.tiddlerExists(text))
-					{
+				} else if(store.tiddlerExists(text)) {
 					link = text;
 					text = lookaheadMatch[1];
 					e = createTiddlyLink(w.output,link,false,null,w.isStatic);
-					}
-				else if(wlRegExp.exec(text))
-					{//text is a WikiWord, so assume its a tiddler link
+				} else if(wlRegExp.exec(text)) {
+					//text is a WikiWord, so assume its a tiddler link
 					link = text;
 					text = lookaheadMatch[1];
 					e = createTiddlyLink(w.output,link,false,null,w.isStatic);
-					}
-				else
-					{// assume standard link format
+				} else {
+					// assume standard link format
 					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
-					}
 				}
-			else
-				{
+			} else {
 				text = link;
 				e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
-				}
+			}
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
-			}
+		}
 	}//# end handler
 };
 
-		}
-	else if(config.formatters[i].name == "italicByChar")
-		{
+for(var i in config.formatters) {
+	// replace formatters as required
+	if(config.formatters[i].name == "prettyLink") {
+		config.formatters[i] = creoleFormatter.explicitLink;
+	} else if(config.formatters[i].name == "italicByChar") {
 		config.formatters[i].termRegExp = /(\/\/|(?=\n\n))/mg;
-		}
-	else if(config.formatters[i].name == "list")
-		{
+	} else if(config.formatters[i].name == "list") {
+		// require a space after the list character (required for "*" which otherwise clashes with bold
 		config.formatters[i].match = "^[\\*#;:]+ ";
-		}
 	}
+}
 
-for(i in config.creoleFormatters)
-	{// add new formatters
+for(i in config.creoleFormatters){ 
+	// add new formatters
 	config.formatters.push(config.creoleFormatters[i]);
-	}
+}
 
 }// end of "install only once"
 //}}}
