@@ -3,9 +3,9 @@
 |''Description:''|Allows Tiddlers to use [[PBWiki|http://yummy.pbwiki.com/WikiStyle]] text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#PBWikiFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.6|
+|''Version:''|0.1.7|
 |''Status:''|alpha pre-release|
-|''Date:''|Oct 21, 2006|
+|''Date:''|Oct 28, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -57,34 +57,27 @@ pbDebug = function(out,str)
 		}
 };*/
 
-config.formatterHelpers.setAttributesFromParams = function(e,p)
+PBWikiFormatter.setAttributesFromParams = function(e,p)
 {
 	var re = /\s*(.*?)=(?:(?:"(.*?)")|(?:'(.*?)')|((?:\w|%|#)*))/mg;
 	var match = re.exec(p);
-	while(match)
-		{
+	while(match) {
 		var s = match[1].unDash();
-		if(s=="bgcolor")
-			{
+		if(s=="bgcolor") {
 			s = "backgroundColor";
-			}
+		}
 		try {
-		if(match[2])
-			{
-			e.setAttribute(s,match[2]);
-			}
-		else if(match[3])
-			{
-			e.setAttribute(s,match[3]);
-			}
-		else
-			{
-			e.setAttribute(s,match[4]);
+			if(match[2]) {
+				e.setAttribute(s,match[2]);
+			} else if(match[3]) {
+				e.setAttribute(s,match[3]);
+			} else {
+				e.setAttribute(s,match[4]);
 			}
 		}
 		catch(ex) {}
 		match = re.exec(p);
-		}
+	}
 };
 
 config.pbWikiFormatters = [
@@ -97,7 +90,6 @@ config.pbWikiFormatters = [
 		w.subWikifyTerm(createTiddlyElement(w.output,"h" + w.matchLength),this.termRegExp);
 	}
 },
-
 {
 	name: "pBWikiTable",
 	match: "^\\|(?:[^\\n]*)\\|$",
@@ -105,7 +97,6 @@ config.pbWikiFormatters = [
 	rowTermRegExp: /(\|$\n?)/mg,
 	cellRegExp: /(?:\|([^\n\|]*)\|)|(\|$\n?)/mg,
 	cellTermRegExp: /((?:\x20*)\|)/mg,
-
 	handler: function(w)
 	{
 		var table = createTiddlyElement(w.output,"table");
@@ -114,118 +105,93 @@ config.pbWikiFormatters = [
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch)
-			{
+		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
 			this.rowHandler(w,createTiddlyElement(rowContainer,"tr"),prevColumns);
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-			}
+		}
 	},
 	rowHandler: function(w,e,prevColumns)
 	{
 		var col = 0;
 		this.cellRegExp.lastIndex = w.nextMatch;
 		var cellMatch = this.cellRegExp.exec(w.source);
-		while(cellMatch && cellMatch.index == w.nextMatch)
-			{
-			if(cellMatch[2])
-				{// End of row
+		while(cellMatch && cellMatch.index == w.nextMatch) {
+			if(cellMatch[2]) {
+				// End of row
 				w.nextMatch = this.cellRegExp.lastIndex;
 				break;
-				}
-			else
-				{// Cell
+			} else {
+				// Cell
 				w.nextMatch++;
 				var spaceLeft = false;
 				var chr = w.source.substr(w.nextMatch,1);
-				while(chr == " ")
-					{
+				while(chr == " ") {
 					spaceLeft = true;
 					w.nextMatch++;
 					chr = w.source.substr(w.nextMatch,1);
-					}
+				}
 				var cell = createTiddlyElement(e,"td");
-
 				prevColumns[col] = {rowSpanCount:1, element:cell};
 				w.subWikifyTerm(cell,this.cellTermRegExp);
-				if(w.matchText.substr(w.matchText.length-2,1) == " ")
-					{// spaceRight
+				if(w.matchText.substr(w.matchText.length-2,1) == " ") {
+					// spaceRight
 					cell.align = spaceLeft ? "center" : "left";
-					}
-				else if(spaceLeft)
-					{
+				} else if(spaceLeft) {
 					cell.align = "right";
-					}
-				w.nextMatch--;
 				}
+				w.nextMatch--;
+			}
 			col++;
 			this.cellRegExp.lastIndex = w.nextMatch;
 			cellMatch = this.cellRegExp.exec(w.source);
-			}
+		}
 	}
 },
-
 {
 	name: "pBWikiList",
-	match: "^(?:(?:(?:\\*)|(?:#))+) ",
-	lookaheadRegExp: /^(?:(?:(\*)|(#))+) /mg,
+	match: "^[\\*#]+ ",
+	lookaheadRegExp: /^([\*#])+ /mg,
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
-		var placeStack = [w.output];
+		var stack = [w.output];
 		var currLevel = 0, currType = null;
-		var listLevel, listType, itemType;
+		var listLevel, listType;
+		var itemType = "li";
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch)
-			{
-			if(lookaheadMatch[1])
-				{
-				listType = "ul";
-				itemType = "li";
-				}
-			else if(lookaheadMatch[2])
-				{
-				listType = "ol";
-				itemType = "li";
-				}
+		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
+			listType = lookaheadMatch[1] == "*" ? "ul" : "ol";
 			listLevel = lookaheadMatch[0].length;
-			w.nextMatch += lookaheadMatch[0].length;
-			if(listLevel > currLevel)
-				{
-				for(var i=currLevel; i<listLevel; i++)
-					{placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],listType));}
+			w.nextMatch += listLevel;
+			if(listLevel > currLevel) {
+				for(var i=currLevel; i<listLevel; i++) {
+					stack.push(createTiddlyElement(stack[stack.length-1],listType));
 				}
-			else if(listLevel < currLevel)
-				{
-				for(i=currLevel; i>listLevel; i--)
-					{placeStack.pop();}
+			} else if(listLevel < currLevel) {
+				for(i=currLevel; i>listLevel; i--) {
+					stack.pop();
 				}
-			else if(listLevel == currLevel && listType != currType)
-				{
-				placeStack.pop();
-				placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],listType));
-				}
+			} else if(listLevel == currLevel && listType != currType) {
+				stack.pop();
+				stack.push(createTiddlyElement(stack[stack.length-1],listType));
+			}
 			currLevel = listLevel;
 			currType = listType;
-			var e = createTiddlyElement(placeStack[placeStack.length-1],itemType);
+			var e = createTiddlyElement(stack[stack.length-1],itemType);
 			w.subWikifyTerm(e,this.termRegExp);
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		}
 	}
 },
-
 {
 	name: "pBWikiRule",
 	match: "^---+$\\n?",
-	handler: function(w)
-	{
-		createTiddlyElement(w.output,"hr");
-	}
+	handler: function(w) {createTiddlyElement(w.output,"hr");}
 },
-
 {
 	name: "macro",
 	match: "<<",
@@ -234,14 +200,12 @@ config.pbWikiFormatters = [
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[1])
-			{
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[1]) {
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			invokeMacro(w.output,lookaheadMatch[1],lookaheadMatch[2],w,w.tiddler);
-			}
+		}
 	}
 },
-
 {
 	name: "pBWikiExplicitLink",
 	match: "\\[",
@@ -250,72 +214,54 @@ config.pbWikiFormatters = [
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			{
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var link = lookaheadMatch[1];
 			var text = lookaheadMatch[2] ? lookaheadMatch[2] : link;
-			if(/.*\.(?:gif|jpg|png)/g.exec(link))
-				{
+			if(/.*\.(?:gif|jpg|png)/g.exec(link)) {
 				var img = createTiddlyElement(w.output,"img");
-				if(lookaheadMatch[2])
-					{
+				if(lookaheadMatch[2]) {
 					img.title = text;
-					}
-				img.src = link;
 				}
-			else
-				{
+				img.src = link;
+			} else {
 				var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 				createTiddlyText(e,text);
-				}
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+		}
 	}
 },
-
 {
 	name: "pbWikiNotWikiLink",
 	match: "~" + config.textPrimitives.wikiLink,
-	handler: function(w)
-	{
-		w.outputText(w.output,w.matchStart+1,w.nextMatch);
-	}
+	handler: function(w) {w.outputText(w.output,w.matchStart+1,w.nextMatch);}
 },
-
 {
 	name: "pbWikiWikiLink",
 	match: config.textPrimitives.wikiLink,
 	handler: function(w)
 	{
-		if(w.matchStart > 0)
-			{
+		if(w.matchStart > 0) {
 			var preRegExp = new RegExp(config.textPrimitives.anyLetter,"mg");
 			preRegExp.lastIndex = w.matchStart-1;
 			var preMatch = preRegExp.exec(w.source);
-			if(preMatch.index == w.matchStart-1)
-				{
+			if(preMatch.index == w.matchStart-1) {
 				w.outputText(w.output,w.matchStart,w.nextMatch);
 				return;
-				}
 			}
+		}
 		var output = w.output;
-		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText))
-			{
+		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText)) {
 			output = createTiddlyLink(w.output,w.matchText,false,null,w.isStatic);
-			}
+		}
 		w.outputText(output,w.matchStart,w.nextMatch);
 	}
 },
-
 {
 	name: "pbWikiUrlLink",
 	match: config.textPrimitives.urlPattern,
-	handler: function(w)
-	{
-		w.outputText(createExternalLink(w.output,w.matchText),w.matchStart,w.nextMatch);
-	}
+	handler: function(w) {w.outputText(createExternalLink(w.output,w.matchText),w.matchStart,w.nextMatch);}
 },
-
 {
 	name: "pbWikiBoldByChar",
 	match: "\\*\\*",
@@ -323,7 +269,6 @@ config.pbWikiFormatters = [
 	element: "strong",
 	handler: config.formatterHelpers.createElementAndWikify
 },
-
 {
 	name: "pbWikiItalicByChar",
 	match: "''",
@@ -331,7 +276,6 @@ config.pbWikiFormatters = [
 	element: "em",
 	handler: config.formatterHelpers.createElementAndWikify
 },
-
 {
 	name: "pbWikiUnderlineByChar",
 	match: "__",
@@ -339,7 +283,6 @@ config.pbWikiFormatters = [
 	element: "u",
 	handler: config.formatterHelpers.createElementAndWikify
 },
-
 /*{
 	name: "pbWikiStrikeByChar",
 	match: " -",
@@ -347,52 +290,31 @@ config.pbWikiFormatters = [
 	element: "strike",
 	handler: config.formatterHelpers.createElementAndWikify
 },*/
-
 {
 	name: "pbWikiParagraph",
 	match: "\\n{2,}",
-	handler: function(w)
-	{
-		createTiddlyElement(w.output,"p");
-	}
+	handler: function(w) {createTiddlyElement(w.output,"p");}
 },
-
 {
 	name: "pbWikiExplicitLineBreak",
 	match: "<br ?/?>",
-	handler: function(w)
-	{
-		createTiddlyElement(w.output,"br");
-	}
+	handler: function(w) {createTiddlyElement(w.output,"br");}
 },
-
 {
 	name: "pbWikiLineBreak",
 	match: "\\n",
-	handler: function(w)
-	{
-		createTiddlyElement(w.output,"br");
-	}
+	handler: function(w) {createTiddlyElement(w.output,"br");}
 },
-
 {
 	name: "pbWikiHtmlEntitiesEncoding",
 	match: "&#?[a-zA-Z0-9]{2,8};",
-	handler: function(w)
-		{
-		createTiddlyElement(w.output,"span").innerHTML = w.matchText;
-		}
+	handler: function(w) {createTiddlyElement(w.output,"span").innerHTML = w.matchText;}
 },
-
 {
 	name: "pbWikiNotSupported",
 	match: "<(?:toc|top|random|views).*?>",
-	handler: function(w)
-	{
-		createTiddlyText(w.output,w.matchText);
-	}
+	handler: function(w) {createTiddlyText(w.output,w.matchText);}
 },
-
 {
 	name: "pBWikiRaw",
 	match: "<raw>",
@@ -400,7 +322,6 @@ config.pbWikiFormatters = [
 	element: "span",
 	handler: config.formatterHelpers.enclosedTextHelper
 },
-
 {
 	name: "pBWikiVerbatim",
 	match: "<verbatim>",
@@ -408,7 +329,6 @@ config.pbWikiFormatters = [
 	element: "span",
 	handler: config.formatterHelpers.enclosedTextHelper
 },
-
 {
 	name: "pbWikiHtmlTag",
 	match: "<[a-zA-Z]{2,}(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?>",
@@ -417,22 +337,17 @@ config.pbWikiFormatters = [
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			{
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var e =createTiddlyElement(w.output,lookaheadMatch[1]);
-			if(lookaheadMatch[2])
-				{
-				config.formatterHelpers.setAttributesFromParams(e,lookaheadMatch[2]);
-				}
-			if(lookaheadMatch[3])
-				{
-				w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
-				}
-			else
-				{
-				w.subWikify(e,"</"+lookaheadMatch[1]+">");
-				}
+			if(lookaheadMatch[2]) {
+				PBWikiFormatter.setAttributesFromParams(e,lookaheadMatch[2]);
 			}
+			if(lookaheadMatch[3]) {
+				w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
+			} else {
+				w.subWikify(e,"</"+lookaheadMatch[1]+">");
+			}
+		}
 	}
 }
 ];
