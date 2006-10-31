@@ -1,6 +1,5 @@
 tiddler: Advanced_Getting_Around.tiddler
 tiddler: Babel.tiddler
-tiddler: BackstageStyles.tiddler
 tiddler: Can_I_change_something_.tiddler
 tiddler: CategoryListFull.tiddler
 tiddler: CategoryListWafl.tiddler
@@ -18,12 +17,10 @@ tiddler: Including_other_pages_and_lists_into_a_page.tiddler
 tiddler: MainMenu.tiddler
 tiddler: MartinsPrereleasePlugins.tiddler
 tiddler: PageInclusion.tiddler
-tiddler: PageTemplate.tiddler
 tiddler: RecentChangesFull.tiddler
 tiddler: RecentChangesWafl.tiddler
 tiddler: SearchFull.tiddler
 tiddler: SearchWafl.tiddler
-tiddler: SideBarOptions.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteUrl.tiddler
@@ -32,9 +29,6 @@ tiddler: SocialtextStyleSheetAbridged.tiddler
 tiddler: Socialtext_Links_and_WAFLs_-_Summary.tiddler
 tiddler: Socialtext_WAFL_syntax.tiddler
 tiddler: Socialtext_formatter_syntax.tiddler
-tiddler: StyleSheet.tiddler
-tiddler: StyleSheetColors.tiddler
-tiddler: StyleSheetLayout.tiddler
 tiddler: Styles_HorizontalMainMenu.tiddler
 tiddler: TableOfContents.tiddler
 tiddler: TitleSearchFull.tiddler

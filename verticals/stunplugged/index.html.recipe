@@ -1,10 +1,14 @@
 recipe: ../../core/tiddlywiki.html.recipe
 prehead: ../../core/html/rss.link.html
 title: html/title.html
-recipe: tiddlers/split.recipe
+tiddler: tiddlers/PageTemplate.tiddler
+tiddler: tiddlers/SideBarOptions.tiddler
+tiddler: tiddlers/StyleSheet.tiddler
+tiddler: tiddlers/StyleSheetColors.tiddler
+tiddler: tiddlers/StyleSheetLayout.tiddler
+tiddler: tiddlers/Sync.tiddler
 tiddler: ../../contributors/MartinBudden/plugins/BaseFormatterPlugin.js
 tiddler: ../../contributors/MartinBudden/plugins/DisableWikiLinksPlugin.js
 postjs: plugins/SocialtextSyncPlugin.js
 postjs: ../../contributors/MartinBudden/plugins/SocialtextFormatterPlugin.js
-posttiddlers: SyncTest.tiddler
 posttiddlers: pagelist.html

@@ -1,0 +1,4 @@
+recipe: index.html.recipe
+posttiddlers: SyncTest.tiddler
+posttiddlers: TestTiddlers.tiddler
+recipe: testing/split.recipe

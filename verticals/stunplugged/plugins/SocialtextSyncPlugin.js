@@ -35,53 +35,18 @@ config.macros.socialtextSync = {
 	urlGetPageset: "%0data/workspaces/%1/pages",
 	listViewTemplate: {
 		columns: [
-			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
-			{name: 'Title', field: 'title', title: "Title", type: 'String'},
-			{name: 'Status', field: 'status', title: "Status", type: 'String'},
+			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
+			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "Title", type: 'TiddlerLink'},
+			{name: 'Local Status', field: 'localStatus', title: "Local Status", type: 'String'},
+			{name: 'Server Status', field: 'serverStatus', title: "Server Status", type: 'String'},
 			{name: 'Server', field: 'server', title: "Server", type: 'String'},
-			{name: 'Workspace', field: 'workspace', title: "Workspace", type: 'String'},
-			{name: 'Page', field: 'page', title: "Page", type: 'String'},
-			{name: 'Version', field: 'version', title: "Version", type: 'String'},
-			{name: 'Fingerprint', field: 'fingerprint', title: "Fingerprint", type: 'String'}
+			{name: 'Workspace', field: 'workspace', title: "Workspace", type: 'String'}
 			],
 		rowClasses: [
 			],
-		actions: [
-			{caption: "More actions...", name: ''},
-			{caption: "Sync these tiddlers", name: 'sync'},
-			{caption: "Cancel this sync", name: 'cancel'}
+		buttons: [
+			{caption: "Sync these tiddlers", name: 'sync'}
 			]}
-};
-
-// Backstage handling
-var backstage = {
-	backstage: null, // Backstage element
-	cloak: null, // Cloak element
-	panel: null, // Panel element
-
-	create: function()
-	{
-		this.cloak = document.getElementById("cloak");
-		this.cloak.style.display = "block";
-		this.backstage = document.getElementById("backstage");
-		this.panel = createTiddlyElement(this.backstage,"div",null,"panel");
-		return this.panel;
-	},
-
-	show: function()
-	{
-		if(this.panel)
-			anim.startAnimating(new Slider(this.panel,true,false,"none"),new Scroller(this.panel,false));
-	},
-	
-	remove: function(panel,cloak)
-	{
-		if(anim && config.options.chkAnimate)
-			anim.startAnimating(new Slider(this.panel,false,false,"all"));
-		else
-			this.panel.parentNode.removeChild(this.panel);
-		this.cloak.style.display = "none";
-	}
 };
 
 // Sync state data
@@ -90,18 +55,40 @@ sync = {
 	listView: null // DOM element of the listView table
 };
 
+// Core extensions to maintain a 'changeCount' extended field
+
+var coreSaveTiddler = TiddlyWiki.prototype.saveTiddler;
+TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields)
+{
+	var r = coreSaveTiddler.apply(this,arguments);
+	incChangeCount(newTitle);
+	return r;
+}
+
+var coreSetTiddlerTag = TiddlyWiki.prototype.setTiddlerTag;
+TiddlyWiki.prototype.setTiddlerTag = function(title,status,tag)
+{
+	var r = coreSetTiddlerTag.apply(this,arguments);
+	incChangeCount(title);
+	return r;
+}
+
+function incChangeCount(title)
+{
+	var c = store.getValue(title,"changeCount");
+	if(!c)
+		c = 0;
+	store.setValue(title,"changeCount",++c);
+}
+
 // socialtextSync macro
 config.macros.socialtextSync.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-	createTiddlyButton(place,this.label,this.prompt,this.onClick);
+	if(!wikifier.isStatic)
+		config.macros.socialtextSync.doSync(place);
 }
 
-config.macros.socialtextSync.onClick = function(e)
-{
-	config.macros.socialtextSync.doSync();
-	return false;
-}
-config.macros.socialtextSync.doSync = function()
+config.macros.socialtextSync.doSync = function(place)
 {
 	// Get the list of syncable tiddlers
 	sync.syncList = [];
@@ -112,33 +99,39 @@ config.macros.socialtextSync.doSync = function()
 			workspace: store.getValue(tiddler,"socialtext.workspace"),
 			page: store.getValue(tiddler,"socialtext.page"),
 			version: store.getValue(tiddler,"socialtext.version"),
-			fingerprint: store.getValue(tiddler,"socialtext.fingerprint"),
-			status: "Checking server..."};
+			changeCount: store.getValue(tiddler,"changeCount"),
+			serverStatus: "Checking server..."
+			};
+		syncData.localStatus = syncData.changeCount > 0 ? "Changed while unplugged" : "Unchanged while unplugged";
+		syncData.selected = syncData.changeCount > 0;
 		if(syncData.server && syncData.workspace && syncData.page)
 			sync.syncList.push(syncData);
 		});
 	// Create the UI, including listview and cancel button
-	var panel = backstage.create();
-	sync.listView = ListView.create(panel,sync.syncList,this.listViewTemplate,this.onSelectCommand);
-	backstage.show();
+	sync.listView = ListView.create(place,sync.syncList,this.listViewTemplate,this.onSelectCommand);
 	// Get the pageset info from each server/workspace combo
 	var done = {};
 	for(t=0; t<sync.syncList.length; t++)
 		{
 		var s = sync.syncList[t];
-		s.statusElement = s.colElements["status"];
+		s.statusElement = s.colElements["serverStatus"];
 		var u = s.server + s.workspace;
 		if(!done[u])
 			{
 			done[u] = true;
 			var url = this.urlGetPageset.format([s.server,s.workspace]);
-			doHttp("GET",
+			var r = doHttp("GET",
 				url,
 				undefined,
 				null,null,
 				config.macros.socialtextSync.doneGetPageset,
 				{server: s.server, workspace: s.workspace},
 				"application/json");
+			if(typeof r == "string")
+				{
+				removeChildren(s.statusElement);
+				createTiddlyError(s.statusElement,"Error »",r);
+				}
 			}
 		}
 }
@@ -148,7 +141,9 @@ config.macros.socialtextSync.onSelectCommand = function(listView,command,rowName
 	switch(command)
 		{
 		case "cancel":
-			backstage.remove();
+			break;
+		case "sync":
+			config.macros.socialtextSync.doPutPages(rowNames);
 			break;
 		}
 }
@@ -163,42 +158,68 @@ config.macros.socialtextSync.doneGetPageset = function(status,params,responseTex
 		var s = sync.syncList[t];
 		if(s.server == params.server && s.workspace == params.workspace)
 			{
-			//removeChildren(s.statusElement);
+			removeChildren(s.statusElement);
 			if(status)
 				{
 				var url = config.macros.socialtextSync.urlPutPage.format([s.server,s.workspace,s.page]);
-				var pageInfo = pagesetInfo.findByField("name",s.title);
-				if(s.title == "Quick Start")
-					alert("Got it " + pagesetInfo[3].name);
+				var pageInfo = pagesetInfo.findByField("page_id",s.page);
+				if(pageInfo != null)
+					pageInfo = pagesetInfo[pageInfo];
 				if(pageInfo)
 					{
-					if(pageInfo.revision_id > s.version)
-						createTiddlyElement(s.statusElement,"div",null,null,"Updating '" + s.title + "' even though server version " + pageInfo.revision_id + " is newer than " + s.version + " for " + url);
+					s.serverVersion = pageInfo.revision_id;
+					if(s.serverVersion > s.version)
+						createTiddlyText(s.statusElement,"Changed on server");
 					else
-						createTiddlyElement(s.statusElement,"div",null,null,"Updating '" + s.title + "' over unchanged server version " + pageInfo.revision_id + " same as " + s.version + " for " + url);
+						createTiddlyText(s.statusElement,"Unchanged on server");
 					}
 				else
-					createTiddlyElement(s.statusElement,"div",null,null,"Couldn't find existing '" + s.title + "'; creating at " + url);
-				doHttp("PUT",
-					url,
-					s.tiddler.text,
-					null,null,
-					config.macros.socialtextSync.donePut,
-					s);
+					createTiddlyText(s.statusElement,"Does not exist on server");
 				}
 			else
-				createTiddlyElement(s.statusElement,"div",null,null,"Failed: " + xhr.statusText + " (" + xhr.status + ")");
+				createTiddlyError(s.statusElement,"Failed »",xhr.statusText + " (" + xhr.status + ")");
 			}
 		}
 }
 
+config.macros.socialtextSync.doPutPages = function(selNames)
+{
+	var syncCount = 0;
+	// Save each syncable tiddler belonging to this server/workspace combo
+	for(var t=0; t<selNames.length; t++)
+		{
+		var f = sync.syncList.findByField("title",selNames[t]);
+		var s = f == null ? null : sync.syncList[f];
+		if(s)
+			{
+			syncCount++;
+			removeChildren(s.statusElement);
+			var url = config.macros.socialtextSync.urlPutPage.format([s.server,s.workspace,s.page]);
+			createTiddlyText(s.statusElement,"Saving...");
+			var r = doHttp("PUT",
+				url,
+				s.tiddler.text,
+				null,null,
+				config.macros.socialtextSync.donePut,
+				s);
+			if(typeof r == "string")
+				{
+				removeChildren(s.statusElement);
+				createTiddlyError(s.statusElement,"Error »",r);
+				}
+			}
+		}
+	if(syncCount == 0)
+		alert("No tiddlers are selected");
+}
+
 config.macros.socialtextSync.donePut = function(status,params,responseText,url,xhr)
 {
-	//removeChildren(params.statusElement);
+	removeChildren(params.statusElement);
 	if(status)
 		createTiddlyText(params.statusElement,"Done");
 	else
-		createTiddlyText(params.statusElement,"Failed: " + xhr.statusText + " (" + xhr.status + ")");
+		createTiddlyError(params.statusElement,"Failed »",xhr.statusText + " (" + xhr.status + ")");
 }
 
 // HTTP status codes
@@ -245,7 +266,7 @@ function doHttp(type,url,data,username,password,callback,params,accept)
 			}
 		catch (e)
 			{
-			return null;
+			return "Can't create XMLHttpRequest object";
 			}
 		}
 	// Install callback
@@ -279,8 +300,7 @@ function doHttp(type,url,data,username,password,callback,params,accept)
 		}
 	catch (e)
 		{
-		alert("Error while sending " + url + ":" + e);
-		return null;
+		return exceptionText(e);
 		}
 	return x;
 }
