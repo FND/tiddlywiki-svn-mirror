@@ -3,6 +3,9 @@ prehead: ../../core/html/rss.link.html
 title: html/title.html
 tiddler: tiddlers/PageTemplate.tiddler
 tiddler: tiddlers/SideBarOptions.tiddler
+tiddler: tiddlers/SiteSubtitle.tiddler
+tiddler: tiddlers/SiteTitle.tiddler
+tiddler: tiddlers/SiteUrl.tiddler
 tiddler: tiddlers/StyleSheet.tiddler
 tiddler: tiddlers/StyleSheetColors.tiddler
 tiddler: tiddlers/StyleSheetLayout.tiddler
