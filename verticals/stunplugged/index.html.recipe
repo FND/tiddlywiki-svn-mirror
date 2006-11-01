@@ -10,7 +10,6 @@ tiddler: tiddlers/StyleSheet.tiddler
 tiddler: tiddlers/StyleSheetColors.tiddler
 tiddler: tiddlers/StyleSheetLayout.tiddler
 tiddler: tiddlers/Sync.tiddler
-tiddler: ../../contributors/MartinBudden/plugins/BaseFormatterPlugin.js
 tiddler: ../../contributors/MartinBudden/plugins/DisableWikiLinksPlugin.js
 postjs: plugins/SocialtextSyncPlugin.js
 postjs: ../../contributors/MartinBudden/plugins/SocialtextFormatterPlugin.js
