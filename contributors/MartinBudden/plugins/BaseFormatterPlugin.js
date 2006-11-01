@@ -3,9 +3,9 @@
 |''Description:''|Allows Tiddlers to use Base text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#BaseFormatterPlugin|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.6|
+|''Version:''|0.1.7|
 |''Status:''|alpha pre-release|
-|''Date:''|Sep 23, 2006|
+|''Date:''|Oct 29, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -41,12 +41,11 @@ baseDebug = function(out,str)
 
 wikify = function(source,output,highlightRegExp,tiddler)
 {
-	if(source && source != "")
-		{
+	if(source && source != "") {
 		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
 		w.output = tiddler==null ? output : createTiddlyElement(output,"p");
 		w.subWikifyUnterm(w.output);
-		}
+	}
 //at point of usage can use:
 //var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
 };
@@ -55,30 +54,23 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 {
 	var re = /\s*(.*?)=(?:(?:"(.*?)")|(?:'(.*?)')|((?:\w|%|#)*))/mg;
 	var match = re.exec(p);
-	while(match)
-		{
+	while(match) {
 		var s = match[1].unDash();
-		if(s=="bgcolor")
-			{
+		if(s=="bgcolor") {
 			s = "backgroundColor";
-			}
+		}
 		try {
-		if(match[2])
-			{
-			e.setAttribute(s,match[2]);
-			}
-		else if(match[3])
-			{
-			e.setAttribute(s,match[3]);
-			}
-		else
-			{
-			e.setAttribute(s,match[4]);
+			if(match[2]) {
+				e.setAttribute(s,match[2]);
+			} else if(match[3]) {
+				e.setAttribute(s,match[3]);
+			} else {
+				e.setAttribute(s,match[4]);
 			}
 		}
 		catch(ex) {}
 		match = re.exec(p);
-		}
+	}
 };
 
 config.baseFormatters = [
@@ -88,7 +80,7 @@ config.baseFormatters = [
 	termRegExp: /(={1,6}$\n)/mg,
 	handler: function(w)
 	{
-		var output = w.output.parentNode;
+		var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
 		w.subWikifyTerm(createTiddlyElement(output,"h"+w.matchLength),this.termRegExp);
 		w.output = createTiddlyElement(output,"p");
 	}
@@ -99,7 +91,7 @@ config.baseFormatters = [
 	match: "^---+$\\n?",
 	handler: function(w)
 	{
-		var output = w.output.parentNode;
+		var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
 		createTiddlyElement(output,"hr");
 		w.output = createTiddlyElement(output,"p");
 	}
@@ -113,11 +105,10 @@ config.baseFormatters = [
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[1])
-			{
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[1]) {
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			invokeMacro(w.output,lookaheadMatch[1],lookaheadMatch[2],w,w.tiddler);
-			}
+		}
 	}
 },
 
@@ -129,14 +120,13 @@ config.baseFormatters = [
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			{
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var link = lookaheadMatch[1];
 			var text = lookaheadMatch[2] ? lookaheadMatch[2] : link;
 			var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
-			}
+		}
 	}
 },
 
@@ -154,22 +144,19 @@ config.baseFormatters = [
 	match: config.textPrimitives.wikiLink,
 	handler: function(w)
 	{
-		if(w.matchStart > 0)
-			{
+		if(w.matchStart > 0) {
 			var preRegExp = new RegExp(config.textPrimitives.anyLetter,"mg");
 			preRegExp.lastIndex = w.matchStart-1;
 			var preMatch = preRegExp.exec(w.source);
-			if(preMatch.index == w.matchStart-1)
-				{
+			if(preMatch.index == w.matchStart-1) {
 				w.outputText(w.output,w.matchStart,w.nextMatch);
 				return;
-				}
 			}
+		}
 		var output = w.output;
-		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText))
-			{
+		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText)) {
 			output = createTiddlyLink(w.output,w.matchText,false,null,w.isStatic);
-			}
+		}
 		w.outputText(output,w.matchStart,w.nextMatch);
 	}
 },
@@ -274,9 +261,9 @@ config.baseFormatters = [
 	name: "baseHtmlEntitiesEncoding",
 	match: "&#?[a-zA-Z0-9]{2,8};",
 	handler: function(w)
-		{
+	{
 		createTiddlyElement(w.output,"span").innerHTML = w.matchText;
-		}
+	}
 },
 
 {
@@ -290,19 +277,15 @@ config.baseFormatters = [
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
 			{
 			var e =createTiddlyElement(w.output,lookaheadMatch[1]);
-			if(lookaheadMatch[2])
-				{
+			if(lookaheadMatch[2]) {
 				config.formatterHelpers.setAttributesFromParams(e,lookaheadMatch[2]);
-				}
-			if(lookaheadMatch[3])
-				{
-				w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
-				}
-			else
-				{
-				w.subWikify(e,"</"+lookaheadMatch[1]+">");
-				}
 			}
+			if(lookaheadMatch[3]) {
+				w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
+			} else {
+				w.subWikify(e,"</"+lookaheadMatch[1]+">");
+			}
+		}
 	}
 }
 ];
