@@ -5,7 +5,7 @@ http://www.eu.socialtext.net/static/2.0.0.1/css/st/screen.css
 
 /*{{{*/
 body {
-	font-family: Verdana, Arial, sans-serif;
+	font-family: Arial, sans-serif;
 	color: #000;
 	background: #eee;
 	margin: 0;
