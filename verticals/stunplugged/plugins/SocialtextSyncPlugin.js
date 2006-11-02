@@ -51,7 +51,7 @@ config.macros.socialtextSync = {
 
 // Sync state data
 sync = {
-	syncList: [], // List of sync objects (title, tiddler, server, workspace, page, version, fingerprint)
+	syncList: [], // List of sync objects (title, tiddler, server, workspace, page, version)
 	listView: null // DOM element of the listView table
 };
 
@@ -210,7 +210,7 @@ config.macros.socialtextSync.doPutPages = function(selNames)
 			}
 		}
 	if(syncCount == 0)
-		alert("No tiddlers are selected");
+		alert("No tiddlers were synced");
 }
 
 config.macros.socialtextSync.donePut = function(status,params,responseText,url,xhr)
