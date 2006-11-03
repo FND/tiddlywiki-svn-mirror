@@ -17,6 +17,7 @@ tiddler: CloseTiddlerCommand.tiddler
 tiddler: Community.tiddler
 tiddler: Configuration.tiddler
 tiddler: Configuration.SideBarTabs.tiddler
+tiddler: Contribute.tiddler
 tiddler: Croatian.tiddler
 tiddler: CustomCssClass.tiddler
 tiddler: CustomMarkup.tiddler
@@ -89,7 +90,6 @@ tiddler: NestedStyleSheets.tiddler
 tiddler: NestedTemplates.tiddler
 tiddler: NewJournalMacro.tiddler
 tiddler: NewTiddlerMacro.tiddler
-tiddler: NewVersion.tiddler
 tiddler: NonWikiWordLinks.tiddler
 tiddler: NumberedBulletPoints.tiddler
 tiddler: OpenSourceLicense.tiddler
@@ -99,6 +99,7 @@ tiddler: ParameterParser.tiddler
 tiddler: PeriodicTable.tiddler
 tiddler: PermaView.tiddler
 tiddler: PermalinkCommand.tiddler
+tiddler: PlainText.tiddler
 tiddler: PluginDirectory.tiddler
 tiddler: PluginFormat.tiddler
 tiddler: PluginFormatting.tiddler
