@@ -677,11 +677,11 @@ body {
 }
 
 #st-page-editing-wysiwyg {
-  background: #ffd;
-  border-style: solid;
-  border-color: #888 #ccc #ccc #888;
-  border-width: 2px;
-  width: 100%;
+	background: #ffd;
+	border-style: solid;
+	border-color: #888 #ccc #ccc #888;
+	border-width: 2px;
+	width: 100%;
 }
 
 #st-page-editing-toolbar {
@@ -693,12 +693,12 @@ body {
 
 #wikiwyg_wikitext_textarea {
 	margin-top: 4px;
-  background: #ffd;
-  border-style: solid;
-  border-color: #888 #ccc #ccc #888;
-  border-width: 2px;
-  width: 100%;
-  font-family: monospace;
+	background: #ffd;
+	border-style: solid;
+	border-color: #888 #ccc #ccc #888;
+	border-width: 2px;
+	width: 100%;
+	font-family: monospace;
 }
 
 #st-page-maincontent {
@@ -717,18 +717,18 @@ body {
 
 #st-mode-wysiwyg-button
 {
-  font-size: 70%;
-  margin-left: 4em;
+	font-size: 70%;
+	margin-left: 4em;
 }
 
 #st-mode-wikitext-button
 {
-  font-size: 70%;
+	font-size: 70%;
 }
 
 #st-edit-tips
 {
-  font-size: 70%;
+	font-size: 70%;
 }
 
 .wikiwyg_button {
@@ -1379,53 +1379,53 @@ tr.w-st-even-row, tr.w-st-even-row td {
 }
 
 .query-results-content {
-  font-size: 85%;
-  border-collapse: collapse;
-  border: 1px dashed #ddd;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
+	font-size: 85%;
+	border-collapse: collapse;
+	border: 1px dashed #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
 }
 
 .query-results-row {
-  border-collapse: collapse;
-  border: 1px dashed #ddd;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
+	border-collapse: collapse;
+	border: 1px dashed #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
 }
 
 .query-results-row a {
-  text-decoration: underline;
-  color: #00f;
+	text-decoration: underline;
+	color: #00f;
 }
 
 .query-results-row td {
-  font-family: Verdana;
-  padding: 0.3em;
-  border-left: 1px dashed #ddd;
-  border-right: 1px dashed #ddd;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
+	font-family: Verdana;
+	padding: 0.3em;
+	border-left: 1px dashed #ddd;
+	border-right: 1px dashed #ddd;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 }
 
 .query-results-header-row {
-  border-collapse: collapse;
-  border: 1px dashed #ddd;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
+	border-collapse: collapse;
+	border: 1px dashed #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
 }
 
 .query-results-header-row a {
-  text-decoration: underline;
-  color: #00f;
+	text-decoration: underline;
+	color: #00f;
 }
 
 .query-results-header-row th {
-  font-family: Helvetica;
-  padding: 0.3em;
-  border-left: 1px dashed #ddd;
-  border-right: 1px dashed #ddd;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
+	font-family: Helvetica;
+	padding: 0.3em;
+	border-left: 1px dashed #ddd;
+	border-right: 1px dashed #ddd;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 }
 
 div.st-actionbutton {
@@ -1524,23 +1524,23 @@ div#deleteme-st-actions-bar {
 
 #st-pagetools-print {
 	background: url("../../images/st/pagetools/print.gif")
-	  left center no-repeat;
+	left center no-repeat;
 }
 
 #st-pagetools-email {
 	background: url("../../images/st/pagetools/email.gif")
-	  left center no-repeat;
+	left center no-repeat;
 }
 
 #st-pagetools-tools {
 	background: url("../../images/st/pagetools/tools.gif")
-	  left center no-repeat;
+	left center no-repeat;
 }
 
 /*
  #st-pagetools-watch {
 	background: url("../../images/st/pagetools/watch-blue.gif")
-	  left center no-repeat;
+	left center no-repeat;
 }
 */
 
@@ -1613,7 +1613,7 @@ div#deleteme-st-actions-bar {
 	padding: 0.5em 0.5em 0.5em 2em;
 	background-color: #eee;
 	/* This seems necessary to fix an IE bug that sometimes
-	   causes the text in this div to be invisible */
+		causes the text in this div to be invisible */
 	z-index: 1000;
 }
 
@@ -1693,47 +1693,47 @@ div#deleteme-st-actions-bar {
 	color: #551a8b;
 }
 #st-listview-tabs ul {
-  display: block;
-  list-style: none outside;
-  margin: 0 0 0 4em;
-  padding: 0;
-  font-family: Helvetica, Arial, Sans-serif;
-  font-size: 80%;
+	display: block;
+	list-style: none outside;
+	margin: 0 0 0 4em;
+	padding: 0;
+	font-family: Helvetica, Arial, Sans-serif;
+	font-size: 80%;
 }
 
 #st-listview-tabs li {
-  display: block;
-  float: left;
-  margin: 0 0.8em 0 0;
-  padding: 3px 0.6em 0 0.6em;
-  border: 1px solid #d8d8d8;
-  border-bottom: 1px solid rgb(128, 169, 243);
-  background-color: #f4f4f4;
-  position: relative;
-  bottom: -2px;
+	display: block;
+	float: left;
+	margin: 0 0.8em 0 0;
+	padding: 3px 0.6em 0 0.6em;
+	border: 1px solid #d8d8d8;
+	border-bottom: 1px solid rgb(128, 169, 243);
+	background-color: #f4f4f4;
+	position: relative;
+	bottom: -2px;
 }
 
 #st-listview-tabs li.spacer {
-  margin: 0 0.8em 0 2em;
+	margin: 0 0.8em 0 2em;
 }
 
 #st-listview-tabs a {
-  color: #bbb;
-  text-decoration: none;
+	color: #bbb;
+	text-decoration: none;
 }
 
 #st-listview-tabs li.selected {
-  background-color: #fff !important;
-  border: 1px solid rgb(128, 169, 243) !important;
-  border-bottom: 1px solid #fff !important;
-  font-weight: bold !important;
+	background-color: #fff !important;
+	border: 1px solid rgb(128, 169, 243) !important;
+	border-bottom: 1px solid #fff !important;
+	font-weight: bold !important;
 }
 
 #st-listview-tabs li.selected a {
-  color: #000 !important;
+	color: #000 !important;
 }
 
-/*  Category List Display */
+/* Category List Display */
 
 #st-category-display-links {
 	margin-bottom: 1em;
@@ -1752,7 +1752,7 @@ div#deleteme-st-actions-bar {
 }
 
 
-/* **********   PageTools Menu   ************** */
+/* ********** PageTools Menu ************** */
 
 div#st-editing-tools {
 	float: left;
@@ -1872,8 +1872,8 @@ Change these styles to update the page revision list.
 */
 
 #st-revision-list-table {
-  border-collapse: collapse;
-  font-size: 85%;
+	border-collapse: collapse;
+	font-size: 85%;
 	color: #000;
 }
 
@@ -1889,7 +1889,7 @@ Change these styles to update the page revision list.
 }
 
 .st-revision-list-compare-button-cell {
-  padding-top: 0.3em;
+	padding-top: 0.3em;
 	text-align: center;
 }
 
@@ -1920,19 +1920,19 @@ Change these styles to update the page revision list.
 }
 
 .st-revision-list-row {
-  border-collapse: collapse;
-  border: 1px dashed #ddd;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
+	border-collapse: collapse;
+	border: 1px dashed #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
 }
 
 .st-revision-list-row td {
-  font-family: Verdana;
-  padding: 0.3em;
-  border-left: 1px dashed #ddd;
-  border-right: 1px dashed #ddd;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
+	font-family: Verdana;
+	padding: 0.3em;
+	border-left: 1px dashed #ddd;
+	border-right: 1px dashed #ddd;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 }
 
 .st-revision-list-row-select {
@@ -2513,8 +2513,8 @@ menu on the page bar.
 
 
 .email-page-select {
-   width: 175px;
-   font-size: x-small;
+	width: 175px;
+	font-size: x-small;
 }
 
 #email-page-error-message {
