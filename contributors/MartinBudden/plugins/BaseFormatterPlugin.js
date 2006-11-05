@@ -3,9 +3,9 @@
 |''Description:''|Allows Tiddlers to use Base text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#BaseFormatterPlugin|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.7|
+|''Version:''|0.1.8|
 |''Status:''|alpha pre-release|
-|''Date:''|Oct 29, 2006|
+|''Date:''|Nov 5, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -41,9 +41,9 @@ baseDebug = function(out,str)
 
 wikify = function(source,output,highlightRegExp,tiddler)
 {
-	if(source && source != "") {
+	if(source && source !== "") {
 		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
-		w.output = tiddler==null ? output : createTiddlyElement(output,"p");
+		w.output = tiddler ? createTiddlyElement(output,"p") : output;
 		w.subWikifyUnterm(w.output);
 	}
 //at point of usage can use:
@@ -86,6 +86,65 @@ config.baseFormatters = [
 	}
 },
 
+{
+	name: "baseList",
+	match: "^[\\*#;:]+ ",
+	lookaheadRegExp: /^([\*#;:])+ /mg,
+	termRegExp: /(\n)/mg,
+	handler: function(w)
+	{
+		var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
+		var stack = [output];
+		var currLevel = 0, currType = null;
+		var listType, itemType;
+		w.nextMatch = w.matchStart;
+		this.lookaheadRegExp.lastIndex = w.nextMatch;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
+			switch(lookaheadMatch[1]) {
+			case "*":
+				listType = "ul";
+				itemType = "li";
+				break;
+			case "#":
+				listType = "ol";
+				itemType = "li";
+				break;
+			case ";":
+				listType = "dl";
+				itemType = "dt";
+				break;
+			case ":":
+				listType = "dl";
+				itemType = "dd";
+				break;
+			default:
+				break;
+			}
+			var listLevel = lookaheadMatch[0].length;
+			w.nextMatch += listLevel;
+			if(listLevel > currLevel) {
+				for(var i=currLevel; i<listLevel; i++) {
+					stack.push(createTiddlyElement(stack[stack.length-1],listType));
+				}
+			} else if(listLevel < currLevel) {
+				for(i=currLevel; i>listLevel; i--) {
+					stack.pop();
+				}
+			} else if(listLevel == currLevel && listType != currType) {
+				stack.pop();
+				stack.push(createTiddlyElement(stack[stack.length-1],listType));
+			}
+			currLevel = listLevel;
+			currType = listType;
+			var e = createTiddlyElement(stack[stack.length-1],itemType);
+			w.subWikifyTerm(e,this.termRegExp);
+			this.lookaheadRegExp.lastIndex = w.nextMatch;
+			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		}
+		w.output = createTiddlyElement(output,"p");
+	}
+},
 {
 	name: "baseRule",
 	match: "^---+$\\n?",
@@ -244,6 +303,7 @@ config.baseFormatters = [
 	}
 },
 
+//# note . is anything except \n, so (?:.|\n) matches anything. I think [] is equivalent.
 {
 	name: "baseComment",
 	match: "<!\\-\\-",
@@ -252,8 +312,9 @@ config.baseFormatters = [
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			{w.nextMatch = this.lookaheadRegExp.lastIndex;}
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+		}
 	}
 },
 
@@ -268,14 +329,13 @@ config.baseFormatters = [
 
 {
 	name: "baseHtmlTag",
-	match: "<[a-zA-Z]{2,}(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?>",
-	lookaheadRegExp: /<([a-zA-Z]{2,})((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*(\/)?>/mg,
+	match: "<(?:[a-zA-Z]{2,}|a)(?:\\s*(?:[a-z]*?=[\"']?[^>]*?[\"']?))*?>",
+	lookaheadRegExp: /<([a-zA-Z]+)((?:\s+[a-z]*?=["']?[^>\/\"\']*?["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			{
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var e =createTiddlyElement(w.output,lookaheadMatch[1]);
 			if(lookaheadMatch[2]) {
 				config.formatterHelpers.setAttributesFromParams(e,lookaheadMatch[2]);
