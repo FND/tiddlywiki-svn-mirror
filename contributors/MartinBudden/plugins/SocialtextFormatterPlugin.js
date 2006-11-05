@@ -1,59 +1,21 @@
 /***
 |''Name:''|SocialtextFormatterPlugin|
-|''Description:''|Pre-release - Allows Tiddlers to use [[Socialtext|http://www.socialtext.com/]] text formatting|
+|''Description:''|Allows Tiddlers to use [[Socialtext|http://www.socialtext.com/]] text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#SocialtextFormatterPlugin|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.10|
-|''Status:''|alpha pre-release|
-|''Date:''|Oct 28, 2006|
+|''Version:''|0.9.1|
+|''Date:''|Nov 4, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
-This is an early release of the SocialtextFormatterPlugin, which allows you to insert Socialtext formated text into a TiddlyWiki.
+This is the SocialtextFormatterPlugin, which allows you to insert Socialtext formated text into a TiddlyWiki.
 
-The aim is not to fully emulate Socialtext, but to allow you to create Socialtext content off-line and then paste the content into your Socialtext wiki later on, with the expectation that only minor edits will be required.
+The aim is not to fully emulate Socialtext, but to allow you to work with Socialtext content off-line and then resynch the content with your Socialtext wiki later on, with the expectation that only minor edits will be required.
 
-To use Socialtext format in a Tiddler, tag the Tiddler with SocialtextFormat. See [[testSocialtextFormat]] for an example.
+To use Socialtext format in a Tiddler, tag the Tiddler with SocialtextFormat.
 
-This is an early alpha release and may contain defects.
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
-
-See also:
-http://www.eu.socialtext.net/exchange/index.cgi?new%20formatter%20features#
-
-This is an early alpha release, with (at least) the following known issues:
-
-!!!Issues
-# attached images not fully supported
-# indented text not supported
-# various other formats not supported
-
-!!!Todos
-# {date: } wafl - support better date formatting
-# {category_list: Welcome}
-# {category_list: <wikiwed> Help}
-# {category_list_full: Welcome}
-# {fetchrss: http://feeds.feedburner.com/ross}
-# {fetchatom: http://feeds.feedburner.com/ross}
-# {googlesoap: socialtext}
-# {include: [Socialtext WAFL syntax]}
-# {include: exchange [Socialtext Customer Exchange]}
-# {recent_changes}
-# {recent_changes: exchange}
-# {recent_changes_full}
-# {recent_changes_full: wikiwed}
-# {search: title:search}
-# {search: <exchange> title:comments}
-# {search_full: title:Socialtext WAFL syntax}
-# {search_full: <exchange> title:FAQ}
-# {technorati: www.socialtext.com}
-# {toc: [Socialtext WAFL syntax]}
-# {toc: exchange [Socialtext Customer Exchange]}
-# {weblog_list: wips blog}
-# {weblog_list: <wikiwed> Socialtext Weblog}
-# {weblog_list_full: wips blog}
-# {weblog_list_full: <help> Welcome}
 
 ***/
 
@@ -70,27 +32,18 @@ wikify = function(source,output,highlightRegExp,tiddler)
 {
 	if(source && source != "") {
 		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
-		w.linkCount = 0;
-		w.tableDepth = 0;
 		var out = output;
 		if(tiddler && tiddler.isTagged("SocialtextFormat")) {
-//function createTiddlyElement(theParent,theElement,theID,theClass,theText)
-//<div id="content-display-body" class="content-section-visible">
-//<div id='wikipage'><div class="wiki">
 			var d1 = createTiddlyElement(output,"div","content-display-body","content-section-visible");
 			var d2 = createTiddlyElement(d1,"div","wikipage");
 			out = createTiddlyElement(d2,"div",null,"wiki");
 		}
-		w.output = tiddler==null ? out : createTiddlyElement(out,"p");
-
 		var time1,time0 = new Date();
-		w.subWikifyUnterm(w.output);
-		if(config.options.chkDisplayInstrumentation) {
+		w.subWikifyUnterm(out);
+		if(tiddler&& config.options.chkDisplayInstrumentation) {
 			time1 = new Date();
 			var t = tiddler ? tiddler.title : source.substr(0,10);
-			if(tiddler!=null) {
-				displayMessage("Wikify '"+t+"' in " + (time1-time0) + " ms");
-			}
+			displayMessage("Wikify '"+t+"' in " + (time1-time0) + " ms");
 		}
 	}
 };
@@ -101,6 +54,143 @@ stDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
 	createTiddlyElement(out,"br");
+};
+
+socialtextFormatter.wafl = function(w)
+{
+	this.lookaheadRegExp.lastIndex = w.matchStart;
+	var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+	if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+		var lm2 = lookaheadMatch[2];
+		switch(lookaheadMatch[1]) {
+		case "image":
+			var img = createTiddlyElement(w.output,"img");
+			img.src = w.tiddler.title + "/" + lm2;
+			createTiddlyText(img,lm2);
+			break;
+		case "file":
+			var s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			var a = createTiddlyElement(s,"a");
+			a.href = w.tiddler.title + "/" + lm2;
+			createTiddlyText(a,lm2);
+			break;
+		case "link":
+//Test: link to header: <span class="nlw_phrase"><a title="section link" href="#googlesoap">googlesoap</a><!-- wiki: {link: googlesoap} --></span></p>
+			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			a = createTiddlyElement(s,"a");
+			var t = w.tiddler ? w.tiddler.title + ":" : "";
+			a.setAttribute("href","#" + t + lm2);
+			a.title = "section link";
+			createTiddlyText(a,lm2);
+			break;
+		case "weblog":
+			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			var text = lm2;
+			var link = "Weblog: " + lm2;
+			createTiddlyText(createTiddlyLink(s,link,false,null,w.isStatic),text);
+			break;
+		case "section":
+			a = createTiddlyElement(w.output,"a");// drop anchor
+			t = w.tiddler ? w.tiddler.title + ":" : "";
+			a.setAttribute("name",t + lm2);
+			break;
+		case "date":
+			createTiddlyText(w.output,lm2);
+			break;
+		case "user":
+			var oldSource = w.source;
+			w.source = lm2;
+			w.nextMatch = 0;
+			w.subWikifyUnterm(w.output);
+			w.source = oldSource;
+			break;
+// Shortcut expansions - not strictly syntax
+		case "google":
+//# google: http://www.google.com/search?q=%s
+			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			a = createExternalLink(s,"http://www.google.com/search?q="+lm2);
+			createTiddlyText(a,lm2);
+			break;
+		case "fedex":
+//# fedex: http://www.fedex.com/Tracking?tracknumbers=%s
+			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			a = createExternalLink(s,"http://www.fedex.com/Tracking?tracknumbers="+lm2);
+			createTiddlyText(a,lm2);
+			break;
+		case "map":
+//# map: http://maps.google.com/maps?q=%s
+			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			a = createExternalLink(s,"http://maps.google.com/maps?q="+lm2);
+			createTiddlyText(a,lm2);
+			break;
+		case "wikipedia":
+//# wikipedia: http://en.wikipedia.org/wiki/%s
+			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			a = createExternalLink(s,"http://en.wikipedia.org/wiki/"+lm2);
+			createTiddlyText(a,lm2);
+			break;
+		case "rt":
+//# rt: http://rt.socialtext.net/Ticket/Display.html?id=%s
+			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			a = createExternalLink(s,"http://rt.socialtext.net/Ticket/Display.html?id="+lm2);
+			createTiddlyText(a,lm2);
+			break;
+		case "stcal":
+//# stcal: https://calendar.socialtext.net:445/view_t.php?timeb=1&id=3&date=%s
+			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			a = createExternalLink(s,"https://calendar.socialtext.net:445/view_t.php?timeb=1&id=3&date="+lm2);
+			createTiddlyText(a,lm2);
+			break;
+		case "svn":
+//# svn: https://repo.socialtext.net/listing.php?rev=%s&sc=1
+			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+			a = createExternalLink(s,"https://repo.socialtext.net/listing.php?rev="+lm2+"sc=1");
+			createTiddlyText(a,lm2);
+			break;
+		default:
+			w.outputText(w.output,w.matchStart,w.nextMatch);
+			return;
+		}
+		w.nextMatch = this.lookaheadRegExp.lastIndex;
+	} else {
+		w.outputText(w.output,w.matchStart,w.nextMatch);
+	}
+};
+
+socialtextFormatter.presence = function(w)
+{
+	this.lookaheadRegExp.lastIndex = w.matchStart;
+	var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+	if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+		var p = lookaheadMatch[1];
+		var text = lookaheadMatch[2];
+		var link;
+		var src;
+		if(p=="aim") {
+			link = "aim:goim?screenname=" + text + "&message=hello";
+			src = "http://big.oscar.aol.com/sleepleft?on_url=http://www.aim.com/remote/gr/MNB_online.gif&amp;off_url=http://www.aim.com/remote/gr/MNB_offline.gif";
+		} else if(p=="yahoo"||p=="ymsgr") {
+			link = "ymsgr:sendIM?"+text;
+			src = "http://opi.yahoo.com/online?u=chrislondonbridge&f=.gif";
+		} else if(p=="skype"||p=="callto") {
+			link = "callto:"+text;
+			src = "http://goodies.skype.com/graphics/skypeme_btn_small_green.gif";
+		} else if(p=="asap") {
+			link = "http://asap2.convoq.com/AsapLinks/Meet.aspx?l="+text;
+			src = "http://asap2.convoq.com/AsapLinks/Presence.aspx?l="+text;
+		}
+		var s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+		var a = createExternalLink(s,link);
+		var img = createTiddlyElement(a,"img");
+		createTiddlyText(a,text);
+		img.src = src;
+		img.border="0";
+		img.alt = "(" + lookaheadMatch[1] + ")";
+		if(p=="aim") {
+			img.width="11"; img.height="13";
+		}
+		w.nextMatch = this.lookaheadRegExp.lastIndex;
+	}
 };
 
 config.formatterHelpers.singleCharFormat = function(w)
@@ -121,15 +211,13 @@ config.socialTextFormatters = [
 	termRegExp: /(\n+)/mg,
 	handler: function(w)
 	{
-		var output = (w.output.nodeType==1 && w.output.nodeName=="P") ? w.output.parentNode : w.output;
 		var len = w.matchText.trim().length;
-		var e = createTiddlyElement(output,"h" + len);
+		var e = createTiddlyElement(w.output,"h" + len);
 		var a = createTiddlyElement(e,"a");// drop anchor
 		var t = w.tiddler ? w.tiddler.title + ":" : "";
 		len = w.source.substr(w.nextMatch).indexOf("\n");
 		a.setAttribute("name",t+w.source.substr(w.nextMatch,len));
 		w.subWikifyTerm(e,this.termRegExp);
-		w.output = createTiddlyElement(output,"p");
 	}
 },
 
@@ -141,7 +229,6 @@ config.socialTextFormatters = [
 	cellTermRegExp: /((?:\x20*)\|)/mg,
 	handler: function(w)
 	{
-//	w.debug = w.output;
 		var table = createTiddlyElement(w.output,"table");
 		var rowContainer = createTiddlyElement(table,"tbody");
 		var prevColumns = [];
@@ -163,8 +250,6 @@ config.socialTextFormatters = [
 		this.cellRegExp.lastIndex = w.nextMatch;
 		var cellMatch = this.cellRegExp.exec(w.source);
 		while(cellMatch && cellMatch.index == w.nextMatch) {
-//stDebug(w.debug,"ws:"+w.source.substr(w.nextMatch,50));
-//stDebug(w.debug,"mt:"+w.matchText);
 			w.nextMatch++;
 			var cell = createTiddlyElement(e,"td");
 			w.subWikifyTerm(cell,this.cellTermRegExp);
@@ -189,17 +274,15 @@ config.socialTextFormatters = [
 	termRegExp: /(\n+)/mg,
 	handler: function(w)
 	{
-		var output = (w.output.nodeType==1 && w.output.nodeName=="P") ? w.output.parentNode : w.output;
-		var stack = [output];
+		var stack = [w.output];
 		var currLevel = 0, currType = null;
-		var listLevel, listType;
 		var itemType = "li";
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
-			listType = lookaheadMatch[1] == "*" ? "ul" : "ol";
-			listLevel = lookaheadMatch[0].length;
+			var listType = lookaheadMatch[1] == "*" ? "ul" : "ol";
+			var listLevel = lookaheadMatch[0].length;
 			w.nextMatch += listLevel;
 			if(listLevel > currLevel) {
 				for(var i=currLevel; i<listLevel; i++) {
@@ -220,7 +303,6 @@ config.socialTextFormatters = [
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		}
-		w.output = createTiddlyElement(output,"p");
 	}
 },
 
@@ -265,9 +347,7 @@ config.socialTextFormatters = [
 	match: "^----+$\\n+",
 	handler: function(w)
 	{
-		var output = (w.output.nodeType==1 && w.output.nodeName=="P") ? w.output.parentNode : w.output;
-		createTiddlyElement(output,"hr");
-		w.output = createTiddlyElement(output,"p");
+		createTiddlyElement(w.output,"hr");
 	}
 },
 
@@ -344,26 +424,11 @@ config.socialTextFormatters = [
 				if(lookaheadMatch[1]) {
 					img.title = text;
 				}
+				img.alt = text;
 				img.src = link;
 			} else {
 				createTiddlyText(createExternalLink(w.output,link),text);
 			}
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-		}
-	}
-},
-
-{
-	name: "socialtextMailTo",
-	match: "[a-z]+\.[a-z\.]+@[a-z]+\.[a-z\.]+",
-	lookaheadRegExp: /([a-z]+\.[a-z\.]+@[a-z]+\.[a-z\.]+)/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var text = lookaheadMatch[1];
-			createTiddlyText(createExternalLink(w.output,"mailto:"+text),text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	}
@@ -381,8 +446,8 @@ config.socialTextFormatters = [
 {
 	name: "socialtextBold",
 	match: "\\*(?![\\s\\*])",
-	lookaheadRegExp: /\*(?!\s)(?:.*?)(?!\s)\*(?=[\s\._\-])/mg,
-	termRegExp: /((?!\s)\*(?=[\s\.\-_]))/mg,
+	lookaheadRegExp: /\*(?!\s)(?:.*?)(?!\s)\*(?=[$\s\._\-])/mg,
+	termRegExp: /((?!\s)\*(?=[$\s\.\-_]))/mg,
 	element: "strong",
 	handler: config.formatterHelpers.singleCharFormat
 },
@@ -390,8 +455,8 @@ config.socialTextFormatters = [
 {
 	name: "socialtextItalic",
 	match: "_(?![\\s_])",
-	lookaheadRegExp: /_(?!\s)(?:.*?)(?!\s)_(?=[\s\.\*\-])/mg,
-	termRegExp: /((?!\s)_(?=[\s\.\*\-]))/mg,
+	lookaheadRegExp: /_(?!\s)(?:.*?)(?!\s)_(?=[$\s\.\*\-])/mg,
+	termRegExp: /((?!\s)_(?=[$\s\.\*\-]))/mg,
 	element: "em",
 	handler: config.formatterHelpers.singleCharFormat
 },
@@ -399,8 +464,8 @@ config.socialTextFormatters = [
 {
 	name: "socialtextStrike",
 	match: "-(?![\\s\\-])",
-	lookaheadRegExp: /-(?!\s)(?:.*?)(?!\s)-(?=[\s\.\*_])/mg,
-	termRegExp: /((?!\s)-(?=[\s\.\*_]))/mg,
+	lookaheadRegExp: /-(?!\s)(?:.*?)(?!\s)-(?=[$\s\.\*_])/mg,
+	termRegExp: /((?!\s)-(?=[$\s\.\*_]))/mg,
 	element: "del",
 	handler: config.formatterHelpers.singleCharFormat
 },
@@ -408,8 +473,8 @@ config.socialTextFormatters = [
 {
 	name: "socialtextMonoSpaced",
 	match: "`(?![\\s`])",
-	lookaheadRegExp: /`(?!\s)(?:.*?)(?!\s)`(?=[\s\.\*\-_])/mg,
-	termRegExp: /((?!\s)`(?=[\s\.\*\-_]))/mg,
+	lookaheadRegExp: /`(?!\s)(?:.*?)(?!\s)`(?=[$\s\.\*\-_])/mg,
+	termRegExp: /((?!\s)`(?=[$\s\.\*\-_]))/mg,
 	element: "tt",
 	handler: config.formatterHelpers.singleCharFormat
 },
@@ -450,185 +515,30 @@ config.socialTextFormatters = [
 },
 
 {
-	name: "socialtextImage",
-	match: "\\{image: ?.*?\\}",
-	lookaheadRegExp: /\{image: ?(.*?)\}/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var img = createTiddlyElement(w.output,"img");
-			img.src = w.tiddler.title + "/" + lookaheadMatch[1];
-			createTiddlyText(img,lookaheadMatch[1]);
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-		}
-	}
-},
-
-{
-	name: "socialtextFile",
-	match: "\\{file: ?.*?\\}",
-	lookaheadRegExp: /\{file: ?(.*?)\}/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
-			var a = createTiddlyElement(s,"a");
-			a.href = w.tiddler.title + "/" + lookaheadMatch[1];
-			createTiddlyText(a,lookaheadMatch[1]);
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-		}
-	}
-},
-
-{
-	name: "socialtextLink",
-	match: "\\{link: ?.*?\\}",
-	lookaheadRegExp: /\{link: ?(.*?)\}/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-//Test: link to header: <span class="nlw_phrase"><a title="section link" href="#googlesoap">googlesoap</a><!-- wiki: {link: googlesoap} --></span></p>
-			var s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
-			var a = createTiddlyElement(s,"a");
-			var t = w.tiddler ? w.tiddler.title + ":" : "";
-			a.setAttribute("href","#" + t + lookaheadMatch[1]);
-			a.title = "section link";
-			createTiddlyText(a,lookaheadMatch[1]);
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-		}
-	}
-},
-
-{
-	name: "socialtextWeblog",
-	match: "\\{weblog: ?.*?\\}",
-	lookaheadRegExp: /\{weblog: ?(.*?)\}/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
-			//var a = createExternalLink(s,"/tiddlytext/index.cgi?action=weblog_display;category="+lookaheadMatch[1]);
-			//a.title = "weblog link";
-			var text = lookaheadMatch[1];
-			var link = "Weblog: " + lookaheadMatch[1];
-			createTiddlyText(createTiddlyLink(s,link,false,null,w.isStatic),text);
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-		}
-	}
-},
-
-{
-	name: "socialtextSection",
-	match: "\\{section: ?.*?\\}",
-	lookaheadRegExp: /\{section: ?(.*?)\}/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var a = createTiddlyElement(w.output,"a");// drop anchor
-			var t = w.tiddler ? w.tiddler.title + ":" : "";
-			a.setAttribute("name",t + lookaheadMatch[1]);
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-		}
-	}
-},
-
-{
-	name: "socialtextDate",
-	match: "\\{date: ?.*?\\}",
-	lookaheadRegExp: /\{date: ?(.*?)\}/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			createTiddlyText(w.output,lookaheadMatch[1]);
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-		}
-	}
-},
-
-{
-	name: "socialtextUser",
-	match: "\\{user: ?.*?\\}",
-	lookaheadRegExp: /\{user: ?(.*?)\}/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var oldSource = w.source;
-			w.source = lookaheadMatch[1];
-			w.nextMatch = 0;
-			w.subWikifyUnterm(w.output);
-			w.source = oldSource;
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-		}
-	}
-},
-
-{
-	name: "socialtextRt",
-	match: "\\{rt: ?\\d+\\}",
-	lookaheadRegExp: /\{rt: ?(\d*?)\}/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
-			var a = createExternalLink(s,"http://rt.socialtext.net/Ticket/Display.html?id="+lookaheadMatch[1]);
-			createTiddlyText(a,lookaheadMatch[1]);
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-		}
-	}
+	name: "socialtextWafl",
+	match: "\\{(?:[a-z]{2,16}): ?.*?\\}",
+	lookaheadRegExp: /\{([a-z]{2,16}): ?(.*?)\}/mg,
+	handler: socialtextFormatter.wafl
 },
 
 {
 	name: "socialtextPresence",
-	match: "(?:aim|yahoo|ymsgr|skype|callto|asap):[a-z]+",
-	lookaheadRegExp: /(aim|yahoo|ymsgr|skype|callto|asap):([a-z]+)/mg,
+	match: "(?:aim|yahoo|ymsgr|skype|callto|asap):\\w+",
+	lookaheadRegExp: /(aim|yahoo|ymsgr|skype|callto|asap):(\w+)/mg,
+	handler: socialtextFormatter.presence
+},
+
+{
+	name: "socialtextMailTo",
+	match: "[\\w\.]+@[\\w]+\.[\\w\.]+",
+	lookaheadRegExp: /([\w\.]+@[\w]+\.[\w\.]+)/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var p = lookaheadMatch[1];
-			var text = lookaheadMatch[2];
-			var link;
-			var src;
-			if(p=="aim") {
-				link = "aim:goim?screenname=" + text + "&message=hello";
-				src = "http://big.oscar.aol.com/sleepleft?on_url=http://www.aim.com/remote/gr/MNB_online.gif&amp;off_url=http://www.aim.com/remote/gr/MNB_offline.gif";
-			} else if(p=="yahoo"||p=="ymsgr") {
-				link = "ymsgr:sendIM?"+text;
-				src = "http://opi.yahoo.com/online?u=chrislondonbridge&f=.gif";
-			} else if(p=="skype"||p=="callto") {
-				link = "callto:"+text;
-				src = "http://goodies.skype.com/graphics/skypeme_btn_small_green.gif";
-			} else if(p=="asap") {
-				link = "http://asap2.convoq.com/AsapLinks/Meet.aspx?l="+text;
-				src = "http://asap2.convoq.com/AsapLinks/Presence.aspx?l="+text;
-			}
-			var s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
-			var a = createExternalLink(s,link);
-			var img = createTiddlyElement(a,"img");
-			createTiddlyText(a,text);
-			img.src = src;
-			img.border="0";
-			img.alt = "(" + lookaheadMatch[1] + ")";
-			if(p=="aim") {
-				img.width="11"; img.height="13";
-			}
+			var text = lookaheadMatch[1];
+			createTiddlyText(createExternalLink(w.output,"mailto:"+text),text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	}
@@ -642,7 +552,6 @@ config.socialTextFormatters = [
 		createTiddlyElement(w.output,"span").innerHTML = w.matchText;
 	}
 }
-
 ];
 
 config.parsers.socialTextFormatter = new Formatter(config.socialTextFormatters);
