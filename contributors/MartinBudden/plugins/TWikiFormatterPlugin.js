@@ -41,6 +41,8 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1))
 if(config.options.chkDisplayTWikiVariables == undefined)
 	{config.options.chkDisplayTWikiVariables = false;}
 
+TWikiFormatter = {}; // "namespace" for local functions
+
 twDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
@@ -60,7 +62,7 @@ config.textPrimitives.twikiLink = "(?:" +
 	config.textPrimitives.upperLetter + "+" + config.textPrimitives.lowerLetter + "+" +
 	config.textPrimitives.upperLetter + config.textPrimitives.anyLetter + "*)";
 
-config.formatterHelpers.setAttributesFromParams = function(e,p)
+TWikiFormatter.setAttributesFromParams = function(e,p)
 {
 	var re = /\s*(.*?)=(?:(?:"(.*?)")|(?:'(.*?)')|((?:\w|%|#)*))/mg;
 	var match = re.exec(p);
@@ -80,11 +82,11 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 		}
 		catch(ex) {}
 		match = re.exec(p);
-		}
+	}
 };
 
-//# single character adjacent to the wikitext, eg *bold*
 config.formatterHelpers.singleCharFormat = function(w)
+//# single character adjacent to the wikitext, eg *bold*
 {
 	this.lookaheadRegExp.lastIndex = w.matchStart;
 	var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
@@ -104,7 +106,7 @@ config.formatterHelpers.doubleCharFormat = function(w)
 //twDebug(w.output,"lm:"+lookaheadMatch);
 //twDebug(w.output,"lm0:"+lookaheadMatch[0]+" lm:"+lookaheadMatch[0].length);
 	if(lookaheadMatch && lookaheadMatch.index == w.matchStart &&
-	lookaheadMatch[0].substr(lookaheadMatch[0].length-3,1) != " ") {
+			lookaheadMatch[0].substr(lookaheadMatch[0].length-3,1) != " ") {
 		var e = createTiddlyElement(w.output,this.element);
 		w.subWikifyTerm(createTiddlyElement(e,this.element2),this.termRegExp);
 		w.nextMatch = this.lookaheadRegExp.lastIndex;
@@ -283,14 +285,14 @@ config.twikiFormatters = [
 		var stack = [w.output];
 		var currLevel = 0;
 		var currType = null;
-		var listLevel, listType, itemType;
+		var listLevel, listType;
+		var itemType = "li";
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
 //twDebug(w.output,"lm0:"+lookaheadMatch[0]);
 			listType = "ol";
-			itemType = "li";
 			listLevel = (lookaheadMatch[0].length-(lookaheadMatch[3]?3:2))/3;
 			var style = null;
 			if(lookaheadMatch[1]=="*") {
@@ -676,7 +678,7 @@ config.twikiFormatters = [
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var e =createTiddlyElement(w.output,lookaheadMatch[1]);
 			if(lookaheadMatch[2]) {
-				config.formatterHelpers.setAttributesFromParams(e,lookaheadMatch[2]);
+				TWikiFormatter.setAttributesFromParams(e,lookaheadMatch[2]);
 			}
 			if(lookaheadMatch[3]) {
 				w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
@@ -686,7 +688,6 @@ config.twikiFormatters = [
 		}
 	}
 }
-
 ];
 
 config.parsers.twikiFormatter = new Formatter(config.twikiFormatters);
