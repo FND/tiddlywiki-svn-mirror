@@ -1,19 +1,18 @@
 /***
 |''Name:''|TWikiFormatterPlugin|
-|''Description:''|Pre-release - Allows Tiddlers to use [[TWiki|http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules]] text formatting|
+|''Description:''|Allows Tiddlers to use [[TWiki|http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules]] text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#TWikiFormatterPlugin|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.12|
-|''Status:''|alpha pre-release|
-|''Date:''|Oct 28, 2006|
+|''Version:''|0.2.1|
+|''Status:''|beta release|
+|''Date:''|Nov 5, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|''~CoreVersion:''|2.1.0|
+|''~CoreVersion:''|2.1.3|
 
 |''Display unsupported TWiki variables''|<<option chkDisplayTWikiVariables>>|
 
-This is an early release of the TWikiFormatterPlugin, which allows you to insert TWiki formated text into
-a TiddlyWiki.
+This the TWikiFormatterPlugin, which allows you to insert TWiki formated text into a TiddlyWiki.
 
 The aim is not to fully emulate TWiki, but to allow you to create TWiki content off-line and then paste
 the content into your TWiki later on, with the expectation that only minor edits will be required.
@@ -22,7 +21,7 @@ To use TWiki format in a Tiddler, tag the Tiddler with TWikiFormat. See [[testTw
 
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
 
-This is an early alpha release, with (at least) the following known issues:
+This is a beta release, with (at least) the following known issues:
 # Table code is incomplete.
 ## Table headings not yet supported.
 # Anchors not yet supported.
@@ -53,14 +52,16 @@ Tiddler.prototype.escapeLineBreaks = function()
 {
 	var r = this.text.escapeLineBreaks();
 	if(this.isTagged("TWikiFormat")) {
-		r = r.replace(/   /mg,"\b \b").replace(/  /mg,"\b ");
+		//# need to escape space characters because IE collapses multiple spaces into a single space
+		r = r.replace(/\x20\x20\x20/mg,"\\b \\b")
+		r = r.replace(/\x20\x20/mg,"\\b ")
 	}
 	return r;
 };
 
 config.textPrimitives.twikiLink = "(?:" + 
-	config.textPrimitives.upperLetter + "+" + config.textPrimitives.lowerLetter + "+" +
-	config.textPrimitives.upperLetter + config.textPrimitives.anyLetter + "*)";
+		config.textPrimitives.upperLetter + "+" + config.textPrimitives.lowerLetter + "+" +
+		config.textPrimitives.upperLetter + config.textPrimitives.anyLetter + "*)";
 
 TWikiFormatter.setAttributesFromParams = function(e,p)
 {
@@ -648,9 +649,9 @@ config.twikiFormatters = [
 	name: "twikiHtmlEntitiesEncoding",
 	match: "&#?[a-zA-Z0-9]{2,8};",
 	handler: function(w)
-		{
+	{
 		createTiddlyElement(w.output,"span").innerHTML = w.matchText;
-		}
+	}
 },
 
 {
