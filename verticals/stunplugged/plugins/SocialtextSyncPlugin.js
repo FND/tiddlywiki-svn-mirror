@@ -1,11 +1,10 @@
 /***
 |''Name:''|SocialtextSyncPlugin|
-|''Description:''|Pre-release - Allows changes to be synchronised with a Socialtext server|
+|''Description:''|Allows changes to be synchronised with a Socialtext server|
 |''Source:''|http://stunplugged.tiddlywiki.com/#SocialtextSyncPlugin|
 |''Author:''|JeremyRuston (jeremy (at) osmosoft (dot) com)|
-|''Version:''|0.1.0|
-|''Status:''|alpha pre-release|
-|''Date:''|Oct 13, 2006|
+|''Version:''|0.9.0|
+|''Date:''|Nov 8, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[BSD open source license]]|
 |''~CoreVersion:''|2.1.0|
@@ -31,8 +30,9 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1))
 config.macros.socialtextSync = {
 	label: "sync",
 	prompt: "Plug back in to the Socialtext server and synchronize changes",
-	urlPutPage: "%0data/workspaces/%1/pages/%2",
 	urlGetPageset: "%0data/workspaces/%1/pages",
+	urlPutPage: "%0data/workspaces/%1/pages/%2",
+	urlViewPage: "%0/%1/index.cgi?%2",
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
@@ -104,6 +104,7 @@ config.macros.socialtextSync.doSync = function(place)
 			};
 		syncData.localStatus = syncData.changeCount > 0 ? "Changed while unplugged" : "Unchanged while unplugged";
 		syncData.selected = syncData.changeCount > 0;
+		syncData.serverUrl = config.macros.socialtextSync.urlViewPage.format([syncData.server,syncData.workspace,syncData.page]);
 		if(syncData.server && syncData.workspace && syncData.page)
 			sync.syncList.push(syncData);
 		});

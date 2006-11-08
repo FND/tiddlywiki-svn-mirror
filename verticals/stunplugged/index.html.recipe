@@ -1,7 +1,14 @@
 recipe: ../../core/tiddlywiki.html.recipe
 prehead: ../../core/html/rss.link.html
 title: html/title.html
+tiddler: tiddlers/BrowseAndEdit.tiddler
+tiddler: tiddlers/GettingStarted.tiddler
 tiddler: tiddlers/PageTemplate.tiddler
+tiddler: tiddlers/SaveChanges.tiddler
+tiddler: tiddlers/SavingOnFireFox.tiddler
+tiddler: tiddlers/SavingOnInternetExplorer.tiddler
+tiddler: tiddlers/SavingOnOpera.tiddler
+tiddler: tiddlers/SavingOnSafari.tiddler
 tiddler: tiddlers/SideBarOptions.tiddler
 tiddler: tiddlers/SiteSubtitle.tiddler
 tiddler: tiddlers/SiteTitle.tiddler
@@ -13,7 +20,10 @@ tiddler: tiddlers/SocialtextStyleOverrides.tiddler
 tiddler: tiddlers/SocialtextScreenStyle.tiddler
 tiddler: tiddlers/Styles_HorizontalMainMenu.tiddler
 tiddler: tiddlers/Sync.tiddler
+tiddler: tiddlers/SyncChanges.tiddler
+tiddler: tiddlers/UnravelFireFoxPermissions.tiddler
 tiddler: tiddlers/ViewTemplate.tiddler
+tiddler: ../tiddlywiki.com/tiddlers/TiddlySaver.tiddler
 tiddler: ../../contributors/MartinBudden/plugins/DisableWikiLinksPlugin.js
 postjs: plugins/SocialtextSyncPlugin.js
 postjs: plugins/SocialtextLocaleOverrides.js
