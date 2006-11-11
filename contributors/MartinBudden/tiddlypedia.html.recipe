@@ -1,0 +1,13 @@
+recipe: ../../core/tiddlywiki.html.recipe
+recipe: tiddlypedia/split.recipe
+prehead: ../../core/html/rss.link.html
+tiddler: plugins/settings.js
+tiddler: tiddlers/Configuration.tiddler
+tiddler: tiddlers/Configuration.SideBarTabs.tiddler
+tiddler: tiddlers/MediaWikiFormatterPlugin.tiddler
+tiddler: tiddlers/wikipedia.MediaWiki.Common.css.tiddler
+tiddler: tiddlers/wikipediaAbridged_Skins-1.5.monobook_main.css.tiddler
+tiddler: tiddlers/wikipediaMainStyle.tiddler
+tiddler: tiddlers/wikipediaStyle.tiddler
+tiddler: tiddlers/wikipediaStyleOld.tiddler
+recipe: tiddlypediaExt.recipe
