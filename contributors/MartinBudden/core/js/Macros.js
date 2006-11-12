@@ -68,7 +68,7 @@ config.macros.allTags.handler = function(place,macroName,params)
 	for(var t=0; t<tags.length; t++)
 		{
 		var theListItem = createTiddlyElement(theDateList,"li");
-		var theTag = createTiddlyButton(theListItem,tags[t][0] + " (" + tags[t][1] + ")", this.tooltip.format([tags[t][0]]),onClickTag);
+		var theTag = createTiddlyButton(theListItem,tags[t][0] + " (" + tags[t][1] + ")",this.tooltip.format([tags[t][0]]),onClickTag);
 		theTag.setAttribute("tag",tags[t][0]);
 		}
 }
