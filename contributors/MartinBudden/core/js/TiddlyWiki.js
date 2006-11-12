@@ -333,7 +333,7 @@ TiddlyWiki.prototype.getTags = function(excludeTag)
 {
 	var results = [];
 	this.forEachTiddler(function(title,tiddler) {
-		for(var g=0; g<tiddler.tags.length ; g++)
+		for(var g=0; g<tiddler.tags.length; g++)
 			{
 			var tag = tiddler.tags[g];
 			if(excludeTag)
@@ -344,7 +344,7 @@ TiddlyWiki.prototype.getTags = function(excludeTag)
 				}
 			var f = false;
 			for(var c=0; c<results.length; c++)
-				if(results[c][0] == tag )
+				if(results[c][0] == tag)
 					{
 					f = true;
 					results[c][1]++;
