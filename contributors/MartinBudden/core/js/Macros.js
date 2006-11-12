@@ -61,14 +61,14 @@ config.macros.list.shadowed.handler = function(params)
 
 config.macros.allTags.handler = function(place,macroName,params)
 {
-	var tags = store.getTags();
+	var tags = store.getTags(params[0]);
 	var theDateList = createTiddlyElement(place,"ul");
 	if(tags.length == 0)
 		createTiddlyElement(theDateList,"li",null,"listTitle",this.noTags);
 	for(var t=0; t<tags.length; t++)
 		{
-		var theListItem =createTiddlyElement(theDateList,"li");
-		var theTag = createTiddlyButton(theListItem,tags[t][0] + " (" + tags[t][1] + ")",this.tooltip.format([tags[t][0]]),onClickTag);
+		var theListItem = createTiddlyElement(theDateList,"li");
+		var theTag = createTiddlyButton(theListItem,tags[t][0] + " (" + tags[t][1] + ")", this.tooltip.format([tags[t][0]]),onClickTag);
 		theTag.setAttribute("tag",tags[t][0]);
 		}
 }
@@ -389,7 +389,7 @@ config.macros.option.handler = function(place,macroName,params)
 
 
 
-config.macros.newTiddler.createNewTiddlerButton = function(place,title,params,label,prompt,accessKey,newFocus)
+config.macros.newTiddler.createNewTiddlerButton = function(place,title,params,label,prompt,accessKey,newFocus,isJournal)
 {
 	var tags = [];
 	for(var t=1; t<params.length; t++)
@@ -401,6 +401,7 @@ config.macros.newTiddler.createNewTiddlerButton = function(place,title,params,la
 	newFocus = getParam(params,"focus",newFocus);
 	var btn = createTiddlyButton(place,label,prompt,this.onClickNewTiddler,null,null,accessKey);
 	btn.setAttribute("newTitle",title);
+	btn.setAttribute("isJournal",isJournal);
 	btn.setAttribute("params",tags.join("|"));
 	btn.setAttribute("newFocus",newFocus);
 	btn.setAttribute("newTemplate",getParam(params,"template",DEFAULT_EDIT_TEMPLATE));
@@ -413,6 +414,11 @@ config.macros.newTiddler.createNewTiddlerButton = function(place,title,params,la
 config.macros.newTiddler.onClickNewTiddler = function()
 {
 	var title = this.getAttribute("newTitle");
+	if(this.getAttribute("isJournal"))
+		{
+		var now = new Date();
+		title = now.formatString(title.trim());
+		}
 	var params = this.getAttribute("params").split("|");
 	var focus = this.getAttribute("newFocus");
 	var template = this.getAttribute("newTemplate");
@@ -433,7 +439,7 @@ config.macros.newTiddler.handler = function(place,macroName,params,wikifier,para
 		params = paramString.parseParams("anon",null,true,false,false);
 		var title = params[1] && params[1].name == "anon" ? params[1].value : this.title;
 		title = getParam(params,"title",title);
-		this.createNewTiddlerButton(place,title,params,this.label,this.prompt,this.accessKey,"title");
+		this.createNewTiddlerButton(place,title,params,this.label,this.prompt,this.accessKey,"title",false);
 		}
 }
 
@@ -442,11 +448,9 @@ config.macros.newJournal.handler = function(place,macroName,params,wikifier,para
 	if(!readOnly)
 		{
 		params = paramString.parseParams("anon",null,true,false,false);
-		var now = new Date();
 		var title = params[1] && params[1].name == "anon" ? params[1].value : "";
 		title = getParam(params,"title",title);
-		title = now.formatString(title.trim());
-		config.macros.newTiddler.createNewTiddlerButton(place,title,params,this.label,this.prompt,this.accessKey,"text");
+		config.macros.newTiddler.createNewTiddlerButton(place,title,params,this.label,this.prompt,this.accessKey,"text",true);
 		}
 }
 
@@ -699,7 +703,6 @@ config.macros.tagChooser.onTagClick = function(e)
 	if(!e) var e = window.event;
 	var tag = this.getAttribute("tag");
 	var title = this.getAttribute("tiddler");
-	var tiddler = store.getTiddler(title);
 	if(!readOnly)
 		story.setTiddlerTag(title,tag,0);
 	return(false);
@@ -880,7 +883,10 @@ config.macros.refreshDisplay.onClick = function(e)
 config.macros.importTiddlers.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	if(readOnly)
+		{
+		createTiddlyElement(place,"div",null,"marked",this.readOnlyWarning);
 		return;
+		}
 	var importer = createTiddlyElement(null,"div",null,"importTiddler wizard");
 	createTiddlyElement(importer,"h1",null,null,this.wizardTitle);
 	createTiddlyElement(importer,"h2",null,"step1",this.step1);
