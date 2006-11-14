@@ -32,13 +32,14 @@ config.macros.socialtextSync = {
 	prompt: "Plug back in to the Socialtext server and synchronize changes",
 	urlGetPageset: "%0data/workspaces/%1/pages",
 	urlPutPage: "%0data/workspaces/%1/pages/%2",
-	urlViewPage: "%0/%1/index.cgi?%2",
+	urlViewPage: "%0%1/index.cgi?%2",
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
 			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "Title", type: 'TiddlerLink'},
 			{name: 'Local Status', field: 'localStatus', title: "Local Status", type: 'String'},
 			{name: 'Server Status', field: 'serverStatus', title: "Server Status", type: 'String'},
+			{name: 'Server URL', field: 'serverUrl', title: "Server URL", text: "View", type: 'Link'},
 			{name: 'Server', field: 'server', title: "Server", type: 'String'},
 			{name: 'Workspace', field: 'workspace', title: "Workspace", type: 'String'}
 			],
@@ -151,6 +152,7 @@ config.macros.socialtextSync.onSelectCommand = function(listView,command,rowName
 
 config.macros.socialtextSync.doneGetPageset = function(status,params,responseText,url,xhr)
 {
+	displayMessage(responseText);
 	// Get the pageset info from the response
 	var pagesetInfo = status ? window.eval(responseText) : null;
 	// Save each syncable tiddler belonging to this server/workspace combo
