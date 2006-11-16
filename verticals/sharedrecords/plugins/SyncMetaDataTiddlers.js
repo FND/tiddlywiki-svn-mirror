@@ -112,7 +112,6 @@ config.macros.sharedRecordsSync.doSync = function(place)
 	var payload = config.macros.sharedRecordsSync.jsonWrapper.format([maxSequenceNumber,entries.join(config.macros.sharedRecordsSync.jsonEntrySep)]);
 	shRecordUID = store.getValue(syncList[0],"sharedRecords.recordUID");
 	shUrl = store.getValue(syncList[0],"sharedRecords.url");
-	displayMessage("Depositing: " + payload + " to " + shUrl);
 	var r = doHttp("POST",
 		shUrl,
 		"recordUID=" + encodeURI(shRecordUID) + "&payload=" + encodeURI(payload),

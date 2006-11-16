@@ -2,6 +2,8 @@ tiddler: DefaultTiddlers.tiddler
 tiddler: GettingStarted.tiddler
 tiddler: ImportMetaData.tiddler
 tiddler: MainMenu.tiddler
+tiddler: SharedRecordsAutoSyncRecordUIDs.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SyncMetaData.tiddler
+

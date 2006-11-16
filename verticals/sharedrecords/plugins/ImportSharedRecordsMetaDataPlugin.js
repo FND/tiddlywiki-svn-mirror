@@ -25,7 +25,7 @@ version.extensions.importSharedRecordsMetaData = {major: 1, minor: 1, revision: 
 //Define string variables used by the plugin
 config.macros.importSharedRecordsMetaData = {};
 config.macros.importSharedRecordsMetaData = {
-	defaultURL: "http://test.sharedrecords.org:8080/SRCDataStore/GetJsonMetaDataEntriesServlet", //"http://sra.sharedrecords.org:8080/SRCDataStore/GetJsonMetaDataEntriesServlet",
+	defaultURL: "http://sra.sharedrecords.org:8080/SRCDataStore/GetJsonMetaDataEntriesServlet", //"http://sra.sharedrecords.org:8080/SRCDataStore/GetJsonMetaDataEntriesServlet",
 	servletName: "GetJsonMetaDataEntriesServlet",
 	wizardTitle: "Import Shared Records Meta Data",
 	step1: "Select a record UID",
@@ -50,6 +50,14 @@ config.paramifiers.recordUID = {
 		var e=document.createElement('span'); wikify(t,e); e.parentNode.removeChild(e);
 	}
 };
+
+// Slight hack to automatically load initial recordUIDs
+config.macros.importSharedRecordsMetaData.init = function()
+{
+	var records = store.getTiddlerText("SharedRecordsAutoSyncRecordUIDs","").split("\n");
+	for(var t=0; t<records.length; t++)
+		config.macros.importSharedRecordsMetaData.performImport(null,records[t],true);
+}
 
 //Core plugin definition.  Creates a wizard interfaces similiar to that of importTiddlers.  
 //Allows the user to specify the target URL and record UID to import the meta data of.
@@ -408,4 +416,5 @@ config.macros.importSharedRecordsMetaData.displayMyError.convertFromFullUTCISO18
 							parseInt(dateString.substr(17,2), 10)));
 	return(theDate);
 }
+
 //}}}
