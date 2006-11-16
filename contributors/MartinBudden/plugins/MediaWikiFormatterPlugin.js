@@ -1,11 +1,10 @@
 /***
 |''Name:''|MediaWikiFormatterPlugin|
 |''Description:''|Allows Tiddlers to use [[MediaWiki|http://meta.wikimedia.org/wiki/Help:Wikitext]] ([[WikiPedia|http://meta.wikipedia.org/]]) text formatting|
-|''Source:''|http://martinswiki.com/prereleases.html#MediaWikiFormatterPlugin|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.3.8|
-|''Status:''|alpha pre-release|
-|''Date:''|Oct 21, 2006|
+|''Source:''|http://martinswiki.com/prereleases.html#MediaWikiFormatterPlugin|
+|''Version:''|0.3.9|
+|''Date:''|Now 11, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -15,8 +14,7 @@
 |''Allow zooming of thumbnail images''|<<option chkMediaWikiDisplayEnableThumbZoom>>|
 |''List references''|<<option chkMediaWikiListReferences>>|
 
-This is an early release of the MediaWikiFormatterPlugin, which allows you to insert MediaWiki
-formated text into a TiddlyWiki.
+This is the MediaWikiFormatterPlugin, which allows you to insert MediaWiki formated text into a TiddlyWiki.
 
 The aim is not to fully emulate MediaWiki, but to allow you to create MediaWiki content off-line
 and then paste the content into your MediaWiki later on, with the expectation that only minor
@@ -26,7 +24,7 @@ To use MediaWiki format in a Tiddler, tag the Tiddler with MediaWikiFormat. See 
 for an example.
 
 !!!Issues
-This is an early alpha release, with (at least) the following known issues:
+There are (at least) the following known issues:
 # Not all styles from http://meta.wikimedia.org/wiki/MediaWiki:Common.css incorporated
 ## Styles for tables don't yet match Wikipedia styles.
 ## Styles for image galleries don't yet match Wikipedia styles.
@@ -312,14 +310,15 @@ config.mediaWikiFormatters = [
 	termRegExp: /(={2,6}\n?)/mg,
 	handler: function(w)
 	{
-		var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
+		//var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
+		var output = w.output;
 		var e = createTiddlyElement(output,"h" + w.matchLength);
 		var a = createTiddlyElement(e,"a");// drop anchor
 		var t = w.tiddler ? w.tiddler.title + ":" : "";
 		var len = w.source.substr(w.nextMatch).indexOf("=");
 		a.setAttribute("name",t+w.source.substr(w.nextMatch,len));
 		w.subWikifyTerm(e,this.termRegExp);
-		w.output = createTiddlyElement(output,"p");
+		//w.output = createTiddlyElement(output,"p");
 	}
 },
 
@@ -492,8 +491,8 @@ config.mediaWikiFormatters = [
 
 {
 	name: "mediaWikiList",
-	match: "^[\\*#;:]+ ",
-	lookaheadRegExp: /^([\*#;:])+ /mg,
+	match: "^[\\*#;:]+",
+	lookaheadRegExp: /^([\*#;:])+(?: ?)/mg,
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
@@ -662,7 +661,8 @@ config.mediaWikiFormatters = [
 				}
 				a.title = ptitle;
 				var img = createTiddlyElement(a,"img");
-				img.src = psrc;
+				img.src = "images/" + psrc;
+//mwDebug(w.output,"s1:"+psrc);
 				img.width = px;
 				img.longdesc = "Image:" + src;
 				img.alt = ptitle;
@@ -687,7 +687,8 @@ config.mediaWikiFormatters = [
 				a.title = ptitle;
 				img = createTiddlyElement(a,"img");
 				if(palign) {img.align = palign;}
-				img.src = px ? px + "px-" + src : src;
+				img.src = px ? "images/" + px + "px-" + src : "images/" + src;
+//mwDebug(w.output,"s2:"+img.src);
 				if(px) {img.width = px;}
 				img.longdesc = "Image:" + src;
 				img.alt = ptitle;
