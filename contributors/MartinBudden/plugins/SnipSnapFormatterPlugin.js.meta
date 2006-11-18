@@ -1,4 +1,5 @@
-modifier: MartinBudden
 title: SnipSnapFormatterPlugin
-tags: systemConfig forceSystemConfig
+modifier: MartinBudden
+created: 200609220000
 modified: 200609220000
+tags: systemConfig excludeLists

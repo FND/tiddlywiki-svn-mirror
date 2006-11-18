@@ -1,4 +1,5 @@
-modifier: MartinBudden
 title: MediaWikiFormatterPlugin
-tags: systemConfig forceSystemConfig
+modifier: MartinBudden
+created: 200608170000
 modified: 200608170000
+tags: systemConfig excludeLists

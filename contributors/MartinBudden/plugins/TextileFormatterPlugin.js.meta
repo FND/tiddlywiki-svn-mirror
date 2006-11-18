@@ -1,4 +1,5 @@
-modifier: MartinBudden
 title: TextileFormatterPlugin
-tags: systemConfig forceSystemConfig
+modifier: MartinBudden
+created: 200610210000
 modified: 200610210000
+tags: systemConfig excludeLists

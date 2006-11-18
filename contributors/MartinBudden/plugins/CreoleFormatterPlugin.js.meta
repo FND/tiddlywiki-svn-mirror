@@ -1,4 +1,5 @@
-modifier: MartinBudden
 title: CreoleFormatterPlugin
-tags: systemConfig forceSystemConfig
+modifier: MartinBudden
+created: 200610280000
 modified: 200610280000
+tags: systemConfig excludeLists
