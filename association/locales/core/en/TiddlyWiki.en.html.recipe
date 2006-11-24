@@ -1,0 +1,6 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: ../../../../core/tiddlers/split.recipe
+tiddler: locale.en.js
+shadow: AdvancedOptions.tiddler
+shadow: GettingStarted.tiddler
+shadow: OptionsPanel.tiddler
