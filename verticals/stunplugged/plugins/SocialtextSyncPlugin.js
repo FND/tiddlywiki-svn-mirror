@@ -3,16 +3,15 @@
 |''Description:''|Allows changes to be synchronised with a Socialtext server|
 |''Source:''|http://stunplugged.tiddlywiki.com/#SocialtextSyncPlugin|
 |''Author:''|JeremyRuston (jeremy (at) osmosoft (dot) com)|
-|''Version:''|0.9.0|
-|''Date:''|Nov 8, 2006|
+|''Version:''|0.9.1|
+|''Date:''|Nov 26, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[BSD open source license]]|
 |''~CoreVersion:''|2.1.0|
 
-This is an early release of the SocialtextSyncPlugin, which allows you to synchronise unplugged Socialtext content
-back to the server.
+This is the SocialtextSyncPlugin, which allows you to synchronise unplugged Socialtext
+content back to the server.
 
-This is an early alpha release and may contain defects.
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
 
 ***/
