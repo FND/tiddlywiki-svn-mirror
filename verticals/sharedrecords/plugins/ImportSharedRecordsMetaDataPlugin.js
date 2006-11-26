@@ -25,7 +25,8 @@ version.extensions.importSharedRecordsMetaData = {major: 1, minor: 1, revision: 
 //Define string variables used by the plugin
 config.macros.importSharedRecordsMetaData = {};
 config.macros.importSharedRecordsMetaData = {
-	defaultURL: "http://sra.sharedrecords.org:8080/SRCDataStore/GetJsonMetaDataEntriesServlet", //"http://sra.sharedrecords.org:8080/SRCDataStore/GetJsonMetaDataEntriesServlet",
+	defaultURL: "http://sra.sharedrecords.org:8080/SRCDataStore/GetJsonMetaDataEntriesServlet",
+	defaultPostURL: "http://sra.sharedrecords.org:8080/SRCDataStore/AddJsonMetaDataEntriesServlet", //"http://sra.sharedrecords.org:8080/SRCDataStore/GetJsonMetaDataEntriesServlet",
 	servletName: "GetJsonMetaDataEntriesServlet",
 	wizardTitle: "Import Shared Records Meta Data",
 	step1: "Select a record UID",
@@ -41,6 +42,25 @@ config.macros.importSharedRecordsMetaData = {
 	collisionMsg: "The tiddler '%0' already exists.\n\nPlease enter a new title for the imported tiddler...\nOR, keep the same title to replace the existing tiddler...\nOR,press CANCEL to skip this tiddler.",
 	quiet: false
 };
+
+// Hack to make newTiddler add the sharedRecords attributes
+config.commands.saveTiddler.handler = function(event,src,title)
+{
+	var newTitle = story.saveTiddler(title,event.shiftKey);
+	if(newTitle)
+	   story.displayTiddler(null,newTitle);
+	var theTitle = newTitle ? newTitle : title;
+
+	var records = store.getTiddlerText("SharedRecordsAutoSyncRecordUIDs","").split("\n");
+	var r = records ? records[0] : "";
+	
+	store.setValue(theTitle, "sharedRecords.recordUID", r);
+	store.setValue(theTitle, "sharedRecords.url", config.macros.importSharedRecordsMetaData.defaultPostURL);
+	store.setValue(theTitle, "sharedRecords.sequenceNumber", "0");
+		if(config.options.chkAutoSave)
+			saveChanges();
+	return false;
+}
 
 // ELS: parameter passing in URL via: #recordUID:e1277abf727b36e55f8ef53bcfab16a8a2259e48
 // immediately executes 
@@ -82,6 +102,8 @@ config.macros.importSharedRecordsMetaData.handler = function(place,macroName,par
 
 config.macros.importSharedRecordsMetaData.performImport = function(place,UID,quiet)
 {
+	
+	config.macros.importSharedRecordsMetaData.quiet = quiet;
 		//Because this includes the "wizard" key word, it can use the default wizard CSS that makes it look nice
 		var importer = createTiddlyElement(null,"div",null,"importSharedRecordsMetaData wizard");
 		createTiddlyElement(importer,"h1",null,null,this.wizardTitle);
