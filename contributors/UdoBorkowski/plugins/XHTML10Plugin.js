@@ -52,7 +52,7 @@ abego.XHTML10Saver.prototype.externalizeTiddler = function(store, tiddler) {
 		store.forEachField(tiddler, 
 			function(tiddler, fieldName, value) {
 				// don't store stuff from the temp namespace
-				if (!fieldName.match(/^temp\s./)) {
+				if (!fieldName.match(/^temp\./)) {
 					if (value)
 						value = value.htmlEncode();
 					s += ['<pre title="',fieldName,'">',value,'</pre>'].join("");
@@ -67,7 +67,7 @@ abego.XHTML10Saver.prototype.externalizeTiddler = function(store, tiddler) {
 };
 
 abego.XHTML10Saver.prototype.externalize = function(store) {
-	return ["<div class='twXHTML10'>\sn",SaverBase.prototype.externalize.apply(this, arguments),"\sn</div>"].join("");
+	return ["<div class='twXHTML10'>\n",SaverBase.prototype.externalize.apply(this, arguments),"\n</div>"].join("");
 };
 
 
@@ -96,49 +96,49 @@ TiddlyWiki.prototype.getSaver = function() {
 		// http://tiddlywiki.abego-software.de/archive/XHTML10Plugin/XHTML10Loader.1.0.1.js
 
 		XHTML10LoaderCode = 
-			"if (!window.abego) window.abego = {};\snif (!abego.XHTML10Loader) {\sn\st//-"+
-			"-------------------------------\sn\st// abego.XHTML10Loader (inherits from"+
-			" LoaderBase)\sn\st\sn\stabego.XHTML10Loader = function() {};\sn\stabego.XHTML10Loa"+
-			"der.prototype = new LoaderBase();\sn\st\sn\stabego.XHTML10Loader.prototype.lin"+
-			"go = {\sn\st\stunnamedValue: \s"Unnamed value\s",\sn\st\stredefining: \s"Redefining valu"+
-			"e of %0\s",\sn\st\stnoXHTML10Format: \s"Storage not in XHTML 1.0 format\s"\sn\st}\sn\st\sn\sta"+
-			"bego.XHTML10Loader.prototype.getTitle = function(store, e) {\sn\st\stvar tit"+
-			"le = null;\sn\st\stif(e.getAttribute)\sn\st\st\sttitle = e.getAttribute('title');\sn\st\st"+
-			"if(!title && e.id) {\st\sn\st\st\stvar lenPrefix = store.idPrefix.length;\sn\st\st\stif "+
-			"(e.id.substr(0,lenPrefix) == store.idPrefix)\sn\st\st\st\sttitle = e.id.substr(l"+
-			"enPrefix);\sn\st\st}\sn\st\streturn title;\sn\st};\sn\st\sn\stabego.XHTML10Loader.prototype.in"+
-			"ternalizeTiddler = function(store, tiddler, title, data) {\sn\st\stvar field"+
-			"s = {};\sn\st\stvar elems = data.childNodes;\sn\st\stfor(var i = 0; i < elems.leng"+
-			"th; i++) {\sn\st\st\stvar e = elems[i];\sn\st\st\stvar name = e.getAttribute('title');"+
-			"\sn\st\st\stif (!name) \sn\st\st\st\stthrow this.lingo.unnamedValue;\sn\st\st\stif (fields[name]"+
-			" !== undefined) \sn\st\st\st\stthrow this.lingo.redefining.format([name]);\sn\st\st\stfi"+
-			"elds[name] = getNodeText(e.firstChild); \sn\st\st}\sn\st\sn\st\st// Extract (and remov"+
-			"e) the standard fields from the extended fields\sn\st\stvar text = fields.te"+
-			"xt;\sn\st\stvar modifier = fields.modifier;\sn\st\stvar modified = Date.convertFro"+
-			"mYYYYMMDDHHMM(fields.modified);\sn\st\stvar c = fields.created;\sn\st\stvar create"+
-			"d = c ? Date.convertFromYYYYMMDDHHMM(c) : modified;\sn\st\stvar tags = field"+
-			"s.tags;\sn\st\stdelete fields.modifier;\sn\st\stdelete fields.modified;\sn\st\stdelete f"+
-			"ields.created;\sn\st\stdelete fields.tags;\sn\st\stdelete fields.text;\sn\st\stdelete fi"+
-			"elds.title;\sn\st\sn\st\sttiddler.assign(title,text,modifier,modified,tags,creat"+
-			"ed,fields);\sn\st\st\sn\st\streturn tiddler;\sn\st};\sn\st\sn\stvar findRootNode = function(no"+
-			"des) {\sn\st\stif (nodes) {\sn\st\st\st// skip leading text nodes\sn\st\st\stfor (var i = 0;"+
-			" i < nodes.length; i++)\sn\st\st\st\stif (nodes[i].nodeType != 3)\sn\st\st\st\st\stbreak;\sn\st\st"+
-			"\st\st\st\sn\st\st\stif (i < nodes.length && nodes[i].className == 'twXHTML10')\sn\st\st\st\st"+
-			"return nodes[i];\sn\st\st}\sn\st};\sn\st\sn\stabego.XHTML10Loader.prototype.loadTiddlers"+
-			" = function(store,nodes) {\sn\st\st// in the twXHMTL10 format all tiddler el"+
-			"ements are contained in one enclosing DIV\sn\st\st// that contains the forma"+
-			"t information\sn\st\stvar root = findRootNode(nodes)\sn\st\stif (!root) \sn\st\st\stthrow "+
-			"this.lingo.noXHTML10Format;\sn\st\streturn LoaderBase.prototype.loadTiddlers"+
-			".apply(this, [store, root.childNodes]);\sn\st};\sn\st\sn\st\sn\st//-------------------"+
-			"-------------\sn\st// Hijack the loadFromDiv\sn\st(function() {\sn\st\stvar origTidd"+
-			"lyWikiLoadFromDiv = TiddlyWiki.prototype.loadFromDiv;\sn\st\stTiddlyWiki.pro"+
-			"totype.loadFromDiv = function(srcID,idPrefix) {\sn\st\st\st// use the XHTML 1."+
-			"0 loader when the storearea is in 'twXHTML10' format,\sn\st\st\st// otherwise "+
-			"use the default loader\sn\st\st\stvar e = document.getElementById(srcID);\sn\st\st\sti"+
-			"f (e && findRootNode(e.childNodes))\sn\st\st\st\stthis.loader = new abego.XHTML1"+
-			"0Loader();\sn\st\st\streturn origTiddlyWikiLoadFromDiv.apply(this, arguments);"+
-			"\sn\st\st};\sn\st})();\sn}\sn\sn";
-		return '<'+'script type="text/javascript">\sn//<![CDATA[\sn'+XHTML10LoaderCode+'\sn//]]>\sn</script'+'>\sn';
+			"if (!window.abego) window.abego = {};\nif (!abego.XHTML10Loader) {\n\t//-"+
+			"-------------------------------\n\t// abego.XHTML10Loader (inherits from"+
+			" LoaderBase)\n\t\n\tabego.XHTML10Loader = function() {};\n\tabego.XHTML10Loa"+
+			"der.prototype = new LoaderBase();\n\t\n\tabego.XHTML10Loader.prototype.lin"+
+			"go = {\n\t\tunnamedValue: \"Unnamed value\",\n\t\tredefining: \"Redefining valu"+
+			"e of %0\",\n\t\tnoXHTML10Format: \"Storage not in XHTML 1.0 format\"\n\t}\n\t\n\ta"+
+			"bego.XHTML10Loader.prototype.getTitle = function(store, e) {\n\t\tvar tit"+
+			"le = null;\n\t\tif(e.getAttribute)\n\t\t\ttitle = e.getAttribute('title');\n\t\t"+
+			"if(!title && e.id) {\t\n\t\t\tvar lenPrefix = store.idPrefix.length;\n\t\t\tif "+
+			"(e.id.substr(0,lenPrefix) == store.idPrefix)\n\t\t\t\ttitle = e.id.substr(l"+
+			"enPrefix);\n\t\t}\n\t\treturn title;\n\t};\n\t\n\tabego.XHTML10Loader.prototype.in"+
+			"ternalizeTiddler = function(store, tiddler, title, data) {\n\t\tvar field"+
+			"s = {};\n\t\tvar elems = data.childNodes;\n\t\tfor(var i = 0; i < elems.leng"+
+			"th; i++) {\n\t\t\tvar e = elems[i];\n\t\t\tvar name = e.getAttribute('title');"+
+			"\n\t\t\tif (!name) \n\t\t\t\tthrow this.lingo.unnamedValue;\n\t\t\tif (fields[name]"+
+			" !== undefined) \n\t\t\t\tthrow this.lingo.redefining.format([name]);\n\t\t\tfi"+
+			"elds[name] = getNodeText(e.firstChild); \n\t\t}\n\t\n\t\t// Extract (and remov"+
+			"e) the standard fields from the extended fields\n\t\tvar text = fields.te"+
+			"xt;\n\t\tvar modifier = fields.modifier;\n\t\tvar modified = Date.convertFro"+
+			"mYYYYMMDDHHMM(fields.modified);\n\t\tvar c = fields.created;\n\t\tvar create"+
+			"d = c ? Date.convertFromYYYYMMDDHHMM(c) : modified;\n\t\tvar tags = field"+
+			"s.tags;\n\t\tdelete fields.modifier;\n\t\tdelete fields.modified;\n\t\tdelete f"+
+			"ields.created;\n\t\tdelete fields.tags;\n\t\tdelete fields.text;\n\t\tdelete fi"+
+			"elds.title;\n\t\n\t\ttiddler.assign(title,text,modifier,modified,tags,creat"+
+			"ed,fields);\n\t\t\n\t\treturn tiddler;\n\t};\n\t\n\tvar findRootNode = function(no"+
+			"des) {\n\t\tif (nodes) {\n\t\t\t// skip leading text nodes\n\t\t\tfor (var i = 0;"+
+			" i < nodes.length; i++)\n\t\t\t\tif (nodes[i].nodeType != 3)\n\t\t\t\t\tbreak;\n\t\t"+
+			"\t\t\t\n\t\t\tif (i < nodes.length && nodes[i].className == 'twXHTML10')\n\t\t\t\t"+
+			"return nodes[i];\n\t\t}\n\t};\n\t\n\tabego.XHTML10Loader.prototype.loadTiddlers"+
+			" = function(store,nodes) {\n\t\t// in the twXHMTL10 format all tiddler el"+
+			"ements are contained in one enclosing DIV\n\t\t// that contains the forma"+
+			"t information\n\t\tvar root = findRootNode(nodes)\n\t\tif (!root) \n\t\t\tthrow "+
+			"this.lingo.noXHTML10Format;\n\t\treturn LoaderBase.prototype.loadTiddlers"+
+			".apply(this, [store, root.childNodes]);\n\t};\n\t\n\t\n\t//-------------------"+
+			"-------------\n\t// Hijack the loadFromDiv\n\t(function() {\n\t\tvar origTidd"+
+			"lyWikiLoadFromDiv = TiddlyWiki.prototype.loadFromDiv;\n\t\tTiddlyWiki.pro"+
+			"totype.loadFromDiv = function(srcID,idPrefix) {\n\t\t\t// use the XHTML 1."+
+			"0 loader when the storearea is in 'twXHTML10' format,\n\t\t\t// otherwise "+
+			"use the default loader\n\t\t\tvar e = document.getElementById(srcID);\n\t\t\ti"+
+			"f (e && findRootNode(e.childNodes))\n\t\t\t\tthis.loader = new abego.XHTML1"+
+			"0Loader();\n\t\t\treturn origTiddlyWikiLoadFromDiv.apply(this, arguments);"+
+			"\n\t\t};\n\t})();\n}\n\n";
+		return '<'+'script type="text/javascript">\n//<![CDATA[\n'+XHTML10LoaderCode+'\n//]]>\n</script'+'>\n';
 	};
 
 	var insertLoaderBlock = function() {
@@ -152,11 +152,11 @@ TiddlyWiki.prototype.getSaver = function() {
 		if (postHeadText.getChunk(START, END)) 
 			return; // already installed
 
-		postHeadText += "\sn"+START+getXHTML10LoaderBlock()+END+"\sn";
+		postHeadText += "\n"+START+getXHTML10LoaderBlock()+END+"\n";
 		var tiddler = store.getTiddler("MarkupPostHead");
 		var tags = tiddler ? tiddler.tags : [];
 		store.saveTiddler("MarkupPostHead","MarkupPostHead",postHeadText,config.options.txtUserName,new Date(),tags);
-		alert("XHTML10Loader installed.\snPlease save and reload your TiddlyWiki to complete the installation. After that your TiddlyWiki will be stored in an XHTML 1.0 compliant format.");
+		alert("XHTML10Loader installed.\nPlease save and reload your TiddlyWiki to complete the installation. After that your TiddlyWiki will be stored in an XHTML 1.0 compliant format.");
 	};
 	
 	insertLoaderBlock();														

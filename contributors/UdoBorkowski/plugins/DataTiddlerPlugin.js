@@ -17,7 +17,7 @@ Such tiddler data can be used in various applications. E.g. you may create table
     where
         'tiddler.tags.contains("expense") && tiddler.data("month") == "Dec"'
     write
-        '"|[["+tiddler.title+"]]|"+tiddler.data("descr")+"| "+tiddler.data("amount")+"|\sn"'
+        '"|[["+tiddler.title+"]]|"+tiddler.data("descr")+"| "+tiddler.data("amount")+"|\n"'
 >>
 }}}
 //(This assumes that expenses are stored in tiddlers tagged with "expense".)//
@@ -25,7 +25,7 @@ Such tiddler data can be used in various applications. E.g. you may create table
     where
         'tiddler.tags.contains("expense") && tiddler.data("month") == "Dec"'
     write
-        '"|[["+tiddler.title+"]]|"+tiddler.data("descr")+"| "+tiddler.data("amount")+"|\sn"'
+        '"|[["+tiddler.title+"]]|"+tiddler.data("descr")+"| "+tiddler.data("amount")+"|\n"'
 >>
 For other examples see DataTiddlerExamples.
 
@@ -545,7 +545,7 @@ DataTiddler.MyTiddlerChangedFunction = function() {
 //
 config.formatters.push( {
     name: "data-escape",
-    match: "~<\s\s/?data>",
+    match: "~<\\/?data>",
 
     handler: function(w) {
             w.outputText(w.output,w.matchStart + 1,w.nextMatch);
@@ -655,12 +655,12 @@ config.macros.showData.renderDataInJSONFormat = function(place,tiddlerName) {
 };
 
 config.macros.showData.renderDataAsTable = function(place,tiddlerName) {
-    var text = "|!Name|!Value|\sn";
+    var text = "|!Name|!Value|\n";
     var data = DataTiddler.getDataObject(tiddlerName);
     if (data) {
         for (var i in data) {
             var value = data[i];
-            text += "|"+i+"|"+DataTiddler.stringify(value)+"|\sn";
+            text += "|"+i+"|"+DataTiddler.stringify(value)+"|\n";
         }
     }
     
@@ -800,30 +800,30 @@ var JSON = {
                 for (i = 0; i < l; i += 1) {
                     c = x.charAt(i);
                     if (c >= ' ') {
-                        if (c == '\s\s' || c == '"') {
-                            e('\s\s');
+                        if (c == '\\' || c == '"') {
+                            e('\\');
                         }
                         e(c);
                     } else {
                         switch (c) {
-                            case '\sb':
-                                e('\s\sb');
+                            case '\b':
+                                e('\\b');
                                 break;
-                            case '\sf':
-                                e('\s\sf');
+                            case '\f':
+                                e('\\f');
                                 break;
-                            case '\sn':
-                                e('\s\sn');
+                            case '\n':
+                                e('\\n');
                                 break;
-                            case '\sr':
-                                e('\s\sr');
+                            case '\r':
+                                e('\\r');
                                 break;
-                            case '\st':
-                                e('\s\st');
+                            case '\t':
+                                e('\\t');
                                 break;
                             default:
                                 c = c.charCodeAt();
-                                e('\s\su00' + Math.floor(c / 16).toString(16) +
+                                e('\\u00' + Math.floor(c / 16).toString(16) +
                                     (c % 16).toString(16));
                         }
                     }
@@ -845,7 +845,7 @@ var JSON = {
     Parse a JSON text, producing a JavaScript value.
 */
     parse: function (text) {
-        var p = /^\ss*(([,:{}\s[\s]])|"(\s\s.|[^\sx00-\sx1f"\s\s])*"|-?\sd+(\s.\sd*)?([eE][+-]?\sd+)?|true|false|null)\ss*/,
+        var p = /^\s*(([,:{}\[\]])|"(\\.|[^\x00-\x1f"\\])*"|-?\d+(\.\d*)?([eE][+-]?\d+)?|true|false|null)\s*/,
             token,
             operator;
 

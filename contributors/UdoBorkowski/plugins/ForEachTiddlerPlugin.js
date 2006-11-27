@@ -400,8 +400,8 @@ config.macros.forEachTiddler.actions.write.handler = function(place, tiddlers, p
 
 	if (filename) {
 		if (lineSeparator !== undefined) {
-			lineSeparator = lineSeparator.replace(/\s\sn/mg, "\sn").replace(/\s\sr/mg, "\sr");
-			text = text.replace(/\sn/mg,lineSeparator);
+			lineSeparator = lineSeparator.replace(/\\n/mg, "\n").replace(/\\r/mg, "\r");
+			text = text.replace(/\n/mg,lineSeparator);
 		}
 		saveFile(filename, convertUnicodeToUTF8(text));
 	} else {
@@ -618,8 +618,8 @@ config.macros.forEachTiddler.handleError = function(place, exception) {
 //	 "$)" to ">"
 //
 config.macros.forEachTiddler.paramEncode = function(s) {
-	var reGTGT = new RegExp("\s\s$\s\s)\s\s)","mg");
-	var reGT = new RegExp("\s\s$\s\s)","mg");
+	var reGTGT = new RegExp("\\$\\)\\)","mg");
+	var reGT = new RegExp("\\$\\)","mg");
 	return s.replace(reGTGT, ">>").replace(reGT, ">");
 };
 
@@ -637,21 +637,21 @@ config.macros.forEachTiddler.getLocalPath = function(originalPath) {
 	if(hashPos != -1)
 		originalPath = originalPath.substr(0,hashPos);
 	// Convert to a native file format assuming
-	// "file:///x:/path/path/path..." - pc local file --> "x:\spath\spath\spath..."
-	// "file://///server/share/path/path/path..." - FireFox pc network file --> "\s\sserver\sshare\spath\spath\spath..."
+	// "file:///x:/path/path/path..." - pc local file --> "x:\path\path\path..."
+	// "file://///server/share/path/path/path..." - FireFox pc network file --> "\\server\share\path\path\path..."
 	// "file:///path/path/path..." - mac/unix local file --> "/path/path/path..."
-	// "file://server/share/path/path/path..." - pc network file --> "\s\sserver\sshare\spath\spath\spath..."
+	// "file://server/share/path/path/path..." - pc network file --> "\\server\share\path\path\path..."
 	var localPath;
 	if(originalPath.charAt(9) == ":") // pc local file
-		localPath = unescape(originalPath.substr(8)).replace(new RegExp("/","g"),"\s\s");
+		localPath = unescape(originalPath.substr(8)).replace(new RegExp("/","g"),"\\");
 	else if(originalPath.indexOf("file://///") === 0) // FireFox pc network file
-		localPath = "\s\s\s\s" + unescape(originalPath.substr(10)).replace(new RegExp("/","g"),"\s\s");
+		localPath = "\\\\" + unescape(originalPath.substr(10)).replace(new RegExp("/","g"),"\\");
 	else if(originalPath.indexOf("file:///") === 0) // mac/unix local file
 		localPath = unescape(originalPath.substr(7));
 	else if(originalPath.indexOf("file:/") === 0) // mac/unix local file
 		localPath = unescape(originalPath.substr(5));
 	else // pc network file
-		localPath = "\s\s\s\s" + unescape(originalPath.substr(7)).replace(new RegExp("/","g"),"\s\s");	
+		localPath = "\\\\" + unescape(originalPath.substr(7)).replace(new RegExp("/","g"),"\\");	
 	return localPath;
 };
 

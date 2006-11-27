@@ -48,7 +48,7 @@ in //Proc. ICSM//, 1998.</part>
 <part BEL02>Bellon, Stefan: //Vergleich von Techniken zur Erkennung duplizierten Quellcodes.// 
 Thesis, Uni Stuttgart, 2002.</part>
 
-<part DUC99>Ducasse, St√©fane et al: //A Language Independent Approach for Detecting Duplicated Code.// 
+<part DUC99>Ducasse, StÈfane et al: //A Language Independent Approach for Detecting Duplicated Code.// 
 in //Proc. ICSM//, 1999.</part>
 }}}
 
@@ -128,7 +128,7 @@ E.g. if you don't like the classic timeline tab but only want to see the 100 mos
 {{{
 <<forEachTiddler 
 		sortBy 'tiddler.modified' descending 
-		write '(index < 100) ? "* [["+tiddler.title+"]]\sn":""'>>
+		write '(index < 100) ? "* [["+tiddler.title+"]]\n":""'>>
 }}}
 <html><sub><a href="javascript:;" onclick="window.scrollAnchorVisible('Top',null, event)">[Top]</sub></a></html>
 
@@ -152,7 +152,7 @@ Notice that putting the content of the slider into the slider's tiddler also has
 
 !Revision history<html><a name="Revisions"/></html>
 * v1.0.6 (2006-11-07)
-** Bugfix: cannot edit tiddler when UploadPlugin by Bidix is installed. Thanks to Jos√© Luis Gonz√°lez Castro for reporting the bug.
+** Bugfix: cannot edit tiddler when UploadPlugin by Bidix is installed. Thanks to JosÈ Luis Gonz·lez Castro for reporting the bug.
 * v1.0.5 (2006-03-02)
 ** Bugfix: Example with multi-line table cells does not work in IE6. Thanks to Paulo Soares for reporting the bug.
 * v1.0.4 (2006-02-28)
@@ -201,10 +201,10 @@ if (version.major < 2) alertAndThrow("PartTiddlerPlugin requires TiddlyWiki 2.0 
 // otherwise (or when no newline is found) index is returned.
 //
 var skipEmptyEndOfLine = function(text, index) {
-	var re = /(\sn|[^\ss])/g;
+	var re = /(\n|[^\s])/g;
 	re.lastIndex = index;
 	var result = re.exec(text);
-	return (result && text.charAt(result.index) == '\sn') 
+	return (result && text.charAt(result.index) == '\n') 
 			? result.index+1
 			: index;
 }
@@ -213,8 +213,8 @@ var skipEmptyEndOfLine = function(text, index) {
 //============================================================================
 // Constants
 
-var partEndOrStartTagRE = /(<\s/part>)|(<part(?:\ss+)((?:[^>])+)>)/mg;
-var partEndTagREString = "<\s\s/part>";
+var partEndOrStartTagRE = /(<\/part>)|(<part(?:\s+)((?:[^>])+)>)/mg;
+var partEndTagREString = "<\\/part>";
 var partEndTagString = "</part>";
 
 //============================================================================
@@ -291,7 +291,7 @@ var handlePartSection = function(w) {
 
 config.formatters.push( {
     name: "part",
-    match: "<part\s\ss+[^>]+>",
+    match: "<part\\s+[^>]+>",
 	
 	handler: function(w) {
 		if (!handlePartSection(w)) {

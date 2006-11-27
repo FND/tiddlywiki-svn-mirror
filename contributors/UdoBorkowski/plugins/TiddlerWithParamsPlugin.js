@@ -64,10 +64,10 @@ This results in the following tiddler text for the ''//ForEachTiddlerProject//''
 if (!version.extensions.TiddlerWithParamsPlugin) {
 
 version.extensions.TiddlerWithParamsPlugin = {
- major: 1, minor: 0, revision: 1, 
- date: new Date(2006,3,22), 
- type: 'plugin',
- source: "http://tiddlywiki.abego-software.de/#TiddlerWithParamsPlugin"
+	major: 1, minor: 0, revision: 1, 
+	date: new Date(2006,3,22), 
+	type: 'plugin',
+	source: "http://tiddlywiki.abego-software.de/#TiddlerWithParamsPlugin"
 };
 
 // ---------------------------------------------------------------------------
@@ -75,37 +75,37 @@ version.extensions.TiddlerWithParamsPlugin = {
 // ---------------------------------------------------------------------------
 
 var indexInArray = function(array, item) {
- for (var i = 0; i < array.length; i++) {
- if (array[i] == item) {
- return i;
- }
- }
- return -1;
+	for (var i = 0; i < array.length; i++) {
+		if (array[i] == item) {
+			return i;
+		}
+	}
+	return -1;
 }
 
 var myEscapeRegExp = function(s)
 {
- // The original escapeRegExp function does not work with Safari (2.0.3) 
- // since the $& is not implemented.
-var t = s.replace(/\s\s/g, "\s\s\s\s");
- t = t.replace(/\s^/g, "\s\s^");
- t = t.replace(/\s$/g, "\s\s$");
- t = t.replace(/\s*/g, "\s\s*");
- t = t.replace(/\s+/g, "\s\s+");
- t = t.replace(/\s?/g, "\s\s?");
- t = t.replace(/\s(/g, "\s\s(");
- t = t.replace(/\s)/g, "\s\s)");
- t = t.replace(/\s=/g, "\s\s=");
- t = t.replace(/\s!/g, "\s\s!");
- t = t.replace(/\s|/g, "\s\s|");
- t = t.replace(/\s,/g, "\s\s,");
- t = t.replace(/\s{/g, "\s\s{");
- t = t.replace(/\s}/g, "\s\s}");
- t = t.replace(/\s[/g, "\s\s[");
- t = t.replace(/\s]/g, "\s\s]");
- t = t.replace(/\s./g, "\s\s.");
+	// The original escapeRegExp function does not work with Safari (2.0.3) 
+	// since the $& is not implemented.
+var t = s.replace(/\\/g, "\\\\");
+	t = t.replace(/\^/g, "\\^");
+	t = t.replace(/\$/g, "\\$");
+	t = t.replace(/\*/g, "\\*");
+	t = t.replace(/\+/g, "\\+");
+	t = t.replace(/\?/g, "\\?");
+	t = t.replace(/\(/g, "\\(");
+	t = t.replace(/\)/g, "\\)");
+	t = t.replace(/\=/g, "\\=");
+	t = t.replace(/\!/g, "\\!");
+	t = t.replace(/\|/g, "\\|");
+	t = t.replace(/\,/g, "\\,");
+	t = t.replace(/\{/g, "\\{");
+	t = t.replace(/\}/g, "\\}");
+	t = t.replace(/\[/g, "\\[");
+	t = t.replace(/\]/g, "\\]");
+	t = t.replace(/\./g, "\\.");
 
- return t;
+    return t;
 }
 
 // ---------------------------------------------------------------------------
@@ -113,67 +113,67 @@ var t = s.replace(/\s\s/g, "\s\s\s\s");
 // ---------------------------------------------------------------------------
 
 config.macros.tiddler.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
- 
- var className = null;
- var argsStart = -1;
- var doWikify = true;
+	
+	var className = null;
+	var argsStart = -1;
+	var doWikify = true;
 
- var iParams = 1;
- if (params[iParams] != "asText" && params[iParams] != "with:") {
- className = params[iParams++];
- }
- if (params[iParams] == "asText") {
- iParams++;
- doWikify = false;
- }
- if (params[iParams] == "with:") {
- iParams++;
- argsStart = iParams;
- }
- 
- var wrapper = createTiddlyElement(place,"span",null,className ? className : null,null);
- var text = store.getTiddlerText(params[0]);
- if(text) {
- // Check for recursion
- var tiddlerName = params[0];
- var stack = config.macros.tiddler.tiddlerStack;
- if (stack.find(tiddlerName) !== null) return;
+	var iParams = 1;
+	if (params[iParams] != "asText" && params[iParams] != "with:") {
+		className = params[iParams++];
+	}
+	if (params[iParams] == "asText") {
+		iParams++;
+		doWikify = false;
+	}
+	if (params[iParams] == "with:") {
+		iParams++;
+		argsStart = iParams;
+	}
+	
+	var wrapper = createTiddlyElement(place,"span",null,className ? className : null,null);
+	var text = store.getTiddlerText(params[0]);
+	if(text) {
+		// Check for recursion
+		var tiddlerName = params[0];
+		var stack = config.macros.tiddler.tiddlerStack;
+		if (stack.find(tiddlerName) !== null) return;
 
- if (argsStart >= 0) {
- // The params between the "with:" and the "prefix:" (or the end) are the arguments,
- // The param behind the "prefix:" is the prefix before the placeholder numbers.
- var argsEnd = params.length;
- var prefix = "$";
- var prefixIndex = indexInArray(params, "prefix:");
- if (prefixIndex >= argsStart) {
- argsEnd = prefixIndex;
- if (prefixIndex < (params.length-1)) {
- prefix = params[prefixIndex+1];
- }
- }
- // to avoid any "special RE chars" problems with the prefix string escape all chars.
- prefix = myEscapeRegExp(prefix);
- 
- var args = params.slice(argsStart, argsEnd);
- var n = Math.min(args.length, 9);
- for (var i = 0; i < n; i++) {
- var value = args[i];
- 
- var placeholderRE = new RegExp(prefix+(i+1),"mg");
- text = text.replace(placeholderRE, value);
- }
- }
- stack.push(tiddlerName);
- try {
- if (doWikify) {
- wikify(text,wrapper,null,store.getTiddler(params[0]));
- } else {
- wrapper.appendChild(document.createTextNode(text));
- }
- } finally { 
- stack.pop();
- }
- }
+		if (argsStart >= 0) {
+			// The params between the "with:" and the "prefix:" (or the end) are the arguments,
+			// The param behind the "prefix:" is the prefix before the placeholder numbers.
+			var argsEnd = params.length;
+			var prefix = "$";
+			var prefixIndex = indexInArray(params, "prefix:");
+			if (prefixIndex >= argsStart) {
+				argsEnd = prefixIndex;
+				if (prefixIndex < (params.length-1)) {
+					prefix = params[prefixIndex+1];
+				}
+			}
+			// to avoid any "special RE chars" problems with the prefix string escape all chars.
+			prefix = myEscapeRegExp(prefix);
+			
+			var args = params.slice(argsStart, argsEnd);
+			var n = Math.min(args.length, 9);
+			for (var i = 0; i < n; i++) {
+				var value = args[i];
+				
+				var placeholderRE = new RegExp(prefix+(i+1),"mg");
+				text = text.replace(placeholderRE, value);
+			}
+		}
+		stack.push(tiddlerName);
+		try {
+			if (doWikify) {
+				wikify(text,wrapper,null,store.getTiddler(params[0]));
+			} else {
+				wrapper.appendChild(document.createTextNode(text));
+			}
+		} finally {			
+			stack.pop();
+		}
+	}
 }
 config.macros.tiddler.tiddlerStack = [];
 
