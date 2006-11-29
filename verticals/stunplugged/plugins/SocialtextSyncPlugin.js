@@ -73,7 +73,6 @@ config.syncers.socialtext.doneGetPageset = function(status,params,responseText,u
 	for(var t=0; t<syncItems.length; t++)
 		{
 		var syncItem = syncItems[t];
-		alert(syncItem.colElements);
 		var statusElem = syncItem.colElements["serverStatus"];
 		removeChildren(statusElem);
 		if(status)
