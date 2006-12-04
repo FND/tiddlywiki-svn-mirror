@@ -1,0 +1,14 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+tiddler: js/locale.zh-Hant.js
+tiddler: js/tweakDates.zh-Hant.js
+@tiddler: js/tweakgetLocaPath.js@
+@tiddler: js/tweakSaving.js@
+tiddler: tiddlers/AdvancedOptions.tiddler
+tiddler: tiddlers/GettingStarted.tiddler
+tiddler: tiddlers/OptionsPanel.tiddler
+tiddler: tiddlers/SideBarOptions.tiddler
+tiddler: tiddlers/SideBarTabs.tiddler
+tiddler: tiddlers/TabMore.tiddler
+tiddler: tiddlers/ViewTemplate.tiddler
+tiddler: tiddlers/StyleSheet.tiddler
+tiddler: tiddlers/StyleSheetAdjust.tiddler
