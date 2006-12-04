@@ -24,7 +24,9 @@ tiddler: tiddlers/UnravelFireFoxPermissions.tiddler
 tiddler: tiddlers/ViewTemplate.tiddler
 tiddler: ../tiddlywiki.com/tiddlers/TiddlySaver.tiddler
 tiddler: ../../contributors/MartinBudden/plugins/DisableWikiLinksPlugin.js
+tiddler: ../../contributors/EricShulman/plugins/SinglePageModePlugin.js
 postjs: plugins/SocialtextSyncPlugin.js
 postjs: plugins/SocialtextLocaleOverrides.js
+postjs: plugins/SocialtextTweaksPlugin.js
 postjs: ../../contributors/MartinBudden/plugins/SocialtextFormatterPlugin.js
 posttiddlers: pagelist.html

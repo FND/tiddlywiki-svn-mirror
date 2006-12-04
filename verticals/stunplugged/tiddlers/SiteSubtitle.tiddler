@@ -1,1 +1,1 @@
-<div tiddler="SiteSubtitle" modifier="JeremyRuston" modified="200609010000" created="200609010000" tags="">[% workspace.title %]</div>
+<div tiddler="SiteSubtitle" modifier="JeremyRuston" modified="200609010000" created="200609010000" tags="excludeLists excludeSearch">[% workspace.title %]</div>

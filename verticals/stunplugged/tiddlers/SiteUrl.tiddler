@@ -1,1 +1,1 @@
-<div tiddler="SiteUrl" modifier="JeremyRuston" modified="200609010000" created="200609010000" tags="">[% workspace.uri %]</div>
+<div tiddler="SiteUrl" modifier="JeremyRuston" modified="200609010000" created="200609010000" tags="excludeLists excludeSearch">[% workspace.uri %]</div>
