@@ -1,7 +1,7 @@
 /***
 |''Name:''|TurkishTranslationPlugin|
 |''Description:''|Translation of TiddlyWiki into Turkish|
-|''Source:''|www.???.com|
+|''Source:''|www.fazlamesai.net/sundance|
 |''Author:''|Kıvılcım Hindistan|
 |''Version:''|1.0.0|
 |''Date:''|Dec 05, 2006|
@@ -141,9 +141,9 @@ merge(config.macros.newJournal,{
 	accessKey: "J"});
 
 merge(config.macros.plugins,{
-	wizardTitle: "Plugins",
+	wizardTitle: "Pluginler",
 	skippedText: "(Bu plugin TiddlyWiki başlatıldıktan sonra eklendiği için çalıştırılamamıştır)",
-	step1: "These are the plugins that are currently loaded",
+	step1: "Şu anda yüklenmekte olan pluginler",
 	noPluginText: "Kurulu plugin bulunmamaktadır",
 	confirmDeleteText: "Bu notcukları silmek istiyor musunuz?:\n\n%0",
 	listViewTemplate : {
@@ -249,17 +249,17 @@ merge(config.commands.jump,{
 	tooltip: "Açık olan bir başka nota geçmek"});
 
 merge(config.shadowTiddlers,{
-	DefaultTiddlers: "[[Baslamak]]",
-	MainMenu: "[[Baslamak]]",
+	DefaultTiddlers: "[[Başlamak]]",
+	MainMenu: "[[Başlamak]]",
 	SiteTitle: "Benim ~TiddlyWiki'm",
 	SiteSubtitle: "tekrar kullanılabilir, sırasal olmayan, web defteri",
 	SiteUrl: "http://www.tiddlywiki.com/",
-	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "seçenekler" "Gelişmiş TiddlyWiki seçeneklerini değiştirmek">>',
+	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel [[SeçeneklerPaneli]] "seçenekler" "Gelişmiş TiddlyWiki seçeneklerini değiştirmek">>',
 	SideBarTabs: '<<tabs txtMainTab "Zaman Akışı" "Zaman Akışı" TabTimeline "Tümü" "Bütün notcuklar" TabAll "Etiket" "Bütün etiketler" TabTags "Daha" "Daha fazla notcuk" TabMore>>',
 	TabTimeline: '<<timeline>>',
 	TabAll: '<<list all>>',
 	TabTags: '<<allTags excludeLists>>',
-	TabMore: '<<tabs txtMoreTab "Missing" "Kayıp notcuklar" TabMoreMissing "Yetimler" "Yetim notcuklar" TabMoreOrphans "Gölgelenmiş" "Gölgelenmiş notcuklar" TabMoreShadowed>>',
+	TabMore: '<<tabs txtMoreTab "Kayıp" "Kayıp notcuklar" TabMoreMissing "Yetimler" "Yetim notcuklar" TabMoreOrphans "Gölgelenmiş" "Gölgelenmiş notcuklar" TabMoreShadowed>>',
 	TabMoreMissing: '<<list missing>>',
 	TabMoreOrphans: '<<list orphans>>',
 	TabMoreShadowed: '<<list shadowed>>',
