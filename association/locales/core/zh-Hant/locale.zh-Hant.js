@@ -20,10 +20,10 @@ merge(config.options,{
 	txtUserName: "YourName"});
 
 config.tasks = {
-		tidy: {text: "整理", tooltip: "對群組文章作大量更新"},
+		tidy: {text: "整理", tooltip: "對群組文章作大量更新", content: 'Coming soon...\n\nThis tab will allow bulk operations on tiddlers, and tags. It will be a generalised, extensible version of the plugins tab'},
 		sync: {text: "同步", tooltip: "與別的 TiddlyWiki 文件及伺服器同步化", content: '<<sync>>'},
 		importTask: {text: "匯入", tooltip: "從別的 TiddlyWiki 文件及伺服器匯入文章與套件", content: '<<importTiddlers>>'},
-		copy: {text: "複製", tooltip: "複製文章至別的 TiddlyWiki 文件及伺服器"},
+		copy: {text: "複製", tooltip: "複製文章至別的 TiddlyWiki 文件及伺服器", content: 'Coming soon...\n\nThis tab will allow tiddlers to be copied to remote servers'},
 		plugins: {text: "套件管理", tooltip: "管理已安裝的套件", content: '<<plugins>>'}
 };
 
@@ -76,6 +76,8 @@ config.messages.dates.months = ["一", "二", "三", "四", "五", "六", "七",
 config.messages.dates.days = ["日", "一","二", "三", "四", "五", "六"];
 config.messages.dates.shortMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 config.messages.dates.shortDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+config.messages.dates.am = "上午";
+config.messages.dates.pm = "下午";
 
 merge(config.views.wikified.tag,{
 	labelNoTags: "未設標籤",
@@ -115,7 +117,7 @@ merge(config.macros.tagging,{
 	tooltip: "列出標籤為 '%0' 的文章"});
 
 merge(config.macros.timeline,{
-	dateFormat: "YYYY0MM0DD"});
+	dateFormat: "YYYY年0MM月0DD日"});
 
 merge(config.macros.allTags,{
 	tooltip: "顯示文章- 標籤為'%0'",
@@ -214,7 +216,27 @@ merge(config.macros.importTiddlers,{
 			{caption: "匯入所選文章", name: 'import'}
 			]}
 	});
-
+/*
+merge(config.macros.sync,{
+	label: "同步",
+	prompt: "連結伺服器且作同步變更",
+	listViewTemplate: {
+		columns: [
+			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
+			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "文章標題", type: 'TiddlerLink'},
+			{name: 'Local Status', field: 'localStatus', title: "更改本機資料?", type: 'String'},
+			{name: 'Server Status', field: 'serverStatus', title: "更改伺服器上資料?", type: 'String'},
+			{name: 'Server URL', field: 'serverUrl', title: "伺服器網址", text: "View", type: 'Link'}
+			],
+		rowClasses: [
+			],
+		buttons: [
+			{caption: "同步這些文章", name: 'sync'}
+			]},
+	wizardTitle: "將你的資料內容與外部伺服器與資料來源（feeds）同步",
+	step1: "選擇欲同步的文章"
+	});
+*/
 merge(config.commands.closeTiddler,{
 	text: "關閉",
 	tooltip: "關閉本文"});

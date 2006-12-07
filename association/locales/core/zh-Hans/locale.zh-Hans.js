@@ -76,6 +76,8 @@ config.messages.dates.months = ["一", "二", "三", "四", "五", "六", "七",
 config.messages.dates.days = ["日", "一","二", "三", "四", "五", "六"];
 config.messages.dates.shortMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 config.messages.dates.shortDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+config.messages.dates.am = "上午";
+config.messages.dates.pm = "下午";
 
 merge(config.views.wikified.tag,{
 	labelNoTags: "未设标签",
