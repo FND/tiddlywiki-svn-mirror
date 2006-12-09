@@ -3,9 +3,6 @@ tiddler: locale.zh-Hans.js
 tiddler: AdvancedOptions.tiddler
 tiddler: GettingStarted.tiddler
 tiddler: OptionsPanel.tiddler
-tiddler: SideBarOptions.tiddler
-tiddler: SideBarTabs.tiddler
-tiddler: TabMore.tiddler
-tiddler: ViewTemplate.tiddler
 tiddler: StyleSheet.tiddler
 tiddler: StyleSheetAdjust.tiddler
+tiddler: ViewTemplate.tiddler

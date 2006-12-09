@@ -41,6 +41,14 @@ DAMAGE.
 <!--PRE-HEAD-END-->
 <script type="text/javascript">
 //<![CDATA[
+//
+// 
+// This code is designed to be readable but for compactness it only includes brief comments. You can see fuller comments
+// in the project Subversion repository:
+//
+// http://svn.tiddlywiki.org/Trunk/core/
+//
+//
 // ---------------------------------------------------------------------------------
 // Configuration repository
 // ---------------------------------------------------------------------------------
@@ -523,7 +531,7 @@ var useJavaSaver = config.browser.isSafari || config.browser.isOpera;
 // Starting up
 function main()
 {
-	var now, then = new Date();
+	var t9,t8,t7,t6,t5,t4,t3,t2,t1,t0 = new Date();
 	startingUp = true;
 	window.onbeforeunload = function(e) {if(window.confirmExit) return confirmExit();};
 	params = getParameters();
@@ -537,15 +545,23 @@ function main()
 	loadOptionsCookie();
 	for(var s=0; s<config.notifyTiddlers.length; s++)
 		store.addNotification(config.notifyTiddlers[s].name,config.notifyTiddlers[s].notify);
+	t1 = new Date();
 	store.loadFromDiv("storeArea","store",true);
+	t2 = new Date();
 	loadShadowTiddlers();
+	t3 = new Date();
 	invokeParamifier(params,"onload");
+	t4 = new Date();
 	var pluginProblem = loadPlugins();
+	t5 = new Date();
 	formatter = new Formatter(config.formatters);
 	readOnly = (window.location.protocol == "file:") ? false : config.options.chkHttpReadOnly;
 	invokeParamifier(params,"onconfig");
+	t6 = new Date();
 	store.notifyAll();
+	t7 = new Date();
 	restart();
+	t8 = new Date();
 	if(pluginProblem)
 		{
 		story.displayTiddler(null,"PluginManager");
@@ -556,9 +572,16 @@ function main()
 			config.macros[m].init();
 	if(!readOnly)
 		backstage.init();
-	now = new Date();
+	t9 = new Date();
 	if(config.displayStartupTime)
-		displayMessage("TiddlyWiki startup in " + (now-then)/1000 + " seconds");
+		{
+		displayMessage("Load in " + (t2-t1) + " ms");
+		displayMessage("Loadshadows in " + (t3-t2) + " ms");
+		displayMessage("Loadplugins in " + (t5-t4) + " ms");
+		displayMessage("Notify in " + (t7-t6) + " ms");
+		displayMessage("Restart in " + (t8-t7) + " ms");
+		displayMessage("Total startup in " + (t9-t0) + " ms");
+		}
 	startingUp = false;
 }
 
@@ -3490,9 +3513,6 @@ TiddlyWiki.prototype.forEachField = function(tiddler, callback, onlyExtendedFiel
 // Story functions
 // ---------------------------------------------------------------------------------
 
-// A story is a HTML div containing a sequence of tiddlers that can be manipulated
-// container - id of containing element
-// idPrefix - string prefix prepended to title to make ids for tiddlers in this story
 function Story(container,idPrefix)
 {
 	this.container = container;
@@ -3500,10 +3520,6 @@ function Story(container,idPrefix)
 	this.highlightRegExp = null;
 }
 
-// Iterate through all the tiddlers in a story
-// fn - callback function to be called for each tiddler. Arguments are:
-//		tiddler - reference to Tiddler object
-//		element - reference to tiddler display element
 Story.prototype.forEachTiddler = function(fn)
 {
 	var place = document.getElementById(this.container);
@@ -3519,25 +3535,12 @@ Story.prototype.forEachTiddler = function(fn)
 		}
 }
 
-// Display several tiddlers given their titles in an array. Parameters same as displayTiddler(), except:
-// titles - array of string titles
 Story.prototype.displayTiddlers = function(srcElement,titles,template,animate,slowly,customFields)
 {
 	for(var t = titles.length-1;t>=0;t--)
 		this.displayTiddler(srcElement,titles[t],template,animate,slowly,customFields);
 }
 
-// Display a given tiddler with a given template. If the tiddler is already displayed but with a different
-// template, it is switched to the specified template
-// srcElement - reference to element from which this one is being opened -or-
-//              special positions "top", "bottom"
-// title - title of tiddler to display
-// template - the name of the tiddler containing the template -or-
-//			  one of the constants DEFAULT_VIEW_TEMPLATE and DEFAULT_EDIT_TEMPLATE -or-
-//			  null or undefined to indicate the current template if there is one, DEFAULT_VIEW_TEMPLATE if not
-// animate - whether to perform animations
-// slowly - whether to perform animations in slomo
-// customFields - an optional list of name/value pairs to be assigned as tiddler fields (for edit templates)
 Story.prototype.displayTiddler = function(srcElement,title,template,animate,slowly,customFields)
 {
 	var place = document.getElementById(this.container);
@@ -3558,10 +3561,6 @@ Story.prototype.displayTiddler = function(srcElement,title,template,animate,slow
 		}
 }
 
-// Figure out the appropriate position for a newly opened tiddler
-// srcElement - reference to the element containing the link to the tiddler -or-
-//              special positions "top", "bottom"
-// returns - reference to the tiddler that the new one should appear before (null for the bottom of the story)
 Story.prototype.positionTiddler = function(srcElement)
 {
 	var place = document.getElementById(this.container);
@@ -3591,12 +3590,6 @@ Story.prototype.positionTiddler = function(srcElement)
 	return before;
 }
 
-// Create a tiddler frame at the appropriate place in a story column
-// place - reference to parent element
-// before - null, or reference to element before which to insert new tiddler
-// title - title of new tiddler
-// template - the name of the tiddler containing the template or one of the constants DEFAULT_VIEW_TEMPLATE and DEFAULT_EDIT_TEMPLATE
-// customFields - an optional list of name/value pairs to be assigned as tiddler fields (for edit templates)
 Story.prototype.createTiddler = function(place,before,title,template,customFields)
 {
 	var tiddlerElem = createTiddlyElement(null,"div",this.idPrefix + title,"tiddler");
@@ -3606,7 +3599,6 @@ Story.prototype.createTiddler = function(place,before,title,template,customField
 	return tiddlerElem;
 }
 
-// Overridable for choosing the name of the template to apply for a tiddler
 Story.prototype.chooseTemplateForTiddler = function(title,template)
 {
 	if(!template)
@@ -3616,17 +3608,11 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 	return template;
 }
 
-// Overridable for extracting the text of a template from a tiddler
 Story.prototype.getTemplateForTiddler = function(title,template,tiddler)
 {
 	return store.getRecursiveTiddlerText(template,null,10);
 }
 
-// Apply a template to an existing tiddler if it is not already displayed using that template
-// title - title of tiddler to update
-// template - the name of the tiddler containing the template or one of the constants DEFAULT_VIEW_TEMPLATE and DEFAULT_EDIT_TEMPLATE
-// force - if true, forces the refresh even if the template hasn't changedd
-// customFields - an optional list of name/value pairs to be assigned as tiddler fields (for edit templates)
 Story.prototype.refreshTiddler = function(title,template,force,customFields)
 {
 	var tiddlerElem = document.getElementById(this.idPrefix + title);
@@ -3686,7 +3672,6 @@ Story.prototype.refreshTiddler = function(title,template,force,customFields)
 	return tiddlerElem;
 }
 
-// Add hidden input elements for the custom fields of a tiddler
 Story.prototype.addCustomFields = function(place,customFields)
 {
 	var fieldsPattern = "(?:(" + config.textPrimitives.anyLetter + "+)\\(([^\\)\\|\\n]+)(?:\\):))|(?:(" + config.textPrimitives.anyLetter + "+):([^;\\|\\n]+);)";
@@ -3715,7 +3700,6 @@ Story.prototype.addCustomFields = function(place,customFields)
 		}
 }
 
-// Refresh all tiddlers in the Story
 Story.prototype.refreshAllTiddlers = function() 
 {
 	var place = document.getElementById(this.container);
@@ -3727,7 +3711,6 @@ Story.prototype.refreshAllTiddlers = function()
 		this.refreshTiddler(e.getAttribute("tiddler"),e.getAttribute("template"),true);
 }
 
-// Default tiddler onmouseover/out event handlers
 Story.prototype.onTiddlerMouseOver = function(e)
 {
 	if(window.addClass instanceof Function)
@@ -3740,7 +3723,6 @@ Story.prototype.onTiddlerMouseOut = function(e)
 		removeClass(this,"selected");
 }
 
-// Default tiddler ondblclick event handler
 Story.prototype.onTiddlerDblClick = function(e)
 {
 	if(!e) var e = window.event;
@@ -3808,8 +3790,6 @@ Story.prototype.onTiddlerKeyPress = function(e)
 	return(!consume);
 };
 
-// Returns the specified field (input or textarea element) in a tiddler, otherwise the first edit field it finds
-// or null if it found no edit field at all
 Story.prototype.getTiddlerField = function(title,field)
 {
 	var tiddlerElem = document.getElementById(this.idPrefix + title);
@@ -3832,7 +3812,6 @@ Story.prototype.getTiddlerField = function(title,field)
 	return e;
 }
 
-// Focus a specified tiddler. Attempts to focus the specified field, otherwise the first edit field it finds
 Story.prototype.focusTiddler = function(title,field)
 {
 	var e = this.getTiddlerField(title,field);
@@ -3843,7 +3822,6 @@ Story.prototype.focusTiddler = function(title,field)
 		}
 }
 
-// Ensures that a specified tiddler does not have the focus
 Story.prototype.blurTiddler = function(title)
 {
 	var tiddlerElem = document.getElementById(this.idPrefix + title);
@@ -3854,12 +3832,6 @@ Story.prototype.blurTiddler = function(title)
 		}
 }
 
-// Adds a specified value to the edit controls (if any) of a particular
-// array-formatted field of a particular tiddler (eg "tags")
-//  title - name of tiddler
-//  tag - value of field, without any [[brackets]]
-//  mode - +1 to add the tag, -1 to remove it, 0 to toggle it
-//  field - name of field (eg "tags")
 Story.prototype.setTiddlerField = function(title,tag,mode,field)
 {
 	var c = story.getTiddlerField(title,field);
@@ -3869,16 +3841,11 @@ Story.prototype.setTiddlerField = function(title,tag,mode,field)
 	c.value = String.encodeTiddlyLinkList(tags);
 }
 
-// The same as setTiddlerField but preset to the "tags" field
 Story.prototype.setTiddlerTag = function(title,tag,mode)
 {
 	Story.prototype.setTiddlerField(title,tag,mode,"tags");
 }
 
-// Close a specified tiddler
-// title - name of tiddler to close
-// animate - whether to perform animations
-// slowly - whether to perform animations in slomo
 Story.prototype.closeTiddler = function(title,animate,slowly)
 {
 	var tiddlerElem = document.getElementById(this.idPrefix + title);
@@ -3893,17 +3860,11 @@ Story.prototype.closeTiddler = function(title,animate,slowly)
 		}
 }
 
-// Scrub IDs from a tiddler. This is so that the 'ghost' of a tiddler while it is being closed
-// does not interfere with things
-// tiddler - reference to the tiddler element
 Story.prototype.scrubTiddler = function(tiddlerElem)
 {
 	tiddlerElem.id = null;
 }
 
-// Set the 'dirty' flag of a tiddler
-// title - title of tiddler to change
-// dirty - new boolean status of flag
 Story.prototype.setDirty = function(title,dirty)
 {
 	var tiddlerElem = document.getElementById(this.idPrefix + title);
@@ -3911,7 +3872,6 @@ Story.prototype.setDirty = function(title,dirty)
 		tiddlerElem.setAttribute("dirty",dirty ? "true" : "false");
 }
 
-// Is a particular tiddler dirty (with unsaved changes)?
 Story.prototype.isDirty = function(title)
 {
 	var tiddlerElem = document.getElementById(this.idPrefix + title);
@@ -3920,7 +3880,6 @@ Story.prototype.isDirty = function(title)
 	return null;
 }
 
-// Determine whether any open tiddler are dirty
 Story.prototype.areAnyDirty = function()
 {
 	var r = false;
@@ -3931,7 +3890,6 @@ Story.prototype.areAnyDirty = function()
 	return r;
 }
 
-// Close all tiddlers in the story
 Story.prototype.closeAllTiddlers = function(exclude)
 {
 	clearMessage();
@@ -3942,17 +3900,12 @@ Story.prototype.closeAllTiddlers = function(exclude)
 	window.scrollTo(0,ensureVisible(this.container));
 }
 
-// Check if there are any tiddlers in the story
 Story.prototype.isEmpty = function()
 {
 	var place = document.getElementById(this.container);
 	return(place && place.firstChild == null);
 }
 
-// Perform a search and display the result
-// text - text to search for
-// useCaseSensitive - true for case sensitive matching
-// useRegExp - true to interpret text as a RegExp
 Story.prototype.search = function(text,useCaseSensitive,useRegExp)
 {
 	this.closeAllTiddlers();
@@ -3970,9 +3923,6 @@ Story.prototype.search = function(text,useCaseSensitive,useRegExp)
 		displayMessage(config.macros.search.failureMsg.format([q + text + q]));
 }
 
-// Determine if the specified element is within a tiddler in this story
-// e - reference to an element
-// returns: reference to a tiddler element or null if none
 Story.prototype.findContainingTiddler = function(e)
 {
 	while(e && !hasClass(e,"tiddler"))
@@ -3980,9 +3930,6 @@ Story.prototype.findContainingTiddler = function(e)
 	return(e);
 }
 
-// Gather any saveable fields from a tiddler element
-// e - reference to an element to scan recursively
-// fields - object to contain gathered field values
 Story.prototype.gatherSaveFields = function(e,fields)
 {
 	if(e && e.getAttribute)
@@ -3999,8 +3946,6 @@ Story.prototype.gatherSaveFields = function(e,fields)
 		}
 }
 
-// Determine whether a tiddler has any edit fields, and if so if their values have been changed
-// title - name of tiddler
 Story.prototype.hasChanges = function(title)
 {
 	var e = document.getElementById(this.idPrefix + title);
@@ -4018,10 +3963,6 @@ Story.prototype.hasChanges = function(title)
 	return false;
 }
 
-// Save any open edit fields of a tiddler and updates the display as necessary
-// title - name of tiddler
-// minorUpdate - true if the modified date shouldn't be updated
-// returns: title of saved tiddler, or null if not saved
 Story.prototype.saveTiddler = function(title,minorUpdate)
 {
 	var tiddlerElem = document.getElementById(this.idPrefix + title);
@@ -7456,19 +7397,6 @@ Welcome to TiddlyWiki by Jeremy Ruston, Copyright &copy; 2006 Osmosoft Limited
 </div>
 <div id="contentWrapper"></div>
 <div id="contentStash"></div>
-<div id="storeArea">
-<div tiddler="locale.zh-Hans" modifier="BramChen" created="200612024200" modified="200612041200" tags="zh-Hans systemConfig excludeLists">/***\n|''Name:''|zh-HansTranslationPlugin|\n|''Description:''|Translation of TiddlyWiki into Simply Chinese|\n|''Source:''|http://tiddlywiki-zh.googlecode.com/svn/trunk/|\n|''Author:''|BramChen (bram.chen (at) gmail (dot) com)|\n|''Version:''|1.0.0.1|\n|''Date:''|Dec 04, 2006|\n|''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|\n|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|\n|''~CoreVersion:''|2.1.0|\n***/\n\n/*{{{*/\n// Translateable strings\n// ---------------------\n\n// Strings in &quot;double quotes&quot; should be translated; strings in 'single quotes' should be left alone\n\nmerge(config.options,{\n	txtUserName: &quot;YourName&quot;});\n	\nconfig.tasks = {\n		tidy: {text: &quot;整理&quot;, tooltip: &quot;对群组文章作大量更新&quot;},\n		sync: {text: &quot;同步&quot;, tooltip: &quot;与别的 TiddlyWiki 文件及服务器同步化&quot;, content: '&lt;&lt;sync&gt;&gt;'},\n		importTask: {text: &quot;导入&quot;, tooltip: &quot;从别的 TiddlyWiki 文件及服务器导入文章与套件&quot;, content: '&lt;&lt;importTiddlers&gt;&gt;'},\n		copy: {text: &quot;复制&quot;, tooltip: &quot;复制文章至别的 TiddlyWiki 文件及服务器&quot;},\n		plugins: {text: &quot;套件管理&quot;, tooltip: &quot;管理已安装的套件&quot;, content: '&lt;&lt;plugins&gt;&gt;'}\n};\n\n// Messages\nmerge(config.messages,{\n	customConfigError: &quot;插件载入发生错误，详细请参考 PluginManager&quot;,\n	pluginError: &quot;发生错误: %0&quot;,\n	pluginDisabled: &quot;未执行，因标签设为 'systemConfigDisable'&quot;,\n	pluginForced: &quot;已执行，因标签设为 'systemConfigForce'&quot;,\n	pluginVersionError: &quot;未执行，插件需较新版本的 TiddlyWiki&quot;,\n	nothingSelected: &quot;尚未作任何选择，至少需选择一项&quot;,\n	savedSnapshotError: &quot;此 TiddlyWiki 未正确保存，详见 http://www.tiddlywiki.com/#DownloadSoftware&quot;,\n	subtitleUnknown: &quot;(未知)&quot;,\n	undefinedTiddlerToolTip: &quot;'%0' 尚无内容&quot;,\n	shadowedTiddlerToolTip: &quot;'%0' 尚无内容, 但已定义隐藏的默认值&quot;,\n	tiddlerLinkTooltip: &quot;%0 - %1, %2&quot;,\n	externalLinkTooltip: &quot;外部链接至 %0&quot;,\n	noTags: &quot;未设置标签的文章&quot;,\n	notFileUrlError: &quot;须先将此 TiddlyWiki 存至本机文件，才可保存变更&quot;,\n	cantSaveError: &quot;此浏览器无法保存变更，建议使用FireFox；也可能是你的 TiddlyWiki 文件名称包含不合法的字符所致。&quot;,\n	invalidFileError: &quot; '%0' 非有效之 TiddlyWiki 文件&quot;,\n	backupSaved: &quot;已保存备份&quot;,\n	backupFailed: &quot;无法保存备份&quot;,\n	rssSaved: &quot;RSS feed 已保存&quot;,\n	rssFailed: &quot;无法保存 RSS feed &quot;,\n	emptySaved: &quot;已保存范本&quot;,\n	emptyFailed: &quot;无法保存范本&quot;,\n	mainSaved: &quot;主要的TiddlyWiki已保存&quot;,\n	mainFailed: &quot;无法保存主要 TiddlyWiki，所作的改变未保存&quot;,\n	macroError: &quot;宏 &lt;&lt;%0&gt;&gt; 执行错误&quot;,\n	macroErrorDetails: &quot;执行宏 &lt;&lt;%0&gt;&gt; 时，发生错误 :\sn%1&quot;,\n	missingMacro: &quot;无此宏&quot;,\n	overwriteWarning: &quot;'%0' 已存在，[确定]覆盖之&quot;,\n	unsavedChangesWarning: &quot;注意！ 尚未保存变更\sn\sn[确定]保存，或[取消]放弃保存？&quot;,\n	confirmExit: &quot;--------------------------------\sn\snTiddlyWiki 以更改内容尚未保存，继续的话将遗失这些更动\sn\sn--------------------------------&quot;,\n	saveInstructions: &quot;SaveChanges&quot;,\n	unsupportedTWFormat: &quot;未支援此 TiddlyWiki 格式：'%0'&quot;,\n	tiddlerSaveError: &quot;保存文章 '%0' 时，发生错误。&quot;,\n	tiddlerLoadError: &quot;载入文章 '%0' 时，发生错误。&quot;,\n	wrongSaveFormat: &quot;无法使用格式 '%0' 保存，请使用标准格式存放&quot;,\n	invalidFieldName: &quot;无效的栏位名称：%0&quot;,\n	fieldCannotBeChanged: &quot;无法变更栏位：'%0'&quot;,\n	backstagePrompt: &quot;后台：&quot;});\n\nmerge(config.messages.messageClose,{\n	text: &quot;关闭&quot;,\n	tooltip: &quot;关闭此讯息&quot;});\n\nconfig.messages.dates.months = [&quot;一&quot;, &quot;二&quot;, &quot;三&quot;, &quot;四&quot;, &quot;五&quot;, &quot;六&quot;, &quot;七&quot;, &quot;八&quot;, &quot;九&quot;, &quot;十&quot;, &quot;十一&quot;, &quot;十二&quot;];\nconfig.messages.dates.days = [&quot;日&quot;, &quot;一&quot;,&quot;二&quot;, &quot;三&quot;, &quot;四&quot;, &quot;五&quot;, &quot;六&quot;];\nconfig.messages.dates.shortMonths = [&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;];\nconfig.messages.dates.shortDays = [&quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;];\nconfig.messages.dates.am = &quot;上午&quot;;\nconfig.messages.dates.pm = &quot;下午&quot;;\n\nmerge(config.views.wikified.tag,{\n	labelNoTags: &quot;未设标签&quot;,\n	labelTags: &quot;标签: &quot;,\n	openTag: &quot;开启标签 '%0'&quot;,\n	tooltip: &quot;显示标签为 '%0' 的文章&quot;,\n	openAllText: &quot;开启以下所有文章&quot;,\n	openAllTooltip: &quot;开启以下所有文章&quot;,\n	popupNone: &quot;仅此文标签为 '%0'&quot;});\n\nmerge(config.views.wikified,{\n	defaultText: &quot;&quot;,\n	defaultModifier: &quot;(未完成)&quot;,\n	shadowModifier: &quot;(默认)&quot;,\n	createdPrompt: &quot;创建于&quot;});\n\nmerge(config.views.editor,{\n	tagPrompt: &quot;设置标签之间以空白区隔，[[标签含空白时请使用双中括弧]]，或点选现有之标签加入&quot;,\n	defaultText: &quot;&quot;});\n\nmerge(config.views.editor.tagChooser,{\n	text: &quot;标签&quot;,\n	tooltip: &quot;点选现有之标签加至本文章&quot;,\n	popupNone: &quot;未设置标签&quot;,\n	tagTooltip: &quot;加入标签 '%0'&quot;});\n\nmerge(config.macros.search,{\n	label: &quot; 寻找&quot;,\n	prompt: &quot;搜寻本 Wiki&quot;,\n	accessKey: &quot;F&quot;,\n	successMsg: &quot; %0 篇符合条件: %1&quot;,\n	failureMsg: &quot; 无符合条件: %0&quot;});\n\nmerge(config.macros.tagging,{\n	label: &quot;引用标签:&quot;,\n	labelNotTag: &quot;无引用标签&quot;,\n	tooltip: &quot;列出标签为 '%0' 的文章&quot;});\n\nmerge(config.macros.timeline,{\n	dateFormat: &quot;YYYY0MM0DD&quot;});\n\nmerge(config.macros.allTags,{\n	tooltip: &quot;显示文章- 标签为'%0'&quot;,\n	noTags: &quot;没有标签&quot;});\n\nconfig.macros.list.all.prompt = &quot;依字母排序&quot;;\nconfig.macros.list.missing.prompt = &quot;被引用且内容空白的文章&quot;;\nconfig.macros.list.orphans.prompt = &quot;未被引用的文章&quot;;\nconfig.macros.list.shadowed.prompt = &quot;这些隐藏的文章已定义默认内容&quot;;\n\nmerge(config.macros.closeAll,{\n	label: &quot;全部关闭&quot;,\n	prompt: &quot;关闭所有开启中的 tiddler (编辑中除外)&quot;});\n\nmerge(config.macros.permaview,{\n	label: &quot;永久链接&quot;,\n	prompt: &quot;可存取现有开启之文章的链接位址&quot;});\n\nmerge(config.macros.saveChanges,{\n	label: &quot;保存变更&quot;,\n	prompt: &quot;保存所有文章，产生新的版本&quot;,\n	accessKey: &quot;S&quot;});\n\nmerge(config.macros.newTiddler,{\n	label: &quot;创建文章&quot;,\n	prompt: &quot;创建 tiddler&quot;,\n	title: &quot;创建文章&quot;,\n	accessKey: &quot;N&quot;});\n\nmerge(config.macros.newJournal,{\n	label: &quot;创建日志&quot;,\n	prompt: &quot;创建 jounal&quot;,\n	accessKey: &quot;J&quot;});\n	\nmerge(config.macros.plugins,{\n	wizardTitle: &quot;插件管理&quot;,\n	step1: &quot; - 已载入之插件&quot;,\n	skippedText: &quot;(此插件因刚加入，故尚未执行)&quot;,\n	noPluginText: &quot;未安装插件&quot;,\n	confirmDeleteText: &quot;确认是否删除此文章:\sn\sn%0&quot;,\n	listViewTemplate : {\n		columns: [\n			{name: &quot;Selected&quot;, field: &quot;Selected&quot;, rowName: &quot;title&quot;, type: &quot;Selector&quot;},\n			{name: &quot;Title&quot;, field: &quot;title&quot;, tiddlerLink: &quot;title&quot;, title: &quot;标题&quot;, type: &quot;TiddlerLink&quot;},\n			{name: &quot;Executed&quot;, field: &quot;executed&quot;, title: &quot;已载入&quot;, type: &quot;Boolean&quot;, trueText: &quot;是&quot;, falseText: &quot;否&quot;},\n			{name: &quot;Error&quot;, field: &quot;error&quot;, title: &quot;载入状态&quot;, type: &quot;Boolean&quot;, trueText: &quot;错误&quot;, falseText: &quot;正常&quot;},\n			{name: &quot;Forced&quot;, field: &quot;forced&quot;, title: &quot;强制执行&quot;, tag: &quot;systemConfigDisable&quot;, type: &quot;TagCheckbox&quot;},\n			{name: &quot;Disabled&quot;, field: &quot;disabled&quot;, title: &quot;停用&quot;, tag: &quot;systemConfigDisable&quot;, type: &quot;TagCheckbox&quot;},\n			{name: &quot;Log&quot;, field: &quot;log&quot;, title: &quot;记录&quot;, type: &quot;StringList&quot;}\n			],\n		rowClasses: [\n			{className: &quot;error&quot;, field: &quot;error&quot;},\n			{className: 'warning', field: 'warning'}\n			],\n		actions: [\n			{caption: &quot;执行选项...&quot;, name: &quot;&quot;},\n			{caption: &quot;移除 'systemConfig' 标签&quot;, name: &quot;remove&quot;},\n			{caption: &quot;永远删除&quot;, name: &quot;delete&quot;}\n			]}\n	});\n\nmerge(config.macros.refreshDisplay,{\n	label: &quot;刷新&quot;,\n	prompt: &quot;刷新此 TiddlyWiki 显示&quot;\n	});\n\nmerge(config.macros.importTiddlers,{\n	readOnlyWarning: &quot;TiddlyWiki 于唯读模式下，不支援导入文章。请由本机（file://）开启 TiddlyWiki 文件&quot;,\n	defaultPath: &quot;http://www.tiddlywiki.com/index.html&quot;,\n	fetchLabel: &quot;读取来源文件&quot;,\n	fetchPrompt: &quot;读取 TiddlyWiki 文件&quot;,\n	fetchError: &quot;读取来源文件时发生错误&quot;,\n	confirmOverwriteText: &quot;确定要覆写这些文章:\sn\sn%0&quot;,\n	wizardTitle: &quot;自其他 TiddlyWiki 文件导入文章&quot;,\n	step1: &quot;步骤一：指定来源文件&quot;,\n	step1prompt: &quot;在此输入 URL 或路径：&quot;,\n	step1promptFile: &quot;...或选择来源文件：&quot;,\n	step1promptFeeds: &quot;...或选择指定的 feed：&quot;,\n	step1feedPrompt: &quot;选择...&quot;,\n	step2: &quot;步骤二：载入来源文件&quot;,\n	step2Text: &quot;文件载入中，请稍后：%0&quot;,\n	step3: &quot;步骤三：选择欲导入之文章&quot;,\n	step4: &quot;已导入%0 篇文章&quot;,\n	step5: &quot;导入完成&quot;,\n	listViewTemplate: {\n		columns: [\n			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},\n			{name: 'Title', field: 'title', title: &quot;标题&quot;, type: 'String'},\n			{name: 'Snippet', field: 'text', title: &quot;文章摘要&quot;, type: 'String'},\n			{name: 'Tags', field: 'tags', title: &quot;标签&quot;, type: 'Tags'}\n			],\n		rowClasses: [\n			],\n		actions: [\n			{caption: &quot;执行选项......&quot;, name: ''},\n			{caption: &quot;导入所选文章&quot;, name: 'import'}\n			]}\n	});\n\nmerge(config.commands.closeTiddler,{\n	text: &quot;关闭&quot;,\n	tooltip: &quot;关闭本文&quot;});\n\nmerge(config.commands.closeOthers,{\n	text: &quot;关闭其他&quot;,\n	tooltip: &quot;关闭其他文章&quot;});\n\nmerge(config.commands.editTiddler,{\n	text: &quot;编辑&quot;,\n	tooltip: &quot;编辑本文&quot;,\n	readOnlyText: &quot;查阅&quot;,\n	readOnlyTooltip: &quot;查阅本文之原始内容&quot;});\n\nmerge(config.commands.saveTiddler,{\n	text: &quot;完成&quot;,\n	tooltip: &quot;确定修改&quot;});\n\nmerge(config.commands.cancelTiddler,{\n	text: &quot;取消&quot;,\n	tooltip: &quot;取消修改&quot;,\n	warning: &quot;确定取消对 '%0' 的修改吗?&quot;,\n	readOnlyText: &quot;完成&quot;,\n	readOnlyTooltip: &quot;返回正常显示模式&quot;});\n\nmerge(config.commands.deleteTiddler,{\n	text: &quot;删除&quot;,\n	tooltip: &quot;删除文章&quot;,\n	warning: &quot;确定删除 '%0'?&quot;});\n\nmerge(config.commands.permalink,{\n	text: &quot;永久链接&quot;,\n	tooltip: &quot;本文永久链接&quot;});\n\nmerge(config.commands.references,{\n	text: &quot;引用&quot;,\n	tooltip: &quot;引用本文的文章&quot;,\n	popupNone: &quot;本文未被引用&quot;});\n\nmerge(config.commands.jump,{\n	text: &quot;跳转&quot;,\n	tooltip: &quot;跳转至其他已开启的文章&quot;});\n\nmerge(config.shadowTiddlers,{\n	DefaultTiddlers: &quot;GettingStarted&quot;,\n	MainMenu: &quot;GettingStarted&quot;,\n	SiteTitle: &quot;My TiddlyWiki&quot;,\n	SiteSubtitle: &quot;a reusable non-linear personal web notebook&quot;,\n	SiteUrl: &quot;http://www.tiddlywiki.com/&quot;,\n//	GettingStarted: &quot;使用此 TiddlyWiki 的空白范本之前，请先修改以下默认文章：:\sn* SiteTitle 及 SiteSubtitle：网站的标题和副标题，显示于页面上方（在保存变更后，将显示于浏览器视窗的标题列）。\sn* MainMenu：主菜单（通常在页面左测）。\sn* DefaultTiddlers：包含一些文章的标题，可于进入TiddlyWiki 后开启。\sn请输入您的大名，作为所创建/ 编辑文章的署名：&lt;&lt;option txtUserName&gt;&gt;&quot;,\n//	SideBarOptions: &quot;&lt;&lt;search&gt;&gt;&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newJournal ' YYYY0MM0DD'&gt;&gt;&lt;&lt;saveChanges&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel OptionsPanel  '偏好设置 »' '变更 TiddlyWiki 选项'&gt;&gt;&quot;,\n//	OptionsPanel: &quot;这些设置将缓存于浏览器\sn请签名&lt;&lt;option txtUserName&gt;&gt;\sn (范例：WikiWord)\sn\sn&lt;&lt;option chkSaveBackups&gt;&gt; 保存备份\sn&lt;&lt;option chkAutoSave&gt;&gt; 自动保存\sn&lt;&lt;option chkRegExpSearch&gt;&gt; 正规式搜寻\sn&lt;&lt;option chkCaseSensitiveSearch&gt;&gt; 区分大小写搜寻\sn&lt;&lt;option chkAnimate&gt;&gt; 使用动画显示\sn\sn[[进阶选项|AdvancedOptions]]\sn[[插件管理|PluginManager]]\sn[[导入文章|ImportTiddlers]]&quot;,\n//	AdvancedOptions: &quot;&lt;&lt;option chkGenerateAnRssFeed&gt;&gt; 产生 RssFeed\sn&lt;&lt;option chkOpenInNewWindow&gt;&gt; 链接开启于新视窗\sn&lt;&lt;option chkSaveEmptyTemplate&gt;&gt; 保存范本\sn&lt;&lt;option chkToggleLinks&gt;&gt; 点击文章使已开启者关闭\sn\sn&lt;&lt;option chkHttpReadOnly&gt;&gt; 隐藏编辑功能 ({{{http:}}})\sn&lt;&lt;option chkForceMinorUpdate&gt;&gt; 修改文章不变更日期时间\sn(确认修改同时按 Shift 键，或只按 Ctrl-Shift-Enter)\sn&lt;&lt;option chkConfirmDelete&gt;&gt; 删除文章前确认\sn\sn编辑模式中显示列数: &lt;&lt;option txtMaxEditRows&gt;&gt;\sn存放备份文件的资料夹: &lt;&lt;option txtBackupFolder&gt;&gt;\sn&lt;&lt;option chkInsertTabs&gt;&gt; 使用 tab 键插入定位字符，而非跳至下一个栏位\sn&quot;,\n//	SideBarTabs: &quot;&lt;&lt;tabs txtMainTab 最近更新 '依更新日期排序' TabTimeline 全部 '所有文章' TabAll 分类 '所有标签' TabTags 更多 '其他' TabMore&gt;&gt;&quot;,\n	TabTimeline: &quot;&lt;&lt;timeline&gt;&gt;&quot;,\n	TabAll: &quot;&lt;&lt;list all&gt;&gt;&quot;,\n	TabTags: &quot;&lt;&lt;allTags&gt;&gt;&quot;,\n//	TabMore: &quot;&lt;&lt;tabs txtMoreTab 未完成 '内容空白的文章' TabMoreMissing 未引用 '未被引用的文章' TabMoreOrphans 默认文章 '默认的影子文章' TabMoreShadowed&gt;&gt;&quot;,\n	TabMoreMissing: &quot;&lt;&lt;list missing&gt;&gt;&quot;,\n	TabMoreOrphans: &quot;&lt;&lt;list orphans&gt;&gt;&quot;,\n	TabMoreShadowed: &quot;&lt;&lt;list shadowed&gt;&gt;&quot;,\n	PluginManager: &quot;&lt;&lt;plugins&gt;&gt;&quot;, \n	ImportTiddlers: &quot;&lt;&lt;importTiddlers&gt;&gt;&quot;});\n\n/*}}}*/\n</div>
-<div tiddler="AdvancedOptions" modifier="BramChen" created="200611301200" changecount="1">&lt;&lt;option chkGenerateAnRssFeed&gt;&gt; 产生 RssFeed\n&lt;&lt;option chkOpenInNewWindow&gt;&gt; 链接开启于新视窗\n&lt;&lt;option chkSaveEmptyTemplate&gt;&gt; 保存范本\n&lt;&lt;option chkToggleLinks&gt;&gt; 点击文章使已开启者关闭\n\n&lt;&lt;option chkHttpReadOnly&gt;&gt; 隐藏编辑功能 ({{{http:}}})\n&lt;&lt;option chkForceMinorUpdate&gt;&gt; 修改文章不变更日期时间\n(确认修改同时按 Shift 键，或只按 Ctrl-Shift-Enter)\n&lt;&lt;option chkConfirmDelete&gt;&gt; 删除文章前确认\n\n编辑模式中显示列数: &lt;&lt;option txtMaxEditRows&gt;&gt;\n存放备份文件的资料夹: &lt;&lt;option txtBackupFolder&gt;&gt;\n&lt;&lt;option chkInsertTabs&gt;&gt; 使用 tab 键插入定位字符，而非跳至下一个栏位\n</div>
-<div tiddler="GettingStarted" modifier="BramChen" created="200611301200" changecount="1">使用此 TiddlyWiki 的空白范本之前，请先修改以下默认文章：:\n* SiteTitle 及 SiteSubtitle：网站的标题和副标题，显示于页面上方（在保存变更后，将显示于浏览器视窗的标题列）。\n* MainMenu：主菜单（通常在页面左测）。\n* DefaultTiddlers：包含一些文章的标题，可于进入TiddlyWiki 后开启。\n请输入您的大名，作为所创建/ 编辑文章的署名：&lt;&lt;option txtUserName&gt;&gt;</div>
-<div tiddler="OptionsPanel" modifier="BramChen" created="200611301200" changecount="1">这些设置将缓存于浏览器\n请签名&lt;&lt;option txtUserName&gt;&gt;\n (范例：WikiWord)\n\n&lt;&lt;option chkSaveBackups&gt;&gt; 保存备份\n&lt;&lt;option chkAutoSave&gt;&gt; 自动保存\n&lt;&lt;option chkRegExpSearch&gt;&gt; 正规式搜寻\n&lt;&lt;option chkCaseSensitiveSearch&gt;&gt; 区分大小写搜寻\n&lt;&lt;option chkAnimate&gt;&gt; 使用动画显示\n\n[[进阶选项|AdvancedOptions]]\n[[插件管理|PluginManager]]\n[[导入文章|ImportTiddlers]]</div>
-<div tiddler="SideBarOptions" modifier="BramChen" created="200611301200" changecount="1">&lt;&lt;search&gt;&gt;&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newJournal ' YYYY0MM0DD'&gt;&gt;&lt;&lt;saveChanges&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel OptionsPanel  '偏好设置 »' '变更 TiddlyWiki 选项'&gt;&gt;</div>
-<div tiddler="SideBarTabs" modifier="BramChen" created="200611301200" changecount="1">&lt;&lt;tabs txtMainTab 最近更新 '依更新日期排序' TabTimeline 全部 '所有文章' TabAll 分类 '所有标签' TabTags 更多 '其他' TabMore&gt;&gt;</div>
-<div tiddler="TabMore" modifier="BramChen" created="200611301200" changecount="1">&lt;&lt;tabs txtMoreTab 未完成 '内容空白的文章' TabMoreMissing 未引用 '未被引用的文章' TabMoreOrphans 默认文章 '默认的影子文章' TabMoreShadowed&gt;&gt;</div>
-<div tiddler="ViewTemplate" modifier="BramChen" created="200611301200" changecount="1">&lt;!--{{{--&gt;\n&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler permalink references jump'&gt;&lt;/div&gt;\n&lt;div class='title' macro='view title'&gt;&lt;/div&gt;\n&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date [[YYYY年0MM月0DD日 am 0hh:0mm]]'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date YYYY年0MM月0DD日'&gt;&lt;/span&gt;)&lt;/div&gt;\n&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;\n&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;\n&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;\n&lt;div class='tagClear'&gt;&lt;/div&gt;\n&lt;!--}}}--&gt;</div>
-<div tiddler="StyleSheet" modifier="BramChen" created="200611301200" changecount="1">[[StyleSheetAdjust]]</div>
-<div tiddler="StyleSheetAdjust" modifier="BramChen" created="200611301200" changecount="1">/***\n	Title: StyleSheetAdjust\n	Usage: Add {{{[[StyleSheetAdjust]]}}} to StyleSheet\n***/\n/*{{{*/\n#sidebarOptions {\n	font-size: 1.1em;\n}\n#sidebarOptions a {\n font-style: normal;\n}\n\n#sidebarOptions .sliderPanel {\n	font-size: .95em;\n}\n.subtitle {\n	font-size: .95em;\n}\n.viewer table.listView {\n	font-size: .95em;\n}\n/*}}}*/</div>
-</div>
-<!--STORE-AREA-END-->
 <div id="shadowArea">
 <div tiddler="ColorPalette">Background: #fff\nForeground: #000\nPrimaryPale: #8cf\nPrimaryLight: #18f\nPrimaryMid: #04b\nPrimaryDark: #014\nSecondaryPale: #ffc\nSecondaryLight: #fe8\nSecondaryMid: #db4\nSecondaryDark: #841\nTertiaryPale: #eee\nTertiaryLight: #ccc\nTertiaryMid: #999\nTertiaryDark: #666\nError: #f88\n</div>
 <div tiddler="StyleSheetColors">/*{{{*/\nbody {\n	background: [[ColorPalette::Background]];\n	color: [[ColorPalette::Foreground]];\n}\n\na{\n	color: [[ColorPalette::PrimaryMid]];\n}\n\na:hover{\n	background-color: [[ColorPalette::PrimaryMid]];\n	color: [[ColorPalette::Background]];\n}\n\na img{\n	border: 0;\n}\n\nh1,h2,h3,h4,h5 {\n	color: [[ColorPalette::SecondaryDark]];\n	background: [[ColorPalette::PrimaryPale]];\n}\n\n.button {\n	color: [[ColorPalette::PrimaryDark]];\n	border: 1px solid [[ColorPalette::Background]];\n}\n\n.button:hover {\n	color: [[ColorPalette::PrimaryDark]];\n	background: [[ColorPalette::SecondaryLight]];\n	border-color: [[ColorPalette::SecondaryMid]];\n}\n\n.button:active {\n	color: [[ColorPalette::Background]];\n	background: [[ColorPalette::SecondaryMid]];\n	border: 1px solid [[ColorPalette::SecondaryDark]];\n}\n\n.header {\n	background: [[ColorPalette::PrimaryMid]];\n}\n\n.headerShadow {\n	color: [[ColorPalette::Foreground]];\n}\n\n.headerShadow a {\n	font-weight: normal;\n	color: [[ColorPalette::Foreground]];\n}\n\n.headerForeground {\n	color: [[ColorPalette::Background]];\n}\n\n.headerForeground a {\n	font-weight: normal;\n	color: [[ColorPalette::PrimaryPale]];\n}\n\n.tabSelected{\n	color: [[ColorPalette::PrimaryDark]];\n	background: [[ColorPalette::TertiaryPale]];\n	border-left: 1px solid [[ColorPalette::TertiaryLight]];\n	border-top: 1px solid [[ColorPalette::TertiaryLight]];\n	border-right: 1px solid [[ColorPalette::TertiaryLight]];\n}\n\n.tabUnselected {\n	color: [[ColorPalette::Background]];\n	background: [[ColorPalette::TertiaryMid]];\n}\n\n.tabContents {\n	color: [[ColorPalette::PrimaryDark]];\n	background: [[ColorPalette::TertiaryPale]];\n	border: 1px solid [[ColorPalette::TertiaryLight]];\n}\n\n.tabContents .button {\n	 border: 0;}\n\n#sidebar {\n}\n\n#sidebarOptions input {\n	border: 1px solid [[ColorPalette::PrimaryMid]];\n}\n\n#sidebarOptions .sliderPanel {\n	background: [[ColorPalette::PrimaryPale]];\n}\n\n#sidebarOptions .sliderPanel a {\n	border: none;\n	color: [[ColorPalette::PrimaryMid]];\n}\n\n#sidebarOptions .sliderPanel a:hover {\n	color: [[ColorPalette::Background]];\n	background: [[ColorPalette::PrimaryMid]];\n}\n\n#sidebarOptions .sliderPanel a:active {\n	color: [[ColorPalette::PrimaryMid]];\n	background: [[ColorPalette::Background]];\n}\n\n.wizard {\n	background: [[ColorPalette::TertiaryLight]];\n	border-top: 1px solid [[ColorPalette::TertiaryMid]];\n	border-left: 1px solid [[ColorPalette::TertiaryMid]];\n}\n\n.wizard h1 {\n	color: [[ColorPalette::TertiaryDark]];\n}\n\n.wizard h2 {\n	color: [[ColorPalette::Foreground]];\n}\n\n.wizardStep {\n	background: [[ColorPalette::Background]];\n	border-top: 1px solid [[ColorPalette::TertiaryMid]];\n	border-bottom: 1px solid [[ColorPalette::TertiaryMid]];\n	border-left: 1px solid [[ColorPalette::TertiaryMid]];\n}\n\n.wizard .button {\n	color: [[ColorPalette::Background]];\n	background: [[ColorPalette::PrimaryMid]];\n	border-top: 1px solid [[ColorPalette::PrimaryLight]];\n	border-right: 1px solid [[ColorPalette::PrimaryDark]];\n	border-bottom: 1px solid [[ColorPalette::PrimaryDark]];\n	border-left: 1px solid [[ColorPalette::PrimaryLight]];\n}\n\n.wizard .button:hover {\n	color: [[ColorPalette::PrimaryLight]];\n	background: [[ColorPalette::PrimaryDark]];\n	border-color: [[ColorPalette::PrimaryLight]];\n}\n\n.wizard .button:active {\n	color: [[ColorPalette::Background]];\n	background: [[ColorPalette::PrimaryMid]];\n	border-top: 1px solid [[ColorPalette::PrimaryLight]];\n	border-right: 1px solid [[ColorPalette::PrimaryDark]];\n	border-bottom: 1px solid [[ColorPalette::PrimaryDark]];\n	border-left: 1px solid [[ColorPalette::PrimaryLight]];\n}\n\n#messageArea {\n	border: 1px solid [[ColorPalette::SecondaryDark]];\n	background: [[ColorPalette::SecondaryMid]];\n	color: [[ColorPalette::PrimaryDark]];\n}\n\n#messageArea .button {\n	padding: 0.2em 0.2em 0.2em 0.2em;\n	color: [[ColorPalette::PrimaryDark]];\n	background: [[ColorPalette::Background]];\n}\n\n.popup {\n	background: [[ColorPalette::PrimaryLight]];\n	border: 1px solid [[ColorPalette::PrimaryMid]];\n}\n\n.popup hr {\n	color: [[ColorPalette::PrimaryDark]];\n	background: [[ColorPalette::PrimaryDark]];\n	border-bottom: 1px;\n}\n\n.listBreak div{\n	border-bottom: 1px solid [[ColorPalette::PrimaryDark]];\n}\n\n.popup li.disabled {\n	color: [[ColorPalette::PrimaryMid]];\n}\n\n.popup li a, .popup li a:visited {\n	color: [[ColorPalette::TertiaryPale]];\n	border: none;\n}\n\n.popup li a:hover {\n	background: [[ColorPalette::PrimaryDark]];\n	color: [[ColorPalette::Background]];\n	border: none;\n}\n\n.tiddler .defaultCommand {\n font-weight: bold;\n}\n\n.shadow .title {\n	color: [[ColorPalette::TertiaryDark]];\n}\n\n.title {\n	color: [[ColorPalette::SecondaryDark]];\n}\n\n.subtitle {\n	color: [[ColorPalette::TertiaryDark]];\n}\n\n.toolbar {\n	color: [[ColorPalette::PrimaryMid]];\n}\n\n.tagging, .tagged {\n	border: 1px solid [[ColorPalette::TertiaryPale]];\n	background-color: [[ColorPalette::TertiaryPale]];\n}\n\n.selected .tagging, .selected .tagged {\n	background-color: [[ColorPalette::TertiaryLight]];\n	border: 1px solid [[ColorPalette::TertiaryMid]];\n}\n\n.tagging .listTitle, .tagged .listTitle {\n	color: [[ColorPalette::PrimaryDark]];\n}\n\n.tagging .button, .tagged .button {\n		border: none;\n}\n\n.footer {\n	color: [[ColorPalette::TertiaryLight]];\n}\n\n.selected .footer {\n	color: [[ColorPalette::TertiaryMid]];\n}\n\n.sparkline {\n	background: [[ColorPalette::PrimaryPale]];\n	border: 0;\n}\n\n.sparktick {\n	background: [[ColorPalette::PrimaryDark]];\n}\n\n.error, .errorButton {\n	color: [[ColorPalette::Foreground]];\n	background: [[ColorPalette::Error]];\n}\n\n.warning {\n	color: [[ColorPalette::Foreground]];\n	background: [[ColorPalette::SecondaryPale]];\n}\n\n.cascade {\n	background: [[ColorPalette::TertiaryPale]];\n	color: [[ColorPalette::TertiaryMid]];\n	border: 1px solid [[ColorPalette::TertiaryMid]];\n}\n\n.imageLink, #displayArea .imageLink {\n	background: transparent;\n}\n\n.viewer .listTitle {list-style-type: none; margin-left: -2em;}\n\n.viewer .button {\n	border: 1px solid [[ColorPalette::SecondaryMid]];\n}\n\n.viewer blockquote {\n	border-left: 3px solid [[ColorPalette::TertiaryDark]];\n}\n\ntable {\n	border: 2px solid [[ColorPalette::TertiaryDark]];\n}\n\nth, thead td {\n	background: [[ColorPalette::SecondaryMid]];\n	border: 1px solid [[ColorPalette::TertiaryDark]];\n	color: [[ColorPalette::Background]];\n}\n\ntd, tr {\n	border: 1px solid [[ColorPalette::TertiaryDark]];\n}\n\n.viewer pre {\n	border: 1px solid [[ColorPalette::SecondaryLight]];\n	background: [[ColorPalette::SecondaryPale]];\n}\n\n.viewer code {\n	color: [[ColorPalette::SecondaryDark]];\n}\n\n.viewer hr {\n	border: 0;\n	border-top: dashed 1px [[ColorPalette::TertiaryDark]];\n	color: [[ColorPalette::TertiaryDark]];\n}\n\n.highlight, .marked {\n	background: [[ColorPalette::SecondaryLight]];\n}\n\n.editor input {\n	border: 1px solid [[ColorPalette::PrimaryMid]];\n}\n\n.editor textarea {\n	border: 1px solid [[ColorPalette::PrimaryMid]];\n	width: 100%;\n}\n\n.editorFooter {\n	color: [[ColorPalette::TertiaryMid]];\n}\n\n.backstageSelTab {\n	background: [[ColorPalette::Foreground]];\n	color: [[ColorPalette::Background]];\n}\n\n#backstagePanel .wizardStep {\n	background: [[ColorPalette::Foreground]];\n}\n\n#backstagePanel .wizardFooter {\n	background: [[ColorPalette::TertiaryLight]];\n	border-right: 1px solid [[ColorPalette::TertiaryMid]];\n	border-bottom: 1px solid [[ColorPalette::TertiaryMid]];\n	border-left: 1px solid [[ColorPalette::TertiaryMid]];\n}\n\n#backstagePanel .wizardFooter a {	color: [[ColorPalette::Background]];\n	background-color: [[ColorPalette::TertiaryDark]];}\n\n#backstagePanel .wizardFooter a:hover {\n}\n\n#backstagePanel {\n	background:	[[ColorPalette::Foreground]];\n	color: [[ColorPalette::Background]];\n}\n\n#backstagePanel a {\n	color: [[ColorPalette::PrimaryPale]];\n}\n\n#backstagePanel a:hover {\n	background-color: [[ColorPalette::Background]];\n	color: [[ColorPalette::PrimaryMid]];\n}\n\n#backstagePanel table {\n	border: 2px solid [[ColorPalette::TertiaryMid]];\n}\n\n#backstagePanel th, #backstagePanel thead td {\n	background: [[ColorPalette::TertiaryDark]];\n	border: 1px solid [[ColorPalette::TertiaryMid]];\n	color: [[ColorPalette::Background]];\n}\n\n#backstagePanel td, #backstagePanel tr {\n	background: [[ColorPalette::Foreground]];\n	border: 1px solid [[ColorPalette::TertiaryMid]];\n}\n\n#backstageCloak {\n	background: [[ColorPalette::Background]];\n	opacity: 0.5;\n	filter:'alpha(opacity:50)';\n}\n\n/*}}}*/\n</div>
@@ -7481,6 +7409,16 @@ Welcome to TiddlyWiki by Jeremy Ruston, Copyright &copy; 2006 Osmosoft Limited
 <div tiddler="OptionsPanel">These InterfaceOptions for customising TiddlyWiki are saved in your browser\n\nYour username for signing your edits. Write it as a WikiWord (eg JoeBloggs)\n\n&lt;&lt;option txtUserName&gt;&gt;\n&lt;&lt;option chkSaveBackups&gt;&gt; SaveBackups\n&lt;&lt;option chkAutoSave&gt;&gt; AutoSave\n&lt;&lt;option chkRegExpSearch&gt;&gt; RegExpSearch\n&lt;&lt;option chkCaseSensitiveSearch&gt;&gt; CaseSensitiveSearch\n&lt;&lt;option chkAnimate&gt;&gt; EnableAnimations\n\n----\nAdvancedOptions\nPluginManager\nImportTiddlers</div>
 <div tiddler="AdvancedOptions">&lt;&lt;option chkGenerateAnRssFeed&gt;&gt; GenerateAnRssFeed\n&lt;&lt;option chkOpenInNewWindow&gt;&gt; OpenLinksInNewWindow\n&lt;&lt;option chkSaveEmptyTemplate&gt;&gt; SaveEmptyTemplate\n&lt;&lt;option chkToggleLinks&gt;&gt; Clicking on links to tiddlers that are already open causes them to close\n^^(override with Control or other modifier key)^^\n&lt;&lt;option chkHttpReadOnly&gt;&gt; HideEditingFeatures when viewed over HTTP\n&lt;&lt;option chkForceMinorUpdate&gt;&gt; Treat edits as MinorChanges by preserving date and time\n^^(override with Shift key when clicking 'done' or by pressing Ctrl-Shift-Enter^^\n&lt;&lt;option chkConfirmDelete&gt;&gt; ConfirmBeforeDeleting\nMaximum number of lines in a tiddler edit box: &lt;&lt;option txtMaxEditRows&gt;&gt;\nFolder name for backup files: &lt;&lt;option txtBackupFolder&gt;&gt;\n&lt;&lt;option chkInsertTabs&gt;&gt; Use tab key to insert tab characters instead of jumping to next field</div>
 </div>
+<div id="storeArea">
+<div tiddler="locale.zh-Hans" modifier="BramChen" created="200612024200" modified="200612041200" tags="zh-Hans systemConfig excludeLists">/***\n|''Name:''|zh-HansTranslationPlugin|\n|''Description:''|Translation of TiddlyWiki into Simply Chinese|\n|''Source:''|http://tiddlywiki-zh.googlecode.com/svn/trunk/|\n|''Author:''|BramChen (bram.chen (at) gmail (dot) com)|\n|''Version:''|1.0.0.1|\n|''Date:''|Dec 04, 2006|\n|''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|\n|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|\n|''~CoreVersion:''|2.1.0|\n***/\n\n/*{{{*/\n// Translateable strings\n// ---------------------\n\n// Strings in &quot;double quotes&quot; should be translated; strings in 'single quotes' should be left alone\n\nmerge(config.options,{\n	txtUserName: &quot;YourName&quot;});\n	\nconfig.tasks = {\n		tidy: {text: &quot;整理&quot;, tooltip: &quot;对群组文章作大量更新&quot;},\n		sync: {text: &quot;同步&quot;, tooltip: &quot;与别的 TiddlyWiki 文件及服务器同步化&quot;, content: '&lt;&lt;sync&gt;&gt;'},\n		importTask: {text: &quot;导入&quot;, tooltip: &quot;从别的 TiddlyWiki 文件及服务器导入文章与套件&quot;, content: '&lt;&lt;importTiddlers&gt;&gt;'},\n		copy: {text: &quot;复制&quot;, tooltip: &quot;复制文章至别的 TiddlyWiki 文件及服务器&quot;},\n		plugins: {text: &quot;套件管理&quot;, tooltip: &quot;管理已安装的套件&quot;, content: '&lt;&lt;plugins&gt;&gt;'}\n};\n\n// Messages\nmerge(config.messages,{\n	customConfigError: &quot;插件载入发生错误，详细请参考 PluginManager&quot;,\n	pluginError: &quot;发生错误: %0&quot;,\n	pluginDisabled: &quot;未执行，因标签设为 'systemConfigDisable'&quot;,\n	pluginForced: &quot;已执行，因标签设为 'systemConfigForce'&quot;,\n	pluginVersionError: &quot;未执行，插件需较新版本的 TiddlyWiki&quot;,\n	nothingSelected: &quot;尚未作任何选择，至少需选择一项&quot;,\n	savedSnapshotError: &quot;此 TiddlyWiki 未正确保存，详见 http://www.tiddlywiki.com/#DownloadSoftware&quot;,\n	subtitleUnknown: &quot;(未知)&quot;,\n	undefinedTiddlerToolTip: &quot;'%0' 尚无内容&quot;,\n	shadowedTiddlerToolTip: &quot;'%0' 尚无内容, 但已定义隐藏的默认值&quot;,\n	tiddlerLinkTooltip: &quot;%0 - %1, %2&quot;,\n	externalLinkTooltip: &quot;外部链接至 %0&quot;,\n	noTags: &quot;未设置标签的文章&quot;,\n	notFileUrlError: &quot;须先将此 TiddlyWiki 存至本机文件，才可保存变更&quot;,\n	cantSaveError: &quot;此浏览器无法保存变更，建议使用FireFox；也可能是你的 TiddlyWiki 文件名称包含不合法的字符所致。&quot;,\n	invalidFileError: &quot; '%0' 非有效之 TiddlyWiki 文件&quot;,\n	backupSaved: &quot;已保存备份&quot;,\n	backupFailed: &quot;无法保存备份&quot;,\n	rssSaved: &quot;RSS feed 已保存&quot;,\n	rssFailed: &quot;无法保存 RSS feed &quot;,\n	emptySaved: &quot;已保存范本&quot;,\n	emptyFailed: &quot;无法保存范本&quot;,\n	mainSaved: &quot;主要的TiddlyWiki已保存&quot;,\n	mainFailed: &quot;无法保存主要 TiddlyWiki，所作的改变未保存&quot;,\n	macroError: &quot;宏 &lt;&lt;%0&gt;&gt; 执行错误&quot;,\n	macroErrorDetails: &quot;执行宏 &lt;&lt;%0&gt;&gt; 时，发生错误 :\sn%1&quot;,\n	missingMacro: &quot;无此宏&quot;,\n	overwriteWarning: &quot;'%0' 已存在，[确定]覆盖之&quot;,\n	unsavedChangesWarning: &quot;注意！ 尚未保存变更\sn\sn[确定]保存，或[取消]放弃保存？&quot;,\n	confirmExit: &quot;--------------------------------\sn\snTiddlyWiki 以更改内容尚未保存，继续的话将遗失这些更动\sn\sn--------------------------------&quot;,\n	saveInstructions: &quot;SaveChanges&quot;,\n	unsupportedTWFormat: &quot;未支援此 TiddlyWiki 格式：'%0'&quot;,\n	tiddlerSaveError: &quot;保存文章 '%0' 时，发生错误。&quot;,\n	tiddlerLoadError: &quot;载入文章 '%0' 时，发生错误。&quot;,\n	wrongSaveFormat: &quot;无法使用格式 '%0' 保存，请使用标准格式存放&quot;,\n	invalidFieldName: &quot;无效的栏位名称：%0&quot;,\n	fieldCannotBeChanged: &quot;无法变更栏位：'%0'&quot;,\n	backstagePrompt: &quot;后台：&quot;});\n\nmerge(config.messages.messageClose,{\n	text: &quot;关闭&quot;,\n	tooltip: &quot;关闭此讯息&quot;});\n\nconfig.messages.dates.months = [&quot;一&quot;, &quot;二&quot;, &quot;三&quot;, &quot;四&quot;, &quot;五&quot;, &quot;六&quot;, &quot;七&quot;, &quot;八&quot;, &quot;九&quot;, &quot;十&quot;, &quot;十一&quot;, &quot;十二&quot;];\nconfig.messages.dates.days = [&quot;日&quot;, &quot;一&quot;,&quot;二&quot;, &quot;三&quot;, &quot;四&quot;, &quot;五&quot;, &quot;六&quot;];\nconfig.messages.dates.shortMonths = [&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;];\nconfig.messages.dates.shortDays = [&quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;];\nconfig.messages.dates.am = &quot;上午&quot;;\nconfig.messages.dates.pm = &quot;下午&quot;;\n\nmerge(config.views.wikified.tag,{\n	labelNoTags: &quot;未设标签&quot;,\n	labelTags: &quot;标签: &quot;,\n	openTag: &quot;开启标签 '%0'&quot;,\n	tooltip: &quot;显示标签为 '%0' 的文章&quot;,\n	openAllText: &quot;开启以下所有文章&quot;,\n	openAllTooltip: &quot;开启以下所有文章&quot;,\n	popupNone: &quot;仅此文标签为 '%0'&quot;});\n\nmerge(config.views.wikified,{\n	defaultText: &quot;&quot;,\n	defaultModifier: &quot;(未完成)&quot;,\n	shadowModifier: &quot;(默认)&quot;,\n	createdPrompt: &quot;创建于&quot;});\n\nmerge(config.views.editor,{\n	tagPrompt: &quot;设置标签之间以空白区隔，[[标签含空白时请使用双中括弧]]，或点选现有之标签加入&quot;,\n	defaultText: &quot;&quot;});\n\nmerge(config.views.editor.tagChooser,{\n	text: &quot;标签&quot;,\n	tooltip: &quot;点选现有之标签加至本文章&quot;,\n	popupNone: &quot;未设置标签&quot;,\n	tagTooltip: &quot;加入标签 '%0'&quot;});\n\nmerge(config.macros.search,{\n	label: &quot; 寻找&quot;,\n	prompt: &quot;搜寻本 Wiki&quot;,\n	accessKey: &quot;F&quot;,\n	successMsg: &quot; %0 篇符合条件: %1&quot;,\n	failureMsg: &quot; 无符合条件: %0&quot;});\n\nmerge(config.macros.tagging,{\n	label: &quot;引用标签:&quot;,\n	labelNotTag: &quot;无引用标签&quot;,\n	tooltip: &quot;列出标签为 '%0' 的文章&quot;});\n\nmerge(config.macros.timeline,{\n	dateFormat: &quot;YYYY年0MM月0DD日&quot;});\n\nmerge(config.macros.allTags,{\n	tooltip: &quot;显示文章- 标签为'%0'&quot;,\n	noTags: &quot;没有标签&quot;});\n\nconfig.macros.list.all.prompt = &quot;依字母排序&quot;;\nconfig.macros.list.missing.prompt = &quot;被引用且内容空白的文章&quot;;\nconfig.macros.list.orphans.prompt = &quot;未被引用的文章&quot;;\nconfig.macros.list.shadowed.prompt = &quot;这些隐藏的文章已定义默认内容&quot;;\n\nmerge(config.macros.closeAll,{\n	label: &quot;全部关闭&quot;,\n	prompt: &quot;关闭所有开启中的 tiddler (编辑中除外)&quot;});\n\nmerge(config.macros.permaview,{\n	label: &quot;永久链接&quot;,\n	prompt: &quot;可存取现有开启之文章的链接位址&quot;});\n\nmerge(config.macros.saveChanges,{\n	label: &quot;保存变更&quot;,\n	prompt: &quot;保存所有文章，产生新的版本&quot;,\n	accessKey: &quot;S&quot;});\n\nmerge(config.macros.newTiddler,{\n	label: &quot;创建文章&quot;,\n	prompt: &quot;创建 tiddler&quot;,\n	title: &quot;创建文章&quot;,\n	accessKey: &quot;N&quot;});\n\nmerge(config.macros.newJournal,{\n	label: &quot;创建日志&quot;,\n	prompt: &quot;创建 jounal&quot;,\n	accessKey: &quot;J&quot;});\n	\nmerge(config.macros.plugins,{\n	wizardTitle: &quot;插件管理&quot;,\n	step1: &quot; - 已载入之插件&quot;,\n	skippedText: &quot;(此插件因刚加入，故尚未执行)&quot;,\n	noPluginText: &quot;未安装插件&quot;,\n	confirmDeleteText: &quot;确认是否删除此文章:\sn\sn%0&quot;,\n	listViewTemplate : {\n		columns: [\n			{name: &quot;Selected&quot;, field: &quot;Selected&quot;, rowName: &quot;title&quot;, type: &quot;Selector&quot;},\n			{name: &quot;Title&quot;, field: &quot;title&quot;, tiddlerLink: &quot;title&quot;, title: &quot;标题&quot;, type: &quot;TiddlerLink&quot;},\n			{name: &quot;Executed&quot;, field: &quot;executed&quot;, title: &quot;已载入&quot;, type: &quot;Boolean&quot;, trueText: &quot;是&quot;, falseText: &quot;否&quot;},\n			{name: &quot;Error&quot;, field: &quot;error&quot;, title: &quot;载入状态&quot;, type: &quot;Boolean&quot;, trueText: &quot;错误&quot;, falseText: &quot;正常&quot;},\n			{name: &quot;Forced&quot;, field: &quot;forced&quot;, title: &quot;强制执行&quot;, tag: &quot;systemConfigDisable&quot;, type: &quot;TagCheckbox&quot;},\n			{name: &quot;Disabled&quot;, field: &quot;disabled&quot;, title: &quot;停用&quot;, tag: &quot;systemConfigDisable&quot;, type: &quot;TagCheckbox&quot;},\n			{name: &quot;Log&quot;, field: &quot;log&quot;, title: &quot;记录&quot;, type: &quot;StringList&quot;}\n			],\n		rowClasses: [\n			{className: &quot;error&quot;, field: &quot;error&quot;},\n			{className: 'warning', field: 'warning'}\n			],\n		actions: [\n			{caption: &quot;执行选项...&quot;, name: &quot;&quot;},\n			{caption: &quot;移除 'systemConfig' 标签&quot;, name: &quot;remove&quot;},\n			{caption: &quot;永远删除&quot;, name: &quot;delete&quot;}\n			]}\n	});\n\nmerge(config.macros.refreshDisplay,{\n	label: &quot;刷新&quot;,\n	prompt: &quot;刷新此 TiddlyWiki 显示&quot;\n	});\n\nmerge(config.macros.importTiddlers,{\n	readOnlyWarning: &quot;TiddlyWiki 于唯读模式下，不支援导入文章。请由本机（file://）开启 TiddlyWiki 文件&quot;,\n	defaultPath: &quot;http://www.tiddlywiki.com/index.html&quot;,\n	fetchLabel: &quot;读取来源文件&quot;,\n	fetchPrompt: &quot;读取 TiddlyWiki 文件&quot;,\n	fetchError: &quot;读取来源文件时发生错误&quot;,\n	confirmOverwriteText: &quot;确定要覆写这些文章:\sn\sn%0&quot;,\n	wizardTitle: &quot;自其他 TiddlyWiki 文件导入文章&quot;,\n	step1: &quot;步骤一：指定来源文件&quot;,\n	step1prompt: &quot;在此输入 URL 或路径：&quot;,\n	step1promptFile: &quot;...或选择来源文件：&quot;,\n	step1promptFeeds: &quot;...或选择指定的 feed：&quot;,\n	step1feedPrompt: &quot;选择...&quot;,\n	step2: &quot;步骤二：载入来源文件&quot;,\n	step2Text: &quot;文件载入中，请稍后：%0&quot;,\n	step3: &quot;步骤三：选择欲导入之文章&quot;,\n	step4: &quot;已导入%0 篇文章&quot;,\n	step5: &quot;导入完成&quot;,\n	listViewTemplate: {\n		columns: [\n			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},\n			{name: 'Title', field: 'title', title: &quot;标题&quot;, type: 'String'},\n			{name: 'Snippet', field: 'text', title: &quot;文章摘要&quot;, type: 'String'},\n			{name: 'Tags', field: 'tags', title: &quot;标签&quot;, type: 'Tags'}\n			],\n		rowClasses: [\n			],\n		actions: [\n			{caption: &quot;执行选项......&quot;, name: ''},\n			{caption: &quot;导入所选文章&quot;, name: 'import'}\n			]}\n	});\n\nmerge(config.commands.closeTiddler,{\n	text: &quot;关闭&quot;,\n	tooltip: &quot;关闭本文&quot;});\n\nmerge(config.commands.closeOthers,{\n	text: &quot;关闭其他&quot;,\n	tooltip: &quot;关闭其他文章&quot;});\n\nmerge(config.commands.editTiddler,{\n	text: &quot;编辑&quot;,\n	tooltip: &quot;编辑本文&quot;,\n	readOnlyText: &quot;查阅&quot;,\n	readOnlyTooltip: &quot;查阅本文之原始内容&quot;});\n\nmerge(config.commands.saveTiddler,{\n	text: &quot;完成&quot;,\n	tooltip: &quot;确定修改&quot;});\n\nmerge(config.commands.cancelTiddler,{\n	text: &quot;取消&quot;,\n	tooltip: &quot;取消修改&quot;,\n	warning: &quot;确定取消对 '%0' 的修改吗?&quot;,\n	readOnlyText: &quot;完成&quot;,\n	readOnlyTooltip: &quot;返回正常显示模式&quot;});\n\nmerge(config.commands.deleteTiddler,{\n	text: &quot;删除&quot;,\n	tooltip: &quot;删除文章&quot;,\n	warning: &quot;确定删除 '%0'?&quot;});\n\nmerge(config.commands.permalink,{\n	text: &quot;永久链接&quot;,\n	tooltip: &quot;本文永久链接&quot;});\n\nmerge(config.commands.references,{\n	text: &quot;引用&quot;,\n	tooltip: &quot;引用本文的文章&quot;,\n	popupNone: &quot;本文未被引用&quot;});\n\nmerge(config.commands.jump,{\n	text: &quot;跳转&quot;,\n	tooltip: &quot;跳转至其他已开启的文章&quot;});\n\nmerge(config.shadowTiddlers,{\n	DefaultTiddlers: &quot;GettingStarted&quot;,\n	MainMenu: &quot;GettingStarted&quot;,\n	SiteTitle: &quot;My TiddlyWiki&quot;,\n	SiteSubtitle: &quot;a reusable non-linear personal web notebook&quot;,\n	SiteUrl: &quot;http://www.tiddlywiki.com/&quot;,\n//	GettingStarted: &quot;使用此 TiddlyWiki 的空白范本之前，请先修改以下默认文章：:\sn* SiteTitle 及 SiteSubtitle：网站的标题和副标题，显示于页面上方（在保存变更后，将显示于浏览器视窗的标题列）。\sn* MainMenu：主菜单（通常在页面左测）。\sn* DefaultTiddlers：包含一些文章的标题，可于进入TiddlyWiki 后开启。\sn请输入您的大名，作为所创建/ 编辑文章的署名：&lt;&lt;option txtUserName&gt;&gt;&quot;,\n	SideBarOptions: &quot;&lt;&lt;search&gt;&gt;&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newJournal ' YYYY年0MM月0DD日'&gt;&gt;&lt;&lt;saveChanges&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel OptionsPanel  '偏好设置 »' '变更 TiddlyWiki 选项'&gt;&gt;&quot;,\n//	OptionsPanel: &quot;这些设置将缓存于浏览器\sn请签名&lt;&lt;option txtUserName&gt;&gt;\sn (范例：WikiWord)\sn\sn&lt;&lt;option chkSaveBackups&gt;&gt; 保存备份\sn&lt;&lt;option chkAutoSave&gt;&gt; 自动保存\sn&lt;&lt;option chkRegExpSearch&gt;&gt; 正规式搜寻\sn&lt;&lt;option chkCaseSensitiveSearch&gt;&gt; 区分大小写搜寻\sn&lt;&lt;option chkAnimate&gt;&gt; 使用动画显示\sn\sn[[进阶选项|AdvancedOptions]]\sn[[插件管理|PluginManager]]\sn[[导入文章|ImportTiddlers]]&quot;,\n//	AdvancedOptions: &quot;&lt;&lt;option chkGenerateAnRssFeed&gt;&gt; 产生 RssFeed\sn&lt;&lt;option chkOpenInNewWindow&gt;&gt; 链接开启于新视窗\sn&lt;&lt;option chkSaveEmptyTemplate&gt;&gt; 保存范本\sn&lt;&lt;option chkToggleLinks&gt;&gt; 点击文章使已开启者关闭\sn\sn&lt;&lt;option chkHttpReadOnly&gt;&gt; 隐藏编辑功能 ({{{http:}}})\sn&lt;&lt;option chkForceMinorUpdate&gt;&gt; 修改文章不变更日期时间\sn(确认修改同时按 Shift 键，或只按 Ctrl-Shift-Enter)\sn&lt;&lt;option chkConfirmDelete&gt;&gt; 删除文章前确认\sn\sn编辑模式中显示列数: &lt;&lt;option txtMaxEditRows&gt;&gt;\sn存放备份文件的资料夹: &lt;&lt;option txtBackupFolder&gt;&gt;\sn&lt;&lt;option chkInsertTabs&gt;&gt; 使用 tab 键插入定位字符，而非跳至下一个栏位\sn&quot;,\n	SideBarTabs: &quot;&lt;&lt;tabs txtMainTab 最近更新 '依更新日期排序' TabTimeline 全部 '所有文章' TabAll 分类 '所有标签' TabTags 更多 '其他' TabMore&gt;&gt;&quot;,\n	TabTimeline: &quot;&lt;&lt;timeline&gt;&gt;&quot;,\n	TabAll: &quot;&lt;&lt;list all&gt;&gt;&quot;,\n	TabTags: &quot;&lt;&lt;allTags&gt;&gt;&quot;,\n	TabMore: &quot;&lt;&lt;tabs txtMoreTab 未完成 '内容空白的文章' TabMoreMissing 未引用 '未被引用的文章' TabMoreOrphans 默认文章 '默认的影子文章' TabMoreShadowed&gt;&gt;&quot;,\n	TabMoreMissing: &quot;&lt;&lt;list missing&gt;&gt;&quot;,\n	TabMoreOrphans: &quot;&lt;&lt;list orphans&gt;&gt;&quot;,\n	TabMoreShadowed: &quot;&lt;&lt;list shadowed&gt;&gt;&quot;,\n	PluginManager: &quot;&lt;&lt;plugins&gt;&gt;&quot;, \n	ImportTiddlers: &quot;&lt;&lt;importTiddlers&gt;&gt;&quot;});\n\n/*}}}*/\n</div>
+<div tiddler="AdvancedOptions" modifier="BramChen">&lt;&lt;option chkGenerateAnRssFeed&gt;&gt; 产生 RssFeed\n&lt;&lt;option chkOpenInNewWindow&gt;&gt; 链接开启于新视窗\n&lt;&lt;option chkSaveEmptyTemplate&gt;&gt; 保存范本\n&lt;&lt;option chkToggleLinks&gt;&gt; 点击文章使已开启者关闭\n\n&lt;&lt;option chkHttpReadOnly&gt;&gt; 隐藏编辑功能 ({{{http:}}})\n&lt;&lt;option chkForceMinorUpdate&gt;&gt; 修改文章不变更日期时间\n(确认修改同时按 Shift 键，或只按 Ctrl-Shift-Enter)\n&lt;&lt;option chkConfirmDelete&gt;&gt; 删除文章前确认\n\n编辑模式中显示列数: &lt;&lt;option txtMaxEditRows&gt;&gt;\n存放备份文件的资料夹: &lt;&lt;option txtBackupFolder&gt;&gt;\n&lt;&lt;option chkInsertTabs&gt;&gt; 使用 tab 键插入定位字符，而非跳至下一个栏位\n</div>
+<div tiddler="GettingStarted" modifier="BramChen">使用此 TiddlyWiki 的空白范本之前，请先修改以下默认文章：:\n* SiteTitle 及 SiteSubtitle：网站的标题和副标题，显示于页面上方（在保存变更后，将显示于浏览器视窗的标题列）。\n* MainMenu：主菜单（通常在页面左测）。\n* DefaultTiddlers：包含一些文章的标题，可于进入TiddlyWiki 后开启。\n请输入您的大名，作为所创建/ 编辑文章的署名：&lt;&lt;option txtUserName&gt;&gt;</div>
+<div tiddler="OptionsPanel" modifier="BramChen">这些设置将缓存于浏览器\n请签名&lt;&lt;option txtUserName&gt;&gt;\n (范例：WikiWord)\n\n&lt;&lt;option chkSaveBackups&gt;&gt; 保存备份\n&lt;&lt;option chkAutoSave&gt;&gt; 自动保存\n&lt;&lt;option chkRegExpSearch&gt;&gt; 正规式搜寻\n&lt;&lt;option chkCaseSensitiveSearch&gt;&gt; 区分大小写搜寻\n&lt;&lt;option chkAnimate&gt;&gt; 使用动画显示\n\n[[进阶选项|AdvancedOptions]]\n[[插件管理|PluginManager]]\n[[导入文章|ImportTiddlers]]</div>
+<div tiddler="StyleSheet" modifier="BramChen">[[StyleSheetAdjust]]</div>
+<div tiddler="StyleSheetAdjust" modifier="BramChen">/***\n	Title: StyleSheetAdjust\n	Usage: Add {{{[[StyleSheetAdjust]]}}} to StyleSheet\n***/\n/*{{{*/\nbody {\n	font-size: .8em;\n}\n#sidebarOptions {\n	font-size: 1.05em;\n}\n#sidebarOptions a {\n font-style: normal;\n}\n\n#sidebarOptions .sliderPanel {\n	font-size: .95em;\n}\n.subtitle {\n	font-size: .8em;\n}\n.viewer table.listView {\n	font-size: .95em;\n}\n\n.htmlarea .toolbarHA table {\n	border: 1px solid ButtonFace;\n	margin: 0em 0em;\n}\n/*}}}*/\n</div>
+<div tiddler="ViewTemplate" modifier="BramChen">&lt;!--{{{--&gt;\n&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler permalink references jump'&gt;&lt;/div&gt;\n&lt;div class='title' macro='view title'&gt;&lt;/div&gt;\n&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date [[YYYY年0MM月0DD日 am hh12:0mm]]'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date [[YYYY年0MM月0DD日]]'&gt;&lt;/span&gt;)&lt;/div&gt;\n&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;\n&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;\n&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;\n&lt;div class='tagClear'&gt;&lt;/div&gt;\n&lt;!--}}}--&gt;</div>
+</div>
+<!--STORE-AREA-END-->
 <!--POST-BODY-END-->
 </body>
 </html>
