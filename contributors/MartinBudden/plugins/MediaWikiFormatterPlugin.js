@@ -61,7 +61,7 @@ MediaWikiFormatter = {}; // "namespace" for local functions
 mwDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
-	createTiddlyElement(out,"br");
+	createTiddlyElement2(out,"br");
 };
 
 wikify = function(source,output,highlightRegExp,tiddler)
@@ -70,7 +70,7 @@ wikify = function(source,output,highlightRegExp,tiddler)
 		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
 		w.linkCount = 0;
 		w.tableDepth = 0;
-		w.output = tiddler==null ? output : createTiddlyElement(output,"p");
+		w.output = tiddler==null ? output : createTiddlyElement2(output,"p");
 		var time1,time0 = new Date();
 		w.subWikifyUnterm(w.output);
 		if(tiddler && config.options.chkDisplayInstrumentation) {
@@ -82,6 +82,16 @@ wikify = function(source,output,highlightRegExp,tiddler)
 //#at point of usage can use:
 //#var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
 };
+
+function createTiddlyElement2(parent,element)
+{
+	return parent.appendChild(document.createElement(element));
+}
+
+config.formatterHelpers.createElementAndWikify = function(w)
+{
+	w.subWikifyTerm(createTiddlyElement2(w.output,this.element),this.termRegExp);
+}
 
 MediaWikiFormatter.getTemplateParams = function(w)
 {
@@ -196,18 +206,18 @@ MediaWikiFormatter.readToDelim = function(w)
 	while(sMatch && sMatch.index<tMatch.index) {
 		if(dMatch && dMatch.index<sMatch.index) {
 			//# delim is before startBracket, so return it
-//mwDebug(w.output,"di:"+dMatch.index+" dl:"+sRegExp.lastIndex);
+//#mwDebug(w.output,"di:"+dMatch.index+" dl:"+sRegExp.lastIndex);
 			w.nextMatch = dRegExp.lastIndex;
 			w.matchLength = dMatch.index - w.startMatch;
 			return true;
 		}
-//mwDebug(w.output,"si:"+sMatch.index+" sl:"+sRegExp.lastIndex);
-//mwDebug(w.output,"ti:"+tMatch.index+" tl:"+tRegExp.lastIndex);
+//#mwDebug(w.output,"si:"+sMatch.index+" sl:"+sRegExp.lastIndex);
+//#mwDebug(w.output,"ti:"+tMatch.index+" tl:"+tRegExp.lastIndex);
 		//# startBracket before termBracket, so skip over bracket pairs
 		// found eg [[, so look for ]]
 		tRegExp.lastIndex = sRegExp.lastIndex;
 		tMatch = tRegExp.exec(w.source);
-//mwDebug(w.output,"xti:"+tMatch.index+" tl:"+tRegExp.lastIndex);
+//#mwDebug(w.output,"xti:"+tMatch.index+" tl:"+tRegExp.lastIndex);
 		
 		// and look for another [[
 		w.nextMatch = tRegExp.lastIndex;
@@ -221,14 +231,14 @@ MediaWikiFormatter.readToDelim = function(w)
 		
 	if(dMatch && dMatch.index<tMatch.index) {
 		//# delim is before term, so return it
-//mwDebug(w.output,"2di:"+dMatch.index+" dl:"+sRegExp.lastIndex);
+//#mwDebug(w.output,"2di:"+dMatch.index+" dl:"+sRegExp.lastIndex);
 		w.nextMatch = dRegExp.lastIndex;
 		w.matchLength = dMatch.index - w.startMatch;
 		return true;
 	}
 	if(tMatch) {
 		//# delim is before term, so return it
-//mwDebug(w.output,"2ti:"+tMatch.index+" tl:"+tRegExp.lastIndex);
+//#mwDebug(w.output,"2ti:"+tMatch.index+" tl:"+tRegExp.lastIndex);
 		w.nextMatch = tRegExp.lastIndex;
 		w.matchLength = tMatch.index - w.startMatch;
 		return false;
@@ -312,13 +322,13 @@ config.mediaWikiFormatters = [
 	{
 		//var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
 		var output = w.output;
-		var e = createTiddlyElement(output,"h" + w.matchLength);
-		var a = createTiddlyElement(e,"a");// drop anchor
+		var e = createTiddlyElement2(output,"h" + w.matchLength);
+		var a = createTiddlyElement2(e,"a");// drop anchor
 		var t = w.tiddler ? w.tiddler.title + ":" : "";
 		var len = w.source.substr(w.nextMatch).indexOf("=");
 		a.setAttribute("name",t+w.source.substr(w.nextMatch,len));
 		w.subWikifyTerm(e,this.termRegExp);
-		//w.output = createTiddlyElement(output,"p");
+		//w.output = createTiddlyElement2(output,"p");
 	}
 },
 
@@ -348,15 +358,15 @@ config.mediaWikiFormatters = [
 			this.inCellTermRegExp = new RegExp(this.inCellTerm,"mg");
 			this.captionRegExp = new RegExp(this.caption,"mg");
 		}
-//this.debug = createTiddlyElement(w.output,"p");
-//mwDebug(this.debug,"start table");
+//#this.debug = createTiddlyElement2(w.output,"p");
+//#mwDebug(this.debug,"start table");
 		this.captionRegExp.lastIndex = w.nextMatch;
 		var match = this.captionRegExp.exec(w.source);
 		if(!match) {return;}
-		//var inPara = w.output.nodeType==1 && w.output.nodeName=="P" ? true : false;
-		//var output = inPara ? w.output.parentNode : w.output;
+		//#var inPara = w.output.nodeType==1 && w.output.nodeName=="P" ? true : false;
+		//#var output = inPara ? w.output.parentNode : w.output;
 		var output = w.output;
-		var table = createTiddlyElement(output,"table");
+		var table = createTiddlyElement2(output,"table");
 		var rowContainer = table;
 
 		var i = w.source.indexOf("\n",w.nextMatch);
@@ -369,7 +379,7 @@ config.mediaWikiFormatters = [
 		var eot = false;
 		if(match[1]) {
 			// caption
-			var caption = createTiddlyElement(table,"caption");
+			var caption = createTiddlyElement2(table,"caption");
 			w.nextMatch = this.captionRegExp.lastIndex;
 			var captionText = w.source.substring(w.nextMatch);
 			var n = captionText.indexOf("\n");
@@ -391,7 +401,7 @@ config.mediaWikiFormatters = [
 			if(match2) {
 				if(match2[3]) {
 					// no first row marker
-					eot = this.rowHandler(w,createTiddlyElement(rowContainer,"tr"));
+					eot = this.rowHandler(w,createTiddlyElement2(rowContainer,"tr"));
 					rowCount++;
 				}
 			}
@@ -401,7 +411,7 @@ config.mediaWikiFormatters = [
 		} else if(match[4]) {
 			// cell, no first row marker in table
 			w.nextMatch = this.captionRegExp.lastIndex-match[4].length;// rewind to before the match
-			eot = this.rowHandler(w,createTiddlyElement(rowContainer,"tr"));
+			eot = this.rowHandler(w,createTiddlyElement2(rowContainer,"tr"));
 			rowCount++;
 		}
 
@@ -416,7 +426,7 @@ config.mediaWikiFormatters = [
 				}
 			} else if(match[2]) {
 				// row
-				var rowElement = createTiddlyElement(rowContainer,"tr");
+				var rowElement = createTiddlyElement2(rowContainer,"tr");
 				w.nextMatch += match[2].length;// skip over the match
 				i = w.source.indexOf("\n",w.nextMatch);
 				if(i>w.nextMatch) {
@@ -432,12 +442,13 @@ config.mediaWikiFormatters = [
 		if(w.tableDepth==0) {
 			w.nextMatch +=3;// skip over tableterm, \n|}
 		}
-		//if(inPara)
-		//	w.output = createTiddlyElement(output,"p");
+		//#if(inPara)
+		//#	w.output = createTiddlyElement2(output,"p");
 	},//# end handler
 
 	rowHandler: function(w,e)
-	{// assumes w.nextMatch points to first cell terminator, returns false if any improperly terminated element
+	{
+		//# assumes w.nextMatch points to first cell terminator, returns false if any improperly terminated element
 		var cell;
 		this.inCellTermRegExp.lastIndex = w.nextMatch;
 		var match = this.inCellTermRegExp.exec(w.source);
@@ -459,13 +470,14 @@ config.mediaWikiFormatters = [
 			} else if(match[4]) {
 				//# cell
 				var len = match[4].length;
-				cell = createTiddlyElement(e,match[4].substr(len-1)=="!"?"th":"td");
+				cell = createTiddlyElement2(e,match[4].substr(len-1)=="!"?"th":"td");
 				w.nextMatch += len;//skip over the match
 
 				this.inCellTermRegExp.lastIndex = w.nextMatch;
 				var lookahead = this.inCellTermRegExp.exec(w.source);
 				if(!lookahead) {
-					return false;// improperly terminated table
+					//# improperly terminated table
+					return false;
 				}
 				var cellText = w.source.substr(w.nextMatch,lookahead.index-w.nextMatch);
 				var oldSource = w.source;
@@ -492,7 +504,7 @@ config.mediaWikiFormatters = [
 {
 	name: "mediaWikiList",
 	match: "^[\\*#;:]+",
-	lookaheadRegExp: /^([\*#;:])+(?: ?)/mg,
+	lookaheadRegExp: /^(?:(?:(\*)|(#)|(;)|(:))+)(?: ?)/mg,
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
@@ -504,31 +516,24 @@ config.mediaWikiFormatters = [
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
-			switch(lookaheadMatch[1]) {
-			case "*":
+			if(lookaheadMatch[1]) {
 				listType = "ul";
 				itemType = "li";
-				break;
-			case "#":
+			} else if(lookaheadMatch[2]) {
 				listType = "ol";
 				itemType = "li";
-				break;
-			case ";":
+			} else if(lookaheadMatch[3]) {
 				listType = "dl";
 				itemType = "dt";
-				break;
-			case ":":
+			} else if(lookaheadMatch[4]) {
 				listType = "dl";
 				itemType = "dd";
-				break;
-			default:
-				break;
 			}
 			var listLevel = lookaheadMatch[0].length;
 			w.nextMatch += listLevel;
 			if(listLevel > currLevel) {
 				for(var i=currLevel; i<listLevel; i++) {
-					stack.push(createTiddlyElement(stack[stack.length-1],listType));
+					stack.push(createTiddlyElement2(stack[stack.length-1],listType));
 				}
 			} else if(listLevel < currLevel) {
 				for(i=currLevel; i>listLevel; i--) {
@@ -536,16 +541,16 @@ config.mediaWikiFormatters = [
 				}
 			} else if(listLevel == currLevel && listType != currType) {
 				stack.pop();
-				stack.push(createTiddlyElement(stack[stack.length-1],listType));
+				stack.push(createTiddlyElement2(stack[stack.length-1],listType));
 			}
 			currLevel = listLevel;
 			currType = listType;
-			var e = createTiddlyElement(stack[stack.length-1],itemType);
+			var e = createTiddlyElement2(stack[stack.length-1],itemType);
 			w.subWikifyTerm(e,this.termRegExp);
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		}
-		w.output = createTiddlyElement(output,"p");
+		w.output = createTiddlyElement2(output,"p");
 	}
 },
 
@@ -555,8 +560,8 @@ config.mediaWikiFormatters = [
 	handler: function(w)
 	{
 		var output = w.output.parentNode;
-		createTiddlyElement(output,"hr");
-		w.output = createTiddlyElement(output,"p");
+		createTiddlyElement2(output,"hr");
+		w.output = createTiddlyElement2(output,"p");
 	}
 },
 
@@ -567,10 +572,10 @@ config.mediaWikiFormatters = [
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
-		var e = createTiddlyElement(w.output,"pre");
+		var e = createTiddlyElement2(w.output,"pre");
 		while(true) {
 			w.subWikifyTerm(e,this.termRegExp);
-			createTiddlyElement(e,"br");
+			createTiddlyElement2(e,"br");
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			if(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
@@ -582,32 +587,29 @@ config.mediaWikiFormatters = [
 	}
 },
 
-/*
-[[Image:Westminstpalace.jpg|frame|none|caption text]]
-//http://en.wikipedia.org/wiki/Image:Westminstpalace.jpg
-<a href="/wiki/Image:Westminstpalace.jpg" class="internal" title="caption text">
-<img src="http://upload.wikimedia.org/wikipedia/commons/3/39/Westminstpalace.jpg"
- alt="caption text" width="400" height="300" longdesc="/wiki/Image:Westminstpalace.jpg" />
-</a>
+//# [[Image:Westminstpalace.jpg|frame|none|caption text]]
+//# //http://en.wikipedia.org/wiki/Image:Westminstpalace.jpg
+//# <a href="/wiki/Image:Westminstpalace.jpg" class="internal" title="caption text">
+//# <img src="http://upload.wikimedia.org/wikipedia/commons/3/39/Westminstpalace.jpg"
+//#  alt="caption text" width="400" height="300" longdesc="/wiki/Image:Westminstpalace.jpg" />
+//# </a>
 
-[[image:Stockholm.jpg|right|350px|thumb|Stockholm panorama from the City Hall]]
-<div class="thumb tright">
-	<div style="width:352px;">
-		<a href="/wiki/Image:Stockholm.jpg" class="internal" title="Stockholm panorama from the City Hall">
-			<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Stockholm.jpg/350px-Stockholm.jpg" alt="Stockholm panorama from the City Hall" width="350" height="84" longdesc="/wiki/Image:Stockholm.jpg" />
-		</a>
-		<div class="thumbcaption">
-			<div class="magnify" style="float:right">
-				<a href="/wiki/Image:Stockholm.jpg" class="internal" title="Enlarge">
-				<img src="/skins-1.5/common/images/magnify-clip.png" width="15" height="11" alt="Enlarge" />
-				</a>
-			</div>
-			Stockholm panorama from the City Hall
-		</div>
-	</div>
-</div>
-*/
-
+//# [[image:Stockholm.jpg|right|350px|thumb|Stockholm panorama from the City Hall]]
+//# <div class="thumb tright">
+//# 	<div style="width:352px;">
+//# 		<a href="/wiki/Image:Stockholm.jpg" class="internal" title="Stockholm panorama from the City Hall">
+//# 			<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Stockholm.jpg/350px-Stockholm.jpg" alt="Stockholm panorama from the City Hall" width="350" height="84" longdesc="/wiki/Image:Stockholm.jpg" />
+//# 		</a>
+//# 		<div class="thumbcaption">
+//# 			<div class="magnify" style="float:right">
+//# 				<a href="/wiki/Image:Stockholm.jpg" class="internal" title="Enlarge">
+//# 				<img src="/skins-1.5/common/images/magnify-clip.png" width="15" height="11" alt="Enlarge" />
+//# 				</a>
+//# 			</div>
+//# 			Stockholm panorama from the City Hall
+//# 		</div>
+//# 	</div>
+//# </div>
 {
 	name: "mediaWikiImage",
 	match: "\\[\\[(?:[Ii]mage|Bild):",
@@ -653,16 +655,16 @@ config.mediaWikiFormatters = [
 				}
 				psrc = px + "px-" + src;
 				var t = createTiddlyElement(output,"div",null,"thumb"+(palign?" t"+palign:""));
-				var s = createTiddlyElement(t,"div");
+				var s = createTiddlyElement2(t,"div");
 				s.style["width"] = Number(px) + 2 + "px";
 				var a = createTiddlyElement(s,"a",null,"internal");
 				if(config.options.chkMediaWikiDisplayEnableThumbZoom) {
 					a.href = src;
 				}
 				a.title = ptitle;
-				var img = createTiddlyElement(a,"img");
+				var img = createTiddlyElement2(a,"img");
 				img.src = "images/" + psrc;
-//mwDebug(w.output,"s1:"+psrc);
+//# mwDebug(w.output,"s1:"+psrc);
 				img.width = px;
 				img.longdesc = "Image:" + src;
 				img.alt = ptitle;
@@ -678,17 +680,17 @@ config.mediaWikiFormatters = [
 					tm.style["float"] = "right";
 					var ta = createTiddlyElement(tm,"a",null,"internal");
 					ta.title = "Enlarge";
-					timg = createTiddlyElement(ta,"img"); timg.src = "magnify-clip.png"; timg.alt = "Enlarge"; timg.width = "15"; timg.height = "11";
+					timg = createTiddlyElement2(ta,"img"); timg.src = "magnify-clip.png"; timg.alt = "Enlarge"; timg.width = "15"; timg.height = "11";
 					ta.href = src;
 				}
 			} else {
 				// not pthumb
 				a = createTiddlyElement(w.output,"a",null,"image");
 				a.title = ptitle;
-				img = createTiddlyElement(a,"img");
+				img = createTiddlyElement2(a,"img");
 				if(palign) {img.align = palign;}
 				img.src = px ? "images/" + px + "px-" + src : "images/" + src;
-//mwDebug(w.output,"s2:"+img.src);
+//# mwDebug(w.output,"s2:"+img.src);
 				if(px) {img.width = px;}
 				img.longdesc = "Image:" + src;
 				img.alt = ptitle;
@@ -715,7 +717,7 @@ config.mediaWikiFormatters = [
 				if(lookaheadMatch[4]) {
 					// Simple bracketted link
 					if(lookaheadMatch[2]) {
-						var a = createTiddlyElement(e,"a");// drop anchor
+						var a = createTiddlyElement2(e,"a");// drop anchor
 						a.setAttribute("name",link);
 					} else {
 						e = createTiddlyLink(w.output,link,false,null,w.isStatic);
@@ -750,14 +752,14 @@ config.mediaWikiFormatters = [
 	lookaheadRegExp: /\{\{((?:.|\n)*?)\}\}/mg,
 	handler: function(w)
 	{
-//mwDebug(w.output,"wt:"+w.matchText+" ws:"+w.matchStart+" wn:"+w.nextMatch+" wl:"+w.matchLength);
+//# mwDebug(w.output,"wt:"+w.matchText+" ws:"+w.matchStart+" wn:"+w.nextMatch+" wl:"+w.matchLength);
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-//mwDebug(w.output,"lm:"+lookaheadMatch);
-//mwDebug(w.output,"lmi:"+lookaheadMatch.index+" lI:"+this.lookaheadRegExp.lastIndex);
-//mwDebug(w.output,"lm1:"+lookaheadMatch[1]);
-//mwDebug(w.output,"lm2:"+lookaheadMatch[2]);
+//# mwDebug(w.output,"lm:"+lookaheadMatch);
+//# mwDebug(w.output,"lmi:"+lookaheadMatch.index+" lI:"+this.lookaheadRegExp.lastIndex);
+//# mwDebug(w.output,"lm1:"+lookaheadMatch[1]);
+//# mwDebug(w.output,"lm2:"+lookaheadMatch[2]);
 			var lastIndex = this.lookaheadRegExp.lastIndex;
 			var contents = lookaheadMatch[1];
 			// see http://meta.wikimedia.org/wiki/Help:Variable
@@ -802,7 +804,7 @@ config.mediaWikiFormatters = [
 	handler: function(w)
 	{
 		var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
-		w.output = createTiddlyElement(output,"p");
+		w.output = createTiddlyElement2(output,"p");
 	}
 },
 
@@ -811,7 +813,7 @@ config.mediaWikiFormatters = [
 	match: "<br ?/?>",
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"br");
+		createTiddlyElement2(w.output,"br");
 	}
 },
 
@@ -825,7 +827,7 @@ config.mediaWikiFormatters = [
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var e =createTiddlyElement(w.output,"br");
+			var e =createTiddlyElement2(w.output,"br");
 			if(lookaheadMatch[1]) {
 				MediaWikiFormatter.setAttributesFromParams(e,lookaheadMatch[1]);
 			}
@@ -846,7 +848,7 @@ config.mediaWikiFormatters = [
 		var lookaheadMatch = lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index==w.matchStart) {
 			var link = lookaheadMatch[1];
-			var s = createTiddlyElement(w.output,"sup");
+			var s = createTiddlyElement2(w.output,"sup");
 			var e = createExternalLink(s,link);
 			if(lookaheadMatch[2]) {
 				var oldSource = w.source; var oldMatch = w.nextMatch;
@@ -937,7 +939,7 @@ config.mediaWikiFormatters = [
 				w.references = {};
 			}
 			var s = createTiddlyElement(w.output,"sup",null,"reference");
-			var a = createTiddlyElement(s,"a");
+			var a = createTiddlyElement2(s,"a");
 			var prefix = w.tiddler ? w.tiddler.title + ":" : "";
 			if(lookaheadMatch[1]) {
 				var r = {};
@@ -980,10 +982,10 @@ config.mediaWikiFormatters = [
 			var oldSource = w.source;
 			if(w.referenceCount>0) {
 				for(var i in w.references) {
-					var li = createTiddlyElement(ol,"li");
+					var li = createTiddlyElement2(ol,"li");
 					var prefix = w.tiddler ? w.tiddler.title + ":" : "";
-					var b = createTiddlyElement(li,"b");
-					var a = createTiddlyElement(b,"a");
+					var b = createTiddlyElement2(li,"b");
+					var a = createTiddlyElement2(b,"a");
 					li.id = prefix + "_note-" + i;
 					a.href = "#" + prefix + "_ref-" + i;
 					a.innerHTML = "^";
@@ -1012,7 +1014,7 @@ config.mediaWikiFormatters = [
 //#<ref name="foreign ministry">
 //#<sup id="_ref-foreign_ministry_1" class="reference"><a href="#_note-foreign_ministry" title="">[2]</a></sup>
 			var s = createTiddlyElement(w.output,"sup",null,"reference");
-			var a = createTiddlyElement(s,"a");
+			var a = createTiddlyElement2(s,"a");
 			var prefix = w.tiddler ? w.tiddler.title : "";
 			if(lookaheadMatch[1]) {
 				var r = {};
@@ -1034,7 +1036,7 @@ config.mediaWikiFormatters = [
 	match: "&#?[a-zA-Z0-9]{2,8};",
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"span").innerHTML = w.matchText;
+		createTiddlyElement2(w.output,"span").innerHTML = w.matchText;
 	}
 },
 
@@ -1111,7 +1113,7 @@ config.mediaWikiFormatters = [
 		var table = createTiddlyElement(w.output,"table",null,"gallery");
 		table.cellspacing = "0";
 		table.cellpadding = "0";
-		var rowElem = createTiddlyElement(table,"tr");
+		var rowElem = createTiddlyElement2(table,"tr");
 		var col = 0;
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var nM = w.nextMatch;
@@ -1156,23 +1158,23 @@ config.mediaWikiFormatters = [
 //#	</div>
 //#</div>
 //#</td>
-			var td = createTiddlyElement(rowElem,"td");
+			var td = createTiddlyElement2(rowElem,"td");
 			var gb = createTiddlyElement(td,"div",null,"gallerybox");
 			var t = createTiddlyElement(gb,"div",null,"thumb");
 			t.style["padding"] = "26px 0";
 
-			var a = createTiddlyElement(t,"a");
+			var a = createTiddlyElement2(t,"a");
 			if(config.options.chkMediaWikiDisplayEnableThumbZoom) {
 				a.href = src;
 			}
 			a.title = ptitle;
-			var img = createTiddlyElement(a,"img");
+			var img = createTiddlyElement2(a,"img");
 			img.src = psrc;
 			img.width = px;
 			img.alt = "";//ptitle;
 
 			var gt = createTiddlyElement(gb,"div",null,"gallerytext");
-			p = createTiddlyElement(gt,"p");
+			p = createTiddlyElement2(gt,"p");
 			var oldSource2 = w.source; var oldMatch = w.nextMatch;
 			w.source = ptitle; w.nextMatch = 0;
 			w.subWikifyUnterm(p);
@@ -1180,7 +1182,7 @@ config.mediaWikiFormatters = [
 
 			col++;
 			if(col>3) {
-				rowElem = createTiddlyElement(table,"tr");
+				rowElem = createTiddlyElement2(table,"tr");
 				col = 0;
 			}
 			w.source = oldSource;
@@ -1199,7 +1201,7 @@ config.mediaWikiFormatters = [
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var e =createTiddlyElement(w.output,lookaheadMatch[1]);
+			var e =createTiddlyElement2(w.output,lookaheadMatch[1]);
 			if(lookaheadMatch[2]) {
 				MediaWikiFormatter.setAttributesFromParams(e,lookaheadMatch[2]);
 			}
@@ -1214,6 +1216,7 @@ config.mediaWikiFormatters = [
 ];
 
 config.parsers.mediaWikiFormatter = new Formatter(config.mediaWikiFormatters);
+config.parsers.mediaWikiFormatter.format = "MediaWiki";
 config.parsers.mediaWikiFormatter.formatTag = "MediaWikiFormat";
 } // end of "install only once"
 //}}}
