@@ -555,6 +555,7 @@ config.socialTextFormatters = [
 ];
 
 config.parsers.socialTextFormatter = new Formatter(config.socialTextFormatters);
+config.parsers.socialTextFormatter.format = "Socialtext";
 config.parsers.socialTextFormatter.formatTag = "SocialtextFormat";
 } // end of "install only once"
 //}}}
