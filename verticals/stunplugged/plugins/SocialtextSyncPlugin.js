@@ -42,6 +42,11 @@ config.syncers.socialtext.addSyncable = function(sync,tiddler,syncItem)
 		page: store.getValue(tiddler,"socialtext.page"),
 		version: store.getValue(tiddler,"socialtext.version")
 		};
+	if(!syncItem.socialtext.page)
+		{
+		syncItem.socialtext.page = encodeURIComponent(tiddler.title);
+		store.setValue(tiddler,"socialtext.page",syncItem.socialtext.page);
+		}
 	syncItem.serverUrl = this.urlViewPage.format([syncItem.socialtext.server,syncItem.socialtext.workspace,syncItem.socialtext.page]);
 	var url = this.urlGetPageset.format([syncItem.socialtext.server,syncItem.socialtext.workspace]);
 	if(this.requestedPagesets[url] == undefined)
