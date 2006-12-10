@@ -23,7 +23,7 @@ The Creole formatter adds the following:
 
 Since Creole augments rather than replaces TW's formatting there is a problem of how to resolve a prettyLink:
 the formatter has some intelligence to determine if whether a link is a TW style link or a Creole style link.
-Additionally a tiddler can be tagged "titleThenLinkFormat" or "linkThenTitleFormat" to force resolution one
+Additionally a tiddler can be tagged 'titleThenLinkFormat' or 'linkThenTitleFormat' to force resolution one
 way or the other.
 
 See: http://www.wikicreole.org/wiki/Home
@@ -41,30 +41,30 @@ if(!version.extensions.CreoleFormatterPlugin) {
 version.extensions.CreoleFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1)) {
-	alertAndThrow("CreoleFormatterPlugin requires TiddlyWiki 2.1 or later.");
+	alertAndThrow('CreoleFormatterPlugin requires TiddlyWiki 2.1 or later.');
 }
 
-creoleFormatter = {}; // "namespace" for local functions
+creoleFormatter = {}; // 'namespace' for local functions
 
 config.creoleFormatters = [
 {
-	name: "creoleHeading",
-	match: "^={2,6}(?!=)",
+	name: 'creoleHeading',
+	match: '^={2,6}(?!=)',
 	termRegExp: /(={0,6}\n+)/mg,
-	handler: function(w) {w.subWikifyTerm(createTiddlyElement(w.output,"h" + w.matchLength),this.termRegExp);}
+	handler: function(w) {w.subWikifyTerm(createTiddlyElement(w.output,'h' + w.matchLength),this.termRegExp);}
 },
 {
-	name: "creoleBoldByChar",
-	match: "\\*\\*",
+	name: 'creoleBoldByChar',
+	match: '\\*\\*',
 	termRegExp: /(\*\*|(?=\n\n))/mg,
-	element: "strong",
+	element: 'strong',
 	handler: config.formatterHelpers.createElementAndWikify
 }
 ];
 
 creoleFormatter.explicitLink = {
-	name: "creoleExplicitLink",
-	match: "\\[\\[",
+	name: 'creoleExplicitLink',
+	match: '\\[\\[',
 	lookaheadRegExp: /\[\[(.*?)(?:\|(.*?))?\]\]/mg,
 	handler: function(w)
 	{
@@ -76,14 +76,14 @@ creoleFormatter.explicitLink = {
 			var text = lookaheadMatch[2];
 			if(text) {
 				// both text and link defined, so try and workout which is which
-				var wlRegExp = new RegExp(config.textPrimitives.wikiLink,"mg");
+				var wlRegExp = new RegExp(config.textPrimitives.wikiLink,'mg');
 				wlRegExp.lastIndex = 0;
-				if(w.tiddler.isTagged("titleThenLinkFormat")) {
+				if(w.tiddler.isTagged('titleThenLinkFormat')) {
 					// format is [[text|link]]
 					link = text;
 					text = lookaheadMatch[1];
 					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
-				} else if(w.tiddler.isTagged("linkThenTitleFormat")) {
+				} else if(w.tiddler.isTagged('linkThenTitleFormat')) {
 					// standard format is [[link|text]]
 					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 				} else if(config.formatterHelpers.isExternalLink(link)) {
@@ -119,13 +119,13 @@ creoleFormatter.explicitLink = {
 
 for(var i in config.formatters) {
 	// replace formatters as required
-	if(config.formatters[i].name == "prettyLink") {
+	if(config.formatters[i].name == 'prettyLink') {
 		config.formatters[i] = creoleFormatter.explicitLink;
-	} else if(config.formatters[i].name == "italicByChar") {
+	} else if(config.formatters[i].name == 'italicByChar') {
 		config.formatters[i].termRegExp = /(\/\/|(?=\n\n))/mg;
-	} else if(config.formatters[i].name == "list") {
-		// require a space after the list character (required for "*" which otherwise clashes with bold
-		config.formatters[i].match = "^[\\*#;:]+ ";
+	} else if(config.formatters[i].name == 'list') {
+		// require a space after the list character (required for '*' which otherwise clashes with bold
+		config.formatters[i].match = '^[\\*#;:]+ ';
 	}
 }
 
@@ -134,5 +134,5 @@ for(i in config.creoleFormatters){
 	config.formatters.push(config.creoleFormatters[i]);
 }
 
-}// end of "install only once"
+}// end of 'install only once'
 //}}}
