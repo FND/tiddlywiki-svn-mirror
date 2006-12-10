@@ -1,0 +1,13 @@
+<div title="Plugins" modifier="MartinBudden" created="200607300000">
+<pre>
+|!Plugin|!Description|
+|[[CreoleFormatterPlugin]]|Allows Tiddlers to use [[Creole|http://www.wikicreole.org/]] text formatting|
+|[[MediaWikiFormatterPlugin]]|Allows Tiddlers to use [[MediaWiki|http://en.wikipedia.org/wiki/Help:Wikitext_quick_reference#Basic_text_formatting]] ([[WikiPedia|http://www.wikipedia.org]]) text formatting|
+|[[PBWikiFormatterPlugin]]|Allows Tiddlers to use [[PBWiki|http://yummy.pbwiki.com/WikiStyle]] text formatting|
+|[[SocialtextFormatterPlugin]]|Allows Tiddlers to use [[Socialtext|http://www.socialtext.com/]] text formatting|
+|[[TracFormatterPlugin]]|Allows Tiddlers to use [[Trac|http://trac.edgewall.org/wiki/WikiFormatting]] text formatting|
+|[[TWikiFormatterPlugin]]|Allows Tiddlers to use [[TWiki|http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules]] text formatting|
+|[[DisableWikiLinksPlugin]]|Allows you to disable TiddlyWiki's automatic linking of WikiWords|
+
+[[PluginManager]]</pre>
+</div>
