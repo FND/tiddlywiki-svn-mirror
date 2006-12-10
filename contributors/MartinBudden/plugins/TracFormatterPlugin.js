@@ -263,10 +263,10 @@ config.tracFormatters = [
 	}
 },
 
-// {{{
-// #!html
-// <h1 style="text-align: right; color: blue">HTML Test</h1>
-// }}}
+//# {{{
+//# #!html
+//# <h1 style="text-align: right; color: blue">HTML Test</h1>
+//# }}}
 {
 	name: "tracHtml",
 	match: "^\\{\\{\\{\n#!html",
@@ -379,7 +379,7 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracBoldByChar",
+	name: "tracBold",
 	match: "'''",
 	termRegExp: /(''')/mg,
 	element: "strong",
@@ -387,7 +387,7 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracItalicByChar",
+	name: "tracItalic",
 	match: "''",
 	termRegExp: /('')/mg,
 	element: "em",
@@ -395,7 +395,7 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracUnderlineByChar",
+	name: "tracUnderline",
 	match: "__",
 	termRegExp: /(__)/mg,
 	element: "u",
@@ -403,7 +403,7 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracStrikeByChar",
+	name: "tracStrike",
 	match: "~~",
 	termRegExp: /(~~)/mg,
 	element: "strike",
@@ -411,7 +411,7 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracSuperscriptByChar",
+	name: "tracSuperscript",
 	match: "\\^",
 	termRegExp: /(\^)/mg,
 	element: "sup",
@@ -419,7 +419,7 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracSubscriptByChar",
+	name: "tracSubscript",
 	match: ",,",
 	termRegExp: /(,,)/mg,
 	element: "sub",
@@ -427,7 +427,7 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracMonospacedByChar0",
+	name: "tracMonospacedTick",
 	match: "`",
 	lookaheadRegExp: /`((?:.|\n)*?)`/mg,
 	element: "code",
@@ -435,7 +435,7 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracMonospacedByChar",
+	name: "tracMonospaced",
 	match: "\\{\\{\\{",
 	lookaheadRegExp: /\{\{\{((?:.|\n)*?)\}\}\}/mg,
 	element: "code",
@@ -472,6 +472,7 @@ config.tracFormatters = [
 ];
 
 config.parsers.tracFormatter = new Formatter(config.tracFormatters);
+config.parsers.tracFormatter.format = "Trac";
 config.parsers.tracFormatter.formatTag = "TracFormat";
 } // end of "install only once"
 //}}}
