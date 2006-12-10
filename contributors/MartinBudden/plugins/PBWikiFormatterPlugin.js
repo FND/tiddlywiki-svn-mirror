@@ -353,6 +353,7 @@ config.pbWikiFormatters = [
 ];
 
 config.parsers.pBWikiFormatter = new Formatter(config.pbWikiFormatters);
+config.parsers.pBWikiFormatter.format = "PBWiki";
 config.parsers.pBWikiFormatter.formatTag = "PBWikiFormat";
 } // end of "install only once"
 //}}}

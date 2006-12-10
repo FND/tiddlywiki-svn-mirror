@@ -692,6 +692,7 @@ config.twikiFormatters = [
 ];
 
 config.parsers.twikiFormatter = new Formatter(config.twikiFormatters);
+config.parsers.twikiFormatter.format = "TWiki";
 config.parsers.twikiFormatter.formatTag = "TWikiFormat";
 } // end of "install only once"
 //}}}

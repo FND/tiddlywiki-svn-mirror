@@ -334,6 +334,7 @@ config.snipSnapFormatters = [
 ];
 
 config.parsers.snipSnapFormatter = new Formatter(config.snipSnapFormatters);
+config.parsers.snipSnapFormatter.format = "SnipSnap";
 config.parsers.snipSnapFormatter.formatTag = "SnipSnapFormat";
 } // end of "install only once"
 //}}}
