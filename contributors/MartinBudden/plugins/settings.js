@@ -5,7 +5,8 @@
 ***/
 
 /*{{{*/
-config.views.editor.defaultText = "";
+config.views.editor.defaultText = '';
 config.options.chkAnimate = false;
 config.options.chkDisableWikiLinks = true;
+config.usePreForStorage = true;
 /*}}}*/
