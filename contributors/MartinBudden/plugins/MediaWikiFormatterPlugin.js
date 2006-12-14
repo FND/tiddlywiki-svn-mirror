@@ -44,7 +44,7 @@ if(!version.extensions.MediaWikiFormatterPlugin) {
 version.extensions.MediaWikiFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	{alertAndThrow("MediaWikiFormatterPlugin requires TiddlyWiki 2.1 or later.");}
+	{alertAndThrow('MediaWikiFormatterPlugin requires TiddlyWiki 2.1 or later.');}
 
 if(config.options.chkDisplayInstrumentation == undefined)
 	{config.options.chkDisplayInstrumentation = false;}
@@ -56,12 +56,12 @@ if(config.options.chkMediaWikiDisplayEnableThumbZoom == undefined)
 if(config.options.chkMediaWikiListReferences == undefined)
 	{config.options.chkMediaWikiListReferences = false;}
 
-MediaWikiFormatter = {}; // "namespace" for local functions
+MediaWikiFormatter = {}; // 'namespace' for local functions
 
 mwDebug = function(out,str)
 {
-	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
-	createTiddlyElement2(out,"br");
+	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
+	createTiddlyElement2(out,'br');
 };
 
 wikify = function(source,output,highlightRegExp,tiddler)
@@ -76,11 +76,11 @@ wikify = function(source,output,highlightRegExp,tiddler)
 		if(tiddler && config.options.chkDisplayInstrumentation) {
 			time1 = new Date();
 			var t = tiddler ? tiddler.title : source.substr(0,10);
-			displayMessage("Wikify '"+t+"' in " + (time1-time0) + " ms");
+			displayMessage('Wikify "'+t+'" in ' + (time1-time0) + ' ms');
 		}
 	}
 //#at point of usage can use:
-//#var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
+//#var output = w.output.nodeType==1 && w.output.nodeName=='P' ? w.output.parentNode : w.output;
 };
 
 function createTiddlyElement2(parent,element)
@@ -91,7 +91,7 @@ function createTiddlyElement2(parent,element)
 config.formatterHelpers.createElementAndWikify = function(w)
 {
 	w.subWikifyTerm(createTiddlyElement2(w.output,this.element),this.termRegExp);
-}
+};
 
 MediaWikiFormatter.getTemplateParams = function(w)
 {
@@ -100,7 +100,7 @@ MediaWikiFormatter.getTemplateParams = function(w)
 	var params = {};
 
 	var i = 1;
-	var text = w.source + "|";
+	var text = w.source + '|';
 	var pRegExp = /(?:([^\|]*)=)?([^\|]*)\|/mg;
 	var match = pRegExp.exec(text);
 	if(match) {
@@ -124,18 +124,18 @@ MediaWikiFormatter.expandTemplate = function(w,tiddler,params)
 // see http://meta.wikimedia.org/wiki/Help:Template
 {
 	var text = tiddler.text;
-	text = text.replace(/<noinclude>((?:.|\n)*?)<\/noinclude>/mg,"");// remove text between noinclude tags
+	text = text.replace(/<noinclude>((?:.|\n)*?)<\/noinclude>/mg,'');// remove text between noinclude tags
 	var ioRegExp = /<includeonly>((?:.|\n)*?)<\/includeonly>/mg;
-	var t = "";
+	var t = '';
 	var match = ioRegExp.exec(text);
 	while(match) {
 		t += match[1];
 		match = ioRegExp.exec(text);
 	}
-	text = t == "" ? text : t;
+	text = t == '' ? text : t;
 
 	var paramsRegExp = /\{\{\{(.*?)(?:\|(.*?))?\}\}\}/mg;
-	t = "";
+	t = '';
 	var pi = 0;
 	match = paramsRegExp.exec(text);
 	while(match) {
@@ -152,33 +152,33 @@ MediaWikiFormatter.expandTemplate = function(w,tiddler,params)
 		pi = paramsRegExp.lastIndex;
 		match = paramsRegExp.exec(text);
 	}
-	return t == "" ? text : t;
+	return t == '' ? text : t;
 };
 
 MediaWikiFormatter.endOfParams = function(w,text)
 {
 	var p = 0;
-	var i = text.indexOf("|");
+	var i = text.indexOf('|');
 	if(i==-1) {return -1;}
-	var n = text.indexOf("\n");
+	var n = text.indexOf('\n');
 	if(n!=-1 && n<i) {return -1;}
-	var b = text.indexOf("[[");
+	var b = text.indexOf('[[');
 	if(b!=-1 && b<i) {return -1;}// can't have [[ in parameters
 	
-	b = text.indexOf("{{");
+	b = text.indexOf('{{');
 	while(b!=-1 && b<i) {
-		// have {{ before |, so need to find first "|" after "{{..}}" pairs
+		// have {{ before |, so need to find first '|' after '{{..}}' pairs
 		//cut off the ..{{, find the }} cut off and repeat
 		p += b;
 		text = text.substr(b);
-		var c = text.indexOf("}}");
+		var c = text.indexOf('}}');
 		p += c;
 		text = text.substr(c);
-		i = text.indexOf("|");
+		i = text.indexOf('|');
 		if(i==-1) {return -1;}
-		n = text.indexOf("\n");
+		n = text.indexOf('\n');
 		if(n!=-1 && n<i) {return -1;}
-		b = text.indexOf("{{");
+		b = text.indexOf('{{');
 		i = -1;
 	}
 	return i;
@@ -199,25 +199,25 @@ MediaWikiFormatter.readToDelim = function(w)
 	tRegExp.lastIndex = w.startMatch;
 	var tMatch = tRegExp.exec(w.source);
 	if(!tMatch) {
-		//mwDebug(w.output,"ERROR1");
+		//mwDebug(w.output,'ERROR1');
 		return false;
 	}
 
 	while(sMatch && sMatch.index<tMatch.index) {
 		if(dMatch && dMatch.index<sMatch.index) {
 			//# delim is before startBracket, so return it
-//#mwDebug(w.output,"di:"+dMatch.index+" dl:"+sRegExp.lastIndex);
+//#mwDebug(w.output,'di:'+dMatch.index+' dl:'+sRegExp.lastIndex);
 			w.nextMatch = dRegExp.lastIndex;
 			w.matchLength = dMatch.index - w.startMatch;
 			return true;
 		}
-//#mwDebug(w.output,"si:"+sMatch.index+" sl:"+sRegExp.lastIndex);
-//#mwDebug(w.output,"ti:"+tMatch.index+" tl:"+tRegExp.lastIndex);
+//#mwDebug(w.output,'si:'+sMatch.index+' sl:'+sRegExp.lastIndex);
+//#mwDebug(w.output,'ti:'+tMatch.index+' tl:'+tRegExp.lastIndex);
 		//# startBracket before termBracket, so skip over bracket pairs
 		// found eg [[, so look for ]]
 		tRegExp.lastIndex = sRegExp.lastIndex;
 		tMatch = tRegExp.exec(w.source);
-//#mwDebug(w.output,"xti:"+tMatch.index+" tl:"+tRegExp.lastIndex);
+//#mwDebug(w.output,'xti:'+tMatch.index+' tl:'+tRegExp.lastIndex);
 		
 		// and look for another [[
 		w.nextMatch = tRegExp.lastIndex;
@@ -231,19 +231,19 @@ MediaWikiFormatter.readToDelim = function(w)
 		
 	if(dMatch && dMatch.index<tMatch.index) {
 		//# delim is before term, so return it
-//#mwDebug(w.output,"2di:"+dMatch.index+" dl:"+sRegExp.lastIndex);
+//#mwDebug(w.output,'2di:'+dMatch.index+' dl:'+sRegExp.lastIndex);
 		w.nextMatch = dRegExp.lastIndex;
 		w.matchLength = dMatch.index - w.startMatch;
 		return true;
 	}
 	if(tMatch) {
 		//# delim is before term, so return it
-//#mwDebug(w.output,"2ti:"+tMatch.index+" tl:"+tRegExp.lastIndex);
+//#mwDebug(w.output,'2ti:'+tMatch.index+' tl:'+tRegExp.lastIndex);
 		w.nextMatch = tRegExp.lastIndex;
 		w.matchLength = tMatch.index - w.startMatch;
 		return false;
 	}
-	//mwDebug(w.output,"ERROR2");
+	//mwDebug(w.output,'ERROR2');
 	//# return term
 	w.nextMatch = tRegExp.lastIndex;
 	w.matchLength = -1;
@@ -296,8 +296,8 @@ MediaWikiFormatter.setAttributesFromParams = function(e,p)
 	var match = re.exec(p);
 	while(match) {
 		var s = match[1].unDash();
-		if(s == "bgcolor") {
-			s = "backgroundColor";
+		if(s == 'bgcolor') {
+			s = 'backgroundColor';
 		}
 		try {
 			if(match[2]) {
@@ -315,25 +315,25 @@ MediaWikiFormatter.setAttributesFromParams = function(e,p)
 
 config.mediaWikiFormatters = [
 {
-	name: "mediaWikiHeading",
-	match: "^={2,6}(?!=)\\n?",
+	name: 'mediaWikiHeading',
+	match: '^={2,6}(?!=)\\n?',
 	termRegExp: /(={2,6}\n?)/mg,
 	handler: function(w)
 	{
-		//var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
+		//#var output = w.output.nodeType==1 && w.output.nodeName=='P' ? w.output.parentNode : w.output;
 		var output = w.output;
-		var e = createTiddlyElement2(output,"h" + w.matchLength);
-		var a = createTiddlyElement2(e,"a");// drop anchor
-		var t = w.tiddler ? w.tiddler.title + ":" : "";
-		var len = w.source.substr(w.nextMatch).indexOf("=");
-		a.setAttribute("name",t+w.source.substr(w.nextMatch,len));
+		var e = createTiddlyElement2(output,'h' + w.matchLength);
+		var a = createTiddlyElement2(e,'a');// drop anchor
+		var t = w.tiddler ? w.tiddler.title + ':' : '';
+		var len = w.source.substr(w.nextMatch).indexOf('=');
+		a.setAttribute('name',t+w.source.substr(w.nextMatch,len));
 		w.subWikifyTerm(e,this.termRegExp);
-		//w.output = createTiddlyElement2(output,"p");
+		//#w.output = createTiddlyElement2(output,'p');
 	}
 },
 
 {
-	name: "mediaWikiTable",
+	name: 'mediaWikiTable',
 	match: "^\\{\\|", // ^{|
 	tableTerm: "\\n\\|\\}", // |}
 	rowStart: "\\n\\|\\-", // \n|-
@@ -348,28 +348,28 @@ config.mediaWikiFormatters = [
 	handler: function(w)
 	{
 		if(!this.rowTermRegExp) {
-			this.rowTerm = "(" + this.tableTerm +")|(" + this.rowStart + ")";
-			this.cellTerm = this.rowTerm + "|(" + this.cellStart + ")";
-			this.inCellTerm = "(" + this.match + ")|" + this.rowTerm + "|(" + this.cellStart + ")";
-			this.caption = "(" + this.caption + ")|" + this.cellTerm;
+			this.rowTerm = '(' + this.tableTerm +')|(' + this.rowStart + ')';
+			this.cellTerm = this.rowTerm + '|(' + this.cellStart + ')';
+			this.inCellTerm = '(' + this.match + ')|' + this.rowTerm + '|(' + this.cellStart + ')';
+			this.caption = '(' + this.caption + ')|' + this.cellTerm;
 
-			this.rowTermRegExp = new RegExp(this.rowTerm,"mg");
-			this.cellTermRegExp = new RegExp(this.cellTerm,"mg");
-			this.inCellTermRegExp = new RegExp(this.inCellTerm,"mg");
-			this.captionRegExp = new RegExp(this.caption,"mg");
+			this.rowTermRegExp = new RegExp(this.rowTerm,'mg');
+			this.cellTermRegExp = new RegExp(this.cellTerm,'mg');
+			this.inCellTermRegExp = new RegExp(this.inCellTerm,'mg');
+			this.captionRegExp = new RegExp(this.caption,'mg');
 		}
-//#this.debug = createTiddlyElement2(w.output,"p");
-//#mwDebug(this.debug,"start table");
+//#this.debug = createTiddlyElement2(w.output,'p');
+//#mwDebug(this.debug,'start table');
 		this.captionRegExp.lastIndex = w.nextMatch;
 		var match = this.captionRegExp.exec(w.source);
 		if(!match) {return;}
-		//#var inPara = w.output.nodeType==1 && w.output.nodeName=="P" ? true : false;
+		//#var inPara = w.output.nodeType==1 && w.output.nodeName=='P' ? true : false;
 		//#var output = inPara ? w.output.parentNode : w.output;
 		var output = w.output;
-		var table = createTiddlyElement2(output,"table");
+		var table = createTiddlyElement2(output,'table');
 		var rowContainer = table;
 
-		var i = w.source.indexOf("\n",w.nextMatch);
+		var i = w.source.indexOf('\n',w.nextMatch);
 		if(i>w.nextMatch) {
 			MediaWikiFormatter.setAttributesFromParams(table,w.source.substring(w.nextMatch,i));
 			w.nextMatch = i;
@@ -379,15 +379,15 @@ config.mediaWikiFormatters = [
 		var eot = false;
 		if(match[1]) {
 			// caption
-			var caption = createTiddlyElement2(table,"caption");
+			var caption = createTiddlyElement2(table,'caption');
 			w.nextMatch = this.captionRegExp.lastIndex;
 			var captionText = w.source.substring(w.nextMatch);
-			var n = captionText.indexOf("\n");
+			var n = captionText.indexOf('\n');
 			captionText = captionText.substr(0,n);
 			i = MediaWikiFormatter.endOfParams(w,captionText);
 			if(i!=-1) {
 				captionText = w.source.substr(w.nextMatch,i);
-				//captionText = captionText.replace(/^\+/mg,"")//!!hack until I fix this properly
+				//captionText = captionText.replace(/^\+/mg,'')//!!hack until I fix this properly
 				//MediaWikiFormatter.setAttributesFromParams(caption,captionText);
 				w.nextMatch += i+1;
 			}
@@ -401,7 +401,7 @@ config.mediaWikiFormatters = [
 			if(match2) {
 				if(match2[3]) {
 					// no first row marker
-					eot = this.rowHandler(w,createTiddlyElement2(rowContainer,"tr"));
+					eot = this.rowHandler(w,createTiddlyElement2(rowContainer,'tr'));
 					rowCount++;
 				}
 			}
@@ -411,7 +411,7 @@ config.mediaWikiFormatters = [
 		} else if(match[4]) {
 			// cell, no first row marker in table
 			w.nextMatch = this.captionRegExp.lastIndex-match[4].length;// rewind to before the match
-			eot = this.rowHandler(w,createTiddlyElement2(rowContainer,"tr"));
+			eot = this.rowHandler(w,createTiddlyElement2(rowContainer,'tr'));
 			rowCount++;
 		}
 
@@ -426,9 +426,9 @@ config.mediaWikiFormatters = [
 				}
 			} else if(match[2]) {
 				// row
-				var rowElement = createTiddlyElement2(rowContainer,"tr");
+				var rowElement = createTiddlyElement2(rowContainer,'tr');
 				w.nextMatch += match[2].length;// skip over the match
-				i = w.source.indexOf("\n",w.nextMatch);
+				i = w.source.indexOf('\n',w.nextMatch);
 				if(i>w.nextMatch) {
 					MediaWikiFormatter.setAttributesFromParams(rowElement,w.source.substring(w.nextMatch,i));
 					w.nextMatch = i;
@@ -443,7 +443,7 @@ config.mediaWikiFormatters = [
 			w.nextMatch +=3;// skip over tableterm, \n|}
 		}
 		//#if(inPara)
-		//#	w.output = createTiddlyElement2(output,"p");
+		//#	w.output = createTiddlyElement2(output,'p');
 	},//# end handler
 
 	rowHandler: function(w,e)
@@ -470,7 +470,7 @@ config.mediaWikiFormatters = [
 			} else if(match[4]) {
 				//# cell
 				var len = match[4].length;
-				cell = createTiddlyElement2(e,match[4].substr(len-1)=="!"?"th":"td");
+				cell = createTiddlyElement2(e,match[4].substr(len-1)=='!'?'th':'td');
 				w.nextMatch += len;//skip over the match
 
 				this.inCellTermRegExp.lastIndex = w.nextMatch;
@@ -481,13 +481,13 @@ config.mediaWikiFormatters = [
 				}
 				var cellText = w.source.substr(w.nextMatch,lookahead.index-w.nextMatch);
 				var oldSource = w.source;
-				var i = MediaWikiFormatter.endOfParams(w,cellText);//cellText.indexOf("|");
+				var i = MediaWikiFormatter.endOfParams(w,cellText);//cellText.indexOf('|');
 				if(i!=-1) {
-					cellText = cellText.replace(/^\+/mg,"");  //!!hack until I fix this properly
+					cellText = cellText.replace(/^\+/mg,'');  //!!hack until I fix this properly
 					MediaWikiFormatter.setAttributesFromParams(cell,cellText.substr(0,i-1));
 					cellText = cellText.substring(i+1);
 				}
-				cellText = cellText.replace(/^\s*/mg,""); //# remove leading spaces so not treated as preformatted
+				cellText = cellText.replace(/^\s*/mg,''); //# remove leading spaces so not treated as preformatted
 				w.source = cellText;
 				w.nextMatch = 0;
 				w.subWikifyUnterm(cell);
@@ -502,8 +502,8 @@ config.mediaWikiFormatters = [
 },
 
 {
-	name: "mediaWikiList",
-	match: "^[\\*#;:]+",
+	name: 'mediaWikiList',
+	match: '^[\\*#;:]+',
 	lookaheadRegExp: /^(?:(?:(\*)|(#)|(;)|(:))+)(?: ?)/mg,
 	termRegExp: /(\n)/mg,
 	handler: function(w)
@@ -517,17 +517,17 @@ config.mediaWikiFormatters = [
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
 			if(lookaheadMatch[1]) {
-				listType = "ul";
-				itemType = "li";
+				listType = 'ul';
+				itemType = 'li';
 			} else if(lookaheadMatch[2]) {
-				listType = "ol";
-				itemType = "li";
+				listType = 'ol';
+				itemType = 'li';
 			} else if(lookaheadMatch[3]) {
-				listType = "dl";
-				itemType = "dt";
+				listType = 'dl';
+				itemType = 'dt';
 			} else if(lookaheadMatch[4]) {
-				listType = "dl";
-				itemType = "dd";
+				listType = 'dl';
+				itemType = 'dd';
 			}
 			var listLevel = lookaheadMatch[0].length;
 			w.nextMatch += listLevel;
@@ -550,32 +550,32 @@ config.mediaWikiFormatters = [
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		}
-		w.output = createTiddlyElement2(output,"p");
+		w.output = createTiddlyElement2(output,'p');
 	}
 },
 
 {
-	name: "mediaWikiRule",
-	match: "^----+$\\n?",
+	name: 'mediaWikiRule',
+	match: '^----+$\\n?',
 	handler: function(w)
 	{
 		var output = w.output.parentNode;
-		createTiddlyElement2(output,"hr");
-		w.output = createTiddlyElement2(output,"p");
+		createTiddlyElement2(output,'hr');
+		w.output = createTiddlyElement2(output,'p');
 	}
 },
 
 {
-	name: "mediaWikiLeadingSpaces",
-	match: "^ ",
+	name: 'mediaWikiLeadingSpaces',
+	match: '^ ',
 	lookaheadRegExp: /^ /mg,
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
-		var e = createTiddlyElement2(w.output,"pre");
+		var e = createTiddlyElement2(w.output,'pre');
 		while(true) {
 			w.subWikifyTerm(e,this.termRegExp);
-			createTiddlyElement2(e,"br");
+			createTiddlyElement2(e,'br');
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			if(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
@@ -611,8 +611,8 @@ config.mediaWikiFormatters = [
 //# 	</div>
 //# </div>
 {
-	name: "mediaWikiImage",
-	match: "\\[\\[(?:[Ii]mage|Bild):",
+	name: 'mediaWikiImage',
+	match: '\\[\\[(?:[Ii]mage|Bild):',
 	lookaheadRegExp: /\[\[(?:[Ii]mage|Bild):/mg,
 	defaultPx: 180,
 	handler: function(w)
@@ -622,7 +622,7 @@ config.mediaWikiFormatters = [
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var params = MediaWikiFormatter.getParams(w);
 			var src = params[1];
-			src = src.trim().replace(/ /mg,"_");
+			src = src.trim().replace(/ /mg,'_');
 			src = src.substr(0,1).toUpperCase() + src.substring(1);
 			var palign = null;
 			var ptitle = null;
@@ -633,11 +633,11 @@ config.mediaWikiFormatters = [
 			for(var i=2;i<params.length;i++) {
 				//# right, left, center, none, sizepx, thumbnail (thumb), frame, and alternate (caption) text.
 				var p = params[i];
-				if(p=="right"||p=="left"||p=="center"||p=="none") {
+				if(p=='right'||p=='left'||p=='center'||p=='none') {
 					palign = p;
-				} else if(p=="thumbnail"||p=="thumb") {
+				} else if(p=='thumbnail'||p=='thumb') {
 					pthumb = true;
-				} else if(p=="framed") {
+				} else if(p=='framed') {
 					pframed = true;
 				} else if(/\d{1,4} ?px/.exec(p)) {
 					px = p.substr(0,p.length-2).trim();
@@ -646,53 +646,53 @@ config.mediaWikiFormatters = [
 				}
 			}//#end for
 			if(pthumb) {
-				var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
+				var output = w.output.nodeType==1 && w.output.nodeName=='P' ? w.output.parentNode : w.output;
 				if(!palign) {
-					palign = "right";
+					palign = 'right';
 				}
 				if(!px) {
 					px = 180;
 				}
-				psrc = px + "px-" + src;
-				var t = createTiddlyElement(output,"div",null,"thumb"+(palign?" t"+palign:""));
-				var s = createTiddlyElement2(t,"div");
-				s.style["width"] = Number(px) + 2 + "px";
-				var a = createTiddlyElement(s,"a",null,"internal");
+				psrc = px + 'px-' + src;
+				var t = createTiddlyElement(output,'div',null,'thumb'+(palign?' t'+palign:''));
+				var s = createTiddlyElement2(t,'div');
+				s.style['width'] = Number(px) + 2 + 'px';
+				var a = createTiddlyElement(s,'a',null,'internal');
 				if(config.options.chkMediaWikiDisplayEnableThumbZoom) {
 					a.href = src;
 				}
 				a.title = ptitle;
-				var img = createTiddlyElement2(a,"img");
-				img.src = "images/" + psrc;
-//# mwDebug(w.output,"s1:"+psrc);
+				var img = createTiddlyElement2(a,'img');
+				img.src = 'images/' + psrc;
+//# mwDebug(w.output,'s1:'+psrc);
 				img.width = px;
-				img.longdesc = "Image:" + src;
+				img.longdesc = 'Image:' + src;
 				img.alt = ptitle;
 
-				var tc = createTiddlyElement(s,"div",null,"thumbcaption");
+				var tc = createTiddlyElement(s,'div',null,'thumbcaption');
 				var oldSource = w.source; var oldMatch = w.nextMatch;
 				w.source = ptitle; w.nextMatch = 0;
 				w.subWikifyUnterm(tc);
 				w.source = oldSource; w.nextMatch = oldMatch;
 
 				if(config.options.chkMediaWikiDisplayEnableThumbZoom) {
-					var tm = createTiddlyElement(tc,"div",null,"magnify");
-					tm.style["float"] = "right";
-					var ta = createTiddlyElement(tm,"a",null,"internal");
-					ta.title = "Enlarge";
-					timg = createTiddlyElement2(ta,"img"); timg.src = "magnify-clip.png"; timg.alt = "Enlarge"; timg.width = "15"; timg.height = "11";
+					var tm = createTiddlyElement(tc,'div',null,'magnify');
+					tm.style['float'] = 'right';
+					var ta = createTiddlyElement(tm,'a',null,'internal');
+					ta.title = 'Enlarge';
+					timg = createTiddlyElement2(ta,'img'); timg.src = 'magnify-clip.png'; timg.alt = 'Enlarge'; timg.width = '15'; timg.height = '11';
 					ta.href = src;
 				}
 			} else {
 				// not pthumb
-				a = createTiddlyElement(w.output,"a",null,"image");
+				a = createTiddlyElement(w.output,'a',null,'image');
 				a.title = ptitle;
-				img = createTiddlyElement2(a,"img");
+				img = createTiddlyElement2(a,'img');
 				if(palign) {img.align = palign;}
-				img.src = px ? "images/" + px + "px-" + src : "images/" + src;
-//# mwDebug(w.output,"s2:"+img.src);
+				img.src = px ? 'images/' + px + 'px-' + src : 'images/' + src;
+//# mwDebug(w.output,'s2:'+img.src);
 				if(px) {img.width = px;}
-				img.longdesc = "Image:" + src;
+				img.longdesc = 'Image:' + src;
 				img.alt = ptitle;
 			}
 		}
@@ -700,9 +700,9 @@ config.mediaWikiFormatters = [
 },
 
 {
-	name: "mediaWikiExplicitLink",
-	match: "\\[\\[",
-	lookaheadRegExp: /\[\[(?:([a-z]{2,3}:)?)(#?)([^\|\]]*?)(?:(\]\](\w)*)|(\|(.*?)\]\]))/mg,
+	name: 'mediaWikiExplicitLink',
+	match: '\\[\\[',
+	lookaheadRegExp: /\[\[(?:([a-z]{2,3}:)?)(#?)([^\|\]]*?)(?:(\]\](\w*))|(\|(.*?)\]\]))/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
@@ -717,8 +717,8 @@ config.mediaWikiFormatters = [
 				if(lookaheadMatch[4]) {
 					// Simple bracketted link
 					if(lookaheadMatch[2]) {
-						var a = createTiddlyElement2(e,"a");// drop anchor
-						a.setAttribute("name",link);
+						var a = createTiddlyElement2(e,'a');// drop anchor
+						a.setAttribute('name',link);
 					} else {
 						e = createTiddlyLink(w.output,link,false,null,w.isStatic);
 						if(lookaheadMatch[5]) {
@@ -747,31 +747,31 @@ config.mediaWikiFormatters = [
 //#{{Audio|sv-Stockholm.ogg|Stockholm}}
 //**tem//
 {
-	name: "mediaWikiTemplate",
-	match: "\\{\\{[^\\{]",
+	name: 'mediaWikiTemplate',
+	match: '\\{\\{[^\\{]',
 	lookaheadRegExp: /\{\{((?:.|\n)*?)\}\}/mg,
 	handler: function(w)
 	{
-//# mwDebug(w.output,"wt:"+w.matchText+" ws:"+w.matchStart+" wn:"+w.nextMatch+" wl:"+w.matchLength);
+//# mwDebug(w.output,'wt:'+w.matchText+' ws:'+w.matchStart+' wn:'+w.nextMatch+' wl:'+w.matchLength);
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-//# mwDebug(w.output,"lm:"+lookaheadMatch);
-//# mwDebug(w.output,"lmi:"+lookaheadMatch.index+" lI:"+this.lookaheadRegExp.lastIndex);
-//# mwDebug(w.output,"lm1:"+lookaheadMatch[1]);
-//# mwDebug(w.output,"lm2:"+lookaheadMatch[2]);
+//# mwDebug(w.output,'lm:'+lookaheadMatch);
+//# mwDebug(w.output,'lmi:'+lookaheadMatch.index+' lI:'+this.lookaheadRegExp.lastIndex);
+//# mwDebug(w.output,'lm1:'+lookaheadMatch[1]);
+//# mwDebug(w.output,'lm2:'+lookaheadMatch[2]);
 			var lastIndex = this.lookaheadRegExp.lastIndex;
 			var contents = lookaheadMatch[1];
 			// see http://meta.wikimedia.org/wiki/Help:Variable
-			if(contents=="PAGENAME") {
+			if(contents=='PAGENAME') {
 				createTiddlyText(w.output,w.tiddler.title);
 				w.nextMatch = lastIndex;
 				return;
 			}
-			var i = contents.indexOf("|");
+			var i = contents.indexOf('|');
 			var title = i==-1 ? contents : contents.substr(0,i);
-			title = title.trim().replace(/_/mg," ");// Underscore in template name is equivalent to space
-			title = "Template:" + title.substr(0,1).toUpperCase() + title.substring(1);
+			title = title.trim().replace(/_/mg,' ');// Underscore in template name is equivalent to space
+			title = 'Template:' + title.substr(0,1).toUpperCase() + title.substring(1);
 			var tiddler = store.fetchTiddler(title);
 			var oldSource = w.source;
 			if(tiddler) {
@@ -787,7 +787,7 @@ config.mediaWikiFormatters = [
 			} else {
 				if(config.options.chkMediaWikiDisplayEmptyTemplateLinks) {
 					// for conveniece, output the name of the template so can click on it and create tiddler
-					w.source = "[["+title+"]]";
+					w.source = '[['+title+']]';
 					w.nextMatch = 0;
 					w.subWikifyUnterm(w.output);
 				}
@@ -799,35 +799,35 @@ config.mediaWikiFormatters = [
 },
 
 {
-	name: "mediaWikiParagraph",
-	match: "\\n{2,}",
+	name: 'mediaWikiParagraph',
+	match: '\\n{2,}',
 	handler: function(w)
 	{
-		var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
-		w.output = createTiddlyElement2(output,"p");
+		var output = w.output.nodeType==1 && w.output.nodeName=='P' ? w.output.parentNode : w.output;
+		w.output = createTiddlyElement2(output,'p');
 	}
 },
 
 {
-	name: "mediaWikiExplicitLineBreak",
-	match: "<br ?/?>",
+	name: 'mediaWikiExplicitLineBreak',
+	match: '<br ?/?>',
 	handler: function(w)
 	{
-		createTiddlyElement2(w.output,"br");
+		createTiddlyElement2(w.output,'br');
 	}
 },
 
 {
-	name: "mediaWikiExplicitLineBreakWithParams",
+	name: 'mediaWikiExplicitLineBreakWithParams',
 	match: "<br(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?\\s*/?>",
 	lookaheadRegExp: /<br((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*\/?>/mg,
 	handler: function(w)
 	{
-		//# copes with erroneous <br clear="right">
+		//# copes with erroneous <br clear='right'>
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var e =createTiddlyElement2(w.output,"br");
+			var e =createTiddlyElement2(w.output,'br');
 			if(lookaheadMatch[1]) {
 				MediaWikiFormatter.setAttributesFromParams(e,lookaheadMatch[1]);
 			}
@@ -837,18 +837,18 @@ config.mediaWikiFormatters = [
 },
 
 {
-	name: "mediaWikiTitledUrlLink",
-	match: "\\[" + config.textPrimitives.urlPattern + "(?:\\s+[^\\]]+)?" + "\\]",
+	name: 'mediaWikiTitledUrlLink',
+	match: '\\[' + config.textPrimitives.urlPattern + '(?:\\s+[^\\]]+)?' + '\\]',
 	//# eg [http://www.nupedia.com] or [http://www.nupedia.com Nupedia]
-	//# <sup id="_ref-1" class="reference"><a href="#_note-1" title="">[2]</a>
+	//# <sup id='_ref-1' class='reference'><a href='#_note-1' title=''>[2]</a>
 	handler: function(w)
 	{
-		var lookaheadRegExp = new RegExp("\\[(" + config.textPrimitives.urlPattern + ")(?:\\s+([^\[]+))?" + "\\]","mg");
+		var lookaheadRegExp = new RegExp('\\[(' + config.textPrimitives.urlPattern + ')(?:\\s+([^\[]+))?' + '\\]','mg');
 		lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index==w.matchStart) {
 			var link = lookaheadMatch[1];
-			var s = createTiddlyElement2(w.output,"sup");
+			var s = createTiddlyElement2(w.output,'sup');
 			var e = createExternalLink(s,link);
 			if(lookaheadMatch[2]) {
 				var oldSource = w.source; var oldMatch = w.nextMatch;
@@ -857,7 +857,7 @@ config.mediaWikiFormatters = [
 				w.source = oldSource; w.nextMatch = oldMatch;
 			} else {
 				w.linkCount++;
-				createTiddlyText(e,"["+w.linkCount+"]");
+				createTiddlyText(e,'['+w.linkCount+']');
 			}
 			w.nextMatch = lookaheadRegExp.lastIndex;
 		}
@@ -865,7 +865,7 @@ config.mediaWikiFormatters = [
 },
 
 {
-	name: "mediaWikiUrlLink",
+	name: 'mediaWikiUrlLink',
 	match: config.textPrimitives.urlPattern,
 	handler: function(w)
 	{
@@ -874,79 +874,91 @@ config.mediaWikiFormatters = [
 },
 
 {
-	name: "mediaWikiBold",
+	name: 'mediaWikiBoldItalic',
+	match: "'''''",
+	termRegExp: /('''''|\n)/mg,
+	element: 'strong',
+	handler: function(w)
+	{
+		var e = createTiddlyElement(w.output,this.element);
+		w.subWikifyTerm(createTiddlyElement(e,'em'),this.termRegExp);
+	}
+},
+
+{
+	name: 'mediaWikiBold',
 	match: "'''",
 	termRegExp: /('''|\n)/mg,
-	element: "strong",
+	element: 'strong',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "mediaWikiItalic",
+	name: 'mediaWikiItalic',
 	match: "''(?!')",
 	termRegExp: /(''(?!')|\n)/mg,
-	element: "em",
+	element: 'em',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "mediaWikiUnderline",
-	match: "<u>",
+	name: 'mediaWikiUnderline',
+	match: '<u>',
 	termRegExp: /(<\/u>|\n)/mg,
-	element: "u",
+	element: 'u',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "mediaWikiStrike",
-	match: "<s>",
+	name: 'mediaWikiStrike',
+	match: '<s>',
 	termRegExp: /(<\/s>|\n)/mg,
-	element: "strike",
+	element: 'strike',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "mediaWikiBoldTag",
-	match: "<b>",
+	name: 'mediaWikiBoldTag',
+	match: '<b>',
 	termRegExp: /(<\/b>|\n)/mg,
-	element: "b",
+	element: 'b',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "mediaWikiTemplateParam",// note, this only gets invoked when viewing the template
-	match: "\\{\\{\\{",
+	name: 'mediaWikiTemplateParam',// note, this only gets invoked when viewing the template
+	match: '\\{\\{\\{',
 	lookaheadRegExp: /(\{\{\{(?:.|\n)*?\}\}\})/mg,
-	element: "span",
+	element: 'span',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 //# See http://en.wikipedia.org/wiki/Wikipedia:Footnotes
 //# for an explanation of how to generate footnotes using the <ref(erences/)> tags
 {
-	name: "mediaWikiInsertReference",
-	match: "<ref[^/]*>",
+	name: 'mediaWikiInsertReference',
+	match: '<ref[^/]*>',
 	lookaheadRegExp: /<ref(\s+(?:.*?)=["']?(?:.*?)["']?)?>([^<]*?)<\/ref>/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var x = {id:"",value:""};
+			var x = {id:'',value:''};
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			if(!w.referenceCount) {
 				w.referenceCount = 0;
 				w.references = {};
 			}
-			var s = createTiddlyElement(w.output,"sup",null,"reference");
-			var a = createTiddlyElement2(s,"a");
-			var prefix = w.tiddler ? w.tiddler.title + ":" : "";
+			var s = createTiddlyElement(w.output,'sup',null,'reference');
+			var a = createTiddlyElement2(s,'a');
+			var prefix = w.tiddler ? w.tiddler.title + ':' : '';
 			if(lookaheadMatch[1]) {
 				var r = {};
 				r = MediaWikiFormatter.setFromParams(w,lookaheadMatch[1]);
-				var name = r.name ? r.name.trim() : "";
-				name = name.replace(/ /g,"_");
-				s.id = prefix + "_ref-" + name;// + "_" + nameCount;(w.referenceCount+1);
+				var name = r.name ? r.name.trim() : '';
+				name = name.replace(/ /g,'_');
+				s.id = prefix + '_ref-' + name;// + '_' + nameCount;(w.referenceCount+1);
 				if(!w.references[name]) {
 					w.references[name] = x;
 					w.references[name].id = w.referenceCount;
@@ -957,38 +969,38 @@ config.mediaWikiFormatters = [
 				w.references[w.referenceCount].id = w.referenceCount;
 				w.references[w.referenceCount].value = lookaheadMatch[2].trim();
 				name = w.referenceCount;
-				s.id = prefix + "_ref-" + w.referenceCount;
+				s.id = prefix + '_ref-' + w.referenceCount;
 			}
 			w.referenceCount++;
 			a.title = lookaheadMatch[2].trim();//mb, extra to wikipedia
-			a.href = "#" + prefix + "_note-" + name;
-			a.innerHTML = "["+w.referenceCount+"]";
-//#<sup id="_ref-0" class="reference"><a href="#_note-0" title="">[1]</a></sup>
-//#<sup id="_ref-foreign_ministry_0" class="reference"><a href="#_note-foreign_ministry" title="">[2]</a></sup>
+			a.href = '#' + prefix + '_note-' + name;
+			a.innerHTML = '['+w.referenceCount+']';
+//#<sup id='_ref-0' class='reference'><a href='#_note-0' title=''>[1]</a></sup>
+//#<sup id='_ref-foreign_ministry_0' class='reference'><a href='#_note-foreign_ministry' title=''>[2]</a></sup>
 		}
 	}
 },
 
 {
-	name: "mediaWikiListReferences",
-	match: "<references ?/>",
+	name: 'mediaWikiListReferences',
+	match: '<references ?/>',
 	lookaheadRegExp: /<references ?\/>/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(config.options.chkMediaWikiListReferences && w.referenceCount) {
-			var ol = createTiddlyElement(w.output,"ol",null,"references");
+			var ol = createTiddlyElement(w.output,'ol',null,'references');
 			var oldSource = w.source;
 			if(w.referenceCount>0) {
 				for(var i in w.references) {
-					var li = createTiddlyElement2(ol,"li");
-					var prefix = w.tiddler ? w.tiddler.title + ":" : "";
-					var b = createTiddlyElement2(li,"b");
-					var a = createTiddlyElement2(b,"a");
-					li.id = prefix + "_note-" + i;
-					a.href = "#" + prefix + "_ref-" + i;
-					a.innerHTML = "^";
+					var li = createTiddlyElement2(ol,'li');
+					var prefix = w.tiddler ? w.tiddler.title + ':' : '';
+					var b = createTiddlyElement2(li,'b');
+					var a = createTiddlyElement2(b,'a');
+					li.id = prefix + '_note-' + i;
+					a.href = '#' + prefix + '_ref-' + i;
+					a.innerHTML = '^';
 					w.source = w.references[i].value;
 					w.nextMatch = 0;
 					w.subWikifyUnterm(li);
@@ -1001,8 +1013,8 @@ config.mediaWikiFormatters = [
 },
 
 {
-	name: "mediaWikiRepeatReference",
-	match: "<ref[^/]*/>",
+	name: 'mediaWikiRepeatReference',
+	match: '<ref[^/]*/>',
 	lookaheadRegExp: /<ref(\s+(?:.*?)="(?:.*?)")?\s*\/>/mg,
 	handler: function(w)
 	{
