@@ -97,6 +97,7 @@ merge(config.views.wikified,{
 	defaultText: "",
 	defaultModifier: "(未完成)",
 	shadowModifier: "(預設)",
+	dateFormat: "YYYY年0MM月0DD日",
 	createdPrompt: "建立於"});
 
 merge(config.views.editor,{
@@ -131,7 +132,7 @@ merge(config.macros.allTags,{
 config.macros.list.all.prompt = "依字母排序";
 config.macros.list.missing.prompt = "被引用且內容空白的文章";
 config.macros.list.orphans.prompt = "未被引用的文章";
-config.macros.list.shadowed.prompt = "這些隱藏的文章已定義預設內容";
+config.macros.list.shadowed.prompt = "這些隱藏的文章已預設內容";
 
 merge(config.macros.closeAll,{
 	label: "全部關閉",
@@ -299,7 +300,7 @@ merge(config.shadowTiddlers,{
 	TabTimeline: "<<timeline>>",
 	TabAll: "<<list all>>",
 	TabTags: "<<allTags>>",
-	TabMore: "<<tabs txtMoreTab 未完成 '內容空白的文章' TabMoreMissing 未引用 '未被引用的文章' TabMoreOrphans 預設文章 '預設的影子文章' TabMoreShadowed>>",
+	TabMore: "<<tabs txtMoreTab 未完成 '內容空白的文章' TabMoreMissing 未引用 '未被引用的文章' TabMoreOrphans 預設文章 '已預設內容的隱藏文章' TabMoreShadowed>>",
 	TabMoreMissing: "<<list missing>>",
 	TabMoreOrphans: "<<list orphans>>",
 	TabMoreShadowed: "<<list shadowed>>",

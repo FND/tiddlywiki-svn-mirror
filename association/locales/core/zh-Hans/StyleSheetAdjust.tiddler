@@ -1,1 +1,30 @@
-<div tiddler="StyleSheetAdjust" modifier="BramChen">/***\n	Title: StyleSheetAdjust\n	Usage: Add {{{[[StyleSheetAdjust]]}}} to StyleSheet\n***/\n/*{{{*/\nbody {\n	font-size: .8em;\n}\n#sidebarOptions {\n	font-size: 1.05em;\n}\n#sidebarOptions a {\n font-style: normal;\n}\n\n#sidebarOptions .sliderPanel {\n	font-size: .95em;\n}\n.subtitle {\n	font-size: .8em;\n}\n.viewer table.listView {\n	font-size: .95em;\n}\n\n.htmlarea .toolbarHA table {\n	border: 1px solid ButtonFace;\n	margin: 0em 0em;\n}\n/*}}}*/</div>
+<div title="StyleSheetAdjust" modifier="BramChen" tags="excludeLists">
+<pre>/***
+	Title: StyleSheetAdjust
+	Usage: Add {{{[[StyleSheetAdjust]]}}} to StyleSheet
+***/
+/*{{{*/
+body {
+	font-size: .8em;
+}
+#sidebarOptions {
+	font-size: 1.05em;
+}
+#sidebarOptions a {
+	font-style: normal;
+}
+#sidebarOptions .sliderPanel {
+	font-size: .95em;
+}
+.subtitle {
+	font-size: .8em;
+}
+.viewer table.listView {
+font-size: .95em;
+}
+.htmlarea .toolbarHA table {
+	border: 1px solid ButtonFace;
+	margin: 0em 0em;
+}
+/*}}}*/</pre>
+</div>

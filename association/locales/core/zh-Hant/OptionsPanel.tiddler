@@ -1,1 +1,15 @@
-<div tiddler="OptionsPanel" modifier="BramChen">這些設定將暫存於瀏覽器\n請簽名&lt;&lt;option txtUserName&gt;&gt;\n (範例：WikiWord)\n\n&lt;&lt;option chkSaveBackups&gt;&gt; 儲存備份\n&lt;&lt;option chkAutoSave&gt;&gt; 自動儲存\n&lt;&lt;option chkRegExpSearch&gt;&gt; 正規式搜尋\n&lt;&lt;option chkCaseSensitiveSearch&gt;&gt; 區分大小寫搜尋\n&lt;&lt;option chkAnimate&gt;&gt; 使用動畫顯示\n\n[[進階選項|AdvancedOptions]]\n[[套件管理|PluginManager]]\n[[匯入文章|ImportTiddlers]]</div>
+<div title="OptionsPanel" modifier="BramChen" tags="excludeLists">
+<pre>這些設定將暫存於瀏覽器
+請簽名&lt;&lt;option txtUserName&gt;&gt;
+ (範例：WikiWord)
+
+ &lt;&lt;option chkSaveBackups&gt;&gt; 儲存備份
+ &lt;&lt;option chkAutoSave&gt;&gt; 自動儲存
+ &lt;&lt;option chkRegExpSearch&gt;&gt; 正規式搜尋
+ &lt;&lt;option chkCaseSensitiveSearch&gt;&gt; 區分大小寫搜尋
+ &lt;&lt;option chkAnimate&gt;&gt; 使用動畫顯示
+----
+ [[進階選項|AdvancedOptions]]
+ [[套件管理|PluginManager]]
+ [[匯入文章|ImportTiddlers]]</pre>
+</div>

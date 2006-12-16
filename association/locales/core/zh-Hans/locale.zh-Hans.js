@@ -97,6 +97,7 @@ merge(config.views.wikified,{
 	defaultText: "",
 	defaultModifier: "(未完成)",
 	shadowModifier: "(默认)",
+	dateFormat: "YYYY年0MM月0DD日",
 	createdPrompt: "创建于"});
 
 merge(config.views.editor,{
