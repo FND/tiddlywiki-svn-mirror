@@ -14,6 +14,8 @@
 |''Allow zooming of thumbnail images''|<<option chkMediaWikiDisplayEnableThumbZoom>>|
 |''List references''|<<option chkMediaWikiListReferences>>|
 
+//<<newTiddler "New Tiddler" fields:[[wikiformat:MediaWiki;]]>>
+
 This is the MediaWikiFormatterPlugin, which allows you to insert MediaWiki formated text into a TiddlyWiki.
 
 The aim is not to fully emulate MediaWiki, but to allow you to create MediaWiki content off-line
@@ -55,6 +57,23 @@ if(config.options.chkMediaWikiDisplayEnableThumbZoom == undefined)
 	{config.options.chkMediaWikiDisplayEnableThumbZoom = false;}
 if(config.options.chkMediaWikiListReferences == undefined)
 	{config.options.chkMediaWikiListReferences = false;}
+
+config.macros.list.templates = {};
+config.macros.list.templates.handler = function(params)
+{
+	return store.getTemplates();
+};
+
+TiddlyWiki.prototype.getTemplates = function()
+{
+	var results = [];
+	this.forEachTiddler(function(title,tiddler) {
+		if(tiddler.title.substr(0,9)=='Template:')
+			results.push(tiddler);
+		});
+	results.sort();
+	return results;
+};
 
 MediaWikiFormatter = {}; // 'namespace' for local functions
 
