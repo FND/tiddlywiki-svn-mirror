@@ -1,1 +1,3 @@
-<div tiddler="SideBarTabs" modifier="MartinBudden" created="200608120000" tags="excludeLists">&lt;&lt;tabs txtMainTab Articles 'All articles' TabAll Tags 'All tags' TabTags More 'More lists' TabMore&gt;&gt;</div>
+<div title="SideBarTabs" tags="excludeLists">
+<pre>&lt;&lt;tabs txtMainTab "Articles" "All articles" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore&gt;&gt;</pre>
+</div>
