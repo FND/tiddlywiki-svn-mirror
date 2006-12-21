@@ -1,13 +1,21 @@
 recipe: ../../../core/tiddlywiki.html.recipe
+prehead: ../../../core/html/rss.link.html
 title: creoledemo/title.html
 recipe: creoledemo/split.recipe
 recipe: ../mystyle/split.recipe
-prehead: ../../../core/html/rss.link.html
 recipe: ../../../contributors/misc/tiddlers/upload.recipe
 tiddler: ../../../contributors/misc/plugins/TagCloudPlugin.js
 tiddler: ../plugins/settings.js
 tiddler: ../tiddlers/Configuration.tiddler
 tiddler: ../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../plugins/CreoleFormatterPlugin.js
+tiddler: ../plugins/MediaWikiFormatterPlugin.js
+tiddler: ../plugins/CreoleBaseFormatterPlugin.js
+tiddler: ../plugins/creoleMediaWikiFormatterPlugin.js
+tiddler: ../plugins/TWikiFormatterPlugin.js
 tiddler: ../plugins/DisableWikiLinksPlugin.js
 tiddler: ../test/testCreoleFormat.tiddler
+tiddler: ../test/testCreoleMediaWikiFormat.tiddler
+tiddler: ../test/Creole_0.1_Test_Cases.tiddler
+tiddler: ../test/Creole_0.1_Test_Cases_2.tiddler
+
