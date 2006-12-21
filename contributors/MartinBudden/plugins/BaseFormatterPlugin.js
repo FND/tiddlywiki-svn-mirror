@@ -145,6 +145,7 @@ config.baseFormatters = [
 		w.output = createTiddlyElement(output,"p");
 	}
 },
+
 {
 	name: "baseRule",
 	match: "^---+$\\n?",
