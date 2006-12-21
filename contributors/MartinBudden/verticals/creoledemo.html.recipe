@@ -9,13 +9,18 @@ tiddler: ../plugins/settings.js
 tiddler: ../tiddlers/Configuration.tiddler
 tiddler: ../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../plugins/CreoleFormatterPlugin.js
-tiddler: ../plugins/MediaWikiFormatterPlugin.js
 tiddler: ../plugins/CreoleBaseFormatterPlugin.js
+tiddler: ../plugins/MediaWikiFormatterPlugin.js
 tiddler: ../plugins/creoleMediaWikiFormatterPlugin.js
+tiddler: ../plugins/TracFormatterPlugin.js
+tiddler: ../plugins/creoleTracFormatterPlugin.js
 tiddler: ../plugins/TWikiFormatterPlugin.js
+tiddler: ../plugins/creoleTWikiFormatterPlugin.js
 tiddler: ../plugins/DisableWikiLinksPlugin.js
 tiddler: ../test/testCreoleFormat.tiddler
-tiddler: ../test/testCreoleMediaWikiFormat.tiddler
+tiddler: ../test/testCreoleMixedWithMediaWikiFormat.tiddler
+tiddler: ../test/testCreoleMixedWithTracFormat.tiddler
+tiddler: ../test/testCreoleMixedWithTWikiFormat.tiddler
 tiddler: ../test/Creole_0.1_Test_Cases.tiddler
 tiddler: ../test/Creole_0.1_Test_Cases_2.tiddler
 
