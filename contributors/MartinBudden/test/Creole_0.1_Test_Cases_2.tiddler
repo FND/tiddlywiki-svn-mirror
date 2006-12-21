@@ -1,5 +1,7 @@
-<div title="testCreoleFormat" modifier="MartinBudden" tags="test">
-<pre>== Headings
+<div title="Creole 0.1 Test Cases 2" modifier="MartinBudden" tags="test">
+<pre>!Note that this is a Creole Test Page and won't display correctly at wikicreole.org
+
+== Headings
 
 == Heading2
 === Heading3
