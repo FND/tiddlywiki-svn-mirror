@@ -1,1 +1,142 @@
-<div tiddler="Template:Planet Infobox/Neptune" modifier="Wikipedia" modified="200611101607" created="200608120000" tags="MediaWikiFormat excludeLists">{| class=&quot;infobox&quot; style=&quot;width: 25em;&quot;\n|+ style=&quot;font-size:larger;&quot; | '''Neptune''' [[Image:Neptune symbol.png|25px|Astronomical symbol of Neptune]]\n|-\n|colspan=&quot;2&quot; style=&quot;text-align:center; background: #001000;&quot;| \n[[image:neptune.jpg|250px|Neptune from Voyager 2]]&lt;br /&gt;\n&lt;small&gt;&lt;font color=&quot;white&quot;&gt;Click image for description&lt;/font&gt;&lt;/small&gt;\n|-\n! bgcolor=&quot;#97C3F4&quot; colspan=&quot;2&quot; | Discovery\n|-\n| Discovered by\n| [[Urbain Le Verrier]]&lt;br&gt; [[John Couch Adams]]&lt;br /&gt; [[Johann Gottfried Galle|Johann Galle]]\n|-\n| Discovered on\n| [[September 23]], [[1846]]\n|-\n! bgcolor=&quot;#97C3F4&quot; colspan=&quot;2&quot; | [[Orbit]]al characteristics ([[Epoch (astronomy)|Epoch]] [[J2000]])\n|-\n| [[Semi-major axis]]\n| [[1 E12 m|4,498,252,900]] [[kilometre|km]]&lt;br /&gt;30.068 963 48 [[Astronomical unit|AU]]\n|-\n| Orbital [[circumference]]\n| 28.263 [[Tera|T]][[metre|m]]&lt;br /&gt;188.925 AU\n|-\n| [[Eccentricity (orbit)|Eccentricity]]\n| 0.008 585 87\n|-\n| [[Perihelion ]]\n| 4,459,631,496 km&lt;br /&gt;29.810 795 27 AU\n|-\n| [[Aphelion]]\n| 4,536,874,325 km&lt;br /&gt;30.327 131 69 AU\n|-\n| [[Orbital period]]\n| [[1 E9 s|60,223.3528 d]]&lt;br /&gt;(164.88 [[julian year (astronomy)|a]])\n|-\n| [[Synodic period]]\n| 367.49 d\n|-\n| [[Avg. Orbital Speed]]\n| 5.432 km/s\n|-\n| Max. Orbital Speed\n| 5.479 km/s\n|-\n| Min. Orbital Speed\n| 5.385 km/s\n|-\n| [[Inclination]]\n| 1.769 17&amp;deg;&lt;br /&gt;(6.43° to Sun's equator)\n|-\n| [[Longitude of the ascending node|Longitude of the&lt;br&gt; ascending node]]\n| 131.721 69&amp;deg;\n|-\n| [[Argument of the perihelion|Argument of the&lt;br&gt; perihelion]]\n| 273.249 66&amp;deg;\n|-\n| Number of [[natural satellite|satellite]]s\n| 13\n|-\n! bgcolor=&quot;#97C3F4&quot; colspan=&quot;2&quot; | Physical characteristics\n|-\n| [[Equator]]ial [[diameter]]\n| [[1 E7 m|49,528]] km [http://www.onasch.de/astro/showobject.php?lang=en&amp;head=f&amp;anim=129&amp;obj=p08]&lt;br&gt;(3.883 Earths)\n|-\n| [[geographical pole|Polar]] diameter\n| 48,681 km&lt;br /&gt;(3.829 [[Earth]]s)\n|-\n| [[Oblateness]]\n| 0.0171\n|-\n| Surface [[area]]\n| [[1 E15 m2|7.619{{e|9}}]] [[square kilometre|km&lt;sup&gt;2&lt;/sup&gt;]]&lt;br&gt;(14.94 Earths)\n|-\n| [[Volume]]\n| 6.254{{e|13}} [[cubic kilometre|km&lt;sup&gt;3&lt;/sup&gt;]]&lt;br&gt;(57.74 Earths)\n|-\n| [[Mass]]\n| 1.0243{{e|26}} [[kilogram|kg]]&lt;br /&gt;(17.147 Earths)\n|-\n| Mean [[density]]\n| 1.638 g/cm&lt;sup&gt;3&lt;/sup&gt;\n|-\n| Equatorial [[gravity]]&lt;br /&gt;(At 1 [[bar (unit)|bar]])\n| 11.15 [[Acceleration|m/s&lt;sup&gt;2&lt;/sup&gt;]]&lt;br /&gt;(1.14 [[Acceleration due to gravity|g]])\n|-\n| [[Escape velocity]]\n| 23.5 km/s\n|-\n| Rotation period\n| 16.11 h (16 h 6 min 36 s) [http://www.hnsky.org/iau-iag.htm &lt;sup&gt;1&lt;/sup&gt;]\n|-\n| Rotation velocity\n| 2.68 km/s = 9660 km/h (at the equator)\n|-\n| [[Axial tilt]]\n| 28.32&amp;deg;\n|-\n| [[Right ascension]]&lt;br /&gt;of North pole\n| 299.33&amp;deg; (19 h 57 min 20 s)\n|-\n| [[Declination]]\n| 42.95&amp;deg;\n|-\n| [[Albedo]]\n| 0.41\n|-\n| Surface [[Temperature|temp.]]\n| \n{| cellspacing=&quot;0&quot; cellpadding=&quot;2&quot; border=&quot;0&quot;\n|-\n! min !! mean !! max\n|-\n| 50 [[kelvin|K]]\n| [[1 E1 K|53 K]]\n| N/A K\n|}\n|-\n|Adjective\n|Neptunian\n|-\n! bgcolor=&quot;#97C3F4&quot; colspan=&quot;2&quot; | [[celestial body's atmosphere|Atmospheric]] characteristics\n|-\n| [[Surface pressure]]\n| &amp;#8811;&lt;!--Much greater than--&gt;100 [[Pascal|MPa]]\n|-\n| [[Hydrogen]] - H&lt;sub&gt;2&lt;/sub&gt;\n| 80% &amp;#0177;3.2%\n|-\n| [[Helium]] - He\n| 19% &amp;#0177;3.2%\n|-\n| [[Methane]] - CH&lt;sub&gt;4&lt;/sub&gt;\n| 1.5% &amp;#0177;0.5%\n|-\n| [[Deuterium|Hydrogen Deuteride]] - HD\n| 192 [[Parts per million|ppm]]\n|-\n| [[Ethane]] - C&lt;sub&gt;2&lt;/sub&gt;H&lt;sub&gt;6&lt;/sub&gt;\n| 1.5 ppm\n|}\n</div>
+<div title="Template:Planet Infobox/Neptune" modifier="Wikipedia">
+<pre>{| class=&quot;infobox&quot; style=&quot;width: 25em;&quot;
+|+ style=&quot;font-size:larger;&quot; | '''Neptune''' [[Image:Neptune symbol.png|25px|Astronomical symbol of Neptune]]
+|-
+|colspan=&quot;2&quot; style=&quot;text-align:center; background: #001000;&quot;| 
+[[image:neptune.jpg|250px|Neptune from Voyager 2]]&lt;br /&gt;
+&lt;small&gt;&lt;font color=&quot;white&quot;&gt;Click image for description&lt;/font&gt;&lt;/small&gt;
+|-
+! bgcolor=&quot;#97C3F4&quot; colspan=&quot;2&quot; | Discovery
+|-
+| Discovered by
+| [[Urbain Le Verrier]]&lt;br&gt; [[John Couch Adams]]&lt;br /&gt; [[Johann Gottfried Galle|Johann Galle]]
+|-
+| Discovered on
+| [[September 23]], [[1846]]
+|-
+! bgcolor=&quot;#97C3F4&quot; colspan=&quot;2&quot; | [[Orbit]]al characteristics ([[Epoch (astronomy)|Epoch]] [[J2000]])
+|-
+| [[Semi-major axis]]
+| [[1 E12 m|4,498,252,900]] [[kilometre|km]]&lt;br /&gt;30.068 963 48 [[Astronomical unit|AU]]
+|-
+| Orbital [[circumference]]
+| 28.263 [[Tera|T]][[metre|m]]&lt;br /&gt;188.925 AU
+|-
+| [[Eccentricity (orbit)|Eccentricity]]
+| 0.008 585 87
+|-
+| [[Perihelion ]]
+| 4,459,631,496 km&lt;br /&gt;29.810 795 27 AU
+|-
+| [[Aphelion]]
+| 4,536,874,325 km&lt;br /&gt;30.327 131 69 AU
+|-
+| [[Orbital period]]
+| [[1 E9 s|60,223.3528 d]]&lt;br /&gt;(164.88 [[julian year (astronomy)|a]])
+|-
+| [[Synodic period]]
+| 367.49 d
+|-
+| [[Avg. Orbital Speed]]
+| 5.432 km/s
+|-
+| Max. Orbital Speed
+| 5.479 km/s
+|-
+| Min. Orbital Speed
+| 5.385 km/s
+|-
+| [[Inclination]]
+| 1.769 17&amp;deg;&lt;br /&gt;(6.43° to Sun's equator)
+|-
+| [[Longitude of the ascending node|Longitude of the&lt;br&gt; ascending node]]
+| 131.721 69&amp;deg;
+|-
+| [[Argument of the perihelion|Argument of the&lt;br&gt; perihelion]]
+| 273.249 66&amp;deg;
+|-
+| Number of [[natural satellite|satellite]]s
+| 13
+|-
+! bgcolor=&quot;#97C3F4&quot; colspan=&quot;2&quot; | Physical characteristics
+|-
+| [[Equator]]ial [[diameter]]
+| [[1 E7 m|49,528]] km [http://www.onasch.de/astro/showobject.php?lang=en&amp;head=f&amp;anim=129&amp;obj=p08]&lt;br&gt;(3.883 Earths)
+|-
+| [[geographical pole|Polar]] diameter
+| 48,681 km&lt;br /&gt;(3.829 [[Earth]]s)
+|-
+| [[Oblateness]]
+| 0.0171
+|-
+| Surface [[area]]
+| [[1 E15 m2|7.619{{e|9}}]] [[square kilometre|km&lt;sup&gt;2&lt;/sup&gt;]]&lt;br&gt;(14.94 Earths)
+|-
+| [[Volume]]
+| 6.254{{e|13}} [[cubic kilometre|km&lt;sup&gt;3&lt;/sup&gt;]]&lt;br&gt;(57.74 Earths)
+|-
+| [[Mass]]
+| 1.0243{{e|26}} [[kilogram|kg]]&lt;br /&gt;(17.147 Earths)
+|-
+| Mean [[density]]
+| 1.638 g/cm&lt;sup&gt;3&lt;/sup&gt;
+|-
+| Equatorial [[gravity]]&lt;br /&gt;(At 1 [[bar (unit)|bar]])
+| 11.15 [[Acceleration|m/s&lt;sup&gt;2&lt;/sup&gt;]]&lt;br /&gt;(1.14 [[Acceleration due to gravity|g]])
+|-
+| [[Escape velocity]]
+| 23.5 km/s
+|-
+| Rotation period
+| 16.11 h (16 h 6 min 36 s) [http://www.hnsky.org/iau-iag.htm &lt;sup&gt;1&lt;/sup&gt;]
+|-
+| Rotation velocity
+| 2.68 km/s = 9660 km/h (at the equator)
+|-
+| [[Axial tilt]]
+| 28.32&amp;deg;
+|-
+| [[Right ascension]]&lt;br /&gt;of North pole
+| 299.33&amp;deg; (19 h 57 min 20 s)
+|-
+| [[Declination]]
+| 42.95&amp;deg;
+|-
+| [[Albedo]]
+| 0.41
+|-
+| Surface [[Temperature|temp.]]
+| 
+{| cellspacing=&quot;0&quot; cellpadding=&quot;2&quot; border=&quot;0&quot;
+|-
+! min !! mean !! max
+|-
+| 50 [[kelvin|K]]
+| [[1 E1 K|53 K]]
+| N/A K
+|}
+|-
+|Adjective
+|Neptunian
+|-
+! bgcolor=&quot;#97C3F4&quot; colspan=&quot;2&quot; | [[celestial body's atmosphere|Atmospheric]] characteristics
+|-
+| [[Surface pressure]]
+| &amp;#8811;&lt;!--Much greater than--&gt;100 [[Pascal|MPa]]
+|-
+| [[Hydrogen]] - H&lt;sub&gt;2&lt;/sub&gt;
+| 80% &amp;#0177;3.2%
+|-
+| [[Helium]] - He
+| 19% &amp;#0177;3.2%
+|-
+| [[Methane]] - CH&lt;sub&gt;4&lt;/sub&gt;
+| 1.5% &amp;#0177;0.5%
+|-
+| [[Deuterium|Hydrogen Deuteride]] - HD
+| 192 [[Parts per million|ppm]]
+|-
+| [[Ethane]] - C&lt;sub&gt;2&lt;/sub&gt;H&lt;sub&gt;6&lt;/sub&gt;
+| 1.5 ppm
+|}</pre>
+</div>

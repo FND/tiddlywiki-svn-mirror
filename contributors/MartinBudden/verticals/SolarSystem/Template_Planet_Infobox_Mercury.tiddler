@@ -1,1 +1,146 @@
-<div tiddler="Template:Planet Infobox/Mercury" modifier="Wikipedia" modified="200611101607" created="200608120000" tags="MediaWikiFormat excludeLists">{| class=&quot;toccolours&quot; style=&quot;margin-left: 1em; float:right; width: 25em;&quot;\n|+ style=&quot;font-size:larger;&quot; | '''Mercury''' [[Image:Mercury symbol.ant.png|25px|Astronomical symbol of Mercury]]\n|-\n|colspan=&quot;2&quot; style=&quot;text-align:center; background: #001000;&quot; | [[Image:Reprocessed Mariner 10 image of Mercury.jpg|300px|Mercury]]&lt;br&gt;\n|-\n!style=&quot;text-align:center;&quot; bgcolor=&quot;#D8BBA6&quot; colspan=&quot;2&quot; | [[Planetary orbit|Orbit]]al characteristics ([[Epoch (astronomy)|Epoch]] [[J2000]])\n|-\n| [[Semimajor axis|Avg. distance from Sun]]\n| [[1 E10 m|57,909,176]] [[kilometre|km]]&lt;br&gt;0.387 098 93 [[Astronomical unit|AU]]\n|-\n| Orbital [[circumference]]\n| 360,000,000 km&lt;br&gt;(2.406 AU)\n|-\n| [[Eccentricity (orbit)|Eccentricity]]\n| 0.205 630 69\n|-\n| [[Perihelion]]\n| 46,001,272 km&lt;br&gt;0.307 499 51 AU\n|-\n| [[Aphelion]]\n| 69,817,079 km&lt;br&gt;0.466 698 35 AU\n|-\n| [[Orbital period]]\n| [[1 E6 s|87.969 34]] [[day|d]]&lt;br/&gt;(0.240 846 9 [[julian year (astronomy)|a]])\n|-\n| [[Synodic period]]\n| 115.8776 d\n|-\n| [[Avg. Orbital Speed]]\n| 47.36 km/[[second|s]]\n|-\n| Max. Orbital Speed\n| 58.98 km/[[second|s]]\n|-\n| Min. Orbital Speed\n| 38.86 km/[[second|s]]\n|-\n| [[Inclination]]\n| 7.004 87[[degree (angle)|&amp;deg;]]&lt;br&gt;(3.38° to Sun's equator)\n|-\n| [[Longitude of the ascending node|Longitude of the&lt;br&gt; ascending node]]\n| 48.331 67&amp;deg;\n|-\n| [[Argument of the perihelion|Argument of the&lt;br&gt; perihelion]]\n| 29.124 78&amp;deg;\n|-\n| Number of [[natural satellite|satellite]]s\n| 0\n|-\n! bgcolor=&quot;#D8BBA6&quot; colspan=&quot;2&quot;| Physical characteristics\n|-\n| [[Equator]]ial [[diameter]]\n| 4879.4 km&lt;br&gt;(0.383 [[Earth]]s)\n|-\n| Surface [[area]]\n| [[1 E13 m²|7.5]]{{e|7}} [[square kilometre|km&amp;sup2;]]&lt;br&gt;(0.147 Earths)\n|-\n| [[Volume]]\n| 6.083{{e|10}} [[cubic kilometre|km&amp;sup3;]]&lt;br&gt;(0.056 Earths)\n|-\n| [[Mass]]\n| 3.302{{e|23}} [[kilogram|kg]]&lt;br&gt;(0.055 Earths)\n|-\n| Mean [[density]]\n| 5.427 [[gram|g]]/cm&amp;sup3;\n|-\n| Equatorial [[gravity]]\n| 3.701 [[Acceleration|m/s&amp;sup2;]]&lt;br&gt;(0.377 [[Acceleration due to gravity|gee]])\n|-\n| [[Escape velocity]]\n| 4.435 km/s\n|-\n| Rotation period\n| 58.6462 d (58 d 15.5088 [[hour|h]])\n|-\n| Rotation velocity\n| 10.892 km/h (at the equator)\n|-\n| [[Axial tilt]]\n| ~0.01&amp;deg; &lt;!--- Note that this implies that the orbital pole is very nearly the same as the rotation pole ---&gt;\n|-\n| [[Right ascension]]&lt;br&gt;of North pole\n| 281.01&amp;deg; (18 h 44 min 2 s) &lt;sup&gt;[http://www.hnsky.org/iau-iag.htm 1]&lt;/sup&gt;\n|-\n| [[Declination]]\n| 61.45&amp;deg;\n|-\n| [[Albedo]]\n| 0.10-0.12\n|-\n| Surface [[Temperature|temp.]]\n|\n{| cellspacing=&quot;0&quot; cellpadding=&quot;2&quot; border=&quot;0&quot;\n! min !! mean !! max\n|-\n| 90 K\n| [[1 E2 K|440 K]]\n| 700 K\n|}\n|-\n| Avg. Surface [[Temperature|temp.]]: Day\n| 623 [[kelvin|K]]\n|-\n| Avg. Surface temp.: Night\n| 103 K\n|-\n|Adjective\n|Mercurian\n|-\n! bgcolor=&quot;#D8BBA6&quot; colspan=&quot;2&quot; | [[celestial body's atmosphere|Atmospheric]] characteristics\n|-\n| [[Atmospheric pressure]]\n| trace\n|-\n| [[Potassium]]\n| 31.7%\n|-\n| [[Sodium]]\n| 24.9%\n|-\n| Atomic [[Oxygen]]\n| 9.5%\n|-\n| [[Argon]]\n| 7.0%\n|-\n| [[Helium]]\n| 5.9%\n|-\n| Molecular [[Oxygen]]\n| 5.6%\n|-\n| [[Nitrogen]]\n| 5.2%\n|-\n| [[Carbon dioxide]]\n| 3.6%\n|-\n| [[Water]]\n| 3.4%\n|-\n| [[Hydrogen]]\n| 3.2%\n|}\n</div>
+<div title="Template:Planet Infobox/Mercury" modifier="Wikipedia">
+<pre>{| class=&quot;toccolours&quot; style=&quot;margin-left: 1em; float:right; width: 25em;&quot;
+|+ style=&quot;font-size:larger;&quot; | '''Mercury''' [[Image:Mercury symbol.ant.png|25px|Astronomical symbol of Mercury]]
+|-
+|colspan=&quot;2&quot; style=&quot;text-align:center; background: #001000;&quot; | [[Image:Reprocessed Mariner 10 image of Mercury.jpg|300px|Mercury]]&lt;br&gt;
+|-
+!style=&quot;text-align:center;&quot; bgcolor=&quot;#D8BBA6&quot; colspan=&quot;2&quot; | [[Planetary orbit|Orbit]]al characteristics ([[Epoch (astronomy)|Epoch]] [[J2000]])
+|-
+| [[Semimajor axis|Avg. distance from Sun]]
+| [[1 E10 m|57,909,176]] [[kilometre|km]]&lt;br&gt;0.387 098 93 [[Astronomical unit|AU]]
+|-
+| Orbital [[circumference]]
+| 360,000,000 km&lt;br&gt;(2.406 AU)
+|-
+| [[Eccentricity (orbit)|Eccentricity]]
+| 0.205 630 69
+|-
+| [[Perihelion]]
+| 46,001,272 km&lt;br&gt;0.307 499 51 AU
+|-
+| [[Aphelion]]
+| 69,817,079 km&lt;br&gt;0.466 698 35 AU
+|-
+| [[Orbital period]]
+| [[1 E6 s|87.969 34]] [[day|d]]&lt;br/&gt;(0.240 846 9 [[julian year (astronomy)|a]])
+|-
+| [[Synodic period]]
+| 115.8776 d
+|-
+| [[Avg. Orbital Speed]]
+| 47.36 km/[[second|s]]
+|-
+| Max. Orbital Speed
+| 58.98 km/[[second|s]]
+|-
+| Min. Orbital Speed
+| 38.86 km/[[second|s]]
+|-
+| [[Inclination]]
+| 7.004 87[[degree (angle)|&amp;deg;]]&lt;br&gt;(3.38° to Sun's equator)
+|-
+| [[Longitude of the ascending node|Longitude of the&lt;br&gt; ascending node]]
+| 48.331 67&amp;deg;
+|-
+| [[Argument of the perihelion|Argument of the&lt;br&gt; perihelion]]
+| 29.124 78&amp;deg;
+|-
+| Number of [[natural satellite|satellite]]s
+| 0
+|-
+! bgcolor=&quot;#D8BBA6&quot; colspan=&quot;2&quot;| Physical characteristics
+|-
+| [[Equator]]ial [[diameter]]
+| 4879.4 km&lt;br&gt;(0.383 [[Earth]]s)
+|-
+| Surface [[area]]
+| [[1 E13 m²|7.5]]{{e|7}} [[square kilometre|km&amp;sup2;]]&lt;br&gt;(0.147 Earths)
+|-
+| [[Volume]]
+| 6.083{{e|10}} [[cubic kilometre|km&amp;sup3;]]&lt;br&gt;(0.056 Earths)
+|-
+| [[Mass]]
+| 3.302{{e|23}} [[kilogram|kg]]&lt;br&gt;(0.055 Earths)
+|-
+| Mean [[density]]
+| 5.427 [[gram|g]]/cm&amp;sup3;
+|-
+| Equatorial [[gravity]]
+| 3.701 [[Acceleration|m/s&amp;sup2;]]&lt;br&gt;(0.377 [[Acceleration due to gravity|gee]])
+|-
+| [[Escape velocity]]
+| 4.435 km/s
+|-
+| Rotation period
+| 58.6462 d (58 d 15.5088 [[hour|h]])
+|-
+| Rotation velocity
+| 10.892 km/h (at the equator)
+|-
+| [[Axial tilt]]
+| ~0.01&amp;deg; &lt;!--- Note that this implies that the orbital pole is very nearly the same as the rotation pole ---&gt;
+|-
+| [[Right ascension]]&lt;br&gt;of North pole
+| 281.01&amp;deg; (18 h 44 min 2 s) &lt;sup&gt;[http://www.hnsky.org/iau-iag.htm 1]&lt;/sup&gt;
+|-
+| [[Declination]]
+| 61.45&amp;deg;
+|-
+| [[Albedo]]
+| 0.10-0.12
+|-
+| Surface [[Temperature|temp.]]
+|
+{| cellspacing=&quot;0&quot; cellpadding=&quot;2&quot; border=&quot;0&quot;
+! min !! mean !! max
+|-
+| 90 K
+| [[1 E2 K|440 K]]
+| 700 K
+|}
+|-
+| Avg. Surface [[Temperature|temp.]]: Day
+| 623 [[kelvin|K]]
+|-
+| Avg. Surface temp.: Night
+| 103 K
+|-
+|Adjective
+|Mercurian
+|-
+! bgcolor=&quot;#D8BBA6&quot; colspan=&quot;2&quot; | [[celestial body's atmosphere|Atmospheric]] characteristics
+|-
+| [[Atmospheric pressure]]
+| trace
+|-
+| [[Potassium]]
+| 31.7%
+|-
+| [[Sodium]]
+| 24.9%
+|-
+| Atomic [[Oxygen]]
+| 9.5%
+|-
+| [[Argon]]
+| 7.0%
+|-
+| [[Helium]]
+| 5.9%
+|-
+| Molecular [[Oxygen]]
+| 5.6%
+|-
+| [[Nitrogen]]
+| 5.2%
+|-
+| [[Carbon dioxide]]
+| 3.6%
+|-
+| [[Water]]
+| 3.4%
+|-
+| [[Hydrogen]]
+| 3.2%
+|}</pre>
+</div>
