@@ -3,9 +3,10 @@ tiddler: excludeLists.tiddler
 tiddler: MainMenu.tiddler
 tiddler: OptionsPanel.tiddler
 tiddler: PageTemplate.tiddler
-tiddler: SideBarOptions.tiddler
+tiddler: SideBarOptionsWithFormat.tiddler
 tiddler: SideBarTabs.tiddler
 tiddler: StyleSheet.tiddler
-tiddler: TabMore.tiddler
+tiddler: TabMoreWithTemplates.tiddler
 tiddler: TabTags.tiddler
+tiddler: TabTemplates.tiddler
 tiddler: Tiddlypedia.tiddler
