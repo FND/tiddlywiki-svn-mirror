@@ -1,0 +1,56 @@
+<div title="testCreoleMixedWithTWikiFormat" modifier="MartinBudden" tags="TWikiFormat test">
+<pre>== Headings ==
+
+
+== Heading2 ==
+=== Heading3 ===
+==== Heading4 =====
+
+
+
+== Bold and Italic ==
+
+**bold**
+//italic//
+**//bolditalic//**
+
+A normal sentence.
+
+== Preformatted text ==
+
+Normal text {{{preformatted text}}} Normal text.
+
+{{{
+A block
+of preformatted text
+}}}
+
+== Links ==
+[[explicitlink]]
+
+[[link|explicitlinkTitle]]
+
+http://www.wikicreole.org
+
+[[http://www.wikicreole.org|Wiki Creole Site]]
+
+== Misc ==
+
+A horizontal rule follows
+----
+
+== Lists ==
+* bulleted list
+* bullet 2
+** bullet level 2
+*** bullet level 3
+
+# numbered list
+# item 2
+## item 2.1
+### item 2.1.1
+#### item 2.1.1.1
+##### item 2.1.1.1.1
+# item 3
+# item 4</pre>
+</div>
