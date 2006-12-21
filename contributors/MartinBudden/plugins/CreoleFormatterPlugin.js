@@ -3,9 +3,9 @@
 |''Description:''|Extension of TiddlyWiki syntax to support [[Creole|http://www.wikicreole.org/]] text formatting|
 |''Source:''|http://martinswiki.com/prereleases.html#CreoleFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.5|
+|''Version:''|0.1.6|
 |''Status:''|alpha pre-release|
-|''Date:''|Oct 28, 2006|
+|''Date:''|Dec 21, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -46,21 +46,20 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1)) {
 
 creoleFormatter = {}; // 'namespace' for local functions
 
-config.creoleFormatters = [
-{
+creoleFormatter.heading = {
 	name: 'creoleHeading',
 	match: '^={2,6}(?!=)',
 	termRegExp: /(={0,6}\n+)/mg,
 	handler: function(w) {w.subWikifyTerm(createTiddlyElement(w.output,'h' + w.matchLength),this.termRegExp);}
-},
-{
-	name: 'creoleBoldByChar',
+};
+
+creoleFormatter.bold = {
+	name: 'creoleBold',
 	match: '\\*\\*',
 	termRegExp: /(\*\*|(?=\n\n))/mg,
 	element: 'strong',
 	handler: config.formatterHelpers.createElementAndWikify
-}
-];
+};
 
 creoleFormatter.explicitLink = {
 	name: 'creoleExplicitLink',
@@ -117,6 +116,7 @@ creoleFormatter.explicitLink = {
 	}//# end handler
 };
 
+// replace formatters where necessary
 for(var i in config.formatters) {
 	// replace formatters as required
 	if(config.formatters[i].name == 'prettyLink') {
@@ -129,10 +129,9 @@ for(var i in config.formatters) {
 	}
 }
 
-for(i in config.creoleFormatters){ 
-	// add new formatters
-	config.formatters.push(config.creoleFormatters[i]);
-}
+// add new formatters
+config.formatters.push(creoleFormatter.heading);
+config.formatters.push(creoleFormatter.bold);
 
 }// end of 'install only once'
 //}}}
