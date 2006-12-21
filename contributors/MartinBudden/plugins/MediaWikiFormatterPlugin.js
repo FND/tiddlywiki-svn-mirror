@@ -3,8 +3,8 @@
 |''Description:''|Allows Tiddlers to use [[MediaWiki|http://meta.wikimedia.org/wiki/Help:Wikitext]] ([[WikiPedia|http://meta.wikipedia.org/]]) text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/prereleases.html#MediaWikiFormatterPlugin|
-|''Version:''|0.3.9|
-|''Date:''|Now 11, 2006|
+|''Version:''|0.3.10|
+|''Date:''|Dec 21, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -13,8 +13,6 @@
 |''Display empty template links:''|<<option chkMediaWikiDisplayEmptyTemplateLinks>>|
 |''Allow zooming of thumbnail images''|<<option chkMediaWikiDisplayEnableThumbZoom>>|
 |''List references''|<<option chkMediaWikiListReferences>>|
-
-//<<newTiddler "New Tiddler" fields:[[wikiformat:MediaWiki;]]>>
 
 This is the MediaWikiFormatterPlugin, which allows you to insert MediaWiki formated text into a TiddlyWiki.
 
@@ -37,7 +35,7 @@ There are (at least) the following known issues:
 # Template substitution http://meta.wikimedia.org/wiki/Help:Substitution
 # Template colon functions http://meta.wikimedia.org/wiki/Help:Colon_function
 # Template parser functions (eg #if) http://meta.wikimedia.org/wiki/ParserFunctions
-
+# {{{^''}}} (italic at start of line) indents, makes italic and quotes with guilmot quote
 ***/
 
 //{{{
@@ -85,11 +83,11 @@ mwDebug = function(out,str)
 
 wikify = function(source,output,highlightRegExp,tiddler)
 {
-	if(source && source != "") {
+	if(source && source != '') {
 		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
 		w.linkCount = 0;
 		w.tableDepth = 0;
-		w.output = tiddler==null ? output : createTiddlyElement2(output,"p");
+		w.output = tiddler==null ? output : createTiddlyElement2(output,'p');
 		var time1,time0 = new Date();
 		w.subWikifyUnterm(w.output);
 		if(tiddler && config.options.chkDisplayInstrumentation) {
@@ -895,7 +893,7 @@ config.mediaWikiFormatters = [
 {
 	name: 'mediaWikiBoldItalic',
 	match: "'''''",
-	termRegExp: /('''''|\n)/mg,
+	termRegExp: /('''''|(?=\n))/mg,
 	element: 'strong',
 	handler: function(w)
 	{
@@ -907,15 +905,15 @@ config.mediaWikiFormatters = [
 {
 	name: 'mediaWikiBold',
 	match: "'''",
-	termRegExp: /('''|\n)/mg,
+	termRegExp: /('''|(?=\n))/mg,
 	element: 'strong',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
 	name: 'mediaWikiItalic',
-	match: "''(?!')",
-	termRegExp: /(''(?!')|\n)/mg,
+	match: "''",
+	termRegExp: /((?:[^']''(?!'))|(?=\n))/mg,
 	element: 'em',
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -923,7 +921,7 @@ config.mediaWikiFormatters = [
 {
 	name: 'mediaWikiUnderline',
 	match: '<u>',
-	termRegExp: /(<\/u>|\n)/mg,
+	termRegExp: /(<\/u>|(?=\n))/mg,
 	element: 'u',
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -931,7 +929,7 @@ config.mediaWikiFormatters = [
 {
 	name: 'mediaWikiStrike',
 	match: '<s>',
-	termRegExp: /(<\/s>|\n)/mg,
+	termRegExp: /(<\/s>|(?=\n))/mg,
 	element: 'strike',
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -939,7 +937,7 @@ config.mediaWikiFormatters = [
 {
 	name: 'mediaWikiBoldTag',
 	match: '<b>',
-	termRegExp: /(<\/b>|\n)/mg,
+	termRegExp: /(<\/b>|(?=\n))/mg,
 	element: 'b',
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -958,6 +956,7 @@ config.mediaWikiFormatters = [
 	name: 'mediaWikiInsertReference',
 	match: '<ref[^/]*>',
 	lookaheadRegExp: /<ref(\s+(?:.*?)=["']?(?:.*?)["']?)?>([^<]*?)<\/ref>/mg,
+	//#lookaheadRegExp: /<ref(\s+(?:.*?)=["']?(?:.*?)["']?)?>([.\n]*?)<\/ref>/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
@@ -973,6 +972,7 @@ config.mediaWikiFormatters = [
 			var a = createTiddlyElement2(s,'a');
 			var prefix = w.tiddler ? w.tiddler.title + ':' : '';
 			if(lookaheadMatch[1]) {
+				//# <ref params>
 				var r = {};
 				r = MediaWikiFormatter.setFromParams(w,lookaheadMatch[1]);
 				var name = r.name ? r.name.trim() : '';
@@ -984,6 +984,7 @@ config.mediaWikiFormatters = [
 					w.references[name].value = lookaheadMatch[2].trim();
 				}
 			} else {
+				//# <ref>, repeat reference
 				w.references[w.referenceCount] = x;
 				w.references[w.referenceCount].id = w.referenceCount;
 				w.references[w.referenceCount].value = lookaheadMatch[2].trim();
@@ -1034,47 +1035,48 @@ config.mediaWikiFormatters = [
 {
 	name: 'mediaWikiRepeatReference',
 	match: '<ref[^/]*/>',
-	lookaheadRegExp: /<ref(\s+(?:.*?)="(?:.*?)")?\s*\/>/mg,
+	lookaheadRegExp: /<ref(\s+(?:.*?)=["'](?:.*?)["'])?\s*\/>/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var x = {id:"",value:""};
+			var x = {id:'',value:''};
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 //#<ref name="foreign ministry">
 //#<sup id="_ref-foreign_ministry_1" class="reference"><a href="#_note-foreign_ministry" title="">[2]</a></sup>
 			var s = createTiddlyElement(w.output,"sup",null,"reference");
 			var a = createTiddlyElement2(s,"a");
-			var prefix = w.tiddler ? w.tiddler.title : "";
+			var prefix = w.tiddler ? w.tiddler.title : '';
 			if(lookaheadMatch[1]) {
 				var r = {};
 				r = MediaWikiFormatter.setFromParams(w,lookaheadMatch[1]);
-				var name = r.name ? r.name.trim() : "";
-				name = name.replace(/ /g,"_");
-				s.id = prefix + "_ref-" + name +"_" + (w.referenceCount+1);
-				var count = w.references && w.references[name] ? (w.references[name].id+1) : "?";
+				var name = r.name ? r.name.trim() : '';
+				name = name.replace(/ /g,'_');
+				s.id = prefix + '_ref-' + name +'_' + (w.referenceCount+1);
+				var count = w.references && w.references[name] ? (w.references[name].id+1) : '?';
 			}
-			a.href = "#" + prefix + "_note-" + name;
-			a.innerHTML = "["+count+"]";
+			a.href = '#' + prefix + '_note-' + name;
+			a.innerHTML = '['+count+']';
 			a.title = name;
 		}
 	}//# end handler
 },
 
 {
-	name: "mediaWikiHtmlEntitiesEncoding",
-	match: "&#?[a-zA-Z0-9]{2,8};",
+	name: 'mediaWikiHtmlEntitiesEncoding',
+	match: '&#?[a-zA-Z0-9]{2,8};',
 	handler: function(w)
 	{
-		createTiddlyElement2(w.output,"span").innerHTML = w.matchText;
+		createTiddlyElement2(w.output,'span').innerHTML = w.matchText;
 	}
 },
 
 {
-	name: "mediaWikiComment",
-	match: "<!\\-\\-",
+	name: 'mediaWikiComment',
+	match: '<!\\-\\-',
 	lookaheadRegExp: /<!\-\-((?:.|\n)*?)\-\->/mg,
+	//#lookaheadRegExp: /<!\-\-([.\n]*?)\-\->/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
@@ -1086,8 +1088,8 @@ config.mediaWikiFormatters = [
 },
 
 {
-	name: "mediaWikiIncludeOnly",
-	match: "<includeonly>",
+	name: 'mediaWikiIncludeOnly',
+	match: '<includeonly>',
 	lookaheadRegExp: /<includeonly>((?:.|\n)*?)<\/includeonly>/mg,
 	handler: function(w)
 	{
@@ -1100,32 +1102,32 @@ config.mediaWikiFormatters = [
 },
 
 {
-	name: "mediaWikiNoWiki",
-	match: "<nowiki>",
+	name: 'mediaWikiNoWiki',
+	match: '<nowiki>',
 	lookaheadRegExp: /<nowiki>((?:.|\n)*?)<\/nowiki>/mg,
-	element: "span",
+	element: 'span',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 {
-	name: "mediaWikiPreNoWiki",
-	match: "<pre>\s*<nowiki>",
+	name: 'mediaWikiPreNoWiki',
+	match: '<pre>\s*<nowiki>',
 	lookaheadRegExp: /<pre>\s*<nowiki>((?:.|\n)*?)<\/nowiki>\s*<\/pre>/mg,
-	element: "pre",
+	element: 'pre',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 {
-	name: "mediaWikiPre",
-	match: "<pre>",
+	name: 'mediaWikiPre',
+	match: '<pre>',
 	lookaheadRegExp: /<pre>((?:.|\n)*?)<\/pre>/mg,
-	element: "pre",
+	element: 'pre',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 {
-	name: "mediaWikiGallery",
-	match: "<gallery>",
+	name: 'mediaWikiGallery',
+	match: '<gallery>',
 	lookaheadRegExp: /[Ii]mage:(.*?)\n/mg,
 	handler: function(w)
 	{
@@ -1141,10 +1143,10 @@ config.mediaWikiFormatters = [
 //#...
 //#</tr>
 //#</table>
-		var table = createTiddlyElement(w.output,"table",null,"gallery");
-		table.cellspacing = "0";
-		table.cellpadding = "0";
-		var rowElem = createTiddlyElement2(table,"tr");
+		var table = createTiddlyElement(w.output,'table',null,'gallery');
+		table.cellspacing = '0';
+		table.cellpadding = '0';
+		var rowElem = createTiddlyElement2(table,'tr');
 		var col = 0;
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var nM = w.nextMatch;
@@ -1152,27 +1154,27 @@ config.mediaWikiFormatters = [
 		var oldSource = w.source;
 		while(lookaheadMatch) {
 			nM += lookaheadMatch[1].length;
-			w.source = lookaheadMatch[1] +"]]";//!! ]] is hack until getParams is working
+			w.source = lookaheadMatch[1] +']]';//!! ]] is hack until getParams is working
 			w.nextMatch = 0;
 			var params = MediaWikiFormatter.getParams(w);
 			var src = params[1];
-			src = src.trim().replace(/ /mg,"_");
+			src = src.trim().replace(/ /mg,'_');
 			src = src.substr(0,1).toUpperCase() + src.substring(1);
-			var palign = "right"; 
-			var psrc = "120px-"+src;
+			var palign = 'right'; 
+			var psrc = '120px-'+src;
 			var px = 120;
 			var pframed = false;
 			ptitle = null;
 			for(var i=2;i<params.length;i++) {
 				//right, left, center, none, sizepx, thumbnail (thumb), frame, and alternate (caption) text.
 				var p = params[i];
-				if(p=="right"||p=="left"||p=="center"||p=="none") {
+				if(p=='right'||p=='left'||p=='center'||p=='none') {
 					palign = p;
-				} else if(p=="framed") {
+				} else if(p=='framed') {
 					pframed = true;
 				} else if(/\d{1,4}px/.exec(p)) {
 					px = p.substr(0,p.length-2).trim();
-					psrc = px + "px-" + src;
+					psrc = px + 'px-' + src;
 				} else {
 					ptitle = p;
 				}
@@ -1189,23 +1191,23 @@ config.mediaWikiFormatters = [
 //#	</div>
 //#</div>
 //#</td>
-			var td = createTiddlyElement2(rowElem,"td");
-			var gb = createTiddlyElement(td,"div",null,"gallerybox");
-			var t = createTiddlyElement(gb,"div",null,"thumb");
-			t.style["padding"] = "26px 0";
+			var td = createTiddlyElement2(rowElem,'td');
+			var gb = createTiddlyElement(td,'div',null,'gallerybox');
+			var t = createTiddlyElement(gb,'div',null,'thumb');
+			t.style['padding'] = '26px 0';
 
-			var a = createTiddlyElement2(t,"a");
+			var a = createTiddlyElement2(t,'a');
 			if(config.options.chkMediaWikiDisplayEnableThumbZoom) {
 				a.href = src;
 			}
 			a.title = ptitle;
-			var img = createTiddlyElement2(a,"img");
+			var img = createTiddlyElement2(a,'img');
 			img.src = psrc;
 			img.width = px;
-			img.alt = "";//ptitle;
+			img.alt = '';//ptitle;
 
-			var gt = createTiddlyElement(gb,"div",null,"gallerytext");
-			p = createTiddlyElement2(gt,"p");
+			var gt = createTiddlyElement(gb,'div',null,'gallerytext');
+			p = createTiddlyElement2(gt,'p');
 			var oldSource2 = w.source; var oldMatch = w.nextMatch;
 			w.source = ptitle; w.nextMatch = 0;
 			w.subWikifyUnterm(p);
@@ -1213,18 +1215,18 @@ config.mediaWikiFormatters = [
 
 			col++;
 			if(col>3) {
-				rowElem = createTiddlyElement2(table,"tr");
+				rowElem = createTiddlyElement2(table,'tr');
 				col = 0;
 			}
 			w.source = oldSource;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		}
-		w.nextMatch = nM + "<gallery>".length*2+1+"Image:".length;//!! hack
+		w.nextMatch = nM + '<gallery>'.length*2+1+'Image:'.length;//!! hack
 	}
 },
 
 {
-	name: "mediaWikiHtmlTag",
+	name: 'mediaWikiHtmlTag',
 	match: "<[a-zA-Z]{2,}(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?>",
 	lookaheadRegExp: /<([a-zA-Z]{2,})((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
@@ -1239,7 +1241,7 @@ config.mediaWikiFormatters = [
 			if(lookaheadMatch[3]) {
 				w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
 			} else {
-				w.subWikify(e,"</"+lookaheadMatch[1]+">");
+				w.subWikify(e,'</'+lookaheadMatch[1]+'>');
 			}
 		}
 	}
@@ -1247,7 +1249,7 @@ config.mediaWikiFormatters = [
 ];
 
 config.parsers.mediaWikiFormatter = new Formatter(config.mediaWikiFormatters);
-config.parsers.mediaWikiFormatter.format = "MediaWiki";
-config.parsers.mediaWikiFormatter.formatTag = "MediaWikiFormat";
-} // end of "install only once"
+config.parsers.mediaWikiFormatter.format = 'MediaWiki';
+config.parsers.mediaWikiFormatter.formatTag = 'MediaWikiFormat';
+} // end of 'install only once'
 //}}}
