@@ -1,0 +1,11 @@
+/*{{{*/
+#ZiddlyFormats,#ZiddlyPowered,#ZiddlyFormats a,#ZiddlyPowered a {
+    color:#999
+}
+#sidebarOptions .sliderPanel .txtOptionInput {
+    width: 2em;
+    font-family: mono;
+    font-size: 1em;
+}
+#ZiddlyFormats, #ZiddlyPowered { margin:5px }
+/*}}}*/

@@ -1,4 +1,4 @@
-## Script (Python) "get_div"
+## Script (Python) "get"
 ##bind container=container
 ##bind context=context
 ##bind namespace=
@@ -7,7 +7,6 @@
 ##parameters=root=None
 ##title=
 ##
-
 if root: context = root
 path = '/'.join(context.getPhysicalPath())
 
@@ -31,27 +30,33 @@ if 'onlyAdmin' in tags.split() and 'Manager' not in context.REQUEST.AUTHENTICATE
     context.REQUEST.RESPONSE.setStatus(403, "Log in to see onlyAdmin tiddlers")
     return
 
+latestrevision = revision
+context.REQUEST.set('last_transaction', 200) # Force it to go further back in history
+for rev in tiddler.manage_change_history():
+    if not hasattr(tiddler.HistoricalRevisions[rev['key']],'ignore_revision'):
+        latestrevision = rev['key']
+        break
+
+currenttiddler = tiddler
 if revision:
-  try: tiddler = tiddler.HistoricalRevisions[revision]
-  except: 
-    context.REQUEST.RESPONSE.setStatus(404)
-    return
+    try: tiddler = tiddler.HistoricalRevisions[revision]
+    except: 
+        context.REQUEST.RESPONSE.setStatus(404)
+        return
 else:
-    context.REQUEST.set('last_transaction', 200) # Force it to go further back in history
-    for rev in tiddler.manage_change_history():
-        if not hasattr(tiddler.HistoricalRevisions[rev['key']],'ignore_revision'):
-            revision = rev['key']
-            break
+    revision = latestrevision
 
-modified = container.scripts.get_modified(tiddler)
-
+attribs = []
+attribs.append('tiddler="%s"' % currenttiddler.HistoricalRevisions[latestrevision].title)
+attribs.append('modifier="%s"' % getattr(tiddler, 'modifier', ''))
+attribs.append('modified="%s"' % container.scripts.get_modified(tiddler))
 if hasattr(tiddler, 'created'):
-  created = tiddler.created
+    attribs.append('created="%s"' % tiddler.created)
 else:
-  created = modified
+    attribs.append('created="%s"' % modified)
+attribs.append('tags="%s"' % tiddler.tags.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
+attribs.append('revision="%s"' % revision)
+if currenttiddler.HistoricalRevisions[revision].title != currenttiddler.HistoricalRevisions[latestrevision].title:
+    attribs.append('oldtitle="%s"' % currenttiddler.HistoricalRevisions[revision].title)
 
-return '<div tiddler="%s" modifier="%s" modified="%s" created="%s" tags="%s" revisionkey="%s">%s</div>'\
-    %(tiddler.title, getattr(tiddler, 'modifier', ''), modified, created, \
-      tiddler.tags.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'),\
-      revision,\
-      tiddler(context, context.REQUEST).replace('\\', '\\s').replace('\n', '\\n').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
+return '<div ' + ' '.join(attribs) + '>' + tiddler(context, context.REQUEST).replace('\\', '\\s').replace('\n', '\\n').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;') + '</div>'

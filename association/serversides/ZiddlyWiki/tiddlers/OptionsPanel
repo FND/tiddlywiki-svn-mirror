@@ -1,0 +1,11 @@
+<<option chkRegExpSearch>> ~RegExp Search
+<<option chkCaseSensitiveSearch>> Case sensitive search
+<<option chkAnimate>> Enable animations
+<<option chkOpenInNewWindow>> Open links in new window
+<<option chkToggleLinks>> Links close open tiddlers
+<<option chkConfirmDelete>> Confirm before deleting
+<<option chkForceMinorUpdate>> Preserve date/time on edit
+<<option chkInsertTabs>> Insert tab characters
+<<option txtMaxEditRows>> Maximum editor rows
+----
+PluginManager

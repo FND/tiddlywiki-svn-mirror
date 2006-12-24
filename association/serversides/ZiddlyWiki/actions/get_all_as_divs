@@ -9,7 +9,7 @@
 ##
 tiddlers = []
 for t in container.get_all(root=root):
-  tiddler = '<div tiddler="%s" modifier="%s" modified="%s" created="%s" tags="%s" revisionKey="%s">%s</div>' % (t['title'], t['modifier'], t['modified'], t['created'], t['tags'], t['key'], t['body'])
+  tiddler = '<div tiddler="%s" modifier="%s" modified="%s" created="%s" tags="%s" revision="%s">%s</div>' % (t['title'], t['modifier'], t['modified'], t['created'], t['tags'], t['key'], t['body'])
   tiddlers.append(tiddler)
 
 return '\n'.join(tiddlers)

@@ -20,6 +20,10 @@ This ZiddlyWiki lives at:
 {{{
     <dtml-var "REQUEST.PARENTS[0].absolute_url()">
 }}}
+!API
+{{{
+    action=get
+}}}
 !Code
 ***/
 //{{{
@@ -48,76 +52,8 @@ config.messages.editingDeleted = "This tiddler exists on the server but was dele
 
 config.views.wikified.toolbarRevisions = {text: "revisions", tooltip: "View another revision of this tiddler", popupNone: "No revisions"};
 
-config.shadowTiddlers.SiteTitle = "My ZiddlyWiki";
-config.shadowTiddlers.SiteSubtitle = "a reusable non-linear personal/public/collaborative web notebook";
-config.shadowTiddlers.GettingStarted = 
-	 "To get started with this blank ZiddlyWiki, you'll need to modify the following tiddlers:\n"
-	+"* SiteTitle & SiteSubtitle: The title and subtitle of the site, as shown above\n"
-	+"* MainMenu: The menu (usually on the left)\n"
-	+"* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the ZiddlyWiki is opened\n";
-config.shadowTiddlers.PageTemplate = 
-	 "<!--{{{-->\n"
-	+"<div class='header' macro='gradient vert #18f #04b'>\n"
-	+"<div class='headerShadow'>\n"
-	+"<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;\n"
-	+"<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>\n"
-	+"</div>\n"
-	+"<div class='headerForeground'>\n"
-	+"<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;\n"
-	+"<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>\n"
-	+"</div>\n"
-	+"</div>\n"
-	+"<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>\n"
-	+"<div id='sidebar'>\n"
-	+"<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>\n"
-	+"<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>\n"
-	+"<div id='ZiddlyFormats' refresh='content' tiddler='ZiddlyFormats'></div>\n"
-	+"<div id='ZiddlyPowered' refresh='content' tiddler='ZiddlyPowered'></div>\n"
-	+"</div>\n"
-	+"<div id='displayArea'>\n"
-	+"<div id='messageArea'></div>\n"
-	+"<div id='tiddlerDisplay'></div>\n"
-	+"</div>\n";
-	+"<!--}}}-->";
-config.shadowTiddlers.ViewTemplate = 
-	 "<!--{{{-->\n"
-	+"<div class='toolbar' macro='toolbar -closeTiddler closeOthers +editTiddler permalink references revisions jump'></div>\n"
-	+"<div class='title' macro='view title'></div>\n"
-	+"<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date [[DD MMM YYYY]]'></span> (created <span macro='view created date [[DD MMM YYYY]]'></span>)</div>\n"
-	+"<div class='tagging' macro='tagging'></div>\n"
-	+"<div class='tagged' macro='tags'></div>\n"
-	+"<div class='viewer' macro='view text wikified'></div>\n"
-	+"<div class='tagClear'></div>\n"
-	+"<!--}}}-->";
-config.shadowTiddlers.SideBarOptions = "<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal 'DD MMM YYYY'>><<slider chkSliderOptionsPanel OptionsPanel 'options »' 'Open options panel'>><<exportLink>><<importLink>><<login>>";
-config.shadowTiddlers.OptionsPanel = 
-	 "<<option chkRegExpSearch>> ~RegExp Search\n"
-	+"<<option chkCaseSensitiveSearch>> Case sensitive search\n"
-	+"<<option chkAnimate>> Enable animations\n"
-	+"<<option chkOpenInNewWindow>> Open links in new window\n"
-	+"<<option chkToggleLinks>> Links close open tiddlers\n"
-	+"<<option chkConfirmDelete>> Confirm before deleting\n"
-	+"<<option chkForceMinorUpdate>> Preserve date/time on edit\n"
-	+"<<option chkInsertTabs>> Insert tab characters\n"
-	+"<<option txtMaxEditRows>> Maximum editor rows\n";
-if(version.major == 2 && version.minor == 1)
-    config.shadowTiddlers.OptionsPanel += '----\nPluginManager\n';
-config.shadowTiddlers.ZiddlyFormats = "Formats: [[XML|?format=xml]] | [[YAML|?format=yaml]]";
-config.shadowTiddlers.ZiddlyPowered = "Powered by [[ZiddlyWiki|http://ziddlywiki.com]]";
-config.shadowTiddlers.StyleSheetColors += 
-    '\n/*{{{*/#ZiddlyFormats,#ZiddlyPowered,#ZiddlyFormats a,#ZiddlyPowered a{color:#fff}/*}}}*/';
-config.shadowTiddlers.StyleSheetLayout += 
-         '\n/*{{{*/'
-	+'#sidebarOptions .sliderPanel .txtOptionInput {\n'
-	+'	width: 2em;\n'
-	+'	font-family: mono;\n'
-        +'      font-size: 1em;\n'
-	+'}\n'
-	+'#ZiddlyFormats, #ZiddlyPowered { margin:5px }\n'
-        +'/*}}}*/';
-
-config.protectedTiddlers = ['DefaultTiddlers', 'MainMenu', 'SiteTitle', 
-	'SiteSubtitle', 'StyleSheet'];
+// Shadow tiddlers that are protected
+config.protectedTiddlers = ['DefaultTiddlers', 'MainMenu'];
 
 config.replaceBodyCharacters = [
   [/‘/g, "'"],
@@ -133,7 +69,7 @@ config.macros.login = {
   prompt: 'Log into the system',
   sizeTextbox: 15,
   // FIXME onmouseover, etc... do these cause a problem?  Add (?!onmouseover|onmouseout...)
-  innerHTMLSafe: /^<div( ([a-z0-9_]+)="[^"]+")+>[^<>]*<\/div>$/,
+  innerHTMLSafe: /^<div( ([a-z0-9_]+)="[^"]*")+>[^<>]*<\/div>$/,
   handler: function(place) {
     if(zw.loggedIn) {
       var link = createTiddlyLink(place, zw.username, true);
@@ -259,16 +195,35 @@ zw.addTiddler = function(str,status) {
   var tiddler = new Tiddler();
   var d = document.createElement("div");
   if(!str.match(config.macros.login.innerHTMLSafe)) { 
-      alert("This tiddler appears to contain HTML and may be dangerous\n\n"+str);
+      if(!confirm("This tiddler appears to contain HTML and may be dangerous\n\n"+str)) 
+          return tiddler;
   }
   d.innerHTML = str;  // FIXME dangerous -- response could contain <script>
   var title = store.getLoader().getTitle(store, d.firstChild);
   tiddler = store.getLoader().internalizeTiddler(store, tiddler, title, d.firstChild);
   tiddler.changed();
   store.addTiddler(tiddler);
+  if(typeof store.getValue(title, "oldtitle") != "undefined") {
+      store.setValue(title, "renamedSubTitle", 
+          "(renamed from "+store.getValue(title, "oldtitle")+")");
+  }
   if(tiddler.title == "ZiddlyStatus")
       config.macros.login.doneLoginout();
   return tiddler;
+}
+
+Tiddler.prototype.getSubtitle = function() {
+    var theModifier = this.modifier;
+    if(!theModifier)
+            theModifier = config.messages.subtitleUnknown;
+    var theModified = this.modified;
+    if(theModified)
+            theModified = theModified.toLocaleString();
+    else
+            theModified = config.messages.subtitleUnknown;
+    return(config.messages.tiddlerLinkTooltip.format([this.title,theModifier,
+theModified]));
+
 }
 
 config.macros.ziddlyversion = {
@@ -323,10 +278,10 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
   var callback = function(r){
     var parts = r.split('\n');
     var tiddler = store.fetchTiddler(parts[1]);
-    store.setValue(tiddler,'revisionkey', parts[8]);
+    store.setValue(tiddler,'revision', parts[8]);
     if(!tiddler) {
         alert("ZiddlyWiki error: The tiddler '"+parts[1]+"' that I just tried to save\n"
-        +"doesn't exist after the save!");
+        +"doesn't exist after the save!  Response was: \n"+r);
         zw.dirty = true;
     } else if(parts[2] != tiddler.escapeLineBreaks().htmlEncode()) {
         alert("ZiddlyWiki error: Saved tiddler '"+parts[1]+"' is not the same as what was just saved."
@@ -383,15 +338,17 @@ config.commands.revisions = {
                     config.messages.viewRevisionTooltip, 
                     function(){
                         displayTiddlerRevision(this.getAttribute('tiddlerTitle'), 
-                        this.getAttribute('revisionkey'), this); 
+                        this.getAttribute('revision'), this); 
                         return false;
                     }, 'tiddlyLinkExisting tiddlyLink');
               button.setAttribute('tiddlerTitle', title);
-              button.setAttribute('revisionkey', key);
+              button.setAttribute('revision', key);
               var t = store.fetchTiddler(title);
               if(!t) alert("Attempt to find revisions for non-existant tiddler '"+title+"'!");
-              if(t && (store.getValue(t, 'revisionkey') == key))
-                button.className = 'revisionCurrent';
+              if(t && (store.getValue(t, 'revision') == key))
+                  button.className = 'revisionCurrent';
+              if(i == 0)
+                  this.latestRevision = key;
             }
           }
         }
@@ -407,43 +364,24 @@ config.commands.revisions = {
 function displayTiddlerRevision(title, revision, src, updateTimeline) {
   var tiddler = store.fetchTiddler(title);
 // We already have the latest version
-  if(tiddler && store.getValue(tiddler, 'revisionkey') == revision) return;
+  if(tiddler && store.getValue(tiddler, 'revision') == revision) return;
   displayMessage("Loading revision information for '"+title+"'...");
   revision = revision ? '&revision=' + revision : '';
-  //updateTimeline = updateTimeline ? '&updatetimeline=1' : '';
   ajax.get('?action=get&title=' + encodeURIComponent(title.htmlDecode()) + revision 
       + '&' + zw.no_cache(), displayTiddlerRevisionCallback)
 };
 
-function displayTiddlerRevisionCallback(encoded,status) {
-  if(status != 200) {
-    alert("displayTiddlerRevisionCallback error (HTTP code "+status+"): "+encoded); // error message
-  } else if(encoded.indexOf('\n') > -1) {
-    var parts = encoded.split('\n');
-    var tiddler = new Tiddler();
-    var title = parts[0];
-    var oldtitle = parts[1];
-    var oldtiddler = store.fetchTiddler(title);
-    if(oldtiddler && oldtiddler.modified != parts[4]) {
-        var tmpstr = " (Historical revision " + parts[8];
-        if(title != oldtitle) {
-            tmpstr += " renamed from " + oldtitle;
-        }
-        tmpstr += ")";
-        store.setValue(tiddler, "revisioninfo", tmpstr);
-    }
-    tiddler.set(title, Tiddler.unescapeLineBreaks(parts[2].htmlDecode()), parts[3], 
-        Date.convertFromYYYYMMDDHHMM(parts[4]), parts[6], 
-        Date.convertFromYYYYMMDDHHMM(parts[5]));
-    store.setValue(tiddler, 'revisionkey', parts[8]);
-    store.addTiddler(tiddler);
-    if(tiddler.tags.contains('deleted')) store.deleteTiddler(title);
-    story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
-    if(parts[7] == 'update timeline')
-      store.notify('TabTimeline', true)
-  }
-  clearMessage();
-};
+function displayTiddlerRevisionCallback(str,status) {
+    var tiddler = zw.addTiddler(str,status);
+    tiddler.changed();
+    if(tiddler.tags.contains('deleted')) store.deleteTiddler(tiddler.title);
+    if(latestRevision != store.getValue(tiddler.title, "revision"))
+        store.setValue(tiddler.title, "historicalSubTitle", "(historical revision)");
+    store.setValue(tiddler.title, "latestRevision", latestRevision);
+    story.refreshTiddler(tiddler.title, DEFAULT_VIEW_TEMPLATE, true);
+    store.notify('TabTimeline', true)
+    clearMessage();
+}
 
 Tiddler.prototype.isReadOnly = function() {
   if(zw.isAdmin) return false;
@@ -482,7 +420,7 @@ config.commands.editTiddler.handler = function(event,src,title) {
         obj.zw_handler(event,src,title);
       } else if(status == 200) {
         var tiddler = store.fetchTiddler(title);
-        if(store.getValue(tiddler,"revisionkey") != r) {
+        if(store.getValue(tiddler,"revision") != r) {
             tiddler = zw.loadTiddler(title);
             if(tiddler.tags.indexOf('deleted') != -1) { // Remove the deleted tag on edit
                 alert(config.messages.editingDeleted);
@@ -604,15 +542,15 @@ Tiddler.prototype.isReadOnly = function() {
     return readOnly || store.getValue(this.title, "readOnly");
 }
 
-// Receives a list of updated tiddler [timestamp, [title, modified, revisionKey], ...]
+// Receives a list of updated tiddler [timestamp, [title, modified, revision], ...]
 // If TW supports higher resolution modification stamps (currently: 1 minute) we can use
-// that as an identifier instead of revisionKey
+// that as an identifier instead of revision
 zw.refresh_tiddlers_callback = function(tiddlers) {
   if(tiddlers == '') return;
   tiddlers = tiddlers.split('\n\n');
   zw.latestTiddler = parseInt(tiddlers[0]);
   for(var i=1; i<tiddlers.length; i++) {
-    var l = tiddlers[i].split('\n'); // [title, modified, revisionKey]
+    var l = tiddlers[i].split('\n'); // [title, modified, revision]
     if(!zw.editingTiddlers[l[0]])  // FIXME if it's being edited and we just found out someone else modified it, we should issue a warning.
       displayTiddlerRevision(l[0], l[2], null, true);
   }

@@ -98,8 +98,9 @@ src = src.replace('<!--PRE-BODY-END-->',  pre_body  + '<!--PRE-BODY-END-->' )
 src = src.replace('<!--POST-BODY-END-->', post_body + '<!--POST-BODY-END-->')
 
 # insert all the tiddlers from the "tiddlers" folder
-store_area = container.actions.get_all_as_divs(root) \
-    + container.actions.get_all_as_divs(container)
+# # container takes precedence over distribution tiddlers
+store_area = container.actions.get_all_as_divs(container) \
+    + container.actions.get_all_as_divs(root)              
 # FIXME what if the same tiddler exists in both places?
 src = src.replace('<div id="storeArea">', '<div id="storeArea">\n' + store_area)
 
