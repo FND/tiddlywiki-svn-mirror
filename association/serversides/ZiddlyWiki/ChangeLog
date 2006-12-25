@@ -9,6 +9,7 @@ Release 2.1.2.1
 * Rewrite logout code
 * Remove permaviewHash (used only when redirecting -- we use ajax now and
   don't do redirects)
+* Move all former shadow tiddlers to real tiddlers
 
 Release 2.0.11.3
 * handle config.protectedTiddlers better -- explicitly add the 'protected'

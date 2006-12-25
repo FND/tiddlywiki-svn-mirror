@@ -275,26 +275,29 @@ TiddlyWiki.prototype.zw_saveTiddler = TiddlyWiki.prototype.saveTiddler;
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags) {
   displayMessage("Saving '"+title+"'...");
   newBody = replaceBodyCharacters(newBody);
-  var callback = function(r){
-    var parts = r.split('\n');
-    var tiddler = store.fetchTiddler(parts[1]);
-    store.setValue(tiddler,'revision', parts[8]);
-    if(!tiddler) {
-        alert("ZiddlyWiki error: The tiddler '"+parts[1]+"' that I just tried to save\n"
-        +"doesn't exist after the save!  Response was: \n"+r);
+  var tiddler = this.zw_saveTiddler(title,newTitle,newBody,modifier,modified,tags);
+  var callback = function(r,status){
+    var newtiddler = zw.addTiddler(r,status);
+    //var newtiddler = store.getLoader().internalizeTiddler(store, tiddler, title, r);
+    if(!newtiddler) {
+        alert("ZiddlyWiki error: The tiddler '"+title+"' that I just tried to save\n"
+        +"doesn't exist after the save!  Response ("+status+") was: \n"+r);
         zw.dirty = true;
-    } else if(parts[2] != tiddler.escapeLineBreaks().htmlEncode()) {
-        alert("ZiddlyWiki error: Saved tiddler '"+parts[1]+"' is not the same as what was just saved."
-            +"\n-------------------before---------------------\n"+parts[2]
-            +"\n-------------------after----------------------\n"+tiddler.escapeLineBreaks().htmlEncode()
+    } else if(newtiddler.escapeLineBreaks().htmlEncode() != tiddler.escapeLineBreaks().htmlEncode()) {
+        alert("ZiddlyWiki error: Saved tiddler '"+title+"' is not the same as what was just saved."
+            +"\n-------------------before---------------------\n"+tiddler.escapeLineBreaks().htmlEncode()
+            +"\n-------------------after----------------------\n"+newtiddler.escapeLineBreaks().htmlEncode()
         );
         zw.dirty = true;
-    }
+    } //else {
+        // Copy the revision time
+       // store.setValue(title, 'revision', newtiddler.fields.revision);
+        //store.setValue(title, 'modified', newtiddler.fields.modified);
+    //}
   };
 // FIXME by using async ajax here, a reload timeout may come between the save
 // and the callback's return, which causes the tiddler to be double-rendered.
-  var tiddler = this.zw_saveTiddler(title,newTitle,newBody,modifier,modified,tags);
-  ajax.post(zw.serverUrl, callback, 'action=save&id=' + encodeURIComponent(title) + '&title=' 
+  ajax.post(zw.serverUrl, callback, 'action=save&oldtitle=' + encodeURIComponent(title) + '&title=' 
         + encodeURIComponent(newTitle) + '&body=' + encodeURIComponent(newBody) + '&tags=' 
         + encodeURIComponent(tags) + '&modified=' 
         + encodeURIComponent((modified||store.fetchTiddler(title).modified).convertToYYYYMMDDHHMM()) 

@@ -37,10 +37,10 @@ body = req.get('body')
 tags = req.get('tags')
 modified = req.get('modified', '')
 created = req.get('created', '')
-id = req.get('id', title)
+oldtitle = req.get('oldtitle', title)
 
-id = container.scripts.sanitize_id(id)
-new_id = container.scripts.sanitize_id(title)
+old_id = container.scripts.sanitize_id(oldtitle)
+id = container.scripts.sanitize_id(title)
 
 # restrict anonymous unless anonymous editing is enabled
 anon_edit = getattr(context, 'zw_anon_edit', 0)
@@ -51,23 +51,25 @@ if not anon_edit and 'Authenticated' not in context.REQUEST.AUTHENTICATED_USER.g
 if 'Manager' not in context.REQUEST.AUTHENTICATED_USER.getRoles():
   if 'systemConfig' in tags.split():
     raise 'Unauthorized'
-  if new_id in ['DefaultTiddlers', 'MainMenu', 'SiteTitle', 'SiteSubtitle', 'StyleSheet']:
+  if id in ['DefaultTiddlers', 'MainMenu', 'SiteTitle', 'SiteSubtitle', 'StyleSheet']:
+    raise 'Unauthorized'
+  if old_id in ['DefaultTiddlers', 'MainMenu', 'SiteTitle', 'SiteSubtitle', 'StyleSheet']:
     raise 'Unauthorized'
 
 # get or create the tiddler
 just_created = 0
 try:
-  tiddler = context.tiddlers[id]
+  tiddler = context.tiddlers[old_id]
 except:
-  try: context.tiddlers.manage_addDTMLDocument(id=new_id, title=title)
+  try: context.tiddlers.manage_addDTMLDocument(id=id, title=title)
   except: pass
   else: just_created = 1
-  tiddler = context.tiddlers[new_id]
+  tiddler = context.tiddlers[id]
   try: tiddler.manage_addProperty('created', modified, 'string')
   except: pass
 else:
-  if id != new_id: # name changed - rename it
-    context.tiddlers.manage_renameObject(id, new_id)
+  if old_id != id: # name changed - rename it
+    context.tiddlers.manage_renameObject(old_id, id)
 
 body = body.replace('\r\n', '\n')
 
@@ -75,12 +77,12 @@ body = body.replace('\r\n', '\n')
 is_newer = modified and container.scripts.to_date(modified) > container.scripts.to_date(container.scripts.get_modified(tiddler))
 if only_if_newer and not just_created and not is_newer:
   remove_locks(tiddler)
-  return context.REQUEST.RESPONSE.redirect("?action=get&id="+id)
+  return context.REQUEST.RESPONSE.redirect("?action=get&title="+quote(title)) #id)
 
 try:
   if tiddler() == body and tiddler.title == title and getattr(tiddler, 'tags', None) == tags:
     remove_locks(tiddler)
-    return context.REQUEST.RESPONSE.redirect("?action=get&id="+req.get('id'))
+    return context.REQUEST.RESPONSE.redirect("?action=get&title="+quote(title)) #+req.get('id'))
 
 except:
   pass
@@ -120,4 +122,4 @@ if 'private' in tags.split():
 else:
   tiddler.manage_permission('View', ['Anonymous'], acquire=1)
 
-return context.REQUEST.RESPONSE.redirect("?action=get&id="+quote(title))
+return context.REQUEST.RESPONSE.redirect("?action=get&title="+quote(title))
