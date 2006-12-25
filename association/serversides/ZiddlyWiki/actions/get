@@ -47,7 +47,7 @@ else:
     revision = latestrevision
 
 attribs = []
-attribs.append('tiddler="%s"' % currenttiddler.HistoricalRevisions[latestrevision].title)
+attribs.append('tiddler="%s"' % currenttiddler.HistoricalRevisions[latestrevision].title.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
 attribs.append('modifier="%s"' % getattr(tiddler, 'modifier', ''))
 attribs.append('modified="%s"' % container.scripts.get_modified(tiddler))
 if hasattr(tiddler, 'created'):
@@ -57,6 +57,6 @@ else:
 attribs.append('tags="%s"' % tiddler.tags.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
 attribs.append('revision="%s"' % revision)
 if currenttiddler.HistoricalRevisions[revision].title != currenttiddler.HistoricalRevisions[latestrevision].title:
-    attribs.append('oldtitle="%s"' % currenttiddler.HistoricalRevisions[revision].title)
+    attribs.append('oldtitle="%s"' % currenttiddler.HistoricalRevisions[revision].title.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
 
 return '<div ' + ' '.join(attribs) + '>' + tiddler(context, context.REQUEST).replace('\\', '\\s').replace('\n', '\\n').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;') + '</div>'
