@@ -1,6 +1,5 @@
 recipe: ../../../core/tiddlywiki.html.recipe
 prehead: ../../../core/html/rss.link.html
-title: creoledemo/title.html
 recipe: creoledemo/split.recipe
 recipe: ../mystyle/split.recipe
 recipe: ../../../contributors/misc/tiddlers/upload.recipe
@@ -10,6 +9,7 @@ tiddler: ../tiddlers/Configuration.tiddler
 tiddler: ../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../plugins/CreoleFormatterPlugin.js
 tiddler: ../plugins/CreoleBaseFormatterPlugin.js
+tiddler: ../plugins/JSPWikiFormatterPlugin.js
 tiddler: ../plugins/MediaWikiFormatterPlugin.js
 tiddler: ../plugins/creoleMediaWikiFormatterPlugin.js
 tiddler: ../plugins/TracFormatterPlugin.js
@@ -23,4 +23,3 @@ tiddler: ../test/testCreoleMixedWithTracFormat.tiddler
 tiddler: ../test/testCreoleMixedWithTWikiFormat.tiddler
 tiddler: ../test/Creole_0.1_Test_Cases.tiddler
 tiddler: ../test/Creole_0.1_Test_Cases_2.tiddler
-
