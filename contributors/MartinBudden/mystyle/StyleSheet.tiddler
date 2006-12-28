@@ -1,1 +1,9 @@
-<div tiddler="StyleSheet" modifier="MartinBudden" created="200607300000" tags="styles">/***\nPlace your custom CSS here\n***/\n/*{{{*/\n[[StyleSheetMB]]\n[[Styles HorizontalMainMenu]]\n/*}}}*/\n</div>
+<div title="StyleSheet" modifier="MartinBudden" tags="styles">
+<pre>/***
+Place your custom CSS here
+***/
+/*{{{*/
+[[StyleSheetMB]]
+[[Styles HorizontalMainMenu]]
+/*}}}*/</pre>
+</div>
