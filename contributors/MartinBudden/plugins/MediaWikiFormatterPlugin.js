@@ -3,8 +3,9 @@
 |''Description:''|Allows Tiddlers to use [[MediaWiki|http://meta.wikimedia.org/wiki/Help:Wikitext]] ([[WikiPedia|http://meta.wikipedia.org/]]) text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/prereleases.html#MediaWikiFormatterPlugin|
-|''Version:''|0.3.10|
-|''Date:''|Dec 21, 2006|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''Version:''|0.3.11|
+|''Date:''|Dec 28, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -73,12 +74,15 @@ TiddlyWiki.prototype.getTemplates = function()
 	return results;
 };
 
-MediaWikiFormatter = {}; // 'namespace' for local functions
-
-mwDebug = function(out,str)
+TiddlyWiki.prototype.getMediaWikiArticles = function()
 {
-	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
-	createTiddlyElement2(out,'br');
+	var results = [];
+	this.forEachTiddler(function(title,tiddler) {
+		if(!tiddler.isTagged("excludeLists") && tiddler.title.substr(0,9)!='Template:')
+			results.push(tiddler);
+		});
+	results.sort(function(a,b) {return a.title < b.title ? -1 : (a.title == b.title ? 0 : +1);});
+	return results;
 };
 
 wikify = function(source,output,highlightRegExp,tiddler)
@@ -109,6 +113,24 @@ config.formatterHelpers.createElementAndWikify = function(w)
 {
 	w.subWikifyTerm(createTiddlyElement2(w.output,this.element),this.termRegExp);
 };
+
+MediaWikiFormatter = {}; // 'namespace' for local functions
+
+mwDebug = function(out,str)
+{
+	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
+	createTiddlyElement2(out,'br');
+};
+
+MediaWikiFormatter.hijackListAll = function ()
+{
+	MediaWikiFormatter.oldListAll = config.macros.list.all.handler;
+	config.macros.list.all.handler = function(params) {
+		return store.getMediaWikiArticles();
+	};
+};
+
+MediaWikiFormatter.hijackListAll();
 
 MediaWikiFormatter.getTemplateParams = function(w)
 {
@@ -525,8 +547,8 @@ config.mediaWikiFormatters = [
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
-		var output = w.output.parentNode;
-		var stack = [output];
+		//#var output = w.output.parentNode;
+		var stack = [w.output];
 		var currLevel = 0, currType = null;
 		var listType, itemType;
 		w.nextMatch = w.matchStart;
@@ -567,7 +589,7 @@ config.mediaWikiFormatters = [
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		}
-		w.output = createTiddlyElement2(output,'p');
+		//#w.output = createTiddlyElement2(output,'p');
 	}
 },
 
@@ -576,9 +598,9 @@ config.mediaWikiFormatters = [
 	match: '^----+$\\n?',
 	handler: function(w)
 	{
-		var output = w.output.parentNode;
-		createTiddlyElement2(output,'hr');
-		w.output = createTiddlyElement2(output,'p');
+		//#var output = w.output.parentNode;
+		createTiddlyElement2(w.output,'hr');
+		//#w.output = createTiddlyElement2(output,'p');
 	}
 },
 
@@ -663,7 +685,8 @@ config.mediaWikiFormatters = [
 				}
 			}//#end for
 			if(pthumb) {
-				var output = w.output.nodeType==1 && w.output.nodeName=='P' ? w.output.parentNode : w.output;
+				//#var output = w.output.nodeType==1 && w.output.nodeName=='P' ? w.output.parentNode : w.output;
+				var output = w.output;
 				if(!palign) {
 					palign = 'right';
 				}
@@ -681,7 +704,7 @@ config.mediaWikiFormatters = [
 				a.title = ptitle;
 				var img = createTiddlyElement2(a,'img');
 				img.src = 'images/' + psrc;
-//# mwDebug(w.output,'s1:'+psrc);
+//#mwDebug(w.output,'s1:'+img.src);
 				img.width = px;
 				img.longdesc = 'Image:' + src;
 				img.alt = ptitle;
@@ -707,7 +730,7 @@ config.mediaWikiFormatters = [
 				img = createTiddlyElement2(a,'img');
 				if(palign) {img.align = palign;}
 				img.src = px ? 'images/' + px + 'px-' + src : 'images/' + src;
-//# mwDebug(w.output,'s2:'+img.src);
+//#mwDebug(w.output,'s2:'+img.src);
 				if(px) {img.width = px;}
 				img.longdesc = 'Image:' + src;
 				img.alt = ptitle;
@@ -820,8 +843,8 @@ config.mediaWikiFormatters = [
 	match: '\\n{2,}',
 	handler: function(w)
 	{
-		var output = w.output.nodeType==1 && w.output.nodeName=='P' ? w.output.parentNode : w.output;
-		w.output = createTiddlyElement2(output,'p');
+		//#var output = w.output.nodeType==1 && w.output.nodeName=='P' ? w.output.parentNode : w.output;
+		w.output = createTiddlyElement2(w.output,'p');
 	}
 },
 
