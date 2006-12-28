@@ -70,7 +70,7 @@ TiddlyWiki.prototype.getTemplates = function()
 		if(tiddler.title.substr(0,9)=='Template:')
 			results.push(tiddler);
 		});
-	results.sort();
+	results.sort(function(a,b) {return a.title < b.title ? -1 : (a.title == b.title ? 0 : +1);});
 	return results;
 };
 
