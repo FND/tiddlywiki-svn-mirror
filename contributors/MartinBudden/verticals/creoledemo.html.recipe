@@ -2,7 +2,6 @@ recipe: ../../../core/tiddlywiki.html.recipe
 prehead: ../../../core/html/rss.link.html
 recipe: creoledemo/split.recipe
 recipe: ../mystyle/split.recipe
-recipe: ../../../contributors/misc/tiddlers/upload.recipe
 tiddler: ../../../contributors/misc/plugins/TagCloudPlugin.js
 tiddler: ../plugins/settings.js
 tiddler: ../tiddlers/Configuration.tiddler
