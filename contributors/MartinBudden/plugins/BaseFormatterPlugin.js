@@ -1,10 +1,11 @@
 /***
 |''Name:''|BaseFormatterPlugin|
 |''Description:''|Allows Tiddlers to use Base text formatting|
-|''Source:''|http://martinswiki.com/prereleases.html#BaseFormatterPlugin|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.8|
-|''Status:''|alpha pre-release|
+|''Source:''|http://martinswiki.com/prereleases.html#BaseFormatterPlugin|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''Version:''|0.1.9|
+|''Status:''|Not for release - this is a template for creating new formatters|
 |''Date:''|Nov 5, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
