@@ -1,7 +1,15 @@
 <div title="Home" modifier="MartinBudden">
-<pre>Wellcome.
+<pre>This TiddlyWiki demonstrates the [[CreoleFormatterPlugin]]. It is incomplete: I am making it available since it is complete enough to be useful to others. Expect further updates.
 
-&copy; 2006 Martin Budden
-^^[img[http://www.tiddlywiki.com/favicon.ico]] TiddlyWiki &lt;&lt;version&gt;&gt;^^
-</pre>
+See [[Creole 0.1 Test Cases]], [[Creole 0.1 Test Cases 2]] and [[testCreoleFormat]] for examples.
+
+This wiki also uses TiddlyWiki's facility to support multiple formatters to demonstrate mixed mode Creole formatters. See: [[testCreoleMixedWithMediaWikiFormat]], [[testCreoleMixedWithTracFormat]] and [[testCreoleMixedWithTWikiFormat]] for examples. I will be extending the mixed mode demonstrators and adding new ones.
+
+You can save this TiddlyWiki to your local drive by right clicking on [[WikiCreole TiddlyWiki|http://www.martinswiki.com/creoledemo.html]] and selecting 'Save link as...' or 'Save target as...'. You can choose where to save the file, and what to call it (but make sure that it's saved in HTML format and with an HTML extension). Since the wiki is in a single self-contained HTML file you can put it on a USB stick to make a really protable wiki.
+
+@@There can be confusing and subtle differences between different browsers. Some points to watch:@@
+* Do ''not'' use the File/Save command in your browser to save TiddlyWiki.
+* Make sure that you're saving in HTML (or &quot;page source&quot; format), not one of the new-fangled archive formats
+&amp;copy; 2006 Martin Budden
+^^[img[http://www.tiddlywiki.com/favicon.ico]] TiddlyWiki &lt;&lt;version&gt;&gt;^^</pre>
 </div>
