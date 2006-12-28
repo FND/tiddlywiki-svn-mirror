@@ -29,25 +29,25 @@ if(!version.extensions.BaseFormatterPlugin) {
 version.extensions.BaseFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	{alertAndThrow("BaseFormatterPlugin requires TiddlyWiki 2.1 or later.");}
+	{alertAndThrow('BaseFormatterPlugin requires TiddlyWiki 2.1 or later.');}
 
-baseFormatter = {}; // "namespace" for local functions
+baseFormatter = {}; // 'namespace' for local functions
 
 baseDebug = function(out,str)
 {
-	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
-	createTiddlyElement(out,"br");
+	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
+	createTiddlyElement(out,'br');
 };
 
 wikify = function(source,output,highlightRegExp,tiddler)
 {
-	if(source && source !== "") {
+	if(source && source !== '') {
 		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
-		w.output = tiddler ? createTiddlyElement(output,"p") : output;
+		w.output = tiddler ? createTiddlyElement(output,'p') : output;
 		w.subWikifyUnterm(w.output);
 	}
-//at point of usage can use:
-//var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
+//#at point of usage can use:
+//#var output = w.output.nodeType==1 && w.output.nodeName=='P' ? w.output.parentNode : w.output;
 };
 
 config.formatterHelpers.setAttributesFromParams = function(e,p)
@@ -56,8 +56,8 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 	var match = re.exec(p);
 	while(match) {
 		var s = match[1].unDash();
-		if(s=="bgcolor") {
-			s = "backgroundColor";
+		if(s=='bgcolor') {
+			s = 'backgroundColor';
 		}
 		try {
 			if(match[2]) {
@@ -75,26 +75,23 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 
 config.baseFormatters = [
 {
-	name: "baseHeading",
-	match: "^={1,6}",
+	name: 'baseHeading',
+	match: '^={1,6}',
 	termRegExp: /(={1,6}$\n)/mg,
 	handler: function(w)
 	{
-		var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
-		w.subWikifyTerm(createTiddlyElement(output,"h"+w.matchLength),this.termRegExp);
-		w.output = createTiddlyElement(output,"p");
+		w.subWikifyTerm(createTiddlyElement(w.output,'h'+w.matchLength),this.termRegExp);
 	}
 },
 
 {
-	name: "baseList",
-	match: "^[\\*#;:]+ ",
+	name: 'baseList',
+	match: '^[\\*#;:]+ ',
 	lookaheadRegExp: /^([\*#;:])+ /mg,
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
-		var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
-		var stack = [output];
+		var stack = [w.output];
 		var currLevel = 0, currType = null;
 		var listType, itemType;
 		w.nextMatch = w.matchStart;
@@ -102,21 +99,21 @@ config.baseFormatters = [
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
 			switch(lookaheadMatch[1]) {
-			case "*":
-				listType = "ul";
-				itemType = "li";
+			case '*':
+				listType = 'ul';
+				itemType = 'li';
 				break;
-			case "#":
-				listType = "ol";
-				itemType = "li";
+			case '#':
+				listType = 'ol';
+				itemType = 'li';
 				break;
-			case ";":
-				listType = "dl";
-				itemType = "dt";
+			case ';':
+				listType = 'dl';
+				itemType = 'dt';
 				break;
-			case ":":
-				listType = "dl";
-				itemType = "dd";
+			case ':':
+				listType = 'dl';
+				itemType = 'dd';
 				break;
 			default:
 				break;
@@ -142,24 +139,21 @@ config.baseFormatters = [
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		}
-		w.output = createTiddlyElement(output,"p");
 	}
 },
 
 {
-	name: "baseRule",
-	match: "^---+$\\n?",
+	name: 'baseRule',
+	match: '^---+$\\n?',
 	handler: function(w)
 	{
-		var output = w.output.nodeType==1 && w.output.nodeName=="P" ? w.output.parentNode : w.output;
-		createTiddlyElement(output,"hr");
-		w.output = createTiddlyElement(output,"p");
+		createTiddlyElement(w.output,'hr');
 	}
 },
 
 {
-	name: "macro",
-	match: "<<",
+	name: 'macro',
+	match: '<<',
 	lookaheadRegExp: /<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>/mg,
 	handler: function(w)
 	{
@@ -173,8 +167,8 @@ config.baseFormatters = [
 },
 
 {
-	name: "baseExplicitLink",
-	match: "\\[\\[",
+	name: 'baseExplicitLink',
+	match: '\\[\\[',
 	lookaheadRegExp: /\[\[(.*?)(?:\|(.*?))?\]\]/mg,
 	handler: function(w)
 	{
@@ -191,8 +185,8 @@ config.baseFormatters = [
 },
 
 {
-	name: "baseNotWikiLink",
-	match: "!" + config.textPrimitives.wikiLink,
+	name: 'baseNotWikiLink',
+	match: '!' + config.textPrimitives.wikiLink,
 	handler: function(w)
 	{
 		w.outputText(w.output,w.matchStart+1,w.nextMatch);
@@ -200,12 +194,12 @@ config.baseFormatters = [
 },
 
 {
-	name: "baseWikiLink",
+	name: 'baseWikiLink',
 	match: config.textPrimitives.wikiLink,
 	handler: function(w)
 	{
 		if(w.matchStart > 0) {
-			var preRegExp = new RegExp(config.textPrimitives.anyLetter,"mg");
+			var preRegExp = new RegExp(config.textPrimitives.anyLetter,'mg');
 			preRegExp.lastIndex = w.matchStart-1;
 			var preMatch = preRegExp.exec(w.source);
 			if(preMatch.index == w.matchStart-1) {
@@ -222,7 +216,7 @@ config.baseFormatters = [
 },
 
 {
-	name: "baseUrlLink",
+	name: 'baseUrlLink',
 	match: config.textPrimitives.urlPattern,
 	handler: function(w)
 	{
@@ -231,83 +225,83 @@ config.baseFormatters = [
 },
 
 {
-	name: "baseBoldByChar",
-	match: "\\*\\*",
+	name: 'baseBoldByChar',
+	match: '\\*\\*',
 	termRegExp: /(\*\*|(?=\n\n))/mg,
-	element: "strong",
+	element: 'strong',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "baseItalicByChar",
-	match: "//",
+	name: 'baseItalicByChar',
+	match: '//',
 	termRegExp: /(\/\/|(?=\n\n))/mg,
-	element: "em",
+	element: 'em',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "baseUnderlineByChar",
-	match: "__",
+	name: 'baseUnderlineByChar',
+	match: '__',
 	termRegExp: /(__|(?=\n\n))/mg,
-	element: "u",
+	element: 'u',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "baseStrikeByChar",
-	match: "--(?!\\s|$)",
+	name: 'baseStrikeByChar',
+	match: '--(?!\\s|$)',
 	termRegExp: /((?!\s)--|(?=\n\n))/mg,
-	element: "strike",
+	element: 'strike',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "baseSuperscriptByChar",
-	match: "\\^\\^",
+	name: 'baseSuperscriptByChar',
+	match: '\\^\\^',
 	termRegExp: /(\^\^|(?=\n\n))/mg,
-	element: "sup",
+	element: 'sup',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "baseSubscriptByChar",
-	match: "~~",
+	name: 'baseSubscriptByChar',
+	match: '~~',
 	termRegExp: /(~~|(?=\n\n))/mg,
-	element: "sub",
+	element: 'sub',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "baseMonospacedByChar",
-	match: "\\{\\{\\{",
+	name: 'baseMonospacedByChar',
+	match: '\\{\\{\\{',
 	lookaheadRegExp: /\{\{\{((?:.|\n)*?)\}\}\}/mg,
-	element: "code",
+	element: 'code',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 {
-	name: "baseParagraph",
-	match: "\\n{2,}",
+	name: 'baseParagraph',
+	match: '\\n{2,}',
 	handler: function(w)
 	{
-		w.output = createTiddlyElement(w.output.parentNode,"p");
+		w.output = createTiddlyElement(w.output,'p');
 	}
 },
 
 {
-	name: "baseLineBreak",
-	match: "\\n|<br ?/?>",
+	name: 'baseLineBreak',
+	match: '\\n|<br ?/?>',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"br");
+		createTiddlyElement(w.output,'br');
 	}
 },
 
 //# note . is anything except \n, so (?:.|\n) matches anything. I think [] is equivalent.
 {
-	name: "baseComment",
-	match: "<!\\-\\-",
+	name: 'baseComment',
+	match: '<!\\-\\-',
 	lookaheadRegExp: /<!\-\-((?:.|\n)*?)\-\-!>/mg,
 	handler: function(w)
 	{
@@ -320,16 +314,16 @@ config.baseFormatters = [
 },
 
 {
-	name: "baseHtmlEntitiesEncoding",
-	match: "&#?[a-zA-Z0-9]{2,8};",
+	name: 'baseHtmlEntitiesEncoding',
+	match: '&#?[a-zA-Z0-9]{2,8};',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"span").innerHTML = w.matchText;
+		createTiddlyElement(w.output,'span').innerHTML = w.matchText;
 	}
 },
 
 {
-	name: "baseHtmlTag",
+	name: 'baseHtmlTag',
 	match: "<(?:[a-zA-Z]{2,}|a)(?:\\s*(?:[a-z]*?=[\"']?[^>]*?[\"']?))*?>",
 	lookaheadRegExp: /<([a-zA-Z]+)((?:\s+[a-z]*?=["']?[^>\/\"\']*?["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
@@ -344,7 +338,7 @@ config.baseFormatters = [
 			if(lookaheadMatch[3]) {
 				w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
 			} else {
-				w.subWikify(e,"</"+lookaheadMatch[1]+">");
+				w.subWikify(e,'</'+lookaheadMatch[1]+'>');
 			}
 		}
 	}
@@ -352,7 +346,7 @@ config.baseFormatters = [
 ];
 
 config.parsers.baseFormatter = new Formatter(config.baseFormatters);
-config.parsers.baseFormatter.format = "Base";
-config.parsers.baseFormatter.formatTag = "BaseFormat";
-} // end of "install only once"
+config.parsers.baseFormatter.format = 'Base';
+config.parsers.baseFormatter.formatTag = 'BaseFormat';
+} // end of 'install only once'
 //}}}
