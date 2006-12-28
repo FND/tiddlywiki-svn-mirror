@@ -1,0 +1,27 @@
+../../../core/html/header.html
+@prehead@
+../../../core/html/pretitle.html
+@title@
+../../../core/html/prescript.html
+@prejs@
+@js@
+recipe: corejsbasic.recipe
+@postjs@
+../../../core/html/postscript.html
+../../../core/html/style.html
+../../../core/html/postheadstart.html
+@posthead@
+../../../core/html/postheader.html
+../../../core/html/bodystart.html
+@prebody@
+../../../core/html/body.html
+../../../core/html/preshadow.html
+recipe: ../../../core/tiddlers/split.recipe
+@shadow@
+../../../core/html/postshadow.html
+../../../core/html/prestorearea.html
+@tiddler@
+@posttiddlers@
+../../../core/html/poststorearea.html
+@postbody@
+../../../core/html/footer.html
