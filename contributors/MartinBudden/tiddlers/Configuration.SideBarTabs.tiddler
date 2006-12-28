@@ -1,1 +1,5 @@
-<div tiddler="Configuration.SideBarTabs" modifier="MartinBudden" modified="200606010000" created="200606010000" tags="includeNew excludeLists">SideBarTabs\n|[[Timeline|TabTimeline]]|[[All|TabAll]]|[[Tags|TabTags]]|&gt;|&gt;|[[More|TabMore]] |\n|&gt;|&gt;||[[Missing|TabMoreMissing]]|[[Orphans|TabMoreOrphans]]|[[Shadowed|TabMoreShadowed]]|</div>
+<div title="Configuration.SideBarTabs" modifier="MartinBudden" tags="excludeLists">
+<pre>SideBarTabs
+|[[Timeline|TabTimeline]]|[[All|TabAll]]|[[Tags|TabTags]]|&gt;|&gt;|[[More|TabMore]] |
+|&gt;|&gt;||[[Missing|TabMoreMissing]]|[[Orphans|TabMoreOrphans]]|[[Shadowed|TabMoreShadowed]]|</pre>
+</div>
