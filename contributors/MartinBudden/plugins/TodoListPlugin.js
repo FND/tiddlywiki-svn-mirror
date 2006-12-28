@@ -84,9 +84,9 @@ config.macros.listTags.handler = function(place,macroName,params)
 /*}}}*/
 /*{{{*/
 config.macros.newTodo = {
-label: "new Todo",
-prompt: "new Todo",
-title: "New Todo"
+	label: "new todo",
+	prompt: "new todo",
+	title: "New Todo"
 };
 
 config.macros.newTodo.handler = function(place,macroName,params)
@@ -94,8 +94,8 @@ config.macros.newTodo.handler = function(place,macroName,params)
 	if (readOnly) {return;}
 
 	var title = params[0] ? params[0] : config.macros.newTodo.title;
-	//var title = config.macros.newTodo.title;
-	//var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick,null,null,this.accessKey);
+	//#var title = config.macros.newTodo.title;
+	//#var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick,null,null,this.accessKey);
 	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
 	btn.setAttribute("title",config.macros.newTodo.title);
 	btn.setAttribute("params",params.join("|"));
