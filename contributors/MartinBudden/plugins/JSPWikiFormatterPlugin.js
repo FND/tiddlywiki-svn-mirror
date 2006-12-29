@@ -83,10 +83,9 @@ config.commands.jspWikiDiscussion.isEnabled = function(tiddler)
 {
 	if(!tiddler)
 		return false;
-	if(tiddler.isTagged(config.parsers.jspFormatter.formatTag)||(tiddler.fields&&config.parsers.jspFormatter.format&&tiddler.fields["wikiformat"]==config.parsers.jspFormatter.format)) {
-		if(tiddler.title.indexOf("Talk.") == 0)
-			return false;
-		return true;
+	if(tiddler.isTagged(config.parsers.jspWikiFormatter.formatTag)||(tiddler.fields&&config.parsers.jspWikiFormatter.format&&tiddler.fields["wikiformat"]==config.parsers.jspWikiFormatter.format)) {
+		if(tiddler.title.indexOf("Talk.") != 0)
+			return true;
 	}
 	return false;
 };
