@@ -1,1 +1,2 @@
-recipe: ../../../2.1/test/index.html.recipe
+recipe: ../../core/tiddlywiki.html.recipe
+recipe: tiddlers/split.recipe
