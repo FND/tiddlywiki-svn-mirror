@@ -9,6 +9,7 @@
 &lt;div id='topMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
 
 &lt;div id='sidebar'&gt;
+&lt;div id='logo' refresh='content' tiddler='Logo'&gt;&lt;/div&gt;
 &lt;div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'&gt;&lt;/div&gt;
 &lt;div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'&gt;&lt;/div&gt;
 &lt;/div&gt;

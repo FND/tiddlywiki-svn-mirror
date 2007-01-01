@@ -1,8 +1,15 @@
 <div title="StyleSheet" tags="styles excludeLists">
 <pre>/***
-Place your custom CSS here
+Place your custom CSS here.
+See http://www.w3schools.com/css/css_colors.asp for a color chart.
 ***/
+[[Styles HorizontalMainMenu]]
 [[wikipediaStyle]]
 [[wikipediaAbridged/Skins-1.5.monobook/main.css]]
-[[wikipedia.MediaWiki.Common.css]]</pre>
+[[wikipedia.MediaWiki.Common.css]]
+/*{{{*/
+.header {background:#007766;}
+#topMenu {background:#007777;}
+/*}}}*/
+</pre>
 </div>
