@@ -1,0 +1,17 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: split.recipe
+recipe: ../../mystyle/split.recipe
+prehead: ../../../../core/html/rss.link.html
+tiddler: ../../tiddlers/Basic_Formatting.tiddler
+tiddler: ../../tiddlers/Configuration.tiddler
+tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
+tiddler: ../../tiddlers/Document_Formatting.tiddler
+tiddler: ../../tiddlers/Table_Formatting.tiddler
+tiddler: ../../plugins/PmWikiFormatterPlugin.js
+tiddler: ../../tiddlers/PmWikiLocalStyle.tiddler
+tiddler: ../../tiddlers/PmWikiStyle.tiddler
+tiddler: ../../plugins/SnipSnapFormatterPlugin.js
+tiddler: ../../plugins/settings.js
+tiddler: ../../test/testPmWikiFormat.tiddler
+tiddler: ../../test/testSnipSnapFormat.tiddler
+tiddler: ../../tiddlers/yummy.pbwiki.com_themes_skin3_screen.css.tiddler
