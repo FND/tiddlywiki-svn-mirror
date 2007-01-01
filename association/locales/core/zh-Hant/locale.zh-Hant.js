@@ -7,12 +7,13 @@
 |''Date:''|Dec 04, 2006|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|''~CoreVersion:''|2.1.0|
+|''~CoreVersion:''|2.1.3|
 ***/
 
 /*{{{*/
-// Translateable strings
-// ---------------------
+// --
+// -- Translateable strings
+// --
 
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
@@ -21,8 +22,8 @@ merge(config.options,{
 
 config.tasks = {
 		tidy: {text: "整理", tooltip: "對群組文章作大量更新", content: 'Coming soon...\n\nThis tab will allow bulk operations on tiddlers, and tags. It will be a generalised, extensible version of the plugins tab'},
-		sync: {text: "同步", tooltip: "與別的 TiddlyWiki 文件及伺服器同步化", content: '<<sync>>'},
-		importTask: {text: "匯入", tooltip: "從別的 TiddlyWiki 文件及伺服器匯入文章與套件", content: '<<importTiddlers>>'},
+		sync: {text: "同步", tooltip: "將你的資料內容與外部伺服器與檔案同步", content: '<<sync>>'},
+		importTask: {text: "匯入", tooltip: "自其他檔案或伺服器匯入文章或套件", content: '<<importTiddlers>>'},
 		copy: {text: "複製", tooltip: "複製文章至別的 TiddlyWiki 文件及伺服器", content: 'Coming soon...\n\nThis tab will allow tiddlers to be copied to remote servers'},
 		plugins: {text: "套件管理", tooltip: "管理已安裝的套件", content: '<<plugins>>'}
 };
@@ -160,10 +161,16 @@ merge(config.macros.newJournal,{
 
 merge(config.macros.plugins,{
 	wizardTitle: "擴充套件管理",
-	step1: "- 已載入之套件",
+	step1Title: "- 已載入之套件",
+	step1Html: "<input type='hidden' name='markList'></input>",
 	skippedText: "(此套件因剛加入，故尚未執行)",
 	noPluginText: "未安裝套件",
 	confirmDeleteText: "確認是否刪除此文章:\n\n%0",
+	removeLabel: "移除 systemConfig 標籤",
+	removePrompt: "移除 systemConfig 標籤",
+	deleteLabel: "刪除",
+	deletePrompt: "永遠刪除所選",
+
 	listViewTemplate : {
 		columns: [
 			{name: "Selected", field: "Selected", rowName: "title", type: "Selector"},
@@ -177,11 +184,6 @@ merge(config.macros.plugins,{
 		rowClasses: [
 			{className: "error", field: "error"},
 			{className: 'warning', field: 'warning'}
-			],
-		actions: [
-			{caption: "執行選項...", name: ""},
-			{caption: "移除 'systemConfig' 標籤", name: "remove"},
-			{caption: "永遠刪除", name: "delete"}
 			]}
 	});
 
@@ -192,22 +194,26 @@ merge(config.macros.refreshDisplay,{
 	
 merge(config.macros.importTiddlers,{
 	readOnlyWarning: "TiddlyWiki 於唯讀模式下，不支援匯入文章。請由本機（file://）開啟 TiddlyWiki 文件",
-	defaultPath: "http://www.tiddlywiki.com/index.html",
+	wizardTitle: "自其他檔案或伺服器匯入文章",
+	step1Title: "步驟一：指定來源文件",
+	step1Html: "在此輸入 URL 或路徑： <input type='text' size=50 name='txtPath'><br>...或選擇來源文件：<input type='file' size=50 name='txtBrowse'><br>...或選擇指定的 feed：<select name='selFeeds'><option value=''>選擇...</option</select>",
 	fetchLabel: "讀取來源文件",
 	fetchPrompt: "讀取 TiddlyWiki 文件",
 	fetchError: "讀取來源文件時發生錯誤",
-	confirmOverwriteText: "確定要覆寫這些文章:\n\n%0",
-	wizardTitle: "自其他 TiddlyWiki 文件匯入文章",
-	step1: "步驟一：指定來源文件",
-	step1prompt: "在此輸入 URL 或路徑：",
-	step1promptFile: "...或選擇來源文件：",
-	step1promptFeeds: "...或選擇指定的 feed：",
-	step1feedPrompt: "選擇...",
-	step2: "步驟二：載入來源文件",
-	step2Text: "文件載入中，請稍後：%0",
-	step3: "步驟三：選擇欲匯入之文章",
-	step4: "已匯入%0 篇文章",
-	step5: "完成",
+	step2Title: "步驟二：載入來源文件",
+	step2Html: "文件載入中，請稍後：<strong><input type='hidden' name='markPath'></input></strong>",
+	cancelLabel: "取消",
+	cancelPrompt: "取消本次匯入動作",
+	step3Title: "步驟三：選擇欲匯入之文章",
+	step3Html: "<input type='hidden' name='markList'></input>",
+	importLabel: "匯入",
+	importPrompt: "匯入所選文章",
+	confirmOverwriteText: "確定要覆寫這些文章：\n\n%0",
+	step4Title: "已匯入%0 篇文章",
+	step4Html: "<input type='hidden' name='markReport'></input>",
+	doneLabel: "完成",
+	donePrompt: "關閉",
+
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
@@ -216,16 +222,10 @@ merge(config.macros.importTiddlers,{
 			{name: 'Tags', field: 'tags', title: "標籤", type: 'Tags'}
 			],
 		rowClasses: [
-			],
-		actions: [
-			{caption: "執行選項......", name: ''},
-			{caption: "匯入所選文章", name: 'import'}
 			]}
 	});
-/*
+
 merge(config.macros.sync,{
-	label: "同步",
-	prompt: "連結伺服器且作同步變更",
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
@@ -237,12 +237,15 @@ merge(config.macros.sync,{
 		rowClasses: [
 			],
 		buttons: [
-			{caption: "同步這些文章", name: 'sync'}
+			{caption: "Sync these tiddlers", name: 'sync'}
 			]},
-	wizardTitle: "將你的資料內容與外部伺服器與資料來源（feeds）同步",
-	step1: "選擇欲同步的文章"
-	});
-*/
+	wizardTitle: "將你的資料內容與外部伺服器與檔案同步",
+	step1Title: "選擇欲同步的文章",
+	step1Html: '<input type="hidden" name="markList"></input>',
+	syncLabel: "同步",
+	syncPrompt: "同步更新這些文章"
+});
+
 merge(config.commands.closeTiddler,{
 	text: "關閉",
 	tooltip: "關閉本文"});

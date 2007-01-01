@@ -18,11 +18,11 @@
 
 merge(config.options,{
 	txtUserName: "YourName"});
-	
+
 config.tasks = {
 		tidy: {text: "整理", tooltip: "对群组文章作大量更新"},
-		sync: {text: "同步", tooltip: "与别的 TiddlyWiki 文件及服务器同步化", content: '<<sync>>'},
-		importTask: {text: "导入", tooltip: "从别的 TiddlyWiki 文件及服务器导入文章与套件", content: '<<importTiddlers>>'},
+		sync: {text: "同步", tooltip: "将你的资料内容与外部服务器与文件同步", content: '<<sync>>'},
+		importTask: {text: "导入", tooltip: "自其他文件或服务器导入文章或插件", content: '<<importTiddlers>>'},
 		copy: {text: "复制", tooltip: "复制文章至别的 TiddlyWiki 文件及服务器"},
 		plugins: {text: "套件管理", tooltip: "管理已安装的套件", content: '<<plugins>>'}
 };
@@ -160,10 +160,15 @@ merge(config.macros.newJournal,{
 	
 merge(config.macros.plugins,{
 	wizardTitle: "插件管理",
-	step1: " - 已载入之插件",
+	step1Title: "- 已载入之插件",
+	step1Html: "<input type='hidden' name='markList'></input>",
 	skippedText: "(此插件因刚加入，故尚未执行)",
 	noPluginText: "未安装插件",
 	confirmDeleteText: "确认是否删除此文章:\n\n%0",
+	removeLabel: "移除 'systemConfig' 标签",
+	removePrompt: "移除 'systemConfig' 标签",
+	deleteLabel: "删除",
+	deletePrompt: "永远删除所选插件",
 	listViewTemplate : {
 		columns: [
 			{name: "Selected", field: "Selected", rowName: "title", type: "Selector"},
@@ -177,11 +182,6 @@ merge(config.macros.plugins,{
 		rowClasses: [
 			{className: "error", field: "error"},
 			{className: 'warning', field: 'warning'}
-			],
-		actions: [
-			{caption: "执行选项...", name: ""},
-			{caption: "移除 'systemConfig' 标签", name: "remove"},
-			{caption: "永远删除", name: "delete"}
 			]}
 	});
 
@@ -192,22 +192,25 @@ merge(config.macros.refreshDisplay,{
 
 merge(config.macros.importTiddlers,{
 	readOnlyWarning: "TiddlyWiki 于唯读模式下，不支援导入文章。请由本机（file://）开启 TiddlyWiki 文件",
-	defaultPath: "http://www.tiddlywiki.com/index.html",
+	wizardTitle: "自其他文件服务器导入文章",
+	step1Title: "步骤一：指定来源文件",
+	step1Html: "在此输入 URL 或路径：<input type='text' size=50 name='txtPath'><br>...或选择来源文件：<input type='file' size=50 name='txtBrowse'><br>...或选择指定的 feed：<select name='selFeeds'><option value=''>选择...</option</select>",
 	fetchLabel: "读取来源文件",
 	fetchPrompt: "读取 TiddlyWiki 文件",
 	fetchError: "读取来源文件时发生错误",
-	confirmOverwriteText: "确定要覆写这些文章:\n\n%0",
-	wizardTitle: "自其他 TiddlyWiki 文件导入文章",
-	step1: "步骤一：指定来源文件",
-	step1prompt: "在此输入 URL 或路径：",
-	step1promptFile: "...或选择来源文件：",
-	step1promptFeeds: "...或选择指定的 feed：",
-	step1feedPrompt: "选择...",
-	step2: "步骤二：载入来源文件",
-	step2Text: "文件载入中，请稍后：%0",
-	step3: "步骤三：选择欲导入之文章",
-	step4: "已导入%0 篇文章",
-	step5: "导入完成",
+	step2Title: "步骤二：载入来源文件",
+	step2Html: "文件载入中，请稍后：<strong><input type='hidden' name='markPath'></input></strong>",
+	cancelLabel: "取消",
+	cancelPrompt: "取消本次导入动作",
+	step3Title: "步骤三：选择欲导入之文章",
+	step3Html: "<input type='hidden' name='markList'></input>",
+	importLabel: "导入",
+	importPrompt: "导入所选文章",
+	confirmOverwriteText: "确定要覆写这些文章：\n\n%0",
+	step4Title: "已导入%0 篇文章",
+	step4Html: "<input type='hidden' name='markReport'></input>",
+	doneLabel: "导入完成",
+	donePrompt: "关闭",
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
@@ -216,13 +219,29 @@ merge(config.macros.importTiddlers,{
 			{name: 'Tags', field: 'tags', title: "标签", type: 'Tags'}
 			],
 		rowClasses: [
-			],
-		actions: [
-			{caption: "执行选项......", name: ''},
-			{caption: "导入所选文章", name: 'import'}
 			]}
 	});
 
+merge(config.macros.sync,{
+	listViewTemplate: {
+		columns: [
+			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
+			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "文章标题", type: 'TiddlerLink'},
+			{name: 'Local Status', field: 'localStatus', title: "更改本机资料?", type: 'String'},
+			{name: 'Server Status', field: 'serverStatus', title: "更改服务器上资料?", type: 'String'},
+			{name: 'Server URL', field: 'serverUrl', title: "服务器网址", text: "View", type: 'Link'}
+			],
+		rowClasses: [
+			],
+		buttons: [
+			{caption: "Sync these tiddlers", name: 'sync'}
+			]},
+	wizardTitle: "将你的资料内容与外部服务器与文件同步",
+	step1Title: "选择欲同步的文章",
+	step1Html: '<input type="hidden" name="markList"></input>',
+	syncLabel: "同步",
+	syncPrompt: "同步更新这些文章"
+});
 merge(config.commands.closeTiddler,{
 	text: "关闭",
 	tooltip: "关闭本文"});
