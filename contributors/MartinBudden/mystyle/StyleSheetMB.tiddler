@@ -30,15 +30,6 @@ hr {height:0px;border:0;border-top:1px solid silver;}
 .header {background:darkblue;}
 .headerShadow {color:white;}
 
-
-/* The bit that contains all tiddlers */
-#displayArea {
-/* background-color:#eef;*/
-	margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:12.5em;
-	padding-top:.1em;padding-bottom:.1em;
-	-moz-border-radius:1em;
-}
-
 #displayArea .tiddlyLinkExisting {text-decoration:underline;}
 
 /* Tiddler title */

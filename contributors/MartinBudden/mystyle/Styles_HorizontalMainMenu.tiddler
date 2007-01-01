@@ -7,12 +7,34 @@ See http://www.w3schools.com/css/css_colors.asp for a color chart.
 ***/
 /*{{{*/
 .header {background:#330099;}
+.headerShadow {padding:.5em 0em .5em 1em;}
+.headerForeground {padding:.5em 0em .5em 1em;}
+
+.header {background:darkblue;}
+.headerShadow {color:white;}
+
+/*#displayArea {margin:1em 15.7em 0em 1em;}*/
+/* The bit that contains all tiddlers */
+#displayArea {
+/* background-color:#eef;*/
+	margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:1em;
+	padding-top:.1em;padding-bottom:.1em;
+	-moz-border-radius:1em;
+}
+
+/* Tiddler title */
+.title {color:black;border-bottom:2px solid #ddd;}
+/* Tiddler subtitle */
+.subtitle {font-size:0.9em;text-align:right;border-bottom:1px solid #ddd;}
+.toolbar {padding-top:0px;padding-bottom:0px;color:#04b;}
+/* Tiddler body */
+.tiddler {-moz-border-radius:1em;border:1px solid #ccc;margin:0.5em;background:#fff;padding:0.5em;}
+
+
 #topMenu br {display:none;}
 #topMenu {background:#336699;}
 #topMenu {padding:2px;}
 #topMenu .button, #topMenu .tiddlyLink {padding-left:1em;padding-right:1em;color:white;font-size:115%;}
-
-#displayArea {margin:1em 15.7em 0em 1em;}
 
 /* just in case want some QuickOpenTags in your topMenu */
 #topMenu .quickopentag {padding:0px;margin:0px;border:0px;}
