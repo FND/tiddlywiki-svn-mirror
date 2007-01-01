@@ -2,9 +2,10 @@
 |''Name:''|TodoListPlugin|
 |''Description:''|Simple tabbed todo list|
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
+|''Source:''|http://martinplugins.tiddlywiki.com/#TodoListPlugin|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
 |''Version:''|0.0.2|
 |''Date:''|July 31, 2006|
-|''Source:''|http://martinplugins.tiddlywiki.com/index.html#TodoListPlugin|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.0+|

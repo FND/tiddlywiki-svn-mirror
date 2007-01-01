@@ -1,8 +1,9 @@
 /***
 |''Name:''|PmWikiFormatterPlugin|
 |''Description:''|Pre-release - Allows Tiddlers to use [[PmWiki|http://pmwiki.org/wiki/PmWiki/TextFormattingRules]] text formatting|
-|''Source:''|http://martinswiki.com/prereleases.html#PmWikiFormatterPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://martinswiki.com/prereleases.html#PmWikiFormatterPlugin|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
 |''Version:''|0.2.5|
 |''Status:''|alpha pre-release|
 |''Date:''|Oct 21, 2006|

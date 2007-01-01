@@ -1,10 +1,10 @@
 /***
 |''Name:''|TracFormatterPlugin|
-|''Description:''|Pre-release - Allows Tiddlers to use [[Trac|http://trac.edgewall.org/wiki/WikiFormatting]] text formatting|
-|''Source:''|http://martinswiki.com/prereleases.html#TracFormatterPlugin - for pre-release|
+|''Description:''|Allows Tiddlers to use [[Trac|http://trac.edgewall.org/wiki/WikiFormatting]] text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://martinplugins.tiddlywiki.com/#TracFormatterPlugin|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
 |''Version:''|0.1.5|
-|''Status:''|alpha pre-release|
 |''Date:''|Aug 12, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -19,11 +19,10 @@ To use Trac format in a Tiddler, tag the Tiddler with TracFormat. See [[testTrac
 
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
 
-This is an early alpha release, with (at least) the following known issues:
-
-!!!Issues
+This is a beta release, with (at least) the following known issues:
 # Citations yet not supported.
 # Trac macros not supported.
+
 ***/
 
 //{{{

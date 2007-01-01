@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiFormatterPlugin|
 |''Description:''|Allows Tiddlers to use [[MediaWiki|http://meta.wikimedia.org/wiki/Help:Wikitext]] ([[WikiPedia|http://meta.wikipedia.org/]]) text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/prereleases.html#MediaWikiFormatterPlugin|
+|''Source:''|http://martinplugins.tiddlywiki.com/#MediaWikiFormatterPlugin|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
 |''Version:''|0.3.11|
 |''Date:''|Dec 28, 2006|

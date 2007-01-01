@@ -1,8 +1,9 @@
 /***
 |''Name:''|TWikiFormatterPlugin|
 |''Description:''|Allows Tiddlers to use [[TWiki|http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules]] text formatting|
-|''Source:''|http://martinswiki.com/prereleases.html#TWikiFormatterPlugin|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://martinplugins.tiddlywiki.com/#TWikiFormatterPlugin|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
 |''Version:''|0.2.1|
 |''Status:''|beta release|
 |''Date:''|Nov 5, 2006|

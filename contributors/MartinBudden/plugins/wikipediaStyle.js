@@ -15,12 +15,6 @@ Stylesheet, which when used with a Wikipedia skin stylesheet, helps give TiddlyW
 	-moz-border-radius:1em;
 }
 
-#mainMenu {position:absolute;top:-18em;right:3px;width:16em;text-align:center;font-family:roman;font-size:0.9em;}
-
-#sidebar {position:absolute;top:22em;right:3px;width:16em;font-size:.9em;}
-#sidebarOptions {position:relative;padding-top:0.3em;}
-#sidebarOptions a {margin:0em 0.2em;padding:0.2em 0.3em;display:block;}
-
 .tiddlyLinkExisting {text-decoration:underline;}
 #sidebarTabs .tiddlyLinkExisting {text-decoration:none;}
 

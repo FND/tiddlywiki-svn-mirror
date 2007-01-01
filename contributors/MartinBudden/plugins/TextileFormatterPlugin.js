@@ -1,8 +1,9 @@
 /***
 |''Name:''|TextileFormatterPlugin|
 |''Description:''|Allows Tiddlers to use Textile text formatting|
-|''Source:''|http://martinswiki.com/prereleases.html#TextileFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://martinswiki.com/prereleases.html#TextileFormatterPlugin|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
 |''Version:''|0.1.2|
 |''Status:''|alpha pre-release|
 |''Date:''|Oct 26, 2006|

@@ -1,10 +1,10 @@
 /***
 |''Name:''|PBWikiFormatterPlugin|
 |''Description:''|Allows Tiddlers to use [[PBWiki|http://yummy.pbwiki.com/WikiStyle]] text formatting|
-|''Source:''|http://martinswiki.com/prereleases.html#PBWikiFormatterPlugin - for pre-release|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.7|
-|''Status:''|alpha pre-release|
+|''Source:''|http://martinplugins.tiddlywiki.com/#PBWikiFormatterPlugin|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''Version:''|0.1.8|
 |''Date:''|Oct 28, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
