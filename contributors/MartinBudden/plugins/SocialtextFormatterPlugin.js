@@ -1,10 +1,11 @@
 /***
 |''Name:''|SocialtextFormatterPlugin|
 |''Description:''|Allows Tiddlers to use [[Socialtext|http://www.socialtext.com/]] text formatting|
-|''Source:''|http://martinswiki.com/prereleases.html#SocialtextFormatterPlugin|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.9.1|
-|''Date:''|Nov 4, 2006|
+|''Source:''|http://martinplugins.tiddlywiki.com/#SocialtextFormatterPlugin|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''Version:''|0.9.2|
+|''Date:''|Dec 29, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -26,17 +27,17 @@ if(!version.extensions.SocialtextFormatterPlugin) {
 version.extensions.SocialtextFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	{alertAndThrow("SocialtextFormatterPlugin requires TiddlyWiki 2.1 or later.");}
+	{alertAndThrow('SocialtextFormatterPlugin requires TiddlyWiki 2.1 or later.');}
 
 wikify = function(source,output,highlightRegExp,tiddler)
 {
-	if(source && source != "") {
+	if(source && source != '') {
 		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
 		var out = output;
-		if(tiddler && tiddler.isTagged("SocialtextFormat")) {
-			var d1 = createTiddlyElement(output,"div","content-display-body","content-section-visible");
-			var d2 = createTiddlyElement(d1,"div","wikipage");
-			out = createTiddlyElement(d2,"div",null,"wiki");
+		if(tiddler && tiddler.isTagged('SocialtextFormat')) {
+			var d1 = createTiddlyElement(output,'div','content-display-body','content-section-visible');
+			var d2 = createTiddlyElement(d1,'div','wikipage');
+			out = createTiddlyElement(d2,'div',null,'wiki');
 		}
 		var time1,time0 = new Date();
 		w.subWikifyUnterm(out);
@@ -48,12 +49,12 @@ wikify = function(source,output,highlightRegExp,tiddler)
 	}
 };
 
-socialtextFormatter = {}; // "namespace" for local functions
+socialtextFormatter = {}; // 'namespace' for local functions
 
 stDebug = function(out,str)
 {
-	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
-	createTiddlyElement(out,"br");
+	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
+	createTiddlyElement(out,'br');
 };
 
 socialtextFormatter.wafl = function(w)
@@ -63,41 +64,41 @@ socialtextFormatter.wafl = function(w)
 	if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 		var lm2 = lookaheadMatch[2];
 		switch(lookaheadMatch[1]) {
-		case "image":
-			var img = createTiddlyElement(w.output,"img");
-			img.src = w.tiddler.title + "/" + lm2;
+		case 'image':
+			var img = createTiddlyElement(w.output,'img');
+			img.src = w.tiddler.title + '/' + lm2;
 			createTiddlyText(img,lm2);
 			break;
-		case "file":
-			var s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
-			var a = createTiddlyElement(s,"a");
-			a.href = w.tiddler.title + "/" + lm2;
+		case 'file':
+			var s = createTiddlyElement(w.output,'span',null,'nlw_phrase');
+			var a = createTiddlyElement(s,'a');
+			a.href = w.tiddler.title + '/' + lm2;
 			createTiddlyText(a,lm2);
 			break;
-		case "link":
-//Test: link to header: <span class="nlw_phrase"><a title="section link" href="#googlesoap">googlesoap</a><!-- wiki: {link: googlesoap} --></span></p>
-			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
-			a = createTiddlyElement(s,"a");
-			var t = w.tiddler ? w.tiddler.title + ":" : "";
-			a.setAttribute("href","#" + t + lm2);
-			a.title = "section link";
+		case 'link':
+//#Test: link to header: <span class='nlw_phrase'><a title='section link' href='#googlesoap'>googlesoap</a><!-- wiki: {link: googlesoap} --></span></p>
+			s = createTiddlyElement(w.output,'span',null,'nlw_phrase');
+			a = createTiddlyElement(s,'a');
+			var t = w.tiddler ? w.tiddler.title + ':' : '';
+			a.setAttribute('href','#' + t + lm2);
+			a.title = 'section link';
 			createTiddlyText(a,lm2);
 			break;
-		case "weblog":
-			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+		case 'weblog':
+			s = createTiddlyElement(w.output,'span',null,'nlw_phrase');
 			var text = lm2;
-			var link = "Weblog: " + lm2;
+			var link = 'Weblog: ' + lm2;
 			createTiddlyText(createTiddlyLink(s,link,false,null,w.isStatic),text);
 			break;
-		case "section":
-			a = createTiddlyElement(w.output,"a");// drop anchor
-			t = w.tiddler ? w.tiddler.title + ":" : "";
-			a.setAttribute("name",t + lm2);
+		case 'section':
+			a = createTiddlyElement(w.output,'a');// drop anchor
+			t = w.tiddler ? w.tiddler.title + ':' : '';
+			a.setAttribute('name',t + lm2);
 			break;
-		case "date":
+		case 'date':
 			createTiddlyText(w.output,lm2);
 			break;
-		case "user":
+		case 'user':
 			var oldSource = w.source;
 			w.source = lm2;
 			w.nextMatch = 0;
@@ -105,46 +106,46 @@ socialtextFormatter.wafl = function(w)
 			w.source = oldSource;
 			break;
 // Shortcut expansions - not strictly syntax
-		case "google":
+		case 'google':
 //# google: http://www.google.com/search?q=%s
-			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
-			a = createExternalLink(s,"http://www.google.com/search?q="+lm2);
+			s = createTiddlyElement(w.output,'span',null,'nlw_phrase');
+			a = createExternalLink(s,'http://www.google.com/search?q='+lm2);
 			createTiddlyText(a,lm2);
 			break;
-		case "fedex":
+		case 'fedex':
 //# fedex: http://www.fedex.com/Tracking?tracknumbers=%s
-			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
-			a = createExternalLink(s,"http://www.fedex.com/Tracking?tracknumbers="+lm2);
+			s = createTiddlyElement(w.output,'span',null,'nlw_phrase');
+			a = createExternalLink(s,'http://www.fedex.com/Tracking?tracknumbers='+lm2);
 			createTiddlyText(a,lm2);
 			break;
-		case "map":
+		case 'map':
 //# map: http://maps.google.com/maps?q=%s
-			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
-			a = createExternalLink(s,"http://maps.google.com/maps?q="+lm2);
+			s = createTiddlyElement(w.output,'span',null,'nlw_phrase');
+			a = createExternalLink(s,'http://maps.google.com/maps?q='+lm2);
 			createTiddlyText(a,lm2);
 			break;
-		case "wikipedia":
+		case 'wikipedia':
 //# wikipedia: http://en.wikipedia.org/wiki/%s
-			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
-			a = createExternalLink(s,"http://en.wikipedia.org/wiki/"+lm2);
+			s = createTiddlyElement(w.output,'span',null,'nlw_phrase');
+			a = createExternalLink(s,'http://en.wikipedia.org/wiki/'+lm2);
 			createTiddlyText(a,lm2);
 			break;
-		case "rt":
+		case 'rt':
 //# rt: http://rt.socialtext.net/Ticket/Display.html?id=%s
-			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
-			a = createExternalLink(s,"http://rt.socialtext.net/Ticket/Display.html?id="+lm2);
+			s = createTiddlyElement(w.output,'span',null,'nlw_phrase');
+			a = createExternalLink(s,'http://rt.socialtext.net/Ticket/Display.html?id='+lm2);
 			createTiddlyText(a,lm2);
 			break;
-		case "stcal":
+		case 'stcal':
 //# stcal: https://calendar.socialtext.net:445/view_t.php?timeb=1&id=3&date=%s
-			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
-			a = createExternalLink(s,"https://calendar.socialtext.net:445/view_t.php?timeb=1&id=3&date="+lm2);
+			s = createTiddlyElement(w.output,'span',null,'nlw_phrase');
+			a = createExternalLink(s,'https://calendar.socialtext.net:445/view_t.php?timeb=1&id=3&date='+lm2);
 			createTiddlyText(a,lm2);
 			break;
-		case "svn":
+		case 'svn':
 //# svn: https://repo.socialtext.net/listing.php?rev=%s&sc=1
-			s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
-			a = createExternalLink(s,"https://repo.socialtext.net/listing.php?rev="+lm2+"sc=1");
+			s = createTiddlyElement(w.output,'span',null,'nlw_phrase');
+			a = createExternalLink(s,'https://repo.socialtext.net/listing.php?rev='+lm2+'sc=1');
 			createTiddlyText(a,lm2);
 			break;
 		default:
@@ -166,28 +167,28 @@ socialtextFormatter.presence = function(w)
 		var text = lookaheadMatch[2];
 		var link;
 		var src;
-		if(p=="aim") {
-			link = "aim:goim?screenname=" + text + "&message=hello";
-			src = "http://big.oscar.aol.com/sleepleft?on_url=http://www.aim.com/remote/gr/MNB_online.gif&amp;off_url=http://www.aim.com/remote/gr/MNB_offline.gif";
-		} else if(p=="yahoo"||p=="ymsgr") {
-			link = "ymsgr:sendIM?"+text;
-			src = "http://opi.yahoo.com/online?u=chrislondonbridge&f=.gif";
-		} else if(p=="skype"||p=="callto") {
-			link = "callto:"+text;
-			src = "http://goodies.skype.com/graphics/skypeme_btn_small_green.gif";
-		} else if(p=="asap") {
-			link = "http://asap2.convoq.com/AsapLinks/Meet.aspx?l="+text;
-			src = "http://asap2.convoq.com/AsapLinks/Presence.aspx?l="+text;
+		if(p=='aim') {
+			link = 'aim:goim?screenname=' + text + '&message=hello';
+			src = 'http://big.oscar.aol.com/sleepleft?on_url=http://www.aim.com/remote/gr/MNB_online.gif&amp;off_url=http://www.aim.com/remote/gr/MNB_offline.gif';
+		} else if(p=='yahoo'||p=='ymsgr') {
+			link = 'ymsgr:sendIM?'+text;
+			src = 'http://opi.yahoo.com/online?u=chrislondonbridge&f=.gif';
+		} else if(p=='skype'||p=='callto') {
+			link = 'callto:'+text;
+			src = 'http://goodies.skype.com/graphics/skypeme_btn_small_green.gif';
+		} else if(p=='asap') {
+			link = 'http://asap2.convoq.com/AsapLinks/Meet.aspx?l='+text;
+			src = 'http://asap2.convoq.com/AsapLinks/Presence.aspx?l='+text;
 		}
-		var s = createTiddlyElement(w.output,"span",null,"nlw_phrase");
+		var s = createTiddlyElement(w.output,'span',null,'nlw_phrase');
 		var a = createExternalLink(s,link);
-		var img = createTiddlyElement(a,"img");
+		var img = createTiddlyElement(a,'img');
 		createTiddlyText(a,text);
 		img.src = src;
-		img.border="0";
-		img.alt = "(" + lookaheadMatch[1] + ")";
-		if(p=="aim") {
-			img.width="11"; img.height="13";
+		img.border='0';
+		img.alt = '(' + lookaheadMatch[1] + ')';
+		if(p=='aim') {
+			img.width='11'; img.height='13';
 		}
 		w.nextMatch = this.lookaheadRegExp.lastIndex;
 	}
@@ -197,7 +198,7 @@ config.formatterHelpers.singleCharFormat = function(w)
 {
 	this.lookaheadRegExp.lastIndex = w.matchStart;
 	var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-	if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[0].substr(lookaheadMatch[0].length-2,1) != " ") {
+	if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[0].substr(lookaheadMatch[0].length-2,1) != ' ') {
 		w.subWikifyTerm(createTiddlyElement(w.output,this.element),this.termRegExp);
 	} else {
 		w.outputText(w.output,w.matchStart,w.nextMatch);
@@ -206,37 +207,37 @@ config.formatterHelpers.singleCharFormat = function(w)
 
 config.socialTextFormatters = [
 {
-	name: "socialtextHeading",
-	match: "^\\^{1,6} ?",
+	name: 'socialtextHeading',
+	match: '^\\^{1,6} ?',
 	termRegExp: /(\n+)/mg,
 	handler: function(w)
 	{
 		var len = w.matchText.trim().length;
-		var e = createTiddlyElement(w.output,"h" + len);
-		var a = createTiddlyElement(e,"a");// drop anchor
-		var t = w.tiddler ? w.tiddler.title + ":" : "";
-		len = w.source.substr(w.nextMatch).indexOf("\n");
-		a.setAttribute("name",t+w.source.substr(w.nextMatch,len));
+		var e = createTiddlyElement(w.output,'h' + len);
+		var a = createTiddlyElement(e,'a');// drop anchor
+		var t = w.tiddler ? w.tiddler.title + ':' : '';
+		len = w.source.substr(w.nextMatch).indexOf('\n');
+		a.setAttribute('name',t+w.source.substr(w.nextMatch,len));
 		w.subWikifyTerm(e,this.termRegExp);
 	}
 },
 
 {
-	name: "socialtextTable",
-	match: "^\\|(?:(?:.|\n)*)\\|$",
+	name: 'socialtextTable',
+	match: '^\\|(?:(?:.|\n)*)\\|$',
 	lookaheadRegExp: /^\|(?:(?:.|\n)*)\|$/mg,
 	cellRegExp: /(?:\|(?:[^\|]*)\|)(\n|$)?/mg,
 	cellTermRegExp: /((?:\x20*)\|)/mg,
 	handler: function(w)
 	{
-		var table = createTiddlyElement(w.output,"table");
-		var rowContainer = createTiddlyElement(table,"tbody");
+		var table = createTiddlyElement(w.output,'table');
+		var rowContainer = createTiddlyElement(table,'tbody');
 		var prevColumns = [];
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
-			var r = this.rowHandler(w,createTiddlyElement(rowContainer,"tr"),prevColumns);
+			var r = this.rowHandler(w,createTiddlyElement(rowContainer,'tr'),prevColumns);
 			if(!r) {
 				w.nextMatch++;
 				break;
@@ -251,7 +252,7 @@ config.socialTextFormatters = [
 		var cellMatch = this.cellRegExp.exec(w.source);
 		while(cellMatch && cellMatch.index == w.nextMatch) {
 			w.nextMatch++;
-			var cell = createTiddlyElement(e,"td");
+			var cell = createTiddlyElement(e,'td');
 			w.subWikifyTerm(cell,this.cellTermRegExp);
 			if(cellMatch[1]) {
 				// End of row
@@ -268,20 +269,20 @@ config.socialTextFormatters = [
 },
 
 {
-	name: "socialtextList",
-	match: "^[\\*#]+ ",
+	name: 'socialtextList',
+	match: '^[\\*#]+ ',
 	lookaheadRegExp: /^([\*#])+ /mg,
 	termRegExp: /(\n+)/mg,
 	handler: function(w)
 	{
 		var stack = [w.output];
 		var currLevel = 0, currType = null;
-		var itemType = "li";
+		var itemType = 'li';
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
-			var listType = lookaheadMatch[1] == "*" ? "ul" : "ol";
+			var listType = lookaheadMatch[1] == '*' ? 'ul' : 'ol';
 			var listLevel = lookaheadMatch[0].length;
 			w.nextMatch += listLevel;
 			if(listLevel > currLevel) {
@@ -307,11 +308,11 @@ config.socialTextFormatters = [
 },
 
 {
-	name: "socialtextQuoteByLine",
-	match: "^>+",
+	name: 'socialtextQuoteByLine',
+	match: '^>+',
 	lookaheadRegExp: /^>+/mg,
 	termRegExp: /(\n)/mg,
-	element: "blockquote",
+	element: 'blockquote',
 	handler: function(w)
 	{
 		var stack = [w.output];
@@ -330,7 +331,7 @@ config.socialTextFormatters = [
 			}
 			currLevel = newLevel;
 			w.subWikifyTerm(stack[stack.length-1],this.termRegExp);
-			createTiddlyElement(stack[stack.length-1],"br");
+			createTiddlyElement(stack[stack.length-1],'br');
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			var matched = lookaheadMatch && lookaheadMatch.index == w.nextMatch;
@@ -343,40 +344,40 @@ config.socialTextFormatters = [
 },
 
 {
-	name: "socialtextRule",
-	match: "^----+$\\n+",
+	name: 'socialtextRule',
+	match: '^----+$\\n+',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"hr");
+		createTiddlyElement(w.output,'hr');
 	}
 },
 
 {
-	name: "socialtextPreformatted",
-	match: "^\\.pre\\s*\\n",
+	name: 'socialtextPreformatted',
+	match: '^\\.pre\\s*\\n',
 	lookaheadRegExp: /^.pre\s*\n((?:.|\n)*?)\n.pre\s*\n/mg,
-	element: "pre",
+	element: 'pre',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 {
-	name: "socialtextHtml",
-	match: "^\\.html",
+	name: 'socialtextHtml',
+	match: '^\\.html',
 	lookaheadRegExp: /\.html((?:.|\n)*?)\.html/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			createTiddlyElement(w.output,"span").innerHTML = lookaheadMatch[1];
+			createTiddlyElement(w.output,'span').innerHTML = lookaheadMatch[1];
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	}
 },
 
 {
-	name: "macro",
-	match: "<<",
+	name: 'macro',
+	match: '<<',
 	lookaheadRegExp: /<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>/mg,
 	handler: function(w)
 	{
@@ -390,7 +391,7 @@ config.socialTextFormatters = [
 },
 
 {
-	name: "socialtextExplicitLink",
+	name: 'socialtextExplicitLink',
 	match: '(?:".*?" ?)?\\[',
 	lookaheadRegExp: /(?:\"(.*?)\" ?)?\[([^\]]*?)\]/mg,
 	handler: function(w)
@@ -400,14 +401,14 @@ config.socialTextFormatters = [
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var link = lookaheadMatch[2];
 			var text = lookaheadMatch[1] ? lookaheadMatch[1] : link;
-			createTiddlyText(createTiddlyLink(w.output,link,false,null,w.isStatic),text);
+			createTiddlyText(createTiddlyLink(w.output,link,false,null,w.isStatic,w.tiddler),text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	}
 },
 
 {
-	name: "socialtextExternalLink",
+	name: 'socialtextExternalLink',
 	match: '(?:".*?" ?)?<[a-z]{2,8}:',
 	lookaheadRegExp: /(?:\"(.*?)\" ?)?<([a-z]{2,8}:.*?)>/mg,
 	imgRegExp: /\.(?:gif|ico|jpg|png)/g,
@@ -420,7 +421,7 @@ config.socialTextFormatters = [
 			var text = lookaheadMatch[1] ? lookaheadMatch[1] : link;
 			this.imgRegExp.lastIndex = 0;
 			if(this.imgRegExp.exec(link)) {
-				var img = createTiddlyElement(w.output,"img");
+				var img = createTiddlyElement(w.output,'img');
 				if(lookaheadMatch[1]) {
 					img.title = text;
 				}
@@ -435,7 +436,7 @@ config.socialTextFormatters = [
 },
 
 {
-	name: "socialtextUrlLink",
+	name: 'socialtextUrlLink',
 	match: config.textPrimitives.urlPattern,
 	handler: function(w)
 	{
@@ -444,93 +445,93 @@ config.socialTextFormatters = [
 },
 
 {
-	name: "socialtextBold",
-	match: "\\*(?![\\s\\*])",
+	name: 'socialtextBold',
+	match: '\\*(?![\\s\\*])',
 	lookaheadRegExp: /\*(?!\s)(?:.*?)(?!\s)\*(?=[$\s\._\-])/mg,
 	termRegExp: /((?!\s)\*(?=[$\s\.\-_]))/mg,
-	element: "strong",
+	element: 'strong',
 	handler: config.formatterHelpers.singleCharFormat
 },
 
 {
-	name: "socialtextItalic",
-	match: "_(?![\\s_])",
+	name: 'socialtextItalic',
+	match: '_(?![\\s_])',
 	lookaheadRegExp: /_(?!\s)(?:.*?)(?!\s)_(?=[$\s\.\*\-])/mg,
 	termRegExp: /((?!\s)_(?=[$\s\.\*\-]))/mg,
-	element: "em",
+	element: 'em',
 	handler: config.formatterHelpers.singleCharFormat
 },
 
 {
-	name: "socialtextStrike",
-	match: "-(?![\\s\\-])",
+	name: 'socialtextStrike',
+	match: '-(?![\\s\\-])',
 	lookaheadRegExp: /-(?!\s)(?:.*?)(?!\s)-(?=[$\s\.\*_])/mg,
 	termRegExp: /((?!\s)-(?=[$\s\.\*_]))/mg,
-	element: "del",
+	element: 'del',
 	handler: config.formatterHelpers.singleCharFormat
 },
 
 {
-	name: "socialtextMonoSpaced",
-	match: "`(?![\\s`])",
+	name: 'socialtextMonoSpaced',
+	match: '`(?![\\s`])',
 	lookaheadRegExp: /`(?!\s)(?:.*?)(?!\s)`(?=[$\s\.\*\-_])/mg,
 	termRegExp: /((?!\s)`(?=[$\s\.\*\-_]))/mg,
-	element: "tt",
+	element: 'tt',
 	handler: config.formatterHelpers.singleCharFormat
 },
 
 {
-	name: "socialtextParagraph",
-	match: "\\n{2,}",
+	name: 'socialtextParagraph',
+	match: '\\n{2,}',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"p");
+		createTiddlyElement(w.output,'p');
 	}
 },
 
 {
-	name: "socialtextLineBreak",
-	match: "\\n",
+	name: 'socialtextLineBreak',
+	match: '\\n',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"br");
+		createTiddlyElement(w.output,'br');
 	}
 },
 
 {
-	name: "socialtextNoWiki",
-	match: "\\{\\{",
+	name: 'socialtextNoWiki',
+	match: '\\{\\{',
 	lookaheadRegExp: /\{\{((?:.|\n)*?)\}\}/mg,
-	element: "span",
+	element: 'span',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 {
-	name: "socialtextTrademark",
-	match: "\\{tm\\}",
+	name: 'socialtextTrademark',
+	match: '\\{tm\\}',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"span").innerHTML = "&trade;";
+		createTiddlyElement(w.output,'span').innerHTML = '&trade;';
 	}
 },
 
 {
-	name: "socialtextWafl",
-	match: "\\{(?:[a-z]{2,16}): ?.*?\\}",
+	name: 'socialtextWafl',
+	match: '\\{(?:[a-z]{2,16}): ?.*?\\}',
 	lookaheadRegExp: /\{([a-z]{2,16}): ?(.*?)\}/mg,
 	handler: socialtextFormatter.wafl
 },
 
 {
-	name: "socialtextPresence",
-	match: "(?:aim|yahoo|ymsgr|skype|callto|asap):\\w+",
+	name: 'socialtextPresence',
+	match: '(?:aim|yahoo|ymsgr|skype|callto|asap):\\w+',
 	lookaheadRegExp: /(aim|yahoo|ymsgr|skype|callto|asap):(\w+)/mg,
 	handler: socialtextFormatter.presence
 },
 
 {
-	name: "socialtextMailTo",
-	match: "[\\w\.]+@[\\w]+\.[\\w\.]+",
+	name: 'socialtextMailTo',
+	match: '[\\w\.]+@[\\w]+\.[\\w\.]+',
 	lookaheadRegExp: /([\w\.]+@[\w]+\.[\w\.]+)/mg,
 	handler: function(w)
 	{
@@ -538,24 +539,24 @@ config.socialTextFormatters = [
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var text = lookaheadMatch[1];
-			createTiddlyText(createExternalLink(w.output,"mailto:"+text),text);
+			createTiddlyText(createExternalLink(w.output,'mailto:'+text),text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	}
 },
 
 {
-	name: "socialtextHtmlEntitiesEncoding",
-	match: "&#?[a-zA-Z0-9]{2,8};",
+	name: 'socialtextHtmlEntitiesEncoding',
+	match: '&#?[a-zA-Z0-9]{2,8};',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"span").innerHTML = w.matchText;
+		createTiddlyElement(w.output,'span').innerHTML = w.matchText;
 	}
 }
 ];
 
 config.parsers.socialTextFormatter = new Formatter(config.socialTextFormatters);
-config.parsers.socialTextFormatter.format = "Socialtext";
-config.parsers.socialTextFormatter.formatTag = "SocialtextFormat";
-} // end of "install only once"
+config.parsers.socialTextFormatter.format = 'Socialtext';
+config.parsers.socialTextFormatter.formatTag = 'SocialtextFormat';
+} // end of 'install only once'
 //}}}
