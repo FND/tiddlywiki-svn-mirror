@@ -57,6 +57,14 @@ if(config.options.chkMediaWikiDisplayEnableThumbZoom == undefined)
 if(config.options.chkMediaWikiListReferences == undefined)
 	{config.options.chkMediaWikiListReferences = false;}
 
+MediaWikiFormatter = {}; // 'namespace' for local functions
+
+mwDebug = function(out,str)
+{
+	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
+	createTiddlyElement2(out,'br');
+};
+
 config.macros.list.templates = {};
 config.macros.list.templates.handler = function(params)
 {
@@ -78,7 +86,7 @@ TiddlyWiki.prototype.getMediaWikiArticles = function()
 {
 	var results = [];
 	this.forEachTiddler(function(title,tiddler) {
-		if(!tiddler.isTagged("excludeLists") && tiddler.title.substr(0,9)!='Template:')
+		if(!tiddler.isTagged('excludeLists') && tiddler.title.substr(0,9)!='Template:')
 			results.push(tiddler);
 		});
 	results.sort(function(a,b) {return a.title < b.title ? -1 : (a.title == b.title ? 0 : +1);});
@@ -112,14 +120,6 @@ function createTiddlyElement2(parent,element)
 config.formatterHelpers.createElementAndWikify = function(w)
 {
 	w.subWikifyTerm(createTiddlyElement2(w.output,this.element),this.termRegExp);
-};
-
-MediaWikiFormatter = {}; // 'namespace' for local functions
-
-mwDebug = function(out,str)
-{
-	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
-	createTiddlyElement2(out,'br');
 };
 
 MediaWikiFormatter.hijackListAll = function ()
@@ -238,7 +238,7 @@ MediaWikiFormatter.readToDelim = function(w)
 	tRegExp.lastIndex = w.startMatch;
 	var tMatch = tRegExp.exec(w.source);
 	if(!tMatch) {
-		//mwDebug(w.output,'ERROR1');
+		//#mwDebug(w.output,'ERROR1');
 		return false;
 	}
 
@@ -282,7 +282,7 @@ MediaWikiFormatter.readToDelim = function(w)
 		w.matchLength = tMatch.index - w.startMatch;
 		return false;
 	}
-	//mwDebug(w.output,'ERROR2');
+	//#mwDebug(w.output,'ERROR2');
 	//# return term
 	w.nextMatch = tRegExp.lastIndex;
 	w.matchLength = -1;
@@ -373,11 +373,11 @@ config.mediaWikiFormatters = [
 
 {
 	name: 'mediaWikiTable',
-	match: "^\\{\\|", // ^{|
-	tableTerm: "\\n\\|\\}", // |}
-	rowStart: "\\n\\|\\-", // \n|-
-	cellStart: "\\n!|!!|\\|\\||\\n\\|", //\n! or !! or || or \n|
-	caption: "\\n\\|\\+",
+	match: '^\\{\\|', // ^{|
+	tableTerm: '\\n\\|\\}', // |}
+	rowStart: '\\n\\|\\-', // \n|-
+	cellStart: '\\n!|!!|\\|\\||\\n\\|', //\n! or !! or || or \n|
+	caption: '\\n\\|\\+',
 	rowTerm: null,
 	cellTerm: null,
 	inCellTerm: null,
@@ -753,6 +753,7 @@ config.mediaWikiFormatters = [
 				var e;
 				var link = lookaheadMatch[3];
 				var text = link;
+				//var link2 = link;
 				link = link.substr(0,1).toUpperCase() + link.substring(1);
 				if(lookaheadMatch[4]) {
 					// Simple bracketted link
@@ -760,7 +761,8 @@ config.mediaWikiFormatters = [
 						var a = createTiddlyElement2(e,'a');// drop anchor
 						a.setAttribute('name',link);
 					} else {
-						e = createTiddlyLink(w.output,link,false,null,w.isStatic);
+					//#mwDebug(w.output,'fm1:'+w.tiddler.title);
+						e = createTiddlyLink(w.output,link,false,null,w.isStatic,w.tiddler);
 						if(lookaheadMatch[5]) {
 							text += lookaheadMatch[5];//add any non-space after the ]]
 						}
@@ -771,7 +773,8 @@ config.mediaWikiFormatters = [
 					if(config.formatterHelpers.isExternalLink(link)) {
 						e = createExternalLink(w.output,link);
 					} else {
-						e = createTiddlyLink(w.output,link,false,null,w.isStatic);
+					//#mwDebug(w.output,'fm2:'+w.tiddler.title);
+						e = createTiddlyLink(w.output,link,false,null,w.isStatic,w.tiddler);
 					}
 					var oldSource = w.source; var oldMatch = w.nextMatch;
 					w.source = lookaheadMatch[7].trim(); w.nextMatch = 0;
