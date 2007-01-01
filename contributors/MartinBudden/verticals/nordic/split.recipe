@@ -1,5 +1,9 @@
 title: title.html
-tiddler: Tiddlypedia.tiddler
-recipe: nordic.recipe
-recipe: systemtiddlers.recipe
+recipe: content.recipe
 recipe: templates.recipe
+tiddler: ../../tiddlers/MainMenuHome.tiddler
+tiddler: ../../tiddlers/DefaultTiddlers.tiddler
+tiddler: Home.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteUrl.tiddler
