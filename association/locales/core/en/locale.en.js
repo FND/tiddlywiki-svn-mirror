@@ -1,10 +1,11 @@
 /***
 |''Name:''|EnglishTranslationPlugin|
 |''Description:''|Translation of TiddlyWiki into English|
-|''Source:''|www.???.com|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Version:''|1.0.0|
-|''Date:''|Nov 11, 2006|
+|''Source:''|www.???.com|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js|
+|''Version:''|0.1.0|
+|''Date:''|Jan 3, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -18,6 +19,14 @@
 
 merge(config.options,{
 	txtUserName: "YourName"});
+
+config.tasks = {
+	tidy: {text: "tidy up", tooltip: "Make bulk changes across groups of tiddlers", content: 'Coming soon...\n\nThis tab will allow bulk operations on tiddlers, and tags. It will be a generalised, extensible version of the plugins tab'},
+	sync: {text: "sync", tooltip: "Synchronise changes with other TiddlyWiki files and servers", content: '<<sync>>'},
+	importTask: {text: "import", tooltip: "Import tiddlers and plugins from other TiddlyWiki files and servers", content: '<<importTiddlers>>'},
+	copy: {text: "copy", tooltip: "Copy tiddlers to other TiddlyWiki files and servers", content: 'Coming soon...\n\nThis tab will allow tiddlers to be copied to remote servers'},
+	plugins: {text: "plugins", tooltip: "Manage installed plugins", content: '<<plugins>>'}
+};
 
 merge(config.messages,{
 	customConfigError: "Problems were encountered loading plugins. See PluginManager for details",
@@ -34,7 +43,7 @@ merge(config.messages,{
 	externalLinkTooltip: "External link to %0",
 	noTags: "There are no tagged tiddlers",
 	notFileUrlError: "You need to save this TiddlyWiki to a file before you can save changes",
-	cantSaveError: "It's not possible to save changes. This could be because your browser doesn't support saving (instead, use FireFox if you can), or because the pathname to your TiddlyWiki file contains illegal characters",
+	cantSaveError: "It's not possible to save changes. Possible reasons include:\n- your browser doesn't support saving (Firefox, Internet Explorer, Safari and Opera all work if properly configured)\n- the pathname to your TiddlyWiki file contains illegal characters\n- the TiddlyWiki HTML file has been moved or renamed",
 	invalidFileError: "The original file '%0' does not appear to be a valid TiddlyWiki",
 	backupSaved: "Backup saved",
 	backupFailed: "Failed to save backup file",
@@ -56,7 +65,8 @@ merge(config.messages,{
 	tiddlerLoadError: "Error when loading tiddler '%0'",
 	wrongSaveFormat: "Cannot save with storage format '%0'. Using standard format for save.",
 	invalidFieldName: "Invalid field name %0",
-	fieldCannotBeChanged: "Field '%0' cannot be changed"});
+	fieldCannotBeChanged: "Field '%0' cannot be changed",
+	backstagePrompt: "backstage: "});
 
 merge(config.messages.messageClose,{
 	text: "close",
@@ -149,9 +159,16 @@ merge(config.macros.newJournal,{
 	accessKey: "J"});
 
 merge(config.macros.plugins,{
+	wizardTitle: "Manage plugins",
+	step1Title: "Currently loaded plugins",
+	step1Html: "<input type='hidden' name='markList'></input>",
 	skippedText: "(This plugin has not been executed because it was added since startup)",
 	noPluginText: "There are no plugins installed",
-	confirmDeleteText: "Are you sure you want to delete these tiddlers:\n\n%0",
+	confirmDeleteText: "Are you sure you want to delete these plugins:\n\n%0",
+	removeLabel: "remove systemConfig tag",
+	removePrompt: "Remove systemConfig tag",
+	deleteLabel: "delete",
+	deletePrompt: "Delete these tiddlers forever",
 	listViewTemplate : {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
@@ -165,11 +182,6 @@ merge(config.macros.plugins,{
 		rowClasses: [
 			{className: 'error', field: 'error'},
 			{className: 'warning', field: 'warning'}
-			],
-		actions: [
-			{caption: "More actions...", name: ''},
-			{caption: "Remove systemConfig tag", name: 'remove'},
-			{caption: "Delete these tiddlers forever", name: 'delete'}
 			]}
 	});
 
@@ -179,23 +191,26 @@ merge(config.macros.refreshDisplay,{
 	});
 
 merge(config.macros.importTiddlers,{
-	readOnlyWarning: "You cannot import tiddlers into a read-only TiddlyWiki. Try opening the TiddlyWiki file from a file:// URL",
-	defaultPath: "http://www.tiddlywiki.com/index.html",
+	readOnlyWarning: "You cannot import into a read-only TiddlyWiki file. Try opening it from a file:// URL",
+	wizardTitle: "Import tiddlers from another TiddlyWiki file",
+	step1Title: "Step 1: Locate the TiddlyWiki file",
+	step1Html: "Enter the URL or pathname here: <input type='text' size=50 name='txtPath'><br>...or browse for a file: <input type='file' size=50 name='txtBrowse'><br>...or select a pre-defined feed: <select name='selFeeds'><option value=''>Choose...</option</select>",
 	fetchLabel: "fetch",
 	fetchPrompt: "Fetch the tiddlywiki file",
 	fetchError: "There were problems fetching the tiddlywiki file",
+	step2Title: "Step 2: Loading TiddlyWiki file",
+	step2Html: "Please wait while the file is loaded from: <strong><input type='hidden' name='markPath'></input></strong>",
+	cancelLabel: "cancel",
+	cancelPrompt: "Cancel this import",
+	step3Title: "Step 3: Choose the tiddlers to import",
+	step3Html: "<input type='hidden' name='markList'></input>",
+	importLabel: "import",
+	importPrompt: "Import these tiddlers",
 	confirmOverwriteText: "Are you sure you want to overwrite these tiddlers:\n\n%0",
-	wizardTitle: "Import tiddlers from another TiddlyWiki file",
-	step1: "Step 1: Locate the TiddlyWiki file",
-	step1prompt: "Enter the URL or pathname here: ",
-	step1promptFile: "...or browse for a file: ",
-	step1promptFeeds: "...or select a pre-defined feed: ",
-	step1feedPrompt: "Choose...",
-	step2: "Step 2: Loading TiddlyWiki file",
-	step2Text: "Please wait while the file is loaded from: %0",
-	step3: "Step 3: Choose the tiddlers to import",
-	step4: "%0 tiddler(s) imported",
-	step5: "Done",
+	step4Title: "%0 tiddler(s) imported",
+	step4Html: "<input type='hidden' name='markReport'></input>",
+	doneLabel: "done",
+	donePrompt: "Close this wizard",
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
@@ -204,12 +219,29 @@ merge(config.macros.importTiddlers,{
 			{name: 'Tags', field: 'tags', title: "Tags", type: 'Tags'}
 			],
 		rowClasses: [
-			],
-		actions: [
-			{caption: "More actions...", name: ''},
-			{caption: "Import these tiddlers", name: 'import'}
 			]}
 	});
+
+merge(config.macros.sync,{
+	listViewTemplate: {
+		columns: [
+			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
+			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "Title", type: 'TiddlerLink'},
+			{name: 'Local Status', field: 'localStatus', title: "Changed on your computer?", type: 'String'},
+			{name: 'Server Status', field: 'serverStatus', title: "Changed on server?", type: 'String'},
+			{name: 'Server URL', field: 'serverUrl', title: "Server URL", text: "View", type: 'Link'}
+			],
+		rowClasses: [
+			],
+		buttons: [
+			{caption: "Sync these tiddlers", name: 'sync'}
+			]},
+	wizardTitle: "Synchronize your content with external servers and feeds",
+	step1Title: "Choose the tiddlers you want to synchronize",
+	step1Html: '<input type="hidden" name="markList"></input>',
+	syncLabel: "sync",
+	syncPrompt: "Sync these tiddlers"
+});
 
 merge(config.commands.closeTiddler,{
 	text: "close",
