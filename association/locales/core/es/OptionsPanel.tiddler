@@ -1,0 +1,19 @@
+<div title="OptionsPanel" modifier="ClintChecketts" tags="excludeLists">
+<pre>Estas OpcionesDeLaInterfaz para personalizar TiddlyWiki están siendo guardadas en tu navegador
+
+Tu nombre de usuario para firmar los textos. Escribelo en una sola palabra WikiWord (eg JuanBloggs)
+
+
+&lt;&lt;option txtUserName&gt;&gt;
+&lt;&lt;option chkSaveBackups&gt;&gt; GuardarRespaldo
+&lt;&lt;option chkAutoSave&gt;&gt; AutoGuardar
+&lt;&lt;option chkRegExpSearch&gt;&gt; BuscarRegExp
+&lt;&lt;option chkCaseSensitiveSearch&gt;&gt; BusquedaSensibleMayus
+&lt;&lt;option chkAnimate&gt;&gt; ActivarAnimaciones
+
+----
+OpcionesAvanzadas
+[[AdministradordePlugins|PluginManager]]
+[[ImportarTiddlers|ImportTiddlers]]
+</pre>
+</div>
