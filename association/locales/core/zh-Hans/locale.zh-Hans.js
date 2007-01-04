@@ -3,11 +3,11 @@
 |''Description:''|Translation of TiddlyWiki into Simply Chinese|
 |''Source:''|http://tiddlywiki-zh.googlecode.com/svn/trunk/|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
-|''Version:''|1.0.0.1|
-|''Date:''|Dec 04, 2006|
+|''Version:''|1.1.0.1|
+|''Date:''|Jan 4, 2007|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|''~CoreVersion:''|2.1.0|
+|''~CoreVersion:''|2.2.0|
 ***/
 
 /*{{{*/
@@ -43,7 +43,7 @@ merge(config.messages,{
 	externalLinkTooltip: "外部链接至 %0",
 	noTags: "未设置标签的文章",
 	notFileUrlError: "须先将此 TiddlyWiki 存至本机文件，才可保存变更",
-	cantSaveError: "此浏览器无法保存变更，建议使用FireFox；也可能是你的 TiddlyWiki 文件名称包含不合法的字符所致。",
+	cantSaveError: "无法保存变更。可能的原因有：\n- 你的浏览器不支援此保存功能（Firefox, Internet Explorer, Safari and Opera 经适当设定后可保存变更）\n- 也可能是你的 TiddlyWiki 文件名称包含不合法的字符所致。\n- 或是 TiddlyWiki 文件被改名或搬移。",
 	invalidFileError: " '%0' 非有效之 TiddlyWiki 文件",
 	backupSaved: "已保存备份",
 	backupFailed: "无法保存备份",
