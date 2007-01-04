@@ -1,4 +1,4 @@
-<div title="GelişmişSeçenekler" modifier="KıvılcımHindistan" created="200612050000">
+<div title="GelişmişSeçenekler" modifier="KıvılcımHindistan" tags="excludeLists">
 <pre>&lt;&lt;option chkGenerateAnRssFeed&gt;&gt; GenerateAnRssFeed
 &lt;&lt;option chkOpenInNewWindow&gt;&gt; OpenLinksInNewWindow
 &lt;&lt;option chkSaveEmptyTemplate&gt;&gt; SaveEmptyTemplate
@@ -10,5 +10,6 @@
 &lt;&lt;option chkConfirmDelete&gt;&gt; SilmedenÖnceOnayla
  Düzenlenemez bir kutudaki maksimum satır sayısı: &lt;&lt;option txtMaxEditRows&gt;&gt;
 Yedekleme dosyası için dizin ismi: &lt;&lt;option txtBackupFolder&gt;&gt;
-&lt;&lt;option chkInsertTabs&gt;&gt; Tab tuşunu bir sonraki alana geçmek için değil TAB karakteri girmek için kullanın </pre>
+&lt;&lt;option chkInsertTabs&gt;&gt; Tab tuşunu bir sonraki alana geçmek için değil TAB karakteri girmek için kullanın
+&lt;&lt;option txtFileSystemCharSet&gt;&gt; Character set to use for saving (Firefox/Mozilla only)</pre>
 </div>
