@@ -1,10 +1,11 @@
 /***
 |''Name:''|TurkishTranslationPlugin|
 |''Description:''|Translation of TiddlyWiki into Turkish|
-|''Source:''|www.fazlamesai.net/sundance|
 |''Author:''|Kıvılcım Hindistan|
-|''Version:''|1.0.0|
-|''Date:''|Dec 05, 2006|
+|''Source:''|www.fazlamesai.net/sundance|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/tr/locale.tr.js|
+|''Version:''|0.1.1|
+|''Date:''|Jan 05, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -16,8 +17,18 @@
 
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
+config.locale = "tr"; // W3C language tag
+
 merge(config.options,{
 	txtUserName: "İsminiz"});
+
+config.tasks = {
+	tidy: {text: "tidy up", tooltip: "Make bulk changes across groups of tiddlers", content: 'Coming soon...\n\nThis tab will allow bulk operations on tiddlers, and tags. It will be a generalised, extensible version of the plugins tab'},
+	sync: {text: "sync", tooltip: "Synchronise changes with other TiddlyWiki files and servers", content: '<<sync>>'},
+	importTask: {text: "import", tooltip: "Import tiddlers and plugins from other TiddlyWiki files and servers", content: '<<importTiddlers>>'},
+	copy: {text: "copy", tooltip: "Copy tiddlers to other TiddlyWiki files and servers", content: 'Coming soon...\n\nThis tab will allow tiddlers to be copied to remote servers'},
+	plugins: {text: "plugins", tooltip: "Manage installed plugins", content: '<<plugins>>'}
+};
 
 merge(config.messages,{
 	customConfigError: "Pluginleri yüklerken problemlerle karşılaşılmıştır. Detaylar için Plugin Yöneticisine bakınız.",
@@ -34,7 +45,7 @@ merge(config.messages,{
 	externalLinkTooltip: "%0'a dış link",
 	noTags: "Etiketlenmiş notcuk bulunmamaktadır",
 	notFileUrlError: "Değişiklikleri kaydedebilmek için bu TiddlyWiki'yi bir dosyaya kaydetmeniz gerekmektedir",
-	cantSaveError: "Değişiklikleri kaydetmek mümkün değildir. Olası sebepler:\n- Tarayıcınız dosya kaydetmeyi desteklemiyordur. (Firefox, Internet Explorer, Safari and Opera doğru konfigüre edildilerse bu özelliği desteklemektedirler)\n- TiddlyWiki dosyanızın sistemdeki yolu, problemli karakterler içermektedir \n-  TiddlyWiki HTML dosyanız başka bir yere taşınmış ya da ismi değiştirilmiştir.",
+	cantSaveError: "It's not possible to save changes. Possible reasons include:\n- your browser doesn't support saving (Firefox, Internet Explorer, Safari and Opera all work if properly configured)\n- the pathname to your TiddlyWiki file contains illegal characters\n- the TiddlyWiki HTML file has been moved or renamed",
 	invalidFileError: "Orjinal '%0' dosyası geçerli bir TiddlyWiki'ye benzemiyor",
 	backupSaved: "Yedek dosyası kaydedildi",
 	backupFailed: "Yedek dosyasının kaydı başarılamadı",
@@ -56,7 +67,8 @@ merge(config.messages,{
 	tiddlerLoadError: "'%0' isimli notcuku yüklerken hata oluştu",
 	wrongSaveFormat: "'%0' kayıt formatında kaydedilemedi. Kayıt için standart format kullanılıyor..",
 	invalidFieldName: "%0 geçersiz alan ismi",
-	fieldCannotBeChanged: "'%0' alanı değiştirilemez."});
+	fieldCannotBeChanged: "'%0' alanı değiştirilemez.",
+	backstagePrompt: "backstage: "});
 
 merge(config.messages.messageClose,{
 	text: "kapat",
@@ -66,6 +78,13 @@ config.messages.dates.months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Ha
 config.messages.dates.days = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
 config.messages.dates.shortMonths = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"];
 config.messages.dates.shortDays = ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"];
+// suffixes for dates, eg "1st","2nd","3rd"..."30th","31st"
+config.messages.dates.daySuffixes = ["st","nd","rd","th","th","th","th","th","th","th",
+		"th","th","th","th","th","th","th","th","th","th",
+		"st","nd","rd","th","th","th","th","th","th","th",
+		"st"];
+config.messages.dates.am = "am";
+config.messages.dates.pm = "pm";
 
 merge(config.views.wikified.tag,{
 	labelNoTags: "etiket yok",
@@ -80,6 +99,7 @@ merge(config.views.wikified,{
 	defaultText: "'%0' notu halihazırda mevcut değil. Oluşturmak için çift klikleyin",
 	defaultModifier: "(eksik)",
 	shadowModifier: "(dahili gölge notcuk)",
+	dateFormat: "DD MMM YYYY",
 	createdPrompt: "Oluşturulduğu tarih"});
 
 merge(config.views.editor,{
@@ -142,10 +162,15 @@ merge(config.macros.newJournal,{
 
 merge(config.macros.plugins,{
 	wizardTitle: "Pluginler",
+	step1Title: "Şu anda yüklenmekte olan pluginler",
+	step1Html: "<input type='hidden' name='markList'></input>",
 	skippedText: "(Bu plugin TiddlyWiki başlatıldıktan sonra eklendiği için çalıştırılamamıştır)",
-	step1: "Şu anda yüklenmekte olan pluginler",
 	noPluginText: "Kurulu plugin bulunmamaktadır",
 	confirmDeleteText: "Bu notcukları silmek istiyor musunuz?:\n\n%0",
+	removeLabel: "remove systemConfig tag",
+	removePrompt: "Remove systemConfig tag",
+	deleteLabel: "delete",
+	deletePrompt: "Delete these tiddlers forever",
 	listViewTemplate : {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
@@ -159,11 +184,6 @@ merge(config.macros.plugins,{
 		rowClasses: [
 			{className: 'error', field: 'error'},
 			{className: 'warning', field: 'warning'}
-			],
-		actions: [
-			{caption: "Başka işlemle...", name: ''},
-			{caption: "systemConfig etiketini silin", name: 'remove'},
-			{caption: "Bu notcukları sonsuza kadar silin", name: 'delete'}
 			]}
 	});
 
@@ -174,22 +194,25 @@ merge(config.macros.refreshDisplay,{
 
 merge(config.macros.importTiddlers,{
 	readOnlyWarning: "Mevcut notcukları salt-okunur bir TiddlyWiki'ye giremezsiniz. TiddlyWiki dosyasını  file:// URL şeklinde yerelinizde açmayı deneyin",
-	defaultPath: "http://www.tiddlywiki.com/index.html",
+	wizardTitle: "Başka bir TiddlyWiki dosyasından notcukları almak",
+	step1Title: "Adım 1: TiddlyWiki dosyasını seçin",
+	step1Html: "URL ya da dosya sistemindeki yeri girin: <input type='text' size=50 name='txtPath'><br>...veya dosyayı bulun: <input type='file' size=50 name='txtBrowse'><br>...ya da daha önceden tanımlanmış bir akışı seçin: <select name='selFeeds'><option value=''>Seçin...</option</select>",
 	fetchLabel: "Getir",
 	fetchPrompt: "TiddlyWiki dosyasını getir",
 	fetchError: "TiddlyWiki dosyası getirilirken problemler yaşandı",
+	step2Title: "Adım 2: TiddlyWiki dosyası yükleniyor",
+	step2Html: "Please wait while the file is loaded from: <strong><input type='hidden' name='markPath'></input></strong>",
+	cancelLabel: "cancel",
+	cancelPrompt: "Cancel this import",
+	step3Title: "Adım 3: Transfer edilecek notcukları seçin",
+	step3Html: "<input type='hidden' name='markList'></input>",
+	importLabel: "import",
+	importPrompt: "Import these tiddlers",
 	confirmOverwriteText: "Bu notcukların üzerine yazmak istiyor musunuz? :\n\n%0",
-	wizardTitle: "Başka bir TiddlyWiki dosyasından notcukları almak",
-	step1: "Adım 1: TiddlyWiki dosyasını seçin",
-	step1prompt: "URL ya da dosya sistemindeki yeri girin: ",
-	step1promptFile: "...veya dosyayı bulun: ",
-	step1promptFeeds: "...ya da daha önceden tanımlanmış bir akışı seçin: ",
-	step1feedPrompt: "Seçin...",
-	step2: "Adım 2: TiddlyWiki dosyası yükleniyor",
-	step2Text: "Dosya %0'dan yüklenirken lütfen bekleyin.",
-	step3: "Adım 3: Transfer edilecek notcukları seçin",
-	step4: "%0 notcuk transfer edildi",
-	step5: "Bitti",
+	step4Title: "%0 notcuk transfer edildi",
+	step4Html: "<input type='hidden' name='markReport'></input>",
+	doneLabel: "bitti",
+	donePrompt: "Close this wizard",
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
@@ -198,12 +221,29 @@ merge(config.macros.importTiddlers,{
 			{name: 'Tags', field: 'tags', title: "Etiketler", type: 'Tags'}
 			],
 		rowClasses: [
-			],
-		actions: [
-			{caption: "Diğer eylemler...", name: ''},
-			{caption: "Bu notcukları transfer et", name: 'import'}
 			]}
 	});
+
+merge(config.macros.sync,{
+	listViewTemplate: {
+		columns: [
+			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
+			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "Title", type: 'TiddlerLink'},
+			{name: 'Local Status', field: 'localStatus', title: "Changed on your computer?", type: 'String'},
+			{name: 'Server Status', field: 'serverStatus', title: "Changed on server?", type: 'String'},
+			{name: 'Server URL', field: 'serverUrl', title: "Server URL", text: "View", type: 'Link'}
+			],
+		rowClasses: [
+			],
+		buttons: [
+			{caption: "Sync these tiddlers", name: 'sync'}
+			]},
+	wizardTitle: "Synchronize your content with external servers and feeds",
+	step1Title: "Choose the tiddlers you want to synchronize",
+	step1Html: '<input type="hidden" name="markList"></input>',
+	syncLabel: "sync",
+	syncPrompt: "Sync these tiddlers"
+});
 
 merge(config.commands.closeTiddler,{
 	text: "kapat",
@@ -254,7 +294,7 @@ merge(config.shadowTiddlers,{
 	SiteTitle: "Benim ~TiddlyWiki'm",
 	SiteSubtitle: "tekrar kullanılabilir, sırasal olmayan, web defteri",
 	SiteUrl: "http://www.tiddlywiki.com/",
-	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel [[SeçeneklerPaneli]] "seçenekler" "Gelişmiş TiddlyWiki seçeneklerini değiştirmek">>',
+	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "seçenekler »" "Gelişmiş TiddlyWiki seçeneklerini değiştirmek">>',
 	SideBarTabs: '<<tabs txtMainTab "Zaman Akışı" "Zaman Akışı" TabTimeline "Tümü" "Bütün notcuklar" TabAll "Etiket" "Bütün etiketler" TabTags "Daha" "Daha fazla notcuk" TabMore>>',
 	TabTimeline: '<<timeline>>',
 	TabAll: '<<list all>>',
@@ -263,7 +303,7 @@ merge(config.shadowTiddlers,{
 	TabMoreMissing: '<<list missing>>',
 	TabMoreOrphans: '<<list orphans>>',
 	TabMoreShadowed: '<<list shadowed>>',
-	PluginYöneticisi: '<<plugins>>',
-	NotTransferEtmek: '<<importTiddlers>>'});
+	PluginManager: '<<plugins>>',
+	ImportTiddlers: '<<importTiddlers>>'});
 
 /*}}}*/
