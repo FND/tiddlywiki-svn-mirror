@@ -16,6 +16,7 @@
 
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
+config.locale = "zh-Hans"; // W3C language tag
 merge(config.options,{
 	txtUserName: "YourName"});
 
@@ -171,16 +172,16 @@ merge(config.macros.plugins,{
 	deletePrompt: "永远删除所选插件",
 	listViewTemplate : {
 		columns: [
-			{name: "Selected", field: "Selected", rowName: "title", type: "Selector"},
-			{name: "Title", field: "title", tiddlerLink: "title", title: "标题", type: "TiddlerLink"},
-			{name: "Executed", field: "executed", title: "已载入", type: "Boolean", trueText: "是", falseText: "否"},
-			{name: "Error", field: "error", title: "载入状态", type: "Boolean", trueText: "错误", falseText: "正常"},
-			{name: "Forced", field: "forced", title: "强制执行", tag: "systemConfigDisable", type: "TagCheckbox"},
-			{name: "Disabled", field: "disabled", title: "停用", tag: "systemConfigDisable", type: "TagCheckbox"},
-			{name: "Log", field: "log", title: "记录", type: "StringList"}
+			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
+			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "标题", type: 'TiddlerLink'},
+			{name: 'Executed', field: 'executed', title: "已载入", type: 'Boolean', trueText: "是", falseText: "否"},
+			{name: 'Error', field: 'error', title: "载入状态", type: 'Boolean', trueText: "错误", falseText: "正常"},
+			{name: 'Forced', field: 'forced', title: "强制执行", tag: 'systemConfigDisable', type: 'TagCheckbox'},
+			{name: 'Disabled', field: 'disabled', title: "停用", tag: 'systemConfigDisable', type: 'TagCheckbox'},
+			{name: 'Log', field: 'log', title: "记录", type: 'StringList'}
 			],
 		rowClasses: [
-			{className: "error", field: "error"},
+			{className: 'error', field: 'error'},
 			{className: 'warning', field: 'warning'}
 			]}
 	});
@@ -234,7 +235,7 @@ merge(config.macros.sync,{
 		rowClasses: [
 			],
 		buttons: [
-			{caption: "Sync these tiddlers", name: 'sync'}
+			{caption: "同步更新这些文章", name: 'sync'}
 			]},
 	wizardTitle: "将你的资料内容与外部服务器与文件同步",
 	step1Title: "选择欲同步的文章",
@@ -288,22 +289,22 @@ merge(config.commands.jump,{
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "GettingStarted",
 	MainMenu: "GettingStarted",
-	SiteTitle: "My TiddlyWiki",
-	SiteSubtitle: "a reusable non-linear personal web notebook",
-	SiteUrl: "http://www.tiddlywiki.com/",
+	SiteTitle: "我的 TiddlyWiki",
+	SiteSubtitle: "一个可重复使用的个人网页式笔记本",
+	SiteUrl: 'http://www.tiddlywiki.com/',
 //	GettingStarted: "使用此 TiddlyWiki 的空白范本之前，请先修改以下默认文章：:\n* SiteTitle 及 SiteSubtitle：网站的标题和副标题，显示于页面上方（在保存变更后，将显示于浏览器视窗的标题列）。\n* MainMenu：主菜单（通常在页面左测）。\n* DefaultTiddlers：包含一些文章的标题，可于进入TiddlyWiki 后开启。\n请输入您的大名，作为所创建/ 编辑文章的署名：<<option txtUserName>>",
 	SideBarOptions: "<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal ' YYYY年0MM月0DD日'>><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  '偏好设置 »' '变更 TiddlyWiki 选项'>>",
 //	OptionsPanel: "这些设置将缓存于浏览器\n请签名<<option txtUserName>>\n (范例：WikiWord)\n\n<<option chkSaveBackups>> 保存备份\n<<option chkAutoSave>> 自动保存\n<<option chkRegExpSearch>> 正规式搜寻\n<<option chkCaseSensitiveSearch>> 区分大小写搜寻\n<<option chkAnimate>> 使用动画显示\n\n[[进阶选项|AdvancedOptions]]\n[[插件管理|PluginManager]]\n[[导入文章|ImportTiddlers]]",
 //	AdvancedOptions: "<<option chkGenerateAnRssFeed>> 产生 RssFeed\n<<option chkOpenInNewWindow>> 链接开启于新视窗\n<<option chkSaveEmptyTemplate>> 保存范本\n<<option chkToggleLinks>> 点击文章使已开启者关闭\n\n<<option chkHttpReadOnly>> 隐藏编辑功能 ({{{http:}}})\n<<option chkForceMinorUpdate>> 修改文章不变更日期时间\n(确认修改同时按 Shift 键，或只按 Ctrl-Shift-Enter)\n<<option chkConfirmDelete>> 删除文章前确认\n\n编辑模式中显示列数: <<option txtMaxEditRows>>\n存放备份文件的资料夹: <<option txtBackupFolder>>\n<<option chkInsertTabs>> 使用 tab 键插入定位字符，而非跳至下一个栏位\n",
 	SideBarTabs: "<<tabs txtMainTab 最近更新 '依更新日期排序' TabTimeline 全部 '所有文章' TabAll 分类 '所有标签' TabTags 更多 '其他' TabMore>>",
-	TabTimeline: "<<timeline>>",
-	TabAll: "<<list all>>",
-	TabTags: "<<allTags>>",
+	TabTimeline: '<<timeline>>',
+	TabAll: '<<list all>>',
+	TabTags: '<<allTags>>',
 	TabMore: "<<tabs txtMoreTab 未完成 '内容空白的文章' TabMoreMissing 未引用 '未被引用的文章' TabMoreOrphans 默认文章 '默认的影子文章' TabMoreShadowed>>",
-	TabMoreMissing: "<<list missing>>",
-	TabMoreOrphans: "<<list orphans>>",
-	TabMoreShadowed: "<<list shadowed>>",
-	PluginManager: "<<plugins>>", 
-	ImportTiddlers: "<<importTiddlers>>"});
+	TabMoreMissing: '<<list missing>>',
+	TabMoreOrphans: '<<list orphans>>',
+	TabMoreShadowed: '<<list shadowed>>',
+	PluginManager: '<<plugins>>',
+	ImportTiddlers: '<<importTiddlers>>'});
 
 /*}}}*/
