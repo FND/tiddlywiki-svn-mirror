@@ -289,8 +289,8 @@ merge(config.commands.jump,{
 	tooltip: "Jump to another open tiddler"});
 
 merge(config.shadowTiddlers,{
-	DefaultTiddlers: "GettingStarted",
-	MainMenu: "GettingStarted",
+	DefaultTiddlers: "[[TranslatedGettingStarted]]",
+	MainMenu: "[[TranslatedGettingStarted]]",
 	SiteTitle: "My TiddlyWiki",
 	SiteSubtitle: "a reusable non-linear personal web notebook",
 	SiteUrl: "http://www.tiddlywiki.com/",
