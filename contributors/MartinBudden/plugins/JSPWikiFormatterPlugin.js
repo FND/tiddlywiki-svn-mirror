@@ -118,8 +118,8 @@ jspWikiFormatter.isExternalLink = function(link)
 		//# Definitely an external link
 		return true;
 	}
-	if (link.indexOf('\\')!=-1 || link.indexOf('/')!=-1){
-		//# Link contains / or \ so is probably an external link
+	if (link.indexOf('\\')!=-1){
+		//# Link contains \ so is probably an external link
 		return true;
 	}
 	//# Otherwise assume it is not an external link
@@ -385,7 +385,7 @@ config.jspWikiFormatters = [
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var text = lookaheadMatch[1];
 			var link = lookaheadMatch[2] ? lookaheadMatch[2] : text;
-			var e = jspWikiFormatter.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
+			var e = jspWikiFormatter.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic,w.tiddler);
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
@@ -417,7 +417,7 @@ config.jspWikiFormatters = [
 		}
 		var output = w.output;
 		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText)) {
-			output = createTiddlyLink(w.output,w.matchText,false,null,w.isStatic);
+			output = createTiddlyLink(w.output,w.matchText,false,null,w.isStatic,w.tiddler);
 		}
 		w.outputText(output,w.matchStart,w.nextMatch);
 	}
@@ -466,7 +466,7 @@ config.jspWikiFormatters = [
 
 {
 	name: 'jspParagraph',
-	match: '\\n',
+	match: '\\n\\n',
 	handler: function(w)
 	{
 		w.output = createTiddlyElement(w.output,'p');
