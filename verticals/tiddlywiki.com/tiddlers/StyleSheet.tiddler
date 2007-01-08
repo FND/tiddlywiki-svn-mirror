@@ -1,1 +1,1 @@
-<div tiddler="StyleSheet" modifier="JeremyRuston" modified="200607201656" created="200603311518" tags="">/***\nThis is a sample style definition to demonstrate CustomCssClass formatting\n***/\n/*{{{*/\n.wrappingClass {color: #666; background: #bbb;}\n/*}}}*/\n\n</div>
+<div tiddler="StyleSheet" modifier="JeremyRuston" modified="200612031950" created="200603311518" tags="">/***\nThis is a sample style definition to demonstrate CustomCssClass formatting\n***/\n/*{{{*/\n.wrappingClass {color: #666; background: #bbb;}\n/*}}}*/\n\n</div>

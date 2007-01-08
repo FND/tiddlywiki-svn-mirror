@@ -70,10 +70,12 @@ tiddler: InstallingPlugins.tiddler
 tiddler: InterfaceOptions.tiddler
 tiddler: InternetExplorer.tiddler
 tiddler: Italian.tiddler
+tiddler: JacksTiddlyWiki.tiddler
 tiddler: Japanese.tiddler
 tiddler: JeremyRuston.tiddler
 tiddler: JumpCommand.tiddler
 tiddler: KeyboardShortcuts.tiddler
+tiddler: Korean.tiddler
 tiddler: LewcidTW.tiddler
 tiddler: LinkToFolders.tiddler
 tiddler: Macros.tiddler
@@ -96,6 +98,7 @@ tiddler: OpenSourceLicense.tiddler
 tiddler: Opera.tiddler
 tiddler: OrphanTiddlers.tiddler
 tiddler: ParameterParser.tiddler
+tiddler: PeachTW.tiddler
 tiddler: PeriodicTable.tiddler
 tiddler: PermaView.tiddler
 tiddler: PermalinkCommand.tiddler
