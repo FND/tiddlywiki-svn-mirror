@@ -474,8 +474,8 @@ config.socialTextFormatters = [
 {
 	name: 'socialtextMonoSpaced',
 	match: '`(?![\\s`])',
-	lookaheadRegExp: /`(?!\s)(?:.*?)(?!\s)`(?=[$\s\.\*\-_])/mg,
-	termRegExp: /((?!\s)`(?=[$\s\.\*\-_]))/mg,
+	lookaheadRegExp: /`(?!\s)(?:.*?)(?!\s)`(?=[$\s\.\*\-_,])/mg,
+	termRegExp: /((?!\s)`(?=[$\s\.\*\-_,]))/mg,
 	element: 'tt',
 	handler: config.formatterHelpers.singleCharFormat
 },
