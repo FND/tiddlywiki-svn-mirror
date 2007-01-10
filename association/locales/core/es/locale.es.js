@@ -7,8 +7,18 @@
 |''Date:''|Jan 02, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|''Credit:''|This translation is thanks to the work of real Spanish speakers like sb56637 and Dave Gifford and Kendersec|
+|''Credit:''|This translation is thanks to the work of real Spanish speakers like jotarp, sb56637 and Dave Gifford and Kendersec|
 |''~CoreVersion:''|2.1.0|
+
+Se han traducido todos los textos con posibilidad de traducción, incluidos los 'tiddlers' AdvancedOptions PluginManager e ImportTiddlers, salvo las palabras 'tiddler' y 'plugin'.
+
+Hay algunas palabras y expresiones cuya traducción puede estar sujeta a discusión. Estas son las traducciones por las que he optado:
+
+|!original|!traducción|
+|Backup|Respaldo|
+|GettingStarted|EmpieceAquí|
+|built-in shadow tiddler|tiddler oculto incluido|
+
 ***/
 
 /*{{{*/
