@@ -1,5 +1,5 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 tiddler: locale.es.js
-tiddler: OpcionesAvanzadas.tiddler
-tiddler: ComoEmpezar.tiddler
+tiddler: AdvancedOptions.tiddler
+tiddler: GettingStarted.tiddler
 tiddler: OptionsPanel.tiddler
