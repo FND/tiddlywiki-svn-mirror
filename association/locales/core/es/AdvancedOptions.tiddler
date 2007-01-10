@@ -9,6 +9,7 @@
 ^^(desactívalo con la tecla Shift al hacer clik con el boton 'guardar' o por usando las teclas Ctrl-Shift-Enter)^^
 &lt;&lt;option chkConfirmDelete&gt;&gt; ConfirmarAntesDeBorrar
 Numero máximo de lineas en un tiddler: &lt;&lt;option txtMaxEditRows&gt;&gt;
-Nombre de la carpeta de copias de seguridad: &lt;&lt;option txtBackupFolder&gt;&gt;</pre>
-&lt;&lt;option chkInsertTabs&gt;&gt; Use la tecla 'tab' para insertar carácteres en vez de saltar al area siguiente</pre>
+Nombre de la carpeta de copias de seguridad: &lt;&lt;option txtBackupFolder&gt;&gt;
+&lt;&lt;option chkInsertTabs&gt;&gt; Use la tecla 'tab' para insertar carácteres en vez de saltar al area siguiente
+&lt;&lt;option txtFileSystemCharSet&gt;&gt; Carácteres para usar al guardar (Firefox/Mozilla solamente)</pre>
 </div>
