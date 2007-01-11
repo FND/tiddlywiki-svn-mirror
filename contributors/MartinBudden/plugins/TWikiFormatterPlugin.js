@@ -128,13 +128,18 @@ config.twikiFormatters = [
 	handler: function(w)
 	{
 		var table = createTiddlyElement(w.output,'table');
-		var rowContainer = createTiddlyElement(table,'tbody');
+		var rowContainer = table;//createTiddlyElement(table,'tbody');
 		var prevColumns = [];
+		var rowCount = 0;
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
-			this.rowHandler(w,createTiddlyElement(rowContainer,'tr'),prevColumns);
+			var rowClass = (rowCount&1) ? 'TD.odd' : 'TD.even';
+			if(rowCount==1) rowClass = 'TD.heading';
+			if(rowCount==3) rowClass = 'TD.third';
+			this.rowHandler(w,createTiddlyElement(rowContainer,'tr',null,rowClass),prevColumns);
+			rowCount++;
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		}
@@ -671,8 +676,8 @@ config.twikiFormatters = [
 
 {
 	name: 'twikiHtmlTag',
-	match: "<(?:[a-zA-Z]{2,}|a)(?:\\s*(?:[a-z]*?=[\"']?[^>]*?[\"']?))*?>",
-	lookaheadRegExp: /<([a-zA-Z]+)((?:\s+[a-z]*?=["']?[^>\/\"\']*?["']?)*?)?\s*(\/)?>/mg,
+	match: "<(?:[a-zA-Z]{2,}|a)(?:\\s*(?:[a-zA-Z]*?=[\"']?[^>]*?[\"']?))*?>",
+	lookaheadRegExp: /<([a-zA-Z]+)((?:\s+[a-zA-Z]*?=["']?[^>\/\"\']*?["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
