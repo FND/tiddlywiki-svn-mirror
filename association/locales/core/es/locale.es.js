@@ -3,8 +3,8 @@
 |''Description:''|Translation of TiddlyWiki into Spanish|
 |''Source:''|www.checkettsweb.com|
 |''Author:''|ClintChecketts (http://blog.checkettsweb.com/contact/)|
-|''Version:''|1.0.0|
-|''Date:''|Jan 02, 2007|
+|''Version:''|0.9.0|
+|''Date:''|Jan 12, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''Credit:''|This translation is thanks to the work of real Spanish speakers like jotarp, sb56637 and Dave Gifford and Kendersec|
