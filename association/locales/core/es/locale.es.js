@@ -1,9 +1,10 @@
 /***
 |''Name:''|SpanishTranslationPlugin|
 |''Description:''|Translation of TiddlyWiki into Spanish|
-|''Source:''|www.checkettsweb.com|
 |''Author:''|ClintChecketts (http://blog.checkettsweb.com/contact/)|
-|''Version:''|0.9.0|
+|''Source:''|www.checkettsweb.com|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/es/locale.es.js|
+|''Version:''|0.9.1|
 |''Date:''|Jan 12, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -29,6 +30,14 @@ Hay algunas palabras y expresiones cuya traducción puede estar sujeta a discusi
 
 merge(config.options,{
 	txtUserName: "SuNombre"});
+
+config.tasks = {
+	tidy: {text: "tidy up", tooltip: "Make bulk changes across groups of tiddlers", content: 'Coming soon...\n\nThis tab will allow bulk operations on tiddlers, and tags. It will be a generalised, extensible version of the plugins tab'},
+	sync: {text: "sync", tooltip: "Synchronise changes with other TiddlyWiki files and servers", content: '<<sync>>'},
+	importTask: {text: "import", tooltip: "Import tiddlers and plugins from other TiddlyWiki files and servers", content: '<<importTiddlers>>'},
+	copy: {text: "copy", tooltip: "Copy tiddlers to other TiddlyWiki files and servers", content: 'Coming soon...\n\nThis tab will allow tiddlers to be copied to remote servers'},
+	plugins: {text: "plugins", tooltip: "Manage installed plugins", content: '<<plugins>>'}
+};
 
 merge(config.messages,{
 	customConfigError: "Se han encontrado problemas cargando plugins. Ver detalles en AdministrarPlugins",
@@ -59,7 +68,7 @@ merge(config.messages,{
 	macroErrorDetails: "Error mientras se ejecutaba la macro <<%0>>:\n%1",
 	missingMacro: "No existe la macro",
 	overwriteWarning: "Ya existe un tiddler llamado '%0'. Elija OK para sobreescribirlo",
-	unsavedChangesWarning: "¡ATENCIÓN! Hay cambios sin guardar en este TiddlyWiki\n\nElija OK para guardar\nElija CANCEL para descartar",
+	unsavedChangesWarning: "¡ATENCIN! Hay cambios sin guardar en este TiddlyWiki\n\nElija OK para guardar\nElija CANCEL para descartar",
 	confirmExit: "--------------------------------\n\nHay cambios sin guardar en este TiddlyWiki. Si continua perderá los cambios\n\n--------------------------------",
 	saveInstructions: "GuardarCambios",
 	unsupportedTWFormat: "Formato de TiddlyWiki no soportado '%0'",
@@ -67,7 +76,8 @@ merge(config.messages,{
 	tiddlerLoadError: "Error al cargar el tiddler '%0'",
 	wrongSaveFormat: "No se puede guardar con el formato '%0'. Se usará el formato estándar para guardar.",
 	invalidFieldName: "Nombre de campo incorrecto %0",
-	fieldCannotBeChanged: "No se puede cambiar el campo '%0'"});
+	fieldCannotBeChanged: "No se puede cambiar el campo '%0'",
+	backstagePrompt: "backstage: "});
 
 merge(config.messages.messageClose,{
 	text: "cerrar",
@@ -77,7 +87,6 @@ config.messages.dates.months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "J
 config.messages.dates.days = ["Domingo", "Lunes","Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 config.messages.dates.shortMonths = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 config.messages.dates.shortDays = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sab"];
-
 // suffixes for dates, eg "1st","2nd","3rd"..."30th","31st"
 config.messages.dates.daySuffixes = ["o","o","o","o","o","o","o","o","o","o",
 		"o","o","o","o","o","o","o","o","o","o",
@@ -99,6 +108,7 @@ merge(config.views.wikified,{
 	defaultText: "El tiddler '%0' no existe. Haga doble clic para crearlo.",
 	defaultModifier: "(falta)",
 	shadowModifier: "(tiddler oculto incluido)",
+	dateFormat: "DD MMM YYYY",
 	createdPrompt: "creado"});
 
 merge(config.views.editor,{
@@ -160,9 +170,16 @@ merge(config.macros.newJournal,{
 	accessKey: "J"});
 
 merge(config.macros.plugins,{
+	wizardTitle: "Manage plugins",
+	step1Title: "Currently loaded plugins",
+	step1Html: "<input type='hidden' name='markList'></input>",
 	skippedText: "(Este plugin no se ha ejecutado porque se ha añadido después de la carga inicial)",
 	noPluginText: "No hay plugins instalados",
 	confirmDeleteText: "¿Está seguro que quiere borrar estos tiddlers:\n\n%0",
+	removeLabel: "borrar la etiqueta systemConfig",
+	removePrompt: "Borrar la etiqueta systemConfig",
+	deleteLabel: "borrar",
+	deletePrompt: "Borrar estos tiddlers para siempre",
 	listViewTemplate : {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
@@ -176,11 +193,6 @@ merge(config.macros.plugins,{
 		rowClasses: [
 			{className: 'error', field: 'error'},
 			{className: 'warning', field: 'warning'}
-			],
-		actions: [
-			{caption: "Más acciones...", name: ''},
-			{caption: "Borrar la etiqueta systemConfig", name: 'remove'},
-			{caption: "Borrar estos tiddlers para siempre", name: 'delete'}
 			]}
 	});
 
@@ -191,22 +203,25 @@ merge(config.macros.refreshDisplay,{
 
 merge(config.macros.importTiddlers,{
 	readOnlyWarning: "No se pueden importar tiddlers en un TiddlyWiki de sólo lectura. Intente abrir el archivo TiddlyWiki desde una URL file://",
-	defaultPath: "http://www.tiddlywiki.com/index.html",
+	wizardTitle: "Importa tiddlers desde otro TiddlyWiki",
+	step1Title: "Paso 1: Localizar el fichero TiddlyWiki",
+	step1Html: "Introduzca el URL o ruta al archivo aquí: <input type='text' size=50 name='txtPath'><br>...o busque el archivo: <input type='file' size=50 name='txtBrowse'><br>...o seleccione uno de los fuentes predefinidos: <select name='selFeeds'><option value=''>Elija...</option</select>",
 	fetchLabel: "obtener",
 	fetchPrompt: "Obtener el archivo tiddlywiki ",
 	fetchError: "Hubo problemas obteniendo el archivo tiddlywiki",
+	step2Title: "Paso 2: Cargar el archivo TiddlyWiki",
+	step2Html: "Por favor, espere mientras se carga el archivo desde: <strong><input type='hidden' name='markPath'></input></strong>",
+	cancelLabel: "cancel",
+	cancelPrompt: "Cancel this import",
+	step3Title: "Paso 3: Elegir los tiddlers a importar",
+	step3Html: "<input type='hidden' name='markList'></input>",
+	importLabel: "import",
+	importPrompt: "Import these tiddlers",
 	confirmOverwriteText: "¿Está seguro de que quiere sobreescribir estos tiddlers:\n\n%0",
-	wizardTitle: "Importa tiddlers desde otro TiddlyWiki",
-	step1: "Paso 1: Localizar el fichero TiddlyWiki",
-	step1prompt: "Introduzca el URL o ruta al archivo aquí: ",
-	step1promptFile: "...o busque el archivo: ",
-	step1promptFeeds: "...o seleccione uno de los fuentes predefinidos: ",
-	step1feedPrompt: "Elija...",
-	step2: "Paso 2: Cargar el archivo TiddlyWiki",
-	step2Text: "Por favor, espere mientras se carga el archivo desde: %0",
-	step3: "Paso 3: Elegir los tiddlers a importar",
-	step4: "%0 tiddler(s) importados",
-	step5: "Hecho",
+	step4Title: "%0 tiddler(s) importados",
+	step4Html: "<input type='hidden' name='markReport'></input>",
+	doneLabel: "hecho",
+	donePrompt: "Close this wizard",
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
@@ -215,12 +230,29 @@ merge(config.macros.importTiddlers,{
 			{name: 'Tags', field: 'tags', title: "Etiquetas", type: 'Tags'}
 			],
 		rowClasses: [
-			],
-		actions: [
-			{caption: "Más acciones...", name: ''},
-			{caption: "Importar estos tiddlers", name: 'import'}
 			]}
 	});
+
+merge(config.macros.sync,{
+	listViewTemplate: {
+		columns: [
+			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
+			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "Title", type: 'TiddlerLink'},
+			{name: 'Local Status', field: 'localStatus', title: "Changed on your computer?", type: 'String'},
+			{name: 'Server Status', field: 'serverStatus', title: "Changed on server?", type: 'String'},
+			{name: 'Server URL', field: 'serverUrl', title: "Server URL", text: "View", type: 'Link'}
+			],
+		rowClasses: [
+			],
+		buttons: [
+			{caption: "Sync these tiddlers", name: 'sync'}
+			]},
+	wizardTitle: "Synchronize your content with external servers and feeds",
+	step1Title: "Choose the tiddlers you want to synchronize",
+	step1Html: '<input type="hidden" name="markList"></input>',
+	syncLabel: "sync",
+	syncPrompt: "Sync these tiddlers"
+});
 
 merge(config.commands.closeTiddler,{
 	text: "cerrar",
@@ -266,22 +298,18 @@ merge(config.commands.jump,{
 	tooltip: "Salta a otro tiddler abierto"});
 
 merge(config.shadowTiddlers,{
-	OpcionesDeLaInterfaz: "Las OpcionesDeLaInterfaz estan mostrados cuando tu haces 'clic' las boton 'opciones' al lado derecha. Se guarden en un cookie de tu browser de web, entonces ellos regressan cada visita:\n<<<\n<<tiddler OptionsPanel>>\n<<<\n* El nombre usario por cambios debe estar fija //antes de// empezar haciendo cambios al texto (si. otra bug)\n* GuardarRespaldos da la opcion a guardar respaldos\n* AutoGuardar da la opcion a guardar cada vez hay un cambio\n* BuscarRegExp permite búsquedas complejas\n* BusquedaSensibleMayus enforza que the busqueda respecta mayusculas\n",
-	DefaultTiddlers: "EmpieceAquí [[Ayuda]]",
-	MainMenu: "EmpieceAquí [[Ayuda]]",
+	DefaultTiddlers: "[[EmpieceAquí]]",
+	MainMenu: "[[EmpieceAquí]]",
 	SiteTitle: "Mi TiddlyWiki",
 	SiteSubtitle: "un bloc de notas reusable personal no-lineal sobre web",
 	SiteUrl: "http://www.tiddlywiki.com/",
-	EmpieceAquí: "Para empezar con este TiddlyWiki vacío, necesita modificar los siguientes tiddlers:\n* SiteTitle & SiteSubtitle: El título y subtítulo del sitio, mostrados arriba (después de guardar, también aparecerán en la barra de título del navegador)\n* MainMenu: El menú (habitualmente a la izquierda)\n* DefaultTiddlers: Contiene los nombres de los tiddlers que quiere que aparezcan cuando el TiddlyWiki se abre\nIntroduzca su nombre para firmar las modificaciones que haga: <<option txtUserName>>",
-	SideBarOptions: "<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal 'DD MMM YYYY'>><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel 'opciones »' 'Cambiar opciones avanzadas de TiddlyWiki'>>",
-	OptionsPanel: "Estas opciones para personalizar TiddlyWiki están guardadas en su navegador\n\nSu nombre, para firmar sus textos. Escríbalo como una PalabraWiki (eg FulanoDeTal)\n\n<<option txtUserName>>\n<<option chkSaveBackups>> GuardarRespaldos\n<<option chkAutoSave>> AutoGuardar\n<<option chkRegExpSearch>> BuscarExpReg\n<<option chkCaseSensitiveSearch>> BuscarDiferMays\n<<option chkAnimate>> ActivarAnimaciones\n\n----\nOpcionesAvanzadas\nAdministrarPlugins\nImportarTiddlers",
-	OpcionesAvanzadas: "<<option chkGenerateAnRssFeed>> GenerarUnRssFeed\n<<option chkOpenInNewWindow>> AbrirEnlacesEnVentanaNueva\n<<option chkSaveEmptyTemplate>> GuardarPlantillaVacía\n<<option chkToggleLinks>> Al pulsar en un enlace a un tiddler ya abierto, se cierra.\n^^(desactivar con Control u otra tecla modificadora)^^\n<<option chkHttpReadOnly>> OcultarPosibilidadDeEdición cuando se abra por HTTP\n<<option chkForceMinorUpdate>> Tratar ediciones como CambiosMenores guardando día y hora\n^^(desactivar con Mays al pulsar en 'hecho' o pulsando Ctrl-Mays-Enter^^\n<<option chkConfirmDelete>> ConfirmarAntesDeBorrar\nNúmero máximo de líneas en la caja de edición de los tiddlers: <<option txtMaxEditRows>>\nDirectorio para copias de respaldo: <<option txtBackupFolder>>\n<<option chkInsertTabs>> La tecla 'tab' inserta un tabulador en lugar de saltar el siguiente campo",
-	SideBarTabs: "<<tabs txtMainTab Fecha 'Tiddlers cronológicamente' TabTimeline Título 'Tiddlers por título' TabAll Etiquetas 'Todas las etiquetas' TabTags Más 'Más listas' TabMore>>",
-	TabTimeline: "<<timeline>>",
-	TabAll: "<<list all>>",
-	TabTags: "<<allTags>>",
-	TabMore: "<<tabs txtMoreTab perdidos 'Tiddlers que no existen' TabMoreMissing huérfanos 'Tiddlers no enlazados por ningún otro' TabMoreOrphans ocultos 'Tiddlers ocultos' TabMoreShadowed>>",
-	TabMoreMissing: "<<list missing>>",
+	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "opciones »" "Cambiar opciones avanzadas de TiddlyWiki">>',
+	SideBarTabs: '<<tabs txtMainTab "Fecha" "Tiddlers cronológicamente" TabTimeline "Título" "Tiddlers por título" TabAll "Etiquetas" "Todas las etiquetas" TabTags "Más" "Más listas" TabMore>>',
+	TabTimeline: '<<timeline>>',
+	TabAll: '<<list all>>',
+	TabTags: '<<allTags excludeLists>>',
+	TabMore: '<<tabs txtMoreTab "Perdidos" "Tiddlers que no existen" TabMoreMissing "Huérfanos" "Tiddlers no enlazados por ningún otro" TabMoreOrphans "Ocultos" "Tiddlers ocultos" TabMoreShadowed>>',
+	TabMoreMissing: '<<list missing>>',
 	TabMoreOrphans: '<<list orphans>>',
 	TabMoreShadowed: '<<list shadowed>>',
 	PluginManager: '<<plugins>>',
