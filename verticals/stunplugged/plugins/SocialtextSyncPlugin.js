@@ -37,15 +37,15 @@ config.syncers.socialtext.init = function(sync)
 config.syncers.socialtext.addSyncable = function(sync,tiddler,syncItem)
 {
 	syncItem.socialtext = {
-		server: store.getValue(tiddler,"socialtext.server"),
-		workspace: store.getValue(tiddler,"socialtext.workspace"),
-		page: store.getValue(tiddler,"socialtext.page"),
-		version: store.getValue(tiddler,"socialtext.version")
+		server: store.getValue(tiddler,"server.host"),
+		workspace: store.getValue(tiddler,"server.workspace"),
+		page: store.getValue(tiddler,"server.page.id"),
+		version: store.getValue(tiddler,"server.page.version")
 		};
 	if(!syncItem.socialtext.page)
 		{
 		syncItem.socialtext.page = encodeURIComponent(tiddler.title);
-		store.setValue(tiddler,"socialtext.page",syncItem.socialtext.page);
+		store.setValue(tiddler,"socialtext.page.id",syncItem.socialtext.page);
 		}
 	syncItem.serverUrl = this.urlViewPage.format([syncItem.socialtext.server,syncItem.socialtext.workspace,syncItem.socialtext.page]);
 	var url = this.urlGetPageset.format([syncItem.socialtext.server,syncItem.socialtext.workspace]);
