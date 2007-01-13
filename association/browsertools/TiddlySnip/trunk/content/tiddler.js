@@ -44,7 +44,7 @@ function downloadTW()
 {
     var url = pref.getCharPref("tiddlysnip.wikifile");
 	if (isOnline())
-	    url += "?refresh";
+	    url += "?"+new Date().convertToYYYYMMDDHHMMSSMMM();
     var w = window;
     var request;
 	loaded = false;
@@ -63,6 +63,9 @@ function downloadTW()
 				alert(getStr("cantDownloadTW"));
 		}
 	};
+	request.setRequestHeader('Cache-Control','no-store');
+    request.setRequestHeader('Cache-Control','no-cache');
+    request.setRequestHeader('Pragma','no-cache');
 	request.send(null);
 }
 

@@ -235,7 +235,7 @@ function showTW(title)
         {
         var fileLoc = pref.getCharPref("tiddlysnip.wikifile");
         var prefix = isOnline()? "" : "file:///";
-        var refresh = isOnline()? "?refresh" : "";
+        var refresh = isOnline()? "?"+new Date().convertToYYYYMMDDHHMMSSMMM() : "";
         var url = prefix + fileLoc + refresh + "#" + "[[" + title + "]]";
         var tabchoice = parseInt(pref.getCharPref("tiddlysnip.tabchoice"));
         if (tabchoice == 0)
