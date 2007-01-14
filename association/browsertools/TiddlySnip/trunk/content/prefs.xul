@@ -75,6 +75,11 @@
 				    type="checkbox"
 				    oncommand="changePref('enableclipboard',this.checked);"
 				    />
+                 <checkbox id="show_enablebookmark"
+				    label="&enablebookmark.label;"
+				    type="checkbox"
+				    oncommand="changePref('enablebookmark',this.checked);"
+				    />
                  <checkbox id="show_enablenotifications"
 				    label="&enablenotifications.label;"
 				    type="checkbox"

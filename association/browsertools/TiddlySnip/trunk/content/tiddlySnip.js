@@ -101,6 +101,8 @@ function getText(mode)
         text = getSelectedText();
     else if (mode == "Clip")
         text = getClipboardString();
+    else if (mode == "Bookmark")
+        text = "[[" + tiddlyLinkEncode(content.document.title) + "|" + tiddlyLinkEncode(content.location.href) + "]]";
     return text;
 }
 

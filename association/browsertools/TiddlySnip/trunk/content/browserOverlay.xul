@@ -38,6 +38,15 @@
 	        insertafter="context-stop"
 	        oncommand="tiddlySnip('Clip','','')"
             />
+	    <menu id="contextTiddlyBookmark" label="&contextbookmark.label;" insertafter="context-stop">
+	        <menupopup id="contextTiddlyBookmarkPopup" onpopupshowing="createCategoryPopups('Bookmark')"/>
+        </menu>
+   	    <menuitem id="contextSimpleTiddlyBookmark"
+	        label="&contextsimplebookmark.label;"
+	        accesskey="T"
+	        insertafter="context-stop"
+	        oncommand="tiddlySnip('Bookmark','','')"
+            />
     </popup>
 
     <menupopup id="menu_ToolsPopup">

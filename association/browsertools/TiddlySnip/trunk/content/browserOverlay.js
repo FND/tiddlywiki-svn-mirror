@@ -44,7 +44,16 @@ function toggleTSContextMenu()
     if(simpleClipMenuItem)
         simpleClipMenuItem.hidden = !(!isSelection() && !advanced && isCopiedText() && clip);
         
-    var menus = [menuItem, simpleMenuItem, menuClipItem, simpleClipMenuItem];
+        
+    var bookmark = pref.getBoolPref("tiddlysnip.enablebookmark");
+    var menuBookmarkItem = document.getElementById("contextTiddlyBookmark");
+    if(menuBookmarkItem)
+        menuBookmarkItem.hidden = !(!isSelection() && advanced && bookmark);
+    var simpleBookmarkMenuItem = document.getElementById("contextSimpleTiddlyBookmark");
+    if(simpleBookmarkMenuItem)
+        simpleBookmarkMenuItem.hidden = !(!isSelection() && !advanced && bookmark);
+
+    var menus = [menuItem, simpleMenuItem, menuClipItem, simpleClipMenuItem, menuBookmarkItem, simpleBookmarkMenuItem];
     for (var i=0; i<menus.length; i++)
         {
         if(tiddlySnipUploading)
@@ -67,7 +76,7 @@ function tiddlySnip(mode,catTags,category)
     var includeSource = pref.getBoolPref("tiddlysnip.includesourceinfo");
     if(includeSource && mode == "Snip")
         text += getSourceInfo();
-    var defaultTitle = (mode == "Snip" ? content.document.title : category + " - " + new Date().convertToFullDate());
+    var defaultTitle = (mode == "Snip" || "Bookmark" ? content.document.title : category + " - " + new Date().convertToFullDate());
 
     //modifyTW(category,mode,title,tags,text);     //quiet mode altenative
     window.openDialog("chrome://tiddlysnip/content/tiddler.xul","tiddlerWindow","chrome,centerscreen,modal=no",category,mode,defaultTitle,tags,text);

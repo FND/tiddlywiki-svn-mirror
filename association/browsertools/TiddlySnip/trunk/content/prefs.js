@@ -24,6 +24,7 @@ function initPrefs()
     prefMap['tabchoice'] = readCharPref("tabchoice");
     prefMap['enablecategories'] = readBoolPref("enablecategories");
     prefMap['enableclipboard'] = readBoolPref("enableclipboard");
+    prefMap['enablebookmark'] = readBoolPref("enablebookmark");
     prefMap['uploadstoreurl'] = readCharPref("uploadstoreurl");
     prefMap['uploadfilename'] = readCharPref("uploadfilename");
     prefMap['uploadusername'] = readCharPref("uploadusername");

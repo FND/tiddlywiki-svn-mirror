@@ -11,6 +11,8 @@
 <!ENTITY  contextsimpleselection.label    "TiddlySnip Selection">
 <!ENTITY  contextclipboard.label          "TiddlySnip Clipboard as..">
 <!ENTITY  contextsimpleclipboard.label    "TiddlySnip Clipboard">
+<!ENTITY  contextsimplebookmark.label     "TiddlySnip this Page">
+<!ENTITY  contextbookmark.label           "TiddlySnip Page as..">
 
 <!-- existdialog.xul -->
 <!ENTITY  existwindow.title               "Title already in use">
@@ -34,6 +36,7 @@
 <!ENTITY  incsource.label                 "Create link to source document in snippet tiddler">
 <!ENTITY  advancedmode.label              "Enable Advanced Mode (multiple snippet categories)">
 <!ENTITY  enableclipboard.label           "Enable saving from clipboard">
+<!ENTITY  enablebookmark.label            "Enable 'TiddlySnip this page' option.">
 <!ENTITY  enablenotifications.label       "Enable notifications on snippet save">
 <!ENTITY  enablesounds.label              "Enable notifications sounds">
 <!ENTITY  backupoptions.label             "Backup options:">
