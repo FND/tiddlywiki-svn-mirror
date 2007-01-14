@@ -1,0 +1,9 @@
+title: title.html
+recipe: content/split.recipe
+recipe: templates/split.recipe
+tiddler: ../../tiddlers/MainMenuHome.tiddler
+tiddler: ../../tiddlers/DefaultTiddlers.tiddler
+tiddler: Home.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteUrl.tiddler
