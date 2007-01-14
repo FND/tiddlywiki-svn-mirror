@@ -11,3 +11,4 @@ tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../../../contributors/misc/plugins/DividedListsPlugin.js
 tiddler: ../../../../contributors/misc/plugins/TagCloudPlugin.js
+tiddler: ../../../../contributors/EricShulman/plugins/SinglePageModePlugin.js
