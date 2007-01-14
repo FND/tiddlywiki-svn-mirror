@@ -68,3 +68,14 @@
 <!ENTITY  delete.label                    "Delete">
 <!ENTITY  save.label                      "Save">
 <!ENTITY  submitchanges.label             "Submit Changes">
+
+<!-- about.xul -->
+<!ENTITY  tiddlysnip.abouttitle.label     "TiddlySnip">
+<!ENTITY  tiddlysnip.version.label        "version ">
+<!ENTITY  tiddlysnip.createdby.label      "Created By:">
+<!ENTITY  tiddlysnip.homepage.label       "Home Page:">
+<!ENTITY  tiddlysnip.close.label          "Close">
+<!ENTITY  tiddlysnip.developers.label     "Developers:">
+<!ENTITY  tiddlysnip.usefullinks.label    "Useful links:">
+<!ENTITY  tiddlysnip.configguide.label    "TiddlySnip configuration guide">
+<!ENTITY  tiddlysnip.license.label        "License:">
