@@ -5,13 +5,14 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="{4f228d6e-0874-48f8-9270-0bf1acb574f6}"
                    em:name="TiddlySnip"
-                   em:version="0.2beta"
-                   em:description="TiddlyWiki extension for clipboard magic"
+                   em:version="0.3beta"
+                   em:description="TiddlyWiki extension for saving snippets of text"
                    em:updateURL="http://tiddlysnip.enrogue.com/update.rdf"
-                   em:optionsURL="chrome://tiddlysnip/content/prefs.xul">
+                   em:optionsURL="chrome://tiddlysnip/content/prefs.xul"
+                   em:iconURL="chrome://tiddlysnip/skin/tiddlysnip32.png"
+                   >
+    <em:creator>Saq Imtiaz</em:creator>
     <em:contributor>Kalle Alm</em:contributor>
-    <em:contributor>SaqImtiaz</em:contributor>
-    <em:contributor>Yann Perrin</em:contributor>
     <em:targetApplication RDF:resource="rdf:#$t7XxI2"/>
     <em:file RDF:resource="urn:mozilla:extension:file:tiddlysnip.jar"/>
   </RDF:Description>
@@ -20,5 +21,7 @@
                    em:minVersion="0.9"
                    em:maxVersion="2.9" />
   <RDF:Description RDF:about="urn:mozilla:extension:file:tiddlysnip.jar"
-                   em:package="content/" />
+                   em:package="content/"
+                   em:skin="skin/"
+  />
 </RDF:RDF>
