@@ -1,0 +1,122 @@
+<div title="Template:Planet Infobox/Pluto" modifier="Wikipedia">
+<pre>{| class=&quot;toccolours&quot; style=&quot;margin-left: 1em; float:right; width: 25em;&quot;
+&lt;caption&gt;&lt;font size=&quot;+1&quot;&gt;'''Pluto''' [[Image:Pluto symbol.ant.png|25px|Astronomical symbol of Pluto]]&lt;/font&gt;&lt;/caption&gt;
+! bgcolor=&quot;#000000&quot; align=&quot;center&quot; colspan=&quot;2&quot; | [[image:Pluto.jpg|200px|Pluto in True Color]]
+|-
+!bgcolor=&quot;#a0ffa0&quot; colspan=&quot;2&quot;| Discovery
+|-
+| Discovered by
+| [[Clyde Tombaugh|Clyde W. Tombaugh]]
+|-
+| Discovered on
+| [[February 18]], [[1930]]
+|-
+!bgcolor=&quot;#a0ffa0&quot; colspan=&quot;2&quot;| [[Orbit]]al characteristics ([[Epoch (astronomy)|Epoch]] [[J2000]])
+|-
+| [[Semi-major axis]]
+| 5,906,376,272 [[kilometre|km]]&lt;br /&gt;39.481 686 77 [[Astronomical unit|AU]]
+|-
+| Orbital [[circumference]]
+| 36.530 [[Tera|T]][[metre|m]]&lt;br /&gt;244.186 AU
+|-
+| [[Eccentricity (orbit)|Eccentricity]]
+| 0.248 807 66
+|-
+| [[Perihelion]]
+| 4,436,824,613 km&lt;br /&gt;29.658 340 67 AU
+|-
+| [[Aphelion]]
+| 7,375,927,931 km&lt;br /&gt;49.305 032 87 AU
+|-
+| [[Orbital period]]
+| 90,613.3055 d&lt;br /&gt;(248.09 [[julian year (astronomy)|a]])
+|-
+| [[Synodic period]]
+| 366.73 d
+|-
+| [[Avg. Orbital Speed]]
+| 4.666 km/s
+|-
+| Max. Orbital Speed
+| 6.112 km/s
+|-
+| Min. Orbital Speed
+| 3.676 km/s
+|-
+| [[Inclination]]
+| 17.141 75&amp;deg;&lt;br /&gt;(11.88° to Sun's equator)
+|-
+| [[Longitude of the ascending node|Longitude of the&lt;br /&gt; ascending node]]
+| 110.303 47&amp;deg;
+|-
+| [[Argument of the perihelion|Argument of the&lt;br /&gt; perihelion]]
+| 113.763 29&amp;deg;
+|-
+| Number of [[natural satellite|satellite]]s
+| 3
+|-
+!bgcolor=&quot;#a0ffa0&quot; colspan=&quot;2&quot;| Physical characteristics
+|-
+| [[Diameter]]
+| [[1 E6 m|2306±20]] km&lt;br /&gt;(18% of Earth, or&lt;br /&gt;1423±12 mi)
+|-
+| Surface [[area]]
+| [[1 E13 m²|1.795{{e|7}}]] [[square kilometre|km²]]&lt;br /&gt;(0.033 Earths)
+|-
+| [[Volume]]
+| 7.15{{e|9}} [[cubic kilometre|km³]]&lt;br /&gt;(0.0066 Earths)
+|-
+| [[Mass]]
+| [[1 E22 kg|(1.305±0.007){{e|22}}]] [[kilogram|kg]] &lt;sup&gt;[http://arxiv.org/abs/astro-ph/0512491]&lt;/sup&gt;&lt;br /&gt;(0.0021 Earths)
+|-
+| Mean [[density]]
+| 2.03±0.06 g/cm³ &lt;sup&gt;[http://arxiv.org/abs/astro-ph/0512491]&lt;/sup&gt;
+|-
+| Equatorial [[gravity]]
+| 0.58 [[Acceleration|m/s²]]&lt;br /&gt;(0.059 [[Acceleration due to gravity|gee]])
+|-
+| [[Escape velocity]]
+| 1.2 km/s
+|-
+| Rotation period
+| [[prograde and retrograde motion|−6.387230 d]]&lt;br /&gt;(6 d 9 h 17 m 36 s)
+|-
+| Rotation velocity
+| 47.18 km/h (at the equator)
+|-
+| [[Axial tilt]]
+| 119.59&amp;deg; (to orbit)&lt;!--- http://arxiv.org/PS_cache/astro-ph/pdf/0512/0512491.pdf (2006) orbit/rotation pole of Charon (in its Fig. 2) of R.A. 133.045±0.02° dec. -6.145±0.02° (J2000); Pluto assumed parallel ---&gt;&lt;br /&gt;112.78° (to the [[ecliptic]])&lt;!--- http://www.hnsky.org/iau-iag.htm had 115.60° ---&gt;
+|-
+| [[Right ascension]]&lt;br /&gt;of North pole&lt;!--- Pole around which direct rotation occurs ---&gt;
+| 133.045±0.02&amp;deg;&lt;br /&gt;(8 h 52 min 11 s) &lt;sup&gt;[http://arxiv.org/PS_cache/astro-ph/pdf/0512/0512491.pdf]&lt;/sup&gt;
+|-
+| [[Declination]]
+| -6.145±0.02&amp;deg;
+|-
+| [[Albedo]]
+| 0.49–0.66 (varies by 35%) &lt;sup&gt;[http://www.solarviews.com/eng/pluto.htm] [http://nssdc.gsfc.nasa.gov/planetary/factsheet/plutofact.html]&lt;/sup&gt;
+|-
+| Surface [[Temperature|temp.]]
+| 
+{| cellspacing=&quot;0&quot; cellpadding=&quot;2&quot; border=&quot;0&quot;
+! min
+! mean
+! max
+|-
+| 33 [[kelvin|K]]
+| [[1 E1 K|44 K]]
+| 55 K
+|}
+|-
+|Adjective
+|Plutonian
+|-
+!bgcolor=&quot;#a0ffa0&quot; colspan=&quot;2&quot;| [[celestial body's atmosphere|Atmospheric]] characteristics
+|-
+| [[Atmospheric pressure]]
+| 0.30 [[pascal]]s (summer maximum)
+|-
+| [[Composition (natural science)|Composition]]
+| [[nitrogen]], [[methane]]
+|}</pre>
+</div>
