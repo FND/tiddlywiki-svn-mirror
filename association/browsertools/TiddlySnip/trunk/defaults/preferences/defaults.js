@@ -6,7 +6,7 @@ pref("tiddlysnip.backuppath","");
 pref("tiddlysnip.includesourceinfo",true);
 pref("tiddlysnip.showtwaftersave",false);
 pref("tiddlysnip.tabchoice","3");
-pref("tiddlysnip.categories","default.ITEM..NEXT.code.ITEM.JS code TiddlySnip.NEXT.japanese.ITEM.language study japanese.NEXT.bookmark.ITEM.boomark");
+pref("tiddlysnip.categories","default.ITEM..ITEM..NEXT.bookmark.ITEM.Boomark.ITEM..NEXT.javascript.ITEM.Code JavaScript.ITEM..NEXT.news.ITEM.News.ITEM..NEXT.TW plugin.ITEM.systemConfig.ITEM..NEXT.reference.ITEM.Reference");
 pref("tiddlysnip.enablecategories",false);
 pref("tiddlysnip.enableclipboard",false);
 pref("tiddlysnip.enablebookmark",false);
