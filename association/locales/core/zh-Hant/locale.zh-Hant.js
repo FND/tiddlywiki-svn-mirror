@@ -2,9 +2,10 @@
 |''Name:''|zh-HantTranslationPlugin|
 |''Description:''|Translation of TiddlyWiki into Traditional Chinese|
 |''Source:''|http://tiddlywiki-zh.googlecode.com/svn/trunk/|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hant/locale.zh-Hant.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
-|''Version:''|1.1.0.1|
-|''Date:''|Jan 4, 2007|
+|''Version:''|1.1.0.2|
+|''Date:''|Jan 13, 2007|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -244,8 +245,9 @@ merge(config.macros.sync,{
 	step1Title: "選擇欲同步的文章",
 	step1Html: '<input type="hidden" name="markList"></input>',
 	syncLabel: "同步",
-	syncPrompt: "同步更新這些文章"
-});
+	syncPrompt: "同步更新這些文章",
+	hasChanged: "已更動",
+	hasNotChanged: "未更動"});
 
 merge(config.commands.closeTiddler,{
 	text: "關閉",
@@ -292,23 +294,19 @@ merge(config.commands.jump,{
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "GettingStarted",
-	MainMenu: "GettingStarted",
+	MainMenu: "[[使用說明|GettingStarted]]",
 	SiteTitle: "我的 TiddlyWiki",
 	SiteSubtitle: "一個可重複使用的個人網頁式筆記本",
 	SiteUrl: 'http://www.tiddlywiki.com/',
-//	GettingStarted: "使用此 TiddlyWiki 的空白範本之前，請先修改以下預設文章：:\n* SiteTitle 及 SiteSubtitle：網站的標題和副標題，顯示於頁面上方（在儲存變更後，將顯示於瀏覽器視窗的標題列）。\n* MainMenu：主選單（通常在頁面左測）。\n* DefaultTiddlers：內含一些文章的標題，可於載入TiddlyWiki 後的預設開啟。\n請輸入您的大名，作為所建立/ 編輯的文章署名：<<option txtUserName>>",
-	SideBarOptions: "<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal ' YYYY年0MM月0DD日'>><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  '偏好設定 »' '變更 TiddlyWiki 選項'>>",
-//	OptionsPanel: "這些設定將暫存於瀏覽器\n請簽名<<option txtUserName>>\n (範例：WikiWord)\n\n<<option chkSaveBackups>> 儲存備份\n<<option chkAutoSave>> 自動儲存\n<<option chkRegExpSearch>> 正規式搜尋\n<<option chkCaseSensitiveSearch>> 區分大小寫搜尋\n<<option chkAnimate>> 使用動畫顯示\n\n[[進階選項|AdvancedOptions]]\n[[套件管理|PluginManager]]\n[[匯入文章|ImportTiddlers]]",
-//	AdvancedOptions: "<<option chkGenerateAnRssFeed>> 產生 RssFeed\n<<option chkOpenInNewWindow>> 連結開啟於新視窗\n<<option chkSaveEmptyTemplate>> 儲存範本\n<<option chkToggleLinks>> 點擊文章使已開啟者關閉\n\n<<option chkHttpReadOnly>> 隱藏編輯功能 ({{{http:}}})\n<<option chkForceMinorUpdate>> 修改文章不變更日期時間\n(確認修改同時按 Shift 鍵，或只按 Ctrl-Shift-Enter)\n<<option chkConfirmDelete>> 刪除文章前確認\n\n編輯模式中顯示列數: <<option txtMaxEditRows>>\n存放備份檔案的資料夾: <<option txtBackupFolder>>\n<<option chkInsertTabs>> 使用 tab 鍵插入定位字元，而非跳至下一個欄位\n",
-	SideBarTabs: "<<tabs txtMainTab 最近更新 '依更新日期排序' TabTimeline 全部 '所有文章' TabAll 分類 '所有標籤' TabTags 更多 '其他' TabMore>>",
+	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal " YYYY年0MM月0DD日">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  "偏好設定 »" "變更 TiddlyWiki 選項">>',
+	SideBarTabs: '<<tabs txtMainTab "最近更新" "依更新日期排序" TabTimeline "全部" "所有文章" TabAll "分類" "所有標籤" TabTags "更多" "其他" TabMore>>',
 	TabTimeline: '<<timeline>>',
 	TabAll: '<<list all>>',
-	TabTags: '<<allTags>>',
-	TabMore: "<<tabs txtMoreTab 未完成 '內容空白的文章' TabMoreMissing 未引用 '未被引用的文章' TabMoreOrphans 預設文章 '已預設內容的隱藏文章' TabMoreShadowed>>",
+	TabTags: '<<allTags excludeLists>>',
+	TabMore: '<<tabs txtMoreTab "未完成" "內容空白的文章" TabMoreMissing "未引用" "未被引用的文章" TabMoreOrphans "預設文章" "已預設內容的隱藏文章" TabMoreShadowed>>',
 	TabMoreMissing: '<<list missing>>',
 	TabMoreOrphans: '<<list orphans>>',
 	TabMoreShadowed: '<<list shadowed>>',
 	PluginManager: '<<plugins>>', 
 	ImportTiddlers: '<<importTiddlers>>'});
-
 /*}}}*/
