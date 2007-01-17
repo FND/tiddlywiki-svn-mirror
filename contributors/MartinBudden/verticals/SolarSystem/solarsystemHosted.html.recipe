@@ -14,8 +14,9 @@ tiddler: ../tiddlypedia/Tiddlypedia.tiddler
 tiddler: ../tiddlypedia/ViewTemplateDataApi.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../plugins/settings.js
-tiddler: ../../experimental/DataApiPlugin.js
-tiddler: ../../experimental/MediaWikiDataApiPlugin.js
+tiddler: ../../experimental/NexusPlugin.js
+tiddler: ../../experimental/HostedCommandsPlugin.js
+tiddler: ../../experimental/MediaWikiChannelPlugin.js
 tiddler: ../../plugins/MediaWikiFormatterPlugin.js
 tiddler: ../../plugins/wikipedia.MediaWiki.Common.css.js
 tiddler: ../../plugins/wikipediaAbridged.Skins-1.5.monobook.main.css.js

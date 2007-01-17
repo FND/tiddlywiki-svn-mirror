@@ -3,7 +3,7 @@ tiddler: ../../tiddlers/DefaultTiddlersHome.tiddler
 tiddler: ../../tiddlers/excludeLists.tiddler
 tiddler: ../../tiddlers/abegoExtensions.tiddler
 tiddler: Home.tiddler
-tiddler: EditTemplateDataApi.tiddler
+tiddler: EditTemplateHosted.tiddler
 tiddler: OptionsPanel.tiddler
 tiddler: PageTemplate.tiddler
 tiddler: SideBarOptionsWithFormat.tiddler
@@ -16,4 +16,4 @@ tiddler: TabTags.tiddler
 tiddler: TabTemplates.tiddler
 tiddler: TabUpdated.tiddler
 tiddler: Tiddlypedia.tiddler
-tiddler: ViewTemplateDataApi.tiddler
+tiddler: ViewTemplateHosted.tiddler
