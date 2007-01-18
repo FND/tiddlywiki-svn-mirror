@@ -1,15 +1,15 @@
-<div title="OpcionesAvanzadas" modifier="ClintChecketts" tags="excludeLists">
-<pre>&lt;&lt;option chkGenerateAnRssFeed&gt;&gt; GenararArchivoRss
+﻿<div title="OpcionesAvanzadas" modifier="ClintChecketts" tags="excludeLists">
+<pre>&lt;&lt;option chkGenerateAnRssFeed&gt;&gt; GenerarArchivoRss
 &lt;&lt;option chkOpenInNewWindow&gt;&gt; AbrirEnlacesEnNuevaVentana
-&lt;&lt;option chkSaveEmptyTemplate&gt;&gt; GuardarNuevaPlantilla
-&lt;&lt;option chkToggleLinks&gt;&gt; Clickeando en los enlaces a los tiddlers que están ya abiertos hace que se cierren
-^^(desactívalo con Control u otra tecla modificadora)^^
-&lt;&lt;option chkHttpReadOnly&gt;&gt; EscondaRedactando cuando abierto por HTTP
-&lt;&lt;option chkForceMinorUpdate&gt;&gt; Trata las ediciones como CambiosMenores y preserva la fecha y tiempo
-^^(desactívalo con la tecla Shift al hacer clik con el boton 'guardar' o por usando las teclas Ctrl-Shift-Enter)^^
+&lt;&lt;option chkSaveEmptyTemplate&gt;&gt; GuardarPlantillaVacía
+&lt;&lt;option chkToggleLinks&gt;&gt; Al pulsar en un enlace a un tiddler ya abierto, se cierra.
+^^(desactivar con Control u otra tecla modificadora)^^
+&lt;&lt;option chkHttpReadOnly&gt;&gt; OcultarPosibilidadDeEdición cuando se abra por HTTP
+&lt;&lt;option chkForceMinorUpdate&gt;&gt; Tratar ediciones como CambiosMenores guardando día y hora
+^^(desactivar con Mays al pulsar en 'guardar' o pulsando Ctrl-Mays-Enter)^^
 &lt;&lt;option chkConfirmDelete&gt;&gt; ConfirmarAntesDeBorrar
-Numero máximo de lineas en un tiddler: &lt;&lt;option txtMaxEditRows&gt;&gt;
-Nombre de la carpeta de copias de seguridad: &lt;&lt;option txtBackupFolder&gt;&gt;
-&lt;&lt;option chkInsertTabs&gt;&gt; Use la tecla 'tab' para insertar carácteres en vez de saltar al area siguiente
-&lt;&lt;option txtFileSystemCharSet&gt;&gt; Carácteres para usar al guardar (Firefox/Mozilla solamente)</pre>
+Número máximo de líneas en la caja de edición de los tiddlers: &lt;&lt;option txtMaxEditRows&gt;&gt;
+Directorio para copias de respaldo: &lt;&lt;option txtBackupFolder&gt;&gt;
+&lt;&lt;option chkInsertTabs&gt;&gt; La tecla 'tab' inserta un tabulador en lugar de saltar al area siguiente
+&lt;&lt;option txtFileSystemCharSet&gt;&gt; Caracteres para usar al guardar (Firefox/Mozilla solamente)</pre>
 </div>

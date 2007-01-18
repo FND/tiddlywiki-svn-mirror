@@ -1,7 +1,7 @@
-<div title="EmpieceAquí" modifier="ClintChecketts" tags="excludeLists">
-<pre>Para empezar con este TiddlyWiki blanco, nesecitaras a modificar los siguientes tiddlers:
-* SiteTitle &amp; SiteSubtitle: El titlo y subtitlo del sitio, como aparecen arriba (depues de guardar, cambiaran tambien en el browser ''title bar'')
-* MainMenu: El menu (usualmente al lado izqierda)
-* DefaultTiddlers: Contiene los nombres de los tiddlers que quieres a aprecer cuando el TiddlyWiki es abierto
-Tambien nesecitaras a entrar tu nombre de usario para firmar tus cambios: &lt;&lt;option txtUserName&gt;&gt;</pre>
+﻿<div title="EmpieceAquí" modifier="ClintChecketts" tags="excludeLists">
+<pre>Para empezar con este TiddlyWiki vacío, necesita modificar los siguientes tiddlers:
+* SiteTitle &amp; SiteSubtitle: El título y subtítulo del sitio, como aparecen arriba (después de guardar, también aparecerán en la barra de título del navegador)
+* MainMenu: El menú (habitualmente a la izquierda)
+* DefaultTiddlers: Contiene los nombres de los tiddlers que quiere que aparezcan cuando el TiddlyWiki se abre
+Introduzca su nombre para firmar las modificaciones que haga: &lt;&lt;option txtUserName&gt;&gt;</pre>
 </div>
