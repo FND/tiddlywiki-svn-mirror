@@ -4,7 +4,7 @@
 |''Author:''|ClintChecketts (http://blog.checkettsweb.com/contact/)|
 |''Source:''|www.checkettsweb.com|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/es/locale.es.js|
-|''Version:''|0.9.1|
+|''Version:''|1.0.0|
 |''Date:''|Jan 12, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
