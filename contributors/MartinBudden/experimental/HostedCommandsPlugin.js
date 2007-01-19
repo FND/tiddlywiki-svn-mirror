@@ -21,46 +21,6 @@
 if(!version.extensions.HostedCommandsPlugin) {
 version.extensions.HostedCommandsPlugin = {installed:true};
 
-function onClickTiddlerLink(e)
-{
-	if (!e) e = window.event;
-	var theTarget = resolveTarget(e);
-	var theLink = theTarget;
-	var title = null;
-	var fields = null;
-	do {
-		title = theLink.getAttribute("tiddlyLink");
-		fields = theLink.getAttribute("tiddlyFields");
-		theLink = theLink.parentNode;
-	} while(title == null && theLink != null);
-//#displayMessage("lft0:"+linkedFromTitle);
-	if(title) {
-		var toggling = e.metaKey || e.ctrlKey;
-		if(config.options.chkToggleLinks)
-			toggling = !toggling;
-		var opening;
-		if(toggling && document.getElementById("tiddler" + title)) {
-			//#displayMessage("oncTitle:"+title);
-			story.closeTiddler(title,true,e.shiftKey || e.altKey);
-		} else {
-			//#var template = store.fetchTiddler(title) ? null : DEFAULT_EDIT_TEMPLATE;
-			//#story.displayTiddler(theTarget,title,template,true,e.shiftKey || e.altKey,fields);
-			story.displayTiddler(theTarget,title,null,true,e.shiftKey || e.altKey,fields);
-			if(fields) {
-				var tiddlerElem = document.getElementById(story.idPrefix + title);
-				tiddlerElem.setAttribute("tiddlyFields",fields);
-				//#var tiddler = store.getTiddler(title)
-				//#tiddler.fields = convertCustomFieldsToHash(fields);
-				//#displayMessage("tt:"+tiddler.fields["wikiformat"]);
-			}
-			if(nexus && !store.tiddlerExists(title))
-				nexus.getMissingPage(title);
-		}
-	}
-	//#clearMessage();
-	return false;
-}
-
 TiddlyWiki.prototype.updatedOffline = function()
 {
 	var results = [];
@@ -106,13 +66,13 @@ merge(config.commands.download,{
 
 config.commands.download.isEnabled = function(tiddler)
 {
-	return nexus.isFunctionSupported('getPage',tiddler);
+	return tiddler.isFunctionSupported('getTiddler',tiddler);
 };
 
 config.commands.download.handler = function(event,src,title)
 {
 //#displayMessage("config.commands.getPage.handler:"+title);
-	nexus.getPage(title);
+	store.getHostedTiddler(title);
 };
 
 // upload command definition
@@ -120,20 +80,26 @@ config.commands.upload = {};
 merge(config.commands.upload,{
 	text: "upload",
 	tooltip: "Upload this tiddler",
+	uploaded: "uploaded",
 	readOnlyText: "upload",
 	readOnlyTooltip: "Upload this tiddler"});
 
 config.commands.upload.isEnabled = function(tiddler)
 {
-	if(tiddler && tiddler.isTouched() && nexus.isFunctionSupported('putPage',tiddler))
-		return true;
-	return false;
+	return tiddler && tiddler.isTouched() && tiddler.isFunctionSupported('putTiddler');
 };
 
 config.commands.upload.handler = function(event,src,title)
 {
-//#displayMessage("config.commands.putPage.handler:"+title);
-	nexus.putPage(title);
+	var params = {};
+	params.title = title;
+	params.callback = config.commands.upload.callback;
+	store.putHostedTiddler(title,params);
+};
+
+config.commands.upload.callback = function(params)
+{
+	displayMessage(config.commands.upload.uploaded);
 };
 
 // revisions command definition
@@ -141,22 +107,24 @@ config.commands.revisions = {};
 merge(config.commands.revisions,{
 	text: "revisions",
 	tooltip: "View another revision of this tiddler",
+	loading: "loading...",
 	revisionTooltip: "View this revision",
 	popupNone: "No revisions"});
 
 config.commands.revisions.isEnabled = function(tiddler)
 {
-	return nexus.isFunctionSupported('getPageRevisionList',tiddler);
+	return tiddler.isFunctionSupported('getTiddlerRevisionList');
 };
 
 config.commands.revisions.handler = function(event,src,title)
 {
 	var params = {};
 	params.title = title;
+	params.callback = config.commands.revisions.callback;
 	params.popup = Popup.create(src);
 	Popup.show(params.popup,false);
-	params.callback = config.commands.revisions.callback;
-	nexus.getPageRevisionList(title,params);
+	var tiddler = store.fetchTiddler(title);
+	tiddler.getRevisionList(title,params);
 	event.cancelBubble = true;
 	if(event.stopPropagation)
 		event.stopPropagation();
@@ -171,12 +139,12 @@ config.commands.revisions.callback = function(params)
 //#displayMessage("config.commands.revisions.callback");
 	if(params.popup) {
 		if(params.revisions.length==0) {
-			createTiddlyText(createTiddlyElement(params.popup,"li",null,"disabled"),config.commands.revisions.popupNone);
+			createTiddlyText(createTiddlyElement(params.popup,'li',null,'disabled'),config.commands.revisions.popupNone);
 		} else {
 			for(var i=0; i<params.revisions.length; i++) {
 				var modified = params.revisions[i].modified;
 				var key = params.revisions[i].key;
-				var btn = createTiddlyButton(createTiddlyElement(params.popup,"li"),
+				var btn = createTiddlyButton(createTiddlyElement(params.popup,'li'),
 						modified.toLocaleString(),
 						config.commands.revisions.revisionTooltip,
 						function() {

@@ -20,7 +20,7 @@
 //#defaultWorkspace ='SMG';
 //#workspace = 'Sandbox';
 //#workspace = 'Main';
-//#Channel.PutTWikiPage('SandBox29','twiki.org','Sandbox',user,password);
+//#Channel.PutTWikiTiddler('SandBox29','twiki.org','Sandbox',user,password);
 
 ***/
 
@@ -41,7 +41,7 @@ version.extensions.TWikiChannelPlugin = {installed:true};
 
 TWikiChannel = {}; // 'namespace' for local functions
 
-TWikiChannel.getPage = function(title,params)
+TWikiChannel.getTiddler = function(title,params)
 {
 // http://twiki.org/cgi-bin/view/TWiki04/TWikiScripts
 // http://twiki.org/cgi-bin/view/TWiki04/TWikiScripts?raw=text
@@ -62,13 +62,13 @@ TWikiChannel.getPage = function(title,params)
 
 	params.title = title;
 	params.wikiformat = 'TWiki';
-	var req = doHttp('GET',url,null,null,null,null,TWikiChannel.getPageCallback,params,null);
+	var req = doHttp('GET',url,null,null,null,null,TWikiChannel.getTiddlerCallback,params,null);
 //#displayMessage("req:"+req);
 };
 
-TWikiChannel.getPageCallback = function(status,params,responseText,xhr)
+TWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
 {
-//#displayMessage('TWiki.getPageCallback:'+responseText.substr(0,50));
+//#displayMessage('TWiki.getTiddlerCallback:'+responseText.substr(0,50));
 	var content = responseText;
 //<form><textarea readonly="readonly" wrap="virtual" rows="50" cols="80">
 	var contentRegExp = /<textarea.*?>((?:.|\n)*?)<\/textarea>/mg;
@@ -78,13 +78,14 @@ TWikiChannel.getPageCallback = function(status,params,responseText,xhr)
 		content = match[1].htmlDecode();
 	}
 
-	var tiddler = nexus.createTiddler(params,content);
+	var tiddler = store.createTiddler(params.title);
+	tiddler.updateFieldsAndContent(params,content);
 	tiddler.fields['changecount'] = -1;
 	tiddler.modifier = params.serverHost;
-	nexus.updateStory(tiddler);
+	store.updateStory(tiddler);
 };
 
-TWikiChannel.putPage = function(title,params)
+TWikiChannel.putTiddler = function(title,params)
 {
 	var text = store.fetchTiddler(title).text;
 	//var urlTemplate = 'http://%0/cgi-bin/save/%1/%2?text=%3';
@@ -98,18 +99,18 @@ TWikiChannel.putPage = function(title,params)
 //# displayMessage('putUrl:'+url);
 
 	params.title = title;
-	var req = doHttp('GET',url,null,null,params.username,params.password,TWikiChannel.putPageCallback,params,null);
+	var req = doHttp('GET',url,null,null,params.username,params.password,TWikiChannel.putTiddlerCallback,params,null);
 //#displayMessage("req:"+x);
 };
 
-TWikiChannel.putPageCallback = function(status,params,responseText,xhr)
+TWikiChannel.putTiddlerCallback = function(status,params,responseText,xhr)
 {
 	//#displayMessage('response:'+responseText.substr(0,30));
 	displayMessage('TWiki put status:'+status);
 };
 
-Nexus.Functions.getPage['twiki'] = TWikiChannel.getPage;
-Nexus.Functions.putPage['twiki'] = TWikiChannel.putPage;
+config.hostFunctions.getTiddler['twiki'] = TWikiChannel.getTiddler;
+config.hostFunctions.putTiddler['twiki'] = TWikiChannel.putTiddler;
 
 } // end of 'install only once'
 //}}}

@@ -5,19 +5,18 @@
 |''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiChannelPlugin|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
 |''Version:''|0.0.6|
-|''Status:''|alpha pre-release|
 |''Date:''|Dec 30, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
 
-|''Default MediaWiki Server''|<<option txtMediaWikiDefaultServer>>|
+|''Default MediaWiki Server''|<<option txtmediaWikiDefaultServer>>|
 
 ***/
 
 //{{{
-if(!config.options.txtMediaWikiDefaultServer)
-	{config.options.txtMediaWikiDefaultServer = 'www.wikipedia.org';}
+if(!config.options.txtmediaWikiDefaultServer)
+	{config.options.txtmediaWikiDefaultServer = 'www.wikipedia.org';}
 //}}}
 
 //{{{
@@ -43,10 +42,10 @@ MediaWikiChannel.canonicalTitle = function(title)
 	return canonicalTitle.replace(/\s/g,'_');
 };
 
-MediaWikiChannel.getPage = function(title,params)
+MediaWikiChannel.getTiddler = function(title,params)
 {
 	var canonicalTitle = MediaWikiChannel.canonicalTitle(title);
-//#displayMessage('MediaWikiChannel.getPage:'+canonicalTitle);
+displayMessage('MediaWikiChannel.getTiddler:'+canonicalTitle);
 //# http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&titles=Elongation
 	params.title = title;
 	params.workspace = null;
@@ -54,15 +53,15 @@ MediaWikiChannel.getPage = function(title,params)
 	params.serverType = 'mediawiki';
 	var urlTemplate = 'http://%0/w/api.php?format=json&action=%1&prop=revisions&rvprop=content&titles=%2';
 	var url = urlTemplate.format([params.serverHost,'query',canonicalTitle]);
-//#displayMessage('url:'+url);
-	var req = doHttp('GET',url,null,null,null,null,MediaWikiChannel.getPageCallback,params,null);
+displayMessage('url:'+url);
+	var req = doHttp('GET',url,null,null,null,null,MediaWikiChannel.getTiddlerCallback,params,null);
 //#displayMessage('req:'+req);
 };
 
-MediaWikiChannel.getPageCallback = function(status,params,responseText,xhr)
+MediaWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
 {
-//#displayMessage('getPageCallback status:'+status);
-//#displayMessage('rt:'+responseText.substr(0,50));
+displayMessage('getTiddlerCallback status:'+status);
+displayMessage('rt:'+responseText.substr(0,50));
 //# displayMessage('xhr:'+xhr);
 	var content = null;
 	try {
@@ -88,14 +87,15 @@ MediaWikiChannel.getPageCallback = function(status,params,responseText,xhr)
 	}*/
 
 	if(content) {
-		var tiddler = nexus.createTiddler(params,content);
+		var tiddler = store.createTiddler(params.title);
+		tiddler.updateFieldsAndContent(params,content);
 		tiddler.fields['mediawiki.revid'] = String(revid);
 		tiddler.modifier = params.serverHost;
-		nexus.updateStory(tiddler);
+		store.updateStory(tiddler);
 	}
 };
 
-MediaWikiChannel.putPage = function(title,params)
+MediaWikiChannel.putTiddler = function(title,params)
 {
 //#	var canonicalTitle = MediaWikiChannel.canonicalTitle(title);
 //#displayMessage('MediaWikiChannel.putPage:'+canonicalTitle);
@@ -105,15 +105,15 @@ MediaWikiChannel.putPage = function(title,params)
 //#	MediaWikiChannel.PutPageWithToken('Elongation','1234')
 };
 
-MediaWikiChannel.putPageCallback = function(status,params,responseText,xhr)
+MediaWikiChannel.putTiddlerCallback = function(status,params,responseText,xhr)
 {
-//# displayMessage('putPageCallback status:'+status);
+//# displayMessage('putTiddlerCallback status:'+status);
 //# displayMessage('rt:'+responseText.substr(0,50));
 //# displayMessage('xhr:'+xhr);
 };
 
-Nexus.Functions.getPage['mediawiki'] = MediaWikiChannel.getPage;
-//Nexus.Functions.putPage['mediawiki'] = MediaWikiChannel.putPage;
+config.hostFunctions.getTiddler['mediawiki'] = MediaWikiChannel.getTiddler;
+//config.hostFunctions.putTiddler['mediawiki'] = MediaWikiChannel.putTiddler;
 
 } // end of 'install only once'
 //}}}

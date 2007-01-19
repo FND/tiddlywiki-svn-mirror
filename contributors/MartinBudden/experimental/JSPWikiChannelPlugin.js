@@ -11,8 +11,8 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
 
-|''Default JSPWiki Server''|<<option txtjspikiDefaultServer>>|
-|''Default JSPWiki Web(workspace)''|<<option txtjspikiDefaultWorkspace>>|
+|''Default JSPWiki Server''|<<option txtjspwikiDefaultServer>>|
+|''Default JSPWiki Web(workspace)''|<<option txtjspwikiDefaultWorkspace>>|
 |''Default JSPWiki username''|<<option txtjspwikiUsername>>|
 |''Default JSPWiki password''|<<option txtjspwikiPassword>>|
 
@@ -37,13 +37,13 @@ version.extensions.JSPWikiChannelPlugin = {installed:true};
 
 JSPWikiChannel = {}; // 'namespace' for local functions
 
-JSPWikiChannel.getPage = function(title,params)
+JSPWikiChannel.getTiddler = function(title,params)
 {
 // http://jspwiki.org/wiki/WikiRPCInterface
 // http://www.jspwiki.org/RPCU/
 
 	//#var fn = 'wiki.getRPCVersionSupported';
-	//#var fn = 'wiki.getAllPages';
+	//#var fn = 'wiki.getAllTiddlers';
 	var fn = 'wiki.getPage';
 	var urlTemplate = 'http://%0/RPCU/';
 	var url = urlTemplate.format([params.serverHost,params.workspace,title]);
@@ -58,24 +58,25 @@ JSPWikiChannel.getPage = function(title,params)
 	params.title = title;
 	params.wikiformat = 'JSPWiki';
 	params.serverType = 'jspwiki';
-	var req =doHttp('POST',url,payload,null,params.username,params.password,JSPWikiChannel.getPageCallback,params);
+	var req =doHttp('POST',url,payload,null,params.username,params.password,JSPWikiChannel.getTiddlerCallback,params);
 //#displayMessage("req:"+req);
 };
 
-JSPWikiChannel.getPageCallback = function(status,params,responseText,xhr)
+JSPWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
 {
-//#displayMessage('JSP.getPageCallback status:'+status);
+//#displayMessage('JSP.getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
 	var content = responseText;
 	content = content.replace('<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value>','');
 	content = content.replace('</value></param></params></methodResponse>','');
-	var tiddler = nexus.createTiddler(params,content);
+	var tiddler = store.createTiddler(params.title);
+	tiddler.updateFieldsAndContent(params,content);
 	tiddler.modifier = params.serverHost;
-	nexus.updateStory(tiddler);
+	store.updateStory(tiddler);
 };
 
-JSPWikiChannel.putPage = function(title,params)
+JSPWikiChannel.putTiddler = function(title,params)
 {
 // http://www.jspwiki.org/wiki/WikiRPCInterface2
 // http://www.jspwiki.org/RPC2/
@@ -99,19 +100,19 @@ JSPWikiChannel.putPage = function(title,params)
 	params.title = title;
 	params.wikiformat = 'JSPWiki';
 	params.serverType = 'jspwiki';
-	var req =doHttp('POST',url,payload,null,username,password,JSPWikiChannel.putPageCallback,params);
+	var req =doHttp('POST',url,payload,null,username,password,JSPWikiChannel.putTiddlerCallback,params);
 //#displayMessage("req:"+req);
 };
 
-JSPWikiChannel.putPageCallback = function(status,params,responseText,xhr)
+JSPWikiChannel.putTiddlerCallback = function(status,params,responseText,xhr)
 {
-	displayMessage('putPageCallback status:'+status);
+	displayMessage('putTiddlerCallback status:'+status);
 	displayMessage('rt:'+responseText.substr(0,50));
 	//#displayMessage('xhr:'+xhr);
 };
 
-Nexus.Functions.getPage['jspwiki'] = JSPWikiChannel.getPage;
-Nexus.Functions.putPage['jspwiki'] = JSPWikiChannel.putPage;
+config.hostFunctions.getTiddler['jspwiki'] = JSPWikiChannel.getTiddler;
+config.hostFunctions.putTiddler['jspwiki'] = JSPWikiChannel.putTiddler;
 
 } // end of 'install only once'
 //}}}

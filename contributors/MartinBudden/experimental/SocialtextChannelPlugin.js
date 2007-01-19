@@ -11,11 +11,11 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
 
-|''Default Socialtext Server''|<<option txtSocialtextDefaultServer>>|
-|''Default Socialtext Workspace''|<<option txtSocialtextDefaultWorkspace>>|
-|''Default Socialtext username''|<<option txtSocialtextUsername>>|
-|''Default Socialtext password''|<<option txtSocialtextPassword>>|
-|''Socialtext password required''|<<option chkSocialtextPasswordRequired>>|
+|''Default Socialtext Server''|<<option txtsocialtextDefaultServer>>|
+|''Default Socialtext Workspace''|<<option txtsocialtextDefaultWorkspace>>|
+|''Default Socialtext username''|<<option txtsocialtextUsername>>|
+|''Default Socialtext password''|<<option txtsocialtextPassword>>|
+|''Socialtext password required''|<<option chksocialtextPasswordRequired>>|
 
 ***/
 
@@ -42,7 +42,7 @@ SocialtextChannel = {}; // 'namespace' for local functions
 //#SocialtextChannel.mimeType = 'text/vnd.socialtext.wiki';
 SocialtextChannel.mimeType = 'text/x.socialtext-wiki';
 
-SocialtextChannel.getPage = function(title,params)
+SocialtextChannel.getTiddler = function(title,params)
 {
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages/socialtext_2_0_preview
@@ -58,13 +58,13 @@ SocialtextChannel.getPage = function(title,params)
 	params.title = title;
 	params.wikiformat = 'Socialtext';
 	params.serverType = 'socialtext';
-	var req = doHttp('GET',url,null,null,null,null,SocialtextChannel.getPageCallback,params);
+	var req = doHttp('GET',url,null,null,null,null,SocialtextChannel.getTiddlerCallback,params);
 //#displayMessage('req:'+req);
 };
 
-SocialtextChannel.getPageCallback = function(status,params,responseText,xhr)
+SocialtextChannel.getTiddlerCallback = function(status,params,responseText,xhr)
 {
-//#displayMessage('getPageCallback status:'+status);
+//#displayMessage('getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
 
@@ -98,7 +98,7 @@ SocialtextChannel.getPageCallback = function(status,params,responseText,xhr)
 //#displayMessage('modified2:'+modified);
 		params.modified = modified;
 	} catch (ex) {
-		//alert('SocialtextChannel.getPageCallback: JSON error');
+		//alert('SocialtextChannel.getTiddlerCallback: JSON error');
 		displayMessage('Response:'+responseText.substr(0,50));
 	}
 	// request the page's text
@@ -107,18 +107,19 @@ SocialtextChannel.getPageCallback = function(status,params,responseText,xhr)
 	if(!params.serverHost.match(/:\/\//))
 		urlTemplate = 'http://' + urlTemplate;
 	var url = urlTemplate.format([params.serverHost,params.workspace,params.title,SocialtextChannel.mimeType]);
-	var req = doHttp('GET',url,null,null,null,null,SocialtextChannel.getPageCallback2,params);
+	var req = doHttp('GET',url,null,null,null,null,SocialtextChannel.getTiddlerCallback2,params);
 //#displayMessage('req:'+req);
 };
 
-SocialtextChannel.getPageCallback2 = function(status,params,responseText,xhr)
+SocialtextChannel.getTiddlerCallback2 = function(status,params,responseText,xhr)
 {
-//#displayMessage('getPageCallback2 status:'+status);
+//#displayMessage('getTiddlerCallback2 status:'+status);
 //#displayMessage('rt:'+responseText);
 //#displayMessage('xhr:'+xhr);
 	var content = responseText;
 	if(content) {
-		var tiddler = nexus.createTiddler(params,content);
+		var tiddler = store.createTiddler(params.title);
+		tiddler.updateFieldsAndContent(params,content);
 		if(params.tags)
 			tiddler.tags = params.tags;
 		if(params.modified)
@@ -128,11 +129,11 @@ SocialtextChannel.getPageCallback2 = function(status,params,responseText,xhr)
 		if(params.serverPageId)
 			tiddler.fields['server.page.id'] = params.serverPageId;
 		tiddler.modifier = params.modifier ? params.modifier : params.serverHost;
-		nexus.updateStory(tiddler);
+		store.updateStory(tiddler);
 	}
 };
 
-SocialtextChannel.putPage = function(title,params)
+SocialtextChannel.putTiddler = function(title,params)
 {
 	var text = store.fetchTiddler(title).text;
 //# data/workspaces/:ws/pages/:pname
@@ -143,21 +144,23 @@ SocialtextChannel.putPage = function(title,params)
 //#displayMessage('putUrl:'+url);
 
 	params.title = title;
-	var req = doHttp('POST',url,text,SocialtextChannel.mimeType,null,null,SocialtextChannel.putPageCallback,params,{"X-Http-Method": "PUT"});
+	var req = doHttp('POST',url,text,SocialtextChannel.mimeType,null,null,SocialtextChannel.putTiddlerCallback,params,{"X-Http-Method": "PUT"});
 //#displayMessage('req:'+req);
 };
 
-SocialtextChannel.putPageCallback = function(status,params,responseText,xhr)
+SocialtextChannel.putTiddlerCallback = function(status,params,responseText,xhr)
 {
-	//#displayMessage('putPageCallback status:'+status);
+	//#displayMessage('putTiddlerCallback status:'+status);
 	//#displayMessage('rt:'+responseText.substr(0,50));
 	//#displayMessage('xhr:'+xhr);
 	if(!status)
 		displayMessage('Status text:'+xhr.statusText);
+	if(params.callback)
+		params.callback(params);
 };
 
-Nexus.Functions.getPage['socialtext'] = SocialtextChannel.getPage;
-Nexus.Functions.putPage['socialtext'] = SocialtextChannel.putPage;
+config.hostFunctions.getTiddler['socialtext'] = SocialtextChannel.getTiddler;
+config.hostFunctions.putTiddler['socialtext'] = SocialtextChannel.putTiddler;
 
 } // end of 'install only once'
 //}}}
