@@ -21,7 +21,7 @@
         <text value="TiddlySnip" class="tiddlysnip-title"/>
         <image src="chrome://tiddlysnip/skin/tiddlysnip32.png"/>
     </hbox>
-    <text value="&tiddlysnip.version.label; 0.3 beta"/>
+    <text value="&tiddlysnip.version.label; 1.0 RC1"/>
 
     <separator class="thin"/>
     <text value="&tiddlysnip.homepage.label;" class="tiddlysnip-subtitle"/>
@@ -37,10 +37,11 @@
 
     <separator class="thin"/>
     <text value="&tiddlysnip.usefullinks.label;" class="tiddlysnip-subtitle"/>
-    <text value="&tiddlysnip.configguide.label;" class="tiddlysnip-url tiddlysnip-indent" onclick="ts_addTab('http://tiddlysnip.com/#ConfigurationGuide');"/>
+    <text value="&tiddlysnip.configguide.label;" class="tiddlysnip-url tiddlysnip-indent" onclick="ts_addTab('http://tiddlysnip.com/#[[User%20Guides]]');"/>
     <text value="TiddlyWiki" class="tiddlysnip-url tiddlysnip-indent" onclick="ts_addTab('http://www.tiddlywiki.com');"/>
     <text value="TiddlyThemes" class="tiddlysnip-url tiddlysnip-indent" onclick="ts_addTab('http://tiddlythemes.com');"/>
-    
+    <text value="tiddlyspot" class="tiddlysnip-url tiddlysnip-indent" onclick="ts_addTab('http://tiddlyspot.com');"/>
+
     <separator class="thin"/>
     <text value="&tiddlysnip.license.label;" class="tiddlysnip-subtitle"/>
     <hbox align="left">
