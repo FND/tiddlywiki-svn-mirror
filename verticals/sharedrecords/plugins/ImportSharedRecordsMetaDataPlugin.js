@@ -1,33 +1,64 @@
 /***
-!importSharedRecordsMetaData Plugin
-|Author: Jonathan Jackson|
-|Source: TODO|
-|Version: 1.1.2|
+|''Name:''|ImportSharedRecordsMetaDataPlugin|
+|''Description:''|Allows metadata to be synchronised with a Shared Records server|
+|''Source:''|http://sharedrecords.tiddlywiki.com/#ImportSharedRecordsMetaDataPlugin|
+|''Author:''|JeremyRuston, JonathanJackson and EricShulman|
+|''Version:''|1.1.3|
+|''Date:''|Jan 17, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
+|''License:''|[[BSD open source license]]|
+|''~CoreVersion:''|2.2.0|
 
-!Revisions
-*2006-11-14 Revised by Eric to help launch automatically and create an import record
-*2006-11-07 Initial draft
+This plugin allows metadata to be synchronised with a Shared Records (SR) server (see
+http://www.sharedrecords.org/).
 
-!Example
+In SR terminology, a record on a particular server is addressed as a record UID (a
+40-digit hex string). The items of metadata associated with a record are a sequence
+of named blobs of text.
+
+Mapping these terms to TWs synchronisation framework, a SR record UID corresponds to
+a workspace within a server. The individual metadata items correspond to tiddlers within
+that workspace.
+
+This plugin performs the following actions:
+* Installs the {{{<<importSharedRecordsMetaData>>}}} macro
+* Installs the {{{recordUID}}} paramifier
+* A hack to associate created and modified tiddlers with the default shared records server
+* Automatically loads the recordUIDs in the tiddler "SharedRecordsAutoSyncRecordUIDs"
+** the recordUIDs should be separated with newlines
+
+The default content of "SharedRecordsAutoSyncRecordUIDs" is "[% recordUIDsList %]" which can
+be used by serverside scripts to substitute the default recordUID(s)
+
+The macro has the following syntax:
+
 |Source|Output|
 |{{{<<importSharedRecordsMetaData>>}}}|Creates a wizard to specify record UID|
 |{{{<<importSharedRecordsMetaData recordUID>>}}}|imports the meta data of the specified recordUID|
 |{{{<<importSharedRecordsMetaData recordUID quiet>>}}}|imports the meta data of the specified recordUID and does not display the wizard|
 
-!Javascript code
-Main macro handler and text variables
+The paramifier has the following syntax:
+
+http://example.com/#recordUID:e1277abf727b36e55f8ef53bcfab16a8a2259e48 recordUID:238324762372374782364823872348234768234a
+
 ***/
+
 //{{{
 
-// Version
-version.extensions.importSharedRecordsMetaData = {major: 1, minor: 1, revision: 2, date: new Date(2006,11,06)};
+// Ensure that the ImportSharedRecordsMetaDataPlugin is only installed once.
+if(!version.extensions.ImportSharedRecordsMetaDataPlugin) {
+version.extensions.ImportSharedRecordsMetaDataPlugin = {installed:true};
+// Check version number of core code
+if(version.major < 2 || (version.major == 2 && version.minor < 2))
+	{alertAndThrow("ImportSharedRecordsMetaDataPlugin requires TiddlyWiki 2.2 or later.");}
 
-//Define string variables used by the plugin
-config.macros.importSharedRecordsMetaData = {};
+// String constants
 config.macros.importSharedRecordsMetaData = {
-	defaultURL: "http://sra.sharedrecords.org:8080/SRCDataStore/GetJsonMetaDataEntriesServlet",
-	defaultPostURL: "http://sra.sharedrecords.org:8080/SRCDataStore/AddJsonMetaDataEntriesServlet", //"http://sra.sharedrecords.org:8080/SRCDataStore/GetJsonMetaDataEntriesServlet",
-	servletName: "GetJsonMetaDataEntriesServlet",
+	defaultURL: "http://sra.sharedrecords.org:8080/SRCDataStore/RESTServlet/",
+	defaultRecordUID: "37105c154dd4956cc4e278a5b867a435b5250d19",
+	autoSyncTiddler: "SharedRecordsAutoSyncRecordUIDs",
+	templateToken: "[% recordUIDsList %]",
+	servletName: "RESTServlet",
 	wizardTitle: "Import Shared Records Meta Data",
 	step1: "Select a record UID",
 	http1prompt: "Enter a http url to retrieve the meta data from",
@@ -35,9 +66,7 @@ config.macros.importSharedRecordsMetaData = {
 	step1promptFile: "... or select a file whose name is a recordUID:",
 	fetchLabel: "Get Meta Data Entries",
 	importSuccessful: "Import of Meta Data Entries Successful",
-	defaultRecordUID: "d19905e85b097d18f9984dd6a651ebfce22c65e0", //"e1277abf727b36e55f8ef53bcfab16a8a2259e48",
 	step2Text: "Meta data imported for record: %0",
-	targetURL: "",
 	reportTiddler: "ImportedMetaDataReport",
 	collisionMsg: "The tiddler '%0' already exists.\n\nPlease enter a new title for the imported tiddler...\nOR, keep the same title to replace the existing tiddler...\nOR,press CANCEL to skip this tiddler.",
 	quiet: false
@@ -50,12 +79,12 @@ config.commands.saveTiddler.handler = function(event,src,title)
 	if(newTitle)
 	   story.displayTiddler(null,newTitle);
 	var theTitle = newTitle ? newTitle : title;
-
-	var records = store.getTiddlerText("SharedRecordsAutoSyncRecordUIDs","").split("\n");
+	var records = store.getTiddlerText(config.macros.importSharedRecordsMetaData.autoSyncTiddler,"").split("\n");
 	var r = records ? records[0] : "";
-	
+	if(r == config.macros.importSharedRecordsMetaData.templateToken)
+		r = config.macros.importSharedRecordsMetaData.defaultRecordUID;	
 	store.setValue(theTitle, "sharedRecords.recordUID", r);
-	store.setValue(theTitle, "sharedRecords.url", config.macros.importSharedRecordsMetaData.defaultPostURL);
+	store.setValue(theTitle, "sharedRecords.url", config.macros.importSharedRecordsMetaData.defaultURL);
 	store.setValue(theTitle, "sharedRecords.sequenceNumber", "0");
 		if(config.options.chkAutoSave)
 			saveChanges();
@@ -66,15 +95,15 @@ config.commands.saveTiddler.handler = function(event,src,title)
 // immediately executes 
 config.paramifiers.recordUID = {
 	onstart: function(id) {
-		var t="<<importSharedRecordsMetaData "+id+" quiet>>";
-		var e=document.createElement('span'); wikify(t,e); e.parentNode.removeChild(e);
+		var e = document.createElement('span');
+		config.macros.importSharedRecordsMetaData.performImport(e,id,true);
 	}
 };
 
 // Slight hack to automatically load initial recordUIDs
 config.macros.importSharedRecordsMetaData.init = function()
 {
-	var records = store.getTiddlerText("SharedRecordsAutoSyncRecordUIDs","").split("\n");
+	var records = store.getTiddlerText(config.macros.importSharedRecordsMetaData.autoSyncTiddler,"").split("\n");
 	for(var t=0; t<records.length; t++)
 		config.macros.importSharedRecordsMetaData.performImport(null,records[t],true);
 }
@@ -102,7 +131,8 @@ config.macros.importSharedRecordsMetaData.handler = function(place,macroName,par
 
 config.macros.importSharedRecordsMetaData.performImport = function(place,UID,quiet)
 {
-	
+	if(UID == config.macros.importSharedRecordsMetaData.templateToken)
+		UID = config.macros.importSharedRecordsMetaData.defaultRecordUID;
 	config.macros.importSharedRecordsMetaData.quiet = quiet;
 		//Because this includes the "wizard" key word, it can use the default wizard CSS that makes it look nice
 		var importer = createTiddlyElement(null,"div",null,"importSharedRecordsMetaData wizard");
@@ -193,9 +223,11 @@ config.macros.importSharedRecordsMetaData.startHttpGet = function(importer)
 		}
 		
 		
-		var url = urlPrefix + "?recordUID=" + recordUID;	
-		displayMessage("Retrieving Meta Data...");
-		loadRemoteFile(url,config.macros.importSharedRecordsMetaData.onLoad,importer);
+		var url = urlPrefix + recordUID + "_log.json";	
+		displayMessage("Retrieving Meta Data from: " + url);
+		var r = loadRemoteFile(url,config.macros.importSharedRecordsMetaData.onLoad,importer);
+		if(typeof r == "string")
+			displayMessage("Problem with loadRemoteFile: " + r);
 }
 
 //The call back when the retrieval of the MetaData has completed.  
@@ -208,7 +240,7 @@ config.macros.importSharedRecordsMetaData.onLoad = function(status,params,respon
 			displayMessage(this.fetchError);
 			return;
 		}
-	
+	displayMessage("Retrieved " + responseText);
 		//we know the text coming back from the server *should* be eval safe.  however, a malicious server
 		//could cause some damage here.  there is a safe implemention from json.org we may want to consider
 		//using over eval
@@ -250,37 +282,31 @@ store.notifyAll();
 store.setDirty(true);
 
 }
-// ELS 
+
 config.macros.importSharedRecordsMetaData.generateReportTiddler = function(place, metaDataEntriesObject, url)
 {
 // get/create the report tiddler
 var theReport = store.getTiddler(this.reportTiddler);
 if (!theReport) { theReport= new Tiddler(); theReport.title = this.reportTiddler; theReport.text = ""; }
 // format the report content
-var shortURL=url.substr(0,url.lastIndexOf("&"));
-var UIDparam=shortURL.substr(shortURL.lastIndexOf("?")+1);
-var shortURL=shortURL.substr(0,shortURL.lastIndexOf("?"));
-var count=metaDataEntriesObject.tiddlers.length;
+var count = metaDataEntriesObject.tiddlers.length;
 var now = new Date();
-var newText = "On "+now.toLocaleString()+", "+config.options.txtUserName
-newText +=" imported "+count+" meta data tiddler"+(count==1?"":"s");
-newText += " from\n[["+shortURL+"|"+shortURL+"]]\n";
-newText += "using: "+UIDparam+"\n";
+var newText = "On " + now.toLocaleString() + ", " + config.options.txtUserName
+newText +=" imported " + count + " meta data tiddler" + (count == 1 ? "" : "s") + "\n";
+newText += " from: " + url + "\n";
 newText += "<<<\n";
 for (var t=0; t<count; t++) {
-var mde=metaDataEntriesObject.tiddlers[t];
-if (mde.status) newText += "#[["+mde.Title+"]] " + "(" + mde.creator + ") - "+mde.status+"\n";
-}
+	var mde=metaDataEntriesObject.tiddlers[t];
+	if (mde.status) newText += "#[["+mde.Title+"]] " + "(" + mde.creator + ") - "+mde.status+"\n";
+	}
 newText += "<<<\n";
-// update the ImportedTiddlers content and show the tiddler
-theReport.text = newText+((theReport.text!="")?'\n----\n':"")+theReport.text;
+theReport.text = newText + ((theReport.text != "") ? '\n----\n' : "") + theReport.text;
 theReport.modifier = config.options.txtUserName;
 theReport.modified = new Date();
 store.saveTiddler(theReport.title, theReport.title, theReport.text, theReport.modifier, theReport.modified, theReport.tags);
-story.displayTiddler(null,theReport.title,1,null,null,false);
-story.refreshTiddler(theReport.title,1,true);
+story.displayTiddler(null,theReport.title, 1, null, null, false);
+story.refreshTiddler(theReport.title, 1, true);
 }
-// ELS
 
 //Adds a meta data entry to the tiddly store as a tiddler
 //
@@ -439,4 +465,5 @@ config.macros.importSharedRecordsMetaData.displayMyError.convertFromFullUTCISO18
 	return(theDate);
 }
 
+} // end of "install only once"
 //}}}

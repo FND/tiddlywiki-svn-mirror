@@ -3,5 +3,5 @@ prehead: ../../core/html/rss.link.html
 title: html/title.html
 recipe: tiddlers/split.recipe
 tiddler: ../tiddlywiki.com/tiddlers/TiddlySaver.tiddler
-postjs: plugins/ImportSharedRecordsMetaDataPlugin.js
-postjs: plugins/SyncMetaDataTiddlers.js
+tiddler: plugins/ImportSharedRecordsMetaDataPlugin.js
+tiddler: plugins/SyncMetaDataTiddlers.js

@@ -1,1 +1,1 @@
-<div tiddler="SharedRecordsAutoSyncRecordUIDs" modifier="jjackson" modified="200611140426" created="200611140425" tags="" changecount="2">shared_records_tiddler_replace_string</div>
+<div tiddler="SharedRecordsAutoSyncRecordUIDs" modifier="jjackson" modified="200611140426" created="200611140425" tags="" changecount="2">[% recordUIDsList %]</div>

@@ -1,13 +1,32 @@
 /***
 |''Name:''|SharedRecordsSyncPlugin|
-|''Description:''|Allows changes to be synchronised with a SharedRecords server|
-|''Source:''|http://sharedrecords.tiddlywiki.com/#SyncMetaDataTiddlers|
-|''Author:''|JeremyRuston (jeremy (at) osmosoft (dot) com)|
-|''Version:''|0.9.0|
-|''Date:''|Nov 14, 2006|
+|''Description:''|Allows metadata to be synchronised with a Shared Records server|
+|''Source:''|http://sharedrecords.tiddlywiki.com/#SharedRecordsSyncPlugin|
+|''Author:''|JeremyRuston|
+|''Version:''|1.1.3|
+|''Date:''|Jan 17, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[BSD open source license]]|
-|''~CoreVersion:''|2.1.0|
+|''~CoreVersion:''|2.2.0|
+
+This plugin allows metadata to be synchronised with a Shared Records (SR) server (see
+http://www.sharedrecords.org/).
+
+In SR terminology, a record on a particular server is addressed as a record UID (a
+40-digit hex string). The items of metadata associated with a record are a sequence
+of named blobs of text.
+
+Mapping these terms to TWs synchronisation framework, a SR record UID corresponds to
+a workspace within a server. The individual metadata items correspond to tiddlers within
+that workspace.
+
+This plugin performs the following actions:
+* Installs the {{{<<importSharedRecordsMetaData>>}}} macro
+* Installs the {{{recordUID}}} paramifier
+* A hack to associate created and modified tiddlers with the default shared records server
+* Automatically loads the recordUIDs in the tiddler "SharedRecordsAutoSyncRecordUIDs"
+** the recordUIDs should be separated with newlines
+
 ***/
 
 //{{{
@@ -16,44 +35,19 @@
 if(!version.extensions.SharedRecordsSyncPlugin) {
 version.extensions.SharedRecordsSyncPlugin = {installed:true};
 // Check version number of core code
-if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	{alertAndThrow("SharedRecordsSyncPlugin requires TiddlyWiki 2.1 or later.");}
+if(version.major < 2 || (version.major == 2 && version.minor < 2))
+	{alertAndThrow("SharedRecordsSyncPlugin requires TiddlyWiki 2.2 or later.");}
 
-// Core extensions to maintain a 'changeCount' extended field
-
-var coreSaveTiddler = TiddlyWiki.prototype.saveTiddler;
-TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields)
-{
-	var r = coreSaveTiddler.apply(this,arguments);
-	incChangeCount(newTitle);
-	return r;
-}
-
-var coreSetTiddlerTag = TiddlyWiki.prototype.setTiddlerTag;
-TiddlyWiki.prototype.setTiddlerTag = function(title,status,tag)
-{
-	var r = coreSetTiddlerTag.apply(this,arguments);
-	incChangeCount(title);
-	return r;
-}
-
-function incChangeCount(title)
-{
-	var c = store.getValue(title,"changeCount");
-	if(!c)
-		c = 0;
-	store.setValue(title,"changeCount",++c);
-}
-
-// Translateable strings
+// String constants
 config.macros.sharedRecordsSync = {
 	label: "sync",
 	prompt: "Plug back in to the SharedRecords server and synchronize changes",
+	postUrl: "%0%1_log?max-sequence-number=%2&format=json",
 	jsonTag: '"%0"',
 	jsonTagSep: ',',
 	jsonEntry: '{"title":"%0","modified":"%1","modifier":"%2","created":"%3",\n"tags":[%4],"text":"%5",\n"sharedRecords.recordUID":"%6","sharedRecords.url":"%7","sharedRecords.sequenceNumber":"%8"}\n',
 	jsonEntrySep: ',',
-	jsonWrapper: '{"sharedRecords.maxSequenceNumber":"%0","tiddlers":[%1]}'
+	jsonWrapper: '{"tiddlers":[%0]}'
 };
 
 // sharedRecordsSync macro
@@ -68,6 +62,7 @@ config.macros.sharedRecordsSync.doSync = function(place)
 	var isoDate = function(d) {
 		return d.formatString("YYYY-0MM-0DDT0hh:0mm:0ss.000UTC");
 		};
+displayMessage("Syncing");
 	// Get the list of syncable tiddlers
 	var syncList = [];
 	var maxSequenceNumber = 0;
@@ -82,6 +77,7 @@ config.macros.sharedRecordsSync.doSync = function(place)
 		if(shRecordUID && shUrl && changeCount > 0)
 			syncList.push(tiddler);
 		});
+displayMessage("Syncing: number of items: " + syncList.length);
 	if(syncList.length == 0)
 		{
 		displayMessage("Nothing to deposit");
@@ -109,17 +105,20 @@ config.macros.sharedRecordsSync.doSync = function(place)
 			sequenceNumber
 			]));
 		}
-	var payload = config.macros.sharedRecordsSync.jsonWrapper.format([maxSequenceNumber,entries.join(config.macros.sharedRecordsSync.jsonEntrySep)]);
+	var payload = config.macros.sharedRecordsSync.jsonWrapper.format([entries.join(config.macros.sharedRecordsSync.jsonEntrySep)]);
 	shRecordUID = store.getValue(syncList[0],"sharedRecords.recordUID");
 	shUrl = store.getValue(syncList[0],"sharedRecords.url");
+	var url = config.macros.sharedRecordsSync.postUrl.format([shUrl,shRecordUID,maxSequenceNumber])
+displayMessage("Sync payload: " + payload);
+displayMessage("url: " + url);
 	var r = doHttp("POST",
-		shUrl,
-		"recordUID=" + encodeURI(shRecordUID) + "&payload=" + encodeURI(payload),
-		null,null,
+		url,
+		payload,
+		null,null,null,
 		config.macros.sharedRecordsSync.donePut);
 	if(typeof r == "string")
 		{
-		alert("Error depositing data to server");
+		alert("Error depositing data to server: " + r);
 		}
 }
 
@@ -129,89 +128,6 @@ config.macros.sharedRecordsSync.donePut = function(status,params,responseText,ur
 		displayMessage("Done");
 	else
 		displayMessage("Failed: " + xhr.statusText + " (" + xhr.status + ")");
-}
-
-// HTTP status codes
-var httpStatus = {
-	OK: 200,
-	ContentCreated: 201,
-	NoContent: 204,
-	Unauthorized: 401,
-	Forbidden: 403,
-	NotFound: 404,
-	MethodNotAllowed: 405
-};
-
-// Perform an http request
-//   type - GET/POST/PUT/DELETE
-//   url - the source url
-//   data - optional data for POST and PUT
-//   username - optional username for basic authentication
-//   password - optional password for basic authentication
-//   callback - function to call when there's a response
-//   params - parameter object that gets passed to the callback for storing it's state
-//   accept - optional MIME type for Accept header
-// Return value is the underlying XMLHttpRequest object, or 'null' if there was an error
-// Callback function is called like this:
-//   callback(status,params,responseText,xhr)
-//     status - true if OK, false if error
-//     params - the parameter object provided to loadRemoteFile()
-//     responseText - the text of the file
-//     url - requested URL
-//     xhr - the underlying XMLHttpRequest object
-function doHttp(type,url,data,username,password,callback,params,accept)
-{
-	// Get an xhr object
-	var x;
-	try
-		{
-		x = new XMLHttpRequest(); // Modern
-		}
-	catch(e)
-		{
-		try
-			{
-			x = new ActiveXObject("Msxml2.XMLHTTP"); // IE 6
-			}
-		catch (e)
-			{
-			return "Can't create XMLHttpRequest object";
-			}
-		}
-	// Install callback
-	x.onreadystatechange = function()
-		{
-		if (x.readyState == 4 && callback)
-			{
-			if([0, httpStatus.OK, httpStatus.ContentCreated, httpStatus.NoContent].contains(x.status))
-				callback(true,params,x.responseText,url,x);
-			else
-				callback(false,params,null,url,x);
-			x.onreadystatechange = function(){};
-			x = null;
-			}
-		}
-	// Send request
-	if(window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
-		window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-	try
-		{
-		url = url + (url.indexOf("?") < 0 ? "?" : "&") + "nocache=" + Math.random();
-		x.open(type,url,true,username,password);
-		if (data)
-			x.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		if (x.overrideMimeType)
-			x.setRequestHeader("Connection", "close");
-		if(accept)
-			x.setRequestHeader("Accept",accept);
-		x.setRequestHeader("X-Requested-With", "TiddlyWiki " + version.major + "." + version.minor + "." + version.revision + (version.beta ? " (beta " + version.beta + ")" : ""));
-		x.send(data);
-		}
-	catch (e)
-		{
-		return exceptionText(e);
-		}
-	return x;
 }
 
 } // end of "install only once"
