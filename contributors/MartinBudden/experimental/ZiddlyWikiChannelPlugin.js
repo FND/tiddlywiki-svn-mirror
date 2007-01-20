@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#ZiddlyWikiChannelPlugin|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
-|''Version:''|0.0.5|
-|''Date:''|Dec 30, 2006|
+|''Version:''|0.1.0|
+|''Date:''|Jan 20, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -81,17 +81,16 @@ ZiddlyWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
 		var content = x[1];
 		content = content.unescapeLineBreaks();
 		var tiddler = store.createTiddler(params.title);
-		tiddler.updateFieldsAndContent(params,content);
 		try {
-			tiddler.modifier = x[2];
+			params.modifier = x[2];
 			if(x[3])
-				tiddler.created = Date.convertFromYYYYMMDDHHMM(x[3]);
+				params.created = Date.convertFromYYYYMMDDHHMM(x[3]);
 			if(x[4])
-				tiddler.modified = Date.convertFromYYYYMMDDHHMM(x[4]);
-			tiddler.tags = x[5];
+				params.modified = Date.convertFromYYYYMMDDHHMM(x[4]);
+			params.tags = x[5];
 		} catch(ex) {
 		}
-		store.updateStory(tiddler);
+		tiddler.updateFieldsAndContent(params,content);
 	}
 	//#else {
 	//#	displayMessage('Error:'+responseText.substr(0,50));
@@ -113,7 +112,7 @@ ZiddlyWikiChannel.getTiddlerRevisionList = function(title,params)
 // http://www.ziddlywiki.org/ZiddlyWiki?action=get_revisions&id=ZiddlyWiki
 
 	params.title = title;
-	params.workspace = null;
+	params.serverWorkspace = null;
 	params.serverType = 'ziddlywiki';
 	var req = doHttp('GET',url,null,null,null,null,ZiddlyWikiChannel.getTiddlerRevisionListCallback,params,null);
 //#displayMessage("req:"+req);
@@ -182,12 +181,10 @@ ZiddlyWikiChannel.putTiddler = function(title,params)
 	var content = store.fetchTiddler(title).text;
 	title = encodeURIComponent(title);
 	var urlTemplate = 'http://%0/RPC2/';
-	var url = urlTemplate.format([params.serverHost,params.workspace,encodeURIComponent(title)]);
+	var url = urlTemplate.format([params.serverHost,params.serverWorkspace,encodeURIComponent(title)]);
 //#displayMessage('putZiddlyWwiki url: '+url);
 
 	params.title = title;
-	params.serverHost = server;
-	params.workspace = workspace;
 	params.serverType = 'ziddlywiki';
 	var req =doHttp('POST',url,payload,null,params.username,params.password,ZiddlyWikiChannel.putTiddlerCallback,params);
 //#displayMessage("req:"+req);

@@ -3,8 +3,8 @@
 |''Description:''|Candidates for moving into TiddlyWiki core|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental|
-|''Version:''|0.0.7|
-|''Date:''|Dec 30, 2006|
+|''Version:''|0.1.0|
+|''Date:''|Jan 20, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -39,9 +39,9 @@ function onClickTiddlerLink(e)
 			if(fields) {
 				var tiddlerElem = document.getElementById(story.idPrefix + title);
 				tiddlerElem.setAttribute("tiddlyFields",fields);
+				if(!store.tiddlerExists(title))
+					store.getMissingTiddler(title,convertCustomFieldsToHash(fields));
 			}
-			if(!store.tiddlerExists(title))
-				store.getMissingTiddler(title);
 		}
 	}
 	//#clearMessage();
@@ -59,35 +59,9 @@ config.hostFunctions = {
 	unlockTiddler: {}
 };
 
-// params.workspace
-// params.wikiformat
-// params.serverHost
-// params.serverType
-// params.serverPageId
-// params.serverPageName
-// params.serverPageRevision
-// params.token
-
-TiddlyWiki.prototype.updateStory = function(tiddler)
-{
-//#displayMessage("updateStory");
-	this.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
-	//#story.refreshTiddler(tiddler.title,1,true);// not required, savetiddler refreshes
-	if(config.options.chkAutoSave) {
-		saveChanges();
-	}
-};
-
-TiddlyWiki.getFields = function(title)
-{
-	var tiddlerElem = document.getElementById(story.idPrefix + title);
-	var customFields = tiddlerElem.getAttribute("tiddlyFields");
-	return convertCustomFieldsToHash(customFields);
-};
-
 //# Get the server type. If there is no server.type field, infer the server type
 //# from the wikiformat.
-TiddlyWiki.getServerType = function(fields)
+TiddlyWiki.prototype.getServerType = function(fields)
 {
 	if(!fields)
 		return null;
@@ -97,20 +71,21 @@ TiddlyWiki.getServerType = function(fields)
 	return serverType ? serverType.toLowerCase() : null;
 };
 
-TiddlyWiki.prototype.getMissingTiddler = function(title)
+TiddlyWiki.prototype.getMissingTiddler = function(title,fields)
 {
 //#displayMessage("getMissingTiddler");
-	fields = TiddlyWiki.getFields(title);
+	if(!fields)
+		return false;
 	if(!fields['server.host'])
 		return false;
-	var serverType = TiddlyWiki.getServerType(fields);
+	var serverType = this.getServerType(fields);
 	if(!serverType)
 		return false;
 	var fn = config.hostFunctions.getTiddler[serverType];
 	if(fn) {
 		var params = {};
 		params.serverHost = fields['server.host'];
-		params.workspace = fields['server.workspace'];
+		params.serverWorkspace = fields['server.workspace'];
 		fn(title,params);
 	}
 	return true;
@@ -123,7 +98,7 @@ TiddlyWiki.prototype.getHostedTiddler = function(title,params)
 		var fields = tiddler.fields;
 		var serverType = tiddler.getServerType();
 	} else {
-		fields = TiddlyWiki.getFields(title);
+		fields = convertCustomFieldsToHash(document.getElementById(story.idPrefix + title).getAttribute("tiddlyFields"));
 		serverType = this.getServerType(fields);
 	}
 	if(!serverType)
@@ -134,7 +109,7 @@ TiddlyWiki.prototype.getHostedTiddler = function(title,params)
 			params = {};
 		params.title = title;
 		params.serverHost = fields['server.host'];
-		params.workspace = fields['server.workspace'];
+		params.serverWorkspace = fields['server.workspace'];
 		fn(title,params);
 		return true;
 	}
@@ -155,7 +130,7 @@ TiddlyWiki.prototype.putHostedTiddler = function(title,params)
 			params = {};
 		params.title = title;
 		params.serverHost = fields['server.host'];
-		params.workspace = fields['server.workspace'];
+		params.serverWorkspace = fields['server.workspace'];
 		fn(title,params);
 		return true;
 	}
@@ -177,30 +152,6 @@ Tiddler.prototype.getServerType = function()
 		}
 	}
 	return serverType ? serverType.toLowerCase() : null;
-};
-
-Tiddler.prototype.updateFieldsAndContent = function(params,content)
-{
-	if(content)
-		this.text = content;
-	this.fields['server.host'] = params.serverHost;
-	if(params.workspace)
-		this.fields['server.workspace'] = params.workspace;
-	if(params.wikiformat)
-		this.fields['wikiformat'] = params.wikiformat;
-	if(params.serverType)
-		this.fields['server.type'] = params.serverType;
-	if(params.serverPageName)
-		this.fields['server.page.name'] = params.serverPageName;
-	if(params.serverPageId)
-		this.fields['server.page.id'] = params.serverPageId;
-	if(params.serverPageRevision)
-		this.fields['server.page.revision'] = params.serverPageRevision;
-	this.created = new Date();
-	this.modified = this.created;
-	this.modifier = params.serverHost;
-	this.fields['downloaded'] = this.modified.convertToYYYYMMDDHHMM();
-	this.fields['changecount'] = -1;
 };
 
 //# Returns true if function fnName is available for the tiddler's serverType
@@ -226,9 +177,9 @@ Tiddler.prototype.getRevisionList = function(params)
 	if(fn) {
 		if(!params)
 			params = {};
-		params.title = title;
+		params.title = this.title;
 		params.serverHost = this.fields['server.host'];
-		params.workspace = this.fields['server.workspace'];
+		params.serverWorkspace = this.fields['server.workspace'];
 		fn(this.title,params);
 	}
 	return true;

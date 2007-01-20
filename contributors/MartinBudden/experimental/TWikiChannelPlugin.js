@@ -4,16 +4,16 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#TWikiChannelPlugin|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
-|''Version:''|0.0.5|
-|''Date:''|Dec 30, 2006|
+|''Version:''|0.1.0|
+|''Date:''|Jan 20, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
 
-|''Default TWiki Server''|<<option txtTWikiDefaultServer>>|
-|''Default TWiki Web(workspace)''|<<option txtTWikiDefaultWorkspace>>|
-|''Default TWiki username''|<<option txtTWikiUsername>>|
-|''Default TWiki password''|<<option txtTWikiPassword>>|
+|''Default TWiki Server''|<<option txttwikiDefaultServer>>|
+|''Default TWiki Web(workspace)''|<<option txttwikiDefaultWorkspace>>|
+|''Default TWiki username''|<<option txttwikiUsername>>|
+|''Default TWiki password''|<<option txttwikiPassword>>|
 
 //#var defaultServer = 'twiki.org/cgi-bin';
 //#defaultServer = 'smglinx.intra/twiki/bin';
@@ -25,14 +25,14 @@
 ***/
 
 //{{{
-if(!config.options.txtTWikiDefaultServer)
-	{config.options.txtTWikiDefaultServer = 'twiki.org';}
-if(!config.options.txtTWikiDefaultWorkspace)
-	{config.options.txtTWikiDefaultWorkspace = 'Main';}
-if(!config.options.txtTWikiUsername)
-	{config.options.txtTWikiUsername = '';}
-if(!config.options.txtTWikiPassword)
-	{config.options.txtTWikiPassword = '';}
+if(!config.options.txttwikiDefaultServer)
+	{config.options.txttwikiDefaultServer = 'twiki.org';}
+if(!config.options.txttwikiDefaultWorkspace)
+	{config.options.txttwikiDefaultWorkspace = 'Main';}
+if(!config.options.txttwikiUsername)
+	{config.options.txttwikiUsername = '';}
+if(!config.options.txttwikiPassword)
+	{config.options.txttwikiPassword = '';}
 //}}}
 
 // Ensure that the plugin is only installed once.
@@ -52,12 +52,13 @@ TWikiChannel.getTiddler = function(title,params)
 //# and <verb> is the alias for the function registered using the registerRESTHandler.
 //# http://smglinx.intra/twiki/bin/view/SMG/WebHome?raw=text';
 
-	//var urlTemplate = 'http://%0/cgi-bin/view/%1/%2?raw=text';
-	var urlTemplate = 'http://%0/view/%1/%2?raw=text';
+	var urlTemplate = '%0/view/%1/%2?raw=text';
+	if(!params.serverHost.match(/:\/\//))
+		urlTemplate = 'http://' + urlTemplate;
 	var serverHost = params.serverHost;
 	if(!serverHost.match(/\/bin$/))
 		serverHost += '/cgi-bin';
-	var url = urlTemplate.format([serverHost,params.workspace,title]);
+	var url = urlTemplate.format([serverHost,params.serverWorkspace,title]);
 //#displayMessage('getTwiki url: '+url);
 
 	params.title = title;
@@ -80,22 +81,21 @@ TWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
 
 	var tiddler = store.createTiddler(params.title);
 	tiddler.updateFieldsAndContent(params,content);
-	tiddler.fields['changecount'] = -1;
-	tiddler.modifier = params.serverHost;
-	store.updateStory(tiddler);
 };
 
 TWikiChannel.putTiddler = function(title,params)
 {
 	var text = store.fetchTiddler(title).text;
 	//var urlTemplate = 'http://%0/cgi-bin/save/%1/%2?text=%3';
-	var urlTemplate = 'http://%0/save/%1/%2?text=%3';
 	//var urlTemplate = 'http://%0/cgi-bin/edit/%1/%2?text=%3';
 
+	var urlTemplate = '%0/save/%1/%2?text=%3';
+	if(!params.serverHost.match(/:\/\//))
+		urlTemplate = 'http://' + urlTemplate;
 	var serverHost = params.serverHost;
 	if(!serverHost.match(/\/bin$/))
 		serverHost += '/cgi-bin';
-	var url = urlTemplate.format([serverHost,params.workspace,title,text]);
+	var url = urlTemplate.format([serverHost,params.serverWorkspace,title,text]);
 //# displayMessage('putUrl:'+url);
 
 	params.title = title;

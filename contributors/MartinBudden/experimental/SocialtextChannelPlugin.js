@@ -4,9 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#SocialtextChannelPlugin|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
-|''Version:''|0.0.5|
-|''Status:''|alpha pre-release|
-|''Date:''|Dec 30, 2006|
+|''Version:''|0.1.0|
+|''Date:''|Jan 20, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -52,7 +51,7 @@ SocialtextChannel.getTiddler = function(title,params)
 	var urlTemplate = '%0/data/workspaces/%1/pages/%2?accept=application/json';
 	if(!params.serverHost.match(/:\/\//))
 		urlTemplate = 'http://' + urlTemplate;
-	var url = urlTemplate.format([params.serverHost,params.workspace,title]);
+	var url = urlTemplate.format([params.serverHost,params.serverWorkspace,title]);
 //#displayMessage('getSocialtext url: '+url);
 
 	params.title = title;
@@ -106,7 +105,7 @@ SocialtextChannel.getTiddlerCallback = function(status,params,responseText,xhr)
 	var urlTemplate = '%0/data/workspaces/%1/pages/%2?accept=%3';
 	if(!params.serverHost.match(/:\/\//))
 		urlTemplate = 'http://' + urlTemplate;
-	var url = urlTemplate.format([params.serverHost,params.workspace,params.title,SocialtextChannel.mimeType]);
+	var url = urlTemplate.format([params.serverHost,params.serverWorkspace,params.title,SocialtextChannel.mimeType]);
 	var req = doHttp('GET',url,null,null,null,null,SocialtextChannel.getTiddlerCallback2,params);
 //#displayMessage('req:'+req);
 };
@@ -120,16 +119,6 @@ SocialtextChannel.getTiddlerCallback2 = function(status,params,responseText,xhr)
 	if(content) {
 		var tiddler = store.createTiddler(params.title);
 		tiddler.updateFieldsAndContent(params,content);
-		if(params.tags)
-			tiddler.tags = params.tags;
-		if(params.modified)
-			tiddler.modified = params.modified;
-		if(params.serverPageName)
-			tiddler.fields['server.page.name'] = params.serverPageName;
-		if(params.serverPageId)
-			tiddler.fields['server.page.id'] = params.serverPageId;
-		tiddler.modifier = params.modifier ? params.modifier : params.serverHost;
-		store.updateStory(tiddler);
 	}
 };
 
@@ -140,7 +129,7 @@ SocialtextChannel.putTiddler = function(title,params)
 	var urlTemplate = '%0/data/workspaces/%1/pages/%2';
 	if(!params.serverHost.match(/:\/\//))
 		urlTemplate = 'http://' + urlTemplate;
-	var url = urlTemplate.format([params.serverHost,params.workspace,title,text]);
+	var url = urlTemplate.format([params.serverHost,params.serverWorkspace,title,text]);
 //#displayMessage('putUrl:'+url);
 
 	params.title = title;

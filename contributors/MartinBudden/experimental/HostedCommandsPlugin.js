@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#HostedCommandsPlugin|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental|
-|''Version:''|0.0.7|
-|''Date:''|Dec 30, 2006|
+|''Version:''|0.1.0|
+|''Date:''|Jan 20, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -20,6 +20,55 @@
 // Ensure that the plugin is only installed once.
 if(!version.extensions.HostedCommandsPlugin) {
 version.extensions.HostedCommandsPlugin = {installed:true};
+
+// params.wikiformat
+// params.serverHost
+// params.serverType
+// params.serverWorkspace
+// params.serverPageId
+// params.serverPageName
+// params.serverPageRevision
+// params.token
+
+Tiddler.prototype.updateFieldsAndContent = function(params,content)
+{
+	if(content)
+		this.text = content;
+	if(params.wikiformat)
+		this.fields['wikiformat'] = params.wikiformat;
+	this.fields['server.host'] = params.serverHost;
+	if(params.serverType)
+		this.fields['server.type'] = params.serverType;
+	if(params.serverWorkspace)
+		this.fields['server.workspace'] = params.serverWorkspace;
+	if(params.serverPageId)
+		this.fields['server.page.id'] = params.serverPageId;
+	if(params.serverPageName)
+		this.fields['server.page.name'] = params.serverPageName;
+	if(params.serverPageRevision)
+		this.fields['server.page.revision'] = params.serverPageRevision;
+	var downloaded = new Date();
+	this.created = params.created ? params.created : downloaded;
+	this.modified = params.modified ? params.modified : this.created;
+	this.modifier = params.modifier ? params.modifier : params.serverHost;
+	if(params.tags)
+		tiddler.tags = params.tags;
+	this.fields['downloaded'] = downloaded.convertToYYYYMMDDHHMM();
+	this.fields['changecount'] = -1;
+	store.saveTiddler(this.title,this.title,this.text,this.modifier,this.modified,this.tags,this.fields);
+	if(config.options.chkAutoSave)
+		saveChanges();
+};
+
+/*TiddlyWiki.prototype.updateStory = function(tiddler)
+{
+//#displayMessage("updateStory");
+	this.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
+	//#story.refreshTiddler(tiddler.title,1,true);// not required, savetiddler refreshes
+	if(config.options.chkAutoSave) {
+		saveChanges();
+	}
+};*/
 
 TiddlyWiki.prototype.updatedOffline = function()
 {
@@ -91,7 +140,7 @@ config.commands.upload.isEnabled = function(tiddler)
 
 config.commands.upload.handler = function(event,src,title)
 {
-	var params = {};
+	var params = {server:{}};
 	params.title = title;
 	params.callback = config.commands.upload.callback;
 	store.putHostedTiddler(title,params);
@@ -118,7 +167,7 @@ config.commands.revisions.isEnabled = function(tiddler)
 
 config.commands.revisions.handler = function(event,src,title)
 {
-	var params = {};
+	var params = {server:{}};
 	params.title = title;
 	params.callback = config.commands.revisions.callback;
 	params.popup = Popup.create(src);

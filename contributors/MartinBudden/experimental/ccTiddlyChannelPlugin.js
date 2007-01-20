@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#ccTiddlyChannelPlugin|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
-|''Version:''|0.0.5|
-|''Date:''|Dec 30, 2006|
+|''Version:''|0.1.0|
+|''Date:''|Jan 20, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -46,7 +46,7 @@ ccTiddlyChannel.getTiddler = function(title,params)
 //#displayMessage('getccTiddly url: '+url);
 
 	params.title = title;
-	params.workspace = null;
+	params.serverWorkspace = null;
 	params.serverType = 'cctiddly';
 	var req = doHttp('GET',url,null,null,null,null,ccTiddlyChannel.getTiddlerCallback1,params,null);
 //#displayMessage("req:"+req);
@@ -64,22 +64,12 @@ ccTiddlyChannel.getTiddlerCallback1 = function(status,params,responseText,xhr)
 {
 //#displayMessage('getTiddlerCallback1 status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
-	//params.revisions = [];
-	var r =  responseText;
-	var revs = r.split('\n');
+	var revs = responseText.split('\n');
 	var parts = revs[0].split(' ');
-	params.serverPageRevision = parts[1];
-	/*for(var i=0; i<revs.length; i++) {
-		var parts = revs[i].split(' ');
-		if(parts.length>1) {
-			params.revisions[i] = {};
-			params.revisions[i].modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
-			params.revisions[i].key = parts[1];
-		}
-	}*/
+	var pageRevision = parts[1];
 // http://cctiddly.sourceforge.net/msghandle.php?action=revisionDisplay&title=About&revision=6
 	var urlTemplate = 'http://%0/msghandle.php?action=revisionDisplay&title=%1&revision=%2';
-	var url = urlTemplate.format([params.serverHost,params.title,params.serverPageRevision]);
+	var url = urlTemplate.format([params.serverHost,params.title,pageRevision]);
 	var req = doHttp('GET',url,null,null,null,null,ccTiddlyChannel.getTiddlerCallback2,params,null);
 //#displayMessage("req:"+req);
 };
@@ -103,18 +93,17 @@ ccTiddlyChannel.getTiddlerCallback2 = function(status,params,responseText,xhr)
 	var x = responseText.split('\n');
 	var content = x[2];
 	content = content.unescapeLineBreaks();
-	var tiddler = store.createTiddler(params.title);
-	tiddler.updateFieldsAndContent(params,content);
 	try {
-		//tiddler.modifier = x[2];
+		//params.modifier = x[2];
 		/*if(x[4])
-			tiddler.created = Date.convertFromYYYYMMDDHHMM(x[4]);
+			params.created = Date.convertFromYYYYMMDDHHMM(x[4]);
 		if(x[5])
-			tiddler.modified = Date.convertFromYYYYMMDDHHMM(x[5]);
-		tiddler.tags = x[6];*/
+			params.modified = Date.convertFromYYYYMMDDHHMM(x[5]);
+		params.tags = x[6];*/
 	} catch(ex) {
 	}
-	store.updateStory(tiddler);
+	var tiddler = store.createTiddler(params.title);
+	tiddler.updateFieldsAndContent(params,content);
 };
 
 
@@ -130,7 +119,7 @@ ccTiddlyChannel.getTiddlerRevisionList = function(title,params)
 //#displayMessage('getccTiddly url: '+url);
 
 	params.title = title;
-	params.workspace = null;
+	params.serverWorkspace = null;
 	params.serverType = 'cctiddly';
 	var req = doHttp('GET',url,null,null,null,null,ccTiddlyChannel.getTiddlerRevisionListCallback,params,null);
 //#displayMessage("req:"+req);
@@ -199,12 +188,10 @@ ccTiddlyChannel.putTiddler = function(title,params)
 	var content = store.fetchTiddler(title).text;
 	title = encodeURIComponent(title);
 	var urlTemplate = 'http://%0/RPC2/';
-	var url = urlTemplate.format([params.serverHost,params.workspace,encodeURIComponent(title)]);
+	var url = urlTemplate.format([params.serverHost,params.serverWorkspace,encodeURIComponent(title)]);
 //#displayMessage('putZiddlyWwiki url: '+url);
 
 	params.title = title;
-	params.serverHost = server;
-	params.workspace = workspace;
 	params.serverType = 'cctiddly';
 	var req =doHttp('POST',url,payload,null,params.username,params.password,ccTiddlyChannel.putTiddlerCallback,params);
 //#displayMessage("req:"+req);

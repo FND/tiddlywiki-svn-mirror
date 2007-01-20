@@ -4,9 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#JSPWikiChannelPlugin|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
-|''Version:''|0.0.5|
-|''Status:''|alpha pre-release|
-|''Date:''|Dec 30, 2006|
+|''Version:''|0.1.0|
+|''Date:''|Jan 20, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -46,7 +45,7 @@ JSPWikiChannel.getTiddler = function(title,params)
 	//#var fn = 'wiki.getAllTiddlers';
 	var fn = 'wiki.getPage';
 	var urlTemplate = 'http://%0/RPCU/';
-	var url = urlTemplate.format([params.serverHost,params.workspace,title]);
+	var url = urlTemplate.format([params.serverHost,params.serverWorkspace,title]);
 //#displayMessage('getJSPWwiki url: '+url);
 
 	var fnParamsTemplate ='<params><param><value><string>%0</string></value></param></params>';
@@ -72,8 +71,6 @@ JSPWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
 	content = content.replace('</value></param></params></methodResponse>','');
 	var tiddler = store.createTiddler(params.title);
 	tiddler.updateFieldsAndContent(params,content);
-	tiddler.modifier = params.serverHost;
-	store.updateStory(tiddler);
 };
 
 JSPWikiChannel.putTiddler = function(title,params)
@@ -85,7 +82,7 @@ JSPWikiChannel.putTiddler = function(title,params)
 //#putPage(utf8 page,utf8 content,struct attributes )
 	var fn = 'wiki.putPage';
 	var urlTemplate = 'http://%0/RPC2/';
-	var url = urlTemplate.format([params.serverHost,params.workspace,title]);
+	var url = urlTemplate.format([params.serverHost,params.serverWorkspace,title]);
 //#displayMessage('putJSPWwiki url: '+url);
 
 	var fnParamsTemplate ='<params>';

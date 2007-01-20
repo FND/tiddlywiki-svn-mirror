@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiChannelPlugin|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
-|''Version:''|0.0.6|
-|''Date:''|Dec 30, 2006|
+|''Version:''|0.1.0|
+|''Date:''|Jan 20, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -45,23 +45,25 @@ MediaWikiChannel.canonicalTitle = function(title)
 MediaWikiChannel.getTiddler = function(title,params)
 {
 	var canonicalTitle = MediaWikiChannel.canonicalTitle(title);
-displayMessage('MediaWikiChannel.getTiddler:'+canonicalTitle);
+//#displayMessage('MediaWikiChannel.getTiddler:'+canonicalTitle);
 //# http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&titles=Elongation
 	params.title = title;
-	params.workspace = null;
+	params.serverWorkspace = null;
 	params.wikiformat = 'MediaWiki';
 	params.serverType = 'mediawiki';
-	var urlTemplate = 'http://%0/w/api.php?format=json&action=%1&prop=revisions&rvprop=content&titles=%2';
+	var urlTemplate = '%0/w/api.php?format=json&action=%1&prop=revisions&rvprop=content&titles=%2';
+	if(!params.serverHost.match(/:\/\//))
+		urlTemplate = 'http://' + urlTemplate;
 	var url = urlTemplate.format([params.serverHost,'query',canonicalTitle]);
-displayMessage('url:'+url);
+//#displayMessage('url:'+url);
 	var req = doHttp('GET',url,null,null,null,null,MediaWikiChannel.getTiddlerCallback,params,null);
 //#displayMessage('req:'+req);
 };
 
 MediaWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
 {
-displayMessage('getTiddlerCallback status:'+status);
-displayMessage('rt:'+responseText.substr(0,50));
+//#displayMessage('getTiddlerCallback status:'+status);
+//#displayMessage('rt:'+responseText.substr(0,50));
 //# displayMessage('xhr:'+xhr);
 	var content = null;
 	try {
@@ -70,7 +72,6 @@ displayMessage('rt:'+responseText.substr(0,50));
 		var page = MediaWikiChannel.anyChild(queryResult.query.pages);
 		var revision = MediaWikiChannel.anyChild(page.revisions);
 		content = revision['*'];
-		//#displayMessage('content='+content);
 		var revid = revision['revid'];
 	} catch (ex) {
 		alert('Oh dear, the JSON stuff went awry');
@@ -88,10 +89,8 @@ displayMessage('rt:'+responseText.substr(0,50));
 
 	if(content) {
 		var tiddler = store.createTiddler(params.title);
-		tiddler.updateFieldsAndContent(params,content);
 		tiddler.fields['mediawiki.revid'] = String(revid);
-		tiddler.modifier = params.serverHost;
-		store.updateStory(tiddler);
+		tiddler.updateFieldsAndContent(params,content);
 	}
 };
 
