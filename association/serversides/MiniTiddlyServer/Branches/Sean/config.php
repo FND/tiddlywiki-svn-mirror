@@ -43,6 +43,8 @@ Run this file after copying everything to your install server. (In a unique fold
 
 */
 
+$data = "";
+
 include_once("Source/Functions.php");
 
 $configfilepath = "Source/config.txt";
