@@ -3,7 +3,7 @@
 |''Description:''|Candidates for moving into TiddlyWiki core|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental|
-|''Version:''|0.1.0|
+|''Version:''|0.1.1|
 |''Date:''|Jan 20, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -15,6 +15,26 @@
 if(!version.extensions.ToCore) {
 version.extensions.ToCore = {installed:true};
 
+//# list.handler has been tweeked to pass additional parameters to list type handler
+config.macros.list.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	var type = params[0] ? params[0] : "all";
+	var theList = document.createElement("ul");
+	place.appendChild(theList);
+	if(this[type].prompt)
+		createTiddlyElement(theList,"li",null,"listTitle",this[type].prompt);
+	var results;
+	if(this[type].handler)
+		results = this[type].handler(params,wikifier,paramString,tiddler);
+	for(var t = 0; t < results.length; t++) {
+		var theListItem = document.createElement("li");
+		theList.appendChild(theListItem);
+		var title = typeof results[t] == "string" ? results[t] : results[t].title;
+		createTiddlyLink(theListItem,title,true,null,false,tiddler);
+	}
+};
+
+//# onClickTiddlerLink has been tweeked to get missing links from host
 function onClickTiddlerLink(e)
 {
 	if (!e) e = window.event;
@@ -44,7 +64,7 @@ function onClickTiddlerLink(e)
 			}
 		}
 	}
-	//#clearMessage();
+	clearMessage();
 	return false;
 }
 
@@ -187,3 +207,4 @@ Tiddler.prototype.getRevisionList = function(params)
 
 } // end of 'install only once'
 //}}}
+
