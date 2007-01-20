@@ -29,12 +29,12 @@ Common Functions .. These will allow us to not have to write so much duplicate c
             
             // IMPORT ORIG WIKI // Open the wikiframe, put in the new filename and go.
             
-            if (!$handle = fopen($wikiframe, 'r')) 
-                echo "error:true, message:'Cannot open file ($wikiframe)',";
-                   
-            if (!$output = fread($handle, filesize($wikiframe))) 
-                echo "error:true, message:'Cannot read file ($wikiframe)',";
-
+                if (!$handle = fopen($wikiframe, 'r')) 
+                    echo "error:true, message:'Cannot open file ($wikiframe)',";
+                       
+                if (!$output = fread($handle, filesize($wikiframe))) 
+                    echo "error:true, message:'Cannot read file ($wikiframe)',";
+                    
             fclose($handle);
             
             $output = preg_replace ( '/"WIKIPATH"/i',"\"$newSource\"",$output);
@@ -59,6 +59,11 @@ Common Functions .. These will allow us to not have to write so much duplicate c
             $data .= "saved:true,";
               
         fclose($handle);
+    }
+    
+    function readFileToString($file) {
+        $lines = file($file);
+        return join("", $lines);
     }
 
 ?>

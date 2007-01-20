@@ -58,16 +58,14 @@
     
 // ADMIN FUNCTIONS //  I probably don't need to open the file each time, but for now we'll keep it this way. 
     else if ( $action == "adduser" && $_SESSION['user'] == "admin") {
-        $config = file($configfile);
-        $configstr = join("", $config);
+        $configstr = readFileToString($configfile);
         $configstr = preg_replace('/\)\;/i',"\t\"$user\" => \"$pass\",\n);",$configstr);
         writeToFile($configfile, $configstr);
         $data .= "adduser:true,";
     }
     
     else if ( $action == "removeuser" && $_SESSION['user'] == "admin") {
-        $config = file($configfile);
-        $configstr = join("", $config);
+        $configstr = readFileToString($configfile);
         $configstr = preg_replace("/.*$user.*\n/i","",$configstr);
         
         writeToFile($configfile, $configstr);
@@ -75,13 +73,20 @@
     }
     
     else if ( $action == "clearall" && $_SESSION['user'] == "admin") {
-        $orig = file($templatename);
-        $origstr = join("", $orig);
+        $origstr = readFileToString($templatename);
         writeToFile($sourcename, $origstr);
     }
     
     else if ( $action == "moveadmin" && $_SESSION['user'] == "admin") {
-        
+        $side = $_POST['side'];
+        $css = readFileToString("style.css");
+        if ( $side == "left" )
+            $css = preg_replace ( '/right:(\d*)px/i',"left:$1px",$css);
+        else
+            $css = preg_replace ( '/left:(\d*)px/i',"right:$1px",$css);
+            
+        writeToFile("style.css",$css);
+
     }
     
     else if ( $action == "listAllUsers" && $_SESSION['user'] == "admin") {
@@ -257,6 +262,9 @@
         $str = preg_replace ( '/\&\#43;/i','+',$str);
         return $str;
     }
+    
+
+    
     
 
 ?>

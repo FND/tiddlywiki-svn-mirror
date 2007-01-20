@@ -31,17 +31,9 @@ var systempath = "Source/System.php";
 
 var genericPostPaths = "wrapperScriptName=" + wrapperScriptName + "&sourcePath=" + sourcePath;
 
-function clearMessage()
-{
-	//~ var msgArea = document.getElementById("messageArea");
-	var msgArea = document.getElementById("messageWindow");
-	if(msgArea)
-    {
-        //removeChildren(msgArea);
-        msgArea.style.visibility = "hidden";
-    }
-	return false;
-}
+// Always Saveable // 
+config.options.chkHttpReadOnly= false; 
+
 function convertUnicodeToUTF8(s)
 {
     return manualConvertUnicodeToUTF8(s);
@@ -458,6 +450,26 @@ function saveChanges()
     
     function clearAllReturn (data) {
         history.go()
+    }
+    
+    function moveAdmin(side) {
+        var moveAdminRet = function (data) {
+            try {
+                eval(data);
+                
+                if (data.error) 
+                    showMessageWindow("Error: " + data.message);
+                    
+                else
+                    showMessageWindow("Control panel side changed, please refresh to see the change");
+            }
+            catch (e) {
+                showMessageWindow("Error!<br> The server's response was corrupted");
+                alert(data);
+            }
+        }
+    
+        openAjaxRequest(systempath + "?action=moveadmin", moveAdminRet, true, "side=" + side);
     }
     
     function createWiki() {
