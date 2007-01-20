@@ -1,6 +1,8 @@
 <?php 
     session_start(); 
     
+    include_once("Functions.php");
+    
     $data = "var data = {";
     $actions = "";
     
@@ -78,6 +80,10 @@
         writeToFile($sourcename, $origstr);
     }
     
+    else if ( $action == "moveadmin" && $_SESSION['user'] == "admin") {
+        
+    }
+    
     else if ( $action == "listAllUsers" && $_SESSION['user'] == "admin") {
         $data .= "users:{";
         foreach ($users as $user => $pass) {
@@ -88,41 +94,9 @@
     }
     
     else if ( $action == "createwiki" && $_SESSION['user'] == "admin") {
-        
         $newWrapper = $_POST["newWrapper"];
         $newSource = $_POST["newSource"];
-        $sourcepath = "../".$newSource;
-        $wrapperpath = "../".$newWrapper;
-        
-        if (file_exists($wrapperpath))
-            $data .= "error:true, message:\"A wrapper file of the name '$newWrapper' already exists\",";
-            
-        else if (file_exists($sourcepath))
-            $data .= "error:true, message:\"A source file of the name '$newSource' already exists\",";
-            
-        else {
-            // 2 // Create a new wiki of that name.. 
-        
-            // a // Copy the template wiki
-            if (!copy($templatename, $sourcepath)) {
-               echo "failed to copy $file...\n";
-               exit;
-            }
-            
-            // IMPORT ORIG WIKI // Open the wikiframe, put in the new filename and go.
-            
-            if (!$handle = fopen($wikiframe, 'r')) 
-                echo "error:true, message:'Cannot open file ($wikiframe)',";
-                   
-            if (!$output = fread($handle, filesize($wikiframe))) 
-                echo "error:true, message:'Cannot read file ($wikiframe)',";
-
-            fclose($handle);
-            
-            $output = preg_replace ( '/"WIKIPATH"/i',"\"$newSource\"",$output);
-            
-            writeToFile($wrapperpath, $output);
-        }
+        createNewWiki($newWrapper, $newSource, "../");
     }
     
     else if ( $action == "deletewiki" && $_SESSION['user'] == "admin") {
@@ -284,16 +258,5 @@
         return $str;
     }
     
-    function writeToFile($file, $str) {
-        if (!$handle = fopen($file, 'w+')) 
-            $data .= "error:true, message:'Cannot open file ($file)',";
-            
-        if (fwrite($handle, $str) === FALSE)
-            $data .= "error:true, message:'Cannot write to file ($file)',";
 
-        else
-            $data .= "saved:true,";
-              
-        fclose($handle);
-    }
 ?>
