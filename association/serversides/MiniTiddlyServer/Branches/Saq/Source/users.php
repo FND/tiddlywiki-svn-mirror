@@ -1,6 +1,6 @@
 <?php
 $users = array(
-    "admin" => "1313",
+    "admin" => "ADMINPASS",
 );
 
 ?>
