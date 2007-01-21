@@ -6,7 +6,9 @@
 <?php
 
 // AUTOSETTINGS // 
-    $parts = split("/",$_SERVER["SCRIPT_NAME"]);    
+    $fullscriptpath = $_SERVER["SCRIPT_NAME"];
+    $parts = split("/",$fullserverpath);   
+    $fullscriptpath = "http://".$_SERVER["SERVER_NAME"].$fullscriptpath;
     $wrapperScriptPath = array_pop($parts);
     $sourcePath = $wikipath; // From the wikiframe .. the wrapper.  It should still be defined. 
     
@@ -17,6 +19,7 @@
     echo "\nvar wrapperScriptPath = '$wrapperScriptPath';";
     echo "\nvar wrapperScriptName = '$wrapperScriptName';";
     echo "\nvar sourcePath = '$sourcePath';";
+    echo "\nvar fullScriptPath = '$fullscriptpath';";
         
 // RSS // 
     echo "\nvar rssExists = '" . file_exists($wrapperScriptName.".xml") . "';";
