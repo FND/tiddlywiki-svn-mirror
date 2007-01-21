@@ -4,8 +4,8 @@
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinplugins.tiddlywiki.com/#SocialtextFormatterPlugin|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
-|''Version:''|0.9.2|
-|''Date:''|Dec 29, 2006|
+|''Version:''|0.9.3|
+|''Date:''|Jan 21, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -34,14 +34,14 @@ wikify = function(source,output,highlightRegExp,tiddler)
 	if(source && source != '') {
 		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
 		var out = output;
-		if(tiddler && tiddler.isTagged('SocialtextFormat')) {
+		if(tiddler && (tiddler.isTagged('SocialtextFormat') || (tiddler.fields && tiddler.fields.wikiformat=='socialtext')) ) {
 			var d1 = createTiddlyElement(output,'div','content-display-body','content-section-visible');
 			var d2 = createTiddlyElement(d1,'div','wikipage');
 			out = createTiddlyElement(d2,'div',null,'wiki');
 		}
 		var time1,time0 = new Date();
 		w.subWikifyUnterm(out);
-		if(tiddler&& config.options.chkDisplayInstrumentation) {
+		if(tiddler && config.options.chkDisplayInstrumentation) {
 			time1 = new Date();
 			var t = tiddler ? tiddler.title : source.substr(0,10);
 			displayMessage("Wikify '"+t+"' in " + (time1-time0) + " ms");
@@ -55,6 +55,26 @@ stDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
 	createTiddlyElement(out,'br');
+};
+
+socialtextFormatter.Tiddler_changed = Tiddler.prototype.changed;
+Tiddler.prototype.changed = function()
+{
+	if((this.fields && this.fields.wikiformat=='Socialtext') || this.isTagged('SocialtextFormat')) {
+		// update the links array, by checking for Socialtext format links
+		this.links = [];
+		var tiddlerLinkRegExp = /(?:\"(.*?)\" ?)?\[([^\]]*?)\]/mg;
+		tiddlerLinkRegExp.lastIndex = 0;
+		var match = tiddlerLinkRegExp.exec(this.text);
+		while(match) {
+			var link = match[2];
+			this.links.pushUnique(link);
+			match = tiddlerLinkRegExp.exec(this.text);
+		}
+	} else {
+		return socialtextFormatter.Tiddler_changed.apply(this,arguments);
+	}
+	this.linksUpdated = true;
 };
 
 socialtextFormatter.wafl = function(w)
