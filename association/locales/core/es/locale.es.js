@@ -28,6 +28,8 @@ Hay algunas palabras y expresiones cuya traducción puede estar sujeta a discusi
 
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
+config.locale = "es"; // W3C language tag
+
 merge(config.options,{
 	txtUserName: "SuNombre"});
 
