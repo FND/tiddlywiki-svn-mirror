@@ -1,4 +1,4 @@
-<?php session_start(); 
+<?php session_start();
     session_unset();
     session_destroy();
 ?>
@@ -52,9 +52,9 @@ $templatename = "Source/empty.html";
 $wikiframe = "Source/wikiframe.php";
 $userspath = "Source/users.php";
 
-$adminpass = $_GET['adminpass'];
-$wrapperpath = $_GET['wrapperpath']; 
-$sourcepath = $_GET['sourcepath']; 
+$adminpass = $_POST['adminpass'];
+$wrapperpath = $_POST['wrapperpath'];
+$sourcepath = $_POST['sourcepath']; 
 //~ $htmlPrefix = "Data/";
 
 
@@ -84,7 +84,7 @@ if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass
 </head>
 
 <body>
-<form id="settings" method="GET" action="config.php">
+<form id="settings" method="POST" action="config.php">
 <h2>AjaxTiddlyWiki</h2>
 
 <h4>Administrator Account</h4>

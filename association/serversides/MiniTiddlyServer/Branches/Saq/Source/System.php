@@ -1,4 +1,4 @@
-<?php 
+<?php
     session_start(); 
     
     include_once("Functions.php");
@@ -114,7 +114,7 @@
     }
 
 
-// FILE SAVING // 
+// FILE SAVING //
     if ( $action == "save" ) {
         if ( !isset($_SESSION['user']) ) 
             $data .= "error:true, message:'The username was invalid',";
@@ -125,8 +125,8 @@
         else
         {
             $conflict = false;
-            
-            // TO BE ADDED in V0-5 // 
+
+            // TO BE ADDED in V0-5 //
             //~ if ( $time != filemtime($sourcename) )
             //~ {
                 //~ $conflictpath = "Conflicts/". $_POST['filename'] . ".html";
@@ -134,81 +134,125 @@
                 //~ $sourcename = "../$conflictpath";
                 //~ $conflict = true;
             //~ }
-        
-            // Open Source File // 
-            $ofile = $templatename;
-            
-            if (!$handle = fopen($ofile, 'r')) 
-                $data .= "error:true, message:'Cannot open file ($ofile)',";
-                   
-            if (!$origfile = fread($handle, filesize($ofile))) 
-                $data .= "error:true, message:'Cannot read file ($ofile)',";
 
-            fclose($handle);
-        
-            // GET Params // implode("/", $parts), stripslashes()
+            function updateBlock($block){
+                global $newTW;
+                global $markupBlockData;
+                if ($block == 'SiteTitle' || $block == 'SiteSubtitle')
+                    {
+                    $text = getBlockText('SiteTitle').' - '.getBlockText('SiteSubtitle');
+                    $last = false;
+                    }
+                else
+                    {
+                    $text =getBlockText($block);
+                    $last = true;
+                    }          
+                $newTW = findAndReplaceInside($newTW, $markupBlockData[$block][0],  $markupBlockData[$block][1], $text,$last);
+            }
+    
+            function getBlockText($block){
+               global $newStoreMap;
+               global $markupBlockData;
+                if (isset($newStoreMap[$block]))
+                   $text = $newStoreMap[$block][1];
+                else
+                   $text = $markupBlockData[$block][2];
+                return $text;
+            }
             
-            if ($skipSections != true ) {
-                $startTitle = decodePost($_POST['startTitle']);
-                $endTitle = decodePost($_POST['endTitle']); 
-                $titleData = decodePost($_POST['title']); 
-                
-                $startMain = decodePost($_POST['startSaveArea']); 
-                $endMain = decodePost($_POST['endSaveArea']); 
-                $mainData = decodePost($_POST['data']); 
-                
-                if ( !isset($startMain) || !isset($endMain) || !isset($mainData) ) {
-                    echo "ERROR in main";
-                    exit;
+            function createTiddlerMap ($tiddlersDiv){
+                $tiddlersMap =array();
+                $regexp = "<div\s[^>]*tiddler=\"([^\"]*)\"[^>]*>(.*)<\/div>";
+                if(preg_match_all("/$regexp/siU", $tiddlersDiv, $tiddlers, PREG_SET_ORDER))
+                    { foreach($tiddlers as $tiddler) 
+                        { 
+                                       # title: [tiddlerDivAsString,tiddlerText]
+                          $tiddlersMap[$tiddler[1]] = array($tiddler[0],$tiddler[2]);
+                        }
+                    }
+                return $tiddlersMap;
+            };
+    
+            $markupBlockData = array(
+                    'SiteTitle'           =>  array("<title>","</title>","My TiddlyWiki"),
+                    'SiteSubtitle'       => array("<title>","</title>","a reusable non-linear personal web notebook"),
+                    'MarkupPreHead'  => array("\n<!--PRE-HEAD-START-->\n","\n<!--PRE-HEAD-END-->\n","<!--{{{-->\n<link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml'/>\n<!--}}}-->"),
+                    'MarkupPostHead' => array("\n<!--POST-HEAD-START-->\n","\n<!--POST-HEAD-END-->\n",""),
+                    'MarkupPreBody'   => array("\n<!--PRE-BODY-START-->\n","\n<!--PRE-BODY-END-->\n",""),
+                    'MarkupPostBody'  => array("\n<!--POST-BODY-START-->\n","\n<!--POST-BODY-END-->\n","")
+                    );
+    
+            //read source file
+            $filename = $sourcename;
+            $filehandle = fopen ( $filename , "r" );
+            $filesize = filesize ( $filename );
+            $subject = fread ( $filehandle, $filesize );
+            fclose ( $filehandle );
+            
+            // split source file into 3 parts, prestore, store and poststore
+            if (preg_match('/\\A(.*<div id="storeArea">\\n?)(.*)(\\n?<\\/div>\\n?<!--POST-BODY-START-->.*)$/sm', $subject, $regs)) {
+            	$prestore = $regs[1];
+              $store = $regs[2];
+              $poststore = $regs[3];
+            } 
+            
+            /// to be done: avoid parsing if full save. Just use new store to make TW file and force update of all blocks
+            // will require a 'fullsave' argument from POST
+            
+            $updatesDiv = decodePost($_POST['data']);
+            
+            // create tiddlerMap for updates
+            $updatesMap = createTiddlerMap($updatesDiv);
+            $updatesIndex = array_keys($updatesMap);
+    
+            $deletedIndex = explode("|||||",decodePost($_POST['deletedTiddlers']));
+            
+            // create tiddlerMap from original store
+            $storeTiddlerMap= createTiddlerMap($store);
+            
+            // delete tiddlers from store 
+            foreach($deletedIndex as $deleted)
+                 {
+                  unset($storeTiddlerMap[$deleted]);
+                  }
+            
+            // add updates to storeTiddlerMap
+            $newStoreMap = array_merge($storeTiddlerMap,$updatesMap);
+            
+            ksort($newStoreMap);
+            
+            //create new storeDiv
+            $newstore = '';
+            foreach($newStoreMap as $t)
+                {
+                 $newstore .= $t[0]."\n";   
+                 }
+                 
+            $newTW = $prestore.$newstore.$poststore;
+            
+            $changedtiddlers = array_merge($updatesIndex, $deletedIndex);
+            
+            $markupBlocks = array_keys($markupBlockData);
+            foreach($markupBlocks as $block)
+                {
+                if (in_array($block, $changedtiddlers))
+                   #echo $block;
+                    updateBlock($block);
                 }
                 
-                $startPreHead = decodePost($_POST['startPreHead']);
-                $endPreHead = decodePost($_POST['endPreHead']);
-                $preHeadData = decodePost($_POST['preHeadData']);
-                
-                $startPostHead = decodePost($_POST['startPostHead']);
-                $endPostHead = decodePost($_POST['endPostHead']);
-                $postHeadData = decodePost($_POST['postHeadData']);
-                
-                $startPreBody = decodePost($_POST['startPreBody']);
-                $endPreBody = decodePost($_POST['endPreBody']);
-                $preBodyData = decodePost($_POST['preBodyData']);
-                
-                $startPostBody = decodePost($_POST['startPostBody']);
-                $endPostBody = decodePost($_POST['endPostBody']);
-                $postBodyData = decodePost($_POST['postBodyData']);
-                
-                // Replace // 
-                if ( isset($startTitle) && isset($endTitle) && isset($titleData) )
-                    $origfile = findAndReplaceInside($origfile, $startTitle, $endTitle, $titleData);
-                    
-                $origfile = findAndReplaceInside($origfile, $startMain, $endMain, "\n$mainData\n", true);
-                
-                if ( isset($startPreHead) && isset($endPreHead) && isset($preHeadData) ) 
-                    $origfile = findAndReplaceInside($origfile, $startPreHead, $endPreHead, "\n$preHeadData\n", true);
+          //force autosave to minimize collisions?
 
-                if ( isset($startPostHead) && isset($endPostHead) && isset($postHeadData) ) 
-                    $origfile = findAndReplaceInside($origfile, $startPostHead, $endPostHead, "\n$postHeadData\n", true);
+            if (!$handle = fopen($sourcename, 'w+'))
+                $data .= "error:true, message:'Cannot open file ($sourcename)',";
 
-                if ( isset($startPreBody) && isset($endPreBody) && isset($preBodyData) ) 
-                    $origfile = findAndReplaceInside($origfile, $startPreBody, $endPreBody, "\n$preBodyData\n", true);
+            if (fwrite($handle, $newTW) === FALSE)
+                $data .= "error:true, message:'Cannot write to file ($sourcename)',";
 
-                if ( isset($startPostBody) && isset($endPostBody) && isset($postBodyData) ) 
-                    $origfile = findAndReplaceInside($origfile, $startPostBody, $endPostBody, "\n$postBodyData\n", true);
-            }
+            else
+                $data .= "saved:true,";
 
-            // Save // 
-            // SAVE THE FILE DATA // 
-                if (!$handle = fopen($sourcename, 'w+')) 
-                    $data .= "error:true, message:'Cannot open file ($sourcename)',";
-            
-                if (fwrite($handle, $origfile) === FALSE)
-                    $data .= "error:true, message:'Cannot write to file ($sourcename)',";
-              
-                else
-                    $data .= "saved:true,";
-              
-                fclose($handle);
+            fclose($handle);
                 
             // RSS // 
             $rss = decodePost($_POST['rss']);
@@ -262,9 +306,4 @@
         $str = preg_replace ( '/\&\#43;/i','+',$str);
         return $str;
     }
-    
-
-    
-    
-
 ?>
