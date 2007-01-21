@@ -47,7 +47,6 @@ $data = "";
 
 include_once("Source/Functions.php");
 
-$configfilepath = "Source/config.txt";
 $templatename = "Source/empty.html";
 $wikiframe = "Source/wikiframe.php";
 $userspath = "Source/users.php";
