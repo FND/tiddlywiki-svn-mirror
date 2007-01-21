@@ -42,6 +42,11 @@ Run this file after copying everything to your install server. (In a unique fold
 
 
 */
+
+$data = "";
+
+include_once("Source/Functions.php");
+
 $configfilepath = "Source/config.txt";
 $templatename = "Source/empty.html";
 $wikiframe = "Source/wikiframe.php";
@@ -62,26 +67,7 @@ if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass
             writeToFile($userspath, $usersstr);
         
         // 2 // Create a new wiki of that name.. 
-        
-            // a // Copy the template wiki
-            if (!copy($templatename, $sourcepath)) {
-               echo "failed to copy $file...\n";
-               exit;
-            }
-            
-            // IMPORT ORIG WIKI // Open the wikiframe, put in the new filename and go.
-            
-            if (!$handle = fopen($wikiframe, 'r')) 
-                echo "error:true, message:'Cannot open file ($wikiframe)',";
-                   
-            if (!$output = fread($handle, filesize($wikiframe))) 
-                echo "error:true, message:'Cannot read file ($wikiframe)',";
-
-            fclose($handle);
-            
-            $output = preg_replace ( '/"WIKIPATH"/i',"\"$sourcepath\"",$output);
-            
-            writeToFile($wrapperpath, $output);
+            createNewWiki($wrapperpath, $sourcepath, "");
             
         // 3 // Delete Config File
             unlink("config.php");
@@ -122,20 +108,6 @@ if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass
             
 </body>
 
-<?php 
-    function writeToFile($file, $str) {
-        if (!$handle = fopen($file, 'w')) 
-            $data .= "error:true, message:'Cannot open file ($file)',";
-            
-        if (fwrite($handle, $str) === FALSE)
-            $data .= "error:true, message:'Cannot write to file ($file)',";
-
-        else
-            $data .= "saved:true,";
-              
-        fclose($handle);
-    }
-?>
 
 
 
