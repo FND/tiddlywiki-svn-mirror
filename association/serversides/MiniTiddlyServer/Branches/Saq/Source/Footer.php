@@ -1,12 +1,11 @@
 <script language="javascript" type="text/javascript" src="Source/ajax.js">
 </script>
 <link rel="stylesheet" type="text/css" href="Source/style.css"/>
-<?php include_once("Admin.php") ?>
 <script>
 <?php
 
 // AUTOSETTINGS // 
-    $fullscriptpath = $_SERVER["SCRIPT_NAME"];
+    $fullserverpath = $_SERVER["SCRIPT_NAME"];
     $parts = split("/",$fullserverpath);   
     $fullscriptpath = "http://".$_SERVER["SERVER_NAME"].$fullscriptpath;
     $wrapperScriptPath = array_pop($parts);
@@ -27,7 +26,10 @@
 // FILETIME // Must be updated for prefixes
     echo "\nvar origtime = '".filemtime($sourcePath)."';";
 ?>
+</script>
+<?php include_once("Admin.php") ?>
 
+<script>
 
 var systempath = "Source/System.php";
 
@@ -608,6 +610,20 @@ function saveChanges()
             }
             
             openAjaxRequest(systempath + "?action=deletewiki", ret, true, genericPostPaths);
+        }
+    }
+    
+    function uploadFile() {
+        var file = document.getElementById("uploadfile");
+        if (file.lastChild.value.length == 0)
+              {
+              alert("no file selected!");
+              return false;
+              }           
+        if (confirm("Are you sure?  This will completely replace your current wiki.  You may want to perform a manual backup first.")) {              
+            showMessageWindow("Uploading Wiki ... ");
+            
+            file.submit();
         }
     }
     
