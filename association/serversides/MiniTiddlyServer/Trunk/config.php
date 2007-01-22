@@ -1,4 +1,4 @@
-<?php session_start(); 
+<?php session_start();
     session_unset();
     session_destroy();
 ?>
@@ -42,46 +42,30 @@ Run this file after copying everything to your install server. (In a unique fold
 
 
 */
-$configfilepath = "Source/config.txt";
+
+$data = "";
+
+include_once("Source/Functions.php");
+
 $templatename = "Source/empty.html";
 $wikiframe = "Source/wikiframe.php";
 $userspath = "Source/users.php";
 
-$adminpass = $_GET['adminpass'];
-$wrapperpath = $_GET['wrapperpath']; 
-$sourcepath = $_GET['sourcepath']; 
-//~ $htmlPrefix = "Data/";
+$adminpass = $_POST['adminpass'];
+$wrapperpath = $_POST['wrapperpath'];
+$sourcepath = $_POST['sourcepath'];
+$baseDir = substr($_SERVER['SCRIPT_URI'], 0, strpos($_SERVER['SCRIPT_URI'],"config.php"));
 
 
 if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass != "" && $wrapperpath != "" && $sourcepath != "") {
 
         // 1 // Create a new config.txt with the admin password 
-            $usersfile = file($userspath);
-            $usersstr = join("", $usersfile);
+            $usersstr = readFileToString($userspath);
             $usersstr = preg_replace ( '/"ADMINPASS"/',"\"$adminpass\"",$usersstr);
             writeToFile($userspath, $usersstr);
         
         // 2 // Create a new wiki of that name.. 
-        
-            // a // Copy the template wiki
-            if (!copy($templatename, $sourcepath)) {
-               echo "failed to copy $file...\n";
-               exit;
-            }
-            
-            // IMPORT ORIG WIKI // Open the wikiframe, put in the new filename and go.
-            
-            if (!$handle = fopen($wikiframe, 'r')) 
-                echo "error:true, message:'Cannot open file ($wikiframe)',";
-                   
-            if (!$output = fread($handle, filesize($wikiframe))) 
-                echo "error:true, message:'Cannot read file ($wikiframe)',";
-
-            fclose($handle);
-            
-            $output = preg_replace ( '/"WIKIPATH"/i',"\"$sourcepath\"",$output);
-            
-            writeToFile($wrapperpath, $output);
+            createNewWiki($wrapperpath, $sourcepath, "", $baseDir);
             
         // 3 // Delete Config File
             unlink("config.php");
@@ -98,7 +82,7 @@ if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass
 </head>
 
 <body>
-<form id="settings" method="GET" action="config.php">
+<form id="settings" method="POST" action="config.php">
 <h2>AjaxTiddlyWiki</h2>
 
 <h4>Administrator Account</h4>
@@ -122,20 +106,6 @@ if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass
             
 </body>
 
-<?php 
-    function writeToFile($file, $str) {
-        if (!$handle = fopen($file, 'w')) 
-            $data .= "error:true, message:'Cannot open file ($file)',";
-            
-        if (fwrite($handle, $str) === FALSE)
-            $data .= "error:true, message:'Cannot write to file ($file)',";
-
-        else
-            $data .= "saved:true,";
-              
-        fclose($handle);
-    }
-?>
 
 
 

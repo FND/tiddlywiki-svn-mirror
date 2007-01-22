@@ -48,6 +48,16 @@
             <input type="submit" value="Delete Wiki" onclick="deleteWiki()"/>
         </td>
     </tr>
+        <tr>
+        <td>
+            <h4>Control Panel Side</h4>
+            <input type="submit" value="Left" onclick="moveAdmin('left');"/><input type="submit" value="right" onclick="moveAdmin('right');"/>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+    </tr>
 </table>
     
     <input type="submit" value="Close" onclick="hideAdmin()"/>

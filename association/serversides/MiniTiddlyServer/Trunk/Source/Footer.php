@@ -6,9 +6,11 @@
 <?php
 
 // AUTOSETTINGS // 
-    $parts = split("/",$_SERVER["SCRIPT_NAME"]);    
+    $fullscriptpath = $_SERVER["SCRIPT_NAME"];
+    $parts = split("/",$fullserverpath);   
+    $fullscriptpath = "http://".$_SERVER["SERVER_NAME"].$fullscriptpath;
     $wrapperScriptPath = array_pop($parts);
-    $sourcePath = $wikipath; // From the wikiframe .. the wrapper.  It should still be defined. 
+    $sourcePath = $wikipath; // From the wikiframe .. the wrapper.  It should still be defined.
     
 // SPLIT // 
     list($wrapperScriptName, $ext) = split('\.', $wrapperScriptPath, 2);
@@ -17,6 +19,7 @@
     echo "\nvar wrapperScriptPath = '$wrapperScriptPath';";
     echo "\nvar wrapperScriptName = '$wrapperScriptName';";
     echo "\nvar sourcePath = '$sourcePath';";
+    echo "\nvar fullScriptPath = '$fullscriptpath';";
         
 // RSS // 
     echo "\nvar rssExists = '" . file_exists($wrapperScriptName.".xml") . "';";
@@ -25,42 +28,30 @@
     echo "\nvar origtime = '".filemtime($sourcePath)."';";
 ?>
 
-var startSaveArea = '<div id="' + 'storeArea">'; // Split up into two so that indexOf() of this source doesn't find it
-var endSaveArea = "</div>";
+
 var systempath = "Source/System.php";
 
 var genericPostPaths = "wrapperScriptName=" + wrapperScriptName + "&sourcePath=" + sourcePath;
-
-function clearMessage()
-{
-	//~ var msgArea = document.getElementById("messageArea");
-	var msgArea = document.getElementById("messageWindow");
-	if(msgArea)
-    {
-        //removeChildren(msgArea);
-        msgArea.style.visibility = "hidden";
-    }
-	return false;
-}
-function convertUnicodeToUTF8(s)
-{
-    return manualConvertUnicodeToUTF8(s);
-}
 
 function saveReturn(data) {
 
     try {
         eval(data);
         
-        if ( data.error ) 
+        if ( data.error )
+            {        
             showMessageWindow("Error!<br> " + data.message);
-            
+            store.uploadError = true;
+            store.setDirty(true);
+            }
         else if ( data.conflict ) {
             showMessageWindow("Error! A conflict was detected.  Your changes have been routed to the following file.  Please click the following link, refresh this wiki and copy your changes manually.<a href='" + data.path + "' target='_blank'>Rerouted Changes</a>");
+            store.uploadError = false;
         }
 
         else {
             showMessageWindow("The file was saved successfully");
+            store.uploadError = false;
             
             if ( data.rss ) {
                 rssExists = true;
@@ -71,6 +62,8 @@ function saveReturn(data) {
     catch (e) {
         showMessageWindow("Error!<br> The server's response was corrupted");
         alert(data);
+        store.uploadError = true;
+        store.setDirty(true);
     }
 }
 
@@ -79,77 +72,152 @@ function goSave(user, pass, data, backup, rss)
     // Nothing // 
 }
 
+
+//use array for updated tiddlers as well?
+//might give better performance!
+TiddlyWiki.prototype.deletedTiddlersIndex = [];
+TiddlyWiki.prototype.updatedTiddlersIndex = [];
+TiddlyWiki.prototype.uploadError = false;
+
+TiddlyWiki.prototype.flagForUpload = function(title)
+{
+  store.suspendNotifications();
+	this.setValue(title,"temp.flagForUpload",1,true);
+	store.resumeNotifications();
+	// do I need to set the store as dirty here?
+}
+
+TiddlyWiki.prototype.unFlagForUpload = function(tiddlers)
+{
+    store.suspendNotifications();
+    for (var i=0; i<tiddlers.length;i++)
+         this.setValue(tiddlers[i],"temp.flagForUpload","",true);
+    store.resumeNotifications();
+}
+
+old_ffu_setTiddlerTag = TiddlyWiki.prototype.setTiddlerTag;
+TiddlyWiki.prototype.setTiddlerTag = function(title,status,tag)
+{
+    old_ffu_setTiddlerTag.apply(this,arguments);
+    this.flagForUpload(title);
+}
+
+TiddlyWiki.prototype.old_ffu_saveTiddler = TiddlyWiki.prototype.saveTiddler
+TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields)
+{
+    var temp = this.old_ffu_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields);
+    this.flagForUpload(temp);
+    return temp;
+}
+
+old_ffu_setValue = TiddlyWiki.prototype.setValue;
+TiddlyWiki.prototype.setValue = function(tiddler, fieldName, value,flag) {
+    old_ffu_setValue.apply(this,arguments);
+    if (!flag)
+        this.flagForUpload(tiddler);
+}
+
+old_ffu_removeTiddler = TiddlyWiki.prototype.removeTiddler;
+TiddlyWiki.prototype.removeTiddler = function(title)
+{
+	old_ffu_removeTiddler.apply(this,arguments);
+	this.deletedTiddlersIndex.pushUnique(title);
+}
+
+TiddlyWiki.prototype.updatedTiddlersAsHtml = function()
+{
+   return store.getSaver().externalizeUpdated(store);
+}
+
+SaverBase.prototype.externalizeUpdated = function(store)
+{
+	var results = [];
+	var tiddlers = store.getTiddlersWithField("temp.flagForUpload",1);
+	for (var t = 0; t < tiddlers.length; t++)
+		{
+    results.push(this.externalizeTiddler(store, tiddlers[t]));
+	  store.updatedTiddlersIndex.push(tiddlers[t].title);
+    }
+  return results.join("\n");
+}
+
+//returns a sorted array of tiddlers with a given field
+// if fieldValue is specified, returns array of tiddlers that have given field with value equal to fieldValue
+//if resultMatch is false, returns array of tiddlers that have given field with value NOT equal to fieldValue
+TiddlyWiki.prototype.getTiddlersWithField = function (field,fieldValue,resultMatch)
+{                
+       if (resultMatch==undefined) var resultMatch = true;
+       var results= [];
+       this.forEachTiddler(function(title,tiddler){
+                var f = !resultMatch;
+                var fieldResult = store.getValue(tiddler,field);
+                if (fieldResult!=undefined)
+                  {if(fieldValue == undefined || fieldValue == fieldResult)
+                          {f= resultMatch;}
+                   if (f) results.push(tiddler);       }
+
+                });
+       results.sort(function(a,b) {return a["title"] < b["title"] ? -1 : (a["title"] == b["title"] ? 0 : +1);});
+       return results;
+}
+
+
 // OVERRIDEN SAVE CHANGES
 function saveChanges()
-{
-    // Automatically Called when they hit the save button on the side (or use the key command) // 
+{        //allow for full saves depending on global variable
+        //only save when there is something to save
+        //rss only when rss tiddlers
+        // Automatically Called when they hit the save button on the side (or use the key command) //
 
-    // 1 // Verify Info // 
-        if ( savedUserName == "" || savedUserName == "undefined" ) 
+    // 1 // Verify Info //
+        if ( savedUserName == "" || savedUserName == "undefined" )
         {
             alert("Please login before attempting to save.  Select 'Login' at the top of the screen");
             return false;
         }
-        
+
     showMessageWindow("Saving ... ");
-    
+
     var user = config.options.txtUserName;
     var rss = "";
-    
-    // Generate Rss // 
+
+    // Generate Rss //
     if(config.options.chkGenerateAnRssFeed)
         rss = convertUnicodeToUTF8(generateRss());
-    
-    var newSiteTitle = convertUnicodeToUTF8((wikifyPlain("SiteTitle") + " - " + wikifyPlain("SiteSubtitle")).htmlEncode());
-    var data = convertUnicodeToUTF8(allTiddlersAsHtml());
-  
-    // IGNORE ERROR CHECK // Do I want to do that ??? 
+      //we are still uploading the entire rss....
+
+    // IGNORE ERROR CHECK // Do I want to do that ???
         window.confirmExit = false;
         window.checkUnsavedChanges = false;
-        
-    // PERMAVIEW // This was so it would be there when it got back:: we're no longer leaving. 
-        //~ story.permaView();
-        
-    // SEND INFO // 
+
+    // SEND INFO //
         var params = new Object();
-        //~ params.user = user;
-        //~ params.pass = pass;
-        //~ params.backup = backup;
+
         if (rss != "") params.rss = rss;
         params.time = origtime;
-        //~ params.returnAddress = window.location;
-        
+
         params.wrapperScriptName = wrapperScriptName;
         params.sourcePath = sourcePath;
         
-        params.startTitle = "<title>";
-        params.endTitle = "</title>";
-        params.title = newSiteTitle;
+        params.data = convertUnicodeToUTF8(store.uploadError? store.allTiddlersAsHtml(): store.updatedTiddlersAsHtml());
         
-        params.startSaveArea = startSaveArea;
-        params.endSaveArea = endSaveArea;
-        params.data = data;
-    
-        // 4 Minor Areas // 
-        params.startPreHead = "<!--PRE-HEAD-START--"+">";
-        params.endPreHead = "<!--PRE-HEAD-END--"+">";
-        params.preHeadData = "\n" + store.getTiddlerText("MarkupPreHead","") + "\n";
-        
-        params.startPostHead = "<!--POST-HEAD-START--"+">";
-        params.endPostHead = "<!--POST-HEAD-END--"+">";
-        params.postHeadData = "\n" + store.getTiddlerText("MarkupPostHead","") + "\n";
-        
-        params.startPreBody = "<!--PRE-BODY-START--"+">";
-        params.endPreBody = "<!--PRE-BODY-END--"+">";
-        params.preBodyData = "\n" + store.getTiddlerText("MarkupPreBody","") + "\n";
-        
-        params.startPostBody = "<!--POST-BODY-START--"+">";
-        params.endPostBody = "<!--POST-BODY-END--"+">";
-        params.postBodyData = "\n" + store.getTiddlerText("MarkupPostBody","") + "\n";
-        
-        // Must use a post request // 
+        params['deletedTiddlers'] = convertUnicodeToUTF8(store.deletedTiddlersIndex.join("|||||"));
+
+             //perhaps better to do all utf8 conversions in openAjaxRequestParams?
+
+        //reset tiddlers that were marked for upload
+        //we should probably do this in the callback once we have verified the data was saved!
+        store.deletedTiddlersIndex = [];
+        store.unFlagForUpload(store.updatedTiddlersIndex);
+
+        //for (var n in params)
+        //    alert(n +" = " + params[n]);
+
+        // Must use a post request //
         openAjaxRequestParams(systempath + "?action=save", params, saveReturn, true);
+        store.setDirty(false);
 }
+
 
 </script>
 
@@ -164,7 +232,7 @@ function saveChanges()
             <table>
             <tr><td>user: </td><td><input type="text" size="10" name="user"/></td></tr>
             <tr><td>pass: </td><td><input type="password" size="10" name="pass"/></td></tr>
-            <tr><td colspan="2"><div align="center"><input type="submit" value="Login" onclick="login()"></div></td></tr>
+            <tr><td colspan="2"><div align="center"><input type="submit" value="Login" onclick="login();return false;"></div></td></tr>
             </table>
         </div>
     </div>
@@ -182,7 +250,7 @@ function saveChanges()
     <div id="messageWindow">
         <div class="inner">
             <div id="messageWindowContent"></div>
-            <div align="center"><a href="javascript:;" onclick="hideMessageWindow()">[ Close ]</a></div>
+            <div align="center"><a href="javascript:;" onclick="hideMessageWindow();return false;">[ Close ]</a></div>
         </div>
     </div>
 </form>
@@ -218,6 +286,7 @@ function saveChanges()
         //~ alert("LOGGING IN");
         
         openAjaxRequestParams(systempath, params, loginReturn);
+        //return false;
     }
     
     function loginReturn (data) {
@@ -229,6 +298,10 @@ function saveChanges()
             if (data.login) {
                 showMessageWindow("Login Successful");
                 savedUserName = document.loginInfo.user.value;
+                //enable editing
+                //config.options.chkHttpReadOnly = false;
+                readOnly = false;
+                refreshDisplay();
                 printNav();
                 
                 // Change to logout // 
@@ -266,6 +339,10 @@ function saveChanges()
             if (data.logout && data != "skip") {
                 showMessageWindow("You have been successfuly logged out.  Please log in again before saving.");
                 savedUserName = "";
+                //reset editing & readOnly
+                //loadOptionsCookie();
+                readOnly = config.options.chkHttpReadOnly;
+                refreshDisplay();
                 printNav();
                 hideAdmin();
             }
@@ -335,14 +412,14 @@ function saveChanges()
         if ( savedUserName ) {
             
             out += "<span class='loggedin'>" + savedUserName + " -</span>";
-            out += "<a href='javascript:;' onclick='logout()'>Logout</a> | ";
+            out += "<a href='javascript:;' onclick='logout();return false;'>Logout</a> | ";
             
             if ( savedUserName == "admin" )
-                out += "<a href='javascript:;' onclick='showAdmin()'>Admin</a> | ";
+                out += "<a href='javascript:;' onclick='showAdmin();return false;'>Admin</a> | ";
         }
         
         else {
-            out += "<a href='javascript:;' onclick='toggleLogin()'>Login</a> | ";
+            out += "<a href='javascript:;' onclick='toggleLogin();return false;'>Login</a> | ";
         }
             
         out += "<a href='" + sourcePath + "'>Download</a> | ";
@@ -460,6 +537,26 @@ function saveChanges()
         history.go()
     }
     
+    function moveAdmin(side) {
+        var moveAdminRet = function (data) {
+            try {
+                eval(data);
+                
+                if (data.error) 
+                    showMessageWindow("Error: " + data.message);
+                    
+                else
+                    showMessageWindow("Control panel side changed, please refresh to see the change");
+            }
+            catch (e) {
+                showMessageWindow("Error!<br> The server's response was corrupted");
+                alert(data);
+            }
+        }
+    
+        openAjaxRequest(systempath + "?action=moveadmin", moveAdminRet, true, "side=" + side);
+    }
+    
     function createWiki() {
         var wrapperpath = document.getElementById("createwiki").wrapperpath.value;
         var sourcepath = document.getElementById("createwiki").sourcepath.value;
@@ -514,6 +611,18 @@ function saveChanges()
     
     printNav();
     hideAdmin();
+    
+    //enable editing for user already logged in
+    if (savedUserName)
+        {
+        old_MTS_restart= restart;
+        restart = function(){
+            old_MTS_restart();
+            config.options.chkHttpReadOnly = false;
+            readOnly = false;
+            refreshDisplay();
+            }
+        }
     
 </script>
 
