@@ -6,7 +6,7 @@
 <?php
 
 // AUTOSETTINGS // 
-    $fullscriptpath = $_SERVER["SCRIPT_NAME"];
+    $fullserverpath = $_SERVER["SCRIPT_NAME"];
     $parts = split("/",$fullserverpath);   
     $fullscriptpath = "http://".$_SERVER["SERVER_NAME"].$fullscriptpath;
     $wrapperScriptPath = array_pop($parts);
