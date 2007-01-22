@@ -47,27 +47,25 @@ $data = "";
 
 include_once("Source/Functions.php");
 
-$configfilepath = "Source/config.txt";
 $templatename = "Source/empty.html";
 $wikiframe = "Source/wikiframe.php";
 $userspath = "Source/users.php";
 
 $adminpass = $_POST['adminpass'];
 $wrapperpath = $_POST['wrapperpath'];
-$sourcepath = $_POST['sourcepath']; 
-//~ $htmlPrefix = "Data/";
+$sourcepath = $_POST['sourcepath'];
+$baseDir = substr($_SERVER['SCRIPT_URI'], 0, strpos($_SERVER['SCRIPT_URI'],"config.php"));
 
 
 if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass != "" && $wrapperpath != "" && $sourcepath != "") {
 
         // 1 // Create a new config.txt with the admin password 
-            $usersfile = file($userspath);
-            $usersstr = join("", $usersfile);
+            $usersstr = readFileToString($userspath);
             $usersstr = preg_replace ( '/"ADMINPASS"/',"\"$adminpass\"",$usersstr);
             writeToFile($userspath, $usersstr);
         
         // 2 // Create a new wiki of that name.. 
-            createNewWiki($wrapperpath, $sourcepath, "");
+            createNewWiki($wrapperpath, $sourcepath, "", $baseDir);
             
         // 3 // Delete Config File
             unlink("config.php");

@@ -6,11 +6,11 @@ Common Functions .. These will allow us to not have to write so much duplicate c
 
 
 */
-    function createNewWiki ($newWrapper, $newSource, $baseDir) {
+    function createNewWiki ($newWrapper, $newSource, $dirShift, $baseDir) {
         global $data, $templatename, $wikiframe;
         
-        $wrapperpath = $baseDir.$newWrapper;
-        $sourcepath = $baseDir.$newSource;
+        $wrapperpath = $dirShift.$newWrapper;
+        $sourcepath = $dirShift.$newSource;
     
         if (file_exists($wrapperpath))
             $data .= "error:true, message:\"A wrapper file of the name '$newWrapper' already exists\",";
@@ -19,27 +19,16 @@ Common Functions .. These will allow us to not have to write so much duplicate c
             $data .= "error:true, message:\"A source file of the name '$newSource' already exists\",";
             
         else {
-            // 2 // Create a new wiki of that name.. 
         
-            // a // Copy the template wiki
-            if (!copy($templatename, $sourcepath)) {
-               echo "failed to copy $templatename...\n";
-               exit;
-            }
+            // COPY TEMPLATE // Copy the template wiki
+                $source = readFileToString($templatename);
+                $source = preg_replace ( '/SiteUrl: ".*"/i',"SiteUrl: \"$baseDir$newWrapper\"",$source);
+                writeToFile($sourcepath, $source);
             
-            // IMPORT ORIG WIKI // Open the wikiframe, put in the new filename and go.
-            
-                if (!$handle = fopen($wikiframe, 'r')) 
-                    echo "error:true, message:'Cannot open file ($wikiframe)',";
-                       
-                if (!$output = fread($handle, filesize($wikiframe))) 
-                    echo "error:true, message:'Cannot read file ($wikiframe)',";
-                    
-            fclose($handle);
-            
-            $output = preg_replace ( '/"WIKIPATH"/i',"\"$newSource\"",$output);
-            
-            writeToFile($wrapperpath, $output);
+            // CREATE WRAPPER // Open the wikiframe, put in the new filename and go.
+                $output = readFileToString($wikiframe);
+                $output = preg_replace ( '/"WIKIPATH"/i',"\"$newSource\"",$output);
+                writeToFile($wrapperpath, $output);
         }
 
     }

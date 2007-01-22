@@ -5,8 +5,9 @@
     
     $data = "var data = {";
     $actions = "";
-    
+
 // INIT // 
+    $baseDir = substr($_SERVER['SCRIPT_URI'], 0, strpos($_SERVER['SCRIPT_URI'],"Source/System.php"));
     $configfile = "users.php";
     include_once($configfile);
     
@@ -101,7 +102,7 @@
     else if ( $action == "createwiki" && $_SESSION['user'] == "admin") {
         $newWrapper = $_POST["newWrapper"];
         $newSource = $_POST["newSource"];
-        createNewWiki($newWrapper, $newSource, "../");
+        createNewWiki($newWrapper, $newSource, "../", $baseDir);
     }
     
     else if ( $action == "deletewiki" && $_SESSION['user'] == "admin") {
