@@ -187,8 +187,8 @@ function saveChanges()
       //we are still uploading the entire rss....
 
     // IGNORE ERROR CHECK // Do I want to do that ???
-        window.confirmExit = false;
-        window.checkUnsavedChanges = false;
+        //window.confirmExit = false;
+        //window.checkUnsavedChanges = false;
 
     // SEND INFO //
         var params = new Object();
@@ -200,6 +200,8 @@ function saveChanges()
         params.sourcePath = sourcePath;
         
         params.data = convertUnicodeToUTF8(store.uploadError? store.allTiddlersAsHtml(): store.updatedTiddlersAsHtml());
+        
+        params.savetype = store.uploadError? "full":"partial";
         
         params['deletedTiddlers'] = convertUnicodeToUTF8(store.deletedTiddlersIndex.join("|||||"));
 

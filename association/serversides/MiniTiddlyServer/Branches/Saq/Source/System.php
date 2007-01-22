@@ -202,46 +202,61 @@
             // will require a 'fullsave' argument from POST
             
             $updatesDiv = decodePost($_POST['data']);
+
+            $savetype = decodePost($_POST['savetype']);
             
-            // create tiddlerMap for updates
-            $updatesMap = createTiddlerMap($updatesDiv);
-            $updatesIndex = array_keys($updatesMap);
-    
-            $deletedIndex = explode("|||||",decodePost($_POST['deletedTiddlers']));
-            
-            // create tiddlerMap from original store
-            $storeTiddlerMap= createTiddlerMap($store);
-            
-            // delete tiddlers from store 
-            foreach($deletedIndex as $deleted)
-                 {
-                  unset($storeTiddlerMap[$deleted]);
-                  }
-            
-            // add updates to storeTiddlerMap
-            $newStoreMap = array_merge($storeTiddlerMap,$updatesMap);
-            
-            ksort($newStoreMap);
-            
-            //create new storeDiv
-            $newstore = '';
-            foreach($newStoreMap as $t)
+            if ($savetype == 'partial')
                 {
-                 $newstore .= $t[0]."\n";   
-                 }
+                // create tiddlerMap for updates
+                $updatesMap = createTiddlerMap($updatesDiv);
+                $updatesIndex = array_keys($updatesMap);
+
+                $deletedIndex = explode("|||||",decodePost($_POST['deletedTiddlers']));
+                
+                // create tiddlerMap from original store
+                $storeTiddlerMap= createTiddlerMap($store);
+                
+                // delete tiddlers from store 
+                foreach($deletedIndex as $deleted)
+                     {
+                      unset($storeTiddlerMap[$deleted]);
+                      }
+                
+                // add updates to storeTiddlerMap
+                $newStoreMap = array_merge($storeTiddlerMap,$updatesMap);
+                
+                ksort($newStoreMap);
+                
+                //create new storeDiv
+                $newstore = '';
+                foreach($newStoreMap as $t)
+                    {
+                     $newstore .= $t[0]."\n";   
+                     }
+                }
+            else 
+                $newstore = $updatesDiv;
                  
             $newTW = $prestore.$newstore.$poststore;
             
-            $changedtiddlers = array_merge($updatesIndex, $deletedIndex);
-            
             $markupBlocks = array_keys($markupBlockData);
-            foreach($markupBlocks as $block)
+            if ($savetype=='partial')
                 {
-                if (in_array($block, $changedtiddlers))
-                   #echo $block;
+                $changedtiddlers = array_merge($updatesIndex, $deletedIndex);
+
+                foreach($markupBlocks as $block)
+                    {
+                    if (in_array($block, $changedtiddlers))
+                        #echo $block;
+                        updateBlock($block);
+                    }
+                }
+            else
+                {
+                foreach($markupBlocks as $block)
                     updateBlock($block);
                 }
-                
+
           //force autosave to minimize collisions?
 
             if (!$handle = fopen($sourcename, 'w+'))
