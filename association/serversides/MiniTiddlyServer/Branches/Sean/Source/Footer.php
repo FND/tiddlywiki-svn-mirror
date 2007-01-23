@@ -640,4 +640,11 @@ function saveChanges()
     
 </script>
 
+<script>
+loadRemoteFile = function () {
+    alert("Unfortunatly, this cannot work from a live wiki wrapped by MTS.  Please download your wiki, import the tiddlers after running it from your hard drive, and then upload it after saving.");
+}
+
+</script>
+
 

@@ -126,6 +126,7 @@
         else
         {
             $conflict = false;
+            $saveError = false;
 
             // TO BE ADDED in V0-5 //
             //~ if ( $time != filemtime($sourcename) )
@@ -258,6 +259,10 @@
                 }
 
           //force autosave to minimize collisions?
+          
+            // CHECK FOR ERRORS //
+            if ($saveError == true)
+                $sourcename = $sourcename.".err";
 
             if (!$handle = fopen($sourcename, 'w+'))
                 $data .= "error:true, message:'Cannot open file ($sourcename)',";
@@ -293,7 +298,7 @@
     
 // FUNCTIONS // 
     function findAndReplaceInside($source, $start, $end, $content, $last=false) {
-
+        global $data, $saveError, $sourcename;
         $startpos = strpos ( $source, $start );
         
         if ($last) {
@@ -303,8 +308,11 @@
         else
             $endpos = strpos( $source, $end, $startpos); 
 
-        if (!$startpos || !$endpos )
-            return "ERROR::: sTART ($start) OR END ($end) NOT FOUND ($startpos) ($endpos) (".($endpos-$startpos).") " . strpos($source, "</div>", $startpos);
+        if (!$startpos || !$endpos ) {
+            $data .= "error:true, message:'There was a critical saving error looking for (".htmlspecialchars ($start).") and (".htmlspecialchars ($end).").. A file named $sourcename.err has been created. Please post this message as a bug and email the file to the developers',";
+            $saveError = true;
+            return $source;
+        }
         
             $startpos += strlen($start);
             return substr($source, 0, $startpos) . $content . substr($source, $endpos);
