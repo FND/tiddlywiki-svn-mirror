@@ -1,5 +1,6 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 tiddler: locale.es.js
+tiddler: DownloadSoftware.tiddler
 shadow: AdvancedOptions.tiddler
 shadow: GettingStarted.tiddler
 shadow: OptionsPanel.tiddler
