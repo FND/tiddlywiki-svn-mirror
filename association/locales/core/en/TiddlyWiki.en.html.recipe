@@ -3,3 +3,6 @@ tiddler: locale.en.js
 shadow: AdvancedOptions.tiddler
 shadow: GettingStarted.tiddler
 shadow: OptionsPanel.tiddler
+tiddler: Credits.tiddler
+tiddler: DefaultTiddlers.tiddler
+tiddler: DownloadedSoftware.tiddler
