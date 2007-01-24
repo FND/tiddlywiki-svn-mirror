@@ -1,8 +1,21 @@
+<?php
+
+?> 
 <script language="javascript" type="text/javascript" src="Source/ajax.js">
 </script>
 <link rel="stylesheet" type="text/css" href="Source/style.css"/>
 <script>
 <?php
+// Plugins. Load to array as variables for later processing.
+   echo "\nvar MTSExternalPlugins = [];";
+   foreach (glob("Plugins/*.js") as $filename) {
+      $fcontents = file_get_contents($filename);
+      $fcontents = addslashes($fcontents);
+      $fcontents = preg_replace('/(\n)/i', '\\n', $fcontents);
+      $fcontents = preg_replace('/</i', '\\<', $fcontents);
+      $fcontents = preg_replace('/>/i', '\\>', $fcontents);
+      echo "\nMTSExternalPlugins.push(['$filename','$fcontents']);";
+}
 
 // AUTOSETTINGS // 
     $fullserverpath = $_SERVER["SCRIPT_NAME"];
@@ -222,6 +235,27 @@ function saveChanges()
         store.setDirty(false);
 }
 
+
+old_MTS_loadPlugins = loadPlugins;
+loadPlugins = function()
+{
+    var hadProblems = old_MTS_loadPlugins.apply(this,arguments);
+    var scripts = MTSExternalPlugins;
+    for (var i=0; i<scripts.length;i++)
+        {
+        title = scripts[i][0];
+        try
+           {
+           window.eval(scripts[i][1]);
+           }
+        catch(e)
+          {
+          alert(exceptionText(e)+ " in " + title);
+          }
+        }
+   MTSExternalPlugins = null;
+   return hadProblems;
+}
 
 </script>
 
@@ -614,12 +648,16 @@ function saveChanges()
     }
     
     function uploadFile() {
-        if (confirm("Are you sure?  This will completely replace your current wiki.  You may want to perform a manual backup first.")) {
-        
+        var file = document.getElementById("uploadfile");
+        if (file.lastChild.value.length == 0)
+              {
+              alert("no file selected!");
+              return false;
+              }           
+        if (confirm("Are you sure?  This will completely replace your current wiki.  You may want to perform a manual backup first.")) {              
             showMessageWindow("Uploading Wiki ... ");
             
-            document.getElementById("uploadfile").submit();
-            
+            file.submit();
         }
     }
     

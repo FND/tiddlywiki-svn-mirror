@@ -34,6 +34,12 @@
         exit;
     }
     
+    $subject = readFileToString ( $tmpfilename );
+    if (! preg_match('/\\A(.*<div id="storeArea">\\n?)(.*)(\\n?<\\/div>\\n?<!--POST-BODY-START-->.*)$/sm', $subject, $regs)) {
+        err("Error: remote file specified was not a valid TiddlyWiki file");
+        exit;
+    }
+    
     $remotefilename = $basedir.$remotefilename;
     
     if (!copy($tmpfilename, $remotefilename)) {
