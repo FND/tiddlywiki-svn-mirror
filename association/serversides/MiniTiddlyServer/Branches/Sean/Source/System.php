@@ -43,6 +43,7 @@
     //~ $dobackup = ($_GET['backup'] == "true");
     $time = $_POST['time'];
     
+    
 // SAVING INFORMATION // 
     if ( $action == "login" ) {
         if (verifyLogin($user, $pass)) {
@@ -219,6 +220,10 @@
                 $store = $regs[2];
                 $poststore = $regs[3];
             } 
+            else {
+                $saveError = true;
+                $data .= "error:true, message:'The source file ($sourcename) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $sourcename.err',";
+            }
             
             /// to be done: avoid parsing if full save. Just use new store to make TW file and force update of all blocks
             // will require a 'fullsave' argument from POST
