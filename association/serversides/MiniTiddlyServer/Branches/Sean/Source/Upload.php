@@ -24,17 +24,6 @@
         exit;
     }
     
-    $data = readFileToString($tmpfilename);
-    $regs = array();
-    echo preg_match('/\\A(.*<div id="storeArea">\\n?)(.*)(\\n?<\\/div>\\n?<!--POST-BODY-START-->.*)$/sm', $data);
-    echo $data;//preg_match('/\\A(.*<div id="storeArea">\\n?)(.*)(\\n?<\\/div>\\n?<!--POST-BODY-START-->.*)$/sm', $data);
-    exit;
-    //~ if ( preg_match('/\\A(.*<div id="storeArea">\\n?)(.*)(\\n?<\\/div>\\n?<!--POST-BODY-START-->.*)$/sm', $data) != 3 )
-    //~ {
-        //~ err("Error: the file was not a properly formatted TiddlyWiki");
-        //~ exit;
-    //~ }
-    
     if (!( strpos($remotefilename, "../") === false )) {
         err("Error: source specified a parent folder");
         exit;
@@ -44,8 +33,6 @@
         err("Error: remote file specified was not an html file");
         exit;
     }
-        
-
     
     $remotefilename = $basedir.$remotefilename;
     
