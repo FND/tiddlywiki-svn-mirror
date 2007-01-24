@@ -23,6 +23,11 @@
         global $users;
         return ( $luser != "" && $lpass != "" && ($users[$luser] == $lpass ));
     }
+    
+    function verifyAdmin($luser, $lpass) {
+        global $users;
+        return ($users["admin"] == $lpass && $users[$luser] == $lpass);
+    }
 
     $action = $_GET['action'];
     $user = $_GET['user']; 
@@ -56,72 +61,88 @@
         session_destroy();
         $data .= "logout:true, checkuser:'".$_SESSION['user']."',";
     }
-    
+
 // ADMIN FUNCTIONS //  I probably don't need to open the file each time, but for now we'll keep it this way. 
-    else if ( $action == "adduser" && $_SESSION['user'] == "admin") {
-        $configstr = readFileToString($configfile);
-        $configstr = preg_replace('/\)\;/i',"\t\"$user\" => \"$pass\",\n);",$configstr);
-        writeToFile($configfile, $configstr);
-        $data .= "adduser:true,";
-    }
+    else if ( $action != "save") { // Must be an admin function 
     
-    else if ( $action == "removeuser" && $_SESSION['user'] == "admin") {
-        $configstr = readFileToString($configfile);
-        $configstr = preg_replace("/.*$user.*\n/i","",$configstr);
+        if ( !verifyAdmin($_SESSION['user'], $_SESSION['pass']) ) 
+            $data .= "error:true, message:'Admin user information lost or incorrect. Check cookie settings.',";
+    
+        else {
         
-        writeToFile($configfile, $configstr);
-        $data .= "removeuser:true,";
-    }
-    
-    else if ( $action == "clearall" && $_SESSION['user'] == "admin") {
-        $origstr = readFileToString($templatename);
-        writeToFile($sourcename, $origstr);
-    }
-    
-    else if ( $action == "moveadmin" && $_SESSION['user'] == "admin") {
-        $side = $_POST['side'];
-        $css = readFileToString("style.css");
-        if ( $side == "left" )
-            $css = preg_replace ( '/right:(\d*)px/i',"left:$1px",$css);
-        else
-            $css = preg_replace ( '/left:(\d*)px/i',"right:$1px",$css);
+            if ( $action == "adduser") {
+                $configstr = readFileToString($configfile);
+                $configstr = preg_replace('/\)\;/i',"\t\"$user\" => \"$pass\",\n);",$configstr);
+                writeToFile($configfile, $configstr);
+                $data .= "adduser:true,";
+            }
             
-        writeToFile("style.css",$css);
-
-    }
-    
-    else if ( $action == "listAllUsers" && $_SESSION['user'] == "admin") {
-        $data .= "users:{";
-        foreach ($users as $user => $pass) {
-            if ($user != "" && isset($user) && $user != 0) 
-                $data.= "$user:\"$pass\",";
-        }
-        $data .= "end:true},";
-    }
-    
-    else if ( $action == "createwiki" && $_SESSION['user'] == "admin") {
-        $newWrapper = $_POST["newWrapper"];
-        $newSource = $_POST["newSource"];
-        createNewWiki($newWrapper, $newSource, "../", $baseDir);
-    }
-    
-    else if ( $action == "deletewiki" && $_SESSION['user'] == "admin") {
-        $result = unlink ($wrapperScriptPath);
-        $result2 = unlink ($sourcePath);
-        if ( file_exists("../$wrapperScriptName.xml"))
-            unlink ("../$wrapperScriptName.xml");
-        $result = ($result && $result2);
-        $data .= "delete:$result,";
-    }
-
-
-// FILE SAVING //
-    if ( $action == "save" ) {
-        if ( !isset($_SESSION['user']) ) 
-            $data .= "error:true, message:'The username was invalid',";
+            else if ( $action == "removeuser") {
+                $configstr = readFileToString($configfile);
+                $configstr = preg_replace("/.*$user.*\n/i","",$configstr);
+                
+                writeToFile($configfile, $configstr);
+                $data .= "removeuser:true,";
+            }
+            
+            else if ( $action == "clearall") {
+                $origstr = readFileToString($templatename);
+                writeToFile($sourcename, $origstr);
+            }
+            
+            else if ( $action == "moveadmin") {
+                $side = $_POST['side'];
+                $css = readFileToString("style.css");
+                if ( $side == "left" )
+                    $css = preg_replace ( '/right:(\d*)px/i',"left:$1px",$css);
+                else
+                    $css = preg_replace ( '/left:(\d*)px/i',"right:$1px",$css);
+                    
+                writeToFile("style.css",$css);
         
-        else if ( !isset($filename) )
+            }
+            
+            else if ( $action == "listAllUsers") {
+                $data .= "users:{";
+                foreach ($users as $user => $pass) {
+                    if ($user != "" && isset($user) && $user != 0) 
+                        $data.= "$user:\"$pass\",";
+                }
+                $data .= "end:true},";
+            }
+            
+            else if ( $action == "createwiki") {
+                $newWrapper = $_POST["newWrapper"];
+                $newSource = $_POST["newSource"];
+                createNewWiki($newWrapper, $newSource, "../", $baseDir);
+            }
+            
+            else if ( $action == "deletewiki") {
+                $result = unlink ($wrapperScriptPath);
+                $result2 = unlink ($sourcePath);
+                if ( file_exists("../$wrapperScriptName.xml"))
+                    unlink ("../$wrapperScriptName.xml");
+                $result = ($result && $result2);
+                $data .= "delete:$result,";
+            }
+            else {
+                $data .= "error:true, message:'The action was not properly defined',";
+            }
+        }
+    } // end admin functions
+    
+    
+// FILE SAVING //
+    else if ( $action == "save" ) {      
+        if (!verifyLogin($_SESSION['user'], $_SESSION['pass'])) {
+            $data .= "error:true, message:'The user information was incorrect or lost.  Please check cookie settings.',";
+            $lockdown = true;
+        }
+
+        else if ( !isset($filename) ) {
             $data .= "error:true, message:'The filename was undefined',";
+            $lockdown = true;
+        }
             
         else
         {
@@ -194,9 +215,9 @@
             
             // split source file into 3 parts, prestore, store and poststore
             if (preg_match('/\\A(.*<div id="storeArea">\\n?)(.*)(\\n?<\\/div>\\n?<!--POST-BODY-START-->.*)$/sm', $subject, $regs)) {
-            	$prestore = $regs[1];
-              $store = $regs[2];
-              $poststore = $regs[3];
+                $prestore = $regs[1];
+                $store = $regs[2];
+                $poststore = $regs[3];
             } 
             
             /// to be done: avoid parsing if full save. Just use new store to make TW file and force update of all blocks
@@ -287,6 +308,10 @@
             }
         }
     
+    }
+    
+    else {
+        $data .= "error:true, message:'The action was not properly defined',";
     }
     
 // WRITE DATA // 
