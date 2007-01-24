@@ -1,8 +1,21 @@
+<?php
+
+?> 
 <script language="javascript" type="text/javascript" src="Source/ajax.js">
 </script>
 <link rel="stylesheet" type="text/css" href="Source/style.css"/>
 <script>
 <?php
+// Plugins. Load to array as variables for later processing.
+   echo "\nvar MTSExternalPlugins = [];";
+   foreach (glob("Plugins/*.js") as $filename) {
+      $fcontents = file_get_contents($filename);
+      $fcontents = addslashes($fcontents);
+      $fcontents = preg_replace('/(\n)/i', '\\n', $fcontents);
+      $fcontents = preg_replace('/</i', '\\<', $fcontents);
+      $fcontents = preg_replace('/>/i', '\\>', $fcontents);
+      echo "\nMTSExternalPlugins.push(['$filename','$fcontents']);";
+}
 
 // AUTOSETTINGS // 
     $fullserverpath = $_SERVER["SCRIPT_NAME"];
@@ -222,6 +235,27 @@ function saveChanges()
         store.setDirty(false);
 }
 
+
+old_MTS_loadPlugins = loadPlugins;
+loadPlugins = function()
+{
+    var hadProblems = old_MTS_loadPlugins.apply(this,arguments);
+    var scripts = MTSExternalPlugins;
+    for (var i=0; i<scripts.length;i++)
+        {
+        title = scripts[i][0];
+        try
+           {
+           window.eval(scripts[i][1]);
+           }
+        catch(e)
+          {
+          alert(exceptionText(e)+ " in " + title);
+          }
+        }
+   MTSExternalPlugins = null;
+   return hadProblems;
+}
 
 </script>
 
@@ -642,6 +676,13 @@ function saveChanges()
             }
         }
     
+</script>
+
+<script>
+loadRemoteFile = function () {
+    alert("Unfortunatly, this cannot work from a live wiki wrapped by MTS.  Please download your wiki, import the tiddlers after running it from your hard drive, and then upload it after saving.");
+}
+
 </script>
 
 

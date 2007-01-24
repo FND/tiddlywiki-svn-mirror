@@ -41,7 +41,7 @@
     }
     
     $remotefilename = $basedir.$remotefilename;
-
+    
     if (!copy($tmpfilename, $remotefilename)) {
         err( "There was an error uploading the file, please try again!");
     }
@@ -49,7 +49,7 @@
     {
         echo "<script>window.location = '$basedir$wrapperpath'</script>";
     
-    } 
+    }
     
     function err($msg) {
         echo $msg;
