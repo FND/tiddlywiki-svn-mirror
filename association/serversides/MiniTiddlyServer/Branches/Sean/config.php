@@ -61,11 +61,11 @@ if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass
 
         // 1 // Create a new users.php with the admin password 
         
-            $userstext = '<?php\n';
-            $userstext .= '$users = array(\n';
-            $userstext .= '\t"admin" => "'..'",\n';
-            $userstext .= ');\n';
-            $userstext .= '?>';
+            $userstext = "<?php\n";
+            $userstext .= "\$users = array(\n";
+            $userstext .= "\t\"admin\" => \"$adminpass\",\n";
+            $userstext .= ");\n";
+            $userstext .= "?>";
             writeToFile($userspath, $userstext);
         
         // 2 // Create a new wiki of that name.. 
