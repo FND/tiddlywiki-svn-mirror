@@ -209,10 +209,8 @@
     
             //read source file
             $filename = $sourcename;
-            $filehandle = fopen ( $filename , "r" );
-            $filesize = filesize ( $filename );
-            $subject = fread ( $filehandle, $filesize );
-            fclose ( $filehandle );
+            $subject = readFileToString ( $filename );
+            
             
             // split source file into 3 parts, prestore, store and poststore
             if (preg_match('/\\A(.*<div id="storeArea">\\n?)(.*)(\\n?<\\/div>\\n?<!--POST-BODY-START-->.*)$/sm', $subject, $regs)) {
@@ -290,16 +288,7 @@
             if ($saveError == true)
                 $sourcename = $sourcename.".err";
 
-            if (!$handle = fopen($sourcename, 'w+'))
-                $data .= "error:true, message:'Cannot open file ($sourcename)',";
-
-            if (fwrite($handle, $newTW) === FALSE)
-                $data .= "error:true, message:'Cannot write to file ($sourcename)',";
-
-            else
-                $data .= "saved:true,";
-
-            fclose($handle);
+            writeToFile($sourcename, $newTW);
                 
             // RSS // 
             $rss = decodePost($_POST['rss']);
