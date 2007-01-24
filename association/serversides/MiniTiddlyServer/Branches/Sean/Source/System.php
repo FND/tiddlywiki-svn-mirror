@@ -30,8 +30,8 @@
     }
 
     $action = $_GET['action'];
-    $user = $_GET['user']; 
-    $pass = $_GET['pass'];
+    $user = $_GET['get_user']; 
+    $pass = $_GET['get_pass'];
     
     $wrapperScriptName = $_POST['wrapperScriptName'];
     $wrapperScriptPath = "../".$wrapperScriptName .".php";
@@ -46,8 +46,8 @@
 // SAVING INFORMATION // 
     if ( $action == "login" ) {
         if (verifyLogin($user, $pass)) {
-            $_SESSION['user'] = $user;
-            $_SESSION['pass'] = $pass;
+            $_SESSION['mts_saved_username'] = $user;
+            $_SESSION['mts_saved_password'] = $pass;
             $data .= "login:true,";
         }
         
@@ -59,13 +59,13 @@
     else if ( $action == "logout" ) {
         session_unset();
         session_destroy();
-        $data .= "logout:true, checkuser:'".$_SESSION['user']."',";
+        $data .= "logout:true, checkuser:'".$_SESSION['mts_saved_username']."',";
     }
 
 // ADMIN FUNCTIONS //  I probably don't need to open the file each time, but for now we'll keep it this way. 
     else if ( $action != "save") { // Must be an admin function 
     
-        if ( !verifyAdmin($_SESSION['user'], $_SESSION['pass']) ) 
+        if ( !verifyAdmin($_SESSION['mts_saved_username'], $_SESSION['mts_saved_password']) ) 
             $data .= "error:true, message:'Admin user information lost or incorrect. Check cookie settings.',";
     
         else {
@@ -134,7 +134,7 @@
     
 // FILE SAVING //
     else if ( $action == "save" ) {      
-        if (!verifyLogin($_SESSION['user'], $_SESSION['pass'])) {
+        if (!verifyLogin($_SESSION['mts_saved_username'], $_SESSION['mts_saved_password'])) {
             $data .= "error:true, message:'The user information was incorrect or lost.  Please check cookie settings.',";
             $lockdown = true;
         }
