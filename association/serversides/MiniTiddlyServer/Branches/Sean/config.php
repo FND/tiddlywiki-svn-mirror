@@ -59,10 +59,14 @@ $baseDir = substr($_SERVER['SCRIPT_URI'], 0, strpos($_SERVER['SCRIPT_URI'],"conf
 
 if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass != "" && $wrapperpath != "" && $sourcepath != "") {
 
-        // 1 // Create a new config.txt with the admin password 
-            $usersstr = readFileToString($userspath);
-            $usersstr = preg_replace ( '/"ADMINPASS"/',"\"$adminpass\"",$usersstr);
-            writeToFile($userspath, $usersstr);
+        // 1 // Create a new users.php with the admin password 
+        
+            $userstext = '<?php\n';
+            $userstext .= '$users = array(\n';
+            $userstext .= '\t"admin" => "'..'",\n';
+            $userstext .= ');\n';
+            $userstext .= '?>';
+            writeToFile($userspath, $userstext);
         
         // 2 // Create a new wiki of that name.. 
             createNewWiki($wrapperpath, $sourcepath, "", $baseDir);
