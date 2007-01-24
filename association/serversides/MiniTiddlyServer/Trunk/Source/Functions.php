@@ -36,7 +36,10 @@ Common Functions .. These will allow us to not have to write so much duplicate c
 
     function writeToFile($file, $str) {
     
-        global $data;
+        global $data, $lockdown;
+        
+        if ($lockdown == true)
+            return false;
         
         if (!$handle = fopen($file, 'w+')) 
             $data .= "error:true, message:'Cannot open file ($file)',";

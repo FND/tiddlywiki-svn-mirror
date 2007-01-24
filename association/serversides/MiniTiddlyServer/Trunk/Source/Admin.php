@@ -36,12 +36,16 @@
     </tr>
     <tr>
         <td>
-            <h4>Revert to Original</h4>
+            <h4>Revert to Backup</h4>
             <div>Disabled</div><!--<input type="submit" value="Revert" onclick="clearAll()"/>-->
         </td>
         <td>
-            <h4>List All Users</h4>
-            <div>Disabled</div><!--<input type="submit" value="List All Users" onclick="listAllUsers()"/>-->
+            <h4>Upload and Replace</h4>
+                <table>
+                    <tr><td>Select a TW: </td><td><form id="uploadfile" method="POST" enctype="multipart/form-data" action="Source/Upload.php"><input type="hidden" name="sourcepath" value="<?php echo $sourcePath ?>"/><input type="hidden" name="wrapperpath" value="<?php echo $wrapperScriptPath ?>"/><input name="uploadfile" type="file"/></form></td></tr>
+                    <tr><td colspan="2"><input type="submit" value="Upload" onclick="uploadFile()"></td></tr>
+                </table>
+            </form>
         </td>
         <td>
         <h4>Delete This Wiki</h4>

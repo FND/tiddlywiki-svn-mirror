@@ -1,7 +1,6 @@
 <script language="javascript" type="text/javascript" src="Source/ajax.js">
 </script>
 <link rel="stylesheet" type="text/css" href="Source/style.css"/>
-<?php include_once("Admin.php") ?>
 <script>
 <?php
 
@@ -27,7 +26,10 @@
 // FILETIME // Must be updated for prefixes
     echo "\nvar origtime = '".filemtime($sourcePath)."';";
 ?>
+</script>
+<?php include_once("Admin.php") ?>
 
+<script>
 
 var systempath = "Source/System.php";
 
@@ -611,6 +613,16 @@ function saveChanges()
         }
     }
     
+    function uploadFile() {
+        if (confirm("Are you sure?  This will completely replace your current wiki.  You may want to perform a manual backup first.")) {
+        
+            showMessageWindow("Uploading Wiki ... ");
+            
+            document.getElementById("uploadfile").submit();
+            
+        }
+    }
+    
     printNav();
     hideAdmin();
     
@@ -626,6 +638,13 @@ function saveChanges()
             }
         }
     
+</script>
+
+<script>
+loadRemoteFile = function () {
+    alert("Unfortunatly, this cannot work from a live wiki wrapped by MTS.  Please download your wiki, import the tiddlers after running it from your hard drive, and then upload it after saving.");
+}
+
 </script>
 
 
