@@ -66,6 +66,7 @@ if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass
             $userstext .= "\t\"admin\" => \"$adminpass\",\n";
             $userstext .= ");\n";
             $userstext .= "?>";
+            
             writeToFile($userspath, $userstext);
         
         // 2 // Create a new wiki of that name.. 
