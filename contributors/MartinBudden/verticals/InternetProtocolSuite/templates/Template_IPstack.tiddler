@@ -1,0 +1,46 @@
+<div title="Template:IPstack" modifier="www.wikipedia.org" server.host="www.wikipedia.org" downloaded="200701132051" wikiformat="MediaWiki" mediawiki.revid="100274301" alias="" changecount="0">
+<pre>{| class=&quot;infobox&quot; style=&quot;width: 22em;&quot;
+|- style=&quot;background:#AADDBB&quot; align=&quot;center&quot;
+| style=&quot;border-bottom: 2px solid #ccffcc&quot;&quot; |  '''[[TCP/IP model|The five layer TCP/IP model]]'''
+|- style=&quot;background:#ccffcc&quot; 
+|  '''5.&amp;nbsp;[[Application layer]]
+|- 
+|&lt;!-- PLEASE ONLY INCLUDE WIDESPREAD APPLICATION PROTOCOLS THAT ACTUALLY ARE USED TODAY, AND THAT HAVE AN RFC --&gt;
+[[Dynamic Host Configuration Protocol|DHCP]] • [[Domain name system|DNS]] • [[File Transfer Protocol|FTP]] • [[Hypertext Transfer Protocol|HTTP]] • [[Internet Message Access Protocol|IMAP4]] • [[Internet Relay Chat|IRC]] • [[MIME]] • [[Post Office Protocol|POP3]] • [[Session Initiation Protocol|SIP]] • [[Simple Mail Transfer Protocol|SMTP]] • [[Simple Network Management Protocol|SNMP]] • [[Secure Shell|SSH]] • [[TELNET]] • [[Transport Layer Security|TLS/SSL]] • [[Border Gateway Protocol |BGP]] • [[Remote procedure call |RPC]] • [[Real-time Transport Protocol|RTP]] • [[Real-time Transport Control Protocol|RTCP]] • [[Session Description Protocol|SDP]] • [[SOAP]] • [[:Category:Application layer protocols|…]]
+
+&lt;!-- PLEASE ONLY INCLUDE WIDESPREAD APPLICATION PROTOCOLS THAT ACTUALLY ARE USED TODAY, AND THAT HAVE AN RFC --&gt; 
+|- style=&quot;background:#ccffcc&quot; 
+| '''4.&amp;nbsp;[[Transport layer]]'''
+|- 
+|
+[[Transmission Control Protocol|TCP]] • [[User Datagram Protocol|UDP]] • [[Datagram Congestion Control Protocol|DCCP]] • [[Stream Control Transmission Protocol|SCTP]] • [[:Category:Transport layer protocols|…]]
+
+|- style=&quot;background:#ccffcc&quot;
+| '''3.&amp;nbsp;[[Network layer]]'''
+|- 
+|
+[[Internet Protocol|IP]] ([[IPv4]] • [[IPv6]]) • [[Address Resolution Protocol|ARP]] • [[Reverse Address Resolution Protocol|RARP]] • [[Internet Control Message Protocol|ICMP]] • [[Internet Group Management Protocol|IGMP]] • [[Resource Reservation Protocol|RSVP]] • [[Interior gateway protocol|IGP]] • [[:Category:Network layer protocols|…]]
+
+|- style=&quot;background:#ccffcc&quot; 
+| '''2.&amp;nbsp;[[Data link layer]]'''
+|- 
+|
+[[Asynchronous Transfer Mode|ATM]] • [[Digital subscriber line|DSL]] • [[Ethernet]] • [[Fiber distributed data interface|FDDI]] • [[Frame relay|Frame Relay]] • [[GPRS]] • [[Modem]]s • [[Power line communication|PLC]] • [[Point-to-Point Protocol|PPP]] • [[Wi-Fi]] •  [[:Category:Link protocols|…]]
+
+|- style=&quot;background:#ccffcc&quot; 
+| '''1.&amp;nbsp;[[Physical layer]]''' 
+|- 
+|
+[[Digital subscriber line|DSL]] • [[Ethernet physical layer]] • [[ISDN]] • [[Modem]]s • [[Power line communication|PLC]] • [[RS232]] • [[Synchronous optical networking|SONET/SDH]]  •  [[G.709]]  •  [[Wi-Fi]]  •  [[:Category:Physical layer protocols|…]]
+|-
+|align=&quot;center&quot;| {{tnavbar|IPstack}}
+|}&lt;noinclude&gt;
+[[Category:Technology navigational boxes]]
+
+[[el:Πρότυπο:Στοίβα Πρωτοκόλλων]]
+[[fr:Modèle:Pile de protocoles]]
+[[pt:Predefinição:ProtocolosIP]]
+[[ja:Template:IPstack]]
+[[vi:Tiêu bản:IPstack]]
+&lt;/noinclude&gt;</pre>
+</div>

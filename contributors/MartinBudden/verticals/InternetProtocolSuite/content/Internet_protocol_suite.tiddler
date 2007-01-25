@@ -1,0 +1,29 @@
+<div title="Internet protocol suite" modifier="www.wikipedia.org" server.host="www.wikipedia.org" wikiformat="MediaWiki">
+<pre>Click on "download" to get the full text of the wikipedia article Internet_protocol_suite
+{{Mergefrom|Internet Protocols|date=December 2006}}
+{{IPstack}}
+The '''Internet protocol suite''' is the set of [[communications protocol]]s that implements the [[protocol stack]] on which the [[Internet]] and most commercial networks run. It is sometimes called the '''TCP/IP''' [[protocol suite]], after the two most important protocols in it: the [[Transmission Control Protocol]] (TCP) and the [[Internet Protocol]] (IP), which were also the first two defined.
+
+The Internet protocol suite â€” like many protocol suites â€” can be viewed as a set of layers. Each layer solves a set of problems involving the transmission of data, and provides a well-defined service to the [[upper layer protocol]]s based on using services from some lower layers. Upper layers are logically closer to the user and deal with more abstract data, relying on [[lower layer protocol]]s to translate data into forms that can eventually be physically transmitted. The original [[TCP/IP model|TCP/IP reference model]] consisted of four layers, but has evolved into a '''five-layer model'''.
+
+The [[OSI model]] describes a fixed, seven-layer stack for networking protocols. Comparisons between the OSI model and TCP/IP can give further insight into the significance of the components of the IP suite, but can also cause confusion, since the definition of the layers is slightly different.
+
+==History==
+The Internet protocol suite came from work done by [[DARPA]] in the early 1970s. After building the pioneering [[ARPANET]], DARPA started work on a number of other data transmission technologies. In 1972, [[Robert E. Kahn]] was hired at the DARPA [[Information Processing Technology Office]], where he worked on both satellite packet networks and ground-based radio packet networks, and recognized the value of being able to communicate across them.  In the spring of 1973, [[Vinton Cerf]], the developer of the existing ARPANET Network Control Program ([[Network Control Program|NCP]]) protocol, joined Kahn to work on open-architecture interconnection models with the goal of designing the next protocol for the ARPANET.
+
+By the summer of 1973, Kahn and Cerf had soon worked out a fundamental reformulation, where the differences between network protocols were hidden by using a common [[internetwork protocol]], and instead of the network being responsible for reliability, as in the ARPANET, the hosts became responsible. (Cerf credits [[Hubert Zimmerman]] and [[Louis Pouzin]] [designer of the [[CYCLADES]] network] with important influences on this design.)
+
+With the role of the network reduced to the bare minimum, it became possible to join almost any networks together, no matter what their characteristics were, thereby solving Kahn's initial problem. (One popular saying has it that TCP/IP, the eventual product of Cerf and Kahn's work, will run over &quot;two tin cans and a string&quot;, and it has in fact been [[IP over Avian Carriers|implemented using homing pigeons]].)  A computer called a ''gateway'' (later changed to ''[[router]]'' to avoid confusion with [[Gateway|other types of ''gateway'']]) is provided with an interface to each network, and forwards [[packet]]s back and forth between them.
+
+The idea was worked out in more detailed form by Cerf's networking research group at Stanford in the 1973â€“74 period. (The early networking work at [[Xerox PARC]], which produced the [[PARC Universal Packet]] protocol suite, much of which was [[wikt:Contemporaneous|contemporaneous]], was also a significant technical influence; people moved between the two.)
+
+DARPA then contracted with [[BBN Technologies]], [[Stanford University]], and the [[University College London]] to develop operational versions of the protocol on different hardware platforms.  Four versions were developed: TCP v1, TCP v2, a split into TCP v3 and IP v3 in the spring of 1978, and then stability with TCP/IP v4 &amp;mdash; the standard protocol still in use on the Internet today. 
+
+In 1975, a two-network TCP/IP communications test was performed between Stanford and University College London (UCL). In November, 1977, a three-network TCP/IP test was conducted between the U.S., UK, and Norway.  Between 1978 and 1983, several other TCP/IP prototypes were developed at multiple research centres.  A full switchover to TCP/IP on the ARPANET took place [[January 1]], [[1983]].&lt;ref&gt;[http://www.livinginternet.com/i/ii.htm Internet History]&lt;/ref&gt;
+
+In March 1982,&lt;ref&gt;[http://www.columbia.edu/~rh120/other/tcpdigest_paper.txt From the ARPANET to the Internet]&lt;/ref&gt; the US Department of Defense made TCP/IP the standard for all military computer networking.  In 1985, the [[Internet Architecture Board]] held a three day workshop on TCP/IP for the computer industry, attended by 250 vendor representatives, helping popularize the protocol and leading to its increasing commercial use.
+
+On [[November 9]], [[2005]] '''Kahn''' and Cerf were presented with the [[Presidential Medal of Freedom]] for their contribution to American culture.&lt;ref&gt;[http://news.bbc.co.uk/1/hi/technology/4415326.stm Net pioneers receive top honour.]&lt;/ref&gt;
+
+</pre>
+</div>
