@@ -145,7 +145,7 @@ SocialtextChannel.putTiddler = function(title,params)
 	var urlTemplate = '%0/data/workspaces/%1/pages/%2';
 	if(!params.serverHost.match(/:\/\//))
 		urlTemplate = 'http://' + urlTemplate;
-	var url = urlTemplate.format([params.serverHost,params.serverWorkspace,pageId,text]);
+	var url = urlTemplate.format([params.serverHost,params.serverWorkspace,title,text]);
 //#displayMessage('url:'+url);
 
 	params.title = title;
@@ -168,6 +168,7 @@ SocialtextChannel.getTiddlerList = function(params)
 {
 //#displayMessage('getTiddlerList');
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages?accept=application/json
+//# http://www.socialtext.net/data/workspaces/st-rest-docs/pages?accept=application/json;order=newest;count=4
 //# data/workspaces/:ws/pages/:pname
 	var urlTemplate = '%0/data/workspaces/%1/pages?accept=application/json';
 	if(!params.serverHost.match(/:\/\//))
@@ -225,6 +226,9 @@ SocialtextChannel.getTiddlerListCallback = function(status,params,responseText,x
 	if(params.callback)
 		params.callback(params);
 };
+
+// following gets list of workspaces
+//# http://www.eu.socialtext.net/data/workspaces?accept=application/json
 
 config.hostFunctions.getTiddler['socialtext'] = SocialtextChannel.getTiddler;
 config.hostFunctions.putTiddler['socialtext'] = SocialtextChannel.putTiddler;
