@@ -211,9 +211,8 @@
             $filename = $sourcename;
             $subject = readFileToString ( $filename );
             
-            
             // split source file into 3 parts, prestore, store and poststore
-            if (preg_match('/\\A(.*<div id="storeArea">\\n?)(.*)(\\n?<\\/div>\\n?<!--POST-BODY-START-->.*)$/sm', $subject, $regs)) {
+            if (preg_match('/(.*<div id="storeArea">\s*)(.*)(\s*<\/div>\s*<!--POST-BODY-START-->.*)$/sm', $subject, $regs)) {
                 $prestore = $regs[1];
                 $store = $regs[2];
                 $poststore = $regs[3];
