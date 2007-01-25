@@ -37,6 +37,7 @@ There are (at least) the following known issues:
 # Template colon functions http://meta.wikimedia.org/wiki/Help:Colon_function
 # Template parser functions (eg #if) http://meta.wikimedia.org/wiki/ParserFunctions
 # {{{^''}}} (italic at start of line) indents, makes italic and quotes with guilmot quote
+
 ***/
 
 //{{{
@@ -63,6 +64,27 @@ mwDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
 	createTiddlyElement2(out,'br');
+};
+
+MediaWikiFormatter.Tiddler_changed = Tiddler.prototype.changed;
+Tiddler.prototype.changed = function()
+{
+	if((this.fields && this.fields.wikiformat==config.parsers.mediaWikiFormatter.format) || this.isTagged(config.parsers.mediaWikiFormatter.formatTag)) {
+		// update the links array, by checking for MediaWiki format links
+		this.links = [];
+//#lookaheadRegExp: /\[\[(?:([a-z]{2,3}:)?)(#?)([^\|\]]*?)(?:(\]\](\w*))|(\|(.*?)\]\]))/mg,
+		var tiddlerLinkRegExp = /\[\[(?::?([A-Za-z]{2,}:)?)(#?)([^\|\]]*?)(?:(\]\])|(\|(.*?)\]\]))/mg;
+		tiddlerLinkRegExp.lastIndex = 0;
+		var match = tiddlerLinkRegExp.exec(this.text);
+		while(match) {
+			if(!match[1] && !match[2])
+				this.links.pushUnique(match[3]);
+			match = tiddlerLinkRegExp.exec(this.text);
+		}
+	} else if(!this.isTagged('systemConfig')) {
+		return MediaWikiFormatter.Tiddler_changed.apply(this,arguments);
+	}
+	this.linksUpdated = true;
 };
 
 config.macros.list.templates = {};
@@ -543,11 +565,12 @@ config.mediaWikiFormatters = [
 {
 	name: 'mediaWikiList',
 	match: '^[\\*#;:]+',
-	lookaheadRegExp: /^(?:(?:(\*)|(#)|(;)|(:))+)(?: ?)/mg,
+	lookaheadRegExp: /(?:(?:(\*)|(#)|(;)|(:))+)(?: ?)/mg,
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
-		//#var output = w.output.parentNode;
+//#this.debug = createTiddlyElement2(w.output,'p');
+//#mwDebug(this.debug,'start list');
 		var stack = [w.output];
 		var currLevel = 0, currType = null;
 		var listType, itemType;
@@ -582,14 +605,22 @@ config.mediaWikiFormatters = [
 				stack.pop();
 				stack.push(createTiddlyElement2(stack[stack.length-1],listType));
 			}
+//#mwDebug(this.debug,"b:"+w.source.substr(w.nextMatch,30));
 			currLevel = listLevel;
 			currType = listType;
 			var e = createTiddlyElement2(stack[stack.length-1],itemType);
-			w.subWikifyTerm(e,this.termRegExp);
+			var ci = w.source.indexOf(':',w.nextMatch);
+			var ni = w.source.indexOf('\n',w.nextMatch);
+			if(itemType=='dt' && (ni==-1 || (ci!=-1 && ci<ni))) {
+				// deal with ':' on same line as ';'
+				w.subWikifyTerm(e,/(:)/mg);
+				w.nextMatch--;
+			} else {
+				w.subWikifyTerm(e,this.termRegExp);
+			}
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		}
-		//#w.output = createTiddlyElement2(output,'p');
 	}
 },
 
