@@ -57,7 +57,7 @@ config.macros.importSharedRecordsMetaData = {
 	defaultURL: "http://sra.sharedrecords.org:8080/SRCDataStore/RESTServlet/",
 	defaultRecordUID: "37105c154dd4956cc4e278a5b867a435b5250d19",
 	autoSyncTiddler: "SharedRecordsAutoSyncRecordUIDs",
-	templateToken: "[% recordUIDsList %]",
+	templateToken: "\x5B% recordUIDsList %\x5D",
 	servletName: "RESTServlet",
 	wizardTitle: "Import Shared Records Meta Data",
 	step1: "Select a record UID",
@@ -85,7 +85,8 @@ config.commands.saveTiddler.handler = function(event,src,title)
 		r = config.macros.importSharedRecordsMetaData.defaultRecordUID;	
 	store.setValue(theTitle, "sharedRecords.recordUID", r);
 	store.setValue(theTitle, "sharedRecords.url", config.macros.importSharedRecordsMetaData.defaultURL);
-	store.setValue(theTitle, "sharedRecords.sequenceNumber", "0");
+	
+	//store.setValue(theTitle, "sharedRecords.sequenceNumber", "0");
 		if(config.options.chkAutoSave)
 			saveChanges();
 	return false;
@@ -375,6 +376,11 @@ metaDataEntry['sharedRecords.recordUID']);
 store.setValue(title, 
 "sharedrecords.sequenceNumber", 
 metaDataEntry['sharedRecords.sequenceNumber']);
+
+store.setValue(title, 
+"sharedRecords.contentType", 
+metaDataEntry['contentType']);
+
 store.notify(title,false);
 }
 //}}}

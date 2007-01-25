@@ -43,9 +43,9 @@ config.macros.sharedRecordsSync = {
 	label: "sync",
 	prompt: "Plug back in to the SharedRecords server and synchronize changes",
 	postUrl: "%0%1_log?max-sequence-number=%2&format=json",
-	jsonTag: '"%0"',
+	jsonTag: '%0',
 	jsonTagSep: ',',
-	jsonEntry: '{"title":"%0","modified":"%1","modifier":"%2","created":"%3",\n"tags":[%4],"text":"%5",\n"sharedRecords.recordUID":"%6","sharedRecords.url":"%7","sharedRecords.sequenceNumber":"%8"}\n',
+	jsonEntry: '{"title":%0,"modified":"%1","modifier":%2,"created":"%3",\n"tags":[%4],"text":%5,\n"sharedRecords.recordUID":%6,"sharedRecords.url":%7,"contentType":%8,"sharedRecords.sequenceNumber":%9}\n',
 	jsonEntrySep: ',',
 	jsonWrapper: '{"tiddlers":[%0]}'
 };
@@ -89,20 +89,26 @@ displayMessage("Syncing: number of items: " + syncList.length);
 		var tiddler = syncList[t];
 		var tags = [];
 		for(var tag=0; tag<tiddler.tags.length; tag++)
-			tags.push(config.macros.sharedRecordsSync.jsonTag.format([tiddler.tags[tag]]));
+			tags.push(config.macros.sharedRecordsSync.jsonTag.format([tiddler.tags[tag].toJSONString()]));
 		var shRecordUID = store.getValue(tiddler,"sharedRecords.recordUID");
 		var shUrl = store.getValue(tiddler,"sharedRecords.url");
 		var sequenceNumber = store.getValue(tiddler,"sharedRecords.sequenceNumber");
+		if(sequenceNumber === undefined)
+			sequenceNumber = "0";
+		var contentType = store.getValue(tiddler,"sharedRecords.contentType");
+		if(contentType === undefined)
+			contentType = "text/html";
 		entries.push(config.macros.sharedRecordsSync.jsonEntry.format([
-			tiddler.title,
+			tiddler.title.toJSONString(),
 			isoDate(tiddler.modified),
-			tiddler.modifier,
+			tiddler.modifier.toJSONString(),
 			isoDate(tiddler.created),
 			tags.join(config.macros.sharedRecordsSync.jsonTagSep),
-			tiddler.text,
-			shRecordUID,
-			shUrl,
-			sequenceNumber
+			tiddler.text.toJSONString(),
+			shRecordUID.toJSONString(),
+			shUrl.toJSONString(),
+			contentType.toJSONString(),
+			sequenceNumber.toJSONString()
 			]));
 		}
 	var payload = config.macros.sharedRecordsSync.jsonWrapper.format([entries.join(config.macros.sharedRecordsSync.jsonEntrySep)]);
