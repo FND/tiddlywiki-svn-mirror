@@ -21,12 +21,12 @@ Common Functions .. These will allow us to not have to write so much duplicate c
         else {
         
             // COPY TEMPLATE // Copy the template wiki
-                $source = readFileToString($templatename);
+                $source = file_get_contents($templatename);
                 $source = preg_replace ( '/SiteUrl: ".*"/i',"SiteUrl: \"$baseDir$newWrapper\"",$source);
                 writeToFile($sourcepath, $source);
             
             // CREATE WRAPPER // Open the wikiframe, put in the new filename and go.
-                $output = readFileToString($wikiframe);
+                $output = file_get_contents($wikiframe);
                 $output = preg_replace ( '/"WIKIPATH"/i',"\"$newSource\"",$output);
                 writeToFile($wrapperpath, $output);
         }
@@ -52,10 +52,4 @@ Common Functions .. These will allow us to not have to write so much duplicate c
               
         fclose($handle);
     }
-    
-    function readFileToString($file) {
-        $lines = file($file);
-        return join("", $lines);
-    }
-
 ?>

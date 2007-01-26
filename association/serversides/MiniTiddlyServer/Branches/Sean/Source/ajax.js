@@ -12,8 +12,7 @@ function openAjaxRequestParams(url, params, callback, usePost) {
             datastr += i + "=" + params[i] + "&";
     }
     
-    //~ alert("DATASTR: " + datastr);
-    if ( usePost ) 
+    if ( usePost )
         openAjaxRequest(url, callback, true, datastr);
     
     else
@@ -54,20 +53,6 @@ function openAjaxRequest(url, callback, usePost, postData)
     
 }
 
-
-/*
-
- var objHTTP, strResult;
-  objHTTP = new ActiveXObject('Microsoft.XMLHTTP');
-  objHTTP.Open('POST',"OtherPage.asp",false);
-  objHTTP.setRequestHeader('Content-Type',
-'application/x-www-form-urlencoded');
-
-  objHTTP.send("id=1&user="+txtUser.value+"&password="+txtPassword.value);
-
-  strResult=objHTTP.responseText;
-
-*/
 
 function GetXmlHttpObject()
 { 

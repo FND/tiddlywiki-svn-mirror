@@ -30,8 +30,8 @@
     }
 
     $action = $_GET['action'];
-    $user = $_GET['user']; 
-    $pass = $_GET['pass'];
+    $user = $_GET['get_user']; 
+    $pass = $_GET['get_pass'];
     
     $wrapperScriptName = $_POST['wrapperScriptName'];
     $wrapperScriptPath = "../".$wrapperScriptName .".php";
@@ -43,11 +43,12 @@
     //~ $dobackup = ($_GET['backup'] == "true");
     $time = $_POST['time'];
     
+    
 // SAVING INFORMATION // 
     if ( $action == "login" ) {
         if (verifyLogin($user, $pass)) {
-            $_SESSION['user'] = $user;
-            $_SESSION['pass'] = $pass;
+            $_SESSION['mts_saved_username'] = $user;
+            $_SESSION['mts_saved_password'] = $pass;
             $data .= "login:true,";
         }
         
@@ -59,26 +60,26 @@
     else if ( $action == "logout" ) {
         session_unset();
         session_destroy();
-        $data .= "logout:true, checkuser:'".$_SESSION['user']."',";
+        $data .= "logout:true, checkuser:'".$_SESSION['mts_saved_username']."',";
     }
 
 // ADMIN FUNCTIONS //  I probably don't need to open the file each time, but for now we'll keep it this way. 
     else if ( $action != "save") { // Must be an admin function 
     
-        if ( !verifyAdmin($_SESSION['user'], $_SESSION['pass']) ) 
+        if ( !verifyAdmin($_SESSION['mts_saved_username'], $_SESSION['mts_saved_password']) ) 
             $data .= "error:true, message:'Admin user information lost or incorrect. Check cookie settings.',";
     
         else {
         
             if ( $action == "adduser") {
-                $configstr = readFileToString($configfile);
+                $configstr = file_get_contents($configfile);
                 $configstr = preg_replace('/\)\;/i',"\t\"$user\" => \"$pass\",\n);",$configstr);
                 writeToFile($configfile, $configstr);
                 $data .= "adduser:true,";
             }
             
             else if ( $action == "removeuser") {
-                $configstr = readFileToString($configfile);
+                $configstr = file_get_contents($configfile);
                 $configstr = preg_replace("/.*$user.*\n/i","",$configstr);
                 
                 writeToFile($configfile, $configstr);
@@ -86,13 +87,13 @@
             }
             
             else if ( $action == "clearall") {
-                $origstr = readFileToString($templatename);
+                $origstr = file_get_contents($templatename);
                 writeToFile($sourcename, $origstr);
             }
             
             else if ( $action == "moveadmin") {
                 $side = $_POST['side'];
-                $css = readFileToString("style.css");
+                $css = file_get_contents("style.css");
                 if ( $side == "left" )
                     $css = preg_replace ( '/right:(\d*)px/i',"left:$1px",$css);
                 else
@@ -134,7 +135,7 @@
     
 // FILE SAVING //
     else if ( $action == "save" ) {      
-        if (!verifyLogin($_SESSION['user'], $_SESSION['pass'])) {
+        if (!verifyLogin($_SESSION['mts_saved_username'], $_SESSION['mts_saved_password'])) {
             $data .= "error:true, message:'The user information was incorrect or lost.  Please check cookie settings.',";
             $lockdown = true;
         }
@@ -208,21 +209,19 @@
     
             //read source file
             $filename = $sourcename;
-            $filehandle = fopen ( $filename , "r" );
-            $filesize = filesize ( $filename );
-            $subject = fread ( $filehandle, $filesize );
-            fclose ( $filehandle );
+            $subject = file_get_contents ( $filename );
             
             // split source file into 3 parts, prestore, store and poststore
-            if (preg_match('/\\A(.*<div id="storeArea">\\n?)(.*)(\\n?<\\/div>\\n?<!--POST-BODY-START-->.*)$/sm', $subject, $regs)) {
+            if (preg_match('/(.*<div id="storeArea">\s*)(.*)(\s*<\/div>\s*<!--POST-BODY-START-->.*)$/sm', $subject, $regs)) {
                 $prestore = $regs[1];
                 $store = $regs[2];
                 $poststore = $regs[3];
             } 
-            
-            /// to be done: avoid parsing if full save. Just use new store to make TW file and force update of all blocks
-            // will require a 'fullsave' argument from POST
-            
+            else {
+                $saveError = true;
+                $data .= "error:true, message:'The source file ($sourcename) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $sourcename.err',";
+            }
+
             $updatesDiv = decodePost($_POST['data']);
 
             $savetype = decodePost($_POST['savetype']);
@@ -243,7 +242,7 @@
                      {
                       unset($storeTiddlerMap[$deleted]);
                       }
-                
+
                 // add updates to storeTiddlerMap
                 $newStoreMap = array_merge($storeTiddlerMap,$updatesMap);
                 
@@ -285,23 +284,11 @@
             if ($saveError == true)
                 $sourcename = $sourcename.".err";
 
-            if (!$handle = fopen($sourcename, 'w+'))
-                $data .= "error:true, message:'Cannot open file ($sourcename)',";
-
-            if (fwrite($handle, $newTW) === FALSE)
-                $data .= "error:true, message:'Cannot write to file ($sourcename)',";
-
-            else
-                $data .= "saved:true,";
-
-            fclose($handle);
+            writeToFile($sourcename, $newTW);
                 
             // RSS // 
             $rss = decodePost($_POST['rss']);
             if ( isset($rss) && $rss != "" && $conflict != true) {
-                // ? // If I leave this out is it ok ??? 
-                //~ $rss = preg_replace("/http:\/\/www.tiddlywiki.com\//i", "MYSITE", $rss);
-                
                 $rssfile = "../$wrapperScriptName.xml";
                 writeToFile($rssfile, $rss);
                 $data .= "rss:true,";
@@ -345,7 +332,6 @@
     }
     
     function decodePost($str) {
-        //~ $str = stripslashes(rawurldecode($str));
         $str = rawurldecode($str);
         
         if ( strpos($str, "\\\\n") > 0 || strpos($str, "\\\"") > 0) {

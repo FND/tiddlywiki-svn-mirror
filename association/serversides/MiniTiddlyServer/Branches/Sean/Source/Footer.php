@@ -3,6 +3,16 @@
 <link rel="stylesheet" type="text/css" href="Source/style.css"/>
 <script>
 <?php
+// Plugins. Load to array as variables for later processing.
+   echo "\nvar MTSExternalPlugins = [];";
+   foreach (glob("Plugins/*.js") as $filename) {
+      $fcontents = file_get_contents($filename);
+      $fcontents = addslashes($fcontents);
+      $fcontents = preg_replace('/(\n)/i', '\\n', $fcontents);
+      $fcontents = preg_replace('/</i', '\\<', $fcontents);
+      $fcontents = preg_replace('/>/i', '\\>', $fcontents);
+      echo "\nMTSExternalPlugins.push(['$filename','$fcontents']);";
+}
 
 // AUTOSETTINGS // 
     $fullserverpath = $_SERVER["SCRIPT_NAME"];
@@ -69,8 +79,6 @@ function saveReturn(data) {
     }
 }
 
-//use array for updated tiddlers as well?
-//might give better performance!
 TiddlyWiki.prototype.deletedTiddlersIndex = [];
 TiddlyWiki.prototype.updatedTiddlersIndex = [];
 TiddlyWiki.prototype.uploadError = false;
@@ -80,7 +88,6 @@ TiddlyWiki.prototype.flagForUpload = function(title)
   store.suspendNotifications();
 	this.setValue(title,"temp.flagForUpload",1,true);
 	store.resumeNotifications();
-	// do I need to set the store as dirty here?
 }
 
 TiddlyWiki.prototype.unFlagForUpload = function(tiddlers)
@@ -163,7 +170,6 @@ function saveChanges()
 {        //allow for full saves depending on global variable
         //only save when there is something to save
         //rss only when rss tiddlers
-        // Automatically Called when they hit the save button on the side (or use the key command) //
 
     // 1 // Verify Info //
         if ( savedUserName == "" || savedUserName == "undefined" )
@@ -181,10 +187,6 @@ function saveChanges()
         rss = convertUnicodeToUTF8(generateRss());
       //we are still uploading the entire rss....
 
-    // IGNORE ERROR CHECK // Do I want to do that ???
-        //window.confirmExit = false;
-        //window.checkUnsavedChanges = false;
-
     // SEND INFO //
         var params = new Object();
 
@@ -200,15 +202,9 @@ function saveChanges()
         
         params['deletedTiddlers'] = convertUnicodeToUTF8(store.deletedTiddlersIndex.join("|||||"));
 
-             //perhaps better to do all utf8 conversions in openAjaxRequestParams?
-
         //reset tiddlers that were marked for upload
-        //we should probably do this in the callback once we have verified the data was saved!
         store.deletedTiddlersIndex = [];
         store.unFlagForUpload(store.updatedTiddlersIndex);
-
-        //for (var n in params)
-        //    alert(n +" = " + params[n]);
 
         // Must use a post request //
         openAjaxRequestParams(systempath + "?action=save", params, saveReturn, true);
@@ -216,9 +212,28 @@ function saveChanges()
 }
 
 
+old_MTS_loadPlugins = loadPlugins;
+loadPlugins = function()
+{
+    var hadProblems = old_MTS_loadPlugins.apply(this,arguments);
+    var scripts = MTSExternalPlugins;
+    for (var i=0; i<scripts.length;i++)
+        {
+        title = scripts[i][0];
+        try
+           {
+           window.eval(scripts[i][1]);
+           }
+        catch(e)
+          {
+          alert(exceptionText(e)+ " in " + title);
+          }
+        }
+   MTSExternalPlugins = null;
+   return hadProblems;
+}
+
 </script>
-
-
 
 
 <div id="addedStuff">
@@ -289,12 +304,10 @@ function saveChanges()
                 showMessageWindow("Login Successful");
                 savedUserName = document.loginInfo.loginuser.value;
                 //enable editing
-                //config.options.chkHttpReadOnly = false;
                 readOnly = false;
                 refreshDisplay();
                 printNav();
-                
-                // Change to logout // 
+                // Change to logout //
             }
             
             else {
@@ -330,7 +343,6 @@ function saveChanges()
                 showMessageWindow("You have been successfuly logged out.  Please log in again before saving.");
                 savedUserName = "";
                 //reset editing & readOnly
-                //loadOptionsCookie();
                 readOnly = config.options.chkHttpReadOnly;
                 refreshDisplay();
                 printNav();
@@ -589,12 +601,16 @@ function saveChanges()
     }
     
     function uploadFile() {
-        if (confirm("Are you sure?  This will completely replace your current wiki.  You may want to perform a manual backup first.")) {
-        
+        var file = document.getElementById("uploadfile");
+        if (file.lastChild.value.length == 0)
+              {
+              alert("no file selected!");
+              return false;
+              }           
+        if (confirm("Are you sure?  This will completely replace your current wiki.  You may want to perform a manual backup first.")) {              
             showMessageWindow("Uploading Wiki ... ");
             
-            document.getElementById("uploadfile").submit();
-            
+            file.submit();
         }
     }
     

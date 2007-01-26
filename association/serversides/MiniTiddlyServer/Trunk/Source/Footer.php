@@ -1,6 +1,3 @@
-<?php
-
-?> 
 <script language="javascript" type="text/javascript" src="Source/ajax.js">
 </script>
 <link rel="stylesheet" type="text/css" href="Source/style.css"/>
@@ -82,14 +79,6 @@ function saveReturn(data) {
     }
 }
 
-function goSave(user, pass, data, backup, rss)
-{
-    // Nothing // 
-}
-
-
-//use array for updated tiddlers as well?
-//might give better performance!
 TiddlyWiki.prototype.deletedTiddlersIndex = [];
 TiddlyWiki.prototype.updatedTiddlersIndex = [];
 TiddlyWiki.prototype.uploadError = false;
@@ -99,7 +88,6 @@ TiddlyWiki.prototype.flagForUpload = function(title)
   store.suspendNotifications();
 	this.setValue(title,"temp.flagForUpload",1,true);
 	store.resumeNotifications();
-	// do I need to set the store as dirty here?
 }
 
 TiddlyWiki.prototype.unFlagForUpload = function(tiddlers)
@@ -182,7 +170,6 @@ function saveChanges()
 {        //allow for full saves depending on global variable
         //only save when there is something to save
         //rss only when rss tiddlers
-        // Automatically Called when they hit the save button on the side (or use the key command) //
 
     // 1 // Verify Info //
         if ( savedUserName == "" || savedUserName == "undefined" )
@@ -193,17 +180,12 @@ function saveChanges()
 
     showMessageWindow("Saving ... ");
 
-    var user = config.options.txtUserName;
     var rss = "";
 
     // Generate Rss //
     if(config.options.chkGenerateAnRssFeed)
         rss = convertUnicodeToUTF8(generateRss());
       //we are still uploading the entire rss....
-
-    // IGNORE ERROR CHECK // Do I want to do that ???
-        //window.confirmExit = false;
-        //window.checkUnsavedChanges = false;
 
     // SEND INFO //
         var params = new Object();
@@ -220,15 +202,9 @@ function saveChanges()
         
         params['deletedTiddlers'] = convertUnicodeToUTF8(store.deletedTiddlersIndex.join("|||||"));
 
-             //perhaps better to do all utf8 conversions in openAjaxRequestParams?
-
         //reset tiddlers that were marked for upload
-        //we should probably do this in the callback once we have verified the data was saved!
         store.deletedTiddlersIndex = [];
         store.unFlagForUpload(store.updatedTiddlersIndex);
-
-        //for (var n in params)
-        //    alert(n +" = " + params[n]);
 
         // Must use a post request //
         openAjaxRequestParams(systempath + "?action=save", params, saveReturn, true);
@@ -260,16 +236,14 @@ loadPlugins = function()
 </script>
 
 
-
-
 <div id="addedStuff">
 
 <form name="loginInfo" action="javascript:;">
     <div id="login">
         <div class="inner">
             <table>
-            <tr><td>user: </td><td><input type="text" size="10" name="user"/></td></tr>
-            <tr><td>pass: </td><td><input type="password" size="10" name="pass"/></td></tr>
+            <tr><td>user: </td><td><input type="text" size="10" name="loginuser"/></td></tr>
+            <tr><td>pass: </td><td><input type="password" size="10" name="loginpass"/></td></tr>
             <tr><td colspan="2"><div align="center"><input type="submit" value="Login" onclick="login();return false;"></div></td></tr>
             </table>
         </div>
@@ -298,30 +272,23 @@ loadPlugins = function()
 <script>
 
     
-    var savedUserName = "<?php echo $_SESSION['user'] ?>";
+    var savedUserName = "<?php echo $_SESSION['mts_saved_username'] ?>";
     
     function login() {
         // Get Username and Password
-        //~ var config.options.txtUserName = document.loginInfo.user.value;
         
         showMessageWindow("Logging in...");
-        
-        // [ ] match up users // doesn't work yet
-        try {   config.options.txtUserName = document.loginInfo.user.value; }
-        catch (e) {};
         
         // Hide Box // 
         hideLogin();
         
-        var user = document.loginInfo.user.value;
-        var password = document.loginInfo.pass.value;
+        var user = document.loginInfo.loginuser.value;
+        var password = document.loginInfo.loginpass.value;
         
         var params = new Object();
         params.action = "login";
-        params.user = user;
-        params.pass = password;
-        
-        //~ alert("LOGGING IN");
+        params.get_user = user;
+        params.get_pass = password;
         
         openAjaxRequestParams(systempath, params, loginReturn);
         //return false;
@@ -335,14 +302,12 @@ loadPlugins = function()
             
             if (data.login) {
                 showMessageWindow("Login Successful");
-                savedUserName = document.loginInfo.user.value;
+                savedUserName = document.loginInfo.loginuser.value;
                 //enable editing
-                //config.options.chkHttpReadOnly = false;
                 readOnly = false;
                 refreshDisplay();
                 printNav();
-                
-                // Change to logout // 
+                // Change to logout //
             }
             
             else {
@@ -378,7 +343,6 @@ loadPlugins = function()
                 showMessageWindow("You have been successfuly logged out.  Please log in again before saving.");
                 savedUserName = "";
                 //reset editing & readOnly
-                //loadOptionsCookie();
                 readOnly = config.options.chkHttpReadOnly;
                 refreshDisplay();
                 printNav();
@@ -388,22 +352,11 @@ loadPlugins = function()
             else {
                 showMessageWindow("Logout Failed");
             }
-        
-
-    }
-    
-    function saveChangesOver() {
-        alert("SaveChangesOver");
-        try { config.options.txtUserName = document.loginInfo.user.value; }        catch (e) {};
-        password = document.loginInfo.pass.value;
-        
-        saveChanges();
     }
     
     var loginvisible = false;
     function showLogin() {
         hideMessageWindow();
-        try { document.loginInfo.user.value = config.options.txtUserName; }        catch (e) {};
         document.getElementById("login").style.visibility = "visible";
         loginvisible = true;
     }
@@ -518,7 +471,7 @@ loadPlugins = function()
         
         showMessageWindow("Adding User...");
         
-        openAjaxRequest(systempath + "?action=adduser&user=" + user + "&pass=" + pass, addUserReturn);
+        openAjaxRequest(systempath + "?action=adduser&get_user=" + user + "&get_pass=" + pass, addUserReturn);
         
     }
     
@@ -545,7 +498,7 @@ loadPlugins = function()
         showMessageWindow("Removing User...");
 
                
-        openAjaxRequest(systempath + "?action=removeuser&user=" + user, removeUserReturn);
+        openAjaxRequest(systempath + "?action=removeuser&get_user=" + user, removeUserReturn);
     }
     
 
