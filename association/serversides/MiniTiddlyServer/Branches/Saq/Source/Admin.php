@@ -40,12 +40,7 @@
             <div>Disabled</div><!--<input type="submit" value="Revert" onclick="clearAll()"/>-->
         </td>
         <td>
-            <h4>Upload and Replace</h4>
-                <table>
-                    <tr><td>Select a TW: </td><td><form id="uploadfile" method="POST" enctype="multipart/form-data" action="Source/Upload.php"><input type="hidden" name="sourcepath" value="<?php echo $sourcePath ?>"/><input type="hidden" name="wrapperpath" value="<?php echo $wrapperScriptPath ?>"/><input name="uploadfile" type="file"/></form></td></tr>
-                    <tr><td colspan="2"><input type="submit" value="Upload" onclick="uploadFile()"></td></tr>
-                </table>
-            </form>
+
         </td>
         <td>
         <h4>Delete This Wiki</h4>
@@ -57,10 +52,15 @@
             <h4>Control Panel Side</h4>
             <input type="submit" value="Left" onclick="moveAdmin('left');"/><input type="submit" value="right" onclick="moveAdmin('right');"/>
         </td>
-        <td>
+        <td colspan="2">
+                    <h4>Upload and Replace</h4>
+                <table>
+                    <tr><td>Select a TW: </td><td><form id="uploadfile" method="POST" enctype="multipart/form-data" action="Source/Upload.php"><input type="hidden" name="sourcepath" value="<?php echo $sourcePath ?>"/><input type="hidden" name="wrapperpath" value="<?php echo $wrapperScriptPath ?>"/><input name="uploadfile" type="file"/></form></td></tr>
+                    <tr><td colspan="2"><input type="submit" value="Upload" onclick="uploadFile()"></td></tr>
+                </table>
+            </form>
         </td>
-        <td>
-        </td>
+
     </tr>
 </table>
     
