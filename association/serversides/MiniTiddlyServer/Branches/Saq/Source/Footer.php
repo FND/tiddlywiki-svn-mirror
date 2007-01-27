@@ -23,6 +23,10 @@
     
 // SPLIT // 
     list($wrapperScriptName, $ext) = split('\.', $wrapperScriptPath, 2);
+    if (file_exists($wrapperScriptName.".xml"))
+       echo "\nvar mtsRssExists = true;";
+    else
+       echo "\nvar mtsRssExists = false;";
     
 // STORE ORIGINAL VERSION // 
     echo "\nvar wrapperScriptPath = '$wrapperScriptPath';";
@@ -162,6 +166,46 @@ TiddlyWiki.prototype.getTiddlersWithField = function (field,fieldValue,resultMat
                 });
        results.sort(function(a,b) {return a["title"] < b["title"] ? -1 : (a["title"] == b["title"] ? 0 : +1);});
        return results;
+}
+
+
+
+function generateRss()
+{
+	var s = [];
+	var d = new Date();
+	var u = store.getTiddlerText("SiteUrl");
+	// Assemble the header
+	s.push("<" + "?xml version=\"1.0\"?" + ">");
+	s.push("<rss version=\"2.0\">");
+	s.push("<channel>");
+	s.push("<title" + ">" + wikifyPlain("SiteTitle").htmlEncode() + "</title" + ">");
+	if(u)
+		s.push("<link>" + u.htmlEncode() + "</link>");
+	s.push("<description>" + wikifyPlain("SiteSubtitle").htmlEncode() + "</description>");
+	s.push("<language>en-us</language>");
+	s.push("<copyright>Copyright " + d.getFullYear() + " " + config.options.txtUserName.htmlEncode() + "</copyright>");
+	s.push("<pubDate>" + d.toGMTString() + "</pubDate>");
+	s.push("<lastBuildDate>" + d.toGMTString() + "</lastBuildDate>");
+	s.push("<docs>http://blogs.law.harvard.edu/tech/rss</docs>");
+	s.push("<generator>TiddlyWiki " + version.major + "." + version.minor + "." + version.revision + "</generator>");
+	// The body
+	var tiddlers = store.getTiddlers("modified","excludeLists");
+	var n = config.numRssItems > tiddlers.length ? 0 : tiddlers.length-config.numRssItems;
+	for (var t=tiddlers.length-1; t>=n; t--)
+	    { if (! store.uploadError && mtsRssExists)
+          {
+          if (store.getValue(tiddlers[t],"temp.flagForUpload"))
+		          s.push(tiddlers[t].saveToRss(u));
+          }
+        else
+            s.push(tiddlers[t].saveToRss(u));
+	    }
+    // And footer
+	s.push("</channel>");
+	s.push("</rss>");
+	// Save it all
+	return s.join("\n");
 }
 
 
@@ -386,6 +430,13 @@ loadPlugins = function()
     {
         document.getElementById("messageWindowContent").innerHTML = "<P></P>";
         document.getElementById("messageWindow").style.visibility = "hidden";
+    }
+    
+    old_mts_clearMessage = clearMessage;
+    clearMessage = function()
+    {
+        old_mts_clearMessage();
+        hideMessageWindow();
     }
     
     function downloadWiki()

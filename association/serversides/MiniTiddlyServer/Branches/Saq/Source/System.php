@@ -2,6 +2,7 @@
     session_start(); 
     
     include_once("Functions.php");
+    include_once("rss.php");
     
     $data = "var data = {";
     $actions = "";
@@ -287,12 +288,16 @@
             writeToFile($sourcename, $newTW);
                 
             // RSS // 
-            $rss = decodePost($_POST['rss']);
-            if ( isset($rss) && $rss != "" && $conflict != true) {
-                $rssfile = "../$wrapperScriptName.xml";
-                writeToFile($rssfile, $rss);
-                $data .= "rss:true,";
-            }
+            $rssfile = "../$wrapperScriptName.xml";
+          
+            if ( isset($_POST['rss']))
+              {            
+              $rss = updateRss(decodePost($_POST['rss']),$rssfile,$deletedIndex,$savetype);
+              if ( isset($rss) && $rss != "" && $rss!= false && $conflict != true) {
+                  writeToFile($rssfile, $rss);
+                  $data .= "rss:true,";
+              }
+           }
         }
     
     }
