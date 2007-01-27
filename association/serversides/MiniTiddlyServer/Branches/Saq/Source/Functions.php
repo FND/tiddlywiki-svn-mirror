@@ -20,10 +20,14 @@ Common Functions .. These will allow us to not have to write so much duplicate c
             
         else {
         
-            // COPY TEMPLATE // Copy the template wiki
-                $source = file_get_contents($templatename);
-                $source = preg_replace ( '/SiteUrl: ".*"/i',"SiteUrl: \"$baseDir$newWrapper\"",$source);
-                writeToFile($sourcepath, $source);
+            // COPY TEMPLATE // Copy the template wiki and add site url tiddler
+              if (preg_match('/(.*<div id="storeArea">\s*)(.*)(\s*<\/div>\s*<!--POST-BODY-START-->.*)$/sm', file_get_contents($templatename), $regs)) {
+                 $prestore = $regs[1];
+                 $store = $regs[2];
+                 $poststore = $regs[3];
+              }   
+               $newTW = $prestore. $store . "\n<div tiddler=\"SiteUrl\" modifier=\"MTS\" modified=\"000000000000\" created=\"000000000000\" tags=\"\">$baseDir$newWrapper</div>\n".$poststore;
+               writeToFile($sourcepath, $newTW);
             
             // CREATE WRAPPER // Open the wikiframe, put in the new filename and go.
                 $output = file_get_contents($wikiframe);
