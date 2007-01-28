@@ -614,28 +614,6 @@ loadPlugins = function()
         }
     }
     
-    function manualBackup () {
-        showMessageWindow("Creating Backup ... ");
-        
-        var ret = function (data) {
-            try {
-                eval(data);
-                
-                if (data["backup"])
-                    showMessageWindow("A manual backup has been created.");    
-                    
-                else
-                    showMessageWindow("The backup was not created succesfully");
-            }
-            catch (e) {
-                showMessageWindow("Error!<br> The server's response was corrupted");
-                alert(data);
-            }
-        }
-        
-        openAjaxRequest(systempath + "?action=manualbackup", ret, true, genericPostPaths);
-    }
-    
     printNav();
     hideAdmin();
     
