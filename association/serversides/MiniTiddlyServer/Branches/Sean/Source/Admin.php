@@ -44,7 +44,9 @@
             <div><input type="submit" value="Revert" onclick="revert()"/></div>
         </td>
         <td>
-            Hello
+            <h4>Manual Backup</h4>
+            <form id="backup" action="javascript:;">
+            <div><input type="submit" value="Backup" onclick="manualBackup()"/></div>
         </td>
         <td>
         <h4>Delete This Wiki</h4>

@@ -14,8 +14,8 @@
     $templatename = "empty.html";
     $wikiframe = "wikiframe.php";
     
-// PREFIX // Change this to change where the html files are saved.  TO save them to the root folder, set it to "" (nothing).  Or you can just put in a character, like "_".  Be sure to change Footer.php as well. 
-    $htmlPrefix = "Data/";
+// BACKUPS // 
+    $backupDir = "Backups/";
     
 // VERIFY LOGIN //
     function verifyLogin($luser, $lpass)
@@ -126,6 +126,11 @@
                 $result = ($result && $result2);
                 $data .= "delete:$result,";
             }
+            
+            else if ( $action == "manualbackup") {
+                createBackup($sourcePath);
+            }
+            
             else {
                 $data .= "error:true, message:'The action was not properly defined',";
             }
@@ -340,5 +345,19 @@
             
         $str = preg_replace ( '/\&\#43;/i','+',$str);
         return $str;
+    }
+    
+    function createBackup($source) {
+        global $backupDir;
+        
+        if (is_dir($backupDir) === FALSE) {
+            mkdir($backupDir, 0755);
+        }
+        
+        if ( copy($source, $backupDir.$source))
+            $data .= "backup:true,";
+        else
+            $data .= "backup:false,error:true,message:'Copy failed on backup',";
+
     }
 ?>
