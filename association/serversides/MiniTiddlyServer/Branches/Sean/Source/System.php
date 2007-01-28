@@ -15,7 +15,7 @@
     $wikiframe = "wikiframe.php";
     
 // BACKUPS // 
-    $backupDir = "Backups/";
+    $backupDir = "../Backups/";
     
 // VERIFY LOGIN //
     function verifyLogin($luser, $lpass)
@@ -128,7 +128,7 @@
             }
             
             else if ( $action == "manualbackup") {
-                createBackup($sourcePath);
+                createBackup($_POST['sourcePath']);
             }
             
             else {
@@ -348,7 +348,7 @@
     }
     
     function createBackup($source) {
-        global $backupDir;
+        global $backupDir,$data;
         
         if (is_dir($backupDir) === FALSE) {
             mkdir($backupDir, 0755);
@@ -358,6 +358,7 @@
             $data .= "backup:true,";
         else
             $data .= "backup:false,error:true,message:'Copy failed on backup',";
+            
 
     }
 ?>
