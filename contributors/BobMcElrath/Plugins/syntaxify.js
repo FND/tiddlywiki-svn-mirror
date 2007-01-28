@@ -1,8 +1,8 @@
 /***
 |''Name:''|Plugin: Syntaxify|
 |''Description:''|Performs syntax highlighting on CSS, JavaScript, and HTML/XML|
-|''Version:''|1.1.0|
-|''Date:''|Aug 23, 2006|
+|''Version:''|1.2|
+|''Date:''|January 27, 2007|
 |''Source:''|http://bob.mcelrath.org/syntaxify.html|
 |''Author:''|BobMcElrath|
 |''Email:''|my first name at my last name dot org|
@@ -36,6 +36,9 @@ In addition, all of the above languages can be syntaxified by using the custom c
 </code></html>
 where {{{foo}}} is the name of the language: {{{css}}}, {{{javascript}}}, or {{{xml}}}.  This plugin can be extended with new languages by creating a data structure like those below (in {{{syntaxify.languages}}} and then calling {{{syntaxify.addLanguage}}}.
 !History
+* 1.2 Release
+** Now syntaxifies in-line style code (thanks [[Conal Elliott|http://conal.net]]).
+** Fix multi-line comments in CSS.
 * 1.1 Release
 ** Rewrite things to make it easier to add new languages.
 ** Override customClasses to syntaxify when the class corresponds to a known language.
@@ -51,7 +54,7 @@ where {{{foo}}} is the name of the language: {{{css}}}, {{{javascript}}}, or {{{
 !Code
 ***/
 //{{{
-version.extensions.Syntaxify = { major: 1, minor: 1, revision: 0, date: new Date("2006","08","23"),
+version.extensions.Syntaxify = { major: 1, minor: 2, revision: 0, date: new Date("2007","01","27"),
 	source: "http://bob.mcelrath.org/syntaxify.html"
 };
 
@@ -107,8 +110,10 @@ syntaxify.handleSpanClass = function(w) {
 /* This is a shadow tiddler.  Do not edit it here.  Instead, open the tiddler StyleSheetSyntaxify 
  * and edit it instead.  (go to the toolbar on the right and select "More"->"Shadowed") */
 config.shadowTiddlers.StyleSheetSyntaxify = "/*{{{*/\n"
-+".viewer div.syntaxify {\n"
++".viewer .syntaxify {\n"
 +"         font-family: 'Courier New' , Courier, mono;\n"
++"}\n"
++".viewer div.syntaxify {\n"
 +"         background-color: #ffc;\n"
 +"         border: 1px solid #fe8;\n"
 +"         padding: 0.5em;\n"
@@ -132,6 +137,7 @@ config.shadowTiddlers.StyleSheetSyntaxify = "/*{{{*/\n"
 +"       margin-left: 3.5em;\n"
 +"*/\n"
 +"}\n\n"
++"/* To disable alternating lines having a different colors, comment out the following line. */\n"
 +".syntaxify ol li.alt { background-color: #ffe; }\n\n"
 +".syntaxify ol li span { color: black; }\n"
 +".syntaxify .singleLineComments { color: green; }\n"
@@ -163,9 +169,6 @@ syntaxify.commonFormatters = [
 {   name: "spaces",
     match: "[ \\t]+",
     handler: function(w) {
-        //var e = createTiddlyElement(w.output, "span", null, null);
-        //e.innerHTML = w.matchText.htmlListMono();
-        //w.output.appendChild(document.createTextNode(w.matchText.htmlListMono()));
         w.output.innerHTML += w.matchText.htmlListMono();
     }
 },{ name: "newline",
@@ -230,7 +233,7 @@ javascript: {
     delimiters: [["[\\{\\}]"],["[\\(\\)]"],["[\\[\\]]"]]
 }, 
 css: {
-    multiLineComments: [[syntaxify.regexpCSingleLineComment.source]],
+    multiLineComments: [[syntaxify.regexpCMultiLineComment.source]],
     keywords: [
         // Keywords appearing on the LHS of expressions
         ['ascent', 'azimuth', 'background-attachment', 'background-color',
@@ -333,6 +336,7 @@ xml: {
         }
     }]
 }};
+
 config.formatterHelpers.monospacedByLineHelper = function(w) {  
     var lookaheadRegExp = (typeof(this.lookaheadRegExp) == "undefined")?(new RegExp(this.lookahead,"mg")):this.lookaheadRegExp;
     lookaheadRegExp.lastIndex = w.matchStart;  
@@ -356,6 +360,7 @@ config.formatterHelpers.monospacedByLineHelper = function(w) {
         w.nextMatch = lookaheadMatch.index + lookaheadMatch[0].length;  
     }  
 }  
+
 config.formatterHelpers.customClassesHelper = function(w) {
     var lookaheadRegExp = (typeof(this.lookaheadRegExp) == "undefined")?(new RegExp(this.lookahead,"mg")):this.lookaheadRegExp;
     lookaheadRegExp.lastIndex = w.matchStart;
@@ -365,20 +370,27 @@ config.formatterHelpers.customClassesHelper = function(w) {
         var isByLine = lookaheadMatch[2] == "\n";
         var p = createTiddlyElement(w.output,isByLine ? "div" : "span",null,lookaheadMatch[1]);
         w.nextMatch = lookaheadMatch.index + lookaheadMatch[0].length;
-        if(isByLine && typeof(syntaxify.formatters[lookaheadMatch[1]]) != "undefined") {
-            var d = createTiddlyElement(w.output,"div",null,"syntaxify "+lookaheadMatch[1]);
-            var l = createTiddlyElement(d,"ol");
-            var li = createTiddlyElement(l,"li");
-            li.autoLinkWikiWords = function() { return false; };  // 2.1 weirdism
+        if(typeof(syntaxify.formatters[lookaheadMatch[1]]) != "undefined") {
+            var d = createTiddlyElement(w.output,isByLine?"div":"span",
+				        null,"syntaxify "+lookaheadMatch[1]);
             var formatter = new Formatter(syntaxify.formatters[lookaheadMatch[1]]);
             var terminatorRegExp = new RegExp(this.terminator,"mg");
             terminatorRegExp.lastIndex = w.nextMatch;
             var terminatorMatch = terminatorRegExp.exec(w.source);
             var text = w.source.substr(w.nextMatch, terminatorMatch.index-w.nextMatch);
-            var wikifier = new Wikifier(text, formatter, w.highlightRegExp, li);
-            wikifier.subWikify(li, null);
-            if(!l.childNodes[l.childNodes.length-1].hasChildNodes())
-                l.removeChild(l.childNodes[l.childNodes.length-1]);
+            if (isByLine) {
+                var l = createTiddlyElement(d,"ol");
+                var li = createTiddlyElement(l,"li");
+                li.autoLinkWikiWords = function() { return false; };  // 2.1 weirdism
+                var wikifier = new Wikifier(text, formatter, w.highlightRegExp, li);
+                wikifier.subWikify(li, null);
+                if(!l.childNodes[l.childNodes.length-1].hasChildNodes())
+                    l.removeChild(l.childNodes[l.childNodes.length-1]);
+            }
+            else {
+	      var wikifier = new Wikifier(text,formatter,w.highlightRegExp,w.tiddler);
+	      wikifier.subWikify(d, null);
+            }
             w.nextMatch = terminatorMatch.index+terminatorMatch[0].length;
         } else {
             w.subWikify(p,this.terminator);
@@ -440,6 +452,8 @@ for(var i=0;i<config.formatters.length;i++) {
     config.formatters[i].handler = config.formatterHelpers.customClassesHelper;  
     config.formatters[i].terminator = "\\}\\}\\}\n?";  
   }
-}  
+}
 
+// make syntaxify reliably accessible from dependent plugins even under IE.
+config.macros.syntaxify = syntaxify;
 //}}}
