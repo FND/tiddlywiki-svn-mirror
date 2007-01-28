@@ -39,6 +39,8 @@ where {{{foo}}} is the name of the language: {{{css}}}, {{{javascript}}}, or {{{
 * 1.2 Release
 ** Now syntaxifies in-line style code (thanks [[Conal Elliott|http://conal.net]]).
 ** Fix multi-line comments in CSS.
+** Consolidate customClassesHelper and monospacedByLineHelper which had lots of duplicated code.
+** Fix autoLinkWikiWords bug when using custom classes and the tag formatter.
 * 1.1 Release
 ** Rewrite things to make it easier to add new languages.
 ** Override customClasses to syntaxify when the class corresponds to a known language.
@@ -111,7 +113,7 @@ syntaxify.handleSpanClass = function(w) {
  * and edit it instead.  (go to the toolbar on the right and select "More"->"Shadowed") */
 config.shadowTiddlers.StyleSheetSyntaxify = "/*{{{*/\n"
 +".viewer .syntaxify {\n"
-+"         font-family: 'Courier New' , Courier, mono;\n"
++"         font-family: monospace;\n"
 +"}\n"
 +".viewer div.syntaxify {\n"
 +"         background-color: #ffc;\n"
@@ -331,69 +333,54 @@ xml: {
         match: "<[/\\?]?[^>]*?>",
         handler: function(w) {
             var formatter = new Formatter(syntaxify.xmlTagFormatters);
-            var wikifier = new Wikifier(w.matchText, formatter, w.highlightRegExp, w.output);
+            var wikifier = new Wikifier(w.matchText, formatter, w.highlightRegExp, w.tiddler);
             wikifier.subWikify(w.output, null);
         }
     }]
 }};
 
-config.formatterHelpers.monospacedByLineHelper = function(w) {  
-    var lookaheadRegExp = (typeof(this.lookaheadRegExp) == "undefined")?(new RegExp(this.lookahead,"mg")):this.lookaheadRegExp;
-    lookaheadRegExp.lastIndex = w.matchStart;  
-    var lookaheadMatch = lookaheadRegExp.exec(w.source);  
-    if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {  
-        var text = lookaheadMatch[1];  
-        if(config.browser.isIE) text = text.replace(/\n/g,"\r");  
-        if(this.formatters) {
-            var d = createTiddlyElement(w.output,"div",null,"syntaxify "+this.language);
-            var l = createTiddlyElement(d,"ol");
-            var li = createTiddlyElement(l,"li");
-            li.autoLinkWikiWords = function() { return false; };  // 2.1 weirdism
-            var formatter = new Formatter(this.formatters);
-            var wikifier = new Wikifier(text, formatter, w.highlightRegExp, li);
-            wikifier.subWikify(li, null);
-            if(!l.childNodes[l.childNodes.length-1].hasChildNodes())
-                l.removeChild(l.childNodes[l.childNodes.length-1]);
-        } else {  
-            var e = createTiddlyElement(w.output,"pre",null,null,text);  
-        }  
-        w.nextMatch = lookaheadMatch.index + lookaheadMatch[0].length;  
-    }  
-}  
-
 config.formatterHelpers.customClassesHelper = function(w) {
     var lookaheadRegExp = (typeof(this.lookaheadRegExp) == "undefined")?(new RegExp(this.lookahead,"mg")):this.lookaheadRegExp;
     lookaheadRegExp.lastIndex = w.matchStart;
     var lookaheadMatch = lookaheadRegExp.exec(w.source);
-    if(lookaheadMatch)
+    var language = (typeof(this.language) == "undefined")?lookaheadMatch[1]:this.language;
+    if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
     {
-        var isByLine = lookaheadMatch[2] == "\n";
-        var p = createTiddlyElement(w.output,isByLine ? "div" : "span",null,lookaheadMatch[1]);
+        var isByLine = (typeof(this.byLine) == "undefined")?(lookaheadMatch[2] == "\n"):this.byLine;
+        var p = createTiddlyElement(w.output,isByLine ? "div" : "span",null,language);
         w.nextMatch = lookaheadMatch.index + lookaheadMatch[0].length;
-        if(typeof(syntaxify.formatters[lookaheadMatch[1]]) != "undefined") {
+        if(typeof(syntaxify.formatters[language]) != "undefined") {
             var d = createTiddlyElement(w.output,isByLine?"div":"span",
-				        null,"syntaxify "+lookaheadMatch[1]);
-            var formatter = new Formatter(syntaxify.formatters[lookaheadMatch[1]]);
-            var terminatorRegExp = new RegExp(this.terminator,"mg");
-            terminatorRegExp.lastIndex = w.nextMatch;
-            var terminatorMatch = terminatorRegExp.exec(w.source);
-            var text = w.source.substr(w.nextMatch, terminatorMatch.index-w.nextMatch);
+				        null,"syntaxify "+language);
+            var formatter = new Formatter(syntaxify.formatters[language]);
+            if(typeof(this.termRegExp) == "undefined") {
+                var text = lookaheadMatch[1];  
+            } else {
+                this.termRegExp.lastIndex = w.nextMatch;
+                var terminatorMatch = this.termRegExp.exec(w.source);
+                var text = w.source.substr(w.nextMatch, terminatorMatch.index-w.nextMatch);
+            }
+            if(config.browser.isIE) text = text.replace(/\n/g,"\r");  
             if (isByLine) {
                 var l = createTiddlyElement(d,"ol");
                 var li = createTiddlyElement(l,"li");
-                li.autoLinkWikiWords = function() { return false; };  // 2.1 weirdism
-                var wikifier = new Wikifier(text, formatter, w.highlightRegExp, li);
+                var wikifier = new Wikifier(text, formatter, w.highlightRegExp, w.tiddler);
                 wikifier.subWikify(li, null);
                 if(!l.childNodes[l.childNodes.length-1].hasChildNodes())
                     l.removeChild(l.childNodes[l.childNodes.length-1]);
-            }
-            else {
+            } else {
 	      var wikifier = new Wikifier(text,formatter,w.highlightRegExp,w.tiddler);
 	      wikifier.subWikify(d, null);
             }
-            w.nextMatch = terminatorMatch.index+terminatorMatch[0].length;
+            if(typeof(this.termRegExp) != "undefined")
+                w.nextMatch = terminatorMatch.index + terminatorMatch[0].length;
+            else
+                w.nextMatch = lookaheadMatch.index + lookaheadMatch[0].length;  
         } else {
-            w.subWikify(p,this.terminator);
+            if(isByLine)
+                var e = createTiddlyElement(w.output,"code",null,null,text);  
+            else
+                var e = createTiddlyElement(w.output,"pre",null,null,text);  
         }
     }
 }
@@ -435,22 +422,21 @@ syntaxify.addLanguages(syntaxify.languages);
 for(var i=0;i<config.formatters.length;i++) {  
   if(config.formatters[i].name == "monospacedByLineForPlugin") {  
     config.formatters[i].language = "javascript";
-    config.formatters[i].formatters = syntaxify.formatters["javascript"];
-    config.formatters[i].handler = config.formatterHelpers.monospacedByLineHelper;  
+    config.formatters[i].byLine = true;
+    config.formatters[i].handler = config.formatterHelpers.customClassesHelper;  
   }  
   if(config.formatters[i].name == "monospacedByLineForCSS") {  
     config.formatters[i].language = "css";
-    config.formatters[i].formatters = syntaxify.formatters["css"];
-    config.formatters[i].handler = config.formatterHelpers.monospacedByLineHelper;  
+    config.formatters[i].byLine = true;
+    config.formatters[i].handler = config.formatterHelpers.customClassesHelper;  
   }  
   if(config.formatters[i].name == "monospacedByLineForTemplate") {  
     config.formatters[i].language = "xml";
-    config.formatters[i].formatters = syntaxify.formatters["xml"];  
-    config.formatters[i].handler = config.formatterHelpers.monospacedByLineHelper;  
+    config.formatters[i].byLine = true;
+    config.formatters[i].handler = config.formatterHelpers.customClassesHelper;  
   }  
   if(config.formatters[i].name == "customClasses") {
     config.formatters[i].handler = config.formatterHelpers.customClassesHelper;  
-    config.formatters[i].terminator = "\\}\\}\\}\n?";  
   }
 }
 
