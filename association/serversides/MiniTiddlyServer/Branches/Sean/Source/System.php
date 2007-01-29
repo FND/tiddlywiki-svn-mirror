@@ -350,14 +350,19 @@
     function createBackup($source) {
         global $backupDir,$data;
         
+        $sourcefull = "../".$source;
+        
         if (is_dir($backupDir) === FALSE) {
-            mkdir($backupDir, 0755);
+            if( mkdir($backupDir, 0755) === false ) {
+                $data .= "backup:false,error:true,message:'Could not create directory ($backupDir)',";
+                return;
+            }
         }
         
-        if ( copy($source, $backupDir.$source))
+        if ( copy($sourcefull, $backupDir.$source))
             $data .= "backup:true,";
         else
-            $data .= "backup:false,error:true,message:'Copy failed on backup',";
+            $data .= "backup:false,error:true,message:'Copy failed on backup : ($backupDir) ($source),";
             
 
     }
