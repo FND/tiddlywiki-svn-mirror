@@ -41,6 +41,7 @@ where {{{foo}}} is the name of the language: {{{css}}}, {{{javascript}}}, or {{{
 ** Fix multi-line comments in CSS.
 ** Consolidate customClassesHelper and monospacedByLineHelper which had lots of duplicated code.
 ** Fix autoLinkWikiWords bug when using custom classes and the tag formatter.
+** Fix compatability problems between 2.1 and 2.0 (termRegExp vs. terminator)
 * 1.1 Release
 ** Rewrite things to make it easier to add new languages.
 ** Override customClasses to syntaxify when the class corresponds to a known language.
@@ -437,6 +438,8 @@ for(var i=0;i<config.formatters.length;i++) {
   }  
   if(config.formatters[i].name == "customClasses") {
     config.formatters[i].handler = config.formatterHelpers.customClassesHelper;  
+    if(typeof(config.formatters[i].termRegExp) == "undefined")
+        config.formatters[i].termRegExp = new RegExp(config.formatters[i].terminator, "mg");
   }
 }
 
