@@ -34,7 +34,7 @@ In addition, all of the above languages can be syntaxified by using the custom c
     code for language "foo" here<br/>
 }}}<br/>
 </code></html>
-where {{{foo}}} is the name of the language: {{{css}}}, {{{javascript}}}, or {{{xml}}}.  This plugin can be extended with new languages by creating a data structure like those below (in {{{syntaxify.languages}}} and then calling {{{syntaxify.addLanguage}}}.
+where {{{foo}}} is the name of the language: {{{css}}}, {{{javascript}}}, or {{{xml}}}.  This plugin can be extended with new languages by creating a data structure like those below (in {{{syntaxify.languages}}} and then calling {{{syntaxify.addLanguages}}}.
 !History
 * 1.2 Release
 ** Now syntaxifies in-line style code (thanks [[Conal Elliott|http://conal.net]]).
