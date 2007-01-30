@@ -617,20 +617,32 @@ loadPlugins = function()
     function manualBackup () {
         showMessageWindow("Creating Backup ... ");
         
+        
         var ret = function (data) {
+        
+                alert("CHECK " + data);
+
             try {
                 eval(data);
-                
-                if (data["backup"])
-                    showMessageWindow("A manual backup has been created.");    
-                    
-                else
-                    showMessageWindow("The backup was not created succesfully");
             }
             catch (e) {
                 showMessageWindow("Error!<br> The server's response was corrupted");
                 alert(data);
             }
+                
+            if (data["backup"]) {
+                    showMessageWindow("A manual backup has been created.");
+
+                if ( backupsmap[sourcePath] != true) {
+                    var options = document.getElementById("revert").revertfile.options;
+                    options[options.length] = new Option(sourcePath,sourcePath);
+                    backupsmap[sourcePath] = true;
+                }
+            }
+                    
+                else
+                    showMessageWindow("The backup was not created succesfully");
+            
         }
         
         openAjaxRequest(systempath + "?action=manualbackup", ret, true, genericPostPaths);

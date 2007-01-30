@@ -31,12 +31,13 @@
             <h4>Revert to Backup</h4>
             <form id="revert" action="javascript:;">
             <div>
+                <script> var backupsmap = new Object(); </script>
                 <select name="revertfile">
                 <?php 
                     $versions = scandir("Backups/");
                     foreach ($versions as $file) {
                         if (strpos($file, ".htm") != false)
-                            echo "<option value='$file'>$file</option>\n";
+                            echo "<script>backupsmap['$file']=true</script><option value='$file'>$file</option>\n";
                     }
                 ?>
                 </SELECT>
