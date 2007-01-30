@@ -519,14 +519,7 @@ loadPlugins = function()
         }
     }
     
-    function clearAll() {
-        if (confirm("Are you sure?  This will destroy all saved data!"))
-            openAjaxRequest(systempath + "?action=clearall", clearAllReturn, true, genericPostPaths);
-    }
     
-    function clearAllReturn (data) {
-        history.go()
-    }
     
     function moveAdmin(side) {
         var moveAdminRet = function (data) {
@@ -620,8 +613,6 @@ loadPlugins = function()
         
         var ret = function (data) {
         
-                alert("CHECK " + data);
-
             try {
                 eval(data);
             }
@@ -646,6 +637,29 @@ loadPlugins = function()
         }
         
         openAjaxRequest(systempath + "?action=manualbackup", ret, true, genericPostPaths);
+    }
+    
+    function revert() {
+        var revertTo = document.getElementById("revert").revertfile.value;
+        
+        var ret = function (data) {
+            try {
+                eval(data);
+            }
+            catch (e) {
+                showMessageWindow("Error!<br> The server's response was corrupted");
+                alert(data);
+            }
+        
+            if (data.reverted) 
+                history.go();
+                
+            else
+                showMessageWindow("Revert was unsuccessful. " + data.message);
+        }
+        
+        if (confirm("Are you sure?  This will overwrite your current wiki!"))
+            openAjaxRequest(systempath + "?action=revert", ret, true, genericPostPaths+"&revertfile=" + revertTo);
     }
     
     printNav();

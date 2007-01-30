@@ -131,6 +131,15 @@
                 createBackup($_POST['sourcePath']);
             }
             
+            else if ( $action == "revert" ) {
+                $file = $_POST['revertfile'];
+            
+                if ( copy($backupDir.$file, $sourcePath) )
+                    $data .= "reverted:true,";
+                else
+                    $data .= "reverted:false,message:'The file was not copied succesfully ($backupDir$file) ($sourcePath)',";
+            }
+            
             else {
                 $data .= "error:true, message:'The action was not properly defined',";
             }
