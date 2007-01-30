@@ -207,7 +207,7 @@ function saveChanges()
         store.unFlagForUpload(store.updatedTiddlersIndex);
 
         // Must use a post request //
-        openAjaxRequestParams(systempath + "?action=save", params, saveReturn, true);
+        openAjaxRequestParams(systempath + "?action=save&backup=" + config.options.chkSaveBackups, params, saveReturn, true);
         store.setDirty(false);
 }
 

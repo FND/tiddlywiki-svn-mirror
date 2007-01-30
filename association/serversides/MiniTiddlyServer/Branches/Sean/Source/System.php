@@ -40,7 +40,7 @@
     $filename = $wrapperScriptPath;
     $sourcename = $sourcePath;
     
-    //~ $dobackup = ($_GET['backup'] == "true");
+    $dobackup = ($_GET['backup'] == "true");
     $time = $_POST['time'];
     
     
@@ -164,7 +164,7 @@
             $conflict = false;
             $saveError = false;
 
-            // TO BE ADDED in V0-5 //
+            // TO BE ADDED in V0-8 //
             //~ if ( $time != filemtime($sourcename) )
             //~ {
                 //~ $conflictpath = "Conflicts/". $_POST['filename'] . ".html";
@@ -172,6 +172,10 @@
                 //~ $sourcename = "../$conflictpath";
                 //~ $conflict = true;
             //~ }
+            
+            // BACKUP // 
+            if ($dobackup)
+                createBackup($_POST['sourcePath'],$_SESSION['mts_saved_username']."_");
 
             function updateBlock($block){
                 global $newTW;
@@ -356,7 +360,7 @@
         return $str;
     }
     
-    function createBackup($source) {
+    function createBackup($source,$prefix) {
         global $backupDir,$data;
         
         $sourcefull = "../".$source;
@@ -368,7 +372,7 @@
             }
         }
         
-        if ( copy($sourcefull, $backupDir.$source))
+        if ( copy($sourcefull, $backupDir.$prefix.$source))
             $data .= "backup:true,";
         else
             $data .= "backup:false,error:true,message:'Copy failed on backup : ($backupDir) ($source),";
