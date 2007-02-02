@@ -20,7 +20,7 @@ No change needed under
 
 /***
  * store.php - upload a file in this directory
- * version :1.5.0 - 2007/01/15 - BidiX@BidiX.info
+ * version :1.5.1 - 2007/02/01 - BidiX@BidiX.info
  * 
  * see : 
  *	http://tiddlywiki.bidi.info/#UploadPlugin for usage
@@ -33,6 +33,8 @@ No change needed under
  *	GET
  *
  * Revision history
+ * V1.5.1 - 2007/02/01
+ * Enhancement: Check value of file_uploads in php.ini. Thanks to Didier Corbière
  * V1.5.0 - 2007/01/15
  * Correct a bug in moving uploadFile in uploadDir thanks to DaniGutiérrez for reporting
  * Refactoring
@@ -123,6 +125,13 @@ function toExit() {
 		print_r($options);
 }
 exit;
+}
+
+
+// Check if file_uploads is active in php config
+if (ini_get('file_uploads') != '1') {
+   echo "Error : File upload is not active in php.ini\n";
+   toExit();
 }
 
 // var definitions
