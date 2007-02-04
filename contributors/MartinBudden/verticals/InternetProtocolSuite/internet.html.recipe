@@ -1,16 +1,6 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: split.recipe
-tiddler: ../tiddlypedia/Logo.tiddler
-tiddler: ../tiddlypedia/OptionsPanel.tiddler
-tiddler: ../tiddlypedia/PageTemplateWithLogo.tiddler
-tiddler: ../tiddlypedia/SideBarOptionsWithMediaWikiFormat.tiddler
-tiddler: ../tiddlypedia/SideBarTabs.tiddler
-tiddler: ../tiddlypedia/StyleSheet.tiddler
-tiddler: ../tiddlypedia/TabMoreTemplatesMissingShadowed.tiddler
-tiddler: ../tiddlypedia/TabTags.tiddler
-tiddler: ../tiddlypedia/TabTemplates.tiddler
-tiddler: ../tiddlypedia/Tiddlypedia.tiddler
-tiddler: ../tiddlypedia/ViewTemplate.tiddler
+recipe: ../tiddlypedia/split.recipe
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../plugins/settings.js
 tiddler: ../../plugins/MediaWikiFormatterPlugin.js
