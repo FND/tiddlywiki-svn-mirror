@@ -1,0 +1,44 @@
+<div title="TWikiSuccessStoryOfCmed" created="200612161930" wikiformat="TWiki" server.host="twiki.org" server.workspace="Main" downloaded="200612161930">
+<pre>The technology arm of Cmed Ltd started using TWiki to record
+discussions at the beginning of 2003. This quickly evolved into the
+place to record our (formalised) http://www.extremeprogramming.org
+stories, although for over a year we maintained physical story cards
+alongside TWiki pages.
+
+Halfway through 2003 Cmed adopted TWiki as its company
+intranet. Although there was a little initial reluctance from people
+unfamiliar with an open environment, using TWiki in this way has been
+a complete sucesss.
+
+Most recently Cmed has used TWiki to place all of its Standard
+Operating Procedures and Working Practices (SOPs and WPs)
+online. Judicious use of &lt;nop&gt;%INCLUDE directives, restricted write
+access, and compulsary login (no guest account), has enabled us to
+separate authorship from publication and keep logs of readership.
+
+Cmed works in the pharmaceutical industry; we run clinical trials and
+develop new technology. This is a heavily regulated environment, which
+means we undergo client audits. In every case, auditors have been
+extremely impressed by our use of TWiki.
+
+Use of TWiki at Cmed has:
+
+   * significantly reduced reliance upon unmaintained rambling file shares;
+   * introduced and enforced document versioning to the whole company
+     (not just the technologists);
+   * improved communication and increased the quantity (and through
+     peer review, the quality) of documentation;
+   * removed the use of paper for formal SOPs and WPs without
+     compromising the necessary controls demanded by a regulated
+     industry;
+   * created a more collaborative and friendly environment,
+     e.g. through the organisation of social events.
+
+About a third of the company use Linux on the Desktop (with the rest
+using Windows). Successful adoption of a platform-neutral
+documentation system knocks down another hurdle on the track to
+company-wide adoption of Linux.
+
+
+-- Main.TimothyCorbettClark - 02 Sep 2004</pre>
+</div>

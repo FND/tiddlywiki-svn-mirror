@@ -1,0 +1,31 @@
+<div title="TWikiSuccessStoryOfBritishTelecommunications" created="200612161930" wikiformat="TWiki" server.host="twiki.org" server.workspace="Main" downloaded="200612161930">
+<pre>Since the summer of 2002 we have actively been using TWiki within our development and design areas. Recently this spawned another TWiki for one of the major Lines of Business who are now using the TWiki to manage their CIO Architecture and Design assurance processes and documentation.
+
+Within the Development Area we now have about 40-50 active users with 92 registered users (as at May 2003).  This all started with one project using it for their own project management from daily washup reports to general operational documentation.  During presentations about this project, the use of the TWiki helping development was always promoted and where possible demonstrated.  The results speak for themselves.  We now have quite a list of projects using it.  In my own area of XML interfaces we have used it to implement a change control mechanism (similar to the TWiki Support Web) which is light weight yet highly efficient.
+
+The Development TWik is still on the Dec 2001 release on Windows with Cygwin using the Koala Skin, which has been great to give a highly professional look and give ease of management to the various projects.  Projects generallly begin within a Project Web and we migrate them to a Web when they become large enough to need the space.
+
+The Line of Business TWiki is on Linux still running the Dec 2001 version.
+
+Recently we have launched along with others in the industry a public web site for managing the interface between the various companies within the industry.  The [[http://www.telcob2b.org.uk][Telco B2B]] Web site is now able to be managed by the members directly rather than one party as before.  It is hoped that this will not only help the management of the web site but also encourage participation from more parties.
+
+TWiki has been introduced from the ground roots up and the response has been extremely positive.  We have had times when the openess of the TWiki has been questioned, but with only a few exceptions we have managed to pursude most users that it is safe to use.  The ability to show old versions of documents is crucial.  Within the company we have other tools for document management yet the Twiki ability to be used by anyone for anything has proved very persuasive.
+
+We are looking forward to its continued success and feel confident that the support we receive from the TWiki community is part of the success.  Thanks.
+
+-- Main.MartinRoberts - 19 May 2003
+
+---+++ Update 2005
+
+Recently there has been a push to use Livelink for major documentation, however this has been conteracted by the encouragement to use Wiki technology more as the company embraces Agile methods.  This is good news as it is finally acknowledging that there is a role for both Document Repositories and Collaborative Web environments. 
+
+-- Main.MartinRoberts - 09 Sep 2005
+
+---+++ Further Update 2005
+
+Also been using it informally to document our research activities and more formally to publish external websites such as the [[http://labs.bt.com/ftg/][Future Technologies Group]] website (using Plugins.PublishAddOn) since June 2003. 53 registered users.
+
+Since that original installation, a newer May 2005 formally managed and hosted service has been launched to serve the whole of [[http://labs.bt.com/][BT Labs]].
+
+-- Main.CefnHoile 17 Oct 2005</pre>
+</div>
