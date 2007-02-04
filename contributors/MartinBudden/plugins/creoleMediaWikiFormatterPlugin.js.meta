@@ -2,4 +2,4 @@ title: creoleMediaWikiFormatterPlugin
 modifier: MartinBudden
 created: 200612210000
 modified: 200612210000
-tags: systemConfig excludeLists
+tags: systemConfig excludeLists excludeSearch

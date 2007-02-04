@@ -2,4 +2,4 @@ title: PBWikiFormatterPlugin
 modifier: MartinBudden
 created: 200609030000
 modified: 200609030000
-tags: systemConfig excludeLists
+tags: systemConfig excludeLists excludeSearch

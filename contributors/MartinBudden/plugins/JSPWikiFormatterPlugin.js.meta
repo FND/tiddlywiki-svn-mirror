@@ -2,4 +2,4 @@ title: JSPWikiFormatterPlugin
 modifier: MartinBudden
 created: 200612220000
 modified: 200612220000
-tags: systemConfig excludeLists
+tags: systemConfig excludeLists excludeSearch

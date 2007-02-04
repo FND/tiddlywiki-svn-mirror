@@ -2,4 +2,4 @@ title: TextileFormatterPlugin
 modifier: MartinBudden
 created: 200610210000
 modified: 200610210000
-tags: systemConfig excludeLists
+tags: systemConfig excludeLists excludeSearch
