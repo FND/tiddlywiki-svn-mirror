@@ -2,4 +2,4 @@ title: HostedCommandsPlugin
 modifier: MartinBudden
 created: 200612170000
 modified: 200612170000
-tags: systemConfig excludeLists
+tags: systemConfig excludeLists excludeSearch
