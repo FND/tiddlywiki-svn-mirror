@@ -10,8 +10,6 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
 
-|''Enable download article on click empty link''|<<option chkDownloadEmptyArticle>>|
-
 ////{{{<<tiddler HostedCommandsPluginDocumentation>>}}}
 
 ***/

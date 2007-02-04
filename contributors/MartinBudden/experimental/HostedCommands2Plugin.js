@@ -81,7 +81,6 @@ config.macros.updateHostedList.onClick = function(e)
 config.macros.updateHostedList.onDone = function(params)
 {
 	displayMessage(config.macros.updateHostedList.done);
-	story.displayTiddler(null,'ListHosted');// for demo
 };
 
 } // end of 'install only once'
