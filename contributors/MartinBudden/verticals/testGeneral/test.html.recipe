@@ -1,0 +1,7 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: split.recipe
+tiddler: Test.tiddler
+tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
+tiddler: settings.js
+tiddler: ../../tiddlers/Configuration.tiddler
+tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
