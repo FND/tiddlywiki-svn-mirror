@@ -3,7 +3,7 @@
 |''Description:''|Allows Tiddlers to use [[Socialtext|http://www.socialtext.com/]] text formatting|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinplugins.tiddlywiki.com/#SocialtextFormatterPlugin|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SocialtextFormatterPlugin.js|
 |''Version:''|0.9.3|
 |''Date:''|Jan 21, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -17,11 +17,9 @@ The aim is not to fully emulate Socialtext, but to allow you to work with Social
 To use Socialtext format in a Tiddler, tag the Tiddler with SocialtextFormat.
 
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
-
 ***/
 
 //{{{
-
 // Ensure that the SocialtextFormatter Plugin is only installed once.
 if(!version.extensions.SocialtextFormatterPlugin) {
 version.extensions.SocialtextFormatterPlugin = {installed:true};
@@ -71,9 +69,9 @@ Tiddler.prototype.changed = function()
 			this.links.pushUnique(link);
 			match = tiddlerLinkRegExp.exec(this.text);
 		}
-	} else {
+	}/* else {
 		return socialtextFormatter.Tiddler_changed.apply(this,arguments);
-	}
+	}*/
 	this.linksUpdated = true;
 };
 
