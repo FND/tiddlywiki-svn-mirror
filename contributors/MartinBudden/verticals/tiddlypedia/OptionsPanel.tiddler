@@ -1,4 +1,4 @@
-<div title="OptionsPanel" tags="excludeLists">
+<div title="OptionsPanel" tags="excludeLists excludeSearch">
 <pre>These ~InterfaceOptions for customising ~TiddlyWiki are saved in your browser
 
 &lt;&lt;option txtUserName&gt;&gt;

@@ -1,4 +1,4 @@
-<div title="ViewTemplate" tags="excludeLists">
+<div title="ViewTemplate" tags="excludeLists  excludeSearch">
 <pre>&lt;div class='toolbar' macro='toolbar -closeTiddler closeOthers +editTiddler permalink references jump'&gt;&lt;/div&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
 &lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;

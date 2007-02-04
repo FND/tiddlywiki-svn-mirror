@@ -1,4 +1,4 @@
-<div title="EditTemplate" tags="excludeLists">
+<div title="EditTemplate" tags="excludeLists excludeSearch">
 <pre>&lt;!--{{{--&gt;
 &lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
