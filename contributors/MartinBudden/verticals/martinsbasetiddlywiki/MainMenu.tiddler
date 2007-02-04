@@ -1,4 +1,4 @@
-<div title="MainMenu" modifier="MartinBudden" tags="excludeLists">
+<div title="MainMenu" modifier="MartinBudden" tags="excludeLists excludeSearch">
 <pre>[[Home]]
 [[TodoList]]
 [[Basic Formatting]]
