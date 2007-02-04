@@ -1,45 +1,46 @@
 /***
-|''Name:''|JSPWikiChannelPlugin|
-|''Description:''|Channel for moving data to and from JSP Wikis|
+|''Name:''|JSPWikiAdaptorPlugin|
+|''Description:''|Adaptor for moving and converting data to and from JSP Wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#JSPWikiChannelPlugin|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
-|''Version:''|0.1.0|
-|''Date:''|Jan 20, 2007|
+|''Source:''|http://martinswiki.com/martinsprereleases.html#JSPWikiAdaptorPlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/JSPWikiAdaptorPlugin.js|
+|''Version:''|0.1.2|
+|''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
 
-|''Default JSPWiki Server''|<<option txtjspwikiDefaultServer>>|
-|''Default JSPWiki Web(workspace)''|<<option txtjspwikiDefaultWorkspace>>|
-|''Default JSPWiki username''|<<option txtjspwikiUsername>>|
-|''Default JSPWiki password''|<<option txtjspwikiPassword>>|
+''For debug:''
+|''Default JSPWiki Server''|<<option txtJSPWikiDefaultServer>>|
+|''Default JSPWiki Web(workspace)''|<<option txtJSPWikiDefaultWorkspace>>|
+|''Default JSPWiki username''|<<option txtJSPWikiUsername>>|
+|''Default JSPWiki password''|<<option txtJSPWikiPassword>>|
 
 ***/
 
 //{{{
-if(!config.options.txtjspwikiDefaultServer)
-	{config.options.txtjspwikiDefaultServer = 'www.jspwiki.org';}
-if(!config.options.txtjspwikiDefaultWorkspace)
-	{config.options.txtjspwikiDefaultWorkspace = '';}
-if(!config.options.txtjspwikiUsername)
-	{config.options.txtjspwikiUsername = '';}
-if(!config.options.txtjspwikiPassword)
-	{config.options.txtjspwikiPassword = '';}
-if(!config.options.chkjspwikiPasswordRequired)
-	{config.options.chkjspwikiPasswordRequired = true;}
+if(!config.options.txtJSPWikiDefaultServer)
+	{config.options.txtJSPWikiDefaultServer = 'www.JSPWiki.org';}
+if(!config.options.txtJSPWikiDefaultWorkspace)
+	{config.options.txtJSPWikiDefaultWorkspace = '';}
+if(!config.options.txtJSPWikiUsername)
+	{config.options.txtJSPWikiUsername = '';}
+if(!config.options.txtJSPWikiPassword)
+	{config.options.txtJSPWikiPassword = '';}
+if(!config.options.chkJSPWikiPasswordRequired)
+	{config.options.chkJSPWikiPasswordRequired = true;}
 //}}}
 
 // Ensure that the plugin is only installed once.
-if(!version.extensions.JSPWikiChannelPlugin) {
-version.extensions.JSPWikiChannelPlugin = {installed:true};
+if(!version.extensions.JSPWikiAdaptorPlugin) {
+version.extensions.JSPWikiAdaptorPlugin = {installed:true};
 
-JSPWikiChannel = {}; // 'namespace' for local functions
+JSPWikiAdaptor = {}; // 'namespace' for local functions
 
-JSPWikiChannel.getTiddler = function(title,params)
+JSPWikiAdaptor.getTiddler = function(title,params)
 {
-// http://jspwiki.org/wiki/WikiRPCInterface
-// http://www.jspwiki.org/RPCU/
+// http://JSPWiki.org/wiki/WikiRPCInterface
+// http://www.JSPWiki.org/RPCU/
 
 	//#var fn = 'wiki.getRPCVersionSupported';
 	//#var fn = 'wiki.getAllTiddlers';
@@ -56,12 +57,12 @@ JSPWikiChannel.getTiddler = function(title,params)
 
 	params.title = title;
 	params.wikiformat = 'JSPWiki';
-	params.serverType = 'jspwiki';
-	var req =doHttp('POST',url,payload,null,params.username,params.password,JSPWikiChannel.getTiddlerCallback,params);
+	params.serverType = 'JSPWiki';
+	var req =doHttp('POST',url,payload,null,params.username,params.password,JSPWikiAdaptor.getTiddlerCallback,params);
 //#displayMessage("req:"+req);
 };
 
-JSPWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
+JSPWikiAdaptor.getTiddlerCallback = function(status,params,responseText,xhr)
 {
 //#displayMessage('JSP.getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
@@ -73,10 +74,10 @@ JSPWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
 	tiddler.updateFieldsAndContent(params,content);
 };
 
-JSPWikiChannel.putTiddler = function(title,params)
+JSPWikiAdaptor.putTiddler = function(title,params)
 {
-// http://www.jspwiki.org/wiki/WikiRPCInterface2
-// http://www.jspwiki.org/RPC2/
+// http://www.JSPWiki.org/wiki/WikiRPCInterface2
+// http://www.JSPWiki.org/RPC2/
 	var text = store.fetchTiddler(title).text;
 
 //#putPage(utf8 page,utf8 content,struct attributes )
@@ -96,20 +97,20 @@ JSPWikiChannel.putTiddler = function(title,params)
 
 	params.title = title;
 	params.wikiformat = 'JSPWiki';
-	params.serverType = 'jspwiki';
-	var req =doHttp('POST',url,payload,null,username,password,JSPWikiChannel.putTiddlerCallback,params);
+	params.serverType = 'JSPWiki';
+	var req =doHttp('POST',url,payload,null,username,password,JSPWikiAdaptor.putTiddlerCallback,params);
 //#displayMessage("req:"+req);
 };
 
-JSPWikiChannel.putTiddlerCallback = function(status,params,responseText,xhr)
+JSPWikiAdaptor.putTiddlerCallback = function(status,params,responseText,xhr)
 {
 	displayMessage('putTiddlerCallback status:'+status);
 	displayMessage('rt:'+responseText.substr(0,50));
 	//#displayMessage('xhr:'+xhr);
 };
 
-config.hostFunctions.getTiddler['jspwiki'] = JSPWikiChannel.getTiddler;
-config.hostFunctions.putTiddler['jspwiki'] = JSPWikiChannel.putTiddler;
+config.hostFunctions.getTiddler['JSPWiki'] = JSPWikiAdaptor.getTiddler;
+config.hostFunctions.putTiddler['JSPWiki'] = JSPWikiAdaptor.putTiddler;
 
 } // end of 'install only once'
 //}}}

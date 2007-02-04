@@ -3,9 +3,9 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#HostedCommandsPlugin|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental|
-|''Version:''|0.1.0|
-|''Date:''|Jan 20, 2007|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/HostedCommandsPlugin.js|
+|''Version:''|0.1.2|
+|''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -29,6 +29,21 @@ version.extensions.HostedCommandsPlugin = {installed:true};
 // params.serverPageName
 // params.serverPageRevision
 // params.token
+
+//# Returns true if function fnName is available for the tiddler's serverType
+//# Used by (eg): config.commands.download.isEnabled
+Tiddler.prototype.isFunctionSupported = function(fnName)
+{
+	if(!this.fields['server.host'])
+		return false;
+	var serverType = this.getServerType();
+	if(!serverType)
+		return false;
+	if(config.hostFunctions[fnName][serverType]) {
+		return true;
+	}
+	return false;
+};
 
 Tiddler.prototype.updateFieldsAndContent = function(params,content)
 {

@@ -2,9 +2,10 @@
 |''Name:''|ToCore|
 |''Description:''|Candidates for moving into TiddlyWiki core|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental|
-|''Version:''|0.1.1|
-|''Date:''|Jan 20, 2007|
+|''Source:''|None|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/ToCore.js|
+|''Version:''|0.1.2|
+|''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -47,6 +48,8 @@ function onClickTiddlerLink(e)
 		fields = theLink.getAttribute("tiddlyFields");
 		theLink = theLink.parentNode;
 	} while(title == null && theLink != null);
+	if(!fields)
+		fields = store.getDefaultCustomFields();
 	if(title) {
 		var toggling = e.metaKey || e.ctrlKey;
 		if(config.options.chkToggleLinks)
@@ -77,6 +80,16 @@ config.hostFunctions = {
 	putTiddler: {},
 	lockTiddler: {},
 	unlockTiddler: {}
+};
+
+TiddlyWiki.prototype.setDefaultCustomFields = function(fields)
+{
+	this.defaultCustomFields = fields;
+};
+
+TiddlyWiki.prototype.getDefaultCustomFields = function()
+{
+	return this.defaultCustomFields;
 };
 
 //# Get the server type. If there is no server.type field, infer the server type
@@ -172,20 +185,6 @@ Tiddler.prototype.getServerType = function()
 		}
 	}
 	return serverType ? serverType.toLowerCase() : null;
-};
-
-//# Returns true if function fnName is available for the tiddler's serverType
-Tiddler.prototype.isFunctionSupported = function(fnName)
-{
-	if(!this.fields['server.host'])
-		return false;
-	var serverType = this.getServerType();
-	if(!serverType)
-		return false;
-	if(config.hostFunctions[fnName][serverType]) {
-		return true;
-	}
-	return false;
 };
 
 Tiddler.prototype.getRevisionList = function(params)

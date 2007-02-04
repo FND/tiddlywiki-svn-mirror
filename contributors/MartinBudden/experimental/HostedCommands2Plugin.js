@@ -2,8 +2,8 @@
 |''Name:''|HostedCommands2Plugin|
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#HostedCommandsPlugin|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental|
+|''Source:''|http://martinswiki.com/martinsprereleases.html#HostedCommands2Plugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/HostedCommands2Plugin.js|
 |''Version:''|0.1.0|
 |''Date:''|Jan 20, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|

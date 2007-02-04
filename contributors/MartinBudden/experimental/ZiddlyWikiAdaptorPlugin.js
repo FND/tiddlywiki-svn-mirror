@@ -1,15 +1,16 @@
 /***
-|''Name:''|ZiddlyWikiChannelPlugin|
-|''Description:''|Channel for moving data to and from ZiddlyWikis|
+|''Name:''|ZiddlyWikiAdaptorPlugin|
+|''Description:''|Adaptor for moving and converting data to and from ZiddlyWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#ZiddlyWikiChannelPlugin|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
-|''Version:''|0.1.0|
-|''Date:''|Jan 20, 2007|
+|''Source:''|http://martinswiki.com/martinsprereleases.html#ZiddlyWikiAdaptorPlugin|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ZiddlyWikiAdaptorPlugin.js|
+|''Version:''|0.1.4|
+|''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
 
+''For debug:''
 |''Default ZiddlyWiki Server''|<<option txtZiddlyWikiDefaultServer>>|
 |''Default ZiddlyWiki Web(workspace)''|<<option txtZiddlyWikiDefaultWorkspace>>|
 |''Default ZiddlyWiki username''|<<option txtZiddlyWikiUsername>>|
@@ -29,10 +30,10 @@ if(!config.options.txtZiddlyWikiPassword)
 //}}}
 
 // Ensure that the plugin is only installed once.
-if(!version.extensions.ZiddlyWikiChannelPlugin) {
-version.extensions.ZiddlyWikiChannelPlugin = {installed:true};
+if(!version.extensions.ZiddlyWikiAdaptorPlugin) {
+version.extensions.ZiddlyWikiAdaptorPlugin = {installed:true};
 
-ZiddlyWikiChannel = {}; // 'namespace' for local functions
+ZiddlyWikiAdaptor = {}; // 'namespace' for local functions
 
 // get
 // http://www.ziddlywiki.com/ZiddlyWiki?action=get&id=News
@@ -46,7 +47,7 @@ about protected
 
 871.64174.18161.45875
 */
-ZiddlyWikiChannel.getTiddler = function(title,params)
+ZiddlyWikiAdaptor.getTiddler = function(title,params)
 {
 	title = encodeURIComponent(title);
 //#displayMessage('Ziddly.getTiddler');
@@ -59,7 +60,7 @@ ZiddlyWikiChannel.getTiddler = function(title,params)
 
 	params.title = title;
 	params.serverType = 'ziddlywiki';
-	var req = doHttp('GET',url,null,null,null,null,ZiddlyWikiChannel.getTiddlerCallback,params,null);
+	var req = doHttp('GET',url,null,null,null,null,ZiddlyWikiAdaptor.getTiddlerCallback,params,null);
 //#displayMessage("req:"+req);
 };
 
@@ -71,7 +72,7 @@ BobMcElrath
 200601051659
 about protected
 */
-ZiddlyWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
+ZiddlyWikiAdaptor.getTiddlerCallback = function(status,params,responseText,xhr)
 {
 //#displayMessage('Ziddly.getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
@@ -98,7 +99,7 @@ ZiddlyWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
 	//#}
 };
 
-ZiddlyWikiChannel.getTiddlerRevisionList = function(title,params)
+ZiddlyWikiAdaptor.getTiddlerRevisionList = function(title,params)
 // get a list of the revisions for a tiddler
 {
 	title = encodeURIComponent(title);
@@ -114,11 +115,11 @@ ZiddlyWikiChannel.getTiddlerRevisionList = function(title,params)
 	params.title = title;
 	params.serverWorkspace = null;
 	params.serverType = 'ziddlywiki';
-	var req = doHttp('GET',url,null,null,null,null,ZiddlyWikiChannel.getTiddlerRevisionListCallback,params,null);
+	var req = doHttp('GET',url,null,null,null,null,ZiddlyWikiAdaptor.getTiddlerRevisionListCallback,params,null);
 //#displayMessage("req:"+req);
 };
 
-ZiddlyWikiChannel.getTiddlerRevisionListCallback = function(status,params,responseText,xhr)
+ZiddlyWikiAdaptor.getTiddlerRevisionListCallback = function(status,params,responseText,xhr)
 {
 //#displayMessage('Ziddly.getTiddlerRevisionListCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
@@ -140,7 +141,7 @@ ZiddlyWikiChannel.getTiddlerRevisionListCallback = function(status,params,respon
 	params.callback(params);
 };
 
-ZiddlyWikiChannel.getTiddlerRevision = function(title,revision,src,updateTimeline)
+ZiddlyWikiAdaptor.getTiddlerRevision = function(title,revision,src,updateTimeline)
 {
 	title = encodeURIComponent(title);
 	var tiddler = store.fetchTiddler(title);
@@ -152,7 +153,7 @@ ZiddlyWikiChannel.getTiddlerRevision = function(title,revision,src,updateTimelin
 	//ajax.get('?action=get&id=' + encodeURIComponent(title) + revision + updateTimeline + '&' + zw.no_cache(),displayTiddlerRevisionCallback)
 };
 
-ZiddlyWikiChannel.getTiddlerRevisionCallback = function(status,params,responseText,xhr)
+ZiddlyWikiAdaptor.getTiddlerRevisionCallback = function(status,params,responseText,xhr)
 {
 	//#displayMessage('getTiddlerRevisionCallback status:'+status);
 	//#displayMessage('rt:'+responseText.substr(0,50));
@@ -176,7 +177,7 @@ ZiddlyWikiChannel.getTiddlerRevisionCallback = function(status,params,responseTe
 	zw.status(false);
 };
 
-ZiddlyWikiChannel.putTiddler = function(title,params)
+ZiddlyWikiAdaptor.putTiddler = function(title,params)
 {
 	var content = store.fetchTiddler(title).text;
 	title = encodeURIComponent(title);
@@ -186,11 +187,11 @@ ZiddlyWikiChannel.putTiddler = function(title,params)
 
 	params.title = title;
 	params.serverType = 'ziddlywiki';
-	var req =doHttp('POST',url,payload,null,params.username,params.password,ZiddlyWikiChannel.putTiddlerCallback,params);
+	var req =doHttp('POST',url,payload,null,params.username,params.password,ZiddlyWikiAdaptor.putTiddlerCallback,params);
 //#displayMessage("req:"+req);
 };
 
-ZiddlyWikiChannel.putTiddlerCallback = function(status,params,responseText,xhr)
+ZiddlyWikiAdaptor.putTiddlerCallback = function(status,params,responseText,xhr)
 {
 	displayMessage('putTiddlerCallback status:'+status);
 	displayMessage('rt:'+responseText.substr(0,50));
@@ -198,10 +199,10 @@ ZiddlyWikiChannel.putTiddlerCallback = function(status,params,responseText,xhr)
 };
 
 
-config.hostFunctions.getTiddler['ziddlywiki'] = ZiddlyWikiChannel.getTiddler;
-config.hostFunctions.getTiddlerRevisionList['ziddlywiki'] = ZiddlyWikiChannel.getTiddlerRevisionList;
-config.hostFunctions.getTiddlerRevision['ziddlywiki'] = ZiddlyWikiChannel.getTiddlerRevision;
-//config.hostFunctions.putTiddler['ziddlywiki'] = ZiddlyWikiChannel.putTiddler;
+config.hostFunctions.getTiddler['ziddlywiki'] = ZiddlyWikiAdaptor.getTiddler;
+config.hostFunctions.getTiddlerRevisionList['ziddlywiki'] = ZiddlyWikiAdaptor.getTiddlerRevisionList;
+config.hostFunctions.getTiddlerRevision['ziddlywiki'] = ZiddlyWikiAdaptor.getTiddlerRevision;
+//config.hostFunctions.putTiddler['ziddlywiki'] = ZiddlyWikiAdaptor.putTiddler;
 
 } // end of 'install only once'
 //}}}

@@ -1,15 +1,16 @@
 /***
-|''Name:''|TWikiChannelPlugin|
-|''Description:''|Channel for moving data to and from TWikis|
+|''Name:''|TWikiAdaptorPlugin|
+|''Description:''|Adaptor for moving and converting data to and from TWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#TWikiChannelPlugin|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
-|''Version:''|0.1.0|
-|''Date:''|Jan 20, 2007|
+|''Source:''|http://martinswiki.com/martinsprereleases.html#TWikiAdaptorPlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/TWikiAdaptorPlugin.js|
+|''Version:''|0.1.5|
+|''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
 
+''For debug:''
 |''Default TWiki Server''|<<option txttwikiDefaultServer>>|
 |''Default TWiki Web(workspace)''|<<option txttwikiDefaultWorkspace>>|
 |''Default TWiki username''|<<option txttwikiUsername>>|
@@ -36,12 +37,12 @@ if(!config.options.txttwikiPassword)
 //}}}
 
 // Ensure that the plugin is only installed once.
-if(!version.extensions.TWikiChannelPlugin) {
-version.extensions.TWikiChannelPlugin = {installed:true};
+if(!version.extensions.TWikiAdaptorPlugin) {
+version.extensions.TWikiAdaptorPlugin = {installed:true};
 
-TWikiChannel = {}; // 'namespace' for local functions
+TWikiAdaptor = {}; // 'namespace' for local functions
 
-TWikiChannel.getTiddler = function(title,params)
+TWikiAdaptor.getTiddler = function(title,params)
 {
 // http://twiki.org/cgi-bin/view/TWiki04/TWikiScripts
 // http://twiki.org/cgi-bin/view/TWiki04/TWikiScripts?raw=text
@@ -63,11 +64,11 @@ TWikiChannel.getTiddler = function(title,params)
 
 	params.title = title;
 	params.wikiformat = 'TWiki';
-	var req = doHttp('GET',url,null,null,null,null,TWikiChannel.getTiddlerCallback,params,null);
+	var req = doHttp('GET',url,null,null,null,null,TWikiAdaptor.getTiddlerCallback,params,null);
 //#displayMessage("req:"+req);
 };
 
-TWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
+TWikiAdaptor.getTiddlerCallback = function(status,params,responseText,xhr)
 {
 //#displayMessage('TWiki.getTiddlerCallback:'+responseText.substr(0,50));
 	var content = responseText;
@@ -83,7 +84,7 @@ TWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
 	tiddler.updateFieldsAndContent(params,content);
 };
 
-TWikiChannel.putTiddler = function(title,params)
+TWikiAdaptor.putTiddler = function(title,params)
 {
 	var text = store.fetchTiddler(title).text;
 	//var urlTemplate = 'http://%0/cgi-bin/save/%1/%2?text=%3';
@@ -99,18 +100,18 @@ TWikiChannel.putTiddler = function(title,params)
 //# displayMessage('putUrl:'+url);
 
 	params.title = title;
-	var req = doHttp('GET',url,null,null,params.username,params.password,TWikiChannel.putTiddlerCallback,params,null);
+	var req = doHttp('GET',url,null,null,params.username,params.password,TWikiAdaptor.putTiddlerCallback,params,null);
 //#displayMessage("req:"+x);
 };
 
-TWikiChannel.putTiddlerCallback = function(status,params,responseText,xhr)
+TWikiAdaptor.putTiddlerCallback = function(status,params,responseText,xhr)
 {
 	//#displayMessage('response:'+responseText.substr(0,30));
 	displayMessage('TWiki put status:'+status);
 };
 
-config.hostFunctions.getTiddler['twiki'] = TWikiChannel.getTiddler;
-config.hostFunctions.putTiddler['twiki'] = TWikiChannel.putTiddler;
+config.hostFunctions.getTiddler['twiki'] = TWikiAdaptor.getTiddler;
+config.hostFunctions.putTiddler['twiki'] = TWikiAdaptor.putTiddler;
 
 } // end of 'install only once'
 //}}}

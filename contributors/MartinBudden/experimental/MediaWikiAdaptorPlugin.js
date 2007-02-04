@@ -1,15 +1,16 @@
 /***
-|''Name:''|MediaWikiChannelPlugin|
-|''Description:''|Channel for moving data to and from MediaWikis|
+|''Name:''|MediaWikiAdaptorPlugin|
+|''Description:''|Adaptor for moving and converting data to and from MediaWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiChannelPlugin|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
-|''Version:''|0.1.0|
-|''Date:''|Jan 20, 2007|
+|''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiAdaptorPlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/MediaWikiAdaptorPlugin.js|
+|''Version:''|0.1.2|
+|''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
 
+''For debug:''
 |''Default MediaWiki Server''|<<option txtmediaWikiDefaultServer>>|
 
 ***/
@@ -21,12 +22,12 @@ if(!config.options.txtmediaWikiDefaultServer)
 
 //{{{
 // Ensure that the plugin is only installed once.
-if(!version.extensions.MediaWikiChannelPlugin) {
-version.extensions.MediaWikiChannelPlugin = {installed:true};
+if(!version.extensions.MediaWikiAdaptorPlugin) {
+version.extensions.MediaWikiAdaptorPlugin = {installed:true};
 
-MediaWikiChannel = {}; // 'namespace' for local functions
+MediaWikiAdaptor = {}; // 'namespace' for local functions
 
-MediaWikiChannel.anyChild = function(obj)
+MediaWikiAdaptor.anyChild = function(obj)
 //# convenience function for getting children whose keys are unknown
 //# such as children of pages subobjects, whose keys are numeric page ids
 {
@@ -36,16 +37,16 @@ MediaWikiChannel.anyChild = function(obj)
 	return null;
 };
 
-MediaWikiChannel.canonicalTitle = function(title)
+MediaWikiAdaptor.canonicalTitle = function(title)
 {
 	var canonicalTitle = title.charAt(0).toUpperCase() + title.substr(1);
 	return canonicalTitle.replace(/\s/g,'_');
 };
 
-MediaWikiChannel.getTiddler = function(title,params)
+MediaWikiAdaptor.getTiddler = function(title,params)
 {
-	var canonicalTitle = MediaWikiChannel.canonicalTitle(title);
-//#displayMessage('MediaWikiChannel.getTiddler:'+canonicalTitle);
+	var canonicalTitle = MediaWikiAdaptor.canonicalTitle(title);
+//#displayMessage('MediaWikiAdaptor.getTiddler:'+canonicalTitle);
 //# http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&titles=Elongation
 	params.title = title;
 	params.serverWorkspace = null;
@@ -56,11 +57,11 @@ MediaWikiChannel.getTiddler = function(title,params)
 		urlTemplate = 'http://' + urlTemplate;
 	var url = urlTemplate.format([params.serverHost,'query',canonicalTitle]);
 //#displayMessage('url:'+url);
-	var req = doHttp('GET',url,null,null,null,null,MediaWikiChannel.getTiddlerCallback,params,null);
+	var req = doHttp('GET',url,null,null,null,null,MediaWikiAdaptor.getTiddlerCallback,params,null);
 //#displayMessage('req:'+req);
 };
 
-MediaWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
+MediaWikiAdaptor.getTiddlerCallback = function(status,params,responseText,xhr)
 {
 //#displayMessage('getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
@@ -69,8 +70,8 @@ MediaWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
 	try {
 		//# convert the downloaded data into a javascript object
 		eval('var queryResult=' + responseText);
-		var page = MediaWikiChannel.anyChild(queryResult.query.pages);
-		var revision = MediaWikiChannel.anyChild(page.revisions);
+		var page = MediaWikiAdaptor.anyChild(queryResult.query.pages);
+		var revision = MediaWikiAdaptor.anyChild(page.revisions);
 		content = revision['*'];
 		var revid = revision['revid'];
 	} catch (ex) {
@@ -94,25 +95,25 @@ MediaWikiChannel.getTiddlerCallback = function(status,params,responseText,xhr)
 	}
 };
 
-MediaWikiChannel.putTiddler = function(title,params)
+MediaWikiAdaptor.putTiddler = function(title,params)
 {
-//#	var canonicalTitle = MediaWikiChannel.canonicalTitle(title);
-//#displayMessage('MediaWikiChannel.putPage:'+canonicalTitle);
+//#	var canonicalTitle = MediaWikiAdaptor.canonicalTitle(title);
+//#displayMessage('MediaWikiAdaptor.putPage:'+canonicalTitle);
 	displayMessage('MediaWiki does not have a REST API for PUT yet');
-//#	var canonicalTitle = MediaWikiChannel.canonicalTitle(title);
-//#	MediaWikiChannel.LoginAndPutPage(title);
-//#	MediaWikiChannel.PutPageWithToken('Elongation','1234')
+//#	var canonicalTitle = MediaWikiAdaptor.canonicalTitle(title);
+//#	MediaWikiAdaptor.LoginAndPutPage(title);
+//#	MediaWikiAdaptor.PutPageWithToken('Elongation','1234')
 };
 
-MediaWikiChannel.putTiddlerCallback = function(status,params,responseText,xhr)
+MediaWikiAdaptor.putTiddlerCallback = function(status,params,responseText,xhr)
 {
 //# displayMessage('putTiddlerCallback status:'+status);
 //# displayMessage('rt:'+responseText.substr(0,50));
 //# displayMessage('xhr:'+xhr);
 };
 
-config.hostFunctions.getTiddler['mediawiki'] = MediaWikiChannel.getTiddler;
-//config.hostFunctions.putTiddler['mediawiki'] = MediaWikiChannel.putTiddler;
+config.hostFunctions.getTiddler['mediawiki'] = MediaWikiAdaptor.getTiddler;
+//config.hostFunctions.putTiddler['mediawiki'] = MediaWikiAdaptor.putTiddler;
 
 } // end of 'install only once'
 //}}}
