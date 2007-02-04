@@ -15,9 +15,16 @@ config.options.chkDisableWikiLinks = true;
 
 store.setDefaultCustomFields('server.host:www.eu.socialtext.net;server.workspace:stoss;wikiformat:Socialtext;');
 
-//config.options.chkSinglePageMode = false;
-//config.options.chkTopOfPageMode = false;
+config.options.chkSinglePageMode = false;
+config.options.chkTopOfPageMode = false;
 
 config.displayStartupTime = true;
 config.usePreForStorage = true;
+
+config.macros.updateHostedList.onDone = function(params)
+{
+	displayMessage(config.macros.updateHostedList.done);
+	story.displayTiddler(null,'@ListHosted');// for demo
+};
+
 /*}}}*/
