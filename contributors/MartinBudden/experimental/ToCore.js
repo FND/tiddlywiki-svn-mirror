@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|None|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/ToCore.js|
-|''Version:''|0.1.2|
+|''Version:''|0.1.3|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -16,6 +16,7 @@
 if(!version.extensions.ToCore) {
 version.extensions.ToCore = {installed:true};
 
+//# change in Macros.js
 //# list.handler has been tweeked to pass additional parameters to list type handler
 config.macros.list.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
@@ -35,6 +36,7 @@ config.macros.list.handler = function(place,macroName,params,wikifier,paramStrin
 	}
 };
 
+//# change in Utilities.js
 //# onClickTiddlerLink has been tweeked to get missing links from host
 function onClickTiddlerLink(e)
 {
@@ -48,7 +50,7 @@ function onClickTiddlerLink(e)
 		fields = theLink.getAttribute("tiddlyFields");
 		theLink = theLink.parentNode;
 	} while(title == null && theLink != null);
-	if(!fields)
+	if(!fields && !store.isShadowTiddler(title))
 		fields = store.getDefaultCustomFields();
 	if(title) {
 		var toggling = e.metaKey || e.ctrlKey;
@@ -71,6 +73,7 @@ function onClickTiddlerLink(e)
 	return false;
 }
 
+//# change in config.js
 // function redirectors
 config.hostFunctions = {
 	getTiddler: {},
@@ -82,6 +85,10 @@ config.hostFunctions = {
 	lockTiddler: {},
 	unlockTiddler: {}
 };
+
+//#
+//# changes in TiddlyWiki.js
+//#
 
 TiddlyWiki.prototype.setDefaultCustomFields = function(fields)
 {
@@ -108,12 +115,8 @@ TiddlyWiki.prototype.getServerType = function(fields)
 TiddlyWiki.prototype.getMissingTiddler = function(title,fields)
 {
 //#displayMessage("getMissingTiddler");
-	if(!fields)
-		return false;
-	if(!fields['server.host'])
-		return false;
 	var serverType = this.getServerType(fields);
-	if(!serverType)
+	if(!serverType || !fields['server.host'])
 		return false;
 	var fn = config.hostFunctions.getTiddler[serverType];
 	if(fn) {
@@ -141,7 +144,6 @@ TiddlyWiki.prototype.getHostedTiddler = function(title,params)
 	if(fn) {
 		if(!params)
 			params = {};
-		params.title = title;
 		params.serverHost = fields['server.host'];
 		params.serverWorkspace = fields['server.workspace'];
 		fn(title,params);
@@ -162,7 +164,6 @@ TiddlyWiki.prototype.putHostedTiddler = function(title,params)
 	if(fn) {
 		if(!params)
 			params = {};
-		params.title = title;
 		params.serverHost = fields['server.host'];
 		params.serverWorkspace = fields['server.workspace'];
 		fn(title,params);
@@ -170,6 +171,10 @@ TiddlyWiki.prototype.putHostedTiddler = function(title,params)
 	}
 	return false;
 };
+
+//#
+//# changes in TiddlyWiki.js follow
+//#
 
 //# Get the server type used. If there is no server.type field, infer it from the
 //# wikiformat. If no wikiformat use the Format tag to infer the server type.
@@ -207,4 +212,3 @@ Tiddler.prototype.getRevisionList = function(params)
 
 } // end of 'install only once'
 //}}}
-

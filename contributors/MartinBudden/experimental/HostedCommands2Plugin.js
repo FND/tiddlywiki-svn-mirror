@@ -53,6 +53,8 @@ config.macros.updateHostedList.handler = function(place,macroName,params,wikifie
 {
 	params = paramString.parseParams("anon",null,true,false,false);
 	var customFields = getParam(params,"fields",false);
+	if(!customFields)
+		customFields = store.getDefaultCustomFields();
 	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
 	btn.setAttribute("customFields",customFields);
 };
