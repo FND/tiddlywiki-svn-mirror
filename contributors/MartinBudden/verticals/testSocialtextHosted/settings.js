@@ -16,8 +16,7 @@ config.options.chkDisableWikiLinks = true;
 
 config.usePreForStorage = true;
 
-store.setDefaultCustomFields('server.host:www.eu.socialtext.net;server.workspace:tiddlytext;wikiformat:Socialtext;');
-//store.defaultCustomFields = 'server.host:www.eu.socialtext.net;server.workspace:tiddlytext;wikiformat:Socialtext;';
+store.setDefaultCustomFields('server.host:www.eu.socialtext.net;server.workspace:stoss;wikiformat:Socialtext;');
 
 config.displayStartupTime = true;
 //config.options.chkSinglePageMode = false;
