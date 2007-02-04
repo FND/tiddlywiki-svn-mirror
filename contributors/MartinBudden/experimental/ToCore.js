@@ -77,6 +77,7 @@ config.hostFunctions = {
 	getTiddlerList: {},
 	getTiddlerRevisionList: {},
 	getTiddlerRevision: {},
+	getWorkspace: {},
 	putTiddler: {},
 	lockTiddler: {},
 	unlockTiddler: {}

@@ -109,8 +109,8 @@ JSPWikiAdaptor.putTiddlerCallback = function(status,params,responseText,xhr)
 	//#displayMessage('xhr:'+xhr);
 };
 
-config.hostFunctions.getTiddler['JSPWiki'] = JSPWikiAdaptor.getTiddler;
-config.hostFunctions.putTiddler['JSPWiki'] = JSPWikiAdaptor.putTiddler;
+config.hostFunctions.getTiddler['jspwiki'] = JSPWikiAdaptor.getTiddler;
+config.hostFunctions.putTiddler['jspwiki'] = JSPWikiAdaptor.putTiddler;
 
 } // end of 'install only once'
 //}}}
