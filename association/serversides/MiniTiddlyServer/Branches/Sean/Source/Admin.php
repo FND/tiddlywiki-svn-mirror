@@ -34,7 +34,7 @@
                 <script> var backupsmap = new Object(); </script>
                 <select name="revertfile">
                 <?php 
-                    $versions = scandir("Backups/");
+                    $versions = scandir("Backups/".$sourceName);
                     foreach ($versions as $file) {
                         if (strpos($file, ".htm") != false)
                             echo "<script>backupsmap['$file']=true</script><option value='$file'>$file</option>\n";

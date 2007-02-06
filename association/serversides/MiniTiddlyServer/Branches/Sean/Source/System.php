@@ -128,13 +128,14 @@
             }
             
             else if ( $action == "manualbackup") {
-                createBackup($_POST['sourcePath'], date('dMy-G:i_'));
+                createBackup($_POST['sourcePath'], date('dMy_Gi')."_Manual.html");
             }
             
             else if ( $action == "revert" ) {
                 $file = $_POST['revertfile'];
+                $sourceName = substr($_POST['sourcePath'], 0, strpos($_POST['sourcePath'], ".htm"));
             
-                if ( copy($backupDir.$file, $sourcePath) )
+                if ( copy($backupDir.$sourceName."/".$file, $sourcePath) )
                     $data .= "reverted:true,";
                 else
                     $data .= "reverted:false,message:'The file was not copied succesfully ($backupDir$file) ($sourcePath)',";
@@ -175,7 +176,7 @@
             
             // BACKUP // 
             if ($dobackup)
-                createBackup($_POST['sourcePath'],$_SESSION['mts_saved_username']."_");
+                createBackup($_POST['sourcePath'],$_SESSION['mts_saved_username']."_Auto.html");
 
             function updateBlock($block){
                 global $newTW;
@@ -360,8 +361,13 @@
         return $str;
     }
     
-    function createBackup($source,$prefix="") {
+    function createBackup($source,$backupName="noname.html") {
         global $backupDir,$data;
+        
+        $sourceName = substr($_POST['sourcePath'], 0, strpos($_POST['sourcePath'], ".htm"));
+        
+        $myBackupDir = $backupDir."/".$sourceName ."/";
+        $backupPath = $myBackupDir.$backupName;
         
         $sourcefull = "../".$source;
         
@@ -372,10 +378,17 @@
             }
         }
         
-        if ( copy($sourcefull, $backupDir.$prefix.$source))
-            $data .= "backup:true,";
+        if (is_dir($myBackupDir) === FALSE) {
+            if( mkdir($backupDir, 0755) === false ) {
+                $data .= "backup:false,error:true,message:'Could not create directory ($myBackupDir)',";
+                return;
+            }
+        }
+        
+        if ( copy($sourcefull, $backupPath))
+            $data .= "backup:'$backupName',";
         else
-            $data .= "backup:false,error:true,message:'Copy failed on backup : ($backupDir) ($source),";
+            $data .= "backup:false,error:true,message:'Copy failed on backup : ($myBackupDir) ($source) ($backupName),";
             
 
     }

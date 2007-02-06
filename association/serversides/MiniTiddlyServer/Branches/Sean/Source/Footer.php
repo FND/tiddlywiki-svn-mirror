@@ -20,6 +20,7 @@
     $fullscriptpath = "http://".$_SERVER["SERVER_NAME"].$fullscriptpath;
     $wrapperScriptPath = array_pop($parts);
     $sourcePath = $wikipath; // From the wikiframe .. the wrapper.  It should still be defined.
+    $sourceName = substr($sourcePath, 0, strpos($sourcePath, ".htm"));
     
 // SPLIT // 
     list($wrapperScriptName, $ext) = split('\.', $wrapperScriptPath, 2);
@@ -28,6 +29,7 @@
     echo "\nvar wrapperScriptPath = '$wrapperScriptPath';";
     echo "\nvar wrapperScriptName = '$wrapperScriptName';";
     echo "\nvar sourcePath = '$sourcePath';";
+    echo "\nvar sourceName = '$sourceName';";
     echo "\nvar fullScriptPath = '$fullscriptpath';";
         
 // RSS // 
@@ -68,6 +70,13 @@ function saveReturn(data) {
             if ( data.rss ) {
                 rssExists = true;
                 printNav();
+            }
+            
+            // Add to Backups List // 
+            if ( backupsmap[sourcePath] != true) {
+                var options = document.getElementById("revert").revertfile.options;
+                options[options.length] = new Option(data.backup,data.backup);
+                backupsmap[sourcePath] = true;
             }
         }
     }
@@ -621,12 +630,12 @@ loadPlugins = function()
                 alert(data);
             }
                 
-            if (data["backup"]) {
+            if (data["backup"] != false) {
                     showMessageWindow("A manual backup has been created.");
 
                 if ( backupsmap[sourcePath] != true) {
                     var options = document.getElementById("revert").revertfile.options;
-                    options[options.length] = new Option(sourcePath,sourcePath);
+                    options[options.length] = new Option(data.backup,data.backup);
                     backupsmap[sourcePath] = true;
                 }
             }
