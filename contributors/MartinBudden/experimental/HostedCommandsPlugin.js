@@ -9,9 +9,6 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
-
-////{{{<<tiddler HostedCommandsPluginDocumentation>>}}}
-
 ***/
 
 //{{{
@@ -19,14 +16,24 @@
 if(!version.extensions.HostedCommandsPlugin) {
 version.extensions.HostedCommandsPlugin = {installed:true};
 
-// params.wikiformat
-// params.serverHost
-// params.serverType
-// params.serverWorkspace
-// params.serverPageId
-// params.serverPageName
-// params.serverPageRevision
-// params.token
+//# change in Macros.js
+//# list.handler has been tweeked to pass additional parameters to list type handler and createTiddlyLink
+config.macros.list.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	var type = params[0] ? params[0] : "all";
+	var list = document.createElement("ul");
+	place.appendChild(list);
+	if(this[type].prompt)
+		createTiddlyElement(list,"li",null,"listTitle",this[type].prompt);
+	var results;
+	if(this[type].handler)
+		results = this[type].handler(params,wikifier,paramString,tiddler);
+	for(var t = 0; t < results.length; t++) {
+		var li = document.createElement("li");
+		list.appendChild(li);
+		createTiddlyLink(li,typeof results[t] == "string" ? results[t] : results[t].title,true,null,false,tiddler);
+	}
+};
 
 //# Returns true if function fnName is available for the tiddler's serverType
 //# Used by (eg): config.commands.download.isEnabled
@@ -37,40 +44,27 @@ Tiddler.prototype.isFunctionSupported = function(fnName)
 	var serverType = this.getServerType();
 	if(!serverType)
 		return false;
-	if(config.hostFunctions[fnName][serverType]) {
+	//if(config.newAdaptor[serverType][fnName])
+	//if(config.hostFunctions[fnName][serverType])
 		return true;
-	}
 	return false;
 };
 
-Tiddler.prototype.updateFieldsAndContent = function(params,content)
+Tiddler.prototype.getRevisionList = function(params)
 {
-	if(content)
-		this.text = content;
-	if(params.wikiformat)
-		this.fields['wikiformat'] = params.wikiformat;
-	this.fields['server.host'] = params.serverHost;
-	if(params.serverType)
-		this.fields['server.type'] = params.serverType;
-	if(params.serverWorkspace)
-		this.fields['server.workspace'] = params.serverWorkspace;
-	if(params.serverPageId)
-		this.fields['server.page.id'] = params.serverPageId;
-	if(params.serverPageName)
-		this.fields['server.page.name'] = params.serverPageName;
-	if(params.serverPageRevision)
-		this.fields['server.page.revision'] = params.serverPageRevision;
-	var downloaded = new Date();
-	this.created = params.created ? params.created : downloaded;
-	this.modified = params.modified ? params.modified : this.created;
-	this.modifier = params.modifier ? params.modifier : params.serverHost;
-	if(params.tags)
-		tiddler.tags = params.tags;
-	this.fields['downloaded'] = downloaded.convertToYYYYMMDDHHMM();
-	this.fields['changecount'] = -1;
-	store.saveTiddler(this.title,this.title,this.text,this.modifier,this.modified,this.tags,this.fields);
-	if(config.options.chkAutoSave)
-		saveChanges();
+	var serverType = this.getServerType();
+	if(!serverType)
+		return false;
+	var fn = config.hostFunctions.getTiddlerRevisionList[serverType];
+	if(fn) {
+		if(!params)
+			params = {};
+		params.title = this.title;
+		params.serverHost = this.fields['server.host'];
+		params.serverWorkspace = this.fields['server.workspace'];
+		fn(this.title,params);
+	}
+	return true;
 };
 
 /*TiddlyWiki.prototype.updateStory = function(tiddler)
@@ -133,7 +127,7 @@ config.commands.download.isEnabled = function(tiddler)
 
 config.commands.download.handler = function(event,src,title)
 {
-//#displayMessage("config.commands.getPage.handler:"+title);
+//#displayMessage("config.commands.download.handler:"+title);
 	store.getHostedTiddler(title);
 };
 
@@ -153,75 +147,12 @@ config.commands.upload.isEnabled = function(tiddler)
 
 config.commands.upload.handler = function(event,src,title)
 {
-	var params = {server:{}};
-	params.title = title;
-	params.callback = config.commands.upload.callback;
-	store.putHostedTiddler(title,params);
+	store.putHostedTiddler(title,config.commands.upload.callback);
 };
 
-config.commands.upload.callback = function(params)
+config.commands.upload.callback = function(tiddler)
 {
 	displayMessage(config.commands.upload.uploaded);
-};
-
-// revisions command definition
-config.commands.revisions = {};
-merge(config.commands.revisions,{
-	text: "revisions",
-	tooltip: "View another revision of this tiddler",
-	loading: "loading...",
-	revisionTooltip: "View this revision",
-	popupNone: "No revisions"});
-
-config.commands.revisions.isEnabled = function(tiddler)
-{
-	return tiddler.isFunctionSupported('getTiddlerRevisionList');
-};
-
-config.commands.revisions.handler = function(event,src,title)
-{
-	var params = {server:{}};
-	params.title = title;
-	params.callback = config.commands.revisions.callback;
-	params.popup = Popup.create(src);
-	Popup.show(params.popup,false);
-	var tiddler = store.fetchTiddler(title);
-	tiddler.getRevisionList(title,params);
-	event.cancelBubble = true;
-	if(event.stopPropagation)
-		event.stopPropagation();
-	return true;
-};
-
-config.commands.revisions.callback = function(params)
-// The revisions are returned in the params.revisions array
-//# params.revisions[i].modified
-//# params.revisions[i].key
-{
-//#displayMessage("config.commands.revisions.callback");
-	if(params.popup) {
-		if(params.revisions.length==0) {
-			createTiddlyText(createTiddlyElement(params.popup,'li',null,'disabled'),config.commands.revisions.popupNone);
-		} else {
-			for(var i=0; i<params.revisions.length; i++) {
-				var modified = params.revisions[i].modified;
-				var key = params.revisions[i].key;
-				var btn = createTiddlyButton(createTiddlyElement(params.popup,'li'),
-						modified.toLocaleString(),
-						config.commands.revisions.revisionTooltip,
-						function() {
-							displayTiddlerRevision(this.getAttribute('tiddlerTitle'),this.getAttribute('revisionKey'),this);
-							return false;
-							},
-						'tiddlyLinkExisting tiddlyLink');
-				btn.setAttribute('tiddlerTitle',params.title);
-				btn.setAttribute('revisionKey',key);
-				var tiddler = store.fetchTiddler(params.title);
-				if(tiddler.revisionKey == key || (!tiddler.revisionKey && i==0))
-					btn.className = 'revisionCurrent';
-			}
-		}
-	}
 };
 
 } // end of 'install only once'

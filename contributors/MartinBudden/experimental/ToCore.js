@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|None|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/ToCore.js|
-|''Version:''|0.1.3|
+|''Version:''|0.2.0|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -16,31 +16,11 @@
 if(!version.extensions.ToCore) {
 version.extensions.ToCore = {installed:true};
 
-//# change in Macros.js
-//# list.handler has been tweeked to pass additional parameters to list type handler
-config.macros.list.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-{
-	var type = params[0] ? params[0] : "all";
-	var theList = document.createElement("ul");
-	place.appendChild(theList);
-	if(this[type].prompt)
-		createTiddlyElement(theList,"li",null,"listTitle",this[type].prompt);
-	var results;
-	if(this[type].handler)
-		results = this[type].handler(params,wikifier,paramString,tiddler);
-	for(var t = 0; t < results.length; t++) {
-		var theListItem = document.createElement("li");
-		theList.appendChild(theListItem);
-		var title = typeof results[t] == "string" ? results[t] : results[t].title;
-		createTiddlyLink(theListItem,title,true,null,false,tiddler);
-	}
-};
-
 //# change in Utilities.js
 //# onClickTiddlerLink has been tweeked to get missing links from host
 function onClickTiddlerLink(e)
 {
-	if (!e) e = window.event;
+	if(!e) e = window.event;
 	var theTarget = resolveTarget(e);
 	var theLink = theTarget;
 	var title = null;
@@ -73,18 +53,52 @@ function onClickTiddlerLink(e)
 	return false;
 }
 
+function createTiddlyLink(place,title,includeText,theClass,isStatic,linkedFromTiddler,link)
+{
+	var text = includeText ? title : null;
+	var i = getTiddlyLinkInfo(title,theClass);
+	var btn = isStatic ? createExternalLink(place,"#" + title) : createTiddlyButton(place,text,i.subTitle,onClickTiddlerLink,i.classes);
+	btn.setAttribute("refresh","link");
+	btn.setAttribute("tiddlyLink",link ? link : title);
+	if(linkedFromTiddler) {
+		var fields = linkedFromTiddler.getInheritedFields();
+		if(fields) {
+			btn.setAttribute("tiddlyFields",fields);
+		}
+	}
+	return btn;
+}
+
+config.macros.newTiddler.createNewTiddlerButton = function(place,title,params,label,prompt,accessKey,newFocus,isJournal)
+{
+	var tags = [];
+	for(var t=1; t<params.length; t++) {
+		if((params[t].name == "anon" && t != 1) || (params[t].name == "tag"))
+			tags.push(params[t].value);
+	}
+	label = getParam(params,"label",label);
+	prompt = getParam(params,"prompt",prompt);
+	accessKey = getParam(params,"accessKey",accessKey);
+	newFocus = getParam(params,"focus",newFocus);
+	var customFields = getParam(params,"fields");
+	if(!customFields && !store.isShadowTiddler(title))
+		customFields = store.getDefaultCustomFields();
+	var btn = createTiddlyButton(place,label,prompt,this.onClickNewTiddler,null,null,accessKey);
+	btn.setAttribute("newTitle",title);
+	btn.setAttribute("isJournal",isJournal);
+	btn.setAttribute("params",tags.join("|"));
+	btn.setAttribute("newFocus",newFocus);
+	btn.setAttribute("newTemplate",getParam(params,"template",DEFAULT_EDIT_TEMPLATE));
+	btn.setAttribute("customFields",customFields);
+	var text = getParam(params,"text");
+	if(text !== undefined) 
+		btn.setAttribute("newText",text);
+	return btn;
+};
+
 //# change in config.js
 // function redirectors
-config.hostFunctions = {
-	getTiddler: {},
-	getTiddlerList: {},
-	getTiddlerRevisionList: {},
-	getTiddlerRevision: {},
-	getWorkspace: {},
-	putTiddler: {},
-	lockTiddler: {},
-	unlockTiddler: {}
-};
+config.adaptor = {};
 
 //#
 //# changes in TiddlyWiki.js
@@ -102,81 +116,59 @@ TiddlyWiki.prototype.getDefaultCustomFields = function()
 	return this.defaultCustomFields;
 };
 
-//# Get the server type. If there is no server.type field, infer the server type
-//# from the wikiformat.
-TiddlyWiki.prototype.getServerType = function(fields)
-{
-	if(!fields)
-		return null;
-	var serverType = fields['server.type'];
-	if(!serverType)
-		serverType = fields['wikiformat'];
-	return serverType ? serverType.toLowerCase() : null;
-};
-
 TiddlyWiki.prototype.getMissingTiddler = function(title,fields)
 {
-//#displayMessage("getMissingTiddler");
-	var serverType = this.getServerType(fields);
-	if(!serverType || !fields['server.host'])
-		return false;
-	var fn = config.hostFunctions.getTiddler[serverType];
-	if(fn) {
-		var params = {};
-		params.serverHost = fields['server.host'];
-		params.serverWorkspace = fields['server.workspace'];
-		fn(title,params);
-	}
-	return true;
+//#displayMessage("getMissingTiddler:"+title);
+	var tiddler = new Tiddler(title);
+	tiddler.fields = fields;
+	return tiddler.callAdaptorFunction('getTiddler');
 };
 
-TiddlyWiki.prototype.getHostedTiddler = function(title,params)
+TiddlyWiki.prototype.getHostedTiddler = function(title)
 {
+//#displayMessage("getHostedTiddler:"+title);
 	var tiddler = this.fetchTiddler(title);
-	if(tiddler) {
-		var fields = tiddler.fields;
-		var serverType = tiddler.getServerType();
-	} else {
-		fields = convertCustomFieldsToHash(document.getElementById(story.idPrefix + title).getAttribute("tiddlyFields"));
-		serverType = this.getServerType(fields);
+	if(!tiddler) {
+		tiddler = new Tiddler(title);
+		tiddler.fields = convertCustomFieldsToHash(document.getElementById(story.idPrefix + title).getAttribute("tiddlyFields"));
 	}
-	if(!serverType)
-		return false;
-	var fn = config.hostFunctions.getTiddler[serverType];
-	if(fn) {
-		if(!params)
-			params = {};
-		params.serverHost = fields['server.host'];
-		params.serverWorkspace = fields['server.workspace'];
-		fn(title,params);
-		return true;
-	}
-	return false;
+	return tiddler.callAdaptorFunction('getTiddler');
 };
 
-TiddlyWiki.prototype.putHostedTiddler = function(title,params)
+TiddlyWiki.prototype.putHostedTiddler = function(title,callback)
 {
+//#displayMessage("putHostedTiddler:"+title);
 	var tiddler = this.fetchTiddler(title);
 	if(!tiddler)
 		return false;
-	var serverType = tiddler.getServerType();
-	if(!serverType)
-		return false;
-	var fn = config.hostFunctions.putTiddler[serverType];
-	if(fn) {
-		if(!params)
-			params = {};
-		params.serverHost = fields['server.host'];
-		params.serverWorkspace = fields['server.workspace'];
-		fn(title,params);
-		return true;
-	}
-	return false;
+	if(!tiddler.temp)
+		tiddler.temp = {};
+	tiddler.temp.callback = callback;
+	return tiddler.callAdaptorFunction('putTiddler');
 };
 
 //#
-//# changes in TiddlyWiki.js follow
+//# changes in Tiddler.js follow
 //#
+
+//# Convenience wrapper to call an adaptor function
+Tiddler.prototype.callAdaptorFunction = function(fnName)
+{
+//#displayMessage("callAdaptorFunction:"+fnName);
+	var ret = false;
+	var serverType = this.getServerType();
+	if(!serverType || !this.fields['server.host'])
+		return ret;
+	var adaptor = new config.adaptor[serverType];
+	if(adaptor) {
+		adaptor.openHost(this.fields['server.host']);
+		adaptor.openWorkspace(this.fields['server.workspace']);
+		ret = adaptor[fnName](this);
+		adaptor.close();
+		delete adaptor;
+	}
+	return ret;
+};
 
 //# Get the server type used. If there is no server.type field, infer it from the
 //# wikiformat. If no wikiformat use the Format tag to infer the server type.
@@ -195,21 +187,21 @@ Tiddler.prototype.getServerType = function()
 	return serverType ? serverType.toLowerCase() : null;
 };
 
-Tiddler.prototype.getRevisionList = function(params)
+Tiddler.prototype.updateAndSave = function()
 {
-	var serverType = this.getServerType();
-	if(!serverType)
-		return false;
-	var fn = config.hostFunctions.getTiddlerRevisionList[serverType];
-	if(fn) {
-		if(!params)
-			params = {};
-		params.title = this.title;
-		params.serverHost = this.fields['server.host'];
-		params.serverWorkspace = this.fields['server.workspace'];
-		fn(this.title,params);
-	}
-	return true;
+//#displayMessage("updateAndSave:"+tiddler.title);
+	var downloaded = new Date();
+	if(!this.created)
+		this.created = downloaded;
+	if(!this.modified)
+		this.modified = this.created;
+	if(!this.modifier)
+		this.modifier = this.serverHost;
+	this.fields['downloaded'] = downloaded.convertToYYYYMMDDHHMM();
+	this.fields['changecount'] = -1;
+	store.saveTiddler(this.title,this.title,this.text,this.modifier,this.modified,this.tags,this.fields);
+	if(config.options.chkAutoSave)
+		saveChanges();
 };
 
 } // end of 'install only once'

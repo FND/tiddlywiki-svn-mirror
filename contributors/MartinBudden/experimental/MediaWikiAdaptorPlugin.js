@@ -4,28 +4,24 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/MediaWikiAdaptorPlugin.js|
-|''Version:''|0.1.2|
+|''Version:''|0.2.0|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
-
-''For debug:''
-|''Default MediaWiki Server''|<<option txtmediaWikiDefaultServer>>|
-
 ***/
 
 //{{{
-if(!config.options.txtmediaWikiDefaultServer)
-	{config.options.txtmediaWikiDefaultServer = 'www.wikipedia.org';}
-//}}}
-
-//{{{
-// Ensure that the plugin is only installed once.
+//# Ensure that the plugin is only installed once.
 if(!version.extensions.MediaWikiAdaptorPlugin) {
 version.extensions.MediaWikiAdaptorPlugin = {installed:true};
 
-MediaWikiAdaptor = {}; // 'namespace' for local functions
+MediaWikiAdaptor = function()
+{
+	this.host = null;
+	this.workspace = null;
+	return this;
+};
 
 MediaWikiAdaptor.anyChild = function(obj)
 //# convenience function for getting children whose keys are unknown
@@ -37,31 +33,40 @@ MediaWikiAdaptor.anyChild = function(obj)
 	return null;
 };
 
-MediaWikiAdaptor.canonicalTitle = function(title)
+MediaWikiAdaptor.normalizedTitle = function(title)
 {
-	var canonicalTitle = title.charAt(0).toUpperCase() + title.substr(1);
-	return canonicalTitle.replace(/\s/g,'_');
+	var normalizedTitle = title.charAt(0).toUpperCase() + title.substr(1);
+	return normalizedTitle.replace(/\s/g,'_');
 };
 
-MediaWikiAdaptor.getTiddler = function(title,params)
+MediaWikiAdaptor.prototype.openHost = function(host,callback,callbackParams)
 {
-	var canonicalTitle = MediaWikiAdaptor.canonicalTitle(title);
-//#displayMessage('MediaWikiAdaptor.getTiddler:'+canonicalTitle);
+displayMessage('MediaWikiAdaptor.openHost:'+host);
+	if(!host.match(/:\/\//))
+		host = 'http://' + host;
+	if(host.substr(-1)!="/")
+		host = host + "/";
+	this.host = host;
+	if(callback)
+		window.setTimeout(callback,0,true,this,callbackParams);
+	return true;
+};
+
+MediaWikiAdaptor.prototype.getTiddler = function(tiddler)
+{
+	var normalizedTitle = MediaWikiAdaptor.normalizedTitle(tiddler.title);
+displayMessage('MediaWikiAdaptor.getTiddler:'+normalizedTitle);
 //# http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&titles=Elongation
-	params.title = title;
-	params.serverWorkspace = null;
-	params.wikiformat = 'MediaWiki';
-	params.serverType = 'mediawiki';
-	var urlTemplate = '%0/w/api.php?format=json&action=%1&prop=revisions&rvprop=content&titles=%2';
-	if(!params.serverHost.match(/:\/\//))
-		urlTemplate = 'http://' + urlTemplate;
-	var url = urlTemplate.format([params.serverHost,'query',canonicalTitle]);
-//#displayMessage('url:'+url);
-	var req = doHttp('GET',url,null,null,null,null,MediaWikiAdaptor.getTiddlerCallback,params,null);
+	tiddler.fields.wikiformat = 'MediaWiki';
+	tiddler.fields['server.type'] = 'mediawiki';
+	var urlTemplate = '%0w/api.php?format=json&action=%1&prop=revisions&rvprop=content&titles=%2';
+	var url = urlTemplate.format([this.host,'query',normalizedTitle]);
+displayMessage('url:'+url);
+	var req = doHttp('GET',url,null,null,null,null,MediaWikiAdaptor.getTiddlerCallback,tiddler);
 //#displayMessage('req:'+req);
 };
 
-MediaWikiAdaptor.getTiddlerCallback = function(status,params,responseText,xhr)
+MediaWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 {
 //#displayMessage('getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
@@ -75,11 +80,8 @@ MediaWikiAdaptor.getTiddlerCallback = function(status,params,responseText,xhr)
 		content = revision['*'];
 		var revid = revision['revid'];
 	} catch (ex) {
-		alert('Oh dear, the JSON stuff went awry');
-		displayMessage('Response:'+responseText);
-		// do something drastic here
+		displayMessage('Error response:'+responseText);
 	}
-
 	/*var links = page.links;
 	if (links && links.length) {
 		alert(links[0]['*'] + ' is linked from ' + title);
@@ -87,33 +89,19 @@ MediaWikiAdaptor.getTiddlerCallback = function(status,params,responseText,xhr)
 	} else {
 		alert('No links on ' + title + ' found');
 	}*/
-
 	if(content) {
-		var tiddler = store.createTiddler(params.title);
+		tiddler.text = content;
 		tiddler.fields['mediawiki.revid'] = String(revid);
-		tiddler.updateFieldsAndContent(params,content);
+		tiddler.updateAndSave();
 	}
 };
 
-MediaWikiAdaptor.putTiddler = function(title,params)
-{
-//#	var canonicalTitle = MediaWikiAdaptor.canonicalTitle(title);
-//#displayMessage('MediaWikiAdaptor.putPage:'+canonicalTitle);
-	displayMessage('MediaWiki does not have a REST API for PUT yet');
-//#	var canonicalTitle = MediaWikiAdaptor.canonicalTitle(title);
-//#	MediaWikiAdaptor.LoginAndPutPage(title);
-//#	MediaWikiAdaptor.PutPageWithToken('Elongation','1234')
-};
+MediaWikiAdaptor.prototype.getWorkspaceList = function(callback,callbackParams) {return false;};
+MediaWikiAdaptor.prototype.openWorkspace = function(workspace,callback,callbackParams) {return false;};
+MediaWikiAdaptor.prototype.getTiddlerList = function(callback,callbackParams) {return false;};
+MediaWikiAdaptor.prototype.putTiddler = function(tiddler) {return false;};
+MediaWikiAdaptor.prototype.close = function() {return true;};
 
-MediaWikiAdaptor.putTiddlerCallback = function(status,params,responseText,xhr)
-{
-//# displayMessage('putTiddlerCallback status:'+status);
-//# displayMessage('rt:'+responseText.substr(0,50));
-//# displayMessage('xhr:'+xhr);
-};
-
-config.hostFunctions.getTiddler['mediawiki'] = MediaWikiAdaptor.getTiddler;
-//config.hostFunctions.putTiddler['mediawiki'] = MediaWikiAdaptor.putTiddler;
-
+config.adaptor['mediawiki'] = MediaWikiAdaptor;
 } // end of 'install only once'
 //}}}

@@ -83,5 +83,64 @@ config.macros.updateHostedList.onDone = function(params)
 	displayMessage(config.macros.updateHostedList.done);
 };
 
+// revisions command definition
+config.commands.revisions = {};
+merge(config.commands.revisions,{
+	text: "revisions",
+	tooltip: "View another revision of this tiddler",
+	loading: "loading...",
+	revisionTooltip: "View this revision",
+	popupNone: "No revisions"});
+
+config.commands.revisions.isEnabled = function(tiddler)
+{
+	return tiddler.isFunctionSupported('getTiddlerRevisionList');
+};
+
+config.commands.revisions.handler = function(event,src,title)
+{
+	var tiddler = store.fetchTiddler(title);
+	tiddler.temp.callback = config.commands.revisions.callback;
+	tiddler.temp.popup = Popup.create(src);
+	Popup.show(tiddler.temp.popup,false);
+	tiddler.getRevisionList();
+	event.cancelBubble = true;
+	if(event.stopPropagation)
+		event.stopPropagation();
+	return true;
+};
+
+config.commands.revisions.callback = function(tiddler)
+// The revisions are returned in the tiddler.temp.revisions array
+//# tiddler.temp.revisions[i].modified
+//# tiddler.temp.revisions[i].key
+{
+//#displayMessage("config.commands.revisions.callback");
+	if(tiddler.temp.popup) {
+		var revisions = tiddler.temp.revisions;
+		if(revisions.length==0) {
+			createTiddlyText(createTiddlyElement(tiddler.temp.popup,'li',null,'disabled'),config.commands.revisions.popupNone);
+		} else {
+			for(var i=0; i<revisions.length; i++) {
+				var modified = revisions[i].modified;
+				var key = revisions[i].key;
+				var btn = createTiddlyButton(createTiddlyElement(params.temp.popup,'li'),
+						modified.toLocaleString(),
+						config.commands.revisions.revisionTooltip,
+						function() {
+							displayTiddlerRevision(this.getAttribute('tiddlerTitle'),this.getAttribute('revisionKey'),this);
+							return false;
+							},
+						'tiddlyLinkExisting tiddlyLink');
+				btn.setAttribute('tiddlerTitle',params.title);
+				btn.setAttribute('revisionKey',key);
+				var tiddler = store.fetchTiddler(params.title);
+				if(tiddler.revisionKey == key || (!tiddler.revisionKey && i==0))
+					btn.className = 'revisionCurrent';
+			}
+		}
+	}
+};
+
 } // end of 'install only once'
 //}}}

@@ -40,7 +40,26 @@ if(!config.options.txttwikiPassword)
 if(!version.extensions.TWikiAdaptorPlugin) {
 version.extensions.TWikiAdaptorPlugin = {installed:true};
 
-TWikiAdaptor = {}; // 'namespace' for local functions
+TWikiAdaptor = function()
+{
+	this.host = null;
+	this.workspace = null;
+	return this;
+};
+
+TWikiAdaptor.prototype.openHost = function(host,callback,callbackParams)
+{
+	if(!host.match(/:\/\//))
+		host = 'http://' + host;
+	if(!host.match(/\/bin$/))
+		host += '/cgi-bin';
+	if(host.substr(-1)!="/")
+		host = host + "/";
+	this.host = host;
+	if(callback)
+		window.setTimeout(callback,0,true,this,callbackParams);
+	return true;
+};
 
 TWikiAdaptor.getTiddler = function(title,params)
 {
@@ -53,13 +72,11 @@ TWikiAdaptor.getTiddler = function(title,params)
 //# and <verb> is the alias for the function registered using the registerRESTHandler.
 //# http://smglinx.intra/twiki/bin/view/SMG/WebHome?raw=text';
 
-	var urlTemplate = '%0/view/%1/%2?raw=text';
-	if(!params.serverHost.match(/:\/\//))
-		urlTemplate = 'http://' + urlTemplate;
+	var urlTemplate = '%0view/%1/%2?raw=text';
 	var serverHost = params.serverHost;
 	if(!serverHost.match(/\/bin$/))
 		serverHost += '/cgi-bin';
-	var url = urlTemplate.format([serverHost,params.serverWorkspace,title]);
+	var url = urlTemplate.format([this.host,this.workspace,title]);
 //#displayMessage('getTwiki url: '+url);
 
 	params.title = title;
@@ -110,8 +127,7 @@ TWikiAdaptor.putTiddlerCallback = function(status,params,responseText,xhr)
 	displayMessage('TWiki put status:'+status);
 };
 
-config.hostFunctions.getTiddler['twiki'] = TWikiAdaptor.getTiddler;
-config.hostFunctions.putTiddler['twiki'] = TWikiAdaptor.putTiddler;
-
-} // end of 'install only once'
+TWikiAdaptor.prototype.close = function() {return true;};
+config.adaptor['twiki'] = TWikiAdaptor;
+} //# end of 'install only once'
 //}}}
