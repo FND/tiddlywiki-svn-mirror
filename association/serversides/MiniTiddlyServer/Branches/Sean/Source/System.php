@@ -128,7 +128,7 @@
             }
             
             else if ( $action == "manualbackup") {
-                createBackup($_POST['sourcePath']);
+                createBackup($_POST['sourcePath'], date('dMy-G:i_'));
             }
             
             else if ( $action == "revert" ) {
@@ -360,7 +360,7 @@
         return $str;
     }
     
-    function createBackup($source,$prefix) {
+    function createBackup($source,$prefix="") {
         global $backupDir,$data;
         
         $sourcefull = "../".$source;
