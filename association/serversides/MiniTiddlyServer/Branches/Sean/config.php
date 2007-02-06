@@ -31,6 +31,7 @@ function saveAndComplete() {
         
         return;
     }
+    
     form.submit();
 }
 
@@ -106,8 +107,8 @@ if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass
 
 <h4>Save and Complete</h4>
 <div>By clicking submit below, this config file will be deleted and you will be taken to your new wiki!</div>
-<p><input type="submit" value="Save and Complete" onclick="saveAndComplete()"/></p>
 </form>
+<p><input type="submit" value="Save and Complete" onclick="saveAndComplete()"/></p>
             
 </body>
 
