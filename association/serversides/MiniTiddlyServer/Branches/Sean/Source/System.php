@@ -366,7 +366,7 @@
         
         $sourceName = substr($_POST['sourcePath'], 0, strpos($_POST['sourcePath'], ".htm"));
         
-        $myBackupDir = $backupDir."/".$sourceName ."/";
+        $myBackupDir = $backupDir.$sourceName ."/";
         $backupPath = $myBackupDir.$backupName;
         
         $sourcefull = "../".$source;
@@ -379,7 +379,7 @@
         }
         
         if (is_dir($myBackupDir) === FALSE) {
-            if( mkdir($backupDir, 0755) === false ) {
+            if( mkdir($myBackupDir, 0755) === false ) {
                 $data .= "backup:false,error:true,message:'Could not create directory ($myBackupDir)',";
                 return;
             }
