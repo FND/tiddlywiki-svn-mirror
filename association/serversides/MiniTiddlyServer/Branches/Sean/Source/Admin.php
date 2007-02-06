@@ -43,10 +43,10 @@
                 </SELECT>
             </div>
             <div><input type="submit" value="Revert" onclick="revert()"/></div>
+            </form>
         </td>
         <td>
             <h4>Manual Backup</h4>
-            <form id="backup" action="javascript:;">
             <div><input type="submit" value="Backup" onclick="manualBackup()"/></div>
         </td>
         <td>

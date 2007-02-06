@@ -128,7 +128,7 @@
             }
             
             else if ( $action == "manualbackup") {
-                createBackup($_POST['sourcePath'], date('dMy_Gi')."_Manual.html");
+                createBackup($_POST['sourcePath'], date('dMy_Gi')."_manual.html");
             }
             
             else if ( $action == "revert" ) {
@@ -176,7 +176,7 @@
             
             // BACKUP // 
             if ($dobackup)
-                createBackup($_POST['sourcePath'],$_SESSION['mts_saved_username']."_Auto.html");
+                createBackup($_POST['sourcePath'],$_SESSION['mts_saved_username']."_auto.html");
 
             function updateBlock($block){
                 global $newTW;

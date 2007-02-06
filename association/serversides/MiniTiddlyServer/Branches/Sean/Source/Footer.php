@@ -578,7 +578,7 @@ loadPlugins = function()
     
     function deleteWiki() {
     
-        if (confirm("Are you sure?  This will destroy all saved data!")) {
+        if (confirm("Delete: Are you sure?  This will destroy all saved data!")) {
         
             showMessageWindow("Removing Wiki ... ");
             
@@ -609,7 +609,7 @@ loadPlugins = function()
               alert("no file selected!");
               return false;
               }           
-        if (confirm("Are you sure?  This will completely replace your current wiki.  You may want to perform a manual backup first.")) {              
+        if (confirm("Upload: Are you sure?  This will completely replace your current wiki.  You may want to perform a manual backup first.")) {              
             showMessageWindow("Uploading Wiki ... ");
             
             file.submit();
@@ -651,6 +651,11 @@ loadPlugins = function()
     function revert() {
         var revertTo = document.getElementById("revert").revertfile.value;
         
+        if ( revertTo.indexOf(".html") < 0 ) {
+            alert("Error, filename not valid");
+            return;
+        }
+        
         var ret = function (data) {
             try {
                 eval(data);
@@ -667,7 +672,7 @@ loadPlugins = function()
                 showMessageWindow("Revert was unsuccessful. " + data.message);
         }
         
-        if (confirm("Are you sure?  This will overwrite your current wiki!"))
+        if (confirm("Revert: Are you sure?  This will overwrite your current wiki!"))
             openAjaxRequest(systempath + "?action=revert", ret, true, genericPostPaths+"&revertfile=" + revertTo);
     }
     
