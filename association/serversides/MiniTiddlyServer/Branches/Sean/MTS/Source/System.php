@@ -7,7 +7,7 @@
     $actions = "";
 
 // INIT // 
-    $baseDir = substr($_SERVER['SCRIPT_URI'], 0, strpos($_SERVER['SCRIPT_URI'],"Source/System.php"));
+    $baseDir = substr($_SERVER['SCRIPT_URI'], 0, strpos($_SERVER['SCRIPT_URI'],"MTS/Source/System.php"));
     $configfile = "users.php";
     include_once($configfile);
     
@@ -34,8 +34,8 @@
     $pass = $_GET['get_pass'];
     
     $wrapperScriptName = $_POST['wrapperScriptName'];
-    $wrapperScriptPath = "../".$wrapperScriptName .".php";
-    $sourcePath = "../".$_POST['sourcePath'];
+    $wrapperScriptPath = "../../".$wrapperScriptName .".php";
+    $sourcePath = "../../".$_POST['sourcePath'];
     
     $filename = $wrapperScriptPath;
     $sourcename = $sourcePath;
@@ -115,14 +115,14 @@
             else if ( $action == "createwiki") {
                 $newWrapper = $_POST["newWrapper"];
                 $newSource = $_POST["newSource"];
-                createNewWiki($newWrapper, $newSource, "../", $baseDir);
+                createNewWiki($newWrapper, $newSource, "../../", $baseDir);
             }
             
             else if ( $action == "deletewiki") {
                 $result = unlink ($wrapperScriptPath);
                 $result2 = unlink ($sourcePath);
-                if ( file_exists("../$wrapperScriptName.xml"))
-                    unlink ("../$wrapperScriptName.xml");
+                if ( file_exists("../../$wrapperScriptName.xml"))
+                    unlink ("../../$wrapperScriptName.xml");
                 $result = ($result && $result2);
                 $data .= "delete:$result,";
             }
@@ -308,7 +308,7 @@
             // RSS // 
             $rss = decodePost($_POST['rss']);
             if ( isset($rss) && $rss != "" && $conflict != true) {
-                $rssfile = "../$wrapperScriptName.xml";
+                $rssfile = "../../$wrapperScriptName.xml";
                 writeToFile($rssfile, $rss);
                 $data .= "rss:true,";
             }
@@ -369,7 +369,7 @@
         $myBackupDir = $backupDir.$sourceName ."/";
         $backupPath = $myBackupDir.$backupName;
         
-        $sourcefull = "../".$source;
+        $sourcefull = "../../".$source;
         
         if (is_dir($backupDir) === FALSE) {
             if( mkdir($backupDir, 0755) === false ) {

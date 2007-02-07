@@ -23,6 +23,6 @@
 
 
 // FOOTER // 
-include_once("Source/Footer.php"); 
+include_once("MTS/Source/Footer.php"); 
 
 ?>

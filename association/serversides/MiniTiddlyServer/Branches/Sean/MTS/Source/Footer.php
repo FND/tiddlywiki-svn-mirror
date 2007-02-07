@@ -1,6 +1,6 @@
-<script language="javascript" type="text/javascript" src="Source/ajax.js">
+<script language="javascript" type="text/javascript" src="MTS/Source/ajax.js">
 </script>
-<link rel="stylesheet" type="text/css" href="Source/style.css"/>
+<link rel="stylesheet" type="text/css" href="MTS/Source/style.css"/>
 <script>
 <?php
 // Plugins. Load to array as variables for later processing.
@@ -43,7 +43,7 @@
 
 <script>
 
-var systempath = "Source/System.php";
+var systempath = "MTS/Source/System.php";
 
 var genericPostPaths = "wrapperScriptName=" + wrapperScriptName + "&sourcePath=" + sourcePath;
 

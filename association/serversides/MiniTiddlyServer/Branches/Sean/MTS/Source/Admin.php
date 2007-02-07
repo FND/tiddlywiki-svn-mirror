@@ -34,7 +34,7 @@
                 <script> var backupsmap = new Object(); </script>
                 <select name="revertfile">
                 <?php 
-                    $versions = scandir("Backups/".$sourceName);
+                    $versions = scandir("MTS/Backups/".$sourceName);
                     foreach ($versions as $file) {
                         if (strpos($file, ".htm") != false)
                             echo "<script>backupsmap['$file']=true</script><option value='$file'>$file</option>\n";
@@ -77,7 +77,7 @@
 <tr><td colspan=3>
 <h4>Upload and Replace</h4>
 <table>
-    <tr><td>Select a TW: </td><td><form id="uploadfile" method="POST" enctype="multipart/form-data" action="Source/Upload.php"><input type="hidden" name="sourcepath" value="<?php echo $sourcePath ?>"/><input type="hidden" name="wrapperpath" value="<?php echo $wrapperScriptPath ?>"/><input name="uploadfile" type="file"/></form></td></tr>
+    <tr><td>Select a TW: </td><td><form id="uploadfile" method="POST" enctype="multipart/form-data" action="MTS/Source/Upload.php"><input type="hidden" name="sourcepath" value="<?php echo $sourcePath ?>"/><input type="hidden" name="wrapperpath" value="<?php echo $wrapperScriptPath ?>"/><input name="uploadfile" type="file"/></form></td></tr>
     <tr><td colspan="2"><input type="submit" value="Upload" onclick="uploadFile()"></td></tr>
 </table>
 </td></tr>

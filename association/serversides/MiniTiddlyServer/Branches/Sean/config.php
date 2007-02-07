@@ -46,11 +46,11 @@ Run this file after copying everything to your install server. (In a unique fold
 
 $data = "";
 
-include_once("Source/Functions.php");
+include_once("MTS/Source/Functions.php");
 
-$templatename = "Source/empty.html";
-$wikiframe = "Source/wikiframe.php";
-$userspath = "Source/users.php";
+$templatename = "MTS/Source/empty.html";
+$wikiframe = "MTS/Source/wikiframe.php";
+$userspath = "MTS/Source/users.php";
 
 $adminpass = $_POST['adminpass'];
 $wrapperpath = $_POST['wrapperpath'];
