@@ -15,11 +15,8 @@
         $data .= "error:true, message:'Cannot read file ($wikipath)',";
         
     fclose($handle);
-    
-    // Escape <-? sequences // 
-    $wikidata = preg_replace ( '/\<\?\)/i','<?php echo "<?"; ?>)',$wikidata);
-    
-    echo $wikidata;
+
+    print $wikidata;
 
 
 // FOOTER // 

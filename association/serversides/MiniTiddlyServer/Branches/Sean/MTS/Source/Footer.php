@@ -5,7 +5,7 @@
 <?php
 // Plugins. Load to array as variables for later processing.
    echo "\nvar MTSExternalPlugins = [];";
-   foreach (glob("Plugins/*.js") as $filename) {
+   foreach (glob("MTS/Plugins/*.js") as $filename) {
       $fcontents = file_get_contents($filename);
       $fcontents = addslashes($fcontents);
       $fcontents = preg_replace('/(\n)/i', '\\n', $fcontents);
