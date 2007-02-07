@@ -16,6 +16,25 @@
 if(!version.extensions.HostedCommands2Plugin) {
 version.extensions.HostedCommands2Plugin = {installed:true};
 
+//# change in Macros.js
+//# list.handler has been tweeked to pass additional parameters to list type handler and createTiddlyLink
+config.macros.list.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	var type = params[0] ? params[0] : "all";
+	var list = document.createElement("ul");
+	place.appendChild(list);
+	if(this[type].prompt)
+		createTiddlyElement(list,"li",null,"listTitle",this[type].prompt);
+	var results;
+	if(this[type].handler)
+		results = this[type].handler(params,wikifier,paramString,tiddler);
+	for(var t = 0; t < results.length; t++) {
+		var li = document.createElement("li");
+		list.appendChild(li);
+		createTiddlyLink(li,typeof results[t] == "string" ? results[t] : results[t].title,true,null,false,tiddler);
+	}
+};
+
 config.macros.list.hosted = {};
 config.macros.list.hosted.prompt = "Tiddlers on the host";
 config.macros.list.hosted.handler = function(params,wikifier,paramString,tiddler)

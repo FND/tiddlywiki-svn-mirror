@@ -16,7 +16,27 @@
 if(!version.extensions.ToCore) {
 version.extensions.ToCore = {installed:true};
 
-//# change in Utilities.js
+//# Change in config.js
+// Adaptors
+config.adaptors = {};
+
+//# Changes in Utilities.js
+function createTiddlyLink(place,title,includeText,theClass,isStatic,linkedFromTiddler,link)
+{
+	var text = includeText ? title : null;
+	var i = getTiddlyLinkInfo(title,theClass);
+	var btn = isStatic ? createExternalLink(place,"#" + title) : createTiddlyButton(place,text,i.subTitle,onClickTiddlerLink,i.classes);
+	btn.setAttribute("refresh","link");
+	btn.setAttribute("tiddlyLink",link ? link : title);
+	if(linkedFromTiddler) {
+		var fields = linkedFromTiddler.getInheritedFields();
+		if(fields) {
+			btn.setAttribute("tiddlyFields",fields);
+		}
+	}
+	return btn;
+}
+
 //# onClickTiddlerLink has been tweeked to get missing links from host
 function onClickTiddlerLink(e)
 {
@@ -53,21 +73,23 @@ function onClickTiddlerLink(e)
 	return false;
 }
 
-function createTiddlyLink(place,title,includeText,theClass,isStatic,linkedFromTiddler,link)
+//# Changes in Macros.js
+config.macros.list.handler = function(place)
 {
-	var text = includeText ? title : null;
-	var i = getTiddlyLinkInfo(title,theClass);
-	var btn = isStatic ? createExternalLink(place,"#" + title) : createTiddlyButton(place,text,i.subTitle,onClickTiddlerLink,i.classes);
-	btn.setAttribute("refresh","link");
-	btn.setAttribute("tiddlyLink",link ? link : title);
-	if(linkedFromTiddler) {
-		var fields = linkedFromTiddler.getInheritedFields();
-		if(fields) {
-			btn.setAttribute("tiddlyFields",fields);
-		}
+	var type = params[0] ? params[0] : "all";
+	var list = document.createElement("ul");
+	place.appendChild(list);
+	if(this[type].prompt)
+		createTiddlyElement(list,"li",null,"listTitle",this[type].prompt);
+	var results;
+	if(this[type].handler)
+		results = this[type].handler(params);
+	for(var t = 0; t < results.length; t++) {
+		var li = document.createElement("li");
+		list.appendChild(li);
+		createTiddlyLink(li,typeof results[t] == "string" ? results[t] : results[t].title,true);
 	}
-	return btn;
-}
+};
 
 config.macros.newTiddler.createNewTiddlerButton = function(place,title,params,label,prompt,accessKey,newFocus,isJournal)
 {
@@ -95,10 +117,6 @@ config.macros.newTiddler.createNewTiddlerButton = function(place,title,params,la
 		btn.setAttribute("newText",text);
 	return btn;
 };
-
-//# change in config.js
-// function redirectors
-config.adaptor = {};
 
 //#
 //# changes in TiddlyWiki.js
@@ -141,9 +159,7 @@ TiddlyWiki.prototype.putHostedTiddler = function(title,callback)
 	var tiddler = this.fetchTiddler(title);
 	if(!tiddler)
 		return false;
-	if(!tiddler.temp)
-		tiddler.temp = {};
-	tiddler.temp.callback = callback;
+	tiddler.fields['temp.callback'] = callback;
 	return tiddler.callAdaptorFunction('putTiddler');
 };
 
@@ -159,7 +175,7 @@ Tiddler.prototype.callAdaptorFunction = function(fnName)
 	var serverType = this.getServerType();
 	if(!serverType || !this.fields['server.host'])
 		return ret;
-	var adaptor = new config.adaptor[serverType];
+	var adaptor = new config.adaptors[serverType];
 	if(adaptor) {
 		adaptor.openHost(this.fields['server.host']);
 		adaptor.openWorkspace(this.fields['server.workspace']);

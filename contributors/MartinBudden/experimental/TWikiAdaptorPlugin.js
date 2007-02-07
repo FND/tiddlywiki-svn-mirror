@@ -128,6 +128,6 @@ TWikiAdaptor.putTiddlerCallback = function(status,params,responseText,xhr)
 };
 
 TWikiAdaptor.prototype.close = function() {return true;};
-config.adaptor['twiki'] = TWikiAdaptor;
+config.adaptors['twiki'] = TWikiAdaptor;
 } //# end of 'install only once'
 //}}}

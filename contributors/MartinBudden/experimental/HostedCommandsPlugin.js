@@ -16,25 +16,6 @@
 if(!version.extensions.HostedCommandsPlugin) {
 version.extensions.HostedCommandsPlugin = {installed:true};
 
-//# change in Macros.js
-//# list.handler has been tweeked to pass additional parameters to list type handler and createTiddlyLink
-config.macros.list.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-{
-	var type = params[0] ? params[0] : "all";
-	var list = document.createElement("ul");
-	place.appendChild(list);
-	if(this[type].prompt)
-		createTiddlyElement(list,"li",null,"listTitle",this[type].prompt);
-	var results;
-	if(this[type].handler)
-		results = this[type].handler(params,wikifier,paramString,tiddler);
-	for(var t = 0; t < results.length; t++) {
-		var li = document.createElement("li");
-		list.appendChild(li);
-		createTiddlyLink(li,typeof results[t] == "string" ? results[t] : results[t].title,true,null,false,tiddler);
-	}
-};
-
 //# Returns true if function fnName is available for the tiddler's serverType
 //# Used by (eg): config.commands.download.isEnabled
 Tiddler.prototype.isFunctionSupported = function(fnName)

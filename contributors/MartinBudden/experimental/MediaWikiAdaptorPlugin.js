@@ -102,6 +102,6 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(callback,callbackParams) {r
 MediaWikiAdaptor.prototype.putTiddler = function(tiddler) {return false;};
 MediaWikiAdaptor.prototype.close = function() {return true;};
 
-config.adaptor['mediawiki'] = MediaWikiAdaptor;
+config.adaptors['mediawiki'] = MediaWikiAdaptor;
 } // end of 'install only once'
 //}}}

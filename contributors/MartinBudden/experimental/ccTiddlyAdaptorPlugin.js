@@ -10,6 +10,7 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
 
+''For debug:''
 |''Default ccTiddly Server''|<<option txtccTiddlyDefaultServer>>|
 |''Default ccTiddly Web(workspace)''|<<option txtccTiddlyDefaultWorkspace>>|
 |''Default ccTiddly username''|<<option txtccTiddlyUsername>>|
@@ -32,23 +33,51 @@ if(!config.options.txtccTiddlyPassword)
 if(!version.extensions.ccTiddlyAdaptorPlugin) {
 version.extensions.ccTiddlyAdaptorPlugin = {installed:true};
 
-ccTiddlyAdaptor = {}; // 'namespace' for local functions
+ccTiddlyAdaptor = function()
+{
+	this.host = null;
+	this.workspace = null;
+	return this;
+};
 
-ccTiddlyAdaptor.getTiddler = function(title,params)
-// get a list of the revisions for a page
+ccTiddlyAdaptor.prototype.openHost = function(host,callback,callbackParams)
+{
+//#displayMessage("openHost:"+host);
+	if(!host.match(/:\/\//))
+		host = 'http://' + host;
+	if(host.substr(-1)!="/")
+		host = host + "/";
+	this.host = host;
+//#displayMessage("host:"+host);
+	if(callback)
+		window.setTimeout(callback,0,true,this,callbackParams);
+	return true;
+};
+
+ccTiddlyAdaptor.prototype.openWorkspace = function(workspace,callback,callbackParams)
+{
+//#displayMessage("openWorkspace:"+workspace);
+	this.workspace = workspace;
+	if(callback)
+		window.setTimeout(callback,0,true,this,callbackParams);
+	return true;
+};
+
+ccTiddlyAdaptor.prototype.getTiddler = function(tiddler)
 {
 	//title = encodeURIComponent(title);
 //#displayMessage('getTiddler:'+title);
 //# http://cctiddly.sourceforge.net/msghandle.php?action=revisionList&title=About
 
-	var urlTemplate = 'http://%0/msghandle.php?action=revisionList&title=%1';
-	var url = urlTemplate.format([params.serverHost,title]);
+	// first get the revision list
+	var urlTemplate = '%0msghandle.php?action=revisionList&title=%1';
+	var url = urlTemplate.format([this.host,this.title]);
 //#displayMessage('getccTiddly url: '+url);
 
-	params.title = title;
-	params.serverWorkspace = null;
-	params.serverType = 'cctiddly';
-	var req = doHttp('GET',url,null,null,null,null,ccTiddlyAdaptor.getTiddlerCallback1,params,null);
+	tiddler.fields['server.workspace'] = null;
+	tiddler.fields['server.type'] = 'cctiddly';
+	tiddler.fields['temp.adaptor'] = this;
+	var req = doHttp('GET',url,null,null,null,null,ccTiddlyAdaptor.getTiddlerCallback1,tiddler);
 //#displayMessage("req:"+req);
 };
 
@@ -60,7 +89,7 @@ ccTiddlyAdaptor.getTiddler = function(title,params)
 200608162039 2 ccTiddly
 200603111654 1 ccTiddly
 */
-ccTiddlyAdaptor.getTiddlerCallback1 = function(status,params,responseText,xhr)
+ccTiddlyAdaptor.getTiddlerCallback1 = function(status,tiddler,responseText,xhr)
 {
 //#displayMessage('getTiddlerCallback1 status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
@@ -68,9 +97,11 @@ ccTiddlyAdaptor.getTiddlerCallback1 = function(status,params,responseText,xhr)
 	var parts = revs[0].split(' ');
 	var pageRevision = parts[1];
 // http://cctiddly.sourceforge.net/msghandle.php?action=revisionDisplay&title=About&revision=6
-	var urlTemplate = 'http://%0/msghandle.php?action=revisionDisplay&title=%1&revision=%2';
-	var url = urlTemplate.format([params.serverHost,params.title,pageRevision]);
-	var req = doHttp('GET',url,null,null,null,null,ccTiddlyAdaptor.getTiddlerCallback2,params,null);
+	var adaptor = tiddler.fields['temp.adaptor'];
+	// now get the latest revision
+	var urlTemplate = '%0msghandle.php?action=revisionDisplay&title=%1&revision=%2';
+	var url = urlTemplate.format([adaptor.host,tiddler.title,pageRevision]);
+	var req = doHttp('GET',url,null,null,null,null,ccTiddlyAdaptor.getTiddlerCallback2,tiddler);
 //#displayMessage("req:"+req);
 };
 
@@ -85,7 +116,7 @@ ccTiddly
 other
 6
 */
-ccTiddlyAdaptor.getTiddlerCallback2 = function(status,params,responseText,xhr)
+ccTiddlyAdaptor.getTiddlerCallback2 = function(status,tiddler,responseText,xhr)
 {
 //#displayMessage('getTiddlerCallback2 status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
@@ -96,70 +127,72 @@ ccTiddlyAdaptor.getTiddlerCallback2 = function(status,params,responseText,xhr)
 	try {
 		//params.modifier = x[2];
 		/*if(x[4])
-			params.created = Date.convertFromYYYYMMDDHHMM(x[4]);
+			tiddler.created = Date.convertFromYYYYMMDDHHMM(x[4]);
 		if(x[5])
-			params.modified = Date.convertFromYYYYMMDDHHMM(x[5]);
-		params.tags = x[6];*/
+			tiddler.modified = Date.convertFromYYYYMMDDHHMM(x[5]);
+		tiddler.tags = x[6];*/
 	} catch(ex) {
 	}
-	var tiddler = store.createTiddler(params.title);
-	tiddler.updateFieldsAndContent(params,content);
+	tiddler.updateAndSave();
 };
 
 
-ccTiddlyAdaptor.getTiddlerRevisionList = function(title,params)
+ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(tiddler)
 // get a list of the revisions for a page
 {
 	//title = encodeURIComponent(title);
 //#displayMessage('getTiddlerRevisionList');
 // http://cctiddly.sourceforge.net/msghandle.php?action=revisionList&title=About
 
-	var urlTemplate = 'http://%0/msghandle.php?action=revisionList&title=%1';
-	var url = urlTemplate.format([params.serverHost,title]);
+	var urlTemplate = '%0msghandle.php?action=revisionList&title=%1';
+	var url = urlTemplate.format([this.host,tiddler.title]);
 //#displayMessage('getccTiddly url: '+url);
 
-	params.title = title;
-	params.serverWorkspace = null;
-	params.serverType = 'cctiddly';
-	var req = doHttp('GET',url,null,null,null,null,ccTiddlyAdaptor.getTiddlerRevisionListCallback,params,null);
+	tiddler.fields['server.workspace'] = null;
+	tiddler.fields['server.type'] = 'cctiddly';
+	tiddler.fields['temp.adaptor'] = this;
+	var req = doHttp('GET',url,null,null,null,null,ccTiddlyAdaptor.getTiddlerRevisionListCallback,tiddler);
 //#displayMessage("req:"+req);
 };
 
-ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,params,responseText,xhr)
+ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,tiddler,responseText,xhr)
 {
 //#displayMessage('getTiddlerRevisionListCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
 //#displayMessage('callback:'+params.callback);
-	params.revisions = [];
+	revisions = [];
 	var r =  responseText;
 	if(r != '-') {
 		var revs = r.split('\n');
 		for(var i=0; i<revs.length; i++) {
 			var parts = revs[i].split(' ');
 			if(parts.length>1) {
-				params.revisions[i] = {};
-				params.revisions[i].modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
-				params.revisions[i].key = parts[1];
+				revisions[i] = {};
+				revisions[i].modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
+				revisions[i].key = parts[1];
 			}
 		}
 	}
-	params.callback(params);
+	tiddler.fields['temp.revisions'] = revisions;
+	if(tiddler.fields['temp.callback'])
+		tiddler.fields['temp.callback'](tiddler);
 };
 
-ccTiddlyAdaptor.getTiddlerRevision = function(title,revision,src,updateTimeline)
+//# placeholder, not complete
+ccTiddlyAdaptor.getTiddlerRevision = function(tiddler,revision,src,updateTimeline)
 {
 	//title = encodeURIComponent(title);
-	var tiddler = store.fetchTiddler(title);
 	if(tiddler.fields.serverPageRevision == revision)
 		return;
-	zw.status('loading...');
+	//zw.status('loading...');
 	revision = revision ? '&revision=' + revision : '';
 	updateTimeline = updateTimeline ? '&updatetimeline=1' : '';
 	//ajax.get('?action=get&id=' + encodeURIComponent(title) + revision + updateTimeline + '&' + zw.no_cache(),displayTiddlerRevisionCallback)
 };
 
-ccTiddlyAdaptor.getTiddlerRevisionCallback = function(status,params,responseText,xhr)
+//# placeholder, not complete
+ccTiddlyAdaptor.getTiddlerRevisionCallback = function(status,tiddler,responseText,xhr)
 {
 	//#displayMessage('getTiddlerRevisionCallback status:'+status);
 	//#displayMessage('rt:'+responseText.substr(0,50));
@@ -167,33 +200,30 @@ ccTiddlyAdaptor.getTiddlerRevisionCallback = function(status,params,responseText
 	var encoded = responseText;
 	if(encoded.indexOf('\n') > -1) {
 		var parts = encoded.split('\n');
-		var tiddler = new Tiddler();
 		var title = parts[0];
 		tiddler.set(title,Tiddler.unescapeLineBreaks(parts[1].htmlDecode()),parts[2],
 				Date.convertFromYYYYMMDDHHMM(parts[3]),parts[5],
 				Date.convertFromYYYYMMDDHHMM(parts[4]));
 		tiddler.revisionKey = parts[7];
-		store.addTiddler(tiddler);
-		story.refreshTiddler(title,DEFAULT_VIEW_TEMPLATE,true);
+		story.refreshTiddler(tiddler.title,DEFAULT_VIEW_TEMPLATE,true);
 		if(parts[6] == 'update timeline')
 			store.notify('TabTimeline',true);
 	} else if(encoded != '-') {
 		alert(encoded); // error message
 	}
-	zw.status(false);
+	//zw.status(false);
 };
 
-ccTiddlyAdaptor.putTiddler = function(title,params)
+//# placeholder, not complete
+ccTiddlyAdaptor.putTiddler = function(tiddler)
 {
-	var content = store.fetchTiddler(title).text;
-	title = encodeURIComponent(title);
-	var urlTemplate = 'http://%0/RPC2/';
-	var url = urlTemplate.format([params.serverHost,params.serverWorkspace,encodeURIComponent(title)]);
+	var title = encodeURIComponent(tiddler.title);
+	var urlTemplate = '%0RPC2/';
+	var url = urlTemplate.format([this.host,this.workspace,title]);
 //#displayMessage('putZiddlyWwiki url: '+url);
 
-	params.title = title;
 	params.serverType = 'cctiddly';
-	var req =doHttp('POST',url,payload,null,params.username,params.password,ccTiddlyAdaptor.putTiddlerCallback,params);
+	var req =doHttp('POST',url,payload,null,this.username,this.password,ccTiddlyAdaptor.putTiddlerCallback,tiddler.text);
 //#displayMessage("req:"+req);
 };
 
@@ -204,11 +234,11 @@ ccTiddlyAdaptor.putTiddlerCallback = function(status,params,responseText,xhr)
 	//#displayMessage('xhr:'+xhr);
 };
 
+ccTiddlyAdaptor.prototype.getWorkspaceList = function(callback,callbackParams) {return false;};
+ccTiddlyAdaptor.prototype.getWorkspaceList = function(callback,callbackParams) {return false;};
+ccTiddlyAdaptor.prototype.getTiddlerList = function(callback,callbackParams) {return false;};
+ccTiddlyAdaptor.prototype.close = function() {return true;};
 
-config.hostFunctions.getTiddler['cctiddly'] = ccTiddlyAdaptor.getTiddler;
-//config.hostFunctions.getTiddlerRevisionList['cctiddly'] = ccTiddlyAdaptor.getTiddlerRevisionList;
-//config.hostFunctions.getTiddlerRevision['cctiddly'] = ccTiddlyAdaptor.getTiddlerRevision;
-//config.hostFunctions.putTiddler['cctiddly'] = ccTiddlyAdaptor.putTiddler;
-
+config.adaptors['cctiddly'] = ccTiddlyAdaptor;
 } // end of 'install only once'
 //}}}

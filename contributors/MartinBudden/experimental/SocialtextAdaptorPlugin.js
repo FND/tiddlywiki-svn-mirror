@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com) and JeremyRuston (jeremy (at) osmosoft (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#SocialtextAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SocialtextAdaptorPlugin.js|
-|''Version:''|0.2.0|
+|''Version:''|0.2.1|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -179,6 +179,7 @@ SocialtextAdaptor.prototype.getTiddler = function(tiddler)
 
 	tiddler.fields.wikiformat = 'Socialtext';
 	tiddler.fields['server.type'] = 'socialtext';
+	tiddler.fields['temp.adaptor'] = this;
 	var req = doHttp('GET',url,null,null,null,null,SocialtextAdaptor.getTiddlerCallback,tiddler,{'Accept':'application/json'});
 //#displayMessage('req:'+req);
 };
@@ -204,16 +205,16 @@ SocialtextAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 
 	try {
 		//# convert the downloaded data into a javascript object
-		eval('var queryResult=' + responseText);
-//#displayMessage('tags:'+queryResult.tags);
-//#displayMessage('page_id:'+queryResult.page_id);
-//#displayMessage('modifier:'+queryResult.last_editor);
-		tiddler.tags = queryResult.tags;
-		tiddler.fields['server.page.id'] = queryResult.page_id;
-		tiddler.fields['server.page.name'] = queryResult.name;
-		tiddler.modifier = queryResult.last_editor;
-		tiddler.modified = SocialtextAdaptor.dateFromEditTime(queryResult.last_edit_time);
-//#displayMessage('modified:'+queryResult.last_edit_time);
+		eval('var info=' + responseText);
+//#displayMessage('tags:'+info.tags);
+//#displayMessage('page_id:'+info.page_id);
+//#displayMessage('modifier:'+info.last_editor);
+		tiddler.tags = info.tags;
+		tiddler.fields['server.page.id'] = info.page_id;
+		tiddler.fields['server.page.name'] = info.name;
+		tiddler.modifier = info.last_editor;
+		tiddler.modified = SocialtextAdaptor.dateFromEditTime(info.last_edit_time);
+//#displayMessage('modified:'+info.last_edit_time);
 //#displayMessage('modified2:'+params.modified);
 	} catch (ex) {
 		//alert('SocialtextAdaptor.getTiddlerCallback: JSON error');
@@ -221,16 +222,10 @@ SocialtextAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 		return;
 	}
 	// request the page's text
-	host = tiddler.fields['server.host'];
-	if(!host.match(/:\/\//))
-		host = 'http://' + host;
-	if(host.substr(-1)!="/")
-		host = host + "/";
-	this.host = host;
-	this.workspace = tiddler.fields['server.workspace'];
+	var adaptor = tiddler.fields['temp.adaptor'];
 //#displayMessage('ws: '+this.workspace);
 	var urlTemplate = '%0data/workspaces/%1/pages/%2';
-	var url = urlTemplate.format([this.host,this.workspace,tiddler.fields['server.page.id']]);
+	var url = urlTemplate.format([adaptor.host,adaptor.workspace,tiddler.fields['server.page.id']]);
 //#displayMessage('cb url: '+url);
 	var req = doHttp('GET',url,null,null,null,null,SocialtextAdaptor.getTiddlerCallback2,tiddler,{'Accept':SocialtextAdaptor.mimeType});
 //#displayMessage('req:'+req);
@@ -265,12 +260,12 @@ SocialtextAdaptor.putTiddlerCallback = function(status,tiddler,responseText,xhr)
 //#displayMessage('xhr:'+xhr);
 	if(!status)
 		displayMessage('Status text:'+xhr.statusText);
-	if(tiddler.temp.callback)
-		tiddler.temp.callback(tiddler);
+	if(tiddler.fields['temp.callback'])
+		tiddler.fields['temp.callback'](tiddler);
 };
 
 SocialtextAdaptor.prototype.close = function() {return true;};
 
-config.adaptor['socialtext'] = SocialtextAdaptor;
+config.adaptors['socialtext'] = SocialtextAdaptor;
 } //# end of 'install only once'
 //}}}

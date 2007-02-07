@@ -210,6 +210,6 @@ ZiddlyWikiAdaptor.prototype.getWorkspaceList = function(callback,callbackParams)
 ZiddlyWikiAdaptor.prototype.getTiddlerList = function(callback,callbackParams) {return false;};
 ZiddlyWikiAdaptor.prototype.close = function() {return true;};
 
-config.adaptor['ziddlywiki'] = ZiddlyWikiAdaptor;
+config.adaptors['ziddlywiki'] = ZiddlyWikiAdaptor;
 } // end of 'install only once'
 //}}}
