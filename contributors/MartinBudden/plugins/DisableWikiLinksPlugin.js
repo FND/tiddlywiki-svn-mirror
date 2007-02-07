@@ -3,7 +3,7 @@
 |''Description:''|Allows you to disable TiddlyWiki's automatic linking of WikiWords|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinplugins.tiddlywiki.com/#DisableWikiLinksPlugin|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
 |''Version:''|0.1.3|
 |''Date:''|Aug 5, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|

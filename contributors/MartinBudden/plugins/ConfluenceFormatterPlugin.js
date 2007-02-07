@@ -3,7 +3,7 @@
 |''Description:''|Allows Tiddlers to use Confluence text formatting|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/prereleases.html#ConfluenceFormatterPlugin - for pre-release|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
 |''Version:''|0.1.2|
 |''Status:''|alpha pre-release|
 |''Date:''|Dec 8, 2006|

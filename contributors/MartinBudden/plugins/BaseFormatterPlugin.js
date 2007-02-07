@@ -3,7 +3,7 @@
 |''Description:''|Allows Tiddlers to use Base text formatting|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/prereleases.html#BaseFormatterPlugin|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
 |''Version:''|0.1.9|
 |''Status:''|Not for release - this is a template for creating new formatters|
 |''Date:''|Nov 5, 2006|

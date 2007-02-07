@@ -3,7 +3,7 @@
 |''Description:''|Allows Tiddlers to use [[JSPWiki|http://www.jspwiki.org/wiki/TextFormattingRules]] text formatting|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/prereleases.html#JSPWikiFormatterPlugin|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
 |''Version:''|0.0.2|
 |''Date:''|Dec 28, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|

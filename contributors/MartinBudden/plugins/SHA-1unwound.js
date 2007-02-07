@@ -1,16 +1,16 @@
 /***
 |''Name:''|SHA-1 Unwound Plugin|
 |''Description:''|Faster wersion of SHA-1 with unwound loops|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#SHA-1unwoundPlugin - for pre-release|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://martinswiki.com/martinsprereleases.html#SHA-1unwoundPlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/MediaWikiFormatterPlugin.js|
 |''Version:''|1.0.2|
-|''Status:''|beta pre-release|
 |''Date:''|Jul 21, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
-This is beta release of the SHA1UnwoundPlugin, a faster (but larger) SHA-1 hash algorithm with unwound loops.
+SHA1UnwoundPlugin is a faster (but larger) SHA-1 hash algorithm with unwound loops.
 ***/
 
 //{{{

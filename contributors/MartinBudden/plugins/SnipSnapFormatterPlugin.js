@@ -3,7 +3,7 @@
 |''Description:''|Pre-release - Allows Tiddlers to use [[SnipSnap|http://snipsnap.org/space/snipsnap-help]] text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#SnipSnapFormatterPlugin|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
 |''Version:''|0.1.8|
 |''Status:''|alpha pre-release|
 |''Date:''|Oct 28, 2006|
