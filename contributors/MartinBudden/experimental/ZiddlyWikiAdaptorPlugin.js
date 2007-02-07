@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#ZiddlyWikiAdaptorPlugin|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ZiddlyWikiAdaptorPlugin.js|
-|''Version:''|0.1.4|
+|''Version:''|0.2.0|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -20,7 +20,7 @@
 
 //{{{
 if(!config.options.txtZiddlyWikiDefaultServer)
-	{config.options.txtZiddlyWikiDefaultServer = 'www.Ziddlywiki.org';}
+	{config.options.txtZiddlyWikiDefaultServer = 'www.ziddlywiki.org';}
 if(!config.options.txtZiddlyWikiDefaultWorkspace)
 	{config.options.txtZiddlyWikiDefaultWorkspace = '';}
 if(!config.options.txtZiddlyWikiUsername)
@@ -115,7 +115,7 @@ ZiddlyWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 ZiddlyWikiAdaptor.prototype.getTiddlerRevisionList = function(tiddler)
 // get a list of the revisions for a tiddler
 {
-	title = encodeURIComponent(tiddler.title);
+	var title = encodeURIComponent(tiddler.title);
 //#displayMessage('ZiddlyWikiAdaptor.getTiddlerRevisionList:'+title);
 // http://www.ziddlywiki.com/ZiddlyWiki?action=get_revisions&id=News
 	//ajax.get('?action=get_revisions&id=' + encodeURIComponent(title) + '&' + zw.no_cache(), callback);
@@ -136,23 +136,23 @@ ZiddlyWikiAdaptor.getTiddlerRevisionListCallback = function(status,tiddler,respo
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
 //#displayMessage('callback:'+params.callback);
-	tiddler.temp.revisions = [];
-	var r =  responseText;
-	if(r != '-') {
-		var revs = r.split('\n');
+	var revisions = [];
+	if(responseText != '-') {
+		var revs = responseText.split('\n');
 		for(var i=0; i<revs.length; i++) {
 			var parts = revs[i].split(' ');
 			if(parts.length>1) {
-				tiddler.temp.revisions[i] = {};
-				tiddler.temp.revisions[i].modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
-				tiddler.temp.revisions[i].key = parts[1];
+				revisions[i] = {};
+				revisions[i].modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
+				revisions[i].key = parts[1];
 			}
 		}
 	}
-	if(tiddler.temp.callback)
-		tiddler.temp.callback(tiddler);
+	if(tiddler['temp.callback'])
+		tiddler['temp.callback'](tiddler,revisions);
 };
 
+//# placeholder, not working yet
 ZiddlyWikiAdaptor.getTiddlerRevision = function(tiddler,revision,src,updateTimeline)
 {
 	title = encodeURIComponent(tiddler.title);
@@ -164,6 +164,7 @@ ZiddlyWikiAdaptor.getTiddlerRevision = function(tiddler,revision,src,updateTimel
 	//ajax.get('?action=get&id=' + encodeURIComponent(title) + revision + updateTimeline + '&' + zw.no_cache(),displayTiddlerRevisionCallback)
 };
 
+//# placeholder, not working yet
 ZiddlyWikiAdaptor.getTiddlerRevisionCallback = function(status,tiddler,responseText,xhr)
 {
 	//#displayMessage('getTiddlerRevisionCallback status:'+status);
@@ -195,7 +196,7 @@ ZiddlyWikiAdaptor.prototype.putTiddler = function(tiddler)
 //#displayMessage('putZiddlyWwiki url: '+url);
 
 	tiddler.fields['server.type'] = 'ziddlywiki';
-	var req =doHttp('POST',url,payload,null,params.username,params.password,ZiddlyWikiAdaptor.putTiddlerCallback,tiddler);
+	var req =doHttp('POST',url,payload,null,this.username,this.password,ZiddlyWikiAdaptor.putTiddlerCallback,tiddler);
 //#displayMessage("req:"+req);
 };
 

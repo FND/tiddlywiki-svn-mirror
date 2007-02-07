@@ -173,7 +173,7 @@ Tiddler.prototype.callAdaptorFunction = function(fnName)
 //#displayMessage("callAdaptorFunction:"+fnName);
 	var ret = false;
 	var serverType = this.getServerType();
-	if(!serverType || !this.fields['server.host'])
+	if(!serverType || !config.adaptors[serverType] || !this.fields['server.host'])
 		return ret;
 	var adaptor = new config.adaptors[serverType];
 	if(adaptor) {

@@ -16,6 +16,33 @@
 if(!version.extensions.HostedCommands2Plugin) {
 version.extensions.HostedCommands2Plugin = {installed:true};
 
+Tiddler.prototype.getRevisionList = function(params)
+{
+	var serverType = this.getServerType();
+	if(!serverType)
+		return false;
+	var fn = config.hostFunctions.getTiddlerRevisionList[serverType];
+	if(fn) {
+		if(!params)
+			params = {};
+		params.title = this.title;
+		params.serverHost = this.fields['server.host'];
+		params.serverWorkspace = this.fields['server.workspace'];
+		fn(this.title,params);
+	}
+	return true;
+};
+
+/*TiddlyWiki.prototype.updateStory = function(tiddler)
+{
+//#displayMessage("updateStory");
+	this.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
+	//#story.refreshTiddler(tiddler.title,1,true);// not required, savetiddler refreshes
+	if(config.options.chkAutoSave) {
+		saveChanges();
+	}
+};*/
+
 //# change in Macros.js
 //# list.handler has been tweeked to pass additional parameters to list type handler and createTiddlyLink
 config.macros.list.handler = function(place,macroName,params,wikifier,paramString,tiddler)
@@ -35,22 +62,12 @@ config.macros.list.handler = function(place,macroName,params,wikifier,paramStrin
 	}
 };
 
-config.macros.list.hosted = {};
-config.macros.list.hosted.prompt = "Tiddlers on the host";
-config.macros.list.hosted.handler = function(params,wikifier,paramString,tiddler)
-{
-//#displayMessage("listHosted:"+params);
-	return store.getHosted(tiddler.fields['server.host'],tiddler.fields['server.workspace']);
-};
-
-// Return an array of tiddler titles  that are on the given workspace on the host
+// Return an array of tiddler titles that are in the given workspace on the host
 TiddlyWiki.prototype.getHosted = function(host,workspace)
 {
 //#displayMessage("host:"+host+" ws:"+workspace);
 	var results = [];
-	if(!this.hostedTiddlers)
-		return results;
-	if(!this.hostedTiddlers[host])
+	if(!this.hostedTiddlers || !this.hostedTiddlers[host])
 		return results;
 	var list = this.hostedTiddlers[host][workspace];
 	if(list) {
@@ -60,6 +77,14 @@ TiddlyWiki.prototype.getHosted = function(host,workspace)
 		results.sort();
 	}
 	return results;
+};
+
+config.macros.list.hosted = {};
+config.macros.list.hosted.prompt = "Tiddlers on the host";
+config.macros.list.hosted.handler = function(params,wikifier,paramString,tiddler)
+{
+//#displayMessage("listHosted:"+params);
+	return store.getHosted(tiddler.fields['server.host'],tiddler.fields['server.workspace']);
 };
 
 config.macros.updateHostedList = {};
@@ -80,21 +105,24 @@ config.macros.updateHostedList.handler = function(place,macroName,params,wikifie
 
 config.macros.updateHostedList.onClick = function(e)
 {
+	var ret = false;
 	clearMessage();
 	var customFields = this.getAttribute("customFields");
 	var fields = convertCustomFieldsToHash(customFields);
-	var serverType = store.getServerType(fields);
-	var fn = config.hostFunctions.getTiddlerList[serverType];
-	if(fn) {
-		if(!params)
-			params = {};
-		params.serverHost = fields['server.host'];
-		params.serverWorkspace = fields['server.workspace'];
-		params.callback = config.macros.updateHostedList.onDone;
-		fn(params);
-		return true;
+	var serverType = fields['server.type'];
+	if(!serverType)
+		serverType = fields['wikiformat'];
+	if(!serverType || !config.adaptors[serverType] || !this.fields['server.host'])
+		return ret;
+	var adaptor = new config.adaptors[serverType];
+	if(adaptor) {
+		adaptor.openHost(fields['server.host']);
+		adaptor.openWorkspace(fields['server.workspace']);
+		ret = adaptor[fnName](this);
+		adaptor.close();
+		delete adaptor;
 	}
-	return false;
+	return ret;
 };
 
 config.macros.updateHostedList.onDone = function(params)
@@ -119,9 +147,9 @@ config.commands.revisions.isEnabled = function(tiddler)
 config.commands.revisions.handler = function(event,src,title)
 {
 	var tiddler = store.fetchTiddler(title);
-	tiddler.temp.callback = config.commands.revisions.callback;
-	tiddler.temp.popup = Popup.create(src);
-	Popup.show(tiddler.temp.popup,false);
+	tiddler['temp.callback'] = config.commands.revisions.callback;
+	tiddler['temp.popup'] = Popup.create(src);
+	Popup.show(tiddler['temp.popup'],false);
 	tiddler.getRevisionList();
 	event.cancelBubble = true;
 	if(event.stopPropagation)
@@ -130,13 +158,13 @@ config.commands.revisions.handler = function(event,src,title)
 };
 
 config.commands.revisions.callback = function(tiddler)
-// The revisions are returned in the tiddler.temp.revisions array
-//# tiddler.temp.revisions[i].modified
-//# tiddler.temp.revisions[i].key
+// The revisions are returned in the tiddler['temp.revisions'] array
+//# tiddler['temp.revisions'][i].modified
+//# tiddler['temp.revisions'][i].key
 {
 //#displayMessage("config.commands.revisions.callback");
-	if(tiddler.temp.popup) {
-		var revisions = tiddler.temp.revisions;
+	if(tiddler['temp.popup']) {
+		var revisions = tiddler['temp.revisions'];
 		if(revisions.length==0) {
 			createTiddlyText(createTiddlyElement(tiddler.temp.popup,'li',null,'disabled'),config.commands.revisions.popupNone);
 		} else {
@@ -151,9 +179,8 @@ config.commands.revisions.callback = function(tiddler)
 							return false;
 							},
 						'tiddlyLinkExisting tiddlyLink');
-				btn.setAttribute('tiddlerTitle',params.title);
+				btn.setAttribute('tiddlerTitle',tiddler.title);
 				btn.setAttribute('revisionKey',key);
-				var tiddler = store.fetchTiddler(params.title);
 				if(tiddler.revisionKey == key || (!tiddler.revisionKey && i==0))
 					btn.className = 'revisionCurrent';
 			}
