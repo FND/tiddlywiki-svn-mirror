@@ -1,8 +1,14 @@
 /***
-''Single Page Mode Plugin for TiddlyWiki version 2.0 or above''
-^^author: Eric Shulman - ELS Design Studios
-source: http://www.TiddlyTools.com/#SinglePageModePlugin
-license: [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]^^
+|Name|SinglePageModePlugin|
+|Source|http://www.TiddlyTools.com/#SinglePageModePlugin|
+|Version|2.2.3|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements <<br>>and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|plugin|
+|Requires||
+|Overrides|Story.prototype.displayTiddler(), Story.prototype.displayTiddlers()|
+|Description|Display tiddlers one at a time with automatic update of URL (permalink).  Also, option to always open tiddlers at top of page|
 
 Normally, as you click on the links in TiddlyWiki, more and more tiddlers are displayed on the page. The order of this tiddler display depends upon when and where you have clicked. Some people like this non-linear method of reading the document, while others have reported that when many tiddlers have been opened, it can get somewhat confusing.
 
@@ -29,6 +35,8 @@ When installed, this plugin automatically adds checkboxes in the ''shadow'' Adva
 <<<
 !!!!!Revision History
 <<<
+''2007.02.06 [2.2.3]'' in Story.prototype.displayTiddler(), use convertUnicodeToUTF8() for correct I18N string handling when creating URL hash string from tiddler title (based on bug report from BidiX)
+''2007.01.08 [2.2.2]'' use apply() to invoke hijacked core functions
 ''2006.07.04 [2.2.1]'' in hijack for displayTiddlers(), suspend TPM as well as SPM so that DefaultTiddlers displays in the correct order.
 ''2006.06.01 [2.2.0]'' added chkTopOfPageMode (TPM) handling
 ''2006.02.04 [2.1.1]'' moved global variable declarations to config.* to avoid FireFox 1.5.0.1 crash bug when assigning to globals
@@ -48,7 +56,7 @@ Support for BACK/FORWARD buttons adapted from code developed by Clint Checketts
 !!!!!Code
 ***/
 //{{{
-version.extensions.SinglePageMode= {major: 2, minor: 2, revision: 1, date: new Date(2006,7,3)};
+version.extensions.SinglePageMode= {major: 2, minor: 2, revision: 3, date: new Date(2007,2,6)};
 
 if (config.options.chkSinglePageMode==undefined) config.options.chkSinglePageMode=false;
 config.shadowTiddlers.AdvancedOptions += "\sn<<option chkSinglePageMode>> Display one tiddler at a time";
@@ -73,14 +81,14 @@ if (Story.prototype.SPM_coreDisplayTiddler==undefined) Story.prototype.SPM_coreD
 Story.prototype.displayTiddler = function(srcElement,title,template,animate,slowly)
 {
 	if (config.options.chkSinglePageMode) {
-		window.location.hash = encodeURIComponent(String.encodeTiddlyLink(title));
+		window.location.hash = encodeURIComponent(convertUnicodeToUTF8(String.encodeTiddlyLink(title)));
 		config.lastURL = window.location.hash;
 		document.title = wikifyPlain("SiteTitle") + " - " + title;
 		story.closeAllTiddlers();
 		if (!config.SPMTimer) config.SPMTimer=window.setInterval(function() {checkLastURL();},1000);
 	}
 	if (config.options.chkTopOfPageMode) { story.closeTiddler(title); window.scrollTo(0,0); srcElement=null; }
-	this.SPM_coreDisplayTiddler(srcElement,title,template,animate,slowly)
+	this.SPM_coreDisplayTiddler.apply(this,arguments);
 }
 
 if (Story.prototype.SPM_coreDisplayTiddlers==undefined) Story.prototype.SPM_coreDisplayTiddlers=Story.prototype.displayTiddlers;
@@ -89,7 +97,7 @@ Story.prototype.displayTiddlers = function(srcElement,titles,template,unused1,un
 	// suspend single-page mode when displaying multiple tiddlers
 	var saveSPM=config.options.chkSinglePageMode; config.options.chkSinglePageMode=false;
 	var saveTPM=config.options.chkTopOfPageMode; config.options.chkTopOfPageMode=false;
-	this.SPM_coreDisplayTiddlers(srcElement,titles,template,unused1,unused2,animate,slowly);
+	this.SPM_coreDisplayTiddlers.apply(this,arguments);
 	config.options.chkSinglePageMode=saveSPM; config.options.chkTopOfPageMode=saveTPM;
 }
 //}}}
