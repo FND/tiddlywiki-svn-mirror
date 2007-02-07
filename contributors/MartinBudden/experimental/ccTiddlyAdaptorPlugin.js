@@ -222,7 +222,7 @@ ccTiddlyAdaptor.putTiddler = function(tiddler)
 	var url = urlTemplate.format([this.host,this.workspace,title]);
 //#displayMessage('putZiddlyWwiki url: '+url);
 
-	params.serverType = 'cctiddly';
+	tiddler.fields['server.type'] = 'cctiddly';
 	var req =doHttp('POST',url,payload,null,this.username,this.password,ccTiddlyAdaptor.putTiddlerCallback,tiddler.text);
 //#displayMessage("req:"+req);
 };
