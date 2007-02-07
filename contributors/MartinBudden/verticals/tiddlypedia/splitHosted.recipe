@@ -4,12 +4,11 @@ tiddler: PageTemplateWithLogo.tiddler
 tiddler: SideBarOptionsWithMediaWikiFormat.tiddler
 tiddler: SideBarTabs.tiddler
 tiddler: StyleSheet.tiddler
-tiddler: TabMoreTemplatesUpdatedMissingShadowed.tiddler
+tiddler: TabMoreTemplatesUpdatedShadowed.tiddler
 tiddler: TabTags.tiddler
 tiddler: TabTemplates.tiddler
 tiddler: Tiddlypedia.tiddler
 tiddler: ViewTemplateHosted.tiddler
 tiddler: EditTemplateHosted.tiddler
-tiddler: ../../experimental/ToCore.js
 tiddler: ../../experimental/HostedCommandsPlugin.js
 tiddler: ../../experimental/MediaWikiAdaptorPlugin.js
