@@ -72,24 +72,24 @@ src = src.replace('<!--PRE-HEAD-END-->', '<!--PRE-HEAD-END-->\n<title>%s</title>
 
 # insert the extra stuff
 pre_head = ''
-try: pre_head += container.tiddlers['MarkupPreHead']()
+try: pre_head = pre_head + container.tiddlers['MarkupPreHead']()
 except KeyError: pass
-try: pre_head += root.tiddlers['MarkupPreHead']()
+try: pre_head = pre_head + root.tiddlers['MarkupPreHead']()
 except KeyError: pass
 post_head = ''
-try: post_head += container.tiddlers['MarkupPostHead']()
+try: post_head = post_head + container.tiddlers['MarkupPostHead']()
 except KeyError: pass
-try: post_head += root.tiddlers['MarkupPostHead']()
+try: post_head = post_head + root.tiddlers['MarkupPostHead']()
 except KeyError: pass
 pre_body = ''
-try: pre_body += container.tiddlers['MarkupPreBody']()
+try: pre_body = pre_body + container.tiddlers['MarkupPreBody']()
 except KeyError: pass
-try: pre_body += root.tiddlers['MarkupPreBody']()
+try: pre_body = pre_body + root.tiddlers['MarkupPreBody']()
 except KeyError: pass
 post_body = ''
-try: post_body += container.tiddlers['MarkupPostBody']()
+try: post_body = post_body + container.tiddlers['MarkupPostBody']()
 except KeyError: pass
-try: post_body += root.tiddlers['MarkupPostBody']()
+try: post_body = post_body + root.tiddlers['MarkupPostBody']()
 except KeyError: pass
 
 src = src.replace('<!--PRE-HEAD-END-->',  pre_head  + '<!--PRE-HEAD-END-->' )
