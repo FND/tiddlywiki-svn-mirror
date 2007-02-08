@@ -98,10 +98,10 @@ src = src.replace('<!--PRE-BODY-END-->',  pre_body  + '<!--PRE-BODY-END-->' )
 src = src.replace('<!--POST-BODY-END-->', post_body + '<!--POST-BODY-END-->')
 
 # insert all the tiddlers from the "tiddlers" folder
-# # container takes precedence over distribution tiddlers
-store_area = container.actions.get_all_as_divs(container) \
-    + container.actions.get_all_as_divs(root)              
-# FIXME what if the same tiddler exists in both places?
+# root takes precedence over distribution tiddlers
+# You may add other locations here.  e.g. root.aq_parent.plugins if you have
+# created a ZW instance called 'plugins' in the same directory as your main ZW.
+store_area = container.actions.get_all_as_divs([root, container])
 src = src.replace('<div id="storeArea">', '<div id="storeArea">\n' + store_area)
 
 # give the client the modified TiddlyWiki source

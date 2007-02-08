@@ -4,12 +4,13 @@
 ##bind namespace=
 ##bind script=script
 ##bind subpath=traverse_subpath
-##parameters=root=None, for_export=0
+##parameters=roots=None, for_export=0
 ##title=
 ##
-tiddlers = []
-for t in container.get_all(root=root):
-  tiddler = '<div tiddler="%s" modifier="%s" modified="%s" created="%s" tags="%s" revision="%s">%s</div>' % (t['title'], t['modifier'], t['modified'], t['created'], t['tags'], t['key'], t['body'])
-  tiddlers.append(tiddler)
+tiddlerlist = []
+t = container.get_all(roots=roots)
+for title in t:
+  tiddler = '<div tiddler="%s" modifier="%s" modified="%s" created="%s" tags="%s" revision="%s">%s</div>' % (title, t[title]['modifier'], t[title]['modified'], t[title]['created'], t[title]['tags'], t[title]['key'], t[title]['body'])
+  tiddlerlist.append(tiddler)
 
-return '\n'.join(tiddlers)
+return '\n'.join(tiddlerlist)

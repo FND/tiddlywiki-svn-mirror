@@ -12,11 +12,14 @@ path = '/'.join(context.getPhysicalPath())
 
 req = context.REQUEST
 revision = req.get('revision', None)
+if(req.get('title') is None):
+    context.REQUEST.RESPONSE.setStatus(404, 'attempt to get a tiddler without passing title!')
+    return
 id = container.scripts.sanitize_id(req.get('title'))
 
-try: tiddler = context.tiddlers[id]
+try: tiddler = root.tiddlers[id]
 except:
-    try: tiddler = container.aq_parent.tiddlers[id]
+    try: tiddler = container.tiddlers[id]
     except:
         context.REQUEST.RESPONSE.setStatus(404) # detail.value);
         return
