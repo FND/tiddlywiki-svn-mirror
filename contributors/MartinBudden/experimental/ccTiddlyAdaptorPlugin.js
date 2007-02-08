@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#ccTiddlyAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ccTiddlyAdaptorPlugin.js|
-|''Version:''|0.1.5|
+|''Version:''|0.2.1|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -33,6 +33,11 @@ if(!config.options.txtccTiddlyPassword)
 if(!version.extensions.ccTiddlyAdaptorPlugin) {
 version.extensions.ccTiddlyAdaptorPlugin = {installed:true};
 
+function doHttpGET(url,callback,params,headers,data,contentType,username,password)
+{
+	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
+}
+
 ccTiddlyAdaptor = function()
 {
 	this.host = null;
@@ -40,55 +45,43 @@ ccTiddlyAdaptor = function()
 	return this;
 };
 
-ccTiddlyAdaptor.prototype.openHost = function(host,callback,callbackParams)
+ccTiddlyAdaptor.prototype.openHost = function(host,params)
 {
 //#displayMessage("openHost:"+host);
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
-	if(host.substr(-1)!="/")
-		host = host + "/";
+	if(host.substr(-1) != '/')
+		host = host + '/';
 	this.host = host;
 //#displayMessage("host:"+host);
-	if(callback)
-		window.setTimeout(callback,0,true,this,callbackParams);
-	return true;
-};
-
-ccTiddlyAdaptor.prototype.openWorkspace = function(workspace,callback,callbackParams)
-{
-//#displayMessage("openWorkspace:"+workspace);
-	this.workspace = workspace;
-	if(callback)
-		window.setTimeout(callback,0,true,this,callbackParams);
+	if(params && params.callback)
+		window.setTimeout(params.callback,0,true,this,params);
 	return true;
 };
 
 ccTiddlyAdaptor.prototype.getTiddler = function(tiddler)
 {
+//#displayMessage('ccTiddlyAdaptor.getTiddler:'+tiddler.title);
 	//title = encodeURIComponent(title);
-//#displayMessage('getTiddler:'+title);
 //# http://cctiddly.sourceforge.net/msghandle.php?action=revisionList&title=About
-
 	// first get the revision list
 	var urlTemplate = '%0msghandle.php?action=revisionList&title=%1';
-	var url = urlTemplate.format([this.host,this.title]);
-//#displayMessage('getccTiddly url: '+url);
-
+	var url = urlTemplate.format([this.host,tiddler.title]);
+//#displayMessage('url: '+url);
 	tiddler.fields['server.workspace'] = null;
 	tiddler.fields['server.type'] = 'cctiddly';
 	tiddler.fields['temp.adaptor'] = this;
-	var req = doHttp('GET',url,null,null,null,null,ccTiddlyAdaptor.getTiddlerCallback1,tiddler);
+	var req = doHttpGET(url,ccTiddlyAdaptor.getTiddlerCallback1,tiddler);
 //#displayMessage("req:"+req);
 };
 
-/*
-200610221408 6 ccTiddly
-200610221357 5 ccTiddly
-200609082012 4 ccTiddly
-200609081946 3 ccTiddly
-200608162039 2 ccTiddly
-200603111654 1 ccTiddly
-*/
+//# 200610221408 6 ccTiddly
+//# 200610221357 5 ccTiddly
+//# 200609082012 4 ccTiddly
+//# 200609081946 3 ccTiddly
+//# 200608162039 2 ccTiddly
+//# 200603111654 1 ccTiddly
+
 ccTiddlyAdaptor.getTiddlerCallback1 = function(status,tiddler,responseText,xhr)
 {
 //#displayMessage('getTiddlerCallback1 status:'+status);
@@ -96,26 +89,25 @@ ccTiddlyAdaptor.getTiddlerCallback1 = function(status,tiddler,responseText,xhr)
 	var revs = responseText.split('\n');
 	var parts = revs[0].split(' ');
 	var pageRevision = parts[1];
-// http://cctiddly.sourceforge.net/msghandle.php?action=revisionDisplay&title=About&revision=6
+//# http://cctiddly.sourceforge.net/msghandle.php?action=revisionDisplay&title=About&revision=6
 	var adaptor = tiddler.fields['temp.adaptor'];
 	// now get the latest revision
 	var urlTemplate = '%0msghandle.php?action=revisionDisplay&title=%1&revision=%2';
 	var url = urlTemplate.format([adaptor.host,tiddler.title,pageRevision]);
-	var req = doHttp('GET',url,null,null,null,null,ccTiddlyAdaptor.getTiddlerCallback2,tiddler);
+	var req = doHttpGET(url,ccTiddlyAdaptor.getTiddlerCallback2,tiddler);
 //#displayMessage("req:"+req);
 };
 
-// http://cctiddly.sourceforge.net/msghandle.php?action=revisionDisplay&title=About&revision=6
-/*
-About
-About
-!About\nccTiddly is a tiddly adaptation based on PHP and MySQL to store tiddlers. This is a server side adaptation which allow its user to change their TiddlyWiki over HTTP. It is also possible to generate a standalone version with this!\n\n!Target audiance/uses\n*Online edittable TW\n**Blog\n**news site\n**personal ToDo list\n**online bookmark (with TiddlySnip, still in development)\n*As a collaboration tool\n\n!Features\n|!Add/Edit/Save tiddler over the web|basic tiddly wiki functions allow user to create, edit and delete tiddler but over the internet|\n|!Standalone generation|allow generation of standalone version if required, which is the one available on http://tiddlywiki.com|\n|!Access control|password protect the tiddly so only certain user can change its content over the net, hide ones you don't want anyone but you to see. All in the new privilege system!|\n|!Multiple config file|multiple config file for multiple ccT. One setup, multiple ccTiddly!|\n|!Select particular config file|ability to use a certain config file, which allow multiple tiddly host with one URL|\n|!Versioning|All versions of tiddlers kept|\n|!Import your TW|you can import your TW into ccT fo use and convert back to original TW when you need to bring it around on flashdisk|\n|!Multi-lingual|It may not be in your language now but you can easily translate to your own language|\n|!Tag filter|You can filter out your tiddlers by tag|
-ccTiddly
-200610221408
-200601140131
-other
-6
-*/
+//# http://cctiddly.sourceforge.net/msghandle.php?action=revisionDisplay&title=About&revision=6
+//#0 About
+//#1 About
+//#2 !About\nccTiddly is a tiddly adaptation based on PHP and MySQL to store tiddlers. This is a server side adaptation which allow its user to change their TiddlyWiki over HTTP. It is also possible to generate a standalone version with this!\n\n!Target audiance/uses\n*Online edittable TW\n**Blog\n**news site\n**personal ToDo list\n**online bookmark (with TiddlySnip, still in development)\n*As a collaboration tool\n\n!Features\n|!Add/Edit/Save tiddler over the web|basic tiddly wiki functions allow user to create, edit and delete tiddler but over the internet|\n|!Standalone generation|allow generation of standalone version if required, which is the one available on http://tiddlywiki.com|\n|!Access control|password protect the tiddly so only certain user can change its content over the net, hide ones you don't want anyone but you to see. All in the new privilege system!|\n|!Multiple config file|multiple config file for multiple ccT. One setup, multiple ccTiddly!|\n|!Select particular config file|ability to use a certain config file, which allow multiple tiddly host with one URL|\n|!Versioning|All versions of tiddlers kept|\n|!Import your TW|you can import your TW into ccT fo use and convert back to original TW when you need to bring it around on flashdisk|\n|!Multi-lingual|It may not be in your language now but you can easily translate to your own language|\n|!Tag filter|You can filter out your tiddlers by tag|
+//#3 ccTiddly
+//#4 200610221408
+//#5 200601140131
+//#6 other
+//#7 6
+
 ccTiddlyAdaptor.getTiddlerCallback2 = function(status,tiddler,responseText,xhr)
 {
 //#displayMessage('getTiddlerCallback2 status:'+status);
@@ -125,13 +117,15 @@ ccTiddlyAdaptor.getTiddlerCallback2 = function(status,tiddler,responseText,xhr)
 	var content = x[2];
 	content = content.unescapeLineBreaks();
 	try {
-		//params.modifier = x[2];
-		/*if(x[4])
+		tiddler.text = content;
+		tiddler.modifier = x[3];
+		if(x[4])
 			tiddler.created = Date.convertFromYYYYMMDDHHMM(x[4]);
 		if(x[5])
 			tiddler.modified = Date.convertFromYYYYMMDDHHMM(x[5]);
-		tiddler.tags = x[6];*/
+		tiddler.tags = x[6];
 	} catch(ex) {
+		displayMessage('Error response:'+responseText);
 	}
 	tiddler.updateAndSave();
 };
@@ -140,18 +134,16 @@ ccTiddlyAdaptor.getTiddlerCallback2 = function(status,tiddler,responseText,xhr)
 ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(tiddler)
 // get a list of the revisions for a page
 {
-	//title = encodeURIComponent(title);
-//#displayMessage('getTiddlerRevisionList');
+	var title = encodeURIComponent(tiddler.title);
+//#displayMessage('getTiddlerRevisionList:'+title);
 // http://cctiddly.sourceforge.net/msghandle.php?action=revisionList&title=About
-
 	var urlTemplate = '%0msghandle.php?action=revisionList&title=%1';
-	var url = urlTemplate.format([this.host,tiddler.title]);
-//#displayMessage('getccTiddly url: '+url);
-
+	var url = urlTemplate.format([this.host,title]);
+//#displayMessage('url: '+url);
 	tiddler.fields['server.workspace'] = null;
 	tiddler.fields['server.type'] = 'cctiddly';
 	tiddler.fields['temp.adaptor'] = this;
-	var req = doHttp('GET',url,null,null,null,null,ccTiddlyAdaptor.getTiddlerRevisionListCallback,tiddler);
+	var req = doHttpGET(url,ccTiddlyAdaptor.getTiddlerRevisionListCallback,tiddler);
 //#displayMessage("req:"+req);
 };
 
@@ -227,16 +219,16 @@ ccTiddlyAdaptor.putTiddler = function(tiddler)
 //#displayMessage("req:"+req);
 };
 
-ccTiddlyAdaptor.putTiddlerCallback = function(status,params,responseText,xhr)
+ccTiddlyAdaptor.putTiddlerCallback = function(status,tiddler,responseText,xhr)
 {
-	displayMessage('putTiddlerCallback status:'+status);
-	displayMessage('rt:'+responseText.substr(0,50));
-	//#displayMessage('xhr:'+xhr);
+//#displayMessage('putTiddlerCallback status:'+status);
+//#displayMessage('rt:'+responseText.substr(0,50));
+//#displayMessage('xhr:'+xhr);
 };
 
-ccTiddlyAdaptor.prototype.getWorkspaceList = function(callback,callbackParams) {return false;};
-ccTiddlyAdaptor.prototype.getWorkspaceList = function(callback,callbackParams) {return false;};
-ccTiddlyAdaptor.prototype.getTiddlerList = function(callback,callbackParams) {return false;};
+ccTiddlyAdaptor.prototype.openWorkspace = function(workspace,params) {return false;};
+ccTiddlyAdaptor.prototype.getWorkspaceList = function(params) {return false;};
+ccTiddlyAdaptor.prototype.getTiddlerList = function(params) {return false;};
 ccTiddlyAdaptor.prototype.close = function() {return true;};
 
 config.adaptors['cctiddly'] = ccTiddlyAdaptor;

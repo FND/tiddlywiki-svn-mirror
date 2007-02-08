@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#ZiddlyWikiAdaptorPlugin|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ZiddlyWikiAdaptorPlugin.js|
-|''Version:''|0.2.0|
+|''Version:''|0.2.1|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -33,6 +33,11 @@ if(!config.options.txtZiddlyWikiPassword)
 if(!version.extensions.ZiddlyWikiAdaptorPlugin) {
 version.extensions.ZiddlyWikiAdaptorPlugin = {installed:true};
 
+function doHttpGET(url,callback,params,headers,data,contentType,username,password)
+{
+	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
+}
+
 ZiddlyWikiAdaptor = function()
 {
 	this.host = null;
@@ -40,7 +45,7 @@ ZiddlyWikiAdaptor = function()
 	return this;
 };
 
-ZiddlyWikiAdaptor.prototype.openHost = function(host,callback,callbackParams)
+ZiddlyWikiAdaptor.prototype.openHost = function(host,params)
 {
 //#displayMessage('MediaWikiAdaptor.openHost:'+host);
 	if(!host.match(/:\/\//))
@@ -48,17 +53,60 @@ ZiddlyWikiAdaptor.prototype.openHost = function(host,callback,callbackParams)
 	if(host.substr(-1)!="/")
 		host = host + "/";
 	this.host = host;
-	if(callback)
-		window.setTimeout(callback,0,true,this,callbackParams);
+	if(params && params.callback)
+		window.setTimeout(params.callback,0,true,this,params.callbackParams);
 	return true;
 };
 
-ZiddlyWikiAdaptor.prototype.openWorkspace = function(workspace,callback,callbackParams)
+ZiddlyWikiAdaptor.prototype.openWorkspace = function(workspace,params)
 {
 	this.workspace = workspace;
-	if(callback)
-		window.setTimeout(callback,0,true,this,callbackParams);
+	if(params && params.callback)
+		window.setTimeout(params.callback,0,true,this,params.callbackParams);
 	return true;
+};
+
+ZiddlyWikiAdaptor.prototype.getTiddlerList = function(params)
+{
+//#displayMessage('getTiddlerList');
+//# http://www.ziddlywiki.com/ZiddlyWiki?action=get&id=News
+	var urlTemplate = '%0data/workspaces/%1/pages';
+	var url = urlTemplate.format([this.host,this.workspace]);
+//#displayMessage('url:'+url);
+	params.adaptor = this;
+	var req = doHttpGET(url,ZiddlyWikiAdaptor.getTiddlerListCallback,params);
+//#displayMessage('req:'+req);
+	return (typeof req == 'string') ? req : true;
+};
+
+ZiddlyWikiAdaptor.getTiddlerListCallback = function(status,params,responseText,xhr)
+{
+//#displayMessage('getTiddlerListCallback status:'+status);
+//#displayMessage('rt:'+responseText.substr(0,50));
+//#displayMessage('xhr:'+xhr);
+	if(status) {
+		try {
+			//# convert the downloaded data into a javascript object
+			eval('var info=' + responseText);
+		} catch (ex) {
+			params.status = false;
+			params.statusText = exceptionText(ex,"Error parsing result from server");
+			if(params.callback)
+				params.callback(params);
+			return;
+		}
+		var list = [];
+		for(var i=0; i<info.length; i++) {
+			list.push({title:info[i].name});
+		}
+		params.list = list;
+		params.status = true;
+	} else {
+		params.status = false;
+		params.statusText = xhr.statusText;
+	}
+	if(params.callback)
+		params.callback(params);
 };
 
 //# News
@@ -82,7 +130,7 @@ ZiddlyWikiAdaptor.prototype.getTiddler = function(tiddler)
 //# http://www.ziddlywiki.org/ZiddlyWiki?action=get&id=ZiddlyWiki
 
 	tiddler.fields['server.type'] = 'ziddlywiki';
-	var req = doHttp('GET',url,null,null,null,null,ZiddlyWikiAdaptor.getTiddlerCallback,tiddler);
+	var req = doHttpGET(url,ZiddlyWikiAdaptor.getTiddlerCallback,tiddler);
 //#displayMessage("req:"+req);
 };
 
@@ -126,7 +174,7 @@ ZiddlyWikiAdaptor.prototype.getTiddlerRevisionList = function(tiddler)
 // http://www.ziddlywiki.org/ZiddlyWiki?action=get_revisions&id=ZiddlyWiki
 
 	tiddler.fields['server.type'] = 'ziddlywiki';
-	var req = doHttp('GET',url,null,null,null,null,ZiddlyWikiAdaptor.getTiddlerRevisionListCallback,tiddler);
+	var req = doHttpGET(url,ZiddlyWikiAdaptor.getTiddlerRevisionListCallback,tiddler);
 //#displayMessage("req:"+req);
 };
 
@@ -135,7 +183,7 @@ ZiddlyWikiAdaptor.getTiddlerRevisionListCallback = function(status,tiddler,respo
 //#displayMessage('Ziddly.getTiddlerRevisionListCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
-//#displayMessage('callback:'+params.callback);
+//#displayMessage('callback:'+tiddler.callback);
 	var revisions = [];
 	if(responseText != '-') {
 		var revs = responseText.split('\n');
@@ -167,9 +215,9 @@ ZiddlyWikiAdaptor.getTiddlerRevision = function(tiddler,revision,src,updateTimel
 //# placeholder, not working yet
 ZiddlyWikiAdaptor.getTiddlerRevisionCallback = function(status,tiddler,responseText,xhr)
 {
-	//#displayMessage('getTiddlerRevisionCallback status:'+status);
-	//#displayMessage('rt:'+responseText.substr(0,50));
-	//#displayMessage('xhr:'+xhr);
+//#displayMessage('getTiddlerRevisionCallback status:'+status);
+//#displayMessage('rt:'+responseText.substr(0,50));
+//#displayMessage('xhr:'+xhr);
 	var encoded = responseText;
 	if(encoded.indexOf('\n') > -1) {
 		var parts = encoded.split('\n');
@@ -192,7 +240,7 @@ ZiddlyWikiAdaptor.prototype.putTiddler = function(tiddler)
 {
 	var title = encodeURIComponent(tiddler.title);
 	var urlTemplate = '%0RPC2/';
-	var url = urlTemplate.format([this.host,this.workspace,encodeURIComponent(title)]);
+	var url = urlTemplate.format([this.host,encodeURIComponent(title)]);
 //#displayMessage('putZiddlyWwiki url: '+url);
 
 	tiddler.fields['server.type'] = 'ziddlywiki';
@@ -202,13 +250,12 @@ ZiddlyWikiAdaptor.prototype.putTiddler = function(tiddler)
 
 ZiddlyWikiAdaptor.putTiddlerCallback = function(status,tiddler,responseText,xhr)
 {
-	displayMessage('putTiddlerCallback status:'+status);
-	displayMessage('rt:'+responseText.substr(0,50));
+	//#displayMessage('putTiddlerCallback status:'+status);
+	//#displayMessage('rt:'+responseText.substr(0,50));
 	//#displayMessage('xhr:'+xhr);
 };
 
-ZiddlyWikiAdaptor.prototype.getWorkspaceList = function(callback,callbackParams) {return false;};
-ZiddlyWikiAdaptor.prototype.getTiddlerList = function(callback,callbackParams) {return false;};
+ZiddlyWikiAdaptor.prototype.getWorkspaceList = function(params) {return false;};
 ZiddlyWikiAdaptor.prototype.close = function() {return true;};
 
 config.adaptors['ziddlywiki'] = ZiddlyWikiAdaptor;

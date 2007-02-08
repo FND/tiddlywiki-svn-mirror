@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com) and JeremyRuston (jeremy (at) osmosoft (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#SocialtextAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SocialtextAdaptorPlugin.js|
-|''Version:''|0.2.1|
+|''Version:''|0.2.2|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -15,6 +15,11 @@
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.SocialtextAdaptorPlugin) {
 version.extensions.SocialtextAdaptorPlugin = {installed:true};
+
+function doHttpGET(url,callback,params,headers,data,contentType,username,password)
+{
+	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
+}
 
 SocialtextAdaptor = function()
 {
@@ -44,17 +49,17 @@ SocialtextAdaptor.dateFromEditTime = function(editTime)
 	return new Date(Date.UTC(dt.substr(0,4),dt.substr(5,2)-1,dt.substr(8,2),dt.substr(11,2),dt.substr(14,2)));
 };
 
-SocialtextAdaptor.prototype.openHost = function(host,callback,callbackParams)
+SocialtextAdaptor.prototype.openHost = function(host,params)
 {
 //#displayMessage("openHost:"+host);
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
-	if(host.substr(-1)!="/")
-		host = host + "/";
+	if(host.substr(-1) != '/')
+		host = host + '/';
 	this.host = host;
 //#displayMessage("host:"+host);
-	if(callback)
-		window.setTimeout(callback,0,true,this,callbackParams);
+	if(params && params.callback)
+		window.setTimeout(params.callback,0,true,this,params);
 	return true;
 };
 
@@ -67,20 +72,26 @@ SocialtextAdaptor.prototype.openHost = function(host,callback,callbackParams)
 //# "title":"wsTitle"},
 //# ...
 //# ]
-SocialtextAdaptor.prototype.getWorkspaceList = function(callback,callbackParams)
+SocialtextAdaptor.prototype.getWorkspaceList = function(params)
 {
+//#displayMessage("getWorkspaceList");
 	var urlTemplate = '%0data/workspaces';
 	var url = urlTemplate.format([this.host]);
-	var params = {callback:callback,callbackParams:callbackParams,adaptor:this};
+	params.adaptor = this;
 	var req = doHttp('GET',url,undefined,null,null,null,SocialtextAdaptor.getWorkspaceListCallback,params,{'Accept':'application/json'});
 	return (typeof req == 'string') ? req : true;
 };
 
 SocialtextAdaptor.getWorkspaceListCallback = function(status,params,responseText,xhr)
 {
+//#displayMessage("getWorkspaceListCallback");
+	if(!params)
+		params = {};
+	params.status = false;
 	if(status) {
 		try {
-			var info = window.eval('(' + responseText + ')');
+			eval('var info=' + responseText);
+			//#var info = window.eval('(' + responseText + ')');
 		} catch (ex) {
 			params.callback(exceptionText(ex,"Error parsing result from server"),null,params.adaptor,params.callbackParams);
 			return;
@@ -89,22 +100,28 @@ SocialtextAdaptor.getWorkspaceListCallback = function(status,params,responseText
 		for(var i=0; i<info.length; i++) {
 			list.push({title:info[i].title,name:info[i].name,modified:SocialtextAdaptor.dateFromEditTime(info[i].modified_time)});
 		}
-		params.callback(true,list,params.adaptor,params.callbackParams);
+		params.list = list;
+		params.status = true;
+		//params.callback(true,list,params.adaptor,params.callbackParams);
 	} else {
-		params.callback(xhr.statusText,null,params.adaptor,params.callbackParams);
+		params.status = false;
+		params.statusText = xhr.statusText;
+		//params.callback(xhr.statusText,null,params.adaptor,params.callbackParams);
 	}
+	if(params && params.callback)
+		params.callback(params);
 };
 
-SocialtextAdaptor.prototype.openWorkspace = function(workspace,callback,callbackParams)
+SocialtextAdaptor.prototype.openWorkspace = function(workspace,params)
 {
 //#displayMessage("openWorkspace:"+workspace);
 	this.workspace = workspace;
-	if(callback)
-		window.setTimeout(callback,0,true,this,callbackParams);
+	if(params && params.callback)
+		window.setTimeout(params.callback,0,true,this,params);
 	return true;
 };
 
-SocialtextAdaptor.prototype.getTiddlerList = function(callback,callbackParams)
+SocialtextAdaptor.prototype.getTiddlerList = function(params)
 {
 //#displayMessage('getTiddlerList');
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages?accept=application/json
@@ -113,7 +130,7 @@ SocialtextAdaptor.prototype.getTiddlerList = function(callback,callbackParams)
 	var urlTemplate = '%0data/workspaces/%1/pages';
 	var url = urlTemplate.format([this.host,this.workspace]);
 //#displayMessage('url:'+url);
-	var params = {callback:callback,callbackParams:callbackParams,adaptor:this};
+	params.adaptor = this;
 	var req = doHttp("GET",url,null,null,null,null,SocialtextAdaptor.getTiddlerListCallback,params,{'Accept':'application/json'});
 //#displayMessage('req:'+req);
 	return (typeof req == 'string') ? req : true;
@@ -139,12 +156,17 @@ SocialtextAdaptor.getTiddlerListCallback = function(status,params,responseText,x
 //#displayMessage('getTiddlerListCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
+	if(!params)
+		params = {};
+	params.status = false;
 	if(status) {
 		try {
 			//# convert the downloaded data into a javascript object
 			eval('var info=' + responseText);
 		} catch (ex) {
-			params.callback(exceptionText(ex,"Error parsing result from server"),null,params.adaptor,params.callbackParams);
+			params.statusText = exceptionText(ex,"Error parsing result from server");
+			if(params.callback)
+				params.callback(params);
 			return;
 		}
 		var list = [];
@@ -154,27 +176,26 @@ SocialtextAdaptor.getTiddlerListCallback = function(status,params,responseText,x
 						modified:SocialtextAdaptor.dateFromEditTime(info[i].last_edit_time),
 						revCount:info[i].revision_count});
 		}
-		/*if(!store.hostedTiddlers)
-			store.hostedTiddlers = {};
-		if(!store.hostedTiddlers[this.host])
-			store.hostedTiddlers[this.host] = {};
-		store.hostedTiddlers[this.host][this.workspace] = list;*/
-		params.callback(true,list,params.adaptor,params.callbackParams);
+		params.list = list;
+		params.status = true;
+		//params.callback(true,list,params.adaptor,params.callbackParams);
 	} else {
-		params.callback(xhr.statusText,null,params.adaptor,params.callbackParams);
+		params.statusText = xhr.statusText;
+		//params.callback(xhr.statusText,null,params.adaptor,params.callbackParams);
 	}
+	if(params.callback)
+		params.callback(params);
 };
 
 SocialtextAdaptor.prototype.getTiddler = function(tiddler)
 {
-//#displayMessage('SocialtextAdaptor.getTiddler:'+tiddler.title);
+displayMessage('SocialtextAdaptor.getTiddler:'+tiddler.title);
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages/socialtext_2_0_preview
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages/representation?accept=application/json
 	// request the page in json format to get the page attributes
 	//var urlTemplate = '%0data/workspaces/%1/pages/%2?accept=application/json';
 	var urlTemplate = '%0data/workspaces/%1/pages/%2';
-	var pageId = SocialtextAdaptor.normalizedId(tiddler.title);
-	var url = urlTemplate.format([this.host,this.workspace,pageId]);
+	var url = urlTemplate.format([this.host,this.workspace,SocialtextAdaptor.normalizedId(tiddler.title)]);
 //#displayMessage('url: '+url);
 
 	tiddler.fields.wikiformat = 'Socialtext';
@@ -183,12 +204,6 @@ SocialtextAdaptor.prototype.getTiddler = function(tiddler)
 	var req = doHttp('GET',url,null,null,null,null,SocialtextAdaptor.getTiddlerCallback,tiddler,{'Accept':'application/json'});
 //#displayMessage('req:'+req);
 };
-
-SocialtextAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
-{
-//#displayMessage('getTiddlerCallback status:'+status);
-//#displayMessage('rt:'+responseText.substr(0,50));
-//#displayMessage('xhr:'+xhr);
 
 //# www.eu.socialtext.netdata/workspaces/tiddlytext/pages/goals?accept=text/x.socialtext-wiki
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages/representation?accept=text/x.socialtext-wiki
@@ -203,6 +218,11 @@ SocialtextAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 //# "revision_count":7,
 //# "last_editor":"matt.liggett@socialtext.com"}
 
+SocialtextAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
+{
+//#displayMessage('getTiddlerCallback status:'+status);
+//#displayMessage('rt:'+responseText.substr(0,50));
+//#displayMessage('xhr:'+xhr);
 	try {
 		//# convert the downloaded data into a javascript object
 		eval('var info=' + responseText);

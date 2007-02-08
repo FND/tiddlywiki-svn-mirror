@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/MediaWikiAdaptorPlugin.js|
-|''Version:''|0.2.0|
+|''Version:''|0.2.1|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -15,6 +15,11 @@
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.MediaWikiAdaptorPlugin) {
 version.extensions.MediaWikiAdaptorPlugin = {installed:true};
+
+function doHttpGET(url,callback,params,headers,data,contentType,username,password)
+{
+	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
+}
 
 MediaWikiAdaptor = function()
 {
@@ -41,28 +46,29 @@ MediaWikiAdaptor.normalizedTitle = function(title)
 
 MediaWikiAdaptor.prototype.openHost = function(host,callback,callbackParams)
 {
-displayMessage('MediaWikiAdaptor.openHost:'+host);
+//#displayMessage('MediaWikiAdaptor.openHost:'+host);
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
-	if(host.substr(-1)!="/")
-		host = host + "/";
+	if(host.substr(-1) != '/')
+		host = host + '/';
 	this.host = host;
-	if(callback)
-		window.setTimeout(callback,0,true,this,callbackParams);
+//#displayMessage("host:"+host);
+	if(params && params.callback)
+		window.setTimeout(params.callback,0,true,this,params);
 	return true;
 };
 
 MediaWikiAdaptor.prototype.getTiddler = function(tiddler)
 {
-	var normalizedTitle = MediaWikiAdaptor.normalizedTitle(tiddler.title);
-displayMessage('MediaWikiAdaptor.getTiddler:'+normalizedTitle);
+//#displayMessage('MediaWikiAdaptor.getTiddler:'+tiddler.title);
 //# http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&titles=Elongation
+	var urlTemplate = '%0w/api.php?format=json&action=%1&prop=revisions&rvprop=content&titles=%2';
+	var url = urlTemplate.format([this.host,'query',MediaWikiAdaptor.normalizedTitle(tiddler.title)]);
+//#displayMessage('url:'+url);
 	tiddler.fields.wikiformat = 'MediaWiki';
 	tiddler.fields['server.type'] = 'mediawiki';
-	var urlTemplate = '%0w/api.php?format=json&action=%1&prop=revisions&rvprop=content&titles=%2';
-	var url = urlTemplate.format([this.host,'query',normalizedTitle]);
-displayMessage('url:'+url);
-	var req = doHttp('GET',url,null,null,null,null,MediaWikiAdaptor.getTiddlerCallback,tiddler);
+	tiddler.fields['temp.adaptor'] = this;
+	var req = doHttpGET(url,MediaWikiAdaptor.getTiddlerCallback,tiddler);
 //#displayMessage('req:'+req);
 };
 
@@ -70,15 +76,16 @@ MediaWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 {
 //#displayMessage('getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
-//# displayMessage('xhr:'+xhr);
+//#displayMessage('xhr:'+xhr);
 	var content = null;
 	try {
 		//# convert the downloaded data into a javascript object
-		eval('var queryResult=' + responseText);
-		var page = MediaWikiAdaptor.anyChild(queryResult.query.pages);
+		eval('var info=' + responseText);
+		var page = MediaWikiAdaptor.anyChild(info.query.pages);
 		var revision = MediaWikiAdaptor.anyChild(page.revisions);
 		content = revision['*'];
 		var revid = revision['revid'];
+		tiddler.fields['mediawiki.revid'] = String(revid);
 	} catch (ex) {
 		displayMessage('Error response:'+responseText);
 	}
@@ -91,14 +98,13 @@ MediaWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 	}*/
 	if(content) {
 		tiddler.text = content;
-		tiddler.fields['mediawiki.revid'] = String(revid);
 		tiddler.updateAndSave();
 	}
 };
 
-MediaWikiAdaptor.prototype.getWorkspaceList = function(callback,callbackParams) {return false;};
-MediaWikiAdaptor.prototype.openWorkspace = function(workspace,callback,callbackParams) {return false;};
-MediaWikiAdaptor.prototype.getTiddlerList = function(callback,callbackParams) {return false;};
+MediaWikiAdaptor.prototype.getWorkspaceList = function(params) {return false;};
+MediaWikiAdaptor.prototype.openWorkspace = function(workspace,params) {return false;};
+MediaWikiAdaptor.prototype.getTiddlerList = function(params) {return false;};
 MediaWikiAdaptor.prototype.putTiddler = function(tiddler) {return false;};
 MediaWikiAdaptor.prototype.close = function() {return true;};
 
