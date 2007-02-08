@@ -1,11 +1,11 @@
-<script language="javascript" type="text/javascript" src="Source/ajax.js">
+<script language="javascript" type="text/javascript" src="MTS/Source/ajax.js">
 </script>
-<link rel="stylesheet" type="text/css" href="Source/style.css"/>
+<link rel="stylesheet" type="text/css" href="MTS/Source/style.css"/>
 <script>
 <?php
 // Plugins. Load to array as variables for later processing.
    echo "\nvar MTSExternalPlugins = [];";
-   foreach (glob("Plugins/*.js") as $filename) {
+   foreach (glob("MTS/Plugins/*.js") as $filename) {
       $fcontents = file_get_contents($filename);
       $fcontents = addslashes($fcontents);
       $fcontents = preg_replace('/(\n)/i', '\\n', $fcontents);
@@ -20,6 +20,7 @@
     $fullscriptpath = "http://".$_SERVER["SERVER_NAME"].$fullscriptpath;
     $wrapperScriptPath = array_pop($parts);
     $sourcePath = $wikipath; // From the wikiframe .. the wrapper.  It should still be defined.
+    $sourceName = substr($sourcePath, 0, strpos($sourcePath, ".htm"));
     
 // SPLIT // 
     list($wrapperScriptName, $ext) = split('\.', $wrapperScriptPath, 2);
@@ -32,6 +33,7 @@
     echo "\nvar wrapperScriptPath = '$wrapperScriptPath';";
     echo "\nvar wrapperScriptName = '$wrapperScriptName';";
     echo "\nvar sourcePath = '$sourcePath';";
+    echo "\nvar sourceName = '$sourceName';";
     echo "\nvar fullScriptPath = '$fullscriptpath';";
         
 // RSS // 
@@ -45,7 +47,7 @@
 
 <script>
 
-var systempath = "Source/System.php";
+var systempath = "MTS/Source/System.php";
 
 var genericPostPaths = "wrapperScriptName=" + wrapperScriptName + "&sourcePath=" + sourcePath;
 
@@ -72,6 +74,13 @@ function saveReturn(data) {
             if ( data.rss ) {
                 rssExists = true;
                 printNav();
+            }
+            
+            // Add to Backups List // 
+            if ( backupsmap[sourcePath] != true) {
+                var options = document.getElementById("revert").revertfile.options;
+                options[options.length] = new Option(data.backup,data.backup);
+                backupsmap[sourcePath] = true;
             }
         }
     }
@@ -169,7 +178,6 @@ TiddlyWiki.prototype.getTiddlersWithField = function (field,fieldValue,resultMat
 }
 
 
-
 function generateRss()
 {
 	var s = [];
@@ -251,7 +259,7 @@ function saveChanges()
         store.unFlagForUpload(store.updatedTiddlersIndex);
 
         // Must use a post request //
-        openAjaxRequestParams(systempath + "?action=save", params, saveReturn, true);
+        openAjaxRequestParams(systempath + "?action=save&backup=" + config.options.chkSaveBackups, params, saveReturn, true);
         store.setDirty(false);
 }
 
@@ -570,14 +578,7 @@ loadPlugins = function()
         }
     }
     
-    function clearAll() {
-        if (confirm("Are you sure?  This will destroy all saved data!"))
-            openAjaxRequest(systempath + "?action=clearall", clearAllReturn, true, genericPostPaths);
-    }
     
-    function clearAllReturn (data) {
-        history.go()
-    }
     
     function moveAdmin(side) {
         var moveAdminRet = function (data) {
@@ -627,7 +628,7 @@ loadPlugins = function()
     
     function deleteWiki() {
     
-        if (confirm("Are you sure?  This will destroy all saved data!")) {
+        if (confirm("Delete: Are you sure?  This will destroy all saved data!")) {
         
             showMessageWindow("Removing Wiki ... ");
             
@@ -658,11 +659,71 @@ loadPlugins = function()
               alert("no file selected!");
               return false;
               }           
-        if (confirm("Are you sure?  This will completely replace your current wiki.  You may want to perform a manual backup first.")) {              
+        if (confirm("Upload: Are you sure?  This will completely replace your current wiki.  You may want to perform a manual backup first.")) {              
             showMessageWindow("Uploading Wiki ... ");
             
             file.submit();
         }
+    }
+    
+    function manualBackup () {
+        showMessageWindow("Creating Backup ... ");
+        
+        
+        var ret = function (data) {
+        
+            try {
+                eval(data);
+            }
+            catch (e) {
+                showMessageWindow("Error!<br> The server's response was corrupted");
+                alert(data);
+            }
+                
+            if (data["backup"] != false) {
+                    showMessageWindow("A manual backup has been created.");
+
+                if ( backupsmap[sourcePath] != true) {
+                    var options = document.getElementById("revert").revertfile.options;
+                    options[options.length] = new Option(data.backup,data.backup);
+                    backupsmap[sourcePath] = true;
+                }
+            }
+                    
+                else
+                    showMessageWindow("The backup was not created succesfully");
+            
+        }
+        
+        openAjaxRequest(systempath + "?action=manualbackup", ret, true, genericPostPaths);
+    }
+    
+    function revert() {
+        var revertTo = document.getElementById("revert").revertfile.value;
+        
+        if ( revertTo.indexOf(".html") < 0 ) {
+            alert("Error, filename not valid");
+            return;
+        }
+        
+        var ret = function (data) {
+            try {
+                eval(data);
+            }
+            catch (e) {
+                showMessageWindow("Error!<br> The server's response was corrupted");
+                alert(data);
+            }
+        
+            if (data.reverted) 
+                history.go();
+                
+            else
+                showMessageWindow("Revert was unsuccessful. " + data.message);
+        }
+        
+        if (confirm("Revert: Are you sure?  This will overwrite your current wiki!"))
+            openAjaxRequest(systempath + "?action=revert", ret, true, genericPostPaths+"&revertfile=" + revertTo);
     }
     
     printNav();
