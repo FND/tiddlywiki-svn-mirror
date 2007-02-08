@@ -21,7 +21,7 @@ function doHttpGET(url,callback,params,headers,data,contentType,username,passwor
 	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
 }
 
-MediaWikiAdaptor = function()
+function MediaWikiAdaptor()
 {
 	this.host = null;
 	this.workspace = null;
@@ -70,6 +70,7 @@ MediaWikiAdaptor.prototype.getTiddler = function(tiddler)
 	tiddler.fields['temp.adaptor'] = this;
 	var req = doHttpGET(url,MediaWikiAdaptor.getTiddlerCallback,tiddler);
 //#displayMessage('req:'+req);
+	return (typeof req == 'string') ? req : true;
 };
 
 MediaWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
@@ -77,6 +78,8 @@ MediaWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 //#displayMessage('getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
+	if(!status)
+		tiddler.fields['temp.statusText'] = xhr.statusText;
 	var content = null;
 	try {
 		//# convert the downloaded data into a javascript object
@@ -98,8 +101,10 @@ MediaWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 	}*/
 	if(content) {
 		tiddler.text = content;
-		tiddler.updateAndSave();
 	}
+	var callback = tiddler.fields['temp.callback'];
+	if(callback)
+		callback(tiddler);
 };
 
 MediaWikiAdaptor.prototype.getWorkspaceList = function(params) {return false;};

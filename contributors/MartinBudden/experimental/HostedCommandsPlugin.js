@@ -16,14 +16,38 @@
 if(!version.extensions.HostedCommandsPlugin) {
 version.extensions.HostedCommandsPlugin = {installed:true};
 
+config.macros.viewTiddlerFields = {};
+config.macros.viewTiddlerFields.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	if(tiddler instanceof Tiddler) {
+		var value = '';
+		var comma = '';
+		for(i in tiddler.fields) {
+			if (!i.match(/^temp\./)) {
+				value += comma + i + '=' + tiddler.fields[i];
+				comma = ', ';
+			}
+		}
+		value += comma + 'created=' + tiddler.created.convertToYYYYMMDDHHMM();
+		value += ', modified=' + tiddler.modified.convertToYYYYMMDDHHMM();
+		value += ', modifier=' + tiddler.modifier;
+		highlightify(value,place,highlightHack,tiddler);
+	}
+};
+
 //# Returns true if function fnName is available for the tiddler's serverType
 //# Used by (eg): config.commands.download.isEnabled
 Tiddler.prototype.isFunctionSupported = function(fnName)
 {
-	var serverType = this.getServerType();
+//#displayMessage("Tiddler.prototype.isFunctionSupported:"+fnName);
+	var serverType = this.fields['server.type'];
+	if(!serverType)
+		serverType = this.fields['wikiformat'];
+	if(serverType)
+		serverType = serverType.toLowerCase();
 	if(!this.fields['server.host'] || !serverType || !config.adaptors[serverType])
 		return false;
-	//if(config.adaptors[serverType][fnName])
+	if(config.adaptors[serverType].name)
 		return true;
 	return false;
 };
@@ -56,13 +80,19 @@ merge(config.commands.download,{
 
 config.commands.download.isEnabled = function(tiddler)
 {
-	return tiddler.isFunctionSupported('getTiddler',tiddler);
+	return tiddler.isFunctionSupported('getTiddler');
 };
 
 config.commands.download.handler = function(event,src,title)
 {
 //#displayMessage("config.commands.download.handler:"+title);
-	store.getHostedTiddler(title);
+	story.getHostedTiddler(title,config.commands.download.callback);
+};
+
+config.commands.download.callback = function(tiddler)
+{
+	TiddlyWiki.updateTiddlerAndSave(tiddler);
+	displayMessage(config.commands.downloaded.uploaded);
 };
 
 // upload command definition
@@ -81,7 +111,7 @@ config.commands.upload.isEnabled = function(tiddler)
 
 config.commands.upload.handler = function(event,src,title)
 {
-	store.putHostedTiddler(title,config.commands.upload.callback);
+	story.putHostedTiddler(title,config.commands.upload.callback);
 };
 
 config.commands.upload.callback = function(tiddler)

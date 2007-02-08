@@ -45,7 +45,7 @@ function doHttpGET(url,callback,params,headers,data,contentType,username,passwor
 	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
 }
 
-TWikiAdaptor = function()
+function TWikiAdaptor()
 {
 	this.host = null;
 	this.workspace = null;
@@ -155,7 +155,9 @@ TWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 		content = match[1].htmlDecode();
 	}
 	tiddler.text = content;
-	tiddler.updateAndSave();
+	var callback = tiddler.fields['temp.callback'];
+	if(callback)
+		callback(tiddler);
 };
 
 TWikiAdaptor.prototype.putTiddler = function(tiddler)

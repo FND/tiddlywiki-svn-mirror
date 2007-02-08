@@ -38,7 +38,7 @@ function doHttpGET(url,callback,params,headers,data,contentType,username,passwor
 	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
 }
 
-ccTiddlyAdaptor = function()
+function ccTiddlyAdaptor()
 {
 	this.host = null;
 	this.workspace = null;

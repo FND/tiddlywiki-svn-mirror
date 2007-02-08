@@ -16,12 +16,7 @@
 if(!version.extensions.SocialtextAdaptorPlugin) {
 version.extensions.SocialtextAdaptorPlugin = {installed:true};
 
-function doHttpGET(url,callback,params,headers,data,contentType,username,password)
-{
-	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
-}
-
-SocialtextAdaptor = function()
+function SocialtextAdaptor()
 {
 	this.host = null;
 	this.workspace = null;
@@ -49,6 +44,16 @@ SocialtextAdaptor.dateFromEditTime = function(editTime)
 	return new Date(Date.UTC(dt.substr(0,4),dt.substr(5,2)-1,dt.substr(8,2),dt.substr(11,2),dt.substr(14,2)));
 };
 
+// Open the specified host/server
+//#   host - url of host (eg, "http://www.socialtext.net/")
+//#   params.callback - optional function to be called on completion
+//#   params is itself passed on as a parameter to the callback function
+//# Return value is true if the request was successfully issued, false if this connector doesn't support openHost(),
+//#   or an error description string if there was a problem
+//# The callback parameters are callback(params)
+//#   params.status - true if OK, string if error
+//#   params.adaptor - reference to this adaptor object
+//#   params - parameters as originally passed into the openHost function
 SocialtextAdaptor.prototype.openHost = function(host,params)
 {
 //#displayMessage("openHost:"+host);
@@ -63,7 +68,6 @@ SocialtextAdaptor.prototype.openHost = function(host,params)
 	return true;
 };
 
-// following gets list of workspaces
 //# http://www.eu.socialtext.net/data/workspaces?accept=application/json
 //# [
 //# {"modified_time":"2006-09-13 08:31:38.217402-07",
@@ -72,6 +76,17 @@ SocialtextAdaptor.prototype.openHost = function(host,params)
 //# "title":"wsTitle"},
 //# ...
 //# ]
+
+// Gets the list of workspaces on a given server
+//#   params.callback - optional function to be called on completion
+//#   params is itself passed on as a parameter to the callback function
+//# Return value is true if the request was successfully issued, false if this connector doesn't support getWorkspaceList(),
+//#   or an error description string if there was a problem
+//# The callback parameters are callback(params)
+//#   params.status - true if OK, false if error
+//#   params.statusText - error message if there was an error
+//#   params.adaptor - reference to this adaptor object
+//#   params - parameters as originally passed into the getWorkspaceList function
 SocialtextAdaptor.prototype.getWorkspaceList = function(params)
 {
 //#displayMessage("getWorkspaceList");
@@ -85,8 +100,6 @@ SocialtextAdaptor.prototype.getWorkspaceList = function(params)
 SocialtextAdaptor.getWorkspaceListCallback = function(status,params,responseText,xhr)
 {
 //#displayMessage("getWorkspaceListCallback");
-	if(!params)
-		params = {};
 	params.status = false;
 	if(status) {
 		try {
@@ -102,16 +115,25 @@ SocialtextAdaptor.getWorkspaceListCallback = function(status,params,responseText
 		}
 		params.list = list;
 		params.status = true;
-		//params.callback(true,list,params.adaptor,params.callbackParams);
 	} else {
 		params.status = false;
 		params.statusText = xhr.statusText;
-		//params.callback(xhr.statusText,null,params.adaptor,params.callbackParams);
 	}
 	if(params && params.callback)
 		params.callback(params);
 };
 
+// Open the specified workspace
+//#   workspace - name of workspace to open
+//#   params.callback - optional function to be called on completion
+//#   params is passed to callback function
+//# Return value is true if the request was successfully issued, false if this connector doesn't support openWorkspace(),
+//#   or an error description string if there was a problem
+//# The callback parameters are callback(params)
+//#   params.status - true if OK, false if error
+//#   params.statusText - error message if there was an error
+//#   params.adaptor - reference to this adaptor object
+//#   params - parameters as originally passed into the openWorkspace function
 SocialtextAdaptor.prototype.openWorkspace = function(workspace,params)
 {
 //#displayMessage("openWorkspace:"+workspace);
@@ -121,6 +143,16 @@ SocialtextAdaptor.prototype.openWorkspace = function(workspace,params)
 	return true;
 };
 
+// Gets the list of tiddlers within a given workspace
+//#   params.callback - optional function to be called on completion
+//#   params is passed on to callback function
+//# Return value is true if the request was successfully issued, false if this connector doesn't support getTiddlerList(),
+//#   or an error description string if there was a problem
+//# The callback parameters are callback(params)
+//#   params.status - true if OK, false if error
+//#   params.statusText - error message if there was an error
+//#   params.adaptor - reference to this adaptor object
+//#   params - parameters as originally passed into the getTiddlerList function
 SocialtextAdaptor.prototype.getTiddlerList = function(params)
 {
 //#displayMessage('getTiddlerList');
@@ -156,8 +188,6 @@ SocialtextAdaptor.getTiddlerListCallback = function(status,params,responseText,x
 //#displayMessage('getTiddlerListCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
-	if(!params)
-		params = {};
 	params.status = false;
 	if(status) {
 		try {
@@ -178,18 +208,26 @@ SocialtextAdaptor.getTiddlerListCallback = function(status,params,responseText,x
 		}
 		params.list = list;
 		params.status = true;
-		//params.callback(true,list,params.adaptor,params.callbackParams);
 	} else {
 		params.statusText = xhr.statusText;
-		//params.callback(xhr.statusText,null,params.adaptor,params.callbackParams);
 	}
 	if(params.callback)
 		params.callback(params);
 };
 
+// Retrieves a tiddler from a given workspace on a given server
+//#   tiddler.title - title of the tiddler to get
+//#   tiddler.fields['temp.callback'] - optional function to be called on completion
+//#   tiddler is passed on as a parameter to the callback function
+//# Return value is true if the request was successfully issued, false if this connector doesn't support getTiddler(),
+//#   or an error description string if there was a problem
+//# The callback parameters are callback(tiddler)
+//#   tiddler.fields['temp.statusText'] - error message if there was an error, otherwise undefined
+//#   tiddler.fields['temp.adaptor'] - reference to this adaptor object
+//#   tiddler - as passed into the putTiddler function
 SocialtextAdaptor.prototype.getTiddler = function(tiddler)
 {
-displayMessage('SocialtextAdaptor.getTiddler:'+tiddler.title);
+//#displayMessage('SocialtextAdaptor.getTiddler:'+tiddler.title);
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages/socialtext_2_0_preview
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages/representation?accept=application/json
 	// request the page in json format to get the page attributes
@@ -203,6 +241,7 @@ displayMessage('SocialtextAdaptor.getTiddler:'+tiddler.title);
 	tiddler.fields['temp.adaptor'] = this;
 	var req = doHttp('GET',url,null,null,null,null,SocialtextAdaptor.getTiddlerCallback,tiddler,{'Accept':'application/json'});
 //#displayMessage('req:'+req);
+	return (typeof req == 'string') ? req : true;
 };
 
 //# www.eu.socialtext.netdata/workspaces/tiddlytext/pages/goals?accept=text/x.socialtext-wiki
@@ -256,12 +295,24 @@ SocialtextAdaptor.getTiddlerCallback2 = function(status,tiddler,responseText,xhr
 //#displayMessage('getTiddlerCallback2 status:'+status);
 //#displayMessage('rt:'+responseText);
 //#displayMessage('xhr:'+xhr);
-	if(responseText) {
-		tiddler.text = responseText;
-		tiddler.updateAndSave();
-	}
+	tiddler.text = responseText;
+	if(!status)
+		tiddler.fields['temp.statusText'] = xhr.statusText;
+	var callback = tiddler.fields['temp.callback'];
+	if(callback)
+		callback(tiddler);
 };
 
+// Puts a tiddler to a given workspace on a given server
+//#   tiddler.title - title of the tiddler to put
+//#   tiddler.fields['temp.callback'] - optional function to be called on completion
+//#   tiddler is passed on as a parameter to the callback function
+//# Return value is true if the request was successfully issued, false if this connector doesn't support putTiddler(),
+//#   or an error description string if there was a problem
+//# The callback parameters are callback(tiddler)
+//#   tiddler.fields['temp.statusText'] - error message if there was an error, otherwise undefined
+//#   tiddler.fields['temp.adaptor'] - reference to this adaptor object
+//#   tiddler - as passed into the putTiddler function
 SocialtextAdaptor.prototype.putTiddler = function(tiddler)
 {
 //#displayMessage('SocialtextAdaptor.putTiddler:'+tiddler.title);
@@ -269,8 +320,10 @@ SocialtextAdaptor.prototype.putTiddler = function(tiddler)
 	var urlTemplate = '%0data/workspaces/%1/pages/%2';
 	var url = urlTemplate.format([this.host,this.workspace,tiddler.title,tiddler.text]);
 //#displayMessage('url:'+url);
+	tiddler.fields['temp.adaptor'] = this;
 	var req = doHttp('POST',url,tiddler.text,SocialtextAdaptor.mimeType,null,null,SocialtextAdaptor.putTiddlerCallback,tiddler,{"X-Http-Method": "PUT"});
 //#displayMessage('req:'+req);
+	return (typeof req == 'string') ? req : true;
 };
 
 SocialtextAdaptor.putTiddlerCallback = function(status,tiddler,responseText,xhr)
@@ -279,9 +332,10 @@ SocialtextAdaptor.putTiddlerCallback = function(status,tiddler,responseText,xhr)
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
 	if(!status)
-		displayMessage('Status text:'+xhr.statusText);
-	if(tiddler.fields['temp.callback'])
-		tiddler.fields['temp.callback'](tiddler);
+		tiddler.fields['temp.statusText'] = xhr.statusText;
+	var callback = tiddler.fields['temp.callback'];
+	if(callback)
+		callback(tiddler);
 };
 
 SocialtextAdaptor.prototype.close = function() {return true;};

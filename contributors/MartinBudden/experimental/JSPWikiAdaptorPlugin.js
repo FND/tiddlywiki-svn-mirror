@@ -39,7 +39,7 @@ function doHttpGET(url,callback,params,headers,data,contentType,username,passwor
 	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
 }
 
-JSPWikiAdaptor = function()
+function JSPWikiAdaptor()
 {
 	this.host = null;
 	this.workspace = null;
