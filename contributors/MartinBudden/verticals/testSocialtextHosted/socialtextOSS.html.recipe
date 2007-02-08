@@ -5,13 +5,13 @@ tiddler: settings.js
 tiddler: SiteUrl.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SideBarTabs.tiddler
+tiddler: SiteTitleStOSS.tiddler
+tiddler: PageTemplate.tiddler
+tiddler: AdvancedOptionsTest.tiddler
 tiddler: DefaultTiddlersStOSS.tiddler
 tiddler: HomeStOSS.tiddler
-tiddler: SiteTitleStOSS.tiddler
-tiddler: AdvancedOptionsTest.tiddler
 tiddler: ListHostedStOSS.tiddler
 tiddler: SocialtextOpenSourceWiki.tiddler
-tiddler: PageTemplate.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/StyleSheet.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/SocialtextStyleOverrides.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/SocialtextScreenStyle.tiddler
