@@ -88,6 +88,16 @@ if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass
 </head>
 
 <body>
+
+<?php 
+if ( substr(phpversion(),0,strpos(phpversion(), ".")) == "4" ) {
+    echo "<h2>PHP Version Error</h2><p>You are running PHP Version ".phpversion().".  MiniTiddlyServer requires PHP 5.1 or higher. Please use a server with PHP 5 enabled. </p>";
+    exit;
+}
+else if ( substr(phpversion(),0,strrpos(phpversion(), ".")) == "5.0" )
+    echo "<h2>PHP Version Warning</h2><p>You are running PHP Version ".phpversion().".  We suspect that MiniTiddlyServer does no twork on PHP 5.0.  If you experience problems, you may want to switch to 5.1.x or higher, but please report your bugs to the google list</p>";
+    
+?>
 <form id="settings" method="POST" action="config.php">
 <h2>AjaxTiddlyWiki</h2>
 
@@ -111,7 +121,4 @@ if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass
 <p><input type="submit" value="Save and Complete" onclick="saveAndComplete()"/></p>
             
 </body>
-
-
-
 
