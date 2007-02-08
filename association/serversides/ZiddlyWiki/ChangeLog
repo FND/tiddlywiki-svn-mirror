@@ -4,7 +4,7 @@ Release 2.1.2.1
 * Enable Markup* tiddlers
 * Move RSS into MarkupPostBody
 * Combine common tiddlers (like the above) from ZiddlyWiki/tiddlers with site
-  tiddlers.
+  tiddlers, with site tiddlers taking precedence.
 * Fix setting title
 * Rewrite logout code
 * Remove permaviewHash (used only when redirecting -- we use ajax now and
