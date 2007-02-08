@@ -71,31 +71,27 @@ except: title = context.title_or_id()
 src = src.replace('<!--PRE-HEAD-END-->', '<!--PRE-HEAD-END-->\n<title>%s</title>' % (title))
 
 # insert the extra stuff
-pre_head = ''
-try: pre_head = pre_head + container.tiddlers['MarkupPreHead']()
-except KeyError: pass
-try: pre_head = pre_head + root.tiddlers['MarkupPreHead']()
-except KeyError: pass
-post_head = ''
-try: post_head = post_head + container.tiddlers['MarkupPostHead']()
-except KeyError: pass
-try: post_head = post_head + root.tiddlers['MarkupPostHead']()
-except KeyError: pass
-pre_body = ''
-try: pre_body = pre_body + container.tiddlers['MarkupPreBody']()
-except KeyError: pass
-try: pre_body = pre_body + root.tiddlers['MarkupPreBody']()
-except KeyError: pass
-post_body = ''
-try: post_body = post_body + container.tiddlers['MarkupPostBody']()
-except KeyError: pass
-try: post_body = post_body + root.tiddlers['MarkupPostBody']()
-except KeyError: pass
+markup_titles = ['MarkupPreHead', 'MarkupPostHead', 'MarkupPreBody', 'MarkupPostBody']
+markups = {}
+for markup in markup_titles:
+    markups[markup] = ''
+    try: 
+        markup_tiddler = container.tiddlers[markup]
+        if 'deleted' in getattr(markup_tiddler, 'tags', '').split():
+            raise KeyError
+    except KeyError:
+        try: 
+            markup_tiddler = root.tiddlers[markup]
+            if 'deleted' in getattr(markup_tiddler, 'tags', '').split():
+                raise KeyError
+        except KeyError:
+            continue
+    markups[markup] = markup_tiddler()
 
-src = src.replace('<!--PRE-HEAD-END-->',  pre_head  + '<!--PRE-HEAD-END-->' )
-src = src.replace('<!--POST-HEAD-END-->', post_head + '<!--POST-HEAD-END-->')
-src = src.replace('<!--PRE-BODY-END-->',  pre_body  + '<!--PRE-BODY-END-->' )
-src = src.replace('<!--POST-BODY-END-->', post_body + '<!--POST-BODY-END-->')
+src = src.replace('<!--PRE-HEAD-END-->',  markups['MarkupPreHead']  + '<!--PRE-HEAD-END-->' )
+src = src.replace('<!--POST-HEAD-END-->', markups['MarkupPostHead'] + '<!--POST-HEAD-END-->')
+src = src.replace('<!--PRE-BODY-END-->',  markups['MarkupPreBody']  + '<!--PRE-BODY-END-->' )
+src = src.replace('<!--POST-BODY-END-->', markups['MarkupPostBody'] + '<!--POST-BODY-END-->')
 
 # insert all the tiddlers from the "tiddlers" folder
 # root takes precedence over distribution tiddlers
