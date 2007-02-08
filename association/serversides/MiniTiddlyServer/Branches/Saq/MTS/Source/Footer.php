@@ -301,6 +301,14 @@ loadPlugins = function()
         </div>
     </div>
 </form>
+
+<div id="helppanel">
+    <div class="inner"><center>
+        <p><a href='http://www.blogjones.com/TiddlyWikiTutorial.html#EasyToEdit' target='_blank'>Editing Help</a></p>
+        <p><a href='http://www.seanclarkhess.com/tw/' target='_blank'>MTS Home</a></p>
+        <p><a href='http://www.seanclarkhess.com/tw/#LatestVersion' target='_blank'>Updates</a></p>
+    </center></div>
+</div>
         
 <div id="options">
     <div class="inner">
@@ -333,6 +341,7 @@ loadPlugins = function()
         
         // Hide Box // 
         hideLogin();
+        hideHelp();
         
         var user = document.loginInfo.loginuser.value;
         var password = document.loginInfo.loginpass.value;
@@ -408,6 +417,7 @@ loadPlugins = function()
     
     var loginvisible = false;
     function showLogin() {
+        hideHelp();
         hideMessageWindow();
         document.getElementById("login").style.visibility = "visible";
         loginvisible = true;
@@ -424,6 +434,27 @@ loadPlugins = function()
         
         else if (loginvisible == false)
             showLogin();
+    }
+    
+    var helpvisible = false;
+    function showHelp() {
+        hideLogin();
+        hideMessageWindow();
+        document.getElementById("helppanel").style.visibility = "visible";
+        helpvisible = true;
+    }
+    
+    function hideHelp() {
+        document.getElementById("helppanel").style.visibility = "hidden";
+        helpvisible = false;
+    }
+    
+    function toggleHelp() {
+        if (helpvisible == true) 
+            hideHelp();
+            
+        else if ( helpvisible == false )
+            showHelp();
     }
     
     
@@ -476,9 +507,8 @@ loadPlugins = function()
         
         if ( rssExists == '1')
             out += "<a href='" + wrapperScriptName + ".xml'>Rss</a> | ";
-            
-        out += "<a href='http://www.blogjones.com/TiddlyWikiTutorial.html#EasyToEdit' target='_blank'>Help</a>";
-        
+          
+        out += "<a href='javascript:;' onclick='toggleHelp();return false;'>Help</a>";          
         
         document.getElementById("optionsGuts").innerHTML = out;
     }
@@ -487,6 +517,8 @@ loadPlugins = function()
 
     function showAdmin() {
         hideMessageWindow();
+        hideLogin();
+        hideHelp();
     
         if (document.getElementById("adminDisplay").style.visibility == "visible")
             hideAdmin();

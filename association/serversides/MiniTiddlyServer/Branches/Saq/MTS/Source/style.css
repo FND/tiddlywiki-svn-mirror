@@ -1,5 +1,5 @@
   
-   #login, #options, #messageWindow, #adminDisplay
+   #login, #options, #messageWindow, #adminDisplay, #helppanel
     {
         display:block;
         border:1px solid #888;
@@ -13,7 +13,7 @@
         right:5px;
     }
     
-    #login {
+    #login, #helppanel {
         width:140px;
         visibility: hidden;
         top:25px;
@@ -47,7 +47,7 @@
 		padding-top:0px;
 	}
     
-    #login .inner {
+    #login .inner, #helppanel .inner{
         padding:5px;
     }
     
