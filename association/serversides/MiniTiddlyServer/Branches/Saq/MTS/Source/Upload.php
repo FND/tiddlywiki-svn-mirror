@@ -3,7 +3,7 @@
     
     include_once("Functions.php");
     
-    $basedir = "../";
+    $basedir = "../../";
     
     $file = $_FILES['uploadfile'];
     $localfilename =  basename( $file['name']); 
