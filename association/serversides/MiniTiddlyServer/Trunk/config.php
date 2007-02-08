@@ -31,6 +31,7 @@ function saveAndComplete() {
         
         return;
     }
+    
     form.submit();
 }
 
@@ -45,11 +46,11 @@ Run this file after copying everything to your install server. (In a unique fold
 
 $data = "";
 
-include_once("Source/Functions.php");
+include_once("MTS/Source/Functions.php");
 
-$templatename = "Source/empty.html";
-$wikiframe = "Source/wikiframe.php";
-$userspath = "Source/users.php";
+$templatename = "MTS/Source/empty.html";
+$wikiframe = "MTS/Source/wikiframe.php";
+$userspath = "MTS/Source/users.php";
 
 $adminpass = $_POST['adminpass'];
 $wrapperpath = $_POST['wrapperpath'];
@@ -106,8 +107,8 @@ if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass
 
 <h4>Save and Complete</h4>
 <div>By clicking submit below, this config file will be deleted and you will be taken to your new wiki!</div>
-<p><input type="submit" value="Save and Complete" onclick="saveAndComplete()"/></p>
 </form>
+<p><input type="submit" value="Save and Complete" onclick="saveAndComplete()"/></p>
             
 </body>
 

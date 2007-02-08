@@ -2,12 +2,13 @@
     session_start(); 
     
     include_once("Functions.php");
-    
+    include_once("rss.php");
+
     $data = "var data = {";
     $actions = "";
 
 // INIT // 
-    $baseDir = substr($_SERVER['SCRIPT_URI'], 0, strpos($_SERVER['SCRIPT_URI'],"Source/System.php"));
+    $baseDir = substr($_SERVER['SCRIPT_URI'], 0, strpos($_SERVER['SCRIPT_URI'],"MTS/Source/System.php"));
     $configfile = "users.php";
     include_once($configfile);
     
@@ -34,13 +35,13 @@
     $pass = $_GET['get_pass'];
     
     $wrapperScriptName = $_POST['wrapperScriptName'];
-    $wrapperScriptPath = "../".$wrapperScriptName .".php";
-    $sourcePath = "../".$_POST['sourcePath'];
+    $wrapperScriptPath = "../../".$wrapperScriptName .".php";
+    $sourcePath = "../../".$_POST['sourcePath'];
     
     $filename = $wrapperScriptPath;
     $sourcename = $sourcePath;
     
-    //~ $dobackup = ($_GET['backup'] == "true");
+    $dobackup = ($_GET['backup'] == "true");
     $time = $_POST['time'];
     
     
@@ -115,20 +116,30 @@
             else if ( $action == "createwiki") {
                 $newWrapper = $_POST["newWrapper"];
                 $newSource = $_POST["newSource"];
-                createNewWiki($newWrapper, $newSource, "../", $baseDir);
+                createNewWiki($newWrapper, $newSource, "../../", $baseDir);
             }
             
             else if ( $action == "deletewiki") {
                 $result = unlink ($wrapperScriptPath);
                 $result2 = unlink ($sourcePath);
-                if ( file_exists("../$wrapperScriptName.xml"))
-                    unlink ("../$wrapperScriptName.xml");
+                if ( file_exists("../../$wrapperScriptName.xml"))
+                    unlink ("../../$wrapperScriptName.xml");
                 $result = ($result && $result2);
                 $data .= "delete:$result,";
             }
             
             else if ( $action == "manualbackup") {
-                createBackup($_POST['sourcePath']);
+                createBackup($_POST['sourcePath'], date('dMy_Gi')."_manual.html");
+            }
+            
+            else if ( $action == "revert" ) {
+                $file = $_POST['revertfile'];
+                $sourceName = substr($_POST['sourcePath'], 0, strpos($_POST['sourcePath'], ".htm"));
+            
+                if ( copy($backupDir.$sourceName."/".$file, $sourcePath) )
+                    $data .= "reverted:true,";
+                else
+                    $data .= "reverted:false,message:'The file was not copied succesfully ($backupDir$file) ($sourcePath)',";
             }
             
             else {
@@ -155,7 +166,7 @@
             $conflict = false;
             $saveError = false;
 
-            // TO BE ADDED in V0-5 //
+            // TO BE ADDED in V0-8 //
             //~ if ( $time != filemtime($sourcename) )
             //~ {
                 //~ $conflictpath = "Conflicts/". $_POST['filename'] . ".html";
@@ -163,6 +174,10 @@
                 //~ $sourcename = "../$conflictpath";
                 //~ $conflict = true;
             //~ }
+            
+            // BACKUP // 
+            if ($dobackup)
+                createBackup($_POST['sourcePath'],$_SESSION['mts_saved_username']."_auto.html");
 
             function updateBlock($block){
                 global $newTW;
@@ -292,12 +307,16 @@
             writeToFile($sourcename, $newTW);
                 
             // RSS // 
-            $rss = decodePost($_POST['rss']);
-            if ( isset($rss) && $rss != "" && $conflict != true) {
-                $rssfile = "../$wrapperScriptName.xml";
-                writeToFile($rssfile, $rss);
-                $data .= "rss:true,";
-            }
+            $rssfile = "../../$wrapperScriptName.xml";
+          
+            if ( isset($_POST['rss']))
+              {
+              $rss = updateRss(decodePost($_POST['rss']),$rssfile,$deletedIndex,$savetype);
+              if ( isset($rss) && $rss != "" && $rss!= false && $conflict != true) {
+                  writeToFile($rssfile, $rss);
+                  $data .= "rss:true,";
+              }
+           }
         }
     
     }
@@ -347,10 +366,15 @@
         return $str;
     }
     
-    function createBackup($source) {
+    function createBackup($source,$backupName="noname.html") {
         global $backupDir,$data;
         
-        $sourcefull = "../".$source;
+        $sourceName = substr($_POST['sourcePath'], 0, strpos($_POST['sourcePath'], ".htm"));
+        
+        $myBackupDir = $backupDir.$sourceName ."/";
+        $backupPath = $myBackupDir.$backupName;
+        
+        $sourcefull = "../../".$source;
         
         if (is_dir($backupDir) === FALSE) {
             if( mkdir($backupDir, 0755) === false ) {
@@ -359,10 +383,17 @@
             }
         }
         
-        if ( copy($sourcefull, $backupDir.$source))
-            $data .= "backup:true,";
+        if (is_dir($myBackupDir) === FALSE) {
+            if( mkdir($myBackupDir, 0755) === false ) {
+                $data .= "backup:false,error:true,message:'Could not create directory ($myBackupDir)',";
+                return;
+            }
+        }
+        
+        if ( copy($sourcefull, $backupPath))
+            $data .= "backup:'$backupName',";
         else
-            $data .= "backup:false,error:true,message:'Copy failed on backup : ($backupDir) ($source),";
+            $data .= "backup:false,error:true,message:'Copy failed on backup : ($myBackupDir) ($source) ($backupName),";
             
 
     }
