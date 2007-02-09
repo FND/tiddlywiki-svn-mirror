@@ -329,6 +329,7 @@ loadPlugins = function()
         <p><a href='http://www.seanclarkhess.com/tw/#LatestVersion' target='_blank'>Updates</a></p>
         <p><a href='http://www.blogjones.com/TiddlyWikiTutorial.html#EasyToEdit' target='_blank'>Editing Help</a></p>
         <script>document.write("<p id='rssfeed'><a href='" + wrapperScriptName + ".xml' target='_blank'>RSS Feed</a></p>");</script>
+        <p><a href='javascript:;'>~ MiniTiddlyServer v0-7 ~</a></p>
     </center></div>
 </div>
         
