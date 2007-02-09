@@ -1,7 +1,7 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 
     MiniTiddlyServer: A mini-server for TiddlyWikis
-    Copyright (C) 2007  Sean Clark Hess
+    Copyright (C) 2007  Sean Clark Hess and Saq Imtiaz
     
     MiniTiddlyServer is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
