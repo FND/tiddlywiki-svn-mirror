@@ -1,3 +1,24 @@
+<!-- /////////////////////////////////////////////////////////////////////////////
+
+    MiniTiddlyServer: A mini-server for TiddlyWikis
+    Copyright (C) 2007  Sean Clark Hess
+    
+    MiniTiddlyServer is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+    
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+//////////////////////////////////////////////////////////////////////////////// -->
+
 <script language="javascript" type="text/javascript" src="MTS/Source/ajax.js">
 </script>
 <link rel="stylesheet" type="text/css" href="MTS/Source/style.css"/>
@@ -304,9 +325,10 @@ loadPlugins = function()
 
 <div id="helppanel">
     <div class="inner"><center>
-        <p><a href='http://www.blogjones.com/TiddlyWikiTutorial.html#EasyToEdit' target='_blank'>Editing Help</a></p>
         <p><a href='http://www.seanclarkhess.com/tw/' target='_blank'>MTS Home</a></p>
         <p><a href='http://www.seanclarkhess.com/tw/#LatestVersion' target='_blank'>Updates</a></p>
+        <p><a href='http://www.blogjones.com/TiddlyWikiTutorial.html#EasyToEdit' target='_blank'>Editing Help</a></p>
+        <script>document.write("<p id='rssfeed'><a href='" + wrapperScriptName + ".xml' target='_blank'>RSS Feed</a></p>");</script>
     </center></div>
 </div>
         
@@ -461,6 +483,7 @@ loadPlugins = function()
     
     function showMessageWindow(message)
     {
+        hideHelp();
         document.getElementById("messageWindowContent").innerHTML = "<P>" + message + "</P>";
         document.getElementById("messageWindow").style.visibility = "visible";
     }
@@ -502,13 +525,13 @@ loadPlugins = function()
         else {
             out += "<a href='javascript:;' onclick='toggleLogin();return false;'>Login</a> | ";
         }
-            
-        out += "<a href='" + sourcePath + "'>Download</a> | ";
         
         if ( rssExists == '1')
-            out += "<a href='" + wrapperScriptName + ".xml'>Rss</a> | ";
+            document.getElementById("rssfeed").style.display = "block";
+            
+        out += "<a href='" + sourcePath + "'>Download</a> | ";
           
-        out += "<a href='javascript:;' onclick='toggleHelp();return false;'>Help</a>";          
+        out += "<a href='javascript:;' onclick='toggleHelp();return false;'>MTS</a>";          
         
         document.getElementById("optionsGuts").innerHTML = out;
     }

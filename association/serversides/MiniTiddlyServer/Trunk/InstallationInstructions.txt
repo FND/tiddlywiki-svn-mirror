@@ -1,6 +1,0 @@
-INSTALLATION
-1. Copy this folder's contents to a unique folder on the server
-2. Run Config.php and follow the instructions
-
-UPGRADE INSTRUCTIONS
-1. Replace your Source folder with the Source folder from this version
