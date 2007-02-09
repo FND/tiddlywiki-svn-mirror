@@ -25,7 +25,7 @@
 //////////////////////////////////////////////////////////////////////////////// -->
 
 <head>
-<title>Admin Configuration Script for AjaxTiddlyWiki</title>
+<title>Admin Configuration Script for MiniTiddlyServer</title>
 <style>
    td, div, body, p {
 	   font-family:verdana;
@@ -103,7 +103,6 @@ if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass
     
 }
     
-
 ?>
 </script>
 
@@ -121,7 +120,7 @@ else if ( substr(phpversion(),0,strrpos(phpversion(), ".")) == "5.0" )
     
 ?>
 <form id="settings" method="POST" action="config.php">
-<h2>AjaxTiddlyWiki</h2>
+<h2>MiniTiddlyServer</h2>
 
 <h4>Administrator Account</h4>
 <table>
