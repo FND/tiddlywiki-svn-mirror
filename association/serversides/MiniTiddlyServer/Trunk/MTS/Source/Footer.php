@@ -1,4 +1,9 @@
-<!-- /////////////////////////////////////////////////////////////////////////////
+<script language="javascript" type="text/javascript" src="MTS/Source/ajax.js">
+</script>
+<link rel="stylesheet" type="text/css" href="MTS/Source/style.css"/>
+<script>
+<?php
+/* /////////////////////////////////////////////////////////////////////////////
 
     MiniTiddlyServer: A mini-server for TiddlyWikis
     Copyright (C) 2007  Sean Clark Hess
@@ -17,13 +22,8 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-//////////////////////////////////////////////////////////////////////////////// -->
+//////////////////////////////////////////////////////////////////////////////// */
 
-<script language="javascript" type="text/javascript" src="MTS/Source/ajax.js">
-</script>
-<link rel="stylesheet" type="text/css" href="MTS/Source/style.css"/>
-<script>
-<?php
 // Plugins. Load to array as variables for later processing.
    echo "\nvar MTSExternalPlugins = [];";
    foreach (glob("MTS/Plugins/*.js") as $filename) {
