@@ -98,6 +98,15 @@ src = src.replace('<!--POST-BODY-END-->', markups['MarkupPostBody'] + '<!--POST-
 # You may add other locations here.  e.g. root.aq_parent.plugins if you have
 # created a ZW instance called 'plugins' in the same directory as your main ZW.
 store_area = container.actions.get_all_as_divs([root, container])
+#titles = {}
+#store_area = ''
+#for source in [root, container]:
+#    for tiddler in source.tiddlers.objectIds('DTML Document'):
+#        if(not titles.has_key(tiddler)):
+#            context.REQUEST.set('title', tiddler)
+#            store_area = store_area + container.actions.get(context=context,root=root)
+#        titles[tiddler] = 1
+
 src = src.replace('<div id="storeArea">', '<div id="storeArea">\n' + store_area)
 
 # give the client the modified TiddlyWiki source

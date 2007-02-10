@@ -22,18 +22,8 @@ for instructions on how to make a patch file.
 * Make an external editor link on the toolbar if it's configured (use DTML to
     modify the default ViewTemplate)
 
-* The core uses store.dirty to indicate that the wiki needs to be saved.  This
-  functionality is essentially disabled right now.  Instead we need a
-  "saveFailed" flag which indicates that the current store has changes that
-  were not uploaded.  First we should try to re-upload those changes (in case
-  the network went down), and we should issue the "Unsaved Changes" dialog if
-  the user tries to leave the page.
-
 * 2.1's Import Tiddlers also calls addTiddler, which doesn't trigger ZW's save
   machinery.
-
-* Put core js into js, rename javascripts -> js, and include them rather than
-  assembling big file.  (Note this means saveChanges must be rewritten)
 
 * xml is completely broken.  Rename to index.xml so default tiddly link for xml
   works.
@@ -45,12 +35,6 @@ for instructions on how to make a patch file.
 
 * Remove ImportTiddlyWiki in favor of 2.1's ImportTiddlers
 
-* Editing a shadow tiddler when a deleted version exists on the server will
-  edit the deleted version, rather than the shadowed version.  Ask user
-  instead.
-
-* If login fails, don't redirect, display a message error in TW
-
 * Make instructions for how to use cookie-based login rather than HTTP Basic.
 
     * http://www.zopelabs.com/cookbook/1073516045
@@ -61,12 +45,6 @@ for instructions on how to make a patch file.
 
 * Why did Tim hack out the Zope <base> tag?  What harm does this do?
 
-* Tiddler renames are stored in the history, we should display them.
-
-* highlight which historical revision we're looking at in revisions macro
-
-    * Revision history does not seem reliable.
-
 * On TiddlyNotes, if I log in using my AJAX method, I don't get the new
   tiddlers.  If I reload, it thinks I've not logged in.  If I go to the ZMI
   (which does NOT ask for a second login) and then back to TiddlyNotes, I get
@@ -76,34 +54,19 @@ for instructions on how to make a patch file.
 
 * chkInsertTab should not insert tabs to input boxes, only textareas
 
-* Creating new tiddlers is giving them AnonymousUser... (sequence: load
-  anonymous, login to ZMI, login on anonymous test21)
-
 * Plugin: jsMath is linear in time with the number of math elements *in the
   document*, not the number of elements being wikified!  LatexMathML is about
   twice as fast.
-
-* Remove the id argument of actions/save.  This can be computed on the
-  server-side and the client side shouldn't care what the id is.
 
 * Check whether cookie-based auth is enabled.  If so, present AJAX username and
   password field.  If not, just display the "login" button, and do the same
   AJAX post to ?action=login, which will invoke the browser's Basic auth
   dialog!
 
-* Perhaps ZW is sending a path with the auth credential that doesn't cover the
-  main TW file?
-
 * objectValues in status.js fails if there are ANY unauthorized tiddlers in the
   folder.  Need to use a script to give a list of tiddlers.  (and while I'm at
   it...I might as well return revisionKey's too!)  Then status.js should
   replace get_modified.
-
-* permaviewHash used only by <<logout>> which doesn't work anyway...
-
-* Revisions seem to work now, but still need to deal with: 
-    1) renames, 
-    2) If a spurious lock exists, the most recent revision has ignore_revision...
 
 * Option for refresh interval
 
@@ -119,9 +82,6 @@ for instructions on how to make a patch file.
 
 * Search is not highlighting the match.
 
-* ZiddlyStatus needs the readOnly extended field.  (if logged in, Initial load
-  will make it editable)
-
 * Get rid of html directory.
 
 * Change id= argument to title= everywhere.
@@ -133,10 +93,23 @@ for instructions on how to make a patch file.
     * Need 'View History' permission on tiddlers folder.  Make a note about
       this in changelog, and/or an upgrade script.
 
+    * Recovering deleted tiddlers: create a new tiddler with the same name.
+      Hit "Revisions" and go back to the old version.  Hit "edit".
+
 * TEST:
     
     * upgrade script 2.0.11.4 -> 2.1 ('View History' permissions)
 
     * upgrade 2.0.10.1 -> 2.1 ('View History', tiddler unescape)
 
+* Make get_all_as_divs hand fields like get does.
+* Remove get_all in favor of get_all_as_divs (used only in export,ziddly?)
+* Modify save to handle extended fields
 
+* get_revisions is returning a list of garbage
+
+* There are a couple of odd (unavoidable?) refreshes (esp. of timeline) during/after edits.
+
+* Rework/fix "dirty" behavior if a failure occured.
+
+* Gracefully fail and be able to save if the network goes away.

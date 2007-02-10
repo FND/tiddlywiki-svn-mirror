@@ -48,7 +48,6 @@ config.messages.exportLinkPrompt = 'Export to a TiddlyWiki file';
 config.messages.importLinkLabel = 'import from file';
 config.messages.importLinkPrompt = 'Import from a TiddlyWiki file';
 config.messages.unsavedChangesWarning = 'Something has gone wrong and ZiddlyWiki was unable to save all changes to the server.\nIf you navigate away from this page, those changes will be lost.\nPress OK to save a backup to a local file.';
-config.messages.editingDeleted = "This tiddler exists on the server but was deleted.\nEditing the old deleted version.";
 
 config.views.wikified.toolbarRevisions = {text: "revisions", tooltip: "View another revision of this tiddler", popupNone: "No revisions"};
 
@@ -187,11 +186,6 @@ zw.loadTiddler = function(t) {
 }
 
 zw.addTiddler = function(str,status) {
-  if(status != 200) {
-    alert("zw.addTiddler error (HTTP status "+status+"): "+str); // error message
-    zw.dirty = true;
-    return;
-  } 
   var tiddler = new Tiddler();
   var d = document.createElement("div");
   if(!str.match(config.macros.login.innerHTMLSafe)) { 
@@ -200,15 +194,20 @@ zw.addTiddler = function(str,status) {
   }
   d.innerHTML = str;  // FIXME dangerous -- response could contain <script>
   var title = store.getLoader().getTitle(store, d.firstChild);
-  tiddler = store.getLoader().internalizeTiddler(store, tiddler, title, d.firstChild);
-  tiddler.changed();
-  store.addTiddler(tiddler);
-  if(typeof store.getValue(title, "oldtitle") != "undefined") {
-      store.setValue(title, "renamedSubTitle", 
-          "(renamed from "+store.getValue(title, "oldtitle")+")");
+  if(status == 404) { // not found
+      store.zw_removeTiddler(title);
+  } else if(status == 200) { // okay
+      tiddler = store.getLoader().internalizeTiddler(store, tiddler, title, d.firstChild);
+      tiddler.changed();
+      store.addTiddler(tiddler);
+      if(typeof store.getValue(title, "oldtitle") != "undefined") {
+          store.setValue(title, "renamedSubTitle", 
+              "(renamed from "+store.getValue(title, "oldtitle")+")");
+      }
   }
   if(tiddler.title == "ZiddlyStatus")
       config.macros.login.doneLoginout();
+  refreshDisplay(title);
   return tiddler;
 }
 
@@ -260,15 +259,8 @@ config.macros.importLink = {
 TiddlyWiki.prototype.zw_removeTiddler = TiddlyWiki.prototype.removeTiddler;
 TiddlyWiki.prototype.removeTiddler = function(title) {
   displayMessage("Deleting '"+title+"' on server...");
-  var callback = function(r){
-    clearMessage();
-    if(r!='success') {
-        alert(config.messages.errorDeleting);
-        zw.dirty = true;
-    }
-  };
-  ajax.post(zw.serverUrl, callback, 'action=delete&title=' + encodeURIComponent(title) + '&' + zw.no_cache());
-  return this.zw_removeTiddler(title);
+  ajax.post(zw.serverUrl, zw.addTiddler, 'action=delete&title=' + encodeURIComponent(title) + '&' + zw.no_cache());
+  return true;
 };
 
 TiddlyWiki.prototype.zw_saveTiddler = TiddlyWiki.prototype.saveTiddler;
@@ -278,7 +270,6 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
   var tiddler = this.zw_saveTiddler(title,newTitle,newBody,modifier,modified,tags);
   var callback = function(r,status){
     var newtiddler = zw.addTiddler(r,status);
-    //var newtiddler = store.getLoader().internalizeTiddler(store, tiddler, title, r);
     if(!newtiddler) {
         alert("ZiddlyWiki error: The tiddler '"+title+"' that I just tried to save\n"
         +"doesn't exist after the save!  Response ("+status+") was: \n"+r);
@@ -289,11 +280,7 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
             +"\n-------------------after----------------------\n"+newtiddler.escapeLineBreaks().htmlEncode()
         );
         zw.dirty = true;
-    } //else {
-        // Copy the revision time
-       // store.setValue(title, 'revision', newtiddler.fields.revision);
-        //store.setValue(title, 'modified', newtiddler.fields.modified);
-    //}
+    }
   };
 // FIXME by using async ajax here, a reload timeout may come between the save
 // and the callback's return, which causes the tiddler to be double-rendered.
@@ -375,14 +362,18 @@ function displayTiddlerRevision(title, revision, src, updateTimeline) {
 };
 
 function displayTiddlerRevisionCallback(str,status) {
+    store.suspendNotifications(); // To prevent multiple redraws
     var tiddler = zw.addTiddler(str,status);
-    tiddler.changed();
-    if(tiddler.tags.contains('deleted')) store.deleteTiddler(tiddler.title);
+    store.setValue(tiddler.title, "historicalSubTitle", "");
+    if(tiddler.tags.contains('deleted'))
+        store.setValue(tiddler.title, "historicalSubTitle", 
+            store.getValue(tiddler.title, "historicalSubTitle")+" (deleted)");
     if(latestRevision != store.getValue(tiddler.title, "revision"))
-        store.setValue(tiddler.title, "historicalSubTitle", "(historical revision)");
+        store.setValue(tiddler.title, "historicalSubTitle", 
+            store.getValue(tiddler.title, "historicalSubTitle")+" (historical revision)");
     store.setValue(tiddler.title, "latestRevision", latestRevision);
     story.refreshTiddler(tiddler.title, DEFAULT_VIEW_TEMPLATE, true);
-    store.notify('TabTimeline', true)
+    store.resumeNotifications();
     clearMessage();
 }
 
@@ -423,22 +414,18 @@ config.commands.editTiddler.handler = function(event,src,title) {
         zw.editingTiddlers[title] = true;
         obj.zw_handler(event,src,title);
       } else if(status == 200) {
-        var tiddler = store.fetchTiddler(title);
-        if(store.getValue(tiddler,"revision") != r) {
-            tiddler = zw.loadTiddler(title);
-            if(tiddler.tags.indexOf('deleted') != -1) { // Remove the deleted tag on edit
-                alert(config.messages.editingDeleted);
-                tiddler.tags.splice(tiddler.tags.indexOf('deleted'),1);
-                tiddler.deletedOnServer = true;
-            }
-        }
-        zw.editingTiddlers[title] = true;
-        obj.zw_handler(event,src,title);
+        var tiddler = zw.addTiddler(r,status);
+        if(tiddler.tags.indexOf('deleted') != -1) // Remove the deleted tag on edit
+            tiddler.tags.splice(tiddler.tags.indexOf('deleted'),1);
+        zw.editingTiddlers[tiddler.title] = true;
+        obj.zw_handler(event,src,tiddler.title);
       } else if(status == 503) { // "Temporarily Unavailable" Conflict
         if(r == zw.username) {
           if(confirm(config.messages.lockedTiddlerYou)) {
-            zw.editingTiddlers[title] = true;
-            obj.zw_handler(event,src,title);
+            var str = ajax.gets('?action=unlock&title=' + encodeURIComponent(title)
+                + "&" + zw.no_cache());
+            zw.addTiddler(str, 200);
+            return obj.handler(event,src,title);
           }
         } else {
           alert(config.messages.lockedTiddler.replace(/%s/g, r));
@@ -448,15 +435,19 @@ config.commands.editTiddler.handler = function(event,src,title) {
 	zw.loggedIn = false;
 	zw.isAdmin = false;
 	readOnly = true;
-	refreshDisplay("SideBarOptions");
-	story.refreshAllTiddlers();
+        zw.loadTiddler("ZiddlyStatus");
+	//refreshDisplay(["SideBarOptions","ViewTemplate", "EditTemplate"]);
+	//story.refreshAllTiddlers();
 	alert(config.messages.loginToEdit);
 	config.commands.editTiddler.zw_handler(event,src,title);
       } else {
           alert("Server returned a response I don't understand:\n\n"+k);
       }
     };
-    ajax.post(zw.serverUrl, callback, 'action=lock&title=' + encodeURIComponent(title) + '&' + zw.no_cache());
+    var rev = "";
+    if(store.getValue(title, "latestRevision") != "undefined")
+        rev = "revision="+store.getValue(title, "revision");
+    ajax.post(zw.serverUrl, callback, 'action=lock&title=' + encodeURIComponent(title) + '&' + rev + '&' + zw.no_cache());
   }
   return false;
 };
@@ -490,12 +481,11 @@ config.commands.deleteTiddler.handler = function(event,src,title) {
 config.commands.cancelTiddler.zw_handler = config.commands.cancelTiddler.handler;
 config.commands.cancelTiddler.handler = function(event,src,title) {
   if(!config.options.chkHttpReadOnly) {
-      if(zw.editingTiddlers[title])
-          ajax.post(zw.serverUrl, function(r){}, 'action=unlock&title=' + encodeURIComponent(title) + '&' + zw.no_cache());
+      if(zw.editingTiddlers[title]) {
+          var str = ajax.gets('?action=unlock&title=' + encodeURIComponent(title) + "&" + zw.no_cache());
+          zw.addTiddler(str, 200);
+      }
       zw.editingTiddlers[title] = false;
-      var tiddler = store.fetchTiddler(title);
-      if(tiddler && tiddler.deletedOnServer)
-          store.removeTiddler(title);
   }
   return this.zw_handler(event,src,title);
 };

@@ -48,4 +48,4 @@ tiddler.manage_addProperty('lock_user', username, 'string')
 try: tiddler.manage_addProperty('ignore_revision', 1, 'boolean')
 except: pass
 
-return revision
+return container.actions.get(root=root,context=context)

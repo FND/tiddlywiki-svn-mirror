@@ -29,4 +29,4 @@ else:
     try: tiddler.manage_addProperty('ignore_revision', 1, 'boolean')
     except: pass
 
-return 'unlocked'
+return container.actions.get(root=root,context=context)

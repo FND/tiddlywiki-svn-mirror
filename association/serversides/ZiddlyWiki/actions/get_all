@@ -70,7 +70,6 @@ for context in roots:
       'body': body,
       'key': key
     }
-    #tiddlers.append(tiddler)
     try: tiddlers[title]
     except KeyError: tiddlers[title] = tiddler
 

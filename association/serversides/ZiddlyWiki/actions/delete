@@ -7,6 +7,20 @@
 ##parameters=root=None
 ##title=
 ##
+
+# Stolen from urllib, since I can't import it here without gymnastics
+always_safe = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+               'abcdefghijklmnopqrstuvwxyz'
+               '0123456789' '_.-')
+def quote(s, safe = '/'):
+    safe = always_safe + safe
+    res = list(s)
+    for i in range(len(res)):
+        c = res[i]
+        if c not in safe:
+            res[i] = '%%%02X' % ord(c)
+    return ''.join(res)
+
 if root: context = root
 path = '/'.join(context.getPhysicalPath())
 
@@ -28,7 +42,4 @@ if hasattr(tiddler, 'tags'):
 else:
   tiddler.manage_addProperty('tags', 'deleted', 'string')
 
-try: tiddler.manage_delProperties(['ignore_revision'])
-except: pass
-
-return 'success'
+return container.actions.get(root=root,context=context)

@@ -17,12 +17,16 @@ if(req.get('title') is None):
     return
 id = container.scripts.sanitize_id(req.get('title'))
 
-try: tiddler = root.tiddlers[id]
+try: 
+    tiddler = root.tiddlers[id]
+    if 'deleted' in tiddler.tags.split() and revision is None: raise Exception
 except:
-    try: tiddler = container.tiddlers[id]
+    try: 
+        tiddler = container.tiddlers[id]
+        if 'deleted' in tiddler.tags.split() and revision is None: raise Exception
     except:
-        context.REQUEST.RESPONSE.setStatus(404) # detail.value);
-        return
+        context.REQUEST.RESPONSE.setStatus(404)
+        return '<div tiddler="'+req.get('title').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')+'"></div>'
 
 # FIXME permission denied
 tags = getattr(tiddler, 'tags', '')
@@ -45,21 +49,21 @@ if revision:
     try: tiddler = tiddler.HistoricalRevisions[revision]
     except: 
         context.REQUEST.RESPONSE.setStatus(404)
-        return
+        return '<div tiddler="'+req.get('title').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')+'"></div>'
 else:
     revision = latestrevision
+    tiddler = currenttiddler
 
 attribs = []
-attribs.append('tiddler="%s"' % currenttiddler.HistoricalRevisions[latestrevision].title.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
-attribs.append('modifier="%s"' % getattr(tiddler, 'modifier', ''))
-attribs.append('modified="%s"' % container.scripts.get_modified(tiddler))
-if hasattr(tiddler, 'created'):
-    attribs.append('created="%s"' % tiddler.created)
-else:
-    attribs.append('created="%s"' % modified)
-attribs.append('tags="%s"' % tiddler.tags.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
-attribs.append('revision="%s"' % revision)
+attribmeta = tiddler.propertyMap()
+for attrib in tiddler.propertyIds():
+    if(tiddler.getPropertyType(attrib) == "string"):
+        if(attrib == "title"):
+            attribs.append('tiddler="'+tiddler.getProperty(attrib).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')+'"')
+        else:
+            attribs.append(attrib+'="'+tiddler.getProperty(attrib,'').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')+'"')
 if currenttiddler.HistoricalRevisions[revision].title != currenttiddler.HistoricalRevisions[latestrevision].title:
     attribs.append('oldtitle="%s"' % currenttiddler.HistoricalRevisions[revision].title.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;'))
+attribs.append('revision="%s"' % revision)
 
 return '<div ' + ' '.join(attribs) + '>' + tiddler(context, context.REQUEST).replace('\\', '\\s').replace('\n', '\\n').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;') + '</div>'
