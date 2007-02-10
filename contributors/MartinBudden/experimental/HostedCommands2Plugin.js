@@ -33,24 +33,24 @@ TiddlyWiki.prototype.getHostedTiddlers = function(host,workspace)
 	return results;
 };
 
-config.macros.list.hostedTiddlers = {};
-config.macros.list.hostedTiddlers.prompt = "Tiddlers on the host";
-config.macros.list.hostedTiddlers.handler = function(params,wikifier,paramString,tiddler)
+config.macros.list.workspaceTiddlers = {};
+config.macros.list.workspaceTiddlers.prompt = "List Tiddlers in the workspace";
+config.macros.list.workspaceTiddlers.handler = function(params,wikifier,paramString,tiddler)
 {
-//#displayMessage("list.hostedTiddlers");
+//#displayMessage("list.workspaceTiddlers");
 	var fields = convertCustomFieldsToHash(store.getDefaultCustomFields());
 	return store.getHostedTiddlers(fields['server.host'],fields['server.workspace']);
 };
 
-config.macros.updateHostedTiddlerList = {};
-merge(config.macros.updateHostedTiddlerList,{
+config.macros.updateWorkspaceTiddlerList = {};
+merge(config.macros.updateWorkspaceTiddlerList,{
 	label: "update hosted list",
 	prompt: "Update list of hosted tiddlers",
 	done: "List updated"});
 
-config.macros.updateHostedTiddlerList.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+config.macros.updateWorkspaceTiddlerList.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-//#displayMessage("updateHostedTiddlerList.handler");
+//#displayMessage("updateWorkspaceTiddlerList.handler");
 	params = paramString.parseParams("anon",null,true,false,false);
 	var customFields = getParam(params,"fields",false);
 	if(!customFields)
@@ -59,27 +59,27 @@ config.macros.updateHostedTiddlerList.handler = function(place,macroName,params,
 	btn.setAttribute("customFields",customFields);
 };
 
-config.macros.updateHostedTiddlerList.onClick = function(e)
+config.macros.updateWorkspaceTiddlerList.onClick = function(e)
 {
 	clearMessage();
-//#displayMessage("updateHostedTiddlerList.onClick");
+//#displayMessage("updateWorkspaceTiddlerList.onClick");
 	var customFields = this.getAttribute("customFields");
 	var fields = convertCustomFieldsToHash(customFields);
-	var params = {host:fields['server.host'],workspace:fields['server.workspace'],callback:config.macros.updateHostedTiddlerList.callback};
+	var params = {host:fields['server.host'],workspace:fields['server.workspace'],callback:config.macros.updateWorkspaceTiddlerList.callback};
 	return invokeAdaptor('getTiddlerList',params,fields);
 };
 
-config.macros.updateHostedTiddlerList.callback = function(params)
+config.macros.updateWorkspaceTiddlerList.callback = function(params)
 {
-//#displayMessage("updateHostedTiddlerList.callback:"+params.host+" w:"+params.workspace);
+//#displayMessage("updateWorkspaceTiddlerList.callback:"+params.host+" w:"+params.workspace);
 	if(params.status) {
 		if(!store.hostedTiddlers)
 			store.hostedTiddlers = {};
 		if(!store.hostedTiddlers[params.host])
 			store.hostedTiddlers[params.host] = {};
 		store.hostedTiddlers[params.host][params.workspace] = params.list;
-		displayMessage(config.macros.updateHostedTiddlerList.done);
-		var title = "ListHosted"; // !!!hardcoded for testing
+		displayMessage(config.macros.updateWorkspaceTiddlerList.done);
+		var title = "ListWorkspace"; // !!!hardcoded for testing
 		story.displayTiddler(null,title);
 		story.refreshTiddler(title,1,true);
 	} else {
@@ -89,15 +89,15 @@ config.macros.updateHostedTiddlerList.callback = function(params)
 
 
 // import all the tiddlers from a given workspace on a given host
-config.macros.importTiddlers = {};
-merge(config.macros.importTiddlers,{
+config.macros.importWorkspace = {};
+merge(config.macros.importWorkspace,{
 	label: "import tiddlers",
 	prompt: "Import tiddlers",
 	done: "Tiddlers imported"});
 
-config.macros.importTiddlers.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+config.macros.importWorkspace.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-//#displayMessage("updateHostedTiddlerList.handler");
+//#displayMessage("updateWorkspaceTiddlerList.handler");
 	params = paramString.parseParams("anon",null,true,false,false);
 	var customFields = getParam(params,"fields",false);
 	if(!customFields)
@@ -111,10 +111,10 @@ config.messages.workspaceOpened = "Workspace '%0' opened";
 config.messages.workspaceTiddlers = "%0 tiddlers in workspace, importing %1 of them";
 config.messages.tiddlerImported = 'Tiddler: "%0" imported';
 
-config.macros.importTiddlers.onClick = function(e)
+config.macros.importWorkspace.onClick = function(e)
 {
 	clearMessage();
-//#displayMessage("importTiddlers.onClick");
+//#displayMessage("importWorkspace.onClick");
 displayMessage("Starting import...");
 	var customFields = this.getAttribute("customFields");
 	var fields = convertCustomFieldsToHash(customFields);
@@ -130,7 +130,7 @@ displayMessage("Starting import...");
 		var params = {};
 		params.host = fields['server.host'];
 		params.workspace = fields['server.workspace'];
-		params.callback = config.macros.importTiddlers.callback;
+		params.callback = config.macros.importWorkspace.callback;
 		params.adaptor = adaptor;
 		adaptor.openHost(params.host,params);
 		displayMessage(config.messages.hostOpened.format([params.host]));
@@ -141,7 +141,7 @@ displayMessage("Starting import...");
 	return ret;
 };
 
-config.macros.importTiddlers.callback = function(params)
+config.macros.importWorkspace.callback = function(params)
 {
 	var list = params.list;
 	var sortField = 'modified';
@@ -153,14 +153,14 @@ config.macros.importTiddlers.callback = function(params)
 	for(i=0; i<length; i++) {
 		//#displayMessage("li:"+list[i].title);
 		var tiddler = new Tiddler(list[i].title);
-		tiddler.fields['temp.callback'] = config.macros.importTiddlers.callbackTiddler;
+		tiddler.fields['temp.callback'] = config.macros.importWorkspace.callbackTiddler;
 		params.adaptor.getTiddler(tiddler);
 	}
 	//params.adaptor.close();
 	//delete params.adaptor;
 };
 
-config.macros.importTiddlers.callbackTiddler = function(tiddler)
+config.macros.importWorkspace.callbackTiddler = function(tiddler)
 {
 	if(tiddler.fields['temp.status']) {
 		TiddlyWiki.updateTiddlerAndSave(tiddler);
