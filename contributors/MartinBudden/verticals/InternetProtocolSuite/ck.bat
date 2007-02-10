@@ -1,0 +1,1 @@
+cook internetHosted.html.recipe
