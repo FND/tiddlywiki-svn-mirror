@@ -1,4 +1,4 @@
-<div title="Template:Tl" modifier="Wikipedia">
+<div title="Template:Tl" modifier="Wikipedia" wikiformat="mediawiki">
 <pre>{{[[Template:{{{1}}}|{{{1}}}]]}}&lt;noinclude&gt;
 {{/doc}}&lt;/noinclude&gt;</pre>
 </div>
