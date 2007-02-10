@@ -69,7 +69,9 @@ SocialtextAdaptor.prototype.openHost = function(host,params)
 	if(host.substr(-1) != '/')
 		host = host + '/';
 	this.host = host;
-//#displayMessage("host:"+host);
+	this.hostMin = host.replace(/^http:\/\//,'').replace(/\/$/,'');
+displayMessage("host:"+this.host);
+displayMessage("hostMin:"+this.hostMin);
 	if(params && params.callback)
 		window.setTimeout(params.callback,0,true,this,params);
 	return true;
@@ -247,6 +249,8 @@ SocialtextAdaptor.prototype.getTiddler = function(tiddler)
 
 	tiddler.fields.wikiformat = 'socialtext';
 	tiddler.fields['server.type'] = 'socialtext';
+	tiddler.fields['server.host'] = this.hostMin;
+	tiddler.fields['server.workspace'] = this.workspace;
 	tiddler.fields['temp.adaptor'] = this;
 	var req = doHttpGET(url,SocialtextAdaptor.getTiddlerCallback,tiddler,{'Accept':'application/json'});
 //#displayMessage('req:'+req);
