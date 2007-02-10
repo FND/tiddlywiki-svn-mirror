@@ -43,14 +43,14 @@ if(!version.extensions.PmWikiFormatterPlugin) {
 version.extensions.PmWikiFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	{alertAndThrow("PmWikiFormatterPlugin requires TiddlyWiki 2.1 or later.");}
+	{alertAndThrow('PmWikiFormatterPlugin requires TiddlyWiki 2.1 or later.');}
 
-PmWikiFormatter = {}; // "namespace" for local functions
+PmWikiFormatter = {}; // 'namespace' for local functions
 
 pmDebug = function(out,str)
 {
-	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
-	createTiddlyElement(out,"br");
+	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
+	createTiddlyElement(out,'br');
 };
 
 PmWikiFormatter.directives = function(w)
@@ -61,7 +61,7 @@ PmWikiFormatter.directives = function(w)
 		var lm1 = lookaheadMatch[1];
 		var lm2 = lookaheadMatch[2];
 		switch(lm1) {
-		case "directive":
+		case 'directive':
 			break;
 		default:
 			w.outputText(w.output,w.matchStart,w.nextMatch);
@@ -99,8 +99,8 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 	while(match)
 		{
 		var s = match[1].unDash();
-		if(s=="bgcolor") {
-			s = "backgroundColor";
+		if(s=='bgcolor') {
+			s = 'backgroundColor';
 		}
 		try {
 			if(match[2]) {
@@ -118,21 +118,21 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 
 config.pmWikiFormatters = [
 {
-/*<div class='vspace'></div>
-<table class='markup vert' align='center'>
-<tr><td class='markup1' valign='top'>
-<pre>-&gt;Four score and seven years ago our fathers placed upon this continent
-a new nation, conceived in liberty and dedicated to the proposition that
-all men are created equal.
-</pre>
-</td></tr>
-<tr><td class='markup2' valign='top'>
-<div class='indent'>Four score and seven years ago our fathers placed upon this continent a new nation, conceived in liberty and dedicated to the proposition that all men are created equal.
-</div>
-</td></tr>
-</table>*/
-	name: "pmWikiMarkup",
-	match: "\\(:markup:\\)\\s*\\n",
+//# <div class='vspace'></div>
+//# <table class='markup vert' align='center'>
+//# <tr><td class='markup1' valign='top'>
+//# <pre>-&gt;Four score and seven years ago our fathers placed upon this continent
+//# a new nation, conceived in liberty and dedicated to the proposition that
+//# all men are created equal.
+//# </pre>
+//# </td></tr>
+//# <tr><td class='markup2' valign='top'>
+//# <div class='indent'>Four score and seven years ago our fathers placed upon this continent a new nation, conceived in liberty and dedicated to the proposition that all men are created equal.
+//# </div>
+//# </td></tr>
+//# </table>*
+	name: 'pmWikiMarkup',
+	match: '\\(:markup:\\)\\s*\\n',
 	lookaheadRegExp: /\(:markup:\)\s*\n((?:.|\n)*?)\(:markupend:\)/mg,
 	handler: function(w)
 	{
@@ -141,15 +141,15 @@ all men are created equal.
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var text = lookaheadMatch[1];
 			if(config.browser.isIE) {
-				text = text.replace(/\n/g,"\r");
+				text = text.replace(/\n/g,'\r');
 			}
-			var t = createTiddlyElement(w.output,"table",null,"markup vert");
-			var tr1 = createTiddlyElement(t,"tr");
-			var td1 = createTiddlyElement(tr1,"td",null,"markup1");
-			var tr2 = createTiddlyElement(t,"tr");
-			var td2 = createTiddlyElement(tr2,"td",null,"markup2");
+			var t = createTiddlyElement(w.output,'table',null,'markup vert');
+			var tr1 = createTiddlyElement(t,'tr');
+			var td1 = createTiddlyElement(tr1,'td',null,'markup1');
+			var tr2 = createTiddlyElement(t,'tr');
+			var td2 = createTiddlyElement(tr2,'td',null,'markup2');
 
-			createTiddlyElement(td1,"pre",null,null,text);
+			createTiddlyElement(td1,'pre',null,null,text);
 			var oldSource = w.source;
 			w.source = text; w.nextMatch = 0;
 			w.subWikifyUnterm(td2);
@@ -160,19 +160,19 @@ all men are created equal.
 },
 
 {
-	name: "pmWikiHeading",
-	match: "^!{1,6}",
+	name: 'pmWikiHeading',
+	match: '^!{1,6}',
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
-		var e = createTiddlyElement(w.output,"h" + w.matchLength);
+		var e = createTiddlyElement(w.output,'h' + w.matchLength);
 		w.subWikifyTerm(e,this.termRegExp);
 	}
 },
 
 {
-	name: "pmWikiTableParams",
-	match: "^\\|\\|(?:[^\\n\\|]*)\\n",
+	name: 'pmWikiTableParams',
+	match: '^\\|\\|(?:[^\\n\\|]*)\\n',
 	lookaheadRegExp: /^\|\|([^\n\|]*)\n/mg,
 	handler: function(w)
 	{
@@ -188,26 +188,26 @@ all men are created equal.
 },
 
 {
-	name: "pmWikiTable",
-	match: "^\\|\\|(?:[^\\n]*)\\|\\|$",
+	name: 'pmWikiTable',
+	match: '^\\|\\|(?:[^\\n]*)\\|\\|$',
 	lookaheadRegExp: /^\|\|([^\n]*)\|\|$/mg,
 	rowTermRegExp: /(\|\|$\n?)/mg,
 	cellRegExp: /(?:\|\|([^\n]*)\|\|)|(\|\|$\n?)/mg,
 	cellTermRegExp: /((?:\x20*)\|\|)/mg,
 	handler: function(w)
 	{
-//this.debug = createTiddlyElement(w.output,"p");
-		var table = createTiddlyElement(w.output,"table");
+//#this.debug = createTiddlyElement(w.output,'p');
+		var table = createTiddlyElement(w.output,'table');
 		/*for(var i in w.tableParams) {
 			table.setAttribut(i,w.tableParams[i])
 		}*/
-		var rowContainer = createTiddlyElement(table,"tbody");
+		var rowContainer = createTiddlyElement(table,'tbody');
 		var rowCount = 0;
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
-			this.rowHandler(w,createTiddlyElement(rowContainer,"tr",null,(rowCount&1)?"oddRow":"evenRow"));
+			this.rowHandler(w,createTiddlyElement(rowContainer,'tr',null,(rowCount&1)?'oddRow':'evenRow'));
 			rowCount++;
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
@@ -221,16 +221,16 @@ all men are created equal.
 		this.cellRegExp.lastIndex = w.nextMatch;
 		var cellMatch = this.cellRegExp.exec(w.source);
 		while(cellMatch && cellMatch.index == w.nextMatch) {
-			if(w.source.substr(w.nextMatch,4) == "||||") {
+			if(w.source.substr(w.nextMatch,4) == '||||') {
 				// Colspan
-//pmDebug(this.debug,w.source.substr(w.nextMatch,10));
-//pmDebug(this.debug,"nm:"+w.nextMatch+" li:"+this.cellRegExp.lastIndex);
+//#pmDebug(this.debug,w.source.substr(w.nextMatch,10));
+//#pmDebug(this.debug,'nm:'+w.nextMatch+' li:'+this.cellRegExp.lastIndex);
 				colSpanCount++;
 				w.nextMatch += 2;
 			} else if(cellMatch[2]) {// End of row
 				if(colSpanCount > 1) {
-					prevCell.setAttribute("colspan",colSpanCount);
-					prevCell.setAttribute("colSpan",colSpanCount); // Needed for IE
+					prevCell.setAttribute('colspan',colSpanCount);
+					prevCell.setAttribute('colSpan',colSpanCount); // Needed for IE
 				}
 				w.nextMatch = this.cellRegExp.lastIndex;
 				break;
@@ -239,30 +239,30 @@ all men are created equal.
 				w.nextMatch += 2; //skip over ||
 				var chr = w.source.substr(w.nextMatch,1);
 				var cell;
-				if(chr == "!") {
-					cell = createTiddlyElement(e,"th");
+				if(chr == '!') {
+					cell = createTiddlyElement(e,'th');
 					w.nextMatch++;
 					chr = w.source.substr(w.nextMatch,1);
 				} else {
-					cell = createTiddlyElement(e,"td");
+					cell = createTiddlyElement(e,'td');
 				}
 				var spaceLeft = false;
-				while(chr == " ") {
+				while(chr == ' ') {
 					spaceLeft = true;
 					w.nextMatch++;
 					chr = w.source.substr(w.nextMatch,1);
 				}
 				if(colSpanCount > 1) {
-					cell.setAttribute("colspan",colSpanCount);
-					cell.setAttribute("colSpan",colSpanCount); // Needed for IE
+					cell.setAttribute('colspan',colSpanCount);
+					cell.setAttribute('colSpan',colSpanCount); // Needed for IE
 					colSpanCount = 1;
 				}
 				w.subWikifyTerm(cell,this.cellTermRegExp);
-				if(w.matchText.substr(w.matchText.length-3,1) == " ") {
+				if(w.matchText.substr(w.matchText.length-3,1) == ' ') {
 					// spaceRight
-					cell.align = spaceLeft ? "center" : "left";
+					cell.align = spaceLeft ? 'center' : 'left';
 				} else if(spaceLeft) {
-					cell.align = "right";
+					cell.align = 'right';
 				}
 				prevCell = cell;
 				w.nextMatch -= 2;
@@ -275,8 +275,8 @@ all men are created equal.
 },
 
 {
-	name: "pmWikilist",
-	match: "^(?:(?:(?:\\*)|(?:#))+)",
+	name: 'pmWikilist',
+	match: '^(?:(?:(?:\\*)|(?:#))+)',
 	lookaheadRegExp: /^(?:(?:(\*)|(#))+)/mg,
 	termRegExp: /(\n)/mg,
 	handler: function(w)
@@ -289,11 +289,11 @@ all men are created equal.
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
 			if(lookaheadMatch[1]) {
-				listType = "ul";
-				itemType = "li";
+				listType = 'ul';
+				itemType = 'li';
 			} else if(lookaheadMatch[2]) {
-				listType = "ol";
-				itemType = "li";
+				listType = 'ol';
+				itemType = 'li';
 			}
 			listLevel = lookaheadMatch[0].length;
 			w.nextMatch += lookaheadMatch[0].length;
@@ -318,48 +318,48 @@ all men are created equal.
 },
 
 {
-	name: "pmWikiRule",
-	match: "^----+$\\n?",
+	name: 'pmWikiRule',
+	match: '^----+$\\n?',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"hr");
+		createTiddlyElement(w.output,'hr');
 	}
 },
 
 {
-//Multiple indents are dealt with in PmWiki as: <dl><dd><div class='indent'>indentedevenmore</div></dd></dl>
-	name: "pmWikiIndent",
-	match: "^-+>",
+//# Multiple indents are dealt with in PmWiki as: <dl><dd><div class='indent'>indentedevenmore</div></dd></dl>
+	name: 'pmWikiIndent',
+	match: '^-+>',
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
-		var e = createTiddlyElement(w.output,"div",null,"indent");
+		var e = createTiddlyElement(w.output,'div',null,'indent');
 		w.subWikifyTerm(e,this.termRegExp);
 	}
 },
 
 {
-	name: "pmWikiOutdent",
-	match: "^-+<",
+	name: 'pmWikiOutdent',
+	match: '^-+<',
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
-		var e = createTiddlyElement(w.output,"div",null,"outdent");
+		var e = createTiddlyElement(w.output,'div',null,'outdent');
 		w.subWikifyTerm(e,this.termRegExp);
 	}
 },
 
 {
-	name: "pmWikiLeadingSpaces",
-	match: "^ ",
+	name: 'pmWikiLeadingSpaces',
+	match: '^ ',
 	lookaheadRegExp: /^ /mg,
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
-		var e = createTiddlyElement(w.output,"pre");
+		var e = createTiddlyElement(w.output,'pre');
 		while(true) {
 			w.subWikifyTerm(e,this.termRegExp);
-			createTiddlyElement(e,"br");
+			createTiddlyElement(e,'br');
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			if(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
@@ -372,8 +372,8 @@ all men are created equal.
 },
 
 {
-	name: "pmWikiExplicitLink",
-	match: "\\[\\[",
+	name: 'pmWikiExplicitLink',
+	match: '\\[\\[',
 	lookaheadRegExp: /\[\[(.*?)(?:\|(.*?))?\]\]/mg,
 	handler: function(w)
 	{
@@ -397,8 +397,8 @@ all men are created equal.
 },
 
 {
-	name: "pmWikiNotWikiLink",
-	match: "`" + config.textPrimitives.wikiLink,
+	name: 'pmWikiNotWikiLink',
+	match: '`' + config.textPrimitives.wikiLink,
 	handler: function(w)
 	{
 		w.outputText(w.output,w.matchStart+1,w.nextMatch);
@@ -406,12 +406,12 @@ all men are created equal.
 },
 
 {
-	name: "pmWikiLink",
+	name: 'pmWikiLink',
 	match: config.textPrimitives.wikiLink,
 	handler: function(w)
 	{
 		if(w.matchStart > 0) {
-			var preRegExp = new RegExp(config.textPrimitives.anyLetter,"mg");
+			var preRegExp = new RegExp(config.textPrimitives.anyLetter,'mg');
 			preRegExp.lastIndex = w.matchStart-1;
 			preMatch = preRegExp.exec(w.source);
 			if(preMatch.index == w.matchStart-1) {
@@ -428,7 +428,7 @@ all men are created equal.
 },
 
 {
-	name: "urlLink",
+	name: 'urlLink',
 	match: config.textPrimitives.urlPattern,
 	handler: function(w)
 	{
@@ -437,146 +437,146 @@ all men are created equal.
 },
 
 {
-	name: "pmWikiBoldByChar",
+	name: 'pmWikiBoldByChar',
 	match: "'''",
 	termRegExp: /('''|\n)/mg,
-	element: "strong",
+	element: 'strong',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "pmWikiItalicByChar",
+	name: 'pmWikiItalicByChar',
 	match: "''",
 	termRegExp: /(''|\n)/mg,
-	element: "em",
+	element: 'em',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "pmWikiMonospacedByChar",
-	match: "@@",
+	name: 'pmWikiMonospacedByChar',
+	match: '@@',
 	termRegExp: /(@@|\n)/mg,
-	element: "code",
+	element: 'code',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "pmWikiUnderlineByChar",
-	match: "\\{\\+",
+	name: 'pmWikiUnderlineByChar',
+	match: '\\{\\+',
 	termRegExp: /(\+\}|\n)/mg,
-	element: "u",
+	element: 'u',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "pmWikiStrikeByChar",
-	match: "\\{-",
+	name: 'pmWikiStrikeByChar',
+	match: '\\{-',
 	termRegExp: /(-\}|\n)/mg,
-	element: "strike",
+	element: 'strike',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "pmWikiSuperscriptByChar",
+	name: 'pmWikiSuperscriptByChar',
 	match: "\\'\\^",
 	termRegExp: /(\^\'|\n)/mg,
-	element: "sup",
+	element: 'sup',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "pmWikiSubscriptByChar",
+	name: 'pmWikiSubscriptByChar',
 	match: "\\'_",
 	termRegExp: /(_\'|\n)/mg,
-	element: "sub",
+	element: 'sub',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "pmWikiBigByChar",
+	name: 'pmWikiBigByChar',
 	match: "\\'\\+",
 	termRegExp: /(\+\'|\n)/mg,
-	element: "big",
+	element: 'big',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "pmWikiSmallByChar",
+	name: 'pmWikiSmallByChar',
 	match: "\\'\\-",
 	termRegExp: /(\-\'|\n)/mg,
-	element: "small",
+	element: 'small',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "pmWikiLargerFont",
-	match: "\\[\\+{1,2}",
+	name: 'pmWikiLargerFont',
+	match: '\\[\\+{1,2}',
 	termRegExp: /(\+{1,2}\]|\n)/mg,
 	handler: function(w)
 	{
 		//# <span style='font-size:120%'>big</span>, <span style='font-size:144%'>bigger</span>,
-		var e = createTiddlyElement(w.output,"span");
-		e.style["fontSize"] = w.matchLength==2 ? "120%" : "144%";
+		var e = createTiddlyElement(w.output,'span');
+		e.style['fontSize'] = w.matchLength==2 ? '120%' : '144%';
 		w.subWikifyTerm(e,this.termRegExp);
 	}
 },
 
 {
-	name: "pmWikiSmallerFont",
-	match: "\\[\\-{1,2}",
+	name: 'pmWikiSmallerFont',
+	match: '\\[\\-{1,2}',
 	termRegExp: /(\-{1,2}\]|\n)/mg,
-	element: "span",
+	element: 'span',
 	handler: function(w)
 	{
 		//# <span style='font-size:83%'>small</span>, <span style='font-size:69%'>smaller</span> text
-		var e = createTiddlyElement(w.output,"span");
-		e.style["fontSize"] = w.matchLength==2 ? "83%" : "69%";
+		var e = createTiddlyElement(w.output,'span');
+		e.style['fontSize'] = w.matchLength==2 ? '83%' : '69%';
 		w.subWikifyTerm(e,this.termRegExp);
 	}
 },
 
 {
-	name: "pmWikiExplicitLineBreak",
-	match: "\\{2,3}\\n",
+	name: 'pmWikiExplicitLineBreak',
+	match: '\\{2,3}\\n',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"br");
+		createTiddlyElement(w.output,'br');
 		if(w.matchLength==4) {
-			createTiddlyElement(w.output,"br");
+			createTiddlyElement(w.output,'br');
 		}
 	}
 },
 
 {
-	name: "pmWikiParagraph",
-	match: "\\n{2,}",
+	name: 'pmWikiParagraph',
+	match: '\\n{2,}',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"p");
+		createTiddlyElement(w.output,'p');
 	}
 },
 
 {
-	name: "pmWikiEscapedText",
-	match: "\\[=",
+	name: 'pmWikiEscapedText',
+	match: '\\[=',
 	lookaheadRegExp: /\[=((?:.|\n)*?)=\]/mg,
-	element: "span",
-	cls: "escaped",
+	element: 'span',
+	cls: 'escaped',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 {
-	name: "pmWikiEscapedCode",
-	match: "\\[@",
+	name: 'pmWikiEscapedCode',
+	match: '\\[@',
 	lookaheadRegExp: /\[@((?:.|\n)*?)@\]/mg,
-	element: "code",
-	cls: "escaped",
+	element: 'code',
+	cls: 'escaped',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 {
-	name: "pmWikiComment",
-	match: "<!\\-\\-",
+	name: 'pmWikiComment',
+	match: '<!\\-\\-',
 	lookaheadRegExp: /<!\-\-((?:.|\n)*?)\-\-!>/mg,
 	handler: function(w)
 	{
@@ -589,25 +589,25 @@ all men are created equal.
 },
 
 {
-	name: "pmWikiDirectives",
-	match: "\\(:(?:[a-z]{2,16}):\\)",
+	name: 'pmWikiDirectives',
+	match: '\\(:(?:[a-z]{2,16}):\\)',
 	lookaheadRegExp: /\(:(?:[a-z]{2,16}):\)/mg,
 	handler: PmWikiFormatter.directives
 },
 
 {
-	name: "pmWikiHtmlEntitiesEncoding",
-	match: "&#?[a-zA-Z0-9]{2,8};",
+	name: 'pmWikiHtmlEntitiesEncoding',
+	match: '&#?[a-zA-Z0-9]{2,8};',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"span").innerHTML = w.matchText;
+		createTiddlyElement(w.output,'span').innerHTML = w.matchText;
 	}
 }
 
 ];
 
 config.parsers.pmWikiFormatter = new Formatter(config.pmWikiFormatters);
-config.parsers.pmWikiFormatter.format = "PmWiki";
-config.parsers.pmWikiFormatter.formatTag = "PmWikiFormat";
-} // end of "install only once"
+config.parsers.pmWikiFormatter.format = 'pmwiki';
+config.parsers.pmWikiFormatter.formatTag = 'PmWikiFormat';
+} // end of 'install only once'
 //}}}

@@ -42,15 +42,6 @@ snipSnapDebug = function(out,str)
 	createTiddlyElement(out,"br");
 };
 
-/*wikify = function(source,output,highlightRegExp,tiddler)
-{
-	if(source && source != "") {
-		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
-		w.output = tiddler==null ? output : createTiddlyElement(output,"p");
-		w.subWikifyUnterm(w.output);
-	}
-};*/
-
 config.snipSnapFormatters = [
 {
 	name: "snipSnapHeading",
@@ -335,7 +326,7 @@ config.snipSnapFormatters = [
 ];
 
 config.parsers.snipSnapFormatter = new Formatter(config.snipSnapFormatters);
-config.parsers.snipSnapFormatter.format = "SnipSnap";
+config.parsers.snipSnapFormatter.format = 'snipsnap';
 config.parsers.snipSnapFormatter.formatTag = "SnipSnapFormat";
 } // end of "install only once"
 //}}}

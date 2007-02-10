@@ -508,7 +508,7 @@ config.jspWikiFormatters = [
 ];
 
 config.parsers.jspWikiFormatter = new Formatter(config.jspWikiFormatters);
-config.parsers.jspWikiFormatter.format = 'JSPWiki';
+config.parsers.jspWikiFormatter.format = 'jspwiki';
 config.parsers.jspWikiFormatter.formatTag = 'JSPWikiFormat';
 } // end of 'install only once'
 //}}}

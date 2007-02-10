@@ -47,16 +47,6 @@ pbDebug = function(out,str)
 	createTiddlyElement(out,"br");
 };
 
-/*wikify = function(source,output,highlightRegExp,tiddler)
-{
-	if(source && source != "")
-		{
-		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
-		w.output = tiddler==null ? output : createTiddlyElement(output,"p");
-		w.subWikifyUnterm(w.output);
-		}
-};*/
-
 PBWikiFormatter.setAttributesFromParams = function(e,p)
 {
 	var re = /\s*(.*?)=(?:(?:"(.*?)")|(?:'(.*?)')|((?:\w|%|#)*))/mg;
@@ -353,7 +343,7 @@ config.pbWikiFormatters = [
 ];
 
 config.parsers.pBWikiFormatter = new Formatter(config.pbWikiFormatters);
-config.parsers.pBWikiFormatter.format = "PBWiki";
-config.parsers.pBWikiFormatter.formatTag = "PBWikiFormat";
+config.parsers.pBWikiFormatter.format = 'pbwiki';
+config.parsers.pBWikiFormatter.formatTag = 'PBWikiFormat';
 } // end of "install only once"
 //}}}

@@ -66,13 +66,12 @@ config.tracFormatters = [
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch)
-			{
+		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
 			this.rowHandler(w,createTiddlyElement(rowContainer,"tr",null,(rowCount&1)?"oddRow":"evenRow"));
 			rowCount++;
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-			}
+		}
 	},//# end handler
 	rowHandler: function(w,e)
 	{
@@ -81,67 +80,56 @@ config.tracFormatters = [
 		var prevCell = null;
 		this.cellRegExp.lastIndex = w.nextMatch;
 		var cellMatch = this.cellRegExp.exec(w.source);
-		while(cellMatch && cellMatch.index == w.nextMatch)
-			{
-			if(w.source.substr(w.nextMatch,4) == "||||")
-				{// Colspan
+		while(cellMatch && cellMatch.index == w.nextMatch) {
+			if(w.source.substr(w.nextMatch,4) == "||||") {
+				// Colspan
 				colSpanCount++;
 				w.nextMatch += 2;
-				}
-			else if(cellMatch[2])
-				{// End of row
-				if(colSpanCount > 1)
-					{
+			} else if(cellMatch[2]) {
+				// End of row
+				if(colSpanCount > 1) {
 					prevCell.setAttribute("colspan",colSpanCount);
 					prevCell.setAttribute("colSpan",colSpanCount); // Needed for IE
-					}
+				}
 				w.nextMatch = this.cellRegExp.lastIndex;
 				break;
-				}
-			else
-				{// Cell
+			} else {
+				// Cell
 				w.nextMatch += 2; //skip over ||
 				var chr = w.source.substr(w.nextMatch,1);
 				var cell;
-				if(chr == "!")
-					{
+				if(chr == "!") {
 					cell = createTiddlyElement(e,"th");
 					w.nextMatch++;
 					chr = w.source.substr(w.nextMatch,1);
-					}
-				else
-					{
+				} else {
 					cell = createTiddlyElement(e,"td");
-					}
+				}
 				var spaceLeft = false;
-				while(chr == " ")
-					{
+				while(chr == " ") {
 					spaceLeft = true;
 					w.nextMatch++;
 					chr = w.source.substr(w.nextMatch,1);
-					}
-				if(colSpanCount > 1)
-					{
+				}
+				if(colSpanCount > 1) {
 					cell.setAttribute("colspan",colSpanCount);
 					cell.setAttribute("colSpan",colSpanCount); // Needed for IE
 					colSpanCount = 1;
-					}
+				}
 				w.subWikifyTerm(cell,this.cellTermRegExp);
-				if(w.matchText.substr(w.matchText.length-3,1) == " ")
-					{// SpaceRight
+				if(w.matchText.substr(w.matchText.length-3,1) == " ") {
+					// SpaceRight
 					cell.align = spaceLeft ? "center" : "left";
-					}
-				else if(spaceLeft)
-					{
+				} else if(spaceLeft) {
 					cell.align = "right";
-					}
+				}
 				prevCell = cell;
 				w.nextMatch -= 2;
-				}
+			}
 			col++;
 			this.cellRegExp.lastIndex = w.nextMatch;
 			cellMatch = this.cellRegExp.exec(w.source);
-			}
+		}
 	}//# end rowHandler
 },
 
@@ -156,28 +144,25 @@ config.tracFormatters = [
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch)
-			{
+		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
 			w.subWikifyTerm(createTiddlyElement(li,"dt"),/(::\s*\n)/mg);
 			var dd = createTiddlyElement(li,"dd");
 			this.l2RegExp.lastIndex = w.nextMatch;
 			var l2Match = this.l2RegExp.exec(w.source);
-			while(l2Match && l2Match.index == w.nextMatch)
-				{
-				while(w.source.substr(w.nextMatch,1) == " ")
-					{//# skip past any leading spaces which would be rendered as blockquote
+			while(l2Match && l2Match.index == w.nextMatch) {
+				while(w.source.substr(w.nextMatch,1) == " ") {
+					//# skip past any leading spaces which would be rendered as blockquote
 					w.nextMatch++;
-					}
+				}
 				w.subWikifyTerm(dd,/(\n)/mg);
 				l2Match = this.l2RegExp.exec(w.source);
-				if(l2Match)
-					{
+				if(l2Match) {
 					createTiddlyText(dd," ");
-					}
 				}
+			}
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-			}
+		}
 	}
 },
 
@@ -194,45 +179,35 @@ config.tracFormatters = [
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch)
-			{
+		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
 			listType = "ol";
 			itemType = "li";
 			listLevel = (lookaheadMatch[0].length-3)/3;
 			var style = null;
-			if(lookaheadMatch[1])
-				{//*
+			if(lookaheadMatch[1]){
+				//*
 				listType = "ul";
 				listLevel = (lookaheadMatch[0].length-2)/3;
-				}
-			else if(lookaheadMatch[2])
-				{//1.
+			} else if(lookaheadMatch[2]) {//1.
 				style = "decimal";
-				}
-			else if(lookaheadMatch[3])
-				{//a.
+			} else if(lookaheadMatch[3]) {
+			//a.
 				style = "lower-alpha";
-				}
-			else if(lookaheadMatch[4])
-				{//i.
+			} else if(lookaheadMatch[4]) {
+				//i.
 				style = "lower-roman";
-				}
+			}
 			w.nextMatch += lookaheadMatch[0].length;
-			if(listLevel > currLevel)
-				{
+			if(listLevel > currLevel) {
 				for(var i=currLevel; i<listLevel; i++)
 					{placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],listType));}
-				}
-			else if(listLevel < currLevel)
-				{
+			} else if(listLevel < currLevel) {
 				for(i=currLevel; i>listLevel; i--)
 					{placeStack.pop();}
-				}
-			else if(listLevel == currLevel && listType != currType)
-				{
+			} else if(listLevel == currLevel && listType != currType) {
 				placeStack.pop();
 				placeStack.push(createTiddlyElement(placeStack[placeStack.length-1],listType));
-				}
+			}
 			currLevel = listLevel;
 			currType = listType;
 			var e = createTiddlyElement(placeStack[placeStack.length-1],itemType);
@@ -240,7 +215,7 @@ config.tracFormatters = [
 			w.subWikifyTerm(e,this.termRegExp);
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-			}
+		}
 	}
 },
 
@@ -274,11 +249,10 @@ config.tracFormatters = [
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			{
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			createTiddlyElement(w.output,"span").innerHTML = lookaheadMatch[1];
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
-			}
+		}
 	}
 },
 
@@ -298,11 +272,10 @@ config.tracFormatters = [
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[1])
-			{
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[1]) {
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			invokeMacro(w.output,lookaheadMatch[1],lookaheadMatch[2],w,w.tiddler);
-			}
+		}
 	}
 },
 
@@ -323,14 +296,13 @@ config.tracFormatters = [
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
-			{
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var link = lookaheadMatch[1];
 			var text = lookaheadMatch[2] ? lookaheadMatch[2] : link;
 			var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
-			}
+		}
 	}
 },
 
@@ -348,22 +320,19 @@ config.tracFormatters = [
 	match: config.textPrimitives.wikiLink,
 	handler: function(w)
 	{
-		if(w.matchStart > 0)
-			{
+		if(w.matchStart > 0) {
 			var preRegExp = new RegExp(config.textPrimitives.anyLetter,"mg");
 			preRegExp.lastIndex = w.matchStart-1;
 			var preMatch = preRegExp.exec(w.source);
-			if(preMatch.index == w.matchStart-1)
-				{
+			if(preMatch.index == w.matchStart-1) {
 				w.outputText(w.output,w.matchStart,w.nextMatch);
 				return;
-				}
 			}
+		}
 		var output = w.output;
-		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText))
-			{
+		if(w.autoLinkWikiWords == true || store.isShadowTiddler(w.matchText)) {
 			output = createTiddlyLink(w.output,w.matchText,false,null,w.isStatic);
-			}
+		}
 		w.outputText(output,w.matchStart,w.nextMatch);
 	}
 },
@@ -463,15 +432,15 @@ config.tracFormatters = [
 	name: "tracHtmlEntitiesEncoding",
 	match: "&#?[a-zA-Z0-9]{2,8};",
 	handler: function(w)
-		{
+	{
 		createTiddlyElement(w.output,"span").innerHTML = w.matchText;
-		}
+	}
 }
 
 ];
 
 config.parsers.tracFormatter = new Formatter(config.tracFormatters);
-config.parsers.tracFormatter.format = "Trac";
+config.parsers.tracFormatter.format = "trac";
 config.parsers.tracFormatter.formatTag = "TracFormat";
 } // end of "install only once"
 //}}}

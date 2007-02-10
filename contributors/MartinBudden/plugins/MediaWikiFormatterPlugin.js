@@ -69,7 +69,7 @@ mwDebug = function(out,str)
 MediaWikiFormatter.Tiddler_changed = Tiddler.prototype.changed;
 Tiddler.prototype.changed = function()
 {
-	if((this.fields && this.fields.wikiformat==config.parsers.mediaWikiFormatter.format) || this.isTagged(config.parsers.mediaWikiFormatter.formatTag)) {
+	if((this.fields.wikiformat==config.parsers.mediaWikiFormatter.format) || this.isTagged(config.parsers.mediaWikiFormatter.formatTag)) {
 		// update the links array, by checking for MediaWiki format links
 		this.links = [];
 //#lookaheadRegExp: /\[\[(?:([a-z]{2,3}:)?)(#?)([^\|\]]*?)(?:(\]\](\w*))|(\|(.*?)\]\]))/mg,
@@ -1306,7 +1306,7 @@ config.mediaWikiFormatters = [
 ];
 
 config.parsers.mediaWikiFormatter = new Formatter(config.mediaWikiFormatters);
-config.parsers.mediaWikiFormatter.format = 'MediaWiki';
+config.parsers.mediaWikiFormatter.format = 'mediawiki';
 config.parsers.mediaWikiFormatter.formatTag = 'MediaWikiFormat';
 } // end of 'install only once'
 //}}}

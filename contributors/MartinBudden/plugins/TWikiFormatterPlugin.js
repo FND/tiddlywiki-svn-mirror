@@ -51,7 +51,7 @@ twDebug = function(out,str)
 Tiddler.prototype.escapeLineBreaks = function()
 {
 	var r = this.text.escapeLineBreaks();
-	if(this.isTagged('TWikiFormat')) {
+	if(this.isTagged(config.parsers.twikiFormatter.formatTag)) {
 		//# need to escape space characters because IE collapses multiple spaces into a single space
 		r = r.replace(/\x20\x20\x20/mg,'\\b \\b');
 		r = r.replace(/\x20\x20/mg,'\\b ');
@@ -697,7 +697,7 @@ config.twikiFormatters = [
 ];
 
 config.parsers.twikiFormatter = new Formatter(config.twikiFormatters);
-config.parsers.twikiFormatter.format = 'TWiki';
+config.parsers.twikiFormatter.format = 'twiki';
 config.parsers.twikiFormatter.formatTag = 'TWikiFormat';
 } // end of 'install only once'
 //}}}

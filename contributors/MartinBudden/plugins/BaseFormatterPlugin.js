@@ -347,7 +347,7 @@ config.baseFormatters = [
 ];
 
 config.parsers.baseFormatter = new Formatter(config.baseFormatters);
-config.parsers.baseFormatter.format = 'Base';
+config.parsers.baseFormatter.format = 'base';
 config.parsers.baseFormatter.formatTag = 'BaseFormat';
 } // end of 'install only once'
 //}}}

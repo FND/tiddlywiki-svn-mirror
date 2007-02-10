@@ -559,7 +559,7 @@ config.confluenceFormatters = [
 ];
 
 config.parsers.confluenceFormatter = new Formatter(config.confluenceFormatters);
-config.parsers.confluenceFormatter.format = 'Confluence';
+config.parsers.confluenceFormatter.format = 'confluence';
 config.parsers.confluenceFormatter.formatTag = 'ConfluenceFormat';
 } // end of 'install only once'
 //}}}

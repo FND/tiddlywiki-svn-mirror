@@ -32,7 +32,7 @@ wikify = function(source,output,highlightRegExp,tiddler)
 	if(source && source != '') {
 		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
 		var out = output;
-		if(tiddler && (tiddler.isTagged('SocialtextFormat') || (tiddler.fields && tiddler.fields.wikiformat=='socialtext')) ) {
+		if(tiddler && (tiddler.isTagged(config.parsers.socialTextFormatter.formatTag) || (tiddler.fields.wikiformat==config.parsers.socialTextFormatter.format)) ) {
 			var d1 = createTiddlyElement(output,'div','content-display-body','content-section-visible');
 			var d2 = createTiddlyElement(d1,'div','wikipage');
 			out = createTiddlyElement(d2,'div',null,'wiki');
@@ -58,7 +58,7 @@ stDebug = function(out,str)
 socialtextFormatter.Tiddler_changed = Tiddler.prototype.changed;
 Tiddler.prototype.changed = function()
 {
-	if((this.fields && this.fields.wikiformat=='Socialtext') || this.isTagged('SocialtextFormat')) {
+	if((this.fields.wikiformat==config.parsers.socialTextFormatter.format) || this.isTagged(config.parsers.socialTextFormatter.formatTag)) {
 		// update the links array, by checking for Socialtext format links
 		this.links = [];
 		var tiddlerLinkRegExp = /(?:\"(.*?)\" ?)?\[([^\]]*?)\]/mg;
@@ -574,7 +574,7 @@ config.socialTextFormatters = [
 ];
 
 config.parsers.socialTextFormatter = new Formatter(config.socialTextFormatters);
-config.parsers.socialTextFormatter.format = 'Socialtext';
+config.parsers.socialTextFormatter.format = 'socialtext';
 config.parsers.socialTextFormatter.formatTag = 'SocialtextFormat';
 } // end of 'install only once'
 //}}}

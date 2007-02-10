@@ -432,7 +432,7 @@ config.textileFormatters = [
 ];
 
 config.parsers.textileFormatter = new Formatter(config.textileFormatters);
-config.parsers.textileFormatter.format = 'Textile';
+config.parsers.textileFormatter.format = 'textile';
 config.parsers.textileFormatter.formatTag = 'TextileFormat';
 } // end of "install only once"
 //}}}
