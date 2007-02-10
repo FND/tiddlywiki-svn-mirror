@@ -1,0 +1,7 @@
+<div title="ListWorkspace" server.host="www.eu.socialtext.net" server.workspace="stoss" wikiformat="socialtext">
+<pre>
+&lt;&lt;updateWorkspaceTiddlerList&gt;&gt;
+
+&lt;&lt;list workspaceTiddlers&gt;&gt;
+</pre>
+</div>

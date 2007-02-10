@@ -7,10 +7,10 @@ tiddler: SiteSubtitle.tiddler
 tiddler: SideBarTabs.tiddler
 tiddler: SiteTitleStOSS.tiddler
 tiddler: PageTemplate.tiddler
-tiddler: AdvancedOptionsTest.tiddler
 tiddler: DefaultTiddlersStOSS.tiddler
 tiddler: HomeStOSS.tiddler
-tiddler: ListHostedStOSS.tiddler
+tiddler: ListWorkspaceStOSS.tiddler
+tiddler: ImportWorkspaceStOSS.tiddler
 tiddler: SocialtextOpenSourceWiki.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/StyleSheet.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/SocialtextStyleOverrides.tiddler
@@ -29,7 +29,6 @@ tiddler: ../../experimental/HostedCommandsPlugin.js
 tiddler: ../../experimental/HostedCommands2Plugin.js
 tiddler: ../../experimental/SocialtextAdaptorPlugin.js
 tiddler: ../../plugins/SocialtextFormatterPlugin.js
-tiddler: ../../plugins/DisableWikiLinksPlugin.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../../../contributors/misc/plugins/TagCloudPlugin.js

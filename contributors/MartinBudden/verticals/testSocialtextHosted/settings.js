@@ -11,20 +11,16 @@ config.options.chkSaveBackups = false;
 config.options.chkAutoSave = false;
 config.options.txtBackupFolder = "backup";
 config.options.txtMaxEditRows = 20;
+
 config.options.chkDisableWikiLinks = true;
 
-store.setDefaultCustomFields('server.host:www.eu.socialtext.net;server.workspace:stoss;wikiformat:Socialtext;');
+config.usePreForStorage = true;
+config.maxTiddlerImportCount = 10;
+
+store.setDefaultCustomFields('server.host:www.eu.socialtext.net;server.workspace:stoss;wikiformat:socialtext;');
 
 config.options.chkSinglePageMode = false;
 config.options.chkTopOfPageMode = false;
 
 config.displayStartupTime = true;
-config.usePreForStorage = true;
-
-config.macros.updateHostedList.onDone = function(params)
-{
-	displayMessage(config.macros.updateHostedList.done);
-	story.displayTiddler(null,'@ListHosted');// for demo
-};
-
 /*}}}*/
