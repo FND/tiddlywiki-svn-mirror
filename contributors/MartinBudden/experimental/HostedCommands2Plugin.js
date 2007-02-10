@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#HostedCommands2Plugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/HostedCommands2Plugin.js|
-|''Version:''|0.2.1|
+|''Version:''|0.2.3|
 |''Date:''|Jan 20, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -88,30 +88,6 @@ config.macros.updateHostedTiddlerList.handler = function(place,macroName,params,
 	btn.setAttribute("customFields",customFields);
 };
 
-//# Convenience wrapper to call an adaptor function
-callAdaptorFunction = function(fnName,params,fields)
-{
-	var ret = false;
-	if(!fields)
-		fields = params.fields;
-	if(!fields)
-		return ret;
-	var serverType = fields['server.type'];
-	if(!serverType)
-		serverType = fields['wikiformat'];
-	if(!serverType || !config.adaptors[serverType] || !fields['server.host'])
-		return ret;
-	var adaptor = new config.adaptors[serverType];
-	if(adaptor) {
-		adaptor.openHost(fields['server.host']);
-		adaptor.openWorkspace(fields['server.workspace']);
-		ret = adaptor[fnName](params);
-		adaptor.close();
-		delete adaptor;
-	}
-	return ret;
-};
-
 config.macros.updateHostedTiddlerList.onClick = function(e)
 {
 	clearMessage();
@@ -119,7 +95,7 @@ config.macros.updateHostedTiddlerList.onClick = function(e)
 	var customFields = this.getAttribute("customFields");
 	var fields = convertCustomFieldsToHash(customFields);
 	var params = {host:fields['server.host'],workspace:fields['server.workspace'],callback:config.macros.updateHostedTiddlerList.callback};
-	return callAdaptorFunction('getTiddlerList',params,fields);
+	return invokeAdaptor('getTiddlerList',params,fields);
 };
 
 config.macros.updateHostedTiddlerList.callback = function(params)
@@ -149,7 +125,7 @@ merge(config.commands.revisions,{
 
 config.commands.revisions.isEnabled = function(tiddler)
 {
-	return tiddler.isFunctionSupported('getTiddlerRevisionList');
+	return isAdaptorFunctionSupported('getTiddlerRevisionList',tiddler.fields);
 };
 
 config.commands.revisions.handler = function(event,src,title)
@@ -158,7 +134,7 @@ config.commands.revisions.handler = function(event,src,title)
 	var tiddler = store.fetchTiddler(title);
 	tiddler['temp.callback'] = config.commands.revisions.callback;
 	tiddler['temp.src'] = src;
-	tiddler.callAdaptorFunction('getTiddlerRevisionList');
+	invokeAdaptor('getTiddlerRevisionList',tiddler);
 	event.cancelBubble = true;
 	if(event.stopPropagation)
 		event.stopPropagation();

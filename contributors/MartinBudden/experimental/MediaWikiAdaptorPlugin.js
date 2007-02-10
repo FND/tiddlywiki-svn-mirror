@@ -3,8 +3,8 @@
 |''Description:''|Adaptor for moving and converting data to and from MediaWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiAdaptorPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/MediaWikiAdaptorPlugin.js|
-|''Version:''|0.2.1|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/MediaWikiAdaptorPlugin.js|
+|''Version:''|0.2.3|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -21,12 +21,14 @@ function doHttpGET(url,callback,params,headers,data,contentType,username,passwor
 	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
 }
 
+config.messages.serverParsingError = "Error parsing result from server";
+
 function MediaWikiAdaptor()
 {
 	this.host = null;
 	this.workspace = null;
 	return this;
-};
+}
 
 MediaWikiAdaptor.anyChild = function(obj)
 //# convenience function for getting children whose keys are unknown
@@ -70,7 +72,7 @@ MediaWikiAdaptor.prototype.getTiddler = function(tiddler)
 	tiddler.fields['temp.adaptor'] = this;
 	var req = doHttpGET(url,MediaWikiAdaptor.getTiddlerCallback,tiddler);
 //#displayMessage('req:'+req);
-	return (typeof req == 'string') ? req : true;
+	return typeof req == 'string' ? req : true;
 };
 
 MediaWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
@@ -78,31 +80,35 @@ MediaWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 //#displayMessage('getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
-	if(!status)
-		tiddler.fields['temp.statusText'] = xhr.statusText;
-	var content = null;
-	try {
-		//# convert the downloaded data into a javascript object
-		eval('var info=' + responseText);
-		var page = MediaWikiAdaptor.anyChild(info.query.pages);
-		var revision = MediaWikiAdaptor.anyChild(page.revisions);
-		content = revision['*'];
-		var revid = revision['revid'];
-		tiddler.fields['mediawiki.revid'] = String(revid);
-	} catch (ex) {
-		displayMessage('Error response:'+responseText);
-	}
-	/*var links = page.links;
-	if (links && links.length) {
-		alert(links[0]['*'] + ' is linked from ' + title);
-		tiddler.text += links[0]['*'];
+	tiddler.fields['temp.status'] = false;
+	if(status) {
+		var content = null;
+		try {
+			//# convert the downloaded data into a javascript object
+			eval('var info=' + responseText);
+			var page = MediaWikiAdaptor.anyChild(info.query.pages);
+			var revision = MediaWikiAdaptor.anyChild(page.revisions);
+			tiddler.text = revision['*'];
+			tiddler.fields['mediawiki.revid'] = String(revision['revid']);
+		} catch (ex) {
+			tiddler.fields['temp.statusText'] = exceptionText(ex,config.messages.serverParsingError);
+			var callback = tiddler.fields['temp.callback'];
+			if(callback)
+				callback(params);
+			return;
+		}
+		/*var links = page.links;
+		if (links && links.length) {
+			alert(links[0]['*'] + ' is linked from ' + title);
+			tiddler.text += links[0]['*'];
+		} else {
+			alert('No links on ' + title + ' found');
+		}*/
+		tiddler.fields['temp.status'] = true;
 	} else {
-		alert('No links on ' + title + ' found');
-	}*/
-	if(content) {
-		tiddler.text = content;
+		tiddler.fields['temp.statusText'] = xhr.statusText;
 	}
-	var callback = tiddler.fields['temp.callback'];
+	callback = tiddler.fields['temp.callback'];
 	if(callback)
 		callback(tiddler);
 };

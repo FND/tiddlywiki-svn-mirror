@@ -3,8 +3,8 @@
 |''Description:''|Adaptor for moving and converting data to and from Socialtext Wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com) and JeremyRuston (jeremy (at) osmosoft (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#SocialtextAdaptorPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SocialtextAdaptorPlugin.js|
-|''Version:''|0.2.2|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/SocialtextAdaptorPlugin.js|
+|''Version:''|0.2.3|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -16,12 +16,19 @@
 if(!version.extensions.SocialtextAdaptorPlugin) {
 version.extensions.SocialtextAdaptorPlugin = {installed:true};
 
+function doHttpGET(url,callback,params,headers,data,contentType,username,password)
+{
+	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
+}
+
+config.messages.serverParsingError = "Error parsing result from server";
+
 function SocialtextAdaptor()
 {
 	this.host = null;
 	this.workspace = null;
 	return this;
-};
+}
 
 //#SocialtextAdaptor.mimeType = 'text/vnd.socialtext.wiki';
 SocialtextAdaptor.mimeType = 'text/x.socialtext-wiki';
@@ -93,8 +100,8 @@ SocialtextAdaptor.prototype.getWorkspaceList = function(params)
 	var urlTemplate = '%0data/workspaces';
 	var url = urlTemplate.format([this.host]);
 	params.adaptor = this;
-	var req = doHttp('GET',url,undefined,null,null,null,SocialtextAdaptor.getWorkspaceListCallback,params,{'Accept':'application/json'});
-	return (typeof req == 'string') ? req : true;
+	var req = doHttpGET(url,SocialtextAdaptor.getWorkspaceListCallback,params,{'Accept':'application/json'});
+	return typeof req == 'string' ? req : true;
 };
 
 SocialtextAdaptor.getWorkspaceListCallback = function(status,params,responseText,xhr)
@@ -106,7 +113,9 @@ SocialtextAdaptor.getWorkspaceListCallback = function(status,params,responseText
 			eval('var info=' + responseText);
 			//#var info = window.eval('(' + responseText + ')');
 		} catch (ex) {
-			params.callback(exceptionText(ex,"Error parsing result from server"),null,params.adaptor,params.callbackParams);
+			params.statusText = exceptionText(ex,config.messages.serverParsingError);
+			if(params.callback)
+				params.callback(params);
 			return;
 		}
 		var list = [];
@@ -116,7 +125,6 @@ SocialtextAdaptor.getWorkspaceListCallback = function(status,params,responseText
 		params.list = list;
 		params.status = true;
 	} else {
-		params.status = false;
 		params.statusText = xhr.statusText;
 	}
 	if(params && params.callback)
@@ -165,7 +173,7 @@ SocialtextAdaptor.prototype.getTiddlerList = function(params)
 	params.adaptor = this;
 	var req = doHttp("GET",url,null,null,null,null,SocialtextAdaptor.getTiddlerListCallback,params,{'Accept':'application/json'});
 //#displayMessage('req:'+req);
-	return (typeof req == 'string') ? req : true;
+	return typeof req == 'string' ? req : true;
 };
 
 //# [
@@ -194,7 +202,7 @@ SocialtextAdaptor.getTiddlerListCallback = function(status,params,responseText,x
 			//# convert the downloaded data into a javascript object
 			eval('var info=' + responseText);
 		} catch (ex) {
-			params.statusText = exceptionText(ex,"Error parsing result from server");
+			params.statusText = exceptionText(ex,config.messages.serverParsingError);
 			if(params.callback)
 				params.callback(params);
 			return;
@@ -239,9 +247,9 @@ SocialtextAdaptor.prototype.getTiddler = function(tiddler)
 	tiddler.fields.wikiformat = 'Socialtext';
 	tiddler.fields['server.type'] = 'socialtext';
 	tiddler.fields['temp.adaptor'] = this;
-	var req = doHttp('GET',url,null,null,null,null,SocialtextAdaptor.getTiddlerCallback,tiddler,{'Accept':'application/json'});
+	var req = doHttpGET(url,SocialtextAdaptor.getTiddlerCallback,tiddler,{'Accept':'application/json'});
 //#displayMessage('req:'+req);
-	return (typeof req == 'string') ? req : true;
+	return typeof req == 'string' ? req : true;
 };
 
 //# www.eu.socialtext.netdata/workspaces/tiddlytext/pages/goals?accept=text/x.socialtext-wiki
@@ -262,23 +270,30 @@ SocialtextAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 //#displayMessage('getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
-	try {
-		//# convert the downloaded data into a javascript object
-		eval('var info=' + responseText);
-//#displayMessage('tags:'+info.tags);
-//#displayMessage('page_id:'+info.page_id);
-//#displayMessage('modifier:'+info.last_editor);
-		tiddler.tags = info.tags;
-		tiddler.fields['server.page.id'] = info.page_id;
-		tiddler.fields['server.page.name'] = info.name;
-		tiddler.modifier = info.last_editor;
-		tiddler.modified = SocialtextAdaptor.dateFromEditTime(info.last_edit_time);
-//#displayMessage('modified:'+info.last_edit_time);
-//#displayMessage('modified2:'+params.modified);
-	} catch (ex) {
-		//alert('SocialtextAdaptor.getTiddlerCallback: JSON error');
-		displayMessage('Error response:'+responseText.substr(0,50));
-		return;
+	tiddler.fields['temp.status'] = false;
+	if(status) {
+		try {
+			//# convert the downloaded data into a javascript object
+			eval('var info=' + responseText);
+			//#displayMessage('tags:'+info.tags);
+			//#displayMessage('page_id:'+info.page_id);
+			//#displayMessage('modifier:'+info.last_editor);
+			//#displayMessage('modified:'+info.last_edit_time);
+			tiddler.tags = info.tags;
+			tiddler.fields['server.page.id'] = info.page_id;
+			tiddler.fields['server.page.name'] = info.name;
+			tiddler.modifier = info.last_editor;
+			tiddler.modified = SocialtextAdaptor.dateFromEditTime(info.last_edit_time);
+		} catch (ex) {
+			tiddler.fields['temp.statusText'] = exceptionText(ex,config.messages.serverParsingError);
+			var callback = tiddler.fields['temp.callback'];
+			if(callback)
+				callback(params);
+			return;
+		}
+		tiddler.fields['temp.status'] = true;
+	} else {
+		tiddler.fields['temp.statusText'] = xhr.statusText;
 	}
 	// request the page's text
 	var adaptor = tiddler.fields['temp.adaptor'];
@@ -286,7 +301,7 @@ SocialtextAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 	var urlTemplate = '%0data/workspaces/%1/pages/%2';
 	var url = urlTemplate.format([adaptor.host,adaptor.workspace,tiddler.fields['server.page.id']]);
 //#displayMessage('cb url: '+url);
-	var req = doHttp('GET',url,null,null,null,null,SocialtextAdaptor.getTiddlerCallback2,tiddler,{'Accept':SocialtextAdaptor.mimeType});
+	var req = doHttpGET(url,SocialtextAdaptor.getTiddlerCallback2,tiddler,{'Accept':SocialtextAdaptor.mimeType});
 //#displayMessage('req:'+req);
 };
 
@@ -296,8 +311,12 @@ SocialtextAdaptor.getTiddlerCallback2 = function(status,tiddler,responseText,xhr
 //#displayMessage('rt:'+responseText);
 //#displayMessage('xhr:'+xhr);
 	tiddler.text = responseText;
-	if(!status)
+	if(status) {
+		tiddler.fields['temp.status'] = true;
+	} else {
+		tiddler.fields['temp.status'] = false;
 		tiddler.fields['temp.statusText'] = xhr.statusText;
+	}
 	var callback = tiddler.fields['temp.callback'];
 	if(callback)
 		callback(tiddler);
@@ -323,7 +342,7 @@ SocialtextAdaptor.prototype.putTiddler = function(tiddler)
 	tiddler.fields['temp.adaptor'] = this;
 	var req = doHttp('POST',url,tiddler.text,SocialtextAdaptor.mimeType,null,null,SocialtextAdaptor.putTiddlerCallback,tiddler,{"X-Http-Method": "PUT"});
 //#displayMessage('req:'+req);
-	return (typeof req == 'string') ? req : true;
+	return typeof req == 'string' ? req : true;
 };
 
 SocialtextAdaptor.putTiddlerCallback = function(status,tiddler,responseText,xhr)
@@ -331,8 +350,12 @@ SocialtextAdaptor.putTiddlerCallback = function(status,tiddler,responseText,xhr)
 //#displayMessage('putTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
-	if(!status)
+	if(status) {
+		tiddler.fields['temp.status'] = true;
+	} else {
+		tiddler.fields['temp.status'] = false;
 		tiddler.fields['temp.statusText'] = xhr.statusText;
+	}
 	var callback = tiddler.fields['temp.callback'];
 	if(callback)
 		callback(tiddler);

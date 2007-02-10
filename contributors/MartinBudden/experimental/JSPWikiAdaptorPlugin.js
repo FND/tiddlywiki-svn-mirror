@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for moving and converting data to and from JSP Wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#JSPWikiAdaptorPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/JSPWikiAdaptorPlugin.js|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/JSPWikiAdaptorPlugin.js|
 |''Version:''|0.2.1|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -39,6 +39,8 @@ function doHttpGET(url,callback,params,headers,data,contentType,username,passwor
 	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
 }
 
+config.messages.serverParsingError = "Error parsing result from server";
+
 function JSPWikiAdaptor()
 {
 	this.host = null;
@@ -69,7 +71,7 @@ JSPWikiAdaptor.prototype.getWorkspaceList = function(params)
 	var url = urlTemplate.format([this.host]);
 	params.adaptor = this;
 	var req = doHttpGET(url,JSPWikiAdaptor.getWorkspaceListCallback,params);
-	return (typeof req == 'string') ? req : true;
+	return typeof req == 'string' ? req : true;
 };
 
 JSPWikiAdaptor.getWorkspaceListCallback = function(status,params,responseText,xhr)
@@ -81,9 +83,10 @@ JSPWikiAdaptor.getWorkspaceListCallback = function(status,params,responseText,xh
 	if(status) {
 		try {
 			eval('var info=' + responseText);
-			//#var info = window.eval('(' + responseText + ')');
 		} catch (ex) {
-			params.callback(exceptionText(ex,"Error parsing result from server"),null,params.adaptor,params.callbackParams);
+			params.statusText = exceptionText(ex,config.messages.serverParsingError);
+			if(params.callback)
+				params.callback(params);
 			return;
 		}
 		var list = [];
@@ -92,11 +95,8 @@ JSPWikiAdaptor.getWorkspaceListCallback = function(status,params,responseText,xh
 		}
 		params.list = list;
 		params.status = true;
-		//params.callback(true,list,params.adaptor,params.callbackParams);
 	} else {
-		params.status = false;
 		params.statusText = xhr.statusText;
-		//params.callback(xhr.statusText,null,params.adaptor,params.callbackParams);
 	}
 	if(params && params.callback)
 		params.callback(params);
@@ -121,7 +121,7 @@ JSPWikiAdaptor.prototype.getTiddlerList = function(params)
 	params.adaptor = this;
 	var req = doHttpGET(url,JSPWikiAdaptor.getTiddlerListCallback,params);
 //#displayMessage('req:'+req);
-	return (typeof req == 'string') ? req : true;
+	return typeof req == 'string' ? req : true;
 };
 
 JSPWikiAdaptor.getTiddlerListCallback = function(status,params,responseText,xhr)
@@ -137,7 +137,7 @@ JSPWikiAdaptor.getTiddlerListCallback = function(status,params,responseText,xhr)
 			//# convert the downloaded data into a javascript object
 			eval('var info=' + responseText);
 		} catch (ex) {
-			params.statusText = exceptionText(ex,"Error parsing result from server");
+			params.statusText = exceptionText(ex,config.messages.serverParsingError);
 			if(params.callback)
 				params.callback(params);
 			return;
@@ -179,6 +179,7 @@ JSPWikiAdaptor.prototype.getTiddler = function(tiddler)
 	tiddler.fields['temp.adaptor'] = this;
 	var req =doHttp('POST',url,payload,null,null,null,JSPWikiAdaptor.getTiddlerCallback,tiddler);
 //#displayMessage("req:"+req);
+	return typeof req == 'string' ? req : true;
 };
 
 JSPWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
@@ -186,25 +187,32 @@ JSPWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 //#displayMessage('JSP.getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
-	var content = responseText;
-	content = content.replace('<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value>','');
-	content = content.replace('</value></param></params></methodResponse>','');
-	tiddler.text = content;
-	tiddler.updateAndSave();
+	if(status) {
+		var content = responseText;
+		content = content.replace('<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value>','');
+		content = content.replace('</value></param></params></methodResponse>','');
+		tiddler.text = content;
+		tiddler.fields['temp.status'] = true;
+		tiddler.fields['temp.statusText'] = xhr.statusText;
+	} else {
+		tiddler.fields['temp.status'] = false;
+	}
+	var callback = tiddler.fields['temp.callback'];
+	if(callback)
+		callback(tiddler);
 };
 
 JSPWikiAdaptor.prototype.putTiddler = function(tiddler)
 {
-displayMessage('JSPWikiAdaptor.putTiddler:'+tiddler.title);
+//#displayMessage('JSPWikiAdaptor.putTiddler:'+tiddler.title);
 //# http://www.JSPWiki.org/wiki/WikiRPCInterface2
 //# http://www.JSPWiki.org/RPC2/
-	var text = store.fetchTiddler(title).text;
 
 //#putPage(utf8 page,utf8 content,struct attributes )
 	var fn = 'wiki.putPage';
 	var urlTemplate = '%0RPC2/';
 	var url = urlTemplate.format([this.host,this.workspace,tiddler.title]);
-displayMessage('url: '+url);
+//#displayMessage('url: '+url);
 
 	var fnParamsTemplate ='<params>';
 	fnParamsTemplate += '<param><value><string>%0</string></value></param>';
@@ -213,20 +221,27 @@ displayMessage('url: '+url);
 	var fnParams = fnParamsTemplate.format([tiddler.title,tiddler.text]);
 	var fnTemplate = '<?xml version="1.0"?><methodCall><methodName>%0</methodName>%1</methodCall>';
 	var payload = fnTemplate.format([fn,fnParams]);
-displayMessage("payload:"+payload);
+//#displayMessage("payload:"+payload);
 
 	tiddler.fields.wikiformat = 'jspwiki';
 	tiddler.fields['server.type'] = 'jspwiki';
 	tiddler.fields['temp.adaptor'] = this;
 	var req =doHttp('POST',url,payload,null,this.username,this.password,JSPWikiAdaptor.putTiddlerCallback,tiddler);
-displayMessage("req:"+req);
+//#displayMessage("req:"+req);
+	return typeof req == 'string' ? req : true;
 };
 
 JSPWikiAdaptor.putTiddlerCallback = function(status,tiddler,responseText,xhr)
 {
-	displayMessage('putTiddlerCallback status:'+status);
-	displayMessage('rt:'+responseText.substr(0,50));
-	//#displayMessage('xhr:'+xhr);
+	if(status) {
+		tiddler.fields['temp.status'] = true;
+		tiddler.fields['temp.statusText'] = xhr.statusText;
+	} else {
+		tiddler.fields['temp.status'] = false;
+	}
+	var callback = tiddler.fields['temp.callback'];
+	if(callback)
+		callback(tiddler);
 };
 
 JSPWikiAdaptor.prototype.close = function() {return true;};

@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for moving and converting data to and from ZiddlyWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#ZiddlyWikiAdaptorPlugin|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ZiddlyWikiAdaptorPlugin.js|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/ZiddlyWikiAdaptorPlugin.js|
 |''Version:''|0.2.1|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -38,6 +38,8 @@ function doHttpGET(url,callback,params,headers,data,contentType,username,passwor
 	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
 }
 
+config.messages.serverParsingError = "Error parsing result from server";
+
 function ZiddlyWikiAdaptor()
 {
 	this.host = null;
@@ -47,7 +49,6 @@ function ZiddlyWikiAdaptor()
 
 ZiddlyWikiAdaptor.prototype.openHost = function(host,params)
 {
-//#displayMessage('MediaWikiAdaptor.openHost:'+host);
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
 	if(host.substr(-1)!="/")
@@ -76,7 +77,7 @@ ZiddlyWikiAdaptor.prototype.getTiddlerList = function(params)
 	params.adaptor = this;
 	var req = doHttpGET(url,ZiddlyWikiAdaptor.getTiddlerListCallback,params);
 //#displayMessage('req:'+req);
-	return (typeof req == 'string') ? req : true;
+	return typeof req == 'string' ? req : true;
 };
 
 ZiddlyWikiAdaptor.getTiddlerListCallback = function(status,params,responseText,xhr)
@@ -84,13 +85,13 @@ ZiddlyWikiAdaptor.getTiddlerListCallback = function(status,params,responseText,x
 //#displayMessage('getTiddlerListCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
+	params.status = false;
 	if(status) {
 		try {
 			//# convert the downloaded data into a javascript object
 			eval('var info=' + responseText);
 		} catch (ex) {
-			params.status = false;
-			params.statusText = exceptionText(ex,"Error parsing result from server");
+			params.statusText = exceptionText(ex,config.messages.serverParsingError);
 			if(params.callback)
 				params.callback(params);
 			return;
@@ -102,7 +103,6 @@ ZiddlyWikiAdaptor.getTiddlerListCallback = function(status,params,responseText,x
 		params.list = list;
 		params.status = true;
 	} else {
-		params.status = false;
 		params.statusText = xhr.statusText;
 	}
 	if(params.callback)
@@ -130,8 +130,10 @@ ZiddlyWikiAdaptor.prototype.getTiddler = function(tiddler)
 //# http://www.ziddlywiki.org/ZiddlyWiki?action=get&id=ZiddlyWiki
 
 	tiddler.fields['server.type'] = 'ziddlywiki';
+	tiddler.fields['temp.adaptor'] = this;
 	var req = doHttpGET(url,ZiddlyWikiAdaptor.getTiddlerCallback,tiddler);
 //#displayMessage("req:"+req);
+	return typeof req == 'string' ? req : true;
 };
 
 ZiddlyWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
@@ -139,10 +141,10 @@ ZiddlyWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 //#displayMessage('Ziddly.getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
-	if(status && responseText.substr(0,1)!='-') {
+	tiddler.fields['temp.status'] = false;
+	if(status && responseText.substr(0,1) != '-') {
 		var x = responseText.split('\n');
-		var content = x[1];
-		tiddler.text = content.unescapeLineBreaks();
+		tiddler.text = x[1].unescapeLineBreaks();
 		try {
 			tiddler.modifier = x[2];
 			tiddler.tags = x[5];
@@ -151,9 +153,20 @@ ZiddlyWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 			if(x[4])
 				tiddler.modified = Date.convertFromYYYYMMDDHHMM(x[4]);
 		} catch(ex) {
+			tiddler.fields['temp.statusText'] = exceptionText(ex,config.messages.serverParsingError);
+			var callback = tiddler.fields['temp.callback'];
+			if(callback)
+				callback(params);
+			return;
 		}
-		tiddler.updateAndSave();
+		tiddler.fields['temp.status'] = true;
 	}
+	} else {
+		tiddler.fields['temp.statusText'] = xhr.statusText+responseText.substr(0,50);
+	}
+	var callback = tiddler.fields['temp.callback'];
+	if(callback)
+		callback(tiddler);
 	//#else {
 	//#	displayMessage('Error:'+responseText.substr(0,50));
 	//#	displayMessage('putXh:'+xhr);
@@ -174,8 +187,10 @@ ZiddlyWikiAdaptor.prototype.getTiddlerRevisionList = function(tiddler)
 // http://www.ziddlywiki.org/ZiddlyWiki?action=get_revisions&id=ZiddlyWiki
 
 	tiddler.fields['server.type'] = 'ziddlywiki';
+	tiddler.fields['temp.adaptor'] = this;
 	var req = doHttpGET(url,ZiddlyWikiAdaptor.getTiddlerRevisionListCallback,tiddler);
 //#displayMessage("req:"+req);
+	return typeof req == 'string' ? req : true;
 };
 
 ZiddlyWikiAdaptor.getTiddlerRevisionListCallback = function(status,tiddler,responseText,xhr)
@@ -207,9 +222,18 @@ ZiddlyWikiAdaptor.getTiddlerRevision = function(tiddler,revision,src,updateTimel
 	if(tiddler.fields['server.page.revision'] == revision)
 		return;
 	zw.status('loading...');
-	revision = revision ? '&revision=' + revision : '';
+	revision = revision ? '&revision=%2' + revision : '';
 	updateTimeline = updateTimeline ? '&updatetimeline=1' : '';
 	//ajax.get('?action=get&id=' + encodeURIComponent(title) + revision + updateTimeline + '&' + zw.no_cache(),displayTiddlerRevisionCallback)
+	//return typeof req == 'string' ? req : true;
+	var urlTemplate = '%0ZiddlyWiki?action=get&id=%1' + revision + updatetimeline;
+	var url = urlTemplate.format([this.host,title,revision]);
+	tiddler.fields['server.type'] = 'ziddlywiki';
+	tiddler.fields['temp.adaptor'] = this;
+	var req = doHttpGET(url,ZiddlyWikiAdaptor.getTiddlerRevisionListCallback,tiddler);
+//#displayMessage("req:"+req);
+	return typeof req == 'string' ? req : true;
+
 };
 
 //# placeholder, not working yet
@@ -246,13 +270,23 @@ ZiddlyWikiAdaptor.prototype.putTiddler = function(tiddler)
 	tiddler.fields['server.type'] = 'ziddlywiki';
 	var req =doHttp('POST',url,payload,null,this.username,this.password,ZiddlyWikiAdaptor.putTiddlerCallback,tiddler);
 //#displayMessage("req:"+req);
+	return typeof req == 'string' ? req : true;
 };
 
 ZiddlyWikiAdaptor.putTiddlerCallback = function(status,tiddler,responseText,xhr)
 {
-	//#displayMessage('putTiddlerCallback status:'+status);
-	//#displayMessage('rt:'+responseText.substr(0,50));
-	//#displayMessage('xhr:'+xhr);
+//#displayMessage('putTiddlerCallback status:'+status);
+//#displayMessage('rt:'+responseText.substr(0,50));
+//#displayMessage('xhr:'+xhr);
+	if(status) {
+		tiddler.fields['temp.status'] = true;
+	} else {
+		tiddler.fields['temp.status'] = false;
+		tiddler.fields['temp.statusText'] = xhr.statusText;
+	}
+	var callback = tiddler.fields['temp.callback'];
+	if(callback)
+		callback(tiddler);
 };
 
 ZiddlyWikiAdaptor.prototype.getWorkspaceList = function(params) {return false;};

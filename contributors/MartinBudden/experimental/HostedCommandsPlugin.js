@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#HostedCommandsPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/HostedCommandsPlugin.js|
-|''Version:''|0.2.1|
+|''Version:''|0.2.3|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -37,20 +37,20 @@ config.macros.viewTiddlerFields.handler = function(place,macroName,params,wikifi
 
 //# Returns true if function fnName is available for the tiddler's serverType
 //# Used by (eg): config.commands.download.isEnabled
-Tiddler.prototype.isFunctionSupported = function(fnName)
+function isAdaptorFunctionSupported(fnName,fields)
 {
 //#displayMessage("Tiddler.prototype.isFunctionSupported:"+fnName);
-	var serverType = this.fields['server.type'];
+	var serverType = fields['server.type'];
 	if(!serverType)
-		serverType = this.fields['wikiformat'];
+		serverType = fields['wikiformat'];
 	if(serverType)
 		serverType = serverType.toLowerCase();
-	if(!this.fields['server.host'] || !serverType || !config.adaptors[serverType])
+	if(!fields['server.host'] || !serverType || !config.adaptors[serverType])
 		return false;
 	if(config.adaptors[serverType].name)
 		return true;
 	return false;
-};
+}
 
 TiddlyWiki.prototype.updatedOffline = function()
 {
@@ -74,25 +74,30 @@ config.commands.download = {};
 merge(config.commands.download,{
 	text: "download",
 	tooltip:"Download this tiddler",
+	downloaded: "Tiddler downloaded",
 	readOnlyText: "download",
 	readOnlyTooltip: "Download this tiddler"}
 );
 
 config.commands.download.isEnabled = function(tiddler)
 {
-	return tiddler.isFunctionSupported('getTiddler');
+	return isAdaptorFunctionSupported('getTiddler',tiddler.fields);
 };
 
 config.commands.download.handler = function(event,src,title)
 {
-//#displayMessage("config.commands.download.handler:"+title);
+displayMessage("config.commands.download.handler:"+title);
 	story.getHostedTiddler(title,config.commands.download.callback);
 };
 
 config.commands.download.callback = function(tiddler)
 {
-	TiddlyWiki.updateTiddlerAndSave(tiddler);
-	displayMessage(config.commands.downloaded.uploaded);
+	if(tiddler.fields['temp.status']) {
+		TiddlyWiki.updateTiddlerAndSave(tiddler);
+		displayMessage(config.commands.downloaded.downloaded);
+	} else {
+		displayMessage(tiddler.fields['temp.statusText']);
+	}
 };
 
 // upload command definition
@@ -100,13 +105,13 @@ config.commands.upload = {};
 merge(config.commands.upload,{
 	text: "upload",
 	tooltip: "Upload this tiddler",
-	uploaded: "uploaded",
+	uploaded: "Tiddler uploaded",
 	readOnlyText: "upload",
 	readOnlyTooltip: "Upload this tiddler"});
 
 config.commands.upload.isEnabled = function(tiddler)
 {
-	return tiddler && tiddler.isTouched() && tiddler.isFunctionSupported('putTiddler');
+	return tiddler && tiddler.isTouched() && isAdaptorFunctionSupported('putTiddler',tiddler.fields);
 };
 
 config.commands.upload.handler = function(event,src,title)
@@ -116,7 +121,11 @@ config.commands.upload.handler = function(event,src,title)
 
 config.commands.upload.callback = function(tiddler)
 {
-	displayMessage(config.commands.upload.uploaded);
+	if(tiddler.fields['temp.status']) {
+		displayMessage(config.commands.upload.uploaded);
+	} else {
+		displayMessage(tiddler.fields['temp.statusText']);
+	}
 };
 
 }//# end of 'install only once'
