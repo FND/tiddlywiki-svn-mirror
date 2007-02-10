@@ -69,7 +69,7 @@ config.macros.login = {
   prompt: 'Log into the system',
   sizeTextbox: 15,
   // FIXME onmouseover, etc... do these cause a problem?  Add (?!onmouseover|onmouseout...)
-  innerHTMLSafe: /^<div( ([a-z0-9_]+)="[^"]*")+>[^<>]*<\/div>$/,
+  innerHTMLSafe: /^<div( ([a-zA-Z0-9_]+)="[^"]*")+>[^<>]*<\/div>$/,
   handler: function(place) {
     if(zw.loggedIn) {
       var link = createTiddlyLink(place, zw.username, true);
@@ -163,11 +163,11 @@ config.macros.login = {
       var evalme = store.fetchTiddler("ZiddlyStatus").text;
       window.eval(evalme);
       readOnly = !zw.loggedIn;
+      store.notify(["ZiddlyStatus"], true);
       if(!zw.loggedIn && zw.loggingIn) {    // still not logged in.
           clearMessage();
 	  displayMessage("Authentication failed.  Did you type your username and password correctly?");
       }
-      store.notify(["ZiddlyStatus"], true);
       if(!zw.loggingIn || (zw.loggedIn && zw.loggingIn)) clearMessage();
       return true;
   },
@@ -387,6 +387,7 @@ function displayTiddlerRevisionCallback(str,status) {
 }
 
 Tiddler.prototype.isReadOnly = function() {
+  if(store.getValue(this.title, "readonly") == "true") return true;
   if(zw.isAdmin) return false;
   if(zw.loggedIn && this.modifier == zw.username) return false;
   if(location.protocol == "file:") return false;
@@ -542,7 +543,7 @@ function checkUnsavedChanges()
 }
 
 Tiddler.prototype.isReadOnly = function() {
-    return readOnly || store.getValue(this.title, "readOnly");
+    return readOnly || store.getValue(this.title, "readonly");
 }
 
 // Receives a list of updated tiddler [timestamp, [title, modified, revision], ...]
