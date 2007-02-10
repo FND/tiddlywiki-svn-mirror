@@ -23,7 +23,7 @@ config.macros.viewTiddlerFields.handler = function(place,macroName,params,wikifi
 		var value = '';
 		var comma = '';
 		for(i in tiddler.fields) {
-			if (!i.match(/^temp\./)) {
+			if (!i.match(/^temp[\._]/)) {
 				value += comma + i + '=' + tiddler.fields[i];
 				comma = ', ';
 			}
@@ -86,7 +86,7 @@ config.commands.download.isEnabled = function(tiddler)
 
 config.commands.download.handler = function(event,src,title)
 {
-displayMessage("config.commands.download.handler:"+title);
+//#displayMessage("config.commands.download.handler:"+title);
 	story.getHostedTiddler(title,config.commands.download.callback);
 };
 

@@ -16,35 +16,6 @@
 if(!version.extensions.HostedCommands2Plugin) {
 version.extensions.HostedCommands2Plugin = {installed:true};
 
-/*TiddlyWiki.prototype.updateStory = function(tiddler)
-{
-//#displayMessage("updateStory");
-	this.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
-	//#story.refreshTiddler(tiddler.title,1,true);// not required, savetiddler refreshes
-	if(config.options.chkAutoSave) {
-		saveChanges();
-	}
-};*/
-
-//# change in Macros.js
-//# list.handler has been tweeked to pass additional parameters to list type handler and createTiddlyLink
-/*config.macros.list.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-{
-	var type = params[0] ? params[0] : "all";
-	var list = document.createElement("ul");
-	place.appendChild(list);
-	if(this[type].prompt)
-		createTiddlyElement(list,"li",null,"listTitle",this[type].prompt);
-	var results;
-	if(this[type].handler)
-		results = this[type].handler(params,wikifier,paramString,tiddler);
-	for(var t = 0; t < results.length; t++) {
-		var li = document.createElement("li");
-		list.appendChild(li);
-		createTiddlyLink(li,typeof results[t] == "string" ? results[t] : results[t].title,true,null,false,tiddler);
-	}
-};*/
-
 // Return an array of tiddler titles that are in the given workspace on the host
 TiddlyWiki.prototype.getHostedTiddlers = function(host,workspace)
 {
@@ -108,9 +79,95 @@ config.macros.updateHostedTiddlerList.callback = function(params)
 			store.hostedTiddlers[params.host] = {};
 		store.hostedTiddlers[params.host][params.workspace] = params.list;
 		displayMessage(config.macros.updateHostedTiddlerList.done);
-		story.displayTiddler(null,"ListHosted");// for debug
+		var title = "ListHosted"; // !!!hardcoded for testing
+		story.displayTiddler(null,title);
+		story.refreshTiddler(title,1,true);
 	} else {
 		displayMessage(params.statusText);
+	}
+};
+
+
+// import all the tiddlers from a given workspace on a given host
+config.macros.importTiddlers = {};
+merge(config.macros.importTiddlers,{
+	label: "import tiddlers",
+	prompt: "Import tiddlers",
+	done: "Tiddlers imported"});
+
+config.macros.importTiddlers.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+//#displayMessage("updateHostedTiddlerList.handler");
+	params = paramString.parseParams("anon",null,true,false,false);
+	var customFields = getParam(params,"fields",false);
+	if(!customFields)
+		customFields = store.getDefaultCustomFields();
+	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
+	btn.setAttribute("customFields",customFields);
+};
+
+config.messages.hostOpened = "Host '%0' opened";
+config.messages.workspaceOpened = "Workspace '%0' opened";
+config.messages.workspaceTiddlers = "%0 tiddlers in workspace, importing %1 of them";
+config.messages.tiddlerImported = 'Tiddler: "%0" imported';
+
+config.macros.importTiddlers.onClick = function(e)
+{
+	clearMessage();
+//#displayMessage("importTiddlers.onClick");
+displayMessage("Starting import...");
+	var customFields = this.getAttribute("customFields");
+	var fields = convertCustomFieldsToHash(customFields);
+	var serverType = fields['server.type'];
+	if(!serverType)
+		serverType = fields['wikiformat'];
+	if(serverType)
+		serverType = serverType.toLowerCase();
+	if(!serverType || !config.adaptors[serverType] || !fields['server.host'])
+		return ret;
+	var adaptor = new config.adaptors[serverType];
+	if(adaptor) {
+		var params = {};
+		params.host = fields['server.host'];
+		params.workspace = fields['server.workspace'];
+		params.callback = config.macros.importTiddlers.callback;
+		params.adaptor = adaptor;
+		adaptor.openHost(params.host,params);
+		displayMessage(config.messages.hostOpened.format([params.host]));
+		adaptor.openWorkspace(params.workspace,params);
+		displayMessage(config.messages.workspaceOpened.format([params.workspace]));
+		ret = adaptor.getTiddlerList(params);
+	}
+	return ret;
+};
+
+config.macros.importTiddlers.callback = function(params)
+{
+	var list = params.list;
+	var sortField = 'modified';
+	list.sort(function(a,b) {return b[sortField] < a[sortField] ? -1 : (b[sortField] == a[sortField] ? 0 : +1);});
+	var length = list.length;
+	if(length>config.maxTiddlerImportCount)
+		length = config.maxTiddlerImportCount;
+	displayMessage(config.messages.workspaceTiddlers.format([list.length,length]));
+	for(i=0; i<length; i++) {
+		//#displayMessage("li:"+list[i].title);
+		var tiddler = new Tiddler(list[i].title);
+		tiddler.fields['temp.callback'] = config.macros.importTiddlers.callbackTiddler;
+		params.adaptor.getTiddler(tiddler);
+	}
+	//params.adaptor.close();
+	//delete params.adaptor;
+};
+
+config.macros.importTiddlers.callbackTiddler = function(tiddler)
+{
+	if(tiddler.fields['temp.status']) {
+		TiddlyWiki.updateTiddlerAndSave(tiddler);
+		story.refreshTiddler(tiddler.title,1,true);
+		displayMessage(config.messages.tiddlerImported.format([tiddler.title]));
+	} else {
+		displayMessage(tiddler.fields['temp.statusText']);
 	}
 };
 

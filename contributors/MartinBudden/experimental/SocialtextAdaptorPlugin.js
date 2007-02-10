@@ -163,7 +163,7 @@ SocialtextAdaptor.prototype.openWorkspace = function(workspace,params)
 //#   params - parameters as originally passed into the getTiddlerList function
 SocialtextAdaptor.prototype.getTiddlerList = function(params)
 {
-//#displayMessage('getTiddlerList');
+//#displayMessage('SocialtextAdaptor.getTiddlerList');
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages?accept=application/json
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages?accept=application/json;order=newest;count=4
 //# data/workspaces/:ws/pages/:pname
@@ -171,6 +171,7 @@ SocialtextAdaptor.prototype.getTiddlerList = function(params)
 	var url = urlTemplate.format([this.host,this.workspace]);
 //#displayMessage('url:'+url);
 	params.adaptor = this;
+//#displayMessage('adaptor:'+this);
 	var req = doHttp("GET",url,null,null,null,null,SocialtextAdaptor.getTiddlerListCallback,params,{'Accept':'application/json'});
 //#displayMessage('req:'+req);
 	return typeof req == 'string' ? req : true;
@@ -186,8 +187,7 @@ SocialtextAdaptor.prototype.getTiddlerList = function(params)
 //# "revision_id":20061107210913,
 //# "last_edit_time":"2006-11-07 21:09:13 GMT",
 //# "revision_count":1,
-//# "last_editor":
-//# "chris.dent@socialtext.com"},
+//# "last_editor":"chris.dent@socialtext.com"},
 //# ...
 //# ]
 
@@ -212,6 +212,7 @@ SocialtextAdaptor.getTiddlerListCallback = function(status,params,responseText,x
 			list.push({title:info[i].name,
 						id:info[i].page_id,
 						modified:SocialtextAdaptor.dateFromEditTime(info[i].last_edit_time),
+						modifier:info[i].last_editor,
 						revCount:info[i].revision_count});
 		}
 		params.list = list;
@@ -239,12 +240,12 @@ SocialtextAdaptor.prototype.getTiddler = function(tiddler)
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages/socialtext_2_0_preview
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages/representation?accept=application/json
 	// request the page in json format to get the page attributes
-	//var urlTemplate = '%0data/workspaces/%1/pages/%2?accept=application/json';
+	//#var urlTemplate = '%0data/workspaces/%1/pages/%2?accept=application/json';
 	var urlTemplate = '%0data/workspaces/%1/pages/%2';
 	var url = urlTemplate.format([this.host,this.workspace,SocialtextAdaptor.normalizedId(tiddler.title)]);
 //#displayMessage('url: '+url);
 
-	tiddler.fields.wikiformat = 'Socialtext';
+	tiddler.fields.wikiformat = 'socialtext';
 	tiddler.fields['server.type'] = 'socialtext';
 	tiddler.fields['temp.adaptor'] = this;
 	var req = doHttpGET(url,SocialtextAdaptor.getTiddlerCallback,tiddler,{'Accept':'application/json'});
