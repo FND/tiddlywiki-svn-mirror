@@ -70,8 +70,8 @@ SocialtextAdaptor.prototype.openHost = function(host,params)
 		host = host + '/';
 	this.host = host;
 	this.hostMin = host.replace(/^http:\/\//,'').replace(/\/$/,'');
-displayMessage("host:"+this.host);
-displayMessage("hostMin:"+this.hostMin);
+//#displayMessage("host:"+this.host);
+//#displayMessage("hostMin:"+this.hostMin);
 	if(params && params.callback)
 		window.setTimeout(params.callback,0,true,this,params);
 	return true;

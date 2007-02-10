@@ -44,8 +44,8 @@ config.macros.list.workspaceTiddlers.handler = function(params,wikifier,paramStr
 
 config.macros.updateWorkspaceTiddlerList = {};
 merge(config.macros.updateWorkspaceTiddlerList,{
-	label: "update hosted list",
-	prompt: "Update list of hosted tiddlers",
+	label: "update workspace list",
+	prompt: "Update list of tiddlers in workspace",
 	done: "List updated"});
 
 config.macros.updateWorkspaceTiddlerList.handler = function(place,macroName,params,wikifier,paramString,tiddler)
@@ -91,8 +91,8 @@ config.macros.updateWorkspaceTiddlerList.callback = function(params)
 // import all the tiddlers from a given workspace on a given host
 config.macros.importWorkspace = {};
 merge(config.macros.importWorkspace,{
-	label: "import tiddlers",
-	prompt: "Import tiddlers",
+	label: "import workspace",
+	prompt: "Import tiddlers in workspace",
 	done: "Tiddlers imported"});
 
 config.macros.importWorkspace.handler = function(place,macroName,params,wikifier,paramString,tiddler)
