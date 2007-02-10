@@ -1,4 +1,4 @@
-<div title="MD4" modifier="www.wikipedia.org" server.host="www.wikipedia.org" wikiformat="MediaWiki">
+<div title="MD4" modifier="www.wikipedia.org" server.host="www.wikipedia.org" wikiformat="mediawiki">
 <pre>Click on "download" to get the full text of the wikipedia article about MD4
 
 '''MD4''' is a message digest [[algorithm]] (the fourth in a series) designed by Professor [[Ronald Rivest]] of [[Massachusetts Institute of Technology|MIT]] in 1990. It implements a [[cryptographic hash function]] for use in message integrity checks. The digest length is 128 bits. The algorithm has influenced later designs, such as the [[MD5]], [[SHA]] and [[RIPEMD]] algorithms.
