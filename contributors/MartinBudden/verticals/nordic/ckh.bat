@@ -1,0 +1,1 @@
+cook nordicHosted.html.recipe

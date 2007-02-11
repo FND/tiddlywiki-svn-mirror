@@ -4,9 +4,9 @@ recipe: ../tiddlypedia/splitHosted.recipe
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../plugins/settings.js
 tiddler: ../../plugins/MediaWikiFormatterPlugin.js
-tiddler: ../../plugins/wikipedia.MediaWiki.Common.css.js
-tiddler: ../../plugins/wikipediaAbridged.Skins-1.5.monobook.main.css.js
-tiddler: ../../plugins/wikipediaStyle.js
+tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
+tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
+tiddler: ../../styles/wikipediaStyle.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../../../contributors/misc/plugins/TagCloudPlugin.js

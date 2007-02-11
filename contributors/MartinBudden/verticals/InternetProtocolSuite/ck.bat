@@ -1,1 +1,1 @@
-cook internetHosted.html.recipe
+cook internet.html.recipe
