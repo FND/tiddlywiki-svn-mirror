@@ -131,6 +131,7 @@ displayMessage("Starting import...");
 		params.host = fields['server.host'];
 		params.workspace = fields['server.workspace'];
 		params.callback = config.macros.importWorkspace.callback;
+		params.maxCount = config.maxTiddlerImportCount;
 		params.adaptor = adaptor;
 		adaptor.openHost(params.host,params);
 		displayMessage(config.messages.hostOpened.format([params.host]));
@@ -145,16 +146,21 @@ config.macros.importWorkspace.callback = function(params)
 {
 	var list = params.list;
 	var sortField = 'modified';
-	list.sort(function(a,b) {return b[sortField] < a[sortField] ? -1 : (b[sortField] == a[sortField] ? 0 : +1);});
+	list.sort(function(a,b) {return a[sortField] < b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
 	var length = list.length;
-	if(length>config.maxTiddlerImportCount)
-		length = config.maxTiddlerImportCount;
+	if(length > params.maxCount)
+		length = params.maxCount;
 	displayMessage(config.messages.workspaceTiddlers.format([list.length,length]));
 	for(i=0; i<length; i++) {
 		//#displayMessage("li:"+list[i].title);
-		var tiddler = new Tiddler(list[i].title);
-		tiddler.fields['temp.callback'] = config.macros.importWorkspace.callbackTiddler;
-		params.adaptor.getTiddler(tiddler);
+		var tiddler = store.fetchTiddler(list[i].title);
+		if(!tiddler)
+			tiddler = new Tiddler(list[i].title);
+		if(!tiddler.isTouched()) {
+			//# only get the tiddlers that have not been edited locally
+			tiddler.fields['temp.callback'] = config.macros.importWorkspace.callbackTiddler;
+			params.adaptor.getTiddler(tiddler);
+		}
 	}
 	//params.adaptor.close();
 	//delete params.adaptor;
