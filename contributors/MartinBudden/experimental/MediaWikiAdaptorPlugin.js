@@ -46,26 +46,44 @@ MediaWikiAdaptor.normalizedTitle = function(title)
 	return normalizedTitle.replace(/\s/g,'_');
 };
 
-MediaWikiAdaptor.prototype.openHost = function(host,callback,callbackParams)
+MediaWikiAdaptor.fullHostName = function(host)
 {
-//#displayMessage('MediaWikiAdaptor.openHost:'+host);
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
 	if(host.substr(-1) != '/')
 		host = host + '/';
-	this.host = host;
-//#displayMessage("host:"+host);
+	return host;
+};
+
+MediaWikiAdaptor.minHostName = function(host)
+{
+	return host.replace(/^http:\/\//,'').replace(/\/$/,'');
+};
+
+MediaWikiAdaptor.prototype.openHost = function(host,params)
+{
+//#displayMessage("openHost:"+host);
+	this.host = MediaWikiAdaptor.fullHostName(host);
+//#displayMessage("host:"+this.host);
 	if(params && params.callback)
 		window.setTimeout(params.callback,0,true,this,params);
 	return true;
+};
+
+MediaWikiAdaptor.prototype.viewTiddlerUrl = function(tiddler)
+{
+	var urlTemplate = '%0wiki/%1';
+	var host = this && this.host ? this.host : MediaWikiAdaptor.fullHostName(tiddler.fields['server.host']);
+	return urlTemplate.format([host,tiddler.title]);
 };
 
 MediaWikiAdaptor.prototype.getTiddler = function(tiddler)
 {
 //#displayMessage('MediaWikiAdaptor.getTiddler:'+tiddler.title);
 //# http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&titles=Elongation
-	var urlTemplate = '%0w/api.php?format=json&action=%1&prop=revisions&rvprop=content&titles=%2';
-	var url = urlTemplate.format([this.host,'query',MediaWikiAdaptor.normalizedTitle(tiddler.title)]);
+	var urlTemplate = '%0w/api.php?format=json&action=query&prop=revisions&rvprop=content&titles=%1';
+	var host = this && this.host ? this.host : MediaWikiAdaptor.fullHostName(tiddler.fields['server.host']);
+	var url = urlTemplate.format([host,MediaWikiAdaptor.normalizedTitle(tiddler.title)]);
 //#displayMessage('url:'+url);
 	tiddler.fields.wikiformat = 'MediaWiki';
 	tiddler.fields['server.type'] = 'mediawiki';
