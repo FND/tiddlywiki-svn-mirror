@@ -31,6 +31,7 @@ config.macros.viewTiddlerFields.handler = function(place,macroName,params,wikifi
 		value += comma + 'created=' + tiddler.created.convertToYYYYMMDDHHMM();
 		value += ', modified=' + tiddler.modified.convertToYYYYMMDDHHMM();
 		value += ', modifier=' + tiddler.modifier;
+		value += ', touched=' + (tiddler.isTouched() ? 'true' : 'false');
 		highlightify(value,place,highlightHack,tiddler);
 	}
 };
