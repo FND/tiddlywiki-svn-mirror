@@ -32,6 +32,7 @@ function SocialtextAdaptor()
 
 //#SocialtextAdaptor.mimeType = 'text/vnd.socialtext.wiki';
 SocialtextAdaptor.mimeType = 'text/x.socialtext-wiki';
+SocialtextAdaptor.serverType = 'socialtext';
 
 // Convert a page title to the normalized form used in URLs
 SocialtextAdaptor.normalizedId = function(title)
@@ -51,8 +52,22 @@ SocialtextAdaptor.dateFromEditTime = function(editTime)
 	return new Date(Date.UTC(dt.substr(0,4),dt.substr(5,2)-1,dt.substr(8,2),dt.substr(11,2),dt.substr(14,2)));
 };
 
+SocialtextAdaptor.fullHostName = function(host)
+{
+	if(!host.match(/:\/\//))
+		host = 'http://' + host;
+	if(host.substr(-1) != '/')
+		host = host + '/';
+	return host;
+};
+
+SocialtextAdaptor.minHostName = function(host)
+{
+	return host.replace(/^http:\/\//,'').replace(/\/$/,'');
+};
+
 // Open the specified host/server
-//#   host - url of host (eg, "http://www.socialtext.net/")
+//#   host - url of host (eg, "http://www.socialtext.net/" or "www.socialtext.net")
 //#   params.callback - optional function to be called on completion
 //#   params is itself passed on as a parameter to the callback function
 //# Return value is true if the request was successfully issued, false if this connector doesn't support openHost(),
@@ -64,14 +79,8 @@ SocialtextAdaptor.dateFromEditTime = function(editTime)
 SocialtextAdaptor.prototype.openHost = function(host,params)
 {
 //#displayMessage("openHost:"+host);
-	if(!host.match(/:\/\//))
-		host = 'http://' + host;
-	if(host.substr(-1) != '/')
-		host = host + '/';
-	this.host = host;
-	this.hostMin = host.replace(/^http:\/\//,'').replace(/\/$/,'');
+	this.host = SocialtextAdaptor.fullHostName(host);
 //#displayMessage("host:"+this.host);
-//#displayMessage("hostMin:"+this.hostMin);
 	if(params && params.callback)
 		window.setTimeout(params.callback,0,true,this,params);
 	return true;
@@ -100,9 +109,10 @@ SocialtextAdaptor.prototype.getWorkspaceList = function(params)
 {
 //#displayMessage("getWorkspaceList");
 	var urlTemplate = '%0data/workspaces';
-	var url = urlTemplate.format([this.host]);
+	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(params.host);
+	var url = urlTemplate.format([host]);
 	params.adaptor = this;
-	var req = doHttpGET(url,SocialtextAdaptor.getWorkspaceListCallback,params,{'Accept':'application/json'});
+	var req = doHttpGET(url,SocialtextAdaptor.getWorkspaceListCallback,params,{'accept':'application/json'});
 	return typeof req == 'string' ? req : true;
 };
 
@@ -170,11 +180,13 @@ SocialtextAdaptor.prototype.getTiddlerList = function(params)
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages?accept=application/json;order=newest;count=4
 //# data/workspaces/:ws/pages/:pname
 	var urlTemplate = '%0data/workspaces/%1/pages';
+	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(params.host);
+	var workspace = this && this.workspace ? this.workspace : params.workspace;
 	var url = urlTemplate.format([this.host,this.workspace]);
 //#displayMessage('url:'+url);
 	params.adaptor = this;
 //#displayMessage('adaptor:'+this);
-	var req = doHttp("GET",url,null,null,null,null,SocialtextAdaptor.getTiddlerListCallback,params,{'Accept':'application/json'});
+	var req = doHttpGET(url,SocialtextAdaptor.getTiddlerListCallback,params,{'accept':'application/json'});
 //#displayMessage('req:'+req);
 	return typeof req == 'string' ? req : true;
 };
@@ -226,6 +238,14 @@ SocialtextAdaptor.getTiddlerListCallback = function(status,params,responseText,x
 		params.callback(params);
 };
 
+SocialtextAdaptor.prototype.viewTiddlerUrl = function(tiddler)
+{
+	urlTemplate = '%0%1/index.cgi?%2';
+	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(tiddler.fields['server.host']);
+	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
+	return urlTemplate.format([host,workspace,tiddler.title]);
+};
+
 // Retrieves a tiddler from a given workspace on a given server
 //#   tiddler.title - title of the tiddler to get
 //#   tiddler.fields['temp.callback'] - optional function to be called on completion
@@ -244,15 +264,17 @@ SocialtextAdaptor.prototype.getTiddler = function(tiddler)
 	// request the page in json format to get the page attributes
 	//#var urlTemplate = '%0data/workspaces/%1/pages/%2?accept=application/json';
 	var urlTemplate = '%0data/workspaces/%1/pages/%2';
-	var url = urlTemplate.format([this.host,this.workspace,SocialtextAdaptor.normalizedId(tiddler.title)]);
+	var host = this.host ? this.host : SocialtextApaptor.fullHostName(tiddler.fields['server.host']);
+	var workspace = this.workspace ? this.workspace : tiddler.fields['server.workspace'];
+	var url = urlTemplate.format([host,workspace,SocialtextAdaptor.normalizedId(tiddler.title)]);
 //#displayMessage('url: '+url);
 
 	tiddler.fields.wikiformat = 'socialtext';
 	tiddler.fields['server.type'] = 'socialtext';
-	tiddler.fields['server.host'] = this.hostMin;
+	tiddler.fields['server.host'] = SocialtextAdaptor.minHostName(host);
 	tiddler.fields['server.workspace'] = this.workspace;
 	tiddler.fields['temp.adaptor'] = this;
-	var req = doHttpGET(url,SocialtextAdaptor.getTiddlerCallback,tiddler,{'Accept':'application/json'});
+	var req = doHttpGET(url,SocialtextAdaptor.getTiddlerCallback,tiddler,{'accept':'application/json'});
 //#displayMessage('req:'+req);
 	return typeof req == 'string' ? req : true;
 };
@@ -306,7 +328,7 @@ SocialtextAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 	var urlTemplate = '%0data/workspaces/%1/pages/%2';
 	var url = urlTemplate.format([adaptor.host,adaptor.workspace,tiddler.fields['server.page.id']]);
 //#displayMessage('cb url: '+url);
-	var req = doHttpGET(url,SocialtextAdaptor.getTiddlerCallback2,tiddler,{'Accept':SocialtextAdaptor.mimeType});
+	var req = doHttpGET(url,SocialtextAdaptor.getTiddlerCallback2,tiddler,{'accept':SocialtextAdaptor.mimeType});
 //#displayMessage('req:'+req);
 };
 
@@ -342,7 +364,9 @@ SocialtextAdaptor.prototype.putTiddler = function(tiddler)
 //#displayMessage('SocialtextAdaptor.putTiddler:'+tiddler.title);
 //# data/workspaces/:ws/pages/:pname
 	var urlTemplate = '%0data/workspaces/%1/pages/%2';
-	var url = urlTemplate.format([this.host,this.workspace,tiddler.title,tiddler.text]);
+	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(tiddler.fields['server.host']);
+	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
+	var url = urlTemplate.format([host,workspace,tiddler.title,tiddler.text]);
 //#displayMessage('url:'+url);
 	tiddler.fields['temp.adaptor'] = this;
 	var req = doHttp('POST',url,tiddler.text,SocialtextAdaptor.mimeType,null,null,SocialtextAdaptor.putTiddlerCallback,tiddler,{"X-Http-Method": "PUT"});
