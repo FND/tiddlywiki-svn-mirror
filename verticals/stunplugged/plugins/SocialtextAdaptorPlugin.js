@@ -12,6 +12,7 @@
 ***/
 
 //{{{
+	
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.SocialtextAdaptorPlugin) {
 version.extensions.SocialtextAdaptorPlugin = {installed:true};
@@ -20,8 +21,6 @@ function doHttpGET(url,callback,params,headers,data,contentType,username,passwor
 {
 	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
 }
-
-config.messages.serverParsingError = "Error parsing result from server";
 
 function SocialtextAdaptor()
 {
@@ -33,6 +32,7 @@ function SocialtextAdaptor()
 //#SocialtextAdaptor.mimeType = 'text/vnd.socialtext.wiki';
 SocialtextAdaptor.mimeType = 'text/x.socialtext-wiki';
 SocialtextAdaptor.serverType = 'socialtext';
+SocialtextAdaptor.serverParsingError = "Error parsing result from server";
 
 // Convert a page title to the normalized form used in URLs
 SocialtextAdaptor.normalizedId = function(title)
@@ -125,7 +125,7 @@ SocialtextAdaptor.getWorkspaceListCallback = function(status,params,responseText
 			eval('var info=' + responseText);
 			//#var info = window.eval('(' + responseText + ')');
 		} catch (ex) {
-			params.statusText = exceptionText(ex,config.messages.serverParsingError);
+			params.statusText = exceptionText(ex,SocialtextAdaptor.serverParsingError);
 			if(params.callback)
 				params.callback(params);
 			return;
@@ -216,7 +216,7 @@ SocialtextAdaptor.getTiddlerListCallback = function(status,params,responseText,x
 			//# convert the downloaded data into a javascript object
 			eval('var info=' + responseText);
 		} catch (ex) {
-			params.statusText = exceptionText(ex,config.messages.serverParsingError);
+			params.statusText = exceptionText(ex,SocialtextAdaptor.serverParsingError);
 			if(params.callback)
 				params.callback(params);
 			return;
@@ -312,7 +312,7 @@ SocialtextAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
 			tiddler.modifier = info.last_editor;
 			tiddler.modified = SocialtextAdaptor.dateFromEditTime(info.last_edit_time);
 		} catch (ex) {
-			tiddler.fields['temp.statusText'] = exceptionText(ex,config.messages.serverParsingError);
+			tiddler.fields['temp.statusText'] = exceptionText(ex,SocialtextAdaptor.serverParsingError);
 			var callback = tiddler.fields['temp.callback'];
 			if(callback)
 				callback(params);
