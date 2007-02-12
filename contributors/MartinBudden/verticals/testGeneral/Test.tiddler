@@ -1,4 +1,4 @@
-<div title="Test" tags="encryptable">
-<pre>Test tiddler
+<div title="Test">
+<pre>&lt;&lt;testMacro&gt;&gt;
 </pre>
 </div>
