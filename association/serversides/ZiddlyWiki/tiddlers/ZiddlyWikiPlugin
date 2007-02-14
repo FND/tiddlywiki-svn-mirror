@@ -72,8 +72,12 @@ config.macros.login = {
   handler: function(place) {
     if(zw.loggedIn) {
       var link = createTiddlyLink(place, zw.username, true);
-      link.innerHTML = zw.username + ' (logged in)';
-      createTiddlyButton(place, "logout", "Log out of the system", this.doLogout);
+      if(location.protocol == "file:") {
+          link.innerHTML = zw.username + ' (offline)';
+      } else {
+          link.innerHTML = zw.username + ' (logged in)';
+          createTiddlyButton(place, "logout", "Log out of the system", this.doLogout);
+      }
     } else {
       // FIXME Only make login form if cookie-based login are enabled.
       var form = document.createElement("form");
@@ -238,9 +242,16 @@ config.macros.exportLink = {
   label: config.messages.exportLinkLabel,
   prompt: config.messages.exportLinkPrompt,
   handler: function(place) { 
-      createTiddlyButton(place,this.label,this.prompt,function(){
-          location.href='?action=export';return false;
-      }) 
+      if(location.protocol == "file:") {
+          this.label = config.macros.saveChanges.label;
+          this.prompt = config.macros.saveChanges.prompt;
+          this.accessKey = config.macros.saveChanges.accessKey;
+          config.macros.saveChanges.handler(place);
+      } else {
+          createTiddlyButton(place,this.label,this.prompt,function(){
+              location.href='?action=export';return false;
+          });
+      }
   }
 };
 
@@ -550,7 +561,8 @@ zw.refresh_tiddlers_callback = function(tiddlers) {
   }
 };
 
-zw.refresh_interval_id = setInterval('zw.refresh_tiddlers()', 60000); // refresh every minute
+if(location.protocol != "file:")
+    zw.refresh_interval_id = setInterval('zw.refresh_tiddlers()', 60000); // refresh every minute
 
 // mini/ajax.js - http://timmorgan.org/mini
 
