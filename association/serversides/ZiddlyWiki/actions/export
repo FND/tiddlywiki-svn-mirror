@@ -7,26 +7,17 @@
 ##parameters=root=None
 ##title=
 ##
-if root: context = root
+# FIXME is this needed for relative URL's when exported?  (doesn't appear so)
+## hack out the automatic Zope <base> tag
+#src = src.replace('<head>', '<!--<head>hack for Zope base tag-->\n<head>', 1)
 
-# get the TiddlyWiki source
-src = container.restrictedTraverse('empty.html')()
-
-# hack out the automatic Zope <base> tag
-src = src.replace('<head>', '<!--<head>hack for Zope base tag-->\n<head>', 1)
+# Let ziddly do our dirty work
+context.REQUEST.set('action', None) # but dump action=export query parameter to avoid recursion
+src = container.ziddly(root=root,context=context)
 
 # change the title
 try: title = root.tiddlers.SiteTitle(context, context.REQUEST).replace('<', '&lt;').replace('>', '&gt;').replace('[[', '').replace(']]', '')
 except: title = context.title_or_id()
-#src = src.replace('<title>TiddlyWiki - a reusable non-linear personal web notebook</title>', '<title>%s</title>' % title)
-pre_title = src.split('<title>')[0]
-post_title = '</title>'.join(src.split('</title>')[1:])
-src = pre_title + '<title>' + title + '</title>' + post_title
-
-# insert all the tiddlers from the "tiddlers" folder
-store_area = '<div id="storeArea">%s</div>' % container.actions.get_all_as_divs(for_export=1, root=root)
-src = src.split('<div id="storeArea">')[0] + store_area + '</div></body></html>'
-
 # force file to download
 context.REQUEST.RESPONSE.setHeader('Content-disposition', 'attachment; filename=%s.html' % title.replace(' ', '_'))
 
