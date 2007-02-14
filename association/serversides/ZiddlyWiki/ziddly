@@ -37,9 +37,9 @@ if not hasattr(context, 'tiddlers') or not context.REQUEST.AUTHENTICATED_USER.ha
             # This upgrade is DANGEROUS and should be performed only once.
             # We have no reliable way to determine automatically if it should
             # be performed.  The user will have to do it himself by hand.
-            if context.REQUEST.get('upgrade2.0.11', None):
-                body = tiddler(context, context.REQUEST).replace('&gt;', '>').replace('&lt;', '<')
-                tiddler.manage_edit(data=body, title=tiddler.title_or_id())
+            #if context.REQUEST.get('upgrade2.0.11', None):
+            #    body = tiddler(context, context.REQUEST).replace('&gt;', '>').replace('&lt;', '<')
+            #    tiddler.manage_edit(data=body, title=tiddler.title_or_id())
             tags = getattr(tiddler, 'tags', '').split(' ')
             if 'private' in tags: # FIXME private logic will fail if someone has a tag [[foo private bar]]
                 tiddler.manage_permission('View', ['Authenticated', 'Manager', 'Owner'], acquire=0)
