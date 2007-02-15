@@ -68,7 +68,7 @@ merge(config.messages,{
 	wrongSaveFormat: "无法使用格式 '%0' 保存，请使用标准格式存放",
 	invalidFieldName: "无效的栏位名称：%0",
 	fieldCannotBeChanged: "无法变更栏位：'%0'",
-	backstagePrompt: "后台："});
+	backstagePrompt: "管理："});
 
 merge(config.messages.messageClose,{
 	text: "关闭",
@@ -135,6 +135,7 @@ config.macros.list.all.prompt = "依字母排序";
 config.macros.list.missing.prompt = "被引用且内容空白的文章";
 config.macros.list.orphans.prompt = "未被引用的文章";
 config.macros.list.shadowed.prompt = "这些隐藏的文章已定义默认内容";
+config.macros.list.touched.prompt = "自下载或添加后被修改过的文章"; 
 
 merge(config.macros.closeAll,{
 	label: "全部关闭",
@@ -175,6 +176,7 @@ merge(config.macros.plugins,{
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "标题", type: 'TiddlerLink'},
+			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "大小", type: 'Size'},
 			{name: 'Executed', field: 'executed', title: "已载入", type: 'Boolean', trueText: "是", falseText: "否"},
 			{name: 'Error', field: 'error', title: "载入状态", type: 'Boolean', trueText: "错误", falseText: "正常"},
 			{name: 'Forced', field: 'forced', title: "强制执行", tag: 'systemConfigDisable', type: 'TagCheckbox'},
@@ -196,7 +198,7 @@ merge(config.macros.importTiddlers,{
 	readOnlyWarning: "TiddlyWiki 于唯读模式下，不支援导入文章。请由本机（file://）开启 TiddlyWiki 文件",
 	wizardTitle: "自其他文件服务器导入文章",
 	step1Title: "步骤一：指定来源文件",
-	step1Html: "在此输入 URL 或路径：<input type='text' size=50 name='txtPath'><br>...或选择来源文件：<input type='file' size=50 name='txtBrowse'><br>...或选择指定的 feed：<select name='selFeeds'><option value=''>选择...</option</select>",
+	step1Html: "在此输入 URL 或路径：<input type='text' size=50 name='txtPath'><br>...或选择来源文件：<input type='file' size=50 name='txtBrowse'><br>...或选择指定的馈入来源：<select name='selFeeds'><option value=''>选择...</option</select>",
 	fetchLabel: "读取来源文件",
 	fetchPrompt: "读取 TiddlyWiki 文件",
 	fetchError: "读取来源文件时发生错误",
@@ -217,6 +219,7 @@ merge(config.macros.importTiddlers,{
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Title', field: 'title', title: "标题", type: 'String'},
+			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "大小", type: 'Size'},
 			{name: 'Snippet', field: 'text', title: "文章摘要", type: 'String'},
 			{name: 'Tags', field: 'tags', title: "标签", type: 'Tags'}
 			],
@@ -243,8 +246,8 @@ merge(config.macros.sync,{
 	step1Html: '<input type="hidden" name="markList"></input>',
 	syncLabel: "同步",
 	syncPrompt: "同步更新这些文章",
-	hasChanged: "已更動",
-	hasNotChanged: "未更動"});
+	hasChanged: "已更动",
+	hasNotChanged: "未更动"});
 
 merge(config.commands.closeTiddler,{
 	text: "关闭",

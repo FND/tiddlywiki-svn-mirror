@@ -69,7 +69,7 @@ merge(config.messages,{
 	wrongSaveFormat: "無法使用格式 '%0' 儲存，請使用標準格式存放",
 	invalidFieldName: "無效的欄位名稱：%0",
 	fieldCannotBeChanged: "無法變更欄位：'%0'",
-	backstagePrompt: "後台："});
+	backstagePrompt: "管理："});
 
 merge(config.messages.messageClose,{
 	text: "關閉",
@@ -136,6 +136,7 @@ config.macros.list.all.prompt = "依字母排序";
 config.macros.list.missing.prompt = "被引用且內容空白的文章";
 config.macros.list.orphans.prompt = "未被引用的文章";
 config.macros.list.shadowed.prompt = "這些隱藏的文章已預設內容";
+config.macros.list.touched.prompt = "自下載或新增後被修改過的文章"; 
 
 merge(config.macros.closeAll,{
 	label: "全部關閉",
@@ -177,6 +178,7 @@ merge(config.macros.plugins,{
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "標題", type: 'TiddlerLink'},
+			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "大小", type: 'Size'},
 			{name: 'Executed', field: 'executed', title: "已載入", type: "Boolean", trueText: "是", falseText: "否"},
 			{name: 'Error', field: 'error', title: "載入狀態", type: 'Boolean', trueText: "錯誤", falseText: "正常"},
 			{name: 'Forced', field: 'forced', title: "強制執行", tag: 'systemConfigForce', type: 'TagCheckbox'},
@@ -198,7 +200,7 @@ merge(config.macros.importTiddlers,{
 	readOnlyWarning: "TiddlyWiki 於唯讀模式下，不支援匯入文章。請由本機（file://）開啟 TiddlyWiki 文件",
 	wizardTitle: "自其他檔案或伺服器匯入文章",
 	step1Title: "步驟一：指定來源文件",
-	step1Html: "在此輸入 URL 或路徑： <input type='text' size=50 name='txtPath'><br>...或選擇來源文件：<input type='file' size=50 name='txtBrowse'><br>...或選擇指定的 feed：<select name='selFeeds'><option value=''>選擇...</option</select>",
+	step1Html: "在此輸入 URL 或路徑： <input type='text' size=50 name='txtPath'><br>...或選擇來源文件：<input type='file' size=50 name='txtBrowse'><br>...或選擇指定的饋入來源：<select name='selFeeds'><option value=''>選擇...</option</select>",
 	fetchLabel: "讀取來源文件",
 	fetchPrompt: "讀取 TiddlyWiki 文件",
 	fetchError: "讀取來源文件時發生錯誤",
@@ -220,6 +222,7 @@ merge(config.macros.importTiddlers,{
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Title', field: 'title', title: "標題", type: 'String'},
+			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "大小", type: 'Size'},
 			{name: 'Snippet', field: 'text', title: "文章摘要", type: 'String'},
 			{name: 'Tags', field: 'tags', title: "標籤", type: 'Tags'}
 			],
