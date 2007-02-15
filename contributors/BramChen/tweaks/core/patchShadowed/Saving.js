@@ -40,6 +40,12 @@ function updateMarkupBlock(s,blockName,tiddlerName)
 			"\n" + store.getRecursiveTiddlerText(tiddlerName,"") + "\n");
 }
 
+function autoSaveChanges(onlyIfDirty,tiddlers)
+{
+	if(config.options.chkAutoSave)
+		saveChanges(onlyIfDirty,tiddlers);
+}
+
 // Save this tiddlywiki with the pending changes
 function saveChanges(onlyIfDirty,tiddlers)
 {
@@ -69,7 +75,7 @@ function saveChanges(onlyIfDirty,tiddlers)
 
 	// Locate the storeArea div's
 	var posOpeningDiv = original.indexOf(startSaveArea);
-	var limitClosingDiv = original.indexOf("<"+"!--POST-BODY-END--"+">");
+	var limitClosingDiv = original.indexOf("<"+"!--POST-BODY-START--"+">");
 	var posClosingDiv = original.lastIndexOf(endSaveArea,limitClosingDiv == -1 ? original.length : limitClosingDiv);
 	if((posOpeningDiv == -1) || (posClosingDiv == -1))
 		{
