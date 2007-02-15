@@ -1,0 +1,1 @@
+cook testZiddlyWiki.html.recipe
