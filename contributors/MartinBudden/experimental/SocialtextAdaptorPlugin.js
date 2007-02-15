@@ -84,8 +84,10 @@ SocialtextAdaptor.prototype.openHost = function(host,context)
 //#displayMessage("openHost:"+host);
 	this.host = SocialtextAdaptor.fullHostName(host);
 //#displayMessage("host:"+this.host);
-	if(context && context.callback)
+	if(context && context.callback) {
+		context.status = true;
 		window.setTimeout(context.callback,0,true,this,context);
+	}
 	return true;
 };
 
@@ -168,9 +170,10 @@ SocialtextAdaptor.prototype.openWorkspace = function(workspace,context)
 {
 //#displayMessage("openWorkspace:"+workspace);
 	this.workspace = workspace;
-	if(context && context.callback)
+	if(context && context.callback) {
+		context.status = true;
 		window.setTimeout(context.callback,0,true,this,context);
-	context.status = true;
+	}
 	return true;
 };
 

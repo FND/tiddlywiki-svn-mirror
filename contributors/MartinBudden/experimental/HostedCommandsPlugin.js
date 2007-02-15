@@ -82,8 +82,8 @@ function invokeAdaptor(fnName,context,fields)
 	var adaptor = new config.adaptors[serverType];
 	if(!adaptor)
 		return false;
-	adaptor.openHost(fields['server.host'],context);
-	adaptor.openWorkspace(fields['server.workspace'],context);
+	adaptor.openHost(fields['server.host']);
+	adaptor.openWorkspace(fields['server.workspace']);
 	var ret = adaptor[fnName](context);
 	adaptor.close();
 	delete adaptor;
@@ -195,8 +195,7 @@ return true;
 
 config.commands.upload.handler = function(event,src,title)
 {
-displayMessage("config.commands.upload.handler:"+title);
-//	story.putHostedTiddler(title,config.commands.upload.callback);
+//#displayMessage("config.commands.upload.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
 		return false;
