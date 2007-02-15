@@ -17,7 +17,12 @@ config.options.chkDisableWikiLinks = true;
 config.usePreForStorage = true;
 config.maxTiddlerImportCount = 10;
 
-store.setDefaultCustomFields('server.host:www.eu.socialtext.net;server.workspace:stoss;wikiformat:socialtext;');
+config.defaultCustomFields = {
+	'server.type':'socialtext',
+	'server.host':'www.eu.socialtext.net',
+	'server.workspace':'stoss',
+	wikiformat:'socialtext'
+};
 
 config.options.chkSinglePageMode = false;
 config.options.chkTopOfPageMode = false;

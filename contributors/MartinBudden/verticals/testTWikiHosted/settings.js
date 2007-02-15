@@ -15,8 +15,16 @@ config.options.txtMaxEditRows = 20;
 config.options.chkDisableWikiLinks = true;
 
 config.usePreForStorage = true;
+config.maxTiddlerImportCount = 10;
 
-//config.displayStartupTime = true;
+config.defaultCustomFields = {
+	'server.host':'twiki.org',
+	'server.workspace':'Sandbox',
+	wikiformat:'twiki'
+};
+
 //config.options.chkSinglePageMode = false;
 //config.options.chkTopOfPageMode = false;
+
+//config.displayStartupTime = true;
 /*}}}*/

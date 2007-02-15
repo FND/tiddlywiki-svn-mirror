@@ -13,7 +13,10 @@ config.options.txtBackupFolder = "backup",
 config.options.txtMaxEditRows = 20;
 //config.options.chkDisableWikiLinks = true;
 
-store.setDefaultCustomFields('server.host:www.ziddlywiki.com;server.type:ziddlywiki;');
+config.defaultCustomFields = {
+	'server.type':'ziddlywiki',
+	'server.host':'www.ziddlywiki.com'
+};
 
 //config.options.chkSinglePageMode = false;
 //config.options.chkTopOfPageMode = false;

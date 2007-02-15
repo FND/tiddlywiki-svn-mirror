@@ -1,8 +1,10 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: split.recipe
-recipe: ../../mystyle/split.recipe
+tiddler: settings.js
 tiddler: SideBarOptions.tiddler
 tiddler: SideBarTabs.tiddler
+tiddler: TWikiSandBox29.tiddler
+recipe: ../../mystyle/split.recipe
 tiddler: ../tiddlypedia/EditTemplateHosted.tiddler
 tiddler: ../tiddlypedia/OptionsPanel.tiddler
 tiddler: ../tiddlypedia/PageTemplate.tiddler
@@ -11,9 +13,8 @@ tiddler: ../tiddlypedia/TabTags.tiddler
 tiddler: ../tiddlypedia/TabTemplates.tiddler
 tiddler: ../tiddlypedia/TabUpdated.tiddler
 tiddler: ../tiddlypedia/ViewTemplateHosted.tiddler
-tiddler: settings.js
-tiddler: ../../experimental/ToCore.js
 tiddler: ../../experimental/HostedCommandsPlugin.js
+tiddler: ../../experimental/HostedCommands2Plugin.js
 tiddler: ../../experimental/TWikiAdaptorPlugin.js
 tiddler: ../../plugins/TWikiFormatterPlugin.js
 tiddler: ../../plugins/DisableWikiLinksPlugin.js

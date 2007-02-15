@@ -1,0 +1,7 @@
+<div title="ListWorkspaces">
+<pre>
+&lt;&lt;updateWorkspaceList fields:&quot;'server.host':'www.wikipedia.org' 'server.type':'mediawiki'&quot;&gt;&gt;
+</pre>
+</div>
+
+server.host="www.wikipedia.org"
