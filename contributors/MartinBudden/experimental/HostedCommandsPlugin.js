@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#HostedCommandsPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/HostedCommandsPlugin.js|
-|''Version:''|0.2.3|
+|''Version:''|0.3.1|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -15,6 +15,100 @@
 // Ensure that the plugin is only installed once.
 if(!version.extensions.HostedCommandsPlugin) {
 version.extensions.HostedCommandsPlugin = {installed:true};
+
+// Utility to invoke one of the adaptor functions
+
+function getServerType(fields)
+{
+displayMessage("getServerType");
+	if(!fields)
+		return null;
+	if(!fields['server.host'])
+		return null;
+	var serverType = fields['server.type'];
+	if(!serverType)
+		serverType = fields['wikiformat'];
+displayMessage("serverType:"+serverType);
+	return serverType;
+}
+
+function getAdaptorFunction(fnName,serverType)
+{
+	if(!config.adaptors[serverType])
+		return null;
+	return config.adaptors[serverType].prototype[fnName];
+}
+
+function invokeAdaptor3(fnName,context,fields)
+{
+//#displayMessage("invokeAdaptor3:"+fnName);
+	var serverType = getServerType(fields);
+	if(!serverType)
+		return null;
+	var adaptor = new config.adaptors[serverType];
+	//var adaptor = getAdaptor(fields);
+	if(!adaptor)
+		return false;
+	adaptor.openHost(fields['server.host'],context);
+	adaptor.openWorkspace(fields['server.workspace'],context);
+	var ret = adaptor[fnName](context);
+	adaptor.close();
+	delete adaptor;
+	return ret;
+}
+
+function invokeAdaptor2(fnName,context,fields)
+{
+displayMessage("invokeAdaptor2:"+fnName);
+displayMessage("context:"+context);
+	var serverType = getServerType(fields);
+	if(!serverType || !config.adaptors[serverType])
+		return null;
+	var fn = config.adaptors[serverType].prototype[fnName];
+	return fn ? fn(context) : null;
+}
+
+/*Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem)
+{
+//#displayMessage("loadMissingTiddler:"+title);
+	var tiddler = new Tiddler(title);
+	tiddler.fields = fields;
+	context = {};
+	context.tiddler = tiddler;
+	context.callback = Story.loadTiddlerCallback;
+	return invokeAdaptor2('getTiddler',context,fields);
+};*/
+
+Tiddler.prototype.getAdaptor = function()
+{
+displayMessage("getAdaptor");
+	var serverType = this.fields['server.type'];
+	if(!serverType)
+		serverType = this.fields['wikiformat'];
+displayMessage("serverType:"+serverType);
+	if(!serverType || !config.adaptors[serverType])
+		return null;
+	return new config.adaptors[serverType];
+};
+
+Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem)
+{
+	var tiddler = new Tiddler(title);
+	tiddler.fields = typeof fields == "String" ?  fields.decodeHashMap() : fields;
+	var ret = false;
+	var adaptor = tiddler.getAdaptor();
+	if(adaptor) {
+		adaptor.openHost(fields['server.host']);
+		adaptor.openWorkspace(fields['server.workspace']);
+		context = {};
+		context.tiddler = tiddler;
+		context.callback = Story.loadTiddlerCallback;
+		ret = adaptor.getTiddler(context);
+		adaptor.close();
+		delete adaptor;
+	}
+	return ret;
+};
 
 config.macros.viewTiddlerFields = {};
 config.macros.viewTiddlerFields.handler = function(place,macroName,params,wikifier,paramString,tiddler)
@@ -36,6 +130,18 @@ config.macros.viewTiddlerFields.handler = function(place,macroName,params,wikifi
 	}
 };
 
+config.macros.list.updatedOffline = {};
+config.macros.list.updatedOffline.handler = function(params)
+{
+	var results = [];
+	store.forEachTiddler(function(title,tiddler) {
+		if(tiddler.fields['server.host'] && tiddler.isTouched())
+			results.push(tiddler);
+		});
+	results.sort();
+	return results;
+};
+
 //# Returns true if function fnName is available for the tiddler's serverType
 //# Used by (eg): config.commands.download.isEnabled
 function isAdaptorFunctionSupported(fnName,fields)
@@ -44,31 +150,10 @@ function isAdaptorFunctionSupported(fnName,fields)
 	var serverType = fields['server.type'];
 	if(!serverType)
 		serverType = fields['wikiformat'];
-	if(serverType)
-		serverType = serverType.toLowerCase();
-	if(!fields['server.host'] || !serverType || !config.adaptors[serverType])
+	if(!fields['server.host'] || !serverType || !config.adaptors[serverType] || !config.adaptors[serverType].name)
 		return false;
-	if(config.adaptors[serverType].name)
-		return true;
 	return false;
 }
-
-TiddlyWiki.prototype.updatedOffline = function()
-{
-	var results = [];
-	this.forEachTiddler(function(title,tiddler) {
-		if(tiddler.fields['server.host'] && tiddler.isTouched())
-			results.push(tiddler);
-		});
-	results.sort();
-	return results;
-};
-
-config.macros.list.updatedOffline = {};
-config.macros.list.updatedOffline.handler = function(params)
-{
-	return store.updatedOffline();
-};
 
 // download command definition
 config.commands.download = {};
@@ -82,22 +167,36 @@ merge(config.commands.download,{
 
 config.commands.download.isEnabled = function(tiddler)
 {
+return true;
 	return isAdaptorFunctionSupported('getTiddler',tiddler.fields);
 };
 
 config.commands.download.handler = function(event,src,title)
 {
-//#displayMessage("config.commands.download.handler:"+title);
-	story.getHostedTiddler(title,config.commands.download.callback);
+displayMessage("config.commands.download.handler:"+title);
+	var tiddler = store.fetchTiddler(title);
+	if(!tiddler) {
+		tiddler = new Tiddler(title);
+		var fields = String(document.getElementById(this.idPrefix + title).getAttribute("tiddlyFields"));
+		tiddler.fields = fields.decodeHashMap();
+	}
+	var context = {};
+	context.status = false;
+	context.tiddler = tiddler;
+	context.callback = config.commands.download.callback;
+	return invokeAdaptor2('getTiddler',context,tiddler.fields);
 };
 
-config.commands.download.callback = function(tiddler)
+config.commands.download.callback = function(context)
 {
-	if(tiddler.fields['temp.status']) {
-		TiddlyWiki.updateTiddlerAndSave(tiddler);
+displayMessage("config.commands.download.callback:"+context.tiddler.title);
+//#displayMessage("status:"+context.status);
+	if(context.status) {
+		story.refreshTiddler(context.tiddler.title,1,true);
+		//TiddlyWiki.updateTiddlerAndSave(tiddler);
 		displayMessage(config.commands.downloaded.downloaded);
 	} else {
-		displayMessage(tiddler.fields['temp.statusText']);
+		displayMessage(context.statusText);
 	}
 };
 
@@ -112,21 +211,97 @@ merge(config.commands.upload,{
 
 config.commands.upload.isEnabled = function(tiddler)
 {
+return true;
 	return tiddler && tiddler.isTouched() && isAdaptorFunctionSupported('putTiddler',tiddler.fields);
 };
 
 config.commands.upload.handler = function(event,src,title)
 {
-	story.putHostedTiddler(title,config.commands.upload.callback);
+displayMessage("config.commands.upload.handler:"+title);
+//	story.putHostedTiddler(title,config.commands.upload.callback);
+	var tiddler = store.fetchTiddler(title);
+	if(!tiddler)
+		return false;
+	var context = {};
+	context.tiddler = tiddler;
+	context.callback = config.commands.upload.callback;
+	return invokeAdaptor2('putTiddler',context,tiddler.fields);
 };
 
-config.commands.upload.callback = function(tiddler)
+config.commands.upload.callback = function(context)
 {
-	if(tiddler.fields['temp.status']) {
+	if(context.status) {
 		displayMessage(config.commands.upload.uploaded);
 	} else {
-		displayMessage(tiddler.fields['temp.statusText']);
+		displayMessage(context.statusText);
 	}
+};
+
+// revisions command definition
+config.commands.revisions = {};
+merge(config.commands.revisions,{
+	text: "revisions",
+	tooltip: "View another revision of this tiddler",
+	loading: "loading...",
+	revisionTooltip: "View this revision",
+	popupNone: "No revisions"});
+
+config.commands.revisions.isEnabled = function(tiddler)
+{
+return true;
+	return isAdaptorFunctionSupported('getTiddlerRevisionList',tiddler.fields);
+};
+
+config.commands.revisions.handler = function(event,src,title)
+{
+//#displayMessage("revisions.handler:"+title);
+	var tiddler = store.fetchTiddler(title);
+	context = {};
+	context.tiddler = tiddler;
+	context.callback = config.commands.revisions.callback;
+	context.src = src;
+	if(!invokeAdaptor2('getTiddlerRevisionList',context,tiddler.fields))
+		return false;
+	event.cancelBubble = true;
+	if(event.stopPropagation)
+		event.stopPropagation();
+	return true;
+};
+
+config.commands.revisions.callback = function(context)
+// The revisions are returned in the revisions array
+//# revisions[i].modified
+//# revisions[i].key
+{
+//#displayMessage("config.commands.revisions.callback:"+context.tiddler.title);
+var t = context.tiddler.title;
+	var revisions = context.revisions;
+	popup = Popup.create(context.src);
+	Popup.show(popup,false);
+	if(revisions.length==0) {
+		createTiddlyText(createTiddlyElement(popup,'li',null,'disabled'),config.commands.revisions.popupNone);
+	} else {
+		for(var i=0; i<revisions.length; i++) {
+			var modified = revisions[i].modified;
+			var key = revisions[i].key;
+			var btn = createTiddlyButton(createTiddlyElement(popup,'li'),
+					modified.toLocaleString(),
+					config.commands.revisions.revisionTooltip,
+					function() {
+						config.commands.revisions.displayTiddlerRevision(this.getAttribute('tiddlerTitle'),this.getAttribute('revisionKey'),this);
+						return false;
+						},
+					'tiddlyLinkExisting tiddlyLink');
+			btn.setAttribute('tiddlerTitle',context.tiddler.title);
+			btn.setAttribute('revisionKey',key);
+			if(context.tiddler.revisionKey == key || (!context.tiddler.revisionKey && i==0))
+				btn.className = 'revisionCurrent';
+		}
+	}
+};
+
+config.commands.revisions.displayTiddlerRevision = function(title,key)
+{
 };
 
 }//# end of 'install only once'
