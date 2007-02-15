@@ -1,8 +1,8 @@
-<div title="Styles HorizontalMainMenu" modifier="MartinBudden" tags="styles excludeLists">
+<div title="Styles HorizontalMainMenu" modifier="MartinBudden" tags="styles excludeLists excludeSearch">
 <pre>/***
 Copied from: [[tiddlywikitips.com|http://tiddlywikitips.com/#%5B%5BStyles%20HorizontalMainMenu%5D%5D]]
 To use, add {{{[[Styles HorizontalMainMenu]]}}} to your StyleSheet tiddler.
-You must also copy the contents of [[PageTemplate HorizontalMenu]] to PageTemplate.
+You must also copy the contents of {{{PageTemplate ~HorizontalMenu}}} to PageTemplate.
 See http://www.w3schools.com/css/css_colors.asp for a color chart.
 ***/
 /*{{{*/
@@ -36,7 +36,7 @@ See http://www.w3schools.com/css/css_colors.asp for a color chart.
 #topMenu {padding:2px;}
 #topMenu .button, #topMenu .tiddlyLink {padding-left:1em;padding-right:1em;color:white;font-size:115%;}
 
-/* just in case want some QuickOpenTags in your topMenu */
+/* just in case want some ~QuickOpenTags in your topMenu */
 #topMenu .quickopentag {padding:0px;margin:0px;border:0px;}
 #topMenu .quickopentag .tiddlyLink {padding-right:1px;}
 #topMenu .quickopentag .button {padding-left:1px;border:0px;}
