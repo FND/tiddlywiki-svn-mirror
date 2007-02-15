@@ -1,1 +1,1 @@
-cook testTWiki.html.recipe
+cook TiddlyTWiki.html.recipe

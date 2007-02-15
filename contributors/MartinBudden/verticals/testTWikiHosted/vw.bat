@@ -1,1 +1,1 @@
-"C:\Program Files\Mozilla Firefox\firefox" testTWiki.html
+"C:\Program Files\Mozilla Firefox\firefox" TiddlyTWiki.html.recipe
