@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#HostedCommandsPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/HostedCommandsPlugin.js|
-|''Version:''|0.3.1|
+|''Version:''|0.3.2|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -16,79 +16,28 @@
 if(!version.extensions.HostedCommandsPlugin) {
 version.extensions.HostedCommandsPlugin = {installed:true};
 
-// Utility to invoke one of the adaptor functions
-
-function getServerType(fields)
-{
-displayMessage("getServerType");
-	if(!fields)
-		return null;
-	if(!fields['server.host'])
-		return null;
-	var serverType = fields['server.type'];
-	if(!serverType)
-		serverType = fields['wikiformat'];
-displayMessage("serverType:"+serverType);
-	return serverType;
-}
-
-function getAdaptorFunction(fnName,serverType)
-{
-	if(!config.adaptors[serverType])
-		return null;
-	return config.adaptors[serverType].prototype[fnName];
-}
-
-function invokeAdaptor3(fnName,context,fields)
-{
-//#displayMessage("invokeAdaptor3:"+fnName);
-	var serverType = getServerType(fields);
-	if(!serverType)
-		return null;
-	var adaptor = new config.adaptors[serverType];
-	//var adaptor = getAdaptor(fields);
-	if(!adaptor)
-		return false;
-	adaptor.openHost(fields['server.host'],context);
-	adaptor.openWorkspace(fields['server.workspace'],context);
-	var ret = adaptor[fnName](context);
-	adaptor.close();
-	delete adaptor;
-	return ret;
-}
-
-function invokeAdaptor2(fnName,context,fields)
-{
-displayMessage("invokeAdaptor2:"+fnName);
-displayMessage("context:"+context);
-	var serverType = getServerType(fields);
-	if(!serverType || !config.adaptors[serverType])
-		return null;
-	var fn = config.adaptors[serverType].prototype[fnName];
-	return fn ? fn(context) : null;
-}
-
-/*Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem)
-{
-//#displayMessage("loadMissingTiddler:"+title);
-	var tiddler = new Tiddler(title);
-	tiddler.fields = fields;
-	context = {};
-	context.tiddler = tiddler;
-	context.callback = Story.loadTiddlerCallback;
-	return invokeAdaptor2('getTiddler',context,fields);
-};*/
-
 Tiddler.prototype.getAdaptor = function()
 {
-displayMessage("getAdaptor");
 	var serverType = this.fields['server.type'];
 	if(!serverType)
 		serverType = this.fields['wikiformat'];
-displayMessage("serverType:"+serverType);
 	if(!serverType || !config.adaptors[serverType])
 		return null;
 	return new config.adaptors[serverType];
+};
+
+Story.loadTiddlerCallback = function(context)
+{
+	var tiddler = context.tiddler;
+	var downloaded = new Date();
+	if(!tiddler.created)
+		tiddler.created = downloaded;
+	if(!tiddler.modified)
+		tiddler.modified = tiddler.created;
+	tiddler.fields['downloaded'] = downloaded.convertToYYYYMMDDHHMM();
+	tiddler.fields['changecount'] = -1;
+	store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
+	saveChanges(true);
 };
 
 Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem)
@@ -109,6 +58,37 @@ Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem)
 	}
 	return ret;
 };
+
+function getServerType(fields)
+{
+//#displayMessage("getServerType");
+	if(!fields)
+		return null;
+	if(!fields['server.host'])
+		return null;
+	var serverType = fields['server.type'];
+	if(!serverType)
+		serverType = fields['wikiformat'];
+//#displayMessage("serverType:"+serverType);
+	return serverType;
+}
+
+function invokeAdaptor(fnName,context,fields)
+{
+//#displayMessage("invokeAdaptor:"+fnName);
+	var serverType = getServerType(fields);
+	if(!serverType)
+		return null;
+	var adaptor = new config.adaptors[serverType];
+	if(!adaptor)
+		return false;
+	adaptor.openHost(fields['server.host'],context);
+	adaptor.openWorkspace(fields['server.workspace'],context);
+	var ret = adaptor[fnName](context);
+	adaptor.close();
+	delete adaptor;
+	return ret;
+}
 
 config.macros.viewTiddlerFields = {};
 config.macros.viewTiddlerFields.handler = function(place,macroName,params,wikifier,paramString,tiddler)
@@ -173,7 +153,7 @@ return true;
 
 config.commands.download.handler = function(event,src,title)
 {
-displayMessage("config.commands.download.handler:"+title);
+//#displayMessage("config.commands.download.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler) {
 		tiddler = new Tiddler(title);
@@ -181,19 +161,17 @@ displayMessage("config.commands.download.handler:"+title);
 		tiddler.fields = fields.decodeHashMap();
 	}
 	var context = {};
-	context.status = false;
 	context.tiddler = tiddler;
 	context.callback = config.commands.download.callback;
-	return invokeAdaptor2('getTiddler',context,tiddler.fields);
+	return invokeAdaptor('getTiddler',context,tiddler.fields);
 };
 
 config.commands.download.callback = function(context)
 {
-displayMessage("config.commands.download.callback:"+context.tiddler.title);
+//#displayMessage("config.commands.download.callback:"+context.tiddler.title);
 //#displayMessage("status:"+context.status);
 	if(context.status) {
 		story.refreshTiddler(context.tiddler.title,1,true);
-		//TiddlyWiki.updateTiddlerAndSave(tiddler);
 		displayMessage(config.commands.downloaded.downloaded);
 	} else {
 		displayMessage(context.statusText);
@@ -225,7 +203,7 @@ displayMessage("config.commands.upload.handler:"+title);
 	var context = {};
 	context.tiddler = tiddler;
 	context.callback = config.commands.upload.callback;
-	return invokeAdaptor2('putTiddler',context,tiddler.fields);
+	return invokeAdaptor('putTiddler',context,tiddler.fields);
 };
 
 config.commands.upload.callback = function(context)
@@ -260,7 +238,7 @@ config.commands.revisions.handler = function(event,src,title)
 	context.tiddler = tiddler;
 	context.callback = config.commands.revisions.callback;
 	context.src = src;
-	if(!invokeAdaptor2('getTiddlerRevisionList',context,tiddler.fields))
+	if(!invokeAdaptor('getTiddlerRevisionList',context,tiddler.fields))
 		return false;
 	event.cancelBubble = true;
 	if(event.stopPropagation)

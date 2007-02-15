@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/MediaWikiAdaptorPlugin.js|
-|''Version:''|0.3.1|
+|''Version:''|0.3.2|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -173,7 +173,7 @@ displayMessage('MediaWikiAdaptor.getTiddler:'+context.tiddler.title);
 	var urlTemplate = '%0w/api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content';
 	var host = this && this.host ? this.host : MediaWikiAdaptor.fullHostName(context.tiddler.fields['server.host']);
 	var url = urlTemplate.format([host,MediaWikiAdaptor.normalizedTitle(context.tiddler.title)]);
-//#displayMessage('url:'+url);
+displayMessage('url:'+url);
 	context.tiddler.fields.wikiformat = 'mediawiki';
 	context.tiddler.fields['server.type'] = 'mediawiki';
 	context.tiddler.fields['server.host'] = MediaWikiAdaptor.minHostName(host);

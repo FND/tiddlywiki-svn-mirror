@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#HostedCommands2Plugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/HostedCommands2Plugin.js|
-|''Version:''|0.3.1|
+|''Version:''|0.3.2|
 |''Date:''|Jan 20, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -72,7 +72,7 @@ displayMessage("cf:"+customFields);
 	var fields = customFields.decodeHashMap();
 displayMessage("host:"+fields['server.host']);
 	var context = {host:fields['server.host'],workspace:fields['server.workspace'],callback:config.macros.updateWorkspaceTiddlerList.callback};
-	return invokeAdaptor2('getTiddlerList',context,fields);
+	return invokeAdaptor('getTiddlerList',context,fields);
 };
 
 config.macros.updateWorkspaceTiddlerList.callback = function(context)
@@ -133,7 +133,7 @@ displayMessage("Starting import...");
 		context.host = fields['server.host'];
 		context.workspace = fields['server.workspace'];
 		context.callback = config.macros.importWorkspace.callback;
-		context.maxCount = 3;//config.maxTiddlerImportCount;
+		context.maxCount = config.maxTiddlerImportCount;
 		context.adaptor = adaptor;
 		adaptor.openHost(context.host,context);
 		displayMessage(config.messages.hostOpened.format([context.host]));
@@ -174,7 +174,7 @@ config.macros.importWorkspace.callbackTiddler = function(context)
 {
 //#displayMessage("config.macros.importWorkspace.callbackTiddler:"+context.status+" t:"+context.tiddler.title);
 	if(context.status) {
-		Story.loadTiddlerCallback(context.tiddler);
+		Story.loadTiddlerCallback(context);
 		story.refreshTiddler(context.tiddler.title,1,true);
 		displayMessage(config.messages.tiddlerImported.format([context.tiddler.title]));
 	} else {
@@ -209,7 +209,7 @@ displayMessage("updateWorkspaceList.onClick");
 displayMessage("cust:"+customFields);
 	var fields = customFields.decodeHashMap();
 	var context = {host:fields['server.host'],callback:config.macros.updateWorkspaceList.callback};
-	return invokeAdaptor2('getWorkspaceList',context,fields);
+	return invokeAdaptor('getWorkspaceList',context,fields);
 };
 
 config.macros.updateWorkspaceList.callback = function(context)
