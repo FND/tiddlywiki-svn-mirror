@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/MediaWikiAdaptorPlugin.js|
-|''Version:''|0.3.2|
+|''Version:''|0.3.5|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -123,7 +123,7 @@ displayMessage("getWorkspaceList:"+context.host);
 }
 */
 
-MediaWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText,xhr)
+MediaWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText,url,xhr)
 {
 displayMessage("getWorkspaceListCallback:"+status);
 	context.status = false;
@@ -206,7 +206,7 @@ displayMessage('url:'+url);
 }
 */
 
-MediaWikiAdaptor.getTiddlerCallback = function(status,context,responseText,xhr)
+MediaWikiAdaptor.getTiddlerCallback = function(status,context,responseText,url,xhr)
 {
 //#displayMessage('getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
@@ -298,7 +298,7 @@ MediaWikiAdaptor.prototype.getTiddlerRevisionList = function(context)
 	return typeof req == 'string' ? req : true;
 };
 
-MediaWikiAdaptor.getTiddlerRevisionListCallback = function(status,context,responseText,xhr)
+MediaWikiAdaptor.getTiddlerRevisionListCallback = function(status,context,responseText,url,xhr)
 {
 //#displayMessage('getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));

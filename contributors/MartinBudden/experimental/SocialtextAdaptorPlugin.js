@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com) and JeremyRuston (jeremy (at) osmosoft (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#SocialtextAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/SocialtextAdaptorPlugin.js|
-|''Version:''|0.3.2|
+|''Version:''|0.3.5|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -119,7 +119,7 @@ SocialtextAdaptor.prototype.getWorkspaceList = function(context)
 	return typeof req == 'string' ? req : true;
 };
 
-SocialtextAdaptor.getWorkspaceListCallback = function(status,context,responseText,xhr)
+SocialtextAdaptor.getWorkspaceListCallback = function(status,context,responseText,url,xhr)
 {
 //#displayMessage('getWorkspaceListCallback');
 	context.status = false;
@@ -216,7 +216,7 @@ SocialtextAdaptor.prototype.getTiddlerList = function(context)
 //# ...
 //# ]
 
-SocialtextAdaptor.getTiddlerListCallback = function(status,context,responseText,xhr)
+SocialtextAdaptor.getTiddlerListCallback = function(status,context,responseText,url,xhr)
 {
 //#displayMessage('getTiddlerListCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
@@ -307,7 +307,7 @@ SocialtextAdaptor.prototype.getTiddler = function(context)
 //# "revision_count":7,
 //# "last_editor":"matt.liggett@socialtext.com"}
 
-SocialtextAdaptor.getTiddlerCallback = function(status,context,responseText,xhr)
+SocialtextAdaptor.getTiddlerCallback = function(status,context,responseText,url,xhr)
 {
 //#displayMessage('getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
@@ -337,6 +337,9 @@ SocialtextAdaptor.getTiddlerCallback = function(status,context,responseText,xhr)
 		context.status = true;
 	} else {
 		context.statusText = xhr.statusText;
+		if(context.callback)
+			context.callback(context);
+		return;
 	}
 	// request the page's text
 //#displayMessage('ws: '+this.workspace);
@@ -350,7 +353,7 @@ SocialtextAdaptor.getTiddlerCallback = function(status,context,responseText,xhr)
 //#displayMessage('req:'+req);
 };
 
-SocialtextAdaptor.getTiddlerCallback2 = function(status,context,responseText,xhr)
+SocialtextAdaptor.getTiddlerCallback2 = function(status,context,responseText,url,xhr)
 {
 //#displayMessage('getTiddlerCallback2 status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
@@ -391,7 +394,7 @@ SocialtextAdaptor.prototype.putTiddler = function(context)
 	return typeof req == 'string' ? req : true;
 };
 
-SocialtextAdaptor.putTiddlerCallback = function(status,context,responseText,xhr)
+SocialtextAdaptor.putTiddlerCallback = function(status,context,responseText,url,xhr)
 {
 //#displayMessage('putTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));

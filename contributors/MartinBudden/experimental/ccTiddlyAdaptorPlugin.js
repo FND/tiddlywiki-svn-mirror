@@ -4,25 +4,19 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#ccTiddlyAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ccTiddlyAdaptorPlugin.js|
-|''Version:''|0.2.1|
+|''Version:''|0.3.5|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
 
 ''For debug:''
-|''Default ccTiddly Server''|<<option txtccTiddlyDefaultServer>>|
-|''Default ccTiddly Web(workspace)''|<<option txtccTiddlyDefaultWorkspace>>|
 |''Default ccTiddly username''|<<option txtccTiddlyUsername>>|
 |''Default ccTiddly password''|<<option txtccTiddlyPassword>>|
 
 ***/
 
 //{{{
-if(!config.options.txtccTiddlyDefaultServer)
-	{config.options.txtccTiddlyDefaultServer = 'cctiddly.sourceforge.net';}
-if(!config.options.txtccTiddlyDefaultWorkspace)
-	{config.options.txtccTiddlyDefaultWorkspace = '';}
 if(!config.options.txtccTiddlyUsername)
 	{config.options.txtccTiddlyUsername = '';}
 if(!config.options.txtccTiddlyPassword)
@@ -38,17 +32,23 @@ function doHttpGET(url,callback,params,headers,data,contentType,username,passwor
 	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
 }
 
-config.messages.serverParsingError = "Error parsing result from server";
-
 function ccTiddlyAdaptor()
 {
 	this.host = null;
 	this.workspace = null;
+	// for debug
+	this.username = config.options.txtccTiddlyUsername;
+	this.password = config.options.txtccTiddlyPassword;
 	return this;
 }
 
+ccTiddlyAdaptor.serverType = 'cctiddly';
+ccTiddlyAdaptor.serverParsingErrorMessage = "Error parsing result from server";
+ccTiddlyAdaptor.errorInFunctionMessage = "Error in function ccTiddlytextAdaptor.%0";
+
 ccTiddlyAdaptor.fullHostName = function(host)
 {
+//#displayMessage("fullHostName:"+host);
 	if(!host)
 		return '';
 	if(!host.match(/:\/\//))
@@ -65,7 +65,7 @@ ccTiddlyAdaptor.minHostName = function(host)
 
 ccTiddlyAdaptor.prototype.openHost = function(host,context)
 {
-displayMessage("openHost:"+host);
+//#displayMessage("openHost:"+host);
 	this.host = ccTiddlyAdaptor.fullHostName(host);
 //#displayMessage("host:"+this.host);
 	if(context && context.callback)
@@ -85,16 +85,23 @@ displayMessage("openWorkspace:"+workspace);
 ccTiddlyAdaptor.prototype.getTiddler = function(context)
 {
 //#displayMessage('ccTiddlyAdaptor.getTiddler:'+context.tiddler.title);
-	//title = encodeURIComponent(title);
-	// first get the revision list
-	var urlTemplate = '%0msghandle.php?action=revisionList&title=%1';
+	var title = encodeURIComponent(context.tiddler.title);
 	var host = this && this.host ? this.host : ccTiddlyAdaptor.fullHostName(context.tiddler.fields['server.host']);
-	var url = urlTemplate.format([host,tiddler.title]);
-//#displayMessage('url: '+url);
-	tiddler.fields['server.workspace'] = null;
-	tiddler.fields['server.type'] = 'cctiddly';
 	context.adaptor = this;
-	var req = doHttpGET(url,ccTiddlyAdaptor.getTiddlerCallback1,tiddler);
+	context.tiddler.fields['server.host'] = ccTiddlyAdaptor.minHostName(host);
+	context.tiddler.fields['server.type'] = ccTiddlyAdaptor.serverType;
+	if(context.tiddler.fields.revision) {
+		var urlTemplate = '%0msghandle.php?action=revisionDisplay&title=%1&revision=%2';
+		var url = urlTemplate.format([host,title,context.tiddler.fields.revision]);
+		//#displayMessage('url: '+url);
+		var req = doHttpGET(url,ccTiddlyAdaptor.getTiddlerCallback2,context);
+	} else {
+		// first get the revision list
+		urlTemplate = '%0msghandle.php?action=revisionList&title=%1';
+		url = urlTemplate.format([host,title]);
+		//#displayMessage('url: '+url);
+		req = doHttpGET(url,ccTiddlyAdaptor.getTiddlerCallback1,context);
+	}
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
 };
@@ -111,16 +118,24 @@ ccTiddlyAdaptor.getTiddlerCallback1 = function(status,context,responseText,xhr)
 {
 //#displayMessage('getTiddlerCallback1 status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
-	var revs = responseText.split('\n');
-	var parts = revs[0].split(' ');
-	var pageRevision = parts[1];
-//# http://cctiddly.sourceforge.net/msghandle.php?action=revisionDisplay&title=About&revision=6
-	var adaptor = context.adaptor;
-	// now get the latest revision
-	var urlTemplate = '%0msghandle.php?action=revisionDisplay&title=%1&revision=%2';
-	var url = urlTemplate.format([adaptor.host,context.tiddler.title,pageRevision]);
-	var req = doHttpGET(url,ccTiddlyAdaptor.getTiddlerCallback2,context);
-//#displayMessage("req:"+req);
+	if(status) {
+		var revs = responseText.split('\n');
+		var parts = revs[0].split(' ');
+		var tiddlerRevision = parts[1];
+		//# http://cctiddly.sourceforge.net/msghandle.php?action=revisionDisplay&title=About&revision=6
+		// now get the latest revision
+		var urlTemplate = '%0msghandle.php?action=revisionDisplay&title=%1&revision=%2';
+		var host = this && this.host ? this.host : ccTiddlyAdaptor.fullHostName(context.tiddler.fields['server.host']);
+		var url = urlTemplate.format([host,context.tiddler.title,tiddlerRevision]);
+//#displayMessage('url1: '+url);
+		var req = doHttpGET(url,ccTiddlyAdaptor.getTiddlerCallback2,context);
+		//#displayMessage("req1:"+req);
+	} else {
+		context.status = false;
+		context.statusText = xhr.statusText;
+		if(context.callback)
+			context.callback(context);
+	}
 };
 
 //# http://cctiddly.sourceforge.net/msghandle.php?action=revisionDisplay&title=About&revision=6
@@ -142,15 +157,15 @@ ccTiddlyAdaptor.getTiddlerCallback2 = function(status,context,responseText,xhr)
 	if(status) {
 		var x = responseText.split('\n');
 		try {
-			context.tiddler.text = x[2].unescapeLineBreaks();
+			context.tiddler.text = x[2] ? x[2].unescapeLineBreaks() : '';
 			context.tiddler.modifier = x[3];
 			if(x[4])
 				context.tiddler.created = Date.convertFromYYYYMMDDHHMM(x[4]);
 			if(x[5])
 				context.tiddler.modified = Date.convertFromYYYYMMDDHHMM(x[5]);
-			context.tiddler.tags = x[6];
+			//context.tiddler.tags = x[6].join(' ');
 		} catch(ex) {
-			context.statusText = exceptionText(ex,config.messages.serverParsingError);
+			context.statusText = exceptionText(ex,ccTiddlyAdaptor.serverParsingErrorMessage);
 			if(context.callback)
 				context.callback(context);
 			return;
@@ -167,95 +182,66 @@ ccTiddlyAdaptor.getTiddlerCallback2 = function(status,context,responseText,xhr)
 ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(context)
 // get a list of the revisions for a page
 {
-	var title = encodeURIComponent(contexttiddler.title);
+	var title = encodeURIComponent(context.tiddler.title);
 //#displayMessage('getTiddlerRevisionList:'+title);
-// http://cctiddly.sourceforge.net/msghandle.php?action=revisionList&title=About
+//# http://cctiddly.sourceforge.net/msghandle.php?action=revisionList&title=About
 	var urlTemplate = '%0msghandle.php?action=revisionList&title=%1';
 	var host = this && this.host ? this.host : ccTiddlyAdaptor.fullHostName(context.tiddler.fields['server.host']);
 	var url = urlTemplate.format([host,title]);
 //#displayMessage('url: '+url);
-	context.tiddler.fields['server.workspace'] = null;
-	context.tiddler.fields['server.type'] = 'cctiddly';
 	context.adaptor = this;
+	context.tiddler.fields['server.type'] = ccTiddlyAdaptor.serverType;
 	var req = doHttpGET(url,ccTiddlyAdaptor.getTiddlerRevisionListCallback,context);
 //#displayMessage("req:"+req);
 };
 
-ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,context,responseText,xhr)
+ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,context,responseText,url,xhr)
 {
 //#displayMessage('getTiddlerRevisionListCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
-//#displayMessage('callback:'+context.callback);
-	revisions = [];
-	var r =  responseText;
-	if(r != '-') {
-		var revs = r.split('\n');
-		for(var i=0; i<revs.length; i++) {
-			var parts = revs[i].split(' ');
-			if(parts.length>1) {
-				revisions[i] = {};
-				revisions[i].modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
-				revisions[i].key = parts[1];
+	context.status = false;
+	if(status) {
+		revisions = [];
+		var r =  responseText;
+		if(r != '-') {
+			var revs = r.split('\n');
+			for(var i=0; i<revs.length; i++) {
+				var parts = revs[i].split(' ');
+				if(parts.length>1) {
+					revisions[i] = {};
+					revisions[i].modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
+					revisions[i].key = parts[1];
+				}
 			}
 		}
+		context.revisions = revisions;
+		context.status = true;
+	} else {
+		context.statusText = xhr.statusText;
 	}
-	tiddler.fields['temp.revisions'] = revisions;
 	if(context.callback)
 		context.callback(context);
 };
 
 //# placeholder, not complete
-ccTiddlyAdaptor.getTiddlerRevision = function(tiddler,revision,src,updateTimeline)
+ccTiddlyAdaptor.prototype.putTiddler = function(context)
 {
-	//title = encodeURIComponent(title);
-	if(tiddler.fields.serverPageRevision == revision)
-		return;
-	//zw.status('loading...');
-	revision = revision ? '&revision=' + revision : '';
-	updateTimeline = updateTimeline ? '&updatetimeline=1' : '';
-	//ajax.get('?action=get&id=' + encodeURIComponent(title) + revision + updateTimeline + '&' + zw.no_cache(),displayTiddlerRevisionCallback)
-};
-
-//# placeholder, not complete
-ccTiddlyAdaptor.getTiddlerRevisionCallback = function(status,tiddler,responseText,xhr)
-{
-	//#displayMessage('getTiddlerRevisionCallback status:'+status);
-	//#displayMessage('rt:'+responseText.substr(0,50));
-	//#displayMessage('xhr:'+xhr);
-	var encoded = responseText;
-	if(encoded.indexOf('\n') > -1) {
-		var parts = encoded.split('\n');
-		var title = parts[0];
-		tiddler.set(title,Tiddler.unescapeLineBreaks(parts[1].htmlDecode()),parts[2],
-				Date.convertFromYYYYMMDDHHMM(parts[3]),parts[5],
-				Date.convertFromYYYYMMDDHHMM(parts[4]));
-		tiddler.revisionKey = parts[7];
-		story.refreshTiddler(tiddler.title,DEFAULT_VIEW_TEMPLATE,true);
-		if(parts[6] == 'update timeline')
-			store.notify('TabTimeline',true);
-	} else if(encoded != '-') {
-		alert(encoded); // error message
-	}
-	//zw.status(false);
-};
-
-//# placeholder, not complete
-ccTiddlyAdaptor.putTiddler = function(context)
-{
+//#displayMessage('putTiddler');
 	var title = encodeURIComponent(context.tiddler.title);
-	var urlTemplate = '%0RPC2/';
+//#displayMessage('putTiddler:'+title);
 	var host = this && this.host ? this.host : ccTiddlyAdaptor.fullHostName(context.tiddler.fields['server.host']);
+	var urlTemplate = '%0RPC2/';
 	var url = urlTemplate.format([host,title]);
 //#displayMessage('url: '+url);
 
-	tiddler.fields['server.type'] = 'cctiddly';
+	tiddler.fields['server.type'] = ccTiddlyAdaptor.serverType;
 	var req =doHttp('POST',url,payload,null,this.username,this.password,ccTiddlyAdaptor.putTiddlerCallback,context.tiddler.text);
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
 };
 
-ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,xhr)
+ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,url,xhr)
 {
 //#displayMessage('putTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
@@ -274,6 +260,6 @@ ccTiddlyAdaptor.prototype.getWorkspaceList = function(context) {return false;};
 ccTiddlyAdaptor.prototype.getTiddlerList = function(context) {return false;};
 ccTiddlyAdaptor.prototype.close = function() {return true;};
 
-config.adaptors['cctiddly'] = ccTiddlyAdaptor;
+config.adaptors[ccTiddlyAdaptor.serverType] = ccTiddlyAdaptor;
 } // end of 'install only once'
 //}}}
