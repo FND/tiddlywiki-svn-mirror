@@ -64,8 +64,6 @@ function getServerType(fields)
 //#displayMessage("getServerType");
 	if(!fields)
 		return null;
-	if(!fields['server.host'])
-		return null;
 	var serverType = fields['server.type'];
 	if(!serverType)
 		serverType = fields['wikiformat'];

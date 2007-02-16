@@ -110,23 +110,24 @@ FileAdaptor.prototype.getTiddlerList = function(context)
 
 FileAdaptor.prototype.getTiddler = function(context)
 {
-clearMessage();
-displayMessage('FileAdaptor.getTiddler:'+context.tiddler.title);
+	var tiddler = context.tiddler;
+//#clearMessage();
+//#displayMessage('FileAdaptor.getTiddler:' + tiddler.title);
 	var path = FileAdaptor.tiddlerPath();
 	var urlTemplate = '%0%1.js';
-	var urljs = urlTemplate.format([path,context.tiddler.title]);
+	var urljs = urlTemplate.format([path,tiddler.title]);
 	var urlmeta = urljs + '.meta';
-displayMessage('urljs:'+urljs);
+//#displayMessage('urljs:'+urljs);
 	context.tiddler.fields['server.type'] = FileAdaptor.serverType;
 	context.adaptor = this;
 	context.status = false;
-	context.statusText = "Error in FileAdaptor.getTiddler "+context.tiddler.title;
+	context.statusText = "Error in FileAdaptor.getTiddler " + tiddler.title;
 	text = loadFile(urljs);
 	meta = loadFile(urlmeta);
-	displayMessage("meta:"+meta);
+//#displayMessage("meta:"+meta);
 	if(text && meta) {
 		context.status = true;
-		config.tiddler.text = text;
+		context.tiddler.text = text;
 	} else {
 		alert("cannot load tiddler");
 	}
