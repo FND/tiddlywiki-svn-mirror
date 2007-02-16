@@ -43,12 +43,12 @@ Story.loadTiddlerCallback = function(context)
 Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem)
 {
 	var tiddler = new Tiddler(title);
-	tiddler.fields = typeof fields == "String" ?  fields.decodeHashMap() : fields;
+	tiddler.fields = typeof fields == "string" ?  fields.decodeHashMap() : fields;
 	var ret = false;
 	var adaptor = tiddler.getAdaptor();
 	if(adaptor) {
-		adaptor.openHost(fields['server.host']);
-		adaptor.openWorkspace(fields['server.workspace']);
+		adaptor.openHost(tiddler.fields['server.host']);
+		adaptor.openWorkspace(tiddler.fields['server.workspace']);
 		context = {};
 		context.tiddler = tiddler;
 		context.callback = Story.loadTiddlerCallback;
