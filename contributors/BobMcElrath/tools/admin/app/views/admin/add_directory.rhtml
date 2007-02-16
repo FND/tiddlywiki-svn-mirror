@@ -1,0 +1,14 @@
+<% if @directories %>   
+	<table>              
+		<% for directory in @directories %>
+  		<tr>
+  			<% for column in Directory.content_columns %>
+    			<td><%=h directory.send(column.name) %></td>
+  		<% end %>
+	    <td><%= link_to_remote "Remove", :url => { :action => "remove_directory", :user_id => @user,  :directory_id => directory }, :update => { :success => "directory_list", :failure => "error" } %></td>  
+
+  	</tr>
+	<% end %>
+	</table>         
+
+<% end %> 

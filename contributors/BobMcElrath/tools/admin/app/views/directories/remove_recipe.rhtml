@@ -1,0 +1,16 @@
+<% if @recipes %>   
+
+	<table>              
+
+		<% for recipe in @recipes %>
+  		<tr>
+  			<% for column in Recipe.content_columns %>
+    			<td><%=h recipe.send(column.name) %></td>
+  		<% end %>
+    	   <td><%= link_to_remote "Remove this recipe", :url => { :action => "remove_recipe", :recipe_id => recipe,  :directory_id => @directory }, :update => { :success => "recipe_list", :failure => "error" } %></td>  
+		  
+  	</tr>
+	<% end %>
+	</table>         
+
+<% end %> 

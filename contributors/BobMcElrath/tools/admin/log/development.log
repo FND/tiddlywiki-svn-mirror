@@ -1,0 +1,5 @@
+
+
+Processing AdminController#list (for 68.192.12.44 at 2006-06-01 23:08:34) [GET]
+  Session ID: ba9bf0b1ce6d9da136e89d7c173bd08b
+  Parameters: {"action"=>"list", "controller"=>"admin"}

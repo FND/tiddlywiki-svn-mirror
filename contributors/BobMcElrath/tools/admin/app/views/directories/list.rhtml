@@ -1,0 +1,40 @@
+<h1>Listing directories</h1>
+<% if @directories %>     
+
+<table>
+  <tr>
+    <th>Path</th>
+  </tr>
+    
+<% for directory in @directories %>
+  <tr>
+
+    <td><%=h directory.path %></td>
+
+    <td><%= link_to 'Edit', :action => 'edit', :id => directory %></td>       
+
+    <td><%= link_to_remote "Rebuild Recipes", :url => { :action => "rebuild_recipes", :id => directory }, :update => { :success => "rebuild_output", :failure => "error" } %></td>  
+
+<% if @admin %>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => directory }, :confirm => 'Are you sure?', :post => true %></td>
+<% end %>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<% if @admin %>
+	<%= link_to 'New directory', :action => 'new' %>        
+<% end %>     
+
+<div id="rebuild_output">                        
+	
+</div>    	
+
+<% else %>            
+<% if @admin %>
+	<%= link_to 'New directory', :action => 'new' %>        
+<% end %>
+
+<% end %>

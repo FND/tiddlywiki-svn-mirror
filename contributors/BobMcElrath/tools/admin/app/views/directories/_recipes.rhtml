@@ -1,0 +1,46 @@
+<%= error_messages_for 'directory' %>
+
+
+<h2>Linked recipes</h2>
+            
+                                                                                                                                         
+<select id="directory_recipe_id" name="recipe_id">  <%= options_from_collection_for_select @recipe_list, "id", "name"%>  </select> 
+         
+
+
+<script>
+  function addSelectedRecipe() {
+	 var recipeSelect = document.getElementById("directory_recipe_id");  
+	 var directory_path = document.getElementById("directory_path")
+	 var selectedValue = recipeSelect.options[ recipeSelect.selectedIndex ].value;    
+	 var selectPathValue = directory_path.value;
+	 var url = "/directories/add_recipe?recipe_id="+ selectedValue + '&path=' + selectPathValue + '';
+
+	 new Ajax.Updater(
+		'recipe_list',
+		url,
+		{asynchronous:true, evalScripts:true} );
+
+  }
+</script>
+
+<a href="#" onclick=addSelectedRecipe();return false;>&lt;= add this recipe</a>
+  
+       
+<div id="recipe_list">      
+	
+<table>
+  
+<% for recipe in @directory.recipes %>
+  <tr>
+  <% for column in Recipe.content_columns %>
+    <td><%=h recipe.send(column.name) %></td>
+  <% end %>           
+    
+   <td><%= link_to_remote "Remove this recipe", :url => { :action => "remove_recipe", :recipe_id => recipe,  :directory_id => @directory }, :update => { :success => "recipe_list", :failure => "error" } %></td>  
+
+</tr>
+<% end %>
+</table>         
+
+</div>
