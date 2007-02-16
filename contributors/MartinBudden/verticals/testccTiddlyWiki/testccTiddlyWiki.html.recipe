@@ -24,4 +24,3 @@ tiddler: ../../experimental/ccTiddlyAdaptorPlugin.js
 tiddler: ../../plugins/DisableWikiLinksPlugin.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
-tiddler: ../../../../contributors/misc/plugins/TagCloudPlugin.js

@@ -17,5 +17,3 @@ tiddler: ../../experimental/ZiddlyWikiAdaptorPlugin.js
 tiddler: ../../plugins/DisableWikiLinksPlugin.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
-tiddler: ../../../../contributors/misc/plugins/TagCloudPlugin.js
-tiddler: ../../../../contributors/UdoBorkowski/plugins/TiddlerAliasPlugin.js
