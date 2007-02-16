@@ -75,7 +75,7 @@ ccTiddlyAdaptor.prototype.openHost = function(host,context)
 
 ccTiddlyAdaptor.prototype.openWorkspace = function(workspace,context)
 {
-displayMessage("openWorkspace:"+workspace);
+//#displayMessage("openWorkspace:"+workspace);
 	this.workspace = workspace;
 	if(context && context.callback)
 		window.setTimeout(context.callback,0,true,this,context);
