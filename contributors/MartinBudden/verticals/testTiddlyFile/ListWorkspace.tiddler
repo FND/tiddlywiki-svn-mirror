@@ -1,0 +1,7 @@
+<div title="ImportWorkspace" server.type="file" server.host="file:///c:/temp" server.workspace="main">
+<pre>
+&lt;&lt;updateWorkspaceTiddlerList&gt;&gt;
+
+&lt;&lt;list workspaceTiddlers&gt;&gt;
+</pre>
+</div>
