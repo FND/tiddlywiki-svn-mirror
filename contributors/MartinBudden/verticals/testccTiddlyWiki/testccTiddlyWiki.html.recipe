@@ -1,5 +1,6 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 title: title.html
+tiddler: ../../tiddlers/ViewTemplateHostedRevisionsTest.tiddler
 tiddler: ../../tiddlers/MainMenuHome.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: Home.tiddler
@@ -10,7 +11,6 @@ tiddler: StyleSheet.tiddler
 tiddler: HowTo.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: SideBarTabs.tiddler
-tiddler: ViewTemplateHostedRevisions.tiddler
 tiddler: settings.js
 tiddler: ../tiddlypedia/EditTemplateHosted.tiddler
 tiddler: ../tiddlypedia/OptionsPanel.tiddler

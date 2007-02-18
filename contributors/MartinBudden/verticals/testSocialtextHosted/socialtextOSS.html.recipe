@@ -1,6 +1,7 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 title: titleStOSS.html
 tiddler: ../../tiddlers/MainMenuHome.tiddler
+tiddler: ../../tiddlers/ViewTemplateHostedRevisionsTest.tiddler
 tiddler: settings.js
 tiddler: SiteUrl.tiddler
 tiddler: SiteSubtitle.tiddler
@@ -26,7 +27,6 @@ tiddler: ../tiddlypedia/TabTags.tiddler
 tiddler: ../tiddlypedia/TabMoreUpdatedMissingShadowed.tiddler
 tiddler: ../tiddlypedia/TabTemplates.tiddler
 tiddler: ../tiddlypedia/TabUpdated.tiddler
-tiddler: ../tiddlypedia/ViewTemplateHosted.tiddler
 tiddler: ../../experimental/HostedCommandsPlugin.js
 tiddler: ../../experimental/HostedCommands2Plugin.js
 tiddler: ../../experimental/SocialtextAdaptorPlugin.js
