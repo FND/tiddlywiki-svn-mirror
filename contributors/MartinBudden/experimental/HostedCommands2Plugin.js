@@ -19,7 +19,7 @@ version.extensions.HostedCommands2Plugin = {installed:true};
 // Return an array of tiddler titles that are in the given workspace on the host
 TiddlyWiki.prototype.getHostedTiddlers = function(host,workspace)
 {
-displayMessage("getHostedTiddlers:"+host+" ws:"+workspace);
+//#displayMessage("getHostedTiddlers:"+host+" ws:"+workspace);
 	var results = [];
 	if(!this.hostedTiddlers || !this.hostedTiddlers[host])
 		return results;
@@ -37,7 +37,7 @@ config.macros.list.workspaceTiddlers = {};
 config.macros.list.workspaceTiddlers.prompt = "List Tiddlers in the workspace";
 config.macros.list.workspaceTiddlers.handler = function(params,wikifier,paramString,tiddler)
 {
-displayMessage("list.workspaceTiddlers");
+//#displayMessage("config.macros.list.workspaceTiddlers");
 	var customFields = getParam(params,'fields',false);
 	if(!customFields)
 		customFields = config.defaultCustomFields;
@@ -52,7 +52,7 @@ merge(config.macros.updateWorkspaceTiddlerList,{
 
 config.macros.updateWorkspaceTiddlerList.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-//#displayMessage("updateWorkspaceTiddlerList.handler");
+//#displayMessage("config.macros.updateWorkspaceTiddlerList.handler");
 	params = paramString.parseParams('anon',null,true,false,false);
 	var customFields = getParam(params,'fields',false);
 	if(!customFields)
@@ -65,9 +65,9 @@ config.macros.updateWorkspaceTiddlerList.handler = function(place,macroName,para
 config.macros.updateWorkspaceTiddlerList.onClick = function(e)
 {
 	clearMessage();
-displayMessage("updateWorkspaceTiddlerList.onClick");
+//#displayMessage("config.macros.updateWorkspaceTiddlerList.onClick");
 	var customFields = this.getAttribute("customFields");
-displayMessage("cf:"+customFields);
+//#displayMessage("cf:"+customFields);
 	//var fields = convertCustomFieldsToHash(customFields);
 	var fields = customFields.decodeHashMap();
 displayMessage("host:"+fields['server.host']);
@@ -77,7 +77,7 @@ displayMessage("host:"+fields['server.host']);
 
 config.macros.updateWorkspaceTiddlerList.callback = function(context)
 {
-displayMessage("updateWorkspaceTiddlerList.callback:"+context.host+" w:"+context.workspace);
+//#displayMessage("config.macros.updateWorkspaceTiddlerList.callback:"+context.host+" w:"+context.workspace);
 	if(context.status) {
 		if(!store.hostedTiddlers)
 			store.hostedTiddlers = {};
@@ -86,7 +86,7 @@ displayMessage("updateWorkspaceTiddlerList.callback:"+context.host+" w:"+context
 		store.hostedTiddlers[context.host][context.workspace] = context.tiddlers;
 		displayMessage(config.macros.updateWorkspaceTiddlerList.done);
 		var title = this.getAttribute('title');
-displayMessage("title:"+title);
+//#displayMessage("title:"+title);
 		story.displayTiddler(null,title);
 		story.refreshTiddler(title,1,true);
 	} else {

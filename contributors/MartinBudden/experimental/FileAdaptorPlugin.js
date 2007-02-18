@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#FileAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/FileAdaptorPlugin.js|
-|''Version:''|0.3.1|
-|''Date:''|Feb 4, 2007|
+|''Version:''|0.4.1|
+|''Date:''|Feb 18, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -24,6 +24,7 @@ function FileAdaptor()
 }
 
 FileAdaptor.serverType = 'file';
+FileAdaptor.errorInFunctionMessage = "Error in function FileAdaptor.%0: %1";
 
 // Convert a page title to the normalized form used in URLs
 FileAdaptor.normalizedTitle = function(title)
@@ -46,7 +47,7 @@ FileAdaptor.getPath = function(localPath,folder)
 	}
 	if(!folder || folder == '')
 		folder = '.';
-	var path = localPath.substr(0,dirPathPos) + backSlash + folder + backSlash;// + localPath.substr(dirPathPos);
+	var path = localPath.substr(0,dirPathPos) + backSlash + folder + backSlash;
 	return path;
 };
 
@@ -74,76 +75,117 @@ FileAdaptor.minHostName = function(host)
 	return host ? host.replace(/\\/,'/').host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
 };
 
-FileAdaptor.prototype.openHost = function(host,context)
+FileAdaptor.prototype.openHost = function(host,context,callback)
 {
 //#displayMessage("openHost:"+host);
 	this.host = FileAdaptor.fullHostName(host);
 //#displayMessage("host:"+this.host);
-	if(context && context.callback) {
+	if(context && callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,true,this,context);
+		window.setTimeout(callback,0,true,this,context);
 	}
 	return true;
 };
 
-FileAdaptor.prototype.getWorkspaceList = function(context)
+FileAdaptor.prototype.getWorkspaceList = function(context,callback)
 {
 	return false;
 };
 
-
-FileAdaptor.prototype.openWorkspace = function(workspace,context)
+FileAdaptor.prototype.openWorkspace = function(workspace,context,callback)
 {
 //#displayMessage("openWorkspace:"+workspace);
 	this.workspace = workspace;
-	if(context && context.callback) {
+	if(context && callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,true,this,context);
+		window.setTimeout(callback,0,true,this,context);
 	}
 	return true;
 };
 
-FileAdaptor.prototype.getTiddlerList = function(context)
+FileAdaptor.prototype.getTiddlerList = function(context,callback)
 {
 	return false;
 };
 
-FileAdaptor.prototype.getTiddler = function(context)
+FileAdaptor.prototype.getTiddler = function(tiddler,context,callback)
 {
-	var tiddler = context.tiddler;
 //#clearMessage();
 //#displayMessage('FileAdaptor.getTiddler:' + tiddler.title);
 	var path = FileAdaptor.tiddlerPath();
-	var urlTemplate = '%0%1.js';
-	var urljs = urlTemplate.format([path,tiddler.title]);
-	var urlmeta = urljs + '.meta';
-//#displayMessage('urljs:'+urljs);
-	context.tiddler.fields['server.type'] = FileAdaptor.serverType;
+	var urlTemplate = '%0%1';
+	var url = urlTemplate.format([path,FileAdaptor.normalizedTitle(tiddler.title)]);
+//#displayMessage('url:'+url);
 	context.adaptor = this;
+	if(callback) context.callback = callback;
+	context.tiddler = tiddler;
+	context.tiddler.fields['server.type'] = FileAdaptor.serverType;
 	context.status = false;
-	context.statusText = "Error in FileAdaptor.getTiddler " + tiddler.title;
-	text = loadFile(urljs);
-	meta = loadFile(urlmeta);
+	context.statusText = FileAdaptor.errorInFunctionMessage.format(['getTiddler',tiddler.title]);
+	var fields = null;
+	var data = loadFile(url + '.js');
+	if(data) {
+		context.tiddler.text = data;
+		meta = loadFile(url + '.js.meta');
+		if(meta) {
 //#displayMessage("meta:"+meta);
-	if(text && meta) {
-		context.status = true;
-		context.tiddler.text = text;
+			context.status = true;
+			var ft = '';
+			var fieldRegExp = /([^:]*):(?:\s*)(.*?)$/mg;
+			fieldRegExp.lastIndex = 0;
+			var match = fieldRegExp.exec(meta);
+			while(match) {
+				ft += match[1] + ':"' + match[2] + '" ';
+				match = fieldRegExp.exec(meta);
+			}
+//#displayMessage("ft:"+ft);
+			fields = ft.decodeHashMap();
+		} else {
+			alert("cannot load tiddler");
+		}
 	} else {
-		alert("cannot load tiddler");
+		data = loadFile(url + '.tiddler');
+displayMessage("data:"+data);
+		if(data) {
+			var tiddlerRegExp = /<div([^>]*)>(?:\s*)(<pre>)?([^<]*?)</mg;
+			tiddlerRegExp.lastIndex = 0;
+			match = tiddlerRegExp.exec(data);
+			if(match) {
+				ft = match[1].replace(/\=\"/mg,':"');
+displayMessage("ft:"+ft);
+				fields = ft.decodeHashMap();
+				var text = match[3] ? match[3] : '';
+				if(match[2]) {
+					text = text.unescapeLineBreaks();
+				} else {
+					text = text.replace(/\r/mg,'').htmlDecode();
+				}
+				context.tiddler.text = text;
+				context.status = true;
+			}
+		}
+	}
+	for(var i in fields) {
+		var accessor = TiddlyWiki.standardFieldAccess[i];
+		if(accessor) {
+			accessor.set(context.tiddler,fields[i]);
+		} else if(i != 'anon' && i != 'changecount') {
+			context.tiddler.fields[i] = fields[i];
+		}
 	}
 	if(context.callback)
 		context.callback(context);
 	return context.status;
 };
 
-FileAdaptor.prototype.putTiddler = function(context)
+FileAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 {
-	var tiddler = context.tiddler;
 //#clearMessage();
+//#displayMessage('FileAdaptor.putTiddler:' + tiddler.title);
 	var path = FileAdaptor.tiddlerPath();
-	var urlTemplate = '%0%1.js';
-	var urljs = urlTemplate.format([path,tiddler.title]);
-	var urlmeta = urljs + '.meta';
+	var urlTemplate = '%0%1';
+	var url = urlTemplate.format([path,FileAdaptor.normalizedTitle(tiddler.title)]);
+//#displayMessage('url:'+url);
 	var meta = 'title: ' + tiddler.title + '\n';
 	if(tiddler.modifier)
 		meta += 'modifier: ' + tiddler.modifier + '\n';
@@ -159,12 +201,12 @@ FileAdaptor.prototype.putTiddler = function(context)
 			meta += i + ': ' + fields[i] + '\n';
 		}
 	}
-	context.status = saveFile(urljs,context.tiddler.text);
+	context.adaptor = this;
+	if(callback) context.callback = callback;
+	context.tiddler = tiddler;
+	context.status = saveFile(url + '.js',tiddler.text);
 	if(context.status) {
-		context.status = saveFile(urlmeta,meta);
-		//displayMessage(config.messages.backupSaved,url);
-	} else {
-		//alert(config.messages.backupFailed);
+		context.status = saveFile(url + '.js.meta',meta);
 	}
 
 	if(context.callback)

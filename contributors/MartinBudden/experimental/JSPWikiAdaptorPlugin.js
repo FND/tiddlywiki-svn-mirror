@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#JSPWikiAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/JSPWikiAdaptorPlugin.js|
-|''Version:''|0.2.1|
-|''Date:''|Feb 4, 2007|
+|''Version:''|0.4.1|
+|''Date:''|Feb 18, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -19,7 +19,7 @@
 
 //{{{
 if(!config.options.txtJSPWikiDefaultServer)
-	{config.options.txtJSPWikiDefaultServer = 'www.JSPWiki.org';}
+	{config.options.txtJSPWikiDefaultServer = 'www.jspwiki.org';}
 if(!config.options.txtJSPWikiDefaultWorkspace)
 	{config.options.txtJSPWikiDefaultWorkspace = '';}
 if(!config.options.txtJSPWikiUsername)
@@ -34,128 +34,168 @@ if(!config.options.chkJSPWikiPasswordRequired)
 if(!version.extensions.JSPWikiAdaptorPlugin) {
 version.extensions.JSPWikiAdaptorPlugin = {installed:true};
 
-function doHttpGET(url,callback,params,headers,data,contentType,username,password)
+function doHttpGET(url,callback,context,headers,data,contentType,username,password)
 {
-	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
+	return doHttp('GET',url,data,contentType,username,password,callback,context,headers);
 }
-
-config.messages.serverParsingError = "Error parsing result from server";
 
 function JSPWikiAdaptor()
 {
 	this.host = null;
 	this.workspace = null;
 	return this;
-};
+}
 
-JSPWikiAdaptor.prototype.openHost = function(host,callback,callbackParams)
+JSPWikiAdaptor.serverType = 'jspwiki';
+JSPWikiAdaptor.serverParsingErrorMessage = "Error parsing result from server";
+JSPWikiAdaptor.errorInFunctionMessage = "Error in function JSPWikiAdaptor.%0";
+
+JSPWikiAdaptor.fullHostName = function(host)
 {
-//#displayMessage("openHost:"+host);
+//#displayMessage("fullHostName:"+host);
+	if(!host)
+		return '';
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
 	if(host.substr(-1) != '/')
 		host = host + '/';
-	this.host = host;
+	return host;
+};
+
+JSPWikiAdaptor.minHostName = function(host)
+{
+	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
+};
+
+JSPWikiAdaptor.prototype.openHost = function(host,callback,callbackcontext)
+{
+//#displayMessage("openHost:"+host);
+	this.host = JSPWikiAdaptor.fullHostName(host);
 //#displayMessage("host:"+host);
 	this.username = config.options.txttwikiUsername;
 	this.password = config.options.txttwikiPassword;
-	if(params && params.callback)
-		window.setTimeout(params.callback,0,true,this,params);
+	if(context && callback) {
+		context.status = true;
+		window.setTimeout(callback,0,true,this,context);
+	}
 	return true;
 };
 
-JSPWikiAdaptor.prototype.getWorkspaceList = function(params)
+JSPWikiAdaptor.prototype.getWorkspaceList = function(context)
 {
 //#displayMessage("getWorkspaceList");
 	var urlTemplate = '%0data/workspaces';
-	var url = urlTemplate.format([this.host]);
-	params.adaptor = this;
-	var req = doHttpGET(url,JSPWikiAdaptor.getWorkspaceListCallback,params);
+	var host = this && this.host ? this.host : JSPWikiAdaptor.fullHostName(context.host);
+	var url = urlTemplate.format([host]);
+//#displayMessage('url:'+url);
+	context.adaptor = this;
+	var req = doHttpGET(url,JSPWikiAdaptor.getWorkspaceListCallback,context);
 	return typeof req == 'string' ? req : true;
 };
 
-JSPWikiAdaptor.getWorkspaceListCallback = function(status,params,responseText,xhr)
+JSPWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText,url,xhr)
 {
 //#displayMessage("getWorkspaceListCallback");
-	if(!params)
-		params = {};
-	params.status = false;
+	context.status = false;
+	context.statusText = JSPWikiAdaptor.errorInFunctionMessage.format(['getWorkspaceListCallback']);
 	if(status) {
 		try {
 			eval('var info=' + responseText);
 		} catch (ex) {
-			params.statusText = exceptionText(ex,config.messages.serverParsingError);
-			if(params.callback)
-				params.callback(params);
+			context.statusText = exceptionText(ex,JSPWikiAdaptor.serverParsingErrorMessage);
+			if(context.callback)
+				context.callback(context);
 			return;
 		}
 		var list = [];
 		for(var i=0; i<info.length; i++) {
-			list.push({title:info[i].name});
+			var item = {
+				title:info[i].name
+				//name:info[i].name,
+				//modified:JSPWikiAdaptor.dateFromEditTime(info[i].modified_time)
+				};
+			list.push(item);
 		}
-		params.list = list;
-		params.status = true;
+		context.workspaces = list;
+		context.status = true;
 	} else {
-		params.statusText = xhr.statusText;
+		context.statusText = xhr.statusText;
 	}
-	if(params && params.callback)
-		params.callback(params);
+	if(context && context.callback)
+		context.callback(context);
 };
 
-JSPWikiAdaptor.prototype.openWorkspace = function(workspace,callback,callbackParams)
+JSPWikiAdaptor.prototype.openWorkspace = function(workspace,context,callback)
 {
 //#displayMessage("openWorkspace:"+workspace);
 	this.workspace = workspace;
-	if(params && params.callback)
-		window.setTimeout(params.callback,0,true,this,params);
+	if(context && context.callback) {
+		context.status = true;
+		window.setTimeout(context.callback,0,true,this,context);
+	}
 	return true;
 };
 
-JSPWikiAdaptor.prototype.getTiddlerList = function(params)
+JSPWikiAdaptor.prototype.getTiddlerList = function(context)
 {
 //#displayMessage('getTiddlerList');
-//#displayMessage('url:'+url);
 	var urlTemplate = '';
-	var url = urlTemplate.format([this.host,this.workspace]);
+	var host = this && this.host ? this.host : JSPWikiAdaptor.fullHostName(context.host);
+	var workspace = this && this.workspace ? this.workspace : context.workspace;
+	var url = urlTemplate.format([host,workspace]);
 //#displayMessage('url:'+url);
-	params.adaptor = this;
-	var req = doHttpGET(url,JSPWikiAdaptor.getTiddlerListCallback,params);
+	context.adaptor = this;
+	if(callback) context.callback = callback;
+	var req = doHttpGET(url,JSPWikiAdaptor.getTiddlerListCallback,context);
 //#displayMessage('req:'+req);
 	return typeof req == 'string' ? req : true;
 };
 
-JSPWikiAdaptor.getTiddlerListCallback = function(status,params,responseText,xhr)
+JSPWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,url,xhr)
 {
 //#displayMessage('getTiddlerListCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
-	if(!params)
-		params = {};
-	params.status = false;
+	context.status = false;
+	context.statusText = JSPWikiAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	if(status) {
 		try {
 			//# convert the downloaded data into a javascript object
 			eval('var info=' + responseText);
 		} catch (ex) {
-			params.statusText = exceptionText(ex,config.messages.serverParsingError);
-			if(params.callback)
-				params.callback(params);
+			context.statusText = exceptionText(ex,config.messages.serverParsingError);
+			if(context.callback)
+				context.callback(context);
 			return;
 		}
 		var list = [];
 		for(var i=0; i<info.length; i++) {
-			list.push({title:info[i].name});
+			var tiddler = new Tiddler(info[i].name);
+			/*tiddler.modified = '';
+			tiddler.modifier = '';
+			tiddler.tags = '';
+			tiddler.fields['server.page.id'] = '';
+			tiddler.fields['server.page.name'] = '';*/
+			list.push(tiddler);
 		}
-		params.list = list;
-		params.status = true;
+		context.tiddlers = list;
+		context.status = true;
 	} else {
-		params.statusText = xhr.statusText;
+		context.statusText = xhr.statusText;
 	}
-	if(params.callback)
-		params.callback(params);
+	if(context.callback)
+		context.callback(context);
 };
 
-JSPWikiAdaptor.prototype.getTiddler = function(tiddler)
+JSPWikiAdaptor.prototype.getTiddlerUrl = function(tiddler)
+{
+	urlTemplate = '';
+	var host = this && this.host ? this.host : JSPWikiAdaptor.fullHostName(tiddler.fields['server.host']);
+	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
+	return urlTemplate.format([host,workspace,tiddler.title]);
+};
+
+JSPWikiAdaptor.prototype.getTiddler = function(tiddler,context,callback)
 {
 //#displayMessage('JSPWikiAdaptor.getTiddler:'+tiddler.title);
 //# http://JSPWiki.org/wiki/WikiRPCInterface
@@ -165,44 +205,48 @@ JSPWikiAdaptor.prototype.getTiddler = function(tiddler)
 	//#var fn = 'wiki.getAllTiddlers';
 	var fn = 'wiki.getPage';
 	var urlTemplate = '%0RPCU/';
-	var url = urlTemplate.format([this.host,this.workspace,tiddler.title]);
+	var host = this && this.host ? this.host : JSPWikiAdaptor.fullHostName(tiddler.fields['server.host']);
+	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
+	var url = urlTemplate.format([host,workspace,tiddler.title]);
 //#displayMessage('url: '+url);
 
-	var fnParamsTemplate ='<params><param><value><string>%0</string></value></param></params>';
-	var fnParams = fnParamsTemplate.format([tiddler.title]);
+	var fncontextTemplate ='<context><param><value><string>%0</string></value></param></context>';
+	var fncontext = fncontextTemplate.format([tiddler.title]);
 	var fnTemplate = '<?xml version="1.0"?><methodCall><methodName>%0</methodName>%1</methodCall>';
-	var payload = fnTemplate.format([fn,fnParams]);
+	var payload = fnTemplate.format([fn,fncontext]);
 //#displayMessage("payload:"+payload);
 
-	tiddler.fields.wikiformat = 'jspwiki';
-	tiddler.fields['server.type'] = 'jspwiki';
-	tiddler.fields['temp.adaptor'] = this;
+	context.tiddler = tiddler;
+	context.tiddler.fields.wikiformat = 'jspwiki';
+	context.tiddler.fields['server.host'] = JSPWikiAdaptor.minHostName(host);
+	//context.tiddler.fields['server.workspace'] = workspace;
+	context.adaptor = this;
+	if(callback) context.callback = callback;
 	var req =doHttp('POST',url,payload,null,null,null,JSPWikiAdaptor.getTiddlerCallback,tiddler);
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
 };
 
-JSPWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,xhr)
+JSPWikiAdaptor.getTiddlerCallback = function(status,tiddler,responseText,url,xhr)
 {
 //#displayMessage('JSP.getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
 	if(status) {
-		var content = responseText;
-		content = content.replace('<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value>','');
-		content = content.replace('</value></param></params></methodResponse>','');
-		tiddler.text = content;
-		tiddler.fields['temp.status'] = true;
-		tiddler.fields['temp.statusText'] = xhr.statusText;
+		var text = responseText;
+		text = text.replace('<?xml version="1.0" encoding="UTF-8"?><methodResponse><context><param><value>','');
+		text = text.replace('</value></param></context></methodResponse>','');
+		context.tiddler.text = text;
+		context.status = true;
 	} else {
-		tiddler.fields['temp.status'] = false;
+		context.status = false;
+		context.statusText = xhr.statusText;
 	}
-	var callback = tiddler.fields['temp.callback'];
-	if(callback)
-		callback(tiddler);
+	if(context.callback)
+		context.callback(context);
 };
 
-JSPWikiAdaptor.prototype.putTiddler = function(tiddler)
+JSPWikiAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 {
 //#displayMessage('JSPWikiAdaptor.putTiddler:'+tiddler.title);
 //# http://www.JSPWiki.org/wiki/WikiRPCInterface2
@@ -211,41 +255,44 @@ JSPWikiAdaptor.prototype.putTiddler = function(tiddler)
 //#putPage(utf8 page,utf8 content,struct attributes )
 	var fn = 'wiki.putPage';
 	var urlTemplate = '%0RPC2/';
-	var url = urlTemplate.format([this.host,this.workspace,tiddler.title]);
+	var host = this && this.host ? this.host : JSPWikiAdaptor.fullHostName(context.tiddler.fields['server.host']);
+	var workspace = this && this.workspace ? this.workspace : context.tiddler.fields['server.workspace'];
+	var url = urlTemplate.format([host,workspace,tiddler.title]);
 //#displayMessage('url: '+url);
 
-	var fnParamsTemplate ='<params>';
-	fnParamsTemplate += '<param><value><string>%0</string></value></param>';
-	fnParamsTemplate += '<param><value><string>%1</string></value></param>';
-	fnParamsTemplate += '</params>';
-	var fnParams = fnParamsTemplate.format([tiddler.title,tiddler.text]);
+	var fncontextTemplate ='<context>';
+	fncontextTemplate += '<param><value><string>%0</string></value></param>';
+	fncontextTemplate += '<param><value><string>%1</string></value></param>';
+	fncontextTemplate += '</context>';
+	var fncontext = fncontextTemplate.format([tiddler.title,tiddler.text]);
 	var fnTemplate = '<?xml version="1.0"?><methodCall><methodName>%0</methodName>%1</methodCall>';
-	var payload = fnTemplate.format([fn,fnParams]);
+	var payload = fnTemplate.format([fn,fncontext]);
 //#displayMessage("payload:"+payload);
 
-	tiddler.fields.wikiformat = 'jspwiki';
-	tiddler.fields['server.type'] = 'jspwiki';
-	tiddler.fields['temp.adaptor'] = this;
+	context.adaptor = this;
+	if(callback) context.callback = callback;
 	var req =doHttp('POST',url,payload,null,this.username,this.password,JSPWikiAdaptor.putTiddlerCallback,tiddler);
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
 };
 
-JSPWikiAdaptor.putTiddlerCallback = function(status,tiddler,responseText,xhr)
+JSPWikiAdaptor.putTiddlerCallback = function(status,context,responseText,url,xhr)
 {
+//#displayMessage('putTiddlerCallback status:'+status);
+//#displayMessage('rt:'+responseText.substr(0,50));
+//#displayMessage('xhr:'+xhr);
 	if(status) {
-		tiddler.fields['temp.status'] = true;
-		tiddler.fields['temp.statusText'] = xhr.statusText;
+		context.status = true;
 	} else {
-		tiddler.fields['temp.status'] = false;
+		context.status = false;
+		context.statusText = xhr.statusText;
 	}
-	var callback = tiddler.fields['temp.callback'];
-	if(callback)
-		callback(tiddler);
+	if(context.callback)
+		context.callback(context);
 };
 
 JSPWikiAdaptor.prototype.close = function() {return true;};
 
-config.adaptors['jspwiki'] = JSPWikiAdaptor;
+config.adaptors[JSPWikiAdaptor.serverType] = JSPWikiAdaptor;
 } // end of 'install only once'
 //}}}

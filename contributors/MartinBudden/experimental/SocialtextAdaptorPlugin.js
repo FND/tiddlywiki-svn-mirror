@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com) and JeremyRuston (jeremy (at) osmosoft (dot) com)|
 |''Source:''|http://martinswiki.com/martinsprereleases.html#SocialtextAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/SocialtextAdaptorPlugin.js|
-|''Version:''|0.3.5|
-|''Date:''|Feb 4, 2007|
+|''Version:''|0.4.1|
+|''Date:''|Feb 18, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -79,14 +79,14 @@ SocialtextAdaptor.minHostName = function(host)
 //#   context.status - true if OK, string if error
 //#   context.adaptor - reference to this adaptor object
 //#   context - parameters as originally passed into the openHost function
-SocialtextAdaptor.prototype.openHost = function(host,context)
+SocialtextAdaptor.prototype.openHost = function(host,context,callback)
 {
 //#displayMessage("openHost:"+host);
 	this.host = SocialtextAdaptor.fullHostName(host);
 //#displayMessage("host:"+this.host);
-	if(context && context.callback) {
+	if(context && callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,true,this,context);
+		window.setTimeout(callback,0,true,this,context);
 	}
 	return true;
 };
@@ -110,13 +110,15 @@ SocialtextAdaptor.prototype.openHost = function(host,context)
 //#   context.statusText - error message if there was an error
 //#   context.adaptor - reference to this adaptor object
 //#   context - parameters as originally passed into the getWorkspaceList function
-SocialtextAdaptor.prototype.getWorkspaceList = function(context)
+SocialtextAdaptor.prototype.getWorkspaceList = function(context,callback)
 {
 //#displayMessage("getWorkspaceList");
 	var urlTemplate = '%0data/workspaces';
 	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(context.host);
 	var url = urlTemplate.format([host]);
+//#displayMessage('url:'+url);
 	context.adaptor = this;
+	if(callback) context.callback = callback;
 	var req = doHttpGET(url,SocialtextAdaptor.getWorkspaceListCallback,context,{'accept':'application/json'});
 	return typeof req == 'string' ? req : true;
 };
@@ -166,7 +168,7 @@ SocialtextAdaptor.getWorkspaceListCallback = function(status,context,responseTex
 //#   context.statusText - error message if there was an error
 //#   context.adaptor - reference to this adaptor object
 //#   context - parameters as originally passed into the openWorkspace function
-SocialtextAdaptor.prototype.openWorkspace = function(workspace,context)
+SocialtextAdaptor.prototype.openWorkspace = function(workspace,context,callback)
 {
 //#displayMessage("openWorkspace:"+workspace);
 	this.workspace = workspace;
@@ -199,7 +201,7 @@ SocialtextAdaptor.prototype.getTiddlerList = function(context)
 	var url = urlTemplate.format([host,workspace]);
 //#displayMessage('url:'+url);
 	context.adaptor = this;
-//#displayMessage('adaptor:'+this);
+	if(callback) context.callback = callback;
 	var req = doHttpGET(url,SocialtextAdaptor.getTiddlerListCallback,context,{'accept':'application/json'});
 //#displayMessage('req:'+req);
 	return typeof req == 'string' ? req : true;
@@ -255,7 +257,7 @@ SocialtextAdaptor.getTiddlerListCallback = function(status,context,responseText,
 		context.callback(context);
 };
 
-SocialtextAdaptor.prototype.viewTiddlerUrl = function(tiddler)
+SocialtextAdaptor.prototype.getTiddlerUrl = function(tiddler)
 {
 	urlTemplate = '%0%1/index.cgi?%2';
 	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(tiddler.fields['server.host']);
@@ -274,7 +276,7 @@ SocialtextAdaptor.prototype.viewTiddlerUrl = function(tiddler)
 //#   context.statusText - error message if there was an error, otherwise undefined
 //#   context.adaptor - reference to this adaptor object
 //#   context - as passed into the getTiddler function
-SocialtextAdaptor.prototype.getTiddler = function(context)
+SocialtextAdaptor.prototype.getTiddler = function(tiddler,context,callback)
 {
 //#displayMessage('SocialtextAdaptor.getTiddler:'+context.tiddler.title);
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages/socialtext_2_0_preview
@@ -282,16 +284,17 @@ SocialtextAdaptor.prototype.getTiddler = function(context)
 	// request the page in json format to get the page attributes
 	//#var urlTemplate = '%0data/workspaces/%1/pages/%2?accept=application/json';
 	var urlTemplate = '%0data/workspaces/%1/pages/%2';
-	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(context.tiddler.fields['server.host']);
-	var workspace = this && this.workspace ? this.workspace : context.tiddler.fields['server.workspace'];
-	var url = urlTemplate.format([host,workspace,SocialtextAdaptor.normalizedTitle(context.tiddler.title)]);
+	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(tiddler.fields['server.host']);
+	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
+	var url = urlTemplate.format([host,workspace,SocialtextAdaptor.normalizedTitle(tiddler.title)]);
 //#displayMessage('url: '+url);
 
+	context.tiddler = tiddler;
 	context.tiddler.fields.wikiformat = 'socialtext';
-	context.tiddler.fields['server.type'] = SocialtextAdaptor.serverType;
 	context.tiddler.fields['server.host'] = SocialtextAdaptor.minHostName(host);
 	context.tiddler.fields['server.workspace'] = workspace;
 	context.adaptor = this;
+	if(callback) context.callback = callback;
 	var req = doHttpGET(url,SocialtextAdaptor.getTiddlerCallback,context,{'accept':'application/json'});
 //#displayMessage('req:'+req);
 	return typeof req == 'string' ? req : true;
@@ -350,7 +353,7 @@ SocialtextAdaptor.getTiddlerCallback = function(status,context,responseText,url,
 	var host = SocialtextAdaptor.fullHostName(context.tiddler.fields['server.host']);
 	var workspace = this && this.workspace ? this.workspace : context.tiddler.fields['server.workspace'];
 	//var url = urlTemplate.format([host,workspace,tiddler.fields['server.page.id']]);
-	var url = urlTemplate.format([host,workspace,SocialtextAdaptor.normalizedTitle(context.tiddler.title)]);
+	url = urlTemplate.format([host,workspace,SocialtextAdaptor.normalizedTitle(context.tiddler.title)]);
 //#displayMessage('cb url: '+url);
 	var req = doHttpGET(url,SocialtextAdaptor.getTiddlerCallback2,context,{'accept':SocialtextAdaptor.mimeType});
 //#displayMessage('req:'+req);
@@ -382,17 +385,18 @@ SocialtextAdaptor.getTiddlerCallback2 = function(status,context,responseText,url
 //#   context.status - true if OK, false if error
 //#   context.adaptor - reference to this adaptor object
 //#   context - as passed into the putTiddler function
-SocialtextAdaptor.prototype.putTiddler = function(context)
+SocialtextAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 {
 //#displayMessage('SocialtextAdaptor.putTiddler:'+context.tiddler.title);
 //# data/workspaces/:ws/pages/:pname
 	var urlTemplate = '%0data/workspaces/%1/pages/%2';
 	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(context.tiddler.fields['server.host']);
 	var workspace = this && this.workspace ? this.workspace : context.tiddler.fields['server.workspace'];
-	var url = urlTemplate.format([host,workspace,context.tiddler.title,context.tiddler.text]);
+	var url = urlTemplate.format([host,workspace,tiddler.title,tiddler.text]);
 //#displayMessage('url:'+url);
 	context.adaptor = this;
-	var req = doHttp('POST',url,context.tiddler.text,SocialtextAdaptor.mimeType,null,null,SocialtextAdaptor.putTiddlerCallback,context,{"X-Http-Method": "PUT"});
+	if(callback) context.callback = callback;
+	var req = doHttp('POST',url,tiddler.text,SocialtextAdaptor.mimeType,null,null,SocialtextAdaptor.putTiddlerCallback,context,{"X-Http-Method": "PUT"});
 //#displayMessage('req:'+req);
 	return typeof req == 'string' ? req : true;
 };

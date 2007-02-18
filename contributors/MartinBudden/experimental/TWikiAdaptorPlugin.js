@@ -28,6 +28,7 @@ if(!config.options.txttwikiPassword)
 	{config.options.txttwikiPassword = '';}
 //}}}
 
+//{{{
 // Ensure that the plugin is only installed once.
 if(!version.extensions.TWikiAdaptorPlugin) {
 version.extensions.TWikiAdaptorPlugin = {installed:true};
@@ -130,9 +131,8 @@ TWikiAdaptor.prototype.openWorkspace = function(workspace,context)
 	return true;
 };
 
-TWikiAdaptor.prototype.getTiddler = function(context)
+TWikiAdaptor.prototype.getTiddler = function(tiddler,context,callback)
 {
-	var tiddler = context.tiddler;
 //#displayMessage('TWikiAdaptor.getTiddler:'+tiddler.title);
 //# http://twiki.org/cgi-bin/view/TWiki04/TWikiScripts
 //# http://twiki.org/cgi-bin/view/TWiki04/TWikiScripts?raw=text
@@ -147,11 +147,13 @@ TWikiAdaptor.prototype.getTiddler = function(context)
 	var host = this.host ? this.host : TWikiApaptor.fullHostName(tiddler.fields['server.host']);
 	var workspace = this.workspace ? this.workspace : tiddler.fields['server.workspace'];
 	var url = urlTemplate.format([host,workspace,tiddler.title]);
-//#displayMessage('getTwiki url: '+url);
+//#displayMessage('url:'+url);
 
+	context.tiddler = tiddler;
 	context.tiddler.fields.wikiformat = 'twiki';
-	context.tiddler.fields['server.type'] = TWikiAdaptor.serverType;
+	context.tiddler.fields['server.host'] = TWikiAdaptor.minHostName(host);
 	context.adaptor = this;
+	if(callback) context.callback = callback;
 	var req = doHttpGET(url,TWikiAdaptor.getTiddlerCallback,context);
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
@@ -182,9 +184,8 @@ TWikiAdaptor.getTiddlerCallback = function(status,context,responseText,url,xhr)
 		context.callback(context);
 };
 
-TWikiAdaptor.prototype.putTiddler = function(context)
+TWikiAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 {
-	var tiddler = context.tiddler;
 //#displayMessage('TWikiAdaptor.putTiddler:'+tiddler.title);
 	var urlTemplate = '%0save/%1/%2?text=%3';
 	var host = this.host ? this.host : TWikiApaptor.fullHostName(tiddler.fields['server.host']);
