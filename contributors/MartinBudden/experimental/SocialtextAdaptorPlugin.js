@@ -86,7 +86,7 @@ SocialtextAdaptor.prototype.openHost = function(host,context,userParams,callback
 //#displayMessage("host:"+this.host);
 	if(context && callback) {
 		context.status = true;
-		window.setTimeout(callback,0,true,this,context);
+		window.setTimeout(callback,0,context,userParams);
 	}
 	return true;
 };
@@ -170,13 +170,13 @@ SocialtextAdaptor.getWorkspaceListCallback = function(status,context,responseTex
 //#   context.statusText - error message if there was an error
 //#   context.adaptor - reference to this adaptor object
 //#   context - parameters as originally passed into the openWorkspace function
-SocialtextAdaptor.prototype.openWorkspace = function(workspace,context,callback)
+SocialtextAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
 //#displayMessage("openWorkspace:"+workspace);
 	this.workspace = workspace;
 	if(context && callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,true,this,context);
+		window.setTimeout(callback,0,context,userParams);
 	}
 	return true;
 };

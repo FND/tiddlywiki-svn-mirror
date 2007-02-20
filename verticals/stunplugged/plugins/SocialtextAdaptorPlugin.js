@@ -68,8 +68,8 @@ SocialtextAdaptor.minHostName = function(host)
 
 // Open the specified host/server
 //#   host - url of host (eg, "http://www.socialtext.net/" or "www.socialtext.net")
-//#   params.callback - optional function to be called on completion
-//#   params is itself passed on as a parameter to the callback function
+//#   callback - optional function to be called on completion
+//#   state  - optional state object to be passed to callback
 //# Return value is true if the request was successfully issued, false if this connector doesn't support openHost(),
 //#   or an error description string if there was a problem
 //# The callback parameters are callback(params)
