@@ -1,19 +1,18 @@
 /***
 |''Name:''|WebDAVSavingPlugin|
 |''Description:''|Saves on a WebDAV server without the need of any ServerSide script.<br>When TiddlyWiki is accessed over http, this plugin permits to save back to the server, using http PUT.|
-|''Version:''|0.1.0|
-|''Date:''|Feb 17, 2007|
+|''Version:''|0.2.0|
+|''Date:''|Feb 20, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#WebDAVSavingPlugin|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
 |''~CoreVersion:''|2.2.0 (Changeset 1583)|
 |''Browser:''|http://www.tiddlywiki.com/#browsers|
-|''Limitation:''|For now, backup folder must exist|
 ***/
 //{{{
 version.extensions.WebDAVSavingPlugin = {
-	major: 0, minor: 1, revision: 0, 
-	date: new Date(2007,17,1),
+	major: 0, minor: 2, revision: 0, 
+	date: new Date(2007,20,1),
 	source: 'http://tiddlywiki.bidix.info/#WebDAVSavingPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
 	license: '[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D]]',
@@ -26,9 +25,12 @@ bidix.WebDAVSaving = {
 	orig_saveChanges: saveChanges,
 	defaultFilename: 'index.html',
 	messages: {
-		loadOriginalHttpDavError: "loadOriginalHttpDavError",
-		notHTTPUrlError: "notHTTPUrlError",
-		aboutToSaveOnHttpDav: 'About to save on %0 ...'		
+		loadOriginalHttpDavError: "Original file can't be loaded",
+		optionsMethodError: "The OPTIONS method can't be used on this ressource : %0",
+		webDavNotEnabled: "WebDAV is not enabled on this ressource : %0",
+		notHTTPUrlError: "WebDAV saving can be used for http viewed TiddlyWiki only",
+		aboutToSaveOnHttpDav: 'About to save on %0 ...'		,
+		folderCreated: "Remote folder '%0' created"
 	}
 };
 
@@ -42,16 +44,39 @@ saveChanges = function(onlyIfDirty,tiddlers)
 		return bidix.WebDAVSaving.saveChanges(onlyIfDirty,tiddlers);
 }
 
-
 bidix.WebDAVSaving.saveChanges = function(onlyIfDirty,tiddlers)
 {
+	var callback = function(status,params,original,url,xhr) {
+			url = (url.indexOf("nocache=") < 0 ? url : url.substring(0,url.indexOf("nocache=")-1));
+		if (!status)
+			displayMessage(bidix.WebDAVSaving.messages.optionsMethodError.format([url]));
+		else {
+			if (!xhr.getResponseHeader("DAV"))
+				alert(bidix.WebDAVSaving.messages.webDavNotEnabled.format([url]));
+			else
+				bidix.WebDAVSaving.doSaveChanges();
+		}
+	}	
 	if(onlyIfDirty && !store.isDirty())
 		return;
 	clearMessage();
-	// get original
+	var originalPath = document.location.toString();
+	// Check we were loaded from a HTTP or HTTPS URL
+	if(originalPath.substr(0,4) != "http") {
+		alert(bidix.WebDAVSaving.messages.notHTTPUrlError);
+		return;
+	}	
+	// is the server WebDAV enabled ?
+	var r = doHttp("OPTIONS",originalPath,null,null,null,null,callback,null,null);
+	if (typeof r == "string")
+		alert(r);
+}
+	
+bidix.WebDAVSaving.doSaveChanges = function()
+{
 	var callback = function(status,params,original,url,xhr) {
 		if (!status) {
-			displayMessage(config.messages.loadOriginalHttpDavError);
+			alert(config.messages.loadOriginalHttpDavError);
 			return;
 		}
 		url = (url.indexOf("nocache=") < 0 ? url : url.substring(0,url.indexOf("nocache=")-1));
@@ -61,28 +86,35 @@ bidix.WebDAVSaving.saveChanges = function(onlyIfDirty,tiddlers)
 			alert(config.messages.invalidFileError.format([localPath]));
 			return;
 		}
-		bidix.WebDAVSaving.saveBackup(params,original,posDiv);
+		bidix.WebDAVSaving.mkbackupfolder(null,null,params,original,posDiv);
 	};
+	// get original
 	var originalPath = document.location.toString();
-	// Check we were loaded from a HTTP or HTTPS URL
-	if(originalPath.substr(0,4) != "http")
-		{
-		alert(bidix.WebDAVSaving.messages.notHTTPUrlError);
-		return;
-		}	
-	//FIXME: If url is a directory not sure we always could add index.html !
 	if (originalPath.charAt(originalPath.length-1) == "/")
 		originalPath = originalPath + bidix.WebDAVSaving.defaultFilename;
 	displayMessage(bidix.WebDAVSaving.messages.aboutToSaveOnHttpDav.format([originalPath]));
 	loadRemoteFile(originalPath,callback,originalPath);
 };
 
-// if backupFolder is used, for now backupFolder must exist 
+bidix.WebDAVSaving.mkbackupfolder = function(root,dirs,url,original,posDiv) {
+	if (!root || !dirs) {
+		root = bidix.dirname(url);
+		if (config.options.txtBackupFolder == "")
+			dirs = null;
+		else
+			dirs = config.options.txtBackupFolder.split('/');
+	}
+	if (config.options.chkSaveBackups && dirs && (dirs.length > 0)) 
+		bidix.WebDAVSaving.mkdir(root,dirs.shift(),dirs,url,original,posDiv);
+	else
+		bidix.WebDAVSaving.saveBackup(url,original,posDiv);
+};
+
 bidix.WebDAVSaving.saveBackup = function(url,original,posDiv)
 {
 	var callback = function(status,params,responseText,url,xhr) {
 		if (!status) {
-			displayMessage(config.messages.backupFailed);
+			alert(config.messages.backupFailed);
 			return;
 		}
 		url = (url.indexOf("nocache=") < 0 ? url : url.substring(0,url.indexOf("nocache=")-1));
@@ -101,7 +133,7 @@ bidix.WebDAVSaving.saveRss = function(url,original,posDiv)
 {
 	var callback = function(status,params,responseText,url,xhr) {
 		if (!status) {
-			displayMessage(config.messages.rssFailed);
+			alert(config.messages.rssFailed);
 			return;
 		}
 		url = (url.indexOf("nocache=") < 0 ? url : url.substring(0,url.indexOf("nocache=")-1));
@@ -116,12 +148,11 @@ bidix.WebDAVSaving.saveRss = function(url,original,posDiv)
 	}
 }
 
-// Is empty.html still usefull ?
 bidix.WebDAVSaving.saveEmpty = function(url,original,posDiv) 
 {
 	var callback = function(status,params,responseText,url,xhr) {
 		if (!status) {
-			displayMessage(config.messages.emptyFailed);
+			alert(config.messages.emptyFailed);
 			return;
 		}
 		url = (url.indexOf("nocache=") < 0 ? url : url.substring(0,url.indexOf("nocache=")-1));
@@ -156,11 +187,50 @@ bidix.WebDAVSaving.saveMain = function(url,original,posDiv)
 	bidix.httpPut(url,revised,callback,null);
 }
 
+// asynchronous mkdir
+bidix.WebDAVSaving.mkdir = function(root,dir,dirs,url,original,posDiv) {
+	var callback = function(status,params,responseText,url,xhr) {
+		url = (url.indexOf("nocache=") < 0 ? url : url.substring(0,url.indexOf("nocache=")-1));
+		if (status == null) {
+			Alert("Error in mkdir");
+			return;
+		}
+		if (xhr.status == httpStatus.ContentCreated) {
+			displayMessage(bidix.WebDAVSaving.messages.folderCreated.format([url]),url);
+			bidix.WebDAVSaving.mkbackupfolder(url,params[1],params[2],params[3],params[4]);
+		} else {
+			if (xhr.status == httpStatus.NotFound)
+				bidix.http('MKCOL',url,null,callback,params);
+			else
+				bidix.WebDAVSaving.mkbackupfolder(url,params[1],params[2],params[3],params[4]);
+		}
+	};
+	if (root.charAt(root.length) != '/')
+		root = root +'/';
+	bidix.http('HEAD',root+dir,null,callback,Array(root,dirs,url,original,posDiv));
+}
+
 bidix.httpPut = function(url,data,callback,params)
 {
-	var r = doHttp("PUT",url,data,null,null,null,callback,params,null);
+	return bidix.http("PUT",url,data,callback,params);
+}
+
+bidix.http = function(type,url,data,callback,params)
+{
+	var r = doHttp(type,url,data,null,null,null,callback,params,null);
 	if (typeof r == "string")
-		displayMessage(r);
+		alert(r);
 	return r;
 }
+
+bidix.dirname = function (filePath) {
+	if (!filePath) 
+		return;
+	var lastpos;
+	if ((lastpos = filePath.lastIndexOf("/")) != -1) {
+		return filePath.substring(0, lastpos);
+	} else {
+		return filePath.substring(0, filePath.lastIndexOf("\\"));
+	}
+};
 //}}}
