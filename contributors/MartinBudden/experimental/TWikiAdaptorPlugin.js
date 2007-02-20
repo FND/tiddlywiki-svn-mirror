@@ -33,9 +33,9 @@ if(!config.options.txttwikiPassword)
 if(!version.extensions.TWikiAdaptorPlugin) {
 version.extensions.TWikiAdaptorPlugin = {installed:true};
 
-function doHttpGET(url,callback,params,headers,data,contentType,username,password)
+function doHttpGET(uri,callback,params,headers,data,contentType,username,password)
 {
-	return doHttp('GET',url,data,contentType,username,password,callback,params,headers);
+	return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
 }
 
 function TWikiAdaptor()
@@ -73,12 +73,12 @@ TWikiAdaptor.minHostName = function(host)
 	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
 };
 
-TWikiAdaptor.prototype.openHost = function(host,context)
+TWikiAdaptor.prototype.openHost = function(host,context,callback)
 {
 //#displayMessage("openHost:"+host);
 	this.host = TWikiAdaptor.fullHostName(host);
 //#displayMessage("host:"+host);
-	if(context && context.callback)
+	if(context && callback)
 		window.setTimeout(context.callback,0,true,this,context);
 	return true;
 };
@@ -86,15 +86,15 @@ TWikiAdaptor.prototype.openHost = function(host,context)
 TWikiAdaptor.prototype.getWorkspaceList = function(context)
 {
 //#displayMessage("getWorkspaceList");
-	var urlTemplate = '%0data/workspaces';
+	var uriTemplate = '%0data/workspaces';
 	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(context.host);
-	var url = urlTemplate.format([host]);
+	var uri = uriTemplate.format([host]);
 	context.adaptor = this;
-	var req = doHttpGET(url,TWikiAdaptor.getWorkspaceListCallback,context);
+	var req = doHttpGET(uri,TWikiAdaptor.getWorkspaceListCallback,context);
 	return typeof req == 'string' ? req : true;
 };
 
-TWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText,url,xhr)
+TWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
 {
 //#displayMessage("getWorkspaceListCallback");
 	if(!context)
@@ -106,27 +106,27 @@ TWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText,url
 		} catch (ex) {
 			context.statusText = exceptionText(ex,TWikiAdaptor.serverParsingErrorMessage);
 			if(context.callback)
-				context.callback(context);
+				context.callback(context,context.userParams);
 			return;
 		}
 		var list = [];
 		for(var i=0; i<info.length; i++) {
 			list.push({title:info[i].title});
 		}
-		context.list = list;
+		context.workspaces = list;
 		context.status = true;
 	} else {
 		context.statusText = xhr.statusText;
 	}
-	if(context && context.callback)
-		context.callback(context);
+	if(context.callback)
+		context.callback(context,context.userParams);
 };
 
-TWikiAdaptor.prototype.openWorkspace = function(workspace,context)
+TWikiAdaptor.prototype.openWorkspace = function(workspace,context,callback)
 {
 //#displayMessage("openWorkspace:"+workspace);
 	this.workspace = workspace;
-	if(context && context.callback)
+	if(context && callback)
 		window.setTimeout(context.callback,0,true,this,context);
 	return true;
 };
@@ -143,23 +143,23 @@ TWikiAdaptor.prototype.getTiddler = function(tiddler,context,callback)
 //# and <verb> is the alias for the function registered using the registerRESTHandler.
 //# http://twiki.org/cgi-bin/view/Sandbox/SandBox29?raw=text
 
-	var urlTemplate = '%0view/%1/%2?raw=text';
+	var uriTemplate = '%0view/%1/%2?raw=text';
 	var host = this.host ? this.host : TWikiApaptor.fullHostName(tiddler.fields['server.host']);
 	var workspace = this.workspace ? this.workspace : tiddler.fields['server.workspace'];
-	var url = urlTemplate.format([host,workspace,tiddler.title]);
-//#displayMessage('url:'+url);
+	var uri = uriTemplate.format([host,workspace,tiddler.title]);
+//#displayMessage('uri:'+uri);
 
 	context.tiddler = tiddler;
 	context.tiddler.fields.wikiformat = 'twiki';
 	context.tiddler.fields['server.host'] = TWikiAdaptor.minHostName(host);
 	context.adaptor = this;
 	if(callback) context.callback = callback;
-	var req = doHttpGET(url,TWikiAdaptor.getTiddlerCallback,context);
+	var req = doHttpGET(uri,TWikiAdaptor.getTiddlerCallback,context);
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
 };
 
-TWikiAdaptor.getTiddlerCallback = function(status,context,responseText,url,xhr)
+TWikiAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
 //#displayMessage('TWiki.getTiddlerCallback');
 //#displayMessage('status:'+status);
@@ -181,23 +181,23 @@ TWikiAdaptor.getTiddlerCallback = function(status,context,responseText,url,xhr)
 		context.statusText = xhr.statusText;
 	}
 	if(context.callback)
-		context.callback(context);
+		context.callback(context,context.userParams);
 };
 
 TWikiAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 {
 //#displayMessage('TWikiAdaptor.putTiddler:'+tiddler.title);
-	var urlTemplate = '%0save/%1/%2?text=%3';
+	var uriTemplate = '%0save/%1/%2?text=%3';
 	var host = this.host ? this.host : TWikiApaptor.fullHostName(tiddler.fields['server.host']);
 	var workspace = this.workspace ? this.workspace : tiddler.fields['server.workspace'];
-	var url = urlTemplate.format([host,workspace,tiddler.title,tiddler.text]);
-//#displayMessage('url:'+url);
-	var req = doHttpGET(url,TWikiAdaptor.putTiddlerCallback,tiddler,null,null,null,this.username,this.password);
+	var uri = uriTemplate.format([host,workspace,tiddler.title,tiddler.text]);
+//#displayMessage('uri:'+uri);
+	var req = doHttpGET(uri,TWikiAdaptor.putTiddlerCallback,tiddler,null,null,null,this.username,this.password);
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
 };
 
-TWikiAdaptor.putTiddlerCallback = function(status,context,responseText,url,xhr)
+TWikiAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
 //#displayMessage('putTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
@@ -209,7 +209,7 @@ TWikiAdaptor.putTiddlerCallback = function(status,context,responseText,url,xhr)
 		context.statusText = xhr.statusText;
 	}
 	if(context.callback)
-		context.callback(context);
+		context.callback(context,context.userParams);
 };
 
 TWikiAdaptor.prototype.close = function() {return true;};

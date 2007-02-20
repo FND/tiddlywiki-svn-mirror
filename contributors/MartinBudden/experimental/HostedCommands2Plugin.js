@@ -70,25 +70,24 @@ config.macros.updateWorkspaceTiddlerList.onClick = function(e)
 //#displayMessage("cf:"+customFields);
 	//var fields = convertCustomFieldsToHash(customFields);
 	var fields = customFields.decodeHashMap();
-displayMessage("host:"+fields['server.host']);
-	var context = {host:fields['server.host'],workspace:fields['server.workspace'],callback:config.macros.updateWorkspaceTiddlerList.callback};
-	return invokeAdaptor('getTiddlerList',context,fields);
+//#displayMessage("host:"+fields['server.host']);
+	var userParams = {host:fields['server.host'],workspace:fields['server.workspace'],title:this.getAttribute("title")};
+	return invokeAdaptor('getTiddlerList',null,null,null,userParams,config.macros.updateWorkspaceTiddlerList.callback,fields);
 };
 
-config.macros.updateWorkspaceTiddlerList.callback = function(context)
+config.macros.updateWorkspaceTiddlerList.callback = function(context,userParams)
 {
-//#displayMessage("config.macros.updateWorkspaceTiddlerList.callback:"+context.host+" w:"+context.workspace);
+//#displayMessage("config.macros.updateWorkspaceTiddlerList.callback:"+userParams.host+" w:"+userParams.workspace);
 	if(context.status) {
 		if(!store.hostedTiddlers)
 			store.hostedTiddlers = {};
-		if(!store.hostedTiddlers[context.host])
-			store.hostedTiddlers[context.host] = {};
-		store.hostedTiddlers[context.host][context.workspace] = context.tiddlers;
+		if(!store.hostedTiddlers[userParams.host])
+			store.hostedTiddlers[userParams.host] = {};
+		store.hostedTiddlers[userParams.host][userParams.workspace] = context.tiddlers;
 		displayMessage(config.macros.updateWorkspaceTiddlerList.done);
-		var title = this.getAttribute('title');
-//#displayMessage("title:"+title);
-		story.displayTiddler(null,title);
-		story.refreshTiddler(title,1,true);
+//#displayMessage("title:"+userParams.title);
+		story.displayTiddler(null,userParams.title);
+		story.refreshTiddler(userParams.title,1,true);
 	} else {
 		displayMessage(context.statusText);
 	}
@@ -130,11 +129,11 @@ displayMessage("Starting import...");
 	var adaptor = new config.adaptors[serverType];
 	if(adaptor) {
 		var context = {};
+		var userParams = {};
 		context.host = fields['server.host'];
 		context.workspace = fields['server.workspace'];
 		context.callback = config.macros.importWorkspace.callback;
-		context.maxCount = config.maxTiddlerImportCount;
-		context.adaptor = adaptor;
+		userParams.maxCount = config.maxTiddlerImportCount;
 		adaptor.openHost(context.host,context);
 		displayMessage(config.messages.hostOpened.format([context.host]));
 		adaptor.openWorkspace(context.workspace,context);
@@ -144,7 +143,7 @@ displayMessage("Starting import...");
 	return ret;
 };
 
-config.macros.importWorkspace.callback = function(context)
+config.macros.importWorkspace.callback = function(context,userParams)
 {
 	if(context.status) {
 //#displayMessage("config.macros.importWorkspace.callback:"+context.status);
@@ -152,8 +151,8 @@ config.macros.importWorkspace.callback = function(context)
 		var sortField = 'modified';
 		tiddlers.sort(function(a,b) {return a[sortField] < b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
 		var length = tiddlers.length;
-		if(length > context.maxCount)
-			length = context.maxCount;
+		if(length > userParams.maxCount)
+			length = userParams.maxCount;
 		displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
 		for(i=0; i<length; i++) {
 			tiddler = tiddlers[i];
@@ -204,17 +203,17 @@ config.macros.updateWorkspaceList.handler = function(place,macroName,params,wiki
 config.macros.updateWorkspaceList.onClick = function(e)
 {
 	clearMessage();
-displayMessage("updateWorkspaceList.onClick");
+//#displayMessage("updateWorkspaceList.onClick");
 	var customFields = this.getAttribute("customFields");
-displayMessage("cust:"+customFields);
+//#displayMessage("cust:"+customFields);
 	var fields = customFields.decodeHashMap();
-	var context = {host:fields['server.host'],callback:config.macros.updateWorkspaceList.callback};
+	var userParams = {host:fields['server.host'],callback:config.macros.updateWorkspaceList.callback};
 	return invokeAdaptor('getWorkspaceList',context,fields);
 };
 
-config.macros.updateWorkspaceList.callback = function(context)
+config.macros.updateWorkspaceList.callback = function(context,userParams)
 {
-displayMessage("updateWorkspaceList.callback:"+context.host);
+//#displayMessage("updateWorkspaceList.callback:"+context.host);
 	if(context.status) {
 		displayMessage(config.macros.updateWorkspaceList.done);
 		for(var i=0; i<context.workspaces.length; i++) {

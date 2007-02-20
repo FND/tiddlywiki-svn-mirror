@@ -26,7 +26,7 @@ function FileAdaptor()
 FileAdaptor.serverType = 'file';
 FileAdaptor.errorInFunctionMessage = "Error in function FileAdaptor.%0: %1";
 
-// Convert a page title to the normalized form used in URLs
+// Convert a page title to the normalized form used in uris
 FileAdaptor.normalizedTitle = function(title)
 {
 	var id = title.toLowerCase();
@@ -108,27 +108,30 @@ FileAdaptor.prototype.getTiddlerList = function(context,callback)
 	return false;
 };
 
-FileAdaptor.prototype.getTiddler = function(tiddler,context,callback)
+FileAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
 //#clearMessage();
-//#displayMessage('FileAdaptor.getTiddler:' + tiddler.title);
+displayMessage('FileAdaptor.getTiddler:' + title);
 	var path = FileAdaptor.tiddlerPath();
-	var urlTemplate = '%0%1';
-	var url = urlTemplate.format([path,FileAdaptor.normalizedTitle(tiddler.title)]);
-//#displayMessage('url:'+url);
+	var uriTemplate = '%0%1';
+	var uri = uriTemplate.format([path,FileAdaptor.normalizedTitle(title)]);
+displayMessage('uri:'+uri);
+	if(!context) context = {};
+	context.userParams = userParams;
 	context.adaptor = this;
 	if(callback) context.callback = callback;
-	context.tiddler = tiddler;
+	context.tiddler = new Tiddler(title);
 	context.tiddler.fields['server.type'] = FileAdaptor.serverType;
 	context.status = false;
-	context.statusText = FileAdaptor.errorInFunctionMessage.format(['getTiddler',tiddler.title]);
+	context.statusText = FileAdaptor.errorInFunctionMessage.format(['getTiddler',title]);
 	var fields = null;
-	var data = loadFile(url + '.js');
+	var data = loadFile(uri + '.js');
+displayMessage("data:"+data);
 	if(data) {
 		context.tiddler.text = data;
-		meta = loadFile(url + '.js.meta');
+		meta = loadFile(uri + '.js.meta');
 		if(meta) {
-//#displayMessage("meta:"+meta);
+displayMessage("meta:"+meta);
 			context.status = true;
 			var ft = '';
 			var fieldRegExp = /([^:]*):(?:\s*)(.*?)$/mg;
@@ -138,14 +141,14 @@ FileAdaptor.prototype.getTiddler = function(tiddler,context,callback)
 				ft += match[1] + ':"' + match[2] + '" ';
 				match = fieldRegExp.exec(meta);
 			}
-//#displayMessage("ft:"+ft);
+displayMessage("ft:"+ft);
 			fields = ft.decodeHashMap();
 		} else {
 			alert("cannot load tiddler");
 		}
 	} else {
-		data = loadFile(url + '.tiddler');
-displayMessage("data:"+data);
+		data = loadFile(uri + '.tiddler');
+displayMessage("data2:"+data);
 		if(data) {
 			var tiddlerRegExp = /<div([^>]*)>(?:\s*)(<pre>)?([^<]*?)</mg;
 			tiddlerRegExp.lastIndex = 0;
@@ -174,18 +177,18 @@ displayMessage("ft:"+ft);
 		}
 	}
 	if(context.callback)
-		context.callback(context);
+		context.callback(context,context.userParams);
 	return context.status;
 };
 
-FileAdaptor.prototype.putTiddler = function(tiddler,context,callback)
+FileAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
 //#clearMessage();
 //#displayMessage('FileAdaptor.putTiddler:' + tiddler.title);
 	var path = FileAdaptor.tiddlerPath();
-	var urlTemplate = '%0%1';
-	var url = urlTemplate.format([path,FileAdaptor.normalizedTitle(tiddler.title)]);
-//#displayMessage('url:'+url);
+	var uriTemplate = '%0%1';
+	var uri = uriTemplate.format([path,FileAdaptor.normalizedTitle(tiddler.title)]);
+//#displayMessage('uri:'+uri);
 	var meta = 'title: ' + tiddler.title + '\n';
 	if(tiddler.modifier)
 		meta += 'modifier: ' + tiddler.modifier + '\n';
@@ -201,16 +204,18 @@ FileAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 			meta += i + ': ' + fields[i] + '\n';
 		}
 	}
+	if(!context) context = {};
+	context.userParams = userParams;
 	context.adaptor = this;
 	if(callback) context.callback = callback;
 	context.tiddler = tiddler;
-	context.status = saveFile(url + '.js',tiddler.text);
+	context.status = saveFile(uri + '.js',tiddler.text);
 	if(context.status) {
-		context.status = saveFile(url + '.js.meta',meta);
+		context.status = saveFile(uri + '.js.meta',meta);
 	}
 
 	if(context.callback)
-		context.callback(context);
+		context.callback(context,context.userParams);
 	return context.status;
 };
 

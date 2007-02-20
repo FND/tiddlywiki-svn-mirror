@@ -26,7 +26,7 @@ Tiddler.prototype.getAdaptor = function()
 	return new config.adaptors[serverType];
 };
 
-Story.loadTiddlerCallback = function(context)
+Story.loadTiddlerCallback = function(context,userParams)
 {
 	if(!context.status)
 		return;
@@ -51,13 +51,44 @@ Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem)
 	if(adaptor) {
 		adaptor.openHost(tiddler.fields['server.host']);
 		adaptor.openWorkspace(tiddler.fields['server.workspace']);
-		context = {};
-		ret = adaptor.getTiddler(tiddler,context,Story.loadTiddlerCallback);
-		//ret = adaptor.getTiddler(tiddler,null,Story.loadTiddlerCallback);
+		ret = adaptor.getTiddler(tiddler.title,null,null,Story.loadTiddlerCallback);
 		adaptor.close();
 		delete adaptor;
 	}
 	return ret;
+};
+
+// following is a defect fix for the handling of extended fields
+Story.prototype.saveTiddler = function(title,minorUpdate)
+{
+	var tiddlerElem = document.getElementById(this.idPrefix + title);
+	if(tiddlerElem != null) {
+		var fields = {};
+		this.gatherSaveFields(tiddlerElem,fields);
+		var newTitle = fields.title ? fields.title : title;
+		if(store.tiddlerExists(newTitle) && newTitle != title) {
+			if(!confirm(config.messages.overwriteWarning.format([newTitle.toString()])))
+				return null;
+		}
+		if(newTitle != title)
+			this.closeTiddler(newTitle,false,false);
+		tiddlerElem.id = this.idPrefix + newTitle;
+		tiddlerElem.setAttribute("tiddler",newTitle);
+		tiddlerElem.setAttribute("template",DEFAULT_VIEW_TEMPLATE);
+		tiddlerElem.setAttribute("dirty","false");
+		if(config.options.chkForceMinorUpdate)
+			minorUpdate = !minorUpdate;
+		var newDate = new Date();
+		var tiddler = store.saveTiddler(title,newTitle,fields.text,config.options.txtUserName,minorUpdate ? undefined : newDate,fields.tags);
+		for(var n in fields) {
+			if(!TiddlyWiki.isStandardField(n))
+				store.setValue(newTitle,n,fields[n]);
+		}
+		if(config.options.chkAutoSave)
+			saveChanges(null,[tiddler]);
+		return newTitle;
+	}
+	return null;
 };
 
 function getServerType(fields)
@@ -72,7 +103,7 @@ function getServerType(fields)
 	return serverType;
 }
 
-function invokeAdaptor(fnName,param,context,callback,fields)
+function invokeAdaptor(fnName,param1,param2,context,userParams,callback,fields)
 {
 //#displayMessage("invokeAdaptor:"+fnName);
 	var serverType = getServerType(fields);
@@ -83,7 +114,10 @@ function invokeAdaptor(fnName,param,context,callback,fields)
 		return false;
 	adaptor.openHost(fields['server.host']);
 	adaptor.openWorkspace(fields['server.workspace']);
-	var ret = adaptor[fnName](param,context,callback);
+	if(param1)
+		var ret = param2 ? adaptor[fnName](param1,param2,context,userParams,callback) : adaptor[fnName](param1,context,userParams,callback);
+	else
+		ret = adaptor[fnName](context,userParams,callback);
 	adaptor.close();
 	delete adaptor;
 	return ret;
@@ -162,21 +196,23 @@ config.commands.getTiddler.handler = function(event,src,title)
 {
 //#displayMessage("config.commands.getTiddler.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
-	if(!tiddler) {
-		tiddler = new Tiddler(title);
-		var fields = String(document.getElementById(this.idPrefix + title).getAttribute("tiddlyFields"));
-		tiddler.fields = fields.decodeHashMap();
+	if(tiddler) {
+		var fields = tiddler.fields;
+	} else {
+		fields = String(document.getElementById(this.idPrefix + title).getAttribute("tiddlyFields"));
+		fields = fields ? fields.decodeHashMap() : null;
 	}
-	var context = {};
-	return invokeAdaptor('getTiddler',tiddler,context,config.commands.getTiddler.callback,tiddler.fields);
+	return invokeAdaptor('getTiddler',title,null,null,null,config.commands.getTiddler.callback,fields);
 };
 
-config.commands.getTiddler.callback = function(context)
+config.commands.getTiddler.callback = function(context,userParams)
 {
 //#displayMessage("config.commands.getTiddler.callback:"+context.tiddler.title);
 //#displayMessage("status:"+context.status);
 	if(context.status) {
-		story.refreshTiddler(context.tiddler.title,1,true);
+		var tiddler = context.tiddler
+		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
+		story.refreshTiddler(tiddler.title,1,true);
 		displayMessage(config.commands.getTiddler.done);
 	} else {
 		displayMessage(context.statusText);
@@ -203,11 +239,10 @@ config.commands.putTiddler.handler = function(event,src,title)
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
 		return false;
-	var context = {};
-	return invokeAdaptor('putTiddler',tiddler,context,config.commands.putTiddler.callback,tiddler.fields);
+	return invokeAdaptor('putTiddler',tiddler,null,null,null,config.commands.putTiddler.callback,tiddler.fields);
 };
 
-config.commands.putTiddler.callback = function(context)
+config.commands.putTiddler.callback = function(context,userParams)
 {
 //#displayMessage("config.commands.putTiddler.callback:"+context.tiddler.title);
 	if(context.status) {
@@ -236,11 +271,12 @@ config.commands.revisions.handler = function(event,src,title)
 {
 //#displayMessage("revisions.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
-	tiddler.fields['temp.revisionLimit'] = 10;
-	context = {};
-	context.src = src;
-	context.dateFormat = 'YYYY mmm 0DD 0hh:0mm';
-	if(!invokeAdaptor('getTiddlerRevisionList',tiddler,context,config.commands.revisions.callback,tiddler.fields))
+	userParams = {};
+	userParams.tiddler = tiddler;
+	userParams.src = src;
+	userParams.dateFormat = 'YYYY mmm 0DD 0hh:0mm';
+	var revisionLimit = 10;
+	if(!invokeAdaptor('getTiddlerRevisionList',title,revisionLimit,null,userParams,config.commands.revisions.callback,tiddler.fields))
 		return false;
 	event.cancelBubble = true;
 	if(event.stopPropagation)
@@ -248,17 +284,16 @@ config.commands.revisions.handler = function(event,src,title)
 	return true;
 };
 
-config.commands.revisions.callback = function(context)
+config.commands.revisions.callback = function(context,userParams)
 // The revisions are returned in the context.revisions array
 //# revisions[i].revision
 //# revisions[i].modified
 //# revisions[i].modifier
 //# revisions[i].comment
 {
-//#displayMessage("config.commands.revisions.callback:"+context.tiddler.title);
-	var title = context.tiddler.title;
 	var revisions = context.revisions;
-	popup = Popup.create(context.src);
+//#displayMessage("config.commands.revisions.callback:"+revisions.length);
+	popup = Popup.create(userParams.src);
 	Popup.show(popup,false);
 	if(revisions.length==0) {
 		createTiddlyText(createTiddlyElement(popup,'li',null,'disabled'),config.commands.revisions.popupNone);
@@ -267,16 +302,16 @@ config.commands.revisions.callback = function(context)
 			var modified = revisions[i].modified;
 			var revision = revisions[i].revision;
 			var btn = createTiddlyButton(createTiddlyElement(popup,'li'),
-					modified.formatString(context.dateFormat),
+					modified.formatString(userParams.dateFormat),
 					config.commands.revisions.revisionTooltip,
 					function() {
 						config.commands.revisions.getTiddlerRevision(this.getAttribute('tiddlerTitle'),this.getAttribute('tiddlerRevision'),this);
 						return false;
 						},
 					'tiddlyLinkExisting tiddlyLink');
-			btn.setAttribute('tiddlerTitle',title);
+			btn.setAttribute('tiddlerTitle',userParams.tiddler.title);
 			btn.setAttribute('tiddlerRevision',revision);
-			if(context.tiddler.revision == revision || (!context.tiddler.revision && i==0))
+			if(userParams.tiddler.revision == revision || (!userParams.tiddler.revision && i==0))
 				btn.className = 'revisionCurrent';
 		}
 	}
@@ -284,16 +319,18 @@ config.commands.revisions.callback = function(context)
 
 config.commands.revisions.getTiddlerRevision = function(title,revision)
 {
+//#displayMessage("config.commands.getTiddlerRevision:"+title+" r:"+revision);
 	var tiddler = store.fetchTiddler(title);
-	tiddler.fields.revision = revision;
-	var context = {};
-	return invokeAdaptor('getTiddler',tiddler,context,config.commands.displayTiddlerRevisionCallback.callback,tiddler.fields);
+	return invokeAdaptor('getTiddlerRevision',title,revision,null,null,config.commands.revisions.getTiddlerRevisionCallback,tiddler.fields);
 };
 
-config.commands.revisions.getTiddlerRevisionCallback = function(context)
+config.commands.revisions.getTiddlerRevisionCallback = function(context,userParams)
 {
-//#displayMessage("config.commands.getTiddlerRevisionCallback.callback:"+context.tiddler.title);
+//#displayMessage("config.commands.getTiddlerRevisionCallback:"+context.tiddler.title);
 	if(context.status) {
+		var tiddler = context.tiddler
+		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
+		story.refreshTiddler(tiddler.title,1,true);
 		displayMessage(config.commands.revisions.done);
 	} else {
 		displayMessage(context.statusText);
@@ -316,11 +353,10 @@ config.commands.saveTiddlerHosted.handler = function(event,src,title)
 		return false;
 	if(!isAdaptorFunctionSupported('saveTiddlerHosted',tiddler.fields))
 		return false;
-	var context = {};
-	return invokeAdaptor('saveTiddlerHosted',tiddler,context,config.commands.saveTiddlerHosted.callback,tiddler.fields);
+	return invokeAdaptor('saveTiddlerHosted',tiddler,null,null,null,config.commands.saveTiddlerHosted.callback,tiddler.fields);
 };
 
-config.commands.saveTiddlerHosted.callback = function(context)
+config.commands.saveTiddlerHosted.callback = function(context,userParams)
 {
 //#displayMessage("config.commands.saveTiddlerHosted.callback:"+context.tiddler.title);
 	if(context.status) {
