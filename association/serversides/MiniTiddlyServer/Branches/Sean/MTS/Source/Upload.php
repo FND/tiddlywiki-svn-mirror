@@ -42,7 +42,7 @@
     */
     
     if ( $file['type'] != "text/html" || strpos($localfilename, ".htm") === false ) {
-        err("Error: source wasn't an html file :: ".$file['type']." :: $localfilename");
+        err("Error: source doesn't seem to be an html file.  Make sure the filename doesn't have a "." in it.  :: ".$file['type']." :: $localfilename");
         exit;
     }
     
@@ -51,14 +51,9 @@
         exit;
     }
     
-    if ( strpos($remotefilename, ".htm") === false ) {
-        err("Error: remote file specified was not an html file");
-        exit;
-    }
-    
     $subject = file_get_contents ( $tmpfilename );
-    if (! preg_match('/(.*<div id="storeArea">\s*)(.*)(\s*<\/div>\s*<!--POST-BODY-START-->.*)$/sm', $subject, $regs)) {
-        err("Error: remote file specified was not a valid TiddlyWiki file");
+    if (! preg_match('/(<div id="storeArea">\s*)(.*)(\s*<\/div>\s*<!--POST-BODY-START-->.*)$/sm', $subject, $regs)) {
+        err("Error: remote file specified was not a valid TiddlyWiki file :: (startarea and endarea not found)");
         exit;
     }
     
