@@ -27,9 +27,9 @@ tiddler: ../tiddlypedia/TabTags.tiddler
 tiddler: ../tiddlypedia/TabMoreUpdatedMissingShadowed.tiddler
 tiddler: ../tiddlypedia/TabTemplates.tiddler
 tiddler: ../tiddlypedia/TabUpdated.tiddler
-tiddler: ../../experimental/HostedCommandsPlugin.js
-tiddler: ../../experimental/HostedCommands2Plugin.js
-tiddler: ../../experimental/SocialtextAdaptorPlugin.js
+tiddler: ../../adaptors/HostedCommandsPlugin.js
+tiddler: ../../adaptors/HostedCommands2Plugin.js
+tiddler: ../../adaptors/SocialtextAdaptorPlugin.js
 tiddler: ../../plugins/SocialtextFormatterPlugin.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler

@@ -18,9 +18,9 @@ tiddler: ../tiddlypedia/PageTemplate.tiddler
 tiddler: ../tiddlypedia/TabMoreUpdatedMissingShadowed.tiddler
 tiddler: ../tiddlypedia/TabTags.tiddler
 tiddler: ../tiddlypedia/TabUpdated.tiddler
-tiddler: ../../experimental/HostedCommandsPlugin.js
-tiddler: ../../experimental/HostedCommands2Plugin.js
-tiddler: ../../experimental/ccTiddlyAdaptorPlugin.js
+tiddler: ../../adaptors/HostedCommandsPlugin.js
+tiddler: ../../adaptors/HostedCommands2Plugin.js
+tiddler: ../../adaptors/ccTiddlyAdaptorPlugin.js
 tiddler: ../../plugins/DisableWikiLinksPlugin.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler

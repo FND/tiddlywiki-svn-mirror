@@ -11,5 +11,5 @@ tiddler: Tiddlypedia.tiddler
 tiddler: ViewTemplateHosted.tiddler
 tiddler: EditTemplateHosted.tiddler
 tiddler: settings.js
-tiddler: ../../experimental/HostedCommandsPlugin.js
-tiddler: ../../experimental/MediaWikiAdaptorPlugin.js
+tiddler: ../../adaptors/HostedCommandsPlugin.js
+tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js

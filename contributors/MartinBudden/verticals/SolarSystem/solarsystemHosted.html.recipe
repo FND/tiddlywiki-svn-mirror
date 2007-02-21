@@ -2,7 +2,7 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: split.recipe
 tiddler: ../tiddlypedia/settings.js
 recipe: ../tiddlypedia/splitHostedRevisions.recipe
-tiddler: ../../experimental/HostedCommands2Plugin.js
+tiddler: ../../adaptors/HostedCommands2Plugin.js
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../plugins/MediaWikiFormatterPlugin.js
 tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
