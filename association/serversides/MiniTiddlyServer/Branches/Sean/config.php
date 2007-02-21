@@ -2,8 +2,9 @@
     session_unset();
     session_destroy();
 ?>
+
 <head>
-<title>Admin Configuration Script for AjaxTiddlyWiki</title>
+<title>Admin Configuration Script for MiniTiddlyServer</title>
 <style>
    td, div, body, p {
 	   font-family:verdana;
@@ -41,7 +42,26 @@ function saveAndComplete() {
 Configuration and Installation::
 Run this file after copying everything to your install server. (In a unique folder!)
 
+/////////////////////////////////////////////////////////////////////////////
 
+    MiniTiddlyServer: A mini-server for TiddlyWikis
+    Copyright (C) 2007  Sean Clark Hess and Saq Imtiaz
+    
+    MiniTiddlyServer is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+    
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+////////////////////////////////////////////////////////////////////////////////
 */
 
 $data = "";
@@ -81,7 +101,6 @@ if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass
     
 }
     
-
 ?>
 </script>
 
@@ -99,7 +118,7 @@ else if ( substr(phpversion(),0,strrpos(phpversion(), ".")) == "5.0" )
     
 ?>
 <form id="settings" method="POST" action="config.php">
-<h2>AjaxTiddlyWiki</h2>
+<h2>MiniTiddlyServer</h2>
 
 <h4>Administrator Account</h4>
 <table>

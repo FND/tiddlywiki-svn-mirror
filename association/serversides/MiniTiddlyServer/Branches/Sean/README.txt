@@ -1,7 +1,4 @@
-<?php session_start(); ?>
-<?php
-
-/*/////////////////////////////////////////////////////////////////////////////
+﻿/////////////////////////////////////////////////////////////////////////////
 
     MiniTiddlyServer: A mini-server for TiddlyWikis
     Copyright (C) 2007  Sean Clark Hess and Saq Imtiaz
@@ -19,28 +16,22 @@
     You should have received a copy of the GNU General Public License along
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-////////////////////////////////////////////////////////////////////////////////*/
-
-// PHP SOURCE // This file is copied as the php source for each file. 
-
-// Insert Actual Wiki // 
-
-    // Open Source File // 
-    $wikipath = "WIKIPATH";
     
-    if (!$handle = fopen($wikipath, 'r')) 
-        $data .= "error:true, message:'Cannot open file ($wikipath)',";
-           
-    if (!$wikidata = fread($handle, filesize($wikipath))) 
-        $data .= "error:true, message:'Cannot read file ($wikipath)',";
-        
-    fclose($handle);
+    Note: This license prohibits using MTS for profit or proprietary applications.
+     If you would like to, you may ask for permission to include in a proprietary
+     application by contacting the copyright holder. 
+     Contact information can be found on MiniTiddlyServer.com.  
+     
+    See license.txt for the full license
+    
+    The core TiddlyWiki file: MTS/Source/empty.html, is distributed 
+     under its own license as described in its file. 
 
-    print $wikidata;
+/////////////////////////////// INSTRUCTIONS ////////////////////////////////
 
-
-// FOOTER // 
-include_once("MTS/Source/Footer.php"); 
-
-?>
+    INSTALLATION
+    1. Copy this folder's contents to a unique folder on the server
+    2. Run Config.php and follow the instructions
+    
+    UPGRADE INSTRUCTIONS
+    1. Replace your Source folder with the Source folder from this version
