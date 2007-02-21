@@ -250,8 +250,8 @@ SocialtextAdaptor.getTiddlerListCallback = function(status,context,responseText,
 			tiddler.tags = info[i].tags;
 			tiddler.fields['server.page.id'] = info[i].page_id;
 			tiddler.fields['server.page.name'] = info[i].name;
-			tiddler.fields['server.page.version'] = info[i].revision_id;//!! here temporarily for compatibility
-			tiddler.fields['server.page.revision'] = info[i].revision_id;
+			tiddler.fields['server.page.version'] = String(info[i].revision_id);//!! here temporarily for compatibility
+			tiddler.fields['server.page.revision'] = String(info[i].revision_id);
 			list.push(tiddler);
 		}
 		context.tiddlers = list;
@@ -350,8 +350,8 @@ SocialtextAdaptor.getTiddlerCallback = function(status,context,responseText,uri,
 			context.tiddler.tags = info.tags;
 			context.tiddler.fields['server.page.id'] = info.page_id;
 			context.tiddler.fields['server.page.name'] = info.name;
-			context.tiddler.fields['server.page.version'] = info.revision_id;//!! here temporarily for compatibility
-			context.tiddler.fields['server.page.revision'] = info.revision_id;
+			context.tiddler.fields['server.page.version'] = String(info.revision_id);//!! here temporarily for compatibility
+			context.tiddler.fields['server.page.revision'] = String(info.revision_id);
 			context.tiddler.modifier = info.last_editor;
 			context.tiddler.modified = SocialtextAdaptor.dateFromEditTime(info.last_edit_time);
 		} catch (ex) {
