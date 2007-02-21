@@ -73,23 +73,28 @@ TWikiAdaptor.minHostName = function(host)
 	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
 };
 
-TWikiAdaptor.prototype.openHost = function(host,context,callback)
+TWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
 //#displayMessage("openHost:"+host);
 	this.host = TWikiAdaptor.fullHostName(host);
-//#displayMessage("host:"+host);
-	if(context && callback)
-		window.setTimeout(context.callback,0,true,this,context);
+//#displayMessage("host:"+this.host);
+	if(context && callback) {
+		context.status = true;
+		window.setTimeout(callback,0,context,userParams);
+	}
 	return true;
 };
 
-TWikiAdaptor.prototype.getWorkspaceList = function(context)
+TWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
 //#displayMessage("getWorkspaceList");
 	var uriTemplate = '%0data/workspaces';
-	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(context.host);
+	var host = this && this.host ? this.host : TWikiAdaptor.fullHostName(context.host);
 	var uri = uriTemplate.format([host]);
+	if(!context) context = {};
+	context.userParams = userParams;
 	context.adaptor = this;
+	if(callback) context.callback = callback;
 	var req = doHttpGET(uri,TWikiAdaptor.getWorkspaceListCallback,context);
 	return typeof req == 'string' ? req : true;
 };
@@ -122,18 +127,25 @@ TWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri
 		context.callback(context,context.userParams);
 };
 
-TWikiAdaptor.prototype.openWorkspace = function(workspace,context,callback)
+TWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
 //#displayMessage("openWorkspace:"+workspace);
 	this.workspace = workspace;
-	if(context && callback)
-		window.setTimeout(context.callback,0,true,this,context);
+	if(context && callback) {
+		context.status = true;
+		window.setTimeout(callback,0,context,userParams);
+	}
 	return true;
 };
 
-TWikiAdaptor.prototype.getTiddler = function(tiddler,context,callback)
+/*TWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
-//#displayMessage('TWikiAdaptor.getTiddler:'+tiddler.title);
+	return this.getTiddlerRevision(title,null,context,userParams,callback);
+};*/
+
+TWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
+{
+//#displayMessage('TWikiAdaptor.getTiddler:'+title);
 //# http://twiki.org/cgi-bin/view/TWiki04/TWikiScripts
 //# http://twiki.org/cgi-bin/view/TWiki04/TWikiScripts?raw=text
 //# http://twiki.org/cgi-bin/view/MyWeb/MyTopic?raw=text
@@ -144,16 +156,17 @@ TWikiAdaptor.prototype.getTiddler = function(tiddler,context,callback)
 //# http://twiki.org/cgi-bin/view/Sandbox/SandBox29?raw=text
 
 	var uriTemplate = '%0view/%1/%2?raw=text';
-	var host = this.host ? this.host : TWikiApaptor.fullHostName(tiddler.fields['server.host']);
-	var workspace = this.workspace ? this.workspace : tiddler.fields['server.workspace'];
-	var uri = uriTemplate.format([host,workspace,tiddler.title]);
+	var host = TWikiAdaptor.fullHostName(this.host);
+	var uri = uriTemplate.format([host,this.workspace,title]);
 //#displayMessage('uri:'+uri);
 
-	context.tiddler = tiddler;
-	context.tiddler.fields.wikiformat = 'twiki';
-	context.tiddler.fields['server.host'] = TWikiAdaptor.minHostName(host);
+	if(!context) context = {};
+	context.userParams = userParams;
 	context.adaptor = this;
 	if(callback) context.callback = callback;
+	context.tiddler = new Tiddler(title);
+	context.tiddler.fields.wikiformat = 'twiki';
+	context.tiddler.fields['server.host'] = TWikiAdaptor.minHostName(host);
 	var req = doHttpGET(uri,TWikiAdaptor.getTiddlerCallback,context);
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
@@ -192,7 +205,14 @@ TWikiAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 	var workspace = this.workspace ? this.workspace : tiddler.fields['server.workspace'];
 	var uri = uriTemplate.format([host,workspace,tiddler.title,tiddler.text]);
 //#displayMessage('uri:'+uri);
-	var req = doHttpGET(uri,TWikiAdaptor.putTiddlerCallback,tiddler,null,null,null,this.username,this.password);
+	if(!context) context = {};
+	context.userParams = userParams;
+	context.adaptor = this;
+	if(callback) context.callback = callback;
+	context.tiddler = tiddler;
+	context.tiddler.fields.wikiformat = 'twiki';
+	context.tiddler.fields['server.host'] = TWikiAdaptor.minHostName(host);
+	var req = doHttpGET(uri,TWikiAdaptor.putTiddlerCallback,context,null,null,null,this.username,this.password);
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
 };
