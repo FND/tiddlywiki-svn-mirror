@@ -46,8 +46,8 @@ MediaWikiAdaptor.anyChild = function(obj)
 
 MediaWikiAdaptor.normalizedTitle = function(title)
 {
-	var normalizedTitle = title.charAt(0).toUpperCase() + title.substr(1);
-	return normalizedTitle.replace(/\s/g,'_');
+	var n = title.charAt(0).toUpperCase() + title.substr(1);
+	return n.replace(/\s/g,'_');
 };
 
 // Convert a MediaWiki timestamp in YYYY-MM-DDThh:mm:ssZ  format into a JavaScript Date object
@@ -157,8 +157,77 @@ MediaWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText
 
 MediaWikiAdaptor.prototype.openWorkspace = function(workspace,context,callback)
 {
-//#displayMessage("openWorkspace");
-	return false;
+//#displayMessage("openWorkspace:"+workspace);
+	var workspaces = {
+		"media": -2, "special":-1,
+		"": 0, "talk":1,"use":2,"use talk":3,"meta":4,"meta talk":5,"image":6,"image talk":7,
+		"mediawiki":8,"mediawiki talk":9,"template":10,"template talk":11,"help":12,"help talk":13,
+		"category":14,"category talk":15};
+	this.workspace = workspace;
+	if(workspace)
+		workspace = workspace.toLowerCase();
+	this.workspaceId = workspaces[workspace];
+	return true;
+};
+
+MediaWikiAdaptor.prototype.getTiddlerList = function(limit,context,userParams,callback)
+// get a list of the tiddlers in the current workspace
+{
+//#displayMessage('getTiddlerList:'+limit);
+//# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&&list=allpages&aplimit=5
+
+	if(limit) {
+		var uriTemplate = '%0w/api.php?format=json&action=query&list=allpages&aplimit=%1';
+	} else {
+		uriTemplate = '%0w/api.php?format=json&action=query&list=allpages';
+	}
+	if(this.workspaceId!=0)
+		uriTemplate += '&apnamespace=%2';
+	var host = MediaWikiAdaptor.fullHostName(this.host);
+	var uri = uriTemplate.format([host,MediaWikiAdaptor.normalizedTitle(title),limit,this.workspaceId]);
+//#displayMessage('uri: '+uri);
+
+	if(!context) context = {};
+	context.userParams = userParams;
+	context.adaptor = this;
+	if(callback) context.callback = callback;
+	var req = doHttpGET(uri,MediaWikiAdaptor.getTiddlerListCallback,context);
+//#displayMessage("req:"+req);
+	return typeof req == 'string' ? req : true;
+};
+
+MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
+{
+//#displayMessage('getTiddlerListCallback status:'+status);
+//#displayMessage('rt:'+responseText.substr(0,50));
+//#displayMessage('xhr:'+xhr);
+	context.status = false;
+	if(status) {
+		var content = null;
+		try {
+			//# convert the downloaded data into a javascript object
+			eval('var info=' + responseText);
+			var pages = info.query.allpages;
+			var list = [];
+			for(var i in pages) {
+				var item = {};
+				item.title = pages[i].id;
+				item.workspaceId = pages[i].ns;
+				list.push(item);
+			}
+			context.tiddlers = list;
+		} catch (ex) {
+			context.statusText = exceptionText(ex,MediaWikiAdaptor.serverParsingErrorMessage);
+			if(context.callback)
+				context.callback(context,context.userParams);
+			return;
+		}
+		context.status = true;
+	} else {
+		context.statusText = xhr.statusText;
+	}
+	if(context.callback)
+		context.callback(context,context.userParams);
 };
 
 MediaWikiAdaptor.prototype.generateTiddlerUri = function(tiddler)
@@ -329,16 +398,19 @@ MediaWikiAdaptor.getTiddlerRevisionListCallback = function(status,context,respon
 			//# convert the downloaded data into a javascript object
 			eval('var info=' + responseText);
 			var page = MediaWikiAdaptor.anyChild(info.query.pages);
+			var title = page.title;
 			var revisions = page.revisions;
-			var i = 0;
 			var list = [];
-			for(var r in revisions) {
-				list[i] = {};
-				list[i].revision = String(revisions[r].revid);
-				list[i].modified = MediaWikiAdaptor.dateFromTimestamp(revisions[r].timestamp);
-				list[i].modifier = revisions[r].user;
-				list[i].comment = revisions[r].comment;
-				i++;
+			for(var i in revisions) {
+				var tiddler = new Tiddler(title);
+				tiddler.modified = MediaWikiAdaptor.dateFromTimestamp(revisions[i].timestamp);
+				tiddler.modifier = revisions[i].user;
+				tiddler.fields.comment = revisions[i].comment;
+				tiddler.fields['server.page.id'] = MediaWikiAdaptor.normalizedTitle(title);
+				tiddler.fields['server.page.name'] = title;
+				tiddler.fields['server.page.version'] = String(revisions[i].revid);//!! here temporarily for compatibility
+				tiddler.fields['server.page.revision'] = String(revisions[i].revid);
+				list.push(tiddler);
 			}
 			context.revisions = list;
 		} catch (ex) {

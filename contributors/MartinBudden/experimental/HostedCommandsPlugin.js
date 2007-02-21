@@ -285,11 +285,7 @@ config.commands.revisions.handler = function(event,src,title)
 };
 
 config.commands.revisions.callback = function(context,userParams)
-// The revisions are returned in the context.revisions array
-//# revisions[i].revision
-//# revisions[i].modified
-//# revisions[i].modifier
-//# revisions[i].comment
+// The revisions are returned as tiddlers in the context.revisions array
 {
 	var revisions = context.revisions;
 //#displayMessage("config.commands.revisions.callback:"+revisions.length);
@@ -299,8 +295,9 @@ config.commands.revisions.callback = function(context,userParams)
 		createTiddlyText(createTiddlyElement(popup,'li',null,'disabled'),config.commands.revisions.popupNone);
 	} else {
 		for(var i=0; i<revisions.length; i++) {
-			var modified = revisions[i].modified;
-			var revision = revisions[i].revision;
+			var tiddler = revisions[i];
+			var modified = tiddler.modified;
+			var revision = tiddler.fields['server.page.revision'];
 			var btn = createTiddlyButton(createTiddlyElement(popup,'li'),
 					modified.formatString(userParams.dateFormat),
 					config.commands.revisions.revisionTooltip,
