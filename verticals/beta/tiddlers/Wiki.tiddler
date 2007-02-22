@@ -1,0 +1,173 @@
+<div title="Wiki" modifier="www.wikipedia.org" wikiformat="mediawiki" server.host="www.wikipedia.org" changecount="1">
+<pre>{{sprotected2}}
+{{otheruses}}
+{{selfref|Talk page redirects here. For information about talk pages on Wikipedia, see [[Help:Talk page]] and the [[Wikipedia:talk page guidelines|talk page guidelines]].}}
+
+{{wiktionary}}
+
+A '''wiki''' ([[International Phonetic Alphabet for English|IPA]]: {{IPA|[ˈwɪ.kiː]}} &lt;WICK-ee&gt; or {{IPA|[ˈwiː.kiː]}} &lt;WEE-kee&gt;&lt;ref&gt;[http://c2.com/doc/etymology.html according to Don Perrin]&lt;/ref&gt;) is a [[website]] that allows the visitors themselves to easily add, remove, and otherwise [[edit]] and change available content, typically without the need for registration. This ease of interaction and operation makes a wiki an effective tool for mass [[collaborative writing|collaborative authoring]]. The term wiki also can refer to the [[collaborative software]] itself ([[wiki software|wiki engine]]) that facilitates the operation of such a Web site, or to certain specific wiki sites, including the [[computer science]] site (the original wiki) [[WikiWikiWeb]] and on-line encyclopedias such as [[Wikipedia]].
+
+==History==
+[[Image:WikiWiki.jpg|thumb|Wiki Wiki sign at [[Honolulu International Airport]]]]
+[[WikiWikiWeb]] was the first of such software to be called a wiki. [[Ward Cunningham]] started developing WikiWikiWeb in 1994 and installed it on Internet domain c2.com on [[March 25]], [[1995]]. It was named by Cunningham, who remembered a Honolulu International Airport counter employee telling him to take the so-called &quot;[[Wiki Wiki Shuttle|Wiki Wiki]]&quot; [[Chance RT-52]] shuttle [[Bus|bus line]] that runs between the airport's terminals. According to Cunningham, &quot;I chose wiki-wiki as an alliterative substitute for 'quick' and thereby avoided naming this stuff quick-web.&quot;  &quot;Wiki Wiki&quot; is a [[reduplication]] of &quot;wiki&quot;, a [[Hawaiian language|Hawaiian-language]] word for fast. The word wiki is a shorter form of '''wiki wiki''' (weekie, weekie).  
+There was a well known racehorse, competing in England in the early 1980s, called &quot;Wiki Wiki Wheels&quot;.
+
+The word is sometimes interpreted as the [[backronym]] for &quot;what I know is&quot;, which describes the knowledge contribution, storage, and the exchange function.
+
+According to Cunningham, the idea of 'Wiki' can be traced back to a [[HyperCard]] stack he wrote in the late 1980s. In the late 1990s, wikis were increasingly recognized as a promising way to develop private and public [[knowledge base]]s,{{Fact|date=February 2007}} and this potential inspired the founders of the [[Nupedia]] encyclopedia project, which later became [[Wikipedia]]. In the early 2000s, wikis were increasingly adopted in the enterprise as collaborative software. Common uses included project communication, intranets, and documentation, initially for technical users. Today some companies use wikis as their only collaborative software and as a replacement for static [[intranet]]s. There may be greater use of wikis behind firewalls than on the public Internet.
+
+== Key characteristics ==
+A wiki enables documents to be written very collaboratively in a simple [[markup (computing)|markup]] language using a [[web browser]]. A single page in a wiki is referred to as a &quot;wiki page&quot;, while the entire body of pages, which are usually highly interconnected via [[hyperlink]]s, is &quot;the wiki&quot;; in effect, a wiki is actually a very simple, easy-to-use user-maintained [[database]] for searching or even creating information.
+
+A defining characteristic of wiki technology is the ease with which pages can be created and updated. Generally, there is no review before modifications are accepted. Most wikis are open to the general public without the need to register any [[User (computing)|user account]]. Sometimes session [[Login|log-in]] is requested to acquire a &quot;wiki-signature&quot; cookie for autosigning edits.   Many edits, however, can be made in real-time, and appear almost instantaneously online.  This can lead to abuse of the system. Private wiki servers require [[Authentication|user authentication]] to edit, sometimes even to read pages.
+
+===Pages and editing===
+The source format, sometimes known as &quot;''[[wikitext]]'''&quot;, is augmented with a simplified markup language to indicate various structural and visual conventions. An often used example of one such convention is to start a line of text with an [[asterisk]] (&quot;*&quot;) in order to mark it as an item in a [[Bullet (typography)|bulleted list]]. Style and syntax can vary a great deal among implementations, some of which also allow HTML tags.
+
+The reasoning behind this design is that HTML, with its many cryptic tags, is not especially [[human-readable]]. Making typical HTML source visible makes the actual text content very hard to read and edit for most users. It is therefore better to promote [[Plain text|plain-text]] editing with a few simple conventions for structure and style.
+
+Many implementations (for example [[Mediawiki]]) allow users to supply an &quot;edit summary&quot; along with their change. This is a short piece of text (usually one line) summarising the changes made that is not inserted into the article, but is stored along with that revision, allowing users to explain what has been done and why; similar to a log message when committing changes to a [[revision control]] system.
+
+It is somewhat beneficial that users cannot directly use all the capabilities of HTML, such as [[JavaScript]] and [[Cascading Style Sheets]]. Consistency in [[look and feel]] is also achieved: In many  wiki implementations, an active hyperlink is exactly as it is shown, unlike in HTML where the invisible hyperlink can have an arbitrary visible [[anchor text]].  This goes along with some extra safety for the user: Permitting users to write in unfiltered HTML might allow harmful or annoying code (for example, JavaScript code that prevents the reader from marking part of the text).
+
+{| class=&quot;wikitable&quot;
+![[MediaWiki]] syntax
+!Equivalent HTML
+!Rendered output
+|---- valign=&quot;top&quot;
+|&lt;tt&gt;&lt;nowiki&gt;&quot;''Doctor''? No other title? A ''scholar''? And
+he rates above the civil authority?&quot;&lt;/nowiki&gt;&lt;br&gt;&lt;br&gt;&quot;Why, certainly,&quot; replied Hardin, amiably. &quot;We're all scholars more or less. After all, we're not so much a world as a scientific foundation &amp;amp;mdash; under the direct control of the Emperor.&quot;&lt;/tt&gt;
+|&lt;tt&gt;&amp;lt;p&amp;gt;&lt;br /&gt; &quot;&amp;lt;em&amp;gt;Doctor&amp;lt;/em&amp;gt;? No other title? A &amp;lt;em&amp;gt;scholar&amp;lt;/em&amp;gt;? And he rates above the civil authority?&quot;&lt;br /&gt;&amp;lt;/p&amp;gt;&lt;br /&gt;&amp;lt;p&amp;gt;&lt;br /&gt;&quot;Why, certainly,&quot; replied Hardin, amiably. &quot;We're all scholars more or less. After all, we're not so much a world as a scientific foundation &amp;amp;mdash; under the direct control of the Emperor.&quot;&lt;br /&gt;&amp;lt;/p&amp;gt;&lt;/tt&gt;
+|&quot;''Doctor''? No other title? A ''scholar''? And he rates above the civil authority?&quot;
+
+&quot;Why, certainly,&quot; replied Hardin, amiably. &quot;We're all scholars more or less. After all, we're not so much a world as a scientific foundation &amp;mdash; under the direct control of the Emperor.&quot;
+|}
+(Quotation above from ''[[Foundation (novel)|Foundation]]'' by [[Isaac Asimov]])
+
+Some recent wiki engines use a different method: they allow &quot;[[WYSIWYG]]&quot; editing, usually by means of [[JavaScript]] or an [[ActiveX]] control that translates graphically entered formatting instructions, such as &quot;bold&quot; and &quot;italics&quot;, into the corresponding [[HTML element|HTML tags]]. In those implementations, the markup of a newly-edited HTML version of the page is generated and submitted to the server [[transparency (computing)|transparently]], and the user is shielded from this technical detail. Users who do not have the necessary plugin can generally edit the page, usually by directly editing the raw [[Character encodings in HTML|HTML code]]. More recently, wiki engines are generating wiki syntax instead of HTML. This way, users who are comfortable editing in wiki syntax can carry on.
+
+Although for years the ''[[de facto]]'' standard was the syntax of the original WikiWikiWeb, currently the formatting instructions vary depending on the wiki engine. Simple wikis allow only basic [[Word processor|text formatting]], whereas more complex ones have support for tables, images, formulas, or even interactive elements such as polls and games. At present there is no standard for wiki markup.
+
+===Linking and creating pages===
+Wikis are a [[hypertext]] medium, with non-linear navigational structures. Each page typically contains a large number of links to other pages. Hierarchical navigation pages often exist in larger wikis, often a consequence of the original page creation process, but they do not have to be used. Links are created using a specific syntax, the so-called &quot;link pattern&quot;.
+
+Originally, most wikis used [[CamelCase]] when naming program identifiers, produced by capitalizing words in a phrase and removing the spaces between them (the word &quot;CamelCase&quot; is itself an example). While CamelCase makes linking very easy, it also leads to links which are written in a form that deviates from the standard spelling. CamelCase-based wikis are instantly recognizable because they have many links with names such as &quot;TableOfContents&quot; and &quot;BeginnerQuestions&quot;. Note that it is possible for a wiki to render the visible anchor for such links &quot;pretty&quot; by reinserting spaces, and possibly also reverting to lower case. However, this reprocessing of the link to improve the readability of the anchor is limited by the loss of capitalization information caused by CamelCase reversal. For example, &quot;RichardWagner&quot; should be rendered as &quot;Richard Wagner&quot;, whereas &quot;PopularMusic&quot; should be rendered as &quot;popular music&quot;. There is no easy way to determine which [[capital letters]] should remain capitalized. As a result, many wikis now have &quot;free linking&quot; using brackets, and some disable CamelCase by default.
+
+===Searching===
+Most wikis offer at least a title [[search]], and sometimes a [[Full text search|full-text search]]. The scalability of the search depends on whether the wiki engine uses a database; indexed database access is necessary for high speed searches on large wikis.
+
+=== Server-side versus client-side wiki ===
+By far, the most common wiki systems are [[server-side]]. In essence, the edit, display and control functions are provided on the server through the wikiengine that renders the content into an HTML-based page for display in a web browser.
+
+A [[client-side]] wiki system requires only that the server &quot;serve&quot; wiki files in much the same way that a [[web server]] allows HTML files to be retrieved using HTTP. In this type of wiki system, all the execution required to convert the underlying wiki text into an onscreen formatted display page resides in the client browser. Likewise, the editing tools and functionality reside in the browser.
+
+The client-side wiki system parallels HTML in that the page becomes a rendering instruction for the browser to interpret.
+Client-side wiki systems may be little more than a code plugin to a more traditional web browser.
+
+===Web-based versus peer-to-peer===
+Most wikis are based on a web server. The server can be open to everybody on the Internet, or part of a private LAN, with limited access. There is also a version of wiki that can be shared between peers, with no need for a web server. Such [[Peer-to-peer wiki]] system is integrated with a P2P version-control system that takes care of versioning and distribution of pages.
+
+==Controlling changes==
+[[Image:History comparison example.png|thumb|History comparison reports highlight the changes between two revisions of a page.]]
+Wikis are generally designed with the philosophy of making it easy to correct mistakes, rather than making it difficult to make them. Thus while wikis are very open, they provide a means to verify the validity of recent additions to the body of pages. The most prominent, on almost every wiki, is the &quot;Recent Changes&quot; page&amp;mdash;a specific list numbering recent edits, or a list of all the edits made within a given timeframe. Some wikis can filter the list to remove [[minor edits]] and edits made by automatic importing scripts (&quot;[[Internet bot|bot]]s&quot;).
+
+From the change log, other functions are accessible in most wikis: the ''Revision History'' showing previous page versions; and the ''[[diff]] feature'', highlighting the changes between two revisions. Using the [[Revision history|Revision History]], an editor can view and restore a previous version of the article. The diff feature can be used to decide whether or not this is necessary. A regular wiki user can view the diff of an edit listed on the &quot;Recent Changes&quot; page and, if it is an unacceptable edit, consult the history, restoring a previous revision; this process is more or less streamlined, depending on the wiki software used.     
+
+In case unacceptable edits are missed on the &quot;Recent Changes&quot; page, some wiki engines provide additional content control. It can be monitored to ensure that a page, or a set of pages, keeps its quality. A person willing to maintain pages will be warned of modifications to the pages, allowing him or her to verify the validity of new editions quickly.
+
+==Vandalism==
+The open philosophy of most wikis&amp;mdash;of allowing anyone to edit content&amp;mdash;does not ensure that editors are well-meaning. The approach of making damage easy to undo rather than attempting to prevent damage has been characterized as ''[[soft security]]''. Many editors of wiki sites tend to have good intentions, although on larger wiki sites, such as those run by the [[Wikimedia Foundation]], [[vandalism]] can go unnoticed for a period of time. Wikis by their very nature are susceptible to intentional disruption, &quot;[[troll (Internet)|trolling]]&quot;.
+
+==Wiki communities ==
+Many wiki communities are private, particularly within enterprises as [[collaborative software]].  They are often used as [[internal documentation]] for in-house systems and applications. The democratic, all-encompassing nature of [[Wikipedia]] is a significant factor in its growth, while many other wikis are highly specialized.
+
+There also exist WikiNodes which are pages on wikis that describe related wikis. They are usually organized as neighbors and delegates. A ''neighbor'' wiki is simply a wiki that may discuss similar content or may otherwise be of interest. A ''delegate'' wiki is a wiki that agrees to have certain content delegated to that wiki.
+
+One way of finding a wiki on a specific subject is to follow the wiki-node network from wiki to wiki; another is to take a Wiki &quot;bus tour,&quot; for example: [http://en.wikipedia.org/w/index.php?title=Wikipedia:TourBusStop Wikipedia's Tour Bus Stop]. [[Domain name system|Domain names]] containing &quot;wiki&quot; are growing in popularity to support specific niches.
+
+For those interested in creating their own wiki, there are many publicly available &quot;[[wiki farm]]s&quot;, some of which can also make private, password-protected wikis. [[PeanutButterWiki]], [[BrainKeeper]], [[Socialtext]], [[Wetpaint]], and [[Wikia]] are popular examples of such services.  For more info, see [[List of wiki farms]].
+
+The English-language Wikipedia is the largest wiki. The other Wikipedias fill many of the remaining upper slots. Other large wikis include the [[WikiWikiWeb]], [[Memory Alpha]], [[Wikitravel]], [[World66]] and [[Susning.nu]], a Swedish-language knowledge base. The largest wikis are [http://meta.wikimedia.org/wiki/List_of_largest_wikis listed and updated on Meta-Wiki]. Many public wikis are listed at [http://wikiindex.com WikiIndex], which is a wiki of wikis.
+
+==Wikis and content management systems==
+Wikis have shared, and encouraged, several features with generalized [[content management system]]s (CMS) which are used by enterprises and communities-of-practice. Those looking to compare a CMS with an enterprise wiki should consider these basic features:
+
+# The name of an article is embedded in the hyperlink.
+# Articles can be created or edited at anytime by anyone (with certain limitations for protected articles).
+# Articles are editable through the web browser.
+# Each article provides one-click access to the history/versioning page, which also supports version differencing (&quot;diff&quot;) and retrieving prior versions.
+# Each article provides one-click access to a discussion page particular to that article.
+# The most recent additions/modifications of articles can be monitored actively or passively.
+
+None of these are particular to a wiki, and some have developed independently. Still the concept of a wiki unequivocally refers to this core set of features. Taken together, they fit the ''generative'' nature of the Internet (as scholar [[Jonathan Zittrain]] has [http://www.harvardlawreview.org/issues/119/may06/zittrain.pdf labeled] it), in encouraging each user to help build it. It is yet to be studied whether an enterprise wiki encourages more usage, or leads to more knowledgeable community members, than other content management systems.
+
+==e-Learning Wiki==
+{{tone}}
+Wikis have been used in classes for collaboration among learners and teachers. But some standard features of Wiki should be changed and additional features should be included for e-Learning. Here is a [[Wiki Collaboration Space for e-Learning]].
+
+==See also==
+{{sisterlinks|wiki}}
+
+* [[Comparison of wiki farms]]
+* [[Comparison of wiki software]]
+* [[Bliki]]
+* [[List of wikis]]
+* [[List of wiki software]]
+* [[Massively distributed collaboration]]
+* [[Wiki farm]]
+* [[Semantic wiki]]
+* [[Social software]]
+* [[Content management]]
+* [[Content management system]]
+
+==Notes==
+&lt;!-- ----------------------------------------------------------
+  See http://en.wikipedia.org/wiki/Wikipedia:Footnotes for a 
+  discussion of different citation methods and how to generate 
+  footnotes using the &lt;ref&gt;, &lt;/ref&gt; and  &lt;reference /&gt; tags
+----------------------------------------------------------- --&gt;
+&lt;div class=&quot;references-small&quot;&gt;
+&lt;references /&gt;
+&lt;/div&gt;
+
+==References==
+&lt;div class=&quot;references-small&quot;&gt;
+*Aigrain, Philippe (2003). [http://www.debatpublic.net/Members/paigrain/texts/icoic.html The Individual and the Collective in Open Information Communities]. Invited talk at the 16th Bled Electronic Commerce Conference, Bled, Slovenia, [[June 11]] [[2003]].
+*Aronsson, Lars (2002). [http://aronsson.se/wikipaper.html Operation of a Large Scale, General Purpose Wiki Website: Experience from susning.nu's first nine months in service]. Paper presented at the 6th International ICCC/IFIP Conference on Electronic Publishing, [[November 8]], 2002, Karlovy Vary, Czech Republic.
+*Benkler, Yochai (2002). Coase's penguin, or, Linux and The Nature of the Firm. The Yale Law Journal. v.112, n.3,  pp.369&amp;ndash;446.
+*Choate, Mark (2006). [http://www.cmswatch.com/Feature/145-Wikis-in-the-enterprise What makes an enterprise wiki?] CMS Watch. April 28, 2006.
+*Cunningham, Ward and Leuf, Bo (2001): [[The Wiki Way]]. Quick Collaboration on the Web. Addison-Wesley, ISBN 0-201-71499-X.
+*Delacroix, Jérôme (2005): Les wikis, espaces de l'intelligence collective, M2 Editions, Paris, ISBN 2-9520514-4-5.
+*Ebersbach, Anja, Glaser, Markus and Heigl, Richard (2005): Wiki. Web Collaboration. Springer, ISBN 3-540-25995-3.
+*Jansson, Kurt (2002): [http://de.wikipedia.org/wiki/Benutzer:Kurt_Jansson/Vortrag_auf_dem_19C3 &quot;Wikipedia. Die Freie Enzyklopädie.&quot;] Lecture at the 19th Chaos Communications Congress (19C3), [[December 27]], [[2002]] [http://my.opera.com/intermot  intermot] Berlin, Germany.
+*Klobas, Jane and others (2006): Wikis: Tools for Information Work and Collaboration. Oxford, UK, Chandos Publishing, ISBN 1-84334-179-4.
+*Lange, Christoph (ed., 2006). [http://www.cul.de/wikiblog.html Wikis und Blogs – Planen, Einrichten, Verwalten]. Computer- und Literaturverlag, ISBN 3-936546-44-4.
+*Mattison, David (2003). [http://www.infotoday.com/searcher/apr03/mattison.shtml &quot;QuickiWiki, Swiki, TWiki, ZWiki, and the Plone Wars: Wiki as PIM and Collaborative Content Tool.&quot;] ''Searcher: The Magazine for Database Professionals'', v. 11, no. 4 (April 2003): 32-48
+*Möller, Erik (2003). [http://opencultures.t0.or.at/oc/participants/moeller Loud and clear: How Internet media can work]. Presentation at the Open Cultures conference, June 5 &amp; 6, 2003 Vienna, Austria.
+*Möller, Erik (2003). [http://www.humanist.de/erik/tdg/ Tanz der Gehirne]. ''Telepolis'', May 9&amp;ndash;30. Four parts: (i) &quot;Das Wiki-Prinzip&quot;, (ii) &quot;Alle gegen Brockhaus&quot;, (iii) &quot;Diderots Traumtagebuch&quot;, und (iv) &quot;Diesen Artikel bearbeiten&quot;.
+*[http://en.wikipedia.org/wiki/User:Ramin_Nakisa Nakisa, Ramin] (2003). [http://www.linuxuser.co.uk/images/stories/pdf/lud29-Collaborative_Software-Wiki.pdf &quot;Wiki Wiki Wah Wah&quot;]. [[Linux User and Developer]] v.29, pp.42 [http://www.sanyodenki.net sanyodenki]
+*Remy, Melanie. (2002). Wikipedia: The Free Encyclopedia. Online Information Review. v.26, n.6, p.434
+*[http://news.independent.co.uk/media/article1096343.ece New Media: Who are the real winners now we've all gone Wiki-crazy?]
+*[http://www.eweek.com/article2/0,1895,1939982,00.asp Father of Wiki Speaks Out on Community and Collaborative Development], [[eWeek]], [[March 20]] [2006]
+
+&lt;/div&gt;
+
+==External links==
+&lt;!-- Please do not add links to wikis to this list, instead create new, internal pages about them, and link them to those in the above wiki community list.  Please also keep this list alphabetized. --&gt;
+* [http://c2.com/cgi/wiki?WelcomeVisitors WikiWikiWeb] (the first wiki)
+* [http://computer.howstuffworks.com/wiki.htm Wikis] at [[HowStuffWorks]].
+* [http://www.wired.com/news/culture/0,1284,66382,00.html?tw=wn_tophead_2: &quot;Information Wants to be Liquid&quot;] &amp;mdash; [[Wired magazine]] article
+* [http://www.cmswatch.com/Feature/145-Wikis-in-the-enterprise What makes an 'enterprise' wiki] Critical review of wikis in the enterprise
+* [http://www.nature.com/nature/journal/v438/n7068/full/438548a.html Science in the Web Age: Joint Efforts] on wikis and the [[scientific community]], from [[Nature (journal)|Nature magazine]]
+* [http://aronsson.se/wikipaper.html Operation of a Large Scale, General Purpose Wiki Website] Book abstract
+
+{{Link FA|tl}}
+
+[[Category:Groupware]]
+[[Category:Internet terminology]]
+[[Category:Wiki]]
+[[Category:Hawaiian words and phrases]]
+[[Category:Types of communities]]
+</pre>
+</div>
+
