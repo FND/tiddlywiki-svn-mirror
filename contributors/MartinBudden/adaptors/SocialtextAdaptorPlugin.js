@@ -263,6 +263,16 @@ SocialtextAdaptor.getTiddlerListCallback = function(status,context,responseText,
 		context.callback(context,context.userParams);
 };
 
+SocialtextAdaptor.prototype.generateTiddlerInfo = function(tiddler)
+{
+	var info = {};
+	uriTemplate = '%0%1/index.cgi?%2';
+	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(tiddler.fields['server.host']);
+	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
+	info.uri = uriTemplate.format([host,workspace,tiddler.title]);
+	return info;
+};
+
 SocialtextAdaptor.prototype.generateTiddlerUri = function(tiddler)
 {
 	uriTemplate = '%0%1/index.cgi?%2';

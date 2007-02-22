@@ -230,6 +230,15 @@ MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,u
 		context.callback(context,context.userParams);
 };
 
+MediaWikiAdaptor.prototype.generateTiddlerInfo = function(tiddler)
+{
+	var info = {};
+	var uriTemplate = '%0wiki/%1';
+	var host = this && this.host ? this.host : MediaWikiAdaptor.fullHostName(tiddler.fields['server.host']);
+	info.uri = uriTemplate.format([host,workspace,tiddler.title]);
+	return info;
+};
+
 MediaWikiAdaptor.prototype.generateTiddlerUri = function(tiddler)
 {
 	var uriTemplate = '%0wiki/%1';
