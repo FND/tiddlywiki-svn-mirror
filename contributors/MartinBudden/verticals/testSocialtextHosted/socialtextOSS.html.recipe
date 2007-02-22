@@ -30,6 +30,6 @@ tiddler: ../tiddlypedia/TabUpdated.tiddler
 tiddler: ../../adaptors/HostedCommandsPlugin.js
 tiddler: ../../adaptors/HostedCommands2Plugin.js
 tiddler: ../../adaptors/SocialtextAdaptorPlugin.js
-tiddler: ../../plugins/SocialtextFormatterPlugin.js
+tiddler: ../../formatters/SocialtextFormatterPlugin.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler

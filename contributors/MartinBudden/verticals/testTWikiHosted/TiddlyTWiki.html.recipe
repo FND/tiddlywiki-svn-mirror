@@ -22,9 +22,9 @@ tiddler: ../tiddlypedia/TabMoreUpdatedShadowed.tiddler
 tiddler: ../tiddlypedia/TabTags.tiddler
 tiddler: ../tiddlypedia/TabTemplates.tiddler
 tiddler: ../tiddlypedia/TabUpdated.tiddler
-tiddler: ../../experimental/HostedCommandsPlugin.js
-tiddler: ../../experimental/HostedCommands2Plugin.js
-tiddler: ../../experimental/TWikiAdaptorPlugin.js
-tiddler: ../../plugins/TWikiFormatterPlugin.js
+tiddler: ../../adaptors/HostedCommandsPlugin.js
+tiddler: ../../adaptors/HostedCommands2Plugin.js
+tiddler: ../../adaptors/TWikiAdaptorPlugin.js
+tiddler: ../../formatters/TWikiFormatterPlugin.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
