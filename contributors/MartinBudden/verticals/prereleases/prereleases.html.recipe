@@ -7,10 +7,10 @@ tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../tiddlers/Document_Formatting.tiddler
 tiddler: ../../tiddlers/Table_Formatting.tiddler
-tiddler: ../../plugins/PmWikiFormatterPlugin.js
+tiddler: ../../formatters/PmWikiFormatterPlugin.js
 tiddler: ../../tiddlers/PmWikiLocalStyle.tiddler
 tiddler: ../../tiddlers/PmWikiStyle.tiddler
-tiddler: ../../plugins/SnipSnapFormatterPlugin.js
+tiddler: ../../formatters/SnipSnapFormatterPlugin.js
 tiddler: ../../plugins/settings.js
 tiddler: ../../test/testPmWikiFormat.tiddler
 tiddler: ../../test/testSnipSnapFormat.tiddler

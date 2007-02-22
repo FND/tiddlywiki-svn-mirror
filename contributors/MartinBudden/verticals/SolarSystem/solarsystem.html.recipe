@@ -3,7 +3,7 @@ recipe: split.recipe
 recipe: ../tiddlypedia/split.recipe
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../plugins/settings.js
-tiddler: ../../plugins/MediaWikiFormatterPlugin.js
+tiddler: ../../formatters/MediaWikiFormatterPlugin.js
 tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
 tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
 tiddler: ../../styles/wikipediaStyle.js

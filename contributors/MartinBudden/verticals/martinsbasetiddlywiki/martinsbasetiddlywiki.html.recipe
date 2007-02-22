@@ -9,7 +9,8 @@ tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../tiddlers/TodoList.tiddler
 tiddler: ../../tiddlers/TodoItems.tiddler
 tiddler: ../../plugins/TodoListPlugin.js
-tiddler: ../../plugins/TWikiFormatterPlugin.js
+tiddler: ../../formatters/TWikiFormatterPlugin.js
+tiddler: ../../adaptors/TWikiAdaptorPlugin.js
 tiddler: ../../plugins/settings.js
 tiddler: ../../../../contributors/UdoBorkowski/plugins/PartTiddlerPlugin.js
 tiddler: ../../../../contributors/misc/plugins/TagCloudPlugin.js
