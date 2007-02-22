@@ -252,16 +252,19 @@
             $subject = file_get_contents ( $filename );
             
             // split source file into 3 parts, prestore, store and poststore
-            if (preg_match('/(.*<div id="storeArea">\s*)(.*)(\s*<\/div>\s*<!--POST-BODY-START-->.*)$/sm', $subject, $regs)) {
-                $prestore = $regs[1];
-                $store = $regs[2];
-                $poststore = $regs[3];
-            } 
+            $parts = split("<div id=\"storeArea\">",$subject);
+            
+            if (count($parts) == 2 && preg_match('/(.*)(\s*<\/div>\s*<!--POST-BODY-START-->.*)/s', $parts[1], $regs)) {
+                $prestore = $parts[0]."<div id=\"storeArea\">";
+                $store = $regs[1];
+                $poststore = $regs[2];
+            }
+            
             else {
                 $saveError = true;
                 $data .= "error:true, message:'The source file ($sourcename) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $sourcename.err',";
             }
-
+            
             $updatesDiv = decodePost($_POST['data']);
 
             $savetype = decodePost($_POST['savetype']);
