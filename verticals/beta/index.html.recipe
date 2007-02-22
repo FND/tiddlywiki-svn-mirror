@@ -5,4 +5,4 @@ tiddler: ../../contributors/MartinBudden/adaptors/ccTiddlyAdaptorPlugin.js
 tiddler: ../../contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js
 tiddler: ../../contributors/MartinBudden/adaptors/SocialtextAdaptorPlugin.js
 tiddler: ../../contributors/MartinBudden/adaptors/TWikiAdaptorPlugin.js
-tiddler: ../../contributors/MartinBudden/plugins/SocialtextFormatterPlugin.js
+tiddler: ../../contributors/MartinBudden/formatters/SocialtextFormatterPlugin.js
