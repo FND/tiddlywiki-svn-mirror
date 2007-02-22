@@ -16,6 +16,7 @@
 if(!version.extensions.HostedCommandsPlugin) {
 version.extensions.HostedCommandsPlugin = {installed:true};
 
+/*
 Tiddler.prototype.getAdaptor = function()
 {
 	var serverType = this.fields['server.type'];
@@ -24,22 +25,6 @@ Tiddler.prototype.getAdaptor = function()
 	if(!serverType || !config.adaptors[serverType])
 		return null;
 	return new config.adaptors[serverType];
-};
-
-Story.loadTiddlerCallback = function(context,userParams)
-{
-	if(!context.status)
-		return;
-	var tiddler = context.tiddler;
-	var downloaded = new Date();
-	if(!tiddler.created)
-		tiddler.created = downloaded;
-	if(!tiddler.modified)
-		tiddler.modified = tiddler.created;
-	tiddler.fields['downloaded'] = downloaded.convertToYYYYMMDDHHMM();
-	tiddler.fields['changecount'] = -1;
-	store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
-	saveChanges(true);
 };
 
 Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem)
@@ -57,6 +42,23 @@ Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem)
 	}
 	return ret;
 };
+
+Story.loadTiddlerCallback = function(context,userParams)
+{
+	if(!context.status)
+		return;
+	var tiddler = context.tiddler;
+	var downloaded = new Date();
+	if(!tiddler.created)
+		tiddler.created = downloaded;
+	if(!tiddler.modified)
+		tiddler.modified = tiddler.created;
+	tiddler.fields['downloaded'] = downloaded.convertToYYYYMMDDHHMM();
+	tiddler.fields['changecount'] = -1;
+	store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
+	saveChanges(true);
+};
+*/
 
 // following is a defect fix for the handling of extended fields
 Story.prototype.saveTiddler = function(title,minorUpdate)

@@ -2,8 +2,7 @@
 |''Name:''|FileAdaptorPlugin|
 |''Description:''|Adaptor for moving and converting data to and from file-based TiddlyWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#FileAdaptorPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/FileAdaptorPlugin.js|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/FileAdaptorPlugin.js|
 |''Version:''|0.4.1|
 |''Date:''|Feb 18, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|

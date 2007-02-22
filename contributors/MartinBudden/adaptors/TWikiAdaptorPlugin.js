@@ -2,9 +2,8 @@
 |''Name:''|TWikiAdaptorPlugin|
 |''Description:''|Adaptor for moving and converting data to and from TWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#TWikiAdaptorPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/TWikiAdaptorPlugin.js|
-|''Version:''|0.3.5|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/TWikiAdaptorPlugin.js|
+|''Version:''|0.4.1|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -70,7 +69,7 @@ TWikiAdaptor.fullHostName = function(host)
 
 TWikiAdaptor.minHostName = function(host)
 {
-	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
+	return host ? host.replace(/^http:\/\//,'').replace(/cgi-bin\/$/,'').replace(/\/$/,'') : '';
 };
 
 TWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
@@ -89,7 +88,7 @@ TWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
 //#displayMessage("getWorkspaceList");
 	var uriTemplate = '%0data/workspaces';
-	var host = this && this.host ? this.host : TWikiAdaptor.fullHostName(context.host);
+	var host = TWikiAdaptor.fullHostName(this.host);
 	var uri = uriTemplate.format([host]);
 	if(!context) context = {};
 	context.userParams = userParams;
@@ -136,6 +135,20 @@ TWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams,cal
 		window.setTimeout(callback,0,context,userParams);
 	}
 	return true;
+};
+
+TWikiAdaptor.prototype.generateTiddlerInfo = function(tiddler)
+{
+	var info = {};
+	var uriTemplate = '%0view/%1/%2';
+	var host = TWikiAdaptor.fullHostName(this.host);
+	info.uri = uriTemplate.format([host,this.workspace,tiddler.title]);
+	return info;
+};
+
+TWikiAdaptor.prototype.generateTiddlerUri = function(tiddler)
+{
+	return this.generateTiddlerInfo(tiddler).uri;
 };
 
 /*TWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callback)

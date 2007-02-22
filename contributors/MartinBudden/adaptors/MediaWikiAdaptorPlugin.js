@@ -2,9 +2,8 @@
 |''Name:''|MediaWikiAdaptorPlugin|
 |''Description:''|Adaptor for moving and converting data to and from MediaWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#MediaWikiAdaptorPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/MediaWikiAdaptorPlugin.js|
-|''Version:''|0.4.1|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js|
+|''Version:''|0.4.2|
 |''Date:''|Feb 18, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -235,14 +234,14 @@ MediaWikiAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	var info = {};
 	var uriTemplate = '%0wiki/%1';
 	var host = this && this.host ? this.host : MediaWikiAdaptor.fullHostName(tiddler.fields['server.host']);
-	info.uri = uriTemplate.format([host,workspace,tiddler.title]);
+	info.uri = uriTemplate.format([host,this.workspace,tiddler.title]);
 	return info;
 };
 
 MediaWikiAdaptor.prototype.generateTiddlerUri = function(tiddler)
 {
 	var uriTemplate = '%0wiki/%1';
-	var host = this && this.host ? this.host : MediaWikiAdaptor.fullHostName(tiddler.fields['server.host']);
+	var host = MediaWikiAdaptor.fullHostName(this.host);
 	return uriTemplate.format([host,tiddler.title]);
 };
 
@@ -313,7 +312,8 @@ MediaWikiAdaptor.getTiddlerCallback = function(status,context,responseText,uri,x
 			var page = MediaWikiAdaptor.anyChild(info.query.pages);
 			var revision = MediaWikiAdaptor.anyChild(page.revisions);
 			context.tiddler.text = revision['*'];
-			context.tiddler.fields.revision = String(revision['revid']);
+			context.tiddler.fields['server.page.revision'] = String(revision['revid']);
+			context.tiddler.fields['server.page.version'] = context.tiddler.fields['server.page.revision'];//!! here temporarily for compatibility
 		} catch (ex) {
 			context.statusText = exceptionText(ex,MediaWikiAdaptor.serverParsingErrorMessage);
 			if(context.callback)
@@ -417,8 +417,8 @@ MediaWikiAdaptor.getTiddlerRevisionListCallback = function(status,context,respon
 				tiddler.fields.comment = revisions[i].comment;
 				tiddler.fields['server.page.id'] = MediaWikiAdaptor.normalizedTitle(title);
 				tiddler.fields['server.page.name'] = title;
-				tiddler.fields['server.page.version'] = String(revisions[i].revid);//!! here temporarily for compatibility
 				tiddler.fields['server.page.revision'] = String(revisions[i].revid);
+				tiddler.fields['server.page.version'] = tiddler.fields['server.page.revision'];//!! here temporarily for compatibility
 				list.push(tiddler);
 			}
 			context.revisions = list;

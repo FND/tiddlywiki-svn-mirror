@@ -2,8 +2,7 @@
 |''Name:''|ccTiddlyAdaptorPlugin|
 |''Description:''|Adaptor for moving and converting data to and from ccTiddly wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#ccTiddlyAdaptorPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ccTiddlyAdaptorPlugin.js|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ccTiddlyAdaptorPlugin.js|
 |''Version:''|0.4.1|
 |''Date:''|Feb 18, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -80,6 +79,20 @@ ccTiddlyAdaptor.prototype.openWorkspace = function(workspace,context,callback)
 	if(context && callback)
 		window.setTimeout(callback,0,true,this,context);
 	return true;
+};
+
+ccTiddlyAdaptor.prototype.generateTiddlerInfo = function(tiddler)
+{
+	var info = {};
+	var uriTemplate = '%0#%1';
+	var host = ccTiddlyAdaptor.fullHostName(this.host);
+	info.uri = uriTemplate.format([host,tiddler.title]);
+	return info;
+};
+
+ccTiddlyAdaptor.prototype.generateTiddlerUri = function(tiddler)
+{
+	return this.generateTiddlerInfo(tiddler).uri;
 };
 
 ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
