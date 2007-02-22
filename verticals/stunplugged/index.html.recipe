@@ -29,5 +29,5 @@ postjs: plugins/SocialtextAdaptorPlugin.js
 postjs: plugins/SocialtextSyncPlugin.js
 postjs: plugins/SocialtextLocaleOverrides.js
 postjs: plugins/SocialtextTweaksPlugin.js
-postjs: ../../contributors/MartinBudden/plugins/SocialtextFormatterPlugin.js
+postjs: ../../contributors/MartinBudden/formatters/SocialtextFormatterPlugin.js
 posttiddlers: pagelist.html
