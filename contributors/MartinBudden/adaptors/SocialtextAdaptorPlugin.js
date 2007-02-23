@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for moving and converting data to and from Socialtext Wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com) and JeremyRuston (jeremy (at) osmosoft (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/SocialtextAdaptorPlugin.js|
-|''Version:''|0.4.2|
+|''Version:''|0.4.3|
 |''Date:''|Feb 18, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -14,6 +14,8 @@
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.SocialtextAdaptorPlugin) {
 version.extensions.SocialtextAdaptorPlugin = {installed:true};
+
+//# http://www.eu.socialtext.net/st-rest-docs/index.cgi?socialtext_rest_documentation
 
 function doHttpGET(uri,callback,params,headers,data,contentType,username,password)
 {

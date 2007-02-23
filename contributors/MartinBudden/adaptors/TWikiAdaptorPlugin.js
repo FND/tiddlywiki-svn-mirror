@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for moving and converting data to and from TWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/TWikiAdaptorPlugin.js|
-|''Version:''|0.4.1|
+|''Version:''|0.4.2|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -32,6 +32,8 @@ if(!config.options.txttwikiPassword)
 if(!version.extensions.TWikiAdaptorPlugin) {
 version.extensions.TWikiAdaptorPlugin = {installed:true};
 
+//# http://twiki.org/cgi-bin/view/TWiki04/TWikiScripts
+
 function doHttpGET(uri,callback,params,headers,data,contentType,username,password)
 {
 	return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
@@ -49,6 +51,7 @@ function TWikiAdaptor()
 
 TWikiAdaptor.serverType = 'twiki';
 TWikiAdaptor.serverParsingErrorMessage = "Error parsing result from server";
+TWikiAdaptor.errorInFunctionMessage = "Error in function TWikiAdaptor.%0";
 
 TWikiAdaptor.normalizedTitle = function(title)
 {
@@ -87,22 +90,24 @@ TWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 TWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
 //#displayMessage("getWorkspaceList");
-	var uriTemplate = '%0data/workspaces';
-	var host = TWikiAdaptor.fullHostName(this.host);
-	var uri = uriTemplate.format([host]);
 	if(!context) context = {};
 	context.userParams = userParams;
 	context.adaptor = this;
 	if(callback) context.callback = callback;
-	var req = doHttpGET(uri,TWikiAdaptor.getWorkspaceListCallback,context);
-	return typeof req == 'string' ? req : true;
+	var list = [];
+	list.push({title:"Main",name:"Main"});
+	list.push({title:"Sandbox",name:"Sandbox"});
+	context.workspaces = list;
+	context.status = true;
+	if(context && callback) {
+		window.setTimeout(callback,0,context,userParams);
+	}
+	return true;
 };
 
 TWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
 {
 //#displayMessage("getWorkspaceListCallback");
-	if(!context)
-		context = {};
 	context.status = false;
 	if(status) {
 		try {
@@ -135,6 +140,49 @@ TWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams,cal
 		window.setTimeout(callback,0,context,userParams);
 	}
 	return true;
+};
+
+/*
+TWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
+{
+//#displayMessage('getTiddlerList');
+	var uriTemplate = '';
+	var host = TWikiAdaptor.fullHostName(this.host);
+	var uri = uriTemplate.format([host,this.workspace]);
+//#displayMessage('uri:'+uri);
+	if(!context) context = {};
+	context.userParams = userParams;
+	context.adaptor = this;
+	if(callback) context.callback = callback;
+	var req = doHttpGET(uri,TWikiAdaptor.getTiddlerListCallback);
+//#displayMessage('req:'+req);
+	return typeof req == 'string' ? req : true;
+};
+*/
+
+TWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
+{
+//#displayMessage('getTiddlerListCallback status:'+status);
+//#displayMessage('rt:'+responseText.substr(0,50));
+//#displayMessage('xhr:'+xhr);
+	context.status = false;
+	context.statusText = TWikiAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
+	if(status) {
+		try {
+			list = [];
+			context.tiddlers = list;
+		} catch (ex) {
+			context.statusText = exceptionText(ex,TWikiAdaptor.serverParsingErrorMessage);
+			if(context.callback)
+				context.callback(context,context.userParams);
+			return;
+		}
+		context.status = true;
+	} else {
+		context.statusText = xhr.statusText;
+	}
+	if(context.callback)
+		context.callback(context,context.userParams);
 };
 
 TWikiAdaptor.prototype.generateTiddlerInfo = function(tiddler)

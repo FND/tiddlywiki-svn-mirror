@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for moving and converting data to and from MediaWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js|
-|''Version:''|0.4.2|
+|''Version:''|0.4.3|
 |''Date:''|Feb 18, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -72,13 +72,23 @@ MediaWikiAdaptor.minHostName = function(host)
 	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
 };
 
-MediaWikiAdaptor.prototype.openHost = function(host,context,callback)
+MediaWikiAdaptor.prototype.setContext = function(context,userParams,callback)
 {
-//#displayMessage("openHost:"+host);
+	if(!context) context = {};
+	context.userParams = userParams;
+	if(callback) context.callback = callback;
+	context.adaptor = this;
+};
+
+MediaWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
+{
+displayMessage("openHost:"+host);
 	this.host = MediaWikiAdaptor.fullHostName(host);
 //#displayMessage("host:"+this.host);
-	if(context && callback)
-		window.setTimeout(callback,0,true,this,context);
+	if(context && callback) {
+		context.status = true;
+		window.setTimeout(callback,0,context,userParams);
+	}
 	return true;
 };
 
@@ -142,8 +152,10 @@ MediaWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText
 		var namespaces = info.query.namespaces;
 		var list = [];
 		for(var i in namespaces) {
-			name = namespaces[i]['*'];
-			list.push(name);
+			item = {};
+			item.title = namespaces[i]['*'];
+			item.name = item.title;
+			list.push(item);
 		}
 		context.workspaces = list;
 		context.status = true;
@@ -154,7 +166,7 @@ MediaWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText
 		context.callback(context,context.userParams);
 };
 
-MediaWikiAdaptor.prototype.openWorkspace = function(workspace,context,callback)
+MediaWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
 //#displayMessage("openWorkspace:"+workspace);
 	var workspaces = {
@@ -166,15 +178,31 @@ MediaWikiAdaptor.prototype.openWorkspace = function(workspace,context,callback)
 	if(workspace)
 		workspace = workspace.toLowerCase();
 	this.workspaceId = workspaces[workspace];
+	if(!this.workspaceId)
+		this.workspaceId = 0;
+//#displayMessage("workspaceId:"+this.workspaceId);
+	if(context && callback) {
+		context.status = true;
+		window.setTimeout(callback,0,context,userParams);
+	}
 	return true;
 };
 
-MediaWikiAdaptor.prototype.getTiddlerList = function(limit,context,userParams,callback)
-// get a list of the tiddlers in the current workspace
-{
-//#displayMessage('getTiddlerList:'+limit);
-//# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&&list=allpages&aplimit=5
 
+// get a list of the tiddlers in the current workspace
+MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
+{
+	if(!context) context = {};
+	context.userParams = userParams;
+	if(callback) context.callback = callback;
+	context.adaptor = this;
+//#displayMessage('getTiddlerList');
+//# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&&list=allpages&aplimit=5
+//# http://www.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=wiki
+//# http://www.wikipedia.org/w/api.php?format=jsonfm&action=query&list=embeddedin&titles=Template:IPstack&eilimit=50
+//# http://www.wikipedia.org/w/api.php?format=jsonfm&action=query&list=allpages&aplimit=50
+
+	var limit = 50;
 	if(limit) {
 		var uriTemplate = '%0w/api.php?format=json&action=query&list=allpages&aplimit=%1';
 	} else {
@@ -182,18 +210,40 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(limit,context,userParams,ca
 	}
 	if(this.workspaceId!=0)
 		uriTemplate += '&apnamespace=%2';
+	uriTemplate = '%0w/api.php?format=json&action=query&list=embeddedin&titles=Template:IPstack&eilimit=%1';
+	context.responseType = 'embeddedin';
 	var host = MediaWikiAdaptor.fullHostName(this.host);
-	var uri = uriTemplate.format([host,MediaWikiAdaptor.normalizedTitle(title),limit,this.workspaceId]);
+	var uri = uriTemplate.format([host,limit]);
 //#displayMessage('uri: '+uri);
 
-	if(!context) context = {};
-	context.userParams = userParams;
-	context.adaptor = this;
-	if(callback) context.callback = callback;
 	var req = doHttpGET(uri,MediaWikiAdaptor.getTiddlerListCallback,context);
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
 };
+
+/*
+{
+	"query-continue": {
+		"allpages": {
+			"apfrom": "!Xu"
+		}
+	},
+	"query": {
+		"allpages": {
+			"5878274": {
+				"pageid": 5878274,
+				"ns": 0,
+				"title": "!"
+			},
+			"5197186": {
+				"pageid": 5197186,
+				"ns": 0,
+				"title": "!Xoong language"
+			}
+		}
+	}
+}
+*/
 
 MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
@@ -201,18 +251,17 @@ MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,u
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
 	context.status = false;
+	context.statusText = MediaWikiAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	if(status) {
-		var content = null;
 		try {
 			//# convert the downloaded data into a javascript object
 			eval('var info=' + responseText);
-			var pages = info.query.allpages;
+			var pages = context.responseType == 'embeddedin' ? info.query.embeddedin : info.query.allpages;
 			var list = [];
 			for(var i in pages) {
-				var item = {};
-				item.title = pages[i].id;
-				item.workspaceId = pages[i].ns;
-				list.push(item);
+				var tiddler = new Tiddler(pages[i].title);
+				tiddler.fields.workspaceId = pages[i].ns;
+				list.push(tiddler);
 			}
 			context.tiddlers = list;
 		} catch (ex) {
