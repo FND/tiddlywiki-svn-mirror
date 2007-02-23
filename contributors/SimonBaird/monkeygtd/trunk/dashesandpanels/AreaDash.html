@@ -1,0 +1,30 @@
+<table width="100%"><tr>
+<td width="50%" style="vertical-align:top">
+
+<div macro="listByTag title:Projects
+	tags:Project
+	"></div>
+
+</td>
+<td width="50%" style="vertical-align:top">
+
+<div macro="listByTag title:'Next Actions'
+	tags:'Next && Action && !Done'
+	view:action_proj
+	"></div>
+
+<div macro="listByTag title:'Waiting For'
+	tags:'[(Waiting For)] && Action && !Done'
+	view:action_proj
+	"></div>
+
+<div macro="listByTag title:'Reference'
+	tags:'Reference'
+	"></div>
+
+<div macro="listByTag title:'Sub Areas'
+	tags:Area
+	"></div>
+
+</td>
+</td></tr></table>

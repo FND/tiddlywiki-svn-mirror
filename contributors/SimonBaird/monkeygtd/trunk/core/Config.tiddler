@@ -1,0 +1,22 @@
+
+|MonkeyGTDSettings|Change settings|
+|<<selectPalette>>|Change colour scheme|
+|Version|<<tiddler MonkeyGTDVersion>>|
+|[[Upgrade]]|Upgrade to the latest MonkeyGTD|
+|[[Area]]|To add/remove Areas of Responsibilty|
+|[[Realm]]|To add/remove Realms|
+|[[ViewDashboardTemplate]]|This defines the dashboards and lists|
+|[[ViewPanelTemplate]]|This controls the toolbar panels|
+|MainMenu|Defines the menu bar|
+|DefaultTiddlers|Defines what to show at startup|
+|SiteTitle|Site title|
+|SiteSubtitle|Site subtitle|
+|GTDComponent|For advanced use only|
+
+!Notes
+* I have hard coded references to "Professional" and "Personal" in a couple of places so it's better to just use those at least for now.
+* If you add a new context/area etc you won't see it until you click "refresh" on one of your tiddler toolbars
+
+!What's New
+* 24 Oct 06
+** Drop down select for projects and areas as suggested by Ken Girard.

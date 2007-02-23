@@ -1,0 +1,30 @@
+<table width="100%"><tr>
+<td width="50%" style="vertical-align:top">
+
+<div macro="listByTag title:'Current Ticklers'
+	tags:'!Processed'
+	view:tickler
+	sort:tickleDate
+	where:'tiddler.tickleDate() <= (new Date()).convertToLocalYYYYMMDDHHMM()'
+	"></div>
+
+
+
+</td>
+<td width="50%" style="vertical-align:top">
+
+<div macro="listByTag title:'Upcoming Ticklers'
+	tags:'!Processed'
+	view:tickler
+	sort:tickleDate
+	where:'tiddler.tickleDate() > (new Date()).convertToLocalYYYYMMDDHHMM()'
+	"></div>
+
+<!--
+<div macro="listByTag title:'Ticklers by Project'
+	group:Project
+	"></div>
+-->
+
+
+</td></tr></table>

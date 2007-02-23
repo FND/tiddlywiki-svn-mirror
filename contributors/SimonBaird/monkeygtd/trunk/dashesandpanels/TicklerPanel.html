@@ -1,0 +1,16 @@
+<tr><td class="label">Type:</td><td><span macro="toggleTag Tickler"></span></td></tr>
+<tr><td class="label">Realm:</td><td><span macro="checkboxList Realm"></span></td></tr>
+<tr><td class="label">Processed:</td><td><span macro="toggleTag Processed"></span></td></tr>
+<tr><td class="label">Tickler:</td><td>
+	<table class="ticklerDate">
+		<tr>
+			<td macro="hideWhen store.getValue('MonkeyGTDSettings','mgtd.usemdy')=='true'" align="right"><span macro="view mgtd.tday"></span></td>
+			<td macro="showWhen store.getValue('MonkeyGTDSettings','mgtd.usemdy')=='true'" align="right"><span macro="view mgtd.tmonth"></span></td>
+			<td>/</td>
+			<td macro="hideWhen store.getValue('MonkeyGTDSettings','mgtd.usemdy')=='true'" align="center"><span macro="view mgtd.tmonth"></span></td>
+			<td macro="showWhen store.getValue('MonkeyGTDSettings','mgtd.usemdy')=='true'" align="center"><span macro="view mgtd.tday"></span></td>
+			<td>/</td>
+			<td align="left" macro="view mgtd.tyear"></td>
+		</tr>
+	</table>
+</td></tr>

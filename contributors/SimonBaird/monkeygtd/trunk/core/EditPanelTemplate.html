@@ -1,0 +1,23 @@
+
+<div style="display:none" macro="showWhen tiddler.tags.containsAll(['GTD','Action']) || tiddler.title == 'New Action'">
+	<span>Project field (not used yet):</span><span macro="edit mgtd.project"></span>
+</div>
+<div macro="showWhen tiddler.tags.containsAll(['GTD','Tickler']) || tiddler.title == 'New Tickler'">
+
+	<table>
+	<tr><td class="editLabel" valign="top" rowspan="2">Tickler</td>
+		<!-- TODO make a utility method for this sort of thing -->
+		<td macro="showWhen store.getValue('MonkeyGTDSettings','mgtd.usemdy')=='true'" class="editLabel">Month</td>
+		<td class="editLabel">Day</td>
+		<td macro="hideWhen store.getValue('MonkeyGTDSettings','mgtd.usemdy')=='true'" class="editLabel">Month</td>
+		<td class="editLabel">Year</td></tr>
+	<tr>
+		<td macro="showWhen store.getValue('MonkeyGTDSettings','mgtd.usemdy')=='true'" ><span class="shorterEdit" macro="edit mgtd.tmonth"></span></td>
+		<td><span class="shorterEdit" macro="edit mgtd.tday"></span></td>
+		<td macro="hideWhen store.getValue('MonkeyGTDSettings','mgtd.usemdy')=='true'" ><span class="shorterEdit" macro="edit mgtd.tmonth"></span></td>
+		<td><span class="shorterEdit" macro="edit mgtd.tyear"></span></td>
+	</tr>
+	</table>
+
+</div>
+

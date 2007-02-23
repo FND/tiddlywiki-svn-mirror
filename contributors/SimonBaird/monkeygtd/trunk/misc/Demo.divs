@@ -1,0 +1,8 @@
+<div tiddler="Buy petrol for mower" modifier="MonkeyGTD" modified="200610060721" created="200610060648" tags="GTD Next Action [[Mow lawn]] Errands Personal" mgtd.project="Mow lawn" mgtd.type="Action" mgtd.actionstatus="Next" mgtd.context="Errands" mgtd.realm="Personal"></div>
+<div tiddler="Put away hose, sprinklers, toys" modifier="MonkeyGTD" modified="200610060721" created="200610060648" tags="GTD Next Action [[Mow lawn]] Personal Home" mgtd.project="Mow lawn" mgtd.actionstatus="Next" mgtd.type="Action" mgtd.context="Home" mgtd.realm="Personal"></div>
+<div tiddler="Doctors appointment" modifier="MonkeyGTD" modified="200610060721" created="200610060648" tags="GTD Tickler Health Personal" mgtd.tday="9" mgtd.tmonth="12" mgtd.tyear="2006"></div>
+<div tiddler="Mow lawn" modifier="MonkeyGTD" modified="200610060721" created="200610060648" tags="GTD Project [[Home Maintenance]] Personal"></div>
+<div tiddler="Personal" modifier="MonkeyGTD" modified="200610060721" created="200610060648" tags="GTD Realm"></div>
+<div tiddler="Work" modifier="MonkeyGTD" modified="200610060721" created="200610060648" tags="GTD Realm"></div>
+<div tiddler="Finish TPS reports" modifier="MonkeyGTD" modified="200610060721" created="200610060648" tags="GTD Starred Project Marketing Work">Some notes here... Remember to blah blah.\nGary's number: 555 41234</div>
+<div tiddler="Call Trudy about TPS data" modifier="MonkeyGTD" modified="200610060721" created="200610060648" tags="GTD Starred Action Next [[Finish TPS reports]] Calls Work" mgtd.project="Finish TPS reports" mgtd.actionstatus="Next" mgtd.type="Action" mgtd.context="Calls" mgtd.realm="Work"></div>

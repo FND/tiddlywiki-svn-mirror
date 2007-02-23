@@ -1,0 +1,27 @@
+
+
+<table macro="showWhen tiddler.tags.contains('GTD')" class="mToolbar" width="100%" cellspacing="0" border="0">
+
+	<tbody macro="hideWhen tiddler.tags.containsAny(config.mGTD.config.GTDComponent) ||
+			config.mGTD.config.GTDComponent.contains(tiddler.title) ||
+			tiddler.title == 'Starred' ||
+			tiddler.title == 'Process Inbox' ||
+			tiddler.title == 'Collect Thoughts'
+			"
+			> <!-- this seems clumsy. rethink? -->
+		<tr>
+			<td class="label">Type:</td>
+			<td><span macro="checkboxList GTDComponent"></span></td>
+		</tr>
+	</tbody>
+
+	<tbody macro="showWhen tiddler.tags.contains('MainDash')">[[MainDashPanel]]</tbody>
+	<tbody macro="showWhen tiddler.tags.contains('Realm')">[[RealmPanel]]</tbody>
+	<tbody macro="showWhen tiddler.tags.contains('Tickler')">[[TicklerPanel]]</tbody>
+	<tbody macro="showWhen tiddler.tags.contains('Project')">[[ProjectPanel]]</tbody>
+	<tbody macro="showWhen tiddler.tags.contains('Action')">[[ActionPanel]]</tbody>
+	<tbody macro="showWhen tiddler.tags.contains('Area')">[[AreaPanel]]</tbody>
+</table>
+
+
+

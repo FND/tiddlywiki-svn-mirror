@@ -1,0 +1,3 @@
+<<option chkSaveBackups>> SaveBackups <<saveChanges>>
+To upgrade select MonkeyGTDUpgrade (or MonkeyGTDUpgradeTs for tiddlyspot online use) then fetch and install all tiddlers.  Click Continue if you get long-running script warnings. When it's done save and reload.
+<<importTiddlers>>

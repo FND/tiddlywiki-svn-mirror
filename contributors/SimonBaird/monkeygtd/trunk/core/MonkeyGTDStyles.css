@@ -1,0 +1,165 @@
+
+.mToolbar .ticklerDate tr td {
+	padding:0;
+	margin:0;
+}
+
+.mToolbar {
+	background-color:[[ColorPalette::TertiaryPale]];
+	border:solid 1px [[ColorPalette::TertiaryMid]];
+}
+.mToolbar td {
+	padding:0.5em;
+}
+.mToolbar .label {
+	width:1%;
+	text-align:right;
+	font-weight:bold;
+	background-color:[[ColorPalette::TertiaryPale]];
+	color:[[ColorPalette::TertiaryMid]];
+	padding-left:0.5em;
+	padding-right:0;
+}
+.mListTitle {
+	font-weight:bold;
+	background-color:[[ColorPalette::TertiaryPale]];
+	color:[[ColorPalette::TertiaryMid]];
+	display:block;
+	padding:0.25em 0.5em;
+	border-bottom:1px solid [[ColorPalette::TertiaryMid]];
+
+}
+.mList br { display:none; }
+.mList {
+	border:solid 1px [[ColorPalette::TertiaryMid]];
+	margin:0 0.5em 0 0;
+	padding-bottom:1em;
+}
+.mList ul {
+	margin:0.25em 0 0;
+	padding:0px;
+	padding-left:1.8em;
+}
+.mList ul li {  }
+
+.mList .action, .mList .starthing {
+	display:block;
+	padding-left:0.25em;
+	padding-bottom:0.1em;
+	/*
+	overflow:hidden;
+	white-space:no-wrap;*/
+	/* border-bottom:1px solid #eee; */
+}
+
+.mList .action span { white-space:no-wrap; }
+.mList .action2 span { white-space:no-wrap; }
+
+.mList .action2 {
+	display:block;
+	padding-left:1.5em;
+	padding-bottom:0.1em;
+	/*overflow:hidden;
+	white-space:no-wrap;*/
+	/*border-bottom:1px solid #eee;*/
+}
+/* the nowrap and hidden doesnt work :( */
+
+.shorterEdit input { width:2.5em; }
+
+#topMenu .new a { padding-right:0; margin-right:0; }
+#topMenu .tag a { padding-left:0; margin-left:0; }
+
+.mList .off               {border-style:none;background:#fff;color:#ccc;}
+.mList .on                {border-style:none;background:#fff;color:#000;}
+.mList .WaitingForButton.off {border-style:none;background:#fff;color:#ccc;}
+.mList .WaitingForButton.on  {border-style:none;background:#fdb;color:#000;}
+.mList .NextButton.off    {border-style:none;background:#fff;color:#ccc;}
+.mList .NextButton.on     {border-style:none;background:#cfa;color:#000;}
+
+.groupBy .on  {border-style:none;background:#acf;color:#000;}  /* only for someday/maybe in projects */
+
+.StarredButton.off    {border-style:none;background:transparent;color:#ddd;font-size:200%;padding:0;margin:0;font-family:'Arial Unicode MS' sans-serif;}
+.StarredButton.on     {border-style:none;background:transparent;color:#f80;font-size:200%;padding:0;margin:0;font-family:'Arial Unicode MS' sans-serif;}
+
+span.title {
+	color:[[ColorPalette::PrimaryDark]];
+}
+
+#topMenu {
+	background:url(http://simonbaird.com/monkeygtd/logo-trans.gif) no-repeat -15px 2px transparent;
+	padding:5px;
+	padding-left:80px;
+}
+
+/* the png is way superior due to alpha transparency. stupid IE */
+html>body #topMenu {background-image:url(http://simonbaird.com/monkeygtd/logo-trans.png)}
+
+
+#topMenu a { color:white ! important; }
+
+#topMenu a.button {
+	border-style:none;
+}
+
+.mList .tiddlyLink { font-weight: normal; }
+
+.mList .groupBy {
+	display:block;
+	padding-top:0.75em;
+	border-bottom:1px solid #ddd;
+	margin-right:1em;
+	margin-bottom:1px;
+	padding-bottom:1px;
+	margin-left:1em;
+	font-size:120%;
+}
+
+.mList .groupBy a {
+	font-weight:bold;
+}
+
+#extraToolbar .button {
+	background:#ccc;
+	padding:0 0.5em;
+	margin:0 0.5em;
+}
+
+.piBox {
+	width:95%;
+	height:10em;
+}
+
+@media print {
+
+/* Thanks to Andrew C and Scott K*/
+#mainMenu,
+#sidebar,
+#extraToolbar,
+#messageArea,
+.subtitle,
+.tagglyTagged,
+.toolbar,
+.mToolbar,
+.mList .off,
+.mList .WaitingForButton.off,
+.mList .NextButton.off
+{
+	display: none ! important;
+}
+
+#displayArea {
+	margin: 1em 1em 0em 1em;
+}
+
+.tiddler { page-break-after:always }
+
+}/* end @media print */
+
+
+.datePicker table, .datepicker td, .datepicker tr {
+	border-style:none;
+}
+
+[[datepicker]]
+

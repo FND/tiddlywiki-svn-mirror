@@ -1,0 +1,69 @@
+
+<!--{{{-->
+
+<div class='toolbar'>
+	<span macro="showWhenTagged systemConfig">
+		<span macro="toggleTag systemConfigDisable . '[[disable|systemConfigDisable]]'"></span>
+	</span>
+	<span style="padding:1em;"></span>
+	<span macro='toolbar closeTiddler closeOthers +editTiddler deleteTiddler permalink references newHere refresh'></span>
+</div>
+
+<div class="tagglyTagged" macro="tags"></div>
+
+<div class='titleContainer'>
+	<span class='title' macro='view title'></span>
+	<span macro="miniTag"></span>
+	<span macro="toggleTag GTD"></span>
+	<span macro="showWhenTagged GTD">
+		<span macro="tTag tag:Starred mode:text text:{{config.mGTD.star}}"></span>
+	</span>
+</div>
+
+<div class='subtitle'>
+	<span macro='view modifier link'></span>,
+	<span macro="hideWhen store.getValue('MonkeyGTDSettings','mgtd.usemdy')=='true'">
+		<span macro='view modified date [[DD/MM/YY]]'></span>
+		(<span macro='message views.wikified.createdPrompt'></span>
+		<span macro='view created date [[DD/MM/YY]]'></span>)
+	</span>
+	<span macro="showWhen store.getValue('MonkeyGTDSettings','mgtd.usemdy')=='true'">
+		<span macro='view modified date [[MM/DD/YY]]'></span>
+		(<span macro='message views.wikified.createdPrompt'></span>
+		<span macro='view created date [[MM/DD/YY]]'></span>)
+	</span>
+</div>
+
+<div macro="showWhenExists ViewPanelTemplate">[[ViewPanelTemplate]]</div>
+
+<!--
+<div macro="hideWhen tiddler.tags.containsAny(['css','html','pre','systemConfig']) && !tiddler.text.match('{{'+'{')">
+	<div class='viewer' macro='view text wikified'></div>
+</div>
+<div macro="showWhen tiddler.tags.containsAny(['css','html','pre','systemConfig']) && !tiddler.text.match('{{'+'{')">
+	<div class='viewer'><pre macro='view text'></pre></div>
+</div>
+-->
+
+<div macro="hideWhenTagged GTD">
+	<div macro="hideWhen tiddler.tags.containsAny(['css','html','pre','systemConfig']) && !tiddler.text.match('{{'+'{')">
+		<div class='viewer' macro='view text wikified'></div>
+	</div>
+	<div macro="showWhen tiddler.tags.containsAny(['css','html','pre','systemConfig']) && !tiddler.text.match('{{'+'{')">
+		<div class='viewer'><pre macro='view text'></pre></div>
+	</div>
+</div>
+<div macro="showWhenTagged GTD">
+	<div style="background:#ffd;padding:0.5em;margin:0.5em 0;border:1px solid #dda;max-height:15em;overflow:auto;" macro="showWhen tiddler.text.length > 0">
+		<div style="font-size:90%;color:#996;">Notes</div>
+		<div class='viewer' macro='view text wikified'></div>
+	</div>
+</div>
+
+<div macro="showWhenExists ViewDashboardTemplate">[[ViewDashboardTemplate]]</div>
+
+<div macro="hideWhenTagged GTD">
+	<div class="tagglyTagging" macro="tagglyTagging"></div>
+</div>
+
+<!--}}}-->

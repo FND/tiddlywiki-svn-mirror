@@ -1,0 +1,98 @@
+<!-- ******************************* -->
+<!-- contributed by Michael Lockhart -->
+<!-- ******************************* -->
+
+<!--
+~MJL20070205 - Customized Project Tiddler.
+This overrides the ProjectTiddlerDash shadow tiddler from MonkeyGTD 2.1 alpha r77 with a new dashboard focussing on
+the GTD weekly review task.  I have added these features:
+
+    * An ability to see Completed projects and to remove old tasks via the DeleteDoneTasks macro
+    * Separate out the Someday/Maybe projects to help with assessing if any can be activated
+    * GTD Weekly Review instructions
+    * Inspiration for new ideas during review
+    * A link to a Review How To tiddler that guides me through the GTD process
+
+-->
+
+<div style="margin-top:1em;" macro="tiddler ReviewTips"></div>
+
+<table width="100%"><tr>
+
+<td  style="vertical-align:top" width="50%">
+
+<div macro="listByTag title:'Projects by Area'
+	tags:'!Complete && !Someday/Maybe'
+	group:Area
+	view:showstar
+	"></div>
+
+<div macro="listByTag title:'Someday/Maybe Projects'
+	mode:global
+	tags:'Someday/Maybe && !Complete'
+	view:showstar
+	group:Area
+	"></div>
+
+<div macro="listByTag title:'Completed Projects'
+	mode:global
+	tags:'Complete'
+	view:showstar
+	group:Area
+	"></div>
+
+<div macro="deleteDone daysOld:20 title:'Delete Old Actions' "></div>
+
+</td>
+
+<td valign="top" width="50%">
+<div macro="listByTag title:'Actions by Project'
+	mode:global
+	tags:'Action && !Done'
+	group:'Project && !Someday/Maybe && !Complete'
+	gView:project
+	view:action
+	"></div>
+
+<div macro="listByTag title:'Projects that need a next action'
+  mode:global
+  tags:'Action && !Done && (Next || [(Waiting For)])'
+  group:'Project && !Someday/Maybe && !Complete'
+  onlyShowEmpty:yes
+  "></div>
+
+</td>
+
+</tr></table>
+
+
+
+
+
+<!-- old version -->
+<!-- 
+
+<table width="100%"><tr>
+<td  style="vertical-align:top" width="50%">
+
+<div macro="listByTag title:'Projects by Area'
+	tags:!Complete
+	group:Area
+	view:showstar
+	"></div>
+
+</td>
+
+<td valign="top" width="50%">
+<div macro="listByTag title:'Actions by Project'
+	mode:global
+	tags:'Action && Next && !Done'
+	view:action
+	group:Project
+	"></div>
+</td>
+
+</tr></table>
+
+
+-->

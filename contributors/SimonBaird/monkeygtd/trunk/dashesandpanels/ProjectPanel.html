@@ -1,0 +1,20 @@
+<tr><td class="label">Type:</td><td><span macro="toggleTag Project"></span></td></tr>
+<tr><td class="label">Realm:</td><td><span macro="checkboxList Realm"></span></td></tr>
+<!-- <tr><td class="label">Area:</td><td><span macro="checkboxList Area"></span></td></tr> -->
+<tr macro="showWhenTagged Professional"><td class="label">Area:</td><td><span macro="dropdownSelect Area && Professional"></span></td></tr>
+<tr macro="showWhenTagged Personal"><td class="label">Area:</td><td><span macro="dropdownSelect Area && Personal"></span></td></tr>
+<tr macro="hideWhen tiddler.tags.containsAny(['Professional','Personal'])"><td class="label">Area:</td><td><span macro="dropdownSelect Area"></span></td></tr>
+<tr><td class="label">Status:</td><td><span macro="checkboxList ProjectStatus"></span></td>
+
+<tr><td class="label"></td><td>
+	<span macro="deleteAllTagged 'remove project' delete"></span>
+</td></tr>
+<tr><td class="label"></td><td>
+	<span macro="newHere title:'New Action' label:'new next action' tag: Action Next GTD"></span>
+	<span macro="newHere title:'New Action' label:'new waiting action' tag: Action GTD 'Waiting For'"></span>
+	<span macro="newHere title:'New Action' label:'new future action' tag: Action GTD"></span>
+	<span macro="newHere label:'new sub-project' tag: Project GTD"></span>
+	<span macro="newHere title:'New Tickler' label:'new tickler' tag: Tickler GTD"></span>
+	<span macro="newTiddler label:'new context' tag: Context GTD"></span>
+	<span macro="newTiddler label:'new area' tag: Area GTD"></span>
+</td></tr>

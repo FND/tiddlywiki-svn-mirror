@@ -1,0 +1,44 @@
+
+<!--{{{-->
+<!--div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'>
+	<div class='headerShadow'>
+		<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+	</div>
+	<div class='headerForeground'>
+		<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+	</div>
+</div-->
+<!-- horizontal MainMenu -->
+<div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'>
+<div id='topMenu' refresh='content' tiddler='MainMenu' style="font-size:120%;"></div>
+</div>
+<!-- realm selector under construction -->
+<div id="extraToolbar" style="color:#555;background:#999;padding:3px;border-bottom:2px solid #777;padding-left:0.5em;font-size:120%;">
+	<span id='realmSelector' macro="realmSelector"></span>
+	<span style="margin:0 2em;">|</span>
+	<span>Create:</span>
+	<span macro="newTiddler label:'new action'  title:'New Action'  tag: Action Next GTD "></span>
+	<span macro="newTiddler label:'new project' title:'New Project' tag: Project GTD "></span>
+	<span macro="newTiddler label:'new tickler' title:'New Tickler' tag: Tickler GTD "></span>
+</div>
+<!--
+<div id='topBar' style="background:#ddd;padding:3px;border-bottom:1px solid #aaa;padding-left:0.5em;">
+	<span macro="saveChanges" style="padding-left:2em;padding-right:2em;"></span>
+	<span macro="selectPalette">select colour palette:</span>
+</div>
+-->
+<!-- original MainMenu menu -->
+<!-- <div id='mainMenu' refresh='content' tiddler='MainMenu'></div> -->
+<div id='sidebar'>
+	<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+	<div style="padding:0.5em;" macro="calendar thismonth"></div>
+	<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+	<div id='messageArea'></div>
+	<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+

@@ -1,0 +1,34 @@
+<table width="100%">
+<tr>
+<td valign="top" width="50%">
+
+
+	<div macro="listByTag title:'Next Actions'
+		tags:'Action && Next && !Done'
+		view:action_proj
+		group:Context
+		mode:global
+		"></div>
+
+</td><td valign="top">
+
+	<div macro="listByTag title:'Current Ticklers'
+		tags:'Tickler && !Processed'
+		view:tickler
+		sort:tickleDate
+		where:'tiddler.tickleDate() <= (new Date()).convertToLocalYYYYMMDDHHMM()'
+		mode:global
+		"></div>
+
+
+	<div macro="listByTag title:'Waiting For'
+		tags:'Action && [(Waiting For)] && !Done'
+		view:action_proj
+		group:Context
+		mode:global
+		"></div>
+
+
+</td>
+</tr>
+</table>

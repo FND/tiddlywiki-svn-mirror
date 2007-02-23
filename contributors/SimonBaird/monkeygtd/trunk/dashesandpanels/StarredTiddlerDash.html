@@ -1,0 +1,30 @@
+
+<table width="100%"><tr>
+<td  style="vertical-align:top" width="50%">
+
+		<div macro="listByTag title:'Starred Next Actions'
+			tags:'Action && Next && Starred && !Done'
+			group:Context
+			view:action
+			"></div>
+
+		<div macro="listByTag title:'Starred Waiting For Actions'
+			tags:'Action && [(Waiting For)] && Starred && !Done'
+			group:Context
+			view:action
+			"></div>
+
+
+</td>
+
+<td valign="top" width="50%">
+		<div macro="listByTag title:'Starred'
+			tags:'Starred && !Complete && !Done && !Action'
+			group:GTDComponent
+			view:showstar
+			"></div>
+</td>
+
+</tr></table>
+
+
