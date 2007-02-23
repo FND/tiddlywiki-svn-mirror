@@ -1,0 +1,7 @@
+<div title="WikipediaIPstackFeed" modifier="MartinBudden" tags="contentPublisher excludeLists excludeSearch">
+<pre>|''Type:''|mediawiki|
+|''URL:''|http://www.wikipedia.org/|
+|''Description:''|Wikipedia IPstack|
+|''TiddlerSelector:''|%0w/api.php?action=query&list=embeddedin&titles=Template:IPstack&eilimit=%2|
+</pre>
+</div>

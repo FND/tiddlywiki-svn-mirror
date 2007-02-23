@@ -1,0 +1,53 @@
+<div title="Socialtext Open Source Wiki" modifier="Socialtext" server.host="www.eu.socialtext.net" server.page.name="Socialtext Open Source Wiki" tags="[[Recent Changes]]" server.page.id="socialtext_open_source_wiki" server.page.revision="20070222050650" wikiformat="socialtext" server.page.version="20070222050650" changecount="11" server.workspace="stoss">
+<pre>*Welcome to the Socialtext Open Source Workspace. You'll find the source code, documentation, news, and discussion about our Open Source projects. _Please_ don't hesitate to contact us here, &quot;on Sourceforge&quot;&lt;http://sourceforge.net/projects/socialtext/&gt;, or via one of the [Socialtext Open mailing lists] for any questions, requests, concerns, or comments you may have.*
+
+^^ Announcements
+
+* [Socialtext mailing lists are moving]
+* [Socialtext Open release 2.9.5.2] fixes an installation problem. See the {weblog: Releases} blog for more.
+* [Socialtext Unplugged FAQ] -- offline wiki leveraging [Socialtext APIs] co-developed with [TiddlyWiki]
+* [Socialtext Conversion Toolbox] for wiki conversion
+
+^^ Socialtext Open
+
+[Socialtext Open] -- The open source enterprise-class wiki
+
+^^ SocialCalc &amp; wikiCalc
+
+[SocialCalc &amp; wikiCalc] -- The wiki-based spreadsheet
+
+^^ Wikiwyg
+
+[Wikiwyg] -- The ubiquitous WYSIWYG editor for wikis
+
+^^ APIs
+
+[Socialtext APIs] -- REST &amp; SOAP Wiki Web Services
+
+^^ Developer Blogs
+
+* {weblog: alester's weblog}
+* {weblog: luke's dev log}
+* {weblog: Chris Dent Blog}
+* {weblog: Liz Henry - ST Open Source blog}
+
+^^ Socialtext Public License
+
+All Socialtext Open Source projects are released under the &quot;Socialtext Public License&quot;&lt;http://www.socialtext.net/stoss/index.cgi/spl100.pdf?action=attachments_download;page_name=socialtext_open_source_wiki;id=20060725230840-0&gt; (MPL 1.1with an addendum, please see the [Why the Appendix] page). We believe that we have found the best, and most liberal, way to share our software, make it available to hobbyists, coders, commercial users, and tinkerers alike, while preserving the spirit and letter of the OSI requirements. We recently submitted an [Attribution Memo] to OSI and welcome feedback.
+
+----
+
+^^ Projects Supported by Socialtext
+
+Socialtext has supported work by its employees on a number of [other OSS projects]:
+
+^^^ Project Board
+
+Don't see a project you'd like to do? List your name on our [project board] or to pair with someone if you'd like to &quot;find a pair or be a pair on a project&quot;[STOSS Pair Project Board].
+
+^^ Other ways to participate:
+
+The &quot;Sourceforge project Overview page&quot;&lt;https://sourceforge.net/projects/socialtext&gt; gives you access to a plethora of resources, including a bug tracker and mailing lists
+
+Come share the [Coworking space] at Socialtext's office in Palo Alto!</pre>
+</div>
