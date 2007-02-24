@@ -5,6 +5,8 @@
 |''Author:''| Daniel Baird (danielbaird at gmail, plus dot com at the end) |
 |''Type:''|Macro|
 |''Description:''|It's minesweeper!|
+|''Screenshot:''|http://danielbaird.com/tiddlywinks/minesweeper01.gif|
+|''Icon:''|http://danielbaird.com/tiddlywinks/tiddlywinks-icon.png|
 
 !Syntax/Example usage
 {{{<<minesweeper>>}}} or {{{<<minesweeper [width] [height] [bombs]>>}}}
