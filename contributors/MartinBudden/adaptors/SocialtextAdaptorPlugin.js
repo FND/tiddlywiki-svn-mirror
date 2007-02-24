@@ -199,7 +199,6 @@ SocialtextAdaptor.getTiddlerListCallback = function(status,context,responseText,
 {
 //#displayMessage('getTiddlerListCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
-//#displayMessage('xhr:'+xhr);
 	context.status = false;
 	context.statusText = SocialtextAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	if(status) {
@@ -295,7 +294,6 @@ SocialtextAdaptor.getTiddlerCallback = function(status,context,responseText,uri,
 {
 //#displayMessage('getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
-//#displayMessage('xhr:'+xhr);
 	context.status = false;
 	context.statusText = SocialtextAdaptor.errorInFunctionMessage.format(['getTiddlerCallback']);
 	if(status) {
@@ -338,7 +336,6 @@ SocialtextAdaptor.getTiddlerCallback2 = function(status,context,responseText,uri
 {
 //#displayMessage('getTiddlerCallback2 status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
-//#displayMessage('xhr:'+xhr);
 	context.tiddler.text = responseText;
 	if(status) {
 		context.status = true;
@@ -373,7 +370,6 @@ SocialtextAdaptor.getTiddlerRevisionListCallback = function(status,context,respo
 {
 //#displayMessage('getTiddlerRevisionListCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
-//#displayMessage('xhr:'+xhr);
 	context.status = false;
 	if(status) {
 		var content = null;
@@ -429,7 +425,6 @@ SocialtextAdaptor.putTiddlerCallback = function(status,context,responseText,uri,
 {
 //#displayMessage('putTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
-//#displayMessage('xhr:'+xhr);
 	if(status) {
 		context.status = true;
 	} else {
