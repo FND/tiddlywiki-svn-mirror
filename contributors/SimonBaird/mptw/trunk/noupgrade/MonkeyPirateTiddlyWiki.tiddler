@@ -1,0 +1,10 @@
+[[MonkeyPirateTiddlyWiki|http://mptw.tiddlyspot.com]] is a distribution of [[TiddlyWiki|http://www.tiddlywiki.com/]] created by Simon Baird. See [[the web site|http://mptw.tiddlyspot.com/]] for more information.
+!!Upgrading ~MonkeyPirateTiddlyWiki
+This "empty" ~MonkeyPirateTiddlyWiki file comes pre-installed with the core ~MonkeyPirateTiddlyWiki plugins. You can upgrade these core plugins to the latest version by doing the following:
+* Click ImportTiddlers
+* Click "Choose..." and select "~MptwUpgradeURL"
+* Click "fetch"
+* Click the checkbox in the first column heading to select all tiddlers
+* Click "More actions..." and select "Import these tiddlers"
+* Click "OK" to confirm you want to overwrite the tiddlers
+* Save and reload

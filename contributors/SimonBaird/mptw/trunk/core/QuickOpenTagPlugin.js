@@ -1,0 +1,107 @@
+/***
+| Name:|QuickOpenTagPlugin|
+| Description:|Changes tag links to make it easier to open tags as tiddlers|
+| Version:|$$version$$|
+| Date:|$$date$$|
+| Source:|http://mptw.tiddlyspot.com/#QuickOpenTagPlugin|
+| Author:|Simon Baird <simon.baird@gmail.com>|
+| CoreVersion:|2.1.x|
+***/
+//{{{
+config.quickOpenTag = {
+
+	dropdownChar: (document.all ? "\u25bc" : "\u25be"), // the little one doesn't work in IE
+
+	createTagButton: function(place,tag,excludeTiddler) {
+		// little hack so we can to <<tag PrettyTagName|RealTagName>>
+		var splitTag = tag.split("|");
+		var pretty = tag;
+		if (splitTag.length == 2) {
+			tag = splitTag[1];
+			pretty = splitTag[0];
+		}
+		
+		var sp = createTiddlyElement(place,"span",null,"quickopentag");
+		createTiddlyText(createTiddlyLink(sp,tag,false),pretty);
+		
+		var theTag = createTiddlyButton(sp,config.quickOpenTag.dropdownChar,
+                        config.views.wikified.tag.tooltip.format([tag]),onClickTag);
+		theTag.setAttribute("tag",tag);
+		if (excludeTiddler)
+			theTag.setAttribute("tiddler",excludeTiddler);
+    		return(theTag);
+	},
+
+	miniTagHandler: function(place,macroName,params,wikifier,paramString,tiddler) {
+		var tagged = store.getTaggedTiddlers(tiddler.title);
+		if (tagged.length > 0) {
+			var theTag = createTiddlyButton(place,config.quickOpenTag.dropdownChar,
+                        	config.views.wikified.tag.tooltip.format([tiddler.title]),onClickTag);
+			theTag.setAttribute("tag",tiddler.title);
+			theTag.className = "miniTag";
+		}
+	},
+
+	allTagsHandler: function(place,macroName,params) {
+		var tags = store.getTags();
+		var theDateList = createTiddlyElement(place,"ul");
+		if(tags.length == 0)
+			createTiddlyElement(theDateList,"li",null,"listTitle",this.noTags);
+		for (var t=0; t<tags.length; t++) {
+			var theListItem = createTiddlyElement(theDateList,"li");
+			var theLink = createTiddlyLink(theListItem,tags[t][0],true);
+			var theCount = " (" + tags[t][1] + ")";
+			theLink.appendChild(document.createTextNode(theCount));
+			var theDropDownBtn = createTiddlyButton(theListItem," " +
+			config.quickOpenTag.dropdownChar,this.tooltip.format([tags[t][0]]),onClickTag);
+			theDropDownBtn.setAttribute("tag",tags[t][0]);
+		}
+	},
+
+	// todo fix these up a bit
+	styles: 
+"/*{{{*/\n"+
+"/* created by QuickOpenTagPlugin */\n"+
+".tagglyTagged .quickopentag, .tagged .quickopentag \n"+
+"	{ margin-right:1.2em; border:1px solid #eee; padding:2px; padding-right:0px; padding-left:1px; }\n"+
+".quickopentag .tiddlyLink { padding:2px; padding-left:3px; }\n"+
+".quickopentag a.button { padding:1px; padding-left:2px; padding-right:2px;}\n"+
+"/* extra specificity to make it work right */\n"+
+"#displayArea .viewer .quickopentag a.button, \n"+
+"#displayArea .viewer .quickopentag a.tiddyLink, \n"+
+"#mainMenu .quickopentag a.tiddyLink, \n"+
+"#mainMenu .quickopentag a.tiddyLink \n"+
+"	{ border:0px solid black; }\n"+
+"#displayArea .viewer .quickopentag a.button, \n"+
+"#mainMenu .quickopentag a.button \n"+
+"	{ margin-left:0px; padding-left:2px; }\n"+
+"#displayArea .viewer .quickopentag a.tiddlyLink, \n"+
+"#mainMenu .quickopentag a.tiddlyLink \n"+
+"	{ margin-right:0px; padding-right:0px; padding-left:0px; margin-left:0px; }\n"+
+"a.miniTag {font-size:150%;} \n"+
+"#mainMenu .quickopentag a.button \n"+
+"	/* looks better in right justified main menus */\n"+
+"	{ margin-left:0px; padding-left:2px; margin-right:0px; padding-right:0px; }\n" + 
+"#topMenu .quickopentag { padding:0px; margin:0px; border:0px; }\n" +
+"#topMenu .quickopentag .tiddlyLink { padding-right:1px; margin-right:0px; }\n" +
+"#topMenu .quickopentag .button { padding-left:1px; margin-left:0px; border:0px; }\n" +
+"/*}}}*/\n"+
+		"",
+
+	init: function() {
+		// we fully replace these builtins. can't hijack them easily
+		window.createTagButton = this.createTagButton;
+		config.macros.allTags.handler = this.allTagsHandler;
+		config.macros.miniTag = { handler: this.miniTagHandler };
+		config.shadowTiddlers["QuickOpenTagStyles"] = this.styles;
+		if (store)
+			store.addNotification("QuickOpenTagStyles",refreshStyles);
+		else
+			config.notifyTiddlers.push({name:"QuickOpenTagStyles", notify: refreshStyles});
+	}
+
+}
+
+config.quickOpenTag.init();
+
+//}}}
