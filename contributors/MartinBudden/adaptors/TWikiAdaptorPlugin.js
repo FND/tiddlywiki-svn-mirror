@@ -9,6 +9,9 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
 
+TWiki REST documentation is at:
+http://twiki.org/cgi-bin/view/TWiki04/TWikiScripts
+
 ''For debug:''
 |''Default TWiki Server''|<<option txttwikiDefaultServer>>|
 |''Default TWiki Web(workspace)''|<<option txttwikiDefaultWorkspace>>|
@@ -32,7 +35,6 @@ if(!config.options.txttwikiPassword)
 if(!version.extensions.TWikiAdaptorPlugin) {
 version.extensions.TWikiAdaptorPlugin = {installed:true};
 
-//# http://twiki.org/cgi-bin/view/TWiki04/TWikiScripts
 
 function doHttpGET(uri,callback,params,headers,data,contentType,username,password)
 {
@@ -53,9 +55,18 @@ TWikiAdaptor.serverType = 'twiki';
 TWikiAdaptor.serverParsingErrorMessage = "Error parsing result from server";
 TWikiAdaptor.errorInFunctionMessage = "Error in function TWikiAdaptor.%0";
 
-TWikiAdaptor.normalizedTitle = function(title)
+TWikiAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
-	return title;
+	return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
+};
+
+TWikiAdaptor.prototype.setContext = function(context,userParams,callback)
+{
+	if(!context) context = {};
+	context.userParams = userParams;
+	if(callback) context.callback = callback;
+	context.adaptor = this;
+	return context;
 };
 
 TWikiAdaptor.fullHostName = function(host)
@@ -75,14 +86,31 @@ TWikiAdaptor.minHostName = function(host)
 	return host ? host.replace(/^http:\/\//,'').replace(/cgi-bin\/$/,'').replace(/\/$/,'') : '';
 };
 
+TWikiAdaptor.normalizedTitle = function(title)
+{
+	return title;
+};
+
 TWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 //#displayMessage("openHost:"+host);
-	this.host = TWikiAdaptor.fullHostName(host);
-//#displayMessage("host:"+this.host);
-	if(context && callback) {
+	this.host = SocialtextAdaptor.fullHostName(host);
+	if(context.callback) {
 		context.status = true;
-		window.setTimeout(callback,0,context,userParams);
+		window.setTimeout(context.callback,0,context,userParams);
+	}
+	return true;
+};
+
+TWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
+{
+	context = this.setContext(context,userParams,callback);
+//#displayMessage("openWorkspace:"+workspace);
+	this.workspace = workspace;
+	if(context.callback) {
+		context.status = true;
+		window.setTimeout(context.callback,0,context,userParams);
 	}
 	return true;
 };
@@ -131,29 +159,15 @@ TWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri
 		context.callback(context,context.userParams);
 };
 
-TWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
-{
-//#displayMessage("openWorkspace:"+workspace);
-	this.workspace = workspace;
-	if(context && callback) {
-		context.status = true;
-		window.setTimeout(callback,0,context,userParams);
-	}
-	return true;
-};
 
 /*
 TWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 //#displayMessage('getTiddlerList');
 	var uriTemplate = '';
-	var host = TWikiAdaptor.fullHostName(this.host);
-	var uri = uriTemplate.format([host,this.workspace]);
+	var uri = uriTemplate.format([this.host,this.workspace]);
 //#displayMessage('uri:'+uri);
-	if(!context) context = {};
-	context.userParams = userParams;
-	context.adaptor = this;
-	if(callback) context.callback = callback;
 	var req = doHttpGET(uri,TWikiAdaptor.getTiddlerListCallback);
 //#displayMessage('req:'+req);
 	return typeof req == 'string' ? req : true;
@@ -189,8 +203,7 @@ TWikiAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 {
 	var info = {};
 	var uriTemplate = '%0view/%1/%2';
-	var host = TWikiAdaptor.fullHostName(this.host);
-	info.uri = uriTemplate.format([host,this.workspace,tiddler.title]);
+	info.uri = uriTemplate.format([this.host,this.workspace,tiddler.title]);
 	return info;
 };
 
@@ -206,6 +219,7 @@ TWikiAdaptor.prototype.generateTiddlerUri = function(tiddler)
 
 TWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 //#displayMessage('TWikiAdaptor.getTiddler:'+title);
 //# http://twiki.org/cgi-bin/view/TWiki04/TWikiScripts
 //# http://twiki.org/cgi-bin/view/TWiki04/TWikiScripts?raw=text
@@ -217,14 +231,9 @@ TWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 //# http://twiki.org/cgi-bin/view/Sandbox/SandBox29?raw=text
 
 	var uriTemplate = '%0view/%1/%2?raw=text';
-	var host = TWikiAdaptor.fullHostName(this.host);
-	var uri = uriTemplate.format([host,this.workspace,title]);
+	var uri = uriTemplate.format([this.host,this.workspace,title]);
 //#displayMessage('uri:'+uri);
 
-	if(!context) context = {};
-	context.userParams = userParams;
-	context.adaptor = this;
-	if(callback) context.callback = callback;
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields.wikiformat = 'twiki';
 	context.tiddler.fields['server.host'] = TWikiAdaptor.minHostName(host);
@@ -260,16 +269,13 @@ TWikiAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr)
 
 TWikiAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 {
+	context = this.setContext(context,userParams,callback);
 //#displayMessage('TWikiAdaptor.putTiddler:'+tiddler.title);
 	var uriTemplate = '%0save/%1/%2?text=%3';
 	var host = this.host ? this.host : TWikiApaptor.fullHostName(tiddler.fields['server.host']);
 	var workspace = this.workspace ? this.workspace : tiddler.fields['server.workspace'];
 	var uri = uriTemplate.format([host,workspace,tiddler.title,tiddler.text]);
 //#displayMessage('uri:'+uri);
-	if(!context) context = {};
-	context.userParams = userParams;
-	context.adaptor = this;
-	if(callback) context.callback = callback;
 	context.tiddler = tiddler;
 	context.tiddler.fields.wikiformat = 'twiki';
 	context.tiddler.fields['server.host'] = TWikiAdaptor.minHostName(host);
@@ -293,7 +299,10 @@ TWikiAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr)
 		context.callback(context,context.userParams);
 };
 
-TWikiAdaptor.prototype.close = function() {return true;};
+TWikiAdaptor.prototype.close = function()
+{
+	return true;
+};
 
 config.adaptors[TWikiAdaptor.serverType] = TWikiAdaptor;
 } //# end of 'install only once'

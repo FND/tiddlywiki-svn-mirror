@@ -24,10 +24,12 @@ TiddlyWiki.prototype.getHostedTiddlers = function(host,workspace)
 		return results;
 	var tiddlers = this.hostedTiddlers[host][workspace];
 	if(tiddlers) {
+		//var sortField = 'modified';
+		//tiddlers.sort(function(a,b) {return a[sortField] < b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
 		for(var i=0; i<tiddlers.length; i++) {
 			results.push(tiddlers[i].title);
 		}
-		results.sort();
+		//results.sort();
 	}
 	return results;
 };

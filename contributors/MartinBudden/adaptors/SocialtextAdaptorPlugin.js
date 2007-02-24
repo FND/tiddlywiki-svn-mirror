@@ -3,24 +3,21 @@
 |''Description:''|Adaptor for moving and converting data to and from Socialtext Wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com) and JeremyRuston (jeremy (at) osmosoft (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/SocialtextAdaptorPlugin.js|
-|''Version:''|0.4.3|
-|''Date:''|Feb 18, 2007|
+|''Version:''|0.5.1|
+|''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
+
+Socialtext REST documentation is at:
+http://www.eu.socialtext.net/st-rest-docs/index.cgi?socialtext_rest_documentation
+
 ***/
 
 //{{{
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.SocialtextAdaptorPlugin) {
 version.extensions.SocialtextAdaptorPlugin = {installed:true};
-
-//# http://www.eu.socialtext.net/st-rest-docs/index.cgi?socialtext_rest_documentation
-
-function doHttpGET(uri,callback,params,headers,data,contentType,username,password)
-{
-	return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
-}
 
 function SocialtextAdaptor()
 {
@@ -35,22 +32,24 @@ SocialtextAdaptor.serverType = 'socialtext';
 SocialtextAdaptor.serverParsingErrorMessage = "Error parsing result from server";
 SocialtextAdaptor.errorInFunctionMessage = "Error in function SocialtextAdaptor.%0";
 
-// Convert a page title to the normalized form used in uris
-SocialtextAdaptor.normalizedTitle = function(title)
+SocialtextAdaptor.prototype.setContext = function(context,userParams,callback)
 {
-	var n = title.toLowerCase();
-	n = n.replace(/\s/g,'_').replace(/\//g,'_').replace(/\./g,'_').replace(/:/g,'').replace(/\?/g,'');
-	if(n.charAt(0)=='_')
-		n = n.substr(1);
-//#displayMessage("title:"+title+" n:"+n);
-	return String(n);
+	if(!context) context = {};
+	context.userParams = userParams;
+	if(callback) context.callback = callback;
+	context.adaptor = this;
+	return context;
 };
 
-// Convert a Socialtext date in YYYY-MM-DD hh:mm format into a JavaScript Date object
-SocialtextAdaptor.dateFromEditTime = function(editTime)
+SocialtextAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
-	var dt = editTime;
-	return new Date(Date.UTC(dt.substr(0,4),dt.substr(5,2)-1,dt.substr(8,2),dt.substr(11,2),dt.substr(14,2)));
+//#displayMessage("doHttpGet");
+	return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
+};
+
+SocialtextAdaptor.doHttpPOST = function(uri,callback,params,headers,data,contentType,username,password)
+{
+	return doHttp('POST',uri,data,contentType,username,password,callback,params,headers);
 };
 
 SocialtextAdaptor.fullHostName = function(host)
@@ -70,24 +69,44 @@ SocialtextAdaptor.minHostName = function(host)
 	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
 };
 
-// Open the specified host/server
-//#   host - uri of host (eg, "http://www.socialtext.net/" or "www.socialtext.net")
-//#   context.callback - optional function to be called on completion
-//#   context is itself passed on as a parameter to the callback function
-//# Return value is true if the request was successfully issued, false if this connector doesn't support openHost(),
-//#   or an error description string if there was a problem
-//# The callback parameters are callback(context)
-//#   context.status - true if OK, string if error
-//#   context.adaptor - reference to this adaptor object
-//#   context - parameters as originally passed into the openHost function
+// Convert a page title to the normalized form used in uris
+SocialtextAdaptor.normalizedTitle = function(title)
+{
+	var n = title.toLowerCase();
+	n = n.replace(/\s/g,'_').replace(/\//g,'_').replace(/\./g,'_').replace(/:/g,'').replace(/\?/g,'');
+	if(n.charAt(0)=='_')
+		n = n.substr(1);
+//#displayMessage("title:"+title+" n:"+n);
+	return String(n);
+};
+
+// Convert a Socialtext date in YYYY-MM-DD hh:mm format into a JavaScript Date object
+SocialtextAdaptor.dateFromEditTime = function(editTime)
+{
+	var dt = editTime;
+	return new Date(Date.UTC(dt.substr(0,4),dt.substr(5,2)-1,dt.substr(8,2),dt.substr(11,2),dt.substr(14,2)));
+};
+
 SocialtextAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 //#displayMessage("openHost:"+host);
 	this.host = SocialtextAdaptor.fullHostName(host);
-//#displayMessage("host:"+this.host);
-	if(context && callback) {
+	if(context.callback) {
 		context.status = true;
-		window.setTimeout(callback,0,context,userParams);
+		window.setTimeout(context.callback,0,context,userParams);
+	}
+	return true;
+};
+
+SocialtextAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
+{
+	context = this.setContext(context,userParams,callback);
+//#displayMessage("openWorkspace:"+workspace);
+	this.workspace = workspace;
+	if(context.callback) {
+		context.status = true;
+		window.setTimeout(context.callback,0,context,userParams);
 	}
 	return true;
 };
@@ -101,28 +120,14 @@ SocialtextAdaptor.prototype.openHost = function(host,context,userParams,callback
 //# ...
 //# ]
 
-// Gets the list of workspaces on a given server
-//#   callback - optional function to be called on completion
-//#   context is itself passed on as a parameter to the callback function
-//# Return value is true if the request was successfully issued, false if this connector doesn't support getWorkspaceList(),
-//#   or an error description string if there was a problem
-//# The callback parameters are callback(context)
-//#   context.status - true if OK, false if error
-//#   context.statusText - error message if there was an error
-//#   context.adaptor - reference to this adaptor object
-//#   context - parameters as originally passed into the getWorkspaceList function
 SocialtextAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 //#displayMessage("getWorkspaceList");
 	var uriTemplate = '%0data/workspaces';
-	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(context.host);
-	var uri = uriTemplate.format([host]);
+	var uri = uriTemplate.format([this.host]);
 //#displayMessage('uri:'+uri);
-	if(!context) context = {};
-	context.userParams = userParams;
-	context.adaptor = this;
-	if(callback) context.callback = callback;
-	var req = doHttpGET(uri,SocialtextAdaptor.getWorkspaceListCallback,context,{'accept':'application/json'});
+	var req = SocialtextAdaptor.doHttpGET(uri,SocialtextAdaptor.getWorkspaceListCallback,context,{'accept':'application/json'});
 	return typeof req == 'string' ? req : true;
 };
 
@@ -160,54 +165,18 @@ SocialtextAdaptor.getWorkspaceListCallback = function(status,context,responseTex
 		context.callback(context,context.userParams);
 };
 
-// Open the specified workspace
-//#   workspace - name of workspace to open
-//#   context.callback - optional function to be called on completion
-//#   context is passed to callback function
-//# Return value is true if the request was successfully issued, false if this connector doesn't support openWorkspace(),
-//#   or an error description string if there was a problem
-//# The callback parameters are callback(context)
-//#   context.status - true if OK, false if error
-//#   context.statusText - error message if there was an error
-//#   context.adaptor - reference to this adaptor object
-//#   context - parameters as originally passed into the openWorkspace function
-SocialtextAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
-{
-//#displayMessage("openWorkspace:"+workspace);
-	this.workspace = workspace;
-	if(context && callback) {
-		context.status = true;
-		window.setTimeout(callback,0,context,userParams);
-	}
-	return true;
-};
-
-// Gets the list of tiddlers within a given workspace
-//#   context.callback - optional function to be called on completion
-//#   context is passed on to callback function
-//# Return value is true if the request was successfully issued, false if this connector doesn't support getTiddlerList(),
-//#   or an error description string if there was a problem
-//# The callback parameters are callback(context)
-//#   context.status - true if OK, false if error
-//#   context.statusText - error message if there was an error
-//#   context.adaptor - reference to this adaptor object
-//#   context - parameters as originally passed into the getTiddlerList function
 SocialtextAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 //#displayMessage('SocialtextAdaptor.getTiddlerList');
 //#displayMessage('callback:'+callback);
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages?accept=application/json
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages?accept=application/json;order=newest;count=4
 //# data/workspaces/:ws/pages/:pname
-	var uriTemplate = '%0data/workspaces/%1/pages';
-	var host = SocialtextAdaptor.fullHostName(this.host);
-	var uri = uriTemplate.format([host,this.workspace]);
+	var uriTemplate = '%0data/workspaces/%1/pages?order=newest';
+	var uri = uriTemplate.format([this.host,this.workspace]);
 //#displayMessage('uri:'+uri);
-	if(!context) context = {};
-	context.userParams = userParams;
-	context.adaptor = this;
-	if(callback) context.callback = callback;
-	var req = doHttpGET(uri,SocialtextAdaptor.getTiddlerListCallback,context,{'accept':'application/json'});
+	var req = SocialtextAdaptor.doHttpGET(uri,SocialtextAdaptor.getTiddlerListCallback,context,{'accept':'application/json'});
 //#displayMessage('req:'+req);
 	return typeof req == 'string' ? req : true;
 };
@@ -243,7 +212,7 @@ SocialtextAdaptor.getTiddlerListCallback = function(status,context,responseText,
 				context.callback(context,context.userParams);
 			return;
 		}
-		list = [];
+		var list = [];
 		for(var i=0; i<info.length; i++) {
 			var tiddler = new Tiddler(info[i].name);
 			tiddler.modified = SocialtextAdaptor.dateFromEditTime(info[i].last_edit_time);
@@ -267,24 +236,13 @@ SocialtextAdaptor.getTiddlerListCallback = function(status,context,responseText,
 SocialtextAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 {
 	var info = {};
-	uriTemplate = '%0%1/index.cgi?%2';
 	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(tiddler.fields['server.host']);
 	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
+	uriTemplate = '%0%1/index.cgi?%2';
 	info.uri = uriTemplate.format([host,workspace,tiddler.title]);
 	return info;
 };
 
-// Retrieves a tiddler from a given workspace on a given server
-//#   context.tiddler.title - title of the tiddler to get
-//#   context.callback - optional function to be called on completion
-//#   context is passed on as a parameter to the callback function
-//# Return value is true if the request was successfully issued, false if this connector doesn't support getTiddler(),
-//#   or an error description string if there was a problem
-//# The callback parameters are callback(context)
-//#   context.status - true if OK, false if error
-//#   context.statusText - error message if there was an error, otherwise undefined
-//#   context.adaptor - reference to this adaptor object
-//#   context - as passed into the getTiddler function
 SocialtextAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
 	return this.getTiddlerRevision(title,null,context,userParams,callback);
@@ -293,12 +251,13 @@ SocialtextAdaptor.prototype.getTiddler = function(title,context,userParams,callb
 SocialtextAdaptor.prototype.getTiddlerRevision = function(title,revision,context,userParams,callback)
 {
 //#displayMessage('SocialtextAdaptor.getTiddler:'+title+' r:'+revision);
+	context = this.setContext(context,userParams,callback);
+
+//#displayMessage('SocialtextAdaptor.getTiddler:'+title+' r:'+revision);
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages/socialtext_2_0_preview
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages/representation?accept=application/json
 	// request the page in json format to get the page attributes
 	//#var uriTemplate = '%0data/workspaces/%1/pages/%2?accept=application/json';
-	var host = SocialtextAdaptor.fullHostName(this.host);
-	if(!context) context = {};
 	if(revision) {
 //# /data/workspaces/:ws/pages/:pname/revisions/:revision_id
 		var uriTemplate = '%0data/workspaces/%1/pages/%2/revisions/%3';
@@ -307,17 +266,14 @@ SocialtextAdaptor.prototype.getTiddlerRevision = function(title,revision,context
 		uriTemplate = '%0data/workspaces/%1/pages/%2';
 		context.revision = null;
 	}
-	var uri = uriTemplate.format([host,this.workspace,SocialtextAdaptor.normalizedTitle(title),revision]);
+	uri = uriTemplate.format([this.host,this.workspace,SocialtextAdaptor.normalizedTitle(title),revision]);
 //#displayMessage('uri: '+uri);
 
-	context.userParams = userParams;
-	context.adaptor = this;
-	if(callback) context.callback = callback;
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields.wikiformat = 'socialtext';
-	context.tiddler.fields['server.host'] = SocialtextAdaptor.minHostName(host);
+	context.tiddler.fields['server.host'] = SocialtextAdaptor.minHostName(this.host);
 	context.tiddler.fields['server.workspace'] = this.workspace;
-	var req = doHttpGET(uri,SocialtextAdaptor.getTiddlerCallback,context,{'accept':'application/json'});
+	var req = SocialtextAdaptor.doHttpGET(uri,SocialtextAdaptor.getTiddlerCallback,context,{'accept':'application/json'});
 //#displayMessage('req:'+req);
 	return typeof req == 'string' ? req : true;
 };
@@ -346,10 +302,6 @@ SocialtextAdaptor.getTiddlerCallback = function(status,context,responseText,uri,
 		try {
 			//# convert the downloaded data into a javascript object
 			eval('var info=' + responseText);
-			//#displayMessage('tags:'+info.tags);
-			//#displayMessage('page_id:'+info.page_id);
-			//#displayMessage('modifier:'+info.last_editor);
-			//#displayMessage('modified:'+info.last_edit_time);
 			context.tiddler.tags = info.tags;
 			context.tiddler.fields['server.page.id'] = info.page_id;
 			context.tiddler.fields['server.page.name'] = info.name;
@@ -378,7 +330,7 @@ SocialtextAdaptor.getTiddlerCallback = function(status,context,responseText,uri,
 	var workspace = this && this.workspace ? this.workspace : context.tiddler.fields['server.workspace'];
 	uri = uriTemplate.format([host,workspace,SocialtextAdaptor.normalizedTitle(context.tiddler.title),context.revision]);
 //#displayMessage('cb uri: '+uri);
-	var req = doHttpGET(uri,SocialtextAdaptor.getTiddlerCallback2,context,{'accept':SocialtextAdaptor.mimeType});
+	var req = SocialtextAdaptor.doHttpGET(uri,SocialtextAdaptor.getTiddlerCallback2,context,{'accept':SocialtextAdaptor.mimeType});
 //#displayMessage('req:'+req);
 };
 
@@ -399,8 +351,8 @@ SocialtextAdaptor.getTiddlerCallback2 = function(status,context,responseText,uri
 };
 
 SocialtextAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,userParams,callback)
-// get a list of the revisions for a tiddler
 {
+	context = this.setContext(context,userParams,callback);
 //#displayMessage('getTiddlerRevisionList:'+title+" lim:"+limit);
 //# /data/workspaces/:ws/pages/:pname/revisions
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages/representation/revisions?accept=text/x.socialtext-wiki
@@ -409,15 +361,10 @@ SocialtextAdaptor.prototype.getTiddlerRevisionList = function(title,limit,contex
 	var uriTemplate = '%0data/workspaces/%1/pages/%2/revisions?accept=application/json';
 	if(!limit)
 		limit = 5;
-	var host = SocialtextAdaptor.fullHostName(this.host);
-	var uri = uriTemplate.format([host,this.workspace,SocialtextAdaptor.normalizedTitle(title),limit]);
+	var uri = uriTemplate.format([this.host,this.workspace,SocialtextAdaptor.normalizedTitle(title),limit]);
 //#displayMessage('uri: '+uri);
 
-	if(!context) context = {};
-	context.userParams = userParams;
-	context.adaptor = this;
-	if(callback) context.callback = callback;
-	var req = doHttpGET(uri,SocialtextAdaptor.getTiddlerRevisionListCallback,context);
+	var req = SocialtextAdaptor.doHttpGET(uri,SocialtextAdaptor.getTiddlerRevisionListCallback,context);
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
 };
@@ -462,18 +409,9 @@ SocialtextAdaptor.getTiddlerRevisionListCallback = function(status,context,respo
 		context.callback(context,context.userParams);
 };
 
-// Puts a tiddler to a given workspace on a given server
-//#   context.tiddler.title - title of the tiddler to put
-//#   context.callback - optional function to be called on completion
-//#   context is passed on as a parameter to the callback function
-//# Return value is true if the request was successfully issued, false if this connector doesn't support putTiddler(),
-//#   or an error description string if there was a problem
-//# The callback parameters are callback(context)
-//#   context.status - true if OK, false if error
-//#   context.adaptor - reference to this adaptor object
-//#   context - as passed into the putTiddler function
 SocialtextAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 //#displayMessage('SocialtextAdaptor.putTiddler:'+tiddler.title);
 //# data/workspaces/:ws/pages/:pname
 	var uriTemplate = '%0data/workspaces/%1/pages/%2';
@@ -481,11 +419,8 @@ SocialtextAdaptor.prototype.putTiddler = function(tiddler,context,userParams,cal
 	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
 	var uri = uriTemplate.format([host,workspace,tiddler.title,tiddler.text]);
 //#displayMessage('uri:'+uri);
-	if(!context) context = {};
-	context.userParams = userParams;
-	context.adaptor = this;
-	if(callback) context.callback = callback;
-	var req = doHttp('POST',uri,tiddler.text,SocialtextAdaptor.mimeType,null,null,SocialtextAdaptor.putTiddlerCallback,context,{"X-Http-Method": "PUT"});
+	//var req = doHttp('POST',uri,tiddler.text,SocialtextAdaptor.mimeType,null,null,SocialtextAdaptor.putTiddlerCallback,context,{"X-Http-Method": "PUT"});
+	var req = SocialtextAdaptor.doHttpPOST(uri,SocialtextAdaptor.putTiddlerCallback,context,{"X-Http-Method": "PUT"},tiddler.text,SocialtextAdaptor.mimeType);
 //#displayMessage('req:'+req);
 	return typeof req == 'string' ? req : true;
 };
@@ -505,7 +440,10 @@ SocialtextAdaptor.putTiddlerCallback = function(status,context,responseText,uri,
 		context.callback(context,context.userParams);
 };
 
-SocialtextAdaptor.prototype.close = function() {return true;};
+SocialtextAdaptor.prototype.close = function()
+{
+	return true;
+};
 
 config.adaptors[SocialtextAdaptor.serverType] = SocialtextAdaptor;
 } //# end of 'install only once'
