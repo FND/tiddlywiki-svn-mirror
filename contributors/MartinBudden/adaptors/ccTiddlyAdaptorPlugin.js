@@ -152,11 +152,6 @@ ccTiddlyAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	return info;
 };
 
-ccTiddlyAdaptor.prototype.generateTiddlerUri = function(tiddler)
-{
-	return this.generateTiddlerInfo(tiddler).uri;
-};
-
 ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
 //#displayMessage('ccTiddlyAdaptor.getTiddler:' + title);

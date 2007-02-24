@@ -82,7 +82,7 @@ MediaWikiAdaptor.prototype.setContext = function(context,userParams,callback)
 
 MediaWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
-displayMessage("openHost:"+host);
+//#displayMessage("openHost:"+host);
 	this.host = MediaWikiAdaptor.fullHostName(host);
 //#displayMessage("host:"+this.host);
 	if(context && callback) {
@@ -285,13 +285,6 @@ MediaWikiAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	var host = this && this.host ? this.host : MediaWikiAdaptor.fullHostName(tiddler.fields['server.host']);
 	info.uri = uriTemplate.format([host,this.workspace,tiddler.title]);
 	return info;
-};
-
-MediaWikiAdaptor.prototype.generateTiddlerUri = function(tiddler)
-{
-	var uriTemplate = '%0wiki/%1';
-	var host = MediaWikiAdaptor.fullHostName(this.host);
-	return uriTemplate.format([host,tiddler.title]);
 };
 
 MediaWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callback)

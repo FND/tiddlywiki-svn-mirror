@@ -274,14 +274,6 @@ SocialtextAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	return info;
 };
 
-SocialtextAdaptor.prototype.generateTiddlerUri = function(tiddler)
-{
-	uriTemplate = '%0%1/index.cgi?%2';
-	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(tiddler.fields['server.host']);
-	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
-	return uriTemplate.format([host,workspace,tiddler.title]);
-};
-
 // Retrieves a tiddler from a given workspace on a given server
 //#   context.tiddler.title - title of the tiddler to get
 //#   context.callback - optional function to be called on completion
