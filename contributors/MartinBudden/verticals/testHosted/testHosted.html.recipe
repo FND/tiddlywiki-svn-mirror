@@ -21,7 +21,7 @@ tiddler: ../tiddlypedia/Tiddlypedia.tiddler
 tiddler: ../tiddlypedia/EditTemplateHosted.tiddler
 tiddler: ../tiddlypedia/ViewTemplateHostedRevisions.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
-tiddler: ../../adaptors/HostedCommandsPlugin.js
+tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../formatters/JSPWikiFormatterPlugin.js
 tiddler: ../../adaptors/JSPWikiAdaptorPlugin.js
 tiddler: ../../formatters/MediaWikiFormatterPlugin.js
