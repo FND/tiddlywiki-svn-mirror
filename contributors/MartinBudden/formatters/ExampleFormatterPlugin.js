@@ -1,9 +1,9 @@
 /***
-|''Name:''|BaseFormatterPlugin|
-|''Description:''|Allows Tiddlers to use Base text formatting|
+|''Name:''|ExampleFormatterPlugin|
+|''Description:''|Example Formatter which can be used as a basis for creating a new Formatter|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/prereleases.html#BaseFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''Source:''|http://martinswiki.com/prereleases.html#ExampleFormatterPlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ExampleFormatterPlugin.js|
 |''Version:''|0.1.9|
 |''Status:''|Not for release - this is a template for creating new formatters|
 |''Date:''|Nov 5, 2006|
@@ -11,30 +11,26 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
-This is an early release of the BaseFormatterPlugin, which allows you to insert Base formated text into
-a TiddlyWiki.
+To make this example into a real TiddlyWiki formatter, you need to:
 
-The aim is not to fully emulate Base, but to allow you to create Base content off-line and then paste
-the content into your Base wiki later on, with the expectation that only minor edits will be required.
+# Globally search and replace ExampleAdpator with the name of your formatter
+# Remove any format entries that are not required
+# Change the existing format entries as required
+# Add any new format entries that are required
 
-To use Base format in a Tiddler, tag the Tiddler with BaseFormat. See [[testBaseFormat]] for an example.
-
-Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
-
-This is an early alpha release, with (at least) the following known issues:
 ***/
 
 //{{{
-// Ensure that the BaseFormatterPlugin is only installed once.
-if(!version.extensions.BaseFormatterPlugin) {
-version.extensions.BaseFormatterPlugin = {installed:true};
+// Ensure that the ExampleFormatterPlugin is only installed once.
+if(!version.extensions.ExampleFormatterPlugin) {
+version.extensions.ExampleFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	{alertAndThrow('BaseFormatterPlugin requires TiddlyWiki 2.1 or later.');}
+	{alertAndThrow('ExampleFormatterPlugin requires TiddlyWiki 2.1 or later.');}
 
-baseFormatter = {}; // 'namespace' for local functions
+exampleFormatter = {}; // 'namespace' for local functions
 
-baseDebug = function(out,str)
+exampleDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
 	createTiddlyElement(out,'br');
@@ -74,9 +70,9 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 	}
 };
 
-config.baseFormatters = [
+config.exampleFormatters = [
 {
-	name: 'baseHeading',
+	name: 'exampleHeading',
 	match: '^={1,6}',
 	termRegExp: /(={1,6}$\n)/mg,
 	handler: function(w)
@@ -86,7 +82,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseList',
+	name: 'exampleList',
 	match: '^[\\*#;:]+ ',
 	lookaheadRegExp: /^([\*#;:])+ /mg,
 	termRegExp: /(\n)/mg,
@@ -144,7 +140,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseRule',
+	name: 'exampleRule',
 	match: '^---+$\\n?',
 	handler: function(w)
 	{
@@ -168,7 +164,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseExplicitLink',
+	name: 'exampleExplicitLink',
 	match: '\\[\\[',
 	lookaheadRegExp: /\[\[(.*?)(?:\|(.*?))?\]\]/mg,
 	handler: function(w)
@@ -186,7 +182,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseNotWikiLink',
+	name: 'exampleNotWikiLink',
 	match: '!' + config.textPrimitives.wikiLink,
 	handler: function(w)
 	{
@@ -195,7 +191,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseWikiLink',
+	name: 'exampleWikiLink',
 	match: config.textPrimitives.wikiLink,
 	handler: function(w)
 	{
@@ -217,7 +213,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseUrlLink',
+	name: 'exampleUrlLink',
 	match: config.textPrimitives.urlPattern,
 	handler: function(w)
 	{
@@ -226,7 +222,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseBoldByChar',
+	name: 'exampleBoldByChar',
 	match: '\\*\\*',
 	termRegExp: /(\*\*|(?=\n\n))/mg,
 	element: 'strong',
@@ -234,7 +230,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseItalicByChar',
+	name: 'exampleItalicByChar',
 	match: '//',
 	termRegExp: /(\/\/|(?=\n\n))/mg,
 	element: 'em',
@@ -242,7 +238,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseUnderlineByChar',
+	name: 'exampleUnderlineByChar',
 	match: '__',
 	termRegExp: /(__|(?=\n\n))/mg,
 	element: 'u',
@@ -250,7 +246,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseStrikeByChar',
+	name: 'exampleStrikeByChar',
 	match: '--(?!\\s|$)',
 	termRegExp: /((?!\s)--|(?=\n\n))/mg,
 	element: 'strike',
@@ -258,7 +254,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseSuperscriptByChar',
+	name: 'exampleSuperscriptByChar',
 	match: '\\^\\^',
 	termRegExp: /(\^\^|(?=\n\n))/mg,
 	element: 'sup',
@@ -266,7 +262,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseSubscriptByChar',
+	name: 'exampleSubscriptByChar',
 	match: '~~',
 	termRegExp: /(~~|(?=\n\n))/mg,
 	element: 'sub',
@@ -274,7 +270,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseMonospacedByChar',
+	name: 'exampleMonospacedByChar',
 	match: '\\{\\{\\{',
 	lookaheadRegExp: /\{\{\{((?:.|\n)*?)\}\}\}/mg,
 	element: 'code',
@@ -282,7 +278,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseParagraph',
+	name: 'exampleParagraph',
 	match: '\\n{2,}',
 	handler: function(w)
 	{
@@ -291,7 +287,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseLineBreak',
+	name: 'exampleLineBreak',
 	match: '\\n|<br ?/?>',
 	handler: function(w)
 	{
@@ -301,7 +297,7 @@ config.baseFormatters = [
 
 //# note . is anything except \n, so (?:.|\n) matches anything. I think [] is equivalent.
 {
-	name: 'baseComment',
+	name: 'exampleComment',
 	match: '<!\\-\\-',
 	lookaheadRegExp: /<!\-\-((?:.|\n)*?)\-\-!>/mg,
 	handler: function(w)
@@ -315,7 +311,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseHtmlEntitiesEncoding',
+	name: 'exampleHtmlEntitiesEncoding',
 	match: '&#?[a-zA-Z0-9]{2,8};',
 	handler: function(w)
 	{
@@ -324,7 +320,7 @@ config.baseFormatters = [
 },
 
 {
-	name: 'baseHtmlTag',
+	name: 'exampleHtmlTag',
 	match: "<(?:[a-zA-Z]{2,}|a)(?:\\s*(?:[a-z]*?=[\"']?[^>]*?[\"']?))*?>",
 	lookaheadRegExp: /<([a-zA-Z]+)((?:\s+[a-z]*?=["']?[^>\/\"\']*?["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
@@ -346,8 +342,8 @@ config.baseFormatters = [
 }
 ];
 
-config.parsers.baseFormatter = new Formatter(config.baseFormatters);
-config.parsers.baseFormatter.format = 'base';
-config.parsers.baseFormatter.formatTag = 'BaseFormat';
+config.parsers.exampleFormatter = new Formatter(config.exampleFormatters);
+config.parsers.exampleFormatter.format = 'example';
+config.parsers.exampleFormatter.formatTag = 'ExampleFormat';
 } // end of 'install only once'
 //}}}
