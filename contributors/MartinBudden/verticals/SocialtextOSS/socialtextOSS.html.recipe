@@ -13,6 +13,7 @@ tiddler: HomeStOSS.tiddler
 tiddler: ListWorkspaceStOSS.tiddler
 tiddler: ImportWorkspaceStOSS.tiddler
 tiddler: SocialtextOpenSourceWiki.tiddler
+tiddler: SocialtextFeed.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/SocialtextScreenStyle.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/SocialtextStyleOverrides.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/Styles_HorizontalMainMenu.tiddler
@@ -20,7 +21,6 @@ tiddler: ../../../../verticals/stunplugged/tiddlers/StyleSheet.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/StyleSheetColors.tiddler
 tiddler: ../../../../verticals/stunplugged/plugins/SocialtextLocaleOverrides.js
 tiddler: ../../../../verticals/stunplugged/plugins/SocialtextTweaksPlugin.js
-tiddler: ../../../../verticals/stunplugged/plugins/SocialtextSyncPlugin.js
 tiddler: ../tiddlypedia/EditTemplateHosted.tiddler
 tiddler: ../tiddlypedia/OptionsPanel.tiddler
 tiddler: ../tiddlypedia/TabTags.tiddler
