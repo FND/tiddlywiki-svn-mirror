@@ -197,7 +197,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 {
 	context = this.setContext(context,userParams,callback);
 //#displayMessage('getTiddlerList');
-//# http://meta.wikimedia.org/w/api.php?action=query&&list=allpages&aplimit=5&format=jsonfm
+//# http://meta.wikimedia.org/w/api.php?action=query&list=allpages&aplimit=5&format=jsonfm
 //# http://www.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=wiki
 //# http://www.wikipedia.org/w/api.php?action=query&list=embeddedin&titles=Template:IPstack&eilimit=50&format=jsonfm
 //# http://www.wikipedia.org/w/api.php?action=query&list=allpages&aplimit=50&format=jsonfm
