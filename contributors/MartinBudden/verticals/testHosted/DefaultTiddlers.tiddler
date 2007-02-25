@@ -1,3 +1,8 @@
-<div title="DefaultTiddlers" tags="excludeLists">
-<pre>[[Socialtext Open Source Wiki]][[WebHome]][[Wiki]][[HowTo]]</pre>
+<div title="DefaultTiddlers" tags="excludeLists excludeSearch">
+<pre>
+[[HowTo]]
+[[Wiki]]
+[[Socialtext Open Source Wiki]]
+[[WebHome]]
+</pre>
 </div>
