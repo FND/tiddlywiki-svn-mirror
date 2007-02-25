@@ -1,4 +1,4 @@
-<div title="TryItOut" modifier="JeremyRuston" modified="200702220318" created="200702220313" changecount="11">
+<div title="TryItOut" modifier="JeremyRuston" created="200702220313" modified="200702220318">
 <pre>Here's how to try out the features in this new beta:
 # Download a copy of this TiddlyWiki by right-clicking on [[this link|index.html]]
 # Open it in your browser (at the moment, FireFox works best)
@@ -14,6 +14,5 @@
 You can also try clicking on the links in one of the hosted tiddlers:
 # from Wikipedia: [[Wiki]]
 # from Socialtext: [[Socialtext Open Source Wiki]]
-# from ccTiddly: [[HowTo]]
-</pre>
+# from ccTiddly: [[HowTo]]</pre>
 </div>

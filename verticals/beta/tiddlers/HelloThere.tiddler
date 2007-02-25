@@ -1,4 +1,4 @@
-<div title="HelloThere" modifier="JeremyRuston" modified="200612291458" created="200511221854" tags="welcome" changecount="1">
+<div title="HelloThere" modifier="JeremyRuston" created="200511221854" modified="200612291458" tags="welcome">
 <pre>Welcome to version &lt;&lt;version&gt;&gt; of TiddlyWiki. Feedback and discussion is welcome in the [[TiddlyWikiDev Google group|http://groups.google.com/group/TiddlyWikiDev]].
 
 @@Note - this is unstable, potentially broken ''beta'' code: it's not quite finished and it's not been tested with the various [[Plugins]] on which TiddlyWiki users rely. Don't use it for anything important unless you know what you're doing.@@
@@ -18,6 +18,5 @@ This substantial new release of TiddlyWiki adds several features:
 * Greatly improved startup speed, and improved performance for many other common operations
 * Extensive bug fixes and refactorings
 * ...and by popular request, we've started to reformat the TiddlyWiki source code to use the more conventional K&amp;R layout standard
-See the full [[release note at tiddlywiki.org|http://trac.tiddlywiki.org/tiddlywiki/wiki/ReleaseNoteTwoPointTwo]]
-</pre>
+See the full [[release note at tiddlywiki.org|http://trac.tiddlywiki.org/tiddlywiki/wiki/ReleaseNoteTwoPointTwo]]</pre>
 </div>
