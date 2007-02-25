@@ -12,8 +12,7 @@ tiddler: DefaultTiddlersStOSS.tiddler
 tiddler: HomeStOSS.tiddler
 tiddler: ListWorkspaceStOSS.tiddler
 tiddler: ImportWorkspaceStOSS.tiddler
-tiddler: SocialtextOpenSourceWiki.tiddler
-tiddler: SocialtextFeed.tiddler
+tiddler: Socialtext_Open_Source_Wiki.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/SocialtextScreenStyle.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/SocialtextStyleOverrides.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/Styles_HorizontalMainMenu.tiddler
@@ -33,3 +32,4 @@ tiddler: ../../adaptors/SocialtextAdaptorPlugin.js
 tiddler: ../../formatters/SocialtextFormatterPlugin.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
+tiddler: ../../feeds/SocialtextOssFeed.tiddler
