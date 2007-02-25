@@ -35,12 +35,6 @@ if(!config.options.txttwikiPassword)
 if(!version.extensions.TWikiAdaptorPlugin) {
 version.extensions.TWikiAdaptorPlugin = {installed:true};
 
-
-function doHttpGET(uri,callback,params,headers,data,contentType,username,password)
-{
-	return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
-}
-
 function TWikiAdaptor()
 {
 	this.host = null;
@@ -95,7 +89,7 @@ TWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
 //#displayMessage("openHost:"+host);
-	this.host = SocialtextAdaptor.fullHostName(host);
+	this.host = TWikiAdaptor.fullHostName(host);
 	if(context.callback) {
 		context.status = true;
 		window.setTimeout(context.callback,0,context,userParams);
@@ -168,7 +162,7 @@ TWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 	var uriTemplate = '';
 	var uri = uriTemplate.format([this.host,this.workspace]);
 //#displayMessage('uri:'+uri);
-	var req = doHttpGET(uri,TWikiAdaptor.getTiddlerListCallback);
+	var req = TWikiAdaptor.doHttpGET(uri,TWikiAdaptor.getTiddlerListCallback);
 //#displayMessage('req:'+req);
 	return typeof req == 'string' ? req : true;
 };
@@ -236,17 +230,16 @@ TWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields.wikiformat = 'twiki';
-	context.tiddler.fields['server.host'] = TWikiAdaptor.minHostName(host);
-	var req = doHttpGET(uri,TWikiAdaptor.getTiddlerCallback,context);
+	context.tiddler.fields['server.host'] = TWikiAdaptor.minHostName(this.host);
+	var req = TWikiAdaptor.doHttpGET(uri,TWikiAdaptor.getTiddlerCallback,context);
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
 };
 
 TWikiAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
-//#displayMessage('TWiki.getTiddlerCallback');
-//#displayMessage('status:'+status);
-//#displayMessage('rt:'+responseText.substr(0,50));
+displayMessage('getTiddlerCallback:'+status);
+displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
 	context.status = false;
 	if(status) {
@@ -278,8 +271,8 @@ TWikiAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 //#displayMessage('uri:'+uri);
 	context.tiddler = tiddler;
 	context.tiddler.fields.wikiformat = 'twiki';
-	context.tiddler.fields['server.host'] = TWikiAdaptor.minHostName(host);
-	var req = doHttpGET(uri,TWikiAdaptor.putTiddlerCallback,context,null,null,null,this.username,this.password);
+	context.tiddler.fields['server.host'] = TWikiAdaptor.minHostName(this.host);
+	var req = TWikiAdaptor.doHttpGET(uri,TWikiAdaptor.putTiddlerCallback,context,null,null,null,this.username,this.password);
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
 };

@@ -15,7 +15,6 @@ http://www.JSPWiki.org/RPC2/
 
 ''For debug:''
 |''Default JSPWiki Server''|<<option txtJSPWikiDefaultServer>>|
-|''Default JSPWiki Web(workspace)''|<<option txtJSPWikiDefaultWorkspace>>|
 |''Default JSPWiki username''|<<option txtJSPWikiUsername>>|
 |''Default JSPWiki password''|<<option txtJSPWikiPassword>>|
 
@@ -24,8 +23,6 @@ http://www.JSPWiki.org/RPC2/
 //{{{
 if(!config.options.txtJSPWikiDefaultServer)
 	{config.options.txtJSPWikiDefaultServer = 'www.jspwiki.org';}
-if(!config.options.txtJSPWikiDefaultWorkspace)
-	{config.options.txtJSPWikiDefaultWorkspace = '';}
 if(!config.options.txtJSPWikiUsername)
 	{config.options.txtJSPWikiUsername = '';}
 if(!config.options.txtJSPWikiPassword)
@@ -95,7 +92,7 @@ JSPWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
 //#displayMessage("openHost:"+host);
 	context = this.setContext(context,userParams,callback);
-	this.host = SocialtextAdaptor.fullHostName(host);
+	this.host = JSPWikiAdaptor.fullHostName(host);
 	this.username = config.options.txttwikiUsername;
 	this.password = config.options.txttwikiPassword;
 	if(context.callback) {
@@ -157,8 +154,7 @@ JSPWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,uri
 {
 //#displayMessage('getTiddlerListCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,80));
-//#displayMessage('rt:'+responseText.substr(80,80));
-//#displayMessage('rt:'+responseText.substr(160,80));
+//#displayMessage('uri:'+uri);
 //#displayMessage('xhr:'+xhr);
 	context.status = false;
 	context.statusText = JSPWikiAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
@@ -230,7 +226,7 @@ JSPWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callback
 
 JSPWikiAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
-//#displayMessage('JSP.getTiddlerCallback status:'+status);
+//#displayMessage('getTiddlerCallback status:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
 	if(status) {
