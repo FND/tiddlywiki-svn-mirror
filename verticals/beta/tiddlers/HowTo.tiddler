@@ -1,0 +1,18 @@
+<div title="HowTo" modifier="ccTiddly" server.host="cctiddly.sourceforge.net" server.type="cctiddly">
+<pre>!!!Start using ccTiddly
+*[[How to install ccTiddly|Installation]]
+*[[How to setup ccTiddly for different site]]
+*[[How to control who can change the ccTiddly]]
+*[[How to login]]
+*[[How to hide certain tiddler from other people]]
+
+!!!Parameters trick
+*[[How to add parameters]]
+*[[How to convert it back to regular TiddlyWiki]]
+*[[How to force ccTiddly to use a certain config file]]
+*[[How to recover a previous version of the tiddly]]
+*[[How to set the time for password cookie to expire]]
+
+!!!Do fancy stuff
+*[[Build a blog]]</pre>
+</div>
