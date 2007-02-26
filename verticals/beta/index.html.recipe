@@ -8,3 +8,4 @@ tiddler: ../../contributors/MartinBudden/adaptors/SocialtextAdaptorPlugin.js
 tiddler: ../../contributors/MartinBudden/formatters/SocialtextFormatterPlugin.js
 tiddler: ../../contributors/MartinBudden/adaptors/TWikiAdaptorPlugin.js
 tiddler: ../../contributors/MartinBudden/formatters/TWikiFormatterPlugin.js
+tiddler: ../../verticals/SharedRecords/plugins/SharedRecordsAdaptorPlugin.js
