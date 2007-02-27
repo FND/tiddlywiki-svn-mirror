@@ -1,4 +1,4 @@
-<div title="ViewTemplate" modifier="MartinBudden" tags="excludeLists">
+<div title="ViewTemplate" modifier="MartinBudden" tags="excludeLists excludeSearch">
 <pre>&lt;!--{{{--&gt;
 &lt;div class='toolbar' macro='toolbar -closeTiddler closeOthers +editTiddler permalink references jump'&gt;&lt;/div&gt;
 &lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
