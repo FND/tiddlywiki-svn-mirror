@@ -1,0 +1,5 @@
+recipe: ../../../core/tiddlywiki.html.recipe
+tiddler: arxiv.js
+tiddler: jsmath.js
+tiddler: scientific.js
+tiddler: syntaxify.js
