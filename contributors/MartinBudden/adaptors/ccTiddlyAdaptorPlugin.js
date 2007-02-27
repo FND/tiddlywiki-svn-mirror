@@ -118,7 +118,7 @@ ccTiddlyAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
 	var uri = uriTemplate.format([host,this.workspace]);
 //#displayMessage('uri:'+uri);
-	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerListCallback);
+	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerListCallback,context);
 //#displayMessage('req:'+req);
 	return typeof req == 'string' ? req : true;
 };
