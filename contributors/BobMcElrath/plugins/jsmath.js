@@ -93,7 +93,7 @@ config.formatterHelpers.mathFormatHelper = function(w) {
 config.formatters.push({
   name: "displayMath1",
   match: "\\\$\\\$",
-  terminator: "\\\$\\\$\\n?", // 2.0 compatability
+  terminator: "\\\$\\\$\\n?", // 2.0 compatibility
   termRegExp: "\\\$\\\$\\n?",
   element: "div",
   className: "math",
@@ -103,7 +103,7 @@ config.formatters.push({
 config.formatters.push({
   name: "inlineMath1",
   match: "\\\$", 
-  terminator: "\\\$", // 2.0 compatability
+  terminator: "\\\$", // 2.0 compatibility
   termRegExp: "\\\$",
   element: "span",
   className: "math",
@@ -115,7 +115,7 @@ var backslashformatters = new Array(0);
 backslashformatters.push({
   name: "inlineMath2",
   match: "\\\\\\\(",
-  terminator: "\\\\\\\)", // 2.0 compatability
+  terminator: "\\\\\\\)", // 2.0 compatibility
   termRegExp: "\\\\\\\)",
   element: "span",
   className: "math",
@@ -125,7 +125,7 @@ backslashformatters.push({
 backslashformatters.push({
   name: "displayMath2",
   match: "\\\\\\\[",
-  terminator: "\\\\\\\]\\n?", // 2.0 compatability
+  terminator: "\\\\\\\]\\n?", // 2.0 compatibility
   termRegExp: "\\\\\\\]\\n?",
   element: "div",
   className: "math",
@@ -135,7 +135,7 @@ backslashformatters.push({
 backslashformatters.push({
   name: "displayMath3",
   match: "\\\\begin\\{equation\\}",
-  terminator: "\\\\end\\{equation\\}\\n?", // 2.0 compatability
+  terminator: "\\\\end\\{equation\\}\\n?", // 2.0 compatibility
   termRegExp: "\\\\end\\{equation\\}\\n?",
   element: "div",
   className: "math",
@@ -146,7 +146,7 @@ backslashformatters.push({
 backslashformatters.push({
   name: "displayMath4",
   match: "\\\\begin\\{eqnarray\\}",
-  terminator: "\\\\end\\{eqnarray\\}\\n?", // 2.0 compatability
+  terminator: "\\\\end\\{eqnarray\\}\\n?", // 2.0 compatibility
   termRegExp: "\\\\end\\{eqnarray\\}\\n?",
   element: "div",
   className: "math",
