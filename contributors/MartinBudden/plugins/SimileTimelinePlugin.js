@@ -11,6 +11,10 @@
 ***/
 
 /*{{{*/
+// Ensure that the SimileTimelinePlugin is only installed once.
+if(!version.extensions.SimileTimelinePlugin) {
+version.extensions.SimileTimelineBundlePlugin = {installed:true};
+
 Timeline.loadTiddlers = function(data,fn)
 {
 	fn(data);
@@ -223,4 +227,5 @@ config.macros.SimileTimeline.getBandParams = function(title,n,eventSource,theme,
 		bp.trackGap = eval(trackGap);
 	return bp;
 };
+} // end of 'install only once'
 /*}}}*/
