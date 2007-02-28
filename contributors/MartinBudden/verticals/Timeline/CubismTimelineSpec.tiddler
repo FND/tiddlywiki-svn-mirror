@@ -1,6 +1,5 @@
 <div title="CubismTimelineSpec" modifier="Martin Budden">
 <pre>
-|timelineTag:|CubismTimeline|
 |bubbleWidth:|300|
 |bubbleHeight:|200|
 |timelineHeight:|150|
@@ -9,6 +8,7 @@
 |intervalUnit0:|DECADE|
 |intervalPixels0:|200|
 |date0:|1920|
+|eventSourceTag0:|CubismTimeline|
 
 </pre>
 </div>

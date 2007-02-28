@@ -1,14 +1,21 @@
 <div title="TiddlyWikiTimelineSpec" modifier="Martin Budden">
 <pre>
-|timelineTag:|TiddlyWikiTimeline|
-|bubbleWidth:|300|
-|bubbleHeight:|200|
-|timelineHeight:|150|
+|timelineHeight:|300|
 
-|width0:|100%|
-|intervalUnit0:|YEAR|
-|intervalPixels0:|200|
+|width0:|50%|
+|intervalUnit0:|MONTH|
+|intervalPixels0:|100|
 |date0:|2006|
+|eventSourceTag0:|TiddlyWikiTimeline|
 
+|width1:|5%|
+|intervalUnit1:|WEEK|
+|intervalPixels1:|100*7/31|
+
+|width2:|45%|
+|intervalUnit2:|MONTH|
+|intervalPixels2:|25|
+|showEventText2:|false|
+|eventSourceTag2:|TiddlyWikiTimeline|
 </pre>
 </div>
