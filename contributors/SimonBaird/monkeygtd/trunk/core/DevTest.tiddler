@@ -1,10 +1,14 @@
 
 <<fastList
+	title:'Next Actions'
 	startTag:Action
-	tagExpr:Next
+	tags:Next
+	view:action
 >>
 	
 <<fastList
+	title:'Mow lawn test'
 	startTag:[[Mow lawn]]
-	tagExpr:'Next && !Done'
+	tags:'Next && !Done'
+	view:action
 >>
