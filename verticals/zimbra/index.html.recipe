@@ -1,0 +1,4 @@
+recipe: ../../core/tiddlywiki.html.recipe
+prehead: ../../core/html/rss.link.html
+title: html/title.html
+tiddler: plugins/ZimbraAdaptorPlugin.js
