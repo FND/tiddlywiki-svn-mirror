@@ -114,7 +114,6 @@ ZimbraAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 	context.userParams = userParams;
 	context.title = title;
 	var url = ZimbraAdaptor.getTiddlerUrl.format([this.host,this.workspace,encodeURI(title)]);
-	displayMessage("getting from " + url);
 	var ret = loadRemoteFile(url,ZimbraAdaptor.getTiddlerCallback,context);
 	return typeof(ret) == "string" ? ret : true;
 }
