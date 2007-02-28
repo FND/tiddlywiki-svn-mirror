@@ -1,18 +1,1 @@
-<div title="TryItOut" modifier="JeremyRuston" created="200702220313" modified="200702220318">
-<pre>Here's how to try out the features in this new beta:
-# Download a copy of this TiddlyWiki by right-clicking on [[this link|index.html]]
-# Open it in your browser (at the moment, FireFox works best)
-# Click on the 'backstage' link in the upper right
-# Click on 'import'
-# Select 'SocialtextDotNext' from the lower drop down list
-# Click 'Open'
-# Enter 'stoss' as the workspace name
-# Click 'Open'
-# Select some tiddlers and then scroll to the bottom and click 'import'
-# Wait for the confirmation message to verify that the tiddlers have been imported
-
-You can also try clicking on the links in one of the hosted tiddlers:
-# from Wikipedia: [[Wiki]]
-# from Socialtext: [[Socialtext Open Source Wiki]]
-# from ccTiddly: [[HowTo]]</pre>
-</div>
+<div tiddler="TryItOut" modifier="JeremyRuston" modified="200702280800" created="200702220313" tags="" anon="undefined" changecount="1">Here's how to try out the features in this new beta:\n# Download a copy of this TiddlyWiki by right-clicking on [[this link|index.html]]\n# Open it in your browser (at the moment, FireFox works best)\n# Click on the 'backstage' link in the upper right\n# Click on 'import'\n# Select 'SocialtextDotNext' from the lower drop down list\n# Click 'Open'\n# Enter 'stoss' as the workspace name\n# Click 'Open'\n# Select some tiddlers and then scroll to the bottom and click 'import'\n# Wait for the confirmation message to verify that the tiddlers have been imported</div>
