@@ -496,6 +496,10 @@ config.mGTD = {
 	
 	stringMethods: {
 		parseTagExpr: function() {
+
+			if (this.trim() == "")
+				return "true";
+
 			var spaced = this.
 				replace(/\[\(/g," [["). // because square brackets in templates no good
 				replace(/\)\]/g,"]] "). 

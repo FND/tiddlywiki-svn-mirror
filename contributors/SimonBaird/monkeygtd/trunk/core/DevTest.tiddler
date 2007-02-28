@@ -1,0 +1,10 @@
+
+<<fastList
+	startTag:Action
+	tagExpr:Next
+>>
+	
+<<fastList
+	startTag:[[Mow lawn]]
+	tagExpr:'Next && !Done'
+>>

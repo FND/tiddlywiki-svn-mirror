@@ -19,7 +19,7 @@ config.indexedTags = {
 
 	saveTiddlerHijack: function(title,newTitle,newBody,modifier,modified,tags,fields) {
 		var before = store.getTiddler(title);
-		var oldTags = before ? before.tags : null;
+		var oldTags = before ? [].concat(before.tags) : null;  // concat so we get a dup
 
 		var result = this.saveTiddler_orig_indexedTags(title,newTitle,newBody,modifier,modified,tags,fields);
 		var newTags = store.getTiddler(newTitle).tags;
@@ -32,7 +32,7 @@ config.indexedTags = {
 
 	removeTiddlerHijack: function(title) {
 		var before = store.getTiddler(title);
-		var oldTags = before ? before.tags : null;
+		var oldTags = before ? [].concat(before.tags) : null;  // concat so we get a dup
 
 		this.removeTiddler_orig_indexedTags(title);
 
@@ -42,7 +42,7 @@ config.indexedTags = {
 
 	setTiddlerTagHijack: function(title,status,tag) {
 		var before = store.getTiddler(title);
-		var oldTags = before ? before.tags : null;
+		var oldTags = before ? [].concat(before.tags) : null;  // concat so we get a dup
 
 		this.setTiddlerTag_orig_indexedTags(title,status,tag);
 
