@@ -173,7 +173,6 @@ SharedRecordsAdaptor.prototype.putTiddler = function(tiddler,context,userParams,
 			sequenceNumber.toJSONString()
 			]);
 	var jsonRecord = SharedRecordsAdaptor.jsonWrapper.format([jsonTiddler]);
-	console.log("Would be writing " + jsonRecord);
 }
 
 SharedRecordsAdaptor.prototype.close = function() {return true;};
