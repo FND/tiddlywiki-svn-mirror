@@ -72,8 +72,8 @@
 #topMenu .new a { padding-right:0; margin-right:0; }
 #topMenu .tag a { padding-left:0; margin-left:0; }
 
-.mList .off               {zborder-style:none;background:#fff;color:#ccc;font-weight:bold;}
-.mList .on                {zborder-style:none;background:#fff;color:#000;font-weight:bold;}
+.mList .off               {zborder-style:none;background:#fff;color:#ccc;font-weight:medium;}
+.mList .on                {zborder-style:none;background:#fff;color:#000;font-weight:medium;}
 .mList .off               {border:1px solid #999;-moz-border-radius:3px;}
 .mList .off               {border:1px solid #bbb;-moz-border-radius:3px;}
 .mList .WaitingForButton.off {zborder-style:none;background:#fff;color:#ccc;}
