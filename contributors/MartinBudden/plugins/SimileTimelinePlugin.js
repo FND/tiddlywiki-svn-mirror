@@ -3,7 +3,7 @@
 |''Description:''|Plugin to support [[Simile Timelines|http://simile.mit.edu/SimileTimeline/]]|
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelinePlugin.js|
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -15,40 +15,107 @@
 if(!version.extensions.SimileTimelinePlugin) {
 version.extensions.SimileTimelineBundlePlugin = {installed:true};
 
-Timeline.loadTiddlers = function(data,fn)
+Timeline.GregorianDateLabeller.prototype.labelPrecise = function(date)
 {
-	fn(data);
+	var dt = Timeline.DateTime.removeTimeZoneOffset(date,this._timeZone);
+	var template = "YYYY mmm 0DD";
+	return dt.formatString(template);
+	//return dt.toUTCString();
 };
 
-Timeline.GregorianDateLabeller.labelIntervalFunctions["en"] = function(date,intervalUnit)
+Timeline.GregorianDateLabeller.labelIntervalWeek = function(date)
+{
+	var dt = Timeline.DateTime.removeTimeZoneOffset(date,this._timeZone);
+	var text = '' + dt.getWeek();
+	return {text:text,emphasized:false};
+}
+
+Timeline.GregorianDateLabeller.labelIntervalFunctions['en'] = function(date,intervalUnit)
 {
 	if(intervalUnit==Timeline.DateTime.WEEK) {
-		var date2 = Timeline.DateTime.removeTimeZoneOffset(date,this._timeZone);
-		var text = '' + date2.getWeek();
+		var dt = Timeline.DateTime.removeTimeZoneOffset(date,this._timeZone);
+		var text = '' + dt.getWeek();
 		return {text:text,emphasized:false};
 	} else {
 		return this.defaultLabelInterval(date,intervalUnit);
 	}
 };
+/*
+Timeline.DefaultEventSource.Event.prototype.fillInfoBubble = function(elmt,theme,labeller)
+{
+	var doc = elmt.ownerDocument;
+
+	var title = this.getText();
+	var link = this.getLink();
+	var image = this.getImage();
+
+	if (image != null) {
+		var img = doc.createElement("img");
+		img.src = image;
+		
+		theme.event.bubble.imageStyler(img);
+		elmt.appendChild(img);
+	}
+
+	var divTitle = doc.createElement("div");
+	var textTitle = doc.createTextNode(title);
+	if (link != null) {
+		var a = doc.createElement("a");
+		a.href = link;
+		a.appendChild(textTitle);
+		divTitle.appendChild(a);
+	} else {
+		divTitle.appendChild(textTitle);
+	}
+	theme.event.bubble.titleStyler(divTitle);
+	elmt.appendChild(divTitle);
+
+	var divBody = doc.createElement("div");
+	this.fillDescription(divBody);
+	theme.event.bubble.bodyStyler(divBody);
+	elmt.appendChild(divBody);
+
+	var divTime = doc.createElement("div");
+	this.fillTime(divTime, labeller);
+	theme.event.bubble.timeStyler(divTime);
+	elmt.appendChild(divTime);
+
+	var divWiki = doc.createElement("div");
+	this.fillWikiInfo(divWiki);
+	theme.event.bubble.wikiStyler(divWiki);
+	elmt.appendChild(divWiki);
+};
+*/
+Timeline.loadTiddlers = function(data,fn)
+{
+	fn(data);
+};
 
 Timeline.DefaultEventSource.prototype.loadTiddlers = function(data)
 {
 //#displayMessage('loadTiddlers:'+data.tag);
-	var tag = data.tag;
+	if(data.type && data.type=='tiddlerFields') {
+		var include = false;
+		var tag = 'excludeLists';
+	} else {
+		include = true;
+		tag = data.tag;
+	}
 	var url = data.url ? data.url : "dummy";
 	var base = this._getBaseURL(url);
-	var added = false;  
-	var wikiURL = null;
-	var wikiSection = null;
+	// wikiURL and wikiSection used for the "Discuss" button.
+	var wikiURL = data.wikiURL;
+	var wikiSection = data.wikiSection;
 
 	var dateTimeFormat = null;
 	var parseDateTimeFunction = this._events.getUnit().getParser(dateTimeFormat);
-   
-	var sortField = 'title';
-	var tagged = store.getTaggedTiddlers(tag,sortField);
-//#displayMessage('length:'+tagged.length);
-	for(var i=0; i<tagged.length; i++) {
-		var event = config.macros.SimileTimeline.getEvent(tagged[i].title);
+
+	var added = false;  
+	var tiddlers = store.reverseLookup('tags',tag,include);
+//#displayMessage('length:'+tiddlers.length);
+	for(var i=0; i<tiddlers.length; i++) {
+		//var event = config.macros.SimileTimeline.getEvent(tiddlers[i].title);
+		var event = tiddlers[i].getSimileTimelineEvent(data.type);
 		var evt = new Timeline.DefaultEventSource.Event(
 			parseDateTimeFunction(event.start),
 			parseDateTimeFunction(event.end),
@@ -77,6 +144,46 @@ Timeline.DefaultEventSource.prototype.loadTiddlers = function(data)
 	}
 };
 
+Tiddler.prototype.getSimileTimelineEvent = function(type,eventFields)
+{
+//#displayMessage('getEvent:'+this.title);
+	var t = this.title;
+	var f = eventFields ? eventFields : config.macros.SimileTimeline.eventFields;
+	var ev = {};
+	if(type && type=='tiddlerFields') {
+		ev.start = this.created;
+		//ev.end = this.modified;
+		ev.end = null;
+		ev.title = this.title;
+		ev.description = this.text;
+		ev.latestStart = null;
+		ev.earliestEnd = null;
+		ev.isDuration = false;
+		ev.image = null;
+		ev.link = null;
+		//ev.link = 'index.html#' + encodeURIComponent(String.encodeTiddlyLink(this.title));
+//displayMessage("link:"+ev.link);
+		ev.icon = null;
+		ev.color = null;
+		ev.textColor = null;
+	} else {
+		ev.start = store.getTiddlerSlice(t,f.start);
+		ev.latestStart = store.getTiddlerSlice(t,f.latestStart);
+		ev.end = store.getTiddlerSlice(t,f.end);
+		ev.earliestEnd = store.getTiddlerSlice(t,f.earliestEnd);
+		ev.isDuration = store.getTiddlerSlice(t,f.isDuration);
+		ev.title = store.getTiddlerSlice(t,f.title);
+		ev.description = store.getTiddlerSlice(t,f.description);
+		ev.image = store.getTiddlerSlice(t,f.image);
+		ev.link = store.getTiddlerSlice(t,f.link);
+		ev.icon = store.getTiddlerSlice(t,f.icon);
+		ev.color = store.getTiddlerSlice(t,f.color);
+		ev.textColor = store.getTiddlerSlice(t,f.textColor);
+	}
+//#displayMessage('t:'+ev.title+' s:'+ev.start+' e:'+ev.end);
+	return ev;
+};
+
 config.macros.SimileTimeline = {};
 
 // to allow loading from tiddlers with differently named fields
@@ -86,43 +193,18 @@ config.macros.SimileTimeline.eventFields = {
 	icon:'icon',color:'color',textColor:'textColor'
 	};
 
-config.macros.SimileTimeline.getEvent = function(title)
-{
-//#displayMessage('getEvent:'+title);
-	var t = title;
-	var f = config.macros.SimileTimeline.eventFields;
-//#displayMessage('f:'+f.start);
-	var ev = {};
-
-	ev.start = store.getTiddlerSlice(t,f.start);
-	ev.latestStart = store.getTiddlerSlice(t,f.latestStart);
-	ev.end = store.getTiddlerSlice(t,f.end);
-	ev.earliestEnd = store.getTiddlerSlice(t,f.earliestEnd);
-	ev.isDuration = store.getTiddlerSlice(t,f.isDuration);
-	ev.title = store.getTiddlerSlice(t,f.title);
-	ev.description = store.getTiddlerSlice(t,f.description);
-	ev.image = store.getTiddlerSlice(t,f.image);
-	ev.link = store.getTiddlerSlice(t,f.link);
-	ev.icon = store.getTiddlerSlice(t,f.icon);
-	ev.color = store.getTiddlerSlice(t,f.color);
-	ev.textColor = store.getTiddlerSlice(t,f.textColor);
-//#displayMessage('t:'+ev.title+' s:'+ev.start+' e:'+ev.end);
-	return ev;
-};
-
-
 config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	var spec = params[0];
 	var eventSource = new Timeline.DefaultEventSource();
 	var theme = Timeline.ClassicTheme.create();
 
-	var bwidth = store.getTiddlerSlice(spec,'BubbleWidth');
-	if(bwidth)
-		theme.event.bubble.width = bwidth;
-	var bheight = store.getTiddlerSlice(spec,'BubbleHeight');
-	if(bheight)
-		theme.event.bubble.height = bheight;
+	var bWidth = store.getTiddlerSlice(spec,'bubbleWidth');
+	if(bWidth)
+		theme.event.bubble.width = bWidth;
+	var bHeight = store.getTiddlerSlice(spec,'bubbleHeight');
+	if(bHeight)
+		theme.event.bubble.height = bHeight;
 
 	var defaultDate = Timeline.DateTime.parseGregorianDateTime('2000')
 	var bandInfos = [];
@@ -149,9 +231,11 @@ config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,
 		timeline.style['border'] = tBorder + 'px';
 	config.macros.SimileTimeline.timeline = Timeline.create(timeline,bandInfos);
 	var data = {};
+	data.type = store.getTiddlerSlice(spec,'eventSourceType0');
 	data.tag = store.getTiddlerSlice(spec,'eventSourceTag0');
+//#displayMessage("data.type:"+data.type);
 //#displayMessage("handler tag:"+data.tag);
-	if(data.tag)
+	if(data.type||data.tag)
 		Timeline.loadTiddlers(data, function(data,url) { eventSource.loadTiddlers(data,url); });
 };
 
@@ -164,7 +248,7 @@ config.macros.SimileTimeline.getBandParams = function(title,n,eventSource,theme,
 		return null;
 	var bp = {};
 	bp.width = width;
-	if(eventSource && store.getTiddlerSlice(title,'eventSourceTag'+n))
+	if(eventSource)// && store.getTiddlerSlice(title,'eventSourceTag'+n))
 		bp.eventSource = eventSource;
 	if(theme)
 		bp.theme = theme;
@@ -195,7 +279,7 @@ config.macros.SimileTimeline.getBandParams = function(title,n,eventSource,theme,
 		bp.intervalUnit = 7;
 		break;
 	case 'DECADE':
-		bp.intervalUnit = Timeline.DateTime.DECADE;
+		bp.intervalUnit = 8;
 		break;
 	case 'CENTURY':
 		bp.intervalUnit = 9;
