@@ -23,7 +23,8 @@
 .mListTitle {
 	font-weight:bold;
 	background-color:[[ColorPalette::TertiaryPale]];
-	color:[[ColorPalette::TertiaryMid]];
+	/* color:[[ColorPalette::TertiaryMid]]; */
+	color:#555;
 	display:block;
 	padding:0.25em 0.5em;
 	border-bottom:1px solid [[ColorPalette::TertiaryMid]];
@@ -34,6 +35,7 @@
 	border:solid 1px [[ColorPalette::TertiaryMid]];
 	margin:0 0.5em 0 0;
 	padding-bottom:1em;
+	background-color:#f8f8f8;
 }
 .mList ul {
 	margin:0.25em 0 0;
@@ -76,6 +78,15 @@
 .mList .WaitingForButton.on  {border-style:none;background:#fdb;color:#000;}
 .mList .NextButton.off    {border-style:none;background:#fff;color:#ccc;}
 .mList .NextButton.on     {border-style:none;background:#cfa;color:#000;}
+
+.mList h2 {
+		background-color:#f8f8f8;
+		margin:1em 0 0 1em;
+		padding:0;
+}
+.mList h2 .tiddlyLink {
+		font-weight:bold;
+}
 
 .groupBy .on  {border-style:none;background:#acf;color:#000;}  /* only for someday/maybe in projects */
 

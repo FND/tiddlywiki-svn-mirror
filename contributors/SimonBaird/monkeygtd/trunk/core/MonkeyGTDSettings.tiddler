@@ -1,1 +1,2 @@
+<<tField tag:mgtd.disableinstantrefresh label:'Disable instant refresh'>> (Use this if it's too slow)
 <<tField tag:mgtd.usemdy label:'Use ~M-D-Y instead of ~D-M-Y'>>

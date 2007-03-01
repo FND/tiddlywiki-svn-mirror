@@ -22,7 +22,9 @@ merge(config.macros,{
 			var startTag = getParam(parsedParams,"startTag");
 			var tagExpr = getParam(parsedParams,"tags");
 			var sortBy = getParam(parsedParams,"sort","title");
+			var groupBy = getParam(parsedParams,"group","");
 			var viewType = getParam(parsedParams,"view","plain");
+			var gViewType = getParam(parsedParams,"gView","plain");
 			var listTitle = getParam(parsedParams,"title","List");
 			var mode = getParam(parsedParams,"local");
 
@@ -32,18 +34,31 @@ merge(config.macros,{
 
 	
 			var listDiv = createTiddlyElement(place,"div",null,"mList");
-			var listTitleSpan = createTiddlyElement(listDiv,"span",null,"mListTitle");
-			createTiddlyText(listTitleSpan,listTitle);
+
+			//var listTitleSpan = createTiddlyElement(listDiv,"span",null,"mListTitle");
+			//createTiddlyText(listTitleSpan,listTitle);
+
+			// come get some... EYE CANDY!
+			wikify('<html><div class="mListTitle" macro="gradient vert '+
+					'#f1f1f1 #efefef #eeeeee #ececec #eaeaea #e7e7e7 #e4e4e4 #e1e1e1 #cccccc #cccccc #cccccc #cccccc #cccccc #cccccc #c8c8c8 #c0c0c0 #b4b4b4 #a4a4a4'+
+//					'#e4e4e4 #e7e7e7 #e9e9e9 #eaeaea #ebebeb #e9e9e9 #e8e8e8 #e7e7e7 #d9d9d9 #cccccc #cccccc #cccccc #cccccc #cccccc #c8c8c8 #c0c0c0 #b4b4b4 #a4a4a4'+
+//					'#ffffff #f8f8f8 #f3f3f3 #eeeeee #e9e9e9 #e3e3e3 #dddddd #d7d7d7 #999999 #999999 #999999 #999999 #999999 #999999 #969696 #909090 #878787 #7b7b7b'+
+					'">'+listTitle+'</div></html>',listDiv);
 
 			var listRefreshContainer = createTiddlyElement(listDiv,"div");
 
-			listRefreshContainer.setAttribute("refresh","macro");
-			listRefreshContainer.setAttribute("macroName",macroName);
+			if (!mOpt("disableinstantrefresh")) {
+					// this triggers the refresh on notify
+					listRefreshContainer.setAttribute("refresh","macro");
+					listRefreshContainer.setAttribute("macroName",macroName);
+			}
 
-   		listRefreshContainer.setAttribute("startTag",startTag);
-   		listRefreshContainer.setAttribute("tagExpr",tagExpr);
-   		listRefreshContainer.setAttribute("sortBy",sortBy);
-   		listRefreshContainer.setAttribute("viewType",viewType);
+			listRefreshContainer.setAttribute("startTag",startTag);
+			listRefreshContainer.setAttribute("tagExpr",tagExpr);
+			listRefreshContainer.setAttribute("sortBy",sortBy);
+			listRefreshContainer.setAttribute("groupBy",groupBy);
+			listRefreshContainer.setAttribute("viewType",viewType);
+			listRefreshContainer.setAttribute("gViewType",gViewType);
 
 			this.refresh(listRefreshContainer);
 
@@ -53,11 +68,34 @@ merge(config.macros,{
 			var startTag = place.getAttribute("startTag");
 			var tagExpr = place.getAttribute("tagExpr");
 			var sortBy = place.getAttribute("sortBy");
+			var groupBy = place.getAttribute("groupBy");
 			var viewType = place.getAttribute("viewType");
+			var gViewType = place.getAttribute("gViewType");
+
 			var list = this.tagList(startTag,tagExpr,sortBy);
 			var markup = "";
-			for (var i=0;i<list.length;i++) {
-				markup += this.renderTiddler[viewType](list[i],true);
+
+			if (groupBy != "") {
+				// grouping
+				var groupLists = {};
+				for (var i=0;i<list.length;i++) {
+					var groupIn = list[i].fastGet(groupBy);
+					for (var j=0;j<groupIn.length;j++) {
+						if (!groupLists[groupIn[j]])
+							groupLists[groupIn[j]] = "";
+						groupLists[groupIn[j]] += this.renderTiddler[viewType](list[i],false);
+					}
+				}
+				for (var heading in groupLists) {
+					markup += this.renderTiddler[gViewType](store.getTiddler(heading),true);
+					markup += groupLists[heading];
+				}
+			}
+			else {
+				// straight list no grouping
+				for (var i=0;i<list.length;i++) {
+					markup += this.renderTiddler[viewType](list[i],true);
+				}
 			}
 			removeChildren(place);
 			wikify(markup,place,null,tiddler);
@@ -65,15 +103,21 @@ merge(config.macros,{
 
 		renderTiddler: {
 
-			action: function(t,showProject) {
+			action: function(t,isHeading,hideProject) {
+
+				// has to be generic class for headings not "action"
+				var useClass = "action2";
+				if (isHeading)
+					useClass = "action";
 
 				var projText = "";
-				if (showProject) {
+				if (!hideProject) {
 					var p = t.fastGet("Project");
 					if (p)
 						projText = "[/%%/[[P|"+p+"]]/%%/]";
 				}
-				return "{{action2{"+
+
+				return "{{"+useClass+"{"+
 					"@@font-size:80%;"+
 					"<<toggleTag Done [["+t.title+"]] ->>"+
 					"<<tTag tag:Next mode:text text:N title:[["+t.title+"]]>>"+
@@ -85,8 +129,15 @@ merge(config.macros,{
 					"}}}\n";
 			},
 
-			plain: function(t) {
-				return "*[["+t.title+"]]\n";
+			actionHideProject: function(t,isHeading) {
+				return this.action(t,isHeading,true);
+			},
+
+			plain: function(t,isHeading) {
+				if (isHeading)
+					return "!![["+t.title+"]]\n";
+				else
+					return "*[["+t.title+"]]\n";
 			}
 
 		},

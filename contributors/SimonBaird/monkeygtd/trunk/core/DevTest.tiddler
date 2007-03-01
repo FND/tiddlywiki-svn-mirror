@@ -3,7 +3,9 @@
 	title:'Next Actions'
 	startTag:Action
 	tags:Next
+	group:Project
 	view:action
+	gView:plain
 >>
 	
 <<fastList
