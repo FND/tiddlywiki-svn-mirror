@@ -1,4 +1,5 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: ../../../../verticals/tiddlywiki.com/tiddlers/split.recipe
 title: title.html
 tiddler: settings.js
 tiddler: MainMenu.tiddler
@@ -7,22 +8,20 @@ tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteUrl.tiddler
 tiddler: StyleSheet.tiddler
-tiddler: MarkupPreHead.tiddler
 tiddler: Cubism_Timeline.tiddler
 tiddler: CubismTimelineSpec.tiddler
 tiddler: TiddlyWiki_Timeline.tiddler
 tiddler: TiddlyWikiTimelineSpec.tiddler
+tiddler: Tiddlers_Timeline.tiddler
+tiddler: TiddlersTimelineSpec.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../mystyle/PageTemplate.tiddler
 tiddler: ../../mystyle/ViewTemplate.tiddler
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
-tiddler: ../../timeline/Femme_au_Miroir.tiddler
-tiddler: ../../timeline/Still_Life_with_a_White_Dish.tiddler
-tiddler: ../../timeline/Three_Figures.tiddler
-tiddler: ../../timeline/Barfusserkirche.tiddler
-tiddler: ../../timeline/TiddlyWiki101.tiddler
-tiddler: ../../timeline/TiddlyWiki102.tiddler
-tiddler: ../../timeline/TiddlyWiki103.tiddler
+recipe: ../../timeline/CubismTimeline.recipe
+recipe: ../../timeline/TiddlyWikiTimeline.recipe
+tiddler: ../../styles/SimileTimelineStyleBundle.css.js
+tiddler: ../../plugins/SimileTimelineBundlePlugin.js
 tiddler: ../../plugins/SimileTimelinePlugin.js
 

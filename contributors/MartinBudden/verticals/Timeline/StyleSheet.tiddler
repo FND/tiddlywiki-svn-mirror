@@ -3,6 +3,7 @@
 Place your custom CSS here
 ***/
 [[Styles HorizontalMainMenu]]
+[[SimileTimelineStyleBundle]]
 /*{{{*/
 .header {background:#007766;}
 #topMenu {background:#007777;}
