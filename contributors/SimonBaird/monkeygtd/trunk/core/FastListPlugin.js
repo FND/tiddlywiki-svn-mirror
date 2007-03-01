@@ -118,12 +118,12 @@ merge(config.macros,{
 				}
 
 				return "{{"+useClass+"{"+
-					"@@font-size:80%;"+
+					//"@@font-size:90%;"+
 					"<<toggleTag Done [["+t.title+"]] ->>"+
-					"<<tTag tag:Next mode:text text:N title:[["+t.title+"]]>>"+
-					"<<tTag tag:[[Waiting For]] mode:text text:W title:[["+t.title+"]]>>"+
-					"<<tTag tag:[[Starred]] mode:text text:{{config.mGTD.star}} title:[["+t.title+"]]>>"+
-					" @@"+
+					"<<tTag tag:Next mode:text text:{{config.mGTD.next}} title:[["+t.title+"]]>>"+
+					"<<tTag tag:[[Waiting For]] mode:text text:{{config.mGTD.wait}} title:[["+t.title+"]]>>"+
+					"<<tTag tag:[[Starred]] mode:text text:{{config.mGTD.star}} title:[["+t.title+"]]>> "+
+					//"@@"+
 					"[["+t.title+"]] "+
 					projText +
 					"}}}\n";

@@ -72,12 +72,14 @@
 #topMenu .new a { padding-right:0; margin-right:0; }
 #topMenu .tag a { padding-left:0; margin-left:0; }
 
-.mList .off               {border-style:none;background:#fff;color:#ccc;}
-.mList .on                {border-style:none;background:#fff;color:#000;}
-.mList .WaitingForButton.off {border-style:none;background:#fff;color:#ccc;}
-.mList .WaitingForButton.on  {border-style:none;background:#fdb;color:#000;}
-.mList .NextButton.off    {border-style:none;background:#fff;color:#ccc;}
-.mList .NextButton.on     {border-style:none;background:#cfa;color:#000;}
+.mList .off               {zborder-style:none;background:#fff;color:#ccc;font-weight:bold;}
+.mList .on                {zborder-style:none;background:#fff;color:#000;font-weight:bold;}
+.mList .off               {border:1px solid #999;-moz-border-radius:3px;}
+.mList .off               {border:1px solid #bbb;-moz-border-radius:3px;}
+.mList .WaitingForButton.off {zborder-style:none;background:#fff;color:#ccc;}
+.mList .WaitingForButton.on  {zborder-style:none;background:#fdb;color:#740;}
+.mList .NextButton.off    {zborder-style:none;background:#fff;color:#ccc;}
+.mList .NextButton.on     {zborder-style:none;background:#cfa;color:#449;}
 
 .mList h2 {
 		background-color:#f8f8f8;

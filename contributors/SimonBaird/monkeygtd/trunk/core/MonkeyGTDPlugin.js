@@ -7,8 +7,14 @@
 config.mGTD = {
 
 	star: "\u2605", // "black star"
-  // star: "\u22C6", // "star operator" - alternative to black star
+	// star: "\u22C6", // "star operator" - alternative to black star
 	// star: "*", // use in case the above doesn't work on your system
+
+	//next: "\u1D762", // "n with a circle"
+	next: "N", // 
+
+	// wait: "\u231B", // "hourglass"
+	wait: "w", // 
 	
 	config: {}, // gets populated by populateLists
 
