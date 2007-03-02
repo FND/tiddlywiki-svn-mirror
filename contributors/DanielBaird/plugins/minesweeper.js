@@ -1,8 +1,10 @@
 /***
 |''Name:''|Minesweeper|
-|''Version:''|1.0 (15 Feb 2007)|
+|''Version:''|1.0|
+|''Date:''|15 Feb 2007|
 |''Source:''|Tiddly W;nks (http://danielbaird.com/tiddlywinks/)|
-|''Author:''| Daniel Baird (danielbaird at gmail, plus dot com at the end) |
+|''Author:''| Daniel Baird |
+|''Contact:''| danielbaird at gmail, plus dot com at the end |
 |''Type:''|Macro|
 |''Description:''|It's minesweeper!|
 |''Screenshot:''|http://danielbaird.com/tiddlywinks/minesweeper01.gif|
