@@ -15,7 +15,7 @@
 <<minesweeper>>
 
 !Notes
-* Let me know if you want graphics, or that MSWindows Minesweeper thing where you can click with both buttons on a numbered square, 
+* Let me know if you want graphics, or that MSWindows Minesweeper thing where you can click with both buttons on a numbered square,
 and it does the thinking for you..
 
 !Revision History
@@ -38,7 +38,7 @@ and it does the thinking for you..
 * 0.72 (12-Oct-05) (Daniel)
 ** worked out how to use a closure as a event handler, which means that the code added in 0.6 could be made a lot simpler.
 * 1.0 (2-Feb-07) (Daniel)
-** checked in latest TiddlyWiki version: 2.1.  Plays nicely.
+** checked in latest TiddlyWiki version 2.1.  Plays nicely.
 ** Updated meta information.
 ** decided that a year of no bugs means it deserved a 1.0 version :)
 
@@ -61,7 +61,7 @@ config.macros.minesweeper.handler = function(place,macroName,params) {
 
     var aGame = new MinesweeperGame();
 
-    createTiddlyElement(place,'div',aGame.id,null,'If you see this, Minesweeper is broken.  Let Daniel know (DanielBaird at gmail dot 
+    createTiddlyElement(place,'div',aGame.id,null,'If you see this, Minesweeper is broken.  Let Daniel know (DanielBaird at gmail dot
 com).');
     aGame.newGame(width, height, bombs);
 }
