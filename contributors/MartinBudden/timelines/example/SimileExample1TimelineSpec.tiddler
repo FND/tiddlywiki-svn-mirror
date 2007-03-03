@@ -1,0 +1,24 @@
+<div title="SimileExample1TimelineSpec" modifier="Martin Budden">
+<pre>
+|timelineHeight:|150|
+|bubbleWidth:|300|
+|bubbleHeight:|200|
+
+|width0:|70%|
+|intervalUnit0:|MONTH|
+|intervalPixels0:|100|
+|date0:|Jun 28 2006|
+|eventSourceType0:|tiddlerSlices|
+|eventSourceParams0:|SimileExample1Timeline|
+
+|width1:|30%|
+|intervalUnit1:|YEAR|
+|intervalPixels1:|200|
+|date1:|Jun 28 2006|
+|eventSourceType1:|tiddlerSlices|
+|eventSourceParams1:|SimileExample1Timeline|
+|showEventText1:|false|
+|trackHeight1:|0.5|
+|trackGap1:|0.2|
+</pre>
+</div>

@@ -5,8 +5,9 @@
 |width0:|50%|
 |intervalUnit0:|MONTH|
 |intervalPixels0:|100|
-|date0:|2006|
-|eventSourceTag0:|TiddlyWikiTimeline|
+|date0:|1 Dec 2004|
+|eventSourceType0:|tiddlerSlices|
+|eventSourceParams0:|TiddlyWikiTimeline|
 
 |width1:|5%|
 |intervalUnit1:|WEEK|
@@ -16,6 +17,7 @@
 |intervalUnit2:|MONTH|
 |intervalPixels2:|25|
 |showEventText2:|false|
-|eventSourceTag2:|TiddlyWikiTimeline|
+|eventSourceType2:|tiddlerSlices|
+|eventSourceParams2:|TiddlyWikiTimeline|
 </pre>
 </div>

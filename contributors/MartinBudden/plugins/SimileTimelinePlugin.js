@@ -3,7 +3,7 @@
 |''Description:''|Plugin to support [[Simile Timelines|http://simile.mit.edu/SimileTimeline/]]|
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelinePlugin.js|
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -15,10 +15,22 @@
 if(!version.extensions.SimileTimelinePlugin) {
 version.extensions.SimileTimelineBundlePlugin = {installed:true};
 
+config.macros.SimileTimeline = {};
+config.macros.SimileTimeline.closeTiddler = Story.prototype.closeTiddler;
+Story.prototype.closeTiddler = function(title,animate,slowly)
+{
+	//config.macros.SimileTimeline.closeTiddler(title,animate,slowly);
+	config.macros.SimileTimeline.closeTiddler.apply(this,arguments);
+	if(config.macros.SimileTimeline.tickTitle && config.macros.SimileTimeline.tickTitle==title) {
+		config.macros.SimileTimeline.clearTick();
+	}
+};
+
+// used for date string in bubble
 Timeline.GregorianDateLabeller.prototype.labelPrecise = function(date)
 {
 	var dt = Timeline.DateTime.removeTimeZoneOffset(date,this._timeZone);
-	var template = "YYYY mmm 0DD";
+	var template = "mmm DD, YYYY";
 	return dt.formatString(template);
 	//return dt.toUTCString();
 };
@@ -45,11 +57,8 @@ Timeline.DefaultEventSource.Event.prototype.fillInfoBubble = function(elmt,theme
 {
 	var doc = elmt.ownerDocument;
 
-	var title = this.getText();
-	var link = this.getLink();
 	var image = this.getImage();
-
-	if (image != null) {
+	if(image) {
 		var img = doc.createElement("img");
 		img.src = image;
 		
@@ -58,8 +67,10 @@ Timeline.DefaultEventSource.Event.prototype.fillInfoBubble = function(elmt,theme
 	}
 
 	var divTitle = doc.createElement("div");
+	var title = this.getText();
 	var textTitle = doc.createTextNode(title);
-	if (link != null) {
+	var link = this.getLink();
+	if(link) {
 		var a = doc.createElement("a");
 		a.href = link;
 		a.appendChild(textTitle);
@@ -76,7 +87,7 @@ Timeline.DefaultEventSource.Event.prototype.fillInfoBubble = function(elmt,theme
 	elmt.appendChild(divBody);
 
 	var divTime = doc.createElement("div");
-	this.fillTime(divTime, labeller);
+	this.fillTime(divTime,labeller);
 	theme.event.bubble.timeStyler(divTime);
 	elmt.appendChild(divTime);
 
@@ -86,6 +97,7 @@ Timeline.DefaultEventSource.Event.prototype.fillInfoBubble = function(elmt,theme
 	elmt.appendChild(divWiki);
 };
 */
+
 Timeline.loadTiddlers = function(data,fn)
 {
 	fn(data);
@@ -93,13 +105,13 @@ Timeline.loadTiddlers = function(data,fn)
 
 Timeline.DefaultEventSource.prototype.loadTiddlers = function(data)
 {
-//#displayMessage('loadTiddlers:'+data.tag);
+//#displayMessage('loadTiddlers:'+data.params);
 	if(data.type && data.type=='tiddlerFields') {
 		var include = false;
 		var tag = 'excludeLists';
 	} else {
 		include = true;
-		tag = data.tag;
+		tag = data.params;
 	}
 	var url = data.url ? data.url : "dummy";
 	var base = this._getBaseURL(url);
@@ -152,20 +164,11 @@ Tiddler.prototype.getSimileTimelineEvent = function(type,eventFields)
 	var ev = {};
 	if(type && type=='tiddlerFields') {
 		ev.start = this.created;
-		//ev.end = this.modified;
-		ev.end = null;
 		ev.title = this.title;
 		ev.description = this.text;
-		ev.latestStart = null;
-		ev.earliestEnd = null;
-		ev.isDuration = false;
-		ev.image = null;
 		ev.link = null;
 		//ev.link = 'index.html#' + encodeURIComponent(String.encodeTiddlyLink(this.title));
-//displayMessage("link:"+ev.link);
-		ev.icon = null;
-		ev.color = null;
-		ev.textColor = null;
+//#displayMessage("link:"+ev.link);
 	} else {
 		ev.start = store.getTiddlerSlice(t,f.start);
 		ev.latestStart = store.getTiddlerSlice(t,f.latestStart);
@@ -184,8 +187,6 @@ Tiddler.prototype.getSimileTimelineEvent = function(type,eventFields)
 	return ev;
 };
 
-config.macros.SimileTimeline = {};
-
 // to allow loading from tiddlers with differently named fields
 config.macros.SimileTimeline.eventFields = {
 	start:'start',latestStart:'latestStart',end:'end',earliestEnd:'earliestEnd',
@@ -195,6 +196,7 @@ config.macros.SimileTimeline.eventFields = {
 
 config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
+	this.clearTick();
 	var spec = params[0];
 	var eventSource = new Timeline.DefaultEventSource();
 	var theme = Timeline.ClassicTheme.create();
@@ -206,22 +208,33 @@ config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,
 	if(bHeight)
 		theme.event.bubble.height = bHeight;
 
-	var defaultDate = Timeline.DateTime.parseGregorianDateTime('2000')
+	//var defaultDate = Timeline.DateTime.parseGregorianDateTime('2000');
+	var defaultDate = new Date();
+	var eventSources = [];
+	var ev = {};
 	var bandInfos = [];
-	var bandParams = config.macros.SimileTimeline.getBandParams(spec,'0',eventSource,theme,defaultDate);
-	defaultDate = bandParams.date;
-	var bi = bandParams.zones ? Timeline.createHotZoneBandInfo(bandParams) : Timeline.createBandInfo(bandParams);
-	bandInfos.push(bi);
-	
-	var i = 1;
-	bandParams = config.macros.SimileTimeline.getBandParams(spec,'1',eventSource,theme,defaultDate);
+	var i = 0;
+	var bandParams = config.macros.SimileTimeline.getBandParams(spec,'0',defaultDate);
 	while(bandParams) {
-		bi = bandParams.zones ? Timeline.createHotZoneBandInfo(bandParams) : Timeline.createBandInfo(bandParams);
+		if(bandParams.ev.type && bandParams.ev.type != 'none') {
+			bandParams.bp.eventSource = eventSource;
+			ev = bandParams.ev;
+			if(bandParams.ev.type != 'timer') {
+				ev.source = eventSource;
+			}
+			if(eventSources.length==0)// for now only deal with one eventSource
+				eventSources.push(ev);
+		}
+		bandParams.theme = theme;
+		defaultDate = bandParams.bp.date;
+		bi = bandParams.bp.zones ? Timeline.createHotZoneBandInfo(bandParams.bp) : Timeline.createBandInfo(bandParams.bp);
 		bandInfos.push(bi);
-		bandInfos[i].syncWith = 0;
-		bandInfos[i].highlight = true;
+		if(i>0) {
+			bandInfos[i].syncWith = 0;
+			bandInfos[i].highlight = bandParams.highlight;
+		}
 		i++;
-		bandParams = config.macros.SimileTimeline.getBandParams(spec,String(i),eventSource,theme,defaultDate);
+		bandParams = config.macros.SimileTimeline.getBandParams(spec,String(i),defaultDate);
 	}
 	var timeline = createTiddlyElement(place,'div',null,'simileTimeline');// simileTimeline css class
 	var tHeight = store.getTiddlerSlice(spec,'timelineHeight');
@@ -231,15 +244,36 @@ config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,
 		timeline.style['border'] = tBorder + 'px';
 	config.macros.SimileTimeline.timeline = Timeline.create(timeline,bandInfos);
 	var data = {};
-	data.type = store.getTiddlerSlice(spec,'eventSourceType0');
-	data.tag = store.getTiddlerSlice(spec,'eventSourceTag0');
-//#displayMessage("data.type:"+data.type);
-//#displayMessage("handler tag:"+data.tag);
-	if(data.type||data.tag)
-		Timeline.loadTiddlers(data, function(data,url) { eventSource.loadTiddlers(data,url); });
+	for(i=0;i<eventSources.length;i++) {
+		ev = eventSources[i];
+		if(ev.type=='timer') {
+			config.macros.SimileTimeline.tickTitle = tiddler.title;
+			config.macros.SimileTimeline.timerId = setTimeout("config.macros.SimileTimeline.tick()",1000);
+		}
+		data.type = ev.type;
+		data.params = ev.params;
+		if(ev.source && data.type||data.params)
+			Timeline.loadTiddlers(data,function(data,url) { if(ev.source) ev.source.loadTiddlers(data,url); });
+	}
 };
 
-config.macros.SimileTimeline.getBandParams = function(title,n,eventSource,theme,defaultDate)
+config.macros.SimileTimeline.tick = function()
+{
+//#displayMessage("tick");
+	config.macros.SimileTimeline.timeline.getBand(0).setCenterVisibleDate(new Date());
+	if(config.macros.SimileTimeline.timerId)
+		config.macros.SimileTimeline.timerId = setTimeout("config.macros.SimileTimeline.tick()",1000);
+};
+
+config.macros.SimileTimeline.clearTick = function()
+{
+//#displayMessage("clearTick");
+	if(config.macros.SimileTimeline.timerId)
+		clearTimeout(config.macros.SimileTimeline.timerId)
+	config.macros.SimileTimeline.timerId = null;
+};
+
+config.macros.SimileTimeline.getBandParams = function(title,n,defaultDate)
 {
 	var t = title;
 	var width = store.getTiddlerSlice(t,'width'+n);
@@ -248,10 +282,6 @@ config.macros.SimileTimeline.getBandParams = function(title,n,eventSource,theme,
 		return null;
 	var bp = {};
 	bp.width = width;
-	if(eventSource)// && store.getTiddlerSlice(title,'eventSourceTag'+n))
-		bp.eventSource = eventSource;
-	if(theme)
-		bp.theme = theme;
 	var intervalUnit = store.getTiddlerSlice(t,'intervalUnit'+n);
 	switch(intervalUnit) {
 	case 'MILLISECOND':
@@ -309,7 +339,17 @@ config.macros.SimileTimeline.getBandParams = function(title,n,eventSource,theme,
 	var trackGap = store.getTiddlerSlice(t,'trackGap'+n);
 	if(trackGap)
 		bp.trackGap = eval(trackGap);
-	return bp;
+	var ev = {};
+	ev.type = store.getTiddlerSlice(t,'eventSourceType'+n);
+//#displayMessage("eventSourceType"+n+":"+ev.type);
+	ev.params = store.getTiddlerSlice(t,'eventSourceParams'+n);
+//#displayMessage("eventSourceParams"+n+":"+ev.params);
+	var ret = {};
+	var highlight = store.getTiddlerSlice(t,'highlight'+n);
+	bp.highlight = highlight ? eval(highlight) : true;
+	ret.ev = ev;
+	ret.bp = bp;
+	return ret;
 };
 } // end of 'install only once'
 /*}}}*/

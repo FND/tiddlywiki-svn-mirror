@@ -302,24 +302,35 @@ MediaWikiAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 
 MediaWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
-	return this.getTiddlerRevision(title,null,context,userParams,callback);
+	context = this.setContext(context,userParams,callback);
+	context.title = title;
+	return this.getTiddlerInternal(context,userParams,callback);
 };
 
 MediaWikiAdaptor.prototype.getTiddlerRevision = function(title,revision,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
-//#displayMessage('MediaWikiAdaptor.getTiddlerRevision:'+title+" revision:"+revision);
+	context.title = title;
+	context.revision = revision;
+	return this.getTiddlerInternal(context,userParams,callback);
+};
+
+// @internal
+MediaWikiAdaptor.prototype.getTiddlerInternal = function(context,userParams,callback)
+{
+	context = this.setContext(context,userParams,callback);
+//#displayMessage('MediaWikiAdaptor.getTiddlerInternal:'+context.title+" revision:"+context.revision);
 //# http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Elongation&rvprop=content
 //# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&prop=revisions&titles=Main%20Page&rvprop=content
 	var host = MediaWikiAdaptor.fullHostName(this.host);
-	if(revision) {
+	if(context.revision) {
 		var uriTemplate = '%0w/api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content&rvstartid=%2&rvlimit=1';
 	} else {
 		uriTemplate = '%0w/api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content';
 	}
-	uri = uriTemplate.format([host,MediaWikiAdaptor.normalizedTitle(title),revision]);
+	uri = uriTemplate.format([host,MediaWikiAdaptor.normalizedTitle(context.title),context.revision]);
 //#displayMessage('uri: '+uri);
-	context.tiddler = new Tiddler(title);
+	context.tiddler = new Tiddler(context.title);
 	context.tiddler.fields.wikiformat = 'mediawiki';
 	context.tiddler.fields['server.host'] = MediaWikiAdaptor.minHostName(this.host);
 	var req = MediaWikiAdaptor.doHttpGET(uri,MediaWikiAdaptor.getTiddlerCallback,context);

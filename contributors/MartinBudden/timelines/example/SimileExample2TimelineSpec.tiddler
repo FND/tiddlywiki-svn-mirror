@@ -1,0 +1,53 @@
+<div title="SimileExample2TimelineSpec" modifier="Martin Budden">
+<pre>
+|timelineHeight:|150|
+|bubbleWidth:|300|
+|bubbleHeight:|200|
+
+|width0:|70%|
+|zones0:|zones0|
+|intervalUnit0:|MONTH|
+|intervalPixels0:|100|
+|date0:|Jun 28 2006|
+|eventSourceType0:|tiddlerSlices|
+|eventSourceParams0:|SimileExample2Timeline|
+
+|width1:|30%|
+|zones1:|zones1|
+|intervalUnit1:|YEAR|
+|intervalPixels1:|200|
+|date1:|Jun 28 2006|
+|eventSourceType0:|tiddlerSlices|
+|eventSourceParams1:|SimileExample2Timeline|
+|showEventText1:|false|
+|trackHeight1:|0.5|
+|trackGap1:|0.2|
+
+zones0 = [
+	{start:	"Aug 01 2006 00:00:00 GMT-0500",
+	end:	"Sep 01 2006 00:00:00 GMT-0500",
+	magnify:10,
+	unit:	Timeline.DateTime.WEEK
+	},
+	{start:	"Aug 02 2006 00:00:00 GMT-0500",
+	end:	"Aug 04 2006 00:00:00 GMT-0500",
+	magnify:7,
+	unit:	Timeline.DateTime.DAY
+	},
+	{start:	"Aug 02 2006 06:00:00 GMT-0500",
+	end:	"Aug 02 2006 12:00:00 GMT-0500",
+	magnify:5,
+	unit:	Timeline.DateTime.HOUR
+	}
+];
+
+zones1 = [
+	{start:	"Aug 01 2006 00:00:00 GMT-0500",
+	end:	"Sep 01 2006 00:00:00 GMT-0500",
+	magnify:20,
+	unit:	Timeline.DateTime.WEEK
+	}
+];
+
+</pre>
+</div>
