@@ -1,6 +1,6 @@
 /***
 |''Name:''|Minesweeper|
-|''Version:''|1.0|
+|''VersionX:''|1.0|
 |''Date:''|15 Feb 2007|
 |''Source:''|Tiddly W;nks (http://danielbaird.com/tiddlywinks/)|
 |''Author:''| Daniel Baird |
