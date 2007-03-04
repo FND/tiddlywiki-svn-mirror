@@ -8,6 +8,16 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/ ]]|
 |''~CoreVersion:''|2.2|
+
+!!Todo
+* fix bubble height and width
+* etherpainters
+* allow multiple painters per timeline
+* multiple event sources per band
+* multiple clocks
+* JSON
+* XML
+
 ***/
 
 /*{{{*/
@@ -170,7 +180,7 @@ Tiddler.prototype.getSimileTimelineEvent = function(type,eventFields)
 	if(type && type=='tiddlerFields') {
 		ev.start = this.created;
 		ev.title = this.title;
-		ev.description = this.text;
+		ev.description = this.text ? this.text : '';
 		ev.link = null;
 		//ev.link = 'index.html#' + encodeURIComponent(String.encodeTiddlyLink(this.title));
 //#displayMessage("link:"+ev.link);
@@ -182,6 +192,8 @@ Tiddler.prototype.getSimileTimelineEvent = function(type,eventFields)
 		ev.isDuration = store.getTiddlerSlice(t,f.isDuration);
 		ev.title = store.getTiddlerSlice(t,f.title);
 		ev.description = store.getTiddlerSlice(t,f.description);
+		if(!ev.description)
+			ev.description = '';
 		ev.image = store.getTiddlerSlice(t,f.image);
 		ev.link = store.getTiddlerSlice(t,f.link);
 		ev.icon = store.getTiddlerSlice(t,f.icon);
@@ -234,6 +246,29 @@ config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,
 		defaultDate = bandParams.bp.date;
 		bi = bandParams.bp.zones ? Timeline.createHotZoneBandInfo(bandParams.bp) : Timeline.createBandInfo(bandParams.bp);
 		bandInfos.push(bi);
+		if(bandParams.ep) {
+			var ep = bandParams.ep;
+//#displayMessage("ep:"+ep.etherPainter+" ep.sd:"+ep.startDate+" ep.m:"+ep.multiple);
+			try {
+				bandInfos[i].etherPainter = new Timeline[ep.etherPainter]({startDate:ep.startDate,multiple:ep.multiple,theme:theme});
+			} catch(ex) {
+			}
+		}
+		if(bandParams.dec) {
+			var dec = bandParams.dec;
+//#displayMessage("dec:"+dec.decorator+" dec.sd:"+dec.startDate+" dec.ed:"+dec.endDate);
+			try {
+				bandInfos[i].decorators = [new Timeline[dec.decorator]({
+					startDate:dec.startDate,
+					endDate:dec.endDate,
+					startLabel:'',//dec.startLabel,
+					endLabel:'',//dec.endLabel,
+					color:dec.color,
+					opacity:dec.opacity,
+					theme:theme})];
+			} catch(ex) {
+			}
+		}
 		if(i>0) {
 			bandInfos[i].syncWith = 0;
 			bandInfos[i].highlight = bandParams.highlight;
@@ -345,14 +380,34 @@ config.macros.SimileTimeline.getBandParams = function(title,n,defaultDate)
 	var trackGap = store.getTiddlerSlice(t,'trackGap'+n);
 	if(trackGap)
 		bp.trackGap = eval(trackGap);
+	var ret = {};
 	var ev = {};
 	ev.type = store.getTiddlerSlice(t,'eventSourceType'+n);
 //#displayMessage("eventSourceType"+n+":"+ev.type);
 	ev.params = store.getTiddlerSlice(t,'eventSourceParams'+n);
 //#displayMessage("eventSourceParams"+n+":"+ev.params);
-	var ret = {};
+	var etherPainter = store.getTiddlerSlice(t,'etherPainter'+n);
+	if(etherPainter) {
+		var ep = {};
+		ep.etherPainter = etherPainter;
+		ep.startDate = store.getTiddlerSlice(t,'etherPainterStartDate'+n);
+		ep.multiple = store.getTiddlerSlice(t,'etherPainterMultiple'+n);
+		ret.ep = ep;
+	}
+	var decorator = store.getTiddlerSlice(t,'decorator'+n);
+	if(decorator) {
+		var dec = {};
+		dec.decorator = decorator;
+		dec.startDate = store.getTiddlerSlice(t,'decoratorStartDate'+n);
+		dec.endDate = store.getTiddlerSlice(t,'decoratorEndDate'+n);
+		dec.startLabel = store.getTiddlerSlice(t,'decoratorStartLabel'+n);
+		dec.endLabel = store.getTiddlerSlice(t,'decoratorEndLabel'+n);
+		dec.color = store.getTiddlerSlice(t,'decoratorColor'+n);
+		dec.opacity = store.getTiddlerSlice(t,'decoratorOpacity'+n);
+		ret.dec = dec;
+	}
 	var highlight = store.getTiddlerSlice(t,'highlight'+n);
-	bp.highlight = highlight ? eval(highlight) : true;
+	ret.highlight = highlight ? eval(highlight) : false;
 	ret.ev = ev;
 	ret.bp = bp;
 	return ret;
