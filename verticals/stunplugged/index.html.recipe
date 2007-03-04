@@ -22,12 +22,12 @@ tiddler: tiddlers/SyncChanges.tiddler
 tiddler: tiddlers/TabMore.tiddler
 tiddler: tiddlers/UnravelFireFoxPermissions.tiddler
 tiddler: tiddlers/ViewTemplate.tiddler
+tiddler: ../../verticals/beta/tiddlers/SocialtextDotNet.tiddler
 tiddler: ../tiddlywiki.com/tiddlers/TiddlySaver.tiddler
 tiddler: ../../contributors/MartinBudden/plugins/DisableWikiLinksPlugin.js
 # tiddler: ../../contributors/EricShulman/plugins/SinglePageModePlugin.js
-postjs: plugins/SocialtextAdaptorPlugin.js
-postjs: plugins/SocialtextSyncPlugin.js
 postjs: plugins/SocialtextLocaleOverrides.js
 postjs: plugins/SocialtextTweaksPlugin.js
 postjs: ../../contributors/MartinBudden/formatters/SocialtextFormatterPlugin.js
+postjs: ../../contributors/MartinBudden/adaptors/SocialtextAdaptorPlugin.js
 posttiddlers: pagelist.html
