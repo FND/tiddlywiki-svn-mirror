@@ -62,7 +62,7 @@ config.macros.sharedRecordsSync.doSync = function(place)
 	var isoDate = function(d) {
 		return d.formatString("YYYY-0MM-0DDT0hh:0mm:0ss.000UTC");
 		};
-displayMessage("Syncing");
+//displayMessage("Syncing");
 	// Get the list of syncable tiddlers
 	var syncList = [];
 	var maxSequenceNumber = 0;
@@ -77,7 +77,7 @@ displayMessage("Syncing");
 		if(shRecordUID && shUrl && changeCount > 0)
 			syncList.push(tiddler);
 		});
-displayMessage("Syncing: number of items: " + syncList.length);
+//displayMessage("Syncing: number of items: " + syncList.length);
 	if(syncList.length == 0)
 		{
 		displayMessage("Nothing to deposit");
@@ -115,8 +115,8 @@ displayMessage("Syncing: number of items: " + syncList.length);
 	shRecordUID = store.getValue(syncList[0],"sharedRecords.recordUID");
 	shUrl = store.getValue(syncList[0],"sharedRecords.url");
 	var url = config.macros.sharedRecordsSync.postUrl.format([shUrl,shRecordUID,maxSequenceNumber])
-displayMessage("Sync payload: " + payload);
-displayMessage("url: " + url);
+//displayMessage("Sync payload: " + payload);
+//displayMessage("url: " + url);
 	var r = doHttp("POST",
 		url,
 		payload,

@@ -67,7 +67,7 @@ config.macros.importSharedRecordsMetaData = {
 	fetchLabel: "Get Meta Data Entries",
 	importSuccessful: "Import of Meta Data Entries Successful",
 	step2Text: "Meta data imported for record: %0",
-	reportTiddler: "ImportedMetaDataReport",
+	reportTiddler: "History",
 	collisionMsg: "The tiddler '%0' already exists.\n\nPlease enter a new title for the imported tiddler...\nOR, keep the same title to replace the existing tiddler...\nOR,press CANCEL to skip this tiddler.",
 	quiet: false
 };
@@ -225,7 +225,7 @@ config.macros.importSharedRecordsMetaData.startHttpGet = function(importer)
 		
 		
 		var url = urlPrefix + recordUID + "_log.json";	
-		displayMessage("Retrieving Meta Data from: " + url);
+//		displayMessage("Retrieving Meta Data from: " + url);
 		var r = loadRemoteFile(url,config.macros.importSharedRecordsMetaData.onLoad,importer);
 		if(typeof r == "string")
 			displayMessage("Problem with loadRemoteFile: " + r);
@@ -241,7 +241,7 @@ config.macros.importSharedRecordsMetaData.onLoad = function(status,params,respon
 			displayMessage(this.fetchError);
 			return;
 		}
-	displayMessage("Retrieved " + responseText);
+//	displayMessage("Retrieved " + responseText);
 		//we know the text coming back from the server *should* be eval safe.  however, a malicious server
 		//could cause some damage here.  there is a safe implemention from json.org we may want to consider
 		//using over eval
@@ -294,7 +294,7 @@ var count = metaDataEntriesObject.tiddlers.length;
 var now = new Date();
 var newText = "On " + now.toLocaleString() + ", " + config.options.txtUserName
 newText +=" imported " + count + " meta data tiddler" + (count == 1 ? "" : "s") + "\n";
-newText += " from: " + url + "\n";
+newText += " from [[SharedRecords server|" + url + "]]\n";
 newText += "<<<\n";
 for (var t=0; t<count; t++) {
 	var mde=metaDataEntriesObject.tiddlers[t];
@@ -305,7 +305,7 @@ theReport.text = newText + ((theReport.text != "") ? '\n----\n' : "") + theRepor
 theReport.modifier = config.options.txtUserName;
 theReport.modified = new Date();
 store.saveTiddler(theReport.title, theReport.title, theReport.text, theReport.modifier, theReport.modified, theReport.tags);
-story.displayTiddler(null,theReport.title, 1, null, null, false);
+story.displayTiddler("bottom",theReport.title, 1, null, null, false);
 story.refreshTiddler(theReport.title, 1, true);
 }
 
@@ -382,6 +382,7 @@ store.setValue(title,
 metaDataEntry['contentType']);
 
 store.notify(title,false);
+story.displayTiddler(null,title);
 }
 //}}}
 
