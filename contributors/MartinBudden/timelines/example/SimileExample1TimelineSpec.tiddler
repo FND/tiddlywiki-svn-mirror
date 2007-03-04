@@ -1,8 +1,6 @@
 <div title="SimileExample1TimelineSpec" modifier="Martin Budden">
 <pre>
-|timelineHeight:|150|
-|bubbleWidth:|300|
-|bubbleHeight:|200|
+|timelineHeight:|250|
 
 |width0:|70%|
 |intervalUnit0:|MONTH|

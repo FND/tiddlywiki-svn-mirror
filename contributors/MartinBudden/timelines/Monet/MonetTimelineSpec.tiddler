@@ -1,10 +1,10 @@
 <div title="MonetTimelineSpec" modifier="Martin Budden">
 <pre>
-|timelineHeight:|400|
+|timelineHeight:|350|
 |bubbleWidth:|300|
 |bubbleHeight:|200|
 
-width0:10%
+width0:15%
 intervalUnit0:DECADE
 intervalPixels0:200
 date0:1850
@@ -12,7 +12,7 @@ showEventText0:false
 eventSourceType0:tiddlerSlices
 eventSourceParams0:MonetTimeline
 
-width1:90%
+width1:85%
 intervalUnit1:DECADE
 intervalPixels1:200
 eventSourceType1:tiddlerSlices
