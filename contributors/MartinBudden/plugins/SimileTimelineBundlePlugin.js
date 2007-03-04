@@ -3,11 +3,11 @@
 |''Description:''|[[Simile Timelines|http://simile.mit.edu/SimileTimeline/]]|
 |''Author:''|Martin Budden (mjbudden [at] gmail [dot] com)|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelineBundlePlugin.js|
-|''Version:''|0.0.1|
-|''Date:''|Feb 25, 2007|
+|''Version:''|0.1.0|
+|''Date:''|Mar 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|BSD-style license from MIT|
-|''~CoreVersion:''|2.1|
+|''~CoreVersion:''|2.2|
 ***/
 
 /*{{{*/
@@ -15,8 +15,8 @@
 if(!version.extensions.SimileTimelineBundlePlugin) {
 version.extensions.SimileTimelineBundlePlugin = {installed:true};
 
-if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	{alertAndThrow('SimileTimelineBundlePlugin requires TiddlyWiki 2.1 or newer.');}
+if(version.major < 2 || (version.major == 2 && version.minor < 2))
+	{alertAndThrow('SimileTimelineBundlePlugin requires TiddlyWiki 2.2 or newer.');}
 	
 // Following code is from Simile (Semantic Interoperability of Metadata and Information in unLike Environments).
 // SIMILE is a joint project conducted by the MIT Libraries and MIT CSAIL.

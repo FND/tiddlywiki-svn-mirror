@@ -1,12 +1,12 @@
 /***
 |''Name:''|SimileTimelinePlugin|
-|''Description:''|Plugin to support [[Simile Timelines|http://simile.mit.edu/SimileTimeline/]]|
+|''Description:''|Plugin to support Simile Timelines, see http://simile.mit.edu/SimileTimeline/ |
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelinePlugin.js|
-|''Version:''|0.0.3|
-|''Date:''|Feb 25, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelinePlugin.js |
+|''Version:''|0.1.0|
+|''Date:''|Mar 4, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/ ]]|
 |''~CoreVersion:''|2.2|
 ***/
 
@@ -15,11 +15,14 @@
 if(!version.extensions.SimileTimelinePlugin) {
 version.extensions.SimileTimelineBundlePlugin = {installed:true};
 
+if(version.major < 2 || (version.major == 2 && version.minor < 2))
+	{alertAndThrow('SimileTimelineBundlePlugin requires TiddlyWiki 2.2 or newer.');}
+
 config.macros.SimileTimeline = {};
+
 config.macros.SimileTimeline.closeTiddler = Story.prototype.closeTiddler;
 Story.prototype.closeTiddler = function(title,animate,slowly)
 {
-	//config.macros.SimileTimeline.closeTiddler(title,animate,slowly);
 	config.macros.SimileTimeline.closeTiddler.apply(this,arguments);
 	if(config.macros.SimileTimeline.tickTitle && config.macros.SimileTimeline.tickTitle==title) {
 		config.macros.SimileTimeline.clearTick();
@@ -27,6 +30,8 @@ Story.prototype.closeTiddler = function(title,animate,slowly)
 };
 
 // used for date string in bubble
+Timeline.urlPrefix = 'http://martinswiki.com/timeline/' //!! kludge for now
+
 Timeline.GregorianDateLabeller.prototype.labelPrecise = function(date)
 {
 	var dt = Timeline.DateTime.removeTimeZoneOffset(date,this._timeZone);
@@ -222,7 +227,7 @@ config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,
 			if(bandParams.ev.type != 'timer') {
 				ev.source = eventSource;
 			}
-			if(eventSources.length==0)// for now only deal with one eventSource
+			if(eventSources.length==0)// !!!for now only deal with one eventSource
 				eventSources.push(ev);
 		}
 		bandParams.theme = theme;
@@ -236,24 +241,25 @@ config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,
 		i++;
 		bandParams = config.macros.SimileTimeline.getBandParams(spec,String(i),defaultDate);
 	}
-	var timeline = createTiddlyElement(place,'div',null,'simileTimeline');// simileTimeline css class
+	var timelineElem = createTiddlyElement(place,'div',null,'simileTimeline');// simileTimeline css class
 	var tHeight = store.getTiddlerSlice(spec,'timelineHeight');
-	timeline.style['height'] = tHeight ? tHeight + 'px' : '150px';
+	timelineElem.style['height'] = tHeight ? tHeight + 'px' : '150px';
 	var tBorder = store.getTiddlerSlice(spec,'timelineBorder');
 	if(tBorder)
-		timeline.style['border'] = tBorder + 'px';
-	config.macros.SimileTimeline.timeline = Timeline.create(timeline,bandInfos);
+		timelineElem.style['border'] = tBorder + 'px';
+	config.macros.SimileTimeline.timeline = Timeline.create(timelineElem,bandInfos);
 	var data = {};
 	for(i=0;i<eventSources.length;i++) {
 		ev = eventSources[i];
 		if(ev.type=='timer') {
-			config.macros.SimileTimeline.tickTitle = tiddler.title;
+			config.macros.SimileTimeline.tickTitle = tiddler.title;//!!! temporary kludge, only support one timer
 			config.macros.SimileTimeline.timerId = setTimeout("config.macros.SimileTimeline.tick()",1000);
 		}
 		data.type = ev.type;
 		data.params = ev.params;
-		if(ev.source && data.type||data.params)
+		if(ev.source && data.type||data.params) {
 			Timeline.loadTiddlers(data,function(data,url) { if(ev.source) ev.source.loadTiddlers(data,url); });
+		}
 	}
 };
 
@@ -262,7 +268,7 @@ config.macros.SimileTimeline.tick = function()
 //#displayMessage("tick");
 	config.macros.SimileTimeline.timeline.getBand(0).setCenterVisibleDate(new Date());
 	if(config.macros.SimileTimeline.timerId)
-		config.macros.SimileTimeline.timerId = setTimeout("config.macros.SimileTimeline.tick()",1000);
+		config.macros.SimileTimeline.timerId = setTimeout('config.macros.SimileTimeline.tick()',1000);
 };
 
 config.macros.SimileTimeline.clearTick = function()
