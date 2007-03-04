@@ -17,6 +17,7 @@
 |intervalUnit2:|MONTH|
 |intervalPixels2:|25|
 |showEventText2:|false|
+|highlight2:|true|
 |eventSourceType2:|tiddlerSlices|
 |eventSourceParams2:|TiddlyWikiTimeline|
 </pre>

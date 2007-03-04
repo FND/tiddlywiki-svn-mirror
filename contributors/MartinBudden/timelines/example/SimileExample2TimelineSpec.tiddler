@@ -15,7 +15,8 @@
 |intervalUnit1:|YEAR|
 |intervalPixels1:|200|
 |date1:|Jun 28 2006|
-|eventSourceType0:|tiddlerSlices|
+|highlight1:|true|
+|eventSourceType1:|tiddlerSlices|
 |eventSourceParams1:|SimileExample2Timeline|
 |showEventText1:|false|
 |trackHeight1:|0.5|

@@ -1,18 +1,26 @@
 <div title="MonetTimelineSpec" modifier="Martin Budden">
 <pre>
-|timelineHeight:|350|
-|bubbleWidth:|300|
-|bubbleHeight:|200|
+|timelineHeight:|400|
+|bubbleWidth:|320|
+|bubbleHeight:|220|
 
-width0:15%
+width0:10%
 intervalUnit0:DECADE
 intervalPixels0:200
 date0:1850
 showEventText0:false
-eventSourceType0:tiddlerSlices
-eventSourceParams0:MonetTimeline
+etherPainter0:YearCountEtherPainter
+etherPainterStartDate0:Nov 14 1840 00:00:00 GMT
+etherPainterMultiple0:5
+decorator0:SpanHighlightDecorator
+decoratorStartDate0:Nov 14 1840 00:00:00 GMT
+decoratorEndDate0:Dec 05 1926 00:00:00 GMT
+decoratorStartLabel0:birth
+decoratorEndLabel0:death
+decoratorColor0:#FFC080
+decoratorOpacity0:50
 
-width1:85%
+width1:90%
 intervalUnit1:DECADE
 intervalPixels1:200
 eventSourceType1:tiddlerSlices
