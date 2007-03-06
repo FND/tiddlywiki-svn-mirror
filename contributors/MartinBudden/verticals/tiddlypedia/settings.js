@@ -18,7 +18,7 @@ config.usePreForStorage = true;
 config.maxTiddlerImportCount = 10;
 
 config.defaultCustomFields = {
-	'server.host':'www.wikipedia.org',
+	'server.host':'www.wikipedia.org/w',
 	wikiformat:'mediawiki'
 };
 
