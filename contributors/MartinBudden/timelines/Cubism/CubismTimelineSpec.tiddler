@@ -4,11 +4,11 @@
 |bubbleWidth:|300|
 |bubbleHeight:|200|
 
-|width0:|100%|
-|intervalUnit0:|DECADE|
-|intervalPixels0:|200|
-|date0:|1920|
-|eventSourceType0:|tiddlerSlices|
-|eventSourceParams0:|CubismTimeline|
+|band0_width:|100%|
+|band0_intervalUnit:|DECADE|
+|band0_intervalPixels:|200|
+|band0_date:|1920|
+|band0_eventSourceType:|tiddlerSlices|
+|band0_eventSourceParams:|CubismTimeline|
 </pre>
 </div>

@@ -317,13 +317,14 @@ config.macros.SimileTimeline.clearTick = function()
 config.macros.SimileTimeline.getBandParams = function(title,n,defaultDate)
 {
 	var t = title;
-	var width = store.getTiddlerSlice(t,'width'+n);
-//#displayMessage("width"+n+":"+width);
+	var pfx = 'band' + String(n) + '_';
+	var width = store.getTiddlerSlice(t,pfx+'width');
+//#displayMessage("width"+":"+width);
 	if(!width)
 		return null;
 	var bp = {};
 	bp.width = width;
-	var intervalUnit = store.getTiddlerSlice(t,'intervalUnit'+n);
+	var intervalUnit = store.getTiddlerSlice(t,pfx+'intervalUnit');
 	switch(intervalUnit) {
 	case 'MILLISECOND':
 		bp.intervalUnit = 0;
@@ -368,45 +369,45 @@ config.macros.SimileTimeline.getBandParams = function(title,n,defaultDate)
 		bp.intervalUnit = 7;
 		break;
 	}
-	var intervalPixels = store.getTiddlerSlice(t,'intervalPixels'+n);
+	var intervalPixels = store.getTiddlerSlice(t,pfx+'intervalPixels');
 	bp.intervalPixels = eval(intervalPixels);
-	var date = store.getTiddlerSlice(t,'date'+n);
+	var date = store.getTiddlerSlice(t,pfx+'date');
 	bp.date = date ? Timeline.DateTime.parseGregorianDateTime(date) : defaultDate;
-	var showEventText = store.getTiddlerSlice(t,'showEventText'+n);
+	var showEventText = store.getTiddlerSlice(t,pfx+'showEventText');
 	bp.showEventText = showEventText ? eval(showEventText) : true;
-	var trackHeight = store.getTiddlerSlice(t,'trackHeight'+n);
+	var trackHeight = store.getTiddlerSlice(t,pfx+'trackHeight');
 	if(trackHeight)
 		bp.trackHeight = eval(trackHeight);
-	var trackGap = store.getTiddlerSlice(t,'trackGap'+n);
+	var trackGap = store.getTiddlerSlice(t,pfx+'trackGap');
 	if(trackGap)
 		bp.trackGap = eval(trackGap);
 	var ret = {};
 	var ev = {};
-	ev.type = store.getTiddlerSlice(t,'eventSourceType'+n);
-//#displayMessage("eventSourceType"+n+":"+ev.type);
-	ev.params = store.getTiddlerSlice(t,'eventSourceParams'+n);
-//#displayMessage("eventSourceParams"+n+":"+ev.params);
-	var etherPainter = store.getTiddlerSlice(t,'etherPainter'+n);
+	ev.type = store.getTiddlerSlice(t,pfx+'eventSourceType');
+//#displayMessage("eventSourceType"+":"+ev.type);
+	ev.params = store.getTiddlerSlice(t,pfx+'eventSourceParams');
+//#displayMessage("eventSourceParams"+":"+ev.params);
+	var etherPainter = store.getTiddlerSlice(t,pfx+'etherPainter');
 	if(etherPainter) {
 		var ep = {};
 		ep.etherPainter = etherPainter;
-		ep.startDate = store.getTiddlerSlice(t,'etherPainterStartDate'+n);
-		ep.multiple = store.getTiddlerSlice(t,'etherPainterMultiple'+n);
+		ep.startDate = store.getTiddlerSlice(t,pfx+'etherPainterStartDate');
+		ep.multiple = store.getTiddlerSlice(t,pfx+'etherPainterMultiple');
 		ret.ep = ep;
 	}
-	var decorator = store.getTiddlerSlice(t,'decorator'+n);
+	var decorator = store.getTiddlerSlice(t,'decorator');
 	if(decorator) {
 		var dec = {};
 		dec.decorator = decorator;
-		dec.startDate = store.getTiddlerSlice(t,'decoratorStartDate'+n);
-		dec.endDate = store.getTiddlerSlice(t,'decoratorEndDate'+n);
-		dec.startLabel = store.getTiddlerSlice(t,'decoratorStartLabel'+n);
-		dec.endLabel = store.getTiddlerSlice(t,'decoratorEndLabel'+n);
-		dec.color = store.getTiddlerSlice(t,'decoratorColor'+n);
-		dec.opacity = store.getTiddlerSlice(t,'decoratorOpacity'+n);
+		dec.startDate = store.getTiddlerSlice(t,pfx+'decoratorStartDate');
+		dec.endDate = store.getTiddlerSlice(t,pfx+'decoratorEndDate');
+		dec.startLabel = store.getTiddlerSlice(t,pfx+'decoratorStartLabel');
+		dec.endLabel = store.getTiddlerSlice(t,pfx+'decoratorEndLabel');
+		dec.color = store.getTiddlerSlice(t,pfx+'decoratorColor');
+		dec.opacity = store.getTiddlerSlice(t,pfx+'decoratorOpacity');
 		ret.dec = dec;
 	}
-	var highlight = store.getTiddlerSlice(t,'highlight'+n);
+	var highlight = store.getTiddlerSlice(t,pfx+'highlight');
 	ret.highlight = highlight ? eval(highlight) : false;
 	ret.ev = ev;
 	ret.bp = bp;

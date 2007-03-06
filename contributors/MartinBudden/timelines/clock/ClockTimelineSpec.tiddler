@@ -2,35 +2,35 @@
 <pre>
 |timelineHeight:|200|
 
-|width0:|15%|
-|intervalUnit0:|SECOND|
-|intervalPixels0:|40|
-eventSourceType0:timer
-eventSourceParams0:1
+|band0_width:|15%|
+|band0_intervalUnit:|SECOND|
+|band0_intervalPixels:|40|
+|band0_eventSourceType:|timer|
+|band0_eventSourceParams:|1|
 
-|width1:|15%|
-|intervalUnit1:|MINUTE|
-|intervalPixels1:|40|
-|highlight1:|false|
+|band1_width:|15%|
+|band1_intervalUnit:|MINUTE|
+|band1_intervalPixels:|40|
+|band1_highlight:|false|
 
-|width2:|15%|
-|intervalUnit2:|HOUR|
-|intervalPixels2:|60|
-|highlight2:|false|
+|band2_width:|15%|
+|band2_intervalUnit:|HOUR|
+|band2_intervalPixels:|60|
+|band2_highlight:|false|
 
-|width3:|15%|
-|intervalUnit3:|WEEK|
-|intervalPixels3:|100|
-|highlight3:|false|
+|band3_width:|15%|
+|band3_intervalUnit:|WEEK|
+|band3_intervalPixels:|100|
+|band3_highlight:|false|
 
-|width4:|15%|
-|intervalUnit4:|MONTH|
-|intervalPixels4:|100|
-|highlight4:|false|
+|band4_width:|15%|
+|band4_intervalUnit:|MONTH|
+|band4_intervalPixels:|100|
+|band4_highlight:|false|
 
-|width5:|15%|
-|intervalUnit5:|YEAR|
-|intervalPixels5:|200|
-|highlight5:|false|
+|band5_width:|15%|
+|band5_intervalUnit:|YEAR|
+|band5_intervalPixels:|200|
+|band5_highlight:|false|
 </pre>
 </div>
