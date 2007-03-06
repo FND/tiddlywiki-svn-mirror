@@ -126,7 +126,7 @@ MediaWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callba
 	context = this.setContext(context,userParams,callback);
 //#displayMessage("getWorkspaceList");
 //# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&&meta=siteinfo&siprop=namespaces
-	var uriTemplate = '%0w/api.php?format=json&action=query&meta=siteinfo&siprop=namespaces';
+	var uriTemplate = '%0api.php?format=json&action=query&meta=siteinfo&siprop=namespaces';
 	var uri = uriTemplate.format([this.host]);
 //#displayMessage("uri:"+uri);
 	var req = MediaWikiAdaptor.doHttpGET(uri,MediaWikiAdaptor.getWorkspaceListCallback,context);
@@ -204,16 +204,17 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 //# http://www.wikipedia.org/w/query.php?what=category&cptitle=Wiki&format=jsonfm
 
 	context.tiddlerLimit = 50;
-	context.tiddlerSelector = 'api.php?action=query&list=embeddedin&titles=Template:IPstack&eilimit=%2';
-	context.responseType = 'query.embeddedin';
-	context.tiddlerSelector = 'query.php?what=category&cptitle=Wiki';
-	context.responseType = 'pages';
-	var limit = context.tiddlerLimit ? context.tiddlerLimit : 20;
+	//context.tiddlerSelector = 'api.php?action=query&list=embeddedin&titles=Template:IPstack&eilimit=%2';
+	//context.responseType = 'query.embeddedin';
+	
+	//context.tiddlerSelector = 'query.php?what=category&cptitle=Wiki';
+	//context.responseType = 'pages';
+	var limit = context.tiddlerLimit ? context.tiddlerLimit : 50;
 	if(context.tiddlerSelector) {
-		var uriTemplate = '%0w/' + context.tiddlerSelector + '&format=json';
+		var uriTemplate = '%0' + context.tiddlerSelector + '&format=json';
 	} else {
 		context.responseType = 'query.allpages';
-		uriTemplate = '%0w/api.php?format=json&action=query&list=allpages';
+		uriTemplate = '%0api.php?format=json&action=query&list=allpages';
 		if(this.workspaceId!=0)
 			uriTemplate += '&apnamespace=%1';
 		if(limit)
@@ -293,6 +294,7 @@ MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,u
 
 MediaWikiAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 {
+//http://tiddlywikiguides.org/index.php?title=AutoTaggerPlugin
 	var info = {};
 	var uriTemplate = '%0wiki/%1';
 	var host = this && this.host ? this.host : MediaWikiAdaptor.fullHostName(tiddler.fields['server.host']);
@@ -324,9 +326,9 @@ MediaWikiAdaptor.prototype.getTiddlerInternal = function(context,userParams,call
 //# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&prop=revisions&titles=Main%20Page&rvprop=content
 	var host = MediaWikiAdaptor.fullHostName(this.host);
 	if(context.revision) {
-		var uriTemplate = '%0w/api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content&rvstartid=%2&rvlimit=1';
+		var uriTemplate = '%0api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content&rvstartid=%2&rvlimit=1';
 	} else {
-		uriTemplate = '%0w/api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content';
+		uriTemplate = '%0api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content';
 	}
 	uri = uriTemplate.format([host,MediaWikiAdaptor.normalizedTitle(context.title),context.revision]);
 //#displayMessage('uri: '+uri);
@@ -443,7 +445,7 @@ MediaWikiAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context
 //# http://meta.wikimedia.org/w/api.php?action=query&prop=revisions&titles=Main%20Page&rvlimit=5&rvprop=timestamp|user|comment
 //# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&prop=revisions&titles=Main%20Page&rvlimit=5&rvprop=timestamp|user|comment
 
-	var uriTemplate = '%0w/api.php?format=json&action=query&prop=revisions&titles=%1&rvlimit=%2&rvprop=timestamp|user|comment';
+	var uriTemplate = '%0api.php?format=json&action=query&prop=revisions&titles=%1&rvlimit=%2&rvprop=timestamp|user|comment';
 	if(!limit)
 		limit = 5;
 	var host = MediaWikiAdaptor.fullHostName(this.host);
