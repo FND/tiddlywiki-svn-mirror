@@ -132,6 +132,14 @@ ZiddlyWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,
 		context.callback(context);
 };
 
+ZiddlyWikiAdaptor.prototype.generateTiddlerInfo = function(tiddler)
+{
+	var info = {};
+	var uriTemplate = '%0#%2';
+	info.uri = uriTemplate.format([this.host,this.workspace,tiddler.title]);
+	return info;
+};
+
 //# News
 //# [[Version 2.0.11.4]] has been released.\n\n[[Version 2.0.11.3]] has been released.\n\n[[Version 2.0.11.2]] has been released.\n\nWith this version the maintainership has changed.  Tim Morgan has retired and development has merged with the main TiddlyWiki systems at http://trac.tiddlywiki.org.  We are thankful to retain hosting by [[Zettai|http://zettai.net]].\n
 //# BobMcElrath

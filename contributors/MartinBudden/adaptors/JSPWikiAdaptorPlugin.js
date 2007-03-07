@@ -187,7 +187,7 @@ JSPWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,uri
 		context.callback(context,context.userParams);
 };
 
-JSPWikiAdaptor.prototype.generateTiddlerUri = function(tiddler)
+JSPWikiAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 {
 	var info = {};
 	var host = this && this.host ? this.host : JSPWikiAdaptor.fullHostName(tiddler.fields['server.host']);

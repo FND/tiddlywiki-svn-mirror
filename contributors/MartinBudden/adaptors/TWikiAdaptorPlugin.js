@@ -201,11 +201,6 @@ TWikiAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	return info;
 };
 
-TWikiAdaptor.prototype.generateTiddlerUri = function(tiddler)
-{
-	return this.generateTiddlerInfo(tiddler).uri;
-};
-
 /*TWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
 	return this.getTiddlerRevision(title,null,context,userParams,callback);

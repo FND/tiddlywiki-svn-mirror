@@ -151,9 +151,9 @@ ccTiddlyAdaptor.getTiddlerListCallback = function(status,context,responseText,ur
 ccTiddlyAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 {
 	var info = {};
-	var uriTemplate = '%0#%1';
+	var uriTemplate = '%0#%2';
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
-	info.uri = uriTemplate.format([host,tiddler.title]);
+	info.uri = uriTemplate.format([this.host,this.workspace,tiddler.title]);
 	return info;
 };
 
