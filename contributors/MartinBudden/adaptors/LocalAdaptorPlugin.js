@@ -83,7 +83,7 @@ LocalAdaptor.minHostName = function(host)
 	return host ? host.replace(/\\/,'/').host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
 };
 
-LocalAdaptor.prototype.openHost = function(host,context,callback)
+LocalAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
 //#displayMessage("openHost:"+host);
 	context = this.setContext(context,userParams,callback);
@@ -96,12 +96,7 @@ LocalAdaptor.prototype.openHost = function(host,context,callback)
 	return true;
 };
 
-LocalAdaptor.prototype.getWorkspaceList = function(context,callback)
-{
-	return false;
-};
-
-LocalAdaptor.prototype.openWorkspace = function(workspace,context,callback)
+LocalAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
 //#displayMessage("openWorkspace:"+workspace);
 	context = this.setContext(context,userParams,callback);
@@ -113,32 +108,46 @@ LocalAdaptor.prototype.openWorkspace = function(workspace,context,callback)
 	return true;
 };
 
+LocalAdaptor.prototype.getWorkspaceList = function(context,callback)
+{
+	return false;
+};
+
 LocalAdaptor.prototype.getTiddlerList = function(context,callback)
 {
 	return false;
 };
 
+LocalAdaptor.prototype.generateTiddlerInfo = function(tiddler)
+{
+	var info = {};
+	var uriTemplate = '%0#%1';
+	var host = LocalAdaptor.fullHostName(this.host);
+	info.uri = uriTemplate.format([host,tiddler.title]);
+	return info;
+};
+
 LocalAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
 //#clearMessage();
-displayMessage('LocalAdaptor.getTiddler:' + title);
+//#displayMessage('LocalAdaptor.getTiddler:' + title);
 	context = this.setContext(context,userParams,callback);
 	var path = LocalAdaptor.tiddlerPath();
 	var uriTemplate = '%0%1';
 	var uri = uriTemplate.format([path,LocalAdaptor.normalizedTitle(title)]);
-displayMessage('uri:'+uri);
+//#displayMessage('uri:'+uri);
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields['server.type'] = LocalAdaptor.serverType;
 	context.status = false;
 	context.statusText = LocalAdaptor.errorInFunctionMessage.format(['getTiddler',title]);
 	var fields = null;
 	var data = loadFile(uri + '.js');
-displayMessage("data:"+data);
+//#displayMessage("data:"+data);
 	if(data) {
 		context.tiddler.text = data;
 		meta = loadFile(uri + '.js.meta');
 		if(meta) {
-displayMessage("meta:"+meta);
+//#displayMessage("meta:"+meta);
 			context.status = true;
 			var ft = '';
 			var fieldRegExp = /([^:]*):(?:\s*)(.*?)$/mg;
@@ -148,21 +157,21 @@ displayMessage("meta:"+meta);
 				ft += match[1] + ':"' + match[2] + '" ';
 				match = fieldRegExp.exec(meta);
 			}
-displayMessage("ft:"+ft);
+//#displayMessage("ft:"+ft);
 			fields = ft.decodeHashMap();
 		} else {
 			alert("cannot load tiddler");
 		}
 	} else {
 		data = loadFile(uri + '.tiddler');
-displayMessage("data2:"+data);
+//#displayMessage("data2:"+data);
 		if(data) {
 			var tiddlerRegExp = /<div([^>]*)>(?:\s*)(<pre>)?([^<]*?)</mg;
 			tiddlerRegExp.lastIndex = 0;
 			match = tiddlerRegExp.exec(data);
 			if(match) {
 				ft = match[1].replace(/\=\"/mg,':"');
-displayMessage("ft:"+ft);
+//#displayMessage("ft:"+ft);
 				fields = ft.decodeHashMap();
 				var text = match[3] ? match[3] : '';
 				if(match[2]) {
