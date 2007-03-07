@@ -294,10 +294,16 @@ MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,u
 
 MediaWikiAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 {
-//http://tiddlywikiguides.org/index.php?title=AutoTaggerPlugin
+// http://tiddlywikiguides.org/index.php?title=AutoTaggerPlugin
+// http://en.wikipedia.org/wiki/Mars
 	var info = {};
-	var uriTemplate = '%0wiki/%1';
 	var host = this && this.host ? this.host : MediaWikiAdaptor.fullHostName(tiddler.fields['server.host']);
+	if(host.match(/w\/$/)) {
+		host = host.replace(/w\/$/,'')
+		var uriTemplate = '%0wiki/%2';
+	} else {
+		uriTemplate = '%0index.php?title=%2'
+	}
 	info.uri = uriTemplate.format([host,this.workspace,tiddler.title]);
 	return info;
 };
