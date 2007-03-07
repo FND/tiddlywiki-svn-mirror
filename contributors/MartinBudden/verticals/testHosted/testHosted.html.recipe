@@ -34,6 +34,7 @@ tiddler: ../../adaptors/ZiddlyWikiAdaptorPlugin.js
 tiddler: ../../adaptors/ccTiddlyAdaptorPlugin.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
+tiddler: ../../feeds/ccTiddlyFeed.tiddler
 tiddler: ../../feeds/JSPWikiFeed.tiddler
 tiddler: ../../feeds/WikiCreoleFeed.tiddler
 tiddler: ../../feeds/SocialtextRestDocumentationFeed.tiddler
