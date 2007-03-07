@@ -18,7 +18,7 @@ config.usePreForStorage = true;
 config.maxTiddlerImportCount = 10;
 
 config.defaultCustomFields = {
-	'server.type':'file',
+	'server.type':'local',
 };
 
 config.options.chkSinglePageMode = false;

@@ -20,7 +20,7 @@ tiddler: ../tiddlypedia/EditTemplateHosted.tiddler
 tiddler: ../tiddlypedia/TabMoreUpdatedMissingShadowed.tiddler
 tiddler: ../tiddlypedia/TabUpdated.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
-tiddler: ../../adaptors/AdaptorMacroslugin.js
+tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/LocalAdaptorPlugin.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
