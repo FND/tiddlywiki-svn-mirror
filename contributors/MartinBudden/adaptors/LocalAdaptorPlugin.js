@@ -1,8 +1,8 @@
 /***
-|''Name:''|FileAdaptorPlugin|
+|''Name:''|LocalAdaptorPlugin|
 |''Description:''|Adaptor for moving and converting data to and from file-based TiddlyWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/FileAdaptorPlugin.js|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/LocalAdaptorPlugin.js|
 |''Version:''|0.4.1|
 |''Date:''|Feb 18, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -12,21 +12,30 @@
 
 //{{{
 //# Ensure that the plugin is only installed once.
-if(!version.extensions.FileAdaptorPlugin) {
-version.extensions.FileAdaptorPlugin = {installed:true};
+if(!version.extensions.LocalAdaptorPlugin) {
+version.extensions.LocalAdaptorPlugin = {installed:true};
 
-function FileAdaptor()
+function LocalAdaptor()
 {
 	this.host = null;
 	this.workspace = null;
 	return this;
 }
 
-FileAdaptor.serverType = 'file';
-FileAdaptor.errorInFunctionMessage = "Error in function FileAdaptor.%0: %1";
+LocalAdaptor.serverType = 'local';
+LocalAdaptor.errorInFunctionMessage = "Error in function LocalAdaptor.%0: %1";
+
+LocalAdaptor.prototype.setContext = function(context,userParams,callback)
+{
+	if(!context) context = {};
+	context.userParams = userParams;
+	if(callback) context.callback = callback;
+	context.adaptor = this;
+	return context;
+};
 
 // Convert a page title to the normalized form used in uris
-FileAdaptor.normalizedTitle = function(title)
+LocalAdaptor.normalizedTitle = function(title)
 {
 	var id = title.toLowerCase();
 	id = id.replace(/\s/g,'_').replace(/\//g,'_').replace(/\./g,'_').replace(/:/g,'').replace(/\?/g,'');
@@ -36,7 +45,7 @@ FileAdaptor.normalizedTitle = function(title)
 	return String(id);
 };
 
-FileAdaptor.getPath = function(localPath,folder)
+LocalAdaptor.getPath = function(localPath,folder)
 {
 	var backSlash = '\\';
 	var dirPathPos = localPath.lastIndexOf('\\');
@@ -50,15 +59,15 @@ FileAdaptor.getPath = function(localPath,folder)
 	return path;
 };
 
-FileAdaptor.tiddlerPath = function()
+LocalAdaptor.tiddlerPath = function()
 {
 //#displayMessage("tiddlerPath");
 //#displayMessage("path:"+document.location.toString());
 	var file = getLocalPath(document.location.toString());
-	return FileAdaptor.getPath(file,'tiddlers');
+	return LocalAdaptor.getPath(file,'tiddlers');
 };
 
-FileAdaptor.fullHostName = function(host)
+LocalAdaptor.fullHostName = function(host)
 {
 	if(!host)
 		return '';
@@ -69,60 +78,59 @@ FileAdaptor.fullHostName = function(host)
 	return host;
 };
 
-FileAdaptor.minHostName = function(host)
+LocalAdaptor.minHostName = function(host)
 {
 	return host ? host.replace(/\\/,'/').host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
 };
 
-FileAdaptor.prototype.openHost = function(host,context,callback)
+LocalAdaptor.prototype.openHost = function(host,context,callback)
 {
 //#displayMessage("openHost:"+host);
-	this.host = FileAdaptor.fullHostName(host);
+	context = this.setContext(context,userParams,callback);
+	this.host = LocalAdaptor.fullHostName(host);
 //#displayMessage("host:"+this.host);
-	if(context && callback) {
+	if(context.callback) {
 		context.status = true;
-		window.setTimeout(callback,0,true,this,context);
+		window.setTimeout(context.callback,0,context,userParams);
 	}
 	return true;
 };
 
-FileAdaptor.prototype.getWorkspaceList = function(context,callback)
+LocalAdaptor.prototype.getWorkspaceList = function(context,callback)
 {
 	return false;
 };
 
-FileAdaptor.prototype.openWorkspace = function(workspace,context,callback)
+LocalAdaptor.prototype.openWorkspace = function(workspace,context,callback)
 {
 //#displayMessage("openWorkspace:"+workspace);
+	context = this.setContext(context,userParams,callback);
 	this.workspace = workspace;
-	if(context && callback) {
+	if(context.callback) {
 		context.status = true;
-		window.setTimeout(callback,0,true,this,context);
+		window.setTimeout(context.callback,0,context,userParams);
 	}
 	return true;
 };
 
-FileAdaptor.prototype.getTiddlerList = function(context,callback)
+LocalAdaptor.prototype.getTiddlerList = function(context,callback)
 {
 	return false;
 };
 
-FileAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
+LocalAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
 //#clearMessage();
-displayMessage('FileAdaptor.getTiddler:' + title);
-	var path = FileAdaptor.tiddlerPath();
+displayMessage('LocalAdaptor.getTiddler:' + title);
+	context = this.setContext(context,userParams,callback);
+	var path = LocalAdaptor.tiddlerPath();
 	var uriTemplate = '%0%1';
-	var uri = uriTemplate.format([path,FileAdaptor.normalizedTitle(title)]);
+	var uri = uriTemplate.format([path,LocalAdaptor.normalizedTitle(title)]);
 displayMessage('uri:'+uri);
-	if(!context) context = {};
-	context.userParams = userParams;
-	context.adaptor = this;
-	if(callback) context.callback = callback;
 	context.tiddler = new Tiddler(title);
-	context.tiddler.fields['server.type'] = FileAdaptor.serverType;
+	context.tiddler.fields['server.type'] = LocalAdaptor.serverType;
 	context.status = false;
-	context.statusText = FileAdaptor.errorInFunctionMessage.format(['getTiddler',title]);
+	context.statusText = LocalAdaptor.errorInFunctionMessage.format(['getTiddler',title]);
 	var fields = null;
 	var data = loadFile(uri + '.js');
 displayMessage("data:"+data);
@@ -180,13 +188,14 @@ displayMessage("ft:"+ft);
 	return context.status;
 };
 
-FileAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
+LocalAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
 //#clearMessage();
-//#displayMessage('FileAdaptor.putTiddler:' + tiddler.title);
-	var path = FileAdaptor.tiddlerPath();
+//#displayMessage('LocalAdaptor.putTiddler:' + tiddler.title);
+	context = this.setContext(context,userParams,callback);
+	var path = LocalAdaptor.tiddlerPath();
 	var uriTemplate = '%0%1';
-	var uri = uriTemplate.format([path,FileAdaptor.normalizedTitle(tiddler.title)]);
+	var uri = uriTemplate.format([path,LocalAdaptor.normalizedTitle(tiddler.title)]);
 //#displayMessage('uri:'+uri);
 	var meta = 'title: ' + tiddler.title + '\n';
 	if(tiddler.modifier)
@@ -203,23 +212,37 @@ FileAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 			meta += i + ': ' + fields[i] + '\n';
 		}
 	}
-	if(!context) context = {};
-	context.userParams = userParams;
-	context.adaptor = this;
-	if(callback) context.callback = callback;
 	context.tiddler = tiddler;
 	context.status = saveFile(uri + '.js',tiddler.text);
 	if(context.status) {
 		context.status = saveFile(uri + '.js.meta',meta);
 	}
-
 	if(context.callback)
 		context.callback(context,context.userParams);
 	return context.status;
 };
 
-FileAdaptor.prototype.close = function() {return true;};
+LocalAdaptor.prototype.putTiddlerDiv = function(context)
+{
+//#clearMessage();
+//#displayMessage('LocalAdaptor.putTiddler:'+context.tiddler.title);
+	var urlTemplate = '%0%1.tiddler';
+	var path = LocalAdaptor.tiddlerPath();
+	var url = urlTemplate.format([path,context.tiddler.title]);
+//#displayMessage('url:'+url);
+	context.status = saveFile(url,store.getSaver().externalizeTiddler(store,context.tiddler));
+	if(context.status)
+		displayMessage(config.messages.backupSaved,url);
+	else
+		alert(config.messages.backupFailed);
+	
+	if(context.callback)
+		context.callback(context);
+	return context.status;
+};
 
-config.adaptors[FileAdaptor.serverType] = FileAdaptor;
+LocalAdaptor.prototype.close = function() {return true;};
+
+config.adaptors[LocalAdaptor.serverType] = LocalAdaptor;
 } //# end of 'install only once'
 //}}}
