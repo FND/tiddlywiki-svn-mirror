@@ -1,4 +1,4 @@
-<div title="Template:See also" modifier="Wikipedia" wikiformat="mediawiki">
+<div title="Template:See also" modifier="Wikipedia" server.host="www.wikipedia.org/w" wikiformat="mediawiki">
 <pre>:&lt;div class=&quot;boilerplate seealso&quot;&gt;''See also: {{#if:{{{1|}}}|[[{{{1}}}]] | '''[[Template talk:See also|MISSING ARTICLES]]''' 
 }}{{#if:{{{2|}}}|{{#if:{{{3|}}}|, |&amp;nbsp;and }} [[{{{2}}}]]
 }}{{#if:{{{3|}}}|{{#if:{{{4|}}}|, |,&amp;nbsp;and }} [[{{{3}}}]]
