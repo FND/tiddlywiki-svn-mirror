@@ -7,7 +7,6 @@ tiddler: TabMoreTemplatesUpdatedShadowed.tiddler
 tiddler: TabTags.tiddler
 tiddler: TabTemplates.tiddler
 tiddler: Tiddlypedia.tiddler
-tiddler: ViewTemplateGetPutRevisions.tiddler
-tiddler: EditTemplateHosted.tiddler
+tiddler: ViewTemplateRevisions.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
