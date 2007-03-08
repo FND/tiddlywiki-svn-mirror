@@ -18,8 +18,8 @@ config.usePreForStorage = true;
 config.maxTiddlerImportCount = 10;
 
 config.defaultCustomFields = {
-	'server.type':'mediawiki',
-	'server.host':'tiddlywikiguides.org/',
+	'server.type':'cctiddly',
+	'server.host':'cctiddly.sourceforge.net',
 	wikiformat:'mediawiki'
 };
 
