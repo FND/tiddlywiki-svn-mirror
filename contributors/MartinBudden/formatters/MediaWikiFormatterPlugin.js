@@ -14,6 +14,7 @@
 |''Display empty template links:''|<<option chkMediaWikiDisplayEmptyTemplateLinks>>|
 |''Allow zooming of thumbnail images''|<<option chkMediaWikiDisplayEnableThumbZoom>>|
 |''List references''|<<option chkMediaWikiListReferences>>|
+|''Display unsupported magic words''|<<option chkDisplayMediaWikiMagicWords>>|
 
 This is the MediaWikiFormatterPlugin, which allows you to insert MediaWiki formated text into a TiddlyWiki.
 
@@ -32,12 +33,12 @@ There are (at least) the following known issues:
 # Anchors not yet supported.
 
 !!!Not supported
-# Magic words and variables http://meta.wikimedia.org/wiki/Help:Magic_words
-# Template substitution http://meta.wikimedia.org/wiki/Help:Substitution
-# Template colon functions http://meta.wikimedia.org/wiki/Help:Colon_function
-# Template parser functions (eg #if) http://meta.wikimedia.org/wiki/ParserFunctions
+# Template parser functions (also called colon functions) (eg #if) http://meta.wikimedia.org/wiki/ParserFunctions eg {{ #functionname: argument 1 | argument 2 | argument 3... }} 
+# Magic words and variables http://meta.wikimedia.org/wiki/Help:Magic_words eg __TOC__, {{CURRENTDAY}}, {{PAGENAME}}
 # {{{^''}}} (italic at start of line) indents, makes italic and quotes with guilmot quote
 
+!!!No plans to support
+# Template substitution on save http://meta.wikimedia.org/wiki/Help:Substitution eg  {{subst:templatename}}
 ***/
 
 //{{{
@@ -57,6 +58,8 @@ if(config.options.chkMediaWikiDisplayEnableThumbZoom == undefined)
 	{config.options.chkMediaWikiDisplayEnableThumbZoom = false;}
 if(config.options.chkMediaWikiListReferences == undefined)
 	{config.options.chkMediaWikiListReferences = false;}
+if(config.options.chkDisplayMediaWikiMagicWords == undefined)
+	{config.options.chkDisplayMediaWikiMagicWords = false;}
 
 MediaWikiFormatter = {}; // 'namespace' for local functions
 
@@ -82,15 +85,10 @@ Tiddler.prototype.changed = function()
 			match = tiddlerLinkRegExp.exec(this.text);
 		}
 	} else if(!this.isTagged('systemConfig')) {
-		return MediaWikiFormatter.Tiddler_changed.apply(this,arguments);
+		MediaWikiFormatter.Tiddler_changed.apply(this,arguments);
+		return;
 	}
 	this.linksUpdated = true;
-};
-
-config.macros.list.templates = {};
-config.macros.list.templates.handler = function(params)
-{
-	return store.getTemplates();
 };
 
 TiddlyWiki.prototype.getTemplates = function()
@@ -113,6 +111,12 @@ TiddlyWiki.prototype.getMediaWikiArticles = function()
 		});
 	results.sort(function(a,b) {return a.title < b.title ? -1 : (a.title == b.title ? 0 : +1);});
 	return results;
+};
+
+config.macros.list.templates = {};
+config.macros.list.templates.handler = function(params)
+{
+	return store.getTemplates();
 };
 
 wikify = function(source,output,highlightRegExp,tiddler)
@@ -151,23 +155,36 @@ MediaWikiFormatter.hijackListAll = function ()
 		return store.getMediaWikiArticles();
 	};
 };
-
 MediaWikiFormatter.hijackListAll();
 
-MediaWikiFormatter.getTemplateParams = function(w)
+// see http://meta.wikimedia.org/wiki/Help:Variable
+MediaWikiFormatter.expandVariable = function(w,variable)
+{
+	switch(variable) {
+	case 'PAGENAME':
+		createTiddlyText(w.output,w.tiddler.title);
+		w.nextMatch = lastIndex;
+		break;
+	default:
+		return false;
+	}
+	return true;
+};
+
+MediaWikiFormatter.getTemplateParams = function(text)
 {
 //#{{test|a|b}}
 //#{{test|n=a|m=b}}
 	var params = {};
 
-	var i = 1;
-	var text = w.source + '|';
+	text += '|';
 	var pRegExp = /(?:([^\|]*)=)?([^\|]*)\|/mg;
 	var match = pRegExp.exec(text);
 	if(match) {
 		// skip template name
 		match = pRegExp.exec(text);
 	}
+	var i = 1;
 	while(match) {
 		//params[match[1] ? match[1] : i++] = match[2];
 		if(match[1]) {
@@ -181,10 +198,10 @@ MediaWikiFormatter.getTemplateParams = function(w)
 	return params;
 };
 
-MediaWikiFormatter.expandTemplate = function(w,tiddler,params)
+MediaWikiFormatter.expandTemplate = function(w,templateText,params)
 // see http://meta.wikimedia.org/wiki/Help:Template
 {
-	var text = tiddler.text;
+	var text = templateText;
 	text = text.replace(/<noinclude>((?:.|\n)*?)<\/noinclude>/mg,'');// remove text between noinclude tags
 	var ioRegExp = /<includeonly>((?:.|\n)*?)<\/includeonly>/mg;
 	var t = '';
@@ -837,25 +854,22 @@ config.mediaWikiFormatters = [
 			var lastIndex = this.lookaheadRegExp.lastIndex;
 			var contents = lookaheadMatch[1];
 			// see http://meta.wikimedia.org/wiki/Help:Variable
-			if(contents=='PAGENAME') {
-				createTiddlyText(w.output,w.tiddler.title);
-				w.nextMatch = lastIndex;
+			if(MediaWikiFormatter.expandVariable(w,contents)) {
 				return;
 			}
 			var i = contents.indexOf('|');
 			var title = i==-1 ? contents : contents.substr(0,i);
-			title = title.trim().replace(/_/mg,' ');// Underscore in template name is equivalent to space
+			// normalize title
+			title = title.trim().replace(/_/mg,' ');
 			title = 'Template:' + title.substr(0,1).toUpperCase() + title.substring(1);
 			var tiddler = store.fetchTiddler(title);
 			var oldSource = w.source;
 			if(tiddler) {
 				params = {};
-				w.source = lookaheadMatch[1];
 				if(i!=-1) {
-					w.nextMatch = 0;
-					params = MediaWikiFormatter.getTemplateParams(w);
+					params = MediaWikiFormatter.getTemplateParams(lookaheadMatch[1]);
 				}
-				w.source = MediaWikiFormatter.expandTemplate(w,tiddler,params);
+				w.source = MediaWikiFormatter.expandTemplate(w,tiddler.text,params);
 				w.nextMatch = 0;
 				w.subWikifyUnterm(w.output);
 			} else {
@@ -1139,6 +1153,28 @@ config.mediaWikiFormatters = [
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+		}
+	}
+},
+
+//# see http://meta.wikimedia.org/wiki/Help:Magic_words
+{
+	name: 'mediaWikiMagicWords',
+	match: '__',
+	lookaheadRegExp: /__([A-Z]*?)__/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+			// deal with variables by name here
+			if(lookaheadMatch[1]=='NOTOC') {
+				// do nothing
+			} else if(config.options.chkDisplayMediaWikiMagicWords) {
+				// just output the text of any variables that are not understood
+				w.outputText(w.output,w.matchStart,w.nextMatch);
+			}
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	}
