@@ -200,7 +200,7 @@ config.commands.getTiddler.handler = function(event,src,title)
 	if(tiddler) {
 		var fields = tiddler.fields;
 	} else {
-		fields = String(document.getElementById(this.idPrefix + title).getAttribute("tiddlyFields"));
+		fields = String(document.getElementById(story.idPrefix + title).getAttribute("tiddlyFields"));
 		fields = fields ? fields.decodeHashMap() : null;
 	}
 	return invokeAdaptor('getTiddler',title,null,null,null,config.commands.getTiddler.callback,fields);

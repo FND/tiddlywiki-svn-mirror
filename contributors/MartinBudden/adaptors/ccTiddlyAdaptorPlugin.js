@@ -75,7 +75,7 @@ ccTiddlyAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
 //#displayMessage("openHost:"+host);
-	this.host = MediaWikiAdaptor.fullHostName(host);
+	this.host = ccTiddlyAdaptor.fullHostName(host);
 //#displayMessage("host:"+this.host);
 	if(context.callback) {
 		context.status = true;
@@ -110,11 +110,13 @@ ccTiddlyAdaptor.prototype.getWorkspaceList = function(context,userParams,callbac
 	return true;
 };
 
+//# http://cctiddly.sourceforge.net/msghandle.php?action=content
+//# http://cctiddly.byethost14.com/msghandle.php?action=content
 ccTiddlyAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
 //#displayMessage('getTiddlerList');
-	var uriTemplate = '%0data/workspaces/%1/pages';
+	var uriTemplate = '%0msghandle.php?action=content';
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
 	var uri = uriTemplate.format([host,this.workspace]);
 //#displayMessage('uri:'+uri);
@@ -133,6 +135,14 @@ ccTiddlyAdaptor.getTiddlerListCallback = function(status,context,responseText,ur
 	if(status) {
 		try {
 			list = [];
+			/*var titles = responseText.split('\n');
+			for(var i=0; i<titles.length; i++) {
+				var tiddler = new Tiddler(titles[i]);
+				list.push(tiddler);
+			}*/
+			if(list.length==0) {
+				list.push(new Tiddler('About')); //kludge until get support for listTiddlers in ccTiddly
+			}
 			context.tiddlers = list;
 		} catch (ex) {
 			context.statusText = exceptionText(ex,ccTiddlyAdaptor.serverParsingErrorMessage);
