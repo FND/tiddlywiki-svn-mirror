@@ -26,24 +26,21 @@ merge(config.macros,{
 			var viewType = getParam(parsedParams,"view","plain");
 			var gViewType = getParam(parsedParams,"gView","plain");
 			var listTitle = getParam(parsedParams,"title","List");
+			var ignoreRealm = getParam(parsedParams, "ignoreRealm","no");
 			var mode = getParam(parsedParams,"local");
 
 			if (!startTag)
 				if (mode != "global")
 					startTag = tiddler.title;
 
-	
 			var listDiv = createTiddlyElement(place,"div",null,"mList");
 
 			//var listTitleSpan = createTiddlyElement(listDiv,"span",null,"mListTitle");
 			//createTiddlyText(listTitleSpan,listTitle);
 
 			// come get some... EYE CANDY!
-			wikify('<html><div class="mListTitle" macro="gradient vert '+
-					'#f1f1f1 #efefef #eeeeee #ececec #eaeaea #e7e7e7 #e4e4e4 #e1e1e1 #cccccc #cccccc #cccccc #cccccc #cccccc #cccccc #c8c8c8 #c0c0c0 #b4b4b4 #a4a4a4'+
-//					'#e4e4e4 #e7e7e7 #e9e9e9 #eaeaea #ebebeb #e9e9e9 #e8e8e8 #e7e7e7 #d9d9d9 #cccccc #cccccc #cccccc #cccccc #cccccc #c8c8c8 #c0c0c0 #b4b4b4 #a4a4a4'+
-//					'#ffffff #f8f8f8 #f3f3f3 #eeeeee #e9e9e9 #e3e3e3 #dddddd #d7d7d7 #999999 #999999 #999999 #999999 #999999 #999999 #969696 #909090 #878787 #7b7b7b'+
-					'">'+listTitle+'</div></html>',listDiv);
+			var niceGradient = '<html><div class="mListTitle" macro="gradient vert #f1f1f1 #efefef #eeeeee #ececec #eaeaea #e7e7e7 #e4e4e4 #e1e1e1 #cccccc #cccccc #cccccc #cccccc #cccccc #cccccc #c8c8c8 #c0c0c0 #b4b4b4 #a4a4a4">%0</div></html>';
+			wikify(niceGradient.format([listTitle]),listDiv);
 
 			var listRefreshContainer = createTiddlyElement(listDiv,"div");
 
@@ -59,6 +56,7 @@ merge(config.macros,{
 			listRefreshContainer.setAttribute("groupBy",groupBy);
 			listRefreshContainer.setAttribute("viewType",viewType);
 			listRefreshContainer.setAttribute("gViewType",gViewType);
+			listRefreshContainer.setAttribute("ignoreRealm",ignoreRealm);
 
 			this.refresh(listRefreshContainer);
 
@@ -71,8 +69,9 @@ merge(config.macros,{
 			var groupBy = place.getAttribute("groupBy");
 			var viewType = place.getAttribute("viewType");
 			var gViewType = place.getAttribute("gViewType");
+			var ignoreRealm = place.getAttribute("ignoreRealm");
 
-			var list = this.tagList(startTag,tagExpr,sortBy);
+			var list = this.tagList(startTag,tagExpr,sortBy,ignoreRealm=="yes");
 			var markup = "";
 
 			if (groupBy != "") {
@@ -142,7 +141,7 @@ merge(config.macros,{
 
 		},
 
-		tagList: function(startTag,tagExpr,sortBy) {
+		tagList: function(startTag,tagExpr,sortBy,ignoreRealm) {
 
 			var output = [];
 
@@ -161,16 +160,40 @@ merge(config.macros,{
 
 			var firstError = true;
 
+			// this realm stuff sucks a lot..
+			// please rewrite
 			for (var i=0;i<startList.length;i++) {
 				var tiddler = store.fetchTiddler(startList[i]);
+				var test = false;
 				try {
-					if (eval(expr))
-						output.push(tiddler);
+					test = eval(expr);
 				}
 				catch(e) {
 					if (firstError) {
 						alert("error parsing: "+expr);
 						firstError = false;
+					}
+				}
+				if (test) {
+					if (ignoreRealm) {
+						output.push(tiddler);
+					}
+					else {
+						if (!config.indexedTags.indexes[tiddler.title]["Realm"] || config.indexedTags.indexes[tiddler.title]["Realm"].length == 0) {
+							// not in a realm
+							output.push(tiddler);
+						}
+						else {
+							// has a realm
+							var showIt = false;
+							config.indexedTags.tagLists.Realm.each(function(r) {
+								if (!mHideRealm(r))
+									if (config.indexedTags.indexes[tiddler.title]["Realm"].contains(r))
+										showIt = true;
+							});
+							if (showIt)
+								output.push(tiddler);
+						}
 					}
 				}
 			}
