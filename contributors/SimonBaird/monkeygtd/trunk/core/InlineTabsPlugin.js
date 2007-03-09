@@ -42,7 +42,7 @@ config.formatters.unshift( {
 Story.prototype.switchInlineTab = function(tabset,tab)
 {
     var cookie = tabset.getAttribute("cookie");
-    var theTab = null
+    var theTab = null;
     var nodes = tabset.childNodes;
     for(var t=0; t<nodes.length; t++)
     if(nodes[t].getAttribute && nodes[t].getAttribute("tab") == tab)

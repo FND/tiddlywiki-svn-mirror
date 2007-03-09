@@ -174,5 +174,19 @@ html>body #topMenu {background-image:url(http://simonbaird.com/monkeygtd/logo-tr
 	border-style:none;
 }
 
+.tab {
+	-moz-border-radius-topleft: 0.5em;
+	-moz-border-radius-topright: 0.5em;
+	font-size:120%;
+	border-width:2px;
+	padding-left:0.75em;
+	padding-right:0.75em;
+	font-weight:bold;
+	/* float:left; */
+}
+
+.tabset {
+}
+
 [[datepicker]]
 

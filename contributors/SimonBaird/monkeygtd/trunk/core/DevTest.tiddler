@@ -1,16 +1,9 @@
-
 <<fastList
 	title:'Next Actions'
 	startTag:Action
-	tags:Next
+	tags:Action
 	group:Project
+	gTags:!Complete
 	view:action
 	gView:plain
->>
-	
-<<fastList
-	title:'Mow lawn test'
-	startTag:[[Mow lawn]]
-	tags:'Next && !Done'
-	view:action
 >>

@@ -23,6 +23,7 @@ merge(config.macros,{
 			var tagExpr = getParam(parsedParams,"tags");
 			var sortBy = getParam(parsedParams,"sort","title");
 			var groupBy = getParam(parsedParams,"group","");
+			var gTagExpr = getParam(parsedParams,"gTags","");
 			var viewType = getParam(parsedParams,"view","plain");
 			var gViewType = getParam(parsedParams,"gView","plain");
 			var listTitle = getParam(parsedParams,"title","List");
@@ -54,6 +55,7 @@ merge(config.macros,{
 			listRefreshContainer.setAttribute("tagExpr",tagExpr);
 			listRefreshContainer.setAttribute("sortBy",sortBy);
 			listRefreshContainer.setAttribute("groupBy",groupBy);
+			listRefreshContainer.setAttribute("gTagExpr",gTagExpr);
 			listRefreshContainer.setAttribute("viewType",viewType);
 			listRefreshContainer.setAttribute("gViewType",gViewType);
 			listRefreshContainer.setAttribute("ignoreRealm",ignoreRealm);
@@ -67,6 +69,7 @@ merge(config.macros,{
 			var tagExpr = place.getAttribute("tagExpr");
 			var sortBy = place.getAttribute("sortBy");
 			var groupBy = place.getAttribute("groupBy");
+			var gTagExpr = place.getAttribute("gTagExpr");
 			var viewType = place.getAttribute("viewType");
 			var gViewType = place.getAttribute("gViewType");
 			var ignoreRealm = place.getAttribute("ignoreRealm");
@@ -85,9 +88,27 @@ merge(config.macros,{
 						groupLists[groupIn[j]] += this.renderTiddler[viewType](list[i],false);
 					}
 				}
+
+				var firstError = true;
+
 				for (var heading in groupLists) {
-					markup += this.renderTiddler[gViewType](store.getTiddler(heading),true);
-					markup += groupLists[heading];
+					
+					var tExpr = gTagExpr.parseTagExpr();
+					var tiddler = store.getTiddler(heading);
+
+					try {
+						if (eval(tExpr)) {
+							markup += this.renderTiddler[gViewType](tiddler,true);
+							markup += groupLists[heading];
+						}
+					}
+					catch (e) {
+						if (firstError) {
+							alert("error parsing: "+expr);
+							firstError = false;
+						}
+					}
+
 				}
 			}
 			else {
@@ -117,12 +138,12 @@ merge(config.macros,{
 				}
 
 				return "{{"+useClass+"{"+
-					//"@@font-size:90%;"+
-					"<<toggleTag Done [["+t.title+"]] ->>"+
+					"@@font-size:95%;"+
+					"<<tTag tag:Done title:[["+t.title+"]] label:''>>"+
 					"<<tTag tag:Next mode:text text:{{config.mGTD.next}} title:[["+t.title+"]]>>"+
 					"<<tTag tag:[[Waiting For]] mode:text text:{{config.mGTD.wait}} title:[["+t.title+"]]>>"+
 					"<<tTag tag:[[Starred]] mode:text text:{{config.mGTD.star}} title:[["+t.title+"]]>> "+
-					//"@@"+
+					"@@"+
 					"[["+t.title+"]] "+
 					projText +
 					"}}}\n";
