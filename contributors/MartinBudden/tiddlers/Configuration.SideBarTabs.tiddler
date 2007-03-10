@@ -1,4 +1,4 @@
-<div title="Configuration.SideBarTabs" modifier="MartinBudden" tags="excludeLists">
+<div title="Configuration.SideBarTabs" modifier="MartinBudden" tags="excludeLists excludeSearch">
 <pre>SideBarTabs
 |[[Timeline|TabTimeline]]|[[All|TabAll]]|[[Tags|TabTags]]|&gt;|&gt;|[[More|TabMore]] |
 |&gt;|&gt;||[[Missing|TabMoreMissing]]|[[Orphans|TabMoreOrphans]]|[[Shadowed|TabMoreShadowed]]|</pre>

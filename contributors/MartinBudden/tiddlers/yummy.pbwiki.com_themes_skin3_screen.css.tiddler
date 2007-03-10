@@ -1,1 +1,1086 @@
-<div tiddler="yummy.pbwiki.com/themes/skin3/screen.css" modifier="MartinBudden" modified="200609240000" created="200609240000" tags="styles">/***\nhttp://yummy.pbwiki.com/themes/skin3/screen.css\nCOMMON GRID ELEMENTS\n***/\n\n/*{{{*/\nbody {\n background: #949494;\n color:#63534c;\n font:100% Georgia, Arial, Verdana, Tahoma, sans-serif;\n margin:0 0 23px;\n padding:0;\n text-align:center;\n}\n\n#root {\n text-align:left;\n margin: 0 23px 0;\n min-width:760px;\n background: #fbf9f8;\n position:relative;\n}\n\n\n/****************************************************************\n SUBPAGE SPECIFIC ELEMENTS\n****************************************************************/\n/*\n Header\n*/\n#wrapper-header {\n background: url(&quot;images/bg_header.gif&quot;) 0 0 repeat-x;\n height: 66px;\n position: relative;\n}\n#header {\n text-align: center;\n padding: 18px 0 0;\n}\n #header h1 {\n background:url(&quot;images/logo_small.gif&quot;) 0 0 no-repeat;\n position:absolute;\n right:13px;\n top:0;\n margin: 0;\n padding: 0;\n }\n \n #header h1 a {\n display:block;\n height:41px;\n width:51px;\n }\n #header h1 a span {\n display:none;\n }\n\n #header h2 {\n color:#ad0000;\n font:175% Georgia, &quot;Times New Roman&quot;, Times, serif;\n margin:0 18px 0 0;\n padding:0;\n display: inline;\n }\n #header h2 a {\n color:#ad0000;\n text-decoration: none;\n }\n #header h2 a:hover {\n text-decoration: underline;\n }\n #header h3 {\n color: #303030;\n font:175% Georgia, &quot;Times New Roman&quot;, Times, serif;\n border-left: 2px solid #404040;\n margin:0;\n padding:0 0 0 20px;\n display: inline;\n }\n #header p.premium {\n margin:0 12px 0 -8px;\n padding:0;\n display:inline;height:1px;\n }\n * html #header p.premium {\n height:1px;\n }\n #header p.premium img {\n display:inline;\n vertical-align:baseline;\n }\n /* search-box */\n .search-box {\n position: absolute;\n height: 38px;\n top: 0;\n right:0;\n width: 215px;\n text-align: right;\n }\n\n .search-box form {\n margin:24px 35px 0 0;\n padding:0;\n }\n .search-box form div .input-search {\n height: 17px;\n he\sight: 13px;\n width: 121px;\n w\sidth: 117px;\n padding: 2px;\n margin: 0 3px 0 0;\n vertical-align: middle;\n background: #fff;\n font: normal 68.75% Tahoma, Verdana, Arial, &quot;Times New Roman&quot;, Times, serif;\n color: #616161;\n border: none;\n }\n .search-box form div .input-search:focus {\n background: #fffacc;\n color: #272727;\n }\n .search-box form div .button-search {\n height: 17px;\n padding: 0 9px 2px;\n margin: 0;\n vertical-align: middle;\n border: none;\n background: #decfc8;\n font: normal 68.75% Tahoma, Verdana, Arial, &quot;Times New Roman&quot;, Times, serif;\n color: #616161;\n }\n\n\n\n/*\n Menu\n*/\n#menu {\n position: absolute;\n top:0;\n left: 50%;\n text-align: center;\n background: url(&quot;images/bg_menu-1.gif&quot;) 0 0 no-repeat;\n height: 41px;\n margin: 0 0 0 -160px;\n width:320px;\n\n}\n #menu ul {\n margin: 0 auto 0 20px;\n padding: 0 23px 0 0;\n list-style: none;\n background: url(&quot;images/bg_menu-2.gif&quot;) 100% 0 no-repeat;\n height: 41px;\n display: inline;\n }\n #menu ul:after {\n content: &quot;.&quot;; \n display: block; \n height:0; \n clear: both; \n visibility: hidden;\n }\n #menu ul {\n display:block;\n }\n #menu ul li {\n margin: 0;\n padding: 0;\n float: left;\n background: url(&quot;images/dots_menu.gif&quot;) 100% 10px no-repeat;\n }\n #menu ul li.last {\n background: none;\n }\n #menu ul li a,\n #menu ul li span {\n text-decoration: none;\n color: #646464;\n font: normal 68.75% Tahoma, Verdana, Arial, &quot;Times New Roman&quot;, Times, serif;\n padding:13px 12px 11px 12px;\n display: block;\n }\n #menu ul li span {\n text-decoration: underline;\n color:#ad0000;\n }\n #menu ul li a:hover,\n #menu ul li a:hover span {\n color:#ad0000;\n text-decoration: underline;\n cursor:pointer;cursor:hand;\n }\n #menu ul li a span {\n font-size: 100%;\n background: none;\n padding:0;\n text-decoration: none;\n color: #646464;\n }\n\n/*\n wrapper-functional\n*/\n.wrapper-functional {\n position: relative;\n background: url(&quot;images/bg_wrapper-functional.gif&quot;) 0 0 repeat-x;\n}\n.wrapper-functional:after {\n content: &quot;.&quot;; \n display: block; \n height:0; \n clear: both; \n visibility: hidden;\n}\n.wrapper-functional {\n display:block;\n}\n\n /* sub-menu */\n .sub-menu {\n padding: 0 210px 0 0;\n background: url(&quot;images/bg_wrapper-functional-1.gif&quot;) 0 0 no-repeat;\n }\n .sub-menu ul {\n margin: 0 0 0 25px;\n padding: 12px 0 0;\n list-style: none;\n }\n .sub-menu ul:after {\n content: &quot;.&quot;; \n display: block; \n height:0; \n clear: both; \n visibility: hidden;\n }\n .sub-menu ul {\n display:block;\n }\n .sub-menu ul li {\n margin: 0;\n padding: 0;\n float: left;\n background: url(&quot;images/dots_submenu.gif&quot;) 100% 100% no-repeat;\n }\n .sub-menu ul li a,\n .sub-menu ul li span {\n text-decoration: none;\n color: #fff;\n font: normal 68.75% Tahoma, Verdana, Arial, &quot;Times New Roman&quot;, Times, serif;\n padding:7px 13px 5px 13px;\n display: block;\n cursor:pointer;cursor:hand;\n }\n .sub-menu ul li span {\n text-decoration: underline;\n color:#fffdc5;\n }\n .sub-menu ul li a:hover,\n .sub-menu ul li a:hover span,\n .sub-menu ul li.active a,\n .sub-menu ul li.active a span{\n color:#fffdc5;\n text-decoration: none;\n }\n .sub-menu ul li a span {\n font-size: 100%;\n background: none;\n padding:0;\n text-decoration: none;\n color: #fff;\n }\n /* sub-menu-2 */\n .sub-menu-2 {\n background: url(&quot;images/bg_wrapper-functional-1.gif&quot;) 100% 0 no-repeat;\n position: absolute;\n height: 38px;\n heigh\st: 26px;\n top: 0;\n right:0;\n width: 215px;\n widt\sh: 188px;\n padding:12px 27px 0 0;\n text-align: right;\n font: normal 68.75% Verdana, Arial, &quot;Times New Roman&quot;, Times, serif;\n }\n .sub-menu-2 a {\n background: url(&quot;images/arrow1.gif&quot;) 0 50% no-repeat;\n padding:0 0 0 10px;\n margin:0 10px 0 0;\n color:#ffffff;\n }\n\n/*\n wrapper-functional-sub\n*/\n.wrapper-functional.wrapper-functional-sub {\n background: url(&quot;images/bg_wrapper-functional-sub.gif&quot;) 0 100% repeat-x;\n}\n .wrapper-functional.wrapper-functional-sub .sub-menu {\n background: url(&quot;images/bg_wrapper-functional-sub-1.gif&quot;) 0 100% no-repeat;\n padding: 0 0 11px;\n\n }\n .wrapper-functional.wrapper-functional-sub .sub-menu ul {\n margin: 0 0 0 25px;\n padding: 0 0 0;\n list-style: none;\n }\n .wrapper-functional.wrapper-functional-sub .sub-menu ul li {\n background-position:100% 0;\n }\n .wrapper-functional.wrapper-functional-sub .sub-menu ul li a,\n .wrapper-functional.wrapper-functional-sub .sub-menu ul li span {\n padding:8px 13px 7px 13px;\n }\n .wrapper-functional.wrapper-functional-sub .sub-menu ul li a span {\n padding:0;\n }\n .wrapper-functional.wrapper-functional-sub .search-box {\n background: url(&quot;images/bg_wrapper-functional-sub-1.gif&quot;) 100% 100% no-repeat;\n\n }\n .wrapper-functional.wrapper-functional-sub .search-box form {\n margin:2px 32px 0 0;\n }\n\n\n/*\n last-modified\n*/\n.last-modified {\n background: #e9e8e7;\n color: #606060;\n font: normal 62.5% Verdana, Arial, &quot;Times New Roman&quot;, Times, serif;\n padding: 4px 36px 4px;\n}\n .last-modified p a {\n color: #707070;\n }\n/*\n wrapper-information\n*/\n.wrapper-information {\n padding:19px 24px 22px;\n color:#7a7a7a;\n background: url(&quot;images/bg_wrapper-information.gif&quot;) 0 0 repeat-x;\n}\n .wrapper-information table {\n margin:0;\n padding:0;\n border:0;\n border-collapse:collapse;\n width:100%;\n }\n .wrapper-information table td {\n border:4px solid #e3e3e3;\n vertical-align:top;\n width:33%;\n font:normal 68.75% Verdana, Tahoma, sans-serif;\n }\n .wrapper-information #page-information,\n .wrapper-information #wiki-information{\n background:#ffffff;\n }\n .wrapper-information #wiki-premium {\n /*background:#fcf592;*/\n /*background:#f2eec6;*/\n background:#FFFDDF;\n }\n\n .wrapper-information a { \n color:#7f7f7f;\n }\n\n .wrapper-information h3 {\n font-size:118.18%;\n font-weight:bold;\n margin:0 0 12px;\n padding:10px 11px 9px;\n border-bottom:1px solid #cfcfcf;\n }\n .wrapper-information #wiki-premium h3 {\n font:normal 163.64% Georgia, Verdana, Tahoma, sans-serif;\n /*color:#d13123;*/\n color:#f2d1a6;\n margin:0 17px 12px;\n padding:7px 0 7px;\n border-bottom:1px solid #9d9d9d;\n }\n .wrapper-information p {\n margin:0 17px 15px;\n padding:0;\n line-height:1.5em;\n }\n .wrapper-information p.learn-more {\n font-weight:bold;\n text-align:right;\n margin:0 17px 10px;\n }\n .wrapper-information #wiki-premium {\n color:#7f7f7f;\n }\n .wrapper-information ul {\n margin:0 17px 15px;\n padding:0;\n line-height:1.5em;\n }\n .wrapper-information ul li {\n list-style:none;\n margin:0 0 4px;\n padding:0 0 0 15px;\n background: url(&quot;images/arrow1.gif&quot;) 0 7px no-repeat;\n }\n .wrapper-information ul.page li {\n padding:0 0 0 20px;\n background: url(&quot;images/icon_page.gif&quot;) 0 3px no-repeat;\n }\n\n\n/*\n Footer\n*/\n#footer {\n padding: 9px 0;\n font: normal 62.5% Verdana, Arial, &quot;Times New Roman&quot;, Times, serif;\n color: #3a3a3a;\n background: #949494;\n}\n#footer:after {\n content: &quot;.&quot;; \n display: block; \n height:0; \n clear: both; \n visibility: hidden;\n}\n#footer {\n display:block;\n}\n\n#footer p.f-menu {\n text-align:right;\n}\n#footer p.f-menu a {\n text-decoration:none; \n padding:0 0 0 8px;\n background: url(&quot;images/arrow2.gif&quot;) 0 50% no-repeat;\n color: #ffffff;\n margin: 0 12px 0 0;\n}\n#footer p.f-menu a.rss {\n margin: 0 6px 0 0;\n}\n #footer p.f-menu img {\n margin:-2px 0 0 8px;\n vertical-align:middle;\n position:relative;\n }\n\n\n\n/*\n Content\n*/\n\n#displaycontent {\n margin: 0 0 0;\n padding: 28px 30px 14px;\n font-size:75%;\n line-height:1.5em;\n}\n\n#displaycontent:after {\n content: &quot; &quot;;\n display: block;\n height:0;\n clear: both;\n visibility: hidden;\n}\n#displaycontent {\n display:block;\n}\n\n/****************************************************************\n COMMON CONTENT ELEMENTS\n****************************************************************/\n\nimg {\n border:0;\n}\n\n/* Links */\n\na {\n color:#ad0000;\n text-decoration:underline;\n}\n\na:hover {\n text-decoration:none;\n}\n\n/* Typography */\n\np {\n margin:0;\n padding:0;\n}\n#displaycontent span.underlined {\n text-decoration: underline;\n}\n#displaycontent span.box {\n border: 1px solid #b8b7b7;\n background:#e2d5cf;\n color: #5c5c5c;\n padding:0 4px;\n}\n#displaycontent h1 {\n font-size: 2em;\n font-weight: bold;\n font-family: Garamond;\n padding: 0;\n margin: 0.67em 0;\n}\n#displaycontent h2 {\n font-size: 1.5em;\n font-weight: bold;\n font-family: Garamond;\n padding: 0;\n margin: 0.83em 0;\n}\n#displaycontent h3 {\n font-size: 1.17em;\n font-weight: bold;\n font-family: Garamond;\n padding: 0;\n margin: 1em 0;\n}\n#displaycontent h4 {\n font-size: 1em;\n font-weight: bold;\n font-family: Garamond;\n padding: 0;\n margin: 1.33em 0;\n}#displaycontent h5 {\n font-size: 0.83em;\n font-weight: bold;\n font-family: Garamond;\n padding: 0;\n margin: 1.67em 0;\n}#displaycontent h6 {\n font-size: 0.67em;\n font-weight: bold;\n font-family: Garamond;\n padding: 0;\n margin: 2.33em 0;\n}\n#displaycontent p {\n padding: 0;\n margin: 0 0 16px;\n}\n#displaycontent blockquote {\n background:#e2d5cf;\n border: 1px solid #b8b7b7;\n color: #63534c;\n font-style: italic;\n width: 85%;\n margin: 0 auto 22px;\n padding: 14px 18px 14px;\n font: normal 100% &quot;Courier New&quot;, Courier, Arial, Verdana, &quot;Times New Roman&quot;, Times, serif;\n}\n\n/* Lists */\n#displaycontent ul {\n margin-left: 12px;\n padding: 0;\n list-style: none;\n}\n #displaycontent ul li {\n margin: 0;\n padding: 0 0 0 12px;\n background: url(&quot;images/dots1.gif&quot;) 0 6px no-repeat;\n }\n\n\n/****************************************************************\n CONTENT SPECIFIC ELEMENTS\n****************************************************************/\n\n/*\n SandBox\n*/\n\n#displaycontent p.random-text {\n margin: 0 0 23px;\n}\n\n#displaycontent ul.examples-elements {\n margin: 0;\n padding: 0;\n}\n #displaycontent ul.examples-elements li {\n margin: 0 0 1px;\n padding: 0;\n background: none;\n }\n #displaycontent ul.examples-elements ul {\n margin: 10px 0 13px 12px;\n padding: 0;\n list-style: none;\n }\n #displaycontent ul.examples-elements ul li {\n margin: 0;\n padding: 0 0 0 12px;\n background: url(&quot;images/dots1.gif&quot;) 0 6px no-repeat;\n }\n\n\n#displaycontent ul.gallery {\n margin:9px 0 0;\n padding: 0;\n}\n#displaycontent ul.gallery:after {\n content: &quot;.&quot;; \n display: block; \n height:0; \n clear: both; \n visibility: hidden;\n}\n#displaycontent ul.gallery {\n display:block;\n}\n #displaycontent ul.gallery li {\n margin:0;\n padding: 0;\n background: none;\n float: left;\n margin: 0 25px 14px 0;\n }\n #displaycontent ul.gallery li a {\n border: 5px solid #9a9a99;\n display: block;\n }\n #displaycontent ul.gallery li a:hover {\n border: 5px solid #63534c;\n }\n #displaycontent ul.gallery li a img {\n display: block;\n }\n\n#SideBar {\n background: #eee;\n border-right: 1px solid #666;\n border-bottom: 1px solid #666;\n border-top:1px solid #ccc;\n border-left:1px solid #ccc;\n clear:both; \n float: right;\n font-size:0.8em;\n margin:0 0 0 20px;\n padding:3px;\n width: 200px;\n}\n.SideBarTitle {\n border-bottom:1px solid #666;\n color:#666;\n font-size:1.5em;\n font-weight:bold;\n text-align:center;\n}\n.SideBarTitle a {\n text-decoration:none;\n}\n\n.toc { \n background:#eee; \n border:1px solid #666; \n float:left; \n padding:0 10px 0 30px;\n margin-bottom:10px;\n}\n .toc a { \n color:#666; \n text-decoration:none; \n }\n .toc a:hover { \n text-decoration:underline; \n }\n .toc li { \n color:#666; \n }\n .toc ol {\n padding:0; \n margin:0 0 0 10px; \n font-weight:bold; \n color:#666; \n }\n .toc li ol { \n font-weight:normal; \n }\n .toc li li ol { \n font-size:80% \n }\n\n#displaycontent table {\n border:1px solid #fff;\n border-collapse:collapse;\n margin:10px 0;\n}\n\n #displaycontent table th,\n #displaycontent table td {\n background:#F5E8E3; \n border:2px solid #fff;\n padding:2px 4px;\n }\n\n #displaycontent table th {\n background:#616161;\n color:#fff;\n }\n/*\n Settings - toolbox\n*/\n#settings {\n color: #747474;\n font:11px Verdana, serif;\n} \n #settings h3 {\n color: #494949;\n font:12px Verdana, serif;\n font-weight:normal;\n padding: 0 0 6px;\n margin:0 0 7px;\n border-bottom:1px solid #e4e4e4;\n position:relative;\n }\n #settings .active h3 {\n color: #0367ad;\n }\n #settings-content input, label {\n vertical-align:middle;\n }\n #settings-content input.text {\n font:11px Verdana, serif;\n color:#747474;\n border:1px solid #5f5f5f;\n background:#ffffff;\n height:20px;\n heigh\st:16px;\n padding:4px 0 0 5px;\n }\n #settings-content a {\n color: #494949;\n }\n\n\n/* settings-menu */\n#settings-menu {\n float: left;\n width:173px;\n widt\sh:141px;\n border:1px solid #5f5f5f;\n background:#fff;\n padding:9px 15px 0;\n}\n #settings-menu h3 {\n color: #232323;\n font-weight:bold;\n margin:0 0 10px;\n }\n #settings-menu ul {\n margin: 0;\n padding: 0;\n list-style: none;\n }\n #settings-menu ul li {\n margin: 0 0 12px;\n padding: 0;\n background:none;\n color:#7c7c7c;\n font-weight:bold;\n }\n #settings-menu ul li a {\n font-weight:normal;\n }\n\n/* settings-content */\n#settings-content {\n margin:0 0 0 173px;\n}\n #settings-content .step {\n border:1px solid #5f5f5f;\n background:#fff;\n padding:9px 15px 4px;\n margin: 0 0 10px 14px;\n position:relative;\n }\n #settings-content .active {\n border:3px solid #fffdc5;\n background:#fff;\n padding:7px 13px 2px;\n margin: 0 0 10px 14px;\n }\n \n #settings-content .step p {\n padding:0;\n margin: 0 0 18px;\n }\n /* add-tags */\n #settings-content .step h3 a.help {\n position:absolute;\n right:3px;\n top:0;\n background: url(&quot;images/icon_help.gif&quot;) 0 0 no-repeat;\n width:15px;\n height:15px;\n }\n #settings-content .step h3 a:hover.help {\n background-position:0 -30px;\n }\n #settings-content .step h3 a.help span {\n display:none;\n }\n #settings-content .step form.add-tags {\n background: url(&quot;images/bg_line.gif&quot;) 50% 0 repeat-y;\n margin: 0 0 19px;\n padding:0;\n }\n #settings-content .step form.add-tags:after {\n content: &quot;.&quot;; \n /*display: block;*/ \n height:0; \n clear: both; \n visibility: hidden;\n }\n #settings-content .step form.add-tags {\n display:block;\n }\n\n #settings-content .step form.add-tags .tag {\n width:50%;\n float:left;\n }\n #settings-content .step form.add-tags .tag label {\n font-weight:bold;\n width:13%;\n float:left;\n margin:4px 0 0;\n }\n #settings-content .step form.add-tags .tag input.text {\n width:80%;\n }\n #settings-content .step form.add-tags .tag p.example {\n font-size:10px;\n width:80%;\n margin:3px 0 8px 13%;\n }\n #settings-content .step form.add-tags .tag .row-submit {\n text-align:center;\n }\n #settings-content .step form.add-tags .tag .row-submit #submit-1 {\n margin:0 auto;\n padding:0;\n }\n #settings-content .step form.add-tags .select {\n width:50%;\n float:left;\n }\n #settings-content .step form.add-tags .select div {\n margin: 0 0 0 7%;\n background:#fffdc5;\n padding: 12px;\n\n }\n #settings-content .step form.add-tags .select div:after {\n content: &quot;.&quot;; \n display: block;\n height:0; \n clear: both; \n visibility: hidden;\n }\n #settings-content .step form.add-tags .select div {\n display:block;\n }\n #settings-content .step form.add-tags .select ul {\n width:50%;\n float:left;\n margin: 0 0 0 0;\n }\n #settings-content .step form.add-tags .select ul li {\n font-size:10px;\n margin:0 10px 2px 0;\n padding:0;\n background:none;\n }\n #settings-content .step form.add-tags .select ul li a {\n color:#272727;\n text-decoration:none;\n padding: 0 19px 0 0;\n }\n #settings-content .step form.add-tags .select ul li a:hover {\n text-decoration:none;\n }\n /* submit-wiki */\n #settings-content .step form.submit-wiki {\n text-align:center;\n margin: 17px 0 18px;\n }\n #settings-content .step form.submit-wiki label {\n font-weight:bold;\n margin:0 6px 0 0;\n }\n #settings-content .step form.submit-wiki input.text {\n width:40%;\n margin:0 14px 0 0;\n }\n /* invite-others */\n #settings-content .step p.invite-others {\n margin: 15px 0 14px;\n }\n #settings-content .step p.invite-others a {\n color:#515151;\n padding:0 0 0 8px;\n background: url(&quot;images/arrow1.gif&quot;) 0 50% no-repeat;\n font-weight:bold;\n margin: 0 0 0 6px;\n }\n /* spread-the-word */\n #settings-content .step table.spread-the-word {\n margin: 0 0 10px;\n width:100%;\n border:none;\n }\n #settings-content .step table.spread-the-word th {\n background: none;\n color:#747474;\n font-weight:bold;\n text-align: center;\n border:none;\n padding:0 12px 4px;\n font-size:11px;\n }\n #settings-content .step table.spread-the-word td {\n background: #f1f2f4;\n color:#444444;\n text-align: center;\n border:none;\n border-bottom:1px solid #ffffff;\n padding:8px 12px;\n vertical-align:middle;\n font-size:11px;\n }\n #settings-content .step table.spread-the-word td blockquote {\n background: #ffffff;\n color:#444444;\n border:1px solid #c0cdab;\n padding:14px 20px;\n margin:0;\n width:auto;\n text-align:left;\n }\n #settings-content .step table.spread-the-word td blockquote p {\n padding:0;\n margin:0;\n }\n #settings-content .step table.spread-the-word td blockquote p span.nobr {\n /* white-space:nowrap; */\n }\n #settings-content .step table.spread-the-word td a.visit-pbwiki-1 {\n background: url(&quot;images/bg_visit-pbwiki-1.gif&quot;) 0 0 no-repeat;\n width:171px;\n height:60px;\n display:block;\n margin:0 auto;\n }\n #settings-content .step table.spread-the-word td a:hover.visit-pbwiki-1 {\n background-position:0 -120px;\n }\n #settings-content .step table.spread-the-word td a.visit-pbwiki-1 span{\n display:none;\n }\n #settings-content .step table.spread-the-word td a.visit-pbwiki-2 {\n background: url(&quot;images/bg_visit-pbwiki-2.gif&quot;) 0 0 no-repeat;\n width:150px;\n height:150px;\n display:block;\n margin:0 auto;\n }\n #settings-content .step table.spread-the-word td a:hover.visit-pbwiki-2 {\n background-position:0 -300px;\n }\n #settings-content .step table.spread-the-word td a.visit-pbwiki-2 span{\n display:none;\n }\n #settings-content .step table.spread-the-word tr.odd td {\n background: #f7f8f9;\n }\n /* add-more */\n #settings-content .step form.add-more {\n margin: 0 auto 13px;\n text-align:center;\n }\n #settings-content .step form.add-more div.row {\n margin: 0 0 20px 0;\n }\n #settings-content .step form.add-more input.checkbox {\n margin: 0 5px 0 0;\n }\n #settings-content .step form.add-more label {\n color:#444;\n margin: 0 14px 0 0;\n padding:3px 0 3px 25px;\n }\n #settings-content .step form.add-more label.del {\n background: url(&quot;/ficons/logo_small_del.icio.us.gif&quot;) 0 50% no-repeat;\n }\n #settings-content .step form.add-more label.digg {\n background: url(&quot;/ficons/logo_small_digg.gif&quot;) 0 50% no-repeat;\n }\n #settings-content .step form.add-more label.reddit {\n background: url(&quot;/ficons/logo_small_reddit.gif&quot;) 0 50% no-repeat;\n padding:3px 0 3px 22px;\n }\n #settings-content .step form.add-more label.furl {\n background: url(&quot;/ficons/logo_small_furl.gif&quot;) 0 50% no-repeat;\n padding:3px 0 3px 23px;\n }\n #settings-content .step form.add-more label.spurl {\n background: url(&quot;/ficons/logo_small_spurl.gif&quot;) 0 50% no-repeat;\n padding:3px 0 3px 21px;\n }\n #settings-content .step form.add-more #submit-3 {\n margin:0 auto;\n padding:0;\n }\n\n /* saved-step */\n #settings-content .saved-step {\n background:#fffdcb;\n width:100%;\n position:absolute;\n left:0;\n top:0;\n text-align:center;\n -moz-opacity:0.8;\n opacity:0.8;\n }\n #settings-content .saved-step div {\n position:absolute;\n left:50%;\n width:80%;\n }\n #settings-content .saved-step h3 {\n color:#655b2d;\n font-size:14px;\n font-weight:bold;\n padding:2px 0 7px 0;\n border-bottom:1px solid #d0cc9b;\n text-align:center;\n }\n #settings-content .saved-step h3 img {\n margin-right:8px;\n vertical-align:middle;\n }\n\n #settings-content .saved-step p {\n color:#4b4b4b;\n font-size:12px;\n clear:left;\n margin:0;\n }\n\n.upsell { \n border:2px solid green;\n background:#ccffcc;\n padding:10px; \n}\n.msg { \n padding-bottom:0px; \n margin-bottom: 10px; \n}\n/*}}}*/</div>
+<div title="yummy.pbwiki.com/themes/skin3/screen.css" modifier="MartinBudden" created="200609240000" tags="styles">
+<pre>/***
+http://yummy.pbwiki.com/themes/skin3/screen.css
+COMMON GRID ELEMENTS
+***/
+
+/*{{{*/
+body {
+ background: #949494;
+ color:#63534c;
+ font:100% Georgia, Arial, Verdana, Tahoma, sans-serif;
+ margin:0 0 23px;
+ padding:0;
+ text-align:center;
+}
+
+#root {
+ text-align:left;
+ margin: 0 23px 0;
+ min-width:760px;
+ background: #fbf9f8;
+ position:relative;
+}
+
+
+/****************************************************************
+ SUBPAGE SPECIFIC ELEMENTS
+****************************************************************/
+/*
+ Header
+*/
+#wrapper-header {
+ background: url(&quot;images/bg_header.gif&quot;) 0 0 repeat-x;
+ height: 66px;
+ position: relative;
+}
+#header {
+ text-align: center;
+ padding: 18px 0 0;
+}
+ #header h1 {
+ background:url(&quot;images/logo_small.gif&quot;) 0 0 no-repeat;
+ position:absolute;
+ right:13px;
+ top:0;
+ margin: 0;
+ padding: 0;
+ }
+ 
+ #header h1 a {
+ display:block;
+ height:41px;
+ width:51px;
+ }
+ #header h1 a span {
+ display:none;
+ }
+
+ #header h2 {
+ color:#ad0000;
+ font:175% Georgia, &quot;Times New Roman&quot;, Times, serif;
+ margin:0 18px 0 0;
+ padding:0;
+ display: inline;
+ }
+ #header h2 a {
+ color:#ad0000;
+ text-decoration: none;
+ }
+ #header h2 a:hover {
+ text-decoration: underline;
+ }
+ #header h3 {
+ color: #303030;
+ font:175% Georgia, &quot;Times New Roman&quot;, Times, serif;
+ border-left: 2px solid #404040;
+ margin:0;
+ padding:0 0 0 20px;
+ display: inline;
+ }
+ #header p.premium {
+ margin:0 12px 0 -8px;
+ padding:0;
+ display:inline;height:1px;
+ }
+ * html #header p.premium {
+ height:1px;
+ }
+ #header p.premium img {
+ display:inline;
+ vertical-align:baseline;
+ }
+ /* search-box */
+ .search-box {
+ position: absolute;
+ height: 38px;
+ top: 0;
+ right:0;
+ width: 215px;
+ text-align: right;
+ }
+
+ .search-box form {
+ margin:24px 35px 0 0;
+ padding:0;
+ }
+ .search-box form div .input-search {
+ height: 17px;
+ he\ight: 13px;
+ width: 121px;
+ w\idth: 117px;
+ padding: 2px;
+ margin: 0 3px 0 0;
+ vertical-align: middle;
+ background: #fff;
+ font: normal 68.75% Tahoma, Verdana, Arial, &quot;Times New Roman&quot;, Times, serif;
+ color: #616161;
+ border: none;
+ }
+ .search-box form div .input-search:focus {
+ background: #fffacc;
+ color: #272727;
+ }
+ .search-box form div .button-search {
+ height: 17px;
+ padding: 0 9px 2px;
+ margin: 0;
+ vertical-align: middle;
+ border: none;
+ background: #decfc8;
+ font: normal 68.75% Tahoma, Verdana, Arial, &quot;Times New Roman&quot;, Times, serif;
+ color: #616161;
+ }
+
+
+
+/*
+ Menu
+*/
+#menu {
+ position: absolute;
+ top:0;
+ left: 50%;
+ text-align: center;
+ background: url(&quot;images/bg_menu-1.gif&quot;) 0 0 no-repeat;
+ height: 41px;
+ margin: 0 0 0 -160px;
+ width:320px;
+
+}
+ #menu ul {
+ margin: 0 auto 0 20px;
+ padding: 0 23px 0 0;
+ list-style: none;
+ background: url(&quot;images/bg_menu-2.gif&quot;) 100% 0 no-repeat;
+ height: 41px;
+ display: inline;
+ }
+ #menu ul:after {
+ content: &quot;.&quot;; 
+ display: block; 
+ height:0; 
+ clear: both; 
+ visibility: hidden;
+ }
+ #menu ul {
+ display:block;
+ }
+ #menu ul li {
+ margin: 0;
+ padding: 0;
+ float: left;
+ background: url(&quot;images/dots_menu.gif&quot;) 100% 10px no-repeat;
+ }
+ #menu ul li.last {
+ background: none;
+ }
+ #menu ul li a,
+ #menu ul li span {
+ text-decoration: none;
+ color: #646464;
+ font: normal 68.75% Tahoma, Verdana, Arial, &quot;Times New Roman&quot;, Times, serif;
+ padding:13px 12px 11px 12px;
+ display: block;
+ }
+ #menu ul li span {
+ text-decoration: underline;
+ color:#ad0000;
+ }
+ #menu ul li a:hover,
+ #menu ul li a:hover span {
+ color:#ad0000;
+ text-decoration: underline;
+ cursor:pointer;cursor:hand;
+ }
+ #menu ul li a span {
+ font-size: 100%;
+ background: none;
+ padding:0;
+ text-decoration: none;
+ color: #646464;
+ }
+
+/*
+ wrapper-functional
+*/
+.wrapper-functional {
+ position: relative;
+ background: url(&quot;images/bg_wrapper-functional.gif&quot;) 0 0 repeat-x;
+}
+.wrapper-functional:after {
+ content: &quot;.&quot;; 
+ display: block; 
+ height:0; 
+ clear: both; 
+ visibility: hidden;
+}
+.wrapper-functional {
+ display:block;
+}
+
+ /* sub-menu */
+ .sub-menu {
+ padding: 0 210px 0 0;
+ background: url(&quot;images/bg_wrapper-functional-1.gif&quot;) 0 0 no-repeat;
+ }
+ .sub-menu ul {
+ margin: 0 0 0 25px;
+ padding: 12px 0 0;
+ list-style: none;
+ }
+ .sub-menu ul:after {
+ content: &quot;.&quot;; 
+ display: block; 
+ height:0; 
+ clear: both; 
+ visibility: hidden;
+ }
+ .sub-menu ul {
+ display:block;
+ }
+ .sub-menu ul li {
+ margin: 0;
+ padding: 0;
+ float: left;
+ background: url(&quot;images/dots_submenu.gif&quot;) 100% 100% no-repeat;
+ }
+ .sub-menu ul li a,
+ .sub-menu ul li span {
+ text-decoration: none;
+ color: #fff;
+ font: normal 68.75% Tahoma, Verdana, Arial, &quot;Times New Roman&quot;, Times, serif;
+ padding:7px 13px 5px 13px;
+ display: block;
+ cursor:pointer;cursor:hand;
+ }
+ .sub-menu ul li span {
+ text-decoration: underline;
+ color:#fffdc5;
+ }
+ .sub-menu ul li a:hover,
+ .sub-menu ul li a:hover span,
+ .sub-menu ul li.active a,
+ .sub-menu ul li.active a span{
+ color:#fffdc5;
+ text-decoration: none;
+ }
+ .sub-menu ul li a span {
+ font-size: 100%;
+ background: none;
+ padding:0;
+ text-decoration: none;
+ color: #fff;
+ }
+ /* sub-menu-2 */
+ .sub-menu-2 {
+ background: url(&quot;images/bg_wrapper-functional-1.gif&quot;) 100% 0 no-repeat;
+ position: absolute;
+ height: 38px;
+ heigh\t: 26px;
+ top: 0;
+ right:0;
+ width: 215px;
+ widt\h: 188px;
+ padding:12px 27px 0 0;
+ text-align: right;
+ font: normal 68.75% Verdana, Arial, &quot;Times New Roman&quot;, Times, serif;
+ }
+ .sub-menu-2 a {
+ background: url(&quot;images/arrow1.gif&quot;) 0 50% no-repeat;
+ padding:0 0 0 10px;
+ margin:0 10px 0 0;
+ color:#ffffff;
+ }
+
+/*
+ wrapper-functional-sub
+*/
+.wrapper-functional.wrapper-functional-sub {
+ background: url(&quot;images/bg_wrapper-functional-sub.gif&quot;) 0 100% repeat-x;
+}
+ .wrapper-functional.wrapper-functional-sub .sub-menu {
+ background: url(&quot;images/bg_wrapper-functional-sub-1.gif&quot;) 0 100% no-repeat;
+ padding: 0 0 11px;
+
+ }
+ .wrapper-functional.wrapper-functional-sub .sub-menu ul {
+ margin: 0 0 0 25px;
+ padding: 0 0 0;
+ list-style: none;
+ }
+ .wrapper-functional.wrapper-functional-sub .sub-menu ul li {
+ background-position:100% 0;
+ }
+ .wrapper-functional.wrapper-functional-sub .sub-menu ul li a,
+ .wrapper-functional.wrapper-functional-sub .sub-menu ul li span {
+ padding:8px 13px 7px 13px;
+ }
+ .wrapper-functional.wrapper-functional-sub .sub-menu ul li a span {
+ padding:0;
+ }
+ .wrapper-functional.wrapper-functional-sub .search-box {
+ background: url(&quot;images/bg_wrapper-functional-sub-1.gif&quot;) 100% 100% no-repeat;
+
+ }
+ .wrapper-functional.wrapper-functional-sub .search-box form {
+ margin:2px 32px 0 0;
+ }
+
+
+/*
+ last-modified
+*/
+.last-modified {
+ background: #e9e8e7;
+ color: #606060;
+ font: normal 62.5% Verdana, Arial, &quot;Times New Roman&quot;, Times, serif;
+ padding: 4px 36px 4px;
+}
+ .last-modified p a {
+ color: #707070;
+ }
+/*
+ wrapper-information
+*/
+.wrapper-information {
+ padding:19px 24px 22px;
+ color:#7a7a7a;
+ background: url(&quot;images/bg_wrapper-information.gif&quot;) 0 0 repeat-x;
+}
+ .wrapper-information table {
+ margin:0;
+ padding:0;
+ border:0;
+ border-collapse:collapse;
+ width:100%;
+ }
+ .wrapper-information table td {
+ border:4px solid #e3e3e3;
+ vertical-align:top;
+ width:33%;
+ font:normal 68.75% Verdana, Tahoma, sans-serif;
+ }
+ .wrapper-information #page-information,
+ .wrapper-information #wiki-information{
+ background:#ffffff;
+ }
+ .wrapper-information #wiki-premium {
+ /*background:#fcf592;*/
+ /*background:#f2eec6;*/
+ background:#FFFDDF;
+ }
+
+ .wrapper-information a { 
+ color:#7f7f7f;
+ }
+
+ .wrapper-information h3 {
+ font-size:118.18%;
+ font-weight:bold;
+ margin:0 0 12px;
+ padding:10px 11px 9px;
+ border-bottom:1px solid #cfcfcf;
+ }
+ .wrapper-information #wiki-premium h3 {
+ font:normal 163.64% Georgia, Verdana, Tahoma, sans-serif;
+ /*color:#d13123;*/
+ color:#f2d1a6;
+ margin:0 17px 12px;
+ padding:7px 0 7px;
+ border-bottom:1px solid #9d9d9d;
+ }
+ .wrapper-information p {
+ margin:0 17px 15px;
+ padding:0;
+ line-height:1.5em;
+ }
+ .wrapper-information p.learn-more {
+ font-weight:bold;
+ text-align:right;
+ margin:0 17px 10px;
+ }
+ .wrapper-information #wiki-premium {
+ color:#7f7f7f;
+ }
+ .wrapper-information ul {
+ margin:0 17px 15px;
+ padding:0;
+ line-height:1.5em;
+ }
+ .wrapper-information ul li {
+ list-style:none;
+ margin:0 0 4px;
+ padding:0 0 0 15px;
+ background: url(&quot;images/arrow1.gif&quot;) 0 7px no-repeat;
+ }
+ .wrapper-information ul.page li {
+ padding:0 0 0 20px;
+ background: url(&quot;images/icon_page.gif&quot;) 0 3px no-repeat;
+ }
+
+
+/*
+ Footer
+*/
+#footer {
+ padding: 9px 0;
+ font: normal 62.5% Verdana, Arial, &quot;Times New Roman&quot;, Times, serif;
+ color: #3a3a3a;
+ background: #949494;
+}
+#footer:after {
+ content: &quot;.&quot;; 
+ display: block; 
+ height:0; 
+ clear: both; 
+ visibility: hidden;
+}
+#footer {
+ display:block;
+}
+
+#footer p.f-menu {
+ text-align:right;
+}
+#footer p.f-menu a {
+ text-decoration:none; 
+ padding:0 0 0 8px;
+ background: url(&quot;images/arrow2.gif&quot;) 0 50% no-repeat;
+ color: #ffffff;
+ margin: 0 12px 0 0;
+}
+#footer p.f-menu a.rss {
+ margin: 0 6px 0 0;
+}
+ #footer p.f-menu img {
+ margin:-2px 0 0 8px;
+ vertical-align:middle;
+ position:relative;
+ }
+
+
+
+/*
+ Content
+*/
+
+#displaycontent {
+ margin: 0 0 0;
+ padding: 28px 30px 14px;
+ font-size:75%;
+ line-height:1.5em;
+}
+
+#displaycontent:after {
+ content: &quot; &quot;;
+ display: block;
+ height:0;
+ clear: both;
+ visibility: hidden;
+}
+#displaycontent {
+ display:block;
+}
+
+/****************************************************************
+ COMMON CONTENT ELEMENTS
+****************************************************************/
+
+img {
+ border:0;
+}
+
+/* Links */
+
+a {
+ color:#ad0000;
+ text-decoration:underline;
+}
+
+a:hover {
+ text-decoration:none;
+}
+
+/* Typography */
+
+p {
+ margin:0;
+ padding:0;
+}
+#displaycontent span.underlined {
+ text-decoration: underline;
+}
+#displaycontent span.box {
+ border: 1px solid #b8b7b7;
+ background:#e2d5cf;
+ color: #5c5c5c;
+ padding:0 4px;
+}
+#displaycontent h1 {
+ font-size: 2em;
+ font-weight: bold;
+ font-family: Garamond;
+ padding: 0;
+ margin: 0.67em 0;
+}
+#displaycontent h2 {
+ font-size: 1.5em;
+ font-weight: bold;
+ font-family: Garamond;
+ padding: 0;
+ margin: 0.83em 0;
+}
+#displaycontent h3 {
+ font-size: 1.17em;
+ font-weight: bold;
+ font-family: Garamond;
+ padding: 0;
+ margin: 1em 0;
+}
+#displaycontent h4 {
+ font-size: 1em;
+ font-weight: bold;
+ font-family: Garamond;
+ padding: 0;
+ margin: 1.33em 0;
+}#displaycontent h5 {
+ font-size: 0.83em;
+ font-weight: bold;
+ font-family: Garamond;
+ padding: 0;
+ margin: 1.67em 0;
+}#displaycontent h6 {
+ font-size: 0.67em;
+ font-weight: bold;
+ font-family: Garamond;
+ padding: 0;
+ margin: 2.33em 0;
+}
+#displaycontent p {
+ padding: 0;
+ margin: 0 0 16px;
+}
+#displaycontent blockquote {
+ background:#e2d5cf;
+ border: 1px solid #b8b7b7;
+ color: #63534c;
+ font-style: italic;
+ width: 85%;
+ margin: 0 auto 22px;
+ padding: 14px 18px 14px;
+ font: normal 100% &quot;Courier New&quot;, Courier, Arial, Verdana, &quot;Times New Roman&quot;, Times, serif;
+}
+
+/* Lists */
+#displaycontent ul {
+ margin-left: 12px;
+ padding: 0;
+ list-style: none;
+}
+ #displaycontent ul li {
+ margin: 0;
+ padding: 0 0 0 12px;
+ background: url(&quot;images/dots1.gif&quot;) 0 6px no-repeat;
+ }
+
+
+/****************************************************************
+ CONTENT SPECIFIC ELEMENTS
+****************************************************************/
+
+/*
+ SandBox
+*/
+
+#displaycontent p.random-text {
+ margin: 0 0 23px;
+}
+
+#displaycontent ul.examples-elements {
+ margin: 0;
+ padding: 0;
+}
+ #displaycontent ul.examples-elements li {
+ margin: 0 0 1px;
+ padding: 0;
+ background: none;
+ }
+ #displaycontent ul.examples-elements ul {
+ margin: 10px 0 13px 12px;
+ padding: 0;
+ list-style: none;
+ }
+ #displaycontent ul.examples-elements ul li {
+ margin: 0;
+ padding: 0 0 0 12px;
+ background: url(&quot;images/dots1.gif&quot;) 0 6px no-repeat;
+ }
+
+
+#displaycontent ul.gallery {
+ margin:9px 0 0;
+ padding: 0;
+}
+#displaycontent ul.gallery:after {
+ content: &quot;.&quot;; 
+ display: block; 
+ height:0; 
+ clear: both; 
+ visibility: hidden;
+}
+#displaycontent ul.gallery {
+ display:block;
+}
+ #displaycontent ul.gallery li {
+ margin:0;
+ padding: 0;
+ background: none;
+ float: left;
+ margin: 0 25px 14px 0;
+ }
+ #displaycontent ul.gallery li a {
+ border: 5px solid #9a9a99;
+ display: block;
+ }
+ #displaycontent ul.gallery li a:hover {
+ border: 5px solid #63534c;
+ }
+ #displaycontent ul.gallery li a img {
+ display: block;
+ }
+
+#SideBar {
+ background: #eee;
+ border-right: 1px solid #666;
+ border-bottom: 1px solid #666;
+ border-top:1px solid #ccc;
+ border-left:1px solid #ccc;
+ clear:both; 
+ float: right;
+ font-size:0.8em;
+ margin:0 0 0 20px;
+ padding:3px;
+ width: 200px;
+}
+.SideBarTitle {
+ border-bottom:1px solid #666;
+ color:#666;
+ font-size:1.5em;
+ font-weight:bold;
+ text-align:center;
+}
+.SideBarTitle a {
+ text-decoration:none;
+}
+
+.toc { 
+ background:#eee; 
+ border:1px solid #666; 
+ float:left; 
+ padding:0 10px 0 30px;
+ margin-bottom:10px;
+}
+ .toc a { 
+ color:#666; 
+ text-decoration:none; 
+ }
+ .toc a:hover { 
+ text-decoration:underline; 
+ }
+ .toc li { 
+ color:#666; 
+ }
+ .toc ol {
+ padding:0; 
+ margin:0 0 0 10px; 
+ font-weight:bold; 
+ color:#666; 
+ }
+ .toc li ol { 
+ font-weight:normal; 
+ }
+ .toc li li ol { 
+ font-size:80% 
+ }
+
+#displaycontent table {
+ border:1px solid #fff;
+ border-collapse:collapse;
+ margin:10px 0;
+}
+
+ #displaycontent table th,
+ #displaycontent table td {
+ background:#F5E8E3; 
+ border:2px solid #fff;
+ padding:2px 4px;
+ }
+
+ #displaycontent table th {
+ background:#616161;
+ color:#fff;
+ }
+/*
+ Settings - toolbox
+*/
+#settings {
+ color: #747474;
+ font:11px Verdana, serif;
+} 
+ #settings h3 {
+ color: #494949;
+ font:12px Verdana, serif;
+ font-weight:normal;
+ padding: 0 0 6px;
+ margin:0 0 7px;
+ border-bottom:1px solid #e4e4e4;
+ position:relative;
+ }
+ #settings .active h3 {
+ color: #0367ad;
+ }
+ #settings-content input, label {
+ vertical-align:middle;
+ }
+ #settings-content input.text {
+ font:11px Verdana, serif;
+ color:#747474;
+ border:1px solid #5f5f5f;
+ background:#ffffff;
+ height:20px;
+ heigh\t:16px;
+ padding:4px 0 0 5px;
+ }
+ #settings-content a {
+ color: #494949;
+ }
+
+
+/* settings-menu */
+#settings-menu {
+ float: left;
+ width:173px;
+ widt\h:141px;
+ border:1px solid #5f5f5f;
+ background:#fff;
+ padding:9px 15px 0;
+}
+ #settings-menu h3 {
+ color: #232323;
+ font-weight:bold;
+ margin:0 0 10px;
+ }
+ #settings-menu ul {
+ margin: 0;
+ padding: 0;
+ list-style: none;
+ }
+ #settings-menu ul li {
+ margin: 0 0 12px;
+ padding: 0;
+ background:none;
+ color:#7c7c7c;
+ font-weight:bold;
+ }
+ #settings-menu ul li a {
+ font-weight:normal;
+ }
+
+/* settings-content */
+#settings-content {
+ margin:0 0 0 173px;
+}
+ #settings-content .step {
+ border:1px solid #5f5f5f;
+ background:#fff;
+ padding:9px 15px 4px;
+ margin: 0 0 10px 14px;
+ position:relative;
+ }
+ #settings-content .active {
+ border:3px solid #fffdc5;
+ background:#fff;
+ padding:7px 13px 2px;
+ margin: 0 0 10px 14px;
+ }
+ 
+ #settings-content .step p {
+ padding:0;
+ margin: 0 0 18px;
+ }
+ /* add-tags */
+ #settings-content .step h3 a.help {
+ position:absolute;
+ right:3px;
+ top:0;
+ background: url(&quot;images/icon_help.gif&quot;) 0 0 no-repeat;
+ width:15px;
+ height:15px;
+ }
+ #settings-content .step h3 a:hover.help {
+ background-position:0 -30px;
+ }
+ #settings-content .step h3 a.help span {
+ display:none;
+ }
+ #settings-content .step form.add-tags {
+ background: url(&quot;images/bg_line.gif&quot;) 50% 0 repeat-y;
+ margin: 0 0 19px;
+ padding:0;
+ }
+ #settings-content .step form.add-tags:after {
+ content: &quot;.&quot;; 
+ /*display: block;*/ 
+ height:0; 
+ clear: both; 
+ visibility: hidden;
+ }
+ #settings-content .step form.add-tags {
+ display:block;
+ }
+
+ #settings-content .step form.add-tags .tag {
+ width:50%;
+ float:left;
+ }
+ #settings-content .step form.add-tags .tag label {
+ font-weight:bold;
+ width:13%;
+ float:left;
+ margin:4px 0 0;
+ }
+ #settings-content .step form.add-tags .tag input.text {
+ width:80%;
+ }
+ #settings-content .step form.add-tags .tag p.example {
+ font-size:10px;
+ width:80%;
+ margin:3px 0 8px 13%;
+ }
+ #settings-content .step form.add-tags .tag .row-submit {
+ text-align:center;
+ }
+ #settings-content .step form.add-tags .tag .row-submit #submit-1 {
+ margin:0 auto;
+ padding:0;
+ }
+ #settings-content .step form.add-tags .select {
+ width:50%;
+ float:left;
+ }
+ #settings-content .step form.add-tags .select div {
+ margin: 0 0 0 7%;
+ background:#fffdc5;
+ padding: 12px;
+
+ }
+ #settings-content .step form.add-tags .select div:after {
+ content: &quot;.&quot;; 
+ display: block;
+ height:0; 
+ clear: both; 
+ visibility: hidden;
+ }
+ #settings-content .step form.add-tags .select div {
+ display:block;
+ }
+ #settings-content .step form.add-tags .select ul {
+ width:50%;
+ float:left;
+ margin: 0 0 0 0;
+ }
+ #settings-content .step form.add-tags .select ul li {
+ font-size:10px;
+ margin:0 10px 2px 0;
+ padding:0;
+ background:none;
+ }
+ #settings-content .step form.add-tags .select ul li a {
+ color:#272727;
+ text-decoration:none;
+ padding: 0 19px 0 0;
+ }
+ #settings-content .step form.add-tags .select ul li a:hover {
+ text-decoration:none;
+ }
+ /* submit-wiki */
+ #settings-content .step form.submit-wiki {
+ text-align:center;
+ margin: 17px 0 18px;
+ }
+ #settings-content .step form.submit-wiki label {
+ font-weight:bold;
+ margin:0 6px 0 0;
+ }
+ #settings-content .step form.submit-wiki input.text {
+ width:40%;
+ margin:0 14px 0 0;
+ }
+ /* invite-others */
+ #settings-content .step p.invite-others {
+ margin: 15px 0 14px;
+ }
+ #settings-content .step p.invite-others a {
+ color:#515151;
+ padding:0 0 0 8px;
+ background: url(&quot;images/arrow1.gif&quot;) 0 50% no-repeat;
+ font-weight:bold;
+ margin: 0 0 0 6px;
+ }
+ /* spread-the-word */
+ #settings-content .step table.spread-the-word {
+ margin: 0 0 10px;
+ width:100%;
+ border:none;
+ }
+ #settings-content .step table.spread-the-word th {
+ background: none;
+ color:#747474;
+ font-weight:bold;
+ text-align: center;
+ border:none;
+ padding:0 12px 4px;
+ font-size:11px;
+ }
+ #settings-content .step table.spread-the-word td {
+ background: #f1f2f4;
+ color:#444444;
+ text-align: center;
+ border:none;
+ border-bottom:1px solid #ffffff;
+ padding:8px 12px;
+ vertical-align:middle;
+ font-size:11px;
+ }
+ #settings-content .step table.spread-the-word td blockquote {
+ background: #ffffff;
+ color:#444444;
+ border:1px solid #c0cdab;
+ padding:14px 20px;
+ margin:0;
+ width:auto;
+ text-align:left;
+ }
+ #settings-content .step table.spread-the-word td blockquote p {
+ padding:0;
+ margin:0;
+ }
+ #settings-content .step table.spread-the-word td blockquote p span.nobr {
+ /* white-space:nowrap; */
+ }
+ #settings-content .step table.spread-the-word td a.visit-pbwiki-1 {
+ background: url(&quot;images/bg_visit-pbwiki-1.gif&quot;) 0 0 no-repeat;
+ width:171px;
+ height:60px;
+ display:block;
+ margin:0 auto;
+ }
+ #settings-content .step table.spread-the-word td a:hover.visit-pbwiki-1 {
+ background-position:0 -120px;
+ }
+ #settings-content .step table.spread-the-word td a.visit-pbwiki-1 span{
+ display:none;
+ }
+ #settings-content .step table.spread-the-word td a.visit-pbwiki-2 {
+ background: url(&quot;images/bg_visit-pbwiki-2.gif&quot;) 0 0 no-repeat;
+ width:150px;
+ height:150px;
+ display:block;
+ margin:0 auto;
+ }
+ #settings-content .step table.spread-the-word td a:hover.visit-pbwiki-2 {
+ background-position:0 -300px;
+ }
+ #settings-content .step table.spread-the-word td a.visit-pbwiki-2 span{
+ display:none;
+ }
+ #settings-content .step table.spread-the-word tr.odd td {
+ background: #f7f8f9;
+ }
+ /* add-more */
+ #settings-content .step form.add-more {
+ margin: 0 auto 13px;
+ text-align:center;
+ }
+ #settings-content .step form.add-more div.row {
+ margin: 0 0 20px 0;
+ }
+ #settings-content .step form.add-more input.checkbox {
+ margin: 0 5px 0 0;
+ }
+ #settings-content .step form.add-more label {
+ color:#444;
+ margin: 0 14px 0 0;
+ padding:3px 0 3px 25px;
+ }
+ #settings-content .step form.add-more label.del {
+ background: url(&quot;/ficons/logo_small_del.icio.us.gif&quot;) 0 50% no-repeat;
+ }
+ #settings-content .step form.add-more label.digg {
+ background: url(&quot;/ficons/logo_small_digg.gif&quot;) 0 50% no-repeat;
+ }
+ #settings-content .step form.add-more label.reddit {
+ background: url(&quot;/ficons/logo_small_reddit.gif&quot;) 0 50% no-repeat;
+ padding:3px 0 3px 22px;
+ }
+ #settings-content .step form.add-more label.furl {
+ background: url(&quot;/ficons/logo_small_furl.gif&quot;) 0 50% no-repeat;
+ padding:3px 0 3px 23px;
+ }
+ #settings-content .step form.add-more label.spurl {
+ background: url(&quot;/ficons/logo_small_spurl.gif&quot;) 0 50% no-repeat;
+ padding:3px 0 3px 21px;
+ }
+ #settings-content .step form.add-more #submit-3 {
+ margin:0 auto;
+ padding:0;
+ }
+
+ /* saved-step */
+ #settings-content .saved-step {
+ background:#fffdcb;
+ width:100%;
+ position:absolute;
+ left:0;
+ top:0;
+ text-align:center;
+ -moz-opacity:0.8;
+ opacity:0.8;
+ }
+ #settings-content .saved-step div {
+ position:absolute;
+ left:50%;
+ width:80%;
+ }
+ #settings-content .saved-step h3 {
+ color:#655b2d;
+ font-size:14px;
+ font-weight:bold;
+ padding:2px 0 7px 0;
+ border-bottom:1px solid #d0cc9b;
+ text-align:center;
+ }
+ #settings-content .saved-step h3 img {
+ margin-right:8px;
+ vertical-align:middle;
+ }
+
+ #settings-content .saved-step p {
+ color:#4b4b4b;
+ font-size:12px;
+ clear:left;
+ margin:0;
+ }
+
+.upsell { 
+ border:2px solid green;
+ background:#ccffcc;
+ padding:10px; 
+}
+.msg { 
+ padding-bottom:0px; 
+ margin-bottom: 10px; 
+}
+/*}}}*/</pre>
+</div>
