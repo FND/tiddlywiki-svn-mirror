@@ -1,46 +1,21 @@
 <div title="Styles HorizontalMainMenu" modifier="MartinBudden" tags="styles excludeLists excludeSearch">
 <pre>/***
-Copied from: [[tiddlywikitips.com|http://tiddlywikitips.com/#%5B%5BStyles%20HorizontalMainMenu%5D%5D]]
 To use, add {{{[[Styles HorizontalMainMenu]]}}} to your StyleSheet tiddler.
-You must also copy the contents of {{{PageTemplate ~HorizontalMenu}}} to PageTemplate.
 See http://www.w3schools.com/css/css_colors.asp for a color chart.
 ***/
 /*{{{*/
-.header {background:#330099;}
-.headerShadow {padding:.5em 0em .5em 1em;}
-.headerForeground {padding:.5em 0em .5em 1em;}
-
-.header {background:darkblue;}
-.headerShadow {color:white;}
+#mainMenu {position:relative;left:auto;width:auto;text-align:left;line-height:normal;padding 0em 1em 0em 1em;font-size:normal}
+#mainMenu br {display:none;}
+#mainMenu {background:#336699;}
+#mainMenu {padding:2px;}
+#mainMenu .button, #mainMenu .tiddlyLink {padding-left:1em;padding-right:0em;color:white;font-size:115%;}
 
 /*#displayArea {margin:1em 15.7em 0em 1em;}*/
-/* The bit that contains all tiddlers */
 #displayArea {
 /* background-color:#eef;*/
 	margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:1em;
 	padding-top:.1em;padding-bottom:.1em;
-	-moz-border-radius:1em;
 }
-
-/* Tiddler title */
-.title {color:black;border-bottom:2px solid #ddd;}
-/* Tiddler subtitle */
-.subtitle {font-size:0.9em;text-align:right;border-bottom:1px solid #ddd;}
-.toolbar {padding-top:0px;padding-bottom:0px;color:#04b;}
-/* Tiddler body */
-.tiddler {-moz-border-radius:1em;border:1px solid #ccc;margin:0.5em;background:#fff;padding:0.5em;}
-
-
-#topMenu br {display:none;}
-#topMenu {background:#336699;}
-#topMenu {padding:2px;}
-#topMenu .button, #topMenu .tiddlyLink {padding-left:1em;padding-right:1em;color:white;font-size:115%;}
-
-/* just in case want some ~QuickOpenTags in your topMenu */
-#topMenu .quickopentag {padding:0px;margin:0px;border:0px;}
-#topMenu .quickopentag .tiddlyLink {padding-right:1px;}
-#topMenu .quickopentag .button {padding-left:1px;border:0px;}
-
-@media print {#topMenu {display:none ! important;}}
-/*}}}*/</pre>
+/*}}}*/
+</pre>
 </div>
