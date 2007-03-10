@@ -1,1 +1,18 @@
-<div tiddler="Adaptor.getWorkspaceList" modifier="MartinBudden" modified="200702251530" created="200702251530" tags="functions" server.page.version="200702251530">{{{\nAdaptor.getWorkspaceList(context,userParams,callback)\n}}}\nGets a list of the workspaces available on a particular host (see ServerAdaptorConcepts). This function uses the AsynchronousPattern.\n\n''Parameters:''\n|context |context object that is passed to the callback function |\n|userParams |user settable object object that is passed on unchanged to the callback function |\n|callback |Reference to callback function, see AdaptorCallbackSignature |\n''Returns:''\n|true |on success |\n|string |an error message if there was an error issuing the request |\n''Callback signature'' as per AdaptorCallbackSignature with additional fields:\n|context.workspaces |An array of information about each available workspace (see below) |\nThe entries in the {{{context.workspaces}}} array have the following minimum set of fields, although particular adaptors may choose to return additional information in further fields.\n|title |Title of the workspace (as used in [[Adaptor.openWorkspace]]) |\n</div>
+<div title="Adaptor.getWorkspaceList" modifier="MartinBudden" created="200702251530" tags="functions" server.page.version="200702251530">
+<pre>{{{
+Adaptor.getWorkspaceList(context,userParams,callback)
+}}}
+Gets a list of the workspaces available on a particular host (see ServerAdaptorConcepts). This function uses the AsynchronousPattern.
+
+''Parameters:''
+|context |context object that is passed to the callback function |
+|userParams |user settable object object that is passed on unchanged to the callback function |
+|callback |Reference to callback function, see AdaptorCallbackSignature |
+''Returns:''
+|true |on success |
+|string |an error message if there was an error issuing the request |
+''Callback signature'' as per AdaptorCallbackSignature with additional fields:
+|context.workspaces |An array of information about each available workspace (see below) |
+The entries in the {{{context.workspaces}}} array have the following minimum set of fields, although particular adaptors may choose to return additional information in further fields.
+|title |Title of the workspace (as used in [[Adaptor.openWorkspace]]) |</pre>
+</div>

@@ -1,1 +1,13 @@
-<div tiddler="ServerAdaptorExtendedFields" modifier="MartinBudden" modified="200702251426" created="200702251426" tags="" server.page.version="200702251426">The ServerAdaptorMechanism uses ExtendedFields to store additional data with tiddlers that are associated with a server host. The standard fields are listed below, but particular adaptors will often add their own custom fields for their own purposes.\n|server.type |The type of server adaptor associated with this tiddler |eg &quot;file&quot;, &quot;socialtext&quot; |\n|server.host |The host server URL |eg &quot;http://www.socialtext.net/&quot; |\n|server.workspace |The workspace associated with this tiddler |eg &quot;stoss&quot; |\n|server.page.name |The full (human readable) name of the tiddler's page on the server |eg &quot;Socialtext Open Source Wiki&quot; |\n|server.page.id |The normalized form of the tiddler's page name on the server |eg &quot;socialtext_open_source_wiki&quot; |\n|server.page.revision |The revision of the page. Host dependent, but normally a number |eg &quot;20070222050650&quot; |\n|wikiformat |The wikiformat of the tiddler |eg &quot;socialtext&quot; |\n\n\nSee ServerAdaptorConcepts for the meanings of terms like host, workspace and adaptor.\n</div>
+<div title="ServerAdaptorExtendedFields" modifier="MartinBudden" created="200702251426" server.page.version="200702251426">
+<pre>The ServerAdaptorMechanism uses ExtendedFields to store additional data with tiddlers that are associated with a server host. The standard fields are listed below, but particular adaptors will often add their own custom fields for their own purposes.
+|server.type |The type of server adaptor associated with this tiddler |eg &quot;file&quot;, &quot;socialtext&quot; |
+|server.host |The host server URL |eg &quot;http://www.socialtext.net/&quot; |
+|server.workspace |The workspace associated with this tiddler |eg &quot;stoss&quot; |
+|server.page.name |The full (human readable) name of the tiddler's page on the server |eg &quot;Socialtext Open Source Wiki&quot; |
+|server.page.id |The normalized form of the tiddler's page name on the server |eg &quot;socialtext_open_source_wiki&quot; |
+|server.page.revision |The revision of the page. Host dependent, but normally a number |eg &quot;20070222050650&quot; |
+|wikiformat |The wikiformat of the tiddler |eg &quot;socialtext&quot; |
+
+
+See ServerAdaptorConcepts for the meanings of terms like host, workspace and adaptor.</pre>
+</div>

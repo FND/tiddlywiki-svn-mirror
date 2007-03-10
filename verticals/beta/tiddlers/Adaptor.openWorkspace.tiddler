@@ -1,1 +1,16 @@
-<div tiddler="Adaptor.openWorkspace" modifier="MartinBudden" modified="200702251529" created="200702251529" tags="functions" server.page.version="200702251529">{{{\nAdaptor.openWorkspace(host,context,userParams,callback)\n}}}\nOpens a particular workspace in an adaptor that has already been opened on a host (see ServerAdaptorConcepts). This function uses the AsynchronousPattern.\n\n''Parameters:''\n|workspace |Name of workspace |\n|context |context object that is passed to the callback function |\n|userParams |user settable object object that is passed on unchanged to the callback function |\n|callback |Reference to callback function, see AdaptorCallbackSignature |\n''Returns:''\n|true |on success |\n|string |an error message if there was an error issuing the request |\n''Callback signature'' as per AdaptorCallbackSignature.\n</div>
+<div title="Adaptor.openWorkspace" modifier="MartinBudden" created="200702251529" tags="functions" server.page.version="200702251529">
+<pre>{{{
+Adaptor.openWorkspace(host,context,userParams,callback)
+}}}
+Opens a particular workspace in an adaptor that has already been opened on a host (see ServerAdaptorConcepts). This function uses the AsynchronousPattern.
+
+''Parameters:''
+|workspace |Name of workspace |
+|context |context object that is passed to the callback function |
+|userParams |user settable object object that is passed on unchanged to the callback function |
+|callback |Reference to callback function, see AdaptorCallbackSignature |
+''Returns:''
+|true |on success |
+|string |an error message if there was an error issuing the request |
+''Callback signature'' as per AdaptorCallbackSignature.</pre>
+</div>

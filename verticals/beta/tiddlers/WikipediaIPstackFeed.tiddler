@@ -1,1 +1,6 @@
-<div tiddler="WikipediaIPstackFeed" modifier="MartinBudden" modified="200702220000" created="200702220000" tags="contentPublisher excludeLists excludeSearch">|''Description:''|Wikipedia articles containing IPstack template|\n|''Type:''|mediawiki|\n|''URL:''|http://www.wikipedia.org/|\n|''Workspaces:''|Main|</div>
+<div title="WikipediaIPstackFeed" modifier="MartinBudden" created="200702220000" tags="contentPublisher excludeLists excludeSearch">
+<pre>|''Description:''|Wikipedia articles containing IPstack template|
+|''Type:''|mediawiki|
+|''URL:''|http://www.wikipedia.org/|
+|''Workspaces:''|Main|</pre>
+</div>

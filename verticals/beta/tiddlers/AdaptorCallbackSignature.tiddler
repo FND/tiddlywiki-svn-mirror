@@ -1,1 +1,15 @@
-<div tiddler="AdaptorCallbackSignature" modifier="MartinBudden" modified="200702251543" created="200702251543" tags="functions" server.page.version="200702251543">{{{\ncallback(context,userParams)\n}}}\n|userParams |userParams object (unchanged) as passed by the original caller |\ncontext contains the following fields:\n|context.status |True if original call was successful, false if there was an error |\n|context.statusText |Error message if context.status is false |\n|context.adpator |Reference to the adaptor object |\nAdditionally, context may contain the following fields, depending on the adaptor function originally called:\n|context.workspaces |Array of workspaces, see [[Adaptor.getWorkspaceList]] |\n|context.tiddler |Tiddler retrieved, see [[Adaptor.getTiddler]]|\n|context.tiddlers |Array of Tiddlers retrieved, not all Tiddler fields filled in, see [[Adaptor.getTiddlerList]]|\n|context.revisions |Array of revisions of the current Tiddler, not all Tiddler fields filled in, see [[Adaptor.getTiddlerRevisionList]] |\n\n</div>
+<div title="AdaptorCallbackSignature" modifier="MartinBudden" created="200702251543" tags="functions" server.page.version="200702251543">
+<pre>{{{
+callback(context,userParams)
+}}}
+|userParams |userParams object (unchanged) as passed by the original caller |
+context contains the following fields:
+|context.status |True if original call was successful, false if there was an error |
+|context.statusText |Error message if context.status is false |
+|context.adpator |Reference to the adaptor object |
+Additionally, context may contain the following fields, depending on the adaptor function originally called:
+|context.workspaces |Array of workspaces, see [[Adaptor.getWorkspaceList]] |
+|context.tiddler |Tiddler retrieved, see [[Adaptor.getTiddler]]|
+|context.tiddlers |Array of Tiddlers retrieved, not all Tiddler fields filled in, see [[Adaptor.getTiddlerList]]|
+|context.revisions |Array of revisions of the current Tiddler, not all Tiddler fields filled in, see [[Adaptor.getTiddlerRevisionList]] |</pre>
+</div>

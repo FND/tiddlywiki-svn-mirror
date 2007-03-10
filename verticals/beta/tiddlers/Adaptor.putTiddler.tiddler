@@ -1,1 +1,17 @@
-<div tiddler="Adaptor.putTiddler" modifier="MartinBudden" modified="200702251547" created="200702251547" tags="functions" server.page.version="200702251547">{{{\nAdaptor.putTiddler(tiddler,context,userParams,callback)\n}}}\nStores a named tiddler to an adaptor opened to a workspace on a host (see ServerAdaptorConcepts). This function uses the AsynchronousPattern.\n\n''Parameters:''\n|tiddler |The Tiddler to store |\n|context |context object that is passed to the callback function |\n|userParams |user settable object object that is passed on unchanged to the callback function |\n|callback |Reference to callback function, see AdaptorCallbackSignature |\n''Returns:''\n|true |on success |\n|string |an error message if there was an error issuing the request |\n\n''Callback signature'' as per AdaptorCallbackSignature.\n</div>
+<div title="Adaptor.putTiddler" modifier="MartinBudden" created="200702251547" tags="functions" server.page.version="200702251547">
+<pre>{{{
+Adaptor.putTiddler(tiddler,context,userParams,callback)
+}}}
+Stores a named tiddler to an adaptor opened to a workspace on a host (see ServerAdaptorConcepts). This function uses the AsynchronousPattern.
+
+''Parameters:''
+|tiddler |The Tiddler to store |
+|context |context object that is passed to the callback function |
+|userParams |user settable object object that is passed on unchanged to the callback function |
+|callback |Reference to callback function, see AdaptorCallbackSignature |
+''Returns:''
+|true |on success |
+|string |an error message if there was an error issuing the request |
+
+''Callback signature'' as per AdaptorCallbackSignature.</pre>
+</div>
