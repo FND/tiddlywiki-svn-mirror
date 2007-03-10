@@ -1158,28 +1158,6 @@ config.mediaWikiFormatters = [
 	}
 },
 
-//# see http://meta.wikimedia.org/wiki/Help:Magic_words
-{
-	name: 'mediaWikiMagicWords',
-	match: '__',
-	lookaheadRegExp: /__([A-Z]*?)__/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			// deal with variables by name here
-			if(lookaheadMatch[1]=='NOTOC') {
-				// do nothing
-			} else if(config.options.chkDisplayMediaWikiMagicWords) {
-				// just output the text of any variables that are not understood
-				w.outputText(w.output,w.matchStart,w.nextMatch);
-			}
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-		}
-	}
-},
-
 {
 	name: 'mediaWikiIncludeOnly',
 	match: '<includeonly>',
@@ -1216,6 +1194,28 @@ config.mediaWikiFormatters = [
 	lookaheadRegExp: /<pre>((?:.|\n)*?)<\/pre>/mg,
 	element: 'pre',
 	handler: config.formatterHelpers.enclosedTextHelper
+},
+
+{
+	name: 'mediaWikiMagicWords',
+	match: '__',
+	lookaheadRegExp: /__([A-Z]*?)__/mg,
+	//# see http://meta.wikimedia.org/wiki/Help:Magic_words
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+			// deal with variables by name here
+			if(lookaheadMatch[1]=='NOTOC') {
+				// do nothing
+			} else if(config.options.chkDisplayMediaWikiMagicWords) {
+				// just output the text of any variables that are not understood
+				w.outputText(w.output,w.matchStart,w.nextMatch);
+			}
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+		}
+	}
 },
 
 {
