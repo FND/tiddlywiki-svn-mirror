@@ -5,7 +5,8 @@ Place your custom CSS here
 [[Styles HorizontalMainMenu]]
 /*{{{*/
 .header {background:#007766;}
-#topMenu {background:#007777;}
+#mainMenu {background:#007777;}
+.headerShadow {color:white;}
 /*}}}*/
 </pre>
 </div>

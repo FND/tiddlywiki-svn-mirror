@@ -9,7 +9,7 @@ See http://www.w3schools.com/css/css_colors.asp for a color chart.
 [[wikipedia.MediaWiki.Common.css]]
 /*{{{*/
 .header {background:#007766;}
-#topMenu {background:#007777;}
+#mainMenu {background:#007777;}
 /*}}}*/
 </pre>
 </div>

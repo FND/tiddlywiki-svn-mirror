@@ -12,6 +12,7 @@ tiddler: ../../formatters/PBWikiFormatterPlugin.js
 tiddler: ../../formatters/SocialTextFormatterPlugin.js
 tiddler: ../../formatters/TracFormatterPlugin.js
 tiddler: ../../formatters/TWikiFormatterPlugin.js
+tiddler: ../../formatters/JSPWikiFormatterPlugin.js
 tiddler: ../../plugins/DisableWikiLinksPlugin.js
 tiddler: ../../plugins/TodoListPlugin.js
 tiddler: ../../plugins/settings.js

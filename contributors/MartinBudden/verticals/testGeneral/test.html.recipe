@@ -1,6 +1,6 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 title: title.html
-tiddler: ../../tiddlers/MainMenuHome.tiddler
+tiddler: MainMenu.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: Home.tiddler
 tiddler: SiteSubtitle.tiddler
@@ -9,7 +9,11 @@ tiddler: SiteUrl.tiddler
 tiddler: StyleSheet.tiddler
 tiddler: Test.tiddler
 tiddler: testMacro.js
+tiddler: ../../adaptors/AdaptorCommandsPlugin.js
+tiddler: ../../mystyle/PageTemplateNoShadow.tiddler
+tiddler: ../../mystyle/StyleSheetMB.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
+tiddler: ../tiddlypedia/ViewTemplateTiddlerFields.tiddler
 tiddler: settings.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
