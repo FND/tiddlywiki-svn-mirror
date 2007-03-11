@@ -1,4 +1,4 @@
-<div title="testConfluenceMacros" modifier="MartinBudden" created="200612070000" tags="test" wikiformat="Confluence">
+<div title="testConfluenceMacros" modifier="MartinBudden" created="200612070000" tags="test" wikiformat="confluence">
 <pre>{panel:title=My Panel}
 The body of the panel
 {panel}

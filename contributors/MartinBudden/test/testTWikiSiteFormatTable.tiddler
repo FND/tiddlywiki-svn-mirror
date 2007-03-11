@@ -1,4 +1,4 @@
-<div title="testTWikiSiteFormatTable" modifier="MartinBudden" created="200610030000" tags="test" wikiformat="TWiki">
+<div title="testTWikiSiteFormatTable" modifier="MartinBudden" created="200610030000" tags="test" wikiformat="twiki">
 <pre>%INCLUDE{DistributionDocHeader}%
 %STARTSECTION{&quot;distributiondoc&quot;}%
 %TOC{depth=&quot;4&quot;}%

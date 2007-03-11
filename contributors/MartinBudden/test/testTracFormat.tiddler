@@ -1,4 +1,4 @@
-<div title="testTracFormat" modifier="MartinBudden" created="200609020000" tags="test" wikiformat="Trac">
+<div title="testTracFormat" modifier="MartinBudden" created="200609020000" tags="test" wikiformat="trac">
 <pre>= WikiFormatting =
 
 Wiki markup is a core feature in Trac, tightly integrating all the other parts of Trac into a flexible and powerful whole.

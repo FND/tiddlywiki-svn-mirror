@@ -1,4 +1,4 @@
-<div title="testMediaWikiFormatter" modifier="MartinBudden" created="200610020000" tags="test" wikiformat="MediaWiki">
+<div title="testMediaWikiFormatter" modifier="MartinBudden" created="200610020000" tags="test" wikiformat="mediawiki">
 <pre>'''bold'''
 ''italic''
 &lt;b&gt;bold&lt;/b&gt;
