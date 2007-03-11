@@ -6,6 +6,7 @@ tiddler: ../../tiddlers/Document_Formatting.tiddler
 tiddler: ../../tiddlers/Table_Formatting.tiddler
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
+tiddler: ../../tiddlers/Download_this_wiki.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/ExampleAdaptorPlugin.js
