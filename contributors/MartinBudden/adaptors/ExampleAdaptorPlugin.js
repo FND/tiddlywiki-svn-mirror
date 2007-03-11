@@ -4,9 +4,9 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ExampleAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ExampleAdaptorPlugin.js|
-|''Version:''|0.5.1|
+|''Version:''|0.5.2|
 |''Status:''|Not for release - this is a template for creating new adaptors|
-|''Date:''|Feb 25, 2007|
+|''Date:''|Mar 11, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
