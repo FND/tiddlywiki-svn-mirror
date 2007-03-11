@@ -2,7 +2,8 @@
 |''Name:''|SimileTimelineBundlePlugin|
 |''Description:''|[[Simile Timelines|http://simile.mit.edu/SimileTimeline/]]|
 |''Author:''|Martin Budden (mjbudden [at] gmail [dot] com)|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelineBundlePlugin.js|
+|''Source:''|http://www.martinswiki.com/#SimileTimelineBundlePlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelineBundlePlugin.js|
 |''Version:''|0.1.0|
 |''Date:''|Mar 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|

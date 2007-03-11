@@ -2,8 +2,8 @@
 |''Name:''|SHA-1 Unwound Plugin|
 |''Description:''|Faster wersion of SHA-1 with unwound loops|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#SHA-1unwoundPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/MediaWikiFormatterPlugin.js|
+|''Source:''|http://www.martinswiki.com/martinswiki.html#SHA-1UnwoundPlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SHA-1UnwoundPlugin.js|
 |''Version:''|1.0.2|
 |''Date:''|Jul 21, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|

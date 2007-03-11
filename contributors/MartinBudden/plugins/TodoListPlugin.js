@@ -2,8 +2,8 @@
 |''Name:''|TodoListPlugin|
 |''Description:''|Simple tabbed todo list|
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
-|''Source:''|http://martinplugins.tiddlywiki.com/#TodoListPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''Source:''|http://martinwiki.com/#TodoListPlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/TodoListPluing.js|
 |''Version:''|0.0.2|
 |''Date:''|July 31, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -40,9 +40,9 @@ config.macros.listTodos.handler = function(place,macroName,params,wikifier,param
 	};
 
 	store.forEachTiddler(fn);
-	var ul = createTiddlyElement(place,"ul");
+	var ul = createTiddlyElement(place,'ul');
 	for(var i=0;i<results.length;i++) {
-		var li = createTiddlyElement(ul,"li");
+		var li = createTiddlyElement(ul,'li');
 		createTiddlyLink(li,results[i].title,true);
 	}
 };
@@ -64,9 +64,9 @@ config.macros.listCompletedTodos.handler = function(place,macroName,params,wikif
 	};
 
 	store.forEachTiddler(fn);
-	var ul = createTiddlyElement(place,"ul");
+	var ul = createTiddlyElement(place,'ul');
 	for(var i=0;i<results.length;i++) {
-		var li = createTiddlyElement(ul,"li");
+		var li = createTiddlyElement(ul,'li');
 		createTiddlyLink(li,results[i].title,true);
 	}
 };
@@ -76,9 +76,9 @@ config.macros.listTags = {};
 config.macros.listTags.handler = function(place,macroName,params)
 {
 	var tags = store.getTaggedTiddlers(params[0],params[1]); // Second parameter is field to sort by (eg, title, modified, modifier or text)
-	var ul = createTiddlyElement(place,"ul");
+	var ul = createTiddlyElement(place,'ul');
 	for(var i=0;i<tags.length;i++) {
-		var li = createTiddlyElement(ul,"li");
+		var li = createTiddlyElement(ul,'li');
 		createTiddlyLink(li,tags[i].title,true);
 	}
 };
@@ -98,21 +98,21 @@ config.macros.newTodo.handler = function(place,macroName,params)
 	//#var title = config.macros.newTodo.title;
 	//#var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick,null,null,this.accessKey);
 	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
-	btn.setAttribute("title",config.macros.newTodo.title);
-	btn.setAttribute("params",params.join("|"));
+	btn.setAttribute('title',config.macros.newTodo.title);
+	btn.setAttribute('params',params.join('|'));
 };
 
 config.macros.newTodo.onClick = function(e)
 {
-	//var title = this.getAttribute("title");
+	//var title = this.getAttribute('title');
 	var title = config.macros.newTodo.title;
-	var params = this.getAttribute("params").split("|");
+	var params = this.getAttribute('params').split('|');
 	story.displayTiddler(null,title,DEFAULT_EDIT_TEMPLATE);
 	for(var i=1;i<params.length;i++) {
 		story.setTiddlerTag(title,params[i],+1);
 	}
 	story.setTiddlerTag(title,config.macros.listTodos.todoTag,+1);
-	story.focusTiddler(title,"text");
+	story.focusTiddler(title,'text');
 	return false;
 };
 /*}}}*/
