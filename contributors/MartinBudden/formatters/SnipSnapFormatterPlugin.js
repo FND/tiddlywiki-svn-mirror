@@ -1,9 +1,9 @@
 /***
 |''Name:''|SnipSnapFormatterPlugin|
-|''Description:''|Pre-release - Allows Tiddlers to use [[SnipSnap|http://snipsnap.org/space/snipsnap-help]] text formatting|
+|''Description:''|Allows Tiddlers to use [[SnipSnap|http://snipsnap.org/space/snipsnap-help]] text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#SnipSnapFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''Source:''|http://www.martinswiki.com/#SnipSnapFormatterPlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/SnipSnapFormatterPlugin.js|
 |''Version:''|0.1.8|
 |''Status:''|alpha pre-release|
 |''Date:''|Oct 28, 2006|

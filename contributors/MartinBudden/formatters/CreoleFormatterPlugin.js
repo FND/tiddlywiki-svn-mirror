@@ -1,11 +1,10 @@
 /***
 |''Name:''|CreoleFormatterPlugin|
 |''Description:''|Extension of TiddlyWiki syntax to support [[Creole|http://www.wikicreole.org/]] text formatting|
-|''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinplugins.tiddlywiki.com/#CreoleFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://www.martinswiki.com/#CreoleFormatterPlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/CreoleFormatterPlugin.js|
 |''Version:''|0.1.6|
-|''Status:''|alpha pre-release|
 |''Date:''|Dec 21, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|

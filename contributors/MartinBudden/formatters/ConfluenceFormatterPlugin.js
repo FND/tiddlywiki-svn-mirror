@@ -1,11 +1,10 @@
 /***
 |''Name:''|ConfluenceFormatterPlugin|
 |''Description:''|Allows Tiddlers to use Confluence text formatting|
-|''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/prereleases.html#ConfluenceFormatterPlugin - for pre-release|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://www.martinswiki.com/#ConfluenceFormatterPlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/ConfluenceFormatterPlugin.js|
 |''Version:''|0.1.2|
-|''Status:''|alpha pre-release|
 |''Date:''|Dec 8, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|

@@ -1,11 +1,10 @@
 /***
 |''Name:''|TextileFormatterPlugin|
-|''Description:''|Allows Tiddlers to use Textile text formatting|
-|''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/prereleases.html#TextileFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''Description:''|Allows Tiddlers to use [[Textile|http://www.textism.com/tools/textile/]] text formatting|
+|''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://www.martinswiki.com/#TextileFormatterPlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/TexttileFormatterPlugin.js|
 |''Version:''|0.1.2|
-|''Status:''|alpha pre-release|
 |''Date:''|Oct 26, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|

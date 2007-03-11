@@ -1,9 +1,9 @@
 /***
 |''Name:''|ExampleFormatterPlugin|
 |''Description:''|Example Formatter which can be used as a basis for creating a new Formatter|
-|''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/prereleases.html#ExampleFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ExampleFormatterPlugin.js|
+|''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://www.martinswiki.com/#ExampleFormatterPlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/ExampleFormatterPlugin.js|
 |''Version:''|0.1.9|
 |''Status:''|Not for release - this is a template for creating new formatters|
 |''Date:''|Nov 5, 2006|

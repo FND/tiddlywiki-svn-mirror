@@ -2,8 +2,8 @@
 |''Name:''|TracFormatterPlugin|
 |''Description:''|Allows Tiddlers to use [[Trac|http://trac.edgewall.org/wiki/WikiFormatting]] text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinplugins.tiddlywiki.com/#TracFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins|
+|''Source:''|http://www.martinswiki.com/#TracFormatterPlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/TracFormatterPlugin.js|
 |''Version:''|0.1.5|
 |''Date:''|Aug 12, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|

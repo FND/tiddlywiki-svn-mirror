@@ -1,9 +1,9 @@
 /***
 |''Name:''|SocialtextFormatterPlugin|
 |''Description:''|Allows Tiddlers to use [[Socialtext|http://www.socialtext.com/]] text formatting|
-|''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinplugins.tiddlywiki.com/#SocialtextFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SocialtextFormatterPlugin.js|
+|''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://www.martinswiki.com/#SocialtextFormatterPlugin|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/SocialtextFormatterPlugin.js|
 |''Version:''|0.9.3|
 |''Date:''|Jan 21, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
