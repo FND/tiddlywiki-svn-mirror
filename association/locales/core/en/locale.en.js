@@ -2,13 +2,13 @@
 |''Name:''|EnglishTranslationPlugin|
 |''Description:''|Translation of TiddlyWiki into English|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Source:''|www.???.com|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js|
-|''Version:''|0.1.0|
-|''Date:''|Jan 3, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|''~CoreVersion:''|2.1.0|
+|''Source:''|www.???.com |
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
+|''Version:''|0.2.0|
+|''Date:''|Mar 4, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/ ]]|
+|''~CoreVersion:''|2.2.0|
 ***/
 
 /*{{{*/
@@ -23,10 +23,12 @@ merge(config.options,{
 	txtUserName: "YourName"});
 
 config.tasks = {
+	save: {text: "save", tooltip: "Save your changes to this TiddlyWiki", action: saveChanges},
 	tidy: {text: "tidy up", tooltip: "Make bulk changes across groups of tiddlers", content: 'Coming soon...\n\nThis tab will allow bulk operations on tiddlers, and tags. It will be a generalised, extensible version of the plugins tab'},
 	sync: {text: "sync", tooltip: "Synchronise changes with other TiddlyWiki files and servers", content: '<<sync>>'},
 	importTask: {text: "import", tooltip: "Import tiddlers and plugins from other TiddlyWiki files and servers", content: '<<importTiddlers>>'},
 	copy: {text: "copy", tooltip: "Copy tiddlers to other TiddlyWiki files and servers", content: 'Coming soon...\n\nThis tab will allow tiddlers to be copied to remote servers'},
+	tweak: {text: "tweak", tooltip: "Tweak the appearance and behaviour of TiddlyWiki", content: '<<options>>'},
 	plugins: {text: "plugins", tooltip: "Manage installed plugins", content: '<<plugins>>'}
 };
 
@@ -55,8 +57,8 @@ merge(config.messages,{
 	emptyFailed: "Failed to save empty template file",
 	mainSaved: "Main TiddlyWiki file saved",
 	mainFailed: "Failed to save main TiddlyWiki file. Your changes have not been saved",
-	macroError: "Error in macro <<%0>>",
-	macroErrorDetails: "Error while executing macro <<%0>>:\n%1",
+	macroError: "Error in macro <<\%0>>",
+	macroErrorDetails: "Error while executing macro <<\%0>>:\n%1",
 	missingMacro: "No such macro",
 	overwriteWarning: "A tiddler named '%0' already exists. Choose OK to overwrite it",
 	unsavedChangesWarning: "WARNING! There are unsaved changes in TiddlyWiki\n\nChoose OK to save\nChoose CANCEL to discard",
@@ -67,12 +69,17 @@ merge(config.messages,{
 	tiddlerLoadError: "Error when loading tiddler '%0'",
 	wrongSaveFormat: "Cannot save with storage format '%0'. Using standard format for save.",
 	invalidFieldName: "Invalid field name %0",
-	fieldCannotBeChanged: "Field '%0' cannot be changed",
-	backstagePrompt: "backstage: "});
+	fieldCannotBeChanged: "Field '%0' cannot be changed"});
 
 merge(config.messages.messageClose,{
 	text: "close",
 	tooltip: "close this message area"});
+
+config.messages.backstage = {
+	open: {text: "backstage", icon: "↩", iconIE: "←", tooltip: "Open the backstage area to perform authoring and editing tasks"},
+	close: {text: "close", icon: "↪", iconIE: "→", tooltip: "Close the backstage area"},
+	prompt: "backstage: "
+};
 
 config.messages.dates.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November","December"];
 config.messages.dates.days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -112,6 +119,15 @@ merge(config.views.editor.tagChooser,{
 	popupNone: "There are no tags defined",
 	tagTooltip: "Add the tag '%0'"});
 
+merge(config.messages,{
+	sizeTemplates:
+		[
+		{unit: 1024*1024*1024, template: "%0\u00a0GB"},
+		{unit: 1024*1024, template: "%0\u00a0MB"},
+		{unit: 1024, template: "%0\u00a0KB"},
+		{unit: 1, template: "%0\u00a0B"}
+		]});
+
 merge(config.macros.search,{
 	label: "search",
 	prompt: "Search this TiddlyWiki",
@@ -135,6 +151,7 @@ config.macros.list.all.prompt = "All tiddlers in alphabetical order";
 config.macros.list.missing.prompt = "Tiddlers that have links to them but are not defined";
 config.macros.list.orphans.prompt = "Tiddlers that are not linked to from any other tiddlers";
 config.macros.list.shadowed.prompt = "Tiddlers shadowed with default contents";
+config.macros.list.touched.prompt = "Tiddlers that have been modified locally";
 
 merge(config.macros.closeAll,{
 	label: "close all",
@@ -175,6 +192,7 @@ merge(config.macros.plugins,{
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "Title", type: 'TiddlerLink'},
+			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "Size", type: 'Size'},
 			{name: 'Forced', field: 'forced', title: "Forced", tag: 'systemConfigForce', type: 'TagCheckbox'},
 			{name: 'Disabled', field: 'disabled', title: "Disabled", tag: 'systemConfigDisable', type: 'TagCheckbox'},
 			{name: 'Executed', field: 'executed', title: "Loaded", type: 'Boolean', trueText: "Yes", falseText: "No"},
@@ -194,29 +212,36 @@ merge(config.macros.refreshDisplay,{
 
 merge(config.macros.importTiddlers,{
 	readOnlyWarning: "You cannot import into a read-only TiddlyWiki file. Try opening it from a file:// URL",
-	wizardTitle: "Import tiddlers from another TiddlyWiki file",
-	step1Title: "Step 1: Locate the TiddlyWiki file",
-	step1Html: "Enter the URL or pathname here: <input type='text' size=50 name='txtPath'><br>...or browse for a file: <input type='file' size=50 name='txtBrowse'><br>...or select a pre-defined feed: <select name='selFeeds'><option value=''>Choose...</option</select>",
-	fetchLabel: "fetch",
-	fetchPrompt: "Fetch the tiddlywiki file",
-	fetchError: "There were problems fetching the tiddlywiki file",
-	step2Title: "Step 2: Loading TiddlyWiki file",
-	step2Html: "Please wait while the file is loaded from: <strong><input type='hidden' name='markPath'></input></strong>",
+	wizardTitle: "Import tiddlers from another file or server",
+	step1Title: "Step 1: Locate the server or TiddlyWiki file",
+	step1Html: "Specify the type of the server: <select name='selTypes'><option value=''>Choose...</option></select><br>Enter the URL or pathname here: <input type='text' size=50 name='txtPath'><br>...or browse for a file: <input type='file' size=50 name='txtBrowse'><br><hr>...or select a pre-defined feed: <select name='selFeeds'><option value=''>Choose...</option></select>",
+	openLabel: "open",
+	openPrompt: "Open the connection to this file or server",
+	openError: "There were problems fetching the tiddlywiki file",
+	statusOpenHost: "Opening the host",
+	statusGetWorkspaceList: "Getting the list of available workspaces",
+	step2Title: "Step 2: Choose the workspace",
+	step2Html: "Enter a workspace name: <input type='text' size=50 name='txtWorkspace'><br>...or select a workspace: <select name='selWorkspace'><option value=''>Choose...</option></select>",
 	cancelLabel: "cancel",
 	cancelPrompt: "Cancel this import",
+	statusOpenWorkspace: "Opening the workspace",
+	statusGetTiddlerList: "Getting the list of available tiddlers",
 	step3Title: "Step 3: Choose the tiddlers to import",
-	step3Html: "<input type='hidden' name='markList'></input>",
+	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>Keep these tiddlers linked to this server so that you can synchronise subsequent changes</input>",
 	importLabel: "import",
 	importPrompt: "Import these tiddlers",
 	confirmOverwriteText: "Are you sure you want to overwrite these tiddlers:\n\n%0",
-	step4Title: "%0 tiddler(s) imported",
+	step4Title: "Step 4: Importing %0 tiddler(s)",
 	step4Html: "<input type='hidden' name='markReport'></input>",
+	step5Title: "Step 5: Completed",
+	step5Html: "All tiddlers were imported",
 	doneLabel: "done",
 	donePrompt: "Close this wizard",
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Title', field: 'title', title: "Title", type: 'String'},
+			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "Size", type: 'Size'},
 			{name: 'Snippet', field: 'text', title: "Snippet", type: 'String'},
 			{name: 'Tags', field: 'tags', title: "Tags", type: 'Tags'}
 			],
@@ -229,8 +254,10 @@ merge(config.macros.sync,{
 		columns: [
 			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
 			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "Title", type: 'TiddlerLink'},
-			{name: 'Local Status', field: 'localStatus', title: "Changed on your computer?", type: 'String'},
-			{name: 'Server Status', field: 'serverStatus', title: "Changed on server?", type: 'String'},
+			{name: 'Server Type', field: 'serverType', title: "Server type", type: 'String'},
+			{name: 'Server Host', field: 'serverHost', title: "Server host", type: 'String'},
+			{name: 'Server Workspace', field: 'serverWorkspace', title: "Server workspace", type: 'String'},
+			{name: 'Status', field: 'status', title: "Synchronisation status", type: 'String'},
 			{name: 'Server URL', field: 'serverUrl', title: "Server URL", text: "View", type: 'Link'}
 			],
 		rowClasses: [
@@ -238,11 +265,22 @@ merge(config.macros.sync,{
 		buttons: [
 			{caption: "Sync these tiddlers", name: 'sync'}
 			]},
-	wizardTitle: "Synchronize your content with external servers and feeds",
+	wizardTitle: "Synchronize with external servers and files",
 	step1Title: "Choose the tiddlers you want to synchronize",
 	step1Html: '<input type="hidden" name="markList"></input>',
 	syncLabel: "sync",
-	syncPrompt: "Sync these tiddlers"
+	syncPrompt: "Sync these tiddlers",
+	hasChanged:	"Changed while unplugged",
+	hasNotChanged: "Unchanged while unplugged",
+	syncStatusList: {
+		none: {text: "...", color: "none"},
+		changedServer: {text: "Changed on server", color: "#80ff80"},
+		changedLocally: {text: "Changed while unplugged", color: "#80ff80"},
+		changedBoth: {text: "Changed while unplugged and on server", color: "#ff8080"},
+		notFound: {text: "Not found on server", color: "#ffff80"},
+		putToServer: {text: "Saved update on server", color: "#ff80ff"},
+		gotFromServer: {text: "Retrieved update from server", color: "#80ffff"}
+		}
 });
 
 merge(config.commands.closeTiddler,{
