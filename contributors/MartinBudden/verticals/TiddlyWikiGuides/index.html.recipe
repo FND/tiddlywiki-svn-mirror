@@ -3,6 +3,7 @@ recipe: split.recipe
 tiddler: settings.js
 tiddler: Logo.tiddler
 recipe: ../tiddlypedia/splitRevisions.recipe
+tiddler: ../../tiddlers/Download_this_wiki.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../feeds/TiddlyWikiGuidesFeed.tiddler

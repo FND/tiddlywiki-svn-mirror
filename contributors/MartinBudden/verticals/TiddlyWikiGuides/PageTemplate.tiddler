@@ -1,4 +1,4 @@
-<div title="PageTemplate" tags="excludeLists">
+<div title="PageTemplate" modifier="MartinBudden" tags="excludeLists excludeSearch">
 <pre>&lt;div class='header'&gt;
 &lt;div class='headerShadow'&gt;
 &lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
