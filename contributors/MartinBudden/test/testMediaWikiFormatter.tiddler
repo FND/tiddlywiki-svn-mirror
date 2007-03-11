@@ -1,1 +1,44 @@
-<div tiddler="testMediaWikiFormatter" modifier="MartinBudden" created="200610020000" tags="test" wikiformat="MediaWiki">'''bold'''\n''italic''\n&lt;b&gt;bold&lt;/b&gt;\n&lt;sub&gt;subscript&lt;/sub&gt;\n&lt;sup&gt;superscript&lt;/sup&gt;\n&lt;u&gt;underline&lt;/u&gt;\n&lt;s&gt;strikethrough&lt;/s&gt;\n&lt;code&gt;code&lt;/code&gt;\n\n'''bold''' ''italic'' &lt;b&gt;bold&lt;/b&gt; &lt;sub&gt;subscript&lt;/sub&gt; &lt;sup&gt;superscript&lt;/sup&gt; &lt;u&gt;underline&lt;/u&gt; &lt;s&gt;strikethrough&lt;/s&gt; &lt;code&gt;code&lt;/code&gt;\n\n\n* You can even create mixed lists\n*# and nest them\n*#* like this\n*#*; can I mix definition list as well?\n*#*: yes\n*#*; how?\n*#*: it's easy as\n*#*:* a \n*#*:* b\n*#*:* c\n\n&lt;blockquote&gt;\na block to\nquote\n&lt;/blockquote&gt;\n\n=H1=\n== H2==\nsome text\n===H3===\n====H4====\n=====H5=====\n======H6======\n=======H7=======\n----\n[[BasicLink]]\n[[BasicLink|PipedLink]]\n\n[[0PeriodicTable]]\n[[0PeriodicTable|PipedLink to PeriodicTable]]\n\n</div>
+<div title="testMediaWikiFormatter" modifier="MartinBudden" created="200610020000" tags="test" wikiformat="MediaWiki">
+<pre>'''bold'''
+''italic''
+&lt;b&gt;bold&lt;/b&gt;
+&lt;sub&gt;subscript&lt;/sub&gt;
+&lt;sup&gt;superscript&lt;/sup&gt;
+&lt;u&gt;underline&lt;/u&gt;
+&lt;s&gt;strikethrough&lt;/s&gt;
+&lt;code&gt;code&lt;/code&gt;
+
+'''bold''' ''italic'' &lt;b&gt;bold&lt;/b&gt; &lt;sub&gt;subscript&lt;/sub&gt; &lt;sup&gt;superscript&lt;/sup&gt; &lt;u&gt;underline&lt;/u&gt; &lt;s&gt;strikethrough&lt;/s&gt; &lt;code&gt;code&lt;/code&gt;
+
+
+* You can even create mixed lists
+*# and nest them
+*#* like this
+*#*; can I mix definition list as well?
+*#*: yes
+*#*; how?
+*#*: it's easy as
+*#*:* a 
+*#*:* b
+*#*:* c
+
+&lt;blockquote&gt;
+a block to
+quote
+&lt;/blockquote&gt;
+
+=H1=
+== H2==
+some text
+===H3===
+====H4====
+=====H5=====
+======H6======
+=======H7=======
+----
+[[BasicLink]]
+[[BasicLink|PipedLink]]
+
+[[0PeriodicTable]]
+[[0PeriodicTable|PipedLink to PeriodicTable]]</pre>
+</div>

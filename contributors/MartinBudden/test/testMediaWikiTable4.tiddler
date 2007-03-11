@@ -1,1 +1,34 @@
-<div tiddler="testMediaWikiTable4" modifier="MartinBudden" created="200610020000" tags="test" wikiformat="MediaWiki">some text\n{| \n| Cell 1, row 1 \n| Cell 2, row 1 \n|- \n| Cell 1, row 2 \n| Cell 2, row 2 \n|}\n\n{| \n| Cell 1, row 1 || Cell 2, row 1 \n|- \n| Cell 1, row 2 || Cell 2, row 2 \n|}\n\nsome text\n\n{| \n| Cell 1, row 1 \n| Cell 2, row 1 \n|- \n| Cell 1, row 2 \n| Cell 2, row 2 \n|}\n\n{| \n| Cell 1, row 1 \n| Cell 2, row 1 \n|- \n| Cell 1, row 2 \n| Cell 2, row 2 \n|}\n\n</div>
+<div title="testMediaWikiTable4" modifier="MartinBudden" created="200610020000" tags="test" wikiformat="MediaWiki">
+<pre>some text
+{| 
+| Cell 1, row 1 
+| Cell 2, row 1 
+|- 
+| Cell 1, row 2 
+| Cell 2, row 2 
+|}
+
+{| 
+| Cell 1, row 1 || Cell 2, row 1 
+|- 
+| Cell 1, row 2 || Cell 2, row 2 
+|}
+
+some text
+
+{| 
+| Cell 1, row 1 
+| Cell 2, row 1 
+|- 
+| Cell 1, row 2 
+| Cell 2, row 2 
+|}
+
+{| 
+| Cell 1, row 1 
+| Cell 2, row 1 
+|- 
+| Cell 1, row 2 
+| Cell 2, row 2 
+|}</pre>
+</div>

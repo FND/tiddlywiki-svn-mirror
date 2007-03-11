@@ -1,6 +1,5 @@
 <div title="testCreoleMediaWikiFormat" modifier="MartinBudden" tags="MediaWikiFormat test">
-<pre>
-&lt;pre&gt;
+<pre>&lt;pre&gt;
 '''mediaWikiBold''' **creoleBold**
 
 ''mediaWikiItalic'' //creoleItalic//

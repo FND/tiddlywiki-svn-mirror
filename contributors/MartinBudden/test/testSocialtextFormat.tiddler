@@ -1,1 +1,86 @@
-<div tiddler="testSocialtextFormat" modifier="MartinBudden" created="200610010000" tags="test" wikiformat="Socialtext">^^ Markup\n\n*bold* * notbold* *notbold *\n_italic_\n-strikethrough-\n`monospace`\n\n.pre\nBlock of text with no *special* punctuation\n.pre\n\n{{*this text is not bold*}}\n\n^^ Headings\n^ H1\n^^H2\n^^^ H3\n^^^^ H4\n^^^^^ H5\n^^^^^^ H6\n\n\n^^ Rule:\n----\n\n^^ Numbered list:\n# item 1\n## subitem 1\n# item 2\n\n^^ Bulleted list:\n* item 1\n** subitem 1\n* item 2\n\n^^ Indented text\n&gt; Indented\n&gt;&gt; Indented twice\n\n^^ Table\n|aa | bb| cc |\n|dd | ee| ff |\n\n^^ Misc\n\ntrademark {tm}\n\n\n^^ Images\nImage attachment(.ico): {image: http://www.eu.socialtext.net/favicon.ico}\nImage attachment(.gif): {image: http://www.eu.socialtext.net/static/images/socialtext-logo-30.gif}\nExternal image(.ico): &lt;http://www.eu.socialtext.net/favicon.ico&gt;\nExternal image(.gif): &lt;http://www.eu.socialtext.net/static/images/socialtext-logo-30.gif&gt;\nExternal image(.gif): &lt;http://www.eu.socialtext.net/exchange/index.cgi/new.gif&gt;\n\n^^ Links\n\nPage Link:	[Page Link]\nLink text:	&quot;Link text&quot; [Page Link]\nExternal link:  &lt;http://www.socialtext.com&gt;\nSocialtext Home Page:	&quot;Socialtext Home Page&quot;&lt;http://www.socialtext.com&gt;\nSocialtext Email:	&quot;Socialtext Email&quot;&lt;mailto:info@socialtext.com&gt;\nURL link:	http://www.socialtext.com/\n\n\n----\n\n^^ Not supported\n\nproposal.pdf on this page	{file: proposal.pdf} on this page\nproposal.pdf on page name	{file: [page name] proposal.pdf} on [page name]\n\nMail link:	info@socialtext.com\nPage Link to different-workspace:	{link: different-workspace [Page link]} to different-workspace\nLink to section of a page:	{link: different-workspace [Page link] Section} to (optional) different-workspace\n\nPage section	{section: Name}\nMy Weblog weblog	{weblog: My Weblog}\nMeeting notes category	{category: Meeting Notes}\n\nYahoo user (yahoouser) presence	{ymsgr:yahoouser}\nAOL user (aimuser) presence	{aim:aimuser}\n\nTable of contents {toc}\n</div>
+<div title="testSocialtextFormat" modifier="MartinBudden" created="200610010000" tags="test" wikiformat="Socialtext">
+<pre>^^ Markup
+
+*bold* * notbold* *notbold *
+_italic_
+-strikethrough-
+`monospace`
+
+.pre
+Block of text with no *special* punctuation
+.pre
+
+{{*this text is not bold*}}
+
+^^ Headings
+^ H1
+^^H2
+^^^ H3
+^^^^ H4
+^^^^^ H5
+^^^^^^ H6
+
+
+^^ Rule:
+----
+
+^^ Numbered list:
+# item 1
+## subitem 1
+# item 2
+
+^^ Bulleted list:
+* item 1
+** subitem 1
+* item 2
+
+^^ Indented text
+&gt; Indented
+&gt;&gt; Indented twice
+
+^^ Table
+|aa | bb| cc |
+|dd | ee| ff |
+
+^^ Misc
+
+trademark {tm}
+
+
+^^ Images
+Image attachment(.ico): {image: http://www.eu.socialtext.net/favicon.ico}
+Image attachment(.gif): {image: http://www.eu.socialtext.net/static/images/socialtext-logo-30.gif}
+External image(.ico): &lt;http://www.eu.socialtext.net/favicon.ico&gt;
+External image(.gif): &lt;http://www.eu.socialtext.net/static/images/socialtext-logo-30.gif&gt;
+External image(.gif): &lt;http://www.eu.socialtext.net/exchange/index.cgi/new.gif&gt;
+
+^^ Links
+
+Page Link:	[Page Link]
+Link text:	&quot;Link text&quot; [Page Link]
+External link:  &lt;http://www.socialtext.com&gt;
+Socialtext Home Page:	&quot;Socialtext Home Page&quot;&lt;http://www.socialtext.com&gt;
+Socialtext Email:	&quot;Socialtext Email&quot;&lt;mailto:info@socialtext.com&gt;
+URL link:	http://www.socialtext.com/
+
+
+----
+
+^^ Not supported
+
+proposal.pdf on this page	{file: proposal.pdf} on this page
+proposal.pdf on page name	{file: [page name] proposal.pdf} on [page name]
+
+Mail link:	info@socialtext.com
+Page Link to different-workspace:	{link: different-workspace [Page link]} to different-workspace
+Link to section of a page:	{link: different-workspace [Page link] Section} to (optional) different-workspace
+
+Page section	{section: Name}
+My Weblog weblog	{weblog: My Weblog}
+Meeting notes category	{category: Meeting Notes}
+
+Yahoo user (yahoouser) presence	{ymsgr:yahoouser}
+AOL user (aimuser) presence	{aim:aimuser}
+
+Table of contents {toc}</pre>
+</div>
