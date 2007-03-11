@@ -16,83 +16,6 @@
 if(!version.extensions.AdaptorCommandsPlugin) {
 version.extensions.AdaptorCommandsPlugin = {installed:true};
 
-/*
-Tiddler.prototype.getAdaptor = function()
-{
-	var serverType = this.fields['server.type'];
-	if(!serverType)
-		serverType = this.fields['wikiformat'];
-	if(!serverType || !config.adaptors[serverType])
-		return null;
-	return new config.adaptors[serverType];
-};
-
-Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem)
-{
-	var tiddler = new Tiddler(title);
-	tiddler.fields = typeof fields == "string" ?  fields.decodeHashMap() : fields;
-	var ret = false;
-	var adaptor = tiddler.getAdaptor();
-	if(adaptor) {
-		adaptor.openHost(tiddler.fields['server.host']);
-		adaptor.openWorkspace(tiddler.fields['server.workspace']);
-		ret = adaptor.getTiddler(tiddler.title,null,null,Story.loadTiddlerCallback);
-		adaptor.close();
-		delete adaptor;
-	}
-	return ret;
-};
-
-Story.loadTiddlerCallback = function(context,userParams)
-{
-	if(!context.status)
-		return;
-	var tiddler = context.tiddler;
-	var downloaded = new Date();
-	if(!tiddler.created)
-		tiddler.created = downloaded;
-	if(!tiddler.modified)
-		tiddler.modified = tiddler.created;
-	tiddler.fields['downloaded'] = downloaded.convertToYYYYMMDDHHMM();
-	tiddler.fields['changecount'] = -1;
-	store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
-	saveChanges(true);
-};
-*/
-
-// following is a defect fix for the handling of extended fields
-Story.prototype.saveTiddler = function(title,minorUpdate)
-{
-	var tiddlerElem = document.getElementById(this.idPrefix + title);
-	if(tiddlerElem != null) {
-		var fields = {};
-		this.gatherSaveFields(tiddlerElem,fields);
-		var newTitle = fields.title ? fields.title : title;
-		if(store.tiddlerExists(newTitle) && newTitle != title) {
-			if(!confirm(config.messages.overwriteWarning.format([newTitle.toString()])))
-				return null;
-		}
-		if(newTitle != title)
-			this.closeTiddler(newTitle,false,false);
-		tiddlerElem.id = this.idPrefix + newTitle;
-		tiddlerElem.setAttribute("tiddler",newTitle);
-		tiddlerElem.setAttribute("template",DEFAULT_VIEW_TEMPLATE);
-		tiddlerElem.setAttribute("dirty","false");
-		if(config.options.chkForceMinorUpdate)
-			minorUpdate = !minorUpdate;
-		var newDate = new Date();
-		var tiddler = store.saveTiddler(title,newTitle,fields.text,config.options.txtUserName,minorUpdate ? undefined : newDate,fields.tags);
-		for(var n in fields) {
-			if(!TiddlyWiki.isStandardField(n))
-				store.setValue(newTitle,n,fields[n]);
-		}
-		if(config.options.chkAutoSave)
-			saveChanges(null,[tiddler]);
-		return newTitle;
-	}
-	return null;
-};
-
 function getServerType(fields)
 {
 //#displayMessage("getServerType");
@@ -137,16 +60,6 @@ function isAdaptorFunctionSupported(fnName,fields)
 	return fn ? true : false;
 }
 
-function isAdaptorFunctionSupportedX(fnName,fields)
-{
-	var serverType = fields['server.type'];
-	if(!serverType)
-		serverType = fields['wikiformat'];
-	if(!fields['server.host'] || !serverType || !config.adaptors[serverType] || !config.adaptors[serverType].name)
-		return false;
-	return false;
-}
-
 config.macros.viewTiddlerFields = {};
 config.macros.viewTiddlerFields.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
@@ -179,7 +92,7 @@ config.macros.list.updatedOffline.handler = function(params)
 	return results;
 };
 
-// getTiddler command definition
+//# getTiddler command definition
 config.commands.getTiddler = {};
 merge(config.commands.getTiddler,{
 	text: "get",
@@ -221,7 +134,7 @@ config.commands.getTiddler.callback = function(context,userParams)
 	}
 };
 
-// putTiddler command definition
+//# putTiddler command definition
 config.commands.putTiddler = {};
 merge(config.commands.putTiddler,{
 	text: "put",
@@ -254,7 +167,7 @@ config.commands.putTiddler.callback = function(context,userParams)
 	}
 };
 
-// revisions command definition
+//# revisions command definition
 config.commands.revisions = {};
 merge(config.commands.revisions,{
 	text: "revisions",
@@ -365,14 +278,13 @@ config.commands.saveTiddlerHosted.callback = function(context,userParams)
 	}
 };
 
-/* temporary, for reference
-config.commands.saveTiddler.handler = function(event,src,title)
-{
-	var newTitle = story.saveTiddler(title,event.shiftKey);
-	if(newTitle)
-		story.displayTiddler(null,newTitle);
-	return false;
-};*/
-
+//# temporary, for reference
+//#config.commands.saveTiddler.handler = function(event,src,title)
+//#{
+//#	var newTitle = story.saveTiddler(title,event.shiftKey);
+//#	if(newTitle)
+//#		story.displayTiddler(null,newTitle);
+//#	return false;
+//#};
 }//# end of 'install only once'
 //}}}

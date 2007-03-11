@@ -200,23 +200,31 @@ ExampleAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 
 ExampleAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
-	return this.getTiddlerRevision(title,null,context,userParams,callback);
+	context = this.setContext(context,userParams,callback);
+	context.title = title;
+	return this.getTiddlerInternal(context,userParams,callback);
 };
 
 ExampleAdaptor.prototype.getTiddlerRevision = function(title,revision,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
+	context.title = title;
+	context.revision = revision;
+	return this.getTiddlerInternal(context,userParams,callback);
+};
 
-	if(revision) {
+// @internal
+ExampleAdaptor.prototype.getTiddlerInternal = function(context,userParams,callback)
+{
+	context = this.setContext(context,userParams,callback);
+	if(context.revision) {
 // !!TODO set the uriTemplate
 		var uriTemplate = '%0%1%2%3';
-		context.revision = revision;
 	} else {
 // !!TODO set the uriTemplate
 		uriTemplate = '%0%1%2';
-		context.revision = null;
 	}
-	uri = uriTemplate.format([this.host,this.workspace,ExampleAdaptor.normalizedTitle(title),revision]);
+	uri = uriTemplate.format([this.host,this.workspace,ExampleAdaptor.normalizedTitle(title),context.revision]);
 
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields.wikiformat = 'socialtext';
@@ -237,9 +245,9 @@ ExampleAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr
 			//context.tiddler.tags = ;
 			//context.tiddler.fields['server.page.id'] = ;
 			//context.tiddler.fields['server.page.name'] = ;
-			//context.tiddler.fields['server.page.revision'] = String();
+			//context.tiddler.fields['server.page.revision'] = String(...);
 			//context.tiddler.modifier = ;
-			//context.tiddler.modified = ExampleAdaptor.dateFromEditTime();
+			//context.tiddler.modified = ExampleAdaptor.dateFromEditTime(...);
 		} catch (ex) {
 			context.statusText = exceptionText(ex,ExampleAdaptor.serverParsingErrorMessage);
 			if(context.callback)

@@ -25,12 +25,12 @@ TiddlyWiki.prototype.getHostedTiddlers = function(host,workspace)
 		return results;
 	var tiddlers = this.hostedTiddlers[host][workspace];
 	if(tiddlers) {
-		//var sortField = 'modified';
-		//tiddlers.sort(function(a,b) {return a[sortField] < b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
+		//#var sortField = 'modified';
+		//#tiddlers.sort(function(a,b) {return a[sortField] < b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
 		for(var i=0; i<tiddlers.length; i++) {
 			results.push(tiddlers[i].title);
 		}
-		//results.sort();
+		//#results.sort();
 	}
 	return results;
 };
@@ -70,7 +70,7 @@ config.macros.updateWorkspaceTiddlerList.onClick = function(e)
 //#displayMessage("config.macros.updateWorkspaceTiddlerList.onClick");
 	var customFields = this.getAttribute("customFields");
 //#displayMessage("cf:"+customFields);
-	//var fields = convertCustomFieldsToHash(customFields);
+	//#var fields = convertCustomFieldsToHash(customFields);
 	var fields = customFields.decodeHashMap();
 //#displayMessage("host:"+fields['server.host']);
 	var userParams = {host:fields['server.host'],workspace:fields['server.workspace'],title:this.getAttribute("title")};
@@ -167,8 +167,8 @@ config.macros.importWorkspace.callback = function(context,userParams)
 			}
 		}
 	}
-	//context.adaptor.close();
-	//delete context.adaptor;
+	//#context.adaptor.close();
+	//#delete context.adaptor;
 };
 
 config.macros.importWorkspace.callbackTiddler = function(context)
