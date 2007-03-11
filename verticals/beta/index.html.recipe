@@ -1,6 +1,6 @@
 recipe: ../../core/tiddlywiki.html.recipe
 recipe: tiddlers/split.recipe
-tiddler: ../../contributors/BidiX/plugins/PasswordOptionPlugin.js 
+# tiddler: ../../contributors/BidiX/plugins/PasswordOptionPlugin.js 
 tiddler: ../../contributors/MartinBudden/adaptors/ccTiddlyAdaptorPlugin.js
 tiddler: ../../contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js
 tiddler: ../../contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js
