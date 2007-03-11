@@ -1,0 +1,23 @@
+# include formatters
+add ./formatters/CreoleFormatterPlugin.js
+add ./formatters/JSPWikiFormatterPlugin.js
+add ./formatters/MediaWikiFormatterPlugin.js
+add ./formatters/PBWikiFormatterPlugin.js
+add ./formatters/PmWikiFormatterPlugin.js
+add ./formatters/SocialtextFormatterPlugin.js
+add ./formatters/TracFormatterPlugin.js
+add ./formatters/TWikiFormatterPlugin.js
+
+# include adaptors
+add ./adaptors/AdaptorCommandsPlugin.js
+add ./adaptors/AdaptorMacrosPlugin.js
+add ./adaptors/ccTiddlyAdaptorPlugin.js
+add ./adaptors/JSPWikiAdaptorPlugin.js
+add ./adaptors/MediaWikiAdaptorPlugin.js
+add ./adaptors/SocialtextAdaptorPlugin.js
+add ./adaptors/TWikiAdaptorPlugin.js
+
+# hide plugins not intended for publication
+hide ./settings.*
+hide ./SimileTimelineBundlePlugin.*
+hide ./SimileTimelinePlugin.*
