@@ -2,6 +2,7 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 title: title.html
 tiddler: ../../tiddlers/ViewTemplateHostedRevisionsTest.tiddler
 tiddler: ../../tiddlers/MainMenuHome.tiddler
+tiddler: ../../tiddlers/Download_this_wiki.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: Home.tiddler
 tiddler: SiteSubtitle.tiddler
