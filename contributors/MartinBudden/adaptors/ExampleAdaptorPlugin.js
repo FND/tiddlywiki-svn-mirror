@@ -2,8 +2,10 @@
 |''Name:''|ExampleAdaptorPlugin|
 |''Description:''|Example Adaptor which can be used as a basis for creating a new Adaptor|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://www.martinswiki.com/#ExampleAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ExampleAdaptorPlugin.js|
 |''Version:''|0.5.1|
+|''Status:''|Not for release - this is a template for creating new adaptors|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|

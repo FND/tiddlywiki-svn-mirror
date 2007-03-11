@@ -2,6 +2,7 @@
 |''Name:''|AdaptorMacrosPlugin|
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://www.martinswiki.com/#AdaptorMacrosPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorMacrosPlugin.js|
 |''Version:''|0.3.5|
 |''Date:''|Jan 20, 2007|
@@ -12,8 +13,8 @@
 
 //{{{
 // Ensure that the plugin is only installed once.
-if(!version.extensions.HostedCommands2Plugin) {
-version.extensions.HostedCommands2Plugin = {installed:true};
+if(!version.extensions.AdaptorMacrosPlugin) {
+version.extensions.AdaptorMacrosPlugin = {installed:true};
 
 // Return an array of tiddler titles that are in the given workspace on the host
 TiddlyWiki.prototype.getHostedTiddlers = function(host,workspace)

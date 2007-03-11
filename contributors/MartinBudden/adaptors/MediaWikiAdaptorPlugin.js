@@ -1,7 +1,8 @@
 /***
 |''Name:''|MediaWikiAdaptorPlugin|
-|''Description:''|Adaptor for moving and converting data to and from MediaWikis|
+|''Description:''|Adaptor for moving and converting data from MediaWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js|
 |''Version:''|0.5.1|
 |''Date:''|Feb 25, 2007|

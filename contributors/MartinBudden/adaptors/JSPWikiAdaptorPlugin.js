@@ -2,6 +2,7 @@
 |''Name:''|JSPWikiAdaptorPlugin|
 |''Description:''|Adaptor for moving and converting data to and from JSP Wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://www.martinswiki.com/#JSPWikiAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/JSPWikiAdaptorPlugin.js|
 |''Version:''|0.5.1|
 |''Date:''|Feb 25, 2007|

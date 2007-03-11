@@ -2,6 +2,7 @@
 |''Name:''|SocialtextAdaptorPlugin|
 |''Description:''|Adaptor for moving and converting data to and from Socialtext Wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com) and JeremyRuston (jeremy (at) osmosoft (dot) com)|
+|''Source:''|http://www.martinswiki.com/#SocialtextAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/SocialtextAdaptorPlugin.js|
 |''Version:''|0.5.1|
 |''Date:''|Feb 25, 2007|

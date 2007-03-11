@@ -2,6 +2,7 @@
 |''Name:''|LocalAdaptorPlugin|
 |''Description:''|Adaptor for moving and converting data to and from file-based TiddlyWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://www.martinswiki.com/#LocalAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/LocalAdaptorPlugin.js|
 |''Version:''|0.4.1|
 |''Date:''|Feb 18, 2007|

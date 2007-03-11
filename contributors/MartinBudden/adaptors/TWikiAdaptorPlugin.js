@@ -2,6 +2,7 @@
 |''Name:''|TWikiAdaptorPlugin|
 |''Description:''|Adaptor for moving and converting data to and from TWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://www.martinswiki.com/#TWikiAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/TWikiAdaptorPlugin.js|
 |''Version:''|0.5.1|
 |''Date:''|Feb 25, 2007|

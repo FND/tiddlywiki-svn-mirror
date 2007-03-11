@@ -2,8 +2,8 @@
 |''Name:''|ZiddlyWikiAdaptorPlugin|
 |''Description:''|Adaptor for moving and converting data to and from ZiddlyWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/martinsprereleases.html#ZiddlyWikiAdaptorPlugin|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/ZiddlyWikiAdaptorPlugin.js|
+|''Source:''|http://www.martinswiki.com/#ZiddlyWikiAdaptorPlugin|
+|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ZiddlyWikiAdaptorPlugin.js|
 |''Version:''|0.3.1|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|

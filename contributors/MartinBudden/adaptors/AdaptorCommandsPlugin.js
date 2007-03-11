@@ -2,6 +2,7 @@
 |''Name:''|AdaptorCommandsPlugin|
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js|
 |''Version:''|0.5.1|
 |''Date:''|Feb 25, 2007|
@@ -12,8 +13,8 @@
 
 //{{{
 // Ensure that the plugin is only installed once.
-if(!version.extensions.HostedCommandsPlugin) {
-version.extensions.HostedCommandsPlugin = {installed:true};
+if(!version.extensions.AdaptorCommandsPlugin) {
+version.extensions.AdaptorCommandsPlugin = {installed:true};
 
 /*
 Tiddler.prototype.getAdaptor = function()
