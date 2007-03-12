@@ -23,11 +23,33 @@ merge(config.options,{
 	txtUserName: "YourName"});
 
 config.tasks = {
+		save: {text: "儲存", tooltip: "儲存變更至此 TiddlyWiki", action: saveChanges},
 		tidy: {text: "整理", tooltip: "對群組文章作大量更新", content: 'Coming soon...\n\nThis tab will allow bulk operations on tiddlers, and tags. It will be a generalised, extensible version of the plugins tab'},
 		sync: {text: "同步", tooltip: "將你的資料內容與外部伺服器與檔案同步", content: '<<sync>>'},
-		importTask: {text: "匯入", tooltip: "自其他檔案或伺服器匯入文章或套件", content: '<<importTiddlers>>'},
+		importTask: {text: "導入", tooltip: "自其他檔案或伺服器導入文章或套件", content: '<<importTiddlers>>'},
 		copy: {text: "複製", tooltip: "複製文章至別的 TiddlyWiki 文件及伺服器", content: 'Coming soon...\n\nThis tab will allow tiddlers to be copied to remote servers'},
+		tweak: {text: "選項", tooltip: "改變此 TiddlyWiki 的顯示與行為的設定", content: '<<options>>'},
 		plugins: {text: "套件管理", tooltip: "管理已安裝的套件", content: '<<plugins>>'}
+};
+
+config.optionsDesc = {
+	txtUserName: "編輯文章所使用之作者署名",
+	chkRegExpSearch: "啟用正規式搜尋",
+	chkCaseSensitiveSearch: "搜尋時，區分大小寫",
+	chkAnimate: "使用動畫顯示",
+	chkSaveBackups: "儲存變更前，保留備份檔案",
+	chkAutoSave: "自動儲存變更",
+	chkGenerateAnRssFeed: "儲存變更時，也儲存 RSS feed",
+	chkSaveEmptyTemplate: "儲存變更時，也儲存空白範本",
+	chkOpenInNewWindow: "於新視窗開啟連結",
+	chkToggleLinks: "點擊已開啟文章將其關閉",
+	chkHttpReadOnly: "非本機瀏覽文件時，隱藏編輯功能",
+	chkForceMinorUpdate: "修改文章時，不變更作者名稱與日期時間",
+	chkConfirmDelete: "刪除文章前須確認",
+	chkInsertTabs: "使用 tab 鍵插入定位字元，而非跳至下一個欄位",
+	txtBackupFolder: "存放備份檔案的資料夾",
+	txtMaxEditRows: "編輯模式中顯示列數",
+	txtFileSystemCharSet: "指定儲存文件所在之檔案系統之字集"
 };
 
 // Messages
@@ -56,8 +78,8 @@ merge(config.messages,{
 	emptyFailed: "無法儲存範本",
 	mainSaved: "主要的TiddlyWiki已儲存",
 	mainFailed: "無法儲存主要 TiddlyWiki，所作的改變未儲存",
-	macroError: "巨集 <<%0>> 執行錯誤",
-	macroErrorDetails: "執行巨集 <<%0>> 時，發生錯誤 :\n%1",
+	macroError: "巨集 <<\%0>> 執行錯誤",
+	macroErrorDetails: "執行巨集 <<\%0>> 時，發生錯誤 :\n%1",
 	missingMacro: "無此巨集",
 	overwriteWarning: "'%0' 已存在，[確定]覆寫之",
 	unsavedChangesWarning: "注意！ 尚未儲存變更\n\n[確定]存檔，或[取消]放棄存檔？",
@@ -66,14 +88,24 @@ merge(config.messages,{
 	unsupportedTWFormat: "未支援此 TiddlyWiki 格式：'%0'",
 	tiddlerSaveError: "儲存文章 '%0' 時，發生錯誤。",
 	tiddlerLoadError: "載入文章 '%0' 時，發生錯誤。",
-	wrongSaveFormat: "無法使用格式 '%0' 儲存，請使用標準格式存放",
+	wrongSaveFormat: "無法使用格式 '%0' 儲存，請使用標准格式存放",
 	invalidFieldName: "無效的欄位名稱：%0",
-	fieldCannotBeChanged: "無法變更欄位：'%0'",
-	backstagePrompt: "管理："});
+	fieldCannotBeChanged: "無法變更欄位：'%0'"});
 
 merge(config.messages.messageClose,{
 	text: "關閉",
 	tooltip: "關閉此訊息"});
+
+config.messages.backstage = {
+	open: {text: "控制台", icon: "↩", iconIE: "←", tooltip: "開啟控制台執行編寫工作"},
+	close: {text: "關閉", icon: "↪", iconIE: "→", tooltip: "關閉控制台"},
+	prompt: "控制台："
+}
+
+config.messages.listView = {
+	tiddlerTooltip: "檢視全文",
+	previewUnavailable: "(無法預覽)"
+}
 
 config.messages.dates.months = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
 config.messages.dates.days = ["日", "一","二", "三", "四", "五", "六"];
@@ -112,6 +144,15 @@ merge(config.views.editor.tagChooser,{
 	tooltip: "點選現有之標籤加至本文章",
 	popupNone: "未設定標籤",
 	tagTooltip: "加入標籤 '%0'"});
+
+merge(config.messages,{
+	sizeTemplates:
+		[
+		{unit: 1024*1024*1024, template: "%0\u00a0GB"},
+		{unit: 1024*1024, template: "%0\u00a0MB"},
+		{unit: 1024, template: "%0\u00a0KB"},
+		{unit: 1, template: "%0\u00a0B"}
+		]});
 
 merge(config.macros.search,{
 	label: " 尋找",
@@ -162,6 +203,18 @@ merge(config.macros.newJournal,{
 	prompt: "新增 jounal",
 	accessKey: "J"});
 
+merge(config.macros.options,{
+	listViewTemplate: {
+		columns: [
+			{name: 'Option', field: 'option', title: "選項", type: 'String'},
+			{name: 'Description', field: 'description', title: "說明", type: 'WikiText'},
+			{name: 'Name', field: 'name', title: "名稱", type: 'String'}
+			],
+		rowClasses: [
+			{className: 'lowlight', field: 'lowlight'} 
+			]}
+	});
+
 merge(config.macros.plugins,{
 	wizardTitle: "擴充套件管理",
 	step1Title: "- 已載入之套件",
@@ -177,7 +230,7 @@ merge(config.macros.plugins,{
 	listViewTemplate : {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
-			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "標題", type: 'TiddlerLink'},
+			{name: 'Tiddler', field: 'tiddler', title: "套件", type: 'Tiddler'},
 			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "大小", type: 'Size'},
 			{name: 'Executed', field: 'executed', title: "已載入", type: "Boolean", trueText: "是", falseText: "否"},
 			{name: 'Error', field: 'error', title: "載入狀態", type: 'Boolean', trueText: "錯誤", falseText: "正常"},
@@ -197,31 +250,37 @@ merge(config.macros.refreshDisplay,{
 	});
 	
 merge(config.macros.importTiddlers,{
-	readOnlyWarning: "TiddlyWiki 於唯讀模式下，不支援匯入文章。請由本機（file://）開啟 TiddlyWiki 文件",
-	wizardTitle: "自其他檔案或伺服器匯入文章",
-	step1Title: "步驟一：指定來源文件",
-	step1Html: "在此輸入 URL 或路徑： <input type='text' size=50 name='txtPath'><br>...或選擇來源文件：<input type='file' size=50 name='txtBrowse'><br>...或選擇指定的饋入來源：<select name='selFeeds'><option value=''>選擇...</option</select>",
-	fetchLabel: "讀取來源文件",
-	fetchPrompt: "讀取 TiddlyWiki 文件",
-	fetchError: "讀取來源文件時發生錯誤",
-	step2Title: "步驟二：載入來源文件",
-	step2Html: "文件載入中，請稍後：<strong><input type='hidden' name='markPath'></input></strong>",
+	readOnlyWarning: "TiddlyWiki 於唯讀模式下，不支援導入文章。請由本機（file://）開啟 TiddlyWiki 文件",
+	wizardTitle: "自其他檔案或伺服器導入文章",
+	step1Title: "步驟一：指定伺服器或來源文件",
+	step1Html: "指定伺服器類型：<select name='selTypes'><option value=''>選取...</option></select><br>請輸入網址或路徑：<input type='text' size=50 name='txtPath'><br>...或選擇來源文件：<input type='file' size=50 name='txtBrowse'><br><hr>...或選擇指定的饋入來源：<select name='selFeeds'><option value=''>選取...</option></select>",
+	openLabel: "開啟",
+	openPrompt: "開啟檔案或",
+	openError: "讀取來源文件時發生錯誤",
+	statusOpenHost: "正與伺服器建立連線",
+	statusGetWorkspaceList: "正在取得可用之文章清單",
+	step2Title: "步驟二：選擇工作區",
+	step2Html: "輸入工作區名稱：<input type='text' size=50 name='txtWorkspace'><br>...或選擇工作區：<select name='selWorkspace'><option value=''>選取...</option></select>",
 	cancelLabel: "取消",
-	cancelPrompt: "取消本次匯入動作",
-	step3Title: "步驟三：選擇欲匯入之文章",
-	step3Html: "<input type='hidden' name='markList'></input>",
-	importLabel: "匯入",
-	importPrompt: "匯入所選文章",
+	cancelPrompt: "取消本次導入動作",
+	statusOpenWorkspace: "正在開啟工作區",
+	statusGetTiddlerList: "正在取得可用之文章清單",
+	step3Title: "步驟三：選擇欲導入之文章",
+	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>保持這些文章與伺服器連線，讓變更持續同步。</input>",
+	importLabel: "導入",
+	importPrompt: "導入所選文章",
 	confirmOverwriteText: "確定要覆寫這些文章：\n\n%0",
-	step4Title: "已匯入%0 篇文章",
+	step4Title: "步驟四：正在導入%0 篇文章",
 	step4Html: "<input type='hidden' name='markReport'></input>",
+	step5Title: "步驟五：導入完成",
+	step5Html: "所選文章已導入",
 	doneLabel: "完成",
 	donePrompt: "關閉",
 
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
-			{name: 'Title', field: 'title', title: "標題", type: 'String'},
+			{name: 'Tiddler', field: 'tiddler', title: "文章", type: 'Tiddler'},
 			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "大小", type: 'Size'},
 			{name: 'Snippet', field: 'text', title: "文章摘要", type: 'String'},
 			{name: 'Tags', field: 'tags', title: "標籤", type: 'Tags'}
@@ -235,8 +294,10 @@ merge(config.macros.sync,{
 		columns: [
 			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
 			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "文章標題", type: 'TiddlerLink'},
-			{name: 'Local Status', field: 'localStatus', title: "更改本機資料?", type: 'String'},
-			{name: 'Server Status', field: 'serverStatus', title: "更改伺服器上資料?", type: 'String'},
+			{name: 'Server Type', field: 'serverType', title: "伺服器類型", type: 'String'},
+			{name: 'Server Host', field: 'serverHost', title: "伺服器主機", type: 'String'},
+			{name: 'Server Workspace', field: 'serverWorkspace', title: "伺服器工作區", type: 'String'},
+			{name: 'Status', field: 'status', title: "同步情形", type: 'String'},
 			{name: 'Server URL', field: 'serverUrl', title: "伺服器網址", text: "View", type: 'Link'}
 			],
 		rowClasses: [
@@ -250,7 +311,17 @@ merge(config.macros.sync,{
 	syncLabel: "同步",
 	syncPrompt: "同步更新這些文章",
 	hasChanged: "已更動",
-	hasNotChanged: "未更動"});
+	hasNotChanged: "未更動",
+	syncStatusList: {
+		none: {text: "...", color: "none"},
+		changedServer: {text: "已更新伺服器上資料", color: "#80ff80"},
+		changedLocally: {text: "本機資料已更動", color: "#80ff80"},
+		changedBoth: {text: "已同時更新本機與伺服器上的資料", color: "#ff8080"},
+		notFound: {text: "伺服器無此資料", color: "#ffff80"},
+		putToServer: {text: "已儲存更新資料至伺服器", color: "#ff80ff"},
+		gotFromServer: {text: "已從伺服器擷取更新資料", color: "#80ffff"}
+		}
+	});
 
 merge(config.commands.closeTiddler,{
 	text: "關閉",
