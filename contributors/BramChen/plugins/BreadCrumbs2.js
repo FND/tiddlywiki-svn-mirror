@@ -2,8 +2,8 @@
 !Metadata:
 |''Name:''|BreadcrumbsPlugin|
 |''Description:''||
-|''Version:''|1.4.1|
-|''Date:''|Aug 05, 2006|
+|''Version:''|1.4.2|
+|''Date:''|Feb 15, 2007|
 |''Source:''|http://sourceforge.net/project/showfiles.php?group_id=150646|
 |''Author:''|Alan Hecht (with 2.0 update from 'jack' and revisions by Bram Chen)|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License]]|
@@ -12,6 +12,7 @@
 
 !Revision History:
 |''Version''|''Date''|''Note''|
+|1.4.2|Feb 15, 2007|Runs compatibly with TW 2.2.0 (rev #1501+)|
 |1.4.1|Aug 05, 2006|in restartHome(), check for valid crumbArea before setting style, by Eric|
 |1.4.0|Aug 02, 2006|Fixed bug, the redefined onClickTiddlerLink_orig_breadCrumbs works incorrectly on IE|
 |1.3.0|Jul 20, 2006|Runs compatibly with TW 2.1.0 (rev #403+)|
@@ -22,7 +23,7 @@
 !Code section:
 ***/
 //{{{
-version.extensions.breadCrumbs = {major: 1, minor: 4, revision: 1,date: new Date("Aug 05, 2006")};
+version.extensions.breadCrumbs = {major: 1, minor: 4, revision: 2,date: new Date("Feb 15, 2007")};
 config.breadCrumbs = [];
 
 window.onClickTiddlerLink_orig_breadCrumbs = window.onClickTiddlerLink;
@@ -54,6 +55,7 @@ function refreshCrumbs(){
 		crumbArea.id = "breadCrumbs";
 		crumbArea.style.visibility = "hidden";
 		var targetArea = document.getElementById("tiddlerDisplay");
+			targetArea = (targetArea === null )?document.getElementById("storyDisplay"):targetArea;
 			targetArea.parentNode.insertBefore(crumbArea,targetArea);
 	}
 	crumbArea.style.visibility = "visible";

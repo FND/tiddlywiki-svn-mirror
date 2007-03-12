@@ -32,7 +32,7 @@ function main()
 	store = new TiddlyWiki();
 	shadows = new TiddlyWiki();
 	invokeParamifier(params,"oninit");
-	story = new Story("tiddlerDisplay","tiddler");
+	story = new Story("storyDisplay","tiddler");
 	addEvent(document,"click",Popup.onDocumentClick);
 	saveTest();
 	loadOptionsCookie();
@@ -49,6 +49,8 @@ function main()
 	t5 = new Date();
 	formatter = new Formatter(config.formatters);
 	readOnly = (window.location.protocol == "file:") ? false : config.options.chkHttpReadOnly;
+	if(!readOnly)
+		backstage.init();
 	invokeParamifier(params,"onconfig");
 	t6 = new Date();
 	store.notifyAll();
@@ -63,8 +65,6 @@ function main()
 		if(config.macros[m].init)
 			config.macros[m].init();
 	}
-	if(!readOnly)
-		backstage.init();
 	t9 = new Date();
 	if(config.displayStartupTime) {
 		displayMessage("Load in " + (t2-t1) + " ms");
