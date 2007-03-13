@@ -2,7 +2,6 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 title: title.html
 tiddler: ../../tiddlers/MainMenuHome.tiddler
 tiddler: ../../tiddlers/ViewTemplateHostedRevisionsTest.tiddler
-tiddler: ../../mystyle/PageTemplate.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../mystyle/StyleSheet.tiddler
 tiddler: ../../mystyle/StyleSheetMB.tiddler
@@ -16,11 +15,12 @@ tiddler: Home.tiddler
 tiddler: ListWorkspace.tiddler
 tiddler: ImportWorkspace.tiddler
 tiddler: test.tiddler
-tiddler: ../tiddlypedia/EditTemplateHosted.tiddler
+tiddler: ../tiddlypedia/ViewTemplateGetPutRevisions.tiddler
 tiddler: ../tiddlypedia/TabMoreUpdatedMissingShadowed.tiddler
 tiddler: ../tiddlypedia/TabUpdated.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/LocalAdaptorPlugin.js
+tiddler: ../../feeds/LocalFeed.tiddler
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler

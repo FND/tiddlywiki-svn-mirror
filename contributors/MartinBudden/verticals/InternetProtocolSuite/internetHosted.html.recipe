@@ -10,4 +10,5 @@ tiddler: ../../styles/wikipediaStyle.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
+tiddler: ../../feeds/WikipediaIPstackFeed.tiddler
 tiddler: ListWorkspaces.tiddler
