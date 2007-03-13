@@ -1,7 +1,7 @@
 <div title="WikipediaWikiFeed" modifier="MartinBudden" tags="contentPublisher excludeLists excludeSearch">
 <pre>|''Description:''|Wikipedia articles in the category "Wiki"|
 |''Type:''|mediawiki|
-|''URL:''|http://www.wikipedia.org/|
+|''URL:''|http://www.wikipedia.org/w/|
 |''Workspaces:''|Main|
 |''TiddlerSelector:''|query.php?format=json&amp;what=category&amp;cptitle=Wiki|
 </pre>
