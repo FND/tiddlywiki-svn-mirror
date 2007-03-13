@@ -109,10 +109,10 @@ ZiddlyWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,
 				context.callback(context);
 			return;
 		}
-		var list = [];
+		/*var list = [];
 		for(var i=0; i<info.length; i++) {
 			list.push({title:info[i].name});
-		}
+		}*/
 		var list = [];
 		for(var i=0; i<info.length; i++) {
 			var tiddler = new Tiddler(info[i].name);

@@ -202,10 +202,14 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 //# http://www.wikipedia.org/w/api.php?action=query&list=allpages&aplimit=50&format=jsonfm
 //# http://www.wikipedia.org/w/query.php?what=category&cptitle=Wiki&format=jsonfm
 
-	context.tiddlerLimit = 50;
+	if(!context.tiddlerLimit)
+		context.tiddlerLimit = 50;
 	//context.tiddlerSelector = 'api.php?action=query&list=embeddedin&titles=Template:IPstack&eilimit=%2';
-	//context.responseType = 'query.embeddedin';
-	
+	if(context.tiddlerSelector.match(/list=embeddedin/)) {
+		context.responseType = 'query.embeddedin';
+	}
+//#displayMessage('selector:'+context.tiddlerSelector);
+
 	//context.tiddlerSelector = 'query.php?what=category&cptitle=Wiki';
 	//context.responseType = 'pages';
 	var limit = context.tiddlerLimit ? context.tiddlerLimit : 50;
@@ -296,10 +300,10 @@ MediaWikiAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	var info = {};
 	var host = this && this.host ? this.host : MediaWikiAdaptor.fullHostName(tiddler.fields['server.host']);
 	if(host.match(/w\/$/)) {
-		host = host.replace(/w\/$/,'')
+		host = host.replace(/w\/$/,'');
 		var uriTemplate = '%0wiki/%2';
 	} else {
-		uriTemplate = '%0index.php?title=%2'
+		uriTemplate = '%0index.php?title=%2';
 	}
 	info.uri = uriTemplate.format([host,this.workspace,tiddler.title]);
 	return info;

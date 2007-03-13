@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js|
-|''Version:''|0.5.1|
+|''Version:''|0.5.2|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -125,7 +125,7 @@ config.commands.getTiddler.callback = function(context,userParams)
 //#displayMessage("config.commands.getTiddler.callback:"+context.tiddler.title);
 //#displayMessage("status:"+context.status);
 	if(context.status) {
-		var tiddler = context.tiddler
+		var tiddler = context.tiddler;
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
 		story.refreshTiddler(tiddler.title,1,true);
 		displayMessage(config.commands.getTiddler.done);
@@ -240,7 +240,7 @@ config.commands.revisions.getTiddlerRevisionCallback = function(context,userPara
 {
 //#displayMessage("config.commands.getTiddlerRevisionCallback:"+context.tiddler.title);
 	if(context.status) {
-		var tiddler = context.tiddler
+		var tiddler = context.tiddler;
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
 		story.refreshTiddler(tiddler.title,1,true);
 		displayMessage(config.commands.revisions.done);

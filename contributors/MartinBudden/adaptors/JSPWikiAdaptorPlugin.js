@@ -165,7 +165,7 @@ JSPWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,uri
 			text = text.replace('<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value><array><data>','');
 			text = text.replace('</data></array></value></param></params></methodResponse>','');
 			var list = [];
-			var matchRegExp = /<value>([^<]*)<\/value>/mg
+			var matchRegExp = /<value>([^<]*)<\/value>/mg;
 			matchRegExp.lastIndex = 0;
 			match = matchRegExp.exec(text);
 			while(match) {
