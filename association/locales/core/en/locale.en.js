@@ -4,16 +4,17 @@
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Source:''|www.???.com |
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
-|''Version:''|0.2.0|
+|''Version:''|0.3.0|
 |''Date:''|Mar 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/ ]]|
-|''~CoreVersion:''|2.2.0|
+|''~CoreVersion:''|2.1.3|
 ***/
 
 /*{{{*/
-// Translateable strings
-// ---------------------
+//--
+//-- Translateable strings
+//--
 
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
@@ -31,6 +32,27 @@ config.tasks = {
 	tweak: {text: "tweak", tooltip: "Tweak the appearance and behaviour of TiddlyWiki", content: '<<options>>'},
 	plugins: {text: "plugins", tooltip: "Manage installed plugins", content: '<<plugins>>'}
 };
+
+// Options that can be set in the options panel and/or cookies
+config.optionsDesc = {
+	txtUserName: "Username for signing your edits",
+	chkRegExpSearch: "Enable regular expressions for searches",
+	chkCaseSensitiveSearch: "Case-sensitive searching",
+	chkAnimate: "Enable animations",
+	chkSaveBackups: "Keep backup file when saving changes",
+	chkAutoSave: "Automatically save changes",
+	chkGenerateAnRssFeed: "Generate an RSS feed when saving changes",
+	chkSaveEmptyTemplate: "Generate an empty template when saving changes",
+	chkOpenInNewWindow: "Open external links in a new window",
+	chkToggleLinks: "Clicking on links to open tiddlers causes them to close",
+	chkHttpReadOnly: "Hide editing features when viewed over HTTP",
+	chkForceMinorUpdate: "Don't update modifier username and date when editing tiddlers",
+	chkConfirmDelete: "Require confirmation before deleting tiddlers",
+	chkInsertTabs: "Use the tab key to insert tab characters instead of moving between fields",
+	txtBackupFolder: "Name of folder to use for backups",
+	txtMaxEditRows: "Maximum number of rows in edit boxes",
+	txtFileSystemCharSet: "Default character set for saving changes"
+	};
 
 merge(config.messages,{
 	customConfigError: "Problems were encountered loading plugins. See PluginManager for details",
@@ -79,6 +101,11 @@ config.messages.backstage = {
 	open: {text: "backstage", icon: "↩", iconIE: "←", tooltip: "Open the backstage area to perform authoring and editing tasks"},
 	close: {text: "close", icon: "↪", iconIE: "→", tooltip: "Close the backstage area"},
 	prompt: "backstage: "
+};
+
+config.messages.listView = {
+	tiddlerTooltip: "Click for the full text of this tiddler",
+	previewUnavailable: "(preview not available)"
 };
 
 config.messages.dates.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November","December"];
@@ -177,6 +204,18 @@ merge(config.macros.newJournal,{
 	prompt: "Create a new tiddler from the current date and time",
 	accessKey: "J"});
 
+merge(config.macros.options,{
+	listViewTemplate: {
+		columns: [
+			{name: 'Option', field: 'option', title: "Option", type: 'String'},
+			{name: 'Description', field: 'description', title: "Description", type: 'WikiText'},
+			{name: 'Name', field: 'name', title: "Name", type: 'String'}
+			],
+		rowClasses: [
+			{className: 'lowlight', field: 'lowlight'} 
+			]}
+	});
+
 merge(config.macros.plugins,{
 	wizardTitle: "Manage plugins",
 	step1Title: "Currently loaded plugins",
@@ -191,7 +230,7 @@ merge(config.macros.plugins,{
 	listViewTemplate : {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
-			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "Title", type: 'TiddlerLink'},
+			{name: 'Tiddler', field: 'tiddler', title: "Tiddler", type: 'Tiddler'},
 			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "Size", type: 'Size'},
 			{name: 'Forced', field: 'forced', title: "Forced", tag: 'systemConfigForce', type: 'TagCheckbox'},
 			{name: 'Disabled', field: 'disabled', title: "Disabled", tag: 'systemConfigDisable', type: 'TagCheckbox'},
@@ -240,9 +279,8 @@ merge(config.macros.importTiddlers,{
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
-			{name: 'Title', field: 'title', title: "Title", type: 'String'},
+			{name: 'Tiddler', field: 'tiddler', title: "Tiddler", type: 'Tiddler'},
 			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "Size", type: 'Size'},
-			{name: 'Snippet', field: 'text', title: "Snippet", type: 'String'},
 			{name: 'Tags', field: 'tags', title: "Tags", type: 'Tags'}
 			],
 		rowClasses: [
@@ -253,7 +291,7 @@ merge(config.macros.sync,{
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
-			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "Title", type: 'TiddlerLink'},
+			{name: 'Tiddler', field: 'tiddler', title: "Tiddler", type: 'Tiddler'},
 			{name: 'Server Type', field: 'serverType', title: "Server type", type: 'String'},
 			{name: 'Server Host', field: 'serverHost', title: "Server host", type: 'String'},
 			{name: 'Server Workspace', field: 'serverWorkspace', title: "Server workspace", type: 'String'},
