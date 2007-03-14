@@ -1,7 +1,7 @@
 /***
 | Name|HideWhenPlugin|
 | Description|Allows conditional inclusion/exclusion in templates|
-| Version|3.0 ($rev$)|
+| Version|3.0 ($Rev$)|
 | Date|$Date$|
 | Source|http://mptw.tiddlyspot.com/#HideWhenPlugin|
 | Author|Simon Baird <simon.baird@gmail.com>|

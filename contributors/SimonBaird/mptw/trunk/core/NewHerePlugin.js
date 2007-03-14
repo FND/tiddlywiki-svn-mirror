@@ -1,8 +1,8 @@
 /***
 | Name:|NewHerePlugin|
 | Description:|Creates the new here and new journal macros|
-| Version:|3.0 ($rev$)|
-| Date:|$date$|
+| Version:|3.0 ($Rev$)|
+| Date:|$Date$|
 | Source:|http://mptw.tiddlyspot.com/#NewHerePlugin|
 | Author:|Simon Baird <simon.baird@gmail.com>|
 ***/

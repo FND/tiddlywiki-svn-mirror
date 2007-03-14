@@ -1,7 +1,7 @@
 /***
 | Name|QuickOpenTagPlugin|
 | Description|Changes tag links to make it easier to open tags as tiddlers|
-| Version|3.0 ($rev$)|
+| Version|3.0 ($Rev$)|
 | Date|$Date$|
 | Source|http://mptw.tiddlyspot.com/#QuickOpenTagPlugin|
 | Author|Simon Baird <simon.baird@gmail.com>|

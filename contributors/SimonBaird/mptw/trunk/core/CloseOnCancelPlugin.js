@@ -1,8 +1,8 @@
 /***
 | Name|CloseOnCancelPlugin|
 | Description|Closes the tiddler if you click new tiddler then cancel. Default behaviour is to leave it open|
-| Version|3.0 ($rev$)|
-| Date|$date$|
+| Version|3.0 ($Rev$)|
+| Date|$Date$|
 | Source|http://mptw.tiddlyspot.com/#CloseOnCancelPlugin|
 | Author|Simon Baird <simon.baird@gmail.com>|
 ***/

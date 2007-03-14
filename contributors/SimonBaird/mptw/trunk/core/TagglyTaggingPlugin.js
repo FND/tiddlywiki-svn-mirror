@@ -1,8 +1,8 @@
 /***
 | Name|TagglyTaggingPlugin|
 | Description|tagglyTagging macro is a replacement for the builtin tagging macro in your ViewTemplate|
-| Version|3.0 ($rev$)|
-| Date|$date$|
+| Version|3.0 ($Rev$)|
+| Date|$Date$|
 | Source|http://mptw.tiddlyspot.com/#TagglyTaggingPlugin|
 | Author|Simon Baird <simon.baird@gmail.com>|
 !Notes

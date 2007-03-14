@@ -1,8 +1,8 @@
 /***
 | Name|ToggleTagPlugin|
 | Description|Makes a checkbox which toggles a tag in a tiddler|
-| Version|3.0 ($rev$)|
-| Date|$date$|
+| Version|3.0 ($Rev$)|
+| Date|$Date$|
 | Source|http://tiddlyspot.com/mptw/#ToggleTagMacro|
 | Author|Simon Baird <simon.baird@gmail.com>|
 !Usage

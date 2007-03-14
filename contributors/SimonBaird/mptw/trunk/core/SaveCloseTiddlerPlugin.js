@@ -1,8 +1,8 @@
 /***
 | Name|SaveCloseTiddlerPlugin|
 | Description|Provides two extra toolbar commands, saveCloseTiddler and cancelCloseTiddler|
-| Version|3.0 ($rev$)|
-| Date|$date$|
+| Version|3.0 ($Rev$)|
+| Date|$Date$|
 | Source|http://mptw.tiddlyspot.com/#SaveCloseTiddlerPlugin|
 | Author|Simon Baird <simon.baird@gmail.com>|
 To use these you must add them to the tool bar in your EditTemplate
