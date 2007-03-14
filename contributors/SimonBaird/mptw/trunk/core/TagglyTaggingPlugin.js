@@ -1,11 +1,10 @@
 /***
-| Name:|TagglyTaggingPlugin|
-| Description:|tagglyTagging macro is a replacement for the builtin tagging macro in your ViewTemplate|
-| Version:|$$version$$|
-| Date:|$$date$$|
-| Source:|http://mptw.tiddlyspot.com/#TagglyTaggingPlugin|
-| Author:|Simon Baird <simon.baird@gmail.com>|
-| CoreVersion:|2.1.x|
+| Name|TagglyTaggingPlugin|
+| Description|tagglyTagging macro is a replacement for the builtin tagging macro in your ViewTemplate|
+| Version|3.0 ($rev$)|
+| Date|$date$|
+| Source|http://mptw.tiddlyspot.com/#TagglyTaggingPlugin|
+| Author|Simon Baird <simon.baird@gmail.com>|
 !Notes
 See http://mptw.tiddlyspot.com/#TagglyTagging
 ***/
@@ -188,8 +187,9 @@ config.taggly = {
 		return "";
 	},
 
-	notHidden: function(title) {
-		var t = store.getTiddler(title);
+	notHidden: function(t) {
+		if (typeof t == "string") 
+			t = store.getTiddler(t);
 		return (!t || !t.tags.containsAny(this.config.excludeTags));
 	},
 
@@ -242,11 +242,13 @@ config.taggly = {
 						if (!allTagsHolder[list[i].tags[j]])
 							allTagsHolder[list[i].tags[j]] = "";
 
-						allTagsHolder[list[i].tags[j]] += "**[["+list[i].title+"]]"
+						if (this.notHidden(list[i])) {
+							allTagsHolder[list[i].tags[j]] += "**[["+list[i].title+"]]"
 										+ this.getTaggingCount(list[i].title) + "\n";
 
-						leftOvers.setItem(list[i].title,-1); // remove from leftovers. at the end it will contain the leftovers
+							leftOvers.setItem(list[i].title,-1); // remove from leftovers. at the end it will contain the leftovers
 
+						}
 					}
 				}
 			}
@@ -286,7 +288,8 @@ config.taggly = {
 			output.push(leftOverOutput);
 
 		for (var i=0;i<allTags.length;i++)
-			output.push("*[["+allTags[i]+"]]" + this.getTaggingCount(leftOvers[i]) + "\n" + allTagsHolder[allTags[i]]);
+			if (allTagsHolder[allTags[i]] != "")
+				output.push("*[["+allTags[i]+"]]" + this.getTaggingCount(allTags[i]) + "\n" + allTagsHolder[allTags[i]]);
 
 		if (sortOrder == "desc" && leftOverOutput != "")
 			// leftovers last...

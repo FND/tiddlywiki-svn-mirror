@@ -1,11 +1,10 @@
 /***
 | Name:|RenameTagsPlugin|
 | Description:|Allows you to easily rename or delete tags across multiple tiddlers|
-| Version:|$$version$$|
-| Date:|$$date$$|
+| Version:|3.0 ($rev$)|
+| Date:|$date$|
 | Source:|http://mptw.tiddlyspot.com/#RenameTagsPlugin|
 | Author:|Simon Baird <simon.baird@gmail.com>|
-| CoreVersion:|2.1.x|
 Rename a tag and you will be prompted to rename it in all its tagged tiddlers.
 ***/
 //{{{

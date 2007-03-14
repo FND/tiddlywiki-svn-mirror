@@ -6,6 +6,8 @@
 	</span>
 	<span style="padding:1em;"></span>
 	<span macro='toolbar closeTiddler closeOthers +editTiddler deleteTiddler undoChanges permalink references jump newHere newJournalHere'></span>
+	<span macro='newHere label:"new here"'></span>
+	<span macro='newJournalHere {{config.preferredDateFormat?config.preferredDateFormat:"MM/0DD/YY"}}'></span>
 </div>
 
 <div class="tagglyTagged" macro="tags"></div>
@@ -17,9 +19,9 @@
 
 <div class='subtitle'>
 	<span macro='view modifier link'></span>,
-	<span macro='view modified date [[DD-0MM-YY]]'></span>
+	<span macro='view modified date {{config.preferredDateFormat?config.preferredDateFormat:"MM/0DD/YY"}}'></span>
 	(<span macro='message views.wikified.createdPrompt'></span>
-	<span macro='view created date [[DD-0MM-YY]]'></span>)
+	<span macro='view created date {{config.preferredDateFormat?config.preferredDateFormat:"MM/0DD/YY"}}'></span>)
 </div>
 
 <div macro="showWhenExists ViewPanelTemplate">[[ViewPanelTemplate]]</div>

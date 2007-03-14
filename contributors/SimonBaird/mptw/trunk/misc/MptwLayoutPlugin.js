@@ -12,5 +12,9 @@ Presumes you have TagglyTaggingPlugin installed.
 //{{{
 config.shadowTiddlers.GettingStarted += "\n\nSee also MonkeyPirateTiddlyWiki.";
 
+// used by MptwViewTemplate
+config.preferredDateFormat = 'DD/MM/YY';
+//config.preferredDateFormat = 'MM/0DD/YY';
+
 //}}}
 

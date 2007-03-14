@@ -1,6 +1,16 @@
+/***
+| Name:|ExtentTagButtonPlugin|
+| Description:|Adds a New tiddler button in the tag drop down|
+| Version:|3.0 ($rev$)|
+| Date:|$date$|
+| Source:|http://mptw.tiddlyspot.com/#ExtendTagButtonPlugin|
+| Author:|Simon Baird <simon.baird@gmail.com>|
+***/
+//{{{
 
-// can't hijack a click handler. would be good to refactor in the core...
-// must redefine this entirely...
+// can't hijack a click handler. must redefine this entirely.
+// would be good to refactor in the core...
+// this version copied from 2.1.3 core
 
 // Event handler for clicking on a tiddler tag
 function onClickTag(e)
@@ -19,17 +29,11 @@ function onClickTag(e)
 			if(tagged[r].title != title)
 				titles.push(tagged[r].title);
 		var lingo = config.views.wikified.tag;
+
+		wikify("<<newTiddler label:'New tiddler' tag:"+tag+">>",createTiddlyElement(popup,"li")); // <---- the only modification
+
 		if(titles.length > 0)
 			{
-			//
-			// ==================== mptw tweak begin
-			//
-			//
-			wikify("<<newTiddler label:'New tiddler' tag:"+tag+">>",createTiddlyElement(popup,"li"));
-			//
-			//
-			// ==================== mptw tweak end
-			//
 			var openAll = createTiddlyButton(createTiddlyElement(popup,"li"),lingo.openAllText.format([tag]),lingo.openAllTooltip,onClickTagOpenAll);
 			openAll.setAttribute("tag",tag);
 			createTiddlyElement(createTiddlyElement(popup,"li",null,"listBreak"),"div");
@@ -49,3 +53,6 @@ function onClickTag(e)
 	if (e.stopPropagation) e.stopPropagation();
 	return(false);
 }
+
+//}}}
+

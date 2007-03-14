@@ -1,11 +1,11 @@
 /***
-| Name:|HideWhenPlugin|
-| Description:|Allows conditional inclusion/exclusion in templates|
-| Version:|$$version$$|
-| Date:|$$date$$|
-| Source:|http://mptw.tiddlyspot.com/#HideWhenPlugin|
-| Author:|Simon Baird <simon.baird@gmail.com>|
-For use in ViewTemplate and EditTemplate. Eg
+| Name|HideWhenPlugin|
+| Description|Allows conditional inclusion/exclusion in templates|
+| Version|3.0 ($rev$)|
+| Date|$Date$|
+| Source|http://mptw.tiddlyspot.com/#HideWhenPlugin|
+| Author|Simon Baird <simon.baird@gmail.com>|
+For use in ViewTemplate and EditTemplate. Example usage:
 {{{<div macro="showWhenTagged Task">[[TaskToolbar]]</div>}}}
 {{{<div macro="showWhen tiddler.modifier == 'BartSimpson'"><img src="bart.gif"/></div>}}}
 ***/
@@ -42,6 +42,14 @@ merge(config.macros,{
 
 	showWhenTaggedAny: { handler: function (place,macroName,params,wikifier,paramString,tiddler) {
 		removeElementWhen( !tiddler.tags.containsAny(params), place);
+	}},
+
+	hideWhenTaggedAll: { handler: function (place,macroName,params,wikifier,paramString,tiddler) {
+		removeElementWhen( tiddler.tags.containsAll(params), place);
+	}},
+
+	showWhenTaggedAll: { handler: function (place,macroName,params,wikifier,paramString,tiddler) {
+		removeElementWhen( !tiddler.tags.containsAll(params), place);
 	}},
 
 	hideWhenExists: { handler: function(place,macroName,params,wikifier,paramString,tiddler) {

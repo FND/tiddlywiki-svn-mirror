@@ -1,16 +1,15 @@
 /***
-| Name:|QuickOpenTagPlugin|
-| Description:|Changes tag links to make it easier to open tags as tiddlers|
-| Version:|$$version$$|
-| Date:|$$date$$|
-| Source:|http://mptw.tiddlyspot.com/#QuickOpenTagPlugin|
-| Author:|Simon Baird <simon.baird@gmail.com>|
-| CoreVersion:|2.1.x|
+| Name|QuickOpenTagPlugin|
+| Description|Changes tag links to make it easier to open tags as tiddlers|
+| Version|3.0 ($rev$)|
+| Date|$Date$|
+| Source|http://mptw.tiddlyspot.com/#QuickOpenTagPlugin|
+| Author|Simon Baird <simon.baird@gmail.com>|
 ***/
 //{{{
 config.quickOpenTag = {
 
-	dropdownChar: (document.all ? "\u25bc" : "\u25be"), // the little one doesn't work in IE
+	dropdownChar: (document.all ? "\u25bc" : "\u25be"), // the little one doesn't work in IE?
 
 	createTagButton: function(place,tag,excludeTiddler) {
 		// little hack so we can to <<tag PrettyTagName|RealTagName>>
@@ -59,34 +58,34 @@ config.quickOpenTag = {
 	},
 
 	// todo fix these up a bit
-	styles: 
-"/*{{{*/\n"+
-"/* created by QuickOpenTagPlugin */\n"+
-".tagglyTagged .quickopentag, .tagged .quickopentag \n"+
-"	{ margin-right:1.2em; border:1px solid #eee; padding:2px; padding-right:0px; padding-left:1px; }\n"+
-".quickopentag .tiddlyLink { padding:2px; padding-left:3px; }\n"+
-".quickopentag a.button { padding:1px; padding-left:2px; padding-right:2px;}\n"+
-"/* extra specificity to make it work right */\n"+
-"#displayArea .viewer .quickopentag a.button, \n"+
-"#displayArea .viewer .quickopentag a.tiddyLink, \n"+
-"#mainMenu .quickopentag a.tiddyLink, \n"+
-"#mainMenu .quickopentag a.tiddyLink \n"+
-"	{ border:0px solid black; }\n"+
-"#displayArea .viewer .quickopentag a.button, \n"+
-"#mainMenu .quickopentag a.button \n"+
-"	{ margin-left:0px; padding-left:2px; }\n"+
-"#displayArea .viewer .quickopentag a.tiddlyLink, \n"+
-"#mainMenu .quickopentag a.tiddlyLink \n"+
-"	{ margin-right:0px; padding-right:0px; padding-left:0px; margin-left:0px; }\n"+
-"a.miniTag {font-size:150%;} \n"+
-"#mainMenu .quickopentag a.button \n"+
-"	/* looks better in right justified main menus */\n"+
-"	{ margin-left:0px; padding-left:2px; margin-right:0px; padding-right:0px; }\n" + 
-"#topMenu .quickopentag { padding:0px; margin:0px; border:0px; }\n" +
-"#topMenu .quickopentag .tiddlyLink { padding-right:1px; margin-right:0px; }\n" +
-"#topMenu .quickopentag .button { padding-left:1px; margin-left:0px; border:0px; }\n" +
-"/*}}}*/\n"+
-		"",
+	styles: [
+"/*{{{*/",
+"/* created by QuickOpenTagPlugin */",
+".tagglyTagged .quickopentag, .tagged .quickopentag ",
+"	{ margin-right:1.2em; border:1px solid #eee; padding:2px; padding-right:0px; padding-left:1px; }",
+".quickopentag .tiddlyLink { padding:2px; padding-left:3px; }",
+".quickopentag a.button { padding:1px; padding-left:2px; padding-right:2px;}",
+"/* extra specificity to make it work right */",
+"#displayArea .viewer .quickopentag a.button, ",
+"#displayArea .viewer .quickopentag a.tiddyLink, ",
+"#mainMenu .quickopentag a.tiddyLink, ",
+"#mainMenu .quickopentag a.tiddyLink ",
+"	{ border:0px solid black; }",
+"#displayArea .viewer .quickopentag a.button, ",
+"#mainMenu .quickopentag a.button ",
+"	{ margin-left:0px; padding-left:2px; }",
+"#displayArea .viewer .quickopentag a.tiddlyLink, ",
+"#mainMenu .quickopentag a.tiddlyLink ",
+"	{ margin-right:0px; padding-right:0px; padding-left:0px; margin-left:0px; }",
+"a.miniTag {font-size:150%;} ",
+"#mainMenu .quickopentag a.button ",
+"	/* looks better in right justified main menus */",
+"	{ margin-left:0px; padding-left:2px; margin-right:0px; padding-right:0px; }", 
+"#topMenu .quickopentag { padding:0px; margin:0px; border:0px; }",
+"#topMenu .quickopentag .tiddlyLink { padding-right:1px; margin-right:0px; }",
+"#topMenu .quickopentag .button { padding-left:1px; margin-left:0px; border:0px; }",
+"/*}}}*/",
+		""].join("\n"),
 
 	init: function() {
 		// we fully replace these builtins. can't hijack them easily
@@ -94,12 +93,8 @@ config.quickOpenTag = {
 		config.macros.allTags.handler = this.allTagsHandler;
 		config.macros.miniTag = { handler: this.miniTagHandler };
 		config.shadowTiddlers["QuickOpenTagStyles"] = this.styles;
-		if (store)
-			store.addNotification("QuickOpenTagStyles",refreshStyles);
-		else
-			config.notifyTiddlers.push({name:"QuickOpenTagStyles", notify: refreshStyles});
+		store.addNotification("QuickOpenTagStyles",refreshStyles);
 	}
-
 }
 
 config.quickOpenTag.init();

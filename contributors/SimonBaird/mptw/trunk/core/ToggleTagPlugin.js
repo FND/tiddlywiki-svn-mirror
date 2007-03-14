@@ -1,12 +1,10 @@
 /***
-| Name:|ToggleTagMacro|
-| Description:|Makes a checkbox which toggles a tag in a tiddler|
-| Version:|$$version$$|
-| Date:|$$date$$|
-| Source:|http://tiddlyspot.com/mptw/#ToggleTagMacro|
-| Author:|SimonBaird|
-| License:|[[BSD open source license]]|
-| CoreVersion:|2.1|
+| Name|ToggleTagPlugin|
+| Description|Makes a checkbox which toggles a tag in a tiddler|
+| Version|3.0 ($rev$)|
+| Date|$date$|
+| Source|http://tiddlyspot.com/mptw/#ToggleTagMacro|
+| Author|Simon Baird <simon.baird@gmail.com>|
 !Usage
 {{{<<toggleTag }}}//{{{TagName TiddlerName LabelText}}}//{{{>>}}}
 * TagName - the tag to be toggled, default value "checked"
@@ -22,10 +20,13 @@ Examples:
 |{{{<<toggleTag TagName TiddlerName>>}}}|Toggles the TagName tag in the TiddlerName tiddler|<<toggleTag TagName TiddlerName>>|
 |{{{<<toggleTag TagName TiddlerName 'click me'>>}}}|Same but with custom label|<<toggleTag TagName TiddlerName 'click me'>>|
 |{{{<<toggleTag . . 'click me'>>}}}|dot means use default value|<<toggleTag . . 'click me'>>|
-(Note if TiddlerName doesn't exist it will be silently created)
+Notes:
+* If TiddlerName doesn't exist it will be silently created
+* Set label to '-' to specify no label
+* See also http://mgtd-alpha.tiddlyspot.com/#ToggleTag2
 
 !Known issues
-* Doesn't smoothly handle the case where you toggle a tag in a tiddler that is current open for editing. Should it stick the tag in the edit box?
+* Doesn't smoothly handle the case where you toggle a tag in a tiddler that is current open for editing
 
 ***/
 //{{{
@@ -55,10 +56,7 @@ merge(config.macros,{
 					else 
 						return false;
 				}
-				//store.suspendNotifications(); 
 				store.setTiddlerTag(title,this.checked,tag);
-				//refreshDisplay(); 
-				//store.resumeNotifications();
 				return true;
 			});
 		}
