@@ -54,7 +54,8 @@ config.taggly = {
 			listMode:   ["normal","group","sitemap","commas"],
 			numCols:    ["1","2","3","4","5","6"]
 		},
-		valuePrefix: "taggly."
+		valuePrefix: "taggly.",
+		excludeTags: ["excludeLists","excludeTagging"]
 	},
 
 	getTagglyOpt: function(title,opt) {
@@ -187,6 +188,11 @@ config.taggly = {
 		return "";
 	},
 
+	notHidden: function(title) {
+		var t = store.getTiddler(title);
+		return (!t || !t.tags.containsAny(this.config.excludeTags));
+	},
+
 	// this is for normal and commas mode
 	createTagglyListNormal: function(place,title,useCommas) {
 
@@ -197,11 +203,13 @@ config.taggly = {
 
 		var output = [];
 		for (var i=0;i<list.length;i++) {
-			var countString = this.getTaggingCount(list[i].title);
-			if (useCommas)
-				output.push((i > 0 ? ", " : "") + "[[" + list[i].title + "]]" + countString);
-			else
-				output.push("*[[" + list[i].title + "]]" + countString + "\n");
+			if (this.notHidden(list[i])) {
+				var countString = this.getTaggingCount(list[i].title);
+				if (useCommas)
+					output.push((i > 0 ? ", " : "") + "[[" + list[i].title + "]]" + countString);
+				else
+					output.push("*[[" + list[i].title + "]]" + countString + "\n");
+			}
 		}
 
 		return this.drawTable(place,
@@ -229,12 +237,17 @@ config.taggly = {
 
 				if (list[i].tags[j] != title) { // not this tiddler
 
-					if (!allTagsHolder[list[i].tags[j]])
-						allTagsHolder[list[i].tags[j]] = "";
+					if (this.notHidden(list[i].tags[j])) {
 
-					allTagsHolder[list[i].tags[j]] += "**[["+list[i].title+"]]"
-									+ this.getTaggingCount(list[i].title) + "\n";
-					leftOvers.setItem(list[i].title,-1); // remove from leftovers. at the end it will contain the leftovers
+						if (!allTagsHolder[list[i].tags[j]])
+							allTagsHolder[list[i].tags[j]] = "";
+
+						allTagsHolder[list[i].tags[j]] += "**[["+list[i].title+"]]"
+										+ this.getTaggingCount(list[i].title) + "\n";
+
+						leftOvers.setItem(list[i].title,-1); // remove from leftovers. at the end it will contain the leftovers
+
+					}
 				}
 			}
 		}
@@ -261,7 +274,8 @@ config.taggly = {
 
 		var leftOverOutput = "";
 		for (var i=0;i<leftOvers.length;i++)
-			leftOverOutput += "*[["+leftOvers[i]+"]]" + this.getTaggingCount(leftOvers[i]) + "\n";
+			if (this.notHidden(leftOvers[i]))
+				leftOverOutput += "*[["+leftOvers[i]+"]]" + this.getTaggingCount(leftOvers[i]) + "\n";
 
 		var output = [];
 

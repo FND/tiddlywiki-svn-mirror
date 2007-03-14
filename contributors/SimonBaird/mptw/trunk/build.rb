@@ -1,5 +1,5 @@
 
-$LOAD_PATH.unshift("../r4tw") 
+#$LOAD_PATH.unshift("../r4tw") 
 require 'r4tw'
 
 make_tw {
