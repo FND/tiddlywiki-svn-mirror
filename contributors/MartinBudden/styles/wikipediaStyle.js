@@ -8,6 +8,8 @@ Stylesheet, which when used with a Wikipedia skin stylesheet, helps give TiddlyW
 .header {background:darkblue;}
 .headerShadow {color:white;}
 
+h1,h2,h3,h4,h5,h6 {padding-left:0em;}
+
 /* The bit that contains all tiddlers */
 #displayArea {
 	margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:0.5em;
