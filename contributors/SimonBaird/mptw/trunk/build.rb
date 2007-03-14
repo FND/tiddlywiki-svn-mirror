@@ -2,6 +2,10 @@
 #$LOAD_PATH.unshift("../r4tw") 
 require 'r4tw'
 
+def get_rev
+  `svnversion .`.split(':').last
+end
+
 make_tw {
   source_file           'empty.html'
   add_tiddlers_from_dir 'core'
