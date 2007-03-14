@@ -2,35 +2,35 @@
 <pre>
 |timelineHeight:|200|
 
-|band0_width:|15%|
-|band0_intervalUnit:|SECOND|
-|band0_intervalPixels:|40|
-|band0_eventSourceType:|timer|
-|band0_eventSourceParams:|1|
+|band0.width:|15%|
+|band0.intervalUnit:|SECOND|
+|band0.intervalPixels:|40|
+|band0.eventSourceType:|timer|
+|band0.eventSourceParams:|1|
 
-|band1_width:|15%|
-|band1_intervalUnit:|MINUTE|
-|band1_intervalPixels:|40|
-|band1_highlight:|false|
+|band1.width:|15%|
+|band1.intervalUnit:|MINUTE|
+|band1.intervalPixels:|40|
+|band1.highlight:|false|
 
-|band2_width:|15%|
-|band2_intervalUnit:|HOUR|
-|band2_intervalPixels:|60|
-|band2_highlight:|false|
+|band2.width:|15%|
+|band2.intervalUnit:|HOUR|
+|band2.intervalPixels:|60|
+|band2.highlight:|false|
 
-|band3_width:|15%|
-|band3_intervalUnit:|WEEK|
-|band3_intervalPixels:|100|
-|band3_highlight:|false|
+|band3.width:|15%|
+|band3.intervalUnit:|WEEK|
+|band3.intervalPixels:|100|
+|band3.highlight:|false|
 
-|band4_width:|15%|
-|band4_intervalUnit:|MONTH|
-|band4_intervalPixels:|100|
-|band4_highlight:|false|
+|band4.width:|15%|
+|band4.intervalUnit:|MONTH|
+|band4.intervalPixels:|100|
+|band4.highlight:|false|
 
-|band5_width:|15%|
-|band5_intervalUnit:|YEAR|
-|band5_intervalPixels:|200|
-|band5_highlight:|false|
+|band5.width:|15%|
+|band5.intervalUnit:|YEAR|
+|band5.intervalPixels:|200|
+|band5.highlight:|false|
 </pre>
 </div>

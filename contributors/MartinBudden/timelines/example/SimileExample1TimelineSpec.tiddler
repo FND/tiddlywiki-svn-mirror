@@ -2,22 +2,22 @@
 <pre>
 |timelineHeight:|250|
 
-|band0_width:|70%|
-|band0_intervalUnit:|MONTH|
-|band0_intervalPixels:|100|
-|band0_date:|Jun 28 2006|
-|band0_eventSourceType:|tiddlerSlices|
-|band0_eventSourceParams:|SimileExample1Timeline|
+|band0.width:|70%|
+|band0.intervalUnit:|MONTH|
+|band0.intervalPixels:|100|
+|band0.date:|Jun 28 2006|
+|band0.eventSourceType:|tiddlerSlices|
+|band0.eventSourceParams:|SimileExample1Timeline|
 
-|band1_width:|30%|
-|band1_intervalUnit:|YEAR|
-|band1_intervalPixels:|200|
-|band1_date:|Jun 28 2006|
-|band1_highlight:|true|
-|band1_eventSourceType:|tiddlerSlices|
-|band1_eventSourceParams:|SimileExample1Timeline|
-|band1_showEventText:|false|
-|band1_trackHeight:|0.5|
-|band1_trackGap:|0.2|
+|band1.width:|30%|
+|band1.intervalUnit:|YEAR|
+|band1.intervalPixels:|200|
+|band1.date:|Jun 28 2006|
+|band1.highlight:|true|
+|band1.eventSourceType:|tiddlerSlices|
+|band1.eventSourceParams:|SimileExample1Timeline|
+|band1.showEventText:|false|
+|band1.trackHeight:|0.5|
+|band1.trackGap:|0.2|
 </pre>
 </div>

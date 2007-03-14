@@ -2,23 +2,23 @@
 <pre>
 |timelineHeight:|300|
 
-|band0_width:|50%|
-|band0_intervalUnit:|MONTH|
-|band0_intervalPixels:|100|
-|band0_date:|1 Dec 2004|
-|band0_eventSourceType:|tiddlerSlices|
-|band0_eventSourceParams:|TiddlyWikiTimeline|
+|band0.width:|50%|
+|band0.intervalUnit:|MONTH|
+|band0.intervalPixels:|100|
+|band0.date:|1 Dec 2004|
+|band0.eventSourceType:|tiddlerSlices|
+|band0.eventSourceParams:|TiddlyWikiTimeline|
 
-|band1_width:|5%|
-|band1_intervalUnit:|WEEK|
-|band1_intervalPixels:|100*7/31|
+|band1.width:|5%|
+|band1.intervalUnit:|WEEK|
+|band1.intervalPixels:|100*7/31|
 
-|band2_width:|45%|
-|band2_intervalUnit:|MONTH|
-|band2_intervalPixels:|25|
-|band2_showEventText:|false|
-|band2_highlight:|true|
-|band2_eventSourceType:|tiddlerSlices|
-|band2_eventSourceParams:|TiddlyWikiTimeline|
+|band2.width:|45%|
+|band2.intervalUnit:|MONTH|
+|band2.intervalPixels:|25|
+|band2.showEventText:|false|
+|band2.highlight:|true|
+|band2.eventSourceType:|tiddlerSlices|
+|band2.eventSourceParams:|TiddlyWikiTimeline|
 </pre>
 </div>

@@ -4,26 +4,26 @@
 |bubbleWidth:|320|
 |bubbleHeight:|220|
 
-band0_width:10%
-band0_intervalUnit:DECADE
-band0_intervalPixels:200
-band0_date:1850
-band0_showEventText:false
-band0_etherPainter:YearCountEtherPainter
-band0_etherPainter_startDate:Nov 14 1840 0:0:00 GMT
-band0_etherPainter_multiple:5
-band0_decorator0:SpanHighlightDecorator
-band0_decorator0_startDate:Nov 14 1840 00:00:00 GMT
-band0_decorator0_endDate:Dec 05 1926 00:00:00 GMT
-band0_decorator0_startLabel:birth
-band0_decorator0_endLabel:death
-band0_decorator0_color:#FFC080
-band0_decorator0_opacity:50
+band0.width:10%
+band0.intervalUnit:DECADE
+band0.intervalPixels:200
+band0.date:1850
+band0.showEventText:false
+band0.etherPainter:YearCountEtherPainter
+band0.etherPainter.startDate:Nov 14 1840 0:0:00 GMT
+band0.etherPainter.multiple:5
+band0.decorator0:SpanHighlightDecorator
+band0.decorator0.startDate:Nov 14 1840 00:00:00 GMT
+band0.decorator0.endDate:Dec 05 1926 00:00:00 GMT
+band0.decorator0.startLabel:birth
+band0.decorator0.endLabel:death
+band0.decorator0.color:#FFC080
+band0.decorator0.opacity:50
 
-band1_width:90%
-band1_intervalUnit:DECADE
-band1_intervalPixels:200
-band1_eventSourceType:tiddlerSlices
-band1_eventSourceParams:MonetTimeline
+band1.width:90%
+band1.intervalUnit:DECADE
+band1.intervalPixels:200
+band1.eventSourceType:tiddlerSlices
+band1.eventSourceParams:MonetTimeline
 </pre>
 </div>
