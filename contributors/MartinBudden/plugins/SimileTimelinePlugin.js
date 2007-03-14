@@ -40,7 +40,7 @@ Story.prototype.closeTiddler = function(title,animate,slowly)
 };
 
 // used for date string in bubble
-Timeline.urlPrefix = 'http://martinswiki.com/timeline/' //!! kludge for now
+Timeline.urlPrefix = 'http://martinswiki.com/timeline/'; //!! kludge for now
 
 Timeline.GregorianDateLabeller.prototype.labelPrecise = function(date)
 {
@@ -55,7 +55,7 @@ Timeline.GregorianDateLabeller.labelIntervalWeek = function(date)
 	var dt = Timeline.DateTime.removeTimeZoneOffset(date,this._timeZone);
 	var text = '' + dt.getWeek();
 	return {text:text,emphasized:false};
-}
+};
 
 Timeline.GregorianDateLabeller.labelIntervalFunctions['en'] = function(date,intervalUnit)
 {
@@ -310,14 +310,14 @@ config.macros.SimileTimeline.clearTick = function()
 {
 //#displayMessage("clearTick");
 	if(config.macros.SimileTimeline.timerId)
-		clearTimeout(config.macros.SimileTimeline.timerId)
+		clearTimeout(config.macros.SimileTimeline.timerId);
 	config.macros.SimileTimeline.timerId = null;
 };
 
 config.macros.SimileTimeline.getBandParams = function(title,n,defaultDate)
 {
 	var t = title;
-	var pfx = 'band' + String(n) + '_';
+	var pfx = 'band' + String(n) + '.';
 	var width = store.getTiddlerSlice(t,pfx+'width');
 //#displayMessage("width"+":"+width);
 	if(!width)
@@ -391,20 +391,21 @@ config.macros.SimileTimeline.getBandParams = function(title,n,defaultDate)
 	if(etherPainter) {
 		var ep = {};
 		ep.etherPainter = etherPainter;
-		ep.startDate = store.getTiddlerSlice(t,pfx+'etherPainterStartDate');
-		ep.multiple = store.getTiddlerSlice(t,pfx+'etherPainterMultiple');
+		ep.startDate = store.getTiddlerSlice(t,pfx+'etherPainter.startDate');
+		ep.multiple = store.getTiddlerSlice(t,pfx+'etherPainter.multiple');
 		ret.ep = ep;
 	}
 	var decorator = store.getTiddlerSlice(t,'decorator');
 	if(decorator) {
 		var dec = {};
+		var pdc = pfx + 'decorator0.';
 		dec.decorator = decorator;
-		dec.startDate = store.getTiddlerSlice(t,pfx+'decoratorStartDate');
-		dec.endDate = store.getTiddlerSlice(t,pfx+'decoratorEndDate');
-		dec.startLabel = store.getTiddlerSlice(t,pfx+'decoratorStartLabel');
-		dec.endLabel = store.getTiddlerSlice(t,pfx+'decoratorEndLabel');
-		dec.color = store.getTiddlerSlice(t,pfx+'decoratorColor');
-		dec.opacity = store.getTiddlerSlice(t,pfx+'decoratorOpacity');
+		dec.startDate = store.getTiddlerSlice(t,pdc+'startDate');
+		dec.endDate = store.getTiddlerSlice(t,pdc+'endDate');
+		dec.startLabel = store.getTiddlerSlice(t,pdc+'startLabel');
+		dec.endLabel = store.getTiddlerSlice(t,pdc+'endLabel');
+		dec.color = store.getTiddlerSlice(t,pdc+'color');
+		dec.opacity = store.getTiddlerSlice(t,pdc+'opacity');
 		ret.dec = dec;
 	}
 	var highlight = store.getTiddlerSlice(t,pfx+'highlight');
