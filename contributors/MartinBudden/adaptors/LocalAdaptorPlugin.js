@@ -12,7 +12,7 @@
 
 path/TiddlyFile.html
 path/tiddlers/<x>.tiddler
-path/tiddlers/revisions/<x>.tiddler.<nnnn>
+path/tiddlers/revisions/<x>.<nnnn>.tiddler
 ***/
 
 //{{{
@@ -214,7 +214,11 @@ LocalAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,use
 		var list = [];
 		for(var i=0; i<entries.length; i++) {
 			var name = entries[i].name;
-			name = LocalAdaptor.normalizedTitle(name);
+// need to match name with
+//dirlist/<title>.<nnnn>.tiddler
+var matchRegExp = /(.*?)\.([0-9]*)\.tiddler/;
+			//name = LocalAdaptor.normalizedTitle(name);
+//displayMessage("name:"+name);
 			var tiddler = new Tiddler(title);
 			tiddler.modified = new Date();
 			tiddler.modified.setTime(entries[i].modified);
@@ -265,9 +269,16 @@ LocalAdaptor.prototype.getTiddlerInternal = function(context,userParams,callback
 //#displayMessage('LocalAdaptor.getTiddler:' + title);
 	context = this.setContext(context,userParams,callback);
 	var title = context.title;
-	var path = LocalAdaptor.tiddlerPath();
-	var uriTemplate = '%0%1';
-	var uri = uriTemplate.format([path,LocalAdaptor.normalizedTitle(title)]);
+
+	if(context.revision) {
+		var path = LocalAdaptor.revisionPath();
+		var uriTemplate = '%0%1.%2';
+	} else {
+		path = LocalAdaptor.tiddlerPath();
+		uriTemplate = '%0%1';
+	}
+
+	var uri = uriTemplate.format([path,LocalAdaptor.normalizedTitle(title),context.revision]);
 //#displayMessage('uri:'+uri);
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields['server.type'] = LocalAdaptor.serverType;
@@ -338,12 +349,11 @@ LocalAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback
 	var revision = tiddler.fields['server.page.revision'];
 	if(!revision)
 		revision = LocalAdaptor.baseRevision;
+	++revision;
 	tiddler.fields['server.page.revision'] = String(revision);
 	context.tiddler = tiddler;
 	// save the tiddler as a revision
 	this.saveTiddlerAsDiv(context,true);
-	++revision;
-	context.tiddler.fields['server.page.revision'] = String(revision);
 	context = this.saveTiddlerAsDiv(context);
 	if(context.callback)
 		window.setTimeout(context.callback,0,context,userParams);
@@ -355,7 +365,7 @@ LocalAdaptor.prototype.saveTiddlerAsDiv = function(context,isRevision)
 //#displayMessage('LocalAdaptor.saveTiddlerAsDiv:'+context.tiddler.title);
 	if(isRevision) {
 		var path = LocalAdaptor.revisionPath();
-		var uriTemplate = '%0%1.tiddler.%2';
+		var uriTemplate = '%0%1.%2.tiddler';
 		var revision = context.tiddler.fields['server.page.revision'];
 	} else {
 		path = LocalAdaptor.tiddlerPath();
