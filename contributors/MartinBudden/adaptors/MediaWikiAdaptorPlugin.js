@@ -127,6 +127,14 @@ MediaWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callba
 	context = this.setContext(context,userParams,callback);
 //#displayMessage("getWorkspaceList");
 //# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&&meta=siteinfo&siprop=namespaces
+	if(context.feed.workspaces) {
+//#displayMessage("w:"+context.feed.workspaces);
+		context.status = true;
+		context.workspaces = [{name:"Main",title:"Main"}];
+		if(context.callback)
+			window.setTimeout(context.callback,0,context,userParams);
+		return true;
+	}
 	var uriTemplate = '%0api.php?format=json&action=query&meta=siteinfo&siprop=namespaces';
 	var uri = uriTemplate.format([this.host]);
 //#displayMessage("uri:"+uri);
@@ -204,17 +212,22 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 
 	if(!context.tiddlerLimit)
 		context.tiddlerLimit = 50;
-	//context.tiddlerSelector = 'api.php?action=query&list=embeddedin&titles=Template:IPstack&eilimit=%2';
-	if(context.tiddlerSelector.match(/list=embeddedin/)) {
-		context.responseType = 'query.embeddedin';
-	}
-//#displayMessage('selector:'+context.tiddlerSelector);
+//#displayMessage('selector:'+context.feed.tiddlerSelector);
 
-	//context.tiddlerSelector = 'query.php?what=category&cptitle=Wiki';
-	//context.responseType = 'pages';
 	var limit = context.tiddlerLimit ? context.tiddlerLimit : 50;
-	if(context.tiddlerSelector) {
-		var uriTemplate = '%0' + context.tiddlerSelector + '&format=json';
+	if(context.feed.tiddlerSelector) {
+		var re = /(Tags|IncludesTemplate)=(\w+)/;
+		var match = re.exec(context.feed.tiddlerSelector);
+		if(match) {
+			if(match[1]=='Tags') {
+				context.responseType = 'pages';
+				var uriTemplate = '%0query.php?format=json&what=category&cptitle=%3';
+			} else {
+				context.responseType = 'query.embeddedin';
+				uriTemplate = '%0api.php?format=json&action=query&list=embeddedin&eilimit=%2&titles=Template:%3';
+			}
+			var selectorParams = match[2];
+		}
 	} else {
 		context.responseType = 'query.allpages';
 		uriTemplate = '%0api.php?format=json&action=query&list=allpages';
@@ -224,7 +237,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 			uriTemplate += '&aplimit=%2';
 	}
 	var host = MediaWikiAdaptor.fullHostName(this.host);
-	var uri = uriTemplate.format([host,this.workspace,limit]);
+	var uri = uriTemplate.format([host,this.workspace,limit,selectorParams]);
 //#displayMessage('uri: '+uri);
 
 	var req = MediaWikiAdaptor.doHttpGET(uri,MediaWikiAdaptor.getTiddlerListCallback,context);
