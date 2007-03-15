@@ -3,6 +3,6 @@
 |''Type:''|mediawiki|
 |''URL:''|http://www.wikipedia.org/w/|
 |''Workspaces:''|Main|
-|''TiddlerSelector:''|api.php?action=query&amp;list=embeddedin&amp;titles=Template:IPstack&amp;eilimit=%2|
+|''TiddlerSelector:''|IncludesTemplate=IPstack|
 </pre>
 </div>
