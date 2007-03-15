@@ -26,9 +26,9 @@ merge(SharedRecordsAdaptor,{
 	serverType: 'sharedrecords',
 	getTiddlersUrl: '%0%1_log.json',
 	viewTiddlersUrl: '%0%1.data',
+	putTiddlersUrl: '%0%1_log?max-sequence-number=%2&format=json',
 	notLoadedError: "SharedRecords data has not been loaded",
 	notFoundError: "SharedRecords tiddler not found",
-	postUrl: "%0%1_log?max-sequence-number=%2&format=json",
 	jsonTag: '%0',
 	jsonTagSep: ',',
 	jsonEntry: '{"title":%0,"modified":"%1","modifier":%2,"created":"%3",\n"tags":[%4],"text":%5,\n"sharedRecords.recordUID":%6,"contentType":%7,"sharedRecords.sequenceNumber":%8}\n',
@@ -88,7 +88,6 @@ SharedRecordsAdaptor.openWorkspaceCallback = function(status,context,responseTex
 		context.statusText = "Error reading file: " + xhr.statusText;
 	} else {
 		adaptor.serverData = eval("(" + responseText + ")");
-		displayMessage(responseText);
 	}
 	context.callback(context,context.userParams);
 }
@@ -104,7 +103,7 @@ SharedRecordsAdaptor.prototype.getTiddlerList = function(context,userParams,call
 		tiddler.text = serverTiddler.text;
 		tiddler.modified = SharedRecordsAdaptor.convertFromFullUTCISO1806(serverTiddler.modified);
 		tiddler.modifier = serverTiddler.modifier;
-		tiddler.fields['server.page.version'] = serverTiddler['sharedRecords.sequenceNumber'];
+		tiddler.fields['server.page.version'] = String.zeroPad(10,serverTiddler['sharedRecords.sequenceNumber']);
 		tiddler.tags = serverTiddler.tags;
 		context.tiddlers.push(tiddler);
 	}
@@ -134,12 +133,11 @@ SharedRecordsAdaptor.prototype.getTiddler = function(title,context,userParams,ca
 		context.tiddler.text = serverTiddler.text;
 		context.tiddler.modified = SharedRecordsAdaptor.convertFromFullUTCISO1806(serverTiddler.modified);
 		context.tiddler.modifier = serverTiddler.modifier;
-		context.tiddler.fields['server.page.version'] = serverTiddler['sharedRecords.sequenceNumber'];
 		context.tiddler.tags = serverTiddler.tags;
 		context.tiddler.fields['server.type'] = SharedRecordsAdaptor.serverType;
 		context.tiddler.fields['server.host'] = this.host;
 		context.tiddler.fields['server.workspace'] = this.workspace;
-		context.tiddler.fields['server.page.version'] = serverTiddler['sharedRecords.sequenceNumber'];
+		context.tiddler.fields['server.page.version'] = String.zeroPad(10,serverTiddler['sharedRecords.sequenceNumber']);
 		context.tiddler.fields['content.type'] = serverTiddler.contentType;
 		context.status = true;
 	} else {
@@ -154,10 +152,10 @@ SharedRecordsAdaptor.prototype.putTiddler = function(tiddler,context,userParams,
 {
 	var jsonTags = [];
 	for(var tag=0; tag<tiddler.tags.length; tag++)
-		tags.push(SocialtextAdaptor.jsonTag.format([tiddler.tags[tag].toJSONString()]));
+		jsonTags.push(SocialtextAdaptor.jsonTag.format([tiddler.tags[tag].toJSONString()]));
 	var sequenceNumber = tiddler.fields['server.page.version'];
-	if(sequenceNumber === undefined)
-		sequenceNumber = "0";
+	sequenceNumber = sequenceNumber === undefined ? -1 : parseInt(sequenceNumber,10);
+	sequenceNumber = -1; // Just for the moment
 	var contentType = tiddler.fields['content.type'];
 	if(contentType === undefined)
 		contentType = 'text/html';
@@ -166,13 +164,35 @@ SharedRecordsAdaptor.prototype.putTiddler = function(tiddler,context,userParams,
 			SharedRecordsAdaptor.convertToFullUTCISO1806(tiddler.modified),
 			tiddler.modifier.toJSONString(),
 			SharedRecordsAdaptor.convertToFullUTCISO1806(tiddler.created),
-			tags.join(SharedRecordsAdaptor.jsonTagSep),
+			jsonTags.join(SharedRecordsAdaptor.jsonTagSep),
 			tiddler.text.toJSONString(),
 			this.workspace.toJSONString(),
 			contentType.toJSONString(),
-			sequenceNumber.toJSONString()
+			sequenceNumber
 			]);
 	var jsonRecord = SharedRecordsAdaptor.jsonWrapper.format([jsonTiddler]);
+	var url = SharedRecordsAdaptor.putTiddlersUrl.format([this.host,this.workspace,sequenceNumber]);
+	context.adaptor = this;
+	context.callback = callback;
+	context.userParams = userParams;
+	var r = doHttp("POST",
+		url,
+		jsonRecord,
+		null,null,null,
+		SharedRecordsAdaptor.putTiddlerCallback,context);
+	return typeof r == 'string' ? r : true;
+}
+
+SharedRecordsAdaptor.putTiddlerCallback = function(status,context,responseText,url,xhr)
+{
+	if(status) {
+		context.status = true;
+	} else {
+		context.status = false;
+		context.statusText = xhr.statusText + " (" + xhr.status + ")";
+	}
+	if(context.callback)
+		context.callback(context,context.userParams);
 }
 
 SharedRecordsAdaptor.prototype.close = function() {return true;};
