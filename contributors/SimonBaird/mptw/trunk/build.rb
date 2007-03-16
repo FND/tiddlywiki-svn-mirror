@@ -12,6 +12,9 @@ make_tw {
   package_as_from_dir   'misc/MptwLayoutPlugin.js', 'layout'
   store_to_file         'upload/upgrade.html'
   add_tiddlers_from_dir 'noupgrade'
+
+  #add_tiddlers_from_file 'misc/Test.divs'
+
   to_file               'upload/empty.html'
   store_to_divs         'upload/MonkeyPirateTiddlyWiki.tiddler' # for tiddlyspot
 
@@ -30,5 +33,6 @@ make_tw {
 
   to_file               'upload/empty_nolayout.html'
 }
+
 
 

@@ -187,10 +187,11 @@ config.taggly = {
 		return "";
 	},
 
-	notHidden: function(t) {
+	notHidden: function(t,inTiddler) {
 		if (typeof t == "string") 
 			t = store.getTiddler(t);
-		return (!t || !t.tags.containsAny(this.config.excludeTags));
+		return (!t || !t.tags.containsAny(this.config.excludeTags) ||
+				(inTiddler && this.config.excludeTags.contains(inTiddler)));
 	},
 
 	// this is for normal and commas mode
@@ -202,13 +203,16 @@ config.taggly = {
 			list = list.reverse();
 
 		var output = [];
+		var first = true;
 		for (var i=0;i<list.length;i++) {
-			if (this.notHidden(list[i])) {
+			if (this.notHidden(list[i],title)) {
 				var countString = this.getTaggingCount(list[i].title);
 				if (useCommas)
-					output.push((i > 0 ? ", " : "") + "[[" + list[i].title + "]]" + countString);
+					output.push((first ? "" : ", ") + "[[" + list[i].title + "]]" + countString);
 				else
 					output.push("*[[" + list[i].title + "]]" + countString + "\n");
+
+				first = false;
 			}
 		}
 
@@ -237,12 +241,12 @@ config.taggly = {
 
 				if (list[i].tags[j] != title) { // not this tiddler
 
-					if (this.notHidden(list[i].tags[j])) {
+					if (this.notHidden(list[i].tags[j],title)) {
 
 						if (!allTagsHolder[list[i].tags[j]])
 							allTagsHolder[list[i].tags[j]] = "";
 
-						if (this.notHidden(list[i])) {
+						if (this.notHidden(list[i],title)) {
 							allTagsHolder[list[i].tags[j]] += "**[["+list[i].title+"]]"
 										+ this.getTaggingCount(list[i].title) + "\n";
 
@@ -276,7 +280,7 @@ config.taggly = {
 
 		var leftOverOutput = "";
 		for (var i=0;i<leftOvers.length;i++)
-			if (this.notHidden(leftOvers[i]))
+			if (this.notHidden(leftOvers[i],title))
 				leftOverOutput += "*[["+leftOvers[i]+"]]" + this.getTaggingCount(leftOvers[i]) + "\n";
 
 		var output = [];
@@ -315,7 +319,8 @@ config.taggly = {
 		var childOutput = "";
 		for (var i=0;i<list.length;i++)
 			if (list[i].title != title)
-				childOutput += this.treeTraverse(list[i].title,depth+1,sortBy,sortOrder);
+				if (this.notHidden(list[i].title,this.config.inTiddler))
+					childOutput += this.treeTraverse(list[i].title,depth+1,sortBy,sortOrder);
 
 		if (depth == 0)
 			return childOutput;
@@ -325,6 +330,7 @@ config.taggly = {
 
 	// this if for the site map mode
 	createTagglyListSiteMap: function(place,title) {
+		this.config.inTiddler = title; // nasty. should pass it in to traverse probably
 		var output = this.treeTraverse(title,0,this.getTagglyOpt(title,"sortBy"),this.getTagglyOpt(title,"sortOrder"));
 		return this.drawTable(place,
 				this.makeColumns(output.split(/(?=^\*\[)/m),parseInt(this.getTagglyOpt(title,"numCols"))), // regexp magic
