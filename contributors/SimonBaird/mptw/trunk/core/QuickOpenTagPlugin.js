@@ -5,6 +5,7 @@
 | Date|$Date$|
 | Source|http://mptw.tiddlyspot.com/#QuickOpenTagPlugin|
 | Author|Simon Baird <simon.baird@gmail.com>|
+| License|http://mptw.tiddlyspot.com/#TheBSDLicense|
 ***/
 //{{{
 config.quickOpenTag = {

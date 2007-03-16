@@ -5,6 +5,7 @@
 | Date|$Date$|
 | Source|http://mptw.tiddlyspot.com/#SaveCloseTiddlerPlugin|
 | Author|Simon Baird <simon.baird@gmail.com>|
+| License|http://mptw.tiddlyspot.com/#TheBSDLicense|
 To use these you must add them to the tool bar in your EditTemplate
 ***/
 //{{{

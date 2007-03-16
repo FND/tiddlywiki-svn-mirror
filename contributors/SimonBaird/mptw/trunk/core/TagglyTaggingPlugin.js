@@ -5,6 +5,7 @@
 | Date|$Date$|
 | Source|http://mptw.tiddlyspot.com/#TagglyTaggingPlugin|
 | Author|Simon Baird <simon.baird@gmail.com>|
+| License|http://mptw.tiddlyspot.com/#TheBSDLicense|
 !Notes
 See http://mptw.tiddlyspot.com/#TagglyTagging
 ***/

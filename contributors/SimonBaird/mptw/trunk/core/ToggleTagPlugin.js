@@ -5,6 +5,7 @@
 | Date|$Date$|
 | Source|http://tiddlyspot.com/mptw/#ToggleTagMacro|
 | Author|Simon Baird <simon.baird@gmail.com>|
+| License|http://mptw.tiddlyspot.com/#TheBSDLicense|
 !Usage
 {{{<<toggleTag }}}//{{{TagName TiddlerName LabelText}}}//{{{>>}}}
 * TagName - the tag to be toggled, default value "checked"
