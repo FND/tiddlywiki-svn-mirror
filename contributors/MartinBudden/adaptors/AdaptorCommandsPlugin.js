@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js|
-|''Version:''|0.5.2|
-|''Date:''|Feb 25, 2007|
+|''Version:''|0.5.1|
+|''Date:''|Mar 17, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -209,31 +209,35 @@ config.commands.revisions.callback = function(context,userParams)
 	if(revisions.length==0) {
 		createTiddlyText(createTiddlyElement(popup,'li',null,'disabled'),config.commands.revisions.popupNone);
 	} else {
+		revisions.sort(function(a,b) {return a.modified < b.modified ? +1 : -1;});
 		for(var i=0; i<revisions.length; i++) {
 			var tiddler = revisions[i];
 			var modified = tiddler.modified;
 			var revision = tiddler.fields['server.page.revision'];
 			var btn = createTiddlyButton(createTiddlyElement(popup,'li'),
-					modified.formatString(userParams.dateFormat),
+					modified.formatString(userParams.dateFormat) + ' r:' + revision,
 					config.commands.revisions.revisionTooltip,
 					function() {
-						config.commands.revisions.getTiddlerRevision(this.getAttribute('tiddlerTitle'),this.getAttribute('tiddlerRevision'),this);
+						config.commands.revisions.getTiddlerRevision(this.getAttribute('tiddlerTitle'),this.getAttribute('tiddlerModified'),this.getAttribute('tiddlerRevision'),this);
 						return false;
 						},
 					'tiddlyLinkExisting tiddlyLink');
 			btn.setAttribute('tiddlerTitle',userParams.tiddler.title);
 			btn.setAttribute('tiddlerRevision',revision);
-			if(userParams.tiddler.revision == revision || (!userParams.tiddler.revision && i==0))
+			btn.setAttribute('tiddlerModified',modified.convertToYYYYMMDDHHMM());
+			if(userParams.tiddler.fields['server.page.revision'] == revision || (!userParams.tiddler.fields['server.page.revision'] && i==0))
 				btn.className = 'revisionCurrent';
 		}
 	}
 };
 
-config.commands.revisions.getTiddlerRevision = function(title,revision)
+config.commands.revisions.getTiddlerRevision = function(title,modified,revision)
 {
 //#displayMessage("config.commands.getTiddlerRevision:"+title+" r:"+revision);
 	var tiddler = store.fetchTiddler(title);
-	return invokeAdaptor('getTiddlerRevision',title,revision,null,null,config.commands.revisions.getTiddlerRevisionCallback,tiddler.fields);
+	var context = {};
+	context.modified = modified;
+	return invokeAdaptor('getTiddlerRevision',title,revision,context,null,config.commands.revisions.getTiddlerRevisionCallback,tiddler.fields);
 };
 
 config.commands.revisions.getTiddlerRevisionCallback = function(context,userParams)

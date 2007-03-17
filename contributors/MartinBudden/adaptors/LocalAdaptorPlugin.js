@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#LocalAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/LocalAdaptorPlugin.js|
-|''Version:''|0.5.1|
-|''Date:''|Feb 18, 2007|
+|''Version:''|0.5.2|
+|''Date:''|Mar 17, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -214,16 +214,23 @@ LocalAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,use
 		var list = [];
 		for(var i=0; i<entries.length; i++) {
 			var name = entries[i].name;
-// need to match name with
-//dirlist/<title>.<nnnn>.tiddler
-var matchRegExp = /(.*?)\.([0-9]*)\.tiddler/;
-			//name = LocalAdaptor.normalizedTitle(name);
-//displayMessage("name:"+name);
-			var tiddler = new Tiddler(title);
-			tiddler.modified = new Date();
-			tiddler.modified.setTime(entries[i].modified);
-			tiddler.fields['server.page.revision'] = '1001';
-			list.push(tiddler);
+//#displayMessage("name:"+name);
+			// need to match name with
+			//dirlist/<title>.<nnnn>.tiddler
+			var matchRegExp = /(.*?)\.([0-9]*)\.([0-9]*)\.tiddler/;
+			matchRegExp.lastIndex = 0;
+			var match = matchRegExp.exec(name);
+			if(match) {
+				if(match[1]==title) {
+//#displayMessage("name:"+name);
+					var tiddler = new Tiddler(title);
+					tiddler.modified = Date.convertFromYYYYMMDDHHMM(match[2])
+					//tiddler.modified = new Date();
+					//tiddler.modified.setTime(entries[i].modified);
+					tiddler.fields['server.page.revision'] = match[3];
+					list.push(tiddler);
+				}
+			}
 		}
 		context.revisions = list;
 		context.status = true;
@@ -256,6 +263,7 @@ LocalAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 
 LocalAdaptor.prototype.getTiddlerRevision = function(title,revision,context,userParams,callback)
 {
+//#displayMessage('LocalAdaptor.getTiddlerRev:' + context.modified);
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
 	context.revision = revision;
@@ -265,20 +273,21 @@ LocalAdaptor.prototype.getTiddlerRevision = function(title,revision,context,user
 // @internal
 LocalAdaptor.prototype.getTiddlerInternal = function(context,userParams,callback)
 {
-//#clearMessage();
-//#displayMessage('LocalAdaptor.getTiddler:' + title);
+//clearMessage();
+//#displayMessage('LocalAdaptor.getTiddler:' + context.title);
 	context = this.setContext(context,userParams,callback);
 	var title = context.title;
 
 	if(context.revision) {
+//#displayMessage("cr:"+context.revision);
 		var path = LocalAdaptor.revisionPath();
-		var uriTemplate = '%0%1.%2';
+		var uriTemplate = '%0%1.%2.%3';
 	} else {
 		path = LocalAdaptor.tiddlerPath();
 		uriTemplate = '%0%1';
 	}
 
-	var uri = uriTemplate.format([path,LocalAdaptor.normalizedTitle(title),context.revision]);
+	var uri = uriTemplate.format([path,LocalAdaptor.normalizedTitle(title),context.modified,context.revision]);
 //#displayMessage('uri:'+uri);
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields['server.type'] = LocalAdaptor.serverType;
@@ -365,13 +374,14 @@ LocalAdaptor.prototype.saveTiddlerAsDiv = function(context,isRevision)
 //#displayMessage('LocalAdaptor.saveTiddlerAsDiv:'+context.tiddler.title);
 	if(isRevision) {
 		var path = LocalAdaptor.revisionPath();
-		var uriTemplate = '%0%1.%2.tiddler';
+		var uriTemplate = '%0%1.%2.%3.tiddler';
 		var revision = context.tiddler.fields['server.page.revision'];
+		var modified = context.tiddler.modified.convertToYYYYMMDDHHMM();
 	} else {
 		path = LocalAdaptor.tiddlerPath();
 		uriTemplate = '%0%1.tiddler';
 	}
-	var uri = uriTemplate.format([path,context.tiddler.title,revision]);
+	var uri = uriTemplate.format([path,context.tiddler.title,modified,revision]);
 //#displayMessage('uri:'+uri);
 	context.status = saveFile(uri,store.getSaver().externalizeTiddler(store,context.tiddler));
 	if(context.status)
