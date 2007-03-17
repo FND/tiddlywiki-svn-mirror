@@ -2,7 +2,7 @@
 <pre>|''Description:''|Wikipedia articles in the category "Wiki"|
 |''Type:''|mediawiki|
 |''URL:''|http://www.wikipedia.org/w/|
-|''Workspaces:''|Main|
-|''TiddlerSelector:''|Tags=Wiki|
+|''Workspace:''|Main|
+|''TiddlerFilter:''|[tags[Wiki]]|
 </pre>
 </div>
