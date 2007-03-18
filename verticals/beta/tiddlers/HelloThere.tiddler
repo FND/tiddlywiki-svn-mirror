@@ -1,4 +1,4 @@
-<div title="HelloThere" modifier="JeremyRuston" created="200511221854" modified="200702280806" tags="welcome" anon="undefined" changecount="11">
+<div title="HelloThere" modifier="JeremyRuston" created="200511221854" modified="200702280806" tags="welcome" server.type="socialtext" server.host="www.socialtext.net" server.workspace="TiddlySandbox">
 <pre>Welcome to version &lt;&lt;version&gt;&gt; of TiddlyWiki. Feedback and discussion is welcome in the [[TiddlyWikiDev Google group|http://groups.google.com/group/TiddlyWikiDev]].
 
 @@Note - this is unstable, potentially broken ''beta'' code: it's not quite finished and it's not been tested with the various [[Plugins]] on which TiddlyWiki users rely. Don't use it for anything important unless you know what you're doing.@@
