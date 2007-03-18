@@ -198,18 +198,80 @@ MediaWikiFormatter.getTemplateParams = function(text)
 	return params;
 };
 
+//#The #if function is an if-then-else construct. The syntax is:
+//#	{{#if: <condition> | <then text> | <else text> }}
+//#	{{#if: <condition> | <then text> }}
+
+//#If the condition is an empty string or consists only of whitespace, then it is considered false, and the ''else text'' is returned. Otherwise, the ''then text'' is returned. The ''else text'' may be omitted, in which case the result will be blank if the condition is false.
+
+//#An example:
+//#	{{#if| {{{parameter|}}} | Parameter is defined. | Parameter is undefined, or empty}}
+
+//#Note that the {{#if}} function does '''not''' support "=" signs or mathematical expressions.
+//#	{{#if|1 = 2 | yes | no}} will return "yes", because the string "1 = 2" is not blank.
+//#	It is intended as an ''"if not empty"'' structure.
+
+//# {{#if:{{{param1|}}} | param1value:{{{param1}}} }}
+//# include {{testTpf|param1=hello}}
+//# becomes:
+//# {{#if:hello | param1value:hello }}
+//# becomes:
+//# param1value:hello
+
+//# include {{testTpf}}
+//# becomes:
+//# {{#if: | param1value: }}
+//# becomes:
+//# <nothing>
+
+
+//# see http://meta.wikimedia.org/wiki/ParserFunctions
+MediaWikiFormatter.evaluateTemplateParserFunctions = function(text)
+{
+//#displayMessage("evtpf:"+text);
+//#if(text=="{{#if:hello | param1value=hello }}")
+//#	return "param1value=hello";
+//#	return text;
+	var fnRegExp = /\{\{#if:([^\|]*?)\|([^\|]*?)(?:\|(.*?))?\}\}/mg;
+	var t = '';
+	var fi = 0;
+	match = fnRegExp.exec(text);
+	while(match) {
+displayMessage("m:"+match);
+displayMessage("m0:"+match[0]);
+displayMessage("m1:"+match[1]);
+displayMessage("m2:"+match[2]);
+displayMessage("m3:"+match[3]);
+displayMessage("ss:"+text.substring(fi,match.index));
+		t += text.substring(fi,match.index);
+		var m = match[1] ? match[1].trim() : null;
+		if(m)
+			t += match[2];
+		else if(match[3])
+			t += match[3].trim();
+		fi = fnRegExp.lastIndex;
+		match = fnRegExp.exec(text);
+	}
+	t += text.substring(fi);
+	text = t == '' ? text : t;
+displayMessage("text:"+text);
+	return text;
+};
+
 MediaWikiFormatter.expandTemplate = function(w,templateText,params)
+//# Expand the template by dealing with <noinclude>, <includeonly> and substituting parameters with their values
 //# see http://meta.wikimedia.org/wiki/Help:Template
 {
+//#mwDebug(w.output,'et:'+templateText);
+//#displayMessage("expandTemplate:"+templateText);
 	var text = templateText;
-	//# remove text between noinclude tags
-	text = text.replace(/<noinclude>((?:.|\n)*?)<\/noinclude>/mg,'');
-	var ioRegExp = /<includeonly>((?:.|\n)*?)<\/includeonly>/mg;
+	text = text.replace(/<noinclude>((?:.|\n)*?)<\/noinclude>/mg,'');// remove text between noinclude tags
+	var includeOnlyRegExp = /<includeonly>((?:.|\n)*?)<\/includeonly>/mg;
 	var t = '';
-	var match = ioRegExp.exec(text);
+	var match = includeOnlyRegExp.exec(text);
 	while(match) {
 		t += match[1];
-		match = ioRegExp.exec(text);
+		match = includeOnlyRegExp.exec(text);
 	}
 	text = t == '' ? text : t;
 
@@ -219,19 +281,29 @@ MediaWikiFormatter.expandTemplate = function(w,templateText,params)
 	match = paramsRegExp.exec(text);
 	while(match) {
 		var name = match[1];
-		var def = match[2];
 		var val = params[name];
 		if(!val) {
-			val = def;
+			//# use default
+			val = match[2];
 		}
 		if(!val) {
-			val = match[0];
+			//# if no value or default, parameter evaluates to name
+			val = '';//val = match[0];
 		}
 		t += text.substring(pi,match.index) + val;
 		pi = paramsRegExp.lastIndex;
 		match = paramsRegExp.exec(text);
 	}
 	return t == '' ? text : t;
+/*	//displayMessage("ss:"+text.substring(pi));
+	t += text.substring(pi);
+	t = MediaWikiFormatter.evaluateTemplateParserFunctions(t);
+	//{{#if: {{{perihelion|}}} | <tr><th>[[Perihelion|Perihelion distance]]:</th><td>{{{perihelion}}}</td></tr>}}
+	//{{#if:{{{symbol|}}} | {{{symbol}}} | }}
+	text = t == '' ? text : t;
+	displayMessage("t2:"+text);
+	return text;
+*/
 };
 
 MediaWikiFormatter.endOfParams = function(w,text)
@@ -877,6 +949,7 @@ config.mediaWikiFormatters = [
 			if(tiddler) {
 				params = {};
 				if(i!=-1) {
+					//#w.nextMatch = 0;
 					params = MediaWikiFormatter.getTemplateParams(lookaheadMatch[1]);
 				}
 				w.source = MediaWikiFormatter.expandTemplate(w,tiddler.text,params);
