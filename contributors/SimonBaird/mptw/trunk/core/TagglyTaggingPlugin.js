@@ -15,19 +15,21 @@ config.taggly = {
 	// for translations
 	lingo: {
 		labels: {
-			asc:      "\u2191", // down arrow
-			desc:     "\u2193", // up arrow
-			title:    "title",
-			modified: "modified",
-			created:  "created",
-			show:     "+",
-			hide:     "-",
-			normal:   "normal",
-			group:    "group",
-			commas:   "commas",
-			sitemap:  "sitemap",
-			numCols:  "cols\u00b1", // plus minus sign
-			label:    "Tagged as '%0':"
+			asc:        "\u2191", // down arrow
+			desc:       "\u2193", // up arrow
+			title:      "title",
+			modified:   "modified",
+			created:    "created",
+			show:       "+",
+			hide:       "-",
+			normal:     "normal",
+			group:      "group",
+			commas:     "commas",
+			sitemap:    "sitemap",
+			numCols:    "cols\u00b1", // plus minus sign
+			label:      "Tagged as '%0':",
+			excerpts:   "excerpts",
+			noexcerpts: "no excerpts"
 		},
 
 		tooltips: {
@@ -52,10 +54,13 @@ config.taggly = {
 			sortOrder:  ["asc","desc"],
 			hideState:  ["show","hide"],
 			listMode:   ["normal","group","sitemap","commas"],
-			numCols:    ["1","2","3","4","5","6"]
+			numCols:    ["1","2","3","4","5","6"],
+			excerpts:   ["noexcerpts","excerpts"],
 		},
 		valuePrefix: "taggly.",
-		excludeTags: ["excludeLists","excludeTagging"]
+		excludeTags: ["excludeLists","excludeTagging"],
+		excerptSize: 50,
+		excerptMarker: "/%"+"%/"
 	},
 
 	getTagglyOpt: function(title,opt) {
@@ -188,6 +193,26 @@ config.taggly = {
 		return "";
 	},
 
+	getExcerpt: function(inTiddlerTitle,title) {
+		if (this.getTagglyOpt(inTiddlerTitle,"excerpts") == "excerpts") {
+			var t = store.getTiddler(title);
+			if (t) {
+				var text = t.text.replace(/\n/," ");
+				var marker = text.indexOf(this.config.excerptMarker);
+				if (marker != -1) {
+					return " {{excerpt{<nowiki>" + text.substr(0,marker) + "</nowiki>}}}";
+				}
+				else if (text.length < this.config.excerptSize) {
+					return " {{excerpt{<nowiki>" + t.text + "</nowiki>}}}";
+				}
+				else {
+					return " {{excerpt{<nowiki>" + t.text.substr(0,this.config.excerptSize) + "..." + "</nowiki>}}}";
+				}
+			}
+		}
+		return "";
+	},
+
 	notHidden: function(t,inTiddler) {
 		if (typeof t == "string") 
 			t = store.getTiddler(t);
@@ -208,10 +233,11 @@ config.taggly = {
 		for (var i=0;i<list.length;i++) {
 			if (this.notHidden(list[i],title)) {
 				var countString = this.getTaggingCount(list[i].title);
+				var excerpt = this.getExcerpt(title,list[i].title);
 				if (useCommas)
-					output.push((first ? "" : ", ") + "[[" + list[i].title + "]]" + countString);
+					output.push((first ? "" : ", ") + "[[" + list[i].title + "]]" + countString + excerpt);
 				else
-					output.push("*[[" + list[i].title + "]]" + countString + "\n");
+					output.push("*[[" + list[i].title + "]]" + countString + excerpt + "\n");
 
 				first = false;
 			}
@@ -249,7 +275,7 @@ config.taggly = {
 
 						if (this.notHidden(list[i],title)) {
 							allTagsHolder[list[i].tags[j]] += "**[["+list[i].title+"]]"
-										+ this.getTaggingCount(list[i].title) + "\n";
+										+ this.getTaggingCount(list[i].title) + this.getExcerpt(title,list[i].title) + "\n";
 
 							leftOvers.setItem(list[i].title,-1); // remove from leftovers. at the end it will contain the leftovers
 
@@ -282,7 +308,7 @@ config.taggly = {
 		var leftOverOutput = "";
 		for (var i=0;i<leftOvers.length;i++)
 			if (this.notHidden(leftOvers[i],title))
-				leftOverOutput += "*[["+leftOvers[i]+"]]" + this.getTaggingCount(leftOvers[i]) + "\n";
+				leftOverOutput += "*[["+leftOvers[i]+"]]" + this.getTaggingCount(leftOvers[i]) + this.getExcerpt(title,leftOvers[i]) + "\n";
 
 		var output = [];
 
@@ -294,7 +320,7 @@ config.taggly = {
 
 		for (var i=0;i<allTags.length;i++)
 			if (allTagsHolder[allTags[i]] != "")
-				output.push("*[["+allTags[i]+"]]" + this.getTaggingCount(allTags[i]) + "\n" + allTagsHolder[allTags[i]]);
+				output.push("*[["+allTags[i]+"]]" + this.getTaggingCount(allTags[i]) + this.getExcerpt(title,allTags[i]) + "\n" + allTagsHolder[allTags[i]]);
 
 		if (sortOrder == "desc" && leftOverOutput != "")
 			// leftovers last...
@@ -326,7 +352,7 @@ config.taggly = {
 		if (depth == 0)
 			return childOutput;
 		else
-			return indent + "[["+title+"]]" + this.getTaggingCount(title) + "\n"+childOutput;
+			return indent + "[["+title+"]]" + this.getTaggingCount(title) + this.getExcerpt(this.config.inTiddler,title) + "\n" + childOutput;
 	},
 
 	// this if for the site map mode
@@ -362,6 +388,7 @@ config.taggly = {
 						config.taggly.createListControl(place,title,"modified");
 						config.taggly.createListControl(place,title,"created");
 						config.taggly.createListControl(place,title,"listMode");
+						config.taggly.createListControl(place,title,"excerpts");
 						config.taggly.createListControl(place,title,"numCols");
 						config.taggly.createTagglyList(place,title);
 					}
@@ -371,48 +398,46 @@ config.taggly = {
 	},
 
 	// todo fix these up a bit
-	styles: 
-"/*{{{*/\n"+
-"/* created by TagglyTaggingPlugin */\n"+
-".tagglyTagging { padding-top:0.5em; }\n"+
-".tagglyTagging li.listTitle { display:none; }\n"+
-".tagglyTagging ul {\n"+
-"	margin-top:0px; padding-top:0.5em; padding-left:2em;\n"+
-"	margin-bottom:0px; padding-bottom:0px;\n"+
-"}\n"+
-".tagglyTagging { vertical-align: top; margin:0px; padding:0px; }\n"+
-".tagglyTagging table { margin:0px; padding:0px; }\n"+
-".tagglyTagging .button { display:none; margin-left:3px; margin-right:3px; }\n"+
-".tagglyTagging .button, .tagglyTagging .hidebutton {\n"+
-"	color:[[ColorPalette::TertiaryLight]]; font-size:90%;\n"+
-"	border:0px; padding-left:0.3em;padding-right:0.3em;\n"+
-"}\n"+
-".tagglyTagging .button:hover, .hidebutton:hover {\n"+
-"	background:[[ColorPalette::TertiaryPale]]; color:[[ColorPalette::TertiaryDark]];\n"+
-"}\n"+
-".selected .tagglyTagging .button { display:inline; }\n"+
-".tagglyTagging .hidebutton { color:[[ColorPalette::Background]]; }\n"+
-".selected .tagglyTagging .hidebutton { color:[[ColorPalette::TertiaryLight]] }\n"+
-".tagglyLabel { color:[[ColorPalette::TertiaryMid]]; font-size:90%; }\n"+
-".tagglyTagging ul {padding-top:0px; padding-bottom:0.5em; margin-left:1em; }\n"+
-".tagglyTagging ul ul {list-style-type:disc; margin-left:-1em;}\n"+
-".tagglyTagging ul ul li {margin-left:0.5em; }\n"+
-".editLabel { font-size:90%; padding-top:0.5em; }\n"+
-".tagglyTagging .commas { padding-left:1.8em; }\n"+
-"/* not technically tagglytagging but will put them here anyway */\n"+
-".tagglyTagged li.listTitle { display:none; }\n"+
-".tagglyTagged li { display: inline; font-size:90%; }\n"+
-".tagglyTagged ul { margin:0px; padding:0px; }\n"+
-"/*}}}*/\n"+
-		"",
+	styles: [
+"/*{{{*/",
+"/* created by TagglyTaggingPlugin */",
+".tagglyTagging { padding-top:0.5em; }",
+".tagglyTagging li.listTitle { display:none; }",
+".tagglyTagging ul {",
+"	margin-top:0px; padding-top:0.5em; padding-left:2em;",
+"	margin-bottom:0px; padding-bottom:0px;",
+"}",
+".tagglyTagging { vertical-align: top; margin:0px; padding:0px; }",
+".tagglyTagging table { margin:0px; padding:0px; }",
+".tagglyTagging .button { display:none; margin-left:3px; margin-right:3px; }",
+".tagglyTagging .button, .tagglyTagging .hidebutton {",
+"	color:[[ColorPalette::TertiaryLight]]; font-size:90%;",
+"	border:0px; padding-left:0.3em;padding-right:0.3em;",
+"}",
+".tagglyTagging .button:hover, .hidebutton:hover {",
+"	background:[[ColorPalette::TertiaryPale]]; color:[[ColorPalette::TertiaryDark]];",
+"}",
+".selected .tagglyTagging .button { display:inline; }",
+".tagglyTagging .hidebutton { color:[[ColorPalette::Background]]; }",
+".selected .tagglyTagging .hidebutton { color:[[ColorPalette::TertiaryLight]] }",
+".tagglyLabel { color:[[ColorPalette::TertiaryMid]]; font-size:90%; }",
+".tagglyTagging ul {padding-top:0px; padding-bottom:0.5em; margin-left:1em; }",
+".tagglyTagging ul ul {list-style-type:disc; margin-left:-1em;}",
+".tagglyTagging ul ul li {margin-left:0.5em; }",
+".editLabel { font-size:90%; padding-top:0.5em; }",
+".tagglyTagging .commas { padding-left:1.8em; }",
+"/* not technically tagglytagging but will put them here anyway */",
+".tagglyTagged li.listTitle { display:none; }",
+".tagglyTagged li { display: inline; font-size:90%; }",
+".tagglyTagged ul { margin:0px; padding:0px; }",
+".excerpt { color:[[ColorPalette::TertiaryMid]]; }",
+"/*}}}*/",
+		""].join("\n"),
 
 	init: function() {
 		merge(config.macros,this.macros);
 		config.shadowTiddlers["TagglyTaggingStyles"] = this.styles;
-		if (store)
-			store.addNotification("TagglyTaggingStyles",refreshStyles);
-		else
-			config.notifyTiddlers.push({name:"TagglyTaggingStyles", notify: refreshStyles});
+		store.addNotification("TagglyTaggingStyles",refreshStyles);
 	}
 };
 
