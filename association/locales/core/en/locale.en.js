@@ -49,6 +49,7 @@ config.optionsDesc = {
 	chkForceMinorUpdate: "Don't update modifier username and date when editing tiddlers",
 	chkConfirmDelete: "Require confirmation before deleting tiddlers",
 	chkInsertTabs: "Use the tab key to insert tab characters instead of moving between fields",
+	chkShowTiddlerDetails: "Always show the tiddler details panel when displaying a tiddler",
 	txtBackupFolder: "Name of folder to use for backups",
 	txtMaxEditRows: "Maximum number of rows in edit boxes",
 	txtFileSystemCharSet: "Default character set for saving changes"
@@ -227,7 +228,7 @@ merge(config.macros.plugins,{
 	removePrompt: "Remove systemConfig tag",
 	deleteLabel: "delete",
 	deletePrompt: "Delete these tiddlers forever",
-	listViewTemplate : {
+	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Tiddler', field: 'tiddler', title: "Tiddler", type: 'Tiddler'},
@@ -235,6 +236,7 @@ merge(config.macros.plugins,{
 			{name: 'Forced', field: 'forced', title: "Forced", tag: 'systemConfigForce', type: 'TagCheckbox'},
 			{name: 'Disabled', field: 'disabled', title: "Disabled", tag: 'systemConfigDisable', type: 'TagCheckbox'},
 			{name: 'Executed', field: 'executed', title: "Loaded", type: 'Boolean', trueText: "Yes", falseText: "No"},
+			{name: 'Startup Time', field: 'startupTime', title: "Startup Time", type: 'String'},
 			{name: 'Error', field: 'error', title: "Status", type: 'Boolean', trueText: "Error", falseText: "OK"},
 			{name: 'Log', field: 'log', title: "Log", type: 'StringList'}
 			],
@@ -242,6 +244,11 @@ merge(config.macros.plugins,{
 			{className: 'error', field: 'error'},
 			{className: 'warning', field: 'warning'}
 			]}
+	});
+
+merge(config.macros.toolbar,{
+	moreLabel: "more",
+	morePrompt: "Reveal further commands"
 	});
 
 merge(config.macros.refreshDisplay,{
@@ -308,7 +315,7 @@ merge(config.macros.sync,{
 	step1Html: '<input type="hidden" name="markList"></input>',
 	syncLabel: "sync",
 	syncPrompt: "Sync these tiddlers",
-	hasChanged:	"Changed while unplugged",
+	hasChanged: "Changed while unplugged",
 	hasNotChanged: "Unchanged while unplugged",
 	syncStatusList: {
 		none: {text: "...", color: "none"},
@@ -319,7 +326,24 @@ merge(config.macros.sync,{
 		putToServer: {text: "Saved update on server", color: "#ff80ff"},
 		gotFromServer: {text: "Retrieved update from server", color: "#80ffff"}
 		}
-});
+	});
+
+merge(config.macros.viewDetails,{
+	label: "...",
+	prompt: "Show additional information about this tiddler",
+	hideLabel: "(hide details)",
+	hidePrompt: "Hide this panel of additional information",
+	emptyDetailsText: "There are no extended fields for this tiddler",
+	listViewTemplate: {
+		columns: [
+			{name: 'Field', field: 'field', title: "Field", type: 'String'},
+			{name: 'Value', field: 'value', title: "Value", type: 'String'}
+			],
+		rowClasses: [
+			],
+		buttons: [
+			]}
+	});
 
 merge(config.commands.closeTiddler,{
 	text: "close",
@@ -363,6 +387,13 @@ merge(config.commands.references,{
 merge(config.commands.jump,{
 	text: "jump",
 	tooltip: "Jump to another open tiddler"});
+
+merge(config.commands.syncing,{
+	text: "syncing",
+	tooltip: "Control synchronisation of this tiddler with a server or external file",
+	currentlySyncing: "<div>Currently syncing via <span class='popupHighlight'>'%0'</span> to:</div><div>host: <span class='popupHighlight'>%1</span></div><div>workspace: <span class='popupHighlight'>%2</span></div>",
+	notCurrentlySyncing: "Not currently syncing",
+	chooseServer: "Synchronise this tiddler with another server:"});
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "[[TranslatedGettingStarted]]",
