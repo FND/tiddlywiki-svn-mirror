@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js|
-|''Version:''|0.5.2|
+|''Version:''|0.5.3|
 |''Date:''|Mar 17, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -88,7 +88,7 @@ MediaWikiAdaptor.anyChild = function(obj)
 
 MediaWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
-displayMessage("openHost:"+host);
+//#displayMessage("openHost:"+host);
 	context = this.setContext(context,userParams,callback);
 	this.host = MediaWikiAdaptor.fullHostName(host);
 	if(context.callback) {
@@ -100,7 +100,7 @@ displayMessage("openHost:"+host);
 
 MediaWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
-displayMessage("openWorkspace:"+workspace);
+//#displayMessage("openWorkspace:"+workspace);
 	context = this.setContext(context,userParams,callback);
 	var workspaces = {
 		"media": -2, "special":-1,
@@ -170,7 +170,7 @@ MediaWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callba
 
 MediaWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
 {
-displayMessage("getWorkspaceListCallback:"+status);
+//#displayMessage("getWorkspaceListCallback:"+status);
 	context.status = false;
 	if(status) {
 		try {
@@ -212,28 +212,39 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 
 	if(!context.tiddlerLimit)
 		context.tiddlerLimit = 50;
-//#displayMessage('selector:'+context.feed.tiddlerSelector);
 
 	var limit = context.tiddlerLimit ? context.tiddlerLimit : 50;
 	var filter = context.tiddlerFilter;
 	if(filter) {
-		var re = /\[(\w+)\[(\w+)\]\]/;
+		var re = /\[(\w+)\[([ \w]+)\]\]/;
 		var match = re.exec(filter);
 		if(match) {
-			var filterParams = match[2];
+			var filterParams = MediaWikiAdaptor.normalizedTitle(match[2]);
 			switch(match[1]) {
 			case 'tags':
 				context.responseType = 'pages';
-				var uriTemplate = '%0query.php?format=json&what=category&cptitle=%3';
+				var uriTemplate = '%0query.php?format=json&what=category&cpnamespace=0&cptitle=%3';
 				break;
 			case 'template':
 				context.responseType = 'query.embeddedin';
-				uriTemplate = '%0api.php?format=json&action=query&list=embeddedin&eilimit=%2&titles=Template:%3';
+				uriTemplate = '%0api.php?format=json&action=query&list=embeddedin&einamespace=0&eilimit=%2&titles=Template:%3';
 				break;
 			default:
 				break;
 			}
 		}
+	} else if(context.tiddlerList) {
+		var list = [];
+		var params = context.tiddlerList.parseParams('anon',null,false);
+		for(var i=1; i<params.length; i++) {
+			var tiddler = new Tiddler(params[i].value);
+			tiddler.fields.workspaceId = this.workspaceId;
+			list.push(tiddler);
+		}
+		context.tiddlers = list;
+		context.status = true;
+		if(context.callback)
+			context.callback(context,context.userParams);
 	} else {
 		context.responseType = 'query.allpages';
 		uriTemplate = '%0api.php?format=json&action=query&list=allpages';
