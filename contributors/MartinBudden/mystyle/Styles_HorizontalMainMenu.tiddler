@@ -4,7 +4,7 @@ To use, add {{{[[Styles HorizontalMainMenu]]}}} to your StyleSheet tiddler.
 See http://www.w3schools.com/css/css_colors.asp for a color chart.
 ***/
 /*{{{*/
-#mainMenu {position:relative;left:auto;width:auto;text-align:left;line-height:normal;padding 0em 1em 0em 1em;font-size:normal}
+#mainMenu {position:relative;left:auto;width:auto;text-align:left;line-height:normal;padding 0em 1em 0em 1em;font-size:normal;}
 #mainMenu br {display:none;}
 #mainMenu {background:#336699;}
 #mainMenu {padding:2px;}
