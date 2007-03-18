@@ -1,6 +1,7 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: split.recipe
 recipe: ../tiddlypedia/splitHostedRevisions.recipe
+tiddler: ../tiddlypedia/Logo.tiddler
 tiddler: ../tiddlypedia/settings.js
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../formatters/MediaWikiFormatterPlugin.js
