@@ -1,7 +1,7 @@
-<div title="SocialtextOssFeed" modifier="MartinBudden" tags="contentPublisher excludeLists excludeSearch">
+<div title="SocialtextOssFeed" modifier="MartinBudden" tags="systemServer excludeLists excludeSearch">
 <pre>|''Description:''|Socialtext Open Source Software workspace|
 |''Type:''|socialtext|
 |''URL:''|http://www.socialtext.net/|
-|''Workspaces:''|stoss|
+|''Workspace:''|stoss|
 </pre>
 </div>

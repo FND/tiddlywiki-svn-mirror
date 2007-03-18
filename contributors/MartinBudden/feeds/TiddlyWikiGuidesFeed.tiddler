@@ -1,7 +1,7 @@
-<div title="TiddlyWikiGuidesFeed" modifier="MartinBudden" tags="contentPublisher excludeLists excludeSearch">
+<div title="TiddlyWikiGuidesFeed" modifier="MartinBudden" tags="systemServer excludeLists excludeSearch">
 <pre>|''Description:''|TiddlyWiki Guides feed|
 |''Type:''|mediawiki|
 |''URL:''|http://tiddlywikiguides.org/|
-|''Workspaces:''|Main|
+|''Workspace:''|Main|
 </pre>
 </div>
