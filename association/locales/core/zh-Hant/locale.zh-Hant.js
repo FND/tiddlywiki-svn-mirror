@@ -47,6 +47,7 @@ config.optionsDesc = {
 	chkForceMinorUpdate: "修改文章時，不變更作者名稱與日期時間",
 	chkConfirmDelete: "刪除文章前須確認",
 	chkInsertTabs: "使用 tab 鍵插入定位字元，而非跳至下一個欄位",
+	chkShowTiddlerDetails: "顯示文章詳細資訊",
 	txtBackupFolder: "存放備份檔案的資料夾",
 	txtMaxEditRows: "編輯模式中顯示列數",
 	txtFileSystemCharSet: "指定儲存文件所在之檔案系統之字集"
@@ -232,10 +233,11 @@ merge(config.macros.plugins,{
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Tiddler', field: 'tiddler', title: "套件", type: 'Tiddler'},
 			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "大小", type: 'Size'},
-			{name: 'Executed', field: 'executed', title: "已載入", type: "Boolean", trueText: "是", falseText: "否"},
-			{name: 'Error', field: 'error', title: "載入狀態", type: 'Boolean', trueText: "錯誤", falseText: "正常"},
 			{name: 'Forced', field: 'forced', title: "強制執行", tag: 'systemConfigForce', type: 'TagCheckbox'},
 			{name: 'Disabled', field: 'disabled', title: "停用", tag: 'systemConfigDisable', type: 'TagCheckbox'},
+			{name: 'Executed', field: 'executed', title: "已載入", type: "Boolean", trueText: "是", falseText: "否"},
+			{name: 'Startup Time', field: 'startupTime', title: "載入時間", type: 'String'},
+			{name: 'Error', field: 'error', title: "載入狀態", type: 'Boolean', trueText: "錯誤", falseText: "正常"},
 			{name: 'Log', field: 'log', title: "紀錄", type: 'StringList'}
 			],
 		rowClasses: [
@@ -244,6 +246,10 @@ merge(config.macros.plugins,{
 			]}
 	});
 
+merge(config.macros.toolbar,{
+	moreLabel: "其他",
+	morePrompt: "顯示更多工具命令"});
+	
 merge(config.macros.refreshDisplay,{
 	label: "刷新",
 	prompt: "刷新此 TiddlyWiki 顯示"
@@ -282,7 +288,6 @@ merge(config.macros.importTiddlers,{
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Tiddler', field: 'tiddler', title: "文章", type: 'Tiddler'},
 			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "大小", type: 'Size'},
-			{name: 'Snippet', field: 'text', title: "文章摘要", type: 'String'},
 			{name: 'Tags', field: 'tags', title: "標籤", type: 'Tags'}
 			],
 		rowClasses: [
@@ -293,7 +298,7 @@ merge(config.macros.sync,{
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
-			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "文章標題", type: 'TiddlerLink'},
+			{name: 'Tiddler', field: 'tiddler', title: "文章", type: 'Tiddler'},
 			{name: 'Server Type', field: 'serverType', title: "伺服器類型", type: 'String'},
 			{name: 'Server Host', field: 'serverHost', title: "伺服器主機", type: 'String'},
 			{name: 'Server Workspace', field: 'serverWorkspace', title: "伺服器工作區", type: 'String'},
@@ -321,6 +326,23 @@ merge(config.macros.sync,{
 		putToServer: {text: "已儲存更新資料至伺服器", color: "#ff80ff"},
 		gotFromServer: {text: "已從伺服器擷取更新資料", color: "#80ffff"}
 		}
+	});
+
+merge(config.macros.viewDetails,{
+	label: "...",
+	prompt: "顯示此文章之詳細資訊",
+	hideLabel: "(隱藏詳細資訊)",
+	hidePrompt: "隱藏此詳細資訊面板",
+	emptyDetailsText: "此文章沒有擴充欄位",
+	listViewTemplate: {
+		columns: [
+			{name: 'Field', field: 'field', title: "欄位", type: 'String'},
+			{name: 'Value', field: 'value', title: "內容", type: 'String'}
+			],
+		rowClasses: [
+			],
+		buttons: [
+			]}
 	});
 
 merge(config.commands.closeTiddler,{

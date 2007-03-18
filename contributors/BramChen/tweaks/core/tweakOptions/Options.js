@@ -4,8 +4,8 @@
 
 config.optionHandlers = {
 	'txt': {
-		get: function(name) {return encodeURIComponent(config.options[name].toString());},
-		set: function(name,value) {config.options[name] = decodeURIComponent(value);}
+		get: function(name) {return decodeURIComponent(config.options[name].toString());},
+		set: function(name,value) {config.options[name] = encodeURIComponent(value);}
 	},
 	'chk': {
 		get: function(name) {return config.options[name] ? "true" : "false";},
