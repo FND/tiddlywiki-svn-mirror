@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#TWikiFormatterPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/TWikiFormatterPlugin.js|
-|''Version:''|0.2.1|
+|''Version:''|0.2.2|
 |''Date:''|Nov 5, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -46,6 +46,26 @@ twDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
 	createTiddlyElement(out,'br');
+};
+
+TWikiFormatter.Tiddler_changed = Tiddler.prototype.changed;
+Tiddler.prototype.changed = function()
+{
+	if((this.fields.wikiformat==config.parsers.twikiFormatter.format) || this.isTagged(config.parsers.twikiFormatter.formatTag)) {
+		//# update the links array, by checking for TWiki format links
+		this.links = [];
+		var tiddlerLinkRegExp = /\[\[(.*?)(?:\]\[(?:.*?))?\]\]/mg;
+		tiddlerLinkRegExp.lastIndex = 0;
+		var match = tiddlerLinkRegExp.exec(this.text);
+		while(match) {
+			this.links.pushUnique(match[1]);
+			match = tiddlerLinkRegExp.exec(this.text);
+		}
+	} else if(!this.isTagged('systemConfig')) {
+		TWikiFormatter.Tiddler_changed.apply(this,arguments);
+		return;
+	}
+	this.linksUpdated = true;
 };
 
 Tiddler.prototype.escapeLineBreaks = function()
@@ -595,7 +615,7 @@ config.twikiFormatters = [
 
 {
 	name: 'twikiExplicitLineBreak',
-	match: '%BR%|<br ?/?>',
+	match: '%BR%|<br ?/?>|<BR ?/?>',
 	handler: function(w)
 	{
 		createTiddlyElement(w.output,'br');
