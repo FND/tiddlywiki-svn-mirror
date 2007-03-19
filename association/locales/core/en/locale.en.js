@@ -25,10 +25,8 @@ merge(config.options,{
 
 config.tasks = {
 	save: {text: "save", tooltip: "Save your changes to this TiddlyWiki", action: saveChanges},
-	tidy: {text: "tidy up", tooltip: "Make bulk changes across groups of tiddlers", content: 'Coming soon...\n\nThis tab will allow bulk operations on tiddlers, and tags. It will be a generalised, extensible version of the plugins tab'},
 	sync: {text: "sync", tooltip: "Synchronise changes with other TiddlyWiki files and servers", content: '<<sync>>'},
 	importTask: {text: "import", tooltip: "Import tiddlers and plugins from other TiddlyWiki files and servers", content: '<<importTiddlers>>'},
-	copy: {text: "copy", tooltip: "Copy tiddlers to other TiddlyWiki files and servers", content: 'Coming soon...\n\nThis tab will allow tiddlers to be copied to remote servers'},
 	tweak: {text: "tweak", tooltip: "Tweak the appearance and behaviour of TiddlyWiki", content: '<<options>>'},
 	plugins: {text: "plugins", tooltip: "Manage installed plugins", content: '<<plugins>>'}
 };
@@ -397,7 +395,9 @@ merge(config.commands.syncing,{
 	tooltip: "Control synchronisation of this tiddler with a server or external file",
 	currentlySyncing: "<div>Currently syncing via <span class='popupHighlight'>'%0'</span> to:</div><div>host: <span class='popupHighlight'>%1</span></div><div>workspace: <span class='popupHighlight'>%2</span></div>",
 	notCurrentlySyncing: "Not currently syncing",
-	chooseServer: "Synchronise this tiddler with another server:"});
+	chooseServer: "Synchronise this tiddler with another server:",
+	currServerMarker: "● ",
+	notCurrServerMarker: "  "});
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "[[TranslatedGettingStarted]]",
