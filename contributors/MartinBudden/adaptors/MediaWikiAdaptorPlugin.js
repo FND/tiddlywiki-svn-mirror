@@ -128,7 +128,7 @@ MediaWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callba
 //#displayMessage("getWorkspaceList");
 //# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&&meta=siteinfo&siprop=namespaces
 	if(context.workspace) {
-//#displayMessage("w:"+context.feed.workspace);
+//#displayMessage("w:"+context.workspace);
 		context.status = true;
 		context.workspace = [{name:"Main",title:"Main"}];
 		if(context.callback)
@@ -242,7 +242,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 			context.tiddlers = list;
 			context.status = true;
 			if(context.callback)
-				context.callback(context,context.userParams);
+				window.setTimeout(context.callback,0,context,context.userParams);
 			return true;
 		}
 	} else {
@@ -513,7 +513,7 @@ MediaWikiAdaptor.getTiddlerRevisionListCallback = function(status,context,respon
 				tiddler.fields['server.page.id'] = MediaWikiAdaptor.normalizedTitle(title);
 				tiddler.fields['server.page.name'] = title;
 				tiddler.fields['server.page.revision'] = String(revisions[i].revid);
-				tiddler.fields['server.page.version'] = tiddler.fields['server.page.revision'];//!! here temporarily for compatibility
+				//tiddler.fields['server.page.version'] = tiddler.fields['server.page.revision'];//!! here temporarily for compatibility
 				list.push(tiddler);
 			}
 			context.revisions = list;
