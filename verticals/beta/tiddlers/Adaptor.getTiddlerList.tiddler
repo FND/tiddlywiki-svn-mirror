@@ -1,13 +1,14 @@
 <div title="Adaptor.getTiddlerList" modifier="MartinBudden" created="200702251531" tags="functions" server.page.version="200702251531">
 <pre>{{{
-Adaptor.getTiddlerList(context,userParams,callback)
+Adaptor.getTiddlerList(context,userParams,callback,filter)
 }}}
 Gets a list of the tiddlers available on an adaptor opened to a workspace on a host (see ServerAdaptorConcepts). This function uses the AsynchronousPattern.
 
 ''Parameters:''
 |context |context object that is passed to the callback function |
 |userParams |user settable object object that is passed on unchanged to the callback function |
-|callback |Reference to callback function, see AdaptorCallbackSignature |
+|callback |reference to callback function, see AdaptorCallbackSignature |
+|filter |optional string to select tiddlers returned in list, see TiddlerSelection |
 ''Returns:''
 |true |on success |
 |string |an error message if there was an error issuing the request |
