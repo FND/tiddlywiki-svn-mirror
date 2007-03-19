@@ -200,7 +200,7 @@ MediaWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText
 };
 
 // get a list of the tiddlers in the current workspace
-MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
+MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 {
 	context = this.setContext(context,userParams,callback);
 //#displayMessage('getTiddlerList');
@@ -214,7 +214,6 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 		context.tiddlerLimit = 50;
 
 	var limit = context.tiddlerLimit ? context.tiddlerLimit : 50;
-	var filter = context.tiddlerFilter;
 	if(filter) {
 		var re = /\[(\w+)\[([ \w]+)\]\]/;
 		var match = re.exec(filter);
@@ -232,23 +231,24 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 			default:
 				break;
 			}
+		} else {
+			var list = [];
+			var params = filter.parseParams('anon',null,false);
+			for(var i=1; i<params.length; i++) {
+				var tiddler = new Tiddler(params[i].value);
+				tiddler.fields.workspaceId = this.workspaceId;
+				list.push(tiddler);
+			}
+			context.tiddlers = list;
+			context.status = true;
+			if(context.callback)
+				context.callback(context,context.userParams);
+			return true;
 		}
-	} else if(context.tiddlerList) {
-		var list = [];
-		var params = context.tiddlerList.parseParams('anon',null,false);
-		for(var i=1; i<params.length; i++) {
-			var tiddler = new Tiddler(params[i].value);
-			tiddler.fields.workspaceId = this.workspaceId;
-			list.push(tiddler);
-		}
-		context.tiddlers = list;
-		context.status = true;
-		if(context.callback)
-			context.callback(context,context.userParams);
 	} else {
 		context.responseType = 'query.allpages';
 		uriTemplate = '%0api.php?format=json&action=query&list=allpages';
-		if(this.workspaceId!=0)
+		if(this.workspaceId != 0)
 			uriTemplate += '&apnamespace=%1';
 		if(limit)
 			uriTemplate += '&aplimit=%2';
