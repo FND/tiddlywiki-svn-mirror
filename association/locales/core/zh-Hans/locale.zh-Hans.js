@@ -18,9 +18,10 @@
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
 config.locale = "zh-Hans"; // W3C language tag
+/*
 merge(config.options,{
 	txtUserName: "YourName"});
-
+*/
 config.tasks = {
 		save: {text: "保存", tooltip: "保存变更至此 TiddlyWiki", action: saveChanges},
 		tidy: {text: "整理", tooltip: "对群组文章作大量更新"},
@@ -204,6 +205,10 @@ merge(config.macros.newJournal,{
 	accessKey: "J"});
 
 merge(config.macros.options,{
+	wizardTitle: "增订的进阶选项",
+	step1Title: "增订的选项保存于浏览器的 cookies",
+	step1Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='false' name='chkHidden'>显示被隐藏之选项</input>",
+	unknownDescription: "//(隐藏)//",
 	listViewTemplate: {
 		columns: [
 			{name: 'Option', field: 'option', title: "选项", type: 'String'},
@@ -317,7 +322,7 @@ merge(config.macros.sync,{
 	hasNotChanged: "未更动",
 	syncStatusList: {
 		none: {text: "...", color: "none"},
-		changedServer: {text: "已更新服务器上资料", color: "#80ff80"},
+		changedServer: {text: "服务器资料已更动", color: "#80ff80"},
 		changedLocally: {text: "本机资料已更动", color: "#80ff80"},
 		changedBoth: {text: "已同时更新本机与服务器上的资料", color: "#ff8080"},
 		notFound: {text: "服务器无此资料", color: "#ffff80"},
@@ -385,6 +390,13 @@ merge(config.commands.references,{
 merge(config.commands.jump,{
 	text: "跳转",
 	tooltip: "跳转至其他已开启的文章"});
+
+merge(config.commands.syncing,{
+	text: "同步",
+	tooltip: "本文章与服务器或其他外部文件的同步资讯",
+	currentlySyncing: "<div>同步类型：<span class='popupHighlight'>'%0'</span></div><div>服务器：<span class='popupHighlight'>%1</span></div><div>工作区：<span class='popupHighlight'>%2</span></div>",
+	notCurrentlySyncing: "无进行中的同步动作",
+	chooseServer: "与其他服务器同步此文章:"});
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "GettingStarted",

@@ -19,9 +19,10 @@
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
 config.locale = "zh-Hant"; // W3C language tag
+/*
 merge(config.options,{
 	txtUserName: "YourName"});
-
+*/
 config.tasks = {
 		save: {text: "儲存", tooltip: "儲存變更至此 TiddlyWiki", action: saveChanges},
 		tidy: {text: "整理", tooltip: "對群組文章作大量更新", content: 'Coming soon...\n\nThis tab will allow bulk operations on tiddlers, and tags. It will be a generalised, extensible version of the plugins tab'},
@@ -205,6 +206,10 @@ merge(config.macros.newJournal,{
 	accessKey: "J"});
 
 merge(config.macros.options,{
+	wizardTitle: "增訂的進階選項",
+	step1Title: "增訂的選項儲存於瀏覽器的 cookies",
+	step1Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='false' name='chkHidden'>顯示被隱藏之選項</input>",
+	unknownDescription: "//(隱藏)//",
 	listViewTemplate: {
 		columns: [
 			{name: 'Option', field: 'option', title: "選項", type: 'String'},
@@ -319,7 +324,7 @@ merge(config.macros.sync,{
 	hasNotChanged: "未更動",
 	syncStatusList: {
 		none: {text: "...", color: "none"},
-		changedServer: {text: "已更新伺服器上資料", color: "#80ff80"},
+		changedServer: {text: "伺服器資料已更動", color: "#80ff80"},
 		changedLocally: {text: "本機資料已更動", color: "#80ff80"},
 		changedBoth: {text: "已同時更新本機與伺服器上的資料", color: "#ff8080"},
 		notFound: {text: "伺服器無此資料", color: "#ffff80"},
@@ -387,6 +392,13 @@ merge(config.commands.references,{
 merge(config.commands.jump,{
 	text: "捲頁",
 	tooltip: "捲頁至其他已開啟的文章"});
+
+merge(config.commands.syncing,{
+	text: "同步",
+	tooltip: "本文章與伺服器或其他外部檔案的同步資訊",
+	currentlySyncing: "<div>同步類型：<span class='popupHighlight'>'%0'</span></div><div>伺服器：<span class='popupHighlight'>%1</span></div><div>工作區：<span class='popupHighlight'>%2</span></div>",
+	notCurrentlySyncing: "無進行中的同步動作",
+	chooseServer: "與其他伺服器同步此文章:"});
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "GettingStarted",
