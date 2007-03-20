@@ -1,6 +1,8 @@
 <div title="WikipediaIPstackServer" modifier="MartinBudden" created="200702220000" tags="systemServer">
 <pre>|''Description:''|Wikipedia articles containing IPstack template|
 |''Type:''|mediawiki|
-|''URL:''|http://www.wikipedia.org/|
-|''Workspaces:''|Main|</pre>
+|''URL:''|http://www.wikipedia.org/w/|
+|''Workspace:''|Main|
+|''~TiddlerFilter:''|[template[IPstack]]|
+</pre>
 </div>

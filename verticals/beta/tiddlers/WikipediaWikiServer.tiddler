@@ -1,0 +1,8 @@
+<div title="WikipediaWikiServer" modifier="MartinBudden"  created="200703200000" tags="systemServer">
+<pre>|''Description:''|Wikipedia articles in the category "Wiki"|
+|''Type:''|mediawiki|
+|''URL:''|http://www.wikipedia.org/w/|
+|''Workspace:''|Main|
+|''~TiddlerFilter:''|[tags[Wiki]]|
+</pre>
+</div>
