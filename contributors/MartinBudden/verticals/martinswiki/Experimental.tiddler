@@ -1,12 +1,5 @@
 <div title="Experimental" modifier="MartinBudden">
 <pre>
-|!Adaptor Plugin|!Description|
-|[[ccTiddlyAdaptorPlugin]]|Adaptor for moving and converting data to and from ccTiddly wikis|
-|[[JSPWikiAdaptorPlugin]]|Adaptor for moving and converting data to and from JSP Wikis|
-|[[MediaWikiAdaptorPlugin]]|Adaptor for moving and converting data from MediaWikis|
-|[[SocialtextAdaptorPlugin]]|Adaptor for moving and converting data to and from Socialtext Wikis|
-|[[TWikiAdaptorPlugin]]|Adaptor for moving and converting data to and from TWikis|
-
 |!Formatter Plugin|!Description|
 |[[SnipSnapFormatterPlugin]]|Allows Tiddlers to use [[SnipSnap|http://snipsnap.org/space/snipsnap-help]] text formatting|
 |[[TextileFormatterPlugin]]|Allows Tiddlers to use [[Textile|http://www.textism.com/tools/textile/]] text formatting|

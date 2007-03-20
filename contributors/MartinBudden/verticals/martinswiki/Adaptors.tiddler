@@ -1,0 +1,10 @@
+<div title="Adaptors" modifier="MartinBudden">
+<pre>
+|!Adaptor Plugin|!Description|
+|[[ccTiddlyAdaptorPlugin]]|Adaptor for moving and converting data to and from ccTiddly wikis|
+|[[JSPWikiAdaptorPlugin]]|Adaptor for moving and converting data to and from JSP Wikis|
+|[[MediaWikiAdaptorPlugin]]|Adaptor for moving and converting data from MediaWikis|
+|[[SocialtextAdaptorPlugin]]|Adaptor for moving and converting data to and from Socialtext Wikis|
+|[[TWikiAdaptorPlugin]]|Adaptor for moving and converting data to and from TWikis|
+</pre>
+</div>

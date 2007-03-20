@@ -4,6 +4,8 @@ tiddler: Copyright.tiddler
 tiddler: Home.tiddler
 tiddler: MainMenu.tiddler
 tiddler: Plugins.tiddler
+tiddler: Formatters.tiddler
+tiddler: Adaptors.tiddler
 tiddler: Experimental.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
