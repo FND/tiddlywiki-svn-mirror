@@ -55,7 +55,7 @@ config.taggly = {
 			hideState:  ["show","hide"],
 			listMode:   ["normal","group","sitemap","commas"],
 			numCols:    ["1","2","3","4","5","6"],
-			excerpts:   ["noexcerpts","excerpts"],
+			excerpts:   ["noexcerpts","excerpts"]
 		},
 		valuePrefix: "taggly.",
 		excludeTags: ["excludeLists","excludeTagging"],
