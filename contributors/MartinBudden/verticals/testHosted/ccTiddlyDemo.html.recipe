@@ -26,3 +26,5 @@ tiddler: ../../adaptors/ccTiddlyAdaptorPlugin.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../feeds/ccTiddlyFeed.tiddler
+tiddler: ../../feeds/ccTiddlyTestFeed.tiddler
+tiddler: ../../feeds/ccTiddlyLycosTestFeed.tiddler
