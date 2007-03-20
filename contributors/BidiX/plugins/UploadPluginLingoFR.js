@@ -1,13 +1,13 @@
 /***
 |''Name:''|UploadPluginLingoFR|
 |''Description:''|French Translation|
-|''Version:''|4.0.0|
-|''Date:''|Mar 2, 2007|
+|''Version:''|4.0.1|
+|''Date:''|Mar 20, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadPluginLingoFR|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
-|''~CoreVersion:''|2.2.0 (Changeset 1583)|
-|''Require:''|[[UploadPlugin V4.0.0|http://tiddlywiki.bidix.info/#PasswordOptionPlugin]]<br>[[UploadService|http://tiddlywiki.bidix.info/#UploadPlugin]]|
+|''~CoreVersion:''|2.2.0|
+|''Require:''|[[UploadPlugin V4.0.0|http://tiddlywiki.bidix.info/#PasswordOptionPlugin]]|
 ***/
 //{{{
 config.macros.upload.label = {
@@ -15,7 +15,7 @@ config.macros.upload.label = {
 	promptParamMacro: "Sauvegarde et télécharge ce TiddlyWiki vers %0",
 	saveLabel: "sauvegarde sur le web", 
 	saveToDisk: "sauvegarde sur le disque",
-	uploadLabel: "Télécharge vers le web"	
+	uploadLabel: "Télécharge vers le web" 
 };
 
 config.macros.upload.messages = {
@@ -26,8 +26,8 @@ config.macros.upload.messages = {
 bidix.upload.messages = {
 	//from saving
 	invalidFileError: "Le fichier '%0' d'origine ne semble pas être un TiddlyWiki valide",
-	backupSaved: "backup téléchargé vers le web",
-	backupFailed: "Echec du téléchargement enregistrement du backup",
+	backupSaved: "backup enegistré sur le web",
+	backupFailed: "Echec de l'enregistrement du backup sur le web",
 	rssSaved: "Flux RSS a été téléchargé",
 	rssFailed: "Echec du téléchargement du flux RSS",
 	emptySaved: "Fichier de base 'empty.html' téléchargé",
@@ -36,7 +36,7 @@ bidix.upload.messages = {
 	mainFailed: "Echec du téléchargement du fchier principal TiddlyWiki. Vos modifications n'ont pas été téléchargées",
 	//specific upload
 	loadOriginalHttpPostError: "Le fichier d'origine n'a pas pu être accédé",
-	aboutToSaveOnHttpPost: "Préparation du téléchargement du TiddlyWiki vers  %0 ...",
+	aboutToSaveOnHttpPost: "Préparation du téléchargement du TiddlyWiki vers %0 ...",
 	storePhpNotFound: "Le script de téléchargement '%0' n'a pas pu être trouvé."
 };
 //}}}

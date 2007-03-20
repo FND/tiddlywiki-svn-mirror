@@ -1,8 +1,8 @@
 /***
 |''Name:''|UploadPlugin|
 |''Description:''|Save to web a TiddlyWiki|
-|''Version:''|4.0.0 (beta 1)|
-|''Date:''|Mar 2, 2007|
+|''Version:''|4.0.1|
+|''Date:''|Mar 20, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadPlugin|
 |''Documentation:''|http://tiddlywiki.bidix.info/#UploadPluginDoc|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
@@ -13,12 +13,11 @@
 ***/
 //{{{
 version.extensions.UploadPlugin = {
- major: 4, minor: 0, revision: 0, beta: 1,
- date: new Date("Mar 2, 2007"),
- source: 'http://tiddlywiki.bidix.info/#UploadPlugin',
- author: 'BidiX (BidiX (at) bidix (dot) info',
- license: '[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D]]',
- coreVersion: '2.2.0 (Changeset 1316)'
+	major: 4, minor: 0, revision: 1,
+	date: new Date("Mar 20, 2007"),
+	source: 'http://tiddlywiki.bidix.info/#UploadPlugin',
+	author: 'BidiX (BidiX (at) bidix (dot) info',
+	coreVersion: '2.2.0 (Changeset 1316)'
 };
 
 //
@@ -27,18 +26,7 @@ version.extensions.UploadPlugin = {
 
 if (!window.bidix) window.bidix = {}; // bidix namespace
 bidix.debugMode = false;	// true to activate both in Plugin and UploadService
-// require PasswordOptionPlugin 1.0.1 or better
-var plugin = version.extensions.PasswordOptionPlugin;
-if (!
-	(plugin  
-	&& ((plugin.major > 1) 
-		|| ((plugin.major == 1) && (plugin.minor > 0))
-		|| ((plugin.major == 1) && (plugin.minor == 0) && (plugin.revision >= 1))))) {
-		// write error in PluginManager
-		if (pluginInfo)
-			pluginInfo.log.push("UploadPlugin requires PasswordOptionPlugin V1.0.1");
-		PasswordOptionPlugin; // generate an error : "Error: ReferenceError: PasswordOptionPlugin is not defined"
-}
+
 	
 //
 // Macro Upload
@@ -105,13 +93,13 @@ config.macros.upload.handler = function(place,macroName,params) {
 			if (!storeUrl) {
 				alert(config.macros.upload.messages.noStoreUrl);
 				clearMessage();
-				return;
-			};
+				return false;
+			}
 			if (config.macros.upload.authenticateUser && (!username || !password)) {
 				alert(config.macros.upload.messages.usernameOrPasswordMissing);
 				clearMessage();
-				return;
-			};
+				return false;
+			}
 			bidix.upload.uploadChanges(false,null,storeUrl, toFilename, uploadDir, backupDir, username, password); 
 			return false;}, 
 		null, null, this.accessKey);
@@ -137,7 +125,7 @@ if (!bidix.upload) bidix.upload = {};
 if (!bidix.upload.messages) bidix.upload.messages = {
 	//from saving
 	invalidFileError: "The original file '%0' does not appear to be a valid TiddlyWiki",
-	backupSaved: "Backup uploaded",
+	backupSaved: "Backup saved",
 	backupFailed: "Failed to upload backup file",
 	rssSaved: "RSS feed uploaded",
 	rssFailed: "Failed to upload RSS feed file",
@@ -174,8 +162,8 @@ bidix.upload.uploadChanges = function(onlyIfDirty,tiddlers,storeUrl,toFilename,u
 	clearMessage();
 	// save on localdisk ?
 	if (document.location.toString().substr(0,4) == "file") {
-		var originalPath = document.location.toString();
-		var localPath = getLocalPath(originalPath);
+		var path = document.location.toString();
+		var localPath = getLocalPath(path);
 		saveChanges();
 	}
 	// get original
@@ -257,7 +245,7 @@ bidix.upload.httpUpload = function(uploadParams,data,callback,params)
 		if (responseText.charAt(0) != '0')
 			status = null;
 		callback(status,params,responseText,url,xhr);
-	}
+	};
 	// do httpUpload
 	var boundary = "---------------------------"+"AaB03x";	
 	var uploadFormName = "UploadPlugin";
@@ -265,10 +253,10 @@ bidix.upload.httpUpload = function(uploadParams,data,callback,params)
 	var sheader = "";
 	sheader += "--" + boundary + "\r\nContent-disposition: form-data; name=\"";
 	sheader += uploadFormName +"\"\r\n\r\n";
-	sheader += "backupDir="+uploadParams[3]
-				+";user=" + uploadParams[4] 
-				+";password=" + uploadParams[5]
-				+";uploaddir=" + uploadParams[2];
+	sheader += "backupDir="+uploadParams[3] +
+				";user=" + uploadParams[4] +
+				";password=" + uploadParams[5] +
+				";uploaddir=" + uploadParams[2];
 	if (bidix.debugMode)
 		sheader += ";debug=1";
 	sheader += ";;\r\n"; 
@@ -340,7 +328,7 @@ bidix.UploadLog.prototype.addText = function(text) {
 	if (!this.tiddler)
 		return;
 	// retrieve maxLine when we need it
-	var maxLine = parseInt(config.options.txtUploadLogMaxLine);
+	var maxLine = parseInt(config.options.txtUploadLogMaxLine,10);
 	if (isNaN(maxLine))
 		maxLine = -1;
 	// add text
@@ -350,7 +338,7 @@ bidix.UploadLog.prototype.addText = function(text) {
 	if (maxLine >= 0) {
 		var textArray = this.tiddler.text.split('\n');
 		if (textArray.length > maxLine + 1)
-			textArray.splice(1,textArray.length-1-maxLine)
+			textArray.splice(1,textArray.length-1-maxLine);
 			this.tiddler.text = textArray.join('\n');		
 	}
 	// update tiddler fields
@@ -389,7 +377,21 @@ bidix.UploadLog.prototype.endUpload = function(status) {
 // Utilities
 // 
 
-bidix.dirname = function (filePath) {
+bidix.checkPlugin = function(plugin, major, minor, revision) {
+	var ext = version.extensions[plugin];
+	if (!
+		(ext  && 
+			((ext.major > major) || 
+			((ext.major == major) && (ext.minor > minor))  ||
+			((ext.major == major) && (ext.minor == minor) && (ext.revision >= revision))))) {
+			// write error in PluginManager
+			if (pluginInfo)
+				pluginInfo.log.push("Requires " + plugin + " " + major + "." + minor + "." + revision);
+			eval(plugin); // generate an error : "Error: ReferenceError: xxxx is not defined"
+	}
+};
+
+bidix.dirname = function(filePath) {
 	if (!filePath) 
 		return;
 	var lastpos;
@@ -400,7 +402,7 @@ bidix.dirname = function (filePath) {
 	}
 };
 
-bidix.basename = function (filePath) {
+bidix.basename = function(filePath) {
 	if (!filePath) 
 		return;
 	var lastpos;
@@ -412,17 +414,22 @@ bidix.basename = function (filePath) {
 		return filePath.substring(filePath.lastIndexOf("\\")+1);
 };
 
-//
-// Options Initializations
-//
-
-setStylesheet('.urlInput {width: 22em;}',"uploadPluginStyles");
-
 bidix.initOption = function(name,value) {
 	if (!config.options[name])
 		config.options[name] = value;
 };
 
+//
+// Initializations
+//
+
+// require PasswordOptionPlugin 1.0.1 or better
+bidix.checkPlugin("PasswordOptionPlugin", 1, 0, 1);
+
+// styleSheet
+setStylesheet('.urlInput {width: 22em;}',"uploadPluginStyles");
+
+// Options Initializations
 bidix.initOption('txtUploadStoreUrl','');
 bidix.initOption('txtUploadFilename','');
 bidix.initOption('txtUploadDir','');
