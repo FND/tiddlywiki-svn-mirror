@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#TracFormatterPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/TracFormatterPlugin.js|
-|''Version:''|0.1.5|
+|''Version:''|0.1.6|
 |''Date:''|Aug 12, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -12,16 +12,18 @@
 
 This is an early release of the TracFormatterPlugin, which allows you to insert Trac formated text into a TiddlyWiki.
 
-The aim is not to fully emulate Trac, but to allow you to create Trac content off-line and then paste the content
-into your Trac wiki later on, with the expectation that only minor edits will be required.
+The aim is not to fully emulate Trac,  but to allow you to work with Trac content off-line and then resync the content with your Trac wiki later on, with the expectation that only minor edits will be required.
 
-To use Trac format in a Tiddler, tag the Tiddler with TracFormat. See [[testTracFormat]] for an example.
+To use Trac format in a Tiddler, tag the Tiddler with TracFormat or set the tiddler's {{{wikiformat}}} extended field to {{{trac}}}.
 
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
 
-This is a beta release, with (at least) the following known issues:
+!!!Issues
+There are (at least) the following known issues:
 # Citations yet not supported.
-# Trac macros not supported.
+
+!!!No plans to support
+# Trac macros.
 
 ***/
 

@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#PmWikiFormatterPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/PmWikiFormatterPlugin.js|
-|''Version:''|0.2.5|
+|''Version:''|0.2.6|
 |''Date:''|Oct 21, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -13,14 +13,14 @@
 This is an early release of the PmWikiFormatterPlugin, which allows you to insert PmWiki formated text
 into a TiddlyWiki.
 
-The aim is not to fully emulate PmWiki, but to allow you to create PmWiki content off-line and then paste
-the content into your PmWiki later on, with the expectation that only minor edits will be required.
+The aim is not to fully emulate PmWiki, but to allow you to work with PmWiki content off-line and then resync the content with your PmWiki later on, with the expectation that only minor edits will be required.
 
-To use PmWiki format in a Tiddler, tag the Tiddler with PmWikiFormat. See [[testPmWikiFormat]] for an example.
+To use PmWiki format in a Tiddler, tag the Tiddler with PmWikiFormat or set the tiddler's {{{wikiformat}}} extended field to {{{pmwiki}}}
 
 See http://www.pmwiki.org/wiki/PmWiki/MarkupMasterIndex for PmWiki Markup.
 
-This is an early alpha release, with (at least) the following known issues:
+!!!Issues
+There are (at least) the following known issues:
 # Proper paragraph handling requires fix to TiddlyWiki that will be available in TiddlyWiki v2.2
 # Tables not fully supported
 ## Table attributes not supported (eg || border=1)
@@ -29,7 +29,7 @@ This is an early alpha release, with (at least) the following known issues:
 # Images not supported.
 # Image links not supported
 # Leading spaces to preserve formatting only work partially.
-# Directives not supported eg (:directive (attr...):) - except for the (:markup:)...(:markupend:) directive
+# Directives not supported eg {{{(:directive (attr...):)}}} - except for the {{{(:markup:)...(:markupend:)}}} directive
 # White space list rules not supported
 # Definition lists not supported
 

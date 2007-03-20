@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#SocialtextFormatterPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/SocialtextFormatterPlugin.js|
-|''Version:''|0.9.3|
+|''Version:''|0.9.4|
 |''Date:''|Jan 21, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -12,9 +12,9 @@
 
 This is the SocialtextFormatterPlugin, which allows you to insert Socialtext formated text into a TiddlyWiki.
 
-The aim is not to fully emulate Socialtext, but to allow you to work with Socialtext content off-line and then resynch the content with your Socialtext wiki later on, with the expectation that only minor edits will be required.
+The aim is not to fully emulate Socialtext, but to allow you to work with Socialtext content off-line and then resync the content with your Socialtext wiki later on, with the expectation that only minor edits will be required.
 
-To use Socialtext format in a Tiddler, tag the Tiddler with SocialtextFormat.
+To use Socialtext format in a Tiddler, tag the Tiddler with SocialtextFormat or set the tiddler's {{{wikiformat}}} extended field to {{{socialtext}}}
 
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
 ***/

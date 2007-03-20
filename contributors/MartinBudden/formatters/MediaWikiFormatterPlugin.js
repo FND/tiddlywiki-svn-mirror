@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js|
-|''Version:''|0.3.12|
-|''Date:''|Feb 4, 2007|
+|''Version:''|0.4.1|
+|''Date:''|Mar 20, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -18,12 +18,9 @@
 
 This is the MediaWikiFormatterPlugin, which allows you to insert MediaWiki formated text into a TiddlyWiki.
 
-The aim is not to fully emulate MediaWiki, but to allow you to create MediaWiki content off-line
-and then paste the content into your MediaWiki later on, with the expectation that only minor
-edits will be required.
+The aim is not to fully emulate MediaWiki, but to allow you to work with MediaWiki content off-line and then resync the content with your MediaWiki later on, with the expectation that only minor edits will be required.
 
-To use MediaWiki format in a Tiddler, tag the Tiddler with MediaWikiFormat. See [[testMediaWikiFormat]]
-for an example.
+To use MediaWiki format in a Tiddler, tag the Tiddler with MediaWikiFormat or set the tiddler's {{{wikiformat}}} extended field to {{{mediawiki}}}.
 
 !!!Issues
 There are (at least) the following known issues:
@@ -33,12 +30,13 @@ There are (at least) the following known issues:
 # Anchors not yet supported.
 
 !!!Not supported
-# Template parser functions (also called colon functions) (eg #if) http://meta.wikimedia.org/wiki/ParserFunctions eg {{ #functionname: argument 1 | argument 2 | argument 3... }} 
-# Magic words and variables http://meta.wikimedia.org/wiki/Help:Magic_words eg __TOC__, {{CURRENTDAY}}, {{PAGENAME}}
+# Template parser functions (also called colon functions) http://meta.wikimedia.org/wiki/ParserFunctions eg &#123;&#123; #functionname: argument 1 | argument 2 | argument 3... &#125;&#125;
+# Magic words and variables http://meta.wikimedia.org/wiki/Help:Magic_words eg {{{__TOC__}}}, &#123;&#123;CURRENTDAY&#125;&#125;, &#123;&#123;PAGENAME&#125;&#125;
 # {{{^''}}} (italic at start of line) indents, makes italic and quotes with guilmot quote
 
 !!!No plans to support
-# Template substitution on save http://meta.wikimedia.org/wiki/Help:Substitution eg  {{subst:templatename}}
+# Template substitution on save http://meta.wikimedia.org/wiki/Help:Substitution eg &#123;&#123; subst: templatename &#125;&#125;
+
 ***/
 
 //{{{
@@ -225,7 +223,11 @@ MediaWikiFormatter.getTemplateParams = function(text)
 //# <nothing>
 
 
-//# see http://meta.wikimedia.org/wiki/ParserFunctions
+//# see:
+//# http://meta.wikimedia.org/wiki/ParserFunctions
+//# http://www.mediawiki.org/wiki/Extension:Parser_function_extensions
+//# http://svn.wikimedia.org/viewvc/mediawiki/trunk/extensions/ParserFunctions/ParserFunctions.php?view=markup
+//# http://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/includes/Parser.php?view=markup
 MediaWikiFormatter.evaluateTemplateParserFunctions = function(text)
 {
 //#displayMessage("evtpf:"+text);

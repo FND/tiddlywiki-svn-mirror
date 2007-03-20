@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#PBWikiFormatterPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/PBWikiFormatterPlugin.js|
-|''Version:''|0.1.8|
+|''Version:''|0.1.9|
 |''Date:''|Oct 28, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -13,16 +13,14 @@
 This is an early release of the PBWikiFormatterPlugin, which allows you to insert PBWiki formated text
 into a TiddlyWiki.
 
-The aim is not to fully emulate PBWiki, but to allow you to create PBWiki content off-line and then paste
-the content into your PBWiki wiki later on, with the expectation that only minor edits will be required.
+The aim is not to fully emulate PBWiki, but to allow you to work with PBWiki content off-line and then resync the content with your PBWiki later on, with the expectation that only minor edits will be required.
 
-To use PBWiki format in a Tiddler, tag the Tiddler with PBWikiFormat. See [[testPBWikiFormat]] for an example.
+To use PBWiki format in a Tiddler, tag the Tiddler with PBWikiFormat or set the tiddler's {{{wikiformat}}} extended field to {{{pbwiki}}}
 
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
 
-This is an early alpha release, with (at least) the following known issues:
-
 !!!Issues
+There are (at least) the following known issues:
 # Strikethrough yet not supported.
 # Vertical bars to create |boxes| not supported.
 # Space at the begining of a line to create a box not supported.

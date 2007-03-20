@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#TWikiFormatterPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/TWikiFormatterPlugin.js|
-|''Version:''|0.2.2|
+|''Version:''|0.2.3|
 |''Date:''|Nov 5, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -14,14 +14,14 @@
 
 This the TWikiFormatterPlugin, which allows you to insert TWiki formated text into a TiddlyWiki.
 
-The aim is not to fully emulate TWiki, but to allow you to create TWiki content off-line and then paste
-the content into your TWiki later on, with the expectation that only minor edits will be required.
+The aim is not to fully emulate TWiki, but to allow you to work with TWiki content off-line and then resync the content with your TWiki later on, with the expectation that only minor edits will be required.
 
-To use TWiki format in a Tiddler, tag the Tiddler with TWikiFormat. See [[testTwikiFormat]] for an example.
+To use TWiki format in a Tiddler, tag the Tiddler with TWikiFormat or set the tiddler's {{{wikiformat}}} extended field to {{{twiki}}}.
 
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
 
-This is a beta release, with (at least) the following known issues:
+!!!Issues
+There are (at least) the following known issues:
 # Table code is incomplete.
 ## Table headings not yet supported.
 # Anchors not yet supported.
