@@ -1,4 +1,4 @@
-<div title="ServerAdaptorExtendedFields" modifier="MartinBudden" created="200702251426" server.page.version="200702251426">
+<div title="ServerAdaptorExtendedFields" modifier="MartinBudden" created="200702251426">
 <pre>The ServerAdaptorMechanism uses ExtendedFields to store additional data with tiddlers that are associated with a server host. The standard fields are listed below, but particular adaptors will often add their own custom fields for their own purposes.
 |server.type |The type of server adaptor associated with this tiddler |eg &quot;file&quot;, &quot;socialtext&quot; |
 |server.host |The host server URL |eg &quot;http://www.socialtext.net/&quot; |

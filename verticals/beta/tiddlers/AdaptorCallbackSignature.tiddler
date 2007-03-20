@@ -1,4 +1,4 @@
-<div title="AdaptorCallbackSignature" modifier="MartinBudden" created="200702251543" tags="functions" server.page.version="200702251543">
+<div title="AdaptorCallbackSignature" modifier="MartinBudden" created="200702251543" tags="functions">
 <pre>{{{
 callback(context,userParams)
 }}}

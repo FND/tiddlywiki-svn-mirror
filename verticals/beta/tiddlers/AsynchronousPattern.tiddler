@@ -1,4 +1,4 @@
-<div title="AsynchronousPattern" modifier="JeremyRuston" created="200702141459" tags="patterns" server.page.version="200702141459">
+<div title="AsynchronousPattern" modifier="JeremyRuston" created="200702141459" tags="patterns">
 <pre>Asynchronous methods are used by the low level HttpFunctions, and by higher level mechanisms such as the ServerAdaptorMechanism.
 
 The standard TiddlyWiki approach is illustrated with this example of a {{{procrastinate()}}} function that takes a string parameter which is then returned after 1 second by a callback function:

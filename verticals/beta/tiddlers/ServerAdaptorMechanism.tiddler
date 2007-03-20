@@ -1,4 +1,4 @@
-<div title="ServerAdaptorMechanism" modifier="MartinBudden" created="200702251617" tags="mechanisms" server.page.version="200702251617">
+<div title="ServerAdaptorMechanism" modifier="MartinBudden" created="200702251617" tags="mechanisms">
 <pre>TiddlyWiki's architecture for interacting with servers allows it to be plugged into a wide variety of servers. This is done through the addition of plugins containing custom server adaptors. Server adaptors are designed to allow for UseCases like importing tiddlers, loading missing tiddlers on the fly and synchronising changes with a server. Separate macros and core extensions implement such features by accessing the facilities provided by server adaptors.
 
 Server adaptors are designed to use a familiar model akin to a device driver, adapting a standardised interface to whatever is required by the underlying server: [[WebDAV|http://en.wikipedia.org/wiki/Webdav]], ZiddlyWiki, [[MediaWiki|http://en.wikipedia.org/wiki/MediaWiki]], [[Socialtext|http://www.socialtext.com/]] or HTML scraping.

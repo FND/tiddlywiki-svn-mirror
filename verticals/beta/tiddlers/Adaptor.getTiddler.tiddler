@@ -1,4 +1,4 @@
-<div title="Adaptor.getTiddler" modifier="MartinBudden" created="200702251531" tags="functions" server.page.version="200702251531">
+<div title="Adaptor.getTiddler" modifier="MartinBudden" created="200702251531" tags="functions">
 <pre>{{{
 Adaptor.getTiddler(title,context,userParams,callback)
 }}}

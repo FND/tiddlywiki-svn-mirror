@@ -1,4 +1,4 @@
-<div title="ServerAdaptorConcepts" modifier="JeremyRuston" created="200702141510" tags="concepts" server.page.version="200702141510">
+<div title="ServerAdaptorConcepts" modifier="JeremyRuston" created="200702141510" tags="concepts">
 <pre>With the ServerAdaptorMechanism, TiddlyWiki adopts a simple model for interacting with servers:
 * //Server adaptors// are plugins that provide a standardised interface to a particular server architecture. As standard, TiddlyWiki provides the FileAdaptor for talking to static TiddlyWiki files but others are available for talking to popular wiki servers
 * A //host// string identifies a particular server, usually by it's URL

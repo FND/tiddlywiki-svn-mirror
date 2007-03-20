@@ -1,4 +1,4 @@
-<div title="Adaptor.openHost" modifier="MartinBudden" created="200702251529" tags="functions" server.page.version="200702251529">
+<div title="Adaptor.openHost" modifier="MartinBudden" created="200702251529" tags="functions">
 <pre>{{{
 Adaptor.openHost(host,context,userParams,callback)
 }}}

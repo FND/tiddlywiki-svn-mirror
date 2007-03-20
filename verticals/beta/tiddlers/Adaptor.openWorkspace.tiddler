@@ -1,4 +1,4 @@
-<div title="Adaptor.openWorkspace" modifier="MartinBudden" created="200702251529" tags="functions" server.page.version="200702251529">
+<div title="Adaptor.openWorkspace" modifier="MartinBudden" created="200702251529" tags="functions">
 <pre>{{{
 Adaptor.openWorkspace(host,context,userParams,callback)
 }}}

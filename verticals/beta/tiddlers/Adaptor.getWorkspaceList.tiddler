@@ -1,4 +1,4 @@
-<div title="Adaptor.getWorkspaceList" modifier="MartinBudden" created="200702251530" tags="functions" server.page.version="200702251530">
+<div title="Adaptor.getWorkspaceList" modifier="MartinBudden" created="200702251530" tags="functions">
 <pre>{{{
 Adaptor.getWorkspaceList(context,userParams,callback)
 }}}
