@@ -903,7 +903,7 @@ config.mediaWikiFormatters = [
 						t = '#' + t + MediaWikiFormatter.normalizedTitle(link);
 						a.setAttribute('href',t);
 						a.title = '#' + MediaWikiFormatter.normalizedTitle(link);
-						createTiddlyText(a,link);
+						createTiddlyText(a,'#'+link);
 					} else {
 					//#mwDebug(w.output,'fm1:'+w.tiddler.title);
 						e = createTiddlyLink(w.output,link,false,null,w.isStatic,w.tiddler);
