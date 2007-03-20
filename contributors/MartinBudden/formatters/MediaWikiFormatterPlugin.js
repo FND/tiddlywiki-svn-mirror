@@ -155,6 +155,13 @@ MediaWikiFormatter.hijackListAll = function ()
 };
 MediaWikiFormatter.hijackListAll();
 
+MediaWikiFormatter.normalizedTitle = function(title)
+{
+	title = title.trim();
+	var n = title.charAt(0).toUpperCase() + title.substr(1);
+	return n.replace(/\s/g,'_');
+};
+
 //# see http://meta.wikimedia.org/wiki/Help:Variable
 MediaWikiFormatter.expandVariable = function(w,variable)
 {
@@ -479,9 +486,9 @@ config.mediaWikiFormatters = [
 		var e = createTiddlyElement2(output,'h' + w.matchLength);
 		//# drop anchor
 		var a = createTiddlyElement2(e,'a');
-		var t = w.tiddler ? w.tiddler.title + ':' : '';
+		var t = w.tiddler ? MediaWikiFormatter.normalizedTitle(w.tiddler.title) + ':' : '';
 		var len = w.source.substr(w.nextMatch).indexOf('=');
-		a.setAttribute('name',t+w.source.substr(w.nextMatch,len));
+		a.setAttribute('name',t+MediaWikiFormatter.normalizedTitle(w.source.substr(w.nextMatch,len)));
 		w.subWikifyTerm(e,this.termRegExp);
 		//#w.output = createTiddlyElement2(output,'p');
 	}
@@ -890,9 +897,13 @@ config.mediaWikiFormatters = [
 				if(lookaheadMatch[4]) {
 					//# Simple bracketted link
 					if(lookaheadMatch[2]) {
-						//# drop anchor
-						var a = createTiddlyElement2(e,'a');
-						a.setAttribute('name',link);
+						//# link to anchor
+						var a = createTiddlyElement(w.output,'a');
+						var t = w.tiddler ? MediaWikiFormatter.normalizedTitle(w.tiddler.title) + ':' : '';
+						t = '#' + t + MediaWikiFormatter.normalizedTitle(link);
+						a.setAttribute('href',t);
+						a.title = '#' + MediaWikiFormatter.normalizedTitle(link);
+						createTiddlyText(a,link);
 					} else {
 					//#mwDebug(w.output,'fm1:'+w.tiddler.title);
 						e = createTiddlyLink(w.output,link,false,null,w.isStatic,w.tiddler);
