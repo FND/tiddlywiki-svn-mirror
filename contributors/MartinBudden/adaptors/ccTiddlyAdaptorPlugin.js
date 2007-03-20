@@ -14,6 +14,8 @@
 |''Default ccTiddly username''|<<option txtccTiddlyUsername>>|
 |''Default ccTiddly password''|<<option txtccTiddlyPassword>>|
 
+//# see http://cctiddly.svn.sourceforge.net/viewvc/cctiddly/msghandle.php?view=markup for REST syntax
+
 ***/
 
 //{{{

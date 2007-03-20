@@ -211,9 +211,9 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 //# http://www.wikipedia.org/w/query.php?what=category&cptitle=Wiki&format=jsonfm
 
 	if(!context.tiddlerLimit)
-		context.tiddlerLimit = 50;
+		context.tiddlerLimit = filter ? 100 : 50;
 
-	var limit = context.tiddlerLimit ? context.tiddlerLimit : 50;
+	var limit = context.tiddlerLimit;
 	if(filter) {
 		var re = /\[(\w+)\[([ \w]+)\]\]/;
 		var match = re.exec(filter);
@@ -413,7 +413,7 @@ MediaWikiAdaptor.getTiddlerCallback = function(status,context,responseText,uri,x
 			var revision = MediaWikiAdaptor.anyChild(page.revisions);
 			context.tiddler.text = revision['*'];
 			context.tiddler.fields['server.page.revision'] = String(revision['revid']);
-			context.tiddler.fields['server.page.version'] = context.tiddler.fields['server.page.revision'];//!! here temporarily for compatibility
+			//#context.tiddler.fields['server.page.version'] = context.tiddler.fields['server.page.revision'];//!! here temporarily for compatibility
 		} catch (ex) {
 			context.statusText = exceptionText(ex,MediaWikiAdaptor.serverParsingErrorMessage);
 			if(context.callback)
@@ -513,7 +513,7 @@ MediaWikiAdaptor.getTiddlerRevisionListCallback = function(status,context,respon
 				tiddler.fields['server.page.id'] = MediaWikiAdaptor.normalizedTitle(title);
 				tiddler.fields['server.page.name'] = title;
 				tiddler.fields['server.page.revision'] = String(revisions[i].revid);
-				//tiddler.fields['server.page.version'] = tiddler.fields['server.page.revision'];//!! here temporarily for compatibility
+				//#tiddler.fields['server.page.version'] = tiddler.fields['server.page.revision'];//!! here temporarily for compatibility
 				list.push(tiddler);
 			}
 			context.revisions = list;
