@@ -138,7 +138,9 @@ wikify = function(source,output,highlightRegExp,tiddler)
 
 function createTiddlyElement2(parent,element)
 {
-	return parent.appendChild(document.createElement(element));
+	var e = document.createElement(element);
+	parent.appendChild(e);
+	return e;
 }
 
 config.formatterHelpers.createElementAndWikify = function(w)
@@ -1110,6 +1112,14 @@ config.mediaWikiFormatters = [
 },
 
 {
+	name: 'mediaWikiItalicTag',
+	match: '<i>',
+	termRegExp: /(<\/i>|(?=\n))/mg,
+	element: 'i',
+	handler: config.formatterHelpers.createElementAndWikify
+},
+
+{
 	//# note, this only gets invoked when viewing the template
 	name: 'mediaWikiTemplateParam',
 	match: '\\{\\{\\{',
@@ -1127,6 +1137,15 @@ config.mediaWikiFormatters = [
 	//#lookaheadRegExp: /<ref(\s+(?:.*?)=["']?(?:.*?)["']?)?>([.\n]*?)<\/ref>/mg,
 	handler: function(w)
 	{
+		if(config.browser.isIE) {
+			refRegExp = /<ref[^\/]*>((?:.|\n)*?)<\/ref>/mg;
+			refRegExp.lastIndex = w.matchStart;
+			var refMatch = refRegExp.exec(w.source);
+			if(refMatch && refMatch.index == w.matchStart) {
+				w.nextMatch = refRegExp.lastIndex;
+				return;
+			}
+		}
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
@@ -1139,11 +1158,12 @@ config.mediaWikiFormatters = [
 			var s = createTiddlyElement(w.output,'sup',null,'reference');
 			var a = createTiddlyElement2(s,'a');
 			var prefix = w.tiddler ? w.tiddler.title + ':' : '';
+			var name;
 			if(lookaheadMatch[1]) {
 				//# <ref params>
-				var r = {};
-				r = MediaWikiFormatter.setFromParams(w,lookaheadMatch[1]);
-				var name = r.name ? r.name.trim() : '';
+				//#var r = {};
+				var r = MediaWikiFormatter.setFromParams(w,lookaheadMatch[1]);
+				name = r.name ? r.name.trim() : '';
 				name = name.replace(/ /g,'_');
 				s.id = prefix + '_ref-' + name;// + '_' + nameCount;(w.referenceCount+1);
 				if(!w.references[name]) {
@@ -1206,6 +1226,15 @@ config.mediaWikiFormatters = [
 	lookaheadRegExp: /<ref(\s+(?:.*?)=["'](?:.*?)["'])?\s*\/>/mg,
 	handler: function(w)
 	{
+		if(config.browser.isIE) {
+			refRegExp = /<ref.*?\/>/mg;
+			refRegExp.lastIndex = w.matchStart;
+			var refMatch = refRegExp.exec(w.source);
+			if(refMatch && refMatch.index == w.matchStart) {
+				w.nextMatch = refRegExp.lastIndex;
+				return;
+			}
+		}
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
@@ -1236,7 +1265,8 @@ config.mediaWikiFormatters = [
 	match: '&#?[a-zA-Z0-9]{2,8};',
 	handler: function(w)
 	{
-		createTiddlyElement2(w.output,'span').innerHTML = w.matchText;
+		if(!config.browser.isIE)
+			createTiddlyElement(w.output,"span").innerHTML = w.matchText;
 	}
 },
 
