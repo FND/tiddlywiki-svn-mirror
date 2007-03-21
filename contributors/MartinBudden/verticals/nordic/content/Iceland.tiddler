@@ -1,4 +1,4 @@
-<div title="Iceland" modifier="www.wikipedia.org" server.host="www.wikipedia.org/w" wikiformat="mediawiki" mediawiki.revid="96635113">
+<div title="Iceland" modifier="www.wikipedia.org" server.host="www.wikipedia.org/w" server.page.revision="96635113" wikiformat="mediawiki">
 <pre>: ''This article is about the country in Europe. For other uses, see [[Iceland (disambiguation)]]''.&lt;!--**** DISAMBIG NOT PART OF ARTICLE, SO GOES ABOVE IT ALL. ****--&gt;
 {{Infobox Country or territory
 |native_name              = ''Lýðveldið Ísland''
@@ -23,14 +23,7 @@
 |area                     = 103,000
 |areami²                  = 39,768.5 &lt;!--Do not remove per [[WP:MOSNUM]]--&gt;
 |percent_water            = 2.7
-|population_estimate      = 307,261&lt;ref&gt;{{cite web
-  | title      = Statistics Iceland
-  | publisher  = www.statice.is
-  | date       = [[1 December]] [[2006]]
-  | url        = http://www.statice.is/?PageID=1390
-  | accessdate = 20 September
-  | accessyear = 2006
-}}&lt;/ref&gt;
+|population_estimate      = 307,261
 |population_estimate_rank = 180th
 |population_estimate_year = December 2006
 |population_census        = 229,187
@@ -70,17 +63,7 @@
 |calling_code             = 354
 |footnotes                = 
 }}
-'''Iceland''', officially the '''Republic of Iceland''' ({{lang-is|''Ísland'' or ''Lýðveldið Ísland''}}; {{IPA2|ˈliðvɛltɪð ˈislant}}) is an [[island nation]] in the northern [[Atlantic Ocean]] between [[Greenland]], [[Norway]], [[Scotland]], [[Ireland]], and the [[Faroe Islands]]. &lt;ref name=&quot;CIA Govt&quot;&gt;{{cite web
-  | authorlink = Central Intelligence Agency
-  | title = CIA - The World Factbook -- Iceland 
-  | work = Government
-  | publisher = [[United States Government]]
-  | date = [[July 20]], [[2006]]
-  | url = https://www.cia.gov/cia/publications/factbook/geos/ic.html#Govt
-  | accessdate = August 6
-  | accessyear = 2006
-}}&lt;/ref&gt;
-
+'''Iceland''', officially the '''Republic of Iceland''' ({{lang-is|''Ísland'' or ''Lýðveldið Ísland''}}; {{IPA2|ˈliðvɛltɪð ˈislant}}) is an [[island nation]] in the northern [[Atlantic Ocean]] between [[Greenland]], [[Norway]], [[Scotland]], [[Ireland]], and the [[Faroe Islands]].
 Iceland has a history of habitation since about the year 874, when, according to ''[[Landnámabók]]'', the Norwegian chieftain [[Ingólfur Arnarson]] became the first permanent settler on the island. Over the next centuries, people of [[Nordic]] and [[Celtic]] origin settled in Iceland. Until the [[20th century]], the [[Icelanders|Icelandic population]] relied on [[fisheries]] and [[agriculture]], and was from [[1262]] to [[1944]] a part of the [[Norway|Norwegian]] and later the [[Denmark|Danish]] [[monarchy|monarchies]].
 
 Today, Iceland is a [[developed countries|highly developed country]], the world's [[List of countries by GDP (PPP) per capita|fifth]] and [[List of countries by Human Development Index|second]] in terms of [[GDP]] per capita and [[Human Development Index|human development]] respectively. It is also the fourth &quot;happiest&quot; nation in the world.&lt;ref&gt;http://www.sciencedaily.com/releases/2006/11/061113093726.htm&lt;/ref&gt; Iceland is a member of [[UN]], [[NATO]], [[European Economic Area|EEA]] and [[OECD]].
@@ -528,109 +511,5 @@ Iceland is one of the world's most technologically advanced and digitally-connec
 
 {{Link FA|el}}
 
-[[af:Ysland]]
-[[als:Island]]
-[[am:አይስላንድ]]
-[[ang:Īsland]]
-[[ar:آيسلندا]]
-[[an:Islandia]]
-[[frp:Islande]]
-[[ast:Islandia]]
-[[az:İslandiya]]
-[[bn:আইসল্যান্ড]]
-[[zh-min-nan:Peng-tē]]
-[[be:Ісьляндыя]]
-[[bar:Ísland]]
-[[bs:Island]]
-[[br:Island]]
-[[bg:Исландия]]
-[[ca:Islàndia]]
-[[cv:Исланди]]
-[[cs:Island]]
-[[cy:Gwlad yr Iâ]]
-[[da:Island]]
-[[de:Island]]
-[[dv:އައިސްލަންޑަން]]
-[[et:Island]]
-[[el:Ισλανδία]]
-[[es:Islandia]]
-[[eo:Islando]]
-[[eu:Islandia]]
-[[fa:ایسلند]]
-[[fo:Ísland]]
-[[fr:Islande]]
-[[fy:Yslân]]
-[[ga:An Íoslainn]]
-[[gd:Innis Tile]]
-[[gl:Islandia - Ísland]]
-[[gu:આઇસલૅન્ડ]]
-[[ko:아이슬란드]]
-[[hy:Իսլանդիա]]
-[[hi:आइसलैंड]]
-[[hsb:Islandska]]
-[[hr:Island]]
-[[io:Islando]]
-[[ilo:Icelandia]]
-[[id:Islandia]]
-[[is:Ísland]]
-[[it:Islanda]]
-[[he:איסלנד]]
-[[ka:ისლანდია]]
-[[kk:Исландия]]
-[[kw:Island]]
-[[sw:Iceland]]
-[[ku:Îslanda]]
-[[la:Islandia]]
-[[lv:Islande]]
-[[lb:Island]]
-[[lt:Islandija]]
-[[li:Iesland]]
-[[lg:Isilandi]]
-[[lmo:Islànda]]
-[[hu:Izland]]
-[[mk:Исланд]]
-[[ms:Iceland]]
-[[na:Iceland]]
-[[nl:IJsland]]
-[[nds-nl:Ieslaand]]
-[[ne:आइसल्याण्ड]]
-[[ja:アイスランド]]
-[[no:Island]]
-[[nn:Island]]
-[[oc:Islàndia]]
-[[ug:ئىسلاندىيە]]
-[[pam:Iceland]]
-[[ps:آيسلېنډ]]
-[[pms:Islanda]]
-[[nds:Iesland]]
-[[pl:Islandia]]
-[[pt:Islândia]]
-[[ro:Islanda]]
-[[qu:Islandiya]]
-[[ru:Исландия]]
-[[se:Islánda]]
-[[sa:आइसलैंड]]
-[[sg:Islande]]
-[[sc:Islanda]]
-[[sq:Islanda]]
-[[scn:Islandia]]
-[[simple:Iceland]]
-[[sl:Islandija]]
-[[sr:Исланд]]
-[[sh:Island]]
-[[fi:Islanti]]
-[[sv:Island]]
-[[tl:Iceland]]
-[[ta:ஐஸ்லாந்து]]
-[[th:ประเทศไอซ์แลนด์]]
-[[vi:Iceland]]
-[[tg:Исландия]]
-[[tpi:Aislan]]
-[[tr:İzlanda]]
-[[uk:Ісландія]]
-[[ur:آئس لینڈ]]
-[[fiu-vro:Island']]
-[[yi:איסלאנד]]
-[[zh-yue:冰島]]
-[[zh:冰岛]]</pre>
+</pre>
 </div>

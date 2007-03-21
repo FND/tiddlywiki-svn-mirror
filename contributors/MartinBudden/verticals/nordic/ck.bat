@@ -1,1 +1,0 @@
-cook nordic.html.recipe
