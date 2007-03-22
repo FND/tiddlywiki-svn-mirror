@@ -25,6 +25,8 @@ make_tw {
 
   package_as_from_dir    "misc/DashboardsAndPanels.js", "dashesandpanels"
 
+  package_as_from_dir    "misc/MonkeyGTDLists.js", "lists"
+
   store_to_file          "upload/upgrade.html"
 
   add_tiddlers_from_dir  "noupgrade"

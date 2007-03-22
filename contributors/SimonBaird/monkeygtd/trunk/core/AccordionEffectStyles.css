@@ -1,0 +1,26 @@
+/*{{{*/
+.accordionEffect .button{ display: block; color: #fff; text-align: left;
+font-weight: bold; line-height: 140%;
+border-top: solid 1px #bbb;
+border-left: solid 1px #bbb;
+border-right: solid 1px #888;
+border-bottom: solid 1px #888;
+background: #999;
+margin-left: -0.3em;
+padding: 0 1px 1px 20px;
+}
+
+.accordionEffect .button:hover{
+border-top: solid 1px #777;
+border-left: solid 1px #777;
+border-right: solid 1px #bbb;
+border-bottom: solid 1px #bbb;
+background: #888;
+padding: 1px 0 0 21px;
+}
+/*}}}*/
+/*{{{*/
+/*You can modify the code above but please keep this line in the StyleSheet. */
+/*AccordionEffect, CSS by oc ( http://b-oo-k.net/blog/ ). */
+/*}}}*/
+
