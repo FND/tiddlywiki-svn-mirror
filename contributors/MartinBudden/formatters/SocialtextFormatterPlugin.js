@@ -27,12 +27,14 @@ version.extensions.SocialtextFormatterPlugin = {installed:true};
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
 	{alertAndThrow('SocialtextFormatterPlugin requires TiddlyWiki 2.1 or later.');}
 
+SocialtextFormatter = {}; // 'namespace' for local functions
+
 wikify = function(source,output,highlightRegExp,tiddler)
 {
 	if(source && source != '') {
 		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
 		var out = output;
-		if(tiddler && (tiddler.isTagged(config.parsers.socialTextFormatter.formatTag) || (tiddler.fields.wikiformat==config.parsers.socialTextFormatter.format)) ) {
+		if(tiddler && (tiddler.isTagged(config.parsers.socialtextFormatter.formatTag) || (tiddler.fields.wikiformat==config.parsers.socialtextFormatter.format)) ) {
 			var d1 = createTiddlyElement(output,'div','content-display-body','content-section-visible');
 			var d2 = createTiddlyElement(d1,'div','wikipage');
 			out = createTiddlyElement(d2,'div',null,'wiki');
@@ -47,18 +49,16 @@ wikify = function(source,output,highlightRegExp,tiddler)
 	}
 };
 
-socialtextFormatter = {}; // 'namespace' for local functions
-
 stDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
 	createTiddlyElement(out,'br');
 };
 
-socialtextFormatter.Tiddler_changed = Tiddler.prototype.changed;
+SocialtextFormatter.Tiddler_changed = Tiddler.prototype.changed;
 Tiddler.prototype.changed = function()
 {
-	if((this.fields.wikiformat==config.parsers.socialTextFormatter.format) || this.isTagged(config.parsers.socialTextFormatter.formatTag)) {
+	if((this.fields.wikiformat==config.parsers.socialtextFormatter.format) || this.isTagged(config.parsers.socialtextFormatter.formatTag)) {
 		// update the links array, by checking for Socialtext format links
 		this.links = [];
 		var tiddlerLinkRegExp = /(?:\"(.*?)\" ?)?\[([^\]]*?)\]/mg;
@@ -70,12 +70,12 @@ Tiddler.prototype.changed = function()
 			match = tiddlerLinkRegExp.exec(this.text);
 		}
 	}/* else {
-		return socialtextFormatter.Tiddler_changed.apply(this,arguments);
+		return SocialtextFormatter.Tiddler_changed.apply(this,arguments);
 	}*/
 	this.linksUpdated = true;
 };
 
-socialtextFormatter.wafl = function(w)
+SocialtextFormatter.wafl = function(w)
 {
 	this.lookaheadRegExp.lastIndex = w.matchStart;
 	var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
@@ -176,7 +176,7 @@ socialtextFormatter.wafl = function(w)
 	}
 };
 
-socialtextFormatter.presence = function(w)
+SocialtextFormatter.presence = function(w)
 {
 	this.lookaheadRegExp.lastIndex = w.matchStart;
 	var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
@@ -223,7 +223,8 @@ config.formatterHelpers.singleCharFormat = function(w)
 	}
 };
 
-config.socialTextFormatters = [
+config.socialtext = {};
+config.socialtext.formatters = [
 {
 	name: 'socialtextHeading',
 	match: '^\\^{1,6} ?',
@@ -465,8 +466,8 @@ config.socialTextFormatters = [
 {
 	name: 'socialtextBold',
 	match: '\\*(?![\\s\\*])',
-	lookaheadRegExp: /\*(?!\s)(?:.*?)(?!\s)\*(?=[$\s\._\-])/mg,
-	termRegExp: /((?!\s)\*(?=[$\s\.\-_]))/mg,
+	lookaheadRegExp: /\*(?!\s)(?:.*?)(?!\s)\*(?=[$\s\|\._\-,])/mg,
+	termRegExp: /((?!\s)\*(?=[$\s\|\.\-_,]))/mg,
 	element: 'strong',
 	handler: config.formatterHelpers.singleCharFormat
 },
@@ -474,8 +475,8 @@ config.socialTextFormatters = [
 {
 	name: 'socialtextItalic',
 	match: '_(?![\\s_])',
-	lookaheadRegExp: /_(?!\s)(?:.*?)(?!\s)_(?=[$\s\.\*\-])/mg,
-	termRegExp: /((?!\s)_(?=[$\s\.\*\-]))/mg,
+	lookaheadRegExp: /_(?!\s)(?:.*?)(?!\s)_(?=[$\s\|\.\*\-,])/mg,
+	termRegExp: /((?!\s)_(?=[$\s\|\.\*\-,]))/mg,
 	element: 'em',
 	handler: config.formatterHelpers.singleCharFormat
 },
@@ -483,8 +484,8 @@ config.socialTextFormatters = [
 {
 	name: 'socialtextStrike',
 	match: '-(?![\\s\\-])',
-	lookaheadRegExp: /-(?!\s)(?:.*?)(?!\s)-(?=[$\s\.\*_])/mg,
-	termRegExp: /((?!\s)-(?=[$\s\.\*_]))/mg,
+	lookaheadRegExp: /-(?!\s)(?:.*?)(?!\s)-(?=[$\s\|\.\*_,])/mg,
+	termRegExp: /((?!\s)-(?=[$\s\|\.\*_,]))/mg,
 	element: 'del',
 	handler: config.formatterHelpers.singleCharFormat
 },
@@ -537,14 +538,14 @@ config.socialTextFormatters = [
 	name: 'socialtextWafl',
 	match: '\\{(?:[a-z]{2,16}): ?.*?\\}',
 	lookaheadRegExp: /\{([a-z]{2,16}): ?(.*?)\}/mg,
-	handler: socialtextFormatter.wafl
+	handler: SocialtextFormatter.wafl
 },
 
 {
 	name: 'socialtextPresence',
 	match: '(?:aim|yahoo|ymsgr|skype|callto|asap):\\w+',
 	lookaheadRegExp: /(aim|yahoo|ymsgr|skype|callto|asap):(\w+)/mg,
-	handler: socialtextFormatter.presence
+	handler: SocialtextFormatter.presence
 },
 
 {
@@ -573,8 +574,9 @@ config.socialTextFormatters = [
 }
 ];
 
-config.parsers.socialTextFormatter = new Formatter(config.socialTextFormatters);
-config.parsers.socialTextFormatter.format = 'socialtext';
-config.parsers.socialTextFormatter.formatTag = 'SocialtextFormat';
+config.parsers.socialtextFormatter = new Formatter(config.socialtext.formatters);
+config.parsers.socialtextFormatter.format = 'socialtext';
+config.parsers.socialtextFormatter.formatTag = 'SocialtextFormat';
+
 } // end of 'install only once'
 //}}}
