@@ -19,19 +19,17 @@
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
 config.locale = "zh-Hant"; // W3C language tag
-/*
-merge(config.options,{
-	txtUserName: "YourName"});
-*/
-config.tasks = {
-		save: {text: "儲存", tooltip: "儲存變更至此 TiddlyWiki", action: saveChanges},
-		tidy: {text: "整理", tooltip: "對群組文章作大量更新", content: 'Coming soon...\n\nThis tab will allow bulk operations on tiddlers, and tags. It will be a generalised, extensible version of the plugins tab'},
-		sync: {text: "同步", tooltip: "將你的資料內容與外部伺服器與檔案同步", content: '<<sync>>'},
-		importTask: {text: "導入", tooltip: "自其他檔案或伺服器導入文章或套件", content: '<<importTiddlers>>'},
-		copy: {text: "複製", tooltip: "複製文章至別的 TiddlyWiki 文件及伺服器", content: 'Coming soon...\n\nThis tab will allow tiddlers to be copied to remote servers'},
-		tweak: {text: "選項", tooltip: "改變此 TiddlyWiki 的顯示與行為的設定", content: '<<options>>'},
-		plugins: {text: "套件管理", tooltip: "管理已安裝的套件", content: '<<plugins>>'}
-};
+
+if (!config.options.txtUserName)
+	config.options.txtUserName = "YourName";
+
+merge(config.tasks,{
+	save: {text: "儲存", tooltip: "儲存變更至此 TiddlyWiki", action: saveChanges},
+	sync: {text: "同步", tooltip: "將你的資料內容與外部伺服器與檔案同步", content: '<<sync>>'},
+	importTask: {text: "導入", tooltip: "自其他檔案或伺服器導入文章或套件", content: '<<importTiddlers>>'},
+	tweak: {text: "選項", tooltip: "改變此 TiddlyWiki 的顯示與行為的設定", content: '<<options>>'},
+	plugins: {text: "套件管理", tooltip: "管理已安裝的套件", content: '<<plugins>>'}
+});
 
 config.optionsDesc = {
 	txtUserName: "編輯文章所使用之作者署名",
@@ -102,12 +100,12 @@ config.messages.backstage = {
 	open: {text: "控制台", icon: "↩", iconIE: "←", tooltip: "開啟控制台執行編寫工作"},
 	close: {text: "關閉", icon: "↪", iconIE: "→", tooltip: "關閉控制台"},
 	prompt: "控制台："
-}
+};
 
 config.messages.listView = {
 	tiddlerTooltip: "檢視全文",
 	previewUnavailable: "(無法預覽)"
-}
+};
 
 config.messages.dates.months = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
 config.messages.dates.days = ["日", "一","二", "三", "四", "五", "六"];
@@ -224,7 +222,7 @@ merge(config.macros.options,{
 merge(config.macros.plugins,{
 	wizardTitle: "擴充套件管理",
 	step1Title: "- 已載入之套件",
-	step1Html: "<input type='hidden' name='markList'></input>",
+	step1Html: "<input type='hidden' name='markList'></input>", // DO NOT TRANSLATE
 	skippedText: "(此套件因剛加入，故尚未執行)",
 	noPluginText: "未安裝套件",
 	confirmDeleteText: "確認是否刪除此文章:\n\n%0",
@@ -277,16 +275,21 @@ merge(config.macros.importTiddlers,{
 	statusOpenWorkspace: "正在開啟工作區",
 	statusGetTiddlerList: "正在取得可用之文章清單",
 	step3Title: "步驟三：選擇欲導入之文章",
-	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>保持這些文章與伺服器連線，讓變更持續同步。</input>",
+	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>保持這些文章與伺服器的連結，便於同步後續的變更。</input><br><input type='checkbox' checked='false' name='chkSave'>儲存此伺服器的詳細資訊於標籤為 'systemServer' 的文章名為：</input> <input type='text' size=25 name='txtSaveTiddler'>", 
 	importLabel: "導入",
 	importPrompt: "導入所選文章",
 	confirmOverwriteText: "確定要覆寫這些文章：\n\n%0",
 	step4Title: "步驟四：正在導入%0 篇文章",
-	step4Html: "<input type='hidden' name='markReport'></input>",
+	step4Html: "<input type='hidden' name='markReport'></input>", // DO NOT TRANSLATE
 	step5Title: "步驟五：導入完成",
 	step5Html: "所選文章已導入",
 	doneLabel: "完成",
 	donePrompt: "關閉",
+	systemServerNamePattern: "%2 位於 %1",
+	systemServerNamePatternNoWorkspace: "%1",
+	confirmOverwriteSaveTiddler: "此 tiddler '%0' 已經存在。點擊「確定」以伺服器上料覆寫之，或「取消」不變更後離開",
+	serverSaveTemplate: "|''Type:''|%0|\n|''網址：''|%1|\n|''工作區：''|%2|\n\n此文為自動產生紀錄伺服器之相關資訊。",
+	serverSaveModifier: "（系統）",
 
 	listViewTemplate: {
 		columns: [
@@ -317,7 +320,7 @@ merge(config.macros.sync,{
 			]},
 	wizardTitle: "將你的資料內容與外部伺服器與檔案同步",
 	step1Title: "選擇欲同步的文章",
-	step1Html: '<input type="hidden" name="markList"></input>',
+	step1Html: '<input type="hidden" name="markList"></input>', // DO NOT TRANSLATE
 	syncLabel: "同步",
 	syncPrompt: "同步更新這些文章",
 	hasChanged: "已更動",
@@ -398,7 +401,10 @@ merge(config.commands.syncing,{
 	tooltip: "本文章與伺服器或其他外部檔案的同步資訊",
 	currentlySyncing: "<div>同步類型：<span class='popupHighlight'>'%0'</span></div><div>伺服器：<span class='popupHighlight'>%1</span></div><div>工作區：<span class='popupHighlight'>%2</span></div>",
 	notCurrentlySyncing: "無進行中的同步動作",
-	chooseServer: "與其他伺服器同步此文章:"});
+	captionUnSync: "停止同步此文章",
+	chooseServer: "與其他伺服器同步此文章:",
+	currServerMarker: "● ",
+	notCurrServerMarker: "  "});
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "GettingStarted",

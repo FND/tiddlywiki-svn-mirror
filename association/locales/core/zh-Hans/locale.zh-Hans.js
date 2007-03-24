@@ -12,25 +12,26 @@
 ***/
 
 /*{{{*/
-// Translateable strings
-// ---------------------
+// --
+// -- Translateable strings
+// --
 
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
 config.locale = "zh-Hans"; // W3C language tag
-/*
-merge(config.options,{
-	txtUserName: "YourName"});
-*/
-config.tasks = {
-		save: {text: "保存", tooltip: "保存变更至此 TiddlyWiki", action: saveChanges},
-		tidy: {text: "整理", tooltip: "对群组文章作大量更新"},
-		sync: {text: "同步", tooltip: "将你的资料内容与外部服务器与文件同步", content: '<<sync>>'},
-		importTask: {text: "导入", tooltip: "自其他文件或服务器导入文章或插件", content: '<<importTiddlers>>'},
-		copy: {text: "复制", tooltip: "复制文章至别的 TiddlyWiki 文件及服务器"},
-		tweak: {text: "选项", tooltip: "改变此 TiddlyWiki 显示与行为设置", content: '<<options>>'},
-		plugins: {text: "套件管理", tooltip: "管理已安装的套件", content: '<<plugins>>'}
-};
+
+if (!config.options.txtUserName)
+	config.options.txtUserName = "YourName";
+
+merge(config.tasks,{
+	save: {text: "保存", tooltip: "保存变更至此 TiddlyWiki", action: saveChanges},
+//	tidy: {text: "整理", tooltip: "对群组文章作大量更新"},
+	sync: {text: "同步", tooltip: "将你的资料内容与外部服务器与文件同步", content: '<<sync>>'},
+	importTask: {text: "导入", tooltip: "自其他文件或服务器导入文章或插件", content: '<<importTiddlers>>'},
+//	copy: {text: "复制", tooltip: "复制文章至别的 TiddlyWiki 文件及服务器"},
+	tweak: {text: "选项", tooltip: "改变此 TiddlyWiki 显示与行为设置", content: '<<options>>'},
+	plugins: {text: "套件管理", tooltip: "管理已安装的套件", content: '<<plugins>>'}
+});
 
 config.optionsDesc = {
 	txtUserName: "编辑文章所使用之作者署名",
@@ -101,12 +102,12 @@ config.messages.backstage = {
 	open: {text: "控制台", icon: "↩", iconIE: "←", tooltip: "开启控制台执行编写工作"},
 	close: {text: "关闭", icon: "↪", iconIE: "→", tooltip: "关闭控制台"},
 	prompt: "控制台："
-}
+};
 
 config.messages.listView = {
 	tiddlerTooltip: "查看全文",
 	previewUnavailable: "(无法预览)"
-}
+};
 
 config.messages.dates.months = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
 config.messages.dates.days = ["日", "一","二", "三", "四", "五", "六"];
@@ -223,7 +224,7 @@ merge(config.macros.options,{
 merge(config.macros.plugins,{
 	wizardTitle: "插件管理",
 	step1Title: "- 已载入之插件",
-	step1Html: "<input type='hidden' name='markList'></input>",
+	step1Html: "<input type='hidden' name='markList'></input>", // DO NOT TRANSLATE
 	skippedText: "(此插件因刚加入，故尚未执行)",
 	noPluginText: "未安装插件",
 	confirmDeleteText: "确认是否删除此文章:\n\n%0",
@@ -276,16 +277,21 @@ merge(config.macros.importTiddlers,{
 	statusOpenWorkspace: "正在开启工作区",
 	statusGetTiddlerList: "正在取得可用之文章清单",
 	step3Title: "步骤三：选择欲导入之文章",
-	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>保持这些文章与伺服器连线，让变更持续同步。</input>",
+	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>保持这些文章与伺服器连结，便于同步后续的变更。</input><br><input type='checkbox' checked='false' name='chkSave'>保存此服务器的详细资讯于标签为 'systemServer' 的文章名为：</input> <input type='text' size=25 name='txtSaveTiddler'>", 
 	importLabel: "导入",
 	importPrompt: "导入所选文章",
 	confirmOverwriteText: "确定要覆写这些文章：\n\n%0",
 	step4Title: "步骤四：正在导入%0 篇文章",
-	step4Html: "<input type='hidden' name='markReport'></input>",
+	step4Html: "<input type='hidden' name='markReport'></input>", // DO NOT TRANSLATE
 	step5Title: "步骤五：导入完成",
 	step5Html: "所选文章已导入",
 	doneLabel: "完成",
 	donePrompt: "关闭",
+	systemServerNamePattern: "%2 位于 %1",
+	systemServerNamePatternNoWorkspace: "%1",
+	confirmOverwriteSaveTiddler: "此 tiddler '%0' 已经存在。点击“确定”以服务器上料覆写之，或“取消”不变更后离开",
+	serverSaveTemplate: "|''Type:''|%0|\n|''网址：''|%1|\n|''工作区：''|%2|\n\n此文为自动产生纪录伺服器之相关资讯。",
+	serverSaveModifier: "（系统）",
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
@@ -396,7 +402,10 @@ merge(config.commands.syncing,{
 	tooltip: "本文章与服务器或其他外部文件的同步资讯",
 	currentlySyncing: "<div>同步类型：<span class='popupHighlight'>'%0'</span></div><div>服务器：<span class='popupHighlight'>%1</span></div><div>工作区：<span class='popupHighlight'>%2</span></div>",
 	notCurrentlySyncing: "无进行中的同步动作",
-	chooseServer: "与其他服务器同步此文章:"});
+	captionUnSync: "停止同步此文章",
+	chooseServer: "与其他服务器同步此文章:",
+	currServerMarker: "● ",
+	notCurrServerMarker: "  "});
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "GettingStarted",
