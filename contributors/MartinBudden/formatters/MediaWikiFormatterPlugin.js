@@ -476,7 +476,8 @@ MediaWikiFormatter.setAttributesFromParams = function(e,p)
 	}
 };
 
-config.mediaWikiFormatters = [
+config.mediawiki = {};
+config.mediawiki.formatters = [
 {
 	name: 'mediaWikiHeading',
 	match: '^={2,6}(?!=)\\n?',
@@ -1082,7 +1083,7 @@ config.mediaWikiFormatters = [
 {
 	name: 'mediaWikiItalic',
 	match: "''",
-	termRegExp: /((?:[^']''(?!'))|(?=\n))/mg,
+	termRegExp: /((?:''(?!'))|(?=\n))/mg,
 	element: 'em',
 	handler: config.formatterHelpers.createElementAndWikify
 },
@@ -1470,8 +1471,9 @@ config.mediaWikiFormatters = [
 }
 ];
 
-config.parsers.mediaWikiFormatter = new Formatter(config.mediaWikiFormatters);
+config.parsers.mediaWikiFormatter = new Formatter(config.mediawiki.formatters);
 config.parsers.mediaWikiFormatter.format = 'mediawiki';
 config.parsers.mediaWikiFormatter.formatTag = 'MediaWikiFormat';
 } //# end of 'install only once'
 //}}}
+	
