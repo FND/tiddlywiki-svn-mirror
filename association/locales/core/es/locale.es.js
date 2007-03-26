@@ -34,11 +34,13 @@ merge(config.options,{
 	txtUserName: "SuNombre"});
 
 merge(config.tasks,{
-	tidy: {text: "tidy up", tooltip: "Make bulk changes across groups of tiddlers", content: 'Coming soon...\n\nThis tab will allow bulk operations on tiddlers, and tags. It will be a generalised, extensible version of the plugins tab'},
-	sync: {text: "sync", tooltip: "Synchronise changes with other TiddlyWiki files and servers", content: '<<sync>>'},
-	importTask: {text: "import", tooltip: "Import tiddlers and plugins from other TiddlyWiki files and servers", content: '<<importTiddlers>>'},
-	copy: {text: "copy", tooltip: "Copy tiddlers to other TiddlyWiki files and servers", content: 'Coming soon...\n\nThis tab will allow tiddlers to be copied to remote servers'},
-	plugins: {text: "plugins", tooltip: "Manage installed plugins", content: '<<plugins>>'}
+    save: {text: "guardar", tooltip: "Guarda los cambios de este TiddlyWiki", action: saveChanges},
+    tidy: {text: "manipular", tooltip: "Hacer cambios en masa a grupos de tiddlers", content: 'Próximamente...\n\nEsta pestaña permitirá hacer varias operaciones sobre tiddlers y etiquetas. Será una versión generalizada y extensible de la pestaña plugins'},
+    sync: {text: "sinc", tooltip: "Sincronizar cambios con otros archivos y servidores TiddlyWiki", content: '<<sync>>'},
+    importTask: {text: "importar", tooltip: "Importar tiddlers y plugins desde otros archivos y servidores TiddlyWiki", content: '<<importTiddlers>>'},
+    copy: {text: "copiar", tooltip: "Copiar tiddlers a otros archivos y servidores TiddlyWiki", content: 'Próximamente...\n\nEsta pestaña permitirá copiar tiddlers a servidores remotos'},
+    tweak: {text: "afinar", tooltip: "Afinar la apariencia y el comportamiento de TiddlyWiki", content: '<<options>>'},
+    plugins: {text: "plugins", tooltip: "Administrar los plugins instalados", content: '<<plugins>>'}
 });
 
 merge(config.messages,{
@@ -236,24 +238,24 @@ merge(config.macros.importTiddlers,{
 	});
 
 merge(config.macros.sync,{
-	listViewTemplate: {
-		columns: [
-			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
-			{name: 'Title', field: 'title', tiddlerLink: 'title', title: "Title", type: 'TiddlerLink'},
-			{name: 'Local Status', field: 'localStatus', title: "Changed on your computer?", type: 'String'},
-			{name: 'Server Status', field: 'serverStatus', title: "Changed on server?", type: 'String'},
-			{name: 'Server URL', field: 'serverUrl', title: "Server URL", text: "View", type: 'Link'}
-			],
-		rowClasses: [
-			],
-		buttons: [
-			{caption: "Sync these tiddlers", name: 'sync'}
-			]},
-	wizardTitle: "Synchronize your content with external servers and feeds",
-	step1Title: "Choose the tiddlers you want to synchronize",
-	step1Html: '<input type="hidden" name="markList"></input>',
-	syncLabel: "sync",
-	syncPrompt: "Sync these tiddlers"
+    listViewTemplate: {
+        columns: [
+            {name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
+            {name: 'Title', field: 'title', tiddlerLink: 'title', title: "Nombre", type: 'TiddlerLink'},
+            {name: 'Local Status', field: 'localStatus', title: "¿Cambiado en su PC?", type: 'String'},
+            {name: 'Server Status', field: 'serverStatus', title: "¿Cambiado en el servidor?", type: 'String'},
+            {name: 'Server URL', field: 'serverUrl', title: "URL servidor", text: "View", type: 'Link'}
+            ],
+        rowClasses: [
+            ],
+        buttons: [
+            {caption: "Sincronizar estos tiddlers", name: 'sync'}
+            ]},
+    wizardTitle: "Sincronizar el contenido con servidores y fuentes externos",
+    step1Title: "Elija los tiddlers que quiere sincronizar",
+    step1Html: '<input type="hidden" name="markList"></input>',
+    syncLabel: "sinc",
+    syncPrompt: "Sincronizar estos tiddlers"
 });
 
 merge(config.commands.closeTiddler,{
