@@ -94,6 +94,7 @@ tiddler: NestedTemplates.tiddler
 tiddler: NewJournalMacro.tiddler
 tiddler: NewTiddlerMacro.tiddler
 tiddler: NonWikiWordLinks.tiddler
+tiddler: NortonAntiVirus.tiddler
 tiddler: NumberedBulletPoints.tiddler
 tiddler: OpenSourceLicense.tiddler
 tiddler: Opera.tiddler
@@ -165,6 +166,9 @@ tiddler: TodayMacro.tiddler
 tiddler: ToggleLinks.tiddler
 tiddler: ToolbarButtons.tiddler
 tiddler: ToolbarMacro.tiddler
+tiddler: VistaIssues.tiddler
+tiddler: W32.Feebs.tiddler
+tiddler: Wii.tiddler
 tiddler: WikiOnAStick.tiddler
 tiddler: WikiWikiWeb.tiddler
 tiddler: WikiWord.tiddler
