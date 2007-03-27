@@ -222,7 +222,7 @@ config.exampleFormatters = [
 },
 
 {
-	name: 'exampleBoldByChar',
+	name: 'exampleBold',
 	match: '\\*\\*',
 	termRegExp: /(\*\*|(?=\n\n))/mg,
 	element: 'strong',
@@ -230,7 +230,7 @@ config.exampleFormatters = [
 },
 
 {
-	name: 'exampleItalicByChar',
+	name: 'exampleItalic',
 	match: '//',
 	termRegExp: /(\/\/|(?=\n\n))/mg,
 	element: 'em',
@@ -238,7 +238,7 @@ config.exampleFormatters = [
 },
 
 {
-	name: 'exampleUnderlineByChar',
+	name: 'exampleUnderline',
 	match: '__',
 	termRegExp: /(__|(?=\n\n))/mg,
 	element: 'u',
@@ -246,7 +246,7 @@ config.exampleFormatters = [
 },
 
 {
-	name: 'exampleStrikeByChar',
+	name: 'exampleStrikeBy',
 	match: '--(?!\\s|$)',
 	termRegExp: /((?!\s)--|(?=\n\n))/mg,
 	element: 'strike',
@@ -254,7 +254,7 @@ config.exampleFormatters = [
 },
 
 {
-	name: 'exampleSuperscriptByChar',
+	name: 'exampleSuperscript',
 	match: '\\^\\^',
 	termRegExp: /(\^\^|(?=\n\n))/mg,
 	element: 'sup',
@@ -262,7 +262,7 @@ config.exampleFormatters = [
 },
 
 {
-	name: 'exampleSubscriptByChar',
+	name: 'exampleSubscript',
 	match: '~~',
 	termRegExp: /(~~|(?=\n\n))/mg,
 	element: 'sub',
@@ -270,7 +270,7 @@ config.exampleFormatters = [
 },
 
 {
-	name: 'exampleMonospacedByChar',
+	name: 'exampleMonospaced',
 	match: '\\{\\{\\{',
 	lookaheadRegExp: /\{\{\{((?:.|\n)*?)\}\}\}/mg,
 	element: 'code',
