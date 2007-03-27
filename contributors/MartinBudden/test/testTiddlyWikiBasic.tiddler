@@ -1,0 +1,15 @@
+<div title="testTiddlyWikiBasic" modifier="MartinBudden" created="200703240000" tags="test">
+<pre>''bold''
+
+//italic//
+
+normal
+
+--strike--
+
+__underline__
+
+''bold'' //italic// normal --strike-- __underline__
+
+</pre>
+</div>
