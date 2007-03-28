@@ -101,10 +101,15 @@
             
             else if ( $action == "removeuser") {
                 $configstr = file_get_contents($configfile);
-                $configstr = preg_replace("/.*$user.*\n/i","",$configstr);
+                $userstrchanged = preg_replace("/.*\"$user\" =>.*\n/i","",$configstr);
                 
-                writeToFile($configfile, $configstr);
-                $data .= "removeuser:true,";
+                if ( $configstr == $userstrchanged )
+                    $data .= "removeuser:false,message:'The username was not found.',";
+                    
+                else {
+                    writeToFile($configfile, $userstrchanged);
+                    $data .= "removeuser:true,";
+                }
             }
             
             else if ( $action == "clearall") {
