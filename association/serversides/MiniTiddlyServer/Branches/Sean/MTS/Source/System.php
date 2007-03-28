@@ -219,10 +219,15 @@
                global $newStoreMap;
                global $markupBlockData;
                 if (isset($newStoreMap[$block]))
-                   $text = $newStoreMap[$block][1];
+                   $text = fixBlockText($newStoreMap[$block][1]);
                 else
                    $text = $markupBlockData[$block][2];
                 return $text;
+            }
+            
+            // Get the &lt; and the \n out of markup areas
+            function fixBlockText($text) {
+                return htmlspecialchars_decode(preg_replace ('/\\\n/i',' ',$text));
             }
             
             function createTiddlerMap ($tiddlersDiv){
@@ -266,6 +271,8 @@
             }
             
             $updatesDiv = decodePost($_POST['data']);
+            
+            //~ echo "UPDATES DIVE : " .$updatesDiv;
 
             $savetype = decodePost($_POST['savetype']);
             
