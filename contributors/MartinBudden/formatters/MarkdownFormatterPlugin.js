@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MarkdownFormatterPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MarkdownFormatterPlugin.js|
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Date:''|Mar 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -21,6 +21,8 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1))
 	{alertAndThrow('MarkdownFormatterPlugin requires TiddlyWiki 2.1 or later.');}
 
 markdownFormatter = {}; // 'namespace' for local functions
+markdownFormatter.urls = {};
+markdownFormatter.titles = {};
 
 markdownDebug = function(out,str)
 {
@@ -235,6 +237,36 @@ config.markdownFormatters = [
 },
 
 {
+	// Link definitions are in the form: ^[id]: url "optional title"
+	name: 'markdownLinkDefinition',
+	//match: '^[ ]{0,3}\\[(.+)\\]:',
+	match: '^\\[id\\]:',
+	lookaheadRegExp: /^[ ]{0,3}\[(.+)\]:[ \t]*\n?[ \t]*<?(\S+?)>?[ \t]*\n?[ \t]*(?:(\n*)["(](.+?)[")][ \t]*)?(?:\n+|\Z)/gm,
+	handler: function(w)
+	{
+//markdownDebug(w.output,"mld:"+w.source.substr(w.matchStart,50));
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+
+/*markdownDebug(w.output,"markdownLinkDefinition");
+markdownDebug(w.output,"lm:"+lookaheadMatch);
+markdownDebug(w.output,"lm1:"+lookaheadMatch[1]);
+markdownDebug(w.output,"lm2:"+lookaheadMatch[2]);
+markdownDebug(w.output,"lm3:"+lookaheadMatch[3]);
+markdownDebug(w.output,"lm4:"+lookaheadMatch[4]);*/
+			if(!lookaheadMatch[3]) {
+				var id = lookaheadMatch[1].toLowerCase();
+				markdownFormatter.urls[id] = lookaheadMatch[2];
+				if(lookaheadMatch[4])
+					markdownFormatter.titles[id] = lookaheadMatch[4].replace(/"/g,"&quot;");
+				w.nextMatch = this.lookaheadRegExp.lastIndex;
+			}
+		}
+	}
+},
+
+{
 	//' First, handle reference-style links: [link text] [id]
 	name: 'markdownReferenceLink',
 	match: '\\[(?:(?:\\[[^\\]]*\\]|[^\\[\\]])*)\\][ ]?(?:\\n[ ]*)?\\[',
@@ -251,15 +283,21 @@ config.markdownFormatters = [
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-/*markdownDebug(w.output,"lm:"+lookaheadMatch);
+/*markdownDebug(w.output,"markdownReferenceLink");
+markdownDebug(w.output,"lm:"+lookaheadMatch);
 markdownDebug(w.output,"lm1:"+lookaheadMatch[1]);
 markdownDebug(w.output,"lm2:"+lookaheadMatch[2]);
 markdownDebug(w.output,"lm3:"+lookaheadMatch[3]);
 markdownDebug(w.output,"lm4:"+lookaheadMatch[4]);*/
-			var link = lookaheadMatch[3];
+			var id = lookaheadMatch[3].toLowerCase();
+			var link = markdownFormatter.urls[id];
+/*markdownDebug(w.output,"id:"+id);
+markdownDebug(w.output,"link:"+link);*/
 			var text = lookaheadMatch[2];
-			var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
-			createTiddlyText(e,text);
+			if(link) {
+				var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
+				createTiddlyText(e,text);
+			}
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	}
@@ -272,13 +310,27 @@ markdownDebug(w.output,"lm4:"+lookaheadMatch[4]);*/
 	lookaheadRegExp: /(\[((?:\[[^\]]*\]|[^\[\]])*)\]\([ \t]*()<?(.*?)>?[ \t]*((['"])(.*?)\6[ \t]*)?\))/mg,
 	handler: function(w)
 	{
-//	if (m7 == undefined) m7 = "";
-//	var whole_match = m1;
-//	var link_text   = m2;
-//	var link_id	 = m3.toLowerCase();
-//	var url		= m4;
-//	var title	= m7;
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+			var link = lookaheadMatch[4];
+			var text = lookaheadMatch[2];
+			if(link) {
+				var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
+				createTiddlyText(e,text);
+			}
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+		}
+	}
+},
 
+{
+	// reference-style labeled images: ![alt text][id]
+	name: 'markdownReferenceImage',
+	match: '!\\[.*?\\]\\[',
+	lookaheadRegExp: /(!\[(.*?)\][ ]?(?:\n[ ]*)?\[(.*?)\])/mg,
+	handler: function(w)
+	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
@@ -291,12 +343,51 @@ markdownDebug(w.output,"lm4:"+lookaheadMatch[4]);*/
 	}
 },
 
+{
+	// inline images: ![alt text](url "optional title")
+	name: 'markdownInlineImage',
+	match: '!\\[.*?\\]\\(',
+	lookaheadRegExp: /(!\[(.*?)\]\s?\([ \t]*<?(\S+?)>?[ \t]*((['"])(.*?)\5[ \t]*)?\))/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+			var img = createTiddlyElement(w.output,"img");
+			if(lookaheadMatch[2])
+				img.alt = lookaheadMatch[2];
+			if(lookaheadMatch[6])
+				img.title = lookaheadMatch[6];
+			img.src = lookaheadMatch[3];
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+		}
+	}
+},
+
 /*{
 	name: 'markdownUrlLink',
 	match: config.textPrimitives.urlPattern,
 	handler: function(w)
 	{
 		w.outputText(createExternalLink(w.output,w.matchText),w.matchStart,w.nextMatch);
+	}
+},*/
+
+/*{
+	name: 'markdownBackslashAsterisk',
+	match: '\\\\*',
+	handler: function(w)
+	{
+		createTiddlyElement(w.output,'span').innerHTML = '&#42;';
+	}
+},
+
+{
+	name: 'markdownBackslashUnderscore',
+	match: '\\\\_',
+	handler: function(w)
+	{
+		createTiddlyElement(w.output,'span').innerHTML = '&#95;';
 	}
 },*/
 
@@ -364,6 +455,15 @@ markdownDebug(w.output,"lm4:"+lookaheadMatch[4]);*/
 },
 
 {
+	name: "lineBreak",
+	match: "\\n|<br ?/?>",
+	handler: function(w)
+	{
+		createTiddlyElement(w.output,"br");
+	}
+},
+
+{
 	name: 'markdownLineBreak',
 	match: ' {2,}\\n',
 	handler: function(w)
@@ -414,8 +514,8 @@ markdownDebug(w.output,"lm4:"+lookaheadMatch[4]);*/
 
 {
 	name: 'markdownHtmlTag',
-	match: "<(?:[a-zA-Z]{2,}|a)(?:\\s*(?:[a-z]*?=[\"']?[^>]*?[\"']?))*?>",
-	lookaheadRegExp: /<([a-zA-Z]+)((?:\s+[a-z]*?=["']?[^>\/\"\']*?["']?)*?)?\s*(\/)?>/mg,
+	match: "<(?:[a-zA-Z1-6]{2,}|a)(?:\\s*(?:[a-z]*?=[\"']?[^>]*?[\"']?))*?>",
+	lookaheadRegExp: /<([a-zA-Z1-6]+)((?:\s+[a-z]*?=["']?[^>\/\"\']*?["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
