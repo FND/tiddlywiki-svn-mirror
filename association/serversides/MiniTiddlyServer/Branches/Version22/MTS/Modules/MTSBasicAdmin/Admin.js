@@ -11,7 +11,7 @@ config.backstageTasks.push("MTSAdmin");
 config.tasks.MTSAdmin = {
     text: "MTS Admin", 
     tooltip: "MTS Controls and Admin Panel", 
-    content: "",
+    content: ""
 }
 
 //config.backstageTasks = ["save", "tidy","sync","importTask","copy","tweak","plugins"];

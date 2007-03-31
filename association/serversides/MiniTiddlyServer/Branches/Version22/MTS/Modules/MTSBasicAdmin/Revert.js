@@ -27,7 +27,7 @@ function revertWiki(revertTo) {
     
     var postParams ={
         "wrapperScriptName":wrapperScriptName,
-        "sourcePath":       sourcePath,
+        "sourcePath":       sourcePath
     }
        
     ajaxModuleEvent("RevertEvent",ret, {revertfile:revertTo}, postParams);

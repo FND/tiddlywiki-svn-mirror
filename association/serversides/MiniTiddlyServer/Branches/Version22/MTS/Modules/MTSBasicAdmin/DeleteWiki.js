@@ -20,11 +20,11 @@ function deleteWiki() {
             
             // SEND INFO //
             var getParams = {
-                hey:true,
+                hey:true
             }
             var postParams = {
                 "wrapperScriptName":wrapperScriptName,
-                "sourcePath":       sourcePath,
+                "sourcePath":       sourcePath
             }
             
             ajaxModuleEvent("DeleteWikiEvent",ret, getParams, postParams);

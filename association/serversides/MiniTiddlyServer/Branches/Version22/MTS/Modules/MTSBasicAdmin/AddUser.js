@@ -28,7 +28,7 @@
         var params = {
             username: user,
             password: pass,
-            admin: goingToBeAdmin,
+            admin: goingToBeAdmin
         }
       
         ajaxModuleEvent("AddUserEvent",ret,params);

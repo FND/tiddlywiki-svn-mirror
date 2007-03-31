@@ -20,7 +20,7 @@
         }
         
         var params = {
-            username: user,
+            username: user
         }
       
         ajaxModuleEvent("DeleteUserEvent",ret,params);

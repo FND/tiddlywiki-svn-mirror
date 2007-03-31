@@ -27,7 +27,7 @@ function createWiki(form) {
         var params = {
             newWrapper: wrapperpath,
             newSource: sourcepath,
-            template: template,
+            template: template
         }
         
         ajaxModuleEvent("CreateWikiEvent",ret,params);
