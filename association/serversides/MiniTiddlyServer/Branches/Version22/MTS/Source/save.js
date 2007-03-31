@@ -1,3 +1,7 @@
+function generateRss(){};
+function getTime(){};
+
+
 function saveChanges(onlyIfDirty,tiddlers)
 {
 	if(onlyIfDirty && !store.isDirty())
@@ -18,7 +22,7 @@ function saveChanges(onlyIfDirty,tiddlers)
             data:               (store.uploadError) ? store.allTiddlersAsHtml() : store.updatedTiddlersAsHtml(),
             savetype:           (store.uploadError) ? "full":"partial",
             "deletedTiddlers":  store.deletedTiddlersIndex.join("|||||"),
-            rss:                generateRss(),
+            rss:                generateRss()
         }
         
         if ( params.data == "" && params.deletedTiddlers == "") {
@@ -30,16 +34,13 @@ function saveChanges(onlyIfDirty,tiddlers)
         store.deletedTiddlersIndex = [];
         store.unFlagForUpload(store.updatedTiddlersIndex);
         
-        //~ // Must use a post request //
-        //~ openAjaxRequestParams(savepath + "&backup=" + config.options.chkSaveBackups, params, saveReturn, true);
+        // Must use a post request //
         var saveRequest = new AjaxRequest(savepath, saveReturn, {backup:config.options.chkSaveBackups}, params);
         saveRequest.send();
         store.setDirty(false);
 
 }
 
-function generateRss(){};
-function getTime(){};
 
 
 

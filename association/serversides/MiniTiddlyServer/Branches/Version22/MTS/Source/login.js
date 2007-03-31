@@ -21,8 +21,12 @@ var oldOptionHandler = config.macros.option.handler;
 config.macros.option.handler = function (place, macroName, params) {
     oldOptionHandler.apply(this,arguments);
     
-    if ( params[1] == "password" )
-        place.lastChild.setAttribute("type","password");
+     if (params[1] == "password") {
+        try { // Doesn't work in IE // 
+            place.lastChild.setAttribute("type","password");
+        }
+        catch (e) { }
+    }
 }
 
 
