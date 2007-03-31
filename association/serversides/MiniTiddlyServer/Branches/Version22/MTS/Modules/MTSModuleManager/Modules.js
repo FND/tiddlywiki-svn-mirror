@@ -65,7 +65,7 @@ config.backstageTasks.push("MTSModules");
 config.tasks.MTSModules = {
     text: "MTS Modules", 
     tooltip: "MTS Controls and Admin Panel", 
-    content: "",
+    content: ""
 }
 
 var modsOldLoggedIn = adminLoggedIn;
