@@ -1,8 +1,8 @@
 <<fastList
-	title:'Active Projects'
+	title:'Someday/Maybe Projects'
 	mode:global
 	startTag:Project
-	tags:'!Complete && !Someday/Maybe'
+	tags:'!Complete && Someday/Maybe'
 	group:Area
 	view:project
 >>

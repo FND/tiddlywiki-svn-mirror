@@ -23,7 +23,8 @@ make_tw {
 
   add_tiddlers_from_file "misc/Components.divs"
 
-  package_as_from_dir    "misc/DashboardsAndPanels.js", "dashesandpanels"
+  package_as_from_dir    "misc/Dashboards.js", "dashes"
+  package_as_from_dir    "misc/Panels.js", "panels"
 
   package_as_from_dir    "misc/MonkeyGTDLists.js", "lists"
 

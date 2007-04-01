@@ -58,6 +58,7 @@ isOpen,null,"none"));},300);
 
 	createSlider: function(place,title,tooltip){
 		var btn = createTiddlyButton(place,title,tooltip,this.onClickSlider);
+		btn.className = "accordionButton";
 		var panel = createTiddlyElement(place,"div",null,"sliderPanel",null);
 		panel.style.display = "none";
 		return panel;

@@ -1,0 +1,7 @@
+<<fastList
+	title:'Someday/Maybe Projects'
+	mode:global
+	startTag:Project
+	tags:'!Complete && Someday/Maybe'
+	view:project
+>>

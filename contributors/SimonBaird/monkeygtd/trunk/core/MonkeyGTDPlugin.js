@@ -15,6 +15,8 @@ config.mGTD = {
 
 	// wait: "\u231B", // "hourglass"
 	wait: "W", // 
+
+	someday: "S/M",
 	
 	config: {}, // gets populated by populateLists
 

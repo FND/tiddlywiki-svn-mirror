@@ -23,7 +23,7 @@
 }
 .mListTitle {
 	font-weight:bold;
-	background-color:[[ColorPalette::TertiaryPale]];
+	/* background-color:[[ColorPalette::TertiaryPale]]; */
 	/* color:[[ColorPalette::TertiaryMid]]; */
 	color:#555;
 	display:block;
@@ -36,7 +36,8 @@
 	border:solid 1px [[ColorPalette::TertiaryMid]];
 	margin:0 0.5em 0 0;
 	padding-bottom:1em;
-	background-color:#f8f8f8;
+	/* background-color:#f8f8f8; */
+	background-color:white;
 }
 .mList ul {
 	margin:0.25em 0 0;
@@ -81,6 +82,8 @@
 .mList .WaitingForButton.on  {zborder-style:none;background:#fdb;color:#740;}
 .mList .NextButton.off    {zborder-style:none;background:#fff;color:#ccc;}
 .mList .NextButton.on     {zborder-style:none;background:#cfa;color:#449;}
+
+.mList a.button { display:inline!important; } /* counteract accordion styles? */
 
 .mList h2 {
 		background-color:#f8f8f8;
@@ -175,18 +178,41 @@ html>body #topMenu {background-image:url(http://simonbaird.com/monkeygtd/logo-tr
 	border-style:none;
 }
 
-.tab {
+.tiddler .tab {
 	-moz-border-radius-topleft: 0.5em;
 	-moz-border-radius-topright: 0.5em;
 	font-size:120%;
 	border-width:2px;
+	border-bottom-width:2px;
 	padding-left:0.75em;
 	padding-right:0.75em;
 	font-weight:bold;
 	/* float:left; */
 }
 
-.tabset {
+.tiddler .tabSelected {
+	border-bottom-color:none!important;
+}
+
+.tiddler .tabContents {
+	border-width:1px;
+}
+
+.tiddler .tabset {
+}
+
+table.noBorder, .threeCols table {
+	border-collapse:separate;
+	border-style:none;
+	padding:0;
+	margin:0;
+	width:100%;
+}
+
+table.noBorder td, .threeCols table td {
+	vertical-align:top;
+	border-style:none;
+	width:33%;
 }
 
 [[datepicker]]

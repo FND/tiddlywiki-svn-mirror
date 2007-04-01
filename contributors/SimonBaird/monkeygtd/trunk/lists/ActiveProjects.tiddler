@@ -3,6 +3,5 @@
 	mode:global
 	startTag:Project
 	tags:'!Complete && !Someday/Maybe'
-	group:Area
 	view:project
 >>

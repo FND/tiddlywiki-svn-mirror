@@ -20,28 +20,64 @@ merge(config.macros,{
 			// not scanning every tiddler each time
 			// will use the indexes from IndexedTagsPlugin
 			var startTag = getParam(parsedParams,"startTag");
+
+			// eg, "Next && !Done"
 			var tagExpr = getParam(parsedParams,"tags");
+
+			// additional filter. gets eval'ed
+			var whereExpr = getParam(parsedParams,"where","true");
+
+			// sort by expression
 			var sortBy = getParam(parsedParams,"sort","title");
+
+			// group by another tag
 			var groupBy = getParam(parsedParams,"group","");
+
+			// tag expression to apply to the group by headings 
+			// to only show ones we want to see
 			var gTagExpr = getParam(parsedParams,"gTags","");
+
+			// defines how do we display each item in the list
+			// see renderTiddler
 			var viewType = getParam(parsedParams,"view","plain");
+
+			// defines how we render the heading titles
+			// see renderTiddler
 			var gViewType = getParam(parsedParams,"gView","plain");
-			var listTitle = getParam(parsedParams,"title","List");
+
+			// the title
+			var listTitle = getParam(parsedParams,"title","");
+
+			// if set to "yes" then we ignore the realm and show everthing
 			var ignoreRealm = getParam(parsedParams, "ignoreRealm","no");
+
+			// two modes, local means only things tagged with the current tiddler
+			// use for project etc, and global means show everything
 			var mode = getParam(parsedParams,"local");
+
+			// extra class for the list in case you need it
+			var className = getParam(parsedParams,"class","");
+
+			// only relevant when using group
+			var showEmpty = getParam(parsedParams,"showEmpty","no");  
+
+			// only relevant using group
+			var onlyShowEmpty = getParam(parsedParams,"onlyShowEmpty","no"); 
 
 			if (!startTag)
 				if (mode != "global")
 					startTag = tiddler.title;
 
-			var listDiv = createTiddlyElement(place,"div",null,"mList");
+			var listDiv = createTiddlyElement(place,"div",null,"mList "+className);
 
 			//var listTitleSpan = createTiddlyElement(listDiv,"span",null,"mListTitle");
 			//createTiddlyText(listTitleSpan,listTitle);
 
 			// come get some... EYE CANDY!
-			var niceGradient = '<html><div class="mListTitle" macro="gradient vert #f1f1f1 #efefef #eeeeee #ececec #eaeaea #e7e7e7 #e4e4e4 #e1e1e1 #cccccc #cccccc #cccccc #cccccc #cccccc #cccccc #c8c8c8 #c0c0c0 #b4b4b4 #a4a4a4">%0</div></html>';
-			wikify(niceGradient.format([listTitle]),listDiv);
+			if (listTitle != "") {
+				var niceGradient = '<<gradient vert #f1f1f1 #efefef #eeeeee #ececec #eaeaea #e7e7e7 #e4e4e4 #e1e1e1 #cccccc #cccccc #cccccc #cccccc #cccccc #cccccc #c8c8c8 #c0c0c0 #b4b4b4 #a4a4a4>>{{mListTitle{%0}}}>>';
+				wikify(niceGradient.format([listTitle]),listDiv);
+			}
 
 			var listRefreshContainer = createTiddlyElement(listDiv,"div");
 
@@ -59,6 +95,8 @@ merge(config.macros,{
 			listRefreshContainer.setAttribute("viewType",viewType);
 			listRefreshContainer.setAttribute("gViewType",gViewType);
 			listRefreshContainer.setAttribute("ignoreRealm",ignoreRealm);
+			listRefreshContainer.setAttribute("showEmpty",showEmpty);
+			listRefreshContainer.setAttribute("onlyShowEmpty",onlyShowEmpty);
 
 			this.refresh(listRefreshContainer);
 
@@ -158,6 +196,34 @@ merge(config.macros,{
 					return "!![["+t.title+"]]\n";
 				else
 					return "*[["+t.title+"]]\n";
+			},
+
+			project: function(t,isHeading) {
+
+				// has to be generic class for headings not "action"
+				var useClass = "action2";
+				if (isHeading)
+					useClass = "action";
+
+				return "{{"+useClass+"{"+
+					"@@font-size:95%;"+
+					"<<tTag tag:Complete title:[["+t.title+"]] label:''>>"+
+					"<<tTag tag:Someday/Maybe mode:text text:{{config.mGTD.someday}} title:[["+t.title+"]]>>"+
+					"<<tTag tag:[[Starred]] mode:text text:{{config.mGTD.star}} title:[["+t.title+"]]>> "+
+					"@@"+
+					"[["+t.title+"]] "+
+					"}}}\n";
+			},
+
+			project: function(t) {
+				return ""+
+					'|<<toggleTag Processed [['+t.title+']] ->>|[['+t.title+']]'+
+					'|<<toggleTag Processed [['+t.title+']] ->>|[['+t.title+']]'+
+					'|'+
+					((store.getValue('MonkeyGTDSettings','mgtd.usemdy')=='true')?
+						(t.mGet('tmonth')+'/'+t.mGet('tday')):
+						(t.mGet('tday')+'/'+t.mGet('tmonth')))+
+					'/'+t.mGet('tyear')+'|\\n';
 			}
 
 		},
@@ -181,8 +247,8 @@ merge(config.macros,{
 
 			var firstError = true;
 
-			// this realm stuff sucks a lot..
-			// please rewrite
+			// this realm stuff could probably be done better
+			// but at least it works
 			for (var i=0;i<startList.length;i++) {
 				var tiddler = store.fetchTiddler(startList[i]);
 				var test = false;

@@ -1,8 +1,21 @@
-{{accordionEffect{/%
-%/<<slider2 'ActiveProjectsByArea' 'Active Projects By Area'>>/%
-%/<<slider2 'ActiveProjectsByArea' 'Active Projects By Area'>>/%
-%/}}}
-	
+<<hideIf eval "store.getValue('DevTest','GroupOn') == 'true'">>
+<<tabs chkBlahBlah
+	'Projects (three column)' Projects Projects
+	'Active Projects' 'Active Projects' ActiveProjects
+	'Someday/Maybe Projects' 'Someday/Maybe Projects' SomedayProjects
+	'Complete Projects' 'Complete Projects' CompleteProjects
+>>
+<<endIf>>
+<<showIf eval "store.getValue('DevTest','GroupOn') == 'true'">>
+<<tabs chkBlahBlah
+	'Projects (three column)' Projects ProjectsByArea
+	'Active Projects' 'Active Projects' ActiveProjectsByArea
+	'Someday/Maybe Projects' 'Someday/Maybe Projects' SomedayProjectsByArea
+	'Complete Projects' 'Complete Projects' CompleteProjectsByArea
+>>
+<<endIf>>
+
+/%
 <<fastList
 	title:'Next Actions'
 	startTag:Action
@@ -19,3 +32,18 @@
 	tags:'Next && !Done'
 	view:action
 >>
+<<tField tag:GroupOn label:'Group projects by area'>>
+<<hideIf eval "store.getValue('DevTest','GroupOn') == 'true'">>/%
+%/<<slider2 'Projects' 'Projects (three column)'>>/%
+%/<<slider2 'ActiveProjects' 'Active Projects'>>/%
+%/<<slider2 'SomedayProjects' 'Someday/Maybe Projects'>>/%
+%/<<slider2 'CompleteProjects' 'Completed Projects'>>/%
+%/<<endIf>>/%
+%/<<showIf eval "store.getValue('DevTest','GroupOn') == 'true'">>/%
+%/<<slider2 'ProjectsByArea' 'Projects (three column)'>>/%
+%/<<slider2 'ActiveProjectsByArea' 'Active Projects'>>/%
+%/<<slider2 'SomedayProjectsByArea' 'Someday/Maybe Projects'>>/%
+%/<<slider2 'CompleteProjectsByArea' 'Completed Projects'>>/%
+%/<<endIf>>
+	
+%/

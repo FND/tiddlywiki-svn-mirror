@@ -1,0 +1,7 @@
+<<fastList
+	title:'Complete Projects'
+	mode:global
+	startTag:Project
+	tags:Complete
+	view:project
+>>

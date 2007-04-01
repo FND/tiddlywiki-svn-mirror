@@ -1,6 +1,7 @@
 /*{{{*/
-.accordionEffect .button{ display: block; color: #fff; text-align: left;
+.accordionButton{ display: block; color: #fff; text-align: left;
 font-weight: bold; line-height: 140%;
+font-size:100%;
 border-top: solid 1px #bbb;
 border-left: solid 1px #bbb;
 border-right: solid 1px #888;
@@ -8,15 +9,17 @@ border-bottom: solid 1px #888;
 background: #999;
 margin-left: -0.3em;
 padding: 0 1px 1px 20px;
+padding:0.25em;
 }
 
-.accordionEffect .button:hover{
+.accordionButton:hover{
 border-top: solid 1px #777;
 border-left: solid 1px #777;
 border-right: solid 1px #bbb;
 border-bottom: solid 1px #bbb;
 background: #888;
 padding: 1px 0 0 21px;
+padding:0.25em;
 }
 /*}}}*/
 /*{{{*/
