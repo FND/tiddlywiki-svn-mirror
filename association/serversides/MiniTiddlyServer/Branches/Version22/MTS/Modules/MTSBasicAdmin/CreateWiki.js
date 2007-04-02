@@ -9,7 +9,10 @@ function createWiki(form) {
     
     var wrapperpath = form.wrapperpath.value;
     var sourcepath = form.sourcepath.value;
-    var template = form.template.value;
+    var template = form.template.options[form.template.selectedIndex].value;
+    
+    if ( template == undefined || template == "")
+        template = form.template.options[form.template.selectedIndex].text;
     
     if ( wrapperpath.indexOf(".php") < 0 ) 
         alert("The wrapper must be a new php file");

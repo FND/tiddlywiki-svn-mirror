@@ -40,8 +40,17 @@
     
     $wrapperpath = $dirShift.$newWrapper;
     $sourcepath = $dirShift.$newSource;
+    
+    if ($templatename == $serverInfo->TemplatesDirectory) 
+        $serverResponse->throwError("The template name was lost in the request");
+    
+    else if (!file_exists($templatename))
+        $serverResponse->throwError("The template of the name '$templatename' does not exit");
+        
+    else if (strpos($templatename, ".htm") == false)
+        $serverResponse->throwError("The template of the name '$templatename' is not an html file");
 
-    if (file_exists($wrapperpath))
+    else if (file_exists($wrapperpath))
         $serverResponse->throwError("A wrapper file of the name '$newWrapper' already exists");
         
     else if (file_exists($sourcepath))
