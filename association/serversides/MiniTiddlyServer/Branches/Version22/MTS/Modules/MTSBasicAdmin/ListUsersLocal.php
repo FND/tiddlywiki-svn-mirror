@@ -31,7 +31,7 @@
     echo "<table>";
     $userlist = $userControl->getAllUsers();
     foreach ($userlist as $username)
-        echo "<tr><td>$username</td><td><a href='javascript:;' onClick='deleteUser(\"$username\", this.parentNode.parentNode);'>[ X ]</a></td></tr>";
+        echo "<tr><td>$username</td><td><input type='submit' value='[ X ]' onClick='deleteUser(\"$username\", this.parentNode.parentNode);'/></td></tr>";
     echo "</table>";
 
 ?>

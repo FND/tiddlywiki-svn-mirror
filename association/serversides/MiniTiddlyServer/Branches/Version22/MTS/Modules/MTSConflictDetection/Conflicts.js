@@ -58,6 +58,7 @@ saveReturn = function (response) {
         var conflictfile = "MTS/Backups/" + response.conflictfile;
 
         displayMessage("Conflict! Please refresh and merge your changes into this copy.",conflictfile);
+        store.setDirty(true);
         
         for (var i in response.tiddlers) {
             if (typeof(response.tiddlers[i]) == "string")
