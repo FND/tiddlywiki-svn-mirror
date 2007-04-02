@@ -27,7 +27,7 @@
 // Insert Actual Wiki // 
 
     // Open Source File // 
-    $wikipath = "config.html";
+    $wikipath = "admin.html";
     
     if (!$handle = fopen($wikipath, 'r')) 
         $data .= "error:true, message:'Cannot open file ($wikipath)',";
