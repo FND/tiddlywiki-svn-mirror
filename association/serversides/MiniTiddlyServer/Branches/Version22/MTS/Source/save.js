@@ -25,20 +25,36 @@ function saveChanges(onlyIfDirty,tiddlers)
             rss:                generateRss()
         }
         
+        // Handle for extending // 
+        params = alterSaveParams(params);
+        
         if ( params.data == "" && params.deletedTiddlers == "") {
             displayMessage("There was nothing to save");
             return;
         }
-
-        //reset tiddlers that were marked for upload
-        store.deletedTiddlersIndex = [];
-        store.unFlagForUpload(store.updatedTiddlersIndex);
         
-        // Must use a post request //
-        var saveRequest = new AjaxRequest(savepath, saveReturn, {backup:config.options.chkSaveBackups}, params);
-        saveRequest.send();
-        store.setDirty(false);
+        //reset tiddlers that were marked for upload
+        resetTiddlersMarkedForUpload();
+        saveAjaxRequest(savepath, saveReturn, {backup:config.options.chkSaveBackups}, params);
+        postSave();
+}
 
+function alterSaveParams(params) {
+    return params;
+}
+
+function resetTiddlersMarkedForUpload () {
+    store.deletedTiddlersIndex = [];
+    store.unFlagForUpload(store.updatedTiddlersIndex);
+}
+
+function saveAjaxRequest(savepath, saveReturn, getParams, postParams) {
+    var saveRequest = new AjaxRequest(savepath, saveReturn, getParams, postParams);
+        saveRequest.send();
+}
+
+function postSave () {
+    store.setDirty(false);
 }
 
 
