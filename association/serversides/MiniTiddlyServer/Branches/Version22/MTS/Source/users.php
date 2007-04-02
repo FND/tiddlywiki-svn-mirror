@@ -1,15 +1,9 @@
 <?php
 $users = array(
 	"admin" => "admin",
-	"henry" => "henry",
-	"monkey" => "monkey",
-	"bob" => "bbbbb",
-	"nonadmin" => "nonadmin",
+    "guest" => "guest",
 );
 $admins = array(
 	"admin" => true,
-	"henry" => true,
-	"monkey" => true,
-	"bob" => true,
 );
 ?>
