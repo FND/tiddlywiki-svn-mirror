@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MarkdownFormatterPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MarkdownFormatterPlugin.js|
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|Mar 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -40,22 +40,26 @@ wikify = function(source,output,highlightRegExp,tiddler)
 	}
 };
 
-config.formatterHelpers.setAttributesFromParams = function(e,p)
+config.formatterHelpers.setAttributesFromParams = function(e,p,w)
 {
 	var re = /\s*(.*?)=(?:(?:"(.*?)")|(?:'(.*?)')|((?:\w|%|#)*))/mg;
 	var match = re.exec(p);
 	while(match) {
 		var s = match[1].unDash();
+		var t = '';
+		if(s=='id') {
+			t = w.tiddler ? w.tiddler.title + ':' : '';
+		}
 		if(s=='bgcolor') {
 			s = 'backgroundColor';
 		}
 		try {
 			if(match[2]) {
-				e.setAttribute(s,match[2]);
+				e.setAttribute(s,t+match[2]);
 			} else if(match[3]) {
-				e.setAttribute(s,match[3]);
+				e.setAttribute(s,t+match[3]);
 			} else {
-				e.setAttribute(s,match[4]);
+				e.setAttribute(s,t+match[4]);
 			}
 		}
 		catch(ex) {}
@@ -65,7 +69,7 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 
 config.markdownFormatters = [
 
-	// Setext-style headers:
+// Setext-style headers:
 {
 	name: 'markdownSetextHeading1',
 	match: '^(?:.+)[ \\t]*\\n=+[ \\t]*\\n+',
@@ -313,10 +317,24 @@ markdownDebug(w.output,"link:"+link);*/
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+/*markdownDebug(w.output,"lm:"+lookaheadMatch);
+markdownDebug(w.output,"lm1:"+lookaheadMatch[1]);
+markdownDebug(w.output,"lm2:"+lookaheadMatch[2]);
+markdownDebug(w.output,"lm3:"+lookaheadMatch[3]);
+markdownDebug(w.output,"lm4:"+lookaheadMatch[4]);*/
 			var link = lookaheadMatch[4];
 			var text = lookaheadMatch[2];
 			if(link) {
-				var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
+				if(link.substr(0,1)=='#') {
+					var t = w.tiddler ? w.tiddler.title + ':' : '';
+					link = link.substr(1);
+					//displayMessage("ll:"+t+link);
+					var e = createTiddlyElement(w.output,'a');
+					e.setAttribute('href','#' + t + link);
+					e.title = text;
+				} else {
+					e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
+				}
 				createTiddlyText(e,text);
 			}
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
@@ -375,7 +393,7 @@ markdownDebug(w.output,"link:"+link);*/
 
 /*{
 	name: 'markdownBackslashAsterisk',
-	match: '\\\\*',
+	match: '\\*',
 	handler: function(w)
 	{
 		createTiddlyElement(w.output,'span').innerHTML = '&#42;';
@@ -384,7 +402,7 @@ markdownDebug(w.output,"link:"+link);*/
 
 {
 	name: 'markdownBackslashUnderscore',
-	match: '\\\\_',
+	match: '\\_',
 	handler: function(w)
 	{
 		createTiddlyElement(w.output,'span').innerHTML = '&#95;';
@@ -436,14 +454,30 @@ markdownDebug(w.output,"link:"+link);*/
 	}
 },
 
-/*{
+{
 	name: 'markdownCode',
 	match: '`(?![\\s`])',
-	lookaheadRegExp: /`(?!\s)(?:.*?)(?!\s)`(?=[$\s\.\*\-_,])/mg,
-	termRegExp: /((?!\s)`(?=[$\s\.\*\-_,]))/mg,
+	lookaheadRegExp: /(`+)([^\r]*?[^`])\1(?!`)/mg,
 	element: 'code',
-	handler: config.formatterHelpers.singleCharFormat
-},*/
+	handler: function(w)
+	{
+//displayMessage("hello");
+//markdownDebug(w.output,"s:"+w.source.substr(w.matchStart,50));
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+//markdownDebug(w.output,"lm:"+lookaheadMatch);
+//markdownDebug(w.output,"lm1:"+lookaheadMatch[1]);
+//markdownDebug(w.output,"lm2:"+lookaheadMatch[2]);
+//markdownDebug(w.output,"lm3:"+lookaheadMatch[3]);
+			var text = lookaheadMatch[2];
+			if(config.browser.isIE)
+				text = text.replace(/\n/g,'\r');
+			createTiddlyElement(w.output,this.element,null,null,text);
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+		}
+	}
+},
 
 {
 	name: 'markdownParagraph',
@@ -515,21 +549,55 @@ markdownDebug(w.output,"link:"+link);*/
 {
 	name: 'markdownHtmlTag',
 	match: "<(?:[a-zA-Z1-6]{2,}|a)(?:\\s*(?:[a-z]*?=[\"']?[^>]*?[\"']?))*?>",
-	lookaheadRegExp: /<([a-zA-Z1-6]+)((?:\s+[a-z]*?=["']?[^>\/\"\']*?["']?)*?)?\s*(\/)?>/mg,
+	//lookaheadRegExp: /<[a-z\/!$]("[^"]*"|'[^']*'|[^'">])*>/mg,
+	lookaheadRegExp: /<([a-zA-Z1-6]+)(>?)((?:\s+[a-z]*?=["']?[^>\"\']*?["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
 	{
+//markdownDebug(w.output,"s:"+w.source.substr(w.matchStart,50));
+//displayMessage("s:"+w.source.substr(w.matchStart,80));
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+//markdownDebug(w.output,"lm:"+lookaheadMatch);
+//markdownDebug(w.output,"lm1:"+lookaheadMatch[1]);
+//markdownDebug(w.output,"lm2:"+lookaheadMatch[2]);
+//markdownDebug(w.output,"lm3:"+lookaheadMatch[3]);
 			var e =createTiddlyElement(w.output,lookaheadMatch[1]);
-			if(lookaheadMatch[2]) {
-				config.formatterHelpers.setAttributesFromParams(e,lookaheadMatch[2]);
-			}
 			if(lookaheadMatch[3]) {
+				config.formatterHelpers.setAttributesFromParams(e,lookaheadMatch[3],w);
+			}
+			if(lookaheadMatch[4]) {
 				w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
 			} else {
 				w.subWikify(e,'</'+lookaheadMatch[1]+'>');
 			}
+		}
+	}
+},
+
+{
+	name: 'markdownPreCodeBlock',
+	match: '(?:\\n\\n|^)(?:(?:[ ]{4}|\t)[^<\\*\\-\\+]*\\n+)',
+	lookaheadRegExp: /(?:\n\n|^)((?:(?:[ ]{4}|\t).*\n+)+)(\n*[ ]{0,3}[^ \t\n]|(?=~0))/mg,
+	element: 'code',
+	handler: function(w)
+	{
+//markdownDebug(w.output,"s:"+w.source.substr(w.matchStart,50));
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+//markdownDebug(w.output,"lm:"+lookaheadMatch);
+//markdownDebug(w.output,"lm1:"+lookaheadMatch[1]);
+//markdownDebug(w.output,"lm2:"+lookaheadMatch[2]);
+//markdownDebug(w.output,"lm3:"+lookaheadMatch[3]);
+			var text = lookaheadMatch[1];
+			if(config.browser.isIE)
+				text = text.replace(/\n/g,'\r');
+			//# trim leading and trailing newlines
+			//text = text.replace(/^\n+/g,'').replace(/\n+$/g,'');
+			var e = createTiddlyElement(w.output,'pre');
+			createTiddlyElement(e,this.element,null,null,text);
+			w.nextMatch = this.lookaheadRegExp.lastIndex-1;
 		}
 	}
 }
