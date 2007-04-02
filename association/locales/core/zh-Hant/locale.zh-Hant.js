@@ -31,7 +31,7 @@ merge(config.tasks,{
 	plugins: {text: "套件管理", tooltip: "管理已安裝的套件", content: '<<plugins>>'}
 });
 
-config.optionsDesc = {
+merge(config.optionsDesc,{
 	txtUserName: "編輯文章所使用之作者署名",
 	chkRegExpSearch: "啟用正規式搜尋",
 	chkCaseSensitiveSearch: "搜尋時，區分大小寫",
@@ -49,8 +49,7 @@ config.optionsDesc = {
 	chkShowTiddlerDetails: "顯示文章詳細資訊",
 	txtBackupFolder: "存放備份檔案的資料夾",
 	txtMaxEditRows: "編輯模式中顯示列數",
-	txtFileSystemCharSet: "指定儲存文件所在之檔案系統之字集"
-};
+	txtFileSystemCharSet: "指定儲存文件所在之檔案系統之字集"});
 
 // Messages
 merge(config.messages,{
@@ -99,7 +98,10 @@ merge(config.messages.messageClose,{
 config.messages.backstage = {
 	open: {text: "控制台", icon: "↩", iconIE: "←", tooltip: "開啟控制台執行編寫工作"},
 	close: {text: "關閉", icon: "↪", iconIE: "→", tooltip: "關閉控制台"},
-	prompt: "控制台："
+	prompt: "控制台：",
+	decal: {
+		edit: {text: "編輯", tooltip: "編輯此文"}
+	}
 };
 
 config.messages.listView = {
@@ -275,7 +277,7 @@ merge(config.macros.importTiddlers,{
 	statusOpenWorkspace: "正在開啟工作區",
 	statusGetTiddlerList: "正在取得可用之文章清單",
 	step3Title: "步驟三：選擇欲導入之文章",
-	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>保持這些文章與伺服器的連結，便於同步後續的變更。</input><br><input type='checkbox' checked='false' name='chkSave'>儲存此伺服器的詳細資訊於標籤為 'systemServer' 的文章名為：</input> <input type='text' size=25 name='txtSaveTiddler'>", 
+	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>保持這些文章與伺服器的連結，便於同步後續的變更。</input><br><input type='checkbox' name='chkSave'>儲存此伺服器的詳細資訊於標籤為 'systemServer' 的文章名為：</input> <input type='text' size=25 name='txtSaveTiddler'>", 
 	importLabel: "導入",
 	importPrompt: "導入所選文章",
 	confirmOverwriteText: "確定要覆寫這些文章：\n\n%0",
@@ -353,6 +355,9 @@ merge(config.macros.viewDetails,{
 			]}
 	});
 
+merge(config.macros.annotations,{
+	});
+
 merge(config.commands.closeTiddler,{
 	text: "關閉",
 	tooltip: "關閉本文"});
@@ -423,4 +428,35 @@ merge(config.shadowTiddlers,{
 	TabMoreShadowed: '<<list shadowed>>',
 	PluginManager: '<<plugins>>', 
 	ImportTiddlers: '<<importTiddlers>>'});
+
+merge(config.annotations,{
+	AdvancedOptions: "此預設文章可以存取一些進階選項。",
+	ColorPalette: "此預設文章裡的設定值，將決定 ~TiddlyWiki 使用者介面的配色。",
+	DefaultTiddlers: "當 ~TiddlyWiki 在瀏覽器中開啟時，此預設文章裡列出的文章，將被自動顯示。",
+	EditTemplate: "此預設文章裡的 HTML template 將決定文章進入編輯模式時的顯示版面。",
+	GettingStarted: "此預設文章提供基本的使用說明。",
+	ImportTiddlers: "此預設文章提供存取導入中的文章。",
+	MainMenu: "此預設文章的內容，為於螢幕左側主選單的內容",
+	OptionsPanel: "此預設文章的內容，為於螢幕右側副選單中的選項面板裡的內容",
+	PageTemplate: "此預設文章裡的 HTML template 決定的 ~TiddlyWiki 主要的版面配置",
+	PluginManager: "此預設文章提供存取套件管理員",
+	SideBarOptions: "此預設文章的內容，為於螢幕右側副選單中選項面板裡的內容",
+	SideBarTabs: "此預設文章的內容，為於螢幕右側副選單中的頁籤面板裡的內容",
+	SiteSubtitle: "此預設文章的內容為頁面的副標題",
+	SiteTitle: "此預設文章的內容為頁面的主標題",
+	SiteUrl: "此預設文章的內容須設定為文件發佈時的完整網址",
+	StyleSheetColours: "此預設文章內含的 CSS 規則，為相關的頁面元素的配色",
+	StyleSheet: "此預設文章內容可包含 CSS 規則",
+	StyleSheetLayout: "此預設文章內含的 CSS 規則，為相關的頁面元素的版面配置",
+	StyleSheetLocale: "此預設文章內含的 CSS 規則，可依翻譯語系做適當調整",
+	StyleSheetPrint: "此預設文章內含的 CSS 規則，用於列印時的樣式",
+	TabAll: "此預設文章的內容，為於螢幕右側副選單中的「全部」頁籤的內容",
+	TabMore: "此預設文章的內容，為於螢幕右側副選單中的「更多」頁籤的內容",
+	TabMoreMissing: "此預設文章的內容，為於螢幕右側副選單中的「未完成」頁籤的內容",
+	TabMoreOrphans: "此預設文章的內容，為於螢幕右側副選單中的「未引用」頁籤的內容",
+	TabMoreShadowed: "此預設文章的內容，為於螢幕右側副選單中的「預設文章」頁籤的內容",
+	TabTags: "此預設文章的內容，為於螢幕右側副選單中的「分類」頁籤的內容",
+	TabTimeline: "此預設文章的內容，為於螢幕右側副選單中的「最近更新」頁籤的內容",
+	ViewTemplate: "此預設文章裡的 HTML template 決定文章顯示的樣子"
+	});
 /*}}}*/

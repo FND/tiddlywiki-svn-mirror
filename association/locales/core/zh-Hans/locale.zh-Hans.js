@@ -33,7 +33,7 @@ merge(config.tasks,{
 	plugins: {text: "套件管理", tooltip: "管理已安装的套件", content: '<<plugins>>'}
 });
 
-config.optionsDesc = {
+merge(config.optionsDesc,{
 	txtUserName: "编辑文章所使用之作者署名",
 	chkRegExpSearch: "启用正规式查找",
 	chkCaseSensitiveSearch: "查找时，区分大小写",
@@ -51,8 +51,7 @@ config.optionsDesc = {
 	chkShowTiddlerDetails: "显示文章详细资讯",
 	txtBackupFolder: "存放备份文件的资料夹",
 	txtMaxEditRows: "编辑模式中显示列数",
-	txtFileSystemCharSet: "指定保存文件所在之档案系统之字符集"
-};
+	txtFileSystemCharSet: "指定保存文件所在之档案系统之字符集"});
 
 // Messages
 merge(config.messages,{
@@ -101,7 +100,10 @@ merge(config.messages.messageClose,{
 config.messages.backstage = {
 	open: {text: "控制台", icon: "↩", iconIE: "←", tooltip: "开启控制台执行编写工作"},
 	close: {text: "关闭", icon: "↪", iconIE: "→", tooltip: "关闭控制台"},
-	prompt: "控制台："
+	prompt: "控制台：",
+	decal: {
+		edit: {text: "编辑", tooltip: "编辑此文"}
+	}
 };
 
 config.messages.listView = {
@@ -277,7 +279,7 @@ merge(config.macros.importTiddlers,{
 	statusOpenWorkspace: "正在开启工作区",
 	statusGetTiddlerList: "正在取得可用之文章清单",
 	step3Title: "步骤三：选择欲导入之文章",
-	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>保持这些文章与伺服器连结，便于同步后续的变更。</input><br><input type='checkbox' checked='false' name='chkSave'>保存此服务器的详细资讯于标签为 'systemServer' 的文章名为：</input> <input type='text' size=25 name='txtSaveTiddler'>", 
+	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>保持这些文章与伺服器连结，便于同步后续的变更。</input><br><input type='checkbox' name='chkSave'>保存此服务器的详细资讯于标签为 'systemServer' 的文章名为：</input> <input type='text' size=25 name='txtSaveTiddler'>", 
 	importLabel: "导入",
 	importPrompt: "导入所选文章",
 	confirmOverwriteText: "确定要覆写这些文章：\n\n%0",
@@ -424,4 +426,36 @@ merge(config.shadowTiddlers,{
 	TabMoreShadowed: '<<list shadowed>>',
 	PluginManager: '<<plugins>>',
 	ImportTiddlers: '<<importTiddlers>>'});
+
+merge(config.annotations,{
+	AdvancedOptions: "此默认文章可以存取一些进阶选项。",
+	ColorPalette: "此默认文章里的设定值，将决定 ~TiddlyWiki 使用者介面的配色。",
+	DefaultTiddlers: "当 ~TiddlyWiki 在浏览器中开启时，此默认文章里列出的文章，将被自动显示。",
+	EditTemplate: "此默认文章里的 HTML template 将决定文章进入编辑模式时的显示版面。",
+	GettingStarted: "此默认文章提供基本的使用说明。",
+	ImportTiddlers: "此默认文章提供存取导入中的文章。",
+	MainMenu: "此默认文章的内容，为于萤幕左侧主菜单的内容",
+	OptionsPanel: "此默认文章的内容，为于萤幕右侧副菜单中的选项面板里的内容",
+	PageTemplate: "此默认文章里的 HTML template 决定的 ~TiddlyWiki 主要的版面配置",
+	PluginManager: "此默认文章提供存取套件管理员",
+	SideBarOptions: "此默认文章的内容，为于萤幕右侧副菜单中选项面板里的内容",
+	SideBarTabs: "此默认文章的内容，为于萤幕右侧副菜单中的页签面板里的内容",
+	SiteSubtitle: "此默认文章的内容为页面的副标题",
+	SiteTitle: "此默认文章的内容为页面的主标题",
+	SiteUrl: "此默认文章的内容须设定为文件发布时的完整网址",
+	StyleSheetColours: "此默认文章内含的 CSS 规则，为相关的页面元素的配色",
+	StyleSheet: "此默认文章内容可包含 CSS 规则",
+	StyleSheetLayout: "此默认文章内含的 CSS 规则，为相关的页面元素的版面配置",
+	StyleSheetLocale: "此默认文章内含的 CSS 规则，可依翻译语系做适当调整",
+	StyleSheetPrint: "此默认文章内含的 CSS 规则，用于列印时的样式",
+	TabAll: "此默认文章的内容，为于萤幕右侧的“全部”页签的内容",
+	TabMore: "此默认文章的内容，为于萤幕右侧的“更多”页签的内容",
+	TabMoreMissing: "此默认文章的内容，为于萤幕右侧的“未完成”页签的内容",
+	TabMoreOrphans: "此默认文章的内容，为于萤幕右侧的“未引用”页签的内容",
+	TabMoreShadowed: "此默认文章的内容，为于萤幕右侧的“默认文章”页签的内容",
+	TabTags: "此默认文章的内容，为于萤幕右侧的“分类”页签的内容",
+	TabTimeline: "此默认文章的内容，为于萤幕右侧的“最近更新”页签的内容",
+	ViewTemplate: "此默认文章里的 HTML template 决定文章显示的样子"
+	});
+
 /*}}}*/
