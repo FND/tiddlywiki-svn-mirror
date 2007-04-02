@@ -2,13 +2,13 @@
 <table width="100%"><tr>
 <td  style="vertical-align:top" width="50%">
 
-		<div macro="listByTag title:'Starred Next Actions'
+		<div macro="fastList title:'Starred Next Actions'
 			tags:'Action && Next && Starred && !Done'
 			group:Context
 			view:action_proj
 			"></div>
 
-		<div macro="listByTag title:'Starred Waiting For Actions'
+		<div macro="fastList title:'Starred Waiting For Actions'
 			tags:'Action && [(Waiting For)] && Starred && !Done'
 			group:Context
 			view:action_proj
@@ -18,7 +18,7 @@
 </td>
 
 <td valign="top" width="50%">
-		<div macro="listByTag title:'Starred'
+		<div macro="fastList title:'Starred'
 			tags:'Starred && !Complete && !Done && !Action'
 			group:GTDComponent
 			view:showstar

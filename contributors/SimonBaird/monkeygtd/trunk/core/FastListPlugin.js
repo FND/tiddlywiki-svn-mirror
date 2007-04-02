@@ -162,6 +162,11 @@ merge(config.macros,{
 
 		renderTiddler: {
 
+			action_proj: function(t,isHeading,hideProject) {
+				// temp for backwards compat
+				return this.action(t,isHeading,hideProject);
+			},
+
 			action: function(t,isHeading,hideProject) {
 
 				// has to be generic class for headings not "action"
@@ -255,7 +260,10 @@ merge(config.macros,{
 				sortBy.replace(/^-/,'');
 			}
 
-			var startList = config.indexedTags.tagLists[startTag];
+			if (startTag && startTag != "")
+				var startList = config.indexedTags.tagLists[startTag];
+			else
+				var startList = store.reverseLookup(modifier,"a8ajkadf8adjasdfljkasdf8879",false)
 
 			if (!startList)
 			  return output;

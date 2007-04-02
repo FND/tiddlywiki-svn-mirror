@@ -25,6 +25,7 @@ make_tw {
 
   package_as_from_dir    "misc/Dashboards.js", "dashes"
   package_as_from_dir    "misc/Panels.js", "panels"
+  add_tiddlers_from_dir   "lists"
 
   package_as_from_dir    "misc/MonkeyGTDLists.js", "lists"
 

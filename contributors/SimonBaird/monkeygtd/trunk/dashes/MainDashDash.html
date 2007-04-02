@@ -3,16 +3,17 @@
 <td valign="top" width="50%">
 
 
-	<div macro="listByTag title:'Next Actions'
-		tags:'Action && Next && !Done'
-		view:action_proj
+	<div macro="fastList title:'Next Actions'
+		startTag:Action
+		tags:'Next && !Done'
+		view:action
 		group:Context
 		mode:global
 		"></div>
 
 </td><td valign="top">
 
-	<div macro="listByTag title:'Current Ticklers'
+	<div macro="fastList title:'Current Ticklers'
 		tags:'Tickler && !Processed'
 		view:tickler
 		sort:tickleDate
@@ -21,7 +22,7 @@
 		"></div>
 
 
-	<div macro="listByTag title:'Waiting For'
+	<div macro="fastList title:'Waiting For'
 		tags:'Action && [(Waiting For)] && !Done'
 		view:action_proj
 		group:Context

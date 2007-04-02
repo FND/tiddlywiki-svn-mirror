@@ -14,7 +14,8 @@ config.indexedTags = {
 	tagsToIndex: [
 		"Project",
 		"Area",
-		"Realm"
+		"Realm",
+		"Context"
 	],
 
 	saveTiddlerHijack: function(title,newTitle,newBody,modifier,modified,tags,fields) {

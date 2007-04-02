@@ -21,20 +21,20 @@ the GTD weekly review task.  I have added these features:
 
 <td  style="vertical-align:top" width="50%">
 
-<div macro="listByTag title:'Projects by Area'
+<div macro="fastList title:'Projects by Area'
 	tags:'!Complete && !Someday/Maybe'
 	group:Area
 	view:showstar
 	"></div>
 
-<div macro="listByTag title:'Someday/Maybe Projects'
+<div macro="fastList title:'Someday/Maybe Projects'
 	mode:global
 	tags:'Someday/Maybe && !Complete'
 	view:showstar
 	group:Area
 	"></div>
 
-<div macro="listByTag title:'Completed Projects'
+<div macro="fastList title:'Completed Projects'
 	mode:global
 	tags:'Complete'
 	view:showstar
@@ -46,7 +46,7 @@ the GTD weekly review task.  I have added these features:
 </td>
 
 <td valign="top" width="50%">
-<div macro="listByTag title:'Actions by Project'
+<div macro="fastList title:'Actions by Project'
 	mode:global
 	tags:'Action && !Done'
 	group:'Project && !Someday/Maybe && !Complete'
@@ -54,7 +54,7 @@ the GTD weekly review task.  I have added these features:
 	view:action
 	"></div>
 
-<div macro="listByTag title:'Projects that need a next action'
+<div macro="fastList title:'Projects that need a next action'
   mode:global
   tags:'Action && !Done && (Next || [(Waiting For)])'
   group:'Project && !Someday/Maybe && !Complete'

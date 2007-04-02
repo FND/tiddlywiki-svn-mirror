@@ -1,14 +1,14 @@
 <table width="100%"><tr>
 <td width="50%" style="vertical-align:top">
 
-<div macro="listByTag title:'Next Actions'
+<div macro="fastList title:'Next Actions'
 	tags:'Next && Action && !Done && ![(Waiting For)]'
 	view:action_proj
 	group:Context
 	ignoreRealm:yes
 	"></div>
 
-<div macro="listByTag title:'Waiting For'
+<div macro="fastList title:'Waiting For'
 	tags:'[(Waiting For)] && Action && !Done'
 	view:action_proj
 	ignoreRealm:yes
@@ -18,20 +18,20 @@
 <td width="50%" style="vertical-align:top">
 
 
-<div macro="listByTag title:Projects
+<div macro="fastList title:Projects
 	tags:'Project && !Complete && ![(Someday/Maybe)]'
 	group:Area
 	ignoreRealm:yes
 	"></div>
 
-<div macro="listByTag title:'Someday/Maybe'
+<div macro="fastList title:'Someday/Maybe'
 	tags:'Project && !Complete && [(Someday/Maybe)]'
 	group:Area
 	ignoreRealm:yes
 	"></div>
 
 
-<div macro="listByTag title:Areas
+<div macro="fastList title:Areas
 	tags:Area
 	ignoreRealm:yes
 	"></div>

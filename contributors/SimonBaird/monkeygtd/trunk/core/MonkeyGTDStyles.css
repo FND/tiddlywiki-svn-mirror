@@ -86,7 +86,8 @@
 .mList a.button { display:inline!important; } /* counteract accordion styles? */
 
 .mList h2 {
-		background-color:#f8f8f8;
+		/* background-color:#f8f8f8; */
+		
 		margin:1em 0 0 1em;
 		padding:0;
 }
