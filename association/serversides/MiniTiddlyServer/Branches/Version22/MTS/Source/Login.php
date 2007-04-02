@@ -31,6 +31,11 @@
     }
     
     
+    // INCLUDE MODULES! // 
+        include_once("Modules.php");
+        $moduleManager = new ModuleManager($serverInfo->ModulesDirectory);
+        $moduleManager->runLogin();
+    
     $serverResponse->send();
 
 ?>

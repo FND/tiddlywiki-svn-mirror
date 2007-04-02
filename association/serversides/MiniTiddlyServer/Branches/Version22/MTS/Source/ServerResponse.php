@@ -29,20 +29,22 @@
         }
         
         public function setArrayString($arrayName, $value) {
-            if (!isset($arrays[$arrayName]))
-                $arrays[$arrayName] = array();
+        
+            if (!isset($this->arrays[$arrayName])) {
+                $this->arrays[$arrayName] = array();
+            }
                 
-            array_push($arrays[$arrayName],"\"".$value."\"");
+            array_push($this->arrays[$arrayName],"\"".$value."\"");
         }
         
         public function setArrayBoolean($arrayName, $key, $value) {
-            if (!isset($arrays[$arrayName]))
-                $arrays[$arrayName] = array();
+            if (!isset($this->arrays[$arrayName]))
+                $this->arrays[$arrayName] = array();
                 
             if ($value) $value = "true";
             else        $value = "false";
                 
-            array_push($arrays[$arrayName],$value);
+            array_push($this->arrays[$arrayName],$value);
         
         }
         
@@ -61,11 +63,12 @@
         public function send() {
         
             foreach ($this->arrays as $name => $array) {
+            
                 $this->data.= "$name:[";
                 $last = count($this->arrays[$name]);
                     for ($i = 0; $i < $last-1; $i++)
                         $this->data.=$this->arrays[$name][$i].",";
-                $this->data.=$this->arrays[$name][$last]."],";
+                $this->data.=$this->arrays[$name][$last-1]."],";
             }
         
             echo $this->data . "end:true};"; // AND THE endl thing?? // No, that was C++

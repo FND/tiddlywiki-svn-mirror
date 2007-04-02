@@ -6,6 +6,7 @@ class LocalInformation {
     public $sourceName;
     public $wrapperName;
     public $siteUrl;
+    public $ModulesDirectory;
     
     public $ext;
 
@@ -26,6 +27,7 @@ class LocalInformation {
         $this->wrapperName = $wrapperScriptName;
         $this->ext = $ext;
         $this->siteUrl = $fullscriptpath;
+        $this->ModulesDirectory = "MTS/Modules/";
     
     }
 

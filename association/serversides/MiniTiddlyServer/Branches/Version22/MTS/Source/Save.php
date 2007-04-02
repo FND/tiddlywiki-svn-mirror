@@ -94,17 +94,22 @@
     
         private $serverResponse;
         private $tiddlyWiki;
-        private $savePostRequest;
+        private $clientRequest;
         private $tiddlyWikiInfo;
         private $newStoreMap;
         
         private $newTW;
+        
+        public $saveFile;
+        public $saveRedirect;
     
-        public function __construct($serverResponse,$tiddlyWiki,$savePostRequest,$tiddlyWikiInfo) {
+        public function __construct($serverResponse,$tiddlyWiki,$clientRequest,$tiddlyWikiInfo) {
             $this->serverResponse = $serverResponse;
             $this->tiddlyWiki = $tiddlyWiki;
-            $this->savePostRequest = $savePostRequest;
+            $this->clientRequest = $clientRequest;
             $this->tiddlyWikiInfo = $tiddlyWikiInfo;
+            
+            $this->saveFile = $this->tiddlyWiki->sourceFile;
         }
         
         public function goSave() {
@@ -112,20 +117,20 @@
             // GET NEW TW STRING // 
                 $newstore="";
             
-                if ($this->savePostRequest->isPartial)
+                if ($this->clientRequest->isPartial)
                     $newstore = $this->getPartialData();
                     
                 else
-                    $newstore = $this->savePostRequest->updatesDiv;
+                    $newstore = $this->clientRequest->updatesDiv;
                     
                 $this->newTW = $this->tiddlyWiki->prestore.$newstore.$this->tiddlyWiki->poststore;
                 
 
             // FIX MARKUP BLOCKS // 
             
-            if ($this->savePostRequest->isPartial) {
+            if ($this->clientRequest->isPartial) {
                 
-                $changedtiddlers = array_merge($this->savePostRequest->updatesIndex, $this->savePostRequest->deletedIndex);
+                $changedtiddlers = array_merge($this->clientRequest->updatesIndex, $this->clientRequest->deletedIndex);
 
                 foreach($this->tiddlyWikiInfo->markupBlocks as $block)
                     if (in_array($block, $changedtiddlers))
@@ -135,8 +140,7 @@
                 foreach($this->tiddlyWikiInfo->markupBlocks as $block)
                     $this->updateBlock($block);
                     
-            writeToFile($this->tiddlyWiki->sourceFile, $this->newTW);
-            //~ writeToFile("../../monkey.html", $this->newTW);
+            writeToFile($this->saveFile, $this->newTW);
         }
         
         
@@ -168,9 +172,9 @@
         }
         
         private function getPartialData() {
-            $updatesMap = $this->savePostRequest->updatesMap;
+            $updatesMap = $this->clientRequest->updatesMap;
             $storeTiddlerMap = $this->tiddlyWiki->storeTiddlerMap;
-            $deletedIndex = $this->savePostRequest->deletedIndex;
+            $deletedIndex = $this->clientRequest->deletedIndex;
             
             // delete tiddlers from store 
             foreach($deletedIndex as $deleted) {
@@ -210,10 +214,10 @@
     
     
     // ACTIONS! //
-    $savePostRequest = new SavePostRequest();
+    $clientRequest = new SavePostRequest();
     
     // UPDATES AND DELETES // 
-    if ( $savePostRequest->updatesDiv == "" && $clientRequest->deletedTiddlers == "") {
+    if ( $clientRequest->updatesDiv == "" && $clientRequest->deletedTiddlers == "") {
         $serverResponse->setBoolean("saved",true);
         $serverResponse->setBoolean("nothing",true);
         $serverResponse->send();
@@ -224,19 +228,24 @@
     
     // END INCLUDE MODULES ! // 
     
-    $tiddlyWiki = new TiddlyWiki($savePostRequest->sourceFile, $serverResponse);
+    $tiddlyWiki = new TiddlyWiki($clientRequest->sourceFile, $serverResponse);
     $tiddlyWikiInfo = new TiddlyWikiInfo();
-    $savingMachine = new SavingMachine($serverResponse,$tiddlyWiki,$savePostRequest,$tiddlyWikiInfo);
+    $savingMachine = new SavingMachine($serverResponse,$tiddlyWiki,$clientRequest,$tiddlyWikiInfo);
     
     // INCLUDE MODULES! // 
         include_once("Modules.php");
         $moduleManager = new ModuleManager($serverInfo->ModulesDirectory);
+        $moduleManager->runEvent("SaveHighPriority");
         $moduleManager->runSave();
+        $moduleManager->runEvent("SaveLowPriority");
 
     $tiddlyWiki->init();
     $savingMachine->goSave();
-    $serverResponse->send();
     
+    // POST SAVE // 
+        $moduleManager->runEvent("PostSaveEvent");
+    
+    $serverResponse->send();
     
     
 

@@ -32,6 +32,7 @@
         private $htmlMacros;
         private $phpscripts;
         private $savescripts;
+        private $loginscripts;
         private $customevents;
         
         public function __construct($author, $version, $website) {
@@ -44,6 +45,7 @@
             $this->htmlMacros = array();
             $this->phpscripts = array();
             $this->savescripts = array();
+            $this->loginscripts = array();
             $this->customevents = array();
         }
         
@@ -68,6 +70,10 @@
             array_push($this->savescripts, $phpscript);
         }
         
+        public function addLoginPHP($script) {
+            array_push($this->loginscripts, $script);
+        }
+        
         public function addEventPHP($eventname, $eventscript) {
             if ( !isset($this->customevents[$eventname]))
                 $this->customevents[$eventname] = array();
@@ -77,6 +83,11 @@
         
         public function runSave() {
             foreach ($this->savescripts as $script)
+                includeInitPHP($script, $this);
+        }
+        
+        public function runLogin() {
+            foreach ($this->loginscripts as $script)
                 includeInitPHP($script, $this);
         }
         
@@ -131,6 +142,12 @@
              foreach ($this->modules as $module)
                 if ($module->isActive)
                     $module->runSave();
+        }
+        
+        public function runLogin() {
+             foreach ($this->modules as $module)
+                if ($module->isActive)
+                    $module->runLogin();
         }
         
         public function runEvent($eventname) {
@@ -216,7 +233,7 @@ function includeHTMLMacro($macroname, $htmlPath, $module) {
 }
 
 function includeInitPHP($script, $module) {
-    global $moduleManager, $serverInfo, $userControl, $serverResponse, $clientRequest, $savePostRequest, $sessionManager, $wikipath;
+    global $moduleManager, $serverInfo, $userControl, $serverResponse, $clientRequest, $savingMachine, $sessionManager, $wikipath;
     
     $moduleName = $module->name;
     $file = $moduleManager->modulesDirectory."/$moduleName/$script" ;
@@ -224,8 +241,8 @@ function includeInitPHP($script, $module) {
 }
 
 function includeEventPHP($script, $module) {
-    global $moduleManager,$serverInfo, $userControl, $serverResponse, $clientRequest, $sessionManager;
-        
+    global $moduleManager,$serverInfo, $userControl, $serverResponse, $clientRequest, $savingMachine, $sessionManager, $wikipath;
+    
     include_once($moduleManager->modulesDirectory."/".$module->name."/$script");
 }
 
