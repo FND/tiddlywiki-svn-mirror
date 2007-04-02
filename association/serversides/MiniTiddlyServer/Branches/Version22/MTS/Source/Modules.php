@@ -143,11 +143,14 @@
         }
         
         public function runEvent($eventname) {
-            foreach ($this->events[$eventname] as $module)
-                if ($module->isActive && $this->continueEvent)
-                    $module->runEvent($eventname);
+           if (isset($this->events[$eventname])) {
         
-            $this->continueEvent = true;
+                foreach ($this->events[$eventname] as $module)
+                    if ($module->isActive && $this->continueEvent)
+                        $module->runEvent($eventname);
+            
+                $this->continueEvent = true;
+            }
         }
         
         public function killEvent() {

@@ -24,6 +24,7 @@
 
 //////////////////////////////////////////////////////////////////////////////// */
 
+
 // Plugins. Load to array as variables for later processing.
    echo "\nvar MTSExternalPlugins = [];";
    foreach (glob("MTS/Plugins/*.js") as $filename) {
@@ -39,6 +40,10 @@
     include_once("MTS/Source/LocalInformation.php");
     
     $localInfo = new LocalInformation($wikipath);
+    
+// REDIRECT TO CONFIG SCRIPT IF IT EXISTS // 
+if (file_exists("config.php"))
+    echo "window.location='config.php';";
     
     $fullscriptpath = $localInfo->siteUrl;
     $wrapperScriptPath = $localInfo->wrapperFile;

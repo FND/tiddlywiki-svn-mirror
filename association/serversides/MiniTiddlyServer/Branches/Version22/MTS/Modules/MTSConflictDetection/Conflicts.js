@@ -11,11 +11,11 @@ function initConflictAccess() {
     var ret = function (response) {
         if (response.conflictfile) {
             
-            if (response.conflictfileexists)
-                displayMessage("Using existing conflict access file", response.conflictfile);
+            //~ if (response.conflictfileexists)
+                //~ displayMessage("Using existing conflict access file", response.conflictfile);
             
-            else
-                displayMessage("Created new conflict access file",response.conflictfile);
+            //~ else
+                //~ displayMessage("Created new conflict access file",response.conflictfile);
             
         }
     }
