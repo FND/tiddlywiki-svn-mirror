@@ -33,8 +33,10 @@
     
         public function __construct() {
         
-            // MARKUP BLOCKS // Titles are automatic now. 
+            // MARKUP BLOCKS // Titles are automatic now, but for support !!
                 $this->markupBlockData = array(
+                    'SiteTitle'           =>  array("<title>","</title>","My TiddlyWiki"),
+                    'SiteSubtitle'       => array("<title>","</title>","a reusable non-linear personal web notebook"),
                     'MarkupPreHead'   => array("\n<!--PRE-HEAD-START-->\n","\n<!--PRE-HEAD-END-->\n","<!--{{{-->\n<link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml'/>\n<!--}}}-->"),
                     'MarkupPostHead'  => array("\n<!--POST-HEAD-START-->\n","\n<!--POST-HEAD-END-->\n",""),
                     'MarkupPreBody'   => array("\n<!--PRE-BODY-START-->\n","\n<!--PRE-BODY-END-->\n",""),

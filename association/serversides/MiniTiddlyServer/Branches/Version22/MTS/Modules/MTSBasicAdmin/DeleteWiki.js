@@ -12,7 +12,7 @@ function deleteWiki() {
             singleMessage("Removing Wiki ... ");
             
             var ret = function (response) {
-                if (response["delete"])
+                if (response.deleted)
                     displayMessage("This wiki has been deleted.");    
                 else
                     displayMessage("The file was NOT deleted successfully");

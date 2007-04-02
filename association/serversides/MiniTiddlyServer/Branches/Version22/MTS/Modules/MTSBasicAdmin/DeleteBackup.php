@@ -31,4 +31,4 @@
     }
     
     $result = unlink ($serverInfo->BaseInstallOffset.$clientRequest->backupToDelete);
-    $serverResponse->setBoolean("delete",$result);
+    $serverResponse->setBoolean("deletedbackup",$result);

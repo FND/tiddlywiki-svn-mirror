@@ -30,7 +30,11 @@
             
         else
             $endpos = strpos( $source, $end, $startpos); 
-
+            
+            
+        if (!$startpos || !$endpos && $start == "<title")
+            return $source;
+            
         if (!$startpos || !$endpos ) {
             $serverResponse->throwError("There was a critical saving error looking for ($start) and ($end).");
             return $source;

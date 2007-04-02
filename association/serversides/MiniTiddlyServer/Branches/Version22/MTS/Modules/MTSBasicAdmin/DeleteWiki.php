@@ -36,4 +36,4 @@
     if ( file_exists($serverInfo->BaseInstallOffset.$wrapperScriptName.xml))
         unlink ($serverInfo->BaseInstallOffset.$wrapperScriptName.xml);
     $result = ($result && $result2);
-    $serverResponse->setBoolean("delete",$result);
+    $serverResponse->setBoolean("deleted",$result);

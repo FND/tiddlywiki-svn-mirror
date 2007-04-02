@@ -61,28 +61,29 @@ config.shadowTiddlers.MTSModulesPanel = "<<mtsmodulemanager>>";
 
 // Create a handle for the backstage //
 
-config.backstageTasks.push("MTSModules");
-config.tasks.MTSModules = {
-    text: "MTS Modules", 
-    tooltip: "MTS Controls and Admin Panel", 
-    content: ""
+if ( config.backstageTasks ) {
+
+    config.backstageTasks.push("MTSModules");
+    config.tasks.MTSModules = {
+        text: "MTS Modules", 
+        tooltip: "MTS Controls and Admin Panel", 
+        content: ""
+    }
+
+    var modsOldLoggedIn = adminLoggedIn;
+    adminLoggedIn = function () {
+        modsOldLoggedIn.apply(this,arguments);
+        
+        config.tasks.MTSModules.content = config.shadowTiddlers.MTSModulesPanel;
+        
+    }
+
+    var modsOldLoggedOut = adminLoggedOut;
+    adminLoggedOut = function () {
+        modsOldLoggedOut.apply(this,arguments);
+        config.tasks.MTSModules.content = "Please log in as an admin before accessing this panel";
+        
+    }
+
+
 }
-
-var modsOldLoggedIn = adminLoggedIn;
-adminLoggedIn = function () {
-    modsOldLoggedIn.apply(this,arguments);
-    
-    config.tasks.MTSModules.content = config.shadowTiddlers.MTSModulesPanel;
-    
-}
-
-var modsOldLoggedOut = adminLoggedOut;
-adminLoggedOut = function () {
-    modsOldLoggedOut.apply(this,arguments);
-    config.tasks.MTSModules.content = "Please log in as an admin before accessing this panel";
-    
-}
-
-
-
-
