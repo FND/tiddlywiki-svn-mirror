@@ -194,6 +194,18 @@ html>body #topMenu {background-image:url(http://simonbaird.com/monkeygtd/logo-tr
 	border-bottom-color:none!important;
 }
 
+.noborder table {
+	border-style:none ! important;
+	border-collapse:separate;
+	width:100%;
+	margin:0;padding:0;
+}
+
+.noborder table td {
+	border-style:none;
+	vertical-align:top;
+}
+
 .tiddler .tabContents {
 	border-width:1px;
 }
@@ -216,4 +228,5 @@ table.noBorder td, .threeCols table td {
 }
 
 [[datepicker]]
+
 

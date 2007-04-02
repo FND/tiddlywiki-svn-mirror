@@ -74,6 +74,7 @@ merge(config.macros,{
 			//createTiddlyText(listTitleSpan,listTitle);
 
 			// come get some... EYE CANDY!
+
 			if (listTitle != "") {
 				var niceGradient = '<<gradient vert #f1f1f1 #efefef #eeeeee #ececec #eaeaea #e7e7e7 #e4e4e4 #e1e1e1 #cccccc #cccccc #cccccc #cccccc #cccccc #cccccc #c8c8c8 #c0c0c0 #b4b4b4 #a4a4a4>>{{mListTitle{%0}}}>>';
 				wikify(niceGradient.format([listTitle]),listDiv);
@@ -184,6 +185,22 @@ merge(config.macros,{
 					"@@"+
 					"[["+t.title+"]] "+
 					projText +
+					"}}}\n";
+			},
+
+			project: function(t,isHeading) {
+				// has to be generic class for headings not "action"
+				var useClass = "action2";
+				if (isHeading)
+					useClass = "action";
+
+				return "{{"+useClass+"{"+
+					"@@font-size:95%;"+
+					"<<tTag tag:Complete title:[["+t.title+"]] label:''>>"+
+					"<<tTag tag:Someday/Maybe mode:text text:{{config.mGTD.someday}} title:[["+t.title+"]]>>"+
+					"<<tTag tag:[[Starred]] mode:text text:{{config.mGTD.star}} title:[["+t.title+"]]>> "+
+					"@@"+
+					"[["+t.title+"]] "+
 					"}}}\n";
 			},
 
