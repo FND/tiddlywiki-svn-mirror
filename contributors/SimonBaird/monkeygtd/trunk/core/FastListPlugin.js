@@ -90,6 +90,7 @@ merge(config.macros,{
 
 			listRefreshContainer.setAttribute("startTag",startTag);
 			listRefreshContainer.setAttribute("tagExpr",tagExpr);
+			listRefreshContainer.setAttribute("whereExpr",whereExpr);
 			listRefreshContainer.setAttribute("sortBy",sortBy);
 			listRefreshContainer.setAttribute("groupBy",groupBy);
 			listRefreshContainer.setAttribute("gTagExpr",gTagExpr);
@@ -106,6 +107,7 @@ merge(config.macros,{
 		refresh: function(place) {
 			var startTag = place.getAttribute("startTag");
 			var tagExpr = place.getAttribute("tagExpr");
+			var whereExpr = place.getAttribute("whereExpr");
 			var sortBy = place.getAttribute("sortBy");
 			var groupBy = place.getAttribute("groupBy");
 			var gTagExpr = place.getAttribute("gTagExpr");
@@ -113,7 +115,7 @@ merge(config.macros,{
 			var gViewType = place.getAttribute("gViewType");
 			var ignoreRealm = place.getAttribute("ignoreRealm");
 
-			var list = this.tagList(startTag,tagExpr,sortBy,ignoreRealm=="yes");
+			var list = this.tagList(startTag,tagExpr,whereExpr,sortBy,ignoreRealm=="yes");
 			var markup = "";
 
 			if (groupBy != "") {
@@ -193,22 +195,6 @@ merge(config.macros,{
 					"}}}\n";
 			},
 
-			project: function(t,isHeading) {
-				// has to be generic class for headings not "action"
-				var useClass = "action2";
-				if (isHeading)
-					useClass = "action";
-
-				return "{{"+useClass+"{"+
-					"@@font-size:95%;"+
-					"<<tTag tag:Complete title:[["+t.title+"]] label:''>>"+
-					"<<tTag tag:Someday/Maybe mode:text text:{{config.mGTD.someday}} title:[["+t.title+"]]>>"+
-					"<<tTag tag:[[Starred]] mode:text text:{{config.mGTD.star}} title:[["+t.title+"]]>> "+
-					"@@"+
-					"[["+t.title+"]] "+
-					"}}}\n";
-			},
-
 			actionHideProject: function(t,isHeading) {
 				return this.action(t,isHeading,true);
 			},
@@ -237,20 +223,20 @@ merge(config.macros,{
 					"}}}\n";
 			},
 
-			project: function(t) {
-				return ""+
-					'|<<toggleTag Processed [['+t.title+']] ->>|[['+t.title+']]'+
-					'|<<toggleTag Processed [['+t.title+']] ->>|[['+t.title+']]'+
+			tickler: function(t) {
+				var foo = ""+
+					'|<<tTag tag:Processed title:[['+t.title+']] label:"">>|[['+t.title+']]'+
 					'|'+
 					((store.getValue('MonkeyGTDSettings','mgtd.usemdy')=='true')?
 						(t.mGet('tmonth')+'/'+t.mGet('tday')):
 						(t.mGet('tday')+'/'+t.mGet('tmonth')))+
-					'/'+t.mGet('tyear')+'|\\n';
+					'/'+t.mGet('tyear')+'|\n';
+				return foo;
 			}
 
 		},
 
-		tagList: function(startTag,tagExpr,sortBy,ignoreRealm) {
+		tagList: function(startTag,tagExpr,whereExpr,sortBy,ignoreRealm) {
 
 			var output = [];
 
@@ -263,12 +249,17 @@ merge(config.macros,{
 			if (startTag && startTag != "")
 				var startList = config.indexedTags.tagLists[startTag];
 			else
+				// fixme?
 				var startList = store.reverseLookup(modifier,"a8ajkadf8adjasdfljkasdf8879",false)
 
 			if (!startList)
 			  return output;
 
 			var expr = tagExpr.parseTagExpr();
+
+			if (whereExpr && whereExpr != "") {
+				expr = "(("+expr+")&&("+whereExpr+"))"
+			}
 
 			var firstError = true;
 

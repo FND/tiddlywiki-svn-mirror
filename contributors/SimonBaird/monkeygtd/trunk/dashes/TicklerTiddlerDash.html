@@ -1,7 +1,8 @@
 <table width="100%"><tr>
-<td width="50%" style="vertical-align:top">
+<td width="33%" style="vertical-align:top">
 
 <div macro="fastList title:'Current Ticklers'
+	startTag:Tickler
 	tags:'!Processed'
 	view:tickler
 	sort:tickleDate
@@ -9,13 +10,27 @@
 "></div>
 
 </td>
-<td width="50%" style="vertical-align:top">
+<td width="33%" style="vertical-align:top">
 
 <div macro="fastList title:'Upcoming Ticklers'
+	startTag:Tickler
 	tags:'!Processed'
 	view:tickler
 	sort:tickleDate
 	where:'tiddler.tickleDate() > (new Date()).convertToLocalYYYYMMDDHHMM()'
 	"></div>
 
-</td></tr></table>
+</td>
+
+<td width="33%" style="vertical-align:top">
+
+<div macro="fastList title:'Processed (Inactive) Ticklers'
+	startTag:Tickler
+	tags:'Processed'
+	view:tickler
+	sort:tickleDate
+	"></div>
+
+</td>
+
+</tr></table>
