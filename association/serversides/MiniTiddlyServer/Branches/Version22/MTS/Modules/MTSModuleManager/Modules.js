@@ -84,6 +84,10 @@ if ( config.backstageTasks ) {
         config.tasks.MTSModules.content = "Please log in as an admin before accessing this panel";
         
     }
-
+    
+    if (isAdmin)
+        adminLoggedIn();
+    else
+        adminLoggedOut();
 
 }
