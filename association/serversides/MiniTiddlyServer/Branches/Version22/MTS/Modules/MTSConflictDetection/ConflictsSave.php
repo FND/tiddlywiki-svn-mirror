@@ -1,11 +1,5 @@
 <?php
 
-    // filemtime($sourcePath)
-     // WRITE THE ACCESS FILE // Called as a remote event // 
-        //~ $actualfile = $module->name."/access/".filemtime($clientRequest->sourceFile).".txt";
-        //~ $recentChangesFile = $serverInfo->ModulesDirectory.$module->name."/access/".filemtime($clientRequest->sourceFile).".txt";
-        //~ writeToFile($recentChangesFile, "");
-        //~ $serverResponse->setString("conflictfile","MTS/Modules/$actualfile");
     // FIRST // Check to see if we have a possible conflict here // 
     $localtime = $clientRequest->time;
     $servertime = filemtime($clientRequest->sourceFile);
@@ -46,13 +40,12 @@
     
     
     if ($isConflict ) {
-    
         // REDIRECT CHANGES // 
-        $file = $clientRequest->sourceName."/conflict_".$localtime.".htm";
+        $file = $clientRequest->sourceName."/conflict_".$sessionManager->user."_".$localtime.".html";
         $redirectedFile = $serverInfo->BackupDirectory.$file;
         
             $savingMachine->saveFile = $redirectedFile;
-            $savingMachine->saveRedirect = true;
+            $moduleManager->killEvent(); // don't allow low-priority MainSaveEvent scripts to run. 
     
         // SEND MESSAGE // 
             $serverResponse->setBoolean("conflict",true);

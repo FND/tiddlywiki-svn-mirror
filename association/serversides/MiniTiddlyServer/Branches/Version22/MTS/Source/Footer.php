@@ -136,6 +136,7 @@ var savepath = "MTS/Source/Save.php";
     include_once("MTS/Source/Modules.php"); 
 
     $moduleManager = new ModuleManager("MTS/Modules/");
+    $moduleManager->importModules();
     $moduleManager->runModules();
     
     include_once("MTS/Source/ModuleController.php");

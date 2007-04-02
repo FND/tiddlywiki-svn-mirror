@@ -34,7 +34,8 @@
     // INCLUDE MODULES! // 
         include_once("Modules.php");
         $moduleManager = new ModuleManager($serverInfo->ModulesDirectory);
-        $moduleManager->runLogin();
+        $moduleManager->importModules();
+        $moduleManager->runEvent("MainLoginEvent");
     
     $serverResponse->send();
 

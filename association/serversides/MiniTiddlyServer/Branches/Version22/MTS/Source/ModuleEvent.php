@@ -20,6 +20,7 @@
     // INCLUDE MODULES! // 
         include_once("Modules.php");
         $moduleManager = new ModuleManager("../Modules/");
+        $moduleManager->importModules();
         $moduleManager->runEvent($event);
         
     // DEFINES FOR YOUR EVENTS THE ABOVE INSTANCES // 

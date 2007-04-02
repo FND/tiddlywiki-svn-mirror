@@ -27,7 +27,7 @@
     
     $rssData = $clientRequest->rss;
   
-    if (isset($rssData) && $rssData != "" && $savingMachine->saveRedirect != true) {
+    if (isset($rssData) && $rssData != "" ) {
         $rss = updateRss($rssData,$rssfile,$clientRequest->deletedIndex,$clientRequest->savetype);
         if ( isset($rss) && $rss != "" && $rss!= false && $conflict != true) {
             writeToFile($rssfile, $rss);

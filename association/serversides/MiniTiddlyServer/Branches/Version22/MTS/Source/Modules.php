@@ -31,9 +31,7 @@
         private $javascripts;
         private $htmlMacros;
         private $phpscripts;
-        private $savescripts;
-        private $loginscripts;
-        private $customevents;
+        private $events;
         
         public function __construct($author, $version, $website) {
         
@@ -44,9 +42,7 @@
             $this->javascripts = array();
             $this->htmlMacros = array();
             $this->phpscripts = array();
-            $this->savescripts = array();
-            $this->loginscripts = array();
-            $this->customevents = array();
+            $this->events = array();
         }
         
         // Specified relative to the module folder, these javascripts will be directly included at the end of the whole wiki // 
@@ -66,39 +62,30 @@
             array_push($this->phpscripts, $phpscript);
         }
         
-        public function addSavePHP($phpscript) {
-            array_push($this->savescripts, $phpscript);
-        }
-        
-        public function addLoginPHP($script) {
-            array_push($this->loginscripts, $script);
-        }
-        
-        public function addEventPHP($eventname, $eventscript) {
-            if ( !isset($this->customevents[$eventname]))
-                $this->customevents[$eventname] = array();
+        public function addEventPHP($eventname, $eventscript, $isHighPriority=false) {
+            global $moduleManager;
+            
+            $moduleManager->registerEvent($eventname, $this, $isHighPriority);
+            
+            if ( !isset($this->events[$eventname]))
+                $this->events[$eventname] = array();
                 
-            array_push($this->customevents[$eventname], $eventscript);
-        }
-        
-        public function runSave() {
-            foreach ($this->savescripts as $script)
-                includeInitPHP($script, $this);
-        }
-        
-        public function runLogin() {
-            foreach ($this->loginscripts as $script)
-                includeInitPHP($script, $this);
+            if ($isHighPriority)
+                array_unshift($this->events[$eventname], $eventscript);
+                
+            else
+                array_push($this->events[$eventname], $eventscript);
+            
         }
         
         public function runEvent($eventname) {
-            if (isset($this->customevents[$eventname]))
-                foreach ($this->customevents[$eventname] as $script)
+            if (isset($this->events[$eventname]))
+                foreach ($this->events[$eventname] as $script)
                     includeEventPHP($script, $this);
         }
         
         public function run() {
-            // DO EVERYTHING! // 
+            // DO INIT SCRIPTS, JSs and MACROS // 
             
             foreach ($this->javascripts as $script)
                 includeScript($script, $this);
@@ -120,16 +107,33 @@
         public $moduleCoreName = "index.php";
         public $deactivateFileName = "deactivate";
         
+        private $events;
+        
+        
         public $modules;
+        
+        private $continueEvent = true;
     
         public function __construct($modulesDirectory) {
             $this->modules = array();
+            $this->events = array();
+            $this->highPriorityEventModules = array();
             $this->modulesDirectory = $modulesDirectory;
-            $this->importModules();
         }
         
         public function addModule($module) {
             $this->modules[$module->name] = $module;
+        }
+        
+        public function registerEvent($eventname, $module, $isHighPriority=false) {            
+            if ( !isset($this->events[$eventname]))
+                $this->events[$eventname] = array();
+                
+            if ($isHighPriority)
+                array_unshift($this->events[$eventname], $module);
+                
+            else
+                array_push($this->events[$eventname], $module);
         }
         
         public function runModules() {
@@ -138,25 +142,19 @@
                     $module->run();
         }
         
-        public function runSave() {
-             foreach ($this->modules as $module)
-                if ($module->isActive)
-                    $module->runSave();
-        }
-        
-        public function runLogin() {
-             foreach ($this->modules as $module)
-                if ($module->isActive)
-                    $module->runLogin();
-        }
-        
         public function runEvent($eventname) {
-             foreach ($this->modules as $module)
-                if ($module->isActive)
+            foreach ($this->events[$eventname] as $module)
+                if ($module->isActive && $this->continueEvent)
                     $module->runEvent($eventname);
+        
+            $this->continueEvent = true;
         }
         
-        private function importModules() {
+        public function killEvent() {
+            $this->continueEvent = false;
+        }
+        
+        public function importModules() {
         
             if ($handle = opendir($this->modulesDirectory)) {
     

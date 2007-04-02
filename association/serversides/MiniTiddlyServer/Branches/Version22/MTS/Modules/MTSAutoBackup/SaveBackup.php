@@ -1,6 +1,6 @@
 <?php
 
-    if ($clientRequest->doBackup && $savingMachine->saveRedirect != true ) {
+    if ($clientRequest->doBackup ) {
         createBackup($clientRequest->sourceFile, $sessionManager->user."_auto.html");
     }
     

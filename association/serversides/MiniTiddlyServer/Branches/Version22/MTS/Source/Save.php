@@ -194,7 +194,6 @@
             return $newstore;
         }
         
-        
     }
     
     
@@ -235,9 +234,8 @@
     // INCLUDE MODULES! // 
         include_once("Modules.php");
         $moduleManager = new ModuleManager($serverInfo->ModulesDirectory);
-        $moduleManager->runEvent("SaveHighPriority");
-        $moduleManager->runSave();
-        $moduleManager->runEvent("SaveLowPriority");
+        $moduleManager->importModules();
+        $moduleManager->runEvent("MainSaveEvent");
 
     $tiddlyWiki->init();
     $savingMachine->goSave();
@@ -246,7 +244,6 @@
         $moduleManager->runEvent("PostSaveEvent");
     
     $serverResponse->send();
-    
     
 
 ?>

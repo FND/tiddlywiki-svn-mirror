@@ -10,11 +10,8 @@ function deleteBackup(path) {
         return;
     }
     
-    if (confirm("Delete Backup: Are you sure?") == false )
-        return;
-
-    if ( path.indexOf(".html") < 0 ) {
-        alert("Error, backup filename not valid: " + revertTo);
+    if ( path.indexOf(".htm") < 0 ) {
+        alert("Error, backup filename not valid: " + lpath);
         return;
     }
     
