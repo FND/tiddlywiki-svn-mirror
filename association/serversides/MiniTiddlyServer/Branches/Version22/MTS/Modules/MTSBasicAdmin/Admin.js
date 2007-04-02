@@ -43,37 +43,3 @@ if ( config.backstageTasks ) {
         adminLoggedOut();
 
 }
-
-/*
-// Will only have one instance, or should anyway // 
-config.macros.mtsadminpanel = {
-    
-};
-config.macros.mtsadminpanel.handler = function(place, name, params) {
-
-    config.macros.mtsadminpanel.place = place;
-    
-    if (isAdmin)
-        login();
-    else
-        logout();
-    
-};
-config.macros.mtsadminpanel.logout = function () {
-    if ( saved )
-        saved.parentNode.removeChild(saved);
-    
-    wikify(store.getTiddlerText("MTSAdminPanel"), config.macros.mtsadminpanel.place);
-    config.macros.mtsadminpanel.saved = config.macros.mtsadminpanel.place.lastChild;
-    
-};
-config.macros.mtsadminpanel.login = function () {
-    if ( saved )
-        saved.parentNode.removeChild(saved);
-    
-    wikify(store.getTiddlerText("MTSAdminPanel"), config.macros.mtsadminpanel.place);
-    config.macros.mtsadminpanel.saved = config.macros.mtsadminpanel.place.lastChild;
-
-};
-
-*/

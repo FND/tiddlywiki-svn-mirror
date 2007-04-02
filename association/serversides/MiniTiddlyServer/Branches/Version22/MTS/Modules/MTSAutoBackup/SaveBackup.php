@@ -1,13 +1,13 @@
 <?php
 
-    if ($savePostRequest->doBackup ) {
-        createBackup($savePostRequest->sourceFile, $sessionManager->user."_auto.html");
+    if ($clientRequest->doBackup && $savingMachine->saveRedirect != true ) {
+        createBackup($clientRequest->sourceFile, $sessionManager->user."_auto.html");
     }
     
     function createBackup($source,$backupName="noname.html") {
-        global $savePostRequest, $serverInfo, $serverResponse;
+        global $clientRequest, $serverInfo, $serverResponse;
         
-        $sourceName = $savePostRequest->sourceName;
+        $sourceName = $clientRequest->sourceName;
         $backupDir = $serverInfo->BackupDirectory;
         
         $myBackupDir = $backupDir.$sourceName ."/";
