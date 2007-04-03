@@ -1,19 +1,24 @@
 <table style="width:100%"><tr>
 
-<td valign="top" width="33%" cellspacing="0" border="0">
+<td valign="top" width="50%" cellspacing="0" border="0">
 
 	<div macro="fastList title:'Next Actions'
 		tags:'Action && Next && !Done'
-		view:action
+		view:actionHideProject
 		group:Context
 		"></div>
 
 	<div macro="fastList title:'Waiting For'
 		tags:'Action && [(Waiting For)] && !Done'
-		view:action
+		view:actionHideProject
 		"></div>
 
-</td><td valign="top" width="34%">
+	<div macro="fastList title:'Future Actions'
+		tags:'Action && ![(Waiting For)] && !Next && !Done'
+		view:actionHideProject
+		"></div>
+
+</td><td valign="top" width="50%">
 
 	<div macro="fastList title:'Ticklers'
 		tags:'Tickler && !Done'
@@ -25,23 +30,21 @@
 		tags:'Project'
 		"></div>
 
-	<div macro="fastList title:'Future Actions'
-		tags:'Action && ![(Waiting For)] && !Next && !Done'
-		view:action
-		"></div>
-
-</td><td valign="top" width="33%">
-
-	<div macro="fastList title:'Reference'
-		tags:'Reference'
-		"></div>
-
 	<div macro="fastList title:'Recently Done'
 		tags:'Action && Done'
 		limit:10
-		view:action_plain
+		view:actionPlain
 		sortBy:-modified
 		"></div>
+
+
+
+<!--
+	<div macro="fastList title:'Reference'
+		tags:'Reference'
+		"></div>
+	-->
+
 
 </td>
 </tr></table>

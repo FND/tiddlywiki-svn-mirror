@@ -16,7 +16,8 @@ config.indexedTags = {
 		"Area",
 		"Realm",
 		"Context",
-		"ActionStatus"
+		"ActionStatus",
+		"GTDComponent"
 	],
 
 	saveTiddlerHijack: function(title,newTitle,newBody,modifier,modified,tags,fields) {

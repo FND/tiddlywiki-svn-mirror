@@ -34,7 +34,7 @@
 .mList br { display:none; }
 .mList {
 	border:solid 1px [[ColorPalette::TertiaryMid]];
-	margin:0 0.5em 0 0;
+	margin:0 0.5em 0.5em 0;
 	padding-bottom:1em;
 	/* background-color:#f8f8f8; */
 	background-color:white;
@@ -48,7 +48,7 @@
 
 .mList .action, .mList .starthing {
 	display:block;
-	padding-left:0.25em;
+	padding-left:1em;
 	padding-bottom:0.1em;
 	/*
 	overflow:hidden;
@@ -226,6 +226,30 @@ table.noBorder td, .threeCols table td {
 	vertical-align:top;
 	border-style:none;
 	width:33%;
+}
+
+#displayArea {
+	margin: 1em 17em 0em 12em;
+}
+
+#mainMenu {
+	text-align:left;
+}
+
+#mainMenu h2 {
+	padding:0; margin:0;
+	padding-left:0.5em;
+	background-color:[[ColorPalette::TertiaryLight]];
+}
+
+#mainMenu .button {
+	border-style:none;
+}
+
+#mainMenu ul {
+	padding:0; margin:0;
+	margin-left:2em;
+	margin-bottom:0.6em;
 }
 
 [[datepicker]]

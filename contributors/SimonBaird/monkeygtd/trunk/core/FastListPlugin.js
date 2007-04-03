@@ -183,7 +183,7 @@ merge(config.macros,{
 				return this.action(t,isHeading,hideProject);
 			},
 
-			action: function(t,isHeading,hideProject) {
+			action: function(t,isHeading,hideProject,noButtons) {
 
 				// has to be generic class for headings not "action"
 				var useClass = "action2";
@@ -200,9 +200,11 @@ merge(config.macros,{
 				return "{{"+useClass+"{"+
 					"@@font-size:95%;"+
 					"<<tTag tag:Done title:[["+t.title+"]] label:''>>"+
+					(noButtons?"":
 					"<<tTag tag:Next mode:text text:{{config.mGTD.next}} title:[["+t.title+"]]>>"+
 					"<<tTag tag:[[Waiting For]] mode:text text:{{config.mGTD.wait}} title:[["+t.title+"]]>>"+
-					"<<tTag tag:[[Starred]] mode:text text:{{config.mGTD.star}} title:[["+t.title+"]]>> "+
+					"<<tTag tag:[[Starred]] mode:text text:{{config.mGTD.star}} title:[["+t.title+"]]>> "
+					)+
 					"@@"+
 					"[["+t.title+"]] "+
 					projText +
@@ -211,6 +213,10 @@ merge(config.macros,{
 
 			actionHideProject: function(t,isHeading) {
 				return this.action(t,isHeading,true);
+			},
+
+			actionPlain: function(t,isHeading) {
+				return this.action(t,isHeading,true,true);
 			},
 
 			plain: function(t,isHeading,heading) {
@@ -245,7 +251,17 @@ merge(config.macros,{
 				if (isHeading)
 					useClass = "action";
 
-				return "{{"+useClass+"{"+
+				if (isHeading)
+					return "!!"+
+					"[["+t.title+"]] "+
+					"@@font-size:75%;"+
+					"<<tTag tag:Complete title:[["+t.title+"]] label:''>>"+
+					"<<tTag tag:Someday/Maybe mode:text text:{{config.mGTD.someday}} title:[["+t.title+"]]>>"+
+					"<<tTag tag:[[Starred]] mode:text text:{{config.mGTD.star}} title:[["+t.title+"]]>> "+
+					"@@"+
+					"\n";
+				else
+					return "{{"+useClass+"{"+
 					"@@font-size:95%;"+
 					"<<tTag tag:Complete title:[["+t.title+"]] label:''>>"+
 					"<<tTag tag:Someday/Maybe mode:text text:{{config.mGTD.someday}} title:[["+t.title+"]]>>"+

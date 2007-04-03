@@ -1,7 +1,18 @@
 <table width="100%"><tr>
-<td style="vertical-align:top">
+<td style="vertical-align:top" width="50%">
 
 <div macro="fastList title:'Contexts'
+	view:starred
+	"></div>
+
+</td>
+<td style="vertical-align:top" width="50%">
+
+<div macro="fastList title:'Actions by Context'
+	tags:'Action && !Done'
+	group:Context
+	view:action
+	mode:global
 	"></div>
 
 </td>
