@@ -19,10 +19,10 @@ merge(config.macros,{
 			// because we are starting with just a subset of tiddlers
 			// not scanning every tiddler each time
 			// will use the indexes from IndexedTagsPlugin
-			var startTag = getParam(parsedParams,"startTag");
+			var startTag = getParam(parsedParams,"startTag","");
 
 			// eg, "Next && !Done"
-			var tagExpr = getParam(parsedParams,"tags");
+			var tagExpr = getParam(parsedParams,"tags","");
 
 			// additional filter. gets eval'ed
 			var whereExpr = getParam(parsedParams,"where","true");
@@ -36,6 +36,10 @@ merge(config.macros,{
 			// tag expression to apply to the group by headings 
 			// to only show ones we want to see
 			var gTagExpr = getParam(parsedParams,"gTags","");
+			
+			// if there are tiddlers who aren't grouped then give them this title
+			// mainly used to label future actions...
+			var gLeftoverTitle = getParam(parsedParams,"leftoverTitle","(No "+groupBy+")");
 
 			// defines how do we display each item in the list
 			// see renderTiddler
@@ -53,7 +57,7 @@ merge(config.macros,{
 
 			// two modes, local means only things tagged with the current tiddler
 			// use for project etc, and global means show everything
-			var mode = getParam(parsedParams,"local");
+			var tagMode = getParam(parsedParams,"mode","local");
 
 			// extra class for the list in case you need it
 			var className = getParam(parsedParams,"class","");
@@ -64,8 +68,8 @@ merge(config.macros,{
 			// only relevant using group
 			var onlyShowEmpty = getParam(parsedParams,"onlyShowEmpty","no"); 
 
-			if (!startTag)
-				if (mode != "global")
+			if (startTag == "")
+				if (tagMode != "global")
 					startTag = tiddler.title;
 
 			var listDiv = createTiddlyElement(place,"div",null,"mList "+className);
@@ -89,10 +93,12 @@ merge(config.macros,{
 			}
 
 			listRefreshContainer.setAttribute("startTag",startTag);
+			listRefreshContainer.setAttribute("tagMode",tagMode);
 			listRefreshContainer.setAttribute("tagExpr",tagExpr);
 			listRefreshContainer.setAttribute("whereExpr",whereExpr);
 			listRefreshContainer.setAttribute("sortBy",sortBy);
 			listRefreshContainer.setAttribute("groupBy",groupBy);
+			listRefreshContainer.setAttribute("gLeftoverTitle",gLeftoverTitle);
 			listRefreshContainer.setAttribute("gTagExpr",gTagExpr);
 			listRefreshContainer.setAttribute("viewType",viewType);
 			listRefreshContainer.setAttribute("gViewType",gViewType);
@@ -110,6 +116,7 @@ merge(config.macros,{
 			var whereExpr = place.getAttribute("whereExpr");
 			var sortBy = place.getAttribute("sortBy");
 			var groupBy = place.getAttribute("groupBy");
+			var gLeftoverTitle = place.getAttribute("gLeftoverTitle");
 			var gTagExpr = place.getAttribute("gTagExpr");
 			var viewType = place.getAttribute("viewType");
 			var gViewType = place.getAttribute("gViewType");
@@ -123,10 +130,17 @@ merge(config.macros,{
 				var groupLists = {};
 				for (var i=0;i<list.length;i++) {
 					var groupIn = list[i].fastGet(groupBy);
-					for (var j=0;j<groupIn.length;j++) {
-						if (!groupLists[groupIn[j]])
-							groupLists[groupIn[j]] = "";
-						groupLists[groupIn[j]] += this.renderTiddler[viewType](list[i],false);
+					if (groupIn.length > 0) {
+						for (var j=0;j<groupIn.length;j++) {
+							if (!groupLists[groupIn[j]])
+								groupLists[groupIn[j]] = "";
+							groupLists[groupIn[j]] += this.renderTiddler[viewType](list[i],false);
+						}
+					}
+					else {
+						if (!groupLists[gLeftoverTitle])
+							groupLists[gLeftoverTitle] = "";
+						groupLists[gLeftoverTitle] += this.renderTiddler[viewType](list[i],false);
 					}
 				}
 
@@ -139,13 +153,13 @@ merge(config.macros,{
 
 					try {
 						if (eval(tExpr)) {
-							markup += this.renderTiddler[gViewType](tiddler,true);
+							markup += this.renderTiddler[gViewType](tiddler,true,heading);
 							markup += groupLists[heading];
 						}
 					}
 					catch (e) {
 						if (firstError) {
-							alert("error parsing: "+expr);
+							alert("error parsing group expr: "+tExpr);
 							firstError = false;
 						}
 					}
@@ -199,11 +213,29 @@ merge(config.macros,{
 				return this.action(t,isHeading,true);
 			},
 
-			plain: function(t,isHeading) {
+			plain: function(t,isHeading,heading) {
+				if (t) 
+					var useThis = t.title;	
+				else 
+					var useThis = heading;
 				if (isHeading)
-					return "!![["+t.title+"]]\n";
+					return "!![["+useThis+"]]\n";
 				else
-					return "*[["+t.title+"]]\n";
+					return "*[["+useThis+"]]\n";
+			},
+
+			starred: function(t,isHeading,heading) {
+				var useClass = "action2";
+				if (isHeading)
+					useClass = "action";
+
+				if (t) 
+					var useThis = t.title;	
+				else 
+					var useThis = heading;
+				return "{{"+useClass+"{"+
+					"@@font-size:80%;<<tTag tag:[[Starred]] mode:text text:{{config.mGTD.star}} title:[["+t.title+"]]>>@@ "+
+					"[["+useThis+"]]}}}\n";
 			},
 
 			project: function(t,isHeading) {
@@ -249,13 +281,18 @@ merge(config.macros,{
 			if (startTag && startTag != "")
 				var startList = config.indexedTags.tagLists[startTag];
 			else
-				// fixme?
-				var startList = store.reverseLookup(modifier,"a8ajkadf8adjasdfljkasdf8879",false)
+				// returns all tiddlers. refactor please
+				var startList = store.reverseLookup("modifier","a8ajkadf8adjasdfljkasdf8879",false).map(function(t) { return t.title; });
 
-			if (!startList)
+			if (!startList || startList.length == 0)
 			  return output;
 
-			var expr = tagExpr.parseTagExpr();
+			if (tagExpr != "") {
+				var expr = tagExpr.parseTagExpr();
+			}
+			else {
+				var expr = 'true';
+			}
 
 			if (whereExpr && whereExpr != "") {
 				expr = "(("+expr+")&&("+whereExpr+"))"

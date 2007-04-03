@@ -15,18 +15,23 @@ config.indexedTags = {
 		"Project",
 		"Area",
 		"Realm",
-		"Context"
+		"Context",
+		"ActionStatus"
 	],
 
 	saveTiddlerHijack: function(title,newTitle,newBody,modifier,modified,tags,fields) {
 		var before = store.getTiddler(title);
 		var oldTags = before ? [].concat(before.tags) : null;  // concat so we get a dup
 
+		store.suspendNotifications();
 		var result = this.saveTiddler_orig_indexedTags(title,newTitle,newBody,modifier,modified,tags,fields);
 		var newTags = store.getTiddler(newTitle).tags;
 
 		config.indexedTags.updateTagLists(title,oldTags,newTitle,newTags);
 		config.indexedTags.updateIndexes(title,newTitle,newTags);
+
+		store.resumeNotifications();
+		store.notify(title,true);
 
 		return result;
 	},
@@ -35,16 +40,21 @@ config.indexedTags = {
 		var before = store.getTiddler(title);
 		var oldTags = before ? [].concat(before.tags) : null;  // concat so we get a dup
 
+		store.suspendNotifications();
 		this.removeTiddler_orig_indexedTags(title);
 
 		config.indexedTags.updateTagLists(title,oldTags);
 		config.indexedTags.updateIndexes(title);
+
+		store.resumeNotifications();
+		store.notify(title,true);
 	},
 
 	setTiddlerTagHijack: function(title,status,tag) {
 		var before = store.getTiddler(title);
 		var oldTags = before ? [].concat(before.tags) : null;  // concat so we get a dup
 
+		store.suspendNotifications();
 		this.setTiddlerTag_orig_indexedTags(title,status,tag);
 
 		var after = store.getTiddler(title);
@@ -52,6 +62,9 @@ config.indexedTags = {
 
 		config.indexedTags.updateTagLists(title,oldTags,title,newTags);
 		config.indexedTags.updateIndexes(title,title,newTags);
+
+		store.resumeNotifications();
+		store.notify(title,true);
 
 	},
 

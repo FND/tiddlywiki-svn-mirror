@@ -4,6 +4,13 @@
 <div macro="fastList title:'Actions by Status'
 	tags:!Done
 	group:ActionStatus
+	view:action
+	leftoverTitle:'Future'
+	"></div>
+
+<div macro="fastList title:'Done Actions'
+	tags:Done
+	view:action
 	"></div>
 
 </td>
@@ -11,9 +18,8 @@
 
 <div macro="fastList title:'Actions by Realm'
 	group:Realm
+	view:action
 	tags:!Done
 	"></div>
-
-
 
 </td></tr></table>

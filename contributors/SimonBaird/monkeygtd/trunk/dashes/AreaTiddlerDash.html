@@ -3,15 +3,24 @@
 
 <div macro="fastList title:'Areas by Realm'
 	group:Realm
+	view:starred
 	"></div>
 
 </td>
 <td width="33%" style="vertical-align:top">
 
 <div macro="fastList title:'Projects by Area'
-	tags:Project
+	tags:'Project && !Complete'
 	group:Area
 	mode:global
+	view:project
+	"></div>
+
+<div macro="fastList title:'Complete Projects by Area'
+	tags:'Project && Complete'
+	group:Area
+	mode:global
+	view:project
 	"></div>
 
 </td>
