@@ -1,13 +1,12 @@
-//# TiddlyWiki.js
+//# Shoulf be added to TiddlyWiki.js
 //# New method: 
 TiddlyWiki.prototype.allShadowsAsHtml = function()
 {
 	return shadows.getSaver().externalize(shadows, true);
 }
-// ---------------------------------------------------------------------------------
-// Saving
-// ---------------------------------------------------------------------------------
-
+//--
+//-- Saving
+//--
 var saveUsingSafari = false;
 
 var startSaveArea = '<div id="' + 'storeArea">'; // Split up into two so that indexOf() of this source doesn't find it
@@ -26,7 +25,7 @@ function confirmExit()
 // Give the user a chance to save changes before exitting
 function checkUnsavedChanges()
 {
-	if(store && store.isDirty && store.isDirty() && window.hadConfirmExit === false){
+	if(store && store.isDirty && store.isDirty() && window.hadConfirmExit === false) {
 		if(confirm(config.messages.unsavedChangesWarning))
 			saveChanges();
 	}
@@ -40,22 +39,23 @@ function updateMarkupBlock(s,blockName,tiddlerName)
 			"\n" + store.getRecursiveTiddlerText(tiddlerName,"") + "\n");
 }
 
-function updateOriginal(original, posDiv)
+function updateOriginal(original,posDiv)
 {
 	if(!posDiv)
 		posDiv = locateStoreArea(original);
-	if((posDiv[0] == -1) || (posDiv[1] == -1)) {
+	if(!posDiv) {
 		alert(config.messages.invalidFileError.format([localPath]));
 		return null;
 	}
 	var	posShadowDiv = locateShadowArea(original);
-	if((posShadowDiv[0] == -1) || (posShadowDiv[1] == -1)) {
+	if(!posShadowDiv) {
 		alert(config.messages.invalidFileError.format([localPath]));
 		return null;
 	}
-	var revised = original.substr(0,posShadowDiv[0] + startShadowArea.length) + "\n" +
+	var posPostShadow = original.indexOf("<"+"!--POST-SHADOWAREA--"+">");
+	var revised = original.substr(0,posShadowDiv[0]) + startShadowArea + "\n" +
 				convertUnicodeToUTF8(shadows.allShadowsAsHtml()) + "\n" +
-				endShadowArea + "\n" + startSaveArea + "\n" +
+				endShadowArea + "\n" + original.substring(posPostShadow,posDiv[0]) + startSaveArea + "\n" + 
 				convertUnicodeToUTF8(store.allTiddlersAsHtml()) + "\n" +
 				original.substr(posDiv[1]);
 	var newSiteTitle = convertUnicodeToUTF8((wikifyPlain("SiteTitle") + " - " + wikifyPlain("SiteSubtitle")).htmlEncode());
@@ -72,16 +72,19 @@ function locateStoreArea(original)
 	// Locate the storeArea div's
 	var posOpeningDiv = original.indexOf(startSaveArea);
 	var limitClosingDiv = original.indexOf("<"+"!--POST-BODY-START--"+">");
-	var posClosingDiv = original.lastIndexOf(endSaveArea,limitClosingDiv == -1 ? original.length : limitClosingDiv);
-	return Array(posOpeningDiv,posClosingDiv);
+	var posClosingDiv = original.lastIndexOf(endSaveArea, limitClosingDiv == -1 ? original.length : limitClosingDiv);
+	return (posOpeningDiv != -1 && posClosingDiv != -1) ? [posOpeningDiv,posClosingDiv] : null;
 }
 function locateShadowArea(original)
 {
-	// Locate the storeArea div's
-	var posDiv = locateStoreArea(original)
+	// Locate the ShadowArea
+	var posDiv = locateStoreArea(original);
+	if (!posDiv) return null;
 	var posOpeningShadowDiv = original.indexOf(startShadowArea);
-	var posClosingShadowDiv = posDiv[0]-endShadowArea.length;
-	return Array(posOpeningShadowDiv,posClosingShadowDiv);
+	var limitClosingShadowDiv = original.indexOf(startSaveArea);
+//	var posClosingShadowDiv = posDiv[0]-endShadowArea.length;
+	var posClosingShadowDiv = original.lastIndexOf(endShadowArea,limitClosingShadowDiv == -1 ? original.length : limitClosingShadowDiv);
+	return (posOpeningShadowDiv != -1 && posClosingShadowDiv != -1) ? [posOpeningShadowDiv,posClosingShadowDiv] : null;
 }
 function autoSaveChanges(onlyIfDirty,tiddlers)
 {
@@ -98,7 +101,7 @@ function saveChanges(onlyIfDirty,tiddlers)
 	// Get the URL of the document
 	var originalPath = document.location.toString();
 	// Check we were loaded from a file URL
-	if(originalPath.substr(0,5) != "file:"){
+	if(originalPath.substr(0,5) != "file:") {
 		alert(config.messages.notFileUrlError);
 		if(store.tiddlerExists(config.messages.saveInstructions))
 			story.displayTiddler(null,config.messages.saveInstructions);
@@ -107,7 +110,7 @@ function saveChanges(onlyIfDirty,tiddlers)
 	var localPath = getLocalPath(originalPath);
 	// Load the original file
 	var original = loadFile(localPath);
-	if(original == null){
+	if(original == null) {
 		alert(config.messages.cantSaveError);
 		if(store.tiddlerExists(config.messages.saveInstructions))
 			story.displayTiddler(null,config.messages.saveInstructions);
@@ -115,26 +118,26 @@ function saveChanges(onlyIfDirty,tiddlers)
 	}
 	// Locate the storeArea div's
 	var posDiv = locateStoreArea(original);
-	if((posDiv[0] == -1) || (posDiv[1] == -1)){
+	if(!posDiv) {
 		alert(config.messages.invalidFileError.format([localPath]));
 		return;
 	}
 	// Locate the shadowArea div's
 	var	posShadowDiv = locateShadowArea(original);
-	if((posShadowDiv[0] == -1) || (posShadowDiv[1] == -1)){
+	if(!posShadowDiv){
 		alert(config.messages.invalidFileError.format([localPath]));
 		return;
 	}
 	saveBackup(localPath,original);
 	saveRss(localPath);
-	saveEmpty(localPath,original,posDiv,posShadowDiv);
+	saveEmpty(localPath,original,posDiv);
 	saveMain(localPath,original,posDiv);
 }
-	
+
 function saveBackup(localPath,original)
 {
 	// Save the backup
-	if(config.options.chkSaveBackups){
+	if(config.options.chkSaveBackups) {
 		var backupPath = getBackupPath(localPath);
 		var backup = config.browser.isIE ? ieCopyFile(backupPath,localPath) : saveFile(backupPath,original);
 		if(backup)
@@ -146,22 +149,21 @@ function saveBackup(localPath,original)
 
 function saveRss(localPath)
 {
-	// Save Rss
-	if(config.options.chkGenerateAnRssFeed)
-		{
+	//# Save Rss
+	if(config.options.chkGenerateAnRssFeed) {
 		var rssPath = localPath.substr(0,localPath.lastIndexOf(".")) + ".xml";
 		var rssSave = saveFile(rssPath,convertUnicodeToUTF8(generateRss()));
 		if(rssSave)
 			displayMessage(config.messages.rssSaved,"file://" + rssPath);
 		else
 			alert(config.messages.rssFailed);
-		}
+	}
 }
 
 function saveEmpty(localPath,original,posDiv)
 {
-	// Save empty template
-	if(config.options.chkSaveEmptyTemplate){
+	//# Save empty template
+	if(config.options.chkSaveEmptyTemplate) {
 		var emptyPath,p;
 		if((p = localPath.lastIndexOf("/")) != -1)
 			emptyPath = localPath.substr(0,p) + "/empty.html";
@@ -170,11 +172,15 @@ function saveEmpty(localPath,original,posDiv)
 		else
 			emptyPath = localPath + ".empty.html";
 		var	posShadowDiv = locateShadowArea(original);
-		if((posShadowDiv[0] == -1) || (posShadowDiv[1] == -1)) {
+		if(!posShadowDiv) {
 			alert(config.messages.invalidFileError.format([localPath]));
 			return;
 		}
-		var empty = original.substr(0,posShadowDiv[0] + startShadowArea.length + startSaveArea.length) + original.substr(posDiv[1]);
+		var posPostShadow = original.indexOf("<"+"!--POST-SHADOWAREA--"+">");
+		var empty = original.substr(0,posShadowDiv[0]) + startShadowArea+ "\n" +
+					convertUnicodeToUTF8(shadows.allShadowsAsHtml()) + "\n" +
+					endShadowArea + "\n" + original.substring(posPostShadow,posDiv[0]) + startSaveArea + "\n" + 
+					original.substr(posDiv[1]);
 		var emptySave = saveFile(emptyPath,empty);
 		if(emptySave)
 			displayMessage(config.messages.emptySaved,"file://" + emptyPath);
@@ -186,18 +192,19 @@ function saveEmpty(localPath,original,posDiv)
 function saveMain(localPath,original,posDiv)
 {
 	var save;
-	try{
-		// Save new file
-		var revised = updateOriginal(original, posDiv);
+	try {
+		//# Save new file
+		var revised = updateOriginal(original,posDiv);
 		save = saveFile(localPath,revised);
-	}catch (ex){
+	} catch (ex) {
 		showException(ex);
 	}
-	if(save){
+	if(save) {
 		displayMessage(config.messages.mainSaved,"file://" + localPath);
 		store.setDirty(false);
-	}else
+	} else {
 		alert(config.messages.mainFailed);
+	}
 }
 
 function getLocalPath(origPath)
@@ -236,7 +243,7 @@ function getBackupPath(localPath)
 {
 	var backSlash = true;
 	var dirPathPos = localPath.lastIndexOf("\\");
-	if(dirPathPos == -1){
+	if(dirPathPos == -1) {
 		dirPathPos = localPath.lastIndexOf("/");
 		backSlash = false;
 	}
