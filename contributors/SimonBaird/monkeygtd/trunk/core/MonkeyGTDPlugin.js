@@ -829,7 +829,6 @@ config.mGTD = {
 		merge(Date.prototype,this.dateMethods);
 		merge(window,this.coreFunctions);
 
-
 		//merge(config.shadowTiddlers,{MonkeyGTDStyles:this.styles.join("\n")});
 		//store.addNotification("MonkeyGTDStyles",refreshStyles);
 

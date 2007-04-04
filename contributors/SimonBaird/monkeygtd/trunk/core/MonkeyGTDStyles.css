@@ -229,7 +229,7 @@ table.noBorder td, .threeCols table td {
 }
 
 #displayArea {
-	margin: 1em 17em 0em 12em;
+	margin: 1em 16em 0em 12em;
 }
 
 #mainMenu {
@@ -250,6 +250,12 @@ table.noBorder td, .threeCols table td {
 	padding:0; margin:0;
 	margin-left:2em;
 	margin-bottom:0.6em;
+}
+
+
+#mainMenu .txtOptionInput {
+	width:6em;
+	margin-left:1em;
 }
 
 [[datepicker]]

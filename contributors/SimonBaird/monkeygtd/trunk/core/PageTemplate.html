@@ -16,14 +16,15 @@
 </div>
 <!-- realm selector under construction -->
 <div id="extraToolbar" style="color:#555;background:#999;padding:3px;border-bottom:2px solid #777;padding-left:0.5em;font-size:120%;">
+	<span style="float:right" macro="saveChanges"></span>
+	<span style="float:right" macro="toggleSideBar . 'toggle sidebar' hide"></span>
 	<span id='realmSelector' macro="realmSelector"></span>
-	<span style="margin:0 2em;">|</span>
+	<span style="margin:0 1em;">|</span>
 	<span>Create:</span>
 	<span macro="newTiddler label:'new action'  title:'New Action'  tag: Action Next GTD "></span>
 	<span macro="newTiddler label:'new project' title:'New Project' tag: Project GTD "></span>
 	<span macro="newTiddler label:'new tickler' title:'New Tickler' tag: Tickler GTD "></span>
-	<span style="margin:0 2em;">|</span>
-	<span macro="saveChanges"></span>
+	<br style="clear:both"/>
 </div>
 <!--
 <div id='topBar' style="background:#ddd;padding:3px;border-bottom:1px solid #aaa;padding-left:0.5em;">

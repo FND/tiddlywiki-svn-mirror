@@ -2,4 +2,5 @@
 [[Process Inbox]]
 [[Review|Project]]
 [[Starred]] &nbsp;&nbsp;
-@@padding-left:1em;color:[[ColorPalette::PrimaryLight]];<<tiddler MonkeyGTDVersion>>@@
+@@font-size:75%;<<search>>@@
+@@padding-left:2em;font-size:80%;color:[[ColorPalette::PrimaryLight]];<<tiddler MonkeyGTDVersion>>@@
