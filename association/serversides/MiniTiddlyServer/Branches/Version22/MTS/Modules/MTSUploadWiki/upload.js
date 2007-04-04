@@ -12,3 +12,5 @@
             file.submit();
         }
     }
+    
+config.shadowTiddlers.MTSAdminPanel += "\n|<<mtsconflictcleanup>>|";
