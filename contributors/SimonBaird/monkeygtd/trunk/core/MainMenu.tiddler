@@ -1,25 +1,5 @@
- [[Do Work|Dashboard]]
- [[Process Inbox]]
- /% [[Add to Inbox|Collect Thoughts]] %/
- /% [[Inbox]] %/
- [[Review|Project]]
-/%
- <<tag Realm>>
- {{new{''<<newTiddler label:'+'  title:'New Action'  tag: Action Next GTD>>''}}}
- {{tag{<<tag Action>>}}}
- {{new{''<<newTiddler label:'+' title:'New Project' tag: Project GTD>>''}}}
- {{tag{<<tag Project>>}}}
- {{new{''<<newTiddler label:'+' title:'New Tickler' tag: Tickler GTD>>''}}}
- {{tag{<<tag Tickler>>}}}
- {{new{''<<newTiddler label:'+' title:'New Context' tag: Context GTD>>''}}}
- {{tag{<<tag Context>>}}}
- {{new{''<<newTiddler label:'+' title:'New Area' tag: Area GTD>>''}}}
- {{tag{<<tag Area>>}}}
-%/
-@@padding-left:1em;font-size:70%;
- [[starred|Starred]] &nbsp;&nbsp;
- {{tag{<<tag more|GTDComponent>>}}}
- [[config|Config]]
- [[update|Upgrade]]
-@@
- @@padding-left:1em;color:[[ColorPalette::PrimaryLight]];<<tiddler MonkeyGTDVersion>>@@
+[[Dashboard]]
+[[Process Inbox]]
+[[Review|Project]]
+[[Starred]] &nbsp;&nbsp;
+@@padding-left:1em;color:[[ColorPalette::PrimaryLight]];<<tiddler MonkeyGTDVersion>>@@

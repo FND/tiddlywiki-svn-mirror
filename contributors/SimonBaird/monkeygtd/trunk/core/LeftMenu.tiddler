@@ -6,6 +6,9 @@
 * [[Collect Thoughts]]
 !!Process
 * [[Process Inbox]]
+* <<newTiddler label:'New Project' title:'New Project' tag: Project GTD >>
+* <<newTiddler label:'New Action'  title:'New Action'  tag: Action Next GTD >>
+* <<newTiddler label:'New Tickler' title:'New Tickler' tag: Tickler GTD >>
 !!Review
 * [[Project]]
 * [[Projects Without Next Actions]]
@@ -17,3 +20,4 @@
 * [[Settings|MonkeyGTDSettings]]
 * [[Configuration|Config]]
 * [[Update|Upgrade]]
+* {{tag{<<tag More|GTDComponent>>}}}
