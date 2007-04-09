@@ -1,5 +1,4 @@
 <script language="javascript" type="text/javascript" src="MTS/Source/ajax.js"></script>
-<link rel="stylesheet" type="text/css" href="MTS/Source/style.css"></link>
 <script>
 
 <?php
