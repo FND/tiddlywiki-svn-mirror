@@ -30,6 +30,7 @@ make_tw {
   package_as_from_dir    "misc/MonkeyGTDLists.js", "lists"
 
   store_to_file          "upload/upgrade.html"
+  store_to_file          "upload/upgrade2.html"
 
   add_tiddlers_from_dir  "noupgrade"
   add_tiddlers_from_file "misc/Components2.divs"
@@ -45,5 +46,6 @@ make_tw {
   add_tiddlers_from_file "misc/Demo.divs"
   get_tiddler("Dashboard").text = "See http://monkeygtd.tiddlyspot.com and http://monkeygtd.blogspot.com for more info. To download right click [[empty.html|empty.html]] and 'Save as...'"
   to_file                "upload/index.html"
+  to_file                "upload/index2.html"
 }
 

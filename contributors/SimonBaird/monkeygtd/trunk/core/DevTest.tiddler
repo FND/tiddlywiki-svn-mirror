@@ -1,3 +1,4 @@
+<<tField tag:GroupOn label:'Group projects by area'>>
 <<hideIf eval "store.getValue('DevTest','GroupOn') == 'true'">>
 <<tabs chkBlahBlah
 	'Projects (three column)' Projects Projects
@@ -13,27 +14,8 @@
 	'Someday/Maybe Projects' 'Someday/Maybe Projects' SomedayProjectsByArea
 	'Complete Projects' 'Complete Projects' CompleteProjectsByArea
 >>
-<<endIf>>
-
-/%
-<<fastList
-	title:'Next Actions'
-	startTag:Action
-	tags:Action
-	group:Project
-	gTags:!Complete
-	view:action
-	gView:plain
->>
-
-<<fastList
-	title:'Mow lawn test'
-	startTag:[[Mow lawn]]
-	tags:'Next && !Done'
-	view:action
->>
-<<tField tag:GroupOn label:'Group projects by area'>>
-<<hideIf eval "store.getValue('DevTest','GroupOn') == 'true'">>/%
+<<endIf>>/%
+%/<<hideIf eval "store.getValue('DevTest','GroupOn') == 'true'">>/%
 %/<<slider2 'Projects' 'Projects (three column)'>>/%
 %/<<slider2 'ActiveProjects' 'Active Projects'>>/%
 %/<<slider2 'SomedayProjects' 'Someday/Maybe Projects'>>/%
@@ -45,5 +27,3 @@
 %/<<slider2 'SomedayProjectsByArea' 'Someday/Maybe Projects'>>/%
 %/<<slider2 'CompleteProjectsByArea' 'Completed Projects'>>/%
 %/<<endIf>>
-	
-%/

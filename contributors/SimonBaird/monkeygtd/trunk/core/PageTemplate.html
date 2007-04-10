@@ -15,9 +15,12 @@
 <div id='topMenu' refresh='content' tiddler='MainMenu' style="font-size:120%;"></div>
 </div>
 <!-- realm selector under construction -->
+<!-- TODO put this in a tiddler -->
 <div id="extraToolbar" style="color:#555;background:#999;padding:3px;border-bottom:2px solid #777;padding-left:0.5em;font-size:120%;">
 	<span style="float:right" macro="saveChanges"></span>
 	<span style="float:right" macro="toggleSideBar . 'toggle sidebar' hide"></span>
+
+	<span style="float:right" macro="tField tag:mgtd.disableinstantrefresh label:'Disable instant refresh' title:MonkeyGTDSettings refreshAll:yes"></span>
 	<span id='realmSelector' macro="realmSelector"></span>
 	<span style="margin:0 1em;">|</span>
 	<span>Create:</span>
