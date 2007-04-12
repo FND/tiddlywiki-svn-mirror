@@ -232,7 +232,7 @@ SocialtextAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(tiddler.fields['server.host']);
 	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
 	uriTemplate = '%0%1/index.cgi?%2';
-	info.uri = uriTemplate.format([host,workspace,tiddler.title]);
+	info.uri = uriTemplate.format([host,workspace,SocialtextAdaptor.normalizedTitle(tiddler.title)]);
 	return info;
 };
 
