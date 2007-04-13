@@ -127,6 +127,9 @@ ZimbraAdaptor.getTiddlerCallback = function(status,context,responseText,url,xhr)
 	} else {
 		context.tiddler = new Tiddler(context.title);
 		context.tiddler.text = ZimbraAdaptor.tiddlerTemplate.format([responseText]);
+		context.tiddler.fields['server.type'] = ZimbraAdaptor.serverType;
+		context.tiddler.fields['server.host'] = adaptor.host;
+		context.tiddler.fields['server.workspace'] = adaptor.workspace;
 	}
 	context.callback(context,context.userParams);
 }
