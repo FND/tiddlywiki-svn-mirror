@@ -2,10 +2,10 @@
 |''Name:''|EnglishTranslationPlugin|
 |''Description:''|Translation of TiddlyWiki into English|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''Source:''|www.???.com |
+|''Source:''|www.example.com |
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
-|''Version:''|0.3.0|
-|''Date:''|Mar 4, 2007|
+|''Version:''|0.3.1|
+|''Date:''|Apr 14, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/ ]]|
 |''~CoreVersion:''|2.1.3|
@@ -47,10 +47,9 @@ merge(config.optionsDesc,{
 	chkForceMinorUpdate: "Don't update modifier username and date when editing tiddlers",
 	chkConfirmDelete: "Require confirmation before deleting tiddlers",
 	chkInsertTabs: "Use the tab key to insert tab characters instead of moving between fields",
-	chkShowTiddlerDetails: "Always show the tiddler details panel when displaying a tiddler",
 	txtBackupFolder: "Name of folder to use for backups",
 	txtMaxEditRows: "Maximum number of rows in edit boxes",
-	txtFileSystemCharSet: "Default character set for saving changes"});
+	txtFileSystemCharSet: "Default character set for saving changes (Firefox/Mozilla only)"});
 
 merge(config.messages,{
 	customConfigError: "Problems were encountered loading plugins. See PluginManager for details",
@@ -89,19 +88,20 @@ merge(config.messages,{
 	tiddlerLoadError: "Error when loading tiddler '%0'",
 	wrongSaveFormat: "Cannot save with storage format '%0'. Using standard format for save.",
 	invalidFieldName: "Invalid field name %0",
-	fieldCannotBeChanged: "Field '%0' cannot be changed"});
+	fieldCannotBeChanged: "Field '%0' cannot be changed",
+	loadingMissingTiddler: "Attempting to retrieve the tiddler '%0' from the '%1' server at:\n\n'%2' in the workspace '%3'"});
 
 merge(config.messages.messageClose,{
 	text: "close",
 	tooltip: "close this message area"});
 
 config.messages.backstage = {
-	open: {text: "backstage", icon: "↩", iconIE: "←", tooltip: "Open the backstage area to perform authoring and editing tasks"},
-	close: {text: "close", icon: "↪", iconIE: "→", tooltip: "Close the backstage area"},
+	open: {text: "backstage", icon: "\u21A9", iconIE: "\u2190", tooltip: "Open the backstage area to perform authoring and editing tasks"},
+	close: {text: "close", icon: "\u21AA", iconIE: "\u2192", tooltip: "Close the backstage area"},
 	prompt: "backstage: ",
 	decal: {
-		edit: {text: "edit", tooltip: "Edit this tiddler"}
-	},
+		edit: {text: "edit", tooltip: "Edit the tiddler '%0'"}
+	}
 };
 
 config.messages.listView = {
@@ -120,6 +120,11 @@ config.messages.dates.daySuffixes = ["st","nd","rd","th","th","th","th","th","th
 		"st"];
 config.messages.dates.am = "am";
 config.messages.dates.pm = "pm";
+
+merge(config.messages.tiddlerPopup,{
+	icon: "\u2193",
+	iconIE: "\u2193"
+	});
 
 merge(config.views.wikified.tag,{
 	labelNoTags: "no tags",
@@ -208,8 +213,8 @@ merge(config.macros.newJournal,{
 merge(config.macros.options,{
 	wizardTitle: "Tweak advanced options",
 	step1Title: "These options are saved in cookies in your browser",
-	step1Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='false' name='chkHidden'>Show hidden options</input>",
-	unknownDescription: "//(hidden)//",
+	step1Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='false' name='chkUnknown'>Show unknown options</input>",
+	unknownDescription: "//(unknown)//",
 	listViewTemplate: {
 		columns: [
 			{name: 'Option', field: 'option', title: "Option", type: 'String'},
@@ -283,10 +288,10 @@ merge(config.macros.importTiddlers,{
 	confirmOverwriteText: "Are you sure you want to overwrite these tiddlers:\n\n%0",
 	step4Title: "Step 4: Importing %0 tiddler(s)",
 	step4Html: "<input type='hidden' name='markReport'></input>", // DO NOT TRANSLATE
-	step5Title: "Step 5: Completed",
-	step5Html: "All tiddlers were imported",
 	doneLabel: "done",
 	donePrompt: "Close this wizard",
+	statusDoingImport: "Importing tiddlers",
+	statusDoneImport: "All tiddlers imported",
 	systemServerNamePattern: "%2 on %1",
 	systemServerNamePatternNoWorkspace: "%1",
 	confirmOverwriteSaveTiddler: "The tiddler '%0' already exists. Click 'OK' to overwrite it with the details of this server, or 'Cancel' to leave it unchanged",
@@ -335,23 +340,6 @@ merge(config.macros.sync,{
 		putToServer: {text: "Saved update on server", color: "#ff80ff"},
 		gotFromServer: {text: "Retrieved update from server", color: "#80ffff"}
 		}
-	});
-
-merge(config.macros.viewDetails,{
-	label: "...",
-	prompt: "Show additional information about this tiddler",
-	hideLabel: "(hide details)",
-	hidePrompt: "Hide this panel of additional information",
-	emptyDetailsText: "There are no extended fields for this tiddler",
-	listViewTemplate: {
-		columns: [
-			{name: 'Field', field: 'field', title: "Field", type: 'String'},
-			{name: 'Value', field: 'value', title: "Value", type: 'String'}
-			],
-		rowClasses: [
-			],
-		buttons: [
-			]}
 	});
 
 merge(config.macros.annotations,{
@@ -410,6 +398,20 @@ merge(config.commands.syncing,{
 	currServerMarker: "● ",
 	notCurrServerMarker: "  "});
 
+merge(config.commands.fields,{
+	text: "fields",
+	tooltip: "Show the extended fields of this tiddler",
+	emptyText: "There are no extended fields for this tiddler",
+	listViewTemplate: {
+		columns: [
+			{name: 'Field', field: 'field', title: "Field", type: 'String'},
+			{name: 'Value', field: 'value', title: "Value", type: 'String'}
+			],
+		rowClasses: [
+			],
+		buttons: [
+			]}});
+
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "[[TranslatedGettingStarted]]",
 	MainMenu: "[[TranslatedGettingStarted]]",
@@ -435,7 +437,11 @@ merge(config.annotations,{
 	EditTemplate: "The HTML template in this shadow tiddler determines how tiddlers look while they are being edited",
 	GettingStarted: "This shadow tiddler provides basic usage instructions",
 	ImportTiddlers: "This shadow tiddler provides access to importing tiddlers",
-	MainMenu: "This shadow tiddler is used as the contents of the main menu in the left-hand column of the screen)",
+	MainMenu: "This shadow tiddler is used as the contents of the main menu in the left-hand column of the screen",
+	MarkupPreHead: "This tiddler is inserted at the top of the <head> section of the TiddlyWiki HTML file",
+	MarkupPostHead: "This tiddler is inserted at the bottom of the <head> section of the TiddlyWiki HTML file",
+	MarkupPreBody: "This tiddler is inserted at the top of the <body> section of the TiddlyWiki HTML file",
+	MarkupPostBody: "This tiddler is inserted at the bottom of the <body> section of the TiddlyWiki HTML file",
 	OptionsPanel: "This shadow tiddler is used as the contents of the options panel slider in the right-hand sidebar",
 	PageTemplate: "The HTML template in this shadow tiddler determines the overall ~TiddlyWiki layout",
 	PluginManager: "This shadow tiddler provides access to the plugin manager",
