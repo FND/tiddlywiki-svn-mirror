@@ -5,7 +5,7 @@
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hans/locale.zh-Hans.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''Version:''|1.1.0.2|
-|''Date:''|Jan 13, 2007|
+|''Date:''|Apr 10, 2007|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -25,10 +25,10 @@ if (!config.options.txtUserName)
 
 merge(config.tasks,{
 	save: {text: "保存", tooltip: "保存变更至此 TiddlyWiki", action: saveChanges},
-//	tidy: {text: "整理", tooltip: "对群组文章作大量更新"},
+//#	tidy: {text: "整理", tooltip: "对群组文章作大量更新"},
 	sync: {text: "同步", tooltip: "将你的资料内容与外部服务器与文件同步", content: '<<sync>>'},
 	importTask: {text: "导入", tooltip: "自其他文件或服务器导入文章或插件", content: '<<importTiddlers>>'},
-//	copy: {text: "复制", tooltip: "复制文章至别的 TiddlyWiki 文件及服务器"},
+//#	copy: {text: "复制", tooltip: "复制文章至别的 TiddlyWiki 文件及服务器"},
 	tweak: {text: "选项", tooltip: "改变此 TiddlyWiki 显示与行为设置", content: '<<options>>'},
 	plugins: {text: "套件管理", tooltip: "管理已安装的套件", content: '<<plugins>>'}
 });
@@ -48,10 +48,10 @@ merge(config.optionsDesc,{
 	chkForceMinorUpdate: "修改文章时，不变更作者名称与日期时间",
 	chkConfirmDelete: "删除文章前须确认",
 	chkInsertTabs: "使用 tab 键插入定位字符，而非跳至下一个栏位",
-	chkShowTiddlerDetails: "显示文章详细资讯",
+//#	chkShowTiddlerDetails: "显示文章详细资讯",
 	txtBackupFolder: "存放备份文件的资料夹",
 	txtMaxEditRows: "编辑模式中显示列数",
-	txtFileSystemCharSet: "指定保存文件所在之档案系统之字符集"});
+	txtFileSystemCharSet: "指定保存文件所在之档案系统之字符集 (仅适用于 Firefox/Mozilla only)"});
 
 // Messages
 merge(config.messages,{
@@ -91,18 +91,19 @@ merge(config.messages,{
 	tiddlerLoadError: "载入文章 '%0' 时，发生错误。",
 	wrongSaveFormat: "无法使用格式 '%0' 保存，请使用标准格式存放",
 	invalidFieldName: "无效的栏位名称：%0",
-	fieldCannotBeChanged: "无法变更栏位：'%0'"});
+	fieldCannotBeChanged: "无法变更栏位：'%0'",
+	loadingMissingTiddler: "正从伺服器 '%1' 的：\n\n工作区 '%3' 中的 '%2' 撷取文章 '%0'"});
 
 merge(config.messages.messageClose,{
 	text: "关闭",
 	tooltip: "关闭此讯息"});
 
 config.messages.backstage = {
-	open: {text: "控制台", icon: "↩", iconIE: "←", tooltip: "开启控制台执行编写工作"},
-	close: {text: "关闭", icon: "↪", iconIE: "→", tooltip: "关闭控制台"},
+	open: {text: "控制台", icon: "\u21A9", iconIE: "\u2190", tooltip: "开启控制台执行编写工作"},
+	close: {text: "关闭", icon: "\u21AA", iconIE: "\u2192", tooltip: "关闭控制台"},
 	prompt: "控制台：",
 	decal: {
-		edit: {text: "编辑", tooltip: "编辑此文"}
+		edit: {text: "编辑", tooltip: "编辑 '%0'"}
 	}
 };
 
@@ -122,6 +123,11 @@ config.messages.dates.daySuffixes = ["st","nd","rd","th","th","th","th","th","th
 		"st"];
 config.messages.dates.am = "上午";
 config.messages.dates.pm = "下午";
+
+merge(config.messages.tiddlerPopup,{ 
+	icon: "\u2193", 
+	iconIE: "" 
+	});
 
 merge(config.views.wikified.tag,{
 	labelNoTags: "未设标签",
@@ -210,8 +216,8 @@ merge(config.macros.newJournal,{
 merge(config.macros.options,{
 	wizardTitle: "增订的进阶选项",
 	step1Title: "增订的选项保存于浏览器的 cookies",
-	step1Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='false' name='chkHidden'>显示被隐藏之选项</input>",
-	unknownDescription: "//(隐藏)//",
+	step1Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='false' name='chkUnknown'>显示未知选项</input>",
+	unknownDescription: "//(未知)//",
 	listViewTemplate: {
 		columns: [
 			{name: 'Option', field: 'option', title: "选项", type: 'String'},
@@ -285,10 +291,10 @@ merge(config.macros.importTiddlers,{
 	confirmOverwriteText: "确定要覆写这些文章：\n\n%0",
 	step4Title: "步骤四：正在导入%0 篇文章",
 	step4Html: "<input type='hidden' name='markReport'></input>", // DO NOT TRANSLATE
-	step5Title: "步骤五：导入完成",
-	step5Html: "所选文章已导入",
 	doneLabel: "完成",
 	donePrompt: "关闭",
+	statusDoingImport: "正在导入文章 ...",
+	statusDoneImport: "所选文章已导入",
 	systemServerNamePattern: "%2 位于 %1",
 	systemServerNamePatternNoWorkspace: "%1",
 	confirmOverwriteSaveTiddler: "此 tiddler '%0' 已经存在。点击“确定”以服务器上料覆写之，或“取消”不变更后离开",
@@ -337,23 +343,6 @@ merge(config.macros.sync,{
 		putToServer: {text: "已储存更新资料至服务器", color: "#ff80ff"},
 		gotFromServer: {text: "已从服务器撷取更新资料", color: "#80ffff"}
 		}
-	});
-
-merge(config.macros.viewDetails,{
-	label: "...",
-	prompt: "显示此文章之详细资讯",
-	hideLabel: "(隐藏详细资讯)",
-	hidePrompt: "隐藏此详细资讯面板",
-	emptyDetailsText: "此文章没有扩充栏位",
-	listViewTemplate: {
-		columns: [
-			{name: 'Field', field: 'field', title: "栏位", type: 'String'},
-			{name: 'Value', field: 'value', title: "内容", type: 'String'}
-			],
-		rowClasses: [
-			],
-		buttons: [
-			]}
 	});
 
 merge(config.commands.closeTiddler,{
@@ -427,6 +416,20 @@ merge(config.shadowTiddlers,{
 	PluginManager: '<<plugins>>',
 	ImportTiddlers: '<<importTiddlers>>'});
 
+merge(config.commands.fields,{
+	text: "欄位",
+	tooltip: "显示此文章的扩充资讯",
+	emptyText: "此文章没有扩充栏位",
+	listViewTemplate: {
+		columns: [
+			{name: 'Field', field: 'field', title: "栏位", type: 'String'},
+			{name: 'Value', field: 'value', title: "内容", type: 'String'}
+			],
+		rowClasses: [
+			],
+		buttons: [
+			]}});
+
 merge(config.annotations,{
 	AdvancedOptions: "此默认文章可以存取一些进阶选项。",
 	ColorPalette: "此默认文章里的设定值，将决定 ~TiddlyWiki 使用者介面的配色。",
@@ -435,6 +438,10 @@ merge(config.annotations,{
 	GettingStarted: "此默认文章提供基本的使用说明。",
 	ImportTiddlers: "此默认文章提供存取导入中的文章。",
 	MainMenu: "此默认文章的内容，为于萤幕左侧主菜单的内容",
+	MarkupPreHead: "此文章的内容将加至 TiddlyWiki HTML 的 <head> 段落的起始",
+	MarkupPostHead: "此文章的内容将加至 TiddlyWiki HTML 的 <head> 段落的最后",
+	MarkupPreBody: "此文章的内容将加至 TiddlyWiki HTML 的 <body> 段落的起始",
+	MarkupPostBody: "此文章的内容将加至 TiddlyWiki HTML 的 <body> 段落的最后",
 	OptionsPanel: "此默认文章的内容，为于萤幕右侧副菜单中的选项面板里的内容",
 	PageTemplate: "此默认文章里的 HTML template 决定的 ~TiddlyWiki 主要的版面配置",
 	PluginManager: "此默认文章提供存取套件管理员",
@@ -457,5 +464,4 @@ merge(config.annotations,{
 	TabTimeline: "此默认文章的内容，为于萤幕右侧的“最近更新”页签的内容",
 	ViewTemplate: "此默认文章里的 HTML template 决定文章显示的样子"
 	});
-
 /*}}}*/

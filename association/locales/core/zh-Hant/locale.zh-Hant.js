@@ -5,7 +5,7 @@
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hant/locale.zh-Hant.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''Version:''|1.1.0.2|
-|''Date:''|Jan 13, 2007|
+|''Date:''|Apr 10, 2007|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -46,10 +46,9 @@ merge(config.optionsDesc,{
 	chkForceMinorUpdate: "修改文章時，不變更作者名稱與日期時間",
 	chkConfirmDelete: "刪除文章前須確認",
 	chkInsertTabs: "使用 tab 鍵插入定位字元，而非跳至下一個欄位",
-	chkShowTiddlerDetails: "顯示文章詳細資訊",
 	txtBackupFolder: "存放備份檔案的資料夾",
 	txtMaxEditRows: "編輯模式中顯示列數",
-	txtFileSystemCharSet: "指定儲存文件所在之檔案系統之字集"});
+	txtFileSystemCharSet: "指定儲存文件所在之檔案系統之字集 (僅適用於 Firefox/Mozilla only)"});
 
 // Messages
 merge(config.messages,{
@@ -89,18 +88,19 @@ merge(config.messages,{
 	tiddlerLoadError: "載入文章 '%0' 時，發生錯誤。",
 	wrongSaveFormat: "無法使用格式 '%0' 儲存，請使用標准格式存放",
 	invalidFieldName: "無效的欄位名稱：%0",
-	fieldCannotBeChanged: "無法變更欄位：'%0'"});
+	fieldCannotBeChanged: "無法變更欄位：'%0'",
+	loadingMissingTiddler: "正從伺服器 '%1' 的：\n\n工作區 '%3' 中的 '%2' 擷取文章 '%0'"});
 
 merge(config.messages.messageClose,{
 	text: "關閉",
 	tooltip: "關閉此訊息"});
 
 config.messages.backstage = {
-	open: {text: "控制台", icon: "↩", iconIE: "←", tooltip: "開啟控制台執行編寫工作"},
-	close: {text: "關閉", icon: "↪", iconIE: "→", tooltip: "關閉控制台"},
+	open: {text: "控制台", icon: "\u21A9", iconIE: "\u2190", tooltip: "開啟控制台執行編寫工作"},
+	close: {text: "關閉", icon: "\u21AA", iconIE: "\u2192", tooltip: "關閉控制台"},
 	prompt: "控制台：",
 	decal: {
-		edit: {text: "編輯", tooltip: "編輯此文"}
+		edit: {text: "編輯", tooltip: "編輯 '%0'"}
 	}
 };
 
@@ -120,6 +120,11 @@ config.messages.dates.daySuffixes = ["st","nd","rd","th","th","th","th","th","th
 		"st"];
 config.messages.dates.am = "上午";
 config.messages.dates.pm = "下午";
+
+merge(config.messages.tiddlerPopup,{ 
+	icon: "\u2193", 
+	iconIE: "" 
+	});
 
 merge(config.views.wikified.tag,{
 	labelNoTags: "未設標籤",
@@ -208,8 +213,8 @@ merge(config.macros.newJournal,{
 merge(config.macros.options,{
 	wizardTitle: "增訂的進階選項",
 	step1Title: "增訂的選項儲存於瀏覽器的 cookies",
-	step1Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='false' name='chkHidden'>顯示被隱藏之選項</input>",
-	unknownDescription: "//(隱藏)//",
+	step1Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='false' name='chkUnknown'>顯示未知選項</input>",
+	unknownDescription: "//(未知)//",
 	listViewTemplate: {
 		columns: [
 			{name: 'Option', field: 'option', title: "選項", type: 'String'},
@@ -283,10 +288,10 @@ merge(config.macros.importTiddlers,{
 	confirmOverwriteText: "確定要覆寫這些文章：\n\n%0",
 	step4Title: "步驟四：正在導入%0 篇文章",
 	step4Html: "<input type='hidden' name='markReport'></input>", // DO NOT TRANSLATE
-	step5Title: "步驟五：導入完成",
-	step5Html: "所選文章已導入",
 	doneLabel: "完成",
 	donePrompt: "關閉",
+	statusDoingImport: "正在導入文章 ...",
+	statusDoneImport: "所選文章已導入",
 	systemServerNamePattern: "%2 位於 %1",
 	systemServerNamePatternNoWorkspace: "%1",
 	confirmOverwriteSaveTiddler: "此 tiddler '%0' 已經存在。點擊「確定」以伺服器上料覆寫之，或「取消」不變更後離開",
@@ -336,23 +341,6 @@ merge(config.macros.sync,{
 		putToServer: {text: "已儲存更新資料至伺服器", color: "#ff80ff"},
 		gotFromServer: {text: "已從伺服器擷取更新資料", color: "#80ffff"}
 		}
-	});
-
-merge(config.macros.viewDetails,{
-	label: "...",
-	prompt: "顯示此文章之詳細資訊",
-	hideLabel: "(隱藏詳細資訊)",
-	hidePrompt: "隱藏此詳細資訊面板",
-	emptyDetailsText: "此文章沒有擴充欄位",
-	listViewTemplate: {
-		columns: [
-			{name: 'Field', field: 'field', title: "欄位", type: 'String'},
-			{name: 'Value', field: 'value', title: "內容", type: 'String'}
-			],
-		rowClasses: [
-			],
-		buttons: [
-			]}
 	});
 
 merge(config.macros.annotations,{
@@ -429,6 +417,20 @@ merge(config.shadowTiddlers,{
 	PluginManager: '<<plugins>>', 
 	ImportTiddlers: '<<importTiddlers>>'});
 
+merge(config.commands.fields,{
+	text: "欄位",
+	tooltip: "顯示此文章的擴充資訊",
+	emptyText: "此文章沒有擴充欄位",
+	listViewTemplate: {
+		columns: [
+			{name: 'Field', field: 'field', title: "欄位", type: 'String'},
+			{name: 'Value', field: 'value', title: "內容", type: 'String'}
+			],
+		rowClasses: [
+			],
+		buttons: [
+			]}});
+
 merge(config.annotations,{
 	AdvancedOptions: "此預設文章可以存取一些進階選項。",
 	ColorPalette: "此預設文章裡的設定值，將決定 ~TiddlyWiki 使用者介面的配色。",
@@ -437,6 +439,10 @@ merge(config.annotations,{
 	GettingStarted: "此預設文章提供基本的使用說明。",
 	ImportTiddlers: "此預設文章提供存取導入中的文章。",
 	MainMenu: "此預設文章的內容，為於螢幕左側主選單的內容",
+	MarkupPreHead: "此文章的內容將加至 TiddlyWiki HTML 的 <head> 段落的起始",
+	MarkupPostHead: "此文章的內容將加至 TiddlyWiki HTML 的 <head> 段落的最後",
+	MarkupPreBody: "此文章的內容將加至 TiddlyWiki HTML 的 <body> 段落的起始",
+	MarkupPostBody: "此文章的內容將加至 TiddlyWiki HTML 的 <body> 段落的最後",
 	OptionsPanel: "此預設文章的內容，為於螢幕右側副選單中的選項面板裡的內容",
 	PageTemplate: "此預設文章裡的 HTML template 決定的 ~TiddlyWiki 主要的版面配置",
 	PluginManager: "此預設文章提供存取套件管理員",
