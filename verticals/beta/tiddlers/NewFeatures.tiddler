@@ -1,0 +1,17 @@
+<div title="NewFeatures" modifier="JeremyRuston" created="200704141410" changecount="1">
+<pre>This substantial new release of TiddlyWiki adds several features:
+* A new 'backstage' user interface to group together operations that are needed by authors rather than readers or users
+** The backstage area by default only appears for non-read-only TiddlyWikis; DownloadSoftware and open this TW from a file:// URL to try it out
+* The beginnings of a new framework to support synchronising tiddlers with external servers and files
+** See [[Socialtext Unplugged|http://ross.typepad.com/blog/2006/12/socialtext_unpl.html]] for an example; more to come soon
+* Ability to use &lt;PRE&gt; tags in the store area to avoid having to escape newlines and backslashes
+* Added paramifier for overriding current read-only state (eg, http://www.tiddlywiki.com/beta/#readOnly:no)
+* Embolden tags in the tag listing that are also defined as tiddlers
+* Improved {{{&lt;&lt;newTiddler&gt;&gt;}}} and {{{&lt;&lt;newJournal&gt;&gt;}}} macros to accept custom fields
+* Rearranged shadow tiddlers into their own, unencoded store area
+* Improved support for XMLHttpRequest operations
+* Various improved error messages
+* Greatly improved startup speed, and improved performance for many other common operations
+* Extensive bug fixes and refactorings
+* ...and by popular request, we've started to reformat the TiddlyWiki source code to use the more conventional K&amp;R layout standard</pre>
+</div>

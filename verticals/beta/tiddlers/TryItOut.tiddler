@@ -1,6 +1,6 @@
-<div title="TryItOut" modifier="JeremyRuston" created="200702220313" modified="200702280800" anon="undefined" changecount="1">
+<div title="TryItOut" modifier="JeremyRuston" created="200702220313" modified="200704141408" anon="undefined" changecount="2">
 <pre>Here's how to try out the features in this new beta:
-# Download a copy of this TiddlyWiki by right-clicking on [[this link|index.html]]
+# Download a copy of this TiddlyWiki by right-clicking on [[this link|index.html]] or download an [[empty copy|empty.html]]
 # Open it in your browser (at the moment, FireFox works best)
 # Click on the 'backstage' link in the upper right
 # Click on 'import'

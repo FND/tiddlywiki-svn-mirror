@@ -1,8 +1,7 @@
-<div title="WikipediaImpressionistPaintersServer" modifier="MartinBudden"  created="200703200000" tags="systemServer">
-<pre>|''Description:''|Wikipedia articles in the category "Impressionist painters"|
+<div title="WikipediaImpressionistPaintersServer" modifier="MartinBudden" created="200703200000" tags="systemServer">
+<pre>|''Description:''|Wikipedia articles in the category &quot;Impressionist painters&quot;|
 |''Type:''|mediawiki|
 |''URL:''|http://www.wikipedia.org/w/|
 |''Workspace:''|Main|
-|''~TiddlerFilter:''|[tags[Impressionist_painters]]|
-</pre>
+|''~TiddlerFilter:''|[tags[Impressionist_painters]]|</pre>
 </div>
