@@ -1,7 +1,6 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 title: titleStOSS.html
-tiddler: ../../tiddlers/MainMenuHome.tiddler
-tiddler: ../../tiddlers/ViewTemplateHostedRevisionsTest.tiddler
+tiddler: MainMenu.tiddler
 tiddler: settings.js
 tiddler: SiteUrl.tiddler
 tiddler: SiteSubtitle.tiddler
@@ -10,9 +9,12 @@ tiddler: SiteTitleStOSS.tiddler
 tiddler: PageTemplate.tiddler
 tiddler: DefaultTiddlersStOSS.tiddler
 tiddler: HomeStOSS.tiddler
-tiddler: ListWorkspaceStOSS.tiddler
-tiddler: ImportWorkspaceStOSS.tiddler
+# tiddler: ListWorkspaceStOSS.tiddler
+# tiddler: ImportWorkspaceStOSS.tiddler
 tiddler: Socialtext_Open_Source_Wiki.tiddler
+tiddler: ../../tiddlers/ViewTemplateHostedRevisions.tiddler
+tiddler: ../../tiddlers/Socialtext_Basic_Formatting.tiddler
+tiddler: ../../tiddlers/Socialtext_Document_Formatting.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/SocialtextScreenStyle.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/SocialtextStyleOverrides.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/Styles_HorizontalMainMenu.tiddler
