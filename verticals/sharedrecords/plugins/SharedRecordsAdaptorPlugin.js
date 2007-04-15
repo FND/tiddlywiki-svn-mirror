@@ -3,8 +3,8 @@
 |''Description:''|Adaptor for Shared Record Server (http://www.sharedrecords.org/)|
 |''Author:''|Jeremy Ruston (jeremy (at) osmosoft (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/sharedrecords/plugins/SharedRecordsAdaptorPlugin.js|
-|''Version:''|0.2.0|
-|''Date:''|Feb 23, 2007|
+|''Version:''|0.2.1|
+|''Date:''|Apr 15, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -35,6 +35,15 @@ merge(SharedRecordsAdaptor,{
 	jsonWrapper: '{"tiddlers":[%0]}'
 });
 
+SharedRecordsAdaptor.prototype.setContext = function(context,userParams,callback)
+{
+	if(!context) context = {};
+	context.userParams = userParams;
+	if(callback) context.callback = callback;
+	context.adaptor = this;
+	return context;
+};
+
 // Static method to create a Date() from a string in the format yyyy-MM-ddTHH:mm:ss.SSSz where z is the locale
 SharedRecordsAdaptor.convertFromFullUTCISO1806 = function(dateString)
 {
@@ -45,36 +54,36 @@ SharedRecordsAdaptor.convertFromFullUTCISO1806 = function(dateString)
 							parseInt(dateString.substr(14,2),10),
 							parseInt(dateString.substr(17,2), 10)));
 	return(theDate);
-}
+};
 
 // Static method to convert string in ISO date format to a Date() object
 SharedRecordsAdaptor.convertToFullUTCISO1806 = function(d)
 {
 	return d.formatString("YYYY-0MM-0DDT0hh:0mm:0ss.000UTC");
-}
+};
 
 SharedRecordsAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 	this.host = host;
 	context.status = true;
 	window.setTimeout(function() {callback(context,userParams);},10);
 	return true;
-}
+};
 
 SharedRecordsAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 	context.workspaces = [];
 	context.status = true;
 	window.setTimeout(function() {callback(context,userParams);},10);
 	return true;
-}
+};
 
 SharedRecordsAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 	this.workspace = workspace;
-	context.adaptor = this;
-	context.callback = callback;
-	context.userParams = userParams;
 	var url = SharedRecordsAdaptor.getTiddlersUrl.format([this.host,this.workspace]);
 	var ret = loadRemoteFile(url,SharedRecordsAdaptor.openWorkspaceCallback,context);
 	return typeof(ret) == "string" ? ret : true;
@@ -90,10 +99,11 @@ SharedRecordsAdaptor.openWorkspaceCallback = function(status,context,responseTex
 		adaptor.serverData = eval("(" + responseText + ")");
 	}
 	context.callback(context,context.userParams);
-}
+};
 
 SharedRecordsAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 	if(!this.serverData)
 		return SharedRecordsAdaptor.notLoadedError;
 	context.tiddlers = [];
@@ -110,7 +120,7 @@ SharedRecordsAdaptor.prototype.getTiddlerList = function(context,userParams,call
 	context.status = true;
 	window.setTimeout(function() {callback(context,userParams);},10);
 	return true;
-}
+};
 
 
 SharedRecordsAdaptor.prototype.generateTiddlerInfo = function(tiddler)
@@ -120,10 +130,11 @@ SharedRecordsAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
 	info.uri = SharedRecordsAdaptor.viewTiddlersUrl.format([host,workspace,tiddler.title]);
 	return info;
-}
+};
 
 SharedRecordsAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 	if(!this.serverData)
 		return SharedRecordsAdaptor.notLoadedError;
 	var t = this.serverData.tiddlers.findByField('title',title);
@@ -146,13 +157,14 @@ SharedRecordsAdaptor.prototype.getTiddler = function(title,context,userParams,ca
 	}
 	window.setTimeout(function() {callback(context,userParams);},10);
 	return true;
-}
+};
 
 SharedRecordsAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 	var jsonTags = [];
 	for(var tag=0; tag<tiddler.tags.length; tag++)
-		jsonTags.push(SocialtextAdaptor.jsonTag.format([tiddler.tags[tag].toJSONString()]));
+		jsonTags.push(SharedRecordsAdaptor.jsonTag.format([tiddler.tags[tag].toJSONString()]));
 	var sequenceNumber = tiddler.fields['server.page.version'];
 	sequenceNumber = sequenceNumber === undefined ? -1 : parseInt(sequenceNumber,10);
 	sequenceNumber = -1; // Just for the moment
@@ -172,16 +184,13 @@ SharedRecordsAdaptor.prototype.putTiddler = function(tiddler,context,userParams,
 			]);
 	var jsonRecord = SharedRecordsAdaptor.jsonWrapper.format([jsonTiddler]);
 	var url = SharedRecordsAdaptor.putTiddlersUrl.format([this.host,this.workspace,sequenceNumber]);
-	context.adaptor = this;
-	context.callback = callback;
-	context.userParams = userParams;
 	var r = doHttp("POST",
 		url,
 		jsonRecord,
 		null,null,null,
 		SharedRecordsAdaptor.putTiddlerCallback,context);
 	return typeof r == 'string' ? r : true;
-}
+};
 
 SharedRecordsAdaptor.putTiddlerCallback = function(status,context,responseText,url,xhr)
 {
@@ -193,7 +202,7 @@ SharedRecordsAdaptor.putTiddlerCallback = function(status,context,responseText,u
 	}
 	if(context.callback)
 		context.callback(context,context.userParams);
-}
+};
 
 SharedRecordsAdaptor.prototype.close = function() {return true;};
 

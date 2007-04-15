@@ -3,8 +3,8 @@
 |''Description:''|Adaptor for Zimbra Collaboration Server (http://www.zimbra.com/)|
 |''Author:''|Jeremy Ruston (jeremy (at) osmosoft (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/zimbra/plugins/ZimbraAdaptorPlugin.js|
-|''Version:''|0.1.0|
-|''Date:''|Feb 23, 2007|
+|''Version:''|0.1.1|
+|''Date:''|Apr 15, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -30,39 +30,49 @@ merge(ZimbraAdaptor,{
 	tiddlerTemplate: '<html>%0</html>'
 });
 
+ZimbraAdaptor.prototype.setContext = function(context,userParams,callback)
+{
+	if(!context) context = {};
+	context.userParams = userParams;
+	if(callback) context.callback = callback;
+	context.adaptor = this;
+	return context;
+};
+
 ZimbraAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 	this.host = host;
 	context.status = true;
 	window.setTimeout(function() {callback(context,userParams);},10);
 	return true;
-}
+};
 
 ZimbraAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 	context.workspaces = [];
 	context.status = true;
 	window.setTimeout(function() {callback(context,userParams);},10);
 	return true;
-}
+};
 
 ZimbraAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
+	context = this.setContext(context,userParams,callback);
 	this.workspace = workspace;
 	context.status = true;
 	window.setTimeout(function() {callback(context,userParams);},10);
 	return true;
-}
+};
 
 ZimbraAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
-	context.adaptor = this;
-	context.callback = callback;
-	context.userParams = userParams;
+	context = this.setContext(context,userParams,callback);
 	var url = ZimbraAdaptor.getTiddlerListUrl.format([this.host,this.workspace]);
 	var ret = loadRemoteFile(url,ZimbraAdaptor.getTiddlerListCallback,context);
 	return typeof(ret) == "string" ? ret : true;
-}
+};
 
 ZimbraAdaptor.getTiddlerListCallback = function(status,context,responseText,url,xhr)
 {
@@ -74,7 +84,7 @@ ZimbraAdaptor.getTiddlerListCallback = function(status,context,responseText,url,
 		context.tiddlers = adaptor.readRss(responseText);
 	}
 	context.callback(context,context.userParams);
-}
+};
 
 ZimbraAdaptor.prototype.readRss = function(rssText)
 {
@@ -96,7 +106,7 @@ ZimbraAdaptor.prototype.readRss = function(rssText)
 		}
 	}
 	return tiddlers;
-}
+};
 
 ZimbraAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 {
@@ -105,18 +115,16 @@ ZimbraAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
 	info.uri = ZimbraAdaptor.viewTiddlerUrl.format([host,workspace,encodeURI(tiddler.title)]);
 	return info;
-}
+};
 
 ZimbraAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
-	context.adaptor = this;
-	context.callback = callback;
-	context.userParams = userParams;
+	context = this.setContext(context,userParams,callback);
 	context.title = title;
 	var url = ZimbraAdaptor.getTiddlerUrl.format([this.host,this.workspace,encodeURI(title)]);
 	var ret = loadRemoteFile(url,ZimbraAdaptor.getTiddlerCallback,context);
 	return typeof(ret) == "string" ? ret : true;
-}
+};
 
 ZimbraAdaptor.getTiddlerCallback = function(status,context,responseText,url,xhr)
 {
@@ -132,12 +140,7 @@ ZimbraAdaptor.getTiddlerCallback = function(status,context,responseText,url,xhr)
 		context.tiddler.fields['server.workspace'] = adaptor.workspace;
 	}
 	context.callback(context,context.userParams);
-}
-
-ZimbraAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
-{
-
-}
+};
 
 ZimbraAdaptor.prototype.close = function() {return true;};
 
