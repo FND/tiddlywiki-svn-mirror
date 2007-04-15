@@ -1,0 +1,7 @@
+<div title="Socialtext Document Formatting" modifier="MartinBudden" wikiformat="socialtext">
+<pre>|*Format* |*Markup* |*Example* |
+|*Headings*|{{^Heading 1}}| |
+|*Block quotes*|{{Blockquote}} | |
+|*Horizontal Rule*|{{----}} (4 dashes on a line of their own)|.html&lt;hr&gt;.html |
+</pre>
+</div>

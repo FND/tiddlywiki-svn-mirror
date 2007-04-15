@@ -1,0 +1,9 @@
+<div title="Socialtext Formatting" modifier="MartinBudden" wikiformat="socialtext">
+<pre>|*Format* |*Markup* |*Example* |
+|Bold|{{*Bold*}}|*Bold* |
+|Italic|{{_Italic_}}|_Italic_ |
+|Bold Italic|{{*_Bold Italic_*}}|*_Bold Italic_* |
+|Strikethough|{{-Strikethrough-}}|-Strikethrough- |
+|Monospaced text|{{`Monospaced`}}|`Monospaced` |
+</pre>
+</div>
