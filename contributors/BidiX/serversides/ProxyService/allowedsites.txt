@@ -14,3 +14,10 @@ www.tiddlytools.com
 www.tiddlywiki.com
 www.wikipedia.org
 demo.zimbra.com
+news.com.com
+www.lemonde.fr
+www.lesechos.fr
+www.liberation.fr
+www.nytimes.com
+rss.news.yahoo.com
+del.icio.us
