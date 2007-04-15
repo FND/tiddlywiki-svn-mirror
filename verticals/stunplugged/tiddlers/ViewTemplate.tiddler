@@ -1,6 +1,6 @@
 <div title="ViewTemplate" modifier="JeremyRuston" created="200611020000" modified="200611081453" tags="excludeLists excludeSearch">
 <pre>&lt;!--{{{--&gt;
-&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler references jump'&gt;&lt;/div&gt;
+&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler references > fields syncing jump'&gt;&lt;/div&gt;
 &lt;div class='workspace' id='st-page-wiki-title' macro='view socialtext.workspace'&gt;&lt;/div&gt;
 &lt;div class='title' id='st-page-titletext' macro='view title'&gt;&lt;/div&gt;
 &lt;div class='subtitle'&gt;
