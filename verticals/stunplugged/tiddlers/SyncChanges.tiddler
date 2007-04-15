@@ -1,1 +1,5 @@
-<div tiddler="SyncChanges" modifier="JeremyRuston" modified="200611081502" created="200611081502" tags="excludeLists excludeSearch">@@The user interface for synchronization is not finalized@@\nTo synchronize your changes back to the Socialtext server:\n# click on [[Sync]] in the right-hand sidebar</div>
+<div title="SyncChanges" modifier="JeremyRuston" created="200611081502" tags="excludeLists excludeSearch">
+<pre>@@The user interface for synchronization is not finalized@@
+To synchronize your changes back to the Socialtext server:
+# click on [[Sync]] in the right-hand sidebar</pre>
+</div>

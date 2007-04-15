@@ -1,1 +1,15 @@
-<div tiddler="ViewTemplate" modifier="Martin Budden" modified="200611020000" created="200611020000" tags="excludeLists excludeSearch">&lt;!--{{{--&gt;\n&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler permalink references jump'&gt;&lt;/div&gt;\n&lt;div class='title' id='st-page-titletext' macro='view title'&gt;&lt;/div&gt;\n&lt;div class='subtitle'&gt;\nCreated on &lt;span macro='view created date [[MMM DD, 0hh:0mm]]'&gt;&lt;/span&gt;.\nUpdated by &lt;span macro='view modifier link'&gt;&lt;/span&gt;\non &lt;span macro='view modified date [[MMM DD, 0hh:0mm]]'&gt;&lt;/span&gt;&lt;/div&gt;\n&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;\n&lt;div class='tagged' macro='tags'&gt;&lt;/span&gt;&lt;/div&gt;\n&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;\n&lt;div class='tagClear'&gt;&lt;/div&gt;\n&lt;!--}}}--&gt;</div>
+<div title="ViewTemplate" modifier="JeremyRuston" created="200611020000" modified="200611081453" tags="excludeLists excludeSearch">
+<pre>&lt;!--{{{--&gt;
+&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler references jump'&gt;&lt;/div&gt;
+&lt;div class='workspace' id='st-page-wiki-title' macro='view socialtext.workspace'&gt;&lt;/div&gt;
+&lt;div class='title' id='st-page-titletext' macro='view title'&gt;&lt;/div&gt;
+&lt;div class='subtitle'&gt;
+Created on &lt;span macro='view created date [[MMM DD, 0hh:0mm]]'&gt;&lt;/span&gt;.
+Updated by &lt;span macro='view modifier link'&gt;&lt;/span&gt;
+on &lt;span macro='view modified date [[MMM DD, 0hh:0mm]]'&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
+&lt;div class='tagged' macro='tags'&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
+&lt;div class='tagClear'&gt;&lt;/div&gt;
+&lt;!--}}}--&gt;</pre>
+</div>

@@ -1,1 +1,6 @@
-<div tiddler="TitleSearchWafl" modifier="MartinBudden" modified="200610100624" created="200610100604" tags="[[Test Suite]] SocialtextFormat">{search: title:search}\n\n\n{search: &lt;exchange&gt; title:comments}\n</div>
+<div title="TitleSearchWafl" modifier="MartinBudden" created="200610100604" modified="200610100624" tags="[[Test Suite]]" wikiformat="socialtext">
+<pre>{search: title:search}
+
+
+{search: &lt;exchange&gt; title:comments}</pre>
+</div>

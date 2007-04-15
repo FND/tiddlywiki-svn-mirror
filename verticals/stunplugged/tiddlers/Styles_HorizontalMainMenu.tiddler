@@ -1,1 +1,19 @@
-<div tiddler="Styles HorizontalMainMenu" modifier="Martin Budden" modified="200611040000" created="200609300000" tags="excludeLists excludeSearch">/***\nTo use, add {{{[[Styles HorizontalMainMenu]]}}} to your StyleSheet tiddler.\nYou must also copy the contents of [[PageTemplate HorizontalMenu]] to PageTemplate.\n***/\n/*{{{*/\n#topMenu br {display:none;}\n#topMenu {background: #08c}\n#topMenu {padding:2px;}\n#topMenu .button,  #topMenu .tiddlyLink {\n	margin-left:1em; margin-right:1em;\n	color:white;\n	font-size:115%;\n}\n\n#displayArea {margin: 1em 20em 0em 1em;}\n\n/* just in case want some QuickOpenTags in your topMenu */\n#topMenu .quickopentag {padding:0px; margin:0px; border:0px;}\n#topMenu .quickopentag .tiddlyLink {padding-right:1px;}\n#topMenu .quickopentag .button {padding-left:1px; border:0px;}\n\n@media print { #topMenu {display: none ! important;} }\n/*}}}*/\n</div>
+<div title="Styles HorizontalMainMenu" modifier="MartinBudden" tags="styles excludeLists excludeSearch">
+<pre>/***
+To use, add {{{[[Styles HorizontalMainMenu]]}}} to your StyleSheet tiddler.
+See http://www.w3schools.com/css/css_colors.asp for a color chart.
+***/
+/*{{{*/
+#mainMenu {position:relative;left:auto;width:auto;text-align:left;line-height:normal;padding 0em 1em 0em 1em;font-size:normal;}
+#mainMenu br {display:none;}
+#mainMenu {background:#336699;}
+#mainMenu {padding:2px;}
+#mainMenu .button, #mainMenu .tiddlyLink {padding-left:1em;padding-right:0em;color:white;font-size:115%;}
+
+#displayArea {
+	margin-top:0;margin-right:20em;margin-bottom:0;margin-left:1em;
+	padding-top:.1em;padding-bottom:.1em;
+}
+/*}}}*/
+</pre>
+</div>

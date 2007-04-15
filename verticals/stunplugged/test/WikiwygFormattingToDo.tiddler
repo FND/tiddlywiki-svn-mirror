@@ -1,1 +1,42 @@
-<div tiddler="WikiwygFormattingToDo" modifier="system-user@socialtext.net" modified="200609272216" created="200609272216" tags="SocialtextFormat">See also: [FormattingTest] | [FormattingToDo] | [WikiwygFormattingTest] | WikiwygFormattingToDo\n\n{wikiwyg_formatting_test_run_all}\n\nItalicizing multiple lines from the UI (using Firefox - what does IE do?) {rt: 13795}:\n.wikiwyg_formatting_test\n&lt;div class=&quot;wiki&quot;&gt;&lt;span style=&quot;font-style: italic;&quot;&gt;one&lt;/span&gt;&lt;br\nstyle=&quot;font-style: italic;&quot;&gt;&lt;br style=&quot;font-style: italic;&quot;&gt;&lt;span\nstyle=&quot;font-style: italic;&quot;&gt;two&lt;/span&gt;&lt;br&gt;&lt;/div&gt;\n~~\n_one_\n\n_two_\n.wikiwyg_formatting_test\n\nBolding on the TD itself (needs ticket?):\n.wikiwyg_formatting_test\n&lt;table style=&quot;border-collapse: collapse;&quot; class=&quot;formatter_table&quot;&gt;\n&lt;tbody&gt;&lt;tr&gt;\n&lt;td style=&quot;border: 1px solid black; padding: 0.2em; font-weight:\nbold;&quot;&gt;asdef&lt;/td&gt;\n&lt;td style=&quot;border: 1px solid black; padding: 0.2em; font-weight:\nbold;&quot;&gt;dfs&lt;/td&gt;\n&lt;td style=&quot;border: 1px solid black; padding: 0.2em; font-weight:\nbold;&quot;&gt;dfsa&lt;/td&gt;\n&lt;/tr&gt;\n&lt;tr&gt;\n&lt;td style=&quot;border: 1px solid black; padding: 0.2em;&quot;&gt;1&lt;/td&gt;\n&lt;td style=&quot;border: 1px solid black; padding: 0.2em;&quot;&gt;2&lt;/td&gt;\n&lt;td style=&quot;border: 1px solid black; padding: 0.2em;&quot;&gt;3&lt;/td&gt;\n&lt;/tr&gt;\n&lt;tr&gt;\n&lt;td style=&quot;border: 1px solid black; padding: 0.2em;&quot;&gt;4&lt;/td&gt;\n&lt;td style=&quot;border: 1px solid black; padding: 0.2em;&quot;&gt;5&lt;/td&gt;\n&lt;td style=&quot;border: 1px solid black; padding: 0.2em;&quot;&gt;5&lt;/td&gt;\n&lt;/tr&gt;\n&lt;/tbody&gt;&lt;/table&gt;\n~~\n(TODO - this drops the bolding when you get to Wikitext)\n.wikiwyg_formatting_test\n</div>
+<div title="WikiwygFormattingToDo" modifier="system-user@socialtext.net" created="200609272216" wikiformat="socialtext">
+<pre>See also: [FormattingTest] | [FormattingToDo] | [WikiwygFormattingTest] | WikiwygFormattingToDo
+
+{wikiwyg_formatting_test_run_all}
+
+Italicizing multiple lines from the UI (using Firefox - what does IE do?) {rt: 13795}:
+.wikiwyg_formatting_test
+&lt;div class=&quot;wiki&quot;&gt;&lt;span style=&quot;font-style: italic;&quot;&gt;one&lt;/span&gt;&lt;br
+style=&quot;font-style: italic;&quot;&gt;&lt;br style=&quot;font-style: italic;&quot;&gt;&lt;span
+style=&quot;font-style: italic;&quot;&gt;two&lt;/span&gt;&lt;br&gt;&lt;/div&gt;
+~~
+_one_
+
+_two_
+.wikiwyg_formatting_test
+
+Bolding on the TD itself (needs ticket?):
+.wikiwyg_formatting_test
+&lt;table style=&quot;border-collapse: collapse;&quot; class=&quot;formatter_table&quot;&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td style=&quot;border: 1px solid black; padding: 0.2em; font-weight:
+bold;&quot;&gt;asdef&lt;/td&gt;
+&lt;td style=&quot;border: 1px solid black; padding: 0.2em; font-weight:
+bold;&quot;&gt;dfs&lt;/td&gt;
+&lt;td style=&quot;border: 1px solid black; padding: 0.2em; font-weight:
+bold;&quot;&gt;dfsa&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: 1px solid black; padding: 0.2em;&quot;&gt;1&lt;/td&gt;
+&lt;td style=&quot;border: 1px solid black; padding: 0.2em;&quot;&gt;2&lt;/td&gt;
+&lt;td style=&quot;border: 1px solid black; padding: 0.2em;&quot;&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: 1px solid black; padding: 0.2em;&quot;&gt;4&lt;/td&gt;
+&lt;td style=&quot;border: 1px solid black; padding: 0.2em;&quot;&gt;5&lt;/td&gt;
+&lt;td style=&quot;border: 1px solid black; padding: 0.2em;&quot;&gt;5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+~~
+(TODO - this drops the bolding when you get to Wikitext)
+.wikiwyg_formatting_test</pre>
+</div>

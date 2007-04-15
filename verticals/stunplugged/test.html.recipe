@@ -1,2 +1,2 @@
 recipe: index.html.recipe
-recipe: testing/split.recipe
+recipe: test/split.recipe

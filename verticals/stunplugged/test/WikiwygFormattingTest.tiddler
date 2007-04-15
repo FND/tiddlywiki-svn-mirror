@@ -1,1 +1,63 @@
-<div tiddler="WikiwygFormattingTest" modifier="system-user@socialtext.net" modified="200609272216" created="200609272216" tags="SocialtextFormat">See also: [FormattingTest] | [FormattingToDo] | WikiwygFormattingTest | [WikiwygFormattingToDo]\n\n{wikiwyg_formatting_test_run_all}\n\n.wikiwyg_formatting_test\nThis is &lt;span style=&quot;font-weight: bold;&quot;&gt;bold&lt;/span&gt; &lt;span style=&quot;font-style:\nitalic;&quot;&gt;italic&lt;/span&gt; &lt;span style=&quot;text-decoration: line-through;&quot;&gt;strike&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic; text-decoration: line-through;&quot;&gt;mish-mash&lt;/span&gt; yo&lt;br&gt;\n~~\nThis is *bold* _italic_ -strike- -*_mish-mash_*- yo\n.wikiwyg_formatting_test\n\n.wikiwyg_formatting_test\n&lt;a href=&quot;/public/index.cgi?shy&quot;&gt;burger&lt;/a&gt;\n~~\n[burger]\n.wikiwyg_formatting_test\n\n.wikiwyg_formatting_test\n&lt;a href=&quot;/public/index.cgi?shame&quot;&gt;&lt;!-- wiki-renamed-link --&gt;burger&lt;/a&gt;\n~~\n&quot;burger&quot;[shame]\n.wikiwyg_formatting_test\n\n.wikiwyg_formatting_test\na &amp;nbsp; b\n~~\na b\n.wikiwyg_formatting_test\n\n.wikiwyg_formatting_test\n&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;Hey d00d&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;\n~~\n| Hey d00d |\n.wikiwyg_formatting_test\n\n.wikiwyg_formatting_test\n&lt;h2&gt;foo&lt;/h2&gt;\n&lt;h2&gt;&amp;nbsp;&lt;/h2&gt;\n&lt;h2&gt;bar&lt;/h2&gt;\n~~\n^^ foo\n\n^^ bar\n.wikiwyg_formatting_test\n\n^^^ {rt 14784}\nRegardless of what's in the bulleted list item, no blank line should go\nbetween the `* ` line and the `** ` line.\n.wikiwyg_formatting_test\n&lt;div class=&quot;wiki&quot;&gt;\n&lt;ul&gt;\n&lt;li&gt;Get &lt;strong&gt;behind&lt;/strong&gt; me&lt;/li&gt;\n\n&lt;ul&gt;\n&lt;li&gt;Satan!&lt;/li&gt;\n&lt;/ul&gt;&lt;/ul&gt;\n&lt;br/&gt;&lt;/div&gt;\n~~~\n* Get *behind* me\n** Satan!\n.wikiwyg_formatting_test\n</div>
+<div title="WikiwygFormattingTest" modifier="system-user@socialtext.net" created="200609272216" wikiformat="socialtext">
+<pre>See also: [FormattingTest] | [FormattingToDo] | WikiwygFormattingTest | [WikiwygFormattingToDo]
+
+{wikiwyg_formatting_test_run_all}
+
+.wikiwyg_formatting_test
+This is &lt;span style=&quot;font-weight: bold;&quot;&gt;bold&lt;/span&gt; &lt;span style=&quot;font-style:
+italic;&quot;&gt;italic&lt;/span&gt; &lt;span style=&quot;text-decoration: line-through;&quot;&gt;strike&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic; text-decoration: line-through;&quot;&gt;mish-mash&lt;/span&gt; yo&lt;br&gt;
+~~
+This is *bold* _italic_ -strike- -*_mish-mash_*- yo
+.wikiwyg_formatting_test
+
+.wikiwyg_formatting_test
+&lt;a href=&quot;/public/index.cgi?shy&quot;&gt;burger&lt;/a&gt;
+~~
+[burger]
+.wikiwyg_formatting_test
+
+.wikiwyg_formatting_test
+&lt;a href=&quot;/public/index.cgi?shame&quot;&gt;&lt;!-- wiki-renamed-link --&gt;burger&lt;/a&gt;
+~~
+&quot;burger&quot;[shame]
+.wikiwyg_formatting_test
+
+.wikiwyg_formatting_test
+a &amp;nbsp; b
+~~
+a b
+.wikiwyg_formatting_test
+
+.wikiwyg_formatting_test
+&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;Hey d00d&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+~~
+| Hey d00d |
+.wikiwyg_formatting_test
+
+.wikiwyg_formatting_test
+&lt;h2&gt;foo&lt;/h2&gt;
+&lt;h2&gt;&amp;nbsp;&lt;/h2&gt;
+&lt;h2&gt;bar&lt;/h2&gt;
+~~
+^^ foo
+
+^^ bar
+.wikiwyg_formatting_test
+
+^^^ {rt 14784}
+Regardless of what's in the bulleted list item, no blank line should go
+between the `* ` line and the `** ` line.
+.wikiwyg_formatting_test
+&lt;div class=&quot;wiki&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;Get &lt;strong&gt;behind&lt;/strong&gt; me&lt;/li&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Satan!&lt;/li&gt;
+&lt;/ul&gt;&lt;/ul&gt;
+&lt;br/&gt;&lt;/div&gt;
+~~~
+* Get *behind* me
+** Satan!
+.wikiwyg_formatting_test</pre>
+</div>

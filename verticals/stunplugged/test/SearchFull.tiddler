@@ -1,1 +1,6 @@
-<div tiddler="SearchFull" modifier="MartinBudden" modified="200610100623" created="200610100520" tags="[[Test Suite]] SocialtextFormat">{search_full: TiddlyWiki}\n\n\n{search_full: &lt;help&gt; revision}\n</div>
+<div title="SearchFull" modifier="MartinBudden" created="200610100520" modified="200610100623" tags="[[Test Suite]]" wikiformat="socialtext">
+<pre>{search_full: TiddlyWiki}
+
+
+{search_full: &lt;help&gt; revision}</pre>
+</div>

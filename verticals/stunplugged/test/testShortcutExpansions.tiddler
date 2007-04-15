@@ -1,1 +1,12 @@
-<div tiddler="testShortcutExpansions" modifier="Martin Budden" modified="200611040000" created="200611040000" tags="SocialtextFormat" changecount="13">^^^^ General\ngoogle {google: socialtext}\nmap {map:london}\nwikipedia {wikipedia:Mars}\nfedex {fedex:1234}\n\n^^^^ Requires login\nrt {rt:123}\nstcal {stcal:10/2/2005}\nsvn {svn:aa}\n</div>
+<div title="testShortcutExpansions" modifier="Martin Budden" created="200611040000" wikiformat="socialtext">
+<pre>^^^^ General
+google {google: socialtext}
+map {map:london}
+wikipedia {wikipedia:Mars}
+fedex {fedex:1234}
+
+^^^^ Requires login
+rt {rt:123}
+stcal {stcal:10/2/2005}
+svn {svn:aa}</pre>
+</div>

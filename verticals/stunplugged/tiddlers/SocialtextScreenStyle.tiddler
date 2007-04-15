@@ -1,1 +1,2573 @@
-<div tiddler="SocialtextScreenStyle" modifier="Martin Budden" modified="200611020000" created="200611020000" tags="styles excludeLists excludeSearch">/***\nSocialtextScreenStyle\nhttp://www.eu.socialtext.net/static/2.0.0.1/css/st/screen.css\n***/\n\n/*{{{*/\nbody {\n	font-family: Arial, sans-serif;\n	color: #000;\n	background: #eee;\n	margin: 0;\n}\n\n/* Wiki Navigation */\n\n.st-wiki-nav {\n	clear: both;\n	margin-left: 10px;\n	margin-right: 10px;\n}\n.st-wiki-nav-content {\n	background: url(&quot;../../images/st/wiki-nav/solid.gif&quot;) repeat-x left bottom;\n	margin-left: 24px;\n	margin-right: 24px;\n	padding-top: 3px;\n	min-height: 24px;\n}\n* html .st-wiki-nav-content {\n	padding-bottom: 3px;\n	height: 24px;\n}\n\n.st-wiki-nav-right {\n	background: url(&quot;../../images/st/wiki-nav/right-round.gif&quot;) no-repeat bottom right;\n}\n\n.st-wiki-nav-left {\n	background: url(&quot;../../images/st/wiki-nav/left-round.gif&quot;) no-repeat bottom left;\n}\n\n#st-home {\n	float: left;\n	margin-right: 60px;\n	padding-top: 2px;\n}\n\n#st-home-link {\n	color: white;\n	text-decoration: none;\n	font-weight: bold;\n	font-family: Helvetica, sans-serif;\n	font-size: 90%;\n}\n\n#st-editing-prefix-container {\n	border-collapse: collapse;\n	width: 100%;\n	padding: 0px;\n	margin: 0px;\n	margin-bottom: -20px;\n}\n\n#st-editing-prefix-container tr td {\n	margin: 0px;\n	padding: 0px;\n}\n\n#st-editing-title {\n	color: black;\n	background-color: white;\n	text-decoration: none;\n	font-weight: bold;\n	font-family: Helvetica, sans-serif;\n	font-size: 90%;\n	margin-bottom: 0.4em;\n}\n\n#st-wiki-title-invite {\n	font-size: 50%;\n	font-family: Helvetica, sans-serif;\n}\n\n#st-wiki-title-central-page-link {\n	font-size: 50%;\n	font-family: Helvetica, sans-serif;\n}\n\n#st-wiki-title-invite a {\n	color: #00f;\n}\n\n#st-wiki-logo {\n	text-align: center;\n	clear: both;\n}\n\n#st-wiki-logo-image {\n}\n\n.st-wiki-nav-actions {\n	float: right;\n	color: black;\n	font-size: 75%;\n	padding-top: 3px;\n}\n\n.st-wiki-nav-actions a {\n	padding: 2px;\n	color: white;\n	text-decoration: none;\n	font-family: Helvetica, sans-serif;\n}\n\n/* Wiki Subnav */\n\n#st-wiki-subnav {\n	margin-top: 2px;\n	font-size: 70%;\n	font-weight: bold;\n	font-family: Helvetica, sans-serif;\n	color: #888;\n}\n\n#st-wiki-subnav a {\n	padding: 2px;\n	color: #008;\n	text-decoration: none;\n}\n\n#st-wiki-subnav-right {\n	float: right;\n	margin-right: 6em;\n}\n\n#st-wiki-subnav-left {\n	float: left;\n	margin-left: 6em;\n}\n* html #st-wiki-subnav-left {\n	margin-left: 3em;\n}\n\n/* Wiki Navigation Search Bar */\n\n#st-search-form {\n	margin: 0;\n	padding: 0;\n	padding-top: 1px;\n}\n\n#st-search-form .button-table {\n	float: left;\n	font-size: 79%;\n	font-weight: bold;\n	margin-left: 5px;\n	margin-top: 1px;\n}\n\n#st-search-form #st-search-term {\n	float: left;\n	font-size: 60%;\n}\n\n/* Content Outline */\n\n#st-content-border, #st-edit-border {\n	position: relative;\n	clear: both;\n	margin-left: 3px;\n	margin-right: 2px;\n	margin-bottom: 0px;\n	margin-top: 0px;\n	border-bottom: 1px solid #eee;\n}\n\n#st-content-border-left, #st-edit-border-left {\n	background: url(&quot;../../images/st/page-shadow/left.gif&quot;) left top repeat-y;\n	position: relative;\n}\n\n#st-content-border-right, #st-edit-border-right {\n	background: url(&quot;../../images/st/page-shadow/right.gif&quot;) right top repeat-y;\n	position: relative;\n}\n\n#st-content-border-top, #st-edit-border-top {\n	position: relative;\n	background: url(&quot;../../images/st/page-shadow/top.gif&quot;) left top repeat-x;\n}\n\n#st-content-border-bottom, #st-edit-border-bottom {\n	background: url(&quot;../../images/st/page-shadow/bottom.gif&quot;) left bottom repeat-x;\n	position: relative;\n}\n\n#st-content-border-left-top, #st-edit-border-left-top {\n	background: url(&quot;../../images/st/page-shadow/left-top.gif&quot;) left top no-repeat;\n	position: relative;\n}\n#st-content-border-right-top, #st-edit-border-right-top {\n	background: url(&quot;../../images/st/page-shadow/right-top.gif&quot;) right top no-repeat;\n	position: relative;\n}\n\n#st-content-border-left-bottom, #st-edit-border-left-bottom {\n	background: url(&quot;../../images/st/page-shadow/left-bottom.gif&quot;) left bottom no-repeat;\n	position: relative;\n}\n\n#st-content-border-right-bottom, #st-edit-border-right-bottom {\n	background: url(&quot;../../images/st/page-shadow/right-bottom.gif&quot;) right bottom no-repeat;\n	padding-top: 5px;\n	padding-bottom: 9px;\n	position: relative;\n}\n\n* html #st-content-border-right-bottom, * html #st-edit-border-right-bottom {\n	padding-top: 4px;\n	padding-left: 7px;\n	padding-right: 8px;\n	position: relative;\n}\n\n.st-content-width-controller {\n	width: 100%;\n	position: relative;\n	border-collapse: collapse;\n}\n.st-content-width-controller td {\n	vertical-align: top;\n}\n.st-content {\n	position: relative;\n	background-color: white;\n	margin-top: 0px;\n	margin-left: 7px;\n	margin-right: 8px;\n	margin-bottom: -1px;\n	border-left: 1px dotted #80a9f3;\n	border-right: 1px dotted #80a9f3;\n	border: 1px solid #80a9f3;\n	padding: 6px 12px 12px 12px;\n}\n* html .st-content {\n	margin-top: 0px;\n	margin-left: 0px;\n	margin-right: 0px;\n}\n\n/* This textarea is only for Safari. However, if we use display:none; here Safari ignores the .value operation in JS */\n#st-raw-wikitext-textarea {\n	width:1px;\n	height:1px;\n	margin:0;\n	padding:0;\n}\n\n/* Action Buttons */\n.button-table, .button-table tr td {\n	border-collapse: collapse;\n	margin: 0;\n	padding: 0;\n}\n.button-rounded {\n	background: url('../../images/st/grey-button/left-top-rounded.png') top left no-repeat;\n	margin: 0;\n}\n.button-rounded-right-top {\n	background: url('../../images/st/grey-button/right-top-rounded.png') top right no-repeat;\n	margin: 0;\n}\n.button-rounded-left-bottom {\n	background: url('../../images/st/grey-button/left-bottom-rounded.png') bottom left no-repeat;\n	margin: 0;\n}\n.button-rounded-right-bottom {\n	background: url('../../images/st/grey-button/right-bottom-rounded.png') bottom right no-repeat;\n	margin: 0;\n}\n.button-straight {\n	background: url('../../images/st/grey-button/left-top-straight.png') top left no-repeat;\n	margin: 0;\n}\n.button-straight-right-top {\n	background: url('../../images/st/grey-button/right-top-straight.png') top right no-repeat;\n	margin: 0;\n}\n.button-straight-left-bottom {\n	background: url('../../images/st/grey-button/left-bottom-straight.png') bottom left no-repeat;\n	margin: 0;\n}\n.button-straight-right-bottom {\n	background: url('../../images/st/grey-button/right-bottom-straight.png') bottom right no-repeat;\n	margin: 0;\n}\n.button-content {\n	font-size: 90%;\n}\n.button-content a {\n	display: block;\n	padding: 2px;\n	padding-left: 10px;\n	padding-right: 10px;\n	font-family: Helvetica, Verdana, sans-serif;\n	font-weight: bold;\n	text-decoration: none;\n	color: black;\n}\n\n.button-content input.submit {\n	border: 0px;\n	padding: 2px;\n	padding-left: 10px;\n	padding-right: 10px;\n	font-family: Helvetica, Verdana, sans-serif;\n	font-weight: bold;\n	text-decoration: none;\n	color: black;\n	background-color: transparent;\n}\n\n/* Personal Homepage */\n\n#st-homepage {\n	background: white url(&quot;../../images/st/homepage/blue-fade.gif&quot;) top left no-repeat;\n}\n\n#st-homepage-layout {\n	margin-top: 15px;\n	clear: both;\n	width: 100%;\n	border-collapse: collapse;\n}\n\n#st-homepage-layout tr td.st-homepage-layout-cell {\n	padding: 5px;\n	vertical-align: top;\n}\n\n#st-homepage-layout-dashboard {\n	width: 50%\n}\n\n#st-homepage-layout-notes {\n	width: 50%;\n}\n\n#st-homepage-notes, #st-homepage-dashboard {\n	text-align: left;\n	width: 95%;\n}\n\n#st-user-greeting, #st-wiki-title {\n	font-family: Helvetica, Verdana, sans-serif;\n	font-size: 150%;\n}\n#st-wiki-title {\n	margin-left: 5px;\n}\n\n#st-user-greeting {\n	position: relative;\n	text-align: right;\n	float: right;\n}\n\n#st-group-notes-content, #st-personal-notes-content {\n}\n\n.st-homepage-section {\n	margin-bottom: 15px;\n}\n\n#st-homepage-notes .st-homepage-section {\n	background-color: white;\n	border: 1px solid #aaa;\n	padding: 15px;\n}\n\n.st-homepage-section-title {\n	font-size: 110%;\n	font-family: Helvetica, Verdana, sans-serif;\n}\n\n#st-homepage-notes .st-homepage-section-title {\n	color: #aaa;\n	text-decoration: underline;\n}\n\n.st-homepage-notes-edit-link {\n	background: url(&quot;../../images/st/homepage/edit-icon.gif&quot;) no-repeat left top;\n	display: block;\n	text-indent: -2000px;\n	height: 13px;\n	width: 36px;\n	text-decoration: none;\n	padding:0;\n}\n* html .st-homepage-notes-edit-link {\n	border:1px solid white;\n}\n\n.st-homepage-notes-edit {\n	font-family: Verdana, sans-serif;\n	font-size: 65%;\n	float: right;\n}\n\n.st-homepage-notes-content {\n	font-size: 85%;\n	margin-top: 10px;\n	padding-top: 0px;\n	padding-bottom: 0px;\n	font-family: Verdana, Helvetica, sans-serif;\n}\n\n#st-dyk {\n	border-color: #cca !important;\n	background-color: #ffe !important;\n}\n\n#st-dyk-title {\n	color: #e4a020 !important;\n	text-decoration: none !important;\n}\n\n\n/* Homepage Simple List */\n\n#st-whats-new-title-link {\n	background: url(&quot;../../images/st/homepage/icon-28-pages.gif&quot;) no-repeat left top;\n}\n#st-watchlist-title-link {\n	background: url(&quot;../../images/st/homepage/icon-28-star.gif&quot;) no-repeat left top;\n}\n#st-wikis-title-link {\n	background: url(&quot;../../images/st/homepage/icon-28-group.gif&quot;) no-repeat left top;\n}\n.st-homepage-simplelist-title-link {\n	display: block;\n	padding-left: 32px;\n	min-height: 32px;\n}\n* html .st-homepage-simplelist-title-link {\n	height: 32px;\n}\n\n.st-homepage-simplelist-title {\n}\n\n.st-homepage-simplelist-table {\n	margin-left: 25px;\n	border: 1px dashed #ddd;\n	border-collapse: collapse;\n	font-family: Verdana, Helvetica, sans-serif;\n	font-size: 80%;\n	width: 95%;\n}\n\n.st-homepage-simplelist-table td {\n	padding: 2px;\n}\n\n.st-homepage-simplelist-table tr.st-homepage-simplelist-row-odd {\n	background-color: #f3f7f7;\n}\n\n.st-homepage-simplelist-table tr.st-homepage-simplelist-row-even {\n	background-color: white;\n}\n\n.st-homepage-simplelist-table a {\n	color: #4f55dd;\n	text-decoration: none;\n}\n\n.st-homepage-simplelist-table a:visited {\n	color: #551a8b;\n}\n\n.st-homepage-simplelist-subleft {\n	font-size: 80%;\n	margin-left: 1em;\n	color: #666;\n}\n\n.st-homepage-simplelist-right {\n	width: 20%;\n}\n\n.st-homepage-simplelist-subright {\n	font-size: 80%;\n	color: #666;\n}\n\n.st-homepage-simplelist {\n}\n\n.st-homepage-simplelist-header {\n	min-height: 35px;\n}\n\n.st-homepage-simplelist-header .button-table {\n	float: right;\n	margin-right: 15px;\n	font-size: 95%;\n}\n\n.st-homepage-simplelist-header .button-table .button-content {\n	padding: 1px;\n}\n\n.st-homepage-whatsnew-author, .st-homepage-whatsnew-date {\n	color: #555;\n}\n.st-homepage-whatsnew-attribution {\n	padding-left: 1em;\n	font-size: 80%;\n	color: #aaa;\n}\n\n/* Homepage Wikis List */\n\n#st-wikis-title {\n}\n\n/* Data and Templates */\n\n.st-jst-template, .st-json {\n	display: none;\n}\n\n/* Page Sidebox Common Styles */\n\n#st-page-boxes-toggle {\n	position: relative;\n	float: right;\n	text-align: right;\n	font-family: Verdana, Arial, sans-serif;\n	font-weight: bold;\n	font-size: 80%;\n	margin-bottom: 0.7em;\n}\n\n#st-page-boxes-toggle-link {\n	text-decoration: none;\n}\n\n#st-page-boxes-underlay {\n	float: right;\n	margin-top: -10px;\n	margin-right: 10px;\n	background: white;\n	z-index: 198;\n	clear: both;\n	margin-left: 15px;\n}\n* html #st-page-boxes-underlay {\n	margin-right: 4px;\n}\n#st-page-boxes {\n	background: inherit;\n	position: absolute;\n	right: 23px;\n	z-index: 199;\n	margin-top: 15px;\n	margin-left: 20px;\n}\n#st-page-boxes, #st-page-boxes-underlay {\n	width: 225px;\n	/* padding-left: 15px; */ /* Gives the white border effect, cwest dislikes it. */\n}\n\n.st-page-box {\n	border: 1px solid black;\n	padding: 5px;\n	font-family: Verdana, Helvetica, sans-serif;\n	font-size: 80%;\n	margin-top: 15px;\n}\n\n.st-page-box-title {\n	font-family: Helvetica, Verdana, sans-serif;\n	font-weight: bold;\n	margin-bottom: 10px;\n}\n\n.st-page-box-listing {\n	margin: 0;\n	padding: 0;\n}\n\n.st-page-box-listing-entry {\n	display: block;\n}\n\n.st-page-boxes-nobacklinks {\n	font-family: Verdana, Helvetica, sans-serif;\n	font-size: 90%;\n	color: #888;\n}\n\n.st-page-box-first {\n	margin-top: 0px;\n}\n\n/* Page Display */\n\n#st-page-content {\n	clear: left;\n	margin-top: 6px;\n	margin-bottom: 0;\n	padding-bottom: 0;\n}\n\n#st-page-content, #st-page-content td {\n	font-family: Verdana, Helvetica, sans-serif;\n	font-size: 90%;\n}\n\n#st-page-wiki-title {\n	font-family: Helvetica, Verdana, sans-serif;\n	font-size: 65%;\n	font-weight: bold;\n	color: #aaa;\n	margin-bottom: 0.2em;\n	margin-top: 0.1em;\n	padding-top: 0;\n}\n\n#wiki {\n	margin: 0;\n	padding: 0;\n}\n\n#st-page-title {\n}\n\n#st-page-titletext, .st-page-title {\n	font-family: Helvetica, Verdana, sans-serif;\n	font-size: 150%;\n	font-weight: bold;\n	color: #888;\n	border-bottom: 1px solid #888;\n}\n\n#st-newpage-pagename-edit {\n	font-family: inherit;\n	font-size: inherit;\n	font-weight: inherit;\n	color: #000;\n	border: 1px solid black;\n	padding-left: 0.3em;\n	background-color: #ffd;\n}\n\n#st-page-details {\n	font-style: italic;\n	font-size: 75%;\n	font-family: Georgia, serif;\n	margin: 6px 10px 0 10px;\n}\n\n#st-page-details-feed-icon {\n	vertical-align: middle;\n	border: none;\n}\n\n#st-page-stats {\n	float: right;\n	vertical-align: middle;\n}\n\n#st-attribution {\n	float: left;\n	margin-bottom: 10px;\n}\n\n#st-page-editing-wysiwyg {\n  background: #ffd;\n  border-style: solid;\n  border-color: #888 #ccc #ccc #888;\n  border-width: 2px;\n  width: 100%;\n}\n\n#st-page-editing-toolbar {\n	margin-left: -6px;\n	overflow: hidden;\n	float: left;\n	height: 25px;\n}\n\n#wikiwyg_wikitext_textarea {\n	margin-top: 4px;\n  background: #ffd;\n  border-style: solid;\n  border-color: #888 #ccc #ccc #888;\n  border-width: 2px;\n  width: 100%;\n  font-family: monospace;\n}\n\n#st-page-maincontent {\n}\n\n#st-page-editing, #wikiwyg_wikitext_textarea {\n}\n\n#st-page-editing-pagebody-decoy, #st-page-editing-wysiwyg {\n	display: none;\n}\n\n#st-editing-tools-edit {\n	display: none;\n}\n\n#st-mode-wysiwyg-button\n{\n  font-size: 70%;\n  margin-left: 4em;\n}\n\n#st-mode-wikitext-button\n{\n  font-size: 70%;\n}\n\n#st-edit-tips\n{\n  font-size: 70%;\n}\n\n.wikiwyg_button {\n	background: #FFFFFF;\n	border: 1px solid #FFFFFF;\n	cursor: pointer;\n	width: 20px;\n	height: 20px;\n	vertical-align: bottom;\n}\n\n.wikiwyg_button:hover {\n	border: 1px outset;\n}\n\n.wikiwyg_button:active {\n	border: 1px inset;\n}\n\n#wikiwyg_toolbar {\n	display: none;\n}\n\n/* Sidebox Pagetools: Revisions, Watchlist */\n#st-side-box-pagetools {\n	border-collapse: collapse;\n}\n\n#st-rewind-norevisions {\n	font-family: Helvetica, Arial, sans-serif;\n	font-size: 11px;\n	color: #777;\n	text-decoration: none;\n}\n\n#st-side-box-pagetools a {\n	font-family: Helvetica, Arial, sans-serif;\n	font-size: 11px;\n	color: #555;\n	text-decoration: none;\n}\n\n/* Page View Tags/Incoming Links Sidebox */\n\n#st-tags {\n	background: #f4fff4;\n	border-color: #bbeebb;\n	color: #999;\n}\n\n#st-tags-title {\n	color: #595;\n}\n\n#st-tags-addlink, #st-tags-addbutton {\n	font-weight: bold;\n}\n\n#st-tags-listing {\n	margin-bottom: 5px;\n}\n\n#st-tags-addinput, #st-tags-message, #st-tags-suggestion {\n	display: none;\n}\n\n#st-tags-deletemessage {\n	font-size: 90%;\n	color: #555;\n	display: none;\n	margin-top: 0.5em;\n	margin-bottom: 0.5em;\n}\n\n#st-tags-suggestion {\n	margin-top: 2px;\n}\n\n.st-tags-level1 {\n	font-size: 90%;\n}\n\n.st-tags-level2 {\n	font-size: 100%;\n}\n\n.st-tags-level3 {\n	font-size: 110%;\n}\n\n.st-tags-level4 {\n	font-size: 120%;\n}\n\n.st-tags-level5 {\n	font-size: 130%;\n}\n\n.st-tags-tagline .st-tags-tagdelete {\n	text-decoration: none;\n	color: #ccc;\n}\n\n.st-tags-tagline a {\n	text-decoration: none;\n	color: #444;\n}\n\n#st-tags-field {\n	width: 95%;\n}\n\n#st-incoming-links {\n	border-color: #ebb;\n	background-color: #fff4f4;\n}\n\n#st-incoming-links-title {\n	color: #b78;\n}\n\n#st-attachments {\n	border-color: #bbe;\n	background-color: #f4f4ff;\n}\n\n#st-attachments-uploadbutton, #st-attachments-managebutton {\n\n}\n#st-attachments-buttons-uploadbutton {\n	margin: 0px;\n	padding: 0px;\n	padding-left: 2px;\n}\n#st-attachments-buttons-managebutton {\n	margin: 0px;\n	padding: 0px;\n	padding-right: 2px;\n}\n\n#st-attachments-buttons td {\n	padding-right: 3px;\n	font-size: 99%;\n}\n\n#st-attachments-buttons {\n	border-collapse: collapse;\n	margin: 0px;\n	padding: 0px;\n	margin-top: 5px;\n}\n\n#st-attachments-title {\n	color: #77b;\n}\n\n.st-attachments-line {\n	width:100%;\n	overflow:hidden;\n}\n\n/* Actions Bar */\n\n#st-actions-bar-spacer {\n	clear:both;\n	height:0.5em;\n	overflow:hidden;\n}\n\n#st-actions-bar-spacer-clear {\n	clear:both;\n	height:1px;\n	overflow:hidden;\n}\n\n\n#st-actions-bar, #st-editing-tools-bar {\n	margin-left: 30px !important;\n	margin-right: 30px !important;\n}\n\n/* Footer */\n#st-footer {\n	margin-top: -8px;\n	margin-bottom: 5px;\n	clear: both;\n}\n\n/* Socialtext Attribution */\n\n#st-socialtext-attribution {\n	clear: both;\n	text-align: center;\n	font-size: 80%;\n	font-family: Helvetica, sans-serif;\n}\n\n#st-socialtext-attribution-link {\n	text-decoration: none;\n}\n\n#st-socialtext-attribution-image {\n	border: 0;\n}\n\n\n/* Page Actions */\n\n#st-edit-button-border-left-middle, #st-login-to-edit-button-border-left-middle {\n	background: url(&quot;../../images/st/button-blue/left-middle.gif&quot;) left top repeat-y;\n}\n#st-edit-button-border-right-middle, #st-login-to-edit-button-border-right-middle {\n	background: url(&quot;../../images/st/button-blue/right-middle.gif&quot;) right top repeat-y;\n}\n\n#st-edit-button-border-left-top, #st-login-to-edit-button-border-left-top {\n	background: url(&quot;../../images/st/button-blue/left-top.gif&quot;) left top no-repeat;\n}\n#st-edit-button-border-right-top, #st-login-to-edit-button-border-right-top {\n	background: url(&quot;../../images/st/button-blue/right-top.gif&quot;) right top no-repeat;\n}\n\n#st-edit-button-border-left-bottom, #st-login-to-edit-button-border-left-bottom {\n	background: url(&quot;../../images/st/button-blue/left-bottom.gif&quot;) left bottom no-repeat;\n}\n\n#st-edit-button-border-right-bottom, #st-login-to-edit-button-border-right-bottom {\n	background: url(&quot;../../images/st/button-blue/right-bottom.gif&quot;) right bottom no-repeat;\n}\n\n#st-edit-button-link, #st-login-to-edit-button-link {\n}\n\n#st-comment-button-border-left-middle {\n	background: url(&quot;../../images/st/button-purple/left-middle.gif&quot;) left top repeat-y;\n}\n\n#st-comment-button-border-right-middle {\n	background: url(&quot;../../images/st/button-purple/right-middle.gif&quot;) right top repeat-y;\n}\n\n#st-comment-button-border-left-top {\n	background: url(&quot;../../images/st/button-purple/left-top.gif&quot;) left top no-repeat;\n}\n\n#st-comment-button-border-right-top {\n	background: url(&quot;../../images/st/button-purple/right-top.gif&quot;) right top no-repeat;\n}\n\n#st-comment-button-border-left-bottom {\n	background: url(&quot;../../images/st/button-purple/left-bottom.gif&quot;) left bottom no-repeat;\n}\n\n#st-comment-button-border-right-bottom {\n	background: url(&quot;../../images/st/button-purple/right-bottom.gif&quot;) right bottom no-repeat;\n}\n\n#st-comment-button-link {\n}\n\n#st-save-button-border-left-middle {\n	background: url(&quot;../../images/st/button-green/left-middle.gif&quot;) left top repeat-y;\n}\n#st-save-button-border-right-middle {\n	background: url(&quot;../../images/st/button-green/right-middle.gif&quot;) right top repeat-y;\n}\n\n#st-save-button-border-left-top {\n	background: url(&quot;../../images/st/button-green/left-top.gif&quot;) left top no-repeat;\n}\n#st-save-button-border-right-top {\n	background: url(&quot;../../images/st/button-green/right-top.gif&quot;) right top no-repeat;\n}\n\n#st-save-button-border-left-bottom {\n	background: url(&quot;../../images/st/button-green/left-bottom.gif&quot;) left bottom no-repeat;\n}\n\n#st-save-button-border-right-bottom {\n	background: url(&quot;../../images/st/button-green/right-bottom.gif&quot;) right bottom no-repeat;\n}\n\n#st-save-button-link {\n}\n\n#st-preview-button-border-left-middle {\n	background: url(&quot;../../images/st/button-gold/left-middle.gif&quot;) left top repeat-y;\n}\n#st-preview-button-border-right-middle {\n	background: url(&quot;../../images/st/button-gold/right-middle.gif&quot;) right top repeat-y;\n}\n\n#st-preview-button-border-left-top {\n	background: url(&quot;../../images/st/button-gold/left-top.gif&quot;) left top no-repeat;\n}\n#st-preview-button-border-right-top {\n	background: url(&quot;../../images/st/button-gold/right-top.gif&quot;) right top no-repeat;\n}\n\n#st-preview-button-border-left-bottom {\n	background: url(&quot;../../images/st/button-gold/left-bottom.gif&quot;) left bottom no-repeat;\n}\n\n#st-preview-button-border-right-bottom {\n	background: url(&quot;../../images/st/button-gold/right-bottom.gif&quot;) right bottom no-repeat;\n}\n\n#st-preview-button-link {\n}\n\n#st-cancel-button-border-left-middle {\n	background: url(&quot;../../images/st/button-crimson/left-middle.gif&quot;) left top repeat-y;\n}\n#st-cancel-button-border-right-middle {\n	background: url(&quot;../../images/st/button-crimson/right-middle.gif&quot;) right top repeat-y;\n}\n\n#st-cancel-button-border-left-top {\n	background: url(&quot;../../images/st/button-crimson/left-top.gif&quot;) left top no-repeat;\n}\n#st-cancel-button-border-right-top {\n	background: url(&quot;../../images/st/button-crimson/right-top.gif&quot;) right top no-repeat;\n}\n\n#st-cancel-button-border-left-bottom {\n	background: url(&quot;../../images/st/button-crimson/left-bottom.gif&quot;) left bottom no-repeat;\n}\n\n#st-cancel-button-border-right-bottom {\n	background: url(&quot;../../images/st/button-crimson/right-bottom.gif&quot;) right bottom no-repeat;\n}\n\n#st-cancel-button-link {\n}\n\n#st-edit-more-button-border-left-middle {\n	background: url(&quot;../../images/st/button-blue/left-middle.gif&quot;) left top repeat-y;\n}\n#st-edit-more-button-border-right-middle {\n	background: url(&quot;../../images/st/button-blue/right-middle.gif&quot;) right top repeat-y;\n}\n\n#st-edit-more-button-border-left-top {\n	background: url(&quot;../../images/st/button-blue/left-top.gif&quot;) left top no-repeat;\n}\n#st-edit-more-button-border-right-top {\n	background: url(&quot;../../images/st/button-blue/right-top.gif&quot;) right top no-repeat;\n}\n\n#st-edit-more-button-border-left-bottom {\n	background: url(&quot;../../images/st/button-blue/left-bottom.gif&quot;) left bottom no-repeat;\n}\n\n#st-edit-more-button-border-right-bottom {\n	background: url(&quot;../../images/st/button-blue/right-bottom.gif&quot;) right bottom no-repeat;\n}\n\n#st-edit-more-button-link {\n}\n\n.st-page-action-button-link {\n	min-height: 24px;\n	min-width: 100px;\n	text-align: center;\n	font-family: Helvetica, Verdana, sans-serif;\n	font-size: 90%;\n	text-decoration: none;\n	color: #fff;\n	font-weight: bold;\n	display: block;\n	padding-top: 8px;\n	padding-bottom: 0px;\n	margin-bottom: -3px;\n	width: 100%;\n	margin-left: -2px;\n}\n* html .st-page-action-button-link {\n	padding-top: 5px;\n	padding-bottom: 0px;\n	height: 24px;\n}\n\n.st-page-action-button {\n	float: left;\n	margin: 0;\n	padding: 0;\n	margin-right: 10px;\n	min-height: 20px;\n	border-collapse: collapse;\n	width: 100px;\n}\n\n/* Attach File Interface */\n\n#st-attachments-attachinterface {\n	font-family: Helvetica, sans-serif;\n	font-size: 90%;\n	display: none;\n	position: fixed;\n	left: 0px;\n	top: 0px;\n	width: 100%;\n	height: 100%;\n	z-index: 2000;\n	background-image: url(&quot;../../images/st/popup/bg.png&quot;);\n}\n#st-attachments-manageinterface {\n	font-family: Helvetica, sans-serif;\n	font-size: 90%;\n	display: none;\n	position: absolute;\n	left: 0px;\n	top: 0px;\n	width: 100%;\n	height: 100%;\n	z-index: 2000;\n	background-image: url(&quot;../../images/st/popup/bg.png&quot;);\n}\n\n* html #st-attachments-attachinterface {\n	background-image: none;\n}\n* html #st-attachments-manageinterface {\n	background-image: none;\n}\n* html .popup-overlay {\n	background-image: url(&quot;../../images/st/popup/bg.png&quot;);\n	background-color: #000;\n	opacity: .70;\n	position: absolute;\n	left: 0px;\n	top: 0px;\n	width: 100%;\n	height: 100%;\n	z-index: 2001;\n}\n\n#st-attachments-attach-interface {\n	z-index: 2002;\n	background-color: #fff;\n	color: #000;\n	border: 4px solid #ccc;\n	padding: 1em;\n	width: 520px;\n	margin-left: auto;\n	margin-right: auto;\n	margin-top: 10%;\n	position: absolute;\n	top: 0px;\n}\n\n* html #st-attachments-attach-interface {\n}\n\n#st-attachments-attach-formtarget {\n	width: 0px;\n	height: 0px;\n	border: 0;\n	padding: 0;\n	margin: 0;\n}\n\n#st-attachments-attach-message {\n	font-size: 90%;\n	font-family: Verdana, Arial, Helvetica, Sans-Serif;\n}\n\n#st-attachments-attach-title {\n	font-weight: bold;\n	font-size: 120%;\n}\n\n#st-attachments-attach-close {\n	float: right;\n	margin-top: 6px;\n}\n\n#st-attachments-attach-uploadbutton {\n	float: right;\n	margin-right: 6px;\n	margin-top: 6px;\n	padding-bottom: 0;\n}\n\n#st-attachments-attach-fileprompt {\n	margin: 0.2em 0 0.4em 0;\n	padding-bottom: 0px;\n}\n\n#st-attachments-attach-submit {\n	font-size: 90%;\n	font-weight: bold;\n}\n\n#st-attachments-attach-filename {\n	font-size: 90%;\n}\n\n#st-attachments-attach-uploadmessage {\n	font-weight: bold;\n	margin-bottom: 1em;\n	display: none;\n}\n\n#st-attachments-attach-error {\n	font-weight: bold;\n	color: #f00;\n	margin-bottom: 1em;\n	display: none;\n}\n\n#st-attachments-attach-list {\n	display: none;\n	color: #666;\n	font-size: 90%;\n	margin-top: 1em;\n	margin-bottom: 1em;\n	border-top: 1px solid #4949BA;\n	border-bottom: 1px solid #4949BA;\n	background-color: #F5F5F5;\n	padding: 3px;\n}\n\n.st-attachments-attach-listlabel {\n	font-size: 90%;\n	color: #4949BA;\n}\n\n/* Queue File Dialog */\n\n#st-attachmentsqueue-interface {\n	font-family: Helvetica, sans-serif;\n	font-size: 90%;\n	display: none;\n	position: fixed;\n	left: 0px;\n	top: 0px;\n	width: 100%;\n	height: 100%;\n	background-image: url(&quot;../../images/st/popup/bg.png&quot;); /* Don't forget IE hack for ship! */\n	z-index: 2000;\n}\n\n* html #st-attachmentsqueue-interface {\n	background-image: none;\n}\n\n#st-attachmentsqueue-dialog {\n	z-index: 2002;\n	background-color: #fff;\n	color: #000;\n	border: 4px solid #ccc;\n	padding: 1em;\n	width: 530px;\n	margin-left: auto;\n	margin-right: auto;\n	margin-top: 10%;\n	position: absolute;\n	top: 0px;\n}\n\n* html #st-attachmentsqueue-dialog {\n}\n\n#st-attachmentsqueue-fileprompt {\n	margin-bottom: 0.4em;\n	margin-top: 0;\n	padding-bottom: 0;\n}\n\n#st-attachmentsqueue-title {\n	font-weight: bold;\n	font-size: 120%;\n}\n\n#st-attachmentsqueue-close {\n	float: right;\n	margin-top: 6px;\n}\n\n#st-attachmentsqueue-uploadbutton {\n	float: right;\n	margin-right: 6px;\n	margin-top: 6px;\n	padding-bottom: 0;\n}\n\n#st-attachmentsqueue-submit {\n	font-size: 90%;\n}\n\n#st-attachmentsqueue-filename {\n	font-size: 90%;\n}\n\n#st-attachmentsqueue-message {\n	font-size: 90%;\n	font-family: Verdana, Arial, Helvetica, Sans-Serif;\n}\n\n#st-attachmentsqueue-uploadmessage {\n	font-weight: bold;\n	margin-bottom: 1em;\n	display: none;\n}\n\n#st-attachmentsqueue-error {\n	font-weight: bold;\n	color: #f00;\n	margin-bottom: 1em;\n	display: none;\n}\n\n#st-attachmentsqueue-list {\n	display: none;\n	color: #666;\n	font-size: 90%;\n	margin-top: 1em;\n	margin-bottom: 1em;\n	border-top: 1px solid #4949BA;\n	border-bottom: 1px solid #4949BA;\n	background-color: #F5F5F5;\n	padding: 3px;\n}\n\n.st-attachmentsqueue-listlabel {\n	font-size: 90%;\n	color: #4949BA;\n}\n\n/* Lists */\n\ntr.st-trbg-even, tr.st-trbg-even td{\n	background-color: #f3f7f7;\n}\n\ntr.w-st-even-row, tr.w-st-even-row td {\n	background-color: #f3f7f7;\n}\n\n.query-results-header-title, .query-results-header-last-edit-by {\n	text-align: left;\n}\n\n\n.query-results-row-revisions {\n	text-align: right;\n}\n\n.query-results-content {\n  font-size: 85%;\n  border-collapse: collapse;\n  border: 1px dashed #ddd;\n  border-left: 1px solid #ddd;\n  border-right: 1px solid #ddd;\n}\n\n.query-results-row {\n  border-collapse: collapse;\n  border: 1px dashed #ddd;\n  border-left: 1px solid #ddd;\n  border-right: 1px solid #ddd;\n}\n\n.query-results-row a {\n  text-decoration: underline;\n  color: #00f;\n}\n\n.query-results-row td {\n  font-family: Verdana;\n  padding: 0.3em;\n  border-left: 1px dashed #ddd;\n  border-right: 1px dashed #ddd;\n  border-top: 1px solid #ddd;\n  border-bottom: 1px solid #ddd;\n}\n\n.query-results-header-row {\n  border-collapse: collapse;\n  border: 1px dashed #ddd;\n  border-left: 1px solid #ddd;\n  border-right: 1px solid #ddd;\n}\n\n.query-results-header-row a {\n  text-decoration: underline;\n  color: #00f;\n}\n\n.query-results-header-row th {\n  font-family: Helvetica;\n  padding: 0.3em;\n  border-left: 1px dashed #ddd;\n  border-right: 1px dashed #ddd;\n  border-top: 1px solid #ddd;\n  border-bottom: 1px solid #ddd;\n}\n\ndiv.st-actionbutton {\n	float: left;\n}\n\ndiv#deleteme-st-actions-bar {\n	clear: both;\n	margin: 0.8em 20px 0.2em auto;\n	padding: 0;\n}\n\n/* Manage File Interface */\n\n\n\n#st-attachments-manage-interface {\n	z-index: 2002;\n	background-color: #fff;\n	color: #000;\n	border: 4px solid #ccc;\n	padding: 1em;\n	width: 520px;\n	margin-left: auto;\n	margin-right: auto;\n	margin-top: 10%;\n	position: absolute;\n	top: 0px;\n}\n\n#st-attachments-manage-filetable {\n	height: 150px;\n	margin: 0;\n	padding: 0;\n	width: 100%;\n	overflow: auto;\n	border: 1px solid #ccc;\n}\n\n#st-attachments-manage-filelisting tbody td {\n	font-size: 90%;\n}\n#st-attachments-manage-filelisting {\n	width: 100%;\n	border-collapse: collapse;\n	border: 0;\n	margin: 0;\n	padding: 0;\n}\n\n#st-attachments-manage-fileheader {\n	background: #ccc;\n	font-weight: bold;\n	border-bottom: 1px black solid;\n}\n\n#st-attachments-manage-close {\n	float: right;\n	margin-top: 3px;\n	margin-right: -2px;\n	font-weight: bold;\n}\n\n#st-attachments-manage-delete {\n	margin-top: 3px;\n	float: left;\n	font-weight: bold;\n}\n\n.st-attachments-manage-filerow {\n	border-bottom: 1px solid #ccc;\n}\n\n.row-odd {\n	background-color: #eee;\n}\n\n.row-even {\n	background-color: #fff;\n}\n\n.row-on {\n	background-color: #009 !important;\n	color: white !important;\n}\n\n.row-on a {\n	color: #fff !important;\n}\n\n#st-attachments-manage-deletemessage {\n	color: red;\n}\n\n/* Page tools icons */\n\n#st-pagetools-print {\n	background: url(&quot;../../images/st/pagetools/print.gif&quot;)\n	  left center no-repeat;\n}\n\n#st-pagetools-email {\n	background: url(&quot;../../images/st/pagetools/email.gif&quot;)\n	  left center no-repeat;\n}\n\n#st-pagetools-tools {\n	background: url(&quot;../../images/st/pagetools/tools.gif&quot;)\n	  left center no-repeat;\n}\n\n/*\n #st-pagetools-watch {\n	background: url(&quot;../../images/st/pagetools/watch-blue.gif&quot;)\n	  left center no-repeat;\n}\n*/\n\n\n/* *********** Settings *********** */\n\n#st-settings-pane {\n}\n* html #settings-pane { font-size: 85%;}\n\n.settings-start-table {\n}\n* html .settings-start-table { font-size: 90%;}\n\n#st-settings-select {\n	padding: 0px 10px 10px 10px;\n	vertical-align: top;\n	width: 1px;\n\n	background-color: #eff1ec;\n	border: none;\n}\n\n#st-settings-section {\n	padding: 0px 10px 10px 10px;\n	vertical-align: top;\n}\n\n.settings-top-header {\n	margin-top: 1em;\n	font-weight: bold;\n	width: 15em;\n}\n\n.settings-header {\n	margin-top: 1em;\n	font-weight: bold;\n}\n\n.settings-selections {\n	padding: 0px 0px 0px 20px;\n	line-height: 1.5em;\n}\n\n.settings-selections a:visited, .settings-selections a:active {\n	color: #0000ff;\n}\n\n.settings-link {\n	clear: both;\n	display: block;\n}\n\n.settings-section-left {\n	text-align: right;\n}\n\n.settings-label {\n	font-weight: bold;\n}\n\n.settings-help {\n	color: #888;\n}\n\n.settings-comment {\n}\n\n.users-invite-message {\n	padding: 0.5em 0.5em 0.5em 2em;\n	background-color: #eee;\n	/* This seems necessary to fix an IE bug that sometimes\n	   causes the text in this div to be invisible */\n	z-index: 1000;\n}\n\n.workspace-entry-header {\n	margin-top: .5em;\n	font-weight: bold;\n}\n\n.workspace-entry {\n	margin-left: 3em;\n}\n\n.workspace-entry-p {\n	margin-top: .5em;\n	margin-bottom: .75em;\n}\n\n.workspace-subentry {\n	font-style: italic;\n	font-weight: bold;\n	margin-left: 1.5em;\n}\n\n.preferences-td {\n	padding:.5em 0 1.5em 0;\n}\n\n.preferences-query {\n	text-align: left;\n}\n\n.preference-radio {\n	background-color: #cec;\n}\n.user-settings-listall-headings td {\n	background-color: #eff3ef;\n}\n\n#st-settings-save {\n	padding-bottom: 0.5em;\n}\n\n.standard-button-cancel {\n	font-weight: bold;\n	background-color: #71004b;\n\n	border-left: 1px solid #aaa;\n	border-top: 1px solid #aaa;\n	border-bottom: 2px solid #333;\n	border-right: 2px solid #333;\n	color: #f4f3b9;\n	width: 8em;\n}\n\n.standard-button-submit {\n	font-weight: bold;\n	background-color: #656084;\n\n	border-left: 1px solid #aaa;\n	border-top: 1px solid #aaa;\n	border-bottom: 2px solid #333;\n	border-right: 2px solid #333;\n	color: #f4f3b9;\n	width: 8em;\n}\n\n#st-settings {\n	font-family: Verdana, Arial, Helvetica, Sans-Serif;\n	font-size: 90%;\n}\n\n\n/* Listview Tabs */\n\n\n#st-listview a:visited {\n	color: #551a8b;\n}\n#st-listview-tabs ul {\n  display: block;\n  list-style: none outside;\n  margin: 0 0 0 4em;\n  padding: 0;\n  font-family: Helvetica, Arial, Sans-serif;\n  font-size: 80%;\n}\n\n#st-listview-tabs li {\n  display: block;\n  float: left;\n  margin: 0 0.8em 0 0;\n  padding: 3px 0.6em 0 0.6em;\n  border: 1px solid #d8d8d8;\n  border-bottom: 1px solid rgb(128, 169, 243);\n  background-color: #f4f4f4;\n  position: relative;\n  bottom: -2px;\n}\n\n#st-listview-tabs li.spacer {\n  margin: 0 0.8em 0 2em;\n}\n\n#st-listview-tabs a {\n  color: #bbb;\n  text-decoration: none;\n}\n\n#st-listview-tabs li.selected {\n  background-color: #fff !important;\n  border: 1px solid rgb(128, 169, 243) !important;\n  border-bottom: 1px solid #fff !important;\n  font-weight: bold !important;\n}\n\n#st-listview-tabs li.selected a {\n  color: #000 !important;\n}\n\n/*  Category List Display */\n\n#st-category-display-links {\n	margin-bottom: 1em;\n	font-size: 90%;\n}\n\n#st-tag-listbody {\n	font-family: Helvetica, Verdana, sans-serif;\n}\n\n/* Attachments List Display */\n\n#st-attachments-list-body table.button-table {\n	margin-top: 0.1em;\n	font-size: 80%;\n}\n\n\n/* **********   PageTools Menu   ************** */\n\ndiv#st-editing-tools {\n	float: left;\n}\n\ndiv#st-pagetools {\n	z-index: 300;\n	font-family: Helvetica, Verdana, sans-serif;\n	font-size: 10px;\n	float: right;\n	margin: 18px 0 0 0em;\n	color: #000;\n	vertical-align: bottom;\n	position: relative;\n}\n\n#st-pagetools a {\n	text-decoration: none;\n	color: black;\n	padding-left: 17px;\n}\n\n#st-pagetools span {\n	color: inherit;\n	padding-left: 17px;\n	vertical-align: top;\n}\n\n#st-pagetools span.st-watchlist-link {\n	color: inherit;\n	vertical-align: top;\n}\n\n.st-watchlist-link {\n	cursor: pointer;\n}\n\ndiv#st-pagetools ul.level2 {\n	z-index: 300;\n	margin: 0;\n	padding: 0;\n	background: white;\n	border: 1px solid #CCC;\n	border-width: 0 1px;\n}\n\ndiv#st-pagetools li {\n	position: relative;\n	list-style: none;\n	margin: 0;\n	float: left;\n	width: 7em;\n	line-height: 11px;\n}\n\ndiv#st-pagetools ul ul li:hover {\n	background: #BFE2FF;\n}\n\ndiv#st-pagetools li a {\n	display: block;\n	text-decoration: none;\n}\n\ndiv#st-pagetools&gt;ul a {\n	width: auto;\n}\n\ndiv#st-pagetools ul ul {\n	position: absolute;\n	width: auto;\n	display: none;\n}\n\ndiv#st-pagetools ul ul li {\n	line-height: 1.5em;\n/*	width: 100%; */\n	width: 14em;\n}\n\n.first {\n	border-top: 1px solid #CCC;\n}\n\n.separator {\n	border-bottom: 1px solid #CCC;\n}\n\ndiv#st-pagetools ul ul li a {\n	border-bottom: 1px solid #CCC;\n	padding-left: 15px;\n	padding-right: 3px;\n	margin-right: 3px;\n	border: 0px;\n}\n\ndiv#st-pagetools li.submenu li.submenu:hover {\n	z-index: 300;\n	background-color: #BFE2FF;\n}\n\ndiv#st-pagetools ul.level1 li.submenu:hover ul.level2 {\n	display:block;\n}\n\ndiv#st-pagetools ul.level2 {\n	top: 1.0em;\n	left: -9.5em;\n}\n\n/*\n\n=head2 Revision List Display\n\nChange these styles to update the page revision list.\n\n*/\n\n#st-revision-list-table {\n  border-collapse: collapse;\n  font-size: 85%;\n	color: #000;\n}\n\n.st-page-title-decorator {\n	color: #C80000;\n}\n\n.st-revision-header-emphasis {\n	color: #C80000;\n}\n\n.st-revision-list-compare-button-row {\n}\n\n.st-revision-list-compare-button-cell {\n  padding-top: 0.3em;\n	text-align: center;\n}\n\n.st-revision-list-compare-button {\n}\n\n#st-revision-list-header-row {\n}\n\n#st-revision-list-header-select {\n	padding: 6px 2px 2px 2px;\n	text-align: center;\n}\n\n#st-revision-list-header-revision {\n	padding: 6px 2px 2px 2px;\n	text-align: left;\n}\n\n#st-revision-list-header-edited-by {\n	padding: 6px 2px 2px 2px;\n	text-align: center;\n}\n\n#st-revision-list-header-date {\n	padding: 6px 2px 2px 2px;\n	text-align: center;\n}\n\n.st-revision-list-row {\n  border-collapse: collapse;\n  border: 1px dashed #ddd;\n  border-left: 1px solid #ddd;\n  border-right: 1px solid #ddd;\n}\n\n.st-revision-list-row td {\n  font-family: Verdana;\n  padding: 0.3em;\n  border-left: 1px dashed #ddd;\n  border-right: 1px dashed #ddd;\n  border-top: 1px solid #ddd;\n  border-bottom: 1px solid #ddd;\n}\n\n.st-revision-list-row-select {\n	padding: 3px 0 2px 0;\n	text-align: center;\n}\n\n.st-revision-list-row-select-old {\n}\n\n.st-revision-list-row-select-new {\n}\n\n.st-revision-list-row-revision {\n}\n\n.st-revision-list-row-revision-link {\n}\n\n.st-revision-list-row-edited-by {\n}\n\n.st-revision-list-row-date {\n}\n\n/* Revision Menu */\n\n#st-pagetools.st-revision-view-bar {\n	float: left;\n}\n\nul.st-revision-menu {\n	list-style: none;\n	margin: 0;\n	padding: 0.2em;\n	font-size: 80%;\n}\n\nul.st-revision-menu li {\n	float: left;\n	padding: 0 0.4em 0 0.4em;\n	border-right: thin solid #000000;\n}\n\nul.st-revision-menu li.st-last {\n	border-right: none;\n}\n\n#st-restore-revision-button {\n	font-size: 80%;\n}\n\n/*\n\n=head2 Revision Compare Display\n\nWhen comparing two revisions of a page, these styles apply.\n\n*/\n\n#st-revision-compare-table {\n	background-color: #f0f0f0;\n}\n\n#st-revision-compare-table td {\n	background-color: white;\n}\n\n.st-revision-compare-old {\n	background-color: #fdd;\n	text-decoration: line-through;\n}\n.st-revision-compare-new {\n	background-color: #dfd;\n	font-weight: bold;\n}\n\n/* Weblog View */\n\n#st-weblog {\n	padding: 0;\n}\n\n#st-content-weblog-display-width-controller {\n}\n#st-content-weblog-display-width-controller-nav {\n	width: 230px;\n	margin-left: 15px;\n	border-left: 5px solid #ddd;\n	margin-top: -1px;\n}\n\n#st-weblog-content {\n	font-family: Verdana, Helvetica, sans-serif;\n	margin-top: -1px;\n	margin-bottom: -1px;\n	border-top: 1px solid #80a9f3;\n	border-bottom: 1px solid #80a9f3;\n}\n\n#st-weblog-title {\n	font-family: &quot;Trebuchet MS&quot;, Verdana, Helvetica, sans-serif;\n	font-family: &quot;Times New Roman&quot;, serif;\n	background-color: #80a9f3;\n	color: #fff;\n	font-size: 150%;\n	font-weight: bold;\n	padding: 0.2em;\n	padding-left: 1em;\n}\n\n#st-weblog-wikititle {\n	font-family: Helvetica, Verdana, sans-serif;\n	font-style: italic;\n	font-size: 40%;\n	color: #fff;\n	margin-bottom: 0.2em;\n	margin-top: 0.1em;\n	padding-top: 0;\n}\n\n#st-weblog-titletext {\n	font-family: Helvetica, Verdana, sans-serif;\n	font-weight: bold;\n	color: #fff;\n}\n\ndiv.st-weblog-entry {\n	margin-top: 0.2em;\n	margin-bottom: 4.8em;\n	padding: 0 1.5em 0 1.5em;\n}\n\n.st-page-title {\n	clear: both;\n}\n\ndiv.st-weblog-entrytitle span.text {\n	font-family: Helvetica, Verdana, sans-serif;\n	font-size: 150%;\n	font-weight: bold;\n	color: #000;\n}\n\n.st-weblog-entrycontent {\n	font-family: Verdana, Helvetica, sans-serif;\n	font-size: 90%;\n	border-bottom: 1px solid #888;\n}\n\n.st-weblog-byline {\n	float: left;\n	text-align: left;\n	font-style: italic;\n	font-size: 70%;\n	font-family: Verdana, Helvetica, sans-serif;\n}\n\n.st-weblog-post-links {\n	float: right;\n	text-align: right;\n	font-size: 70%;\n	font-family: Verdana, Helvetica, sans-serif;\n}\n\n#st-weblog-archives, #st-weblog-navigation {\n	position: relative;\n	float: right;\n	width: 230px;\n}\n\n#st-weblog-archives {\n	margin-top: 15px;\n	clear: right;\n}\n\n#st-weblog-archives-title, #st-weblog-navigation-title {\n	margin-left: 15px;\n	font-family: Helvetica, sans-serif;\n	font-size: 95%;\n	font-weight: bold;\n	color: #999;\n	border-bottom: 2px solid #f99;\n	padding-bottom: 5px;\n	padding-top: 5px;\n	margin-bottom: 5px;\n}\n\n#st-weblog-navigation-content {\n	margin-left: 15px;\n	font-size: 80%;\n}\n\n#st-weblog-archives ul {\n	margin: 0;\n	padding: 0;\n}\n\n#st-weblog-archives ul li {\n	/* list-type: none; */\n	display: block;\n	font-size: 80%;\n	font-family: Helvetica, sans-serif;\n	padding-left: 15px;\n}\n\n#st-weblog-newpost {\n	padding: 0.5em 0.7em 0.3em 0.3em;\n}\n\n#st-weblog-newpost-button {\n}\n\n#st-weblog-actionbar-chooseweblog {\n	float: right;\n}\n\n#st-weblog-postbyemail {\n	font-size: 70%;\n	font-family: Verdana, Helvetica, sans-serif;\n	color: #def;\n	padding-top: 0.4em;\n}\n\n#st-weblog-postbyemail-link {\n	color: #00c;\n}\n\n.st-weblog-chooseprompt {\n	font-size: 90%;\n	font-family: Verdana, Helvetica, sans-serif;\n	padding-right: 0.2em;\n	color: #000;\n}\n\n.st-spacer {\n	padding-right: 0.1em;\n	padding-left: 0.1em;\n}\n\n.st-weblog-preventries {\n	padding-bottom: 20px;\n	clear: both;\n}\n.st-weblog-nextentries {\n	clear: both;\n}\n\ndiv.st-weblog-entrynav {\n	margin-top: 0.2em;\n	margin-bottom: 1.8em;\n	padding: 0;\n}\n\nspan.st-weblog-previousentries, span.st-weblog-nextentries {\n	font-size: 90%;\n	font-family: Verdana, Helvetica, sans-serif;\n	padding-left: 1em;\n}\n\n/* ******* Page Stats ******** */\n\n#st-usagereport-navbar {\n	font-size: 80%;\n	padding: 0;\n	margin: 0;\n}\n\n#st-usagereport-date {\n	font-weight: bold;\n	margin-top: 1em;\n}\n\n#st-page-usagereport h1 {\n	font-size: 1.3em;\n	font-weight: bold;\n	margin-top: 1.2em;\n	margin-bottom: 0.3em;\n}\n\n#st-page-usagereport h2 {\n	font-size: 1.1em;\n	font-weight: bold;\n	margin-top: 0.8em;\n	margin-bottom: 0.3em;\n}\n\n/* New Page */\n#st-newpage-save, #st-newpage-duplicate {\n	display: none;\n	position: fixed;\n	left: 0px;\n	top: 0px;\n	width: 100%;\n	height: 100%;\n	background: url(&quot;../../images/st/popup/bg.png&quot;); /* Don't forget IE hack for ship! */\n	z-index: 2000;\n}\n\n#st-newpage-save-interface {\n	background-color: #fff;\n	color: #000;\n	border: 4px solid #ccc;\n	padding: 0.5em;\n	width: 450px;\n	margin-left: auto;\n	margin-right: auto;\n	margin-top: 10%;\n	position:absolute;\n	top:0px;\n	z-index:2003;\n}\n\n#st-newpage-duplicate-interface {\n	background-color: #fff;\n	color: #000;\n	border: 4px solid #ccc;\n	padding: 0.5em;\n	width: 530px;\n	margin-left: auto;\n	margin-right: auto;\n	margin-top: 10%;\n	position:absolute;\n	top:0px;\n	z-index:2003;\n}\n\n#st-newpage-save-title, #st-newpage-duplicate-title {\n	margin: 0;\n	padding: 0;\n	font-weight: bold;\n	font-family: Helvetica, sans-serif;\n	font-size: 100%;\n}\n\n#st-newpage-save-prompt, #st-newpage-duplicate-prompt {\n	font-family: Helvetica, sans-serif;\n	font-size: 90%;\n	margin-bottom: 0.4em;\n}\n\n#st-newpage-save-buttons, #st-newpage-duplicate-buttons {\n	margin-top: 0.8em;\n	text-align: right;\n}\n\n.st-newpage-duplicate-option {\n	font-family: Helvetica, sans-serif;\n	font-size: 90%;\n	margin: 0;\n	padding: 0;\n}\n\n#st-newpage-duplicate-pagename {\n	font-size: 90%;\n}\n\n.st-newpage-duplicate-emphasis {\n	background-color: #FFFF00;\n	font-weight: bold;\n}\n\n#st-newpage-save-field-pagename {\n	margin-bottom: 0;\n	margin-top: 0.2em;\n	padding-bottom: 0;\n	font-size: 90%;\n}\n\n#st-newpage-save-tip {\n	margin-bottom: 0;\n	margin-top: 1.2em;\n	padding-bottom: 0;\n	font-size: 75%;\n	color: #888;\n}\n\n/* Wikitext Styling */\n\n.wiki {\n}\n\n.wiki hr {\n	margin-top: .4em;\n	margin-bottom: .4em;\n}\n\n.wiki .short-rule {\n	width: 25%;\n}\n\n.wiki .medium-rule {\n	width: 50%\n}\n\n.wiki ul,\n.wiki ol,\n.wiki blockquote {\n	margin-left: 2em;\n	padding-left: 0em;\n}\n\n.wiki table {\n	border-collapse: collapse;\n}\n\n.wiki td {\n	border: 1px;\n	border-style: solid;\n	padding: .2em;\n	vertical-align: top;\n}\n\n.wiki h1,\n.wiki h2,\n.wiki h3,\n.wiki h4,\n.wiki h5,\n.wiki h6 {\n	font-weight: bold;\n	font-style: normal;\n	margin-top: 0.1em;\n	margin-bottom: 8px;\n}\n\n.wiki h1 {font-size: 200%;}\n.wiki h2 {font-size: 170%;}\n.wiki h3 {font-size: 145%;}\n.wiki h4 {font-size: 125%;}\n.wiki h5 {font-size: 110%;}\n.wiki h6 {font-size: 100%;}\n\n.wiki pre {\n	background-color: #eee; /* XXX */\n	margin-left: 1em;\n	margin-right: 1em;\n	padding: .2em;\n}\n\n.wiki .incipient {\n	text-decoration: none;\n	border-bottom: 1px dashed;\n}\n\n.wiki-include-title {\n	background-color: #ccccff;\n}\n\n.wiki .wiki {\n	position: relative;\n	background-color: #ddddff;\n	border: 1px solid #ccccff;\n	padding: 3px;\n}\n\n.wafl_existence_error {\n	color: rgb(200,0,0);\n	border-bottom: 0.2em dashed rgb(200,0,0);\n}\n\n#st-edit-mode-container {\n}\n\n#st-edit-mode-view {\n}\n\n#st-page-editing-uploadbutton {\n	z-index: 1500;\n	float: left;\n}\n\n/* Comment UI */\n\n\nbody#st-commentui {\n	background: #ffffff;\n}\n\n#st-commentui-container {\n}\n\n#st-commentui-container a:visited,\n#st-commentui-container a:active {\n	color: #00f;\n}\n\n#st-commentui-notetop {\n}\n\n#st-commentui-controls {\n}\n\n#st-commentui-savelink {\n	background-color: #fffebd;\n}\n\n#st-commentui-cancellink {\n}\n\n#st-commentui-customfield {\n}\n\n#st-commentui-customfield .customfield-label {\n}\n\n#st-commentui-customfield .customfield-input {\n}\n\n#st-commentui-textarea {\n	padding: 0;\n	border-style: inset;\n	border-width: thin;\n	background-color: #ffd;\n	color: black;\n	width: 99%;\n	height: 150px;\n}\n\n/*\n\n=head2 Send Page by Email\n\nStyles for the &quot;Send Page by Email&quot; popup, accessed from the &quot;Email&quot; dropdown\nmenu on the page bar.\n\n*/\n\n#email-page {\n	background: #ffffff;\n	font-size: 80%;\n}\n\n.email-page-row {\n	clear: both;\n}\n\n.email-page-row-label {\n	font-weight: bold;\n	float: left;\n	width: 5em;\n	margin-left: 1.2em;\n	margin-right: 1.2em;\n	text-align: right;\n}\n\n.email-page-row-content {\n	float: left;\n	padding-bottom: 1.2em;\n}\n\n.email-page-user-select-column {\n	float: left;\n	padding-right: 1.2em;\n	width: 14em;\n}\n\n#email-page-user-select-column-center {\n	width: 10em;\n}\n\n.email-page-user-select-label {\n	text-align: center;\n}\n\n#email-page-user-select-add-label {\n	padding-top: 1em;\n}\n\n.email-page-user-select-button-group {\n	padding-bottom: 2em;\n}\n\n.email-page-input {\n	width: 120px;\n	clear: both;\n	display: block;\n}\n\n\n.email-page-select {\n   width: 175px;\n   font-size: x-small;\n}\n\n#email-page-error-message {\n	text-align: center;\n}\n\n#email-page-buttons-container {\n	clear: both;\n}\n\n#email-page-buttons {\n	text-align: center;\n}\n\n.email-page-input-new {\n	width: 175px;\n}\n\n/* System Status, Red with icon */\n\n#st-system-status-alert {\n	clear: both;\n	width: 50%;\n	margin-left: 25%;\n	margin-top: 10px;\n	padding: 5px;\n	color: #c00;\n	font-weight: bold;\n	font-size: 80%;\n	background: transparent url(&quot;../../images/st/system-message/important-note.gif&quot;) no-repeat 5px center;\n	padding-left: 60px;\n	min-height: 38px;\n}\n* html #st-system-status-alert {\n	height: 38px;\n}\n\n/* System Status, Green */\n\n#st-system-status {\n	clear: both;\n	text-align:center;\n	width: 80%;\n	margin-left: 10%;\n	padding: 8px 0 3px 0;\n	color: #0a0;\n	font-family: Arial, Helvetica, sans-serif;\n	font-size: 80%;\n}\n\n.socialtextLogo {\n	text-align: center;\n}\n\n/*}}}*/\n</div>
+<div title="SocialtextScreenStyle" modifier="MartinBudden" created="200610290000" tags="excludeLists excludeSearch">
+<pre>/***
+SocialtextScreenStyle
+http://www.eu.socialtext.net/static/2.0.0.1/css/st/screen.css
+***/
+
+/*{{{*/
+body {
+	font-family: Arial, sans-serif;
+	color: #000;
+	background: #eee;
+	margin: 0;
+}
+
+/* Wiki Navigation */
+
+.st-wiki-nav {
+	clear: both;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.st-wiki-nav-content {
+	background: url('../../images/st/wiki-nav/solid.gif') repeat-x left bottom;
+	margin-left: 24px;
+	margin-right: 24px;
+	padding-top: 3px;
+	min-height: 24px;
+}
+* html .st-wiki-nav-content {
+	padding-bottom: 3px;
+	height: 24px;
+}
+
+.st-wiki-nav-right {
+	background: url('../../images/st/wiki-nav/right-round.gif') no-repeat bottom right;
+}
+
+.st-wiki-nav-left {
+	background: url('../../images/st/wiki-nav/left-round.gif') no-repeat bottom left;
+}
+
+#st-home {
+	float: left;
+	margin-right: 60px;
+	padding-top: 2px;
+}
+
+#st-home-link {
+	color: white;
+	text-decoration: none;
+	font-weight: bold;
+	font-family: Helvetica, sans-serif;
+	font-size: 90%;
+}
+
+#st-editing-prefix-container {
+	border-collapse: collapse;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: -20px;
+}
+
+#st-editing-prefix-container tr td {
+	margin: 0px;
+	padding: 0px;
+}
+
+#st-editing-title {
+	color: black;
+	background-color: white;
+	text-decoration: none;
+	font-weight: bold;
+	font-family: Helvetica, sans-serif;
+	font-size: 90%;
+	margin-bottom: 0.4em;
+}
+
+#st-wiki-title-invite {
+	font-size: 50%;
+	font-family: Helvetica, sans-serif;
+}
+
+#st-wiki-title-central-page-link {
+	font-size: 50%;
+	font-family: Helvetica, sans-serif;
+}
+
+#st-wiki-title-invite a {
+	color: #00f;
+}
+
+#st-wiki-logo {
+	text-align: center;
+	clear: both;
+}
+
+#st-wiki-logo-image {
+}
+
+.st-wiki-nav-actions {
+	float: right;
+	color: black;
+	font-size: 75%;
+	padding-top: 3px;
+}
+
+.st-wiki-nav-actions a {
+	padding: 2px;
+	color: white;
+	text-decoration: none;
+	font-family: Helvetica, sans-serif;
+}
+
+/* Wiki Subnav */
+
+#st-wiki-subnav {
+	margin-top: 2px;
+	font-size: 70%;
+	font-weight: bold;
+	font-family: Helvetica, sans-serif;
+	color: #888;
+}
+
+#st-wiki-subnav a {
+	padding: 2px;
+	color: #008;
+	text-decoration: none;
+}
+
+#st-wiki-subnav-right {
+	float: right;
+	margin-right: 6em;
+}
+
+#st-wiki-subnav-left {
+	float: left;
+	margin-left: 6em;
+}
+* html #st-wiki-subnav-left {
+	margin-left: 3em;
+}
+
+/* Wiki Navigation Search Bar */
+
+#st-search-form {
+	margin: 0;
+	padding: 0;
+	padding-top: 1px;
+}
+
+#st-search-form .button-table {
+	float: left;
+	font-size: 79%;
+	font-weight: bold;
+	margin-left: 5px;
+	margin-top: 1px;
+}
+
+#st-search-form #st-search-term {
+	float: left;
+	font-size: 60%;
+}
+
+/* Content Outline */
+
+#st-content-border, #st-edit-border {
+	position: relative;
+	clear: both;
+	margin-left: 3px;
+	margin-right: 2px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	border-bottom: 1px solid #eee;
+}
+
+#st-content-border-left, #st-edit-border-left {
+	background: url('../../images/st/page-shadow/left.gif') left top repeat-y;
+	position: relative;
+}
+
+#st-content-border-right, #st-edit-border-right {
+	background: url('../../images/st/page-shadow/right.gif') right top repeat-y;
+	position: relative;
+}
+
+#st-content-border-top, #st-edit-border-top {
+	position: relative;
+	background: url('../../images/st/page-shadow/top.gif') left top repeat-x;
+}
+
+#st-content-border-bottom, #st-edit-border-bottom {
+	background: url('../../images/st/page-shadow/bottom.gif') left bottom repeat-x;
+	position: relative;
+}
+
+#st-content-border-left-top, #st-edit-border-left-top {
+	background: url('../../images/st/page-shadow/left-top.gif') left top no-repeat;
+	position: relative;
+}
+#st-content-border-right-top, #st-edit-border-right-top {
+	background: url('../../images/st/page-shadow/right-top.gif') right top no-repeat;
+	position: relative;
+}
+
+#st-content-border-left-bottom, #st-edit-border-left-bottom {
+	background: url('../../images/st/page-shadow/left-bottom.gif') left bottom no-repeat;
+	position: relative;
+}
+
+#st-content-border-right-bottom, #st-edit-border-right-bottom {
+	background: url('../../images/st/page-shadow/right-bottom.gif') right bottom no-repeat;
+	padding-top: 5px;
+	padding-bottom: 9px;
+	position: relative;
+}
+
+* html #st-content-border-right-bottom, * html #st-edit-border-right-bottom {
+	padding-top: 4px;
+	padding-left: 7px;
+	padding-right: 8px;
+	position: relative;
+}
+
+.st-content-width-controller {
+	width: 100%;
+	position: relative;
+	border-collapse: collapse;
+}
+.st-content-width-controller td {
+	vertical-align: top;
+}
+.st-content {
+	position: relative;
+	background-color: white;
+	margin-top: 0px;
+	margin-left: 7px;
+	margin-right: 8px;
+	margin-bottom: -1px;
+	border-left: 1px dotted #80a9f3;
+	border-right: 1px dotted #80a9f3;
+	border: 1px solid #80a9f3;
+	padding: 6px 12px 12px 12px;
+}
+* html .st-content {
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+/* This textarea is only for Safari. However, if we use display:none; here Safari ignores the .value operation in JS */
+#st-raw-wikitext-textarea {
+	width:1px;
+	height:1px;
+	margin:0;
+	padding:0;
+}
+
+/* Action Buttons */
+.button-table, .button-table tr td {
+	border-collapse: collapse;
+	margin: 0;
+	padding: 0;
+}
+.button-rounded {
+	background: url('../../images/st/grey-button/left-top-rounded.png') top left no-repeat;
+	margin: 0;
+}
+.button-rounded-right-top {
+	background: url('../../images/st/grey-button/right-top-rounded.png') top right no-repeat;
+	margin: 0;
+}
+.button-rounded-left-bottom {
+	background: url('../../images/st/grey-button/left-bottom-rounded.png') bottom left no-repeat;
+	margin: 0;
+}
+.button-rounded-right-bottom {
+	background: url('../../images/st/grey-button/right-bottom-rounded.png') bottom right no-repeat;
+	margin: 0;
+}
+.button-straight {
+	background: url('../../images/st/grey-button/left-top-straight.png') top left no-repeat;
+	margin: 0;
+}
+.button-straight-right-top {
+	background: url('../../images/st/grey-button/right-top-straight.png') top right no-repeat;
+	margin: 0;
+}
+.button-straight-left-bottom {
+	background: url('../../images/st/grey-button/left-bottom-straight.png') bottom left no-repeat;
+	margin: 0;
+}
+.button-straight-right-bottom {
+	background: url('../../images/st/grey-button/right-bottom-straight.png') bottom right no-repeat;
+	margin: 0;
+}
+.button-content {
+	font-size: 90%;
+}
+.button-content a {
+	display: block;
+	padding: 2px;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-family: Helvetica, Verdana, sans-serif;
+	font-weight: bold;
+	text-decoration: none;
+	color: black;
+}
+
+.button-content input.submit {
+	border: 0px;
+	padding: 2px;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-family: Helvetica, Verdana, sans-serif;
+	font-weight: bold;
+	text-decoration: none;
+	color: black;
+	background-color: transparent;
+}
+
+/* Personal Homepage */
+
+#st-homepage {
+	background: white url('../../images/st/homepage/blue-fade.gif') top left no-repeat;
+}
+
+#st-homepage-layout {
+	margin-top: 15px;
+	clear: both;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#st-homepage-layout tr td.st-homepage-layout-cell {
+	padding: 5px;
+	vertical-align: top;
+}
+
+#st-homepage-layout-dashboard {
+	width: 50%
+}
+
+#st-homepage-layout-notes {
+	width: 50%;
+}
+
+#st-homepage-notes, #st-homepage-dashboard {
+	text-align: left;
+	width: 95%;
+}
+
+#st-user-greeting, #st-wiki-title {
+	font-family: Helvetica, Verdana, sans-serif;
+	font-size: 150%;
+}
+#st-wiki-title {
+	margin-left: 5px;
+}
+
+#st-user-greeting {
+	position: relative;
+	text-align: right;
+	float: right;
+}
+
+#st-group-notes-content, #st-personal-notes-content {
+}
+
+.st-homepage-section {
+	margin-bottom: 15px;
+}
+
+#st-homepage-notes .st-homepage-section {
+	background-color: white;
+	border: 1px solid #aaa;
+	padding: 15px;
+}
+
+.st-homepage-section-title {
+	font-size: 110%;
+	font-family: Helvetica, Verdana, sans-serif;
+}
+
+#st-homepage-notes .st-homepage-section-title {
+	color: #aaa;
+	text-decoration: underline;
+}
+
+.st-homepage-notes-edit-link {
+	background: url('../../images/st/homepage/edit-icon.gif') no-repeat left top;
+	display: block;
+	text-indent: -2000px;
+	height: 13px;
+	width: 36px;
+	text-decoration: none;
+	padding:0;
+}
+* html .st-homepage-notes-edit-link {
+	border:1px solid white;
+}
+
+.st-homepage-notes-edit {
+	font-family: Verdana, sans-serif;
+	font-size: 65%;
+	float: right;
+}
+
+.st-homepage-notes-content {
+	font-size: 85%;
+	margin-top: 10px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	font-family: Verdana, Helvetica, sans-serif;
+}
+
+#st-dyk {
+	border-color: #cca !important;
+	background-color: #ffe !important;
+}
+
+#st-dyk-title {
+	color: #e4a020 !important;
+	text-decoration: none !important;
+}
+
+
+/* Homepage Simple List */
+
+#st-whats-new-title-link {
+	background: url('../../images/st/homepage/icon-28-pages.gif') no-repeat left top;
+}
+#st-watchlist-title-link {
+	background: url('../../images/st/homepage/icon-28-star.gif') no-repeat left top;
+}
+#st-wikis-title-link {
+	background: url('../../images/st/homepage/icon-28-group.gif') no-repeat left top;
+}
+.st-homepage-simplelist-title-link {
+	display: block;
+	padding-left: 32px;
+	min-height: 32px;
+}
+* html .st-homepage-simplelist-title-link {
+	height: 32px;
+}
+
+.st-homepage-simplelist-title {
+}
+
+.st-homepage-simplelist-table {
+	margin-left: 25px;
+	border: 1px dashed #ddd;
+	border-collapse: collapse;
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 80%;
+	width: 95%;
+}
+
+.st-homepage-simplelist-table td {
+	padding: 2px;
+}
+
+.st-homepage-simplelist-table tr.st-homepage-simplelist-row-odd {
+	background-color: #f3f7f7;
+}
+
+.st-homepage-simplelist-table tr.st-homepage-simplelist-row-even {
+	background-color: white;
+}
+
+.st-homepage-simplelist-table a {
+	color: #4f55dd;
+	text-decoration: none;
+}
+
+.st-homepage-simplelist-table a:visited {
+	color: #551a8b;
+}
+
+.st-homepage-simplelist-subleft {
+	font-size: 80%;
+	margin-left: 1em;
+	color: #666;
+}
+
+.st-homepage-simplelist-right {
+	width: 20%;
+}
+
+.st-homepage-simplelist-subright {
+	font-size: 80%;
+	color: #666;
+}
+
+.st-homepage-simplelist {
+}
+
+.st-homepage-simplelist-header {
+	min-height: 35px;
+}
+
+.st-homepage-simplelist-header .button-table {
+	float: right;
+	margin-right: 15px;
+	font-size: 95%;
+}
+
+.st-homepage-simplelist-header .button-table .button-content {
+	padding: 1px;
+}
+
+.st-homepage-whatsnew-author, .st-homepage-whatsnew-date {
+	color: #555;
+}
+.st-homepage-whatsnew-attribution {
+	padding-left: 1em;
+	font-size: 80%;
+	color: #aaa;
+}
+
+/* Homepage Wikis List */
+
+#st-wikis-title {
+}
+
+/* Data and Templates */
+
+.st-jst-template, .st-json {
+	display: none;
+}
+
+/* Page Sidebox Common Styles */
+
+#st-page-boxes-toggle {
+	position: relative;
+	float: right;
+	text-align: right;
+	font-family: Verdana, Arial, sans-serif;
+	font-weight: bold;
+	font-size: 80%;
+	margin-bottom: 0.7em;
+}
+
+#st-page-boxes-toggle-link {
+	text-decoration: none;
+}
+
+#st-page-boxes-underlay {
+	float: right;
+	margin-top: -10px;
+	margin-right: 10px;
+	background: white;
+	z-index: 198;
+	clear: both;
+	margin-left: 15px;
+}
+* html #st-page-boxes-underlay {
+	margin-right: 4px;
+}
+#st-page-boxes {
+	background: inherit;
+	position: absolute;
+	right: 23px;
+	z-index: 199;
+	margin-top: 15px;
+	margin-left: 20px;
+}
+#st-page-boxes, #st-page-boxes-underlay {
+	width: 225px;
+	/* padding-left: 15px; */ /* Gives the white border effect, cwest dislikes it. */
+}
+
+.st-page-box {
+	border: 1px solid black;
+	padding: 5px;
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 80%;
+	margin-top: 15px;
+}
+
+.st-page-box-title {
+	font-family: Helvetica, Verdana, sans-serif;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.st-page-box-listing {
+	margin: 0;
+	padding: 0;
+}
+
+.st-page-box-listing-entry {
+	display: block;
+}
+
+.st-page-boxes-nobacklinks {
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 90%;
+	color: #888;
+}
+
+.st-page-box-first {
+	margin-top: 0px;
+}
+
+/* Page Display */
+
+#st-page-content {
+	clear: left;
+	margin-top: 6px;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+#st-page-content, #st-page-content td {
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 90%;
+}
+
+#st-page-wiki-title {
+	font-family: Helvetica, Verdana, sans-serif;
+	font-size: 65%;
+	font-weight: bold;
+	color: #aaa;
+	margin-bottom: 0.2em;
+	margin-top: 0.1em;
+	padding-top: 0;
+}
+
+#wiki {
+	margin: 0;
+	padding: 0;
+}
+
+#st-page-title {
+}
+
+#st-page-titletext, .st-page-title {
+	font-family: Helvetica, Verdana, sans-serif;
+	font-size: 150%;
+	font-weight: bold;
+	color: #888;
+	border-bottom: 1px solid #888;
+}
+
+#st-newpage-pagename-edit {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	color: #000;
+	border: 1px solid black;
+	padding-left: 0.3em;
+	background-color: #ffd;
+}
+
+#st-page-details {
+	font-style: italic;
+	font-size: 75%;
+	font-family: Georgia, serif;
+	margin: 6px 10px 0 10px;
+}
+
+#st-page-details-feed-icon {
+	vertical-align: middle;
+	border: none;
+}
+
+#st-page-stats {
+	float: right;
+	vertical-align: middle;
+}
+
+#st-attribution {
+	float: left;
+	margin-bottom: 10px;
+}
+
+#st-page-editing-wysiwyg {
+	background: #ffd;
+	border-style: solid;
+	border-color: #888 #ccc #ccc #888;
+	border-width: 2px;
+	width: 100%;
+}
+
+#st-page-editing-toolbar {
+	margin-left: -6px;
+	overflow: hidden;
+	float: left;
+	height: 25px;
+}
+
+#wikiwyg_wikitext_textarea {
+	margin-top: 4px;
+	background: #ffd;
+	border-style: solid;
+	border-color: #888 #ccc #ccc #888;
+	border-width: 2px;
+	width: 100%;
+	font-family: monospace;
+}
+
+#st-page-maincontent {
+}
+
+#st-page-editing, #wikiwyg_wikitext_textarea {
+}
+
+#st-page-editing-pagebody-decoy, #st-page-editing-wysiwyg {
+	display: none;
+}
+
+#st-editing-tools-edit {
+	display: none;
+}
+
+#st-mode-wysiwyg-button
+{
+	font-size: 70%;
+	margin-left: 4em;
+}
+
+#st-mode-wikitext-button
+{
+	font-size: 70%;
+}
+
+#st-edit-tips
+{
+	font-size: 70%;
+}
+
+.wikiwyg_button {
+	background: #FFFFFF;
+	border: 1px solid #FFFFFF;
+	cursor: pointer;
+	width: 20px;
+	height: 20px;
+	vertical-align: bottom;
+}
+
+.wikiwyg_button:hover {
+	border: 1px outset;
+}
+
+.wikiwyg_button:active {
+	border: 1px inset;
+}
+
+#wikiwyg_toolbar {
+	display: none;
+}
+
+/* Sidebox Pagetools: Revisions, Watchlist */
+#st-side-box-pagetools {
+	border-collapse: collapse;
+}
+
+#st-rewind-norevisions {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 11px;
+	color: #777;
+	text-decoration: none;
+}
+
+#st-side-box-pagetools a {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 11px;
+	color: #555;
+	text-decoration: none;
+}
+
+/* Page View Tags/Incoming Links Sidebox */
+
+#st-tags {
+	background: #f4fff4;
+	border-color: #bbeebb;
+	color: #999;
+}
+
+#st-tags-title {
+	color: #595;
+}
+
+#st-tags-addlink, #st-tags-addbutton {
+	font-weight: bold;
+}
+
+#st-tags-listing {
+	margin-bottom: 5px;
+}
+
+#st-tags-addinput, #st-tags-message, #st-tags-suggestion {
+	display: none;
+}
+
+#st-tags-deletemessage {
+	font-size: 90%;
+	color: #555;
+	display: none;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+#st-tags-suggestion {
+	margin-top: 2px;
+}
+
+.st-tags-level1 {
+	font-size: 90%;
+}
+
+.st-tags-level2 {
+	font-size: 100%;
+}
+
+.st-tags-level3 {
+	font-size: 110%;
+}
+
+.st-tags-level4 {
+	font-size: 120%;
+}
+
+.st-tags-level5 {
+	font-size: 130%;
+}
+
+.st-tags-tagline .st-tags-tagdelete {
+	text-decoration: none;
+	color: #ccc;
+}
+
+.st-tags-tagline a {
+	text-decoration: none;
+	color: #444;
+}
+
+#st-tags-field {
+	width: 95%;
+}
+
+#st-incoming-links {
+	border-color: #ebb;
+	background-color: #fff4f4;
+}
+
+#st-incoming-links-title {
+	color: #b78;
+}
+
+#st-attachments {
+	border-color: #bbe;
+	background-color: #f4f4ff;
+}
+
+#st-attachments-uploadbutton, #st-attachments-managebutton {
+
+}
+#st-attachments-buttons-uploadbutton {
+	margin: 0px;
+	padding: 0px;
+	padding-left: 2px;
+}
+#st-attachments-buttons-managebutton {
+	margin: 0px;
+	padding: 0px;
+	padding-right: 2px;
+}
+
+#st-attachments-buttons td {
+	padding-right: 3px;
+	font-size: 99%;
+}
+
+#st-attachments-buttons {
+	border-collapse: collapse;
+	margin: 0px;
+	padding: 0px;
+	margin-top: 5px;
+}
+
+#st-attachments-title {
+	color: #77b;
+}
+
+.st-attachments-line {
+	width:100%;
+	overflow:hidden;
+}
+
+/* Actions Bar */
+
+#st-actions-bar-spacer {
+	clear:both;
+	height:0.5em;
+	overflow:hidden;
+}
+
+#st-actions-bar-spacer-clear {
+	clear:both;
+	height:1px;
+	overflow:hidden;
+}
+
+
+#st-actions-bar, #st-editing-tools-bar {
+	margin-left: 30px !important;
+	margin-right: 30px !important;
+}
+
+/* Footer */
+#st-footer {
+	margin-top: -8px;
+	margin-bottom: 5px;
+	clear: both;
+}
+
+/* Socialtext Attribution */
+
+#st-socialtext-attribution {
+	clear: both;
+	text-align: center;
+	font-size: 80%;
+	font-family: Helvetica, sans-serif;
+}
+
+#st-socialtext-attribution-link {
+	text-decoration: none;
+}
+
+#st-socialtext-attribution-image {
+	border: 0;
+}
+
+
+/* Page Actions */
+
+#st-edit-button-border-left-middle, #st-login-to-edit-button-border-left-middle {
+	background: url('../../images/st/button-blue/left-middle.gif') left top repeat-y;
+}
+#st-edit-button-border-right-middle, #st-login-to-edit-button-border-right-middle {
+	background: url('../../images/st/button-blue/right-middle.gif') right top repeat-y;
+}
+
+#st-edit-button-border-left-top, #st-login-to-edit-button-border-left-top {
+	background: url('../../images/st/button-blue/left-top.gif') left top no-repeat;
+}
+#st-edit-button-border-right-top, #st-login-to-edit-button-border-right-top {
+	background: url('../../images/st/button-blue/right-top.gif') right top no-repeat;
+}
+
+#st-edit-button-border-left-bottom, #st-login-to-edit-button-border-left-bottom {
+	background: url('../../images/st/button-blue/left-bottom.gif') left bottom no-repeat;
+}
+
+#st-edit-button-border-right-bottom, #st-login-to-edit-button-border-right-bottom {
+	background: url('../../images/st/button-blue/right-bottom.gif') right bottom no-repeat;
+}
+
+#st-edit-button-link, #st-login-to-edit-button-link {
+}
+
+#st-comment-button-border-left-middle {
+	background: url('../../images/st/button-purple/left-middle.gif') left top repeat-y;
+}
+
+#st-comment-button-border-right-middle {
+	background: url('../../images/st/button-purple/right-middle.gif') right top repeat-y;
+}
+
+#st-comment-button-border-left-top {
+	background: url('../../images/st/button-purple/left-top.gif') left top no-repeat;
+}
+
+#st-comment-button-border-right-top {
+	background: url('../../images/st/button-purple/right-top.gif') right top no-repeat;
+}
+
+#st-comment-button-border-left-bottom {
+	background: url('../../images/st/button-purple/left-bottom.gif') left bottom no-repeat;
+}
+
+#st-comment-button-border-right-bottom {
+	background: url('../../images/st/button-purple/right-bottom.gif') right bottom no-repeat;
+}
+
+#st-comment-button-link {
+}
+
+#st-save-button-border-left-middle {
+	background: url('../../images/st/button-green/left-middle.gif') left top repeat-y;
+}
+#st-save-button-border-right-middle {
+	background: url('../../images/st/button-green/right-middle.gif') right top repeat-y;
+}
+
+#st-save-button-border-left-top {
+	background: url('../../images/st/button-green/left-top.gif') left top no-repeat;
+}
+#st-save-button-border-right-top {
+	background: url('../../images/st/button-green/right-top.gif') right top no-repeat;
+}
+
+#st-save-button-border-left-bottom {
+	background: url('../../images/st/button-green/left-bottom.gif') left bottom no-repeat;
+}
+
+#st-save-button-border-right-bottom {
+	background: url('../../images/st/button-green/right-bottom.gif') right bottom no-repeat;
+}
+
+#st-save-button-link {
+}
+
+#st-preview-button-border-left-middle {
+	background: url('../../images/st/button-gold/left-middle.gif') left top repeat-y;
+}
+#st-preview-button-border-right-middle {
+	background: url('../../images/st/button-gold/right-middle.gif') right top repeat-y;
+}
+
+#st-preview-button-border-left-top {
+	background: url('../../images/st/button-gold/left-top.gif') left top no-repeat;
+}
+#st-preview-button-border-right-top {
+	background: url('../../images/st/button-gold/right-top.gif') right top no-repeat;
+}
+
+#st-preview-button-border-left-bottom {
+	background: url('../../images/st/button-gold/left-bottom.gif') left bottom no-repeat;
+}
+
+#st-preview-button-border-right-bottom {
+	background: url('../../images/st/button-gold/right-bottom.gif') right bottom no-repeat;
+}
+
+#st-preview-button-link {
+}
+
+#st-cancel-button-border-left-middle {
+	background: url('../../images/st/button-crimson/left-middle.gif') left top repeat-y;
+}
+#st-cancel-button-border-right-middle {
+	background: url('../../images/st/button-crimson/right-middle.gif') right top repeat-y;
+}
+
+#st-cancel-button-border-left-top {
+	background: url('../../images/st/button-crimson/left-top.gif') left top no-repeat;
+}
+#st-cancel-button-border-right-top {
+	background: url('../../images/st/button-crimson/right-top.gif') right top no-repeat;
+}
+
+#st-cancel-button-border-left-bottom {
+	background: url('../../images/st/button-crimson/left-bottom.gif') left bottom no-repeat;
+}
+
+#st-cancel-button-border-right-bottom {
+	background: url('../../images/st/button-crimson/right-bottom.gif') right bottom no-repeat;
+}
+
+#st-cancel-button-link {
+}
+
+#st-edit-more-button-border-left-middle {
+	background: url('../../images/st/button-blue/left-middle.gif') left top repeat-y;
+}
+#st-edit-more-button-border-right-middle {
+	background: url('../../images/st/button-blue/right-middle.gif') right top repeat-y;
+}
+
+#st-edit-more-button-border-left-top {
+	background: url('../../images/st/button-blue/left-top.gif') left top no-repeat;
+}
+#st-edit-more-button-border-right-top {
+	background: url('../../images/st/button-blue/right-top.gif') right top no-repeat;
+}
+
+#st-edit-more-button-border-left-bottom {
+	background: url('../../images/st/button-blue/left-bottom.gif') left bottom no-repeat;
+}
+
+#st-edit-more-button-border-right-bottom {
+	background: url('../../images/st/button-blue/right-bottom.gif') right bottom no-repeat;
+}
+
+#st-edit-more-button-link {
+}
+
+.st-page-action-button-link {
+	min-height: 24px;
+	min-width: 100px;
+	text-align: center;
+	font-family: Helvetica, Verdana, sans-serif;
+	font-size: 90%;
+	text-decoration: none;
+	color: #fff;
+	font-weight: bold;
+	display: block;
+	padding-top: 8px;
+	padding-bottom: 0px;
+	margin-bottom: -3px;
+	width: 100%;
+	margin-left: -2px;
+}
+* html .st-page-action-button-link {
+	padding-top: 5px;
+	padding-bottom: 0px;
+	height: 24px;
+}
+
+.st-page-action-button {
+	float: left;
+	margin: 0;
+	padding: 0;
+	margin-right: 10px;
+	min-height: 20px;
+	border-collapse: collapse;
+	width: 100px;
+}
+
+/* Attach File Interface */
+
+#st-attachments-attachinterface {
+	font-family: Helvetica, sans-serif;
+	font-size: 90%;
+	display: none;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 2000;
+	background-image: url('../../images/st/popup/bg.png');
+}
+#st-attachments-manageinterface {
+	font-family: Helvetica, sans-serif;
+	font-size: 90%;
+	display: none;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 2000;
+	background-image: url('../../images/st/popup/bg.png');
+}
+
+* html #st-attachments-attachinterface {
+	background-image: none;
+}
+* html #st-attachments-manageinterface {
+	background-image: none;
+}
+* html .popup-overlay {
+	background-image: url('../../images/st/popup/bg.png');
+	background-color: #000;
+	opacity: .70;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 2001;
+}
+
+#st-attachments-attach-interface {
+	z-index: 2002;
+	background-color: #fff;
+	color: #000;
+	border: 4px solid #ccc;
+	padding: 1em;
+	width: 520px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10%;
+	position: absolute;
+	top: 0px;
+}
+
+* html #st-attachments-attach-interface {
+}
+
+#st-attachments-attach-formtarget {
+	width: 0px;
+	height: 0px;
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+#st-attachments-attach-message {
+	font-size: 90%;
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+}
+
+#st-attachments-attach-title {
+	font-weight: bold;
+	font-size: 120%;
+}
+
+#st-attachments-attach-close {
+	float: right;
+	margin-top: 6px;
+}
+
+#st-attachments-attach-uploadbutton {
+	float: right;
+	margin-right: 6px;
+	margin-top: 6px;
+	padding-bottom: 0;
+}
+
+#st-attachments-attach-fileprompt {
+	margin: 0.2em 0 0.4em 0;
+	padding-bottom: 0px;
+}
+
+#st-attachments-attach-submit {
+	font-size: 90%;
+	font-weight: bold;
+}
+
+#st-attachments-attach-filename {
+	font-size: 90%;
+}
+
+#st-attachments-attach-uploadmessage {
+	font-weight: bold;
+	margin-bottom: 1em;
+	display: none;
+}
+
+#st-attachments-attach-error {
+	font-weight: bold;
+	color: #f00;
+	margin-bottom: 1em;
+	display: none;
+}
+
+#st-attachments-attach-list {
+	display: none;
+	color: #666;
+	font-size: 90%;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	border-top: 1px solid #4949BA;
+	border-bottom: 1px solid #4949BA;
+	background-color: #F5F5F5;
+	padding: 3px;
+}
+
+.st-attachments-attach-listlabel {
+	font-size: 90%;
+	color: #4949BA;
+}
+
+/* Queue File Dialog */
+
+#st-attachmentsqueue-interface {
+	font-family: Helvetica, sans-serif;
+	font-size: 90%;
+	display: none;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	background-image: url('../../images/st/popup/bg.png'); /* Don't forget IE hack for ship! */
+	z-index: 2000;
+}
+
+* html #st-attachmentsqueue-interface {
+	background-image: none;
+}
+
+#st-attachmentsqueue-dialog {
+	z-index: 2002;
+	background-color: #fff;
+	color: #000;
+	border: 4px solid #ccc;
+	padding: 1em;
+	width: 530px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10%;
+	position: absolute;
+	top: 0px;
+}
+
+* html #st-attachmentsqueue-dialog {
+}
+
+#st-attachmentsqueue-fileprompt {
+	margin-bottom: 0.4em;
+	margin-top: 0;
+	padding-bottom: 0;
+}
+
+#st-attachmentsqueue-title {
+	font-weight: bold;
+	font-size: 120%;
+}
+
+#st-attachmentsqueue-close {
+	float: right;
+	margin-top: 6px;
+}
+
+#st-attachmentsqueue-uploadbutton {
+	float: right;
+	margin-right: 6px;
+	margin-top: 6px;
+	padding-bottom: 0;
+}
+
+#st-attachmentsqueue-submit {
+	font-size: 90%;
+}
+
+#st-attachmentsqueue-filename {
+	font-size: 90%;
+}
+
+#st-attachmentsqueue-message {
+	font-size: 90%;
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+}
+
+#st-attachmentsqueue-uploadmessage {
+	font-weight: bold;
+	margin-bottom: 1em;
+	display: none;
+}
+
+#st-attachmentsqueue-error {
+	font-weight: bold;
+	color: #f00;
+	margin-bottom: 1em;
+	display: none;
+}
+
+#st-attachmentsqueue-list {
+	display: none;
+	color: #666;
+	font-size: 90%;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	border-top: 1px solid #4949BA;
+	border-bottom: 1px solid #4949BA;
+	background-color: #F5F5F5;
+	padding: 3px;
+}
+
+.st-attachmentsqueue-listlabel {
+	font-size: 90%;
+	color: #4949BA;
+}
+
+/* Lists */
+
+tr.st-trbg-even, tr.st-trbg-even td{
+	background-color: #f3f7f7;
+}
+
+tr.w-st-even-row, tr.w-st-even-row td {
+	background-color: #f3f7f7;
+}
+
+.query-results-header-title, .query-results-header-last-edit-by {
+	text-align: left;
+}
+
+
+.query-results-row-revisions {
+	text-align: right;
+}
+
+.query-results-content {
+	font-size: 85%;
+	border-collapse: collapse;
+	border: 1px dashed #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+
+.query-results-row {
+	border-collapse: collapse;
+	border: 1px dashed #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+
+.query-results-row a {
+	text-decoration: underline;
+	color: #00f;
+}
+
+.query-results-row td {
+	font-family: Verdana;
+	padding: 0.3em;
+	border-left: 1px dashed #ddd;
+	border-right: 1px dashed #ddd;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+
+.query-results-header-row {
+	border-collapse: collapse;
+	border: 1px dashed #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+
+.query-results-header-row a {
+	text-decoration: underline;
+	color: #00f;
+}
+
+.query-results-header-row th {
+	font-family: Helvetica;
+	padding: 0.3em;
+	border-left: 1px dashed #ddd;
+	border-right: 1px dashed #ddd;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+
+div.st-actionbutton {
+	float: left;
+}
+
+div#deleteme-st-actions-bar {
+	clear: both;
+	margin: 0.8em 20px 0.2em auto;
+	padding: 0;
+}
+
+/* Manage File Interface */
+
+
+
+#st-attachments-manage-interface {
+	z-index: 2002;
+	background-color: #fff;
+	color: #000;
+	border: 4px solid #ccc;
+	padding: 1em;
+	width: 520px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10%;
+	position: absolute;
+	top: 0px;
+}
+
+#st-attachments-manage-filetable {
+	height: 150px;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	overflow: auto;
+	border: 1px solid #ccc;
+}
+
+#st-attachments-manage-filelisting tbody td {
+	font-size: 90%;
+}
+#st-attachments-manage-filelisting {
+	width: 100%;
+	border-collapse: collapse;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+#st-attachments-manage-fileheader {
+	background: #ccc;
+	font-weight: bold;
+	border-bottom: 1px black solid;
+}
+
+#st-attachments-manage-close {
+	float: right;
+	margin-top: 3px;
+	margin-right: -2px;
+	font-weight: bold;
+}
+
+#st-attachments-manage-delete {
+	margin-top: 3px;
+	float: left;
+	font-weight: bold;
+}
+
+.st-attachments-manage-filerow {
+	border-bottom: 1px solid #ccc;
+}
+
+.row-odd {
+	background-color: #eee;
+}
+
+.row-even {
+	background-color: #fff;
+}
+
+.row-on {
+	background-color: #009 !important;
+	color: white !important;
+}
+
+.row-on a {
+	color: #fff !important;
+}
+
+#st-attachments-manage-deletemessage {
+	color: red;
+}
+
+/* Page tools icons */
+
+#st-pagetools-print {
+	background: url('../../images/st/pagetools/print.gif')
+	left center no-repeat;
+}
+
+#st-pagetools-email {
+	background: url('../../images/st/pagetools/email.gif')
+	left center no-repeat;
+}
+
+#st-pagetools-tools {
+	background: url('../../images/st/pagetools/tools.gif')
+	left center no-repeat;
+}
+
+/*
+ #st-pagetools-watch {
+	background: url('../../images/st/pagetools/watch-blue.gif')
+	left center no-repeat;
+}
+*/
+
+
+/* *********** Settings *********** */
+
+#st-settings-pane {
+}
+* html #settings-pane { font-size: 85%;}
+
+.settings-start-table {
+}
+* html .settings-start-table { font-size: 90%;}
+
+#st-settings-select {
+	padding: 0px 10px 10px 10px;
+	vertical-align: top;
+	width: 1px;
+
+	background-color: #eff1ec;
+	border: none;
+}
+
+#st-settings-section {
+	padding: 0px 10px 10px 10px;
+	vertical-align: top;
+}
+
+.settings-top-header {
+	margin-top: 1em;
+	font-weight: bold;
+	width: 15em;
+}
+
+.settings-header {
+	margin-top: 1em;
+	font-weight: bold;
+}
+
+.settings-selections {
+	padding: 0px 0px 0px 20px;
+	line-height: 1.5em;
+}
+
+.settings-selections a:visited, .settings-selections a:active {
+	color: #0000ff;
+}
+
+.settings-link {
+	clear: both;
+	display: block;
+}
+
+.settings-section-left {
+	text-align: right;
+}
+
+.settings-label {
+	font-weight: bold;
+}
+
+.settings-help {
+	color: #888;
+}
+
+.settings-comment {
+}
+
+.users-invite-message {
+	padding: 0.5em 0.5em 0.5em 2em;
+	background-color: #eee;
+	/* This seems necessary to fix an IE bug that sometimes
+		causes the text in this div to be invisible */
+	z-index: 1000;
+}
+
+.workspace-entry-header {
+	margin-top: .5em;
+	font-weight: bold;
+}
+
+.workspace-entry {
+	margin-left: 3em;
+}
+
+.workspace-entry-p {
+	margin-top: .5em;
+	margin-bottom: .75em;
+}
+
+.workspace-subentry {
+	font-style: italic;
+	font-weight: bold;
+	margin-left: 1.5em;
+}
+
+.preferences-td {
+	padding:.5em 0 1.5em 0;
+}
+
+.preferences-query {
+	text-align: left;
+}
+
+.preference-radio {
+	background-color: #cec;
+}
+.user-settings-listall-headings td {
+	background-color: #eff3ef;
+}
+
+#st-settings-save {
+	padding-bottom: 0.5em;
+}
+
+.standard-button-cancel {
+	font-weight: bold;
+	background-color: #71004b;
+
+	border-left: 1px solid #aaa;
+	border-top: 1px solid #aaa;
+	border-bottom: 2px solid #333;
+	border-right: 2px solid #333;
+	color: #f4f3b9;
+	width: 8em;
+}
+
+.standard-button-submit {
+	font-weight: bold;
+	background-color: #656084;
+
+	border-left: 1px solid #aaa;
+	border-top: 1px solid #aaa;
+	border-bottom: 2px solid #333;
+	border-right: 2px solid #333;
+	color: #f4f3b9;
+	width: 8em;
+}
+
+#st-settings {
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+	font-size: 90%;
+}
+
+
+/* Listview Tabs */
+
+
+#st-listview a:visited {
+	color: #551a8b;
+}
+#st-listview-tabs ul {
+	display: block;
+	list-style: none outside;
+	margin: 0 0 0 4em;
+	padding: 0;
+	font-family: Helvetica, Arial, Sans-serif;
+	font-size: 80%;
+}
+
+#st-listview-tabs li {
+	display: block;
+	float: left;
+	margin: 0 0.8em 0 0;
+	padding: 3px 0.6em 0 0.6em;
+	border: 1px solid #d8d8d8;
+	border-bottom: 1px solid rgb(128, 169, 243);
+	background-color: #f4f4f4;
+	position: relative;
+	bottom: -2px;
+}
+
+#st-listview-tabs li.spacer {
+	margin: 0 0.8em 0 2em;
+}
+
+#st-listview-tabs a {
+	color: #bbb;
+	text-decoration: none;
+}
+
+#st-listview-tabs li.selected {
+	background-color: #fff !important;
+	border: 1px solid rgb(128, 169, 243) !important;
+	border-bottom: 1px solid #fff !important;
+	font-weight: bold !important;
+}
+
+#st-listview-tabs li.selected a {
+	color: #000 !important;
+}
+
+/* Category List Display */
+
+#st-category-display-links {
+	margin-bottom: 1em;
+	font-size: 90%;
+}
+
+#st-tag-listbody {
+	font-family: Helvetica, Verdana, sans-serif;
+}
+
+/* Attachments List Display */
+
+#st-attachments-list-body table.button-table {
+	margin-top: 0.1em;
+	font-size: 80%;
+}
+
+
+/* ********** PageTools Menu ************** */
+
+div#st-editing-tools {
+	float: left;
+}
+
+div#st-pagetools {
+	z-index: 300;
+	font-family: Helvetica, Verdana, sans-serif;
+	font-size: 10px;
+	float: right;
+	margin: 18px 0 0 0em;
+	color: #000;
+	vertical-align: bottom;
+	position: relative;
+}
+
+#st-pagetools a {
+	text-decoration: none;
+	color: black;
+	padding-left: 17px;
+}
+
+#st-pagetools span {
+	color: inherit;
+	padding-left: 17px;
+	vertical-align: top;
+}
+
+#st-pagetools span.st-watchlist-link {
+	color: inherit;
+	vertical-align: top;
+}
+
+.st-watchlist-link {
+	cursor: pointer;
+}
+
+div#st-pagetools ul.level2 {
+	z-index: 300;
+	margin: 0;
+	padding: 0;
+	background: white;
+	border: 1px solid #CCC;
+	border-width: 0 1px;
+}
+
+div#st-pagetools li {
+	position: relative;
+	list-style: none;
+	margin: 0;
+	float: left;
+	width: 7em;
+	line-height: 11px;
+}
+
+div#st-pagetools ul ul li:hover {
+	background: #BFE2FF;
+}
+
+div#st-pagetools li a {
+	display: block;
+	text-decoration: none;
+}
+
+div#st-pagetools&gt;ul a {
+	width: auto;
+}
+
+div#st-pagetools ul ul {
+	position: absolute;
+	width: auto;
+	display: none;
+}
+
+div#st-pagetools ul ul li {
+	line-height: 1.5em;
+/*	width: 100%; */
+	width: 14em;
+}
+
+.first {
+	border-top: 1px solid #CCC;
+}
+
+.separator {
+	border-bottom: 1px solid #CCC;
+}
+
+div#st-pagetools ul ul li a {
+	border-bottom: 1px solid #CCC;
+	padding-left: 15px;
+	padding-right: 3px;
+	margin-right: 3px;
+	border: 0px;
+}
+
+div#st-pagetools li.submenu li.submenu:hover {
+	z-index: 300;
+	background-color: #BFE2FF;
+}
+
+div#st-pagetools ul.level1 li.submenu:hover ul.level2 {
+	display:block;
+}
+
+div#st-pagetools ul.level2 {
+	top: 1.0em;
+	left: -9.5em;
+}
+
+/*
+
+=head2 Revision List Display
+
+Change these styles to update the page revision list.
+
+*/
+
+#st-revision-list-table {
+	border-collapse: collapse;
+	font-size: 85%;
+	color: #000;
+}
+
+.st-page-title-decorator {
+	color: #C80000;
+}
+
+.st-revision-header-emphasis {
+	color: #C80000;
+}
+
+.st-revision-list-compare-button-row {
+}
+
+.st-revision-list-compare-button-cell {
+	padding-top: 0.3em;
+	text-align: center;
+}
+
+.st-revision-list-compare-button {
+}
+
+#st-revision-list-header-row {
+}
+
+#st-revision-list-header-select {
+	padding: 6px 2px 2px 2px;
+	text-align: center;
+}
+
+#st-revision-list-header-revision {
+	padding: 6px 2px 2px 2px;
+	text-align: left;
+}
+
+#st-revision-list-header-edited-by {
+	padding: 6px 2px 2px 2px;
+	text-align: center;
+}
+
+#st-revision-list-header-date {
+	padding: 6px 2px 2px 2px;
+	text-align: center;
+}
+
+.st-revision-list-row {
+	border-collapse: collapse;
+	border: 1px dashed #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+
+.st-revision-list-row td {
+	font-family: Verdana;
+	padding: 0.3em;
+	border-left: 1px dashed #ddd;
+	border-right: 1px dashed #ddd;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+
+.st-revision-list-row-select {
+	padding: 3px 0 2px 0;
+	text-align: center;
+}
+
+.st-revision-list-row-select-old {
+}
+
+.st-revision-list-row-select-new {
+}
+
+.st-revision-list-row-revision {
+}
+
+.st-revision-list-row-revision-link {
+}
+
+.st-revision-list-row-edited-by {
+}
+
+.st-revision-list-row-date {
+}
+
+/* Revision Menu */
+
+#st-pagetools.st-revision-view-bar {
+	float: left;
+}
+
+ul.st-revision-menu {
+	list-style: none;
+	margin: 0;
+	padding: 0.2em;
+	font-size: 80%;
+}
+
+ul.st-revision-menu li {
+	float: left;
+	padding: 0 0.4em 0 0.4em;
+	border-right: thin solid #000000;
+}
+
+ul.st-revision-menu li.st-last {
+	border-right: none;
+}
+
+#st-restore-revision-button {
+	font-size: 80%;
+}
+
+/*
+
+=head2 Revision Compare Display
+
+When comparing two revisions of a page, these styles apply.
+
+*/
+
+#st-revision-compare-table {
+	background-color: #f0f0f0;
+}
+
+#st-revision-compare-table td {
+	background-color: white;
+}
+
+.st-revision-compare-old {
+	background-color: #fdd;
+	text-decoration: line-through;
+}
+.st-revision-compare-new {
+	background-color: #dfd;
+	font-weight: bold;
+}
+
+/* Weblog View */
+
+#st-weblog {
+	padding: 0;
+}
+
+#st-content-weblog-display-width-controller {
+}
+#st-content-weblog-display-width-controller-nav {
+	width: 230px;
+	margin-left: 15px;
+	border-left: 5px solid #ddd;
+	margin-top: -1px;
+}
+
+#st-weblog-content {
+	font-family: Verdana, Helvetica, sans-serif;
+	margin-top: -1px;
+	margin-bottom: -1px;
+	border-top: 1px solid #80a9f3;
+	border-bottom: 1px solid #80a9f3;
+}
+
+#st-weblog-title {
+	font-family: 'Trebuchet MS', Verdana, Helvetica, sans-serif;
+	font-family: 'Times New Roman', serif;
+	background-color: #80a9f3;
+	color: #fff;
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0.2em;
+	padding-left: 1em;
+}
+
+#st-weblog-wikititle {
+	font-family: Helvetica, Verdana, sans-serif;
+	font-style: italic;
+	font-size: 40%;
+	color: #fff;
+	margin-bottom: 0.2em;
+	margin-top: 0.1em;
+	padding-top: 0;
+}
+
+#st-weblog-titletext {
+	font-family: Helvetica, Verdana, sans-serif;
+	font-weight: bold;
+	color: #fff;
+}
+
+div.st-weblog-entry {
+	margin-top: 0.2em;
+	margin-bottom: 4.8em;
+	padding: 0 1.5em 0 1.5em;
+}
+
+.st-page-title {
+	clear: both;
+}
+
+div.st-weblog-entrytitle span.text {
+	font-family: Helvetica, Verdana, sans-serif;
+	font-size: 150%;
+	font-weight: bold;
+	color: #000;
+}
+
+.st-weblog-entrycontent {
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 90%;
+	border-bottom: 1px solid #888;
+}
+
+.st-weblog-byline {
+	float: left;
+	text-align: left;
+	font-style: italic;
+	font-size: 70%;
+	font-family: Verdana, Helvetica, sans-serif;
+}
+
+.st-weblog-post-links {
+	float: right;
+	text-align: right;
+	font-size: 70%;
+	font-family: Verdana, Helvetica, sans-serif;
+}
+
+#st-weblog-archives, #st-weblog-navigation {
+	position: relative;
+	float: right;
+	width: 230px;
+}
+
+#st-weblog-archives {
+	margin-top: 15px;
+	clear: right;
+}
+
+#st-weblog-archives-title, #st-weblog-navigation-title {
+	margin-left: 15px;
+	font-family: Helvetica, sans-serif;
+	font-size: 95%;
+	font-weight: bold;
+	color: #999;
+	border-bottom: 2px solid #f99;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	margin-bottom: 5px;
+}
+
+#st-weblog-navigation-content {
+	margin-left: 15px;
+	font-size: 80%;
+}
+
+#st-weblog-archives ul {
+	margin: 0;
+	padding: 0;
+}
+
+#st-weblog-archives ul li {
+	/* list-type: none; */
+	display: block;
+	font-size: 80%;
+	font-family: Helvetica, sans-serif;
+	padding-left: 15px;
+}
+
+#st-weblog-newpost {
+	padding: 0.5em 0.7em 0.3em 0.3em;
+}
+
+#st-weblog-newpost-button {
+}
+
+#st-weblog-actionbar-chooseweblog {
+	float: right;
+}
+
+#st-weblog-postbyemail {
+	font-size: 70%;
+	font-family: Verdana, Helvetica, sans-serif;
+	color: #def;
+	padding-top: 0.4em;
+}
+
+#st-weblog-postbyemail-link {
+	color: #00c;
+}
+
+.st-weblog-chooseprompt {
+	font-size: 90%;
+	font-family: Verdana, Helvetica, sans-serif;
+	padding-right: 0.2em;
+	color: #000;
+}
+
+.st-spacer {
+	padding-right: 0.1em;
+	padding-left: 0.1em;
+}
+
+.st-weblog-preventries {
+	padding-bottom: 20px;
+	clear: both;
+}
+.st-weblog-nextentries {
+	clear: both;
+}
+
+div.st-weblog-entrynav {
+	margin-top: 0.2em;
+	margin-bottom: 1.8em;
+	padding: 0;
+}
+
+span.st-weblog-previousentries, span.st-weblog-nextentries {
+	font-size: 90%;
+	font-family: Verdana, Helvetica, sans-serif;
+	padding-left: 1em;
+}
+
+/* ******* Page Stats ******** */
+
+#st-usagereport-navbar {
+	font-size: 80%;
+	padding: 0;
+	margin: 0;
+}
+
+#st-usagereport-date {
+	font-weight: bold;
+	margin-top: 1em;
+}
+
+#st-page-usagereport h1 {
+	font-size: 1.3em;
+	font-weight: bold;
+	margin-top: 1.2em;
+	margin-bottom: 0.3em;
+}
+
+#st-page-usagereport h2 {
+	font-size: 1.1em;
+	font-weight: bold;
+	margin-top: 0.8em;
+	margin-bottom: 0.3em;
+}
+
+/* New Page */
+#st-newpage-save, #st-newpage-duplicate {
+	display: none;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	background: url('../../images/st/popup/bg.png'); /* Don't forget IE hack for ship! */
+	z-index: 2000;
+}
+
+#st-newpage-save-interface {
+	background-color: #fff;
+	color: #000;
+	border: 4px solid #ccc;
+	padding: 0.5em;
+	width: 450px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10%;
+	position:absolute;
+	top:0px;
+	z-index:2003;
+}
+
+#st-newpage-duplicate-interface {
+	background-color: #fff;
+	color: #000;
+	border: 4px solid #ccc;
+	padding: 0.5em;
+	width: 530px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10%;
+	position:absolute;
+	top:0px;
+	z-index:2003;
+}
+
+#st-newpage-save-title, #st-newpage-duplicate-title {
+	margin: 0;
+	padding: 0;
+	font-weight: bold;
+	font-family: Helvetica, sans-serif;
+	font-size: 100%;
+}
+
+#st-newpage-save-prompt, #st-newpage-duplicate-prompt {
+	font-family: Helvetica, sans-serif;
+	font-size: 90%;
+	margin-bottom: 0.4em;
+}
+
+#st-newpage-save-buttons, #st-newpage-duplicate-buttons {
+	margin-top: 0.8em;
+	text-align: right;
+}
+
+.st-newpage-duplicate-option {
+	font-family: Helvetica, sans-serif;
+	font-size: 90%;
+	margin: 0;
+	padding: 0;
+}
+
+#st-newpage-duplicate-pagename {
+	font-size: 90%;
+}
+
+.st-newpage-duplicate-emphasis {
+	background-color: #FFFF00;
+	font-weight: bold;
+}
+
+#st-newpage-save-field-pagename {
+	margin-bottom: 0;
+	margin-top: 0.2em;
+	padding-bottom: 0;
+	font-size: 90%;
+}
+
+#st-newpage-save-tip {
+	margin-bottom: 0;
+	margin-top: 1.2em;
+	padding-bottom: 0;
+	font-size: 75%;
+	color: #888;
+}
+
+/* Wikitext Styling */
+
+.wiki {
+}
+
+.wiki hr {
+	margin-top: .4em;
+	margin-bottom: .4em;
+}
+
+.wiki .short-rule {
+	width: 25%;
+}
+
+.wiki .medium-rule {
+	width: 50%
+}
+
+.wiki ul,
+.wiki ol,
+.wiki blockquote {
+	margin-left: 2em;
+	padding-left: 0em;
+}
+
+.wiki table {
+	border-collapse: collapse;
+}
+
+.wiki td {
+	border: 1px;
+	border-style: solid;
+	padding: .2em;
+	vertical-align: top;
+}
+
+.wiki h1,
+.wiki h2,
+.wiki h3,
+.wiki h4,
+.wiki h5,
+.wiki h6 {
+	font-weight: bold;
+	font-style: normal;
+	margin-top: 0.1em;
+	margin-bottom: 8px;
+}
+
+.wiki h1 {font-size: 200%;}
+.wiki h2 {font-size: 170%;}
+.wiki h3 {font-size: 145%;}
+.wiki h4 {font-size: 125%;}
+.wiki h5 {font-size: 110%;}
+.wiki h6 {font-size: 100%;}
+
+.wiki pre {
+	background-color: #eee; /* XXX */
+	margin-left: 1em;
+	margin-right: 1em;
+	padding: .2em;
+}
+
+.wiki .incipient {
+	text-decoration: none;
+	border-bottom: 1px dashed;
+}
+
+.wiki-include-title {
+	background-color: #ccccff;
+}
+
+.wiki .wiki {
+	position: relative;
+	background-color: #ddddff;
+	border: 1px solid #ccccff;
+	padding: 3px;
+}
+
+.wafl_existence_error {
+	color: rgb(200,0,0);
+	border-bottom: 0.2em dashed rgb(200,0,0);
+}
+
+#st-edit-mode-container {
+}
+
+#st-edit-mode-view {
+}
+
+#st-page-editing-uploadbutton {
+	z-index: 1500;
+	float: left;
+}
+
+/* Comment UI */
+
+
+body#st-commentui {
+	background: #ffffff;
+}
+
+#st-commentui-container {
+}
+
+#st-commentui-container a:visited,
+#st-commentui-container a:active {
+	color: #00f;
+}
+
+#st-commentui-notetop {
+}
+
+#st-commentui-controls {
+}
+
+#st-commentui-savelink {
+	background-color: #fffebd;
+}
+
+#st-commentui-cancellink {
+}
+
+#st-commentui-customfield {
+}
+
+#st-commentui-customfield .customfield-label {
+}
+
+#st-commentui-customfield .customfield-input {
+}
+
+#st-commentui-textarea {
+	padding: 0;
+	border-style: inset;
+	border-width: thin;
+	background-color: #ffd;
+	color: black;
+	width: 99%;
+	height: 150px;
+}
+
+/*
+
+=head2 Send Page by Email
+
+Styles for the 'Send Page by Email' popup, accessed from the 'Email' dropdown
+menu on the page bar.
+
+*/
+
+#email-page {
+	background: #ffffff;
+	font-size: 80%;
+}
+
+.email-page-row {
+	clear: both;
+}
+
+.email-page-row-label {
+	font-weight: bold;
+	float: left;
+	width: 5em;
+	margin-left: 1.2em;
+	margin-right: 1.2em;
+	text-align: right;
+}
+
+.email-page-row-content {
+	float: left;
+	padding-bottom: 1.2em;
+}
+
+.email-page-user-select-column {
+	float: left;
+	padding-right: 1.2em;
+	width: 14em;
+}
+
+#email-page-user-select-column-center {
+	width: 10em;
+}
+
+.email-page-user-select-label {
+	text-align: center;
+}
+
+#email-page-user-select-add-label {
+	padding-top: 1em;
+}
+
+.email-page-user-select-button-group {
+	padding-bottom: 2em;
+}
+
+.email-page-input {
+	width: 120px;
+	clear: both;
+	display: block;
+}
+
+
+.email-page-select {
+	width: 175px;
+	font-size: x-small;
+}
+
+#email-page-error-message {
+	text-align: center;
+}
+
+#email-page-buttons-container {
+	clear: both;
+}
+
+#email-page-buttons {
+	text-align: center;
+}
+
+.email-page-input-new {
+	width: 175px;
+}
+
+/* System Status, Red with icon */
+
+#st-system-status-alert {
+	clear: both;
+	width: 50%;
+	margin-left: 25%;
+	margin-top: 10px;
+	padding: 5px;
+	color: #c00;
+	font-weight: bold;
+	font-size: 80%;
+	background: transparent url('../../images/st/system-message/important-note.gif') no-repeat 5px center;
+	padding-left: 60px;
+	min-height: 38px;
+}
+* html #st-system-status-alert {
+	height: 38px;
+}
+
+/* System Status, Green */
+
+#st-system-status {
+	clear: both;
+	text-align:center;
+	width: 80%;
+	margin-left: 10%;
+	padding: 8px 0 3px 0;
+	color: #0a0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 80%;
+}
+
+.socialtextLogo {
+	text-align: center;
+}
+/*}}}*/</pre>
+</div>

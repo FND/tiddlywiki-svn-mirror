@@ -1,1 +1,12 @@
-<div tiddler="Configuration" modifier="MartinBudden" modified="200609010000" created="200609010000" tags="excludeLists excludeSearch">[[PageTemplate]]\n|&gt;|&gt;|[[SiteTitle]] - [[SiteSubtitle]]|\n|[[MainMenu]]|[[DefaultTiddlers]]&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;[[ViewTemplate]] &lt;br&gt;&lt;br&gt;[[EditTemplate]]|[[SideBarOptions]]|\n|~|~|[[OptionsPanel]]|\n|~|~|[[AdvancedOptions]]|\n|~|~|&lt;&lt;tiddler Configuration.SideBarTabs&gt;&gt;|\n\n''StyleSheet:'' [[StyleSheetColors]] - [[StyleSheetLayout]] - [[StyleSheetPrint]]\n\n[[SiteUrl]]\n</div>
+<div title="Configuration" modifier="MartinBudden" created="200609010000" tags="excludeLists excludeSearch">
+<pre>[[PageTemplate]]
+|&gt;|&gt;|[[SiteTitle]] - [[SiteSubtitle]]|
+|[[MainMenu]]|[[DefaultTiddlers]]&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;[[ViewTemplate]] &lt;br&gt;&lt;br&gt;[[EditTemplate]]|[[SideBarOptions]]|
+|~|~|[[OptionsPanel]]|
+|~|~|[[AdvancedOptions]]|
+|~|~|&lt;&lt;tiddler Configuration.SideBarTabs&gt;&gt;|
+
+''StyleSheet:'' [[StyleSheetColors]] - [[StyleSheetLayout]] - [[StyleSheetPrint]]
+
+[[SiteUrl]]</pre>
+</div>

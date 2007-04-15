@@ -1,1 +1,6 @@
-<div tiddler="RecentChangesFull" modifier="MartinBudden" modified="200610100622" created="200610100518" tags="[[Test Suite]] SocialtextFormat">{recent_changes_full}\n\n\n{recent_changes_full: wikiwed}\n</div>
+<div title="RecentChangesFull" modifier="MartinBudden" created="200610100518" modified="200610100622" tags="[[Test Suite]]" wikiformat="socialtext">
+<pre>{recent_changes_full}
+
+
+{recent_changes_full: wikiwed}</pre>
+</div>

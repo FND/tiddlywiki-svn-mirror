@@ -1,1 +1,19 @@
-<div tiddler="Home" modifier="Martin Budden" modified="200611040000" created="200609300000" tags="excludeLists excludeSearch">This is an example //Socialttext Unplugged// version of [[TiddlyWiki|http://www.tiddlywiki.com]]. To support [[Socialtext|http://www.socialtext.com]] it includes:\n\n* the ~SocialtextFormatterPlugin\n* some style changes to make ~TiddlyWiki feel a bit more like Socialtext\n\nTo use Socialtext formatting Tiddlers must be tagged with ~SocialtextFormat.\n\nTiddlers that illustrate and test the use of Socialtext format:\n\n[[FormattingTest]]\n[[Socialtext formatter syntax]]\n[[Socialtext WAFL syntax]]\n[[Babel]]\n[[testFormatCombinations]]\n\n\n&lt;&lt;newTiddler 'New Tiddler to sync to Talc server' SocialtextFormat fields:&quot;socialtext.server:http://talc.socialtext.net:21007/;socialtext.workspace:admin;socialtext.page:;socialtext.version:;&quot;&gt;&gt;</div>
+<div title="Home" modifier="Martin Budden" created="200609300000" modified="200611040000" tags="excludeLists excludeSearch">
+<pre>This is an example //Socialttext Unplugged// version of [[TiddlyWiki|http://www.tiddlywiki.com]]. To support [[Socialtext|http://www.socialtext.com]] it includes:
+
+* the ~SocialtextFormatterPlugin
+* some style changes to make ~TiddlyWiki feel a bit more like Socialtext
+
+To use Socialtext formatting Tiddlers must be tagged with ~SocialtextFormat.
+
+Tiddlers that illustrate and test the use of Socialtext format:
+
+[[FormattingTest]]
+[[Socialtext formatter syntax]]
+[[Socialtext WAFL syntax]]
+[[Babel]]
+[[testFormatCombinations]]
+
+
+&lt;&lt;newTiddler 'New Tiddler to sync to Talc server' SocialtextFormat fields:&quot;socialtext.server:http://talc.socialtext.net:21007/;socialtext.workspace:admin;socialtext.page:;socialtext.version:;&quot;&gt;&gt;</pre>
+</div>

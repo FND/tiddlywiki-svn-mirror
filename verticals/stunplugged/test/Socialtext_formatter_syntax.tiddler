@@ -1,1 +1,98 @@
-<div tiddler="Socialtext formatter syntax" modifier="MartinBudden" modified="200610011219" created="200610011219" tags="SocialtextFormat">Up: [Socialtext Links and WAFLs - Summary]\n\nThis is a list of formatting syntax that is _not_ wafl.\n\n^^^ Things considered blocks\n\n* headers\n** `^`\n** `^^`\n** `^^^`\n** `^^^^`\n* paragraphs (text separated by two line feeds, not otherwise made special)\n\n**This is a lovely and exciting paragraph of meaningless text, which was generated for testing purposes. There should be whitespace lines before and after this cute little test paragraph. If there are not, something has gone wierd and all the text is being scrunched together.\n\nOnly one whitespace line should appear after this chunk of text, despite the fact that i gave it five empty lines while editing in Advanced mode. More than 2 line feeds are not recognized.\n\n* indent/blockquote with `&gt;` at beginning of paragraph\n\n`&gt;`\n`&gt;&gt;`\n`&gt;&gt;&gt;`\n\n&gt; level one indent\n&gt;&gt; level two indent\n&gt;&gt;&gt; level three indent\n\n\n* list items `*` `#` etc\n\n* B 1\n** B 1.1\n* B 2\n** B 2.1\n*** B 2.1.1\n*** B 2.1.2\n\n----\n\n# The most important Point.\n# The next most important point.\n## Detail of next most important point.\n### Detail of the detail...\n#### Detail of that detail...\n# Another Point\n\n# New topic\n\n# You must leave a whitespace after the markup or this doesn't work.\n\n^^^ Things considered phrases\n\n* preformatted text: .pre phrase\n\n.pre\nAny text within this phrase will be rendered\n*literally*\n.pre\n\n* html: .html phrase\n\n.html\nRaw HTML within this phrase will be rendered by the browser&lt;br&gt;\n&lt;font size=&quot;+2&quot;&gt;&lt;b&gt;Hoo Hah&lt;/b&gt;&lt;/font&gt;\n.html\n\n* teletype with `backticks`\n* *bold or strong* with `*`\n* _italic or emphasize_ with `_`\n* -delete or strikethrough- with `-`\n* [links] with `[ ]`\n* {{asis}} with `{{ }}`\n* hyperlinks http://www.example.com/\n* &quot;bracketed hyperlinks&quot;&lt;http://www.example.com/&gt;\n* mailto link cdent@burningchrome.com\n* &quot;mailto cdent&quot;&lt;mailto:cdent@burningchrome.com&gt;\n* im links with yahoo, ymsgr, callto, skype, aim, msn, asap with form aim:sleepleft\n* file links file:\s\snetwork_resource\snt_weirdness\setc\n\n^^^ Things that don't quite fit\n\n* hr via `----`\n\n----\n\n----\n\n----\n\n* tables with `|||`\n\n| a | table | that | works |\n| how | it | should | work |\n\n| a | table | that | does | not | work |\n| the | way | it | should |\n</div>
+<div title="Socialtext formatter syntax" modifier="MartinBudden" created="200610011219" wikiformat="socialtext">
+<pre>Up: [Socialtext Links and WAFLs - Summary]
+
+This is a list of formatting syntax that is _not_ wafl.
+
+^^^ Things considered blocks
+
+* headers
+** `^`
+** `^^`
+** `^^^`
+** `^^^^`
+* paragraphs (text separated by two line feeds, not otherwise made special)
+
+**This is a lovely and exciting paragraph of meaningless text, which was generated for testing purposes. There should be whitespace lines before and after this cute little test paragraph. If there are not, something has gone wierd and all the text is being scrunched together.
+
+Only one whitespace line should appear after this chunk of text, despite the fact that i gave it five empty lines while editing in Advanced mode. More than 2 line feeds are not recognized.
+
+* indent/blockquote with `&gt;` at beginning of paragraph
+
+`&gt;`
+`&gt;&gt;`
+`&gt;&gt;&gt;`
+
+&gt; level one indent
+&gt;&gt; level two indent
+&gt;&gt;&gt; level three indent
+
+
+* list items `*` `#` etc
+
+* B 1
+** B 1.1
+* B 2
+** B 2.1
+*** B 2.1.1
+*** B 2.1.2
+
+----
+
+# The most important Point.
+# The next most important point.
+## Detail of next most important point.
+### Detail of the detail...
+#### Detail of that detail...
+# Another Point
+
+# New topic
+
+# You must leave a whitespace after the markup or this doesn't work.
+
+^^^ Things considered phrases
+
+* preformatted text: .pre phrase
+
+.pre
+Any text within this phrase will be rendered
+*literally*
+.pre
+
+* html: .html phrase
+
+.html
+Raw HTML within this phrase will be rendered by the browser&lt;br&gt;
+&lt;font size=&quot;+2&quot;&gt;&lt;b&gt;Hoo Hah&lt;/b&gt;&lt;/font&gt;
+.html
+
+* teletype with `backticks`
+* *bold or strong* with `*`
+* _italic or emphasize_ with `_`
+* -delete or strikethrough- with `-`
+* [links] with `[ ]`
+* {{asis}} with `{{ }}`
+* hyperlinks http://www.example.com/
+* &quot;bracketed hyperlinks&quot;&lt;http://www.example.com/&gt;
+* mailto link cdent@burningchrome.com
+* &quot;mailto cdent&quot;&lt;mailto:cdent@burningchrome.com&gt;
+* im links with yahoo, ymsgr, callto, skype, aim, msn, asap with form aim:sleepleft
+* file links file:\\network_resource\nt_weirdness\etc
+
+^^^ Things that don't quite fit
+
+* hr via `----`
+
+----
+
+----
+
+----
+
+* tables with `|||`
+
+| a | table | that | works |
+| how | it | should | work |
+
+| a | table | that | does | not | work |
+| the | way | it | should |</pre>
+</div>

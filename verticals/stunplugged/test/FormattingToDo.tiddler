@@ -1,1 +1,33 @@
-<div tiddler="FormattingToDo" modifier="system-user@socialtext.net" modified="200609272216" created="200609272216" tags="SocialtextFormat">See also: [FormattingTest] | FormattingToDo | [WikiwygFormattingTest] | [WikiwygFormattingToDo]\n\n(Move things from here to [FormattingTest] when they pass flawlessly.)\n\n^^ fangs with wafl - merged into one line {rt: 13797}\n\n&gt; one\n&gt;&gt; two {tm}\n&gt;&gt; three {{two}}\n&gt;&gt; four\n\n^^ Preservation of newlines before double-fangs {rt: 13714}:\n\n&gt; Line X\n\n&gt;&gt; Line X+2\n\n----\n\n^ WontFix (ever)\n\n^^ Wafl without a colon\n\n{link public [wiki 101]}\n\n^^ The what the hell is this section\n\n* &lt;\s\sWindows/File/Yuck&gt;\n* &quot;Renamed File&quot;&lt;\s\sWindows/File&gt;\n\n{{ asis text ending with a space eats the space after the asis in IE only }} &lt;- this space gets eaten\n</div>
+<div title="FormattingToDo" modifier="system-user@socialtext.net" created="200609272216" wikiformat="socialtext">
+<pre>See also: [FormattingTest] | FormattingToDo | [WikiwygFormattingTest] | [WikiwygFormattingToDo]
+
+(Move things from here to [FormattingTest] when they pass flawlessly.)
+
+^^ fangs with wafl - merged into one line {rt: 13797}
+
+&gt; one
+&gt;&gt; two {tm}
+&gt;&gt; three {{two}}
+&gt;&gt; four
+
+^^ Preservation of newlines before double-fangs {rt: 13714}:
+
+&gt; Line X
+
+&gt;&gt; Line X+2
+
+----
+
+^ WontFix (ever)
+
+^^ Wafl without a colon
+
+{link public [wiki 101]}
+
+^^ The what the hell is this section
+
+* &lt;\\Windows/File/Yuck&gt;
+* &quot;Renamed File&quot;&lt;\\Windows/File&gt;
+
+{{ asis text ending with a space eats the space after the asis in IE only }} &lt;- this space gets eaten</pre>
+</div>
