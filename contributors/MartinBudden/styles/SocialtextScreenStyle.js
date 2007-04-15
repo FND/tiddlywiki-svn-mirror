@@ -19,7 +19,7 @@ body {
 	margin-right: 10px;
 }
 .st-wiki-nav-content {
-	background: url("../../images/st/wiki-nav/solid.gif") repeat-x left bottom;
+	background: url('../../images/st/wiki-nav/solid.gif') repeat-x left bottom;
 	margin-left: 24px;
 	margin-right: 24px;
 	padding-top: 3px;
@@ -31,11 +31,11 @@ body {
 }
 
 .st-wiki-nav-right {
-	background: url("../../images/st/wiki-nav/right-round.gif") no-repeat bottom right;
+	background: url('../../images/st/wiki-nav/right-round.gif') no-repeat bottom right;
 }
 
 .st-wiki-nav-left {
-	background: url("../../images/st/wiki-nav/left-round.gif") no-repeat bottom left;
+	background: url('../../images/st/wiki-nav/left-round.gif') no-repeat bottom left;
 }
 
 #st-home {
@@ -174,41 +174,41 @@ body {
 }
 
 #st-content-border-left, #st-edit-border-left {
-	background: url("../../images/st/page-shadow/left.gif") left top repeat-y;
+	background: url('../../images/st/page-shadow/left.gif') left top repeat-y;
 	position: relative;
 }
 
 #st-content-border-right, #st-edit-border-right {
-	background: url("../../images/st/page-shadow/right.gif") right top repeat-y;
+	background: url('../../images/st/page-shadow/right.gif') right top repeat-y;
 	position: relative;
 }
 
 #st-content-border-top, #st-edit-border-top {
 	position: relative;
-	background: url("../../images/st/page-shadow/top.gif") left top repeat-x;
+	background: url('../../images/st/page-shadow/top.gif') left top repeat-x;
 }
 
 #st-content-border-bottom, #st-edit-border-bottom {
-	background: url("../../images/st/page-shadow/bottom.gif") left bottom repeat-x;
+	background: url('../../images/st/page-shadow/bottom.gif') left bottom repeat-x;
 	position: relative;
 }
 
 #st-content-border-left-top, #st-edit-border-left-top {
-	background: url("../../images/st/page-shadow/left-top.gif") left top no-repeat;
+	background: url('../../images/st/page-shadow/left-top.gif') left top no-repeat;
 	position: relative;
 }
 #st-content-border-right-top, #st-edit-border-right-top {
-	background: url("../../images/st/page-shadow/right-top.gif") right top no-repeat;
+	background: url('../../images/st/page-shadow/right-top.gif') right top no-repeat;
 	position: relative;
 }
 
 #st-content-border-left-bottom, #st-edit-border-left-bottom {
-	background: url("../../images/st/page-shadow/left-bottom.gif") left bottom no-repeat;
+	background: url('../../images/st/page-shadow/left-bottom.gif') left bottom no-repeat;
 	position: relative;
 }
 
 #st-content-border-right-bottom, #st-edit-border-right-bottom {
-	background: url("../../images/st/page-shadow/right-bottom.gif") right bottom no-repeat;
+	background: url('../../images/st/page-shadow/right-bottom.gif') right bottom no-repeat;
 	padding-top: 5px;
 	padding-bottom: 9px;
 	position: relative;
@@ -322,7 +322,7 @@ body {
 /* Personal Homepage */
 
 #st-homepage {
-	background: white url("../../images/st/homepage/blue-fade.gif") top left no-repeat;
+	background: white url('../../images/st/homepage/blue-fade.gif') top left no-repeat;
 }
 
 #st-homepage-layout {
@@ -388,7 +388,7 @@ body {
 }
 
 .st-homepage-notes-edit-link {
-	background: url("../../images/st/homepage/edit-icon.gif") no-repeat left top;
+	background: url('../../images/st/homepage/edit-icon.gif') no-repeat left top;
 	display: block;
 	text-indent: -2000px;
 	height: 13px;
@@ -428,13 +428,13 @@ body {
 /* Homepage Simple List */
 
 #st-whats-new-title-link {
-	background: url("../../images/st/homepage/icon-28-pages.gif") no-repeat left top;
+	background: url('../../images/st/homepage/icon-28-pages.gif') no-repeat left top;
 }
 #st-watchlist-title-link {
-	background: url("../../images/st/homepage/icon-28-star.gif") no-repeat left top;
+	background: url('../../images/st/homepage/icon-28-star.gif') no-repeat left top;
 }
 #st-wikis-title-link {
-	background: url("../../images/st/homepage/icon-28-group.gif") no-repeat left top;
+	background: url('../../images/st/homepage/icon-28-group.gif') no-repeat left top;
 }
 .st-homepage-simplelist-title-link {
 	display: block;
@@ -938,152 +938,152 @@ body {
 /* Page Actions */
 
 #st-edit-button-border-left-middle, #st-login-to-edit-button-border-left-middle {
-	background: url("../../images/st/button-blue/left-middle.gif") left top repeat-y;
+	background: url('../../images/st/button-blue/left-middle.gif') left top repeat-y;
 }
 #st-edit-button-border-right-middle, #st-login-to-edit-button-border-right-middle {
-	background: url("../../images/st/button-blue/right-middle.gif") right top repeat-y;
+	background: url('../../images/st/button-blue/right-middle.gif') right top repeat-y;
 }
 
 #st-edit-button-border-left-top, #st-login-to-edit-button-border-left-top {
-	background: url("../../images/st/button-blue/left-top.gif") left top no-repeat;
+	background: url('../../images/st/button-blue/left-top.gif') left top no-repeat;
 }
 #st-edit-button-border-right-top, #st-login-to-edit-button-border-right-top {
-	background: url("../../images/st/button-blue/right-top.gif") right top no-repeat;
+	background: url('../../images/st/button-blue/right-top.gif') right top no-repeat;
 }
 
 #st-edit-button-border-left-bottom, #st-login-to-edit-button-border-left-bottom {
-	background: url("../../images/st/button-blue/left-bottom.gif") left bottom no-repeat;
+	background: url('../../images/st/button-blue/left-bottom.gif') left bottom no-repeat;
 }
 
 #st-edit-button-border-right-bottom, #st-login-to-edit-button-border-right-bottom {
-	background: url("../../images/st/button-blue/right-bottom.gif") right bottom no-repeat;
+	background: url('../../images/st/button-blue/right-bottom.gif') right bottom no-repeat;
 }
 
 #st-edit-button-link, #st-login-to-edit-button-link {
 }
 
 #st-comment-button-border-left-middle {
-	background: url("../../images/st/button-purple/left-middle.gif") left top repeat-y;
+	background: url('../../images/st/button-purple/left-middle.gif') left top repeat-y;
 }
 
 #st-comment-button-border-right-middle {
-	background: url("../../images/st/button-purple/right-middle.gif") right top repeat-y;
+	background: url('../../images/st/button-purple/right-middle.gif') right top repeat-y;
 }
 
 #st-comment-button-border-left-top {
-	background: url("../../images/st/button-purple/left-top.gif") left top no-repeat;
+	background: url('../../images/st/button-purple/left-top.gif') left top no-repeat;
 }
 
 #st-comment-button-border-right-top {
-	background: url("../../images/st/button-purple/right-top.gif") right top no-repeat;
+	background: url('../../images/st/button-purple/right-top.gif') right top no-repeat;
 }
 
 #st-comment-button-border-left-bottom {
-	background: url("../../images/st/button-purple/left-bottom.gif") left bottom no-repeat;
+	background: url('../../images/st/button-purple/left-bottom.gif') left bottom no-repeat;
 }
 
 #st-comment-button-border-right-bottom {
-	background: url("../../images/st/button-purple/right-bottom.gif") right bottom no-repeat;
+	background: url('../../images/st/button-purple/right-bottom.gif') right bottom no-repeat;
 }
 
 #st-comment-button-link {
 }
 
 #st-save-button-border-left-middle {
-	background: url("../../images/st/button-green/left-middle.gif") left top repeat-y;
+	background: url('../../images/st/button-green/left-middle.gif') left top repeat-y;
 }
 #st-save-button-border-right-middle {
-	background: url("../../images/st/button-green/right-middle.gif") right top repeat-y;
+	background: url('../../images/st/button-green/right-middle.gif') right top repeat-y;
 }
 
 #st-save-button-border-left-top {
-	background: url("../../images/st/button-green/left-top.gif") left top no-repeat;
+	background: url('../../images/st/button-green/left-top.gif') left top no-repeat;
 }
 #st-save-button-border-right-top {
-	background: url("../../images/st/button-green/right-top.gif") right top no-repeat;
+	background: url('../../images/st/button-green/right-top.gif') right top no-repeat;
 }
 
 #st-save-button-border-left-bottom {
-	background: url("../../images/st/button-green/left-bottom.gif") left bottom no-repeat;
+	background: url('../../images/st/button-green/left-bottom.gif') left bottom no-repeat;
 }
 
 #st-save-button-border-right-bottom {
-	background: url("../../images/st/button-green/right-bottom.gif") right bottom no-repeat;
+	background: url('../../images/st/button-green/right-bottom.gif') right bottom no-repeat;
 }
 
 #st-save-button-link {
 }
 
 #st-preview-button-border-left-middle {
-	background: url("../../images/st/button-gold/left-middle.gif") left top repeat-y;
+	background: url('../../images/st/button-gold/left-middle.gif') left top repeat-y;
 }
 #st-preview-button-border-right-middle {
-	background: url("../../images/st/button-gold/right-middle.gif") right top repeat-y;
+	background: url('../../images/st/button-gold/right-middle.gif') right top repeat-y;
 }
 
 #st-preview-button-border-left-top {
-	background: url("../../images/st/button-gold/left-top.gif") left top no-repeat;
+	background: url('../../images/st/button-gold/left-top.gif') left top no-repeat;
 }
 #st-preview-button-border-right-top {
-	background: url("../../images/st/button-gold/right-top.gif") right top no-repeat;
+	background: url('../../images/st/button-gold/right-top.gif') right top no-repeat;
 }
 
 #st-preview-button-border-left-bottom {
-	background: url("../../images/st/button-gold/left-bottom.gif") left bottom no-repeat;
+	background: url('../../images/st/button-gold/left-bottom.gif') left bottom no-repeat;
 }
 
 #st-preview-button-border-right-bottom {
-	background: url("../../images/st/button-gold/right-bottom.gif") right bottom no-repeat;
+	background: url('../../images/st/button-gold/right-bottom.gif') right bottom no-repeat;
 }
 
 #st-preview-button-link {
 }
 
 #st-cancel-button-border-left-middle {
-	background: url("../../images/st/button-crimson/left-middle.gif") left top repeat-y;
+	background: url('../../images/st/button-crimson/left-middle.gif') left top repeat-y;
 }
 #st-cancel-button-border-right-middle {
-	background: url("../../images/st/button-crimson/right-middle.gif") right top repeat-y;
+	background: url('../../images/st/button-crimson/right-middle.gif') right top repeat-y;
 }
 
 #st-cancel-button-border-left-top {
-	background: url("../../images/st/button-crimson/left-top.gif") left top no-repeat;
+	background: url('../../images/st/button-crimson/left-top.gif') left top no-repeat;
 }
 #st-cancel-button-border-right-top {
-	background: url("../../images/st/button-crimson/right-top.gif") right top no-repeat;
+	background: url('../../images/st/button-crimson/right-top.gif') right top no-repeat;
 }
 
 #st-cancel-button-border-left-bottom {
-	background: url("../../images/st/button-crimson/left-bottom.gif") left bottom no-repeat;
+	background: url('../../images/st/button-crimson/left-bottom.gif') left bottom no-repeat;
 }
 
 #st-cancel-button-border-right-bottom {
-	background: url("../../images/st/button-crimson/right-bottom.gif") right bottom no-repeat;
+	background: url('../../images/st/button-crimson/right-bottom.gif') right bottom no-repeat;
 }
 
 #st-cancel-button-link {
 }
 
 #st-edit-more-button-border-left-middle {
-	background: url("../../images/st/button-blue/left-middle.gif") left top repeat-y;
+	background: url('../../images/st/button-blue/left-middle.gif') left top repeat-y;
 }
 #st-edit-more-button-border-right-middle {
-	background: url("../../images/st/button-blue/right-middle.gif") right top repeat-y;
+	background: url('../../images/st/button-blue/right-middle.gif') right top repeat-y;
 }
 
 #st-edit-more-button-border-left-top {
-	background: url("../../images/st/button-blue/left-top.gif") left top no-repeat;
+	background: url('../../images/st/button-blue/left-top.gif') left top no-repeat;
 }
 #st-edit-more-button-border-right-top {
-	background: url("../../images/st/button-blue/right-top.gif") right top no-repeat;
+	background: url('../../images/st/button-blue/right-top.gif') right top no-repeat;
 }
 
 #st-edit-more-button-border-left-bottom {
-	background: url("../../images/st/button-blue/left-bottom.gif") left bottom no-repeat;
+	background: url('../../images/st/button-blue/left-bottom.gif') left bottom no-repeat;
 }
 
 #st-edit-more-button-border-right-bottom {
-	background: url("../../images/st/button-blue/right-bottom.gif") right bottom no-repeat;
+	background: url('../../images/st/button-blue/right-bottom.gif') right bottom no-repeat;
 }
 
 #st-edit-more-button-link {
@@ -1133,7 +1133,7 @@ body {
 	width: 100%;
 	height: 100%;
 	z-index: 2000;
-	background-image: url("../../images/st/popup/bg.png");
+	background-image: url('../../images/st/popup/bg.png');
 }
 #st-attachments-manageinterface {
 	font-family: Helvetica, sans-serif;
@@ -1145,7 +1145,7 @@ body {
 	width: 100%;
 	height: 100%;
 	z-index: 2000;
-	background-image: url("../../images/st/popup/bg.png");
+	background-image: url('../../images/st/popup/bg.png');
 }
 
 * html #st-attachments-attachinterface {
@@ -1155,7 +1155,7 @@ body {
 	background-image: none;
 }
 * html .popup-overlay {
-	background-image: url("../../images/st/popup/bg.png");
+	background-image: url('../../images/st/popup/bg.png');
 	background-color: #000;
 	opacity: .70;
 	position: absolute;
@@ -1268,7 +1268,7 @@ body {
 	top: 0px;
 	width: 100%;
 	height: 100%;
-	background-image: url("../../images/st/popup/bg.png"); /* Don't forget IE hack for ship! */
+	background-image: url('../../images/st/popup/bg.png'); /* Don't forget IE hack for ship! */
 	z-index: 2000;
 }
 
@@ -1523,23 +1523,23 @@ div#deleteme-st-actions-bar {
 /* Page tools icons */
 
 #st-pagetools-print {
-	background: url("../../images/st/pagetools/print.gif")
+	background: url('../../images/st/pagetools/print.gif')
 	left center no-repeat;
 }
 
 #st-pagetools-email {
-	background: url("../../images/st/pagetools/email.gif")
+	background: url('../../images/st/pagetools/email.gif')
 	left center no-repeat;
 }
 
 #st-pagetools-tools {
-	background: url("../../images/st/pagetools/tools.gif")
+	background: url('../../images/st/pagetools/tools.gif')
 	left center no-repeat;
 }
 
 /*
  #st-pagetools-watch {
-	background: url("../../images/st/pagetools/watch-blue.gif")
+	background: url('../../images/st/pagetools/watch-blue.gif')
 	left center no-repeat;
 }
 */
@@ -2034,8 +2034,8 @@ When comparing two revisions of a page, these styles apply.
 }
 
 #st-weblog-title {
-	font-family: "Trebuchet MS", Verdana, Helvetica, sans-serif;
-	font-family: "Times New Roman", serif;
+	font-family: 'Trebuchet MS', Verdana, Helvetica, sans-serif;
+	font-family: 'Times New Roman', serif;
 	background-color: #80a9f3;
 	color: #fff;
 	font-size: 150%;
@@ -2228,7 +2228,7 @@ span.st-weblog-previousentries, span.st-weblog-nextentries {
 	top: 0px;
 	width: 100%;
 	height: 100%;
-	background: url("../../images/st/popup/bg.png"); /* Don't forget IE hack for ship! */
+	background: url('../../images/st/popup/bg.png'); /* Don't forget IE hack for ship! */
 	z-index: 2000;
 }
 
@@ -2455,7 +2455,7 @@ body#st-commentui {
 
 =head2 Send Page by Email
 
-Styles for the "Send Page by Email" popup, accessed from the "Email" dropdown
+Styles for the 'Send Page by Email' popup, accessed from the 'Email' dropdown
 menu on the page bar.
 
 */
@@ -2544,7 +2544,7 @@ menu on the page bar.
 	color: #c00;
 	font-weight: bold;
 	font-size: 80%;
-	background: transparent url("../../images/st/system-message/important-note.gif") no-repeat 5px center;
+	background: transparent url('../../images/st/system-message/important-note.gif') no-repeat 5px center;
 	padding-left: 60px;
 	min-height: 38px;
 }
@@ -2563,5 +2563,9 @@ menu on the page bar.
 	color: #0a0;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 80%;
+}
+
+.socialtextLogo {
+	text-align: center;
 }
 /*}}}*/

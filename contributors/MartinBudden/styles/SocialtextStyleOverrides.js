@@ -3,6 +3,9 @@ SocialtextStyleOverrides
 ***/
 
 /*{{{*/
+.headerShadow {padding: 2em 0em .5em 1em;}
+.headerForeground {padding: 2em 0em .5em 1em;}
+
 #st-page-wiki-title {
 	font-size: 80%;
 }
@@ -23,7 +26,7 @@ SocialtextStyleOverrides
 }
 
 .tagged .button {
-	color: #999;
+	color: #000;
 }
 
 .selected .tagged {
@@ -41,7 +44,8 @@ SocialtextStyleOverrides
 	color: #b78;
 	font-weight: bold;
 }
-.tagged .button {
+
+.tagging .button {
 	color: #999;
 }
 
