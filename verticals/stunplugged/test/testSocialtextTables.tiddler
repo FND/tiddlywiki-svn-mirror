@@ -1,0 +1,1 @@
+<div tiddler="testSocialtextTables" modifier="MartinBudden" modified="200609300000" created="200609300000" tags="SocialtextFormat test">^^ Tables\n\nA Simple table\n\n| *header one* | *header two* |\n| row item one | row item two |\n\nMultiline cells\n\n| this | that | the other |\n| one fish\ntwo fish | red\n\nfish | [blue dotted underlined]\n_fish_ |</div>
