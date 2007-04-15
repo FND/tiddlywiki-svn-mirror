@@ -1,4 +1,4 @@
-<?php
+<?php 
 //{{{
 /***
  * proxy.php - access an url if the target host is allowed
