@@ -113,7 +113,7 @@ SharedRecordsAdaptor.prototype.getTiddlerList = function(context,userParams,call
 		tiddler.text = serverTiddler.text;
 		tiddler.modified = SharedRecordsAdaptor.convertFromFullUTCISO1806(serverTiddler.modified);
 		tiddler.modifier = serverTiddler.modifier;
-		tiddler.fields['server.page.version'] = String.zeroPad(10,serverTiddler['sharedRecords.sequenceNumber']);
+		tiddler.fields['server.page.revision'] = String.zeroPad(10,serverTiddler['sharedRecords.sequenceNumber']);
 		tiddler.tags = serverTiddler.tags;
 		context.tiddlers.push(tiddler);
 	}
@@ -148,7 +148,7 @@ SharedRecordsAdaptor.prototype.getTiddler = function(title,context,userParams,ca
 		context.tiddler.fields['server.type'] = SharedRecordsAdaptor.serverType;
 		context.tiddler.fields['server.host'] = this.host;
 		context.tiddler.fields['server.workspace'] = this.workspace;
-		context.tiddler.fields['server.page.version'] = String.zeroPad(10,serverTiddler['sharedRecords.sequenceNumber']);
+		context.tiddler.fields['server.page.revision'] = String.zeroPad(10,serverTiddler['sharedRecords.sequenceNumber']);
 		context.tiddler.fields['content.type'] = serverTiddler.contentType;
 		context.status = true;
 	} else {
@@ -165,7 +165,7 @@ SharedRecordsAdaptor.prototype.putTiddler = function(tiddler,context,userParams,
 	var jsonTags = [];
 	for(var tag=0; tag<tiddler.tags.length; tag++)
 		jsonTags.push(SharedRecordsAdaptor.jsonTag.format([tiddler.tags[tag].toJSONString()]));
-	var sequenceNumber = tiddler.fields['server.page.version'];
+	var sequenceNumber = tiddler.fields['server.page.revision'];
 	sequenceNumber = sequenceNumber === undefined ? -1 : parseInt(sequenceNumber,10);
 	sequenceNumber = -1; // Just for the moment
 	var contentType = tiddler.fields['content.type'];
