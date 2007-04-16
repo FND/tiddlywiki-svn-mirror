@@ -65,6 +65,12 @@ merge(config.macros,{
 			// only relevant when using group
 			var showEmpty = getParam(parsedParams,"showEmpty","no");  
 
+			// only relevant when using group
+			var showLeftOvers = getParam(parsedParams,"showLeftOvers","yes");  
+
+			// only relevant when using group
+			var onlyShowLeftOvers = getParam(parsedParams,"onlyShowLeftovers","no");  
+
 			// only relevant using group
 			var onlyShowEmpty = getParam(parsedParams,"onlyShowEmpty","no"); 
 
@@ -104,6 +110,8 @@ merge(config.macros,{
 			listRefreshContainer.setAttribute("gViewType",gViewType);
 			listRefreshContainer.setAttribute("ignoreRealm",ignoreRealm);
 			listRefreshContainer.setAttribute("showEmpty",showEmpty);
+			listRefreshContainer.setAttribute("showLeftOvers",showLeftOvers);
+			listRefreshContainer.setAttribute("onlyShowLeftOvers",onlyShowLeftOvers);
 			listRefreshContainer.setAttribute("onlyShowEmpty",onlyShowEmpty);
 
 			this.refresh(listRefreshContainer);
@@ -121,6 +129,8 @@ merge(config.macros,{
 			var viewType = place.getAttribute("viewType");
 			var gViewType = place.getAttribute("gViewType");
 			var ignoreRealm = place.getAttribute("ignoreRealm");
+			var showLeftOvers = place.getAttribute("showLeftOvers");
+			var onlyShowLeftOvers = place.getAttribute("onlyShowLeftOvers");
 
 			var list = this.tagList(startTag,tagExpr,whereExpr,sortBy,ignoreRealm=="yes");
 			var markup = "";
@@ -128,6 +138,7 @@ merge(config.macros,{
 			if (groupBy != "") {
 				// grouping
 				var groupLists = {};
+				var leftOvers = "";
 				for (var i=0;i<list.length;i++) {
 					var groupIn = list[i].fastGet(groupBy);
 					if (groupIn.length > 0) {
@@ -138,32 +149,46 @@ merge(config.macros,{
 						}
 					}
 					else {
-						if (!groupLists[gLeftoverTitle])
-							groupLists[gLeftoverTitle] = "";
-						groupLists[gLeftoverTitle] += this.renderTiddler[viewType](list[i],false);
+						leftOvers += this.renderTiddler[viewType](list[i],false);
 					}
 				}
 
+				
+				var allHeadings = [];
+				for (var hh in groupLists) allHeadings.push(hh);
+				allHeadings.sort(); // maybe should sort by sortBy
+
 				var firstError = true;
 
-				for (var heading in groupLists) {
+				for (var i=0;i<allHeadings.length;i++) { 
+
+					var heading = allHeadings[i];
 					
-					var tExpr = gTagExpr.parseTagExpr();
+					var gExpr = gTagExpr.parseTagExpr();
 					var tiddler = store.getTiddler(heading);
 
+					var gTest = true;
 					try {
-						if (eval(tExpr)) {
-							markup += this.renderTiddler[gViewType](tiddler,true,heading);
-							markup += groupLists[heading];
-						}
+						gTest = eval(gExpr);
 					}
 					catch (e) {
-						if (firstError) {
-							alert("error parsing group expr: "+tExpr);
-							firstError = false;
-						}
+						alert("error parsing group expr: "+gExpr+" for "+heading);
+						firstError = false;
 					}
 
+					if (gTest) {
+						markup += this.renderTiddler[gViewType](tiddler,true,heading);
+						markup += groupLists[heading];
+					}
+
+				} // end of headings for each
+
+				// now show leftovers
+				// plain works even if tiddler is null
+				// TODO should all renderTiddler methods handle null?
+				if (leftOvers != "" && showLeftOvers == "yes") {
+					markup += this.renderTiddler['plain'](null,true,gLeftoverTitle);
+					markup += leftOvers;
 				}
 			}
 			else {

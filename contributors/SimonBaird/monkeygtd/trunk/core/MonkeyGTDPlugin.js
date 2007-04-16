@@ -447,7 +447,7 @@ config.mGTD = {
 							}
 
 							fields.push("GTD"); // make it a GTD item
-							fields.push("Inbox"); // make it a project
+							fields.push("Inbox"); // make it an inbox
 							if (store.tiddlerExists(title))
 								alert("Warning: '"+title+"' already exists, did not create");
 							else

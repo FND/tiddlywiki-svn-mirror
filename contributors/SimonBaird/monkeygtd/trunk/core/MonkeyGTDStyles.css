@@ -148,6 +148,11 @@ html>body #topMenu {background-image:url(http://simonbaird.com/monkeygtd/logo-tr
 	height:10em;
 }
 
+.ctBox {
+	width:95%;
+	height:10em;
+}
+
 @media print {
 
 /* Thanks to Andrew C and Scott K*/
@@ -161,7 +166,8 @@ html>body #topMenu {background-image:url(http://simonbaird.com/monkeygtd/logo-tr
 .mToolbar,
 .mList .off,
 .mList .WaitingForButton.off,
-.mList .NextButton.off
+.mList .NextButton.off,
+.off
 {
 	display: none ! important;
 }

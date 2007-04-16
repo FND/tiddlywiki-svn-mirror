@@ -1,0 +1,9 @@
+<<fastList title:'Actions in Starred Projects'
+			mode:global
+			tags:'Action && !Done'
+			showLeftOvers:no
+			group:Project
+			gTags:Starred
+			gView:project
+			view:actionHideProject
+			>>

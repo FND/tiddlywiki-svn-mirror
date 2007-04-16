@@ -3,15 +3,25 @@
 <td  style="vertical-align:top" width="50%">
 
 		<div macro="fastList title:'Starred Next Actions'
-			tags:'Action && Next && Starred && !Done'
+			tags:'Action && Next && !Done'
 			group:Context
 			view:action_proj
 			"></div>
 
 		<div macro="fastList title:'Starred Waiting For Actions'
-			tags:'Action && [(Waiting For)] && Starred && !Done'
+			tags:'Action && [(Waiting For)] && !Done'
 			group:Context
 			view:action_proj
+			"></div>
+
+		<div macro="fastList title:'Actions in Starred Projects'
+			mode:global
+			tags:'Action && !Done'
+			showLeftOvers:no
+			group:Project
+			gTags:Starred
+			gView:Project
+			view:actionHideProject
 			"></div>
 
 
