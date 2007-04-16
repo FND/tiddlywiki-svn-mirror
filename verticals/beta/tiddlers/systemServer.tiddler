@@ -1,0 +1,15 @@
+<div title="systemServer" modifier="JeremyRuston" created="200704162200" modified="200704162206" changecount="3">
+<pre>Tiddlers tagged {{{systemServer}}} are used to store the connection details of particular servers so that they can be accessed quickly.
+
+A list of available {{{systemServer}}} tiddlers is presented at the start of the ImportTiddlers macro. Selecting one of them pre-selects the relevant fields in the wizard. After a successful import operation, ImportTiddlers also offers the opportunity to automatically create a {{{systemServer}}} tiddler with the details of the server that was used. {{{systemServer}}} tiddlers are also used by the [[syncing]] command.
+
+Here's an example {{{systemServer}}} tiddler:
+
+&lt;&lt;&lt;
+|''Description:''|My example server|
+|''Type:''|mediawiki|
+|''URL:''|http://www.myexampleserver.org/x/|
+|''Workspace:''|Main|
+|''~TiddlerFilter:''|[tags[important unpluggable]]|
+&lt;&lt;&lt;</pre>
+</div>

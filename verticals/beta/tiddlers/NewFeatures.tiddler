@@ -1,17 +1,36 @@
-<div title="NewFeatures" modifier="JeremyRuston" created="200704141410" changecount="1">
-<pre>This substantial new release of TiddlyWiki adds several features:
-* A new 'backstage' user interface to group together operations that are needed by authors rather than readers or users
-** The backstage area by default only appears for non-read-only TiddlyWikis; DownloadSoftware and open this TW from a file:// URL to try it out
-* The beginnings of a new framework to support synchronising tiddlers with external servers and files
-** See [[Socialtext Unplugged|http://ross.typepad.com/blog/2006/12/socialtext_unpl.html]] for an example; more to come soon
-* Ability to use &lt;PRE&gt; tags in the store area to avoid having to escape newlines and backslashes
-* Added paramifier for overriding current read-only state (eg, http://www.tiddlywiki.com/beta/#readOnly:no)
+<div title="NewFeatures" modifier="JeremyRuston" created="200704141410" modified="200704162154" changecount="9">
+<pre>TiddlyWiki has been improved in several areas for release 2.2. Here are some of the highlights; see the full [[release note at tiddlywiki.org|http://trac.tiddlywiki.org/tiddlywiki/wiki/ReleaseNoteTwoPointTwo]] for more details.
+!! Server Connectivity
+The new ServerAdaptorMechanism brings multiple pluggable server adaptors to TiddlyWiki. It ships with a simple adaptor that knows how to talk to other TiddlyWiki files, and we also have available plugins for several popular server architectures including [[Socialtext]], MediaWiki, [[JSPWiki]], [[TWiki]], [[ccTiddly]] and ZiddlyWiki.
+
+Using these adaptors you can import content from any source and then later synchronise changes back to the server. You can also automatically retrieve missing tiddlers from a server. By combining a server adaptor with an appropriate custom wikifier, TiddlyWiki can display content in it's native format. So, for instance, you can import articles from Wikipedia and have them display properly despite using a different wiki syntax than plain TiddlyWiki.
+
+This new functionality is deep and rich and will serve as the foundation for a new wave of  applications that use TiddlyWiki as a personal content hub.
+!! Backstage
+The backstage area is a new way to get access to features that are needed by people authoring in TiddlyWiki, and are best kept safely out of the way for users who are mainly reading them. It features an unobtrusive 'backstage' button at the top right that reveals a menu of commands and tasks.
+
+The backstage area is not available when TiddlyWiki is being used in read-only mode; DownloadSoftware and run it locally in order to experiment with it.
+!! Usability
+There's a slew of significant usability enhancements including:
+* Popup previews of tiddler contents in the plugin manager, sync manager, and ImportTiddlers
+* 'More' command to simplify tiddler toolbars
+* &quot;Yellow note&quot; annotations to indicate the purpose of special tiddlers such as shadow tiddlers
+* New {{{&lt;&lt;options&gt;&gt;}}} macro to allow access to the complete set of available configuration options
+* New &quot;size&quot; and &quot;execution time&quot; columns in the plugin manager
+* Improved NewTiddler and NewJournal macros that can accept custom fields
 * Embolden tags in the tag listing that are also defined as tiddlers
-* Improved {{{&lt;&lt;newTiddler&gt;&gt;}}} and {{{&lt;&lt;newJournal&gt;&gt;}}} macros to accept custom fields
+!! Performance
+* New DomScrubbing feature to deal with memory leaks 
+* Revised storage format using {{{&lt;PRE&gt;}}} tags to permit whitespace and new lines to be preserved without requiring escaping
+* Greatly enhanced animation engine that performs better on slower hardware
+!! Hackability
+As usual, several of the new features are intended to make life easier for plugin writers and other TiddlyWiki hackers:
+* New PluginLoadOrder mechanism for controlling the execution order of plugins
+* Better startup timing instrumentation
 * Rearranged shadow tiddlers into their own, unencoded store area
-* Improved support for XMLHttpRequest operations
-* Various improved error messages
-* Greatly improved startup speed, and improved performance for many other common operations
-* Extensive bug fixes and refactorings
-* ...and by popular request, we've started to reformat the TiddlyWiki source code to use the more conventional K&amp;R layout standard</pre>
+* Refactored {{{saveChanges()}}} to make it easier to add new save mechanisms
+* Added paramifier for overriding current read-only state (eg, http://www.tiddlywiki.com/beta/#readOnly:no)
+* ...and by popular request, we've started to reformat the TiddlyWiki source code to use the more conventional K&amp;R layout standard
+!! Internationalisation
+TiddlyWiki benefits from an extensive set of [[translations|http://trac.tiddlywiki.org/wiki/Translations]]. There are several enhancements in this release to make it easier to maintain translations.</pre>
 </div>
