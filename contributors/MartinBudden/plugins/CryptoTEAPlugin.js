@@ -30,7 +30,7 @@ Crypto.passphraseToKey = function(passphrase)
 // Use an interated SHA-1 hash of the salted passphrase as a reasonably good key
 {
 	postSalt = String.fromCharCode(23,160,248,216,146,5,102,239);
-	var k = Crypto.sha1Str(salt+passphrase+postSalt);
+	var k = Crypto.sha1Str(Crypto.salt+passphrase+postSalt);
 	for(var i = 1;i<Crypto.iterationCount;i++)
 		k = Crypto.sha1(k,k.length);
 	return k;
