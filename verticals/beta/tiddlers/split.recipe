@@ -8,6 +8,7 @@ tiddler: Adaptor.openWorkspace.tiddler
 tiddler: Adaptor.putTiddler.tiddler
 tiddler: AdaptorCallbackSignature.tiddler
 tiddler: AsynchronousPattern.tiddler
+tiddler: BackstageArea.tiddler
 tiddler: BidiXTWServer.tiddler
 tiddler: BobsPluginsServer.tiddler
 tiddler: DefaultTiddlers.tiddler
@@ -19,12 +20,13 @@ tiddler: LewcidTWServer.tiddler
 tiddler: MainMenu.tiddler
 tiddler: MartinsPluginsServer.tiddler
 tiddler: MonkeyPirateTWServer.tiddler
-tiddler: NewFeatures.tiddler
+tiddler: OtherNewFeatures.tiddler
 tiddler: PeachTWServer.tiddler
 tiddler: RedMountainVistaServer.tiddler
 tiddler: ServerAdaptorConcepts.tiddler
 tiddler: ServerAdaptorExtendedFields.tiddler
 tiddler: ServerAdaptorMechanism.tiddler
+tiddler: ServerConnectivity.tiddler
 tiddler: SharedRecordsDotOrgServer.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
@@ -34,8 +36,8 @@ tiddler: TiddlyStylesServer.tiddler
 tiddler: TiddlyToolsServer.tiddler
 tiddler: TiddlyWiki.tiddler
 tiddler: TryItOut.tiddler
-tiddler: WikipediaImpressionistPaintersServer.tiddler
 tiddler: WikipediaIPstackServer.tiddler
+tiddler: WikipediaImpressionistPaintersServer.tiddler
 tiddler: WikipediaWikiServer.tiddler
 tiddler: ZimbraDotComServer.tiddler
 tiddler: systemServer.tiddler
