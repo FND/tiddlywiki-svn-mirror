@@ -1,8 +1,9 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: split.recipe
 tiddler: settings.js
-tiddler: SideBarOptionsStRestDocs.tiddler
+tiddler: SideBarOptions.tiddler
 tiddler: SideBarTabs.tiddler
+tiddler: Socialtext_REST_Documentation.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/StyleSheet.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/StyleSheetColors.tiddler
