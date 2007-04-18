@@ -8,7 +8,7 @@ See http://www.w3schools.com/css/css_colors.asp for a color chart.
 #mainMenu br {display:none;}
 #mainMenu {background:#336699;}
 #mainMenu {padding:2px;}
-#mainMenu .button, #mainMenu .tiddlyLink {padding-left:1em;padding-right:0em;color:white;font-size:115%;}
+#mainMenu .button, #mainMenu .tiddlyLink {padding-left:0.5em;padding-right:0.5em;color:white;font-size:115%;}
 
 /*#displayArea {margin:1em 15.7em 0em 1em;}*/
 #displayArea {
