@@ -29,6 +29,8 @@ tiddler: ../../test/testTiddlyWikiBasic.tiddler
 tiddler: ../../test/testConfluenceFormat.tiddler
 tiddler: ../../test/testMarkdownBasic.tiddler
 tiddler: ../../test/testMarkdownFormat.tiddler
+tiddler: ../../test/testMarkdownSyntax.tiddler
+tiddler: ../../test/testMarkdownSyntax2.tiddler
 tiddler: ../../test/testMediaWikiBasic.tiddler
 tiddler: ../../test/testMediaWikiFormat.tiddler
 tiddler: ../../test/testPBWikiFormat.tiddler

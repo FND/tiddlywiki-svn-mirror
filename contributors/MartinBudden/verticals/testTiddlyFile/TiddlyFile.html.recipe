@@ -1,10 +1,10 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 title: title.html
 tiddler: ../../tiddlers/MainMenuHome.tiddler
-tiddler: ../../tiddlers/ViewTemplateHostedRevisionsTest.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../mystyle/StyleSheet.tiddler
 tiddler: ../../mystyle/StyleSheetMB.tiddler
+# tiddler: ../../mystyle/PageTemplateNoShadow.tiddler
 tiddler: settings.js
 tiddler: SiteUrl.tiddler
 tiddler: SiteTitle.tiddler

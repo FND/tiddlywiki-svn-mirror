@@ -9,8 +9,8 @@ tiddler: SiteTitle.tiddler
 tiddler: PageTemplate.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: Home.tiddler
-# tiddler: ListWorkspaceStOSS.tiddler
-# tiddler: ImportWorkspaceStOSS.tiddler
+# tiddler: ListWorkspace.tiddler
+# tiddler: ImportWorkspace.tiddler
 tiddler: Socialtext_Open_Source_Wiki.tiddler
 tiddler: ../SocialtextExample/SideBarOptions.tiddler
 tiddler: ../SocialtextExample/SideBarTabs.tiddler

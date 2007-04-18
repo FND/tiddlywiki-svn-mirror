@@ -1,10 +1,11 @@
 <div title="ViewTemplate" tags="excludeLists excludeSearch">
-<pre>&lt;div class='toolbar' macro='toolbar -closeTiddler closeOthers +editTiddler permalink references jump'&gt;&lt;/div&gt;
+<pre>&lt;!--{{{--&gt;
+&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'&gt;&lt;/div&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
 &lt;div class='subtitle'&gt;&lt;span macro='viewTiddlerFields'&gt;&lt;/span&gt;&lt;/div&gt;
 &lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
 &lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
-&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
 &lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
-&lt;div class='toolbar' macro='toolbar -closeTiddler closeOthers +editTiddler'&gt;&lt;/div&gt;</pre>
+&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler'&gt;&lt;/div&gt;
+&lt;!--}}}--&gt;</pre>
 </div>

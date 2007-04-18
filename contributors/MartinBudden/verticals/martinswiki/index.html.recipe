@@ -30,7 +30,7 @@ tiddler: ../../plugins/TodoListPlugin.js
 tiddler: ../../plugins/SHA-1UnwoundPlugin.js
 tiddler: ../../plugins/settings.js
 tiddler: ../../test/testCreoleFormat.tiddler
-tiddler: ../../test/testMediaWikiFormatter.tiddler
+tiddler: ../../test/testMediaWikiFormat.tiddler
 tiddler: ../../test/testMediaWikiTable4.tiddler
 tiddler: ../../test/testSocialTextFormat.tiddler
 tiddler: ../../test/testTracBasic.tiddler
