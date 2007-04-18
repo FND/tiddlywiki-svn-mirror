@@ -4,9 +4,9 @@
 # If the black backstage are isn't visible along the top of the screen, click on the 'backstage' button at the top right
 # Choose 'import' from the backstage area
 # In the task wizard that drops down, choose one of these predefined servers from the lower list:
-## WikipediaIPstackServer - selects Wikipedia entries about wiki technology
+## WikipediaIPstackServer - selects Wikipedia entries about the Internet's IP stack technology
 ## WikipediaImpressionistPaintersServer - selects Wikipedia entries about impression painters
-## WikipediaWikiServer - selects Wikipedia entries about the Internet's IP stack technology
+## WikipediaWikiServer - selects Wikipedia entries about wiki technology
 # Click the 'open' button
 # When prompted for the workspace, leave the default of 'Main' and click the 'open' button
 # After a pause, you should then see a list of the available tiddlers. Select the checkboxes by two or three and then click the 'import' button
