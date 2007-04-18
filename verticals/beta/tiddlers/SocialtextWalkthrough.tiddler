@@ -1,0 +1,29 @@
+<div title="SocialtextWalkthrough" modifier="JeremyRuston" created="200704181803" modified="200704181816" changecount="3">
+<pre>This walk-through shows you how to connect to a Socialtext wiki server and choose some pages to download, and then to synchronise subsequent changes between TiddlyWiki and the server
+# Socialtext have kindly set up a sandbox wiki for TiddlyWiki users on their servers. You'll need to register for the wiki in order to fully complete this walk-through
+## Go to http://www.socialtext.net/TiddlySandbox
+## Click on the 'register' link at the upper right
+## Give your email address and choose a password as prompted
+## (Socialtext won't spam you)
+# If necessary, DownloadSoftware and open it in your browser
+# If the black backstage are isn't visible along the top of the screen, click on the 'backstage' button at the top right
+# Choose 'import' from the backstage area
+# In the task wizard that drops down, choose the predefined server 'SocialtextDotNet'
+# Click the 'open' button
+# When prompted for the workspace, leave the default of 'TiddlySandbox' and click the 'open' button
+# After a pause, you should then see a list of the available tiddlers. Select the checkboxes by two or three and then click the 'import' button
+# The tiddlers you have selected will be listed, first as italicised links to missing tiddlers, and then as bold links as the tiddlers are loaded in the background. Click on the links to open the tiddlers you selected
+# Click on the grey bars to either side of the backstage drop-down to close it
+# You should now be able to browse the pages that you imported
+# Note that if you click on a link to an article that has not been downloaded, it will be automatically retrieved from the server
+# Edit one of the newly imported tiddlers and click 'done' to save changes'
+# Choose 'sync' from the backstage area
+# You should see a table showing the tiddlers that you've imported and their synchronisation status. It takes a few seconds to check in with the server to fully update the table. The tiddler you modified should be flagged as 'Changed while unplugged'
+# Select the checkbox by the tiddler you modified (if necessary) and click the 'sync' button
+# After synchronisation the status of the tiddler should have changed to 'Updated on server'
+# Click on 'view' link for that tiddler and verify that the page has been modified on the server
+# Edit the page directly from Socialtext (using the bright big 'edit' button at the upper left)
+# Return to TiddlyWiki and sync again. You should be prompted to download the changes from the server
+
+Note that this beta doesn't quite do the right thing when both the client and server versions of a tiddler have been changed. Sadly there's no magic bullet in that situation.</pre>
+</div>
