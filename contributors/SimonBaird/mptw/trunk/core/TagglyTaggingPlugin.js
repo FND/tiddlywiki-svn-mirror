@@ -432,6 +432,10 @@ config.taggly = {
 ".tagglyTagged li { display: inline; font-size:90%; }",
 ".tagglyTagged ul { margin:0px; padding:0px; }",
 ".excerpt { color:[[ColorPalette::TertiaryMid]]; }",
+"div.tagglyTagging table,",
+"div.tagglyTagging table tr,",
+"td.tagglyTagging",
+" {border-style:none!important; }",
 "/*}}}*/",
 		""].join("\n"),
 
