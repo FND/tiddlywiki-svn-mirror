@@ -4,8 +4,8 @@
 |''Source:''|http://tiddlywiki-zh.googlecode.com/svn/trunk/|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hans/locale.zh-Hans.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
-|''Version:''|1.1.0.2|
-|''Date:''|Apr 10, 2007|
+|''Version:''|2.2.0.5|
+|''Date:''|Apr 20, 2007|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -391,12 +391,26 @@ merge(config.commands.jump,{
 merge(config.commands.syncing,{
 	text: "同步",
 	tooltip: "本文章与服务器或其他外部文件的同步资讯",
-	currentlySyncing: "<div>同步类型：<span class='popupHighlight'>'%0'</span></div><div>服务器：<span class='popupHighlight'>%1</span></div><div>工作区：<span class='popupHighlight'>%2</span></div>",
+	currentlySyncing: "<div>同步类型：<span class='popupHighlight'>'%0'</span></"+"div><div>与服务器：<span class='popupHighlight'>%1 同步</span></"+"div><div>工作区：<span class='popupHighlight'>%2</span></"+"div>", // Note escaping of closing <div> tag
 	notCurrentlySyncing: "无进行中的同步动作",
 	captionUnSync: "停止同步此文章",
 	chooseServer: "与其他服务器同步此文章:",
 	currServerMarker: "● ",
 	notCurrServerMarker: "  "});
+
+merge(config.commands.fields,{
+	text: "栏位",
+	tooltip: "显示此文章的扩充资讯",
+	emptyText: "此文章没有扩充栏位",
+	listViewTemplate: {
+		columns: [
+			{name: 'Field', field: 'field', title: "扩充栏位", type: 'String'},
+			{name: 'Value', field: 'value', title: "内容", type: 'String'}
+			],
+		rowClasses: [
+			],
+		buttons: [
+			]}});
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "GettingStarted",
@@ -413,22 +427,9 @@ merge(config.shadowTiddlers,{
 	TabMoreMissing: '<<list missing>>',
 	TabMoreOrphans: '<<list orphans>>',
 	TabMoreShadowed: '<<list shadowed>>',
+	AdvancedOptions: '<<options>>',
 	PluginManager: '<<plugins>>',
 	ImportTiddlers: '<<importTiddlers>>'});
-
-merge(config.commands.fields,{
-	text: "欄位",
-	tooltip: "显示此文章的扩充资讯",
-	emptyText: "此文章没有扩充栏位",
-	listViewTemplate: {
-		columns: [
-			{name: 'Field', field: 'field', title: "栏位", type: 'String'},
-			{name: 'Value', field: 'value', title: "内容", type: 'String'}
-			],
-		rowClasses: [
-			],
-		buttons: [
-			]}});
 
 merge(config.annotations,{
 	AdvancedOptions: "此默认文章可以存取一些进阶选项。",
