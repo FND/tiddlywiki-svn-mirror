@@ -4,8 +4,8 @@
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Source:''|www.example.com |
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
-|''Version:''|0.3.1|
-|''Date:''|Apr 14, 2007|
+|''Version:''|0.3.2|
+|''Date:''|Apr 22, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/ ]]|
 |''~CoreVersion:''|2.1.3|
@@ -391,11 +391,11 @@ merge(config.commands.jump,{
 merge(config.commands.syncing,{
 	text: "syncing",
 	tooltip: "Control synchronisation of this tiddler with a server or external file",
-	currentlySyncing: "<div>Currently syncing via <span class='popupHighlight'>'%0'</span> to:</div><div>host: <span class='popupHighlight'>%1</span></div><div>workspace: <span class='popupHighlight'>%2</span></div>",
+	currentlySyncing: "<div>Currently syncing via <span class='popupHighlight'>'%0'</span> to:</"+"div><div>host: <span class='popupHighlight'>%1</span></"+"div><div>workspace: <span class='popupHighlight'>%2</span></"+"div>", // Note escaping of closing <div> tag
 	notCurrentlySyncing: "Not currently syncing",
 	captionUnSync: "Stop synchronising this tiddler",
 	chooseServer: "Synchronise this tiddler with another server:",
-	currServerMarker: "● ",
+	currServerMarker: "\u25cf ",
 	notCurrServerMarker: "  "});
 
 merge(config.commands.fields,{
@@ -418,7 +418,7 @@ merge(config.shadowTiddlers,{
 	SiteTitle: "My TiddlyWiki",
 	SiteSubtitle: "a reusable non-linear personal web notebook",
 	SiteUrl: "http://www.tiddlywiki.com/",
-	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Change TiddlyWiki advanced options">>',
+	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options \u00bb" "Change TiddlyWiki advanced options">>',
 	SideBarTabs: '<<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>',
 	TabTimeline: '<<timeline>>',
 	TabAll: '<<list all>>',
@@ -427,6 +427,7 @@ merge(config.shadowTiddlers,{
 	TabMoreMissing: '<<list missing>>',
 	TabMoreOrphans: '<<list orphans>>',
 	TabMoreShadowed: '<<list shadowed>>',
+	AdvancedOptions: '<<options>>',
 	PluginManager: '<<plugins>>',
 	ImportTiddlers: '<<importTiddlers>>'});
 
