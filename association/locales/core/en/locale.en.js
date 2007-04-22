@@ -333,16 +333,13 @@ merge(config.macros.sync,{
 	hasNotChanged: "Unchanged while unplugged",
 	syncStatusList: {
 		none: {text: "...", color: "none"},
-		changedServer: {text: "Changed on server", color: "#80ff80"},
-		changedLocally: {text: "Changed while unplugged", color: "#80ff80"},
-		changedBoth: {text: "Changed while unplugged and on server", color: "#ff8080"},
-		notFound: {text: "Not found on server", color: "#ffff80"},
-		putToServer: {text: "Saved update on server", color: "#ff80ff"},
-		gotFromServer: {text: "Retrieved update from server", color: "#80ffff"}
+		changedServer: {text: "Changed on server", color: '#80ff80'},
+		changedLocally: {text: "Changed while unplugged", color: '#80ff80'},
+		changedBoth: {text: "Changed while unplugged and on server", color: '#ff8080'},
+		notFound: {text: "Not found on server", color: '#ffff80'},
+		putToServer: {text: "Saved update on server", color: '#ff80ff'},
+		gotFromServer: {text: "Retrieved update from server", color: '#80ffff'}
 		}
-	});
-
-merge(config.macros.annotations,{
 	});
 
 merge(config.commands.closeTiddler,{
