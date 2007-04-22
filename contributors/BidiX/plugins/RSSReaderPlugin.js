@@ -1,20 +1,20 @@
 /***
 |''Name:''|RSSReaderPlugin|
 |''Description:''|This plugin provides a RSSReader for TiddlyWiki|
-|''Version:''|1.1.0|
-|''Date:''|Apr 13, 2007|
+|''Version:''|1.1.1|
+|''Date:''|Apr 21, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#RSSReaderPlugin|
 |''Documentation:''|http://tiddlywiki.bidix.info/#RSSReaderPluginDoc|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''Credit:''|BramChen for RssNewsMacro|
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
 |''~CoreVersion:''|2.2.0|
-|''Require:''|optionaly EricShulman's NestedSliderPlugin(http://www.tiddlytools.com/#NestedSlidersPlugin)|
+|''OptionalRequires:''|http://www.tiddlytools.com/#NestedSlidersPlugin|
 ***/
 //{{{
 version.extensions.RSSReaderPlugin = {
-	major: 1, minor: 1, revision: 0,
-	date: new Date("Apr 13, 2007"),
+	major: 1, minor: 1, revision: 1,
+	date: new Date("Apr 21, 2007"),
 	source: "http://TiddlyWiki.bidix.info/#RSSReaderPlugin",
 	author: "BidiX",
 	coreVersion: '2.2.0'

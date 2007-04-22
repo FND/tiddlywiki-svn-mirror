@@ -1,20 +1,20 @@
 /***
 |''Name:''|GenerateRssByTagPlugin|
 |''Description:''|Only tiddlers with a specific tag are inluded in the RSSFeed. If no tiddlers are selected then works as before. (see ticket #270: http://trac.tiddlywiki.org/tiddlywiki/ticket/270). <br>RssTag: <<option txtRssTag>>|
-|''Version:''|1.0.1|
-|''Date:''|Mar 20, 2007|
+|''Version:''|1.0.2|
+|''Date:''|Apr 20, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#GenerateRssByTagPlugin|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
-|''~CoreVersion:''|2.2.0 (Changeset 1583)|
+|''~CoreVersion:''|2.2.0 (Beta 5)|
 ***/
 //{{{
 version.extensions.GenerateRssByTagPlugin = {
-	major: 1, minor: 0, revision: 1, 
-	date: new Date("Mar 20, 2007"),
+	major: 1, minor: 0, revision: 2, 
+	date: new Date("Apr 20, 2007"),
 	source: 'http://tiddlywiki.bidix.info/#PasswordOptionPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
-	coreVersion: '2.2.0 (Changeset 1583)',
+	coreVersion: '2.2.0 (Beta 5)',
 };
 
 if (!window.bidix) window.bidix = {}; // bidix namespace
@@ -59,5 +59,6 @@ bidix.generateRssByTag = function()
 //
 bidix.generateRss = generateRss; // backup core version
 generateRss = bidix.generateRssByTag; // install new one
-config.options.txtRssTag = "toRSS"; // default RssTag. <<option txtRssTag>> could be added in AdvancedOptions
+config.options.txtRssTag = "toRSS"; // default RssTag. use <<option txtRssTag>> to overwritte
+merge(config.optionsDesc,{txtRssTag: "Only tiddlers with this tag will be included in the RSS Feed."});
 //}}}

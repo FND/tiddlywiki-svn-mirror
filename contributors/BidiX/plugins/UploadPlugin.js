@@ -1,23 +1,22 @@
 /***
 |''Name:''|UploadPlugin|
 |''Description:''|Save to web a TiddlyWiki|
-|''Version:''|4.0.1|
-|''Date:''|Mar 20, 2007|
+|''Version:''|4.0.2|
+|''Date:''|Apr 21, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadPlugin|
 |''Documentation:''|http://tiddlywiki.bidix.info/#UploadPluginDoc|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
-|''~CoreVersion:''|2.2.0 (Changeset 1583)|
-|''Browser:''|Firefox 1.5; InternetExplorer 6.0; Safari|
-|''Require:''|[[PasswordOptionPlugin V1.0.1|http://tiddlywiki.bidix.info/#PasswordOptionPlugin]]<br>[[UploadService|http://tiddlywiki.bidix.info/#UploadService]]|
+|''~CoreVersion:''|2.2.0 (beta 5)|
+|''Requires:''|PasswordOptionPlugin|
 ***/
 //{{{
 version.extensions.UploadPlugin = {
-	major: 4, minor: 0, revision: 1,
-	date: new Date("Mar 20, 2007"),
+	major: 4, minor: 0, revision: 2,
+	date: new Date("Apr 21, 2007"),
 	source: 'http://tiddlywiki.bidix.info/#UploadPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
-	coreVersion: '2.2.0 (Changeset 1316)'
+	coreVersion: '2.2.0 (beta 5)'
 };
 
 //
@@ -428,6 +427,18 @@ bidix.checkPlugin("PasswordOptionPlugin", 1, 0, 1);
 
 // styleSheet
 setStylesheet('.urlInput {width: 22em;}',"uploadPluginStyles");
+
+//optionsDesc
+merge(config.optionsDesc,{
+	txtUploadStoreUrl: "Url of the UploadService script (default: store.php)",
+	txtUploadFilename: "Filename of the uploaded file (default: in index.html)",
+	txtUploadDir: "Relative Directory where to store the file (default: . (downloadService directory))",
+	txtUploadBackupDir: "Relative Directory where to backup the file. If empty no backup. (default: ''(empty))",
+	txtUploadUserName: "Upload Username",
+	pasUploadPassword: "Upload Password",
+	chkUploadLog: "do Logging in UploadLog (default: true)",
+	txtUploadLogMaxLine: "Maximum of lines in UploadLog (default: 10)"
+});
 
 // Options Initializations
 bidix.initOption('txtUploadStoreUrl','');

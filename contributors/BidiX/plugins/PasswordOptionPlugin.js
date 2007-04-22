@@ -1,23 +1,21 @@
 /***
 |''Name:''|PasswordOptionPlugin|
-|''Description:''|Extends TiddlyWiki options with non encrypted password option. <br>Password: <<option pasPassword>>|
-|''Version:''|1.0.1|
-|''Date:''|Jan 19, 2007|
+|''Description:''|Extends TiddlyWiki options with non encrypted password option.|
+|''Version:''|1.0.2|
+|''Date:''|Apr 19, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#PasswordOptionPlugin|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
-|''~CoreVersion:''|2.2.0 (Changeset 1316)|
-|''Browser:''|http://www.tiddlywiki.com/#browsers|
+|''~CoreVersion:''|2.2.0 (Beta 5)|
 ***/
 //{{{
 version.extensions.PasswordOptionPlugin = {
-	major: 1, minor: 0, revision: 1, 
-	date: new Date(2007,19,0),
+	major: 1, minor: 0, revision: 2, 
+	date: new Date("Apr 19, 2007"),
 	source: 'http://tiddlywiki.bidix.info/#PasswordOptionPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
 	license: '[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D]]',
-	coreVersion: '2.2.0 (Changeset 1316)',
-	browser: 'Firefox 1.5; InternetExplorer 6.0; Safari'	
+	coreVersion: '2.2.0 (Beta 5)'
 };
 
 config.macros.option.passwordCheckboxLabel = "Save this password on this computer";
@@ -31,14 +29,15 @@ merge(config.macros.option.types, {
 		eventName: "onkeyup",
 		className: "pasOptionInput",
 		typeValue: config.macros.option.passwordInputType,
-		create: function(opt,place,params) {
+		create: function(place,type,opt,className,desc) {
 			// password field
-			config.macros.option.createHelper(opt,place,params,this);
+			config.macros.option.genericCreate(place,'pas',opt,className,desc);
 			// checkbox linked with this password "save this password on this computer"
-			config.macros.option.createHelper("chk"+opt,place,params,config.macros.option.types['chk']);			
+			config.macros.option.genericCreate(place,'chk','chk'+opt,className,desc);			
 			// text savePasswordCheckboxLabel
 			place.appendChild(document.createTextNode(config.macros.option.passwordCheckboxLabel));
-		}
+		},
+		onChange: config.macros.option.genericOnChange
 	}
 });
 
@@ -68,7 +67,12 @@ merge(config.optionHandlers, {
 // need to reload options to load passwordOptions
 loadOptionsCookie();
 
+/*
 if (!config.options['pasPassword'])
 	config.options['pasPassword'] = '';
 
+merge(config.optionsDesc,{
+		pasPassword: "Test password"
+	});
+*/
 //}}}

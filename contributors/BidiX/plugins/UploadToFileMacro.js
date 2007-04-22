@@ -1,19 +1,19 @@
 /***
 |''Name:''|UploadToFileMacro|
 |''Description:''|Upload a tiddler as a file using UploadPlugin context. Used with the SimonBaird's HideWhenPlugin ViewTemplate provides a new command in the tiddler toolbar.|
-|''Version:''|2.0.0|
-|''Date:''|Mar 19, 2007|
+|''Version:''|2.0.1|
+|''Date:''|Apr 21, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadToFileMacro|
 |''Usage:''|{{{<<uploadTofile [filename [tiddlerTitle]]>>}}}<br>{{{tiddlerTitle, filename: if omitted the title of the current tiddler}}}|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
 |''CoreVersion:''|2.2.0|
-|''Require:''|UploadPlugin|
+|''Requires:''|UploadPlugin|
 ***/
 //{{{
 version.extensions.UploadToFileMacro = {
-	major: 2, minor: 0, revision: 0, 
-	date: new Date("Mar 19, 2007"),
+	major: 2, minor: 0, revision: 1, 
+	date: new Date("Apr 21, 2007"),
 	source: 'http://tiddlywiki.bidix.info/#UploadToFilePlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
 	coreVersion: '2.2.0'
@@ -24,8 +24,6 @@ config.macros.uploadToFile = {
 	label: "upload %0 to file %1",
 	prompt: "upload tiddler '%0' to file '%1' ",
 	warning: "Are you sure you want to upload '%0'?",
-	//dirname: bidix.dirname,
-	//basename: bidix.basename,
 	messages: {
 		fileUploaded: "tiddler '%0' uploaded to file '%1'",
 		fileNotUploaded: "tiddler '%0' NOT uploaded"

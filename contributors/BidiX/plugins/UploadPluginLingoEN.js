@@ -1,13 +1,13 @@
 /***
 |''Name:''|UploadPluginLingoEN|
 |''Description:''|English Translation|
-|''Version:''|4.0.1|
-|''Date:''|Mar 20, 2007|
+|''Version:''|4.0.2|
+|''Date:''|Apr 21, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadPluginLingoEN|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
 |''CoreVersion:''|2.2.0|
-|''Require:''|[[UploadPlugin V4.0.0|http://tiddlywiki.bidix.info/#UploadPlugin]]|
+|''Requires:''|UploadPlugin|
 ***/
 //{{{
 config.macros.upload.label = {
@@ -39,4 +39,16 @@ bidix.upload.messages = {
 	aboutToSaveOnHttpPost: 'About to upload on %0 ...',
 	storePhpNotFound: "The store script '%0' was not found."
 };
+
+merge(config.optionsDesc,{
+	txtUploadStoreUrl: "Url of the UploadService script (default: store.php)",
+	txtUploadFilename: "Filename of the uploaded file (default: in index.html)",
+	txtUploadDir: "Relative Directory where to store the file (default: . (downloadService directory))",
+	txtUploadBackupDir: "Relative Directory where to backup the file. If empty no backup. (default: ''(empty))",
+	txtUploadUserName: "Upload Username",
+	pasUploadPassword: "Upload Password",
+	chkUploadLog: "do Logging in UploadLog (default: true)",
+	txtUploadLogMaxLine: "Maximum of lines in UploadLog (default: 10)"
+});
+
 //}}}

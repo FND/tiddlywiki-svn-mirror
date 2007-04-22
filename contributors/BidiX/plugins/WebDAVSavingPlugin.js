@@ -1,23 +1,21 @@
 /***
 |''Name:''|WebDAVSavingPlugin|
 |''Description:''|Saves on a WebDAV server without the need of any ServerSide script.<br>When TiddlyWiki is accessed over http, this plugin permits to save back to the server, using http PUT.|
-|''Version:''|0.2.0|
-|''Date:''|Feb 20, 2007|
+|''Version:''|0.2.1|
+|''Date:''|Apr 21, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#WebDAVSavingPlugin|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
-|''~CoreVersion:''|2.2.0 (Changeset 1583)|
-|''Browser:''|http://www.tiddlywiki.com/#browsers|
+|''~CoreVersion:''|2.2.0 (Beta 5)|
 ***/
 //{{{
 version.extensions.WebDAVSavingPlugin = {
-	major: 0, minor: 2, revision: 0, 
-	date: new Date(2007,20,1),
+	major: 0, minor: 2, revision: 1, 
+	date: new Date("Apr 21, 2007"),
 	source: 'http://tiddlywiki.bidix.info/#WebDAVSavingPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
 	license: '[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D]]',
-	coreVersion: '2.2.0 (Changeset 1316)',
-	browser: 'Firefox 1.5; InternetExplorer 6.0; Safari'	
+	coreVersion: '2.2.0 (Beta 5)'
 };
 
 if (!window.bidix) window.bidix = {};
@@ -93,7 +91,7 @@ bidix.WebDAVSaving.doSaveChanges = function()
 	if (originalPath.charAt(originalPath.length-1) == "/")
 		originalPath = originalPath + bidix.WebDAVSaving.defaultFilename;
 	displayMessage(bidix.WebDAVSaving.messages.aboutToSaveOnHttpDav.format([originalPath]));
-	loadRemoteFile(originalPath,callback,originalPath);
+	doHttp("GET",originalPath,null,null,null,null,callback,originalPath,null);
 };
 
 bidix.WebDAVSaving.mkbackupfolder = function(root,dirs,url,original,posDiv) {
@@ -192,7 +190,7 @@ bidix.WebDAVSaving.mkdir = function(root,dir,dirs,url,original,posDiv) {
 	var callback = function(status,params,responseText,url,xhr) {
 		url = (url.indexOf("nocache=") < 0 ? url : url.substring(0,url.indexOf("nocache=")-1));
 		if (status == null) {
-			Alert("Error in mkdir");
+			alert("Error in mkdir");
 			return;
 		}
 		if (xhr.status == httpStatus.ContentCreated) {
