@@ -23,11 +23,19 @@ make_tw {
   remove_tiddler        'StyleSheet'
   remove_tiddler        'MptwLayoutPlugin'
 
+  remove_tiddler        'MptwUpgradeURL'
+  remove_tiddler        'MptwUpgradeTsURL'
+
+  add_tiddler_from_file('misc/MptwUpgrade.pub')
+  add_tiddler_from_file('misc/MptwUpgradeTs.pub')
+
   remove_tiddler        'ViewTemplate'
   add_tiddler_from_file('layout/MptwViewTemplate.html').rename("ViewTemplate")
 
   remove_tiddler        'EditTemplate'
   add_tiddler_from_file('layout/MptwEditTemplate.html').rename("EditTemplate")
+
+
 
 
 
