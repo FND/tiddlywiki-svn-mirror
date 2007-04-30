@@ -13,7 +13,7 @@ merge(config.commands,{
 
 	saveCloseTiddler: {
 		text: 'done/close',
-		tooltip: 'Undo changes to this tiddler and close it',
+		tooltip: 'Save changes to this tiddler and close it',
 		handler: function(e,src,title) {
 			config.commands.saveTiddler.handler(e,src,title);
 			config.commands.closeTiddler.handler(e,src,title);
@@ -23,7 +23,7 @@ merge(config.commands,{
 
 	cancelCloseTiddler: {
 		text: 'cancel/close',
-		tooltip: 'Save changes to this tiddler and close it',
+		tooltip: 'Undo changes to this tiddler and close it',
 		handler: function(e,src,title) {
 			config.commands.cancelTiddler.handler(e,src,title);
 			config.commands.closeTiddler.handler(e,src,title);
