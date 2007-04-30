@@ -5,7 +5,7 @@
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hans/locale.zh-Hans.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''Version:''|2.2.0.5|
-|''Date:''|Apr 20, 2007|
+|''Date:''|Apr 26, 2007|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -25,10 +25,8 @@ if (!config.options.txtUserName)
 
 merge(config.tasks,{
 	save: {text: "保存", tooltip: "保存变更至此 TiddlyWiki", action: saveChanges},
-//#	tidy: {text: "整理", tooltip: "对群组文章作大量更新"},
 	sync: {text: "同步", tooltip: "将你的资料内容与外部服务器与文件同步", content: '<<sync>>'},
 	importTask: {text: "导入", tooltip: "自其他文件或服务器导入文章或插件", content: '<<importTiddlers>>'},
-//#	copy: {text: "复制", tooltip: "复制文章至别的 TiddlyWiki 文件及服务器"},
 	tweak: {text: "选项", tooltip: "改变此 TiddlyWiki 显示与行为设置", content: '<<options>>'},
 	plugins: {text: "套件管理", tooltip: "管理已安装的套件", content: '<<plugins>>'}
 });
@@ -335,13 +333,13 @@ merge(config.macros.sync,{
 	hasChanged: "已更动",
 	hasNotChanged: "未更动",
 	syncStatusList: {
-		none: {text: "...", color: "none"},
-		changedServer: {text: "服务器资料已更动", color: "#80ff80"},
-		changedLocally: {text: "本机资料已更动", color: "#80ff80"},
-		changedBoth: {text: "已同时更新本机与服务器上的资料", color: "#ff8080"},
-		notFound: {text: "服务器无此资料", color: "#ffff80"},
-		putToServer: {text: "已储存更新资料至服务器", color: "#ff80ff"},
-		gotFromServer: {text: "已从服务器撷取更新资料", color: "#80ffff"}
+		none: {text: "...", color: 'none'},
+		changedServer: {text: "服务器资料已更动", color: '#80ff80'},
+		changedLocally: {text: "本机资料已更动", color: '#80ff80'},
+		changedBoth: {text: "已同时更新本机与服务器上的资料", color: '#ff8080'},
+		notFound: {text: "服务器无此资料", color: 'ffff80'},
+		putToServer: {text: "已储存更新资料至服务器", color: '#ff80ff'},
+		gotFromServer: {text: "已从服务器撷取更新资料", color: '#80ffff'}
 		}
 	});
 
@@ -395,7 +393,7 @@ merge(config.commands.syncing,{
 	notCurrentlySyncing: "无进行中的同步动作",
 	captionUnSync: "停止同步此文章",
 	chooseServer: "与其他服务器同步此文章:",
-	currServerMarker: "● ",
+	currServerMarker: "\u25cf ",
 	notCurrServerMarker: "  "});
 
 merge(config.commands.fields,{
@@ -420,16 +418,7 @@ merge(config.shadowTiddlers,{
 	SiteUrl: 'http://www.tiddlywiki.com/',
 	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal " YYYY年0MM月0DD日">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  "偏好设置 »" "变更 TiddlyWiki 选项">>',
 	SideBarTabs: '<<tabs txtMainTab "最近更新" "依更新日期排序" TabTimeline "全部" "所有文章" TabAll "分类" "所有标签" TabTags "更多" "其他" TabMore>>',
-	TabTimeline: '<<timeline>>',
-	TabAll: '<<list all>>',
-	TabTags: '<<allTags excludeLists>>',
-	TabMore: '<<tabs txtMoreTab "未完成" "内容空白的文章" TabMoreMissing "未引用" "未被引用的文章" TabMoreOrphans "默认文章" "默认的影子文章" TabMoreShadowed>>',
-	TabMoreMissing: '<<list missing>>',
-	TabMoreOrphans: '<<list orphans>>',
-	TabMoreShadowed: '<<list shadowed>>',
-	AdvancedOptions: '<<options>>',
-	PluginManager: '<<plugins>>',
-	ImportTiddlers: '<<importTiddlers>>'});
+	TabMore: '<<tabs txtMoreTab "未完成" "内容空白的文章" TabMoreMissing "未引用" "未被引用的文章" TabMoreOrphans "默认文章" "默认的影子文章" TabMoreShadowed>>'});
 
 merge(config.annotations,{
 	AdvancedOptions: "此默认文章可以存取一些进阶选项。",
@@ -439,10 +428,11 @@ merge(config.annotations,{
 	GettingStarted: "此默认文章提供基本的使用说明。",
 	ImportTiddlers: "此默认文章提供存取导入中的文章。",
 	MainMenu: "此默认文章的内容，为于萤幕左侧主菜单的内容",
-	MarkupPreHead: "此文章的内容将加至 TiddlyWiki HTML 的 <head> 段落的起始",
-	MarkupPostHead: "此文章的内容将加至 TiddlyWiki HTML 的 <head> 段落的最后",
-	MarkupPreBody: "此文章的内容将加至 TiddlyWiki HTML 的 <body> 段落的起始",
-	MarkupPostBody: "此文章的内容将加至 TiddlyWiki HTML 的 <body> 段落的最后",
+	MarkupPreHead: "此文章的内容将加至 TiddlyWiki 文件的 <head> 段落的起始",
+	MarkupPostHead: "此文章的内容将加至 TiddlyWiki 文件的 <head> 段落的最后",
+	MarkupPreBody: "此文章的内容将加至 TiddlyWiki 文件的 <body> 段落的起始",
+	MarkupPostBody: "此文章的内容将加至 TiddlyWiki 文件的 <body> 段落的最后，于 script 区块之前",
+//#	MarkupPostScript: "此文章的内容将加至 TiddlyWiki HTML，紧跟着 script 区块之后",
 	OptionsPanel: "此默认文章的内容，为于萤幕右侧副菜单中的选项面板里的内容",
 	PageTemplate: "此默认文章里的 HTML template 决定的 ~TiddlyWiki 主要的版面配置",
 	PluginManager: "此默认文章提供存取套件管理员",

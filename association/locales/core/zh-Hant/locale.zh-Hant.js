@@ -5,7 +5,7 @@
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hant/locale.zh-Hant.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''Version:''|2.2.0.5|
-|''Date:''|Apr 20, 2007|
+|''Date:''|Apr 26, 2007|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -333,13 +333,13 @@ merge(config.macros.sync,{
 	hasChanged: "已更動",
 	hasNotChanged: "未更動",
 	syncStatusList: {
-		none: {text: "...", color: "none"},
-		changedServer: {text: "伺服器資料已更動", color: "#80ff80"},
-		changedLocally: {text: "本機資料已更動", color: "#80ff80"},
-		changedBoth: {text: "已同時更新本機與伺服器上的資料", color: "#ff8080"},
-		notFound: {text: "伺服器無此資料", color: "#ffff80"},
-		putToServer: {text: "已儲存更新資料至伺服器", color: "#ff80ff"},
-		gotFromServer: {text: "已從伺服器擷取更新資料", color: "#80ffff"}
+		none: {text: "...", color: 'none'},
+		changedServer: {text: "伺服器資料已更動", color: '#80ff80'},
+		changedLocally: {text: "本機資料已更動", color: '#80ff80'},
+		changedBoth: {text: "已同時更新本機與伺服器上的資料", color: '#ff8080'},
+		notFound: {text: "伺服器無此資料", color: '#ffff80'},
+		putToServer: {text: "已儲存更新資料至伺服器", color: '#ff80ff'},
+		gotFromServer: {text: "已從伺服器擷取更新資料", color: '#80ffff'}
 		}
 	});
 
@@ -396,7 +396,7 @@ merge(config.commands.syncing,{
 	notCurrentlySyncing: "無進行中的同步動作",
 	captionUnSync: "停止同步此文章",
 	chooseServer: "與其他伺服器同步此文章:",
-	currServerMarker: "● ",
+	currServerMarker: "\u25cf ",
 	notCurrServerMarker: "  "});
 
 merge(config.commands.fields,{
@@ -421,16 +421,7 @@ merge(config.shadowTiddlers,{
 	SiteUrl: 'http://www.tiddlywiki.com/',
 	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal " YYYY年0MM月0DD日">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  "偏好設定 »" "變更 TiddlyWiki 選項">>',
 	SideBarTabs: '<<tabs txtMainTab "最近更新" "依更新日期排序" TabTimeline "全部" "所有文章" TabAll "分類" "所有標籤" TabTags "更多" "其他" TabMore>>',
-	TabTimeline: '<<timeline>>',
-	TabAll: '<<list all>>',
-	TabTags: '<<allTags excludeLists>>',
-	TabMore: '<<tabs txtMoreTab "未完成" "內容空白的文章" TabMoreMissing "未引用" "未被引用的文章" TabMoreOrphans "預設文章" "已預設內容的隱藏文章" TabMoreShadowed>>',
-	TabMoreMissing: '<<list missing>>',
-	TabMoreOrphans: '<<list orphans>>',
-	TabMoreShadowed: '<<list shadowed>>',
-	AdvancedOptions: '<<options>>',
-	PluginManager: '<<plugins>>', 
-	ImportTiddlers: '<<importTiddlers>>'});
+	TabMore: '<<tabs txtMoreTab "未完成" "內容空白的文章" TabMoreMissing "未引用" "未被引用的文章" TabMoreOrphans "預設文章" "已預設內容的隱藏文章" TabMoreShadowed>>'});
 
 merge(config.annotations,{
 	AdvancedOptions: "此預設文章可以存取一些進階選項。",
@@ -440,10 +431,11 @@ merge(config.annotations,{
 	GettingStarted: "此預設文章提供基本的使用說明。",
 	ImportTiddlers: "此預設文章提供存取導入中的文章。",
 	MainMenu: "此預設文章的內容，為於螢幕左側主選單的內容",
-	MarkupPreHead: "此文章的內容將加至 TiddlyWiki HTML 的 <head> 段落的起始",
-	MarkupPostHead: "此文章的內容將加至 TiddlyWiki HTML 的 <head> 段落的最後",
-	MarkupPreBody: "此文章的內容將加至 TiddlyWiki HTML 的 <body> 段落的起始",
-	MarkupPostBody: "此文章的內容將加至 TiddlyWiki HTML 的 <body> 段落的最後",
+	MarkupPreHead: "此文章的內容將加至 TiddlyWiki 文件的 <head> 段落的起始",
+	MarkupPostHead: "此文章的內容將加至 TiddlyWiki 文件的 <head> 段落的最後",
+	MarkupPreBody: "此文章的內容將加至 TiddlyWiki 文件的 <body> 段落的起始",
+	MarkupPostBody: "此文章的內容將加至 TiddlyWiki 文件的 <body> 段落的最後，於 script 區塊之前",
+//#	MarkupPostScript: "此文章的内容将加至 TiddlyWiki 文件，緊跟著 script 區塊之後",
 	OptionsPanel: "此預設文章的內容，為於螢幕右側副選單中的選項面板裡的內容",
 	PageTemplate: "此預設文章裡的 HTML template 決定的 ~TiddlyWiki 主要的版面配置",
 	PluginManager: "此預設文章提供存取套件管理員",
