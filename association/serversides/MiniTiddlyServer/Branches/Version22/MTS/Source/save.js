@@ -1,6 +1,9 @@
 function generateRss(){};
 function getTime(){};
-
+function mtsConvertToUTF8(z)
+{
+    return z? convertUnicodeToUTF8(z) : z;
+}
 
 function saveChanges(onlyIfDirty,tiddlers)
 {
@@ -19,10 +22,10 @@ function saveChanges(onlyIfDirty,tiddlers)
             time:               getTime(),
             "wrapperScriptName":wrapperScriptName,
             "sourcePath":       sourcePath,
-            data:               (store.uploadError) ? store.allTiddlersAsHtml() : store.updatedTiddlersAsHtml(),
+            data:               mtsConvertToUTF8((store.uploadError) ? store.allTiddlersAsHtml() : store.updatedTiddlersAsHtml()),
             savetype:           (store.uploadError) ? "full":"partial",
-            "deletedTiddlers":  store.deletedTiddlersIndex.join("|||||"),
-            rss:                generateRss()
+            "deletedTiddlers":  mtsConvertToUTF8(store.deletedTiddlersIndex.join("|||||")),
+            rss:                mtsConvertToUTF8(generateRss())
         }
         
         // Handle for extending // 
@@ -114,6 +117,8 @@ TiddlyWiki.prototype.setTiddlerTag = function(title,status,tag)
 TiddlyWiki.prototype.old_ffu_saveTiddler = TiddlyWiki.prototype.saveTiddler
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields)
 {
+    if (newTitle && newTitle!= title)
+        this.deletedTiddlersIndex.pushUnique(title);
     var temp = this.old_ffu_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields);
     this.flagForUpload(temp);
     return temp;
@@ -132,6 +137,7 @@ TiddlyWiki.prototype.removeTiddler = function(title)
 	old_ffu_removeTiddler.apply(this,arguments);
 	this.deletedTiddlersIndex.pushUnique(title);
 }
+
 
 TiddlyWiki.prototype.updatedTiddlersAsHtml = function()
 {
