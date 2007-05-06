@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <?php
 
 /*/////////////////////////////////////////////////////////////////////////////
@@ -22,25 +21,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////*/
 
-// PHP SOURCE // This file is copied as the php source for each file. 
-
-// Insert Actual Wiki // 
-
-    // Open Source File // 
-    $wikipath = "WIKIPATH";
+    // UPDATE FILE MOD TIME // 
     
-    if (!$handle = fopen($wikipath, 'r')) 
-        $data .= "error:true, message:'Cannot open file ($wikipath)',";
-           
-    if (!$wikidata = fread($handle, filesize($wikipath))) 
-        $data .= "error:true, message:'Cannot read file ($wikipath)',";
+        $newfiletime = filemtime($clientRequest->sourceFile);
         
-    fclose($handle);
-
-    print $wikidata;
-
-
-// FOOTER // 
-include_once("MTS/Source/Footer.php"); 
-
+        // Create the new access file and update the reference // 
+        $actualfile = $module->name."/access/$newfiletime.txt";
+        $recentChangesFile = $serverInfo->ModulesDirectory.$actualfile;
+        writeToFile($recentChangesFile, "");
+        $serverResponse->setString("conflictmodtime",$newfiletime);
+        
 ?>

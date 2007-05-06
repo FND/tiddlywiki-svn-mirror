@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <?php
 
 /*/////////////////////////////////////////////////////////////////////////////
@@ -22,25 +21,12 @@
 
 ////////////////////////////////////////////////////////////////////////////////*/
 
-// PHP SOURCE // This file is copied as the php source for each file. 
-
-// Insert Actual Wiki // 
-
-    // Open Source File // 
-    $wikipath = "WIKIPATH";
-    
-    if (!$handle = fopen($wikipath, 'r')) 
-        $data .= "error:true, message:'Cannot open file ($wikipath)',";
-           
-    if (!$wikidata = fread($handle, filesize($wikipath))) 
-        $data .= "error:true, message:'Cannot read file ($wikipath)',";
-        
-    fclose($handle);
-
-    print $wikidata;
-
-
-// FOOTER // 
-include_once("MTS/Source/Footer.php"); 
+    include("MTS/Source/ModuleLocal.php");
 
 ?>
+
+<h4>Upload and Replace</h4>
+<table>
+    <tr><td>Select a TW: </td><td><form id="uploadfile" method="POST" enctype="multipart/form-data" action="MTS/Modules/MTSUploadWiki/Upload.php"><input type="hidden" name="sourcepath" value="<?php echo $localInfo->sourceFile ?>"/><input type="hidden" name="wrapperpath" value="<?php echo $localInfo->wrapperFile ?>"/><input name="uploadfile" type="file"/></form></td></tr>
+    <tr><td colspan="2"><input type="submit" value="Upload" onclick="uploadFile()"></td></tr>
+</table>

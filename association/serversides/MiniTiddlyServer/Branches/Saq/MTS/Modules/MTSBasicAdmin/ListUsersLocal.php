@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<h4>User List</h4>
 <?php
 
 /*/////////////////////////////////////////////////////////////////////////////
@@ -22,25 +22,18 @@
 
 ////////////////////////////////////////////////////////////////////////////////*/
 
-// PHP SOURCE // This file is copied as the php source for each file. 
+// DEFINED BY ModuleEvent.php: $userControl, $serverInfo, $clientRequest, $serverResponse, // 
+// ALSO FUNCTIONS in SystemFunctions.php: writeToFile // 
 
-// Insert Actual Wiki // 
+    include("MTS/Source/ModuleLocal.php");
 
-    // Open Source File // 
-    $wikipath = "WIKIPATH";
-    
-    if (!$handle = fopen($wikipath, 'r')) 
-        $data .= "error:true, message:'Cannot open file ($wikipath)',";
-           
-    if (!$wikidata = fread($handle, filesize($wikipath))) 
-        $data .= "error:true, message:'Cannot read file ($wikipath)',";
-        
-    fclose($handle);
-
-    print $wikidata;
-
-
-// FOOTER // 
-include_once("MTS/Source/Footer.php"); 
+// PRINT DIV // 
+    echo "<table>";
+    $userlist = $userControl->getAllUsers();
+    foreach ($userlist as $username)
+        echo "<tr><td>$username</td><td><input type='submit' value='[ X ]' onClick='deleteUser(\"$username\", this.parentNode.parentNode);'/></td></tr>";
+    echo "</table>";
 
 ?>
+
+

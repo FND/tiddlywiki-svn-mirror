@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <?php
 
 /*/////////////////////////////////////////////////////////////////////////////
@@ -22,25 +21,19 @@
 
 ////////////////////////////////////////////////////////////////////////////////*/
 
-// PHP SOURCE // This file is copied as the php source for each file. 
-
-// Insert Actual Wiki // 
-
-    // Open Source File // 
-    $wikipath = "WIKIPATH";
-    
-    if (!$handle = fopen($wikipath, 'r')) 
-        $data .= "error:true, message:'Cannot open file ($wikipath)',";
-           
-    if (!$wikidata = fread($handle, filesize($wikipath))) 
-        $data .= "error:true, message:'Cannot read file ($wikipath)',";
+    // DELETE ACCESS FILES // 
+    $accessDir = $serverInfo->ModulesDirectory.$module->name."/access/";
+    if (is_dir($accessDir) ) {
+        $files = scandir($accessDir);
+        foreach ($files as $file) {
+            if (strpos($file, ".txt") != false) {
+               unlink($accessDir.$file);
+            }
+        }
         
-    fclose($handle);
-
-    print $wikidata;
-
-
-// FOOTER // 
-include_once("MTS/Source/Footer.php"); 
-
+        $serverResponse->setBoolean("cleanup",true);
+    }    
+    else
+        $serverResponse->throwError("The access directory was not found: $accessDir");
+    
 ?>

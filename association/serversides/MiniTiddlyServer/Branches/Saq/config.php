@@ -2,8 +2,9 @@
     session_unset();
     session_destroy();
 ?>
+
 <head>
-<title>Admin Configuration Script for AjaxTiddlyWiki</title>
+<title>Admin Configuration Script for MiniTiddlyServer</title>
 <style>
    td, div, body, p {
 	   font-family:verdana;
@@ -25,14 +26,12 @@ function saveAndComplete() {
         
         return; 
     }
-    
-    else if ( form.wrapperpath.value.indexOf(".php") == -1 || form.sourcepath.value.indexOf(".html") == -1) {
-        alert("Error: Please make sure the wrapper path has a .php extension, and the sourcepath has a .html extension");
-        
-        return;
-    }
-    
-    form.submit();
+    else if (form.adminuser.value.length < 2 )
+        alert("Please choose a longer username");
+    else if (form.adminpass.value.length < 2 )
+        alert("Please choose a longer password");
+    else
+        form.submit();
 }
 
 <?php
@@ -41,47 +40,60 @@ function saveAndComplete() {
 Configuration and Installation::
 Run this file after copying everything to your install server. (In a unique folder!)
 
+/////////////////////////////////////////////////////////////////////////////
 
+    MiniTiddlyServer: A mini-server for TiddlyWikis
+    Copyright (C) 2007  Sean Clark Hess and Saq Imtiaz
+    
+    MiniTiddlyServer is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+    
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+////////////////////////////////////////////////////////////////////////////////
 */
 
-$data = "";
+include_once("MTS/Source/SystemFunctions.php");
+include_once("MTS/Source/ServerResponse.php");
+$serverResponse = new ServerResponse();
 
-include_once("MTS/Source/Functions.php");
-
-$templatename = "MTS/Source/empty.html";
-$wikiframe = "MTS/Source/wikiframe.php";
 $userspath = "MTS/Source/users.php";
 
 $adminpass = $_POST['adminpass'];
-$wrapperpath = $_POST['wrapperpath'];
-$sourcepath = $_POST['sourcepath'];
-$baseDir = substr($_SERVER['SCRIPT_URI'], 0, strpos($_SERVER['SCRIPT_URI'],"config.php"));
+$adminuser = $_POST['adminuser'];
 
-
-if (isset($adminpass) && isset($wrapperpath) && isset($sourcepath) && $adminpass != "" && $wrapperpath != "" && $sourcepath != "") {
+if (isset($adminpass) && isset($adminuser) && $adminpass != "" && $adminuser != "") {
 
         // 1 // Create a new users.php with the admin password 
         
             $userstext = "<?php\n";
             $userstext .= "\$users = array(\n";
-            $userstext .= "\t\"admin\" => \"$adminpass\",\n";
+            $userstext .= "\t\"$adminuser\" => \"$adminpass\",\n";
+            $userstext .= ");\n";
+            $userstext .= "\$admins = array(\n";
+            $userstext .= "\t\"$adminuser\" => true,\n";
             $userstext .= ");\n";
             $userstext .= "?>";
             
             writeToFile($userspath, $userstext);
         
-        // 2 // Create a new wiki of that name.. 
-            createNewWiki($wrapperpath, $sourcepath, "", $baseDir);
-            
         // 3 // Delete Config File
             unlink("config.php");
             
         // 4 // Redirect 
-            echo "window.location = \"$wrapperpath\"";
+            echo "window.location = 'index.php'";
     
 }
     
-
 ?>
 </script>
 
@@ -99,24 +111,17 @@ else if ( substr(phpversion(),0,strrpos(phpversion(), ".")) == "5.0" )
     
 ?>
 <form id="settings" method="POST" action="config.php">
-<h2>AjaxTiddlyWiki</h2>
+<h2>MiniTiddlyServer</h2>
 
-<h4>Administrator Account</h4>
+<h4>Set Administrator Account</h4>
 <table>
-    <tr><td>user: </td><td>admin</td></tr>
+    <tr><td>user: </td><td><input type="text" size="10" name="adminuser"/></td></tr>
     <tr><td>password: </td><td><input type="password" size="10" name="adminpass"/></td></tr>
     <tr><td>repeat pass: </td><td><input type="password" size="10" name="adminpass2"/></td></tr>
 </table>
 
-<h4>WikiFileName</h4>
-<div> Don't forget the extensions below!  The first must be ".php" and the second ".html";</div>
-<table>
-    <tr><td>Wrapper Path (ie: "test.php"): </td><td><input type="text" name="wrapperpath"/></td></tr>
-    <tr><td>Wiki Path (ie: "source.html"): </td><td><input type="text" name="sourcepath"/></td></tr>
-</table>
-
 <h4>Save and Complete</h4>
-<div>By clicking submit below, this config file will be deleted and you will be taken to your new wiki!</div>
+<div>By clicking submit below, this config file will be deleted and you will be taken to your first wiki!</div>
 </form>
 <p><input type="submit" value="Save and Complete" onclick="saveAndComplete()"/></p>
             

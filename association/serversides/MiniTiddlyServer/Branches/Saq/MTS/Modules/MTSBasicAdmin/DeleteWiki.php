@@ -20,21 +20,20 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 ////////////////////////////////////////////////////////////////////////////////*/
-   
-    include_once("SessionManager.php");
-    include_once("ServerInformation.php");
-    include_once("UserControl.php");
-    include_once("ClientRequest.php");
-    include_once("ServerResponse.php");
-    include_once("SystemFunctions.php");
-    
-    $sessionManager = new SessionManager();
-    $serverInfo = new ServerInformation();
-    
+
+// DEFINED BY ModuleEvent.php: $userControl, $serverInfo, $clientRequest, $serverResponse, // 
+// ALSO FUNCTIONS in SystemFunctions.php: writeToFile // 
+
 // CREATE INSTANCES // 
-    include_once($serverInfo->UsersFile);
-    $userControl = new UserControl($users, $admins);
-    $clientRequest = new ClientRequest();
-    $serverResponse = new ServerResponse();
+    
+    if ( $userControl->isAdmin != true ) {
+        $serverResponse->throwCriticalError("You must be logged in as the admin to access this function");
+    }
     
     
+    $result = unlink ($clientRequest->wrapperFile);
+    $result2 = unlink ($clientRequest->sourceFile);
+    if ( file_exists($serverInfo->BaseInstallOffset.$wrapperScriptName.xml))
+        unlink ($serverInfo->BaseInstallOffset.$wrapperScriptName.xml);
+    $result = ($result && $result2);
+    $serverResponse->setBoolean("deleted",$result);

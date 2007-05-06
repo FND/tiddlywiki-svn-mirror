@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <?php
 
 /*/////////////////////////////////////////////////////////////////////////////
@@ -22,25 +21,15 @@
 
 ////////////////////////////////////////////////////////////////////////////////*/
 
-// PHP SOURCE // This file is copied as the php source for each file. 
+    // WRITE THE ACCESS FILE // Called as a remote event // 
+        $actualfile = $module->name."/access/".filemtime($clientRequest->sourceFile).".txt";
+        $recentChangesFile = $serverInfo->ModulesDirectory.$actualfile;
 
-// Insert Actual Wiki // 
 
-    // Open Source File // 
-    $wikipath = "WIKIPATH";
-    
-    if (!$handle = fopen($wikipath, 'r')) 
-        $data .= "error:true, message:'Cannot open file ($wikipath)',";
-           
-    if (!$wikidata = fread($handle, filesize($wikipath))) 
-        $data .= "error:true, message:'Cannot read file ($wikipath)',";
+
+        $serverResponse->setBoolean("conflictfileexists",file_exists($recentChangesFile));
+
+        writeToFile($recentChangesFile, "");
+        $serverResponse->setString("conflictfile","MTS/Modules/$actualfile");
         
-    fclose($handle);
-
-    print $wikidata;
-
-
-// FOOTER // 
-include_once("MTS/Source/Footer.php"); 
-
 ?>
