@@ -21,24 +21,34 @@
 
 ////////////////////////////////////////////////////////////////////////////////*/
 
-  function splitRss ($source)
+
+    // RSS // 
+    $rssfile = $clientRequest->rssFile;
+    
+    $rssData = $clientRequest->rss;
+  
+    if (isset($rssData) && $rssData != "" ) {
+        $rss = updateRss($rssData,$rssfile,$clientRequest->deletedIndex,$clientRequest->savetype);
+        if ( isset($rss) && $rss != "" && $rss!= false && $conflict != true) {
+            writeToFile($rssfile, $rss);
+            $serverResponse->setBoolean("rss",true);
+        }
+    }
+           
+    function splitRss ($source)
     {
-     global $data, $saveError;
-     if (preg_match('/^(.*<\/generator>)(.*)?(<\/channel>.*)/sm', $source, $regs))
-       {
-       return $regs;
-       }
-     else
-       {
-       $data .= "error:true, message:'There was a critical error in splitRss while saving your rss file'";
-       $saveError = true;
-       return false;
-       }
+        global $serverResponse;
+        if (preg_match('/^(.*<\/generator>)(.*)?(<\/channel>.*)/sm', $source, $regs))
+            return $regs;
+            
+        else 
+            $serverResponse->throwCriticalError("There was a critical error in splitRss while saving your rss file");
     }
 
-  function makeRssMap($source=' ')
+    function makeRssMap($source=' ')
     { 
-       global $data, $saveError;
+       global $serverResponse;
+       
        $temprssMap = array();
        if (preg_match_all('/<item>(?:.*?(?:<title>(.*?)<\/title>).*?)<\/item>/s', $source, $items, PREG_SET_ORDER))
          {
@@ -50,8 +60,6 @@
          }
        else
          {
-          #$data .= "error:true, message:'There was a critical error in makeRssmap while saving your rss file' '$source'";
-          #$saveError = true;
           //should throw an error here if the source was anything other than whitespace and the match still failed
           //when no items, the souce seems to be a line break
           return $temprssMap;
@@ -61,18 +69,14 @@
     
   function updateRss($newrss,$rssfilename,$deletedIndex,$savetype)
     {  
-     #global $deletedIndex, $savetype;  
-     global $data, $saveError;
-     #$deletedIndex = array(); #for testing
+     global $serverResponse;
      
      if ($savetype == 'partial' && file_exists($rssfilename))
          {
-         #$oldrss = file_get_contents("index.xml"); #file name passed as an argument
          $oldrss = file_get_contents($rssfilename);
          $oldrssparts = splitRss($oldrss);
          $oldbody = $oldrssparts[2]; 
          $oldRssMap = makeRssMap ($oldbody); 
-          
           
          #var_dump ($oldrssparts);
       

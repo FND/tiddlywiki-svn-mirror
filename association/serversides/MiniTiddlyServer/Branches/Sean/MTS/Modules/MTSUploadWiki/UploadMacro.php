@@ -20,21 +20,13 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 ////////////////////////////////////////////////////////////////////////////////*/
-   
-    include_once("SessionManager.php");
-    include_once("ServerInformation.php");
-    include_once("UserControl.php");
-    include_once("ClientRequest.php");
-    include_once("ServerResponse.php");
-    include_once("SystemFunctions.php");
-    
-    $sessionManager = new SessionManager();
-    $serverInfo = new ServerInformation();
-    
-// CREATE INSTANCES // 
-    include_once($serverInfo->UsersFile);
-    $userControl = new UserControl($users, $admins);
-    $clientRequest = new ClientRequest();
-    $serverResponse = new ServerResponse();
-    
-    
+
+    include("MTS/Source/ModuleLocal.php");
+
+?>
+
+<h4>Upload and Replace</h4>
+<table>
+    <tr><td>Select a TW: </td><td><form id="uploadfile" method="POST" enctype="multipart/form-data" action="MTS/Modules/MTSUploadWiki/Upload.php"><input type="hidden" name="sourcepath" value="<?php echo $localInfo->sourceFile ?>"/><input type="hidden" name="wrapperpath" value="<?php echo $localInfo->wrapperFile ?>"/><input name="uploadfile" type="file"/></form></td></tr>
+    <tr><td colspan="2"><input type="submit" value="Upload" onclick="uploadFile()"></td></tr>
+</table>

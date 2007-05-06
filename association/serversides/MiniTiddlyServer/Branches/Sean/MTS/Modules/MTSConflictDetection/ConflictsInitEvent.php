@@ -20,21 +20,16 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 ////////////////////////////////////////////////////////////////////////////////*/
-   
-    include_once("SessionManager.php");
-    include_once("ServerInformation.php");
-    include_once("UserControl.php");
-    include_once("ClientRequest.php");
-    include_once("ServerResponse.php");
-    include_once("SystemFunctions.php");
-    
-    $sessionManager = new SessionManager();
-    $serverInfo = new ServerInformation();
-    
-// CREATE INSTANCES // 
-    include_once($serverInfo->UsersFile);
-    $userControl = new UserControl($users, $admins);
-    $clientRequest = new ClientRequest();
-    $serverResponse = new ServerResponse();
-    
-    
+
+    // WRITE THE ACCESS FILE // Called as a remote event // 
+        $actualfile = $module->name."/access/".filemtime($clientRequest->sourceFile).".txt";
+        $recentChangesFile = $serverInfo->ModulesDirectory.$actualfile;
+
+
+
+        $serverResponse->setBoolean("conflictfileexists",file_exists($recentChangesFile));
+
+        writeToFile($recentChangesFile, "");
+        $serverResponse->setString("conflictfile","MTS/Modules/$actualfile");
+        
+?>

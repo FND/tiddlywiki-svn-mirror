@@ -20,21 +20,15 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 ////////////////////////////////////////////////////////////////////////////////*/
-   
-    include_once("SessionManager.php");
-    include_once("ServerInformation.php");
-    include_once("UserControl.php");
-    include_once("ClientRequest.php");
-    include_once("ServerResponse.php");
-    include_once("SystemFunctions.php");
+
+    // UPDATE FILE MOD TIME // 
     
-    $sessionManager = new SessionManager();
-    $serverInfo = new ServerInformation();
-    
-// CREATE INSTANCES // 
-    include_once($serverInfo->UsersFile);
-    $userControl = new UserControl($users, $admins);
-    $clientRequest = new ClientRequest();
-    $serverResponse = new ServerResponse();
-    
-    
+        $newfiletime = filemtime($clientRequest->sourceFile);
+        
+        // Create the new access file and update the reference // 
+        $actualfile = $module->name."/access/$newfiletime.txt";
+        $recentChangesFile = $serverInfo->ModulesDirectory.$actualfile;
+        writeToFile($recentChangesFile, "");
+        $serverResponse->setString("conflictmodtime",$newfiletime);
+        
+?>

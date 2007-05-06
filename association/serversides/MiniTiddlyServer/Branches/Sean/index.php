@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php
 
 /*/////////////////////////////////////////////////////////////////////////////
@@ -20,21 +21,26 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 ////////////////////////////////////////////////////////////////////////////////*/
-   
-    include_once("SessionManager.php");
-    include_once("ServerInformation.php");
-    include_once("UserControl.php");
-    include_once("ClientRequest.php");
-    include_once("ServerResponse.php");
-    include_once("SystemFunctions.php");
+
+// PHP SOURCE // This file is copied as the php source for each file. 
+
+// Insert Actual Wiki // 
+
+    // Open Source File // 
+    $wikipath = "defaultsource.html";
     
-    $sessionManager = new SessionManager();
-    $serverInfo = new ServerInformation();
-    
-// CREATE INSTANCES // 
-    include_once($serverInfo->UsersFile);
-    $userControl = new UserControl($users, $admins);
-    $clientRequest = new ClientRequest();
-    $serverResponse = new ServerResponse();
-    
-    
+    if (!$handle = fopen($wikipath, 'r')) 
+        $data .= "error:true, message:'Cannot open file ($wikipath)',";
+           
+    if (!$wikidata = fread($handle, filesize($wikipath))) 
+        $data .= "error:true, message:'Cannot read file ($wikipath)',";
+        
+    fclose($handle);
+
+    print $wikidata;
+
+
+// FOOTER // 
+include_once("MTS/Source/Footer.php"); 
+
+?>

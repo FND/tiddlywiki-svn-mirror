@@ -1,3 +1,4 @@
+<h4>Backups</h4>
 <?php
 
 /*/////////////////////////////////////////////////////////////////////////////
@@ -20,21 +21,22 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 ////////////////////////////////////////////////////////////////////////////////*/
-   
-    include_once("SessionManager.php");
-    include_once("ServerInformation.php");
-    include_once("UserControl.php");
-    include_once("ClientRequest.php");
-    include_once("ServerResponse.php");
-    include_once("SystemFunctions.php");
-    
-    $sessionManager = new SessionManager();
-    $serverInfo = new ServerInformation();
-    
-// CREATE INSTANCES // 
-    include_once($serverInfo->UsersFile);
-    $userControl = new UserControl($users, $admins);
-    $clientRequest = new ClientRequest();
-    $serverResponse = new ServerResponse();
-    
-    
+
+    include("MTS/Source/ModuleLocal.php");
+
+// PRINT DIV // 
+    echo "<table id='mtsBackupsTable'>";
+    $backupDir = "MTS/Backups/".$localInfo->sourceName;
+    if (is_dir($backupDir) ) {
+        $versions = scandir($backupDir);
+        foreach ($versions as $file) {
+            if (strpos($file, ".htm") != false) {
+                $fullpath = $backupDir."/".$file;
+                echo "<tr id='$fullpath'><td><a href='$fullpath'>$file</a></td><td><input type='submit' value='Revert' onClick='revertWiki(\"$file\")'/></td><td><input type='submit' value='[ X ]' onClick='deleteBackup(\"$fullpath\")'/></td></tr>";
+            }
+        }
+    }    
+    echo "</table>";
+
+?>
+

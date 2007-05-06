@@ -19,6 +19,78 @@
 
 //////////////////////////////////////////////////////////////////////////////// */
 
+function Response(rawData) {
+    
+    var data = null;
+    
+    try {
+        eval (rawData);
+    }
+    catch (e) {
+        displayMessage("Parsing Error! ~ The server's response was corrupted");
+        alert(rawData);
+        this.error = true;
+        return;
+    }
+    
+    if ( data ) {
+        if ( data.error ) {
+            displayMessage("Server Error! ~ "+data.message);
+            this.error = true;
+            this.errorMessage = data.message;
+        }
+        else {
+            this.error = false;
+            
+            for (var i in data) {
+                if ( data[i] == "false" )
+                    this[i] = false;
+                else if ( data[i] == "true" )
+                    this[i] = true;
+                this[i] = data[i];
+            }
+        }
+    }
+    else {
+        displayMessage("Parsing Error! ~ The server's response was corrupted");
+        alert(rawData);
+        this.error = true;
+        return;
+    }
+}
+
+
+function AjaxRequest(url, callback, getParams, postParams) {
+    
+    var cb = callback;
+    
+    this.url = url;
+    this.getParams = getParams;
+    this.postParams = postParams;
+    this.callback = function (rawData) {
+        var response = new Response(rawData);
+        
+        if ( !response.error )
+            cb(response);
+    }
+}
+
+AjaxRequest.prototype.send = function () {
+    if ( this.postParams ) {
+        var getstr = "";
+        for (var i in this.getParams) {
+            getstr += i + "=" + this.getParams[i] + "&";
+        }
+        
+        openAjaxRequestParams(this.url + "?" + getstr, this.postParams, this.callback, true);
+        
+    }
+    
+    else {
+        openAjaxRequestParams(this.url, this.getParams, this.callback, false);
+    }
+}
+
 var xmlHttp;
 
 function openAjaxRequestParams(url, params, callback, usePost) {
@@ -26,8 +98,10 @@ function openAjaxRequestParams(url, params, callback, usePost) {
     var datastr = "";
 
     for (var i in params) {
-        if ( usePost )
-            datastr += i + "=" + escape(params[i].replace(/\+/g,"&#43;")) + "&";
+        if ( usePost ) {
+            if ( params[i] )
+                datastr += i + "=" + escape(params[i].replace(/\+/g,"&#43;")) + "&";
+        }
             
         else
             datastr += i + "=" + params[i] + "&";

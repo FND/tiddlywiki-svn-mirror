@@ -20,21 +20,20 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 ////////////////////////////////////////////////////////////////////////////////*/
-   
-    include_once("SessionManager.php");
-    include_once("ServerInformation.php");
-    include_once("UserControl.php");
-    include_once("ClientRequest.php");
-    include_once("ServerResponse.php");
-    include_once("SystemFunctions.php");
+
+    // DELETE ACCESS FILES // 
+    $accessDir = $serverInfo->ModulesDirectory.$module->name."/access/";
+    if (is_dir($accessDir) ) {
+        $files = scandir($accessDir);
+        foreach ($files as $file) {
+            if (strpos($file, ".txt") != false) {
+               unlink($accessDir.$file);
+            }
+        }
+        
+        $serverResponse->setBoolean("cleanup",true);
+    }    
+    else
+        $serverResponse->throwError("The access directory was not found: $accessDir");
     
-    $sessionManager = new SessionManager();
-    $serverInfo = new ServerInformation();
-    
-// CREATE INSTANCES // 
-    include_once($serverInfo->UsersFile);
-    $userControl = new UserControl($users, $admins);
-    $clientRequest = new ClientRequest();
-    $serverResponse = new ServerResponse();
-    
-    
+?>
