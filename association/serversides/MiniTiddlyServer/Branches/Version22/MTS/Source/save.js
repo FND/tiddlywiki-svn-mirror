@@ -7,7 +7,7 @@ function mtsConvertToUTF8(z)
 
 function saveChanges(onlyIfDirty,tiddlers)
 {
-	if(onlyIfDirty && !store.isDirty())
+	if(onlyIfDirty && !store.isDirty() && !store.uploadError)
 		return;
 	
     if (loggedIn != true) {
