@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#CreoleFormatterPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/CreoleFormatterPlugin.js|
-|''Version:''|0.1.7|
-|''Date:''|Mar 29, 2007|
+|''Version:''|0.1.8|
+|''Date:''|May 7, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -18,7 +18,7 @@ tagged: instead the Creole format adds formatting that augments TiddlyWiki's for
 
 The Creole formatter adds the following:
 # {{{**}}} for bold
-# {{{= Heading 1==}}} with 1 to 6 equals signs for headings
+# {{{= Heading 1=}}} with 1 to 6 equals signs for headings
 # {{{[[link|title]]}}} format for links (rather than TW's {{{[[title|link]]}}}).
 
 Since Creole augments rather than replaces TW's formatting there is a problem of how to resolve a prettyLink:
@@ -48,7 +48,7 @@ creoleFormatter = {}; // 'namespace' for local functions
 
 creoleFormatter.heading = {
 	name: 'creoleHeading',
-	match: '^={2,6}(?!=)',
+	match: '^={1,6}(?!=)',
 	termRegExp: /(={0,6}\n+)/mg,
 	handler: function(w) {w.subWikifyTerm(createTiddlyElement(w.output,'h' + w.matchLength),this.termRegExp);}
 };
@@ -116,18 +116,23 @@ creoleFormatter.explicitLink = {
 	}//# end handler
 };
 
-// replace formatters where necessary
-for(var i in config.formatters) {
-	// replace formatters as required
-	if(config.formatters[i].name == 'prettyLink') {
-		config.formatters[i] = creoleFormatter.explicitLink;
-	} else if(config.formatters[i].name == 'italicByChar') {
-		config.formatters[i].termRegExp = /(\/\/|(?=\n\n))/mg;
-	} else if(config.formatters[i].name == 'list') {
-		// require a space after the list character (required for '*' which otherwise clashes with bold
-		config.formatters[i].match = '^[\\*#;:]+ ';
+creoleFormatter.replaceFormatters = function()
+{
+	// replace formatters where necessary
+	for(var i=0; i<config.formatters.length; i++) {
+		// replace formatters as required
+		var name = config.formatters[i].name;
+		if(name == 'prettyLink') {
+			config.formatters[i] = creoleFormatter.explicitLink;
+		} else if(name == 'italicByChar') {
+			config.formatters[i].termRegExp = /(\/\/|(?=\n\n))/mg;
+		} else if(name == 'list') {
+			// require a space after the list character (required for '*' which otherwise clashes with bold
+			config.formatters[i].match = '^[\\*#;:]+ ';
+		}
 	}
-}
+};
+creoleFormatter.replaceFormatters();
 
 // add new formatters
 config.formatters.push(creoleFormatter.heading);
