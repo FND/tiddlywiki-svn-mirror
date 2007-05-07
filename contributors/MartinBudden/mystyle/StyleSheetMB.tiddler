@@ -24,8 +24,8 @@ h4, h5 {border-bottom:0px;margin-top:1em;margin-bottom:0em;}
 
 hr {height:0px;border:0;border-top:1px solid silver;}
 
-.headerShadow {padding:.5em 0em .5em 1em;}
-.headerForeground {padding:.5em 0em .5em 1em;}
+.headerShadow {padding:1.5em 0em .5em 1em;}
+.headerForeground {padding:1.5em 0em .5em 1em;}
 
 .header {background:darkblue;}
 /*.headerShadow {color:white;}
