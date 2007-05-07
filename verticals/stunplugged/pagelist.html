@@ -1,3 +1,3 @@
-[%- FOREACH tiddler = pages %]
-<div tiddler="[% tiddler.title %]" modifier="[% tiddler.modifier %]" modified="[% tiddler.modified %]" created="[% tiddler.created %]" tags="[% tiddler.tags %]" server.type="socialtext" wikiformat="Socialtext" server.host="[% tiddler.server %]" server.workspace="[% tiddler.workspace %]" server.page.id="[% tiddler.page %]" server.page.name="[% tiddler.pageName %]" server.page.version="[% tiddler.version %]">[% tiddler.wikitext %]</div>
+[%- FOREACH tiddler = pages%]
+<div title="[%tiddler.title%]" modifier="[%tiddler.modifier%]" modified="[%tiddler.modified%]" created="[%tiddler.created%]" tags="[%tiddler.tags%]" wikiformat="socialtext" server.host="[%tiddler.server%]" server.workspace="[%tiddler.workspace%]" server.page.id="[%tiddler.page%]" server.page.name="[%tiddler.title%]" server.page.revision="[%tiddler.revision%]"><pre>[%tiddler.wikitext%]</pre></div>
 [%- END -%]
