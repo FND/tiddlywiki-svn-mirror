@@ -2,11 +2,11 @@
 |''Name:''|JSPWikiAdaptorPlugin|
 |''Description:''|Adaptor for moving and converting data to and from JSP Wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#JSPWikiAdaptorPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/JSPWikiAdaptorPlugin.js|
-|''Version:''|0.5.1|
-|''Date:''|Feb 25, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
+|''Source:''|http://www.martinswiki.com/#JSPWikiAdaptorPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/JSPWikiAdaptorPlugin.js |
+|''Version:''|0.5.2|
+|''Date:''|May 7, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
 
@@ -32,7 +32,8 @@ if(!config.options.chkJSPWikiPasswordRequired)
 	{config.options.chkJSPWikiPasswordRequired = true;}
 //}}}
 
-// Ensure that the plugin is only installed once.
+//{{{
+//# Ensure that the plugin is only installed once.
 if(!version.extensions.JSPWikiAdaptorPlugin) {
 version.extensions.JSPWikiAdaptorPlugin = {installed:true};
 
