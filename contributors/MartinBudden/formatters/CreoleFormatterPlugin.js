@@ -18,7 +18,7 @@ tagged: instead the Creole format adds formatting that augments TiddlyWiki's for
 
 The Creole formatter adds the following:
 # {{{**}}} for bold
-# {{{= Heading 1=}}} with 1 to 6 equals signs for headings
+# {{{=Heading 1=}}} with 1 to 6 equals signs for headings
 # {{{[[link|title]]}}} format for links (rather than TW's {{{[[title|link]]}}}).
 
 Since Creole augments rather than replaces TW's formatting there is a problem of how to resolve a prettyLink:
