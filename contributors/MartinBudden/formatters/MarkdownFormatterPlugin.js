@@ -67,7 +67,8 @@ config.formatterHelpers.setAttributesFromParams = function(e,p,w)
 	}
 };
 
-config.markdownFormatters = [
+config.markdown = {};
+config.markdown.formatters = [
 
 // Setext-style headers:
 {
@@ -603,7 +604,7 @@ markdownDebug(w.output,"lm4:"+lookaheadMatch[4]);*/
 }
 ];
 
-config.parsers.markdownFormatter = new Formatter(config.markdownFormatters);
+config.parsers.markdownFormatter = new Formatter(config.markdown.formatters);
 config.parsers.markdownFormatter.format = 'markdown';
 config.parsers.markdownFormatter.formatTag = 'MarkdownFormat';
 } // end of 'install only once'
