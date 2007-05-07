@@ -2,11 +2,11 @@
 |''Name:''|TextileFormatterPlugin|
 |''Description:''|Allows Tiddlers to use [[Textile|http://www.textism.com/tools/textile/]] text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#TextileFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/TexttileFormatterPlugin.js|
-|''Version:''|0.1.2|
-|''Date:''|Oct 26, 2006|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
+|''Source:''|http://www.martinswiki.com/#TextileFormatterPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/TexttileFormatterPlugin.js |
+|''Version:''|0.1.3|
+|''Date:''|May 7, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
@@ -77,7 +77,8 @@ textileFormatter.setAttributesFromParams = function(e,p)
 	}
 };
 
-config.textileFormatters = [
+config.textile = {};
+config.textile.formatters = [
 {
 	name: "textileHeading",
 	match: "^h[1-6](?:(?:\\(.*?\\))|(?:\\{.*?\\})|(?:\\[.*?\\]))?\\. ",
@@ -430,7 +431,7 @@ config.textileFormatters = [
 }*/
 ];
 
-config.parsers.textileFormatter = new Formatter(config.textileFormatters);
+config.parsers.textileFormatter = new Formatter(config.textile.formatters);
 config.parsers.textileFormatter.format = 'textile';
 config.parsers.textileFormatter.formatTag = 'TextileFormat';
 } // end of "install only once"
