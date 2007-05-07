@@ -2,11 +2,11 @@
 |''Name:''|MediaWikiFormatterPlugin|
 |''Description:''|Allows Tiddlers to use [[MediaWiki|http://meta.wikimedia.org/wiki/Help:Wikitext]] ([[WikiPedia|http://meta.wikipedia.org/]]) text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js|
-|''Version:''|0.4.1|
-|''Date:''|Mar 20, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
+|''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
+|''Version:''|0.4.2|
+|''Date:''|May 7, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
@@ -70,7 +70,7 @@ mwDebug = function(out,str)
 MediaWikiFormatter.Tiddler_changed = Tiddler.prototype.changed;
 Tiddler.prototype.changed = function()
 {
-	if((this.fields.wikiformat==config.parsers.mediaWikiFormatter.format) || this.isTagged(config.parsers.mediaWikiFormatter.formatTag)) {
+	if((this.fields.wikiformat==config.parsers.mediawikiFormatter.format) || this.isTagged(config.parsers.mediawikiFormatter.formatTag)) {
 		//# update the links array, by checking for MediaWiki format links
 		this.links = [];
 //#lookaheadRegExp: /\[\[(?:([a-z]{2,3}:)?)(#?)([^\|\]]*?)(?:(\]\](\w*))|(\|(.*?)\]\]))/mg,
@@ -124,12 +124,12 @@ wikify = function(source,output,highlightRegExp,tiddler)
 		w.linkCount = 0;
 		w.tableDepth = 0;
 		w.output = tiddler==null ? output : createTiddlyElement2(output,'p');
-		var time1,time0 = new Date();
+		var t1,t0 = new Date();
 		w.subWikifyUnterm(w.output);
 		if(tiddler && config.options.chkDisplayInstrumentation) {
-			time1 = new Date();
+			t1 = new Date();
 			var t = tiddler ? tiddler.title : source.substr(0,10);
-			displayMessage('Wikify "'+t+'" in ' + (time1-time0) + ' ms');
+			displayMessage('Wikify "'+t+'" in ' + (t1-t0) + ' ms');
 		}
 	}
 //#at point of usage can use:
@@ -248,12 +248,12 @@ MediaWikiFormatter.evaluateTemplateParserFunctions = function(text)
 	var fi = 0;
 	match = fnRegExp.exec(text);
 	while(match) {
-displayMessage("m:"+match);
-displayMessage("m0:"+match[0]);
-displayMessage("m1:"+match[1]);
-displayMessage("m2:"+match[2]);
-displayMessage("m3:"+match[3]);
-displayMessage("ss:"+text.substring(fi,match.index));
+//#displayMessage("m:"+match);
+//#displayMessage("m0:"+match[0]);
+//#displayMessage("m1:"+match[1]);
+//#displayMessage("m2:"+match[2]);
+//#displayMessage("m3:"+match[3]);
+//#displayMessage("ss:"+text.substring(fi,match.index));
 		t += text.substring(fi,match.index);
 		var m = match[1] ? match[1].trim() : null;
 		if(m)
@@ -265,7 +265,7 @@ displayMessage("ss:"+text.substring(fi,match.index));
 	}
 	t += text.substring(fi);
 	text = t == '' ? text : t;
-displayMessage("text:"+text);
+//#displayMessage("text:"+text);
 	return text;
 };
 
@@ -480,8 +480,8 @@ config.mediawiki = {};
 config.mediawiki.formatters = [
 {
 	name: 'mediaWikiHeading',
-	match: '^={2,6}(?!=)\\n?',
-	termRegExp: /(={2,6}\n?)/mg,
+	match: '^={1,6}(?!=)\\n?',
+	termRegExp: /(={1,6}\n?)/mg,
 	handler: function(w)
 	{
 		//#var output = w.output.nodeType==1 && w.output.nodeName=='P' ? w.output.parentNode : w.output;
@@ -1471,9 +1471,8 @@ config.mediawiki.formatters = [
 }
 ];
 
-config.parsers.mediaWikiFormatter = new Formatter(config.mediawiki.formatters);
-config.parsers.mediaWikiFormatter.format = 'mediawiki';
-config.parsers.mediaWikiFormatter.formatTag = 'MediaWikiFormat';
+config.parsers.mediawikiFormatter = new Formatter(config.mediawiki.formatters);
+config.parsers.mediawikiFormatter.format = 'mediawiki';
+config.parsers.mediawikiFormatter.formatTag = 'MediaWikiFormat';
 } //# end of 'install only once'
 //}}}
-	
