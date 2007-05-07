@@ -2,11 +2,11 @@
 |''Name:''|PmWikiFormatterPlugin|
 |''Description:''|Allows Tiddlers to use [[PmWiki|http://pmwiki.org/wiki/PmWiki/TextFormattingRules]] text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#PmWikiFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/PmWikiFormatterPlugin.js|
-|''Version:''|0.2.6|
-|''Date:''|Oct 21, 2006|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
+|''Source:''|http://www.martinswiki.com/#PmWikiFormatterPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/PmWikiFormatterPlugin.js |
+|''Version:''|0.2.7|
+|''Date:''|May 7, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
@@ -115,7 +115,8 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 	}
 };
 
-config.pmWikiFormatters = [
+//config.pmwiki = {};
+config.formatters.pmwiki = [
 {
 //# <div class='vspace'></div>
 //# <table class='markup vert' align='center'>
@@ -605,8 +606,8 @@ config.pmWikiFormatters = [
 
 ];
 
-config.parsers.pmWikiFormatter = new Formatter(config.pmWikiFormatters);
-config.parsers.pmWikiFormatter.format = 'pmwiki';
-config.parsers.pmWikiFormatter.formatTag = 'PmWikiFormat';
+config.parsers.pmwikiFormatter = new Formatter(config.formatters.pmwiki);
+config.parsers.pmwikiFormatter.format = 'pmwiki';
+config.parsers.pmwikiFormatter.formatTag = 'PmWikiFormat';
 } // end of 'install only once'
 //}}}
