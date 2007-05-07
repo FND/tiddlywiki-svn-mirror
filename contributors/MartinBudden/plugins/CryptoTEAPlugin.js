@@ -2,11 +2,11 @@
 |''Name:''|CryptoTEAPlugin|
 |''Description:''|TEA (Tiny Encryption Algorithm) and supporting Cryptographic functions|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/#CryptoTEAPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/CryptoTEAPlugin.js|
-|''Version:''|0.1.6|
-|''Date:''|Feb 4, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
+|''Source:''|http://martinswiki.com/#CryptoTEAPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/CryptoTEAPlugin.js |
+|''Version:''|0.1.7|
+|''Date:''|May 7, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.3|
 
@@ -19,15 +19,16 @@ if(!version.extensions.CryptoTEAPlugin) {
 	version.extensions.CryptoTEAPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1) || (version.major == 2 && version.minor == 1 && version.revision <3 ))
-	alertAndThrow("CryptoTEAPlugin requires TiddlyWiki 2.1.3 or later.");
+	alertAndThrow('CryptoTEAPlugin requires TiddlyWiki 2.1.3 or later.');
 
 Crypto.b64open =  "''Base64''\n/*{{{*/\n";
 Crypto.b64close = "\n/*}}}*/\n''Base64''";
+Crypto.b64code =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 Crypto.salt = String.fromCharCode(138,200,184,222,198,210,113,77);
-Crypto.iterationCount = 2;
+Crypto.iterationCount = 4;
 
 Crypto.passphraseToKey = function(passphrase)
-// Use an interated SHA-1 hash of the salted passphrase as a reasonably good key
+// Use an iterated SHA-1 hash of the salted passphrase as a reasonably good key
 {
 	postSalt = String.fromCharCode(23,160,248,216,146,5,102,239);
 	var k = Crypto.sha1Str(Crypto.salt+passphrase+postSalt);
@@ -43,7 +44,7 @@ Crypto.base64armor = function(s)
 
 Crypto.base64encode = function(s)
 {
-	b64code =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+	b64code = Crypto.b64code;
 	var line = '';
 	var b64 = '';
 	var maxLen4 = 60;
@@ -78,7 +79,7 @@ Crypto.base64encode = function(s)
 
 Crypto.base64decode = function(s)
 {
-	b64code= 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+	b64code = Crypto.b64code;
 	var i;
 	//# Remove the b64 open and close strings.
 	if((i=s.indexOf(Crypto.b64open)) >= 0)
@@ -100,7 +101,7 @@ Crypto.base64decode = function(s)
 		for(j=0;j<4;) {
 			if(i>=s.length) {
 				if(j>0) {
-					displayMessage("truncated");
+					displayMessage('truncated');
 					return b;
 				}
 				break;
