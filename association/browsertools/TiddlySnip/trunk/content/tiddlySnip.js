@@ -1,4 +1,4 @@
-
+//var storeType = '';
 
 function getStr(name)
 {
@@ -142,14 +142,22 @@ function findTwStore(tw)
         return storePos;
     else
         var storeStart = storePos + storeMarker.length;
+    //storeType = (tw.indexOf('<!--POST-STOREAREA-->') == -1)?  "2.1" : "2.2";
+    //alert(storeType);
     return storeStart;
+}
+
+function getStoreType(tw)
+{
+   return (tw.indexOf('<!--POST-STOREAREA-->') == -1)?  "2.1" : "2.2";
 }
 
 function findTiddler(tw,title)
 {
     var tiddlerEndIndex = null;
-    var tiddlerStartMarker = '<div tiddler="'+mozConvertUnicodeToUTF8(title)+'"';
-    var tiddlerStartIndex = tw.indexOf(tiddlerStartMarker);
+    var t = (getStoreType(tw)=="2.1")? "tiddler":"title";
+    var tiddlerStartMarker = '<div '+t+'="'+mozConvertUnicodeToUTF8(title)+'"';
+    var tiddlerStartIndex = tw.lastIndexOf(tiddlerStartMarker);
     if(tiddlerStartIndex!=-1)
         {
         var tiddlerEndIndex = tw.indexOf("</div>",tiddlerStartIndex);
@@ -163,12 +171,12 @@ function modifyTW(writeMode,oldTW,storeStart,tiddlerMarkers,category,mode,title,
    var newTW;
    if (writeMode == null)
        {
-       var tiddler = createTiddlyEncodedDiv(category,mode,title,tags,text);
+       var tiddler = createTiddlyEncodedDiv(category,mode,title,tags,text,oldTW);
        newTW = oldTW.substr(0,storeStart) + "\n" + tiddler+ oldTW.substr(storeStart);
        }
    else if (writeMode == "overwrite")
        {
-       var tiddler = createTiddlyEncodedDiv(category,mode,title,tags,text);
+       var tiddler = createTiddlyEncodedDiv(category,mode,title,tags,text,oldTW);
        newTW = oldTW.substr(0,tiddlerMarkers[0]) + tiddler + oldTW.substr(tiddlerMarkers[1]+6);
        }
    else if (writeMode == "append")
@@ -198,10 +206,11 @@ function saveTW(fileLoc,oldTW,newTW,title)
         notifier("TiddlySnip","Snippet saved: " + title,true);
         showTW(title);
         }
+    //storeType = '';
 }
 
 //This function creates a tiddler div for our new snippet
-function createTiddlyEncodedDiv(category,mode,title,tags,text)
+function createTiddlyEncodedDiv(category,mode,title,tags,text,oldTW)
 {
     if(mode=="Snip")
        {
@@ -215,7 +224,9 @@ function createTiddlyEncodedDiv(category,mode,title,tags,text)
        }
     var modifier = pref.getCharPref("tiddlysnip.wikiuser");
     var created = new Date().convertToYYYYMMDDHHMM();
-    var tiddler = '<div tiddler="%0" modifier="%1" modified="%2" created="%3" tags="%4" tsnip.url="%6" tsnip.title="%7" tsnip.category="%8">%5</div>'.format([
+    //alert(storeType);
+    var tiddlerFormat = (getStoreType(oldTW) == "2.1")? '<div tiddler="%0" modifier="%1" modified="%2" created="%3" tags="%4" tsnip.url="%6" tsnip.title="%7" tsnip.category="%8">%5</div>':'<div title="%0" modifier="%1" modified="%2" created="%3" tags="%4" tsnip.url="%6" tsnip.title="%7" tsnip.category="%8">\n<pre>%5</pre>\n</div>';
+    var tiddler = tiddlerFormat.format([
                     title.htmlEncode(),
                     modifier.htmlEncode(),
                     created,

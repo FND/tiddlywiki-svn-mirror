@@ -2,6 +2,7 @@
 var pref = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch);
 
 var tiddlySnipUploading = false;
+var storeType = '';
 
 // Open prefs window.
 function tiddlySnipPrefs()
