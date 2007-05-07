@@ -2,11 +2,11 @@
 |''Name:''|PBWikiFormatterPlugin|
 |''Description:''|Allows Tiddlers to use [[PBWiki|http://yummy.pbwiki.com/WikiStyle]] text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#PBWikiFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/PBWikiFormatterPlugin.js|
-|''Version:''|0.1.9|
-|''Date:''|Oct 28, 2006|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
+|''Source:''|http://www.martinswiki.com/#PBWikiFormatterPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/PBWikiFormatterPlugin.js |
+|''Version:''|0.2.1|
+|''Date:''|May 7, 2006|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
@@ -35,14 +35,14 @@ if(!version.extensions.PBWikiFormatterPlugin) {
 version.extensions.PBWikiFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	{alertAndThrow("PBWikiFormatterPlugin requires TiddlyWiki 2.1 or later.");}
+	{alertAndThrow('PBWikiFormatterPlugin requires TiddlyWiki 2.1 or later.');}
 
-PBWikiFormatter = {}; // "namespace" for local functions
+PBWikiFormatter = {}; // 'namespace' for local functions
 
 pbDebug = function(out,str)
 {
-	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
-	createTiddlyElement(out,"br");
+	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
+	createTiddlyElement(out,'br');
 };
 
 PBWikiFormatter.setAttributesFromParams = function(e,p)
@@ -51,8 +51,8 @@ PBWikiFormatter.setAttributesFromParams = function(e,p)
 	var match = re.exec(p);
 	while(match) {
 		var s = match[1].unDash();
-		if(s=="bgcolor") {
-			s = "backgroundColor";
+		if(s=='bgcolor') {
+			s = 'backgroundColor';
 		}
 		try {
 			if(match[2]) {
@@ -68,33 +68,34 @@ PBWikiFormatter.setAttributesFromParams = function(e,p)
 	}
 };
 
-config.pbWikiFormatters = [
+config.pbwiki = {};
+config.pbwiki.formatters = [
 {
-	name: "pBWikiHeading",
-	match: "^!{1,6}",
+	name: 'PBWikiHeading',
+	match: '^!{1,6}',
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
-		w.subWikifyTerm(createTiddlyElement(w.output,"h" + w.matchLength),this.termRegExp);
+		w.subWikifyTerm(createTiddlyElement(w.output,'h' + w.matchLength),this.termRegExp);
 	}
 },
 {
-	name: "pBWikiTable",
-	match: "^\\|(?:[^\\n]*)\\|$",
+	name: 'PBWikiTable',
+	match: '^\\|(?:[^\\n]*)\\|$',
 	lookaheadRegExp: /^\|([^\n]*)\|$/mg,
 	rowTermRegExp: /(\|$\n?)/mg,
 	cellRegExp: /(?:\|([^\n\|]*)\|)|(\|$\n?)/mg,
 	cellTermRegExp: /((?:\x20*)\|)/mg,
 	handler: function(w)
 	{
-		var table = createTiddlyElement(w.output,"table");
-		var rowContainer = createTiddlyElement(table,"tbody");
+		var table = createTiddlyElement(w.output,'table');
+		var rowContainer = createTiddlyElement(table,'tbody');
 		var prevColumns = [];
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
-			this.rowHandler(w,createTiddlyElement(rowContainer,"tr"),prevColumns);
+			this.rowHandler(w,createTiddlyElement(rowContainer,'tr'),prevColumns);
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		}
@@ -114,19 +115,19 @@ config.pbWikiFormatters = [
 				w.nextMatch++;
 				var spaceLeft = false;
 				var chr = w.source.substr(w.nextMatch,1);
-				while(chr == " ") {
+				while(chr == ' ') {
 					spaceLeft = true;
 					w.nextMatch++;
 					chr = w.source.substr(w.nextMatch,1);
 				}
-				var cell = createTiddlyElement(e,"td");
+				var cell = createTiddlyElement(e,'td');
 				prevColumns[col] = {rowSpanCount:1, element:cell};
 				w.subWikifyTerm(cell,this.cellTermRegExp);
-				if(w.matchText.substr(w.matchText.length-2,1) == " ") {
+				if(w.matchText.substr(w.matchText.length-2,1) == ' ') {
 					// spaceRight
-					cell.align = spaceLeft ? "center" : "left";
+					cell.align = spaceLeft ? 'center' : 'left';
 				} else if(spaceLeft) {
-					cell.align = "right";
+					cell.align = 'right';
 				}
 				w.nextMatch--;
 			}
@@ -137,8 +138,8 @@ config.pbWikiFormatters = [
 	}
 },
 {
-	name: "pBWikiList",
-	match: "^[\\*#]+ ",
+	name: 'PBWikiList',
+	match: '^[\\*#]+ ',
 	lookaheadRegExp: /^([\*#])+ /mg,
 	termRegExp: /(\n)/mg,
 	handler: function(w)
@@ -146,12 +147,12 @@ config.pbWikiFormatters = [
 		var stack = [w.output];
 		var currLevel = 0, currType = null;
 		var listLevel, listType;
-		var itemType = "li";
+		var itemType = 'li';
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
-			listType = lookaheadMatch[1] == "*" ? "ul" : "ol";
+			listType = lookaheadMatch[1] == '*' ? 'ul' : 'ol';
 			listLevel = lookaheadMatch[0].length;
 			w.nextMatch += listLevel;
 			if(listLevel > currLevel) {
@@ -176,13 +177,13 @@ config.pbWikiFormatters = [
 	}
 },
 {
-	name: "pBWikiRule",
-	match: "^---+$\\n?",
-	handler: function(w) {createTiddlyElement(w.output,"hr");}
+	name: 'PBWikiRule',
+	match: '^---+$\\n?',
+	handler: function(w) {createTiddlyElement(w.output,'hr');}
 },
 {
-	name: "macro",
-	match: "<<",
+	name: 'macro',
+	match: '<<',
 	lookaheadRegExp: /<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>/mg,
 	handler: function(w)
 	{
@@ -195,8 +196,8 @@ config.pbWikiFormatters = [
 	}
 },
 {
-	name: "pBWikiExplicitLink",
-	match: "\\[",
+	name: 'PBWikiExplicitLink',
+	match: '\\[',
 	lookaheadRegExp: /\[(.*?)(?:\|(.*?))?\]/mg,
 	handler: function(w)
 	{
@@ -206,7 +207,7 @@ config.pbWikiFormatters = [
 			var link = lookaheadMatch[1];
 			var text = lookaheadMatch[2] ? lookaheadMatch[2] : link;
 			if(/.*\.(?:gif|jpg|png)/g.exec(link)) {
-				var img = createTiddlyElement(w.output,"img");
+				var img = createTiddlyElement(w.output,'img');
 				if(lookaheadMatch[2]) {
 					img.title = text;
 				}
@@ -220,17 +221,17 @@ config.pbWikiFormatters = [
 	}
 },
 {
-	name: "pbWikiNotWikiLink",
-	match: "~" + config.textPrimitives.wikiLink,
+	name: 'PBWikiNotWikiLink',
+	match: '~' + config.textPrimitives.wikiLink,
 	handler: function(w) {w.outputText(w.output,w.matchStart+1,w.nextMatch);}
 },
 {
-	name: "pbWikiWikiLink",
+	name: 'PBWikiWikiLink',
 	match: config.textPrimitives.wikiLink,
 	handler: function(w)
 	{
 		if(w.matchStart > 0) {
-			var preRegExp = new RegExp(config.textPrimitives.anyLetter,"mg");
+			var preRegExp = new RegExp(config.textPrimitives.anyLetter,'mg');
 			preRegExp.lastIndex = w.matchStart-1;
 			var preMatch = preRegExp.exec(w.source);
 			if(preMatch.index == w.matchStart-1) {
@@ -246,79 +247,79 @@ config.pbWikiFormatters = [
 	}
 },
 {
-	name: "pbWikiUrlLink",
+	name: 'PBWikiUrlLink',
 	match: config.textPrimitives.urlPattern,
 	handler: function(w) {w.outputText(createExternalLink(w.output,w.matchText),w.matchStart,w.nextMatch);}
 },
 {
-	name: "pbWikiBoldByChar",
-	match: "\\*\\*",
+	name: 'PBWikiBoldByChar',
+	match: '\\*\\*',
 	termRegExp: /(\*\*)/mg,
-	element: "strong",
+	element: 'strong',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 {
-	name: "pbWikiItalicByChar",
+	name: 'PBWikiItalicByChar',
 	match: "''",
 	termRegExp: /('')/mg,
-	element: "em",
+	element: 'em',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 {
-	name: "pbWikiUnderlineByChar",
-	match: "__",
+	name: 'PBWikiUnderlineByChar',
+	match: '__',
 	termRegExp: /(__)/mg,
-	element: "u",
+	element: 'u',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 /*{
-	name: "pbWikiStrikeByChar",
-	match: " -",
+	name: 'PBWikiStrikeByChar',
+	match: ' -',
 	termRegExp: /(- )/mg,
-	element: "strike",
+	element: 'strike',
 	handler: config.formatterHelpers.createElementAndWikify
 },*/
 {
-	name: "pbWikiParagraph",
-	match: "\\n{2,}",
-	handler: function(w) {createTiddlyElement(w.output,"p");}
+	name: 'PBWikiParagraph',
+	match: '\\n{2,}',
+	handler: function(w) {createTiddlyElement(w.output,'p');}
 },
 {
-	name: "pbWikiExplicitLineBreak",
-	match: "<br ?/?>",
-	handler: function(w) {createTiddlyElement(w.output,"br");}
+	name: 'PBWikiExplicitLineBreak',
+	match: '<br ?/?>',
+	handler: function(w) {createTiddlyElement(w.output,'br');}
 },
 {
-	name: "pbWikiLineBreak",
-	match: "\\n",
-	handler: function(w) {createTiddlyElement(w.output,"br");}
+	name: 'PBWikiLineBreak',
+	match: '\\n',
+	handler: function(w) {createTiddlyElement(w.output,'br');}
 },
 {
-	name: "pbWikiHtmlEntitiesEncoding",
-	match: "&#?[a-zA-Z0-9]{2,8};",
-	handler: function(w) {createTiddlyElement(w.output,"span").innerHTML = w.matchText;}
+	name: 'PBWikiHtmlEntitiesEncoding',
+	match: '&#?[a-zA-Z0-9]{2,8};',
+	handler: function(w) {createTiddlyElement(w.output,'span').innerHTML = w.matchText;}
 },
 {
-	name: "pbWikiNotSupported",
-	match: "<(?:toc|top|random|views).*?>",
+	name: 'PBWikiNotSupported',
+	match: '<(?:toc|top|random|views).*?>',
 	handler: function(w) {createTiddlyText(w.output,w.matchText);}
 },
 {
-	name: "pBWikiRaw",
-	match: "<raw>",
+	name: 'PBWikiRaw',
+	match: '<raw>',
 	lookaheadRegExp: /<raw>((?:.|\n)*?)<\/raw>/mg,
-	element: "span",
+	element: 'span',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 {
-	name: "pBWikiVerbatim",
-	match: "<verbatim>",
+	name: 'PBWikiVerbatim',
+	match: '<verbatim>',
 	lookaheadRegExp: /<verbatim>((?:.|\n)*?)<\/verbatim>/mg,
-	element: "span",
+	element: 'span',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 {
-	name: "pbWikiHtmlTag",
+	name: 'PBWikiHtmlTag',
 	match: "<[a-zA-Z]{2,}(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?>",
 	lookaheadRegExp: /<([a-zA-Z]{2,})((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
@@ -333,15 +334,15 @@ config.pbWikiFormatters = [
 			if(lookaheadMatch[3]) {
 				w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
 			} else {
-				w.subWikify(e,"</"+lookaheadMatch[1]+">");
+				w.subWikify(e,'</'+lookaheadMatch[1]+'>');
 			}
 		}
 	}
 }
 ];
 
-config.parsers.pBWikiFormatter = new Formatter(config.pbWikiFormatters);
-config.parsers.pBWikiFormatter.format = 'pbwiki';
-config.parsers.pBWikiFormatter.formatTag = 'PBWikiFormat';
-} // end of "install only once"
+config.parsers.pbwikiFormatter = new Formatter(config.pbwiki.formatters);
+config.parsers.pbwikiFormatter.format = 'pbwiki';
+config.parsers.pbwikiFormatter.formatTag = 'PBWikiFormat';
+} // end of 'install only once'
 //}}}
