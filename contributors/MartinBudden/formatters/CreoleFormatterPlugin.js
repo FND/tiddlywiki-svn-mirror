@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#CreoleFormatterPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/CreoleFormatterPlugin.js|
-|''Version:''|0.1.6|
-|''Date:''|Dec 21, 2006|
+|''Version:''|0.1.7|
+|''Date:''|Mar 29, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
@@ -18,7 +18,7 @@ tagged: instead the Creole format adds formatting that augments TiddlyWiki's for
 
 The Creole formatter adds the following:
 # {{{**}}} for bold
-# {{{== Heading 2==}}} with 2 to 6 equals signs for headings
+# {{{= Heading 1==}}} with 1 to 6 equals signs for headings
 # {{{[[link|title]]}}} format for links (rather than TW's {{{[[title|link]]}}}).
 
 Since Creole augments rather than replaces TW's formatting there is a problem of how to resolve a prettyLink:
