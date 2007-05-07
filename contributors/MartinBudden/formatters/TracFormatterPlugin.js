@@ -2,11 +2,11 @@
 |''Name:''|TracFormatterPlugin|
 |''Description:''|Allows Tiddlers to use [[Trac|http://trac.edgewall.org/wiki/WikiFormatting]] text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#TracFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/TracFormatterPlugin.js|
-|''Version:''|0.1.6|
-|''Date:''|Aug 12, 2006|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
+|''Source:''|http://www.martinswiki.com/#TracFormatterPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/TracFormatterPlugin.js |
+|''Version:''|0.1.7|
+|''Date:''|May 7, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
@@ -33,28 +33,29 @@ if(!version.extensions.TracFormatterPlugin) {
 version.extensions.TracFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	{alertAndThrow("TracFormatterPlugin requires TiddlyWiki 2.1 or later.");}
+	{alertAndThrow('TracFormatterPlugin requires TiddlyWiki 2.1 or later.');}
 
 tracDebug = function(out,str)
 {
-	createTiddlyText(out,str.replace(/\n/mg,"\\n").replace(/\r/mg,"RR"));
-	createTiddlyElement(out,"br");
+	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
+	createTiddlyElement(out,'br');
 };
 
-config.tracFormatters = [
+config.trac = {};
+config.trac.formatters = [
 {
-	name: "tracHeading",
-	match: "^={1,6} ",
+	name: 'tracHeading',
+	match: '^={1,6} ',
 	termRegExp: /( ={1,6}.*?$\n?)/mg,
 	handler: function(w)
 	{
-		w.subWikifyTerm(createTiddlyElement(w.output,"h" + (w.matchLength-1)),this.termRegExp);
+		w.subWikifyTerm(createTiddlyElement(w.output,'h' + (w.matchLength-1)),this.termRegExp);
 	}
 },
 
 {
-	name: "tracTable",
-	match: "^\\|\\|(?:[^\\n]*)\\|\\|$",
+	name: 'tracTable',
+	match: '^\\|\\|(?:[^\\n]*)\\|\\|$',
 	lookaheadRegExp: /^\|\|([^\n]*)\|\|$/mg,
 	rowTermRegExp: /(\|\|$\n?)/mg,
 	cellRegExp: /(?:\|\|([^\n]*)\|\|)|(\|\|$\n?)/mg,
@@ -62,14 +63,14 @@ config.tracFormatters = [
 
 	handler: function(w)
 	{
-		var table = createTiddlyElement(w.output,"table");
-		var rowContainer = createTiddlyElement(table,"tbody");
+		var table = createTiddlyElement(w.output,'table');
+		var rowContainer = createTiddlyElement(table,'tbody');
 		var rowCount = 0;
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
-			this.rowHandler(w,createTiddlyElement(rowContainer,"tr",null,(rowCount&1)?"oddRow":"evenRow"));
+			this.rowHandler(w,createTiddlyElement(rowContainer,'tr',null,(rowCount&1)?'oddRow':'evenRow'));
 			rowCount++;
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
@@ -83,15 +84,15 @@ config.tracFormatters = [
 		this.cellRegExp.lastIndex = w.nextMatch;
 		var cellMatch = this.cellRegExp.exec(w.source);
 		while(cellMatch && cellMatch.index == w.nextMatch) {
-			if(w.source.substr(w.nextMatch,4) == "||||") {
+			if(w.source.substr(w.nextMatch,4) == '||||') {
 				// Colspan
 				colSpanCount++;
 				w.nextMatch += 2;
 			} else if(cellMatch[2]) {
 				// End of row
 				if(colSpanCount > 1) {
-					prevCell.setAttribute("colspan",colSpanCount);
-					prevCell.setAttribute("colSpan",colSpanCount); // Needed for IE
+					prevCell.setAttribute('colspan',colSpanCount);
+					prevCell.setAttribute('colSpan',colSpanCount); // Needed for IE
 				}
 				w.nextMatch = this.cellRegExp.lastIndex;
 				break;
@@ -100,30 +101,30 @@ config.tracFormatters = [
 				w.nextMatch += 2; //skip over ||
 				var chr = w.source.substr(w.nextMatch,1);
 				var cell;
-				if(chr == "!") {
-					cell = createTiddlyElement(e,"th");
+				if(chr == '!') {
+					cell = createTiddlyElement(e,'th');
 					w.nextMatch++;
 					chr = w.source.substr(w.nextMatch,1);
 				} else {
-					cell = createTiddlyElement(e,"td");
+					cell = createTiddlyElement(e,'td');
 				}
 				var spaceLeft = false;
-				while(chr == " ") {
+				while(chr == ' ') {
 					spaceLeft = true;
 					w.nextMatch++;
 					chr = w.source.substr(w.nextMatch,1);
 				}
 				if(colSpanCount > 1) {
-					cell.setAttribute("colspan",colSpanCount);
-					cell.setAttribute("colSpan",colSpanCount); // Needed for IE
+					cell.setAttribute('colspan',colSpanCount);
+					cell.setAttribute('colSpan',colSpanCount); // Needed for IE
 					colSpanCount = 1;
 				}
 				w.subWikifyTerm(cell,this.cellTermRegExp);
-				if(w.matchText.substr(w.matchText.length-3,1) == " ") {
+				if(w.matchText.substr(w.matchText.length-3,1) == ' ') {
 					// SpaceRight
-					cell.align = spaceLeft ? "center" : "left";
+					cell.align = spaceLeft ? 'center' : 'left';
 				} else if(spaceLeft) {
-					cell.align = "right";
+					cell.align = 'right';
 				}
 				prevCell = cell;
 				w.nextMatch -= 2;
@@ -136,30 +137,30 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracDefinitionList",
-	match: "^\\s+\\S+::\\s*\\n",
+	name: 'tracDefinitionList',
+	match: '^\\s+\\S+::\\s*\\n',
 	lookaheadRegExp: /^\s+\S+::\s*\n/mg,
 	l2RegExp: /^\s{2,}\S+/mg,
 	handler: function(w)
 	{
-		var li = createTiddlyElement(w.output,"dl");
+		var li = createTiddlyElement(w.output,'dl');
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
-			w.subWikifyTerm(createTiddlyElement(li,"dt"),/(::\s*\n)/mg);
-			var dd = createTiddlyElement(li,"dd");
+			w.subWikifyTerm(createTiddlyElement(li,'dt'),/(::\s*\n)/mg);
+			var dd = createTiddlyElement(li,'dd');
 			this.l2RegExp.lastIndex = w.nextMatch;
 			var l2Match = this.l2RegExp.exec(w.source);
 			while(l2Match && l2Match.index == w.nextMatch) {
-				while(w.source.substr(w.nextMatch,1) == " ") {
+				while(w.source.substr(w.nextMatch,1) == ' ') {
 					//# skip past any leading spaces which would be rendered as blockquote
 					w.nextMatch++;
 				}
 				w.subWikifyTerm(dd,/(\n)/mg);
 				l2Match = this.l2RegExp.exec(w.source);
 				if(l2Match) {
-					createTiddlyText(dd," ");
+					createTiddlyText(dd,' ');
 				}
 			}
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
@@ -169,8 +170,8 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracList",
-	match: "^(?: )+(?:(?:\\* )|(?:1\\. )|(?:a\\. )|(?:i\\. ))",
+	name: 'tracList',
+	match: '^(?: )+(?:(?:\\* )|(?:1\\. )|(?:a\\. )|(?:i\\. ))',
 	lookaheadRegExp: /^(?: )+(?:(\* )|(1\. )|(a\. )|(i\. ))/mg,
 	termRegExp: /(\n)/mg,
 	handler: function(w)
@@ -182,22 +183,22 @@ config.tracFormatters = [
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
-			listType = "ol";
-			itemType = "li";
+			listType = 'ol';
+			itemType = 'li';
 			listLevel = (lookaheadMatch[0].length-3)/3;
 			var style = null;
 			if(lookaheadMatch[1]){
 				//*
-				listType = "ul";
+				listType = 'ul';
 				listLevel = (lookaheadMatch[0].length-2)/3;
 			} else if(lookaheadMatch[2]) {//1.
-				style = "decimal";
+				style = 'decimal';
 			} else if(lookaheadMatch[3]) {
 			//a.
-				style = "lower-alpha";
+				style = 'lower-alpha';
 			} else if(lookaheadMatch[4]) {
 				//i.
-				style = "lower-roman";
+				style = 'lower-roman';
 			}
 			w.nextMatch += lookaheadMatch[0].length;
 			if(listLevel > currLevel) {
@@ -213,7 +214,7 @@ config.tracFormatters = [
 			currLevel = listLevel;
 			currType = listType;
 			var e = createTiddlyElement(placeStack[placeStack.length-1],itemType);
-			e.style["list-style-type"] = style;
+			e.style['list-style-type'] = style;
 			w.subWikifyTerm(e,this.termRegExp);
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
@@ -222,53 +223,53 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracQuoteByLine",
-	match: "^  ",
+	name: 'tracQuoteByLine',
+	match: '^  ',
 	lookaheadRegExp: /^  /mg,
 	termRegExp: /(\n)/mg,
-	element: "blockquote",
+	element: 'blockquote',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "tracRule",
-	match: "^---+$\\n?",
+	name: 'tracRule',
+	match: '^---+$\\n?',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"hr");
+		createTiddlyElement(w.output,'hr');
 	}
 },
 
 //# {{{
 //# #!html
-//# <h1 style="text-align: right; color: blue">HTML Test</h1>
+//# <h1 style='text-align: right; color: blue'>HTML Test</h1>
 //# }}}
 {
-	name: "tracHtml",
-	match: "^\\{\\{\\{\n#!html",
+	name: 'tracHtml',
+	match: '^\\{\\{\\{\n#!html',
 	lookaheadRegExp: /^\{\{\{\n#!html\n((?:.|\n)*?)\}\}\}/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			createTiddlyElement(w.output,"span").innerHTML = lookaheadMatch[1];
+			createTiddlyElement(w.output,'span').innerHTML = lookaheadMatch[1];
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	}
 },
 
 {
-	name: "tracMonospacedByLine",
-	match: "^\\{\\{\\{\\n",
+	name: 'tracMonospacedByLine',
+	match: '^\\{\\{\\{\\n',
 	lookaheadRegExp: /^\{\{\{\n((?:^[^\n]*\n)+?)(^\}\}\}$\n?)/mg,
-	element: "pre",
+	element: 'pre',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 {
-	name: "macro",
-	match: "<<",
+	name: 'macro',
+	match: '<<',
 	lookaheadRegExp: /<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>/mg,
 	handler: function(w)
 	{
@@ -282,17 +283,17 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracExplicitLineBreak",
-	match: "\\[\\[BR\\]\\]",
+	name: 'tracExplicitLineBreak',
+	match: '\\[\\[BR\\]\\]',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"br");
+		createTiddlyElement(w.output,'br');
 	}
 },
 
 {
-	name: "tracExplicitLink",
-	match: "\\[",
+	name: 'tracExplicitLink',
+	match: '\\[',
 	lookaheadRegExp: /\[([^\s\]]*?)(?:(?:\])|(?:\s(.*?))\])/mg,
 	handler: function(w)
 	{
@@ -309,8 +310,8 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracNotWikiLink",
-	match: "!" + config.textPrimitives.wikiLink,
+	name: 'tracNotWikiLink',
+	match: '!' + config.textPrimitives.wikiLink,
 	handler: function(w)
 	{
 		w.outputText(w.output,w.matchStart+1,w.nextMatch);
@@ -318,12 +319,12 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracWikiLink",
+	name: 'tracWikiLink',
 	match: config.textPrimitives.wikiLink,
 	handler: function(w)
 	{
 		if(w.matchStart > 0) {
-			var preRegExp = new RegExp(config.textPrimitives.anyLetter,"mg");
+			var preRegExp = new RegExp(config.textPrimitives.anyLetter,'mg');
 			preRegExp.lastIndex = w.matchStart-1;
 			var preMatch = preRegExp.exec(w.source);
 			if(preMatch.index == w.matchStart-1) {
@@ -340,7 +341,7 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracUrlLink",
+	name: 'tracUrlLink',
 	match: config.textPrimitives.urlPattern,
 	handler: function(w)
 	{
@@ -349,100 +350,100 @@ config.tracFormatters = [
 },
 
 {
-	name: "tracBold",
+	name: 'tracBold',
 	match: "'''",
 	termRegExp: /(''')/mg,
-	element: "strong",
+	element: 'strong',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "tracItalic",
+	name: 'tracItalic',
 	match: "''",
 	termRegExp: /('')/mg,
-	element: "em",
+	element: 'em',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "tracUnderline",
-	match: "__",
+	name: 'tracUnderline',
+	match: '__',
 	termRegExp: /(__)/mg,
-	element: "u",
+	element: 'u',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "tracStrike",
-	match: "~~",
+	name: 'tracStrike',
+	match: '~~',
 	termRegExp: /(~~)/mg,
-	element: "strike",
+	element: 'strike',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "tracSuperscript",
-	match: "\\^",
+	name: 'tracSuperscript',
+	match: '\\^',
 	termRegExp: /(\^)/mg,
-	element: "sup",
+	element: 'sup',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "tracSubscript",
-	match: ",,",
+	name: 'tracSubscript',
+	match: ',,',
 	termRegExp: /(,,)/mg,
-	element: "sub",
+	element: 'sub',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: "tracMonospacedTick",
-	match: "`",
+	name: 'tracMonospacedTick',
+	match: '`',
 	lookaheadRegExp: /`((?:.|\n)*?)`/mg,
-	element: "code",
+	element: 'code',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 {
-	name: "tracMonospaced",
-	match: "\\{\\{\\{",
+	name: 'tracMonospaced',
+	match: '\\{\\{\\{',
 	lookaheadRegExp: /\{\{\{((?:.|\n)*?)\}\}\}/mg,
-	element: "code",
+	element: 'code',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 
 {
-	name: "tracParagraph",
-	match: "\\n{2,}",
+	name: 'tracParagraph',
+	match: '\\n{2,}',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"p");
+		createTiddlyElement(w.output,'p');
 	}
 },
 
 {
-	name: "tracLineBreak",
-	match: "\\n",
+	name: 'tracLineBreak',
+	match: '\\n',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"br");
+		createTiddlyElement(w.output,'br');
 	}
 },
 
 {
-	name: "tracHtmlEntitiesEncoding",
-	match: "&#?[a-zA-Z0-9]{2,8};",
+	name: 'tracHtmlEntitiesEncoding',
+	match: '&#?[a-zA-Z0-9]{2,8};',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,"span").innerHTML = w.matchText;
+		createTiddlyElement(w.output,'span').innerHTML = w.matchText;
 	}
 }
 
 ];
 
-config.parsers.tracFormatter = new Formatter(config.tracFormatters);
-config.parsers.tracFormatter.format = "trac";
-config.parsers.tracFormatter.formatTag = "TracFormat";
-} // end of "install only once"
+config.parsers.tracFormatter = new Formatter(config.trac.formatters);
+config.parsers.tracFormatter.format = 'trac';
+config.parsers.tracFormatter.formatTag = 'TracFormat';
+} // end of 'install only once'
 //}}}
