@@ -2,12 +2,12 @@
 |''Name:''|SocialtextHtmlFormatterPlugin|
 |''Description:''|Converts Socialtext wiki format to and from HTML|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#SocialtextHtmlFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/SocialtextHtmlFormatterPlugin.js|
+|''Source:''|http://www.martinswiki.com/#SocialtextHtmlFormatterPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/SocialtextHtmlFormatterPlugin.js |
 |''Requires''|SocialtextFormatterPlugin|
-|''Version:''|0.0.1|
-|''Date:''|Mar 24, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
+|''Version:''|0.0.2|
+|''Date:''|May 7, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
@@ -57,9 +57,11 @@ config.socialtext.htmlToWiki = function(html)
 	var t = html.replace(/<strong>/mg,'*').replace(/<\/strong>/mg,'*');
 	t = t.replace(/<em>/mg,'_').replace(/<\/em>/mg,'_');
 	t = t.replace(/<del>/mg,'-').replace(/<\/del>/mg,'-');
+	t = t.replace(/<tt>/mg,'`').replace(/<\/tt>/mg,'`');
 	t = t.replace(/<span>/mg,'').replace(/<\/span>/mg,'');
+	t = t.replace(/<p>/mg,'\n\n').replace(/<\/p>/mg,'');
 	t = t.replace(/<br \/>/mg,'\n');
-	t = t.replace(/<p>/mg,'\n\n');
+	t = t.replace(/&nbsp;/mg,'');
 	return t;
 };
 
