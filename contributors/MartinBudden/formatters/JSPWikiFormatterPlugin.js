@@ -2,11 +2,11 @@
 |''Name:''|JSPWikiFormatterPlugin|
 |''Description:''|Allows Tiddlers to use [[JSPWiki|http://www.jspwiki.org/wiki/TextFormattingRules]] text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#JSPWikiFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/JSPWikiFormatterPlugin.js|
-|''Version:''|0.1.1|
-|''Date:''|Mar 20, 2006|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
+|''Source:''|http://www.martinswiki.com/#JSPWikiFormatterPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/JSPWikiFormatterPlugin.js |
+|''Version:''|0.1.2|
+|''Date:''|May 7, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
 
@@ -32,6 +32,8 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1))
 
 if(config.options.chkJspFormatterDisplayUnsupportedMacros == undefined)
 	{config.options.chkJspFormatterDisplayUnsupportedMacros = false;}
+
+JSPWikiFormatter = {}; // 'namespace' for local functions
 
 config.macros.list.jspWikiTalkPages = {};
 config.macros.list.jspWikiTalkPages.handler = function(params)
@@ -82,23 +84,22 @@ config.commands.jspWikiDiscussion.isEnabled = function(tiddler)
 {
 	if(!tiddler)
 		return false;
-	if(tiddler.isTagged(config.parsers.jspWikiFormatter.formatTag)||(tiddler.fields&&config.parsers.jspWikiFormatter.format&&tiddler.fields["wikiformat"]==config.parsers.jspWikiFormatter.format)) {
+	if(tiddler.isTagged(config.parsers.jspwikiFormatter.formatTag)||(tiddler.fields&&config.parsers.jspwikiFormatter.format&&tiddler.fields["wikiformat"]==config.parsers.jspwikiFormatter.format)) {
 		if(tiddler.title.indexOf("Talk.") != 0)
 			return true;
 	}
 	return false;
 };
 
-jspWikiFormatter = {}; // 'namespace' for local functions
-jspWikiFormatter.hijackListAll = function ()
+JSPWikiFormatter.hijackListAll = function ()
 {
-	jspWikiFormatter.oldListAll = config.macros.list.all.handler;
+	JSPWikiFormatter.oldListAll = config.macros.list.all.handler;
 	config.macros.list.all.handler = function(params) {
 		return store.getJSPWikiPages();
 	};
 };
 
-jspWikiFormatter.hijackListAll();
+JSPWikiFormatter.hijackListAll();
 
 jspDebug = function(out,str)
 {
@@ -106,7 +107,7 @@ jspDebug = function(out,str)
 	createTiddlyElement(out,'br');
 };
 
-jspWikiFormatter.isExternalLink = function(link)
+JSPWikiFormatter.isExternalLink = function(link)
 {
 	if(store.tiddlerExists(link) || store.isShadowTiddler(link)) {
 		//# Definitely not an external link
@@ -125,7 +126,7 @@ jspWikiFormatter.isExternalLink = function(link)
 	return false;
 };
 
-jspWikiFormatter.inlineCssHelper = function(e,fm)
+JSPWikiFormatter.inlineCssHelper = function(e,fm)
 {
 	cssRegExp = /(?:([a-z_\-]+):([^;\|\n]+);)/mg;
 	var nm = 0;
@@ -142,7 +143,7 @@ jspWikiFormatter.inlineCssHelper = function(e,fm)
 };
 
 //#(?:([a-z_\-]+)\(([^\)\|\n]+)(?:\):))|(?:([a-z_\-]+):([^;\|\n]+);)
-jspWikiFormatter.wikiStyle = function(w)
+JSPWikiFormatter.wikiStyle = function(w)
 // see http://www.jspwiki.org/wiki/JSPWikiStyles
 {
 //#jspDebug(w.output,"w:"+w.source.substr(w.matchStart,50));
@@ -158,7 +159,7 @@ jspWikiFormatter.wikiStyle = function(w)
 //#jspDebug(w.output,"c:"+config.textPrimitives.cssLookahead);
 //#jspDebug(w.output,"lm2:"+lookaheadMatch[2]);
 			e = createTiddlyElement(w.output,'span');
-			jspWikiFormatter.inlineCssHelper(e,lm2);
+			JSPWikiFormatter.inlineCssHelper(e,lm2);
 			w.subWikifyTerm(e,this.termRegExp);
 			return;
 		}
@@ -195,7 +196,7 @@ jspWikiFormatter.wikiStyle = function(w)
 	}
 };
 
-jspWikiFormatter.macros = function(w)
+JSPWikiFormatter.macros = function(w)
 // see http://www.jspwiki.org/wiki/JSPWikiPlugins
 {
 	this.lookaheadRegExp.lastIndex = w.matchStart;
@@ -213,7 +214,8 @@ jspWikiFormatter.macros = function(w)
 	}
 };
 
-config.jspWikiFormatters = [
+config.jspwiki = {};
+config.jspwiki.formatters = [
 {
 	name: 'jspHeading',
 	match: '^!{1,3}',
@@ -370,7 +372,7 @@ config.jspWikiFormatters = [
 	name: 'jspMacro',
 	match: '\\[\\{',
 	lookaheadRegExp: /\[\{(.*?)\}\]/mg,
-	handler: jspWikiFormatter.macros
+	handler: JSPWikiFormatter.macros
 },
 
 {
@@ -384,7 +386,7 @@ config.jspWikiFormatters = [
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var text = lookaheadMatch[1];
 			var link = lookaheadMatch[2] ? lookaheadMatch[2] : text;
-			var e = jspWikiFormatter.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic,w.tiddler);
+			var e = JSPWikiFormatter.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic,w.tiddler);
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
@@ -460,7 +462,7 @@ config.jspWikiFormatters = [
 	match: '%%(?:(?:[a-z]+)|(?:\\([a-z:;\\-]+\\)))',
 	lookaheadRegExp: /%%(?:([a-z]+)|(?:\(([a-z:;\-]+)\)))/mg,
 	termRegExp: /(\%\%)/mg,
-	handler: jspWikiFormatter.wikiStyle
+	handler: JSPWikiFormatter.wikiStyle
 },
 
 {
@@ -503,11 +505,10 @@ config.jspWikiFormatters = [
 		createTiddlyElement(w.output,'span').innerHTML = w.matchText;
 	}
 }
-
 ];
 
-config.parsers.jspWikiFormatter = new Formatter(config.jspWikiFormatters);
-config.parsers.jspWikiFormatter.format = 'jspwiki';
-config.parsers.jspWikiFormatter.formatTag = 'JSPWikiFormat';
+config.parsers.jspwikiFormatter = new Formatter(config.jspwiki.formatters);
+config.parsers.jspwikiFormatter.format = 'jspwiki';
+config.parsers.jspwikiFormatter.formatTag = 'JSPWikiFormat';
 } // end of 'install only once'
 //}}}
