@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#PmWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/PmWikiFormatterPlugin.js |
-|''Version:''|0.2.7|
+|''Version:''|0.2.8|
 |''Date:''|May 7, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -115,8 +115,8 @@ config.formatterHelpers.setAttributesFromParams = function(e,p)
 	}
 };
 
-//config.pmwiki = {};
-config.formatters.pmwiki = [
+config.pmwiki = {};
+config.pmwiki.formatters = [
 {
 //# <div class='vspace'></div>
 //# <table class='markup vert' align='center'>
@@ -606,7 +606,7 @@ config.formatters.pmwiki = [
 
 ];
 
-config.parsers.pmwikiFormatter = new Formatter(config.formatters.pmwiki);
+config.parsers.pmwikiFormatter = new Formatter(config.pmwiki.formatters);
 config.parsers.pmwikiFormatter.format = 'pmwiki';
 config.parsers.pmwikiFormatter.formatTag = 'PmWikiFormat';
 } // end of 'install only once'
