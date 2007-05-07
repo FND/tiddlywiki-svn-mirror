@@ -5,7 +5,7 @@
 |''Source:''|http://www.martinswiki.com/#PBWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/PBWikiFormatterPlugin.js |
 |''Version:''|0.2.1|
-|''Date:''|May 7, 2006|
+|''Date:''|May 7, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.1.0|
