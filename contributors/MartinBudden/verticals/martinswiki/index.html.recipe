@@ -31,8 +31,9 @@ tiddler: ../../plugins/SHA-1UnwoundPlugin.js
 tiddler: ../../plugins/settings.js
 tiddler: ../../test/testCreoleFormat.tiddler
 tiddler: ../../test/testMediaWikiFormat.tiddler
-tiddler: ../../test/testMediaWikiTable4.tiddler
 tiddler: ../../test/testSocialTextFormat.tiddler
+tiddler: ../../test/testPBWikiFormat.tiddler
+tiddler: ../../test/testPmWikiFormat.tiddler
 tiddler: ../../test/testTracBasic.tiddler
 tiddler: ../../test/testTracFormat.tiddler
 tiddler: ../../test/testTWikiFormat.tiddler
