@@ -25,6 +25,7 @@ tiddler: ../../formatters/TracFormatterPlugin.js
 tiddler: ../../formatters/TWikiFormatterPlugin.js
 tiddler: ../../formatters/SnipSnapFormatterPlugin.js
 tiddler: ../../formatters/TextileFormatterPlugin.js
+tiddler: ../../plugins/AsyncStartupPlugin.js
 tiddler: ../../plugins/DisableWikiLinksPlugin.js
 tiddler: ../../plugins/TodoListPlugin.js
 tiddler: ../../plugins/SHA-1UnwoundPlugin.js
