@@ -34,6 +34,7 @@
 <!ENTITY  snippettags.label               "Snippet tiddler tags:">
 <!ENTITY  miscoptions.label               "Misc options:">
 <!ENTITY  incsource.label                 "Create link to source document in snippet tiddler">
+<!ENTITY  inchtml.label                   "Save selection as html">
 <!ENTITY  advancedmode.label              "Enable Advanced Mode (multiple snippet categories)">
 <!ENTITY  enableclipboard.label           "Enable saving from clipboard">
 <!ENTITY  enablebookmark.label            "Enable 'TiddlySnip this page' option.">

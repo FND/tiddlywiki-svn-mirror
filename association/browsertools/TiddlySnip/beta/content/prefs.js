@@ -19,6 +19,7 @@ function initPrefs()
     prefMap['enablebackups'] = readBoolPref("enablebackups");
     prefMap['togglebackuppath'] = readBoolPref("togglebackuppath");
     prefMap['backuppath'] = readCharPref("backuppath");
+    prefMap['includehtml'] = readBoolPref("includehtml");
     prefMap['includesourceinfo'] = readBoolPref("includesourceinfo");
     prefMap['showtwaftersave'] = readBoolPref("showtwaftersave");
     prefMap['tabchoice'] = readCharPref("tabchoice");

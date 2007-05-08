@@ -60,6 +60,11 @@
 			<groupbox >
 			    <caption label="&miscoptions.label;" />
 			    <vbox flex="0">
+   				<checkbox id="show_includehtml"
+				    label="&inchtml.label;"
+				    type="checkbox"
+				    oncommand="changePref('includehtml',this.checked);"
+				    />
 				<checkbox id="show_includesourceinfo"
 				    label="&incsource.label;"
 				    type="checkbox"

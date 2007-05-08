@@ -6,6 +6,12 @@ function getStr(name)
     return tsnipStr.getString(name);
 }
 
+function getSelectionSource() {
+  var x = content.document.createElement("div");
+  x.appendChild(content.getSelection().getRangeAt(0).cloneContents());
+  return x.innerHTML;
+}
+
 // Return plain text selection as a string.
 function getSelectedText()
 {
@@ -32,16 +38,21 @@ function getSelectedText()
     if(notElement)
         {
         var focusedWindow = document.commandDispatcher.focusedWindow;
-        try
-            {
-            var winWrapper = new XPCNativeWrapper(focusedWindow,'document','getSelection()');
-            var selection = winWrapper.getSelection();
+        if (pref.getBoolPref("tiddlysnip.includehtml"))
+            selectedText = getSelectionSource();
+        else
+        {
+            try
+                {
+                var winWrapper = new XPCNativeWrapper(focusedWindow,'document','getSelection()');
+                var selection = winWrapper.getSelection();
+                }
+            catch(e)
+                {
+                var selection = focusedWindow.getSelection();
+                }
+            selectedText = selection.toString();
             }
-        catch(e)
-            {
-            var selection = focusedWindow.getSelection();
-            }
-        selectedText = selection.toString();
         }
     return selectedText;
 }

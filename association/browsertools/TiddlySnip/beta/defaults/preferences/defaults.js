@@ -15,3 +15,4 @@ pref("tiddlysnip.uploaddir",".");
 pref("tiddlysnip.uploadbackupdir",".");
 pref("tiddlysnip.uploadusername","");
 pref("tiddlysnip.uploadfilename","");
+pref("tiddlysnip.includehtml",false);
