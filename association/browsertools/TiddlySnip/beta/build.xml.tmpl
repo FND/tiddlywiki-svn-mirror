@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<project name="tiddlysnip" default="createxpi">
+    
+    <target name="createjar">
+	<zip destfile="tiddlysnip.jar" >
+	    <zipfileset dir="." includes="content/**" />
+	    <zipfileset dir="." includes="defaults/**" />
+	</zip>
+    </target>
+
+    <target name="createxpi" depends="createjar">
+	<zip destfile="tiddlysnip.xpi">
+	    <zipfileset dir="." includes="tiddlysnip.jar" 
+		prefix="chrome" />
+	    <zipfileset dir="." includes="install.rdf" />
+	    <zipfileset dir="." includes="chrome.manifest" />
+	    <zipfileset dir="." includes="LICENSE" />
+	</zip>
+    </target>
+    
+</project>
