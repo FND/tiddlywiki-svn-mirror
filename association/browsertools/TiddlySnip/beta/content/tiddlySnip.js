@@ -9,7 +9,7 @@ function getStr(name)
 function getSelectionSource() {
   var x = content.document.createElement("div");
   x.appendChild(content.getSelection().getRangeAt(0).cloneContents());
-  return x.innerHTML;
+  return "<html>" + x.innerHTML + "</html>";
 }
 
 // Return plain text selection as a string.
@@ -51,7 +51,7 @@ function getSelectedText()
                 {
                 var selection = focusedWindow.getSelection();
                 }
-            selectedText = selection.toString();
+            selectedText = "<nowiki>" + selection.toString() + "</nowiki>";;
             }
         }
     return selectedText;
