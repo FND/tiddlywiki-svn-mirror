@@ -25,7 +25,7 @@
 <!ENTITY  prefwindow.title                "TiddlySnip Preferences">
 <!ENTITY  preftabgeneral.label            "General">
 <!ENTITY  preftabbackup.label             "Backup options">
-<!ENTITY  preftabupload.label             "Upload options">
+<!ENTITY  preftabupload.label             "Server options">
 <!ENTITY  preftabviewtw.label             "View TW options">
 <!ENTITY  preftabcategories.label         "Categories">
 <!ENTITY  twoptions.label                 "TiddlyWiki options">
@@ -45,7 +45,7 @@
 <!ENTITY  custombackuppath.label          "Custom backup path">
 <!ENTITY  backupfolder.label              "Folder for backup files:">
 <!ENTITY  browse.label                    "Browse">
-<!ENTITY  uploadoptions.label             "Upload options">
+<!ENTITY  uploadoptions.label             "Upload plugin options">
 <!ENTITY  storeurl.label                  "Store url:">
 <!ENTITY  filename.label                  "File name:">
 <!ENTITY  backupdir.label                 "Backup directory:">
@@ -68,7 +68,15 @@
 <!ENTITY  cancel.label                    "Cancel">
 <!ENTITY  delete.label                    "Delete">
 <!ENTITY  save.label                      "Save">
-<!ENTITY  submitchanges.label             "Submit Changes">
+<!ENTITY  submitchanges.label             "Save Changes">
+<!ENTITY  uploadoptions.label             "Upload Plugin Options">
+<!ENTITY  mtsoptions.label                "MTS Options">
+<!ENTITY  servertype.label                "Save to server using:">
+<!ENTITY  uploadplugin.label              "Upload plugin">
+<!ENTITY  mts.label                       "MTS">
+<!ENTITY  mtsphpfile.label                "Php file url:">
+<!ENTITY  mtshtmlfile.label               "Html file url:">
+<!ENTITY  togglemtsbackup.label           "Enable backups">
 
 <!-- about.xul -->
 <!ENTITY  tiddlysnip.abouttitle.label     "TiddlySnip">

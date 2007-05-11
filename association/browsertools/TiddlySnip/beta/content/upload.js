@@ -1,16 +1,16 @@
-function setUploadPassword(aStr)
+function setUploadPassword(aStr,server)
 {
     var passwordManager = Components.classes["@mozilla.org/passwordmanager;1"].createInstance(Components.interfaces.nsIPasswordManager);
     try
         {
-        passwordManager.removeUser("tiddlysniphost", getUploadUser());
+        passwordManager.removeUser("tiddlysniphost-"+server, getUploadUser(server));
         }
     catch(e)
         {}
-    passwordManager.addUser("tiddlysniphost", getUploadUser(), aStr);
+    passwordManager.addUser("tiddlysniphost-"+server, getUploadUser(server), aStr);
 }
 
-function getUploadPassword()
+function getUploadPassword(server)
 {
     var host= new Object();
     var user= new Object();
@@ -18,7 +18,7 @@ function getUploadPassword()
     try
         {
         var pmInternal = Components.classes["@mozilla.org/passwordmanager;1"].createInstance(Components.interfaces.nsIPasswordManagerInternal);
-        pmInternal.findPasswordEntry("tiddlysniphost",getUploadUser(),"",host,user,pass);
+        pmInternal.findPasswordEntry("tiddlysniphost-"+server,getUploadUser(server),"",host,user,pass);
         return pass.value;
 		}
     catch(e)
@@ -27,9 +27,9 @@ function getUploadPassword()
 		}
 }
 
-function getUploadUser()
+function getUploadUser(server)
 {
-    return pref.getCharPref("tiddlysnip.uploadusername");
+    return (server == "mts")? pref.getCharPref("tiddlysnip.mtsusername"):pref.getCharPref("tiddlysnip.uploadusername");
 }
 
 var tiddlySnipUploadObserver =
@@ -73,7 +73,7 @@ function uploadTW(content,title)
 		sheader += "UploadPlugin" +"\"\r\n\r\n";
 		sheader += "backupDir=" + pref.getCharPref("tiddlysnip.uploadbackupdir")
 				  +";user=" + pref.getCharPref("tiddlysnip.uploadusername")
-				  +";password=" + getUploadPassword()
+				  +";password=" + getUploadPassword("upload")
 				  +";uploaddir=" + pref.getCharPref("tiddlysnip.uploaddir")
 				  + ";;\r\n";
 		sheader += "\r\n" + "--" + boundary + "\r\n";

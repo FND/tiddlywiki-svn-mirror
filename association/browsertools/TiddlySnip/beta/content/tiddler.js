@@ -13,8 +13,17 @@ function previewTiddler()
     document.getElementById("tiddlerText").value = text;
     if (isOnline())
         {
+        var server = getServerType();
+        if (server == "upload")
+            getLock();
+        else if (server == "mts")
+            {
+            mtslogin();
+            //do mts login
+            //fetch store type and tiddler listing, attach to window
+            //enable save button
+            }
         document.getElementById("tiddlerSaveButton").disabled = true;
-        getLock();
         }
 }
 
@@ -71,19 +80,34 @@ function downloadTW()
 
 function saveTiddlerWindow(tw)
 {
+    //get server type and tiddler list as second param here
     var title = document.getElementById("tiddlerTitle").value;
-    var fileLoc = pref.getCharPref("tiddlysnip.wikifile");
-    if (tw == null)
-        tw = readFile(fileLoc);
-    var storeStart = findTwStore(tw);
-    if (storeStart == -1)
+    var mts = isOnline() && (getServerType()=="mts");
+    var tiddlerExists = false;
+    
+    if (mts)
         {
-        alert(getStr("notValidTW"));
-        tiddlySnipPrefs();
-        return false;
+        //check for tiddler exists, tiddlerExists = true if does
         }
-    var tiddlerMarkers = findTiddler(tw,title);
-    if (tiddlerMarkers[0] !=-1)
+    else
+       {
+        var fileLoc = pref.getCharPref("tiddlysnip.wikifile");
+        if (tw == null)
+            tw = readFile(fileLoc);
+        var storeStart = findTwStore(tw);
+        if (storeStart == -1)
+            {
+            alert(getStr("notValidTW"));
+            tiddlySnipPrefs();
+            return false;
+            }
+        var tiddlerMarkers = findTiddler(tw,title);
+        if (tiddlerMarkers[0] !=-1)
+            tiddlerExists = true;
+       }
+
+
+    if (tiddlerExists)
         {
         var params = {title: title, writeMode: null};
         window.openDialog("existDialog.xul","existWindow","chrome,centerscreen,modal",params);

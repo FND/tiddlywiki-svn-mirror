@@ -33,8 +33,15 @@ function initPrefs()
     prefMap['uploadbackupdir'] = readCharPref("uploadbackupdir");
     prefMap['enablenotifications'] = readBoolPref("enablenotifications");
     prefMap['enablenotifsounds'] = readBoolPref("enablenotifsounds");
+    prefMap['servertype'] = readCharPref("servertype");
+    prefMap['mtsphpfile'] = readCharPref("mtsphpfile");
+    prefMap['mtshtmlfile'] = readCharPref("mtshtmlfile");
+    prefMap['mtsusername'] = readCharPref("mtsusername");
+    //prefMap['mtspass'] = readCharPref("mtspass");
+    prefMap['enablemtsbackup'] = readBoolPref("enablemtsbackup");
 
-    document.getElementById("show_uploadpass").value = getUploadPassword();
+    document.getElementById("show_uploadpass").value = getUploadPassword("upload");
+    document.getElementById("show_mtspass").value = getUploadPassword("mts");
     populateCategoriesList();
     toggleFields();
 }
@@ -93,8 +100,22 @@ function toggleFields()
         }
     if( !document.getElementById('show_enablecategories').checked)document.getElementById('categoriespaneltab').setAttribute("collapsed",true);
     else document.getElementById('categoriespaneltab').removeAttribute("collapsed");
-
+    toggleServerOptions();
     toggleUploadTab();
+}
+
+function toggleServerOptions()
+{
+   if (prefMap['servertype'] == '0')
+       {
+       document.getElementById("mtsoptions").setAttribute("collapsed",true);
+       document.getElementById("uploadpluginoptions").removeAttribute("collapsed");
+       }
+   else
+       {
+       document.getElementById("uploadpluginoptions").setAttribute("collapsed",true);
+       document.getElementById("mtsoptions").removeAttribute("collapsed");
+       }
 }
 
 function toggleUploadTab()
@@ -156,7 +177,8 @@ function saveSettings()
         pref["set" + (prefTypes[typeof prefMap[name]]) + "Pref"]("tiddlysnip." + name,prefMap[name]);
         }
     saveCategoriesList();
-    setUploadPassword(document.getElementById("show_uploadpass").value);
+    setUploadPassword(document.getElementById("show_uploadpass").value,"upload");
+    setUploadPassword(document.getElementById("show_mtspass").value,"mts");
 }
 
 function saveAndExit()

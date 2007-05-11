@@ -9,7 +9,7 @@ function getStr(name)
 function getSelectionSource() {
   var x = content.document.createElement("div");
   x.appendChild(content.getSelection().getRangeAt(0).cloneContents());
-  return "<html>" + x.innerHTML + "</html>";
+  return x.innerHTML;
 }
 
 // Return plain text selection as a string.
@@ -51,7 +51,7 @@ function getSelectedText()
                 {
                 var selection = focusedWindow.getSelection();
                 }
-            selectedText = "<nowiki>" + selection.toString() + "</nowiki>";;
+            selectedText = selection.toString();
             }
         }
     return selectedText;
@@ -109,7 +109,13 @@ function getText(mode)
 {
     var text;
     if(mode == "Snip")
+        {
         text = getSelectedText();
+        if (pref.getBoolPref("tiddlysnip.includehtml"))
+            text = "<html>" + text + "</html>";
+        else
+            text = "<nowiki>" + text + "</nowiki>";
+        }
     else if (mode == "Clip")
         text = getClipboardString();
     else if (mode == "Bookmark")
@@ -142,6 +148,16 @@ function isOnline ()
 {
     var url = pref.getCharPref("tiddlysnip.wikifile");
     return (url.substr(0,4) == "http");
+}
+
+function getServerType()
+{
+   return (pref.getCharPref("tiddlysnip.servertype") == "0")? "upload" : "mts";
+}
+
+function isMts()
+{
+   return isOnline() && (getServerType()=="mts");
 }
 
 //returns -1 when TW store not found. Otherwise returns store index.
@@ -180,7 +196,13 @@ function findTiddler(tw,title)
 function modifyTW(writeMode,oldTW,storeStart,tiddlerMarkers,category,mode,title,tags,text)
 {
    var newTW;
-   if (writeMode == null)
+   
+   if (isMts())
+      {
+      newTW = createTiddlyEncodedDiv(category,mode,title,tags,text,'');
+      }
+
+   else if (writeMode == null)
        {
        var tiddler = createTiddlyEncodedDiv(category,mode,title,tags,text,oldTW);
        newTW = oldTW.substr(0,storeStart) + "\n" + tiddler+ oldTW.substr(storeStart);
@@ -203,9 +225,14 @@ function saveTW(fileLoc,oldTW,newTW,title)
 {
     if (isOnline())
          {
-         tiddlySnipUploading = true;
-         tiddlySnipUploadObserver.register();
-         uploadTW(newTW,title); //in call back call notify and show TW
+         if (getServerType())=="mts")
+             mtssave(); //call back must check for errors, notify, and show tw
+         else
+             {
+             tiddlySnipUploading = true;
+             tiddlySnipUploadObserver.register();
+             uploadTW(newTW,title); //in call back call notify and show TW
+             }
          }
     else
         {
@@ -236,7 +263,12 @@ function createTiddlyEncodedDiv(category,mode,title,tags,text,oldTW)
     var modifier = pref.getCharPref("tiddlysnip.wikiuser");
     var created = new Date().convertToYYYYMMDDHHMM();
     //alert(storeType);
-    var tiddlerFormat = (getStoreType(oldTW) == "2.1")? '<div tiddler="%0" modifier="%1" modified="%2" created="%3" tags="%4" tsnip.url="%6" tsnip.title="%7" tsnip.category="%8">%5</div>':'<div title="%0" modifier="%1" modified="%2" created="%3" tags="%4" tsnip.url="%6" tsnip.title="%7" tsnip.category="%8">\n<pre>%5</pre>\n</div>';
+    var storeVersion;
+    if (isMts())
+        storeVersion = "2.1";        //get this value from server later
+    else
+       storeVersion = getStoreType(oldTW);
+    var tiddlerFormat = (storeVersion == "2.1")? '<div tiddler="%0" modifier="%1" modified="%2" created="%3" tags="%4" tsnip.url="%6" tsnip.title="%7" tsnip.category="%8">%5</div>':'<div title="%0" modifier="%1" modified="%2" created="%3" tags="%4" tsnip.url="%6" tsnip.title="%7" tsnip.category="%8">\n<pre>%5</pre>\n</div>';
     var tiddler = tiddlerFormat.format([
                     title.htmlEncode(),
                     modifier.htmlEncode(),
