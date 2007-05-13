@@ -282,7 +282,8 @@ function createTiddlyEncodedDiv(category,mode,title,tags,text,oldTW,storeType)
                     sourcetitle.htmlEncode(),
                     category.htmlEncode()
             ]);
-    return isOnline()? tiddler : mozConvertUnicodeToUTF8(tiddler);
+    return (isOnline() && getServerType()=="upload")? tiddler : mozConvertUnicodeToUTF8(tiddler);
+    //return mozConvertUnicodeToUTF8(tiddler);
 }
 
 function showTW(title)

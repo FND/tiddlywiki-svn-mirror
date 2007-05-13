@@ -263,8 +263,9 @@ function mtssave(fileLoc,tw,title)
            // if ( params[i] )
                 //datastr += i + "=" + escape(params[i].replace(/\+/g,"&#43;")) + "&";
                 datastr+= (i + "=" + escape(params[i])+"&");
+                //datastr+= (i + "=" + params[i]+"&");
         }
-    alert(datastr);
+    //alert(datastr);
     mtsSaveRequest(url,datastr,title);
 }
 
