@@ -4,8 +4,8 @@
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Source:''|www.example.com |
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
-|''Version:''|0.3.2|
-|''Date:''|Apr 22, 2007|
+|''Version:''|0.3.3|
+|''Date:''|May 13, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/ ]]|
 |''~CoreVersion:''|2.1.3|
@@ -96,8 +96,8 @@ merge(config.messages.messageClose,{
 	tooltip: "close this message area"});
 
 config.messages.backstage = {
-	open: {text: "backstage", icon: "\u21A9", iconIE: "\u2190", tooltip: "Open the backstage area to perform authoring and editing tasks"},
-	close: {text: "close", icon: "\u21AA", iconIE: "\u2192", tooltip: "Close the backstage area"},
+	open: {text: "backstage", tooltip: "Open the backstage area to perform authoring and editing tasks"},
+	close: {text: "close", tooltip: "Close the backstage area"},
 	prompt: "backstage: ",
 	decal: {
 		edit: {text: "edit", tooltip: "Edit the tiddler '%0'"}
@@ -122,8 +122,6 @@ config.messages.dates.am = "am";
 config.messages.dates.pm = "pm";
 
 merge(config.messages.tiddlerPopup,{
-	icon: "\u2193",
-	iconIE: "\u2193"
 	});
 
 merge(config.views.wikified.tag,{
@@ -342,6 +340,9 @@ merge(config.macros.sync,{
 		}
 	});
 
+merge(config.macros.annotations,{
+	});
+
 merge(config.commands.closeTiddler,{
 	text: "close",
 	tooltip: "Close this tiddler"});
@@ -415,7 +416,7 @@ merge(config.shadowTiddlers,{
 	SiteTitle: "My TiddlyWiki",
 	SiteSubtitle: "a reusable non-linear personal web notebook",
 	SiteUrl: "http://www.tiddlywiki.com/",
-	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Change TiddlyWiki advanced options">>',
+	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options Â»" "Change TiddlyWiki advanced options">>',
 	SideBarTabs: '<<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>',
 	TabMore: '<<tabs txtMoreTab "Missing" "Missing tiddlers" TabMoreMissing "Orphans" "Orphaned tiddlers" TabMoreOrphans "Shadowed" "Shadowed tiddlers" TabMoreShadowed>>'});
 
@@ -430,7 +431,7 @@ merge(config.annotations,{
 	MarkupPreHead: "This tiddler is inserted at the top of the <head> section of the TiddlyWiki HTML file",
 	MarkupPostHead: "This tiddler is inserted at the bottom of the <head> section of the TiddlyWiki HTML file",
 	MarkupPreBody: "This tiddler is inserted at the top of the <body> section of the TiddlyWiki HTML file",
-	MarkupPostBody: "This tiddler is inserted at the bottom of the <body> section of the TiddlyWiki HTML file",
+	MarkupPostBody: "This tiddler is inserted at the end of the <body> section of the TiddlyWiki HTML file immediately before the script block",
 	OptionsPanel: "This shadow tiddler is used as the contents of the options panel slider in the right-hand sidebar",
 	PageTemplate: "The HTML template in this shadow tiddler determines the overall ~TiddlyWiki layout",
 	PluginManager: "This shadow tiddler provides access to the plugin manager",
