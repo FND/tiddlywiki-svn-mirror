@@ -37,7 +37,7 @@
 
          <hbox pack="center">
              <button label="&tiddlerwindowcancel.label;" flex="0" style="min-width: 130px;" oncommand="window.close();"/>
-             <button label="&tiddlerwindowsave.label;" id="tiddlerSaveButton" flex="0" style="min-width: 130px;" oncommand="saveTiddlerWindow(loadedTW);"/>
+             <button label="&tiddlerwindowsave.label;" id="tiddlerSaveButton" flex="0" style="min-width: 130px;" oncommand="saveTiddlerWindow(loadedTW,tiddlerList,storeType);"/>
          </hbox>
 </window>
 

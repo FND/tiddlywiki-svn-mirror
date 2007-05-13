@@ -120,6 +120,7 @@ function getText(mode)
         text = getClipboardString();
     else if (mode == "Bookmark")
         text = "[[" + tiddlyLinkEncode(content.document.title) + "|" + tiddlyLinkEncode(content.location.href) + "]]";
+    //alert(text);
     return text;
 }
 
@@ -193,13 +194,13 @@ function findTiddler(tw,title)
 }
 
 //This function opens the TW file, splices in the new tiddler div and saves the file.
-function modifyTW(writeMode,oldTW,storeStart,tiddlerMarkers,category,mode,title,tags,text)
+function modifyTW(writeMode,oldTW,storeStart,tiddlerMarkers,category,mode,title,tags,text,storeType)
 {
    var newTW;
-   
+
    if (isMts())
       {
-      newTW = createTiddlyEncodedDiv(category,mode,title,tags,text,'');
+      newTW = createTiddlyEncodedDiv(category,mode,title,tags,text,'',storeType);
       }
 
    else if (writeMode == null)
@@ -223,10 +224,11 @@ function modifyTW(writeMode,oldTW,storeStart,tiddlerMarkers,category,mode,title,
 //Saves the Tw file and makes a backup if appropriate.
 function saveTW(fileLoc,oldTW,newTW,title)
 {
+    //alert(fileLoc+" "+oldTW+" "+newTW+" "+title);
     if (isOnline())
          {
-         if (getServerType())=="mts")
-             mtssave(); //call back must check for errors, notify, and show tw
+         if (getServerType()=="mts")
+             mtssave(fileLoc,newTW,title); //call back must check for errors, notify, and show tw
          else
              {
              tiddlySnipUploading = true;
@@ -248,7 +250,7 @@ function saveTW(fileLoc,oldTW,newTW,title)
 }
 
 //This function creates a tiddler div for our new snippet
-function createTiddlyEncodedDiv(category,mode,title,tags,text,oldTW)
+function createTiddlyEncodedDiv(category,mode,title,tags,text,oldTW,storeType)
 {
     if(mode=="Snip")
        {
@@ -265,7 +267,7 @@ function createTiddlyEncodedDiv(category,mode,title,tags,text,oldTW)
     //alert(storeType);
     var storeVersion;
     if (isMts())
-        storeVersion = "2.1";        //get this value from server later
+        storeVersion = "2.1";        // = storeType;
     else
        storeVersion = getStoreType(oldTW);
     var tiddlerFormat = (storeVersion == "2.1")? '<div tiddler="%0" modifier="%1" modified="%2" created="%3" tags="%4" tsnip.url="%6" tsnip.title="%7" tsnip.category="%8">%5</div>':'<div title="%0" modifier="%1" modified="%2" created="%3" tags="%4" tsnip.url="%6" tsnip.title="%7" tsnip.category="%8">\n<pre>%5</pre>\n</div>';

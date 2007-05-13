@@ -78,7 +78,7 @@ function tiddlySnip(mode,catTags,category)
     if(includeSource && mode == "Snip")
         text += getSourceInfo();
     var defaultTitle = (mode == "Snip" || "Bookmark" ? content.document.title : category + " - " + new Date().convertToFullDate());
-
+    //alert(text);
     //modifyTW(category,mode,title,tags,text);     //quiet mode altenative
     window.openDialog("chrome://tiddlysnip/content/tiddler.xul","tiddlerWindow","chrome,centerscreen,modal=no",category,mode,defaultTitle,tags,text);
 }
