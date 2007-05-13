@@ -5,7 +5,7 @@
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hans/locale.zh-Hans.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''Version:''|2.2.0.5|
-|''Date:''|Apr 26, 2007|
+|''Date:''|May 10, 2007|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -18,7 +18,8 @@
 
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
-config.locale = "zh-Hans"; // W3C language tag
+config.locale = 'zh-Hans'; // W3C language tag
+//# config.options.txtFileSystemCharSet = 'GBK';
 
 if (!config.options.txtUserName)
 	config.options.txtUserName = "YourName";
@@ -46,7 +47,6 @@ merge(config.optionsDesc,{
 	chkForceMinorUpdate: "修改文章时，不变更作者名称与日期时间",
 	chkConfirmDelete: "删除文章前须确认",
 	chkInsertTabs: "使用 tab 键插入定位字符，而非跳至下一个栏位",
-//#	chkShowTiddlerDetails: "显示文章详细资讯",
 	txtBackupFolder: "存放备份文件的资料夹",
 	txtMaxEditRows: "编辑模式中显示列数",
 	txtFileSystemCharSet: "指定保存文件所在之档案系统之字符集 (仅适用于 Firefox/Mozilla only)"});
@@ -97,8 +97,8 @@ merge(config.messages.messageClose,{
 	tooltip: "关闭此讯息"});
 
 config.messages.backstage = {
-	open: {text: "控制台", icon: "\u21A9", iconIE: "\u2190", tooltip: "开启控制台执行编写工作"},
-	close: {text: "关闭", icon: "\u21AA", iconIE: "\u2192", tooltip: "关闭控制台"},
+	open: {text: "控制台", tooltip: "开启控制台执行编写工作"},
+	close: {text: "关闭", tooltip: "关闭控制台"},
 	prompt: "控制台：",
 	decal: {
 		edit: {text: "编辑", tooltip: "编辑 '%0'"}
@@ -110,7 +110,7 @@ config.messages.listView = {
 	previewUnavailable: "(无法预览)"
 };
 
-config.messages.dates.months = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
+config.messages.dates.months = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
 config.messages.dates.days = ["日", "一","二", "三", "四", "五", "六"];
 config.messages.dates.shortMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 config.messages.dates.shortDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -123,8 +123,6 @@ config.messages.dates.am = "上午";
 config.messages.dates.pm = "下午";
 
 merge(config.messages.tiddlerPopup,{ 
-	icon: "\u2193", 
-	iconIE: "" 
 	});
 
 merge(config.views.wikified.tag,{
@@ -256,7 +254,7 @@ merge(config.macros.plugins,{
 			]}
 	});
 
-	merge(config.macros.toolbar,{
+merge(config.macros.toolbar,{
 	moreLabel: "其他",
 	morePrompt: "显示更多工具命令"});
 
@@ -343,6 +341,9 @@ merge(config.macros.sync,{
 		}
 	});
 
+merge(config.macros.annotations,{
+	});
+
 merge(config.commands.closeTiddler,{
 	text: "关闭",
 	tooltip: "关闭本文"});
@@ -412,12 +413,15 @@ merge(config.commands.fields,{
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "GettingStarted",
+//#	GettingStarted: "使用此 TiddlyWiki 的空白范本之前，请先修改以下默认文章：\n* SiteTitle 及 SiteSubtitle：网站的标题和副标题，显示于页面上方<br />（在保存变更后，将显示于浏览器视窗的标题列）。\n* MainMenu：主菜单（通常在页面左侧）。\n* DefaultTiddlers：包含一些文章的标题，可于进入TiddlyWiki 后开启。\n请输入您的大名，作为所创建/ 编辑文章的署名：<<option txtUserName>>",
 	MainMenu: "[[使用说明|GettingStarted]]",
+//#	OptionsPanel: "这些设置将缓存于浏览器\n请签名<<option txtUserName>>\n(范例：WikiWord)\n\n<<option chkSaveBackups>> 保存备份\n<<option chkAutoSave>> 自动保存\n<<option chkRegExpSearch>> 正规式搜寻\n<<option chkCaseSensitiveSearch>> 区分大小写搜寻\n<<option chkAnimate>> 使用动画显示\n----\n[[进阶选项|AdvancedOptions]]",
 	SiteTitle: "我的 TiddlyWiki",
 	SiteSubtitle: "一个可重复使用的个人网页式笔记本",
 	SiteUrl: 'http://www.tiddlywiki.com/',
 	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal " YYYY年0MM月0DD日">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  "偏好设置 »" "变更 TiddlyWiki 选项">>',
 	SideBarTabs: '<<tabs txtMainTab "最近更新" "依更新日期排序" TabTimeline "全部" "所有文章" TabAll "分类" "所有标签" TabTags "更多" "其他" TabMore>>',
+//#	StyleSheet: '[[StyleSheetLocale]]',
 	TabMore: '<<tabs txtMoreTab "未完成" "内容空白的文章" TabMoreMissing "未引用" "未被引用的文章" TabMoreOrphans "默认文章" "默认的影子文章" TabMoreShadowed>>'});
 
 merge(config.annotations,{
@@ -432,7 +436,6 @@ merge(config.annotations,{
 	MarkupPostHead: "此文章的内容将加至 TiddlyWiki 文件的 <head> 段落的最后",
 	MarkupPreBody: "此文章的内容将加至 TiddlyWiki 文件的 <body> 段落的起始",
 	MarkupPostBody: "此文章的内容将加至 TiddlyWiki 文件的 <body> 段落的最后，于 script 区块之前",
-//#	MarkupPostScript: "此文章的内容将加至 TiddlyWiki HTML，紧跟着 script 区块之后",
 	OptionsPanel: "此默认文章的内容，为于萤幕右侧副菜单中的选项面板里的内容",
 	PageTemplate: "此默认文章里的 HTML template 决定的 ~TiddlyWiki 主要的版面配置",
 	PluginManager: "此默认文章提供存取套件管理员",
