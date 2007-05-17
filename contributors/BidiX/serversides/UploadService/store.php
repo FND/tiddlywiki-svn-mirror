@@ -10,6 +10,7 @@ $USERS = array(
 	'UserName2'=>'Password2', 
 	'UserName3'=>'Password3'); // set usernames and strong passwords
 $DEBUG = false;				// true | false
+$CLEAN_BACKUP = true; 		// during backuping a file, remove overmuch backups
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 //}}}
 /***
@@ -20,7 +21,7 @@ No change needed under
 
 /***
  * store.php - upload a file in this directory
- * version :1.5.2 - 2007/02/13 - BidiX@BidiX.info
+ * version :1.6.0 - 2007/05/17 - BidiX@BidiX.info
  * 
  * see : 
  *	http://tiddlywiki.bidi.info/#UploadPlugin for usage
@@ -33,6 +34,8 @@ No change needed under
  *	GET
  *
  * Revision history
+ * V1.6.0 - 2007/05/17
+ * Enhancement: Add backup management
  * V1.5.2 - 2007/02/13
  * Enhancement: Add optional debug option in client parameters
  * V1.5.1 - 2007/02/01
@@ -84,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	</head>
 	<body>
 		<p>
-		<p>store.php V 1.5.2
+		<p>store.php V 1.6.0
 		<p>BidiX@BidiX.info
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
@@ -128,6 +131,77 @@ function toExit() {
 }
 exit;
 }
+
+function ParseTWFileDate($s) {
+	// parse date element
+	preg_match ( '/^(\d\d\d\d)(\d\d)(\d\d)\.(\d\d)(\d\d)(\d\d)/', $s , $m );
+	// make a date object
+	$d = mktime($m[4], $m[5], $m[6], $m[2], $m[3], $m[1]);
+	// get the week number
+	$w = date("W",$d);
+
+	return array(
+		'year' => $m[1], 
+		'mon' => $m[2], 
+		'mday' => $m[3], 
+		'hours' => $m[4], 
+		'minutes' => $m[5], 
+		'seconds' => $m[6], 
+		'week' => $w);
+}
+
+function cleanFiles($dirname, $prefix) {
+	$now = getdate();
+	$now['week'] = date("W");
+
+	$hours = Array();
+	$mday = Array();
+	$year = Array();
+	
+	$toDelete = Array();
+
+	// need files recent first
+	$files = Array();
+	($dir = opendir($dirname)) || die ("can't open dir '$dirname'");
+	while (false !== ($file = readdir($dir))) {
+		if (preg_match("/^$prefix/", $file))
+        array_push($files, $file);
+    }
+	$files = array_reverse($files);
+	
+	// decides for each file
+	foreach ($files as $file) {
+		$fileTime = ParseTWFileDate(substr($file,strpos($file, '.')+1,strrpos($file,'.') - strpos($file, '.') -1));
+		if (($now['year'] == $fileTime['year']) &&
+			($now['mon'] == $fileTime['mon']) &&
+			($now['mday'] == $fileTime['mday']) &&
+			($now['hours'] == $fileTime['hours']))
+				continue;
+		elseif (($now['year'] == $fileTime['year']) &&
+			($now['mon'] == $fileTime['mon']) &&
+			($now['mday'] == $fileTime['mday'])) {
+				if (isset($hours[$fileTime['hours']]))
+					array_push($toDelete, $file);
+				else 
+					$hours[$fileTime['hours']] = true;
+			}
+		elseif 	(($now['year'] == $fileTime['year']) &&
+			($now['mon'] == $fileTime['mon'])) {
+				if (isset($mday[$fileTime['mday']]))
+					array_push($toDelete, $file);
+				else
+					$mday[$fileTime['mday']] = true;
+			}
+		else {
+			if (isset($year[$fileTime['year']][$fileTime['mon']]))
+				array_push($toDelete, $file);
+			else
+				$year[$fileTime['year']][$fileTime['mon']] = true;
+		}
+	}
+	return $toDelete;
+}
+
 
 
 // Check if file_uploads is active in php config
@@ -190,9 +264,20 @@ if (file_exists($destfile) && ($options['backupDir'])) {
 			$backupError = "backup mkdir error";
 		}
 	}
-	$backupFilename = $options['backupDir'].'/'.substr($filename, 0, strpos($filename, '.'))
-				.date('.Ymd.His').substr($filename,strpos($filename,'.'));
+	$backupFilename = $options['backupDir'].'/'.substr($filename, 0, strrpos($filename, '.'))
+				.date('.Ymd.His').substr($filename,strrpos($filename,'.'));
 	rename($destfile, $backupFilename) or ($backupError = "rename error");
+	// remove overmuch backup
+	if ($CLEAN_BACKUP) {
+		$toDelete = cleanFiles($options['backupDir'], substr($filename, 0, strrpos($filename, '.')));
+		foreach ($toDelete as $file) {
+			$f = $options['backupDir'].'/'.$file;
+			if($DEBUG) {
+				echo "delete : ".$options['backupDir'].'/'.$file."\n";
+			}
+			unlink($options['backupDir'].'/'.$file);
+		}
+	}
 }
 
 // move uploaded file to uploadDir
