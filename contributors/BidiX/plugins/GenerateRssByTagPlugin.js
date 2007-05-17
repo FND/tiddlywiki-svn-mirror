@@ -1,8 +1,8 @@
 /***
 |''Name:''|GenerateRssByTagPlugin|
 |''Description:''|Only tiddlers with a specific tag are inluded in the RSSFeed. If no tiddlers are selected then works as before. (see ticket #270: http://trac.tiddlywiki.org/tiddlywiki/ticket/270). <br>RssTag: <<option txtRssTag>>|
-|''Version:''|1.0.2|
-|''Date:''|Apr 20, 2007|
+|''Version:''|1.0.3|
+|''Date:''|May 17, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#GenerateRssByTagPlugin|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
@@ -10,11 +10,11 @@
 ***/
 //{{{
 version.extensions.GenerateRssByTagPlugin = {
-	major: 1, minor: 0, revision: 2, 
-	date: new Date("Apr 20, 2007"),
-	source: 'http://tiddlywiki.bidix.info/#PasswordOptionPlugin',
+	major: 1, minor: 0, revision: 3, 
+	date: new Date("May 17, 2007"),
+	source: 'http://tiddlywiki.bidix.info/#GenerateRssByTagPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
-	coreVersion: '2.2.0 (Beta 5)',
+	coreVersion: '2.2.0 (Beta 5)'
 };
 
 if (!window.bidix) window.bidix = {}; // bidix namespace
