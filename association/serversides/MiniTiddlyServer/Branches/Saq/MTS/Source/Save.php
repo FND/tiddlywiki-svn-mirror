@@ -77,17 +77,35 @@
              // PARSE FILE // 
                 $parts = split("<div id=\"storeArea\">",$this->source);
                 
-                if (count($parts) == 2 && preg_match('/(.*)(\s*<\/div>\s*<!--POST-BODY-START-->.*)/s', $parts[1], $regs)) {
-                    $this->prestore = $parts[0]."<div id=\"storeArea\">";
-                    $this->store = $regs[1];
-                    $this->poststore = $regs[2];
-                    
-                    $this->storeTiddlerMap = createTiddlerMap($this->store);
-                }
-                
+
+		  //if (count($parts)!=2)
+                //    $this->serverResponse->throwError("The boobie file ($sourcename) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $sourcena");		 
+	
+                if (count($parts) == 2)
+                    {
+                    if (preg_match('/(.*)(\s*<\/div>\s*<!--POST-BODY-START-->.*)/s', $parts[1], $regs)) {
+                        $this->prestore = $parts[0]."<div id=\"storeArea\">";
+                        $this->store = $regs[1];
+                        $this->poststore = $regs[2];
+                        $this->storeTiddlerMap = createTiddlerMap($this->store);
+                        }
+		       else
+			   {
+                        $pieces = explode("<!--POST-STOREAREA-->",$parts[1],2);
+                        if ($pieces!=$parts[1] && count($pieces) == 2)
+                            {
+                            $this->prestore = $parts[0]."<div id=\"storeArea\">\n";
+				 $this->store = $pieces[0];
+				 $this->poststore = "</div>\n<!--POST-STOREAREA-->".$pieces[1];
+				 $this->storeTiddlerMap = createTiddlerMap($this->store);
+                            //$this->serverResponse->throwError($pieces[0].count($pieces));
+				 }
+                        else
+                             $this->serverResponse->throwError("The source file ($sourcename) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $sourcename.err");
+                        }
+                    }
                 else 
-                    $this->serverResponse->throwError("The source file ($sourcename) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $sourcename.err");
-        }
+                   $this->serverResponse->throwError("The source file ($sourcename) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $sourcename.err");        }
     }
     
     class SavingMachine {
@@ -199,11 +217,21 @@
     
     function createTiddlerMap ($tiddlersDiv){
         $tiddlersMap =array();
-        $regexp = "<div\s[^>]*tiddler=\"([^\"]*)\"[^>]*>(.*)<\/div>";
-        if(preg_match_all("/$regexp/siU", $tiddlersDiv, $tiddlers, PREG_SET_ORDER))
-        { 
-            foreach($tiddlers as $tiddler) 
-            { 
+        //$regexp = "<div\s[^>]*tiddler=\"([^\"]*)\"[^>]*>(.*)<\/div>";
+        $regexp1="<div\s[^>]*(?:tiddler)?(?:title)?=\"([^\"]*)\"[^>]*>\s*(.*)\s*<\/div>";
+        $regexp2="<div\s[^>]*(?:tiddler)?(?:title)?=\"([^\"]*)\"[^>]*>\s*<pre>(.*)<\/pre>\s*<\/div>";
+        if(preg_match_all("/$regexp1/siU", $tiddlersDiv, $tiddlers, PREG_SET_ORDER))
+        {
+            foreach($tiddlers as $tiddler)
+            {
+                # title: [tiddlerDivAsString,tiddlerText]
+                $tiddlersMap[$tiddler[1]] = array($tiddler[0],$tiddler[2]);
+            }
+        }
+        elseif(preg_match_all("/$regexp2/siU", $tiddlersDiv, $tiddlers, PREG_SET_ORDER))
+        {
+            foreach($tiddlers as $tiddler)
+            {
                 # title: [tiddlerDivAsString,tiddlerText]
                 $tiddlersMap[$tiddler[1]] = array($tiddler[0],$tiddler[2]);
             }
