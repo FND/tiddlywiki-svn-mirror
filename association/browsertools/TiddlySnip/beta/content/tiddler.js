@@ -117,7 +117,7 @@ function saveTiddlerWindow(tw,tiddlerList,storeType)
 
     if (tiddlerExists)
         {
-        var params = {title: title, writeMode: null};
+        var params = {title: title, writeMode: null, mts:mts};
         window.openDialog("existDialog.xul","existWindow","chrome,centerscreen,modal",params);
         var writeMode = params.writeMode;
         if(writeMode == null)

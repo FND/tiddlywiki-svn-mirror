@@ -11,11 +11,18 @@ const TITLE_APPEND    = "append";
 
 var params;
 
+//var mts = isMts();
+
+
 // Grab parameters from the window.
 function initExistDialog()
 {
     params = window.arguments[0];
     document.getElementById('tiddlerTitle').value = params.title;
+    //alert("1");
+    //alert(params.mts);
+    if (params.mts)
+        document.getElementById("appendButton").disabled = true;
 }
 
 function choose(action)

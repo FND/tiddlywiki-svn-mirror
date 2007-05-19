@@ -158,7 +158,7 @@ function getServerType()
 
 function isMts()
 {
-   return isOnline() && (getServerType()=="mts");
+   return (isOnline() && (getServerType()=="mts"));
 }
 
 //returns -1 when TW store not found. Otherwise returns store index.

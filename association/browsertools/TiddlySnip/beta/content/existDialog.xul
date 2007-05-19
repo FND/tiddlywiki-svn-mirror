@@ -17,9 +17,9 @@
         <stringbundle id="tiddlysnip-strings"
             src="chrome://tiddlysnip/locale/tiddlysnip.properties"/>
     </stringbundleset>
-
-    <script type="application/x-javascript" src="existDialog.js"/>
     <script type="application/x-javascript" src="tiddlySnip.js"/>
+    <script type="application/x-javascript" src="existDialog.js"/>
+
 
     <vbox>
 	<caption label="&existcaption.label;"/>
@@ -28,7 +28,7 @@
 
 	<hbox pack="center">
 	    <button label="&exist.rename;" flex="0" oncommand="choose(TITLE_RENAME)" default="true"/>
-	    <button label="&exist.append;" flex="0" oncommand="choose(TITLE_APPEND)"/>
+	    <button label="&exist.append;" id="appendButton" flex="0" oncommand="choose(TITLE_APPEND)"/>
 	    <button label="&exist.overwrite;" flex="0" oncommand="choose(TITLE_OVERWRITE)"/>
 	</hbox>
     </vbox>
