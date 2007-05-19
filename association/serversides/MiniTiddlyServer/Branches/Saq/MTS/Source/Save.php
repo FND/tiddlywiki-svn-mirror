@@ -220,7 +220,7 @@
         //$regexp = "<div\s[^>]*tiddler=\"([^\"]*)\"[^>]*>(.*)<\/div>";
         $regexp1="<div\s[^>]*(?:tiddler)?(?:title)?=\"([^\"]*)\"[^>]*>\s*(.*)\s*<\/div>";
         $regexp2="<div\s[^>]*(?:tiddler)?(?:title)?=\"([^\"]*)\"[^>]*>\s*<pre>(.*)<\/pre>\s*<\/div>";
-        if(preg_match_all("/$regexp1/siU", $tiddlersDiv, $tiddlers, PREG_SET_ORDER))
+        if(preg_match_all("/$regexp2/siU", $tiddlersDiv, $tiddlers, PREG_SET_ORDER))
         {
             foreach($tiddlers as $tiddler)
             {
@@ -228,7 +228,7 @@
                 $tiddlersMap[$tiddler[1]] = array($tiddler[0],$tiddler[2]);
             }
         }
-        elseif(preg_match_all("/$regexp2/siU", $tiddlersDiv, $tiddlers, PREG_SET_ORDER))
+        elseif(preg_match_all("/$regexp1/siU", $tiddlersDiv, $tiddlers, PREG_SET_ORDER))
         {
             foreach($tiddlers as $tiddler)
             {
