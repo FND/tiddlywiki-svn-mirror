@@ -1,18 +1,34 @@
 <?php
 
+    $storeFormat = "'2.2'";
+
     function createTiddlerMap ($tiddlersDiv){
+        global $storeFormat;
         $tiddlersMap =array();
-        $regexp = "<div\s[^>]*tiddler=\"([^\"]*)\"[^>]*>(.*)<\/div>";
-        if(preg_match_all("/$regexp/siU", $tiddlersDiv, $tiddlers, PREG_SET_ORDER))
-        { 
-            foreach($tiddlers as $tiddler) 
-            { 
+        //$regexp = "<div\s[^>]*tiddler=\"([^\"]*)\"[^>]*>(.*)<\/div>";
+        $regexp1="<div\s[^>]*(?:tiddler)?(?:title)?=\"([^\"]*)\"[^>]*>\s*(.*)\s*<\/div>";
+        $regexp2="<div\s[^>]*(?:tiddler)?(?:title)?=\"([^\"]*)\"[^>]*>\s*<pre>(.*)<\/pre>\s*<\/div>";
+        if(preg_match_all("/$regexp2/siU", $tiddlersDiv, $tiddlers, PREG_SET_ORDER))
+        {
+            foreach($tiddlers as $tiddler)
+            {
                 # title: [tiddlerDivAsString,tiddlerText]
                 $tiddlersMap[$tiddler[1]] = array($tiddler[0],$tiddler[2]);
+                $storeFormat = "'2.2'";
+            }
+        }
+        elseif(preg_match_all("/$regexp1/siU", $tiddlersDiv, $tiddlers, PREG_SET_ORDER))
+        {
+            foreach($tiddlers as $tiddler)
+            {
+                # title: [tiddlerDivAsString,tiddlerText]
+                $tiddlersMap[$tiddler[1]] = array($tiddler[0],$tiddler[2]);
+                $storeFormat = "'2.1'";
             }
         }
         return $tiddlersMap;
     }
+
     
     function getTiddlersList ($map){
         return array_keys($map);
@@ -32,16 +48,23 @@
         $storeTiddlerMap = createTiddlerMap($store);
         }
 
-    else
-        {
-        //$serverResponse->throwError("The source file ($sourcename) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $sourcename.err");
-        exit();
-        }
-
+		       elseif (count($parts)==2)
+			   {
+                        $pieces = explode("<!--POST-STOREAREA-->",$parts[1],2);
+                        if ($pieces!=$parts[1] && count($pieces) == 2)
+                            {
+                            $prestore = $parts[0]."<div id=\"storeArea\">\n";
+				 $store = $pieces[0];
+				 $poststore = "</div>\n<!--POST-STOREAREA-->".$pieces[1];
+				 $storeTiddlerMap = createTiddlerMap($store);
+                            }
+                        //else
+                          //   exit();
+                       }
 
     $action = $_GET['action'];
     if ($action == 'index')
-         $output = "var data = {tiddlerList:'".implode(",",getTiddlersList ($storeTiddlerMap))."',success:true,storeType:"."'2.1'"."};";
+         $output = "var data = {tiddlerList:'".implode(",",getTiddlersList ($storeTiddlerMap))."',success:true,storeType:".$storeFormat."};";
        //write a function getStoreType($storeTiddlerMap)
 
 

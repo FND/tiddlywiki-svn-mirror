@@ -1,4 +1,6 @@
 var loadedTW = null;
+var storeType = null;
+var tiddlerList = null;
 var loaded = true;
 
 function previewTiddler()
@@ -83,7 +85,7 @@ function downloadTW()
 }
 
 function saveTiddlerWindow(tw,tiddlerList,storeType)
-{
+{   //alert("HELLO");
     //get server type and tiddler list as second param here
     var fileLoc = pref.getCharPref("tiddlysnip.wikifile");
     var title = document.getElementById("tiddlerTitle").value;
@@ -125,7 +127,7 @@ function saveTiddlerWindow(tw,tiddlerList,storeType)
     var tags = document.getElementById("tiddlerTags").value;
     var mode =  window.arguments[1];
     var category = window.arguments[0];
-    var newTW = window.opener.modifyTW(writeMode,tw,storeStart,tiddlerMarkers,category,mode,title,tags,text);
+    var newTW = window.opener.modifyTW(writeMode,tw,storeStart,tiddlerMarkers,category,mode,title,tags,text,storeType);
     //alert(newTW);
     window.close();
     window.opener.saveTW(fileLoc,tw,newTW,title);

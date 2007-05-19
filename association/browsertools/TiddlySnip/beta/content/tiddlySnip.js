@@ -252,6 +252,7 @@ function saveTW(fileLoc,oldTW,newTW,title)
 //This function creates a tiddler div for our new snippet
 function createTiddlyEncodedDiv(category,mode,title,tags,text,oldTW,storeType)
 {
+      //  alert(storeType);
     if(mode=="Snip")
        {
        var sourceurl = content.location.href;
@@ -267,9 +268,11 @@ function createTiddlyEncodedDiv(category,mode,title,tags,text,oldTW,storeType)
     //alert(storeType);
     var storeVersion;
     if (isMts())
-        storeVersion = "2.1";        // = storeType;
+        //storeVersion = "2.1";        // = storeType;
+          storeVersion  = storeType;
     else
        storeVersion = getStoreType(oldTW);
+    text = (storeVersion == "2.1")? text.escapeLineBreaks():text;
     var tiddlerFormat = (storeVersion == "2.1")? '<div tiddler="%0" modifier="%1" modified="%2" created="%3" tags="%4" tsnip.url="%6" tsnip.title="%7" tsnip.category="%8">%5</div>':'<div title="%0" modifier="%1" modified="%2" created="%3" tags="%4" tsnip.url="%6" tsnip.title="%7" tsnip.category="%8">\n<pre>%5</pre>\n</div>';
     var tiddler = tiddlerFormat.format([
                     title.htmlEncode(),
@@ -277,7 +280,7 @@ function createTiddlyEncodedDiv(category,mode,title,tags,text,oldTW,storeType)
                     created,
                     created,
                     tags.htmlEncode(),
-                    text.escapeLineBreaks().htmlEncode(),
+                    text.htmlEncode(),
                     sourceurl.htmlEncode(),
                     sourcetitle.htmlEncode(),
                     category.htmlEncode()
