@@ -173,3 +173,7 @@ TiddlyWiki.prototype.getTiddlersWithField = function (field,fieldValue,resultMat
        return results;
 }
 
+// reassign save action for backstage to use mts modified version
+//why is this necessary? should work without but doesnt.
+if (config.tasks)
+    config.tasks.save= {text: "save", tooltip: "Save your changes to this TiddlyWiki", action: saveChanges};

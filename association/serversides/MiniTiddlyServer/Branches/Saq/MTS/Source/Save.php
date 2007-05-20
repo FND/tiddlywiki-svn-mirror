@@ -62,7 +62,7 @@
 
         public $storeTiddlerMap;
 
-        public $parseError;
+        //public $parseError;
 
         public function __construct($sourceFile, $serverResponse) {
 
@@ -73,6 +73,7 @@
                 $this->sourceFile = $sourceFile;
                 $this->source = file_get_contents ( $this->sourceFile );
                 $this->sourcename = basename($this->sourceFile,".html");
+                //$this->parseError = false;
 
         }
 
@@ -88,6 +89,7 @@
                         $this->store = $regs[1];
                         $this->poststore = $regs[2];
                         $this->storeTiddlerMap = createTiddlerMap($this->store);
+                        $this->parseError = "0";
                         }
                     else
                         {
@@ -98,19 +100,20 @@
 			    $this->store = $pieces[0];
 		       	    $this->poststore = "</div>\n<!--POST-STOREAREA-->".$pieces[1];
 			    $this->storeTiddlerMap = createTiddlerMap($this->store);
-                            //$this->serverResponse->throwError($pieces[0].count($pieces));
+                        $this->parseError = "0";
+                        //$this->serverResponse->throwError($this->parseError);
                             }
                         else
                             {
                             $this->serverResponse->throwError("The source file ($this->sourceFile) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $this->sourcename.err");
-                            $this->parseError = true;
+                            $this->parseError = "1";
                             }
                         }
                     }
                 else
                    {
-                   $this->serverResponse->throwError("The source file ($this->sourceFile) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $this->sourcename.err");        }
-                   $this->parseError = true;
+                   $this->serverResponse->throwError("The source file ($this->sourceFile) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $this->sourcename.err");        
+                   $this->parseError = "1";}
                    }
     }
 
@@ -165,7 +168,7 @@
                 foreach($this->tiddlyWikiInfo->markupBlocks as $block)
                     $this->updateBlock($block);
             
-            if ($this->tiddlyWiki->parseError)
+            if ($this->tiddlyWiki->parseError === "1")
                 writeToFile($this->errorFile, $this->newTW);
             else
                 writeToFile($this->saveFile, $this->newTW);
@@ -228,8 +231,8 @@
     function createTiddlerMap ($tiddlersDiv){
         $tiddlersMap =array();
         //$regexp = "<div\s[^>]*tiddler=\"([^\"]*)\"[^>]*>(.*)<\/div>";
-        $regexp1="<div\s[^>]*(?:tiddler)?(?:title)?=\"([^\"]*)\"[^>]*>\s*(.*)\s*<\/div>";
-        $regexp2="<div\s[^>]*(?:tiddler)?(?:title)?=\"([^\"]*)\"[^>]*>\s*<pre>(.*)<\/pre>\s*<\/div>";
+        $regexp1="<div\s[^>]*(?:tiddler|(?<!tsnip.)title)=\"([^\"]*)\"[^>]*>\s*(.*)\s*<\/div>";
+        $regexp2="<div\s[^>]*(?:tiddler|(?<!tsnip.)title)=\"([^\"]*)\"[^>]*>\s*<pre>(.*)<\/pre>\s*<\/div>";
         if(preg_match_all("/$regexp2/siU", $tiddlersDiv, $tiddlers, PREG_SET_ORDER))
         {
             foreach($tiddlers as $tiddler)
