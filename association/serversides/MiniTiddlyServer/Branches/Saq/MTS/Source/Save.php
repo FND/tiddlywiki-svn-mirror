@@ -49,38 +49,38 @@
     }
 
     class TiddlyWiki {
-    
+
         private $serverResponse;
-        
+
         public $source;
         public $sourceFile;
-        
+        public $sourcename;
+
         public $prestore;
         public $store;
         public $poststore;
-        
+
         public $storeTiddlerMap;
-    
+
+        public $parseError;
+
         public function __construct($sourceFile, $serverResponse) {
-        
-        
+
+
             $this->serverResponse = $serverResponse;
-            
-            // LOAD FILE // 
+
+            // LOAD FILE //
                 $this->sourceFile = $sourceFile;
                 $this->source = file_get_contents ( $this->sourceFile );
-    
-        }
-    
-    
-        public function init() {
-             // PARSE FILE // 
-                $parts = split("<div id=\"storeArea\">",$this->source);
-                
+                $this->sourcename = basename($this->sourceFile,".html");
 
-		  //if (count($parts)!=2)
-                //    $this->serverResponse->throwError("The boobie file ($sourcename) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $sourcena");		 
-	
+        }
+
+
+        public function init() {
+             // PARSE FILE //
+                $parts = split("<div id=\"storeArea\">",$this->source);
+
                 if (count($parts) == 2)
                     {
                     if (preg_match('/(.*)(\s*<\/div>\s*<!--POST-BODY-START-->.*)/s', $parts[1], $regs)) {
@@ -89,27 +89,33 @@
                         $this->poststore = $regs[2];
                         $this->storeTiddlerMap = createTiddlerMap($this->store);
                         }
-		       else
-			   {
+                    else
+                        {
                         $pieces = explode("<!--POST-STOREAREA-->",$parts[1],2);
                         if ($pieces!=$parts[1] && count($pieces) == 2)
                             {
                             $this->prestore = $parts[0]."<div id=\"storeArea\">\n";
-				 $this->store = $pieces[0];
-				 $this->poststore = "</div>\n<!--POST-STOREAREA-->".$pieces[1];
-				 $this->storeTiddlerMap = createTiddlerMap($this->store);
+			    $this->store = $pieces[0];
+		       	    $this->poststore = "</div>\n<!--POST-STOREAREA-->".$pieces[1];
+			    $this->storeTiddlerMap = createTiddlerMap($this->store);
                             //$this->serverResponse->throwError($pieces[0].count($pieces));
-				 }
+                            }
                         else
-                             $this->serverResponse->throwError("The source file ($sourcename) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $sourcename.err");
+                            {
+                            $this->serverResponse->throwError("The source file ($this->sourceFile) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $this->sourcename.err");
+                            $this->parseError = true;
+                            }
                         }
                     }
-                else 
-                   $this->serverResponse->throwError("The source file ($sourcename) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $sourcename.err");        }
+                else
+                   {
+                   $this->serverResponse->throwError("The source file ($this->sourceFile) was not found or is corruped.  Please open manually to fix.  Your save was redirected to $this->sourcename.err");        }
+                   $this->parseError = true;
+                   }
     }
-    
+
     class SavingMachine {
-    
+
         private $serverResponse;
         private $tiddlyWiki;
         private $clientRequest;
@@ -119,15 +125,16 @@
         private $newTW;
         
         public $saveFile;
+        public $errorFile;
         public $saveRedirect;
-    
+
         public function __construct($serverResponse,$tiddlyWiki,$clientRequest,$tiddlyWikiInfo) {
             $this->serverResponse = $serverResponse;
             $this->tiddlyWiki = $tiddlyWiki;
             $this->clientRequest = $clientRequest;
             $this->tiddlyWikiInfo = $tiddlyWikiInfo;
-            
             $this->saveFile = $this->tiddlyWiki->sourceFile;
+            $this->errorFile = str_replace(".html",".err",$this->tiddlyWiki->sourceFile);
         }
         
         public function goSave() {
@@ -157,8 +164,11 @@
             else
                 foreach($this->tiddlyWikiInfo->markupBlocks as $block)
                     $this->updateBlock($block);
-                    
-            writeToFile($this->saveFile, $this->newTW);
+            
+            if ($this->tiddlyWiki->parseError)
+                writeToFile($this->errorFile, $this->newTW);
+            else
+                writeToFile($this->saveFile, $this->newTW);
         }
         
         

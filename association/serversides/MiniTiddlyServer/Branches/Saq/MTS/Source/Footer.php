@@ -119,11 +119,6 @@ config.macros.IncludeTiddler.handler = function (place, macroName, params) {
     wikify(tiddlerText, place);
 }
 
-loadRemoteFile = function () {
-    alert("Unfortunatly, this cannot work from a live wiki wrapped by MTS.  Please download your wiki, import the tiddlers after running it locally, save it, and then upload it");
-}
-
-
 
 
 var loginpath = "MTS/Source/Login.php";

@@ -72,6 +72,8 @@ function AjaxRequest(url, callback, getParams, postParams) {
         
         if ( !response.error )
             cb(response);
+        else
+           cb({error:true});
     }
 }
 
