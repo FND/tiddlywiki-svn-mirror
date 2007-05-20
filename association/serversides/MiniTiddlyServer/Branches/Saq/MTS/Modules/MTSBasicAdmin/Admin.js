@@ -19,11 +19,11 @@ if ( config.backstageTasks ) {
     //config.backstageTasks = ["save", "tidy","sync","importTask","copy","tweak","plugins"];
 
 
-    for (var i in config.backstageTasks) {
-        if (config.backstageTasks[i] == "save")
-            config.backstageTasks.splice(i,6);
-    }
-
+  //  for (var i in config.backstageTasks) {
+  //      if (config.backstageTasks[i] == "save")
+  //          config.backstageTasks.splice(i,6);
+  //  }
+  // why on earth would we want to do that?:: Saq
 
     var adminOldIn = adminLoggedIn;
     adminLoggedIn = function () {
