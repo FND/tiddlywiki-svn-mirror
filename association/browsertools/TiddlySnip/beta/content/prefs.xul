@@ -213,6 +213,11 @@
                     oncommand="changePref('enablemtsbackup',this.checked);"
                     />
 
+                    <checkbox id="show_mtslogout"
+                    label="&mtslogout.label;"
+                    type="checkbox"
+                    oncommand="changePref('mtslogout',this.checked);"
+                    />
 
             </vbox>
             </groupbox>

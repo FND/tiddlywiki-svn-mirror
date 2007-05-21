@@ -157,10 +157,10 @@ function mtslogin()
                }
                 //alert("logged in");//logged in, enable save? tiddler listing?
             else
-                {alert(xmlHttp.responseText);}
+                {alert(getStr(mtsUploadFailed)+xmlHttp.responseText);}
             }
             else
-                {alert(xmlHttp.responseText);}
+                {alert(getStr(mtsUploadFailed)+xmlHttp.responseText);}
         }
        //else (alert(xmlHttp.responseText));
     };
@@ -173,6 +173,8 @@ function mtslogin()
 
 function mtsLogout()
 {
+    if (!pref.getBoolPref("tiddlysnip.mtslogout"))
+        return false;
     var u = pref.getCharPref("tiddlysnip.mtsphpfile");
     //var u = "http://test.tiddlythemes.com/8/index.php";//php file location
     var url = u.substr(0,u.lastIndexOf("/"))+"/MTS/Source/Login.php?action=logout";
@@ -189,10 +191,10 @@ function mtsLogout()
                return false;
                 }
             else
-                {alert("could not logout of MTS. " + xmlHttp.responseText);}
+                {alert(getStr(mtsLogoutFailed) + xmlHttp.responseText);}
             }
             else
-                {alert("could not logout of MTS. " + xmlHttp.responseText);}
+                {alert(getStr(mtsLogoutFailed) + xmlHttp.responseText);}
         }
        //else (alert(xmlHttp.responseText));
     };
@@ -227,10 +229,10 @@ function mtsGetTiddlerList()
                }
                 //alert("logged in");//logged in, enable save? tiddler listing?
             else
-                {alert(xmlHttp.responseText);}
+                {alert(getStr(mtsTiddlerListError));}
             }
             else
-                {alert(xmlHttp.responseText);}
+                {alert(getStr(mtsTiddlerListError));}
         }
        //else (alert(xmlHttp.responseText));
     };
@@ -271,6 +273,8 @@ function mtssave(fileLoc,tw,title)
     mtsSaveRequest(url,datastr,title);
 }
 
+
+
 function mtsSaveRequest(url, postData, title)
 {
     var xmlHttp = new XMLHttpRequest();
@@ -292,14 +296,14 @@ function mtsSaveRequest(url, postData, title)
                     }
                 else
                     {
-                    alert(xmlHttp.responseText);
+                    alert(getStr("uploadFailed")+xmlHttp.responseText);
                     errorSound();
                     }
                 mtsLogout();
                 }
              else
                 {
-                alert(getStr("uploadFailed"));
+                alert(getStr("uploadFailed") + xmlHttp.responseText);
                 errorSound();
                 mtsLogout();
                 }

@@ -17,3 +17,5 @@ pref("tiddlysnip.uploadusername","");
 pref("tiddlysnip.uploadfilename","");
 pref("tiddlysnip.includehtml",false);
 pref("tiddlysnip.servertype","1");
+pref("tiddlysnip.mtslogout",true);
+pref("tiddlysnip.enablemtsbackup",true);

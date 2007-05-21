@@ -39,6 +39,7 @@ function initPrefs()
     prefMap['mtsusername'] = readCharPref("mtsusername");
     //prefMap['mtspass'] = readCharPref("mtspass");
     prefMap['enablemtsbackup'] = readBoolPref("enablemtsbackup");
+    prefMap['mtslogout'] = readBoolPref("mtslogout");
 
     document.getElementById("show_uploadpass").value = getUploadPassword("upload");
     document.getElementById("show_mtspass").value = getUploadPassword("mts");

@@ -77,6 +77,7 @@
 <!ENTITY  mtsphpfile.label                "Php file url:">
 <!ENTITY  mtshtmlfile.label               "Html file url:">
 <!ENTITY  togglemtsbackup.label           "Enable backups">
+<!ENTITY  mtslogout.label                 "Log out of MTS after saving">
 
 <!-- about.xul -->
 <!ENTITY  tiddlysnip.abouttitle.label     "TiddlySnip">
