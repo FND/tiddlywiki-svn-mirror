@@ -161,16 +161,46 @@ function setLoggedOut() {
         if (response.login) {
             setLoggedIn();
             isAdmin = response.admin;
-            if ( isAdmin ) adminLoggedIn();
+            if ( isAdmin ) 
+                {
+                adminLoggedIn();
+                mtsToggleBackstage();
+                }
+            config.options.chkHttpReadOnly = false;
             readOnly = false;
+            refreshDisplay();
         }
         
         else {
             displayMessage("Login Failed:");
         }
-        
     }
     
+    function mtsToggleBackstage()
+    {
+    if (backstage && backstage.area==null)
+        backstage.init();
+    }
+    
+    old_mtslogin_restart = restart;
+    restart = function()
+    {
+        old_mtslogin_restart.apply(this,arguments);
+        if (loggedIn)
+            {
+            config.options.chkHttpReadOnly = false;
+            readOnly = false;
+            refreshDisplay();
+            if (isAdmin)
+              {
+              mtsToggleBackstage();
+              }
+            }
+    }
+
+    //do we need refresh display here?
+    //what about backstage?
+
     function logout() {
         // Send Logout Request // 
         singleMessage("Logging out...");
