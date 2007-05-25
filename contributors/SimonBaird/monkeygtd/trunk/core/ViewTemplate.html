@@ -4,10 +4,19 @@
 <div class='toolbar'>
 	<span macro="showWhenTagged systemConfig">
 		<span macro="toggleTag systemConfigDisable . '[[disable|systemConfigDisable]]'"></span>
+
 	</span>
 	<span style="padding:1em;"></span>
-	<span macro='toolbar closeTiddler closeOthers +editTiddler deleteTiddler permalink references newHere refresh'></span>
+
+	<span macro='showWhen tiddler.title == "Process Inbox"'>
+		<!-- so you don't ctrl-enter and lose your inbox data (removed the '+' char before editTiddler) -->
+		<span macro='toolbar closeTiddler closeOthers editTiddler deleteTiddler permalink references newHere refresh'></span>
+        </span>
+	<span macro='hideWhen tiddler.title == "Process Inbox"'>
+		<span macro='toolbar closeTiddler closeOthers +editTiddler deleteTiddler permalink references newHere refresh'></span>
+        </span>
 </div>
+
 
 <div class="tagglyTagged" macro="tags"></div>
 
