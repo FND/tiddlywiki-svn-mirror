@@ -21,7 +21,7 @@
         <text value="TiddlySnip" class="tiddlysnip-title"/>
         <image src="chrome://tiddlysnip/skin/tiddlysnip32.png"/>
     </hbox>
-    <text value="&tiddlysnip.version.label; 1.0 RC1"/>
+    <text value="&tiddlysnip.version.label; 1.01 beta"/>
 
     <separator class="thin"/>
     <text value="&tiddlysnip.homepage.label;" class="tiddlysnip-subtitle"/>

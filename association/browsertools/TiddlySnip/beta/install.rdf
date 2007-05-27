@@ -5,7 +5,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>{4f228d6e-0874-48f8-9270-0bf1acb574f6}</em:id>
-    <em:version>1.0 RC1</em:version>
+    <em:version>1.01 beta</em:version>
     
     <!-- Target Application - Firefox -->
     <em:targetApplication>
