@@ -182,8 +182,9 @@ function getStoreType(tw)
 
 function findTiddler(tw,title)
 {
+    store = getStoreType(tw);
     var tiddlerEndIndex = null;
-    var t = (getStoreType(tw)=="2.1")? "tiddler":"title";
+    var t = (store=="2.1")? "tiddler":"title";
     var tiddlerStartMarker = '<div '+t+'="'+mozConvertUnicodeToUTF8(title)+'"';
     var tiddlerStartIndex = tw.lastIndexOf(tiddlerStartMarker);
     if(tiddlerStartIndex!=-1)
@@ -215,7 +216,12 @@ function modifyTW(writeMode,oldTW,storeStart,tiddlerMarkers,category,mode,title,
        }
    else if (writeMode == "append")
       {
-      var newTW = oldTW.substr(0,tiddlerMarkers[1]) + "\n\n" + (isOnline()? text :mozConvertUnicodeToUTF8(text)) + oldTW.substr(tiddlerMarkers[1]);
+      store = getStoreType(oldTW);
+      text = "\n\n" + text;
+      text = (store == "2.1")? text.escapeLineBreaks():text;
+      text = text.htmlEncode();
+      tiddlerMarkers[1] = (store == "2.1")? tiddlerMarkers[1]: tiddlerMarkers[1]-7;
+      var newTW = oldTW.substr(0,tiddlerMarkers[1]) + (isOnline()? text :mozConvertUnicodeToUTF8(text)) + oldTW.substr(tiddlerMarkers[1]);
       }
    return newTW;
 }
