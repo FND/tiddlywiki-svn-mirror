@@ -1,10 +1,6 @@
 title: UploadPlugin
 modifier: BidiX
 created: 200703021728
-modified: 200704212203
+modified: 200705281040
 tags: systemConfig Upload
-server.host: file:///Volumes/galapagos/Dev/index.html
-anon: undefined
-server.type: file
-server.page.version: 200703021728
-changecount: 4
+changecount: 6

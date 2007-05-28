@@ -1,13 +1,13 @@
 /***
 |''Name:''|UploadPluginLingoFR|
 |''Description:''|French Translation|
-|''Version:''|4.0.2|
-|''Date:''|Apr 21, 2007|
+|''Version:''|4.1.0|
+|''Date:''|May 8, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadPluginLingoFR|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
 |''~CoreVersion:''|2.2.0|
-|''Requires:''|UploadPlugin|
+|''Requires:''|UploadPlugin UploadToHomeMacro|
 ***/
 //{{{
 config.macros.upload.label = {
@@ -22,6 +22,23 @@ config.macros.upload.messages = {
 	noStoreUrl: "Pas de 'store URL' dans les paramètres ou dans les options",
 	usernameOrPasswordMissing: "nom d'utilisateur ou mot de passe absent"
 };
+
+merge(config.macros.uploadOptions, {
+	wizardTitle: "Télécharge avec les options",
+	step1Title: "Ces options sont sauvegardées dans des cookies de votre navigateur",
+	step1Html: "<input type='hidden' name='markList'></input><br>",
+	cancelButton: "Annuler",
+	cancelButtonPrompt: "Arrête l'action en cours et ferme le panneau",
+	listViewTemplate: {
+		columns: [
+			{name: 'Description', field: 'description', title: "Description", type: 'WikiText'},
+			{name: 'Option', field: 'option', title: "Option", type: 'String'},
+			{name: 'Nom', field: 'name', title: "Nom", type: 'String'}
+			],
+		rowClasses: [
+			{className: 'lowlight', field: 'lowlight'} 
+			]}
+	});
 
 bidix.upload.messages = {
 	//from saving
@@ -50,5 +67,26 @@ merge(config.optionsDesc,{
 	chkUploadLog: "Enregistre une trace dans UploadLog (defaut: true)",
 	txtUploadLogMaxLine: "Nomnre maximum de lignes dans UploadLog (defaut: 10)"
 });
+
+merge(config.tasks,{
+	uploadOptions: {text: "télécharge", tooltip: "Edite les options et télécharge vers le seveur", content: '<<uploadOptions>>'}
+});
+//}}}
+
+//{{{
+/*
+ * UploadToHomeMacro Lingo
+ */
+
+if (config.macros.uploadToHome) {
+	merge(config.macros.uploadToHome,{messages: {
+			homeParamsTiddler: "HomeParameters",
+			prompt: "Sauvegarde et télécharge ce TiddlyWiki en utilisant les paramètres du tiddler '%0'",
+			tiddlerNotFound: "Tiddler %0 non trouvé"
+		}});
+	merge(config.tasks,{
+			uploadToHome: {text: "téléchargeVersMaison", tooltip: "Télécharge en utilisant le tiddler '" + config.macros.uploadToHome.messages.homeParamsTiddler + "'", action: config.macros.uploadToHome.action}
+		});
+}
 
 //}}}

@@ -1,22 +1,22 @@
 /***
 |''Name:''|UploadPlugin|
 |''Description:''|Save to web a TiddlyWiki|
-|''Version:''|4.0.2|
-|''Date:''|Apr 21, 2007|
+|''Version:''|4.1.0|
+|''Date:''|May 5, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadPlugin|
 |''Documentation:''|http://tiddlywiki.bidix.info/#UploadPluginDoc|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
-|''~CoreVersion:''|2.2.0 (beta 5)|
+|''~CoreVersion:''|2.2.0 (#3125)|
 |''Requires:''|PasswordOptionPlugin|
 ***/
 //{{{
 version.extensions.UploadPlugin = {
-	major: 4, minor: 0, revision: 2,
-	date: new Date("Apr 21, 2007"),
+	major: 4, minor: 1, revision: 0,
+	date: new Date("May 5, 2007"),
 	source: 'http://tiddlywiki.bidix.info/#UploadPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
-	coreVersion: '2.2.0 (beta 5)'
+	coreVersion: '2.2.0 (#3125)'
 };
 
 //
@@ -25,10 +25,9 @@ version.extensions.UploadPlugin = {
 
 if (!window.bidix) window.bidix = {}; // bidix namespace
 bidix.debugMode = false;	// true to activate both in Plugin and UploadService
-
 	
 //
-// Macro Upload
+// Upload Macro
 //
 
 config.macros.upload = {
@@ -54,6 +53,8 @@ config.macros.upload.messages = {
 };
 
 config.macros.upload.handler = function(place,macroName,params) {
+	if (readOnly)
+		return;
 	var label;
 	if (document.location.toString().substr(0,4) == "http") 
 		label = this.label.saveLabel;
@@ -61,47 +62,49 @@ config.macros.upload.handler = function(place,macroName,params) {
 		label = this.label.uploadLabel;
 	var prompt;
 	if (params[0]) {
-		prompt = this.label.promptParamMacro.toString().format(this.destFile(params[0], 
-			(params[1] ? params[1]:bidix.basename(window.location.toString())), params[3]));
+		prompt = this.label.promptParamMacro.toString().format([this.destFile(params[0], 
+			(params[1] ? params[1]:bidix.basename(window.location.toString())), params[3])]);
 	} else {
 		prompt = this.label.promptOption;
 	}
-	createTiddlyButton(place, label, prompt, 
-		function () {
-			// for missing macro parameter set value from options
-			var storeUrl = params[0] ? params[0] : config.options.txtUploadStoreUrl;
-			var toFilename = params[1] ? params[1] : config.options.txtUploadFilename;
-			var backupDir = params[2] ? params[2] : config.options.txtUploadBackupDir;
-			var uploadDir = params[3] ? params[3] : config.options.txtUploadDir;
-			var username = params[4] ? params[4] : config.options.txtUploadUserName;
-			var password = config.options.pasUploadPassword; // for security reason no password as macro parameter	
-			// for still missing parameter set default value
-			if ((!storeUrl) && (document.location.toString().substr(0,4) == "http")) 
-				storeUrl = bidix.dirname(document.location.toString())+'/'+config.macros.upload.defaultStoreScript;
-			if (storeUrl.substr(0,4) != "http")
-				storeUrl = bidix.dirname(document.location.toString()) +'/'+ storeUrl;
-			if (!toFilename)
-				toFilename = bidix.basename(window.location.toString());
-			if (!toFilename)
-				toFilename = config.macros.upload.defaultToFilename;
-			if (!uploadDir)
-				uploadDir = config.macros.upload.defaultUploadDir;
-			if (!backupDir)
-				backupDir = config.macros.upload.defaultBackupDir;
-			// report error if still missing
-			if (!storeUrl) {
-				alert(config.macros.upload.messages.noStoreUrl);
-				clearMessage();
-				return false;
-			}
-			if (config.macros.upload.authenticateUser && (!username || !password)) {
-				alert(config.macros.upload.messages.usernameOrPasswordMissing);
-				clearMessage();
-				return false;
-			}
-			bidix.upload.uploadChanges(false,null,storeUrl, toFilename, uploadDir, backupDir, username, password); 
-			return false;}, 
-		null, null, this.accessKey);
+	createTiddlyButton(place, label, prompt, function() {config.macros.upload.action(params);}, null, null, this.accessKey);
+};
+
+config.macros.upload.action = function(params)
+{
+		// for missing macro parameter set value from options
+		var storeUrl = params[0] ? params[0] : config.options.txtUploadStoreUrl;
+		var toFilename = params[1] ? params[1] : config.options.txtUploadFilename;
+		var backupDir = params[2] ? params[2] : config.options.txtUploadBackupDir;
+		var uploadDir = params[3] ? params[3] : config.options.txtUploadDir;
+		var username = params[4] ? params[4] : config.options.txtUploadUserName;
+		var password = config.options.pasUploadPassword; // for security reason no password as macro parameter	
+		// for still missing parameter set default value
+		if ((!storeUrl) && (document.location.toString().substr(0,4) == "http")) 
+			storeUrl = bidix.dirname(document.location.toString())+'/'+config.macros.upload.defaultStoreScript;
+		if (storeUrl.substr(0,4) != "http")
+			storeUrl = bidix.dirname(document.location.toString()) +'/'+ storeUrl;
+		if (!toFilename)
+			toFilename = bidix.basename(window.location.toString());
+		if (!toFilename)
+			toFilename = config.macros.upload.defaultToFilename;
+		if (!uploadDir)
+			uploadDir = config.macros.upload.defaultUploadDir;
+		if (!backupDir)
+			backupDir = config.macros.upload.defaultBackupDir;
+		// report error if still missing
+		if (!storeUrl) {
+			alert(config.macros.upload.messages.noStoreUrl);
+			clearMessage();
+			return false;
+		}
+		if (config.macros.upload.authenticateUser && (!username || !password)) {
+			alert(config.macros.upload.messages.usernameOrPasswordMissing);
+			clearMessage();
+			return false;
+		}
+		bidix.upload.uploadChanges(false,null,storeUrl, toFilename, uploadDir, backupDir, username, password); 
+		return false; 
 };
 
 config.macros.upload.destFile = function(storeUrl, toFilename, uploadDir) 
@@ -114,6 +117,87 @@ config.macros.upload.destFile = function(storeUrl, toFilename, uploadDir)
 		dest = dest + '/' + toFilename;
 	return dest;
 };
+
+//
+// uploadOptions Macro
+//
+
+config.macros.uploadOptions = {
+	handler: function(place,macroName,params) {
+		var wizard = new Wizard();
+		wizard.createWizard(place,this.wizardTitle);
+		wizard.addStep(this.step1Title,this.step1Html);
+		var markList = wizard.getElement("markList");
+		var listWrapper = document.createElement("div");
+		markList.parentNode.insertBefore(listWrapper,markList);
+		wizard.setValue("listWrapper",listWrapper);
+		this.refreshOptions(listWrapper,false);
+		var uploadCaption;
+		if (document.location.toString().substr(0,4) == "http") 
+			uploadCaption = config.macros.upload.label.saveLabel;
+		else
+			uploadCaption = config.macros.upload.label.uploadLabel;
+		
+		wizard.setButtons([
+				{caption: uploadCaption, tooltip: config.macros.upload.label.promptOption, 
+					onClick: config.macros.upload.action},
+				{caption: this.cancelButton, tooltip: this.cancelButtonPrompt, onClick: this.onCancel}
+				
+			]);
+	},
+	refreshOptions: function(listWrapper) {
+		var uploadOpts = [
+			"txtUploadUserName",
+			"pasUploadPassword",
+			"txtUploadStoreUrl",
+			"txtUploadDir",
+			"txtUploadFilename",
+			"txtUploadBackupDir",
+			"chkUploadLog",
+			"txtUploadLogMaxLine",
+			]
+		var opts = [];
+		for(i=0; i<uploadOpts.length; i++) {
+			var opt = {};
+			opts.push()
+			opt.option = "";
+			n = uploadOpts[i];
+			opt.name = n;
+			opt.lowlight = !config.optionsDesc[n];
+			opt.description = opt.lowlight ? this.unknownDescription : config.optionsDesc[n];
+			opts.push(opt);
+		}
+		var listview = ListView.create(listWrapper,opts,this.listViewTemplate);
+		for(n=0; n<opts.length; n++) {
+			var type = opts[n].name.substr(0,3);
+			var h = config.macros.option.types[type];
+			if (h && h.create) {
+				h.create(opts[n].colElements['option'],type,opts[n].name,opts[n].name,"no");
+			}
+		}
+		
+	},
+	onCancel: function(e)
+	{
+		backstage.switchTab(null);
+		return false;
+	},
+	
+	wizardTitle: "Upload with options",
+	step1Title: "These options are saved in cookies in your browser",
+	step1Html: "<input type='hidden' name='markList'></input><br>",
+	cancelButton: "Cancel",
+	cancelButtonPrompt: "Cancel prompt",
+	listViewTemplate: {
+		columns: [
+			{name: 'Description', field: 'description', title: "Description", type: 'WikiText'},
+			{name: 'Option', field: 'option', title: "Option", type: 'String'},
+			{name: 'Name', field: 'name', title: "Name", type: 'String'}
+			],
+		rowClasses: [
+			{className: 'lowlight', field: 'lowlight'} 
+			]}
+}
 
 //
 // upload functions
@@ -286,12 +370,12 @@ bidix.upload.updateOriginal = function(original, posDiv)
 	var revised = original.substr(0,posDiv[0] + startSaveArea.length) + "\n" +
 				store.allTiddlersAsHtml() + "\n" +
 				original.substr(posDiv[1]);
-	var newSiteTitle = (wikifyPlain("SiteTitle") + " - " + wikifyPlain("SiteSubtitle").htmlEncode());
+	var newSiteTitle = getPageTitle().htmlEncode();
 	revised = revised.replaceChunk("<title"+">","</title"+">"," " + newSiteTitle + " ");
 	revised = updateMarkupBlock(revised,"PRE-HEAD","MarkupPreHead");
 	revised = updateMarkupBlock(revised,"POST-HEAD","MarkupPostHead");
 	revised = updateMarkupBlock(revised,"PRE-BODY","MarkupPreBody");
-	revised = updateMarkupBlock(revised,"POST-BODY","MarkupPostBody");
+	revised = updateMarkupBlock(revised,"POST-SCRIPT","MarkupPostBody");
 	return revised;
 };
 
@@ -426,7 +510,7 @@ bidix.initOption = function(name,value) {
 bidix.checkPlugin("PasswordOptionPlugin", 1, 0, 1);
 
 // styleSheet
-setStylesheet('.urlInput {width: 22em;}',"uploadPluginStyles");
+setStylesheet('.txtUploadStoreUrl, .txtUploadBackupDir, .txtUploadDir {width: 22em;}',"uploadPluginStyles");
 
 //optionsDesc
 merge(config.optionsDesc,{
@@ -449,5 +533,14 @@ bidix.initOption('txtUploadUserName','');
 bidix.initOption('pasUploadPassword','');
 bidix.initOption('chkUploadLog',true);
 bidix.initOption('txtUploadLogMaxLine','10');
+
+
+// Backstage
+merge(config.tasks,{
+	uploadOptions: {text: "upload", tooltip: "Change UploadOptions and Upload", content: '<<uploadOptions>>'}
+});
+config.backstageTasks.push("uploadOptions");
+
+
 //}}}
 
