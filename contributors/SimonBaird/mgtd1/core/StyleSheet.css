@@ -1,0 +1,43 @@
+/*{{{*/
+[[MPTW Styles]]
+body { font-size:105%; }
+.viewer .tabContents {background-color:white;}
+.viewer .tabUnselected {color:#666; border:1px #aaa solid;}
+
+#topMenu {background:url(http://simonbaird.com/monkeygtd/logo-trans.gif) no-repeat -15px 2px transparent;
+padding:5px;
+padding-left:80px;
+background-offset:-10px;
+}
+
+a{ color: #04b; }
+a:hover{ background: #04b; color: #fff; }
+
+/* the png is way superior due to alpha transparency. stupid IE */
+html>body #topMenu {background-image:url(http://simonbaird.com/monkeygtd/logo-trans.png)}
+
+.popup { background: #a33; border: 1px solid #400; }
+#topMenu .button:hover, #topMenu .tiddlyLink:hover,
+.popup .button:hover, .tiddlyLink:hover
+{ background:#711;}
+
+#messageArea { background-color:#ffd; border-color:#bb9; border-width:1px; border-style:solid; font-size:90%; }
+#messageArea .button { text-decoration:none; font-weight:bold; background:transparent; border:0px; }
+#messageArea .button:hover {background: #cc9; }
+
+.scrolling { border-bottom:solid #ddd 1px; overflow:auto; padding:0.5em; font-size:90%; height:8em; text-decoration:line-through;}
+
+ul{ margin-top:0px; padding-top:0px;}
+
+.nextAction {border:2px #fdd solid; background:#fff8f8; padding-left:0.5em;}
+.waitAction {border:2px #fdb solid; background:#fff8f0; padding-left:0.5em;}
+
+.viewer .button { font-size:70%; padding:0px; padding-left:2px;padding-right:2px;}
+
+#sidebarCalendar { display:block; padding:0.5em; background:white; margin-top:0.5em; 
+border:1px solid #ccc; }
+
+#sidebarCalendar table td { font-size:95%; }
+#sidebarCalendar { text-align:center; } /* doesn't work */
+/*}}}*/
+

@@ -1,0 +1,23 @@
+<!--{{{-->
+<div class="toolbar" macro="toolbar -closeTiddler closeOthers +editTiddler deleteTiddler"></div>
+<div class="tagglyTagged" macro="hideSomeTags"></div>
+<div><span class="title" macro="view title"></span><span class="miniTag" macro="miniTag"></span></div>
+<xmp style="padding:0.5em;border:1px solid #ddd;font-size:90%;" macro="wikifyContents">
+<<toggleTag Next>><<toggleTag Wait>><<toggleTag Someday>><<toggleTag Done>>
+<<forEachTiddler where 'tiddler.tags.contains("Context")' write
+  '"<<toggleTag [["+tiddler.title+"]]$))"'>>
+</xmp>
+<div class='subtitle'>Created <span macro='view created date [[DD/MM/YY]]'></span>, updated <span  style="border:1px solid #ddd" macro='view modified date [[DD/MM/YY]]'></span></div>
+<div class="viewer" macro="view text wikified"></div>
+
+<!-- Ken wanted a toolbar down here also. uncomment the following -->
+<!--
+<br/>
+<br/><xmp style="padding:0.5em;border:1px solid #ddd;font-size:90%;" macro="wikifyContents">
+<<toggleTag Next>><<toggleTag Waiting>><<toggleTag Done>> | \
+<<forEachTiddler where 'tiddler.tags.contains("Context")' write
+  '"<<toggleTag [["+tiddler.title+"]]$))"'>>
+</xmp>
+-->
+<div class="tagglyTagging" macro="tagglyListWithSort"></div>
+<!--}}}-->

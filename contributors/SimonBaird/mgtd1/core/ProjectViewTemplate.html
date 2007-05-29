@@ -1,0 +1,107 @@
+<!---
+| Name:|ProjectViewTemplate |
+| Version:||
+| Source:|http://simonbaird.com/mptw/|
+--->
+<!--{{{-->
+<div class="toolbar" macro="toolbar -closeTiddler closeOthers +editTiddler"></div>
+<div class="tagglyTagged" macro="hideSomeTags"></div>
+<div><span class="title" macro="view title"></span><span class="miniTag" macro="miniTag"></span></div>
+<div class='subtitle'>Created <span macro='view created date [[DD/MM/YY]]'></span>, updated <span macro='view modified date [[DD/MM/YY]]'></span></div>
+<div class="viewer" macro="view text wikified"></div>
+
+<table width="100%"><tr>
+<td valign="top" style="font-size:90%;border-right:1px dashed #888;padding:0.5em;">
+<xmp macro="wikifyContents" class="viewer">
+{div{nextAction{[[Next Actions|Next]] \
+<<forEachTiddler where 'tiddler.title == "SiteTitle"'
+  write '"<<newerTiddler button:\"new\" tags:\"Next Task [[" + 
+       context.inTiddler.title + 
+          "]]\" name:\"New Task\" $))"'>> \
+\
+<<forEachTiddler
+  where 'tiddler.tags.containsAll(["Task","Next",context.inTiddler.title]) && !tiddler.tags.contains("Done")'
+  write '"\n<<toggleTag Done [["+tiddler.title+"]] nolabel$))[["+tiddler.title+"]]"'
+>>}}}
+{div{waitAction{[[Waiting For|Wait]] \
+<<forEachTiddler where 'tiddler.title == "SiteTitle"'
+  write '"<<newerTiddler button:\"new\" tags:\"Wait Task [[" + 
+       context.inTiddler.title + 
+          "]]\" name:\"New Task\" $))"'>> \
+\
+<<forEachTiddler
+  where 'tiddler.tags.containsAll(["Task","Wait",context.inTiddler.title]) && !tiddler.tags.contains("Done")'
+  write '"\n<<toggleTag Done [["+tiddler.title+"]] nolabel$))[["+tiddler.title+"]]"'
+>>}}}
+<<forEachTiddler where 'tiddler.tags.containsAll([context.inTiddler.title, "Task"]) && !tiddler.tags.contains("Done")  && !tiddler.tags.contains("Next") && !tiddler.tags.contains("Wait") && !tiddler.tags.contains("Someday")'
+  write
+  '"@@font-size:90%;padding-left:0.5em;[[" + tiddler.title + "]]@@ \n"'
+>>
+----
+[[Someday/Maybe|Someday]] \
+<<forEachTiddler where 'tiddler.title == "SiteTitle"'
+  write '"<<newerTiddler button:\"new\" tags:\"Someday Task [[" + 
+       context.inTiddler.title + 
+          "]]\" name:\"New Task\" $))"'>> \
+\
+<<forEachTiddler
+  where 'tiddler.tags.containsAll(["Task","Someday",context.inTiddler.title]) && !tiddler.tags.contains("Done")'
+  write '"\n<<toggleTag Done [["+tiddler.title+"]] nolabel$))[["+tiddler.title+"]]"'
+>>
+----
+[[Done]] \
+{div{scrolling{\
+<<forEachTiddler
+  where 'tiddler.tags.containsAll(["Task",context.inTiddler.title]) && tiddler.tags.contains("Done")'
+  sortBy 'tiddler.modified' descending
+  write '"<<toggleTag Done [["+tiddler.title+"]] nolabel$))[["+tiddler.title+"]]\n"'
+>>\
+}}}
+
+</xmp>
+</td>
+
+
+<td valign="top" style="font-size:90%;padding:0.5em;">
+<xmp macro="wikifyContents" class="viewer">
+/% ha ha!! better way???? it's like select 'thing' thing from dual %/ \
+[[Reminders|Reminder]] <<forEachTiddler where 'tiddler.title == "SiteTitle"'
+  write '"<<newerTiddler button:\"new\" tags:\"Reminder [[" + 
+       context.inTiddler.title + 
+          "]]\" name:\"New Reminder\" text:\"<<newReminder$}}\"$))"'>>++++
+<<forEachTiddler where 'tiddler.title == "SiteTitle"' write
+       '"<<showReminders tag:\"[[" + context.inTiddler.title + 
+          "]]\" format:\"*DIFF, TITLE\"$))" ' >>===
+----
+[[Tasks|Task]] by [[Context]]
+<<forEachTiddler
+  where 'tiddler.tags.contains("Context")'
+  sortBy 'tiddler.title'
+  write
+    '"@@font-size:90%;padding-left:0.5em;[[" + tiddler.title + "]]@@ "+
+/// display a count (by Clint)
+"<<forEachTiddler where \n" +
+       "   \'tiddler.tags.containsAll([\"Task\",\""+tiddler.title+"\",\""+context.inTiddler.title+"\"]) && "+
+         " !tiddler.tags.contains(\"Done\")\'\n" +
+         " script \'function writeTotalTasks(index, count) {if (index == 0) return \"(\"+count+\")\"; else return \"\";}\' "+
+         "write \'writeTotalTasks(index,count)\'$))" +
+/// end display a count  
+"<<newerTiddler name:\"New Task\" button:\"new\" text:\"Enter task details\" tags:\"Task [["+tiddler.title+"]] [["+context.inTiddler.title+"]]\"$))" +
+      (tiddler.tags.contains("startCollapsed")?"+++\n":"++++") +
+     "<<forEachTiddler where \n" +
+" \'tiddler.tags.containsAll([\""+context.inTiddler.title+"\",\"Task\",\""+tiddler.title+"\"]) && "+
+         " !tiddler.tags.contains(\"Done\")\'\n" +
+         "$))" +
+     "===\n\n" +
+     ""'
+>>
+
+</xmp>
+</td>
+</tr></table>
+<br class="tagClear"/>
+<!-- <div class="tagglyTagging" macro="tagglyListWithSort"></div> -->
+
+<!--}}}-->
+
+

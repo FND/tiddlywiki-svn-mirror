@@ -1,0 +1,5 @@
+<<newerTiddler button:"New" tags:"Task [[$$]]" name:"New Task">>
+<<forEachTiddler
+  where
+   'tiddler.tags.contains("Task") && !tiddler.tags.contains("Done") && tiddler.tags.contains("$$")'
+>>

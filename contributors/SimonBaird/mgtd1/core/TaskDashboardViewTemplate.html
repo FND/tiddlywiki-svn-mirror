@@ -1,0 +1,147 @@
+<!---
+| Name:|TaskDashboardViewTemplate |
+| Version:||
+| Source:|http://simonbaird.com/mptw/|
+--->
+<!--{{{-->
+<div class="toolbar" macro="toolbar -closeTiddler closeOthers +editTiddler"></div>
+<div class="tagglyTagged" macro="hideSomeTags"></div>
+<div><span class="title" macro="view title"></span><span class="miniTag" macro="miniTag"></span><!--<span style="padding-left:3em;font-size:90%;font-weight:bold;" macro="today">--><span style="padding-left:3em;font-size:90%;font-weight:bold;" macro="showClock"></span></div>
+<!--<div class='subtitle'>Created <span macro='view created date [[DD/MM/YY]]'></span>, updated <span macro='view modified date [[DD/MM/YY]]'></span></div>-->
+<div class="viewer" macro="view text wikified"></div>
+<table width="100%"><tr>
+
+<td valign="top" style="font-size:90%;border-right:1px dashed #888;padding:0.5em;">
+<xmp macro="wikifyContents" class="viewer">
+[[Contexts|Context]] <<newerTiddler button:"new" tags:"Context" name:"New Context" text:"Enter  details">>
+<<forEachTiddler
+  where 'tiddler.tags.contains("Context")'
+  sortBy tiddler.title
+  write '"*[["+tiddler.title+"]] "+
+/// display a count (by Clint)
+"<<forEachTiddler where \n" +
+       "   \'tiddler.tags.containsAll([\"Task\",\""+tiddler.title+"\"]) && "+
+         " !tiddler.tags.contains(\"Done\")\'\n" +
+         " script \'function writeTotalTasks(index, count) {if (index == 0) return \"(\"+count+\")\"; else return \"\";}\' "+
+         "write \'writeTotalTasks(index,count)\'$))" +
+/// end display a count
+   "\n"'   
+>>
+----
+[[Projects|Project]] <<newerTiddler button:"new" tags:"Project" name:"New Project" text:"Enter  details">>
+<<forEachTiddler 
+  where 'tiddler.tags.contains("Project")'
+  write '"*[["+tiddler.title+"]] "+
+/// display a count (by Clint)
+"<<forEachTiddler where \n" +
+       "   \'tiddler.tags.containsAll([\"Task\",\""+tiddler.title+"\"]) && "+
+         " !tiddler.tags.contains(\"Done\")\'\n" +
+         " script \'function writeTotalTasks(index, count) {if (index == 0) return \"(\"+count+\")\"; else return \"\";}\' "+
+         "write \'writeTotalTasks(index,count)\'$))" +
+/// end display a count
+   "\n"'
+>>
+----
+~~[[Manage Contexts|Context]]~~
+</xmp>
+</td>
+
+
+<td valign="top" style="font-size:90%;border-right:1px dashed #888;padding:0.5em;">
+<xmp macro="wikifyContents" class="viewer">
+{div{nextAction{[[Next Actions|Next]] \
+<<forEachTiddler
+  where 'tiddler.tags.containsAll(["Task","Next"]) && !tiddler.tags.contains("Done")'
+  write '"\n<<toggleTag Done [["+tiddler.title+"]] nolabel$))[["+tiddler.title+"]]"'
+>>}}}
+{div{waitAction{[[Waiting For|Wait]] \
+<<forEachTiddler
+  where 'tiddler.tags.containsAll(["Task","Wait"]) && !tiddler.tags.contains("Done")'
+  write '"\n<<toggleTag Done [["+tiddler.title+"]] nolabel$))[["+tiddler.title+"]]"'
+>>}}}
+[[Done]] <<deleteDone daysOld:30 title:'delete old'>>\
+{div{scrolling{\
+<<forEachTiddler
+  where 'tiddler.tags.containsAll(["Task"]) && tiddler.tags.contains("Done")'
+  sortBy tiddler.modified descending
+  write '"<<toggleTag Done [["+tiddler.title+"]] nolabel$))[["+tiddler.title+"]]\n"'
+>>\
+}}}
+</xmp>
+</td>
+
+
+<td valign="top" style="font-size:90%;padding:0.5em;">
+<table><tr>
+<xmp macro="wikifyContents" class="viewer">
+All [[Tasks|Task]] +++
+<<forEachTiddler
+  where 'tiddler.tags.contains("Task") && !tiddler.tags.contains("Done")'
+  sortBy 'tiddler.title'
+  write  '"@@font-size:90%;padding-left:0.5em;[[" + tiddler.title + "]]@@ " + "\n"'
+>>
+</xmp>
+</tr>
+<table><tr>
+<xmp macro="wikifyContents" class="viewer">
+----
+[[Someday/Maybe|Someday]] +++
+<<forEachTiddler
+  where 'tiddler.tags.containsAll(["Task", "Someday"]) && !tiddler.tags.contains("Done")'
+  sortBy 'tiddler.title'
+  write  '"@@font-size:90%;padding-left:0.5em;[[" + tiddler.title + "]]@@ " + "\n"'
+>>
+</xmp>
+</tr>
+<tr>
+<xmp macro="wikifyContents" class="viewer">
+----
+[[Reminders|Reminder]] <<newerTiddler button:"new" tags:"Reminder" name:"New Reminder" text:"<<newReminder$))">>++++
+<<showReminders format:"*DIFF, TIDDLER">>===
+
+</xmp>
+</tr></table>
+</td>
+</tr></table>
+<br class="tagClear"/>
+<div class="tagglyTagging" macro="tagglyListWithSort"></div>
+
+
+<!--
+
+experiments...
+
+/% this one is very slick but I want self contained templates %/
+/%
+<<forEachTiddler
+  where 'tiddler.tags.contains("Priority")'
+  sortBy 'tiddler.title'
+  write
+    '(index==0?"<<tabs txtTasksTab\n":"") + 
+    tiddler.title + " " + tiddler.title + " " + tiddler.title+"\n" + 
+    (index==count-1?"$))\n":"")' 
+>>
+%/
+
+/% try nested sliders... %/
+!!Tasks
+{div{scrolling{\
+<<forEachTiddler
+  where 'tiddler.tags.contains("Priority")'
+  sortBy 'tiddler.title'
+  write
+    '"++++[" + tiddler.title.substr(2) + "]" +
+     "<<forEachTiddler where \n" +
+       "   \'tiddler.tags.containsAll([\"Task\",\""+tiddler.title+"\"])\'\n" +
+         "$))" +
+     "===\n\n"'
+>>
+}}}
+
+
+-->
+
+
+<!--}}}-->
+
+

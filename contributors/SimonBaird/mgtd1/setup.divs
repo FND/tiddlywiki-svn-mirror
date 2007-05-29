@@ -1,0 +1,19 @@
+<div tiddler="@Agendas" modifier="SimonBaird" modified="200604261333" created="200604261333" tags="Context"></div>
+<div tiddler="@Calls" modifier="SimonBaird" modified="200603080715" created="200603080715" tags="Context"></div>
+<div tiddler="@Errands" modifier="SimonBaird" modified="200604261333" created="200604261333" tags="Context"></div>
+<div tiddler="@Home" modifier="SimonBaird" modified="200603080228" created="200603080228" tags="Context"></div>
+<div tiddler="@Travel" modifier="SimonBaird" modified="200604261334" created="200604261334" tags="Context">Type the text for 'New Tiddler'</div>
+<div tiddler="@Weekend" modifier="SimonBaird" modified="200603080621" created="200603080228" tags="Context"></div>
+<div tiddler="@Work" modifier="SimonBaird" modified="200603080228" created="200603080228" tags="Context"></div>
+<div tiddler="Calendar" modifier="SimonBaird" modified="200603090259" created="200603090216" tags="">|&lt;&lt;calendar lastmonth&gt;&gt;|&lt;&lt;calendar thismonth&gt;&gt;|&lt;&lt;calendar nextmonth&gt;&gt;|</div>
+<div tiddler="Context" modifier="SimonBaird" modified="200604240224" created="200603080228" tags="">You can change what your contexts are by renaming, adding to or removing these tiddlers.</div>
+<div tiddler="Dashboard" modifier="SimonBaird" modified="200604261339" created="200603060510" tags="TaskDashboard"></div>
+<div tiddler="Done" modifier="SimonBaird" modified="200603070149" created="200603070149" tags="sortByCreated"></div>
+<div tiddler="Ideas" modifier="SimonBaird" modified="200603090641" created="200603090254" tags="">* Could replace stuff like ${title} in ViewTemplates with the name of the tiddler. It's like {{{&lt;&lt;view title&gt;&gt;}}} but happens before wikification. \n* Need a version of forEach that is:\n** easier to nest\n** has a writewikied action, eg instead of this:\n*** {{{write '&quot;&lt;&lt;asdfa&quot;+tiddler.title+&quot;thing:\s&quot;&quot;+context.inTiddler.title+&quot;\s&quot;$))'}}}\n** how about this:\n*** {{{writewikified '&lt;&lt;asdfa $tiddler.title thing:$content.inTiddler.title$))'}}}\n* need to make reusable components for viewtemplates. Perhaps macro wrappers to forEach.</div>
+<div tiddler="Next" modifier="SimonBaird" modified="200603080248" created="200603080248" tags=""></div>
+<div tiddler="Priority" modifier="SimonBaird" modified="200604240224" created="200603060510" tags="">You can change what your priorities are by renaming, adding to or removing these tiddlers.</div>
+<div tiddler="Project" modifier="SimonBaird" modified="200603080240" created="200603060609" tags=""></div>
+<div tiddler="Reminder" modifier="SimonBaird" modified="200603090223" created="200603080710" tags="groupByTag">&lt;&lt;showReminders&gt;&gt;</div>
+<div tiddler="Someday" modifier="SimonBaird" modified="200604261329" created="200604261329" tags=""></div>
+<div tiddler="Task" modifier="SimonBaird" modified="200603080634" created="200603080634" tags=""></div>
+<div tiddler="Wait" modifier="SimonBaird" modified="200604261329" created="200604261329" tags=""></div>

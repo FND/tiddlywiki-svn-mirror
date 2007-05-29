@@ -1,0 +1,8 @@
+* Could replace stuff like ${title} in ViewTemplates with the name of the tiddler. It's like {{{<<view title>>}}} but happens before wikification. 
+* Need a version of forEach that is:
+** easier to nest
+** has a writewikied action, eg instead of this:
+*** {{{write '"<<asdfa"+tiddler.title+"thing:\""+context.inTiddler.title+"\"$))'}}}
+** how about this:
+*** {{{writewikified '<<asdfa $tiddler.title thing:$content.inTiddler.title$))'}}}
+* need to make reusable components for viewtemplates. Perhaps macro wrappers to forEach.
