@@ -1,1 +1,11 @@
-<div tiddler="InterfaceOptions" modifier="JeremyRuston" modified="200609291349" created="200508181412" tags="features options">InterfaceOptions are displayed when you click the 'options' button on the right. They are saved in a cookie on your browser, making them sticky between visits:\n&lt;&lt;&lt;\n&lt;&lt;tiddler OptionsPanel&gt;&gt;\n&lt;&lt;&lt;\n* The user name for edits should be set //before// starting to edit things (ouch. another bug)\n* SaveBackups gives the option of whether to generate backup files \n* AutoSave gives the option of automatically saving every time a change is made\n* RegExpSearch allows more complex search expressions\n* CaseSensitiveSearch does as its name implies\n</div>
+<div title="InterfaceOptions" modifier="JeremyRuston" created="200508181412" modified="200609291349" tags="features options">
+<pre>InterfaceOptions are displayed when you click the 'options' button on the right. They are saved in a cookie on your browser, making them sticky between visits:
+&lt;&lt;&lt;
+&lt;&lt;tiddler OptionsPanel&gt;&gt;
+&lt;&lt;&lt;
+* The user name for edits should be set //before// starting to edit things (ouch. another bug)
+* SaveBackups gives the option of whether to generate backup files 
+* AutoSave gives the option of automatically saving every time a change is made
+* RegExpSearch allows more complex search expressions
+* CaseSensitiveSearch does as its name implies</pre>
+</div>

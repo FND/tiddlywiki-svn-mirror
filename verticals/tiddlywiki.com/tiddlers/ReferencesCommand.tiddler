@@ -1,1 +1,6 @@
-<div tiddler="ReferencesCommand" modifier="JeremyRuston" modified="200512081601" created="200512081600" tags="commands">Offers a popup menu displaying the tiddlers that link to the current one. It is used with the ToolbarMacro like this:\n{{{\n&lt;&lt;toolbar references&gt;&gt;\n}}}</div>
+<div title="ReferencesCommand" modifier="JeremyRuston" created="200512081600" modified="200512081601" tags="commands">
+<pre>Offers a popup menu displaying the tiddlers that link to the current one. It is used with the ToolbarMacro like this:
+{{{
+&lt;&lt;toolbar references&gt;&gt;
+}}}</pre>
+</div>

@@ -1,1 +1,6 @@
-<div tiddler="CloseOthersCommand" modifier="JeremyRuston" modified="200512081602" created="200512081555" tags="commands">Closes all other open tiddlers, except for any that are being editted. It is used with the ToolbarMacro like this:\n{{{\n&lt;&lt;toolbar closeOthers&gt;&gt;\n}}}</div>
+<div title="CloseOthersCommand" modifier="JeremyRuston" created="200512081555" modified="200512081602" tags="commands">
+<pre>Closes all other open tiddlers, except for any that are being editted. It is used with the ToolbarMacro like this:
+{{{
+&lt;&lt;toolbar closeOthers&gt;&gt;
+}}}</pre>
+</div>

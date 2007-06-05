@@ -1,0 +1,8 @@
+<div title="ServerAdaptorConcepts" modifier="JeremyRuston" created="200702141510" tags="concepts">
+<pre>With the ServerAdaptorMechanism, TiddlyWiki adopts a simple model for interacting with servers:
+* //Server adaptors// are plugins that provide a standardised interface to a particular server architecture. As standard, TiddlyWiki provides the FileAdaptor for talking to static TiddlyWiki files but others are available for talking to popular wiki servers
+* A //host// string identifies a particular server, usually by it's URL
+* A //workspace// string identifies a particular compartment or storage area within a server, for instance the name of a wiki on a shared MediaWiki server
+* A //title// identifies a tiddler within a particular workspace
+Via the ServerAdaptorExtendedFields, particular tiddlers can have a connection to a particular server.</pre>
+</div>

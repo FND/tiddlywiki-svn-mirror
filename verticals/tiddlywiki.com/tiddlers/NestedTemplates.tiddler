@@ -1,1 +1,11 @@
-<div tiddler="NestedTemplates" modifier="JeremyRuston" modified="200609291536" created="200609291536" tags="features">A PageTemplate, ViewTemplate or EditTemplate can include the text of another tiddler by including it in double square brackets. For example:\n\n{{{\n&lt;div&gt;\n[[MyHeader]]\n&lt;/div&gt;\n}}}\n\nYou can also use TiddlerSlicing format to include a smaller chunk of the text of a tiddler.</div>
+<div title="NestedTemplates" modifier="JeremyRuston" created="200609291536" tags="features">
+<pre>A PageTemplate, ViewTemplate or EditTemplate can include the text of another tiddler by including it in double square brackets. For example:
+
+{{{
+&lt;div&gt;
+[[MyHeader]]
+&lt;/div&gt;
+}}}
+
+You can also use TiddlerSlicing format to include a smaller chunk of the text of a tiddler.</pre>
+</div>

@@ -1,0 +1,16 @@
+<div title="Adaptor.openHost" modifier="MartinBudden" created="200702251529" tags="functions">
+<pre>{{{
+Adaptor.openHost(host,context,userParams,callback)
+}}}
+Creates an adaptor for talking to a particular host (see ServerAdaptorConcepts). This function uses the AsynchronousPattern.
+
+''Parameters:''
+|host |URI of server |
+|context |context object that is passed to the callback function |
+|userParams |user settable object object that is passed on unchanged to the callback function |
+|callback |Reference to callback function, see AdaptorCallbackSignature |
+''Returns:''
+|true |on success |
+|string |an error message if there was an error issuing the request |
+''Callback signature'' as per AdaptorCallbackSignature.</pre>
+</div>

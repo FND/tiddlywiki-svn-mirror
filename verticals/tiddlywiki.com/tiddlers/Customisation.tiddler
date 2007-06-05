@@ -1,1 +1,10 @@
-<div tiddler="Customisation" modifier="JeremyRuston" modified="200702011148" created="200609291356" tags="" changecount="2">You can customise the appearance and behaviour of TiddlyWiki to almost any degree you want:\n* Use the ColorPalette to change the basic colour scheme\n* Create a CustomStyleSheet for finer grained control over the appearance\n* Customise the PageTemplate, ViewTemplate or EditTemplate to change the composition of the page and the layout of individual tiddlers\n* Use off-the-shelf themes from [[TiddlyThemes|http://tiddlythemes.com/]]\n* Visit the [[Configuration]] summary to see all the special configuration tiddlers\n* Install [[Plugins]] to extend the core functionality (and you can also easily [[write or adapt your own|http://gimcrackd.com/etc/src/codex/]])\nThere are also a bunch of TiddlyWikiTools that you can use to enhance TiddlyWiki.</div>
+<div title="Customisation" modifier="JeremyRuston" created="200609291356" modified="200702011148">
+<pre>You can customise the appearance and behaviour of TiddlyWiki to almost any degree you want:
+* Use the ColorPalette to change the basic colour scheme
+* Create a CustomStyleSheet for finer grained control over the appearance
+* Customise the PageTemplate, ViewTemplate or EditTemplate to change the composition of the page and the layout of individual tiddlers
+* Use off-the-shelf themes from [[TiddlyThemes|http://tiddlythemes.com/]]
+* Visit the [[Configuration]] summary to see all the special configuration tiddlers
+* Install [[Plugins]] to extend the core functionality (and you can also easily [[write or adapt your own|http://gimcrackd.com/etc/src/codex/]])
+There are also a bunch of TiddlyWikiTools that you can use to enhance TiddlyWiki.</pre>
+</div>

@@ -1,1 +1,3 @@
-<div tiddler="SaveBackups" modifier="JeremyRuston" modified="200508181424" created="200508181424" tags="features options">This is one of the InterfaceOptions you can use to customize TiddlyWiki. It determines whether TiddlyWiki creates a backup file each time you SaveChanges. I'd suggest keeping it switched on for safety!</div>
+<div title="SaveBackups" modifier="JeremyRuston" created="200508181424" tags="features options">
+<pre>This is one of the InterfaceOptions you can use to customize TiddlyWiki. It determines whether TiddlyWiki creates a backup file each time you SaveChanges. I'd suggest keeping it switched on for safety!</pre>
+</div>

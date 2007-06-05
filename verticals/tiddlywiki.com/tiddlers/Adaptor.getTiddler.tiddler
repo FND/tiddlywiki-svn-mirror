@@ -1,0 +1,17 @@
+<div title="Adaptor.getTiddler" modifier="MartinBudden" created="200702251531" tags="functions">
+<pre>{{{
+Adaptor.getTiddler(title,context,userParams,callback)
+}}}
+Retrieves a named tiddler from an adaptor opened to a workspace on a host (see ServerAdaptorConcepts). This function uses the AsynchronousPattern.
+
+''Parameters:''
+|title |Title of the tiddler to retrieve |
+|context |context object that is passed to the callback function |
+|userParams |user settable object object that is passed on unchanged to the callback function |
+|callback |Reference to callback function, see AdaptorCallbackSignature |
+''Returns:''
+|true |on success |
+|string |an error message if there was an error issuing the request |
+''Callback signature'' as per AdaptorCallbackSignature with additional fields:
+|context.tiddler |The retrieved tiddler object, with all the standard fields and the ServerAdaptorExtendedFields filled in |</pre>
+</div>

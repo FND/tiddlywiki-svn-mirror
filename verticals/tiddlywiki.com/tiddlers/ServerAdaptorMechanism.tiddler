@@ -1,0 +1,24 @@
+<div title="ServerAdaptorMechanism" modifier="MartinBudden" created="200702251617" tags="mechanisms">
+<pre>TiddlyWiki's architecture for interacting with servers allows it to be plugged into a wide variety of servers. This is done through the addition of plugins containing custom server adaptors. Server adaptors are designed to allow for UseCases like importing tiddlers, loading missing tiddlers on the fly and synchronising changes with a server. Separate macros and core extensions implement such features by accessing the facilities provided by server adaptors.
+
+Server adaptors are designed to use a familiar model akin to a device driver, adapting a standardised interface to whatever is required by the underlying server: [[WebDAV|http://en.wikipedia.org/wiki/Webdav]], ZiddlyWiki, [[MediaWiki|http://en.wikipedia.org/wiki/MediaWiki]], [[Socialtext|http://www.socialtext.com/]] or HTML scraping.
+
+Many server architectures are [[REST|http://en.wikipedia.org/wiki/REST]] based, and TiddlyWiki server adaptors are particularly easy to create for common REST patterns. It is also possible to create TiddlyWiki server adaptors for severs with an [[XML-RPC|http://en.wikipedia.org/wiki/XML-RPC]] interface.
+
+Server adaptors are registered by name in the global object {{{config.adaptors}}}. Each entry is a reference to an object constructor for that type of server adaptor. The adaptor object must implement the following methods:
+* [[Adaptor.openHost]]
+* [[Adaptor.openWorkspace]]
+* [[Adaptor.getTiddler]]
+* [[Adaptor.close]]
+
+Additionally the adaptor may implement the following methods:
+* [[Adaptor.getWorkspaceList]] (required to support the Import Tiddlers UseCase)
+* [[Adaptor.getTiddlerList]] (required to support the Import Tiddlers UseCase)
+* [[Adaptor.putTiddler]] (required to support the Sync UseCase)
+* [[Adaptor.getTiddlerRevision]]
+* [[Adaptor.getTiddlerRevisionList]]
+
+The adaptor object is used through the life of a connection to a server; see ServerAdaptorConcepts for details. Many of the methods use an AsynchronousPattern of callbacks to deliver their results.
+
+Custom formatters for the WikifierFormatterMechanism are often used alongside server adaptors to allow TiddlyWiki to display content in the native format of a server.</pre>
+</div>

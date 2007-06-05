@@ -1,0 +1,42 @@
+<div title="AsynchronousPattern" modifier="JeremyRuston" created="200702141459" tags="patterns">
+<pre>Asynchronous methods are used by the low level HttpFunctions, and by higher level mechanisms such as the ServerAdaptorMechanism.
+
+The standard TiddlyWiki approach is illustrated with this example of a {{{procrastinate()}}} function that takes a string parameter which is then returned after 1 second by a callback function:
+
+{{{
+// Call an asynchronous function
+function test()
+{
+	// The context object is for storing information that you're going to need inside the callback function
+	var myContext = {
+		param1: &quot;a string&quot;,
+		param2: {an: &quot;object&quot;},
+		param3: [&quot;an&quot;,&quot;array&quot;}
+	};
+	// Call the function including a reference to the callback function and it's context
+	procrastinate(&quot;hello tomorrow's world&quot;,myCallback,myContext);
+}
+
+// The callback function that gets invoked after 1 second
+function myCallback(status,context,procrastinatedString)
+{
+	displayMessage(&quot;Message from the past: &quot; + procrastinatedString);
+	displayMessage(&quot;Message context: &quot; + context.param1);
+}
+
+// The procrastinate function invokes a callback after 1 second with a specified string parameter
+//	procrastinatedString - the string to pass back to the callback function
+//	callback - the callback function
+//	context - a context object that is passed to the callback function
+// Returns true if the request was issued or a string error message if it failed
+function procrastinate(procrastinatedString,callback,context)
+{
+	window.setInterval(callback,1000,true,context,procrastinatedString);
+}
+
+}}}
+
+Asynchronous programming is necessary in several situations but is full of pitfalls for the unwary:
+* On many browsers, {{{alert()}}} doesn't work reliably in some asynchronous callbacks
+* It's very easy to miss errors by ignoring callback returns</pre>
+</div>

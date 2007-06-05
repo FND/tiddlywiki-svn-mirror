@@ -1,1 +1,3 @@
-<div tiddler="StartupBehaviour" modifier="JeremyRuston" modified="200412192141" created="200412192141" tags="features">When it loads, TiddlyWiki looks for the names of tiddlers to open as a space-separated list after the # in the URL. If there are no tiddlers in the URL it instead loads the tiddlers named in DefaultTiddlers, one of the SpecialTiddlers.</div>
+<div title="StartupBehaviour" modifier="JeremyRuston" created="200412192141" tags="features">
+<pre>When it loads, TiddlyWiki looks for the names of tiddlers to open as a space-separated list after the # in the URL. If there are no tiddlers in the URL it instead loads the tiddlers named in DefaultTiddlers, one of the SpecialTiddlers.</pre>
+</div>

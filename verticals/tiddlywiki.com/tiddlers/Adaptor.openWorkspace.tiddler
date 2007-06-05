@@ -1,0 +1,16 @@
+<div title="Adaptor.openWorkspace" modifier="MartinBudden" created="200702251529" tags="functions">
+<pre>{{{
+Adaptor.openWorkspace(host,context,userParams,callback)
+}}}
+Opens a particular workspace in an adaptor that has already been opened on a host (see ServerAdaptorConcepts). This function uses the AsynchronousPattern.
+
+''Parameters:''
+|workspace |Name of workspace |
+|context |context object that is passed to the callback function |
+|userParams |user settable object object that is passed on unchanged to the callback function |
+|callback |Reference to callback function, see AdaptorCallbackSignature |
+''Returns:''
+|true |on success |
+|string |an error message if there was an error issuing the request |
+''Callback signature'' as per AdaptorCallbackSignature.</pre>
+</div>

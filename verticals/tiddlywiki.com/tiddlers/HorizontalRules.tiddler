@@ -1,1 +1,5 @@
-<div tiddler="HorizontalRules" modifier="JeremyRuston" modified="200503120015" created="200503120015" tags="formatting">You can divide a tiddler into\n----\nsections by typing four dashes on a line by themselves</div>
+<div title="HorizontalRules" modifier="JeremyRuston" created="200503120015" tags="formatting">
+<pre>You can divide a tiddler into
+----
+sections by typing four dashes on a line by themselves</pre>
+</div>

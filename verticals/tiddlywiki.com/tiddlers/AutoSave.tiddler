@@ -1,1 +1,5 @@
-<div tiddler="AutoSave" modifier="JeremyRuston" modified="200508181342" created="200508181342" tags="options">If you check this box in the InterfaceOptions, TiddlyWiki will automatically SaveChanges every time you edit a tiddler. In that way there's a lot less chance of you losing any information. \n\nHowever, if you also have the SaveBackups checkbox ticked, you'll end up with a lot of archived files. You may prefer to select either one or the other.</div>
+<div title="AutoSave" modifier="JeremyRuston" created="200508181342" tags="options">
+<pre>If you check this box in the InterfaceOptions, TiddlyWiki will automatically SaveChanges every time you edit a tiddler. In that way there's a lot less chance of you losing any information. 
+
+However, if you also have the SaveBackups checkbox ticked, you'll end up with a lot of archived files. You may prefer to select either one or the other.</pre>
+</div>

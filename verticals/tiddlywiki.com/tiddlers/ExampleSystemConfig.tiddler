@@ -1,1 +1,5 @@
-<div tiddler="ExampleSystemConfig" modifier="JeremyRuston" modified="200508181349" created="200508181349" tags="examples">config.animFast = 0.12; // Speed for animations (lower == slower)\nconfig.animSlow = 0.01; // Speed for EasterEgg animations\nconfig.views.wikified.toolbarEdit.text = &quot;Edit away, it won't get saved&quot;;</div>
+<div title="ExampleSystemConfig" modifier="JeremyRuston" created="200508181349" tags="examples">
+<pre>config.animFast = 0.12; // Speed for animations (lower == slower)
+config.animSlow = 0.01; // Speed for EasterEgg animations
+config.views.wikified.toolbarEdit.text = &quot;Edit away, it won't get saved&quot;;</pre>
+</div>

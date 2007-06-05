@@ -1,1 +1,8 @@
-<div tiddler="Opera" modifier="JeremyRuston" modified="200609291538" created="200510172311" tags="browsers">TiddlyWiki under Opera can save changes using the TiddlySaver Java applet.\n\nThanks to Andrew Gregory for the original TiddlySaver code, and his subsequent patient support.\n\nThere are some minor issues with Opera:\n* The GradientMacro doesn't work at all</div>
+<div title="Opera" modifier="JeremyRuston" created="200510172311" modified="200609291538" tags="browsers">
+<pre>TiddlyWiki under Opera can save changes using the TiddlySaver Java applet.
+
+Thanks to Andrew Gregory for the original TiddlySaver code, and his subsequent patient support.
+
+There are some minor issues with Opera:
+* The GradientMacro doesn't work at all</pre>
+</div>

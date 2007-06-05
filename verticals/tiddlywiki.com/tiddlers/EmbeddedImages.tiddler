@@ -1,1 +1,24 @@
-<div tiddler="EmbeddedImages" modifier="JeremyRuston" modified="200509200101" created="200509200101" tags="formatting">{{{\n[img[title|filename]]\n[img[filename]]\n[img[title|filename][link]]\n[img[filename][link]]\n}}}\nImages can be included by their filename or full URL. It's good practice to include a title to be shown as a tooltip, and when the image isn't available. An image can also link to another tiddler or or a URL\n[img[Romanesque broccoli|fractalveg.jpg][http://www.flickr.com/photos/jermy/10134618/]]\n{{{\n[img[Fractal vegetable|fractalveg.jpg]]\n[img[This is shown as a tooltip|http://example.com/image.jpg]]\n[img[http://example.com/image.jpg]]\n[img[http://example.com/image.jpg][ExampleDotCom]]\n}}}\nThe tooltip is optional.\n\n[&lt;img[Forest|forest.jpg][http://www.flickr.com/photos/jermy/8749660/]][&gt;img[Field|field.jpg][http://www.flickr.com/photos/jermy/8749285/]]You can also float images to the left or right: the forest is left aligned with {{{[&lt;img[}}}, and the field is right aligned with {{{[&gt;img[}}}.\n@@clear(left):clear(right):display(block):You can use CSS to clear the floats@@\n{{{\n[&lt;img[A woody bit of Hampstead Heath|forest.jpg]]\n[&gt;img[A field near Milton Keynes|field.jpg]]\n}}}</div>
+<div title="EmbeddedImages" modifier="JeremyRuston" created="200509200101" tags="formatting">
+<pre>{{{
+[img[title|filename]]
+[img[filename]]
+[img[title|filename][link]]
+[img[filename][link]]
+}}}
+Images can be included by their filename or full URL. It's good practice to include a title to be shown as a tooltip, and when the image isn't available. An image can also link to another tiddler or or a URL
+[img[Romanesque broccoli|fractalveg.jpg][http://www.flickr.com/photos/jermy/10134618/]]
+{{{
+[img[Fractal vegetable|fractalveg.jpg]]
+[img[This is shown as a tooltip|http://example.com/image.jpg]]
+[img[http://example.com/image.jpg]]
+[img[http://example.com/image.jpg][ExampleDotCom]]
+}}}
+The tooltip is optional.
+
+[&lt;img[Forest|forest.jpg][http://www.flickr.com/photos/jermy/8749660/]][&gt;img[Field|field.jpg][http://www.flickr.com/photos/jermy/8749285/]]You can also float images to the left or right: the forest is left aligned with {{{[&lt;img[}}}, and the field is right aligned with {{{[&gt;img[}}}.
+@@clear(left):clear(right):display(block):You can use CSS to clear the floats@@
+{{{
+[&lt;img[A woody bit of Hampstead Heath|forest.jpg]]
+[&gt;img[A field near Milton Keynes|field.jpg]]
+}}}</pre>
+</div>

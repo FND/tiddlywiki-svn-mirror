@@ -1,1 +1,14 @@
-<div tiddler="TodayMacro" modifier="JeremyRuston" modified="200510302315" created="200510302315" tags="macros">The {{{&lt;&lt;today&gt;&gt;}}} macro inserts the current date and time into a tiddler. It's updated each time the tiddler is redisplayed.\n\nIt can optionally take a DateFormatString to determine the way that the date is displayed:\n\n{{{\n&lt;&lt;today&gt;&gt;\n&lt;&lt;today&gt;&gt;\n}}}\n\nResults in:\n&lt;&lt;today&gt;&gt;\n&lt;&lt;today&gt;&gt;\n</div>
+<div title="TodayMacro" modifier="JeremyRuston" created="200510302315" tags="macros">
+<pre>The {{{&lt;&lt;today&gt;&gt;}}} macro inserts the current date and time into a tiddler. It's updated each time the tiddler is redisplayed.
+
+It can optionally take a DateFormatString to determine the way that the date is displayed:
+
+{{{
+&lt;&lt;today&gt;&gt;
+&lt;&lt;today&gt;&gt;
+}}}
+
+Results in:
+&lt;&lt;today&gt;&gt;
+&lt;&lt;today&gt;&gt;</pre>
+</div>

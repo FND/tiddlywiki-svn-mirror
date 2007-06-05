@@ -1,1 +1,5 @@
-<div tiddler="ExampleStyleSheet" modifier="JeremyRuston" modified="200508181349" created="200508181349" tags="examples">#displayArea {background-color: #ffccff; }\n#mainMenu {border: 1px solid #ffff88; }\n#commandPanel {background-color: #008800; }</div>
+<div title="ExampleStyleSheet" modifier="JeremyRuston" created="200508181349" tags="examples">
+<pre>#displayArea {background-color: #ffccff; }
+#mainMenu {border: 1px solid #ffff88; }
+#commandPanel {background-color: #008800; }</pre>
+</div>

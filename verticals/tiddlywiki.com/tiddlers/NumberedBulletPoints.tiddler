@@ -1,1 +1,14 @@
-<div tiddler="NumberedBulletPoints" modifier="DaveBirss" modified="200507121053" created="200507121053" tags="formatting">It's easy to create NumberedBulletPoints.\n# Use a single '#' at the start of each line\n# and the tiddler will automatically\n# start numbering your list.\n## If you want a sub-list\n## within any bullets\n## add two '#'s at the start of the lines.\n# When you go back to a single '#'\n# the main numbered list will start up\n# where it left off.\n\nIt's just as simple to do normal BulletPoints.</div>
+<div title="NumberedBulletPoints" modifier="DaveBirss" created="200507121053" tags="formatting">
+<pre>It's easy to create NumberedBulletPoints.
+# Use a single '#' at the start of each line
+# and the tiddler will automatically
+# start numbering your list.
+## If you want a sub-list
+## within any bullets
+## add two '#'s at the start of the lines.
+# When you go back to a single '#'
+# the main numbered list will start up
+# where it left off.
+
+It's just as simple to do normal BulletPoints.</pre>
+</div>

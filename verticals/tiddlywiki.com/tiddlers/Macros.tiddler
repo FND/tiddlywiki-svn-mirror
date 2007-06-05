@@ -1,1 +1,27 @@
-<div tiddler="Macros" modifier="JeremyRuston" modified="200609291504" created="200510302320" tags="macros">[[Macros]] let you write tiddlers containing more exotic objects than just text. Built-in macros include:\n* NewJournalMacro and NewTiddlerMacro\n* GradientMacro\n* [[Sparklines]]\n* TabMacro\n* TaggingMacro\n* TodayMacro\n* ToolbarMacro\n\nTag popup:\n{{{\n&lt;&lt;tag features&gt;&gt;\n}}}\nwill result in &lt;&lt;tag features&gt;&gt;\n\nSlider:\n{{{\n&lt;&lt;slider chkTestSlider OptionsPanel options &quot;Change TiddlyWiki advanced options&quot;&gt;&gt;\n}}}\nResults in this button &lt;&lt;slider chkTestSlider OptionsPanel options &quot;Change TiddlyWiki advanced options&quot;&gt;&gt;\nThe parameters are:\n* cookie name to be used to save the state of the slider\n* name of the tiddler to include in the slider\n* title text of the slider\n* tooltip text of the slider\n</div>
+<div title="Macros" modifier="JeremyRuston" created="200510302320" modified="200609291504" tags="macros">
+<pre>[[Macros]] let you write tiddlers containing more exotic objects than just text. Built-in macros include:
+* NewJournalMacro and NewTiddlerMacro
+* GradientMacro
+* [[Sparklines]]
+* TabMacro
+* TaggingMacro
+* TodayMacro
+* ToolbarMacro
+
+Tag popup:
+{{{
+&lt;&lt;tag features&gt;&gt;
+}}}
+will result in &lt;&lt;tag features&gt;&gt;
+
+Slider:
+{{{
+&lt;&lt;slider chkTestSlider OptionsPanel options &quot;Change TiddlyWiki advanced options&quot;&gt;&gt;
+}}}
+Results in this button &lt;&lt;slider chkTestSlider OptionsPanel options &quot;Change TiddlyWiki advanced options&quot;&gt;&gt;
+The parameters are:
+* cookie name to be used to save the state of the slider
+* name of the tiddler to include in the slider
+* title text of the slider
+* tooltip text of the slider</pre>
+</div>

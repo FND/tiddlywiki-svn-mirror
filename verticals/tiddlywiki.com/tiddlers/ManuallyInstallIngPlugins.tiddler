@@ -1,1 +1,17 @@
-<div tiddler="ManuallyInstallIngPlugins" modifier="JeremyRuston" modified="200609291604" created="200609291604" tags="">In some situations it can be useful to use the clipboard insead of InstallingPlugins using ImportTiddlers.\n\n# Open a new browser window and navigate to the TiddlyWiki site containing the macro you want\n# Double click the tiddler, or click the {{{source}}} button (on other sites it will sometimes be a {{{view}}} or {{{edit}}} button)\n# The entire text of the tiddler should be selected; if not select it manually with Control-A or Command-A\n# Copy the entire text of the tiddler to the clipboard\n# Open your TiddlyWiki file in a new browser window\n# Click {{{new tiddler}}} to create a new blank tiddler\n## Paste the contents of the clipboard into it's body\n## Set the title as appropriate\n## Add the tag {{{systemConfig}}}\n# Click {{{done}}} on the tiddler\n# SaveChanges\n# Reload your TiddlyWiki in the browser\nThe plugin should now be available for use.</div>
+<div title="ManuallyInstallIngPlugins" modifier="JeremyRuston" created="200609291604">
+<pre>In some situations it can be useful to use the clipboard insead of InstallingPlugins using ImportTiddlers.
+
+# Open a new browser window and navigate to the TiddlyWiki site containing the macro you want
+# Double click the tiddler, or click the {{{source}}} button (on other sites it will sometimes be a {{{view}}} or {{{edit}}} button)
+# The entire text of the tiddler should be selected; if not select it manually with Control-A or Command-A
+# Copy the entire text of the tiddler to the clipboard
+# Open your TiddlyWiki file in a new browser window
+# Click {{{new tiddler}}} to create a new blank tiddler
+## Paste the contents of the clipboard into it's body
+## Set the title as appropriate
+## Add the tag {{{systemConfig}}}
+# Click {{{done}}} on the tiddler
+# SaveChanges
+# Reload your TiddlyWiki in the browser
+The plugin should now be available for use.</pre>
+</div>

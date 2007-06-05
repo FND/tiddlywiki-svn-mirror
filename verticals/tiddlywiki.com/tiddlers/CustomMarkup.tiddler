@@ -1,1 +1,9 @@
-<div tiddler="CustomMarkup" modifier="JeremyRuston" modified="200603311526" created="200603311526" tags="features">Sometimes it's necessary to include custom HTML markup in the {{{&lt;head&gt;}}} of a TiddlyWiki file - typically for compatibility with ad serving software, external libraries, or for custom meta tags. The CustomMarkup operation defines four shadow tiddlers whose contents are spliced into the saved HTML file. (If you do a view/source you'll see the markers referred to below).\n|!Title |!Location |!Marker |\n|MarkupPreHead |Start of the {{{&lt;head&gt;}}} section |{{{&lt;!--PRE-HEAD-START--&gt;}}} |\n|MarkupPostHead |End of the {{{&lt;head&gt;}}} section |{{{&lt;!--POST-HEAD-START--&gt;}}} |\n|MarkupPreBody |Start of the {{{&lt;body&gt;}}} section |{{{&lt;!--PRE-BODY-START--&gt;}}} |\n|MarkupPostBody |End of the {{{&lt;body&gt;}}} section |{{{&lt;!--POST-BODY-START--&gt;}}} |\nMarkupPreHead is the only one with shadow content: a link to the default location of the RSS feed.</div>
+<div title="CustomMarkup" modifier="JeremyRuston" created="200603311526" tags="features">
+<pre>Sometimes it's necessary to include custom HTML markup in the {{{&lt;head&gt;}}} of a TiddlyWiki file - typically for compatibility with ad serving software, external libraries, or for custom meta tags. The CustomMarkup operation defines four shadow tiddlers whose contents are spliced into the saved HTML file. (If you do a view/source you'll see the markers referred to below).
+|!Title |!Location |!Marker |
+|MarkupPreHead |Start of the {{{&lt;head&gt;}}} section |{{{&lt;!--PRE-HEAD-START--&gt;}}} |
+|MarkupPostHead |End of the {{{&lt;head&gt;}}} section |{{{&lt;!--POST-HEAD-START--&gt;}}} |
+|MarkupPreBody |Start of the {{{&lt;body&gt;}}} section |{{{&lt;!--PRE-BODY-START--&gt;}}} |
+|MarkupPostBody |End of the {{{&lt;body&gt;}}} section |{{{&lt;!--POST-BODY-START--&gt;}}} |
+MarkupPreHead is the only one with shadow content: a link to the default location of the RSS feed.</pre>
+</div>

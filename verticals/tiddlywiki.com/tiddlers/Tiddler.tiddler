@@ -1,1 +1,7 @@
-<div tiddler="Tiddler" modifier="JeremyRuston" modified="200604181556" created="200604181551" tags="terminology">A 'tiddler' is the name given to a unit of MicroContent in TiddlyWiki.\n\nTiddlers are pervasive in TiddlyWiki. The MainMenu is defined by a tiddler, plugins are delivered in tiddlers, there are special StyleSheet tiddlers, and so on.\n\nOther systems have analogous concepts with more prosaic names: like &quot;items&quot;, &quot;entries&quot;, &quot;entities&quot;. Even though &quot;tiddler&quot; is undoubtedly a SillyName it at least has the virtue of being confusingly distinctive rather than confusingly generic.</div>
+<div title="Tiddler" modifier="JeremyRuston" created="200604181551" modified="200604181556" tags="terminology">
+<pre>A 'tiddler' is the name given to a unit of MicroContent in TiddlyWiki.
+
+Tiddlers are pervasive in TiddlyWiki. The MainMenu is defined by a tiddler, plugins are delivered in tiddlers, there are special StyleSheet tiddlers, and so on.
+
+Other systems have analogous concepts with more prosaic names: like &quot;items&quot;, &quot;entries&quot;, &quot;entities&quot;. Even though &quot;tiddler&quot; is undoubtedly a SillyName it at least has the virtue of being confusingly distinctive rather than confusingly generic.</pre>
+</div>

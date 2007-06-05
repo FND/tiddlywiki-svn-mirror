@@ -1,1 +1,8 @@
-<div tiddler="PermalinkCommand" modifier="JeremyRuston" modified="200604071141" created="200512081559" tags="commands">Changes the browser address bar to a permalink to the current tiddler. It is used with the ToolbarMacro like this:\n{{{\n&lt;&lt;toolbar permalink&gt;&gt;\n}}}\n\nOn some browsers, the PermalinkCommand can be unreliable if the tiddler title includes characters that have special meanings in URLs (like &quot;+&quot; and &quot;\s&quot;) or are outside the basic ANSI character set.</div>
+<div title="PermalinkCommand" modifier="JeremyRuston" created="200512081559" modified="200604071141" tags="commands">
+<pre>Changes the browser address bar to a permalink to the current tiddler. It is used with the ToolbarMacro like this:
+{{{
+&lt;&lt;toolbar permalink&gt;&gt;
+}}}
+
+On some browsers, the PermalinkCommand can be unreliable if the tiddler title includes characters that have special meanings in URLs (like &quot;+&quot; and &quot;\&quot;) or are outside the basic ANSI character set.</pre>
+</div>

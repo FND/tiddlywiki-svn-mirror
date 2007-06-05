@@ -1,1 +1,3 @@
-<div tiddler="OrphanTiddlers" modifier="JeremyRuston" modified="200506101947" created="200506101947" tags="features">The 'Orphans' option on the MoreTab shows you the names of tiddlers that aren't linked to from any other tiddlers - in other words, tiddlers that there is no way for readers to find other than searching for them.</div>
+<div title="OrphanTiddlers" modifier="JeremyRuston" created="200506101947" tags="features">
+<pre>The 'Orphans' option on the MoreTab shows you the names of tiddlers that aren't linked to from any other tiddlers - in other words, tiddlers that there is no way for readers to find other than searching for them.</pre>
+</div>

@@ -1,1 +1,3 @@
-<div tiddler="RssFeed" modifier="JeremyRuston" modified="200609291542" created="200507121730" tags="features">TiddlyWiki's RSS feed is available [[here|http://www.tiddlywiki.com/index.xml]]. You can generate an RSS feed for your own TiddlyWiki using the GenerateAnRssFeed option.</div>
+<div title="RssFeed" modifier="JeremyRuston" created="200507121730" modified="200609291542" tags="features">
+<pre>TiddlyWiki's RSS feed is available [[here|http://www.tiddlywiki.com/index.xml]]. You can generate an RSS feed for your own TiddlyWiki using the GenerateAnRssFeed option.</pre>
+</div>

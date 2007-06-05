@@ -1,1 +1,8 @@
-<div tiddler="TabMacro" modifier="JeremyRuston" modified="200510261911" created="200510261911" tags="macros">This is an example of a tab:\n\n&lt;&lt;tabs txtFavourite\nOne &quot;First tab&quot; HelloThere\nTwo &quot;Second tab&quot; ThankYou\n&gt;&gt;</div>
+<div title="TabMacro" modifier="JeremyRuston" created="200510261911" tags="macros">
+<pre>This is an example of a tab:
+
+&lt;&lt;tabs txtFavourite
+One &quot;First tab&quot; HelloThere
+Two &quot;Second tab&quot; ThankYou
+&gt;&gt;</pre>
+</div>

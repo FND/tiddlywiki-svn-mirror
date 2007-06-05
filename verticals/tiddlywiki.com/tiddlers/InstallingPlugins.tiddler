@@ -1,1 +1,5 @@
-<div tiddler="InstallingPlugins" modifier="JeremyRuston" modified="200609291604" created="200602231142" tags="features">[[Plugins]] are just tiddlers containing JavaScript code that is tagged with &lt;&lt;tag systemConfig&gt;&gt;. TiddlyWiki executes any [[Plugins]] as it loads; they can add [[Macros]] or otherwise extend and enhance the base code.\n\nThe recommended way to install a plugin into your own copy of TiddlyWiki is to use ImportTiddlers (there are instructions for ManuallyInstallIngPlugins when required).\n</div>
+<div title="InstallingPlugins" modifier="JeremyRuston" created="200602231142" modified="200609291604" tags="features">
+<pre>[[Plugins]] are just tiddlers containing JavaScript code that is tagged with &lt;&lt;tag systemConfig&gt;&gt;. TiddlyWiki executes any [[Plugins]] as it loads; they can add [[Macros]] or otherwise extend and enhance the base code.
+
+The recommended way to install a plugin into your own copy of TiddlyWiki is to use ImportTiddlers (there are instructions for ManuallyInstallIngPlugins when required).</pre>
+</div>

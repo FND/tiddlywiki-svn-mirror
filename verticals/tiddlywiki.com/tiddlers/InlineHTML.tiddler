@@ -1,1 +1,19 @@
-<div tiddler="InlineHTML" modifier="JeremyRuston" modified="200609291401" created="200509270055" tags="">TiddlyWiki lets you write ordinary HTML by enclosing it in {{{&lt;html&gt;}}} and {{{&lt;/html&gt;}}}:\n\n&lt;html&gt;\n&lt;a href=&quot;javascript:;&quot; onclick=&quot;onClickTiddlerLink(event);&quot; tiddlyLink=&quot;TiddlyWiki&quot; style=&quot;background-color: yellow;&quot;&gt;Link to wikiwords from HTML&lt;/a&gt;\n&lt;/html&gt;\n\nThe source for the above is:\n\n{{{\n&lt;html&gt;\n&lt;div style=&quot;background-color: yellow;&quot;&gt;\n&lt;a href=&quot;javascript:;&quot; onclick=&quot;onClickTiddlerLink(event);&quot; tiddlyLink=&quot;Macros&quot;&gt;Link to wikiwords from HTML&lt;/a&gt;\n&lt;/div&gt;\n&lt;/html&gt;\n}}}\n\nHTML can enable some exotic new features (like [[embedding GMail and Outlook|http://groups.google.com/group/TiddlyWiki/browse_thread/thread/d363303aff5868d0/056269d8409d121f?lnk=st&amp;q=embedding+gmail&amp;rnum=1#056269d8409d121f]] in a TiddlyWiki). However it doesn't work for some JavaScript code libraries; see CustomMarkup for another way to include custom HTML in your TiddlyWiki.</div>
+<div title="InlineHTML" modifier="JeremyRuston" created="200509270055" modified="200609291401">
+<pre>TiddlyWiki lets you write ordinary HTML by enclosing it in {{{&lt;html&gt;}}} and {{{&lt;/html&gt;}}}:
+
+&lt;html&gt;
+&lt;a href=&quot;javascript:;&quot; onclick=&quot;onClickTiddlerLink(event);&quot; tiddlyLink=&quot;TiddlyWiki&quot; style=&quot;background-color: yellow;&quot;&gt;Link to wikiwords from HTML&lt;/a&gt;
+&lt;/html&gt;
+
+The source for the above is:
+
+{{{
+&lt;html&gt;
+&lt;div style=&quot;background-color: yellow;&quot;&gt;
+&lt;a href=&quot;javascript:;&quot; onclick=&quot;onClickTiddlerLink(event);&quot; tiddlyLink=&quot;Macros&quot;&gt;Link to wikiwords from HTML&lt;/a&gt;
+&lt;/div&gt;
+&lt;/html&gt;
+}}}
+
+HTML can enable some exotic new features (like [[embedding GMail and Outlook|http://groups.google.com/group/TiddlyWiki/browse_thread/thread/d363303aff5868d0/056269d8409d121f?lnk=st&amp;q=embedding+gmail&amp;rnum=1#056269d8409d121f]] in a TiddlyWiki). However it doesn't work for some JavaScript code libraries; see CustomMarkup for another way to include custom HTML in your TiddlyWiki.</pre>
+</div>

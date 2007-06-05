@@ -1,1 +1,13 @@
-<div tiddler="PluginDirectory" modifier="JeremyRuston" modified="200703301608" created="200605081325" tags="community tools">The [[Community]] is experimenting with using the [[del.icio.us|http://del.icio.us/]] bookmarking service as a PluginDirectory. The idea is to use the tag &quot;TiddlyWikiPlugin&quot; to identify the URL of a TiddlyWiki plugin. The del.icio.us fields should be set as follows:\n\n|!Field |!Example |\n|url |http://authorsite.com/#ThePlugin |\n|title |ThePluginTitle |\n|notes |Brief description/review of plugin |\n|tags |TiddlyWikiPlugin &lt;AuthorName&gt; |\n\nThe beauty of this approach is that it aggregates together multiple comments about a single plugin. For example, this is the del.icio.us [[page about UdoBorkowski's YourSearch plugin|http://del.icio.us/url/8085cbf3bbeda20f39a04a2969616afd]]. You can also browse the tag directly to see recently added plugins: http://del.icio.us/tag/TiddlyWikiPlugin\n\nBidiX has also created a special del.icio.us account (http://del.icio.us/TiddlyWikiPlugin) that he's using to compile a master list of plugins tagged with TiddlyWikiHackers.</div>
+<div title="PluginDirectory" modifier="JeremyRuston" created="200605081325" modified="200703301608" tags="community tools">
+<pre>The [[Community]] is experimenting with using the [[del.icio.us|http://del.icio.us/]] bookmarking service as a PluginDirectory. The idea is to use the tag &quot;TiddlyWikiPlugin&quot; to identify the URL of a TiddlyWiki plugin. The del.icio.us fields should be set as follows:
+
+|!Field |!Example |
+|url |http://authorsite.com/#ThePlugin |
+|title |ThePluginTitle |
+|notes |Brief description/review of plugin |
+|tags |TiddlyWikiPlugin &lt;AuthorName&gt; |
+
+The beauty of this approach is that it aggregates together multiple comments about a single plugin. For example, this is the del.icio.us [[page about UdoBorkowski's YourSearch plugin|http://del.icio.us/url/8085cbf3bbeda20f39a04a2969616afd]]. You can also browse the tag directly to see recently added plugins: http://del.icio.us/tag/TiddlyWikiPlugin
+
+BidiX has also created a special del.icio.us account (http://del.icio.us/TiddlyWikiPlugin) that he's using to compile a master list of plugins tagged with TiddlyWikiHackers.</pre>
+</div>

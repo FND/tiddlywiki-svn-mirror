@@ -1,0 +1,14 @@
+<div title="ServerAdaptorExtendedFields" modifier="JeremyRuston" created="200702251426" modified="200704151427">
+<pre>The ServerAdaptorMechanism uses ExtendedFields to store additional data with tiddlers that are associated with a server host. The standard fields are listed below, but particular adaptors will often add their own custom fields for their own purposes.
+|!Field |!Description |!Status |!Example |
+|server.type |The type of server adaptor associated with this tiddler |mandatory |eg &quot;file&quot;, &quot;socialtext&quot; |
+|server.host |The host server URL |mandatory |eg &quot;http://www.socialtext.net/&quot; |
+|server.workspace |The workspace associated with this tiddler |optional |eg &quot;stoss&quot; |
+|server.page.name |The full (human readable) name of the tiddler's page on the server |optional |eg &quot;Socialtext Open Source Wiki&quot; |
+|server.page.id |The normalized form of the tiddler's page name on the server |optional |eg &quot;socialtext_open_source_wiki&quot; |
+|server.page.revision |The revision of the page. Host dependent, but normally a number. Guaranteed to lexigraphically sort into chronological order |optional |eg &quot;20070222050650&quot; |
+|wikiformat |The wikiformat of the tiddler |optional |eg &quot;socialtext&quot; |
+
+
+See ServerAdaptorConcepts for the meanings of terms like host, workspace and adaptor.</pre>
+</div>

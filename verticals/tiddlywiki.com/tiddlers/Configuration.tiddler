@@ -1,1 +1,12 @@
-<div tiddler="Configuration" modifier="MartinBudden" modified="200606010000" created="200606010000" tags="includeNew">PageTemplate\n|&gt;|&gt;|SiteTitle - SiteSubtitle|\n|MainMenu|DefaultTiddlers&lt;&lt;br&gt;&gt;&lt;&lt;br&gt;&gt;&lt;&lt;br&gt;&gt;&lt;&lt;br&gt;&gt;ViewTemplate&lt;&lt;br&gt;&gt;&lt;&lt;br&gt;&gt;EditTemplate|SideBarOptions|\n|~|~|OptionsPanel|\n|~|~|AdvancedOptions|\n|~|~|&lt;&lt;tiddler Configuration.SideBarTabs&gt;&gt;|\n\n''StyleSheet:'' StyleSheetColors - StyleSheetLayout - StyleSheetPrint\n\nSiteUrl</div>
+<div title="Configuration" modifier="MartinBudden" created="200606010000" tags="includeNew">
+<pre>PageTemplate
+|&gt;|&gt;|SiteTitle - SiteSubtitle|
+|MainMenu|DefaultTiddlers&lt;&lt;br&gt;&gt;&lt;&lt;br&gt;&gt;&lt;&lt;br&gt;&gt;&lt;&lt;br&gt;&gt;ViewTemplate&lt;&lt;br&gt;&gt;&lt;&lt;br&gt;&gt;EditTemplate|SideBarOptions|
+|~|~|OptionsPanel|
+|~|~|AdvancedOptions|
+|~|~|&lt;&lt;tiddler Configuration.SideBarTabs&gt;&gt;|
+
+''StyleSheet:'' StyleSheetColors - StyleSheetLayout - StyleSheetPrint
+
+SiteUrl</pre>
+</div>

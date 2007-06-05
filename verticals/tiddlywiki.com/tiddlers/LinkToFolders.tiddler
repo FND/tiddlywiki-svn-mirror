@@ -1,1 +1,5 @@
-<div tiddler="LinkToFolders" modifier="JeremyRuston" modified="200505131554" created="200505131554" tags="features">The format for PrettyLinks allows for links that open local or network folders. Depending on your browser and operating system, the folders are opened in Windows Explorer, the OS X Finder, or the browser itself.\n\nEdit this tiddler to see [[this link to a Windows network share|file://///server/share/folder/path/name]], [[this link to a Windows drive-mapped folder|file:///c:/folder/path/name]] and [[this link to a Unix-style folder|file:///folder/path/name]].</div>
+<div title="LinkToFolders" modifier="JeremyRuston" created="200505131554" tags="features">
+<pre>The format for PrettyLinks allows for links that open local or network folders. Depending on your browser and operating system, the folders are opened in Windows Explorer, the OS X Finder, or the browser itself.
+
+Edit this tiddler to see [[this link to a Windows network share|file://///server/share/folder/path/name]], [[this link to a Windows drive-mapped folder|file:///c:/folder/path/name]] and [[this link to a Unix-style folder|file:///folder/path/name]].</pre>
+</div>

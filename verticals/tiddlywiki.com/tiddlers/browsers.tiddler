@@ -1,1 +1,14 @@
-<div tiddler="browsers" modifier="JeremyRuston" modified="200705091954" created="200607111218" tags="">Here is a table of the browsers that work with TiddlyWiki:\n\n|!Browser |!Version |!Allows SaveChanges? |\n|InternetExplorer |6.0+ |Yes |\n|FireFox |1.0+ |Yes |\n|[[Safari]] |1.0+ |Yes, via plugin |\n|[[Opera]] |? |See Opera notes |\n|Netscape Navigator |7.0+ |Yes |\n|[[Camino]] |1.0+ |Yes |\n|[[Wii]] |All |No |\n\nPlease [[let me know|http://groups.google.com/group/TiddlyWiki]] of any additions or corrections.</div>
+<div title="browsers" modifier="JeremyRuston" created="200607111218" modified="200705091954">
+<pre>Here is a table of the browsers that work with TiddlyWiki:
+
+|!Browser |!Version |!Allows SaveChanges? |
+|InternetExplorer |6.0+ |Yes |
+|FireFox |1.0+ |Yes |
+|[[Safari]] |1.0+ |Yes, via plugin |
+|[[Opera]] |? |See Opera notes |
+|Netscape Navigator |7.0+ |Yes |
+|[[Camino]] |1.0+ |Yes |
+|[[Wii]] |All |No |
+
+Please [[let me know|http://groups.google.com/group/TiddlyWiki]] of any additions or corrections.</pre>
+</div>

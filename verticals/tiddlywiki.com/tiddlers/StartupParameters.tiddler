@@ -1,1 +1,20 @@
-<div tiddler="StartupParameters" modifier="JeremyRuston" modified="200603311527" created="200603311524" tags="features">TiddlyWiki obtains its StartupParameters from the //location// portion of it's URL (the bit after the '#'). At it's simplest, the StartupParameters can list the names of the tiddlers to be opened when the TiddlyWiki is opened:\n{{{\nhttp://www.tiddlywiki.com/#HelloThere JeremyRuston\n}}}\nIn fact, that usage is equivalent to:\n{{{\nhttp://www.tiddlywiki.com/#open:HelloThere open:JeremyRuston\n}}}\nThe complete list of commands is:\n|!Command |!Description |!Example |\n|open:title |Opens the tiddler with the specified title |http://www.tiddlywiki.com/#open:HelloThere |\n|start:safe |Switches to SafeMode |http://www.tiddlywiki.com/#start:safe |\n|search:text |Performs a search for the specified text |http://www.tiddlywiki.com/#search:jeremy |\n|tag:text |Displays tiddlers tagged with the specified tag |http://www.tiddlywiki.com/#tag:news |\n|newTiddler:title |Opens a new tiddler with the specified title in edit mode |http://www.tiddlywiki.com/#newTiddler:&quot;This is a new tiddler&quot; |\n|newJournal:titleFormat |Opens a new tiddler with the specified DateFormatString |http://www.tiddlywiki.com/#newJournal:&quot;YYYY MMM DD&quot; |\n\nSee the details of the underlying ParameterParser for more details.</div>
+<div title="StartupParameters" modifier="JeremyRuston" created="200603311524" modified="200603311527" tags="features">
+<pre>TiddlyWiki obtains its StartupParameters from the //location// portion of it's URL (the bit after the '#'). At it's simplest, the StartupParameters can list the names of the tiddlers to be opened when the TiddlyWiki is opened:
+{{{
+http://www.tiddlywiki.com/#HelloThere JeremyRuston
+}}}
+In fact, that usage is equivalent to:
+{{{
+http://www.tiddlywiki.com/#open:HelloThere open:JeremyRuston
+}}}
+The complete list of commands is:
+|!Command |!Description |!Example |
+|open:title |Opens the tiddler with the specified title |http://www.tiddlywiki.com/#open:HelloThere |
+|start:safe |Switches to SafeMode |http://www.tiddlywiki.com/#start:safe |
+|search:text |Performs a search for the specified text |http://www.tiddlywiki.com/#search:jeremy |
+|tag:text |Displays tiddlers tagged with the specified tag |http://www.tiddlywiki.com/#tag:news |
+|newTiddler:title |Opens a new tiddler with the specified title in edit mode |http://www.tiddlywiki.com/#newTiddler:&quot;This is a new tiddler&quot; |
+|newJournal:titleFormat |Opens a new tiddler with the specified DateFormatString |http://www.tiddlywiki.com/#newJournal:&quot;YYYY MMM DD&quot; |
+
+See the details of the underlying ParameterParser for more details.</pre>
+</div>

@@ -1,1 +1,18 @@
-<div tiddler="AlternativeColorPalette" modifier="JeremyRuston" modified="200609212329" created="200607122056" tags="">Rename this tiddler to 'ColorPalette' to enable this color scheme\n\nBackground: #ffc\nForeground: #000\nPrimaryPale: #fc8\nPrimaryLight: #f81\nPrimaryMid: #b40\nPrimaryDark: #410\nSecondaryPale: #ffc\nSecondaryLight: #fe8\nSecondaryMid: #db4\nSecondaryDark: #841\nTertiaryPale: #e88\nTertiaryLight: #c66\nTertiaryMid: #944\nTertiaryDark: #633\n</div>
+<div title="AlternativeColorPalette" modifier="JeremyRuston" created="200607122056" modified="200609212329">
+<pre>Rename this tiddler to 'ColorPalette' to enable this color scheme
+
+Background: #ffc
+Foreground: #000
+PrimaryPale: #fc8
+PrimaryLight: #f81
+PrimaryMid: #b40
+PrimaryDark: #410
+SecondaryPale: #ffc
+SecondaryLight: #fe8
+SecondaryMid: #db4
+SecondaryDark: #841
+TertiaryPale: #e88
+TertiaryLight: #c66
+TertiaryMid: #944
+TertiaryDark: #633</pre>
+</div>

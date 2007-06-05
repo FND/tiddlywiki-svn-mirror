@@ -1,1 +1,3 @@
-<div tiddler="RegExpSearch" modifier="JeremyRuston" modified="200508181419" created="200508181419" tags="features options">RegExpSearch uses JavaScript's [[RegExp syntax|http://www.programmershelp.co.uk/docs/javascript/regexp.html#1193188]] to allow flexible searches.</div>
+<div title="RegExpSearch" modifier="JeremyRuston" created="200508181419" tags="features options">
+<pre>RegExpSearch uses JavaScript's [[RegExp syntax|http://www.programmershelp.co.uk/docs/javascript/regexp.html#1193188]] to allow flexible searches.</pre>
+</div>

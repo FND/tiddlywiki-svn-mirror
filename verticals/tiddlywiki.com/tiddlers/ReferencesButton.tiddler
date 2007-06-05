@@ -1,1 +1,5 @@
-<div tiddler="ReferencesButton" modifier="JeremyRuston" modified="200506111305" created="200506111305" tags="features">Since the FirstVersion of TiddlyWiki, the ReferencesButton has been implemented as a canned search for the name of the current tiddler. That approach was a bit disruptive because of the way that a search operation wipes the current reading state of the document.\n\nThe new implementation offers a popup menu of the names of all the referring tiddlers. It can be consulted without disturbing any tiddlers that are currently open.</div>
+<div title="ReferencesButton" modifier="JeremyRuston" created="200506111305" tags="features">
+<pre>Since the FirstVersion of TiddlyWiki, the ReferencesButton has been implemented as a canned search for the name of the current tiddler. That approach was a bit disruptive because of the way that a search operation wipes the current reading state of the document.
+
+The new implementation offers a popup menu of the names of all the referring tiddlers. It can be consulted without disturbing any tiddlers that are currently open.</pre>
+</div>

@@ -1,1 +1,44 @@
-<div tiddler="AnotherExampleStyleSheet" modifier="JeremyRuston" modified="200612281436" created="200508181432" tags="examples" changecount="1">This tiddler shows some more complex effects that can be obtained with cunning use of CSS. Not all of these will work properly on all browsers because of differences in CSS implementation, but they should fail gracefully.\n\nYou can have special formatting for a specific, named tiddler like this:\n{{{\n#tiddlerHelloThere .title {\nbackground-color: #99aaee;\n}\n}}}\n\nOr for the first displayed tiddler:\n{{{\ndiv.tiddler:first-child .title {\nfont-size: 28pt;\n}\n}}}\n\nOr just for the first line of every tiddler:\n{{{\n.viewer:first-line {\nbackground-color: #999999;\n}\n}}}\n\nOr just for the first letter of every tiddler:\n{{{\n.viewer:first-letter {\nfloat: left;\nfont-size: 28pt;\nfont-weight: bold;\n}\n}}}\n\nOr just for tiddlers tagged with a particular tag (note that this won't work for tags that contain spaces):\n{{{\ndiv[tags~=&quot;welcome&quot;].tiddler .viewer {\nbackground-color: #ffccaa;\n}\n\ndiv[tags~=&quot;features&quot;].tiddler .viewer {\nbackground-color: #88aaff;\n}\n}}}</div>
+<div title="AnotherExampleStyleSheet" modifier="JeremyRuston" created="200508181432" modified="200612281436" tags="examples">
+<pre>This tiddler shows some more complex effects that can be obtained with cunning use of CSS. Not all of these will work properly on all browsers because of differences in CSS implementation, but they should fail gracefully.
+
+You can have special formatting for a specific, named tiddler like this:
+{{{
+#tiddlerHelloThere .title {
+background-color: #99aaee;
+}
+}}}
+
+Or for the first displayed tiddler:
+{{{
+div.tiddler:first-child .title {
+font-size: 28pt;
+}
+}}}
+
+Or just for the first line of every tiddler:
+{{{
+.viewer:first-line {
+background-color: #999999;
+}
+}}}
+
+Or just for the first letter of every tiddler:
+{{{
+.viewer:first-letter {
+float: left;
+font-size: 28pt;
+font-weight: bold;
+}
+}}}
+
+Or just for tiddlers tagged with a particular tag (note that this won't work for tags that contain spaces):
+{{{
+div[tags~=&quot;welcome&quot;].tiddler .viewer {
+background-color: #ffccaa;
+}
+
+div[tags~=&quot;features&quot;].tiddler .viewer {
+background-color: #88aaff;
+}
+}}}</pre>
+</div>

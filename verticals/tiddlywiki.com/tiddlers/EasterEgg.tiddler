@@ -1,1 +1,3 @@
-<div tiddler="EasterEgg" modifier="JeremyRuston" modified="200504132334" created="200504132334" tags="features">Try holding down the alt- or shift-key while clicking on a link to a tiddler, on the 'options' button or on the CloseButton for a tiddler. Kind of a respectful homage to Mac OS X, which does something similar for many of its system animations. (On browsers like InternetExplorer that use the shift key to open a new window, it's best to use the alt-key).</div>
+<div title="EasterEgg" modifier="JeremyRuston" created="200504132334" tags="features">
+<pre>Try holding down the alt- or shift-key while clicking on a link to a tiddler, on the 'options' button or on the CloseButton for a tiddler. Kind of a respectful homage to Mac OS X, which does something similar for many of its system animations. (On browsers like InternetExplorer that use the shift key to open a new window, it's best to use the alt-key).</pre>
+</div>

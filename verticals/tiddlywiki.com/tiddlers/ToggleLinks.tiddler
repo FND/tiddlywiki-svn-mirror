@@ -1,1 +1,5 @@
-<div tiddler="ToggleLinks" modifier="JeremyRuston" modified="200609291556" created="200508181438" tags="features options">If your press the command key on the Mac or the control key on the PC while clicking on a link to a tiddler, the tiddler will be opened as usual if it isn't already open, but if //is// open, it will be closed. It makes a handy way to review links without having to move the mouse around to re-close tiddlers.\n\nYou can make this behaviour the default under AdvancedOptions (you can override back to the normal behaviour with the same command/control key).</div>
+<div title="ToggleLinks" modifier="JeremyRuston" created="200508181438" modified="200609291556" tags="features options">
+<pre>If your press the command key on the Mac or the control key on the PC while clicking on a link to a tiddler, the tiddler will be opened as usual if it isn't already open, but if //is// open, it will be closed. It makes a handy way to review links without having to move the mouse around to re-close tiddlers.
+
+You can make this behaviour the default under AdvancedOptions (you can override back to the normal behaviour with the same command/control key).</pre>
+</div>

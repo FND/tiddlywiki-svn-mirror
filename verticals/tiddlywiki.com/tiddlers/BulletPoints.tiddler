@@ -1,1 +1,11 @@
-<div tiddler="BulletPoints" modifier="DaveBirss" modified="200507121052" created="200507121052" tags="formatting">Creating BulletPoints is simple.\n* Just add an asterisk\n* at the beginning of a line.\n** If you want to create sub-bullets\n** start the line with two asterisks\n*** And if you want yet another level\n*** use three asterisks\n* Edit this tiddler to see how it's done\n* You can also do NumberedBulletPoints</div>
+<div title="BulletPoints" modifier="DaveBirss" created="200507121052" tags="formatting">
+<pre>Creating BulletPoints is simple.
+* Just add an asterisk
+* at the beginning of a line.
+** If you want to create sub-bullets
+** start the line with two asterisks
+*** And if you want yet another level
+*** use three asterisks
+* Edit this tiddler to see how it's done
+* You can also do NumberedBulletPoints</pre>
+</div>
