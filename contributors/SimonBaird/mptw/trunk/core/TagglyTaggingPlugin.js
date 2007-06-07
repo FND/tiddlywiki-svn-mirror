@@ -431,7 +431,7 @@ config.taggly = {
 ".tagglyTagged li.listTitle { display:none; }",
 ".tagglyTagged li { display: inline; font-size:90%; }",
 ".tagglyTagged ul { margin:0px; padding:0px; }",
-".excerpt { color:[[ColorPalette::TertiaryMid]]; }",
+".excerpt { color:[[ColorPalette::TertiaryDark]]; }",
 "div.tagglyTagging table,",
 "div.tagglyTagging table tr,",
 "td.tagglyTagging",

@@ -77,7 +77,8 @@ h1,h2,h3,h4,h5,h6 {
 	border-right: 2px [[ColorPalette::TertiaryMid]] solid;
 	border-bottom: 2px [[ColorPalette::TertiaryMid]] solid;
 	margin-bottom: 1em;
-	padding-bottom: 2em;
+	padding-bottom: 1em;
+	padding-top: 0.75em;
 }
 
 /* make options slider look nicer */
@@ -124,6 +125,18 @@ h1,h2,h3,h4,h5,h6 {
 #topMenu .button:hover, #topMenu .tiddlyLink:hover {
 	background: [[ColorPalette::PrimaryDark]];
 }
+
+/* make 2.2 act like 2.1 with the invisible buttons */
+.toolbar {
+	visibility:hidden;
+}
+.selected .toolbar {
+	visibility:visible;
+}
+
+/* experimental. this is a little borked in IE7 with the button 
+ * borders but worth it I think for the extra screen realestate */
+.toolbar { float:right; }
 
 /* for Tagger Plugin, thanks sb56637 */
 .popup li a {
