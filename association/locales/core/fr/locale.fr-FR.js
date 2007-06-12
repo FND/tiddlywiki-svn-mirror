@@ -1,10 +1,11 @@
 /***
 |''Name:''|locale.fr-FR|
 |''Description:''|Translation of TiddlyWiki into French|
-|''Version:''|0.0.4|
-|''Date:''|Jun 7, 2007|
+|''Version:''|0.0.5|
+|''Date:''|Jun 11, 2007|
 |''Source:''|http://???/#locale.fr-FR (temporairement http://TiddlyWikiFR.bidix.info/)|
-|''fichier de base "empty.html":''|http://???/empty.fr-FR.html (temporairement http://TiddlyWikiFR.bidix.info/empty.fr-FR.html)|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/fr/locale.fr-FR.js |
+|''Fichier de base "empty.html":''|http://???/empty.fr-FR.html (temporairement http://TiddlyWikiFR.bidix.info/empty.fr-FR.html)|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''Credits:''|Jacques Turbé : http://avm.free.fr//TiddlyWiki-fr.html - Traduction de la version 2.1|
 |''Comments:''|Merci de faire vos commentaires à http://groups.google.fr/group/TiddlyWikiFR |
@@ -25,7 +26,7 @@ Ci-dessous les commentaires de Jacques Turbé attachés à la version précéden
 __NDT:__
 ^^Toute traduction peut-être discutée. Celle-ci a été faite en pensant à un utilisateur non spécialiste.
 D'où les choix :
-| //tiddler -> élément<<br>>tag, to tag -> index, indexer<<br>>plugin -> extension<<br>>empty file template -> fichier de base "empty.html"//<<br>>Mais :<<br>>//backup -> backup//<<br>>(traduire ce terme consacré introduirait des confusions) |
+| //tiddler -> élément<br />tag, to tag -> index, indexer<br />plugin -> extension<br />empty file template -> fichier de base "empty.html"//<br />Mais :<br />//backup -> backup//<br />(traduire ce terme consacré introduirait des confusions) |
 //Traduction// Jacques Turbé : http://avm.free.fr//TiddlyWiki-fr.html ^^
 
 Avec la version 2.1.0 de TiddlyWiki apparaissent deux nouvelles fonctions intégrées :
@@ -33,7 +34,7 @@ Avec la version 2.1.0 de TiddlyWiki apparaissent deux nouvelles fonctions intég
 ***/
 
 //{{{
-	
+
 //--
 //-- Translateable strings
 //--
@@ -41,9 +42,6 @@ Avec la version 2.1.0 de TiddlyWiki apparaissent deux nouvelles fonctions intég
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
 config.locale = "fr"; // W3C language tag
-
-//merge(config.options,{
-//txtUserName: "VotreNom"});
 
 if (!config.options['txtUserName']) config.options['txtUserName'] = "VotreNom";
 
@@ -444,12 +442,9 @@ merge(config.shadowTiddlers,{
 	SiteUrl: "http://www.tiddlywiki.com/",
 	PourCommencer: "Pour utiliser ce carnet TiddlyWiki, commencez par modifier les éléments suivants (//tiddlers// dans le jargon TiddlyWiki) :\n\n* SiteTitle & SiteSubtitle: Le titre et le sous-titre ci-dessus (après sauvegarde et rafraîchissement ils deviendront votre titre de page, qui s'affichera aussi dans la barre titre du navigateur)\n* MainMenu: Le menu (généralement à gauche)\n* DefaultTiddlers: Liste les noms des éléments que vous voulez voir s'afficher à l'ouverture de votre TiddlyWiki. \n\nEntrez également le nom utilisateur avec lequel seront signées chacune de vos entrées : <<option txtUserName>>",
 	OptionsPanel: "Vos options de configuration de TiddlyWiki sont sauvegardées par votre navigateur (cookies).\n\nNom d'utilisateur pour signer vos entrées : entrez-le sous la forme d'un nom Wiki (par exemple RaymondQueneau).<<option txtUserName>>\n<<option chkSaveBackups>>Backup de chaque version\n<<option chkAutoSave>>Sauvegarde automatique après chaque entrée validée>>\n<<option chkRegExpSearch>>Expression régulières dans les recherches\n<<option chkCaseSensitiveSearch>>Respecter la casse dans les recherches\n<<option chkAnimate>>Ouverture animée des éléments\n-----\nVoir également [[Options complémentaires|AdvancedOptions]]",
- 	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Modifier les options avancées de ce TiddlyWiki">>',
+	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Modifier les options avancées de ce TiddlyWiki">>',
 	SideBarTabs: '<<tabs txtMainTab Chrono "Affichage chronologique" TabTimeline Alpha "Liste alphabétique des éléments" TabAll Index "Liste des index" TabTags Suite "Autres listes" TabMore>>',
- 	TabMore: '<<tabs txtMoreTab Manquants "Eléments désignés par un lien mais non créés" TabMoreMissing Orphelins "Eléments sans liens pour les appeler" TabMoreOrphans Défauts "Eléments ayant un contenu par défaut" TabMoreShadowed>>',
- TabMoreMissing: "<<list missing>>",
- TabMoreOrphans: "<<list orphans>>",
- TabMoreShadowed: "<<list shadowed>>"});
+	TabMore: '<<tabs txtMoreTab Manquants "Eléments désignés par un lien mais non créés" TabMoreMissing Orphelins "Eléments sans liens pour les appeler" TabMoreOrphans Défauts "Eléments ayant un contenu par défaut" TabMoreShadowed>>'});
 
 merge(config.annotations,{
 	AdvancedOptions: "Cet élément par défaut permet d'accéder a différentes options avancées",
