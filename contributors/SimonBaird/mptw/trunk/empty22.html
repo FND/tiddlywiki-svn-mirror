@@ -3,7 +3,7 @@
 <head>
 <script type="text/javascript">
 //<![CDATA[
-var version = {title: "TiddlyWiki", major: 2, minor: 2, revision: 0, date: new Date("Jun 5, 2007"), extensions: {}};
+var version = {title: "TiddlyWiki", major: 2, minor: 2, revision: 2, date: new Date("Jun 12, 2007"), extensions: {}};
 //]]>
 </script>
 <!--
@@ -399,7 +399,7 @@ body {font-size:0.8em;}
 <div title="StyleSheetPrint">
 <pre>/*{{{*/
 @media print {
-#mainMenu, #sidebar, #messageArea, .toolbar {display: none ! important;}
+#mainMenu, #sidebar, #messageArea, .toolbar, #backstageButton {display: none ! important;}
 #displayArea {margin: 1em 1em 0em 1em;}
 /* Fixes a feature in Firefox 1.5.0.2 where print preview displays the noscript content */
 noscript {display:none;}
@@ -492,9 +492,7 @@ Welcome to TiddlyWiki by Jeremy Ruston, Copyright &copy; 2007 Osmosoft Limited
 </div>
 <div id="contentWrapper"></div>
 <div id="contentStash"></div>
-<div id="storeArea">
-<div tiddler="LegacyStrikeThroughPlugin" modifier="MartinBudden" modified="200607210000" created="200607210000" tags="systemConfig">/***\n|''Name:''|LegacyStrikeThroughPlugin|\n|''Description:''|Support for legacy (pre 2.1) strike through formatting|\n|''Version:''|1.0.2|\n|''Date:''|Jul 21, 2006|\n|''Source:''|http://www.tiddlywiki.com/#LegacyStrikeThroughPlugin|\n|''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|\n|''License:''|[[BSD open source license]]|\n|''CoreVersion:''|2.1.0|\n***/\n\n//{{{\n// Ensure that the LegacyStrikeThrough Plugin is only installed once.\nif(!version.extensions.LegacyStrikeThroughPlugin) {\nversion.extensions.LegacyStrikeThroughPlugin = {installed:true};\n\nconfig.formatters.push(\n{\n	name: &quot;legacyStrikeByChar&quot;,\n	match: &quot;==&quot;,\n	termRegExp: /(==)/mg,\n	element: &quot;strike&quot;,\n	handler: config.formatterHelpers.createElementAndWikify\n});\n\n} //# end of &quot;install only once&quot;\n//}}}\n</div>
-</div>
+<div id="storeArea"></div>
 <!--POST-STOREAREA-->
 <!--POST-BODY-START-->
 <!--POST-BODY-END-->
@@ -2809,7 +2807,7 @@ config.macros.newTiddler.createNewTiddlerButton = function(place,title,params,la
 		customFields = String.encodeHashMap(config.defaultCustomFields);
 	var btn = createTiddlyButton(place,label,prompt,this.onClickNewTiddler,null,null,accessKey);
 	btn.setAttribute("newTitle",title);
-	btn.setAttribute("isJournal",isJournal);
+	btn.setAttribute("isJournal",isJournal ? "true" : "false");
 	btn.setAttribute("params",tags.join("|"));
 	btn.setAttribute("newFocus",newFocus);
 	btn.setAttribute("newTemplate",getParam(params,"template",DEFAULT_EDIT_TEMPLATE));
@@ -4978,7 +4976,7 @@ var backstage = {
 	},
 
 	preparePanel: function() {
-		backstage.cloak.style.height = document.documentElement.scrollHeight + "px";
+		backstage.cloak.style.height = findWindowHeight() + "px";
 		backstage.cloak.style.display = "block";
 		removeChildren(backstage.panelBody);
 		return backstage.panelBody;
@@ -5114,6 +5112,8 @@ config.macros.importTiddlers.onBrowseChange = function(e)
 	var wizard = new Wizard(this);
 	var fileInput = wizard.getElement("txtPath");
 	fileInput.value = "file://" + this.value;
+	var serverType = wizard.getElement("selTypes");
+	serverType.value = "file";
 	return false;
 };
 
@@ -6919,6 +6919,7 @@ function createTiddlyPopup(place,caption,tooltip,tiddler)
 
 function onClickTiddlyPopup(e)
 {
+	if(!e) var e = window.event;
 	var tiddler = this.tiddler;
 	if(tiddler.text) {
 		var popup = Popup.create(this,"div","popupTiddler");
@@ -7729,7 +7730,7 @@ String.prototype.htmlEncode = function()
 // Convert "&amp;" to &, "&lt;" to <, "&gt;" to > and "&quot;" to "
 String.prototype.htmlDecode = function()
 {
-	return this.replace(/&amp;/mg,"&").replace(/&lt;/mg,"<").replace(/&gt;/mg,">").replace(/&quot;/mg,"\"");
+	return this.replace(/&lt;/mg,"<").replace(/&gt;/mg,">").replace(/&quot;/mg,"\"").replace(/&amp;/mg,"&");
 };
 
 // Convert a string to it's JSON representation by encoding control characters, double quotes and backslash. See json.org
