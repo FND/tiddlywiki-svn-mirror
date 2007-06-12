@@ -1,24 +1,21 @@
 /***
 |''Name:''|locale.fr-FR|
 |''Description:''|Translation of TiddlyWiki into French|
-|''Version:''|0.0.1|
-|''Date:''|Jun 3, 2007|
+|''Version:''|0.0.4|
+|''Date:''|Jun 7, 2007|
 |''Source:''|http://???/#locale.fr-FR (temporairement http://TiddlyWikiFR.bidix.info/)|
 |''fichier de base "empty.html":''|http://???/empty.fr-FR.html (temporairement http://TiddlyWikiFR.bidix.info/empty.fr-FR.html)|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''Credits:''|Jacques Turbé : http://avm.free.fr//TiddlyWiki-fr.html - Traduction de la version 2.1|
 |''Comments:''|Merci de faire vos commentaires à http://groups.google.fr/group/TiddlyWikiFR |
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
-|''~CoreVersion:''|2.2.0 (Beta 5)|
+|''~CoreVersion:''|2.2.0|
 ***/
 /***
 Je suis reparti du fichier officiel locale.en.js en intégrant la traduction de Jacques Turbé http://avm.free.fr//TiddlyWiki-fr.html et en reprenant les mêmes choix de traduction. 
 
-J'ai du faire des choix pour des nouveaux termes que je soumets à vos commentaires :
-	* Backstage -> Coulisses
-J'ai pris la liberté de changer :
-	* pour 'save' : valider -> enregistrer
-Par ailleurs, je me demandais si 'tiddler' ne pouvait être traduit en 'article' ???
+Après discussion avec Jacques Turbé nous avons retenu :
+	* Backstage -> Services
 
 Ci-dessous les commentaires de Jacques Turbé attachés à la version précédente :
 ----
@@ -43,26 +40,29 @@ Avec la version 2.1.0 de TiddlyWiki apparaissent deux nouvelles fonctions intég
 
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
+config.locale = "fr"; // W3C language tag
+
 //merge(config.options,{
 //txtUserName: "VotreNom"});
 
 if (!config.options['txtUserName']) config.options['txtUserName'] = "VotreNom";
 
 merge(config.tasks,{
-save: {text: "sauvegarde", tooltip: "Sauvegarde vos modifications dans ce TiddlyWiki", action: saveChanges},
-sync: {text: "sync", tooltip: "Synchronise les modifications avec d'autres fichiers TiddlyWiki et serveurs", content: '<<sync>>'},
-importTask: {text: "importe", tooltip: "Importe des éléments et extensions depuis d'autres fichiers TiddlyWiki et serveurs", content: '<<importTiddlers>>'},
-tweak: {text: "réglage", tooltip: "Mettre au point l'apparence et le comportement du TiddlyWiki", content: '<<options>>'},
-plugins: {text: "extensions", tooltip: "Gère les extensions installées", content: '<<plugins>>'}
+	save: {text: "sauvegarder", tooltip: "Sauvegarde vos modifications dans ce TiddlyWiki", action: saveChanges},
+	sync: {text: "synchroniser", tooltip: "Synchronise les modifications avec d'autres fichiers TiddlyWiki et serveurs", 				
+	content: '<<sync>>'},
+	importTask: {text: "importer", tooltip: "Importe des éléments et extensions depuis d'autres fichiers TiddlyWiki et serveurs", content: '<<importTiddlers>>'},
+	tweak: {text: "réglages", tooltip: "Mettre au point l'apparence et le comportement du TiddlyWiki", content: '<<options>>'},
+	plugins: {text: "extensions", tooltip: "Gère les extensions installées", content: '<<plugins>>'}
 });
 
 
 // Options that can be set in the options panel and/or cookies
 merge(config.optionsDesc,{
 	txtUserName: "Nom utilisé pour signer les modifications",
-	chkRegExpSearch: "Active les expression srégulières pour la recherche",
-	chkCaseSensitiveSearch: "Recheche sensible à la casse",
-	chkAnimate: "Acive les animations",
+	chkRegExpSearch: "Active les expressions régulières pour la recherche",
+	chkCaseSensitiveSearch: "Recherche sensible à la casse",
+	chkAnimate: "Active les animations",
 	chkSaveBackups: "Conserve un fichier backup en enregistrant les modifications",
 	chkAutoSave: "Enregistre les modifications automatiquement",
 	chkGenerateAnRssFeed: "Génère un flux RSS en enregistrant les modifications",
@@ -122,9 +122,9 @@ merge(config.messages.messageClose,{
 	tooltip: "ferme cette zône messages"});
 
 config.messages.backstage = {
-	open: {text: "coulisses", tooltip: "Ouvre les coulisses pour effectuer des tâches d'auteur et d'editeur"},
-	close: {text: "ferme", tooltip: "Ferme les coulisses"},
-	prompt: "coulisses : ",
+	open: {text: "services", tooltip: "Ouvre les services pour effectuer des tâches d'auteur et d'editeur"},
+	close: {text: "fermer", tooltip: "Ferme les services"},
+	prompt: "services : ",
 	decal: {
 		edit: {text: "éditer", tooltip: "Editer l'élément '%0'"}
 	}
@@ -168,7 +168,7 @@ merge(config.views.wikified,{
 
 merge(config.views.editor,{
 	tagPrompt: "Séparez les index avec un espace [[doubles crochets si besoin]], ou sélectionnez un index existant",
- defaultText: "Entrez le texte de '%0'"});
+	defaultText: "Entrez le texte de '%0'"});
 
 merge(config.views.editor.tagChooser,{
 	text: "index",
@@ -257,9 +257,9 @@ merge(config.macros.plugins,{
 	skippedText: "(Cette extension n'a pas été éxecutée car elle a été ajoutée après le démarrage)",
 	noPluginText: "Il n'y a pas d'extension installée",
 	confirmDeleteText: "Etes vous sûre de vouloir supprimer ces extensions :\n\n%0",
-	removeLabel: "enlève l'index 'systemConfig'",
+	removeLabel: "enlever l'index 'systemConfig'",
 	removePrompt: "enlève l'index 'systemConfig'",
-	deleteLabel: "supprime",
+	deleteLabel: "supprimer",
 	deletePrompt: "Supprime ces éléments définitivement",
 	listViewTemplate: {
 		columns: [
@@ -293,21 +293,21 @@ merge(config.macros.importTiddlers,{
 	readOnlyWarning: "Importation dans un TiddlyWiki en lecture seule impossible. Essayez de l'ouvrir à partir d'une URL 'file://'",
 	wizardTitle: "Importer des éléments depuis un autre fichier ou serveur",
 	step1Title: "Etape 1 : localiser le serveur ou le ficher TiddlyWiki",
-	step1Html: "Spécifiez le type du serveur : <select name='selTypes'><option value=''>Choisir ...</option></select><br>URL ou chemin : <input type='text' size=50 name='txtPath'><br>... ou recherchez un fichier : <input type='file' size=50 name='txtBrowse'><br><hr>... ou selectionnez une source pré-définie : <select name='selFeeds'><option value=''>Choose...</option></select>",
-	openLabel: "ouvre",
+	step1Html: "Spécifiez le type du serveur : <select name='selTypes'><option value=''>Choisir ...</option></select><br>URL ou chemin : <input type='text' size=50 name='txtPath'><br>... ou recherchez un fichier : <input type='file' size=50 name='txtBrowse'><br><hr>... ou selectionnez une source pré-définie : <select name='selFeeds'><option value=''>Choisir ...</option></select>",
+	openLabel: "ouvrir",
 	openPrompt: "Ouvre la connexion vers ce fichier ou serveur",
 	openError: "Il y a des erreurs lors de l'accès au fichier TiddlyWiki",
 	statusOpenHost: "Hôte en cours d'ouverture",
 	statusGetWorkspaceList: "Obtenir la liste des espaces de travail disponibles",
 	step2Title: "Etape 2 : choisir l'espace de travail",
 	step2Html: "Entrez le nom d'un espace de travail : <input type='text' size=50 name='txtWorkspace'><br>... ou selectionnez un esspace de travail : <select name='selWorkspace'><option value=''>Choisir ...</option></select>",
-	cancelLabel: "annule",
+	cancelLabel: "annuler",
 	cancelPrompt: "Annule cette importation",
 	statusOpenWorkspace: "Ouverture de l'espace de travail",
 	statusGetTiddlerList: "Obtenir la liste des éléments disponibles",
 	step3Title: "Etape 3: Choisir les éléments à importer",
 	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>Conserve ces éléments liés à ce serveur pour pouvoir synchroniser avec les changements ultérieurs</input><br><input type='checkbox' name='chkSave'>Enregistre les détails de ce serveur dans un élément 'systemServer' nommé :</input> <input type='text' size=25 name='txtSaveTiddler'>",
-	importLabel: "importe",
+	importLabel: "importer",
 	importPrompt: "Importe ces éléments",
 	confirmOverwriteText: "Etes-vous sûr de vouloir écraser ces éléments :\n\n%0",
 	step4Title: "Etape 4 : Importe %0 élément(s)",
@@ -351,7 +351,7 @@ merge(config.macros.sync,{
 	wizardTitle: "Synchronise avec des serveurs externes et des fichiers",
 	step1Title: "Choisir les éléments à synchroniser",
 	step1Html: "<input type='hidden' name='markList'></input>", // DO NOT TRANSLATE
-	syncLabel: "synchronise",
+	syncLabel: "synchroniser",
 	syncPrompt: "Synchronise ces éléments",
 	hasChanged: "Changé en mode déconnecté",
 	hasNotChanged: "Inchangé pendant la déconnexion",
@@ -384,8 +384,8 @@ merge(config.commands.editTiddler,{
 	readOnlyTooltip: "Montrer le texte source de cet élément"});
 
 merge(config.commands.saveTiddler,{
-	text: "enregistrer",
-	tooltip: "Enregistrer les modifications apportées à cet élément"});
+	text: "valider",
+	tooltip: "Valider les modifications apportées à cet élément"});
 
 merge(config.commands.cancelTiddler,{
 	text: "annuler",
@@ -416,7 +416,7 @@ merge(config.commands.syncing,{
 	text: "synchronisation",
 	tooltip: "Controle la synchronisation de cet élémnt avec un server ou un fichier externe",
 	currentlySyncing: "<div>Actuellement synchronisation avec <span class='popupHighlight'>'%0'</span> à :</"+"div><div>hôte : <span class='popupHighlight'>%1</span></"+"div><div>espace de travail : <span class='popupHighlight'>%2</span></"+"div>", // Note escaping of closing <div> tag
-	notCurrentlySyncing: "Pas actuellement an synchronisation",
+	notCurrentlySyncing: "Pas actuellement en synchronisation",
 	captionUnSync: "Arrête la synchronisation de cet élément",
 	chooseServer: "Synchronise cet élément avec un autre serveur :",
 	currServerMarker: "\u25cf ",
