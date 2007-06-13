@@ -22,7 +22,8 @@ if(version.major < 2 || (version.major == 2 && version.minor < 2))
 
 merge(config.defaultCustomFields,{
 	'server.type':'socialtext',
-	wikiformat:'socialtext'
+	wikiformat:'socialtext',
+	'server.host':'[%default.server%]'
 });
 
 config.options.chkSinglePageMode = true;

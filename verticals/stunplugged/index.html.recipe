@@ -20,7 +20,7 @@ tiddler: tiddlers/TabMore.tiddler
 tiddler: tiddlers/UnravelFireFoxPermissions.tiddler
 tiddler: tiddlers/ViewTemplate.tiddler
 tiddler: tiddlers/Styles_HorizontalMainMenu.tiddler
-tiddler: tiddlers/SocialtextDotNetServer.tiddler
+tiddler: tiddlers/SocialtextServer.tiddler
 tiddler: ../tiddlywiki.com/tiddlers/TiddlySaver.tiddler
 # tiddler: ../../contributors/EricShulman/plugins/SinglePageModePlugin.js
 tiddler: plugins/SocialtextLocaleOverrides.js
