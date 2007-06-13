@@ -2,16 +2,16 @@
 |''Name:''|TodoListPlugin|
 |''Description:''|Simple tabbed todo list|
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
-|''Source:''|http://martinwiki.com/#TodoListPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/TodoListPluing.js|
-|''Version:''|0.0.2|
+|''Source:''|http://martinwiki.com/#TodoListPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/TodoListPluing.js |
+|''Version:''|0.0.3|
 |''Date:''|July 31, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.0+|
 ***/
 
-/*{{{*/
+//{{{
 config.macros.listTodos = {
 	todoTag:"Todo",
 	todoCompletedTag:"TodoCompleted",
@@ -46,8 +46,8 @@ config.macros.listTodos.handler = function(place,macroName,params,wikifier,param
 		createTiddlyLink(li,results[i].title,true);
 	}
 };
-/*}}}*/
-/*{{{*/
+//}}}
+//{{{
 config.macros.listCompletedTodos = {};
 
 config.macros.listCompletedTodos.handler = function(place,macroName,params,wikifier,paramString,aTiddler)
@@ -70,8 +70,8 @@ config.macros.listCompletedTodos.handler = function(place,macroName,params,wikif
 		createTiddlyLink(li,results[i].title,true);
 	}
 };
-/*}}}*/
-/*{{{*/
+//}}}
+//{{{
 config.macros.listTags = {};
 config.macros.listTags.handler = function(place,macroName,params)
 {
@@ -82,8 +82,8 @@ config.macros.listTags.handler = function(place,macroName,params)
 		createTiddlyLink(li,tags[i].title,true);
 	}
 };
-/*}}}*/
-/*{{{*/
+//}}}
+//{{{
 config.macros.newTodo = {
 	label: "new todo",
 	prompt: "new todo",
@@ -115,4 +115,4 @@ config.macros.newTodo.onClick = function(e)
 	story.focusTiddler(title,'text');
 	return false;
 };
-/*}}}*/
+//}}}
