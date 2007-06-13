@@ -3,15 +3,15 @@
 |''Description:''|Translation of TiddlyWiki into English|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Source:''|www.example.com |
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
-|''Version:''|0.3.3|
-|''Date:''|May 13, 2007|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
+|''Version:''|0.3.5|
+|''Date:''|Jun 16, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/ ]]|
-|''~CoreVersion:''|2.1.3|
+|''~CoreVersion:''|2.2|
 ***/
 
-/*{{{*/
+//{{{
 //--
 //-- Translateable strings
 //--
@@ -20,8 +20,8 @@
 
 config.locale = "en"; // W3C language tag
 
-merge(config.options,{
-	txtUserName: "YourName"});
+if(!config.options['txtUserName'])
+	config.options['txtUserName'] = "YourName";
 
 merge(config.tasks,{
 	save: {text: "save", tooltip: "Save your changes to this TiddlyWiki", action: saveChanges},
@@ -455,4 +455,4 @@ merge(config.annotations,{
 	ViewTemplate: "The HTML template in this shadow tiddler determines how tiddlers look"
 	});
 
-/*}}}*/
+//}}}
