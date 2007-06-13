@@ -2,12 +2,12 @@
 |''Name:''|LocalAdaptorPlugin|
 |''Description:''|Adaptor for moving and converting data to and from file-based TiddlyWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#LocalAdaptorPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/LocalAdaptorPlugin.js|
-|''Version:''|0.5.2|
-|''Date:''|Mar 17, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''Source:''|http://www.martinswiki.com/#LocalAdaptorPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/LocalAdaptorPlugin.js |
+|''Version:''|0.5.3|
+|''Date:''|Jun 13, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.2.0|
 
 path/TiddlyFile.html
@@ -29,6 +29,7 @@ function LocalAdaptor()
 
 LocalAdaptor.serverType = 'local';
 LocalAdaptor.errorInFunctionMessage = "Error in function LocalAdaptor.%0: %1";
+LocalAdaptor.revisionSavedMessage = "Revision %0 saved";
 LocalAdaptor.baseRevision = 1000;
 
 LocalAdaptor.prototype.setContext = function(context,userParams,callback)
@@ -53,15 +54,15 @@ LocalAdaptor.normalizedTitle = function(title)
 
 LocalAdaptor.getPath = function(localPath,folder)
 {
-	var backSlash = '\\';
+	var slash = '\\';
 	var dirPathPos = localPath.lastIndexOf('\\');
 	if(dirPathPos == -1) {
 		dirPathPos = localPath.lastIndexOf('/');
-		backSlash = '/';
+		slash = '/';
 	}
 	if(!folder || folder == '')
 		folder = '.';
-	var path = localPath.substr(0,dirPathPos) + backSlash + folder + backSlash;
+	var path = localPath.substr(0,dirPathPos) + slash + folder + slash;
 	return path;
 };
 
@@ -77,7 +78,8 @@ LocalAdaptor.revisionPath = function()
 {
 //#displayMessage("revisionPath");
 	var file = getLocalPath(document.location.toString());
-	return LocalAdaptor.getPath(file,'tiddlers\\revisions');
+	var slash = file.lastIndexOf('\\') == -1 ? '/' : '\\';
+	return LocalAdaptor.getPath(file,'tiddlers' + slash + 'revisions');
 };
 
 LocalAdaptor.fullHostName = function(host)
@@ -224,9 +226,9 @@ LocalAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,use
 				if(match[1]==title) {
 //#displayMessage("name:"+name);
 					var tiddler = new Tiddler(title);
-					tiddler.modified = Date.convertFromYYYYMMDDHHMM(match[2])
-					//tiddler.modified = new Date();
-					//tiddler.modified.setTime(entries[i].modified);
+					tiddler.modified = Date.convertFromYYYYMMDDHHMM(match[2]);
+					//#tiddler.modified = new Date();
+					//#tiddler.modified.setTime(entries[i].modified);
 					tiddler.fields['server.page.revision'] = match[3];
 					list.push(tiddler);
 				}
@@ -273,7 +275,7 @@ LocalAdaptor.prototype.getTiddlerRevision = function(title,revision,context,user
 // @internal
 LocalAdaptor.prototype.getTiddlerInternal = function(context,userParams,callback)
 {
-//clearMessage();
+//#clearMessage();
 //#displayMessage('LocalAdaptor.getTiddler:' + context.title);
 	context = this.setContext(context,userParams,callback);
 	var title = context.title;
@@ -384,10 +386,13 @@ LocalAdaptor.prototype.saveTiddlerAsDiv = function(context,isRevision)
 	var uri = uriTemplate.format([path,context.tiddler.title,modified,revision]);
 //#displayMessage('uri:'+uri);
 	context.status = saveFile(uri,store.getSaver().externalizeTiddler(store,context.tiddler));
-	if(context.status)
-		displayMessage(config.messages.backupSaved,uri);
-	else
+	if(context.status) {
+		if(isRevision) {
+			displayMessage(LocalAdaptor.revisionSavedMessage.format([revision]));
+		}
+	} else {
 		alert(config.messages.backupFailed);
+	}
 	return context;
 };
 

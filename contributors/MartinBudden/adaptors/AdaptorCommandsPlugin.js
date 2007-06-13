@@ -2,12 +2,12 @@
 |''Name:''|AdaptorCommandsPlugin|
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js|
-|''Version:''|0.5.1|
-|''Date:''|Mar 17, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js |
+|''Version:''|0.5.2|
+|''Date:''|Jun 13, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.2.0|
 ***/
 
@@ -33,6 +33,8 @@ function invokeAdaptor(fnName,param1,param2,context,userParams,callback,fields)
 //#displayMessage("invokeAdaptor:"+fnName);
 	var serverType = getServerType(fields);
 	if(!serverType)
+		serverType = config.defaultCustomFields['server.type'];
+	if(!serverType)
 		return null;
 	var adaptor = new config.adaptors[serverType];
 	if(!adaptor)
@@ -43,6 +45,42 @@ function invokeAdaptor(fnName,param1,param2,context,userParams,callback,fields)
 		var ret = param2 ? adaptor[fnName](param1,param2,context,userParams,callback) : adaptor[fnName](param1,context,userParams,callback);
 	else
 		ret = adaptor[fnName](context,userParams,callback);
+	adaptor.close();
+	delete adaptor;
+	return ret;
+}
+
+function invokeAdaptorNew(fnName,param1,param2,context,userParams,callback,fields)
+{
+//#displayMessage("invokeAdaptor:"+fnName);
+	var serverType = getServerType(fields);
+	if(!serverType)
+		return null;
+	var adaptor = new config.adaptors[serverType];
+	if(!adaptor)
+		return false;
+	if(!context) context = {};
+	context.workspace = fields['server.workspace'];
+	context.param1 = param1;
+	context.param2 = param2;
+	openHostCallback = function(context,userParams)
+	{
+		window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,userParams,openWorkspaceCallback);
+	};
+	openWorkspaceCallback = function(context,userParams)
+	{
+	};
+	fnNameCallback = function(context,userParams)
+	{
+	};
+
+	adaptor.openHost(fields['server.host'],context,userParams,openHostCallback);
+	//adaptor.openWorkspace(fields['server.workspace']);
+	var fn = context.adaptor[fnName];
+	if(context.param1)
+		var ret = param2 ? fn(context.param1,context.param2,context,userParams,callback) : fn(context.param1,context,userParams,callback);
+	else
+		ret = fn(context,userParams,callback);
 	adaptor.close();
 	delete adaptor;
 	return ret;
