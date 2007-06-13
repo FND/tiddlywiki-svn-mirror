@@ -516,16 +516,28 @@ version.extensions.ContactMacroPlugin = {installed:true};
 
 config.macros.contact = {
 
-	fieldDictionary: [
-		{fieldName: &quot;Full Name&quot;, targetField: &quot;fn&quot;},
-		{fieldName: &quot;Name&quot;, targetField: &quot;fn&quot;},
-		{fieldName: &quot;Family Name&quot;, targetField: &quot;fn.family-name&quot;},
-		{fieldName: &quot;Given Name&quot;, targetField: &quot;fn.given-name&quot;},
-		{fieldName: &quot;Middle Name&quot;, targetField: &quot;fn.additional-name&quot;},
-		{fieldName: &quot;Additional Name&quot;, targetField: &quot;fn.additional-name&quot;}
-	],
+	fieldDictionary: {
+		'fn': [&quot;Full Name&quot;, &quot;name&quot;],
+		'fn.family-name': [&quot;Family Name&quot;],
+		'fn.given-name': [&quot;Given Name&quot;],
+		'fn.additional-name': [&quot;Middle Name&quot;,&quot;Additional Name&quot;],
+		'tel.work': [&quot;Work Tel&quot;,&quot;Work Phone&quot;]
+	},
+
+	nameDictionary: {},
+
+	init: function () {
+		for(var item in this.fieldDictionary) {
+			var d = this.fieldDictionary[item];
+			for(var i=0;i&lt;d.length;i++) {
+				name = d[i].toLowerCase().replace(/ /,"");
+				this.nameDictionary[name] = item;
+			}
+		}
+	},
 
 	getCardField: function (tiddlerName,fieldName) {
+		fieldName = fieldName.toLowerCase(fieldName).replace(/ /,"");
 		return store.getTiddlerSlice(tiddlerName,fieldName);
 	},
 
@@ -547,6 +559,7 @@ config.macros.contact = {
 
 		var vcard = createTiddlyElement(place,&quot;div&quot;,null,&quot;vcard&quot;,null);
 		var fn = createTiddlyElement(vcard,&quot;span&quot;,null,&quot;fn&quot;,name);
+
 		var tel1 = createTiddlyElement(vcard,&quot;span&quot;,null,&quot;tel&quot;,&quot;+44123456789&quot;);
 		var tel2 = createTiddlyElement(vcard,&quot;span&quot;,null,&quot;tel&quot;,null);
 		createTiddlyElement(tel2,&quot;span&quot;,null,&quot;type&quot;,&quot;Work&quot;);
