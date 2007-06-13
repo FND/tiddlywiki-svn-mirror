@@ -541,7 +541,7 @@ config.macros.contact = {
 			return;
 		}
 
-		// TBD - grab names 
+		// TBD - grab names in order, model on AddressBook format
 		// parse foo.bar.snark in targetField
 		var name = store.getTiddlerSlice(tiddlerName,&quot;Fullname&quot;);
 
@@ -613,12 +613,14 @@ config.macros.contact = {
 <pre>|''Fullname:''|Jane Doe|
 |''tel:''|+1555-01234|
 </pre>
+</div>
 <div title="Prof Gilzot" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
 <pre>|''Title:''|Prof|
-<pre>|''Family Name:''|Prof|
+|''Family Name:''|Prof|
 |''Url:''|http://www.profgilzot.com/|
 |''AIM:''|Prof Gilzot|
 </pre>
+</div>
 <div title="PaulDowney" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
 <pre>|''Fullname:''|Paul Downey|
 |''tel:''|+447918....|
@@ -642,7 +644,7 @@ function dump(arr,level) {
 			dumped_text += "'" + item + "' => \"" + value + "\",\n";
 		}
 	} else { 
-		dumped_text = "===>"+arr+"<===("+typeof(arr)+")";
+		dumped_text = arr+"=("+typeof(arr)+")";
 	}
 	return "{" + dumped_text + "}";
 }
