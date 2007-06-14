@@ -2,8 +2,8 @@
 !Metadata:
 |''Name:''|ArchivedTimeline|
 |''Description:''|Timeline archived monthly.|
-|''Version:''|0.6.2|
-|''Date:''|Dec 10, 2006|
+|''Version:''|0.6.3|
+|''Date:''|Jan 14, 2007|
 |''Source:''|http://sourceforge.net/project/showfiles.php?group_id=150646|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License]]|
@@ -14,6 +14,7 @@
 |{{{<<timeline [modified | created] [maxentries]>>}}}|
 !Revision History:
 |''Version''|''Date''|''Note''|
+|0.6.3|Jan 14, 2007|Cleaned codes, Removed config.macros.timeline.slider and config.macros.timeline.onClickSlider|
 |0.6.2|Dec 10, 2006|Add monthFormat to display month format for Chinese|
 |0.6.1|Aug 12, 2006|A great effect on config.macros.timeline.slider for Firefox, thanks Bob McElrath|
 |0.6.0|Jul 25, 2006|Runs compatibly with TW 2.1.0 (rev #403+)|
@@ -32,8 +33,8 @@
 !Code section:
 ***/
 //{{{
-version.extensions.archivedTimeline = {major: 0, minor: 6, revision: 2,
-	date: new Date("Dec 10, 2006"),
+version.extensions.archivedTimeline = {major: 0, minor: 6, revision: 3,
+	date: new Date("Jan 14, 2007"),
 	name: "ArchivedTimeline",
 	type: "Macro",
 	author: "BramChen",
@@ -66,11 +67,12 @@ config.macros.timeline.handler = function(place,macroName,params) {
 				lastMonth = theMonth;
 				}
 			else {
-				place.appendChild(document.createElement("hr"));
+				place.appendChild(document.createElement('hr'));
 				cookie = 'chktimeline'+(i++);
 				archives = this.formatString(this.monthFormat, lastMonth);
-				this.slider(place,cookie,theText,archives,this.tooltips + archives);
-				lastMonth = theMonth; theText = "----\n";
+				var panel = config.macros.slider.createSlider(place,cookie,archives,this.tooltips + archives);
+				wikify(theText,panel);
+				lastMonth = theMonth; theText = '----\n';
 			}
 		}
 		if(theDay != lastDay){
@@ -79,26 +81,12 @@ config.macros.timeline.handler = function(place,macroName,params) {
 		}
 		theText += '* [[' + tiddler.title + ']]\n';
 	}
-	place.appendChild(document.createElement("hr"));
+	place.appendChild(document.createElement('hr'));
 	cookie = 'chktimeline'+(i++);
 	archives = this.formatString(this.monthFormat, lastMonth);
-	this.slider(place,cookie,theText,archives,this.tooltips + archives);
-	place.appendChild(document.createElement("hr"));
-};
-
-config.macros.timeline.onClickSlider = config.macros.slider.onClickSlider;
-
-config.macros.timeline.slider = function(place,cookie,text,id,tooltips)
-{
-	var btn = createTiddlyButton(place,id,tooltips,this.onClickSlider);
-	var panel = document.createElement("div");
-		panel.className = "timelineSliderPanel";
-		panel.setAttribute("cookie",cookie);
-		panel.style.display = config.options[cookie] ? "block" : "none";
-		place.appendChild(panel);
-	if(text){
-		wikify(text,panel);
-	}
+	var panel = config.macros.slider.createSlider(place,cookie,archives,this.tooltips + archives);
+	wikify(theText,panel);
+	place.appendChild(document.createElement('hr'));
 };
 
 config.macros.timeline.formatString = function(template, yyyymm)

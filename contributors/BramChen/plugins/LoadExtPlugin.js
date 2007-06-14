@@ -1,8 +1,8 @@
 /***
 |''Name:''|LoadExtPlugin|
 |''Description:''|LoadExtPlugin allows you to load external extensions from the file lists (named .js) within those tiddlers taged with "ExtList".|
-|''Version:''|1.7.2|
-|''Date:''|Sep 28, 2006|
+|''Version:''|1.8.0|
+|''Date:''|Apr 30, 2007|
 |''Source:''|http://www.sourceforge.net/projects/ptw/|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License]]|
@@ -10,8 +10,11 @@
 |''Browser:''|Firefox 1.5+; InternetExplorer 6.0|
 
 +++!^[Revision History:]
+v1.8.0 (Apr 30 2007)
+*config.macros.loadExt support to load singgle external script by using {{{<<loadExt '/pathto/scriptfile.js'>>}}}
+*Ensure LoadExtPlugin loading itself and/or loadling scripts after core has been loaded with external core js and itself|
 v1.7.2 (Sep 28 2006)
-Fixed bugs on IE
+*Fixed bugs on IE
 v1.7.1 (30 Aug 2006)
 * Changed rule check of ExtList
 v1.7.0 (20 Jul 2006)
@@ -51,59 +54,73 @@ v0.1.0 (25 Sep 2005)
 !''Code section:''
 ***/
 //{{{
-version.extensions.loadExt = {major: 1, minor: 7, revision: 2,
- date: new Date("Sep 28, 2006"),
+version.extensions.loadExt = {major: 1, minor: 8, revision: 0,
+ date: new Date("Apr 30, 2007"),
  name: "LoadExtPlugin",
  type: "Plugin",
  author: "BramChen",
  source: "http://sourceforge.net/project/showfiles.php?group_id=150646"
 };
 
-config.macros.loadExt = {
-	handler: function(place,macroName,params){this.loadScripts();},
-	
-	loadScripts: function() {
-		var extTag = "ExtList";
-		var str = ""; var scripts = [];
-		var tiddlers = store.getTaggedTiddlers(extTag);
-		for(var s=0 ; s<tiddlers.length; s++){
-			str += store.getRecursiveTiddlerText(tiddlers[s].title)+"\n";
-		}
-		//scripts = str.split(";");
-		scripts = str.replace(/[;\r]/mg,"\n").split("\n");
-		for (var i=0; i<scripts.length-1; i++) {
-			var scriptfile = scripts[i].trim();
-			if (scriptfile.length < 2 || scriptfile.substr(0,2) == "//" || scriptfile.indexOf(".js") == -1){
-				continue;
-			}
-			// displayMessage("loaded: "+ scriptfile);
-			var n = document.createElement("script");
-			n.type = "text/javascript";
-			n.src = scriptfile;
-			document.getElementsByTagName("head")[0].appendChild(n);
-		}
-		if (config.browser.isIE){
-			setTimeout(function(){window.refreshCode();return false;},500);
-		}
-		else {
-			var theCodes = "//<![CDATA[\nwindow.refreshCode();\n//]]>";
-			n = document.createElement("script");
-			n.type = "text/javascript";
-			n.appendChild(document.createTextNode(theCodes));
-			document.getElementsByTagName("head")[0].appendChild(n);
-		}
+config.macros.loadExt = {};
+config.macros.loadExt.handler = function(place,macroName,params){
+	if (params[0])
+		this.loadScriptFile(params[0]);
+	else
+		this.loadScripts();
+};
 
+config.macros.loadExt.loadScriptFile = function(scriptfile){
+	var scriptfile = scriptfile.trim();
+	if (scriptfile.length < 2 || scriptfile.substr(0,2) == "//" || scriptfile.indexOf(".js") == -1){
+		return;
+	}
+	// displayMessage("loaded: "+ scriptfile);
+	var n = document.createElement("script");
+	n.type = "text/javascript";
+	n.src = scriptfile;
+	document.getElementsByTagName("head")[0].appendChild(n);
+};
+
+config.macros.loadExt.loadScripts = function() {
+	var extTag = "ExtList";
+	var str = ""; var scripts = [];
+	var tiddlers = store.getTaggedTiddlers(extTag);
+	for(var s=0 ; s<tiddlers.length; s++){
+		str += store.getRecursiveTiddlerText(tiddlers[s].title)+"\n";
+	}
+	scripts = str.replace(/[;\r]/mg,"\n").split("\n");
+	for (var i=0; i<scripts.length-1; i++) {
+		this.loadScriptFile(scripts[i]);
+	}
+	
+	if (config.browser.isIE){
+//		setTimeout(function(){window.refreshCode();return false;},500);
+		var lerInterval = setInterval(function(){if(formatter) {clearInterval(lerInterval); window.refreshCode();};},100);
+	}
+	else {
+		var theCodes = "//<![CDATA[\nwindow.refreshCode();//]]>";
+		n = document.createElement("script");
+		n.type = "text/javascript";
+		n.appendChild(document.createTextNode(theCodes));
+		document.getElementsByTagName("head")[0].appendChild(n);
+		this.refreshCodeInserted = true;
 	}
 };
 
 window.refreshCode = function (){
 	formatter = new Formatter(config.formatters);
-	if (typeof store === "undefined") var store = new TiddlyWiki();
-	if (typeof story === "undefined") var story = new Story("tiddlerDisplay","tiddler");
 	story.forEachTiddler(function(title,e){story.refreshTiddler(title,DEFAULT_VIEW_TEMPLATE,true);});
 	refreshDisplay();
 	return false;
 }
 
-setTimeout(function(){config.macros.loadExt.loadScripts();return false;},500);
+// setTimeout(function(){config.macros.loadExt.loadScripts();return false;},500);
+loadextpluginInterval = setInterval(function(){
+	if(window.formatter) {
+		clearInterval(loadextpluginInterval);
+		if(!config.macros.loadExt.refreshCodeInserted)
+		config.macros.loadExt.loadScripts();
+	}
+},100);
 //}}}
