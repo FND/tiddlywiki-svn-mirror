@@ -516,35 +516,35 @@ version.extensions.ContactMacroPlugin = {installed:true};
 
 config.macros.contact = {
 
-	fieldDictionary: {
-		'fn': ['Full Name', 'name'],
-		'fn.family-name': ['Family Name'],
-		'fn.given-name': ['Given Name'],
-		'fn.additional-name': ['Middle Name','Additional Name'],
+	hCardFields: [
+		{hcard: 'fn', names: ['Full Name', 'name']},
+		{hcard: 'fn.family-name', names: ['Family Name','Surname']},
+		{hcard: 'fn.given-name', names: ['Given Name','First Name']},
+		{hcard: 'fn.additional-name', names: ['Middle Name','Additional Name']},
+		{hcard: 'org', names: ['Company','Organization','Organization','Org']},
 
-		'org': ['Company','Organization','Organization','Org'],
+		{hcard: 'tel', names: ['Tel','Telephone','Phone']},
+		{hcard: 'tel.work', names: ['Tel Work','Work Tel','Work Phone']},
+		{hcard: 'tel.home', names: ['Tel Home','Home Tel','Home Phone']},
+		{hcard: 'tel.mobile', names: ['Mobile','Mobile Tel','Cell','Cell Number','Cell No']},
 
-		'tel': ['Tel','Telephone','Phone'],
-		'tel.work': ['Tel Work','Work Tel','Work Phone'],
-		'tel.home': ['Tel Home','Home Tel','Home Phone'],
-		'tel.mobile': ['Mobile','Mobile Tel','Cell','Cell Number','Cell No'],
+		{hcard: 'email', names: ['Email']},
+		{hcard: 'email.work', names: ['Email Work','Work Email']},
+		{hcard: 'email.home', names: ['Email Home','Home Email']},
 
-		'email': ['Email'],
-		'email.work': ['Email Work','Work Email'],
-		'email.home': ['Email Home','Home Email'],
+		{hcard: 'AIM', names: ['AIM']},
+		{hcard: 'Jabber', names: ['Jabber','XMPP']},
+		{hcard: 'MSM', names: ['MSM','Windows Live','Microsoft Messenger']},
+		{hcard: 'YIM', names: ['YIM','Yahoo!','Yahoo! IM']},
 
-		'AIM': ['AIM'],
-		'Jabber': ['Jabber','XMPP'],
-		'MSM': ['MSM','Windows Live','Microsoft Messenger'],
-		'YIM': ['YIM','Yahoo!','Yahoo! IM'],
+		{hcard: 'street-address', names: ['Street','Street Address']},
+		{hcard: 'locality', names: ['Locality','City']},
+		{hcard: 'region', names: ['Region','State','County','Province']},
+		{hcard: 'postal-code', names: ['Postal Code','Post Code','Zip']},
+		{hcard: 'country-name', names: ['Country Name','Country']},
+	],
 
-		'street-address': ['Street','Street Address'],
-		'locality': ['Locality','City'],
-		'region': ['Region','State','County','Province'],
-		'postal-code': ['Postal Code','Post Code','Zip'],
-		'country-name': ['Country Name','Country'],
-	},
-
+	fieldDictionary: {},
 	nameDictionary: {},
 
 	squash: function (str) {
@@ -552,10 +552,17 @@ config.macros.contact = {
 	},
 
 	init: function () {
+		// build field to names dictionary
+		for(var i=0;i&lt;this.hCardFields.length;i++) {
+			item = this.hCardFields[i];
+			this.fieldDictionary[item.hcard] = item.names;
+		}
+
+		// build names to field dictionary
 		for(var item in this.fieldDictionary) {
-			var d = this.fieldDictionary[item];
-			for(var i=0;i&lt;d.length;i++) {
-				name = this.squash(d[i]);
+			var names = this.fieldDictionary[item];
+			for(var i=0;i&lt;names.length;i++) {
+				name = this.squash(names[i]);
 				this.nameDictionary[name] = item;
 			}
 		}
@@ -563,7 +570,30 @@ config.macros.contact = {
 
 	getCardField: function (tiddlerName,fieldName) {
 		fieldName = this.squash(fieldName);
-		return store.getTiddlerSlice(tiddlerName,fieldName);
+		var names = this.fieldDictionary[fieldName];
+		for(var i=0;i&lt;names.length;i++) {
+			value = store.getTiddlerSlice(tiddlerName,names[i]);
+			if(value) { 
+				return value;
+			}
+		}
+		return "";
+	},
+
+	createTiddlyhCard: function (place,tiddlerName) {
+		var vcard = createTiddlyElement(place,'div',null,'vcard',null);
+
+		var fn = store.getTiddlerSlice(tiddlerName,'Fullname');
+
+		var fn = createTiddlyElement(vcard,'span',null,'fn',name);
+
+		var tel1 = createTiddlyElement(vcard,'span',null,'tel','+44123456789');
+		var tel2 = createTiddlyElement(vcard,'span',null,'tel',null);
+		createTiddlyElement(tel2,'span',null,'type','Work');
+		createTiddlyElement(tel2,'span',null,'value','+33123456789');
+		createTiddlyButton(tel1,'Call!','Click here to dial this person',this.onClickDial);
+
+		return vcard;
 	},
 
 	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
@@ -578,21 +608,7 @@ config.macros.contact = {
 			return;
 		}
 
-		// TBD - really should traverse the tiddler, 
-		//    building a vcard object parsing foo.bar.snork names
-		// but or now we query names in display order
-		var fn = store.getTiddlerSlice(tiddlerName,'Fullname');
-
-		var vcard = createTiddlyElement(place,'div',null,'vcard',null);
-
-		var fn = createTiddlyElement(vcard,'span',null,'fn',name);
-
-		var tel1 = createTiddlyElement(vcard,'span',null,'tel','+44123456789');
-		var tel2 = createTiddlyElement(vcard,'span',null,'tel',null);
-		createTiddlyElement(tel2,'span',null,'type','Work');
-		createTiddlyElement(tel2,'span',null,'value','+33123456789');
-
-		createTiddlyButton(tel1,'Call!','Click here to dial this person',this.onClickDial);
+		this.createTiddlyhCard(place,tiddlerName);
 	},
 
 	onClickDial: function (e) {
@@ -658,7 +674,7 @@ config.macros.contact = {
 </div>
 <div title="PaulDowney" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
 <pre>|''Fullname:''|Paul Downey|
-|''tel:''|+447918....|
+|''Tel:''|+447918....|
 |''url:''|http://blog.whatfettle.com|
 </pre>
 </div>
