@@ -517,80 +517,80 @@ version.extensions.ContactMacroPlugin = {installed:true};
 config.macros.contact = {
 
 	fieldDictionary: {
-		'fn': [&quot;Full Name&quot;, &quot;name&quot;],
-		'fn.family-name': [&quot;Family Name&quot;],
-		'fn.given-name': [&quot;Given Name&quot;],
-		'fn.additional-name': [&quot;Middle Name&quot;,&quot;Additional Name&quot;],
-		'tel.work': [&quot;Work Tel&quot;,&quot;Work Phone&quot;]
+		'fn': ['Full Name', 'name'],
+		'fn.family-name': ['Family Name'],
+		'fn.given-name': ['Given Name'],
+		'fn.additional-name': ['Middle Name','Additional Name'],
+		'tel.work': ['Tel Work','Work Tel','Work Phone']
 	},
 
 	nameDictionary: {},
+
+	squash: function (str) {
+		return str.toLowerCase().replace(/ /,'');
+	},
 
 	init: function () {
 		for(var item in this.fieldDictionary) {
 			var d = this.fieldDictionary[item];
 			for(var i=0;i&lt;d.length;i++) {
-				name = d[i].toLowerCase().replace(/ /,"");
+				name = this.squash(d[i]);
+				displayMessage(name);
 				this.nameDictionary[name] = item;
 			}
 		}
 	},
 
 	getCardField: function (tiddlerName,fieldName) {
-		fieldName = fieldName.toLowerCase(fieldName).replace(/ /,"");
+		fieldName = this.squash(fieldName);
 		return store.getTiddlerSlice(tiddlerName,fieldName);
 	},
 
 	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
 
-		params = paramString.parseParams(&quot;name&quot;,null,true,false,false);
-		var tiddlerName = getParam(params,&quot;name&quot;,null);
+		params = paramString.parseParams('name',null,true,false,false);
+		var tiddlerName = getParam(params,'name',null);
 
 		// TBD - name beginning with '+' is a group name, for conference calling
 
 		if(!store.tiddlerExists(tiddlerName)) {
-			createTiddlyError(place,&quot;That tiddler '&quot; + tiddlerName + &quot;' doesn't not yet exist after all even after looking for it twice&quot;);
+			createTiddlyError(place,'The tiddler \'' + tiddlerName + '\' does not yet exist after all even after looking for it twice');
 			return;
 		}
 
 		// TBD - grab names in order, model on AddressBook format
 		// parse foo.bar.snark in targetField
-		var name = store.getTiddlerSlice(tiddlerName,&quot;Fullname&quot;);
+		var name = store.getTiddlerSlice(tiddlerName,'Fullname');
 
-		var vcard = createTiddlyElement(place,&quot;div&quot;,null,&quot;vcard&quot;,null);
-		var fn = createTiddlyElement(vcard,&quot;span&quot;,null,&quot;fn&quot;,name);
+		var vcard = createTiddlyElement(place,'div',null,'vcard',null);
+		var fn = createTiddlyElement(vcard,'span',null,'fn',name);
 
-		var tel1 = createTiddlyElement(vcard,&quot;span&quot;,null,&quot;tel&quot;,&quot;+44123456789&quot;);
-		var tel2 = createTiddlyElement(vcard,&quot;span&quot;,null,&quot;tel&quot;,null);
-		createTiddlyElement(tel2,&quot;span&quot;,null,&quot;type&quot;,&quot;Work&quot;);
-		createTiddlyElement(tel2,&quot;span&quot;,null,&quot;value&quot;,&quot;+33123456789&quot;);
+		var tel1 = createTiddlyElement(vcard,'span',null,'tel','+44123456789');
+		var tel2 = createTiddlyElement(vcard,'span',null,'tel',null);
+		createTiddlyElement(tel2,'span',null,'type','Work');
+		createTiddlyElement(tel2,'span',null,'value','+33123456789');
 
-		createTiddlyButton(tel1,&quot;Call!&quot;,&quot;Click here to dial this person&quot;,this.onClickDial);
+		createTiddlyButton(tel1,'Call!','Click here to dial this person',this.onClickDial);
 	},
 
 	onClickDial: function (e) {
 
-	        var callingParty = config.macros.contact.getCardField(config.options.txtUserName,&quot;tel&quot;);
+	        var callingParty = config.macros.contact.getCardField(config.options.txtUserName,'tel');
 	        var calledParty = this.previousSibling.data;
 
-		var body = &quot;callingParty=&quot; + encodeURI(callingParty) + &quot;&amp;calledParty=&quot; + encodeURI(calledParty);
+		var body = 'callingParty=' + encodeURI(callingParty) + '&amp;calledParty=' + encodeURI(calledParty);
 
 	        displayMessage(body);
 
 		var callback = function(status,params,responseText,url,xhr) {
-			displayMessage(&quot;call info:&quot; + responseText );
+			displayMessage('call info:' + responseText );
 		};
 /*
 
 		// BT Web21C SDK http://sdk.bt.com
 		// exposed as a web form at http://whatfetttle.com for demonstration purposes
 		// you need authentication to use this!
-		var req = doHttp(&quot;POST&quot;,
-			&quot;http://web21c.whatfettle.com/calls/new&quot;,
-			body,
-			null,
-			null,null,
-			callback);
+		var req = doHttp('POST', 'http://web21c.whatfettle.com/calls/new', body, null, null,null, callback);
 */
 	}
 
@@ -649,19 +649,6 @@ config.macros.contact = {
 <!--POST-BODY-START-->
 <!--POST-BODY-END-->
 <script type="text/javascript">
-function dump(arr,level) {
-	var dumped_text = "";
-	if(typeof(arr) == 'object') { 
-		for(var item in arr) {
-			var value = arr[item];
-			dumped_text += "'" + item + "' => \"" + value + "\",\n";
-		}
-	} else { 
-		dumped_text = arr+"=("+typeof(arr)+")";
-	}
-	return "{" + dumped_text + "}";
-}
-
 //<![CDATA[
 //
 // Please note:
