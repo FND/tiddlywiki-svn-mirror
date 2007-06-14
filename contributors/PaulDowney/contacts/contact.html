@@ -521,13 +521,34 @@ config.macros.contact = {
 		'fn.family-name': ['Family Name'],
 		'fn.given-name': ['Given Name'],
 		'fn.additional-name': ['Middle Name','Additional Name'],
-		'tel.work': ['Tel Work','Work Tel','Work Phone']
+
+		'org': ['Company','Organization','Organization','Org'],
+
+		'tel': ['Tel','Telephone','Phone'],
+		'tel.work': ['Tel Work','Work Tel','Work Phone'],
+		'tel.home': ['Tel Home','Home Tel','Home Phone'],
+		'tel.mobile': ['Mobile','Mobile Tel','Cell','Cell Number','Cell No'],
+
+		'email': ['Email'],
+		'email.work': ['Email Work','Work Email'],
+		'email.home': ['Email Home','Home Email'],
+
+		'AIM': ['AIM'],
+		'Jabber': ['Jabber','XMPP'],
+		'MSM': ['MSM','Windows Live','Microsoft Messenger'],
+		'YIM': ['YIM','Yahoo!','Yahoo! IM'],
+
+		'street-address': ['Street','Street Address'],
+		'locality': ['Locality','City'],
+		'region': ['Region','State','County','Province'],
+		'postal-code': ['Postal Code','Post Code','Zip'],
+		'country-name': ['Country Name','Country'],
 	},
 
 	nameDictionary: {},
 
 	squash: function (str) {
-		return str.toLowerCase().replace(/ /,'');
+		return str.toLowerCase().replace(/[\s(),.-!\?:\[\]]/g,'');
 	},
 
 	init: function () {
