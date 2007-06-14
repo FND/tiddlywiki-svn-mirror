@@ -517,81 +517,78 @@ version.extensions.ContactMacroPlugin = {installed:true};
 config.macros.contact = {
 
 	hCardFields: [
-		{hcard: 'fn', names: ['Full Name', 'name']},
-		{hcard: 'fn.family-name', names: ['Family Name','Surname']},
-		{hcard: 'fn.given-name', names: ['Given Name','First Name']},
-		{hcard: 'fn.additional-name', names: ['Middle Name','Additional Name']},
-		{hcard: 'org', names: ['Company','Organization','Organization','Org']},
+		{hcard: 'fn', names: ['Full Name', 'name'], element: 'div'},
+		{hcard: 'fn.family-name', names: ['Family Name','Surname'], element: 'div'},
+		{hcard: 'fn.given-name', names: ['Given Name','First Name'], element: 'span'},
+		{hcard: 'fn.additional-name', names: ['Middle Name','Additional Name'], element: 'span'},
+		{hcard: 'org', names: ['Company','Organization','Organization','Org'], element: 'div'},
 
-		{hcard: 'tel', names: ['Tel','Telephone','Phone']},
-		{hcard: 'tel.work', names: ['Tel Work','Work Tel','Work Phone']},
-		{hcard: 'tel.home', names: ['Tel Home','Home Tel','Home Phone']},
-		{hcard: 'tel.mobile', names: ['Mobile','Mobile Tel','Cell','Cell Number','Cell No']},
+		{hcard: 'tel', names: ['Tel','Telephone','Phone'], element: 'div'},
+		{hcard: 'tel.work', names: ['Tel Work','Work Tel','Work Phone'], element: 'span'},
+		{hcard: 'tel.home', names: ['Tel Home','Home Tel','Home Phone'], element: 'span'},
+		{hcard: 'tel.mobile', names: ['Mobile','Mobile Tel','Cell','Cell Number','Cell No'], element: 'span'},
 
-		{hcard: 'email', names: ['Email']},
-		{hcard: 'email.work', names: ['Email Work','Work Email']},
-		{hcard: 'email.home', names: ['Email Home','Home Email']},
+		{hcard: 'email', names: ['Email'], element: 'div'},
+		{hcard: 'email.work', names: ['Email Work','Work Email'], element: 'span'},
+		{hcard: 'email.home', names: ['Email Home','Home Email'], element: 'span'},
 
-		{hcard: 'AIM', names: ['AIM']},
-		{hcard: 'Jabber', names: ['Jabber','XMPP']},
-		{hcard: 'MSM', names: ['MSM','Windows Live','Microsoft Messenger']},
-		{hcard: 'YIM', names: ['YIM','Yahoo!','Yahoo! IM']},
+		{hcard: 'AIM', names: ['AIM'], element: 'span'},
+		{hcard: 'Jabber', names: ['Jabber','XMPP'], element: 'span'},
+		{hcard: 'MSM', names: ['MSM','Windows Live','Microsoft Messenger'], element: 'span'},
+		{hcard: 'YIM', names: ['YIM','Yahoo!','Yahoo! IM'], element: 'span'},
 
-		{hcard: 'street-address', names: ['Street','Street Address']},
-		{hcard: 'locality', names: ['Locality','City']},
-		{hcard: 'region', names: ['Region','State','County','Province']},
-		{hcard: 'postal-code', names: ['Postal Code','Post Code','Zip']},
-		{hcard: 'country-name', names: ['Country Name','Country']},
+		{hcard: 'street-address', names: ['Street','Street Address'], element: 'span'},
+		{hcard: 'locality', names: ['Locality','City'], element: 'span'},
+		{hcard: 'region', names: ['Region','State','County','Province'], element: 'span'},
+		{hcard: 'postal-code', names: ['Postal Code','Post Code','Zip'], element: 'span'},
+		{hcard: 'country-name', names: ['Country Name','Country'], element: 'span'},
 	],
 
 	fieldDictionary: {},
-	nameDictionary: {},
 
 	squash: function (str) {
-		return str.toLowerCase().replace(/[\s(),.-!\?:\[\]]/g,'');
+		return str.toLowerCase().replace(/[\s(),.\-!\?:\[\]]/g,'');
 	},
 
 	init: function () {
-		// build field to names dictionary
 		for(var i=0;i&lt;this.hCardFields.length;i++) {
-			item = this.hCardFields[i];
-			this.fieldDictionary[item.hcard] = item.names;
-		}
-
-		// build names to field dictionary
-		for(var item in this.fieldDictionary) {
-			var names = this.fieldDictionary[item];
-			for(var i=0;i&lt;names.length;i++) {
-				name = this.squash(names[i]);
-				this.nameDictionary[name] = item;
-			}
+			var item = this.hCardFields[i];
+			var fieldName = this.squash(item.hcard);
+			this.fieldDictionary[fieldName] = this.hCardFields[i];
 		}
 	},
 
-	getCardField: function (tiddlerName,fieldName) {
+	getCardField: function (tiddlerName,fieldName,item) {
 		fieldName = this.squash(fieldName);
-		var names = this.fieldDictionary[fieldName];
-		for(var i=0;i&lt;names.length;i++) {
-			value = store.getTiddlerSlice(tiddlerName,names[i]);
-			if(value) { 
-				return value;
-			}
+		if(!item) {
+			item = this.fieldDictionary[fieldName];
 		}
-		return "";
+		if(!item) {
+			return "error:"+fieldName;	// shouldn't get here, but dictionary seems to be broken :-(
+		}
+		for(var i=0;i&lt;item.names.length;i++) {
+			var value = store.getTiddlerSlice(tiddlerName,item.names[i]);
+			displayMessage(item.names[i]+":"+value);
+			if(value) return value;
+		}
+		return ""
 	},
 
 	createTiddlyhCard: function (place,tiddlerName) {
 		var vcard = createTiddlyElement(place,'div',null,'vcard',null);
 
-		var fn = store.getTiddlerSlice(tiddlerName,'Fullname');
-
-		var fn = createTiddlyElement(vcard,'span',null,'fn',name);
-
-		var tel1 = createTiddlyElement(vcard,'span',null,'tel','+44123456789');
-		var tel2 = createTiddlyElement(vcard,'span',null,'tel',null);
-		createTiddlyElement(tel2,'span',null,'type','Work');
-		createTiddlyElement(tel2,'span',null,'value','+33123456789');
-		createTiddlyButton(tel1,'Call!','Click here to dial this person',this.onClickDial);
+		for(var i=0;i&lt;this.hCardFields.length;i++) {
+			var item = this.hCardFields[i];
+			var value = this.getCardField(tiddlerName,item.hcard,item);
+			if(value) {
+				displayMessage(item.hcard +":"+value);
+				node = createTiddlyElement(vcard,item.element,null,item.hcard,value);
+				// TBD - split hcard name by '.' and build/traverse DOM
+				if (this.squash(item.hcard.substr(0,3)) == 'tel') {
+					createTiddlyButton(node,'Call!','Click here to dial this person',this.onClickDial);
+				}
+			}
+		}
 
 		return vcard;
 	},
