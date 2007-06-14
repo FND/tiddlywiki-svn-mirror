@@ -10,7 +10,7 @@ TW21Saver.prototype.externalizeTiddler = function(store,tiddler)
 {
 	try {
 		var extendedAttributes = "";
-		var usePre = config.usePreForStorage;
+		var usePre = config.options.chkUsePreForStorage;
 		store.forEachField(tiddler,
 			function(tiddler,fieldName,value) {
 				// don't store stuff from the temp namespace
@@ -28,7 +28,7 @@ TW21Saver.prototype.externalizeTiddler = function(store,tiddler)
 		var tags = tiddler.getTags();
 		if(!usePre || tags)
 			attributes += ' tags="' + tags.htmlEncode() + '"';
-		return '<div %0="%1"%2%3>%4</div>'.format([
+		return ('<div %0="%1"%2%3>%4</'+'div>').format([
 				usePre ? "title" : "tiddler",
 				tiddler.title.htmlEncode(),
 				attributes,
@@ -44,7 +44,7 @@ TW21Saver.prototype.externalizeShadow = function(store,tiddler)
 {
 	try {
 		var extendedAttributes = "";
-		var usePre = true;
+		var usePre = config.options.chkUsePreForStorage;
 		store.forEachField(tiddler,
 			function(tiddler,fieldName,value) {
 				// don't store stuff from the temp namespace
@@ -60,14 +60,14 @@ TW21Saver.prototype.externalizeShadow = function(store,tiddler)
 //#		attributes += (usePre && modified == created) ? "" : ' modified="' + modified +'"';
 //#		attributes += (usePre && created == vdate) ? "" :' created="' + created + '"';
 		var tags = tiddler.getTags();
-//#		if(!usePre || tags)
-			attributes += tiddler.tagsr ? ' tags="' + tags.htmlEncode() + '"':"";
-		return '<div %0="%1"%2%3>%4</div>'.format([
+		if(!usePre || tags)
+			attributes += ' tags="' + tags.htmlEncode() + '"';
+		return ('<div %0="%1"%2%3>%4</'+'div>').format([
 				usePre ? "title" : "tiddler",
 				tiddler.title.htmlEncode(),
 				attributes,
 				extendedAttributes,
-				usePre ? "\n<pre>" + tiddler.text.htmlEncode() + "</pre>\n" : tiddler.escapeLineBreaks().htmlEncode()
+				usePre ? "\n<pre>" + tiddler.text.htmlEncode() + "</pre>\n" : tiddler.text.escapeLineBreaks().htmlEncode()
 			]);
 	} catch (ex) {
 		throw exceptionText(ex,config.messages.tiddlerSaveError.format([tiddler.title]));

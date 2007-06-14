@@ -31,12 +31,30 @@ function checkUnsavedChanges()
 	}
 }
 
+function updateLanguageAttribute(s)
+{
+	if(config.locale) {
+		var mRE = /(<html(?:.*?)?)(?: xml:lang\="([a-z]+)")?(?: lang\="([a-z]+)")?>/;
+		var m = mRE.exec(s);
+		if(m) {
+			var t = m[1];
+			if(m[2])
+				t += ' xml:lang="' + config.locale + '"';
+			if(m[3])
+				t += ' lang="' + config.locale + '"';
+			t += ">";
+			s = s.substr(0,m.index) + t + s.substr(m.index+m[0].length);
+		}
+	}
+	return s;
+}
+
 function updateMarkupBlock(s,blockName,tiddlerName)
 {
 	return s.replaceChunk(
 			"<!--%0-START-->".format([blockName]),
 			"<!--%0-END-->".format([blockName]),
-			"\n" + store.getRecursiveTiddlerText(tiddlerName,"") + "\n");
+			"\n" + convertUnicodeToUTF8(store.getRecursiveTiddlerText(tiddlerName,"")) + "\n");
 }
 
 function updateOriginal(original,posDiv)
@@ -58,12 +76,13 @@ function updateOriginal(original,posDiv)
 				endShadowArea + "\n" + original.substring(posPostShadow,posDiv[0]) + startSaveArea + "\n" + 
 				convertUnicodeToUTF8(store.allTiddlersAsHtml()) + "\n" +
 				original.substr(posDiv[1]);
-	var newSiteTitle = convertUnicodeToUTF8((wikifyPlain("SiteTitle") + " - " + wikifyPlain("SiteSubtitle")).htmlEncode());
+	var newSiteTitle = convertUnicodeToUTF8(getPageTitle()).htmlEncode();
 	revised = revised.replaceChunk("<title"+">","</title"+">"," " + newSiteTitle + " ");
+	revised = updateLanguageAttribute(revised);
 	revised = updateMarkupBlock(revised,"PRE-HEAD","MarkupPreHead");
 	revised = updateMarkupBlock(revised,"POST-HEAD","MarkupPostHead");
 	revised = updateMarkupBlock(revised,"PRE-BODY","MarkupPreBody");
-	revised = updateMarkupBlock(revised,"POST-BODY","MarkupPostBody");
+	revised = updateMarkupBlock(revised,"POST-SCRIPT","MarkupPostBody");
 	return revised;
 }
 
@@ -71,7 +90,9 @@ function locateStoreArea(original)
 {
 	// Locate the storeArea div's
 	var posOpeningDiv = original.indexOf(startSaveArea);
-	var limitClosingDiv = original.indexOf("<"+"!--POST-BODY-START--"+">");
+	var limitClosingDiv = original.indexOf("<"+"!--POST-STOREAREA--"+">");
+	if(limitClosingDiv == -1)
+		limitClosingDiv = original.indexOf("<"+"!--POST-BODY-START--"+">");
 	var posClosingDiv = original.lastIndexOf(endSaveArea, limitClosingDiv == -1 ? original.length : limitClosingDiv);
 	return (posOpeningDiv != -1 && posClosingDiv != -1) ? [posOpeningDiv,posClosingDiv] : null;
 }

@@ -32,7 +32,7 @@ function main()
 	store = new TiddlyWiki();
 	shadows = new TiddlyWiki();
 	invokeParamifier(params,"oninit");
-	story = new Story("storyDisplay","tiddler");
+	story = new Story("tiddlerDisplay","tiddler");
 	addEvent(document,"click",Popup.onDocumentClick);
 	saveTest();
 	loadOptionsCookie();
@@ -45,13 +45,12 @@ function main()
 	t3 = new Date();
 	invokeParamifier(params,"onload");
 	t4 = new Date();
+	readOnly = (window.location.protocol == "file:") ? false : config.options.chkHttpReadOnly;
 	var pluginProblem = loadPlugins();
 	t5 = new Date();
 	formatter = new Formatter(config.formatters);
-	readOnly = (window.location.protocol == "file:") ? false : config.options.chkHttpReadOnly;
-	if(!readOnly)
-		backstage.init();
 	invokeParamifier(params,"onconfig");
+
 	t6 = new Date();
 	store.notifyAll();
 	t7 = new Date();
@@ -65,8 +64,10 @@ function main()
 		if(config.macros[m].init)
 			config.macros[m].init();
 	}
+	if(!readOnly)
+		backstage.init();
 	t9 = new Date();
-	if(config.displayStartupTime) {
+	if(config.options.chkDisplayStartupTime) { 
 		displayMessage("Load in " + (t2-t1) + " ms");
 		displayMessage("Loadshadows in " + (t3-t2) + " ms");
 		displayMessage("Loadplugins in " + (t5-t4) + " ms");
@@ -83,17 +84,17 @@ function restart()
 	invokeParamifier(params,"onstart");
 	if(story.isEmpty()) {
 		var defaultParams = store.getTiddlerText("DefaultTiddlers").parseParams("open",null,false);
-		invokeParamifierAsync(defaultParams,"onstart");
+		invokeParamifier(defaultParams,"onstart");
 	}
 	window.scrollTo(0,0);
 }
 
 function saveTest()
 {
-	var saveTest = document.getElementById("saveTest");
-	if(saveTest.hasChildNodes())
+	var s = document.getElementById("saveTest");
+	if(s.hasChildNodes())
 		alert(config.messages.savedSnapshotError);
-	saveTest.appendChild(document.createTextNode("savetest"));
+	s.appendChild(document.createTextNode("savetest"));
 }
 
 function loadShadowTiddlers()
@@ -133,24 +134,28 @@ function loadPlugins()
 		}
 		toLoad.push(p);
 	};
-	for(n in map) 
-		visit(map[n]);	
+	for(i=0; i<nPlugins; i++) 
+		visit(installedPlugins[i]);		
 	for(i=0; i<toLoad.length; i++) {
 		p = toLoad[i];
 		pluginInfo = p;
 		tiddler = p.tiddler;
 		if(isPluginExecutable(p)) {
-			p.executed = true;
-			var startTime = new Date();
-			try {
-				if(tiddler.text)
-					window.eval(tiddler.text);
-				nLoaded++;
-			} catch(ex) {
-				p.log.push(config.messages.pluginError.format([exceptionText(ex)]));
-				p.error = true;
+			if(isPluginEnabled(p)) {
+				p.executed = true;
+				var startTime = new Date();
+				try {
+					if(tiddler.text)
+						window.eval(tiddler.text);
+					nLoaded++;
+				} catch(ex) {
+					p.log.push(config.messages.pluginError.format([exceptionText(ex)]));
+					p.error = true;
+				}
+				pluginInfo.startupTime = String((new Date()) - startTime) + "ms"; 
+			} else {
+				nPlugins--;
 			}
-			pluginInfo.startupTime = String((new Date()) - startTime) + "ms"; 
 		} else {
 			p.warning = true;
 		}
@@ -170,8 +175,6 @@ function getPluginInfo(tiddler)
 // Check that a particular plugin is valid for execution
 function isPluginExecutable(plugin)
 {
-	if(plugin.tiddler.isTagged("systemConfigDisable"))
-		return verifyTail(plugin,false,config.messages.pluginDisabled);
 	if(plugin.tiddler.isTagged("systemConfigForce"))
 		return verifyTail(plugin,true,config.messages.pluginForced);
 	if(plugin["CoreVersion"]) {
@@ -184,6 +187,13 @@ function isPluginExecutable(plugin)
 		if(w > 0)
 			return verifyTail(plugin,false,config.messages.pluginVersionError);
 		}
+	return true;
+}
+
+function isPluginEnabled(plugin)
+{
+	if(plugin.tiddler.isTagged("systemConfigDisable"))
+		return verifyTail(plugin,false,config.messages.pluginDisabled);
 	return true;
 }
 

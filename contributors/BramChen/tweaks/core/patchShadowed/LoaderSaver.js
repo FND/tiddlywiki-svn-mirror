@@ -47,10 +47,10 @@ function SaverBase() {}
 
 SaverBase.prototype.externalize = function(store,isShadowed)
 {
-	var isShadowed = (typeof isShadowed != 'undefined')
+	var isShadowed = (typeof isShadowed != 'undefined');
 	var results = [];
 	var tiddlers = store.getTiddlers("title");
 	for(var t = 0; t < tiddlers.length; t++)
-		results.push((isShadowed)?this.externalizeShadow(store,tiddlers[t]):this.externalizeTiddler(store,tiddlers[t]));
+		results.push(isShadowed?this.externalizeShadow(store,tiddlers[t]):this.externalizeTiddler(store,tiddlers[t]));
 	return results.join("\n");
 };
