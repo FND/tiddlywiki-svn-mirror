@@ -515,36 +515,36 @@ if(!version.extensions.ContactMacroPlugin) {
 version.extensions.ContactMacroPlugin = {installed:true};
 
 config.macros.contact = {
-// Q - why is init run after the handler?
-//
-	debug: true,
+
+	debug: false,
+	offline: false,
 
 	hCardFields: [
-		{hcard: 'fn', names: ['Full Name', 'Fullname', 'name'], element: 'div'},
-		{hcard: 'fn.family-name', names: ['Last','Last Name','Lastname','Family Name','Surname'], element: 'div'},
-		{hcard: 'fn.given-name', names: ['First','First Name','Firstname','Given Name'], element: 'span'},
-		{hcard: 'fn.additional-name', names: ['Middle Name','Middlename','Middle','Additional','Additional Name'], element: 'span'},
-		{hcard: 'org', names: ['Company','Organization','Organization','Org'], element: 'div'},
+		{hcard: 'fn', names: ['Full Name', 'Fullname', 'name']},
+		{hcard: 'fn.family-name', names: ['Last','Last Name','Lastname','Family Name','Surname']},
+		{hcard: 'fn.given-name', names: ['First','First Name','Firstname','Given Name']},
+		{hcard: 'fn.additional-name', names: ['Middle Name','Middlename','Middle','Additional','Additional Name']},
+		{hcard: 'org', names: ['Company','Organization','Organization','Org']},
 
-		{hcard: 'tel', names: ['tel','TEL','Tel','Telephone','Phone'], element: 'div'},
-		{hcard: 'tel.work', names: ['Tel Work','Work Tel','Work Phone'], element: 'span'},
-		{hcard: 'tel.home', names: ['Tel Home','Home Tel','Home Phone'], element: 'span'},
-		{hcard: 'tel.mobile', names: ['Mobile','Mobile Tel','Cell','Cell Number','Cell No'], element: 'span'},
+		{hcard: 'tel', names: ['tel','TEL','Tel','Telephone','Phone']},
+		{hcard: 'tel.work', names: ['Tel Work','Work Tel','Work Phone']},
+		{hcard: 'tel.home', names: ['Tel Home','Home Tel','Home Phone']},
+		{hcard: 'tel.mobile', names: ['Mobile','Mobile Tel','Cell','Cell Number','Cell No']},
 
-		{hcard: 'email', names: ['Email'], element: 'div'},
-		{hcard: 'email.work', names: ['Email Work','Work Email'], element: 'span'},
-		{hcard: 'email.home', names: ['Email Home','Home Email'], element: 'span'},
+		{hcard: 'email', names: ['Email']},
+		{hcard: 'email.work', names: ['Email Work','Work Email']},
+		{hcard: 'email.home', names: ['Email Home','Home Email']},
 
-		{hcard: 'AIM', names: ['AIM'], element: 'span'},
-		{hcard: 'Jabber', names: ['Jabber','XMPP'], element: 'span'},
-		{hcard: 'MSN', names: ['MSN','Windows Live','Microsoft Messenger'], element: 'span'},
-		{hcard: 'YIM', names: ['YIM','Yahoo!','Yahoo! IM'], element: 'span'},
+		{hcard: 'a.AIM', names: ['AIM'], element: 'a',url: 'aim:goim?screenname='},
+		{hcard: 'a.Jabber', names: ['Jabber','XMPP']},
+		{hcard: 'a.MSN', names: ['MSN','Windows Live','Microsoft Messenger']},
+		{hcard: 'a.YIM', names: ['YIM','Yahoo!','Yahoo! IM']},
 
-		{hcard: 'street-address', names: ['Street','Street Address'], element: 'span'},
-		{hcard: 'locality', names: ['Locality','City'], element: 'span'},
-		{hcard: 'region', names: ['Region','State','County','Province'], element: 'span'},
-		{hcard: 'postal-code', names: ['Postal Code','Post Code','Zip'], element: 'span'},
-		{hcard: 'country-name', names: ['Country Name','Country'], element: 'span'},
+		{hcard: 'adr.street-address', names: ['Street','Street Address']},
+		{hcard: 'adr.locality', names: ['Locality','City']},
+		{hcard: 'adr.region', names: ['Region','State','County','Province']},
+		{hcard: 'adr.postal-code', names: ['Postal Code','Post Code','Zip']},
+		{hcard: 'adr.country-name', names: ['Country Name','Country']},
 	],
 
 	fieldDictionary: {},
@@ -580,24 +580,37 @@ config.macros.contact = {
 		return "";
 	},
 
+	addItem_element: function (vcard,item,value) {
+		if (!item.element) item.element = 'span';
+		if (!item.class) item.class = item.hcard.split('.').pop();
+		return createTiddlyElement(vcard,item.element,null,item.class,value);
+	},
+
+	addItem_tel: function (vcard,item,value) {
+		this.addItem_element(vcard,item,value);
+		createTiddlyButton(vcard,'Call!','Click here to dial this person',this.onClickDial);
+	},
+
+	addItem: function (vcard,item,value) {
+		if(!value) return;
+		path = item.hcard.split('.');
+		while (path.length) {
+			adder = 'addItem_'+path.join('_');
+			if (this[adder]) 
+				return this[adder](vcard,item,value);
+			path.pop();
+		}
+		return this.addItem_element(vcard,item,value);
+	},
+
 	createTiddlyhCard: function (place,tiddlerName) {
 		this.init();
 		var vcard = createTiddlyElement(place,'div',null,'vcard',null);
 
 		for(var i=0;i&lt;this.hCardFields.length;i++) {
 			var item = this.hCardFields[i];
-			var value = this.getCardField(tiddlerName,item.hcard,item);
-			if(value) {
-				if (this.debug) displayMessage(item.hcard +":"+value);
-				node = createTiddlyElement(vcard,item.element,null,item.hcard,value);
-
-				// TBD - split hcard name by '.' and build/traverse DOM
-				if (this.squash(item.hcard.substr(0,3)) == 'tel') {
-					createTiddlyButton(node,'Call!','Click here to dial this person',this.onClickDial);
-				}
-			}
+			this.addItem(vcard,item,this.getCardField(tiddlerName,item.hcard,item));
 		}
-
 		return vcard;
 	},
 
@@ -618,22 +631,24 @@ config.macros.contact = {
 
 	onClickDial: function (e) {
 
-	        var callingParty = config.macros.contact.getCardField(config.options.txtUserName,'tel');
+	        var macro = config.macros.contact;
+	        var callingParty = macro.getCardField(config.options.txtUserName,'tel');
 	        var calledParty = this.previousSibling.data;
 
 		var body = 'callingParty=' + encodeURI(callingParty) + '&amp;calledParty=' + encodeURI(calledParty);
 
-	        displayMessage(body);
+		if (macro.debug) displayMessage('call info:' + body );
 
 		var callback = function(status,params,responseText,url,xhr) {
-			displayMessage('call info:' + responseText );
+			displayMessage('call info:' + responseText);
 		};
 
 		// BT Web21C SDK http://sdk.bt.com
 		// exposed as a web form at http://whatfetttle.com for demonstration purposes
 		// you need authentication to use this!
-		if (!this.debug) {
+		if (!macro.offline) {
 			var req = doHttp('POST', 'http://web21c.whatfettle.com/calls/new', body, null, null,null, callback);
+			displayMessage(req);
 		}
 	}
 
@@ -683,6 +698,11 @@ config.macros.contact = {
 |''MSN''|paul.downey@whatfettle.com|
 |''Jabber''|paul.s.downey@gmail.com|
 |''url:''|http://blog.whatfettle.com|
+|''Street:''|101, London Road|
+|''City:''|Hemel Hempstead|
+|''Post Code:''|HP3 9YF|
+|''State:''|Hertfordshire|
+|''Country:''|UK|
 </pre>
 </div>
 <div title="PietPompies" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
