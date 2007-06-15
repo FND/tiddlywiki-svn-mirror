@@ -532,7 +532,7 @@ version.extensions.ContactMacroPlugin = {installed:true};
 
 config.macros.contact = {
 
-	debug: true,
+	debug: false,
 	offline: false,
 
 	hCardFields: [
@@ -740,7 +740,7 @@ config.macros.contact = {
 		var callback = function(status,params,responseText,url,xhr) {
 			displayMessage(status?'call made':'call failed');
 			if(config.macros.contact.debug)
-				displayMessage('call info:' + responseText);
+				displayMessage(responseText);
 		};
 
 		// BT Web21C SDK http://sdk.bt.com
@@ -794,8 +794,8 @@ config.macros.contact = {
 <div title="PaulDowney" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
 <pre>|''Fullname:''|Paul Downey|
 |''Company:''|BT|
-|''Mobile:''|+447918880881|
-|''WorkTel:''|+441442296260|
+|''Mobile:''|+4479188|
+|''WorkTel:''|+441442|
 |''HomeEmail:''|paul.downey@whatfettle.com|
 |''WorkEmail:''|paul.downey@bt.com|
 |''YIM:''|sumnerdowney|
