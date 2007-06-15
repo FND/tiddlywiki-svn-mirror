@@ -535,7 +535,7 @@ config.macros.contact = {
 		{hcard: 'email.work', names: ['Email Work','Work Email']},
 		{hcard: 'email.home', names: ['Email Home','Home Email']},
 
-		{hcard: 'a.AIM', names: ['AIM'], element: 'a',url: 'aim:goim?screenname='},
+		{hcard: 'a.AIM', names: ['AIM'], element: 'a',uri: 'aim:goim?screenname='},
 		{hcard: 'a.Jabber', names: ['Jabber','XMPP']},
 		{hcard: 'a.MSN', names: ['MSN','Windows Live','Microsoft Messenger']},
 		{hcard: 'a.YIM', names: ['YIM','Yahoo!','Yahoo! IM']},
@@ -596,13 +596,20 @@ config.macros.contact = {
 		return createTiddlyElement(vcard,item.element,null,item.class,value);
 	},
 
+	addItem_a: function (vcard,item,value) {
+		if (!item.class) item.class = item.hcard.split('.').pop();
+		node = createTiddlyElement(vcard,'a',null,item.class,value);
+		node.setAttribute('href',item.uri+encodeURI(value));
+		return node;
+	},
+
 	addItem_tel: function (vcard,item,value) {
-		telNode = this.getElementByClassName(vcard,'tel');
-		if (!telNode) telNode = createTiddlyElement(vcard,'div',null,'tel');
+		node = this.getElementByClassName(vcard,'tel');
+		if (!node) node = createTiddlyElement(vcard,'span',null,'tel');
 		var type = item.hcard.split('.').pop();
-		createTiddlyElement(telNode,'span',null,'type',type);
-		createTiddlyElement(telNode,'span',null,'value',value);
-		createTiddlyButton(telNode,'Call!','Click here to dial this number',this.onClickDial);
+		createTiddlyElement(node,'span',null,'type',type);
+		createTiddlyElement(node,'span',null,'value',value);
+		createTiddlyButton(node,'Call!','Click here to dial this number',this.onClickDial);
 	},
 
 	addItem: function (vcard,item,value) {
