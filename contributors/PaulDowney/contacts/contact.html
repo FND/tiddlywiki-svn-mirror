@@ -552,9 +552,9 @@ config.macros.contact = {
 		{hcard: 'email.home', names: ['EmailHome','HomeEmail']},
 
 		{hcard: 'im.AIM', names: ['AIM'], uri: 'aim:goim?screenname=',class: 'url'},
+		{hcard: 'im.YIM', names: ['YIM','Yahoo','Yahoo!'],uri: 'ymsgr:sendIM?',class: 'url'},
 		{hcard: 'im.Jabber', names: ['Jabber','XMPP'],uri: 'xmpp:',class: 'url'},
 		{hcard: 'im.MSN', names: ['MSN','WindowsLive','MicrosoftMessenger'],uri: 'msn:',class: 'url'},
-		{hcard: 'im.YIM', names: ['YIM','Yahoo','Yahoo!'],uri: 'ymsgr:sendIM?',class: 'url'},
 
 		{hcard: 'adr.street-address', names: ['Street','Street Address']},
 		{hcard: 'adr.locality', names: ['Locality','City']},
@@ -723,12 +723,16 @@ config.macros.contact = {
 		}
 	},
 
+	telURI: function (no) {
+		return encodeURIComponent('tel:'+no);
+	},
+
 	onClickDial: function (e) {
 	        var macro = config.macros.contact;
-	        var callingParty = macro.getCardField(config.options.txtUserName,'tel');
+	        var callingParty = macro.getCardField(config.options.txtUserName,'tel.mobile');
 	        var calledParty = macro.getElementByClass(this.previousSibling,'value').firstChild.data;
 
-		var body = 'callingParty=' + encodeURI(callingParty) + '&amp;calledParty=' + encodeURI(calledParty);
+		var body = 'callingParty=' + macro.telURI(callingParty) + '&amp;calledParty=' + macro.telURI(calledParty);
 
 		if(macro.debug)
 			displayMessage('call info:' + body );
@@ -772,7 +776,7 @@ config.macros.contact = {
 </div>
 <div title="John Doe" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
 <pre>|''Fullname:''|John Doe|
-|''Tel:''|+447918....|
+|''Tel:''|+447918|
 </pre>
 </div>
 <div title="JaneDoe" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
@@ -790,11 +794,12 @@ config.macros.contact = {
 <div title="PaulDowney" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
 <pre>|''Fullname:''|Paul Downey|
 |''Company:''|BT|
-|''Mobile:''|+447918....|
-|''WorkTel:''|+44144229...|
+|''Mobile:''|+447918880881|
+|''WorkTel:''|+441442296260|
 |''HomeEmail:''|paul.downey@whatfettle.com|
 |''WorkEmail:''|paul.downey@bt.com|
 |''YIM:''|sumnerdowney|
+|''AIM:''|sumnerdowney|
 |''MSN:''|paul.downey@whatfettle.com|
 |''Jabber:''|paul.s.downey@gmail.com|
 |''url:''|http://blog.whatfettle.com|
