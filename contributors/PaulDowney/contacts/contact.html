@@ -516,7 +516,7 @@ version.extensions.ContactMacroPlugin = {installed:true};
 
 config.macros.contact = {
 
-	debug: false,
+	debug: true,
 	offline: false,
 
 	hCardFields: [
@@ -536,9 +536,9 @@ config.macros.contact = {
 		{hcard: 'email.home', names: ['Email Home','Home Email']},
 
 		{hcard: 'a.AIM', names: ['AIM'], element: 'a',uri: 'aim:goim?screenname='},
-		{hcard: 'a.Jabber', names: ['Jabber','XMPP']},
-		{hcard: 'a.MSN', names: ['MSN','Windows Live','Microsoft Messenger']},
-		{hcard: 'a.YIM', names: ['YIM','Yahoo!','Yahoo! IM']},
+		{hcard: 'a.Jabber', names: ['Jabber','XMPP'],uri: 'xmpp:'},
+		{hcard: 'a.MSN', names: ['MSN','Windows Live','Microsoft Messenger'],uri: 'msn:'},
+		{hcard: 'a.YIM', names: ['YIM','Yahoo!','Yahoo! IM'],uri: 'ymsgr:sendIM?'},
 
 		{hcard: 'adr.street-address', names: ['Street','Street Address']},
 		{hcard: 'adr.locality', names: ['Locality','City']},
@@ -559,6 +559,10 @@ config.macros.contact = {
 		for(var i=0;i&lt;this.hCardFields.length;i++) {
 			var item = this.hCardFields[i];
 			var fieldName = this.squash(item.hcard);
+			if (!item.element) 
+				item.element = 'span';
+			if (!item.class) 
+				item.class = item.hcard.split('.').pop();
 			this.fieldDictionary[fieldName] = this.hCardFields[i];
 		}
 		this.initialised = true;
@@ -580,7 +584,7 @@ config.macros.contact = {
 		return "";
 	},
 
-	getElementByClassName:  function (node,className) {
+	getElementByClass:  function (node,className) {
 		var re = new RegExp('\\b'+className+'\\b');
 		var element = node.getElementsByTagName('*');
 		for (var i = 0; i < element.length; i++) {
@@ -591,25 +595,28 @@ config.macros.contact = {
 	},
 
 	addItem_element: function (vcard,item,value) {
-		if (!item.element) item.element = 'span';
-		if (!item.class) item.class = item.hcard.split('.').pop();
 		return createTiddlyElement(vcard,item.element,null,item.class,value);
 	},
 
 	addItem_a: function (vcard,item,value) {
-		if (!item.class) item.class = item.hcard.split('.').pop();
 		node = createTiddlyElement(vcard,'a',null,item.class,value);
 		node.setAttribute('href',item.uri+encodeURI(value));
 		return node;
 	},
 
+	addItem_email: function (vcard,item,value) {
+		node = createTiddlyElement(vcard,'a',null,item.class,value);
+		node.setAttribute('href','mailto'+encodeURI(value));
+		return node;
+	},
+
 	addItem_tel: function (vcard,item,value) {
-		node = this.getElementByClassName(vcard,'tel');
-		if (!node) node = createTiddlyElement(vcard,'span',null,'tel');
+		//node = this.getElementByClass(vcard,'tel');
+		node = createTiddlyElement(vcard,'span',null,'tel');
 		var type = item.hcard.split('.').pop();
 		createTiddlyElement(node,'span',null,'type',type);
 		createTiddlyElement(node,'span',null,'value',value);
-		createTiddlyButton(node,'Call!','Click here to dial this number',this.onClickDial);
+		createTiddlyButton(vcard,'Call!','Click here to dial this number',this.onClickDial);
 	},
 
 	addItem: function (vcard,item,value) {
@@ -654,14 +661,17 @@ config.macros.contact = {
 
 	        var macro = config.macros.contact;
 	        var callingParty = macro.getCardField(config.options.txtUserName,'tel');
-	        var calledParty = this.previousSibling.data;
+	        var calledParty = macro.getElementByClass(this.previousSibling,'value').firstChild.data;
 
 		var body = 'callingParty=' + encodeURI(callingParty) + '&amp;calledParty=' + encodeURI(calledParty);
 
-		if (macro.debug) displayMessage('call info:' + body );
+		if (macro.debug)
+			displayMessage('call info:' + body );
 
 		var callback = function(status,params,responseText,url,xhr) {
-			displayMessage('call info:' + responseText);
+			displayMessage(status?'call made':'call failed');
+			if (config.macros.contact.debug)
+				displayMessage('call info:' + responseText);
 		};
 
 		// BT Web21C SDK http://sdk.bt.com
@@ -669,7 +679,8 @@ config.macros.contact = {
 		// you need authentication to use this!
 		if (!macro.offline) {
 			var req = doHttp('POST', 'http://web21c.whatfettle.com/calls/new', body, null, null,null, callback);
-			displayMessage(req);
+			if (macro.debug)
+				displayMessage(req);
 		}
 	}
 
@@ -714,6 +725,7 @@ config.macros.contact = {
 <div title="PaulDowney" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
 <pre>|''Fullname:''|Paul Downey|
 |''Tel:''|+447918....|
+|''Email:''|paul.downey@whatfettle.com|
 |''Mobile:''|+447918....|
 |''YIM''|sumnerdowney|
 |''MSN''|paul.downey@whatfettle.com|
