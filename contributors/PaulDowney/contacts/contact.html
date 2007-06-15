@@ -645,6 +645,11 @@ config.macros.contact = {
 			var item = this.hCardFields[i];
 			this.addItem(vcard,item,this.getCardField(tiddlerName,item.hcard,item));
 		}
+
+		// TBD: ideally split WikiName and set as first child node ..
+		if (!this.getElementByClass(vcard,'fn'))
+			this.addItem_element(vcard,this.fieldDictionary['fn'],tiddlerName);
+
 		return vcard;
 	},
 
@@ -730,6 +735,7 @@ config.macros.contact = {
 </div>
 <div title="PaulDowney" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
 <pre>|''Fullname:''|Paul Downey|
+|''Company:''|BT|
 |''Tel:''|+447918....|
 |''Email:''|paul.downey@whatfettle.com|
 |''Mobile:''|+447918....|
