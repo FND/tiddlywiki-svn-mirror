@@ -559,7 +559,7 @@ config.macros.contact = {
 		{hcard: 'adr.street-address', names: ['Street','Street Address']},
 		{hcard: 'adr.locality', names: ['Locality','City']},
 		{hcard: 'adr.region', names: ['Region','State','County','Province']},
-		{hcard: 'adr.postal-code', names: ['PostalCode','PostCode','Zip']},
+		{hcard: 'adr.postal-code', names: ['PostalCode','PostCode','Zip'],uri: 'http://maps.google.com/maps?q='},
 		{hcard: 'adr.country-name', names: ['CountryName','Country']},
 	],
 
@@ -625,14 +625,15 @@ config.macros.contact = {
 	addItem_a: function (place,item,value) {
 		node = createTiddlyElement(place,'a',null,item.class,value);
 		node.setAttribute('href',item.uri+encodeURI(value));
+		var type = item.hcard.split('.').pop();
+		node.setAttribute('title',type);
 		return node;
 	},
 
 	addItem_im: function (place,item,value) {
 		var holder = this.vCardHolder(place,'div','im');
-		var type = item.hcard.split('.').pop();
+		holder = createTiddlyElement(holder,'div',null,'line');
 		var node = this.addItem_a(holder,item,value);
-		node.setAttribute('title',type);
 		return node;
 	},
 
@@ -641,9 +642,7 @@ config.macros.contact = {
 		holder = createTiddlyElement(holder,'div',null,'line');
 		if (!item.uri) 
 			item.uri = 'mailto:';
-		var type = item.hcard.split('.').pop();
 		node = this.addItem_a(holder,item,value);
-		node.setAttribute('title',type);
 		return node;
 	},
 
@@ -658,6 +657,12 @@ config.macros.contact = {
 		holder = this.vCardHolder(place,'div','adr');
 		holder = createTiddlyElement(holder,'div',null,'line');
 		return createTiddlyElement(holder,'span',null,item.class,value);
+	},
+
+	addItem_adr_postalcode: function (place,item,value) {
+		holder = this.vCardHolder(place,'div','adr');
+		holder = createTiddlyElement(holder,'div',null,'line');
+		return this.addItem_a(holder,item,value);
 	},
 
 	addItem_tel: function (place,item,value) {
@@ -676,7 +681,7 @@ config.macros.contact = {
 		if(!value) return;
 		path = item.hcard.split('.');
 		while (path.length) {
-			adder = 'addItem_'+path.join('_');
+			adder = 'addItem_'+this.squash(path.join('_'));
 			if(this[adder]) 
 				return this[adder](place,item,value);
 			path.pop();
@@ -789,9 +794,9 @@ config.macros.contact = {
 |''WorkTel:''|+44144229...|
 |''HomeEmail:''|paul.downey@whatfettle.com|
 |''WorkEmail:''|paul.downey@bt.com|
-|''YIM''|sumnerdowney|
-|''MSN''|paul.downey@whatfettle.com|
-|''Jabber''|paul.s.downey@gmail.com|
+|''YIM:''|sumnerdowney|
+|''MSN:''|paul.downey@whatfettle.com|
+|''Jabber:''|paul.s.downey@gmail.com|
 |''url:''|http://blog.whatfettle.com|
 |''Street:''|101, London Road|
 |''City:''|Hemel Hempstead|
