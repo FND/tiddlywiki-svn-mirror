@@ -610,8 +610,14 @@ config.macros.contact = {
 		return node;
 	},
 
+	addItem_adr: function (vcard,item,value) {
+		node = this.getElementByClass(vcard,'adr');
+		if (!node) 
+			node = createTiddlyElement(vcard,'div',null,'adr');
+		return createTiddlyElement(node,'span',null,item.class,value);
+	},
+
 	addItem_tel: function (vcard,item,value) {
-		//node = this.getElementByClass(vcard,'tel');
 		node = createTiddlyElement(vcard,'span',null,'tel');
 		var type = item.hcard.split('.').pop();
 		createTiddlyElement(node,'span',null,'type',type);
