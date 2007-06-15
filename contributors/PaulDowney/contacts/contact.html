@@ -380,34 +380,57 @@ table.listView th, table.listView td, table.listView tr {padding:0px 3px 0px 3px
 
 
 	/* content macro plugin style */
+	.contact {
+		background-color: #666; 
+		padding: 1em;
+		margin: 2em 5em 2em 5em;
+	}
+		
 	.vcard {
+		margin: -3em 0 0 -3em;
+		border: thin solid #999; 
+		padding: 1em;
+		left: -1px; 
+		top: -1px; 
 		background-color: #eee;
 		color: black;
-		padding-top: 1em;
-		padding-bottom: 1em;
-		padding-left: 1em;
-		font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
-		width: 80%;
 	}
 
-	.fn {
-		float: top;
-		padding-top: 2em;
+	.org {
+		float: right;
 		font-weight: bold;
 		font-size: 2em;
 	}
 
-	.telecommunications {
-		float: top;
+	.fn {
 		font-weight: bold;
+		font-size: 2em;
+	}
+
+	.phone {
+		margin: 1em 1em 1em 1em;
+	}
+
+	.type:after {
+		content: ': ';
+	}
+
+	div.emails {
+		margin: 1em 1em 1em 1em;
+	}
+
+	.im {
+		margin: 1em 1em 1em 1em;
+	}
+
+	.adr {
+		margin: 1em 1em 1em 1em;
 	}
 
 	.url {
 		display: block;
 	}
 
-	.adr {
-	}
 
 
 /*}}}*/</pre>
@@ -553,31 +576,31 @@ config.macros.contact = {
 	offline: false,
 
 	hCardFields: [
-		{hcard: 'fn', names: ['Full Name', 'Fullname', 'name']},
-		{hcard: 'fn.given-name', names: ['First','First Name','Firstname','Given Name']},
-		{hcard: 'fn.additional-name', names: ['Middle Name','Middlename','Middle','Additional','Additional Name']},
-		{hcard: 'fn.family-name', names: ['Last','Last Name','Lastname','Family Name','Surname']},
 		{hcard: 'org', names: ['Company','Organization','Organization','Org']},
+		{hcard: 'fn', names: ['FullName', 'Fullname', 'name']},
+		{hcard: 'fn.given-name', names: ['First','FirstName','Firstname','GivenName']},
+		{hcard: 'fn.additional-name', names: ['MiddleName','Middlename','Middle','Additional','AdditionalName']},
+		{hcard: 'fn.family-name', names: ['Last','LastName','Lastname','FamilyName','Surname']},
 
 		{hcard: 'tel', names: ['tel','TEL','Tel','Telephone','Phone']},
-		{hcard: 'tel.work', names: ['Tel Work','Work Tel','Work Phone']},
-		{hcard: 'tel.home', names: ['Tel Home','Home Tel','Home Phone']},
-		{hcard: 'tel.mobile', names: ['Mobile','Mobile Tel','Cell','Cell Number','Cell No']},
+		{hcard: 'tel.work', names: ['TelWork','WorkTel','WorkPhone']},
+		{hcard: 'tel.home', names: ['TelHome','HomeTel','HomePhone']},
+		{hcard: 'tel.mobile', names: ['Mobile','MobileTel','Cell','CellNumber','CellNo']},
 
 		{hcard: 'email', names: ['Email']},
-		{hcard: 'email.work', names: ['Email Work','Work Email']},
-		{hcard: 'email.home', names: ['Email Home','Home Email']},
+		{hcard: 'email.work', names: ['EmailWork','WorkEmail']},
+		{hcard: 'email.home', names: ['EmailHome','HomeEmail']},
 
-		{hcard: 'a.AIM', names: ['AIM'], element: 'a',uri: 'aim:goim?screenname=',class: 'url'},
-		{hcard: 'a.Jabber', names: ['Jabber','XMPP'],uri: 'xmpp:',class: 'url'},
-		{hcard: 'a.MSN', names: ['MSN','Windows Live','Microsoft Messenger'],uri: 'msn:',class: 'url'},
-		{hcard: 'a.YIM', names: ['YIM','Yahoo!','Yahoo! IM'],uri: 'ymsgr:sendIM?',class: 'url'},
+		{hcard: 'im.AIM', names: ['AIM'], uri: 'aim:goim?screenname=',class: 'url'},
+		{hcard: 'im.Jabber', names: ['Jabber','XMPP'],uri: 'xmpp:',class: 'url'},
+		{hcard: 'im.MSN', names: ['MSN','WindowsLive','MicrosoftMessenger'],uri: 'msn:',class: 'url'},
+		{hcard: 'im.YIM', names: ['YIM','Yahoo','Yahoo!'],uri: 'ymsgr:sendIM?',class: 'url'},
 
 		{hcard: 'adr.street-address', names: ['Street','Street Address']},
 		{hcard: 'adr.locality', names: ['Locality','City']},
 		{hcard: 'adr.region', names: ['Region','State','County','Province']},
-		{hcard: 'adr.postal-code', names: ['Postal Code','Post Code','Zip']},
-		{hcard: 'adr.country-name', names: ['Country Name','Country']},
+		{hcard: 'adr.postal-code', names: ['PostalCode','PostCode','Zip']},
+		{hcard: 'adr.country-name', names: ['CountryName','Country']},
 	],
 
 	fieldDictionary: {},
@@ -587,7 +610,8 @@ config.macros.contact = {
 	},
 
 	init: function () {
-		if(this.initialised) return;
+		if(this.initialised) 
+			return;
 
 		for(var i=0;i&lt;this.hCardFields.length;i++) {
 			var item = this.hCardFields[i];
@@ -634,61 +658,77 @@ config.macros.contact = {
 		return node;
 	},
 
-	addItem_element: function (vcard,item,value) {
-		return createTiddlyElement(vcard,item.element,null,item.class,value);
+	addItem_element: function (place,item,value) {
+		return createTiddlyElement(place,item.element,null,item.class,value);
 	},
 
-	addItem_a: function (vcard,item,value) {
-		node = createTiddlyElement(vcard,'a',null,item.class,value);
+	addItem_a: function (place,item,value) {
+		node = createTiddlyElement(place,'a',null,item.class,value);
 		node.setAttribute('href',item.uri+encodeURI(value));
 		return node;
 	},
 
-	addItem_email: function (vcard,item,value) {
-		node = this.vCardHolder(vcard,'div','telecommunications');
-		if (!item.uri) item.uri = 'mailto:';
-		return this.addItem_a(vcard,item,value);
+	addItem_im: function (place,item,value) {
+		var holder = this.vCardHolder(place,'div','im');
+		var type = item.hcard.split('.').pop();
+		var node = this.addItem_a(holder,item,value);
+		node.setAttribute('title',type);
+		return node;
 	},
 
-	addItem_fn: function (vcard,item,value) {
+	addItem_email: function (place,item,value) {
+		holder = this.vCardHolder(place,'div','emails');
+		holder = createTiddlyElement(holder,'div',null,'line');
+		if (!item.uri) 
+			item.uri = 'mailto:';
+		var type = item.hcard.split('.').pop();
+		node = this.addItem_a(holder,item,value);
+		node.setAttribute('title',type);
+		return node;
+	},
+
+	addItem_fn: function (place,item,value) {
 		if(item.hcard=='fn') 
-			return this.addItem_element(vcard,item,value);
-		node = this.vCardHolder(vcard,'div','fn');
+			return this.addItem_element(place,item,value);
+		node = this.vCardHolder(place,'div','fn');
 		return createTiddlyElement(node,'span',null,item.class,value);
 	},
 
-	addItem_adr: function (vcard,item,value) {
-		holder = this.vCardHolder(vcard,'div','adr');
+	addItem_adr: function (place,item,value) {
+		holder = this.vCardHolder(place,'div','adr');
 		holder = createTiddlyElement(holder,'div',null,'line');
 		return createTiddlyElement(holder,'span',null,item.class,value);
 	},
 
-	addItem_tel: function (vcard,item,value) {
-		holder = this.vCardHolder(vcard,'div','telecommunications');
-		holder = createTiddlyElement(node,'div',null,'line');
+	addItem_tel: function (place,item,value) {
+		holder = this.vCardHolder(place,'div','phone');
+		holder = createTiddlyElement(holder,'div',null,'line');
 		node = createTiddlyElement(holder,'span',null,'tel');
 		var type = item.hcard.split('.').pop();
-		if (type=='tel') type='other';
-		createTiddlyElement(node,'span',null,'type',type+":");
+		if (type=='tel') 
+			type='other';
+		createTiddlyElement(node,'span',null,'type',type);
 		createTiddlyElement(node,'span',null,'value',value);
 		createTiddlyButton(holder,'&#9743;','Click here to dial this number',this.onClickDial);
 	},
 
-	addItem: function (vcard,item,value) {
+	addItem: function (place,item,value) {
 		if(!value) return;
 		path = item.hcard.split('.');
 		while (path.length) {
 			adder = 'addItem_'+path.join('_');
 			if(this[adder]) 
-				return this[adder](vcard,item,value);
+				return this[adder](place,item,value);
 			path.pop();
 		}
-		return this.addItem_element(vcard,item,value);
+		return this.addItem_element(place,item,value);
 	},
 
 	createTiddlyhCard: function (place,tiddlerName) {
 		this.init();
-		var vcard = createTiddlyElement(place,'div',null,'vcard',null);
+		var contact = createTiddlyElement(place,'div',null,'contact',null);
+		var container = createTiddlyElement(contact,'div',null,'vcardContainer',null);
+		var vcard = createTiddlyElement(container,'div',null,'vcard',null);
 
 		for(var i=0;i&lt;this.hCardFields.length;i++) {
 			var item = this.hCardFields[i];
@@ -699,11 +739,10 @@ config.macros.contact = {
 		if(!this.getElementByClass(vcard,'fn'))
 			this.addItem_element(vcard,this.fieldDictionary['fn'],tiddlerName);
 
-		return vcard;
+		return contact;
 	},
 
 	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
-
 		params = paramString.parseParams('name',null,true,false,false);
 		var tiddlerName = getParam(params,'name',null);
 
@@ -720,7 +759,6 @@ config.macros.contact = {
 	},
 
 	onClickDial: function (e) {
-
 	        var macro = config.macros.contact;
 	        var callingParty = macro.getCardField(config.options.txtUserName,'tel');
 	        var calledParty = macro.getElementByClass(this.previousSibling,'value').firstChild.data;
@@ -758,11 +796,11 @@ config.macros.contact = {
 <div title="ContactsTestTiddler" modifier="PaulDowney" modified="200706112230" created="200706111326" changecount="4">
 <pre>
 
+&lt;&lt;contact "PaulDowney"gt;&gt;
 &lt;&lt;contact "John Doe"&gt;&gt;
 &lt;&lt;contact JaneDoe&gt;&gt;
 &lt;&lt;contact "Prof Gilzot"&gt;&gt;
 &lt;&lt;contact PietPompies&gt;&gt;
-&lt;&lt;contact "PaulDowney"gt;&gt;
 &lt;&lt;contact +TaggedPeeps&gt;&gt;
 </pre>
 
@@ -787,16 +825,17 @@ config.macros.contact = {
 <div title="PaulDowney" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
 <pre>|''Fullname:''|Paul Downey|
 |''Company:''|BT|
-|''Tel:''|+447918....|
-|''Email:''|paul.downey@whatfettle.com|
 |''Mobile:''|+447918....|
+|''WorkTel:''|+441442296260|
+|''HomeEmail:''|paul.downey@whatfettle.com|
+|''WorkEmail:''|paul.downey@bt.com|
 |''YIM''|sumnerdowney|
 |''MSN''|paul.downey@whatfettle.com|
 |''Jabber''|paul.s.downey@gmail.com|
 |''url:''|http://blog.whatfettle.com|
 |''Street:''|101, London Road|
 |''City:''|Hemel Hempstead|
-|''Post Code:''|HP3 9YF|
+|''PostCode:''|HP3 9YF|
 |''State:''|Hertfordshire|
 |''Country:''|UK|
 </pre>
