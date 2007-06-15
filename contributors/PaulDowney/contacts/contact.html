@@ -384,11 +384,11 @@ table.listView th, table.listView td, table.listView tr {padding:0px 3px 0px 3px
 	.vcard {margin: -3em 0 0 -3em; border: thin solid #999; padding: 2em; left: -1px; top: -1px; background-color: #eee; color: black;}
 	.org {float: right; font-weight: bold; font-size: 3em;} 
 	.fn {font-weight: bold; font-size: 3em;}
-	.phone {margin: 1em 1em 1em 1em;}
+	.phone {margin-top:1em}
 	.type:after {content: ': ';}
-	.emails {margin: 1em 1em 1em 1em;}
-	.im {margin: 1em 1em 1em 1em;}
-	.adr {position:relative;top:-10em;right:-25em; font-size: 1em;} 
+	.adr {float:right;margin: 1em 1em 1em 1em;font-size: 1.5em}
+	.im {margin-top:1em}
+	.emails {margin-top:1em}
 	.url {display: block;}
 
 
@@ -542,6 +542,12 @@ config.macros.contact = {
 		{hcard: 'fn.additional-name', names: ['MiddleName','Middlename','Middle','Additional','AdditionalName']},
 		{hcard: 'fn.family-name', names: ['Last','LastName','Lastname','FamilyName','Surname']},
 
+		{hcard: 'adr.street-address', names: ['Street','Street Address']},
+		{hcard: 'adr.locality', names: ['Locality','City']},
+		{hcard: 'adr.region', names: ['Region','State','County','Province']},
+		{hcard: 'adr.postal-code', names: ['PostalCode','PostCode','Zip'],uri: 'http://maps.google.com/maps?q='},
+		{hcard: 'adr.country-name', names: ['CountryName','Country']},
+
 		{hcard: 'tel', names: ['tel','TEL','Tel','Telephone','Phone']},
 		{hcard: 'tel.work', names: ['TelWork','WorkTel','WorkPhone']},
 		{hcard: 'tel.home', names: ['TelHome','HomeTel','HomePhone']},
@@ -552,15 +558,10 @@ config.macros.contact = {
 		{hcard: 'email.home', names: ['EmailHome','HomeEmail']},
 
 		{hcard: 'im.AIM', names: ['AIM'], uri: 'aim:goim?screenname=',class: 'url'},
-		{hcard: 'im.YIM', names: ['YIM','Yahoo','Yahoo!'],uri: 'ymsgr:sendIM?',class: 'url'},
-		{hcard: 'im.Jabber', names: ['Jabber','XMPP'],uri: 'xmpp:',class: 'url'},
 		{hcard: 'im.MSN', names: ['MSN','WindowsLive','MicrosoftMessenger'],uri: 'msn:',class: 'url'},
+		{hcard: 'im.Jabber', names: ['Jabber','XMPP'],uri: 'xmpp:',class: 'url'},
+		{hcard: 'im.YIM', names: ['YIM','Yahoo','Yahoo!'],uri: 'ymsgr:sendIM?',class: 'url'},
 
-		{hcard: 'adr.street-address', names: ['Street','Street Address']},
-		{hcard: 'adr.locality', names: ['Locality','City']},
-		{hcard: 'adr.region', names: ['Region','State','County','Province']},
-		{hcard: 'adr.postal-code', names: ['PostalCode','PostCode','Zip'],uri: 'http://maps.google.com/maps?q='},
-		{hcard: 'adr.country-name', names: ['CountryName','Country']},
 	],
 
 	fieldDictionary: {},
