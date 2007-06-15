@@ -1,0 +1,7 @@
+<div title="SocialtextServer" modifier="MartinBudden" created="200706090000" tags="systemServer">
+<pre>|''Type:''|socialtext|
+|''URL:''|[%default.server%] |
+|''Workspace:''|[%default.workspace%]|
+|''WorkspaceList:''|[%default.workspacelist%]|
+|''Description:''|[%workspace.title%]|</pre>
+</div>

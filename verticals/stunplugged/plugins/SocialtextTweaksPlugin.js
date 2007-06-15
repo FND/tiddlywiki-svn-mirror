@@ -3,8 +3,8 @@
 |''Description:''|Allows changes to be synchronised with a Socialtext server|
 |''Source:''|http://stunplugged.tiddlywiki.com/#SocialtextTweaksPlugin|
 |''Author:''|JeremyRuston (jeremy (at) osmosoft (dot) com)|
-|''Version:''|1.0.1|
-|''Date:''|Dec 4, 2006|
+|''Version:''|1.0.2|
+|''Date:''|Jun 15, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[BSD open source license]]|
 |''~CoreVersion:''|2.2|
@@ -21,7 +21,6 @@ if(version.major < 2 || (version.major == 2 && version.minor < 2))
 	{alertAndThrow("SocialtextTweaksPlugin requires TiddlyWiki 2.2 or later.");}
 
 merge(config.defaultCustomFields,{
-	'server.type':'socialtext',
 	wikiformat:'socialtext',
 	'server.host':'[%default.server%]'
 });
