@@ -580,6 +580,16 @@ config.macros.contact = {
 		return "";
 	},
 
+	getElementByClassName:  function (node,className) {
+		var re = new RegExp('\\b'+className+'\\b');
+		var element = node.getElementsByTagName('*');
+		for (var i = 0; i < element.length; i++) {
+			var classes = element[i].className;
+			if (re.test(classes)) return element[i];
+		}
+		return 0;
+	},
+
 	addItem_element: function (vcard,item,value) {
 		if (!item.element) item.element = 'span';
 		if (!item.class) item.class = item.hcard.split('.').pop();
@@ -587,8 +597,12 @@ config.macros.contact = {
 	},
 
 	addItem_tel: function (vcard,item,value) {
-		this.addItem_element(vcard,item,value);
-		createTiddlyButton(vcard,'Call!','Click here to dial this person',this.onClickDial);
+		telNode = this.getElementByClassName(vcard,'tel');
+		if (!telNode) telNode = createTiddlyElement(vcard,'div',null,'tel');
+		var type = item.hcard.split('.').pop();
+		createTiddlyElement(telNode,'span',null,'type',type);
+		createTiddlyElement(telNode,'span',null,'value',value);
+		createTiddlyButton(telNode,'Call!','Click here to dial this number',this.onClickDial);
 	},
 
 	addItem: function (vcard,item,value) {
