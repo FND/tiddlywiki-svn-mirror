@@ -1,11 +1,11 @@
 /***
-|''Name:''|locale.fr-FR|
+|''Name:''|locale.fr|
 |''Description:''|Translation of TiddlyWiki into French|
-|''Version:''|0.0.5|
-|''Date:''|Jun 11, 2007|
-|''Source:''|http://???/#locale.fr-FR (temporairement http://TiddlyWikiFR.bidix.info/)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/fr/locale.fr-FR.js |
-|''Fichier de base "empty.html":''|http://???/empty.fr-FR.html (temporairement http://TiddlyWikiFR.bidix.info/empty.fr-FR.html)|
+|''Version:''|0.0.6|
+|''Date:''|Jun 16, 2007|
+|''Source:''|http://???/#locale.fr (temporairement http://TiddlyWikiFR.bidix.info/)|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/fr/locale.fr.js |
+|''Fichier de base "empty.html":''|http://???/empty.fr.html (temporairement http://TiddlyWikiFR.bidix.info/empty.fr-FR.html)|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''Credits:''|Jacques Turbé : http://avm.free.fr//TiddlyWiki-fr.html - Traduction de la version 2.1|
 |''Comments:''|Merci de faire vos commentaires à http://groups.google.fr/group/TiddlyWikiFR |
