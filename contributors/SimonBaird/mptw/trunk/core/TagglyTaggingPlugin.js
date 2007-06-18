@@ -29,7 +29,9 @@ config.taggly = {
 			numCols:    "cols\u00b1", // plus minus sign
 			label:      "Tagged as '%0':",
 			excerpts:   "excerpts",
-			noexcerpts: "no excerpts"
+			contents:   "contents",
+			sliders:    "sliders",
+			noexcerpts: "title only"
 		},
 
 		tooltips: {
@@ -42,7 +44,11 @@ config.taggly = {
 			group:    "Click to show list grouped by tag",
 			sitemap:  "Click to show a sitemap style list",
 			commas:   "Click to show a comma separated list",
-			numCols:  "Click to change number of columns"
+			numCols:  "Click to change number of columns",
+			excerpts: "Click to show excerpts",
+			contents: "Click to show entire tiddler contents",
+			sliders:  "Click to show tiddler contents in sliders",
+			noexcerpts: "Click to show entire title only"
 		}
 	},
 
@@ -55,7 +61,7 @@ config.taggly = {
 			hideState:  ["show","hide"],
 			listMode:   ["normal","group","sitemap","commas"],
 			numCols:    ["1","2","3","4","5","6"],
-			excerpts:   ["noexcerpts","excerpts"]
+			excerpts:   ["noexcerpts","excerpts","contents","sliders"]
 		},
 		valuePrefix: "taggly.",
 		excludeTags: ["excludeLists","excludeTagging"],
@@ -193,7 +199,9 @@ config.taggly = {
 		return "";
 	},
 
-	getExcerpt: function(inTiddlerTitle,title) {
+	getExcerpt: function(inTiddlerTitle,title,indent) {
+    if (!indent)
+			indent = 1;
 		if (this.getTagglyOpt(inTiddlerTitle,"excerpts") == "excerpts") {
 			var t = store.getTiddler(title);
 			if (t) {
@@ -208,6 +216,18 @@ config.taggly = {
 				else {
 					return " {{excerpt{<nowiki>" + t.text.substr(0,this.config.excerptSize) + "..." + "</nowiki>}}}";
 				}
+			}
+		}
+		else if (this.getTagglyOpt(inTiddlerTitle,"excerpts") == "contents") {
+			var t = store.getTiddler(title);
+			if (t) {
+				return "\n{{contents indent"+indent+"{\n" + t.text + "\n}}}";
+			}
+		}
+		else if (this.getTagglyOpt(inTiddlerTitle,"excerpts") == "sliders") {
+			var t = store.getTiddler(title);
+			if (t) {
+				return "++++ open\n{{contents{\n" + t.text + "\n}}}\n====";
 			}
 		}
 		return "";
@@ -352,7 +372,7 @@ config.taggly = {
 		if (depth == 0)
 			return childOutput;
 		else
-			return indent + "[["+title+"]]" + this.getTaggingCount(title) + this.getExcerpt(this.config.inTiddler,title) + "\n" + childOutput;
+			return indent + "[["+title+"]]" + this.getTaggingCount(title) + this.getExcerpt(this.config.inTiddler,title,depth) + "\n" + childOutput;
 	},
 
 	// this if for the site map mode
@@ -436,6 +456,17 @@ config.taggly = {
 "div.tagglyTagging table tr,",
 "td.tagglyTagging",
 " {border-style:none!important; }",
+".tagglyTagging .contents { border:1px solid [[ColorPalette::TertiaryPale]]; padding:0 1em 0 0.5em; }",
+".tagglyTagging .indent1  { margin-left:3em;  }",
+".tagglyTagging .indent2  { margin-left:4em;  }",
+".tagglyTagging .indent3  { margin-left:5em;  }",
+".tagglyTagging .indent4  { margin-left:6em;  }",
+".tagglyTagging .indent5  { margin-left:7em;  }",
+".tagglyTagging .indent6  { margin-left:8em;  }",
+".tagglyTagging .indent7  { margin-left:9em;  }",
+".tagglyTagging .indent8  { margin-left:10em; }",
+".tagglyTagging .indent9  { margin-left:11em; }",
+".tagglyTagging .indent10 { margin-left:12em; }",
 "/*}}}*/",
 		""].join("\n"),
 
@@ -447,6 +478,37 @@ config.taggly = {
 };
 
 config.taggly.init();
+
+//}}}
+
+/***
+InlineSlidersPlugin
+By Saq Imtiaz
+http://tw.lewcid.org/sandbox/#InlineSlidersPlugin
+***/
+//{{{
+config.formatters.unshift( {
+	name: "inlinesliders",
+	match: "\\+\\+\\+\\+|\\<slider",
+	lookaheadRegExp: /(?:\+\+\+\+|<slider) (.*?)(?:>?)\n((?:.|\n)*?)\n(?:====|<\/slider>)/mg,
+	handler: function(w) {
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart ) {
+			var btn = createTiddlyButton(w.output,lookaheadMatch[1] + " "+"\u00BB",lookaheadMatch[1],this.onClickSlider,"button sliderButton");
+			var panel = createTiddlyElement(w.output,"div",null,"sliderPanel");
+			panel.style.display = "none";
+			wikify(lookaheadMatch[2],panel);
+			w.nextMatch = lookaheadMatch.index + lookaheadMatch[0].length;
+		}
+   },
+   onClickSlider : function(e) {
+		if(!e) var e = window.event;
+		var n = this.nextSibling;
+		n.style.display = (n.style.display=="none") ? "block" : "none";
+		return false;
+	}
+});
 
 //}}}
 
