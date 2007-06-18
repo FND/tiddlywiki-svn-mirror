@@ -1,8 +1,9 @@
 /***
 | Name|LessBackupsPlugin|
 | Description|Intelligently limit the number of backup files you create|
-| Source|http://lessbackupsplugin.tiddlyspot.com/|
-| Updated|2 Jun 2007|
+| Version|3.0 ($Rev: 2320 $)|
+| Date|$Date: 2007-06-18 22:37:46 +1000 (Mon, 18 Jun 2007) $|
+| Source|http://mptw.tiddlyspot.com/#LessBackupsPlugin|
 | Author|Simon Baird|
 | Email|simon.baird@gmail.com|
 | License|http://mptw.tiddlyspot.com/#TheBSDLicense|
