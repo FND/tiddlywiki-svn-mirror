@@ -38,21 +38,22 @@ config.macros.newTiddler.onClickNewTiddler = function()
 
 	title = config.macros.newTiddler.getName(title); // <--- only changed bit
 
-	var params = this.getAttribute("params").split("|");
+	var params = this.getAttribute("params");
+	var tags = params ? params.split("|") : [];
 	var focus = this.getAttribute("newFocus");
 	var template = this.getAttribute("newTemplate");
 	var customFields = this.getAttribute("customFields");
-	story.displayTiddler(null,title,template,false,null,customFields);
+	story.displayTiddler(null,title,template,false,null,null);
+	var tiddlerElem = document.getElementById(story.idPrefix + title);
+	story.addCustomFields(tiddlerElem,customFields);
 	var text = this.getAttribute("newText");
 	if(typeof text == "string")
 		story.getTiddlerField(title,"text").value = text.format([title]);
-	for(var t=0;t<params.length;t++)
-		story.setTiddlerTag(title,params[t],+1);
+	for(var t=0;t<tags.length;t++)
+		story.setTiddlerTag(title,tags[t],+1);
 	story.focusTiddler(title,focus);
 	return false;
 };
-
-
 
 //}}}
 
