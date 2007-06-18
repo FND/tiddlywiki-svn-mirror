@@ -1,9 +1,9 @@
-<div title="Release2.2" modifier="JeremyRuston" created="200705171310" modified="200706170032">
+<div title="Release2.2" modifier="JeremyRuston" created="200705171310" modified="200705182250">
 <pre>Release 2.2 brings a solid set of NewFeatures to help many of the different groups of people who use TiddlyWiki:
 * For people using TiddlyWiki to publish information, this release brings a new BackstageArea user interface that makes it easier to customise TiddlyWiki to give a great experience for readers while still having easy access to the authoring tools when they're appropriate
 * For people using TiddlyWiki as a personal tool, this release offers the beginnings of support for spreading tiddlers across multiple files, greatly increasing the overall storage capacity
 * For people using TiddlyWiki as a collaboration tool, this release includes properly defined hooks for ServerConnectivity, enabling ServerSide adaptations to be added cleanly
 This release lays the groundwork for some exciting new abilities in the future. These include stripping the core code back down to a minikernel, migrating much of the existing functionality to plugins that can then be omitted if not required, greatly reducing the overall size of the TiddlyWiki file.
 
-This is the third revision to the original release 2.2 of TiddlyWiki. Over the last few weeks the [[Community]] has helped to find and fix about a dozen issues. Users are now advised to [[upgrade|HowToUpgrade]] existing TiddlyWiki documents, exercising caution if using third-party [[Plugins]] extensively.</pre>
+This is the fourth revision to the original release 2.2 of TiddlyWiki. Over the last few weeks the [[Community]] has helped to find and fix about a dozen issues. Users are now advised to [[upgrade|HowToUpgrade]] existing TiddlyWiki documents, exercising caution if using third-party [[Plugins]] extensively.</pre>
 </div>
