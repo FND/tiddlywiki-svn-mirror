@@ -3,7 +3,7 @@
 <head>
 <script type="text/javascript">
 //<![CDATA[
-var version = {title: "TiddlyWiki", major: 2, minor: 2, revision: 2, date: new Date("Jun 12, 2007"), extensions: {}};
+var version = {title: "TiddlyWiki", major: 2, minor: 2, revision: 3, date: new Date("Jun 17, 2007"), extensions: {}};
 //]]>
 </script>
 <!--
@@ -21,7 +21,7 @@ Redistributions in binary form must reproduce the above copyright notice, this
 list of conditions and the following disclaimer in the documentation and/or other
 materials provided with the distribution.
 
-Neither the name of the Osmosoft Limited nor the names of its contributors may be
+Neither the name of the UnaMesa Association nor the names of its contributors may be
 used to endorse or promote products derived from this software without specific
 prior written permission.
 
@@ -53,6 +53,24 @@ DAMAGE.
 <!--POST-HEAD-START-->
 <!--POST-HEAD-END-->
 </head>
+<body onload="main();" onunload="if(window.checkUnsavedChanges) checkUnsavedChanges(); if(window.scrubNodes) scrubNodes(document.body);">
+<!--PRE-BODY-START-->
+<!--PRE-BODY-END-->
+<div id="copyright">
+Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa Association
+</div>
+<noscript>
+	<div id="javascriptWarning">This page requires JavaScript to function properly.<br /><br />If you are using Microsoft Internet Explorer you may need to click on the yellow bar above and select 'Allow Blocked Content'. You must then click 'Yes' on the following security warning.</div>
+</noscript>
+<div id="saveTest"></div>
+<div id="backstageCloak"></div>
+<div id="backstageButton"></div>
+<div id="backstageArea"><div id="backstageToolbar"></div></div>
+<div id="backstage">
+	<div id="backstagePanel"></div>
+</div>
+<div id="contentWrapper"></div>
+<div id="contentStash"></div>
 <div id="shadowArea">
 <div title="ColorPalette">
 <pre>Background: #fff
@@ -175,9 +193,9 @@ h2,h3 {border-bottom:1px solid [[ColorPalette::TertiaryLight]];}
 .viewer .button {border:1px solid [[ColorPalette::SecondaryMid]];}
 .viewer blockquote {border-left:3px solid [[ColorPalette::TertiaryDark]];}
 
-table {border:2px solid [[ColorPalette::TertiaryDark]];}
-th, thead td {background:[[ColorPalette::SecondaryMid]]; border:1px solid [[ColorPalette::TertiaryDark]]; color:[[ColorPalette::Background]];}
-td, tr {border:1px solid [[ColorPalette::TertiaryDark]];}
+.viewer table, table.twtable {border:2px solid [[ColorPalette::TertiaryDark]];}
+.viewer th, .viewer thead td, .twtable th, .twtable thead td {background:[[ColorPalette::SecondaryMid]]; border:1px solid [[ColorPalette::TertiaryDark]]; color:[[ColorPalette::Background]];}
+.viewer td, .viewer tr, .twtable td, .twtable tr {border:1px solid [[ColorPalette::TertiaryDark]];}
 
 .viewer pre {border:1px solid [[ColorPalette::SecondaryLight]]; background:[[ColorPalette::SecondaryPale]];}
 .viewer code {color:[[ColorPalette::SecondaryDark]];}
@@ -279,8 +297,7 @@ a.tiddlyLinkNonExisting.shadow {font-weight:bold;}
 .wizardFooter .status {padding:0em 0.4em 0em 0.4em; margin-left:1em;}
 .wizard .button {padding:0.1em 0.2em 0.1em 0.2em;}
 
-#messageArea {position:absolute; top:2em; right:0em; margin:0.5em; padding:0.5em; z-index:200;}
-*[id='messageArea'] {position:fixed !important; z-index:200;}
+#messageArea {position:fixed; top:2em; right:0em; margin:0.5em; padding:0.5em; z-index:2000; _position:absolute;}
 .messageToolbar {display:block; text-align:right; padding:0.2em 0.2em 0.2em 0.2em;}
 #messageArea a {text-decoration:underline;}
 
@@ -338,8 +355,8 @@ a.tiddlyLinkNonExisting.shadow {font-weight:bold;}
 .viewer blockquote {line-height:1.5em; padding-left:0.8em;margin-left:2.5em;}
 .viewer ul, .viewer ol {margin-left:0.5em; padding-left:1.5em;}
 
-table {border-collapse:collapse; margin:0.8em 1.0em;}
-.viewer th, .viewer td, .viewer tr,.viewer caption {padding:3px;}
+.viewer table, table.twtable {border-collapse:collapse; margin:0.8em 1.0em;}
+.viewer th, .viewer td, .viewer tr,.viewer caption,.twtable th, .twtable td, .twtable tr,.twtable caption {padding:3px;}
 table.listView {font-size:0.85em; margin:0.8em 1.0em;}
 table.listView th, table.listView td, table.listView tr {padding:0px 3px 0px 3px;}
 
@@ -370,7 +387,7 @@ table.listView th, table.listView td, table.listView tr {padding:0px 3px 0px 3px
 #backstagePanel {display:none; z-index:100; position:absolute; margin:0em 3em 0em 3em; padding:1em 1em 1em 1em;}
 .backstagePanelFooter {padding-top:0.2em; float:right;}
 .backstagePanelFooter a {padding:0.2em 0.4em 0.2em 0.4em;}
-#backstageCloak {display:none; z-index:50; position:absolute; width:100%; height:100px;}
+#backstageCloak {display:none; z-index:20; position:absolute; width:100%; height:100px;}
 
 .whenBackstage {display:none;}
 .backstageVisible .whenBackstage {display:block;}
@@ -474,24 +491,6 @@ Also see AdvancedOptions</pre>
 </div>
 </div>
 <!--POST-SHADOWAREA-->
-<body onload="main();" onunload="if(window.checkUnsavedChanges) checkUnsavedChanges(); if(window.scrubNodes) scrubNodes(document.body);">
-<!--PRE-BODY-START-->
-<!--PRE-BODY-END-->
-<div id="copyright">
-Welcome to TiddlyWiki by Jeremy Ruston, Copyright &copy; 2007 Osmosoft Limited
-</div>
-<noscript>
-	<div id="javascriptWarning">This page requires JavaScript to function properly.<br /><br />If you are using Microsoft Internet Explorer you may need to click on the yellow bar above and select 'Allow Blocked Content'. You must then click 'Yes' on the following security warning.</div>
-</noscript>
-<div id="saveTest"></div>
-<div id="backstageCloak"></div>
-<div id="backstageButton"></div>
-<div id="backstageArea"><div id="backstageToolbar"></div></div>
-<div id="backstage">
-	<div id="backstagePanel"></div>
-</div>
-<div id="contentWrapper"></div>
-<div id="contentStash"></div>
 <div id="storeArea"></div>
 <!--POST-STOREAREA-->
 <!--POST-BODY-START-->
@@ -1599,7 +1598,7 @@ config.formatters = [
 
 	handler: function(w)
 	{
-		var table = createTiddlyElement(w.output,"table");
+		var table = createTiddlyElement(w.output,"table",null,"twtable");
 		var prevColumns = [];
 		var currRowType = null;
 		var rowContainer;
@@ -1744,14 +1743,16 @@ config.formatters = [
 			w.nextMatch += lookaheadMatch[0].length;
 			var t;
 			if(listLevel > currLevel) {
-				for(t=currLevel; t<listLevel; t++)
-					stack.push(createTiddlyElement(stack[stack.length-1],listType));
+				for(t=currLevel; t<listLevel; t++) {
+					var target = (currLevel == 0) ? stack[stack.length-1] : stack[stack.length-1].lastChild;
+					stack.push(createTiddlyElement(target,listType));
+				}
 			} else if(listLevel < currLevel) {
 				for(t=currLevel; t>listLevel; t--)
 					stack.pop();
 			} else if(listLevel == currLevel && listType != currType) {
 				stack.pop();
-				stack.push(createTiddlyElement(stack[stack.length-1],listType));
+				stack.push(createTiddlyElement(stack[stack.length-1].lastChild,listType));
 			}
 			currLevel = listLevel;
 			currType = listType;
@@ -2802,16 +2803,18 @@ config.macros.newTiddler.createNewTiddlerButton = function(place,title,params,la
 	prompt = getParam(params,"prompt",prompt);
 	accessKey = getParam(params,"accessKey",accessKey);
 	newFocus = getParam(params,"focus",newFocus);
-	var customFields = getParam(params,"fields");
+	var customFields = getParam(params,"fields","");
 	if(!customFields && !store.isShadowTiddler(title))
 		customFields = String.encodeHashMap(config.defaultCustomFields);
 	var btn = createTiddlyButton(place,label,prompt,this.onClickNewTiddler,null,null,accessKey);
 	btn.setAttribute("newTitle",title);
 	btn.setAttribute("isJournal",isJournal ? "true" : "false");
-	btn.setAttribute("params",tags.join("|"));
+	if(tags.length > 0)
+		btn.setAttribute("params",tags.join("|"));
 	btn.setAttribute("newFocus",newFocus);
 	btn.setAttribute("newTemplate",getParam(params,"template",DEFAULT_EDIT_TEMPLATE));
-	btn.setAttribute("customFields",customFields);
+	if(customFields !== "")
+		btn.setAttribute("customFields",customFields);
 	var text = getParam(params,"text");
 	if(text !== undefined) 
 		btn.setAttribute("newText",text);
@@ -2825,16 +2828,19 @@ config.macros.newTiddler.onClickNewTiddler = function()
 		var now = new Date();
 		title = now.formatString(title.trim());
 	}
-	var params = this.getAttribute("params").split("|");
+	var params = this.getAttribute("params");
+	var tags = params ? params.split("|") : [];
 	var focus = this.getAttribute("newFocus");
 	var template = this.getAttribute("newTemplate");
 	var customFields = this.getAttribute("customFields");
-	story.displayTiddler(null,title,template,false,null,customFields);
+	story.displayTiddler(null,title,template,false,null,null);
+	var tiddlerElem = document.getElementById(story.idPrefix + title);
+	story.addCustomFields(tiddlerElem,customFields);
 	var text = this.getAttribute("newText");
 	if(typeof text == "string")
 		story.getTiddlerField(title,"text").value = text.format([title]);
-	for(var t=0;t<params.length;t++)
-		story.setTiddlerTag(title,params[t],+1);
+	for(var t=0;t<tags.length;t++)
+		story.setTiddlerTag(title,tags[t],+1);
 	story.focusTiddler(title,focus);
 	return false;
 };
@@ -6740,7 +6746,8 @@ function createTiddlyLink(place,title,includeText,theClass,isStatic,linkedFromTi
 		btn.setAttribute("noToggle","true");
 	if(linkedFromTiddler) {
 		var fields = linkedFromTiddler.getInheritedFields();
-		btn.setAttribute("tiddlyFields",fields);
+		if(fields)
+			btn.setAttribute("tiddlyFields",fields);
 	}
 	return btn;
 }
@@ -7196,26 +7203,32 @@ Popup.onDocumentClick = function(e)
 Popup.show = function(unused1,unused2)
 {
 	var curr = Popup.stack[Popup.stack.length-1];
-	var rootLeft = findPosX(curr.root);
-	var rootTop = findPosY(curr.root);
-	var rootHeight = curr.root.offsetHeight;
-	var popupLeft = rootLeft;
-	var popupTop = rootTop + rootHeight;
-	var winWidth = findWindowWidth();
-	if(curr.popup.offsetWidth > winWidth*0.75)
-		curr.popup.style.width = winWidth*0.75 + "px";
-	var popupWidth = curr.popup.offsetWidth;
-	if(popupLeft + popupWidth > winWidth)
-		popupLeft = winWidth - popupWidth;
-	curr.popup.style.left = popupLeft + "px";
-	curr.popup.style.top = popupTop + "px";
-	curr.popup.style.display = "block";
+	this.place(curr.root,curr.popup);
 	addClass(curr.root,"highlight");
 	if(config.options.chkAnimate && anim && typeof Scroller == "function")
 		anim.startAnimating(new Scroller(curr.popup));
 	else
 		window.scrollTo(0,ensureVisible(curr.popup));
 };
+
+Popup.place = function(root,popup,offset)
+{
+	if(!offset) var offset = {x:0, y:0};
+	var rootLeft = findPosX(root);
+	var rootTop = findPosY(root);
+	var rootHeight = root.offsetHeight;
+	var popupLeft = rootLeft + offset.x;
+	var popupTop = rootTop + rootHeight + offset.y;
+	var winWidth = findWindowWidth();
+	if(popup.offsetWidth > winWidth*0.75)
+		popup.style.width = winWidth*0.75 + "px";
+	var popupWidth = popup.offsetWidth;
+	if(popupLeft + popupWidth > winWidth)
+		popupLeft = winWidth - popupWidth;
+	popup.style.left = popupLeft + "px";
+	popup.style.top = popupTop + "px";
+	popup.style.display = "block";
+}
 
 Popup.remove = function()
 {
@@ -7311,7 +7324,7 @@ var ListView = {};
 // Create a listview
 ListView.create = function(place,listObject,listTemplate,callback,className)
 {
-	var table = createTiddlyElement(place,"table",null,className ? className : "listView");
+	var table = createTiddlyElement(place,"table",null,className ? className : "listView twtable");
 	var thead = createTiddlyElement(table,"thead");
 	var r = createTiddlyElement(thead,"tr");
 	for(var t=0; t<listTemplate.columns.length; t++) {
