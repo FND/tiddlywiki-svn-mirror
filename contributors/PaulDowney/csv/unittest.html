@@ -47,12 +47,18 @@ function main() {
 	t.shouldEqual(csv.getColumns(), ["assistantPhone","birthday","callbackPhone","carPhone","company","companyPhone","description","department","dlist","email","email2","email3","fileAs","firstName","fullName","homeCity","homeCountry","homeFax","homePhone","homePhone2","homePostalCode","homeState","homeStreet","homeURL","initials","jobTitle","lastName","middleName","mobilePhone","namePrefix","nameSuffix","nickname","notes","office","otherCity","otherCountry","otherFax","otherPhone","otherPostalCode","otherState","otherStreet","otherURL","pager","workCity","workCountry","workFax","workPhone","workPhone2","workPostalCode","workState","workStreet","workURL","type"]);
 
 
-	t.shouldEqual(csv.getLine(0),["","","","","Open Source Corp.","","","","","Laura.Linux@demo.zimbra.com","","","","Laura","","","","","","","","","","","","Fellow","Linux","","","","","","","","","","","","","","","","","","","","212-555-8930","","","","","",""]);
+	t.shouldEqual(csv.getLineArray(0),["","","","","Open Source Corp.","","","","","Laura.Linux@demo.zimbra.com","","","","Laura","","","","","","","","","","","","Fellow","Linux","","","","","","","","","","","","","","","","","","","","212-555-8930","","","","","",""]);
 
-	t.shouldEqual(csv.getLine(3), ["","","","","Zimbra","","","","","bzkdug3pukzp@demo.zimbra.com","","","","Dan","","","","","","","","","","","","Demo'er","Demouser","","","","","","","","","","","","","","","","","San Mateo","","","650-212-0505","","94404","CA","1500 Fashion Island Blvd.  Suite 100","",""]);
+	t.shouldEqual(csv.getLineArray(3), ["","","","","Zimbra","","","","","bzkdug3pukzp@demo.zimbra.com","","","","Dan","","","","","","","","","","","","Demo'er","Demouser","","","","","","","","","","","","","","","","","San Mateo","","","650-212-0505","","94404","CA","1500 Fashion Island Blvd.  Suite 100","",""]);
 
-	//t.shouldEqual(csv.getLine(0)['company'],"Open Source Corp");
-	//t.shouldEqual(csv.getLine(0)[5],"Open Source Corp");
+	t.shouldEqual(csv.getLine(0)['company'],"Open Source Corp.");
+	t.shouldEqual(csv.getTiddlerText(0),
+		"|company|Open Source Corp.|\n"
+		+"|email|Laura.Linux@demo.zimbra.com|\n"
+		+"|firstName|Laura|\n"
+		+"|jobTitle|Fellow|\n"
+		+"|lastName|Linux|\n"
+		+"|workPhone|212-555-8930|\n");
 	t.summary();
 }
 //]]>

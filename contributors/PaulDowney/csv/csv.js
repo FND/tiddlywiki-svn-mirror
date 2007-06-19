@@ -21,14 +21,15 @@
 			line = lines.shift();
 			this.setColumns(this.parseLine(line));
 		}
-		for (n in lines) {
+		for(var n = 0; n < lines.length; n++) {
 			this.line.push(this.parseLine(lines[n]));
 		}
 	};
 
 	CSV.prototype.parseLine = function(line) {
 		data = line.split(/,(?=(?:[^"]*"[^"]*")*(?![^"]*"))/);
-		for(var n in data) {
+		for(var n = 0; n < data.length; n++) {
+			if (!data[n]['substr']) continue;
 			d = data[n].substr(0,1);
 			if (d == '"' || d == "'") {
 				data[n] = data[n].substr(1,data[n].length-2);
@@ -49,7 +50,34 @@
 		return this.columns;
 	};
 
-	CSV.prototype.getLine = function(n) {
+	CSV.prototype.nlines = function() {
+		return this.lines.length;
+	};
+
+	CSV.prototype.getLineArray = function(n) {
 		return this.line[n];
+	};
+
+	CSV.prototype.getLine = function(n) {
+		line = this.line[n];
+		if (!line) return line;
+		a = {}
+		for(var c = 0; c < line.length; c++) {
+			if (line[c]) {
+				a[this.columns[c]] = line[c];
+			}
+		}
+		return a;
+	};
+
+	CSV.prototype.getTiddlerText = function(n) {
+		line = this.line[n];
+		if (!line) return line;
+		text = "";
+		for(var c = 0; c < line.length; c++) {
+			if (line[c])
+				text = text.concat("|"+this.columns[c]+"|"+line[c]+"|\n");
+		}
+		return text;
 	};
 }
