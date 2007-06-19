@@ -557,10 +557,10 @@ config.macros.contact = {
 		{hcard: 'email.work', names: ['EmailWork','WorkEmail']},
 		{hcard: 'email.home', names: ['EmailHome','HomeEmail']},
 
-		{hcard: 'im.AIM', names: ['AIM'], uri: 'aim:goim?screenname=',class: 'url'},
-		{hcard: 'im.MSN', names: ['MSN','WindowsLive','MicrosoftMessenger'],uri: 'msn:',class: 'url'},
-		{hcard: 'im.Jabber', names: ['Jabber','XMPP'],uri: 'xmpp:',class: 'url'},
-		{hcard: 'im.YIM', names: ['YIM','Yahoo','Yahoo!'],uri: 'ymsgr:sendIM?',class: 'url'},
+		{hcard: 'im.AIM', names: ['AIM'], uri: 'aim:goim?screenname=',className: 'url'},
+		{hcard: 'im.MSN', names: ['MSN','WindowsLive','MicrosoftMessenger'],uri: 'msn:',className: 'url'},
+		{hcard: 'im.Jabber', names: ['Jabber','XMPP'],uri: 'xmpp:',className: 'url'},
+		{hcard: 'im.YIM', names: ['YIM','Yahoo','Yahoo!'],uri: 'ymsgr:sendIM?',className: 'url'},
 	],
 
 	fieldDictionary: {},
@@ -578,8 +578,8 @@ config.macros.contact = {
 			var fieldName = this.squash(item.hcard);
 			if(!item.element) 
 				item.element = 'span';
-			if(!item.class) 
-				item.class = item.hcard.split('.').pop();
+			if(!item.className) 
+				item.className = item.hcard.split('.').pop();
 			this.fieldDictionary[fieldName] = this.hCardFields[i];
 		}
 		this.initialised = true;
@@ -619,11 +619,11 @@ config.macros.contact = {
 	},
 
 	addItem_element: function (place,item,value) {
-		return createTiddlyElement(place,item.element,null,item.class,value);
+		return createTiddlyElement(place,item.element,null,item.className,value);
 	},
 
 	addItem_a: function (place,item,value) {
-		node = createTiddlyElement(place,'a',null,item.class,value);
+		node = createTiddlyElement(place,'a',null,item.className,value);
 		node.setAttribute('href',item.uri+encodeURI(value));
 		var type = item.hcard.split('.').pop();
 		node.setAttribute('title',type);
@@ -650,13 +650,13 @@ config.macros.contact = {
 		if(item.hcard=='fn') 
 			return this.addItem_element(place,item,value);
 		node = this.vCardHolder(place,'div','fn');
-		return createTiddlyElement(node,'span',null,item.class,value);
+		return createTiddlyElement(node,'span',null,item.className,value);
 	},
 
 	addItem_adr: function (place,item,value) {
 		holder = this.vCardHolder(place,'div','adr');
 		holder = createTiddlyElement(holder,'div',null,'line');
-		return createTiddlyElement(holder,'span',null,item.class,value);
+		return createTiddlyElement(holder,'span',null,item.className,value);
 	},
 
 	addItem_adr_postalcode: function (place,item,value) {
@@ -759,14 +759,82 @@ config.macros.contact = {
 
 config.macros.contactLoadCSV = {
 	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
-		// TBD - parse CSV tiddler and build one addressbook tiddler per contact
+		params = paramString.parseParams('name',null,true,false,false);
+		var tiddlerName = getParam(params,'name',null);
+
+		text = store.getTiddlerText(tiddlerName);
+		// TBD - has to be a better way?
+		//text = text.replace(/^{{{/, "").replace(/}}}$/, "");
+		var csv = new CSV(text);
+
+/*
 		title = 'foo';
 		body = '|FirstName|foo|\n'
 			+'|LastName|Mcgroo|\n'
 			+'|WorkTel|+44932234234|\n';
 		store.saveTiddler(title,title,body,config.options.txtUserName);
+*/
 	}
 };
+
+
+
+/*
+ *  Parse CSV into array of hashes
+ */
+	/*
+	 *  parse CSV 
+	 */
+	function CSV(stringData,columns)
+	{
+		this.setColumns(columns);
+		this.line = [];
+		if (stringData) this.parse(stringData);
+	}
+
+	CSV.prototype.forceQuotes = true;
+
+	CSV.prototype.parse = function(s) {
+		s.replace("\r","");
+		var lines = s.split("\n");
+		if (!this.columns) {
+			line = lines.shift();
+			this.setColumns(this.parseLine(line));
+		}
+		for (n in lines) {
+			this.line.push(this.parseLine(lines[n]));
+		}
+	};
+
+	CSV.prototype.parseLine = function(line) {
+		data = line.split(/,(?=(?:[^"]*"[^"]*")*(?![^"]*"))/);
+		for(n = 0; n< data.length; n++) {
+			console.info(data[n]);
+			d = data[n].substr(0,1);
+			if (d == '"' || d == "'") {
+				data[n] = data[n].substr(1,data[n].length-2);
+			}
+		}
+		return data;
+	};
+
+	CSV.prototype.writeLine = function(a) {
+		return a.join(",");
+	};
+
+	CSV.prototype.setColumns = function(columns) {
+		this.columns = columns;
+	};
+
+	CSV.prototype.getColumns = function() {
+		return this.columns;
+	};
+
+	CSV.prototype.getLine = function(n) {
+		return this.line[n];
+	};
+
+
 
 
 } //# end of &quot;install only once&quot;
@@ -779,8 +847,7 @@ config.macros.contactLoadCSV = {
 <div title="ContactsTestTiddler" modifier="PaulDowney" modified="200706112230" created="200706111326" changecount="4">
 <pre>
 
-&lt;&lt;contactLoadCSV "PaulDowney"&gt;&gt;
-&lt;&lt;contact "foo"&gt;&gt;
+&lt;&lt;contactLoadCSV "ZimbraCSV"&gt;&gt;
 &lt;&lt;contact "PaulDowney"gt;&gt;
 &lt;&lt;contact "John Doe"&gt;&gt;
 &lt;&lt;contact JaneDoe&gt;&gt;
@@ -7621,6 +7688,7 @@ Wizard.prototype.clear = function()
 Wizard.prototype.setButtons = function(buttonInfo,status)
 {
 	removeChildren(this.footElem);
+
 	for(var t=0; t<buttonInfo.length; t++) {
 		createTiddlyButton(this.footElem,buttonInfo[t].caption,buttonInfo[t].tooltip,buttonInfo[t].onClick);
 		insertSpacer(this.footElem);
@@ -9129,6 +9197,9 @@ var regexpBackSlash = new RegExp("\\\\","mg");
 var regexpBackSlashEss = new RegExp("\\\\s","mg");
 var regexpNewLine = new RegExp("\n","mg");
 var regexpCarriageReturn = new RegExp("\r","mg");
+
+
+
 //--
 //-- End of scripts
 //--
