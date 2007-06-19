@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<script type="text/javascript" src="unittest.js"></script>
+<script type="text/javascript" src="csv.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+function main() {
+
+	t = new UnitTest();
+
+	t.shouldEqual((new CSV).parseLine('a'),['a']);
+
+	t.shouldEqual((new CSV).parseLine('a,b'),['a','b']);
+	t.shouldEqual((new CSV).parseLine('a,'),['a','']);
+
+	t.shouldEqual((new CSV).parseLine('a,b,c,d'),['a','b','c','d']);
+	t.shouldEqual((new CSV).parseLine(',b,c,d'),['','b','c','d']);
+	t.shouldEqual((new CSV).parseLine('a,,c,d'),['a','','c','d']);
+	t.shouldEqual((new CSV).parseLine(',,c,d'),['','','c','d']);
+	t.shouldEqual((new CSV).parseLine(',,,d'),['','','','d']);
+	t.shouldEqual((new CSV).parseLine(',,c,'),['','','c','']);
+	t.shouldEqual((new CSV).parseLine(''),[]);
+	t.shouldEqual((new CSV).parseLine(','),['','']);
+	t.shouldEqual((new CSV).parseLine(',,,'),['','','','']);
+	t.shouldEqual((new CSV).parseLine(',,,,'),['','','','','']);
+
+
+	t.shouldEqual((new CSV).parseLine('"a value"'),['a value']);
+	t.shouldEqual((new CSV).parseLine('"a, value"'),['a, value']);
+	t.shouldEqual((new CSV).parseLine('"a, value, containing, commas"').length,1);
+
+	t.shouldEqual((new CSV).parseLine('"a value",,"",'),['a value','','','']);
+	t.shouldEqual((new CSV).parseLine('"a value","","",""'),['a value','','','']);
+	t.shouldEqual((new CSV).parseLine('"a value","another value"'),['a value','another value']);
+
+	t.shouldEqual((new CSV).parseLine("'a value'"),['a value']);
+	t.shouldEqual((new CSV).parseLine("'a value','another value'"),['a value','another value']);
+
+	t.shouldEqual((new CSV).parseLine("'a \"value\"','another value'"),['a "value"','another value']);
+
+	//t.shouldEqual((new CSV).parseLine('hello, world'),['hello,world']);
+
+        var text = document.getElementById('zimbra').firstChild.innerHTML;
+
+	csv = new CSV(text);
+	t.shouldEqual(csv.getColumns(), ["assistantPhone","birthday","callbackPhone","carPhone","company","companyPhone","description","department","dlist","email","email2","email3","fileAs","firstName","fullName","homeCity","homeCountry","homeFax","homePhone","homePhone2","homePostalCode","homeState","homeStreet","homeURL","initials","jobTitle","lastName","middleName","mobilePhone","namePrefix","nameSuffix","nickname","notes","office","otherCity","otherCountry","otherFax","otherPhone","otherPostalCode","otherState","otherStreet","otherURL","pager","workCity","workCountry","workFax","workPhone","workPhone2","workPostalCode","workState","workStreet","workURL","type"]);
+
+
+	t.shouldEqual(csv.getLine(0),["","","","","Open Source Corp.","","","","","Laura.Linux@demo.zimbra.com","","","","Laura","","","","","","","","","","","","Fellow","Linux","","","","","","","","","","","","","","","","","","","","212-555-8930","","","","","",""]);
+
+	t.shouldEqual(csv.getLine(3), ["","","","","Zimbra","","","","","bzkdug3pukzp@demo.zimbra.com","","","","Dan","","","","","","","","","","","","Demo'er","Demouser","","","","","","","","","","","","","","","","","San Mateo","","","650-212-0505","","94404","CA","1500 Fashion Island Blvd.  Suite 100","",""]);
+
+	//t.shouldEqual(csv.getLine(0)['company'],"Open Source Corp");
+	//t.shouldEqual(csv.getLine(0)[5],"Open Source Corp");
+	t.summary();
+}
+//]]>
+</script>
+</head>
+<body onLoad="main()">
+
+<div id="results"></div>
+<div id='zimbra' style='display:none'><pre>"assistantPhone","birthday","callbackPhone","carPhone","company","companyPhone","description","department","dlist","email","email2","email3","fileAs","firstName","fullName","homeCity","homeCountry","homeFax","homePhone","homePhone2","homePostalCode","homeState","homeStreet","homeURL","initials","jobTitle","lastName","middleName","mobilePhone","namePrefix","nameSuffix","nickname","notes","office","otherCity","otherCountry","otherFax","otherPhone","otherPostalCode","otherState","otherStreet","otherURL","pager","workCity","workCountry","workFax","workPhone","workPhone2","workPostalCode","workState","workStreet","workURL","type"
+"","","","","Open Source Corp.","","","","","Laura.Linux@demo.zimbra.com","","","","Laura","","","","","","","","","","","","Fellow","Linux","","","","","","","","","","","","","","","","","","","","212-555-8930","","","","","",""
+"","","","","UI Wizards","","","","","Alan.Ajax@demo.zimbra.com","","","","Alan","","","","","","","","","","","","Chief Designer","Ajax","","","","","","","","","","","","","","","","","","","","650-555-1812","","","","","",""
+"","","","","Web Services, Inc.","","","","","Sarah.Soap@demo.zimbra.com","","","","Sarah","","","","","","","","","","","","President","Soap","","","","","","","","","","","","","","","","","","","","312-555-5402","","","","","",""
+"","","","","Zimbra","","","","","bzkdug3pukzp@demo.zimbra.com","","","","Dan","","","","","","","","","","","","Demo'er","Demouser","","","","","","","","","","","","","","","","","San Mateo","","","650-212-0505","","94404","CA","1500 Fashion Island Blvd.  Suite 100","",""
+</pre></div>
+
+</body>
+</html>
