@@ -700,6 +700,8 @@ config.macros.contact = {
 			this.addItem(vcard,item,this.getCardField(tiddlerName,item.hcard,item));
 		}
 
+		createTiddlyLink(vcard,tiddlerName,tiddlerName,'editVcard');
+
 		// TBD: ideally split WikiName and set as first child node ..
 		if(!this.getElementByClass(vcard,'fn'))
 			this.addItem_element(vcard,this.fieldDictionary['fn'],tiddlerName);
@@ -759,6 +761,7 @@ config.macros.contact = {
 
 config.macros.contactLoadCSV = {
 	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
+/*
 		params = paramString.parseParams('name',null,true,false,false);
 		var tiddlerName = getParam(params,'name',null);
 
@@ -767,7 +770,6 @@ config.macros.contactLoadCSV = {
 		//text = text.replace(/^{{{/, "").replace(/}}}$/, "");
 		var csv = new CSV(text);
 
-/*
 		title = 'foo';
 		body = '|FirstName|foo|\n'
 			+'|LastName|Mcgroo|\n'
@@ -801,7 +803,7 @@ config.macros.contactLoadCSV = {
 			line = lines.shift();
 			this.setColumns(this.parseLine(line));
 		}
-		for (n in lines) {
+		for(n = 0; n< lines.length; n++) {
 			this.line.push(this.parseLine(lines[n]));
 		}
 	};
@@ -809,7 +811,7 @@ config.macros.contactLoadCSV = {
 	CSV.prototype.parseLine = function(line) {
 		data = line.split(/,(?=(?:[^"]*"[^"]*")*(?![^"]*"))/);
 		for(n = 0; n< data.length; n++) {
-			console.info(data[n]);
+                        if (!data[n]['substr']) continue;
 			d = data[n].substr(0,1);
 			if (d == '"' || d == "'") {
 				data[n] = data[n].substr(1,data[n].length-2);
@@ -842,9 +844,9 @@ config.macros.contactLoadCSV = {
 </pre>
 </div>
 <div title="DefaultTiddlers" modifier="PaulDowney" modified="200706111405" created="200706111327" changecount="2">
-<pre>ContactsTestTiddler PaulDowney ContactMacroPlugin</pre>
+<pre>SomeContacts</pre>
 </div>
-<div title="ContactsTestTiddler" modifier="PaulDowney" modified="200706112230" created="200706111326" changecount="4">
+<div title="SomeContacts" modifier="PaulDowney" modified="200706112230" created="200706111326" changecount="4">
 <pre>
 
 &lt;&lt;contactLoadCSV "ZimbraCSV"&gt;&gt;
