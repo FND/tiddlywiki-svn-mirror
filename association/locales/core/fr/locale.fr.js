@@ -1,8 +1,8 @@
 /***
 |''Name:''|locale.fr|
 |''Description:''|Translation of TiddlyWiki into French|
-|''Version:''|0.0.6|
-|''Date:''|Jun 16, 2007|
+|''Version:''|0.0.7|
+|''Date:''|Jun 20, 2007|
 |''Source:''|http://???/#locale.fr (temporairement http://TiddlyWikiFR.bidix.info/)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/fr/locale.fr.js |
 |''Fichier de base "empty.html":''|http://???/empty.fr.html (temporairement http://TiddlyWikiFR.bidix.info/empty.fr-FR.html)|
@@ -235,7 +235,7 @@ merge(config.macros.newJournal,{
 merge(config.macros.options,{
 	wizardTitle: "Réglage des options avancées",
 	step1Title: "Ces option sont enregistrées dans des cookies de votre navigateur",
-	step1Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='false' name='chkUnknown'>Show unknown options</input>",
+	step1Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='false' name='chkUnknown'>Montrer les options inconnues</input>",
 	unknownDescription: "//(inconnu)//",
 	listViewTemplate: {
 		columns: [
