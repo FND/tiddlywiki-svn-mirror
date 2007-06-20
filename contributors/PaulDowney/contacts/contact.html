@@ -379,18 +379,6 @@ table.listView th, table.listView td, table.listView tr {padding:0px 3px 0px 3px
 .backstageVisible .whenBackstage {display:block;}
 
 
-	/* content macro plugin style */
-	.contact {background-color: #666; padding: 1em; margin: 2em 5em 2em 5em;}
-	.vcard {margin: -3em 0 0 -3em; border: thin solid #999; padding: 2em; left: -1px; top: -1px; background-color: #eee; color: black;}
-	.org {float: right; font-weight: bold; font-size: 1em;} 
-	.fn {font-weight: bold; font-size: 3em;}
-	.phone {margin-top:1em}
-	.type:after {content: ': ';}
-	.adr {float:right;margin: 1em 1em 1em 1em;font-size: 1.5em}
-	.im {margin-top:1em}
-	.emails {margin-top:1em}
-	.url {display: block;}
-
 
 
 /*}}}*/</pre>
@@ -513,6 +501,15 @@ Welcome to TiddlyWiki by Jeremy Ruston, Copyright &copy; 2007 Osmosoft Limited
 <div id="contentWrapper"></div>
 <div id="contentStash"></div>
 <div id="storeArea">
+<div title="AlanAjax" modifier="PaulDowney" created="200706201545" changecount="3">
+<pre>|company|UI Wizards|
+|email|Alan.Ajax@demo.zimbra.com|
+|firstName|Alan|
+|jobTitle|Chief Designer|
+|lastName|Ajax|
+|workPhone|650-555-1812|
+</pre>
+</div>
 <div title="ContactMacroPlugin" modifier="PaulDowney" modified="200706111457" created="200706110939" tags="systemConfig" changecount="28">
 <pre>/***
 |''Name:''|ContactMacroPlugin|
@@ -537,7 +534,7 @@ config.macros.contact = {
 
 	hCardFields: [
 		{hcard: 'org', names: ['Company','company','Organization','Organization','Org']},
-		{hcard: 'fn', names: ['FullName', 'Fullname', 'name']},
+		{hcard: 'fn', names: ['FullName', 'Fullname', 'fullName', 'fullname', 'name']},
 		{hcard: 'fn.given-name', names: ['FirstName','First','Given','Firstname','GivenName']},
 		{hcard: 'fn.additional-name', names: ['AdditionalName','MiddleName','Middlename','Middle','Additional','AdditionalName']},
 		{hcard: 'fn.family-name', names: ['LastName','Lastname','Last','FamilyName','Surname']},
@@ -573,6 +570,20 @@ config.macros.contact = {
 		if(this.initialised) 
 			return;
 
+	s= &quot;/* content macro plugin style */&quot;
+        +&quot;.contact {background-color: #666; padding: 1em; margin: 2em 5em 2em 5em;}&quot;
+        +&quot;.vcard {margin: -3em 0 0 -3em; border: thin solid #999; padding: 2em; left: -1px; top: -1px; background-color: #eee; color: black;}&quot;
+        +&quot;.org {float: right; font-weight: bold; font-size: 1em;}&quot;
+        +&quot;.fn {font-weight: bold; font-size: 3em;}&quot;
+        +&quot;.phone {margin-top:1em}&quot;
+        +&quot;.type:after {content: ': ';}&quot;
+        +&quot;.adr {float:right;margin: 1em 1em 1em 1em;font-size: 1.5em}&quot;
+        +&quot;.im {margin-top:1em}&quot;
+        +&quot;.emails {margin-top:1em}&quot;
+        +&quot;.url {display: block;}&quot;;
+		setStylesheet(s,&quot;contact&quot;);
+
+
 		for(var i=0;i&lt;this.hCardFields.length;i++) {
 			var item = this.hCardFields[i];
 			var fieldName = this.squash(item.hcard);
@@ -591,20 +602,20 @@ config.macros.contact = {
 			item = this.fieldDictionary[fieldName];
 		}
 		if(!item) {
-			displayMessage("We didn't expect the '"+fieldName+"' field");
-			return "";
+			displayMessage(&quot;We didn't expect the '&quot;+fieldName+&quot;' field&quot;);
+			return &quot;&quot;;
 		}
 		for(var i=0;i&lt;item.names.length;i++) {
 			var value = store.getTiddlerSlice(tiddlerName,item.names[i]);
 			if(value) return value;
 		}
-		return "";
+		return &quot;&quot;;
 	},
 
 	getElementByClass:  function (node,className) {
 		var re = new RegExp('\\b'+className+'\\b');
 		var element = node.getElementsByTagName('*');
-		for(var i = 0; i < element.length; i++) {
+		for(var i = 0; i &lt; element.length; i++) {
 			var classes = element[i].className;
 			if(re.test(classes)) return element[i];
 		}
@@ -674,7 +685,7 @@ config.macros.contact = {
 			type='other';
 		createTiddlyElement(node,'span',null,'type',type);
 		createTiddlyElement(node,'span',null,'value',value);
-		createTiddlyButton(holder,'&#9743;','Click here to dial this number',this.onClickDial);
+		createTiddlyButton(holder,'☏','Click here to dial this number',this.onClickDial);
 	},
 
 	addItem: function (place,item,value) {
@@ -763,12 +774,12 @@ config.macros.contact = {
 config.macros.contactLoadCSV = {
 	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
 		params = paramString.parseParams('name',null,true,false,false);
-		tags = "fromCSV";
+		tags = &quot;fromCSV&quot;;
 		var tiddlerName = getParam(params,'name',null);
 
 		text = store.getTiddlerText(tiddlerName);
 		// TBD - has to be a better way?
-		text = text.replace(/^{{{/, "").replace(/}}}$/, "");
+		text = text.replace(/^{{{/, &quot;&quot;).replace(/}}}$/, &quot;&quot;);
 		var csv = new CSV(text);
 
 		for (var n=0; n &lt; csv.nlines(); n++) {
@@ -776,10 +787,11 @@ config.macros.contactLoadCSV = {
 
 			//TBD use _fn to construct title
 			title = line['firstName']+line['lastName'];
+			//csv.line[n].['fn'] = title;
 
 			body = csv.getTiddlerText(n);
 
-			if (title && body) 
+			if (title &amp;&amp; body) 
 				tiddler = store.saveTiddler(title,title,body,config.options.txtUserName);
 		}
 	}
@@ -803,23 +815,23 @@ config.macros.contactLoadCSV = {
 	CSV.prototype.forceQuotes = true;
 
 	CSV.prototype.parse = function(s) {
-		s.replace("\r","");
-		var lines = s.split("\n");
+		s.replace(&quot;\r&quot;,&quot;&quot;);
+		var lines = s.split(&quot;\n&quot;);
 		if (!this.columns) {
 			line = lines.shift();
 			this.setColumns(this.parseLine(line));
 		}
-		for(var n = 0; n < lines.length; n++) {
+		for(var n = 0; n &lt; lines.length; n++) {
 			this.line.push(this.parseLine(lines[n]));
 		}
 	};
 
 	CSV.prototype.parseLine = function(line) {
-		data = line.split(/,(?=(?:[^"]*"[^"]*")*(?![^"]*"))/);
-		for(var n = 0; n < data.length; n++) {
+		data = line.split(/,(?=(?:[^&quot;]*&quot;[^&quot;]*&quot;)*(?![^&quot;]*&quot;))/);
+		for(var n = 0; n &lt; data.length; n++) {
 			if (!data[n]['substr']) continue;
 			d = data[n].substr(0,1);
-			if (d == '"' || d == "'") {
+			if (d == '&quot;' || d == &quot;'&quot;) {
 				data[n] = data[n].substr(1,data[n].length-2);
 			}
 		}
@@ -827,7 +839,7 @@ config.macros.contactLoadCSV = {
 	};
 
 	CSV.prototype.writeLine = function(a) {
-		return a.join(",");
+		return a.join(&quot;,&quot;);
 	};
 
 	CSV.prototype.setColumns = function(columns) {
@@ -861,10 +873,10 @@ config.macros.contactLoadCSV = {
 	CSV.prototype.getTiddlerText = function(n) {
 		line = this.line[n];
 		if (!line) return line;
-		text = "";
+		text = &quot;&quot;;
 		for(var c = 0; c &lt; line.length; c++) {
 			if (line[c])
-				text = text.concat("|"+this.columns[c]+"|"+line[c]+"|\n");
+				text = text.concat(&quot;|&quot;+this.columns[c]+&quot;|&quot;+line[c]+&quot;|\n&quot;);
 		}
 		return text;
 	};
@@ -876,29 +888,25 @@ config.macros.contactLoadCSV = {
 //}}}
 </pre>
 </div>
+<div title="DanDemouser" modifier="PaulDowney" created="200706201545" changecount="3">
+<pre>|company|Zimbra|
+|email|bzkdug3pukzp@demo.zimbra.com|
+|firstName|Dan|
+|jobTitle|Demo'er|
+|lastName|Demouser|
+|workCity|San Mateo|
+|workPhone|650-212-0505|
+|workPostalCode|94404|
+|workState|CA|
+|workStreet|1500 Fashion Island Blvd.  Suite 100|
+</pre>
+</div>
 <div title="DefaultTiddlers" modifier="PaulDowney" modified="200706111405" created="200706111327" changecount="2">
 <pre>SomeContacts</pre>
 </div>
-<div title="SomeContacts" modifier="PaulDowney" modified="200706112230" created="200706111326" changecount="4">
-<pre>
-
-&lt;&lt;contactLoadCSV "ZimbraCSV"&gt;&gt;
-&lt;&lt;contact "PaulDowney"gt;&gt;
-&lt;&lt;contact "John Doe"&gt;&gt;
-&lt;&lt;contact JaneDoe&gt;&gt;
-&lt;&lt;contact "Prof Gilzot"&gt;&gt;
-&lt;&lt;contact PietPompies&gt;&gt;
-&lt;&lt;contact LauraLinux&gt;&gt;
-&lt;&lt;contact +TaggedPeeps&gt;&gt;
-</pre>
-</div>
-<div title="ZimbraCSV" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="" changecount="1">
-<pre>{{{"assistantPhone","birthday","callbackPhone","carPhone","company","companyPhone","description","department","dlist","email","email2","email3","fileAs","firstName","fullName","homeCity","homeCountry","homeFax","homePhone","homePhone2","homePostalCode","homeState","homeStreet","homeURL","initials","jobTitle","lastName","middleName","mobilePhone","namePrefix","nameSuffix","nickname","notes","office","otherCity","otherCountry","otherFax","otherPhone","otherPostalCode","otherState","otherStreet","otherURL","pager","workCity","workCountry","workFax","workPhone","workPhone2","workPostalCode","workState","workStreet","workURL","type"
-"","","","","Open Source Corp.","","","","","Laura.Linux@demo.zimbra.com","","","","Laura","","","","","","","","","","","","Fellow","Linux","","","","","","","","","","","","","","","","","","","","212-555-8930","","","","","",""
-"","","","","UI Wizards","","","","","Alan.Ajax@demo.zimbra.com","","","","Alan","","","","","","","","","","","","Chief Designer","Ajax","","","","","","","","","","","","","","","","","","","","650-555-1812","","","","","",""
-"","","","","Web Services, Inc.","","","","","Sarah.Soap@demo.zimbra.com","","","","Sarah","","","","","","","","","","","","President","Soap","","","","","","","","","","","","","","","","","","","","312-555-5402","","","","","",""
-"","","","","Zimbra","","","","","bzkdug3pukzp@demo.zimbra.com","","","","Dan","","","","","","","","","","","","Demo'er","Demouser","","","","","","","","","","","","","","","","","San Mateo","","","650-212-0505","","94404","CA","1500 Fashion Island Blvd.  Suite 100","",""
-}}}
+<div title="JaneDoe" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
+<pre>|''Fullname:''|Jane Doe|
+|''tel:''|+1555-01234|
 </pre>
 </div>
 <div title="John Doe" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
@@ -906,16 +914,14 @@ config.macros.contactLoadCSV = {
 |''Tel:''|+447918|
 </pre>
 </div>
-<div title="JaneDoe" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
-<pre>|''Fullname:''|Jane Doe|
-|''tel:''|+1555-01234|
-</pre>
-</div>
-<div title="Prof Gilzot" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
-<pre>|''Firstname:''|Prof|
-|''Lastname:''|Gilzot|
-|''Url:''|http://www.profgilzot.com/|
-|''AIM:''|Prof Gilzot|
+<div title="LauraLinux" modifier="PaulDowney" created="200706201545" changecount="3">
+<pre>|company|Open Source Corp.|
+|email|Laura.Linux@demo.zimbra.com|
+|firstName|Laura|
+|fullName|Laura Linux|
+|jobTitle|Fellow|
+|lastName|Linux|
+|workPhone|212-555-8930|
 </pre>
 </div>
 <div title="PaulDowney" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
@@ -941,6 +947,43 @@ config.macros.contactLoadCSV = {
 <pre>|''Fullname:''|Piet Pompies|
 |''tel:''|+1555-01111|
 </pre>
+</div>
+<div title="Prof Gilzot" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
+<pre>|''Firstname:''|Prof|
+|''Lastname:''|Gilzot|
+|''Url:''|http://www.profgilzot.com/|
+|''AIM:''|Prof Gilzot|
+</pre>
+</div>
+<div title="SarahSoap" modifier="PaulDowney" created="200706201545" changecount="3">
+<pre>|company|Web Services, Inc.|
+|email|Sarah.Soap@demo.zimbra.com|
+|firstName|Sarah|
+|jobTitle|President|
+|lastName|Soap|
+|workPhone|312-555-5402|
+</pre>
+</div>
+<div title="SomeContacts" modifier="PaulDowney" modified="200706201547" created="200706111326" changecount="5">
+<pre>&lt;&lt;contactLoadCSV &quot;ZimbraCSV&quot;&gt;&gt;
+&lt;&lt;contact &quot;PaulDowney&quot;&gt;&gt;
+&lt;&lt;contact &quot;John Doe&quot;&gt;&gt;
+&lt;&lt;contact JaneDoe&gt;&gt;
+&lt;&lt;contact &quot;Prof Gilzot&quot;&gt;&gt;
+&lt;&lt;contact PietPompies&gt;&gt;
+&lt;&lt;contact LauraLinux&gt;&gt;
+&lt;&lt;contact +TaggedPeeps&gt;&gt;
+</pre>
+</div>
+<div title="ZimbraCSV" modifier="PaulDowney" modified="200706112229" created="200706110938" changecount="1">
+<pre>{{{&quot;assistantPhone&quot;,&quot;birthday&quot;,&quot;callbackPhone&quot;,&quot;carPhone&quot;,&quot;company&quot;,&quot;companyPhone&quot;,&quot;description&quot;,&quot;department&quot;,&quot;dlist&quot;,&quot;email&quot;,&quot;email2&quot;,&quot;email3&quot;,&quot;fileAs&quot;,&quot;firstName&quot;,&quot;fullName&quot;,&quot;homeCity&quot;,&quot;homeCountry&quot;,&quot;homeFax&quot;,&quot;homePhone&quot;,&quot;homePhone2&quot;,&quot;homePostalCode&quot;,&quot;homeState&quot;,&quot;homeStreet&quot;,&quot;homeURL&quot;,&quot;initials&quot;,&quot;jobTitle&quot;,&quot;lastName&quot;,&quot;middleName&quot;,&quot;mobilePhone&quot;,&quot;namePrefix&quot;,&quot;nameSuffix&quot;,&quot;nickname&quot;,&quot;notes&quot;,&quot;office&quot;,&quot;otherCity&quot;,&quot;otherCountry&quot;,&quot;otherFax&quot;,&quot;otherPhone&quot;,&quot;otherPostalCode&quot;,&quot;otherState&quot;,&quot;otherStreet&quot;,&quot;otherURL&quot;,&quot;pager&quot;,&quot;workCity&quot;,&quot;workCountry&quot;,&quot;workFax&quot;,&quot;workPhone&quot;,&quot;workPhone2&quot;,&quot;workPostalCode&quot;,&quot;workState&quot;,&quot;workStreet&quot;,&quot;workURL&quot;,&quot;type&quot;
+&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;Open Source Corp.&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;Laura.Linux@demo.zimbra.com&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;Laura&quot;,&quot;Laura Linux&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;Fellow&quot;,&quot;Linux&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;212-555-8930&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;
+&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;UI Wizards&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;Alan.Ajax@demo.zimbra.com&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;Alan&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;Chief Designer&quot;,&quot;Ajax&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;650-555-1812&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;
+&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;Web Services, Inc.&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;Sarah.Soap@demo.zimbra.com&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;Sarah&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;President&quot;,&quot;Soap&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;312-555-5402&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;
+&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;Zimbra&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;bzkdug3pukzp@demo.zimbra.com&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;Dan&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;Demo'er&quot;,&quot;Demouser&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;San Mateo&quot;,&quot;&quot;,&quot;&quot;,&quot;650-212-0505&quot;,&quot;&quot;,&quot;94404&quot;,&quot;CA&quot;,&quot;1500 Fashion Island Blvd.  Suite 100&quot;,&quot;&quot;,&quot;&quot;
+}}}
+</pre>
+</div>
 </div>
 <!--POST-STOREAREA-->
 <!--POST-BODY-START-->
