@@ -501,7 +501,7 @@ Welcome to TiddlyWiki by Jeremy Ruston, Copyright &copy; 2007 Osmosoft Limited
 <div id="contentWrapper"></div>
 <div id="contentStash"></div>
 <div id="storeArea">
-<div title="AlanAjax" modifier="PaulDowney" created="200706201545" changecount="3">
+<div title="AlanAjax" modifier="PaulDowney" created="200706201545" changecount="17">
 <pre>|company|UI Wizards|
 |email|Alan.Ajax@demo.zimbra.com|
 |firstName|Alan|
@@ -510,7 +510,7 @@ Welcome to TiddlyWiki by Jeremy Ruston, Copyright &copy; 2007 Osmosoft Limited
 |workPhone|650-555-1812|
 </pre>
 </div>
-<div title="ContactMacroPlugin" modifier="PaulDowney" modified="200706111457" created="200706110939" tags="systemConfig" changecount="28">
+<div title="ContactMacroPlugin" modifier="PaulDowney" modified="200706201625" created="200706110939" tags="systemConfig" changecount="30">
 <pre>/***
 |''Name:''|ContactMacroPlugin|
 |''Description:''|Manipulate contact information held as tiddlers|
@@ -575,11 +575,12 @@ config.macros.contact = {
         +&quot;.vcard {margin: -3em 0 0 -3em; border: thin solid #999; padding: 2em; left: -1px; top: -1px; background-color: #eee; color: black;}&quot;
         +&quot;.org {float: right; font-weight: bold; font-size: 1em;}&quot;
         +&quot;.fn {font-weight: bold; font-size: 3em;}&quot;
-        +&quot;.phone {margin-top:1em}&quot;
+        +&quot;.phone {margin-top:1em;}&quot;
         +&quot;.type:after {content: ': ';}&quot;
-        +&quot;.adr {float:right;margin: 1em 1em 1em 1em;font-size: 1.5em}&quot;
-        +&quot;.im {margin-top:1em}&quot;
-        +&quot;.emails {margin-top:1em}&quot;
+        +&quot;.adr {float:right;margin: 1em 1em 1em 1em;font-size: 1.5em;}&quot;
+        +&quot;.im {margin-top:1em;}&quot;
+        +&quot;.emails {margin-top:1em;}&quot;
+        +&quot;.vcardEnd {clear:right;}&quot;
         +&quot;.url {display: block;}&quot;;
 		setStylesheet(s,&quot;contact&quot;);
 
@@ -717,6 +718,8 @@ config.macros.contact = {
 		// TBD: ideally split WikiName and set as first child node ..
 		if(!this.getElementByClass(vcard,'fn'))
 			this.addItem_element(vcard,this.fieldDictionary['fn'],tiddlerName);
+
+		createTiddlyElement(vcard,'div',null,'vcardEnd',null);
 
 		return contact;
 	},
@@ -888,7 +891,7 @@ config.macros.contactLoadCSV = {
 //}}}
 </pre>
 </div>
-<div title="DanDemouser" modifier="PaulDowney" created="200706201545" changecount="3">
+<div title="DanDemouser" modifier="PaulDowney" created="200706201545" changecount="17">
 <pre>|company|Zimbra|
 |email|bzkdug3pukzp@demo.zimbra.com|
 |firstName|Dan|
@@ -909,12 +912,25 @@ config.macros.contactLoadCSV = {
 |''tel:''|+1555-01234|
 </pre>
 </div>
+<div title="JeremyRuston" modifier="PaulDowney" modified="200706201639" created="200706201604" changecount="3">
+<pre>|''Fullname:''|Jeremy Ruston|
+|''Company:''|BT Osmosoft|
+|''Mobile:''|+447801730447|
+|''HomeEmail:''|jeremy.ruston@gmail.com|
+|''WorkEmail:''|jeremy.ruston@bt.com|
+|''Jabber:''|jeremy.ruston@gmail.com|
+|''url:''|http://osmosoft.com/|
+|''Street''|Tiddly Towers|
+|''City''|Ashwell|
+|''PostCode''|SG7|
+|''Country:''|UK|</pre>
+</div>
 <div title="John Doe" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
 <pre>|''Fullname:''|John Doe|
 |''Tel:''|+447918|
 </pre>
 </div>
-<div title="LauraLinux" modifier="PaulDowney" created="200706201545" changecount="3">
+<div title="LauraLinux" modifier="PaulDowney" created="200706201545" changecount="17">
 <pre>|company|Open Source Corp.|
 |email|Laura.Linux@demo.zimbra.com|
 |firstName|Laura|
@@ -924,11 +940,11 @@ config.macros.contactLoadCSV = {
 |workPhone|212-555-8930|
 </pre>
 </div>
-<div title="PaulDowney" modifier="PaulDowney" modified="200706112229" created="200706110938" tags="addressbook" changecount="1">
+<div title="PaulDowney" modifier="PaulDowney" modified="200706201600" created="200706110938" tags="addressbook" changecount="4">
 <pre>|''Fullname:''|Paul Downey|
 |''Company:''|BT|
-|''Mobile:''|+4479188|
-|''WorkTel:''|+441442|
+|''Mobile:''|+447918880881|
+|''WorkTel:''|+441442296260|
 |''HomeEmail:''|paul.downey@whatfettle.com|
 |''WorkEmail:''|paul.downey@bt.com|
 |''YIM:''|sumnerdowney|
@@ -955,7 +971,7 @@ config.macros.contactLoadCSV = {
 |''AIM:''|Prof Gilzot|
 </pre>
 </div>
-<div title="SarahSoap" modifier="PaulDowney" created="200706201545" changecount="3">
+<div title="SarahSoap" modifier="PaulDowney" created="200706201545" changecount="17">
 <pre>|company|Web Services, Inc.|
 |email|Sarah.Soap@demo.zimbra.com|
 |firstName|Sarah|
@@ -964,16 +980,36 @@ config.macros.contactLoadCSV = {
 |workPhone|312-555-5402|
 </pre>
 </div>
-<div title="SomeContacts" modifier="PaulDowney" modified="200706201547" created="200706111326" changecount="5">
+<div title="SomeContacts" modifier="PaulDowney" modified="200706201643" created="200706111326" changecount="15">
 <pre>&lt;&lt;contactLoadCSV &quot;ZimbraCSV&quot;&gt;&gt;
 &lt;&lt;contact &quot;PaulDowney&quot;&gt;&gt;
-&lt;&lt;contact &quot;John Doe&quot;&gt;&gt;
-&lt;&lt;contact JaneDoe&gt;&gt;
-&lt;&lt;contact &quot;Prof Gilzot&quot;&gt;&gt;
-&lt;&lt;contact PietPompies&gt;&gt;
-&lt;&lt;contact LauraLinux&gt;&gt;
-&lt;&lt;contact +TaggedPeeps&gt;&gt;
+&lt;&lt;contact &quot;JeremyRuston&quot;&gt;&gt;
+&lt;&lt;contact &quot;WhartonWest&quot;&gt;&gt;
+&lt;&lt;contact WestinStFrancis&gt;&gt;
+
 </pre>
+</div>
+<div title="WestinStFrancis" modifier="PaulDowney" created="200706201643" changecount="1">
+<pre>|Fullname|Westin St Francis|
+|org|Westin|
+|''WorkTel''|+14153977000|
+|''url:''|http://www.westinstfrancis.com/|
+|''Street:''|Union Square|
+|''City:''|San Francisco|
+|''PostCode:''|94102|
+|''State:''|California|
+|''Country:''|US|</pre>
+</div>
+<div title="WhartonWest" modifier="PaulDowney" modified="200706201618" created="200706201617" changecount="2">
+<pre>|Fullname|Wharton West Campus|
+|org|University of Pennsylvania|
+|''WorkTel''|+4157771000|
+|''url:''|http://www.wharton.upenn.edu/campus/wharton_west/|
+|''Street:''|101 Howard Street, Suite 500|
+|''City:''|San Francisco|
+|''PostCode:''|94105|
+|''State:''|California|
+|''Country:''|US|</pre>
 </div>
 <div title="ZimbraCSV" modifier="PaulDowney" modified="200706112229" created="200706110938" changecount="1">
 <pre>{{{&quot;assistantPhone&quot;,&quot;birthday&quot;,&quot;callbackPhone&quot;,&quot;carPhone&quot;,&quot;company&quot;,&quot;companyPhone&quot;,&quot;description&quot;,&quot;department&quot;,&quot;dlist&quot;,&quot;email&quot;,&quot;email2&quot;,&quot;email3&quot;,&quot;fileAs&quot;,&quot;firstName&quot;,&quot;fullName&quot;,&quot;homeCity&quot;,&quot;homeCountry&quot;,&quot;homeFax&quot;,&quot;homePhone&quot;,&quot;homePhone2&quot;,&quot;homePostalCode&quot;,&quot;homeState&quot;,&quot;homeStreet&quot;,&quot;homeURL&quot;,&quot;initials&quot;,&quot;jobTitle&quot;,&quot;lastName&quot;,&quot;middleName&quot;,&quot;mobilePhone&quot;,&quot;namePrefix&quot;,&quot;nameSuffix&quot;,&quot;nickname&quot;,&quot;notes&quot;,&quot;office&quot;,&quot;otherCity&quot;,&quot;otherCountry&quot;,&quot;otherFax&quot;,&quot;otherPhone&quot;,&quot;otherPostalCode&quot;,&quot;otherState&quot;,&quot;otherStreet&quot;,&quot;otherURL&quot;,&quot;pager&quot;,&quot;workCity&quot;,&quot;workCountry&quot;,&quot;workFax&quot;,&quot;workPhone&quot;,&quot;workPhone2&quot;,&quot;workPostalCode&quot;,&quot;workState&quot;,&quot;workStreet&quot;,&quot;workURL&quot;,&quot;type&quot;
