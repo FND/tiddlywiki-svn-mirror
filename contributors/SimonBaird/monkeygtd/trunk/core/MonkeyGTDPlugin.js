@@ -587,18 +587,6 @@ config.mGTD = {
 	},
 
 	arrayMethods: {
-		map: function(func) {
-			var result = [];
-			for (var i=0;i<this.length;i++)
-				result.push(func(this[i]));
-			return result;
-		},
-
-		each: function(func) {
-			for (var i=0;i<this.length;i++)
-				func(this[i]);
-		},
-
 		asList: function(level, viewType, gViewType, limit, subExpr, showEmpty, onlyShowEmpty, sortBy, sortExpr) {
 			var output = "";
 			for (var i=0;(i<this.length && (!limit || i<limit));i++)
