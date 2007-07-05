@@ -1,7 +1,7 @@
 /***
 | Name|TagglyTaggingPlugin|
 | Description|tagglyTagging macro is a replacement for the builtin tagging macro in your ViewTemplate|
-| Version|3.0 ($Rev$)|
+| Version|3.1 ($Rev$)|
 | Date|$Date$|
 | Source|http://mptw.tiddlyspot.com/#TagglyTaggingPlugin|
 | Author|Simon Baird <simon.baird@gmail.com>|
@@ -227,7 +227,7 @@ config.taggly = {
 		else if (this.getTagglyOpt(inTiddlerTitle,"excerpts") == "sliders") {
 			var t = store.getTiddler(title);
 			if (t) {
-				return "++++ open\n{{contents{\n" + t.text + "\n}}}\n====";
+				return "<slider open>\n{{contents{\n" + t.text + "\n}}}\n</slider>";
 			}
 		}
 		return "";
@@ -485,12 +485,17 @@ config.taggly.init();
 InlineSlidersPlugin
 By Saq Imtiaz
 http://tw.lewcid.org/sandbox/#InlineSlidersPlugin
+
+// syntax adjusted to not clash with NestedSlidersPlugin
+
 ***/
 //{{{
 config.formatters.unshift( {
 	name: "inlinesliders",
-	match: "\\+\\+\\+\\+|\\<slider",
-	lookaheadRegExp: /(?:\+\+\+\+|<slider) (.*?)(?:>?)\n((?:.|\n)*?)\n(?:====|<\/slider>)/mg,
+	// match: "\\+\\+\\+\\+|\\<slider",
+	match: "\\<slider",
+	// lookaheadRegExp: /(?:\+\+\+\+|<slider) (.*?)(?:>?)\n((?:.|\n)*?)\n(?:====|<\/slider>)/mg,
+	lookaheadRegExp: /(?:<slider) (.*?)(?:>)\n((?:.|\n)*?)\n(?:<\/slider>)/mg,
 	handler: function(w) {
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source)
