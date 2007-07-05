@@ -6,7 +6,11 @@
 # r4tw is some ruby classes for manipuating TiddlyWikis and tiddlers.
 # It is similar to cook and ginsu but cooler.
 #
-# <i>$Rev: 2191 $</i>
+# <i>$Rev: 2238 $</i>
+# 
+# ===Known problems
+# from_remote_tw can be problematic if importing from a 2.1 TW into a 2.2 TW.
+#
 
 
 #---------------------------------------------------------------------
@@ -65,11 +69,6 @@ class String
     self
   end
 
-  # was using this for test units but actually I don't think it's needed any more
-  def eat_ctrl_m!
-    gsub!("\x0d",'')
-  end
-
 end
 
 class Array
@@ -105,7 +104,7 @@ end
 # =Tiddler
 # For creating and manipulating tiddlers
 # ===Example
-#  puts Tiddler.new.from_scratch('tiddler'=>'Hello','text'=>'Hi there').to_s
+#  puts Tiddler.new({'tiddler'=>'Hello','text'=>'Hi there','tags'=>['tag1','tag2']})
 
 class Tiddler
 
@@ -113,9 +112,8 @@ class Tiddler
   # and soon to be changecount?
 
   # text is not really a field in TiddlyWiki it makes
-  # things easier to make it one here.  It could possibly
-  # clash with a real field called text.  This might be a
-  # serious problem but I will ignore it for now...
+  # things easier to make it one here. It could possibly
+  # clash with a real field called text. Ignore this fact for now...
 
   @@defaults = {
       'tiddler'  => 'New Tiddler',
@@ -131,46 +129,109 @@ class Tiddler
       '.js'      => %[systemConfig],
       '.html'    => %[html],
       '.css'     => %[css],
-      '.pub'     => %[systemServer],
+      '.pub'     => %[contentPublisher],
       '.palette' => %[palette],
   }
   
   attr_accessor :fields
 
-  #
-  # New by itself doesn't do much so instead you usually use one of these:
-  # * Tiddler.new.from_scratch
-  # * Tiddler.new.from_div
-  # * Tiddler.new.from_file
-  # * Tiddler.new.from_url
-  # * Tiddler.new.from_remote_tw
-  #
-  def initialize
-        @fields = {}
-  end
-
-  #
-  # Creates a tiddler from scratch. 
-  # Fields containing
+  # Depending on the arguments this can be used to create or import a tiddler in various ways.
+  # 
+  # ===From scratch
+  # If the argument is a Hash then it is used to specify a tiddler to be created from
+  # scratch.
+  # 
   # Example:
-  #  t = Tiddler.new({
+  #  t = Tiddler.new.from({
   #    'tiddler'=>'HelloThere',
   #    'text'=>'And welcome',
   #  })
   # Other built-in fields are +modified+, +created+, +modifier+ and +tags+. Any other
-  # fields you add will be created as tiddler extended fields.
+  # fields you add will be created as tiddler extended fields. Text is the contents of
+  # the tiddler. Tiddler is the title of the tiddler. 
   #
-  def from_scratch(fields={})
+  #
+  # ===From a file
+  # If the argument looks like a file name (ie a string that doesn't match the other
+  # criteria then create a tiddler with the name being the file name and the
+  # contents being the contents of the file. Does some guessing about tags based on 
+  # the file's extension. (This is customisable, see code for details). Also reads the
+  # file modified date and uses it.
+  # 
+  # Example:
+  #  t = Tiddler.new.from("myplugin.js")
+  # 
+  # ===From a TiddlyWiki
+  # If the argument is in the form file.html#TiddlerName or http://sitename.com/#TiddlerName
+  # then import TiddlerName from the specified location
+  # 
+  # Example:
+  #  t1 = Tiddler.new.from("myfile.html#SomeTiddler")
+  #  t2 = Tiddler.new.from("http://www.tiddlywiki.com/#HelloThere")
+  # 
+  # 
+  # ===From a url
+  # Creates a tiddler from a url. The entire contents of the page are the contents
+  # of the tiddler. You should set the 'tiddler' field and other fields using a hash 
+  # as the second argument in the same format as creating a tiddler from scratch.
+  # There is no automatic tagging for this one so you should add tags yourself as required
+  # 
+  # Example:
+  #  t = Tiddler.new.from(
+  #    "http://svn.somewhere.org/Trunk/HelloWorld.js",
+  #    {'tiddler'=>'HelloWorld','tags'=>'systemConfig'}
+  #  )
+  # 
+  # 
+  # ===From a div string
+  # If the argument is a string containing a tiddler div such
+  # as would be found in a TiddlyWiki storeArea then the tiddler
+  # is created from that div
+  #
+  def initialize(*args)
+    @fields = {}
+ 
+    case args[0]
+      when Hash
+        from_scratch(*args)
+
+      when Tiddler
+        from_tiddler(*args)
+        
+      when /^\s*<div/
+        from_div(*args)
+
+      when /#/
+        from_tiddler(from_tw(*args))
+        
+      when /^(ftp|http|file):/
+        from_url(*args)
+
+      when String
+        from_file(*args)
+
+    end
+    
+  end
+
+
+  # Intende to become private but not yet because
+  # all the test units use them
+  # 
+  #private  
+  
+  def from_tiddler(other_tiddler)
+    @fields = {}
+    @fields.update(other_tiddler.fields)
+  end
+  
+  def from_scratch(fields={}) #:nodoc:
     @fields = @@defaults.merge(fields)
     @fields['tags'] &&= @fields['tags'].toBrackettedList # in case it's an array
     self
   end
-
-  #
-  # Creates a tiddler from a string containg an html div such as
-  # would be found in a TiddlyWiki storeArea
-  #
-  def from_div(div_str)
+  
+  def from_div(div_str,use_pre=true) #:nodoc:
     match_data = div_str.match(/<div([^>]+)>(.*?)<\/div>/m)
     field_str = match_data[1]
     text_str = match_data[2]
@@ -185,51 +246,42 @@ class Tiddler
     text_str.sub!(/\n<pre>/,'')
     text_str.sub!(/<\/pre>\n/,'')
 
-    @fields['text'] = text_str.unescapeLineBreaks.decodeHTML
+    if (use_pre)
+      @fields['text'] = text_str.decodeHTML
+    else
+      @fields['text'] = text_str.unescapeLineBreaks.decodeHTML
+    end
 
     self
   end
 
-  #
-  # Creates a tiddler from a file.
-  # Does some guessing about tags based on the file's extension
-  # 
-  def from_file(file_name, ext_tag_map=@@default_ext_tag_map)
+  def from_file(file_name, fields={}, ext_tag_map=@@default_ext_tag_map) #:nodoc:
     ext = File.extname(file_name)
     base = File.basename(file_name,ext)
-    @fields = @@defaults.dup
+    @fields = @@defaults.merge(fields)    
     @fields['tiddler'] = base
     @fields['text'] = read_file(file_name)
-    @fields['modified'] = File.mtime(file_name).convertToYYYYMMDDHHMM
-    @fields['created'] = @fields['modified']
+    @fields['created'] = File.mtime(file_name).convertToYYYYMMDDHHMM
+    # @fields['modified'] = @fields['created']
     @fields['tags'] = ext_tag_map[ext].toBrackettedList if ext_tag_map[ext]
     self
   end
 
-  #
-  # Creates a tiddler from a url. The entire contents of the page are the contents
-  # of the tiddler.
-  # You should set the 'tiddler' field and other fields using the field param
-  # There is no automatic tagging for this one. 
-  # 
-  def from_url(url,fields={})
-    @text = fetch_url(url)
+  def from_url(url,fields={}) #:nodoc:
     @fields = @@defaults.merge(fields)    
+    @fields['text'] = fetch_url(url)
     self
   end
 
-  #
-  # Reads a tiddler from a remote TiddlyWiki file specified by a url
-  # with a #TiddlerName appended, eg
-  #  Tiddler.new.from_remote_tw("http://www.tiddlywiki.com/#HelloThere")
-  #
-  def from_remote_tw(url)
-    tiddler_name = url.split("#").last
-    ## XXX want to make it TiddlyWiki.new.from_url(url)
-    puts url
-    puts tiddler_name
-    make_tw{ source_url(url) }.get_tiddler(tiddler_name)
+  def from_tw(tiddler_url) #:nodoc:
+    # this works if url is a local file, eg "somefile.html#TiddlerName"
+    # as well as if it's a remote file, eg "http://somewhere.com/#TiddlerName"
+    location,tiddler_name = tiddler_url.split("#")
+    TiddlyWiki.new.source_empty(location).get_tiddler(tiddler_name)
   end
+  
+  alias from_remote_tw from_tw #:nodoc:
+  alias from_local_tw from_tw #:nodoc:
 
   # Returns a hash containing the tiddlers extended fields
   # Probably would include changecount at this stage at least
@@ -238,11 +290,18 @@ class Tiddler
   end
 
   # Converts to a div suitable for a TiddlyWiki store area
-  def to_s(use_pre=false)
+  def to_s(use_pre=true)
 
     fields_string =
       @@main_fields.
-        reject{|f| f == 'modified' and !@fields[f]}.
+        reject{ |f|
+          use_pre and (
+            # seems like we have to leave out modified if there is none
+            (f == 'modified' and !@fields[f]) or
+            # seems like we have to not print tags="" any more
+            (f == 'tags' and (!@fields[f] or @fields[f].length == 0))
+          )
+        }.
         map { |f|
           # support old style tiddler=""
           # and new style title=""
@@ -264,10 +323,7 @@ class Tiddler
 
   end
 
-  # Same as to_s
-  def to_div(use_pre=false)
-    to_s(use_pre)
-  end
+  alias to_div to_s #:nodoc:
 
   # Lets you access fields like this:
   #  tiddler.name
@@ -359,7 +415,7 @@ class Tiddler
     fields['tags'] && fields['tags'].readBrackettedList.include?(tag)
   end
 
-  # Returns all tiddler slice
+  # Returns a Hash containing all tiddler slices
   def get_slices
     if not @slices
       @slices = {}
@@ -406,7 +462,7 @@ class TiddlyWiki
   attr_accessor :orig_tiddlers, :tiddlers, :raw
 
   # doesn't do much. probably should allow an empty file param
-  def initialize(use_pre=false)
+  def initialize(use_pre=true)
     @use_pre = use_pre
     @tiddlers = []
   end
@@ -424,7 +480,7 @@ class TiddlyWiki
   # initialise a TiddlyWiki from a source file
   # will treat empty_file as a url if it looks like one
   # note that it doesn't have to be literally empty
-  def source_empty(empty_file)
+  def source_empty(empty_file,&block)
     @empty_file = empty_file
     if empty_file =~ /^https?/
       @raw = fetch_url(@empty_file)
@@ -435,13 +491,17 @@ class TiddlyWiki
     # stupid ctrl (\r) char
     #@raw.eat_ctrl_m!
 
-    if @raw =~ /var version = \{title: "TiddlyWiki", major: 2, minor: 2/
-      @use_pre = true
+    if @raw =~ /var version = \{title: "TiddlyWiki", major: 2, minor: 1/
+      @use_pre = false
     end
 
     @core_hacks = []
     @orig_tiddlers = get_orig_tiddlers
     @tiddlers = @orig_tiddlers
+      
+    instance_eval(&block) if block
+    
+    self
   end
 
   # reads an empty from a file on disk
@@ -492,7 +552,7 @@ class TiddlyWiki
 
   def get_orig_tiddlers #:nodoc:
     tiddler_divs.map do |tiddler_div|
-      Tiddler.new.from_div(tiddler_div)
+      Tiddler.new.from_div(tiddler_div,@use_pre)
     end
   end
 
@@ -513,30 +573,10 @@ class TiddlyWiki
     tiddler
   end
 
+
   # removes a tiddler by name
   def remove_tiddler(tiddler_name)
     @tiddlers.reject!{|t| t.name == tiddler_name}
-  end
-  
-  # adds a tiddler from a url
-  # see also +Tiddler::from_url+
-  # XXX is this obsoleted by method_missing?
-  def add_tiddler_from_url(url,fields)
-    add_tiddler Tiddler.new.from_url(url,fields)
-  end
-
-  # adds a tiddler from a remote TW
-  # see also +Tiddler::from_remote_tw+
-  # XXX is this obsoleted by method_missing?
-  def add_tiddler_from_remote_tw(url)
-    add_tiddler Tiddler.new.from_remote_tw(url)
-  end
-
-
-  # adds a tiddler from a file
-  # see also +Tiddler#from_file+
-  def add_tiddler_from_file(file_name)
-    add_tiddler Tiddler.new.from_file("#{file_name}")
   end
 
   # adds a shadow tiddler
@@ -569,6 +609,15 @@ class TiddlyWiki
     end
   end
 
+  def add_tiddler_from(*args)
+    add_tiddler Tiddler.new(*args)
+  end
+  
+  def add_tiddlers_from(tiddler_list)
+     tiddler_list.each { |t| add_tiddler Tiddler.new(t) }
+  end
+
+
   # add tiddlers from files found in directory dir_name
   # TODO exclude pattern?
   def add_tiddlers_from_dir(dir_name)
@@ -595,7 +644,7 @@ class TiddlyWiki
   def add_tiddlers_from_file(file_name)
     # a file full of divs
     File.read(file_name).to_a.inject([]) do |tiddlers,tiddler_div|
-      @tiddlers << Tiddler.new.from_div(tiddler_div)
+      @tiddlers << Tiddler.new.from_div(tiddler_div,@use_pre)
     end
   end
 
@@ -667,10 +716,27 @@ class TiddlyWiki
   # copy all tiddlers from another TW file into this TW
   # good for creating Tiddlyspot flavours
   def copy_all_tiddlers_from(file_name)
-    # TODO want to do it like this TiddlyWiki.new(file_name).tiddlers.each
-    # so need file_name in initialise
-    make_tw { source_file file_name }.tiddlers.each do |t|
+    TiddlyWiki.new.source_empty(file_name).tiddlers.each do |t|
       add_tiddler t
+    end
+  end
+
+  # write all tiddlers to files in dir_name
+  def write_all_tiddlers_to(dir_name)
+    tiddlers.each do |t|
+
+      ext = 'tiddler'
+
+      # TODO improve this
+      if t.tags and t.tags.include? "systemConfig"
+        ext = 'js'
+      elsif t.name =~ /Template/
+        ext = 'html'
+      elsif t.name =~ /(StyleSheet|Styles)/
+        ext = 'css'
+      end
+
+      t.text.to_file("#{dir_name}/#{t.name}.#{ext}")
     end
   end
 
@@ -679,11 +745,10 @@ end
 #
 # A short hand for DSL style TiddlyWiki creation. Takes a block of TiddlyWiki methods that get instance_eval'ed
 #
-def make_tw(&block)
+def make_tw(source=nil,&block)
   tw = TiddlyWiki.new
-  if block
-    tw.instance_eval(&block)
-  end
+  tw.source_empty(source) if source
+  tw.instance_eval(&block) if block
   tw
 end
 

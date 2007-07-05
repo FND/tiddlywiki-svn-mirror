@@ -30,3 +30,13 @@ make_tw {
   to_file               'upload/empty_nolayout.html'
 }
 
+
+# update the main site (new)
+#
+make_tw {
+  # fetches the current site
+  source_file           'http://mptw.tiddlyspot.com/'
+  copy_all_tiddlers_from('upload/upgrade.html')
+  to_file 'upload/index.html'
+}
+

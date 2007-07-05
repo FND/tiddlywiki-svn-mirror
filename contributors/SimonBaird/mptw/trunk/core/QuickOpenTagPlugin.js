@@ -44,19 +44,22 @@ config.quickOpenTag = {
 
 	allTagsHandler: function(place,macroName,params) {
 		var tags = store.getTags(params[0]);
+		var filter = params[1]; // new feature
 		var ul = createTiddlyElement(place,"ul");
 		if(tags.length == 0)
 			createTiddlyElement(ul,"li",null,"listTitle",this.noTags);
 		for(var t=0; t<tags.length; t++) {
 			var title = tags[t][0];
-			var info = getTiddlyLinkInfo(title);
-			var theListItem =createTiddlyElement(ul,"li");
-			var theLink = createTiddlyLink(theListItem,tags[t][0],true);
-			var theCount = " (" + tags[t][1] + ")";
-			theLink.appendChild(document.createTextNode(theCount));
-			var theDropDownBtn = createTiddlyButton(theListItem," " +
-				config.quickOpenTag.dropdownChar,this.tooltip.format([tags[t][0]]),onClickTag);
-			theDropDownBtn.setAttribute("tag",tags[t][0]);
+			if (!filter || (title.match(new RegExp('^'+filter)))) {
+				var info = getTiddlyLinkInfo(title);
+				var theListItem =createTiddlyElement(ul,"li");
+				var theLink = createTiddlyLink(theListItem,tags[t][0],true);
+				var theCount = " (" + tags[t][1] + ")";
+				theLink.appendChild(document.createTextNode(theCount));
+				var theDropDownBtn = createTiddlyButton(theListItem," " +
+					config.quickOpenTag.dropdownChar,this.tooltip.format([tags[t][0]]),onClickTag);
+				theDropDownBtn.setAttribute("tag",tags[t][0]);
+			}
 		}
 	},
 
