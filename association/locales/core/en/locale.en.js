@@ -4,8 +4,8 @@
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Source:''|www.example.com |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
-|''Version:''|0.3.5|
-|''Date:''|Jun 16, 2007|
+|''Version:''|0.3.6|
+|''Date:''|Jul 6, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/ ]]|
 |''~CoreVersion:''|2.2|
@@ -20,8 +20,8 @@
 
 config.locale = "en"; // W3C language tag
 
-if(!config.options['txtUserName'])
-	config.options['txtUserName'] = "YourName";
+if (config.options.txtUserName == 'YourName') // do not translate this line, but do translate the next line
+	merge(config.options,{txtUserName: "YourName"});
 
 merge(config.tasks,{
 	save: {text: "save", tooltip: "Save your changes to this TiddlyWiki", action: saveChanges},
@@ -137,7 +137,7 @@ merge(config.views.wikified,{
 	defaultText: "The tiddler '%0' doesn't yet exist. Double-click to create it",
 	defaultModifier: "(missing)",
 	shadowModifier: "(built-in shadow tiddler)",
-	dateFormat: "DD MMM YYYY",
+	dateFormat: "DD MMM YYYY", // use this to change the date format for your locale, eg "YYYY MMM DD", do not translate the Y, M or D
 	createdPrompt: "created"});
 
 merge(config.views.editor,{
@@ -172,7 +172,7 @@ merge(config.macros.tagging,{
 	tooltip: "List of tiddlers tagged with '%0'"});
 
 merge(config.macros.timeline,{
-	dateFormat: "DD MMM YYYY"});
+	dateFormat: "DD MMM YYYY"});// use this to change the date format for your locale, eg "YYYY MMM DD", do not translate the Y, M or D
 
 merge(config.macros.allTags,{
 	tooltip: "Show tiddlers tagged with '%0'",
@@ -412,10 +412,12 @@ merge(config.commands.fields,{
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "[[TranslatedGettingStarted]]",
-	MainMenu: "[[TranslatedGettingStarted]]",
+	MainMenu: "[[TranslatedGettingStarted]]\n\n\n^^~TiddlyWiki version <<version>>\n© 2007 [[UnaMesa|http://www.unamesa.org/]]^^",
+	TranslatedGettingStarted: "To get started with this blank TiddlyWiki, you'll need to modify the following tiddlers:\n* SiteTitle & SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the TiddlyWiki is opened\nYou'll also need to enter your username for signing your edits: <<option txtUserName>>",
 	SiteTitle: "My TiddlyWiki",
 	SiteSubtitle: "a reusable non-linear personal web notebook",
 	SiteUrl: "http://www.tiddlywiki.com/",
+	OptionsPanel: "These Interface Options for customising TiddlyWiki are saved in your browser\n\nYour username for signing your edits. Write it as a WikiWord (eg JoeBloggs)\n<<option txtUserName>>\n\n<<option chkSaveBackups>> Save backups\n<<option chkAutoSave>> Auto save\n<<option chkRegExpSearch>> Regexp search\n<<option chkCaseSensitiveSearch>> Case sensitive search\n<<option chkAnimate>> Enable animations\n\n----\nAlso see [[TranslatedAdvancedOptions|AdvancedOptions]]",
 	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Change TiddlyWiki advanced options">>',
 	SideBarTabs: '<<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>',
 	TabMore: '<<tabs txtMoreTab "Missing" "Missing tiddlers" TabMoreMissing "Orphans" "Orphaned tiddlers" TabMoreOrphans "Shadowed" "Shadowed tiddlers" TabMoreShadowed>>'});
