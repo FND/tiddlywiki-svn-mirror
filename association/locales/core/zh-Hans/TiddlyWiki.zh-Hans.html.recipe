@@ -1,8 +1,5 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 tiddler: locale.zh-Hans.js
-tiddler: GettingStarted.tiddler
-tiddler: OptionsPanel.tiddler
-tiddler: StyleSheet.tiddler
 tiddler: Credits.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: DownloadedSoftware.tiddler

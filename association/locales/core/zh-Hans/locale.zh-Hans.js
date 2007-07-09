@@ -4,14 +4,14 @@
 |''Source:''|http://tiddlywiki-zh.googlecode.com/svn/trunk/|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hans/locale.zh-Hans.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
-|''Version:''|2.2.0.5|
-|''Date:''|May 10, 2007|
+|''Version:''|2.2.4|
+|''Date:''|Jul 8, 2007|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
 ***/
 
-/*{{{*/
+//{{{
 // --
 // -- Translateable strings
 // --
@@ -21,8 +21,8 @@
 config.locale = 'zh-Hans'; // W3C language tag
 //# config.options.txtFileSystemCharSet = 'GBK';
 
-if (!config.options.txtUserName)
-	config.options.txtUserName = "YourName";
+if (config.options.txtUserName == 'YourName') // do not translate this line, but do translate the next line
+	merge(config.options,{txtUserName: "YourName"});
 
 merge(config.tasks,{
 	save: {text: "保存", tooltip: "保存变更至此 TiddlyWiki", action: saveChanges},
@@ -413,15 +413,15 @@ merge(config.commands.fields,{
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "GettingStarted",
-//#	GettingStarted: "使用此 TiddlyWiki 的空白范本之前，请先修改以下默认文章：\n* SiteTitle 及 SiteSubtitle：网站的标题和副标题，显示于页面上方<br />（在保存变更后，将显示于浏览器视窗的标题列）。\n* MainMenu：主菜单（通常在页面左侧）。\n* DefaultTiddlers：包含一些文章的标题，可于进入TiddlyWiki 后开启。\n请输入您的大名，作为所创建/ 编辑文章的署名：<<option txtUserName>>",
-	MainMenu: "[[使用说明|GettingStarted]]",
-//#	OptionsPanel: "这些设置将缓存于浏览器\n请签名<<option txtUserName>>\n(范例：WikiWord)\n\n<<option chkSaveBackups>> 保存备份\n<<option chkAutoSave>> 自动保存\n<<option chkRegExpSearch>> 正规式搜寻\n<<option chkCaseSensitiveSearch>> 区分大小写搜寻\n<<option chkAnimate>> 使用动画显示\n----\n[[进阶选项|AdvancedOptions]]",
+	GettingStarted: "使用此 TiddlyWiki 的空白范本之前，请先修改以下默认文章：\n* SiteTitle 及 SiteSubtitle：网站的标题和副标题，显示于页面上方<br />（在保存变更后，将显示于浏览器视窗的标题列）。\n* MainMenu：主菜单（通常在页面左侧）。\n* DefaultTiddlers：包含一些文章的标题，可于进入TiddlyWiki 后开启。\n请输入您的大名，作为所创建/ 编辑文章的署名：<<option txtUserName>>",
+	MainMenu: "[[使用说明|GettingStarted]]\n\n\n^^~TiddlyWiki 版本：<<version>>\n© 2007 [[UnaMesa|http://www.unamesa.org/]]^^",
+	OptionsPanel: "这些设置将缓存于浏览器\n请签名<<option txtUserName>>\n(范例：WikiWord)\n\n<<option chkSaveBackups>> 保存备份\n<<option chkAutoSave>> 自动保存\n<<option chkRegExpSearch>> 正规式搜寻\n<<option chkCaseSensitiveSearch>> 区分大小写搜寻\n<<option chkAnimate>> 使用动画显示\n----\n[[进阶选项|AdvancedOptions]]",
 	SiteTitle: "我的 TiddlyWiki",
 	SiteSubtitle: "一个可重复使用的个人网页式笔记本",
 	SiteUrl: 'http://www.tiddlywiki.com/',
 	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal " YYYY年0MM月0DD日">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  "偏好设置 »" "变更 TiddlyWiki 选项">>',
 	SideBarTabs: '<<tabs txtMainTab "最近更新" "依更新日期排序" TabTimeline "全部" "所有文章" TabAll "分类" "所有标签" TabTags "更多" "其他" TabMore>>',
-//#	StyleSheet: '[[StyleSheetLocale]]',
+	StyleSheet: '[[StyleSheetLocale]]',
 	TabMore: '<<tabs txtMoreTab "未完成" "内容空白的文章" TabMoreMissing "未引用" "未被引用的文章" TabMoreOrphans "默认文章" "默认的影子文章" TabMoreShadowed>>'});
 
 merge(config.annotations,{
@@ -458,4 +458,4 @@ merge(config.annotations,{
 	TabTimeline: "此默认文章的内容，为于萤幕右侧的“最近更新”页签的内容",
 	ViewTemplate: "此默认文章里的 HTML template 决定文章显示的样子"
 	});
-/*}}}*/
+//}}}
