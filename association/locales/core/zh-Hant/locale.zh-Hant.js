@@ -21,7 +21,7 @@
 config.locale = 'zh-Hant'; // W3C language tag
 //#config.options.txtFileSystemCharSet = 'BIG5';
 
-if (config.options.txtUserName == 'YourName') // do not translate this line, but do translate the next line
+if (config.options.txtUserName == 'YourName' || !config.options.txtUserName) // do not translate this line, but do translate the next line
 	merge(config.options,{txtUserName: "YourName"});
 
 merge(config.tasks,{
