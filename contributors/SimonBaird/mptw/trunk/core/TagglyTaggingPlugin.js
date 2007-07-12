@@ -227,7 +227,7 @@ config.taggly = {
 		else if (this.getTagglyOpt(inTiddlerTitle,"excerpts") == "sliders") {
 			var t = store.getTiddler(title);
 			if (t) {
-				return "<slider open>\n{{contents{\n" + t.text + "\n}}}\n</slider>";
+				return "<slider slide>\n{{contents{\n" + t.text + "\n}}}\n</slider>";
 			}
 		}
 		return "";
@@ -456,7 +456,8 @@ config.taggly = {
 "div.tagglyTagging table tr,",
 "td.tagglyTagging",
 " {border-style:none!important; }",
-".tagglyTagging .contents { border:1px solid [[ColorPalette::TertiaryPale]]; padding:0 1em 0 0.5em; }",
+".tagglyTagging .contents { border-bottom:2px solid [[ColorPalette::TertiaryPale]]; padding:0 1em 1em 0.5em;",
+"  margin-bottom:0.5em; }",
 ".tagglyTagging .indent1  { margin-left:3em;  }",
 ".tagglyTagging .indent2  { margin-left:4em;  }",
 ".tagglyTagging .indent3  { margin-left:5em;  }",
