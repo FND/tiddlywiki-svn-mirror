@@ -1,3 +1,4 @@
+tiddler: AbegoSoftwareServer.tiddler
 tiddler: Adaptor.close.tiddler
 tiddler: Adaptor.getTiddler.tiddler
 tiddler: Adaptor.getTiddlerList.tiddler
@@ -186,6 +187,7 @@ tiddler: ToggleLinks.tiddler
 tiddler: ToolbarButtons.tiddler
 tiddler: ToolbarMacro.tiddler
 tiddler: VistaIssues.tiddler
+tiddler: VisualTWServer.tiddler
 tiddler: W32.Feebs.tiddler
 tiddler: Wii.tiddler
 tiddler: WikiOnAStick.tiddler
