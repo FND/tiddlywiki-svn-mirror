@@ -1,31 +1,3 @@
-../../../core/html/header.html
-@prehead@
-../../../core/html/pretitle.html
-@title@
-../../../core/html/style.html
-../../../core/html/postheadstart.html
-@posthead@
-../../../core/html/postheader.html
-../../../core/html/bodystart.html
-@prebody@
-../../../core/html/body.html
-../../../core/html/prestorearea.html
-@tiddler@
-@posttiddlers@
-../../../core/html/poststorearea.html
-../../../core/html/prepostbody.html
-@postbody@
-../../../core/html/postpostbody.html
-../../../core/html/preshadow.html
+template: tiddlywikiseo.template.html
 recipe: ../../../core/tiddlers/split.recipe
-@shadow@
-../../../core/html/postshadow.html
-../../../core/html/prescript.html
-@prejs@
-@js@
 recipe: ../../../core/js/split.recipe
-@postjs@
-../../../core/html/postscript.html
-../../../core/html/javasaver.html
-../../../core/html/prefooter.html
-../../../core/html/footer.html
