@@ -7,7 +7,7 @@
 |''Version:''|0.3.6|
 |''Date:''|Jul 6, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/ ]]|
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.2|
 ***/
 
@@ -338,9 +338,6 @@ merge(config.macros.sync,{
 		putToServer: {text: "Saved update on server", color: '#ff80ff'},
 		gotFromServer: {text: "Retrieved update from server", color: '#80ffff'}
 		}
-	});
-
-merge(config.macros.annotations,{
 	});
 
 merge(config.commands.closeTiddler,{
