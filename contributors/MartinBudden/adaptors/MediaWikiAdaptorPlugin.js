@@ -210,6 +210,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 //# http://www.wikipedia.org/w/api.php?action=query&list=allpages&aplimit=50&format=jsonfm
 //# http://www.wikipedia.org/w/query.php?what=category&cptitle=Wiki&format=jsonfm
 
+//# http://wiki.unamesa.org/api.php?action=query&list=allpages&apnamespace=10&aplimit=50
 	if(!context.tiddlerLimit)
 		context.tiddlerLimit = filter ? 100 : 50;
 
@@ -254,7 +255,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 			uriTemplate += '&aplimit=%2';
 	}
 	var host = MediaWikiAdaptor.fullHostName(this.host);
-	var uri = uriTemplate.format([host,this.workspace,limit,filterParams]);
+	var uri = uriTemplate.format([host,this.workspaceId,limit,filterParams]);
 //#displayMessage('uri: '+uri);
 
 	var req = MediaWikiAdaptor.doHttpGET(uri,MediaWikiAdaptor.getTiddlerListCallback,context);
@@ -361,6 +362,8 @@ MediaWikiAdaptor.prototype.getTiddlerInternal = function(context,userParams,call
 //#displayMessage('MediaWikiAdaptor.getTiddlerInternal:'+context.title+" revision:"+context.revision);
 //# http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Elongation&rvprop=content
 //# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&prop=revisions&titles=Main%20Page&rvprop=content
+//# http://www.tiddlywiki.org/api.php?action=query&prop=revisions&titles=Main%20Page&rvprop=content
+//# http://wiki.unamesa.org/api.php?action=query&prop=revisions&titles=Main%20Page&rvprop=content
 	var host = MediaWikiAdaptor.fullHostName(this.host);
 	if(context.revision) {
 		var uriTemplate = '%0api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content&rvstartid=%2&rvlimit=1';
