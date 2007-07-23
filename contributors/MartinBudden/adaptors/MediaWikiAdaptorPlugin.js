@@ -104,16 +104,31 @@ MediaWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams
 	context = this.setContext(context,userParams,callback);
 	var workspaces = {
 		"media": -2, "special":-1,
-		"": 0, "talk":1,"use":2,"use talk":3,"meta":4,"meta talk":5,"image":6,"image talk":7,
+		"":0, "talk":1,"user":2,"user talk":3,"meta":4,"meta talk":5,"image":6,"image talk":7,
 		"mediawiki":8,"mediawiki talk":9,"template":10,"template talk":11,"help":12,"help talk":13,
 		"category":14,"category talk":15};
 	this.workspace = workspace;
 	if(workspace) {
-		workspace = workspace.toLowerCase();
-		this.workspaceId = workspaces[workspace];
+		if(context.workspaces) {
+			for(var i=0;i<context.workspaces.length;i++) {
+				if(context.workspaces[i].name == workspace) {
+					this.workspaceId = context.workspaces[i].id;
+					break;
+				}
+			}
+		} else {
+			workspace = workspace.toLowerCase();
+			this.workspaceId = workspaces[workspace];
+		}
 	}
-	if(!this.workspaceId)
-		this.workspaceId = 0;
+	if(!this.workspaceId) {
+		if(workspace=="" || workspace=="main")
+			this.workspaceId = 0;
+		else if(workspace.lastIndexOf("talk") != -1)
+			this.workspaceId = 5;
+		else
+			this.workspaceId = 4;
+	}
 //#displayMessage("workspaceId:"+this.workspaceId);
 	if(context.callback) {
 		context.status = true;
@@ -126,7 +141,9 @@ MediaWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callba
 {
 	context = this.setContext(context,userParams,callback);
 //#displayMessage("getWorkspaceList");
-//# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&&meta=siteinfo&siprop=namespaces
+//# http://meta.wikimedia.org/w/api.php?&action=query&meta=siteinfo&siprop=namespaces
+//# http://wikipedia.org/w/api.php?&action=query&meta=siteinfo&siprop=namespaces
+//# http://wiki.unamesa.org/api.php?&action=query&meta=siteinfo&siprop=namespaces
 	if(context.workspace) {
 //#displayMessage("w:"+context.workspace);
 		context.status = true;
@@ -149,10 +166,10 @@ MediaWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callba
 //#			"-1": {"id": -1,"*": "Special"},
 //#			"0": {"id": 0,"*": ""},
 //#			"1": {"id": 1,"*": "Talk"},
-//#			"2": {"id": 2,"*": "Use"},
-//#			"3": {"id": 3,"*": "Use talk"},
-//#			"4": {"id": 4,"*": "Meta"},
-//#			"5": {"id": 5,"*": "Meta talk"},
+//#			"2": {"id": 2,"*": "User"},
+//#			"3": {"id": 3,"*": "User talk"},
+//#			"4": {"id": 4,"*": "Meta"}, //or Wikipedia or UnaMesa
+//#			"5": {"id": 5,"*": "Meta talk"}, // or Wikipedia talk or UnaMesa talk
 //#			"6": {"id": 6,"*": "Image"},
 //#			"7": {"id": 7,"*": "Image talk"},
 //#			"8": {"id": 8,"*": "MediaWiki"},
@@ -186,9 +203,11 @@ MediaWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText
 		var list = [];
 		for(var i in namespaces) {
 			item = {};
+			item.id = namespaces[i]['id'];
 			item.title = namespaces[i]['*'];
 			item.name = item.title;
 			list.push(item);
+//#displayMessage("id:"+item.id+" title:"+item.title+" name:"+item.name);
 		}
 		context.workspaces = list;
 		context.status = true;
@@ -288,7 +307,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
 //#displayMessage('getTiddlerListCallback status:'+status);
-//#displayMessage('rt:'+responseText.substr(0,50));
+//#displayMessage('rt:'+responseText.substr(0,60));
 //#displayMessage('xhr:'+xhr);
 	context.status = false;
 	context.statusText = MediaWikiAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
