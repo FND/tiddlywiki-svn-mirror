@@ -7,7 +7,7 @@
 |''Version:''|0.4.2|
 |''Date:''|May 7, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.1.0|
 
 |''Display instrumentation''|<<option chkDisplayInstrumentation>>|
@@ -89,32 +89,55 @@ Tiddler.prototype.changed = function()
 	this.linksUpdated = true;
 };
 
-TiddlyWiki.prototype.getTemplates = function()
+TiddlyWiki.prototype.getMediaWikiPagesInNamespace = function(namespace)
 {
 	var results = [];
 	this.forEachTiddler(function(title,tiddler) {
-		if(tiddler.title.substr(0,9)=='Template:')
+		if(tiddler.title.indexOf(namespace)==0)
 			results.push(tiddler);
 		});
 	results.sort(function(a,b) {return a.title < b.title ? -1 : +1;});
 	return results;
 };
 
-TiddlyWiki.prototype.getMediaWikiArticles = function()
+TiddlyWiki.prototype.getMediaWikiPages = function()
 {
 	var results = [];
 	this.forEachTiddler(function(title,tiddler) {
-		if(!tiddler.isTagged('excludeLists') && tiddler.title.substr(0,9)!='Template:')
+		if(!tiddler.isTagged('excludeLists') && tiddler.title.indexOf(':')==-1)
 			results.push(tiddler);
 		});
 	results.sort(function(a,b) {return a.title < b.title ? -1 : +1;});
 	return results;
+};
+
+TiddlyWiki.prototype.getMediaWikiOtherPages = function()
+{
+	var results = [];
+	this.forEachTiddler(function(title,tiddler) {
+		if(!tiddler.isTagged('excludeLists') && tiddler.title.indexOf(':')!=-1)
+			results.push(tiddler);
+		});
+	results.sort(function(a,b) {return a.title < b.title ? -1 : +1;});
+	return results;
+};
+
+config.macros.list.otherpages = {};
+config.macros.list.otherpages.handler = function(params)
+{
+	return store.getMediaWikiOtherPages();
 };
 
 config.macros.list.templates = {};
 config.macros.list.templates.handler = function(params)
 {
-	return store.getTemplates();
+	return store.getMediaWikiPagesInNamespace("Template:");
+};
+
+config.macros.list.categories = {};
+config.macros.list.categories.handler = function(params)
+{
+	return store.getMediaWikiPagesInNamespace("Category:");
 };
 
 wikify = function(source,output,highlightRegExp,tiddler)
@@ -152,7 +175,7 @@ MediaWikiFormatter.hijackListAll = function ()
 {
 	MediaWikiFormatter.oldListAll = config.macros.list.all.handler;
 	config.macros.list.all.handler = function(params) {
-		return store.getMediaWikiArticles();
+		return store.getMediaWikiPages();
 	};
 };
 MediaWikiFormatter.hijackListAll();
