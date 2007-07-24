@@ -1,0 +1,15 @@
+<div title="StyleSheet" tags="styles excludeLists excludeSearch">
+<pre>/***
+Place your custom CSS here.
+See http://www.w3schools.com/css/css_colors.asp for a color chart.
+***/
+[[Styles HorizontalMainMenu]]
+[[wikipediaStyle]]
+[[wikipediaAbridged/Skins-1.5.monobook/main.css]]
+[[wikipedia.MediaWiki.Common.css]]
+/*{{{*/
+#mainMenu {background:#007777;}
+body {background:#53c4ea;}
+/*}}}*/
+</pre>
+</div>

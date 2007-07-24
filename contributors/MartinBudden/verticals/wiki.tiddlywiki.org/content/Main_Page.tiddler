@@ -1,0 +1,174 @@
+<div title="Main Page" server.host="www.tiddlywiki.org" wikiformat="mediawiki">
+<pre>
+{{:Tip of the Week}}
+= Welcome to TiddlyWiki.org =
+
+{{Note
+  |[http://trac.tiddlywiki.org/ Looking for '''Trac'''?]
+  |float: left; margin: 0 1em 1em 0; border-style: solid; padding: 2px 5px;
+}}
+[[TiddlyWiki]] is a free reusable, non-linear personal notebook.
+
+[[Project:About|TiddlyWiki.org]] is the place to find documentation and resources for TiddlyWiki users and developers.
+
+This wiki is a community effort, so active [[Project:Community Portal|participation and contributions]] are very welcome!
+
+<!-- portal wrapper -->
+<div class="portal">
+
+<!-- right column wrapper -->
+<div style="float: right; width: 32%;">
+
+<!-- upper panel -->
+<div class="panel">
+== Information for Developers ==
+
+=== Guides ===
+
+* [[Translating TiddlyWiki]]
+* [[Core|Understanding the Core]]
+* [[Plugin Development|Writing Plugins]]
+* [[Macro Development|Writing Macros]]
+
+<h3 style="margin-top: 0.5em;"> Resources </h3>
+
+* [[Subversion]]
+* [[Tickets|Tickets (Bug Tracking)]]
+* [http://groups.google.com/group/TiddlyWikiDev/ Mailing List]
+* [http://nightly.lewcid.org Nightly builds]
+
+<!-- end of upper panel -->
+</div>
+
+<!-- lower panel -->
+<div class="panel">
+== Participate ==
+
+<createbox>
+break=yes
+buttonlabel=Create New Article
+</createbox>
+
+<!-- end of lower panel -->
+</div>
+
+<!-- end of right column wrapper -->
+</div>
+
+<!-- left column wrapper -->
+<div style="margin-right: 33.5%;">
+
+<!-- upper panel -->
+<div class="panel">
+== Information for Users ==
+
+<!-- left column -->
+<div style="float: left; width: 48%; margin-right: 2em; padding: 0;">
+=== Basics ===
+
+* [[TiddlyWiki|About TiddlyWiki]]
+* [[Initial Configuration]]
+* [[Browser-specific Issues]]
+* [[Navigation|Navigation and Tagging]]
+* [[Editing]]
+* [[Printing]]
+* [[TiddlyWiki FAQ|FAQ]]
+
+<!-- end of left column -->
+</div>
+
+<!-- right column -->
+<div style="float: left; padding: 0;">
+=== Advanced Features by Function ===
+* [[Customization and Layout]]
+* [[Setup for Server-Side TiddlyWikis]]
+
+=== Advanced Features by Format ===
+* [[Macros]]
+* [[Plugins]]
+* [[Scripts]]
+* [[StyleSheet Adjustments]]
+* [[PageTemplate Adjustments]]
+* [[ViewTemplate and EditTemplate Adjustments]]
+
+<!-- end of right column -->
+</div>
+
+<!-- end of upper panel -->
+<div style="clear: left;"></div>
+</div>
+
+<!-- lower panel -->
+<div class="panel">
+== External Resources ==
+
+* [http://tiddlywiki.com/#GettingStarted Getting Started] on TiddlyWiki.com
+* [http://www.giffmex.org/twfortherestofus.html TiddlyWiki for the Rest of Us] by Dave Gifford
+* [http://tiddlyspot.com/twhelp/ TW Help] by Morris Gray
+* [http://nothickmanuals.info/doku.php/cheatsheets TiddlyWiki quick reference card] by Dmitri Popov
+* [http://groups.google.com/group/TiddlyWiki TiddlyWiki mailing list] at Google Groups
+* [http://www.tiddlyspot.com TiddlySpot] (free TiddlyWiki hosting)
+* [[TiddlyWiki Resources|More Resources...]]
+
+<!-- end of lower panel -->
+</div>
+
+<!-- end of left column wrapper -->
+</div>
+
+<!-- end of portal wrapper -->
+</div>
+<div style="clear: both;"></div>
+
+For information about using this wiki, please consult the [[Help:Help|help pages]].
+The [[Help_Talk:Help|support desk]] is the place to discuss issues regarding the usage of this wiki.
+
+Some general guidelines can be found at [[Project:Policy|policy]].
+
+<tagcloud style="margin-top: 3em;"></tagcloud>
+__NOTOC__
+__NOEDITSECTION__
+<css>
+h1.firstHeading { /* remove Main Page title */
+  display: none !important;
+}
+
+.portal {
+	clear: both;
+	width: 90%;
+	margin: 2em auto;
+}
+
+.panel {
+	margin-bottom: 1em;
+	border: 1px solid #AAA;
+	padding: 5px;
+	background-color: #EFF7FF;
+}
+
+.panel h2 {
+	margin: -5px;
+	border-bottom: 1px solid #AAA;
+	padding: 0.2em 0;
+	font-size: 120%;
+	font-weight: bold;
+	text-indent: 0.5em;
+	font-variant: small-caps;
+	background-color: #F0F0F0;
+}
+
+.panel h3 {
+	margin: 0;
+	padding: 0;
+}
+
+.panel ul {
+	margin-top: 0;
+}
+
+.tagcloud {
+
+}
+</css>
+</pre>
+</div>
