@@ -59,6 +59,9 @@ if(config.options.chkMediaWikiListReferences == undefined)
 if(config.options.chkDisplayMediaWikiMagicWords == undefined)
 	{config.options.chkDisplayMediaWikiMagicWords = false;}
 
+//#config.textPrimitives.urlPattern = "(([a-zA-Z][0-9a-zA-Z+\\-\\.]*:)?/{0,2}[0-9a-zA-Z;/?:@&=+$\\.\\-_!~*'()%]+)?(#[0-9a-zA-Z;/?:@&=+$\\.\\-_!~*'()%]+)?";
+//#config.textPrimitives.urlPattern = "[a-z]{3,8}:/{0,2}[^\\s:/<>'\"][^\\s/<>'\"]*(?:/|\\b)";
+
 MediaWikiFormatter = {}; // 'namespace' for local functions
 
 mwDebug = function(out,str)
@@ -131,13 +134,13 @@ config.macros.list.otherpages.handler = function(params)
 config.macros.list.templates = {};
 config.macros.list.templates.handler = function(params)
 {
-	return store.getMediaWikiPagesInNamespace("Template:");
+	return store.getMediaWikiPagesInNamespace('Template:');
 };
 
 config.macros.list.categories = {};
 config.macros.list.categories.handler = function(params)
 {
-	return store.getMediaWikiPagesInNamespace("Category:");
+	return store.getMediaWikiPagesInNamespace('Category:');
 };
 
 wikify = function(source,output,highlightRegExp,tiddler)
@@ -941,12 +944,14 @@ config.mediawiki.formatters = [
 					}
 				} else if(lookaheadMatch[6]) {
 					//# Piped link
-					if(config.formatterHelpers.isExternalLink(link)) {
-						e = createExternalLink(w.output,link);
-					} else {
+					if(link.charAt(0)==':')
+						link = link.substring(1);
+					//#if(config.formatterHelpers.isExternalLink(link)) {
+					//#	e = createExternalLink(w.output,link);
+					//#} else {
 					//#mwDebug(w.output,'fm2:'+w.tiddler.title);
 						e = createTiddlyLink(w.output,link,false,null,w.isStatic,w.tiddler);
-					}
+					//#}
 					var oldSource = w.source; var oldMatch = w.nextMatch;
 					w.source = lookaheadMatch[7].trim(); w.nextMatch = 0;
 					w.subWikifyUnterm(e);
@@ -1058,14 +1063,14 @@ config.mediawiki.formatters = [
 		var lookaheadMatch = lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index==w.matchStart) {
 			var link = lookaheadMatch[1];
-			var s = createTiddlyElement2(w.output,'sup');
-			var e = createExternalLink(s,link);
 			if(lookaheadMatch[2]) {
+				var e = createExternalLink(w.output,link);
 				var oldSource = w.source; var oldMatch = w.nextMatch;
 				w.source = lookaheadMatch[2].trim(); w.nextMatch = 0;
 				w.subWikifyUnterm(e);
 				w.source = oldSource; w.nextMatch = oldMatch;
 			} else {
+				e = createExternalLink(createTiddlyElement2(w.output,'sup'),link);
 				w.linkCount++;
 				createTiddlyText(e,'['+w.linkCount+']');
 			}
