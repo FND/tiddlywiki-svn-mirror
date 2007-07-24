@@ -2,12 +2,12 @@
 |''Name:''|MediaWikiAdaptorPlugin|
 |''Description:''|Adaptor for moving and converting data from MediaWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js|
-|''Version:''|0.5.3|
-|''Date:''|Mar 17, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
+|''Version:''|0.5.4|
+|''Date:''|Jul 24, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.2.0|
 
 MediaWiki REST documentation is at:
@@ -100,6 +100,8 @@ MediaWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 
 MediaWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
+	if(!workspace)
+		workspace = "";
 //#displayMessage("openWorkspace:"+workspace);
 	context = this.setContext(context,userParams,callback);
 	var workspaces = {
@@ -144,6 +146,7 @@ MediaWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callba
 //# http://meta.wikimedia.org/w/api.php?&action=query&meta=siteinfo&siprop=namespaces
 //# http://wikipedia.org/w/api.php?&action=query&meta=siteinfo&siprop=namespaces
 //# http://wiki.unamesa.org/api.php?&action=query&meta=siteinfo&siprop=namespaces
+//# http://tiddlywiki.org/api.php?&action=query&meta=siteinfo&siprop=namespaces
 	if(context.workspace) {
 //#displayMessage("w:"+context.workspace);
 		context.status = true;
@@ -194,7 +197,6 @@ MediaWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText
 			eval('var info=' + responseText);
 		} catch (ex) {
 			context.statusText = exceptionText(ex,MediaWikiAdaptor.serverParsingErrorMessage);
-//#displayMessage('getWorkspaceListCallbackException:'+context.statusText);
 			if(context.callback)
 				context.callback(context,context.userParams);
 			return;
@@ -207,7 +209,6 @@ MediaWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText
 			item.title = namespaces[i]['*'];
 			item.name = item.title;
 			list.push(item);
-//#displayMessage("id:"+item.id+" title:"+item.title+" name:"+item.name);
 		}
 		context.workspaces = list;
 		context.status = true;
@@ -380,14 +381,14 @@ MediaWikiAdaptor.prototype.getTiddlerInternal = function(context,userParams,call
 	context = this.setContext(context,userParams,callback);
 //#displayMessage('MediaWikiAdaptor.getTiddlerInternal:'+context.title+" revision:"+context.revision);
 //# http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Elongation&rvprop=content
-//# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&prop=revisions&titles=Main%20Page&rvprop=content
+//# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&prop=revisions&titles=Main%20Page&rvprop=content|timestamp
 //# http://www.tiddlywiki.org/api.php?action=query&prop=revisions&titles=Main%20Page&rvprop=content
-//# http://wiki.unamesa.org/api.php?action=query&prop=revisions&titles=Main%20Page&rvprop=content
+//# http://wiki.unamesa.org/api.php?action=query&prop=revisions&titles=Main%20Page&rvprop=content|timestamp
 	var host = MediaWikiAdaptor.fullHostName(this.host);
 	if(context.revision) {
-		var uriTemplate = '%0api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content&rvstartid=%2&rvlimit=1';
+		var uriTemplate = '%0api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content|timestamp|user&rvstartid=%2&rvlimit=1';
 	} else {
-		uriTemplate = '%0api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content';
+		uriTemplate = '%0api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content|timestamp|user';
 	}
 	uri = uriTemplate.format([host,MediaWikiAdaptor.normalizedTitle(context.title),context.revision]);
 //#displayMessage('uri: '+uri);
@@ -408,6 +409,7 @@ MediaWikiAdaptor.prototype.getTiddlerInternal = function(context,userParams,call
 //#				"title": "Main Page",
 //#				"revisions": {
 //#					"528206": {
+//#						"timestamp": "2007-06-09T22:45:35Z",
 //#						"revid": 528206,
 //#						"pageid": 12631,
 //#						"oldid": 524243,
@@ -434,6 +436,8 @@ MediaWikiAdaptor.getTiddlerCallback = function(status,context,responseText,uri,x
 			var page = MediaWikiAdaptor.anyChild(info.query.pages);
 			var revision = MediaWikiAdaptor.anyChild(page.revisions);
 			context.tiddler.text = revision['*'];
+			context.tiddler.modified = MediaWikiAdaptor.dateFromTimestamp(revision['timestamp']);
+			context.tiddler.modifier = revision['user'];
 			context.tiddler.fields['server.page.revision'] = String(revision['revid']);
 			//#context.tiddler.fields['server.page.version'] = context.tiddler.fields['server.page.revision'];//!! here temporarily for compatibility
 		} catch (ex) {
