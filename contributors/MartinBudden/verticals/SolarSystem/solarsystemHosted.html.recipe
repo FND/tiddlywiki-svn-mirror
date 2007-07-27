@@ -1,4 +1,4 @@
-recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: ../tiddlywikiseobasic.html.recipe
 recipe: split.recipe
 recipe: ../tiddlypedia/splitHostedRevisions.recipe
 tiddler: ../tiddlypedia/Logo.tiddler
@@ -13,4 +13,5 @@ tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../feeds/WikipediaSolarSystemFeed.tiddler
+tiddler: ../../feeds/WikipediaSolarSystemPlanetsFeed.tiddler
 tiddler: ../../feeds/WikipediaSolarSystemTemplateFeed.tiddler

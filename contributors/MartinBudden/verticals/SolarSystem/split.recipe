@@ -1,8 +1,8 @@
-title: title.html
+title: title.txt
 recipe: content/split.recipe
 recipe: templates/split.recipe
-tiddler: ../../tiddlers/MainMenuHome.tiddler
-tiddler: DefaultTiddlers.tiddler
+tiddler: ../tiddlypedia/MainMenu.tiddler
+tiddler: ../tiddlypedia/DefaultTiddlers.tiddler
 tiddler: Home.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
