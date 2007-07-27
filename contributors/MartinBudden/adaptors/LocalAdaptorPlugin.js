@@ -11,8 +11,8 @@
 |''~CoreVersion:''|2.2.0|
 
 path/TiddlyFile.html
-path/tiddlers/<x>.tiddler
-path/tiddlers/revisions/<x>.<nnnn>.tiddler
+path/content/<x>.tiddler
+path/content/revisions/<x>.<nnnn>.tiddler
 ***/
 
 //{{{
@@ -31,6 +31,7 @@ LocalAdaptor.serverType = 'local';
 LocalAdaptor.errorInFunctionMessage = "Error in function LocalAdaptor.%0: %1";
 LocalAdaptor.revisionSavedMessage = "Revision %0 saved";
 LocalAdaptor.baseRevision = 1000;
+LocalAdaptor.contentDirectory = 'content';
 
 LocalAdaptor.prototype.setContext = function(context,userParams,callback)
 {
@@ -44,7 +45,7 @@ LocalAdaptor.prototype.setContext = function(context,userParams,callback)
 // Convert a page title to the normalized form used in uris
 LocalAdaptor.normalizedTitle = function(title)
 {
-	var id = title.toLowerCase();
+	var id = title;
 	id = id.replace(/\s/g,'_').replace(/\//g,'_').replace(/\./g,'_').replace(/:/g,'').replace(/\?/g,'');
 	if(id.charAt(0)=='_')
 		id = id.substr(1);
@@ -66,12 +67,12 @@ LocalAdaptor.getPath = function(localPath,folder)
 	return path;
 };
 
-LocalAdaptor.tiddlerPath = function()
+LocalAdaptor.contentPath = function()
 {
-//#displayMessage("tiddlerPath");
+//#displayMessage("contentPath");
 //#displayMessage("path:"+document.location.toString());
 	var file = getLocalPath(document.location.toString());
-	return LocalAdaptor.getPath(file,'tiddlers');
+	return LocalAdaptor.getPath(file,LocalAdaptor.contentDirectory);
 };
 
 LocalAdaptor.revisionPath = function()
@@ -79,7 +80,7 @@ LocalAdaptor.revisionPath = function()
 //#displayMessage("revisionPath");
 	var file = getLocalPath(document.location.toString());
 	var slash = file.lastIndexOf('\\') == -1 ? '/' : '\\';
-	return LocalAdaptor.getPath(file,'tiddlers' + slash + 'revisions');
+	return LocalAdaptor.getPath(file,LocalAdaptor.contentDirectory + slash + 'revisions');
 };
 
 LocalAdaptor.fullHostName = function(host)
@@ -101,8 +102,8 @@ LocalAdaptor.minHostName = function(host)
 LocalAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
 //#displayMessage("openHost:"+host);
-	context = this.setContext(context,userParams,callback);
 	this.host = LocalAdaptor.fullHostName(host);
+	context = this.setContext(context,userParams,callback);
 //#displayMessage("host:"+this.host);
 	if(context.callback) {
 		context.status = true;
@@ -114,8 +115,8 @@ LocalAdaptor.prototype.openHost = function(host,context,userParams,callback)
 LocalAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
 //#displayMessage("openWorkspace:"+workspace);
-	context = this.setContext(context,userParams,callback);
 	this.workspace = workspace;
+	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
 		window.setTimeout(context.callback,0,context,userParams);
@@ -180,28 +181,32 @@ LocalAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
 //#displayMessage('LocalAdaptor.getTiddlerList');
 	context = this.setContext(context,userParams,callback);
-	var path = LocalAdaptor.tiddlerPath();
+	var path = LocalAdaptor.contentPath();
 	var entries = this.dirList(path);
 	if(entries) {
 		context.status = true;
 		var list = [];
+		var hash = {};
 		for(var i=0; i<entries.length; i++) {
 			var title = entries[i].name;
 			if(title.match(/\.tiddler$/)) {
 				title = title.replace(/\.tiddler$/,'');
-//#displayMessage("title:"+title);
+				title = title.replace(/_/g,' ');
 				var tiddler = new Tiddler(title);
 				tiddler.modified = entries[i].modified;
 				list.push(tiddler);
+				hash[title] = tiddler;
 			}
 		}
 		context.tiddlers = list;
+		context.content = hash;
 	} else {
 		context.status = false;
 		context.statusText = LocalAdaptor.errorInFunctionMessage.format(['getTiddlerList']);
 	}
 	if(context.callback)
 		window.setTimeout(context.callback,0,context,userParams);
+	return context;
 };
 
 LocalAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,userParams,callback)
@@ -285,20 +290,44 @@ LocalAdaptor.prototype.getTiddlerInternal = function(context,userParams,callback
 		var path = LocalAdaptor.revisionPath();
 		var uriTemplate = '%0%1.%2.%3';
 	} else {
-		path = LocalAdaptor.tiddlerPath();
+		path = LocalAdaptor.contentPath();
 		uriTemplate = '%0%1';
 	}
 
 	var uri = uriTemplate.format([path,LocalAdaptor.normalizedTitle(title),context.modified,context.revision]);
+	//var uri = uriTemplate.format([path,title,context.modified,context.revision]);
 //#displayMessage('uri:'+uri);
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields['server.type'] = LocalAdaptor.serverType;
 	context.status = false;
 	context.statusText = LocalAdaptor.errorInFunctionMessage.format(['getTiddler',title]);
 	var fields = null;
-	var data = loadFile(uri + '.js');
+	var t1, t0 = new Date();
+	var data = loadFile(uri + '.tiddler');
+	if(config.options.chkDisplayInstrumentation) {
+		t1 = new Date();
+		displayMessage('Tiddler file:"'+title+'" loaded in ' + (t1-t0) + ' ms');
+	}
 //#displayMessage("data:"+data);
 	if(data) {
+		var tiddlerRegExp = /<div([^>]*)>(?:\s*)(<pre>)?([^<]*?)</mg;
+		tiddlerRegExp.lastIndex = 0;
+		match = tiddlerRegExp.exec(data);
+		if(match) {
+			ft = match[1].replace(/\=\"/mg,':"');
+			fields = ft.decodeHashMap();
+			var text = match[3] ? match[3] : '';
+			if(match[2]) {
+				text = text.unescapeLineBreaks().htmlDecode();
+			} else {
+				text = text.replace(/\r/mg,'').htmlDecode();
+			}
+			context.tiddler.text = text;
+			context.status = true;
+		}
+	} else {
+		data = loadFile(uri + '.js');
+//#displayMessage("data2:"+data);
 		context.tiddler.text = data;
 		meta = loadFile(uri + '.js.meta');
 		if(meta) {
@@ -316,27 +345,6 @@ LocalAdaptor.prototype.getTiddlerInternal = function(context,userParams,callback
 			fields = ft.decodeHashMap();
 		} else {
 			alert("cannot load tiddler");
-		}
-	} else {
-		data = loadFile(uri + '.tiddler');
-//#displayMessage("data2:"+data);
-		if(data) {
-			var tiddlerRegExp = /<div([^>]*)>(?:\s*)(<pre>)?([^<]*?)</mg;
-			tiddlerRegExp.lastIndex = 0;
-			match = tiddlerRegExp.exec(data);
-			if(match) {
-				ft = match[1].replace(/\=\"/mg,':"');
-//#displayMessage("ft:"+ft);
-				fields = ft.decodeHashMap();
-				var text = match[3] ? match[3] : '';
-				if(match[2]) {
-					text = text.unescapeLineBreaks();
-				} else {
-					text = text.replace(/\r/mg,'').htmlDecode();
-				}
-				context.tiddler.text = text;
-				context.status = true;
-			}
 		}
 	}
 	for(var i in fields) {
@@ -380,7 +388,7 @@ LocalAdaptor.prototype.saveTiddlerAsDiv = function(context,isRevision)
 		var revision = context.tiddler.fields['server.page.revision'];
 		var modified = context.tiddler.modified.convertToYYYYMMDDHHMM();
 	} else {
-		path = LocalAdaptor.tiddlerPath();
+		path = LocalAdaptor.contentPath();
 		uriTemplate = '%0%1.tiddler';
 	}
 	var uri = uriTemplate.format([path,context.tiddler.title,modified,revision]);
@@ -399,7 +407,7 @@ LocalAdaptor.prototype.saveTiddlerAsDiv = function(context,isRevision)
 LocalAdaptor.prototype.saveTiddlerAsJs = function(context)
 {
 	var tiddler = context.tiddler;
-	var path = LocalAdaptor.tiddlerPath();
+	var path = LocalAdaptor.contentPath();
 	var uriTemplate = '%0%1';
 	var uri = uriTemplate.format([path,LocalAdaptor.normalizedTitle(tiddler.title)]);
 //#displayMessage('uri:'+uri);
