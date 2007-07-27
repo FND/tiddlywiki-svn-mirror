@@ -1,8 +1,8 @@
 <div title="WikipediaSolarSystemFeed" modifier="MartinBudden" tags="systemServer excludeLists excludeSearch">
 <pre>|''Description:''|Wikipedia articles about the solar system|
 |''Type:''|mediawiki|
-|''URL:''|http://www.wikipedia.org/w/|
+|''URL:''|http://en.wikipedia.org/w/|
 |''Workspace:''|Main|
-|''TiddlerFilter:''|Sun 'Mercury (planet)' Venus Earth Mars Jupiter Saturn Uranus Neptune|
+|''TiddlerFilter:''|'Asteroid belt' 'Astronomical object' 'Ceres (dwarf planet)' Comet Earth 'Europa (moon)' 'Ganymede (moon)' 'Io (moon)' Jupiter 'Kuiper belt' 'List of solar system objects' 'List of solar system objects by mass' 'List of solar system objects by radius' Mars 'Mercury (planet)' Moon 'Natural satellite' Neptune 'Oort cloud' Planet Pluto Saturn 'Scattered disc' 'Solar System' Star Sun 'Titan (moon)' Uranus Venus 'Category:Planets of the Solar System'|
 </pre>
 </div>

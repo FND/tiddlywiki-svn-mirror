@@ -1,7 +1,7 @@
 <div title="WikipediaIPstackFeed" modifier="MartinBudden" tags="systemServer excludeLists excludeSearch">
 <pre>|''Description:''|Wikipedia articles containing IPstack template|
 |''Type:''|mediawiki|
-|''URL:''|http://www.wikipedia.org/w/|
+|''URL:''|http://en.wikipedia.org/w/|
 |''Workspace:''|Main|
 |''TiddlerFilter:''|[template[IPstack]]|
 </pre>
