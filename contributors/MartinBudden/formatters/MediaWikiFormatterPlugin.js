@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.4.2|
-|''Date:''|May 7, 2007|
+|''Version:''|0.4.3|
+|''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.1.0|
@@ -61,6 +61,22 @@ if(config.options.chkDisplayMediaWikiMagicWords == undefined)
 
 //#config.textPrimitives.urlPattern = "(([a-zA-Z][0-9a-zA-Z+\\-\\.]*:)?/{0,2}[0-9a-zA-Z;/?:@&=+$\\.\\-_!~*'()%]+)?(#[0-9a-zA-Z;/?:@&=+$\\.\\-_!~*'()%]+)?";
 //#config.textPrimitives.urlPattern = "[a-z]{3,8}:/{0,2}[^\\s:/<>'\"][^\\s/<>'\"]*(?:/|\\b)";
+
+//<div class='viewer' macro='view text wikified'></div>;
+
+config.macros.include = {};
+config.macros.include.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	if((tiddler instanceof Tiddler) && params[0]) {
+		var host = store.getValue(tiddler,'server.host');
+		if(host && host.indexOf('wikipedia')!=-1) {
+			var t = store.fetchTiddler(params[0]);
+			var text = store.getValue(t,'text');
+			wikify(text,place,highlightHack,tiddler);
+		}
+	}
+};
+
 
 MediaWikiFormatter = {}; // 'namespace' for local functions
 
@@ -196,7 +212,14 @@ MediaWikiFormatter.expandVariable = function(w,variable)
 	switch(variable) {
 	case 'PAGENAME':
 		createTiddlyText(w.output,w.tiddler.title);
-		w.nextMatch = lastIndex;
+		break;
+	case 'PAGENAMEE':
+		createTiddlyText(w.output,MediaWikiFormatter.normalizedTitle(w.tiddler.title));
+		break;
+	case 'REVISIONID':
+		var text = w.tiddler.fields['server.revision'];
+		if(text)
+			createTiddlyText(w.output,text);
 		break;
 	default:
 		return false;
@@ -981,6 +1004,7 @@ config.mediawiki.formatters = [
 			var lastIndex = this.lookaheadRegExp.lastIndex;
 			var contents = lookaheadMatch[1];
 			if(MediaWikiFormatter.expandVariable(w,contents)) {
+				w.nextMatch = lastIndex;
 				return;
 			}
 			var i = contents.indexOf('|');
