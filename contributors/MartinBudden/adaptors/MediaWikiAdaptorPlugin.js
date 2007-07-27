@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.5.4|
-|''Date:''|Jul 24, 2007|
+|''Version:''|0.5.5|
+|''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.2.0|
@@ -232,7 +232,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 
 //# http://wiki.unamesa.org/api.php?action=query&list=allpages&apnamespace=10&aplimit=50
 	if(!context.tiddlerLimit)
-		context.tiddlerLimit = filter ? 100 : 50;
+		context.tiddlerLimit = filter ? 200 : 100;
 
 	var limit = context.tiddlerLimit;
 	if(filter) {
@@ -247,7 +247,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 				break;
 			case 'template':
 				context.responseType = 'query.embeddedin';
-				uriTemplate = '%0api.php?format=json&action=query&list=embeddedin&einamespace=0&eilimit=%2&titles=Template:%3';
+				uriTemplate = '%0api.php?format=json&action=query&list=embeddedin&einamespace=0&eilimit=%2&eititle=Template:%3';
 				break;
 			default:
 				break;
@@ -277,7 +277,6 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 	var host = MediaWikiAdaptor.fullHostName(this.host);
 	var uri = uriTemplate.format([host,this.workspaceId,limit,filterParams]);
 //#displayMessage('uri: '+uri);
-
 	var req = MediaWikiAdaptor.doHttpGET(uri,MediaWikiAdaptor.getTiddlerListCallback,context);
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
@@ -304,6 +303,20 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 //#		}
 //#	}
 //#}
+//#{
+//#	"query": {
+//#		"embeddedin": [
+//#			{
+//#				"pageid": 791,
+//#				"ns": 0,
+//#				"title": "Asteroid"
+//#			},
+//#			{
+//#				"pageid": 5962,
+//#				"ns": 0,
+//#				"title": "Comet"
+//#			},
+
 
 MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
@@ -324,10 +337,18 @@ MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,u
 			else
 				pages = info.pages;
 			var list = [];
-			for(var i in pages) {
-				var tiddler = new Tiddler(pages[i].title);
-				tiddler.fields.workspaceId = pages[i].ns;
-				list.push(tiddler);
+			if(context.responseType == 'query.embeddedin') {
+				for(var i=0;i<pages.length;i++) {
+					var tiddler = new Tiddler(pages[i].title);
+					tiddler.fields.workspaceId = pages[i].ns;
+					list.push(tiddler);
+				}
+			} else {
+				for(i in pages) {
+					tiddler = new Tiddler(pages[i].title);
+					tiddler.fields.workspaceId = pages[i].ns;
+					list.push(tiddler);
+				}
 			}
 			context.tiddlers = list;
 		} catch (ex) {
@@ -385,11 +406,9 @@ MediaWikiAdaptor.prototype.getTiddlerInternal = function(context,userParams,call
 //# http://www.tiddlywiki.org/api.php?action=query&prop=revisions&titles=Main%20Page&rvprop=content
 //# http://wiki.unamesa.org/api.php?action=query&prop=revisions&titles=Main%20Page&rvprop=content|timestamp
 	var host = MediaWikiAdaptor.fullHostName(this.host);
-	if(context.revision) {
-		var uriTemplate = '%0api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content|timestamp|user&rvstartid=%2&rvlimit=1';
-	} else {
-		uriTemplate = '%0api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content|timestamp|user';
-	}
+	var uriTemplate = '%0api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=ids|content|timestamp|user';
+	if(context.revision)
+		uriTemplate += '&rvstartid=%2&rvlimit=1';
 	uri = uriTemplate.format([host,MediaWikiAdaptor.normalizedTitle(context.title),context.revision]);
 //#displayMessage('uri: '+uri);
 	context.tiddler = new Tiddler(context.title);
@@ -435,11 +454,37 @@ MediaWikiAdaptor.getTiddlerCallback = function(status,context,responseText,uri,x
 			eval('var info=' + responseText);
 			var page = MediaWikiAdaptor.anyChild(info.query.pages);
 			var revision = MediaWikiAdaptor.anyChild(page.revisions);
-			context.tiddler.text = revision['*'];
-			context.tiddler.modified = MediaWikiAdaptor.dateFromTimestamp(revision['timestamp']);
-			context.tiddler.modifier = revision['user'];
+			var text = revision['*'];
 			context.tiddler.fields['server.page.revision'] = String(revision['revid']);
-			//#context.tiddler.fields['server.page.version'] = context.tiddler.fields['server.page.revision'];//!! here temporarily for compatibility
+			var host = context.tiddler.fields['server.host'];
+			if(host.indexOf('wikipedia')==-1) {
+				context.tiddler.modified = MediaWikiAdaptor.dateFromTimestamp(revision['timestamp']);
+				context.tiddler.modifier = revision['user'];
+			} else {
+				// content is from wikipedia
+				//# set dates to verion date to avoid them being saved to file
+				context.tiddler.created = version.date;
+				context.tiddler.modified= version.date;
+				// remove links to other language articles
+				text = text.replace(/\[\[[a-z\-]{2,12}:(?:.*?)\]\](?:\r?)(?:\n?)/g,'');
+			}
+			context.tiddler.text = text;
+			//# convert categories into tags
+			var catRegExp = /\[\[(Category:[^|\]]*?)\]\]/mg;
+			var tags = '';
+			var delim = '';
+			catRegExp.lastIndex = 0;
+			var match = catRegExp.exec(text);
+			while(match) {
+				tags += delim;
+				if(match[1].indexOf(' ')==-1)
+					tags += match[1];
+				else
+					tags += '[[' + match[1] + ']]';
+				delim = ' ';
+				match = catRegExp.exec(text);
+			}
+			context.tiddler.tags = tags;
 		} catch (ex) {
 			context.statusText = exceptionText(ex,MediaWikiAdaptor.serverParsingErrorMessage);
 			if(context.callback)
@@ -539,7 +584,6 @@ MediaWikiAdaptor.getTiddlerRevisionListCallback = function(status,context,respon
 				tiddler.fields['server.page.id'] = MediaWikiAdaptor.normalizedTitle(title);
 				tiddler.fields['server.page.name'] = title;
 				tiddler.fields['server.page.revision'] = String(revisions[i].revid);
-				//#tiddler.fields['server.page.version'] = tiddler.fields['server.page.revision'];//!! here temporarily for compatibility
 				list.push(tiddler);
 			}
 			context.revisions = list;
