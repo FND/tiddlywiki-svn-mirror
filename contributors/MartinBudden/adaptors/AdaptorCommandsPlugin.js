@@ -110,9 +110,12 @@ config.macros.viewTiddlerFields.handler = function(place,macroName,params,wikifi
 				comma = ', ';
 			}
 		}
-		value += comma + 'created=' + tiddler.created.convertToYYYYMMDDHHMM();
-		value += ', modified=' + tiddler.modified.convertToYYYYMMDDHHMM();
-		value += ', modifier=' + tiddler.modifier;
+		if(tiddler.created)
+			value += comma + 'created=' + tiddler.created.convertToYYYYMMDDHHMM();
+		if(tiddler.modified)
+			value += ', modified=' + tiddler.modified.convertToYYYYMMDDHHMM();
+		if(tiddler.modifier)
+			value += ', modifier=' + tiddler.modifier;
 		value += ', touched=' + (tiddler.isTouched() ? 'true' : 'false');
 		highlightify(value,place,highlightHack,tiddler);
 	}
