@@ -1,129 +1,568 @@
-<div title="Asteroid belt" modifier="www.wikipedia.org" server.host="www.wikipedia.org/w" downloaded="200612192036" wikiformat="mediawiki" mediawiki.revid="95369249">
-<pre>{{dablink|For the Velvet Chain album, see [[Asteroid Belt (album)]].}}
-[[Image:InnerSolarSystem-en.png|400px|thumb|The main asteroid belt (shown in white) between the orbits of [[Mars]] and [[Jupiter]].]]
-The '''asteroid belt''' is a region of the [[solar system]] falling roughly between the [[planet]]s [[Mars (planet)|Mars]] and [[Jupiter (planet)|Jupiter]] where the greatest concentration of [[asteroid]] [[orbit]]s can be found. 
+<div title="Asteroid belt" tags="[[Category:Asteroid groups and families]]" server.host="en.wikipedia.org/w" server.page.revision="147447110" wikiformat="mediawiki">
+<pre>{{otheruses2|Asteroid}}
+[[Image:InnerSolarSystem-en.png|350px|thumb|The main asteroid belt (shown in white) between the orbits of [[Mars]] and [[Jupiter]].]]
+The '''asteroid belt''' is the region of the [[Solar System]] located roughly between the orbits of the [[planet]]s [[Mars]] and [[Jupiter]] where 98.5% of the known [[minor planet]] [[orbit]]s can be found.&lt;ref name=&quot;basedon1&quot;&gt;This value was obtained by a simple count up of all bodies in that region using data for 120437 numbered minor planets from the [http://cfa-www.harvard.edu/iau/MPCORB.html Minor Planet Center orbit database], dated [[February 8]], [[2006]].&lt;/ref&gt; [[Asteroid]]s, or [[minor planet]]s, are small celestial bodies composed of rock, ice, and some metal that orbit the [[Sun]]. This region is termed the '''main belt''' when contrasted with other concentrations of minor planets, since these may also be termed asteroid belts.
 
-It is termed the '''main belt''' when contrasted with other concentrations of [[minor planet]]s, since these may also be termed '''asteroid belts'''. 98.5% of all numbered minor planets lie in this region &lt;ref name=&quot;basedon1&quot;&gt;This value is obtained by a simple count up of all asteroids in that region using data for 120437 numbered [[minor planet]]s from the [http://cfa-www.harvard.edu/iau/MPCORB.html Minor Planet Center orbit database], dated 8 Feb 2006.&lt;/ref&gt;. 
+The asteroid belt formed from the primordial [[solar nebula]] as a group of [[planetesimal]]s&amp;mdash;the smaller precursors of the planets. However, [[gravity|gravitational]] perturbations by Jupiter impart too much orbital energy to the bodies in this region for them to [[accretion (astrophysics)|accrete]] into a planet during collisions. Instead, the initial planetesimals have been broken up during the collisions, and the majority of the mass has been lost since the formation of the Solar system from this region. Asteroid orbits continue to be appreciably [[Perturbation (astronomy)|perturbed]] whenever their period of revolution about the Sun forms an [[orbital resonance]] with Jupiter. At these orbital distances, a [[Kirkwood gap]] occurs as they are swept into different orbits.
 
-Sometimes, the term ''main belt'' is used to refer only to a more compact &quot;core&quot; region where the greatest concentration of bodies is found. This lies between the 4:1 and 2:1 [[Kirkwood gap]]s at 2.06 and 3.27 [[Astronomical unit|AU]], and at [[eccentricity (orbit)|eccentricities]] less than roughly 0.33, along with [[inclination]]s below about 20°. This &quot;core&quot; region is marked in red in the diagrams below, and contains approximately 93.4% of all numbered [[minor planets]] &lt;ref name=&quot;basedon1&quot;/&gt;. 
+The majority of the mass within the main belt is contained in the largest asteroids. The three largest asteroids in the main belt (individually named [[4 Vesta]], [[2 Pallas]] and [[10 Hygiea]]) have mean diameters of more than 400&amp;nbsp;km, while the main belt's only [[dwarf planet]], [[Ceres (dwarf planet)|Ceres]], is about 950&amp;nbsp;km in diameter. Together these four objects make up nearly half of the total mass in the belt.&lt;ref name=Krasinskyetal2002/&gt;&lt;ref name=Pitjeva2005/&gt;&lt;ref name=halfmass/&gt;&lt;ref name=&quot;jplsbdb&quot;/&gt;
+The remainder form a distribution of smaller bodies that range down to the size of a dust grain. The asteroid material is so-thinly distributed, however, that multiple unmanned spacecraft have traversed the belt without incident. Asteroids within the main belt are categorized by their [[spectrum|spectra]], and the majority can be grouped into three basic types: [[carbon]]aceous ([[C-type asteroid|C-type]]), [[silicate]] ([[S-type asteroid|S-type]]), and [[metal]]-rich ([[M-type asteroid|M-type]]). Collisions between large asteroids can form an [[asteroid family]], whose members possess similar orbital characteristics and composition. Collisions also produce a fine dust that forms a major component of the [[zodiacal light]].
 
+==History of observation==
+Following the discovery of Uranus in 1781, [[Johann Elert Bode|Johann Bode]] suggested that another planet may orbit in the gap between [[Mars]] and [[Jupiter]]. The dwarf planet [[Ceres (dwarf planet)|Ceres]] was discovered in the location predicted by Bode in 1801.&lt;ref&gt;{{cite web
+  | author=Staff
+  | date = [[December 5]], [[2000]]
+  | url = http://www.bbc.co.uk/dna/h2g2/A354412
+  | title = The Discovery of the Asteroid Belt
+  | publisher = BBC
+  | accessdate = 2007-04-20
+}}&lt;/ref&gt; The astronomer [[Heinrich Wilhelm Matthäus Olbers|Wilhelm Olbers']] discovery of the asteroid [[2 Pallas]], in 1802, prompted him to suggest to [[William Herschel]] that these bodies were the remnants of a destroyed planet. By 1807, two additional asteroids had been discovered in the same region: [[3 Juno]] and [[4 Vesta]].&lt;ref name=&quot;serendipity&quot;&gt;{{cite web
+  | author=Staff
+  | year=2002
+  | url = http://dawn.jpl.nasa.gov/DawnCommunity/flashbacks/fb_06.asp
+  | title = Astronomical Serendipity 
+  | publisher = NASA JPL
+  | accessdate = 2007-04-20
+}}&lt;/ref&gt; Because of their [[star]]-like appearance, William Herschel would name these objects asteroids, after the [[Greek language|Greek]] root ''aster-'' meaning star.&lt;ref name=&quot;aster-root&quot;&gt;{{cite web
+  | author= DeForest, Jessica
+  | date = [[2000]]
+  | url = http://www.msu.edu/~defores1/gre/roots/gre_rts_afx2.htm
+  | title = Greek and Latin Roots
+  | publisher = Michigan State University
+  | accessdate = 2007-07-25
+}}&lt;/ref&gt;
 
-{{dablink|For details on the physical properties of bodies in the asteroid belt see [[Asteroid]] and [[Main-belt comet]].}}
+The [[Napoleonic wars]] brought the first period of asteroid discovery to a close,&lt;ref name=&quot;serendipity&quot; /&gt; and it would take until 1845 before another asteroid ([[5 Astraea]]) was
+discovered. Shortly thereafter, however, new asteroids were found at an increasing rate. By mid-1868, 100 asteroids had been located, and the introduction of [[astrophotography]] in 1891 by [[Max Wolf]] accelerated the rate of discovery.&lt;ref&gt;{{cite web
+  | first=David W. | last=Hughes | year=2007
+  | url = http://www.open2.net/sciencetechnologynature/planetsbeyond/asteroids/history.html
+  | title = A Brief History of Asteroid Spotting
+  | publisher = BBC
+  | accessdate = 2007-04-20
+}}&lt;/ref&gt; A total of 1,000 asteroids had been found by 1923, 10,000 by 1951, and 100,000 by 1982.&lt;ref name=&quot;jplsbdb&quot;&gt;{{cite web
+  | first=Donald K.
+  | last=Yeomans
+  | date = [[July 13]], [[2006]]
+  | url = http://ssd.jpl.nasa.gov/sbdb.cgi
+  | title = JPL Small-Body Database Browser
+  | publisher = NASA JPL
+  | accessdate = 2007-04-25
+}} &amp;mdash; Asteroids are numbered by order of discovery.&lt;/ref&gt; Modern asteroid survey systems now use automated means to locate new minor planets in ever-increasing quantities.
 
-==Origin==
-[[Image:Main_belt_i_vs_a.png|thumb|300px|right|The asteroid belt (showing inclinations), with the main belt in red and blue (&quot;core&quot; region in red)]]
-A common hypothesis agreed upon by most astronomers, called the [[solar nebula|nebular hypothesis]], is that during the first few million years of the solar system's history, planets formed by accretion of [[planetesimal]]s. Repeated collisions led to the familiar rocky planets and to the [[gas giant]]s.
-However, if the average velocity of the collisions is too high, the shattering of planetesimals dominates over accretion, and planet-sized bodies cannot form. The region lying between the orbits of Mars and Jupiter contains many strong [[orbital resonance]]s with Jupiter, and planetesimals in this region were (and continue to be) kicked around too strongly to form a planet. The planetesimals instead continue to orbit the Sun as before. The inner border of the main belt is determined by the 4:1 [[orbital resonance]] with Jupiter at 2.06 AU which sends any bodies straying there onto unstable orbits. Most bodies formed interior of this gap were swept up by [[Mars]] (which has an [[aphelion]] out at 1.67 AU) or ejected by its gravitational perturbations in the early history of the Solar System.
+In 1866, [[Daniel Kirkwood]] announced the discovery of gaps in the distances of these bodies' orbits from the [[Sun]]. These gaps were located at positions where their period of revolution about the Sun was an integer fraction of Jupiter's orbital period. Kirkwood proposed that the gravitational [[Perturbation (astronomy)|perturbations]] of Jupiter led to the removal of asteroids from these orbits.&lt;ref&gt;{{cite journal
+  | last = Fernie
+  | first = J. Donald
+  | title=The American Kepler
+  | journal=The Americal Scientist
+  | year=1999
+  | volume=87
+  | issue=5
+  | pages=398
+  | url=http://www.americanscientist.org/template/AssetDetail/assetid/26603
+  | accessdate=2007-02-04 }}&lt;/ref&gt;
 
-In this sense the asteroid belt can be considered a relic of the primitive Solar System, but it has been affected by many processes active in later periods, such as internal heating, impact melting, and [[space weathering]]. Hence, the asteroids themselves are not particularly pristine. Instead, the objects in the outer [[Kuiper belt]] are believed to have experienced much less change since the Solar System's formation.
+The Japanese astronomer [[Kiyotsugu Hirayama]] noticed in 1918 that the orbits of some of the asteroids had similar parameters, forming families or groups. In the 1970s, examination of asteroid colors led to a classification system. The three most common categories were designated [[C-type asteroid|C-type]] ([[carbon]]aceous), [[S-type asteroid|S-type]] ([[Silicate|silicaceous]]) and [[M-type asteroid|M-type]] ([[metal]]lic).&lt;ref&gt;{{cite web
+  | first=David W. | last=Hughes | year=2007
+  | url =http://www.open2.net/sciencetechnologynature/planetsbeyond/asteroids/finding.html
+  | title = Finding Asteroids In Space
+  | publisher = BBC
+  | accessdate = 2007-04-20
+}}&lt;/ref&gt;
 
-An old hypothesis, much less favored nowadays, was that the asteroids in the asteroid belt are the remnants of a destroyed planet called [[Phaeton (planet)|Phaeton]]. The key problems with this hypothesis are the staggering amount of energy required to achieve this kind of effect, and the low combined mass of the asteroid belt (less than that of Earth's moon).
+In 2006 it was announced that a population of [[comet]]s had been discovered within the asteroid belt. It has been suggested that comets such as these may have provided a source of water for the formation of the Earth's oceans. According to some models, there was insufficient [[outgassing]] of water during the Earth's formulative period to form the oceans, requiring the introduction of an external source such as a cometary bombardment.&lt;ref&gt;{{cite web
+  | last = Lakdawalla
+  | first = Emily
+  | date = [[April 28]], [[2006]]
+  | url = http://www.planetary.org/blog/article/00000551/
+  | title = Discovery of a Whole New Type of Comet
+  | publisher = The Planetary Society
+  | accessdate = 2007-04-20
+}}&lt;/ref&gt;
 
-The asteroid belt region of space also contains some [[main-belt comets]] which may have been the source of Earth's water [http://www.spacedaily.com/reports/Main_Belt_Comets_May_Have_Been_Source_Of_Earths_Water.html].
+== Origin ==
 
-== Asteroid belt environment ==
-[[Image:Main_belt_e_vs_a.png|thumb|300px|right|The asteroid belt (showing eccentricities), with the main belt in red and blue (&quot;core&quot; region in red) ]]
-[[Image:Kirkwood Gaps.png|250px|thumb|Distribution of asteroid [[semi-major axis|semi-major axes]] in the &quot;core&quot; of the main belt. Cyan arrows point to the [[Kirkwood gap]]s, where [[orbital resonance]]s with [[Jupiter]] destabilize orbits.]]
+[[Image:Main belt i vs a.png|thumb|300px|right|The asteroid belt (showing inclinations), with the main belt in red and blue (&quot;core&quot; region in red)]]
+=== Formation ===
+[[Planetary formation]] is thought to have occurred via a process along the lines of the long-standing nebular hypothesis, which states that a cloud of interstellar dust and gas collapsed under the influence of gravity to form a rotating disk of material that then further condensed to form the Sun and planets.&lt;ref&gt;{{cite web
+  | last = Watanabe
+  | first = Susan
+  | date = [[July 20]], [[2001]]
+  | url =http://www.jpl.nasa.gov/news/features.cfm?feature=520
+  | title =Mysteries of the Solar Nebula
+  | publisher = NASA
+  | accessdate = 2007-04-02
+}}&lt;/ref&gt; During the first few million years of the Solar System's history, an [[Accretion (astrophysics)|accretion]] process of sticky collisions caused clumping together of small particles, formation of larger clumps, and the gradual increase of the size of these bodies. Once the objects reached sufficient mass they could draw in other bodies through gravitational attraction, and become known as [[planetesimal]]s. The gravitational accretion of these planetesimals led to the formation of the rocky planets and to the [[gas giant]]s.
 
-Despite popular imagery, the asteroid belt is mostly empty. The asteroids are spread over such a large volume that it would be highly improbable to reach an asteroid without aiming carefully.
+In regions where the average velocity of the collisions was too high, the shattering of planetesimals tends to dominate over accretion,&lt;ref&gt;{{cite journal
+  | author=Edgar, R.; Artymowicz, P.
+  | title=Pumping of a Planetesimal Disc by a Rapidly Migrating Planet
+  | journal=Monthly Notices of the Royal Astronomical Society
+  | year=2004
+  | volume=354
+  | issue=3
+  | pages=769-772
+  | url=http://www.astro.su.se/~pawel/edgar+artymowicz.pdf
+  | format=PDF
+  | accessdate=2007-04-16 }}&lt;/ref&gt; preventing the formation of planet-sized bodies. When the orbital period of a planetismal forms an integer fraction of the orbital period of Jupiter, an [[orbital resonance]] occurs that can perturb the object into a different orbit. The region lying between the orbits of Mars and Jupiter contains many strong orbital resonances with Jupiter. As Jupiter migrated inward following its formation, these resonances would have swept across the asteroid belt, dynamically exciting the region's planetismal population in the process&amp;mdash;increasing their velocities relative to each other.&lt;ref&gt;{{cite conference
+ | first = E. R. D.
+ | last = Scott
+ | title=Constraints on Jupiter's Age and Formation Mechanism and the Nebula Lifetime from Chondrites and Asteroids
+ | booktitle = Precedings 37th Annual Lunar and Planetary Science Conference
+ | publisher = Lunar and Planetary Society
+ | date = March 13-17, 2006
+ | location = League City, Texas
+ | url =http://adsabs.harvard.edu/abs/2006LPI....37.2367S
+ | accessdate = 2007-04-16
+}}&lt;/ref&gt; Planetesimals in this region were (and continue to be) too strongly [[Perturbation (astronomy)|perturbed]] to form a planet. Instead the planetesimals orbit the Sun as before and occasionally collide.&lt;ref name=&quot;icarus153&quot;&gt;{{cite journal
+  | author=Petit, J.-M.; Morbidelli, A.; Chambers, J.
+  | title=The Primordial Excitation and Clearing of the Asteroid Belt
+  | journal=Icarus
+  | year=2001
+  | volume=153
+  | pages=338-347
+  | url=http://www.gps.caltech.edu/classes/ge133/reading/asteroids.pdf
+  | format=PDF
+  | accessdate=2007-03-22 }}&lt;/ref&gt; The asteroid belt can be considered a relic of the primitive Solar System. 
 
-Nonetheless, tens of thousands of asteroids are currently known, and estimates of the total number range in the millions. About 220 of them are larger than 100 [[kilometre|km]]. The biggest asteroid belt member, and the only [[dwarf planet]] found there, is [[Ceres(dwarf planet)|Ceres]], which is about 1000 km across. The total mass of the Asteroid belt is estimated to be 3.0-3.6{{e|21}} kilograms&lt;ref&gt;{{cite journal|title=Hidden Mass in the Asteroid Belt|author=Krasinsky, G. A.; Pitjeva, E. V.; Vasilyev, M. V.; Yagudina, E. I.|journal=Icarus|volume=158|number=1|pages=98-105|year=2002}}&lt;/ref&gt;&lt;ref&gt;{{cite journal|author=Pitjeva, E. V.|title=High-Precision Ephemerides of Planets - EPM and Determination of Some Astronomical Constants|journal=Solar System Research|volume=39|pages=176|year=2005}}&lt;/ref&gt;, which is 4% of the Earth's [[Moon]]. Of that total mass, one-third is accounted for by Ceres alone.
+When the main belt was first being formed, the temperatures at a distance of 2.7&amp;nbsp;A.U. from the Sun formed a &quot;snow line&quot; where the temperatures fell below the condensation point of water. (1 A.U., or astronomical unit, equals the average distance between the Earth and the Sun.) Planetismals formed beyond this radius were able to accumulate ice.&lt;ref&gt;{{cite journal
+  | author=Lecar, M.; Podolak, M.; Sasselov, D.; Chiang, E.
+  | title=Infrared cirrus - New components of the extended infrared emission
+  | journal=The Astrophysical Journal
+  | year=2006
+  | volume=640
+  | pages=1115–1118
+  | url=http://www.journals.uchicago.edu/cgi-bin/resolve?id=doi:10.1086/500287
+  | accessdate=2007-04-11 }}&lt;/ref&gt; [[Main-belt comet]]s formed within the belt outside the snow line, and these are a leading candidate for the deposition of water to form the Earth's oceans.&lt;ref&gt;{{cite news
+  | first=Phil
+  | last=Berardelli
+  | title=Main-Belt Comets May Have Been Source Of Earths Water
+  | publisher=Space Daily
+  | date=[[March 23]], [[2006]]
+  | url=http://hubblesite.org/newscenter/newsdesk/archive/releases/1991/12/text/
+  | accessdate=2007-04-11 }}&lt;/ref&gt;
 
-The high population makes for a very active environment, where collisions between asteroids occur very often (in astronomical terms). A collision may fragment an asteroid in numerous small pieces (leading to the formation of a new [[asteroid family]]), or may glue two asteroids together if it occurs at low relative speeds. After five billion years, the current Asteroid belt population bears little resemblance to the original one.
+===Evolution===
+The current asteroid belt is believed to contain only a small fraction (by mass) of the primordial asteroid belt. Based on computer simulations, the original asteroid belt may have contained mass equivalent to the Earth. Primarily because of gravitational perturbations, most of this material was ejected from the belt within a period of about a million years of formation, leaving behind less than 0.1% of the original mass.&lt;ref name=&quot;icarus153&quot; /&gt;
 
-== The asteroid belt in fiction and film ==
-Asteroid belts are a staple of [[science fiction]] stories less concerned with realism than with drama, since they are frequently portrayed as being so dense that adventurous measures must be taken to avoid an impact. One of the best-known examples of this is the [[Hoth]] system in ''Star Wars: [[The Empire Strikes Back]]''. Proto-planets in the process of formation and planetary rings may look like that, but the Sun's asteroid belt does not. (The asteroid belt in the [[HD 69830]] system may, however.) In reality, the asteroids are spread over such a high volume that it would be highly improbable even to pass close to a random asteroid. For example, the numerous [[space probe]]s sent to the outer solar system, just across the main asteroid belt, have never had any problems, and asteroid rendezvous missions have elaborate targeting procedures. 
+Since their formation, the size distribution of the asteroid belt has remained relatively stable. That is, there has not been a significant increase or decrease in the typical dimensions of the main belt asteroids.&lt;ref&gt;{{cite news
+  | first=Lori
+  | last=Stiles
+  | title=Asteroids Caused the Early Inner Solar System Cataclysm 
+  | publisher=University of Arizona News
+  |date=[[September 15]], [[2005]] 
+  | url=http://uanews.org/cgi-bin/WebObjects/UANews.woa/7/wa/SRStoryDetails?ArticleID=11692
+  | accessdate=2007-04-18 }}&lt;/ref&gt; However, the asteroids have been affected by many subsequent processes, such as internal heating (in the first few tens of millions of years), surface melting from impacts, and [[space weathering]] from radiation and bombardment by [[micrometeorites]]. Hence, the asteroids themselves are not pristine samples of the early Solar System. By contrast, the objects in the outer [[Kuiper belt]] are believed to have experienced much less change since the Solar System's formation. 
 
-The inaccurate image of an overcrowded Asteroid Belt is especially frequent in science fiction films, apparently because it makes for dramatic visual images which the true nearly empty space does not provide. (The movie ''[[2001: A Space Odyssey (film)|2001: A Space Odyssey]]'' is unusual in that it does portray realistically the ship's &quot;encounter&quot; with a lone asteroid pair). 
+The 4:1 [[orbital resonance]] with Jupiter, at a radius 2.06&amp;nbsp; [[astronomical unit|AU]], can be considered the inner boundary of the main belt. Perturbations by Jupiter send bodies straying there onto unstable orbits. Also, most bodies formed inside the radius of this gap were swept up by [[Mars]] (which has an [[aphelion]] out at 1.67&amp;nbsp;A.U.) or ejected by its gravitational perturbations in the early history of the Solar System.&lt;ref&gt;{{cite web
+  | author=Alfvén, H.; Arrhenius, G.
+  | year=1976
+  | url =http://history.nasa.gov/SP-345/ch4.htm
+  | title =The Small Bodies
+  | work=SP-345 Evolution of the Solar System
+  | publisher = NASA
+  | accessdate = 2007-04-12 }}&lt;/ref&gt; An exception are the high inclination [[Hungaria asteroids]] which lie slightly closer to the Sun, and were protected from these disturbances by this high inclination.
 
-On the other hand, written depictions of human encounters with asteroids, their mining and their colonization - an increasingly frequent science fiction theme since the late 1940s - are more often scientifically accurate. In Ben Bova's The Rock Rats series, men live in the asteroid belt and mine the asteroids for metals.
+===Early fifth terrestrial planet theory===
+{{main|Fifth planet (hypothetical)}}
+{{seealso|Phaeton (hypothetical planet)}}
+An early hypothesis, which is no longer favoured by astronomers, was that the asteroids in the asteroid belt are the remnants of a destroyed planet. There are some key problems with this hypothesis. One is the large amount of energy which would be required to achieve this kind of effect. Another is the low combined mass of the current asteroid belt, which has only a small fraction of the mass of the Earth's [[moon]]. Finally, the significant chemical differences between the asteroids is difficult to explain if they come from the same planet.&lt;ref&gt;{{cite web
+  | author=Masetti, M.; Mukai, K.
+  | date=[[December 1]], [[2005]]
+  | url=http://imagine.gsfc.nasa.gov/docs/ask_astro/answers/980810a.html
+  | title=Origin of the Asteroid Belt 
+  | publisher=NASA Goddard Spaceflight Center
+  | accessdate=2007-04-25
+}}&lt;/ref&gt;
 
-For more examples see [[Asteroid#Asteroids in fiction|Asteroid]] and [[Asteroids in fiction]].
+It has also been hypothesized that a [[Planet V|fifth terrestrial planet]] formed among the [[inner planet]]s, but the orbit was destabilized so that it began crossing the inner asteroid belt. As a result of this transition, a number of asteroids would have been ejected from the belt. Later this planet was either absorbed by the Sun or ejected from the system.&lt;ref&gt;{{cite web
+  | last = David
+  | first = Leonard
+  | date = [[March 18]], [[2002]]
+  | url = http://www.space.com/scienceastronomy/solarsystem/fifth_planet_020318.html
+  | title =Long-Destroyed Fifth Planet May Have Caused Lunar Cataclysm
+  | publisher =Space.com
+  | accessdate = 2007-04-25
+}}&lt;/ref&gt;
 
-== Extra-solar belts ==
-{{unreferenced|section|date=December 2006}}
-Belts of dust or debris have also been detected around stars other than the Sun, including the following:
+== Environment ==
+[[Image:Main belt e vs a.png|thumb|300px|right|The asteroid belt (showing eccentricities), with the main belt in red and blue (&quot;core&quot; region in red) ]]
+Despite popular imagery, the asteroid belt is mostly empty. The asteroids are spread over such a large volume that it would be highly improbable to reach an asteroid without aiming carefully. Nonetheless, hundreds of thousands of asteroids are currently known, and the total number ranges in the millions or more, depending on the lower size cutoff that is assumed. A survey in the infrared wavelengths shows that the main belt has 700,000 to 1.7 million asteroids with a diameter of 1&amp;nbsp;km or more.&lt;ref&gt;{{cite journal
+  | author=Tedesco, E. F.; Desert, F.-X.
+  | title=The Infrared Space Observatory Deep Asteroid Search
+  | journal=The Astronomical Journal
+  | year=2002
+  | volume=123
+  | pages=2070–2082
+  | url=http://www.journals.uchicago.edu/cgi-bin/resolve?id=doi:10.1086/339482
+  | accessdate=2007-04-10 }}&lt;/ref&gt;
 
-{| class=&quot;wikitable&quot;
-!Star
-!Distance&lt;br /&gt;([[Light Year|ly]])
-!Orbit&lt;br /&gt;([[Astronomical Unit|AU]])
-|-
-|[[Epsilon Eridani]]
-|style=&quot;text-align:right;&quot;| 10.5
-|style=&quot;text-align:right;&quot;| 35-75
-|-
-|[[Vega]]
-|style=&quot;text-align:right;&quot;| 25
-|style=&quot;text-align:right;&quot;| 86-200
-|-
-|[[AU Microscopii]]
-|style=&quot;text-align:right;&quot;| 33
-|style=&quot;text-align:right;&quot;| 210
-|-
-|[[HD 69830]]
-|style=&quot;text-align:right;&quot;| 41
-|style=&quot;text-align:right;&quot;| &lt;1
-|-
-|[[55 Cancri]]
-|style=&quot;text-align:right;&quot;| 41
-|style=&quot;text-align:right;&quot;| 27-50
-|-
-|[[HD 139664]]
-|style=&quot;text-align:right;&quot;| 57
-|style=&quot;text-align:right;&quot;| 60-109
-|-
-|[[HD 53143]]
-|style=&quot;text-align:right;&quot;| 60
-|style=&quot;text-align:right;&quot;| ?
-|-
-|[[Beta Pictoris]]
-|style=&quot;text-align:right;&quot;| 63
-|style=&quot;text-align:right;&quot;| 25-550
-|-
-|[[Zeta Leporis]]
-|style=&quot;text-align:right;&quot;| 70
-|style=&quot;text-align:right;&quot;| 2.5-12.2
-|-
-|[[HD 107146]]
-|style=&quot;text-align:right;&quot;| 88
-|style=&quot;text-align:right;&quot;| 130
-|-
-|[[Fomalhaut]]
-|style=&quot;text-align:right;&quot;| 133
-|style=&quot;text-align:right;&quot;| 25
-|-
-|[[HD 12039]]
-|style=&quot;text-align:right;&quot;| 137
-|style=&quot;text-align:right;&quot;| 5
-|-
-|[[HR 4796]] A
-|style=&quot;text-align:right;&quot;| 220
-|style=&quot;text-align:right;&quot;| 200
-|-
-|[[HD 141569]]
-|style=&quot;text-align:right;&quot;| 320
-|style=&quot;text-align:right;&quot;| 400
-|-
-|[[HD 113766]]
-|style=&quot;text-align:right;&quot;| 430
-|style=&quot;text-align:right;&quot;| 0.35-5.8
-|}
+Over 200 of the asteroids in the belt are larger than 100 [[kilometre|km]].&lt;ref&gt;{{cite web
+  | last = Yeomans
+  | first = Donald K.
+  | date = [[April 26]], [[2007]]
+  | url = http://ssd.jpl.nasa.gov/sbdb_query.cgi
+  | title = JPL Small-Body Database Search Engine 
+  | publisher = NASA JPL
+  | accessdate = 2007-04-26
+}} &amp;mdash; search for asteroids in the main belt regions with a diameter &gt; 100.&lt;/ref&gt; The biggest asteroid belt member, and the only [[dwarf planet]] found there, is [[Ceres (dwarf planet)|Ceres]]. The total mass of the Asteroid belt is estimated to be 3.0-3.6{{e|21}} kilograms,&lt;ref name=Krasinskyetal2002&gt;{{cite journal| authorlink= Georgij A. Krasinsky | first=G. A. | last= Krasinsky | coauthors=[[Elena V. Pitjeva|Pitjeva, E. V.]]; Vasilyev, M. V.; Yagudina, E. I. | url=http://adsabs.harvard.edu/abs/2002Icar..158...98K| title=Hidden Mass in the Asteroid Belt| journal=Icarus| volume=158| issue=1| pages=98-105| month= July| year= 2002| doi=10.1006/icar.2002.6837}}&lt;/ref&gt;&lt;ref name=Pitjeva2005&gt;{{cite journal | last= Pitjeva | first=E. V. | authorlink= Elena V. Pitjeva | title= High-Precision Ephemerides of Planets—EPM and Determination of Some Astronomical Constants | journal= Solar System Research | year= 2005 | volume= 39 | issue= 3 | pages= 176 | url= http://iau-comm4.jpl.nasa.gov/EPM2004.pdf | format= [[PDF]] | doi= 10.1007/s11208-005-0033-2}}&lt;/ref&gt; which is 4% of the Earth's [[Moon]]. Of that total mass, one-third is accounted for by Ceres alone. The four largest asteroids (if Ceres is included) contain almost half the total mass within the main belt.&lt;ref name=halfmass&gt;For recent estimates of the masses of [[Ceres (dwarf planet)|Ceres]], [[4 Vesta]], [[2 Pallas]] and [[10 Hygiea]], see the references in the infoboxes of their respective articles.&lt;/ref&gt;&lt;ref name=&quot;jplsbdb&quot;/&gt;
 
-The orbital distance of the belt is an estimated mean distance or range, based either on direct measurement from imaging or derived from the temperature of the belt. The [[Earth]] has an average distance from the Sun of 1 AU.
+The center of mass of the asteroid belt occurs at an orbital radius of 2.8 A.U.&lt;ref name=&quot;mnras244&quot;&gt;{{cite journal
+  | author=McBride, N.; Hughes, D. W.
+  | title=The spatial density of asteroids and its variation with asteroidal mass
+  | journal=Monthly Notices of the Royal Astronomical Society
+  | year=1990
+  | volume=244
+  | pages=513-520
+  | url=http://adsabs.harvard.edu/abs/1990MNRAS.244..513M
+  | accessdate=2007-04-19 }}&lt;/ref&gt; The large majority of the asteroids within the main belt have orbital [[eccentricity|eccentricities]] of less than 0.4, and an inclination of less than 30°. The orbital distribution of the asteroids peak at an eccentricity of around 0.07 and an inclination of under 4°.&lt;ref name=&quot;mpc&quot;&gt;{{cite web
+  | last = Williams
+  | first = Gareth
+  |date=[[April 3]], [[2007]]
+  | url = http://cfa-www.harvard.edu/iau/lists/MPDistribution.html
+  | title = Distribution of the Minor Planets
+  | publisher = Minor Planets Center
+  | accessdate = 2007-04-15
+}}&lt;/ref&gt; Thus while a typical asteroid has a relatively circular orbit and lies near the plane of the [[ecliptic]], some asteroid orbits can be highly eccentric or travel well outside the ecliptic plane.
+
+Sometimes, the term ''main belt'' is used to refer only to the more compact &quot;core&quot; region where the greatest concentration of bodies is found. This lies between the strong 4:1 and 2:1 [[Kirkwood gap]]s at 2.06 and 3.27 [[astronomical unit|A.U.]], and at [[eccentricity (orbit)|orbital eccentricities]] less than roughly 0.33, along with orbital [[inclination]]s below about 20°. This &quot;core&quot; region contains approximately 93.4% of all numbered minor planets within the Solar System.&lt;ref name=&quot;basedon1&quot;/&gt;
+
+The [[absolute magnitude]]s of most asteroids are 11&amp;ndash;19, with the median at about 16.&lt;ref name=&quot;mpc&quot; /&gt; By contrast, Ceres has a much higher absolute magnitude of 3.32.&lt;ref&gt;{{cite journal
+  | author=Parker, J. W.; Stern, S. A.; Thomas, P. C.; Festou, M. C.; Merline, W. J.; Young, E. F.; Binzel, R. P.; Lebofsky, L. A.
+  | title=Analysis of the First Disk-resolved Images of Ceres from Ultraviolet Observations with the Hubble Space Telescope
+  | journal=The Astronomical Journal
+  | year=2002
+  | volume=123
+  | pages=549–557 
+  | url=http://www.journals.uchicago.edu/cgi-bin/resolve?id=doi:10.1086/338093
+  | accessdate=2007-04-15 }}&lt;/ref&gt; The temperature of the asteroid belt varies with the distance from the Sun. For dust particles within the belt, typical temperatures range from 200&amp;nbsp;K (-73°C) at 2.2&amp;nbsp;A.U. down to 165&amp;nbsp;K (-108°C) at 3.2&amp;nbsp;A.U.&lt;ref&gt;{{cite journal
+  | author=Low, F. J. ''et al''
+  | title=Infrared cirrus - New components of the extended infrared emission
+  | journal=Astrophysical Journal, Part 2 - Letters to the Editor
+  | year=1984
+  | volume=278
+  | pages=L19-L22
+  | url=http://adsabs.harvard.edu/cgi-bin/bib_query?1984ApJ...278L..19L
+  | accessdate=2007-04-11 }}&lt;/ref&gt; However, due to rotation, the surface temperature of an asteroid can vary considerably as the sides are alternately exposed to solar radiation and then to the stellar background.
+
+===Composition===
+During the early history of the Solar System, minor planets underwent some degree of melting, allowing elements to be partially or completely segregated by mass. Some of the progenitor bodies may even have undergone periods of explosive [[volcanism]] and formed [[magma]] oceans. However, because of the relatively small size of these bodies, this period of melting was necessarily brief (compared to the much larger planets), and had generally ended about 4.5 billion years ago, that is in the first few tens to a hundred million years.&lt;ref&gt;{{cite journal
+  | author=Taylor, G. J.; Keil, K.; McCoy, T.; Haack, H.; Scott, E. R. D.
+  | title=Asteroid differentiation - Pyroclastic volcanism to magma oceans
+  | journal=Meteoritics
+  | year=1993
+  | volume=28
+  | issue=1
+  | pages=34-52
+  | url=http://adsabs.harvard.edu/abs/1993Metic..28...34T
+  | accessdate=2007-04-19 }}&lt;/ref&gt;
+
+[[Image:AllendeMeteorite.jpg|right|thumb|[[Meteorite falls|Allende]] is a carbonaceous chondrite meteorite that fell to Earth in [[Mexico]], 1969.]]
+The current belt consists primarily of two categories of asteroids. In the outer portion of the belt, closer to Jupiter's orbit, carbon-rich asteroids predominate.&lt;ref name=&quot;ApJ133&quot;&gt;{{cite journal
+ | author=Wiegert, P.; Balam, D.; Moss, A.; Veillet, C.; Connors, M.; Shelton, I.
+ | title=Evidence for a Color Dependence in the Size Distribution of Main-Belt Asteroids
+ | journal=The Astronomical Journal
+ | year=2007
+ | volume=133
+ | pages=1609–1614
+ | url=http://www.journals.uchicago.edu/cgi-bin/resolve?id=doi:10.1086/512128
+ | accessdate=2007-03-27 }}&lt;/ref&gt; These [[C-type asteroid|C-type]] (carbonaceous) asteroids include over 75% of the visible asteroids. They are more red in hue than the other asteroid categories and have a very low [[albedo]]. Their surface composition is similar to [[carbonaceous chondrite]] [[meteorite]]s. Chemically, their spectra indicate a match with the primordial composition of the early Solar System, with the lighter elements and volatiles (''e.g.'' ices) removed.
+
+Toward the inner portion of the belt, within 2.5 A.U. of the Sun, [[S-type asteroid|S-type]] ([[silicate]]) chondrite asteroids are more common.&lt;ref name=&quot;ApJ133&quot; /&gt;&lt;ref&gt;{{cite journal
+ | last = Clark
+ | first = B. E.
+ | title=New News and the Competing Views of Asteroid Belt Geology
+ | journal=Lunar and Planetary Science
+ | year=1996
+ | volume=27
+ | pages=225-226
+ | url=http://adsabs.harvard.edu/abs/1996LPI....27..225C
+ | accessdate=2007-03-27 }}&lt;/ref&gt; The spectra of their surfaces reveal the presence of silicates as well as some metal, but no significant carbonaceous compounds. This indicates that they are made of materials that have been significantly modified from the primordial Solar System composition. The expected mechanism was melting early in their history, which caused mass differentiation. They have a relatively high albedo, and form about 17% of the total asteroid population.
+
+A third category of asteroids, forming about 10% of the total population, is the [[M-type asteroid|M-type]]. These have a spectrum that resembles metallic iron-nickel, with a white or slightly red appearance and no absorption features in the spectrum. Some M-type asteroids are believed to be formed from the metallic cores of differentiated progenitor bodies that were disrupted through collision. However, there are also some silicate compounds that can produce a similar appearance. Thus, for example, the large M-type asteroid [[22 Kalliope]] does not appear to be primarily composed of metal.&lt;ref&gt;{{cite journal
+  | author=Margot, J. L.; Brown, M. E.
+  | title=A Low-Density M-type Asteroid in the Main Belt
+  | journal=Science
+  | year=2003
+  | volume=300
+  | issue=5627
+  | pages=1939-1942
+  | url=http://adsabs.harvard.edu/abs/2003Sci...300.1939M
+  | accessdate=2007-04-10 }}&lt;/ref&gt; Within the main belt, the number distribution of M-type asteroids peaks at a semi-major axis of about 2.7 A.U.&lt;ref name=&quot;lang2003&quot;&gt;{{cite web
+  | last = Lang
+  | first = Kenneth R.
+  | year=2003
+  | url = http://ase.tufts.edu/cosmos/print_images.asp?id=15
+  | title = Asteroids and meteorites
+  | publisher = NASA's Cosmos
+  | accessdate = 2007-04-02
+}}&lt;/ref&gt; Overall it is not yet clear whether all M-types are compositionally similar, or whether it is a label for several varieties which do not fit neatly into the main C and S classes.&lt;ref&gt;{{cite journal
+ | author=Mueller, M.; Harris, A. W.; Delbo, M.; MIRSI Team
+ | title=21 Lutetia and other M-types: Their sizes, albedos, and thermal properties from new IRTF measurements
+ | journal=Bulletin of the American Astronomical Society
+ | year=2005 | volume=37 | pages=627
+ | url=http://adsabs.harvard.edu/abs/2005DPS....37.0702M
+ | accessdate=2007-07-23 }}&lt;/ref&gt;
+
+===Kirkwood gaps===
+{{main|Kirkwood gap}}
+[[Image:Kirkwood Gaps.png|300px|thumb|Distribution of asteroid [[semi-major axis|semi-major axes]] in the &quot;core&quot; of the main belt. Cyan arrows point to the Kirkwood gaps, where [[orbital resonance]]s with [[Jupiter]] destabilize orbits.]]
+The [[semi-major axis]] of an asteroid is used to describe the dimensions of its orbit around the Sun, and its value determines the minor planet's [[orbital period]]. When considering the semi-major axes of all asteroids, the main belt contains noticeable gaps, called [[Kirkwood gaps]], in its distribution. They occur at the radii at which the mean orbital period of an asteroid is an integer fraction of the orbital period of Jupiter. This results in [[mean-motion resonance]] with the [[gas giant]] that is sufficient to perturb an asteroid to new [[orbital element]]s. In effect, asteroids located in such gap orbits are gradually nudged into different, random orbits with a larger or smaller semi-major axis. 
+
+However, the gaps are not seen in a simple snapshot of the locations of the asteroids at any one time. This is because asteroid orbits are elliptical, and many asteroids still cross through the radii corresponding to the gaps. The actual spatial density of asteroids in these gaps is not significantly different than in the neighboring regions.&lt;ref name=&quot;mnras244&quot; /&gt;
+
+The main gaps occur at the 3:1, 5:2, 7:3 and 2:1 mean-motion resonances with Jupiter. Thus an asteroid in the 3:1 Kirkwood gap would orbit the Sun three times for each Jovian orbit. Weaker resonances occur at other values of semi-major axis, such that less asteroids are found with those values than with nearby ones. (For example, a 8:3 resonance for asteroids with a semi-major axis of 2.71 A.U.)&lt;ref name=&quot;iau160&quot;&gt;{{cite conference
+  | first = S.
+  | last = Ferraz-Mello
+  | title = Kirkwood Gaps and Resonant Groups
+  | booktitle = proceedings of the 160th International Astronomical Union
+  | pages = 175-188
+  | publisher = Kluwer Academic Publishers
+  | date = June 14-18, 1993
+  | location = Belgirate, Italy
+  | url = http://adsabs.harvard.edu/abs/1994IAUS..160..175F
+  | accessdate = 2007-03-28 }}&lt;/ref&gt; 	 
+ 		 
+The main or &quot;core&quot; population of the asteroid belt is sometimes divided into three zones, based on the most prominent Kirkwood gaps. Zone I lies between the 4:1 resonance (2.06 A.U.) and 3:1 resonance (2.5 A.U.) Kirkwood gaps. Zone II contines from the end of Zone I out to the 5:2 resonance gap (2.82 A.U.). Zone III runs from the outer edge of Zone II to the 2:1 resonance gap (3.28 A.U.).&lt;ref&gt;{{cite journal | last=Klacka
+  | first=Jozef
+  | title=Mass distribution in the asteroid belt
+  | journal=Earth, Moon, and Planets
+  | year=1992
+  | volume=56
+  | issue=1
+  | pages=47-52
+  | url=http://adsabs.harvard.edu/abs/1992EM&amp;P...56...47K
+  | accessdate=2007-04-12 }}&lt;/ref&gt; 
+
+The main belt may also be divided into the inner and outer belts, with the inner belt formed by asteroids orbiting nearer to Mars than the 3:1 Kirkwood gap (2.5&amp;nbsp;A.U.), and the outer belt formed by those asteroids closer to Jupiter's orbit. (Some authors subdivide the inner and outer belts at the 2:1 resonance gap [3.3 A.U.], while others even define inner, middle and outer belts.)
+
+===Collisions===
+Measurements of the rotation periods of large asteroids in the main belt show that there is a lower limit. No asteroid with a diameter larger than 100 metres has a period of rotation of less than 2.2 hours. For asteroids rotating faster than approximately this rate, the [[centrifugal force]] at the surface is greater than the [[gravitational force]], so any loose surface material would be flung out. However, a solid object should be able to rotate much more rapidly. This suggests that the majority of asteroids with a diameter over 100 metres are actually [[rubble pile]]s formed through accumulation of debris after collisions between asteroids.&lt;ref&gt;{{cite web
+  | last = Rossi
+  | first = Alessandro
+  | date = [[May 20]], [[2004]]
+  | url = http://spaceguard.esa.int/tumblingstone/issues/current/eng/ast-day.htm
+  | title = The mysteries of the asteroid rotation day 
+  | publisher = The Spaceguard Foundation
+  | accessdate = 2007-04-09
+}}&lt;/ref&gt;
+
+The high population of the main belt makes for a very active environment, where collisions between asteroids occur frequently (on astronomical time scales). Collisions between main belt bodies with a mean radius of 10-km are expected to occur about once every 10 million years.&lt;ref name=&quot;backman_report&quot;&gt;{{cite web
+  | last=Backman
+  | first=D. E.
+  | date=[[March 06]], [[1998]]
+  | url=http://astrobiology.arc.nasa.gov/workshops/zodiac/backman/backman_toc.html
+  | title=Fluctuations in the General Zodiacal Cloud Density
+  | work=Backman Report
+  | publisher=NASA Ames Research Center
+  | accessdate=2007-04-04
+}}&lt;/ref&gt; A collision may fragment an asteroid into numerous smaller pieces (leading to the formation of a new [[asteroid family]]), and some of the debris from collisions can form [[meteoroid]]s that enter the Earth's atmosphere.&lt;ref&gt;{{cite web
+  | last=Kingsley
+  | first=Danny
+  | date=[[May 1]], [[2003]]
+  | url=http://abc.net.au/science/news/stories/s843594.htm
+  | title=Mysterious meteorite dust mismatch solved
+  | publisher=ABC Science
+  | accessdate=2007-04-04
+}}&lt;/ref&gt; Collisions that occur at low relative speeds may even join two asteroids together. After more than 4 billion years of such processes, the members of the asteroid belt now bear little resemblance to the original population.
+
+In addition to the asteroid bodies, the main belt also contains bands of dust with particle radii of up to a few hundred [[micrometre]]s. This fine material is produced, at least in part, from collisions between asteroids, and by the impact of micrometeorites upon the asteroids. Due to [[Poynting-Robertson effect|Poynting-Robertson drag]], the pressure of [[solar radiation]] causes this dust to slowly spiral inward toward the [[Sun]].&lt;ref name=&quot;apj392&quot;&gt;{{cite journal
+  | last = Reach
+  | first = William T.
+  | title=Zodiacal emission. III - Dust near the asteroid belt
+  | journal=Astrophysical Journal
+  | year=1992
+  | volume=392
+  | issue=1
+  | pages=289-299
+  | url=http://adsabs.harvard.edu/abs/1992ApJ...392..289R
+  | accessdate=2007-04-04 }}&lt;/ref&gt;
+
+The combination of this fine asteroid dust, as well as ejected cometary material, produces the [[zodiacal light]]. This faint auroral glow can be viewed at night extending from the direction of the [[Sun]] along the plane of the [[ecliptic]]. Particles that produce the visible zodiacal light average about 40 μm in radius. The typical lifetimes of such particles is on the order of 700,000 years. Thus, in order to maintain the bands of dust, new particles must be steadily produced within the asteroid belt.&lt;ref name=&quot;apj392&quot; /&gt;
+
+==Families and groups==
+{{main|Asteroid family}}
+[[Image:Asteroid proper elements i vs e.png|right|thumb|300px|This plot of orbital inclination (''i&lt;sub&gt;p&lt;/sub&gt;'') versus eccentricity (''e&lt;sub&gt;p&lt;/sub&gt;'') for the numbered main belt asteroids clearly shows several clumps of asteroid families.]]
+Approximately one third of the asteroids in the main belt are members of an asteroid family. These are asteroids that share similar [[orbital elements]], such as [[semimajor axis]], [[Orbital eccentricity|eccentricity]], and orbital [[inclination]] as well as similar spectral features, all of which indicate a common origin in the breakup of a larger body. Graphical displays of these elements, for members of the main belt, show concentrations indicating the presence of an asteroid family. There are about 20&amp;ndash;30 associations that are almost certainly asteroid families, and likely have a common origin. Additional groupings have been found but these are less certain. Asteroid families can be confirmed when the members display common spectral features.&lt;ref&gt;{{cite conference
+ | first=Anne
+ | last=Lemaitre
+ | title=Asteroid family classification from very large catalogues
+ | booktitle=Procedings Dynamics of Populations of Planetary Systems
+ | pages=135-144
+ | publisher=Cambridge University Press
+ |date=August 31-September 4, 2004 
+ | location=Belgrade, Serbia and Montenegro
+ | url=http://adsabs.harvard.edu/abs/2005dpps.conf..135L
+ | accessdate=2007-04-15 }}&lt;/ref&gt; Smaller associations of asteroids are called groups or clusters.
+
+Some of the most prominent families in the main belt (in order of increasing semi-major axis) consist of the [[Flora family|Flora]], [[Eunomia family|Eunoma]], [[Koronis family|Koronis]], [[Eos family|Eos]] and [[Themis family|Themis]] families.&lt;ref name=&quot;lang2003&quot; /&gt; For example, the Flora family, one of the largest, with more than 800 known members, may have formed from a collision less than a billion years ago.&lt;ref&gt;{{cite web
+  | last = Martel
+  | first = Linda M. V.
+  | date = [[March 9]], [[2004]]
+  | url = http://www.psrd.hawaii.edu/Mar04/fossilMeteorites.html
+  | title = Tiny Traces of a Big Asteroid Breakup
+  | publisher = Planetary Science Research Discoveries
+  | accessdate = 2007-04-02
+}}&lt;/ref&gt;
+The largest asteroid to be a true member of a family (as opposed to an interloper in the case of Ceres with the [[Gefion family]]) is [[4 Vesta]]. The [[Vesta family]] is believed to have formed as the result of a crater-forming impact on Vesta. Likewise the [[HED meteorite]]s may also have originated from Vesta as a result of this collision.&lt;ref&gt;{{cite journal
+  | last=Drake
+  | first=Michael J. 
+  | title=The eucrite/Vesta story
+  | journal=Meteoritics &amp; Planetary Science
+  | year=2001
+  | volume=36
+  | issue=4
+  | pages=501-513
+  | url=http://adsabs.harvard.edu/cgi-bin/nph-bib_query?bibcode=2001M%26PS...36..501D
+  | accessdate=2007-02-04 }}&lt;/ref&gt;
+
+Three prominent bands of dust have been found within the main belt. These have similar orbital inclinations as the Eos, Koronis and Themis asteroid families, and so may be associated with those groupings.&lt;ref&gt;{{cite journal
+  | author=Love, S. G.; Brownlee, D. E.
+  | title=The IRAS dust band contribution to the interplanetary dust complex - Evidence seen at 60 and 100 microns
+  | journal=Astronomical Journal
+  | year=1992
+  | volume=104
+  | issue=6
+  | pages=2236-2242
+  | url=http://adsabs.harvard.edu/abs/1992AJ....104.2236L
+  | accessdate=2007-04-11 }}&lt;/ref&gt;
+
+===Periphery===
+Skirting the inner edge of the belt (ranging between 1.78 and 2.0 A.U. with a mean semi-major axis of 1.9 A.U.) is the [[Hungaria family]] of minor planets. They are named after the main member of this family&amp;mdash;[[434 Hungaria]], and the group contains at least 52 named asteroids. The Hungaria group are separated from the main body by the 4:1 Kirkwood gap and their orbits have a high inclination. Some members of this group belong to the Mars-crossing category of asteroids, and gravitational perturbations by Mars is a likely factor in reducing the total population of this group.&lt;ref&gt;{{cite journal
+  | last=Spratt
+  | first=Christopher E.
+  | title=The Hungaria group of minor planets
+  | journal=Journal of the Royal Astronomical Society of Canada
+  | year=1990
+  | volume=84
+  | issue=2
+  | pages=123-131
+  | url=http://adsabs.harvard.edu/abs/1990JRASC..84..123S
+  | accessdate=2007-02-04 }}&lt;/ref&gt;
+
+Another high-inclination group in the inner part of the main belt is the [[Phocaea family]]. These are composed primarily of S-type asteroids, where as the neighboring Hungaria family includes some [[E-type asteroid|E-types]].&lt;ref&gt;{{cite journal
+  | author=Carvano, J. M.; Lazzaro, D.; Mothé-Diniz, T.; Angeli, C. A.; Florczak, M.
+  | title=Spectroscopic Survey of the Hungaria and Phocaea Dynamical Groups
+  | journal=Icarus
+  | year=2001
+  | volume=149
+  | issue=1
+  | pages=173-189
+  | url=http://adsabs.harvard.edu/abs/2001Icar..149..173C
+  | accessdate=2007-02-04 }}&lt;/ref&gt; The Phocaea family orbit between 2.25 and 2.5 A.U. from the Sun.
+
+Skirting the outer edge of the main belt is the [[65 Cybele|Cybele group]], orbiting between 3.3 and 3.5 A.U. These have a 7:4 orbital resonance with Jupiter. The [[Hilda family]] orbit between 3.5 and 4.2 A.U., and have relatively circular orbits and a stable 3:2 orbital resonance with Jupiter. There are relatively few asteroids beyond 4.2 A.U., until reaching Jupiter's orbit. Here the two large groups of [[Trojan asteroid]]s can be found, although they are not usually considered part of the main asteroid belt.
+
+===New families===
+Some asteroid families have formed recently, in astronomical terms. The [[Karin Cluster]] apparently formed about 5.7 million years ago from a collision with a 16-km radius progenitor asteroid.&lt;ref&gt;{{cite news
+  | title=SwRI researchers identify asteroid breakup event in the main asteroid belt 
+  | publisher=SpaceRef.com
+  | date=[[June 12]], [[2002]]
+  | url=http://www.spaceref.com/news/viewpr.html?pid=8627
+  | accessdate=2007-04-15 }}&lt;/ref&gt; The [[490 Veritas|Veritas family]] formed about 8.3 million years ago, and evidence for this event has been found in the form of interplanetary dust
+recovered from [[ocean]] sediment.&lt;ref&gt;{{cite news
+  | first=Maggie
+  | last=McKee
+  | title=Eon of dust storms traced to asteroid smash
+  | publisher=New Scientist Space
+  | date=[[January 18]], [[2006]] 
+  | url=http://space.newscientist.com/channel/solar-system/comets-asteroids/dn8603
+  | accessdate=2007-04-15 }}&lt;/ref&gt;
+
+In the more distant past, the [[1270 Datura|Datura cluster]] apparently formed about 450 million years ago from a collision with a main belt asteroid. The age estimate is based on the probability of the members having their current orbits, rather than from any physical evidence. However this cluster may a source for some zodiacal dust material.&lt;ref&gt;{{cite journal
+  | author=Nesvorný, D.; Vokrouhlick, D.; Bottke, W. F.
+  | title=The Breakup of a Main-Belt Asteroid 450 Thousand Years Ago 
+  | journal=Science
+  | year=2006
+  | volume=312
+  | issue=5779
+  | pages=1490
+  | url=http://www.sciencemag.org/cgi/content/full/312/5779/1490
+  | accessdate=2007-04-15 }}&lt;/ref&gt; Other recent cluster formations, such as the [[4652 Iannini|Iannini cluster]]
+(''circa'' 1&amp;ndash;5 million years ago), may have provided additional sources of this asteroid dust.&lt;ref&gt;{{cite journal
+  | author=Nesvorný, D.; Bottke, W. F.; Levison, H. F.; Dones, L.
+  | title=Recent Origin of the Solar System Dust Bands
+  | journal=The Astrophysical Journal
+  | year=2003
+  | volume=591
+  | pages=486–497 
+  | url=http://www.journals.uchicago.edu/cgi-bin/resolve?id=doi:10.1086/374807
+  | accessdate=2007-04-15 }}&lt;/ref&gt;
+
+==Exploration==
+[[Image:Dawn Flight Configuration 2.jpg|right|thumb|320px|Artist's concept of the Dawn Mission spacecraft with Vesta (left) &amp; Ceres (right). ''[[NASA]] image.'']]
+The first spacecraft to traverse the asteroid belt was [[Pioneer 10]], after entering the belt region on [[July 16]], [[1972]]. At the time there was some concern that the debris in the belt would pose a hazard to the spacecraft. Since that time though the belt has been safely traversed by the [[Pioneer 11]], [[Voyager program|Voyagers 1 and 2]], [[Galileo (spacecraft)|Galileo]], [[Cassini–Huygens|Cassini]], [[NEAR Shoemaker|NEAR]], [[Ulysses probe|Ulysses]] and [[New Horizons]] spacecraft, without incident. Due to the low density of materials within the belt, the odds of a probe running into an asteroid are now estimated at less than one in a billion.&lt;ref&gt;{{cite news
+  | first=Alan
+  | last=Stern
+  | title=New Horizons Crosses The Asteroid Belt
+  | publisher=Space Daily
+  | date=[[June 2]], [[2006]]
+  | url=http://www.spacedaily.com/reports/New_Horizons_Crosses_The_Asteroid_Belt.html
+  | accessdate=2007-04-14 }}&lt;/ref&gt;
+
+Only the NEAR and [[Hayabusa]] missions have been dedicated specifically to the study of asteroids, and these were used to study [[near-Earth asteroid]]s. However, the [[Dawn Mission]] is being dispatched to observe [[4 Vesta|Vesta]] and [[Ceres (dwarf planet)|Ceres]] in the main belt. If the probe is still operational after examining these two large asteroids, an extended mission is possible that could allow additional exploration.&lt;ref&gt;{{cite web
+  | author=Staff
+  |date=[[April 10]], [[2007]]
+  | url = http://dawn.jpl.nasa.gov/
+  | title = Dawn Mission Home Page
+  | publisher = NASA JPL
+  | accessdate = 2007-04-14
+}}&lt;/ref&gt;
 
 == See also ==
-* [[Asteroid]]
-* [[Asteroid family]]
-* [[Minor planet]]
+* [[Asteroids in fiction]]
 * [[Centaur (planetoid)|Centaur]]
-* [[Kirkwood Gap]]
 * [[Colonization of the asteroids]]
+* [[Debris disk]]
+* [[Trojan asteroid]]
 
-== References ==
-&lt;references /&gt;
+==References==
+{{Reflist}}
 
-== External links ==
+==Further reading==
+* {{cite book 
+  | first=Linda T.
+  | last=Elkins-Tanton
+  | year=2006
+  | title=Asteroids, Meteorites, and Comets
+  | edition=First edition
+  | publisher=Chelsea House
+  | location=New York
+  | id=ISBN 0-8160-5195-X }}
+
+==External links==
+* {{cite web
+  | author=Staff | date=[[October 31]], [[2006]]
+  | url = http://nssdc.gsfc.nasa.gov/planetary/planets/asteroidpage.html
+  | title = Asteroids | publisher = NASA
+  | accessdate = 2007-04-20 }}
+* [http://solarsystem.nasa.gov/planets/profile.cfm?Object=Asteroids Asteroids Page] at [http://solarsystem.nasa.gov NASA's Solar System Exploration]
+* {{cite web
+  | last = Munsell | first = Kirk | date = September 16, 2005
+  | url = http://solarsystem.nasa.gov/planets/profile.cfm?Object=Asteroids Asteroids Page
+  | title = Asteroids: Overview
+  | publisher = [http://solarsystem.nasa.gov NASA's Solar System Exploration]
+  | accessdate = 2007-05-26 }}
+* {{cite web
+  | last = Arnett | first = William A.
+  | date = [[February 26]], [[2006]]
+  | url = http://www.nineplanets.org/asteroids.html
+  | title = Asteroids | publisher = The Nine Planets
+  | accessdate = 2007-04-20 }}
+* {{cite web
+  | url = http://www.solstation.com/stars/asteroid.htm
+  | title = Main Asteroid Belt | publisher = Sol Company
+  | accessdate = 2007-04-20 }}
+* {{cite web
+  | last = Hsieh | first = Henry H.
+  | date = [[March 1]], [[2006]]
+  | url = http://www.ifa.hawaii.edu/~hsieh/mbcs.html
+  | title = Main-Belt Comets | publisher = University of Hawaii
+  | accessdate = 2007-04-20 }}
+* {{cite web
+  | author=Staff | year = 2007
+  | url = http://www.planetary.org/explore/topics/asteroids_and_comets/facts.html
+  | title = Space Topics: Asteroids and Comets
+  | publisher = The Planetary Society | accessdate = 2007-04-20 }}
 * Plots of [http://hamilton.dm.unipi.it/astdys/propsynth/allae.gif eccentricity vs. semi-major axis] and [http://hamilton.dm.unipi.it/astdys/propsynth/allai.gif inclination vs. semi-major axis] at Asteroid Dynamic Site
 
 &lt;center&gt;
@@ -131,43 +570,5 @@ The orbital distance of the belt is an estimated mean distance or range, based e
 
 {{Footer_SolarSystem}}
 &lt;/center&gt;
-
-[[Category:Asteroid groups and families]]
-
-[[als:Asteroidengürtel]]
-[[ast:Cinturón d'asteroides]]
-[[az:Asteroid qurşağı]]
-[[zh-min-nan:Sió-he̍k-chheⁿ-toà]]
-[[bg:Астероиден пояс]]
-[[ca:Cinturó d'asteroides]]
-[[cs:Hlavní pás]]
-[[da:Asteroidebælte]]
-[[de:Asteroidengürtel]]
-[[es:Cinturón de asteroides]]
-[[eo:Asteroida zono]]
-[[fr:Ceinture d'astéroïdes]]
-[[gl:Cinto de asteroides]]
-[[ko:소행성대]]
-[[hr:Asteroidni pojas]]
-[[is:Smástirnabeltið]]
-[[it:Fascia principale]]
-[[he:חגורת האסטרואידים]]
-[[kn:ಎಸ್ಟೆರೊಇಡ್ ಪಟ್ಟಿ]]
-[[nl:Planetoïdengordel]]
-[[ja:小惑星帯]]
-[[no:Asteroidebeltet]]
-[[nn:Asteroidebeltet]]
-[[pl:Pas planetoid]]
-[[pt:Cintura de asteróides]]
-[[ro:Centură de asteroizi]]
-[[ru:Главный пояс астероидов]]
-[[simple:Asteroid belt]]
-[[sk:Pásmo planétok]]
-[[sl:Asteroidni pas]]
-[[fi:Asteroidivyöhyke]]
-[[sv:Asteroidbältet]]
-[[th:แถบดาวเคราะห์น้อย]]
-[[vi:Vành đai tiểu hành tinh]]
-[[tr:Asteroit kuşağı]]
-[[zh:小行星带]]</pre>
+[[Category:Asteroid groups and families]]</pre>
 </div>

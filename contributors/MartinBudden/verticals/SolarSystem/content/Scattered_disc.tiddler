@@ -1,18 +1,19 @@
-<div title="Scattered disc" modifier="www.wikipedia.org" server.host="www.wikipedia.org/w" downloaded="200612192147" wikiformat="mediawiki" mediawiki.revid="94236271">
-<pre>The '''scattered disc''' (or '''scattered disk''') is a distant region of our [[solar system]], thinly populated by icy [[minor planet]]s known as '''scattered disc objects''' (SDOs), a subset of the broader family of [[trans-Neptunian object]]s (TNOs).  The innermost portion of the scattered disc overlaps with the [[Kuiper belt]], but its outer limits extend much farther away from the [[Sun]] and above and below the [[ecliptic]] than the belt proper.  
+<div title="Scattered disc" tags="[[Category:Trans-Neptunian objects]] [[Category:Solar System]]" server.host="en.wikipedia.org/w" server.page.revision="140924503" wikiformat="mediawiki">
+<pre>[[Image:Eris and dysnomia2.jpg|thumb|250px|Eris, the largest known scattered disc object (center), and its moon Dysnomia (left of center).]]
+The '''scattered disc''' (or '''scattered disk''') is a distant region of our [[solar system]], thinly populated by icy [[minor planet]]s known as '''scattered disc objects''' (SDOs), a subset of the broader family of [[trans-Neptunian object]]s (TNOs).  The innermost portion of the scattered disc overlaps with the [[Kuiper belt]], but its outer limits extend much farther away from the [[Sun]] and more above and below the [[ecliptic]] than the belt proper.  
 {{TNO}}
 
 ==Formation==
-The scattered disk is still poorly understood, although prevailing astronomical opinion suggests it was formed when [[Kuiper belt]] objects (KBOs) were &quot;scattered&quot; by gravitational interactions with the outer planets, principally [[Neptune]], into highly [[eccentricity (orbit)|eccentric]] and -[[inclination|inclined]] orbits.  While the Kuiper belt is a relatively &quot;round&quot; and &quot;flat&quot; doughnut of space extending from about 30 AU to 44 AU with its member-objects locked in autonomously circular orbits ([[cubewano]]s) or mildly-elliptical [[orbital resonance|resonant]] orbits ([[plutino]]s and [[twotino]]s), the scattered disc is by comparison a much more erratic milieu.  SDOs can often, as in the case of [[136199 Eris|Eris]], travel almost as great a &quot;vertical&quot; distance as they do relative to what has come to be defined as &quot;horizontal&quot;.  Orbital simulations show SDO orbits may well be erratic and unstable and that the ultimate fate of these objects is to be permanently ejected from the core of the solar system into the [[Oort cloud]] or beyond.  
+The scattered disk is still poorly understood, although prevailing astronomical opinion suggests it was formed when [[Kuiper belt]] objects (KBOs) were &quot;scattered&quot; by gravitational interactions with the outer planets, principally [[Neptune]], into highly [[eccentricity (orbit)|eccentric]] and [[inclination|inclined]] orbits.  While the Kuiper belt is a relatively &quot;round&quot; and &quot;flat&quot; doughnut of space extending from about 30 AU to 44 AU with its member-objects locked in autonomously circular orbits ([[cubewano]]s) or mildly-elliptical [[orbital resonance|resonant]] orbits ([[plutino]]s and [[twotino]]s), the scattered disc is by comparison a much more erratic milieu.  SDOs can often, as in the case of [[Eris (dwarf planet)|Eris]], travel almost as great a &quot;vertical&quot; distance as they do relative to what has come to be defined as &quot;horizontal&quot;.  Orbital simulations show SDO orbits may well be erratic and unstable and that the ultimate fate of these objects is to be permanently ejected from the core of the solar system into the [[Oort cloud]] or beyond.  
 
 There is an emerging sense that [[centaur (planetoid)|centaur]]s may simply be objects just like SDOs that were knocked inwards from the Kuiper belt rather than outwards, making them simply &quot;cis-Neptunian&quot; SDOs.
 Indeed, some objects like {{mpl|(29981) 1999 TD|10}} blur the distinction, and the [[Minor Planet Center]] (MPC) now lists centaurs and SDOs together.&lt;ref&gt;[http://cfa-www.harvard.edu/iau/lists/Centaurs.html ''List Of Centaurs and Scattered-Disk Objects''] at the ''IAU: Minor Planet Center''&lt;/ref&gt;
-In recognition of this blurring of categorization, some scientists use &quot;'''scattered kuiper belt object'''&quot; (or SKBO) as an umbrella term for both centaurs and member bodies of the scattered disc.
+In recognition of this blurring of categorization, some scientists use &quot;'''scattered Kuiper belt object'''&quot; (or SKBO) as an umbrella term for both centaurs and member bodies of the scattered disc.
 
 Although the TNO [[90377 Sedna]] is officially considered an SDO by the MPC, its discoverer [[Michael E. Brown]] has suggested that because its [[perihelion]] distance of 76 AU is too distant to be affected by the gravitational attraction of the outer planets it should be considered an inner Oort cloud object rather than a member of the scattered disk.&lt;ref&gt;[http://www.gps.caltech.edu/~mbrown/sedna/ ''Sedna''] at ''www.gps.caltech.edu''&lt;/ref&gt;
 This line of thinking suggests that a lack of gravitational interaction with the outer planets disqualifies a TNO from scattered disc membership, which would create an outer edge somewhere between Sedna and more conventional SDOs like Eris.  If Sedna is beyond the scattered disk, it may not be unique; {{mpl|2000 CR|105}}, which was discovered before Sedna, may also be an inner Oort cloud object or (more likely) a transitional object between the scattered disc and the inner Oort cloud.
 
-Such objects referred to as [[#Detached objects, or an extended scattered disc?|''Detached'']], have orbits which cannot be created by Neptune scattering. Instead, a number of explanations have been put  forward including a passing star&lt;ref name=&quot;Morbidelli 2004&quot; &gt;
+Such objects, referred to as [[#Detached objects, or an extended scattered disc?|''detached'']], have orbits which cannot be created by Neptune scattering. Instead, a number of explanations have been put  forward including a passing star&lt;ref name=&quot;Morbidelli 2004&quot; &gt;
 Alessandro Morbidelli and Harold F. Levison
 ''Scenarios for the Origin of the Orbits of the Trans-Neptunian Objects 2000 CR105 and 2003 VB12 (Sedna)''
 The Astronomical Journal, (2004) '''128''', pp 2564-2576. [http://www.arxiv.org/abs/astro-ph/0403358 Preprint]
@@ -23,25 +24,25 @@ To appear in Icarus (2006). [http://staff.on.br/rodneyg/companion/solar_companio
 &lt;/ref&gt;
 See [[90377 Sedna#Orbital characteristics|Sedna]].
 
-== Orbits ==
+==Orbits==
 [[Image:TheKuiperBelt_100AU_SDO.svg|right|thumb|400px|Scattered disk and [[Kuiper Belt]] objects.]]
-The first SDO to be recognized was {{mpl|(15874) 1996 TL|66}}, first identified in [[1996]] by astronomers based at [[Mauna Kea]]. The first object presently classified as an SDO to be discovered was {{mpl|(48639) 1995 TL|8}}, found by [[Spacewatch]].
+The first SDO to be recognized was {{mpl|(15874) 1996 TL|66}}, first identified in 1996 by astronomers based at [[Mauna Kea]]. The first object presently classified as an SDO to be discovered was {{mpl|(48639) 1995 TL|8}}, found by [[Spacewatch]].
 
 The diagram on the right illustrates the orbits of all known scattered disk objects up to 100AU together with Kuiper belt objects (in grey) and resonant objects (in green). The [[eccentricity (orbit)|eccentricity]] of the orbits is represented by segments (extending from the [[perihelion]] to the [[aphelion]]) with the [[inclination]] represented on Y axis. 
-=== Perihelia ===
-Typically, the scattered objects are characterised by orbits with medium and high eccentricities but their perihelia bring them no closer than 35AU, clear from direct influence of Neptune (red segments). Plutinos (grey segments for Pluto and Orcus) as well as resonant object at 2:5 (in green) can approach Neptune closer as their orbits are protected by resonances. This '''perihelion &gt; 35 AU''' condition is actually one of the defining characteristics of scattered objects.
+===Perihelia===
+Typically, the scattered objects are characterised by orbits with medium and high eccentricities but their perihelia bring them no closer than 35AU, clear from direct influence of Neptune (red segments). Plutinos (grey segments for Pluto and Orcus) as well as resonant objects at 2:5 (in green) can approach Neptune closer as their orbits are protected by resonances. This '''perihelion &gt; 35 AU''' condition is actually one of the defining characteristics of scattered objects.
 
-=== Extremes ===
+===Extremes===
 The scattered disc is the place where extreme eccentricity and high inclination appears to be the norm and circular orbits are exceptional. Some exceptional orbits are plotted in yellow
 
 *{{mp|1999 TD|10}} has an orbit with extreme eccentricity (~0.9), bringing its perihelion near Saturn's orbit. This could qualify it as a [[Centaur (planetoid)|Centaur]].
 *{{mp|2002 XU|93}} is currently the object with the highest inclination (~78&amp;deg;) in the Scattered Disc. 
 *{{mpl|2004 XR|190}} has the atypical, near circular (the short yellow segment) orbit, but it is highly inclined.
 
-=== Some order in the chaos? ===
+===Some order in the chaos?===
 Resonant objects (shown in green), are not considered to be members of the scattered disk. Minor  resonances are also populated and some computer simulations show that many objects could be actually on weak, higher order resonances (6:11,4:9,3:7,5:12,3:8,2:7,1:4). Quoting one of the researchers:&lt;ref&gt;Hahn    J. Malhotra R.''Neptune's migration into a stirred-up Kuiper Belt'' The Astronomical Journal, '''130''', pp.2392-2414, Nov.2005.[http://www.arxiv.org/PS_cache/astro-ph/pdf/0507/0507319.pdf Full text on arXiv]. &lt;/ref&gt; ''the scattered disk might not be so scattered'' after all.
 
-=== Scattered objects versus classical objects ===
+===Scattered objects versus classical objects===
 [[Image:TheKuiperBelt_100AU_SDO_stats.svg|right|thumb|400px|Scattered objects compared with the classical objects.]]
 
 The inserts in the diagram on the right compare the eccentricity and inclination of the scattered disk population to the cubewanos. Each small coloured square represents a given range for both the eccentricity '''e''' and the inclination '''i'''. &lt;ref&gt;As near-circular orbits occupy the first column (e&lt;0.05) and the orbits with the lowest inclination (i&lt;5 degrees) occupy the lowest row, the square in the bottom left corner represents the number of near circular, very lowly inclined orbits.&lt;/ref&gt;  The relative number of objects within the square is represented with ''cartographic'' colours&lt;ref&gt;A grey square represents a  single object (an outlier) in this range.&lt;/ref&gt; (from small numbers plotted as green ''valleys'' to brown ''peaks''). 
@@ -51,7 +52,7 @@ Characteristically, there are no known SDO objects with eccentricity lower than 
 
 It is the eccentricity, more than the orbit's inclination, that is the distinctive attribute of the family of scattered objects.
 
-=== Orbit plots ===
+===Orbit plots===
 [[Image:TheKuiperBelt_Projections_100AU_Classical_SDO.svg|left|thumb|240px|Orbit projections.]]
 More traditional, the graph on the left represents polar and ecliptic views of the (aligned) orbits of the scattered disk objects&lt;ref&gt;Minor Planet Circular 2005-X77 [http://cfa-www.harvard.edu/mpec/K05/K05X77.html Distant Minor planets] was used for orbit classification. The updated data can be found in [http://cfa-www.harvard.edu/iau/mpec/K06/K06D28.html MPC 2006-D28]. &lt;/ref&gt; (in black) on the background of cubewanos (in blue) and resonant (2:5) objects (in green). As yet unclassified objects in 50-100AU region are plotted in grey.&lt;ref&gt;For roughly a half of known TNO the orbits are not yet known with the precision sufficient for the classification (a particularly delicate task for resonant objects).&lt;/ref&gt;
 
@@ -64,7 +65,7 @@ On the ecliptic view, the arcs represent the same ''minimum perihelion''&lt;ref&
 == Detached objects, or an extended scattered disc? ==
 [[Image:TheKuiperBelt_550AU_ESDO.svg|right|thumb|400px|Distribution of scattered and detached objects. Note that the positions on the diagram represent semi-major axis (mean distance to the Sun) and '''not''' the current positions of the objects. Sedna is currently actually closer than Eris.]]
 The recently discovered objects {{mpl|2000 CR|105}} with a perihelion too far away from [[Neptune]] to be influenced by it, led to a discussion among astronomers about a new minor planet set, called the ''Extended scattered disc'' ('''E-SDO'''&lt;ref&gt;[http://www.obs-nice.fr/gladman/cr105.html ''Evidence for an Extended Scattered Disk?''] at ''[http://www.obs-nice.fr Observatoire de la Cote d'Azur]''&lt;/ref&gt;).
-More recently, these objects are referred to as ''detached objects''.&lt;ref name=Jewitt2006&gt;{{cite book| authorlink=David C. Jewitt| first=David C.| last= Jewitt| coauthors= A. Delsanti| chapter=The Solar System Beyond The Planets| title=Solar System Update : Topical and Timely Reviews in Solar System Sciences| publisher=Springer-Praxis Ed.| id= ISBN 3-540-26056-0| year=2006}}&lt;/ref&gt; [http://www.ifa.hawaii.edu/faculty/jewitt/papers/2006/DJ06.pdf Preprint version (pdf)]&lt;/ref&gt;) or ''Distant Detached Objects'' ('''DDO'''&lt;ref name=&quot;Gomez 2006&quot; /&gt;). 
+More recently, these objects are referred to as ''detached objects''.&lt;ref name=Jewitt2006&gt;{{cite book| authorlink=David C. Jewitt| first=David C.| last= Jewitt| coauthors= A. Delsanti| chapter=The Solar System Beyond The Planets| title=Solar System Update : Topical and Timely Reviews in Solar System Sciences| publisher=Springer-Praxis Ed.| id= ISBN 3-540-26056-0| year=2006}}&lt;/ref&gt; ([http://www.ifa.hawaii.edu/faculty/jewitt/papers/2006/DJ06.pdf Preprint version (pdf)]) or ''Distant Detached Objects'' ('''DDO'''&lt;ref name=&quot;Gomez 2006&quot; /&gt;). 
 
 The classification suggested by [[Deep Ecliptic Survey]] team, introduces a formal distinction between ''Scattered-Near'' objects (which could be scattered by Neptune) from ''Scattered-Extended'' objects (e.g. [[90377 Sedna]]) using [[Tisserand's parameter]] value of 3.&lt;ref name=&quot;DES_Elliot2006&quot; &gt;
 J. L. Elliot, S. D. Kern, K. B. Clancy, A. A. S. Gulbis, R. L. Millis, M. W. Buie, L. H. Wasserman, E. I. Chiang, A. B. Jordan, D. E. Trilling, and K. J. Meech
@@ -73,9 +74,9 @@ The Astronomical Journal, '''129''' (2006), pp.
 [http://alpaca.as.arizona.edu/~trilling/des2.pdf preprint] &lt;/ref&gt;
 
 The diagram illustrates all known scattered and detached objects together with the largest Kuiper belt objects  for reference. 
-The very large eccentricities of [[Sedna]]  and {{mpl|(87269) 2000 OO|67}} are partly shown with the red segments, extending from the perihelion to the aphelion, well outside the diagram (&gt;900AU and &gt;1020AU respectively).
+The very large eccentricities of [[90377 Sedna|Sedna]]  and {{mpl|(87269) 2000 OO|67}} are partly shown with the red segments, extending from the perihelion to the aphelion, well outside the diagram (&gt;900AU and &gt;1020AU respectively).
 
-== Noteworthy SDOs ==
+== Noteworthy SDOs ==&lt;!-- This section is linked from [[Kuiper belt]] --&gt;
 {| class=&quot;wikitable&quot;
 |+ List of Notable SDOs
 !Permanent&lt;br&gt;Designation
@@ -88,7 +89,7 @@ The very large eccentricities of [[Sedna]]  and {{mpl|(87269) 2000 OO|67}} are p
 !Discoverer
 !Diameter method
 |-
-| [[136199 Eris|Eris]]
+| [[Eris (dwarf planet)|Eris]]
 | {{mp|2003 UB|313}}
 | −1.12
 | 0.86 ± 0.07
@@ -107,16 +108,6 @@ The very large eccentricities of [[Sedna]]  and {{mpl|(87269) 2000 OO|67}} are p
 | 2003
 | [[Michael E. Brown|M. Brown]], [[Chad Trujillo|C. Trujillo]] &amp; [[David L. Rabinowitz|D. Rabinowitz]]
 |
-|-
-| 84522
-| {{mpl-|84522|2002 TC|302}}
-| 3.9
-| &gt; 0.03
-| &lt; 1211
-| 55.1
-| [[2002]]
-| [[Near Earth Asteroid Tracking|NEAT]]
-| thermal
 |-
 |
 | {{mpl|2004 XR|190}}
@@ -150,7 +141,7 @@ The very large eccentricities of [[Sedna]]  and {{mpl|(87269) 2000 OO|67}} are p
 |}
 
 ==References and footnotes ==
-&lt;div class=&quot;references&quot;&gt;&lt;references/&gt;&lt;/div&gt;
+{{reflist}}
 
 ==See also==
 * [[List of trans-Neptunian objects]].
@@ -160,21 +151,5 @@ The very large eccentricities of [[Sedna]]  and {{mpl|(87269) 2000 OO|67}} are p
 {{Footer SolarSystem}}
 
 [[Category:Trans-Neptunian objects]]
-
-[[zh-min-nan:Sàn-loān îⁿ-poâⁿ]]
-[[bg:Разреден диск]]
-[[ca:Disc dispers]]
-[[de:SDO]]
-[[es:Disco disperso]]
-[[fr:Objet épars]]
-[[ko:산란 분포대]]
-[[it:Disco diffuso]]
-[[he:הדיסק המפוזר]]
-[[nl:Scattered disk object]]
-[[ja:散乱ディスク天体]]
-[[pl:Dysk rozproszony]]
-[[pt:Disco disperso]]
-[[simple:Scattered disc]]
-[[sk:Rozptýlený disk]]
-[[zh:黃道離散天體]]</pre>
+[[Category:Solar System]]</pre>
 </div>

@@ -1,193 +1,366 @@
-<div title="Planet" modifier="www.wikipedia.org" server.host="www.wikipedia.org/w" downloaded="200612192146" wikiformat="mediawiki" mediawiki.revid="95229506">
-<pre>{{Dablink|This article is about the [[astronomical]] term. See also the related but distinct term [[dwarf planet]].}}{{two other uses||the astrological concept|Planets in astrology|other uses|Planet (disambiguation)}}
-[[Image:NewSolarSystem2.jpg|thumb|right|420px|The eight planets and three dwarf planets of the Solar System. ''(Sizes to scale.)'']]
-The [[International Astronomical Union]] [[2006 redefinition of planet|defines]] '''&quot;planet&quot;''' as a [[celestial body]] that, within the [[Solar System]],&lt;ref name=IAU&gt;[http://www.iau2006.org/mirror/www.iau.org/iau0603/index.html IAU 2006 General Assembly: Result of the IAU Resolution votes]&lt;/ref&gt;
-:(a) is in [[orbit]] around the [[Sun]];
-:(b) has sufficient [[mass]] for its self-[[gravity]] to overcome [[rigid body|rigid body forces]] so that it assumes a [[hydrostatic equilibrium]] (nearly round) shape; and
-:(c) has [[clearing the neighbourhood|cleared the neighbourhood]] around its orbit;
-or within another system,&lt;ref name=WSGESP&gt;{{cite web |year= 2001| title=Working Group on Extrasolar Planets (WGESP) of the International Astronomical Union| work=[[IAU]]| url=http://www.dtm.ciw.edu/boss/definition.html| accessdate=2006-05-25}} &lt;/ref&gt;
-:(i) is in orbit around a [[star]] or stellar remnants;
-:(ii) has a mass below the limiting mass for [[thermonuclear]] [[fusion]] of [[deuterium]]; and
-:(iii) is above the minimum mass/size requirement for planetary status in the Solar System.
+<div title="Planet" server.host="en.wikipedia.org/w" server.page.revision="147493671" wikiformat="mediawiki">
+<pre>{{Two other uses|the astronomical term|a related but distinct class of objects|dwarf planet}}
 
-Our solar system is thus considered to have eight planets: [[Mercury (planet)|Mercury]], [[Venus]], [[Earth]], [[Mars]], [[Jupiter]], [[Saturn]], [[Uranus]] and [[Neptune]]. Under a [[dwarf planet|separate resolution]], it is also considered to have three [[dwarf planets]]: [[Ceres (dwarf planet)|Ceres]], [[Pluto]], and [[Eris (dwarf planet)|Eris]]. There have been more than two hundred planets discovered [[extrasolar planet|orbiting other stars]] to date.&lt;ref name=&quot;Encyclopaedia&quot;&gt;{{cite web |title=Interactive Extra-solar Planets Catalog |work=The Extrasolar Planets Encyclopaedia |url=http://exoplanet.eu/catalog.php |last=Schneider |first=Jean |date=[[2006-10-30]] |accessdate=2006-10-31}}&lt;/ref&gt;
+[[Image:NewSolarSystem2.jpg|thumb|right|380px|The eight planets and three dwarf planets of the Solar System. Sizes are to scale, though distances are compressed]]
 
-Historically, there has been no formal scientific [[definition of &quot;planet&quot;]] and without one, the [[Solar System]] had been considered to have [[Planet#Former planets|various planets]] over the years. This changed when a resolution covering planets within our solar system was [[2006 definition of planet|formally adopted]] by the IAU in 2006, limiting the number to eight. However, the IAU's position on those in other systems remains only a working definition in place since 2003, and as such, is easily subject to change. The IAU has not yet taken a position on free-floating [[planemo|objects of planetary mass]] outside star systems, other than to exclude those in young [[star cluster]]s.
+A '''planet''', as [[2006 definition of planet|most recently defined]] by the [[International Astronomical Union]] (IAU), is a celestial body [[orbit]]ing a [[star]] or [[Stellar evolution#Stellar remnants|stellar remnant]] that is massive enough to be rounded by its own [[gravity]], not massive enough to cause [[thermonuclear fusion]] in its core, and has [[cleared the neighbourhood|cleared its neighbouring region]] of [[planetesimals]].&lt;ref name=IAU&gt;{{ cite web | title = IAU 2006 General Assembly: Result of the IAU Resolution votes | url = http://www.iau2006.org/mirror/www.iau.org/iau0603/index.html | year = 2006 | accessdate = 2007-04-30 }}&lt;/ref&gt;&lt;ref name=WSGESP&gt;{{ cite web |year = 2001 | title = Working Group on Extrasolar Planets (WGESP) of the International Astronomical Union | work = [[IAU]]| url = http://www.dtm.ciw.edu/boss/definition.html | accessdate = 2006-05-25 }}&lt;/ref&gt;
 
-== Etymology ==
-[[Image:Olympians.jpg|thumb|left|220 px|The gods of [[Olympus]], after whom the Solar System's planets are named.]]
-In ancient times, [[Greeks|Greek]] astronomers noted how certain lights moved across the sky in relation to the other stars. These objects were believed to orbit the [[Earth]], which was considered to be stationary. The &quot;wandering&quot; lights were called &quot;πλανήτης&quot; (''planētēs''), a [[Greek language|Greek]] term meaning &quot;wanderer&quot;, and it is from this that the word &quot;planet&quot; was derived.
+After stars and stellar remnants, planets are some of the most [[mass]]ive objects known to humanity. They play an important part in the structure of [[planetary system]]s, and are also considered, along with large moons, the most feasible environment for [[life]].&lt;ref&gt;{{cite web | last =Drake | first =Frank | date =[[September 29]], [[2003]] | url =http://www.astrobio.net/news/article610.html | title =The Drake Equation Revisited | publisher =Astrobiology Magazine | accessdate = 2007-05-08 }}&lt;/ref&gt; Thus [[planetary science]] is essential not only to comprehend the structure of the [[universe]], but also to better understand the [[origin of life|development of life]], and to aid the [[SETI|search for extraterrestrial intelligence]]. Additionally, the planets visible from Earth have played a vital role in the shaping of human [[culture]], [[religion]] and [[philosophy]] in numerous civilisations. Even today, many people continue to believe the [[astrology|movement of the planets affects their lives]], although such a causation is [[Astrology and astronomy#Historical divergence|rejected by the scientific community]].
 
-In near-universal practice in the [[Western world]], the planets in the [[Solar System]] are named after [[Graeco-Roman mythology|Graeco-Roman]] gods, as, in Europe, it was the Greeks who originally named them. However, because of the influence of the Roman Empire and, later, the Catholic Church, in most countries in the West, the planets are known by their Roman (or Latin) names, rather than the original Greek.  The Romans, who, like the Greeks, were [[Indo-European mythology|Indo-Europeans]], shared with them a common pantheon under different names but lacked the rich narrative traditions that Greek poetic culture had given their gods. During the later period of the [[Roman Republic]], Roman writers borrowed much of the Greek narratives and applied them to their own pantheon, to the point where they became virtually indistinguishable. When the Romans studied Greek astronomy, they gave the planets their own gods' names. In ancient times, there were seven known planets; each presumed to be circling the Earth according to the complex laws laid out by [[Claudius Ptolemy]] in the [[2nd century]]. They were, in increasing order from Earth: the [[Moon]] (called Luna by the Romans, and Selene by the Greeks), [[Mercury (planet)|Mercury]] (called Hermes by the Greeks), [[Venus]] (Aphrodite), the [[Sun]] (called Sol by the Romans, Helios by the Greeks), [[Mars]] (Ares), [[Jupiter]] (Zeus), and [[Saturn]] (Kronos). Eventually, the Sun and Moon were removed from the list of planets in accordance with the [[heliocentric model]]. However, when subsequent planets were discovered in the 18th and 19th centuries, the naming practice was retained: [[Uranus]] (Ouranos) and [[Neptune]] (Poseidon). The Greeks still use their original names for the planets.
+Under IAU definitions, there are eight planets in the Solar System ([[Mercury (planet)|Mercury]], [[Venus]], [[Earth]], [[Mars]], [[Jupiter]], [[Saturn]], [[Uranus]], and [[Neptune]]) and also at least three [[dwarf planets]] ([[Ceres (dwarf planet)|Ceres]], [[Pluto]], and [[Eris (dwarf planet)|Eris]]). Many of these planets are orbited by one or more [[natural satellite|moons]], which can be larger than small planets. There have also been more than two hundred planets discovered [[extrasolar planet|orbiting other stars]].&lt;ref name=&quot;Encyclopaedia&quot;&gt;{{cite web |title=Interactive Extra-solar Planets Catalog |work=The Extrasolar Planets Encyclopaedia |url=http://exoplanet.eu/catalog.php |last=Schneider |first=Jean |date=[[October 30]], [[2006]] |accessdate=2006-10-31}}&lt;/ref&gt; Planets are generally divided into two main types: large, low-density [[gas giant]]s and smaller, rocky [[terrestrial planet|terrestrials]]. Dwarf planets, a separate category, can either be terrestrials or frozen [[ice dwarf]]s.
 
-Some [[Ancient Rome|Romans]], following a belief imported from [[Mesopotamia]] into [[Hellenistic Egypt]],&lt;ref&gt;{{cite web | nineplanets.org | title=Appendix 5: Planetary Linguistics | year=2006 | url=http://www.nineplanets.org/days.html}}&lt;/ref&gt; believed that the seven gods after whom the planets were named took hourly shifts in looking after affairs on Earth, in Ptolemaic orbit order listed inwards. As a result, a list of which god has charge of the first hour in each day came out as Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, i.e. the usual weekday name order.&lt;ref name=&quot;weekdays&quot;&gt;{{cite journal | last=Falk | first=Michael | title=Astronomical Names for the Days of the Week | journal=Journal of the [[Royal Astronomical Society of Canada]] | year=1999 | volume=93 | pages=122-133 | url=http://adsabs.harvard.edu/cgi-bin/nph-bib_query?1999JRASC..93..122F }}&lt;/ref&gt; Sunday, Monday, and Saturday are straightforward translations of these Roman names.  In English the other days were renamed after Tiw, Wóden, Thunor, and Fríge, [[Anglo-Saxon gods]] considered similar or equivalent to Mars, Mercury, Jupiter, and Venus.
+As there has been no formal scientific [[definition of &quot;planet&quot;]] historically, the number of objects [[#Former planets|described as such]] has varied through the centuries. This changed in 2006, when the IAU officially adopted a resolution [[2006 definition of planet|defining planets]] within the [[Solar System]]. This definition has been both praised and criticised, and remains disputed by some scientists.
 
-Since Earth was only generally accepted as a planet in the 17th century, there is no tradition of naming it after a god. Many of the [[Romance languages]] (including French, Italian, Spanish and Portuguese), which are descended from Latin, retain the old Roman name of ''[[Terra]]'' or some variation thereof. However, the non-Romance languages  use their own respective native words. Again, the Greeks retain their original name, ''Γή'' (''Ge'' or ''Yi''); the [[Germanic languages]], including English, use a variation of an ancient Germanic word ''ertho'', &quot;ground,&quot; as can be seen in the English ''Earth'', the German ''Erde,'' the Dutch ''Aarde'', and the Scandinavian ''Jorde.'' The same is true for the Sun and the Moon, though they are no longer considered planets. 
+==Etymology==
+[[Image:Olympians.jpg|thumb|left|220 px|The gods of [[Mount Olympus (Mountain)|Olympus]], after whom the Solar System's planets are named]]
 
-Some non-European cultures use their own planetary naming systems. China, and the countries of eastern Asia subject to Chinese cultural influence, such as [[Japan]], [[Korea]] and [[Vietnam]], use a naming system based on the [[Five elements (Chinese philosophy)|five Chinese elements]].&lt;ref name=&quot;weekdays&quot;/&gt;
+In ancient times, astronomers noted how certain lights moved across the sky in relation to the other stars.  These objects were believed to orbit the [[Earth]], which was considered to be stationary. The lights were first called &quot;πλανήται&quot; (''planētai''),&lt;ref&gt;See [[romanization of Greek]] for the transcription scheme.&lt;/ref&gt; meaning &quot;wanderers&quot;, by the ancient Greeks, and it is from this that the word &quot;planet&quot; was derived.&lt;ref&gt;{{cite web|url=http://www.m-w.com/dictionary/planet|title=Definition of planet|publisher=Merriam-Webster OnLine|accessdate=2007-07-23}}&lt;/ref&gt;&lt;ref&gt;{{cite web|url=http://www.wordsources.info/words-mod-planets.html|title=Words For Our Modern Age: Especially words derived from Latin and Greek sources|publisher=Wordsources.info|accessdate=2007-07-23}}&lt;/ref&gt;
+
+The Greeks gave the planets names: the farthest was called ''Phainon'', the shiner, while below it was ''Phaethon'', the bright one. The red planet was known as ''Pyroeis'', &quot;fiery&quot;, while the brightest was known as ''Phosphoros'', the light bringer, and the fleeting final planet was called ''Stilbon'', the gleamer. However, the Greeks also made each planet sacred to one of their pantheon of gods, the [[Twelve Olympians|Olympians]]: Phainon was sacred to [[Kronos]], the [[Titan (mythology)|Titan]] who fathered the Olympians, while Phaethon was sacred to [[Zeus]], his son who deposed him as king. [[Ares]], son of Zeus and god of war, was given dominion over Pyroeis, while [[Aphrodite]], goddess of love, ruled over bright Phosphoros, and [[Hermes]] ruled over Stilbon.&lt;ref name=astronomy&gt;{{cite book|title=The History and Practice of Ancient Astronomy|author=James Evans|publisher=Oxford University Press|year=1998|pages=296-7}}&lt;/ref&gt; 
+
+The Greek practice of grafting of their gods' names onto the planets was  almost certainly borrowed from the [[Babylonians]], a contemporary civilisation in what is now [[Iraq]], from whom they had begun to absorb astronomical learning, including constellations and the zodiac, by 600 BCE.&lt;ref&gt;{{cite web|title=A Chronological History of Babylonian Astronomy|author=Gary D. Thompson|url=http://members.optusnet.com.au/~gtosiris/page9k.html|year=2007|accessdate=2007-04-30}}&lt;/ref&gt; The Babylonians had in turn inherited the practice from their predecessors, the [[Sumerians]], who flourished around 2500 years before. The Babylonians named Phosphoros after their goddess of love, Ishtar, Pyroeis after their god of war, Nergal, and Phaethon after their chief god, Marduk.&lt;ref name= nergal&gt;{{cite web|first=Kelley L.|last=Ross|year=2005|title=The Days of the Week|url=http://www.friesian.com/week.htm|publisher=The Friesian School|accessdate=2007-04-30}}&lt;/ref&gt; There are too many concordances between Greek and Babylonian naming conventions for them to have arisen separately.&lt;ref name=astronomy /&gt; There does, however, appear to have been some confusion in translation. For instance, the Babylonian [[Nergal]] was a god of war, and the Greeks, seeing this aspect of Nergal's persona, identified him with [[Ares]], their god of war. However, Nergal, unlike Ares, was also a god of the dead and a god of pestilence.&lt;ref name= nergal /&gt;
+
+Today, most people in the western world know the planets by names derived from the [[Twelve Olympians|Olympian pantheon]] of gods; however, because of the influence of the [[Roman Empire]] and, later, the [[Catholic Church]], they are known by their Roman (or Latin) names, rather than the Greek. The Romans, who, like the Greeks, were [[Indo-European mythology|Indo-Europeans]], shared with them a [[Roman mythology|common pantheon]] under different names but lacked the rich narrative traditions that Greek poetic culture had given [[Greek mythology|their gods]]. During the later period of the [[Roman Republic]], Roman writers borrowed much of the Greek narratives and applied them to their own pantheon, to the point where they became virtually indistinguishable. When the Romans studied Greek astronomy, they gave the planets their own gods' names.
+To the Greeks and Romans, there were five known planets; each presumed to be circling the Earth according to the complex laws laid out by [[Claudius Ptolemy]] in the [[2nd century]]. They were, in increasing order from Earth: [[Mercury (planet)|Mercury]] ([[Hermes]]), [[Venus]] ([[Aphrodite]]), [[Mars]] ([[Ares]]), [[Jupiter]] ([[Zeus]]), and [[Saturn]] ([[Kronos]]). Although strictly the term &quot;planetai&quot; referred only to those five objects, the term was often expanded to include the Sun and the Moon.&lt;ref&gt;{{cite web
+ | title=Astra Planeta | publisher=Theoi Project
+ | first=Aaron | last=Atsma | year=2007
+ | url=http://www.theoi.com/Titan/AstraPlaneta.html
+ | accessdate=2007-02-25}}&lt;/ref&gt; When subsequent planets were discovered in the 18th and 19th centuries, the naming practice was retained: [[Uranus]] ([[Ouranos]]) and [[Neptune]] ([[Poseidon]]). The Greeks still use their original names for the planets.
+
+Some [[Ancient Rome|Romans]], following a belief imported from [[Mesopotamia]] into [[Hellenistic Egypt]],&lt;ref&gt;{{cite web
+ | first=Bill | last=Arnett | year=2006
+ | title=Appendix 5: Planetary Linguistics
+ | url=http://www.nineplanets.org/days.html
+ | accessdate=2007-04-30}}&lt;/ref&gt; believed that the seven gods after whom the planets were named took hourly shifts in looking after affairs on Earth. The order of shifts began with Jupiter and worked inwards; as a result, a list of which god had charge of the first hour in each day became Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, i.e. the usual weekday name order.&lt;ref name=&quot;weekdays&quot;&gt;{{cite journal
+ | first=Michael | last=Falk
+ | title=Astronomical Names for the Days of the Week
+ | journal=Journal of the [[Royal Astronomical Society of Canada]]
+ | year=1999 | volume=93 | pages=122-133
+ | url=http://adsabs.harvard.edu/cgi-bin/nph-bib_query?1999JRASC..93..122F
+ | accessdate=2007-07-23 }}&lt;/ref&gt; Sunday, Monday, and Saturday are straightforward translations of these Roman names. In English the other days were renamed after [[Tyr|Tiw]], (Tuesday) [[Woden|Wóden]] (Wednesday), [[Thor|Thunor]] (Thursday), and [[Frige|Fríge]] (Friday), [[Anglo-Saxon gods]] considered similar or equivalent to Mars, Mercury, Jupiter, and Venus respectively.
+
+Since Earth was only generally accepted as a planet in the 17th century, there is no tradition of naming it after a god. Many of the [[Romance languages]] (including French, Italian, Spanish and Portuguese), which are descended from Latin, retain the old Roman name of ''Terra'' or some variation thereof. However, the non-Romance languages  use their own respective native words. Again, the Greeks retain their original name, ''Γή'' (''Ge'' or ''Yi''); the [[Germanic languages]], including English, use a variation of an ancient Germanic word ''ertho'', &quot;ground,&quot; as can be seen in the English ''Earth'', the German ''Erde,'' the Dutch ''Aarde'', and the Scandinavian ''Jorde.'' The same is true for the Sun and the Moon, though they are no longer considered planets.
+
+Some non-European cultures use their own planetary naming systems. India uses a naming system based on the [[Navagraha]], which incorporates the seven traditional planets (Sun, Moon, Mercury, Venus, Mars, Jupiter, and Saturn) and the ascending and descending [[lunar node]]s [[Rahu]] and [[Ketu (mythology)|Ketu]]. China, and the countries of eastern Asia subject to Chinese cultural influence, such as [[Japan]], [[Korea]] and [[Vietnam]], use a naming system based on the [[Five elements (Chinese philosophy)|five Chinese elements]].&lt;ref name=&quot;weekdays&quot;/&gt;
 
 ==History==
-[[Image:geoz_wb_en.jpg|thumb|300px|right|Heliocentrism (lower panel) in comparsion to the geocentric model (upper panel)]]
-As scientific knowledge progressed, understanding of the term &quot;planet&quot; changed from something that moved across the sky (in relation to the [[starfield]]), to a body that orbited the [[Earth]]. When the [[heliocentric model]] gained sway in the 16th century, it became accepted that a planet was actually something that orbited the [[Sun]], and the [[Earth]] was indeed a planet, although the Sun and the [[Moon]] were not. Until the mid-19th century any newly discovered object orbiting the Sun was listed with the planets by the scientific community, and the number of &quot;planets&quot; swelled rapidly towards the end of that period.
+[[Image:geoz wb en.jpg|thumb|300px|right|Heliocentrism (lower panel) in comparison to the geocentric model (upper panel)]]
 
-During the 1800s, astronomers began to realise most recent discoveries were unlike the traditional planets. They shared the same [[asteroid belt|region of space]], between [[Mars]] and [[Jupiter]], and had a far smaller mass. Bodies such as [[Ceres (dwarf planet)|Ceres]], [[2 Pallas|Pallas]] and [[4 Vesta|Vesta]], which had been classed as planets for almost half a century, became classified with the new designation &quot;asteroid&quot;. From this point a &quot;planet&quot; came to be understood, in the absence of any formal definition, as any 'large' body that orbited the Sun. There was no apparent need to create a set limit, as  there was a dramatic size gap between the asteroids and the planets, and the spate of new discoveries seemed to have ended. 
+As scientific knowledge progressed, understanding of the term &quot;planet&quot; changed from something that moved across the sky (in relation to the [[fixed star|starfield]]), to a body that orbited the Earth (or that were believed to do so at the time). When the [[heliocentric model]] gained sway in the 16th century, it became accepted that a planet was actually something that directly orbited the [[Sun]]. Thus the Earth was itself a planet,&lt;ref&gt;{{cite web | last =Van Helden | first =Al | year=1995 | url =http://galileo.rice.edu/sci/theories/copernican_system.html | title =Copernican System | publisher =The Galileo Project | accessdate = 2007-04-08 }}&lt;/ref&gt; while the Sun and [[Moon]] were not.&lt;!-- Since they do not directly &quot;orbit the Sun&quot; --&gt; At the end of the 17th century, when the first satellites of Saturn were discovered, the terms &quot;planet&quot; and &quot;satellite&quot; were at first used interchangeably, although &quot;satellite&quot; would gradually become more prevalent in the following century.&lt;ref&gt;{{cite journal
+ | last=Cassini | first=Signor 
+ | title=''A Discovery of two'' New Planets ''about'' Saturn, ''made in the Royal Parisian Observatory by Signor'' Cassini, ''Fellow of both the Royal Societys, of'' England ''and'' France; ''English't out of French.''
+ | journal=Philosophical Transactions (1665-1678)
+ | year=1673 | volume=8 | pages=5178-5185
+ | url=http://links.jstor.org/sici?sici=0370-2316%281673%298%3C5178%3AADOTNP%3E2.0.CO%3B2-Z
+ | accessdate=2007-07-23 }}&lt;!--- This journal became the Philosophical Transactions of the Royal Society of London in 1775. There may just be earlier publications within the ''[[Journal des sçavans]].---&gt;&lt;/ref&gt; Until the mid-19th century, any newly discovered object orbiting the Sun was listed with the planets by the scientific community, and the number of &quot;planets&quot; swelled rapidly towards the end of that period.
 
-However, in the 20th century, [[Pluto]] was discovered. After initial observations led to the belief it was larger than Earth, the recently-created [[International Astronomical Union|IAU]] accepted the object as a planet. Further monitoring found the body was actually much smaller, but as it was still larger than all known asteroids, and seemingly did not exist within a larger population, it kept its status for some seventy years.
+During the 1800s, astronomers began to realize most recent discoveries were unlike the traditional planets. They shared the same [[asteroid belt|region of space]], between [[Mars]] and [[Jupiter]], and had a far smaller mass. Bodies such as [[Ceres (dwarf planet)|Ceres]], [[2 Pallas|Pallas]], and [[4 Vesta|Vesta]], which had been classed as planets for almost half a century, became classified with the new designation &quot;[[asteroid]].&quot; From this point, a &quot;planet&quot; came to be understood, in the absence of any formal definition, as any &quot;large&quot; body that orbited the Sun. There was no apparent need to create a set limit, as  there was a dramatic size gap between the asteroids and the planets, and the spate of new discoveries seemed to have ended after the discovery of [[Neptune]] in 1846.&lt;ref&gt;{{cite web | last =Hilton | first =James L. | date =[[September 17]], [[2001]] | url =http://aa.usno.navy.mil/hilton/AsteroidHistory/minorplanets.html | title =When Did the Asteroids Become Minor Planets? | publisher =U.S. Naval Observatory | accessdate = 2007-04-08 }}&lt;/ref&gt;
 
-In the 1990s and early 2000s, there was a flood of discoveries of similar objects in the [[Kuiper belt|same region]] of the Solar System. Like Ceres and the asteroids before it, Pluto was found to be just one small body in a population of thousands. A growing number of astronomers argued for it to be declassified as a planet as many similar objects approaching its size were found. The discovery of [[Eris (dwarf planet)|Eris]], a more massive object widely publicised as the [[tenth planet]], brought things to a head. The IAU set about creating a [[definition of planet]], and eventually produced one in 2006. The number of planets dropped to the eight significantly larger bodies that had [[clearing the neighbourhood|cleared their orbit]] ([[Mercury (planet)|Mercury]], [[Venus]], [[Earth]], [[Mars]], [[Jupiter]], [[Saturn]], [[Uranus]] &amp; [[Neptune]]), and a new class of [[dwarf planet]]s was created, initially containing three objects (Ceres, Pluto and Eris). 
+However, in the 20th century, [[Pluto]] was discovered. After initial observations led to the belief it was larger than Earth, the recently-created [[International Astronomical Union|IAU]] accepted the object as a planet. Further monitoring found the body was actually much smaller, but, as it was still larger than all known asteroids and seemingly did not exist within a larger population, it kept its status for some seventy years.&lt;ref&gt;{{cite web
+ | author=Anonymous
+ | url =http://www.cfa.harvard.edu/icq/ICQPluto.html
+ | title =Is Pluto a giant comet?
+ | publisher =Harvard-Smithosonian Center for Astrophysics
+ | accessdate = 2007-05-11 }}&lt;/ref&gt;
+
+In the 1990s and early 2000s, there was a flood of discoveries of similar objects in the [[Kuiper belt|same region]] of the Solar System. Like Ceres and the asteroids before it, Pluto was found to be just one small body in a population of thousands. A growing number of astronomers argued for it to be declassified as a planet, since many similar objects approaching its size were found. The discovery of [[Eris (dwarf planet)|Eris]], a more massive object widely publicised as the [[tenth planet]], brought things to a head. The IAU set about creating the [[definition of planet]], and eventually produced one in 2006. The number of planets dropped to the eight significantly larger bodies that had [[clearing the neighbourhood|cleared their orbit]] ([[Mercury (planet)|Mercury]], [[Venus]], [[Earth]], [[Mars]], [[Jupiter]], [[Saturn]], [[Uranus]] &amp; [[Neptune]]), and a new class of [[dwarf planet]]s was created, initially containing three objects (Ceres, Pluto and Eris).&lt;ref&gt;{{cite paper
+ | last=Green | first=D.W.E.
+ | version=Circular No. 8747
+ | publisher=Central Bureau for Astronomical Telegrams, International Astronomical Union
+ | year=2006
+ | title=(134340) Pluto, (136199) Eris, and (136199) Eris I (Dysnomia)
+ | url=http://www.cfa.harvard.edu/iau/special/08747.pdf
+ | format=PDF
+ | accessdate=2007-05-11 }}&lt;/ref&gt;
 
 ===Former planets===
 {{seealso|List of Solar System bodies formerly regarded as planets}}
 In [[Ancient history|ancient times]], astronomers accepted as &quot;planets&quot; the seven visible objects that moved across the starfield: the [[Sun]], the [[Moon]], [[Mercury (planet)|Mercury]], [[Venus]], [[Mars]], [[Jupiter]] and [[Saturn]]. Since then, many objects have qualified as planets for a time:
 
-{| class=&quot;wikitable&quot;
+{| class=&quot;wikitable&quot; style=&quot;margin: 1em auto 1em auto&quot;
+! style=&quot;width: 5em;&quot; | Body
 ! Period of planethood
-! &quot;Planet&quot;
 ! Solar System Region
 ! Present status
 ! Notes
 |-
+| align=&quot;center&quot; | Sun
 | align=&quot;center&quot; | Antiquity to 1600s
-| align=&quot;center&quot; | '''Sun'''
-| align=&quot;center&quot; | Centre
+| align=&quot;center&quot; | Center
 | align=&quot;center&quot; | [[Star]]
 | Planet under the [[geocentric model]].
 |-
+| align=&quot;center&quot; | Moon
 | align=&quot;center&quot; | Antiquity to 1600s
-| align=&quot;center&quot; | '''Moon'''
 | align=&quot;center&quot; | Earth's orbit
 | align=&quot;center&quot; | [[Natural satellite|Satellite]]
-| Planet under the [[geocentric model]].
+| Planet under the geocentric model.
 |-
+| align=&quot;center&quot; | [[Ceres (dwarf planet)|Ceres]]
 | align=&quot;center&quot; | 1801-1864
-| align=&quot;center&quot; | '''[[Ceres (dwarf planet)|Ceres]]'''
 | align=&quot;center&quot; | [[Asteroid belt]]
 | align=&quot;center&quot; | [[Dwarf planet]]
-| Asteroid until 2006; status currently unclear.&lt;ref&gt;http://www.iau2006.org/mirror/www.iau.org/iau0603/iau0603_Q_A2.html &quot;Ceres '''was''' an asteroid&quot; - but note it then talks about &quot;'''other''' asteroids&quot; crossing Ceres' path.&lt;/ref&gt;
+| Asteroid until at least 2006.&lt;ref&gt;{{cite web
+ | author=Staff | year=2005
+ | url =http://www.iau.org/Q_A2.415.0.html
+ | title =Questions and Answers, part 2
+ | publisher =IAU
+ | accessdate = 2007-05-11 }} &amp;mdash; &quot;Ceres '''was''' an asteroid&quot; - but note it then talks about &quot;'''other''' asteroids&quot; crossing Ceres' path.&lt;/ref&gt;
 |-
+| align=&quot;center&quot; | [[2 Pallas|Pallas]]
 | align=&quot;center&quot; | 1802-1864
-| align=&quot;center&quot; | '''[[2 Pallas|Pallas]]'''
-| align=&quot;center&quot; | [[Asteroid belt]]
-| align=&quot;center&quot; | [[Asteroid]]
+| align=&quot;center&quot; | Asteroid belt
+| align=&quot;center&quot; | Asteroid
 | 
 |-
+| align=&quot;center&quot; | [[3 Juno|Juno]]
 | align=&quot;center&quot; | 1804-1864
-| align=&quot;center&quot; | '''[[3 Juno|Juno]]'''
-| align=&quot;center&quot; | [[Asteroid belt]]
-| align=&quot;center&quot; | [[Asteroid]]
+| align=&quot;center&quot; | Asteroid belt
+| align=&quot;center&quot; | Asteroid
 | 
 |-
+| align=&quot;center&quot; | [[4 Vesta|Vesta]]
 | align=&quot;center&quot; | 1807-1864
-| align=&quot;center&quot; | '''[[4 Vesta|Vesta]]'''
-| align=&quot;center&quot; | [[Asteroid belt]]
-| align=&quot;center&quot; | [[Asteroid]]
+| align=&quot;center&quot; | Asteroid belt
+| align=&quot;center&quot; | Asteroid
 | 
 |-
+| align=&quot;center&quot; | [[Pluto]]
 | align=&quot;center&quot; | 1930-2006
-| align=&quot;center&quot; | '''[[Pluto]]'''
 | align=&quot;center&quot; | [[Kuiper belt]]
-| align=&quot;center&quot; | [[Dwarf planet]]
+| align=&quot;center&quot; | Dwarf planet
 | Officially accepted by IAU for this period.
 |}
 &lt;!--Please do not add Eris or later asteroids here - they were never fully accepted as planets--&gt;
 
-== Definition and disputes ==
+==Definition and disputes==
 {{main|Definition of planet}}
-With the discovery during the latter half of the [[20th century|twentieth century]] of more objects within the [[Solar System]] and [[Extrasolar planets|large objects]] around other stars, dispute arose over what should constitute a planet. There was particular disagreement over whether round objects that existed in [[asteroid belt|belts]], and large [[deuterium]] [[Nuclear fusion|fusing]] objects should qualify. 
+With the discovery during the latter half of the [[20th century|twentieth century]] of more objects within the [[Solar System]] and [[Extrasolar planets|large objects]] around other stars, disputes arose over what should constitute a planet. There was particular disagreement over whether an object should be considered a planet if it was part of a distinct population such as a [[belt]], or if it was large enough to generate energy by the [[thermonuclear fusion]] of [[deuterium]]. 
+&lt;!--- [[Image:EightTNOs.png|thumb|275px|The largest [[Trans-Neptunian objects]] that prompted the IAU's decision.]] ---&gt;
+&lt;imagemap&gt;
+Image:EightTNOs.png|thumb|275px|The largest Trans-Neptunian objects that prompted the IAU's decision.
+#Earth
+rect 646 1714 2142 1994 [[Earth|The Earth]]
+#Eris and Dysnomia
+circle 226 412 16 [[Dysnomia (moon)|Dysnomia]]
+circle 350 626 197 [[Eris (dwarf planet)|(136199) Eris]]
+#Pluto and Charon
+circle 1252 684 86 [[Charon (moon)|Charon]]
+circle 1038 632 188 [[Pluto|(134340) Pluto]]
+#2005 FY9
+circle 1786 614 142 [[(136472) 2005 FY9]]
+#2003 EL61
+circle 2438 616 155 [[(136108) 2003 EL61]]
+#Sedna
+circle 342 1305 137 [[90377 Sedna|(90377) Sedna]]
+#Orcus
+circle 1088 1305 114 [[90482 Orcus|(90482) Orcus]]
+#Quaoar
+circle 1784 1305 97 [[50000 Quaoar|(50000) Quaoar]]
+#Varuna
+circle 2420 1305 58 [[20000 Varuna|(20000) Varuna]]
 
-In [[2003]], The [[International Astronomical Union]] (IAU) Working Group on Extrasolar Planets made a position statement on the definition of a planet that incorporated a working definition:&lt;ref name=WSGESP&gt;{{cite web |year= 2001| title=Working Group on Extrasolar Planets (WGESP) of the International Astronomical Union| work=[[IAU]]| url=http://www.dtm.ciw.edu/boss/definition.html| accessdate=2006-05-25}} &lt;/ref&gt;
+desc none
+# - setting this to &quot;bottom-right&quot; will display a (rather large) icon linking to the graphic, if desired
 
-:''1) Objects with true masses below the limiting mass for thermonuclear fusion of [[deuterium]] (currently calculated to be 13 Jupiter masses for objects of solar metallicity) that orbit stars or stellar remnants are &quot;planets&quot; (no matter how they formed). The minimum mass/size required for an extrasolar object to be considered a planet should be the same as that used in our Solar System.''
-:''2) Substellar objects with true masses above the limiting mass for thermonuclear fusion of deuterium are &quot;[[brown dwarf]]s&quot;, no matter how they formed nor where they are located.''
-:''3) Free-floating objects in young star clusters with masses below the limiting mass for thermonuclear fusion of deuterium are not &quot;planets&quot;, but are &quot;sub-brown dwarfs&quot; (or whatever name is most appropriate).''
+#Notes:
+#Details on the new coding for clickable images is here: #While it may look strange, it's important to keep the codes for a particular system in order. The clickable coding treats the first object created in an area as the one on top.
+#Moons should be placed on &quot;top&quot; so that their smaller circles won't disappear &quot;under&quot; their respective primaries.
+&lt;/imagemap&gt;
+In 2003, The [[International Astronomical Union]] (IAU) Working Group on Extrasolar Planets made a position statement on the definition of a planet that incorporated a working definition:&lt;ref name=WSGESP&gt;{{cite web
+ | year=2001 | work=[[IAU]]
+ | title=Working Group on Extrasolar Planets (WGESP) of the International Astronomical Union
+ | url=http://www.dtm.ciw.edu/boss/definition.html
+ | accessdate=2006-05-25}}&lt;/ref&gt;
 
-This definition has been widely used by astronomers when publishing discoveries in [[journal]]s since this time, although it remains a temporary, working definition until a more permanent one is formally adopted. It also did not address the [[controversy]] over the lower mass limit.
+#Objects with true masses below the limiting mass for thermonuclear fusion of deuterium (currently calculated to be 13 times the mass of Jupiter for objects with the same [[natural abundance|isotopic abundance]] as the Sun)&lt;ref&gt;{{cite journal
+ | author=Saumon, D.; Hubbard, W. B.; Burrows, A.; Guillot, T.; Lunine, J. I.; Chabrier, G.
+ | title=A Theory of Extrasolar Giant Planets
+ | journal=Astrophysical Journal
+ | year=1996 | volume=460 | pages=993-1018
+ | url=http://adsabs.harvard.edu/abs/1996ApJ...460..993S
+ | accessdate=2007-07-23 }}&lt;/ref&gt; that orbit stars or stellar remnants are &quot;planets&quot; (no matter how they formed). The minimum mass and size required for an extrasolar object to be considered a planet should be the same as that used in our Solar System.
+#Substellar objects with true masses above the limiting mass for thermonuclear fusion of deuterium are &quot;[[brown dwarf]]s&quot;, no matter how they formed nor where they are located.
+#Free-floating objects in young [[star cluster]]s with masses below the limiting mass for thermonuclear fusion of deuterium are not &quot;planets&quot;, but are &quot;sub-brown dwarfs&quot; (or whatever name is most appropriate).
 
-However, in [[2006]], the general assembly of the IAU voted to pass a resolution that [[2006 redefinition of planet|redefined planets]] within the Solar System as &lt;ref name=IAU&gt;[http://www.iau2006.org/mirror/www.iau.org/iau0603/index.html IAU 2006 General Assembly: Result of the IAU Resolution votes]&lt;/ref&gt;:
-[[Image:EightTNOs.png|thumb|275px|The largest [[Trans-Neptunian objects]] that prompted the IAU's decision.]]
+This definition has since been widely usedby astronomers when publishing discoveries in [[journal]]s,&lt;ref&gt;See for example the list of references for: {{cite web
+ | author=Butler, R. P. ''et al'' | year=2006
+ | url=http://exoplanets.org/
+ | title=Catalog of Nearby Exoplanets
+ | publisher =University of California and the Carnegie Institution
+ | accessdate = 2007-07-23 }}&lt;/ref&gt;  although it remains a temporary yet effective, working definition until a more permanent one is formally adopted. It also did not address the dispute over the lower mass limit and steered clear of the controversy regarding objects within the [[Solar System]].
 
-:''A celestial body that is (a) in orbit around the Sun, (b) has sufficient mass for its self-gravity to overcome rigid body forces so that it assumes a [[hydrostatic equilibrium]] (nearly round) shape, and (c) has [[clearing the neighbourhood|cleared the neighbourhood]] around its orbit.''
+This matter was finally addressed during the 2006 meeting of the IAU's General Assembly. After much debate and one failed proposal, the assembly voted to pass a resolution that [[2006 definition of planet|defined planets within the Solar System]] as:&lt;ref name=IAU&gt;{{cite web
+ | author=Staff
+ | year=2006
+ | url =http://www.iau.org/iau0603.414.0.html
+ | title =IAU 2006 General Assembly: Result of the IAU resolution votes
+ | publisher =IAU
+ | accessdate = 2007-05-11 }}&lt;/ref&gt;
 
-Under this definition, the Solar System is considered to have eight planets. Bodies which fulfill the first two conditions but not the third (such as Pluto and Eris) are classified as [[dwarf planet]]s, providing they are not also [[natural satellite]]s of other planets. Originally an IAU committee had proposed a definition that would have included a much larger number of planets as it did not include (c) as a criterion. After much discussion, it was decided via a vote that those bodies should instead be classified as dwarf planets. 
+{{quotation|'''A celestial body that is (a) in orbit around the Sun, (b) has sufficient mass for its self-gravity to overcome rigid body forces so that it assumes a [[hydrostatic equilibrium]] (nearly round) shape, and (c) has [[clearing the neighbourhood|cleared the neighbourhood]] around its orbit.'''}}
+
+Under this definition, the Solar System is considered to have eight planets. Bodies which fulfill the first two conditions but not the third (such as Pluto and Eris) are classified as [[dwarf planet]]s, providing they are not also [[natural satellite]]s of other planets. Originally an IAU committee had proposed a definition that would have included a much larger number of planets as it did not include (c) as a criterion. After much discussion, it was decided via a vote that those bodies should instead be classified as dwarf planets.
 
 This definition is based in modern theories of planetary formation, in which planetary embryos initially clear their orbital neighborhood of other smaller objects. As described by astronomer [[Steven Soter]]:
 
-:''The end product of secondary disk accretion is a small number of relatively large bodies (planets) in either non-intersecting or resonant orbits, which prevent collisions between them. Asteroids and comets, including KBOs, differ from planets in that they can collide with each other and with planets.'' &lt;ref&gt; {{cite web | author=Soter, Steven | title=What is a Planet | date=[[2006-08-31]] | url=http://arxiv.org/ftp/astro-ph/papers/0608/0608359.pdf | accessdate=2006-09-01 }} &lt;/ref&gt; 
+{{quotation|''&quot;The end product of secondary disk accretion is a small number of relatively large bodies (planets) in either non-intersecting or resonant orbits, which prevent collisions between them. Asteroids and comets, including KBOs, differ from planets in that they can collide with each other and with planets.&quot;''&lt;ref&gt; {{cite journal
+ | last = Soter | first = Steven | title = What is a Planet
+ | journal = Astronomical Journal
+ | volume = 132 | issue = 6 | pages = 2513-2519
+ | publisher =  | date = December 2006
+ | url = http://arxiv.org/ftp/astro-ph/papers/0608/0608359.pdf
+ | accessdate = 2006-12-19 }}&lt;/ref&gt;}}
 
-In the aftermath of the IAU's 2006 vote, there has been criticism of the new definition,&lt;ref&gt;{{cite web | author=Sykes, Mark | title=Petition Protesting the IAU Planet Definition | date=[[2006-08-31]] | url=http://www.ipetitions.com/petition/planetprotest/ | accessdate=2006-11-09 }}&lt;/ref&gt; and some astronomers have even stated that they will not use it.&lt;ref&gt;{{cite web | author=Sykes, Mark | title=List of some Astronomers who will not use the 2006 IAU planet definition | date=[[2006-08-31]] | url=http://www.ipetitions.com/petition/planetprotest/signatures_final.pdf | accessdate=2006-11-09 }}&lt;/ref&gt; Part of the dispute centres around the belief that point (c) (clearing its orbit) should not have been listed, and that those objects now categorised as dwarf planets should actually be part of a broader planetary definition.  The next IAU [[conference]] is not until [[2009]], when modifications could be made to the definition, also possibly including [[extrasolar planets]].
+In the aftermath of the IAU's 2006 vote, there has been criticism of the new definition,&lt;ref&gt;{{cite web
+ | year=2006 | first=Robert Roy | last=Britt
+ | title=Pluto demoted in highly controversial definition
+ | work= Space.com
+ | url=http://www.space.com/scienceastronomy/060824_planet_definition.html
+ | accessdate=2006-08-24}}&lt;/ref&gt; and some astronomers have even stated that they will not use it.&lt;ref&gt;{{cite web
+ | year=2006 | first=Robert Roy | last=Britt
+ | title=Pluto: Down But Maybe Not Out
+ | work= Space.com
+ | url=http://www.space.com/scienceastronomy/060831_planet_definition.html
+ | accessdate=2006-08-24}}&lt;/ref&gt; Part of the dispute centres around the belief that point (c) (clearing its orbit) should not have been listed, and that those objects now categorised as dwarf planets should actually be part of a broader planetary definition. The next IAU [[conference]] is not until [[2009]], when modifications could be made to the definition, also possibly including extrasolar planets.
 
-Beyond the scientific community, Pluto has held a strong cultural significance for many in the general public considering its planetary status during most of the [[20th century]], in a similar way to Ceres and its kin in the [[1800s]]. More recently, the discovery of Eris was widely reported in the [[media]] as the &quot;[[tenth planet]]&quot;. The reclassification of all three objects as dwarf planets has attracted much media and public attention.
+Beyond the scientific community, Pluto has held a strong cultural significance for many in the general public considering its planetary status during most of the 20th century, in a similar way to Ceres and its kin in the [[1800s]]. More recently, the discovery of Eris was widely reported in the [[mass media|media]] as the &quot;[[tenth planet]]&quot;. The reclassification of all three objects as dwarf planets has attracted much media and public attention.&lt;ref&gt;{{cite news
+ | first=Clara | last=Moskowitz
+ | title=Scientist who found '10th planet' discusses downgrading of Pluto
+ | publisher=Stanford news | date=[[October 18]], [[2006]]
+ | url=http://news-service.stanford.edu/news/2006/october18/mbrown-101806.html
+ | accessdate=2007-05-11 }}&lt;/ref&gt;
 
-== Formation ==
-{{main|Solar nebula}}
-It is not known with certainty how planets are formed. The prevailing theory is that they are formed from those remnants of a [[nebula]] that do not condense under [[gravity]] to form a [[protostar]]. Instead, these remnants become a thin, [[protoplanetary disk]] of dust and gas revolving around the protostar and begin to condense about local concentrations of mass within the disc known as [[planetesimal]]s. These concentrations become ever more dense until they collapse inward under gravity to form [[protoplanet]]s.&lt;ref&gt;{{cite journal | author=G. W. Wetherill | title=Formation of the Terrestrial Planets | journal=Annual Review of Astronomy and Astrophysics | year=1980 | volume=18 | pages=77-113 | url=http://adsabs.harvard.edu/abs/1980ARA&amp;A..18...77W }}&lt;/ref&gt; After a planet reaches a diameter larger than the Earth's moon, it begins to accumulate an extended atmosphere. This serves to increase the capture rate of the planetesimals by a factor of ten. &lt;ref&gt;{{cite journal | author=S. Inaba, M. Ikoma | title=Enhanced Collisional Growth of a Protoplanet that has an Atmosphere | journal=Astronomy and Astrophysics | year=2003 | volume=410 | pages=711-723 | url=http://adsabs.harvard.edu/abs/2003A&amp;A...410..711I }}&lt;/ref&gt;
+==Formation==
+{{main|Planetary formation}}
+It is not known with certainty how planets are formed. The prevailing theory is that they are formed during the collapse of a [[nebula]] into a thin disk of gas and dust. A [[protostar]] forms at the core, surrounded by a rotating [[protoplanetary disk]]. Through [[accretion]]&amp;mdash;a process of sticky collision&amp;mdash;dust particles in the disk steadily accumulate mass to form ever-larger bodies. Local concentrations of mass known as [[planetesimal]]s form, and these accelerate the accretion process by drawing in additional material by their gravitational attraction. These concentrations become ever more dense until they collapse inward under gravity to form [[protoplanet]]s.&lt;ref&gt;{{cite journal
+ | first=G. W. | last=Wetherill
+ | title=Formation of the Terrestrial Planets
+ | journal=Annual Review of Astronomy and Astrophysics
+ | year=1980 | volume=18 | pages=77-113 | url=http://adsabs.harvard.edu/abs/1980ARA&amp;A..18...77W
+ | accessdate=2007-07-23 }}&lt;/ref&gt; After a planet reaches a diameter larger than the Earth's moon, it begins to accumulate an extended atmosphere, greatly increasing the capture rate of the planetesimals by means of [[Drag (physics)|atmospheric drag]].&lt;ref&gt;{{cite journal
+ | author=Inaba, S.; Ikoma, M.
+ | title=Enhanced Collisional Growth of a Protoplanet that has an Atmosphere
+ | journal=Astronomy and Astrophysics | year=2003
+ | volume=410 | pages=711-723
+ | url=http://adsabs.harvard.edu/abs/2003A&amp;A...410..711I
+ | accessdate = 2007-07-23 }}&lt;/ref&gt;
 [[Image:Ra4-protoplanetary-disk.jpg|left|thumb|250px|An artist's impression of protoplanetary disk.]]
 
-When the protostar has grown such that it ignites to form a [[star]], its [[solar wind]] blows away most of the disc's remaining material. Thereafter there still may be many protoplanets orbiting the star or each other, but over time many will collide, either to form a single larger planet or release material for other larger protoplanets or planets to absorb.&lt;ref&gt;{{cite web | author = S. Kenton, B. Bromley | url = http://cfa-www.harvard.edu/~kenyon/pf/dd/ | title = Dusty Rings &amp; Icy Planet Formation | publisher = Smithsonian Astrophysical Observatory | language = English | accessdate = 2006-07-25 }}&lt;/ref&gt;&lt;ref&gt;{{cite news | author=Ron Cowen | title=Planet Formation on the Fast Track | publisher=Science News | date=2003-01-25 | url=http://www.sciencenews.org/articles/20030125/bob9.asp | accessdate=2006-07-25 }}&lt;/ref&gt; Those objects that have become massive enough will capture most matter in their orbital neighbourhoods to become planets. Meanwhile, protoplanets that have avoided collisions may become [[natural satellite]]s of planets through a process of gravitational capture, or remain in belts of other objects to become either [[dwarf planet]]s or [[small solar system bodies]].
+When the protostar has grown such that it ignites to form a [[star]], the surviving disk is removed from the inside outward by photoevaporation, the [[solar wind]], [[Poynting-Robertson effect|Poynting-Robertson drag]] and other effects.&lt;ref&gt;{{cite web
+ | last = Dutkevitch | first = Diane | date =May 1995
+ | url =http://www.astro.umass.edu/theses/dianne/thesis.html
+ | title =The Evolution of Dust in the Terrestrial Planet Region of Circumstellar Disks Around Young Stars
+ | publisher =University of Massachusetts Amherst
+ | accessdate = 2007-05-13 }}&lt;/ref&gt;&lt;ref&gt;{{cite journal
+ | author=Matsuyama, I.; Johnstone, D.; Murray, N.
+ | title=Halting Planet Migration by Photoevaporation from the Central Source
+ | journal=The Astrophysical Journal
+ | year=2003
+ | volume=585
+ | issue=2
+ | pages=L143-L146
+ | url=http://adsabs.harvard.edu/abs/2003astro.ph..2042M
+ | accessdate=2007-05-13 }}&lt;/ref&gt; Thereafter there still may be many protoplanets orbiting the star or each other, but over time many will collide, either to form a single larger planet or release material for other larger protoplanets or planets to absorb.&lt;ref&gt;{{cite web | author = Kenton, S.; Bromley, B. | url = http://cfa-www.harvard.edu/~kenyon/pf/dd/ | title = Dusty Rings &amp; Icy Planet Formation | publisher = Smithsonian Astrophysical Observatory | language = English | accessdate = 2006-07-25 }}&lt;/ref&gt;&lt;ref&gt;{{cite news | first=Ron 
+ | last=Cowen | title=Planet Formation on the Fast Track
+ | publisher=Science News | date=[[January 25]], [[2003]]
+ | url=http://www.sciencenews.org/articles/20030125/bob9.asp
+ | accessdate=2006-07-25 }}&lt;/ref&gt; Those objects that have become massive enough will capture most matter in their orbital neighbourhoods to become planets. Meanwhile, protoplanets that have avoided collisions may become [[natural satellite]]s of planets through a process of gravitational capture, or remain in belts of other objects to become either [[dwarf planet]]s or [[small solar system bodies]].
 
-The energetic impacts of the smaller planetesimals will heat up the growing planet, causing it to at least partially melt. The interior of the planet begins to differentiate by mass, developing a denser core. Smaller terrestrial planets lose most of their atmospheres because of this accretion, but the lost gases can be replaced by outgassing from the mantle and from the subsequent impact of [[comet]]s.&lt;ref&gt;{{cite web | last = Musgrave | first = Ian | date = 1998-06-01 | url = http://home.tiac.net/~cri/1998/planet.html | title = The Standard Model of Planet Formation | language = English | accessdate = 2006-07-23 }}&lt;/ref&gt; (Smaller planets will lose any atmosphere they gain through various [[Atmospheric escape|escape mechanisms]].)
+The energetic impacts of the smaller planetesimals (as well as [[radioactive decay]]) will heat up the growing planet, causing it to at least partially melt. The interior of the planet begins to differentiate by mass, developing a denser core. Smaller terrestrial planets lose most of their atmospheres because of this accretion, but the lost gases can be replaced by outgassing from the mantle and from the subsequent impact of [[comet]]s.&lt;ref&gt;{{cite web
+ | last = Musgrave | first = Ian | date = [[June 1]], [[1998]]
+ | url = http://home.tiac.net/~cri/1998/planet.html
+ | title = The Standard Model of Planet Formation
+ | accessdate = 2006-07-23 }}&lt;/ref&gt; (Smaller planets will lose any atmosphere they gain through various [[Atmospheric escape|escape mechanisms]].)
 
-With the discovery and observation of planetary systems around stars other than our own, it is becoming possible to elaborate, revise or even replace this account. The level of metallicity is now believed to determine the likelihood that a star will have planets.&lt;ref&gt;{{cite web | date = 2004-01-06 | url = http://cfa-www.harvard.edu/press/pr0404.html | title = Lifeless Suns Dominated The Early Universe | publisher = Harvard-Smithsonian Center for Astrophysics | language = English | accessdate = 2006-08-26 }}&lt;/ref&gt; Hence it is thought less likely that a metal-poor, [[population II star]] will possess a more substantial planetary system than a metal-rich [[population I star]].
+With the discovery and observation of planetary systems around stars other than our own, it is becoming possible to elaborate, revise or even replace this account. The level of [[metallicity]]&amp;mdash;a astronomical term describing the abundance of [[isotope]]s with an [[atomic number]] greater than 2 (Helium)&amp;mdash;is now believed to determine the likelihood that a star will have planets.&lt;ref&gt;{{cite news
+ | author=Aguilar, D.; Pulliam, C.
+ | date = [[January 6]], [[2004]]
+ | url = http://cfa-www.harvard.edu/press/pr0404.html
+ | title = Lifeless Suns Dominated The Early Universe
+ | publisher = Harvard-Smithsonian Center for Astrophysics
+ | accessdate = 2006-08-26 }}&lt;/ref&gt; Hence it is thought less likely that a metal-poor, [[population II star]] will possess a more substantial planetary system than a metal-rich [[population I star]].
 
-== Within the Solar System ==
-[[Image:Terrestrial planet size comparisons.jpg|thumb|375 px|The terrestrial planets: Mercury, Venus, Earth, Mars. ''(Sizes to scale.)'']]
-{{main|Solar System}}
-According to the [[IAU]]'s current definitons&lt;!--&quot;According to the IAU&quot; alone sounds really awkward--&gt; there are eight planets in the Solar System. In increasing distance from the [[Sun]], they are:
-#([[Image:Mercury symbol.svg|14px|{{unicode|☿}}]]) '''[[Mercury (planet)|Mercury]]''', with no confirmed natural satellites
-#([[Image:Venus symbol.svg|14px|{{unicode|♀}}]]) '''[[Venus]]''', with no confirmed natural satellites
-#([[Image:Earth symbol.svg|14px|{{unicode|⊕}}]]) '''[[Earth]]''', with [[Moon|one confirmed natural satellite]]
-#([[Image:Mars symbol.svg|14px|{{unicode|♂}}]]) '''[[Mars]]''', with [[Mars' natural satellites|two confirmed natural satellites]]
-#([[Image:Jupiter symbol.svg|14px|{{unicode|♃}}]]) '''[[Jupiter]]''', with [[Jupiter's natural satellites|sixty-three confirmed natural satellites]]
-#([[Image:Saturn symbol.svg|14px|{{unicode|♄}}]]) '''[[Saturn]]''', with [[Saturn's natural satellites|fifty-six confirmed natural satellites]]
-#([[Image:Uranus symbol.svg|14px|{{unicode|♅}}]]) '''[[Uranus]]''', with [[Uranus' natural satellites|twenty-seven confirmed natural satellites]]
-#([[Image:Neptune symbol.svg|14px|{{unicode|♆}}]]) '''[[Neptune]]''', with [[Neptune's natural satellites|thirteen confirmed natural satellites]]
+==Within the Solar System==
+[[Image:Terrestrial planet size comparisons.jpg|thumb|375 px|The terrestrial planets: Mercury, Venus, Earth, Mars ''(Sizes to scale)'']]
 
-=== Categories === 
 [[Image:Gas giants and the Sun (1 px = 1000 km).jpg|thumb|375px|The four gas giants against the Sun: Jupiter, Saturn, Uranus, Neptune. ''(Sizes to scale.)'']]
-The large bodies of the Solar System can be divided into categories based on their composition:
-* '''[[Terrestrial planet|Terrestrial]]s''': Planets (and possibly dwarf planets) that are similar to Earth &amp;mdash; with bodies largely composed of [[Rock (geology)|rock]]: Mercury, Venus, Earth and Mars. If including dwarf planets, Ceres would also be counted, with as many as three other [[asteroids]] that might be added.
+{{main|Solar System}}
+According to the [[IAU]]'s current definitions&lt;!--&quot;According to the IAU&quot; alone sounds really awkward--&gt; there are eight planets in the Solar System. In increasing distance from the [[Sun]], they are:
+#([[Image:Mercury symbol.svg|14px|{{unicode|☿}}]]) '''[[Mercury (planet)|Mercury]]'''
+#([[Image:Venus symbol.svg|14px|{{unicode|♀}}]]) '''[[Venus]]'''
+#([[Image:Earth symbol.svg|14px|{{unicode|⊕}}]]) '''[[Earth]]'''
+#([[Image:Mars symbol.svg|14px|{{unicode|♂}}]]) '''[[Mars]]'''
+#([[Image:Jupiter symbol.svg|14px|{{unicode|♃}}]]) '''[[Jupiter]]'''
+#([[Image:Saturn symbol.svg|14px|{{unicode|♄}}]]) '''[[Saturn]]'''
+#([[Image:Uranus symbol.svg|14px|{{unicode|♅}}]]) '''[[Uranus]]'''
+#([[Image:Neptune symbol.svg|14px|{{unicode|♆}}]]) '''[[Neptune]]'''
+                                                                                               
+The larger bodies of the Solar System can be divided into categories based on their composition:
+* '''[[Terrestrial planet|Terrestrial]]s''': Planets (and possibly dwarf planets) that are similar to Earth &amp;mdash; with bodies largely composed of [[Rock (geology)|rock]]: Mercury, Venus, Earth and Mars. If including dwarf planets, [[Ceres (dwarf planet)|Ceres]] would also be counted, with as many as three other [[asteroids]] that might be added.
 * '''[[Gas giant]]s''': Planets with a composition largely made up of [[gas]]eous material and are significantly more massive than terrestrials: Jupiter, Saturn, Uranus, Neptune. [[Ice giant]]s are a sub-class of gas giants, distinguished from gas giants by their depletion in hydrogen and helium, and a significant composition of rock and ice: Uranus and Neptune.
 * '''[[Ice dwarf]]s''': Objects that are composed mainly of ice, and do not have planetary mass. The dwarf planets [[Pluto]] and [[Eris (dwarf planet)|Eris]] are ice dwarfs, and several dwarf planetary candidates also qualify.
 
-=== Attributes ===
-All the planets revolve around the Sun in the same direction - counter-clockwise as seen from over the Sun's north pole. The period of one revolution of a planet's orbit is known as its [[year]]. A planet's year depends on its distance from the Sun; the farther a planet is from the Sun, not only the longer the distance it must travel, but also the slower its speed, as it is less affected by the Sun's gravity. 
+===Attributes===&lt;!-- This section is linked from [[Earth radius]] --&gt;
+Although each of the planets in the Solar System has unique physical characteristics, a number of broad commonalities do exist between them. 
 
-The planets also rotate around invisible axes through their centres. The period of one rotation of a planet is known as its [[day]]. All the planets rotate in a counter-clockwise direction, except for Venus, which [[retrograde|rotates clockwise]]. There is great variation in the length of day between the planets, with Venus taking 243 Earth days to rotate, and the gas giants only a few hours. 
+====Dynamic characteristics====
+{{seealso|Kepler's laws of planetary motion}}
+[[Image:Eris Orbit.svg|thumb|250 px|left|The orbits of the planets compared to the trans-Neptunian objects [[Eris (dwarf planet)|Eris]] and [[Pluto]]. Note the extreme elongation of both objects' orbits in relation to those of the planets ([[orbital eccentricity|eccentricity]]), as well as their large angles to the ecliptic ([[inclination]])]]
+All the planets revolve around the Sun in the same direction &amp;mdash; counter-clockwise as seen from over the Sun's north pole. The period of one revolution of a planet's orbit is known as its [[sidereal period]] or [[year]]. A planet's year depends on its distance from the Sun; the farther a planet is from the Sun, not only the longer the distance it must travel, but also the slower its speed, as it is less affected by the Sun's gravity. Because no planet's orbit is perfectly circular, the distance of each varies over the course of its year. Its closest distance to the Sun is called its [[perihelion]], while its farthest distance from the Sun is called its [[aphelion]]. As a planet approaches perihelion, its speed increases as the pull of the Sun's gravity strengthens; as it reaches aphelion, its speed decreases. 
 
-Planets also have varying degrees of [[axial tilt]]; they orbit at an angle to the [[reference plane|plane]] of the [[inclination|Sun's equator]]. This causes the amount of sunlight received by each hemisphere to vary over the course of its year; when the northern hemisphere points away from the Sun, the southern hemisphere points towards it, and vice versa. Each planet therefore possesses [[season]]s; changes to the climate over the course of its year. The point at which each hemisphere is farthest/nearest from the Sun is known as its [[solstice]]. Each planet has two in the course of its orbit; when a planet's northern hemisphere has its summer solstice, when its day is longest, the southern has its winter solstice, when its day is shortest. Jupiter's axial tilt is very small, so its seasonal variation is minimal; Uranus, on the other hand, has an axial tilt so extreme it is virtually on its side, which means that its hemispheres are either perpetually in sunlight or perpetually in darkness around the time of its [[solstice]]s.
+Each planet's orbit is delineated by a set of [[orbital elements|elements]]:
 
-All of the planets have [[atmosphere]]s as their large masses mean [[gravity]] is strong enough to keep gaseous particles close to the surface. The larger gas giants are massive enough to keep large amounts of the light gases [[Hydrogen]] and [[Helium]] close by, although these gases mostly float into [[space]] around the smaller planets. Earth's atmosphere is greatly different to the other planets because of the various [[life]] [[process]]es that have transpired there, while the atmosphere of Mercury has mostly, although not entirely, been blasted away by the [[solar wind]].
+*The ''[[inclination]]'' of a planet tells how far above or below the plane of Earth's orbit (called the [[ecliptic]]) a planet's orbit lies. The eight planets of our Solar System all lie very close to the ecliptic; comets and [[Kuiper belt object]]s like [[Pluto]] are at far more extreme angles to it. 
+*The points at which a planet crosses above and below the ecliptic are called its [[ascending node|ascending]] and [[descending node]]s. The ''[[Orbital eccentricity|eccentricity]]'' of an orbit describes how elongated a planet's orbit is. Planets with low eccentricities have more circular orbits, while planets with a high eccentricities have more elliptical orbits. 
+*The planets in our Solar System have very low eccentricities, and thus nearly circular orbits. Comets and Kuiper belt objects (as well as several extrasolar planets) have very high eccentricities, and thus exceedingly elliptical orbits.
+[[Image:Semimajoraxis.png|thumb|200 px|an illustration of the semi-major axis]] 
+*The ''[[semi-major axis]]'' is the distance from a planet to the half-way point along the longest diameter of its elliptical orbit (see image). This distance is not necessarily the same as its aphelion, as no planet's orbit has the Sun at its exact centre.  
 
-Many of the planets have [[natural satellite]]s, called &quot;moons&quot;, regardless of their size. The [[gas giant]]s all have numerous moons in complex planetary systems. Many gas giant moons have similar features to the terrestrial planets and dwarf planets, and some have been studied for signs of [[life]].     
+Planets also have varying degrees of [[axial tilt]]; they lie at an angle to the [[reference plane|plane]] of the [[inclination|Sun's equator]]. This causes the amount of sunlight received by each hemisphere to vary over the course of its year; when the northern hemisphere points away from the Sun, the southern hemisphere points towards it, and vice versa. Each planet therefore possesses [[season]]s; changes to the climate over the course of its year. The point at which each hemisphere is farthest/nearest from the Sun is known as its [[solstice]]. Each planet has two in the course of its orbit; when one hemisphere has its summer solstice, when its day is longest, the other has its winter solstice, when its day is shortest. Jupiter's axial tilt is very small, so its seasonal variation is minimal; Uranus, on the other hand, has an axial tilt so extreme it is virtually on its side, which means that its hemispheres are either perpetually in sunlight or perpetually in darkness around the time of its solstices.
 
-{| class=&quot;wikitable&quot;
+The planets also rotate around invisible axes through their centres. A planet's [[rotation period]] is known as its [[day]]. All the planets rotate in a counter-clockwise direction, except for Venus, which [[Retrograde and direct motion|rotates clockwise]] (Uranus, because of its extreme axial tilt, can be said to be rotating either clockwise or anti-clockwise, depending on whether one states it to be inclined 82° from the ecliptic in one direction, or 98° in the opposite direction). There is great variation in the length of day between the planets, with Venus taking 243 Earth days to rotate, and the gas giants only a few hours.
+
+====Physical characteristics====
+One of a planet's defining characteristics is that it is large enough for the force of its own gravity to dominate over the [[electromagnetic]] forces binding its physical structure, leading to a state of [[hydrostatic equilibrium]]. This effectively means that all planets are spherical or spheroidal. Up to a certain size, an object can be irregular in shape,  but beyond that point, which varies depending on the chemical makeup of the object, gravity begins to pull an object towards its own centre of mass until the object collapses into a sphere. 
+
+Every planet began its existence in an entirely fluid state; in early formation, the denser, heavier materials sank to the centre, leaving the lighter materials near the surface. Each therefore has a [[Planetary differentiation|differentiated]] interior consisting of a dense [[planetary core]] surrounded by a [[Mantle (geology)|mantle]] which either is or was a [[fluid]]. The terrestrial planets are sealed within hard [[Crust (geology)|crusts]], but in the gas giants the mantle simply dissolves into the upper cloud layers. The terrestrial planets possess cores of magnetic elements such as [[iron]] and [[nickel]], and mantles of [[silicates]]. [[Jupiter]] and [[Saturn]] are believed to possess cores of rock and metal surrounded by mantles of [[metallic hydrogen]]. [[Uranus]] and [[Neptune]], which are smaller, possess rocky cores surrounded by mantles of [[water]], [[ammonia]], [[methane]] and other ices.
+
+All of the planets have [[atmosphere]]s as their large masses mean gravity is strong enough to keep gaseous particles close to the surface. The larger gas giants are massive enough to keep large amounts of the light gases [[Hydrogen]] and [[Helium]] close by, although these gases mostly float into [[space]] around the smaller planets. Earth's atmosphere is greatly different to the other planets because of the various life processes that have transpired there, while the atmosphere of Mercury has mostly, although not entirely, been blasted away by the [[solar wind]]. Planetary atmospheres are affected by the varying degrees of energy received from either the Sun or their interiors, leading to the formation of dynamic [[weather system]]s such as [[hurricane]]s, (on Earth), planet-wide [[dust storm]]s (on Mars) and [[Great Red Spot|Earth-sized anticyclone]]s (on Jupiter). 
+
+====Secondary characteristics====
+Many of the planets have [[natural satellite]]s, often called &quot;moons.&quot;  Mercury and Venus have no moons, the Earth has one, and Mars has two, but the [[gas giant]]s all have numerous moons in complex planetary systems. Many gas giant moons have similar features to the terrestrial planets and dwarf planets, and some have been studied for signs of life.
+
+The four largest planets are also orbited by [[planetary rings]] of varying size and complexity. The rings are composed primarily of dust or particulate matter, but can host tiny '[[moonlet]]s' whose gravity shapes and maintains their structure. Although the origins of planetary rings is not precisely known, they are believed to be the result of natural satellites which fell below their parent planet's [[Roche limit]] and were torn apart by [[tidal forces]].  
+
+{| class=&quot;wikitable&quot; style=&quot;margin: 1em auto 1em auto&quot;
 |+align=bottom style=&quot;text-align:left;&quot;|
 |- bgcolor=#ccccff
 ! colspan=12  style=&quot;background:#dddddd;&quot; | Planetary attributes
 |-
 !
-! Name
-! &lt;SMALL&gt;Equatorial&lt;sup&gt;*&lt;/sup&gt;&lt;br&gt;diameter&lt;/SMALL&gt;
-! Mass&lt;sup&gt;*&lt;/sup&gt;
-! &lt;SMALL&gt;Orbital&lt;br/&gt;radius ([[Astronomical Unit|AU]])&lt;/SMALL&gt;
-! &lt;SMALL&gt;[[Orbital period]]&lt;br&gt;(years)&lt;/SMALL&gt;
-! &lt;SMALL&gt;[[Inclination|Inclination to&lt;br&gt;Sun's equator]] (°)&lt;/SMALL&gt;
-! &lt;SMALL&gt;[[Eccentricity (orbit)|Orbital&lt;br&gt;eccentricity&lt;/SMALL&gt;]]
-! Day&lt;br&gt;&lt;SMALL&gt;(days)&lt;/SMALL&gt;
-! [[List of natural satellites|Moons]]
-! Rings
-! [[Atmosphere]]
+!style=&quot;font-size: smaller;&quot;|Name
+!style=&quot;font-size: smaller;&quot;|Equatorial&lt;br /&gt;diameter{{ref label|a|a|a}}
+!style=&quot;font-size: smaller;&quot;|Mass{{ref label|a|a|a}}
+!style=&quot;font-size: smaller;&quot;|Orbital&lt;br /&gt;radius ([[Astronomical Unit|AU]])
+!style=&quot;font-size: smaller;&quot;|[[Orbital period]]&lt;br /&gt;(years)
+!style=&quot;font-size: smaller;&quot;|[[Inclination|Inclination &lt;br /&gt;to Sun's equator]] (°)
+!style=&quot;font-size: smaller;&quot;|[[Eccentricity (orbit)|Orbital&lt;br&gt;eccentricity]]
+!style=&quot;font-size: smaller;&quot;|[[Rotation period]]&lt;br /&gt;(days)
+!style=&quot;font-size: smaller;&quot;|[[Natural satellites|Moons]]
+!style=&quot;font-size: smaller;&quot;|Rings
+!style=&quot;font-size: smaller;&quot;|[[Atmosphere]]
 |-
-! rowspan=4 | [[Terrestrial planets|Terrestrials]]
+! rowspan=4 style=&quot;background: #DDEEFF;&quot; | [[Terrestrial planet|Terrestrials]]
 | [[Mercury (planet)|Mercury]]
 | align=&quot;center&quot; | 0.39
 | align=&quot;center&quot; | 0.06
 | align=&quot;center&quot; | 0.39
 | align=&quot;center&quot; | 0.24
-| align=&quot;center&quot; | &amp;nbsp;3.38
-| align=&quot;left&quot; | &amp;nbsp;&amp;nbsp;&amp;nbsp;0.206
+| align=&quot;center&quot; | 3.38
+| align=&quot;center&quot; | 0.206
 | align=&quot;center&quot; | 58.64
-| align=&quot;center&quot; | none
+| align=&quot;center&quot; | &amp;mdash;
 | align=&quot;center&quot; | no
 | align=&quot;center&quot; | minimal
 |-
@@ -196,20 +369,20 @@ Many of the planets have [[natural satellite]]s, called &quot;moons&quot;, regar
 | align=&quot;center&quot; | 0.82
 | align=&quot;center&quot; | 0.72
 | align=&quot;center&quot; | 0.62
-| align=&quot;center&quot; | &amp;nbsp;3.86
-| align=&quot;left&quot; | &amp;nbsp;&amp;nbsp;&amp;nbsp;0.007
+| align=&quot;center&quot; | 3.86
+| align=&quot;center&quot; | 0.007
 | align=&quot;center&quot; | -243.02
-| align=&quot;center&quot; | none
+| align=&quot;center&quot; | &amp;mdash;
 | align=&quot;center&quot; | no
 | align=&quot;center&quot; | [[Carbon Dioxide|CO&lt;sub &gt;2&lt;/sub&gt;]], [[Nitrogen|N&lt;sub&gt;2&lt;/sub&gt;]]
 |-
-| [[Earth (planet)|Earth]]&lt;sup&gt;**&lt;/sup&gt;
+| [[Earth (planet)|Earth]]{{ref label|b|b|b}}
 | align=&quot;center&quot; | 1.00
 | align=&quot;center&quot; | 1.00
 | align=&quot;center&quot; | 1.00
 | align=&quot;center&quot; | 1.00
-| align=&quot;center&quot; | &amp;nbsp;7.25
-| align=&quot;left&quot; | &amp;nbsp;&amp;nbsp;&amp;nbsp;0.017
+| align=&quot;center&quot; | 7.25
+| align=&quot;center&quot; | 0.017
 | align=&quot;center&quot; | 1.00
 | align=&quot;center&quot; | [[Moon|1]]
 | align=&quot;center&quot; | no
@@ -220,21 +393,21 @@ Many of the planets have [[natural satellite]]s, called &quot;moons&quot;, regar
 | align=&quot;center&quot; | 0.11
 | align=&quot;center&quot; | 1.52
 | align=&quot;center&quot; | 1.88
-| align=&quot;center&quot; | &amp;nbsp;5.65
-| align=&quot;left&quot; | &amp;nbsp;&amp;nbsp;&amp;nbsp;0.093
+| align=&quot;center&quot; | 5.65
+| align=&quot;center&quot; | 0.093
 | align=&quot;center&quot; | 1.03
 | align=&quot;center&quot; | [[Mars's natural satellites|2]]
 | align=&quot;center&quot; | no
 | align=&quot;center&quot; | CO&lt;sub &gt;2&lt;/sub&gt;, N&lt;sub&gt;2&lt;/sub&gt;
 |-
-! rowspan=4 | [[Gas giant]]s
+! rowspan=4 style=&quot;background: #DDEEFF;&quot; | [[Gas giant]]s
 | [[Jupiter (planet)|Jupiter]]
 | align=&quot;center&quot; | 11.21
 | align=&quot;center&quot; | 317.8
 | align=&quot;center&quot; | 5.20
 | align=&quot;center&quot; | 11.86
-| align=&quot;center&quot; | &amp;nbsp;6.09
-| align=&quot;left&quot; | &amp;nbsp;&amp;nbsp;&amp;nbsp;0.048
+| align=&quot;center&quot; | 6.09
+| align=&quot;center&quot; | 0.048
 | align=&quot;center&quot; | 0.41
 | align=&quot;center&quot; | [[Jupiter's natural satellites|63]]
 | align=&quot;center&quot; | [[Rings of Jupiter|yes]]
@@ -245,8 +418,8 @@ Many of the planets have [[natural satellite]]s, called &quot;moons&quot;, regar
 | align=&quot;center&quot; | 95.2
 | align=&quot;center&quot; | 9.54
 | align=&quot;center&quot; | 29.46
-| align=&quot;center&quot; | &amp;nbsp;5.51
-| align=&quot;left&quot; | &amp;nbsp;&amp;nbsp;&amp;nbsp;0.054
+| align=&quot;center&quot; | 5.51
+| align=&quot;center&quot; | 0.054
 | align=&quot;center&quot; | 0.43
 | align=&quot;center&quot; | [[Saturn's natural satellites|56]]
 | align=&quot;center&quot; | [[Rings of Saturn|yes]]
@@ -257,8 +430,8 @@ Many of the planets have [[natural satellite]]s, called &quot;moons&quot;, regar
 | align=&quot;center&quot; | 14.6
 | align=&quot;center&quot; | 19.22
 | align=&quot;center&quot; | 84.01
-| align=&quot;center&quot; | &amp;nbsp;6.48
-| align=&quot;left&quot; | &amp;nbsp;&amp;nbsp;&amp;nbsp;0.047
+| align=&quot;center&quot; | 6.48
+| align=&quot;center&quot; | 0.047
 | align=&quot;center&quot; | -0.72
 | align=&quot;center&quot; | [[Uranus's natural satellites|27]]
 | align=&quot;center&quot; | [[Rings of Uranus|yes]]
@@ -269,109 +442,139 @@ Many of the planets have [[natural satellite]]s, called &quot;moons&quot;, regar
 | align=&quot;center&quot; | 17.2
 | align=&quot;center&quot; | 30.06
 | align=&quot;center&quot; | 164.8
-| align=&quot;center&quot; | &amp;nbsp;6.43
-| align=&quot;left&quot; | &amp;nbsp;&amp;nbsp;&amp;nbsp;0.009
+| align=&quot;center&quot; | 6.43
+| align=&quot;center&quot; | 0.009
 | align=&quot;center&quot; | 0.67
 | align=&quot;center&quot; | [[Neptune's natural satellites|13]]
 | align=&quot;center&quot; | [[Rings of Neptune|yes]]
 | align=&quot;center&quot; | H&lt;sub&gt;2&lt;/sub&gt;, He
+|-
+|colspan=12 style=&quot;background: #FFFFFF; border-right:1px solid white; border-bottom:1px solid white; border-left:1px solid white;&quot;|&lt;div class=&quot;references-small&quot; style=&quot;margin-bottom: 0em;&quot;&gt;
+:{{note label|a|a|a}} Measured relative to the Earth.
+:{{note label|b|b|b}} See [[Earth (planet)|Earth]] article for absolute values.
+&lt;/div&gt;
 |}
-&lt;small&gt;*Measured relative to the Earth.&lt;/small&gt;   &lt;small&gt;**See [[Earth (planet)|Earth]] article for absolute values.&lt;/small&gt;
 
-=== Dwarf planets ===
+===Dwarf planets===
 {{main|Dwarf planet}}
 
-Before the [[2006 redefinition of planet|August 2006 decision]], several objects were proposed by astronomers, including at one stage by the [[International Astronomical Union|IAU]], as planets. However in [[2006]] several of these objects were [[2006 redefinition of planet|reclassified]] as [[dwarf planet]]s, objects distinct from planets. Currently three dwarf planets in the [[Solar System]] are recognized by the IAU: [[Ceres (dwarf planet)|Ceres]], [[Pluto]] and [[Eris (dwarf planet)|Eris]]. Several other objects in both the [[asteroid belt]] and the [[Kuiper belt]] are under consideration, with as many as 50 that could eventually qualify. There may be as many as 200 that could be discovered once the Kuiper Belt has been fully explored. Dwarf planets share many of the same [[characteristics]] as planets, although notable differences remain - namely that they are not [[clearing the neighbourhood|dominant in their orbits]]. Their attributes are: 
-{| class=&quot;wikitable&quot;
+Before the [[2006 redefinition of planet|August 2006 decision]], several objects were proposed by astronomers, including at one stage by the [[International Astronomical Union|IAU]], as planets. However in 2006 several of these objects were reclassified as [[dwarf planet]]s, objects distinct from planets. Currently three dwarf planets in the [[Solar System]] are recognized by the IAU: [[Ceres (dwarf planet)|Ceres]], [[Pluto]] and [[Eris (dwarf planet)|Eris]]. Several other objects in both the [[asteroid belt]] and the [[Kuiper belt]] are under consideration, with as many as 50 that could eventually qualify. There may be as many as 200 that could be discovered once the Kuiper Belt has been fully explored. Dwarf planets share many of the same [[characteristics]] as planets, although notable differences remain&amp;mdash;namely that they are not [[clearing the neighbourhood|dominant in their orbits]]. Their attributes are:
+
+{| class=&quot;wikitable&quot; style=&quot;margin: 1em auto 1em auto&quot;
 |+align=bottom style=&quot;text-align:left;&quot;|
 |- bgcolor=#ccccff
 ! colspan=12  style=&quot;background:#dddddd;&quot; | Dwarf planetary attributes
 |-
 !
-! Name
-! &lt;SMALL&gt;Equatorial&lt;sup&gt;*&lt;/sup&gt;&lt;br&gt;diameter&lt;/SMALL&gt;
-! Mass&lt;sup&gt;*&lt;/sup&gt;
-! &lt;SMALL&gt;Orbital&lt;br/&gt;radius ([[Astronomical Unit|AU]])&lt;/SMALL&gt;
-! &lt;SMALL&gt;[[Orbital period]]&lt;br&gt;(years)&lt;/SMALL&gt;
-! &lt;SMALL&gt;[[Inclination]]&lt;br&gt;to [[ecliptic]] (°)&lt;/SMALL&gt;
-! &lt;SMALL&gt;[[Eccentricity (orbit)|Orbital&lt;br&gt;eccentricity&lt;/SMALL&gt;]]
-! Day&lt;br&gt;&lt;SMALL&gt;(days)&lt;/SMALL&gt;
-! [[List of natural satellites|Moons]]
-! Rings
-! [[Atmosphere]]
+!style=&quot;font-size: smaller;&quot;|Name
+!style=&quot;font-size: smaller;&quot;|Equatorial&lt;br /&gt;diameter{{ref label|c|c|c}}
+!style=&quot;font-size: smaller;&quot;|Mass{{ref label|c|c|c}}
+!style=&quot;font-size: smaller;&quot;|Orbital&lt;br /&gt;radius ([[Astronomical Unit|AU]])
+!style=&quot;font-size: smaller;&quot;|[[Orbital period]]&lt;br /&gt;(years)
+!style=&quot;font-size: smaller;&quot;|[[Inclination|Inclination &lt;br /&gt;to Sun's equator]] (°)
+!style=&quot;font-size: smaller;&quot;|[[Eccentricity (orbit)|Orbital&lt;br&gt;eccentricity]]
+!style=&quot;font-size: smaller;&quot;|[[Rotation period]]&lt;br /&gt;(days)
+!style=&quot;font-size: smaller;&quot;|[[Natural satellites|Moons]]
+!style=&quot;font-size: smaller;&quot;|Rings
+!style=&quot;font-size: smaller;&quot;|[[Atmosphere]]
 |-
-! rowspan=1 | [[Terrestrial planets|Terrestrials]]
+! rowspan=1 style=&quot;background: #DDEEFF;&quot; | [[Terrestrial planet|Terrestrials]]
 | [[Ceres (dwarf planet)|Ceres]]
 | align=&quot;center&quot; | 0.08
 | align=&quot;center&quot; | 0.0002
 | align=&quot;center&quot; | 2.76
 | align=&quot;center&quot; | 4.60
-| align=&quot;center&quot; | &amp;nbsp;10.59
-| align=&quot;left&quot; | &amp;nbsp;&amp;nbsp;&amp;nbsp;0.080
+| align=&quot;center&quot; | 10.59
+| align=&quot;center&quot; | 0.080
 | align=&quot;center&quot; | 0.38
-| align=&quot;center&quot; | none
+| align=&quot;center&quot; | &amp;mdash;
 | align=&quot;center&quot; | no
 | align=&quot;center&quot; | none
 |-
-! rowspan=2 | [[Ice dwarf]]s
+! rowspan=2 style=&quot;background: #DDEEFF;&quot; | [[Ice dwarf]]s
 | [[Pluto]]
 | align=&quot;center&quot; | 0.18
 | align=&quot;center&quot; | 0.0022
 | align=&quot;center&quot; | 39.48
 | align=&quot;center&quot; | 248.09
-| align=&quot;center&quot; | &amp;nbsp;17.14
-| align=&quot;left&quot; | &amp;nbsp;&amp;nbsp;&amp;nbsp;0.249
+| align=&quot;center&quot; | 17.14
+| align=&quot;center&quot; | 0.249
 | align=&quot;center&quot; | -6.39
 | align=&quot;center&quot; | [[Pluto's natural satellites|3]]
 | align=&quot;center&quot; | no
 | align=&quot;center&quot; | temporary
 |-
-| [[136199 Eris|Eris]]
+| [[Eris (dwarf planet)|Eris]]
 | align=&quot;center&quot; | 0.19
 | align=&quot;center&quot; | 0.0025
 | align=&quot;center&quot; | 67.67
 | align=&quot;center&quot; | ~557
-| align=&quot;center&quot; | &amp;nbsp;44.19
-| align=&quot;left&quot; | &amp;nbsp;&amp;nbsp;&amp;nbsp;0.442
+| align=&quot;center&quot; | 44.19
+| align=&quot;center&quot; | 0.442
 | align=&quot;center&quot; | ~0.3
 | align=&quot;center&quot; | [[Dysnomia (moon)|1]]
 | align=&quot;center&quot; | no
 | align=&quot;center&quot; | temporary
+|-
+|colspan=12 style=&quot;background: #FFFFFF; border-right:1px solid white; border-bottom:1px solid white; border-left:1px solid white;&quot;|&lt;div class=&quot;references-small&quot; style=&quot;margin-bottom: 0em;&quot;&gt;
+:{{note label|c|c|c}} Measured relative to the Earth.
+&lt;/div&gt;
 |}
-&lt;small&gt;*Measured relative to the Earth.&lt;/small&gt;
 
-By definition, all dwarf planets are members of larger [[populations]]. Ceres is the largest body in the [[asteroid belt]], while Pluto is a member of the [[Kuiper belt]] and Eris is a member of the [[scattered disc]]. According to [[Michael E. Brown|Mike Brown]] there may soon be over forty [[trans-Neptunian objects]] that qualify as dwarf planets under the IAU's recent definition.
-&lt;ref&gt;{{cite news| title=Behind the Pluto Mission: An Interview with Project Leader Alan Stern | publisher=www.space.com | date=2006-02-28 | url=http://www.space.com/scienceastronomy/060228_stern_interview.html | accessdate=2006-11-01 }}&lt;/ref&gt;
+By definition, all dwarf planets are members of larger [[populations]]. Ceres is the largest body in the [[asteroid belt]], while Pluto is a member of the [[Kuiper belt]] and Eris is a member of the [[scattered disc]]. According to [[Michael E. Brown|Mike Brown]] there may soon be over forty [[trans-Neptunian objects]] that qualify as dwarf planets under the IAU's recent definition.&lt;ref&gt;{{cite news
+ | first=Brad | last=Amburn
+ | title=Behind the Pluto Mission: An Interview with Project Leader Alan Stern
+ | publisher=www.space.com | date=[[February 28]], [[2006]]
+ | url=http://www.space.com/scienceastronomy/060228_stern_interview.html
+ | accessdate=2006-11-01 }}&lt;/ref&gt;
 
-== Beyond the Solar System ==
+==Beyond the Solar System==
 ===Extrasolar planets===
 {{main|Extrasolar planet}}
-Of the 209 [[extrasolar planet]]s (those outside the Solar System) discovered to date (November 2006) most have masses which are about the same as, or larger than, Jupiter's&lt;ref name=&quot;Encyclopaedia&quot;&gt;.
 
-Exceptions include a number of planets discovered orbiting burned-out star remnants called [[pulsar]]s, such as [[PSR B1257 plus 12|PSR B1257+12]],&lt;ref&gt;{{cite news | title=Scientists reveal smallest extra-solar planet yet found | publisher=SpaceFlight Now | date=2005-02-11 | url=http://www.spaceflightnow.com/news/n0502/11planet/ | accessdate=2006-07-28 }}&lt;/ref&gt; the planets orbiting the stars [[Mu Arae]], [[55 Cancri]] and [[GJ 436]] which are approximately Neptune-sized,&lt;ref&gt;{{cite news | title=Fourteen Times the Earth | publisher=ESO | date=2004-08-25 | url=http://www.eso.org/outreach/press-rel/pr-2004/pr-22-04_pf.html | accessdate=2006-07-22 }}&lt;/ref&gt; and a planet orbiting [[Gliese 876]] that is estimated to be about 6 to 8 times as massive as the Earth and is probably rocky in composition.
+Since the 1988 discovery of [[Gamma Cephei|Gamma Cephei Ab]], a number of confirmed discoveries have been made of planets orbiting stars other than the Sun. Of the 246 [[extrasolar planet]]s discovered by July 2007, most have masses which are comparable to or larger than Jupiter's.&lt;ref name=&quot;Encyclopedia&quot;&gt;{{cite web |title=Interactive Extra-solar Planets Catalog |work=The Extrasolar Planets Encyclopedia |url=http://exoplanet.eu/catalog.php |last=Schneider |first=Jean |date=[[December 11]], [[2006]] |accessdate=2006-12-11}}&lt;/ref&gt; Exceptions include a number of planets discovered orbiting burned-out star remnants called [[pulsar]]s, such as [[PSR B1257 plus 12|PSR B1257+12]],&lt;ref&gt;{{cite news | title=Scientists reveal smallest extra-solar planet yet found | publisher=SpaceFlight Now | date=[[February 11]], [[2005]] | url=http://www.spaceflightnow.com/news/n0502/11planet/ | accessdate=2006-07-28 }}&lt;/ref&gt; the planets orbiting the stars [[Mu Arae]], [[55 Cancri]] and [[GJ 436]] which are approximately Neptune-sized,&lt;ref&gt;{{cite news
+ | author=Santos, N.; Bouchy, F.; Vauclair, S.; Queloz, D.; Mayor, M.
+ | title=Fourteen Times the Earth | publisher=ESO
+ | date=[[August 25]], [[2004]]
+ | url=http://www.eso.org/public/outreach/press-rel/pr-2004/pr-22-04.html
+ | accessdate=2007-07-23 }}&lt;/ref&gt; and a planet orbiting [[Gliese 876]] that is estimated to be about 6 to 8 times as massive as the Earth and is probably rocky in composition.
 
 It is far from clear if the newly discovered large planets would resemble the gas giants in the Solar System or if they are of an entirely different type as yet unknown, like ammonia giants or carbon planets. In particular, some of the newly discovered planets, known as [[hot Jupiter]]s, orbit extremely close to their parent stars, in nearly circular orbits. They therefore receive much more [[solar radiation|stellar radiation]] than the gas giants in the Solar System, which makes it questionable whether they are the same type of planet at all. There is also a class of hot Jupiters that orbit so close to their star that their atmospheres are slowly blown away in a comet-like tail: the [[Chthonian planet]]s.
 
-Several projects have been proposed to create an array of [[space telescope]]s to search for extrasolar planets with masses comparable to the Earth. The [[National Aeronautics and Space Administration|NASA]] [[Terrestrial Planet Finder]] was one such program, but (as of 2006-02-06) this program has been put on indefinite hold. The [[European Space Agency|ESA]] is considering a comparable mission called [[Darwin (ESA)|Darwin]]. The frequency of occurrence of such terrestrial planets is one of the variables in the [[Drake equation]] which estimates the number of [[extraterrestrial intelligence|intelligent, communicating civilizations]] that exist in our galaxy.
-
-In 2005, astronomers&lt;ref&gt;{{cite news | title=NASA Scientist Finds World With Triple Sunsets | publisher=ESO | date=2005-07-13 | url=http://www.jpl.nasa.gov/news/news.cfm?release=2005-115 | accessdate=2006-07-22 }}&lt;/ref&gt; detected a planet in a [[triple star system]], a finding that challenges current theories of planetary formation. The planet, a gas giant slightly larger than Jupiter, orbits the main star of the [[HD 188753]] system, in the constellation [[Cygnus]], and is hence known as [[HD 188753 Ab]]. The stellar trio (yellow, orange, and red) is about 149 light-years from Earth. The planet, which is at least 14% larger than Jupiter, orbits the main star (HD 188753 A) once every 80 hours or so (3.3 days), at a distance of about 8 Gm, a twentieth of the distance between Earth and the Sun. The other two stars whirl tightly around each other in 156 days, and circle the main star every 25.7 years at a distance from the main star that would put them between Saturn and Uranus in the Solar System. The latter stars invalidate the leading hot Jupiter formation theory, which holds that these planets form at &quot;normal&quot; distances and then migrate inward through some debatable mechanism. This could not have occurred here; the outer star pair would have disrupted outer planet formation.
+More detailed observation of extrasolar planets will require a new generation of instruments, including [[space telescope]]s. Currently the [[CoRoT]] spacecraft is searching for stellar luminosity variations due to [[Astronomical transit|transiting planets]]. Several projects have also been proposed to create an array of [[space telescope]]s to search for extrasolar planets with masses comparable to the Earth. These include the proposed NASA's [[Kepler Mission]] and [[Terrestrial Planet Finder]] programs, the [[European Space Agency|ESA]]'s [[Darwin (ESA)|Darwin]], and the CNES' [[PEGASE]].&lt;ref&gt;{{cite web
+ | author=Staff | year=2004
+ | url =http://www.spacetoday.org/DeepSpace/Stars/Planets/PlanetFindingMissions.html
+ | title =Future American and European Planet Finding Missions 
+ | publisher = Space Today Online
+ | accessdate = 2007-07-23 }}&lt;/ref&gt; The [[New Worlds Imager]] is an occulting device that may work in conjunction with the [[James Webb Space Telescope]]. However, funding for some of these projects remains uncertain. The frequency of occurrence of such terrestrial planets is one of the variables in the [[Drake equation]] which estimates the number of [[extraterrestrial intelligence|intelligent, communicating civilizations]] that exist in our galaxy.&lt;ref&gt;{{cite news
+ | last=Drake | first=Frank
+ | title=The Drake Equation Revisited
+ | publisher=Astrobiology Magazine
+ | date=September 29, 2003
+ | url=http://www.astrobio.net/news/article610.html
+ | accessdate=2007-07-23 }}&lt;/ref&gt;
 
 ===Interstellar &quot;planets&quot;===
 {{Main|Interstellar planetary mass object}}
-Several [[computer simulation]]s of stellar and planetary system formation have suggested that some [[planemo|objects of planetary mass]] would be ejected into interstellar [[space]]. Some scientists have argued that such objects found roaming in deep space should be classed as &quot;planets.&quot; However, many others argue that only planemos that directly orbit [[star]]s should qualify as planets, preferring to use the terms &quot;planetary body&quot;, &quot;planetary mass object&quot; or &quot;[[planemo]]&quot; for similar free-floating objects (as well as planetary-sized moons). The [[International Astronomical Union|IAU's]] working definition on extrasolar planets takes no position on the issue. The discoverers of the bodies mentioned above decided to avoid the debate over what constitutes a planet by referring to the objects as planemos. However, the original IAU proposal for the 2006 definition of planet favoured the star-orbitting criterion, although the final draft avoided the issue.
+Several [[computer simulation]]s of stellar and planetary system formation have suggested that some [[planemo|objects of planetary mass]] would be ejected into interstellar [[space]]. Some scientists have argued that such objects found roaming in deep space should be classed as &quot;planets&quot;. However, many others argue that only planemos that directly orbit [[star]]s should qualify as planets, preferring to use the terms &quot;planetary body&quot;, &quot;planetary mass object&quot; or &quot;planemo&quot; for similar free-floating objects (as well as planetary-sized moons). The [[International Astronomical Union|IAU's]] working definition on extrasolar planets takes no position on the issue. The discoverers of the bodies mentioned above decided to avoid the debate over what constitutes a planet by referring to the objects as planemos. However, the original IAU proposal for the 2006 definition of planet favoured the star-orbiting criterion, although the final draft avoided the issue.
 
-For a brief time in 2006, astronomers believed they had found a binary system of such objects, [[Oph 162225-240515]], which the discoverers described as &quot;planemos&quot;.  However, [http://fr.arxiv.org/PS_cache/astro-ph/pdf/0608/0608574.pdf recent analysis] of the objects has determined that their masses are each greater than 13 Jupiter-masses, making the pair [[brown dwarf]]s.[http://www.space.com/scienceastronomy/planet_photo_040910.html].
+For a brief time in 2006, astronomers believed they had found a binary system of such objects, [[Oph 162225-240515]], which the discoverers described as &quot;planemos&quot;. However, recent analysis&lt;ref&gt;{{cite web
+ | title=The Wide Brown Dwarf Binary Oph 1622-2405 and Discovery of A Wide, Low Mass Binary in Ophiuchus (Oph 1623-2402): A New Class of Young Evaporating Wide Binaries?
+ | url=http://fr.arxiv.org/PS_cache/astro-ph/pdf/0608/0608574.pdf|author=Close, L. M. ''et al''
+ | year=2007 | accessdate=2007-04-30}}&lt;/ref&gt; of the objects has determined that their masses are each greater than 13 Jupiter-masses, making the pair [[brown dwarf]]s.&lt;ref&gt;{{cite web
+ | url=http://www.space.com/scienceastronomy/planet_photo_040910.html
+ | title=Likely First Photo of Planet Beyond the Solar System
+ | first=Robert Roy | last=Britt| publisher=Space.com 
+ | accessdate=2007-03-13}}&lt;/ref&gt;
 
 == See also ==
-* [[Definition of planet]]
-* [[Dwarf planet]]
 * [[Brown dwarf]]
 * [[Planemo]]
 * [[Planetoid]]
 * [[Planetary science]]
+* [[Planetary system]]
 * [[Table of planets and dwarf planets in the Solar System]]
 * [[Skies of other planets]]
-* [[List of Solar System bodies formerly regarded as planets]]
 * [[Planetary habitability]]
 * [[Hypothetical planets]]
 * [[Landings on other planets]]
@@ -380,8 +583,7 @@ For a brief time in 2006, astronomers believed they had found a binary system of
 * [[Navagraha]]
 
 ==References==
-&lt;div class=&quot;references-small&quot;&gt;
-&lt;references /&gt;&lt;/div&gt;
+{{reflist}}
 
 ==External links==
 * [http://www.iau.org International Astronomical Union]
@@ -394,6 +596,7 @@ For a brief time in 2006, astronomers believed they had found a binary system of
 
 ===Definition and reclassification debate===
 * [http://www.ciw.edu/IAU/div3/wgesp/definition.html Working definition of &quot;planet&quot;] from [[International Astronomical Union|IAU]] WGESP &amp;mdash; the lower bound remained a matter of consensus in [[February 2003]]
+* Steven Soter's article &quot;''What is a Planet''&quot; in [[Scientific American]], January 2007, pp 34-41.
 * Dan Green's page on [http://cfa-www.harvard.edu/cfa/ps/icq/ICQPluto.html planet classification]
 * Stern &amp; Levinson's article [http://www.boulder.swri.edu/~hal/planet_def.html &quot;Regarding the criteria for planethood and proposed planetary classification schemes.&quot;]
 * [http://www.spacedaily.com/news/outerplanets-04b.html Gravity Rules: The Nature and Meaning of Planethood]; S. Alan Stern; [[March 22]], [[2004]]
@@ -403,94 +606,7 @@ For a brief time in 2006, astronomers believed they had found a binary system of
 * [http://news.bbc.co.uk/2/hi/science/nature/5283956.stm BBC: &quot;Pluto vote 'hijacked' in revolt&quot; 2006-08-25]
 
 {{Footer_SolarSystem}}
-
-{{Link FA|el}}
-
 [[Category:Planets|*]]
 
-[[af:Planeet]]
-[[als:Planet]]
-[[ar:كوكب]]
-[[frp:Planèta]]
-[[ast:Planeta]]
-[[bn:গ্রহ]]
-[[zh-min-nan:He̍k-chheⁿ]]
-[[map-bms:Planet]]
-[[bs:Planeta]]
-[[br:Planedenn]]
-[[bg:Планета]]
-[[ca:Planeta]]
-[[cs:Planeta]]
-[[cy:Planed]]
-[[da:Planet]]
-[[de:Planet]]
-[[et:Planeet]]
-[[el:Πλανήτης]]
-[[es:Planeta]]
-[[eo:Planedo]]
-[[eu:Planeta]]
-[[fa:سیاره]]
-[[fr:Planète]]
-[[fur:Planet]]
-[[ga:Pláinéad]]
-[[gd:Planaid]]
-[[gl:Planeta]]
-[[ko:행성]]
-[[hr:Planet]]
-[[io:Planeto]]
-[[id:Planet]]
-[[ia:Planeta]]
-[[is:Reikistjarna]]
-[[it:Pianeta]]
-[[he:כוכב לכת]]
-[[kn:ಗ್ರಹ]]
-[[ka:პლანეტა]]
-[[kw:Planet]]
-[[sw:Sayari]]
-[[ht:Planèt]]
-[[ku:Exter]]
-[[la:Planeta]]
-[[lv:Planēta]]
-[[lb:Planéit]]
-[[lt:Planeta]]
-[[jbo:plini]]
-[[hu:Bolygó]]
-[[mk:Планета]]
-[[mt:Pjaneta]]
-[[ms:Planet]]
-[[nl:Planeet]]
-[[ja:惑星]]
-[[nap:Chianeta]]
-[[no:Planet]]
-[[nn:Planet]]
-[[nrm:Plianète]]
-[[ug:سەييارە]]
-[[pam:Planeta]]
-[[nds:Planet]]
-[[pl:Planeta]]
-[[pt:Planeta]]
-[[ro:Planetă]]
-[[qu:Puriq quyllur]]
-[[ru:Планета]]
-[[sq:Planeti]]
-[[scn:Pianeta]]
-[[simple:Planet]]
-[[sk:Planéta]]
-[[sl:Planet]]
-[[sr:Планета]]
-[[sh:Planeta]]
-[[su:Planét]]
-[[fi:Planeetta]]
-[[sv:Planet]]
-[[tl:Planeta]]
-[[ta:கோள்]]
-[[th:ดาวเคราะห์]]
-[[vi:Hành tinh]]
-[[tg:Сайёра]]
-[[tpi:Planet]]
-[[tr:Gezegen]]
-[[uk:Планета]]
-[[uz:Sayyora]]
-[[zh-yue:行星]]
-[[zh:行星]]</pre>
+{{Link FA|el}}</pre>
 </div>

@@ -1,278 +1,809 @@
-<div title="List of solar system objects by radius" modifier="www.wikipedia.org" server.host="www.wikipedia.org/w" downloaded="200612192142" wikiformat="mediawiki" mediawiki.revid="94846108">
-<pre>:''List of solar system objects: [[List of solar system objects|By orbit]]—[[List of solar system objects by mass|By mass]]—[[List of solar system objects by radius|By radius]]
+<div title="List of solar system objects by radius" server.host="en.wikipedia.org/w" server.page.revision="147477551" wikiformat="mediawiki">
+<pre>{{Mergefrom|Planetary-size comparison|date=May 2007}}
+:''List of solar system objects: [[List of solar system objects|By orbit]]—[[List of solar system objects by mass|By mass]]—[[List of solar system objects by radius|By radius]]—[[List of named solar system objects|By name]]—[[List of solar system objects by surface gravity|By surface gravity]]
 {{Seealso|Solar system}}
 
 This is a '''list of solar system objects by radius''', arranged in descending order of mean volumetric [[radius]]. This list is not exhaustive; it contains the [[Sun]], the [[planet]]s, several [[natural satellite]]s, and a number of other notable objects.
 
-The ordering is not the same as the order of a [[list of solar system objects by mass]] because some objects are denser than others. For instance [[Uranus (planet)|Uranus]] is bigger than [[Neptune (planet)|Neptune]] but less massive, and although [[Ganymede (moon)|Ganymede]] and [[Titan (moon)|Titan]] are larger than [[Mercury (planet)|Mercury]], they have less than half its mass.
+The ordering is not the same as the order of a [[list of solar system objects by mass]] because some objects are denser than others. For instance [[Uranus]] is bigger than [[Neptune]] but less massive, and although [[Ganymede (moon)|Ganymede]] and [[Titan (moon)|Titan]] are larger than [[Mercury (planet)|Mercury]], they have less than half its mass.
 
 Several new [[trans-Neptunian objects]] have been discovered of significant size. While their radius remains provisional due to the recency of discovery, and is often expressed as a range, the approximate locations in this list are shown.
 
 == List ==
 &lt;!-- This list is ranked by mean RADIUS. Most Wikipedia articles list the polar and equatorial DIAMETER. Please be sure of your figures. --&gt;
-{| class=&quot;wikitable&quot;
+{| class=&quot;wikitable sortable&quot;
 |-
-! style=&quot;background: #E9E9E9;&quot; | Rank
-! style=&quot;background: #E9E9E9;&quot; | Body
-! style=&quot;background: #E9E9E9;&quot; | Image
-! style=&quot;background: #E9E9E9;&quot; | Mean Radius ([[kilometre|km]])
-! style=&quot;background: #E9E9E9;&quot; | Mean Radius (vs. Earth)
-! style=&quot;background: #E9E9E9;&quot; | Volume ([[1000000000 (number)|billion]] km&lt;sup&gt;3&lt;/sup&gt;)
-! style=&quot;background: #E9E9E9;&quot; | Volume (vs. Earth)
+!Rank
+!Body
+!Image
+!Mean radius&lt;br&gt;&lt;small&gt;([[kilometre|km]])&lt;/small&gt;
+![[Margin of error|Margin&lt;br&gt;of error]]
+!Mean radius&lt;br&gt;&lt;small&gt;(R&lt;sub&gt;♁&lt;/sub&gt;)&lt;/small&gt;
+!Volume&lt;br&gt;&lt;small&gt;([[1000000000 (number)|10&lt;sup&gt;9&lt;/sup&gt;]] km³)&lt;/small&gt;
+! style=&quot;background: #E9E9E9;&quot; | Volume&lt;br&gt;&lt;small&gt;(V&lt;sub&gt;♁&lt;/sub&gt;)&lt;/small&gt;
 |-
 |1 
-|[[Sun]]                                 ||bgcolor=black|[[Image:Sun920607.jpg|50px]] || 696,000   || 109.25 || 1412 million || 1,303,781
+|[[Sun]]
+|bgcolor=black|[[Image:Sun920607.jpg|50px]]
+|696000
+|
+|109.25
+|1412000000
+|1303781
 |-
 |2 
-|[[Jupiter (planet)|Jupiter]]            ||bgcolor=black| [[Image:Jupiter.jpg|50px]] || 69,911    || 10.97  || 1,431,280    || 1321
+|[[Jupiter]]
+|bgcolor=black|[[Image:Jupiter.jpg|50px]]
+|69911
+|
+|10.97
+|1431280
+|1321
 |-
 |3 
-|[[Saturn (planet)|Saturn]]              ||bgcolor=black| [[Image:Saturn-cassini-March-27-2004.jpg|50px]] || 58,232    || 9.14   || 827,130      || 764
+|[[Saturn]]
+|bgcolor=black|[[Image:Saturn-cassini-March-27-2004.jpg|50px]]
+|58232
+|
+|9.14
+|827130
+|764
 |-
 |4 
-|[[Uranus (planet)|Uranus]]              ||bgcolor=black| [[Image:Uranus.jpg|50px]] || 25,362    || 3.98   || 68,340       || 63.1
+|[[Uranus]]
+|bgcolor=black|[[Image:Uranus.jpg|50px]]
+|25362
+|
+|3.98
+|68340
+|63.1
 |-
 |5 
-|[[Neptune (planet)|Neptune]]            ||bgcolor=black| [[Image:Neptune.jpg|50px]] || 24,622    || 3.87   || 62,540       || 57.7
+|[[Neptune]]
+|bgcolor=black|[[Image:Neptune.jpg|50px]]
+|24622
+|
+|3.87
+|62540
+|57.7
 |-
 |6 
-|[[Earth]]                               ||bgcolor=black| [[Image:The Earth seen from Apollo 17.jpg|50px]] || 6371.0    || 1      || 1083.21      || 1
+|[[Earth]]
+|bgcolor=black|[[Image:The Earth seen from Apollo 17.jpg|50px]]
+|6371.0
+|
+|1
+|1083.21
+|1
 |-
 |7 
-|[[Venus (planet)|Venus]]                ||bgcolor=black| [[Image:Venus-real.jpg|50px]] || 6051.8    || 95.0%  || 928.43       || 85.7%
+|[[Venus]]
+|bgcolor=black|[[Image:Venus-real.jpg|50px]]
+|6051.8
+|
+|0.950
+|928.43
+|0.857
 |-
 |8 
-|[[Mars (planet)|Mars]]                  ||bgcolor=black| [[Image:Mars Valles Marineris.jpeg|50px]] || 3390.0    || 53.2%  || 163.18       || 15.1%
+|[[Mars]]
+|bgcolor=black|[[Image:Mars Valles Marineris.jpeg|50px]]
+|3390.0
+|
+|0.532
+|163.18
+|0.151
 |-
 |9 
-|[[Ganymede (moon)|Ganymede]]*           ||bgcolor=black| [[Image:Ganymede g1 true.jpg|50px]] || 2631.2    || 41.3%  || 76.30        || 7.04%
+|[[Ganymede (moon)|Ganymede]]&lt;sup&gt;†&lt;/sup&gt;
+|bgcolor=black|[[Image:Ganymede g1 true.jpg|50px]]
+|2631.2
+|
+|0.413
+|76.30
+|0.0704
 |-
 |10 
-|[[Titan (moon)|Titan]]*                 ||bgcolor=black| [[Image:Titan in natural color Cassini.jpg|50px]] || 2575      || 40.4%  || 71.52        || 6.60%
+|[[Titan (moon)|Titan]]&lt;sup&gt;†&lt;/sup&gt;
+|bgcolor=black|[[Image:Titan in natural color Cassini.jpg|50px]]
+|2575
+|
+|0.404
+|71.52
+|0.0660
 |-
 |11 
-|[[Mercury (planet)|Mercury]]            ||bgcolor=black| [[Image:Reprocessed_Mariner_10_image_of_Mercury.jpg|50px]] || 2439.7    || 38.3%  || 60.83        || 5.62%
+|[[Mercury (planet)|Mercury]]
+|bgcolor=black|[[Image:Reprocessed Mariner 10 image of Mercury.jpg|50px]]
+|2439.7
+|
+|0.383
+|60.83
+|0.0562
 |-
 |12 
-|[[Callisto (moon)|Callisto]]*           ||bgcolor=black| [[Image:Callisto.jpg|50px]] || 2410.3    || 37.8%  || 58.65        || 5.41%
+|[[Callisto (moon)|Callisto]]&lt;sup&gt;†&lt;/sup&gt;
+|bgcolor=black|[[Image:Callisto.jpg|50px]]
+|2410.3
+|
+|0.378
+|58.65
+|0.0541
 |-
 |13 
-|[[Io (moon)|Io]]*                       ||bgcolor=black| [[Image:Io highest resolution true color.jpg|50px]] || 1821.5    || 28.6%  || 25.32        || 2.34%
+|[[Io (moon)|Io]]&lt;sup&gt;†&lt;/sup&gt;
+|bgcolor=black|[[Image:Io highest resolution true color.jpg|50px]]
+|1821.5
+|
+|28.6%
+|25.32
+|2.34%
 |-
 |14 
-|[[Moon]]                                ||bgcolor=black| [[Image:Full moon.jpeg|50px]] || 1737.1    || 27.3%  || 21.958       || 2.03%
+|[[Moon]]
+|bgcolor=black|[[Image:Full moon.jpeg|50px]]
+|1737.1
+|
+|27.3%
+|21.958
+|2.03%
 |-
 |15 
-|[[Europa (moon)|Europa]]*               ||bgcolor=black| [[Image:Europa-moon.jpg|50px]] || 1561      || 24.5%  || 15.93        || 1.47%
+|[[Europa (moon)|Europa]]&lt;sup&gt;†&lt;/sup&gt;
+|bgcolor=black|[[Image:Europa-moon.jpg|50px]]
+|1561
+|
+|24.5%
+|15.93
+|1.47%
 |-
 |16
-|[[Triton (moon)|Triton]]*               ||bgcolor=black| [[Image:Triton Voyager 2.jpg|50px]] || 1353.4    || 21.2%  || 10.38        || 0.96%
+|[[Triton (moon)|Triton]]&lt;sup&gt;†&lt;/sup&gt;
+|bgcolor=black|[[Image:Triton Voyager 2.jpg|50px]]
+|1353.4
+|
+|21.2%
+|10.38
+|0.96%
 |-
 |17 
-|[[Eris (dwarf planet)|Eris]]***                  ||bgcolor=black| [[Image:Xenaandgabrielle.jpg|50px]] || 1200 ± 50|| 19% || 7       || 0.7%
+|[[Eris (dwarf planet)|Eris]]*
+|bgcolor=black|[[Image:Xenaandgabrielle.jpg|50px]]
+|1200
+|±50
+|19%
+|7
+|0.7%
 |-
 |18 
-|[[Pluto]]                ||bgcolor=black| [[Image:Pluto.jpg|50px]] || 1153      || 18.1%  || 6.39         || 0.59%
+|[[Pluto]]
+|bgcolor=black|[[Image:Pluto.jpg|50px]]
+|1153
+|
+|18.1%
+|6.39
+|0.59%
+&lt;!-- Rank of known bodies past 18 is too indeterminate to be useful. See Talk --&gt;
 |-
-|19
-|{{mpl|(136472) 2005 FY|9}}***                    ||bgcolor=black| || 800-1000  ||    12.6-15.7%    ||              || 
-&lt;!-- Rank of known bodies past 19 is too indeterminate to be useful. See Talk --&gt;
+|
+|{{mpl|(136472) 2005 FY|9}}*
+|bgcolor=black|[[Image:2005FY9art.jpg|50px]]
+|900
+|±100
+|12.6-15.7%
+|
+| 
 |-
 | 
-|[[Titania (moon)|Titania]]**            ||bgcolor=black| [[Image:Titania.jpg|50px]] || 788.9     || 12.4%  || 2.06         || 0.19%
+|[[Titania (moon)|Titania]]&lt;sup&gt;‡&lt;/sup&gt;
+|bgcolor=black|[[Image:Titania.jpg|50px]]
+|788.9
+|
+|12.4%
+|2.06
+|0.19%
 |-
 | 
-|[[Rhea (moon)|Rhea]]**                  ||bgcolor=black| [[Image:Rhea (moon) thumb.jpg|50px]] || 764.4       || 12.0%  || 1.87         || 0.17%
+|[[Rhea (moon)|Rhea]]&lt;sup&gt;‡&lt;/sup&gt;
+|bgcolor=black|[[Image:Rhea (moon) thumb.jpg|50px]]
+|764.4
+|
+|12.0%
+|1.87
+|0.17%
 |-
 | 
-|[[Oberon (moon)|Oberon]]*               ||bgcolor=black| [[Image:Oberon.jpg|50px]] || 761.4     || 12.0%  || 1.85         || 0.17%
+|[[Oberon (moon)|Oberon]]&lt;sup&gt;†&lt;/sup&gt;
+|bgcolor=black|[[Image:Oberon.jpg|50px]]
+|761.4
+|
+|12.0%
+|1.85
+|0.17%
 |-
 | 
-|{{mpl|(136108) 2003 EL|61}}***                   ||bgcolor=black| || ~745 (980 x 759 x 498) ||   11.7%     ||              || 
+|{{mpl|(136108) 2003 EL|61}}*
+|bgcolor=black|[[Image:2003EL61art.jpg|50px]]
+|745
+|980 x 759 x 498
+|11.7%
+|
+| 
 |-
 | 
-|[[90377 Sedna]]***                      ||bgcolor=black| || 590-900   ||    9-14%    ||              || 
+|[[90377 Sedna]]*
+|bgcolor=black|
+|745
+|±155
+|9-14%
+|
+| 
 |-
 | 
-|[[Iapetus (moon)|Iapetus]]*             ||bgcolor=black| [[Image:Iapetus by Voyager 2 - enhanced.jpg|50px]] || 736       || 11.3%  || 1.55         || 0.14%
-|-
+|[[Iapetus (moon)|Iapetus]]&lt;sup&gt;†&lt;/sup&gt;
+|bgcolor=black|[[Image:Iapetus by Voyager 2 - enhanced.jpg|50px]]
+|736
 |
-|[[90482 Orcus]]***                      ||bgcolor=black| || 420-940   ||   6.6-14.8%     ||              || 
+|11.3%
+|1.55
+|0.14%
 |-
 | 
-|[[50000 Quaoar]]*                       ||bgcolor=black| || 535-725   ||   8.4-11.4%     ||              || 
+|[[50000 Quaoar]]&lt;sup&gt;†&lt;/sup&gt;
+|bgcolor=black|[[Image:Quaoar PRC2002-17e.jpg|50px]]
+|630 
+|±95
+|8.4-11.4%
+|
+|
 |-
 | 
-|[[Charon (moon)|Charon]]*               ||bgcolor=black| [[Image:Charon_plutoface.png|50px]] || 606       || 9.5%   || 0.87      93 || 0.09%
+|[[Charon (moon)|Charon]]&lt;sup&gt;†&lt;/sup&gt;
+|bgcolor=black|[[Image:Charon plutoface.png|50px]]
+|606
+|
+|9.5%
+|0.87
+|0.09%
 |-
 | 
-|[[Umbriel (moon)|Umbriel]]*             ||bgcolor=black| [[Image:Umbriel_moon_1.gif|50px]] || 584.7     || 9.2%   || 0.84         || 0.08%
+|[[Umbriel (moon)|Umbriel]]&lt;sup&gt;†&lt;/sup&gt;
+|bgcolor=black|[[Image:Umbriel moon 1.gif|50px]]
+|584.7
+|
+|9.2%
+|0.84
+|0.08%
 |-
 | 
-|[[Ariel (moon)|Ariel]]**                ||bgcolor=black| [[Image:Ariel (moon).jpg|50px]] || 578.9     || 9.1%   || 0.81         || 0.08%
+|[[Ariel (moon)|Ariel]]&lt;sup&gt;‡&lt;/sup&gt;
+|bgcolor=black|[[Image:Ariel (moon).jpg|50px]]
+|578.9
+|
+|9.1%
+|0.81
+|0.08%
 |-
 | 
-|[[Dione (moon)|Dione]]*                 ||bgcolor=black| [[Image:Dione.jpg|50px]] || 561.6       || 8.8%   || 0.73         || 0.07%
+|[[Dione (moon)|Dione]]&lt;sup&gt;†&lt;/sup&gt;
+|bgcolor=black|[[Image:Dione.jpg|50px]]
+|561.6
+|
+|8.8%
+|0.73
+|0.07%
 |-
 | 
-|[[Tethys (moon)|Tethys]]**              ||bgcolor=black| [[Image:Tethys cassini.jpg|50px]] || 533       || 8.3%   || 0.624        || 0.06%
+|[[Tethys (moon)|Tethys]]&lt;sup&gt;‡&lt;/sup&gt;
+|bgcolor=black|[[Image:Tethys cassini.jpg|50px]]
+|533
+|
+|8.3%
+|0.624
+|0.06%
 |-
 | 
-|[[(84522) 2002 TC302|(84522) 2002 TC&lt;sub&gt;302&lt;/sub&gt;]]***         ||bgcolor=black| ||&lt;600       ||     ||         ||
+|[[(84522) 2002 TC302|(84522) 2002 TC&lt;sub&gt;302&lt;/sub&gt;]]*
+|bgcolor=black|
+|532
+|±62
+|
+|
+|
 |-
 | 
-|[[Ceres (dwarf planet)|Ceres]]**                           ||bgcolor=black| [[Image:Ceres_color.png|50px]] || 475       || 7.6%   || 0.437        || 0.04%
+|[[Ceres (dwarf planet)|Ceres]]&lt;sup&gt;‡&lt;/sup&gt;
+|bgcolor=black|[[Image:Ceres color.png|50px]]
+|475
+|
+|7.6%
+|0.437
+|0.04%
 |-
 |
-|[[(19308) 1996 TO66|(19308) 1996 TO&lt;sub&gt;66&lt;/sub&gt;]]***         ||bgcolor=black| || ~472       ||     ||         ||
+|[[90482 Orcus]]*
+|bgcolor=black|
+|473
+|±36
+|6.9-8.0%
+|
+| 
 |-
 |
-|[[(55637) 2002 UX25|(55637) 2002 UX&lt;sub&gt;25&lt;/sub&gt;]]***                        ||bgcolor=black| || ~450       ||    ||          || 
-|-
-|
-|[[(55636) 2002 TX300|(55636) 2002 TX&lt;sub&gt;300&lt;/sub&gt;]]***         ||bgcolor=black| ||&lt;450       ||     ||         ||
-|-
-|
-|[[20000 Varuna]]***                     ||bgcolor=black| || 380-510       || 8.3%   || 0.624        || 0.06%
+|[[20000 Varuna]]*
+|bgcolor=black|[[Image:Varuna artistic.png|50px]]
+|445
+|±65
+|8.3%
+|0.624
+|0.06%
 |-
 | 
-|[[28978 Ixion]]*                        ||bgcolor=black| || &lt;411       || 7.3%   || 0.421         || 0.038%
+|[[(55637) 2002 UX25|(55637) 2002 UX&lt;sub&gt;25&lt;/sub&gt;]]*
+|bgcolor=black|
+|419
+|
+|
+|
+| 
 |-
 |
-|[[2002 MS4|2002 MS,&lt;sub&gt;4&lt;/sub&gt;]]***         ||bgcolor=black| ||210-595       ||     ||         ||
+|[[28978 Ixion]]&lt;sup&gt;†&lt;/sup&gt;
+|bgcolor=black|
+|411
+| -
+|7.3%
+|0.421
+|0.038%
 |-
 |
-|[[2003 MW12|2003 MW&lt;sub&gt;12&lt;/sub&gt;]]***         ||bgcolor=black| || ~382       ||     ||         ||
+|[[2002 MS4|2002 MS&lt;sub&gt;4&lt;/sub&gt;]]*
+|bgcolor=black|
+|402
+|±192
+|
+|
+|
 |-
 |
-|[[2004 XR190|2004 XR&lt;sub&gt;190&lt;/sub&gt;]]***                        ||bgcolor=black| || 250-500       ||    ||          || 
+|[[2003 MW12|2003 MW&lt;sub&gt;12&lt;/sub&gt;]]*
+|bgcolor=black|
+|382
+|?
+|
+|
+|
 |-
 |
-|[[2003 AZ84|2003 AZ&lt;sub&gt;84&lt;/sub&gt;]]***         ||bgcolor=black| ||~365       ||     ||         ||
+|[[2006 QH181|2006 QH&lt;sub&gt;181&lt;/sub&gt;]]*
+|bgcolor=black|
+|382
+|?
+|
+|
+|
 |-
 |
-|[[(24835) 1995 SM55|(24835) 1995 SM&lt;sub&gt;55&lt;/sub&gt;]]***         ||bgcolor=black| ||~352       ||     ||         ||
+|[[2004 XR190|2004 XR&lt;sub&gt;190&lt;/sub&gt;]]*
+|bgcolor=black|
+|375
+|±125
+|
+|
+| 
 |-
 |
-|[[(55565) 2002 AW197|(55565) 2002 AW197]]***                           ||bgcolor=black| || 375 - 325    ||    ||         || 
+|[[(145452) 2005 RN43|(145452) 2005 RN&lt;sub&gt;43&lt;/sub&gt;]]*
+|bgcolor=black|
+|365
+|?
+|
+|
+|
 |-
 |
-|[[(90568) 2004 GV9|(90568) 2004 GV&lt;sub&gt;9&lt;/sub&gt;]]***         ||bgcolor=black| ||~348       ||     ||         ||
+|[[(24835) 1995 SM55|(24835) 1995 SM&lt;sub&gt;55&lt;/sub&gt;]]*
+|bgcolor=black|
+|352
+|?
+|
+|
+|
 |-
 |
-|[[120178) 2003 OP32|(120178) 2003 OP&lt;sub&gt;32&lt;/sub&gt;]]***         ||bgcolor=black| ||~333       ||     ||         ||
+|[[(55565) 2002 AW197|(55565) 2002 AW&lt;sub&gt;197&lt;/sub&gt;]]*
+|bgcolor=black|
+|350
+|±25
+|
+|
+| 
 |-
 |
-|[[(42301) 2001 UR163|(42301) 2001 UR&lt;sub&gt;163&lt;/sub&gt;]]***         ||bgcolor=black| ||~318       ||     ||         ||
+|[[(90568) 2004 GV9|(90568) 2004 GV&lt;sub&gt;9&lt;/sub&gt;]]*
+|bgcolor=black|
+|348
+|?
+|
+|
+|
 |-
 |
-|[[(84922) 2003 VS2|(84922) 2003 VS&lt;sub&gt;2&lt;/sub&gt;]]***         ||bgcolor=black| ||~318       ||     ||         ||
+|[[(145453) 2005 RR43|(145453) 2005 RR&lt;sub&gt;43&lt;/sub&gt;]]*
+|bgcolor=black|
+|348
+|?
+|
+|
+|
 |-
 |
-|[[(15874) 1996 TL66|(15874) 1996 TL&lt;sub&gt;66&lt;/sub&gt;]]***                        ||bgcolor=black| || ~316       ||    ||          || 
+|[[2003 AZ84|2003 AZ&lt;sub&gt;84&lt;/sub&gt;]]*
+|bgcolor=black|
+|343
+|
+|
+|
+|
 |-
 |
-|[[(119951) 2002 KX14|(119951) 2002 KX&lt;sub&gt;14&lt;/sub&gt;]]***         ||bgcolor=black| ||~290       ||     ||         ||
+|[[(120178) 2003 OP32|(120178) 2003 OP&lt;sub&gt;32&lt;/sub&gt;]]*
+|bgcolor=black|
+|333
+|?
+|
+|
+|
 |-
 |
-|[[2003 QW90|2003 QW&lt;sub&gt;90&lt;/sub&gt;]]***         ||bgcolor=black| ||~290       ||     ||         ||
+|[[(42301) 2001 UR163|(42301) 2001 UR&lt;sub&gt;163&lt;/sub&gt;]]*
+|bgcolor=black|
+|318
+|?
+|
+|
+|
 |-
 |
-|[[2004 SB60|2004 SB&lt;sub&gt;60&lt;/sub&gt;]]***         ||bgcolor=black| ||~290       ||     ||         ||
+|[[(84922) 2003 VS2|(84922) 2003 VS&lt;sub&gt;2&lt;/sub&gt;]]*
+|bgcolor=black|
+|318
+|?
+|
+|
+|
 |-
 |
-|[[2005 RM43|2005 RM&lt;sub&gt;43&lt;/sub&gt;]]***         ||bgcolor=black| ||~290       ||     ||         ||
+|[[(15874) 1996 TL66|(15874) 1996 TL&lt;sub&gt;66&lt;/sub&gt;]]*
+|bgcolor=black|
+|316
+|?
+|
+|
+| 
 |-
 |
-|[[19521 Chaos]]***                        ||bgcolor=black| || ~280       ||    ||          || 
+|[[(55636) 2002 TX300|(55636) 2002 TX&lt;sub&gt;300&lt;/sub&gt;]]*
+|bgcolor=black|
+|310
+|±45
+|
+|
+|
 |-
 |
-|[[2004 TY364|2004 TY&lt;sub&gt;364&lt;/sub&gt;]]***         ||bgcolor=black| ||~277       ||     ||         ||
+|[[(119951) 2002 KX14|(119951) 2002 KX&lt;sub&gt;14&lt;/sub&gt;]]*
+|bgcolor=black|
+|290
+|?
+|
+|
+|
 |-
 |
-|[[4 Vesta]]** ||bgcolor=black| [[Image:Vesta-HST.jpg|50px]] || 265 || 4.2% || 0.078 || 0.007%
+|[[2003 QW90|2003 QW&lt;sub&gt;90&lt;/sub&gt;]]*
+|bgcolor=black|
+|290
+|?
+|
+|
+|
 |-
 |
-|[[2 Pallas]]** ||bgcolor=black| || 265 || 4.2% || 0.078 || 0.007%
+|[[(120347) 2004 SB60|(120347) 2004 SB&lt;sub&gt;60&lt;/sub&gt;]]*
+|bgcolor=black|
+|290
+|?
+|
+|
+|
 |-
 |
-|[[2002 KW14|2002 KW&lt;sub&gt;14&lt;/sub&gt;]]***         ||bgcolor=black| ||~264       ||     ||         ||
+|[[(145451) 2005 RM43|(145451) 2005 RM&lt;sub&gt;43&lt;/sub&gt;]]*
+|bgcolor=black|
+|290
+|?
+|
+|
+|
 |-
 |
-|[[2004 PR107|2004 PR&lt;sub&gt;107&lt;/sub&gt;]]***         ||bgcolor=black| ||~264       ||     ||         ||
+|[[19521 Chaos]]*
+|bgcolor=black|
+|280
+|?
+|
+|
+| 
 |-
 |
-|[[Enceladus (moon)|Enceladus]]** ||bgcolor=black| [[Image:Enceladus from Voyager.jpg|50px]] || 252.1 || 3.9% || 0.067 || 0.006%
+|[[(120348) 2004 TY364|(120348) 2004 TY&lt;sub&gt;364&lt;/sub&gt;]]*
+|bgcolor=black|
+|277
+|?
+|
+|
+|
 |-
 |
-|[[(26375) 1999 DE9|1999 DE&lt;sub&gt;9&lt;/sub&gt;]]***         ||bgcolor=black| ||~252       ||     ||         ||
+|[[(19308) 1996 TO66|(19308) 1996 TO&lt;sub&gt;66&lt;/sub&gt;]]*
+|bgcolor=black|
+|270
+|±105
+|
+|
+|
 |-
 |
-|[[2001 QF298|2001 QF&lt;sub&gt;298&lt;/sub&gt;]]***         ||bgcolor=black| ||~252       ||     ||         ||
+|[[4 Vesta]]&lt;sup&gt;‡&lt;/sup&gt;
+|bgcolor=black|[[Image:Vesta-HST.jpg|50px]]
+|265
+|
+|4.2%
+|0.078
+|0.007%
 |-
 |
-|[[2004 UX10|2004 UX&lt;sub&gt;10&lt;/sub&gt;]]***         ||bgcolor=black| ||~252       ||     ||         ||
+|[[2 Pallas]]&lt;sup&gt;‡&lt;/sup&gt;
+|bgcolor=black|
+|265
+|
+|4.2%
+|0.078
+|0.007%
 |-
 |
-|[[2005 TB190|2005 TB&lt;sub&gt;190&lt;/sub&gt;]]***         ||bgcolor=black| ||~252       ||     ||         ||
+|[[2002 KW14|2002 KW&lt;sub&gt;14&lt;/sub&gt;]]*
+|bgcolor=black|
+|264
+|?
+|
+|
+|
 |-
 |
-|[[38628 Huya]]***                        ||bgcolor=black| || 150-350       ||    ||          || 
+|[[2004 PR107|2004 PR&lt;sub&gt;107&lt;/sub&gt;]]*
+|bgcolor=black|
+|264
+|?
+|
+|
+|
 |-
 |
-|[[Miranda (moon)|Miranda]]** ||bgcolor=black| [[Image:Miranda.jpg|50px]] || 235.8 || 3.7% || 0.055 || 0.005%
+|[[(144897) 2004 UX10|(144897) 2004 UX&lt;sub&gt;10&lt;/sub&gt;]]*
+|bgcolor=black|
+|264
+|?
+|
+|
+|
 |-
 |
-|[[2003 QX113|2003 QX&lt;sub&gt;113&lt;/sub&gt;]]***         ||bgcolor=black| ||~230       ||     ||         ||
+|[[Enceladus (moon)|Enceladus]]&lt;sup&gt;‡&lt;/sup&gt;
+|bgcolor=black|[[Image:Enceladus from Voyager.jpg|50px]]
+|252.1
+|
+|3.9%
+|0.067
+|0.006%
 |-
 |
-|[[2000 CN105|2000 CN&lt;sub&gt;105&lt;/sub&gt;]]***         ||bgcolor=black| ||~220       ||     ||         ||
+|[[(26375) 1999 DE9|(26375) 1999 DE&lt;sub&gt;9&lt;/sub&gt;]]*
+|bgcolor=black|
+|252
+|?
+|
+|
+|
 |-
 |
-|[[2002 XV93|2002 XV&lt;sub&gt;93&lt;/sub&gt;]]***         ||bgcolor=black| ||~220       ||     ||         ||
+|[[2001 QF298|2001 QF&lt;sub&gt;298&lt;/sub&gt;]]*
+|bgcolor=black|
+|252
+|?
+|
+|
+|
 |-
 |
-|[[2003 FY128|2003 FY&lt;sub&gt;128&lt;/sub&gt;]]***         ||bgcolor=black| ||~220       ||     ||         ||
+|[[(145480) 2005 TB190|(145480) 2005 TB&lt;sub&gt;190&lt;/sub&gt;]]*
+|bgcolor=black|
+|252
+|?
+|
+|
+|
 |-
 |
-|[[2000 YW134|2000 YW&lt;sub&gt;134&lt;/sub&gt;]]***         ||bgcolor=black| ||~216       ||     ||         ||
+|[[38628 Huya]]*
+|bgcolor=black|
+|250
+|±100
+|
+|
+| 
 |-
 |
-|[[1999 CD158|1999 CD&lt;sub&gt;158&lt;/sub&gt;]]***         ||bgcolor=black| ||~210       ||     ||         ||
+|[[Miranda (moon)|Miranda]]&lt;sup&gt;‡&lt;/sup&gt;
+|bgcolor=black|[[Image:Miranda.jpg|50px]]
+|235.8
+|
+|3.7%
+|0.055
+|0.005%
 |-
 |
-|[[2002 CY248|2002 CY&lt;sub&gt;248&lt;/sub&gt;]]***         ||bgcolor=black| ||~210       ||     ||         ||
+|[[2003 QX113|2003 QX&lt;sub&gt;113&lt;/sub&gt;]]*
+|bgcolor=black|
+|230
+|?
+|
+|
+|
 |-
 |
-|[[(119979) 2002 WC19|2002 WC&lt;sub&gt;19&lt;/sub&gt;]]***         ||bgcolor=black| ||~210       ||     ||         ||
+|[[(35671) 1998 SN165|(35671) 1998 SN&lt;sub&gt;165&lt;/sub&gt;]]*
+|bgcolor=black|
+|229
+|?
+|
+|
+|
 |-
 |
-|[[Proteus (moon)|Proteus]]** ||bgcolor=black| [[Image:Proteus_(Voyager_2).jpg|50px]] || 209 || 3.3% || 0.038 || 0.0035%
+|[[2000 CN105|2000 CN&lt;sub&gt;105&lt;/sub&gt;]]*
+|bgcolor=black|
+|220
+|?
+|
+|
+|
 |-
 |
-|[[10 Hygiea]]** ||bgcolor=black| || 205 || 3.2% || 0.036 || 0.003%
+|[[2002 XV93|2002 XV&lt;sub&gt;93&lt;/sub&gt;]]*
+|bgcolor=black|
+|220
+|?
+|
+|
+|
 |-
 |
-|[[(47171) 1999 TC36|1999 TC&lt;sub&gt;36&lt;/sub&gt;]]***         ||bgcolor=black| ||~205       ||     ||         ||
+|[[(120132) 2003 FY128|(120132) 2003 FY&lt;sub&gt;128&lt;/sub&gt;]]*
+|bgcolor=black|
+|220
+|?
+|
+|
+|
 |-
 |
-|[[1996 GQ21|1996 GQ&lt;sub&gt;21&lt;/sub&gt;]]***         ||bgcolor=black| ||~200       ||     ||         ||
+|[[(82075) 2000 YW134|(82075) 2000 YW&lt;sub&gt;134&lt;/sub&gt;]]*
+|bgcolor=black|
+|216
+|?
+|
+|
+|
 |-
 |
-|[[2003 UZ117|2003 UZ&lt;sub&gt;117&lt;/sub&gt;]]***         ||bgcolor=black| ||~200       ||     ||         ||
+|[[1999 CD158|1999 CD&lt;sub&gt;158&lt;/sub&gt;]]*
+|bgcolor=black|
+|210
+|?
+|
+|
+|
 |-
 |
-|[[2006 HH123|2006 HH&lt;sub&gt;123&lt;/sub&gt;]]***         ||bgcolor=black| ||~200       ||     ||         ||
+|[[2002 CY248|2002 CY&lt;sub&gt;248&lt;/sub&gt;]]
+|bgcolor=black|
+|210
+|?
+|
+|
+|
 |-
 |
-|[[Mimas (moon)|Mimas]]** ||bgcolor=black| [[Image:Mimas moon.jpg|50px]] || 198.3 || 3.1% || 0.033 || 0.003%
+|[[(119979) 2002 WC19|(119979) 2002 WC&lt;sub&gt;19&lt;/sub&gt;]]
+|bgcolor=black|
+|210
+|?
+|
+|
+|
+|-
+|
+|[[Proteus (moon)|Proteus]]&lt;sup&gt;‡&lt;/sup&gt;
+|bgcolor=black|[[Image:Proteus (Voyager 2).jpg|50px]]
+|209
+|
+|3.3%
+|0.038
+|0.0035%
+|-
+|
+|[[10 Hygiea]]&lt;sup&gt;‡&lt;/sup&gt;
+|bgcolor=black|[[Image:10A.jpg|50px]]
+|205
+|
+|3.2%
+|0.036
+|0.003%
+|-
+|
+|[[(47171) 1999 TC36|(47171) 1999 TC&lt;sub&gt;36&lt;/sub&gt;]]*
+|bgcolor=black|
+|205
+|?
+|
+|
+|
+|-
+|
+|[[(26181) 1996 GQ21|(26181) 1996 GQ&lt;sub&gt;21&lt;/sub&gt;]]*
+|bgcolor=black|
+|200
+|?
+|
+|
+|
+|-
+|
+|[[2003 UZ117|2003 UZ&lt;sub&gt;117&lt;/sub&gt;]]*
+|bgcolor=black|
+|200
+|?
+|
+|
+|
+|-
+|
+|[[2006 HH123|2006 HH&lt;sub&gt;123&lt;/sub&gt;]]*
+|bgcolor=black|
+|200
+|?
+|
+|
+|
+|-
+|
+|[[Mimas (moon)|Mimas]]&lt;sup&gt;‡&lt;/sup&gt;
+|bgcolor=black|[[Image:Mimas moon.jpg|50px]]
+|198.3
+|
+|3.1%
+|0.033
+|0.003%
 |}
-: * Using equatorial radius and assuming body is spherical
-: ** Using three radii and assuming body is spheroid
-: *** Radius is known only very approximately
+:&lt;sup&gt;†&lt;/sup&gt; Using equatorial radius and assuming body is spherical
+:&lt;sup&gt;‡&lt;/sup&gt; Using three radii and assuming body is spheroid
+:* Radius is known only very approximately
+
+[[Image:Mesoplanets.png|frame|center|A relative comparison of some of the [[mesoplanet|mid-sized bodies]] in the solar system.]]
 
 ==See also==
-*[[List of Solar system objects by radius/Sources|Sources]]
 *[[Natural satellite]]
 *[[Minor planet]]
 *[[List of planetary bodies]]
@@ -281,11 +812,7 @@ Several new [[trans-Neptunian objects]] have been discovered of significant size
 *[http://nssdc.gsfc.nasa.gov/planetary/planetfact.html Planetary fact sheets]
 *[http://nssdc.gsfc.nasa.gov/planetary/factsheet/asteroidfact.html Asteroid fact sheet]
 *[http://jack.p5.org.uk/astronomy/sol-system-objects-diameter.en.html Sol system objects arranged by diameter in metres.]
+*[http://www.kokogiak.com/gedankengang/2007/03/all-known-bodies-in-solar-system.html All (known) Bodies in the Solar System Larger than 200 Miles in Diameter] - in an image, put side-by-side.
 
-[[Category:Lists of solar system objects]]
-
-[[bg:Списък на обектите в Слънчевата система по радиус]]
-[[fr:Objets du système solaire classés par taille]]
-[[hr:Popis tijela Sunčeva sustava prema promjeru]]
-[[la:Index obiectorum systematis solaris secundum radium]]</pre>
+[[Category:Lists of solar system objects|radius]]</pre>
 </div>

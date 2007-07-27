@@ -1,316 +1,432 @@
-<div title="Jupiter" modifier="www.wikipedia.org" server.host="www.wikipedia.org/w" wikiformat="mediawiki" mediawiki.revid="95373506">
-<pre>{{two other uses|the planet|the god|Jupiter (mythology)}}
+<div title="Jupiter" tags="[[Category:Planets of the Solar System]]" server.host="en.wikipedia.org/w" server.page.revision="147357494" wikiformat="mediawiki">
+<pre>{{otheruses|Jupiter (disambiguation)}}
 {{Planet Infobox/Jupiter}}
+'''Jupiter''' ([[IPA chart for English|IPA]]: {{IPA|[ˈʤuːpɪtə]}} or {{IPA|[ˈʤupɪtɚ]}}) is the fifth [[planet]] from the [[Sun]] and the [[Solar system by size|largest]] planet within the [[solar system]]. It is two and a half times as massive as all of the other planets in our solar system combined. Jupiter, along with [[Saturn]], [[Uranus]] and [[Neptune]], is classified as a [[gas giant]]. Together, these four planets are sometimes referred to as the '''[[Jovian planet]]s''', where ''Jovian'' is the [[Adjective|adjectival]] form of Jupiter.
 
-'''Jupiter''' ([[International Phonetic Alphabet for English|IPA]]: {{IPA|/dʒuːpɪtɚ/}}) is the fifth [[planet]] from the [[Sun]] and the [[Solar system by size|largest]] within the [[solar system]]. Jupiter and the other [[gas giant]]s—[[Saturn]], [[Uranus]], and [[Neptune]]—are sometimes referred to as &quot;[[Jovian planet]]s&quot;.
+The planet was known by [[astronomer]]s of ancient times and was associated with the mythology and religious beliefs of many cultures. The [[Ancient Rome|Romans]] named the planet after the [[Roman mythology|Roman god]] [[Jupiter (mythology)|Jupiter]] (also called Jove).&lt;ref name=&quot;etymologyonline&quot;&gt;{{cite web | last = Harper | first = Douglas | date = November 2001 | url = http://www.etymonline.com/index.php?term=Jupiter | title = Jupiter | publisher = Online Etymology Dictionary | accessdate = 2007-02-23 }}&lt;/ref&gt; When viewed from Earth, Jupiter can reach an [[apparent magnitude]] of &amp;minus;2.8, making it the third brightest object in the night sky after the moon and Venus.  (However, at certain points in its orbit, [[Mars]] can briefly exceed Jupiter's brightness.)
 
-==Overview==
+The planet Jupiter is primarily composed of [[hydrogen]] with a small proportion of [[helium]]; it may also have a rocky core of heavier elements. Because of its rapid rotation the planet is an [[oblate]] spheroid (it possesses a slight but noticeable bulge around the equator). The outer atmosphere is visibly segregated into several bands at different latitudes, resulting in turbulence and storms along their interacting boundaries. A prominent result is the [[Great Red Spot]], a giant storm that is known to have existed since at least the seventeenth century. Surrounding the planet is a faint [[planetary ring]] system and a powerful [[magnetosphere]]. There are also at least 63 moons, including the four large moons called the [[Galilean moons]] that were first discovered by [[Galileo Galilei]] in 1610. [[Ganymede (moon)|Ganymede]], the largest of these moons, has a diameter greater than that of the planet [[Mercury (planet)|Mercury]].
 
+Jupiter has been explored on several occasions by robotic spacecraft, most notably during the early [[Pioneer program|Pioneer]] and [[Voyager program|Voyager]] fly-by missions and later by the [[Galileo (spacecraft)|Galileo orbiter]]. The latest probe to visit Jupiter was the Pluto-bound [[New Horizons]] spacecraft in late February 2007.  The probe [[Gravitational slingshot|used]] the gravity from Jupiter to increase its speed and adjust its trajectory toward Pluto, thereby saving years of travel. Future targets for exploration include the possible ice-covered liquid ocean on the Jovian moon [[Europa (moon)|Europa]].
 
-Jupiter is usually the fourth brightest object in the sky (after the Sun, the [[Moon]] and [[Venus]]); however at times [[Mars]] appears brighter than Jupiter.
+== Structure ==
+Jupiter is one of the four [[gas giant]]s; that is, it is not primarily composed of solid matter. It is the largest planet in the Solar System, having a diameter of 142,984&amp;nbsp;km at its [[equator]]. Jupiter's density, 1.326&amp;nbsp;g/cm³, is the second highest of the gas giant planets, but lower than any of the four [[terrestrial planet]]s. (Of the gas giants, [[Neptune]] has the highest density.)
 
-[[Image:Jupiter-Earth-Spot_comparison.jpg|thumb|left|200px|Approximate size comparison of Earth and Jupiter, including the [[Great Red Spot]]]]
+===Composition===
+Jupiter's upper atmosphere is composed of about 93%&amp;nbsp;[[hydrogen]] and 7%&amp;nbsp;[[helium]] by number of [[atom]]s, or 86%&amp;nbsp;H&lt;sub&gt;2&lt;/sub&gt; and 13%&amp;nbsp;He by fraction of gas molecules&amp;mdash;see table to the right. Since a helium atom has about four times as much mass as a hydrogen atom, the composition changes when described in terms of the proportion of mass contributed by different atoms. Thus the atmosphere is approximately 75%&amp;nbsp;hydrogen and 24%&amp;nbsp;helium by mass, with the remaining 1% of the mass consisting of other elements. The interior contains denser materials such that the distribution is roughly 71%&amp;nbsp;hydrogen, 24%&amp;nbsp;helium and 5% other elements by mass. The atmosphere contains trace amounts of [[methane]], [[water vapor]], [[ammonia]], and [[silicon]]-based compounds. There are also traces of [[carbon]], [[ethane]], [[hydrogen sulphide]], [[neon]], [[oxygen]], [[phosphine]], and [[sulfur]]. The outermost layer of the atmosphere contains [[crystal]]s of frozen ammonia.&lt;ref name=voyager&gt;{{cite journal
+| author=Gautier, D.; Conrath, B.; Flasar, M.; Hanel, R.; Kunde, V.; Chedin, A.; Scott N.| title = The helium abundance of Jupiter from Voyager | journal = Journal of Geophysical Research| volume = 86| pages = 8713-8720 | year = 1981 | url = http://adsabs.harvard.edu/abs/1981JGR....86.8713G}}&lt;/ref&gt;&lt;ref name=&quot;cassini&quot;&gt;{{cite journal | author=Kunde, V. G. et al, | title=Jupiter's Atmospheric Composition from the Cassini Thermal Infrared Spectroscopy Experiment | journal=Science | date=[[September 10]] [[2004]] | volume=305 | issue=5690 | pages=1582–86 | url=http://www.sciencemag.org/cgi/content/full/305/5690/1582
+| accessdate = 2007-04-04 }}&lt;/ref&gt; Through [[infrared]] and [[ultraviolet]] measurements, trace amounts of [[benzene]] and other [[hydrocarbon]]s have also been found.&lt;ref&gt;{{cite journal | journal = Icarus| volume = 64| pages = 233–48 | year = 1985 | title = Infrared Polar Brightening on Jupiter III. Spectrometry from the Voyager 1 IRIS Experiment | url=http://adsabs.harvard.edu/abs/1985Icar...64..233K | author= Kim, S. J.; Caldwell, J.; Rivolo, A. R.; Wagner, R. | doi = 10.1016/0019-1035(85)90201-5 }}&lt;/ref&gt;
 
-Jupiter is 2.5 times more [[mass]]ive than all the other planets combined, so massive that its [[Center of mass#Barycenter|barycenter]] with the Sun actually lies above the Sun's surface (1.068 [[solar radius|solar radii]] from the Sun's center). It is 318 times more massive than [[Earth]], with a [[diameter]] 11 times that of Earth, and its [[volume]] is 1300 times as great as that of Earth. Quite naturally, Jupiter's [[gravity|gravitational]] influence has dominated the evolution of the solar system: some have described the solar system as consisting of the Sun, Jupiter, and assorted debris.&lt;ref name=&quot;clarke2061&quot;&gt;{{cite book|author=Clarke, Arthur C.|year=1989|title=2061: Odyssey Three|publisher=Del Rey|id=ISBN 0-345-35879-1}}&lt;/ref&gt; Most planets' orbits lie closer to Jupiter's [[orbital plane (astronomy)|orbital plane]] than the Sun's [[celestial equator|equatorial plane]] ([[Mercury (planet)|Mercury]] is the only planet which is closer to the Sun's equator in orbital tilt), the majority of [[List of periodic comets|short-period comets]] belong to Jupiter's family (a result due to both Jupiter's mass and its relative speed), the [[Kirkwood gap]]s in the [[asteroid belt]] are mostly due to Jupiter, and the planet may have been responsible for the [[Late Heavy Bombardment]] of the inner solar system's history. Jupiter has been called the solar system's vacuum cleaner, due to its immense [[gravity well]].
+The atmospheric proportions of hydrogen and helium are very close to the theoretical composition of the primordial [[solar nebula]]. However, neon in the upper atmosphere only consists of 20 parts per million by mass, which is about a tenth as abundant as in the Sun.&lt;ref&gt;{{cite journal | author=Niemann, H. B.; Atreya, S. K.; Carignan, G. R.; Donahue, T. M.; Haberman, J. A.; Harpold, D. N.; Hartle, R. E.; Hunten, D. M.; Kasprzak, W. T.; Mahaffy, P. R.; Owen, T. C.; Spencer, N. W.; Way, S. H. | title=The Galileo Probe Mass Spectrometer: Composition of Jupiter's Atmosphere | journal=Science | year=1996 | volume=272 | issue=5263 | pages=846-849 | url=http://adsabs.harvard.edu/abs/1996Sci...272..846N | accessdate = 2007-02-19 }}&lt;/ref&gt; Helium is also depleted, although to a lesser degree. This depletion may be a result of precipitation of these elements into the interior of the planet.&lt;ref name=&quot;galileo_ms&quot;&gt;{{cite web | url = http://ael.gsfc.nasa.gov/jupiterHighlights.shtml | title = Highlights of the Galileo Probe Mass Spectrometer Investigation | publisher = NASA Goddard Space Flight Center, Atmospheric Experiments Laboratory | accessdate = 2007-06-06 }}&lt;/ref&gt; Abundances of heavier inert gases in Jupiter's atmosphere are about 2 to 3 times that of the sun.
 
-[[Extrasolar planet]]s have been discovered with much greater masses. There is no clear-cut definition of what distinguishes a large planet such as Jupiter from a [[brown dwarf]] star, although the latter possesses rather specific [[spectral line]]s. Currently, if an object of solar [[metallicity]] is 13 Jupiter masses or above, large enough to burn [[deuterium]], it is considered a brown dwarf; below that mass (and orbiting a star or stellar remnant), it is a planet.&lt;ref&gt;{{cite web | title=Working Group on Extrasolar Planets: Definition of a &quot;Planet&quot; | work=IAU position statement | date=February 28, 2003 | url=http://www.dtm.ciw.edu/boss/definition.html | accessdate=2006-09-09}}&lt;/ref&gt; Jupiter is thought to have about as large a diameter as a planet of its composition can; adding extra mass would cause the planet to shrink due to increased gravitational compression. The process of further shrinkage with increasing mass would continue until [[Nuclear fusion|stellar ignition]] was achieved. This has led some astronomers to term it a &quot;failed star&quot;. Although Jupiter would need to be about seventy-five times as massive to become a [[star]], the smallest [[red dwarf]] is only about 30% larger than Jupiter. In light of this, it is also interesting to note that it radiates more heat than it receives from the Sun. This additional heat radiation is produced by the [[Kelvin-Helmholtz mechanism]]. As another symptom of this process, the planet shrinks at the rate of a few millimeters each year. When they were younger and hotter, Jupiter and the other gas giant planets were much larger than they are today. However, because of its lower mass and weaker gravitational pull, [[Saturn]] would expand more rapidly than Jupiter with increasing heat; Saturn must thus have formerly been even larger than Jupiter.  
-[[Image: Jupiter.Aurora.HST.UV.jpg|250px|left|thumb|[[Aurora borealis]] on Jupiter.]]
+Based on [[spectroscopy]], [[Saturn]] is thought to be similar in composition to Jupiter, but the other gas giants [[Uranus]] and [[Neptune]] have relatively much less hydrogen and helium.&lt;ref&gt;{{cite web | author=Ingersoll, A. P.; Hammel, H. B.; Spilker, T. R.; Young, R. E. | url = http://www.lpi.usra.edu/opag/outer_planets.pdf | format=PDF | title = Outer Planets: The Ice Giants | publisher = Lunar &amp; Planetary Institute | accessdate = 2007-02-01
+}}&lt;/ref&gt; However, because of the lack of atmospheric entry probes, high quality abundance numbers of the heavier elements are lacking for the outer planets beyond Jupiter.
 
-Jupiter also has the fastest [[rotation]] rate of any planet within the solar system, making a complete rotation on its [[axis]] in slightly less than ten hours, which results in an [[equatorial bulge]] easily seen through an Earth-based amateur [[telescope]]. Jupiter is perpetually covered with a layer of clouds, composed of [[ammonia]] crystals and possibly ammonium hydrosulphide, and it may not have any solid surface in that the density may simply increase gradually as you move towards the core. Its best known feature is the [[Great Red Spot]], a [[storm]] larger than Earth which was likely first observed by [[Giovanni Domenico Cassini]] and [[Robert Hooke]] four centuries ago. Indeed, mathematical models suggest that the storm is stable and may be a permanent feature of the planet.&lt;ref&gt;{{cite journal
-|url=http://www.nature.com/nature/journal/v331/n6158/abs/331689a0.html;jsessionid=EB6990ACE69E14E754FC2B2635B5301C
-|title=Laboratory simulation of Jupiter's Great Red Spot
-|first=Jöel
-|last=Sommeria
-|coauthors=Steven D. Meyers &amp; Harry L. Swinney
-|journal=Nature
-|volume=331
-|pages=689 - 693
-|month=25 February
-|year=1988
-|id={{doi|10.1038/331689a0}}}}&lt;/ref&gt; In 2000, three small spots merged to form a larger spot named [[Oval BA]], which later acquired a red hue very similar to that of the Great Red Spot.&lt;ref&gt;{{cite web
-|url=http://science.nasa.gov/headlines/y2006/02mar_redjr.htm
-|title=Jupiter's New Red Spot
-|year=2006
-|accessdate=2006-03-09}}&lt;/ref&gt;
+===Mass===
+[[Image:Jupiter-Earth-Spot_comparison.jpg|thumb|left|Approximate size comparison of Earth and Jupiter, including the [[Great Red Spot]]]]
+Jupiter is 2.5 times more [[mass]]ive than all the other planets in our solar system combined; so massive that its [[Center of mass#Barycenter|barycenter]] with the Sun actually lies above the Sun's surface (1.068&amp;nbsp;[[solar radius|solar radii]] from the Sun's center). Although this planet dwarfs the Earth (with a diameter 11 times as great) it is considerably less dense. A volume equal to 1,317 Earths only contains 318 times as much mass.&lt;ref name=&quot;worldbook&quot;&gt;{{cite web | author=Gierasch, Peter J.; Nicholson, Philip D. | year = 2004 | url = http://www.nasa.gov/worldbook/jupiter_worldbook.html | title = Jupiter | publisher = World Book @ NASA | accessdate = 2006-08-10 }}&lt;/ref&gt;&lt;ref name=&quot;burgess&quot;&gt;{{cite book  | first=Eric | last=Burgess | year=1982 | title=By Jupiter: Odysseys to a Giant | publisher=Columbia University Press | location=New York | id=ISBN 0-231-005176-X }}&lt;/ref&gt;
 
-==Historical observations==
-The planet Jupiter has been known since ancient times and is visible to the naked eye in the night sky. The [[Ancient Rome|Romans]]  named the planet after the [[Roman mythology|Roman god]] [[Jupiter (god)|Jupiter]] (also called Jove). The [[astronomical symbol]] for the planet is a stylized representation of the god's lightning bolt.  &amp;#9795; is found at [[Unicode]] position U+2643.
+[[Extrasolar planet]]s have been discovered with much greater masses than Jupiter.&lt;ref&gt;{{cite web | author=Anonymous | year=2007 | url = http://www.planetary.org/explore/topics/extrasolar/ | title = Extrasolar Planets | publisher = The Planetary Society | accessdate = 2007-02-25 }}&lt;/ref&gt; Some of these planets may be [[gas giant]]s similar to Jupiter, but because some of these planets are extremely close to their primaries, they may be a class of planet known as [[hot Jupiter]]s which are not present in our solar system.
 
-The [[China|Chinese]], [[Korea]]n, [[Japan]]ese, and [[Vietnam]]ese refer to the planet as the ''wood star'', 木星,&lt;ref&gt;{{cite web
-|url=http://www.crystalinks.com/jupiter.html
-|title=JUPITER
-|accessdate=2006-03-09}}&lt;/ref&gt; based on the Chinese [[Five elements (Chinese philosophy)|Five Elements]]. In [[Jyotisha|Vedic Astrology]], Hindu astrologers refer to Jupiter as [[Brihaspati]], or &quot;Guru&quot; which means the &quot;Big One&quot;. In Hindi, Thursday is referred to as ''[[Guruvaar]]'' (day of Jupiter). In the English language Thursday is rendered as Thor's day, with Thor being identified with the Roman god Jupiter.
+A large planet such as Jupiter is distinguished from a [[brown dwarf]] star by the rather specific [[spectral line]]s of the latter. Currently, if an object of solar [[metallicity]] is 13 Jupiter masses or above, large enough to fuse [[deuterium]] by [[thermonuclear fusion]], it is categorized as a brown dwarf; below that mass (and orbiting a star or stellar remnant), it is a planet.&lt;ref&gt;{{cite web | title=Working Group on Extrasolar Planets: Definition of a &quot;Planet&quot; | work=IAU position statement |date=[[February 28]] [[2003]] | url=http://www.dtm.ciw.edu/boss/definition.html | accessdate = 2006-09-09}}&lt;/ref&gt;  Whether this definition has any fundamental physical significance is unclear; many astronomers argue that large planets and brown dwarfs are essentially the same type of object, and that the distinction between the two does not reflect any basic physical difference.
 
-In [[1610]], [[Galileo Galilei]] discovered the four largest [[natural satellite|moons]] of Jupiter, [[Io (moon)|Io]], [[Europa (moon)|Europa]], [[Ganymede (moon)|Ganymede]] and [[Callisto (moon)|Callisto]] (now known as the [[Galilean moon]]s) using a telescope, the first observation of moons other than Earth's. This was also the first discovery of a [[celestial mechanics|celestial motion]] not apparently centered on the Earth. It was a major point in favor of [[Nicolaus Copernicus|Copernicus]]' [[heliocentrism|heliocentric]] theory of the motions of the planets; Galileo's outspoken support of the Copernican theory placed him under the threat of the [[Inquisition]].
+Theoretical models indicate that if Jupiter had more mass than it does at present, the planet would shrink. The interior would become more compressed under the increased gravitation force; decreasing the planet's volume. As a result, Jupiter is thought to have about as large a diameter as a planet of its composition and evolutionary history can achieve. The process of further shrinkage with increasing mass would continue until [[stellar ignition]] is achieved.&lt;ref name=&quot;tristan286&quot;&gt;{{cite journal | last = Guillot | first = Tristan | title=Interiors of Giant Planets Inside and Outside the Solar System | journal=Science | year=1999 | volume=286 | issue=5437 | pages=72-77 | url=http://www.sciencemag.org/cgi/content/full/286/5437/72 }}&lt;/ref&gt; This has led some astronomers to term it a &quot;failed star&quot;, although it is unclear whether or not the processes involved in the formation of planets like Jupiter are similar to the processes involved in the formation of multiple star systems.
 
-In [[1892]], [[E. E. Barnard]] observed a fifth satellite of Jupiter with the 36-inch refractor at [[Lick Observatory]] in California. The discovery, a testament to his extraordinary eyesight, made him quickly famous. The moon was later named [[Amalthea (moon)|Amalthea]].
+Although Jupiter would need to be about seventy-five times as massive to fuse hydrogen and become a [[star]], the smallest [[red dwarf]] is only about 30% larger in radius than Jupiter.&lt;ref&gt;{{cite journal | author = Burrows, A.; Hubbard, W. B.; Saumon, D.; Lunine, J. I. | title=An expanded set of brown dwarf and very low mass star models | journal=Astrophysical Journal | year=1993 | volume=406 | issue=1 | pages=158–71 | url=http://adsabs.harvard.edu/abs/1993ApJ...406..158B }}&lt;/ref&gt;&lt;ref&gt;{{cite news | first=Didier | last=Queloz | title=VLT Interferometer Measures the Size of Proxima Centauri and Other Nearby Stars | publisher=European Southern Observatory | date=[[November 19]], [[2002]] | url=http://www.eso.org/outreach/press-rel/pr-2002/pr-22-02.html | accessdate = 2007-01-12 }}&lt;/ref&gt;
 
-==Physical characteristics==
-===Planetary composition===
-Jupiter is composed of a relatively small [[Rock (geology)|rock]]y [[planetary core|core]], surrounded by [[metallic hydrogen]], with further layers of [[phase (matter)|liquid]] hydrogen and [[gas]]eous hydrogen. There is no clear boundary or surface between these different phases of hydrogen; the conditions blend smoothly from gas to liquid as one descends.{{Fact}}
+In spite of this, Jupiter still radiates more heat than it receives from the Sun. The amount of heat produced inside the planet is nearly equal to the total solar radiation it receives.&lt;ref name=&quot;elkins-tanton&quot;&gt;{{cite book | first=Linda T. | last=Elkins-Tanton | year=2006 | title=Jupiter and Saturn | publisher=Chelsea House | location=New York | id=ISBN 0-8160-5196-8 }}&lt;/ref&gt; This additional heat radiation is generated by the [[Kelvin-Helmholtz mechanism]] through [[Adiabatic process |adiabatic]] contraction. This process results in the planet shrinking by about 2&amp;nbsp;cm each year.&lt;ref&gt;{{cite book | editor=Bagenal, F.; Dowling, T. E.; McKinnon, W. B. | author=Guillot, T.; Stevenson, D. J.; Hubbard, W. B.; Saumon, D. | year=2004 | title=Jupiter: The Planet, Satellites and Magnetosphere | chapterurl= http://www.gps.caltech.edu/faculty/stevenson/pdfs/guillot_etal'04.pdf | chapter=Chapter 3: The Interior of Jupiter | publisher=Cambridge University Press | id=ISBN 0521818087 }}&lt;/ref&gt; When it was first formed, Jupiter was much hotter and was about twice its current diameter.&lt;ref&gt;{{cite journal | last = Bodenheimer | first = P. | title=Calculations of the early evolution of Jupiter | journal=Icarus | year=1974 | volume=23 | pages=319–25 | url=http://adsabs.harvard.edu/abs/1974Icar...23..319B | accessdate = 2007-02-01 }}&lt;/ref&gt;
 
-===Shape===
-Jupiter is an [[oblate]] spheroid, meaning that the [[diameter]] across its [[equator]] is longer than the diameter measured between its [[poles]]. On Jupiter, the equatorial diameter is 9275 km longer than the diameter measured through the poles. This is caused by Jupiter's rapid [[rotation]] which causes the equator to bulge outward.
+===Internal structure===
+[[Image:Jupiter interior.png|left|thumb|This cut-away illustrates a model of the interior of Jupiter, with a solid core overlaid by a deep layer of metallic hydrogen. ''NASA background image'']]
 
-===Atmosphere===
-[[Image:Jupiter from Voyager 1.jpg|thumb|left|[[False-color]] detail of Jupiter's atmosphere, imaged by ''[[Voyager 1]]'', showing the [[Great Red Spot]] and a passing white oval]]
+There is still some uncertainty regarding the interior structure of Jupiter. One model shows a homogeneous interior with no solid surface, with density increasing gradually toward the core. Alternatively Jupiter may possess a dense, [[Rock (geology)|rock]]y [[planetary core|core]] with a mass of up to twelve times the Earth's total mass; roughly 3% of the total mass.&lt;ref&gt;{{cite journal | author=Guillot, T.; Gautier, D.; Hubbard, W. B. | title=New Constraints on the Composition of Jupiter from Galileo Measurements and Interior Models | journal=Icarus | year=1997 | volume=130 | pages=534-539 | url=http://adsabs.harvard.edu/abs/1997astro.ph..7210G }}&lt;/ref&gt;&lt;ref name=&quot;elkins-tanton&quot; /&gt; The core region is surrounded by dense [[metallic hydrogen]], which extends outward to about 78% of the radius of the planet.&lt;ref name=&quot;elkins-tanton&quot; /&gt; Rain-like droplets of helium and  neon precipitate downward through this layer, depleting the abundance of these elements in the upper atmosphere.&lt;ref name=&quot;galileo_ms&quot; /&gt;&lt;ref&gt;{{cite journal
+ | last = Lodders | first = Katharina
+ | title=The new astrometry
+ | journal=Jupiter Formed with More Tar than Ice 
+ | year=2004 | volume=611 | pages=587-597
+ | url=http://www.journals.uchicago.edu/ApJ/journal/issues/ApJ/v611n1/59799/59799.html
+ | accessdate=2007-07-03 }}&lt;/ref&gt;
 
-Jupiter's upper atmosphere is composed of ~93% [[hydrogen]]/~7% [[helium]] by number of [[atom]]s and ~75% hydrogen/~24% helium by mass, with ~1% of the mass accounted for by other substances. The interior contains denser materials such that the distribution is ~71%/24%/5% for hydrogen/helium/other by mass. The atmosphere contains trace amounts of [[methane]], [[water vapor]], [[ammonia]], and &quot;rock&quot;. There are also traces of [[carbon]], [[ethane]], [[hydrogen sulphide]], [[neon]], [[oxygen]], [[phosphine]], and [[sulphur]]. The outermost layer of the atmosphere contains [[crystal]]s of frozen ammonia.&lt;ref name=voyager&gt;Gautier, D. et al, [http://adsabs.harvard.edu/abs/1981JGR....86.8713G &quot;The helium abundance of Jupiter from Voyager&quot;] (Abstract only) Journal of Geophysical Research, vol. 86, Sept. 30, 1981, p. 8713-8720. URL accessed 15 April 2006&lt;/ref&gt;&lt;ref name=cassini&gt;Kunde, V. G. et al, [http://www.sciencemag.org/cgi/content/full/305/5690/1582 &quot;Jupiter's Atmospheric Composition from the Cassini Thermal Infrared Spectroscopy Experiment&quot;] - ''[[Science (magazine)|Science]]'' 10 September 2004,
-Vol. 305. no. 5690, pp. 1582 - 1586. URL accessed 15 April 2006.&lt;/ref&gt; Through IR and UV measurements [[benzene]] (at a relative mixing ratio of 2x10&lt;sup&gt;-9&lt;/sup&gt; to hydrogen) and other [[hydrocarbon]]s have also been found.&lt;ref&gt;{{cite journal| journal=ICARUS|volume= 64|pages= 233-248|year= 1985|title=Infrared Polar Brightening on JupiterIII. Spectrometry from the Voyager 1 IRIS Experiment|author=S. J. Kim, 1 J. Caldwell, A. R. Rivolo, R. Wagner }}&lt;/ref&gt;
+Above the layer of metallic hydrogen lies a transparent interior atmosphere of [[phase (matter)|liquid]] hydrogen and [[gas]]eous hydrogen, with the gaseous portion extending downward from the cloud layer to a depth of about 1,000&amp;nbsp;km.&lt;ref name=&quot;elkins-tanton&quot; /&gt; Instead of a clear boundary or surface between these different phases of hydrogen, there may be a smooth gradation from gas to liquid as one descends.&lt;ref&gt;{{cite journal | last = Guillot | first = T. | title=A comparison of the interiors of Jupiter and Saturn | journal=Planetary and Space Science | year=1999 | volume=47 | issue=10–11 | pages=1183–200 | url=http://adsabs.harvard.edu/abs/1999astro.ph..7402G }}&lt;/ref&gt;&lt;ref name=&quot;lang03&quot;&gt;{{cite web | last =Lang | first = Kenneth R. | year = 2003 | url = http://ase.tufts.edu/cosmos/view_chapter.asp?id=9&amp;page=3 | title = Jupiter: a giant primitive planet | publisher = NASA | accessdate = 2007-01-10 }}&lt;/ref&gt;
 
-This atmospheric composition for hydrogen and helium is very close to the composition of the [[solar nebula]]. Galileo probe results show that neon in Jupiter's upper atomosphere is unexpectedly only about a tenth as abundant as in the sun. [[Saturn]] has a similar composition, but [[Uranus]] and [[Neptune]] have relatively much less hydrogen and helium.
+The temperature and pressure inside Jupiter increase steadily toward the core. At the [[phase transition]] region where liquid hydrogen (heated beyond its critical point) becomes metallic, it is believed the temperature is 10,000&amp;nbsp;[[Kelvin|K]] and the pressure is 200&amp;nbsp;[[Pascal (unit)|GPa]]. The temperature at the core boundary is estimated to be 36,000&amp;nbsp;K and the interior pressure is roughly 3,000&amp;ndash;4,500 GPa.&lt;ref name=&quot;elkins-tanton&quot; /&gt;
 
-Jupiter's upper atmosphere undergoes [[differential rotation]], an effect first noticed by [[Giovanni Domenico Cassini|Giovanni Cassini]] ([[1690]]). The rotation of Jupiter's [[polar region|polar]] atmosphere is ~5 minutes longer than that of the [[equator]]ial atmosphere. In addition, bands of clouds of different [[latitude]]s, known as tropical regions flow in opposing directions on the prevailing winds. The interactions of these conflicting [[Atmospheric circulation|circulation]] patterns cause storms and [[turbulence]]. [[Wind speed]]s of 600 km/h are not uncommon.
-
-The only spacecraft to have descended into Jupiter's atmosphere to take scientific measurements is the ''[[Galileo spacecraft|Galileo]]'' probe (see [[#Galileo mission|Galileo mission]]). It sent an atmospheric probe into Jupiter upon arrival in [[1995]], then itself entered Jupiter's atmosphere and burned up in [[2003]].
-
+===Cloud layers===
 {{seealso|Cloud pattern on Jupiter}}
+[[Image:PIA02863 - Jupiter surface motion animation.gif|left|thumb|250 px|This looping animation shows the movement of Jupiter's counter-rotating cloud bands. In this image, the planet's exterior is mapped onto a cylindrical projection]]
 
-===The Great Red Spot===
-{{main|Great Red Spot}} 
-{{unsourced}}
-{| align=&quot;right&quot;
-| [[Image:Redspot.jpg|thumbnail|250px|The Great Red Spot as seen from Voyager 1 in 1979.]]
-|-
-| [[Image:PIA02863 - Jupiter surface motion animation.gif|thumb|right|250px|Color animation of Jupiter's cloud motion.]]
-|-
-| [[Image:Jupiter Great Red Spot Animation.gif|thumb|225px|right|An animation of the Great Red Spot]]
-|-
-| [[Image:Pioneer_10_jup.jpg|thumb|209px|Image of Jupiter by [[Pioneer 10]] in [[1974]]. The Great Red Spot appears more prominent here than in the [[Voyager]] images because of its location in a lighter colored band of clouds.]]
-|}
-The '''Great Red Spot''' is a persistent [[anticyclone|anticyclonic]] [[storm]] on the [[planet]] [[Jupiter (planet)|Jupiter]], 22° south of the equator, which has lasted at least 340 years. The storm is large enough to be visible through Earth-based [[telescope]]s. It was probably first observed by Giovanni Domenico Cassini, who described it around 1665. 
+Jupiter is perpetually covered with clouds composed of [[ammonia]] crystals and possibly ammonium hydrosulphide. The clouds are located in the [[tropopause]] and are arranged into bands of different [[latitude]]s, known as tropical regions. These are sub-divided into lighter-hued ''zones'' and darker ''belts''. The interactions of these conflicting [[Atmospheric circulation|circulation]] patterns cause storms and [[turbulence]]. [[Wind speed]]s of 100&amp;nbsp;m/s (360&amp;nbsp;km/h) are common in zonal jets.&lt;ref&gt;{{cite web | author=Ingersol, A. P.; Dowling, T. E.; Gierasch, P. J.; Orton, G. S.; Read, P. L.; Sanchez-Lavega, A.; Showman, A. P.; Simon-Miller, A. A.; Vasavada A. R. | url = http://www.lpl.arizona.edu/~showman/publications/ingersolletal-2004.pdf | format=PDF | title = Dynamics of Jupiter’s Atmosphere | publisher = Lunar &amp; Planetary Institute | accessdate = 2007-02-01 }}&lt;/ref&gt; The zones have been observed to vary in width, color and intensity from year to year, but they have remained sufficiently stable for astronomers to give them identifying designations.&lt;ref name=&quot;burgess&quot; /&gt;
 
-This dramatic view of Jupiter's Great Red Spot and its surroundings was obtained by [[Voyager 1]] on [[February 25]], [[1979]], when the spacecraft was 9.2 million km (5.7 million miles) from Jupiter. Cloud details as small as 160 km (100 miles) across can be seen here. The colorful, wavy cloud pattern to the left of the Red Spot is a region of extraordinarily complex and variable wave motion. To give a sense of Jupiter's scale, the white oval storm directly below the Great Red Spot is approximately the same diameter as Earth.
+The cloud layer is only about 50&amp;nbsp;km deep, and consists of at least two decks of clouds: a thick lower deck and a thin clearer region. There may also be a thin layer of water clouds underlying the ammonia layer, as evidenced by flashes of [[lightning]] detected in the atmosphere of Jupiter. (Water is a [[polar molecule]] that can carry a charge, so it is capable of creating the charge separation needed to produce lightning.)&lt;ref name=&quot;elkins-tanton&quot; /&gt; These electrical discharges can be up to a thousand times as powerful as lightning on the Earth.&lt;ref&gt;{{cite web | editor=Watanabe, Susan | date = [[February 25]], [[2006]] | url = http://www.nasa.gov/vision/universe/solarsystem/galileo_end.html | title = Surprising Jupiter: Busy Galileo spacecraft showed jovian system is full of surprises | publisher = NASA | accessdate = 2007-02-20 }}&lt;/ref&gt; The water clouds can form thunderstorms driven by the heat rising from the interior.&lt;ref&gt;{{cite journal | last = Kerr | first = Richard A. | title=Deep, Moist Heat Drives Jovian Weather | journal=Science | year=2000 | volume=287 | issue=5455 | pages=946 - 947 | url=http://www.sciencemag.org/cgi/content/full/287/5455/946b
+| accessdate = 2007-02-24 }}&lt;/ref&gt;
 
-The [[oval]] object [[rotation|rotates]] [[counterclockwise]], with a [[periodicity|period]] of about 6 days. The Great Red Spot's [[dimension]]s are 24&amp;ndash;40,000 km × 12&amp;ndash;14,000 km. It is large enough to contain two or three planets of Earth size. The cloudtops of this storm are about 8 km above the surrounding cloudtops.
+The orange and brown coloration in the clouds of Jupiter are caused by upwelling compounds that change color when they are exposed to [[ultraviolet]] light from the Sun. The exact makeup remains uncertain, but the substances are believed to be phosphorus, sulfur or possibly hydrocarbons.&lt;ref&gt;{{cite conference | author=Strycker, P. D.; Chanover, N.; Sussman, M.; Simon-Miller, A. | title = A Spectroscopic Search for Jupiter's Chromophores | booktitle = DPS meeting #38, #11.15 | publisher = American Astronomical Society | year = 2006 | url = http://adsabs.harvard.edu/abs/2006DPS....38.1115S | accessdate = 2007-02-20 }}&lt;/ref&gt;&lt;ref name=&quot;elkins-tanton&quot; /&gt; These colorful compounds, known as [[chromophore]]s, mix with the warmer, lower deck of clouds. The zones are formed when rising [[convection cell]]s form crystallizing ammonia that masks out these lower clouds from view.&lt;ref name=&quot;worldbook&quot; /&gt;
 
-Storms such as this are not uncommon within the [[turbulent]] [[celestial body atmosphere|atmospheres]] of [[gas giant]]s. Jupiter also has white ovals and brown ovals, which are lesser unnamed storms. White ovals tend to consist of relatively [[heat|cool]] clouds within the upper atmosphere. Brown ovals are warmer and located within the &quot;normal cloud layer&quot;. Such storms can last hours or [[century|centuries]].
+Jupiter's low [[axial tilt]] means that the poles constantly receive less [[solar radiation]] than at the planet's [[equator]]ial region. [[Convection]] within the interior of the planet transports more energy to the poles, however, balancing out the temperatures at the cloud layer.&lt;ref name=&quot;burgess&quot; /&gt;
 
-Before the Voyager missions, astronomers were uncertain of the nature of Jupiter's Great Red Spot. Many believed it to be either a solid or a liquid feature on the planet's surface as this appears consistent with the observable turbulence patterns.
+The only spacecraft to have descended into Jupiter's atmosphere and to have taken scientific measurements is the ''[[Galileo spacecraft|Galileo]]'' probe (see [[#Galileo mission|Galileo mission]]). It sent an atmospheric probe into Jupiter upon arrival in 1995, then itself entered Jupiter's atmosphere and burned up in 2003.
 
-Recent examination of Jupiter's surface by a NASA research team using the Hubble telescope has shown that several smaller storms located near to the Giant Red Spot have, in the last twelve months, amalgamated, increased in intensity and changed colour from white to red. This data on Oval BA, nicknamed Red Spot Jnr. was published in the astronomical journal Icarus by planetary scientist Amy Simon-Miller in October 2006. Further investigations using spectroscopy have been delayed due to the movement of Jupiter behind the Sun and it is yet to be verified if the phenomena is caused by increased wind speed, comparable to the 400mp/h speeds in the larger anomaly, drawing similar materials from deeper in the atmosphere and exposing them to sunlight.
+===Great Red Spot and other storms===
+{{main|Great Red Spot}}
+[[Image:Redspot.jpg|thumbnail|250px|This dramatic view of Jupiter's Great Red Spot and its surroundings was obtained by [[Voyager 1]] on [[February 25]], [[1979]], when the spacecraft was 9.2&amp;nbsp;million&amp;nbsp;km (5.7&amp;nbsp;million&amp;nbsp;mi) from Jupiter. Cloud details as small as 160&amp;nbsp;km (100&amp;nbsp;mi) across can be seen here. The colorful, wavy cloud pattern to the left of the Red Spot is a region of extraordinarily complex and variable wave motion. To give a sense of Jupiter's scale, the white oval storm directly below the Great Red Spot is approximately the same diameter as Earth]]
+
+The best known feature of Jupiter is the '''[[Great Red Spot]]''', a persistent [[anticyclone|anticyclonic]] [[storm]] located 22° south of the equator that is larger than Earth. It is known to have been in existence since at least 1831,&lt;ref&gt;{{cite journal | last=Denning | first=W. F. | title=Jupiter, early history of the great red spot on | journal=Monthly Notices of the Royal Astronomical Society | year=1899 | volume=59 | pages=574-584 | url=http://adsabs.harvard.edu/abs/1899MNRAS..59..574D | accessdate = 2007-02-09 }}&lt;/ref&gt; and possibly since 1665.&lt;ref name=&quot;kyrala26&quot;&gt;{{cite journal | last = Kyrala | first = A. | title=An explanation of the persistence of the Great Red Spot of Jupiter | journal=Moon and the Planets | year=1982 | volume=26 | pages=105–7 | url=http://adsabs.harvard.edu/abs/1982M&amp;P....26..105K }}&lt;/ref&gt; [[Mathematical model]]s suggest that the storm is stable and may be a permanent feature of the planet.&lt;ref&gt;{{cite journal |url=http://adsabs.harvard.edu/abs/1988Natur.331..689S |title=Laboratory simulation of Jupiter's Great Red Spot |first=Jöel |last=Sommeria |coauthors=Steven D. Meyers &amp; Harry L. Swinney |journal=Nature |volume=331 |pages=689-693 |month=25 February |year=1988 }}&lt;/ref&gt; The storm is large enough to be visible through Earth-based [[telescope]]s.
+
+The [[Oval (geometry)|oval]] object [[rotation|rotates]] [[counterclockwise]], with a [[periodicity|period]] of about 6 days.&lt;ref&gt;{{cite web | author=Cardall, C. Y.; Daunt, S. J. | url = http://csep10.phys.utk.edu/astr161/lect/jupiter/redspot.html | title = The Great Red Spot | publisher = University of Tennessee | accessdate = 2007-02-02 }}&lt;/ref&gt; The Great Red Spot's [[dimension]]s are 24&amp;ndash;40,000&amp;nbsp;km × 12&amp;ndash;14,000&amp;nbsp;km. It is large enough to contain two or three planets of Earth's diameter.&lt;ref&gt;{{cite web | url = http://www.space.com/scienceastronomy/solarsystem/jupiter-ez.html | title = Jupiter Data Sheet | publisher = Space.com | accessdate = 2007-02-02 }}&lt;/ref&gt; The maximum altitude of this storm is about 8&amp;nbsp;km above the surrounding cloudtops.&lt;ref&gt;{{cite web | first=Tony | last=Phillips | date = [[March 3]], [[2006]] | url=http://science.nasa.gov/headlines/y2006/02mar_redjr.htm | title=Jupiter's New Red Spot | publisher=NASA | accessdate = 2007-02-02 }}&lt;/ref&gt;
+
+Storms such as this are common within the [[turbulent]] [[celestial body atmosphere|atmospheres]] of [[gas giant]]s. Jupiter also has white ovals and brown ovals, which are lesser unnamed storms. White ovals tend to consist of relatively [[heat|cool]] clouds within the upper atmosphere. Brown ovals are warmer and located within the &quot;normal cloud layer&quot;. Such storms can last for hours or [[century|centuries]].
+
+Even before Voyager proved that the feature was a storm, there was strong evidence that the spot could not be associated with any deeper feature on the planet's surface, as the Spot rotates differentially with respect to the rest of the atmosphere, sometimes faster and sometimes more slowly. During its recorded history it has traveled several times around the planet relative to any possible fixed rotational marker below it.
+
+In 2000, an atmospheric feature formed in the southern hemisphere that is similar in appearance to the Great Red Spot, but smaller in size. This was created when several smaller, white oval-shaped storms merged to form a single feature&amp;mdash;these three smaller white ovals were first observed in 1938. The merged feature was named [[Oval BA]], and has been nicknamed Red Spot Junior. It has since increased in intensity and changed color from white to red.&lt;ref&gt;{{cite web |url=http://science.nasa.gov/headlines/y2006/02mar_redjr.htm |title=Jupiter's New Red Spot |year=2006
+|accessdate = 2006-03-09}}&lt;/ref&gt;&lt;ref&gt;{{cite web | first=Bill | last=Steigerwald |date = [[October 14]], [[2006]] | url = http://www.nasa.gov/centers/goddard/news/topstory/2006/little_red_spot.html | title = Jupiter's Little Red Spot Growing Stronger | publisher = NASA | accessdate = 2007-02-02 }}&lt;/ref&gt;&lt;ref&gt;{{cite web | last = Goudarzi | first = Sara | date = [[May 4]], [[2006]] | url = http://www.usatoday.com/tech/science/space/2006-05-04-jupiter-jr-spot_x.htm | title = New storm on Jupiter hints at climate change | publisher = USA Today | accessdate = 2007-02-02 }}&lt;/ref&gt;
+&lt;div style=&quot;clear: both&quot;&gt;&lt;/div&gt;
 
 ===Planetary rings===
 {{main|Rings of Jupiter}}
-{{unsourced}}
-[[Image:Map of Jupiter.jpg|thumb|200px|left|Jupiter as viewed from its south pole.  The Great Red Spot is at the upper left.]]
-Jupiter has a faint [[planetary ring]] system composed of smoke-like dust particles knocked from its moons by energetic meteor impacts. The innermost doughnut-shaped ring, called the halo, is almost as thick (20,000km) as it is wide (22,800km). This is followed by the thinnest and brightest main ring, which is made of dust from the satellites Adrastea and Metis. Metis orbits within its fluid [[Roche limit]] with Jupiter, and objects not rigidly attached to it may freely fall away from it and into Jupiter's gravitational field. Two wide gossamer rings encircle the main ring, originating from Thebe and Amalthea. Finally, there is a distant and very faint outer ring circling Jupiter backwards—retrograde of its spin. It is not known for certain where the material for this outer ring comes from, but it may be captured interplanetary dust.
 
-==Exploration of Jupiter==
-{{stubsection}}
+[[Image:PIA01627 Ringe.jpg|thumb|right|The rings of Jupiter.]]
+
+Jupiter has a faint [[planetary ring]] system composed of three main segments: an inner [[torus]] of particles known as the halo, a relatively bright main ring, and an outer &quot;gossamer&quot; ring.&lt;ref&gt;{{cite journal | last = Showalter | first =  M.A. | coauthors =Burns, J.A.; Cuzzi, J. N.; Pollack, J. B. | title=Jupiter's ring system: New results on structure and particle properties | url=http://adsabs.harvard.edu/abs/1987Icar...69..458S | journal=Icarus | year=1987 | volume=69 | issue=3 | pages=458–98 | doi = 10.1016/0019-1035(87)90018-2 }}&lt;/ref&gt; These rings appear to be made of dust, rather than ice as is the case for Saturn's rings.&lt;ref name=&quot;elkins-tanton&quot; /&gt; The main ring is probably made of material ejected from the satellites [[Adrastea (moon)|Adrastea]] and [[Metis (moon)|Metis]]. Material that would normally fall back to the moon is pulled into Jupiter because of its strong gravitational pull. The orbit of the material veers towards Jupiter and new material is added by additional impacts.&lt;ref name=&quot;Burns1999&quot;&gt;{{cite journal|last=Burns|first=J.A.|coauthors=Showalter, M.R.; Hamilton, D.P.; et.al.|title=The Formation of Jupiter's Faint Rings|journal=Science|year=1999|volume=284|pages=1146–50|doi=10.1126/science.284.5417.1146| url=http://adsabs.harvard.edu/abs/1999Sci...284.1146B}}&lt;/ref&gt; In a similar way, the moons [[Thebe (moon)|Thebe]] and [[Amalthea (moon)|Amalthea]] probably produce the two distinct components of the gossamer ring.&lt;ref name=&quot;Burns1999&quot;/&gt;
+
+===Magnetosphere===
+{{main|Jupiter's magnetosphere}}
+Jupiter's broad [[magnetic field]] is 14 times as strong as the Earth's, ranging from 4.2&amp;nbsp;[[gauss (unit)|gauss]] at the equator to 10&amp;ndash;14 gauss at the poles, making it the strongest in the solar system (with the exception of [[sunspot]]s).&lt;ref name=&quot;worldbook&quot; /&gt; This field is believed to be generated by [[eddy current]]s&amp;mdash;swirling movements of conducting materials&amp;mdash;within the metallic hydrogen core. The field traps a sheet of [[Plasma (physics)|ionized particles]] from the [[solar wind]], generating a highly-energetic magnetic field outside the planet&amp;mdash;the [[magnetosphere]]. Electrons from this plasma sheet ionize the [[torus]]-shaped cloud of [[sulfur dioxide]] generated by the [[tectonics|tectonic]] activity on the moon Io. Hydrogen particles from Jupiter's atmosphere are also trapped in the magnetosphere. Electrons within the magnetosphere generate a strong [[radio]] signature that produces bursts in the range of 0.6&amp;ndash;30&amp;nbsp;[[hertz|GHz]].&lt;ref&gt;{{cite news | title=Jupiter's Magnetosphere | publisher=The Astrophysics Spectator | date=[[November 24]], [[2004]] | url=http://www.astrophysicsspectator.com/topics/planets/JupiterMagnetosphere.html | accessdate = 2006-05-24 }}&lt;/ref&gt;
+
+At about 75 Jupiter radii from the planet, the interaction of the magnetosphere with the [[solar wind]] generates a [[bow shock]]. Surrounding Jupiter's magnetosphere is a [[magnetopause]], located at the inner edge of a [[magnetosheath]], where the planet's magnetic field becomes weak and disorganized. The solar wind interacts with these regions, elongating the magnetosphere on Jupiter's [[lee side]] and extending it outward until it nearly reaches the orbit of Saturn. The four largest moons of Jupiter all orbit within the magnetosphere, which protects them from the solar wind.&lt;ref name=&quot;elkins-tanton&quot; /&gt;
+
+[[Image: Jupiter.Aurora.HST.UV.jpg|right|250px|thumb|[[Aurora borealis]] on Jupiter. The three brightest regions are created by tubes of magnetic flux that connect to the Jovian moons [[Io (moon)|Io]], [[Ganymede (moon)|Ganymede]] and [[Europa (moon)|Europa]]]]
+
+The magnetosphere of Jupiter is responsible for intense episodes of [[radio]] emission from the planet's polar regions. Volcanic activity on the Jovian moon [[Io (moon)|Io]] (see below) injects gas into Jupiter's magnetosphere, producing a torus of particles about the planet. As Io moves through this torus, the interaction generates [[Alfven wave]]s that carry ionized matter into the polar regions of Jupiter. As a result, radio waves are generated through a [[cyclotron]] [[Astrophysical maser|maser mechanism]], and the energy is transmitted out along a cone-shaped surface. When the Earth intersects this cone, the radio emissions from Jupiter can exceed the solar radio output.&lt;ref&gt;{{cite web | date = [[February 20]], [[2004]] | url = http://science.nasa.gov/headlines/y2004/20feb_radiostorms.htm | title = Radio Storms on Jupiter | publisher = NASA | accessdate = 2007-02-01 }}&lt;/ref&gt;
+
+==Orbit and rotation==
+The average distance between Jupiter and the Sun is 778 million&amp;nbsp;km (about 5.2 times the average distance from the Earth to the Sun) and it completes an orbit every 11.86&amp;nbsp;years. The elliptical orbit of Jupiter is inclined 1.31° compared to the Earth. Because of an [[Orbital_eccentricity|eccentricity]] of 0.048, the distance from Jupiter and the
+Sun varies by 75 million&amp;nbsp;km between [[perihelion]] and [[aphelion]], or the nearest and most distant points of the planet along the orbital path respectively.
+
+The axial tilt of Jupiter is relatively small: only 3.13°. As a result this planet does not experience significant [[season]]al changes, in contrast to Earth and Mars for example.&lt;ref&gt;{{cite web | url = http://science.nasa.gov/headlines/y2000/interplanetaryseasons.html | title = Interplanetary Seasons | publisher = Science@NASA | accessdate = 2007-02-20 }}&lt;/ref&gt;
+
+Jupiter's [[rotation]] is the solar system's fastest, completing a rotation on its [[Coordinate axis|axis]] in slightly less than ten hours; this creates an [[equatorial bulge]] easily seen through an Earth-based amateur [[telescope]]. This rotation produces a [[centripetal acceleration]] at the equator of about 1.67&amp;nbsp;m/s², compared to the equatorial surface gravity of 24.79&amp;nbsp;m/s²; thus the net acceleration felt at the equatorial surface is only about 23.12&amp;nbsp;m/s². The planet is shaped as an [[oblate]] spheroid, meaning that the [[diameter]] across its [[equator]] is longer than the diameter measured between its [[geographic pole|poles]]. On Jupiter, the equatorial diameter is 9275&amp;nbsp;km longer than the diameter measured through the poles.&lt;ref name=&quot;lang03&quot; /&gt;
+
+Because Jupiter is not a solid body, its upper atmosphere undergoes [[differential rotation]]. The rotation of Jupiter's [[polar region|polar]] atmosphere is ~5&amp;nbsp;minutes longer than that of the [[equator]]ial atmosphere; three &quot;systems&quot; are used as frames of reference, particularly when graphing the motion of atmospheric features. System I applies from the latitudes 10°&amp;nbsp;N to 10°&amp;nbsp;S; its period is the planet's shortest, at 9h 50 m 30.0s. System II applies at all latitudes north and south of these; its period is 9h 55 m 40.6s. System III was first defined by [[radio astronomy|radio astronomers]], and corresponds to the rotation of the planet's [[magnetosphere]]; its period is Jupiter's &quot;official&quot; rotation.&lt;ref&gt;{{cite book | first=Ian | last=Ridpath | year=1998 | title=Norton's Star Atlas | edition=19th ed. | publisher=Prentice Hall | id=ISBN 0582356555 }}&lt;/ref&gt;
+
+==Observation==
+Jupiter is usually the fourth brightest object in the sky (after the Sun, the [[Moon]] and [[Venus]]);&lt;ref name=&quot;worldbook&quot; /&gt; however at times [[Mars]] appears brighter than Jupiter. Depending on Jupiter's position with respect to the Earth, it can vary in visual magnitude from as high as −2.9 at [[Opposition (astronomy)|opposition]] down to −1.6 during [[Conjunction (astronomy)|conjunction]] with the Sun. The [[angular diameter]] of Jupiter likewise varies from 47.1 to 30.6 [[arc second]]s.&lt;ref&gt;{{cite web | last = Espenak | first = Fred | date = [[July 25]], [[1996]] | url = http://sunearth.gsfc.nasa.gov/eclipse/TYPE/preface.html | title = NASA Reference Publication 1349&amp;mdash;Twelve Year Planetary Ephemeris: 1995–2006 | publisher = NASA | accessdate = 2006-08-10 }}&lt;/ref&gt;
+
+[[Image:Retrogadation1.png|right|thumb|The retrograde motion of an outer planet is caused by its relative location with respect to the Earth.]]
+
+Earth overtakes Jupiter every 398.9 days as it orbits the Sun, a duration called the [[synodic period]]. As it does so, Jupiter appears to undergo [[Retrograde and direct motion|retrograde motion]] with respect to the background stars. That is, for a period of time Jupiter seems to move backward in the night sky, performing a looping motion.
+
+Jupiter's 12-year orbital period corresponds to the dozen  [[constellation]]s in the [[zodiac]].&lt;ref name=&quot;burgess&quot; /&gt; As a result, each time Jupiter reaches opposition it has advanced eastward by about the width of a zodiac constellation. The orbital period of Jupiter is also about two-fifths the orbital period of Saturn, forming a 5:2 [[orbital resonance]] between the two largest planets in the Solar System.
+
+Because the orbit of Jupiter is outside the Earth's, the [[Phase angle (astronomy)|phase angle]] of Jupiter as viewed from the Earth never exceeds 11.5°, and is almost always close to zero. That is, the planet always appears nearly fully illuminated when viewed through Earth-based telescopes. It was only during spacecraft missions to Jupiter that crescent views of
+the planet were obtained.&lt;ref&gt;{{cite web | year=1974 | url = http://history.nasa.gov/SP-349/ch8.htm | title = Encounter with the Giant | publisher = NASA | accessdate = 2007-02-17 }}&lt;/ref&gt;
+
+==Research and exploration==
+
+===Ground-based telescope research===
+In 1610, [[Galileo Galilei]] discovered the four largest [[natural satellite|moons]] of Jupiter, [[Io (moon)|Io]], [[Europa (moon)|Europa]], [[Ganymede (moon)|Ganymede]] and [[Callisto (moon)|Callisto]] (now known as the [[Galilean moon]]s) using a telescope, the first observation of moons other than Earth's. This was also the first discovery of a [[celestial mechanics|celestial motion]] not apparently centered on the Earth. It was a major point in favor of [[Nicolaus Copernicus|Copernicus]]' [[heliocentrism|heliocentric]] theory of the motions of the planets; Galileo's outspoken support of the Copernican theory placed him under the threat of the [[Inquisition]].&lt;ref&gt;{{cite web | last = Westfall | first = Richard  S | url = http://galileo.rice.edu/Catalog/NewFiles/galilei_gal.html | title = Galilei, Galileo | publisher = The Galileo Project | accessdate = 2007-01-10 }}&lt;/ref&gt;
+
+During 1660s, Cassini used a new telescope to discover spots and colorful bands on Jupiter and observed that the planet appeared oblate; that is, flattened at the poles. He was also able to estimate the rotation period of the planet.&lt;ref name= &quot;cassini&quot;&gt;{{cite web | author=O'Connor, J. J.; Robertson, E. F. | date = April, 2003 | url = http://www-history.mcs.st-andrews.ac.uk/Biographies/Cassini.html | title = Giovanni Domenico Cassini | publisher = University of St. Andrews | accessdate = 2007-02-14 }}&lt;/ref&gt; In 1690 Cassini noticed that the atmosphere undergoes [[differential rotation]].&lt;ref name=&quot;elkins-tanton&quot; /&gt;
+
+[[Image:Jupiter from Voyager 1.jpg|thumb|240px|right|[[False-color]] detail of Jupiter's atmosphere, imaged by ''[[Voyager 1]]'', showing the [[Great Red Spot]] and a passing white oval.]]
+The [[Great Red Spot]], a prominent oval-shaped feature in the southern hemisphere of Jupiter, may have been observed as early as 1664 by [[Robert Hooke]] and in 1665 by [[Giovanni Domenico Cassini|Giovanni Cassini]], although this is disputed. The pharmacist [[Samuel Heinrich Schwabe|Heinrich Schwabe]] produced the earliest known drawing to show details of the Great Red Spot in 1831.&lt;ref&gt;{{cite book | first=Paul | last=Murdin | year=2000 | title=Encyclopedia of Astronomy and Astrophysics | publisher=Institute of Physics Publishing | location=Bristol | id=ISBN 0122266900 }}&lt;/ref&gt;
+
+The Red Spot was reportedly lost from sight on several occasions between 1665 and 1708 before becoming quite conspicuous in 1878. It was recorded as fading again in 1883 and at the start of the twentieth century.&lt;ref&gt;{{cite web | date = August 1974 | url = http://history.nasa.gov/SP-349/ch1.htm | title = SP-349/396 Pioneer Odyssey&amp;mdash;Jupiter, Giant of the Solar System | publisher = NASA | accessdate = 2006-08-10 }}&lt;/ref&gt;
+
+Both [[Giovanni Alfonso Borelli|Giovanni Borelli]] and Cassini made careful tables of the motions of the Jovian moons, allowing predictions of the times when the moons would pass before or behind the planet. By the 1670s, however, it was observed that when Jupiter was on the opposite side of the Sun from the Earth, these events would occur about 17&amp;nbsp;minutes later than expected. [[Ole Rømer]] deduced that sight is not instantaneous (a finding that Cassini had earlier rejected&lt;ref name=&quot;cassini&quot; /&gt;), and this timing discrepancy was used to estimate the [[speed of light]].&lt;ref&gt;{{cite web | url = http://www.mathpages.com/home/kmath203/kmath203.htm | title = Roemer's Hypothesis | publisher = MathPages | accessdate = 2007-01-12 }}&lt;/ref&gt;
+
+In 1892, [[E. E. Barnard]] observed a fifth satellite of Jupiter with the 36-inch refractor at [[Lick Observatory]] in California. The discovery of this relatively small object, a testament to his keen eyesight, quickly made him famous. The moon was later named [[Amalthea (moon)|Amalthea]].&lt;ref&gt;{{cite web | first = Joe | last = Tenn | date = [[March 10]], [[2006]] | url = http://www.phys-astro.sonoma.edu/BruceMedalists/Barnard/ | title = Edward Emerson Barnard | publisher = Sonoma State University | accessdate = 2007-01-10 }}&lt;/ref&gt; It was the last planetary moon to be discovered directly by visual observation.&lt;ref&gt;{{cite web | date = [[October 1]], [[2001]] | url = http://www2.jpl.nasa.gov/galileo/education/teacherres-amalthea.html | title = Amalthea Fact Sheet  | publisher = NASA JPL | accessdate = 2007-02-21 }}&lt;/ref&gt; An additional eight satellites were subsequently discovered prior to the fly-by of the [[Voyager 1]] probe in 1979.
+
+In 1932, [[Rupert Wildt]] identified absorption bands of ammonia and methane in the spectra of Jupiter.&lt;ref&gt;{{cite journal | last = Dunham Jr. | first = Theodore | title=Note on the Spectra of Jupiter and Saturn | journal=Publications of the Astronomical Society of the Pacific | year=1933 | volume=45 | pages=42–44 | url=http://adsabs.harvard.edu/abs/1933PASP...45...42D | accessdate = 2007-02-18 }}&lt;/ref&gt;
+
+Three long-lived anticyclonic features termed white ovals were observed in 1938. For several decades they remained as separate features in the atmosphere, sometimes approaching each other but never merging. Finally, two of the ovals merged in 1998, then absorbed the third in 2000, becoming [[Oval BA]].&lt;ref&gt;{{cite journal | author= Youssef, A.; Marcus, P. S. | title=The dynamics of jovian white ovals from formation to merger | journal=Icarus | year=2003 | volume=162 | issue=1 | pages=74-93 | url=http://adsabs.harvard.edu/abs/2003Icar..162...74Y | accessdate = 2007-04-17 }}&lt;/ref&gt;
+
+In 1955, Bernard Burke and [[Kenneth Franklin]] detected bursts of radio signals coming from Jupiter at 22.2 MHz.&lt;ref name=&quot;elkins-tanton&quot; /&gt; The period of these bursts matched the rotation of the planet, and they were also able to use this information to refine the rotation rate. Radio bursts from Jupiter were found to come in two forms: long bursts (or L-bursts) lasting up to several seconds, and short bursts (or S-bursts) that had a duration of less than a hundredth of a second.&lt;ref&gt;{{cite web | last = Weintraub | first = Rachel A. | date = [[September 26]], [[2005]] | url = http://www.nasa.gov/vision/universe/solarsystem/radio_jupiter.html | title = How One Night in a Field Changed Astronomy | publisher = NASA | accessdate = 2007-02-18 }}&lt;/ref&gt;
+
+Scientists discovered that there were three forms of radio signals being transmitted from Jupiter.
+
+* Decametric radio bursts (with a wavelength of tens of meters) vary with the rotation of Jupiter, and are influenced by interaction of Io with Jupiter's magnetic field.&lt;ref&gt;{{cite web | last = Garcia | first = Leonard N. | url = http://radiojove.gsfc.nasa.gov/library/sci_briefs/decametric.htm | title = The Jovian Decametric Radio Emission | publisher = NASA | accessdate = 2007-02-18 }}&lt;/ref&gt;
+
+* Decimetric radio emission (with wavelengths measured in centimeters) was first observed by [[Frank Drake]] and Hein Hvatum in 1959.&lt;ref name=&quot;elkins-tanton&quot; /&gt; The origin of this signal was from a torus-shaped belt around Jupiter's equator. This signal is caused by [[cyclotron radiation]] from electrons that are accelerated in Jupiter's magnetic field.&lt;ref&gt;{{cite web | author=Klein, M. J.; Gulkis, S.; Bolton, S. J. | year=1996 | url =http://deepspace.jpl.nasa.gov/technology/TMOT_News/AUG97/jupsrado.html | title=Jupiter's Synchrotron Radiation: Observed Variations Before, During and After the Impacts of Comet SL9 | publisher = NASA | accessdate = 2007-02-18 }}&lt;/ref&gt;
+
+* Thermal radiation is produced by heat in the atmosphere of Jupiter.&lt;ref name=&quot;elkins-tanton&quot; /&gt;
+
+During the period [[July 16]], [[1994]] to [[July 22]], [[1994]], over twenty fragments from the [[comet]] [[Comet Shoemaker-Levy 9|Shoemaker-Levy&amp;nbsp;9]] hit Jupiter's southern hemisphere, providing the first direct observation of a collision between two solar system objects. This impact provided useful data on the composition of Jupiter's atmosphere.&lt;ref&gt;{{cite web | last = Baalke | first = Ron | url = http://www2.jpl.nasa.gov/sl9/ | title = Comet Shoemaker-Levy Collision with Jupiter | publisher = NASA | accessdate = 2007-01-02 }}&lt;/ref&gt;&lt;ref&gt;{{cite news | first=Robert R. | last=Britt | title=Remnants of 1994 Comet Impact Leave Puzzle at Jupiter | publisher=space.com | date=[[August 23]], [[2004]] | url=http://www.space.com/scienceastronomy/mystery_monday_040823.html | accessdate = 2007-02-20 }}&lt;/ref&gt;
+
+===Exploration with space probes===
+{{main|Exploration of Jupiter}}
 Since 1973 a number of automated spacecraft have visited Jupiter. Flights to other planets within the Solar System are accomplished at a cost in [[energy]], which is described by the net change in velocity of the spacecraft, or [[delta-v]]. Reaching Jupiter
-from Earth requires a delta-v of 9.2&amp;nbsp;km/s,&lt;ref name=&quot;delta-v&quot;&gt;{{cite web | last = Wong | first = Al | date = [[May 28]], [[1998]] | url = http://www2.jpl.nasa.gov/galileo/faqnav.html | title = Galileo FAQ - Navigation | publisher = NASA | accessdate = 2006-11-28 }}&lt;/ref&gt; which is comparable to the 9.7&amp;nbsp;km/s delta-v needed to reach low Earth orbit.&lt;ref&gt;{{cite web | last = Hirata | first = Chris | url = http://www.pma.caltech.edu/~chirata/deltav.html | title = Delta-V in the Solar System | publisher = California Institute of Technology | accessdate = 2006-11-28 }}&lt;/ref&gt; Fortunately, [[Gravitational slingshot|gravity assists]] through planetary [[flyby]]s can be used to reduce the energy required to reach Jupiter, albeit at the cost of a significantly longer flight duration.&lt;ref name=&quot;delta-v&quot; /&gt;
+from Earth requires a delta-v of 9.2&amp;nbsp;km/s,&lt;ref name=&quot;delta-v&quot;&gt;{{cite web | last = Wong | first = Al |date= [[May 28]], [[1998]] | url = http://www2.jpl.nasa.gov/galileo/faqnav.html | title = Galileo FAQ - Navigation | publisher = NASA | accessdate = 2006-11-28 }}&lt;/ref&gt; which is comparable to the 9.7&amp;nbsp;km/s delta-v needed to reach low Earth orbit.&lt;ref&gt;{{cite web | last = Hirata | first = Chris | url = http://www.pma.caltech.edu/~chirata/deltav.html | title = Delta-V in the Solar System | publisher = California Institute of Technology | accessdate = 2006-11-28 }}&lt;/ref&gt; Fortunately, [[Gravitational slingshot|gravity assists]] through planetary [[Gravitational slingshot|flyby]]s can be used to reduce the energy required to reach Jupiter, albeit at the cost of a significantly longer flight duration.&lt;ref name=&quot;delta-v&quot; /&gt;
 
-===Pioneer flyby missions===
-[[Pioneer 10]] flew past Jupiter in December of 1973, followed by [[Pioneer 11]] exactly one year later. Pioneer 10 obtained the first ever close up images of Jupiter and the [[Galilean moon]]s, studied its atmosphere, detected its magnetic field, observed its radiation belts and found that Jupiter is mainly liquid.&lt;ref name=&quot;cosmology 101&quot;&gt;{{cite web | last = Lasher | first = Lawrence | date = [[August 1]], [[2006]] | url = http://spaceprojects.arc.nasa.gov/Space_Projects/pioneer/PNhome.html | title = Pioneer Project Home Page | publisher = NASA Space Projects Division | accessdate = 2006-11-28 }}&lt;/ref&gt;
-
-===Voyager flyby missions===
-[[Image:Jupiter gany.jpg|thumb|200px|right|''Voyager 1'' took this photo of the planet Jupiter on [[January 24]], [[1979]] while still more than 25 million miles (40 million kilometres) away. Click image for full caption.]]
-
-''[[Voyager 1]]'' flew by in March 1979 followed by ''[[Voyager 2]]'' in July of the same year. The ''Voyagers'' vastly improved the understanding of the [[Galilean moon]]s and discovered Jupiter's rings. They also took the first close up images of the planet's atmosphere.&lt;ref name=&quot;voyager&quot;&gt;{{cite web | date = [[January 14]], [[2003]] | url = http://voyager.jpl.nasa.gov/science/jupiter.html | title = Jupiter | publisher = NASA Jet Propulsion Laboratory | accessdate = 2006-11-28 }}&lt;/ref&gt;
-
-===Ulysses flyby mission===
-In February 1992, ''[[Ulysses probe|Ulysses]]'' solar probe performed a flyby of Jupiter at a distance of 409,000 km (6.3 Jovian radii). This critical maneuver was required for Ulysses to attain a polar orbit around the Sun. During this pass the probe conducted studies on Jupiter's magnetosphere. However, since there are no cameras onboard the probe, no images were taken. In February 2004, the probe came again in the vicinity of Jupiter. This time the distance was much greater&amp;mdash;about 240 million km.
-&lt;ref name=&quot;ulysses&quot;&gt;{{cite web | author = K. Chan, E. S. Paredes, M. S. Ryne | year = 2004 | url = http://www.aiaa.org/Spaceops2004Archive/downloads/papers/SPACE2004sp-template00447F.pdf | title = Ulysses Attitude and Orbit Operations: 13+ Years of International Cooperation | format = PDF | publisher = American Institute of Aeronautics and Astronautics | accessdate = 2006-11-28 }}&lt;/ref&gt;
-
-===Galileo mission===
-So far the only spacecraft to orbit Jupiter is the ''[[Galileo spacecraft|Galileo]]'' orbiter, which went into orbit around Jupiter on [[December 7]], [[1995]]. It orbited the planet for over seven years and conducted multiple flybys of all of the major Galilean moons and [[Amalthea (moon)|Amalthea]]. The spacecraft also witnessed the impact of [[Comet Shoemaker-Levy 9]] into Jupiter as it approached the planet in 1994, giving a unique vantage point for this spectacular event. However, while the information gained about the Jovian system from the ''Galileo'' mission was extensive in its own right, its originally-designed capacity was limited by the failed deployment of its high-gain radio transmitting antenna.&lt;ref name=&quot;galileo&quot;&gt;{{cite web | last = McConnell | first = Shannon | date = [[April 14]], [[2003]] | url = http://www2.jpl.nasa.gov/galileo/ | title = Galileo: Journey to Jupiter | publisher = NASA Jet Propulsion Laboratory | accessdate = 2006-11-28 }}&lt;/ref&gt;
-[[Image:PIA04866_modest.jpg|thumb|right|Jupiter as seen by the space probe [[Cassini-Huygens|Cassini]]. This is the most detailed global color portrait of Jupiter ever assembled.]]
-
-An atmospheric probe was released from the spacecraft in July 1995. The probe entered the planet's atmosphere on [[December 7]], [[1995]]. It parachuted through 150&amp;nbsp;km of the atmosphere, collecting data for 57.6 minutes, before being crushed by the extreme pressure to which it was subjected. It would have melted and vaporized shortly thereafter. The ''Galileo'' orbiter itself experienced a more rapid version of the same fate when it was deliberately steered into the planet on [[September 21]], [[2003]] at a speed of over 50&amp;nbsp;km/s, in order to avoid any possibility of it crashing into and possibly contaminating [[Europa (moon)|Europa]], one of the Jovian moons.&lt;ref name=&quot;galileo&quot; /&gt;
-
-===Cassini flyby mission===
-In 2000, the ''[[Cassini-Huygens|Cassini]]'' probe, ''en route'' to [[Saturn]], flew by Jupiter and provided some of the highest-resolution images ever made of the planet. On [[December 19]], [[2000]], the ''[[Cassini-Huygens|Cassini]]'' spacecraft, captured a very low resolution image of the moon [[Himalia (moon)|Himalia]], but it was too distant to show any surface details.&lt;ref&gt;{{cite journal | author=C. J. Hansen, S. J. Bolton, D. L. Matson, L. J. Spilker, J.-P. Lebreton | title=The Cassini-Huygens flyby of Jupiter | journal=Icarus | year=2004 | volume=172 | issue=1 | pages=1-8 | url=http://adsabs.harvard.edu/abs/2004Icar..172....1H }}&lt;/ref&gt;
-
-===New Horizons flyby mission===
-
-The [[New Horizons]] probe, en route to [[Pluto]], will flyby Jupiter for a gravity assist. Closest approach will be [[February 28]], [[2007]].&lt;ref&gt;{{cite web | last = Alexander | first = Amir | date = September 27, 2006  | url = http://www.planetary.org/news/2006/0927_New_Horizons_Snaps_First_Picture_of.html | title = New Horizons Snaps First Picture of Jupiter | publisher = The Planetary Society | accessdate = 2006-12-19 }}&lt;/ref&gt; While at Jupiter, New Horizon's instruments will refine the orbits of Jupiter's inner moons, particularly [[Amalthea (moon)|Amalthea]]. The probe's cameras will measure volcanoes on [[Io (moon)|Io]] and study all 4 Gallilean moons in detail. Imaging of the Jovian system began [[September 4]], [[2006]].{{Fact}}
-
-===Future probes===
-NASA is planning a mission to study Jupiter in detail from a [[polar orbit]]. Named ''[[Juno (spacecraft)|Juno]]'', the spacecraft is planned to launch by 2010.
-
-Because of the possibility of a liquid ocean on Jupiter's moon [[Europa (moon)|Europa]], there has been great interest to study the icy moons in detail. A mission proposed by NASA was dedicated to study them. The [[Jupiter Icy Moons Orbiter|JIMO]] (Jupiter Icy Moons Orbiter) was expected to be launched sometime after 2012. However, the mission was deemed too ambitious and its funding was cancelled.
-
-==Natural satellites==
-{{main|Jupiter's natural satellites}}
-
-[[Image:Jupiter.moons2.jpg|thumb|right|300px|Jupiter's 4 Galilean moons, in a composite image comparing their sizes and the size of Jupiter ([[Great Red Spot]] visible). From the top they are: [[Callisto (moon)|Callisto]], [[Ganymede (moon)|Ganymede]], [[Europa (moon)|Europa]] and [[Io (moon)|Io]].]]
-Jupiter has at least 63 moons. For a complete listing of these moons, please see [[Jupiter's natural satellites]]. For a timeline of their discovery dates, see [[Timeline of discovery of Solar System planets and their natural satellites]].
-
-The four large moons, known as the &quot;[[Galilean moons]]&quot;, are [[Io (moon)|Io]], [[Europa (moon)|Europa]], [[Ganymede (moon)|Ganymede]] and [[Callisto (moon)|Callisto]].
-
-===Galilean moons===
-The orbits of Io, Europa, and Ganymede, the largest moon in the solar system, form a pattern known as a [[Laplace resonance]]; for every four orbits that Io makes around Jupiter, Europa makes exactly two orbits and Ganymede makes exactly one. This resonance causes the [[gravity|gravitational]] effects of the three moons to distort their orbits into elliptical shapes, since each moon receives an extra tug from its neighbors at the same point in every orbit it makes.
-
-[[image:JupiterandIo.jpg|thumb|240px|right|A picture of Jupiter and its moon Io taken by [[Hubble Space Telescope|Hubble]]. The black spot is Io's shadow.]]
-
-The [[tidal force]] from Jupiter, on the other hand, works to circularize their orbits. This constant tug of war causes regular flexing of the three moons' shapes, Jupiter's gravity stretches the moons more strongly during the portion of their orbits that are closest to it and allowing them to spring back to more spherical shapes when they're farther away. This flexing causes tidal heating of the three moons' cores. This is seen most dramatically in Io's extraordinary volcanic activity, and to a somewhat less dramatic extent in the geologically young surface of Europa indicating recent resurfacing.
-
-{| class=&quot;wikitable&quot;
-|- style=&quot;background:#efefef;&quot;
-! colspan=&quot;6&quot; | The [[Galilean moons]], compared to Earth's moon [[Moon|Luna]]
+====Fly-by missions====
+{| class=&quot;wikitable&quot; style=&quot;float: right; margin-right: 0px; margin-left: 1em;&quot;
+|+ Fly-by missions
 |-
-|- style=&quot;background:#efefef;&quot;
-! colspan=&quot;2&quot; | Name&lt;br/&gt;
-([[Help:Pronunciation respelling key|Pronunciation key]])
-! Diameter&lt;br&gt;(km)
-! Mass&lt;br&gt;(kg)
-! Orbital radius (km)
-! Orbital period (days)
-|- style=&quot;background:#ccccff;&quot; align=&quot;center&quot;
-| '''[[Io (moon)|Io]]''' || ''eye'-oe''&lt;br&gt;{{IPA|ˈaɪəʊ}} || 3643&lt;br&gt;(105%&amp;nbsp;Luna) || 8.9×10&lt;sup&gt;22&lt;/sup&gt;&lt;br&gt;(120%&amp;nbsp;Luna) ||421 700&lt;br&gt;(110%&amp;nbsp;Luna) ||1.77&lt;br&gt;(6.5%&amp;nbsp;Luna)
-|- style=&quot;background:#ccccff&quot; align=&quot;center&quot;
-| '''[[Europa (moon)|Europa]]''' || ''ew-roe'-pə''&lt;br&gt;{{IPA|jʊˈrəʊpə}} || 3122&lt;br&gt;(90%&amp;nbsp;Luna) || 4.8×10&lt;sup&gt;22&lt;/sup&gt;&lt;br&gt;(65%&amp;nbsp;Luna) || 671 034&lt;br&gt;(175%&amp;nbsp;Luna) || 3.55&lt;br&gt;(13%&amp;nbsp;Luna)
-|- style=&quot;background:#ccccff&quot; align=&quot;center&quot;
-| '''[[Ganymede (moon)|Ganymede]]''' || ''gan'-ə-meed''&lt;br&gt;{{IPA|ˈgænəmid}} || 5262&lt;br&gt;(150%&amp;nbsp;Luna) || 14.8×10&lt;sup&gt;22&lt;/sup&gt;&lt;br&gt;(200%&amp;nbsp;Luna) || 1 070 412&lt;br&gt;(280%&amp;nbsp;Luna) || 7.15&lt;br&gt;(26%&amp;nbsp;Luna)
-|- style=&quot;background:#ccccff&quot; align=&quot;center&quot;
-| '''[[Callisto (moon)|Callisto]]''' || ''kə-lis'-toe''&lt;br&gt;{{IPA|kəˈlɪstəʊ}} || 4821&lt;br&gt;(140%&amp;nbsp;Luna) || 10.8×10&lt;sup&gt;22&lt;/sup&gt;&lt;br&gt;(150%&amp;nbsp;Luna) || 1 882 709&lt;br&gt;(490%&amp;nbsp;Luna) || 16.69&lt;br&gt;(61%&amp;nbsp;Luna)
+!Spacecraft
+!Closest&lt;br /&gt;approach
+!Distance
+|-
+|''[[Pioneer 10]]''
+|[[December 3]], [[1973]]
+|style=&quot;text-align: right;&quot;|130,000&amp;nbsp;km
+|-
+|''[[Pioneer 11]]''
+|[[December 4]], [[1974]]
+|style=&quot;text-align: right;&quot;|34,000&amp;nbsp;km
+|-
+|''[[Voyager 1]]''
+|[[March 5]], [[1979]]
+|style=&quot;text-align: right;&quot;|349,000&amp;nbsp;km
+|-
+|''[[Voyager 2]]''
+|[[July 9]], [[1979]]
+|style=&quot;text-align: right;&quot;|570,000&amp;nbsp;km
+|-
+|rowspan=&quot;2&quot;|''[[Ulysses probe|Ulysses]]''
+|February 1992
+|style=&quot;text-align: right;&quot;|409,000&amp;nbsp;km
+|-
+|February 2004
+|style=&quot;text-align: right;&quot;|240,000,000&amp;nbsp;km
+|-
+|''[[Cassini–Huygens|Cassini]]''
+|[[December 30]], [[2000]]
+|style=&quot;text-align: right;&quot;|10,000,000&amp;nbsp;km
+|-
+|''[[New Horizons]]''
+|[[February 28]], [[2007]]
+|style=&quot;text-align: right;&quot;|2,304,535&amp;nbsp;km
 |}
 
-===Classification of Jupiter's moons===
-Before the discoveries of the Voyager missions, Jupiter's moons were arranged neatly into four groups of four. Since then, the large number of new small outer moons has complicated this picture. There are now thought to be six main groups, although some are more distinct than others. A basic division is between the eight inner regular moons with nearly circular orbits near the plane of Jupiter's equator, which are believed to have formed with Jupiter, and an unknown number of small irregular moons, with elliptical and inclined orbits, which are believed to be captured asteroids or fragments of captured asteroids.
+[[Image:Jupiter gany.jpg|thumb|200px|right|''Voyager 1'' took this photo of the planet Jupiter on [[January 24]], [[1979]] while still more than 25&amp;nbsp;million&amp;nbsp;mi (40&amp;nbsp;million&amp;nbsp;km) away. Click image for full caption.]]
+
+Beginning in 1973, several spacecraft have performed planetary fly-by maneuvers that brought them within observation range of Jupiter. The ''Pioneer'' missions obtained the first close-up images of Jupiter's atmosphere and several of its moons. They discovered that the radiation fields in the vicinity of the planet were much stronger than expected, but both spacecraft managed to survive in that environment. The trajectories of these spacecraft were used to refine the mass estimates of the Jovian system. Occultations of the radio signals by the planet resulted in better measurements of Jupiter's diameter and the amount of polar flattening.&lt;ref name=&quot;burgess&quot; /&gt;&lt;ref name=&quot;cosmology 101&quot;&gt;{{cite web | last = Lasher | first = Lawrence |date= [[August 1]], [[2006]] | url = http://spaceprojects.arc.nasa.gov/Space_Projects/pioneer/PNhome.html | title = Pioneer Project Home Page | publisher = NASA Space Projects Division | accessdate = 2006-11-28 }}&lt;/ref&gt;
+
+Six years later, the ''Voyager'' missions vastly improved the understanding of the [[Galilean moon]]s and discovered Jupiter's rings. They also confirmed that the Great Red Spot was anticyclonic. Comparison of images showed that the Red Spot had changed hue since the ''Pioneer'' missions, turning from orange to dark brown. A torus of ionized atoms was discovered along Io's orbital path, and volcanoes were found on the moon's surface, some in the process of erupting. As the spacecraft passed behind the planet, it observed flashes of lightning in the night side atmosphere.&lt;ref name=&quot;burgess&quot; /&gt;&lt;ref name=&quot;voyager&quot;&gt;{{cite web |date= [[January 14]], [[2003]] | url = http://voyager.jpl.nasa.gov/science/jupiter.html | title = Jupiter | publisher = NASA Jet Propulsion Laboratory | accessdate = 2006-11-28 }}&lt;/ref&gt;
+
+The next mission to encounter Jupiter, the ''Ulysses'' solar probe, performed a fly-by maneuver in order to attain a polar orbit around the Sun. During this pass the spacecraft conducted studies on Jupiter's magnetosphere. However, since ''Ulysses'' has no cameras, no images were taken. A second fly-by six years later was at a much greater distance.&lt;ref name=&quot;ulysses&quot;&gt;{{cite web | author = Chan, K.; Paredes, E. S.; Ryne, M. S. | year = 2004 | url = http://www.aiaa.org/Spaceops2004Archive/downloads/papers/SPACE2004sp-template00447F.pdf | title = Ulysses Attitude and Orbit Operations: 13+ Years of International Cooperation | format = PDF | publisher = American Institute of Aeronautics and Astronautics | accessdate = 2006-11-28 }}&lt;/ref&gt;
+
+In 2000, the ''Cassini'' probe, ''en route'' to [[Saturn]], flew by Jupiter and provided some of the highest-resolution images ever made of the planet. On [[December 19]], [[2000]], the spacecraft captured an image of the moon [[Himalia (moon)|Himalia]], but the resolution was too low to show surface details.&lt;ref&gt;{{cite journal | author=Hansen, C. J.; Bolton, S. J.; Matson, D. L.; Spilker, L. J.; Lebreton, J.-P. | title=The Cassini-Huygens flyby of Jupiter | url=http://adsabs.harvard.edu/abs/2004Icar..172....1H | journal=Icarus | year=2004 | volume=172 | issue=1 | pages=1-8 | url=http://adsabs.harvard.edu/abs/2004Icar..172....1H | doi = 10.1016/j.icarus.2004.06.018}}&lt;/ref&gt;
+
+The ''[[New Horizons]]'' probe, en route to [[Pluto]], flew by Jupiter for gravity assist. Closest approach was on [[February 28]], [[2007]].&lt;ref&gt;[http://www.planetary.org/explore/topics/space_missions/new_horizons/022807.html &quot;Mission Update: At Closest Approach, a Fresh View of Jupiter&quot;]&lt;/ref&gt; The probe's cameras measured plasma output from volcanoes on [[Io (moon)|Io]] and studied all four Galilean moons in detail, as well as making long-distance observations of the outer moons [[Himalia (moon)|Himalia]] and [[Elara (moon)|Elara]].&lt;ref&gt;[http://www.nasa.gov/mission_pages/newhorizons/news/jupiter_system.html &quot;Pluto-Bound New Horizons Provides New Look at Jupiter System&quot;]&lt;/ref&gt; Imaging of the Jovian system began [[September 4]], [[2006]].&lt;ref&gt;{{cite web | date= [[January 19]], [[2007]] | url = http://news.bbc.co.uk/2/hi/science/nature/6279423.stm | title = New Horizons targets Jupiter kick | publisher = BBC News Online | accessdate = 2007-01-20 }}&lt;/ref&gt;&lt;ref&gt;{{cite web | last = Alexander | first = Amir |date= [[September 27]], [[2006]]  |
+url = http://www.planetary.org/news/2006/0927_New_Horizons_Snaps_First_Picture_of.html | title = New Horizons Snaps First Picture of Jupiter | publisher = The Planetary Society | accessdate = 2006-12-19 }}&lt;/ref&gt;
+
+====Galileo mission====
+[[Image:PIA04866_modest.jpg|thumb|left|Jupiter as seen by the space probe [[Cassini-Huygens|Cassini]]. This is the most detailed global color portrait of Jupiter ever assembled.]]
+
+So far the only spacecraft to orbit Jupiter is the ''[[Galileo spacecraft|Galileo]]'' orbiter, which went into orbit around Jupiter on [[December 7]], [[1995]]. It orbited the planet for over seven years, conducting multiple flybys of all of the Galilean moons and [[Amalthea (moon)|Amalthea]]. The spacecraft also witnessed the impact of [[Comet Shoemaker-Levy 9]] as it approached Jupiter in 1994, giving a unique vantage point for the event. However, while the information gained about the Jovian system from ''Galileo'' was extensive, its originally-designed capacity was limited by the failed deployment of its high-gain radio transmitting antenna.&lt;ref name=&quot;galileo&quot;&gt;{{cite web | last = McConnell | first = Shannon |date= [[April 14]], [[2003]] | url = http://www2.jpl.nasa.gov/galileo/ | title = Galileo: Journey to Jupiter | publisher = NASA Jet Propulsion Laboratory | accessdate = 2006-11-28 }}&lt;/ref&gt;
+
+An atmospheric probe was released from the spacecraft in July 1995, entering the planet's atmosphere on [[December 7]]. It parachuted through 150&amp;nbsp;km of the atmosphere, collecting data for 57.6&amp;nbsp;minutes, before being crushed by the pressure to which it was subjected by that time (about 22 times Earth normal, at a temperature of 153&amp;nbsp;&lt;sup&gt;o&lt;/sup&gt;C).&lt;ref&gt;{{cite web | first = Julio | last = Magalhães | date = [[December 10]], [[1996]] | url = http://spaceprojects.arc.nasa.gov/Space_Projects/galileo_probe/htmls/probe_events.html | title = Galileo Probe Mission Events | publisher = NASA Space Projects Division | accessdate = 2007-02-02 }}&lt;/ref&gt; It would have melted thereafter, and possibly vaporized. The ''Galileo'' orbiter itself experienced a more rapid version of the same fate when it was deliberately steered into the planet on [[September 21]] [[2003]] at a speed of over 50&amp;nbsp;km/s, in order to avoid any possibility of it crashing into and possibly contaminating [[Europa (moon)|Europa]]&amp;mdash;a moon which has been hypothesized to have the possibility of harboring life.&lt;ref name=&quot;galileo&quot; /&gt;
+
+====Future probes====
+NASA is planning a mission to study Jupiter in detail from a [[polar orbit]]. Named ''[[Juno (spacecraft)|Juno]]'', the spacecraft is planned to launch by 2011.&lt;ref&gt;{{cite web | url = http://newfrontiers.nasa.gov/missions_juno.html | title = New Frontiers - Missions - Juno | publisher = NASA | accessdate = 2007-01-02 }}&lt;/ref&gt;
+
+Because of the possibility of a liquid ocean on Jupiter's moon [[Europa (moon)|Europa]], there has been great interest in studying the icy moons in detail. A mission proposed by NASA was dedicated to doing so. The ''[[Jupiter Icy Moons Orbiter|JIMO]]'' (''Jupiter Icy Moons Orbiter'') was expected to be launched sometime after 2012. However, the mission was deemed too ambitious and its funding was cancelled.&lt;ref&gt;{{cite news | first=Brian | last=Berger | title=White House scales back space plans | publisher=MSNBC | date=[[February 7]], [[2005]] | url=http://www.msnbc.msn.com/id/6928404/ | accessdate = 2007-01-02 }}&lt;/ref&gt;
+
+==Moons==
+{{main|Jupiter's natural satellites}}
+{{see also|Timeline of discovery of Solar System planets and their natural satellites}}
+
+Jupiter has at least 63 [[natural satellite]]s. Of these, 47 are less than 10&amp;nbsp;kilometres in diameter and have only been discovered since 1975. The four largest moons, known as the &quot;[[Galilean moons]]&quot;, are [[Io (moon)|Io]], [[Europa (moon)|Europa]], [[Ganymede (moon)|Ganymede]] and [[Callisto (moon)|Callisto]].
+
+[[Image:Jupiter.moons2.jpg|thumb|left|300px|Jupiter's 4 Galilean moons, in a composite image comparing their sizes and the size of Jupiter ([[Great Red Spot]] visible). From the top they are: [[Callisto (moon)|Callisto]], [[Ganymede (moon)|Ganymede]], [[Europa (moon)|Europa]] and [[Io (moon)|Io]].]]
+
+===Galilean moons===
+{{main|Galilean moons}}
+The orbits of Io, Europa, and Ganymede, some of the largest satellites in the solar system, form a pattern known as a [[Laplace resonance]]; for every four orbits that Io makes around Jupiter, Europa makes exactly two orbits and Ganymede makes exactly one. This resonance causes the [[gravity|gravitational]] effects of the three moons to distort their orbits into elliptical shapes, since each moon receives an extra tug from its neighbors at the same point in every orbit it makes. The [[tidal force]] from Jupiter, on the other hand, works to circularize their orbits.&lt;ref&gt;{{cite journal | author= Musotto, S.; Varadi, F.; Moore, W. B.; Schubert, G. | title=Numerical simulations of the orbits of the Galilean satellites | url=http://cat.inist.fr/?aModele=afficheN&amp;cpsidt=13969974 | journal=Icarus | year=2002 | volume=159 | pages=500-504 }}&lt;/ref&gt; 
+
+The [[Orbital eccentricity|eccentricity]] of their orbits causes regular flexing of the three moons' shapes, with Jupiter's gravity stretching them out as they approach it and allowing them to spring back to more spherical shapes as they swing away. This tidal flexing [[Tidal acceleration #tidal heating|heats]] the moons' interiors via [[friction]]. This is seen most dramatically in the extraordinary [[Io (moon) #Volcanism|volcanic activity]] of innermost Io (which is subject to the strongest tidal forces), and to a lesser degree in the geological youth of [[Europa (moon) #Surface features|Europa's surface]] (indicating recent resurfacing of the moon's exterior).
+
+{| class=&quot;wikitable&quot; style=&quot;float:left&quot;
+|- style=&quot;background:#efefef;&quot;
+! colspan=&quot;10&quot; | The [[Galilean moons]], compared to Earth's [[Moon]]
+|-
+|- style=&quot;background:#efefef;&quot;
+! colspan=&quot;2&quot; rowspan=&quot;2&quot; | Name&lt;br/&gt;
+([[Help:Pronunciation respelling key|Pronunciation key]])
+! colspan=&quot;2&quot; | Diameter
+! colspan=&quot;2&quot; | Mass
+! colspan=&quot;2&quot; | Orbital radius
+! colspan=&quot;2&quot; | Orbital period
+|- style=&quot;background:#efefef;&quot;
+! km
+! %
+! kg
+! %
+! km
+! %
+! days
+! %
+|- style=&quot;background:#ccccff;&quot; align=&quot;right&quot;
+| align=&quot;left&quot; | '''[[Io (moon)|Io]]''' || align=&quot;left&quot; | ''eye'-oe''&lt;br&gt;{{IPA|ˈaɪəʊ}} || 3643 || 105% || 8.9×10&lt;sup&gt;22&lt;/sup&gt; || 120% ||421,700 || 110% ||1.77 || 7%
+|- style=&quot;background:#ccccff&quot; align=&quot;right&quot;
+| align=&quot;left&quot; | '''[[Europa (moon)|Europa]]''' || align=&quot;left&quot; | ''ew-roe'-pə''&lt;br&gt;{{IPA|jʊˈrəʊpə}} || 3122 || 90% || 4.8×10&lt;sup&gt;22&lt;/sup&gt; || 65% || 671,034 || 175% || 3.55 || 13%
+|- style=&quot;background:#ccccff&quot; align=&quot;right&quot;
+| align=&quot;left&quot; | '''[[Ganymede (moon)|Ganymede]]''' || align=&quot;left&quot; | ''gan'-ə-meed''&lt;br&gt;{{IPA|ˈgænəmid}} || 5262 || 150% || 14.8×10&lt;sup&gt;22&lt;/sup&gt; || 200% || 1,070,412 || 280% || 7.15 || 26%
+|- style=&quot;background:#ccccff&quot; align=&quot;right&quot;
+| align=&quot;left&quot; | '''[[Callisto (moon)|Callisto]]''' || align=&quot;left&quot; | ''kə-lis'-toe''&lt;br&gt;{{IPA|kəˈlɪstəʊ}} || 4821 || 140% || 10.8×10&lt;sup&gt;22&lt;/sup&gt; || 150% || 1,882,709 || 490% || 16.69 || 61%
+|}
+&lt;!-- Please don't remove the following template.  It is needed for proper display. --&gt;
+{{-}}
+
+===Classification of moons===
 [[Image:Europa-moon.jpg|thumb|right|150px|[[Europa (moon)|Europa]], one of Jupiter's many [[natural satellite|moons]].]]
 
-#Regular moons
-##The inner group of four small moons all have diameters of less than 200 km, orbit at radii less than 200,000 km, and have orbital inclinations of less than half a degree..
-##The four [[Galilean moons]], discovered by [[Galileo Galilei]] and by [[Simon Marius]] in parallel, orbit between 400,000 and 2,000,000 km, and include some of the largest moons in the solar system.
-#Irregular moons
-##[[Themisto (moon)|Themisto]] is in a group of its own, orbiting halfway between the Galilean moons and the next group.
-##The [[Himalia group]] is a tightly clustered group of moons with orbits around 11,000,000-12,000,000 km from Jupiter.
-##[[Carpo (moon)|Carpo]] is another isolated case; at the inner edge of the Ananke group, it revolves in the direct sense.
-##The [[Ananke group]] is a group with rather indistinct borders, averaging 21,276,000 km from Jupiter with an average inclination of 149 degrees.
-##The [[Carme group]] is a fairly distinct group that averages 23,404,000 km from Jupiter with an average inclination of 165 degrees.
-##The [[Pasiphaë group]] is a dispersed and only vaguely distinct group that covers all the outermost moons.
+Before the discoveries of the Voyager missions, Jupiter's moons were arranged neatly into four groups of four, based on commonality of their [[orbital elements]]. Since then, the large number of new small outer moons has complicated this picture. There are now thought to be six main groups, although some are more distinct than others.
 
-It is thought that the groups of outer moons may each have a common origin, perhaps as a larger moon or captured body that broke up.
+A basic sub-division is a grouping of the eight inner regular moons, which have nearly circular orbits near the plane of Jupiter's equator and are believed to have formed with Jupiter. The remainder of the moons consist of an unknown number of small irregular moons with elliptical and inclined orbits, which are believed to be captured asteroids or fragments of captured asteroids. Irregular moons that belong to a group share similar orbital elements and thus may have a common origin, perhaps as a larger moon or captured body that broke up.&lt;ref&gt;{{cite book | author=Jewitt, D. C.; Sheppard, S.; Porco, C. | editor=Bagenal, F.; Dowling, T.; McKinnon, W. | year=2004 | title=Jupiter: The Planet, Satellites and Magnetosphere | publisher=Cambridge University Press | id=ISBN 0521818087 | url =http://www.ifa.hawaii.edu/~jewitt/papers/JUPITER/JSP.2003.pdf}}&lt;/ref&gt;&lt;ref&gt;{{cite journal | author=Nesvorný, D.; Alvarellos, J. L. A.; Dones, L.; Levison, H. F. | title=Orbital and Collisional Evolution of the Irregular Satellites | journal=The Astronomical Journal | year=2003 | volume=126 | issue=1 | pages=398–429 | url=http://adsabs.harvard.edu/abs/2003AJ....126..398N | accessdate = 2007-02-19 }}&lt;/ref&gt;
 
-==Life on Jupiter==
-It is considered highly unlikely that there is any Earth-like [[extraterrestrial life|life]] on Jupiter, as there is little water in the atmosphere and any possible solid surface deep within Jupiter would be under extraordinary pressures. However, in [[1976]], before the [[Voyager program|Voyager]] missions, [[Carl Sagan]] hypothesized (with [[Edwin Ernest Salpeter]]) that [[ammonia]]-based life could evolve in Jupiter's upper atmosphere. Sagan and Salpeter based this hypothesis on the ecology of terrestrial seas which have simple [[Photosynthesis|photosynthetic]] [[plankton]] at the top level, [[fish]] at lower levels feeding on these creatures, and marine [[predator]]s which hunt the fish. The Jovian equivalents Sagan and Salpeter hypothesized were &quot;sinkers&quot;, &quot;floaters&quot;, and &quot;hunters&quot;. The &quot;sinkers&quot; would be plankton-like organisms which fall through the atmosphere, existing just long enough that they can reproduce in the time they are kept afloat by convection.  The &quot;floaters&quot; would be giant bags of gas functioning along the lines of hot air balloons, using their own metabolism (feeding off sunlight and free molecules) to keep their gas warm. The &quot;hunters&quot; would be almost [[squid]]-like creatures, using jets of gas to propel themselves into &quot;floaters&quot; and consume them.&lt;!---What about the &quot;sinkers&quot;?---&gt;&lt;ref&gt;{{cite web
-|url=http://www.daviddarling.info/encyclopedia/J/Jupiterlife.html
-|title=Jupiter, life on
-|publisher=Encyclopedia of Astrobiology, Astronomy &amp; Spaceflight
-|accessdate=2006-03-09}}&lt;/ref&gt;
+{| class=&quot;wikitable&quot;
+|rowspan=&quot;2&quot;|Regular moons
+|[[Inner satellites of Jupiter|Inner group]]
+|The inner group of four small moons all have diameters of less than 200&amp;nbsp;km, orbit at radii less than 200,000&amp;nbsp;km, and have orbital inclinations of less than half a degree.
+|-
+|[[Galilean moons|Galilean&amp;nbsp;moons]]&lt;ref&gt;{{cite journal
+| title = The Galilean Satellites | author = Showman, A. P.; Malhotra, R. | journal = Science | year = 1999
+| volume = 286
+| issue = 5437
+| pages = 77–84
+| doi =  10.1126/science.286.5437.77
+}}&lt;/ref&gt;
+|These four moons, discovered by [[Galileo Galilei]] and by [[Simon Marius]] in parallel, orbit between 400,000 and 2,000,000&amp;nbsp;km, and include some of the largest moons in the solar system.
+|-
+|rowspan=&quot;6&quot;|Irregular moons
+|[[Themisto (moon)|Themisto]]
+|This is a single moon belonging to a group of its own, orbiting halfway between the Galilean moons and the Himalia group.
+|-
+|[[Himalia group|Himalia&amp;nbsp;group]]
+|A tightly clustered group of moons with orbits around 11,000,000–12,000,000&amp;nbsp;km from Jupiter.
+|-
+|[[Carpo (moon)|Carpo]]
+|Another isolated case; at the inner edge of the Ananke group, it revolves in the direct sense.
+|-
+|[[Ananke group|Ananke&amp;nbsp;group]]
+|This group has rather indistinct borders, averaging 21,276,000&amp;nbsp;km from Jupiter with an average inclination of 149 degrees.
+|-
+|[[Carme group|Carme&amp;nbsp;group]]
+|A fairly distinct group that averages 23,404,000&amp;nbsp;km from Jupiter with an average inclination of 165 degrees.
+|-
+|[[Pasiphaë group|Pasiphaë&amp;nbsp;group]]
+|A dispersed and only vaguely distinct group that covers all the outermost moons.
+|}
 
-[[Image:Asteroid Belt.jpg|left|thumb|This diagram shows the Trojan Asteroids in Jupiter's orbit, as well as the main [[asteroid belt]]]]
+==Interaction with the Solar System==
+Along with the Sun, the [[gravity|gravitational]] influence of Jupiter has helped shape the Solar System. The orbits of most of the system's planets lie closer to Jupiter's [[orbital plane (astronomy)|orbital plane]] than the Sun's [[celestial equator|equatorial plane]] ([[Mercury (planet)|Mercury]] is the only planet that is closer to the Sun's equator in orbital tilt), the [[Kirkwood gap]]s in the [[asteroid belt]] are mostly due to Jupiter, and the planet may have been responsible for the [[Late Heavy Bombardment]] of the inner solar system's history.&lt;ref&gt;{{cite journal | last = Kerr | first = Richard A. | title=Did Jupiter and Saturn Team Up to Pummel the Inner Solar System? | journal=Science | year=2004 | volume=306 | issue=5702 | pages=1676 | url=http://www.sciencemag.org/cgi/content/full/306/5702/1676a?etoc }}&lt;/ref&gt;
 
-==Trojan asteroids==
-In addition to its moons, Jupiter's gravitational field controls numerous [[asteroid]]s which have settled into the regions of the [[Lagrangian point]]s preceding and following Jupiter in its orbit around the sun. These are known as the [[Trojan asteroid]]s, and are divided into [[List of Trojan asteroids (Greek camp)|Greek]] and [[List of Trojan asteroids (Trojan camp)|Trojan]] &quot;camps&quot; to commemorate the ''[[Iliad]]''. The first of these, [[588 Achilles]], was discovered by [[Max Wolf]] in [[1906]]; since then hundreds more have been discovered. The largest is [[624 Hektor]].
+[[Image:Asteroid Belt.jpg|right|thumb|This diagram shows the Trojan Asteroids in Jupiter's orbit, as well as the main [[asteroid belt]].]]
 
-==Cometary impact==
-[[Image:Jupitersatelliteimpact.jpg|right|thumb| Aftermath of impact of a cometary fragment.  The dark scars visible on the cloudtops were larger than Earth itself.]]
+In addition to its moons, Jupiter's gravitational field controls numerous [[asteroid]]s that have settled into the regions of the [[Lagrangian point]]s preceding and following Jupiter in its orbit around the sun. These are known as the [[Trojan asteroid]]s, and are divided into [[List of Trojan asteroids (Greek camp)|Greek]] and [[List of Trojan asteroids (Trojan camp)|Trojan]] &quot;camps&quot; to commemorate the ''[[Iliad]]''. The first of these, [[588 Achilles]], was discovered by [[Max Wolf]] in 1906; since then hundreds more have been discovered. The largest is [[624 Hektor]].
 
-During the period [[July 16]] to [[July 22]], [[1994]], over twenty fragments from the [[comet]] [[comet Shoemaker-Levy 9|Shoemaker-Levy 9]] hit Jupiter's southern hemisphere, providing the first direct observation of a collision between two solar system objects. It is thought that due to Jupiter's large mass and location near the inner solar system it receives the most frequent comet impacts of the solar system's planets.
+Jupiter has been called the solar system's vacuum cleaner,&lt;ref&gt;{{cite news | first=Richard A. | last=Lovett |title=Stardust's Comet Clues Reveal Early Solar System | publisher=National Geographic News | date=[[December 15]], [[2006]] | url=http://news.nationalgeographic.com/news/2006/12/061215-comet-stardust.html | accessdate = 2007-01-08 }}&lt;/ref&gt; because of its immense [[gravity well]] and location near the inner solar system. It receives the most frequent comet impacts of the solar system's planets.&lt;ref&gt;{{cite journal | author=Nakamura, T.; Kurahashi, H. | title=Collisional Probability of Periodic Comets with the Terrestrial Planets: An Invalid Case of Analytic Formulation | journal=Astronomical Journal | year=1998 | volume=115 | issue=1 | pages=848–854 | url=http://www.journals.uchicago.edu/cgi-bin/resolve?id=doi:10.1086/300206 }}&lt;/ref&gt;
+
+The majority of [[List of periodic comets|short-period comets]] belong to the Jupiter family&amp;mdash;defined as comets with [[semi-major axis|semi-major axes]] smaller than Jupiter's. Jupiter family comets are believed to form in the [[Kuiper belt]] outside the orbit of Neptune. During close encounters with Jupiter their orbits are perturbed into a smaller period and then circularized by regular gravitational interaction with the Sun and Jupiter.&lt;ref&gt;{{cite journal | author=Quinn, T.; Tremaine, S.; Duncan, M. | title=Planetary perturbations and the origins of short-period comets | journal=Astrophysical Journal, Part 1 | year=1990 | volume=355 | pages=667-679 | url=http://adsabs.harvard.edu/abs/1990ApJ...355..667Q | accessdate = 2007-02-17 }}&lt;/ref&gt;
+
+==Possibility of life==&lt;!-- This section is linked from [[Cosmos: A Personal Voyage]] --&gt;
+In 1953, the [[Miller-Urey experiment]] demonstrated that a combination of lightning and the chemical compounds that existed in the atmosphere of a primordial Earth could form organic compounds (including [[amino acid]]s) that could serve as the building blocks of life. The simulated atmosphere included water, methane, ammonia and molecular hydrogen; all molecules still found in the atmosphere of Jupiter. However, the atmosphere of Jupiter has a strong vertical air circulation, which would carry these compounds down into the lower regions. The higher temperatures within the interior of the atmosphere breaks down these chemicals, which would hinder the formation of Earth-like life.&lt;ref&gt;{{cite web | last = Heppenheimer | first = T. A. | year = 2007 | url = http://www.nss.org/settlement/ColoniesInSpace/colonies_chap01.html | title = Colonies in Space, Chapter 1: Other Life in Space | publisher = National Space Society | accessdate = 2007-02-26 }}&lt;/ref&gt;
+
+It is considered highly unlikely that there is any Earth-like [[extraterrestrial life|life]] on Jupiter, as there is only a small amount of water in the atmosphere and any possible solid surface deep within Jupiter would be under extraordinary pressures. However, in 1976, before the [[Voyager program|Voyager]] missions, it was hypothesized&lt;ref&gt;{{cite web |url=http://www.daviddarling.info/encyclopedia/J/Jupiterlife.html | title=Life on Jupiter | publisher=Encyclopedia of Astrobiology, Astronomy &amp; Spaceflight | accessdate = 2006-03-09}}&lt;/ref&gt;&lt;ref&gt;{{cite journal | title = Particles, environments, and possible ecologies in the Jovian atmosphere | author = Sagan, C.; Salpeter, E. E. | journal = The Astrophysical Journal Supplement Series | year = 1976 | volume = 32 | pages = 633-637 | doi =  10.1086/190414 }}&lt;/ref&gt;
+that [[ammonia]]- or [[water]]-based life, such as the so-called [[atmospheric beast]]s, could evolve in Jupiter's upper atmosphere. This hypothesis is based on the ecology of terrestrial seas which have simple [[Photosynthesis|photosynthetic]] [[plankton]] at the top level, [[fish]] at lower levels feeding on these creatures, and marine [[predator]]s which hunt the fish.
+
+==Human culture==
+The planet Jupiter has been known since ancient times and is visible to the naked eye in the night sky. To the [[Babylon]]ians, this object represented their god [[Marduk]]. They used the roughly 12-year orbit of this planet along the [[ecliptic]] to define the [[constellation]]s of the [[zodiac]].&lt;ref name=&quot;burgess&quot; /&gt;
+
+The Romans named it after ''[[Jupiter (mythology)|Jupiter]]'' ({{lang-la|Iuppiter, Iūpiter}}) (also called Jove), the principal [[God (male deity)|God]] of [[Roman mythology]], whose name comes from the [[Proto-Indo-European_religion#Widely_accepted_deities|Proto-Indo-European]] [[vocative]] form ''*dyeu ph&lt;sub&gt;2&lt;/sub&gt;ter'', meaning &quot;god-father.&quot;&lt;ref name=&quot;etymologyonline&quot; /&gt; The [[astronomical symbol]] for the planet is a stylized representation of the god's lightning bolt. ([[Image:Jupiter symbol.svg|14px|{{unicode|♃}}]] is found at [[Unicode]] position U+2643.) The Greek equivalent ''Zeus'' supplies the root ''zeno-'', used to form some Jupiter-related words, such as .&lt;ref&gt;See for example [http://cfa-www.harvard.edu/iauc/02800/02844.html IAUC 2844: ''Jupiter''] ([[1975]] [[October 1]]). That particular word has been in use [http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?db_key=AST&amp;text=zenographic since at least 1966].&lt;/ref&gt;
+
+The [[China|Chinese]], [[Korea]]n, [[Japan]]ese, and [[Vietnam]]ese referred to the planet as the ''wood star'', 木星,&lt;ref&gt;{{cite web | last = Arnett | first = Bill | date = [[January 28]] [[2007]] | url = http://www.nineplanets.org/days.html | title = Planetary Linguistics | publisher = The Nine Planets Solar System Tour | accessdate = 2007-03-08 }}&lt;/ref&gt; based on the Chinese [[Five elements (Chinese philosophy)|Five Elements]]. The Greeks called it Φαέθων, ''Phaethon'', &quot;blazing&quot;. In [[Jyotisha|Vedic Astrology]], Hindu astrologers named the planet after [[Brihaspati]], the religious teacher of the gods, and often called it &quot;[[Guru]],&quot; which literally means the &quot;Heavy One&quot;.&lt;ref&gt;{{cite web | url = http://www.webonautics.com/mythology/guru_jupiter.html | title = Guru | publisher = Indian Divinity.com | accessdate = 2007-02-14 }}&lt;/ref&gt; In the [[English language]] Thursday is rendered as Thor's day, with [[Thor]] being associated with the planet Jupiter in [[Norse mythology]].&lt;ref&gt;{{cite journal | last = Falk | first = Michael | title=Astronomical Names for the Days of the Week | journal=Journal of the Royal Astronomical Society of Canada | year=1999 | volume=93 | pages=122–33 | url=http://adsabs.harvard.edu/cgi-bin/nph-bib_query?1999JRASC..93..122F | accessdate = 2007-02-14 }}&lt;/ref&gt;
 
 ==See also==
+{{portal|Solar System|Solar system.jpg}}
 * [[Planets in astrology#Jupiter|Jupiter in astrology]]
-* [[Aspects of Jupiter]] - for data of opposition, conjunction to sun, etc.
 * [[Jupiter in fiction]]
-* [[Jupiter's magnetosphere]]
 
 ==References==
-&lt;div class=&quot;references-small&quot;&gt;
+&lt;div class=&quot;references-small&quot; style=&quot;-moz-column-count:2; column-count:2;&quot;&gt;
 &lt;references /&gt;
 &lt;/div&gt;
 
-* Bagenal, F. &amp; Dowling, T. E. &amp; McKinnon, W. B. (Eds.). (2004). ''Jupiter: The planet, satellites, and magnetosphere''. Cambridge: Cambridge University Press.
-* {{cite book|last=Beebe|first=Reta|title=Jupiter: The Giant Planet|origyear=1997|edition=Second|year=2002|publisher=Smithsonian Institute Press|location=Washington, D.C.|ISBN=1560986859}}
+==Additional reading==
+* {{ cite book | editor = Bagenal, F.; Dowling, T. E.; McKinnon, W. B. | year = 2004 | title =Jupiter: The planet, satellites, and magnetosphere | location = Cambridge | publisher = Cambridge University Press | id=ISBN 0521818087 }}
+* {{ cite book | last=Beebe | first=Reta | title=Jupiter: The Giant Planet | edition=Second edition| year=1996 | publisher=Smithsonian Institute Press | location=Washington, D.C. | id=ISBN 1560986859 }}
 
 ==External links==
+* [http://solarsystem.nasa.gov/planets/profile.cfm?Object=Jupiter Jupiter Profile] by [http://solarsystem.nasa.gov NASA's Solar System Exploration]
+* [http://www.dagbladet.no/tv/index.html?clipid=17116 Video from spaceship New Horizon's flyby of Jupiter]
 {{sisterlinks|Jupiter}}
-* [http://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html NASA's Jupiter fact sheet]
-* [http://www.vias.org/spacetrip/jupiter_1.html A Trip Into Space] Data and photos on Jupiter
-* [http://pages.preferred.com/%7Etedstryk/innersat.html  Jupiter's Inner Moons]
-* [http://www.ibiblio.org//e-notes/VRML/Globe/Globe.htm 3D VRML Jupiter globe] and its satellites Io, Callisto, Europa and Ganymede
-* [http://www.projectshum.org/Planets/jupiter.html Planets - Jupiter] A kid's guide to Jupiter.
-*[http://www.pbs.org/empires/medici/renaissance/galileo.html Galileo and the Medici Family]
-*[http://orbitsimulator.com/gravity/articles/joviansystem.html A simulation of the 62 Jovian moons]
-*[http://www.cnn.com/2006/TECH/space/10/11/jupiter.spots.ap/index.html Jupiter's smaller spot getting redder]
-*[http://astroclub.tau.ac.il/ephem/Jupiter/ Observing Jupiter - Position, central meridian and moons]
-*[http://skytonight.com/observing/objects/planets/3307071.html?page=2&amp;c=y Observing Jupiter's moons]
+* {{cite web
+| author=Hans Lohninger ''et al''
+| date = [[November 2]] [[2005]]
+| url = http://www.vias.org/spacetrip/jupiter_1.html
+| title = Jupiter, As Seen By Voyager 1
+| work = A Trip into Space
+| publisher = Virtual Institute of Applied Science
+| accessdate = 2007-03-09
+}}
+* {{cite web
+| author=Anonymous
+| date = [[April 6]] [[2006]] 
+| url = http://www.ibiblio.org//e-notes/VRML/Globe/Globe.htm
+| title = Universal 3D Globe
+| publisher = Ibiblio
+| accessdate = 2007-03-09
+}}
+* {{cite web
+| author=Anonymous
+| year=2006
+| url = http://www.projectshum.org/Planets/jupiter.html
+| title = Jupiter
+| publisher = ProjectShum
+| accessdate = 2007-03-09
+}}&amp;mdash;A kid's guide to Jupiter.
+* {{cite web
+| author=Anonymous
+| url = http://www.pbs.org/empires/medici/renaissance/galileo.html
+| title = Galileo Galilei
+| work = Medici: Godfathers of the Renaissance
+| publisher = PBS
+| accessdate = 2007-03-09
+}}&amp;mdash;A kid's guide to Jupiter.
+* {{cite web
+| first=Tony
+| last=Dunn
+| year = 2006
+| url = http://orbitsimulator.com/gravity/articles/joviansystem.html
+| title = The Jovian System
+| work = Gravity Simulator
+| accessdate = 2007-03-09
+}}&amp;mdash;A simulation of the 62 Jovian moons.
+* {{cite web
+| url = http://astroclub.tau.ac.il/ephem/Jupiter/
+| title = Jupiter Map and Central Meridian
+| language = Hebrew
+| publisher = Tel Aviv University
+| accessdate = 2007-03-09
+}}
+* {{cite web
+| author=Seronik, G.; Ashford, A. R.
+| url = http://skytonight.com/observing/objects/planets/3307071.html?page=1&amp;c=y
+| title = Chasing the Moons of Jupiter
+| publisher = Sky &amp; Telescope
+| accessdate = 2007-03-09
+}}
+* {{cite web
+| author=Anonymous
+| date = [[May 2]] [[2007]] 
+| url = http://news.bbc.co.uk/2/hi/in_pictures/6614557.stm
+| title = In Pictures: New views of Jupiter
+| publisher = BBC News
+| accessdate = 2007-05-02
+}}
 
-{{Jupiter Footer}}
+
+
+{{Moons of Jupiter}}
 {{Footer_SolarSystem}}
-
-{{Featured topic}}
+{{Featured article}}
 
 [[Category:Jupiter|*]]
 [[Category:Planets of the Solar System]]
 
 {{Link FA|cs}}
 {{Link FA|es}}
-{{Link FA|fr}}
-
-[[af:Jupiter (planeet)]]
-[[als:Jupiter (Planet)]]
-[[ang:Iupiter]]
-[[ar:مشتري]]
-[[bn:জুপিটার]]
-[[zh-min-nan:Bo̍k-chheⁿ]]
-[[bs:Jupiter]]
-[[br:Yaou (planedenn)]]
-[[bg:Юпитер (планета)]]
-[[ca:Júpiter (planeta)]]
-[[cs:Jupiter (planeta)]]
-[[cy:Iau (planed)]]
-[[da:Jupiter (planet)]]
-[[de:Jupiter (Planet)]]
-[[et:Jupiter (planeet)]]
-[[el:Δίας (πλανήτης)]]
-[[es:Júpiter]]
-[[eo:Jupitero]]
-[[eu:Jupiter (planeta)]]
-[[fa:مشتری (سیاره)]]
-[[fo:Jupiter]]
-[[fr:Jupiter (planète)]]
-[[ga:Iúpatar (pláinéad)]]
-[[gd:Bliogh]]
-[[gl:Xúpiter (planeta)]]
-[[gu:ગુરુ (ગ્રહ)]]
-[[ko:목성]]
-[[hr:Jupiter (planet)]]
-[[io:Jupitero]]
-[[ilo:Jupiter (planeta)]]
-[[id:Yupiter]]
-[[is:Júpíter (reikistjarna)]]
-[[it:Giove (astronomia)]]
-[[he:צדק (כוכב לכת)]]
-[[ka:იუპიტერი (პლანეტა)]]
-[[kw:Yow (planet)]]
-[[la:Iuppiter (planeta)]]
-[[lv:Jupiters (planēta)]]
-[[lt:Jupiteris (planeta)]]
-[[hu:Jupiter (bolygó)]]
-[[mk:Јупитер]]
-[[mt:Ġove (pjaneta)]]
-[[mr:गुरू ग्रह]]
-[[ms:Musytari]]
-[[nl:Jupiter (planeet)]]
-[[ja:木星]]
-[[no:Jupiter (planet)]]
-[[nn:Planeten Jupiter]]
-[[ug:يۇپىتېر (ئاسترونومىيە)]]
-[[pam:Jupiter]]
-[[pl:Jowisz]]
-[[pt:Júpiter (planeta)]]
-[[ro:Jupiter (planetă)]]
-[[ru:Юпитер (планета)]]
-[[sq:Jupiteri]]
-[[scn:Giovi]]
-[[simple:Jupiter (planet)]]
-[[sk:Jupiter]]
-[[sl:Jupiter]]
-[[sr:Јупитер (планета)]]
-[[sh:Jupiter (planeta)]]
-[[fi:Jupiter]]
-[[sv:Jupiter]]
-[[tl:Jupiter]]
-[[ta:வியாழன் (கோள்)]]
-[[th:ดาวพฤหัสบดี]]
-[[vi:Sao Mộc]]
-[[tg:Муштарӣ]]
-[[tr:Jüpiter (gezegen)]]
-[[uk:Юпітер (планета)]]
-[[zh-yue:木星]]
-[[zh:木星]]
-[[ku:Berçîs]]</pre>
+{{Link FA|fr}}</pre>
 </div>
