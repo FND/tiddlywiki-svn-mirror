@@ -1,0 +1,12 @@
+<div title="Template:WikipediaArticleFooterFull" modifier="MartinBudden" wikiformat="mediawiki">
+<pre>
+Initial content was copied from the [http://www.wikipedia.org/ Wikipedia] article:
+
+* {{PAGENAME}} {{REVISIONID}}
+* [http://en.wikipedia.org/w/index.php?title={{PAGENAMEE}}&oldid={{REVISIONID}} {{PAGENAME}}]
+
+in compliance with the [[Wikipedia:Text of the GNU Free Documentation License|GNU Free Documentation License]] (GFDL).
+Any changes made to the original text since then create a derivative work which is also GFDL licensed. Please note the current version here and at Wikipedia are liable to diverge over time.
+All credit for producing the original text goes to the WikiMedia Foundation and its team of volunteer contributors.
+</pre>
+</div>
