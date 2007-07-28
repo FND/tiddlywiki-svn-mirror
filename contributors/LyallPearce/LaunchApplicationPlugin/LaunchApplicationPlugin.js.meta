@@ -1,0 +1,10 @@
+title: LaunchApplicationPlugin
+Created by: LyallPearce
+Created: 200707281731
+License: Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/
+Version: 1.1.0
+CoreVersion: 2.2.4
+Source: http://svn.tiddlywiki.org/Trunk/contributors/LyallPearce or http://www.RemotelyHelpful.com/TiddlyWiki/LaunchApplication.html
+Description: Macro to create a button that allows TiddlyWIki to launch an application. Relative paths are only available from where the TiddlyWiki html file is.
+Contrinutors: BradleyMeck
+Browser: IE/Firefox under Windows and Firefox under Linux - at this stage.
