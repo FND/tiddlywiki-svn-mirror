@@ -1,1 +1,11 @@
-<div tiddler="GettingStarted" modifier="jjackson" modified="200611091926" created="200611091502" tags="">This tiddy wiki is a special version containing a plugin to allow you to import meta data from the Shared Records project, http://www.sharedrecords.org.  Please visit the project website to learn more information about shared records or to download the application.  If you are running this page from a remote URL, you may only access URLs on this domain for javascript security reasons.  Therefore, you cannot change the target URL.  If you are running this from, you may target any Shared Records server.\n\nTo get started with this blank TiddlyWiki, you'll can import Shared Records meta data in the following manner: \n* Load the ImportMetaData tiddler.\n* Specify the URL to target\n* Specify the Record UID to retrieve\n* Click Fetch\nMeta Data Entries will be add as tiddlers to this tiddly Wiki page in the following manner:  \nTODO\n\nYou'll also need to enter your username for signing your edits: &lt;&lt;option txtUserName&gt;&gt;</div>
+<div title="GettingStarted" modifier="MartinBudden" created="200708030000">
+<pre>
+This TiddyWiki is a special version containing a plugin to allow you to import meta data from the Shared Records project, http://www.sharedrecords.org.  Please visit the project website to learn more information about shared records or to download the application.  If you are running this page from a remote URL, you may only access URLs on this domain for javascript security reasons.  Therefore, you cannot change the target URL.  If you are running this from a file URL, you may target any Shared Records server.
+
+See [[SharedRecordsWalkthrough]] to get started using this TiddlyWiki.
+
+See [[AddingTiddlerToServer]] to change a "non-synchronized" tiddler into one that sync's with a Shared Records server.
+
+You'll also need to enter your username for signing your edits: &lt;&lt;option txtUserName&gt;&gt;
+</pre>
+</div>

@@ -1,0 +1,10 @@
+<div title="AddingTiddlerToServer" modifier="MartinBudden" created="200708030000">
+<pre>
+To add a non-synchronized tiddler to the Shared Records server:
+# Open the tiddler
+# Click on the "more" button on the tiddler's command bar
+# Click on the "syncing" button on the tiddler's command bar
+# In the drop down list click on the Shared Records server that you want to sycnchronize with
+# In the backstage area click on the "sync" button and synchronize in the normal way
+</pre>
+</div>

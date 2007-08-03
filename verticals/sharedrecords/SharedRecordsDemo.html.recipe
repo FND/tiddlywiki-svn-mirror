@@ -1,0 +1,9 @@
+recipe: ../../core/tiddlywiki.html.recipe
+prehead: ../../core/html/rss.link.html
+title: html/title.html
+recipe: tiddlers/split.recipe
+tiddler: ../tiddlywiki.com/tiddlers/TiddlySaver.tiddler
+tiddler: feeds/SharedRecordsTestServer.tiddler
+tiddler: plugins/SharedRecordsAdaptorPlugin.js
+# tiddler: plugins/ImportSharedRecordsMetaDataPlugin.js
+# tiddler: plugins/SyncMetaDataTiddlers.js

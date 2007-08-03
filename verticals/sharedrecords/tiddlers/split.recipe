@@ -1,9 +1,8 @@
 tiddler: DefaultTiddlers.tiddler
-tiddler: GettingStarted.tiddler
-tiddler: ImportMetaData.tiddler
 tiddler: MainMenu.tiddler
-tiddler: SharedRecordsAutoSyncRecordUIDs.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
-tiddler: SyncMetaData.tiddler
-
+tiddler: SideBarOptions.tiddler
+tiddler: GettingStarted.tiddler
+tiddler: SharedRecordsWalkthrough.tiddler
+tiddler: AddingTiddlerToServer.tiddler

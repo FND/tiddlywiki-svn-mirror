@@ -1,0 +1,19 @@
+<div title="SharedRecordsWalkthrough" modifier="MartinBudden" created="200708030000">
+<pre>
+This walk-through shows you how to connect to a Shared Records server and choose some tiddlers to download, and then to synchronise subsequent changes between TiddlyWiki and the server
+# If the black backstage are isn't visible along the top of the screen, click on the 'backstage' button at the top right
+# Choose 'import' from the backstage area
+# In the task wizard that drops down, on the bottom line choose the predefined server 'SharedRecordsTestServer'
+# Click the 'open' button
+# When prompted for the workspace, leave the default value and click the 'open' button
+# After a pause, you should then see a list of the available tiddlers. Select the checkboxes you want and then click the 'import' button
+# The tiddlers you have selected will be listed, first as italicised links to missing tiddlers, and then as bold links as the tiddlers are downloaded. Click on the links to open the tiddlers you want to see.
+# Click on the grey bars to either side of the backstage drop-down to close it
+# You should now be able to browse the tiddlers that you imported
+# Edit one of the newly imported tiddlers and click 'done' to save changes'
+# Choose 'sync' from the backstage area
+# You should see a table showing the tiddlers that you've imported and their synchronisation status. It takes a few seconds to check in with the server to fully update the table. The tiddler you modified should be flagged as 'Changed while unplugged'
+# Select the checkbox by the tiddler you modified (if necessary) and click the 'sync' button
+# After synchronisation the status of the tiddler should have changed to 'Updated on server'
+</pre>
+</div>
