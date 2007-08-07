@@ -124,14 +124,14 @@ function LaunchApplication(appToLaunch,appParams) {
 	}; // try linux/unix mode
 	try {
 	    if (file.isFile() && file.isExecutable()) {
-		displayMessage("LaunchApplication executing '"+launchString+"' "+appParams);
+		displayMessage("LaunchApplication executing '"+launchString+"' "+appParams.join(" "));
 		var process = Components.classes['@mozilla.org/process/util;1'].createInstance(Components.interfaces.nsIProcess);
 		process.init(file);
 		process.run(false, appParams, appParams.length);
 	    }
 	    else
 	    {
-		displayMessage("LaunchApplication launching '"+launchString+"' "+appParams);
+		displayMessage("LaunchApplication launching '"+launchString+"' "+appParams.join(" "));
 		file.launch(); // No args available with this option
 	    }
 	} catch (e) {
