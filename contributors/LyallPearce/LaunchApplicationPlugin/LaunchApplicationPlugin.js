@@ -3,7 +3,7 @@
 |''Author:''|Lyall Pearce|
 |''Source:''|http://www.Remotely-Helpful.com/TiddlyWiki/LaunchApplication.html|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|''Version:''|1.2.0|
+|''Version:''|1.3.1|
 |''~CoreVersion:''|2.2.4|
 |''Requires:''| |
 |''Overrides:''| |
@@ -44,11 +44,13 @@ eg.
 !!!!!Revision History
 * 1.1.0 - leveraged some tweaks from from Bradly Meck's version (http://bradleymeck.tiddlyspot.com/#LaunchApplicationPlugin) and the example text.
 * 1.2.0 - Make launching work in Linux too and use displayMessage() to give diagnostics/status info.
+* 1.3.0 - execute programs relative to TiddlyWiki html file plus fix to args for firefox.
+* 1.3.1 - parameters to the macro are properly parsed, allowing dynamic paramters using {{{ {{javascript}} }}} notation.
 
 <<<
 ***/
 //{{{
-version.extensions.LaunchApplication = {major: 1, minor: 2, revision: 0, date: new Date(2007,07,21)};
+version.extensions.LaunchApplication = {major: 1, minor: 3, revision: 1, date: new Date(2007,8,7)};
 config.macros.LaunchApplication = {};
 
 function LaunchApplication(appToLaunch,appParams) {
@@ -86,10 +88,10 @@ function LaunchApplication(appToLaunch,appParams) {
 		var commandString = ('"' +decodeURI(tiddlyBaseDir+appToLaunch) + '" ' + appParams);
 		pluginInfo.log.push(commandString);
 	        theShell.run(commandString);
-		} catch (e) {
-		    displayMessage("LaunchApplication cannot locate/execute file '"+tiddlyBaseDir+appToLaunch+"'");
-		    return;
-		}
+	    } catch (e) {
+		displayMessage("LaunchApplication cannot locate/execute file '"+tiddlyBaseDir+appToLaunch+"'");
+		return;
+	    }
 	} else {
 	    displayMessage("LaunchApplication failed to create ActiveX component WScript.Shell");
 	}
@@ -97,59 +99,63 @@ function LaunchApplication(appToLaunch,appParams) {
 	// want where the tiddly is actually located, excluding tiddly html file
 	netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
         var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+        var launchString;
 	try { // try linux/unix format
-	    file.initWithPath(decodeURI(tiddlyBaseDir+appToLaunch));
-	    } catch (e) {
+            launchString = decodeURI(tiddlyBaseDir+appToLaunch);
+	    file.initWithPath(launchString);
+	} catch (e) {
 	    try { // leading slash on tiddlyBaseDir
-		tiddlyBaseDir="/"+tiddlyBaseDir;
-		file.initWithPath(decodeURI(tiddlyBaseDir+appToLaunch));
+                launchString = decodeURI("/"+tiddlyBaseDir+appToLaunch);
+		file.initWithPath(launchString);
 	    } catch (e) {
 		try { // try windows format
-		     tiddlyBaseDir = "";
-		     file.initWithPath(decodeURI(tiddlyBaseDir+appToLaunch).replace(/\//g,"\\"));
-		     } catch (e) {
-			displayMessage("LaunchApplication cannot locate file '"+tiddlyBaseDir+appToLaunch+"'");
+		    launchString = decodeURI(appToLaunch).replace(/\//g,"\\");
+		    file.initWithPath(launchString);
+		} catch (e) {
+		    try { // try windows format
+			launchString = decodeURI(tiddlyBaseDir+appToLaunch).replace(/\//g,"\\");
+			file.initWithPath(launchString);
+		    } catch (e) {
+			displayMessage("LaunchApplication cannot locate file '"+launchString+"' : "+e);
 			return;
-		     } // try windows mode
-		}; // try with leading slash in tiddlyBaseDir
-	    }; // try linux/unix mode
+		    } // try windows mode
+		} // try windows mode
+	    }; // try with leading slash in tiddlyBaseDir
+	}; // try linux/unix mode
 	try {
 	    if (file.isFile() && file.isExecutable()) {
-		displayMessage("LaunchApplication executing '"+tiddlyBaseDir+appToLaunch+"'");
+		displayMessage("LaunchApplication executing '"+launchString+"' "+appParams);
 		var process = Components.classes['@mozilla.org/process/util;1'].createInstance(Components.interfaces.nsIProcess);
 		process.init(file);
 		process.run(false, appParams, appParams.length);
 	    }
 	    else
 	    {
-		displayMessage("LaunchApplication launching '"+tiddlyBaseDir+appToLaunch+"'");
-		file.launch();
+		displayMessage("LaunchApplication launching '"+launchString+"' "+appParams);
+		file.launch(); // No args available with this option
 	    }
-	 } catch (e) {
-	     displayMessage("LaunchApplication cannot execute/launch file '"+tiddlyBaseDir+appToLaunch+"'");
-	 }
+	} catch (e) {
+	    displayMessage("LaunchApplication cannot execute/launch file '"+launchString+"'");
+	}
     }
 };
 
 config.macros.LaunchApplication.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
-    // 0=ButtonText, 1=toolTop, 2=AppToLaunch, 3...AppParameters
+    // 0=ButtonText, 1=toolTip, 2=AppToLaunch, 3...AppParameters
+    
     if (params[0] && params[1] && params[2]) {
-        var theButton = createTiddlyButton(place, params[0], params[1], onClickLaunchApplication);
-        theButton.setAttribute("appToLaunch", params[2]);
+        var theButton = createTiddlyButton(place, getParam(params,"buttonText",params[0]), getParam(params,"toolTip",params[1]), onClickLaunchApplication);
+        theButton.setAttribute("appToLaunch", getParam(params,"appToLaunch",params[2]));
         params.splice(0,3);
-	var appParams = "";
-	for (var i = 1; i <params.length; i++) {
-            appParams += ' "'+params[i]+'"';
-        }
-        theButton.setAttribute("appParameters", appParams);
+        theButton.setAttribute("appParameters", params.join(" "));
         return;
     }
 }
 
-function onClickLaunchApplication(e) {
-     var theAppToLaunch = this.getAttribute("appToLaunch");
-     var theAppParams = this.getAttribute("appParameters");
-     LaunchApplication(theAppToLaunch,theAppParams);
- }
+    function onClickLaunchApplication(e) {
+	var theAppToLaunch = this.getAttribute("appToLaunch");
+	var theAppParams = this.getAttribute("appParameters").readMacroParams();
+	LaunchApplication(theAppToLaunch,theAppParams);
+    }
 
 //}}}
