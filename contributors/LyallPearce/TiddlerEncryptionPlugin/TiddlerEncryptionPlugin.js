@@ -3,11 +3,11 @@
 |''Author:''|Lyall Pearce|
 |''Source:''|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptPlugin.html|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|''Version:''|1.5.1|
+|''Version:''|1.5.2|
 |''~CoreVersion:''|2.2.4|
 |''Requires:''| |
 |''Overrides:''|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
-|''Description:''|Encrypt/Decrypt Tiddlers with a Password key by simply tagging tiddlers. Additional two macros to allow changing of passwords and mass decryption (to allow searching of encrypted Tiddlers). Tiddlers are only decrypted when displayed, not at TiddlyWiki load time.|
+|''Description:''|Encrypt/Decrypt Tiddlers with a Password key|
 
 !!!!!Usage
 <<<
@@ -40,6 +40,7 @@
 * 1.4.0 - Added Change password macro and decrypt all macro. Also make use of the displayMessage() method. <<EncryptionChangePassword>><<EncryptionDecryptAll>>
 * 1.5.0 - Password change macro now has button text, tooltip and default prompt string parameters. Password change now sets store to dirty. Re-instated DecryptionFailed shadow tiddler, which is shown as tiddler contents if decryption fails and the AdvancedOptions checkbox is not checked.
 * 1.5.1 - Invoke autosave after changing passwords - which may result in prompting for passwords of unencrypted tiddlers that require encryption and whose passwords have not been entered yet. Also improved integration with regard to retrieving tiddlerText
+* 1.5.2 - Use parameter parsing on the prompt string allowing dynamic prompt generation {{{ {{javascript}} }}} in EncryptionChangePassword and EncryptionDecryptAll macros.
 <<<
 !!!!!Additional work
 <<<
@@ -49,7 +50,7 @@
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 5, revision: 1, date: new Date(2007,7,21)};
+version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 5, revision: 2, date: new Date(2007,8,7)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
@@ -85,7 +86,7 @@ config.macros.EncryptionDecryptAll.handler = function(place,macroName,params,wik
 function onClickEncryptionChangePassword() {
     // Prompt for 'prompt string'
     
-    var promptString = this.getAttribute("promptString");
+    var promptString = this.getAttribute("promptString").readMacroParams();
     if(!promptString) {
 	promptString = prompt("Enter 'prompt string' to change password for:", "");
     }
@@ -126,7 +127,7 @@ function onClickEncryptionChangePassword() {
 };
 
 function onClickEncryptionDecryptAll() {
-    var promptString = this.getAttribute("promptString");
+    var promptString = this.getAttribute("promptString").readMacroParams();
     if(!promptString) {
 	promptString = "";
     }
