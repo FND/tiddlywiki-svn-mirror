@@ -4,13 +4,14 @@
 Edit these lines according to your need
 ***/
 //{{{
-$AUTHENTICATE_USER = true;	// true | false
+$AUTHENTICATE_USER = false;	// true | false
 $USERS = array(
 	'UserName1'=>'Password1', 
 	'UserName2'=>'Password2', 
 	'UserName3'=>'Password3'); // set usernames and strong passwords
 $DEBUG = false;				// true | false
 $CLEAN_BACKUP = true; 		// during backuping a file, remove overmuch backups
+$FOLD_JS = true; 			// if javascript files have been expanded during download the fold them
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 //}}}
 /***
@@ -21,19 +22,23 @@ No change needed under
 
 /***
  * store.php - upload a file in this directory
- * version :1.6.0 - 2007/05/17 - BidiX@BidiX.info
+ * version :1.6.1 - 2007/08/01 - BidiX@BidiX.info
  * 
  * see : 
  *	http://tiddlywiki.bidi.info/#UploadPlugin for usage
  *	http://www.php.net/manual/en/features.file-upload.php 
- *		for détails on uploading files
+ *		for details on uploading files
  * usage : 
  *	POST  
  *		UploadPlugin[backupDir=<backupdir>;user=<user>;password=<password>;uploadir=<uploaddir>;[debug=1];;]
  *		userfile <file>
  *	GET
  *
+ * each external javascript file included by download.php is change by a reference (src=...)
+ *
  * Revision history
+ * V1.6.1 - 2007/08/01
+ * Enhancement: Add javascript folding
  * V1.6.0 - 2007/05/17
  * Enhancement: Add backup management
  * V1.5.2 - 2007/02/13
@@ -87,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	</head>
 	<body>
 		<p>
-		<p>store.php V 1.6.0
+		<p>store.php V 1.6.1
 		<p>BidiX@BidiX.info
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
@@ -202,7 +207,21 @@ function cleanFiles($dirname, $prefix) {
 	return $toDelete;
 }
 
-
+function replaceJSContentIn($content) {
+	if (preg_match ("/(.*?)<!--DOWNLOAD-INSERT-FILE:\"(.*?)\"--><script\s+type=\"text\/javascript\">(.*)/ms", $content,$matches)) {
+		$front = $matches[1];
+		$js = $matches[2];
+		$tail = $matches[3];
+		if (preg_match ("/<\/script>(.*)/ms", $tail,$matches2)) {		
+			$tail = $matches2[1];
+		}
+		$jsContent = "<script type=\"text/javascript\" src=\"$js\"></script>";
+		$tail = replaceJSContentIn($tail);
+		return($front.$jsContent.$tail);
+	}
+	else
+		return $content;
+}
 
 // Check if file_uploads is active in php config
 if (ini_get('file_uploads') != '1') {
@@ -240,9 +259,16 @@ if (($AUTHENTICATE_USER)
 	toExit();
 }
 
+
+
 // make uploadDir
 if ($options['uploaddir']) {
 	$uploadDir = $options['uploaddir'];
+	// path control for uploadDir   
+    if (!(strpos($uploadDir, "../") === false)) {
+        echo "Error: directory to upload specifies a parent folder";
+        toExit();
+	}
 	if (! is_dir($uploadDir)) {
 		mkdirs($uploadDir);
 	}
@@ -282,6 +308,21 @@ if (file_exists($destfile) && ($options['backupDir'])) {
 
 // move uploaded file to uploadDir
 if (move_uploaded_file($_FILES['userfile']['tmp_name'], $destfile)) {
+	if ($FOLD_JS) {
+		// rewrite the file to replace JS content
+		$fileContent = file_get_contents ($destfile);
+		$fileContent = replaceJSContentIn($fileContent);
+		if (!$handle = fopen($destfile, 'w')) {
+	         echo "Cannot open file ($destfile)";
+	         exit;
+	    }
+	    if (fwrite($handle, $fileContent) === FALSE) {
+	        echo "Cannot write to file ($destfile)";
+	        exit;
+	    }
+	    fclose($handle);
+	}
+    
 	chmod($destfile, 0644);
 	if($DEBUG) {
 		echo "Debug mode \n\n";
