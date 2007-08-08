@@ -8,6 +8,7 @@ end
 
 make_tw {
   source_file           'empties/empty.html'
+  to_file               'upload/emptyempty.html'
   remove_tiddler        'LegacyStrikeThroughPlugin'
   add_tiddlers_from_dir 'core'
   package_as_from_dir   'misc/MptwLayoutPlugin.js', 'layout'
@@ -31,12 +32,15 @@ make_tw {
 }
 
 
-# update the main site (new)
-#
+# make sandbox version
 make_tw {
-  # fetches the current site
-  source_file           'http://mptw.tiddlyspot.com/'
-  copy_all_tiddlers_from('upload/upgrade.html')
-  to_file 'upload/index.html'
+  source_file           'empties/empty.html'
+  remove_tiddler        'LegacyStrikeThroughPlugin'
+  add_tiddlers_from_dir 'core'
+  package_as_from_dir   'misc/MptwLayoutPlugin.js', 'layout'
+  add_tiddlers_from_dir 'noupgrade'
+  add_tiddlers_from_dir 'sandbox'
+  to_file               'upload/sandbox.html'
+  
 }
 
