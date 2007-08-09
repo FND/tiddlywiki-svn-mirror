@@ -41,19 +41,10 @@ config.renameTags = {
 		for (var i=0;i<tiddlers.length;i++) {
 			var t = tiddlers[i];
 			var content = t.text;
-			if (oldTag.match(config.textPrimitives.wikiLink)) {
-				if (newTag.match(config.textPrimitives.wikiLink)) {
-					content = content.replace(new RegExp("\\b"+oldTag+"\\b","mg"),newTag);
-				}
-				else {
-					content = content.replace(new RegExp("\\b"+oldTag+"\\b","mg"),"[["+newTag+"]]");
-				}
-			}
-			else {
-				// hopefully this is good enough
-				content = content.replace(new RegExp("\\[\\["+oldTag+"\\]\\]","mg"),"[["+newTag+"]]");
-				content = content.replace(new RegExp("\\|"+oldTag+"\\]\\]","mg"),"|"+newTag+"]]");
-			}
+			content = content.replace(new RegExp("\\[\\["+oldTag+"\\]\\]","mg"),"[["+newTag+"]]");
+			content = content.replace(new RegExp("\\|"+oldTag+"\\]\\]","mg"),"|"+newTag+"]]");
+			if (oldTag.match(config.textPrimitives.wikiLink))
+				content = content.replace(new RegExp("\\b"+oldTag+"\\b","mg"),String.encodeTiddlyLink(newTag));
 			store.saveTiddler(t.title,t.title,content,t.modifier,t.modified,t.tags,t.fields,false,t.created);
 			story.refreshTiddler(t.title,null,true);
 		}
