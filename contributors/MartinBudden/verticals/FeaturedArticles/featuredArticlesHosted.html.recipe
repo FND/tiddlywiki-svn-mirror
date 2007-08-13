@@ -1,0 +1,15 @@
+recipe: ../tiddlywikiseobasic.html.recipe
+recipe: split.recipe
+recipe: ../tiddlypedia/splitHostedRevisions.recipe
+tiddler: ../tiddlypedia/Logo.tiddler
+tiddler: ../tiddlypedia/settings.js
+tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
+tiddler: ../../plugins/AsyncStartupPlugin.js
+tiddler: ../../formatters/MediaWikiFormatterPlugin.js
+tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
+tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
+tiddler: ../../styles/wikipediaStyle.js
+tiddler: ../../tiddlers/Configuration.tiddler
+tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
+tiddler: ../../adaptors/AdaptorMacrosPlugin.js
+tiddler: ../../feeds/WikipediaFeaturedArticleFeed.tiddler

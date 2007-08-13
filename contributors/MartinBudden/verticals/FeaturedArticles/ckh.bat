@@ -1,0 +1,1 @@
+cook featuredarticlesHosted.html.recipe
