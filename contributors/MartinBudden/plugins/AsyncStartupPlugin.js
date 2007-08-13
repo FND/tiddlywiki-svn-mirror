@@ -2,12 +2,12 @@
 |''Name:''|AsyncStartupPlugin|
 |''Description:''|Asynchronous display of tiddlers at startup|
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
-|''Source:''|http://martinwiki.com/#AsyncStartupPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/AsyncStartupPlugin.js|
+|''Source:''|http://martinwiki.com/#AsyncStartupPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/AsyncStartupPlugin.js |
 |''Version:''|0.0.2|
 |''Date:''|April 15, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.2|
 ***/
 
