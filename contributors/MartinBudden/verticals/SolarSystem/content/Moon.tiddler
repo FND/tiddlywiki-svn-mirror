@@ -2,68 +2,6 @@
 <pre>{{pp-semi-protected|small=yes}}
 {{featured article}}
 {{dablink|This article is about Earth's moon.  For moons in general, see [[natural satellite]]. For other uses, see [[Moon (disambiguation)]].}}
-&lt;!--
- Scroll down to edit the contents of this page.
- Additional parameters for this template are available at [[Template:Infobox Planet]].
---&gt; 
-{{Infobox Planet
-|bgcolour          = #dddddd
-|name              = Moon
-|symbol            = [[Image:Moon symbol decrescent.svg|25px]]
-|image             = [[Image:Moon-Mdf-2005.jpg|280px]]
-|caption           = The Moon as seen by an observer from [[Earth]].
-|apogee            = 405,696&amp;nbsp;[[Kilometre|km]] (0.0027&amp;nbsp;AU)
-|perigee           = 363,104&amp;nbsp;km (0.0024&amp;nbsp;[[AU]])
-|semimajor         = 384,399&amp;nbsp;km (0.00257&amp;nbsp;AU) &lt;!--Wieczorek et al. 2006--&gt;
-|orbital_circ      = &lt;br /&gt;2,413,402&amp;nbsp;km (0.016&amp;nbsp;AU)
-|eccentricity      = 0.0549 &lt;!--Wieczorek et al. 2006--&gt;
-|sidereal_month   = 27.321&amp;nbsp;582 d {{nowrap|(27 d 7 h 43.1 min)}} &lt;!--Wieczorek et al. 2006--&gt;
-|synodic_month     = 29.530&amp;nbsp;588 d {{nowrap|(29 d 12 h 44.0 min)}}
-|anomalistic_month = 27.554 550 d
-|draconic_month    = 27.212 221 d
-|tropical_month    = 27.321 582 d
-|avg_speed         = 1.022 km/s (2286&amp;nbsp;[[Miles per hour|mph]])
-|max_speed         = 1.082 km/s (2420&amp;nbsp;mph)
-|min_speed         = 0.968 km/s (2165&amp;nbsp;mph)
-|inclination       = 5.145° to [[ecliptic]] &lt;!--Wieczorek et al. 2006; 18.29° when the longitude of the Moon's ascending node is 180°, 28.58° when it is 0°--&gt;&lt;br/&gt;(between 18.29° and 28.58° to Earth's equator)
-|asc_node          = regressing,&lt;br/&gt;1 revolution in 18.6 years
-|arg_perigee       = progressing,&lt;br/&gt;1 revolution in 8.85 years 
-|satellite_of      = [[Earth]]
-|physical_characteristics = yes
-|oblateness        = 0.00125 &lt;!--Calculated from data below--&gt;
-|equatorial_radius = 1,738.14 km (0.273&amp;nbsp;Earths) &lt;!--Smith et al. 1997 --&gt;
-|polar_radius      = 1,735.97 km (0.273&amp;nbsp;Earths) &lt;!-- Smith et al. 1997--&gt;
-|mean_radius       = 1,737.103 km (0.273&amp;nbsp;Earths) &lt;!--Wieczorek et al. 2006--&gt;
-|equatorial_circ   = &lt;br /&gt;10,921 km
-|surface_area      = 3.793{{e|7}} km² (0.074&amp;nbsp;Earths)
-|volume            = 2.1958{{e|10}} km³ (0.020&amp;nbsp;Earths)
-|mass              = 7.3477{{e|22}} kg (0.0123&amp;nbsp;Earths) &lt;!--Wieczorek et al. 2006--&gt;
-|density          = 3,346.4 kg/m&lt;sup&gt;3&lt;/sup&gt; &lt;!--Wieczorek et al. 2006--&gt;
-|surface_grav    = &lt;br /&gt;1.622 m/s&lt;sup&gt;2&lt;/sup&gt; (0.1654&amp;nbsp;[[g-force|g]])
-|escape_velocity = 2.38 km/s (5324 mph)
-|sidereal_day    = &lt;br /&gt;27.321&amp;nbsp;582 d ([[Synchronous rotation|synchronous]]) 
-&lt;!--Wieczorek et al. 2006--&gt;
-|rot_velocity    = &lt;br /&gt;4.627 m/s (10.349&amp;nbsp;mph)
-|axial_tilt      = 1.5424° (to ecliptic)&lt;!--Inclination is 5.145° to ecliptic; + 1.5424° = 6.687° difference. See also e.g. http://www.mars-lunar.net/Reality.or.Fantasy/Polar.Ice.on%20Moon.pdf--&gt;
-|obliquity       = 6.687° (to orbit plane) &lt;!--http://www.spds.nasa.gov/planetary/factsheet/moonfact.html--&gt;
-|albedo          = 0.12
-|magnitude       = up to &amp;minus;12.74
-|angular_size    = from 29′to 33′
-|adjectives      = lunar
-|temperatures    = yes
-|temp_name1      = equator &lt;!--Vasavada et al. 1999--&gt;
-|min_temp_1      = 100 [[kelvin|K]]
-|mean_temp_1     = 220 K
-|max_temp_1      = 390 K
-|temp_name2      = 85°N
-|min_temp_2      = 70 K 
-|mean_temp_2     = 130 K
-|max_temp_2      = 230 K
-|atmosphere      = yes
-|atmosphere_density = 10&lt;sup&gt;7&lt;/sup&gt; particles cm&lt;sup&gt;&amp;minus;3&lt;/sup&gt; (day)&lt;br/&gt;10&lt;sup&gt;5&lt;/sup&gt; particles cm&lt;sup&gt;&amp;minus;3&lt;/sup&gt; (night) 
-&lt;!--Lucey et al. 2006--&gt;
-}}
-
 The '''Moon''' ([[Latin]]: ''Luna'') is [[Earth]]'s only [[natural satellite]] and the [[List of natural satellites by diameter|fifth largest moon]] in the [[Solar System]]. The average  centre-to-centre distance from the Earth to the Moon is 384,403&amp;nbsp;[[kilometre]]s (238,857&amp;nbsp;[[mile]]s),&lt;sup&gt;a&lt;/sup&gt; which is about 30 times the diameter of the Earth. The Moon has a diameter of 3,474&amp;nbsp;kilometres (2,159&amp;nbsp;miles)&lt;ref name=&quot;worldbook&quot;&gt;{{cite web | last =  Spudis | first = P.D. | date = [[2004]] | url = http://www.nasa.gov/worldbook/moon_worldbook.html | title = Moon | publisher = World Book Online Reference Center, [[NASA]] | accessdate = 2007-04-12}}&lt;/ref&gt; — slightly more than a quarter that of the Earth. This means that the volume of the Moon is only 1/50th that of Earth. The gravitational pull at its surface is about a 1/6th of Earth's. The Moon makes a complete orbit around the Earth every 27.3 days, and the periodic variations in the geometry of the Earth–Moon–Sun system are responsible for the [[lunar phase]]s that repeat every 29.5 days. 
 
 The [[gravitational attraction]], and the [[centrifugal]] forces generated by the rotation of the Moon and Earth around a common axis, the [[barycentre]], is largely responsible for the [[tide]]s on Earth.&lt;!--The following sentence is quite unclear.--&gt; The energy dissipated in generating tides is directly responsible for the reduction{{dubious}} in potential energy in the Moon-Earth orbit around the barycentre, resulting in a 3.8 cm yearly increase in the distance between the two bodies.&lt;ref&gt;{{cite web | url = http://sunearth.gsfc.nasa.gov/eclipse/SEhelp/ApolloLaser.html | title = Apollo Laser Ranging Experiments Yield Results | publisher = NASA | date = [[2005-07-11]] | accessdate = 2007-05-30}}&lt;/ref&gt;  The Moon will continue to move slowly away from the Earth until the tidal effects between the two are no longer of significance, whereupon the Moon's orbit will stabilise.
