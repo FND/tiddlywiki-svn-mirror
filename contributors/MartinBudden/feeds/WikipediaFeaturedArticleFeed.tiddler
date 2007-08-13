@@ -1,0 +1,8 @@
+<div title="WikipediaFeaturedArticleFeed" modifier="MartinBudden" tags="systemServer excludeLists excludeSearch">
+<pre>|''Description:''|Wikipedia featured articles|
+|''Type:''|mediawiki|
+|''URL:''|http://en.wikipedia.org/w/|
+|''Workspace:''|Main|
+|''TiddlerFilter:''|[template[Featured_article]]|
+</pre>
+</div>
