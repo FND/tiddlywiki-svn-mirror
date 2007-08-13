@@ -1,11 +1,8 @@
 
 merge(Tiddler.prototype,{
 
-	render: function() {
-		// stupid trick because arguments is not really an array
-		var args = Array.prototype.slice.call(arguments);
-		var renderMethod = args.shift();
-		return this["render_"+renderMethod](args);
+	render: function(method,args) {
+		return this["render_"+method](args);
 	},
 
 	renderUtil: function(formatString,formatValues) {
@@ -14,3 +11,21 @@ merge(Tiddler.prototype,{
 
 });
 
+merge(Array.prototype,{
+	render: function(method,args) {
+		return this.map(function(tiddler){
+			return tiddler.render(method,args);
+		}).join("");
+	},
+
+	renderGrouped: function(method,groupBy,args) {
+		// where the magic happens
+		var groups = this.groupBy(groupBy);
+		var result = "";
+		for (var g in groups) {
+			result = result + "!"+g+"\n";
+			result = result + groups[g].render(method,args);
+		}
+		return result;
+	}
+});

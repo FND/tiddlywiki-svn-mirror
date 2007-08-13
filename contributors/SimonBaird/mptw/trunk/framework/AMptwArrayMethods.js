@@ -36,22 +36,22 @@ merge(Array.prototype,{
 		var result = {};
 		var leftOverGroup = '__NONE__';
 		this.each(function(item) {
-		var groups = callback(item);
-		if (groups.length > 0) {
-			groups.each(function(group) {
-				if (!result[group])
-					result[group] = [];
-				result[group].push(item);
-			});
-		}
-		else {
-			if (!result[leftOverGroup])
-				result[leftOverGroup] = [];
-			result[leftOverGroup].push(item);
+			var groups = callback(item);
+			if (groups.length > 0) {
+				groups.each(function(group) {
+					if (!result[group])
+						result[group] = [];
+					result[group].push(item);
+				});
 			}
-    });
-    return result;
-  }
+			else {
+				if (!result[leftOverGroup])
+					result[leftOverGroup] = [];
+				result[leftOverGroup].push(item);
+			}
+		});
+		return result;
+	}
 
 });
 
