@@ -12,5 +12,6 @@ tiddler: ViewTemplateGetPutRevisions.tiddler
 tiddler: EditTemplateHosted.tiddler
 tiddler: Template_WikipediaArticleFooter.tiddler
 tiddler: CopyrightNotice.tiddler
+tiddler: Wikipedia_Text_of_the_GNU_Free_Documentation_License.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js

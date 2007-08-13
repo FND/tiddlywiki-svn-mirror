@@ -12,6 +12,7 @@ tiddler: TabOtherPages.tiddler
 tiddler: ViewTemplate.tiddler
 tiddler: settings.js
 tiddler: Template_WikipediaArticleFooter.tiddler
+tiddler: Wikipedia_Text_of_the_GNU_Free_Documentation_License.tiddler
 tiddler: CopyrightNotice.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
