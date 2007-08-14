@@ -1,6 +1,6 @@
 recipe: ../../core/tiddlywiki.html.recipe
 prehead: ../../core/html/rss.link.html
-title: html/title.html
+title: html/title.txt
 recipe: tiddlers/split.recipe
 tiddler: ../../association/plugins/LegacyStrikeThroughPlugin/LegacyStrikeThroughPlugin.js
 recipe: images.recipe
