@@ -10,7 +10,7 @@ merge(config.macros,{
 				store.getTaggedTiddlers("Action").
 					renderGrouped("Action",function(t){
 						return [t.getByIndex("Project")];
-					}),
+					},"Project"),
 				place,null,tiddler);
 
 		}

@@ -18,13 +18,17 @@ merge(Array.prototype,{
 		}).join("");
 	},
 
-	renderGrouped: function(method,groupBy,args) {
+	renderGrouped: function(listRenderMethod,groupBy,headingRenderMethod,args) {
 		// where the magic happens
 		var groups = this.groupBy(groupBy);
 		var result = "";
 		for (var g in groups) {
-			result = result + "!"+g+"\n";
-			result = result + groups[g].render(method,args);
+			var gTiddler = store.getTiddler(g);
+			if (gTiddler)
+				result = result + "!"+gTiddler.render(headingRenderMethod);
+			else
+				result = result + "!"+g+"\n";
+			result = result + groups[g].render(listRenderMethod,args);
 		}
 		return result;
 	}

@@ -37,7 +37,7 @@ merge(Array.prototype,{
 		var leftOverGroup = '__NONE__';
 		this.each(function(item) {
 			var groups = callback(item);
-			if (groups.length > 0) {
+			if (groups.length > 0 || (groups.length == 1 && groups[0])) { // XXX doesn't work??
 				groups.each(function(group) {
 					if (!result[group])
 						result[group] = [];
