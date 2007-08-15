@@ -17,6 +17,7 @@ config.indexedTags = {
 		"Realm",
 		"Context",
 		"ActionStatus",
+		"ProjectStatus",
 		"GTDComponent"
 	],
 

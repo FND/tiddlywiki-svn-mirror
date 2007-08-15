@@ -20,6 +20,8 @@ make_tw {
   add_tiddler_from_scratch('tiddler' => 'Next', 'tags' => ['ActionStatus'],'text'=>"{{hide{\norder:1\n}}}")
   add_tiddler_from_scratch('tiddler' => 'Waiting For', 'tags' => ['ActionStatus'],'text'=>"{{hide{\norder:2\n}}}")
   add_tiddler_from_scratch('tiddler' => 'Future', 'tags' => ['ActionStatus'],'text'=>"{{hide{\norder:3\n}}}")
+  add_tiddler_from_scratch('tiddler' => 'Active', 'tags' => ['ProjectStatus'],'text'=>"{{hide{\norder:1\n}}}")
+  add_tiddler_from_scratch('tiddler' => 'Someday/Maybe', 'tags' => ['ProjectStatus'],'text'=>"{{hide{\norder:2\nbutton:s/m\n}}}")
 
 
   to_file               'upload/emptydev.html'

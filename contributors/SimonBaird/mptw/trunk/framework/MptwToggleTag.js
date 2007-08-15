@@ -34,7 +34,7 @@ merge(config.macros,{
 
 			getValues.each(function(t) {
 				var label = store.getTiddlerSlice(t.title,"button");
-				var autoClass = "button " + t.title.replace(/ /g,'') 
+				var autoClass = "button " + t.title.replace(/[\/ ]/g,'') 
 				if (!label) label = t.title.substring(0,1).toLowerCase();
 				var cl = createTiddlyButton(place, label, t.title, function(e) {
 					actOnTiddler.setTagFromGroup(tag,t.title);
@@ -57,10 +57,15 @@ setStylesheet(["",
 // TODO move this css elsewhere
 "#realmSelector .button.off {margin:0 0.5em;padding:0 1em;border:2px solid #aaa;background:#eee;color:#333;}", // actually reversed, ie off is "on"
 "#realmSelector .button.on {margin:0 0.5em;padding:0 1em;border:2px solid #999;background:#999;color:#ccc;}", // actually reversed, ie off is "on"
+
 // temporary
 ".viewer .Next.button.on {border-color:#55c;background:#cfa;color:#4a4;}",
 ".viewer .WaitingFor.button.on {border-color:#b84;background:#fdb;color:#b84;}",
 ".viewer .Future.button.on {border-color:#48b;background:#bdf;color:#48b;}",
+
+".viewer .Active.button.on {border-color:#55c;background:#cfa;color:#4a4;}",
+".viewer .SomedayMaybe.button.on {border-color:#48b;background:#bdf;color:#48b;}",
+
 ""].join("\n"),"tTag");
 
 //}}}

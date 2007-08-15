@@ -1,28 +1,36 @@
-<<mpList
-	title:'Actions by Project'
+<html>
+<table width="100%" style="border-style:none;"><td width="50%" valign="top" macro="mpList title:'Actions by Project'
 	startTag:Action
 	tags:'!Done'
 	group:Project
 	view:Action
+	gTag:Active
+	gView:ProjectHeading
 	mode:global
->>
-----
-<<mpList
-	title:'Actions by Status'
+"></td><td width="50%" valign="top" macro="mpList title:'Actions by Status'
 	startTag:Action
 	tags:'!Done'
 	group:ActionStatus
-	view:Action
+	view:ActionProj
 	gView:plain
 	gSort:orderSlice
 	mode:global
->>
+"></td></tr></table>
 
-<<mpList
-	title:'Done Actions'
+<table width="100%" style="border-style:none;"><td width="50%" valign="top" macro="mpList title:'Done Actions'
 	startTag:Action
 	tags:'Done'
 	view:DoneAction
 	sort:-modified
 	mode:global
->>
+"></td><td width="50%" valign="top" macro="mpList title:'Someday/Maybe Projects'
+	startTag:Action
+	tags:'!Done'
+	group:Project
+	gView:ProjectHeading
+	gTag:Someday/Maybe
+	view:DoneAction
+	mode:global
+"></td></tr></table>
+
+</html>
