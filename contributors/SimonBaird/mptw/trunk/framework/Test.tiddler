@@ -1,4 +1,5 @@
 
+<<multiToggleTag tag:ActionStatus>>
 ----
 <<test11>>
 ----
@@ -10,3 +11,4 @@
 	view:Action
 	mode:global
 >>
+

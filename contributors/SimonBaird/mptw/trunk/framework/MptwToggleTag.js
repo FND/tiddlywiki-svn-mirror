@@ -1,148 +1,43 @@
 
+merge(Tiddler.prototype,{
+	setTagFromGroup: function(tagGroup,tag) {
+		var tagList = fastTagged(tagGroup);
+		for (var i=0;i<tagList.length;i++) {
+			// trying to speed this up by not using setTiddlerTag
+			this.tags.remove(tagList[i].title);
+		}
+		// now use it. triggers notify etc
+		store.setTiddlerTag(this.title,true,tag);
+	}
+});
+
 merge(config.macros,{
 
-	tog: {
-
-		createIfRequired: true,
-		shortLabel: "[[%0]]",
-		longLabel: "[[%0]] [[%1]]",
+	multiToggleTag: {
 
 		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 
-			var parsedParams = paramString.parseParams("tags",null,true);
+			var pp = paramString.parseParams("tag",null,true);
 			
 			if (!tiddler)
-				tiddler = store.getTiddler(getParam(parsedParams,"title"));
+				tiddler = store.getTiddler(getParam(pp,"title"));
 			
-			var tag = getParam(parsedParams,"tag","checked");
-			var title = getParam(parsedParams,"title",tiddler.title);
+			var tag = getParam(pp,"tag");
 
-			var refreshAll = getParam(parsedParams,"refreshAll",false);
+			var title = getParam(pp,"title",tiddler.title);
 
-			var defaultLabel = (title == tiddler.title ? this.shortLabel : this.longLabel);
-			var label = getParam(parsedParams,"label",defaultLabel);
+			var getValues = fastTagged(tag).sort(function(a,b){
+				return a.sorterUtil(b,"orderSlice");
+			});
 
-			var theTiddler =  title == tiddler.title ? tiddler : store.getTiddler(title);
-
-			var mode = getParam(parsedParams,"mode","checkbox");
-
-			var theClass = getParam(parsedParams,"class",tag+"Button");
-
-
-			var currentValue = theTiddler && 
-				(macroName == "tTag" ? theTiddler.isTagged(tag) : store.getValue(theTiddler,tag)=="true");
-
-			if (mode == "image") {
-			}
-			else if (mode == "checkbox") {
-				// create the checkbox
-
-				var cb = createTiddlyCheckbox(place, label.format([tag,title]), currentValue, function(e) {
-					if (!store.tiddlerExists(title)) {
-						if (config.macros.tTag.createIfRequired) {
-							var content = store.getTiddlerText(title); // just in case it's a shadow
-							store.saveTiddler(title,title,content?content:"",config.options.txtUserName,new Date(),null);
-						}
-						else 
-							return false;
-					}
-					//store.suspendNotifications(); 
-					if (macroName == "tTag")
-						store.setTiddlerTag(title,this.checked,tag);
-					else // it must be tField
-						store.setValue(title,tag,this.checked?"true":null);
-
-					if (refreshAll) {
-						 story.forEachTiddler(function(title,element) {
-						   if (element.getAttribute("dirty") != "true") 
-						     story.refreshTiddler(title,false,true);
-						 });
-					}
-
-					//store.resumeNotifications();
-					return true;
-				});
-			}
-			else if (mode == "text") {
-				var text = getParam(parsedParams,"text","X");
-
-				var cl = createTiddlyButton(place, text, "Toggle "+text, function(e) {
-					if(!e) var e = window.event;
-
-					if (!store.tiddlerExists(title)) {
-						if (config.macros.tTag.createIfRequired) {
-							var content = store.getTiddlerText(title); // just in case it's a shadow
-							store.saveTiddler(title,title,content?content:"",config.options.txtUserName,new Date(),null);
-						}
-						else 
-							return false;
-					}
-					//store.suspendNotifications(); 
-					var currentState = this.getAttribute("state")=="true";
-					var newState = !currentState;
-
-					store.setTiddlerTag(title,newState,tag);
-					if (macroName == "tTag")
-						store.setTiddlerTag(title,newState,tag);
-					else // it must be tField
-						store.setValue(title,tag,newState?"true":null);
-
-					// this is terrible please refactor
-					if (currentState) {
-						cl.setAttribute("state","false");
-						removeClass(cl,"on");
-						addClass(cl,"off");
-					}
-					else {
-						cl.setAttribute("state","true");
-						removeClass(cl,"off");
-						addClass(cl,"on");
-					}
-
-					//refreshDisplay(); 
-					if (refreshAll) {
-						 story.forEachTiddler(function(title,element) {
-						   if (element.getAttribute("dirty") != "true") 
-						     story.refreshTiddler(title,false,true);
-						 });
-					}
-					//store.resumeNotifications();
-
-					e.cancelBubble = true;
-					if(e.stopPropagation) e.stopPropagation();
-
+			getValues.each(function(t) {
+				var label = store.getTiddlerSlice(t.title,"toggleBtn");
+				if (!label) label = t.title.substring(0,1);
+				var cl = createTiddlyButton(place, label, t.title, function(e) {
+					tiddler.setTagFromGroup(tag,t.title);
 					return false;
 				});
-
-				addClass(cl,theClass.replace(/ /g,''));
-
-				if (currentValue) {
-					cl.setAttribute("state","true");
-					removeClass(cl,"off");
-					addClass(cl,"on");
-				}
-				else {
-					cl.setAttribute("state","false");
-					removeClass(cl,"on");
-					addClass(cl,"off");
-				}
-				
-			}
-			else if (mode == "popup") {
-				var cl = createTiddlyButton(place, "zzz", "Toggle "+text, function(e) {
-					// props to Saq
-					if(!e) var e = window.event;
-					var popup = Popup.create(this);
-					createTiddlyButton(createTiddlyElement(popup,"li"),"foo","bar",function(e) {
-						// under contruction
-						alert(this.getAttribute("tag"));
-					});
-					Popup.show(popup,false);
-					e.cancelBubble = true;
-					if(e.stopPropagation) e.stopPropagation();
-					return false ;
-				});
-			}
+			});
 
 		}
 	}

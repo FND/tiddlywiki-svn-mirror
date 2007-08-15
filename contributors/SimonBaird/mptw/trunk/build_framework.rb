@@ -17,6 +17,9 @@ make_tw {
   add_tiddler_from_scratch('tiddler' => 'Buy Petrol', 'tags' => ['Action','Next','Personal','Mow Lawn'])
   add_tiddler_from_scratch('tiddler' => 'Clear palm branches', 'tags' => ['Action','Next','Personal','Mow Lawn'])
   add_tiddler_from_scratch('tiddler' => 'Orphan', 'tags' => ['Action','Next','Personal'])
+  add_tiddler_from_scratch('tiddler' => 'Next', 'tags' => ['ActionStatus'],'text'=>"{{hide{\norder:1\n}}}")
+  add_tiddler_from_scratch('tiddler' => 'Waiting For', 'tags' => ['ActionStatus'],'text'=>"{{hide{\norder:2\n}}}")
+  add_tiddler_from_scratch('tiddler' => 'Future', 'tags' => ['ActionStatus'],'text'=>"{{hide{\norder:3\n}}}")
 
 
   to_file               'upload/emptydev.html'

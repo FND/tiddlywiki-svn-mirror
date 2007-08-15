@@ -87,9 +87,13 @@ merge(String.prototype,{
 
 merge(Tiddler.prototype,{
 
-	matchesTagExpr: function(tagExpr) {
+	matchesEvalExpr: function(evalExpr) {
 		var tiddler = this;
-		return eval(tagExpr.parseTagExpr());
+		return eval(evalExpr);
+	},
+
+	matchesTagExpr: function(tagExpr) {
+		return this.matchesEvalExpr(tagExpr.parseTagExpr());
 	}
 
 });
@@ -203,8 +207,8 @@ merge(Array.prototype,{
 merge(Array.prototype,{
 	
 	filterByEval: function(evalExpr) {
-		return this.select(function(tiddler) {
-			return eval(evalExpr);
+		return this.select(function(t) {
+			return t.matchesEvalExpr(evalExpr);
 		});
 	},
 
@@ -216,7 +220,7 @@ merge(Array.prototype,{
 		// presumes the group name is a tiddler
 		return this.select(function(tGroup) {
 			var tiddler = store.getTiddler(tGroup[0]);
-			return tiddler && eval(evalExpr);
+			return tiddler && tiddler.matchesEvalExpr(evalExpr);
 		});
 	},
 
