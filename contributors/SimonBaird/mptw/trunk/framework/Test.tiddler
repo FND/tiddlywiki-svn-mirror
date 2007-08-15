@@ -1,8 +1,3 @@
-
-<<multiToggleTag tag:ActionStatus>>
-----
-<<test11>>
-----
 <<mpList
 	title:'Actions by Project'
 	startTag:Action
@@ -11,4 +6,23 @@
 	view:Action
 	mode:global
 >>
+----
+<<mpList
+	title:'Actions by Status'
+	startTag:Action
+	tags:'!Done'
+	group:ActionStatus
+	view:Action
+	gView:plain
+	gSort:orderSlice
+	mode:global
+>>
 
+<<mpList
+	title:'Done Actions'
+	startTag:Action
+	tags:'Done'
+	view:DoneAction
+	sort:-modified
+	mode:global
+>>

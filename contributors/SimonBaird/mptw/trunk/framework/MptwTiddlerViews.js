@@ -4,9 +4,16 @@ merge(Tiddler.prototype,{
 	render_Action: function() { return this.renderUtil(
 		'{{action{'+
 		'<<toggleTag Done [[%0]] ->>'+
-		//'<<tTag tag:Next mode:text text:N title:[[%0]]>>'+
-		//'<<tTag tag:[[Waiting For]] mode:text text:W title:[[%0]]>>'+
-		//'<<tTag tag:[[Starred]] mode:text text:%1 title:[[%0]]>>'+
+		'<<multiToggleTag tag:ActionStatus title:[[%0]]>>'+
+		' &nbsp;[[%0]] }}}\n',
+		[
+			this.title
+		]
+	);},
+
+	render_DoneAction: function() { return this.renderUtil(
+		'{{action{'+
+		'<<toggleTag Done [[%0]] ->>'+
 		' [[%0]] }}}\n',
 		[
 			this.title
@@ -25,7 +32,7 @@ merge(Tiddler.prototype,{
 	);},
 
 	render_plain: function() { return this.renderUtil(
-		'*[[%0]]\n',
+		'[[%0]]\n',
 		[
 			this.title
 		]
