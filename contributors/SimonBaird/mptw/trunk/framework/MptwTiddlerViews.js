@@ -22,8 +22,21 @@ merge(Tiddler.prototype,{
 		[
 			this.title
 		]
+	);},
+
+	render_plain: function() { return this.renderUtil(
+		'*[[%0]]\n',
+		[
+			this.title
+		]
 	);}
+
 
 
 });
 
+merge(Tiddler.prototype,{
+
+	sort_tickleDate: function() { return this.modified; } // todo 
+
+});

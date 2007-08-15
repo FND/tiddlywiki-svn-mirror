@@ -120,8 +120,16 @@ config.indexedTags = {
 		}
 	},
 
+	globalMethods: {
+		fastTagged: function(tag) {
+			var list = config.indexedTags.tagLists[tag];
+			return (list?list:[]).map(function(t){return store.getTiddler(t);});
+		}
+	},
+
 	init: function() {
 
+		merge(window,this.globalMethods);
 		merge(Tiddler.prototype,this.tiddlerMethods);
 
 		this.initTagLists();
