@@ -7,10 +7,7 @@ merge(config.macros,{
 			wikify(foo,place,null,tiddler);
 
 			wikify(
-				store.getTaggedTiddlers("Action").
-					renderGrouped("Action",function(t){
-						return [t.getByIndex("Project")];
-					},"Project"),
+				store.getTaggedTiddlers("Action").renderGroupedByTag("Action","Project","Project"),
 				place,null,tiddler);
 
 		}

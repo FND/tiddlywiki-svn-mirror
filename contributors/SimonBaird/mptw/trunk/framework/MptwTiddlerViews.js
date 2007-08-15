@@ -15,8 +15,10 @@ merge(Tiddler.prototype,{
 
 	render_Project: function() { return this.renderUtil(
 		'{{project{'+
+		'[[%0]] '+
 		'<<toggleTag Complete [[%0]] ->>'+
-		' [[%0]] }}}\n',
+ 		'}}}'+
+		'\n',
 		[
 			this.title
 		]
