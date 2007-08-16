@@ -7,7 +7,10 @@ merge(Tiddler.prototype,{
 			this.tags.remove(tagList[i].title);
 		}
 		// now use it. triggers notify etc
-		store.setTiddlerTag(this.title,true,tag);
+		if (tag)
+			store.setTiddlerTag(this.title,true,tag);
+		else 
+			store.setTiddlerTag(this.title,false,"blah"); // just so there's a notify etc
 	}
 });
 
@@ -40,9 +43,80 @@ merge(config.macros,{
 					actOnTiddler.setTagFromGroup(tag,t.title);
 					return false;
 				},
-				autoClass + " " + (actOnTiddler.getByIndex(tag) == t.title ? "on" : "off")
+				autoClass + " " + (actOnTiddler.getByIndex(tag).contains(t.title) ? "on" : "off")
 				);
 			});
+
+		}
+	},
+
+	multiSelectTag: {
+
+		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+
+			var pp = paramString.parseParams("tag",null,true);
+			
+			if (!tiddler)
+				tiddler = store.getTiddler(getParam(pp,"title"));
+			
+			var tag = getParam(pp,"tag");
+
+			var title = getParam(pp,"title",tiddler.title);
+			var actOnTiddler = store.getTiddler(title);
+
+			var selectOptions = [];
+
+			selectOptions.push({name: null, caption:'-'});// TODO this doesn't work right
+
+			var getValues = fastTagged(tag).sort(function(a,b){
+				return a.sorterUtil(b,"orderSlice");
+			});
+
+			getValues.each(function(t) {
+				selectOptions.push({name: t.title, caption:t.title});
+			});
+
+			var dd = createTiddlyDropDown(place, function(e) {
+					actOnTiddler.setTagFromGroup(
+						tag,
+						selectOptions[this.selectedIndex].name
+						);
+					return false;
+				},
+				selectOptions,
+				actOnTiddler.getByIndex(tag)[0]
+			);
+
+		}
+	},
+
+	multiCheckboxTag: {
+
+		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+
+			var pp = paramString.parseParams("tag",null,true);
+			
+			if (!tiddler)
+				tiddler = store.getTiddler(getParam(pp,"title"));
+			
+			var tag = getParam(pp,"tag");
+
+			var title = getParam(pp,"title",tiddler.title);
+			var actOnTiddler = store.getTiddler(title);
+
+			var getValues = fastTagged(tag).sort(function(a,b){
+				return a.sorterUtil(b,"orderSlice");
+			});
+
+			var output = "";
+			getValues.each(function(t) {
+				output += "<<toggleTag [[%0]] [[%1]] [[%0]]>>".format([
+					t.title,
+					actOnTiddler.title
+				]);
+			});
+
+			wikify(output,place,null,tiddler);
 
 		}
 	}

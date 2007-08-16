@@ -7,6 +7,8 @@ merge(Tiddler.prototype,{
 		'{{action{'+
 		'<<toggleTag Done [[%0]] ->>'+
 		'<<multiToggleTag tag:ActionStatus title:[[%0]]>>'+
+		'<<multiSelectTag tag:Project title:[[%0]]>>'+
+		'<<multiCheckboxTag tag:ActionStatus title:[[%0]]>>'+
 		' &nbsp;[[%0]] }}}\n',
 		[
 			this.title
