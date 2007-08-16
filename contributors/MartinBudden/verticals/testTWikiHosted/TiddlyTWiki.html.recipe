@@ -1,8 +1,7 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
-title: title.html
+title: title.txt
 tiddler: ../../tiddlers/ViewTemplateHostedRevisionsTest.tiddler
 tiddler: ../../tiddlers/MainMenuHome.tiddler
-tiddler: ../../mystyle/PageTemplate.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../mystyle/StyleSheet.tiddler
 tiddler: ../../mystyle/StyleSheetMB.tiddler
@@ -15,6 +14,7 @@ tiddler: StyleSheet.tiddler
 tiddler: settings.js
 tiddler: SideBarTabs.tiddler
 tiddler: TWikiSandBox29.tiddler
+tiddler: BumpyWord.tiddler
 tiddler: ../tiddlypedia/EditTemplateHosted.tiddler
 tiddler: ../tiddlypedia/OptionsPanel.tiddler
 tiddler: ../tiddlypedia/PageTemplate.tiddler
@@ -22,9 +22,10 @@ tiddler: ../tiddlypedia/TabMoreUpdatedShadowed.tiddler
 tiddler: ../tiddlypedia/TabTags.tiddler
 tiddler: ../tiddlypedia/TabTemplates.tiddler
 tiddler: ../tiddlypedia/TabUpdated.tiddler
-tiddler: ../../adaptors/HostedCommandsPlugin.js
-tiddler: ../../adaptors/HostedCommands2Plugin.js
+tiddler: ../../adaptors/AdaptorCommandsPlugin.js
+tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/TWikiAdaptorPlugin.js
+tiddler: ../../feeds/TWikiFeed.tiddler
 tiddler: ../../formatters/TWikiFormatterPlugin.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
