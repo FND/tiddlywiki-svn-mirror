@@ -168,7 +168,7 @@ JSPWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,uri
 			var list = [];
 			var matchRegExp = /<value>([^<]*)<\/value>/mg;
 			matchRegExp.lastIndex = 0;
-			match = matchRegExp.exec(text);
+			var match = matchRegExp.exec(text);
 			while(match) {
 				var tiddler = new Tiddler(match[1]);
 				list.push(tiddler);
