@@ -2,12 +2,12 @@
 |''Name:''|TWikiAdaptorPlugin|
 |''Description:''|Adaptor for moving and converting data to and from TWikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#TWikiAdaptorPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/TWikiAdaptorPlugin.js|
-|''Version:''|0.5.1|
-|''Date:''|Feb 25, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''Source:''|http://www.martinswiki.com/#TWikiAdaptorPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/TWikiAdaptorPlugin.js |
+|''Version:''|0.6.1|
+|''Date:''|Aug 16, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.2.0|
 
 TWiki REST documentation is at:
@@ -126,8 +126,9 @@ TWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 		return true;
 	}
 	var list = [];
-	list.push({title:"Main",name:"Main"});
-	list.push({title:"Sandbox",name:"Sandbox"});
+//#	list.push({title:"Main",name:"Main"});
+//#	list.push({title:"Sandbox",name:"Sandbox"});
+//#	list.push({title:"TWiki04",name:"TWiki04"});
 	context.workspaces = list;
 	context.status = true;
 	if(context && callback) {
@@ -180,14 +181,30 @@ TWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback,fil
 			window.setTimeout(context.callback,0,context,context.userParams);
 		return true;
 	}
-	return "getTiddlerList not supported";
-	/*var uriTemplate = '';
+//# http://twiki.org/cgi-bin/search/TWiki04/?scope=topic&format="$topic"&regex=on&search=\.*
+//# http://twiki.org/cgi-bin/search/TWiki04/?scope=topic&format="$topic"&regex=on&search=^b
+//# http://twiki.org/cgi-bin/search/TWiki04/?scope=topic&nonoise="on"&regex=on&search=^b
+	var uriTemplate = '%0search/%1/?scope=topic&format="$topic"&regex=on&search=\\.*';
+//# var uriTemplate = '%0search/%1/?scope=topic&format="$topic"&regex=on&search=^b';
 	var uri = uriTemplate.format([this.host,this.workspace]);
 //#displayMessage('uri:'+uri);
-	var req = TWikiAdaptor.doHttpGET(uri,TWikiAdaptor.getTiddlerListCallback);
+	var req = TWikiAdaptor.doHttpGET(uri,TWikiAdaptor.getTiddlerListCallback,context);
 //#displayMessage('req:'+req);
-	return typeof req == 'string' ? req : true;*/
+	//return "getTiddlerList not supported";
+	return typeof req == 'string' ? req : true;
 };
+
+/*<div id="patternMainContents">Search: <b> ^a </b><p />
+"ATasteOfTWiki"
+"ATasteOfTWikiTemplate"
+"AccessKeys"
+"AdminDocumentationCategory"
+"AdminSkillsAssumptions"
+"AdminToolsCategory"
+"AnApplicationWithWikiForm"
+"AppendixEncodeURLsWithUTF8"
+<div class="patternSearchResultCount" id="twikiBottomResultCount">Number of topics: <b>8</b></div><!--/patternSearchResultCount-->
+*/
 
 TWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
@@ -198,15 +215,34 @@ TWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,x
 	context.statusText = TWikiAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	if(status) {
 		try {
-			list = [];
+			var text = responseText;
+			var mRegExp = /<div id=\"patternMainContents\">((?:.|\n)*?)<div class=\"patternSearchResultCount\"/mg;
+			mRegExp.lastIndex = 0;
+			var m = mRegExp.exec(text);
+			if(m) {
+				text = m[1];
+			} else {
+				if(context.callback)
+					context.callback(context,context.userParams);
+				return;
+			}
+			var list = [];
+			var matchRegExp = /\"([^\"]*)\"/mg;
+			matchRegExp.lastIndex = 0;
+			match = matchRegExp.exec(text);
+			while(match) {
+				var tiddler = new Tiddler(match[1]);
+				list.push(tiddler);
+				match = matchRegExp.exec(text);
+			}
 			context.tiddlers = list;
+			context.status = true;
 		} catch (ex) {
 			context.statusText = exceptionText(ex,TWikiAdaptor.serverParsingErrorMessage);
 			if(context.callback)
 				context.callback(context,context.userParams);
 			return;
 		}
-		context.status = true;
 	} else {
 		context.statusText = xhr.statusText;
 	}
@@ -262,7 +298,7 @@ TWikiAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr)
 	context.status = false;
 	if(status) {
 		var content = responseText;
-		//<form><textarea readonly="readonly" wrap="virtual" rows="50" cols="80">
+		//#<form><textarea readonly="readonly" wrap="virtual" rows="50" cols="80">
 		var contentRegExp = /<textarea.*?>((?:.|\n)*?)<\/textarea>/mg;
 		contentRegExp.lastIndex = 0;
 		var match = contentRegExp.exec(responseText);
