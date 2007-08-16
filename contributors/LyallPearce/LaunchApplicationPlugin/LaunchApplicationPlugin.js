@@ -2,7 +2,7 @@
 |''Name:''|LaunchApplicationPlugin|
 |''Author:''|Lyall Pearce|
 |''Source:''|http://www.Remotely-Helpful.com/TiddlyWiki/LaunchApplication.html|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''License:''|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''Version:''|1.3.1|
 |''~CoreVersion:''|2.2.4|
 |''Requires:''| |

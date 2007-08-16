@@ -1,0 +1,10 @@
+title: ImprovedSlicesPlugin
+Created by: LyallPearce
+Created: 200708161856
+License: Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/
+Version: 1.0.0
+CoreVersion: 2.2.4
+Source: http://svn.tiddlywiki.org/Trunk/contributors/LyallPearce or http://www.RemotelyHelpful.com/TiddlyWiki/ImprovedSlicesPlugin.html
+Description: Enhances slicing capabilities, including multiple columns in tables.
+Contributors:
+Browser: Any browser that TiddlyWiki works on (till proven otherwise)

@@ -2,7 +2,7 @@
 |''Name:''|TiddlerEncryptionPlugin|
 |''Author:''|Lyall Pearce|
 |''Source:''|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptPlugin.html|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''Version:''|1.5.2|
 |''~CoreVersion:''|2.2.4|
 |''Requires:''| |
