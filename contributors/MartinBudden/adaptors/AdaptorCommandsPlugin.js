@@ -90,7 +90,7 @@ function invokeAdaptorNew(fnName,param1,param2,context,userParams,callback,field
 //# Used by (eg): config.commands.download.isEnabled
 function isAdaptorFunctionSupported(fnName,fields)
 {
-//#displayMessage("isAdaptorFunctionSupported:"+fnName);
+displayMessage("isAdaptorFunctionSupported:"+fnName);
 	var serverType = getServerType(fields);
 	if(!serverType || !config.adaptors[serverType])
 		return false;
@@ -191,10 +191,11 @@ config.commands.putTiddler.isEnabled = function(tiddler)
 
 config.commands.putTiddler.handler = function(event,src,title)
 {
-//#displayMessage("config.commands.putTiddler.handler:"+title);
+displayMessage("config.commands.putTiddler.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
 		return false;
+	displayMessage("p2");
 	return invokeAdaptor('putTiddler',tiddler,null,null,null,config.commands.putTiddler.callback,tiddler.fields);
 };
 
@@ -202,11 +203,27 @@ config.commands.putTiddler.callback = function(context,userParams)
 {
 //#displayMessage("config.commands.putTiddler.callback:"+context.tiddler.title);
 	if(context.status) {
+		store.fetchTiddler(context.title).clearChangeCount();
 		displayMessage(config.commands.putTiddler.done);
 	} else {
 		displayMessage(context.statusText);
 	}
 };
+
+config.commands.saveTiddlerAndPut = {};
+merge(config.commands.saveTiddlerAndPut,{
+	text: "saveAndPut",
+	tooltip: "Save this tiddler and upload",
+	hideReadOnly: true,
+	done: "Tiddler uploaded"
+	});
+
+config.commands.saveTiddlerAndPut.handler = function(event,src,title)
+{
+	config.commands.saveTiddler.handler(event,src,title);
+	return config.commands.putTiddler.handler(event,src,title);
+};
+
 
 //# revisions command definition
 config.commands.revisions = {};
