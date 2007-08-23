@@ -196,7 +196,6 @@ config.commands.putTiddler.handler = function(event,src,title)
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
 		return false;
-//#displayMessage("p2");
 	return invokeAdaptor('putTiddler',tiddler,null,null,null,config.commands.putTiddler.callback,tiddler.fields);
 };
 
@@ -221,8 +220,10 @@ merge(config.commands.saveTiddlerAndPut,{
 
 config.commands.saveTiddlerAndPut.handler = function(event,src,title)
 {
-	config.commands.saveTiddler.handler(event,src,title);
-	return config.commands.putTiddler.handler(event,src,title);
+	var newTitle = story.saveTiddler(title,event.shiftKey);
+	if(newTitle)
+		story.displayTiddler(null,newTitle);
+	return config.commands.putTiddler.handler(event,src,newTitle);
 };
 
 
@@ -340,14 +341,5 @@ config.commands.saveTiddlerHosted.callback = function(context,userParams)
 		displayMessage(context.statusText);
 	}
 };
-
-//# temporary, for reference
-//#config.commands.saveTiddler.handler = function(event,src,title)
-//#{
-//#	var newTitle = story.saveTiddler(title,event.shiftKey);
-//#	if(newTitle)
-//#		story.displayTiddler(null,newTitle);
-//#	return false;
-//#};
 }//# end of 'install only once'
 //}}}
