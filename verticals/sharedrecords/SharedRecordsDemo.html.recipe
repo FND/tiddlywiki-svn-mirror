@@ -5,5 +5,7 @@ recipe: tiddlers/split.recipe
 tiddler: ../tiddlywiki.com/tiddlers/TiddlySaver.tiddler
 tiddler: feeds/SharedRecordsTestServer.tiddler
 tiddler: plugins/SharedRecordsAdaptorPlugin.js
+tiddler: ../../contributors/MartinBudden/adaptors/AdaptorMacrosPlugin.js
+tiddler: ../../contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js
 # tiddler: plugins/ImportSharedRecordsMetaDataPlugin.js
 # tiddler: plugins/SyncMetaDataTiddlers.js
