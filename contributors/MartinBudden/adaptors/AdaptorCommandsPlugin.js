@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js |
-|''Version:''|0.5.2|
-|''Date:''|Jun 13, 2007|
+|''Version:''|0.5.3|
+|''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.2.0|
@@ -60,6 +60,7 @@ function invokeAdaptorNew(fnName,param1,param2,context,userParams,callback,field
 	if(!adaptor)
 		return false;
 	if(!context) context = {};
+	context.adaptor = adaptor;
 	context.workspace = fields['server.workspace'];
 	context.param1 = param1;
 	context.param2 = param2;
@@ -81,8 +82,8 @@ function invokeAdaptorNew(fnName,param1,param2,context,userParams,callback,field
 		var ret = param2 ? fn(context.param1,context.param2,context,userParams,callback) : fn(context.param1,context,userParams,callback);
 	else
 		ret = fn(context,userParams,callback);
-	adaptor.close();
-	delete adaptor;
+	//#adaptor.close();
+	//#delete adaptor;
 	return ret;
 }
 
@@ -90,7 +91,7 @@ function invokeAdaptorNew(fnName,param1,param2,context,userParams,callback,field
 //# Used by (eg): config.commands.download.isEnabled
 function isAdaptorFunctionSupported(fnName,fields)
 {
-displayMessage("isAdaptorFunctionSupported:"+fnName);
+//#displayMessage("isAdaptorFunctionSupported:"+fnName);
 	var serverType = getServerType(fields);
 	if(!serverType || !config.adaptors[serverType])
 		return false;
@@ -191,11 +192,11 @@ config.commands.putTiddler.isEnabled = function(tiddler)
 
 config.commands.putTiddler.handler = function(event,src,title)
 {
-displayMessage("config.commands.putTiddler.handler:"+title);
+//#displayMessage("config.commands.putTiddler.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
 		return false;
-	displayMessage("p2");
+//#displayMessage("p2");
 	return invokeAdaptor('putTiddler',tiddler,null,null,null,config.commands.putTiddler.callback,tiddler.fields);
 };
 
