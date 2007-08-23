@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#AdaptorMacrosPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorMacrosPlugin.js |
-|''Version:''|0.3.6|
+|''Version:''|0.3.7|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -107,122 +107,6 @@ config.macros.updateWorkspaceTiddlerList.callback = function(context,userParams)
 	}
 };
 
-
-// import all the tiddlers from a given workspace on a given host
-config.macros.importWorkspace = {};
-merge(config.macros.importWorkspace,{
-	label: "import workspace",
-	prompt: "Import tiddlers in workspace",
-	done: "Tiddlers imported"});
-
-config.messages.hostOpened = "Host '%0' opened";
-config.messages.workspaceOpened = "Workspace '%0' opened";
-config.messages.workspaceTiddlers = "%0 tiddlers in workspace, importing %1 of them";
-config.messages.tiddlerImported = 'Tiddler: "%0" imported';
-
-config.macros.importWorkspace.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-{
-//#displayMessage("updateWorkspaceTiddlerList.handler");
-	params = paramString.parseParams('anon',null,true,false,false);
-	var customFields = getParam(params,'fields',false);
-	if(!customFields) {
-		customFields = config.defaultCustomFields;
-	}
-	if(!customFields['server.type']) {
-		var tiddlers = store.getTaggedTiddlers("systemServer");
-		var title = tiddlers[0].title;
-		customFields = {};
-		customFields['server.type'] = store.getTiddlerSlice(title,'Type');
-		customFields['server.host'] = store.getTiddlerSlice(title,'URL');
-		customFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
-	}
-	customFields = String.encodeHashMap(customFields);
-	//#displayMessage("cf:"+customFields)
-	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
-	btn.setAttribute('customFields',customFields);
-};
-
-config.macros.importWorkspace.onClick = function(e)
-{
-	clearMessage();
-//#displayMessage("Starting import...");
-	var customFields = this.getAttribute('customFields');
-//#displayMessage("cf:"+customFields)
-	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
-	config.macros.importWorkspace.getTiddlers(fields);
-};
-
-config.macros.importWorkspace.getTiddlers = function(fields)
-{
-	if(!fields['server.type']) {
-		var tiddlers = store.getTaggedTiddlers("systemServer");
-		var title = tiddlers[0].title;
-		fields = {};
-		fields['server.type'] = store.getTiddlerSlice(title,'Type');
-		fields['server.host'] = store.getTiddlerSlice(title,'URL');
-		fields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
-	}
-	var serverType = getServerType(fields);
-	if(!serverType)
-		return false;
-	var adaptor = new config.adaptors[serverType];
-	if(adaptor) {
-		var context = {};
-		var userParams = {};
-		context.host = fields['server.host'];
-		context.workspace = fields['server.workspace'];
-		context.adaptor = adaptor;
-		userParams.maxCount = config.maxTiddlerImportCount;
-		adaptor.openHost(context.host,context,userParams,config.macros.importWorkspace.openHostCallback);
-	}
-	return ret;
-};
-
-config.macros.importWorkspace.openHostCallback = function(context,userParams)
-{
-	displayMessage(config.messages.hostOpened.format([context.host]));
-	context.adaptor.openWorkspace(context.workspace,context,userParams,config.macros.importWorkspace.openWorkspaceCallback);
-};
-
-config.macros.importWorkspace.openWorkspaceCallback = function(context,userParams)
-{
-	displayMessage(config.messages.workspaceOpened.format([context.workspace]));
-	context.adaptor.getTiddlerList(context,userParams,config.macros.importWorkspace.getTiddlerListCallback);
-};
-
-config.macros.importWorkspace.getTiddlerListCallback = function(context,userParams)
-{
-//#displayMessage("config.macros.importWorkspace.getTiddlerListCallback:"+context.status);
-	if(context.status) {
-		var tiddlers = context.tiddlers;
-		var sortField = 'modified';
-		tiddlers.sort(function(a,b) {return a[sortField] < b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
-		var length = tiddlers.length;
-		if(length > userParams.maxCount)
-			length = userParams.maxCount;
-		displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
-		for(var i=0; i<length; i++) {
-			tiddler = tiddlers[i];
-			if(!tiddler.isTouched()) {
-				//# only get the tiddlers that have not been edited locally
-				context.adaptor.getTiddler(tiddler.title,null,null,config.macros.importWorkspace.getTiddlerCallback);
-			}
-		}
-	}
-};
-
-config.macros.importWorkspace.getTiddlerCallback = function(context)
-{
-//#displayMessage("config.macros.importWorkspace.getTiddlerCallback:"+context.status+" t:"+context.tiddler.title);
-	if(context.status) {
-		var tiddler = context.tiddler;
-		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-		story.refreshTiddler(tiddler.title,1,true);
-		//#displayMessage(config.messages.tiddlerImported.format([tiddler.title]));
-	} else {
-		displayMessage(context.statusText);
-	}
-};
 
 config.macros.updateWorkspaceList = {};
 merge(config.macros.updateWorkspaceList,{
