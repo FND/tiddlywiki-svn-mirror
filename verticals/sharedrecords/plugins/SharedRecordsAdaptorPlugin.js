@@ -162,6 +162,7 @@ SharedRecordsAdaptor.prototype.getTiddler = function(title,context,userParams,ca
 SharedRecordsAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
+	context.title = tiddler.title;
 	var jsonTags = [];
 	for(var tag=0; tag<tiddler.tags.length; tag++)
 		jsonTags.push(SharedRecordsAdaptor.jsonTag.format([tiddler.tags[tag].toJSONString()]));
