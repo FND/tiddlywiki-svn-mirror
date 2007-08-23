@@ -317,6 +317,7 @@ TWikiAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr)
 TWikiAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 {
 	context = this.setContext(context,userParams,callback);
+	context.title = tiddler.title;
 //#displayMessage('TWikiAdaptor.putTiddler:'+tiddler.title);
 	var uriTemplate = '%0save/%1/%2?text=%3';
 	var host = this.host ? this.host : TWikiApaptor.fullHostName(tiddler.fields['server.host']);

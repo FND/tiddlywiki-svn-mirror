@@ -329,6 +329,7 @@ ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,context,respons
 ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 {
 	context = this.setContext(context,userParams,callback);
+	context.title = tiddler.title;
 //#displayMessage('putTiddler');
 	var title = encodeURIComponent(tiddler.title);
 //#displayMessage('putTiddler:'+title);

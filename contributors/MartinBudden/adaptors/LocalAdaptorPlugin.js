@@ -365,6 +365,7 @@ LocalAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback
 //#clearMessage();
 //#displayMessage('LocalAdaptor.putTiddler:' + tiddler.title);
 	context = this.setContext(context,userParams,callback);
+	context.title = tiddler.title;
 	var revision = tiddler.fields['server.page.revision'];
 	if(!revision)
 		revision = LocalAdaptor.baseRevision;

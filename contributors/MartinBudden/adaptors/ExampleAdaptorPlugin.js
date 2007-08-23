@@ -314,6 +314,7 @@ ExampleAdaptor.getTiddlerRevisionListCallback = function(status,context,response
 ExampleAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
+	context.title = tiddler.title;
 // !!TODO set the uriTemplate
 	var uriTemplate = '%0%1%2';
 	var host = this && this.host ? this.host : ExampleAdaptor.fullHostName(tiddler.fields['server.host']);
