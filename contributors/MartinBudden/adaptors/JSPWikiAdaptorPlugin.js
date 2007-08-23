@@ -249,6 +249,7 @@ JSPWikiAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 {
 //#displayMessage('JSPWikiAdaptor.putTiddler:'+tiddler.title);
 	context = this.setContext(context,userParams,callback);
+	context.title = tiddler.title;
 
 //#putPage(utf8 page,utf8 content,struct attributes )
 	var fn = 'wiki.putPage';
