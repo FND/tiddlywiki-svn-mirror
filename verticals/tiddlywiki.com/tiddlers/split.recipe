@@ -133,7 +133,6 @@ tiddler: RedMountainVistaServer.tiddler
 tiddler: ReferencesButton.tiddler
 tiddler: ReferencesCommand.tiddler
 tiddler: RegExpSearch.tiddler
-tiddler: Release2.2.tiddler
 tiddler: RssFeed.tiddler
 tiddler: Russian.tiddler
 tiddler: Safari.tiddler
@@ -174,6 +173,7 @@ tiddler: ThirdVersion.tiddler
 tiddler: Tiddler.tiddler
 tiddler: TiddlerComments.tiddler
 tiddler: TiddlerSlicing.tiddler
+tiddler: TiddlyBookmarklets.tiddler
 tiddler: TiddlySaver.tiddler
 tiddler: TiddlyStylesServer.tiddler
 tiddler: TiddlyToolsServer.tiddler

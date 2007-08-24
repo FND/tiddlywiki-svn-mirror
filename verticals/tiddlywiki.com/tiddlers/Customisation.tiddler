@@ -1,4 +1,4 @@
-<div title="Customisation" modifier="JeremyRuston" created="200609291356" modified="200702011148">
+<div title="Customisation" modifier="JeremyRuston" created="200609291356" modified="200708241459">
 <pre>You can customise the appearance and behaviour of TiddlyWiki to almost any degree you want:
 * Use the ColorPalette to change the basic colour scheme
 * Create a CustomStyleSheet for finer grained control over the appearance
@@ -6,5 +6,6 @@
 * Use off-the-shelf themes from [[TiddlyThemes|http://tiddlythemes.com/]]
 * Visit the [[Configuration]] summary to see all the special configuration tiddlers
 * Install [[Plugins]] to extend the core functionality (and you can also easily [[write or adapt your own|http://gimcrackd.com/etc/src/codex/]])
+* Use TiddlyBookmarklets for low level hacking of TiddlyWiki documents
 There are also a bunch of TiddlyWikiTools that you can use to enhance TiddlyWiki.</pre>
 </div>

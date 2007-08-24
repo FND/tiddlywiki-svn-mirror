@@ -1,19 +1,13 @@
-<div title="MainFeatures" modifier="JeremyRuston" created="200509262356" modified="200705102340" tags="features">
+<div title="MainFeatures" modifier="JeremyRuston" created="200509262356" modified="200708241744" tags="features">
 <pre>Out of the box, TiddlyWiki offers:
-* Browsable with the vast majority of modern desktop browsers on Windows, Macintosh and Linux
-* Ability to SaveChanges on:
-** FireFox and Opera under all operating systems
-** InternetExplorer under Windows
-** [[Safari]] and [[Camino]] under OS X
-** Minimo on Nokia 770
-* Rich formatting including MonospacedText, ExtendedFormatting, NonWikiWordLinks, WikiWordEscape, PrettyLinks, SubHeadings, BulletPoints, NumberedBulletPoints, [[Tables]], BlockQuotes, HorizontalRules and the ability to use a CustomCssClass.
-* Various InterfaceOptions, including the ability to GenerateAnRssFeed, SaveBackups and AutoSave
-* KeyboardShortcuts so you can finish editing a tiddler with Control-Enter or abandon it with Escape
-* InlineHTML
-* [img[brixhamharbour.jpg][EmbeddedImages]]...EmbeddedImages:
+* Works with all major desktop [[browsers]] on Windows, Macintosh and Linux and many mobile browsers such as the Apple iPhone and the Nokia 770/N800
+** You can SaveChanges with FireFox, [[Opera]], InternetExplorer for Windows, [[Safari]], and [[Camino]]
+* The BackstageArea for handy access to authoring tools including [[importing|ImportTiddlers]] and [[synchronisation|ServerConnectivity]] of tiddlers with external files and servers
+* Full text formatting including MonospacedText, ExtendedFormatting, NonWikiWordLinks, WikiWordEscape, PrettyLinks, SubHeadings, BulletPoints, NumberedBulletPoints, [[Tables]], BlockQuotes, HorizontalRules and the ability to use a CustomCssClass and  InlineHTML
+* [img[brixhamharbour.jpg][EmbeddedImages]]...EmbeddedImages
 * [[Macros]] providing rich interactive features, including [[Sparklines]] and [[Gradients|GradientMacro]]
-* a flexible OpenSourceLicense
-* a liquid CSS layout that can be customised with a CustomStyleSheet
+* InterfaceOptions and AdvancedOptions, including the ability to GenerateAnRssFeed, SaveBackups and AutoSave
+* KeyboardShortcuts so you can finish editing a tiddler with Control-Enter or abandon it with Escape
 * Extensive StartupParameters to control the behaviour of TiddlyWiki through specially crafted URLs
 * There are [[translations]] of TiddlyWiki available in many languages, including [[Chinese]], [[French]], [[German]], [[Spanish]], [[Portuguese]]
 The [[Community]] around TiddlyWiki has extended this basic functionality with a wide range of [[Plugins]] and TiddlyWikiAdaptations.</pre>
