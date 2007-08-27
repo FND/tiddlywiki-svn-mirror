@@ -1,7 +1,7 @@
 /***
 |''Name:''|ImprovedSlicesPlugin|
 |''Source:''|http://www.Remotely-Helpful.com/TiddlyWiki/ImprovedSlicesPlugin.html|
-|''Version:''|1.0.0|
+|''Version:''|1.0.1|
 |''Author:''|Lyall Pearce|
 |''License:''|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''~CoreVersion:''|2.2.4|
@@ -69,7 +69,7 @@ If x is negative, then skip ''backwards'' from the end before returning y column
 !Code
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 0, revision: 0, date: new Date(2007,8,16)};
+version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 0, revision: 1, date: new Date(2007,8,27)};
 
 // Unlike the core, I have separated the non-table slices and table slices into separate
 // regexps - this makes it easier to understand, albeit a bit longer.

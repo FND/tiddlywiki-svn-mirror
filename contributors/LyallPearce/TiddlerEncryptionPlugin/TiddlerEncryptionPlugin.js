@@ -1,13 +1,13 @@
 /***
-|''Name:''|TiddlerEncryptionPlugin|
-|''Author:''|Lyall Pearce|
-|''Source:''|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptPlugin.html|
-|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''Version:''|1.5.2|
-|''~CoreVersion:''|2.2.4|
-|''Requires:''| |
-|''Overrides:''|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
-|''Description:''|Encrypt/Decrypt Tiddlers with a Password key|
+|Name|TiddlerEncryptionPlugin|
+|Author|Lyall Pearce|
+|Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptPlugin.html|
+|License|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|Version|1.7.0|
+|~CoreVersion|2.2.4|
+|Requires|None|
+|Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
+|Description|Encrypt/Decrypt Tiddlers with a Password key|
 
 !!!!!Usage
 <<<
@@ -16,7 +16,7 @@
 * Upon save, the Tiddler will be encrypted and the tag replaced with Decrypt(prompt).
 ** Failure to encrypt (by not entering a password) will leave the tiddler unencrypted and will leave the Encrypt(prompt) tag in place. This means that the next time you save, you will be asked for the password again.
 ** To have multiple tiddlers use the same password - simply use the same 'prompt'.
-** Tiddlers that are encrypted are also tagged 'excludeSearch' as there is no point in searching encrypted data
+** Tiddlers that are encrypted are also tagged 'excludeSearch' as there is no point in searching encrypted data - this is configurable by an option - you still may want to search the titles of encrypted tiddlers
 ** Encrypted tiddlers are stored as displayable hex, to keep things visibly tidy, should you display an encrypted tiddler. There is nothing worse than seeing a pile of gobbledy gook on your screen.
 * Tiddlers are decrypted on initial display
 ** If you don't display a tiddler, you won't decrypt it.
@@ -40,17 +40,17 @@
 * 1.4.0 - Added Change password macro and decrypt all macro. Also make use of the displayMessage() method. <<EncryptionChangePassword>><<EncryptionDecryptAll>>
 * 1.5.0 - Password change macro now has button text, tooltip and default prompt string parameters. Password change now sets store to dirty. Re-instated DecryptionFailed shadow tiddler, which is shown as tiddler contents if decryption fails and the AdvancedOptions checkbox is not checked.
 * 1.5.1 - Invoke autosave after changing passwords - which may result in prompting for passwords of unencrypted tiddlers that require encryption and whose passwords have not been entered yet. Also improved integration with regard to retrieving tiddlerText
-* 1.5.2 - Use parameter parsing on the prompt string allowing dynamic prompt generation {{{ {{javascript}} }}} in EncryptionChangePassword and EncryptionDecryptAll macros.
+* 1.6.0 - Check for presence of PasswordPromptPlugin, if it's there, use it to enter passwords.
+* 1.7.0 - Add option to turn off excludeSearch on encrypted Tiddlers - defaults to off and remove PasswordPromptPlugin support - it doesn't work.
 <<<
 !!!!!Additional work
 <<<
 * If the tiddler is encryptable, do not include it's body in an RSS feed. 
-* Obscure the password on entry.
 <<<
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 5, revision: 2, date: new Date(2007,8,7)};
+version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 7, revision: 0, date: new Date(2007,8,27)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
@@ -58,6 +58,8 @@ config.encryptionPasswords = new Array();
 // Setup option for using shadow tiddlers for display of errors or simply show the 'encrypted tiddler'
 if(config.options.chkEncryptShowEncrypted == undefined) config.options.chkEncryptShowEncrypted = false;
 if(config.optionsDesc.chkEncryptShowEncrypted == undefined) config.optionsDesc.chkEncryptShowEncrypted = "TiddlerEncryptionPlugin\nShow encrypted tiddler contents on decrypt failure.\n<<EncryptionChangePassword>> - Change passwords of encrypted tiddlers\n<<EncryptionDecryptAll>> - Decrypt ALL tiddlers - enables searching.";
+if(config.options.chkExcludeEncryptedFromSearch == undefined) config.options.chkExcludeEncryptedFromSearch = false;
+if(config.optionsDesc.chkExcludeEncryptedFromSearch == undefined) config.optionsDesc.chkExcludeEncryptedFromSearch = "TiddlerEncryptionPlugin\nIf set, Encrypted Tiddlers are excluded from searching by tagging with excludeSearch. If Clear, excludeSearch is not added and it is also removed from existing Encrypted Tiddlers only if it is the last Tag. Searching of Encrypted Tiddlers is only meaningful for the Title and Tags.";
 
 config.shadowTiddlers.DecryptionFailed = "Decryption of an encrypted tiddler failed.";
 
@@ -86,9 +88,9 @@ config.macros.EncryptionDecryptAll.handler = function(place,macroName,params,wik
 function onClickEncryptionChangePassword() {
     // Prompt for 'prompt string'
     
-    var promptString = this.getAttribute("promptString").readMacroParams();
+    var promptString = this.getAttribute("promptString");
     if(!promptString) {
-	promptString = prompt("Enter 'prompt string' to change password for:", "");
+	promptString = prompt("Enter 'prompt string' to change password for:","");
     }
     if(!promptString) {
 	return;
@@ -113,9 +115,9 @@ function onClickEncryptionChangePassword() {
 	    throw e;
 	}
     }
-    var newPassword = prompt("Enter new password for '"+promptString+"'", "");
+    var newPassword = MyPrompt("Enter new password for '"+promptString+"'", "");
     if(newPassword) {
-	var newPasswordAgain = prompt("Enter new password, again, for '"+promptString+"'", "");
+	var newPasswordAgain = MyPrompt("Enter new password, again, for '"+promptString+"'", "");
 	if(newPasswordAgain && newPassword == newPasswordAgain) {
 	    config.encryptionPasswords[promptString] = newPasswordAgain;
 	    displayMessage("Password for '"+promptString+"' updated.");
@@ -127,7 +129,7 @@ function onClickEncryptionChangePassword() {
 };
 
 function onClickEncryptionDecryptAll() {
-    var promptString = this.getAttribute("promptString").readMacroParams();
+    var promptString = this.getAttribute("promptString");
     if(!promptString) {
 	promptString = "";
     }
@@ -180,8 +182,10 @@ store.getSaver().externalizeTiddler = function(store, tiddler) {
 			tiddler.tags[g]="Decrypt("+passwordPrompt+")";
 			// let the store know it's dirty
 			store.setDirty(tiddler.title, true);
-			// prevent searches on encrypted tiddlers, bit pointless really.
-			tiddler.tags.push("excludeSearch");
+			// prevent searches on encrypted tiddlers, still nice to search on title though.
+			if(config.options.chkExcludeEncryptedFromSearch == true) {
+			    tiddler.tags.push("excludeSearch");
+			}
 		    } else {
 			// do not encrypt - no password entered
 		    }
@@ -285,9 +289,20 @@ store.getTiddlerText = function(title,defaultText) {
 
 // Given a prompt, search our cache to see if we have already entered the password.
 // Can return null if the user enters nothing.
+function MyPrompt(promptString,defaultValue) {
+    if(typeof passwordPrompt != "undefined" && typeof passwordPrompt.handler != "undefined") {
+	return prompt(promptString, defaultValue);
+//	var enteredPassword = nil;
+//	passwordPrompt.handler(promptString, enteredPassword);
+//	return enteredPassword;
+    } else {
+	return prompt(promptString, defaultValue);
+    }
+}
+
 function GetAndSetPasswordForPrompt(promptString) {
     if(!config.encryptionPasswords[promptString]) {
-	config.encryptionPasswords[promptString] = prompt("Enter password for '"+promptString+"' :", "");
+	config.encryptionPasswords[promptString] = MyPrompt("Enter password for '"+promptString+"' :", "");
     }
     return config.encryptionPasswords[promptString]; // may be null, prompt can be cancelled.
 }
