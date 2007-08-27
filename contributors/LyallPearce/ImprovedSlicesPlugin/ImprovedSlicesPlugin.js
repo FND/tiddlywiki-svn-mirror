@@ -76,7 +76,7 @@ version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 0, revision: 1, d
 TiddlyWiki.prototype.slicesReColon = /(?:^[\t ]*[\'\/]*~?([\.\w\t ]+)[\'\/]*\:[\'\/\t ]*(.*?)[\t ]*$)/gm;
 
 // Does not cope with slices with leading cells that contain spaces...  eg. | |sliceName|sliceValue|
-TiddlyWiki.prototype.slicesReTable   = /(?:^[\|\t \>\~]*?\|[\'\/\t\ \~]*([\w ]+?)[:\'\/\t\ ]*?\|[\t\ ]*(.+?)[\t\ ]*\|[\t\ ]*$)/gm;
+TiddlyWiki.prototype.slicesReTable   = /(?:^[\|\t \>\~]*?\|[\'\/\t\ \~\!]*([\w ]+?)[:\'\/\t\ ]*?\|[\t\ ]*(.+?)[\t\ ]*\|[\t\ ]*$)/gm;
 
 // Completely replace the default slice calculation routine - to use the two regexps
 // rather than the more complex single regexp
