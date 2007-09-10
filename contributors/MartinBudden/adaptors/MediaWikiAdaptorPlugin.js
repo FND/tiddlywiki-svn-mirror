@@ -341,13 +341,17 @@ MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,u
 				for(var i=0;i<pages.length;i++) {
 					var tiddler = new Tiddler(pages[i].title);
 					tiddler.fields.workspaceId = pages[i].ns;
-					list.push(tiddler);
+					//# avoid overwriting shadow tiddlers
+					if(!store.isShadowTiddler(tiddler.title))
+						list.push(tiddler);
 				}
 			} else {
 				for(i in pages) {
 					tiddler = new Tiddler(pages[i].title);
 					tiddler.fields.workspaceId = pages[i].ns;
-					list.push(tiddler);
+					//# avoid overwriting shadow tiddlers
+					if(!store.isShadowTiddler(tiddler.title))
+						list.push(tiddler);
 				}
 			}
 			context.tiddlers = list;
@@ -406,7 +410,7 @@ MediaWikiAdaptor.prototype.getTiddlerInternal = function(context,userParams,call
 //# http://www.tiddlywiki.org/api.php?action=query&prop=revisions&titles=Main%20Page&rvprop=content
 //# http://wiki.unamesa.org/api.php?action=query&prop=revisions&titles=Main%20Page&rvprop=content|timestamp
 	var host = MediaWikiAdaptor.fullHostName(this.host);
-	var uriTemplate = '%0api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=ids|content|timestamp|user';
+	var uriTemplate = '%0api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content|timestamp|user';
 	if(context.revision)
 		uriTemplate += '&rvstartid=%2&rvlimit=1';
 	uri = uriTemplate.format([host,MediaWikiAdaptor.normalizedTitle(context.title),context.revision]);
