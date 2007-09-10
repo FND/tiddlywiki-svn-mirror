@@ -35,5 +35,3 @@ tiddler: ../../formatters/MediaWikiFormatterPlugin.js
 tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
 tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
 tiddler: ../../styles/wikipediaStyle.js
-tiddler: ../../tiddlers/Configuration.tiddler
-tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
