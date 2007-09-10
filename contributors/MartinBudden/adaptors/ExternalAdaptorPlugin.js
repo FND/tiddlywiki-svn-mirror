@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ExternalAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ExternalAdaptorPlugin.js |
-|''Version:''|0.0.1|
-|''Date:''|Jun 13, 2007|
+|''Version:''|0.0.2|
+|''Date:''|Sep 10, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.2.0|
@@ -37,7 +37,7 @@ function getTiddlyLinkInfo(title,currClasses)
 	var classes = currClasses ? currClasses.split(" ") : [];
 	classes.pushUnique("tiddlyLink");
 	var tiddler = store.fetchTiddler(title);
-	var content = store.content[title];
+	var content = store.content ? store.content[title] : {};
 	var subTitle;
 	if(tiddler||content) {
 		if(tiddler)
