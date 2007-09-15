@@ -1,8 +1,8 @@
 /***
 |''Name:''|UploadPlugin|
 |''Description:''|Save to web a TiddlyWiki|
-|''Version:''|4.1.0|
-|''Date:''|May 5, 2007|
+|''Version:''|4.1.1|
+|''Date:''|Sep 15, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadPlugin|
 |''Documentation:''|http://tiddlywiki.bidix.info/#UploadPluginDoc|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
@@ -12,8 +12,8 @@
 ***/
 //{{{
 version.extensions.UploadPlugin = {
-	major: 4, minor: 1, revision: 0,
-	date: new Date("May 5, 2007"),
+	major: 4, minor: 1, revision: 1,
+	date: new Date("Sep 15, 2007"),
 	source: 'http://tiddlywiki.bidix.info/#UploadPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
 	coreVersion: '2.2.0 (#3125)'
@@ -282,7 +282,11 @@ bidix.upload.uploadRss = function(uploadParams,original,posDiv)
 	if(config.options.chkGenerateAnRssFeed) {
 		var rssPath = uploadParams[1].substr(0,uploadParams[1].lastIndexOf(".")) + ".xml";
 		var rssUploadParams = Array(uploadParams[0],rssPath,uploadParams[2],'',uploadParams[4],uploadParams[5]);
-		bidix.upload.httpUpload(rssUploadParams,convertUnicodeToUTF8(generateRss()),callback,Array(uploadParams,original,posDiv));
+		var rssString = generateRss();
+		// no UnicodeToUTF8 conversion needed when location is "file" !!!
+		if (document.location.toString().substr(0,4) != "file")
+			rssString = convertUnicodeToUTF8(rssString);	
+		bidix.upload.httpUpload(rssUploadParams,rssString,callback,Array(uploadParams,original,posDiv));
 	} else {
 		bidix.upload.uploadMain(uploadParams,original,posDiv);
 	}
