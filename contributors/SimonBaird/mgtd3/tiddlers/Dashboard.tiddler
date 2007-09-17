@@ -1,0 +1,20 @@
+<html>
+
+<table class="twocol">
+<tr>
+
+<td>
+
+<div macro="mgtdList title:'Next Actions' startTag:Action tags:'Next && !Done' view:ActionProj gTag:Active mode:global"></div>
+<div macro="mgtdList title:'Waiting Actions' startTag:Action tags:'[(Waiting For)] && !Done' view:ActionProj gTag:Active mode:global"></div>
+
+</td>
+<td>
+
+<div macro="mgtdList title:'Future Actions' startTag:Action tags:'Future && !Done' view:ActionProj gTag:Active mode:global"></div>
+<div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:Action mode:global"></div>
+
+</td>
+</tr></table>
+
+</html>

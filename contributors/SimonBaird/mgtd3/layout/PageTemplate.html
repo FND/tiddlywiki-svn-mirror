@@ -1,0 +1,44 @@
+<!--{{{-->
+<div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'>
+<div class='header2'>
+	MonkeyGTD
+</div>
+</div>
+<div macro='gradient vert [[ColorPalette::TertiaryPale]] [[ColorPalette::TertiaryLight]]'>
+<div class='mtoolbar'>
+	<div style="float:right" id='sidebarSwitcher' macro="multiToggleTag title:MgtdSettings tag:Sidebar refresh:page"><span class="label">MENU</span></div>
+	<div id='arealmSelector' macro="groupOfSingleToggleTags tag:Realm title:MgtdSettings refresh:page"><span class="label">REALM</span></div>
+</div>
+</div>
+</div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='sidebar'>
+<div id='twsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('TW')">
+	<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+	<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='twsidebar' macro="hideWhen store.fetchTiddler('MgtdSettings').tags.contains('TW')">
+	<div id='sidebarOptions' refresh='content' tiddler='CommonMenu'></div>
+</div>
+<div id='monkeygtdsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('Do Work')">
+	<div class="menu" refresh='content' tiddler='WorkMenu'></div>
+</div>
+<div id='monkeygtdsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('Review')">
+	<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+</div>
+<div id='monkeygtdsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('Process Inbox')">
+	<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+</div>
+<div id='monkeygtdsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('Collect Items')">
+	<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+</div>
+<div id='monkeygtdsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('Config')">
+	<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+</div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
