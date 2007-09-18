@@ -2,13 +2,13 @@
 |''Name:''|ExampleFormatterPlugin|
 |''Description:''|Example Formatter which can be used as a basis for creating a new Formatter|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#ExampleFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/ExampleFormatterPlugin.js|
+|''Source:''|http://www.martinswiki.com/#ExampleFormatterPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/ExampleFormatterPlugin.js |
 |''Version:''|0.1.9|
 |''Status:''|Not for release - this is a template for creating new formatters|
 |''Date:''|Nov 5, 2006|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.1.0|
 
 To make this example into a real TiddlyWiki formatter, you need to:
