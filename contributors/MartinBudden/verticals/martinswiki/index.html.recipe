@@ -1,4 +1,4 @@
-recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: ../tiddlywikiseo.html.recipe
 recipe: split.recipe
 recipe: ../../mystyle/split.recipe
 tiddler: ../../tiddlers/Basic_Formatting.tiddler
@@ -16,6 +16,7 @@ tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
 tiddler: ../../adaptors/SocialtextAdaptorPlugin.js
 tiddler: ../../adaptors/TWikiAdaptorPlugin.js
 tiddler: ../../formatters/CreoleFormatterPlugin.js
+tiddler: ../../formatters/ConfluenceFormatterPlugin.js
 tiddler: ../../formatters/JSPWikiFormatterPlugin.js
 tiddler: ../../formatters/MediaWikiFormatterPlugin.js
 tiddler: ../../formatters/PBWikiFormatterPlugin.js
@@ -27,10 +28,13 @@ tiddler: ../../formatters/SnipSnapFormatterPlugin.js
 tiddler: ../../formatters/TextileFormatterPlugin.js
 tiddler: ../../plugins/AsyncStartupPlugin.js
 tiddler: ../../plugins/DisableWikiLinksPlugin.js
+tiddler: ../../plugins/EncryptionCommandsPlugin.js
 tiddler: ../../plugins/TodoListPlugin.js
 tiddler: ../../plugins/SHA-1UnwoundPlugin.js
 tiddler: ../../plugins/settings.js
 tiddler: ../../test/testCreoleFormat.tiddler
+tiddler: ../../test/testConfluenceFormat.tiddler
+tiddler: ../../test/testConfluenceMacros.tiddler
 tiddler: ../../test/testMediaWikiFormat.tiddler
 tiddler: ../../test/testSocialTextFormat.tiddler
 tiddler: ../../test/testPBWikiFormat.tiddler
