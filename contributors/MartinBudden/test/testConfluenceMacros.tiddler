@@ -1,5 +1,6 @@
 <div title="testConfluenceMacros" modifier="MartinBudden" created="200612070000" tags="test" wikiformat="confluence">
-<pre>{panel:title=My Panel}
+<pre>
+{panel:title=My Panel}
 The body of the panel
 {panel}
 {note:title=Be Careful}
@@ -13,5 +14,6 @@ The body of the info
 {info}
 {tip:title=Handy Hint}
 The body of the tip
-{tip}</pre>
+{tip}
+</pre>
 </div>
