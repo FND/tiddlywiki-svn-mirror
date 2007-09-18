@@ -2,23 +2,22 @@
 |''Name:''|ConfluenceFormatterPlugin|
 |''Description:''|Allows Tiddlers to use Confluence text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#ConfluenceFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/ConfluenceFormatterPlugin.js|
-|''Version:''|0.1.2|
+|''Source:''|http://www.martinswiki.com/#ConfluenceFormatterPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/ConfluenceFormatterPlugin.js |
+|''Version:''|0.1.3|
 |''Date:''|Dec 8, 2006|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.1.0|
 
-This is an early release of the ConfluenceFormatterPlugin, which allows you to insert Confluence formated
-text into a TiddlyWiki.
+This is the ConfluenceFormatterPlugin, which allows you to insert [[Confluence|http://confluence.atlassian.com/renderer/notationhelp.action?section=all]] formated
+text into a TiddlyWiki. See also http://confluence.atlassian.com/display/DOC/Confluence+Notation+Guide+Overview
 
-The aim is not to fully emulate Confluence, but to allow you to create Confluence content off-line
+The aim is not to fully emulate Confluence, but to allow you to work with Confluence content off-line
 and then paste the content into your Confluence wiki later on, with the expectation that only minor
 edits will be required.
 
-To use Confluence format in a Tiddler, tag the Tiddler with ConfluenceFormat.
-See [[testConfluenceFormat]] for an example.
+To use Confluence format in a Tiddler, tag the Tiddler with ConfluenceFormat.  or set the tiddler's {{{wikiformat}}} extended field to {{{confluence}}}.
 
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
 
