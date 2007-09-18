@@ -1,6 +1,6 @@
 <html>
 
-<table class="twocol">
+<table class="threecol">
 <tr>
 
 <td>
@@ -12,8 +12,11 @@
 <td>
 
 <div macro="mgtdList title:'Future Actions' startTag:Action tags:'Future && !Done' view:ActionProj gTag:Active mode:global"></div>
-<div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:Action mode:global"></div>
+<div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global"></div>
 
+</td>
+<td>
+<div macro="mgtdList title:'Projects' startTag:Project tags:'!Complete && !Someday/Maybe' view:ProjectBare mode:global"></div>
 </td>
 </tr></table>
 

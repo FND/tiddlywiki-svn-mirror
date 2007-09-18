@@ -18,6 +18,28 @@ merge(Tiddler.prototype,{
 		]
 	);},
 
+	render_Project: function() { return this.renderUtil(
+		'{{project{'+
+		'<<toggleTag Complete [[%0]] ->>'+
+		'<<multiToggleTag tag:ProjectStatus title:[[%0]]>>'+
+		//'<<multiSelectTag tag:Project title:[[%0]]>>'+
+		//'<<multiCheckboxTag tag:ActionStatus title:[[%0]]>>'+
+		' &nbsp;[[%0]] }}}\n',
+		[
+			this.title
+		]
+	);},
+
+	render_ProjectBare: function() { return this.renderUtil(
+		'{{project{'+
+		//'<<multiSelectTag tag:Project title:[[%0]]>>'+
+		//'<<multiCheckboxTag tag:ActionStatus title:[[%0]]>>'+
+		'&nbsp;[[%0]] }}}\n',
+		[
+			this.title
+		]
+	);},
+
 	render_ActionProj: function() {
 
 		// actually it's not going to be easy to have

@@ -102,6 +102,8 @@ merge(config.macros,{
 
 			wikifyThis += "!"+title+"\n";
 
+			wikifyThis += "{{innerList{\n";
+
 			var theList = fastTagged(startTag);
 			if (tagExpr != "") theList = theList.filterByTagExpr(tagExpr);
 			if (whereExpr != "") theList = theList.filterByEval(whereExpr);
@@ -116,6 +118,7 @@ merge(config.macros,{
 				wikifyThis += theList.render(viewType);
 			}
 
+			wikifyThis += "}}}\n";
 			wikifyThis += "}}}\n";
 
 			wikify(wikifyThis,place,null,tiddler);
