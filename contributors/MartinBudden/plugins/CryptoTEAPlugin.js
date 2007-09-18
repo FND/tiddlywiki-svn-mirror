@@ -7,7 +7,7 @@
 |''Version:''|0.1.7|
 |''Date:''|May 7, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.1.3|
 
 Based on [[Movable Type Script|http://www.movable-type.co.uk/scripts/TEAblock.html]]
