@@ -115,6 +115,17 @@ config.indexedTags = {
 	tiddlerMethods: {
 		getByIndex: function(tag) {
 			return config.indexedTags.indexes[this.title][tag];
+		},
+		hasActiveProject: function() {
+			var projs = this.getByIndex("Project");
+			for (var i=0;i<projs.length;i++)
+				if (
+					(config.indexedTags.indexes[projs[i]]['ProjectStatus'].contains('Active'))
+					&&
+					!store.fetchTiddler(projs[i]).tags.contains('Complete') // seems stupid
+					)
+					return true;
+			return false;
 		}
 	},
 

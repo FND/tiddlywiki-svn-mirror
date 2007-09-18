@@ -45,7 +45,7 @@ make_tw {
   add_tiddler_from_scratch('tiddler' => 'Collect Items', 'tags' => ['Sidebar'],'text'=>"{{hide{\norder:4\nbutton:Collect\n}}}")
   add_tiddler_from_scratch('tiddler' => 'TW', 'tags' => ['Sidebar'],'text'=>"{{hide{\norder:5\nbutton:TW\nbuttonClass:tiny\n}}}")
   add_tiddler_from_scratch('tiddler' => 'Config', 'tags' => ['Sidebar'],'text'=>"{{hide{\norder:6\nbutton:Conf\nbuttonClass:tiny\n}}}")
-  add_tiddler_from_scratch('tiddler' => 'MgtdSettings', 'tags' => ['Do Work'],'text'=>"")
+  add_tiddler_from_scratch('tiddler' => 'MgtdSettings', 'tags' => ['Do Work','Work','Personal'],'text'=>"")
   
   add_tiddler_from_scratch('tiddler' => 'Work', 'tags' => ['Realm'],'text'=>"{{hide{\norder:1\nbutton:Work\n}}}\n")
   add_tiddler_from_scratch('tiddler' => 'Personal', 'tags' => ['Realm'],'text'=>"{{hide{\norder:2\nbutton:Personal\n}}}\n")
