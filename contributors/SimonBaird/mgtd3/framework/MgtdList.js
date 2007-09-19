@@ -42,7 +42,7 @@ merge(config.macros,{
 			var leftoverTitle = getParam(pp,"leftoverTitle","No "+groupBy);
 
 			// if set to "yes" then we ignore the realm and show everthing
-			var ignoreRealm = getParam(pp, "ignoreRealm","no");
+			var ignoreRealm = getParam(pp, "ignoreRealm","");
 
 			// sort items
 			var sortBy = getParam(pp,"sort","title");
@@ -107,6 +107,18 @@ merge(config.macros,{
 			var theList = fastTagged(startTag);
 			if (tagExpr != "") theList = theList.filterByTagExpr(tagExpr);
 			if (whereExpr != "") theList = theList.filterByEval(whereExpr);
+
+			if (ignoreRealm != "yes") {
+				var activeRealms = store.fetchTiddler("MgtdSettings").getByIndex("Realm");
+				theList = theList.select(function(t) {
+					var realm = t.getByIndex("Realm");
+					return (
+						realm.length == 0 ||  // so something with no realm shows up
+						realm.containsAny(activeRealms)
+					);
+				});
+			}
+
 			if (groupBy != "") {
 				theList = theList.groupByTag(groupBy,sortBy,gSortBy);
 				if (gTagExpr != "") theList = theList.filterGroupsByTagExpr(gTagExpr);

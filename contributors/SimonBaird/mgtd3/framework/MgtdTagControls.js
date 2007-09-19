@@ -43,7 +43,9 @@ merge(config.macros,{
 
 			var label = store.getTiddlerSlice(t.title,"button");
 			var autoClass = "button " + t.title.replace(/[\/ ]/g,'') 
-			if (!label) label = t.title.substring(0,1).toLowerCase();
+
+			if (!label) label = t.title;
+
 			var cl = createTiddlyButton(place, label, t.title, function(e) {
 					actOnTiddler.toggleTag(tag);
 					return false;
@@ -78,7 +80,7 @@ merge(config.macros,{
 
 				var label = store.getTiddlerSlice(t.title,"button");
 				var autoClass = "button " + t.title.replace(/[\/ ]/g,'') 
-				if (!label) label = t.title.substring(0,1).toLowerCase();
+				if (!label) label = t.title;
 				var cl = createTiddlyButton(place, label, t.title, function(e) {
 						actOnTiddler.toggleTag(t.title);
 						if (refresh == "page")
@@ -117,7 +119,7 @@ merge(config.macros,{
 				var label = store.getTiddlerSlice(t.title,"button");
 				var extraClass = store.getTiddlerSlice(t.title,"buttonClass");
 				var autoClass = (extraClass ? extraClass : "") + " button " + t.title.replace(/[\/ ]/g,'') 
-				if (!label) label = t.title.substring(0,1).toLowerCase();
+				if (!label) label = t.title;
 				var cl = createTiddlyButton(place, label, t.title, function(e) {
 						actOnTiddler.setTagFromGroup(tag,t.title);
 						if (refresh == "page")

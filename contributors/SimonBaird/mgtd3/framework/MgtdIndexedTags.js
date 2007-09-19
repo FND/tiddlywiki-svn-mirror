@@ -118,6 +118,12 @@ config.indexedTags = {
 		},
 		hasActiveProject: function() {
 			var projs = this.getByIndex("Project");
+
+			if (projs.length == 0)
+				// no project but we will say it's active
+				// because otherwise it will not show up anywhere
+				return true;
+
 			for (var i=0;i<projs.length;i++)
 				if (
 					(config.indexedTags.indexes[projs[i]]['ProjectStatus'].contains('Active'))

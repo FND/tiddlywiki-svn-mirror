@@ -6,17 +6,23 @@
 <td>
 
 <div macro="mgtdList title:'Next Actions' startTag:Action tags:'Next && !Done' view:ActionProj mode:global
+	group:Context
+	gView:Context
 	where:tiddler.hasActiveProject()
 	"></div>
 
-<div macro="mgtdList title:'Waiting Actions' startTag:Action tags:'[(Waiting For)] && !Done' view:ActionProj gTag:Active mode:global
+<div macro="mgtdList title:'Waiting Actions' startTag:Action tags:'[(Waiting For)] && !Done' view:ActionProj mode:global
+	group:Context
+	gView:Context
 	where:tiddler.hasActiveProject()
 	"></div>
 
 </td>
 <td>
 
-<div macro="mgtdList title:'Future Actions' startTag:Action tags:'Future && !Done' view:ActionProj gTag:Active mode:global
+<div macro="mgtdList title:'Future Actions' startTag:Action tags:'Future && !Done' view:ActionProj mode:global
+	group:Context
+	gView:Context
 	where:tiddler.hasActiveProject()
 	"></div>
 

@@ -85,6 +85,13 @@ merge(Tiddler.prototype,{
 		]
 	);},
 
+	render_Context: function() { return this.renderUtil(
+		'[[%0]]\n',
+		[
+			this.title
+		]
+	);},
+
 	render_plain: function() { return this.renderUtil(
 		'[[%0]]\n',
 		[
