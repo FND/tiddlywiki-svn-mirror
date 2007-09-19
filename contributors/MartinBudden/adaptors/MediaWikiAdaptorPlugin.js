@@ -124,7 +124,7 @@ MediaWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams
 		}
 	}
 	if(!this.workspaceId) {
-		if(workspace=="" || workspace=="main")
+		if(workspace=="" || workspace.toLowerCase()=="main")
 			this.workspaceId = 0;
 		else if(workspace.lastIndexOf("talk") != -1)
 			this.workspaceId = 5;
@@ -167,16 +167,16 @@ MediaWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callba
 //#		"namespaces": {
 //#			"-2": {"id": -2,"*": "Media"},
 //#			"-1": {"id": -1,"*": "Special"},
-//#			"0": {"id": 0,"*": ""},
-//#			"1": {"id": 1,"*": "Talk"},
-//#			"2": {"id": 2,"*": "User"},
-//#			"3": {"id": 3,"*": "User talk"},
-//#			"4": {"id": 4,"*": "Meta"}, //or Wikipedia or UnaMesa
-//#			"5": {"id": 5,"*": "Meta talk"}, // or Wikipedia talk or UnaMesa talk
-//#			"6": {"id": 6,"*": "Image"},
-//#			"7": {"id": 7,"*": "Image talk"},
-//#			"8": {"id": 8,"*": "MediaWiki"},
-//#			"9": {"id": 9,"*": "MediaWiki talk"},
+//#			"0":  {"id": 0,"*": ""},
+//#			"1":  {"id": 1,"*": "Talk"},
+//#			"2":  {"id": 2,"*": "User"},
+//#			"3":  {"id": 3,"*": "User talk"},
+//#			"4":  {"id": 4,"*": "Meta"}, //or Wikipedia or UnaMesa
+//#			"5":  {"id": 5,"*": "Meta talk"}, // or Wikipedia talk or UnaMesa talk
+//#			"6":  {"id": 6,"*": "Image"},
+//#			"7":  {"id": 7,"*": "Image talk"},
+//#			"8":  {"id": 8,"*": "MediaWiki"},
+//#			"9":  {"id": 9,"*": "MediaWiki talk"},
 //#			"10": {"id": 10,"*": "Template",
 //#			"11": {"id": 11,"*": "Template talk"},
 //#			"12": {"id": 12,"*": "Help"},
@@ -229,8 +229,8 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 //# http://www.wikipedia.org/w/api.php?action=query&list=embeddedin&titles=Template:IPstack&eilimit=50&format=jsonfm
 //# http://www.wikipedia.org/w/api.php?action=query&list=allpages&aplimit=50&format=jsonfm
 //# http://www.wikipedia.org/w/query.php?what=category&cptitle=Wiki&format=jsonfm
-
-//# http://wiki.unamesa.org/api.php?action=query&list=allpages&apnamespace=10&aplimit=50
+//# http://wiki.unamesa.org/api.php?action=query&list=allpages&apnamespace=10&aplimit=50&format=jsonfm
+//# http://tiddlywiki.org/api.php?action=query&list=allpages&format=jsonfm
 	if(!context.tiddlerLimit)
 		context.tiddlerLimit = filter ? 200 : 100;
 
@@ -347,11 +347,13 @@ MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,u
 				}
 			} else {
 				for(i in pages) {
-					tiddler = new Tiddler(pages[i].title);
-					tiddler.fields.workspaceId = pages[i].ns;
-					//# avoid overwriting shadow tiddlers
-					if(!store.isShadowTiddler(tiddler.title))
+					var title = pages[i].title;
+					if(title && !store.isShadowTiddler(title)) {
+						//# avoid overwriting shadow tiddlers
+						tiddler = new Tiddler(title);
+						tiddler.fields.workspaceId = pages[i].ns;
 						list.push(tiddler);
+					}
 				}
 			}
 			context.tiddlers = list;
