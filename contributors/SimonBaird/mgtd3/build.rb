@@ -8,6 +8,52 @@ def get_rev
 end
 
 
+demo = [
+	['MgtdSettings', "[[Do Work]] Work Personal" ],
+
+  	['Starred',       ''],
+
+  	['Next',          'ActionStatus',  "order:1\nbutton:n\n"],
+	['Waiting For',   'ActionStatus',  "order:2\nbutton:w\n"],
+	['Future',        'ActionStatus',  "order:3\nbutton:f\n"],
+
+	['Active',        'ProjectStatus', "order:1\nbutton:a\n"],
+	['Someday/Maybe', 'ProjectStatus', "order:2\nbutton:s/m\n"],
+
+	['Work',          'Realm',         "order:1\n"],
+	['Personal',      'Realm',         "order:2\n"],
+
+	['Do Work',       'Sidebar', "order:1\nbutton:Work\n"                     ],
+	['Process Inbox', 'Sidebar', "order:2\nbutton:Process\n"                  ],
+	['Review',        'Sidebar', "order:3\nbutton:Review\n"                   ],
+	['Collect Items', 'Sidebar', "order:4\nbutton:Collect\n"                  ],
+	['Config',        'Sidebar', "order:998\nbutton:Conf\nbuttonClass:tiny\n" ],
+	['TW',            'Sidebar', "order:999\nbutton:TW\nbuttonClass:tiny\n"   ],
+
+  	['Weekend',       'Context'],
+	['Call',          'Context'],
+	['Home',          'Context'],
+	['Office',        'Context'],
+	['Errand',        'Context'],
+	['Email',         'Context'],
+	['Offline',       'Context'],
+	['Low Energy',    'Context'],
+	['Reading',       'Context'],
+
+	['Mow Lawn',              "Project Yard Personal Active"],
+	['Get some mower fuel',   "Action Next Personal [[Mow Lawn]] Errand"],
+	['Pick up palm branches', "Action Next Personal [[Mow Lawn]] Weekend"],
+	['Mow the lawn already',  "Action Future Personal [[Mow Lawn]] Weekend"],
+
+	['Buy snowboard',                          "Project Sports Personal Someday/Maybe"],
+	['Look in phone book for local ski shops', "Action Next Personal [[Buy snowboard]] Home"],
+	['Ask Ben for recommendations',            "Action Next Personal [[Buy snowboard]] Call"],
+
+	['A project-less task',   "Action Next Personal"],
+
+]
+
+
 make_tw {
 
   # actually this is an mptw empty file not a bare one
@@ -24,47 +70,13 @@ make_tw {
   add_tiddlers_from_dir  "tiddlers"
   add_tiddlers_from_dir  "menus"
 
-  # some demo realms
-  add_tiddler_from_scratch('tiddler' => 'Work',     'tags' => ['Realm'],'text'=>"{{hide{\norder:1\n}}}\n")
-  add_tiddler_from_scratch('tiddler' => 'Personal', 'tags' => ['Realm'],'text'=>"{{hide{\norder:2\n}}}\n")
-  add_tiddler_from_scratch('tiddler' => 'Nerd Stuff',     'tags' => ['Realm'],'text'=>"{{hide{\norder:3\n}}}\n")
-
-  # some demo contexts:
-  add_tiddler_from_scratch('tiddler' => 'Weekend', 'tags' => ['Context'])
-  add_tiddler_from_scratch('tiddler' => 'Call', 'tags' => ['Context'])
-  add_tiddler_from_scratch('tiddler' => 'Home', 'tags' => ['Context'])
-  add_tiddler_from_scratch('tiddler' => 'Office', 'tags' => ['Context'])
-  add_tiddler_from_scratch('tiddler' => 'Errand', 'tags' => ['Context'])
-  add_tiddler_from_scratch('tiddler' => 'Email', 'tags' => ['Context'])
-  add_tiddler_from_scratch('tiddler' => 'Offline', 'tags' => ['Context'])
-  add_tiddler_from_scratch('tiddler' => 'Low Energy', 'tags' => ['Context'])
-  add_tiddler_from_scratch('tiddler' => 'Reading', 'tags' => ['Context'])
+  # load the demo
+  demo.each do |t|
+	  t[2] ||= ''
+	  add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2])
+  end
 
   # add some demo projects
-  add_tiddler_from_scratch('tiddler' => 'Mow Lawn', 'tags' => ['Project','Yard','Personal','Active'])
-  add_tiddler_from_scratch('tiddler' => 'Get some mower fuel',   'tags' => ['Action','Next','Personal','Mow Lawn','Errand'])
-  add_tiddler_from_scratch('tiddler' => 'Pick up palm branches', 'tags' => ['Action','Next','Personal','Mow Lawn','Weekend'])
-  add_tiddler_from_scratch('tiddler' => 'Mow the lawn already',  'tags' => ['Action','Future','Personal','Mow Lawn','Weekend'])
-
-  add_tiddler_from_scratch('tiddler' => 'Buy snowboard', 'tags' => ['Project','Sports','Personal','Someday/Maybe'])
-  add_tiddler_from_scratch('tiddler' => 'Look in phone book for local ski shops', 'tags' => ['Action','Next','Personal','Buy snowboard','Home'])
-  add_tiddler_from_scratch('tiddler' => 'Ask Ben for recommendations', 'tags' => ['Action','Next','Personal','Buy snowboard','Call'])
-
-  add_tiddler_from_scratch('tiddler' => 'A project-less task', 'tags' => ['Action','Next','Personal'])
-
-  add_tiddler_from_scratch('tiddler' => 'Next', 'tags' => ['ActionStatus'],'text'=>"{{hide{\norder:1\nbutton:n\n}}}")
-  add_tiddler_from_scratch('tiddler' => 'Waiting For', 'tags' => ['ActionStatus'],'text'=>"{{hide{\norder:2\nbutton:w\n}}}")
-  add_tiddler_from_scratch('tiddler' => 'Future', 'tags' => ['ActionStatus'],'text'=>"{{hide{\norder:3\nbutton:f\n}}}")
-  add_tiddler_from_scratch('tiddler' => 'Active', 'tags' => ['ProjectStatus'],'text'=>"{{hide{\norder:1\nbutton:a\n}}}")
-  add_tiddler_from_scratch('tiddler' => 'Someday/Maybe', 'tags' => ['ProjectStatus'],'text'=>"{{hide{\norder:2\nbutton:s/m\n}}}")
-
-  add_tiddler_from_scratch('tiddler' => 'Do Work', 'tags' => ['Sidebar'],'text'=>"{{hide{\norder:1\nbutton:Work\n}}}")
-  add_tiddler_from_scratch('tiddler' => 'Process Inbox', 'tags' => ['Sidebar'],'text'=>"{{hide{\norder:2\nbutton:Process\n}}}")
-  add_tiddler_from_scratch('tiddler' => 'Review', 'tags' => ['Sidebar'],'text'=>"{{hide{\norder:3\nbutton:Review\n}}}")
-  add_tiddler_from_scratch('tiddler' => 'Collect Items', 'tags' => ['Sidebar'],'text'=>"{{hide{\norder:4\nbutton:Collect\n}}}")
-  add_tiddler_from_scratch('tiddler' => 'Config', 'tags' => ['Sidebar'],'text'=>"{{hide{\norder:998\nbutton:Conf\nbuttonClass:tiny\n}}}")
-  add_tiddler_from_scratch('tiddler' => 'TW', 'tags' => ['Sidebar'],'text'=>"{{hide{\norder:999\nbutton:TW\nbuttonClass:tiny\n}}}")
-  add_tiddler_from_scratch('tiddler' => 'MgtdSettings', 'tags' => ['Do Work','Work','Personal'],'text'=>"")
   
   #get_tiddler('MonkeyGTDVersion').text.sub!(/\$timestamp\$/,get_rev)
 

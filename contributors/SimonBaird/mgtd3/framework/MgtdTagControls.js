@@ -42,15 +42,25 @@ merge(config.macros,{
 			var actOnTiddler = store.getTiddler(title);
 
 			var label = store.getTiddlerSlice(t.title,"button");
+			var labelOff = store.getTiddlerSlice(t.title,"buttonOff");
+
+			// dreadful hack
+			if (tag == "Starred")
+				label = "\u2605";
+
 			var autoClass = "button " + t.title.replace(/[\/ ]/g,'') 
 
 			if (!label) label = t.title;
+			if (!labelOff) labelOff = label;
 
-			var cl = createTiddlyButton(place, label, t.title, function(e) {
+
+			var curState = actOnTiddler.hasTag(tag);
+
+			var cl = createTiddlyButton(place, curState?label:labelOff, t.title, function(e) {
 					actOnTiddler.toggleTag(tag);
 					return false;
 				},
-				autoClass + " " + (actOnTiddler.hasTag(tag) ? "on" : "off")
+				autoClass + " " + (curState ? "on" : "off")
 				);
 		}
 		
@@ -229,6 +239,10 @@ setStylesheet(["",
 
 ".viewer .Active.button.on {border-color:#55c;background:#cfa;color:#4a4;}",
 ".viewer .SomedayMaybe.button.on {border-color:#48b;background:#bdf;color:#48b;}",
+
+".viewer .Starred.button {padding:0;font-size:170%;}",
+".viewer .Starred.button.on {border-color:#fff;background:#fff;color:#f80;}",
+".viewer .Starred.button.off {border-color:#fff;background:#fff;color:#ddd;}",
 
 ""].join("\n"),"tTag");
 
