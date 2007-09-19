@@ -16,7 +16,6 @@ config.options.chkDisableWikiLinks = true;
 config.maxTiddlerImportCount = 10;
 
 merge(config.defaultCustomFields,{
-	'server.host':'wiki.unamesa.org',
 	wikiformat:'mediawiki'
 });
 

@@ -10,6 +10,8 @@ tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: settings.js
 tiddler: Logo.tiddler
 tiddler: StyleSheet.tiddler
+tiddler: DownloadThisTiddlyWiki.tiddler
+tiddler: MediaWikiWalkthrough.tiddler
 tiddler: ../tiddlypedia/OptionsPanel.tiddler
 tiddler: ../tiddlypedia/PageTemplateWithLogo.tiddler
 tiddler: ../tiddlypedia/SideBarOptionsWithMediaWikiFormat.tiddler
@@ -26,6 +28,7 @@ tiddler: ../../feeds/UnaMesaFeed.tiddler
 tiddler: ../../feeds/WikipediaIPStackFeed.tiddler
 tiddler: ../../feeds/WikipediaWikiFeed.tiddler
 tiddler: ../../formatters/MediaWikiFormatterPlugin.js
+tiddler: ../../plugins/DisableWikiLinksPlugin.js
 tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
 tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
 tiddler: ../../styles/wikipediaStyle.js
