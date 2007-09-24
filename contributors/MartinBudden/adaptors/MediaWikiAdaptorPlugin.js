@@ -43,6 +43,10 @@ MediaWikiAdaptor.prototype.setContext = function(context,userParams,callback)
 	context.userParams = userParams;
 	if(callback) context.callback = callback;
 	context.adaptor = this;
+	if(!context.host)
+		context.host = this.host;
+	if(!context.workspace)
+		context.workspace = this.workspace;
 	return context;
 };
 
@@ -89,8 +93,8 @@ MediaWikiAdaptor.anyChild = function(obj)
 MediaWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
 //#displayMessage("openHost:"+host);
-	context = this.setContext(context,userParams,callback);
 	this.host = MediaWikiAdaptor.fullHostName(host);
+	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
 		window.setTimeout(context.callback,0,context,userParams);
@@ -103,13 +107,13 @@ MediaWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams
 	if(!workspace)
 		workspace = "";
 //#displayMessage("openWorkspace:"+workspace);
+	this.workspace = workspace;
 	context = this.setContext(context,userParams,callback);
 	var workspaces = {
 		"media": -2, "special":-1,
 		"":0, "talk":1,"user":2,"user talk":3,"meta":4,"meta talk":5,"image":6,"image talk":7,
 		"mediawiki":8,"mediawiki talk":9,"template":10,"template talk":11,"help":12,"help talk":13,
 		"category":14,"category talk":15};
-	this.workspace = workspace;
 	if(workspace) {
 		if(context.workspaces) {
 			for(var i=0;i<context.workspaces.length;i++) {
