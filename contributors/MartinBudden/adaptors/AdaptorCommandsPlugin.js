@@ -16,6 +16,20 @@
 if(!version.extensions.AdaptorCommandsPlugin) {
 version.extensions.AdaptorCommandsPlugin = {installed:true};
 
+Tiddler.prototype.getServerType = function()
+{
+	var serverType = null;
+	if(this.fields && this.fields['server.type'])
+		serverType = this.fields['server.type'];
+	if(!serverType)
+		serverType = this.fields['wikiformat'];
+	if(!serverType)
+		serverType = config.defaultCustomFields['server.type'];
+	if(serverType && !config.adaptors[serverType])
+		serverType = null;
+	return serverType;
+};
+
 function getServerType(fields)
 {
 //#displayMessage("getServerType");
@@ -25,6 +39,8 @@ function getServerType(fields)
 	if(!serverType)
 		serverType = fields['wikiformat'];
 //#displayMessage("serverType:"+serverType);
+	if(!serverType)
+		serverType = config.defaultCustomFields['server.type'];
 	return serverType;
 }
 
@@ -99,6 +115,16 @@ function isAdaptorFunctionSupported(fnName,fields)
 	return fn ? true : false;
 }
 
+function Tiddler.prototype.isAdaptorFunctionSupported(fnName)
+{
+//#displayMessage("isAdaptorFunctionSupported:"+fnName);
+	var serverType = this.getServerType(fnName);
+	if(!serverType || !config.adaptors[serverType])
+		return false;
+	var fn = config.adaptors[serverType].prototype[fnName];
+	return fn ? true : false;
+}
+
 config.macros.viewTiddlerFields = {};
 config.macros.viewTiddlerFields.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
@@ -146,7 +172,7 @@ merge(config.commands.getTiddler,{
 
 config.commands.getTiddler.isEnabled = function(tiddler)
 {
-	return isAdaptorFunctionSupported('getTiddler',tiddler.fields);
+	return tiddler.isAdaptorFunctionSupported('getTiddler');
 };
 
 config.commands.getTiddler.handler = function(event,src,title)
@@ -187,7 +213,7 @@ merge(config.commands.putTiddler,{
 
 config.commands.putTiddler.isEnabled = function(tiddler)
 {
-	return tiddler && tiddler.isTouched() && isAdaptorFunctionSupported('putTiddler',tiddler.fields);
+	return tiddler && tiddler.isTouched() && tiddler.isAdaptorFunctionSupported('putTiddler');
 };
 
 config.commands.putTiddler.handler = function(event,src,title)
@@ -239,7 +265,7 @@ merge(config.commands.revisions,{
 
 config.commands.revisions.isEnabled = function(tiddler)
 {
-	return isAdaptorFunctionSupported('getTiddlerRevisionList',tiddler.fields);
+	return tiddler.isAdaptorFunctionSupported('getTiddlerRevisionList');
 };
 
 config.commands.revisions.handler = function(event,src,title)
@@ -327,7 +353,7 @@ config.commands.saveTiddlerHosted.handler = function(event,src,title)
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
 		return false;
-	if(!isAdaptorFunctionSupported('saveTiddlerHosted',tiddler.fields))
+	if(!tiddler.isAdaptorFunctionSupported('saveTiddlerHosted'))
 		return false;
 	return invokeAdaptor('saveTiddlerHosted',tiddler,null,null,null,config.commands.saveTiddlerHosted.callback,tiddler.fields);
 };
