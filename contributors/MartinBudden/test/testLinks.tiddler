@@ -1,0 +1,15 @@
+<div title="testLinks" modifier="MartinBudden" tags="test">
+<pre>
+WikiWord
+WIkiword
+~NotWikiWord
+~notWikiword
+~notWikiWord
+[[explicitlink]]
+[[explicitlinktext|explicitlink]]
+http://www.example.com
+[[example|http://www.example.com]]
+[[here|#]]
+[[hereTest|#Test]]
+</pre>
+</div>
