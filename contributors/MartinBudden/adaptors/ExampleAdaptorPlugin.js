@@ -46,6 +46,10 @@ ExampleAdaptor.prototype.setContext = function(context,userParams,callback)
 	context.userParams = userParams;
 	if(callback) context.callback = callback;
 	context.adaptor = this;
+	if(!context.host)
+		context.host = this.host;
+	if(!context.workspace)
+		context.workspace = this.workspace;
 	return context;
 };
 
@@ -94,8 +98,8 @@ ExampleAdaptor.dateFromEditTime = function(editTime)
 
 ExampleAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
-	context = this.setContext(context,userParams,callback);
 	this.host = ExampleAdaptor.fullHostName(host);
+	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
 		window.setTimeout(context.callback,0,context,userParams);
@@ -105,8 +109,8 @@ ExampleAdaptor.prototype.openHost = function(host,context,userParams,callback)
 
 ExampleAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
-	context = this.setContext(context,userParams,callback);
 	this.workspace = workspace;
+	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
 		window.setTimeout(context.callback,0,context,userParams);
@@ -119,7 +123,7 @@ ExampleAdaptor.prototype.getWorkspaceList = function(context,userParams,callback
 	context = this.setContext(context,userParams,callback);
 // !!TODO set the uriTemplate
 	var uriTemplate = '%0';
-	var uri = uriTemplate.format([this.host]);
+	var uri = uriTemplate.format([context.host]);
 	var req = ExampleAdaptor.doHttpGET(uri,ExampleAdaptor.getWorkspaceListCallback,context,{'accept':'application/json'});
 	return typeof req == 'string' ? req : true;
 };
@@ -157,7 +161,7 @@ ExampleAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 	context = this.setContext(context,userParams,callback);
 // !!TODO set the uriTemplate
 	var uriTemplate = '%0%1';
-	var uri = uriTemplate.format([this.host,this.workspace]);
+	var uri = uriTemplate.format([context.host,context.workspace]);
 	var req = ExampleAdaptor.doHttpGET(uri,ExampleAdaptor.getTiddlerListCallback,context,{'accept':'application/json'});
 	return typeof req == 'string' ? req : true;
 };
@@ -224,12 +228,12 @@ ExampleAdaptor.prototype.getTiddlerInternal = function(context,userParams,callba
 // !!TODO set the uriTemplate
 		uriTemplate = '%0%1%2';
 	}
-	uri = uriTemplate.format([this.host,this.workspace,ExampleAdaptor.normalizedTitle(title),context.revision]);
+	uri = uriTemplate.format([context.host,context.workspace,ExampleAdaptor.normalizedTitle(title),context.revision]);
 
 	context.tiddler = new Tiddler(title);
-	context.tiddler.fields.wikiformat = 'socialtext';
-	context.tiddler.fields['server.host'] = ExampleAdaptor.minHostName(this.host);
-	context.tiddler.fields['server.workspace'] = this.workspace;
+	context.tiddler.fields.wikiformat = 'exampleformat';
+	context.tiddler.fields['server.host'] = ExampleAdaptor.minHostName(context.host);
+	context.tiddler.fields['server.workspace'] = context.workspace;
 	var req = ExampleAdaptor.doHttpGET(uri,ExampleAdaptor.getTiddlerCallback,context,{'accept':'application/json'});
 	return typeof req == 'string' ? req : true;
 };
