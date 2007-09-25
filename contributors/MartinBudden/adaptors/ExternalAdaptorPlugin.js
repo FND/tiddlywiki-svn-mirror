@@ -93,6 +93,7 @@ ExternalAdaptor.gotTiddler = function(context,userParams)
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 		autoSaveChanges();
 	}
+	context.adaptor.close();
 	delete context.adpator;
 };
 
