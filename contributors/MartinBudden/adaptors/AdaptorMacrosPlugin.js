@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#AdaptorMacrosPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorMacrosPlugin.js |
-|''Version:''|0.3.7|
+|''Version:''|0.3.8|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -15,18 +15,6 @@
 // Ensure that the plugin is only installed once.
 if(!version.extensions.AdaptorMacrosPlugin) {
 version.extensions.AdaptorMacrosPlugin = {installed:true};
-
-function getServerType(fields)
-{
-//#displayMessage("getServerType");
-	if(!fields)
-		return null;
-	var serverType = fields['server.type'];
-	if(!serverType)
-		serverType = fields['wikiformat'];
-//#displayMessage("serverType:"+serverType);
-	return serverType;
-}
 
 // Return an array of tiddler titles that are in the given workspace on the host
 TiddlyWiki.prototype.getHostedTiddlers = function(host,workspace)
@@ -44,6 +32,41 @@ TiddlyWiki.prototype.getHostedTiddlers = function(host,workspace)
 		}
 		//#results.sort();
 	}
+	return results;
+};
+
+config.macros.viewTiddlerFields = {};
+config.macros.viewTiddlerFields.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	if(tiddler instanceof Tiddler) {
+		var value = '';
+		var comma = '';
+		for(i in tiddler.fields) {
+			if (!i.match(/^temp[\._]/)) {
+				value += comma + i + '=' + tiddler.fields[i];
+				comma = ', ';
+			}
+		}
+		if(tiddler.created)
+			value += comma + 'created=' + tiddler.created.convertToYYYYMMDDHHMM();
+		if(tiddler.modified)
+			value += ', modified=' + tiddler.modified.convertToYYYYMMDDHHMM();
+		if(tiddler.modifier)
+			value += ', modifier=' + tiddler.modifier;
+		value += ', touched=' + (tiddler.isTouched() ? 'true' : 'false');
+		highlightify(value,place,highlightHack,tiddler);
+	}
+};
+
+config.macros.list.updatedOffline = {};
+config.macros.list.updatedOffline.handler = function(params)
+{
+	var results = [];
+	store.forEachTiddler(function(title,tiddler) {
+		if(tiddler.fields['server.host'] && tiddler.isTouched())
+			results.push(tiddler);
+		});
+	results.sort();
 	return results;
 };
 
