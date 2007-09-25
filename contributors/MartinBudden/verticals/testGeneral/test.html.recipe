@@ -10,6 +10,7 @@ tiddler: StyleSheet.tiddler
 tiddler: Test.tiddler
 tiddler: testMacro.js
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
+tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../mystyle/PageTemplateNoShadow.tiddler
 tiddler: ../../mystyle/StyleSheetMB.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
@@ -17,3 +18,4 @@ tiddler: ../tiddlypedia/ViewTemplateTiddlerFields.tiddler
 tiddler: settings.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
+tiddler: ../../test/testLinks.tiddler
