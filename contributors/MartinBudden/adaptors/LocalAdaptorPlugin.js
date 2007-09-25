@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#LocalAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/LocalAdaptorPlugin.js |
-|''Version:''|0.5.3|
+|''Version:''|0.5.4|
 |''Date:''|Jun 13, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -32,6 +32,7 @@ LocalAdaptor.errorInFunctionMessage = "Error in function LocalAdaptor.%0: %1";
 LocalAdaptor.revisionSavedMessage = "Revision %0 saved";
 LocalAdaptor.baseRevision = 1000;
 LocalAdaptor.contentDirectory = 'content';
+LocalAdaptor.revisionsDirectory = 'revisions';
 
 LocalAdaptor.prototype.setContext = function(context,userParams,callback)
 {
@@ -39,6 +40,10 @@ LocalAdaptor.prototype.setContext = function(context,userParams,callback)
 	context.userParams = userParams;
 	if(callback) context.callback = callback;
 	context.adaptor = this;
+	if(!context.host)
+		context.host = this.host;
+	if(!context.workspace)
+		context.workspace = this.workspace;
 	return context;
 };
 
@@ -80,7 +85,7 @@ LocalAdaptor.revisionPath = function()
 //#displayMessage("revisionPath");
 	var file = getLocalPath(document.location.toString());
 	var slash = file.lastIndexOf('\\') == -1 ? '/' : '\\';
-	return LocalAdaptor.getPath(file,LocalAdaptor.contentDirectory + slash + 'revisions');
+	return LocalAdaptor.getPath(file,LocalAdaptor.contentDirectory + slash + LocalAdaptor.revisionsDirectory);
 };
 
 LocalAdaptor.fullHostName = function(host)
