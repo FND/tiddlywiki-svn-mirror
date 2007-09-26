@@ -1,15 +1,31 @@
 <div title="testLinks" modifier="MartinBudden" tags="test">
 <pre>
+!Wikilinks
 WikiWord
 WIkiword
-~NotWikiWord
-~notWikiword
-~notWikiWord
+
 [[explicitlink]]
 [[explicitlinktext|explicitlink]]
+
+!External links
 http://www.example.com
+http:www.example.com
+https:www.example.com
+mailto:fred
+ftp:fred
+file:title.txt
 [[example|http://www.example.com]]
 [[here|#]]
 [[hereTest|#Test]]
+
+!Not links
+~NotWikiWord
+notWikiword
+notWikiWord
+
+newTiddler:title
+tiddler:title
+foo:bar
+foo:<br>bar
 </pre>
 </div>
