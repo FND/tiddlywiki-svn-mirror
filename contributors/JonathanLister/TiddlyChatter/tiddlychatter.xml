@@ -1,0 +1,543 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+<channel>
+<title>TiddlyChatter</title>
+<link>http://www.tiddlywiki.com/</link>
+<description>Test workbook - should work with other TiddlyChatter-enabled workbooks</description>
+<language>en-us</language>
+<copyright>Copyright 2007 Jon Lister</copyright>
+<pubDate>Wed, 26 Sep 2007 16:09:28 GMT</pubDate>
+<lastBuildDate>Wed, 26 Sep 2007 16:09:28 GMT</lastBuildDate>
+<docs>http://blogs.law.harvard.edu/tech/rss</docs>
+<generator>TiddlyWiki 2.2.4</generator>
+<item>
+<title>DefaultTiddlers</title>
+<description>&lt;a tiddlylink=&quot;Welcome to TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Welcome to TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#Welcome%20to%20TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;Welcome to TiddlyChatter&lt;/a&gt;</description>
+<link>http://www.tiddlywiki.com/#DefaultTiddlers</link>
+<pubDate>Wed, 26 Sep 2007 16:07:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>MainMenu</title>
+<description>&lt;a tiddlylink=&quot;Welcome to TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Welcome to TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#Welcome%20to%20TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;Welcome&lt;/a&gt;</description>
+<link>http://www.tiddlywiki.com/#MainMenu</link>
+<pubDate>Wed, 26 Sep 2007 16:07:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>SiteTitle</title>
+<description>&lt;a tiddlylink=&quot;TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;TiddlyChatter&lt;/a&gt;</description>
+<link>http://www.tiddlywiki.com/#SiteTitle</link>
+<pubDate>Wed, 26 Sep 2007 16:06:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>SiteSubtitle</title>
+<description>Test workbook - should work with other &lt;a tiddlylink=&quot;TiddlyChatter-enabled&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatter-enabled&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatter-enabled&quot; class=&quot;externalLink&quot;&gt;TiddlyChatter-enabled&lt;/a&gt; workbooks</description>
+<link>http://www.tiddlywiki.com/#SiteSubtitle</link>
+<pubDate>Wed, 26 Sep 2007 16:06:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>TiddlyChatterDevelopment</title>
+<description>The following plugins are used in a modified state (link to modified source in last column):&lt;br&gt;&lt;br&gt;&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;a tiddlylink=&quot;NotesPlugin&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#NotesPlugin&quot; href=&quot;http://www.tiddlywiki.com/#NotesPlugin&quot; class=&quot;externalLink&quot;&gt;NotesPlugin&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by &lt;a tiddlylink=&quot;SaqImtiaz&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#SaqImtiaz&quot; href=&quot;http://www.tiddlywiki.com/#SaqImtiaz&quot; class=&quot;externalLink&quot;&gt;SaqImtiaz&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tw.lewcid.org/#NotesPlugin&quot; href=&quot;http://tw.lewcid.org/#NotesPlugin&quot; class=&quot;externalLink&quot;&gt;http://tw.lewcid.org/#NotesPlugin&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/NotesPlugin_JRL.js&quot; href=&quot;http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/NotesPlugin_JRL.js&quot; class=&quot;externalLink&quot;&gt;http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/NotesPlugin_JRL.js&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;br&gt;The following plugins are used without modification:&lt;br&gt;&lt;br&gt;&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;a tiddlylink=&quot;RSSAdaptor&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#RSSAdaptor&quot; href=&quot;http://www.tiddlywiki.com/#RSSAdaptor&quot; class=&quot;externalLink&quot;&gt;RSSAdaptor&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by &lt;a tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#JonLister&quot; href=&quot;http://www.tiddlywiki.com/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/rssadaptor.js&quot; href=&quot;http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/rssadaptor.js&quot; class=&quot;externalLink&quot;&gt;http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/rssadaptor.js&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;a tiddlylink=&quot;RSSRender&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#RSSRender&quot; href=&quot;http://www.tiddlywiki.com/#RSSRender&quot; class=&quot;externalLink&quot;&gt;RSSRender&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by &lt;a tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#JonLister&quot; href=&quot;http://www.tiddlywiki.com/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/RSSRender.js&quot; href=&quot;http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/RSSRender.js&quot; class=&quot;externalLink&quot;&gt;http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/RSSRender.js&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;a tiddlylink=&quot;TaggedTemplateTweak&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TaggedTemplateTweak&quot; href=&quot;http://www.tiddlywiki.com/#TaggedTemplateTweak&quot; class=&quot;externalLink&quot;&gt;TaggedTemplateTweak&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by &lt;a tiddlylink=&quot;EricShulman&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#EricShulman&quot; href=&quot;http://www.tiddlywiki.com/#EricShulman&quot; class=&quot;externalLink&quot;&gt;EricShulman&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.TiddlyTools.com/#TaggedTemplateTweak&quot; href=&quot;http://www.TiddlyTools.com/#TaggedTemplateTweak&quot; class=&quot;externalLink&quot;&gt;http://www.TiddlyTools.com/#TaggedTemplateTweak&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;stickyOptionsPlugin&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by &lt;a tiddlylink=&quot;SaqImtiaz&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#SaqImtiaz&quot; href=&quot;http://www.tiddlywiki.com/#SaqImtiaz&quot; class=&quot;externalLink&quot;&gt;SaqImtiaz&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tw.lewcid.org/#StickyOptionsPlugin&quot; href=&quot;http://tw.lewcid.org/#StickyOptionsPlugin&quot; class=&quot;externalLink&quot;&gt;http://tw.lewcid.org/#StickyOptionsPlugin&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</description>
+<link>http://www.tiddlywiki.com/#TiddlyChatterDevelopment</link>
+<pubDate>Wed, 26 Sep 2007 16:05:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>Welcome to TiddlyChatter</title>
+<description>This &lt;a tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; has the required plugins installs to support &quot;&lt;a tiddlylink=&quot;TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;TiddlyChatter&lt;/a&gt;&quot;, a peer-to-peer collaboration feature.&lt;br&gt;&lt;br&gt;&lt;a tiddlylink=&quot;TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;TiddlyChatter&lt;/a&gt; is still in development; information about the plugins &lt;a tiddlylink=&quot;TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;TiddlyChatter&lt;/a&gt; is based on and what changes have been made can be found &lt;a tiddlylink=&quot;TiddlyChatterDevelopment&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatterDevelopment&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatterDevelopment&quot; class=&quot;externalLink&quot;&gt;here&lt;/a&gt;.</description>
+<link>http://www.tiddlywiki.com/#%5B%5BWelcome%20to%20TiddlyChatter%5D%5D</link>
+<pubDate>Wed, 26 Sep 2007 13:53:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>homework help-Notes</title>
+<description>Hey, no problem Saq. What's up?</description>
+<category>Notes</category>
+<category>public</category>
+<link>http://www.tiddlywiki.com/#%5B%5Bhomework%20help-Notes%5D%5D</link>
+<pubDate>Mon, 24 Sep 2007 13:51:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>homework help</title>
+<description>&lt;span&gt;hi Jon, can you help?&lt;/span&gt;</description>
+<category>public</category>
+<link>http://www.tiddlywiki.com/#%5B%5Bhomework%20help%5D%5D</link>
+<pubDate>Mon, 24 Sep 2007 13:51:00 GMT</pubDate>
+<author>Saq</author>
+</item>
+<item>
+<title>homework-Notes</title>
+<description>&lt;span&gt;I'll help you Jon!&lt;/span&gt;</description>
+<category>Notes</category>
+<category>public</category>
+<link>http://www.tiddlywiki.com/#homework-Notes</link>
+<pubDate>Mon, 24 Sep 2007 12:57:00 GMT</pubDate>
+<author>Saq</author>
+</item>
+<item>
+<title>homework</title>
+<description>please help!</description>
+<category>public</category>
+<link>http://www.tiddlywiki.com/#homework</link>
+<pubDate>Mon, 24 Sep 2007 12:55:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>stickyOptionsPlugin</title>
+<description>&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Name:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;StickyOptionsPlugin&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Description:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Author:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Saq Imtiaz ( lewcid@gmail.com )&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Source:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tw.lewcid.org/#StickyOptionsPlugin&quot; href=&quot;http://tw.lewcid.org/#StickyOptionsPlugin&quot; class=&quot;externalLink&quot;&gt;http://tw.lewcid.org/#StickyOptionsPlugin&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Code Repository:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tw.lewcid.org/svn/plugins&quot; href=&quot;http://tw.lewcid.org/svn/plugins&quot; class=&quot;externalLink&quot;&gt;http://tw.lewcid.org/svn/plugins&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Version:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;2.0 pre-release&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Date:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;License:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://creativecommons.org/licenses/by-sa/3.0/&quot; href=&quot;http://creativecommons.org/licenses/by-sa/3.0/&quot; class=&quot;externalLink&quot;&gt;Creative Commons Attribution-ShareAlike 3.0 License&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;CoreVersion:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;2.2&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;h2&gt;Usage:&lt;/h2&gt;&lt;ul&gt;&lt;li&gt; Sticky options are saved in the file rather than in cookies. &lt;/li&gt;&lt;li&gt; To make an option sticky, check the 'sticky' checkbox for it in &lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;AdvancedOptions&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#AdvancedOptions&quot; href=&quot;http://www.tiddlywiki.com/#AdvancedOptions&quot; class=&quot;externalLink&quot;&gt;AdvancedOptions&lt;/a&gt;&lt;/li&gt;&lt;li&gt; To force all options to be sticky, check the 'Options always sticky' checkbox at the bottom of the &lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;AdvancedOptions&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#AdvancedOptions&quot; href=&quot;http://www.tiddlywiki.com/#AdvancedOptions&quot; class=&quot;externalLink&quot;&gt;AdvancedOptions&lt;/a&gt; screen.&lt;/li&gt;&lt;li&gt; Please remember that the file needs to be saved after each option is saved, for the setting to be remembered.&lt;/li&gt;&lt;li&gt; Enable the 'autosave' option below, to trigger an autosave when an option is saved&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;Trigger autosave when an option is saved: &lt;input title=&quot;Trigger autosave when an option is saved&quot; class=&quot;chkOptionInput&quot; option=&quot;chkStickyOptionsAutoSave&quot; type=&quot;checkbox&quot;&gt;&lt;br&gt;&lt;br&gt;&lt;em&gt; &lt;br&gt;&lt;/em&gt;</description>
+<category>systemConfig</category>
+<link>http://www.tiddlywiki.com/#stickyOptionsPlugin</link>
+<pubDate>Fri, 21 Sep 2007 16:49:00 GMT</pubDate>
+<author>Saq</author>
+</item>
+<item>
+<title>NotesPlugin</title>
+<description>&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Name:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;NotesPlugin&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Description:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Author:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Saq Imtiaz ( lewcid@gmail.com )&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Source:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tw.lewcid.org/#NotesPlugin&quot; href=&quot;http://tw.lewcid.org/#NotesPlugin&quot; class=&quot;externalLink&quot;&gt;http://tw.lewcid.org/#NotesPlugin&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Code Repository:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tw.lewcid.org/svn/plugins&quot; href=&quot;http://tw.lewcid.org/svn/plugins&quot; class=&quot;externalLink&quot;&gt;http://tw.lewcid.org/svn/plugins&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Version:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;2.0&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Date:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;License:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://creativecommons.org/licenses/by-sa/3.0/&quot; href=&quot;http://creativecommons.org/licenses/by-sa/3.0/&quot; class=&quot;externalLink&quot;&gt;Creative Commons Attribution-ShareAlike 3.0 License&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;CoreVersion:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;2.2.3&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;h2&gt;Usage:&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;&lt;ul&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;&lt;em&gt; &lt;/em&gt;</description>
+<category>systemConfig</category>
+<link>http://www.tiddlywiki.com/#NotesPlugin</link>
+<pubDate>Fri, 21 Sep 2007 13:31:00 GMT</pubDate>
+<author>Saq</author>
+</item>
+<item>
+<title>RSS adaptor code</title>
+<description>Server adaptor for talking to RSS 2.0 files&lt;br&gt;based on FileAdaptor&lt;br&gt;&lt;br&gt;&lt;pre&gt;function RSSAdaptor()
+{
+	this.host = null;
+	this.store = null;
+	this.context = null;
+	return this;
+}
+
+RSSAdaptor.NotLoadedError = &quot;RSS file has not been loaded&quot;;
+RSSAdaptor.serverType = 'RSS';
+// Use the line below instead of the line above if you want to override the local file adaptor
+// RSSAdaptor.serverType = 'file';
+
+// Open the specified host/server
+// Return true if successful, error string if not
+RSSAdaptor.prototype.openHost = function(host,context,userParams,callback)
+{
+	this.host = host;
+	if(!context)
+		context = {};
+	context.adaptor = this;
+	context.callback = callback;
+	context.userParams = userParams;
+	var ret = loadRemoteFile(host,RSSAdaptor.openHostCallback,context);
+	return typeof(ret) == &quot;string&quot; ? ret : true;
+};
+
+RSSAdaptor.openHostCallback = function(status,context,responseText,url,xhr)
+{
+	var adaptor = context.adaptor;
+	context.status = status;
+	if(!status) {
+		context.statusText = &quot;Error reading file: &quot; + xhr.statusText;
+	} else {
+		// CHANGE this bit to store RSS file appropriately (as part of the adaptor?) - DONE
+		// We're just storing the plain text rather than bring XML into it
+		adaptor.store = responseText;
+		// OLD CODE
+		// Load the content into a TiddlyWiki() object
+		// adaptor.store = new TiddlyWiki();
+		// if(!adaptor.store.importTiddlyWiki(responseText))
+		// 	context.statusText = config.messages.invalidFileError.format([url]);
+	}
+	context.callback(context,context.userParams);
+};
+
+// Gets the list of workspaces on a given server
+// Sets context.workspaces, which is a list of workspaces
+// Returns true if successful, error string if not (or it should)
+// Default for RSS file as we don't have a workspace
+RSSAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
+{
+	if(!context)
+		context = {};
+	context.workspaces = [{title:&quot;(default)&quot;}];
+	context.status = true;
+	window.setTimeout(function() {callback(context,userParams);},10);
+	return true;
+};
+
+// Open the specified workspace
+// Returns true if successful, error string if not (or it should)
+// Trivial in the case of RSS file where we don't have a workspace
+RSSAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
+{
+	if(!context)
+		context = {};
+	context.status = true;
+	window.setTimeout(function() {callback(context,userParams);},10);
+	return true;
+};
+
+// Gets the list of tiddlers within a given workspace
+// Returns true if successful, error string if not (or it should)
+// Sets context.tiddlers, which is an array of tiddlers
+// Set these variables if possible:
+// title: tiddler.title, modified: tiddler.modified, modifier: tiddler.modifier, text: tiddler.text, tags: tiddler.tags, size: tiddler.text
+// For RSS each item is a tiddler
+RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
+{
+	if(!this.store)
+		return RSSAdaptor.NotLoadedError;
+	if(!context)
+		context = {};
+	context.tiddlers = [];
+	// First thing to do is strip out any \r characters in the file, as TiddlyWiki doesn't deal with them
+	this.store = this.store.replace(/\r+/mg,&quot;&quot;);
+	// regex_item matches on the items 
+	var regex_item = /&amp;lt;item&amp;gt;(.|\n)*?&amp;lt;\/item&amp;gt;/mg;
+	// regex_title matches for the titles
+	var regex_title = /&amp;lt;title&amp;gt;(.|\n)*?&amp;lt;\/title&amp;gt;/mg;
+	var regex_guid = /&amp;lt;guid&amp;gt;(.|\n)*?&amp;lt;\/guid&amp;gt;/mg;
+	var regex_desc = /&amp;lt;description&amp;gt;(.|\n)*?&amp;lt;\/description&amp;gt;/mg;
+	var regex_category = /&amp;lt;category&amp;gt;(.|\n)*?&amp;lt;\/category&amp;gt;/mg;
+	var regex_link = /&amp;lt;link&amp;gt;(\S|\n)*?&amp;lt;\/link&amp;gt;/mg;
+	var regex_pubDate = /&amp;lt;pubDate&amp;gt;(.|\n)*?&amp;lt;\/pubDate&amp;gt;/mg;
+	var regex_author = /&amp;lt;author&amp;gt;(.|\n)*?&amp;lt;\/author&amp;gt;/mg;
+	var item_match = this.store.match(regex_item);
+	// check for filter and then implement tag filter if of the form [tag[public stuff]]
+	// filter syntax: [tag[tag1 tag2 ...]]
+	// tags in the same set of brackets are all compulsory
+	// TO-DO: support bracketed list, where multi-word tags are of the form [two words]
+	if (filter) {
+		var filter_regex = /\[(\w+)\[([ \w]+)\]\]/;
+		var filter_match = filter_regex.exec(filter);
+		if (filter_match) {
+			// filter_match[2] is a space-seperated string of the tags to match on
+			var tags_to_match = filter_match[1]==&quot;tag&quot; ? filter_match[2].split(&quot; &quot;) : null;
+		} else {
+			displayMessage(&quot;no match: check regex in filter&quot;);
+		}
+	}
+	for (var i=0;i&amp;lt;item_match.length;i++) {
+		// create a new Tiddler in context.tiddlers with the finished item object
+		// grab a title
+		item = {};
+		var title = item_match[i].match(regex_title);
+		if (title)
+			item.title = title[0].replace(/^&amp;lt;title&amp;gt;|&amp;lt;\/title&amp;gt;$/mg,&quot;&quot;);
+		else {
+			// something went wrong grabbing the title, grab the guid instead
+			title = item_match[i].match(regex_guid);
+			displayMessage(&quot;problem with getting title: &quot; + item_match[i])
+			if (title)
+				item.title = title[0].replace(/^&amp;lt;guid&amp;gt;|&amp;lt;\/guid&amp;gt;$/mg,&quot;&quot;);
+			else {
+				item.title = new Date();
+				displayMessage(&quot;problem with getting title AND guid: &quot; + item_match[i]);
+			}
+		}
+		// This line makes sure any html-encoding in the title is reversed
+		item.title = item.title.htmlDecode();
+		// There is a problem with the title, which is that it is not formatted, so characters like &amp;amp;apos; are not converted at render time
+		// renderHtmlText() extends String and sorts out the problem
+		item.title = item.title.renderHtmlText();
+		// grab a description
+		desc = item_match[i].match(regex_desc);
+		if (desc) item.text = desc[0].replace(/^&amp;lt;description&amp;gt;|&amp;lt;\/description&amp;gt;$/mg,&quot;&quot;);
+		else {
+			item.text = &quot;empty, something seriously wrong with this item&quot;;
+			displayMessage(&quot;description empty for item: &quot; + item.title);
+		}
+		var t = new Tiddler(item.title);
+		t.text = &quot;&amp;lt;html&amp;gt;&quot; + item.text.htmlDecode().renderHtmlText() + &quot;&amp;lt;/html&amp;gt;&quot;;
+		// grab the categories
+		category = item_match[i].match(regex_category);
+		if (category) {
+			item.categories = [];
+			for (var j=0;j&amp;lt;category.length;j++) {
+				item.categories[j] = category[j].replace(/^&amp;lt;category&amp;gt;|&amp;lt;\/category&amp;gt;$/mg,&quot;&quot;);
+			}
+			t.tags = item.categories;
+		} else {
+			displayMessage(&quot;no categories for item: &quot; + item.title);
+		}
+		// grab the link and put it in a custom field (assumes this is sensible)
+		// regex_link assumes you can never have whitespace in a link
+		link = item_match[i].match(regex_link);
+		if (link) item.link = link[0].replace(/^&amp;lt;link&amp;gt;|&amp;lt;\/link&amp;gt;$/mg,&quot;&quot;);
+		else {
+			item.link = &quot;#&quot;;
+			displayMessage(&quot;link empty for item: &quot; + item.title);
+		}
+		t.fields[&quot;link to original&quot;] = item.link;
+		// grab date created
+		pubDate = item_match[i].match(regex_pubDate);
+		if (pubDate) {
+			pubDate = pubDate[0].replace(/^&amp;lt;pubDate&amp;gt;|&amp;lt;\/pubDate&amp;gt;$/mg,&quot;&quot;);
+			// TO-DO: does this work on Windows FF and IE??
+			item.pubDate = new Date(pubDate);
+		} else {
+			item.pubDate = new Date();
+			displayMessage(&quot;pubDate empty for item: &quot; + item.title);
+		}
+		t.created = item.pubDate;
+		// TO-DO: grab author
+		author = item_match[i].match(regex_author);
+		if (author) {
+			author = author[0].replace(/^&amp;lt;author&amp;gt;|&amp;lt;\/author&amp;gt;$/mg,&quot;&quot;);
+			item.author = author;
+		} else {
+			item.author = &quot;unknown&quot;;
+			displayMessage(&quot;no author for item: &quot; + item.title);
+		}
+		t.modifier = item.author;
+		// check to see that we have a filter to use
+		if (filter_match) {
+			if(t.isTaggedAllOf(tags_to_match)) {
+				context.tiddlers.push(t);
+			}
+		} else {
+			// with no filter, we just add all the tiddlers
+			context.tiddlers.push(t);
+		}
+	}
+	context.status = true;
+	// Set this.context so that we can refer to the tiddler list even if it is not passed on to us
+	this.context = context;
+	window.setTimeout(function() {callback(context,userParams);},10);
+	return true;
+};
+
+// QUERY: what actually calls this and does it always pass in a real tiddler?
+RSSAdaptor.prototype.generateTiddlerInfo = function(tiddler)
+{
+	var info = {};
+	info.uri = tiddler.fields['server.host'] + &quot;#&quot; + tiddler.title;
+	return info;
+};
+
+// Retrieves a tiddler from a given workspace on a given server
+// Sets context.tiddler to the requested tiddler
+// Context object passed in from importTiddlers is empty so we use this.context
+// Returns true if successful, error string if not (or it should)
+RSSAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
+{
+	if(!this.store)
+		return RSSAdaptor.NotLoadedError;
+	if(!context)
+		context = {};
+	// Retrieve the tiddler from the this.context.tiddlers array
+	for (var i=0; i&amp;lt;this.context.tiddlers.length; i++) {
+		if (this.context.tiddlers[i].title == title) {
+			context.tiddler = this.context.tiddlers[i];
+		}
+	}
+	if(context.tiddler) {
+		context.tiddler.fields['server.type'] = RSSAdaptor.serverType;
+		context.tiddler.fields['server.host'] = this.host;
+		context.tiddler.fields['server.page.revision'] = context.tiddler.modified.convertToYYYYMMDDHHMM();
+		context.status = true;
+	} else {
+		context.status = false;
+		context.statusText = &quot;error retrieving tiddler: &quot; + title;
+		return context.statusText;
+	}
+	if(context.allowSynchronous) {
+		context.isSynchronous = true;
+		callback(context,userParams);
+	} else {
+		window.setTimeout(function() {callback(context,userParams);},10);
+	}
+	return true;
+};
+
+RSSAdaptor.prototype.close = function()
+{
+	delete this.store;
+	this.store = null;
+};
+
+config.adaptors[RSSAdaptor.serverType] = RSSAdaptor;
+
+// Hack to override the importTiddlers local file behaviour
+config.macros.importTiddlers.onBrowseChange = function(e)
+{
+	var wizard = new Wizard(this);
+	var fileInput = wizard.getElement(&quot;txtPath&quot;);
+	fileInput.value = &quot;file://&quot; + this.value;
+	var serverType = wizard.getElement(&quot;selTypes&quot;);
+	if(serverType.value != &quot;RSS&quot;) {
+		serverType.value = &quot;file&quot;;
+	}
+	return false;
+};
+
+// renderHtmlText puts a string through the browser render process and then extracts the text
+// useful to turn HTML entities into literals such as &amp;amp;apos; to '
+String.prototype.renderHtmlText = function() {
+	var e = createTiddlyElement(document.body,&quot;div&quot;);
+	e.innerHTML = this;
+	var text = getPlainText(e);
+	removeNode(e);
+	return text;
+};
+
+// Test if a tiddler carries any of an array of tags
+// Takes an array of tags
+// Returns true if there is a match, false if not
+Tiddler.prototype.isTaggedAnyOf = function(tag_array)
+{
+	if (tag_array) {
+		// get a string of this tiddler's tags
+		var this_tag_list = this.getTags();
+		// spilt that into an array
+		var this_tag_array = this_tag_list.split(&quot; &quot;);
+		// check that all the members of tag_array are contained in this_tag_array
+		for (var i=0; i&amp;lt;this_tag_array.length; i++) {
+			for (var j=0; j&amp;lt;tag_array.length; j++) {
+				if (this_tag_array[i] == tag_array[j]) {
+					return true;
+				}
+			}
+		}
+		// if we get to this point, we've not had any matches
+		return false;
+	} else {
+		return false;
+	}
+};
+
+// Test if a tiddler carries all of an array of tags
+// Takes an array of tags
+// Returns true if all match, false if not
+Tiddler.prototype.isTaggedAllOf = function(tag_array)
+{
+	if (tag_array) {
+		// get a string of this tiddler's tags
+		var this_tag_list = this.getTags();
+		// spilt that into an array
+		var this_tag_array = this_tag_list.split(&quot; &quot;);
+		// check whether any of the members of tag_array are not contained in this_tag_array
+		for (var i=0; i&amp;lt;tag_array.length; i++) {
+			// tag_match is a flag to signal whether we've had a match for a compulsory tag
+			var tag_match = false;
+			for (var j=0; j&amp;lt;this_tag_array.length; j++) {
+				if (tag_array[i] == this_tag_array[j]) {
+					tag_match = true;
+					break;
+				}
+			}
+			// if tag_match is still false after we've looked through the tiddler's tags,
+			// there is a failed match in the compulsory list so we can return false
+			if (tag_match == false) {
+				return false;
+			}
+		}
+		// now we've looked through the compulsory tags, return true
+		// this is valid because we would have returned false by this point anyway if
+		// there had been no match
+		return true;
+	} else {
+		return false;
+	}
+};
+&lt;/pre&gt;</description>
+<category>systemConfig</category>
+<category>code</category>
+<link>http://www.tiddlywiki.com/#%5B%5BRSS%20adaptor%20code%5D%5D</link>
+<pubDate>Fri, 21 Sep 2007 12:27:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>RSSrender plugin</title>
+<description>&lt;pre&gt;// Override built-in saveToRss to include modifier field
+Tiddler.prototype.saveToRss = function(url)
+{
+	var s = [];
+	s.push(&quot;&amp;lt;item&amp;gt;&quot;);
+	s.push(&quot;&amp;lt;title&quot; + &quot;&amp;gt;&quot; + this.title.htmlEncode() + &quot;&amp;lt;/title&quot; + &quot;&amp;gt;&quot;);
+	s.push(&quot;&amp;lt;description&amp;gt;&quot; + wikifyStatic(this.text,null,this).htmlEncode() + &quot;&amp;lt;/description&amp;gt;&quot;);
+	for(var t=0; t&amp;lt;this.tags.length; t++)
+		s.push(&quot;&amp;lt;category&amp;gt;&quot; + this.tags[t] + &quot;&amp;lt;/category&amp;gt;&quot;);
+	s.push(&quot;&amp;lt;link&amp;gt;&quot; + url + &quot;#&quot; + encodeURIComponent(String.encodeTiddlyLink(this.title)) + &quot;&amp;lt;/link&amp;gt;&quot;);
+	s.push(&quot;&amp;lt;pubDate&amp;gt;&quot; + this.modified.toGMTString() + &quot;&amp;lt;/pubDate&amp;gt;&quot;);
+	s.push(&quot;&amp;lt;author&amp;gt;&quot; + this.modifier + &quot;&amp;lt;/author&amp;gt;&quot;);
+	s.push(&quot;&amp;lt;/item&amp;gt;&quot;);
+	return s.join(&quot;\n&quot;);
+};
+&lt;/pre&gt;</description>
+<category>systemConfig</category>
+<link>http://www.tiddlywiki.com/#%5B%5BRSSrender%20plugin%5D%5D</link>
+<pubDate>Fri, 21 Sep 2007 12:18:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.xml</title>
+<description>&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Type:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;RSS&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;URL:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.xml&quot; href=&quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.xml&quot; class=&quot;externalLink&quot;&gt;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.xml&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Workspace:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;&lt;a tiddlylink=&quot;TiddlerFilter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlerFilter&quot; href=&quot;http://www.tiddlywiki.com/#TiddlerFilter&quot; class=&quot;externalLink&quot;&gt;TiddlerFilter&lt;/a&gt;:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;[tag[public]]&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;br&gt;This tiddler was automatically created to record the details of this server</description>
+<category>systemServer</category>
+<link>http://www.tiddlywiki.com/#file%3A%2F%2F%2FUsers%2Fjonathanlister%2FDocuments%2Fosmosoft%2Ftiddlywikis%2Ftiddlytwitter%2FtiddlytwitterSaq.xml</link>
+<pubDate>Fri, 21 Sep 2007 10:47:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>publicViewTemplate</title>
+<description>&lt;pre&gt;&amp;lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler &amp;gt; fields syncing permalink references jump'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='title' macro='view title'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='subtitle'&amp;gt;&amp;lt;span macro='view modifier link'&amp;gt;&amp;lt;/span&amp;gt;, &amp;lt;span macro='view modified date'&amp;gt;&amp;lt;/span&amp;gt; (&amp;lt;span macro='message views.wikified.createdPrompt'&amp;gt;&amp;lt;/span&amp;gt; &amp;lt;span macro='view created date'&amp;gt;&amp;lt;/span&amp;gt;)&amp;lt;/div&amp;gt;
+&amp;lt;div class='tagging' macro='tagging'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='tagged' macro='tags'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='viewer' macro='view text wikified'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='viewer' macro='notes'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='tagClear'&amp;gt;&amp;lt;/div&amp;gt;
+&lt;/pre&gt;</description>
+<link>http://www.tiddlywiki.com/#publicViewTemplate</link>
+<pubDate>Fri, 21 Sep 2007 10:33:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>ViewTemplate</title>
+<description>&lt;pre&gt;&amp;lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler &amp;gt; fields syncing permalink references jump'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='title' macro='view title'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='subtitle'&amp;gt;&amp;lt;span macro='view modifier link'&amp;gt;&amp;lt;/span&amp;gt;, &amp;lt;span macro='view modified date'&amp;gt;&amp;lt;/span&amp;gt; (&amp;lt;span macro='message views.wikified.createdPrompt'&amp;gt;&amp;lt;/span&amp;gt; &amp;lt;span macro='view created date'&amp;gt;&amp;lt;/span&amp;gt;)&amp;lt;/div&amp;gt;
+&amp;lt;div class='tagging' macro='tagging'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='tagged' macro='tags'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='viewer' macro='view text wikified'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='tagClear'&amp;gt;&amp;lt;/div&amp;gt;
+&lt;/pre&gt;</description>
+<link>http://www.tiddlywiki.com/#ViewTemplate</link>
+<pubDate>Fri, 21 Sep 2007 10:33:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>TaggedTemplateTweak</title>
+<description>&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;Name&lt;/td&gt;&lt;td&gt;TaggedTemplateTweak&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;Source&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.TiddlyTools.com/#TaggedTemplateTweak&quot; href=&quot;http://www.TiddlyTools.com/#TaggedTemplateTweak&quot; class=&quot;externalLink&quot;&gt;http://www.TiddlyTools.com/#TaggedTemplateTweak&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;Version&lt;/td&gt;&lt;td&gt;1.1.0&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;Author&lt;/td&gt;&lt;td&gt;Eric Shulman - ELS Design Studios&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;License&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.TiddlyTools.com/#LegalStatements&quot; href=&quot;http://www.TiddlyTools.com/#LegalStatements&quot; class=&quot;externalLink&quot;&gt;http://www.TiddlyTools.com/#LegalStatements&lt;/a&gt; &lt;br&gt;and &lt;a target=&quot;_blank&quot; title=&quot;External link to http://creativecommons.org/licenses/by-sa/2.5/&quot; href=&quot;http://creativecommons.org/licenses/by-sa/2.5/&quot; class=&quot;externalLink&quot;&gt;Creative Commons Attribution-ShareAlike 2.5 License&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;CoreVersion&lt;/td&gt;&lt;td&gt;2.1&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;Type&lt;/td&gt;&lt;td&gt;plugin&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;Requires&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;Overrides&lt;/td&gt;&lt;td&gt;Story.prototype.chooseTemplateForTiddler()&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;Description&lt;/td&gt;&lt;td&gt;use alternative &lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;ViewTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#ViewTemplate&quot; href=&quot;http://www.tiddlywiki.com/#ViewTemplate&quot; class=&quot;externalLink&quot;&gt;ViewTemplate&lt;/a&gt;/&lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;EditTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#EditTemplate&quot; href=&quot;http://www.tiddlywiki.com/#EditTemplate&quot; class=&quot;externalLink&quot;&gt;EditTemplate&lt;/a&gt; for tiddler's tagged with specific tag values&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;br&gt;The core function, &quot;story.chooseTemplateForTiddler(title,template)&quot; is essentially a &quot;pass-thru&quot; that returns the same template it was given, and is provided by the core so that plugins can customize the template selection logic to select alternative templates, based on whatever programmatic criteria is appropriate.  This tweak extends story.chooseTemplateForTiddler() so that &lt;strong&gt;whenever a tiddler is marked with a specific tag value, it can be viewed and/or edited using alternatives to the standard tiddler templates.&lt;/strong&gt; &lt;br&gt;&lt;h5&gt;Usage&lt;/h5&gt;&lt;blockquote&gt;Each alternative template is associated with a specific tiddler tag value by using that tag value as a prefix added to the standard TiddlyWiki template titles, &lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;ViewTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#ViewTemplate&quot; href=&quot;http://www.tiddlywiki.com/#ViewTemplate&quot; class=&quot;externalLink&quot;&gt;ViewTemplate&lt;/a&gt; and &lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;EditTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#EditTemplate&quot; href=&quot;http://www.tiddlywiki.com/#EditTemplate&quot; class=&quot;externalLink&quot;&gt;EditTemplate&lt;/a&gt;.&lt;br&gt;&lt;br&gt;For example, any tiddlers that are tagged with &lt;strong&gt;&lt;a tag=&quot;media&quot; class=&quot;button&quot; title=&quot;Show tiddlers tagged with 'media'&quot; href=&quot;javascript:;&quot;&gt;media&lt;/a&gt;&lt;/strong&gt; will look for alternative templates named &lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;mediaViewTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#mediaViewTemplate&quot; href=&quot;http://www.tiddlywiki.com/#mediaViewTemplate&quot; class=&quot;externalLink&quot;&gt;mediaViewTemplate&lt;/a&gt; and &lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;mediaEditTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#mediaEditTemplate&quot; href=&quot;http://www.tiddlywiki.com/#mediaEditTemplate&quot; class=&quot;externalLink&quot;&gt;mediaEditTemplate&lt;/a&gt;.  Additionally, in order to find templates that have proper WikiWord tiddler titles (e.g., &lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;MediaViewTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#MediaViewTemplate&quot; href=&quot;http://www.tiddlywiki.com/#MediaViewTemplate&quot; class=&quot;externalLink&quot;&gt;MediaViewTemplate&lt;/a&gt; and &lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;MediaEditTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#MediaEditTemplate&quot; href=&quot;http://www.tiddlywiki.com/#MediaEditTemplate&quot; class=&quot;externalLink&quot;&gt;MediaEditTemplate&lt;/a&gt;), the plugin will also attempt to use a capitalized form of the tag value (e.g., &lt;strong&gt;Media&lt;/strong&gt;) as a prefix.  &lt;em&gt;This capitalization is for comparison purposes only and will not alter the actual tag values that are stored in the tiddler.&lt;/em&gt;&lt;br&gt;&lt;br&gt;If no matching alternative template can be found by using &lt;em&gt;any&lt;/em&gt; of the tiddler's tags (either &quot;as-is&quot; or capitalized), the tiddler defaults to using the appropriate standard &lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;ViewTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#ViewTemplate&quot; href=&quot;http://www.tiddlywiki.com/#ViewTemplate&quot; class=&quot;externalLink&quot;&gt;ViewTemplate&lt;/a&gt; or &lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;EditTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#EditTemplate&quot; href=&quot;http://www.tiddlywiki.com/#EditTemplate&quot; class=&quot;externalLink&quot;&gt;EditTemplate&lt;/a&gt; definition.&lt;br&gt;&lt;br&gt;&lt;strong&gt;To add your own custom templates:&lt;/strong&gt;&lt;br&gt;&lt;blockquote&gt;First, decide upon a suitable tag keyword to uniquely identify your custom templates and create custom view and/or edit templates using that keyword as a prefix (e.g., &quot;KeywordViewTemplate&quot; and &quot;KeywordEditTemplate&quot;).  Then, simply create a tiddler and tag it with your chosen keyword... that's it!  As long as the tiddler is tagged with your keyword, it will be displayed using the corresponding alternative templates.  If you remove the tag or rename/delete the alternative templates, the tiddler will revert to using the standard viewing and editing templates.&lt;br&gt;&lt;/blockquote&gt;&lt;/blockquote&gt;&lt;h5&gt;Examples&lt;/h5&gt;&lt;blockquote&gt;&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;Sample tiddler&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;tag&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;view template&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;edit template&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;MediaSample - QuickTime&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#MediaSample - QuickTime&quot; href=&quot;http://www.tiddlywiki.com/#MediaSample%20-%20QuickTime&quot; class=&quot;externalLink&quot;&gt;MediaSample - QuickTime&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tag=&quot;media&quot; class=&quot;button&quot; title=&quot;Show tiddlers tagged with 'media'&quot; href=&quot;javascript:;&quot;&gt;media&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;MediaViewTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#MediaViewTemplate&quot; href=&quot;http://www.tiddlywiki.com/#MediaViewTemplate&quot; class=&quot;externalLink&quot;&gt;MediaViewTemplate&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;MediaEditTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#MediaEditTemplate&quot; href=&quot;http://www.tiddlywiki.com/#MediaEditTemplate&quot; class=&quot;externalLink&quot;&gt;MediaEditTemplate&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;MediaSample - Windows&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#MediaSample - Windows&quot; href=&quot;http://www.tiddlywiki.com/#MediaSample%20-%20Windows&quot; class=&quot;externalLink&quot;&gt;MediaSample - Windows&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tag=&quot;media&quot; class=&quot;button&quot; title=&quot;Show tiddlers tagged with 'media'&quot; href=&quot;javascript:;&quot;&gt;media&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;MediaViewTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#MediaViewTemplate&quot; href=&quot;http://www.tiddlywiki.com/#MediaViewTemplate&quot; class=&quot;externalLink&quot;&gt;MediaViewTemplate&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;MediaEditTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#MediaEditTemplate&quot; href=&quot;http://www.tiddlywiki.com/#MediaEditTemplate&quot; class=&quot;externalLink&quot;&gt;MediaEditTemplate&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;CDSample&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#CDSample&quot; href=&quot;http://www.tiddlywiki.com/#CDSample&quot; class=&quot;externalLink&quot;&gt;CDSample&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tag=&quot;CD&quot; class=&quot;button&quot; title=&quot;Show tiddlers tagged with 'CD'&quot; href=&quot;javascript:;&quot;&gt;CD&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;CDViewTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#CDViewTemplate&quot; href=&quot;http://www.tiddlywiki.com/#CDViewTemplate&quot; class=&quot;externalLink&quot;&gt;CDViewTemplate&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;CDEditTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#CDEditTemplate&quot; href=&quot;http://www.tiddlywiki.com/#CDEditTemplate&quot; class=&quot;externalLink&quot;&gt;CDEditTemplate&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;a newtext=&quot;Type some text and then press DONE to view the task controls&quot; newtemplate=&quot;2&quot; newfocus=&quot;title&quot; params=&quot;task&quot; isjournal=&quot;false&quot; newtitle=&quot;SampleTask&quot; accesskey=&quot;N&quot; class=&quot;button&quot; title=&quot;Create a new tiddler&quot; href=&quot;javascript:;&quot;&gt;create new task...&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tag=&quot;task&quot; class=&quot;button&quot; title=&quot;Show tiddlers tagged with 'task'&quot; href=&quot;javascript:;&quot;&gt;task&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;TaskViewTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TaskViewTemplate&quot; href=&quot;http://www.tiddlywiki.com/#TaskViewTemplate&quot; class=&quot;externalLink&quot;&gt;TaskViewTemplate&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;EditTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#EditTemplate&quot; href=&quot;http://www.tiddlywiki.com/#EditTemplate&quot; class=&quot;externalLink&quot;&gt;EditTemplate&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;br&gt;&lt;em&gt;(note: if these samples are not present in your document, please visit&lt;/em&gt; &lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.TiddlyTools.com/&quot; href=&quot;http://www.TiddlyTools.com/&quot; class=&quot;externalLink&quot;&gt;http://www.TiddlyTools.com/&lt;/a&gt; &lt;em&gt;to view these sample tiddlers on-line)&lt;/em&gt;&lt;br&gt;&lt;/blockquote&gt;&lt;h5&gt;Installation&lt;/h5&gt;&lt;blockquote&gt;import (or copy/paste) the following tiddlers into your document:&lt;br&gt;&lt;a tiddlyfields=&quot;server.type:&amp;quot;file&amp;quot; server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html&amp;quot;&quot; tiddlylink=&quot;TaggedTemplateTweak&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TaggedTemplateTweak&quot; href=&quot;http://www.tiddlywiki.com/#TaggedTemplateTweak&quot; class=&quot;externalLink&quot;&gt;TaggedTemplateTweak&lt;/a&gt;&lt;br&gt;&lt;/blockquote&gt;&lt;h5&gt;Revision History&lt;/h5&gt;&lt;blockquote&gt;&lt;strong&gt;2007.06.23 [1.1.0]&lt;/strong&gt; re-written to use automatic 'tag prefix' search instead of hard coded check for each tag.  Allows new custom tags to be used without requiring code changes to this plugin.&lt;br&gt;&lt;strong&gt;2007.06.11 [1.0.0]&lt;/strong&gt; initial release&lt;br&gt;&lt;/blockquote&gt;&lt;h5&gt;Credits&lt;/h5&gt;&lt;blockquote&gt;This feature was developed by Eric L Shulman / ELS Design Studios&lt;br&gt;&lt;/blockquote&gt;&lt;h5&gt;Code&lt;/h5&gt;&lt;pre&gt;version.extensions.taggedTemplate= {major: 1, minor: 1, revision: 0, date: new Date(2007,6,18)};
+Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
+Story.prototype.chooseTemplateForTiddler = function(title,template)
+{
+	// get default template from core
+	var template=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
+
+	// if the tiddler to be rendered doesn't exist yet, just return core result
+	var tiddler=store.getTiddler(title); if (!tiddler) return template;
+
+	// look for template whose prefix matches a tag on this tiddler
+	for (t=0; t&amp;lt;tiddler.tags.length; t++) {
+		var tag=tiddler.tags[t];
+		if (store.tiddlerExists(tag+template)) { template=tag+template; break; }
+		// try capitalized tag (to match WikiWord template titles)
+		var cap=tag.substr(0,1).toUpperCase()+tag.substr(1);
+		if (store.tiddlerExists(cap+template)) { template=cap+template; break; }
+	}
+
+	return template;
+}
+&lt;/pre&gt;</description>
+<category>BookmarkPackage</category>
+<category>MediaPackage</category>
+<category>TaskPackage</category>
+<category>systemConfig</category>
+<category>FormattingPackage</category>
+<link>http://www.tiddlywiki.com/#TaggedTemplateTweak</link>
+<pubDate>Sun, 24 Jun 2007 21:48:00 GMT</pubDate>
+<author>ELSDesignStudios</author>
+</item>
+</channel>
+</rss>
