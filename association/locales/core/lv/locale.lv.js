@@ -3,7 +3,7 @@
 |''Description:''|TiddlyWiki tulkojums latviešu valodā|
 |''Author:''|Mārcis Š. (marcis (at) webdizains (dot) com)|
 |''Source:''|www.webdizains.com/tw/ |
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/lv/locale.lv.js |
 |''Version:''|0.3.6|
 |''Date:''|Jul 6, 2007|
 |''Comments:''|Lūdzu, komentējiet iekš http://groups.google.co.uk/group/TiddlyWikiDev |
