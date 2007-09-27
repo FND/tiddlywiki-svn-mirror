@@ -7,6 +7,11 @@ js: ../../../core/js/FormatterHelpers.js
 js: ../../../core/js/Formatter.js
 js: ../../../core/js/Wikifier.js
 js: ../../../core/js/Macros.js
+js: ../../../core/js/NewTiddler.js
+js: ../../../core/js/Search.js
+js: ../../../core/js/Tabs.js
+# js: ../../../core/js/Sparkline.js
+js: ../../../core/js/Toolbar.js
 js: ../../../core/js/Commands.js
 js: ../../../core/js/Tiddler.js
 js: ../../../core/js/TiddlyWiki.js
@@ -35,6 +40,7 @@ js: ../../../core/js/ListView.js
 js: ../../../core/js/BasicTypes.js
 js: ../../../core/js/Strings.js
 js: ../../../core/js/Dates.js
+# js: ../../../core/js/Crypto.js
 js: ../../../core/js/RGB.js
 js: ../../../core/js/Dom.js
 js: ../../../core/js/LoaderSaver.js
