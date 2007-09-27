@@ -1,0 +1,8 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: plugins/plugins.recipe
+recipe: theme/theme.recipe
+recipe: definitions/definitions.recipe
+recipe: views/views.recipe
+recipe: sampleTasks/sampleTasks.recipe
+recipe: tiddlers/tiddlers.recipe
+
