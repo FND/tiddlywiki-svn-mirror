@@ -157,7 +157,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 			}
 			t.tags = item.categories;
 		} else {
-			displayMessage("no categories for item: " + item.title);
+			displayMessage("no tags for item: " + item.title);
 		}
 		// grab the link and put it in a custom field (assumes this is sensible)
 		// regex_link assumes you can never have whitespace in a link
@@ -220,6 +220,7 @@ RSSAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 			context.tiddler = this.context.tiddlers[i];
 		}
 	}
+	// NOTE: this doesn't add the filter field - is that ok? Probably not...
 	if(context.tiddler) {
 		context.tiddler.fields['server.type'] = RSSAdaptor.serverType;
 		context.tiddler.fields['server.host'] = this.host;
