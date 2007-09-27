@@ -20,7 +20,7 @@ tiddler: ../tiddlypedia/TabMoreOtherPagesUpdatedShadowed.tiddler
 tiddler: ../tiddlypedia/TabContent.tiddler
 tiddler: ../tiddlypedia/TabTags.tiddler
 tiddler: ../tiddlypedia/TabOtherPages.tiddler
-tiddler: ../tiddlypedia/ViewTemplateRevisions.tiddler
+# tiddler: ../tiddlypedia/ViewTemplateRevisions.tiddler
 # tiddler: ../tiddlypedia/ViewTemplateGetPutRevisions.tiddler
 tiddler: ../tiddlypedia/Wikipedia_Text_of_the_GNU_Free_Documentation_License.tiddler
 tiddler: ../tiddlypedia/Template_WikipediaArticleFooter.tiddler
