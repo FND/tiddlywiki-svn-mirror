@@ -42,7 +42,7 @@ DAMAGE.
 <link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml'/>
 <!--}}}-->
 <!--PRE-HEAD-END-->
-<title> TiddlyChatter - Test workbook - should work with other TiddlyChatter-enabled workbooks </title>
+<title> TiddlyChatter - Test workbook - to work with other TiddlyChatter-enabled workbooks </title>
 <style type="text/css">
 #saveTest {display:none;}
 #messageArea {display:none;}
@@ -496,13 +496,206 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
+<div title="ChatterFeed" modifier="Jon Lister" modified="200709271741" created="200709211043" tags="systemServer TiddlyChatter" server.type="RSS" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.workspace="" server.filter="[tag[public]]" changecount="2">
+<pre>|''Type:''|RSS|
+|''URL:''|file:///something.xml|
+|''Workspace:''||
+|''TiddlerFilter:''|[tag[public]]|
+</pre>
+</div>
 <div title="DefaultTiddlers" modifier="Jon Lister" modified="200709261607" created="200709261606" changecount="2">
 <pre>[[Welcome to TiddlyChatter]]</pre>
 </div>
-<div title="MainMenu" modifier="Jon Lister" modified="200709261607" created="200709261354" changecount="3">
-<pre>[[Welcome|Welcome to TiddlyChatter]]</pre>
+<div title="ImportWorkspacePlugin" modifier="Jon Lister" modified="200709271741" created="200702250000" tags="systemConfig TiddlyChatter" changecount="15" server.type="RSS" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.workspace="" server.filter="[tag[public]]">
+<pre>/***
+|''Name:''|ImportWorkspacePlugin|
+|''Description:''|Commands to access hosted TiddlyWiki data|
+|''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://www.martinswiki.com/#AdaptorMacrosPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
+|''Version:''|0.0.1|
+|''Date:''|Aug 23, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.2.0|
+
+|''Feed for import''|&lt;&lt;option txtImportFeed&gt;&gt;|
+|''Import workspace on startup''|&lt;&lt;option chkImportWorkspaceOnStartup&gt;&gt;|
+|''Label for go button''|&lt;&lt;option txtImportLabel&gt;&gt;|
+
+***/
+
+//{{{
+// Ensure that the plugin is only installed once.
+if(!version.extensions.ImportWorkspacePlugin) {
+version.extensions.ImportWorkspacePlugin = {installed:true};
+
+if(config.options.txtImportFeed == undefined)
+	{config.options.txtImportFeed = '';}
+if(config.options.chkImportWorkspaceOnStartup == undefined)
+	{config.options.chkImportWorkspaceOnStartup = true;}
+
+config.messages.hostOpened = &quot;Host '%0' opened&quot;;
+config.messages.workspaceOpened = &quot;Workspace '%0' opened&quot;;
+config.messages.workspaceTiddlers = &quot;%0 tiddlers in workspace, importing %1 of them&quot;;
+config.messages.tiddlerImported = 'Tiddler: &quot;%0&quot; imported';
+
+
+// import all the tiddlers from a given workspace on a given host
+config.macros.importWorkspace = {};
+merge(config.macros.importWorkspace,{
+	label: &quot;import workspace&quot;,
+	prompt: &quot;Import tiddlers in workspace&quot;,
+	done: &quot;Tiddlers imported&quot;});
+
+
+config.macros.importWorkspace.init = function()
+{
+	var customFields = config.defaultCustomFields;
+	if(!customFields['server.type']) {
+		var title = config.options.txtImportFeed;
+		if(title=='') {
+			var tiddlers = store.getTaggedTiddlers(&quot;systemServer&quot;);
+			if(tiddlers.length==0)
+				return;
+			title = tiddlers[0].title;
+		}
+		config.defaultCustomFields['server.type'] = store.getTiddlerSlice(title,'Type');
+		config.defaultCustomFields['server.host'] = store.getTiddlerSlice(title,'URL');
+		config.defaultCustomFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
+		config.defaultCustomFields['server.filter'] = store.getTiddlerSlice(title,'TiddlerFilter');
+	}
+	if(config.options.chkImportWorkspaceOnStartup)
+		config.macros.importWorkspace.getTiddlers(customFields);
+};
+
+config.macros.importWorkspace.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	params = paramString.parseParams('anon',null,true,false,false);
+	var customFields = getParam(params,'fields',false);
+	if(!customFields) {
+		customFields = config.defaultCustomFields;
+	}
+	if(!customFields['server.type']) {
+		var title = getParam(params,'anon');
+		if(!title) {
+			var tiddlers = store.getTaggedTiddlers(&quot;systemServer&quot;);
+			if(tiddlers.length&gt;0)
+				title = tiddlers[0].title;
+		}
+		if(title) {
+			customFields = {};
+			customFields['server.type'] = store.getTiddlerSlice(title,'Type');
+			customFields['server.host'] = store.getTiddlerSlice(title,'URL');
+			customFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
+			customFields['server.filter'] = store.getTiddlerSlice(title,'TiddlerFilter');
+		}
+	}
+	customFields = String.encodeHashMap(customFields);
+	//#displayMessage(&quot;cf:&quot;+customFields)
+	if(config.options.txtImportLabel) this.label = config.options.txtImportLabel;
+	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
+	btn.setAttribute('customFields',customFields);
+};
+
+config.macros.importWorkspace.onClick = function(e)
+{
+	clearMessage();
+//키displayMessage(&quot;Starting import...&quot;);
+	var customFields = this.getAttribute('customFields');
+//#displayMessage(&quot;cf:&quot;+customFields)
+	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
+	config.macros.importWorkspace.getTiddlers(fields);
+};
+
+config.macros.importWorkspace.getTiddlers = function(fields)
+{
+	if(!fields['server.type']) {
+		var tiddlers = store.getTaggedTiddlers(&quot;systemServer&quot;);
+		var title = tiddlers[0].title;
+		fields = {};
+		fields['server.type'] = store.getTiddlerSlice(title,'Type');
+		fields['server.host'] = store.getTiddlerSlice(title,'URL');
+		fields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
+		fields['server.filter'] = store.getTiddlerSlice(title,'TiddlerFilter');
+	}
+	var serverType = fields['server.type'];
+	if(!serverType)
+		serverType = fields['wikiformat'];
+	if(!serverType)
+		return false;
+	var adaptor = new config.adaptors[serverType];
+	if(adaptor) {
+		var context = {};
+		context.host = fields['server.host'];
+		context.workspace = fields['server.workspace'];
+		context.adaptor = adaptor;
+		context.filter = fields['server.filter'];
+		adaptor.openHost(context.host,context,null,config.macros.importWorkspace.openHostCallback);
+	}
+};
+
+config.macros.importWorkspace.openHostCallback = function(context,userParams)
+{
+	displayMessage(config.messages.hostOpened.format([context.host]));
+	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.openWorkspaceCallback);
+	context.adaptor.openWorkspace(context.workspace,context,userParams,config.macros.importWorkspace.openWorkspaceCallback);
+};
+
+config.macros.importWorkspace.openWorkspaceCallback = function(context,userParams)
+{
+	displayMessage(config.messages.workspaceOpened.format([context.workspace]));
+	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.getTiddlerListCallback);
+	context.adaptor.getTiddlerList(context,userParams,config.macros.importWorkspace.getTiddlerListCallback,context.filter);
+};
+
+config.macros.importWorkspace.getTiddlerListCallback = function(context,userParams)
+{
+//#displayMessage(&quot;config.macros.importWorkspace.getTiddlerListCallback:&quot;+context.status);
+	if(context.status) {
+		var tiddlers = context.tiddlers;
+		var sortField = 'modified';
+		tiddlers.sort(function(a,b) {return a[sortField] &lt; b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
+		var length = tiddlers.length;
+		if(userParams &amp;&amp; userParams.maxCount &amp;&amp; length &gt; userParams.maxCount)
+			length = userParams.maxCount;
+		displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
+		var import_count = 0;
+		for(var i=0; i&lt;length; i++) {
+			tiddler = tiddlers[i];
+			var local_tiddler = store.fetchTiddler(tiddler.title);
+			if(local_tiddler &amp;&amp; !local_tiddler.isTouched()) {
+				//# only get the tiddlers that have not been edited locally
+				context.adaptor.getTiddler(tiddler.title,null,null,config.macros.importWorkspace.getTiddlerCallback);
+				import_count++;
+			}
+		}
+	}
+};
+
+config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
+{
+//#displayMessage(&quot;config.macros.importWorkspace.getTiddlerCallback:&quot;+context.status+&quot; t:&quot;+context.tiddler.title);
+	if(context.status) {
+		var tiddler = context.tiddler;
+		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+		story.refreshTiddler(tiddler.title,1,true);
+		//#displayMessage(config.messages.tiddlerImported.format([tiddler.title]));
+	} else {
+		displayMessage(context.statusText);
+	}
+};
+
+} // end of 'install only once'
+//}}}
+</pre>
 </div>
-<div title="NotesPlugin" modifier="Saq" modified="200709211331" created="200709211021" tags="systemConfig" server.type="file" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211331">
+<div title="MainMenu" modifier="Jon Lister" modified="200709271727" created="200709261354" changecount="7">
+<pre>[[Welcome|Welcome to TiddlyChatter]]
+[[Set-up|Setting up TiddlyChatter]]
+&lt;&lt;importWorkspace&gt;&gt;</pre>
+</div>
+<div title="NotesPlugin" modifier="Jon Lister" modified="200709271301" created="200709211021" tags="systemConfig TiddlyChatter" server.type="file" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211331" changecount="7">
 <pre>/***
 |''Name:''|NotesPlugin|
 |''Description:''||
@@ -578,7 +771,7 @@ config.macros.notes={
 	cancelLabel: &quot;cancel&quot;,
 	heading: &quot;Notes&quot;,
 	suffix: &quot;Notes&quot;,
-	tag: [&quot;Notes&quot;,&quot;public&quot;],
+	tags: &quot;Notes&quot;,
 	
 	saveNotes: function(ev){
 		e = ev? ev : window.event;
@@ -592,7 +785,8 @@ config.macros.notes={
 		if(textarea.getAttribute(&quot;oldText&quot;)!=textarea.value){
 			var suffix = box.getAttribute(&quot;suffix&quot;);
 			var t = store.getTiddler(title+&quot;-&quot;+suffix);
-			store.saveTiddler(title+&quot;-&quot;+suffix,title+&quot;-&quot;+suffix,textarea.value,config.options.txtUserName,new Date(),t?t.tags:box.getAttribute(&quot;tag&quot;).split(&quot;,&quot;),t?t.fields:{});
+			// this line changed to split the tags attribute
+			store.saveTiddler(title+&quot;-&quot;+suffix,title+&quot;-&quot;+suffix,textarea.value,config.options.txtUserName,new Date(),t?t.tags:box.getAttribute(&quot;tags&quot;).split(&quot; &quot;),t?t.fields:{});
 		}
 		story.refreshTiddler(title,1,true);
 		return false;
@@ -647,19 +841,19 @@ config.macros.notes={
 		
 		params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
 		var heading = getParam(params,&quot;heading&quot;,this.heading);
-		var tag = getParam(params,&quot;tag&quot;,this.tag);
+		// tags can be a space-separated string of tags
+		var tags_string = getParam(params,&quot;tags&quot;,this.tags);
+		var tags = tags_string.split(&quot; &quot;);
 		var suffix = getParam(params,&quot;suffix&quot;,this.suffix);
-		var box = createTiddlyElement(place,&quot;div&quot;,&quot;notesContainer&quot;+tiddler.title,&quot;TiddlerNotes&quot;,null,{&quot;source&quot;:tiddler.title,params:paramString,heading:heading,tag:tag,suffix:suffix});
+		// when we create the Notes box, we use the tags_string as the attribute
+		var box = createTiddlyElement(place,&quot;div&quot;,&quot;notesContainer&quot;+tiddler.title,&quot;TiddlerNotes&quot;,null,{&quot;source&quot;:tiddler.title,params:paramString,heading:heading,tags:tags_string,suffix:suffix});
 		createTiddlyButton(box,this.editLabel,this.editLabel,this.editNotesButtonOnclick,&quot;editNotesButton&quot;);
 		// if there aren't any notes, just show &quot;Notes&quot;
 		// if there are notes, show &quot;Notes by xxx&quot;
 		// if you added the notes, show &quot;Notes by you&quot;
 		var notes_tiddler = store.fetchTiddler(tiddler.title+&quot;-&quot;+suffix);
-		console.log(notes_tiddler);
 		var heading_extension = &quot;&quot;;
-		// this if not working!! why?)
 		if (notes_tiddler &amp;&amp; notes_tiddler.modifier) {
-			displayMessage(&quot;changing heading extension&quot; + notes_tiddler.title);
 			heading_extension = (notes_tiddler.modifier == config.options.txtUserName) ? &quot; by you&quot; : &quot; by &quot; + notes_tiddler.modifier;
 		}
 		wikify(&quot;!!&quot;+heading+heading_extension+&quot;\n&quot;,box);
@@ -667,7 +861,7 @@ config.macros.notes={
 		//box.setAttribute(&quot;source&quot;,tiddler.title);
 		//box.setAttribute(&quot;params&quot;,paramString);
 		//box.setAttribute(&quot;heading&quot;,heading);
-		//box.setAttribute(&quot;tag&quot;,tag);
+		//box.setAttribute(&quot;tags&quot;,tags_string);
 		//box.setAttribute(&quot;suffix&quot;,suffix);
 		box.ondblclick = this.ondblclick;
 		wikify(&quot;&lt;&lt;tiddler [[&quot;+tiddler.title+&quot;-&quot;+suffix+&quot;]]&gt;&gt;&quot;,box);
@@ -695,7 +889,7 @@ setStylesheet(&quot;.TiddlerNotes {\n&quot;+ &quot; background:#eee;\n&quot;+ &q
 //!END-PLUGIN-CODE
 // %/</pre>
 </div>
-<div title="RSS adaptor code" modifier="Jon Lister" modified="200709211227" created="200709021326" tags="systemConfig code" server.type="file" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211227">
+<div title="RSS adaptor code" modifier="Jon Lister" modified="200709271715" created="200709021326" tags="systemConfig TiddlyChatter" server.type="RSS" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.page.revision="200709211227" changecount="2" server.workspace="" server.filter="[tag[public]]">
 <pre>/***
 Server adaptor for talking to RSS 2.0 files
 based on FileAdaptor
@@ -799,7 +993,6 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 	var regex_category = /&lt;category&gt;(.|\n)*?&lt;\/category&gt;/mg;
 	var regex_link = /&lt;link&gt;(\S|\n)*?&lt;\/link&gt;/mg;
 	var regex_pubDate = /&lt;pubDate&gt;(.|\n)*?&lt;\/pubDate&gt;/mg;
-	var regex_author = /&lt;author&gt;(.|\n)*?&lt;\/author&gt;/mg;
 	var item_match = this.store.match(regex_item);
 	// check for filter and then implement tag filter if of the form [tag[public stuff]]
 	// filter syntax: [tag[tag1 tag2 ...]]
@@ -856,7 +1049,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 			}
 			t.tags = item.categories;
 		} else {
-			displayMessage(&quot;no categories for item: &quot; + item.title);
+			displayMessage(&quot;no tags for item: &quot; + item.title);
 		}
 		// grab the link and put it in a custom field (assumes this is sensible)
 		// regex_link assumes you can never have whitespace in a link
@@ -878,16 +1071,6 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 			displayMessage(&quot;pubDate empty for item: &quot; + item.title);
 		}
 		t.created = item.pubDate;
-		// TO-DO: grab author
-		author = item_match[i].match(regex_author);
-		if (author) {
-			author = author[0].replace(/^&lt;author&gt;|&lt;\/author&gt;$/mg,&quot;&quot;);
-			item.author = author;
-		} else {
-			item.author = &quot;unknown&quot;;
-			displayMessage(&quot;no author for item: &quot; + item.title);
-		}
-		t.modifier = item.author;
 		// check to see that we have a filter to use
 		if (filter_match) {
 			if(t.isTaggedAllOf(tags_to_match)) {
@@ -929,6 +1112,7 @@ RSSAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 			context.tiddler = this.context.tiddlers[i];
 		}
 	}
+	// NOTE: this doesn't add the filter field - is that ok? Probably not...
 	if(context.tiddler) {
 		context.tiddler.fields['server.type'] = RSSAdaptor.serverType;
 		context.tiddler.fields['server.host'] = this.host;
@@ -1041,7 +1225,7 @@ Tiddler.prototype.isTaggedAllOf = function(tag_array)
 
 //}}}</pre>
 </div>
-<div title="RSSrender plugin" modifier="Jon Lister" modified="200709211218" created="200709211217" tags="systemConfig" server.type="file" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211218">
+<div title="RSSrender plugin" modifier="Jon Lister" modified="200709271215" created="200709211217" tags="systemConfig TiddlyChatter" server.type="file" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211218" changecount="1">
 <pre>//{{{
 
 // Override built-in saveToRss to include modifier field
@@ -1062,13 +1246,24 @@ Tiddler.prototype.saveToRss = function(url)
 
 //}}}</pre>
 </div>
-<div title="SiteSubtitle" modifier="Jon Lister" modified="200709261606" created="200709211034" changecount="2">
-<pre>Test workbook - should work with other TiddlyChatter-enabled workbooks</pre>
+<div title="Setting up TiddlyChatter" modifier="Jon Lister" modified="200709271746" created="200709271728" tags="info TiddlyChatter" changecount="8" server.type="RSS" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.workspace="" server.filter="[tag[public]]">
+<pre>The key to enabling TiddlyChatter is your subscription to someone else's RSS feed (rendered using the [[RSSrender plugin]], which overrides the default RSS generator to add in author name). The accompanying tiddlychatter.xml file contains an example feed.
+
+The [[ChatterFeed]] tiddler contains the subscription information. You add the name of this tiddler into the &quot;Feed for import&quot; field in ImportWorkspacePlugin.
+
+Currently, TiddlyChatter supports subscribing to one feed.
+
+''To turn a tiddler into a TiddlyChatter tiddler, tag it &quot;public&quot;''
+
+Hitting &quot;Go chatter!&quot; (bottom line in the left-hand menu) gets your updates. When you save your TiddlyWiki, your own updates are published in your RSS feed.</pre>
+</div>
+<div title="SiteSubtitle" modifier="Jon Lister" modified="200709271300" created="200709211034" changecount="3">
+<pre>Test workbook - to work with other TiddlyChatter-enabled workbooks</pre>
 </div>
 <div title="SiteTitle" modifier="Jon Lister" modified="200709261606" created="200709211034" changecount="3">
 <pre>TiddlyChatter</pre>
 </div>
-<div title="TaggedTemplateTweak" modifier="ELSDesignStudios" modified="200706242148" created="200706181748" tags="BookmarkPackage MediaPackage TaskPackage systemConfig FormattingPackage" server.type="file" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200706242148">
+<div title="TaggedTemplateTweak" modifier="Jon Lister" modified="200709271215" created="200706181748" tags="BookmarkPackage MediaPackage TaskPackage systemConfig FormattingPackage TiddlyChatter" server.type="file" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200706242148" changecount="1">
 <pre>/***
 |Name|TaggedTemplateTweak|
 |Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
@@ -1143,17 +1338,22 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 }
 //}}}</pre>
 </div>
-<div title="TiddlyChatterDevelopment" modifier="Jon Lister" modified="200709261605" created="200709261354" changecount="6">
+<div title="TiddlyChatterDevelopment" modifier="Jon Lister" modified="200709271731" created="200709261354" changecount="11" server.type="RSS" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.workspace="" server.filter="[tag[public]]">
 <pre>The following plugins are used in a modified state (link to modified source in last column):
 
 |NotesPlugin |by SaqImtiaz |http://tw.lewcid.org/#NotesPlugin |http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/NotesPlugin_JRL.js |
+|ImportWorkspacePlugin |by Martin Budden |http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js | http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/ImportWorkspacePlugin_JRL.js |
 
 The following plugins are used without modification:
 
-|RSSAdaptor |by JonLister |http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/rssadaptor.js |
-|RSSRender |by JonLister |http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/RSSRender.js |
+|[[RSSAdaptor|RSS adaptor code]]|by JonLister |http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/rssadaptor.js |
+|[[RSSRender|RSSrender plugin]] |by JonLister |http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/RSSRender.js |
 |TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
-|stickyOptionsPlugin |by SaqImtiaz |http://tw.lewcid.org/#StickyOptionsPlugin |</pre>
+|[[stickyOptionsPlugin]] |by SaqImtiaz |http://tw.lewcid.org/#StickyOptionsPlugin |
+
+The following tiddlers are used to provide additional functionality:
+
+[[publicViewTemplate]]</pre>
 </div>
 <div title="ViewTemplate" modifier="Jon Lister" modified="200709211033" created="200709211023" server.type="file" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211033">
 <pre>&lt;!--{{{--&gt;
@@ -1166,32 +1366,43 @@ The following plugins are used without modification:
 &lt;div class='tagClear'&gt;&lt;/div&gt;
 &lt;!--}}}--&gt;</pre>
 </div>
-<div title="Welcome to TiddlyChatter" modifier="Jon Lister" created="200709261353" changecount="1">
+<div title="Welcome to TiddlyChatter" modifier="Jon Lister" modified="200709271740" created="200709261353" tags="info TiddlyChatter" changecount="10" server.type="RSS" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.workspace="" server.filter="[tag[public]]">
 <pre>This TiddlyWiki has the required plugins installs to support &quot;TiddlyChatter&quot;, a peer-to-peer collaboration feature.
 
-TiddlyChatter is still in development; information about the plugins TiddlyChatter is based on and what changes have been made can be found [[here|TiddlyChatterDevelopment]].</pre>
-</div>
-<div title="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.xml" modifier="Jon Lister" modified="200709211047" created="200709211043" tags="systemServer" changecount="2">
-<pre>|''Type:''|RSS|
-|''URL:''|file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.xml|
-|''Workspace:''||
-|''TiddlerFilter:''|[tag[public]]|
+You can read an example of how TiddlyChatter works [[here|What is TiddlyChatter?]].
 
-This tiddler was automatically created to record the details of this server</pre>
+''To turn a tiddler into a TiddlyChatter tiddler, tag it &quot;public&quot;''
+
+TiddlyChatter is still in development; information about the plugins TiddlyChatter is based on and what changes have been made can be found [[here|TiddlyChatterDevelopment]]. All the tiddlers necessary to run TiddlyChatter are tagged &lt;&lt;tag TiddlyChatter&gt;&gt; for ease of import.
+
+Please find the set-up instructions [[here|Setting up TiddlyChatter]].</pre>
 </div>
-<div title="homework" modifier="Jon Lister" created="200709241255" tags="public" changecount="1">
-<pre>please help!</pre>
+<div title="What is TiddlyChatter?" modifier="Jon Lister" modified="200709271740" created="200709271737" tags="info TiddlyChatter" server.type="RSS" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.workspace="" changecount="4">
+<pre>[extracted from original [[blog post|http://jayfresh.wordpress.com/2007/09/24/tiddlychatter-decentralized-collaboration/]] on the subject]
+
+“TiddlyChatter” is the idea of opt-in, decentralized collaboration. This follows Twitter’s model, where someone can follow you without you taking an interest in what they have to say. Twitter is centralized, in that it runs through a central server; TiddlyChatter is totally decentralized and runs between peers. As might be obvious from the name, TiddlyChatter is being developed using TiddlyWiki, but the collaborative model is generic.
+
+Here’s an illustration of what TiddlyChatter is all about:
+
+* Jon and his class have been set some tricky homework, so he creates a stub of what he’s working on and publishes it, mentioning to Liz, his classmate, that they ought to work on this together
+* Liz subscribes to Jon’s feed and the stub turns up on Liz’s computer for her to see, edit or comment
+* Liz adds a note about a useful resource
+* Jon subscribes to Liz’s feed and her note turns up in place on Jon’s computer, which turns out to be very helpful…
+
+This doesn’t sound so different from normal collaboration, but there are a couple of important differences:
+
+* Jon’s little bit of work and Liz’s note on it appear on both computers as separate pieces of data, they are not downloaded from a common server
+* If Jon decides Liz is no good as a partner, he can stop watching her feed and he never sees any of the notes or content changes Liz makes
+* If Ben comes in and subscribes to Jon’s feed, he can make entirely independent comments and changes, without Liz seeing what he is doing and without Ben seeing what Liz is doing
+* Extending this slightly, Ben, Alice and Bob can all share and work on the information together, and it is only when Liz eventually gets hold of a copy that Jon will see the result of the group’s work</pre>
 </div>
-<div title="homework help" modifier="Saq" created="200709241351" tags="public" link="" to="" original="http://www.tiddlywiki.com/#%5B%5Bhomework%20help%5D%5D" server.type="RSS" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.xml" server.page.revision="200709241351">
+<div title="homework help" modifier="Saq" modified="200709271716" created="200709241351" tags="public" link="" to="" original="http://www.tiddlywiki.com/#%5B%5Bhomework%20help%5D%5D" server.type="RSS" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.page.revision="200709271716">
 <pre>&lt;html&gt;hi Jon, can you help?&lt;/html&gt;</pre>
 </div>
-<div title="homework help-Notes" modifier="Jon Lister" created="200709241351" tags="Notes public" changecount="1">
-<pre>Hey, no problem Saq. What's up?</pre>
+<div title="homework help-Notes" modifier="Jon Lister" modified="200709271716" created="200709241351" tags="Notes public" link="" to="" original="http://www.tiddlywiki.com/#%5B%5Bhomework%20help-Notes%5D%5D" server.type="RSS" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.page.revision="200709271716">
+<pre>&lt;html&gt;Hey, no problem Saq. What's up?&lt;/html&gt;</pre>
 </div>
-<div title="homework-Notes" modifier="Saq" modified="200709241257" created="200709241256" tags="Notes public" link="" to="" original="http://www.tiddlywiki.com/#homework-Notes" server.type="RSS" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.xml" server.page.revision="200709241257">
-<pre>&lt;html&gt;I'll help you Jon!&lt;/html&gt;</pre>
-</div>
-<div title="publicViewTemplate" modifier="Jon Lister" created="200709211033" server.type="file" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211033">
+<div title="publicViewTemplate" modifier="Jon Lister" modified="200709271256" created="200709211033" tags="TiddlyChatter" server.type="file" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211033" changecount="3">
 <pre>&lt;!--{{{--&gt;
 &lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump'&gt;&lt;/div&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
@@ -1199,11 +1410,11 @@ This tiddler was automatically created to record the details of this server</pre
 &lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
 &lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
 &lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
-&lt;div class='viewer' macro='notes'&gt;&lt;/div&gt;
+&lt;div class='viewer' macro='notes tags:&quot;notes public&quot;'&gt;&lt;/div&gt;
 &lt;div class='tagClear'&gt;&lt;/div&gt;
 &lt;!--}}}--&gt;</pre>
 </div>
-<div title="stickyOptionsPlugin" modifier="Saq" created="200709211649" tags="systemConfig" stickyoptions.dir="txtMainTab,chkUsePreForStorage,chkDisplayStartupTime,txtMoreTab,chkBackstage,chkSliderOptionsPanel,txtUserName" sticky.txtmaintab="More" sticky.chkusepreforstorage="true" sticky.chkdisplaystartuptime="false" sticky.txtmoretab="Shadowed" sticky.chkbackstage="true" sticky.chkslideroptionspanel="true" sticky.txtusername="Jon Lister" server.type="file" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211649">
+<div title="stickyOptionsPlugin" modifier="Jon Lister" modified="200709271215" created="200709211649" tags="systemConfig TiddlyChatter" stickyoptions.dir="txtMainTab,chkUsePreForStorage,chkDisplayStartupTime,txtMoreTab,chkBackstage,chkSliderOptionsPanel,txtUserName" sticky.txtmaintab="Timeline" sticky.chkusepreforstorage="true" sticky.chkdisplaystartuptime="false" sticky.txtmoretab="Shadowed" sticky.chkbackstage="true" sticky.chkslideroptionspanel="true" sticky.txtusername="Jon Lister" server.type="file" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211649" changecount="1">
 <pre>/***
 |''Name:''|StickyOptionsPlugin|
 |''Description:''||
