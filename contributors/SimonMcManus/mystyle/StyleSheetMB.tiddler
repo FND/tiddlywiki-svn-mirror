@@ -1,0 +1,64 @@
+<div title="StyleSheetMB" modifier="MartinBudden" tags="styles excludeLists excludeSearch">
+<pre>
+
+
+
+/*{{{*/
+
+h1 {font-size:1.5em;font-variant:small-caps;}
+h2 {font-size:1.35em;font-variant:small-caps;}
+h3 {font-size:1.25em;font-variant:small-caps;}
+h4 {font-size:1.1em;}
+h5 {font-size:1em;}
+
+/*element,padding,border,margin*/
+h1, h2, h3, h4, h5 {
+	color:#014;background:transparent;
+	padding-left:0;padding-bottom:1px;
+	margin-top:1.2em;margin-bottom:0.3em;margin-left:0em;
+}
+
+h1 {border-bottom:2px solid #ccc;}
+h2, h3 {border-bottom:1px solid #ccc;}
+h4, h5 {border-bottom:0px;margin-top:1em;margin-bottom:0em;}
+
+hr {height:0px;border:0;border-top:1px solid silver;}
+
+.headerShadow {padding:1.5em 0em .5em 1em;}
+.headerForeground {padding:1.5em 0em .5em 1em;}
+
+.header {background:darkblue;}
+/*.headerShadow {color:white;}
+.headerForeground {color:black;}*/
+
+#displayArea .tiddlyLinkExisting {text-decoration:underline;}
+
+/* Tiddler title */
+.title {color:black;border-bottom:2px solid #ddd;}
+/* Tiddler subtitle */
+.subtitle {font-size:0.9em;text-align:right;border-bottom:1px solid #ddd;}
+.toolbar {padding-top:0px;padding-bottom:0px;color:#04b;}
+/* Tiddler body */
+.tiddler {-moz-border-radius:1em;border:1px solid #ccc;margin:0.5em;background:#fff;padding:0.5em;}
+
+.tabContents {white-space:nowrap;}
+
+.viewer pre {padding:0;margin-left:0;}
+.viewer hr {border:solid 1px silver;}
+
+/*.toolbar {visibility:visible}*/
+
+.selected .toolbar {visibility:visible;color:#00f;}
+
+.toolbar .button {color:#dee;}
+.selected .toolbar .button {color:#014}
+
+.tagging, .tagged, .selected .tagging, .selected .tagged {
+	font-size:75%;padding:0.3em;background-color:#eee;
+	border-top:1px solid #ccc;border-left:1px solid #ccc;
+	border-bottom:3px solid #ccc;border-right:3px solid #ccc;
+	max-width:45%;-moz-border-radius:1em;
+}
+
+/*}}}*/</pre>
+</div>
