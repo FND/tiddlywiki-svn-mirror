@@ -73,8 +73,7 @@ config.macros.notes={
 	cancelLabel: "cancel",
 	heading: "Notes",
 	suffix: "Notes",
-	// JRL: this is changed to add the extra "public" tag
-	tag: ["Notes","public"],
+	tags: "Notes",
 	
 	saveNotes: function(ev){
 		e = ev? ev : window.event;
@@ -88,8 +87,8 @@ config.macros.notes={
 		if(textarea.getAttribute("oldText")!=textarea.value){
 			var suffix = box.getAttribute("suffix");
 			var t = store.getTiddler(title+"-"+suffix);
-			// JRL: this line changed to split the tag attribute; necessary after change above
-			store.saveTiddler(title+"-"+suffix,title+"-"+suffix,textarea.value,config.options.txtUserName,new Date(),t?t.tags:box.getAttribute("tag").split(","),t?t.fields:{});
+			// this line changed to split the tags attribute
+			store.saveTiddler(title+"-"+suffix,title+"-"+suffix,textarea.value,config.options.txtUserName,new Date(),t?t.tags:box.getAttribute("tags").split(" "),t?t.fields:{});
 		}
 		story.refreshTiddler(title,1,true);
 		return false;
@@ -144,19 +143,19 @@ config.macros.notes={
 		
 		params = paramString.parseParams("anon",null,true,false,false);
 		var heading = getParam(params,"heading",this.heading);
-		var tag = getParam(params,"tag",this.tag);
+		// tags can be a space-separated string of tags
+		var tags_string = getParam(params,"tags",this.tags);
+		var tags = tags_string.split(" ");
 		var suffix = getParam(params,"suffix",this.suffix);
-		var box = createTiddlyElement(place,"div","notesContainer"+tiddler.title,"TiddlerNotes",null,{"source":tiddler.title,params:paramString,heading:heading,tag:tag,suffix:suffix});
+		// when we create the Notes box, we use the tags_string as the attribute
+		var box = createTiddlyElement(place,"div","notesContainer"+tiddler.title,"TiddlerNotes",null,{"source":tiddler.title,params:paramString,heading:heading,tags:tags_string,suffix:suffix});
 		createTiddlyButton(box,this.editLabel,this.editLabel,this.editNotesButtonOnclick,"editNotesButton");
 		// if there aren't any notes, just show "Notes"
 		// if there are notes, show "Notes by xxx"
 		// if you added the notes, show "Notes by you"
 		var notes_tiddler = store.fetchTiddler(tiddler.title+"-"+suffix);
-		console.log(notes_tiddler);
 		var heading_extension = "";
-		// this if not working!! why?)
 		if (notes_tiddler && notes_tiddler.modifier) {
-			displayMessage("changing heading extension" + notes_tiddler.title);
 			heading_extension = (notes_tiddler.modifier == config.options.txtUserName) ? " by you" : " by " + notes_tiddler.modifier;
 		}
 		wikify("!!"+heading+heading_extension+"\n",box);
@@ -164,7 +163,7 @@ config.macros.notes={
 		//box.setAttribute("source",tiddler.title);
 		//box.setAttribute("params",paramString);
 		//box.setAttribute("heading",heading);
-		//box.setAttribute("tag",tag);
+		//box.setAttribute("tags",tags_string);
 		//box.setAttribute("suffix",suffix);
 		box.ondblclick = this.ondblclick;
 		wikify("<<tiddler [["+tiddler.title+"-"+suffix+"]]>>",box);
