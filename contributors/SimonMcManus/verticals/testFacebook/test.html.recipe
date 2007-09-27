@@ -1,0 +1,15 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+title: title.txt
+tiddler: MainMenu.tiddler
+tiddler: DefaultTiddlers.tiddler
+tiddler: Home.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteUrl.tiddler
+tiddler: StyleSheet.tiddler
+tiddler: Test.tiddler
+tiddler: ../../adaptors/FacebookNewsAdaptorPlugin.js
+tiddler: ../../feeds/FacebookNewsFeed.tiddler
+tiddler: ../../mystyle/StyleSheetMB.tiddler
+tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
+tiddler: settings.js

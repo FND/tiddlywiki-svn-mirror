@@ -1,0 +1,12 @@
+<div title="StyleSheet" modifier="MartinBudden" tags="styles excludeLists excludeSearch">
+<pre>/***
+Place your custom CSS here
+***/
+[[StyleSheetMB]]
+[[Styles HorizontalMainMenu]]
+/*{{{*/
+.header {background:#007766;}
+#mainMenu {background:#007777;}
+/*}}}*/
+</pre>
+</div>
