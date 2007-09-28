@@ -61,7 +61,7 @@ config.macros.importWorkspace.init = function()
 
 config.macros.importWorkspace.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-	params = paramString.parseParams('anon',null,true,false,false);
+	params = paramString.parseParams('anon',null,false,false,false);
 	var customFields = getParam(params,'fields',false);
 	if(!customFields) {
 		customFields = config.defaultCustomFields;
@@ -82,7 +82,8 @@ config.macros.importWorkspace.handler = function(place,macroName,params,wikifier
 	}
 	customFields = String.encodeHashMap(customFields);
 	//#displayMessage("cf:"+customFields)
-	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
+	var label = getParam(params,'label',this.label);
+	var btn = createTiddlyButton(place,label,this.prompt,this.onClick);
 	btn.setAttribute('customFields',customFields);
 };
 
@@ -148,7 +149,8 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 		displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
 		for(var i=0; i<length; i++) {
 			tiddler = tiddlers[i];
-			if(!tiddler.isTouched()) {
+			var t = store.fetchTiddler(tiddler.title);
+			if(t && !t.isTouched()) {
 				//# only get the tiddlers that have not been edited locally
 				context.adaptor.getTiddler(tiddler.title,null,null,config.macros.importWorkspace.getTiddlerCallback);
 			}
