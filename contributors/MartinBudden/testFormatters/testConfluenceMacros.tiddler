@@ -1,0 +1,19 @@
+<div title="testConfluenceMacros" modifier="MartinBudden" created="200612070000" tags="test" wikiformat="confluence">
+<pre>
+{panel:title=My Panel}
+The body of the panel
+{panel}
+{note:title=Be Careful}
+The body of the note
+{note}
+{warning:title=Warning}
+The body of the warning
+{warning}
+{info:title=Useful Information}
+The body of the info
+{info}
+{tip:title=Handy Hint}
+The body of the tip
+{tip}
+</pre>
+</div>

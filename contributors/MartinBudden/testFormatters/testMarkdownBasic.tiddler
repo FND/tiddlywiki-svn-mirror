@@ -1,0 +1,19 @@
+<div title="testMarkdownBasic" modifier="MartinBudden" tags="test" wikiformat="markdown">
+<pre>
+a *italic* b
+
+c _italic_ d
+
+e **bold** f
+
+g __bold__ h
+
+&lt;mailto:fred@example.com&gt;
+
+&gt; This is the first level of quoting.
+&gt; 
+&gt; &gt; This is nested blockquote.
+&gt; 
+&gt; Back to the first level.
+</pre>
+</div>

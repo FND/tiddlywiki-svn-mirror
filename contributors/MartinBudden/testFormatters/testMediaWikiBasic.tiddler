@@ -1,0 +1,13 @@
+<div title="testMediaWikiBasic" modifier="MartinBudden" created="200703240000" tags="test" wikiformat="mediawiki">
+<pre>'''bold'''
+''italic''
+&lt;b&gt;bold&lt;/b&gt;
+&lt;sub&gt;subscript&lt;/sub&gt;
+&lt;sup&gt;superscript&lt;/sup&gt;
+&lt;u&gt;underline&lt;/u&gt;
+&lt;s&gt;strikethrough&lt;/s&gt;
+
+'''bold''' ''italic'' &lt;b&gt;bold&lt;/b&gt; &lt;sub&gt;subscript&lt;/sub&gt; &lt;sup&gt;superscript&lt;/sup&gt; &lt;u&gt;underline&lt;/u&gt; &lt;s&gt;strikethrough&lt;/s&gt;
+
+</pre>
+</div>

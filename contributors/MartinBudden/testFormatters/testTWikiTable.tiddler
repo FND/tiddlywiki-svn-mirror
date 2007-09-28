@@ -1,0 +1,9 @@
+<div title="testTWikiTable" modifier="MartinBudden" created="200610030000" tags="test" wikiformat="twiki">
+<pre>|*L* | *C* | *R*|
+| A2 | 2 | 2 |
+| A3 | 3 | 3 |
+|||m|
+|A4-6 | four | four |
+|^| five | five |
+| | six | six |</pre>
+</div>
