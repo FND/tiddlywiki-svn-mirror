@@ -1,0 +1,25 @@
+<div title="PageTemplate" modifier="PhilHawksworth" created="200709041656" modified="200709111157" tags="excludeLists" changecount="16">
+<pre>&lt;!--{{{--&gt;
+&lt;div id='controlBar'&gt;&lt;div class='constrainer' tiddler='controlBar' refresh='content'&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class='header'&gt;
+	&lt;div class='constrainer'&gt;
+		&lt;div class='headerShadow'&gt;
+			&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
+			&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
+		&lt;/div&gt;
+		&lt;div class='headerForeground'&gt;
+			&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
+			&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
+&lt;div class='constrainer'&gt;
+	&lt;div id='displayArea'&gt;
+		&lt;div id='messageArea'&gt;&lt;/div&gt;
+		&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div id='sidebar' refresh='content' tiddler='SideBar'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;</pre>
+</div>

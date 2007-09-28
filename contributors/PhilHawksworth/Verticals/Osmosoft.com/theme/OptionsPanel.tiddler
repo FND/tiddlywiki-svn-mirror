@@ -1,0 +1,9 @@
+<div title="OptionsPanel" modifier="PhilHawksworth" created="200709111032" modified="200709111152" tags="excludeLists" changecount="3">
+<pre>These interface options for customising TiddlyWiki are saved in your browser
+
+&lt;&lt;option chkRegExpSearch&gt;&gt; RegExpSearch
+&lt;&lt;option chkCaseSensitiveSearch&gt;&gt; CaseSensitiveSearch
+&lt;&lt;option chkAnimate&gt;&gt; EnableAnimations
+
+Also see AdvancedOptions</pre>
+</div>

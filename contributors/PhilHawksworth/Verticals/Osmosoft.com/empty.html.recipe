@@ -1,0 +1,16 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+
+tiddler: (default)_on_http___www.osmosoft.com.tiddler
+tiddler: AdvancedOptions.tiddler
+tiddler: MarkupPostHead.tiddler
+posthead: MarkupPostHeadRaw.tiddler
+tiddler: SideBar.tiddler
+tiddler: SideBarOptions.tiddler
+tiddler: SideBarTabs.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: UrchinSupport.js
+
+recipe: plugins/plugins.recipe
+recipe: theme/theme.recipe
+
