@@ -160,7 +160,7 @@ MediaWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callba
 		return true;
 	}
 	var uriTemplate = '%0api.php?format=json&action=query&meta=siteinfo&siprop=namespaces';
-	var uri = uriTemplate.format([this.host]);
+	var uri = uriTemplate.format([context.host]);
 //#displayMessage("uri:"+uri);
 	var req = MediaWikiAdaptor.doHttpGET(uri,MediaWikiAdaptor.getWorkspaceListCallback,context);
 	return typeof req == 'string' ? req : true;
