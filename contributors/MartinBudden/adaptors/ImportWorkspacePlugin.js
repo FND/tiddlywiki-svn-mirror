@@ -2,9 +2,8 @@
 |''Name:''|ImportWorkspacePlugin|
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#AdaptorMacrosPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -17,7 +16,7 @@
 ***/
 
 //{{{
-// Ensure that the plugin is only installed once.
+//# Ensure that the plugin is only installed once.
 if(!version.extensions.ImportWorkspacePlugin) {
 version.extensions.ImportWorkspacePlugin = {installed:true};
 
@@ -90,7 +89,7 @@ config.macros.importWorkspace.handler = function(place,macroName,params,wikifier
 config.macros.importWorkspace.onClick = function(e)
 {
 	clearMessage();
-//ŰdisplayMessage("Starting import...");
+//#displayMessage("Starting import...");
 	var customFields = this.getAttribute('customFields');
 //#displayMessage("cf:"+customFields)
 	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
@@ -106,6 +105,7 @@ config.macros.importWorkspace.getTiddlers = function(fields)
 		fields['server.type'] = store.getTiddlerSlice(title,'Type');
 		fields['server.host'] = store.getTiddlerSlice(title,'URL');
 		fields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
+		context.filter = store.getTiddlerSlice(title,'TiddlerFilter');
 	}
 	var serverType = fields['server.type'];
 	if(!serverType)
@@ -125,14 +125,12 @@ config.macros.importWorkspace.getTiddlers = function(fields)
 config.macros.importWorkspace.openHostCallback = function(context,userParams)
 {
 	displayMessage(config.messages.hostOpened.format([context.host]));
-	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.openWorkspaceCallback);
 	context.adaptor.openWorkspace(context.workspace,context,userParams,config.macros.importWorkspace.openWorkspaceCallback);
 };
 
 config.macros.importWorkspace.openWorkspaceCallback = function(context,userParams)
 {
 	displayMessage(config.messages.workspaceOpened.format([context.workspace]));
-	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.getTiddlerListCallback);
 	context.adaptor.getTiddlerList(context,userParams,config.macros.importWorkspace.getTiddlerListCallback);
 };
 
@@ -171,5 +169,5 @@ config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
 	}
 };
 
-} // end of 'install only once'
+} //# end of 'install only once'
 //}}}
