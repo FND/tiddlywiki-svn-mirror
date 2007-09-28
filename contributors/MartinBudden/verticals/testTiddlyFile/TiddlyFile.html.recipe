@@ -21,6 +21,7 @@ tiddler: ../tiddlypedia/TabUpdated.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/LocalAdaptorPlugin.js
+tiddler: ../../adaptors/ExternalStoragePlugin.js
 tiddler: ../../feeds/LocalFeed.tiddler
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler

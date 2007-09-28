@@ -29,7 +29,7 @@ tiddler: ../tiddlypedia/CopyrightNotice.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/LocalAdaptorPlugin.js
-tiddler: ../../adaptors/ExternalAdaptorPlugin.js
+tiddler: ../../adaptors/ExternalStoragePlugin.js
 tiddler: ../../feeds/LocalFeed.tiddler
 tiddler: ../../formatters/MediaWikiFormatterPlugin.js
 tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
