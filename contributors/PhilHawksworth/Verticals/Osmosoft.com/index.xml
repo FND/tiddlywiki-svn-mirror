@@ -1,0 +1,381 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+<channel>
+<title>osmosoft</title>
+<link>http://www.tiddlywiki.com/</link>
+<description>open source applications from BT</description>
+<language>en-us</language>
+<copyright>Copyright 2007 PhilHawksworth</copyright>
+<pubDate>Mon, 01 Oct 2007 10:23:24 GMT</pubDate>
+<lastBuildDate>Mon, 01 Oct 2007 10:23:24 GMT</lastBuildDate>
+<docs>http://blogs.law.harvard.edu/tech/rss</docs>
+<generator>TiddlyWiki 2.2.5</generator>
+<item>
+<title>What are we doing?</title>
+<description>We focus on creating software and becoming an active part of the open source community.  We are taking a very open approach to collaboration with communities outside BT, and positively encourage interested developers to get in touch.</description>
+<category>Welcome</category>
+<category>Company</category>
+<link>http://www.tiddlywiki.com/#%5B%5BWhat%20are%20we%20doing%3F%5D%5D</link>
+<pubDate>Mon, 01 Oct 2007 10:23:06 GMT</pubDate>
+</item>
+<item>
+<title>Future of Web Apps</title>
+<description>3rd-5th Ocober 2007&lt;br&gt;&lt;br&gt;Several Osmosoftonians will be attending the Future od Web Apps (FOWA) event in London this October.  You can find information about the event at the &lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.futureofwebapps.com/&quot; href=&quot;http://www.futureofwebapps.com/&quot; class=&quot;externalLink&quot;&gt;FOWA website&lt;/a&gt;</description>
+<category>Event</category>
+<link>http://www.tiddlywiki.com/#%5B%5BFuture%20of%20Web%20Apps%5D%5D</link>
+<pubDate>Mon, 01 Oct 2007 09:45:00 GMT</pubDate>
+</item>
+<item>
+<title>TiddlyWiki anniversary interview</title>
+<description>21st September 2007&lt;br&gt;&lt;br&gt;As part of the celebrations of &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt;'s 3rd Anniversary, we recorded this interview between &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Jeremy Ruston&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Jeremy Ruston&quot; href=&quot;http://www.tiddlywiki.com/#Jeremy%20Ruston&quot; class=&quot;externalLink&quot;&gt;Jeremy Ruston&lt;/a&gt;, creator of &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt;, &lt;a target=&quot;_blank&quot; title=&quot;External link to http://blog.lewcid.org/&quot; href=&quot;http://blog.lewcid.org/&quot; class=&quot;externalLink&quot;&gt;Saq Imtiaz&lt;/a&gt;, a prolific contributor to the &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; community, and &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Phil Whitehouse&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Phil Whitehouse&quot; href=&quot;http://www.tiddlywiki.com/#Phil%20Whitehouse&quot; class=&quot;externalLink&quot;&gt;Phil Whitehouse&lt;/a&gt;, an &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Osmosoftonian&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Osmosoftonian&quot; href=&quot;http://www.tiddlywiki.com/#Osmosoftonian&quot; class=&quot;externalLink&quot;&gt;Osmosoftonian&lt;/a&gt;. &lt;br&gt;&lt;span&gt;
+&lt;embed src=&quot;screencasts/History_of_TiddlyWiki_small.mp4&quot; scale=&quot;ToFit&quot; autoplay=&quot;false&quot; bgcolor=&quot;#111&quot; height=&quot;340&quot; width=&quot;100%&quot;&gt;
+&lt;/span&gt;</description>
+<category>Webcast</category>
+<category>TiddlyWiki</category>
+<link>http://www.tiddlywiki.com/#%5B%5BTiddlyWiki%20anniversary%20interview%5D%5D</link>
+<pubDate>Mon, 01 Oct 2007 09:45:00 GMT</pubDate>
+</item>
+<item>
+<title>Events</title>
+<description>We love attending and hosting events. If you are interested in meeting us to talk about our open source projects, or have something you'd like to share with us, seeking us out at events is a good way to make contact.&lt;br&gt;&lt;h2&gt;Upcoming events &lt;/h2&gt;Upcoming events where you can find an &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Osmosoftonian&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Osmosoftonian&quot; href=&quot;http://www.tiddlywiki.com/#Osmosoftonian&quot; class=&quot;externalLink&quot;&gt;Osmosoftonian&lt;/a&gt;:&lt;br&gt;&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Future of Web Apps&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Future of Web Apps&quot; href=&quot;http://www.tiddlywiki.com/#Future%20of%20Web%20Apps&quot; class=&quot;externalLink&quot;&gt;Future of Web Apps&lt;/a&gt; - 3rd-5th October 2007&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;BT open source awareness day&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#BT open source awareness day&quot; href=&quot;http://www.tiddlywiki.com/#BT%20open%20source%20awareness%20day&quot; class=&quot;externalLink&quot;&gt;BT open source awareness day&lt;/a&gt; - 31st October 2007&lt;br&gt;&lt;br&gt;&lt;h2&gt;Previous events&lt;/h2&gt;You can also still find demos and resources that we have presented at previous events here:&lt;br&gt;&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;TiddlyWiki anniversary interview&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki anniversary interview&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki%20anniversary%20interview&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki anniversary interview&lt;/a&gt; - 21st September 2007&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;BarCampBrighton 2007&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#BarCampBrighton 2007&quot; href=&quot;http://www.tiddlywiki.com/#BarCampBrighton%202007&quot; class=&quot;externalLink&quot;&gt;BarCampBrighton 2007&lt;/a&gt; - 8th/9th September 2007&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;dConstruct 2007&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#dConstruct 2007&quot; href=&quot;http://www.tiddlywiki.com/#dConstruct%202007&quot; class=&quot;externalLink&quot;&gt;dConstruct 2007&lt;/a&gt; - 7th September 2007&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;SpeedGeeking&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#SpeedGeeking&quot; href=&quot;http://www.tiddlywiki.com/#SpeedGeeking&quot; class=&quot;externalLink&quot;&gt;SpeedGeeking&lt;/a&gt; -  July 2007&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Supernova 2007&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Supernova 2007&quot; href=&quot;http://www.tiddlywiki.com/#Supernova%202007&quot; class=&quot;externalLink&quot;&gt;Supernova 2007&lt;/a&gt; - June 2007</description>
+<category>Company</category>
+<category>Participate</category>
+<category>Resources</category>
+<link>http://www.tiddlywiki.com/#Events</link>
+<pubDate>Mon, 01 Oct 2007 09:33:00 GMT</pubDate>
+</item>
+<item>
+<title>BT open source awareness day</title>
+<description>This one day session at BT Center in London will exploring the benefits of an open source approach.</description>
+<link>http://www.tiddlywiki.com/#%5B%5BBT%20open%20source%20awareness%20day%5D%5D</link>
+<pubDate>Mon, 01 Oct 2007 09:31:00 GMT</pubDate>
+</item>
+<item>
+<title>Osmosoftonian</title>
+<description>&lt;strong&gt;Os·mo·soft·on·i·an&lt;/strong&gt; [oz-m&lt;em&gt;uh&lt;/em&gt;-sawft-&lt;strong&gt;ohn&lt;/strong&gt;-ee-&lt;em&gt;uh&lt;/em&gt;n]&lt;br&gt;&lt;br&gt;&lt;strong&gt;- &lt;em&gt;noun&lt;/em&gt;&lt;/strong&gt;&lt;br&gt;1. a follower of Osmosoftonianism.&lt;br&gt;&lt;br&gt;&lt;strong&gt;- &lt;em&gt;adjective&lt;/em&gt;&lt;/strong&gt;&lt;br&gt;2. of, pertaining to, or characteristic of Osmosoftonianism or Osmosoftonians.&lt;br&gt;&lt;br&gt;[Origin: derived from Jeremy Ruston's 1987 metaphor of ideas crossing from one brain to another through the membrane of the user interface]&lt;br&gt;&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Who are we?&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Who are we?&quot; href=&quot;http://www.tiddlywiki.com/#Who%20are%20we?&quot; class=&quot;externalLink&quot;&gt;The Osmosoftonians&lt;/a&gt;</description>
+<link>http://www.tiddlywiki.com/#Osmosoftonian</link>
+<pubDate>Mon, 01 Oct 2007 09:30:00 GMT</pubDate>
+</item>
+<item>
+<title>dConstruct 2007</title>
+<description>7th September 2007&lt;br&gt;&lt;br&gt;An affordable, one-day conference aimed at those designing and building the latest generation of web-based applications.&lt;br&gt;&lt;br&gt;More information available at the &lt;a target=&quot;_blank&quot; title=&quot;External link to http://2007.dconstruct.org/&quot; href=&quot;http://2007.dconstruct.org/&quot; class=&quot;externalLink&quot;&gt;dConstruct web site&lt;/a&gt;&lt;br&gt;The entire Osmosoft team attended this great event.  &lt;br&gt;&lt;br&gt;Some of &lt;a target=&quot;_blank&quot; title=&quot;External link to http://philwhitehouse.blogspot.com/search/label/dconstruct2007&quot; href=&quot;http://philwhitehouse.blogspot.com/search/label/dconstruct2007&quot; class=&quot;externalLink&quot;&gt;our thoughts&lt;/a&gt; are have been posted on our blogs.</description>
+<category>Event</category>
+<link>http://www.tiddlywiki.com/#%5B%5BdConstruct%202007%5D%5D</link>
+<pubDate>Mon, 01 Oct 2007 09:29:00 GMT</pubDate>
+</item>
+<item>
+<title>SpeedGeeking</title>
+<description>Demonstrated at &lt;a target=&quot;_blank&quot; title=&quot;External link to http://londonwikiwed.ning.com/&quot; href=&quot;http://londonwikiwed.ning.com/&quot; class=&quot;externalLink&quot;&gt;WikiWednesday&lt;/a&gt; in London and for BT at Adastral Park in Ipswich, this demo shows the use of &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; as a platform for mashing up services of the BT 21C SDK.&lt;br&gt;&lt;br&gt;You can &lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.osmosoft.com/events/speedgeeking/&quot; href=&quot;http://www.osmosoft.com/events/speedgeeking/&quot; class=&quot;externalLink&quot;&gt;work the through the demo here&lt;/a&gt; or watch a screencast of the demo which also includes further explanation in the commentary:&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.osmosoft.com/screencasts/SpeedGeeking.mov&quot; href=&quot;http://www.osmosoft.com/screencasts/SpeedGeeking.mov&quot; class=&quot;externalLink&quot;&gt;full size (.mov, 5min, 32MB)&lt;/a&gt; &lt;/li&gt;&lt;li&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.osmosoft.com/screencasts/SpeedGeeking_appleTV.mp4&quot; href=&quot;http://www.osmosoft.com/screencasts/SpeedGeeking_appleTV.mp4&quot; class=&quot;externalLink&quot;&gt;for Apple TV (.mp4, 5min, 20MB)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.osmosoft.com/screencasts/SpeedGeeking_ipod.mp4&quot; href=&quot;http://www.osmosoft.com/screencasts/SpeedGeeking_ipod.mp4&quot; class=&quot;externalLink&quot;&gt;for iPod (.mp4, 5min, 11MB)&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+<link>http://www.tiddlywiki.com/#SpeedGeeking</link>
+<pubDate>Mon, 01 Oct 2007 09:29:00 GMT</pubDate>
+</item>
+<item>
+<title>BarCampBrighton 2007</title>
+<description>8th/9th September 2007&lt;br&gt;&lt;br&gt;An &lt;a target=&quot;_blank&quot; title=&quot;External link to http://en.wikipedia.org/wiki/Unconference&quot; href=&quot;http://en.wikipedia.org/wiki/Unconference&quot; class=&quot;externalLink&quot;&gt;unconference&lt;/a&gt; intended to bring together tech professionals in Brighton and people in town for dConstruct to learn and cowork.&lt;br&gt;&lt;br&gt;Osmosoft were delighted to be one of the sponsors of this event and we found it to be a rewarding experience.  More information available at the &lt;a target=&quot;_blank&quot; title=&quot;External link to http://barcamp.org/BarCampBrighton&quot; href=&quot;http://barcamp.org/BarCampBrighton&quot; class=&quot;externalLink&quot;&gt;BarCampBrighton web site&lt;/a&gt;&lt;br&gt;&lt;br&gt;As ever, more personal reflections on the event can be found on &lt;a target=&quot;_blank&quot; title=&quot;External link to http://philwhitehouse.blogspot.com/search/label/barcampbrighton07&quot; href=&quot;http://philwhitehouse.blogspot.com/search/label/barcampbrighton07&quot; class=&quot;externalLink&quot;&gt;our blogs&lt;/a&gt;.</description>
+<category>Event</category>
+<link>http://www.tiddlywiki.com/#%5B%5BBarCampBrighton%202007%5D%5D</link>
+<pubDate>Mon, 01 Oct 2007 09:28:00 GMT</pubDate>
+</item>
+<item>
+<title>Supernova 2007</title>
+<description>The Supernova conference, organized by Kevin Werbach and The Wharton School, is where technology and business influencers, leading investors, top innovators and thinkers come together to debate the future of the connected world.&lt;br&gt;&lt;br&gt;We demonstrated a simple mashup of &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; and the BT 21C SDK which you can &lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.osmosoft.com/events/supernova/&quot; href=&quot;http://www.osmosoft.com/events/supernova/&quot; class=&quot;externalLink&quot;&gt;take a look at here&lt;/a&gt; and you can find more information about Supernova at the &lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.supernova2007.com/&quot; href=&quot;http://www.supernova2007.com/&quot; class=&quot;externalLink&quot;&gt;Supernova website&lt;/a&gt;.</description>
+<category>Event</category>
+<link>http://www.tiddlywiki.com/#%5B%5BSupernova%202007%5D%5D</link>
+<pubDate>Mon, 01 Oct 2007 09:28:00 GMT</pubDate>
+</item>
+<item>
+<title>TiddlyWiki 3rd anniversary!</title>
+<description>21st September 2007&lt;br&gt;&lt;br&gt;Today we are celebrating the 3rd anniversary of &lt;a tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt;! This morning we recorded &lt;a tiddlylink=&quot;TiddlyWiki anniversary interview&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki anniversary interview&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki%20anniversary%20interview&quot; class=&quot;externalLink&quot;&gt;an interview&lt;/a&gt; between &lt;a tiddlylink=&quot;Jeremy Ruston&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Jeremy Ruston&quot; href=&quot;http://www.tiddlywiki.com/#Jeremy%20Ruston&quot; class=&quot;externalLink&quot;&gt;Jeremy Ruston&lt;/a&gt;, creator of &lt;a tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt;, &lt;a target=&quot;_blank&quot; title=&quot;External link to http://blog.lewcid.org/&quot; href=&quot;http://blog.lewcid.org/&quot; class=&quot;externalLink&quot;&gt;Saq Imtiaz&lt;/a&gt;, a prolific contributor to the &lt;a tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; community, and &lt;a tiddlylink=&quot;Phil Whitehouse&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Phil Whitehouse&quot; href=&quot;http://www.tiddlywiki.com/#Phil%20Whitehouse&quot; class=&quot;externalLink&quot;&gt;Phil Whitehouse&lt;/a&gt;, an &lt;a tiddlylink=&quot;Osmosoftonian&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Osmosoftonian&quot; href=&quot;http://www.tiddlywiki.com/#Osmosoftonian&quot; class=&quot;externalLink&quot;&gt;Osmosoftonian&lt;/a&gt;. Jeremy talks about the history of &lt;a tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; and answers questions coming in over the &lt;a tiddlylink=&quot;IRC channel&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#IRC channel&quot; href=&quot;http://www.tiddlywiki.com/#IRC%20channel&quot; class=&quot;externalLink&quot;&gt;IRC channel&lt;/a&gt;. You can see the recording by clicking on the screenshot.&lt;br&gt;&lt;br&gt;We have &lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.hawksworx.com/journal/2007/09/21/meeting-tiddlywiki-enthusiasts/&quot; href=&quot;http://www.hawksworx.com/journal/2007/09/21/meeting-tiddlywiki-enthusiasts/&quot; class=&quot;externalLink&quot;&gt;several members&lt;/a&gt; of the &lt;a tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; community visiting us this week - it's turning out to be a great opportunity to talk about Osmosoft, open source and &lt;a tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt;, and what BT's acquisition means for the future development of &lt;a tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt;. We're celebrating tonight with Mojito's - if you're in the area, give us a call!</description>
+<category>News</category>
+<link>http://www.tiddlywiki.com/#%5B%5BTiddlyWiki%203rd%20anniversary!%5D%5D</link>
+<pubDate>Fri, 21 Sep 2007 17:17:00 GMT</pubDate>
+</item>
+<item>
+<title>IRC channel</title>
+<description>&lt;a tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; is widley discussed in the &lt;a tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; IRC channel.  You can often find &lt;a tiddlylink=&quot;Osmosoftonian&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Osmosoftonian&quot; href=&quot;http://www.tiddlywiki.com/#Osmosoftonian&quot; class=&quot;externalLink&quot;&gt;Osmosoftonians&lt;/a&gt; hanging out there along with many experineced &lt;a tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; users and developers.&lt;br&gt;&lt;br&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to irc://irc.freenode.net/tiddlywiki&quot; href=&quot;irc://irc.freenode.net/tiddlywiki&quot; class=&quot;externalLink&quot;&gt;irc://irc.freenode.net/tiddlywiki&lt;/a&gt;</description>
+<link>http://www.tiddlywiki.com/#%5B%5BIRC%20channel%5D%5D</link>
+<pubDate>Fri, 21 Sep 2007 17:15:00 GMT</pubDate>
+</item>
+<item>
+<title>Introduction to TiddyWiki screencast</title>
+<description>This screencast walks you through the basics of getting your own &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; and modifying its content in a little less than six minutes.&lt;br&gt;&lt;br&gt;&lt;span&gt;
+&lt;embed src=&quot;screencasts/intro_to_tiddlywiki_ipod.mp4&quot; scale=&quot;ToFit&quot; autoplay=&quot;false&quot; bgcolor=&quot;#111&quot; height=&quot;340&quot; width=&quot;100%&quot;&gt;
+&lt;/span&gt;&lt;br&gt;&lt;br&gt;You can also download this screencast in some different optimizations.&lt;br&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to screencasts/intro_to_tiddlywiki.mp4&quot; href=&quot;screencasts/intro_to_tiddlywiki.mp4&quot; class=&quot;externalLink&quot;&gt;Intro to tiddlywiki - fullsize&lt;/a&gt; (23.8MB)&lt;br&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to screencasts/intro_to_tiddlywiki_appleTV.mp4&quot; href=&quot;screencasts/intro_to_tiddlywiki_appleTV.mp4&quot; class=&quot;externalLink&quot;&gt;Intro to tiddlywiki - medium&lt;/a&gt; (16.2MB)&lt;br&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to screencasts/intro_to_tiddlywiki_ipod.mp4&quot; href=&quot;screencasts/intro_to_tiddlywiki_ipod.mp4&quot; class=&quot;externalLink&quot;&gt;Intro to tiddlywiki - small&lt;/a&gt; (9.8MB) </description>
+<category>Screencast</category>
+<category>TiddlyWiki</category>
+<link>http://www.tiddlywiki.com/#%5B%5BIntroduction%20to%20TiddyWiki%20screencast%5D%5D</link>
+<pubDate>Fri, 21 Sep 2007 12:07:00 GMT</pubDate>
+</item>
+<item>
+<title>The Osmosoft chatter</title>
+<description>The following items have been lovingly plucked from our blogs. &lt;br&gt;You can also find links to all of our blogs in the &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Who are we?&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Who are we?&quot; href=&quot;http://www.tiddlywiki.com/#Who%20are%20we?&quot; class=&quot;externalLink&quot;&gt;profiles&lt;/a&gt; section.&lt;br&gt;&lt;br&gt;&lt;script src=&quot;http://pipes.yahoo.com/pipes/pipe.run?_id=NDqmn7Fm3BG4hHj0iHrL0A&amp;amp;_render=json&amp;amp;_callback=config.macros.pipePlugin.JSONparse&quot; type=&quot;text/javascript&quot; id=&quot;temp_script&quot;&gt;&lt;/script&gt;</description>
+<category>Blogs</category>
+<link>http://www.tiddlywiki.com/#%5B%5BThe%20Osmosoft%20chatter%5D%5D</link>
+<pubDate>Wed, 19 Sep 2007 15:52:00 GMT</pubDate>
+</item>
+<item>
+<title>Staff blogs</title>
+<description>Follow Osmosoft happenings through the eyes of the staff...&lt;br&gt;Find our blogs on our &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Who are we?&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Who are we?&quot; href=&quot;http://www.tiddlywiki.com/#Who%20are%20we?&quot; class=&quot;externalLink&quot;&gt;profiles&lt;/a&gt; or follow along with the &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;The Osmosoft chatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#The Osmosoft chatter&quot; href=&quot;http://www.tiddlywiki.com/#The%20Osmosoft%20chatter&quot; class=&quot;externalLink&quot;&gt;chatter&lt;/a&gt;.</description>
+<category>Welcome</category>
+<category>Company</category>
+<category>People</category>
+<category>Blogs</category>
+<link>http://www.tiddlywiki.com/#%5B%5BStaff%20blogs%5D%5D</link>
+<pubDate>Tue, 18 Sep 2007 17:51:00 GMT</pubDate>
+</item>
+<item>
+<title>TiddlyWiki</title>
+<description>&lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com&quot; href=&quot;http://www.tiddlywiki.com&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; is a website on a stick! In one single HTML file, &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; gives you the ability to publish and organize information in a whole manner of different ways. If you can't do what you want to, you can write plugins to change the way &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; works. A thriving community of developers have generated huge number of plugins that turn &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; into a number of different things, from a CD organizer to an online collaboration tool.&lt;br&gt;&lt;br&gt;For a quick introduction to &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; and an overview of some of the basics, you can watch the &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Introduction to TiddyWiki screencast&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Introduction to TiddyWiki screencast&quot; href=&quot;http://www.tiddlywiki.com/#Introduction%20to%20TiddyWiki%20screencast&quot; class=&quot;externalLink&quot;&gt;'Introduction to TiddlyWiki' screencast&lt;/a&gt;.&lt;br&gt;&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; is a piece of open source software created by Jeremy Ruston.  The copyright is now owned by the not-for-profit organisation &lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.unamesa.org&quot; href=&quot;http://www.unamesa.org&quot; class=&quot;externalLink&quot;&gt;UnaMesa&lt;/a&gt;. &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; has always been free and open source and will remain free and open source.</description>
+<category>TiddlyWiki</category>
+<link>http://www.tiddlywiki.com/#TiddlyWiki</link>
+<pubDate>Tue, 18 Sep 2007 17:49:00 GMT</pubDate>
+</item>
+<item>
+<title>pipePlugin</title>
+<description>&lt;pre&gt;config.macros.pipePlugin = {};
+
+config.macros.pipePlugin.context = {};
+
+config.macros.pipePlugin.handler = function(place, name, params)
+{
+	this.context.place = place;
+	this.context.name = name;
+	this.context.params = params;
+
+	var newScript = document.createElement('script');
+	newScript.id = 'temp_script';
+	newScript.type = 'text/javascript';
+	newScript.onload = config.macros.pipePlugin.removeScript;
+	newScript.src = params[0];
+	place.appendChild(newScript);
+};
+
+config.macros.pipePlugin.removeScript = function() {
+	var k = document.getElementById(&quot;temp_script&quot;);
+	removeNode(k);
+};
+
+config.macros.pipePlugin.JSONparse = function(response) {
+
+    JSON = {};
+    JSON.response = eval(response);
+    
+    JSON.blogtitle = JSON.response.value.title;
+    JSON.blogitems = JSON.response.value.items;
+    
+    // Iterate through the blog items
+	var limit = this.context.params[1];
+	limit = ((limit &amp;amp;&amp;amp; limit &amp;gt; JSON.blogitems.length) ? JSON.blogitems.length : limit);
+    for (var i=0; i&amp;lt;limit; i++) {
+    	var item = JSON.blogitems[i];
+        var item_title = item.title;
+		var item_link = item.link;
+        // pick the right author node
+        var item_author = (function() {
+            return (item[&quot;dc:creator&quot;] || (item.author &amp;amp;&amp;amp; item.author.name));
+        })();
+        var heading = item_title;
+		headingelement = document.createElement(&quot;h3&quot;);
+		headingelement_link = document.createElement(&quot;a&quot;);
+		headingelement_link.setAttribute(&quot;href&quot;,item_link);
+		headingelement_link.setAttribute(&quot;target&quot;,&quot;_blank&quot;);
+		headingelement.appendChild(headingelement_link).appendChild(document.createTextNode(heading));
+		this.context.place.appendChild(headingelement);
+		// var pubDate = new Date(item.pubDate);
+		var date_regex = /(.)*?2007/mg;
+		var pubDate = item.pubDate.match(date_regex)[0];
+		var author_line = &quot;posted by &quot; + item_author + &quot; on &quot; + pubDate;
+		createTiddlyElement(this.context.place,&quot;h4&quot;,null,null,author_line);
+        // pick the right content node
+        var raw_content = new String();
+		raw_content = (function() {
+            return (item[&quot;content:encoded&quot;] || (item.content &amp;amp;&amp;amp; item.content.content) || item[&quot;description&quot;]);
+        })();
+        var content = raw_content.renderHtmlText();
+        content = content.renderHtmlEscapedEntities();
+        var para = document.createElement(&quot;p&quot;);
+		var summary_limit = this.context.params[2];
+		if (summary_limit) { writeCodeSummary(summary_limit,content,para); }
+		else writeCode(content,para);
+        this.context.place.appendChild(para);
+    }
+};
+
+// renderHtmlText puts a string through the browser render process and then extracts the text
+// useful to turn HTML entities into literals such as &amp;amp;apos; to '
+// this, annoyingly, doesn't cope with entities such as &amp;amp;#8217; - see renderHtmlEscapedEntities
+// below for that
+// NB: At some point, someone should create a utility function that just creates a text version
+// of any HTML string, coping with any character encodings - as if it had been rendered in the
+// browser and then copied out. This would combine renderHtmlText, renderHtmlEscapedEntities
+// and writeCode or writeCodeSummary
+String.prototype.renderHtmlText = function() {
+	var e = createTiddlyElement(document.body,&quot;div&quot;);
+	e.innerHTML = this;
+	var text = getPlainText(e);
+	removeNode(e);
+	return text;
+};
+
+// renderHtmlEscapedEntities takes a HTML string which has already been run through
+// renderHtmlText to deal with converting entities such as &amp;amp;apos; to '
+// It then converts remaining entities such as &amp;amp;#8217; to '
+String.prototype.renderHtmlEscapedEntities = function() {
+	var entity_match = /&amp;amp;#(.*?);/mg;
+	entities = this.replace(entity_match,function(string_match,matches) {
+		var word = string_match.substring(2,string_match.length-1);
+		var new_word = String.fromCharCode(word);
+		return new_word;
+	});
+	return entities;
+};
+
+// Creates a sub-tree under a given element
+// copied from O'Reilly Javascript Library
+function writeCode(s, pointer) {
+var parent, tag, j;
+for ( var i = 0; i &amp;lt; s.length; i++) {
+var c = s.charAt(i);
+if (c == &quot;&amp;lt;&quot;) {
+var j = s.indexOf(&quot;&amp;gt;&quot;, i + 1);
+tag = s.substring(i, j + 1);
+if (tag.charAt(tag.length - 2) == &quot;/&quot;) {
+if (pointer != null &amp;amp;&amp;amp; pointer.nodeType == 3) {
+pointer = pointer.parentNode;
+}
+pointer.appendChild(createElementFromString(tag));
+} else if (tag.charAt(1) != &quot;/&quot;) {
+if (pointer != null &amp;amp;&amp;amp; pointer.nodeType == 3) {
+pointer = pointer.parentNode;
+}
+pointer = pointer.appendChild(createElementFromString(tag));
+} else {
+if (pointer.parentNode != null &amp;amp;&amp;amp;
+pointer.parentNode.parentNode != null) {
+pointer = pointer.parentNode.parentNode;
+}
+}
+i = j;
+} else {
+if (pointer.nodeType == 3) {
+n = s.indexOf(&quot;&amp;lt;&quot;, i + 1);
+if (n == -1) {
+pointer.nodeValue += s.substr(i);
+i = s.length;
+} else {
+pointer.nodeValue += s.substring(i, n);
+i = n - 1;
+}
+} else {
+pointer = pointer.appendChild(document.createTextNode(c));
+}
+}
+}
+}
+
+// Creates a plaintext summary of a given HTML string
+// based on writeCode() from O'Reilly Javascript Library
+function writeCodeSummary(limit, s, pointer) {
+	var parent, tag, j;
+	limit = (limit &amp;lt; s.length ? limit : s.length);
+	// count keeps track of the number of text characters added
+	var count = 0;
+	for ( var i = 0; count &amp;lt; limit; i++) {
+		var c = s.charAt(i);
+		// Ignore tags
+		if (c == &quot;&amp;lt;&quot;) {
+			var j = s.indexOf(&quot;&amp;gt;&quot;, i + 1);
+			i = j;
+		} else {
+			if (pointer.nodeType == 3) {
+				n = s.indexOf(&quot;&amp;lt;&quot;, i + 1);
+				if (n == -1) {
+					pointer.nodeValue += s.substr(i);
+					i = s.length;
+					count += s.length;
+				} else {
+					// check we're not adding too many characters
+					// n - i is the length of the string we are adding
+					// limit - count is the number we have left to play with
+					var extratext;
+					if (n - i &amp;gt; limit - count) {
+						extratext = s.substring(i, i + (limit - count));
+					} else extratext = s.substring(i, n);
+					pointer.nodeValue += extratext;
+					count += extratext.length;
+					i = n - 1;
+				}
+			} else {
+				pointer = pointer.appendChild(document.createTextNode(c));
+				count++;
+			}
+		}
+	}
+}
+
+// parse a string and create an element from it
+// based on O'Reilly Javascript Library code
+function createElementFromString(str) {
+var node, a = str.match(/&amp;lt;(\w+)(\s+)?([^&amp;gt;]+)?&amp;gt;/);
+if (a != null) {
+node = document.createElement(a[1]);
+if (a[3] != null) {
+var attrs = a[3].split(&quot; &quot;);
+if (attrs.length &amp;gt; 0) {
+for ( var i = 0; i &amp;lt; attrs.length; i++) {
+var att = attrs[i].split(&quot;=&quot;);
+if (att[0].length &amp;gt; 0 &amp;amp;&amp;amp;
+att[0] != &quot;/&quot; &amp;amp;&amp;amp; att[1] &amp;amp;&amp;amp; att[1].length != 2) {
+var a_n = document.createAttribute(att[0]);
+a_n.value = att[1].replace(/^['&quot;](.+)['&quot;]$/, &quot;$1&quot;);
+node.setAttributeNode(a_n);
+}
+}
+}
+}
+}
+return node;
+}
+&lt;/pre&gt;</description>
+<category>systemConfig</category>
+<link>http://www.tiddlywiki.com/#pipePlugin</link>
+<pubDate>Tue, 18 Sep 2007 17:33:00 GMT</pubDate>
+</item>
+<item>
+<title>UrchinSupport</title>
+<description>&lt;pre&gt;
+//  Overide displayTiddler function to also Google Analytics urchin.
+
+var TiddlyLock = {};
+TiddlyLock.displayTiddler = story.displayTiddler;
+story.displayTiddler = function(srcElement,titles,template,unused1,unused2,animate,unused3)
+{
+	if(urchinTracker &amp;amp;&amp;amp; urchinTracker != 'undefined') urchinTracker('/' + titles);
+	TiddlyLock.displayTiddler.apply(this,arguments);
+}
+
+&lt;/pre&gt;</description>
+<category>systemConfig</category>
+<link>http://www.tiddlywiki.com/#UrchinSupport</link>
+<pubDate>Mon, 17 Sep 2007 07:33:00 GMT</pubDate>
+</item>
+<item>
+<title>Contact us</title>
+<description>We'd love to hear from you if you have any questions, comments or want to get involved with the work we are doing. Either email us all at &lt;a target=&quot;_blank&quot; title=&quot;External link to mailto:hello@osmosoft.com&quot; href=&quot;mailto:hello@osmosoft.com&quot; class=&quot;externalLink&quot;&gt;hello@osmosoft.com&lt;/a&gt; or contact one of us directly through the links posted on our &lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Who are we?&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Who are we?&quot; href=&quot;http://www.tiddlywiki.com/#Who%20are%20we?&quot; class=&quot;externalLink&quot;&gt;profiles&lt;/a&gt;. Or come and visit us in our office!&lt;br&gt;&lt;br&gt;Our address is:&lt;br&gt;&lt;br&gt;Osmosoft&lt;br&gt;Room 5.02&lt;br&gt;MLS,&lt;br&gt;130 Shaftesbury Avenue,&lt;br&gt;London,&lt;br&gt;W1D 5EU&lt;br&gt;&lt;br&gt;Tel: 020 7031 1188&lt;br&gt;&lt;br&gt;Directions by tube: &lt;br&gt;Nearest station, Leicester Square. Once through the ticket barriers, turn right and leave through exit 2. At street level, turn left and walk 150 metres up Charing Cross Road. Turn left into Shaftesbury Avenue, we're on the left before the fire station.&lt;br&gt;&lt;br&gt;&lt;span&gt;
+&lt;iframe marginheight=&quot;0&quot; marginwidth=&quot;0&quot; src=&quot;http://maps.google.co.uk/maps?f=l&amp;amp;hl=en&amp;amp;geocode=&amp;amp;q=mls&amp;amp;near=w1&amp;amp;ie=UTF8&amp;amp;cid=51512714,-129516,1509808743731668262&amp;amp;om=1&amp;amp;s=AARTsJpcvM8uUanc6ZjKsLsp6p1yrUWKqQ&amp;amp;ll=51.519906,-0.125313&amp;amp;spn=0.018693,0.036478&amp;amp;z=14&amp;amp;iwloc=A&amp;amp;output=embed&quot; frameborder=&quot;0&quot; height=&quot;350&quot; scrolling=&quot;no&quot; width=&quot;425&quot;&gt;&lt;/iframe&gt;&lt;br&gt;&lt;small&gt;&lt;a href=&quot;http://maps.google.co.uk/maps?f=l&amp;amp;hl=en&amp;amp;geocode=&amp;amp;q=mls&amp;amp;near=w1&amp;amp;ie=UTF8&amp;amp;cid=51512714,-129516,1509808743731668262&amp;amp;om=1&amp;amp;ll=51.519906,-0.125313&amp;amp;spn=0.018693,0.036478&amp;amp;z=14&amp;amp;iwloc=A&amp;amp;source=embed&quot;&gt;View Larger Map&lt;/a&gt;&lt;/small&gt;
+&lt;/span&gt;</description>
+<category>Contacts</category>
+<link>http://www.tiddlywiki.com/#%5B%5BContact%20us%5D%5D</link>
+<pubDate>Tue, 11 Sep 2007 15:06:00 GMT</pubDate>
+</item>
+<item>
+<title>Who are we?</title>
+<description>BT Osmosoft is a small team of techies that have a passion for&lt;br&gt;open source software. We like to invent, create and play.&lt;br&gt;&lt;br&gt;&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;img src=&quot;images/photo_jeremy.jpg&quot; title=&quot;Jeremy&quot;&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;strong&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Jeremy Ruston&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Jeremy Ruston&quot; href=&quot;http://www.tiddlywiki.com/#Jeremy%20Ruston&quot; class=&quot;externalLink&quot;&gt;Jeremy Ruston&lt;/a&gt;&lt;/strong&gt; &lt;a target=&quot;_blank&quot; title=&quot;External link to http://jermolene.wordpress.com&quot; href=&quot;http://jermolene.wordpress.com&quot; class=&quot;externalLink&quot;&gt;jermolene.wordpress.com&lt;/a&gt; &lt;a target=&quot;_blank&quot; title=&quot;External link to http://flickr.com/photos/jermy/&quot; href=&quot;http://flickr.com/photos/jermy/&quot; class=&quot;externalLink&quot;&gt;flickr.com/photos/jermy&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;img src=&quot;images/photo_james.jpg&quot; title=&quot;James&quot;&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;strong&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;James Shi&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#James Shi&quot; href=&quot;http://www.tiddlywiki.com/#James%20Shi&quot; class=&quot;externalLink&quot;&gt;James Shi&lt;/a&gt;&lt;/strong&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://curiousjames.wordpress.com&quot; href=&quot;http://curiousjames.wordpress.com&quot; class=&quot;externalLink&quot;&gt;curiousjames.wordpress.com&lt;/a&gt; &lt;a target=&quot;_blank&quot; title=&quot;External link to http://picasaweb.google.com/james.z.shi&quot; href=&quot;http://picasaweb.google.com/james.z.shi&quot; class=&quot;externalLink&quot;&gt;picasaweb.google.com/james.z.shi&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;img src=&quot;images/photo_jon.jpg&quot; title=&quot;Jon&quot;&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;strong&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Jon Lister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Jon Lister&quot; href=&quot;http://www.tiddlywiki.com/#Jon%20Lister&quot; class=&quot;externalLink&quot;&gt;Jon Lister&lt;/a&gt;&lt;/strong&gt; &lt;a target=&quot;_blank&quot; title=&quot;External link to http://jayfresh.wordpress.com&quot; href=&quot;http://jayfresh.wordpress.com&quot; class=&quot;externalLink&quot;&gt;jayfresh.wordpress.com&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;img src=&quot;images/photo_paul.jpg&quot; title=&quot;Paul&quot;&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;strong&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Paul Downey&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Paul Downey&quot; href=&quot;http://www.tiddlywiki.com/#Paul%20Downey&quot; class=&quot;externalLink&quot;&gt;Paul Downey&lt;/a&gt;&lt;/strong&gt; &lt;a target=&quot;_blank&quot; title=&quot;External link to http://blog.whatfettle.com&quot; href=&quot;http://blog.whatfettle.com&quot; class=&quot;externalLink&quot;&gt;blog.whatfettle.com&lt;/a&gt; &lt;a target=&quot;_blank&quot; title=&quot;External link to http://flickr.com/photos/psd/&quot; href=&quot;http://flickr.com/photos/psd/&quot; class=&quot;externalLink&quot;&gt;flickr.com/photos/psd&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;img src=&quot;images/photo_philh.jpg&quot; title=&quot;Phil H&quot;&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;strong&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Phil Hawksworth&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Phil Hawksworth&quot; href=&quot;http://www.tiddlywiki.com/#Phil%20Hawksworth&quot; class=&quot;externalLink&quot;&gt;Phil Hawksworth&lt;/a&gt;&lt;/strong&gt; &lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.hawksworx.com&quot; href=&quot;http://www.hawksworx.com&quot; class=&quot;externalLink&quot;&gt;www.hawksworx.com&lt;/a&gt; &lt;a target=&quot;_blank&quot; title=&quot;External link to http://flickr.com/photos/philhawksworth/&quot; href=&quot;http://flickr.com/photos/philhawksworth/&quot; class=&quot;externalLink&quot;&gt;flickr.com/photos/philhawksworth&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;img src=&quot;images/photo_philw.jpg&quot; title=&quot;Phil W&quot;&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;strong&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Phil Whitehouse&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Phil Whitehouse&quot; href=&quot;http://www.tiddlywiki.com/#Phil%20Whitehouse&quot; class=&quot;externalLink&quot;&gt;Phil Whitehouse&lt;/a&gt;&lt;/strong&gt; &lt;a target=&quot;_blank&quot; title=&quot;External link to http://philwhitehouse.blogspot.com&quot; href=&quot;http://philwhitehouse.blogspot.com&quot; class=&quot;externalLink&quot;&gt;philwhitehouse.blogspot.com&lt;/a&gt; &lt;a target=&quot;_blank&quot; title=&quot;External link to http://flickr.com/photos/philliecasablanca/&quot; href=&quot;http://flickr.com/photos/philliecasablanca/&quot; class=&quot;externalLink&quot;&gt;flickr.com/photos/philliecasablanca&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;img src=&quot;images/photo_simon.jpg&quot; title=&quot;Simon&quot;&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;strong&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;http://www.osmosoft.com&amp;quot; server.type:&amp;quot;file&amp;quot;&quot; tiddlylink=&quot;Simon McManus&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Simon McManus&quot; href=&quot;http://www.tiddlywiki.com/#Simon%20McManus&quot; class=&quot;externalLink&quot;&gt;Simon McManus&lt;/a&gt;&lt;/strong&gt; &lt;a target=&quot;_blank&quot; title=&quot;External link to http://simonmcmanus.wordpress.com&quot; href=&quot;http://simonmcmanus.wordpress.com&quot; class=&quot;externalLink&quot;&gt;simonmcmanus.wordpress.com&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</description>
+<category>Company</category>
+<category>People</category>
+<category>Blogs</category>
+<link>http://www.tiddlywiki.com/#%5B%5BWho%20are%20we%3F%5D%5D</link>
+<pubDate>Tue, 11 Sep 2007 12:27:00 GMT</pubDate>
+</item>
+</channel>
+</rss>
