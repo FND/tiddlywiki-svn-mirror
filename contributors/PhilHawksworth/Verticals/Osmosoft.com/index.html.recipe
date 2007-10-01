@@ -1,9 +1,8 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 
-tiddler: (default)_on_http___www.osmosoft.com.tiddler
 tiddler: AdvancedOptions.tiddler
 tiddler: MarkupPostHead.tiddler
-posthead: MarkupPostHeadRaw.tiddler
+posthead: MarkupPostHead.tiddler
 tiddler: SideBar.tiddler
 tiddler: SideBarOptions.tiddler
 tiddler: SideBarTabs.tiddler
@@ -11,7 +10,7 @@ tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: UrchinSupport.js
 
-recipe: plugins/plugins.recipe
-recipe: theme/theme.recipe
-recipe: tiddlers/tiddlers.recipe
+recipe: plugins/split.recipe
+recipe: theme/split.recipe
+recipe: tiddlers/split.recipe
 
