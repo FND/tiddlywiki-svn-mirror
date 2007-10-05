@@ -1,0 +1,10 @@
+title: tiddlyChatterPublishing
+modifier: Jon Lister
+created: 200710041506
+modified: 200710041509
+tags: systemConfig
+server.host: http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml
+server.filter: [tag[public collab]]
+server.type: RSS
+changecount: 3
+server.workspace: 

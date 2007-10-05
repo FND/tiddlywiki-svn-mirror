@@ -1,0 +1,32 @@
+<div title="StyleSheet" modifier="Jon Lister" created="200710020958" modified="200710041831" changecount="16">
+<pre>/*{{{*/
+
+#channelBox {background:#BBBB33;}
+#newChannelBox {background:#33BBBB;}
+#subscriptionBox {background:#CCCC22;}
+#newSubscriptionBox {background:#22CCCC;}
+.publishing {
+   background-color: #EEEEEE;
+   border: 1px solid #EEEEEE;
+   float: right;
+   margin: 0.5em;
+   font-size: 0.9em;
+   padding: 0.25em;
+}
+.selected .publishing {
+   background-color: #CCCCCC;
+   border: 1px solid #999999;
+}
+.publishing .button {
+   border: medium none;
+}
+.publishing ul {
+   list-style-image: none;
+   list-style-position: outside;
+   list-style-type: none;
+   margin: 0.25em;
+   padding: 0pt;
+}
+
+/*}}}*/</pre>
+</div>

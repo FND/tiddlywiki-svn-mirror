@@ -1,0 +1,11 @@
+<div title="Welcome to TiddlyChatter" modifier="Jon Lister" created="200709261353" modified="200709271740" tags="info TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="10" server.workspace="">
+<pre>This TiddlyWiki has the required plugins installs to support &quot;TiddlyChatter&quot;, a peer-to-peer collaboration feature.
+
+You can read an example of how TiddlyChatter works [[here|What is TiddlyChatter?]].
+
+''To turn a tiddler into a TiddlyChatter tiddler, tag it &quot;public&quot;''
+
+TiddlyChatter is still in development; information about the plugins TiddlyChatter is based on and what changes have been made can be found [[here|TiddlyChatterDevelopment]]. All the tiddlers necessary to run TiddlyChatter are tagged &lt;&lt;tag TiddlyChatter&gt;&gt; for ease of import.
+
+Please find the set-up instructions [[here|Setting up TiddlyChatter]].</pre>
+</div>

@@ -1,0 +1,11 @@
+<div title="Setting up TiddlyChatter" modifier="Jon Lister" created="200709271728" modified="200710051010" tags="info TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="11" server.workspace="">
+<pre>''To turn a tiddler into a TiddlyChatter tiddler, tag it &quot;public&quot;''
+
+The key to TiddlyChatter is your subscription to someone else's channel, which you can do from [[TiddlyChatter streams]]. Click &quot;new subscription&quot; and put in the URL of a TiddlyWiki which has channels set up. You can set up your own channels by clicking &quot;new channel&quot; and choosing the identifying tag with which to tag tiddlers so they go into that channel.
+
+You need to make sure that the &quot;Tag for import&quot; field in ImportWorkspacePlugin is set to &quot;subscription&quot;. At 02/09/07, it is set as a cookie...
+
+Currently, TiddlyChatter supports subscribing to one feed.
+
+Hitting &quot;Go chatter!&quot; (bottom line in the left-hand menu) gets your updates. When you save your TiddlyWiki, your own updates are published.</pre>
+</div>
