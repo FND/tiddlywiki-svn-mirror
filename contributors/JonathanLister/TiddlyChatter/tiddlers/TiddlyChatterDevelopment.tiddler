@@ -1,4 +1,4 @@
-<div title="TiddlyChatterDevelopment" modifier="Jon Lister" created="200709261354" modified="200710021613" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="12" server.workspace="">
+<div title="TiddlyChatterDevelopment" modifier="Jon Lister" created="200709261354" modified="200710021613" tags="TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="12" server.workspace="">
 <pre>The following plugins are used in a modified state (link to modified source in last column):
 
 |NotesPlugin |by SaqImtiaz |http://tw.lewcid.org/#NotesPlugin |http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/NotesPlugin_JRL.js |

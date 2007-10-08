@@ -27,6 +27,8 @@
    margin: 0.25em;
    padding: 0pt;
 }
-
+tr.tiddlyChatterIncomingRowUnread {
+	background-color: #C44;
+}
 /*}}}*/</pre>
 </div>

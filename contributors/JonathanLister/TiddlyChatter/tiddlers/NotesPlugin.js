@@ -165,9 +165,17 @@ config.macros.notes={
 		params = paramString.parseParams("anon",null,true,false,false);
 		var heading = getParam(params,"heading",this.heading);
 		// tags can be a space-separated string of tags
-		// when we create the Notes box, we use the tags_string as the attribute
+		// this parameter allows you to specify an identiying tag for the note
+		// then we inherit the parent's tags
+		// when we create the Notes box, we use tags as its tags attribute
 		var tags_string = getParam(params,"tags",this.tags);
 		var tags = tags_string.split(" ");
+		for (var i=0;i<tiddler.tags.length;i++) {
+			if (!tags.contains(tiddler.tags[i])) {
+				tags_string += " " + tiddler.tags[i].toString();
+			}
+		}
+		// var tags_string_new = tags_string.split(" ").push(tiddler.tags).toString();
 		var suffix = getParam(params,"suffix",this.suffix);
 		// Get the notes tiddlers for this tiddler, count them, make the count an attribute on the box
 		var notes_tiddlers = store.getTaggedTiddlers("notes");
@@ -202,7 +210,7 @@ config.macros.notes={
 			var notesBox = createTiddlyElement(box,"div",null,"TiddlerNotes",null,{noteCount:i});
 			notesBox.ondblclick = this.ondblclick;
 			wikify("<<tiddler [["+notes[i].title+"]]>>\n",notesBox);
-			createTiddlyElement(notesBox,"span",null,"subtitle","at "+notes[i].modified+"by "+notes[i].modifier);
+			createTiddlyElement(notesBox,"span",null,"subtitle","at "+notes[i].modified+" by "+notes[i].modifier);
 			createTiddlyButton(notesBox,this.editLabel,this.editLabel,this.editNotesButtonOnclick,"editNotesButton");
 		}
 		// add 'add notes' button

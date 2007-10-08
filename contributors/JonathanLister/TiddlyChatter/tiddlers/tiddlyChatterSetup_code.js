@@ -77,7 +77,8 @@ config.macros.tiddlyChatterSetup.onClickNewChannel = function() {
 	tags += " " +channelName;
 	var tiddlerBody = "|''Type:''|RSS|\n|''URL:''||\n|''Workspace:''||\n|''TiddlerFilter:''|[tag[public "+channelName+"]]|";
 	store.saveTiddler(channelName,channelName,tiddlerBody,config.options.txtUserName,null,tags);
-	displayMessage("stream created: " + channelName);
+	var this_tiddler = story.findContainingTiddler(this);
+	story.refreshTiddler(this_tiddler.getAttribute("tiddler"),this_tiddler.getAttribute("template"),true);
 };
 
 // onclick after clicking the new subscription button; 'this' refers to the button
@@ -154,7 +155,8 @@ config.macros.tiddlyChatterSetup.onClickSubscribe = function() {
 		var text = subscriptionTemplate.format([type_field,subscriptionURL,workspace_field,filter_field]);
 		tiddler.tags.push("subscription");
 		store.saveTiddler(tiddler.title, tiddler.title, text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, true, tiddler.created);
-		displayMessage("subscribed to: " + tiddler.title);
+		var this_tiddler = story.findContainingTiddler(this);
+		story.refreshTiddler(this_tiddler.getAttribute("tiddler"),this_tiddler.getAttribute("template"),true);
 	} else {
 		displayMessage("problem with matching: " + tiddler_title);
 	}

@@ -101,6 +101,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 	var regex_category = /<category>(.|\n)*?<\/category>/mg;
 	var regex_link = /<link>(\S|\n)*?<\/link>/mg;
 	var regex_pubDate = /<pubDate>(.|\n)*?<\/pubDate>/mg;
+	var regex_author = /<author>(.|\n)*?<\/author>/mg;
 	var item_match = this.store.match(regex_item);
 	// check for filter and then implement tag filter if of the form [tag[public stuff]]
 	// filter syntax: [tag[tag1 tag2 ...]]
@@ -179,6 +180,17 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 			displayMessage("pubDate empty for item: " + item.title);
 		}
 		t.created = item.pubDate;
+		// grab item author
+		author = item_match[i].match(regex_author);
+		if (author) {
+			author = author[0].replace(/^<author>|<\/author>$/mg,"");
+			// TO-DO: does this work on Windows FF and IE??
+			item.author = author;
+		} else {
+			item.author = "unknown";
+			displayMessage("author empty for item: " + item.title);
+		}
+		t.modifier = item.author;
 		// check to see that we have a filter to use
 		if (filter_match) {
 			if(t.isTaggedAllOf(tags_to_match)) {

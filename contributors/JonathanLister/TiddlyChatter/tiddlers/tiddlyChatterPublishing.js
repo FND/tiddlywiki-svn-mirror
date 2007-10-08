@@ -86,6 +86,7 @@ config.macros.publishing.subscribe = function() {
 	var tag = this.textContent;
 	tiddler.tags.push(tag);
 	tiddler.set(tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.created,tiddler.fields);
+	story.refreshTiddler(DOMTiddler.getAttribute("tiddler"),DOMTiddler.getAttribute("template"),true);
 };
 
 // onclick for "publish" buttons; 'this' refers to the span

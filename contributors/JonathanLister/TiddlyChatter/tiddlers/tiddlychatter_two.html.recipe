@@ -2,6 +2,7 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 tiddler: BUGS.tiddler
 tiddler: ChatterFeed.tiddler
 tiddler: ChrisR.tiddler
+tiddler: ColorPalette.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: File_adaptor_filter_plugin.js
 tiddler: ImportWorkspacePlugin.js

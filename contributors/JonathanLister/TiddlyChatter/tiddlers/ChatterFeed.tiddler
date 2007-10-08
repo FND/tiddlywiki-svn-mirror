@@ -1,6 +1,6 @@
-<div title="ChatterFeed" modifier="Jon Lister" created="200709211043" modified="200709271741" tags="systemServer TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="2" server.workspace="">
+<div title="ChatterFeed" modifier="Jon Lister" created="200709211043" modified="200709271741" tags="systemServer TiddlyChatter public channel" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="2" server.workspace="">
 <pre>|''Type:''|RSS|
-|''URL:''|file:///something.xml|
+|''URL:''|http://jonny.jonathan.googlepages.com/tiddlychatter.html|
 |''Workspace:''||
 |''TiddlerFilter:''|[tag[public]]|</pre>
 </div>

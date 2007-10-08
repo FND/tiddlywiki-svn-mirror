@@ -496,15 +496,42 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="BUGS" modifier="Jon Lister" created="200710051013" changecount="2">
-<pre>* Lack of modifier (person) on imported content from http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml - is this a problem to do with cookies or the creation of content/notes?
-* sorting of incoming list not sorted (want to sort by date of latest update but only display parent content)
-* refresh mechanism not implemented</pre>
+<div title="BUGS" modifier="Jon Lister" modified="200710071425" created="200710051013" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlychatter/tiddlychatter_two.xml" server.filter="[tag[public right]]" server.type="RSS" changecount="3" server.workspace="">
+<pre>* refresh mechanism implemented in a way I don't fully understand - could be unstable?</pre>
+</div>
+<div title="ChatterFeed" modifier="Jon Lister" modified="200709271741" created="200709211043" tags="systemServer TiddlyChatter public channel" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="2" server.workspace="">
+<pre>|''Type:''|RSS|
+|''URL:''|http://jonny.jonathan.googlepages.com/tiddlychatter.html|
+|''Workspace:''||
+|''TiddlerFilter:''|[tag[public]]|</pre>
+</div>
+<div title="ChrisR" modifier="Jon Lister" created="200710021642" tags="channel systemServer ChrisR" changecount="1">
+<pre>|''Type:''|RSS|
+|''URL:''||
+|''Workspace:''||
+|''TiddlerFilter:''|[tag[public ChrisR]]|</pre>
+</div>
+<div title="ColorPalette" modifier="Jon Lister" modified="200710081630" created="200710081628" changecount="3">
+<pre>Background: #fff
+Foreground: #000
+PrimaryPale: #8cf
+PrimaryLight: #18f
+PrimaryMid: #000
+PrimaryDark: #014
+SecondaryPale: #ffc
+SecondaryLight: #fe8
+SecondaryMid: #db4
+SecondaryDark: #841
+TertiaryPale: #eee
+TertiaryLight: #ccc
+TertiaryMid: #999
+TertiaryDark: #666
+Error: #f88</pre>
 </div>
 <div title="DefaultTiddlers" modifier="Jon Lister" modified="200710051010" created="200709261606" changecount="5">
 <pre>[[Welcome to TiddlyChatter]]</pre>
 </div>
-<div title="File adaptor filter plugin" modifier="Jon Lister" created="200710011636" tags="systemConfig" changecount="1">
+<div title="File adaptor filter plugin" modifier="Jon Lister" created="200710011636" tags="systemConfig TiddlyChatter" changecount="1">
 <pre>//{{{
 
 // Gets the list of tiddlers within a given workspace
@@ -720,7 +747,6 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 			}
 		}
 	}
-	displayMessage(&quot;end of everything?&quot;);
 	// THIS IS A VERY BAD THING TO DO, AS IS IT SPECIFIC, NOT BUILT FOR RE-USE
 	// I SUGGEST WE CHANGE THE PLUGIN TO TAKE A CALLBACK FOR EXECUTING AT THE END OF THE IMPORT I.E. HERE
 	// now everything's done, open up the TiddlyChatterIncoming tiddler
@@ -733,17 +759,20 @@ config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
 	displayMessage(&quot;getting &quot; + context.tiddler.title);
 	if(context.status) {
 		var tiddler = context.tiddler;
+		// add in an extended field to save unread state
+		tiddler.fields[&quot;unread&quot;] = true;
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 		story.refreshTiddler(tiddler.title,1,true);
 	} else {
 		displayMessage(context.statusText);
 	}
+	story.refreshAllTiddlers();
 };
 
 } // end of 'install only once'
 //}}}</pre>
 </div>
-<div title="Incoming!" modifier="Jon Lister" created="200710031720" changecount="1">
+<div title="Incoming!" modifier="Jon Lister" created="200710031720" tags="TiddlyChatter" changecount="1">
 <pre>&lt;&lt;tiddlyChatterIncoming&gt;&gt;</pre>
 </div>
 <div title="MainMenu" modifier="Jon Lister" modified="200710051013" created="200709261354" changecount="11">
@@ -754,7 +783,7 @@ config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
 [[Incoming!]]
 [[BUGS]]</pre>
 </div>
-<div title="My little worksheet" modified="200710051643" created="200710021622" tags="public collab" link to original="http://www.tiddlywiki.com/#%5B%5BMy%20little%20worksheet%5D%5D" server.type="RSS" server.host="http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml" server.page.revision="200710051643">
+<div title="My little worksheet" modified="200710051014" created="200710021622" tags="public collab" server.host="http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml" server.page.revision="200710051014" server.type="RSS" original="http://www.tiddlywiki.com/#%5B%5BMy%20little%20worksheet%5D%5D">
 <pre>&lt;html&gt;Oh, homework's so tricky... please someone help me out here!&lt;/html&gt;</pre>
 </div>
 <div title="New info for Chris" modifier="Jon Lister" created="200710021642" tags="public ChrisR" changecount="1">
@@ -928,9 +957,17 @@ config.macros.notes={
 		params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
 		var heading = getParam(params,&quot;heading&quot;,this.heading);
 		// tags can be a space-separated string of tags
-		// when we create the Notes box, we use the tags_string as the attribute
+		// this parameter allows you to specify an identiying tag for the note
+		// then we inherit the parent's tags
+		// when we create the Notes box, we use tags as its tags attribute
 		var tags_string = getParam(params,&quot;tags&quot;,this.tags);
 		var tags = tags_string.split(&quot; &quot;);
+		for (var i=0;i&lt;tiddler.tags.length;i++) {
+			if (!tags.contains(tiddler.tags[i])) {
+				tags_string += &quot; &quot; + tiddler.tags[i].toString();
+			}
+		}
+		// var tags_string_new = tags_string.split(&quot; &quot;).push(tiddler.tags).toString();
 		var suffix = getParam(params,&quot;suffix&quot;,this.suffix);
 		// Get the notes tiddlers for this tiddler, count them, make the count an attribute on the box
 		var notes_tiddlers = store.getTaggedTiddlers(&quot;notes&quot;);
@@ -965,7 +1002,7 @@ config.macros.notes={
 			var notesBox = createTiddlyElement(box,&quot;div&quot;,null,&quot;TiddlerNotes&quot;,null,{noteCount:i});
 			notesBox.ondblclick = this.ondblclick;
 			wikify(&quot;&lt;&lt;tiddler [[&quot;+notes[i].title+&quot;]]&gt;&gt;\n&quot;,notesBox);
-			createTiddlyElement(notesBox,&quot;span&quot;,null,&quot;subtitle&quot;,&quot;at &quot;+notes[i].modified+&quot;by &quot;+notes[i].modifier);
+			createTiddlyElement(notesBox,&quot;span&quot;,null,&quot;subtitle&quot;,&quot;at &quot;+notes[i].modified+&quot; by &quot;+notes[i].modifier);
 			createTiddlyButton(notesBox,this.editLabel,this.editLabel,this.editNotesButtonOnclick,&quot;editNotesButton&quot;);
 		}
 		// add 'add notes' button
@@ -993,6 +1030,12 @@ setStylesheet(&quot;.TiddlerNotes {\n&quot;+ &quot; background:#eee;\n&quot;+ &q
 
 //!END-PLUGIN-CODE
 // %/</pre>
+</div>
+<div title="PhilH" modifier="Jon Lister" created="200710081632" tags="channel systemServer PhilH subscription" server.page.revision="200710081632">
+<pre>|''Type:''|RSS|
+|''URL:''|file:///Users/jonathanlister/Documents/osmosoft/tiddlywiki/Trunk/contributors/JonathanLister/TiddlyChatter/tiddlers/tiddlychatter.xml|
+|''Workspace:''||
+|''TiddlerFilter:''|[tag[public PhilH]]|</pre>
 </div>
 <div title="RSS adaptor code" modifier="Jon Lister" modified="200709271715" created="200709021326" tags="systemConfig TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.page.revision="200709211227" server.type="RSS" changecount="2" server.workspace="">
 <pre>/***
@@ -1098,6 +1141,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 	var regex_category = /&lt;category&gt;(.|\n)*?&lt;\/category&gt;/mg;
 	var regex_link = /&lt;link&gt;(\S|\n)*?&lt;\/link&gt;/mg;
 	var regex_pubDate = /&lt;pubDate&gt;(.|\n)*?&lt;\/pubDate&gt;/mg;
+	var regex_author = /&lt;author&gt;(.|\n)*?&lt;\/author&gt;/mg;
 	var item_match = this.store.match(regex_item);
 	// check for filter and then implement tag filter if of the form [tag[public stuff]]
 	// filter syntax: [tag[tag1 tag2 ...]]
@@ -1176,6 +1220,17 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 			displayMessage(&quot;pubDate empty for item: &quot; + item.title);
 		}
 		t.created = item.pubDate;
+		// grab item author
+		author = item_match[i].match(regex_author);
+		if (author) {
+			author = author[0].replace(/^&lt;author&gt;|&lt;\/author&gt;$/mg,&quot;&quot;);
+			// TO-DO: does this work on Windows FF and IE??
+			item.author = author;
+		} else {
+			item.author = &quot;unknown&quot;;
+			displayMessage(&quot;author empty for item: &quot; + item.title);
+		}
+		t.modifier = item.author;
 		// check to see that we have a filter to use
 		if (filter_match) {
 			if(t.isTaggedAllOf(tags_to_match)) {
@@ -1368,11 +1423,8 @@ Hitting &quot;Go chatter!&quot; (bottom line in the left-hand menu) gets your up
 <div title="SiteTitle" modifier="Jon Lister" modified="200709261606" created="200709211034" changecount="3">
 <pre>TiddlyChatter</pre>
 </div>
-<div title="Some test collab content" modified="200710051643" created="200710021621" tags="public collab" link to original="http://www.tiddlywiki.com/#%5B%5BSome%20test%20collab%20content%5D%5D" server.type="RSS" server.host="http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml" server.page.revision="200710051643">
+<div title="Some test collab content" modified="200710051014" created="200710021621" tags="public collab" server.host="http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml" server.page.revision="200710051014" server.type="RSS" original="http://www.tiddlywiki.com/#%5B%5BSome%20test%20collab%20content%5D%5D">
 <pre>&lt;html&gt;Hello! Look ma, I'm collaborating!&lt;/html&gt;</pre>
-</div>
-<div title="Some test collab content-Notes" modified="200710051643" created="200710021622" tags="notes public collab" link to original="http://www.tiddlywiki.com/#%5B%5BSome%20test%20collab%20content-Notes%5D%5D" server.type="RSS" server.host="http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml" server.page.revision="200710051643">
-<pre>&lt;html&gt;That's nice sweetie&lt;/html&gt;</pre>
 </div>
 <div title="Some test collab content-Notes0" modified="200710051014" created="200710021622" tags="notes public collab" server.host="http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml" server.page.revision="200710051014" server.type="RSS" original="http://www.tiddlywiki.com/#%5B%5BSome%20test%20collab%20content-Notes0%5D%5D">
 <pre>&lt;html&gt;That's nice sweetie&lt;/html&gt;</pre>
@@ -1406,7 +1458,9 @@ Hitting &quot;Go chatter!&quot; (bottom line in the left-hand menu) gets your up
    margin: 0.25em;
    padding: 0pt;
 }
-
+tr.tiddlyChatterIncomingRowUnread {
+	background-color: #C44;
+}
 /*}}}*/</pre>
 </div>
 <div title="TaggedTemplateTweak" modifier="Jon Lister" modified="200709271215" created="200706181748" tags="BookmarkPackage MediaPackage TaskPackage systemConfig FormattingPackage TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200706242148" server.type="file" changecount="1">
@@ -1492,7 +1546,7 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 
 &lt;&lt;tiddlyChatterSetup&gt;&gt;</pre>
 </div>
-<div title="TiddlyChatterDevelopment" modifier="Jon Lister" modified="200710021613" created="200709261354" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="12" server.workspace="">
+<div title="TiddlyChatterDevelopment" modifier="Jon Lister" modified="200710021613" created="200709261354" tags="TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="12" server.workspace="">
 <pre>The following plugins are used in a modified state (link to modified source in last column):
 
 |NotesPlugin |by SaqImtiaz |http://tw.lewcid.org/#NotesPlugin |http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/NotesPlugin_JRL.js |
@@ -1551,8 +1605,20 @@ This doesn’t sound so different from normal collaboration, but there are a cou
 * If Ben comes in and subscribes to Jon’s feed, he can make entirely independent comments and changes, without Liz seeing what he is doing and without Ben seeing what Liz is doing
 * Extending this slightly, Ben, Alice and Bob can all share and work on the information together, and it is only when Liz eventually gets hold of a copy that Jon will see the result of the group’s work</pre>
 </div>
-<div title="left to right" modifier="Jon Lister" created="200710051629" tags="public right" changecount="1">
-<pre>love lovely lovely pie</pre>
+<div title="Workpack" modifier="Jon Lister" created="200710081632" tags="public PhilH" server.type="RSS" server.host="http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml" server.workspace="" server.filter="[tag[public collab]]" changecount="1">
+<pre>Type the text for 'New Tiddler'</pre>
+</div>
+<div title="Workpack-Notes0" modifier="Jon Lister" created="200710081636" tags="notes public PhilH" link to original="http://www.tiddlywiki.com/#Workpack-Notes0" server.type="RSS" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywiki/Trunk/contributors/JonathanLister/TiddlyChatter/tiddlers/tiddlychatter.xml" server.page.revision="200710081636" unread="">
+<pre>&lt;html&gt;Let's get cracking on this Phil...&lt;/html&gt;</pre>
+</div>
+<div title="Workpack-Notes1" modifier="Jon Lister" created="200710081637" tags="notes public PhilH" changecount="1">
+<pre>I think we should talk about ducks.</pre>
+</div>
+<div title="collab" modifier="Jon Lister" created="200710021620" tags="channel systemServer collab subscription" server.page.revision="200710021620">
+<pre>|''Type:''|RSS|
+|''URL:''|http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml|
+|''Workspace:''||
+|''TiddlerFilter:''|[tag[public collab]]|</pre>
 </div>
 <div title="new thing" modifier="Jon Lister" modified="200710021502" created="200710021448" tags="public JonnyBoy" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywiki_source/Trunk/contributors/JonathanLister/TiddlyChatter/tiddlychatter_two.html.0/tiddlychatter_two.xml" server.filter="[tag[public JonnyBoy]]" server.page.revision="200710021501" to="" server.type="RSS" anon="to" link="" changecount="1" server.workspace="" original="http://www.tiddlywiki.com/#%5B%5Bnew%20thing%5D%5D">
 <pre>&lt;html&gt;Type the text for 'New Tiddler' russb&lt;/html&gt;</pre>
@@ -1570,13 +1636,7 @@ This doesn’t sound so different from normal collaboration, but there are a cou
 &lt;div class='tagClear'&gt;&lt;/div&gt;
 &lt;!--}}}--&gt;</pre>
 </div>
-<div title="right" modifier="Jon Lister" created="200710051628" tags="channel systemServer right subscription subscription" server.page.revision="200710051628">
-<pre>|''Type:''|RSS|
-|''URL:''|file:///Users/jonathanlister/Documents/osmosoft/tiddlywiki/Trunk/contributors/JonathanLister/TiddlyChatter/tiddlychatter.html.1/tiddlychatter.xml|
-|''Workspace:''||
-|''TiddlerFilter:''|[tag[public right]]|</pre>
-</div>
-<div title="stickyOptionsPlugin" modifier="Jon Lister" modified="200709271215" created="200709211649" tags="systemConfig TiddlyChatter" sticky.chkbackstage="true" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" stickyoptions.dir="txtMainTab,chkUsePreForStorage,chkDisplayStartupTime,txtMoreTab,chkBackstage,chkSliderOptionsPanel,txtUserName" sticky.chkdisplaystartuptime="false" sticky.chkusepreforstorage="true" server.page.revision="200709211649" sticky.txtusername="Jon Lister" server.type="file" sticky.txtmaintab="Tags" sticky.chkslideroptionspanel="false" changecount="1" sticky.txtmoretab="Shadowed">
+<div title="stickyOptionsPlugin" modifier="Jon Lister" modified="200709271215" created="200709211649" tags="systemConfig TiddlyChatter" sticky.chkbackstage="true" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" stickyoptions.dir="txtMainTab,chkUsePreForStorage,chkDisplayStartupTime,txtMoreTab,chkBackstage,chkSliderOptionsPanel,txtUserName" sticky.chkdisplaystartuptime="false" sticky.chkusepreforstorage="true" server.page.revision="200709211649" sticky.txtusername="Jon Lister" server.type="file" sticky.txtmaintab="Timeline" sticky.chkslideroptionspanel="true" changecount="1" sticky.txtmoretab="Shadowed">
 <pre>/***
 |''Name:''|StickyOptionsPlugin|
 |''Description:''||
@@ -1723,7 +1783,7 @@ ListView.columnTypes.StickyOption = {
 //!END-PLUGIN-CODE
 // %/</pre>
 </div>
-<div title="tiddlyChatterIncoming" modifier="Jon Lister" created="200710031717" tags="systemConfig" changecount="1">
+<div title="tiddlyChatterIncoming" modifier="Jon Lister" created="200710031717" tags="systemConfig TiddlyChatter" changecount="1">
 <pre>//{{{
 
 //TiddlyChatter incoming messages
@@ -1740,6 +1800,8 @@ config.macros.tiddlyChatterIncoming.handler = function(place,macroName,params){
 	}
 	// set up the UI
 	var tciWrapper = createTiddlyElement(place,&quot;div&quot;,&quot;tiddlyChatterIncomingWrapper&quot;);
+	tciWrapper.setAttribute(&quot;refresh&quot;,&quot;content&quot;);
+	tciWrapper.setAttribute(&quot;force&quot;,&quot;true&quot;);
 	createTiddlyElement(tciWrapper,&quot;div&quot;,&quot;tiddlyChatterIncomingTitle&quot;,null,&quot;TiddlyChatter - incoming!&quot;);
 	var tciTable = createTiddlyElement(tciWrapper,&quot;table&quot;,&quot;tiddlyChatterIncomingTable&quot;);
 	var tciTableHead = createTiddlyElement(tciTable,&quot;tr&quot;,&quot;tiddlyChatterIncomingHeader&quot;);
@@ -1747,46 +1809,73 @@ config.macros.tiddlyChatterIncoming.handler = function(place,macroName,params){
 	createTiddlyElement(tciTableHead,&quot;th&quot;,null,null,&quot;Title (no. of updates)&quot;);
 	createTiddlyElement(tciTableHead,&quot;th&quot;,null,null,&quot;Last updated by&quot;);
 	// now we have to add in the new content in table rows
-	// TO DECIDE: how is new content marked?
-	// here's a sensible approach:
-	// show all public content in the list
-	// if this list is displayed directly after an update, highlight the new content
-	// we can support the line above by passing in the relevant tiddler titles as an input array
-	var content = [];
+	// content_and_notes holds our content and associated notes in the form:
+	// [{content:content1,notes:[note1a,note1b]},{content:content2,notes[note2a,note2b]},...]
+	var content_and_notes = [];
 	var notes = [];
 	var filteredContent = store.filterTiddlers(tagFilter);
+	// process: collect the content first and set up the content_and_notes array
+	// collect the notes at the same time and store them
+	// sort notes by modify date
+	// run through cotent, adding its notes to content_and_notes
+	// sort content_and_notes by modify date of most recent note belonging to content
 	for (var i=0;i&lt;filteredContent.length;i++) {
-		var tiddler = filteredContent[i];
-		if(tiddler.isTagged(&quot;public&quot;)) {
-			// we need to know if the tiddlers are parent content nodes or notes,
-			// because we don't want to show notes as top-level content
-			if(tiddler.isTagged(&quot;notes&quot;)) {
-				notes.push(tiddler);
+		var t = filteredContent[i];
+		if (t.isTagged(&quot;public&quot;)) {
+			if (!t.isTagged(&quot;notes&quot;)) {
+				// it's parent content
+				content_and_notes.push({content:t,notes:[]});
 			} else {
-				content.push(tiddler);
+				// it's a note
+				notes.push(t);
 			}
 		}
 	}
-	// at this point, content has all the top level content tiddlers
-	// notes has all the notes on tiddlers
-	// iterate through content array, creating table rows as we go
-	for (var i=0;i&lt;content.length;i++) {
-		var tiddler = content[i];
-		var noteCount = 0;
-		// newestNote is at the least the original content
-		var newestNote = tiddler;
+	notes.sort(function(a,b){
+		return a.modified &gt; b.modified ? -1 : (a.modified == b.modified ? 0 : 1);
+	});
+	for (var i=0;i&lt;content_and_notes.length;i++) {
+		var content_object = content_and_notes[i];
 		for (var j=0;j&lt;notes.length;j++) {
-			if (notes[j].title.indexOf(tiddler.title) != -1) {
-				// a note with a title that contains a content node title is matched
-				// increment the noteCount, which is the number of notes associated with a piece of content
-				// find out if this note is the most recent update and update newestNote if so
-				noteCount++;
-				newestNote = (notes[j].modified.getTime() &gt; newestNote.modified.getTime()) ? notes[j] : newestNote;
+			if (notes[j].title.indexOf(content_object[&quot;content&quot;].title) != -1) {
+				// matched a note with a title containing a piece of content's title
+				content_object[&quot;notes&quot;].push(notes[j]);
 			}
 		}
+	}
+	console.log(content_and_notes);
+	content_and_notes.sort(function(a,b){
+		var a_most_recent, b_most_recent;
+		// a[&quot;notes&quot;][0] is the most recent note for a piece of content, if it exists
+		// if it doesn't exist, use the content itself
+		if (a[&quot;notes&quot;][0]) {
+			a_most_recent = a[&quot;notes&quot;][0];
+		} else {
+			a_most_recent = a[&quot;content&quot;];
+		}
+		if (b[&quot;notes&quot;][0]) {
+			b_most_recent = b[&quot;notes&quot;][0];
+		} else {
+			b_most_recent = b[&quot;content&quot;];
+		}
+		return a_most_recent.modified &gt; b_most_recent.modified ? -1 : (a_most_recent.modified == b_most_recent.modified ? 0 : 1);
+	});
+	console.log(content_and_notes);
+	// iterate through content_and_notes array, creating table rows as we go
+	for (var i=0;i&lt;content_and_notes.length;i++) {
+		var content_object = content_and_notes[i];
+		// noteCount is the number of notes in content_object[&quot;notes&quot;];
+		var noteCount = content_object[&quot;notes&quot;] ? content_object[&quot;notes&quot;].length : 0;
+		// newestNote is the first note in content_object[&quot;notes&quot;] or the content itself if there are no notes
+		var newestNote = noteCount !== 0 ? content_object[&quot;notes&quot;][0] : content_object[&quot;content&quot;];
 		// display &quot;new&quot; if noteCount is 0
 		noteCount = noteCount === 0 ? &quot;new&quot; : noteCount;
 		var tciTableRow = createTiddlyElement(tciTable,&quot;tr&quot;,null,&quot;tiddlyChatterIncomingRow&quot;);
+		// if the content for this row is unread, give the row a class of &quot;unread&quot;
+		// &quot;unread&quot; is a custom field on an imported tiddler
+		if (newestNote.fields[&quot;unread&quot;]) {
+			tciTableRow.setAttribute(&quot;class&quot;,&quot;tiddlyChatterIncomingRowUnread&quot;);
+		}
 		// we want to know how many days since the last update
 		var daysSince = newestNote.modified.relativeDays();
 		// display today or yesterday if daysSince is 0 or 1, respectively
@@ -1794,11 +1883,32 @@ config.macros.tiddlyChatterIncoming.handler = function(place,macroName,params){
 			daysSince = &quot;today&quot;;
 		} else if (daysSince == 1) {
 			daysSince = &quot;yesterday&quot;;
+		} else {
+			daysSince = daysSince + &quot; days ago&quot;;
 		}
 		createTiddlyElement(tciTableRow,&quot;td&quot;,null,null,daysSince);
-		var contentTitle = tiddler.title + &quot; (&quot; + noteCount +&quot;)&quot;;
+		var contentTitle = content_object[&quot;content&quot;].title + &quot; (&quot; + noteCount +&quot;)&quot;;
 		var contentTitleCell = createTiddlyElement(tciTableRow,&quot;td&quot;);
-		createTiddlyText(createTiddlyLink(contentTitleCell,tiddler.title),contentTitle);
+		createTiddlyText(createTiddlyLink(contentTitleCell,content_object[&quot;content&quot;].title),contentTitle);
+		var random = createTiddlyElement(contentTitleCell,&quot;a&quot;,null,null,&quot;click me&quot;);
+		random.href = &quot;javascript:;&quot;;
+		random.content_object = content_object;
+		random.onclick = function() {
+			var titles = [];
+			titles[0] = this.content_object[&quot;content&quot;].title;
+			for (var i=0;i&lt;this.content_object[&quot;notes&quot;].length;i++) {
+				titles.push(this.content_object[&quot;notes&quot;][i].title);
+			}
+			for (var i=0;i&lt;titles.length;i++) {
+				var t = store.fetchTiddler(titles[i]);
+				if (t.fields[&quot;unread&quot;] &amp;&amp; t.fields[&quot;unread&quot;] == true) {
+					t.fields[&quot;unread&quot;] = false;
+					t.set(t.title,t.text,t.modifier,t.modified,t.tags,t.created,t.fields);
+				}
+			}
+			var this_tiddler = story.findContainingTiddler(this);
+			story.refreshTiddler(this_tiddler.getAttribute(&quot;tiddler&quot;),this_tiddler.getAttribute(&quot;template&quot;),true);
+		};
 		createTiddlyElement(tciTableRow,&quot;td&quot;,null,null,newestNote.modifier);
 	}
 };
@@ -1812,7 +1922,7 @@ Date.prototype.relativeDays = function() {
 };
 //}}}</pre>
 </div>
-<div title="tiddlyChatterPublishing" modifier="Jon Lister" modified="200710041509" created="200710041506" tags="systemConfig" server.host="http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml" server.filter="[tag[public collab]]" server.type="RSS" changecount="3" server.workspace="">
+<div title="tiddlyChatterPublishing" modifier="Jon Lister" modified="200710041509" created="200710041506" tags="systemConfig TiddlyChatter" server.host="http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml" server.filter="[tag[public collab]]" server.type="RSS" changecount="3" server.workspace="">
 <pre>config.macros.publishing = {};
 
 config.macros.publishing.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -1901,6 +2011,7 @@ config.macros.publishing.subscribe = function() {
 	var tag = this.textContent;
 	tiddler.tags.push(tag);
 	tiddler.set(tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.created,tiddler.fields);
+	story.refreshTiddler(DOMTiddler.getAttribute(&quot;tiddler&quot;),DOMTiddler.getAttribute(&quot;template&quot;),true);
 };
 
 // onclick for &quot;publish&quot; buttons; 'this' refers to the span
@@ -1914,7 +2025,7 @@ config.macros.publishing.reveal = function() {
 		slideBox.style.display = isOpen ? &quot;none&quot; : &quot;block&quot;;
 };</pre>
 </div>
-<div title="tiddlyChatterSetup code" modifier="Jon Lister" modified="200710020955" created="200710011257" tags="systemConfig" server.host="file:///something.xml" server.filter="[tag[public]]" server.type="RSS" changecount="62" server.workspace="">
+<div title="tiddlyChatterSetup code" modifier="Jon Lister" modified="200710020955" created="200710011257" tags="systemConfig TiddlyChatter" server.host="file:///something.xml" server.filter="[tag[public]]" server.type="RSS" changecount="62" server.workspace="">
 <pre>//{{{
 
 config.macros.tiddlyChatterSetup = {};
@@ -1994,7 +2105,8 @@ config.macros.tiddlyChatterSetup.onClickNewChannel = function() {
 	tags += &quot; &quot; +channelName;
 	var tiddlerBody = &quot;|''Type:''|RSS|\n|''URL:''||\n|''Workspace:''||\n|''TiddlerFilter:''|[tag[public &quot;+channelName+&quot;]]|&quot;;
 	store.saveTiddler(channelName,channelName,tiddlerBody,config.options.txtUserName,null,tags);
-	displayMessage(&quot;stream created: &quot; + channelName);
+	var this_tiddler = story.findContainingTiddler(this);
+	story.refreshTiddler(this_tiddler.getAttribute(&quot;tiddler&quot;),this_tiddler.getAttribute(&quot;template&quot;),true);
 };
 
 // onclick after clicking the new subscription button; 'this' refers to the button
@@ -2071,7 +2183,8 @@ config.macros.tiddlyChatterSetup.onClickSubscribe = function() {
 		var text = subscriptionTemplate.format([type_field,subscriptionURL,workspace_field,filter_field]);
 		tiddler.tags.push(&quot;subscription&quot;);
 		store.saveTiddler(tiddler.title, tiddler.title, text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, true, tiddler.created);
-		displayMessage(&quot;subscribed to: &quot; + tiddler.title);
+		var this_tiddler = story.findContainingTiddler(this);
+		story.refreshTiddler(this_tiddler.getAttribute(&quot;tiddler&quot;),this_tiddler.getAttribute(&quot;template&quot;),true);
 	} else {
 		displayMessage(&quot;problem with matching: &quot; + tiddler_title);
 	}

@@ -175,6 +175,7 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 		for(var i=0; i<length; i++) {
 			tiddler = tiddlers[i];
 			var local_tiddler = store.fetchTiddler(tiddler.title);
+			// only import the tiddler if it doesn't exist locally or, if it does, hasn't been edited
 			if(!local_tiddler || !local_tiddler.isTouched()) {
 				context.adaptor.getTiddler(tiddler.title,null,null,config.macros.importWorkspace.getTiddlerCallback);
 				import_count++;
@@ -193,11 +194,14 @@ config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
 	displayMessage("getting " + context.tiddler.title);
 	if(context.status) {
 		var tiddler = context.tiddler;
+		// add in an extended field to save unread state
+		tiddler.fields["unread"] = true;
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 		story.refreshTiddler(tiddler.title,1,true);
 	} else {
 		displayMessage(context.statusText);
 	}
+	story.refreshAllTiddlers();
 };
 
 } // end of 'install only once'

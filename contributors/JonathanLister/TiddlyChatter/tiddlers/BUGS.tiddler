@@ -1,9 +1,4 @@
-<div title="BUGS" modifier="Jon Lister" created="200710051013" changecount="2">
-<pre>* Lack of modifier (person) on imported content from http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml - is this a problem to do with cookies or the creation of content/notes? - UPDATE: modifiers not being picked up in imported content
-* sorting of incoming list not sorted (want to sort by date of latest update but only display parent content)
-* refresh mechanism not implemented
-* streams being published in their own streams - is this right?
-* inconsistency between "stream" and "channel" references - should all be stream
-* ImportWorkspacePlugin defaulting to GooglePages feed (as setup in "collab") - why? - UPDATE: doesn't work after deleting the  Google feed until you refresh the page (although this could be because it's in the MainMenu)
-* Notes not getting put into the correct feed</pre>
+<div title="BUGS" modifier="Jon Lister" created="200710051013" modified="200710071425" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlychatter/tiddlychatter_two.xml" server.filter="[tag[public right]]" server.type="RSS" changecount="3" server.workspace="">
+<pre>* refresh mechanism implemented in a way I don't fully understand - could be unstable?
+* there is still an annoying setup process for getting ImportWorkspace options set (this is because of cookies - either expose options in a better place or stop them from being cookies?)</pre>
 </div>
