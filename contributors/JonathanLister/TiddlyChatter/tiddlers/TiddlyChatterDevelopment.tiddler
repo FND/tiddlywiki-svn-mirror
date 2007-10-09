@@ -1,18 +1,36 @@
 <div title="TiddlyChatterDevelopment" modifier="Jon Lister" created="200709261354" modified="200710021613" tags="TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="12" server.workspace="">
-<pre>The following plugins are used in a modified state (link to modified source in last column):
+<pre>The following plugins are built for TiddlyChatter:
 
-|NotesPlugin |by SaqImtiaz |http://tw.lewcid.org/#NotesPlugin |http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/NotesPlugin_JRL.js |
-|ImportWorkspacePlugin |by Martin Budden |http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js | http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/ImportWorkspacePlugin_JRL.js |
+|[[tiddlyChatterSetup code]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterSetup_code.js]] |
+|[[tiddlyChatterIncoming]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterIncoming.js]] |
+|[[tiddlyChatterPublishing]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterPublishing.js]] |
+
+The following plugins are used in a modified state (link to modified source in last column):
+
+|NotesPlugin |by SaqImtiaz |[[original source|http://tw.lewcid.org/#NotesPlugin]] |[[modified source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/NotesPlugin_JRL.js]] |
+|ImportWorkspacePlugin |by Martin Budden |[[original source|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js]] | [[modified source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/ImportWorkspacePlugin_JRL.js]] |
 
 The following plugins are used without modification:
 
-|[[TiddlyChatter setup]]|by JonLister | source not published separately |
-|[[RSSAdaptor|RSS adaptor code]]|by JonLister |http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/rssadaptor.js |
-|[[RSSRender|RSSrender plugin]] |by JonLister |http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/RSSRender.js |
-|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
-|[[stickyOptionsPlugin]] |by SaqImtiaz |http://tw.lewcid.org/#StickyOptionsPlugin |
+|[[RSSAdaptor|RSS adaptor code]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/rssadaptor.js]] |
+|[[RSSRender|RSSrender plugin]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/tiddlers/RSSRender.js]] |
+| [[File adaptor filter plugin]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/tiddlers/File_adaptor_filter_plugin.js]] |
+|TaggedTemplateTweak |by EricShulman |[[source|http://www.TiddlyTools.com/#TaggedTemplateTweak]] |
+|[[stickyOptionsPlugin]] |by SaqImtiaz |[[source|http://tw.lewcid.org/#StickyOptionsPlugin]] |
 
-The following tiddlers are used to provide additional functionality:
+The following tiddlers are not plugins, but are part of the config:
 
-[[publicViewTemplate]]</pre>
+[[publicViewTemplate]]
+ImportWorkspacePlugin
+ChatterFeed
+
+The following tiddlers provide additional information or run plugins:
+
+MainMenu
+[[Welcome to TiddlyChatter]]
+[[Setting up TiddlyChatter]]
+[[What is TiddlyChatter?]]
+[[TiddlyChatter control panel]]
+[[Incoming!]]
+</pre>
 </div>

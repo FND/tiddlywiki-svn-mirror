@@ -27,7 +27,7 @@ version.extensions.ImportWorkspacePlugin = {installed:true};
 if(config.options.txtImportTag == undefined)
 	{config.options.txtImportTag = '';}
 if(config.options.chkImportWorkspaceOnStartup == undefined)
-	{config.options.chkImportWorkspaceOnStartup = true;}
+	{config.options.chkImportWorkspaceOnStartup = false;}
 
 config.messages.hostOpened = "Host '%0' opened";
 config.messages.workspaceOpened = "Workspace '%0' opened";

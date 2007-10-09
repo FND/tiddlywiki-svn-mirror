@@ -1,66 +1,87 @@
 //{{{
 
+/* Update on 09/10/07: SIMPLIFICATION
+ * No longer offering a choice of streams by default
+ * Boolean parameter provided to specify whether we are working with streams */
+
 config.macros.tiddlyChatterSetup = {};
 
-config.macros.tiddlyChatterSetup.handler = function(place,macroName,params) {
+config.macros.tiddlyChatterSetup.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 
-	var channelWrapper = createTiddlyElement(place,"div");
+	params = paramString.parseParams("anon",null,true,false,false);
+	// using_streams defines whether we are working with multiple streams
+	var using_streams = getParam(params,"using_streams",null);
+
+	var channelBox;
+	if(using_streams) {
+		// create an interface for handling streams
+		// a streams is a feed you publish
+		// add a button to create new streams
+		var channelWrapper = createTiddlyElement(place,"div");
+		channelBox = createTiddlyElement(channelWrapper,"div","channelBox");
+		var newChannelButton = createTiddlyButton(channelBox,"New stream","New stream",this.reveal);
+		createTiddlyElement(channelBox,"br");
+		// set up the new channel UI to reveal when 'new channel' is clicked
+		var newChannelBox = createTiddlyElement(channelWrapper,"div","newChannelBox");
+		newChannelBox.style.display = "none";
+		createTiddlyElement(newChannelBox,"span",null,null,"Please provide a name for your stream");
+		createTiddlyElement(newChannelBox,"br");
+		createTiddlyElement(newChannelBox,"span",null,null,"Stream:");
+		var channelName = createTiddlyElement(newChannelBox,"input","newChannelName");
+		createTiddlyButton(newChannelBox,"create","Create stream",this.onClickNewChannel);
+		createTiddlyElement(newChannelBox,"br");
+	}
+	// create an interface for handling subscriptions
+	// we do this whether or not using_streams is true
+	// a subscription is to someone else's stream
+	// add a button to create new subscriptions
 	var subscriptionWrapper = createTiddlyElement(place,"div");
-	// create two div's
-	// the first handles channels, the second handles subscriptions
-	// a channel is a feed you publish; a subscription is to someone else's channel
-	var channelBox = createTiddlyElement(channelWrapper,"div","channelBox");
 	var subscriptionBox = createTiddlyElement(subscriptionWrapper,"div","subscriptionBox");
-
-	// add buttons to both boxes to create new channels and new subscriptions
-	var newChannelButton = createTiddlyButton(channelBox,"New channel","New channel",this.reveal);
-	createTiddlyElement(channelBox,"br");
 	var newSubscriptionButton = createTiddlyButton(subscriptionBox,"New subscription","New subscription",this.reveal);
 	createTiddlyElement(subscriptionBox,"br");
-	
-	// set up the new channel UI to reveal when 'new channel' is clicked
-	var newChannelBox = createTiddlyElement(channelWrapper,"div","newChannelBox");
-	newChannelBox.style.display = "none";
-	createTiddlyElement(newChannelBox,"span",null,null,"Please provide a name for your channel");
-	createTiddlyElement(newChannelBox,"br");
-	createTiddlyElement(newChannelBox,"span",null,null,"Channel:");
-	var channelName = createTiddlyElement(newChannelBox,"input","newChannelName");
-	createTiddlyButton(newChannelBox,"create","Create channel",this.onClickNewChannel);
-	createTiddlyElement(newChannelBox,"br");
 	// set up the new subscription UI to reveal when 'new subscription' is clicked
 	var newSubscriptionBox = createTiddlyElement(subscriptionWrapper,"div","newSubscriptionBox");
 	newSubscriptionBox.style.display = "none";
-	createTiddlyElement(newSubscriptionBox,"span",null,null,"Please point to the channel list you want to subscribe to");
+	createTiddlyElement(newSubscriptionBox,"span",null,null,"Please point to the stream list you want to subscribe to");
 	createTiddlyElement(newSubscriptionBox,"br");
 	createTiddlyElement(newSubscriptionBox,"span",null,null,"URL:");
 	var subscriptionURL = createTiddlyElement(newSubscriptionBox,"input","newSubscriptionURL");
-	createTiddlyButton(newSubscriptionBox,"go","View channel list",this.onClickNewSubscription);
+	createTiddlyButton(newSubscriptionBox,"go","View stream list",this.onClickNewSubscription);
 	createTiddlyElement(newSubscriptionBox,"br");
 	
-	// a channel is defined as a tiddler tagged with systemServer, channel and the id of the channel
+	// a stream is defined as a tiddler tagged with systemServer, channel and the id of the channel
 	// the id is what you tag your tiddler with to put it in that channel
 	// a subscription is defined as a tiddler tagged with systemServer, channel, subscription and the id of the channel
 	// a subscription is also a channel, in that you can subscribe to it
 	var channels = [];
 	var subscriptions = [];
-	store.forEachTiddler(function(title,tiddler) {
-		if (tiddler.isTagged("systemServer") && tiddler.isTagged("channel")) {
-			channels.push(tiddler);
-			if (tiddler.isTagged("subscription")) {
+	if (using_streams) {
+		store.forEachTiddler(function(title,tiddler) {
+			if (tiddler.isTagged("systemServer") && tiddler.isTagged("channel")) {
+				channels.push(tiddler);
+				if (tiddler.isTagged("subscription")) {
+					subscriptions.push(tiddler);
+				}
+			}
+		});
+		// the channels array now has all the channel tiddlers in it, so we add them to the channelBox
+		for (var i=0;i<channels.length;i++) {
+			createTiddlyLink(channelBox,channels[i].title,true);
+			// if the channel is a subscription too, flag this to the user
+			if (channels[i].isTagged("subscription")) {
+				wikify("// - one of your own subscriptions//",channelBox);
+			}
+			createTiddlyElement(channelBox,"br");
+		}
+	} else {
+		store.forEachTiddler(function(title,tiddler) {
+			if (tiddler.isTagged("systemServer") && tiddler.isTagged("published")) {
 				subscriptions.push(tiddler);
 			}
-		}
-	});
-	// the channels array now has all the channel tiddlers in it, so we add them to the channelBox
-	for (var i=0;i<channels.length;i++) {
-		createTiddlyLink(channelBox,channels[i].title,true);
-		// if the channel is a subscription too, flag this to the user
-		if (channels[i].isTagged("subscription")) {
-			wikify("// - one of your own subscriptions//",channelBox);
-		}
-		createTiddlyElement(channelBox,"br");
+		});
 	}
 	// the subscriptions array now has all the subscriptions tiddlers in it, so we add them to the subscriptionBox
+	// we do this whether or not using_streams is true
 	for (var i=0;i<subscriptions.length;i++) {
 		createTiddlyLink(subscriptionBox,subscriptions[i].title,true);
 		createTiddlyElement(subscriptionBox,"br");

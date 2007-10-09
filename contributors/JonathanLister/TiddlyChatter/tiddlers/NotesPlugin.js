@@ -13,6 +13,7 @@
 ***/
 // /%
 //!BEGIN-PLUGIN-CODE
+
 function createTiddlyElement(theParent,theElement,theID,theClass,theText,attribs)
 {
 	var e = document.createElement(theElement);
@@ -175,7 +176,6 @@ config.macros.notes={
 				tags_string += " " + tiddler.tags[i].toString();
 			}
 		}
-		// var tags_string_new = tags_string.split(" ").push(tiddler.tags).toString();
 		var suffix = getParam(params,"suffix",this.suffix);
 		// Get the notes tiddlers for this tiddler, count them, make the count an attribute on the box
 		var notes_tiddlers = store.getTaggedTiddlers("notes");
@@ -218,6 +218,7 @@ config.macros.notes={
 	}		
 };
 
+/* CHANGE: 09/10/07 - not sure why this is needed
 Story.prototype.old_notes_closeTiddler = Story.prototype.closeTiddler;
 Story.prototype.closeTiddler = function(title,animate,unused){
 	if(story.isDirty(title)) {
@@ -226,6 +227,7 @@ Story.prototype.closeTiddler = function(title,animate,unused){
 	}
 	return this.old_notes_closeTiddler.apply(this,arguments);
 }
+*/
 
 setStylesheet(".TiddlerNotes {\n"+ " background:#eee;\n"+ " border:1px solid #ccc;\n"+ " padding:10px;\n"+ " margin:15px;\n"+ "}\n"+ "\n"+ ".cancelNotesButton,.editNotesButton, .saveNotesButton {\n"+ " float:right;\n"+ " border:1px solid #ccc;\n"+ " padding:2px 5px;\n"+ "}\n"+ "\n"+ ".saveNotesButton{\n"+ " margin-right:0.5em;\n"+ "}\n"+ "\n"+ ".TiddlerNotes.editor textarea{\n"+ " border:1px solid #ccc;\n"+ "}","NotesPluginStyles");
 
