@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -23,7 +23,7 @@ version.extensions.ImportWorkspacePlugin = {installed:true};
 if(config.options.txtImportFeed == undefined)
 	{config.options.txtImportFeed = '';}
 if(config.options.chkImportWorkspaceOnStartup == undefined)
-	{config.options.chkImportWorkspaceOnStartup = true;}
+	{config.options.chkImportWorkspaceOnStartup = false;}
 
 config.messages.hostOpened = "Host '%0' opened";
 config.messages.workspaceOpened = "Workspace '%0' opened";
@@ -43,8 +43,10 @@ config.macros.importWorkspace.init = function()
 {
 	var customFields = config.defaultCustomFields;
 	if(!customFields['server.type']) {
+		//# no server set so get the server from the specified feed
 		var title = config.options.txtImportFeed;
 		if(title=='') {
+			//# no feed specified, so just use the first feed found
 			var tiddlers = store.getTaggedTiddlers("systemServer");
 			if(tiddlers.length==0)
 				return;
