@@ -5,5 +5,6 @@ recipe: tiddlers/split.recipe
 tiddler: ../tiddlywiki.com/tiddlers/TiddlySaver.tiddler
 tiddler: feeds/SharedRecordsTestServer.tiddler
 tiddler: plugins/SharedRecordsAdaptorPlugin.js
+tiddler: plugins/settings.js
 tiddler: ../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
 tiddler: ../../contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js
