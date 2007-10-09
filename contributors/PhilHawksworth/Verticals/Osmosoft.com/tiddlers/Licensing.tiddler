@@ -1,0 +1,21 @@
+<div title="Licensing" modifier="PhilHawksworth" created="200709070754" modified="200709111202" changecount="1">
+<pre>Code released by Osmosoft to the open source community will be released under a [[BSD licence|http://en.wikipedia.org/wiki/BSD_license]].
+
+We believe that the prime measure of health of an open source project is adoption, closely followed by external contributions. For Osmosoft, the benefits of wider adoption outweigh the benefits of forcing participants to return their amended code (or any associated proprietary code) to the community, which would be required under e.g. one of the [[GPL licences|http://en.wikipedia.org/wiki/GNU_General_Public_License]].
+
+In any event, it is hoped that most people using the code will feel compelled to return their improvements to the community, as they stand to benefit from the same scrutiny and collaboration that made the initial code worth using in the first place.
+
+Here is the licence template:
+
+Copyright (c) <YEAR>, <OWNER>
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+    * Neither the name of the <ORGANIZATION> nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
+</div>
