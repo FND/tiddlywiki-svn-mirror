@@ -148,7 +148,7 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 		for(var i=0; i<length; i++) {
 			tiddler = tiddlers[i];
 			var t = store.fetchTiddler(tiddler.title);
-			if(t && !t.isTouched()) {
+			if(!t || (t && !t.isTouched())) {
 				//# only get the tiddlers that have not been edited locally
 				context.adaptor.getTiddler(tiddler.title,null,null,config.macros.importWorkspace.getTiddlerCallback);
 			}
