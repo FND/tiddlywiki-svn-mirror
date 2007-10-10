@@ -1,0 +1,10 @@
+<div title="How to use" modifier="Jon Lister" created="200708161934" modified="200708161936" changecount="3">
+<pre>//{{{
+
+Usage: &lt;&lt;Freebase function username password &gt;&gt;
+
+Where function can be any of [login, read, write, visual]
+NB: In the current version (v0.1), only login and visual have sensible behaviour
+
+//}}}</pre>
+</div>
