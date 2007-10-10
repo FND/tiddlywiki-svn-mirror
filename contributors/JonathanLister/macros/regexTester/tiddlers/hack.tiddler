@@ -1,0 +1,33 @@
+<div title="hack" modifier="Jon Lister" created="200709061302" modified="200709061304" changecount="2">
+<pre>The standard ImportTiddlers macro deals with local files using the [[FileAdaptor|http://tiddlywiki.com/#MicroContent]] macro. This assumes the target file is a ~TiddlyWiki. Because it is valid to want to import local RSS files, we need to override this behaviour.
+
+The offending function is ~onBrowseChange, so we change it from this:
+
+{{{
+config.macros.importTiddlers.onBrowseChange = function(e)
+{
+	var wizard = new Wizard(this);
+	var fileInput = wizard.getElement(&quot;txtPath&quot;);
+	fileInput.value = &quot;file://&quot; + this.value;
+	var serverType = wizard.getElement(&quot;selTypes&quot;);
+	serverType.value = &quot;file&quot;;
+	return false;
+};
+}}}
+
+...to this:
+
+{{{
+config.macros.importTiddlers.onBrowseChange = function(e)
+{
+	var wizard = new Wizard(this);
+	var fileInput = wizard.getElement(&quot;txtPath&quot;);
+	fileInput.value = &quot;file://&quot; + this.value;
+	var serverType = wizard.getElement(&quot;selTypes&quot;);
+	if(serverType.value != &quot;RSS&quot;) {
+		serverType.value = &quot;file&quot;;
+	}
+	return false;
+};
+}}}</pre>
+</div>

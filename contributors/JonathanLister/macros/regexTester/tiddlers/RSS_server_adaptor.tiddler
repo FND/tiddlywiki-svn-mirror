@@ -1,0 +1,11 @@
+<div title="RSS server adaptor" modifier="Jon Lister" created="200709061235" modified="200709082256" tags="info" changecount="2">
+<pre>The RSS server adaptor is built to the [[server adaptor interface|http://tiddlywiki.com/#ServerAdaptorMechanism]] specified as part of ~TiddlyWiki.
+
+Lots of detail is provided at the link above, but the basic concept behind server adaptors is to provide a standard mechanism for bringing content into a TiddlyWiki. This adaptor can pull content in from any RSS feed (currently only RSS 2.0 is supported).
+
+An example use of this adaptor is in the ImportTiddlers tiddler: the RSS content is downloaded and placed into [[tiddlers|http://tiddlywiki.com/#MicroContent]] using the ImportTiddlers macro, which uses the RSS adaptor to interact with the RSS feed. You can import from the [[backstage|http://tiddlywiki.com/#BackstageArea]] area (this is only visible is you are accessing this page offline and is a black strip at the top of the page). Repeated imports allow you to stay up-to-date with the RSS feed.
+
+The [[BBC feed|(default) on http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml]] tiddler contains information to use as an example feed during the ImportTiddlers process. You can select it from the drop-down that appears during the first step.
+
+The code for this plugin is in the [[RSS adaptor code]] tiddler. It contains a small [[hack]] to override the ImportTiddlers local file behaviour.</pre>
+</div>

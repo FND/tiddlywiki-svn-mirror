@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+		regex1 = function(text,regex_text) {
+			context = {};
+			context.tiddlers = [];
+			// regex1 matches on the items
+			// V1: var regex1 = /<item>[A-Za-z \n\r<>\/]+?<\/item>/mg;
+			// V2: var regex1 = /<item>(.|\n)*?<\/item>/mg;
+			var regex_item = /<item>(.|\n)*?<\/item>/mg;
+			// var regex_item = new RegExp(regex_text,"mg");
+			// regex2 matches for the titles
+			var regex_title = /<title>(.|\n)*?<\/title>/mg;
+			var regex_guid = /<guid>(.|\n)*?<\/guid>/mg;
+			var regex_desc = /<description>(.|\n)*?<\/description>/mg;
+			var match = text.match(regex_item);
+			console.log(text);
+			console.log(match);
+			for (var i=0;i<match.length;i++) {
+				item = {};
+				// grab a title
+				title = match[i].match(regex_title);
+				if (title)
+					item.title = title[0].replace(/^<title>|<\/title>$/mg,"");
+				else {
+					// something went wrong grabbing the title, grab the guid instead
+					title = match[i].match(regex_guid);
+					console.log("problem with getting title: " + match[i])
+					if (title)
+						item.title = title[0].replace(/^<guid>|<\/guid>$/mg,"");
+					else {
+						item.title = new Date();
+						console.log("problem with getting title AND guid: " + match[i]);
+					}
+				}
+				console.log(item.title);
+				// grab a description
+				desc = match[i].match(regex_desc);
+				if (desc) item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
+				else {
+					item.text = "empty, something seriously wrong with this item";
+					console.log("description empty for item: " + match[i]);
+				}
+				// create a new named object in context.tiddlers with the finished item object
+				context.tiddlers.push(item);
+			}
+			// next line for DEBUG
+			var place = document.getElementById("result");
+			console.log(context.tiddlers);
+			place.innerHTML = '';
+			for (var n=0; n<context.tiddlers.length; n++) {
+				place.innerHTML += context.tiddlers[n].title;
+				place.innerHTML += "<br/>\n";
+			}
+		};
+		
+		/** Example RSS 2.0
+		
+		<rss>
+<title>A channel</title>
+<description>What a great channel</description>
+<item>
+<title>This is article 1</title>
+<description>All the world is meat</description>
+</item>
+<item>
+<title>Article two</title>
+<description>Moo</description>
+</item>
+</rss>
+
+		**/
+	</script>
+</head>
+<body>
+<h1>Exploration of regex</h1>
+Type string here... <textarea id="textin" cols="50" rows="10">this this is a test string</textarea><br/>
+Type regex here... /<input type="text" id="regexin" value="this" size="50"></input>/mg<br/>
+<button onclick="regex1(document.getElementById('textin').value,document.getElementById('regexin').value);">Click me</button><br/>
+<div id="result"></div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<div title="regexTest intro" modifier="Jon Lister" created="200709061241" modified="200709082309" tags="info" changecount="10">
+<pre>This plugin demonstrates an example of how ~TiddlyWiki can be used as an interactive development environment for writing web applications in ~JavaScript.
+
+The [[regexTest application]] allows you test out arbitrary [[regex|http://en.wikipedia.org/wiki/Regex]] on any remote or local file.
+
+The regex tool makes use of parts of the [[RSS server adaptor]] to get hold of the file and the [[basicUI library|basicUI intro]] to lay out the user interface.
+
+The code is [[here|regexTest code]].</pre>
+</div>

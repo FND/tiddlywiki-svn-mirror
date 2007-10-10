@@ -1,0 +1,7 @@
+<div title="basicUI intro" modifier="Jon Lister" created="200709082303" modified="200709082312" tags="info" changecount="2">
+<pre>The basicUI library provides a simple way to create a generic user interface for pulling in data, processing it and displaying the result.
+
+This is used in the [[regexTest application]] to build the UI and attach the regex processing function to the button you press.
+
+The code is [[here|basicUI code]].</pre>
+</div>

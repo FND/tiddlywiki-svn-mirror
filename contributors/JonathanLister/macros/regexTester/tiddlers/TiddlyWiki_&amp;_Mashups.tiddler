@@ -1,0 +1,5 @@
+<div title="TiddlyWiki &amp; Mashups" modifier="Jon Lister" created="200709082329" tags="info" changecount="1">
+<pre>TiddlyWiki is a single html file that you usually interact with locally. This lends itself to an approach to mashups where you pull content in from remote sources and store it in tiddlers, creating a big pool of data that you deal with later. An advantage to this approach is that you automatically get an offline version of your mashup.
+
+TiddlyWiki defines an abstraction between the standard format of tiddlers and the data formats you get in the wild. You build adaptors to chop up the data you want into the tiddler format. The [[RSS server adaptor]] is an example of one of these, which allows interaction with RSS feeds. It's in the good company of adaptors for other TiddlyWikis, MediaWiki, TWiki and several more.</pre>
+</div>

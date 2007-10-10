@@ -1,0 +1,18 @@
+<div title="TiddlyWiki &amp; Javascript development" modifier="Jon Lister" created="200709082346" modified="200709090001" tags="info" changecount="5">
+<pre>Developing Javascript can often be a bit of a pain in the arse...
+* Not-strongly typed so IDE's don't help out too much
+* Hard to debug
+* Cross-browser compatibility is a great big time-wasting black hole
+
+[[Firebug|http://www.getfirebug.com]] is a ''really'' big help. But, we can go further...
+
+TiddlyWiki is an application written entirely in javascript, html and css. It looks superficially like a wiki, but is really an environment for engineering client-side web applications.
+
+TiddlyWiki has the quality that when you are accessing it from your local hard-drive, you are not subject to Javascript's [[same-origin policy|http://en.wikipedia.org/wiki/Same_origin_policy]]. This has a couple of useful consequences:
+* you can make as many calls to remote API's and data sources as you like, without having to worry about proxying the request through a server-side script
+* you can develop offline with local files, safe in the knowledge that when you swap to calling remote files you don't have to change your code
+
+Because TiddlyWiki provides you with a lot of useful libraries for retrieving and presenting data, it is easy to create little helper applications to assist with development. The [[regexTest intro]] is an example.
+
+Finally, because TiddlyWiki is a single html file, it is really easy to share what you've done with other people - you just attach the whole TiddlyWiki to an email, put it on the web or a USB stick... and the ability to read and extract information from other TiddlyWikis makes it really simple to pull the specific tiddlers out that you want.</pre>
+</div>

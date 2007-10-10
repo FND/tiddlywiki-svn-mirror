@@ -1,0 +1,10 @@
+<div title="Introduction" modifier="Jon Lister" created="200709040101" modified="200709130959" tags="info" changecount="15">
+<pre>This [[TiddlyWiki|http://www.tiddlywiki.com]] is designed to showcase four things:
+
+* A [[RSS server adaptor]], for pulling RSS content into ~TiddlyWiki via ImportTiddlers
+* A [[regex development tool|regexTest intro]] for trying out regex
+* A [[XMLHttp development tool|XMLHttpTest application]] for trying out XMLHttpRequests
+* A [[simple UI library|basicUI intro]] for putting together development tools
+
+These are all written as plugins that extend the functionality of ~TiddlyWiki.</pre>
+</div>
