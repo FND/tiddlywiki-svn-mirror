@@ -8,7 +8,7 @@ tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: StyleSheet.tiddler
 tiddler: TiddlyChatter_control_panel.tiddler
-tiddler: TiddlyChatterDocumentation.tiddler
+tiddler: ../../../components/TiddlyChatter/tiddlers/TiddlyChatterDocumentation.tiddler
 tiddler: ViewTemplate.tiddler
 tiddler: Welcome_to_TiddlyChatter.tiddler
 tiddler: What_is_TiddlyChatter_.tiddler

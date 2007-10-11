@@ -1,5 +1,5 @@
-tiddler: RSS_adaptor_code.js
+tiddler: ../../../components/RSSAdaptor/js/RSSAdaptor.js
+tiddler: ../../../components/basicUI/js/basicUI.js
 tiddler: XMLHttpTest_code.js
-tiddler: basicUI_code.js
 tiddler: param_test_code.js
 tiddler: regexTest_code.js

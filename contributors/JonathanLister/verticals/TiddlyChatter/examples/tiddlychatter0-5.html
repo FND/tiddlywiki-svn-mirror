@@ -673,1083 +673,6 @@ This doesn’t sound so different from normal collaboration, but there are a cou
 &lt;div class='tagClear'&gt;&lt;/div&gt;
 &lt;!--}}}--&gt;</pre>
 </div>
-<div title="File adaptor filter plugin" modifier="Jon Lister" created="200710011636" modified="" tags="systemConfig TiddlyChatter" changecount="1">
-<pre>//{{{
-
-// Gets the list of tiddlers within a given workspace
-FileAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
-{
-	if(!this.store)
-		return FileAdaptor.NotLoadedError;
-	if(!context)
-		context = {};
-//	context.tiddlers = [];
-//	this.store.forEachTiddler(function(title,tiddler)
-//		{
-//		var t = new Tiddler(title);
-//		t.text = tiddler.text;
-//		t.modified = tiddler.modified;
-//		t.modifier = tiddler.modifier;
-//		t.fields['server.page.revision'] = tiddler.modified.convertToYYYYMMDDHHMM();
-//		t.tags = tiddler.tags;
-//		context.tiddlers.push(t);
-//		});
-	context.tiddlers = this.store.filterTiddlers(filter);
-	for(var t=0; t&lt;context.tiddlers.length; t++) {
-		context.tiddlers[t].fields['server.page.revision'] = context.tiddlers[t].modified.convertToYYYYMMDDHHMM();
-	}
-	context.status = true;
-	window.setTimeout(function() {callback(context,userParams);},10);
-	return true;
-};
-
-//}}}</pre>
-</div>
-<div title="ImportWorkspacePlugin" modifier="Jon Lister" created="200702250000" modified="200709271741" tags="systemConfig TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="15" server.workspace="">
-<pre>/***
-|''Name:''|ImportWorkspacePlugin|
-|''Description:''|Commands to access hosted TiddlyWiki data|
-|''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#AdaptorMacrosPlugin |
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
-|''Version:''|0.0.1|
-|''Date:''|Aug 23, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
-|''~CoreVersion:''|2.2.0|
-
-|''Tag for import''|&lt;&lt;option txtImportTag&gt;&gt;|
-|''Import workspace on startup''|&lt;&lt;option chkImportWorkspaceOnStartup&gt;&gt;|
-|''Label for go button''|&lt;&lt;option txtImportLabel&gt;&gt;|
-
-***/
-
-// CHANGE: I have removed this line to tailor this plugin to select systemServer tiddlers by tag:
-// |''Feed for import - DON'T USE''|&lt;&lt;option txtImportFeed&gt;&gt;|
-
-//{{{
-// Ensure that the plugin is only installed once.
-if(!version.extensions.ImportWorkspacePlugin) {
-version.extensions.ImportWorkspacePlugin = {installed:true};
-
-if(config.options.txtImportTag == undefined)
-	{config.options.txtImportTag = '';}
-if(config.options.chkImportWorkspaceOnStartup == undefined)
-	{config.options.chkImportWorkspaceOnStartup = false;}
-
-config.messages.hostOpened = &quot;Host '%0' opened&quot;;
-config.messages.workspaceOpened = &quot;Workspace '%0' opened&quot;;
-config.messages.workspaceTiddlers = &quot;%0 tiddlers in workspace, importing %1 of them&quot;;
-config.messages.tiddlerImported = 'Tiddler: &quot;%0&quot; imported';
-
-
-// import all the tiddlers from a given workspace on a given host
-config.macros.importWorkspace = {};
-merge(config.macros.importWorkspace,{
-	label: &quot;import workspace&quot;,
-	prompt: &quot;Import tiddlers in workspace&quot;,
-	done: &quot;Tiddlers imported&quot;});
-
-
-config.macros.importWorkspace.init = function()
-{
-	var customFields = config.defaultCustomFields;
-	if(!customFields['server.type']) {
-		var tag = config.options.txtImportTag;
-		var title = &quot;&quot;;
-		if(tag=='') {
-			var tiddlers = store.getTaggedTiddlers(&quot;systemServer&quot;);
-			if(tiddlers.length==0)
-				return;
-			title = tiddlers[0].title;
-		} else {
-			var tiddlers = store.getTaggedTiddlers(tag);
-			if(tiddlers.length==0)
-				return;
-			title = tiddlers[0].title;
-		}
-		config.defaultCustomFields['server.type'] = store.getTiddlerSlice(title,'Type');
-		config.defaultCustomFields['server.host'] = store.getTiddlerSlice(title,'URL');
-		config.defaultCustomFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
-		config.defaultCustomFields['server.filter'] = store.getTiddlerSlice(title,'TiddlerFilter');
-	}
-	if(config.options.chkImportWorkspaceOnStartup)
-		config.macros.importWorkspace.getTiddlers(customFields);
-};
-
-// I'm finding that this runs before the init function!
-// My evidence for this is through config.log calls, so I assume that they execute in the order they are called
-config.macros.importWorkspace.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-{
-	params = paramString.parseParams('anon',null,true,false,false);
-	var customFields = getParam(params,'fields',false);
-	if(!customFields) {
-		customFields = config.defaultCustomFields;
-	}
-	if(!customFields['server.type']) {
-		var title = &quot;&quot;;
-		var tag = config.options.txtImportTag;
-		if (tag=='') {
-			title = getParam(params,'anon');
-			if(!title) {
-				var tiddlers = store.getTaggedTiddlers(&quot;systemServer&quot;);
-				if(tiddlers.length&gt;0)
-				title = tiddlers[0].title;
-			}
-		} else {
-		// if we get here, the user has not provided field params and they have not been
-		// set in the init function, and we have a tag to use for looking up a tiddler
-			var tiddlers = store.getTaggedTiddlers(tag);
-			if(tiddlers.length==0)
-				return;
-			title = tiddlers[0].title;
-		}
-		if(title) {
-			customFields = {};
-			customFields['server.type'] = store.getTiddlerSlice(title,'Type');
-			customFields['server.host'] = store.getTiddlerSlice(title,'URL');
-			customFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
-			customFields['server.filter'] = store.getTiddlerSlice(title,'TiddlerFilter');
-		}
-	}
-	customFields = String.encodeHashMap(customFields);
-	if(config.options.txtImportLabel) this.label = config.options.txtImportLabel;
-	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
-	btn.setAttribute('customFields',customFields);
-};
-
-config.macros.importWorkspace.onClick = function(e)
-{
-	clearMessage();
-// displayMessage(&quot;Starting import...&quot;);
-	var customFields = this.getAttribute('customFields');
-	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
-	config.macros.importWorkspace.getTiddlers(fields);
-};
-
-config.macros.importWorkspace.getTiddlers = function(fields)
-{
-	if(!fields['server.type']) {
-		var tiddlers = store.getTaggedTiddlers(&quot;systemServer&quot;);
-		var title = tiddlers[0].title;
-		fields = {};
-		fields['server.type'] = store.getTiddlerSlice(title,'Type');
-		fields['server.host'] = store.getTiddlerSlice(title,'URL');
-		fields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
-		fields['server.filter'] = store.getTiddlerSlice(title,'TiddlerFilter');
-	}
-	var serverType = fields['server.type'];
-	if(!serverType)
-		serverType = fields['wikiformat'];
-	if(!serverType)
-		return false;
-	var adaptor = new config.adaptors[serverType];
-	if(adaptor) {
-		var context = {};
-		context.host = fields['server.host'];
-		context.workspace = fields['server.workspace'];
-		context.adaptor = adaptor;
-		context.filter = fields['server.filter'];
-		adaptor.openHost(context.host,context,null,config.macros.importWorkspace.openHostCallback);
-	}
-};
-
-config.macros.importWorkspace.openHostCallback = function(context,userParams)
-{
-	displayMessage(config.messages.hostOpened.format([context.host]));
-	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.openWorkspaceCallback);
-	context.adaptor.openWorkspace(context.workspace,context,userParams,config.macros.importWorkspace.openWorkspaceCallback);
-};
-
-config.macros.importWorkspace.openWorkspaceCallback = function(context,userParams)
-{
-	displayMessage(config.messages.workspaceOpened.format([context.workspace]));
-	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.getTiddlerListCallback);
-	displayMessage(&quot;using import filter: &quot; + context.filter);
-	context.adaptor.getTiddlerList(context,userParams,config.macros.importWorkspace.getTiddlerListCallback,context.filter);
-};
-
-config.macros.importWorkspace.getTiddlerListCallback = function(context,userParams)
-{
-	if(context.status) {
-		var tiddlers = context.tiddlers;
-		var sortField = 'modified';
-		tiddlers.sort(function(a,b) {return a[sortField] &lt; b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
-		var length = tiddlers.length;
-		if(userParams &amp;&amp; userParams.maxCount &amp;&amp; length &gt; userParams.maxCount)
-			length = userParams.maxCount;
-		displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
-		var import_count = 0;
-		for(var i=0; i&lt;length; i++) {
-			tiddler = tiddlers[i];
-			var local_tiddler = store.fetchTiddler(tiddler.title);
-			// only import the tiddler if it doesn't exist locally or, if it does, hasn't been edited
-			if(!local_tiddler || !local_tiddler.isTouched()) {
-				context.adaptor.getTiddler(tiddler.title,null,null,config.macros.importWorkspace.getTiddlerCallback);
-				import_count++;
-			}
-		}
-	}
-	// THIS IS A VERY BAD THING TO DO, AS IS IT SPECIFIC, NOT BUILT FOR RE-USE
-	// I SUGGEST WE CHANGE THE PLUGIN TO TAKE A CALLBACK FOR EXECUTING AT THE END OF THE IMPORT I.E. HERE
-	// now everything's done, open up the TiddlyChatterIncoming tiddler
-	// config.macros.importWorkspace.finalise(context);
-};
-
-
-config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
-{
-	displayMessage(&quot;getting &quot; + context.tiddler.title);
-	if(context.status) {
-		var tiddler = context.tiddler;
-		// add in an extended field to save unread state
-		tiddler.fields[&quot;unread&quot;] = true;
-		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-		story.refreshTiddler(tiddler.title,1,true);
-	} else {
-		displayMessage(context.statusText);
-	}
-	story.refreshAllTiddlers();
-};
-
-} // end of 'install only once'
-//}}}</pre>
-</div>
-<div title="NotesPlugin" modifier="Jon Lister" created="200709211021" modified="200709271301" tags="systemConfig TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211331" server.type="file" changecount="7">
-<pre>/***
-|''Name:''|NotesPlugin|
-|''Description:''||
-|''Author:''|Saq Imtiaz ( lewcid@gmail.com )|
-|''Source:''|http://tw.lewcid.org/#NotesPlugin|
-|''Code Repository:''|http://tw.lewcid.org/svn/plugins|
-|''Version:''|2.0|
-|''Date:''||
-|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''~CoreVersion:''|2.2.3|
-!!Usage:
-*
-***/
-// /%
-//!BEGIN-PLUGIN-CODE
-
-function createTiddlyElement(theParent,theElement,theID,theClass,theText,attribs)
-{
-	var e = document.createElement(theElement);
-	if(theClass != null)
-		e.className = theClass;
-	if(theID != null)
-		e.setAttribute(&quot;id&quot;,theID);
-	if(theText != null)
-		e.appendChild(document.createTextNode(theText));
-	if(attribs){
-		for(var n in attribs){
-			e.setAttribute(n,attribs[n]);
-		}
-	}
-	if(theParent != null)
-		theParent.appendChild(e);
-	return e;
-}
-
-function createTiddlyButton(theParent,theText,theTooltip,theAction,theClass,theId,theAccessKey,attribs)
-{
-	var theButton = document.createElement(&quot;a&quot;);
-	if(theAction) {
-		theButton.onclick = theAction;
-		theButton.setAttribute(&quot;href&quot;,&quot;javascript:;&quot;);
-	}
-	if(theTooltip)
-		theButton.setAttribute(&quot;title&quot;,theTooltip);
-	if(theText)
-		theButton.appendChild(document.createTextNode(theText));
-	if(theClass)
-		theButton.className = theClass;
-	else
-		theButton.className = &quot;button&quot;;
-	if(theId)
-		theButton.id = theId;
-	if(attribs){
-		for(var n in attribs){
-			e.setAttribute(n,attribs[n]);
-		}
-	}
-	if(theParent)
-		theParent.appendChild(theButton);
-	if(theAccessKey)
-		theButton.setAttribute(&quot;accessKey&quot;,theAccessKey);
-	return theButton;
-}
-
-
-config.macros.notes={
-	
-	cancelWarning: &quot;Are you sure you want to abandon changes to your notes for '%0'?&quot;,
-	addLabel: &quot;add notes&quot;,
-	editLabel: &quot;edit notes&quot;,
-	editTitle: &quot;double click to edit&quot;,
-	saveLabel: &quot;save notes&quot;,
-	saveTitle: &quot;double click to save&quot;,
-	cancelLabel: &quot;cancel&quot;,
-	heading: &quot;Notes&quot;,
-	suffix: &quot;Notes&quot;,
-	tags: &quot;Notes&quot;,
-	
-	saveNotes: function(ev){
-		e = ev? ev : window.event;
-		var theTarget = resolveTarget(e);
-		if (theTarget.nodeName.toLowerCase() == &quot;textarea&quot;)
-			return false;
-		var title = story.findContainingTiddler(theTarget).getAttribute(&quot;tiddler&quot;);
-		story.setDirty(title,false);
-		var box = document.getElementById(&quot;notesContainer&quot;+title);
-		// if 'save notes' is clicked on, notesBox is this.parentNode
-		var notesBox = this.parentNode;
-		if (this.getAttribute(&quot;noteCount&quot;)) {
-			// if notesBox has been double-clicked, notesBox is this
-			notesBox = this;
-		}
-		var noteCount = notesBox.getAttribute(&quot;noteCount&quot;);
-		var textarea = document.getElementById(&quot;notesTextArea&quot;+noteCount+title);
-		if(textarea.getAttribute(&quot;oldText&quot;)!=textarea.value){
-			var suffix = box.getAttribute(&quot;suffix&quot;);
-			var t = store.getTiddler(title+&quot;-&quot;+suffix+noteCount);
-			// this line changed to split the tags attribute
-			store.saveTiddler(title+&quot;-&quot;+suffix+noteCount,title+&quot;-&quot;+suffix+noteCount,textarea.value,config.options.txtUserName,new Date(),t?t.tags:box.getAttribute(&quot;tags&quot;).split(&quot; &quot;),t?t.fields:{});
-		}
-		story.refreshTiddler(title,1,true);
-		return false;
-	},
-	
-	editNotes: function(notesBox,box,tiddler){
-		removeChildren(notesBox);
-		story.setDirty(tiddler,true);
-		notesBox.title = this.saveTitle;
-		notesBox.ondblclick = this.saveNotes;
-		// Q: this cancel button doesn't appear to work! Is this what you meant to do?
-		createTiddlyButton(notesBox,this.cancelLabel,this.cancelLabel,this.saveNotes,&quot;cancelNotesButton&quot;);
-		createTiddlyButton(notesBox,this.saveLabel,this.saveLabel,this.saveNotes,&quot;saveNotesButton&quot;);
-		wikify(&quot;!!&quot;+box.getAttribute(&quot;heading&quot;)+&quot;\n&quot;,notesBox);
-		addClass(notesBox,&quot;editor&quot;);
-		var wrapper1 = createTiddlyElement(null,&quot;fieldset&quot;,null,&quot;fieldsetFix&quot;);
-		var wrapper2 = createTiddlyElement(wrapper1,&quot;div&quot;);
-		var e = createTiddlyElement(wrapper2,&quot;textarea&quot;,&quot;notesTextArea&quot;+notesBox.getAttribute(&quot;noteCount&quot;)+tiddler);
-		var v = store.getValue(tiddler+&quot;-&quot;+box.getAttribute(&quot;suffix&quot;)+notesBox.getAttribute(&quot;noteCount&quot;),&quot;text&quot;);
-		if(!v) 
-			v = &quot;&quot;;
-		e.value = v;
-		e.setAttribute(&quot;oldText&quot;,v);
-		var rows = 10;
-		var lines = v.match(/\n/mg);
-		var maxLines = Math.max(parseInt(config.options.txtMaxEditRows),5);
-		if(lines != null &amp;&amp; lines.length &gt; rows)
-			rows = lines.length + 5;
-		rows = Math.min(rows,maxLines);
-		e.setAttribute(&quot;rows&quot;,rows);
-		notesBox.appendChild(wrapper1);
-	},
-	
-	editNotesButtonOnclick: function(e){
-		var title = story.findContainingTiddler(this).getAttribute(&quot;tiddler&quot;);
-		var box = document.getElementById(&quot;notesContainer&quot;+title);
-		var notesBox = this.parentNode;
-		config.macros.notes.editNotes(notesBox,box,title);
-		return false;
-	},
-	
-	addNotesButtonOnclick: function(e){
-		var title = story.findContainingTiddler(this).getAttribute(&quot;tiddler&quot;);
-		var box = document.getElementById(&quot;notesContainer&quot;+title);
-		var oldNoteCount = box.getAttribute(&quot;notesCount&quot;);
-		var notesBox = createTiddlyElement(box,&quot;div&quot;,null,&quot;TiddlerNotes&quot;,null,{noteCount:oldNoteCount++});
-		notesBox.ondblclick = config.macros.notes.ondblclick;
-		removeNode(this);
-		config.macros.notes.editNotes(notesBox,box,title);
-		return false;
-	},
-	
-	ondblclick : function(ev){
-		e = ev? ev : window.event;
-		var theTarget = resolveTarget(e);
-		var title = story.findContainingTiddler(theTarget).getAttribute(&quot;tiddler&quot;);
-		var box = document.getElementById(&quot;notesContainer&quot;+title);
-		var notesBox = this;
-		config.macros.notes.editNotes(notesBox,box,title);
-		e.cancelBubble = true;
-		if(e.stopPropagation) e.stopPropagation();
-		return false;
-	},
-	
-	handler : function(place,macroName,params,wikifier,paramString,tiddler){
-		
-		params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
-		var heading = getParam(params,&quot;heading&quot;,this.heading);
-		// tags can be a space-separated string of tags
-		// this parameter allows you to specify an identiying tag for the note
-		// then we inherit the parent's tags
-		// when we create the Notes box, we use tags as its tags attribute
-		var tags_string = getParam(params,&quot;tags&quot;,this.tags);
-		var tags = tags_string.split(&quot; &quot;);
-		for (var i=0;i&lt;tiddler.tags.length;i++) {
-			if (!tags.contains(tiddler.tags[i])) {
-				tags_string += &quot; &quot; + tiddler.tags[i].toString();
-			}
-		}
-		var suffix = getParam(params,&quot;suffix&quot;,this.suffix);
-		// Get the notes tiddlers for this tiddler, count them, make the count an attribute on the box
-		var notes_tiddlers = store.getTaggedTiddlers(&quot;notes&quot;);
-		var notes = [];
-		var notesCount = 0;
-		for (var i=0;i&lt;notes_tiddlers.length;i++) {
-			if (notes_tiddlers[i].title != tiddler.title &amp;&amp; notes_tiddlers[i].title.indexOf(tiddler.title) != -1) {
-				notes.push(notes_tiddlers[i]);
-				notesCount++;
-			}
-		}
-		var box = createTiddlyElement(place,&quot;div&quot;,&quot;notesContainer&quot;+tiddler.title,&quot;TiddlerNotes&quot;,null,{&quot;source&quot;:tiddler.title,params:paramString,heading:heading,tags:tags_string,suffix:suffix,notesCount:notesCount});
-		// if there aren't any notes, show &quot;No notes&quot;
-		// if there are notes, show &quot;Notes by xxx&quot;
-		// if you added the notes, show &quot;Notes by you&quot;
-		// REMOVED: var notes_tiddler = store.fetchTiddler(tiddler.title+&quot;-&quot;+suffix);
-		var heading_extension = &quot;&quot;;
-		if (notes[0] &amp;&amp; notes[0].modifier) {
-			wikify(&quot;!!&quot;+heading+&quot;\n&quot;,box);
-		} else {
-			wikify(&quot;//No notes//\n&quot;,box);
-		}
-		box.title=this.editTitle;
-		// These lines unnecessary with createTiddlyElement that takes an object of attributes
-		//box.setAttribute(&quot;source&quot;,tiddler.title);
-		//box.setAttribute(&quot;params&quot;,paramString);
-		//box.setAttribute(&quot;heading&quot;,heading);
-		//box.setAttribute(&quot;tags&quot;,tags_string);
-		//box.setAttribute(&quot;suffix&quot;,suffix);
-		// REMOVED: box.ondblclick = this.ondblclick;
-		for (var i=0;i&lt;notes.length;i++) {
-			var notesBox = createTiddlyElement(box,&quot;div&quot;,null,&quot;TiddlerNotes&quot;,null,{noteCount:i});
-			notesBox.ondblclick = this.ondblclick;
-			wikify(&quot;&lt;&lt;tiddler [[&quot;+notes[i].title+&quot;]]&gt;&gt;\n&quot;,notesBox);
-			createTiddlyElement(notesBox,&quot;span&quot;,null,&quot;subtitle&quot;,&quot;at &quot;+notes[i].modified+&quot; by &quot;+notes[i].modifier);
-			createTiddlyButton(notesBox,this.editLabel,this.editLabel,this.editNotesButtonOnclick,&quot;editNotesButton&quot;);
-		}
-		// add 'add notes' button
-		createTiddlyButton(box,this.addLabel,this.addLabel,this.addNotesButtonOnclick,&quot;editNotesButton&quot;);	
-	}		
-};
-
-/* CHANGE: 09/10/07 - not sure why this is needed
-Story.prototype.old_notes_closeTiddler = Story.prototype.closeTiddler;
-Story.prototype.closeTiddler = function(title,animate,unused){
-	if(story.isDirty(title)) {
-		if(!confirm(config.macros.notes.cancelWarning.format([title])))
-			return false;
-	}
-	return this.old_notes_closeTiddler.apply(this,arguments);
-}
-*/
-
-setStylesheet(&quot;.TiddlerNotes {\n&quot;+ &quot; background:#eee;\n&quot;+ &quot; border:1px solid #ccc;\n&quot;+ &quot; padding:10px;\n&quot;+ &quot; margin:15px;\n&quot;+ &quot;}\n&quot;+ &quot;\n&quot;+ &quot;.cancelNotesButton,.editNotesButton, .saveNotesButton {\n&quot;+ &quot; float:right;\n&quot;+ &quot; border:1px solid #ccc;\n&quot;+ &quot; padding:2px 5px;\n&quot;+ &quot;}\n&quot;+ &quot;\n&quot;+ &quot;.saveNotesButton{\n&quot;+ &quot; margin-right:0.5em;\n&quot;+ &quot;}\n&quot;+ &quot;\n&quot;+ &quot;.TiddlerNotes.editor textarea{\n&quot;+ &quot; border:1px solid #ccc;\n&quot;+ &quot;}&quot;,&quot;NotesPluginStyles&quot;);
-
-
-//sliders
-//keyboard shortcuts
-// ids.. 
-// ids.. 
-
-
-//!END-PLUGIN-CODE
-// %/</pre>
-</div>
-<div title="RSS adaptor code" modifier="Jon Lister" created="200709021326" modified="200709271715" tags="systemConfig TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.page.revision="200709211227" server.type="RSS" changecount="2" server.workspace="">
-<pre>/***
-Server adaptor for talking to RSS 2.0 files
-based on FileAdaptor
-***/
-
-//{{{
-
-function RSSAdaptor()
-{
-	this.host = null;
-	this.store = null;
-	this.context = null;
-	return this;
-}
-
-RSSAdaptor.NotLoadedError = &quot;RSS file has not been loaded&quot;;
-RSSAdaptor.serverType = 'RSS';
-// Use the line below instead of the line above if you want to override the local file adaptor
-// RSSAdaptor.serverType = 'file';
-
-// Open the specified host/server
-// Return true if successful, error string if not
-RSSAdaptor.prototype.openHost = function(host,context,userParams,callback)
-{
-	this.host = host;
-	if(!context)
-		context = {};
-	context.adaptor = this;
-	context.callback = callback;
-	context.userParams = userParams;
-	var ret = loadRemoteFile(host,RSSAdaptor.openHostCallback,context);
-	return typeof(ret) == &quot;string&quot; ? ret : true;
-};
-
-RSSAdaptor.openHostCallback = function(status,context,responseText,url,xhr)
-{
-	var adaptor = context.adaptor;
-	context.status = status;
-	if(!status) {
-		context.statusText = &quot;Error reading file: &quot; + xhr.statusText;
-	} else {
-		// CHANGE this bit to store RSS file appropriately (as part of the adaptor?) - DONE
-		// We're just storing the plain text rather than bring XML into it
-		adaptor.store = responseText;
-		// OLD CODE
-		// Load the content into a TiddlyWiki() object
-		// adaptor.store = new TiddlyWiki();
-		// if(!adaptor.store.importTiddlyWiki(responseText))
-		// 	context.statusText = config.messages.invalidFileError.format([url]);
-	}
-	context.callback(context,context.userParams);
-};
-
-// Gets the list of workspaces on a given server
-// Sets context.workspaces, which is a list of workspaces
-// Returns true if successful, error string if not (or it should)
-// Default for RSS file as we don't have a workspace
-RSSAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
-{
-	if(!context)
-		context = {};
-	context.workspaces = [{title:&quot;(default)&quot;}];
-	context.status = true;
-	window.setTimeout(function() {callback(context,userParams);},10);
-	return true;
-};
-
-// Open the specified workspace
-// Returns true if successful, error string if not (or it should)
-// Trivial in the case of RSS file where we don't have a workspace
-RSSAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
-{
-	if(!context)
-		context = {};
-	context.status = true;
-	window.setTimeout(function() {callback(context,userParams);},10);
-	return true;
-};
-
-// Gets the list of tiddlers within a given workspace
-// Returns true if successful, error string if not (or it should)
-// Sets context.tiddlers, which is an array of tiddlers
-// Set these variables if possible:
-// title: tiddler.title, modified: tiddler.modified, modifier: tiddler.modifier, text: tiddler.text, tags: tiddler.tags, size: tiddler.text
-// For RSS each item is a tiddler
-RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
-{
-	if(!this.store)
-		return RSSAdaptor.NotLoadedError;
-	if(!context)
-		context = {};
-	context.tiddlers = [];
-	// First thing to do is strip out any \r characters in the file, as TiddlyWiki doesn't deal with them
-	this.store = this.store.replace(/\r+/mg,&quot;&quot;);
-	// regex_item matches on the items 
-	var regex_item = /&lt;item&gt;(.|\n)*?&lt;\/item&gt;/mg;
-	// regex_title matches for the titles
-	var regex_title = /&lt;title&gt;(.|\n)*?&lt;\/title&gt;/mg;
-	var regex_guid = /&lt;guid&gt;(.|\n)*?&lt;\/guid&gt;/mg;
-	var regex_desc = /&lt;description&gt;(.|\n)*?&lt;\/description&gt;/mg;
-	var regex_category = /&lt;category&gt;(.|\n)*?&lt;\/category&gt;/mg;
-	var regex_link = /&lt;link&gt;(\S|\n)*?&lt;\/link&gt;/mg;
-	var regex_pubDate = /&lt;pubDate&gt;(.|\n)*?&lt;\/pubDate&gt;/mg;
-	var regex_author = /&lt;author&gt;(.|\n)*?&lt;\/author&gt;/mg;
-	var item_match = this.store.match(regex_item);
-	// check for filter and then implement tag filter if of the form [tag[public stuff]]
-	// filter syntax: [tag[tag1 tag2 ...]]
-	// tags in the same set of brackets are all compulsory
-	// TO-DO: support bracketed list, where multi-word tags are of the form [two words]
-	if (filter) {
-		var filter_regex = /\[(\w+)\[([ \w]+)\]\]/;
-		var filter_match = filter_regex.exec(filter);
-		if (filter_match) {
-			// filter_match[2] is a space-seperated string of the tags to match on
-			var tags_to_match = filter_match[1]==&quot;tag&quot; ? filter_match[2].split(&quot; &quot;) : null;
-		} else {
-			displayMessage(&quot;no match: check regex in filter&quot;);
-		}
-	}
-	for (var i=0;i&lt;item_match.length;i++) {
-		// create a new Tiddler in context.tiddlers with the finished item object
-		// grab a title
-		item = {};
-		var title = item_match[i].match(regex_title);
-		if (title)
-			item.title = title[0].replace(/^&lt;title&gt;|&lt;\/title&gt;$/mg,&quot;&quot;);
-		else {
-			// something went wrong grabbing the title, grab the guid instead
-			title = item_match[i].match(regex_guid);
-			displayMessage(&quot;problem with getting title: &quot; + item_match[i])
-			if (title)
-				item.title = title[0].replace(/^&lt;guid&gt;|&lt;\/guid&gt;$/mg,&quot;&quot;);
-			else {
-				item.title = new Date();
-				displayMessage(&quot;problem with getting title AND guid: &quot; + item_match[i]);
-			}
-		}
-		// This line makes sure any html-encoding in the title is reversed
-		item.title = item.title.htmlDecode();
-		// There is a problem with the title, which is that it is not formatted, so characters like &amp;apos; are not converted at render time
-		// renderHtmlText() extends String and sorts out the problem
-		item.title = item.title.renderHtmlText();
-		// grab a description
-		desc = item_match[i].match(regex_desc);
-		if (desc) item.text = desc[0].replace(/^&lt;description&gt;|&lt;\/description&gt;$/mg,&quot;&quot;);
-		else {
-			item.text = &quot;empty, something seriously wrong with this item&quot;;
-			displayMessage(&quot;description empty for item: &quot; + item.title);
-		}
-		var t = new Tiddler(item.title);
-		t.text = &quot;&lt;html&gt;&quot; + item.text.htmlDecode().renderHtmlText() + &quot;&lt;/html&gt;&quot;;
-		// grab the categories
-		category = item_match[i].match(regex_category);
-		if (category) {
-			item.categories = [];
-			for (var j=0;j&lt;category.length;j++) {
-				item.categories[j] = category[j].replace(/^&lt;category&gt;|&lt;\/category&gt;$/mg,&quot;&quot;);
-			}
-			t.tags = item.categories;
-		} else {
-			displayMessage(&quot;no tags for item: &quot; + item.title);
-		}
-		// grab the link and put it in a custom field (assumes this is sensible)
-		// regex_link assumes you can never have whitespace in a link
-		link = item_match[i].match(regex_link);
-		if (link) item.link = link[0].replace(/^&lt;link&gt;|&lt;\/link&gt;$/mg,&quot;&quot;);
-		else {
-			item.link = &quot;#&quot;;
-			displayMessage(&quot;link empty for item: &quot; + item.title);
-		}
-		t.fields[&quot;link to original&quot;] = item.link;
-		// grab date created
-		pubDate = item_match[i].match(regex_pubDate);
-		if (pubDate) {
-			pubDate = pubDate[0].replace(/^&lt;pubDate&gt;|&lt;\/pubDate&gt;$/mg,&quot;&quot;);
-			// TO-DO: does this work on Windows FF and IE??
-			item.pubDate = new Date(pubDate);
-		} else {
-			item.pubDate = new Date();
-			displayMessage(&quot;pubDate empty for item: &quot; + item.title);
-		}
-		t.created = item.pubDate;
-		// grab item author
-		author = item_match[i].match(regex_author);
-		if (author) {
-			author = author[0].replace(/^&lt;author&gt;|&lt;\/author&gt;$/mg,&quot;&quot;);
-			// TO-DO: does this work on Windows FF and IE??
-			item.author = author;
-		} else {
-			item.author = &quot;unknown&quot;;
-			displayMessage(&quot;author empty for item: &quot; + item.title);
-		}
-		t.modifier = item.author;
-		// check to see that we have a filter to use
-		if (filter_match) {
-			if(t.isTaggedAllOf(tags_to_match)) {
-				context.tiddlers.push(t);
-			}
-		} else {
-			// with no filter, we just add all the tiddlers
-			context.tiddlers.push(t);
-		}
-	}
-	context.status = true;
-	// Set this.context so that we can refer to the tiddler list even if it is not passed on to us
-	this.context = context;
-	window.setTimeout(function() {callback(context,userParams);},10);
-	return true;
-};
-
-// QUERY: what actually calls this and does it always pass in a real tiddler?
-RSSAdaptor.prototype.generateTiddlerInfo = function(tiddler)
-{
-	var info = {};
-	info.uri = tiddler.fields['server.host'] + &quot;#&quot; + tiddler.title;
-	return info;
-};
-
-// Retrieves a tiddler from a given workspace on a given server
-// Sets context.tiddler to the requested tiddler
-// Context object passed in from importTiddlers is empty so we use this.context
-// Returns true if successful, error string if not (or it should)
-RSSAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
-{
-	if(!this.store)
-		return RSSAdaptor.NotLoadedError;
-	if(!context)
-		context = {};
-	// Retrieve the tiddler from the this.context.tiddlers array
-	for (var i=0; i&lt;this.context.tiddlers.length; i++) {
-		if (this.context.tiddlers[i].title == title) {
-			context.tiddler = this.context.tiddlers[i];
-		}
-	}
-	// NOTE: this doesn't add the filter field - is that ok? Probably not...
-	if(context.tiddler) {
-		context.tiddler.fields['server.type'] = RSSAdaptor.serverType;
-		context.tiddler.fields['server.host'] = this.host;
-		context.tiddler.fields['server.page.revision'] = context.tiddler.modified.convertToYYYYMMDDHHMM();
-		context.status = true;
-	} else {
-		context.status = false;
-		context.statusText = &quot;error retrieving tiddler: &quot; + title;
-		return context.statusText;
-	}
-	if(context.allowSynchronous) {
-		context.isSynchronous = true;
-		callback(context,userParams);
-	} else {
-		window.setTimeout(function() {callback(context,userParams);},10);
-	}
-	return true;
-};
-
-RSSAdaptor.prototype.close = function()
-{
-	delete this.store;
-	this.store = null;
-};
-
-config.adaptors[RSSAdaptor.serverType] = RSSAdaptor;
-
-// Hack to override the importTiddlers local file behaviour
-config.macros.importTiddlers.onBrowseChange = function(e)
-{
-	var wizard = new Wizard(this);
-	var fileInput = wizard.getElement(&quot;txtPath&quot;);
-	fileInput.value = &quot;file://&quot; + this.value;
-	var serverType = wizard.getElement(&quot;selTypes&quot;);
-	if(serverType.value != &quot;RSS&quot;) {
-		serverType.value = &quot;file&quot;;
-	}
-	return false;
-};
-
-// renderHtmlText puts a string through the browser render process and then extracts the text
-// useful to turn HTML entities into literals such as &amp;apos; to '
-String.prototype.renderHtmlText = function() {
-	var e = createTiddlyElement(document.body,&quot;div&quot;);
-	e.innerHTML = this;
-	var text = getPlainText(e);
-	removeNode(e);
-	return text;
-};
-
-// Test if a tiddler carries any of an array of tags
-// Takes an array of tags
-// Returns true if there is a match, false if not
-Tiddler.prototype.isTaggedAnyOf = function(tag_array)
-{
-	if (tag_array) {
-		// get a string of this tiddler's tags
-		var this_tag_list = this.getTags();
-		// spilt that into an array
-		var this_tag_array = this_tag_list.split(&quot; &quot;);
-		// check that all the members of tag_array are contained in this_tag_array
-		for (var i=0; i&lt;this_tag_array.length; i++) {
-			for (var j=0; j&lt;tag_array.length; j++) {
-				if (this_tag_array[i] == tag_array[j]) {
-					return true;
-				}
-			}
-		}
-		// if we get to this point, we've not had any matches
-		return false;
-	} else {
-		return false;
-	}
-};
-
-// Test if a tiddler carries all of an array of tags
-// Takes an array of tags
-// Returns true if all match, false if not
-Tiddler.prototype.isTaggedAllOf = function(tag_array)
-{
-	if (tag_array) {
-		// get a string of this tiddler's tags
-		var this_tag_list = this.getTags();
-		// spilt that into an array
-		var this_tag_array = this_tag_list.split(&quot; &quot;);
-		// check whether any of the members of tag_array are not contained in this_tag_array
-		for (var i=0; i&lt;tag_array.length; i++) {
-			// tag_match is a flag to signal whether we've had a match for a compulsory tag
-			var tag_match = false;
-			for (var j=0; j&lt;this_tag_array.length; j++) {
-				if (tag_array[i] == this_tag_array[j]) {
-					tag_match = true;
-					break;
-				}
-			}
-			// if tag_match is still false after we've looked through the tiddler's tags,
-			// there is a failed match in the compulsory list so we can return false
-			if (tag_match == false) {
-				return false;
-			}
-		}
-		// now we've looked through the compulsory tags, return true
-		// this is valid because we would have returned false by this point anyway if
-		// there had been no match
-		return true;
-	} else {
-		return false;
-	}
-};
-
-//}}}</pre>
-</div>
-<div title="RSSrender plugin" modifier="Jon Lister" created="200709211217" modified="200709271215" tags="systemConfig TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211218" server.type="file" changecount="1">
-<pre>//{{{
-
-// Override built-in saveToRss to include modifier field
-Tiddler.prototype.saveToRss = function(url)
-{
-	var s = [];
-	s.push(&quot;&lt;item&gt;&quot;);
-	s.push(&quot;&lt;title&quot; + &quot;&gt;&quot; + this.title.htmlEncode() + &quot;&lt;/title&quot; + &quot;&gt;&quot;);
-	s.push(&quot;&lt;description&gt;&quot; + wikifyStatic(this.text,null,this).htmlEncode() + &quot;&lt;/description&gt;&quot;);
-	for(var t=0; t&lt;this.tags.length; t++)
-		s.push(&quot;&lt;category&gt;&quot; + this.tags[t] + &quot;&lt;/category&gt;&quot;);
-	s.push(&quot;&lt;link&gt;&quot; + url + &quot;#&quot; + encodeURIComponent(String.encodeTiddlyLink(this.title)) + &quot;&lt;/link&gt;&quot;);
-	s.push(&quot;&lt;pubDate&gt;&quot; + this.modified.toGMTString() + &quot;&lt;/pubDate&gt;&quot;);
-	s.push(&quot;&lt;author&gt;&quot; + this.modifier + &quot;&lt;/author&gt;&quot;);
-	s.push(&quot;&lt;/item&gt;&quot;);
-	return s.join(&quot;\n&quot;);
-};
-
-//}}}</pre>
-</div>
-<div title="TaggedTemplateTweak" modifier="Jon Lister" created="200706181748" modified="200709271215" tags="BookmarkPackage MediaPackage TaskPackage systemConfig FormattingPackage TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200706242148" server.type="file" changecount="1">
-<pre>/***
-|Name|TaggedTemplateTweak|
-|Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
-|Version|1.1.0|
-|Author|Eric Shulman - ELS Design Studios|
-|License|http://www.TiddlyTools.com/#LegalStatements &lt;&lt;br&gt;&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|~CoreVersion|2.1|
-|Type|plugin|
-|Requires||
-|Overrides|Story.prototype.chooseTemplateForTiddler()|
-|Description|use alternative ViewTemplate/EditTemplate for tiddler's tagged with specific tag values|
-
-The core function, &quot;story.chooseTemplateForTiddler(title,template)&quot; is essentially a &quot;pass-thru&quot; that returns the same template it was given, and is provided by the core so that plugins can customize the template selection logic to select alternative templates, based on whatever programmatic criteria is appropriate.  This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler is marked with a specific tag value, it can be viewed and/or edited using alternatives to the standard tiddler templates.'' 
-!!!!!Usage
-&lt;&lt;&lt;
-Each alternative template is associated with a specific tiddler tag value by using that tag value as a prefix added to the standard TiddlyWiki template titles, [[ViewTemplate]] and [[EditTemplate]].
-
-For example, any tiddlers that are tagged with ''&lt;&lt;tag media&gt;&gt;'' will look for alternative templates named [[mediaViewTemplate]] and [[mediaEditTemplate]].  Additionally, in order to find templates that have proper WikiWord tiddler titles (e.g., [[MediaViewTemplate]] and [[MediaEditTemplate]]), the plugin will also attempt to use a capitalized form of the tag value (e.g., ''Media'') as a prefix.  //This capitalization is for comparison purposes only and will not alter the actual tag values that are stored in the tiddler.//
-
-If no matching alternative template can be found by using //any// of the tiddler's tags (either &quot;as-is&quot; or capitalized), the tiddler defaults to using the appropriate standard [[ViewTemplate]] or [[EditTemplate]] definition.
-
-''To add your own custom templates:''
-&gt;First, decide upon a suitable tag keyword to uniquely identify your custom templates and create custom view and/or edit templates using that keyword as a prefix (e.g., &quot;KeywordViewTemplate&quot; and &quot;KeywordEditTemplate&quot;).  Then, simply create a tiddler and tag it with your chosen keyword... that's it!  As long as the tiddler is tagged with your keyword, it will be displayed using the corresponding alternative templates.  If you remove the tag or rename/delete the alternative templates, the tiddler will revert to using the standard viewing and editing templates.
-&lt;&lt;&lt;
-!!!!!Examples
-&lt;&lt;&lt;
-|Sample tiddler| tag | view template | edit template |
-|[[MediaSample - QuickTime]]| &lt;&lt;tag media&gt;&gt; | [[MediaViewTemplate]] | [[MediaEditTemplate]] |
-|[[MediaSample - Windows]]| &lt;&lt;tag media&gt;&gt; | [[MediaViewTemplate]] | [[MediaEditTemplate]] |
-|[[CDSample]]| &lt;&lt;tag CD&gt;&gt; | [[CDViewTemplate]] | [[CDEditTemplate]] |
-|&lt;&lt;newTiddler label:&quot;create new task...&quot; title:SampleTask tag:task text:&quot;Type some text and then press DONE to view the task controls&quot;&gt;&gt; | &lt;&lt;tag task&gt;&gt; | [[TaskViewTemplate]] | [[EditTemplate]] |
-
-//(note: if these samples are not present in your document, please visit// http://www.TiddlyTools.com/ //to view these sample tiddlers on-line)//
-&lt;&lt;&lt;
-!!!!!Installation
-&lt;&lt;&lt;
-import (or copy/paste) the following tiddlers into your document:
-[[TaggedTemplateTweak]]
-&lt;&lt;&lt;
-!!!!!Revision History
-&lt;&lt;&lt;
-''2007.06.23 [1.1.0]'' re-written to use automatic 'tag prefix' search instead of hard coded check for each tag.  Allows new custom tags to be used without requiring code changes to this plugin.
-''2007.06.11 [1.0.0]'' initial release
-&lt;&lt;&lt;
-!!!!!Credits
-&lt;&lt;&lt;
-This feature was developed by Eric L Shulman / ELS Design Studios
-&lt;&lt;&lt;
-!!!!!Code
-***/
-//{{{
-version.extensions.taggedTemplate= {major: 1, minor: 1, revision: 0, date: new Date(2007,6,18)};
-Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
-Story.prototype.chooseTemplateForTiddler = function(title,template)
-{
-	// get default template from core
-	var template=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
-
-	// if the tiddler to be rendered doesn't exist yet, just return core result
-	var tiddler=store.getTiddler(title); if (!tiddler) return template;
-
-	// look for template whose prefix matches a tag on this tiddler
-	for (t=0; t&lt;tiddler.tags.length; t++) {
-		var tag=tiddler.tags[t];
-		if (store.tiddlerExists(tag+template)) { template=tag+template; break; }
-		// try capitalized tag (to match WikiWord template titles)
-		var cap=tag.substr(0,1).toUpperCase()+tag.substr(1);
-		if (store.tiddlerExists(cap+template)) { template=cap+template; break; }
-	}
-
-	return template;
-}
-//}}}</pre>
-</div>
-<div title="stickyOptionsPlugin" modifier="Jon Lister" created="200709211649" modified="200709271215" tags="systemConfig TiddlyChatter" sticky.chkbackstage="true" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" stickyoptions.dir="txtMainTab,chkUsePreForStorage,chkDisplayStartupTime,txtMoreTab,chkBackstage,chkSliderOptionsPanel,txtUserName" sticky.chkdisplaystartuptime="false" sticky.chkusepreforstorage="true" server.page.revision="200709211649" sticky.txtusername="Jon Lister" server.type="file" sticky.txtmaintab="Timeline" sticky.chkslideroptionspanel="false" changecount="1" sticky.txtmoretab="Shadowed">
-<pre>/***
-|''Name:''|StickyOptionsPlugin|
-|''Description:''||
-|''Author:''|Saq Imtiaz ( lewcid@gmail.com )|
-|''Source:''|http://tw.lewcid.org/#StickyOptionsPlugin|
-|''Code Repository:''|http://tw.lewcid.org/svn/plugins|
-|''Version:''|2.0 pre-release|
-|''Date:''||
-|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''~CoreVersion:''|2.2|
-!!Usage:
-* Sticky options are saved in the file rather than in cookies. 
-* To make an option sticky, check the 'sticky' checkbox for it in AdvancedOptions
-* To force all options to be sticky, check the 'Options always sticky' checkbox at the bottom of the AdvancedOptions screen.
-* Please remember that the file needs to be saved after each option is saved, for the setting to be remembered.
-* Enable the 'autosave' option below, to trigger an autosave when an option is saved
-
-Trigger autosave when an option is saved: &lt;&lt;option chkStickyOptionsAutoSave&gt;&gt;
-
-***/
-// /%
-//!BEGIN-PLUGIN-CODE
-if(config.options.chkStickyOptionsAutoSave == undefined)
-	config.options.chkStickyOptionsAutoSave = false;
-	
-config.optionsDesc.chkStickyOptionsAutoSave = &quot;Trigger autosave when an option is saved&quot;;
-
-StickyOptions = {
-	container : tiddler,
-	
-	alwaysSticky : !! store.getValue(this.container,&quot;stickyoptions.alwayssticky&quot;),
-	
-	toggleAlwaysSticky : function(stat){
-		this.alwaysSticky = stat;
-		store.setValue(this.container,&quot;stickyoptions.alwayssticky&quot;,stat? stat : undefined);
-		if(stat)
-			this.saveAllOptions();
-	},
-	
-	toggleOption : function(optName,toggle,stat,nosave){
-		if(this.isOption(optName)){
-			var optVal = toggle ? (stat? config.options[optName]:undefined):config.options[optName];
-			if(toggle)
-				this.updateDir(optName,stat);
-			store.setValue(this.container,&quot;sticky.&quot;+optName.toLowerCase(),optVal);
-			if(!nosave &amp;&amp; config.options.chkStickyOptionsAutoSave)
-				autoSaveChanges();
-		}	
-	},
-	
-	saveAllOptions : function(){
-		store.suspendNotifications();
-		for(var n in config.options){
-			this.toggleOption(n,true,true,true);
-		}
-		store.resumeNotifications;
-		store.notify(this.container.title,true);
-		if (config.options.chkStickyOptionsAutoSave)
-			autoSaveChanges();
-	},
-
-	updateDir : function(optName,stat){
-		this.options.setItem(optName,stat? +1 : -1);
-		store.setValue(this.container,&quot;stickyoptions.dir&quot;,this.options);
-	},
-	
-	getOption : function(optName){
-		return store.getValue(this.container,&quot;sticky.&quot;+optName.toLowerCase());
-	},
-	
-	isOption : function(optName){
-		var optType = optName.substr(0,3);
-		return (config.optionHandlers[optType] &amp;&amp; config.optionHandlers[optType].get);
-	},
-	
-	isSticky : function(optName){
-		return this.options.contains(optName);
-	},
-	
-	loadAllOptions : function(){
-		if(safeMode)
-			return;
-		var savedOpts = store.getValue(this.container,&quot;stickyoptions.dir&quot;);
-		this.options = savedOpts? savedOpts.split(&quot;,&quot;) : [];
-		for (var i=0; i&lt;this.options.length; i++){
-			var optType = this.options[i].substr(0,3);
-			if(config.optionHandlers[optType] &amp;&amp; config.optionHandlers[optType].set)
-				config.optionHandlers[optType].set(this.options[i],this.getOption(this.options[i]));
-		}
-	},
-	
-	oldSaveOptionCookie : window.saveOptionCookie
-};
-
-StickyOptions.loadAllOptions();
-
-saveOptionCookie = function(name){
-	if (StickyOptions.alwaysSticky || StickyOptions.isSticky(name)){
-		StickyOptions.toggleOption(name,StickyOptions.alwaysSticky ? true:false ,true);
-	}
-	else{
-		StickyOptions.oldSaveOptionCookie(name);
-	}
-};
-
-config.macros.options.step1Title += &quot; unless they are sticky. Sticky options are saved in this file.&quot;;
-config.macros.options.old_step1Html = config.macros.options.step1Html;
-config.macros.options.updateStep1Html = function(){
-	this.step1Html = this.old_step1Html + &quot;&lt;br&gt;&lt;input type='checkbox' &quot; + (StickyOptions.alwaysSticky? &quot;checked&quot;:&quot;&quot;) + &quot; onclick='config.macros.options.toggleAlwaysSticky(this);'&gt;Options always sticky&lt;/input&gt;&quot;;
-};
-config.macros.options.listViewTemplate.columns.splice(1,0,{name: 'Sticky', field: 'name', title: &quot;Sticky&quot;, type: 'StickyOption'});
-
-config.macros.options.old_handler = config.macros.options.handler;
-config.macros.options.handler = function(place,macroName,params,wikifier,paramString,tiddler){
-	this.updateStep1Html();
-	this.old_handler.apply(this,arguments);
-};
-
-config.macros.options.toggleAlwaysSticky = function(e)
-{
-	StickyOptions.toggleAlwaysSticky(e.checked);
-	var wizard = new Wizard(e);
-	var listWrapper = wizard.getValue(&quot;listWrapper&quot;);
-	var chkUnknown = wizard.getElement(&quot;chkUnknown&quot;).checked;
-	removeChildren(listWrapper);
-	config.macros.options.refreshOptions(listWrapper,chkUnknown);
-	return false;
-};
-
-ListView.columnTypes.StickyOption = {
-	createHeader: ListView.columnTypes.String.createHeader,
-	createItem: function(place,listObject,field,columnTemplate,col,row)
-		{
-			var opt = listObject[field];
-			var e = createTiddlyCheckbox(place,null,StickyOptions.isSticky(opt),this.onChange);
-			e.disabled = StickyOptions.alwaysSticky;
-			e.name = opt;
-		},
-		
-	onChange : function(e){
-		StickyOptions.toggleOption(this.name,true,this.checked);
-	}
-};
-//!END-PLUGIN-CODE
-// %/</pre>
-</div>
 <div title="tiddlyChatterIncoming" modifier="Jon Lister" created="200710031717" modified="" tags="systemConfig TiddlyChatter" changecount="1">
 <pre>//{{{
 
@@ -2263,6 +1186,1077 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
 };
 
 //}}}</pre>
+</div>
+<div title="RSSAdaptor" modifier="Jon Lister" created="200709021326" modified="200709191013" tags="systemConfig" changecount="1">
+<pre>/***
+
+|Title|RSSAdaptor|
+|Summary|Server adaptor for talking to RSS 2.0 files|
+|Description|Based on FileAdaptor|
+|Version of product it works with|2.2.5|
+|Version of component|1.0|
+|Explanation of how it can be used and modified|This supports the server adaptor interface, a description of which can be found at: http://tiddlywiki.com/#ServerAdaptorMechanism|
+|Examples where it can be seen working|The RSSAdator is used in this RSS Reader: (link to come)|
+***/
+
+//{{{
+
+function RSSAdaptor()
+{
+	this.host = null;
+	this.store = null;
+	this.context = null;
+	return this;
+}
+
+RSSAdaptor.NotLoadedError = &quot;RSS file has not been loaded&quot;;
+RSSAdaptor.serverType = 'RSS';
+// Use the line below instead of the line above if you want to override the local file adaptor
+// RSSAdaptor.serverType = 'file';
+
+// Open the specified host/server
+// Return true if successful, error string if not
+RSSAdaptor.prototype.openHost = function(host,context,userParams,callback)
+{
+	this.host = host;
+	if(!context)
+		context = {};
+	context.adaptor = this;
+	context.callback = callback;
+	context.userParams = userParams;
+	var ret = loadRemoteFile(host,RSSAdaptor.openHostCallback,context);
+	return typeof(ret) == &quot;string&quot; ? ret : true;
+};
+
+RSSAdaptor.openHostCallback = function(status,context,responseText,url,xhr)
+{
+	var adaptor = context.adaptor;
+	context.status = status;
+	if(!status) {
+		context.statusText = &quot;Error reading file: &quot; + xhr.statusText;
+	} else {
+		// CHANGE this bit to store RSS file appropriately (as part of the adaptor?) - DONE
+		// We're just storing the plain text rather than bring XML into it
+		adaptor.store = responseText;
+		// OLD CODE
+		// Load the content into a TiddlyWiki() object
+		// adaptor.store = new TiddlyWiki();
+		// if(!adaptor.store.importTiddlyWiki(responseText))
+		// 	context.statusText = config.messages.invalidFileError.format([url]);
+	}
+	context.callback(context,context.userParams);
+};
+
+// Gets the list of workspaces on a given server
+// Sets context.workspaces, which is a list of workspaces
+// Returns true if successful, error string if not (or it should)
+// Default for RSS file as we don't have a workspace
+RSSAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
+{
+	if(!context)
+		context = {};
+	context.workspaces = [{title:&quot;(default)&quot;}];
+	context.status = true;
+	window.setTimeout(function() {callback(context,userParams);},10);
+	return true;
+};
+
+// Open the specified workspace
+// Returns true if successful, error string if not (or it should)
+// Trivial in the case of RSS file where we don't have a workspace
+RSSAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
+{
+	if(!context)
+		context = {};
+	context.status = true;
+	window.setTimeout(function() {callback(context,userParams);},10);
+	return true;
+};
+
+// Gets the list of tiddlers within a given workspace
+// Returns true if successful, error string if not (or it should)
+// Sets context.tiddlers, which is an array of tiddlers
+// Set these variables if possible:
+// title: tiddler.title, modified: tiddler.modified, modifier: tiddler.modifier, text: tiddler.text, tags: tiddler.tags, size: tiddler.text
+// For RSS each item is a tiddler
+RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
+{
+	if(!this.store)
+		return RSSAdaptor.NotLoadedError;
+	if(!context)
+		context = {};
+	context.tiddlers = [];
+	// First thing to do is strip out any \r characters in the file, as TiddlyWiki doesn't deal with them
+	this.store = this.store.replace(/\r+/mg,&quot;&quot;);
+	// regex_item matches on the items 
+	var regex_item = /&lt;item&gt;(.|\n)*?&lt;\/item&gt;/mg;
+	// regex_title matches for the titles
+	var regex_title = /&lt;title&gt;(.|\n)*?&lt;\/title&gt;/mg;
+	var regex_guid = /&lt;guid&gt;(.|\n)*?&lt;\/guid&gt;/mg;
+	var regex_desc = /&lt;description&gt;(.|\n)*?&lt;\/description&gt;/mg;
+	var regex_category = /&lt;category&gt;(.|\n)*?&lt;\/category&gt;/mg;
+	var regex_link = /&lt;link&gt;(\S|\n)*?&lt;\/link&gt;/mg;
+	var regex_pubDate = /&lt;pubDate&gt;(.|\n)*?&lt;\/pubDate&gt;/mg;
+	var item_match = this.store.match(regex_item);
+	// check for filter and then implement tag filter if of the form [tag[public stuff]]
+	// filter syntax: [tag[tag1 tag2 ...]]
+	// tags in the same set of brackets are all compulsory
+	// TO-DO: support bracketed list, where multi-word tags are of the form [two words]
+	if (filter) {
+		var filter_regex = /\[(\w+)\[([ \w]+)\]\]/;
+		var filter_match = filter_regex.exec(filter);
+		if (filter_match) {
+			// filter_match[2] is a space-seperated string of the tags to match on
+			var tags_to_match = filter_match[1]==&quot;tag&quot; ? filter_match[2].split(&quot; &quot;) : null;
+		} else {
+			displayMessage(&quot;no match: check regex in filter&quot;);
+		}
+	}
+	for (var i=0;i&lt;item_match.length;i++) {
+		// create a new Tiddler in context.tiddlers with the finished item object
+		// grab a title
+		item = {};
+		var title = item_match[i].match(regex_title);
+		if (title)
+			item.title = title[0].replace(/^&lt;title&gt;|&lt;\/title&gt;$/mg,&quot;&quot;);
+		else {
+			// something went wrong grabbing the title, grab the guid instead
+			title = item_match[i].match(regex_guid);
+			displayMessage(&quot;problem with getting title: &quot; + item_match[i])
+			if (title)
+				item.title = title[0].replace(/^&lt;guid&gt;|&lt;\/guid&gt;$/mg,&quot;&quot;);
+			else {
+				item.title = new Date();
+				displayMessage(&quot;problem with getting title AND guid: &quot; + item_match[i]);
+			}
+		}
+		// This line makes sure any html-encoding in the title is reversed
+		item.title = item.title.htmlDecode();
+		// There is a problem with the title, which is that it is not formatted, so characters like &amp;apos; are not converted at render time
+		// renderHtmlText() extends String and sorts out the problem
+		item.title = item.title.renderHtmlText();
+		// grab a description
+		desc = item_match[i].match(regex_desc);
+		if (desc) item.text = desc[0].replace(/^&lt;description&gt;|&lt;\/description&gt;$/mg,&quot;&quot;);
+		else {
+			item.text = &quot;empty, something seriously wrong with this item&quot;;
+			displayMessage(&quot;description empty for item: &quot; + item.title);
+		}
+		var t = new Tiddler(item.title);
+		t.text = &quot;&lt;html&gt;&quot; + item.text.htmlDecode().renderHtmlText() + &quot;&lt;/html&gt;&quot;;
+		// grab the categories
+		category = item_match[i].match(regex_category);
+		if (category) {
+			item.categories = [];
+			for (var j=0;j&lt;category.length;j++) {
+				item.categories[j] = category[j].replace(/^&lt;category&gt;|&lt;\/category&gt;$/mg,&quot;&quot;);
+			}
+			t.tags = item.categories;
+		} else {
+			displayMessage(&quot;no tags for item: &quot; + item.title);
+		}
+		// grab the link and put it in a custom field (assumes this is sensible)
+		// regex_link assumes you can never have whitespace in a link
+		link = item_match[i].match(regex_link);
+		if (link) item.link = link[0].replace(/^&lt;link&gt;|&lt;\/link&gt;$/mg,&quot;&quot;);
+		else {
+			item.link = &quot;#&quot;;
+			displayMessage(&quot;link empty for item: &quot; + item.title);
+		}
+		t.fields[&quot;link to original&quot;] = item.link;
+		// grab date created
+		pubDate = item_match[i].match(regex_pubDate);
+		if (pubDate) {
+			pubDate = pubDate[0].replace(/^&lt;pubDate&gt;|&lt;\/pubDate&gt;$/mg,&quot;&quot;);
+			// TO-DO: does this work on Windows FF and IE??
+			item.pubDate = new Date(pubDate);
+		} else {
+			item.pubDate = new Date();
+			displayMessage(&quot;pubDate empty for item: &quot; + item.title);
+		}
+		t.created = item.pubDate;
+		// check to see that we have a filter to use
+		if (filter_match) {
+			if(t.isTaggedAllOf(tags_to_match)) {
+				context.tiddlers.push(t);
+			}
+		} else {
+			// with no filter, we just add all the tiddlers
+			context.tiddlers.push(t);
+		}
+	}
+	context.status = true;
+	// Set this.context so that we can refer to the tiddler list even if it is not passed on to us
+	this.context = context;
+	window.setTimeout(function() {callback(context,userParams);},10);
+	return true;
+};
+
+// QUERY: what actually calls this and does it always pass in a real tiddler?
+RSSAdaptor.prototype.generateTiddlerInfo = function(tiddler)
+{
+	var info = {};
+	info.uri = tiddler.fields['server.host'] + &quot;#&quot; + tiddler.title;
+	return info;
+};
+
+// Retrieves a tiddler from a given workspace on a given server
+// Sets context.tiddler to the requested tiddler
+// Context object passed in from importTiddlers is empty so we use this.context
+// Returns true if successful, error string if not (or it should)
+RSSAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
+{
+	if(!this.store)
+		return RSSAdaptor.NotLoadedError;
+	if(!context)
+		context = {};
+	// Retrieve the tiddler from the this.context.tiddlers array
+	for (var i=0; i&lt;this.context.tiddlers.length; i++) {
+		if (this.context.tiddlers[i].title == title) {
+			context.tiddler = this.context.tiddlers[i];
+		}
+	}
+	// NOTE: this doesn't add the filter field - is that ok? Probably not...
+	if(context.tiddler) {
+		context.tiddler.fields['server.type'] = RSSAdaptor.serverType;
+		context.tiddler.fields['server.host'] = this.host;
+		context.tiddler.fields['server.page.revision'] = context.tiddler.modified.convertToYYYYMMDDHHMM();
+		context.status = true;
+	} else {
+		context.status = false;
+		context.statusText = &quot;error retrieving tiddler: &quot; + title;
+		return context.statusText;
+	}
+	if(context.allowSynchronous) {
+		context.isSynchronous = true;
+		callback(context,userParams);
+	} else {
+		window.setTimeout(function() {callback(context,userParams);},10);
+	}
+	return true;
+};
+
+RSSAdaptor.prototype.close = function()
+{
+	delete this.store;
+	this.store = null;
+};
+
+config.adaptors[RSSAdaptor.serverType] = RSSAdaptor;
+
+// Hack to override the importTiddlers local file behaviour
+config.macros.importTiddlers.onBrowseChange = function(e)
+{
+	var wizard = new Wizard(this);
+	var fileInput = wizard.getElement(&quot;txtPath&quot;);
+	fileInput.value = &quot;file://&quot; + this.value;
+	var serverType = wizard.getElement(&quot;selTypes&quot;);
+	if(serverType.value != &quot;RSS&quot;) {
+		serverType.value = &quot;file&quot;;
+	}
+	return false;
+};
+
+// renderHtmlText puts a string through the browser render process and then extracts the text
+// useful to turn HTML entities into literals such as &amp;apos; to '
+String.prototype.renderHtmlText = function() {
+	var e = createTiddlyElement(document.body,&quot;div&quot;);
+	e.innerHTML = this;
+	var text = getPlainText(e);
+	removeNode(e);
+	return text;
+};
+
+// Test if a tiddler carries any of an array of tags
+// Takes an array of tags
+// Returns true if there is a match, false if not
+Tiddler.prototype.isTaggedAnyOf = function(tag_array)
+{
+	if (tag_array) {
+		// get a string of this tiddler's tags
+		var this_tag_list = this.getTags();
+		// spilt that into an array
+		var this_tag_array = this_tag_list.split(&quot; &quot;);
+		// check that all the members of tag_array are contained in this_tag_array
+		for (var i=0; i&lt;this_tag_array.length; i++) {
+			for (var j=0; j&lt;tag_array.length; j++) {
+				if (this_tag_array[i] == tag_array[j]) {
+					return true;
+				}
+			}
+		}
+		// if we get to this point, we've not had any matches
+		return false;
+	} else {
+		return false;
+	}
+};
+
+// Test if a tiddler carries all of an array of tags
+// Takes an array of tags
+// Returns true if all match, false if not
+Tiddler.prototype.isTaggedAllOf = function(tag_array)
+{
+	if (tag_array) {
+		// get a string of this tiddler's tags
+		var this_tag_list = this.getTags();
+		// spilt that into an array
+		var this_tag_array = this_tag_list.split(&quot; &quot;);
+		// check whether any of the members of tag_array are not contained in this_tag_array
+		for (var i=0; i&lt;tag_array.length; i++) {
+			// tag_match is a flag to signal whether we've had a match for a compulsory tag
+			var tag_match = false;
+			for (var j=0; j&lt;this_tag_array.length; j++) {
+				if (tag_array[i] == this_tag_array[j]) {
+					tag_match = true;
+					break;
+				}
+			}
+			// if tag_match is still false after we've looked through the tiddler's tags,
+			// there is a failed match in the compulsory list so we can return false
+			if (tag_match == false) {
+				return false;
+			}
+		}
+		// now we've looked through the compulsory tags, return true
+		// this is valid because we would have returned false by this point anyway if
+		// there had been no match
+		return true;
+	} else {
+		return false;
+	}
+};
+
+//}}}</pre>
+</div>
+<div title="File adaptor filter plugin" modifier="Jon Lister" created="200710011636" modified="" tags="systemConfig TiddlyChatter" changecount="1">
+<pre>//{{{
+
+// Gets the list of tiddlers within a given workspace
+FileAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
+{
+	if(!this.store)
+		return FileAdaptor.NotLoadedError;
+	if(!context)
+		context = {};
+//	context.tiddlers = [];
+//	this.store.forEachTiddler(function(title,tiddler)
+//		{
+//		var t = new Tiddler(title);
+//		t.text = tiddler.text;
+//		t.modified = tiddler.modified;
+//		t.modifier = tiddler.modifier;
+//		t.fields['server.page.revision'] = tiddler.modified.convertToYYYYMMDDHHMM();
+//		t.tags = tiddler.tags;
+//		context.tiddlers.push(t);
+//		});
+	context.tiddlers = this.store.filterTiddlers(filter);
+	for(var t=0; t&lt;context.tiddlers.length; t++) {
+		context.tiddlers[t].fields['server.page.revision'] = context.tiddlers[t].modified.convertToYYYYMMDDHHMM();
+	}
+	context.status = true;
+	window.setTimeout(function() {callback(context,userParams);},10);
+	return true;
+};
+
+//}}}</pre>
+</div>
+<div title="ImportWorkspacePlugin" modifier="Jon Lister" created="200702250000" modified="200709271741" tags="systemConfig TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="15" server.workspace="">
+<pre>/***
+|''Name:''|ImportWorkspacePlugin|
+|''Description:''|Commands to access hosted TiddlyWiki data|
+|''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Source:''|http://www.martinswiki.com/#AdaptorMacrosPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
+|''Version:''|0.0.1|
+|''Date:''|Aug 23, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.2.0|
+
+|''Tag for import''|&lt;&lt;option txtImportTag&gt;&gt;|
+|''Import workspace on startup''|&lt;&lt;option chkImportWorkspaceOnStartup&gt;&gt;|
+|''Label for go button''|&lt;&lt;option txtImportLabel&gt;&gt;|
+
+***/
+
+// CHANGE: I have removed this line to tailor this plugin to select systemServer tiddlers by tag:
+// |''Feed for import - DON'T USE''|&lt;&lt;option txtImportFeed&gt;&gt;|
+
+//{{{
+// Ensure that the plugin is only installed once.
+if(!version.extensions.ImportWorkspacePlugin) {
+version.extensions.ImportWorkspacePlugin = {installed:true};
+
+if(config.options.txtImportTag == undefined)
+	{config.options.txtImportTag = '';}
+if(config.options.chkImportWorkspaceOnStartup == undefined)
+	{config.options.chkImportWorkspaceOnStartup = false;}
+
+config.messages.hostOpened = &quot;Host '%0' opened&quot;;
+config.messages.workspaceOpened = &quot;Workspace '%0' opened&quot;;
+config.messages.workspaceTiddlers = &quot;%0 tiddlers in workspace, importing %1 of them&quot;;
+config.messages.tiddlerImported = 'Tiddler: &quot;%0&quot; imported';
+
+
+// import all the tiddlers from a given workspace on a given host
+config.macros.importWorkspace = {};
+merge(config.macros.importWorkspace,{
+	label: &quot;import workspace&quot;,
+	prompt: &quot;Import tiddlers in workspace&quot;,
+	done: &quot;Tiddlers imported&quot;});
+
+
+config.macros.importWorkspace.init = function()
+{
+	var customFields = config.defaultCustomFields;
+	if(!customFields['server.type']) {
+		var tag = config.options.txtImportTag;
+		var title = &quot;&quot;;
+		if(tag=='') {
+			var tiddlers = store.getTaggedTiddlers(&quot;systemServer&quot;);
+			if(tiddlers.length==0)
+				return;
+			title = tiddlers[0].title;
+		} else {
+			var tiddlers = store.getTaggedTiddlers(tag);
+			if(tiddlers.length==0)
+				return;
+			title = tiddlers[0].title;
+		}
+		config.defaultCustomFields['server.type'] = store.getTiddlerSlice(title,'Type');
+		config.defaultCustomFields['server.host'] = store.getTiddlerSlice(title,'URL');
+		config.defaultCustomFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
+		config.defaultCustomFields['server.filter'] = store.getTiddlerSlice(title,'TiddlerFilter');
+	}
+	if(config.options.chkImportWorkspaceOnStartup)
+		config.macros.importWorkspace.getTiddlers(customFields);
+};
+
+// I'm finding that this runs before the init function!
+// My evidence for this is through config.log calls, so I assume that they execute in the order they are called
+config.macros.importWorkspace.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	params = paramString.parseParams('anon',null,true,false,false);
+	var customFields = getParam(params,'fields',false);
+	if(!customFields) {
+		customFields = config.defaultCustomFields;
+	}
+	if(!customFields['server.type']) {
+		var title = &quot;&quot;;
+		var tag = config.options.txtImportTag;
+		if (tag=='') {
+			title = getParam(params,'anon');
+			if(!title) {
+				var tiddlers = store.getTaggedTiddlers(&quot;systemServer&quot;);
+				if(tiddlers.length&gt;0)
+				title = tiddlers[0].title;
+			}
+		} else {
+		// if we get here, the user has not provided field params and they have not been
+		// set in the init function, and we have a tag to use for looking up a tiddler
+			var tiddlers = store.getTaggedTiddlers(tag);
+			if(tiddlers.length==0)
+				return;
+			title = tiddlers[0].title;
+		}
+		if(title) {
+			customFields = {};
+			customFields['server.type'] = store.getTiddlerSlice(title,'Type');
+			customFields['server.host'] = store.getTiddlerSlice(title,'URL');
+			customFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
+			customFields['server.filter'] = store.getTiddlerSlice(title,'TiddlerFilter');
+		}
+	}
+	customFields = String.encodeHashMap(customFields);
+	if(config.options.txtImportLabel) this.label = config.options.txtImportLabel;
+	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
+	btn.setAttribute('customFields',customFields);
+};
+
+config.macros.importWorkspace.onClick = function(e)
+{
+	clearMessage();
+// displayMessage(&quot;Starting import...&quot;);
+	var customFields = this.getAttribute('customFields');
+	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
+	config.macros.importWorkspace.getTiddlers(fields);
+};
+
+config.macros.importWorkspace.getTiddlers = function(fields)
+{
+	if(!fields['server.type']) {
+		var tiddlers = store.getTaggedTiddlers(&quot;systemServer&quot;);
+		var title = tiddlers[0].title;
+		fields = {};
+		fields['server.type'] = store.getTiddlerSlice(title,'Type');
+		fields['server.host'] = store.getTiddlerSlice(title,'URL');
+		fields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
+		fields['server.filter'] = store.getTiddlerSlice(title,'TiddlerFilter');
+	}
+	var serverType = fields['server.type'];
+	if(!serverType)
+		serverType = fields['wikiformat'];
+	if(!serverType)
+		return false;
+	var adaptor = new config.adaptors[serverType];
+	if(adaptor) {
+		var context = {};
+		context.host = fields['server.host'];
+		context.workspace = fields['server.workspace'];
+		context.adaptor = adaptor;
+		context.filter = fields['server.filter'];
+		adaptor.openHost(context.host,context,null,config.macros.importWorkspace.openHostCallback);
+	}
+};
+
+config.macros.importWorkspace.openHostCallback = function(context,userParams)
+{
+	displayMessage(config.messages.hostOpened.format([context.host]));
+	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.openWorkspaceCallback);
+	context.adaptor.openWorkspace(context.workspace,context,userParams,config.macros.importWorkspace.openWorkspaceCallback);
+};
+
+config.macros.importWorkspace.openWorkspaceCallback = function(context,userParams)
+{
+	displayMessage(config.messages.workspaceOpened.format([context.workspace]));
+	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.getTiddlerListCallback);
+	displayMessage(&quot;using import filter: &quot; + context.filter);
+	context.adaptor.getTiddlerList(context,userParams,config.macros.importWorkspace.getTiddlerListCallback,context.filter);
+};
+
+config.macros.importWorkspace.getTiddlerListCallback = function(context,userParams)
+{
+	if(context.status) {
+		var tiddlers = context.tiddlers;
+		var sortField = 'modified';
+		tiddlers.sort(function(a,b) {return a[sortField] &lt; b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
+		var length = tiddlers.length;
+		if(userParams &amp;&amp; userParams.maxCount &amp;&amp; length &gt; userParams.maxCount)
+			length = userParams.maxCount;
+		displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
+		var import_count = 0;
+		for(var i=0; i&lt;length; i++) {
+			tiddler = tiddlers[i];
+			var local_tiddler = store.fetchTiddler(tiddler.title);
+			// only import the tiddler if it doesn't exist locally or, if it does, hasn't been edited
+			if(!local_tiddler || !local_tiddler.isTouched()) {
+				context.adaptor.getTiddler(tiddler.title,null,null,config.macros.importWorkspace.getTiddlerCallback);
+				import_count++;
+			}
+		}
+	}
+	// THIS IS A VERY BAD THING TO DO, AS IS IT SPECIFIC, NOT BUILT FOR RE-USE
+	// I SUGGEST WE CHANGE THE PLUGIN TO TAKE A CALLBACK FOR EXECUTING AT THE END OF THE IMPORT I.E. HERE
+	// now everything's done, open up the TiddlyChatterIncoming tiddler
+	// config.macros.importWorkspace.finalise(context);
+};
+
+
+config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
+{
+	displayMessage(&quot;getting &quot; + context.tiddler.title);
+	if(context.status) {
+		var tiddler = context.tiddler;
+		// add in an extended field to save unread state
+		tiddler.fields[&quot;unread&quot;] = true;
+		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+		story.refreshTiddler(tiddler.title,1,true);
+	} else {
+		displayMessage(context.statusText);
+	}
+	story.refreshAllTiddlers();
+};
+
+} // end of 'install only once'
+//}}}</pre>
+</div>
+<div title="NotesPlugin" modifier="Jon Lister" created="200709211021" modified="200709271301" tags="systemConfig TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211331" server.type="file" changecount="7">
+<pre>/***
+|''Name:''|NotesPlugin|
+|''Description:''||
+|''Author:''|Saq Imtiaz ( lewcid@gmail.com )|
+|''Source:''|http://tw.lewcid.org/#NotesPlugin|
+|''Code Repository:''|http://tw.lewcid.org/svn/plugins|
+|''Version:''|2.0|
+|''Date:''||
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''~CoreVersion:''|2.2.3|
+!!Usage:
+*
+***/
+// /%
+//!BEGIN-PLUGIN-CODE
+
+function createTiddlyElement(theParent,theElement,theID,theClass,theText,attribs)
+{
+	var e = document.createElement(theElement);
+	if(theClass != null)
+		e.className = theClass;
+	if(theID != null)
+		e.setAttribute(&quot;id&quot;,theID);
+	if(theText != null)
+		e.appendChild(document.createTextNode(theText));
+	if(attribs){
+		for(var n in attribs){
+			e.setAttribute(n,attribs[n]);
+		}
+	}
+	if(theParent != null)
+		theParent.appendChild(e);
+	return e;
+}
+
+function createTiddlyButton(theParent,theText,theTooltip,theAction,theClass,theId,theAccessKey,attribs)
+{
+	var theButton = document.createElement(&quot;a&quot;);
+	if(theAction) {
+		theButton.onclick = theAction;
+		theButton.setAttribute(&quot;href&quot;,&quot;javascript:;&quot;);
+	}
+	if(theTooltip)
+		theButton.setAttribute(&quot;title&quot;,theTooltip);
+	if(theText)
+		theButton.appendChild(document.createTextNode(theText));
+	if(theClass)
+		theButton.className = theClass;
+	else
+		theButton.className = &quot;button&quot;;
+	if(theId)
+		theButton.id = theId;
+	if(attribs){
+		for(var n in attribs){
+			e.setAttribute(n,attribs[n]);
+		}
+	}
+	if(theParent)
+		theParent.appendChild(theButton);
+	if(theAccessKey)
+		theButton.setAttribute(&quot;accessKey&quot;,theAccessKey);
+	return theButton;
+}
+
+
+config.macros.notes={
+	
+	cancelWarning: &quot;Are you sure you want to abandon changes to your notes for '%0'?&quot;,
+	addLabel: &quot;add notes&quot;,
+	editLabel: &quot;edit notes&quot;,
+	editTitle: &quot;double click to edit&quot;,
+	saveLabel: &quot;save notes&quot;,
+	saveTitle: &quot;double click to save&quot;,
+	cancelLabel: &quot;cancel&quot;,
+	heading: &quot;Notes&quot;,
+	suffix: &quot;Notes&quot;,
+	tags: &quot;Notes&quot;,
+	
+	saveNotes: function(ev){
+		e = ev? ev : window.event;
+		var theTarget = resolveTarget(e);
+		if (theTarget.nodeName.toLowerCase() == &quot;textarea&quot;)
+			return false;
+		var title = story.findContainingTiddler(theTarget).getAttribute(&quot;tiddler&quot;);
+		story.setDirty(title,false);
+		var box = document.getElementById(&quot;notesContainer&quot;+title);
+		// if 'save notes' is clicked on, notesBox is this.parentNode
+		var notesBox = this.parentNode;
+		if (this.getAttribute(&quot;noteCount&quot;)) {
+			// if notesBox has been double-clicked, notesBox is this
+			notesBox = this;
+		}
+		var noteCount = notesBox.getAttribute(&quot;noteCount&quot;);
+		var textarea = document.getElementById(&quot;notesTextArea&quot;+noteCount+title);
+		if(textarea.getAttribute(&quot;oldText&quot;)!=textarea.value){
+			var suffix = box.getAttribute(&quot;suffix&quot;);
+			var t = store.getTiddler(title+&quot;-&quot;+suffix+noteCount);
+			// this line changed to split the tags attribute
+			store.saveTiddler(title+&quot;-&quot;+suffix+noteCount,title+&quot;-&quot;+suffix+noteCount,textarea.value,config.options.txtUserName,new Date(),t?t.tags:box.getAttribute(&quot;tags&quot;).split(&quot; &quot;),t?t.fields:{});
+		}
+		story.refreshTiddler(title,1,true);
+		return false;
+	},
+	
+	editNotes: function(notesBox,box,tiddler){
+		removeChildren(notesBox);
+		story.setDirty(tiddler,true);
+		notesBox.title = this.saveTitle;
+		notesBox.ondblclick = this.saveNotes;
+		// Q: this cancel button doesn't appear to work! Is this what you meant to do?
+		createTiddlyButton(notesBox,this.cancelLabel,this.cancelLabel,this.saveNotes,&quot;cancelNotesButton&quot;);
+		createTiddlyButton(notesBox,this.saveLabel,this.saveLabel,this.saveNotes,&quot;saveNotesButton&quot;);
+		wikify(&quot;!!&quot;+box.getAttribute(&quot;heading&quot;)+&quot;\n&quot;,notesBox);
+		addClass(notesBox,&quot;editor&quot;);
+		var wrapper1 = createTiddlyElement(null,&quot;fieldset&quot;,null,&quot;fieldsetFix&quot;);
+		var wrapper2 = createTiddlyElement(wrapper1,&quot;div&quot;);
+		var e = createTiddlyElement(wrapper2,&quot;textarea&quot;,&quot;notesTextArea&quot;+notesBox.getAttribute(&quot;noteCount&quot;)+tiddler);
+		var v = store.getValue(tiddler+&quot;-&quot;+box.getAttribute(&quot;suffix&quot;)+notesBox.getAttribute(&quot;noteCount&quot;),&quot;text&quot;);
+		if(!v) 
+			v = &quot;&quot;;
+		e.value = v;
+		e.setAttribute(&quot;oldText&quot;,v);
+		var rows = 10;
+		var lines = v.match(/\n/mg);
+		var maxLines = Math.max(parseInt(config.options.txtMaxEditRows),5);
+		if(lines != null &amp;&amp; lines.length &gt; rows)
+			rows = lines.length + 5;
+		rows = Math.min(rows,maxLines);
+		e.setAttribute(&quot;rows&quot;,rows);
+		notesBox.appendChild(wrapper1);
+	},
+	
+	editNotesButtonOnclick: function(e){
+		var title = story.findContainingTiddler(this).getAttribute(&quot;tiddler&quot;);
+		var box = document.getElementById(&quot;notesContainer&quot;+title);
+		var notesBox = this.parentNode;
+		config.macros.notes.editNotes(notesBox,box,title);
+		return false;
+	},
+	
+	addNotesButtonOnclick: function(e){
+		var title = story.findContainingTiddler(this).getAttribute(&quot;tiddler&quot;);
+		var box = document.getElementById(&quot;notesContainer&quot;+title);
+		var oldNoteCount = box.getAttribute(&quot;notesCount&quot;);
+		var notesBox = createTiddlyElement(box,&quot;div&quot;,null,&quot;TiddlerNotes&quot;,null,{noteCount:oldNoteCount++});
+		notesBox.ondblclick = config.macros.notes.ondblclick;
+		removeNode(this);
+		config.macros.notes.editNotes(notesBox,box,title);
+		return false;
+	},
+	
+	ondblclick : function(ev){
+		e = ev? ev : window.event;
+		var theTarget = resolveTarget(e);
+		var title = story.findContainingTiddler(theTarget).getAttribute(&quot;tiddler&quot;);
+		var box = document.getElementById(&quot;notesContainer&quot;+title);
+		var notesBox = this;
+		config.macros.notes.editNotes(notesBox,box,title);
+		e.cancelBubble = true;
+		if(e.stopPropagation) e.stopPropagation();
+		return false;
+	},
+	
+	handler : function(place,macroName,params,wikifier,paramString,tiddler){
+		
+		params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
+		var heading = getParam(params,&quot;heading&quot;,this.heading);
+		// tags can be a space-separated string of tags
+		// this parameter allows you to specify an identiying tag for the note
+		// then we inherit the parent's tags
+		// when we create the Notes box, we use tags as its tags attribute
+		var tags_string = getParam(params,&quot;tags&quot;,this.tags);
+		var tags = tags_string.split(&quot; &quot;);
+		for (var i=0;i&lt;tiddler.tags.length;i++) {
+			if (!tags.contains(tiddler.tags[i])) {
+				tags_string += &quot; &quot; + tiddler.tags[i].toString();
+			}
+		}
+		var suffix = getParam(params,&quot;suffix&quot;,this.suffix);
+		// Get the notes tiddlers for this tiddler, count them, make the count an attribute on the box
+		var notes_tiddlers = store.getTaggedTiddlers(&quot;notes&quot;);
+		var notes = [];
+		var notesCount = 0;
+		for (var i=0;i&lt;notes_tiddlers.length;i++) {
+			if (notes_tiddlers[i].title != tiddler.title &amp;&amp; notes_tiddlers[i].title.indexOf(tiddler.title) != -1) {
+				notes.push(notes_tiddlers[i]);
+				notesCount++;
+			}
+		}
+		var box = createTiddlyElement(place,&quot;div&quot;,&quot;notesContainer&quot;+tiddler.title,&quot;TiddlerNotes&quot;,null,{&quot;source&quot;:tiddler.title,params:paramString,heading:heading,tags:tags_string,suffix:suffix,notesCount:notesCount});
+		// if there aren't any notes, show &quot;No notes&quot;
+		// if there are notes, show &quot;Notes by xxx&quot;
+		// if you added the notes, show &quot;Notes by you&quot;
+		// REMOVED: var notes_tiddler = store.fetchTiddler(tiddler.title+&quot;-&quot;+suffix);
+		var heading_extension = &quot;&quot;;
+		if (notes[0] &amp;&amp; notes[0].modifier) {
+			wikify(&quot;!!&quot;+heading+&quot;\n&quot;,box);
+		} else {
+			wikify(&quot;//No notes//\n&quot;,box);
+		}
+		box.title=this.editTitle;
+		// These lines unnecessary with createTiddlyElement that takes an object of attributes
+		//box.setAttribute(&quot;source&quot;,tiddler.title);
+		//box.setAttribute(&quot;params&quot;,paramString);
+		//box.setAttribute(&quot;heading&quot;,heading);
+		//box.setAttribute(&quot;tags&quot;,tags_string);
+		//box.setAttribute(&quot;suffix&quot;,suffix);
+		// REMOVED: box.ondblclick = this.ondblclick;
+		for (var i=0;i&lt;notes.length;i++) {
+			var notesBox = createTiddlyElement(box,&quot;div&quot;,null,&quot;TiddlerNotes&quot;,null,{noteCount:i});
+			notesBox.ondblclick = this.ondblclick;
+			wikify(&quot;&lt;&lt;tiddler [[&quot;+notes[i].title+&quot;]]&gt;&gt;\n&quot;,notesBox);
+			createTiddlyElement(notesBox,&quot;span&quot;,null,&quot;subtitle&quot;,&quot;at &quot;+notes[i].modified+&quot; by &quot;+notes[i].modifier);
+			createTiddlyButton(notesBox,this.editLabel,this.editLabel,this.editNotesButtonOnclick,&quot;editNotesButton&quot;);
+		}
+		// add 'add notes' button
+		createTiddlyButton(box,this.addLabel,this.addLabel,this.addNotesButtonOnclick,&quot;editNotesButton&quot;);	
+	}		
+};
+
+/* CHANGE: 09/10/07 - not sure why this is needed
+Story.prototype.old_notes_closeTiddler = Story.prototype.closeTiddler;
+Story.prototype.closeTiddler = function(title,animate,unused){
+	if(story.isDirty(title)) {
+		if(!confirm(config.macros.notes.cancelWarning.format([title])))
+			return false;
+	}
+	return this.old_notes_closeTiddler.apply(this,arguments);
+}
+*/
+
+setStylesheet(&quot;.TiddlerNotes {\n&quot;+ &quot; background:#eee;\n&quot;+ &quot; border:1px solid #ccc;\n&quot;+ &quot; padding:10px;\n&quot;+ &quot; margin:15px;\n&quot;+ &quot;}\n&quot;+ &quot;\n&quot;+ &quot;.cancelNotesButton,.editNotesButton, .saveNotesButton {\n&quot;+ &quot; float:right;\n&quot;+ &quot; border:1px solid #ccc;\n&quot;+ &quot; padding:2px 5px;\n&quot;+ &quot;}\n&quot;+ &quot;\n&quot;+ &quot;.saveNotesButton{\n&quot;+ &quot; margin-right:0.5em;\n&quot;+ &quot;}\n&quot;+ &quot;\n&quot;+ &quot;.TiddlerNotes.editor textarea{\n&quot;+ &quot; border:1px solid #ccc;\n&quot;+ &quot;}&quot;,&quot;NotesPluginStyles&quot;);
+
+
+//sliders
+//keyboard shortcuts
+// ids.. 
+// ids.. 
+
+
+//!END-PLUGIN-CODE
+// %/</pre>
+</div>
+<div title="RSSrender plugin" modifier="Jon Lister" created="200709211217" modified="200709271215" tags="systemConfig TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211218" server.type="file" changecount="1">
+<pre>//{{{
+
+// Override built-in saveToRss to include modifier field
+Tiddler.prototype.saveToRss = function(url)
+{
+	var s = [];
+	s.push(&quot;&lt;item&gt;&quot;);
+	s.push(&quot;&lt;title&quot; + &quot;&gt;&quot; + this.title.htmlEncode() + &quot;&lt;/title&quot; + &quot;&gt;&quot;);
+	s.push(&quot;&lt;description&gt;&quot; + wikifyStatic(this.text,null,this).htmlEncode() + &quot;&lt;/description&gt;&quot;);
+	for(var t=0; t&lt;this.tags.length; t++)
+		s.push(&quot;&lt;category&gt;&quot; + this.tags[t] + &quot;&lt;/category&gt;&quot;);
+	s.push(&quot;&lt;link&gt;&quot; + url + &quot;#&quot; + encodeURIComponent(String.encodeTiddlyLink(this.title)) + &quot;&lt;/link&gt;&quot;);
+	s.push(&quot;&lt;pubDate&gt;&quot; + this.modified.toGMTString() + &quot;&lt;/pubDate&gt;&quot;);
+	s.push(&quot;&lt;author&gt;&quot; + this.modifier + &quot;&lt;/author&gt;&quot;);
+	s.push(&quot;&lt;/item&gt;&quot;);
+	return s.join(&quot;\n&quot;);
+};
+
+//}}}</pre>
+</div>
+<div title="TaggedTemplateTweak" modifier="Jon Lister" created="200706181748" modified="200709271215" tags="BookmarkPackage MediaPackage TaskPackage systemConfig FormattingPackage TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200706242148" server.type="file" changecount="1">
+<pre>/***
+|Name|TaggedTemplateTweak|
+|Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
+|Version|1.1.0|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;&lt;br&gt;&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|plugin|
+|Requires||
+|Overrides|Story.prototype.chooseTemplateForTiddler()|
+|Description|use alternative ViewTemplate/EditTemplate for tiddler's tagged with specific tag values|
+
+The core function, &quot;story.chooseTemplateForTiddler(title,template)&quot; is essentially a &quot;pass-thru&quot; that returns the same template it was given, and is provided by the core so that plugins can customize the template selection logic to select alternative templates, based on whatever programmatic criteria is appropriate.  This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler is marked with a specific tag value, it can be viewed and/or edited using alternatives to the standard tiddler templates.'' 
+!!!!!Usage
+&lt;&lt;&lt;
+Each alternative template is associated with a specific tiddler tag value by using that tag value as a prefix added to the standard TiddlyWiki template titles, [[ViewTemplate]] and [[EditTemplate]].
+
+For example, any tiddlers that are tagged with ''&lt;&lt;tag media&gt;&gt;'' will look for alternative templates named [[mediaViewTemplate]] and [[mediaEditTemplate]].  Additionally, in order to find templates that have proper WikiWord tiddler titles (e.g., [[MediaViewTemplate]] and [[MediaEditTemplate]]), the plugin will also attempt to use a capitalized form of the tag value (e.g., ''Media'') as a prefix.  //This capitalization is for comparison purposes only and will not alter the actual tag values that are stored in the tiddler.//
+
+If no matching alternative template can be found by using //any// of the tiddler's tags (either &quot;as-is&quot; or capitalized), the tiddler defaults to using the appropriate standard [[ViewTemplate]] or [[EditTemplate]] definition.
+
+''To add your own custom templates:''
+&gt;First, decide upon a suitable tag keyword to uniquely identify your custom templates and create custom view and/or edit templates using that keyword as a prefix (e.g., &quot;KeywordViewTemplate&quot; and &quot;KeywordEditTemplate&quot;).  Then, simply create a tiddler and tag it with your chosen keyword... that's it!  As long as the tiddler is tagged with your keyword, it will be displayed using the corresponding alternative templates.  If you remove the tag or rename/delete the alternative templates, the tiddler will revert to using the standard viewing and editing templates.
+&lt;&lt;&lt;
+!!!!!Examples
+&lt;&lt;&lt;
+|Sample tiddler| tag | view template | edit template |
+|[[MediaSample - QuickTime]]| &lt;&lt;tag media&gt;&gt; | [[MediaViewTemplate]] | [[MediaEditTemplate]] |
+|[[MediaSample - Windows]]| &lt;&lt;tag media&gt;&gt; | [[MediaViewTemplate]] | [[MediaEditTemplate]] |
+|[[CDSample]]| &lt;&lt;tag CD&gt;&gt; | [[CDViewTemplate]] | [[CDEditTemplate]] |
+|&lt;&lt;newTiddler label:&quot;create new task...&quot; title:SampleTask tag:task text:&quot;Type some text and then press DONE to view the task controls&quot;&gt;&gt; | &lt;&lt;tag task&gt;&gt; | [[TaskViewTemplate]] | [[EditTemplate]] |
+
+//(note: if these samples are not present in your document, please visit// http://www.TiddlyTools.com/ //to view these sample tiddlers on-line)//
+&lt;&lt;&lt;
+!!!!!Installation
+&lt;&lt;&lt;
+import (or copy/paste) the following tiddlers into your document:
+[[TaggedTemplateTweak]]
+&lt;&lt;&lt;
+!!!!!Revision History
+&lt;&lt;&lt;
+''2007.06.23 [1.1.0]'' re-written to use automatic 'tag prefix' search instead of hard coded check for each tag.  Allows new custom tags to be used without requiring code changes to this plugin.
+''2007.06.11 [1.0.0]'' initial release
+&lt;&lt;&lt;
+!!!!!Credits
+&lt;&lt;&lt;
+This feature was developed by Eric L Shulman / ELS Design Studios
+&lt;&lt;&lt;
+!!!!!Code
+***/
+//{{{
+version.extensions.taggedTemplate= {major: 1, minor: 1, revision: 0, date: new Date(2007,6,18)};
+Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
+Story.prototype.chooseTemplateForTiddler = function(title,template)
+{
+	// get default template from core
+	var template=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
+
+	// if the tiddler to be rendered doesn't exist yet, just return core result
+	var tiddler=store.getTiddler(title); if (!tiddler) return template;
+
+	// look for template whose prefix matches a tag on this tiddler
+	for (t=0; t&lt;tiddler.tags.length; t++) {
+		var tag=tiddler.tags[t];
+		if (store.tiddlerExists(tag+template)) { template=tag+template; break; }
+		// try capitalized tag (to match WikiWord template titles)
+		var cap=tag.substr(0,1).toUpperCase()+tag.substr(1);
+		if (store.tiddlerExists(cap+template)) { template=cap+template; break; }
+	}
+
+	return template;
+}
+//}}}</pre>
+</div>
+<div title="stickyOptionsPlugin" modifier="Jon Lister" created="200709211649" modified="200709271215" tags="systemConfig TiddlyChatter" sticky.chkbackstage="true" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" stickyoptions.dir="txtMainTab,chkUsePreForStorage,chkDisplayStartupTime,txtMoreTab,chkBackstage,chkSliderOptionsPanel,txtUserName" sticky.chkdisplaystartuptime="false" sticky.chkusepreforstorage="true" server.page.revision="200709211649" sticky.txtusername="Jon Lister" server.type="file" sticky.txtmaintab="Timeline" sticky.chkslideroptionspanel="false" changecount="1" sticky.txtmoretab="Shadowed">
+<pre>/***
+|''Name:''|StickyOptionsPlugin|
+|''Description:''||
+|''Author:''|Saq Imtiaz ( lewcid@gmail.com )|
+|''Source:''|http://tw.lewcid.org/#StickyOptionsPlugin|
+|''Code Repository:''|http://tw.lewcid.org/svn/plugins|
+|''Version:''|2.0 pre-release|
+|''Date:''||
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''~CoreVersion:''|2.2|
+!!Usage:
+* Sticky options are saved in the file rather than in cookies. 
+* To make an option sticky, check the 'sticky' checkbox for it in AdvancedOptions
+* To force all options to be sticky, check the 'Options always sticky' checkbox at the bottom of the AdvancedOptions screen.
+* Please remember that the file needs to be saved after each option is saved, for the setting to be remembered.
+* Enable the 'autosave' option below, to trigger an autosave when an option is saved
+
+Trigger autosave when an option is saved: &lt;&lt;option chkStickyOptionsAutoSave&gt;&gt;
+
+***/
+// /%
+//!BEGIN-PLUGIN-CODE
+if(config.options.chkStickyOptionsAutoSave == undefined)
+	config.options.chkStickyOptionsAutoSave = false;
+	
+config.optionsDesc.chkStickyOptionsAutoSave = &quot;Trigger autosave when an option is saved&quot;;
+
+StickyOptions = {
+	container : tiddler,
+	
+	alwaysSticky : !! store.getValue(this.container,&quot;stickyoptions.alwayssticky&quot;),
+	
+	toggleAlwaysSticky : function(stat){
+		this.alwaysSticky = stat;
+		store.setValue(this.container,&quot;stickyoptions.alwayssticky&quot;,stat? stat : undefined);
+		if(stat)
+			this.saveAllOptions();
+	},
+	
+	toggleOption : function(optName,toggle,stat,nosave){
+		if(this.isOption(optName)){
+			var optVal = toggle ? (stat? config.options[optName]:undefined):config.options[optName];
+			if(toggle)
+				this.updateDir(optName,stat);
+			store.setValue(this.container,&quot;sticky.&quot;+optName.toLowerCase(),optVal);
+			if(!nosave &amp;&amp; config.options.chkStickyOptionsAutoSave)
+				autoSaveChanges();
+		}	
+	},
+	
+	saveAllOptions : function(){
+		store.suspendNotifications();
+		for(var n in config.options){
+			this.toggleOption(n,true,true,true);
+		}
+		store.resumeNotifications;
+		store.notify(this.container.title,true);
+		if (config.options.chkStickyOptionsAutoSave)
+			autoSaveChanges();
+	},
+
+	updateDir : function(optName,stat){
+		this.options.setItem(optName,stat? +1 : -1);
+		store.setValue(this.container,&quot;stickyoptions.dir&quot;,this.options);
+	},
+	
+	getOption : function(optName){
+		return store.getValue(this.container,&quot;sticky.&quot;+optName.toLowerCase());
+	},
+	
+	isOption : function(optName){
+		var optType = optName.substr(0,3);
+		return (config.optionHandlers[optType] &amp;&amp; config.optionHandlers[optType].get);
+	},
+	
+	isSticky : function(optName){
+		return this.options.contains(optName);
+	},
+	
+	loadAllOptions : function(){
+		if(safeMode)
+			return;
+		var savedOpts = store.getValue(this.container,&quot;stickyoptions.dir&quot;);
+		this.options = savedOpts? savedOpts.split(&quot;,&quot;) : [];
+		for (var i=0; i&lt;this.options.length; i++){
+			var optType = this.options[i].substr(0,3);
+			if(config.optionHandlers[optType] &amp;&amp; config.optionHandlers[optType].set)
+				config.optionHandlers[optType].set(this.options[i],this.getOption(this.options[i]));
+		}
+	},
+	
+	oldSaveOptionCookie : window.saveOptionCookie
+};
+
+StickyOptions.loadAllOptions();
+
+saveOptionCookie = function(name){
+	if (StickyOptions.alwaysSticky || StickyOptions.isSticky(name)){
+		StickyOptions.toggleOption(name,StickyOptions.alwaysSticky ? true:false ,true);
+	}
+	else{
+		StickyOptions.oldSaveOptionCookie(name);
+	}
+};
+
+config.macros.options.step1Title += &quot; unless they are sticky. Sticky options are saved in this file.&quot;;
+config.macros.options.old_step1Html = config.macros.options.step1Html;
+config.macros.options.updateStep1Html = function(){
+	this.step1Html = this.old_step1Html + &quot;&lt;br&gt;&lt;input type='checkbox' &quot; + (StickyOptions.alwaysSticky? &quot;checked&quot;:&quot;&quot;) + &quot; onclick='config.macros.options.toggleAlwaysSticky(this);'&gt;Options always sticky&lt;/input&gt;&quot;;
+};
+config.macros.options.listViewTemplate.columns.splice(1,0,{name: 'Sticky', field: 'name', title: &quot;Sticky&quot;, type: 'StickyOption'});
+
+config.macros.options.old_handler = config.macros.options.handler;
+config.macros.options.handler = function(place,macroName,params,wikifier,paramString,tiddler){
+	this.updateStep1Html();
+	this.old_handler.apply(this,arguments);
+};
+
+config.macros.options.toggleAlwaysSticky = function(e)
+{
+	StickyOptions.toggleAlwaysSticky(e.checked);
+	var wizard = new Wizard(e);
+	var listWrapper = wizard.getValue(&quot;listWrapper&quot;);
+	var chkUnknown = wizard.getElement(&quot;chkUnknown&quot;).checked;
+	removeChildren(listWrapper);
+	config.macros.options.refreshOptions(listWrapper,chkUnknown);
+	return false;
+};
+
+ListView.columnTypes.StickyOption = {
+	createHeader: ListView.columnTypes.String.createHeader,
+	createItem: function(place,listObject,field,columnTemplate,col,row)
+		{
+			var opt = listObject[field];
+			var e = createTiddlyCheckbox(place,null,StickyOptions.isSticky(opt),this.onChange);
+			e.disabled = StickyOptions.alwaysSticky;
+			e.name = opt;
+		},
+		
+	onChange : function(e){
+		StickyOptions.toggleOption(this.name,true,this.checked);
+	}
+};
+//!END-PLUGIN-CODE
+// %/</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->

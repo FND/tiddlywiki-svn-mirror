@@ -7,5 +7,5 @@ An example use of this adaptor is in the ImportTiddlers tiddler: the RSS content
 
 The [[BBC feed|(default) on http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml]] tiddler contains information to use as an example feed during the ImportTiddlers process. You can select it from the drop-down that appears during the first step.
 
-The code for this plugin is in the [[RSS adaptor code]] tiddler. It contains a small [[hack]] to override the ImportTiddlers local file behaviour.</pre>
+The code for this plugin is in the [[RSSAdaptor]] tiddler. It contains a small [[hack]] to override the ImportTiddlers local file behaviour.</pre>
 </div>

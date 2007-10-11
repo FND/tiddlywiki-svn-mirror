@@ -492,10 +492,16 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="RSS adaptor code" modifier="Jon Lister" created="200709021326" modified="200709191013" tags="systemConfig code" changecount="16">
+<div title="RSSAdaptor" modifier="Jon Lister" created="200709021326" modified="200709191013" tags="systemConfig" changecount="1">
 <pre>/***
-Server adaptor for talking to RSS 2.0 files
-based on FileAdaptor
+
+|Title|RSSAdaptor|
+|Summary|Server adaptor for talking to RSS 2.0 files|
+|Description|Based on FileAdaptor|
+|Version of product it works with|2.2.5|
+|Version of component|1.0|
+|Explanation of how it can be used and modified|This supports the server adaptor interface, a description of which can be found at: http://tiddlywiki.com/#ServerAdaptorMechanism|
+|Examples where it can be seen working|The RSSAdator is used in this RSS Reader: (link to come)|
 ***/
 
 //{{{
@@ -652,7 +658,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 			}
 			t.tags = item.categories;
 		} else {
-			displayMessage(&quot;no categories for item: &quot; + item.title);
+			displayMessage(&quot;no tags for item: &quot; + item.title);
 		}
 		// grab the link and put it in a custom field (assumes this is sensible)
 		// regex_link assumes you can never have whitespace in a link
@@ -715,6 +721,7 @@ RSSAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 			context.tiddler = this.context.tiddlers[i];
 		}
 	}
+	// NOTE: this doesn't add the filter field - is that ok? Probably not...
 	if(context.tiddler) {
 		context.tiddler.fields['server.type'] = RSSAdaptor.serverType;
 		context.tiddler.fields['server.host'] = this.host;
@@ -827,83 +834,7 @@ Tiddler.prototype.isTaggedAllOf = function(tag_array)
 
 //}}}</pre>
 </div>
-<div title="XMLHttpTest code" modifier="Jon Lister" created="200709090858" modified="200709090859" tags="systemConfig" changecount="2">
-<pre>/***
-XMLHttpTester
-This is an example use of the using basicUI library and RSSAdaptor 
-***/
-
-//{{{
-
-config.macros.XMLHttpTest = {};
-
-config.macros.XMLHttpTest.handler = function(place,macroName,params) {
-
-	// defaults is a named array with input defaults
-	// labels is a named array with input labels
-	// callback is the function to call on button press
-	var ui = new config.macros.basicUI();
-	var labels = {
-		&quot;input_url&quot; : &quot;The envelope&quot;,
-		&quot;input_control&quot; : &quot;The pen&quot;,
-		&quot;ui_go_button&quot; : &quot;Go!&quot;,
-		&quot;input_box&quot; : &quot;The paper&quot;,
-		&quot;output_box&quot; : &quot;The results&quot;
-	};
-	var defaults = {
-		&quot;input_url&quot; : &quot;http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml&quot;,
-		&quot;input_control&quot; : &quot;&lt;item&gt;&quot;
-	};
-	var callback = config.macros.XMLHttpTest.go;
-	
-	// Let's get going
-	ui.buildUI(place,labels,defaults,callback);
-
-};
-
-config.macros.XMLHttpTest.go = function(boxes,userParams) {
-
-	var adaptor = new RSSAdaptor();
-	// As we're communicating between a UI and this macro
-	// use the context object to store macro variables
-	var context = {};
-	context.adaptor = adaptor;
-	context.boxes = boxes;
-	context.host = userParams.input_url;
-	var ret = adaptor.openHost(context.host,context,userParams,config.macros.XMLHttpTest.onOpenHost);
-	if (!ret) {
-		displayMessage(&quot;problem opening host: &quot; + ret);
-		return false;
-	}
-	return typeof(ret) == &quot;string&quot; ? ret : true;
-
-};
-
-// Display the input text and proceed
-config.macros.XMLHttpTest.onOpenHost = function(context,userParams) {
-	context.boxes.input_box.value = context.adaptor.store;
-	// Next line calls custom version of the adaptor's getTiddlerList to allow for user-defined regex
-	var ret = config.macros.XMLHttpTest.getTiddlerList(context,userParams);
-	if (typeof(ret) == &quot;string&quot;) {
-		displayMessage(&quot;problem opening tiddler list: &quot; + ret);
-	}
-};
-
-// This is a customised version of the getTiddlerList RSSAdaptor function
-// We just print the responseText
-config.macros.XMLHttpTest.getTiddlerList = function(context,userParams) {
-	if(!context.adaptor.store) {
-		return RSSAdaptor.NotLoadedError;
-	}
-	var place = context.boxes.output_box;
-	context.boxes.output_box.value = context.adaptor.store;
-
-	return true;
-};
-
-//}}}</pre>
-</div>
-<div title="basicUI code" modifier="Jon Lister" created="200709080111" modified="200709082301" tags="systemConfig code" changecount="2">
+<div title="basicUI" modifier="Jon Lister" created="200709080111" modified="200709082301" tags="systemConfig" changecount="2">
 <pre>/***
 basicUI class - create a simple, configurable UI for processing
 data through an aribitrary control function and seeing the results
@@ -1025,6 +956,82 @@ config.macros.basicUI.clearBox = function(boxes,box_id) {
 			removeNode(box.childNodes[0]);
 		}
 	}
+};
+
+//}}}</pre>
+</div>
+<div title="XMLHttpTest code" modifier="Jon Lister" created="200709090858" modified="200709090859" tags="systemConfig" changecount="2">
+<pre>/***
+XMLHttpTester
+This is an example use of the using basicUI library and RSSAdaptor 
+***/
+
+//{{{
+
+config.macros.XMLHttpTest = {};
+
+config.macros.XMLHttpTest.handler = function(place,macroName,params) {
+
+	// defaults is a named array with input defaults
+	// labels is a named array with input labels
+	// callback is the function to call on button press
+	var ui = new config.macros.basicUI();
+	var labels = {
+		&quot;input_url&quot; : &quot;The envelope&quot;,
+		&quot;input_control&quot; : &quot;The pen&quot;,
+		&quot;ui_go_button&quot; : &quot;Go!&quot;,
+		&quot;input_box&quot; : &quot;The paper&quot;,
+		&quot;output_box&quot; : &quot;The results&quot;
+	};
+	var defaults = {
+		&quot;input_url&quot; : &quot;http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml&quot;,
+		&quot;input_control&quot; : &quot;&lt;item&gt;&quot;
+	};
+	var callback = config.macros.XMLHttpTest.go;
+	
+	// Let's get going
+	ui.buildUI(place,labels,defaults,callback);
+
+};
+
+config.macros.XMLHttpTest.go = function(boxes,userParams) {
+
+	var adaptor = new RSSAdaptor();
+	// As we're communicating between a UI and this macro
+	// use the context object to store macro variables
+	var context = {};
+	context.adaptor = adaptor;
+	context.boxes = boxes;
+	context.host = userParams.input_url;
+	var ret = adaptor.openHost(context.host,context,userParams,config.macros.XMLHttpTest.onOpenHost);
+	if (!ret) {
+		displayMessage(&quot;problem opening host: &quot; + ret);
+		return false;
+	}
+	return typeof(ret) == &quot;string&quot; ? ret : true;
+
+};
+
+// Display the input text and proceed
+config.macros.XMLHttpTest.onOpenHost = function(context,userParams) {
+	context.boxes.input_box.value = context.adaptor.store;
+	// Next line calls custom version of the adaptor's getTiddlerList to allow for user-defined regex
+	var ret = config.macros.XMLHttpTest.getTiddlerList(context,userParams);
+	if (typeof(ret) == &quot;string&quot;) {
+		displayMessage(&quot;problem opening tiddler list: &quot; + ret);
+	}
+};
+
+// This is a customised version of the getTiddlerList RSSAdaptor function
+// We just print the responseText
+config.macros.XMLHttpTest.getTiddlerList = function(context,userParams) {
+	if(!context.adaptor.store) {
+		return RSSAdaptor.NotLoadedError;
+	}
+	var place = context.boxes.output_box;
+	context.boxes.output_box.value = context.adaptor.store;
+
+	return true;
 };
 
 //}}}</pre>
@@ -1159,9 +1166,9 @@ These are all written as plugins that extend the functionality of ~TiddlyWiki.</
 [[regexTest application]]
 [[XMLHttpTest application]]
 
-[[RSS adaptor code]]
+[[RSSAdaptor]]
 [[regexTest code]]
-[[basicUI code]]</pre>
+[[basicUI]]</pre>
 </div>
 <div title="RSS server adaptor" modifier="Jon Lister" created="200709061235" modified="200709082256" tags="info" changecount="2">
 <pre>The RSS server adaptor is built to the [[server adaptor interface|http://tiddlywiki.com/#ServerAdaptorMechanism]] specified as part of ~TiddlyWiki.
@@ -1172,7 +1179,7 @@ An example use of this adaptor is in the ImportTiddlers tiddler: the RSS content
 
 The [[BBC feed|(default) on http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml]] tiddler contains information to use as an example feed during the ImportTiddlers process. You can select it from the drop-down that appears during the first step.
 
-The code for this plugin is in the [[RSS adaptor code]] tiddler. It contains a small [[hack]] to override the ImportTiddlers local file behaviour.</pre>
+The code for this plugin is in the [[RSSAdaptor]] tiddler. It contains a small [[hack]] to override the ImportTiddlers local file behaviour.</pre>
 </div>
 <div title="SiteSubtitle" modifier="Jon Lister" created="200709021325" modified="200709082340" changecount="2">
 <pre>mashups &amp; javascript development in TiddlyWiki</pre>
@@ -1216,7 +1223,7 @@ TiddlyWiki defines an abstraction between the standard format of tiddlers and th
 
 This is used in the [[regexTest application]] to build the UI and attach the regex processing function to the button you press.
 
-The code is [[here|basicUI code]].</pre>
+The code is [[here|basicUI]].</pre>
 </div>
 <div title="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/rssadaptor + regex tester/rssadaptor.xml" modifier="Jon Lister" created="200709190832" modified="200709190857" tags="systemServer" changecount="3">
 <pre>|''Type:''|RSS|

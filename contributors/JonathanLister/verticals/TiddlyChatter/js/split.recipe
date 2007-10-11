@@ -1,10 +1,8 @@
+recipe: ../../../components/TiddlyChatter/js/split.recipe
+tiddler: ../../../components/RSSAdaptor/js/RSSAdaptor.js
 tiddler: File_adaptor_filter_plugin.js
 tiddler: ImportWorkspacePlugin.js
 tiddler: NotesPlugin.js
-tiddler: RSS_adaptor_code.js
 tiddler: RSSrender_plugin.js
 tiddler: TaggedTemplateTweak.js
 tiddler: stickyOptionsPlugin.js
-tiddler: tiddlyChatterIncoming.js
-tiddler: tiddlyChatterPublishing.js
-tiddler: tiddlyChatterSetup_code.js
