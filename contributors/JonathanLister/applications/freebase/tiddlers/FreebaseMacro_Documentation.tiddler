@@ -1,0 +1,9 @@
+<div title="FreebaseMacro Documentation" modifier="Jon Lister" created="200710101533" modified="200710101541" tags="documentation" changecount="7">
+<pre>|Title|Freebase|
+|Summary|Interface with Freebase.com for read/write queries (non-compliant with adaptor framework)|
+|Description||
+|Version of product it works with|2.2.5|
+|Version of component|1.0|
+|Image illustrating it working||
+|Explanation of how it can be used|{{{&lt;&lt;Freebase function username password &gt;&gt;}}} &lt;html&gt;&lt;br/&gt; Where function can be any of: &lt;br/&gt; login, read, write, visual &lt;br/&gt; NB: CURRENTLY, ONLY LOGIN AND VISUAL HAVE SENSIBLE BEHVAVIOUR &lt;br/&gt; First two params are the username and password for the freebase login and the other params are explained below next to each function&lt;/html&gt;|</pre>
+</div>

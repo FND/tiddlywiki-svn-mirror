@@ -1,0 +1,11 @@
+<div title="Welcome to TiddlyChatter" modifier="Jon Lister" created="200709261353" modified="200709271740" tags="info TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="10" server.workspace="">
+<pre>This ~TiddlyWiki has the required plugins installs to support "~TiddlyChatter", a peer-to-peer collaboration feature.
+
+You can read an example of [[how TiddlyChatter works|What is TiddlyChatter?]].
+
+''You need to set one cookie-stored variable before you can get updates - [[find out more here|Setting up TiddlyChatter]]''
+
+~TiddlyChatter is still in [[development|TiddlyChatterDocumentation]]; click for documentation about the plugins ~TiddlyChatter is based on and what changes have been made to existing plugins. All the tiddlers necessary to run ~TiddlyChatter are tagged <<tag TiddlyChatter>> for ease of import.
+
+Click for the [[set-up instructions|Setting up TiddlyChatter]].</pre>
+</div>

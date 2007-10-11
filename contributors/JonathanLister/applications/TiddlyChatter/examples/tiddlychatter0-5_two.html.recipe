@@ -1,0 +1,5 @@
+recipe: ../../../../../core/tiddlywiki.html.recipe
+recipe: ../tiddlers/split.recipe
+recipe: ../js/split.recipe
+tiddler: ../tiddlers/ColorPalette.tiddler
+

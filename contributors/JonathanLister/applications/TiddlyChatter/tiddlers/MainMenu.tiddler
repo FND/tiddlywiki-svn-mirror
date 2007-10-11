@@ -1,0 +1,12 @@
+<div title="MainMenu" modifier="Jon Lister" created="200709261354" modified="200710051013" changecount="11">
+<pre>[[Welcome|Welcome to TiddlyChatter]]
+[[Set-up info|Setting up TiddlyChatter]]
+[[BUGS]]
+
+~TiddlyChatter controls
+----
+<<newTiddler label:"New Chatter" title:NewChatter tag:public text:"Type some text and then press DONE">>
+[[Control panel|TiddlyChatter control panel]]
+<<importWorkspace>>
+[[Incoming!]]</pre>
+</div>

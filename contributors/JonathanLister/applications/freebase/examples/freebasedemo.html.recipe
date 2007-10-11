@@ -1,0 +1,4 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: ../tiddlers/freebasetiddlers.recipe
+recipe: ../js/freebasejs.recipe
+

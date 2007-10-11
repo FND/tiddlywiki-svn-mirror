@@ -1,0 +1,794 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+<channel>
+<title>TiddlyChatter</title>
+<link>http://www.tiddlywiki.com/</link>
+<description>Test workbook - to work with other TiddlyChatter-enabled workbooks</description>
+<language>en-us</language>
+<copyright>Copyright 2007 Jon Lister</copyright>
+<pubDate>Tue, 09 Oct 2007 18:13:39 GMT</pubDate>
+<lastBuildDate>Tue, 09 Oct 2007 18:13:39 GMT</lastBuildDate>
+<docs>http://blogs.law.harvard.edu/tech/rss</docs>
+<generator>TiddlyWiki 2.2.5</generator>
+<item>
+<title>Some test content for TiddlyChatter-Notes0</title>
+<description>This is a note, yo?</description>
+<category>notes</category>
+<category>public</category>
+<category>published</category>
+<link>http://www.tiddlywiki.com/#%5B%5BSome%20test%20content%20for%20TiddlyChatter-Notes0%5D%5D</link>
+<pubDate>Tue, 09 Oct 2007 18:13:36 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>My homework</title>
+<description>Help me! Help me! I have quantum physics to do... anyone?</description>
+<category>public</category>
+<category>published</category>
+<link>http://www.tiddlywiki.com/#%5B%5BMy%20homework%5D%5D</link>
+<pubDate>Tue, 09 Oct 2007 18:11:51 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>Some test content for TiddlyChatter</title>
+<description>Oh yeah! Check out this sweet collaboration we got going here</description>
+<category>public</category>
+<category>published</category>
+<link>http://www.tiddlywiki.com/#%5B%5BSome%20test%20content%20for%20TiddlyChatter%5D%5D</link>
+<pubDate>Tue, 09 Oct 2007 18:10:50 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>BUGS</title>
+<description>&lt;ul&gt;&lt;li&gt; refresh mechanism implemented in a way I don't fully understand - could be unstable?&lt;/li&gt;&lt;li&gt; there is still an annoying setup process for getting &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlychatter/tiddlychatter_two.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;ImportWorkspace&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#ImportWorkspace&quot; href=&quot;http://www.tiddlywiki.com/#ImportWorkspace&quot; class=&quot;externalLink&quot;&gt;ImportWorkspace&lt;/a&gt; options set (this is because of cookies - either expose options in a better place or stop them from being cookies?)&lt;/li&gt;&lt;/ul&gt;</description>
+<link>http://www.tiddlywiki.com/#BUGS</link>
+<pubDate>Sun, 07 Oct 2007 14:25:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>MainMenu</title>
+<description>&lt;a tiddlylink=&quot;Welcome to TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Welcome to TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#Welcome%20to%20TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;Welcome&lt;/a&gt;&lt;br&gt;&lt;a tiddlylink=&quot;Setting up TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Setting up TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#Setting%20up%20TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;Set-up info&lt;/a&gt;&lt;br&gt;&lt;a tiddlylink=&quot;BUGS&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#BUGS&quot; href=&quot;http://www.tiddlywiki.com/#BUGS&quot; class=&quot;externalLink&quot;&gt;BUGS&lt;/a&gt;&lt;br&gt;&lt;br&gt;TiddlyChatter controls&lt;br&gt;&lt;hr&gt;&lt;a newtext=&quot;Type some text and then press DONE&quot; customfields=&quot;server.type:&amp;quot;RSS&amp;quot; server.host:&amp;quot;http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml&amp;quot; server.workspace:&amp;quot;&amp;quot; server.filter:&amp;quot;[tag[public]]&amp;quot;&quot; newtemplate=&quot;2&quot; newfocus=&quot;title&quot; params=&quot;public&quot; isjournal=&quot;false&quot; newtitle=&quot;NewChatter&quot; accesskey=&quot;N&quot; class=&quot;button&quot; title=&quot;Create a new tiddler&quot; href=&quot;javascript:;&quot;&gt;New Chatter&lt;/a&gt;&lt;br&gt;&lt;a tiddlylink=&quot;TiddlyChatter control panel&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatter control panel&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatter%20control%20panel&quot; class=&quot;externalLink&quot;&gt;Control panel&lt;/a&gt;&lt;br&gt;&lt;a customfields=&quot;server.type:&amp;quot;RSS&amp;quot; server.host:&amp;quot;http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml&amp;quot; server.workspace:&amp;quot;&amp;quot; server.filter:&amp;quot;[tag[public]]&amp;quot;&quot; class=&quot;button&quot; title=&quot;Import tiddlers in workspace&quot; href=&quot;javascript:;&quot;&gt;Go chatter!&lt;/a&gt;&lt;br&gt;&lt;a tiddlylink=&quot;Incoming!&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Incoming!&quot; href=&quot;http://www.tiddlywiki.com/#Incoming%21&quot; class=&quot;externalLink&quot;&gt;Incoming!&lt;/a&gt;</description>
+<link>http://www.tiddlywiki.com/#MainMenu</link>
+<pubDate>Fri, 05 Oct 2007 10:13:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>DefaultTiddlers</title>
+<description>&lt;a tiddlylink=&quot;Welcome to TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Welcome to TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#Welcome%20to%20TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;Welcome to TiddlyChatter&lt;/a&gt;</description>
+<link>http://www.tiddlywiki.com/#DefaultTiddlers</link>
+<pubDate>Fri, 05 Oct 2007 10:10:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>Setting up TiddlyChatter</title>
+<description>The key to TiddlyChatter is your subscription to someone else's &quot;ChatterStream&quot;, which you can manage from &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;TiddlyChatter control panel&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatter control panel&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatter%20control%20panel&quot; class=&quot;externalLink&quot;&gt;TiddlyChatter control panel&lt;/a&gt;. Click &quot;new subscription&quot; and put in the URL of a TiddlyWiki which is publishing a stream.&lt;br&gt;&lt;br&gt;&lt;strong&gt;You need to make sure that the &quot;Tag for import&quot; field in &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;ImportWorkspacePlugin&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#ImportWorkspacePlugin&quot; href=&quot;http://www.tiddlywiki.com/#ImportWorkspacePlugin&quot; class=&quot;externalLink&quot;&gt;ImportWorkspacePlugin&lt;/a&gt; is set to &quot;publish&quot;, or the menu button to get your updates won't apear.&lt;/strong&gt; At 09/10/07, it is still set as a cookie...&lt;br&gt;&lt;br&gt;Currently, TiddlyChatter supports subscribing to one person's stream.&lt;br&gt;&lt;br&gt;Hitting &quot;Go chatter!&quot; in the &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;MainMenu&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#MainMenu&quot; href=&quot;http://www.tiddlywiki.com/#MainMenu&quot; class=&quot;externalLink&quot;&gt;MainMenu&lt;/a&gt; gets your updates. When you save your TiddlyWiki, your own updates are published into your stream.</description>
+<category>info</category>
+<category>TiddlyChatter</category>
+<link>http://www.tiddlywiki.com/#%5B%5BSetting%20up%20TiddlyChatter%5D%5D</link>
+<pubDate>Fri, 05 Oct 2007 10:10:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>TiddlyChatter control panel</title>
+<description>This is a basic interface for managing streams and subscriptions&lt;br&gt;&lt;br&gt;&lt;div&gt;&lt;div id=&quot;subscriptionBox&quot;&gt;&lt;a class=&quot;button&quot; title=&quot;New subscription&quot; href=&quot;javascript:;&quot;&gt;New subscription&lt;/a&gt;&lt;br&gt;&lt;a tiddlylink=&quot;ChatterFeed&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;ChatterFeed - Jon Lister, Thu Sep 27 18:41:00 2007&quot; href=&quot;javascript:;&quot;&gt;ChatterFeed&lt;/a&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;display: none;&quot; id=&quot;newSubscriptionBox&quot;&gt;&lt;span&gt;Please point to the stream list you want to subscribe to&lt;/span&gt;&lt;br&gt;&lt;span&gt;URL:&lt;/span&gt;&lt;input id=&quot;newSubscriptionURL&quot;&gt;&lt;a class=&quot;button&quot; title=&quot;View stream list&quot; href=&quot;javascript:;&quot;&gt;go&lt;/a&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;</description>
+<category>TiddlyChatter</category>
+<link>http://www.tiddlywiki.com/#%5B%5BTiddlyChatter%20control%20panel%5D%5D</link>
+<pubDate>Fri, 05 Oct 2007 10:09:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>StyleSheet</title>
+<description>&lt;pre&gt;#channelBox {background:#BBBB33;}
+#newChannelBox {background:#33BBBB;}
+#subscriptionBox {background:#CCCC22;}
+#newSubscriptionBox {background:#22CCCC;}
+.publishing {
+   background-color: #EEEEEE;
+   border: 1px solid #EEEEEE;
+   float: right;
+   margin: 0.5em;
+   font-size: 0.9em;
+   padding: 0.25em;
+}
+.selected .publishing {
+   background-color: #CCCCCC;
+   border: 1px solid #999999;
+}
+.publishing .button {
+   border: medium none;
+}
+.publishing ul {
+   list-style-image: none;
+   list-style-position: outside;
+   list-style-type: none;
+   margin: 0.25em;
+   padding: 0pt;
+}
+tr.tiddlyChatterIncomingRowUnread {
+	background-color: #C44;
+}
+&lt;/pre&gt;</description>
+<link>http://www.tiddlywiki.com/#StyleSheet</link>
+<pubDate>Thu, 04 Oct 2007 18:31:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>tiddlyChatterPublishing</title>
+<description>/* Update on 09/10/07: SIMPLIFICATION&lt;br&gt; * No longer offering a choice of streams by default&lt;br&gt; * ID for stream tiddlers now supplied as a parameter */&lt;br&gt;&lt;br&gt;config.macros.publishing = {};&lt;br&gt;&lt;br&gt;config.macros.publishing.handler = function(place,macroName,params,wikifier,paramString,tiddler) {&lt;br&gt;&lt;br&gt;	&lt;em&gt; publishing puts a box on a tiddler that shows:&lt;br&gt;	&lt;/em&gt; if the tiddler is not 'published', a 'publish' button -&lt;br&gt;	&lt;em&gt;  - hitting 'publish' drops a menu of available streams to choose from;&lt;br&gt;	&lt;/em&gt; if the tiddler is published, a 'published' label -&lt;br&gt;	&lt;em&gt;  - hitting 'published' drops a menu of streams the tiddler is published in&lt;br&gt;	&lt;/em&gt;  - plus the list of streams that you can also publish it in&lt;br&gt;	&lt;em&gt; being published is defined as being tagged with a channel name&lt;br&gt;	var published = false;&lt;br&gt;	var publications = {};&lt;br&gt;	&lt;/em&gt; collect a list of streams and label them as being streams this tiddler is published in or not&lt;br&gt;	params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);&lt;br&gt;	&lt;em&gt; stream_id defines what a stream tiddler is tagged with&lt;br&gt;	&lt;/em&gt; if we haven't supplied that parameter, we just look at whether this tiddler is tagged published or not&lt;br&gt;	var stream_id = getParam(params,&quot;stream_id&quot;,null);&lt;br&gt;	if (stream_id) {&lt;br&gt;		var streams = store.getTaggedTiddlers(stream_id);&lt;br&gt;		publications = {'yes':[], 'no':[]};&lt;br&gt;		for (var i=0;i&amp;lt;streams.length;i++) {&lt;br&gt;			if (tiddler.isTagged(streams[i].title)) {&lt;br&gt;				publications.yes.push(streams[i]);&lt;br&gt;			} else {&lt;br&gt;				publications.no.push(streams[i]);&lt;br&gt;			}&lt;br&gt;		}&lt;br&gt;		if (publications.yes.length !== 0) {&lt;br&gt;			published = true;&lt;br&gt;		}&lt;br&gt;	} else {&lt;br&gt;		if (tiddler.isTagged(&quot;published&quot;)) {&lt;br&gt;			published = true;&lt;br&gt;		}&lt;br&gt;	}&lt;br&gt;	if (published) {&lt;br&gt;		&lt;em&gt; add a published box&lt;br&gt;		var thePublishedBox = createTiddlyButton(place,&quot;Published&quot;,&quot;Click to unpublish&quot;);&lt;br&gt;		&lt;/em&gt; is there is no stream_id, we are not working with streams, so clicking Published unpublishes the content, which means updates will no longer appear in the stream&lt;br&gt;		if (stream_id) {&lt;br&gt;			thePublishedBox.onclick = this.reveal;&lt;br&gt;			&lt;em&gt; create the published list&lt;br&gt;			var thePublishedList = createTiddlyElement(place,&quot;ul&quot;);&lt;br&gt;			thePublishedList.style.display = &quot;none&quot;;&lt;br&gt;			for (var i=0;i&amp;lt;publications.yes.length;i++) {&lt;br&gt;				&lt;/em&gt; for the published list just present a simple list&lt;br&gt;				var streamItem = createTiddlyElement(thePublishedList,&quot;li&quot;,null,null,publications.yes[i].title);&lt;br&gt;			}&lt;br&gt;		} else {&lt;br&gt;			thePublishedBox.onclick = function() {&lt;br&gt;				config.macros.publishing.unsubscribe.call(this,&quot;published&quot;);&lt;br&gt;			};&lt;br&gt;		}&lt;br&gt;	} else {&lt;br&gt;		&lt;em&gt; add a publish box&lt;br&gt;		var thePublishBox = createTiddlyButton(place,&quot;Publish&quot;,&quot;Click to publish&quot;);&lt;br&gt;		&lt;/em&gt; if there is no stream_id, we are not working with streams, so clicking publish just adds &quot;published&quot; to the tiddler's tags&lt;br&gt;		if (stream_id) {&lt;br&gt;			thePublishBox.onclick = this.reveal;&lt;br&gt;			&lt;em&gt; create the publish list&lt;br&gt;			var thePublishListBox = createTiddlyElement(place,&quot;div&quot;);&lt;br&gt;			thePublishListBox.style.display = &quot;none&quot;;&lt;br&gt;			var thePublishList = createTiddlyElement(thePublishListBox,&quot;ul&quot;);&lt;br&gt;			for (var i=0;i&amp;lt;publications.no.length;i++) {&lt;br&gt;				&lt;/em&gt; for the publish list present a list of buttons&lt;br&gt;				var streamItem = createTiddlyElement(thePublishList,&quot;li&quot;);&lt;br&gt;				createTiddlyButton(streamItem,publications.no[i].title,publications.no[i].title,this.subscribe);&lt;br&gt;			}&lt;br&gt;			&lt;em&gt; CROSS-PLUGIN DEPENDENCY!&lt;br&gt;			if (config.macros.tiddlyChatterSetup) {&lt;br&gt;				var newStream = createTiddlyButton(thePublishListBox,&quot;new stream...&quot;,&quot;Create a new stream&quot;,this.reveal);&lt;br&gt;				var newStreamBox = createTiddlyElement(thePublishListBox,&quot;div&quot;);&lt;br&gt;				newStreamBox.style.display = &quot;none&quot;;&lt;br&gt;				&lt;/em&gt; next line to give input box and go button same depth as list items above&lt;br&gt;				&lt;em&gt; so the subscribe function points to the parent tiddler properly in both cases&lt;br&gt;				var newStreamList = createTiddlyElement(newStreamBox,&quot;div&quot;);&lt;br&gt;				var newStreamInput = createTiddlyElement(newStreamList,&quot;input&quot;,null,null);&lt;br&gt;				newStreamInput.setAttribute(&quot;size&quot;,&quot;5&quot;);&lt;br&gt;				createTiddlyButton(newStreamList,&quot;go&quot;,&quot;go&quot;,config.macros.publishing.onClickNewChannel);&lt;br&gt;			}&lt;br&gt;		} else {&lt;br&gt;			thePublishBox.onclick = function() {&lt;br&gt;				config.macros.publishing.subscribe.call(this,&quot;published&quot;);&lt;br&gt;			};&lt;br&gt;		}&lt;br&gt;	}&lt;br&gt;};&lt;br&gt;&lt;br&gt;config.macros.publishing.onClickNewChannel = function() {&lt;br&gt;	&lt;/em&gt; call the onclick for the stream creator, setting 'this' to the current value of 'this'&lt;br&gt;	config.macros.tiddlyChatterSetup.onClickNewChannel.call(this);&lt;br&gt;	&lt;em&gt; now subscribe to this channel&lt;br&gt;	var created = false;&lt;br&gt;	if (store.fetchTiddler(this.previousSibling.value)) {&lt;br&gt;		created = true;&lt;br&gt;	}&lt;br&gt;	&lt;/em&gt; subscribe, setting 'this' to be the input with the new stream name in&lt;br&gt;	this.previousSibling.textContent = this.previousSibling.value;&lt;br&gt;	config.macros.publishing.subscribe.call(this.previousSibling);&lt;br&gt;};&lt;br&gt;&lt;br&gt;&lt;em&gt; onclick for channel names; 'this' refers to the link&lt;br&gt;config.macros.publishing.subscribe = function(tag) {&lt;br&gt;&lt;br&gt;	var DOMTiddler = story.findContainingTiddler(this);&lt;br&gt;	var tiddler = store.fetchTiddler(DOMTiddler.attributes.tiddler.textContent);&lt;br&gt;	if (!tag) {&lt;br&gt;		tag = this.textContent;&lt;br&gt;	}&lt;br&gt;	tiddler.tags.push(tag);&lt;br&gt;	tiddler.set(tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.created,tiddler.fields);&lt;br&gt;	story.refreshTiddler(DOMTiddler.getAttribute(&quot;tiddler&quot;),DOMTiddler.getAttribute(&quot;template&quot;),true);&lt;br&gt;};&lt;br&gt;&lt;br&gt;&lt;/em&gt; onclick for channel names when published; 'this' refers to the link&lt;br&gt;config.macros.publishing.unsubscribe = function(tag) {&lt;br&gt;&lt;br&gt;	var DOMTiddler = story.findContainingTiddler(this);&lt;br&gt;	var tiddler = store.fetchTiddler(DOMTiddler.attributes.tiddler.textContent);&lt;br&gt;	if (!tag) {&lt;br&gt;		tag = this.textContent;&lt;br&gt;	}&lt;br&gt;	tiddler.tags.splice(tiddler.tags.indexOf(tag),1);&lt;br&gt;	tiddler.set(tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.created,tiddler.fields);&lt;br&gt;	story.refreshTiddler(DOMTiddler.getAttribute(&quot;tiddler&quot;),DOMTiddler.getAttribute(&quot;template&quot;),true);&lt;br&gt;};&lt;br&gt;&lt;br&gt;&lt;em&gt; onclick for &quot;publish&quot; buttons; 'this' refers to the span&lt;br&gt;config.macros.publishing.reveal = function() {&lt;br&gt;	&lt;/em&gt; create an interface to give your channel an id&lt;br&gt;	var slideBox = this.nextSibling;&lt;br&gt;	var isOpen = slideBox.style.display != &quot;none&quot;;&lt;br&gt;	if(anim &amp;amp;&amp;amp; typeof Slider == &quot;function&quot;)&lt;br&gt;		anim.startAnimating(new Slider(slideBox,!isOpen,null,&quot;none&quot;));&lt;br&gt;	else&lt;br&gt;		slideBox.style.display = isOpen ? &quot;none&quot; : &quot;block&quot;;&lt;br&gt;};</description>
+<category>systemConfig</category>
+<category>TiddlyChatter</category>
+<link>http://www.tiddlywiki.com/#tiddlyChatterPublishing</link>
+<pubDate>Thu, 04 Oct 2007 15:09:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>publicViewTemplate</title>
+<description>&lt;pre&gt;&amp;lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler &amp;gt; fields syncing permalink references jump'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='title' macro='view title'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='subtitle'&amp;gt;&amp;lt;span macro='view modifier link'&amp;gt;&amp;lt;/span&amp;gt;, &amp;lt;span macro='view modified date'&amp;gt;&amp;lt;/span&amp;gt; (&amp;lt;span macro='message views.wikified.createdPrompt'&amp;gt;&amp;lt;/span&amp;gt; &amp;lt;span macro='view created date'&amp;gt;&amp;lt;/span&amp;gt;)&amp;lt;/div&amp;gt;
+&amp;lt;div class='tagging' macro='tagging'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='tagged' macro='tags'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='publishing' macro='publishing'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='viewer' macro='view text wikified'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='viewer' macro='notes tags:&quot;notes public&quot;'&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class='tagClear'&amp;gt;&amp;lt;/div&amp;gt;
+&lt;/pre&gt;</description>
+<category>TiddlyChatter</category>
+<link>http://www.tiddlywiki.com/#publicViewTemplate</link>
+<pubDate>Thu, 04 Oct 2007 10:05:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>Incoming!</title>
+<description>&lt;div force=&quot;true&quot; refresh=&quot;content&quot; id=&quot;tiddlyChatterIncomingWrapper&quot;&gt;&lt;div id=&quot;tiddlyChatterIncomingTitle&quot;&gt;TiddlyChatter - incoming!&lt;/div&gt;&lt;table id=&quot;tiddlyChatterIncomingTable&quot;&gt;&lt;tr id=&quot;tiddlyChatterIncomingHeader&quot;&gt;&lt;th&gt;Latest update&lt;/th&gt;&lt;th&gt;Title (no. of updates)&lt;/th&gt;&lt;th&gt;Last updated by&lt;/th&gt;&lt;/tr&gt;&lt;tr class=&quot;tiddlyChatterIncomingRow&quot;&gt;&lt;td&gt;today&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;Some test content for TiddlyChatter&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;Some test content for TiddlyChatter - Jon Lister, Tue Oct  9 19:10:50 2007&quot; href=&quot;javascript:;&quot;&gt;Some test content for TiddlyChatter (1)&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Jon Lister&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;tiddlyChatterIncomingRow&quot;&gt;&lt;td&gt;today&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;My homework&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;My homework - Jon Lister, Tue Oct  9 19:11:51 2007&quot; href=&quot;javascript:;&quot;&gt;My homework (new)&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Jon Lister&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;tiddlyChatterIncomingRow&quot;&gt;&lt;td&gt;12 days ago&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;ChatterFeed&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;ChatterFeed - Jon Lister, Thu Sep 27 18:41:00 2007&quot; href=&quot;javascript:;&quot;&gt;ChatterFeed (new)&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Jon Lister&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</description>
+<category>TiddlyChatter</category>
+<link>http://www.tiddlywiki.com/#Incoming!</link>
+<pubDate>Wed, 03 Oct 2007 17:20:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>tiddlyChatterIncoming</title>
+<description>&lt;pre&gt;//TiddlyChatter incoming messages
+
+config.macros.tiddlyChatterIncoming = {};
+
+// takes a param that is a filter of the form [tag[xxx yyy]], where xxx yyy
+// represents any number of tags
+config.macros.tiddlyChatterIncoming.handler = function(place,macroName,params){
+
+	var tagFilter;
+	if (params) {
+		tagFilter = params[0];
+	}
+	// set up the UI
+	var tciWrapper = createTiddlyElement(place,&quot;div&quot;,&quot;tiddlyChatterIncomingWrapper&quot;);
+	tciWrapper.setAttribute(&quot;refresh&quot;,&quot;content&quot;);
+	tciWrapper.setAttribute(&quot;force&quot;,&quot;true&quot;);
+	createTiddlyElement(tciWrapper,&quot;div&quot;,&quot;tiddlyChatterIncomingTitle&quot;,null,&quot;TiddlyChatter - incoming!&quot;);
+	var tciTable = createTiddlyElement(tciWrapper,&quot;table&quot;,&quot;tiddlyChatterIncomingTable&quot;);
+	var tciTableHead = createTiddlyElement(tciTable,&quot;tr&quot;,&quot;tiddlyChatterIncomingHeader&quot;);
+	createTiddlyElement(tciTableHead,&quot;th&quot;,null,null,&quot;Latest update&quot;);
+	createTiddlyElement(tciTableHead,&quot;th&quot;,null,null,&quot;Title (no. of updates)&quot;);
+	createTiddlyElement(tciTableHead,&quot;th&quot;,null,null,&quot;Last updated by&quot;);
+	// now we have to add in the new content in table rows
+	// content_and_notes holds our content and associated notes in the form:
+	// [{content:content1,notes:[note1a,note1b]},{content:content2,notes[note2a,note2b]},...]
+	var content_and_notes = [];
+	var notes = [];
+	var filteredContent = store.filterTiddlers(tagFilter);
+	// process: collect the content first and set up the content_and_notes array
+	// collect the notes at the same time and store them
+	// sort notes by modify date
+	// run through cotent, adding its notes to content_and_notes
+	// sort content_and_notes by modify date of most recent note belonging to content
+	for (var i=0;i&amp;lt;filteredContent.length;i++) {
+		var t = filteredContent[i];
+		if (t.isTagged(&quot;public&quot;)) {
+			if (!t.isTagged(&quot;notes&quot;)) {
+				// it's parent content
+				content_and_notes.push({content:t,notes:[]});
+			} else {
+				// it's a note
+				notes.push(t);
+			}
+		}
+	}
+	notes.sort(function(a,b){
+		return a.modified &amp;gt; b.modified ? -1 : (a.modified == b.modified ? 0 : 1);
+	});
+	for (var i=0;i&amp;lt;content_and_notes.length;i++) {
+		var content_object = content_and_notes[i];
+		for (var j=0;j&amp;lt;notes.length;j++) {
+			if (notes[j].title.indexOf(content_object[&quot;content&quot;].title) != -1) {
+				// matched a note with a title containing a piece of content's title
+				content_object[&quot;notes&quot;].push(notes[j]);
+			}
+		}
+	}
+	content_and_notes.sort(function(a,b){
+		var a_most_recent, b_most_recent;
+		// a[&quot;notes&quot;][0] is the most recent note for a piece of content, if it exists
+		// if it doesn't exist, use the content itself
+		if (a[&quot;notes&quot;][0]) {
+			a_most_recent = a[&quot;notes&quot;][0];
+		} else {
+			a_most_recent = a[&quot;content&quot;];
+		}
+		if (b[&quot;notes&quot;][0]) {
+			b_most_recent = b[&quot;notes&quot;][0];
+		} else {
+			b_most_recent = b[&quot;content&quot;];
+		}
+		return a_most_recent.modified &amp;gt; b_most_recent.modified ? -1 : (a_most_recent.modified == b_most_recent.modified ? 0 : 1);
+	});
+	// iterate through content_and_notes array, creating table rows as we go
+	for (var i=0;i&amp;lt;content_and_notes.length;i++) {
+		var content_object = content_and_notes[i];
+		// noteCount is the number of notes in content_object[&quot;notes&quot;];
+		var noteCount = content_object[&quot;notes&quot;] ? content_object[&quot;notes&quot;].length : 0;
+		// newestNote is the first note in content_object[&quot;notes&quot;] or the content itself if there are no notes
+		var newestNote = noteCount !== 0 ? content_object[&quot;notes&quot;][0] : content_object[&quot;content&quot;];
+		// display &quot;new&quot; if noteCount is 0
+		noteCount = noteCount === 0 ? &quot;new&quot; : noteCount;
+		var tciTableRow = createTiddlyElement(tciTable,&quot;tr&quot;,null,&quot;tiddlyChatterIncomingRow&quot;);
+		// if the content for this row is unread, give the row a class of &quot;unread&quot;
+		// &quot;unread&quot; is a custom field on an imported tiddler
+		if (newestNote.fields[&quot;unread&quot;]) {
+			tciTableRow.setAttribute(&quot;class&quot;,&quot;tiddlyChatterIncomingRowUnread&quot;);
+		}
+		// we want to know how many days since the last update
+		var daysSince = newestNote.modified.relativeDays();
+		// display today or yesterday if daysSince is 0 or 1, respectively
+		if (daysSince === 0) {
+			daysSince = &quot;today&quot;;
+		} else if (daysSince == 1) {
+			daysSince = &quot;yesterday&quot;;
+		} else {
+			daysSince = daysSince + &quot; days ago&quot;;
+		}
+		createTiddlyElement(tciTableRow,&quot;td&quot;,null,null,daysSince);
+		var contentTitle = content_object[&quot;content&quot;].title + &quot; (&quot; + noteCount +&quot;)&quot;;
+		var contentTitleCell = createTiddlyElement(tciTableRow,&quot;td&quot;);
+		var contentLink = createTiddlyLink(contentTitleCell,content_object[&quot;content&quot;].title);
+		createTiddlyText(contentLink,contentTitle);
+		contentLink.content_object = content_object;
+		contentLink.onclick_old = contentLink.onclick;
+		contentLink.onclick = function() {
+			var titles = [];
+			titles[0] = this.content_object[&quot;content&quot;].title;
+			for (var i=0;i&amp;lt;this.content_object[&quot;notes&quot;].length;i++) {
+				titles.push(this.content_object[&quot;notes&quot;][i].title);
+			}
+			for (var i=0;i&amp;lt;titles.length;i++) {
+				var t = store.fetchTiddler(titles[i]);
+				if (t.fields[&quot;unread&quot;] &amp;amp;&amp;amp; t.fields[&quot;unread&quot;] == true) {
+					t.fields[&quot;unread&quot;] = false;
+					t.set(t.title,t.text,t.modifier,t.modified,t.tags,t.created,t.fields);
+				}
+			}
+			var this_tiddler = story.findContainingTiddler(this);
+			story.refreshTiddler(this_tiddler.getAttribute(&quot;tiddler&quot;),this_tiddler.getAttribute(&quot;template&quot;),true);
+		contentLink.onclick_old.apply(this,arguments);
+		};
+		createTiddlyElement(tciTableRow,&quot;td&quot;,null,null,newestNote.modifier);
+	}
+};
+
+// Returns the number of days since the Date
+Date.prototype.relativeDays = function() {
+	var now = new Date();
+	var interval = now.getTime() - this.getTime();
+	interval = Math.floor(interval / (1000 * 60 * 60 * 24));
+	return interval;
+};
+&lt;/pre&gt;</description>
+<category>systemConfig</category>
+<category>TiddlyChatter</category>
+<link>http://www.tiddlywiki.com/#tiddlyChatterIncoming</link>
+<pubDate>Wed, 03 Oct 2007 17:17:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>TiddlyChatterDevelopment</title>
+<description>The following plugins are built for &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;TiddlyChatter&lt;/a&gt;:&lt;br&gt;&lt;br&gt;&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;tiddlyChatterSetup code&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#tiddlyChatterSetup code&quot; href=&quot;http://www.tiddlywiki.com/#tiddlyChatterSetup%20code&quot; class=&quot;externalLink&quot;&gt;tiddlyChatterSetup code&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#JonLister&quot; href=&quot;http://www.tiddlywiki.com/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterSetup_code.js&quot; href=&quot;http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterSetup_code.js&quot; class=&quot;externalLink&quot;&gt;source&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;tiddlyChatterIncoming&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#tiddlyChatterIncoming&quot; href=&quot;http://www.tiddlywiki.com/#tiddlyChatterIncoming&quot; class=&quot;externalLink&quot;&gt;tiddlyChatterIncoming&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#JonLister&quot; href=&quot;http://www.tiddlywiki.com/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterIncoming.js&quot; href=&quot;http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterIncoming.js&quot; class=&quot;externalLink&quot;&gt;source&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;tiddlyChatterPublishing&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#tiddlyChatterPublishing&quot; href=&quot;http://www.tiddlywiki.com/#tiddlyChatterPublishing&quot; class=&quot;externalLink&quot;&gt;tiddlyChatterPublishing&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#JonLister&quot; href=&quot;http://www.tiddlywiki.com/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterPublishing.js&quot; href=&quot;http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterPublishing.js&quot; class=&quot;externalLink&quot;&gt;source&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;br&gt;The following plugins are used in a modified state (link to modified source in last column):&lt;br&gt;&lt;br&gt;&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;NotesPlugin&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#NotesPlugin&quot; href=&quot;http://www.tiddlywiki.com/#NotesPlugin&quot; class=&quot;externalLink&quot;&gt;NotesPlugin&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;SaqImtiaz&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#SaqImtiaz&quot; href=&quot;http://www.tiddlywiki.com/#SaqImtiaz&quot; class=&quot;externalLink&quot;&gt;SaqImtiaz&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tw.lewcid.org/#NotesPlugin&quot; href=&quot;http://tw.lewcid.org/#NotesPlugin&quot; class=&quot;externalLink&quot;&gt;original source&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/NotesPlugin_JRL.js&quot; href=&quot;http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/NotesPlugin_JRL.js&quot; class=&quot;externalLink&quot;&gt;modified source&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;ImportWorkspacePlugin&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#ImportWorkspacePlugin&quot; href=&quot;http://www.tiddlywiki.com/#ImportWorkspacePlugin&quot; class=&quot;externalLink&quot;&gt;ImportWorkspacePlugin&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by Martin Budden&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js&quot; href=&quot;http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js&quot; class=&quot;externalLink&quot;&gt;original source&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/ImportWorkspacePlugin_JRL.js&quot; href=&quot;http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/ImportWorkspacePlugin_JRL.js&quot; class=&quot;externalLink&quot;&gt;modified source&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;br&gt;The following plugins are used without modification:&lt;br&gt;&lt;br&gt;&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;RSS adaptor code&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#RSS adaptor code&quot; href=&quot;http://www.tiddlywiki.com/#RSS%20adaptor%20code&quot; class=&quot;externalLink&quot;&gt;RSSAdaptor&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#JonLister&quot; href=&quot;http://www.tiddlywiki.com/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/rssadaptor.js&quot; href=&quot;http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/rssadaptor.js&quot; class=&quot;externalLink&quot;&gt;source&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;RSSrender plugin&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#RSSrender plugin&quot; href=&quot;http://www.tiddlywiki.com/#RSSrender%20plugin&quot; class=&quot;externalLink&quot;&gt;RSSRender&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#JonLister&quot; href=&quot;http://www.tiddlywiki.com/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/tiddlers/RSSRender.js&quot; href=&quot;http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/tiddlers/RSSRender.js&quot; class=&quot;externalLink&quot;&gt;source&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;File adaptor filter plugin&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#File adaptor filter plugin&quot; href=&quot;http://www.tiddlywiki.com/#File%20adaptor%20filter%20plugin&quot; class=&quot;externalLink&quot;&gt;File adaptor filter plugin&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#JonLister&quot; href=&quot;http://www.tiddlywiki.com/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/tiddlers/File_adaptor_filter_plugin.js&quot; href=&quot;http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/tiddlers/File_adaptor_filter_plugin.js&quot; class=&quot;externalLink&quot;&gt;source&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;TaggedTemplateTweak&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TaggedTemplateTweak&quot; href=&quot;http://www.tiddlywiki.com/#TaggedTemplateTweak&quot; class=&quot;externalLink&quot;&gt;TaggedTemplateTweak&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;EricShulman&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#EricShulman&quot; href=&quot;http://www.tiddlywiki.com/#EricShulman&quot; class=&quot;externalLink&quot;&gt;EricShulman&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.TiddlyTools.com/#TaggedTemplateTweak&quot; href=&quot;http://www.TiddlyTools.com/#TaggedTemplateTweak&quot; class=&quot;externalLink&quot;&gt;source&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;stickyOptionsPlugin&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#stickyOptionsPlugin&quot; href=&quot;http://www.tiddlywiki.com/#stickyOptionsPlugin&quot; class=&quot;externalLink&quot;&gt;stickyOptionsPlugin&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;by &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;SaqImtiaz&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#SaqImtiaz&quot; href=&quot;http://www.tiddlywiki.com/#SaqImtiaz&quot; class=&quot;externalLink&quot;&gt;SaqImtiaz&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tw.lewcid.org/#StickyOptionsPlugin&quot; href=&quot;http://tw.lewcid.org/#StickyOptionsPlugin&quot; class=&quot;externalLink&quot;&gt;source&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;br&gt;The following tiddlers are not plugins, but are part of the config:&lt;br&gt;&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;publicViewTemplate&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#publicViewTemplate&quot; href=&quot;http://www.tiddlywiki.com/#publicViewTemplate&quot; class=&quot;externalLink&quot;&gt;publicViewTemplate&lt;/a&gt;&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;ImportWorkspacePlugin&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#ImportWorkspacePlugin&quot; href=&quot;http://www.tiddlywiki.com/#ImportWorkspacePlugin&quot; class=&quot;externalLink&quot;&gt;ImportWorkspacePlugin&lt;/a&gt;&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;ChatterFeed&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#ChatterFeed&quot; href=&quot;http://www.tiddlywiki.com/#ChatterFeed&quot; class=&quot;externalLink&quot;&gt;ChatterFeed&lt;/a&gt;&lt;br&gt;&lt;br&gt;The following tiddlers provide additional information or run plugins:&lt;br&gt;&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;MainMenu&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#MainMenu&quot; href=&quot;http://www.tiddlywiki.com/#MainMenu&quot; class=&quot;externalLink&quot;&gt;MainMenu&lt;/a&gt;&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;Welcome to TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Welcome to TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#Welcome%20to%20TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;Welcome to TiddlyChatter&lt;/a&gt;&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;Setting up TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Setting up TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#Setting%20up%20TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;Setting up TiddlyChatter&lt;/a&gt;&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;What is TiddlyChatter?&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#What is TiddlyChatter?&quot; href=&quot;http://www.tiddlywiki.com/#What%20is%20TiddlyChatter?&quot; class=&quot;externalLink&quot;&gt;What is TiddlyChatter?&lt;/a&gt;&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;TiddlyChatter control panel&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatter control panel&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatter%20control%20panel&quot; class=&quot;externalLink&quot;&gt;TiddlyChatter control panel&lt;/a&gt;&lt;br&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;Incoming!&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Incoming!&quot; href=&quot;http://www.tiddlywiki.com/#Incoming%21&quot; class=&quot;externalLink&quot;&gt;Incoming!&lt;/a&gt;</description>
+<category>TiddlyChatter</category>
+<link>http://www.tiddlywiki.com/#TiddlyChatterDevelopment</link>
+<pubDate>Tue, 02 Oct 2007 16:13:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>tiddlyChatterSetup code</title>
+<description>&lt;pre&gt;/* Update on 09/10/07: SIMPLIFICATION
+ * No longer offering a choice of streams by default
+ * Boolean parameter provided to specify whether we are working with streams */
+
+config.macros.tiddlyChatterSetup = {};
+
+config.macros.tiddlyChatterSetup.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+
+	params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
+	// using_streams defines whether we are working with multiple streams
+	var using_streams = getParam(params,&quot;using_streams&quot;,null);
+
+	var channelBox;
+	if(using_streams) {
+		// create an interface for handling streams
+		// a streams is a feed you publish
+		// add a button to create new streams
+		var channelWrapper = createTiddlyElement(place,&quot;div&quot;);
+		channelBox = createTiddlyElement(channelWrapper,&quot;div&quot;,&quot;channelBox&quot;);
+		var newChannelButton = createTiddlyButton(channelBox,&quot;New stream&quot;,&quot;New stream&quot;,this.reveal);
+		createTiddlyElement(channelBox,&quot;br&quot;);
+		// set up the new channel UI to reveal when 'new channel' is clicked
+		var newChannelBox = createTiddlyElement(channelWrapper,&quot;div&quot;,&quot;newChannelBox&quot;);
+		newChannelBox.style.display = &quot;none&quot;;
+		createTiddlyElement(newChannelBox,&quot;span&quot;,null,null,&quot;Please provide a name for your stream&quot;);
+		createTiddlyElement(newChannelBox,&quot;br&quot;);
+		createTiddlyElement(newChannelBox,&quot;span&quot;,null,null,&quot;Stream:&quot;);
+		var channelName = createTiddlyElement(newChannelBox,&quot;input&quot;,&quot;newChannelName&quot;);
+		createTiddlyButton(newChannelBox,&quot;create&quot;,&quot;Create stream&quot;,this.onClickNewChannel);
+		createTiddlyElement(newChannelBox,&quot;br&quot;);
+	}
+	// create an interface for handling subscriptions
+	// we do this whether or not using_streams is true
+	// a subscription is to someone else's stream
+	// add a button to create new subscriptions
+	var subscriptionWrapper = createTiddlyElement(place,&quot;div&quot;);
+	var subscriptionBox = createTiddlyElement(subscriptionWrapper,&quot;div&quot;,&quot;subscriptionBox&quot;);
+	var newSubscriptionButton = createTiddlyButton(subscriptionBox,&quot;New subscription&quot;,&quot;New subscription&quot;,this.reveal);
+	createTiddlyElement(subscriptionBox,&quot;br&quot;);
+	// set up the new subscription UI to reveal when 'new subscription' is clicked
+	var newSubscriptionBox = createTiddlyElement(subscriptionWrapper,&quot;div&quot;,&quot;newSubscriptionBox&quot;);
+	newSubscriptionBox.style.display = &quot;none&quot;;
+	createTiddlyElement(newSubscriptionBox,&quot;span&quot;,null,null,&quot;Please point to the stream list you want to subscribe to&quot;);
+	createTiddlyElement(newSubscriptionBox,&quot;br&quot;);
+	createTiddlyElement(newSubscriptionBox,&quot;span&quot;,null,null,&quot;URL:&quot;);
+	var subscriptionURL = createTiddlyElement(newSubscriptionBox,&quot;input&quot;,&quot;newSubscriptionURL&quot;);
+	createTiddlyButton(newSubscriptionBox,&quot;go&quot;,&quot;View stream list&quot;,this.onClickNewSubscription);
+	createTiddlyElement(newSubscriptionBox,&quot;br&quot;);
+	
+	// a stream is defined as a tiddler tagged with systemServer, channel and the id of the channel
+	// the id is what you tag your tiddler with to put it in that channel
+	// a subscription is defined as a tiddler tagged with systemServer, channel, subscription and the id of the channel
+	// a subscription is also a channel, in that you can subscribe to it
+	var channels = [];
+	var subscriptions = [];
+	if (using_streams) {
+		store.forEachTiddler(function(title,tiddler) {
+			if (tiddler.isTagged(&quot;systemServer&quot;) &amp;amp;&amp;amp; tiddler.isTagged(&quot;channel&quot;)) {
+				channels.push(tiddler);
+				if (tiddler.isTagged(&quot;subscription&quot;)) {
+					subscriptions.push(tiddler);
+				}
+			}
+		});
+		// the channels array now has all the channel tiddlers in it, so we add them to the channelBox
+		for (var i=0;i&amp;lt;channels.length;i++) {
+			createTiddlyLink(channelBox,channels[i].title,true);
+			// if the channel is a subscription too, flag this to the user
+			if (channels[i].isTagged(&quot;subscription&quot;)) {
+				wikify(&quot;// - one of your own subscriptions//&quot;,channelBox);
+			}
+			createTiddlyElement(channelBox,&quot;br&quot;);
+		}
+	} else {
+		store.forEachTiddler(function(title,tiddler) {
+			if (tiddler.isTagged(&quot;systemServer&quot;) &amp;amp;&amp;amp; tiddler.isTagged(&quot;published&quot;)) {
+				subscriptions.push(tiddler);
+			}
+		});
+	}
+	// the subscriptions array now has all the subscriptions tiddlers in it, so we add them to the subscriptionBox
+	// we do this whether or not using_streams is true
+	for (var i=0;i&amp;lt;subscriptions.length;i++) {
+		createTiddlyLink(subscriptionBox,subscriptions[i].title,true);
+		createTiddlyElement(subscriptionBox,&quot;br&quot;);
+	}
+};
+
+// onclick for creating a new channel; 'this' refers to the button
+config.macros.tiddlyChatterSetup.onClickNewChannel = function() {
+	var channelName = this.previousSibling.value;
+	// create a new tiddler tagged with channel, systemServer and whatever id the user specified
+	// a channel's filter is of the form [tag[public id]], where id is the same as above
+	// we leave the URL field blank and let that be created by the subscription mechanism
+	var tags = &quot;channel systemServer&quot;;
+	tags += &quot; &quot; +channelName;
+	var tiddlerBody = &quot;|''Type:''|RSS|\n|''URL:''||\n|''Workspace:''||\n|''TiddlerFilter:''|[tag[public &quot;+channelName+&quot;]]|&quot;;
+	store.saveTiddler(channelName,channelName,tiddlerBody,config.options.txtUserName,null,tags);
+	var this_tiddler = story.findContainingTiddler(this);
+	story.refreshTiddler(this_tiddler.getAttribute(&quot;tiddler&quot;),this_tiddler.getAttribute(&quot;template&quot;),true);
+};
+
+// onclick after clicking the new subscription button; 'this' refers to the button
+config.macros.tiddlyChatterSetup.onClickNewSubscription = function() {
+	var subscriptionURL = document.getElementById(&quot;newSubscriptionURL&quot;).value;
+	var place = document.getElementById(&quot;newSubscriptionBox&quot;);
+	// load up the url provided and show a list of channels to subscribe to
+	// assume we are pointing at a TiddlyWiki
+	var adaptor = new FileAdaptor();
+	var context = {};
+	context.place = place;
+	adaptor.openHost(subscriptionURL,context,null,config.macros.tiddlyChatterSetup.onOpenHost);
+};
+
+config.macros.tiddlyChatterSetup.onOpenHost = function(context,userParams) {
+	if(context.status !== true) {
+		displayMessage(&quot;error opening host: &quot; + context.statusText);
+	} else {
+		var filter = &quot;[tag[channel systemServer]]&quot;;
+		context.adaptor.getTiddlerList(context,userParams,config.macros.tiddlyChatterSetup.onGetTiddlerList,filter);
+	}
+};
+
+config.macros.tiddlyChatterSetup.onGetTiddlerList = function(context,userParams) {
+	// collect a list of existing channels to check against
+	var channels = [];
+	store.forEachTiddler(function(title,tiddler) {
+		if (tiddler.isTagged(&quot;systemServer&quot;) &amp;amp;&amp;amp; tiddler.isTagged(&quot;channel&quot;)) {
+			channels.push(tiddler);
+		}
+	});
+	// offer a list of channels to subscribe to
+	for (var i=0; i&amp;lt;context.tiddlers.length; i++) {
+		createTiddlyElement(context.place,&quot;span&quot;,null,null,context.tiddlers[i].title);
+		var box = createTiddlyCheckbox(context.place,&quot;tick me&quot;,false,function(){
+			var subscribeButton = document.getElementById(&quot;subscribeButton&quot;);
+			if(this.checked==true) {
+				subscribeButton.tiddler_title = this.previousSibling.textContent;
+			} else {
+				subscribeButton.tiddler_title = &quot;&quot;;
+			}
+		});
+		// if the name of a potential subscription is the same as one of your own channels,
+		// flag that to the user
+		for (var t in channels) {
+			if (channels[t].title == context.tiddlers[i].title) {
+				wikify(&quot;// - this could be your own content - learn more [[here|ReciprocalSubscriptions]]//&quot;,context.place);
+			}
+		}
+		createTiddlyElement(context.place,&quot;br&quot;);
+	}
+	var subscribeButton = createTiddlyButton(context.place,&quot;subscribe&quot;,&quot;Subscribe&quot;,config.macros.tiddlyChatterSetup.onClickSubscribe,null,&quot;subscribeButton&quot;);
+	subscribeButton.context = context;
+};
+
+// onclick for clicking the subscribe button; 'this' refers to the button
+config.macros.tiddlyChatterSetup.onClickSubscribe = function() {
+	var tiddler = {};
+	var tiddler_title = this.tiddler_title;
+	for (var t in this.context.tiddlers) {
+		if (this.context.tiddlers[t].title == this.tiddler_title) {
+			tiddler = this.context.tiddlers[t];
+		}
+	}
+	if (tiddler) {
+		// now copy the tiddler across, adding in the 'subscription' tag and rebuilding the body with the URL
+		var adaptor_store = this.context.adaptor.store;
+		var type_field = adaptor_store.getTiddlerSlice(tiddler.title,&quot;Type&quot;);
+		var workspace_field = adaptor_store.getTiddlerSlice(tiddler.title,&quot;Workspace&quot;);
+		var filter_field = adaptor_store.getTiddlerSlice(tiddler.title,&quot;TiddlerFilter&quot;);
+		var subscriptionURL = this.context.adaptor.host;
+		subscriptionURL = subscriptionURL.replace(/\.html$/g,&quot;.xml&quot;);
+		var subscriptionTemplate = &quot;|''Type:''|%0|\n|''URL:''|%1|\n|''Workspace:''|%2|\n|''TiddlerFilter:''|%3|&quot;;
+		var text = subscriptionTemplate.format([type_field,subscriptionURL,workspace_field,filter_field]);
+		tiddler.tags.push(&quot;subscription&quot;);
+		store.saveTiddler(tiddler.title, tiddler.title, text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, true, tiddler.created);
+		var this_tiddler = story.findContainingTiddler(this);
+		story.refreshTiddler(this_tiddler.getAttribute(&quot;tiddler&quot;),this_tiddler.getAttribute(&quot;template&quot;),true);
+	} else {
+		displayMessage(&quot;problem with matching: &quot; + tiddler_title);
+	}
+};
+
+// onclick for &quot;new&quot; buttons; 'this' refers to the button
+config.macros.tiddlyChatterSetup.reveal = function() {
+	var slideBox = this.parentNode.nextSibling;
+	var isOpen = slideBox.style.display != &quot;none&quot;;
+	if(anim &amp;amp;&amp;amp; typeof Slider == &quot;function&quot;)
+		anim.startAnimating(new Slider(slideBox,!isOpen,null,&quot;none&quot;));
+	else
+		slideBox.style.display = isOpen ? &quot;none&quot; : &quot;block&quot;;
+};
+
+// Extension to TiddlyWiki.js
+// Filter a list of tiddlers
+TiddlyWiki.prototype.filterTiddlers = function(filter)
+{
+	var results = [];
+	if(filter) {
+		var re = /(\w+)|(?:\[([ \w]+)\[([ \w]+)\]\])|(?:\[\[([ \w]+)\]\])/mg;
+		var match = re.exec(filter);
+		while(match) {
+			if(match[1]) {
+				var tiddler = this.fetchTiddler(match[1])
+				if(tiddler)
+					results.push(tiddler);
+			} else if(match[2]) {
+				if(match[2]==&quot;tag&quot;) {
+					this.forEachTiddler(function(title,tiddler) {
+						if(tiddler.isTaggedAllOf(match[3].split(&quot; &quot;))) {
+							results.push(tiddler);
+						}
+					});
+				}
+			} else if(match[4]) {
+				var tiddler = this.fetchTiddler(match[4])
+				if(tiddler)
+					results.push(tiddler);
+			}			
+			match = re.exec(filter);
+		}
+	} else {
+		this.forEachTiddler(function(title,tiddler) {results.push(tiddler);});
+	}
+	return results;
+};
+&lt;/pre&gt;</description>
+<category>systemConfig</category>
+<category>TiddlyChatter</category>
+<link>http://www.tiddlywiki.com/#%5B%5BtiddlyChatterSetup%20code%5D%5D</link>
+<pubDate>Tue, 02 Oct 2007 09:55:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>File adaptor filter plugin</title>
+<description>&lt;pre&gt;// Gets the list of tiddlers within a given workspace
+FileAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
+{
+	if(!this.store)
+		return FileAdaptor.NotLoadedError;
+	if(!context)
+		context = {};
+//	context.tiddlers = [];
+//	this.store.forEachTiddler(function(title,tiddler)
+//		{
+//		var t = new Tiddler(title);
+//		t.text = tiddler.text;
+//		t.modified = tiddler.modified;
+//		t.modifier = tiddler.modifier;
+//		t.fields['server.page.revision'] = tiddler.modified.convertToYYYYMMDDHHMM();
+//		t.tags = tiddler.tags;
+//		context.tiddlers.push(t);
+//		});
+	context.tiddlers = this.store.filterTiddlers(filter);
+	for(var t=0; t&amp;lt;context.tiddlers.length; t++) {
+		context.tiddlers[t].fields['server.page.revision'] = context.tiddlers[t].modified.convertToYYYYMMDDHHMM();
+	}
+	context.status = true;
+	window.setTimeout(function() {callback(context,userParams);},10);
+	return true;
+};
+&lt;/pre&gt;</description>
+<category>systemConfig</category>
+<category>TiddlyChatter</category>
+<link>http://www.tiddlywiki.com/#%5B%5BFile%20adaptor%20filter%20plugin%5D%5D</link>
+<pubDate>Mon, 01 Oct 2007 16:36:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>ImportWorkspacePlugin</title>
+<description>&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Name:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;ImportWorkspacePlugin&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Description:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Commands to access hosted TiddlyWiki data&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Author:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Martin Budden (mjbudden (at) gmail (dot) com)&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Source:&lt;/strong&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.martinswiki.com/#AdaptorMacrosPlugin&quot; href=&quot;http://www.martinswiki.com/#AdaptorMacrosPlugin&quot; class=&quot;externalLink&quot;&gt;http://www.martinswiki.com/#AdaptorMacrosPlugin&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;CodeRepository:&lt;/strong&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js&quot; href=&quot;http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js&quot; class=&quot;externalLink&quot;&gt;http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Version:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;0.0.1&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Date:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Aug 23, 2007&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Comments:&lt;/strong&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;Please make comments at &lt;a target=&quot;_blank&quot; title=&quot;External link to http://groups.google.co.uk/group/TiddlyWikiDev&quot; href=&quot;http://groups.google.co.uk/group/TiddlyWikiDev&quot; class=&quot;externalLink&quot;&gt;http://groups.google.co.uk/group/TiddlyWikiDev&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;License:&lt;/strong&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://creativecommons.org/licenses/by-sa/2.5/&quot; href=&quot;http://creativecommons.org/licenses/by-sa/2.5/&quot; class=&quot;externalLink&quot;&gt;Creative Commons Attribution-ShareAlike 2.5 License&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;CoreVersion:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;2.2.0&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;br&gt;&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Tag for import&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;input class=&quot;txtOptionInput&quot; option=&quot;txtImportTag&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Import workspace on startup&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;input class=&quot;chkOptionInput&quot; option=&quot;chkImportWorkspaceOnStartup&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Label for go button&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;input class=&quot;txtOptionInput&quot; option=&quot;txtImportLabel&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;br&gt;&lt;br&gt;&lt;em&gt; CHANGE: I have removed this line to tailor this plugin to select systemServer tiddlers by tag:&lt;br&gt;&lt;/em&gt; |&lt;strong&gt;Feed for import - DON'T USE&lt;/strong&gt;|&lt;input class=&quot;txtOptionInput&quot; option=&quot;txtImportFeed&quot;&gt;|&lt;br&gt;&lt;br&gt;&lt;pre&gt;// Ensure that the plugin is only installed once.
+if(!version.extensions.ImportWorkspacePlugin) {
+version.extensions.ImportWorkspacePlugin = {installed:true};
+
+if(config.options.txtImportTag == undefined)
+	{config.options.txtImportTag = '';}
+if(config.options.chkImportWorkspaceOnStartup == undefined)
+	{config.options.chkImportWorkspaceOnStartup = false;}
+
+config.messages.hostOpened = &quot;Host '%0' opened&quot;;
+config.messages.workspaceOpened = &quot;Workspace '%0' opened&quot;;
+config.messages.workspaceTiddlers = &quot;%0 tiddlers in workspace, importing %1 of them&quot;;
+config.messages.tiddlerImported = 'Tiddler: &quot;%0&quot; imported';
+
+
+// import all the tiddlers from a given workspace on a given host
+config.macros.importWorkspace = {};
+merge(config.macros.importWorkspace,{
+	label: &quot;import workspace&quot;,
+	prompt: &quot;Import tiddlers in workspace&quot;,
+	done: &quot;Tiddlers imported&quot;});
+
+
+config.macros.importWorkspace.init = function()
+{
+	var customFields = config.defaultCustomFields;
+	if(!customFields['server.type']) {
+		var tag = config.options.txtImportTag;
+		var title = &quot;&quot;;
+		if(tag=='') {
+			var tiddlers = store.getTaggedTiddlers(&quot;systemServer&quot;);
+			if(tiddlers.length==0)
+				return;
+			title = tiddlers[0].title;
+		} else {
+			var tiddlers = store.getTaggedTiddlers(tag);
+			if(tiddlers.length==0)
+				return;
+			title = tiddlers[0].title;
+		}
+		config.defaultCustomFields['server.type'] = store.getTiddlerSlice(title,'Type');
+		config.defaultCustomFields['server.host'] = store.getTiddlerSlice(title,'URL');
+		config.defaultCustomFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
+		config.defaultCustomFields['server.filter'] = store.getTiddlerSlice(title,'TiddlerFilter');
+	}
+	if(config.options.chkImportWorkspaceOnStartup)
+		config.macros.importWorkspace.getTiddlers(customFields);
+};
+
+// I'm finding that this runs before the init function!
+// My evidence for this is through config.log calls, so I assume that they execute in the order they are called
+config.macros.importWorkspace.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	params = paramString.parseParams('anon',null,true,false,false);
+	var customFields = getParam(params,'fields',false);
+	if(!customFields) {
+		customFields = config.defaultCustomFields;
+	}
+	if(!customFields['server.type']) {
+		var title = &quot;&quot;;
+		var tag = config.options.txtImportTag;
+		if (tag=='') {
+			title = getParam(params,'anon');
+			if(!title) {
+				var tiddlers = store.getTaggedTiddlers(&quot;systemServer&quot;);
+				if(tiddlers.length&amp;gt;0)
+				title = tiddlers[0].title;
+			}
+		} else {
+		// if we get here, the user has not provided field params and they have not been
+		// set in the init function, and we have a tag to use for looking up a tiddler
+			var tiddlers = store.getTaggedTiddlers(tag);
+			if(tiddlers.length==0)
+				return;
+			title = tiddlers[0].title;
+		}
+		if(title) {
+			customFields = {};
+			customFields['server.type'] = store.getTiddlerSlice(title,'Type');
+			customFields['server.host'] = store.getTiddlerSlice(title,'URL');
+			customFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
+			customFields['server.filter'] = store.getTiddlerSlice(title,'TiddlerFilter');
+		}
+	}
+	customFields = String.encodeHashMap(customFields);
+	if(config.options.txtImportLabel) this.label = config.options.txtImportLabel;
+	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
+	btn.setAttribute('customFields',customFields);
+};
+
+config.macros.importWorkspace.onClick = function(e)
+{
+	clearMessage();
+// displayMessage(&quot;Starting import...&quot;);
+	var customFields = this.getAttribute('customFields');
+	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
+	config.macros.importWorkspace.getTiddlers(fields);
+};
+
+config.macros.importWorkspace.getTiddlers = function(fields)
+{
+	if(!fields['server.type']) {
+		var tiddlers = store.getTaggedTiddlers(&quot;systemServer&quot;);
+		var title = tiddlers[0].title;
+		fields = {};
+		fields['server.type'] = store.getTiddlerSlice(title,'Type');
+		fields['server.host'] = store.getTiddlerSlice(title,'URL');
+		fields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
+		fields['server.filter'] = store.getTiddlerSlice(title,'TiddlerFilter');
+	}
+	var serverType = fields['server.type'];
+	if(!serverType)
+		serverType = fields['wikiformat'];
+	if(!serverType)
+		return false;
+	var adaptor = new config.adaptors[serverType];
+	if(adaptor) {
+		var context = {};
+		context.host = fields['server.host'];
+		context.workspace = fields['server.workspace'];
+		context.adaptor = adaptor;
+		context.filter = fields['server.filter'];
+		adaptor.openHost(context.host,context,null,config.macros.importWorkspace.openHostCallback);
+	}
+};
+
+config.macros.importWorkspace.openHostCallback = function(context,userParams)
+{
+	displayMessage(config.messages.hostOpened.format([context.host]));
+	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.openWorkspaceCallback);
+	context.adaptor.openWorkspace(context.workspace,context,userParams,config.macros.importWorkspace.openWorkspaceCallback);
+};
+
+config.macros.importWorkspace.openWorkspaceCallback = function(context,userParams)
+{
+	displayMessage(config.messages.workspaceOpened.format([context.workspace]));
+	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.getTiddlerListCallback);
+	displayMessage(&quot;using import filter: &quot; + context.filter);
+	context.adaptor.getTiddlerList(context,userParams,config.macros.importWorkspace.getTiddlerListCallback,context.filter);
+};
+
+config.macros.importWorkspace.getTiddlerListCallback = function(context,userParams)
+{
+	if(context.status) {
+		var tiddlers = context.tiddlers;
+		var sortField = 'modified';
+		tiddlers.sort(function(a,b) {return a[sortField] &amp;lt; b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
+		var length = tiddlers.length;
+		if(userParams &amp;amp;&amp;amp; userParams.maxCount &amp;amp;&amp;amp; length &amp;gt; userParams.maxCount)
+			length = userParams.maxCount;
+		displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
+		var import_count = 0;
+		for(var i=0; i&amp;lt;length; i++) {
+			tiddler = tiddlers[i];
+			var local_tiddler = store.fetchTiddler(tiddler.title);
+			// only import the tiddler if it doesn't exist locally or, if it does, hasn't been edited
+			if(!local_tiddler || !local_tiddler.isTouched()) {
+				context.adaptor.getTiddler(tiddler.title,null,null,config.macros.importWorkspace.getTiddlerCallback);
+				import_count++;
+			}
+		}
+	}
+	// THIS IS A VERY BAD THING TO DO, AS IS IT SPECIFIC, NOT BUILT FOR RE-USE
+	// I SUGGEST WE CHANGE THE PLUGIN TO TAKE A CALLBACK FOR EXECUTING AT THE END OF THE IMPORT I.E. HERE
+	// now everything's done, open up the TiddlyChatterIncoming tiddler
+	// config.macros.importWorkspace.finalise(context);
+};
+
+
+config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
+{
+	displayMessage(&quot;getting &quot; + context.tiddler.title);
+	if(context.status) {
+		var tiddler = context.tiddler;
+		// add in an extended field to save unread state
+		tiddler.fields[&quot;unread&quot;] = true;
+		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+		story.refreshTiddler(tiddler.title,1,true);
+	} else {
+		displayMessage(context.statusText);
+	}
+	story.refreshAllTiddlers();
+};
+
+} // end of 'install only once'
+&lt;/pre&gt;</description>
+<category>systemConfig</category>
+<category>TiddlyChatter</category>
+<link>http://www.tiddlywiki.com/#ImportWorkspacePlugin</link>
+<pubDate>Thu, 27 Sep 2007 17:41:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>ChatterFeed</title>
+<description>&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Type:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;RSS&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;URL:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml&quot; href=&quot;http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml&quot; class=&quot;externalLink&quot;&gt;http://jonny.jonathan.googlepages.com/tiddlychatter_test.xml&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Workspace:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;TiddlerFilter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlerFilter&quot; href=&quot;http://www.tiddlywiki.com/#TiddlerFilter&quot; class=&quot;externalLink&quot;&gt;TiddlerFilter&lt;/a&gt;:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;[tag[public]]&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</description>
+<category>systemServer</category>
+<category>TiddlyChatter</category>
+<category>public</category>
+<category>channel</category>
+<category>published</category>
+<link>http://www.tiddlywiki.com/#ChatterFeed</link>
+<pubDate>Thu, 27 Sep 2007 17:41:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>Welcome to TiddlyChatter</title>
+<description>This TiddlyWiki has the required plugins installs to support &quot;TiddlyChatter&quot;, a peer-to-peer collaboration feature.&lt;br&gt;&lt;br&gt;You can read an example of &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;What is TiddlyChatter?&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#What is TiddlyChatter?&quot; href=&quot;http://www.tiddlywiki.com/#What%20is%20TiddlyChatter?&quot; class=&quot;externalLink&quot;&gt;how TiddlyChatter works&lt;/a&gt;.&lt;br&gt;&lt;br&gt;&lt;strong&gt;You need to set one cookie-stored variable before you can get updates - &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;Setting up TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Setting up TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#Setting%20up%20TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;find out more here&lt;/a&gt;&lt;/strong&gt;&lt;br&gt;&lt;br&gt;TiddlyChatter is still in &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;TiddlyChatterDevelopment&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatterDevelopment&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatterDevelopment&quot; class=&quot;externalLink&quot;&gt;development&lt;/a&gt;; click for information about the plugins TiddlyChatter is based on and what changes have been made. All the tiddlers necessary to run TiddlyChatter are tagged &lt;a tag=&quot;TiddlyChatter&quot; class=&quot;button&quot; title=&quot;Show tiddlers tagged with 'TiddlyChatter'&quot; href=&quot;javascript:;&quot;&gt;TiddlyChatter&lt;/a&gt; for ease of import.&lt;br&gt;&lt;br&gt;Click for the &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;Setting up TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#Setting up TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#Setting%20up%20TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;set-up instructions&lt;/a&gt;.</description>
+<category>info</category>
+<category>TiddlyChatter</category>
+<link>http://www.tiddlywiki.com/#%5B%5BWelcome%20to%20TiddlyChatter%5D%5D</link>
+<pubDate>Thu, 27 Sep 2007 17:40:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+<item>
+<title>What is TiddlyChatter?</title>
+<description>[extracted from original &lt;a target=&quot;_blank&quot; title=&quot;External link to http://jayfresh.wordpress.com/2007/09/24/tiddlychatter-decentralized-collaboration/&quot; href=&quot;http://jayfresh.wordpress.com/2007/09/24/tiddlychatter-decentralized-collaboration/&quot; class=&quot;externalLink&quot;&gt;blog post&lt;/a&gt; on the subject]&lt;br&gt;&lt;br&gt;“&lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;TiddlyChatter&lt;/a&gt;” is the idea of opt-in, decentralized collaboration. This follows Twitter’s model, where someone can follow you without you taking an interest in what they have to say. Twitter is centralized, in that it runs through a central server; &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;TiddlyChatter&lt;/a&gt; is totally decentralized and runs between peers. As might be obvious from the name, &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;TiddlyChatter&lt;/a&gt; is being developed using &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;TiddlyWiki&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyWiki&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyWiki&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt;, but the collaborative model is generic.&lt;br&gt;&lt;br&gt;Here’s an illustration of what &lt;a tiddlyfields=&quot;server.host:&amp;quot;file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml&amp;quot; server.type:&amp;quot;RSS&amp;quot; server.workspace:&amp;quot;&amp;quot;&quot; tiddlylink=&quot;TiddlyChatter&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#TiddlyChatter&quot; href=&quot;http://www.tiddlywiki.com/#TiddlyChatter&quot; class=&quot;externalLink&quot;&gt;TiddlyChatter&lt;/a&gt; is all about:&lt;br&gt;&lt;br&gt;&lt;ul&gt;&lt;li&gt; Jon and his class have been set some tricky homework, so he creates a stub of what he’s working on and publishes it, mentioning to Liz, his classmate, that they ought to work on this together&lt;/li&gt;&lt;li&gt; Liz subscribes to Jon’s feed and the stub turns up on Liz’s computer for her to see, edit or comment&lt;/li&gt;&lt;li&gt; Liz adds a note about a useful resource&lt;/li&gt;&lt;li&gt; Jon subscribes to Liz’s feed and her note turns up in place on Jon’s computer, which turns out to be very helpful…&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;This doesn’t sound so different from normal collaboration, but there are a couple of important differences:&lt;br&gt;&lt;br&gt;&lt;ul&gt;&lt;li&gt; Jon’s little bit of work and Liz’s note on it appear on both computers as separate pieces of data, they are not downloaded from a common server&lt;/li&gt;&lt;li&gt; If Jon decides Liz is no good as a partner, he can stop watching her feed and he never sees any of the notes or content changes Liz makes&lt;/li&gt;&lt;li&gt; If Ben comes in and subscribes to Jon’s feed, he can make entirely independent comments and changes, without Liz seeing what he is doing and without Ben seeing what Liz is doing&lt;/li&gt;&lt;li&gt; Extending this slightly, Ben, Alice and Bob can all share and work on the information together, and it is only when Liz eventually gets hold of a copy that Jon will see the result of the group’s work&lt;/li&gt;&lt;/ul&gt;</description>
+<category>info</category>
+<category>TiddlyChatter</category>
+<link>http://www.tiddlywiki.com/#%5B%5BWhat%20is%20TiddlyChatter%3F%5D%5D</link>
+<pubDate>Thu, 27 Sep 2007 17:40:00 GMT</pubDate>
+<author>Jon Lister</author>
+</item>
+</channel>
+</rss>
