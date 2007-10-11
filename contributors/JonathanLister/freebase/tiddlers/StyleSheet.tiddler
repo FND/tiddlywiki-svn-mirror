@@ -1,7 +1,0 @@
-<div title="StyleSheet" created="200708161338" changecount="88">
-<pre>div.metaweb #q, div.metaweb #r { width: 400px; height: 300px; border-width:0px;padding:5px;} 
-div.metaweb th {background-color:black; color:white; font:bold 12pt sans-serif;} 
-div.metaweb td.border,div.metaweb th {border:solid black 3px;} 
-div.metaweb input { margin: 5px; font-weight: bold; } 
-div.metaweb table { border-collapse: collapse;}</pre>
-</div>
