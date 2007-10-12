@@ -1,0 +1,111 @@
+<div title="StyleSheet" modifier="PhilHawksworth" created="200710091142" modified="200710111306" changecount="12">
+<pre>/*{{{*/
+	
+* {
+	margin:0;
+}
+
+body{
+	background: #c8c8c8;
+	margin: 0;
+    font-family: Helvetica;
+    color: #000000;
+    overflow-x: hidden;
+    -webkit-user-select: none;
+    -webkit-text-size-adjust: none;
+	width:100%;
+}
+
+div.header,
+#sidebar,
+#mainMenu {
+   display:none;
+}
+
+#displayArea {
+	position:absolute;
+	top:0;
+	left:0;
+	margin:0;
+	padding:0;
+	width:100%;
+}
+
+#tiddlerDisplay {
+	width:auto;
+	padding:0;
+	margin:0;
+}
+
+
+div.tiddler {
+	padding:0;
+	margin:0;
+	box-sizing: border-box;
+}
+
+	div.tiddler div.toolbar {
+		color:#fff;
+		margin:0;
+		text-align:left;
+		box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    border-bottom: 1px solid #2d3642;
+	    border-top: 1px solid #6d84a2;
+	    padding: 10px;
+	    height: 45px;
+	    background-color:#6d84a2;
+		font-weight: bold;
+	    text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
+	}
+	
+	div.tiddler div.toolbar a {
+	   	border:solid 1px #113344;
+		border-top:solid 1px #001122;
+		border-bottom:solid 1px #7799aa;
+		-webkit-border-radius: 3px;
+		font-size:16px;
+		margin: 3px;
+	    padding: 2px 4px;
+	    width: auto;
+	    height: 30px;
+	    line-height: 30px;
+	    font-family: inherit;
+	    font-weight: bold;
+	    color: #FFFFFF;
+	    text-shadow: rgba(0, 0, 0, 0.6) 0px -1px 0;
+	    text-overflow: ellipsis;
+	    text-decoration: none;
+	    white-space: nowrap;
+	    background-color:#335577;
+
+	}
+	
+	
+div.tiddler div.viewer {
+    position: relative;
+  	margin:10px;
+    padding: 20px;
+    background: #FFFFFF;
+    -webkit-border-radius: 10px;
+    border: 1px solid #999999;
+    text-align: left;
+    font-size: 16px;
+	line-height:1.4em;
+}
+
+div.tiddler a.tiddlyLink {
+	background-color: #6d84a2;
+	-webkit-border-radius: 9px;
+	border: 1px solid #1A3378;
+	text-align: left;
+	font-size: 16px;
+	line-height:1.6em;
+	padding:0 8px;
+	color:#000;
+	text-decoration:none;
+	font-wight:normal;
+}
+	
+/*}}}*/</pre>
+</div>

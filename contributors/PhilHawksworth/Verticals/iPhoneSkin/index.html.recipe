@@ -1,0 +1,14 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+tiddler: Back.tiddler
+tiddler: DefaultTiddlers.tiddler
+tiddler: GettingStarted.tiddler
+tiddler: Home.tiddler
+tiddler: MainMenu.tiddler
+tiddler: NewItem.tiddler
+tiddler: OptionsPanel.tiddler
+tiddler: SideBarOptions.tiddler
+tiddler: SinglePageModePlugin.js
+tiddler: StyleSheet.tiddler
+tiddler: ToolBarAdditionsForMobiles.js
+tiddler: MobileConfig.js
+tiddler: ViewTemplate.tiddler

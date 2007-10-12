@@ -1,0 +1,21 @@
+<div title="Home" modifier="PhilHawksworth" created="200710091048" modified="200710111254" changecount="3">
+<pre>This is the iPhone skin for TiddlyWiki
+
+The skin is made from modifications to the following tiddlers:
+StyleSheet
+ViewTemplate
+ColorPalette
+
+and uses the following plugins:
+SinglePageModePlugin - to enable single page display
+ToolBarAdditionsForMobiles - to customise the tiddler toolbar
+
+The animations are disabled since they are not appropriate to this display
+
+This is the Home tiddler which is the only tiddler in DefaultTiddlers. It should server as the index and provide launching off points.
+
+You can also get to everything via the SideBarTabs which will have a 'menu view' style applied to it.
+
+There are issues with the width which I am working on.
+</pre>
+</div>
