@@ -1,0 +1,17 @@
+<div title="ColorPalette" modifier="YourName" created="200708212125">
+<pre>Background: #fff
+Foreground: #000
+PrimaryPale: #18f
+PrimaryLight: #04b
+PrimaryMid: #23d
+PrimaryDark: #000
+SecondaryPale: #ffc
+SecondaryLight: #fe8
+SecondaryMid: #db4
+SecondaryDark: #841
+TertiaryPale: #eee
+TertiaryLight: #ccc
+TertiaryMid: #999
+TertiaryDark: #666
+Error: #f88</pre>
+</div>

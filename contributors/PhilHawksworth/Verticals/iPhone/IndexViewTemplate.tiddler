@@ -1,0 +1,7 @@
+<div title="IndexViewTemplate" modifier="PhilHawksworth" created="200710121306" changecount="1">
+<pre>&lt;!--{{{--&gt;
+&lt;div class='index'&gt;&lt;span class='title' macro='view title'&gt;&lt;/span&gt;&lt;span class='toolbar' macro='toolbar home back'&gt;&lt;/span&gt;
+&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
+&lt;div class='tagClear'&gt;&lt;/div&gt;
+&lt;!--}}}--&gt;&lt;/div&gt;</pre>
+</div>

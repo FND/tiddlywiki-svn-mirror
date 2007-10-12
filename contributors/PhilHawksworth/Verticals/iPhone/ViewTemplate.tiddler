@@ -1,0 +1,10 @@
+<div title="ViewTemplate" modifier="JeremyRuston" created="200708212212" modified="200708212217" changecount="3">
+<pre>&lt;!--{{{--&gt;
+&lt;div&gt;&lt;span class='title' macro='view title'&gt;&lt;/span&gt;&lt;span class='toolbar' macro='toolbar home back showindex +editTiddler references'&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
+&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
+&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
+&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
+&lt;div class='tagClear'&gt;&lt;/div&gt;
+&lt;!--}}}--&gt;</pre>
+</div>

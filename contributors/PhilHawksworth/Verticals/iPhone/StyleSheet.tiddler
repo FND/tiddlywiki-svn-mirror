@@ -1,0 +1,239 @@
+<div title="StyleSheet" modifier="JeremyRuston" created="200708192145" modified="200709022205" changecount="83">
+<pre>body {
+	font-family: Helvetica;
+	-webkit-user-select: none;
+	-webkit-text-size-adjust: none;
+	background: #eee;
+	padding-bottom:20px;
+}
+
+.header {
+	text-align: center;
+	padding:0.5em 0.5em 0.5em 0.5em;
+}
+
+.siteTitle {
+	font-size:2em;
+	color: [[ColorPalette::Background]];
+	text-shadow: 2px 2px 2px [[ColorPalette::Foreground]];
+}
+
+.siteSubtitle {
+	font-size:1em;
+	color: [[ColorPalette::TertiaryLight]];
+	text-shadow: 2px 2px 2px [[ColorPalette::Foreground]];
+}
+
+#displayArea {
+	position: relative;
+}
+
+#indexPane .textOptionInput {
+	-webkit-appearance: searchfield;
+}
+
+div.index {
+	margin:0;
+	padding:0;
+}
+
+div.index div.viewer {
+	margin:0;
+	background: [[ColorPalette::Background]];
+	-webkit-border-radius: 0px;
+	border-top: 1px solid [[ColorPalette::TertiaryLight]];
+	border-right: none;
+	border-bottom: none;
+	border-left: none;
+	padding: 0;
+	width:100%;
+}
+
+div.index div.viewer ul {
+	list-style:none;
+	padding:0;
+	margin:0;
+}
+
+div.index div.viewer ul li{
+	border-bottom:solid 1px #eee;
+}
+
+div.index div.viewer ul li.listTitle {
+	padding: 0.4em 0.2em 0.2em 3em;
+	background: [[ColorPalette::TertiaryLight]];
+	color: [[ColorPalette::Background]];
+	font-weight:bold;
+	font-size:13px;
+	text-shadow: rgba(0, 0, 0, 0.4) 0px 1px 0;
+	border-top: 1px solid [[ColorPalette::TertiaryLight]];
+	border-bottom: 1px solid [[ColorPalette::TertiaryMid]];
+}
+
+div.index div.viewer ul li a,
+div.index div.viewer ul li a:hover {
+	color:[[ColorPalette::Foreground]];
+	background-color:[[ColorPalette::Background]];
+	font-size: 1.3em;
+	display: block;
+	padding: 0.75em;
+	border-bottom: 1px solid [[ColorPalette::TertiaryLight]];
+}
+
+
+div.index div.viewer ul li a:after {
+	content: &quot;&gt;&quot;;
+	float: right;
+}
+
+
+
+#indexPane .tabset {
+	padding: 1em;
+	text-align: left;
+}
+
+#indexPane .tabset a {
+	font-size: 1.2em;
+	padding: 3px;
+	border: 1px solid [[ColorPalette::TertiaryDark]];
+}
+
+#indexPane .tabContents {
+
+	background: [[ColorPalette::Background]];
+	border-top: 1px solid [[ColorPalette::TertiaryLight]];
+	border-right: none;
+	border-bottom: none;
+	border-left: none;
+	padding: 0;
+	padding-top:50px;
+}
+
+
+#indexPane .tabContents li.listTitle {
+	padding: 0.4em 0.2em 0.2em 0.5em;
+	background: [[ColorPalette::TertiaryLight]];
+	color: [[ColorPalette::Background]];
+	font-weight:bold;
+	font-size:13px;
+	text-shadow: rgba(0, 0, 0, 0.4) 0px 1px 0;
+	border-top: 1px solid [[ColorPalette::TertiaryLight]];
+	border-bottom: 1px solid [[ColorPalette::TertiaryMid]];
+}
+
+#indexPane .tabContents ul {
+	border-top: 1px solid [[ColorPalette::TertiaryDark]];	
+}
+
+#indexPane .tabContents li.listLink {
+	margin-left: 0;
+}
+
+#indexPane .tabContents a {
+	color: [[ColorPalette::PrimaryDark]];
+}
+
+
+#indexPane .tabContents a:hover, #listTabs .tabContents a:active {
+	color: [[ColorPalette::PrimaryPale]];
+	background: [[ColorPalette::Background]];
+}
+
+#indexPane .tabContents a:after {
+	content: &quot;&gt;&quot;;
+	float: right;
+}
+
+#indexPane .tabContents a {
+	font-size: 1.3em;
+	display: block;
+	padding: 0.75em;
+	border-bottom: 1px solid [[ColorPalette::TertiaryLight]];
+}
+
+#sidebar {
+	position:static;
+	right:auto;
+	width:auto;
+	font-size:0.9em;
+}
+
+#displayArea {
+	margin:0 0 0.5em 0;
+}
+
+.tiddler {
+	position:relative;
+	padding:0;
+	border-top: 1px solid #999;
+}
+
+.title {
+	font-size:1.3em;
+	position:absolute;
+	top:50px;
+	left:20px;
+
+}
+.subtitle {
+	font-size:0.9em;
+	position:absolute;
+	top:70px;
+	left:20px;
+}
+
+.viewer {
+	position:absolute;
+	top:80px;
+	line-height:1.2em;
+	margin:10px;
+    padding: 20px;
+    background: #FFFFFF;
+    -webkit-border-radius: 10px;
+    border: 1px solid #999999;
+    text-align: left;
+    font-size: 14px;
+	line-height:1.2em;
+
+}
+
+div.tabset,
+div.tiddler span.toolbar {
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:40px;
+	color:#fff;
+	margin:0;
+	text-align:left;
+	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border-bottom: 1px solid #fff;
+    border-top: 1px solid #555;
+    padding: 10px;
+    background-color:#333;
+	font-weight: bold;
+    text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
+}
+
+div.tabset a,
+div.tiddler span.toolbar a,
+div.tiddler span.toolbar a:hover {
+   	border:solid 1px #000;
+	-webkit-border-radius: 3px;
+	font-size:14px;
+	margin: 3px;
+    padding: 4px 5px;
+    width: auto;
+    font-family: inherit;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-shadow: rgba(0, 0, 0, 0.6) 0px -1px 0;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color:#222;
+}</pre>
+</div>
