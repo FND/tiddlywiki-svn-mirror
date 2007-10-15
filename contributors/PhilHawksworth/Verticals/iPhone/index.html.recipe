@@ -1,4 +1,4 @@
-recipe: ../../../../../core/tiddlywiki.html.recipe
+recipe: ../../../../core/tiddlywiki.html.recipe
 tiddler: ColorPalette.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: HelloThere.tiddler
