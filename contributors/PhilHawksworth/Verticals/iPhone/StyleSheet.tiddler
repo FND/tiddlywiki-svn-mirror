@@ -1,10 +1,11 @@
 <div title="StyleSheet" modifier="JeremyRuston" created="200708192145" modified="200709022205" changecount="83">
-<pre>body {
+<pre>/*{{{*/body {
 	font-family: Helvetica;
 	-webkit-user-select: none;
 	-webkit-text-size-adjust: none;
 	background: #eee;
 	padding-bottom:20px;
+	min-height:417px;
 }
 
 .header {
@@ -88,7 +89,7 @@ div.index div.viewer ul li a:after {
 
 
 
-#indexPane .tabset {
+/*#indexPane .tabset {
 	padding: 1em;
 	text-align: left;
 }
@@ -150,7 +151,7 @@ div.index div.viewer ul li a:after {
 	display: block;
 	padding: 0.75em;
 	border-bottom: 1px solid [[ColorPalette::TertiaryLight]];
-}
+}*/
 
 #sidebar {
 	position:static;
@@ -235,5 +236,5 @@ div.tiddler span.toolbar a:hover {
     text-decoration: none;
     white-space: nowrap;
     background-color:#222;
-}</pre>
+}/*}}}*/</pre>
 </div>
