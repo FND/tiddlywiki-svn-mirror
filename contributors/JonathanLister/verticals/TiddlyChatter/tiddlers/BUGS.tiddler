@@ -1,4 +1,3 @@
 <div title="BUGS" modifier="Jon Lister" created="200710051013" modified="200710071425" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlychatter/tiddlychatter_two.xml" server.filter="[tag[public right]]" server.type="RSS" changecount="3" server.workspace="">
-<pre>* refresh mechanism implemented in a way I don't fully understand - could be unstable?
-* there is still an annoying setup process for getting ImportWorkspace options set (this is because of cookies - either expose options in a better place or stop them from being cookies?)</pre>
+<pre>* refresh mechanism implemented in a way I don't fully understand - could be unstable?</pre>
 </div>

@@ -6,7 +6,7 @@
 ~TiddlyChatter controls
 ----
 <<newTiddler label:"New Chatter" title:NewChatter tag:public text:"Type some text and then press DONE">>
-[[Control panel|TiddlyChatter control panel]]
+[[Control panel|lv macro]]
 <<importWorkspace>>
-[[Incoming!]]</pre>
+</pre>
 </div>

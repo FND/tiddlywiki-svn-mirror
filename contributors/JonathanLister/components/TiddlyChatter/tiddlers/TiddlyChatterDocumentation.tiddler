@@ -11,9 +11,11 @@
 
 The following plugins are built for TiddlyChatter:
 
-|[[tiddlyChatterSetup code]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterSetup_code.js]] |
-|[[tiddlyChatterIncoming]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterIncoming.js]] |
-|[[tiddlyChatterPublishing]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterPublishing.js]] |
+|[[tiddlyChatterSetup code]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/TiddlyChatter/js/tiddlyChatterSetup_code.js]] |
+|[[tiddlyChatterIncoming]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/TiddlyChatter/js/tiddlyChatterIncoming.js]] |
+|[[tiddlyChatterPublishing]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/TiddlyChatter/js/tiddlyChatterPublishing.js]] |
+|[[tiddlyChatterControlPanel]] (being replaced by content of item below) |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/TiddlyChatter/js/tiddlyChatterControlPanel.js]] |
+|[[lv macro]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/TiddlyChatter/js/lv.js]] |
 
 The following plugins are used in a modified state (link to modified source in last column):
 
@@ -22,11 +24,12 @@ The following plugins are used in a modified state (link to modified source in l
 
 The following plugins are used without modification:
 
-|[[RSSAdaptor|RSS adaptor code]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/rssadaptor.js]] |
-|[[RSSRender|RSSrender plugin]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/tiddlers/RSSRender.js]] |
-| [[File adaptor filter plugin]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/tiddlers/File_adaptor_filter_plugin.js]] |
+|[[RSSAdaptor|RSSAdaptor]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/RSSAdaptor/js/rssadaptor.js]] |
+|[[RSSRender|RSSrender plugin]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/RSSAdaptor/js/RSSRender.js]] |
+| [[File adaptor filter plugin]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/TiddlyChatter/js/File_adaptor_filter_plugin.js]] |
 |TaggedTemplateTweak |by EricShulman |[[source|http://www.TiddlyTools.com/#TaggedTemplateTweak]] |
 |[[stickyOptionsPlugin]] |by SaqImtiaz |[[source|http://tw.lewcid.org/#StickyOptionsPlugin]] |
+|[[Unread]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/Unread/js/Unread.js]]
 
 The following tiddlers are not plugins, but are part of the config:
 
@@ -40,7 +43,6 @@ MainMenu
 [[Welcome to TiddlyChatter]]
 [[Setting up TiddlyChatter]]
 [[What is TiddlyChatter?]]
-[[TiddlyChatter control panel]]
-[[Incoming!]]
+[[lv macro]] (working name)
 </pre>
 </div>

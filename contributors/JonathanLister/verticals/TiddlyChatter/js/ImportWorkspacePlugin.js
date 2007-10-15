@@ -25,9 +25,12 @@ if(!version.extensions.ImportWorkspacePlugin) {
 version.extensions.ImportWorkspacePlugin = {installed:true};
 
 if(config.options.txtImportTag == undefined)
-	{config.options.txtImportTag = '';}
+	{config.options.txtImportTag = 'published';}
 if(config.options.chkImportWorkspaceOnStartup == undefined)
 	{config.options.chkImportWorkspaceOnStartup = false;}
+if(config.options.txtImportLabel == undefined)
+	{config.options.txtImportLabel = 'Check for new stuff';}
+
 
 config.messages.hostOpened = "Host '%0' opened";
 config.messages.workspaceOpened = "Workspace '%0' opened";
@@ -70,7 +73,7 @@ config.macros.importWorkspace.init = function()
 };
 
 // I'm finding that this runs before the init function!
-// My evidence for this is through config.log calls, so I assume that they execute in the order they are called
+// My evidence for this is through config.log calls, and I assume that they execute in the order they are called
 config.macros.importWorkspace.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	params = paramString.parseParams('anon',null,true,false,false);
@@ -148,16 +151,16 @@ config.macros.importWorkspace.getTiddlers = function(fields)
 
 config.macros.importWorkspace.openHostCallback = function(context,userParams)
 {
-	displayMessage(config.messages.hostOpened.format([context.host]));
+	// displayMessage(config.messages.hostOpened.format([context.host]));
 	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.openWorkspaceCallback);
 	context.adaptor.openWorkspace(context.workspace,context,userParams,config.macros.importWorkspace.openWorkspaceCallback);
 };
 
 config.macros.importWorkspace.openWorkspaceCallback = function(context,userParams)
 {
-	displayMessage(config.messages.workspaceOpened.format([context.workspace]));
+	// displayMessage(config.messages.workspaceOpened.format([context.workspace]));
 	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.getTiddlerListCallback);
-	displayMessage("using import filter: " + context.filter);
+	// displayMessage("using import filter: " + context.filter);
 	context.adaptor.getTiddlerList(context,userParams,config.macros.importWorkspace.getTiddlerListCallback,context.filter);
 };
 
@@ -170,7 +173,7 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 		var length = tiddlers.length;
 		if(userParams && userParams.maxCount && length > userParams.maxCount)
 			length = userParams.maxCount;
-		displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
+		// displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
 		var import_count = 0;
 		for(var i=0; i<length; i++) {
 			tiddler = tiddlers[i];
@@ -191,11 +194,11 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 
 config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
 {
-	displayMessage("getting " + context.tiddler.title);
+	// displayMessage("getting " + context.tiddler.title);
 	if(context.status) {
 		var tiddler = context.tiddler;
 		// add in an extended field to save unread state
-		tiddler.fields["unread"] = true;
+		tiddler.fields["unread"] = "true";
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 		story.refreshTiddler(tiddler.title,1,true);
 	} else {

@@ -150,7 +150,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 		if (desc) item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
 		else {
 			item.text = "empty, something seriously wrong with this item";
-			displayMessage("description empty for item: " + item.title);
+			// displayMessage("description empty for item: " + item.title);
 		}
 		var t = new Tiddler(item.title);
 		t.text = "<html>" + item.text.htmlDecode().renderHtmlText() + "</html>";
@@ -163,7 +163,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 			}
 			t.tags = item.categories;
 		} else {
-			displayMessage("no tags for item: " + item.title);
+			// displayMessage("no tags for item: " + item.title);
 		}
 		// grab the link and put it in a custom field (assumes this is sensible)
 		// regex_link assumes you can never have whitespace in a link
@@ -171,7 +171,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 		if (link) item.link = link[0].replace(/^<link>|<\/link>$/mg,"");
 		else {
 			item.link = "#";
-			displayMessage("link empty for item: " + item.title);
+			// displayMessage("link empty for item: " + item.title);
 		}
 		t.fields["link to original"] = item.link;
 		// grab date created
@@ -182,7 +182,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 			item.pubDate = new Date(pubDate);
 		} else {
 			item.pubDate = new Date();
-			displayMessage("pubDate empty for item: " + item.title);
+			// displayMessage("pubDate empty for item: " + item.title);
 		}
 		t.created = item.pubDate;
 		// check to see that we have a filter to use

@@ -6,6 +6,7 @@
 &lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
 &lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
 &lt;div class='publishing' macro='publishing'&gt;&lt;/div&gt;
+&lt;div class='unread' macro='unread'&gt;&lt;/div&gt;
 &lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
 &lt;div class='viewer' macro='notes tags:&quot;notes public&quot;'&gt;&lt;/div&gt;
 &lt;div class='tagClear'&gt;&lt;/div&gt;

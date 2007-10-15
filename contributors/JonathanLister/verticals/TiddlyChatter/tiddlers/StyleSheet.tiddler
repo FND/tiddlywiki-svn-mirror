@@ -5,7 +5,7 @@
 #newChannelBox {background:#33BBBB;}
 #subscriptionBox {background:#CCCC22;}
 #newSubscriptionBox {background:#22CCCC;}
-.publishing {
+.publishing, .unread {
    background-color: #EEEEEE;
    border: 1px solid #EEEEEE;
    float: right;
@@ -13,11 +13,11 @@
    font-size: 0.9em;
    padding: 0.25em;
 }
-.selected .publishing {
+.selected .publishing, .selected .unread {
    background-color: #CCCCCC;
    border: 1px solid #999999;
 }
-.publishing .button {
+.publishing .button, .unread .button {
    border: medium none;
 }
 .publishing ul {

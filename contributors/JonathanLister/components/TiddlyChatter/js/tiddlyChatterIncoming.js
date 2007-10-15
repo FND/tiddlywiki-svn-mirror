@@ -16,7 +16,6 @@ config.macros.tiddlyChatterIncoming.handler = function(place,macroName,params){
 	var tciWrapper = createTiddlyElement(place,"div","tiddlyChatterIncomingWrapper");
 	tciWrapper.setAttribute("refresh","content");
 	tciWrapper.setAttribute("force","true");
-	createTiddlyElement(tciWrapper,"div","tiddlyChatterIncomingTitle",null,"TiddlyChatter - incoming!");
 	var tciTable = createTiddlyElement(tciWrapper,"table","tiddlyChatterIncomingTable");
 	var tciTableHead = createTiddlyElement(tciTable,"tr","tiddlyChatterIncomingHeader");
 	createTiddlyElement(tciTableHead,"th",null,null,"Latest update");
@@ -113,7 +112,7 @@ config.macros.tiddlyChatterIncoming.handler = function(place,macroName,params){
 			}
 			for (var i=0;i<titles.length;i++) {
 				var t = store.fetchTiddler(titles[i]);
-				if (t.fields["unread"] && t.fields["unread"] == true) {
+				if (t.fields["unread"] && t.fields["unread"] == "true") {
 					t.fields["unread"] = false;
 					t.set(t.title,t.text,t.modifier,t.modified,t.tags,t.created,t.fields);
 				}

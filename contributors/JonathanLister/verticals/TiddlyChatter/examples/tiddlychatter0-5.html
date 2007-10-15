@@ -493,8 +493,7 @@ Also see AdvancedOptions</pre>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
 <div title="BUGS" modifier="Jon Lister" created="200710051013" modified="200710071425" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlychatter/tiddlychatter_two.xml" server.filter="[tag[public right]]" server.type="RSS" changecount="3" server.workspace="">
-<pre>* refresh mechanism implemented in a way I don't fully understand - could be unstable?
-* there is still an annoying setup process for getting ImportWorkspace options set (this is because of cookies - either expose options in a better place or stop them from being cookies?)</pre>
+<pre>* refresh mechanism implemented in a way I don't fully understand - could be unstable?</pre>
 </div>
 <div title="ChatterFeed" modifier="Jon Lister" created="200709211043" modified="200709271741" tags="systemServer TiddlyChatter public channel published" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="2" server.workspace="">
 <pre>|''Type:''|RSS|
@@ -503,10 +502,14 @@ Also see AdvancedOptions</pre>
 |''TiddlerFilter:''|[tag[public]]|</pre>
 </div>
 <div title="DefaultTiddlers" modifier="Jon Lister" created="200709261606" modified="200710051010" changecount="5">
-<pre>[[Welcome to TiddlyChatter]]</pre>
+<pre>[[Welcome to TiddlyChatter]]
+[[lv macro]]</pre>
 </div>
 <div title="Incoming!" modifier="Jon Lister" created="200710031720" tags="TiddlyChatter" changecount="1">
 <pre>&lt;&lt;tiddlyChatterIncoming&gt;&gt;</pre>
+</div>
+<div title="lv macro" modifier="Jon Lister" created="200710031720" tags="TiddlyChatter" changecount="1">
+<pre>&lt;&lt;lv&gt;&gt;</pre>
 </div>
 <div title="MainMenu" modifier="Jon Lister" created="200709261354" modified="200710051013" changecount="11">
 <pre>[[Welcome|Welcome to TiddlyChatter]]
@@ -516,18 +519,17 @@ Also see AdvancedOptions</pre>
 ~TiddlyChatter controls
 ----
 &lt;&lt;newTiddler label:&quot;New Chatter&quot; title:NewChatter tag:public text:&quot;Type some text and then press DONE&quot;&gt;&gt;
-[[Control panel|TiddlyChatter control panel]]
-&lt;&lt;importWorkspace&gt;&gt;
-[[Incoming!]]</pre>
+[[Control panel|lv macro]]
+&lt;&lt;importWorkspace&gt;&gt;</pre>
 </div>
 <div title="Setting up TiddlyChatter" modifier="Jon Lister" created="200709271728" modified="200710051010" tags="info TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="11" server.workspace="">
-<pre>The key to ~TiddlyChatter is your subscription to someone else's &quot;~ChatterStream&quot;, which you can manage from [[TiddlyChatter control panel]]. Click &quot;new subscription&quot; and put in the URL of a ~TiddlyWiki which is publishing a stream. You have been set up with one subscription called ChatterFeed to some test content on the web.
-
-''You need to make sure that the &quot;Tag for import&quot; field in ImportWorkspacePlugin is set to &quot;publish&quot;, or the menu button to get your updates won't apear.'' At 09/10/07, it is still set as a cookie...
+<pre>The key to ~TiddlyChatter is your subscription to someone else's &quot;~ChatterStream&quot;, which you can manage from the [[TiddlyChatter control panel|lv macro]]. Click &quot;manage&quot; and then &quot;new subscription&quot; and put in the URL of a ~TiddlyWiki which is publishing a stream. You have been set up with one subscription, called ChatterFeed, to some test content on the web.
 
 Currently, ~TiddlyChatter supports subscribing to one person's stream.
 
-Hitting &quot;Go chatter!&quot; in the MainMenu gets your updates. When you save your ~TiddlyWiki, your own updates are published into your stream.</pre>
+Hitting &quot;Get&quot; downloads your updates. New content is displayed in red. When you save your ~TiddlyWiki, your own updates are published into your stream.
+
+All the tiddlers necessary to run ~TiddlyChatter are tagged &lt;&lt;tag TiddlyChatter&gt;&gt; for ease of import.</pre>
 </div>
 <div title="SiteSubtitle" modifier="Jon Lister" created="200709211034" modified="200709271300" changecount="3">
 <pre>Test workbook - to work with other TiddlyChatter-enabled workbooks</pre>
@@ -542,7 +544,7 @@ Hitting &quot;Go chatter!&quot; in the MainMenu gets your updates. When you save
 #newChannelBox {background:#33BBBB;}
 #subscriptionBox {background:#CCCC22;}
 #newSubscriptionBox {background:#22CCCC;}
-.publishing {
+.publishing, .unread {
    background-color: #EEEEEE;
    border: 1px solid #EEEEEE;
    float: right;
@@ -550,11 +552,11 @@ Hitting &quot;Go chatter!&quot; in the MainMenu gets your updates. When you save
    font-size: 0.9em;
    padding: 0.25em;
 }
-.selected .publishing {
+.selected .publishing, .selected .unread {
    background-color: #CCCCCC;
    border: 1px solid #999999;
 }
-.publishing .button {
+.publishing .button, .unread .button {
    border: medium none;
 }
 .publishing ul {
@@ -568,6 +570,9 @@ tr.tiddlyChatterIncomingRowUnread {
 	background-color: #C44;
 }
 /*}}}*/</pre>
+</div>
+<div title="TC MotherBoard" modifier="Jon Lister" created="200710011257" modified="200710051009" tags="TiddlyChatter" server.host="file:///something.xml" server.filter="[tag[public]]" server.type="RSS" changecount="6" server.workspace="">
+<pre>&lt;&lt;tiddlyChatterControlPanel&gt;&gt;</pre>
 </div>
 <div title="TiddlyChatter control panel" modifier="Jon Lister" created="200710011257" modified="200710051009" tags="TiddlyChatter" server.host="file:///something.xml" server.filter="[tag[public]]" server.type="RSS" changecount="6" server.workspace="">
 <pre>This is a basic interface for managing streams and subscriptions
@@ -587,9 +592,11 @@ tr.tiddlyChatterIncomingRowUnread {
 
 The following plugins are built for TiddlyChatter:
 
-|[[tiddlyChatterSetup code]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterSetup_code.js]] |
-|[[tiddlyChatterIncoming]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterIncoming.js]] |
-|[[tiddlyChatterPublishing]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/tiddlyChatterPublishing.js]] |
+|[[tiddlyChatterSetup code]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/TiddlyChatter/js/tiddlyChatterSetup_code.js]] |
+|[[tiddlyChatterIncoming]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/TiddlyChatter/js/tiddlyChatterIncoming.js]] |
+|[[tiddlyChatterPublishing]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/TiddlyChatter/js/tiddlyChatterPublishing.js]] |
+|[[tiddlyChatterControlPanel]] (being replaced by content of item below) |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/TiddlyChatter/js/tiddlyChatterControlPanel.js]] |
+|[[lv macro]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/TiddlyChatter/js/lv.js]] |
 
 The following plugins are used in a modified state (link to modified source in last column):
 
@@ -598,11 +605,12 @@ The following plugins are used in a modified state (link to modified source in l
 
 The following plugins are used without modification:
 
-|[[RSSAdaptor|RSS adaptor code]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/RSSAdaptor/tiddlers/rssadaptor.js]] |
-|[[RSSRender|RSSrender plugin]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/tiddlers/RSSRender.js]] |
-| [[File adaptor filter plugin]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/tiddlers/File_adaptor_filter_plugin.js]] |
+|[[RSSAdaptor|RSSAdaptor]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/RSSAdaptor/js/rssadaptor.js]] |
+|[[RSSRender|RSSrender plugin]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/RSSAdaptor/js/RSSRender.js]] |
+| [[File adaptor filter plugin]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/TiddlyChatter/js/File_adaptor_filter_plugin.js]] |
 |TaggedTemplateTweak |by EricShulman |[[source|http://www.TiddlyTools.com/#TaggedTemplateTweak]] |
 |[[stickyOptionsPlugin]] |by SaqImtiaz |[[source|http://tw.lewcid.org/#StickyOptionsPlugin]] |
+|[[Unread]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/Unread/js/Unread.js]]
 
 The following tiddlers are not plugins, but are part of the config:
 
@@ -616,8 +624,7 @@ MainMenu
 [[Welcome to TiddlyChatter]]
 [[Setting up TiddlyChatter]]
 [[What is TiddlyChatter?]]
-[[TiddlyChatter control panel]]
-[[Incoming!]]</pre>
+[[lv macro]] (working name)</pre>
 </div>
 <div title="ViewTemplate" modifier="Jon Lister" created="200709211023" modified="200709211033" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211033" server.type="file">
 <pre>&lt;!--{{{--&gt;
@@ -631,15 +638,15 @@ MainMenu
 &lt;!--}}}--&gt;</pre>
 </div>
 <div title="Welcome to TiddlyChatter" modifier="Jon Lister" created="200709261353" modified="200709271740" tags="info TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="10" server.workspace="">
-<pre>This ~TiddlyWiki has the required plugins installs to support &quot;~TiddlyChatter&quot;, a peer-to-peer collaboration feature.
+<pre>This ~TiddlyWiki has the required plugins installs to support &quot;~TiddlyChatter&quot;, an opt-in, decentralized collaboration feature. What this means:
 
-You can read an example of [[how TiddlyChatter works|What is TiddlyChatter?]].
+''opt-in:'' avoid &quot;collaboration noise&quot; associated with standard wikis - only see the information from people you want to collaborate directly with;
 
-''You need to set one cookie-stored variable before you can get updates - [[find out more here|Setting up TiddlyChatter]]''
+''decentralized:'' everyone can keep their own personal TiddlyWiki and still become a part of a TiddlyChatter community; you don't need to rely on a central collaboration server.
 
-~TiddlyChatter is still in [[development|TiddlyChatterDocumentation]]; click for documentation about the plugins ~TiddlyChatter is based on and what changes have been made to existing plugins. All the tiddlers necessary to run ~TiddlyChatter are tagged &lt;&lt;tag TiddlyChatter&gt;&gt; for ease of import.
+You can read an example scenario of [[how TiddlyChatter works|What is TiddlyChatter?]].
 
-Click for the [[set-up instructions|Setting up TiddlyChatter]].</pre>
+Click for the [[set-up instructions|Setting up TiddlyChatter]]. ~TiddlyChatter is still in [[development|TiddlyChatterDocumentation]].</pre>
 </div>
 <div title="What is TiddlyChatter?" modifier="Jon Lister" created="200709271737" modified="200709271740" tags="info TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.type="RSS" changecount="4" server.workspace="">
 <pre>[extracted from original [[blog post|http://jayfresh.wordpress.com/2007/09/24/tiddlychatter-decentralized-collaboration/]] on the subject]
@@ -668,10 +675,34 @@ This doesn’t sound so different from normal collaboration, but there are a cou
 &lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
 &lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
 &lt;div class='publishing' macro='publishing'&gt;&lt;/div&gt;
+&lt;div class='unread' macro='unread'&gt;&lt;/div&gt;
 &lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
 &lt;div class='viewer' macro='notes tags:&quot;notes public&quot;'&gt;&lt;/div&gt;
 &lt;div class='tagClear'&gt;&lt;/div&gt;
 &lt;!--}}}--&gt;</pre>
+</div>
+<div title="tiddlyChatterControlPanel" modifier="Jon Lister" created="200710031717" modified="" tags="systemConfig TiddlyChatter" changecount="1">
+<pre>//{{{
+
+config.macros.tiddlyChatterControlPanel = {};
+
+config.macros.tiddlyChatterControlPanel.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	if (config.macros.importWorkspace) {
+		config.macros.importWorkspace.handler(place,&quot;importWorkspacePlugin&quot;,params,wikifier,paramString,tiddler);
+	}
+	if (config.macros.newTiddler) {
+		config.macros.newTiddler.handler(place,&quot;newTiddler&quot;,&quot;{label:'New Chatter',title:'NewChatter',tag:'public',text:'Type some text and then press DONE'}&quot;,wikifier,&quot;label:'New Chatter' title:'NewChatter' tag:'public' text:'Type some text and then press DONE'&quot;,tiddler);
+	}
+	if (config.macros.tiddlyChatterIncoming) {
+		config.macros.tiddlyChatterIncoming.handler(place,&quot;tiddlyChatterIncoming&quot;,params,wikifier,paramString,tiddler);
+	}
+	if (config.macros.tiddlyChatterSetup) {
+		config.macros.tiddlyChatterSetup.handler(place,&quot;tiddlyChatterSetup&quot;,params,wikifier,paramString,tiddler);
+	}
+};
+
+
+//}}}</pre>
 </div>
 <div title="tiddlyChatterIncoming" modifier="Jon Lister" created="200710031717" modified="" tags="systemConfig TiddlyChatter" changecount="1">
 <pre>//{{{
@@ -692,7 +723,6 @@ config.macros.tiddlyChatterIncoming.handler = function(place,macroName,params){
 	var tciWrapper = createTiddlyElement(place,&quot;div&quot;,&quot;tiddlyChatterIncomingWrapper&quot;);
 	tciWrapper.setAttribute(&quot;refresh&quot;,&quot;content&quot;);
 	tciWrapper.setAttribute(&quot;force&quot;,&quot;true&quot;);
-	createTiddlyElement(tciWrapper,&quot;div&quot;,&quot;tiddlyChatterIncomingTitle&quot;,null,&quot;TiddlyChatter - incoming!&quot;);
 	var tciTable = createTiddlyElement(tciWrapper,&quot;table&quot;,&quot;tiddlyChatterIncomingTable&quot;);
 	var tciTableHead = createTiddlyElement(tciTable,&quot;tr&quot;,&quot;tiddlyChatterIncomingHeader&quot;);
 	createTiddlyElement(tciTableHead,&quot;th&quot;,null,null,&quot;Latest update&quot;);
@@ -789,7 +819,7 @@ config.macros.tiddlyChatterIncoming.handler = function(place,macroName,params){
 			}
 			for (var i=0;i&lt;titles.length;i++) {
 				var t = store.fetchTiddler(titles[i]);
-				if (t.fields[&quot;unread&quot;] &amp;&amp; t.fields[&quot;unread&quot;] == true) {
+				if (t.fields[&quot;unread&quot;] &amp;&amp; t.fields[&quot;unread&quot;] == &quot;true&quot;) {
 					t.fields[&quot;unread&quot;] = false;
 					t.set(t.title,t.text,t.modifier,t.modified,t.tags,t.created,t.fields);
 				}
@@ -969,13 +999,14 @@ config.macros.tiddlyChatterSetup.handler = function(place,macroName,params,wikif
 	params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
 	// using_streams defines whether we are working with multiple streams
 	var using_streams = getParam(params,&quot;using_streams&quot;,null);
-
+	
+	var streamManagementWrapper = createTiddlyElement(place,&quot;div&quot;,&quot;streamManagementWrapper&quot;);
 	var channelBox;
 	if(using_streams) {
 		// create an interface for handling streams
 		// a streams is a feed you publish
 		// add a button to create new streams
-		var channelWrapper = createTiddlyElement(place,&quot;div&quot;);
+		var channelWrapper = createTiddlyElement(streamManagementWrapper,&quot;div&quot;,&quot;channelWrapper&quot;);
 		channelBox = createTiddlyElement(channelWrapper,&quot;div&quot;,&quot;channelBox&quot;);
 		var newChannelButton = createTiddlyButton(channelBox,&quot;New stream&quot;,&quot;New stream&quot;,this.reveal);
 		createTiddlyElement(channelBox,&quot;br&quot;);
@@ -993,7 +1024,7 @@ config.macros.tiddlyChatterSetup.handler = function(place,macroName,params,wikif
 	// we do this whether or not using_streams is true
 	// a subscription is to someone else's stream
 	// add a button to create new subscriptions
-	var subscriptionWrapper = createTiddlyElement(place,&quot;div&quot;);
+	var subscriptionWrapper = createTiddlyElement(streamManagementWrapper,&quot;div&quot;,&quot;subscriptionWrapper&quot;);
 	var subscriptionBox = createTiddlyElement(subscriptionWrapper,&quot;div&quot;,&quot;subscriptionBox&quot;);
 	var newSubscriptionButton = createTiddlyButton(subscriptionBox,&quot;New subscription&quot;,&quot;New subscription&quot;,this.reveal);
 	createTiddlyElement(subscriptionBox,&quot;br&quot;);
@@ -1044,6 +1075,7 @@ config.macros.tiddlyChatterSetup.handler = function(place,macroName,params,wikif
 		createTiddlyLink(subscriptionBox,subscriptions[i].title,true);
 		createTiddlyElement(subscriptionBox,&quot;br&quot;);
 	}
+	return streamManagementWrapper;
 };
 
 // onclick for creating a new channel; 'this' refers to the button
@@ -1340,7 +1372,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 		if (desc) item.text = desc[0].replace(/^&lt;description&gt;|&lt;\/description&gt;$/mg,&quot;&quot;);
 		else {
 			item.text = &quot;empty, something seriously wrong with this item&quot;;
-			displayMessage(&quot;description empty for item: &quot; + item.title);
+			// displayMessage(&quot;description empty for item: &quot; + item.title);
 		}
 		var t = new Tiddler(item.title);
 		t.text = &quot;&lt;html&gt;&quot; + item.text.htmlDecode().renderHtmlText() + &quot;&lt;/html&gt;&quot;;
@@ -1353,7 +1385,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 			}
 			t.tags = item.categories;
 		} else {
-			displayMessage(&quot;no tags for item: &quot; + item.title);
+			// displayMessage(&quot;no tags for item: &quot; + item.title);
 		}
 		// grab the link and put it in a custom field (assumes this is sensible)
 		// regex_link assumes you can never have whitespace in a link
@@ -1361,7 +1393,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 		if (link) item.link = link[0].replace(/^&lt;link&gt;|&lt;\/link&gt;$/mg,&quot;&quot;);
 		else {
 			item.link = &quot;#&quot;;
-			displayMessage(&quot;link empty for item: &quot; + item.title);
+			// displayMessage(&quot;link empty for item: &quot; + item.title);
 		}
 		t.fields[&quot;link to original&quot;] = item.link;
 		// grab date created
@@ -1372,7 +1404,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 			item.pubDate = new Date(pubDate);
 		} else {
 			item.pubDate = new Date();
-			displayMessage(&quot;pubDate empty for item: &quot; + item.title);
+			// displayMessage(&quot;pubDate empty for item: &quot; + item.title);
 		}
 		t.created = item.pubDate;
 		// check to see that we have a filter to use
@@ -1529,6 +1561,32 @@ Tiddler.prototype.isTaggedAllOf = function(tag_array)
 
 //}}}</pre>
 </div>
+<div title="Unread" modifier="Jon Lister" created="200710011257" modified="200710020955" tags="systemConfig TiddlyChatter" changecount="1">
+<pre>config.macros.unread = {};
+
+config.macros.unread.handler = function(place,macroName,param,wikifier,paramString,tiddler) {
+	// check to see if tiddler has extended field &quot;unread&quot;
+	// if so, add button to click to change status to read
+	if (tiddler.fields[&quot;unread&quot;]) {
+		var unread = tiddler.fields[&quot;unread&quot;];
+		var label = unread == &quot;true&quot; ? &quot;Mark as read&quot; : &quot;Mark as unread&quot;;
+		var caption = unread == &quot;false&quot; ? &quot;Click to mark as read&quot; : &quot;Click to mark as unread&quot;;
+		var theUnreadBox = createTiddlyButton(place,label,caption);
+		theUnreadBox.onclick = config.macros.unread.markAsRead;
+	}
+};
+
+config.macros.unread.markAsRead = function() {
+	var DOMTiddler = story.findContainingTiddler(this);
+	var t = store.fetchTiddler(DOMTiddler.getAttribute(&quot;tiddler&quot;));
+	t.fields[&quot;unread&quot;] = t.fields[&quot;unread&quot;] == &quot;true&quot; ? &quot;false&quot; : &quot;true&quot;;
+	// store.saveTiddler(t.title,t.title,t.text,t.modifier,t.modified,t.tags,t.fields,false,t.created);
+	// story.refreshTiddler(DOMTiddler.getAttribute(&quot;tiddler&quot;),DOMTiddler.getAttribute(&quot;template&quot;),true);
+	story.refreshAllTiddlers();
+	// the line above seems rather heavy-handed... what's an efficient way to make another tiddler respond to a change in this one's fields?
+	// also, if I don't save t back to the store, does this have any consequences? Or is it happening automatically?
+};</pre>
+</div>
 <div title="File adaptor filter plugin" modifier="Jon Lister" created="200710011636" modified="" tags="systemConfig TiddlyChatter" changecount="1">
 <pre>//{{{
 
@@ -1561,6 +1619,196 @@ FileAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filt
 
 //}}}</pre>
 </div>
+<div title="lv" modifier="Jon Lister" created="200709211021" modified="200709271301" tags="systemConfig TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html" server.page.revision="200709211331" server.type="file" changecount="1">
+<pre>config.macros.lv = {};
+
+config.macros.lv.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+
+	var table, this_tiddler;
+	var subManagement, subManagementSlider;
+	var listTemplate = {};
+	listTemplate.columns = [];
+	listTemplate.rowClasses = [];
+	listTemplate.buttons = [];
+	// listTemplate.actions = [];
+	listTemplate.columns.push({
+		type:&quot;String&quot;,
+		title:&quot;Latest update&quot;,
+		field:&quot;latest_update&quot;
+	});
+	listTemplate.columns.push({
+		type:&quot;TiddlerLink&quot;,
+		title:&quot;Title (no. of updates)&quot;,
+		field:&quot;link_title&quot;,
+		tiddlerLink:&quot;link&quot;
+	});
+	listTemplate.columns.push({
+		type:&quot;String&quot;,
+		title:&quot;Last updated by&quot;,
+		field:&quot;last_updated_by&quot;
+	});
+	/* listTemplate.columns.push({
+		type:&quot;Selector&quot;,
+		field:&quot;checked&quot;,
+		rowName:&quot;row_name&quot;
+	}); */
+	listTemplate.rowClasses.push({
+		field:&quot;unread&quot;,
+		className:&quot;tiddlyChatterIncomingRowUnread&quot;
+	});
+	listTemplate.rowClasses.push({
+		field:&quot;read&quot;,
+		className:&quot;tiddlyChatterIncomingRow&quot;
+	});
+	listTemplate.buttons.push({
+		name:&quot;Get updates&quot;,
+		caption:&quot;Get&quot;,
+		allowEmptySelection:&quot;true&quot;
+	});
+	listTemplate.buttons.push({
+		name:&quot;Create chatter&quot;,
+		caption:&quot;Create&quot;,
+		allowEmptySelection:&quot;true&quot;
+	});
+	listTemplate.buttons.push({
+		name:&quot;Manage subscriptions&quot;,
+		caption:&quot;Manage&quot;,
+		allowEmptySelection:&quot;true&quot;
+	});
+	/* listTemplate.actions.push({
+		name:&quot;bark&quot;,
+		caption:&quot;woof woof&quot;
+	});
+	listTemplate.actions.push({
+		name:&quot;laugh&quot;,
+		caption:&quot;ha ha&quot;
+	}); */
+	// callback has to deal with all the different functions, so select them by 'name'
+	var callback = function(view,name,tiddlers) {
+		switch(name) {
+				case &quot;Get updates&quot;:
+					config.macros.importWorkspace.getTiddlers.call(config.macros.importWorkspace,config.defaultCustomFields);
+					break;
+				case &quot;Manage subscriptions&quot;:
+				subManagement.style.display = subManagement.style.display == &quot;none&quot; ? &quot;block&quot; : &quot;none&quot;;
+					break;
+				case &quot;Create chatter&quot;:
+					// mimicing the newTiddler button
+					this.setAttribute(&quot;newTitle&quot;,&quot;NewChatter&quot;);
+					this.setAttribute(&quot;isJournal&quot;,&quot;false&quot;);
+					this.setAttribute(&quot;params&quot;,&quot;public&quot;);
+					this.setAttribute(&quot;newFocus&quot;,&quot;title&quot;);
+					this.setAttribute(&quot;newTemplate&quot;,&quot;2&quot;);
+					// this.setAttribute(&quot;customFields&quot;,&quot;&quot;);
+					this.setAttribute(&quot;newText&quot;,&quot;Type some text and then press DONE&quot;);
+					config.macros.newTiddler.onClickNewTiddler.call(this,null);
+					break;
+				default:
+					// don't do anything
+					break;
+			}
+	};
+	/* START: routine to fill content into our listObject */
+	var tagFilter;
+	if (params) {
+		tagFilter = params[0];
+	}
+	// content_and_notes holds our content and associated notes in the form:
+	// [{content:content1,notes:[note1a,note1b]},{content:content2,notes[note2a,note2b]},...]
+	var content_and_notes = [];
+	var notes = [];
+	var filteredContent = store.filterTiddlers(tagFilter);
+	// process: collect the content first and set up the content_and_notes array
+	// collect the notes at the same time and store them
+	// sort notes by modify date
+	// run through cotent, adding its notes to content_and_notes
+	// sort content_and_notes by modify date of most recent note belonging to content
+	for (var i=0;i&lt;filteredContent.length;i++) {
+		var t = filteredContent[i];
+		if (t.isTagged(&quot;public&quot;)) {
+			if (!t.isTagged(&quot;notes&quot;)) {
+				// it's parent content
+				content_and_notes.push({content:t,notes:[]});
+			} else {
+				// it's a note
+				notes.push(t);
+			}
+		}
+	}
+	notes.sort(function(a,b){
+		return a.modified &gt; b.modified ? -1 : (a.modified == b.modified ? 0 : 1);
+	});
+	for (var i=0;i&lt;content_and_notes.length;i++) {
+		var content_object = content_and_notes[i];
+		for (var j=0;j&lt;notes.length;j++) {
+			if (notes[j].title.indexOf(content_object[&quot;content&quot;].title) != -1) {
+				// matched a note with a title containing a piece of content's title
+				content_object[&quot;notes&quot;].push(notes[j]);
+			}
+		}
+	}
+	content_and_notes.sort(function(a,b){
+		var a_most_recent, b_most_recent;
+		// a[&quot;notes&quot;][0] is the most recent note for a piece of content, if it exists
+		// if it doesn't exist, use the content itself
+		if (a[&quot;notes&quot;][0]) {
+			a_most_recent = a[&quot;notes&quot;][0];
+		} else {
+			a_most_recent = a[&quot;content&quot;];
+		}
+		if (b[&quot;notes&quot;][0]) {
+			b_most_recent = b[&quot;notes&quot;][0];
+		} else {
+			b_most_recent = b[&quot;content&quot;];
+		}
+		return a_most_recent.modified &gt; b_most_recent.modified ? -1 : (a_most_recent.modified == b_most_recent.modified ? 0 : 1);
+	});
+	// map content_and_notes onto listObject
+	var listObject = [];
+	for (var i=0;i&lt;content_and_notes.length;i++) {
+		var content_object = content_and_notes[i];
+		// noteCount is the number of notes in content_object[&quot;notes&quot;];
+		var noteCount = content_object[&quot;notes&quot;] ? content_object[&quot;notes&quot;].length : 0;
+		// newestNote is the first note in content_object[&quot;notes&quot;] or the content itself if there are no notes
+		var newestNote = noteCount !== 0 ? content_object[&quot;notes&quot;][0] : content_object[&quot;content&quot;];
+		// display &quot;new&quot; next to the title if noteCount is 0
+		var newContent = noteCount === 0 ? true : false;
+		// we want to know how many days since the last update
+		var daysSince = newestNote.modified.relativeDays();
+		// display today or yesterday if daysSince is 0 or 1, respectively
+		if (daysSince === 0) {
+			daysSince = &quot;today&quot;;
+		} else if (daysSince == 1) {
+			daysSince = &quot;yesterday&quot;;
+		} else {
+			daysSince = daysSince + &quot; days ago&quot;;
+		}
+		var contentTitle = content_object[&quot;content&quot;].title;
+		var contentTitleSuffix = newContent ? &quot; (new)&quot; : &quot; (&quot; + noteCount + &quot;)&quot;;
+		listObject[i] = {
+			latest_update:daysSince,
+			link_title:contentTitle + contentTitleSuffix,
+			link:contentTitle,
+			last_updated_by:newestNote.modifier,
+			checked:newestNote.fields[&quot;unread&quot;] ? true : false,
+			row_name:contentTitle,
+		};
+		if (newestNote.fields[&quot;unread&quot;] == &quot;true&quot;) {
+			listObject[i][&quot;unread&quot;] = &quot;yes&quot;;
+		} else {
+			listObject[i][&quot;read&quot;] = &quot;yes&quot;;
+		}
+	}
+	/* END */
+	// Create a listview
+	table = ListView.create(place,listObject,listTemplate,callback);
+	this_tiddler = story.findContainingTiddler(table);
+	this_tiddler.setAttribute(&quot;refresh&quot;,&quot;tiddler&quot;);
+	this_tiddler.setAttribute(&quot;force&quot;,&quot;true&quot;);
+	subManagement = config.macros.tiddlyChatterSetup.handler(place,&quot;tiddlyChatterSetup&quot;,params,wikifier,paramString,tiddler);
+	subManagement.style.display = &quot;none&quot;;
+};</pre>
+</div>
 <div title="ImportWorkspacePlugin" modifier="Jon Lister" created="200702250000" modified="200709271741" tags="systemConfig TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="15" server.workspace="">
 <pre>/***
 |''Name:''|ImportWorkspacePlugin|
@@ -1589,9 +1837,12 @@ if(!version.extensions.ImportWorkspacePlugin) {
 version.extensions.ImportWorkspacePlugin = {installed:true};
 
 if(config.options.txtImportTag == undefined)
-	{config.options.txtImportTag = '';}
+	{config.options.txtImportTag = 'published';}
 if(config.options.chkImportWorkspaceOnStartup == undefined)
 	{config.options.chkImportWorkspaceOnStartup = false;}
+if(config.options.txtImportLabel == undefined)
+	{config.options.txtImportLabel = 'Check for new stuff';}
+
 
 config.messages.hostOpened = &quot;Host '%0' opened&quot;;
 config.messages.workspaceOpened = &quot;Workspace '%0' opened&quot;;
@@ -1634,7 +1885,7 @@ config.macros.importWorkspace.init = function()
 };
 
 // I'm finding that this runs before the init function!
-// My evidence for this is through config.log calls, so I assume that they execute in the order they are called
+// My evidence for this is through config.log calls, and I assume that they execute in the order they are called
 config.macros.importWorkspace.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	params = paramString.parseParams('anon',null,true,false,false);
@@ -1712,16 +1963,16 @@ config.macros.importWorkspace.getTiddlers = function(fields)
 
 config.macros.importWorkspace.openHostCallback = function(context,userParams)
 {
-	displayMessage(config.messages.hostOpened.format([context.host]));
+	// displayMessage(config.messages.hostOpened.format([context.host]));
 	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.openWorkspaceCallback);
 	context.adaptor.openWorkspace(context.workspace,context,userParams,config.macros.importWorkspace.openWorkspaceCallback);
 };
 
 config.macros.importWorkspace.openWorkspaceCallback = function(context,userParams)
 {
-	displayMessage(config.messages.workspaceOpened.format([context.workspace]));
+	// displayMessage(config.messages.workspaceOpened.format([context.workspace]));
 	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.getTiddlerListCallback);
-	displayMessage(&quot;using import filter: &quot; + context.filter);
+	// displayMessage(&quot;using import filter: &quot; + context.filter);
 	context.adaptor.getTiddlerList(context,userParams,config.macros.importWorkspace.getTiddlerListCallback,context.filter);
 };
 
@@ -1734,7 +1985,7 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 		var length = tiddlers.length;
 		if(userParams &amp;&amp; userParams.maxCount &amp;&amp; length &gt; userParams.maxCount)
 			length = userParams.maxCount;
-		displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
+		// displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
 		var import_count = 0;
 		for(var i=0; i&lt;length; i++) {
 			tiddler = tiddlers[i];
@@ -1755,11 +2006,11 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 
 config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
 {
-	displayMessage(&quot;getting &quot; + context.tiddler.title);
+	// displayMessage(&quot;getting &quot; + context.tiddler.title);
 	if(context.status) {
 		var tiddler = context.tiddler;
 		// add in an extended field to save unread state
-		tiddler.fields[&quot;unread&quot;] = true;
+		tiddler.fields[&quot;unread&quot;] = &quot;true&quot;;
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 		story.refreshTiddler(tiddler.title,1,true);
 	} else {
@@ -2381,7 +2632,8 @@ config.macros = {
 		missing: {},
 		orphans: {},
 		shadowed: {},
-		touched: {}
+		touched: {},
+		filter: {}
 	},
 	closeAll: {},
 	permaview: {},
@@ -2391,7 +2643,6 @@ config.macros = {
 	options: {},
 	newTiddler: {},
 	newJournal: {},
-	sparkline: {},
 	tabs: {},
 	gradient: {},
 	message: {},
@@ -2399,7 +2650,6 @@ config.macros = {
 	edit: {},
 	tagChooser: {},
 	toolbar: {},
-	br: {},
 	plugins: {},
 	refreshDisplay: {},
 	importTiddlers: {},
@@ -2454,7 +2704,7 @@ if(config.browser.isBadSafari) {
 	};
 }
 config.textPrimitives.sliceSeparator = "::";
-config.textPrimitives.urlPattern = "[a-z]{3,8}:[^\\s:'\"][^\\s'\"]*(?:/|\\b)";
+config.textPrimitives.urlPattern = "(?:file|http|https|mailto|ftp|irc|news|data):[^\\s'\"]+(?:/|\\b)";
 config.textPrimitives.unWikiLink = "~";
 config.textPrimitives.wikiLink = "(?:(?:" + config.textPrimitives.upperLetter + "+" +
 	config.textPrimitives.lowerLetter + "+" +
@@ -3036,8 +3286,10 @@ function restart()
 {
 	invokeParamifier(params,"onstart");
 	if(story.isEmpty()) {
-		var defaultParams = store.getTiddlerText("DefaultTiddlers").parseParams("open",null,false);
-		invokeParamifier(defaultParams,"onstart");
+		var tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));
+		for(var t=0; t<tiddlers.length; t++) {
+			story.displayTiddler("bottom",tiddlers[t].title);
+		}
 	}
 	window.scrollTo(0,0);
 }
@@ -3684,19 +3936,14 @@ config.formatters = [
 },
 
 {
-	name: "unWikiLink",
-	match: config.textPrimitives.unWikiLink+config.textPrimitives.wikiLink,
-	handler: function(w)
-	{
-		w.outputText(w.output,w.matchStart+1,w.nextMatch);
-	}
-},
-
-{
 	name: "wikiLink",
-	match: config.textPrimitives.wikiLink,
+	match: config.textPrimitives.unWikiLink+"?"+config.textPrimitives.wikiLink,
 	handler: function(w)
 	{
+		if(w.matchText.substr(0,1) == config.textPrimitives.unWikiLink) {
+			w.outputText(w.output,w.matchStart+1,w.nextMatch);
+			return;
+		}
 		if(w.matchStart > 0) {
 			var preRegExp = new RegExp(config.textPrimitives.anyLetterStrict,"mg");
 			preRegExp.lastIndex = w.matchStart-1;
@@ -4131,11 +4378,7 @@ Wikifier.prototype.outputText = function(place,startPos,endPos)
 config.macros.today.handler = function(place,macroName,params)
 {
 	var now = new Date();
-	var text;
-	if(params[0])
-		text = now.formatString(params[0].trim());
-	else
-		text = now.toLocaleString();
+	var text = params[0] ? now.formatString(params[0].trim()) : text = now.toLocaleString();
 	createTiddlyElement(place,"span",null,null,text);
 };
 
@@ -4186,6 +4429,18 @@ config.macros.list.touched.handler = function(params)
 	return store.getTouched();
 };
 
+config.macros.list.filter.handler = function(params)
+{
+	var filter = params[1];
+	var results = [];
+	if(filter) {
+		var tiddlers = store.filterTiddlers(filter);
+		for(var t=0; t<tiddlers.length; t++)
+			results.push(tiddlers[t].title);
+	}
+	return results;
+};
+
 config.macros.allTags.handler = function(place,macroName,params)
 {
 	var tags = store.getTags(params[0]);
@@ -4214,13 +4469,12 @@ config.macros.timeline.handler = function(place,macroName,params)
 		var tiddler = tiddlers[t];
 		var theDay = tiddler[field].convertToLocalYYYYMMDDHHMM().substr(0,8);
 		if(theDay != lastDay) {
-			var theDateList = document.createElement("ul");
-			place.appendChild(theDateList);
-			createTiddlyElement(theDateList,"li",null,"listTitle",tiddler[field].formatString(dateFormat));
+			var ul = document.createElement("ul");
+			place.appendChild(ul);
+			createTiddlyElement(ul,"li",null,"listTitle",tiddler[field].formatString(dateFormat));
 			lastDay = theDay;
 		}
-		var theDateListItem = createTiddlyElement(theDateList,"li",null,"listLink");
-		theDateListItem.appendChild(createTiddlyLink(place,tiddler.title,true));
+		createTiddlyElement(ul,"li",null,"listLink").appendChild(createTiddlyLink(place,tiddler.title,true));
 	}
 };
 
@@ -4270,37 +4524,37 @@ config.macros.tag.handler = function(place,macroName,params)
 config.macros.tags.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	params = paramString.parseParams("anon",null,true,false,false);
-	var theList = createTiddlyElement(place,"ul");
+	var ul = createTiddlyElement(place,"ul");
 	var title = getParam(params,"anon","");
 	if(title && store.tiddlerExists(title))
 		tiddler = store.getTiddler(title);
 	var sep = getParam(params,"sep"," ");
 	var lingo = config.views.wikified.tag;
 	var prompt = tiddler.tags.length == 0 ? lingo.labelNoTags : lingo.labelTags;
-	createTiddlyElement(theList,"li",null,"listTitle",prompt.format([tiddler.title]));
+	createTiddlyElement(ul,"li",null,"listTitle",prompt.format([tiddler.title]));
 	for(var t=0; t<tiddler.tags.length; t++) {
-		createTagButton(createTiddlyElement(theList,"li"),tiddler.tags[t],tiddler.title);
+		createTagButton(createTiddlyElement(ul,"li"),tiddler.tags[t],tiddler.title);
 		if(t<tiddler.tags.length-1)
-			createTiddlyText(theList,sep);
+			createTiddlyText(ul,sep);
 	}
 };
 
 config.macros.tagging.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	params = paramString.parseParams("anon",null,true,false,false);
-	var theList = createTiddlyElement(place,"ul");
+	var ul = createTiddlyElement(place,"ul");
 	var title = getParam(params,"anon","");
 	if(title == "" && tiddler instanceof Tiddler)
 		title = tiddler.title;
 	var sep = getParam(params,"sep"," ");
-	theList.setAttribute("title",this.tooltip.format([title]));
+	ul.setAttribute("title",this.tooltip.format([title]));
 	var tagged = store.getTaggedTiddlers(title);
 	var prompt = tagged.length == 0 ? this.labelNotTag : this.label;
-	createTiddlyElement(theList,"li",null,"listTitle",prompt.format([title,tagged.length]));
+	createTiddlyElement(ul,"li",null,"listTitle",prompt.format([title,tagged.length]));
 	for(var t=0; t<tagged.length; t++) {
-		createTiddlyLink(createTiddlyElement(theList,"li"),tagged[t].title,true);
+		createTiddlyLink(createTiddlyElement(ul,"li"),tagged[t].title,true);
 		if(t<tagged.length-1)
-			createTiddlyText(theList,sep);
+			createTiddlyText(ul,sep);
 	}
 };
 
@@ -4377,29 +4631,23 @@ config.macros.slider.handler = function(place,macroName,params)
 // <<gradient [[tiddler name]] vert|horiz rgb rgb rgb rgb... >>
 config.macros.gradient.handler = function(place,macroName,params,wikifier)
 {
-	var terminator = ">>";
-	var panel;
-	if(wikifier)
-		panel = createTiddlyElement(place,"div",null,"gradient");
-	else
-		panel = place;
+	var panel = wikifier ? createTiddlyElement(place,"div",null,"gradient") : place;
 	panel.style.position = "relative";
 	panel.style.overflow = "hidden";
 	panel.style.zIndex = "0";
-	var t;
 	if(wikifier) {
 		var styles = config.formatterHelpers.inlineCssHelper(wikifier);
 		config.formatterHelpers.applyCssHelper(panel,styles);
 	}
 	var colours = [];
-	for(t=1; t<params.length; t++) {
+	for(var t=1; t<params.length; t++) {
 		var c = new RGB(params[t]);
 		if(c)
 			colours.push(c);
 	}
 	drawGradient(panel,params[0] != "vert",colours);
 	if(wikifier)
-		wikifier.subWikify(panel,terminator);
+		wikifier.subWikify(panel,">>");
 	if(document.all) {
 		panel.style.height = "100%";
 		panel.style.width = "100%";
@@ -4497,9 +4745,9 @@ config.macros.tagChooser.onClick = function(ev)
 	if(tags.length == 0)
 		createTiddlyText(createTiddlyElement(popup,"li"),lingo.popupNone);
 	for(var t=0; t<tags.length; t++) {
-		var theTag = createTiddlyButton(createTiddlyElement(popup,"li"),tags[t][0],lingo.tagTooltip.format([tags[t][0]]),config.macros.tagChooser.onTagClick);
-		theTag.setAttribute("tag",tags[t][0]);
-		theTag.setAttribute("tiddler",this.getAttribute("tiddler"));
+		var tag = createTiddlyButton(createTiddlyElement(popup,"li"),tags[t][0],lingo.tagTooltip.format([tags[t][0]]),config.macros.tagChooser.onTagClick);
+		tag.setAttribute("tag",tags[t][0]);
+		tag.setAttribute("tiddler",this.getAttribute("tiddler"));
 	}
 	Popup.show();
 	e.cancelBubble = true;
@@ -4520,10 +4768,9 @@ config.macros.tagChooser.onTagClick = function(ev)
 config.macros.tagChooser.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	if(tiddler instanceof Tiddler) {
-		var title = tiddler.title;
 		var lingo = config.views.editor.tagChooser;
 		var btn = createTiddlyButton(place,lingo.text,lingo.tooltip,this.onClick);
-		btn.setAttribute("tiddler",title);
+		btn.setAttribute("tiddler",tiddler.title);
 	}
 };
 
@@ -4620,7 +4867,7 @@ config.macros.newJournal.handler = function(place,macroName,params,wikifier,para
 {
 	if(!readOnly) {
 		params = paramString.parseParams("anon",null,true,false,false);
-		var title = params[1] && params[1].name == "anon" ? params[1].value : "";
+		var title = params[1] && params[1].name == "anon" ? params[1].value : config.macros.timeline.dateFormat;
 		title = getParam(params,"title",title);
 		config.macros.newTiddler.createNewTiddlerButton(place,title,params,this.label,this.prompt,this.accessKey,"text",true);
 	}
@@ -4765,6 +5012,7 @@ config.macros.tabs.switchTab = function(tabset,tab)
 //-- Sparklines
 //--
 
+config.macros.sparkline = {};
 config.macros.sparkline.handler = function(place,macroName,params)
 {
 	var data = [];
@@ -4800,7 +5048,9 @@ config.macros.sparkline.handler = function(place,macroName,params)
 		tick.style.height = v + "px";
 		box.appendChild(tick);
 	}
-};//--
+};
+
+//--
 //-- Tiddler toolbar
 //--
 
@@ -5664,9 +5914,9 @@ TiddlyWiki.prototype.allTiddlersAsHtml = function()
 };
 
 // Return an array of tiddlers matching a search regular expression
-TiddlyWiki.prototype.search = function(searchRegExp,sortField,excludeTag)
+TiddlyWiki.prototype.search = function(searchRegExp,sortField,excludeTag,match)
 {
-	var candidates = this.reverseLookup("tags",excludeTag,false);
+	var candidates = this.reverseLookup("tags",excludeTag,!!match);
 	var results = [];
 	for(var t=0; t<candidates.length; t++) {
 		if((candidates[t].title.search(searchRegExp) != -1) || (candidates[t].text.search(searchRegExp) != -1))
@@ -5828,6 +6078,38 @@ TiddlyWiki.prototype.getSaver = function()
 	if(!this.saver)
 		this.saver = new TW21Saver();
 	return this.saver;
+};
+
+// Filter a list of tiddlers
+TiddlyWiki.prototype.filterTiddlers = function(filter)
+{
+	var results = [];
+	if(filter) {
+		var re = /([^ \[\]]+)|(?:\[([ \w]+)\[([^\]]+)\]\])|(?:\[\[([^\]]+)\]\])/mg;
+		var match = re.exec(filter);
+		while(match) {
+			if(match[1]) {
+				var tiddler = this.fetchTiddler(match[1]);
+				if(tiddler)
+					results.push(tiddler);
+			} else if(match[2]) {
+				if(match[2]=="tag") {
+					this.forEachTiddler(function(title,tiddler) {
+						if(tiddler.isTagged(match[3]))
+							results.push(tiddler);
+					});
+				}
+			} else if(match[4]) {
+				var tiddler = this.fetchTiddler(match[4]);
+				if(tiddler)
+					results.push(tiddler);
+			}			
+			match = re.exec(filter);
+		}
+	} else {
+		this.forEachTiddler(function(title,tiddler) {results.push(tiddler);});
+	}
+	return results;
 };
 
 // Returns true if path is a valid field name (path),
@@ -6151,12 +6433,7 @@ Story.prototype.refreshTiddler = function(title,template,force,customFields,defa
 		var currTemplate = tiddlerElem.getAttribute("template");
 		if((template != currTemplate) || force) {
 			var tiddler = store.getTiddler(title);
-			if(tiddler) {
-				var f = tiddler.fields;
-				if(customFields)
-					f = merge(customFields.decodeHashMap(),f);
-				customFields = String.encodeHashMap(f);
-			} else {
+			if(!tiddler) {
 				tiddler = new Tiddler();
 				if(store.isShadowTiddler(title)) {
 					tiddler.set(title,store.getTiddlerText(title),config.views.wikified.shadowModifier,version.date,[],version.date);
@@ -6567,7 +6844,7 @@ var backstage = {
 			this.hide();
 	},
 
-	isVisible: function () {
+	isVisible: function() {
 		return this.area ? this.area.style.display == "block" : false;
 	},
 
@@ -7800,6 +8077,7 @@ config.macros.options.onChangeUnknown = function(e)
 	config.macros.options.refreshOptions(listWrapper,this.checked);
 	return false;
 };
+
 //--
 //-- Saving
 //--
@@ -8367,23 +8645,16 @@ FileAdaptor.prototype.openWorkspace = function(workspace,context,userParams,call
 };
 
 // Gets the list of tiddlers within a given workspace
-FileAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
+FileAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 {
 	if(!this.store)
 		return FileAdaptor.NotLoadedError;
 	if(!context)
 		context = {};
-	context.tiddlers = [];
-	this.store.forEachTiddler(function(title,tiddler)
-		{
-		var t = new Tiddler(title);
-		t.text = tiddler.text;
-		t.modified = tiddler.modified;
-		t.modifier = tiddler.modifier;
-		t.fields['server.page.revision'] = tiddler.modified.convertToYYYYMMDDHHMM();
-		t.tags = tiddler.tags;
-		context.tiddlers.push(t);
-		});
+	context.tiddlers = this.store.filterTiddlers(filter);
+	for(var t=0; t<context.tiddlers.length; t++) {
+		context.tiddlers[t].fields['server.page.revision'] = context.tiddlers[t].modified.convertToYYYYMMDDHHMM();
+	}
 	context.status = true;
 	window.setTimeout(function() {callback(context,userParams);},10);
 	return true;
@@ -8504,7 +8775,7 @@ function getXMLHttpRequest()
 //-- TiddlyWiki-specific utility functions
 //--
 
-function createTiddlyButton(parent,text,tooltip,action,className,id,accessKey)
+function createTiddlyButton(parent,text,tooltip,action,className,id,accessKey,attribs)
 {
 	var btn = document.createElement("a");
 	if(action) {
@@ -8518,6 +8789,11 @@ function createTiddlyButton(parent,text,tooltip,action,className,id,accessKey)
 	btn.className = className ? className : "button";
 	if(id)
 		btn.id = id;
+	if(attribs){
+		for(var n in attribs){
+			e.setAttribute(n,attribs[n]);
+		}
+	}
 	if(parent)
 		parent.appendChild(btn);
 	if(accessKey)
@@ -8613,6 +8889,8 @@ function onClickTiddlerLink(ev)
 			toggling = !toggling;
 		if(noToggle)
 			toggling = false;
+		if(store.getTiddler(title))
+			fields = null;
 		story.displayTiddler(target,title,null,true,null,fields,toggling);
 	}
 	clearMessage();
@@ -9158,8 +9436,9 @@ ListView.create = function(place,listObject,listTemplate,callback,className)
 };
 
 ListView.getCommandHandler = function(callback,name,allowEmptySelection)
-{
+{	
 	return function(e) {
+		var that = this;
 		var view = findRelated(this,"TABLE",null,"previousSibling");
 		var tiddlers = [];
 		ListView.forEachSelector(view,function(e,rowName) {
@@ -9170,10 +9449,10 @@ ListView.getCommandHandler = function(callback,name,allowEmptySelection)
 			alert(config.messages.nothingSelected);
 		} else {
 			if(this.nodeName.toLowerCase() == "select") {
-				callback(view,this.value,tiddlers);
+				callback.call(that,view,this.value,tiddlers);
 				this.selectedIndex = 0;
 			} else {
-				callback(view,name,tiddlers);
+				callback.call(that,view,name,tiddlers);
 			}
 		}
 	};
@@ -9649,8 +9928,10 @@ String.prototype.readBracketedList = function(unique)
 {
 	var p = this.parseParams("list",null,false,true);
 	var n = [];
-	for(var t=1; t<p.length; t++)
-		n.pushUnique(p[t].value,unique);
+	for(var t=1; t<p.length; t++) {
+		if(p[t].value)
+			n.pushUnique(p[t].value,unique);
+	}
 	return n;
 };
 
@@ -10074,7 +10355,7 @@ function createTiddlyCheckbox(theParent,caption,checked,onChange)
 	return cb;
 }
 
-function createTiddlyElement(theParent,theElement,theID,theClass,theText)
+function createTiddlyElement(theParent,theElement,theID,theClass,theText,attribs)
 {
 	var e = document.createElement(theElement);
 	if(theClass != null)
@@ -10083,6 +10364,11 @@ function createTiddlyElement(theParent,theElement,theID,theClass,theText)
 		e.setAttribute("id",theID);
 	if(theText != null)
 		e.appendChild(document.createTextNode(theText));
+	if(attribs){
+		for(var n in attribs){
+			e.setAttribute(n,attribs[n]);
+		}
+	}
 	if(theParent != null)
 		theParent.appendChild(e);
 	return e;
@@ -10530,6 +10816,7 @@ config.formatterHelpers.monospacedByLineHelper = function(w)
 };
 
 // @Deprecated: Use <br> or <br /> instead of <<br>>
+config.macros.br = {};
 config.macros.br.handler = function(place)
 {
 	createTiddlyElement(place,"br");

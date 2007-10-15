@@ -11,13 +11,14 @@ config.macros.tiddlyChatterSetup.handler = function(place,macroName,params,wikif
 	params = paramString.parseParams("anon",null,true,false,false);
 	// using_streams defines whether we are working with multiple streams
 	var using_streams = getParam(params,"using_streams",null);
-
+	
+	var streamManagementWrapper = createTiddlyElement(place,"div","streamManagementWrapper");
 	var channelBox;
 	if(using_streams) {
 		// create an interface for handling streams
 		// a streams is a feed you publish
 		// add a button to create new streams
-		var channelWrapper = createTiddlyElement(place,"div");
+		var channelWrapper = createTiddlyElement(streamManagementWrapper,"div","channelWrapper");
 		channelBox = createTiddlyElement(channelWrapper,"div","channelBox");
 		var newChannelButton = createTiddlyButton(channelBox,"New stream","New stream",this.reveal);
 		createTiddlyElement(channelBox,"br");
@@ -35,7 +36,7 @@ config.macros.tiddlyChatterSetup.handler = function(place,macroName,params,wikif
 	// we do this whether or not using_streams is true
 	// a subscription is to someone else's stream
 	// add a button to create new subscriptions
-	var subscriptionWrapper = createTiddlyElement(place,"div");
+	var subscriptionWrapper = createTiddlyElement(streamManagementWrapper,"div","subscriptionWrapper");
 	var subscriptionBox = createTiddlyElement(subscriptionWrapper,"div","subscriptionBox");
 	var newSubscriptionButton = createTiddlyButton(subscriptionBox,"New subscription","New subscription",this.reveal);
 	createTiddlyElement(subscriptionBox,"br");
@@ -86,6 +87,7 @@ config.macros.tiddlyChatterSetup.handler = function(place,macroName,params,wikif
 		createTiddlyLink(subscriptionBox,subscriptions[i].title,true);
 		createTiddlyElement(subscriptionBox,"br");
 	}
+	return streamManagementWrapper;
 };
 
 // onclick for creating a new channel; 'this' refers to the button

@@ -1,9 +1,9 @@
 <div title="Setting up TiddlyChatter" modifier="Jon Lister" created="200709271728" modified="200710051010" tags="info TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="11" server.workspace="">
-<pre>The key to ~TiddlyChatter is your subscription to someone else's "~ChatterStream", which you can manage from [[TiddlyChatter control panel]]. Click "new subscription" and put in the URL of a ~TiddlyWiki which is publishing a stream. You have been set up with one subscription called ChatterFeed to some test content on the web.
-
-''You need to make sure that the "Tag for import" field in ImportWorkspacePlugin is set to "publish", or the menu button to get your updates won't apear.'' At 09/10/07, it is still set as a cookie...
+<pre>The key to ~TiddlyChatter is your subscription to someone else's "~ChatterStream", which you can manage from the [[TiddlyChatter control panel|lv macro]]. Click "manage" and then "new subscription" and put in the URL of a ~TiddlyWiki which is publishing a stream. You have been set up with one subscription, called ChatterFeed, to some test content on the web.
 
 Currently, ~TiddlyChatter supports subscribing to one person's stream.
 
-Hitting "Go chatter!" in the MainMenu gets your updates. When you save your ~TiddlyWiki, your own updates are published into your stream.</pre>
+Hitting "Get" downloads your updates. New content is displayed in red. When you save your ~TiddlyWiki, your own updates are published into your stream.
+
+All the tiddlers necessary to run ~TiddlyChatter are tagged <<tag TiddlyChatter>> for ease of import.</pre>
 </div>

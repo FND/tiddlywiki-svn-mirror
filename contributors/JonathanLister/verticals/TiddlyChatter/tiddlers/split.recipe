@@ -2,11 +2,13 @@ tiddler: BUGS.tiddler
 tiddler: ChatterFeed.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: Incoming!.tiddler
+tiddler: lv_macro.tiddler
 tiddler: MainMenu.tiddler
 tiddler: Setting_up_TiddlyChatter.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: StyleSheet.tiddler
+tiddler: TC_MotherBoard.tiddler
 tiddler: TiddlyChatter_control_panel.tiddler
 tiddler: ../../../components/TiddlyChatter/tiddlers/TiddlyChatterDocumentation.tiddler
 tiddler: ViewTemplate.tiddler

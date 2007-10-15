@@ -1,11 +1,11 @@
 <div title="Welcome to TiddlyChatter" modifier="Jon Lister" created="200709261353" modified="200709271740" tags="info TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="10" server.workspace="">
-<pre>This ~TiddlyWiki has the required plugins installs to support "~TiddlyChatter", a peer-to-peer collaboration feature.
+<pre>This ~TiddlyWiki has the required plugins installs to support "~TiddlyChatter", an opt-in, decentralized collaboration feature. What this means:
 
-You can read an example of [[how TiddlyChatter works|What is TiddlyChatter?]].
+''opt-in:'' avoid "collaboration noise" associated with standard wikis - only see the information from people you want to collaborate directly with;
 
-''You need to set one cookie-stored variable before you can get updates - [[find out more here|Setting up TiddlyChatter]]''
+''decentralized:'' everyone can keep their own personal TiddlyWiki and still become a part of a TiddlyChatter community; you don't need to rely on a central collaboration server.
 
-~TiddlyChatter is still in [[development|TiddlyChatterDocumentation]]; click for documentation about the plugins ~TiddlyChatter is based on and what changes have been made to existing plugins. All the tiddlers necessary to run ~TiddlyChatter are tagged <<tag TiddlyChatter>> for ease of import.
+You can read an example scenario of [[how TiddlyChatter works|What is TiddlyChatter?]].
 
-Click for the [[set-up instructions|Setting up TiddlyChatter]].</pre>
+Click for the [[set-up instructions|Setting up TiddlyChatter]]. ~TiddlyChatter is still in [[development|TiddlyChatterDocumentation]].</pre>
 </div>
