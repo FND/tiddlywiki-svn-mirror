@@ -1,0 +1,4 @@
+#!/bin/bash
+cp index.php ../
+cp tiddlywiki.js ../tiddlywiki/
+cp ../../../../contributors/BramChen/plugins/ArchivedTimeline.js ../plugins
