@@ -5,7 +5,6 @@
 //	3/ load quicker?
 //	4/ avoid overwriting functions that are also used by other plugins (such as saveTiddler)
 
-
 /////////////////////////////////////////////////////////misc config/////////////////////////////////////////////////
 /***
 !!!Changing the default options
@@ -30,9 +29,8 @@ config.options.chkUploadStoreArea = false;    //use to define whether to upload 
 		window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");*/
 /////////////////////////////////////////////////////////remove isDirty popup dialog/////////////////////////////////////////////////
 
-window.checkUnsavedChanges = function()		//ccT save on the fly
-{
-}
+window.checkUnsavedChanges = function()	{};//ccT save on the fly
+
 window.confirmExit = function()
 {
 	hadConfirmExit = true;		//assume confirm exit since ccT save "on the fly"
@@ -43,10 +41,12 @@ window.cct_main = window.main
 window.main = function()
 {
 	window.cct_main();
+	window.cct_tweak();
+	refreshPageTemplate('PageTemplate');
+	story.forEachTiddler(function(title){story.refreshTiddler(title,DEFAULT_VIEW_TEMPLATE,true);});
 	//document.title=(wikifyPlain("SiteTitle") + " - " + wikifyPlain("SiteSubtitle")).htmlEncode();
 	document.title=(wikifyPlain("SiteTitle") + " - " + wikifyPlain("SiteSubtitle"));
 }
-
 
 /////////////////////////////////////////////////////////saveChanegs/////////////////////////////////////////////////
 window.saveChanges = function ()
@@ -64,8 +64,7 @@ window.saveChanges = function ()
 		serverside.fn.uploadRSS();
 		//cct_msg = cct_msg+config.cctPlugin.lingo.generateRSS+"\n";
 	}
-	
-	
+
 	//if( config.options.chkGenerateAnRssFeed===false && config.options.chkUploadStoreArea===false )
 	if( config.options.chkGenerateAnRssFeed===false )
 	{
@@ -80,17 +79,3 @@ uncomment it to enable
 require variables defined by this time
 ***/
 //window.loadOptionsCookie();
-
-/////////////////////////////////////////////////////////encode and decode cookies///////////////////////////////////////////////////
-//functions provided by BramChen
-function EncodeCookie(s)
-{
-	//return escape(manualConvertUnicodeToUTF8(s));
-	return escape(manualConvertUnicodeToUTF8(s));
-}
-
-function DecodeCookie(s)
-{	s=unescape(s);
-	var re = /&#[0-9]{1,5};/g;
-	return s.replace(re, function($0) {return(String.fromCharCode(eval($0.replace(/[&#;]/g,""))));});
-}
