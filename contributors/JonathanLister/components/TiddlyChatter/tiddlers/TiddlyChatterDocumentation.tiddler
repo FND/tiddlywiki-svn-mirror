@@ -1,4 +1,4 @@
-<div title="TiddlyChatterDocumentation" modifier="Jon Lister" created="200709261354" modified="200710021613" tags="TiddlyChatter" server.host="file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml" server.filter="[tag[public]]" server.type="RSS" changecount="12" server.workspace="">
+<div title="TiddlyChatterDocumentation" modifier="JayFresh" created="200709261354" modified="200710161847" tags="TiddlyChatterPackage info" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public]]" server.page.revision="200710161107" server.type="file" changecount="13" server.workspace="">
 <pre>|Title|TiddlyChatter|
 |Summary|Opt-in, decentralized collaboration|
 |Description|This component spans several javascript files and depends on a number of other plugins|
@@ -6,43 +6,42 @@
 |Version of component|0.5|
 |Image illustrating it working||
 |Explanation of how it can be used and modified|see below for necessary plugins|
-|Examples where it can be seen working|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/applications/TiddlyChatter/examples/tiddlychatter0-5.html|
+|Examples where it can be seen working|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html|
 |Links to reviews and discussion|http://jayfresh.wordpress.com/category/tiddlychatter/ http://groups.google.com/group/TiddlyWikiDev/browse_thread/thread/ac0532d241e2cb1a http://groups.google.com/group/TiddlyWikiDev/browse_thread/thread/f6e11d6c56d26817/5c204eaed61855f2|
 
-The following plugins are built for TiddlyChatter:
+!!The following plugins are built for TiddlyChatter:
 
+|[[lv]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/TiddlyChatter/js/lv.js]] |
 |[[tiddlyChatterSetup code]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/TiddlyChatter/js/tiddlyChatterSetup_code.js]] |
-|[[tiddlyChatterIncoming]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/TiddlyChatter/js/tiddlyChatterIncoming.js]] |
 |[[tiddlyChatterPublishing]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/TiddlyChatter/js/tiddlyChatterPublishing.js]] |
-|[[tiddlyChatterControlPanel]] (being replaced by content of item below) |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/TiddlyChatter/js/tiddlyChatterControlPanel.js]] |
-|[[lv macro]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/TiddlyChatter/js/lv.js]] |
+|[[applyTiddlyChatterStyles]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/TiddlyChatter/js/applyTiddlyChatterStyles.js]] |
 
-The following plugins are used in a modified state (link to modified source in last column):
+!!The following plugins are modified and patch discussions are ongoing with plugin authors:
 
 |NotesPlugin |by SaqImtiaz |[[original source|http://tw.lewcid.org/#NotesPlugin]] |[[modified source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/NotesPlugin_JRL.js]] |
 |ImportWorkspacePlugin |by Martin Budden |[[original source|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js]] | [[modified source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/TiddlyChatter/ImportWorkspacePlugin_JRL.js]] |
+|[[Core patches]] |by various |[[original source dir|http://svn.tiddlywiki.org/Trunk/core/js]] | |
 
-The following plugins are used without modification:
+!!The following plugins are used without modification:
 
 |[[RSSAdaptor|RSSAdaptor]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/RSSAdaptor/js/rssadaptor.js]] |
 |[[RSSRender|RSSrender plugin]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/RSSAdaptor/js/RSSRender.js]] |
 | [[File adaptor filter plugin]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/TiddlyChatter/js/File_adaptor_filter_plugin.js]] |
 |TaggedTemplateTweak |by EricShulman |[[source|http://www.TiddlyTools.com/#TaggedTemplateTweak]] |
 |[[stickyOptionsPlugin]] |by SaqImtiaz |[[source|http://tw.lewcid.org/#StickyOptionsPlugin]] |
-|[[Unread]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/Unread/js/Unread.js]]
+|[[Unread]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/Unread/js/Unread.js]] |
 
-The following tiddlers are not plugins, but are part of the config:
+!!The following tiddlers are not plugins, but are part of the config:
 
 [[publicViewTemplate]]
-ImportWorkspacePlugin
+StyleSheetTiddlyChatter
 ChatterFeed
 
-The following tiddlers provide additional information or run plugins:
+!!The following tiddlers provide additional information or run plugins:
 
-MainMenu
+[[TiddlyChatter]]
 [[Welcome to TiddlyChatter]]
 [[Setting up TiddlyChatter]]
-[[What is TiddlyChatter?]]
-[[lv macro]] (working name)
-</pre>
+[[How TiddlyChatter works - an example scenario]]
+[[TiddlyChatterDocumentation]]</pre>
 </div>

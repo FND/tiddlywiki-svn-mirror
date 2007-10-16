@@ -1,10 +1,11 @@
 title: tiddlyChatterSetup code
 modifier: Jon Lister
 created: 200710011257
-modified: 200710020955
-tags: systemConfig TiddlyChatter
-server.host: file:///something.xml
+modified: 200710161504
+tags: systemConfig TiddlyChatterPackage
+server.host: file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html
 server.filter: [tag[public]]
-server.type: RSS
-changecount: 62
+server.page.revision: 200710020955
+server.type: file
+changecount: 1
 server.workspace: 

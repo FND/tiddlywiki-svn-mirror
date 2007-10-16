@@ -77,7 +77,7 @@ config.macros.lv.handler = function(place,macroName,params,wikifier,paramString,
 					this.setAttribute("params","public");
 					this.setAttribute("newFocus","title");
 					this.setAttribute("newTemplate","2");
-					// this.setAttribute("customFields","");
+					this.setAttribute("customFields","unread:true");
 					this.setAttribute("newText","Type some text and then press DONE");
 					config.macros.newTiddler.onClickNewTiddler.call(this,null);
 					break;
@@ -179,11 +179,6 @@ config.macros.lv.handler = function(place,macroName,params,wikifier,paramString,
 	}
 	/* END */
 	// Create a listview
-	//#   place - where in the DOM tree to insert the listview
-	//#   listObject - array of objects to be included in the listview
-	//#   listTemplate - template for the listview
-	//#   callback - callback for a command being selected
-	//#   className - optional classname for the <table> element
 	table = ListView.create(place,listObject,listTemplate,callback);
 	this_tiddler = story.findContainingTiddler(table);
 	this_tiddler.setAttribute("refresh","tiddler");
@@ -191,4 +186,3 @@ config.macros.lv.handler = function(place,macroName,params,wikifier,paramString,
 	subManagement = config.macros.tiddlyChatterSetup.handler(place,"tiddlyChatterSetup",params,wikifier,paramString,tiddler);
 	subManagement.style.display = "none";
 };
-

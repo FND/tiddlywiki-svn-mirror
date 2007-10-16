@@ -1,0 +1,17 @@
+<div title="How TiddlyChatter works - an example scenario" modifier="JayFresh" created="200709271737" modified="200710161845" tags="info TiddlyChatterPackage" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public]]" server.page.revision="200709271740" server.type="file" changecount="9" server.workspace="">
+<pre>[evolved from the original [[blog post|http://jayfresh.wordpress.com/2007/09/24/tiddlychatter-decentralized-collaboration/]] on the subject]
+
+Here’s an illustration of what ~TiddlyChatter is all about:
+* Jon and his class have been set some tricky homework, so he creates a stub of what he’s working on and publishes it, mentioning to Liz, his classmate, that they ought to work on this together
+* Liz subscribes to Jon’s feed and the stub turns up on Liz’s computer for her to see and/or comment on
+* Liz adds a note about a useful resource
+* Jon subscribes to Liz’s feed and her note turns up in place on Jon’s computer, which turns out to be very helpful…
+
+This doesn’t sound so different from normal collaboration, but there are a couple of important differences:
+
+* ''work offline:'' Jon’s little bit of work and Liz’s note on it appear on both computers separately, so they can both walk away with their ~TiddlyWikis and only sync-up when they get back online
+* ''opt-in:'' If Jon decides Liz is no good as a partner, he can stop watching her feed and he never sees any of the notes Liz makes
+** it is only when their teacher, Alice, eventually &quot;opts-in&quot; to Jon's feed (at his request... :() that she will see the result of the group’s work.
+* ''decentralized:'' If Ben comes in and subscribes to Jon’s feed, he can make his own comments, and Jon will see them if he subscribes to Ben's feed, regardless of what servers or software Ben is using.
+** Extending this slightly, Ben, Liz and Jon can all share and work on the information together; if someone else wants to join the group, it only takes one member to subscribe to the new person's feed for the new content to filter through to the rest of the group.</pre>
+</div>

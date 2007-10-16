@@ -1,6 +1,6 @@
 /* Update on 09/10/07: SIMPLIFICATION
- * No longer offering a choice of streams by default
- * ID for stream tiddlers now supplied as a parameter */
+ * No longer offering a choice of feeds by default
+ * ID for feed tiddlers now supplied as a parameter */
 
 config.macros.publishing = {};
 

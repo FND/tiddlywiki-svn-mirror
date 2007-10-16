@@ -1,0 +1,15 @@
+<div title="BUGS" modifier="JayFresh" created="200710051013" modified="200710161901" tags="TiddlyChatterPackage info" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public right]]" server.page.revision="200710161103" server.type="file" changecount="15" server.workspace="">
+<pre>* 09/10/07 - refresh mechanism implemented in a way I don't fully understand - could be unstable?
+* 16/10/07 - Creating a new tiddler doesn't add the unread field necessary to make the unread macro work properly
+* 16/10/07 - list view looking for unread property on latest note, not on parent tiddler; notes don't even need unread properties (although they will probably keep them for ease)
+* 16/10/07 - author name not working for imported content
+* 16/10/07 - existing content is overwritten by other people's content; stop this and alert the user; overwrites notes too - maybe we can do something with the number extension? Although that might break the symmetry of content between TiddlyWikis. This becomes a big issue when there are more than two people, as this could happen frequently.
+* 16/10/07 - if we're going to have public and published tags, then we need to: show whether public content is published or not in the list view; not need ChatterFeeds to be tagged public, as we don't want them showing up in the list view - or do we? There needs to be a clear semantic difference between something tagged public and something tagged published; also, Manage subscriptions appears to work with a tag it shouldn't - think it is published
+* 16/10/07 - Tiddler says &quot;No notes&quot; if you import other notes
+* 16/10/07 - Ken Girard - I discovered that the current 'New subscription' button over writes the current ChatterFeed tiddler, so put the following in a tiddler named what ever:
+{{{|''Type:''|RSS|
+|''URL:''|http://no-sin.com/wiki/tiddlychatter.xml|
+|''Workspace:''|No-SinFeed|
+|''TiddlerFilter:''|[tag[public]]|}}}
+** Tag it: &quot;systemServer TiddlyChatter public channel&quot; and lets see where it goes.</pre>
+</div>

@@ -2,9 +2,10 @@ recipe: ../../../components/TiddlyChatter/js/split.recipe
 tiddler: ../../../components/RSSAdaptor/js/RSSAdaptor.js
 tiddler: ../../../components/Unread/js/Unread.js
 tiddler: File_adaptor_filter_plugin.js
-tiddler: lv.js
 tiddler: ImportWorkspacePlugin.js
 tiddler: NotesPlugin.js
 tiddler: RSSrender_plugin.js
-tiddler: TaggedTemplateTweak.js
 tiddler: stickyOptionsPlugin.js
+tiddler: TaggedTemplateTweak.js
+tiddler: TspotSetupPlugin.js
+tiddler: UploadPlugin.js

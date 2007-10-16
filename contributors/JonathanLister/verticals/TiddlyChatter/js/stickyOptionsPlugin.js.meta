@@ -1,17 +1,19 @@
 title: stickyOptionsPlugin
 modifier: Jon Lister
 created: 200709211649
-modified: 200709271215
-tags: systemConfig TiddlyChatter
+modified: 200710161737
+tags: systemConfig TiddlyChatterPackage
 sticky.chkbackstage: true
-server.host: file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlytwitter/tiddlytwitterSaq.html
+server.host: file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html
+sticky.chkgenerateanrssfeed: true
 sticky.chkdisplaystartuptime: false
-stickyoptions.dir: txtMainTab,chkUsePreForStorage,chkDisplayStartupTime,txtMoreTab,chkBackstage,chkSliderOptionsPanel,txtUserName
-server.page.revision: 200709211649
+stickyoptions.dir: txtMainTab,chkUsePreForStorage,chkDisplayStartupTime,txtMoreTab,chkBackstage,chkSliderOptionsPanel,chkGenerateAnRssFeed
+server.filter: [tag[public]]
+server.page.revision: 200709271215
 sticky.chkusepreforstorage: true
 server.type: file
-sticky.txtusername: Jon Lister
 sticky.txtmaintab: Timeline
-sticky.chkslideroptionspanel: false
-changecount: 1
+sticky.chkslideroptionspanel: true
+changecount: 2
+server.workspace: 
 sticky.txtmoretab: Shadowed

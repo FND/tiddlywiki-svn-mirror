@@ -1,10 +1,11 @@
 title: ImportWorkspacePlugin
 modifier: Jon Lister
 created: 200702250000
-modified: 200709271741
-tags: systemConfig TiddlyChatter
-server.host: file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlychatter/tiddlychatter.xml
+modified: 200710161501
+tags: systemConfig TiddlyChatterPackage
+server.host: file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html
 server.filter: [tag[public]]
-server.type: RSS
-changecount: 15
+server.page.revision: 200709271741
+server.type: file
+changecount: 1
 server.workspace: 

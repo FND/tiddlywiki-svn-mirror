@@ -1,9 +1,11 @@
-title: NotesPlugin
+title: lv
 modifier: Jon Lister
 created: 200709211021
-modified: 200710161502
+modified: 200710161620
 tags: systemConfig TiddlyChatterPackage
 server.host: file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html
+server.filter: [tag[public]]
 server.page.revision: 200709271301
 server.type: file
-changecount: 1
+changecount: 2
+server.workspace: 

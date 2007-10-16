@@ -1,0 +1,8 @@
+<div title="InstallTiddlyChatter" modifier="JayFresh" created="200710161428" modified="200710161829" tags="TiddlyChatterPackage info" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public]]" server.type="file" changecount="15" server.workspace="">
+<pre># If you are planning to use ~TiddlyChatter with your ~TiddlySpot ~TiddlyWiki, make sure to remember to download a local copy so you can import tiddlers
+# To get hold of the set of tiddlers needed for ~TiddlyChatter, you need to use the ~ImportPlugin (often via the backstage area) in your own ~TiddlyWiki. When asked for the type of server, choose &quot;File&quot; and for the URL to download from, use this URL and then click &quot;open&quot;:
+#* http://tiddlychatter.tiddlyspot.com/index.html
+# You don't need to bother setting a value for the workspace, just click &quot;open&quot; again. When you are presented with the list of tiddlers, choose the ones tagged &lt;&lt;tag TiddlyChatterPackage&gt;&gt;. You can check in TiddlyChatterDocumentation to see which other plugins are used and which are modified. I have made an effort to make sure that any modifications are backwards-compatible and that overwriting the originals you already have is safe. If you have any problems, please report them on the [[TiddlyWikiDev|http://groups.google.com/TiddlyWikiDev]] Google Group.
+
+Once you have ~TiddlyChatter installed on your own ~TiddlyWiki, you get a [[feed|TiddlyChatterPackage]] to use for future synchronisation with this version of ~TiddlyChatter.</pre>
+</div>
