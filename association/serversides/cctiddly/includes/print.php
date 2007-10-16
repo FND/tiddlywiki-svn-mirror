@@ -1,0 +1,221 @@
+<?php
+//////////////////////////////////////////////////////// description ////////////////////////////////////////////////////////
+	/**description
+		print functions that printout code into tiddly wiki to change its action. 
+	*/
+
+	/**
+		author: CoolCold
+		email: cctiddly.coolcold@dfgh.net
+	*/
+	
+	/**
+		license:
+			This is licensed under GPL v2
+			http://www.gnu.org/licenses/gpl.txt
+	*/
+
+	/**
+		requirement:
+			config.php
+			functions.php (including config.php, language.php)
+	*/
+	if( !isset($tiddlyCfg) )
+	{
+		exit($ccT_msg['error']['config_not_found']);
+	}
+//////////////////////////////////////////////////////////////include TW function/////////////////////////////////////////////////////////////
+	//!	@fn cct_print_includes($standalone)
+	//!	@brief print all includes javascript, usually external ones
+	//!	@param $standalone check if it is a standalone version
+	function cct_print_includes($standalone)
+	{
+		global $tiddlyCfg;
+		$tw = "./tiddlywiki/".$tiddlyCfg['pref']['tw_ver'].".js";
+		
+		if( $standalone )
+		{
+			//get tiddlywiki.js content and output it
+			$fhandle = fopen($tw,'r');
+			if( $fhandle===FALSE )
+			{
+				logerror($ccT_msg['error']['js_file_open'],1
+					,$ccT_msg['error']['js_file_open'].$ccT_msg['msg']['file']." $tw.js");
+			}
+			if( ($tmp=fread($fhandle,filesize($tw)))===FALSE )
+			{
+				logerror($ccT_msg['error']['js_file_read'],1
+					,$ccT_msg['error']['js_file_read'].$ccT_msg['msg']['file']." $tw.js");
+			}
+			
+			if( strcmp($tiddlyCfg['pref']['language'],"en") != 0 )
+			{
+				$fhandle = fopen("./plugins/".$tiddlyCfg['pref']['language'].".js",'r');
+				if( $fhandle===FALSE )
+				{
+					logerror($ccT_msg['error']['js_file_open'],1
+						,$ccT_msg['error']['js_file_open'].$ccT_msg['msg']['file']." $tw.js");
+				}
+				if( ($tmp.=fread($fhandle,filesize($tw)))===FALSE )
+				{
+					logerror($ccT_msg['error']['js_file_read'],1
+						,$ccT_msg['error']['js_file_read'].$ccT_msg['msg']['file']." $tw.js");
+				}
+			}
+			
+			return "<script type=\"text/javascript\">\n".$tmp."\n</script>";
+		}
+		//include tw
+		$r = '<script type="text/javascript" src="'.$tw.'"></script>';
+		
+		//include language file
+		if( strcmp($tiddlyCfg['pref']['language'],"en") != 0 )
+		{
+			$r .= "\n".'<script type="text/javascript" src="./plugins/'.$tiddlyCfg['pref']['language'].'.js"></script>';
+		}
+		return $r."\n";
+	}
+
+//////////////////////////////////////////////////////////////ccT plugins/////////////////////////////////////////////////////////////
+	
+	//!	@fn cct_print_divConfig($standalone)
+	//!	@brief print plugins required for ccT
+	//!	@param $standalone check if it is a standalone version
+	function cct_print_plugins($standalone)
+	{
+		global $tiddlyCfg;
+		global $ccT_msg;
+		//compulsory
+		print "\n<script type=\"text/javascript\">\n";
+		
+		//find server name and root path
+		$url = "http://".$_SERVER['HTTP_HOST'].preg_replace("![^/]*[.]php!","",$_SERVER['PHP_SELF']);
+
+		//in cct online mode
+		if( !$standalone )
+		{
+?>
+//cctPlugin
+
+var serverside={
+	url: "<?php print $url?>",		//server url, for use in local TW or TW hosted elsewhere
+	handle:{		//path of file for handling request, can be used to put in GET variable
+		rss: "msghandle.php?<?php print queryString()?>",
+		uploadStoreArea: "msghandle.php?<?php print queryString()?>",		//for uploading the whole storearea
+		saveTiddler: "msghandle.php?<?php print queryString()?>",
+		removeTiddler: "msghandle.php?<?php print queryString()?>",
+		revisionList: "msghandle.php?action=revisionList&<?php print queryString()?>",
+		revisionDisplay: "msghandle.php?action=revisionDisplay&<?php print queryString()?>",
+		login: "login.php?<?php print queryString()?>"
+	},
+	handle_msg:{		//message sent to server for action, used for posting message to server. null = not used
+		rss: "action=rss",
+		uploadStoreArea: "action=upload",
+		saveTiddler: "action=saveTiddler",
+		removeTiddler: "action=removeTiddler",
+		login: null
+	},
+	debug: <?php print $tiddlyCfg['developing'] ?>,		//debug mode, display alert box for each action
+	passwordTime: 0,		//defines how long password variable store in cookie. 0 = indefinite
+	messageDuration: 5000,				//displayMessage autoclose duration (in milliseconds), 0=leave open
+	lingo:{		//message for different language
+		uploadStoreArea: "<?php print $ccT_msg['notice']['uploadStoreArea'] ?>",
+		rss: "<?php print $ccT_msg['notice']['uploadRSS'] ?>",
+		timeOut: "<?php print $ccT_msg['notice']['timeOut'] ?>",
+		anonymous: "<?php print $ccT_msg['loginpanel']['anoymous'] ?>",
+		login:{
+			login: "<?php print $ccT_msg['loginpanel']['login'] ?>",
+			loginFailed: "<?php print $ccT_msg['loginpanel']['loginFailed'] ?>",
+			loginPrompt: "<?php print $ccT_msg['loginpanel']['loginPrompt'] ?>",
+			logout: "<?php print $ccT_msg['loginpanel']['logout'] ?>",
+			logoutPrompt: "<?php print $ccT_msg['loginpanel']['logoutPrompt'] ?>",
+		},
+		revision:{
+			text: "<?php print $ccT_msg['word']['revision'] ?>",
+			tooltip: "<?php print $ccT_msg['misc']['revision_tooltip'] ?>",
+			popupNone: "<?php print $ccT_msg['warning']['no_revision'] ?>",
+			notExist: "<?php print $ccT_msg['error']['revision_not_found'] ?>"
+		}
+	},
+	loggedIn:<?php print (user_validate()?"true":"false") ?>,
+	fn:{}		//server-side function
+};
+
+cctPlugin = {
+	lingo:{
+		autoUpload:"<?php print $ccT_msg['optionPanel']['autoUpload'] ?>"
+	}
+};
+
+
+//add copyright tiddler
+config.shadowTiddlers.PageTemplate = config.shadowTiddlers.PageTemplate.replace(/<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'><\/div>\n/,"<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>\n<div id='sidebarCopyright' refresh='content' tiddler='Copyright'></div>\n");
+//add new option to options panel
+config.shadowTiddlers.OptionsPanel = "<<ssUploadStoreArea>>\n<<ssUploadRSS>>\n<<option chkAutoSave>> "+cctPlugin.lingo.autoUpload+"\n<<option chkRegExpSearch>>"+config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+26);
+//change SideBarOption panel to add login panel
+config.shadowTiddlers.SideBarOptions = "<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal 'DD MMM YYYY'>><<tiddler '<?php print $ccT_msg['loginpanel']['name']?>'>><<slider chkSliderOptionsPanel OptionsPanel '<?php print $ccT_msg['sidebaroption']['options']?> »' 'Change TiddlyWiki advanced options'>>";
+
+//change saveChange label to upload
+config.macros.saveChanges.label = "<?php print $ccT_msg['saveChanges']['upload'] ?>";
+config.macros.saveChanges.prompt = "<?php print $ccT_msg['saveChanges']['uploadPrompt'] ?>";
+
+
+<?php
+		}
+		
+		//exist in standalone mode
+?>
+
+//force [[link|url]] to open in [- = current window, + = new window]
+window.createExternalLink_cct = window.createExternalLink;
+window.createExternalLink = function (place,url)
+{
+	//save previous config
+	var tmp = config.options.chkOpenInNewWindow;
+	
+	//change chkOpenInNewWindow
+	if( url.substring(0,1) == "\-" ){
+		config.options.chkOpenInNewWindow = false;
+		url = url.substring(1,url.length);
+	}else{
+		if( url.substring(0,1) == "\+" ){
+			config.options.chkOpenInNewWindow = true;
+			url = url.substring(1,url.length);
+		}
+	}
+		
+	var theLink = window.createExternalLink_cct(place,url);
+	
+	//restore chkOpenInNewWindow
+	config.options.chkOpenInNewWindow = tmp;
+	return(theLink);
+}
+
+// time (in minutes, from now) for password to stay in cookie [0= default i.e. year 2038]
+//config.macros.option.passwordTime = <?php print $tiddlyCfg['pref']['cookies'];?>;
+
+//copyright panel
+config.shadowTiddlers.Copyright = "<?php print $ccT_msg['copyright']['power_by']?> [[TiddlyWiki|http://www.tiddlywiki.com/]] <<version>> <?php print $ccT_msg['word']['and']?> [[ccTiddly <?php print $tiddlyCfg['version'];?>|http://cctiddly.sourceforge.net]]\n[[<?php print $ccT_msg['copyright']['standalone']?>|<?php print $_SERVER['PHP_SELF'];?>?standalone=1&<?php print queryString();?>]]";
+
+<?php
+	$usr = user_getUsername();
+	$usr_val = user_validate();
+	$usr = $usr_val?$usr:$ccT_msg['loginpanel']['anoymous'];
+?>
+//login panel
+config.options.txtUser = "<?php print $usr ?>";
+config.shadowTiddlers.<?php print $ccT_msg['loginpanel']['name']?> ="<?php print $ccT_msg['loginpanel']['username']?>\n<<option txtUserName>>\n<?php print $ccT_msg['loginpanel']['password']?>\n<<option pasSecretCode>>\n<<login>>\n<?php print $ccT_msg['loginpanel']['welcome']?> "+config.options.txtUser+" [[<?php print ($usr_val?$ccT_msg['loginpanel']['logout']:$ccT_msg['loginpanel']['login'])?>|\-<?php print $_SERVER['PHP_SELF'];?>?<?php print ($usr_val?"logout=1&":"").queryString();?>]]";
+
+<?php
+
+		print "</script>";
+		
+		if( !$standalone )		//online version only
+		{
+			print '<script type="text/javascript" src="cctplugins.js"></script>';
+			print '<script type="text/javascript" src="serverside.js"></script>';
+		}
+		return '';
+	}
+
+?>
