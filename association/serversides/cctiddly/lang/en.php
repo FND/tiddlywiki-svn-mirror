@@ -27,24 +27,22 @@
 	$ccT_msg['install']['plugins_msg']['successful'] = " install successfully";
 	$ccT_msg['install']['plugins_msg']['unsuccessful'] = " cannot be installed";
 	$ccT_msg['install']['plugins_msg']['exist'] = " exist";
-	$ccT_msg['install']['plugins']['archivedtimeline'] = "ArchivedTimeline v0.5.2";
-	$ccT_msg['install']['plugins']['commentplugin'] = "CommentPlugin v0.5.0";
-	$ccT_msg['install']['plugins']['commentplugin_zh_tw'] = "CommentPlugin (traditional chinese) v0.5.0";
-	$ccT_msg['install']['plugins']['commenttabplugin'] = "CommentTabPlugin";
-	$ccT_msg['install']['plugins']['commenttabplugin_zh_tw'] = "CommentTabPlugin (traditional chinese)";
-	$ccT_msg['install']['plugins']['genrssplugin'] = "GenRssPlugin v0.2.0";
-	$ccT_msg['install']['plugins']['hidecommentsfromlists'] = "HideCommentsFromLists v0.2.0";
-	$ccT_msg['install']['plugins']['loadextplugin'] = "LoadExtPlugin v1.5.2";
-	$ccT_msg['install']['plugins']['nestedslidersplugin'] = "NestedSlidersPlugin v1.7.7";
-	$ccT_msg['install']['plugins']['recentplugin'] = "recentPlugin v0.1.0";
-	$ccT_msg['install']['plugins']['selectthemeplugin'] = "SelectThemePlugin v1.2.3";
-	$ccT_msg['install']['plugins']['taggerplugin'] = "TaggerPlugin v1.0.1";
-	$ccT_msg['install']['plugins']['xmlreader'] = "XMLReader v1.0.0";
-	$ccT_msg['install']['plugins']['wikibar'] = "wikibar 2.0.0 beta3";
-	//$ccT_msg['install']['plugins']['uploadplugin'] = "BidiXTW uploadplugin 3.4.1";
-	/*$ccT_msg['install']['plugins']['bigthemepack'] = "BigThemePack v0.1.0";
-	$ccT_msg['install']['plugins']['breadcrumbs2'] = "BreadCrumbs2 v1.2.0";*/
-	$ccT_msg['install']['plugins']['blog'] = "blog (include recent plugin and comment plugin)";
+	$ccT_msg['install']['plugins']['ArchivedTimeline'] = "ArchivedTimeline";
+	$ccT_msg['install']['plugins']['CommentPlugin'] = "CommentPlugin";
+	$ccT_msg['install']['plugins']['CommentTabPlugin'] = "CommentTabPlugin";
+	$ccT_msg['install']['plugins']['GenRssPlugin'] = "GenRssPlugin";
+	$ccT_msg['install']['plugins']['LoadExtPlugin'] = "LoadExtPlugin";
+	$ccT_msg['install']['plugins']['NestedSlidersPlugin'] = "NestedSlidersPlugin";
+	$ccT_msg['install']['plugins']['RecentTiddlersPlugin'] = "RecentTiddlersPlugin";
+	$ccT_msg['install']['plugins']['SelectThemePlugin'] = "SelectThemePlugin";
+	$ccT_msg['install']['plugins']['XMLReader2'] = "XMLReader2";
+	$ccT_msg['install']['plugins']['wikibar'] = "wikibar";
+	/*
+	$ccT_msg['install']['plugins']['UploadPlugin'] = "UploadPlugin";
+	$ccT_msg['install']['plugins']['BigThemePack'] = "BigThemePack";
+	$ccT_msg['install']['plugins']['Breadcrumbs2'] = "BreadCrumbs2";
+	*/
+	$ccT_msg['install']['plugins']['blog'] = "blog (include CommentPlugin, CommentTabPlugin and RecentTiddlersPlugin)";
 	
 	//upgrade script messages
 	$ccT_msg['upgrade']['warning'] = "This upgrades your database from ccT v1.0 to v1.1. Please make sure you have <u><b>backup</b></u> your TW before proceeding. Click <b>continue upgrade</b> to proceed.";

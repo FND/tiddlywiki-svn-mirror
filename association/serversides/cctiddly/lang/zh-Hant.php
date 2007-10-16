@@ -27,24 +27,24 @@
 	$ccT_msg['install']['plugins_msg']['successful'] = " 安裝完成";
 	$ccT_msg['install']['plugins_msg']['unsuccessful'] = " 無法安裝";
 	$ccT_msg['install']['plugins_msg']['exist'] = " 已存在";
-	$ccT_msg['install']['plugins']['archivedtimeline'] = "ArchivedTimeline v0.5.2";
-	$ccT_msg['install']['plugins']['commentplugin'] = "CommentPlugin v0.5.0";
-	$ccT_msg['install']['plugins']['commentplugin_zh_tw'] = "CommentPlugin (traditional chinese) v0.5.0";
-	$ccT_msg['install']['plugins']['commenttabplugin'] = "CommentTabPlugin";
-	$ccT_msg['install']['plugins']['commenttabplugin_zh_tw'] = "CommentTabPlugin (traditional chinese)";
-	$ccT_msg['install']['plugins']['genrssplugin'] = "GenRssPlugin v0.2.0";
-	$ccT_msg['install']['plugins']['hidecommentsfromlists'] = "HideCommentsFromLists v0.2.0";
-	$ccT_msg['install']['plugins']['loadextplugin'] = "LoadExtPlugin v1.5.2";
-	$ccT_msg['install']['plugins']['nestedslidersplugin'] = "NestedSlidersPlugin v1.7.7";
-	$ccT_msg['install']['plugins']['recentplugin'] = "recentPlugin v0.1.0";
-	$ccT_msg['install']['plugins']['selectthemeplugin'] = "SelectThemePlugin v1.2.3";
-	$ccT_msg['install']['plugins']['taggerplugin'] = "TaggerPlugin v1.0.1";
-	$ccT_msg['install']['plugins']['xmlreader'] = "XMLReader v1.0.0";
-	$ccT_msg['install']['plugins']['wikibar'] = "wikibar 2.0.0 beta3";
-	$ccT_msg['install']['plugins']['uploadplugin'] = "BidiXTW uploadplugin 3.4.1";
-	$ccT_msg['install']['plugins']['bigthemepack'] = "BigThemePack v0.1.0";
-	$ccT_msg['install']['plugins']['breadcrumbs2'] = "BreadCrumbs2 v1.2.0";
-	$ccT_msg['install']['plugins']['blog'] = "部落格套件 (包含 recent plugin and comment plugin)";
+	$ccT_msg['install']['plugins']['ArchivedTimeline'] = "ArchivedTimeline";
+	$ccT_msg['install']['plugins']['CommentPlugin'] = "CommentPlugin";
+	$ccT_msg['install']['plugins']['CommentPlugin.zh-Hant'] = "CommentPlugin.zh-Hant";
+	$ccT_msg['install']['plugins']['CommentTabPlugin'] = "CommentTabPlugin";
+	$ccT_msg['install']['plugins']['CommentTabPlugin.zh-Hant'] = "CommentTabPlugin.zh-Hant";
+	$ccT_msg['install']['plugins']['GenRssPlugin'] = "GenRssPlugin";
+	$ccT_msg['install']['plugins']['LoadExtPlugin'] = "LoadExtPlugin";
+	$ccT_msg['install']['plugins']['NestedSlidersPlugin'] = "NestedSlidersPlugin";
+	$ccT_msg['install']['plugins']['RecentTiddlersPlugin'] = "RecentTiddlersPlugin";
+	$ccT_msg['install']['plugins']['SelectThemePlugin'] = "SelectThemePlugin";
+	$ccT_msg['install']['plugins']['XMLReader2'] = "XMLReader2";
+	$ccT_msg['install']['plugins']['wikibar'] = "wikibar";
+	/*
+	$ccT_msg['install']['plugins']['UploadPlugin'] = "UploadPlugin";
+	$ccT_msg['install']['plugins']['BigThemePack'] = "BigThemePack";
+	$ccT_msg['install']['plugins']['Breadcrumbs2'] = "BreadCrumbs2";
+	*/
+	$ccT_msg['install']['plugins']['blog'] = "部落格套件 (包含 CommentPlugin, CommentTabPlugin and RecentTiddlersPlugin)";
 
 	//upgrade script messages
 	$ccT_msg['upgrade']['warning'] = "此作業將你的ccT資料庫，自ccT v1.0 升級至 v1.1beta。升級作業之前，請確定你已做好<u><b>備份</b></u>。";

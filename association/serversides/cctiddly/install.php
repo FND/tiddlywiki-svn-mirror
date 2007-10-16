@@ -21,7 +21,7 @@ This file can be removed after installation
 			$time = date("YmdHi");
 			$t = tiddler_create($ccT_msg['install']['plugins'][$plugin],
 				tiddler_bodyEncode(file_get_contents($plugin_dir.$plugin.".js")),
-				"ccTiddly",$time,"systemConfig","","ccTiddly",$time);
+				"ccTiddly",$time,"systemConfig excludeSearch excludeLists","","ccTiddly",$time);
 			//print_r($t);
 			if( tiddler_insert($t,0) )
 			{
@@ -158,9 +158,11 @@ This file can be removed after installation
 		switch($_GET['plugins'])
 		{
 			case "blog":
-				install_plugin("commentplugin");
-				install_plugin("recentplugin");
-				install_plugin("hidecommentsfromlists");
+				install_plugin("CommentPlugin");
+//				install_plugin("CommentPlugin.".$tiddlyCfg['pref']['language']);
+				install_plugin("CommentTabPlugin");
+//				install_plugin("CommentTabPlugin.".$tiddlyCfg['pref']['language']);
+				install_plugin("RecentTiddlersPlugin");
 				break;
 			default:
 				install_plugin($_GET['plugins']);

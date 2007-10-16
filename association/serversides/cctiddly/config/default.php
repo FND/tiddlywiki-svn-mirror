@@ -10,7 +10,7 @@ $tiddlyCfg['table']['name'] = "tiddly_wiki_entry";
 $tiddlyCfg['table']['backup'] = "tiddly_wiki_entry_version";
 
 // site preferences
-$tiddlyCfg['pref']['tw_ver'] = "tiddlywiki"; // choose between different version of TW, or adaptation
+$tiddlyCfg['pref']['tw_ver'] = "TiddlyWiki"; // choose between different version of TW, or adaptation
 $tiddlyCfg['pref']['language'] = "en"; // choose between different version of TW, or adaptation
 $tiddlyCfg['pref']['version'] = 1; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
 $tiddlyCfg['pref']['reqLogin'] = 0;		//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]

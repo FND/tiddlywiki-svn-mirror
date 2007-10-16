@@ -4,8 +4,8 @@
 
 |Name|SelectThemePlugin|
 |Created by|SimonBaird and SaqImtiaz|
-|Location|http://lewcid.googlepages.com/lewcid.html#SelectThemePlugin|
-|Version|1.2.4|
+|Location|http://tw.lewcid.org/#SelectThemePlugin|
+|Version|1.2.5|
 |Requires|~TW2.x|
 !Description
 *An alternative style switcher, can be used to switch just stylesheets and/or pagetemplates, or a combination of both (a theme)
@@ -21,6 +21,7 @@
 *You can create your own theme pack if you like. Instructions can be found [[here.|CreateThemePack]]
 
 !History
+*20-Dec-06, v 1.2.5, fixed horizontal rules for IE (thanks Clint), compatibility fix with HoverMenuPlugin
 * 08-Sept-06, v1.2.4, fixed bug with TW2.1
 * 15-May-06, v1.2.3, added paramifier so you can put theme on url, eg http://www.somewhere.com/twfile.html#theme:Berry2, thanks Clint (Simon).
 * 28-Apr-o6, v1.2.2, fixed bug with opening TW after deleting themepacks. (Saq)
@@ -67,8 +68,8 @@ if (!Array.prototype.containsAny)
 //}}}
 
 //{{{
-version.extensions.SelectTheme = { major: 1, minor: 2, revision: 4, date: new Date(2006,9,8),
-	source: "http://lewcid.googlepages.com/lewcid.html#SelectTheme"
+version.extensions.SelectTheme = { major: 1, minor: 2, revision: 5, date: new Date(2006,12,20),
+	source: "http://tw.lewcid.org/#SelectThemePlugin"
 };
 
 config.SelectTheme = {
@@ -151,7 +152,7 @@ TiddlyWiki.prototype.makeActiveTheme = function(what,title,alsoCheckOtherThing) 
 	if (what == "style") {
 		// remove old style element from DOM
 		var oldStyleElement = document.getElementById(oldTitle);
-		oldStyleElement.parentNode.removeChild(oldStyleElement);
+		if (oldStyleElement) oldStyleElement.parentNode.removeChild(oldStyleElement);
 	}
 
 	store.removeNotification(oldTitle,thing.notify);
@@ -166,8 +167,18 @@ TiddlyWiki.prototype.makeActiveTheme = function(what,title,alsoCheckOtherThing) 
 						false);
 };
 
+if (config.hoverMenu)
+    {
+    old_hovermenu_makeActiveTheme = TiddlyWiki.prototype.makeActiveTheme;
+    TiddlyWiki.prototype.makeActiveTheme = function(what,title,alsoCheckOtherThing)
+        {
+         old_hovermenu_makeActiveTheme.apply(this,arguments);
+         if (!alsoCheckOtherThing)
+                    config.hoverMenu.handler();
+        };
+    }
 
-config.shadowTiddlers.NoStyleSheet = "";
+config.shadowTiddlers.NoStyleSheet = config.shadowTiddlers.StyleSheet;
 config.shadowTiddlers.NoPageTemplate = config.shadowTiddlers.PageTemplate;
 
 
@@ -234,7 +245,8 @@ config.macros.themeSelect.handler = function(place,macroName,params,wikifier,par
              createThemeButton(things[mode][special].title);     }
 
              //insert horizontal rule
-             createTiddlyElement(createTiddlyElement(popup,"li"),"hr");
+             //createTiddlyElement(createTiddlyElement(popup,"li"),"hr");
+             createTiddlyElement(createTiddlyElement(popup,"li",null,"listBreak"),"div");
 
              //create buttons for all other stylesheet tiddlers
              for(var t=0; t<tagged.length; t++)
@@ -285,4 +297,3 @@ config.paramifiers.theme = {
 };
 
 //}}}
-

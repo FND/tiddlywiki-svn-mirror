@@ -62,6 +62,6 @@
 //$tiddlyCfg['pref']['cookies'] = $tiddlyCfg['pref']['cookies']*$tiddlyCfg['time_unit'];		//convert time to minutes
 $tiddlyCfg['table']['name'] = $tiddlyCfg['table']['pref'].$tiddlyCfg['table']['name'];
 $tiddlyCfg['table']['backup'] = $tiddlyCfg['table']['pref'].$tiddlyCfg['table']['backup'];
-$tiddlyCfg['version']="1.1";
+$tiddlyCfg['version']="1.2";
 	
 ?>
