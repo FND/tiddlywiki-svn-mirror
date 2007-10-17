@@ -10,6 +10,9 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.2.0|
 
+|''Max number of tiddlers to download''|<<option txtMediaAdaptorLimit>>|
+
+
 MediaWiki REST documentation is at:
 http://meta.wikimedia.org/w/api.php
 http://meta.wikimedia.org/w/query.php
@@ -21,6 +24,9 @@ http://meta.wikimedia.org/w/query.php
 if(!version.extensions.MediaWikiAdaptorPlugin) {
 version.extensions.MediaWikiAdaptorPlugin = {installed:true};
 
+if(config.options.txtMediaAdaptorLimit == undefined)
+	{config.options.txtMediaAdaptorLimit = '100';}
+	
 function MediaWikiAdaptor()
 {
 	this.host = null;
@@ -235,8 +241,9 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 //# http://www.wikipedia.org/w/query.php?what=category&cptitle=Wiki&format=jsonfm
 //# http://wiki.unamesa.org/api.php?action=query&list=allpages&apnamespace=10&aplimit=50&format=jsonfm
 //# http://tiddlywiki.org/api.php?action=query&list=allpages&format=jsonfm
+//# http://tiddlywiki.org/api.php?action=query&list=allpages&aplimit=50&format=jsonfm
 	if(!context.tiddlerLimit)
-		context.tiddlerLimit = filter ? 200 : 100;
+		context.tiddlerLimit = config.options.txtMediaAdaptorLimit==0 ? null : config.options.txtMediaAdaptorLimit;
 
 	var limit = context.tiddlerLimit;
 	if(filter) {
@@ -245,13 +252,15 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 		if(match) {
 			var filterParams = MediaWikiAdaptor.normalizedTitle(match[2]);
 			switch(match[1]) {
-			case 'tags':
+			case 'tag':
 				context.responseType = 'pages';
 				var uriTemplate = '%0query.php?format=json&what=category&cpnamespace=0&cptitle=%3';
 				break;
 			case 'template':
 				context.responseType = 'query.embeddedin';
-				uriTemplate = '%0api.php?format=json&action=query&list=embeddedin&einamespace=0&eilimit=%2&eititle=Template:%3';
+				uriTemplate = '%0api.php?format=json&action=query&list=embeddedin&einamespace=0&eititle=Template:%3';
+				if(limit)
+					uriTemplate += '&eilimit=%2';
 				break;
 			default:
 				break;
@@ -412,9 +421,9 @@ MediaWikiAdaptor.prototype.getTiddlerInternal = function(context,userParams,call
 	context = this.setContext(context,userParams,callback);
 //#displayMessage('MediaWikiAdaptor.getTiddlerInternal:'+context.title+" revision:"+context.revision);
 //# http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Elongation&rvprop=content
-//# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&prop=revisions&titles=Main%20Page&rvprop=content|timestamp
+//# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&prop=revisions&titles=Main%20Page&rvprop=content|timestamp|user
 //# http://www.tiddlywiki.org/api.php?action=query&prop=revisions&titles=Main%20Page&rvprop=content
-//# http://wiki.unamesa.org/api.php?action=query&prop=revisions&titles=Main%20Page&rvprop=content|timestamp
+//# http://wiki.unamesa.org/api.php?format=jsonfm&action=query&prop=revisions&titles=Main%20Page&rvprop=content|timestamp|user
 	var host = MediaWikiAdaptor.fullHostName(this.host);
 	var uriTemplate = '%0api.php?format=json&action=query&prop=revisions&titles=%1&rvprop=content|timestamp|user';
 	if(context.revision)
