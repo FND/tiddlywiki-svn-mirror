@@ -1,15 +1,6 @@
 tiddler: AbegoSoftwareServer.tiddler
-tiddler: Adaptor.close.tiddler
-tiddler: Adaptor.getTiddler.tiddler
-tiddler: Adaptor.getTiddlerList.tiddler
-tiddler: Adaptor.getWorkspaceList.tiddler
-tiddler: Adaptor.openHost.tiddler
-tiddler: Adaptor.openWorkspace.tiddler
-tiddler: Adaptor.putTiddler.tiddler
-tiddler: AdaptorCallbackSignature.tiddler
 tiddler: AlternativeColorPalette.tiddler
 tiddler: AnotherExampleStyleSheet.tiddler
-tiddler: AsynchronousPattern.tiddler
 tiddler: AutoSave.tiddler
 tiddler: BackstageArea.tiddler
 tiddler: Basque.tiddler
@@ -145,10 +136,6 @@ tiddler: SaveUnpredictabilities.tiddler
 tiddler: SecondVersion.tiddler
 tiddler: SecondVersionAdaptations.tiddler
 tiddler: SelfContained.tiddler
-tiddler: ServerAdaptorConcepts.tiddler
-tiddler: ServerAdaptorExtendedFields.tiddler
-tiddler: ServerAdaptorMechanism.tiddler
-tiddler: ServerConnectivity.tiddler
 tiddler: ServerSide.tiddler
 tiddler: ServicePack2Problems.tiddler
 tiddler: ShadowTiddlers.tiddler
