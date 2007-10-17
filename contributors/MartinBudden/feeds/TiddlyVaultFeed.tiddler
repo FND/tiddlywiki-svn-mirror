@@ -1,5 +1,7 @@
 <div title="TiddlyVault Feed" modifier="MartinBudden" tags="systemServer">
 <pre>|''URL:''|http://tiddlyvault.tiddlyspot.com/|
 |''Description:''|An index of TiddlyWiki extensions from http://www.giffmex.org|
-|''Author:''|MartinBudden|</pre>
+|''Author:''|MartinBudden|
+|''TiddlerFilter:''|[tag[systemConfig]]|
+</pre>
 </div>
