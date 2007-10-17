@@ -1,12 +1,12 @@
 /***
 |''Name:''|SimileTimelineBundlePlugin|
-|''Description:''|[[Simile Timelines|http://simile.mit.edu/SimileTimeline/]]|
+|''Description:''|[[Simile Timelines|http://simile.mit.edu/SimileTimeline/]] |
 |''Author:''|Martin Budden (mjbudden [at] gmail [dot] com)|
-|''Source:''|http://www.martinswiki.com/#SimileTimelineBundlePlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelineBundlePlugin.js|
+|''Source:''|http://www.martinswiki.com/#SimileTimelineBundlePlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelineBundlePlugin.js |
 |''Version:''|0.1.0|
 |''Date:''|Mar 4, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|BSD-style license from MIT|
 |''~CoreVersion:''|2.2|
 ***/

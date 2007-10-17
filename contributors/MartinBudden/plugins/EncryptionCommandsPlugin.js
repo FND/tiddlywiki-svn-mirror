@@ -2,12 +2,12 @@
 |''Name:''|EncryptionCommandsPlugin|
 |''Description:''|Toolbar commands for cryptographic functions|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://martinswiki.com/#EncryptionCommandsPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/EncryptionCommandsPlugin.js|
+|''Source:''|http://martinswiki.com/#EncryptionCommandsPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/EncryptionCommandsPlugin.js |
 |''Version:''|0.1.6|
 |''Date:''|Feb 4, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.1.3|
 
 {{{<<tiddler EncryptionCommandsPluginDocumentation>>}}}

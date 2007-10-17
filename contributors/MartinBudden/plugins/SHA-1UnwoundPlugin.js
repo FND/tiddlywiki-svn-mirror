@@ -2,12 +2,12 @@
 |''Name:''|SHA-1 Unwound Plugin|
 |''Description:''|Faster wersion of SHA-1 with unwound loops|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/martinswiki.html#SHA-1UnwoundPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SHA-1UnwoundPlugin.js|
+|''Source:''|http://www.martinswiki.com/martinswiki.html#SHA-1UnwoundPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SHA-1UnwoundPlugin.js |
 |''Version:''|1.0.2|
 |''Date:''|Jul 21, 2006|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.1.0|
 
 SHA1UnwoundPlugin is a faster (but larger) SHA-1 hash algorithm with unwound loops.
