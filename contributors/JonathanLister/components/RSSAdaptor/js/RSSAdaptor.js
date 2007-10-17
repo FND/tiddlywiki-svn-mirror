@@ -125,7 +125,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 	for (var i=0;i<item_match.length;i++) {
 		// create a new Tiddler in context.tiddlers with the finished item object
 		// grab a title
-		item = {};
+		var item = {};
 		var title = item_match[i].match(regex_title);
 		if (title)
 			item.title = title[0].replace(/^<title>|<\/title>$/mg,"");

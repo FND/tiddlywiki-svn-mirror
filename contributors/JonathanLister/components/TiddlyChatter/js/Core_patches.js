@@ -21,6 +21,7 @@ ListView.getCommandHandler = function(callback,name,allowEmptySelection)
 				callback.call(that,view,name,tiddlers);
 			}
 		}
+		return false;
 	};
 };
 

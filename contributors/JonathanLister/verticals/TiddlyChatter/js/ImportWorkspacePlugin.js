@@ -115,8 +115,8 @@ config.macros.importWorkspace.handler = function(place,macroName,params,wikifier
 
 config.macros.importWorkspace.onClick = function(e)
 {
-	clearMessage();
-// displayMessage("Starting import...");
+	// clearMessage();
+	// displayMessage("Starting import...");
 	var customFields = this.getAttribute('customFields');
 	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
 	config.macros.importWorkspace.getTiddlers(fields);
@@ -185,10 +185,6 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 			}
 		}
 	}
-	// THIS IS A VERY BAD THING TO DO, AS IS IT SPECIFIC, NOT BUILT FOR RE-USE
-	// I SUGGEST WE CHANGE THE PLUGIN TO TAKE A CALLBACK FOR EXECUTING AT THE END OF THE IMPORT I.E. HERE
-	// now everything's done, open up the TiddlyChatterIncoming tiddler
-	// config.macros.importWorkspace.finalise(context);
 };
 
 

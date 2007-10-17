@@ -169,7 +169,7 @@ config.macros.lv.handler = function(place,macroName,params,wikifier,paramString,
 			link:contentTitle,
 			last_updated_by:newestNote.modifier,
 			checked:newestNote.fields["unread"] ? true : false,
-			row_name:contentTitle,
+			row_name:contentTitle
 		};
 		if (newestNote.fields["unread"] == "true") {
 			listObject[i]["unread"] = "yes";

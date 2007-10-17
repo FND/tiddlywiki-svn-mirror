@@ -1,4 +1,5 @@
 recipe: ../../../components/TiddlyChatter/tiddlers/split.recipe
+tiddler: ../../../firebuglite/tiddlers/MarkupPostBody.tiddler
 tiddler: ChatterFeed.tiddler
 tiddler: ColorPalette.tiddler
 tiddler: DefaultTiddlers.tiddler
