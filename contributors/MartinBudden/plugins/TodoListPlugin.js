@@ -3,7 +3,7 @@
 |''Description:''|Simple tabbed todo list|
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Source:''|http://martinwiki.com/#TodoListPlugin |
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/TodoListPluing.js |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/TodoListPluging.js |
 |''Version:''|0.0.3|
 |''Date:''|July 31, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
