@@ -1,5 +1,5 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
-title: title.html
+title: title.txt
 tiddler: ../../tiddlers/ViewTemplateHostedRevisionsTest.tiddler
 tiddler: ../../tiddlers/MainMenuHome.tiddler
 tiddler: ../../tiddlers/Download_this_wiki.tiddler
