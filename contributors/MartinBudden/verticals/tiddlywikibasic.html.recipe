@@ -1,3 +1,3 @@
 template: tiddlywiki.template.html
-recipe: ../../../core/tiddlers/split.recipe
+recipe: coretiddlersbasic.recipe
 recipe: corejsbasic.recipe

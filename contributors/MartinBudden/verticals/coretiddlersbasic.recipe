@@ -1,0 +1,13 @@
+#prehead: ../../../core/tiddlers/MarkupPreHead.tiddler
+#shadow: ../../../core/tiddlers/MarkupPreHead.tiddler
+shadow: ../../../core/tiddlers/ColorPalette.tiddler
+shadow: ../../../core/tiddlers/StyleSheetColors.tiddler
+shadow: ../../../core/tiddlers/StyleSheetLayout.tiddler
+shadow: ../../../core/tiddlers/StyleSheetLocale.tiddler
+shadow: ../../../core/tiddlers/StyleSheetPrint.tiddler
+shadow: ../../../core/tiddlers/PageTemplate.tiddler
+shadow: ../../../core/tiddlers/ViewTemplate.tiddler
+shadow: ../../../core/tiddlers/EditTemplate.tiddler
+shadow: ../../../core/tiddlers/GettingStarted.tiddler
+shadow: ../../../core/tiddlers/OptionsPanel.tiddler
+#shadow: ../../../core/tiddlers/ImportTiddlers.tiddler
