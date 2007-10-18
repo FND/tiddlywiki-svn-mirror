@@ -5,6 +5,7 @@
 |''Source:''|http://www.MyWebSite.com/#ExamplePlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MyDirectory/plugins/ExamplePlugin.js |
 |''Version:''|0.0.1|
+|''Status:''|Not for release - this is a template for creating new plugins|
 |''Date:''|July 31, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
