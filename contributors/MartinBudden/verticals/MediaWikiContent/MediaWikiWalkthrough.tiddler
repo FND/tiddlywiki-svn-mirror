@@ -1,0 +1,20 @@
+<div title="MediaWikiWalkthrough" modifier="MartinBudden">
+<pre>
+This walk-through shows you how to connect to a MediaWiki and choose some articles to download.
+# If necessary, [[DownloadThisTiddlyWiki]] and open it in your browser
+# If the black backstage area isn't visible along the top of the screen, click on the 'backstage' button at the top right
+# Choose 'import' from the backstage area
+# In the task wizard that drops down, choose one of these predefined feeds from the lower list:
+## TiddlyWikiDotOrgFeed - selects articles from the documentation at tiddlywiki.org
+## UnaMesaFeed - selects articles from the UnaMesa wiki
+## WikipediaIPstackFeed - selects Wikipedia entries about the Internet's IP stack technology
+## WikipediaWikiFeed - selects Wikipedia entries about wiki technology
+# Click the 'open' button
+# When prompted for the workspace, leave the default of 'Main' and click the 'open' button
+# After a pause, you should then see a list of the available tiddlers. Select the checkboxes of the articles you want to download and then click the 'import' button
+# The tiddlers you have selected will be listed, first as italicised links to missing tiddlers, and then as bold links as the tiddlers are loaded in the background. Click on the links to open the tiddlers you selected
+# Click on the grey bars to either side of the backstage drop-down to close it
+# You should now be able to browse the articles that you imported
+# If you click on a link to an article that has not been downloaded, it will be automatically retrieved
+</pre>
+</div>
