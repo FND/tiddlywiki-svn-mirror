@@ -1,6 +1,7 @@
 <div title="Formatters" modifier="MartinBudden">
 <pre>
 |!Formatter Plugin|!Description|
+|[[ExampleFormatterPlugin]]|Example empty formatter. You can use this as a template to write your own formatter|
 |[[CreoleFormatterPlugin]]|Allows Tiddlers to use [[Creole|http://www.wikicreole.org/]] text formatting|
 |[[ConfluenceFormatterPlugin]]|Allows Tiddlers to use [[Confluence|http://confluence.atlassian.com/renderer/notationhelp.action?section=all]] text formatting|
 |[[JSPWikiFormatterPlugin]]|Allows Tiddlers to use [[JSPWiki|http://www.jspwiki.org/wiki/TextFormattingRules]] text formatting|

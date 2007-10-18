@@ -1,6 +1,7 @@
 <div title="Adaptors" modifier="MartinBudden">
 <pre>
 |!Adaptor Plugin|!Description|
+|[[ExampleAdaptorPlugin]]|Example empty adaptor. You can use this as a template to write your own adaptor|
 |[[ccTiddlyAdaptorPlugin]]|Adaptor for moving and converting data to and from ccTiddly wikis|
 |[[JSPWikiAdaptorPlugin]]|Adaptor for moving and converting data to and from JSP Wikis|
 |[[MediaWikiAdaptorPlugin]]|Adaptor for moving and converting data from MediaWikis|
