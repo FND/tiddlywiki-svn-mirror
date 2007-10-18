@@ -1,1 +1,0 @@
-<div tiddler="EmptyTemplateProblems" modifier="JeremyRuston" modified="200603151736" created="200603151736" tags="bugs">The {{{&lt;title&gt;}}} tag of a new empty template is not set correctly (it's set to the title of the parent document)</div>

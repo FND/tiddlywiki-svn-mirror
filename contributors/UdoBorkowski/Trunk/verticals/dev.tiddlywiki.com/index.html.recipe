@@ -1,9 +1,0 @@
-recipe: ../../core/tiddlywiki.html.recipe
-prehead: ../../core/html/rss.link.html
-title: html/title.html
-recipe: tiddlers/split.recipe
-tiddler: ../tiddlywiki.com/tiddlers/RicohInnovations.tiddler
-tiddler: ../tiddlywiki.com/tiddlers/JeremyRuston.tiddler
-tiddler: ../tiddlywiki.com/tiddlers/Donations.tiddler
-tiddler: ../tiddlywiki.com/tiddlers/SafeMode.tiddler
-recipe: images.recipe

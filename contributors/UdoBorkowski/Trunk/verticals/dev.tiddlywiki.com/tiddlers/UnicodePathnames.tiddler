@@ -1,1 +1,0 @@
-<div tiddler="UnicodePathnames" modifier="JeremyRuston" modified="200601031156" created="200601031156" tags="bugs">SaveChanges doesn't work in Firefox when the pathname to the TiddlyWiki file contains multi-byte Unicode characters such as &quot;新しいフォルダ&quot;.</div>

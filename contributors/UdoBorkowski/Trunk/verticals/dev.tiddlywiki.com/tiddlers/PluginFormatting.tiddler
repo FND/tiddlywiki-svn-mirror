@@ -1,1 +1,0 @@
-<div tiddler="PluginFormatting" modifier="JeremyRuston" modified="200511051635" created="200511051635" tags="formatting">Format blocks of CSS definitions as:\n{{{\n/*{{{*/\ndiv {color: #ff0000;}\n/*}}}*/\n}}}\nIt will be displayed as:\n/*{{{*/\ndiv {color: #ff0000;}\n/*}}}*/</div>

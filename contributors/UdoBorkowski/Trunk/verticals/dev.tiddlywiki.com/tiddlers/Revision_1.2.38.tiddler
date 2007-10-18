@@ -1,1 +1,0 @@
-<div tiddler="Revision 1.2.38" modifier="JeremyRuston" modified="200511082116" created="200511082116" tags="history">//Released on 8th November 2005//\n* Kludged around [[problem with Safari|http://bugzilla.opendarwin.org/show_bug.cgi?id=5597]] by disabling characters above 0x00ff in a WikiWord</div>

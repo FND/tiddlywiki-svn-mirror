@@ -1,1 +1,0 @@
-<div tiddler="HangingTagsMenu" modifier="JeremyRuston" modified="200512201624" created="200512171028" tags="bugs">In Firefox, switch a tiddler to edit mode; summon the 'tags' menu. Without selecting anything from it, choose the 'cancel' item in the toolbar. The tiddler will switch back to normal view mode, but leave the menu hanging.</div>
