@@ -1,15 +1,58 @@
 <div title="testTiddlyWikiBasic" modifier="MartinBudden" created="200703240000" tags="test">
-<pre>''bold''
+<pre>normal
 
-//italic//
+''bold'' normal
 
-normal
+//italic// normal
 
---strike--
+__underline__ normal
 
-__underline__
+^^superscript^^ normal
 
-''bold'' //italic// normal --strike-- __underline__
+~~subscript~~ normal
+
+--strike-- normal
+
+{{{mono}}} normal
+
+normal ''bold'' //italic// ^^superscript^^ ~~subscript~~ --strike-- __underline__ {{{mono}}}
+
+normal ''bold'' normal //italic// normal ^^superscript^^ normal ~~subscript~~ normal --strike-- normal __underline__ normal {{{mono}}} normal
+
+-- mdash
+- dash
+
+
+/*{{{*/
+CSS block
+line 2
+/*}}}*/
+
+{{{
+monospaced block
+line 2
+}}}
+
+//{{{
+plugin block
+line 2
+//}}}
+
+<!--{{{-->
+template block
+line 2
+<!--}}}-->
+
+
+/***
+comment
+***/
+
+<!---
+comment
+--->
+
+/% hidden comment %/
 
 </pre>
 </div>
