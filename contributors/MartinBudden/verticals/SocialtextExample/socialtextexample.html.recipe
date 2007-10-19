@@ -1,5 +1,5 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
-title: title.html
+title: title.txt
 tiddler: settings.js
 tiddler: SiteUrl.tiddler
 tiddler: SiteSubtitle.tiddler
@@ -7,7 +7,7 @@ tiddler: SiteTitle.tiddler
 tiddler: MainMenu.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: Home.tiddler
-tiddler: SocialtextExampleServer.tiddler
+tiddler: SocialtextExampleFeed.tiddler
 tiddler: SideBarOptions.tiddler
 tiddler: SideBarTabs.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/PageTemplate.tiddler
