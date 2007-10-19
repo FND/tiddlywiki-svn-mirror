@@ -1,4 +1,4 @@
-recipe: ../tiddlywikiseo.html.recipe
+recipe: ../../../../core/tiddlywiki.html.recipe
 title: title.txt
 tiddler: ViewTemplate.tiddler
 tiddler: DefaultTiddlers.tiddler
