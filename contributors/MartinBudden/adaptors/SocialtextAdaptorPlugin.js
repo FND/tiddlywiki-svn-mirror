@@ -396,6 +396,7 @@ SocialtextAdaptor.getTiddlerRevisionListCallback = function(status,context,respo
 SocialtextAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
+	context.tiddler = tiddler;
 	context.title = tiddler.title;
 //#displayMessage('SocialtextAdaptor.putTiddler:'+tiddler.title);
 //# data/workspaces/:ws/pages/:pname
