@@ -1,6 +1,12 @@
-recipe: ../tiddlywikiseobasic.html.recipe
-recipe: split.recipe
-recipe: ../tiddlypedia/splitHostedLogo.recipe
+recipe: ../../../../core/tiddlywiki.html.recipe
+title: title.txt
+recipe: shadows/split.recipe
+recipe: content/split.recipe
+recipe: templates/split.recipe
+tiddler: Home.tiddler
+recipe:  ../tiddlypedia/splitHostedLogo.recipe
+tiddler: ../tiddlypedia/MainMenu.tiddler
+tiddler: ../tiddlypedia/DefaultTiddlers.tiddler
 tiddler: ../tiddlypedia/settings.js
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../plugins/AsyncStartupPlugin.js

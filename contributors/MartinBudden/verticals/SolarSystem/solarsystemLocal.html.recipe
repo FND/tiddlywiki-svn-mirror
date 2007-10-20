@@ -1,12 +1,8 @@
 recipe: ../tiddlywikiseobasic.html.recipe
 title: title.txt
-
+recipe: shadows/split.recipe
 recipe: templates/split.recipe
 tiddler: HomeLocal.tiddler
-tiddler: SiteSubtitle.tiddler
-tiddler: SiteTitle.tiddler
-tiddler: SiteUrl.tiddler
-tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../tiddlypedia/settingsLocal.js
 tiddler: ../tiddlypedia/MainMenu.tiddler
 tiddler: ../tiddlypedia/DefaultTiddlers.tiddler
@@ -26,6 +22,7 @@ tiddler: ../tiddlypedia/Wikipedia_Text_of_the_GNU_Free_Documentation_License.tid
 tiddler: ../tiddlypedia/Template_WikipediaArticleFooter.tiddler
 tiddler: ../tiddlypedia/Template_WikipediaArticleFooterFull.tiddler
 tiddler: ../tiddlypedia/CopyrightNotice.tiddler
+tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/LocalAdaptorPlugin.js
