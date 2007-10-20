@@ -15,7 +15,8 @@ config.options.txtMaxEditRows = 20;
 
 config.defaultCustomFields = {
 	'server.type':'ziddlywiki',
-	'server.host':'www.ziddlywiki.com'
+	'server.host':'zw.mcelrath.org',
+	'server.workspace':'ziddlywiki.com'
 };
 
 //config.options.chkSinglePageMode = false;
