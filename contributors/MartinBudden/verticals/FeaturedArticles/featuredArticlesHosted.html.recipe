@@ -1,10 +1,16 @@
-recipe: ../tiddlywikiseobasic.html.recipe
-recipe: split.recipe
-recipe: ../tiddlypedia/splitHostedRevisions.recipe
+recipe: ../../../../core/tiddlywiki.html.recipe
+title: title.txt
+recipe: content/split.recipe
+recipe: templates/split.recipe
+tiddler: Home.tiddler
+tiddler: ../../shadows/MainMenuHomeCopyright.tiddler
+tiddler: ../../shadows/DefaultTiddlersHomeCopyright.tiddler
+tiddler: ../../feeds/WikipediaFeaturedArticleFeed.tiddler
+recipe:  ../tiddlypedia/splitHostedRevisions.recipe
 tiddler: ../tiddlypedia/Logo.tiddler
 tiddler: ../tiddlypedia/settings.js
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
-tiddler: ../../plugins/AsyncStartupPlugin.js
+tiddler: ../tiddlypedia/StyleSheet.tiddler
 tiddler: ../../formatters/MediaWikiFormatterPlugin.js
 tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
 tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
@@ -12,4 +18,3 @@ tiddler: ../../styles/wikipediaStyle.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
-tiddler: ../../feeds/WikipediaFeaturedArticleFeed.tiddler
