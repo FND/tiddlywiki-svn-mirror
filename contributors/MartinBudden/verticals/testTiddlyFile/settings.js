@@ -16,7 +16,7 @@ config.options.chkDisableWikiLinks = true;
 config.maxTiddlerImportCount = 10;
 
 merge(config.defaultCustomFields,{
-	'server.type':'local',
+	'server.type':'local', x:17
 });
 
 config.options.chkSinglePageMode = false;
