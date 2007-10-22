@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#TWikiFormatterPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/TWikiFormatterPlugin.js|
-|''Version:''|0.2.3|
+|''Version:''|0.2.4|
 |''Date:''|Nov 5, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -136,7 +136,8 @@ config.formatterHelpers.doubleCharFormat = function(w)
 	}
 };
 
-config.twikiFormatters = [
+config.twiki = {};
+config.twiki.formatters = [
 {
 	name: 'twikiTable',
 	match: '^\\|(?:[^\\n]*)\\|$',
