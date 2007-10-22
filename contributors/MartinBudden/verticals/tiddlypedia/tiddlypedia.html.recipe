@@ -1,5 +1,7 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 prehead: ../../../../core/html/rss.link.html
+tiddler: ../../shadows/MainMenuHome.tiddler
+tiddler: ../../shadows/DefaultTiddlersHome.tiddler
 recipe: split.recipe
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../plugins/settings.js
@@ -9,6 +11,6 @@ tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
 tiddler: ../../styles/wikipediaStyle.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
-tiddler: ../../../../contributors/misc/plugins/DividedListsPlugin.js
-tiddler: ../../../../contributors/misc/plugins/TagCloudPlugin.js
+#tiddler: ../../../../contributors/misc/plugins/DividedListsPlugin.js
+#tiddler: ../../../../contributors/misc/plugins/TagCloudPlugin.js
 tiddler: ../../../../contributors/EricShulman/plugins/SinglePageModePlugin.js

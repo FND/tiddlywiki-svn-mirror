@@ -1,17 +1,10 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 title: title.txt
-tiddler: ViewTemplate.tiddler
-tiddler: DefaultTiddlers.tiddler
-tiddler: MainMenu.tiddler
-tiddler: SiteSubtitle.tiddler
-tiddler: SiteTitle.tiddler
-tiddler: SiteUrl.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: settings.js
-tiddler: Logo.tiddler
-tiddler: StyleSheet.tiddler
 tiddler: DownloadThisTiddlyWiki.tiddler
 tiddler: MediaWikiWalkthrough.tiddler
+tiddler: ../tiddlypedia/StyleSheet.tiddler
 tiddler: ../tiddlypedia/OptionsPanel.tiddler
 tiddler: ../tiddlypedia/PageTemplateWithLogo.tiddler
 tiddler: ../tiddlypedia/SideBarOptionsWithMediaWikiFormat.tiddler
@@ -19,6 +12,7 @@ tiddler: ../tiddlypedia/SideBarTabs.tiddler
 tiddler: ../tiddlypedia/TabMoreOtherPagesUpdatedShadowed.tiddler
 tiddler: ../tiddlypedia/TabTags.tiddler
 tiddler: ../tiddlypedia/TabOtherPages.tiddler
+tiddler: ../../tiddlers/Logo.tiddler
 # tiddler: ../../tiddlers/Download_this_wiki.tiddler
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js

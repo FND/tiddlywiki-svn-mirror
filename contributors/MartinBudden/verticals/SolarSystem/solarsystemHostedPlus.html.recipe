@@ -4,9 +4,10 @@ recipe: shadows/split.recipe
 recipe: content/split.recipe
 recipe: templates/split.recipe
 tiddler: Home.tiddler
+tiddler: ../../shadows/DefaultTiddlersHomeCopyright.tiddler
+tiddler: ../../shadows/MainMenuHomeCopyright.tiddler
 recipe:  ../tiddlypedia/splitHostedRevisions.recipe
-tiddler: ../tiddlypedia/MainMenu.tiddler
-tiddler: ../tiddlypedia/DefaultTiddlers.tiddler
+tiddler: ../tiddlypedia/Logo.tiddler
 tiddler: ../tiddlypedia/settings.js
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../plugins/AsyncStartupPlugin.js
@@ -18,5 +19,5 @@ tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../feeds/WikipediaSolarSystemFeed.tiddler
-tiddler: ../../../../contributors/misc/plugins/TagCloudPlugin.js
-tiddler: ../../../../contributors/UdoBorkowski/plugins/TiddlerAliasPlugin.js
+# tiddler: ../../../../contributors/misc/plugins/TagCloudPlugin.js
+# tiddler: ../../../../contributors/UdoBorkowski/plugins/TiddlerAliasPlugin.js

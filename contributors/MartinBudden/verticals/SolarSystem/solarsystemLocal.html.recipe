@@ -4,8 +4,8 @@ recipe: shadows/split.recipe
 recipe: templates/split.recipe
 tiddler: HomeLocal.tiddler
 tiddler: ../tiddlypedia/settingsLocal.js
-tiddler: ../tiddlypedia/MainMenu.tiddler
-tiddler: ../tiddlypedia/DefaultTiddlers.tiddler
+tiddler: ../../shadows/DefaultTiddlersHomeCopyright.tiddler
+tiddler: ../../shadows/MainMenuHomeCopyright.tiddler
 tiddler: ../tiddlypedia/Logo.tiddler
 tiddler: ../tiddlypedia/StyleSheet.tiddler
 tiddler: ../tiddlypedia/OptionsPanel.tiddler
@@ -23,12 +23,12 @@ tiddler: ../tiddlypedia/Template_WikipediaArticleFooter.tiddler
 tiddler: ../tiddlypedia/Template_WikipediaArticleFooterFull.tiddler
 tiddler: ../tiddlypedia/CopyrightNotice.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
+tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
+tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
+tiddler: ../../styles/wikipediaStyle.js
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/LocalAdaptorPlugin.js
 tiddler: ../../adaptors/ExternalStoragePlugin.js
 tiddler: ../../feeds/LocalFeed.tiddler
 tiddler: ../../formatters/MediaWikiFormatterPlugin.js
-tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
-tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
-tiddler: ../../styles/wikipediaStyle.js

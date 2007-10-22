@@ -4,13 +4,13 @@ recipe: shadows/split.recipe
 recipe: content/split.recipe
 recipe: templates/split.recipe
 tiddler: Home.tiddler
+tiddler: ../../shadows/DefaultTiddlersHomeCopyright.tiddler
+tiddler: ../../shadows/MainMenuHomeCopyright.tiddler
 recipe:  ../tiddlypedia/splitHostedLogo.recipe
-tiddler: ../tiddlypedia/MainMenu.tiddler
-tiddler: ../tiddlypedia/DefaultTiddlers.tiddler
 tiddler: ../tiddlypedia/settings.js
-tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../plugins/AsyncStartupPlugin.js
 tiddler: ../../formatters/MediaWikiFormatterPlugin.js
+tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
 tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
 tiddler: ../../styles/wikipediaStyle.js

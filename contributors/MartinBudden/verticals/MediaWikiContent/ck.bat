@@ -1,1 +1,0 @@
-cook mediawikicontent.html.recipe
