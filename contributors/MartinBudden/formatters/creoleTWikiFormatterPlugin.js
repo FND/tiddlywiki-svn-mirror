@@ -25,12 +25,12 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1)) {
 }
 
 // add new formatters
-config.twikiFormatters.push(creoleBaseFormatter.bold);
-config.twikiFormatters.push(creoleBaseFormatter.italic);
-config.twikiFormatters.push(creoleBaseFormatter.list);
-config.twikiFormatters.push(creoleBaseFormatter.heading);
-config.twikiFormatters.push(creoleBaseFormatter.explicitLink);
-config.twikiFormatters.push(creoleBaseFormatter.preFormattedBlock);
+config.twiki.formatters.push(creoleBaseFormatter.bold);
+config.twiki.formatters.push(creoleBaseFormatter.italic);
+config.twiki.formatters.push(creoleBaseFormatter.list);
+config.twiki.formatters.push(creoleBaseFormatter.heading);
+config.twiki.formatters.push(creoleBaseFormatter.explicitLink);
+config.twiki.formatters.push(creoleBaseFormatter.preFormattedBlock);
 
 
 // set up parser to use added formatters

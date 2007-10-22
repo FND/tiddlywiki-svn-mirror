@@ -23,16 +23,16 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1)) {
 }
 
 // add new formatters
-config.mediaWikiFormatters.push(creoleBaseFormatter.bold);
-config.mediaWikiFormatters.push(creoleBaseFormatter.italic);
-config.mediaWikiFormatters.push(creoleBaseFormatter.preFormattedBlock);
+config.mediawiki.formatters.push(creoleBaseFormatter.bold);
+config.mediawiki.formatters.push(creoleBaseFormatter.italic);
+config.mediawiki.formatters.push(creoleBaseFormatter.preFormattedBlock);
 
-var format = config.parsers.mediaWikiFormatter.format;
-var formatTag = config.parsers.mediaWikiFormatter.formatTag;
+var format = config.parsers.mediawikiFormatter.format;
+var formatTag = config.parsers.mediawikiFormatter.formatTag;
 delete config.parsers.mediaWikiFormatter;
-config.parsers.mediaWikiFormatter = new Formatter(config.mediaWikiFormatters);
-config.parsers.mediaWikiFormatter.format = format;
-config.parsers.mediaWikiFormatter.formatTag = formatTag;
+config.parsers.mediawikiFormatter = new Formatter(config.mediawiki.formatters);
+config.parsers.mediawikiFormatter.format = format;
+config.parsers.mediawikiFormatter.formatTag = formatTag;
 
 }// end of 'install only once'
 //}}}
