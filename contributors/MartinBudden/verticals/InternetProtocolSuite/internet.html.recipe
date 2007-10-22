@@ -1,7 +1,12 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
-recipe: split.recipe
+title: title.txt
+recipe: shadows/split.recipe
+recipe: content/split.recipe
+recipe: templates/split.recipe
+tiddler: Home.tiddler
+tiddler: ../../shadows/MainMenuHomeCopyright.tiddler
+tiddler: ../../shadows/DefaultTiddlersHomeCopyright.tiddler
 recipe: ../tiddlypedia/splitHostedLogo.recipe
-tiddler: ../tiddlypedia/settings.js
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../plugins/AsyncStartupPlugin.js
 tiddler: ../../formatters/MediaWikiFormatterPlugin.js

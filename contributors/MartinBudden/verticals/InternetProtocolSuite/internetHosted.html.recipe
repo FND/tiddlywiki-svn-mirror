@@ -1,5 +1,11 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
-recipe: split.recipe
+title: title.txt
+recipe: shadows/split.recipe
+recipe: content/split.recipe
+recipe: templates/split.recipe
+tiddler: Home.tiddler
+tiddler: ../../shadows/MainMenuHome.tiddler
+tiddler: ../../shadows/DefaultTiddlersHome.tiddler
 recipe: ../tiddlypedia/splitHostedRevisionsLogo.recipe
 tiddler: ../tiddlypedia/settings.js
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
