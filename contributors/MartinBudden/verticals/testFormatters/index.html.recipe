@@ -1,10 +1,8 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
-title: title.html
-tiddler: MainMenu.tiddler
-tiddler: DefaultTiddlers.tiddler
+title: title.txt
+recipe: shadows/split.recipe
 tiddler: Home.tiddler
-tiddler: SiteSubtitle.tiddler
-tiddler: SiteTitle.tiddler
+recipe:  ../../mystyle/split.recipe
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../formatters/ConfluenceFormatterPlugin.js
