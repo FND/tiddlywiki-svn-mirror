@@ -1,5 +1,14 @@
 recipe: ../tiddlywikibasic.html.recipe
-recipe: split.recipe
+title: title.txt
+recipe: shadows/split.recipe
+tiddler: ../../shadows/DefaultTiddlersHome.tiddler
+tiddler: settings.js
+tiddler: Copyright.tiddler
+tiddler: Home.tiddler
+tiddler: Plugins.tiddler
+tiddler: Formatters.tiddler
+tiddler: Adaptors.tiddler
+tiddler: Experimental.tiddler
 recipe: ../../mystyle/split.recipe
 tiddler: ../../tiddlers/Basic_Formatting.tiddler
 tiddler: ../../tiddlers/Document_Formatting.tiddler
