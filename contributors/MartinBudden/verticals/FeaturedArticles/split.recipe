@@ -1,9 +1,0 @@
-title: title.txt
-recipe: content/split.recipe
-recipe: templates/split.recipe
-tiddler: ../tiddlypedia/MainMenu.tiddler
-tiddler: ../tiddlypedia/DefaultTiddlers.tiddler
-tiddler: Home.tiddler
-tiddler: SiteSubtitle.tiddler
-tiddler: SiteTitle.tiddler
-tiddler: SiteUrl.tiddler
