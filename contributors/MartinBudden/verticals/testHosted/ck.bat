@@ -1,1 +1,0 @@
-cook testHosted.html.recipe

@@ -1,11 +1,9 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
-title: title.html
-tiddler: ../../tiddlers/MainMenuHome.tiddler
-tiddler: StyleSheet.tiddler
-tiddler: DefaultTiddlersCcTiddly.tiddler
+title: title.txt
+recipe: shadows/split.recipe
+tiddler: ../../shadows/MainMenuHome.tiddler
+tiddler: shadows/DefaultTiddlersCcTiddly.tiddler
 tiddler: HomeCcTiddly.tiddler
-tiddler: SiteSubtitle.tiddler
-tiddler: SiteTitle.tiddler
 tiddler: ccTiddlySettings.js
 tiddler: ccTiddlyHowTo.tiddler
 tiddler: ../tiddlypedia/OptionsPanel.tiddler
@@ -20,6 +18,7 @@ tiddler: ../tiddlypedia/TabUpdated.tiddler
 tiddler: ../tiddlypedia/Tiddlypedia.tiddler
 tiddler: ../tiddlypedia/EditTemplateHosted.tiddler
 tiddler: ../tiddlypedia/ViewTemplateGetPutRevisions.tiddler
+tiddler: ../../mystyle/StyleSheet.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/ccTiddlyAdaptorPlugin.js
