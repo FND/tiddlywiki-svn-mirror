@@ -9,7 +9,7 @@ tiddler: ../../mystyle/StyleSheetMB.tiddler
 tiddler: settings.js
 tiddler: Home.tiddler
 tiddler: test.tiddler
-tiddler: ../tiddlypedia/ViewTemplateRevisions.tiddler
+tiddler: ../../shadows/ViewTemplateRevisions.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/LocalAdaptorPlugin.js
 tiddler: ../../tiddlers/Configuration.tiddler
