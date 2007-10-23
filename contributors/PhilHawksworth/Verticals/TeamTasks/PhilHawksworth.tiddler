@@ -1,0 +1,26 @@
+<div title="PhilHawksworth" modifier="PhilHawksworth" created="200708211817" modified="200710221416" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709171548" server.type="file" changecount="7">
+<pre>&lt;&lt;tiddler ImgPhil&gt;&gt;
+&lt;html&gt;
+&lt;div class=&quot;vcard&quot;&gt;
+ &lt;a class=&quot;url fn n&quot; href=&quot;http://tantek.com/&quot;&gt;
+  &lt;span class=&quot;given-name&quot;&gt;Phil&lt;/span&gt; 
+  &lt;span class=&quot;family-name&quot;&gt;Hawksworth&lt;/span&gt;
+ &lt;/a&gt;
+ &lt;div class=&quot;org&quot;&gt;&lt;span class=&quot;organization-name&quot;&gt;Osmosoft&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/html&gt;
+
+|''Mobile''|+44 7939 555715|
+|''Landline''|+44 20 3072 0017|
+|''Home email''|phawksworth@gmail.com|
+|''Work email''|phil.hawksworth@bt.com|
+||[[More contact details|PhilHsContactDetails]] |
+!!!High Priority Tasks
+&lt;&lt;TaskViewBuilder PriorityDefinitions_High UserDefinitions_PhilHawksworth !StatusDefinitions_Complete&gt;&gt;
+!!!Medium Priority Tasks
+&lt;&lt;TaskViewBuilder PriorityDefinitions_Medium UserDefinitions_PhilHawksworth !StatusDefinitions_Complete&gt;&gt;
+!!!Low Priority Tasks
+&lt;&lt;TaskViewBuilder PriorityDefinitions_Low UserDefinitions_PhilHawksworth !StatusDefinitions_Complete&gt;&gt;
+!!!Wafty Ideas
+&lt;&lt;TaskViewBuilder PriorityDefinitions_WaftyIdea UserDefinitions_PhilHawksworth !StatusDefinitions_Complete&gt;&gt;</pre>
+</div>

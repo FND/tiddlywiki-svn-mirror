@@ -1,0 +1,12 @@
+<div title="Getting Started with TeamTasks" modifier="PhilHawksworth" created="200710231248" modified="200710231347" tags="help" changecount="6">
+<pre>TeamTasks is intended to support you in managing your task lists.  It can be heavily customised to be used in many different ways, but I am presuming that most users will want to do the following to get up and running quickly:
+*[[Define some users|DefineUsers]]
+*[[Define some projects or tasks|DefineScopes]]
+*[[Start creating Tasks|CreatingTasks]]
+*[[Build some task views|CreatingTaskListViews]]
+and then may wish to make further customisations by editing the [[TaskDefinition|TaskDefinitions]] tiddlers
+
+All of the help content is tagged with 'help'. It should all be listed in the [[help index]]
+
+[[More information|About TeamTasks]] about what components go into TeamTasks. </pre>
+</div>

@@ -1,0 +1,8 @@
+<div title="UserDetailsTemplate" modifier="PhilHawksworth" created="200710221551" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.type="file" changecount="2">
+<pre>&lt;html&gt;
+&lt;form name='createUser' action='return false;'&gt;
+First name &lt;input  type='text' id='newUserFname' /&gt;&lt;br /&gt;
+Last name &lt;input  type='text' id='newUserLname' /&gt;&lt;br /&gt;
+&lt;/form&gt;
+&lt;/html&gt;</pre>
+</div>

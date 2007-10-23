@@ -1,9 +1,0 @@
-<div title="MainMenu" modifier="PhilHawksworth" created="200708051914" modified="200709251224" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709171519" server.type="file" changecount="5">
-<pre>&lt;&lt;slider chkSliderOptionsPanel TaskViews &quot;Task views »&quot; &quot;A selection of task views&quot;&gt;&gt;
-&lt;&lt;slider chkSliderOptionsPanel TaskDefinitions &quot;Task definitions »&quot; &quot;The definitions that drive the task management&quot;&gt;&gt;
-
-----
-[[modify this menu|MainMenu]]|[[options|OptionsPanel]]|[[about|About]]
-----
-[[download|index.html]]</pre>
-</div>

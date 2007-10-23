@@ -1,0 +1,9 @@
+<div title="MyTasksByPriority" modifier="PhilHawksworth" created="200708211802" modified="200709131311" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709131311" server.type="file">
+<pre>These tasks are assigned to [[me|PhilHawksworth]] and are ordered by priority
+!!High Priority
+&lt;&lt;TaskViewBuilder PriorityDefinitions_High UserDefinitions_PhilHawksworth&gt;&gt;
+!!Medium Priority
+&lt;&lt;TaskViewBuilder PriorityDefinitions_Medium UserDefinitions_PhilHawksworth&gt;&gt;
+!!Low Priority
+&lt;&lt;TaskViewBuilder PriorityDefinitions_Low UserDefinitions_PhilHawksworth&gt;&gt;</pre>
+</div>
