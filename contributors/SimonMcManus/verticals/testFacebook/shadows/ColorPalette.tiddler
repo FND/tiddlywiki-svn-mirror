@@ -1,0 +1,20 @@
+<div title="ColorPalette" modifier="SimonMcManus" tags="styles excludeLists excludeSearch">
+<pre>
+
+Background: #f0f0f0
+Foreground: #000
+PrimaryPale: #8cf
+PrimaryLight: #3B5998
+PrimaryMid: #3B5998
+PrimaryDark: #3B5998
+SecondaryPale: #ffc
+SecondaryLight: #fe8
+SecondaryMid: #db4
+SecondaryDark: #841
+TertiaryPale: #eee
+TertiaryLight: #ccc
+TertiaryMid: #999
+TertiaryDark: #666
+Error: #fff
+</pre>
+</div>

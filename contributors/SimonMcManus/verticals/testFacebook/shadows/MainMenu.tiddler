@@ -1,0 +1,6 @@
+<div title="MainMenu" tags="excludeLists excludeSearch">
+<pre>
+<<importWorkspace label:"Import Friends">>
+[[DisplayFriends]]
+</pre>
+</div>

@@ -13,7 +13,7 @@ config.options.txtBackupFolder = 'backup';
 config.options.txtMaxEditRows = 20;
 
 config.options.chkDisableWikiLinks = true;
-config.defaultCustomFields = {x:17};
+
 config.displayStartupTime = true;
 //#config.options.chkSinglePageMode = false;
 //#config.options.chkTopOfPageMode = false;

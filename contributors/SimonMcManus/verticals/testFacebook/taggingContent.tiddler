@@ -1,0 +1,37 @@
+<div title="taggingContent" tags="systemConfig excludeLists excludeSearch">
+<pre>
+//{{{
+
+config.macros.taggingContent = {};
+merge(config.macros.taggingContent,{
+label: "taggingContent: ",
+labelNotTag: "not tagging",
+tooltip: "List of tiddlers (and content) tagged with '%0'"});
+
+config.macros.taggingContent.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+params = paramString.parseParams("anon",null,true,false,false);
+var theList = createTiddlyElement(place,"ul");
+var title = getParam(params,"anon","");
+if(title == "" && tiddler instanceof Tiddler)
+title = tiddler.title;
+var sep = getParam(params,"sep"," ");
+theList.setAttribute("title",this.tooltip.format([title]));
+var tagged = store.getTaggedTiddlers(title);
+var prompt = tagged.length == 0 ? this.labelNotTag : this.label;
+//createTiddlyElement(theList,"li",null,"listTitle",prompt.format([title,tagged.length]));
+for(var t=0; t<tagged.length; t++)
+{
+var e = createTiddlyElement(theList,"p");
+//createTiddlyLink(e,tagged[t].title,true);
+//createTiddlyText(e,tagged[t].text);
+createTiddlyElement(e,'br');
+wikify(tagged[t].text,e);
+if(t<tagged.length-1)
+createTiddlyText(theList,sep);
+}
+}
+
+//}}}
+</pre>
+</div>

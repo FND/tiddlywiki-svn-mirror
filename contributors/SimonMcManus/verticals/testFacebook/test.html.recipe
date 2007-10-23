@@ -1,15 +1,20 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
-title: title.txt
-tiddler: MainMenu.tiddler
-tiddler: DefaultTiddlers.tiddler
-tiddler: Home.tiddler
-tiddler: SiteSubtitle.tiddler
-tiddler: SiteTitle.tiddler
-tiddler: SiteUrl.tiddler
-tiddler: StyleSheet.tiddler
+
+recipe: shadows/split.recipe
+
 tiddler: Test.tiddler
-tiddler: ../../adaptors/FacebookNewsAdaptorPlugin.js
-tiddler: ../../feeds/FacebookNewsFeed.tiddler
+tiddler: Home.tiddler
+tiddler: DisplayFriends.tiddler
+tiddler: DisplayNews.tiddler
+
+tiddler: taggingContent.tiddler
+
+tiddler: ../../feeds/FacebookFriendsFeed.tiddler
+tiddler: ../../adaptors/FacebookFriendsAdaptorPlugin.js
+
+#tiddler: ../../feeds/FacebookNewsFeed.tiddler
+#tiddler: ../../adaptors/FacebookNewsAdaptorPlugin.js
+
 tiddler: ../../mystyle/StyleSheetMB.tiddler
-tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
+tiddler: ../../../MartinBudden/adaptors/ImportWorkspacePlugin.js
 tiddler: settings.js

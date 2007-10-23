@@ -1,9 +1,9 @@
 /***
-|''Name:''|FacebookNewsAdaptorPlugin|
-|''Description:''|Facebook News Adaptor|
+|''Name:''|FacebookFriendsAdaptorPlugin|
+|''Description:''|Facebook Friends Adaptor|
 |''Author:''|Simon McManus (simonmcmanus (at) bt (dot) com)|
-|''Source:''|http://www.example.com/#FacebookNewsAdaptorPlugin |
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/adaptors/FacebookNewsAdaptorPlugin.js |
+|''Source:''|http://www.example.com/#FacebookFriendsAdaptorPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/adaptors/FacebookFriendsAdaptorPlugin.js |
 |''Version:''|0.0.2|
 |''Status:''|Not ready for release|
 |''Date:''|Sep 27, 2007|
@@ -15,22 +15,22 @@
 
 //{{{
 //# Ensure that the plugin is only installed once.
-if(!version.extensions.FacebookNewsAdaptorPlugin) {
-version.extensions.FacebookNewsAdaptorPlugin = {installed:true};
+if(!version.extensions.FacebookFriendsAdaptorPlugin) {
+version.extensions.FacebookFriendsAdaptorPlugin = {installed:true};
 
-function FacebookNewsAdaptor()
+function FacebookFriendsAdaptor()
 {
 	this.host = null;
 	this.workspace = null;
 	return this;
 }
 
-//FacebookNewsAdaptor.mimeType = 'text/x.';
-FacebookNewsAdaptor.serverType = 'facebooknews';
-FacebookNewsAdaptor.serverParsingErrorMessage = "Error parsing result from server";
-FacebookNewsAdaptor.errorInFunctionMessage = "Error in function FacebookNewsAdaptor.%0";
+//FacebookFriendsAdaptor.mimeType = 'text/x.';
+FacebookFriendsAdaptor.serverType = 'facebookfriends';
+FacebookFriendsAdaptor.serverParsingErrorMessage = "Error parsing result from server";
+FacebookFriendsAdaptor.errorInFunctionMessage = "Error in function FacebookFriendsAdaptor.%0";
 
-FacebookNewsAdaptor.prototype.setContext = function(context,userParams,callback)
+FacebookFriendsAdaptor.prototype.setContext = function(context,userParams,callback)
 {
 	if(!context) context = {};
 	context.userParams = userParams;
@@ -43,17 +43,17 @@ FacebookNewsAdaptor.prototype.setContext = function(context,userParams,callback)
 	return context;
 };
 
-FacebookNewsAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
+FacebookFriendsAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
 	return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
 };
 
-FacebookNewsAdaptor.doHttpPOST = function(uri,callback,params,headers,data,contentType,username,password)
+FacebookFriendsAdaptor.doHttpPOST = function(uri,callback,params,headers,data,contentType,username,password)
 {
 	return doHttp('POST',uri,data,contentType,username,password,callback,params,headers);
 };
 
-FacebookNewsAdaptor.fullHostName = function(host)
+FacebookFriendsAdaptor.fullHostName = function(host)
 {
 	if(!host)
 		return '';
@@ -64,13 +64,13 @@ FacebookNewsAdaptor.fullHostName = function(host)
 	return host;
 };
 
-FacebookNewsAdaptor.minHostName = function(host)
+FacebookFriendsAdaptor.minHostName = function(host)
 {
 	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
 };
 
 // Convert a page title to the normalized form used in uris
-FacebookNewsAdaptor.normalizedTitle = function(title)
+FacebookFriendsAdaptor.normalizedTitle = function(title)
 {
 	var n = title.toLowerCase();
 	n = n.replace(/\s/g,'_').replace(/\//g,'_').replace(/\./g,'_').replace(/:/g,'').replace(/\?/g,'');
@@ -80,15 +80,15 @@ FacebookNewsAdaptor.normalizedTitle = function(title)
 };
 
 // Convert a date in YYYY-MM-DD hh:mm format into a JavaScript Date object
-FacebookNewsAdaptor.dateFromEditTime = function(editTime)
+FacebookFriendsAdaptor.dateFromEditTime = function(editTime)
 {
 	var dt = editTime;
 	return new Date(Date.UTC(dt.substr(0,4),dt.substr(5,2)-1,dt.substr(8,2),dt.substr(11,2),dt.substr(14,2)));
 };
 
-FacebookNewsAdaptor.prototype.openHost = function(host,context,userParams,callback)
+FacebookFriendsAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
-	this.host = FacebookNewsAdaptor.fullHostName(host);
+	this.host = FacebookFriendsAdaptor.fullHostName(host);
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
@@ -97,7 +97,7 @@ FacebookNewsAdaptor.prototype.openHost = function(host,context,userParams,callba
 	return true;
 };
 
-FacebookNewsAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
+FacebookFriendsAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
 	this.workspace = workspace;
 	context = this.setContext(context,userParams,callback);
@@ -108,20 +108,20 @@ FacebookNewsAdaptor.prototype.openWorkspace = function(workspace,context,userPar
 	return true;
 };
 
-FacebookNewsAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
+FacebookFriendsAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
 // !!TODO set the uriTemplate
 	var uriTemplate = '%0';
 	var uri = uriTemplate.format([context.host]);
-	var req = FacebookNewsAdaptor.doHttpGET(uri,FacebookNewsAdaptor.getWorkspaceListCallback,context,{'accept':'application/json'});
+	var req = FacebookFriendsAdaptor.doHttpGET(uri,FacebookFriendsAdaptor.getWorkspaceListCallback,context,{'accept':'application/json'});
 	return typeof req == 'string' ? req : true;
 };
 
-FacebookNewsAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
+FacebookFriendsAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
 {
 	context.status = false;
-	context.statusText = FacebookNewsAdaptor.errorInFunctionMessage.format(['getWorkspaceListCallback']);
+	context.statusText = FacebookFriendsAdaptor.errorInFunctionMessage.format(['getWorkspaceListCallback']);
 	if(status) {
 		try {
 // !!TODO: parse the responseText here
@@ -132,7 +132,7 @@ FacebookNewsAdaptor.getWorkspaceListCallback = function(status,context,responseT
 				};
 			list.push(item);
 		} catch (ex) {
-			context.statusText = exceptionText(ex,FacebookNewsAdaptor.serverParsingErrorMessage);
+			context.statusText = exceptionText(ex,FacebookFriendsAdaptor.serverParsingErrorMessage);
 			if(context.callback)
 				context.callback(context,context.userParams);
 			return;
@@ -146,7 +146,7 @@ FacebookNewsAdaptor.getWorkspaceListCallback = function(status,context,responseT
 		context.callback(context,context.userParams);
 };
 
-FacebookNewsAdaptor.getElementsByClass = function(searchClass,node,tag)
+FacebookFriendsAdaptor.getElementsByClass = function(searchClass,node,tag)
 {
 	var classElements = new Array();
 	if (node == null)
@@ -166,15 +166,17 @@ FacebookNewsAdaptor.getElementsByClass = function(searchClass,node,tag)
 	return classElements;
 };
 
-FacebookNewsAdaptor.doHttpPOST = function(uri,callback,params,headers,data,contentType,username,password)
+FacebookFriendsAdaptor.doHttpPOST = function(uri,callback,params,headers,data,contentType,username,password)
 {
 	return doHttp('POST',uri,data,contentType,username,password,callback,params,headers);
 };
 
-FacebookNewsAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
+FacebookFriendsAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
- var email = prompt("Hey there, what is your facebook username?", "");
- var pass =  prompt("Hey there, what is your facebook password?", "");
+ //var email = prompt("Please enter your facebook username.", "");
+ //var pass =  prompt("Please enter your facebook password.", "");
+var email = prompt('What is your facebook login?');
+var pass = prompt('What is your facebook password?');
 	context = this.setContext(context,userParams,callback);
 	var data = "md5pass=" + encodeURI("") + "&" +
 		"noerror=" + encodeURI("") + "&" +
@@ -183,14 +185,14 @@ FacebookNewsAdaptor.prototype.getTiddlerList = function(context,userParams,callb
 		"doquicklogin=Login";
 	var uriTemplate = '%0';
 	var uri = uriTemplate.format([context.host]);
-	var req = FacebookNewsAdaptor.doHttpPOST(uri,FacebookNewsAdaptor.getTiddlerListCallback,context,null,data);
+	var req = FacebookFriendsAdaptor.doHttpPOST(uri,FacebookFriendsAdaptor.getTiddlerListCallback,context,null,data);
 	return typeof req == 'string' ? req : true;
 };
 
-FacebookNewsAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
+FacebookFriendsAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
 	context.status = false;
-	context.statusText = FacebookNewsAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
+	context.statusText = FacebookFriendsAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	if(status) {
 		try {
 //displayMessage("rt:"+responseText.substr(0,100));
@@ -228,17 +230,17 @@ FacebookNewsAdaptor.getTiddlerListCallback = function(status,context,responseTex
 				//# Check we're logged in
 				var loginStatus = hasClass(doc.body,"home");	
 				//# Get rid of the iframe
-				iframe.parentNode.removeChild(iframe);
+				//iframe.parentNode.removeChild(iframe);
 				context.adaptor.tiddlers = {};				
 				context.tiddlers = [];
-				var feed = FacebookNewsAdaptor.getElementsByClass('feed_item clearfix',doc);
+				var feed = FacebookFriendsAdaptor.getElementsByClass('friendtable',doc);
 				for (var f = 0; f < feed.length; f++) {
 					// put the plain text in the title
 					var tiddler = new Tiddler(feed[f].textContent);
 					// place html into the tiddler text
 					tiddler.text = "<html>" + feed[f].innerHTML + "</html>";
 					tiddler.modifier = "FacebookPlugin";
-					tiddler.tags = ["NewsFeed"];
+					tiddler.tags = ["Friend"];
 					context.tiddlers.push(tiddler);
 					context.adaptor.tiddlers[tiddler.title] = tiddler;
 				}
@@ -246,7 +248,7 @@ FacebookNewsAdaptor.getTiddlerListCallback = function(status,context,responseTex
 			}
 
 		} catch (ex) {
-			context.statusText = exceptionText(ex,FacebookNewsAdaptor.serverParsingErrorMessage);
+			context.statusText = exceptionText(ex,FacebookFriendsAdaptor.serverParsingErrorMessage);
 			if(context.callback)
 				context.callback(context,context.userParams);
 			return;
@@ -259,10 +261,10 @@ FacebookNewsAdaptor.getTiddlerListCallback = function(status,context,responseTex
 		context.callback(context,context.userParams);
 };
 
-FacebookNewsAdaptor.prototype.generateTiddlerInfo = function(tiddler)
+FacebookFriendsAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 {
 	var info = {};
-	var host = this && this.host ? this.host : FacebookNewsAdaptor.fullHostName(tiddler.fields['server.host']);
+	var host = this && this.host ? this.host : FacebookFriendsAdaptor.fullHostName(tiddler.fields['server.host']);
 	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
 // !!TODO set the uriTemplate
 	uriTemplate = '%0%1%2';
@@ -270,13 +272,13 @@ FacebookNewsAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	return info;
 };
 
-FacebookNewsAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
+FacebookFriendsAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
 	context.tiddler = this.tiddlers[title];
 	if(context.tiddler) {
-		context.tiddler.fields['server.type'] = FacebookNewsAdaptor.serverType;
+		context.tiddler.fields['server.type'] = FacebookFriendsAdaptor.serverType;
 		context.tiddler.fields['server.host'] = this.host;
 	}
 	context.status = true;
@@ -289,11 +291,11 @@ FacebookNewsAdaptor.prototype.getTiddler = function(title,context,userParams,cal
 	return true;
 };
 
-FacebookNewsAdaptor.prototype.close = function()
+FacebookFriendsAdaptor.prototype.close = function()
 {
 	return true;
 };
 
-config.adaptors[FacebookNewsAdaptor.serverType] = FacebookNewsAdaptor;
+config.adaptors[FacebookFriendsAdaptor.serverType] = FacebookFriendsAdaptor;
 } //# end of 'install only once'
 //}}}

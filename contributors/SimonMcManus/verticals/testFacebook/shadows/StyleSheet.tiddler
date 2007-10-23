@@ -1,0 +1,25 @@
+<div title="StyleSheet" modifier="MartinBudden" tags="styles excludeLists excludeSearch">
+<pre>/***
+Place your custom CSS here
+***/
+[[StyleSheetMB]]
+[[Styles HorizontalMainMenu]]
+/*{{{*/
+.header {background:#007766;}
+messageArea {color:#fff}
+
+
+
+.feed_icon {
+width:20px;
+	float:left;
+	}
+.header_container .feed_story_wrapper .clearfix {
+
+background:#993366;
+	float:right;
+	width:45%;
+	}
+
+/*}}}*/</pre>
+</div>
