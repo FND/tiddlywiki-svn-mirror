@@ -1,9 +1,11 @@
-<div title="Welcome to TiddlyChatter" modifier="JayFresh" created="200709261353" modified="200710161855" tags="info TiddlyChatterPackage" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public]]" server.page.revision="200709271740" server.type="file" changecount="23" server.workspace="">
-<pre>This ~TiddlyWiki has been installed with TiddlyChatter, a shiny new collaboration feature.
+<div title="Welcome to TiddlyChatter" modifier="JayFresh" created="200709261353" modified="200710221613" tags="info TiddlyChatterPackage" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public]]" server.page.revision="200709271740" server.type="file" changecount="26" server.workspace="">
+<pre>@@color(red):22/10/07 New!@@ [[Designing TiddlyChatter from the user's point of view]]
+
+This ~TiddlyWiki has been installed with TiddlyChatter, a shiny new collaboration feature.
 
 To get into the ~TiddlyChatter mood, you need to [[install|InstallTiddlyChatter]] the &lt;&lt;tag TiddlyChatterPackage&gt;&gt; tiddlers in your own ~TiddlyWiki. When you have installed these, take a look at [[these set-up instructions|Setting up TiddlyChatter]].
 
-You might want to find a friend with a ~TiddlyChatter-enabled ~TiddlyWiki to chatter with, although the default is [[me|http://jayfresh.wordpress.com]], via this site. Say hello on the [[TiddlyWikiDev|http://groups.google.com/TiddlyWikiDev]] Google Group if you want to tell people about your feed.
+You are actively encouraged to get involved with designing and building TiddlyChatter. The tiddler [[Designing TiddlyChatter from the user's point of view]] leads to a lot of content that describes and documents the design process we are going through. Please contribute through the [[TiddlyWikiDev|http://groups.google.com/TiddlyWikiDev]] group or mail me at jon at osmosoft dot com.
 
 !!~TiddlyChatter is for opt-in, decentralized collaboration. What this means:
 ''opt-in:'' avoid &quot;collaboration noise&quot; associated with standard wikis - only see the information from people you want to collaborate directly with;

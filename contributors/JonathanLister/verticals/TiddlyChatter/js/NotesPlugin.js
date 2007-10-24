@@ -73,7 +73,7 @@ config.macros.notes={
 	saveTitle: "double click to save",
 	cancelLabel: "cancel",
 	heading: "Notes",
-	suffix: "Notes",
+	suffix: "Notes"+config.options.txtUserName,
 	tags: "Notes",
 	
 	saveNotes: function(ev){
@@ -187,14 +187,23 @@ config.macros.notes={
 				notesCount++;
 			}
 		}
+		// sort the notes by modified date to get the most recent in notes[0]
+		notes.sort(function(a,b){
+			return a.modified > b.modified ? -1 : (a.modified == b.modified ? 0 : 1);
+		});
 		var box = createTiddlyElement(place,"div","notesContainer"+tiddler.title,"TiddlerNotes",null,{"source":tiddler.title,params:paramString,heading:heading,tags:tags_string,suffix:suffix,notesCount:notesCount});
 		// if there aren't any notes, show "No notes"
-		// if there are notes, show "Notes by xxx"
-		// if you added the notes, show "Notes by you"
+		// if there are notes, show "Notes (latest by xxx)"
+		// if you added the notes, show "Notes (latest by you)"
 		// REMOVED: var notes_tiddler = store.fetchTiddler(tiddler.title+"-"+suffix);
 		var heading_extension = "";
 		if (notes[0] && notes[0].modifier) {
-			wikify("!!"+heading+"\n",box);
+			if (notes[0].modifier != config.options.txtUserName) {
+				heading_extension = " (latest by " + notes[0].modifier + ")";
+			} else {
+				heading_extension = " (latest by you)";
+			}
+			wikify("!!"+heading+heading_extension+"\n",box);
 		} else {
 			wikify("//No notes//\n",box);
 		}

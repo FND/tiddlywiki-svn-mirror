@@ -1,8 +1,10 @@
 recipe: ../../../components/TiddlyChatter/js/split.recipe
+tiddler: ../../../components/ImportWorkspaceMulti/js/importWorkspaceMulti.js
 tiddler: ../../../components/RSSAdaptor/js/RSSAdaptor.js
 tiddler: ../../../components/Unread/js/Unread.js
 tiddler: File_adaptor_filter_plugin.js
 tiddler: ImportWorkspacePlugin.js
+tiddler: LoadRemoteFileThroughProxy.js
 tiddler: NotesPlugin.js
 tiddler: RSSrender_plugin.js
 tiddler: stickyOptionsPlugin.js

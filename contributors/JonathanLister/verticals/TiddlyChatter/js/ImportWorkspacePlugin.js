@@ -145,7 +145,10 @@ config.macros.importWorkspace.getTiddlers = function(fields)
 		context.workspace = fields['server.workspace'];
 		context.adaptor = adaptor;
 		context.filter = fields['server.filter'];
-		adaptor.openHost(context.host,context,null,config.macros.importWorkspace.openHostCallback);
+		var ret = adaptor.openHost(context.host,context,null,config.macros.importWorkspace.openHostCallback);
+		if(typeof ret == "string") {
+			displayMessage("error with http request: " + ret);
+		}
 	}
 };
 
@@ -153,6 +156,9 @@ config.macros.importWorkspace.openHostCallback = function(context,userParams)
 {
 	// displayMessage(config.messages.hostOpened.format([context.host]));
 	//window.setTimeout(context.adaptor.openWorkspace,0,context.workspace,context,config.macros.importWorkspace.openWorkspaceCallback);
+	if (context.status !== true) {
+			displayMessage("error opening feed: " + context.statusText);
+	}
 	context.adaptor.openWorkspace(context.workspace,context,userParams,config.macros.importWorkspace.openWorkspaceCallback);
 };
 
@@ -168,6 +174,9 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 {
 	if(context.status) {
 		var tiddlers = context.tiddlers;
+		if (tiddlers.length === 0) {
+			displayMessage("nothing to import from " + context.adaptor.host);
+		}
 		var sortField = 'modified';
 		tiddlers.sort(function(a,b) {return a[sortField] < b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
 		var length = tiddlers.length;
@@ -175,14 +184,19 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 			length = userParams.maxCount;
 		// displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
 		var import_count = 0;
+		console.log("number of import candidates: " + length);
 		for(var i=0; i<length; i++) {
 			tiddler = tiddlers[i];
 			var local_tiddler = store.fetchTiddler(tiddler.title);
-			// only import the tiddler if it doesn't exist locally or, if it does, hasn't been edited
-			if(!local_tiddler || !local_tiddler.isTouched()) {
+			// if the tiddler exists locally, don't overwrite unless the text is different
+			if(!local_tiddler || local_tiddler.text != tiddler.text) {
 				context.adaptor.getTiddler(tiddler.title,null,null,config.macros.importWorkspace.getTiddlerCallback);
 				import_count++;
+				displayMessage("writing tiddler: " + tiddler.title);
 			}
+		}
+		if (import_count === 0) {
+			displayMessage("nothing imported from " + context.adaptor.host);
 		}
 	}
 };
@@ -195,6 +209,7 @@ config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
 		var tiddler = context.tiddler;
 		// add in an extended field to save unread state
 		tiddler.fields["unread"] = "true";
+		console.log(tiddler.text);
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 		story.refreshTiddler(tiddler.title,1,true);
 	} else {

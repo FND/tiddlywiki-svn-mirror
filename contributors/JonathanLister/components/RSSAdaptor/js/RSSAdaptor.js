@@ -103,10 +103,12 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 	// regex_title matches for the titles
 	var regex_title = /<title>(.|\n)*?<\/title>/mg;
 	var regex_guid = /<guid>(.|\n)*?<\/guid>/mg;
+	var regex_wiki = /<tw:wikitext>(.|\n)*?<\/tw:wikitext>/mg;
 	var regex_desc = /<description>(.|\n)*?<\/description>/mg;
 	var regex_category = /<category>(.|\n)*?<\/category>/mg;
 	var regex_link = /<link>(\S|\n)*?<\/link>/mg;
 	var regex_pubDate = /<pubDate>(.|\n)*?<\/pubDate>/mg;
+	var regex_author = /<author>(.|\n)*?<\/author>/mg;
 	var item_match = this.store.match(regex_item);
 	// check for filter and then implement tag filter if of the form [tag[public stuff]]
 	// filter syntax: [tag[tag1 tag2 ...]]
@@ -145,15 +147,27 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 		// There is a problem with the title, which is that it is not formatted, so characters like &apos; are not converted at render time
 		// renderHtmlText() extends String and sorts out the problem
 		item.title = item.title.renderHtmlText();
-		// grab a description
-		desc = item_match[i].match(regex_desc);
-		if (desc) item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
-		else {
-			item.text = "empty, something seriously wrong with this item";
-			// displayMessage("description empty for item: " + item.title);
+		// grab original wikitext if it is there as an extended field
+		wikitext = item_match[i].match(regex_wiki);
+		if (wikitext) {
+			item.text = wikitext[0].replace(/^<tw:wikitext>|<\/tw:wikitext>$/mg,"");
+			item.text = item.text.htmlDecode();
+		} else {
+			// grab a description
+			desc = item_match[i].match(regex_desc);
+			if (desc) {
+				item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
+			} else {
+				item.text = "empty, something seriously wrong with this item";
+				// displayMessage("description empty for item: " + item.title);
+			}
 		}
 		var t = new Tiddler(item.title);
-		t.text = "<html>" + item.text.htmlDecode().renderHtmlText() + "</html>";
+		if (wikitext) {
+			t.text = item.text;
+		} else {
+			t.text = "<html>" + item.text.renderHtmlText() + "</html>";
+		}
 		// grab the categories
 		category = item_match[i].match(regex_category);
 		if (category) {
@@ -168,8 +182,9 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 		// grab the link and put it in a custom field (assumes this is sensible)
 		// regex_link assumes you can never have whitespace in a link
 		link = item_match[i].match(regex_link);
-		if (link) item.link = link[0].replace(/^<link>|<\/link>$/mg,"");
-		else {
+		if (link) {
+			item.link = link[0].replace(/^<link>|<\/link>$/mg,"");
+		} else {
 			item.link = "#";
 			// displayMessage("link empty for item: " + item.title);
 		}
@@ -178,13 +193,22 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 		pubDate = item_match[i].match(regex_pubDate);
 		if (pubDate) {
 			pubDate = pubDate[0].replace(/^<pubDate>|<\/pubDate>$/mg,"");
-			// TO-DO: does this work on Windows FF and IE??
 			item.pubDate = new Date(pubDate);
 		} else {
 			item.pubDate = new Date();
 			// displayMessage("pubDate empty for item: " + item.title);
 		}
 		t.created = item.pubDate;
+		// grab author
+		author = item_match[i].match(regex_author);
+		if (author) {
+			author = author[0].replace(/^<author>|<\/author>$/mg,"");
+			item.author = author;
+		} else {
+			item.author = "anonymous";
+			// displayMessage("author empty for item: " + item.title);
+		}
+		t.modifier = item.author;
 		// check to see that we have a filter to use
 		if (filter_match) {
 			if(t.isTaggedAllOf(tags_to_match)) {
@@ -269,13 +293,54 @@ config.macros.importTiddlers.onBrowseChange = function(e)
 
 // renderHtmlText puts a string through the browser render process and then extracts the text
 // useful to turn HTML entities into literals such as &apos; to '
+// this method has two passes at the string - the first to convert it to html and the second
+// to selectively catch the ASCII-encoded characters without losing the rest of the html
 String.prototype.renderHtmlText = function() {
 	var e = createTiddlyElement(document.body,"div");
 	e.innerHTML = this;
 	var text = getPlainText(e);
+	text = text.replace(/&#[\w]+?;/g,function(word) {
+		var ee = createTiddlyElement(e,"div");
+		ee.innerHTML = word;
+		return getPlainText(ee);
+	});
 	removeNode(e);
 	return text;
 };
+
+/* 24/10/07 - NOT USING THIS - extending RSS to include copy of wikitext for a tiddler instead
+// RSSunwikify converts html structures into wikitext
+// As at 24/10/07, only supports tables
+// needed because slice mechanism does not support html table tags
+RSSAdaptor.RSSunwikify = function(text) {
+	console.log(text);
+	var new_text = "";
+	var table_regex = /<table(\w|[ "'=])*?>(.|\n)*?<\/table>/mg;
+	var tr_regex = /<tr(\w|[ "'=])*?>(.|\n)*?<\/tr>/mg;
+	var td_regex = /<td(\w|[ "'=])*?>(.|\n)*?<\/td>/mg;
+	var table_match = text.match(table_regex);
+	if (table_match) {
+		console.log("found table: " + table_match[0])
+		var rows = table_match[0].replace(/^<table(\w|[ "'=])*?>|<\/table>$/g,"").match(tr_regex);
+		if (rows) {
+			for (var i=0;i<rows.length;i++) {
+				console.log("found row: " + rows[i]);
+				var cells = rows[i].replace(/^<tr(\w|[ "'=])*?>|<\/tr>$/g,"").match(td_regex);
+				if (cells) {
+					for (var j=0;j<cells.length;j++) {
+						console.log("found cell: " + cells[j]);
+						// add pipe and cell content
+						new_text += "| " + "<html>"+cells[j].replace(/^<td(\w|[ "'=])*?>|<\/td>$/g,"")+"</html>";
+					}
+				}
+				// add pipe and newline at end of row
+				new_text += "|\n";
+			}
+		}
+	}
+	console.log(new_text);
+	return new_text;
+}; */
 
 // Test if a tiddler carries any of an array of tags
 // Takes an array of tags

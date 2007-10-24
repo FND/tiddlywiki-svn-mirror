@@ -1,5 +1,17 @@
 config.macros.lv = {};
 
+config.macros.lv.init = function() {
+	// create personal ChatterFeed with the username on the end
+	var newTitle = "ChatterFeed" + config.options.txtUserName;
+	if (!store.getTiddler(newTitle)) {
+		console.log("creating new feed: " + newTitle);
+		var ownFeed = document.location.href.replace(/.html$/,".xml");
+		var newText = "|''Type:''|RSS|\n|''URL:''|"+ownFeed+"|\n|''Workspace:''||\n|''TiddlerFilter:''|[tag[public]]|";
+		var newTags = "public published systemServer";
+		store.saveTiddler(newTitle,newTitle,newText,config.options.txtUserName,null,newTags,null,true);
+	}
+};
+
 config.macros.lv.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 
 	var table, this_tiddler;
@@ -65,7 +77,9 @@ config.macros.lv.handler = function(place,macroName,params,wikifier,paramString,
 	var callback = function(view,name,tiddlers) {
 		switch(name) {
 				case "Get updates":
-					config.macros.importWorkspace.getTiddlers.call(config.macros.importWorkspace,config.defaultCustomFields);
+					// when filterTiddlers supports excluding tiddlers, it will make sense to
+					// exclude systemServer tiddlers so we don't collect other people's subscriptions
+					config.macros.importWorkspaceMulti.importAll("[tag["+config.options.txtImportTag+"]]");
 					break;
 				case "Manage subscriptions":
 				subManagement.style.display = subManagement.style.display == "none" ? "block" : "none";
@@ -103,7 +117,7 @@ config.macros.lv.handler = function(place,macroName,params,wikifier,paramString,
 	// sort content_and_notes by modify date of most recent note belonging to content
 	for (var i=0;i<filteredContent.length;i++) {
 		var t = filteredContent[i];
-		if (t.isTagged("public")) {
+		if (t.isTagged("public") && !t.isTagged("systemServer")) {
 			if (!t.isTagged("notes")) {
 				// it's parent content
 				content_and_notes.push({content:t,notes:[]});

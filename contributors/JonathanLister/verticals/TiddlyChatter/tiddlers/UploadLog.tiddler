@@ -1,7 +1,5 @@
-<div title="UploadLog" modifier="JayFresh" created="200710161039" modified="200710161901">
+<div title="UploadLog" modifier="JayFresh" created="200710161039" modified="200710221618">
 <pre>| !date | !user | !location | !storeUrl | !uploadDir | !toFilename | !backupdir | !origin |
-| 16/10/2007 19:14:40 | JayFresh | [[/|http://tiddlychatter.tiddlyspot.com/]] | [[store.cgi|http://tiddlychatter.tiddlyspot.com/store.cgi]] | . | [[index.html | http://tiddlychatter.tiddlyspot.com/index.html]] | . | ok |
-| 16/10/2007 19:18:23 | JayFresh | [[/|http://tiddlychatter.tiddlyspot.com/]] | [[store.cgi|http://tiddlychatter.tiddlyspot.com/store.cgi]] | . | [[index.html | http://tiddlychatter.tiddlyspot.com/index.html]] | . | ok |
 | 16/10/2007 19:22:26 | JayFresh | [[/|http://tiddlychatter.tiddlyspot.com/]] | [[store.cgi|http://tiddlychatter.tiddlyspot.com/store.cgi]] | . | [[index.html | http://tiddlychatter.tiddlyspot.com/index.html]] | . |
 | 16/10/2007 19:33:41 | JayFresh | [[/|http://tiddlychatter.tiddlyspot.com/]] | [[store.cgi|http://tiddlychatter.tiddlyspot.com/store.cgi]] | . | [[index.html | http://tiddlychatter.tiddlyspot.com/index.html]] | . |
 | 16/10/2007 19:45:47 | JayFresh | [[/|http://tiddlychatter.tiddlyspot.com/]] | [[store.cgi|http://tiddlychatter.tiddlyspot.com/store.cgi]] | . | [[index.html | http://tiddlychatter.tiddlyspot.com/index.html]] | . | ok |
@@ -9,5 +7,7 @@
 | 16/10/2007 19:48:45 | JayFresh | [[/|http://tiddlychatter.tiddlyspot.com/]] | [[store.cgi|http://tiddlychatter.tiddlyspot.com/store.cgi]] | . | [[index.html | http://tiddlychatter.tiddlyspot.com/index.html]] | . |
 | 16/10/2007 19:53:07 | JayFresh | [[/|http://tiddlychatter.tiddlyspot.com/]] | [[store.cgi|http://tiddlychatter.tiddlyspot.com/store.cgi]] | . | [[index.html | http://tiddlychatter.tiddlyspot.com/index.html]] | . | ok |
 | 16/10/2007 19:55:23 | JayFresh | [[/|http://tiddlychatter.tiddlyspot.com/]] | [[store.cgi|http://tiddlychatter.tiddlyspot.com/store.cgi]] | . | [[index.html | http://tiddlychatter.tiddlyspot.com/index.html]] | . | ok |
-| 16/10/2007 20:01:37 | JayFresh | [[/|http://tiddlychatter.tiddlyspot.com/]] | [[store.cgi|http://tiddlychatter.tiddlyspot.com/store.cgi]] | . | [[index.html | http://tiddlychatter.tiddlyspot.com/index.html]] | . |</pre>
+| 16/10/2007 20:01:37 | JayFresh | [[/|http://tiddlychatter.tiddlyspot.com/]] | [[store.cgi|http://tiddlychatter.tiddlyspot.com/store.cgi]] | . | [[index.html | http://tiddlychatter.tiddlyspot.com/index.html]] | . |
+| 22/10/2007 17:08:45 | JayFresh | [[tiddlychatter.html|file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlyspot/tiddlychatter.html]] | [[store.cgi|http://tiddlychatter.tiddlyspot.com/store.cgi]] | . | [[index.html | http://tiddlychatter.tiddlyspot.com/index.html]] | . | ok |
+| 22/10/2007 17:18:21 | JayFresh | [[tiddlychatter.html|file:///Users/jonathanlister/Documents/osmosoft/tiddlywikis/tiddlyspot/tiddlychatter.html]] | [[store.cgi|http://tiddlychatter.tiddlyspot.com/store.cgi]] | . | [[index.html | http://tiddlychatter.tiddlyspot.com/index.html]] | . | ok |</pre>
 </div>

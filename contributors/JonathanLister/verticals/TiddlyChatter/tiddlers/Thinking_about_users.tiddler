@@ -1,0 +1,10 @@
+<div title="Thinking about users" modifier="JayFresh" created="200710221107" server.host="http://tiddlychatter.tiddlyspot.com/index.xml" server.filter="[tag[public]]" server.type="RSS" changecount="3" server.workspace="">
+<pre>! Scenarios
+Early indications are that TiddlyChatter would be useful in two generic areas:
+* [[Education|Education Scenario]]
+* [[Business|Business Scenario]]
+! Personas
+With [[Personas]], we create some characters to think about as model users, and explore their goals and needs. These can then be used as a lens through which to look at the design of the application.
+! User stories
+[[User stories]] are a way of looking at what the application should do from the point of view of what a user wants the application to do. A user story states //who// a user is, //what// they want and //why// they want it.</pre>
+</div>

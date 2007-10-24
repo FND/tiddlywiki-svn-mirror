@@ -83,8 +83,17 @@ config.macros.tiddlyChatterSetup.handler = function(place,macroName,params,wikif
 	}
 	// the subscriptions array now has all the subscriptions tiddlers in it, so we add them to the subscriptionBox
 	// we do this whether or not using_streams is true
+	var ownPath = document.location.href.replace(/.html$/,"");
 	for (var i=0;i<subscriptions.length;i++) {
 		createTiddlyLink(subscriptionBox,subscriptions[i].title,true);
+		// if the url of a subscription is the same as the page (minus the file extension)
+		// flag that to the user
+		var feedPath = store.getTiddlerSlice(subscriptions[i].title,"URL").replace(/.xml$/,"");
+		if (ownPath == feedPath) {
+			wikify("// - this is your own ~ChatterFeed//",subscriptionBox);
+		} else {
+			wikify("// - <html>" + store.getTiddlerSlice(subscriptions[i].title,"URL") + "</html>//",subscriptionBox);
+		}
 		createTiddlyElement(subscriptionBox,"br");
 	}
 	return streamManagementWrapper;

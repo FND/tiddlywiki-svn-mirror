@@ -1,0 +1,16 @@
+<div title="Designing TiddlyChatter from the user's point of view" modifier="JayFresh" created="200710220922" modified="200710221618" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public]]" server.type="file" changecount="16" server.workspace="">
+<pre>The development of TiddlyChatter (TC) has reached v0.7 and is a working prototype. At this point, we have taken a step back and are focussing on making TC as user-friendly as possible, and designing the user interface driven by the future users' needs.
+
+!Basis for TiddlyChatter
+The underlying need we are assuming for uses of TiddlyChatter is:
+
+@@&quot;I want to share information with people!&quot;@@
+
+We perceive two problems with current web-based technologies used for collaboration (e.g. wikis, Sharepoint):
+* @@It's noisy (spam!)@@
+* @@Why do I have to go somewhere new to do it?!@@
+
+!Design
+[[Thinking about users]]
+[[Designing the interface]]</pre>
+</div>
