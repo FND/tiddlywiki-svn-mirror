@@ -1,7 +1,7 @@
 /***
 |''Name:''|newUserWizardPlugin|
 |''Description:''|Create a new user for the TeamTasks system |
-|''Version:''|0.0.1|
+|''Version:''|0.1|
 |''Date:''|22 Oct, 2007|
 |''Source:''|http://www.hawksworx.com/playground/TeamTasks/#newUserWizardPlugin|
 |''Author:''|PhilHawksworth (phawksworth (at) gmail (dot) com)|
@@ -57,17 +57,36 @@ if(!version.extensions.newUserWizard)
 			
 			//TODO: Replace the vCard creation from HTML insertion to nice TW DOM methods.
 			//create a tiddler for the user with an hCard for the contact details.
-			var body = [];
-			body.push('<html>');
-			body.push('<div class="vcard">');
-			body.push('<a class="url fn n" href="'+ userData['blog'] +'"><span class="given-name">'+ userData['fname'] +'</span><span class="family-name">'+ userData['lname'] +'</span></a>');
-			if(userData['company'])body.push('<div class="org"><span class="organization-name">'+ userData['company']  +'</span></div>');
-			if(userData['email'])body.push('<div class="email"><span><a href="mailto:'+ userData['email']  +'">'+ userData['email']  +'</a></span></div>');
-			if(userData['blog'])body.push('<div class="blog"><span><a href="'+ userData['blog']  +'">'+ userData['blog']  +'</a></span></div>');
-			if(userData['photos'])body.push('<div class="photos"><span><a href="'+ userData['photos']  +'">'+ userData['photos']  +'</a></span></div>');
-			if(userData['twitter'])body.push('<div class="twitter"><span><a href="'+ userData['twitter']  +'">'+ userData['twitter']  +'</a></span></div>');
-			body.push('</div></html>\n');
-			store.saveTiddler(userData['username'],userData['username'],body.join('\n'),config.options.txtUserName);
+			var homeTiddlerBody = [];
+			homeTiddlerBody.push('<html>');
+			homeTiddlerBody.push('<div class="vcard">');
+			homeTiddlerBody.push('<a class="url fn n" href="'+ userData['blog'] +'"><span class="given-name">'+ userData['fname'] +'</span><span class="family-name">'+ userData['lname'] +'</span></a>');
+			if(userData['company'])homeTiddlerBody.push('<div class="org"><span class="organization-name">'+ userData['company']  +'</span></div>');
+			if(userData['email'])homeTiddlerBody.push('<div class="email"><span><a href="mailto:'+ userData['email']  +'">'+ userData['email']  +'</a></span></div>');
+			if(userData['blog'])homeTiddlerBody.push('<div class="blog"><span><a href="'+ userData['blog']  +'">'+ userData['blog']  +'</a></span></div>');
+			if(userData['photos'])homeTiddlerBody.push('<div class="photos"><span><a href="'+ userData['photos']  +'">'+ userData['photos']  +'</a></span></div>');
+			if(userData['twitter'])homeTiddlerBody.push('<div class="twitter"><span><a href="'+ userData['twitter']  +'">'+ userData['twitter']  +'</a></span></div>');
+			homeTiddlerBody.push('</div></html>');
+			
+			//Create some simple TaskListViews.
+			//Task list index template.
+			var body;
+			body = store.getTiddlerText('SampleTaskListTemplate');
+			homeTiddlerBody.push(body.replace(/UserName/g,userData['username']));
+			
+			store.saveTiddler(userData['username'],userData['username'],homeTiddlerBody.join('\n'),config.options.txtUserName);
+			
+			//TODO: automate the generation of these views from some templates and the index
+			//create the task views
+			var body_array = [];
+			body_array.push('<<TaskViewBuilder UserDefinitions='+ userData['username'] +' PriorityDefinitions='+ userData['username'] +' !StatusDefinitions=Complete>>');
+			store.saveTiddler(userData['username'] +'OpenTasksByPriority', userData['username'] +'OpenTasksByPriority',body_array.join('\n'),config.options.txtUserName);
+			body = '<<TaskViewBuilder UserDefinitions='+ userData['username'] +' StatusDefinitions=InProgress>>';
+			store.saveTiddler(userData['username'] +'InProgressTasks', userData['username'] +'InProgressTasks',body,config.options.txtUserName);
+			body = '<<TaskViewBuilder UserDefinitions='+ userData['username'] +' StatusDefinitions=Next>>';
+			store.saveTiddler(userData['username'] +'NextTasks', userData['username'] +'NextTasks',body,config.options.txtUserName);
+			body = '<<TaskViewBuilder UserDefinitions='+ userData['username'] +' StatusDefinitions=Complete>>';
+			store.saveTiddler(userData['username'] +'CompletedTasks', userData['username'] +'CompletedTasks',body,config.options.txtUserName);
 			
 			//open the new user tiddler
 			story.displayTiddlers(this,[userData['username']]);

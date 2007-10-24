@@ -1,8 +1,0 @@
-<div title="Open tasks by priority" modifier="PhilHawksworth" created="200709241635" modified="200709251226" changecount="8">
-<pre>!!!High Priority
-&lt;&lt;TaskViewBuilder PriorityDefinitions=High !StatusDefinitions=Complete&gt;&gt;
-!!!Medium Priority
-&lt;&lt;TaskViewBuilder PriorityDefinitions=Medium !StatusDefinitions=Complete&gt;&gt;
-!!!Low Priority
-&lt;&lt;TaskViewBuilder PriorityDefinitions=Low !StatusDefinitions=Complete&gt;&gt;</pre>
-</div>

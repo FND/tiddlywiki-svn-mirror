@@ -59,5 +59,10 @@ div.tiddler div.task div.taskControls div.metacontrols table {border-style:none;
 div.tiddler div.task div.taskControls div.metacontrols table tr {border-style:none;}
 div.tiddler div.task div.taskControls div.metacontrols table td {border-style:none;}
 
+#createTeamTaskUserForm { background-color:#f0f0f0; padding:1em; border:solid 1px #ccc;}
+#createTeamTaskUserForm label { margin-bottom:10px; display:block; clear:left; font-size:0.9em;}
+#createTeamTaskUserForm label input {float:left; border:1px solid #ddd; border-top:1px solid #999; padding:2px 4px; font-size:1em; width:30em;}
+
+
 /*}}}*/</pre>
 </div>
