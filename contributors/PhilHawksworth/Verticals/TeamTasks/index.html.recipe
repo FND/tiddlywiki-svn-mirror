@@ -26,6 +26,7 @@ tiddler: MainMenu.tiddler
 tiddler: MediumPriorityTask.tiddler
 tiddler: MyTasksByPriority.tiddler
 tiddler: NewViewHandler.js
+tiddler: NewUserWizardPlugin.js
 tiddler: Open_tasks.tiddler
 tiddler: Open_tasks_by_priority.tiddler
 tiddler: PageTemplate.tiddler
@@ -49,4 +50,3 @@ tiddler: UserDetailsTemplate.tiddler
 tiddler: UserSetupWizard.tiddler
 tiddler: ValueSwitcherPlugin.js
 tiddler: ViewTemplate.tiddler
-tiddler: newUserPlugin.js
