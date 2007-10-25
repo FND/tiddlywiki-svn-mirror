@@ -4,8 +4,8 @@
 |''Source:''|http://tiddlywiki-zh.googlecode.com/svn/trunk/|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hans/locale.zh-Hans.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
-|''Version:''|2.2.4|
-|''Date:''|Jul 8, 2007|
+|''Version:''|2.2.6|
+|''Date:''|Oct 26, 2007|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -29,19 +29,19 @@ merge(config.tasks,{
 	sync: {text: "同步", tooltip: "将你的资料内容与外部服务器与文件同步", content: '<<sync>>'},
 	importTask: {text: "导入", tooltip: "自其他文件或服务器导入文章或插件", content: '<<importTiddlers>>'},
 	tweak: {text: "选项", tooltip: "改变此 TiddlyWiki 显示与行为设置", content: '<<options>>'},
-	plugins: {text: "套件管理", tooltip: "管理已安装的套件", content: '<<plugins>>'}
+	plugins: {text: "插件管理", tooltip: "管理已安装的插件", content: '<<plugins>>'}
 });
 
 merge(config.optionsDesc,{
 	txtUserName: "编辑文章所使用之作者署名",
-	chkRegExpSearch: "启用正规式查找",
+	chkRegExpSearch: "启用正则式查找",
 	chkCaseSensitiveSearch: "查找时，区分大小写",
 	chkAnimate: "使用动画显示",
 	chkSaveBackups: "保存变更前，保留备份文件",
 	chkAutoSave: "自动保存变更",
 	chkGenerateAnRssFeed: "保存变更时，也保存 RSS feed",
-	chkSaveEmptyTemplate: "保存变更时，也保存空白范本",
-	chkOpenInNewWindow: "于新视窗开启连结",
+	chkSaveEmptyTemplate: "保存变更时，也保存空白模版",
+	chkOpenInNewWindow: "于新视窗开启链接",
 	chkToggleLinks: "点击已开启文章将其关闭",
 	chkHttpReadOnly: "非本机浏览文件时，隐藏编辑功能",
 	chkForceMinorUpdate: "修改文章时，不变更作者名称与日期时间",
@@ -67,14 +67,14 @@ merge(config.messages,{
 	externalLinkTooltip: "外部链接至 %0",
 	noTags: "未设置标签的文章",
 	notFileUrlError: "须先将此 TiddlyWiki 存至本机文件，才可保存变更",
-	cantSaveError: "无法保存变更。可能的原因有：\n- 你的浏览器不支援此保存功能（Firefox, Internet Explorer, Safari and Opera 经适当设定后可保存变更）\n- 也可能是你的 TiddlyWiki 文件名称包含不合法的字符所致。\n- 或是 TiddlyWiki 文件被改名或搬移。",
+	cantSaveError: "无法保存变更。可能的原因有：\n- 你的浏览器不支持此保存功能（Firefox, Internet Explorer, Safari and Opera 经适当设定后可保存变更）\n- 也可能是你的 TiddlyWiki 文件名称包含不合法的字符所致。\n- 或是 TiddlyWiki 文件被改名或搬移。",
 	invalidFileError: " '%0' 非有效之 TiddlyWiki 文件",
 	backupSaved: "已保存备份",
 	backupFailed: "无法保存备份",
 	rssSaved: "RSS feed 已保存",
 	rssFailed: "无法保存 RSS feed ",
-	emptySaved: "已保存范本",
-	emptyFailed: "无法保存范本",
+	emptySaved: "已保存模版",
+	emptyFailed: "无法保存模版",
 	mainSaved: "主要的TiddlyWiki已保存",
 	mainFailed: "无法保存主要 TiddlyWiki，所作的改变未保存",
 	macroError: "宏 <<\%0>> 执行错误",
@@ -82,15 +82,15 @@ merge(config.messages,{
 	missingMacro: "无此宏",
 	overwriteWarning: "'%0' 已存在，[确定]覆盖之",
 	unsavedChangesWarning: "注意！ 尚未保存变更\n\n[确定]保存，或[取消]放弃保存？",
-	confirmExit: "--------------------------------\n\nTiddlyWiki 以更改内容尚未保存，继续的话将遗失这些更动\n\n--------------------------------",
+	confirmExit: "--------------------------------\n\nTiddlyWiki 以更改内容尚未保存，继续的话将丢失这些更动\n\n--------------------------------",
 	saveInstructions: "SaveChanges",
-	unsupportedTWFormat: "未支援此 TiddlyWiki 格式：'%0'",
+	unsupportedTWFormat: "未支持此 TiddlyWiki 格式：'%0'",
 	tiddlerSaveError: "保存文章 '%0' 时，发生错误。",
 	tiddlerLoadError: "载入文章 '%0' 时，发生错误。",
 	wrongSaveFormat: "无法使用格式 '%0' 保存，请使用标准格式存放",
 	invalidFieldName: "无效的栏位名称：%0",
 	fieldCannotBeChanged: "无法变更栏位：'%0'",
-	loadingMissingTiddler: "正从伺服器 '%1' 的：\n\n工作区 '%3' 中的 '%2' 撷取文章 '%0'"});
+	loadingMissingTiddler: "正从服务器 '%1' 的：\n\n工作区 '%3' 中的 '%2' 撷取文章 '%0'"});
 
 merge(config.messages.messageClose,{
 	text: "关闭",
@@ -142,7 +142,7 @@ merge(config.views.wikified,{
 	createdPrompt: "创建于"});
 
 merge(config.views.editor,{
-	tagPrompt: "设置标签之间以空白区隔，[[标签含空白时请使用双中括弧]]，或点选现有之标签加入",
+	tagPrompt: "设置标签之间以空白隔开，[[标签含空白时请使用双中括弧]]，或点选现有之标签加入",
 	defaultText: ""});
 
 merge(config.views.editor.tagChooser,{
@@ -162,7 +162,7 @@ merge(config.views.editor.tagChooser,{
 
 merge(config.macros.search,{
 	label: " 寻找",
-	prompt: "搜寻本 Wiki",
+	prompt: "搜索本 Wiki",
 	accessKey: "F",
 	successMsg: " %0 篇符合条件: %1",
 	failureMsg: " 无符合条件: %0"});
@@ -221,7 +221,7 @@ merge(config.macros.options,{
 			{name: 'Name', field: 'name', title: "名称", type: 'String'}
 			],
 		rowClasses: [
-			{className: 'lowlight', field: 'lowlight'} 
+			{className: 'lowlight', field: 'lowlight'}
 			]}
 	});
 
@@ -239,7 +239,7 @@ merge(config.macros.plugins,{
 	listViewTemplate : {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
-			{name: 'Tiddler', field: 'tiddler', title: "套件", type: 'Tiddler'},
+			{name: 'Tiddler', field: 'tiddler', title: "插件", type: 'Tiddler'},
 			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "大小", type: 'Size'},
 			{name: 'Forced', field: 'forced', title: "强制执行", tag: 'systemConfigDisable', type: 'TagCheckbox'},
 			{name: 'Disabled', field: 'disabled', title: "停用", tag: 'systemConfigDisable', type: 'TagCheckbox'},
@@ -264,7 +264,7 @@ merge(config.macros.refreshDisplay,{
 	});
 
 merge(config.macros.importTiddlers,{
-	readOnlyWarning: "TiddlyWiki 于唯读模式下，不支援导入文章。请由本机（file://）开启 TiddlyWiki 文件",
+	readOnlyWarning: "TiddlyWiki 于唯读模式下，不支持导入文章。请由本机（file://）开启 TiddlyWiki 文件",
 	wizardTitle: "自其他文件服务器导入文章",
 	wizardTitle: "自其他档案或服务器汇入文章",
 	step1Title: "步骤一：指定服务器或来源文件",
@@ -281,7 +281,7 @@ merge(config.macros.importTiddlers,{
 	statusOpenWorkspace: "正在开启工作区",
 	statusGetTiddlerList: "正在取得可用之文章清单",
 	step3Title: "步骤三：选择欲导入之文章",
-	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>保持这些文章与伺服器连结，便于同步后续的变更。</input><br><input type='checkbox' name='chkSave'>保存此服务器的详细资讯于标签为 'systemServer' 的文章名为：</input> <input type='text' size=25 name='txtSaveTiddler'>", 
+	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>保持这些文章与服务器链接，便于同步后续的变更。</input><br><input type='checkbox' name='chkSave'>保存此服务器的详细资讯于标签为 'systemServer' 的文章名为：</input> <input type='text' size=25 name='txtSaveTiddler'>", 
 	importLabel: "导入",
 	importPrompt: "导入所选文章",
 	confirmOverwriteText: "确定要覆写这些文章：\n\n%0",
@@ -294,7 +294,7 @@ merge(config.macros.importTiddlers,{
 	systemServerNamePattern: "%2 位于 %1",
 	systemServerNamePatternNoWorkspace: "%1",
 	confirmOverwriteSaveTiddler: "此 tiddler '%0' 已经存在。点击“确定”以服务器上料覆写之，或“取消”不变更后离开",
-	serverSaveTemplate: "|''Type:''|%0|\n|''网址：''|%1|\n|''工作区：''|%2|\n\n此文为自动产生纪录伺服器之相关资讯。",
+	serverSaveTemplate: "|''Type:''|%0|\n|''网址：''|%1|\n|''工作区：''|%2|\n\n此文为自动产生纪录服务器之相关资讯。",
 	serverSaveModifier: "（系统）",
 	listViewTemplate: {
 		columns: [
@@ -413,13 +413,13 @@ merge(config.commands.fields,{
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "GettingStarted",
-	GettingStarted: "使用此 TiddlyWiki 的空白范本之前，请先修改以下默认文章：\n* SiteTitle 及 SiteSubtitle：网站的标题和副标题，显示于页面上方<br />（在保存变更后，将显示于浏览器视窗的标题列）。\n* MainMenu：主菜单（通常在页面左侧）。\n* DefaultTiddlers：包含一些文章的标题，可于进入TiddlyWiki 后开启。\n请输入您的大名，作为所创建/ 编辑文章的署名：<<option txtUserName>>",
+	GettingStarted: "使用此 TiddlyWiki 的空白模版之前，请先修改以下默认文章：\n* SiteTitle 及 SiteSubtitle：网站的标题和副标题，显示于页面上方<br />（在保存变更后，将显示于浏览器视窗的标题列）。\n* MainMenu：主菜单（通常在页面左侧）。\n* DefaultTiddlers：包含一些文章的标题，可于进入TiddlyWiki 后开启。\n请输入您的大名，作为所创建/ 编辑文章的署名：<<option txtUserName>>",
 	MainMenu: "[[使用说明|GettingStarted]]\n\n\n^^~TiddlyWiki 版本：<<version>>\n© 2007 [[UnaMesa|http://www.unamesa.org/]]^^",
-	OptionsPanel: "这些设置将缓存于浏览器\n请签名<<option txtUserName>>\n(范例：WikiWord)\n\n<<option chkSaveBackups>> 保存备份\n<<option chkAutoSave>> 自动保存\n<<option chkRegExpSearch>> 正规式搜寻\n<<option chkCaseSensitiveSearch>> 区分大小写搜寻\n<<option chkAnimate>> 使用动画显示\n----\n[[进阶选项|AdvancedOptions]]",
+	OptionsPanel: "这些设置将缓存于浏览器\n请签名<<option txtUserName>>\n(范例：WikiWord)\n\n<<option chkSaveBackups>> 保存备份\n<<option chkAutoSave>> 自动保存\n<<option chkRegExpSearch>> 正则式搜索\n<<option chkCaseSensitiveSearch>> 区分大小写搜索\n<<option chkAnimate>> 使用动画显示\n----\n[[进阶选项|AdvancedOptions]]",
 	SiteTitle: "我的 TiddlyWiki",
 	SiteSubtitle: "一个可重复使用的个人网页式笔记本",
 	SiteUrl: 'http://www.tiddlywiki.com/',
-	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal " YYYY年0MM月0DD日">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  "偏好设置 »" "变更 TiddlyWiki 选项">>',
+	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal " YYYY年0MM月0DD日" "日志">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  "偏好设置 »" "变更 TiddlyWiki 选项">>',
 	SideBarTabs: '<<tabs txtMainTab "最近更新" "依更新日期排序" TabTimeline "全部" "所有文章" TabAll "分类" "所有标签" TabTags "更多" "其他" TabMore>>',
 	StyleSheet: '[[StyleSheetLocale]]',
 	TabMore: '<<tabs txtMoreTab "未完成" "内容空白的文章" TabMoreMissing "未引用" "未被引用的文章" TabMoreOrphans "默认文章" "默认的影子文章" TabMoreShadowed>>'});
@@ -431,16 +431,16 @@ merge(config.annotations,{
 	EditTemplate: "此默认文章里的 HTML template 将决定文章进入编辑模式时的显示版面。",
 	GettingStarted: "此默认文章提供基本的使用说明。",
 	ImportTiddlers: "此默认文章提供存取导入中的文章。",
-	MainMenu: "此默认文章的内容，为于萤幕左侧主菜单的内容",
+	MainMenu: "此默认文章的内容，为于屏幕左侧主菜单的内容",
 	MarkupPreHead: "此文章的内容将加至 TiddlyWiki 文件的 <head> 段落的起始",
 	MarkupPostHead: "此文章的内容将加至 TiddlyWiki 文件的 <head> 段落的最后",
 	MarkupPreBody: "此文章的内容将加至 TiddlyWiki 文件的 <body> 段落的起始",
 	MarkupPostBody: "此文章的内容将加至 TiddlyWiki 文件的 <body> 段落的最后，于 script 区块之前",
-	OptionsPanel: "此默认文章的内容，为于萤幕右侧副菜单中的选项面板里的内容",
+	OptionsPanel: "此默认文章的内容，为于屏幕右侧副菜单中的选项面板里的内容",
 	PageTemplate: "此默认文章里的 HTML template 决定的 ~TiddlyWiki 主要的版面配置",
-	PluginManager: "此默认文章提供存取套件管理员",
-	SideBarOptions: "此默认文章的内容，为于萤幕右侧副菜单中选项面板里的内容",
-	SideBarTabs: "此默认文章的内容，为于萤幕右侧副菜单中的页签面板里的内容",
+	PluginManager: "此默认文章提供存取插件管理员",
+	SideBarOptions: "此默认文章的内容，为于屏幕右侧副菜单中选项面板里的内容",
+	SideBarTabs: "此默认文章的内容，为于屏幕右侧副菜单中的页签面板里的内容",
 	SiteSubtitle: "此默认文章的内容为页面的副标题",
 	SiteTitle: "此默认文章的内容为页面的主标题",
 	SiteUrl: "此默认文章的内容须设定为文件发布时的完整网址",
@@ -449,13 +449,13 @@ merge(config.annotations,{
 	StyleSheetLayout: "此默认文章内含的 CSS 规则，为相关的页面元素的版面配置",
 	StyleSheetLocale: "此默认文章内含的 CSS 规则，可依翻译语系做适当调整",
 	StyleSheetPrint: "此默认文章内含的 CSS 规则，用于列印时的样式",
-	TabAll: "此默认文章的内容，为于萤幕右侧的“全部”页签的内容",
-	TabMore: "此默认文章的内容，为于萤幕右侧的“更多”页签的内容",
-	TabMoreMissing: "此默认文章的内容，为于萤幕右侧的“未完成”页签的内容",
-	TabMoreOrphans: "此默认文章的内容，为于萤幕右侧的“未引用”页签的内容",
-	TabMoreShadowed: "此默认文章的内容，为于萤幕右侧的“默认文章”页签的内容",
-	TabTags: "此默认文章的内容，为于萤幕右侧的“分类”页签的内容",
-	TabTimeline: "此默认文章的内容，为于萤幕右侧的“最近更新”页签的内容",
+	TabAll: "此默认文章的内容，为于屏幕右侧的“全部”页签的内容",
+	TabMore: "此默认文章的内容，为于屏幕右侧的“更多”页签的内容",
+	TabMoreMissing: "此默认文章的内容，为于屏幕右侧的“未完成”页签的内容",
+	TabMoreOrphans: "此默认文章的内容，为于屏幕右侧的“未引用”页签的内容",
+	TabMoreShadowed: "此默认文章的内容，为于屏幕右侧的“默认文章”页签的内容",
+	TabTags: "此默认文章的内容，为于屏幕右侧的“分类”页签的内容",
+	TabTimeline: "此默认文章的内容，为于屏幕右侧的“最近更新”页签的内容",
 	ViewTemplate: "此默认文章里的 HTML template 决定文章显示的样子"
 	});
 //}}}
