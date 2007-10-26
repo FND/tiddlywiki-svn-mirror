@@ -37,9 +37,11 @@ body {
 }
 
 /* prefer monospace for editing */
-.editor textarea {
+.editor textarea, .editor input {
 	font-family: 'Consolas' monospace;
+	background-color:[[ColorPalette::TertiaryPale]];
 }
+
 
 /* sexy tiddler titles */
 .title {
@@ -77,8 +79,7 @@ h1,h2,h3,h4,h5,h6 {
 	border-right: 2px [[ColorPalette::TertiaryMid]] solid;
 	border-bottom: 2px [[ColorPalette::TertiaryMid]] solid;
 	margin-bottom: 1em;
-	padding-bottom: 1em;
-	padding-top: 0.75em;
+	padding:1em 2em 2em 1.5em;
 }
 
 /* make options slider look nicer */
@@ -138,10 +139,12 @@ h1,h2,h3,h4,h5,h6 {
  * borders but worth it I think for the extra screen realestate */
 .toolbar { float:right; }
 
-/* for Tagger Plugin, thanks sb56637 */
+/* Tagger Plugin users uncomment this.  from sb56637 */
+/*
 .popup li a {
    display:inline;
 }
+*/
 
 /* make it print a little cleaner */
 @media print {
