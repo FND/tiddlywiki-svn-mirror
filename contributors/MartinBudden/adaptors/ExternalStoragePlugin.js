@@ -66,17 +66,17 @@ Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem)
 	var tiddler = new Tiddler(title);
 	tiddler.fields = typeof fields == "string" ?  fields.decodeHashMap() : (fields ? fields : {});
 	context = {};
-	context.startTime = new Date();
 	context.serverType = tiddler.getServerType();
 	if(!context.serverType)
 		return;
 	context.host = tiddler.fields['server.host'];
 	context.workspace = tiddler.fields['server.workspace'];
+	context.startTime = new Date();
 	var adaptor = new config.adaptors[context.serverType];
-	adaptor.getTiddler(title,context,null,ExternalStorage.gotTiddler);
+	adaptor.getTiddler(title,context,null,ExternalStorage.getTiddlerCallback);
 };
 
-ExternalStorage.gotTiddler = function(context,userParams)
+ExternalStorage.getTiddlerCallback = function(context,userParams)
 {
 	var tiddler = context.tiddler;
 	if(tiddler && tiddler.text) {
@@ -85,7 +85,7 @@ ExternalStorage.gotTiddler = function(context,userParams)
 			tiddler.created = downloaded;
 		if(!tiddler.modified)
 			tiddler.modified = tiddler.created;
-		if(tiddler && config.options.chkDisplayInstrumentation) {
+		if(tiddler && config.options.chkDisplayInstrumentation && context.startTime) {
 			var t1 = new Date();
 			displayMessage('loaded in "'+tiddler.title+'" in ' + (t1-context.startTime) + ' ms');
 		}
@@ -98,23 +98,28 @@ ExternalStorage.gotTiddler = function(context,userParams)
 
 ExternalStorage.loadContent = function()
 {
-	displayMessage("loadContent");
+//#displayMessage("loadContent");
 	var adaptor = new config.adaptors[LocalAdaptor.serverType];
 	var context = adaptor.getTiddlerList();
-	store.content = context.content;
 	delete adaptor;
+	return context.content;
 };
 
-TiddlyWiki.prototype.getContent = function()
+TiddlyWiki.prototype.getContent = function(key)
 {
 //#displayMessage("getContent");
 	if(!this.content)
-		ExternalStorage.loadContent();
+		this.content = ExternalStorage.loadContent();
 	var results = [];
 	for(var i in this.content) {
-		var tiddler = this.content[i];
-		if(tiddler.title.indexOf(':')==-1)
-			results.push(tiddler.title);
+		var title = this.content[i].title;
+		if(key) {
+			if(title.indexOf(key)==0)
+				results.push(title);
+		} else {
+		//#if(tiddler.title.indexOf(':')==-1)
+		results.push(title);
+		}
 	}
 	results.sort();
 	return results;
