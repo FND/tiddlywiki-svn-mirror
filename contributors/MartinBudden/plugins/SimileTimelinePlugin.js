@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Source:''|http://www.martinswiki.com/#SimileTimelineBundlePlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelinePlugin.js |
-|''Version:''|0.1.0|
+|''Version:''|0.1.1|
 |''Date:''|Mar 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -24,7 +24,7 @@
 /*{{{*/
 // Ensure that the SimileTimelinePlugin is only installed once.
 if(!version.extensions.SimileTimelinePlugin) {
-version.extensions.SimileTimelineBundlePlugin = {installed:true};
+version.extensions.SimileTimelinePlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 2))
 	{alertAndThrow('SimileTimelineBundlePlugin requires TiddlyWiki 2.2 or newer.');}
