@@ -1,12 +1,7 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
-title: title.html
+title: title.txt
+recipe: shadows/split.recipe
 tiddler: settings.js
-tiddler: MainMenu.tiddler
-tiddler: DefaultTiddlers.tiddler
-tiddler: SiteSubtitle.tiddler
-tiddler: SiteTitle.tiddler
-tiddler: SiteUrl.tiddler
-tiddler: StyleSheet.tiddler
 tiddler: Tiddlers_Timeline.tiddler
 tiddler: TiddlersTimelineSpec.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
