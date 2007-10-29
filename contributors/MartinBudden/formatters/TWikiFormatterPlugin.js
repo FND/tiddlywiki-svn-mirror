@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#TWikiFormatterPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/TWikiFormatterPlugin.js|
-|''Version:''|0.2.4|
+|''Version:''|0.2.5|
 |''Date:''|Nov 5, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -51,7 +51,7 @@ twDebug = function(out,str)
 TWikiFormatter.Tiddler_changed = Tiddler.prototype.changed;
 Tiddler.prototype.changed = function()
 {
-	if((this.fields.wikiformat==config.parsers.twikiFormatter.format) || this.isTagged(config.parsers.twikiFormatter.formatTag)) {
+	if((this.fields.wikiformat==config.twikiFormatter.format) || this.isTagged(config.twikiFormatter.formatTag)) {
 		//# update the links array, by checking for TWiki format links
 		this.links = [];
 		var tiddlerLinkRegExp = /\[\[(.*?)(?:\]\[(?:.*?))?\]\]/mg;
@@ -717,7 +717,7 @@ config.twiki.formatters = [
 }
 ];
 
-config.parsers.twikiFormatter = new Formatter(config.twikiFormatters);
+config.parsers.twikiFormatter = new Formatter(config.twiki.formatters);
 config.parsers.twikiFormatter.format = 'twiki';
 config.parsers.twikiFormatter.formatTag = 'TWikiFormat';
 } // end of 'install only once'
