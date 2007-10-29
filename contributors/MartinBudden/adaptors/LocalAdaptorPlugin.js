@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#LocalAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/LocalAdaptorPlugin.js |
-|''Version:''|0.5.4|
+|''Version:''|0.5.5|
 |''Date:''|Jun 13, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -51,10 +51,9 @@ LocalAdaptor.prototype.setContext = function(context,userParams,callback)
 LocalAdaptor.normalizedTitle = function(title)
 {
 	var id = title;
-	id = id.replace(/\s/g,'_').replace(/\//g,'_').replace(/\./g,'_').replace(/:/g,'').replace(/\?/g,'');
+	id = id.replace(/[<>]/g,'_').replace(/\t/g,'%09').replace(/#/g,'%23').replace(/%/g,'%25').replace(/\*/g,'%2a').replace(/,/g,'%2c').replace(/\//,'%2f').replace(/:/g,'%3a').replace(/\?/g,'%3f')
 	if(id.charAt(0)=='_')
 		id = id.substr(1);
-//#displayMessage("title:"+title+" id:"+id);
 	return String(id);
 };
 
@@ -74,7 +73,7 @@ LocalAdaptor.getPath = function(localPath,folder)
 
 LocalAdaptor.contentPath = function()
 {
-//#displayMessage("contentPath");
+//#displayMessage('contentPath");
 //#displayMessage("path:"+document.location.toString());
 	var file = getLocalPath(document.location.toString());
 	return LocalAdaptor.getPath(file,LocalAdaptor.contentDirectory);
@@ -124,7 +123,7 @@ LocalAdaptor.prototype.openWorkspace = function(workspace,context,userParams,cal
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(context.callback,10,context,userParams);
 	}
 	return true;
 };
@@ -138,7 +137,7 @@ LocalAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 	context.workspaces = list;
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(context.callback,10,context,userParams);
 	}
 	return true;
 };
@@ -196,7 +195,7 @@ LocalAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 			var title = entries[i].name;
 			if(title.match(/\.tiddler$/)) {
 				title = title.replace(/\.tiddler$/,'');
-				title = title.replace(/_/g,' ');
+				title = title.replace(/%09/g,'\t').replace(/%23/g,'#').replace(/%25/g,'%').replace(/%2a/g,'*').replace(/%2c/g,',').replace(/%2f/g,'/').replace(/%3a/g,':').replace(/%3f/g,'?')
 				var tiddler = new Tiddler(title);
 				tiddler.modified = entries[i].modified;
 				list.push(tiddler);
@@ -266,29 +265,21 @@ LocalAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	return info;
 };
 
-LocalAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
-{
-	context = this.setContext(context,userParams,callback);
-	context.title = title;
-	return this.getTiddlerInternal(context,userParams,callback);
-};
-
 LocalAdaptor.prototype.getTiddlerRevision = function(title,revision,context,userParams,callback)
 {
 //#displayMessage('LocalAdaptor.getTiddlerRev:' + context.modified);
 	context = this.setContext(context,userParams,callback);
-	context.title = title;
-	context.revision = revision;
-	return this.getTiddlerInternal(context,userParams,callback);
+	if(revision)
+		context.revision = revision;
+	return this.getTiddler(title,context,userParams,callback);
 };
 
-// @internal
-LocalAdaptor.prototype.getTiddlerInternal = function(context,userParams,callback)
+LocalAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
-//#clearMessage();
 //#displayMessage('LocalAdaptor.getTiddler:' + context.title);
 	context = this.setContext(context,userParams,callback);
-	var title = context.title;
+	if(title)
+		context.title = title;
 
 	if(context.revision) {
 //#displayMessage("cr:"+context.revision);
@@ -349,7 +340,8 @@ LocalAdaptor.prototype.getTiddlerInternal = function(context,userParams,callback
 //#displayMessage("ft:"+ft);
 			fields = ft.decodeHashMap();
 		} else {
-			alert("cannot load tiddler");
+			//alert("cannot load tiddler");
+			displayMessage("cannot load tiddler");
 		}
 	}
 	for(var i in fields) {
