@@ -10,6 +10,11 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.2|
 
+Note that to use this pluing you also need:
+
+1) to install SimileTimelineBundlePlugin (see http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelineBundlePlugin.js )
+2) to include [[SimileTimelineStyleBundle]] in your StyleSheet tiddler (see http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/styles/SimileTimelineStyleBundle.css.js )
+
 !!Todo
 * fix bubble height and width
 * etherpainters
