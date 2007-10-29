@@ -23,7 +23,6 @@ tiddler: settings.js
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../tiddlers/Socialtext_Basic_Formatting.tiddler
-tiddler: ../../test/testTiddlyWikiBasic.tiddler
 tiddler: ../../testFormatters/testConfluenceFormat.tiddler
 tiddler: ../../testFormatters/testMarkdownBasic.tiddler
 tiddler: ../../testFormatters/testMarkdownFormat.tiddler
