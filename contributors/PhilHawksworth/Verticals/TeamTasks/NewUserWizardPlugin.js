@@ -1,9 +1,9 @@
 /***
-|''Name:''|newUserWizardPlugin|
+|''Name:''|NewUserWizardPlugin|
 |''Description:''|Create a new user for the TeamTasks system |
 |''Version:''|0.1|
 |''Date:''|22 Oct, 2007|
-|''Source:''|http://www.hawksworx.com/playground/TeamTasks/#newUserWizardPlugin|
+|''Source:''|http://www.hawksworx.com/playground/TeamTasks/#NewUserWizardPlugin|
 |''Author:''|PhilHawksworth (phawksworth (at) gmail (dot) com)|
 |''License:''|[[BSD open source license]]|
 |''CoreVersion:''|2.2|
@@ -80,7 +80,7 @@ if(!version.extensions.newUserWizard)
 			//create the task views
 			var body_array = [];
 			body_array.push('<<TaskViewBuilder UserDefinitions='+ userData['username'] +' PriorityDefinitions='+ userData['username'] +' !StatusDefinitions=Complete>>');
-			store.saveTiddler(userData['username'] +'OpenTasksByPriority', userData['username'] +'OpenTasksByPriority',body_array.join('\n'),config.options.txtUserName);
+			store.saveTiddler(userData['username'] +'OpenTasks', userData['username'] +'OpenTasks',body_array.join('\n'),config.options.txtUserName);
 			body = '<<TaskViewBuilder UserDefinitions='+ userData['username'] +' StatusDefinitions=InProgress>>';
 			store.saveTiddler(userData['username'] +'InProgressTasks', userData['username'] +'InProgressTasks',body,config.options.txtUserName);
 			body = '<<TaskViewBuilder UserDefinitions='+ userData['username'] +' StatusDefinitions=Next>>';
@@ -103,6 +103,7 @@ if(!version.extensions.newUserWizard)
 				else if(typeof(things[i]) == 'object') {
 					ele = things[i];
 				}
+				else return false;
 				v = ele.value;
 				removeClass(ele, 'flaggedMandatory');
 				if(v.length == 0){

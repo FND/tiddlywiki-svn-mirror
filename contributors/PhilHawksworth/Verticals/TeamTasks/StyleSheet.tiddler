@@ -30,7 +30,7 @@ a.tiddlyLink:hover { background-color:#ccd; color:#000; }
 #controlsContainer div.tabContents {float:left; height:200px; width:350px; background-color: transparent; overflow:auto; border:solid 0px #aaa; border-right:solid 1px #aaa; padding:0;}
 
 #controlsContainer div.sliderPanel div.txtMainTab ul { list-style:none; margin:0; padding:0.5em 0; }
-#controlsContainer div.3sliderPanel div.txtMainTab ul li { padding:0 20px;}
+#controlsContainer div.sliderPanel div.txtMainTab ul li { padding:0 20px;}
 #controlsContainer div.sliderPanel div.txtMainTab ul li a { font-weight:normal; line-height:1.3em; margin:0.2em 0; }
 #controlsContainer div.sliderPanel div.txtMainTab ul li.listTitle { border-top:solid 1px #bbc; padding:0.5em 0 0.2em 20px; font-size:1.5em; color:#bbc; }
 #controlsContainer div.sliderPanel div.txtMainTab ul li.listLink { margin:0; }
@@ -49,7 +49,8 @@ div.tiddler div.viewer &gt; img {width:100%;}
 
 
 div.tiddler div.task { border:solid 1px #aaa; background-color:#f2f2f2; position:relative; overflow:auto; clear:both; zoom:1;}
-div.tiddler div.task div.taskBody { float:left; display:block; padding:1em 1em 1em 1em; }
+div.tiddler div.task div.taskBody { float:left; display:block; padding:1em 1em 1em 1em;}
+div.tiddler div.task div.viewer { border-style:none; }
 div.tiddler div.task div.taskControls {float:right; border-left:solid 1px #aaa; width:21em;  background-color:#ccd; padding:0; white-space:nowrap; }
 div.tiddler div.task div.taskControls div.toolbar a { display:block; padding:0.5em 1em; text-align:right; background-color:#ccd; border-style:none; font-size:1.2em; color:#fff; text-align:left; border-bottom:solid 1px #aaa; margin:0;}
 div.tiddler div.task div.taskControls div.toolbar a:hover {background-color:#bbc; }

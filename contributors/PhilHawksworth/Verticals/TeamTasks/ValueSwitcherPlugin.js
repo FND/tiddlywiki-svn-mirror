@@ -1,7 +1,7 @@
 /***
 |''Name:''|ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
-|''Version:''|0.0.2|
+|''Version:''|0.1|
 |''Date:''|25 Sept, 2007|
 |''Source:''|http://www.hawksworx.com/playground/TeamTasks/#ValueTogglerPlugin|
 |''Author:''|PhilHawksworth (phawksworth (at) gmail (dot) com)|
@@ -25,7 +25,6 @@ if(!version.extensions.ValueSwitcher)
 			
 			var ctrlType = params[0];
 			var valueSrc = params[1];
-
 			var id = taskTiddler.id;
 			var title = id.substr(7);
 			var tiddler = store.getTiddler(title);
@@ -35,6 +34,7 @@ if(!version.extensions.ValueSwitcher)
 				var selected = valueSrc + '_' + store.getValue(tiddler,valueSrc);
 				var values = this.getDefValues(valueSrc);
 				var options = [];
+				options.push({'caption': 'Please select', 'name': null});
 				for (var i=0; i < values.length; i++) {
 					options.push({'caption': values[i], 'name': valueSrc + '_' + values[i]});
 				}
@@ -42,31 +42,7 @@ if(!version.extensions.ValueSwitcher)
 			}
 			//build a date control
 			else if(ctrlType == 'date'){
-				
-				var dd = 31;
-				var mm = 12;
-				var yyyy = 5;
-				
-				var options = [];
-				var selected = valueSrc + 'dd_' + store.getValue(tiddler,valueSrc);
-				for (var i=1; i <= dd.length; i++) {
-					options.push({'caption': i, 'name': i});
-				}
-				createTiddlyDropDown(place,this.setDropDownMetaData,options,selected);	
-				
-				var options = [];
-				selected = valueSrc + 'mm_' + store.getValue(tiddler,valueSrc);
-				for (var i=1; i <= mm.length; i++) {
-					options.push({'caption': i, 'name': i});
-				}
-				createTiddlyDropDown(place,this.setDropDownMetaData,options,selected);
-				
-				var options = [];
-				selected = valueSrc + 'yyyy_' + store.getValue(tiddler,valueSrc);
-				for (var i=2007; i <= yyyy.length; i++) {
-					options.push({'caption': i, 'name': i});
-				}
-				createTiddlyDropDown(place,this.setDropDownMetaData,options,selected);
+				//TODO: Build in deadline support
 			}
 		},
 		
@@ -85,6 +61,7 @@ if(!version.extensions.ValueSwitcher)
 				var extField = option[0];
 				var extFieldVal = option[1];
 				store.setValue(tiddler,extField,extFieldVal);
+				story.saveTiddler(title);
 			}
 		}
 	};

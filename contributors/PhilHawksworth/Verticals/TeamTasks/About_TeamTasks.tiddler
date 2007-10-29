@@ -1,23 +1,9 @@
-<div title="About TeamTasks" modifier="PhilHawksworth" created="200709171222" modified="200710231317" tags="help" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709181250" server.type="file" changecount="19">
-<pre>This application has been built using TiddlyWiki and the following plugins:
+<div title="About TeamTasks" modifier="PhilHawksworth" created="200709171222" modified="200710241354" tags="help" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709181250" server.type="file" changecount="27">
+<pre>A quick start guide is provided in the [[Getting Started with TeamTasks]] tiddler.
 
-|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
-|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
-|TaskViewBuilderPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TaskViewBuilderPlugin |
-|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
+This application has been built using TiddlyWiki and requires several plugins to function.  For an up-to-date list of the plugins used, and other building blocks required to build TeamTasks, take a look at the [[Release Notes]].
 
-and the following tiddlers have been modified to provide styling:
-PageTemplate
-StyleSheet
-ColorPalette
-ViewTemplate
-
-with some additional tiddlers to provide added functional content:
-TaskViewTemplate
-ControlsContainer
-[[Listings]]
-
-The TeamTasks also require some definitions, which you can modify and add to as required:
+TeamTasks also require some definitions, which you can modify and add to as required:
 UserDefinitions
 PriorityDefinitions
 ScopeDefinitions

@@ -1,6 +1,8 @@
-<div title="MainMenu" modifier="PhilHawksworth" created="200708051914" modified="200710231250" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709171519" server.type="file" changecount="10">
+<div title="MainMenu" modifier="PhilHawksworth" created="200708051914" modified="200710241347" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709171519" server.type="file" changecount="17">
 <pre>[[Getting Started with TeamTasks]]
+[[Release Notes]]
 
+&lt;&lt;slider chkSliderOptionsPanel UserDefinitions &quot;Users »&quot; &quot;A list of users&quot;&gt;&gt;
 &lt;&lt;slider chkSliderOptionsPanel TaskViews &quot;Task views »&quot; &quot;A selection of task views&quot;&gt;&gt;
 &lt;&lt;slider chkSliderOptionsPanel TaskDefinitions &quot;Task definitions »&quot; &quot;The definitions that drive the task management&quot;&gt;&gt;
 

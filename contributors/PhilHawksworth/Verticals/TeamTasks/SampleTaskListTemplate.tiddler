@@ -1,6 +1,6 @@
 <div title="SampleTaskListTemplate" modifier="PhilHawksworth" created="200710241058" changecount="1">
 <pre>| !In any project |
-|[[Open tasks|UserNameOpenTasksByPriority]] |
+|[[Open tasks|UserNameOpenTasks]] |
 |[[Current tasks|UserNameInProgressTasks]] |
 |[[Next tasks|UserNameNextTasks]] |
 |[[Completed tasks|UserNameCompletedTasks]] |</pre>

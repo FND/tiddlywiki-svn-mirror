@@ -2,6 +2,5 @@
 <pre>|scope |&lt;&lt;ValueSwitcher dropdown ScopeDefinitions&gt;&gt; |
 |priority |&lt;&lt;ValueSwitcher dropdown PriorityDefinitions&gt;&gt; |
 |assigned to |&lt;&lt;ValueSwitcher dropdown UserDefinitions&gt;&gt; |
-|status |&lt;&lt;ValueSwitcher dropdown StatusDefinitions&gt;&gt; |
-|deadline |&lt;&lt;ValueSwitcher date deadline&gt;&gt; |</pre>
+|status |&lt;&lt;ValueSwitcher dropdown StatusDefinitions&gt;&gt; |</pre>
 </div>
