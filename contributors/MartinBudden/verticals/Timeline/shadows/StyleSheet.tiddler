@@ -1,0 +1,12 @@
+<div title="StyleSheet" modifier="MartinBudden" tags="styles excludeLists excludeSearch">
+<pre>/***
+Place your custom CSS here
+***/
+[[Styles HorizontalMainMenu]]
+[[SimileTimelineStyleBundle]]
+/*{{{*/
+.header {background:#007766;}
+#topMenu {background:#007777;}
+/*}}}*/
+</pre>
+</div>
