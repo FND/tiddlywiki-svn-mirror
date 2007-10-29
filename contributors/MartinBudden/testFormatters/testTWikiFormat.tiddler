@@ -1,6 +1,5 @@
 <div title="testTWikiFormat" modifier="MartinBudden" created="200610030000" tags="test" wikiformat="twiki">
-<pre>//{{{//
-
+<pre>
 http://www.tiddlywiki.com
 
 [[http://www.tiddlywiki.com][tiddlywiki]]
@@ -86,6 +85,5 @@ WikiWord (not autolinked)
 some text
 
 &lt;/noautolink&gt;
-
-//}}}//</pre>
+</pre>
 </div>
