@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for keeping Tiddlers external to the TiddlyWiki|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ExternalStoragePlugin.js |
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|Sep 10, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
