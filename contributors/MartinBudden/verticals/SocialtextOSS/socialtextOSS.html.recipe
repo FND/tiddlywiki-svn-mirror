@@ -1,20 +1,13 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
-title: title.html
+title: title.txt
 tiddler: settings.js
-tiddler: MainMenu.tiddler
-tiddler: SiteUrl.tiddler
-tiddler: SiteSubtitle.tiddler
-tiddler: SideBarTabs.tiddler
-tiddler: SiteTitle.tiddler
-tiddler: PageTemplate.tiddler
-tiddler: DefaultTiddlers.tiddler
 tiddler: Home.tiddler
 # tiddler: ListWorkspace.tiddler
 # tiddler: ImportWorkspace.tiddler
 tiddler: Socialtext_Open_Source_Wiki.tiddler
-tiddler: ../SocialtextExample/SideBarOptions.tiddler
-tiddler: ../SocialtextExample/SideBarTabs.tiddler
-tiddler: ../../tiddlers/ViewTemplateHostedRevisions.tiddler
+tiddler: ../SocialtextExample/shadows/SideBarOptions.tiddler
+tiddler: ../SocialtextExample/shadows/SideBarTabs.tiddler
+tiddler: ../../shadows/ViewTemplateGetPutRevisions.tiddler
 tiddler: ../../tiddlers/Socialtext_Basic_Formatting.tiddler
 tiddler: ../../tiddlers/Socialtext_Document_Formatting.tiddler
 tiddler: ../../../../verticals/stunplugged/tiddlers/StyleSheet.tiddler

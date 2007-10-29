@@ -1,1 +1,0 @@
-cook socialtextOSS.html.recipe
