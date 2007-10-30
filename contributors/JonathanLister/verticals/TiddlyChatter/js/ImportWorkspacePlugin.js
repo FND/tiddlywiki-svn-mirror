@@ -184,7 +184,6 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 			length = userParams.maxCount;
 		// displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
 		var import_count = 0;
-		console.log("number of import candidates: " + length);
 		for(var i=0; i<length; i++) {
 			tiddler = tiddlers[i];
 			var local_tiddler = store.fetchTiddler(tiddler.title);
@@ -209,7 +208,6 @@ config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
 		var tiddler = context.tiddler;
 		// add in an extended field to save unread state
 		tiddler.fields["unread"] = "true";
-		console.log(tiddler.text);
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 		story.refreshTiddler(tiddler.title,1,true);
 	} else {
