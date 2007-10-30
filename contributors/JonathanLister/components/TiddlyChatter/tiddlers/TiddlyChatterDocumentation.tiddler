@@ -2,8 +2,8 @@
 <pre>|Title|TiddlyChatter|
 |Summary|Opt-in, decentralized collaboration|
 |Description|This component spans several javascript files and depends on a number of other plugins|
-|Version of product it works with|2.2.5|
-|Version of component|0.5|
+|Version of product it works with|2.2.6|
+|Version of component|0.75|
 |Image illustrating it working||
 |Explanation of how it can be used and modified|see below for necessary plugins|
 |Examples where it can be seen working|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html|
@@ -24,9 +24,9 @@
 
 !!The following plugins are used without modification:
 
+|[[ImportWorkspaceMulti]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/ImportWorkspaceMulti/js/importWorkspaceMulti.js]] |
 |[[RSSAdaptor|RSSAdaptor]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/RSSAdaptor/js/rssadaptor.js]] |
 |[[RSSRender|RSSrender plugin]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/RSSAdaptor/js/RSSRender.js]] |
-| [[File adaptor filter plugin]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/TiddlyChatter/js/File_adaptor_filter_plugin.js]] |
 |TaggedTemplateTweak |by EricShulman |[[source|http://www.TiddlyTools.com/#TaggedTemplateTweak]] |
 |[[stickyOptionsPlugin]] |by SaqImtiaz |[[source|http://tw.lewcid.org/#StickyOptionsPlugin]] |
 |[[Unread]] |by JonLister |[[source|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/Unread/js/Unread.js]] |
