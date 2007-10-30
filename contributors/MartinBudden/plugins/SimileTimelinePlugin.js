@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Source:''|http://www.martinswiki.com/#SimileTimelineBundlePlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelinePlugin.js |
-|''Version:''|0.1.1|
+|''Version:''|0.1.2|
 |''Date:''|Mar 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -158,7 +158,7 @@ Timeline.DefaultEventSource.prototype.loadTiddlers = function(data)
 			event.title,
 			event.description,
 			this._resolveRelativeURL(event.image,base),
-			this._resolveRelativeURL(event.link,base),
+			this._resolveRelativeURL(event.link,''),
 			this._resolveRelativeURL(event.icon,base),
 			event.color,
 			event.textColor);
@@ -202,6 +202,8 @@ Tiddler.prototype.getSimileTimelineEvent = function(type,eventFields)
 			ev.description = '';
 		ev.image = store.getTiddlerSlice(t,f.image);
 		ev.link = store.getTiddlerSlice(t,f.link);
+		if(!ev.link)
+			ev.link = 'javascript:story.displayTiddler(null,"' + t + '")';
 		ev.icon = store.getTiddlerSlice(t,f.icon);
 		ev.color = store.getTiddlerSlice(t,f.color);
 		ev.textColor = store.getTiddlerSlice(t,f.textColor);
