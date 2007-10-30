@@ -1,1 +1,0 @@
-cook UnaMesaWiki.html.recipe

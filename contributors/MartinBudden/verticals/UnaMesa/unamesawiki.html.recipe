@@ -2,16 +2,9 @@ recipe: ../tiddlywikiseo.html.recipe
 title: title.txt
 recipe: content/split.recipe
 recipe: templates/split.recipe
-tiddler: ViewTemplate.tiddler
-tiddler: DefaultTiddlers.tiddler
-tiddler: MainMenu.tiddler
-tiddler: SiteSubtitle.tiddler
-tiddler: SiteTitle.tiddler
-tiddler: SiteUrl.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: settings.js
 tiddler: Logo.tiddler
-tiddler: StyleSheet.tiddler
 tiddler: ../tiddlypedia/OptionsPanel.tiddler
 tiddler: ../tiddlypedia/PageTemplateWithLogo.tiddler
 tiddler: ../tiddlypedia/SideBarOptionsWithMediaWikiFormat.tiddler
