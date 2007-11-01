@@ -4,10 +4,9 @@ config.macros.lv.init = function() {
 	// create personal ChatterFeed with the username on the end
 	var newTitle = "ChatterFeed" + config.options.txtUserName;
 	if (!store.getTiddler(newTitle)) {
-		console.log("creating new feed: " + newTitle);
 		var ownFeed = document.location.href.replace(/.html$/,".xml");
 		var newText = "|''Type:''|RSS|\n|''URL:''|"+ownFeed+"|\n|''Workspace:''||\n|''TiddlerFilter:''|[tag[public]]|";
-		var newTags = "public published systemServer";
+		var newTags = "channel public published systemServer";
 		store.saveTiddler(newTitle,newTitle,newText,config.options.txtUserName,null,newTags,null,true);
 	}
 };

@@ -1,8 +1,7 @@
 <div title="Setting up TiddlyChatter" modifier="JayFresh" created="200709271728" modified="200710161833" tags="TiddlyChatterPackage info" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public]]" server.page.revision="200710051010" server.type="file" changecount="17" server.workspace="">
 <pre># Don't forget to save and reload your ~TiddlyWiki after installing the package...
 # You might want to put [[Welcome to TiddlyChatter]] and/or [[TiddlyChatter]] in your MainMenu or DefaultTiddlers.
-# The key to ~TiddlyChatter is your subscription to someone else's &quot;~ChatterFeed&quot;. You have been set up with one subscription, called ChatterFeed, to some test content on http://tiddlychatter.tiddlyspot.com. You can manage your subscriptions from the main [[TiddlyChatter]] tiddler. Click &quot;manage&quot; and then &quot;new subscription&quot; and put in the URL of a ~TiddlyWiki which is publishing a feed.
-#* Currently (as at 16/10/07), ~TiddlyChatter supports subscribing to only one person's feed - if you want to subscribe to someone other than the test content on tiddlychatter.tiddlyspot.com, change the URL field in ChatterFeed
+# The key to ~TiddlyChatter is your subscription to someone else's &quot;~ChatterFeed&quot;. You can manage your subscriptions from the main [[TiddlyChatter]] tiddler. Click &quot;manage&quot; and then &quot;new subscription&quot; and put in the URL of a ~TiddlyWiki which is publishing a feed. If you don't know anyone with a ChatterFeed, you can use http://tiddlychatter.tiddlyspot.com
 
 Hitting &quot;Get&quot; downloads your updates. New content is displayed in red. When you save your ~TiddlyWiki, your own updates are published into your feed.</pre>
 </div>

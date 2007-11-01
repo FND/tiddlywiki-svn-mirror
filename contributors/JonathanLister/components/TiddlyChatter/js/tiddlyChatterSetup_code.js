@@ -179,12 +179,11 @@ config.macros.tiddlyChatterSetup.onClickSubscribe = function() {
 		// now copy the tiddler across, adding in the 'subscription' tag and rebuilding the body with the URL
 		var adaptor_store = this.context.adaptor.store;
 		var type_field = adaptor_store.getTiddlerSlice(tiddler.title,"Type");
+		var url_field = adaptor_store.getTiddlerSlice(tiddler.title,"URL");
 		var workspace_field = adaptor_store.getTiddlerSlice(tiddler.title,"Workspace");
 		var filter_field = adaptor_store.getTiddlerSlice(tiddler.title,"TiddlerFilter");
-		var subscriptionURL = this.context.adaptor.host;
-		subscriptionURL = subscriptionURL.replace(/\.html$/g,".xml");
 		var subscriptionTemplate = "|''Type:''|%0|\n|''URL:''|%1|\n|''Workspace:''|%2|\n|''TiddlerFilter:''|%3|";
-		var text = subscriptionTemplate.format([type_field,subscriptionURL,workspace_field,filter_field]);
+		var text = subscriptionTemplate.format([type_field,url_field,workspace_field,filter_field]);
 		tiddler.tags.push("subscription");
 		store.saveTiddler(tiddler.title, tiddler.title, text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, true, tiddler.created);
 		var this_tiddler = story.findContainingTiddler(this);

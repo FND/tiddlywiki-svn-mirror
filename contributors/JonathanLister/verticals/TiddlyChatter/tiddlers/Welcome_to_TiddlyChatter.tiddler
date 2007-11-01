@@ -1,15 +1,18 @@
-<div title="Welcome to TiddlyChatter" modifier="JayFresh" created="200709261353" modified="200710221613" tags="info TiddlyChatterPackage" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public]]" server.page.revision="200709271740" server.type="file" changecount="26" server.workspace="">
-<pre>@@color(red):22/10/07 New!@@ [[Designing TiddlyChatter from the user's point of view]]
+<div title="Welcome to TiddlyChatter" modifier="JayFresh" created="200709261353" modified="200711011740" tags="info TiddlyChatterPackage" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public]]" server.page.revision="200711011740" server.type="file" changecount="27" server.workspace="">
+<pre>@@color(red):1/11/07 Updated!@@ Introduction and set-up instructions re-written for clarity
+@@color(red):1/11/07 New!@@ [[Diagram|TiddlyChatter flow]] of how to get two people Chattering
+@@color(red):22/10/07 New!@@ [[Designing TiddlyChatter from the user's point of view]]
 
 This ~TiddlyWiki has been installed with TiddlyChatter, a shiny new collaboration feature.
 
-To get into the ~TiddlyChatter mood, you need to [[install|InstallTiddlyChatter]] the &lt;&lt;tag TiddlyChatterPackage&gt;&gt; tiddlers in your own ~TiddlyWiki. When you have installed these, take a look at [[these set-up instructions|Setting up TiddlyChatter]].
-
-You are actively encouraged to get involved with designing and building TiddlyChatter. The tiddler [[Designing TiddlyChatter from the user's point of view]] leads to a lot of content that describes and documents the design process we are going through. Please contribute through the [[TiddlyWikiDev|http://groups.google.com/TiddlyWikiDev]] group or mail me at jon at osmosoft dot com.
-
 !!~TiddlyChatter is for opt-in, decentralized collaboration. What this means:
-''opt-in:'' avoid &quot;collaboration noise&quot; associated with standard wikis - only see the information from people you want to collaborate directly with;
+''opt-in:'' avoid "collaboration noise" associated with standard wikis - only see the information from people you want to collaborate directly with;
 ''decentralized:'' everyone can keep their own personal ~TiddlyWiki and still become a part of a ~TiddlyChatter community; you don't need to rely on a central collaboration server.
+
+!!Starting out
+To get into the ~TiddlyChatter mood, you need to [[install|InstallTiddlyChatter]] the <<tag TiddlyChatterPackage>> tiddlers in your own ~TiddlyWiki. When you're done, take a look at these [[quick tips|After installing]] or read these guides to [[publishing|TiddlyChatterPublishing]] content and [[getting hold of|TiddlyChatterReading]] other people's content. There is also a [[diagram|TiddlyChatter flow]] of the flow two people would go through to Chatter with each other.
+
+You are actively encouraged to help design and build TiddlyChatter. The tiddler [[Designing TiddlyChatter from the user's point of view]] leads to a lot of content that describes and documents the design process we are going through. Please contribute through the [[TiddlyWikiDev|http://groups.google.com/TiddlyWikiDev]] group or mail me at jon at osmosoft dot com.
 
 You can read an example scenario of [[how TiddlyChatter works|How TiddlyChatter works - an example scenario]]. ~TiddlyChatter is still in [[development|TiddlyChatterDocumentation]]. Bugs are [[tracked|BUGS]], please post in the [[TiddlyWikiDev|http://groups.google.com/TiddlyWikiDev]] Google Group if you find more.</pre>
 </div>

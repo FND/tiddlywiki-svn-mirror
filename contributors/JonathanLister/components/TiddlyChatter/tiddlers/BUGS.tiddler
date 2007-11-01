@@ -1,5 +1,6 @@
 <div title="BUGS" modifier="JayFresh" created="200710051013" modified="200710161901" tags="TiddlyChatterPackage info" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public right]]" server.page.revision="200710161103" server.type="file" changecount="15" server.workspace="">
 <pre>!Current
+* 1/11/07 - generation of ChatterFeed pointing to self fails when viewing root host rather than full URL e.g. http://domain.com rather than http://domain.com/index.html - Update 1/11/07, FND suggested using localPath not window.location
 * 24/10/07 - Parent content tiddler's unread status doesn't get updated to unread when a new note is added, which it should - or the displayed status should be unread if at least one of the notes' statuses' is unread
 ** 23/10/07 - Update: partial fix: problem is that the process is not repeatable, as the match looking for feeds to import from returns an empty array
 ** 30/10/07 - Update: behaviour arises due to use of Regex.exec, which maintains state; should change to Regex.match

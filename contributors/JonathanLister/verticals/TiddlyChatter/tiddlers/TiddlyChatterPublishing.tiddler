@@ -1,0 +1,15 @@
+<div title="TiddlyChatterPublishing" modifier="JayFresh" created="200709271728" modified="200711011833" tags="TiddlyChatterPackage info" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public]]" server.page.revision="200710051010" server.type="file" changecount="17" server.workspace="">
+<pre>To create a piece of Chatter, you have a couple of options:
+* Hit "Create" on the TiddlyChatter control panel, edit and save
+* Create a new tiddler and tag it with "public"
+This creates a Chatter ready for publishing into your ChatterFeed after you've finished drafting it - click "Publish" to get it into your feed.
+
+At this point, you might be wondering how to get your content updates up onto the web and into the hands of your subscribers:
+* Using the "Save to web" feature of TiddlySpot is the simplest at the moment, especially because other TiddlySpot TiddlyWikis will be able to download your Chatter directly, instead of them having to download and run a local version.
+* If you have BidiX's [[UploadPlugin|http://tiddlywiki.bidix.info/#UploadPlugin]] and a php server, you can set up a store that will accept uploads directly from TiddlyWiki
+* If you have *any form* of static file hosting available to you, posting your ChatterFeed (and your TiddlyWiki) on there is totally fine
+
+We recognise that this is a frustrating area, but we're not alone in trying to solve it.
+
+[Addition:] 1/11/07 - I just found [[yoyko|http://www.chaosindex.com/yoyko/index.html]], who provide a hosted store for TiddlyWikis</pre>
+</div>

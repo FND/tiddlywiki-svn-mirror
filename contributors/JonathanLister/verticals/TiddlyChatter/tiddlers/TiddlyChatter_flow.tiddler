@@ -1,0 +1,16 @@
+<div title="TiddlyChatter flow" modifier="JayFresh" created="200709261353" modified="200711011740" tags="info TiddlyChatterPackage" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public]]" server.page.revision="200711011740" server.type="file" changecount="27" server.workspace="">
+<pre>How to get going with TiddlyChatter, graphically...
+
+|!Timeline|!Publisher 1 (P1)|!|!Publisher 2 (P2)|
+|!initial setup|download or import [[TiddlyChatter|http://tiddlychatter.tiddlyspot.com]]||download or import [[TiddlyChatter|http://tiddlychatter.tiddlyspot.com]]|
+|!create content|new tiddler [[FooBar]]|||
+|!mark as candidate for publishing|add tag "public" to [[FooBar]] (automated via [[TiddlyChatter Control Panel]] > {{{Create}}})|||
+|!confirm publishing|add tag "published" to [[FooBar]] (automated via {{{Publish}}} button)|||
+|!publishing|{{{Save to Web}}} (also creating the RSS feed)|text-align:center;&rarr;||
+|!subscribe to chatter feed|||[[TiddlyChatter Control Panel]] > {{{Manage}}} > {{{New Subscription}}}<br>&rarr; enter URL of P1's TiddlyWiki (not its RSS feed)<br>{{{Go}}} >  select feeds to subscribe to > {{{Subscribe}}}|
+|!retrieve chatter|||[[TiddlyChatter Control Panel]] > {{{Get}}}<br>[[TiddlyChatter Control Panel]] will display recent changes as a list of tiddlers|
+|!commenting on chatter contents|||open imported [[FooBar]] and select {{{Add Notes}}}|
+|!publishing comments||text-align:center;&larr;|{{{Save to Web}}} (cf. steps of P1)|
+
+Thanks to FND for this.</pre>
+</div>

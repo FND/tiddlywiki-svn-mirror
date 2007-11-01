@@ -1,0 +1,16 @@
+<div title="TiddlyChatterReading" modifier="JayFresh" created="200709271728" modified="200711011833" tags="TiddlyChatterPackage info" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public]]" server.page.revision="200710051010" server.type="file" changecount="17" server.workspace="">
+<pre>!Subscribing to other people's Chatter
+
+To read someone's else Chatter, you have to be subscribed to their ChatterFeed:
+* From the TiddlyChatter control panel, click Manage > New Subscription
+* Enter the URL of the TiddlyWiki publishing the ChatterFeed you want to subscribe to
+* When the list of available feeds appears, put a check in the box next to the one you want and click "subscribe"
+
+When it comes to downloading other people's Chatter, you generally need to be viewing your TiddlyWiki as a local file for the remote calls to work. This isn't true if you're only working with TiddlyWikis running on TiddlySpot, as their proxy sorts everything out, which is grand.
+
+Hitting "Get" from the control panel downloads your updates. New content is displayed in red and the number of notes on a tiddler is shown in brackets next to the tiddler's title.
+
+!Adding and publishing comments
+
+After you've read an imported tiddler and want to add a comment, clicking on "add notes" opens a box to type in your note. Clicking "save notes" saves the note and publishes it into your ChatterFeed. Various ways to get your feed out onto the web where people can see it are discussed in [[this tiddler|TiddlyChatterPublishing]].</pre>
+</div>

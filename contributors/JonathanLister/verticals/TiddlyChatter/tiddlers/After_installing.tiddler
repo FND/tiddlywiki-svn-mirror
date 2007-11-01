@@ -1,0 +1,5 @@
+<div title="After installing" modifier="JayFresh" created="200709271728" modified="200711011833" tags="TiddlyChatterPackage info" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.filter="[tag[public]]" server.page.revision="200711011010" server.type="file" changecount="17" server.workspace="">
+<pre># Don't forget to save and reload your ~TiddlyWiki after installing the package...
+# You might want to put [[Welcome to TiddlyChatter]] and/or [[TiddlyChatter]] in your MainMenu or DefaultTiddlers.
+# The key to ~TiddlyChatter is your subscription to someone else's "~ChatterFeed". You have been set up with one subscription, called ChatterFeed, to some test content on http://tiddlychatter.tiddlyspot.com. You can manage your subscriptions from the main [[TiddlyChatter]] tiddler. Click "manage" and then "new subscription" and put in the URL of a ~TiddlyWiki which is publishing a feed.</pre>
+</div>
