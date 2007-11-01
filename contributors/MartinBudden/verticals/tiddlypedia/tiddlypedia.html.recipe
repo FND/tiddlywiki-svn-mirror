@@ -1,4 +1,5 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
+title: title.txt
 prehead: ../../../../core/html/rss.link.html
 tiddler: ../../shadows/MainMenuHome.tiddler
 tiddler: ../../shadows/DefaultTiddlersHome.tiddler
