@@ -1,0 +1,135 @@
+<div title="LewcidOrangeSideBarWG" modifier="YourName" created="200701130013" tags="LewcidOrangeTheme">
+<pre>/***
+This CSS by DaveBirss.
+***/
+/*{{{*/
+
+
+.tabSelected {
+ background: #fff;
+}
+
+.tabUnselected {
+ background: #eee;
+}
+
+#sidebar {
+ color: #000;
+ background: transparent; 
+}
+
+#sidebarOptions {
+ background: #fff;
+}
+
+#sidebarOptions input {
+	border: 1px solid #ccc;
+}
+
+#sidebarOptions input:hover, #sidebarOptions input:active,  #sidebarOptions input:focus {
+	border: 1px solid #000;
+}
+
+#sidebarOptions .button {
+ color: #999;
+}
+
+#sidebarOptions .button:hover {
+ color: #000;
+ background: #fff;
+ border-color:white;
+}
+
+#sidebarOptions .button:active {
+ color: #000;
+ background: #fff;
+}
+
+#sidebarOptions .sliderPanel {
+ background: transparent;
+}
+
+#sidebarOptions .sliderPanel A {
+ color: #999;
+}
+
+#sidebarOptions .sliderPanel A:hover {
+ color: #000;
+ background: #fff;
+}
+
+#sidebarOptions .sliderPanel A:active {
+ color: #000;
+ background: #fff;
+}
+
+.sidebarSubHeading {
+ color: #000;
+}
+
+#sidebarTabs {`
+ background: #fff
+}
+
+#sidebarTabs .tabSelected {
+ color: #000;
+ background: #fff;
+ border-top: solid 1px #ccc;
+ border-left: solid 1px #ccc;
+ border-right: solid 1px #ccc;
+ border-bottom: none;
+}
+
+#sidebarTabs .tabUnselected {
+ color: #999;
+ background: #eee;
+ border-top: solid 1px #ccc;
+ border-left: solid 1px #ccc;
+ border-right: solid 1px #ccc;
+ border-bottom: none;
+}
+
+#sidebarTabs .tabContents {
+ background: #fff;
+}
+
+
+#sidebarTabs .txtMoreTab .tabSelected {
+ background: #fff;
+}
+
+#sidebarTabs .txtMoreTab .tabUnselected {
+ background: #eee;
+}
+
+#sidebarTabs .txtMoreTab .tabContents {
+ background: #fff;
+}
+
+#sidebarTabs .tabContents .tiddlyLink {
+ color: #999;
+ border:none;
+}
+
+#sidebarTabs .tabContents .tiddlyLink:hover {
+ background: #fff;
+ color: #000;
+ border:none;
+}
+
+#sidebarTabs .tabContents {
+ color: #000;
+}
+
+#sidebarTabs .button {
+ color: #666;
+}
+
+#sidebarTabs .tabContents .button:hover {
+ color: #000;
+ background: #fff;
+}
+
+#sidebar {color:#999;}
+/*}}}*/</pre>
+</div>
