@@ -4,6 +4,7 @@ tiddler: Home.tiddler
 tiddler: settings.js
 tiddler: Test.tiddler
 tiddler: shadows/DefaultTiddlers.tiddler
+tiddler: shadows/MainMenu.tiddler
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../themes/DefaultTheme.tiddler
