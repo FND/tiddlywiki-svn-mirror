@@ -1,12 +1,6 @@
-<div title="TestStyleSheet" modifier="MartinBudden" tags="styles excludeLists excludeSearch">
-<pre>/***
-Place your custom CSS here
-***/
-/*{{{*/
-.header {background:red;}
-.headerShadow {color:yellow;}
+<div title="TestStyleSheet" modifier="MartinBudden" tags="TestTheme styles excludeSearch">
+<pre>/*{{{*/
 .headerForeground {color:black;}
 .headerForeground {background:green;}
-
 /*}}}*/</pre>
 </div>

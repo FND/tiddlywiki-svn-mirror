@@ -1,10 +1,10 @@
 <div title="TestSingleTiddlerTheme" modifier="MartinBudden" tags="systemTheme excludeSearch">
 <pre>
 |''Name:''|TestSingleTiddlerTheme|
-|''Description:''|A theme for testing purposes|
+|''Description:''|A single tiddler theme for testing purposes|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/themes/TestSingleTiddlerTheme.tiddler |
-|''Version:''|0.0.1|
+|''Version:''|0.0.3|
 |''Date:''|Oct 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -16,20 +16,28 @@
 
 !StyleSheet
 /*{{{*/
-.header {background:red;}
-.headerShadow {color:yellow;}
 .headerForeground {color:black;}
 .headerForeground {background:green;}
+
+#mainMenu {position:relative;left:auto;width:auto;text-align:left;line-height:normal;padding 0em 1em 0em 1em;font-size:normal;}
+#mainMenu br {display:none;}
+#mainMenu {background:#336699;}
+#mainMenu {padding:2px;}
+#mainMenu .button, #mainMenu .tiddlyLink {padding-left:0.5em;padding-right:0.5em;color:white;font-size:115%;}
+
+#displayArea {
+	margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:1em;
+	padding-top:.1em;padding-bottom:.1em;
+}
 /*}}}*/
 
 !ViewTemplate
-<!--{{{-->
-<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
-<div class='tagged' macro='tags'></div>
-<div class='title' macro='view title'></div>
-<div class='tagging' macro='tagging'></div>
-<div class='viewer' macro='view text wikified'></div>
-<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler'></div>
-<!--}}}-->
-
+&lt;!--{{{--&gt;
+&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'&gt;&lt;/div&gt;
+&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
+&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
+&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
+&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
+&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler'&gt;&lt;/div&gt;
+&lt;!--}}}--&gt;
 

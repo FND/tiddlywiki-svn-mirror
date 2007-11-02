@@ -1,4 +1,4 @@
-<div title="TestPageTemplate" modifier="MartinBudden" tags="excludeLists excludeSearch">
+<div title="TestPageTemplate" modifier="MartinBudden" tags="TestTheme excludeSearch">
 <pre>&lt;!--{{{--&gt;
 &lt;div class='header'&gt;
 &lt;div class='headerShadow'&gt;
