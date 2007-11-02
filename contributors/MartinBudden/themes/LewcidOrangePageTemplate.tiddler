@@ -1,17 +1,17 @@
 <div title="LewcidOrangePageTemplate" modifier="Saq Imtiaz" created="200701130013" tags="LewcidOrangeTheme">
 <pre>&lt;!--{{{--&gt;
 &lt;div class='header'&gt;
-     &lt;div class='gradient' macro='gradient vert #FF8614 #DA4A0D '&gt;
-	&lt;div class='titleLine' &gt;
-                &lt;span class='searchBar' macro='search'&gt;&lt;/span&gt;
-		&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
-		&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
+	&lt;div class='gradient' macro='gradient vert #FF8614 #DA4A0D '&gt;
+		&lt;div class='titleLine' &gt;
+			&lt;span class='searchBar' macro='search'&gt;&lt;/span&gt;
+			&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
+			&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
+		&lt;/div&gt;
+		&lt;div id='topMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
 	&lt;/div&gt;
-&lt;div id='topMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
-    &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id='bodywrapper'&gt;
-&lt;div id='sidebar'&gt;
+	&lt;div id='sidebar'&gt;
 	&lt;div id='sidebarOptions' refresh='content' tiddler='LewcidOrangeSideBarOptions'&gt;&lt;/div&gt;
 	&lt;div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -19,8 +19,7 @@
 	&lt;div id='messageArea'&gt;&lt;/div&gt;
 	&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div id='contentFooter' refresh='content' tiddler='contentFooter'&gt;&lt;/div&gt;
+&lt;div id='contentFooter'&gt;TiddlyWiki&lt;/div&gt;
 &lt;/div&gt;
-
 &lt;!--}}}--&gt;</pre>
 </div>
