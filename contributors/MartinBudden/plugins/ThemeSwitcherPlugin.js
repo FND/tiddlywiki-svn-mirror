@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden|
 |''Source:''|http://www.martinswiki.com/#ThemeSwitcherPlugin |
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js |
-|''Version:''|0.0.4|
+|''Version:''|0.0.5|
 |''Status:''|Not for release - still under development|
 |''Date:''|Oct 31, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -21,8 +21,8 @@ version.extensions.ThemeSwitcherPlugin = {installed:true};
 config.macros.selectTheme = {};
 config.macros.selectTheme.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-	var label = 'select theme';
-	var prompt = 'select the current theme';
+	var label = "select theme";
+	var prompt = "select the current theme";
 	var btn = createTiddlyButton(place,label,prompt,this.onClick);
 	btn.setAttribute("place",place);
 };
@@ -50,10 +50,10 @@ config.macros.selectTheme.onClick = function(ev)
 
 config.macros.selectTheme.onClickTheme = function(ev)
 {
-	config.macros.selectTheme.switchTheme(this.getAttribute("theme"));
+	story.switchTheme(this.getAttribute("theme"));
 };
 
-config.macros.selectTheme.switchTheme = function(theme)
+Story.prototype.switchTheme = function(theme)
 {
 	isTiddler = function(title) {
 		var s = title ? title.indexOf(config.textPrimitives.sectionSeparator) : -1;
@@ -69,45 +69,43 @@ config.macros.selectTheme.switchTheme = function(theme)
 		return isTiddler(r) ? r : slice;
 	};
 
-	store.namedNotifications.length = 0;
+	replaceNotification = function(index,name,newName) {
+		if(name==newName)
+			return name;
+		if(store.namedNotifications[index].name == name) {
+			store.namedNotifications[index].name = newName;
+			return newName;
+		}
+		return name;
+	};
+
 	for(var i=0; i<config.notifyTiddlers.length; i++) {
 		var name = config.notifyTiddlers[i].name;
-		var notify = config.notifyTiddlers[i].notify;
 		switch(name) {
 		case "PageTemplate":
-			config.refreshers.pageTemplate = getSlice(theme,name);
-			store.namedNotifications.push({name: config.refreshers.pageTemplate, notify: notify});
+			config.refreshers.pageTemplate = replaceNotification(i,config.refreshers.pageTemplate,getSlice(theme,name));
 			break;
 		case "StyleSheet":
 			var styleElement = document.getElementById(config.refreshers.styleSheet);
-			if (styleElement)
+			if(styleElement)
 				styleElement.parentNode.removeChild(styleElement);
-			config.refreshers.styleSheet = getSlice(theme,name);
-			store.namedNotifications.push({name: config.refreshers.styleSheet, notify: notify});
+			config.refreshers.styleSheet = replaceNotification(i,config.refreshers.styleSheet,getSlice(theme,name));
 			break;
 		case "ColorPalette":
-			store.namedNotifications.push({name: getSlice(theme,name), notify: notify});
+			config.refreshers.colorPalette = replaceNotification(i,config.refreshers.colorPalette,getSlice(theme,name));
 			break;
 		default:
-			store.namedNotifications.push({name: name, notify: notify});
 			break;
 		}
 	}
 	config.tiddlerTemplates[DEFAULT_VIEW_TEMPLATE] = getSlice(theme,"ViewTemplate");
 	config.tiddlerTemplates[DEFAULT_EDIT_TEMPLATE] = getSlice(theme,"EditTemplate");
-	refreshAll();
-	story.refreshAllTiddlers();
-};
-
-Story.prototype.refreshAllTiddlers = function()
-{
-	var place = document.getElementById(this.container);
-	var e = place.firstChild;
-	if(!e)
-		return;
-	this.refreshTiddler(e.getAttribute("tiddler"),null,true);
-	while((e = e.nextSibling) != null)
-		this.refreshTiddler(e.getAttribute("tiddler"),null,true);
+	if(!startingUp) {
+		refreshAll();
+		story.refreshAllTiddlers(true);
+	}
+	config.options.txtTheme = theme;
+	saveOptionCookie("txtTheme");
 };
 
 } //# end of 'install only once'
