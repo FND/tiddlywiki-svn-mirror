@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden|
 |''Source:''|http://www.martinswiki.com/#ThemeSwitcherPlugin |
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js |
-|''Version:''|0.0.5|
+|''Version:''|0.0.6|
 |''Status:''|Not for release - still under development|
 |''Date:''|Oct 31, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -23,10 +23,9 @@ config.macros.selectTheme = {
 	prompt: "Select the current theme"
 };
 
-config.macros.selectTheme.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+config.macros.selectTheme.handler = function(place)
 {
 	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
-	btn.setAttribute("place",place);
 };
 
 config.macros.selectTheme.onClick = function(ev)
@@ -35,14 +34,11 @@ config.macros.selectTheme.onClick = function(ev)
 	var popup = Popup.create(this);
 	var tiddlers = store.getTaggedTiddlers('systemTheme');
 	for(var i=0; i<tiddlers.length; i++) {
-		var title = tiddlers[i].title;
-		var name = store.getTiddlerSlice(title,'Name');
-		var label = name ? name : title;
-		var desc = store.getTiddlerSlice(title,'Description');
-		var prompt = desc ? desc : label;
-		var li = createTiddlyElement(popup,'li');
-		var btn = createTiddlyButton(li,label,prompt,config.macros.selectTheme.onClickTheme);
-		btn.setAttribute('theme',title);
+		var t = tiddlers[i].title;
+		var name = store.getTiddlerSlice(t,'Name');
+		var desc = store.getTiddlerSlice(t,'Description');
+		var btn = createTiddlyButton(createTiddlyElement(popup,'li'),name ? name : title,desc ? desc : label,config.macros.selectTheme.onClickTheme);
+		btn.setAttribute('theme',t);
 	}
 	Popup.show();
 	e.cancelBubble = true;
