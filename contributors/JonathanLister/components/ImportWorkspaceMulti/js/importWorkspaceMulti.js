@@ -25,7 +25,7 @@ config.macros.importWorkspaceMulti.importAll = function(filter) {
 			sysList = sysList + "\n" + sysServer_tiddlers[i].title;
 			workspace_tiddlers.push(sysServer_tiddlers[i]);
 		}
-		if(!confirm("are you sure you want to import from all these tiddlers?\n\n" + sysServerTiddlers)) {
+		if(!confirm("are you sure you want to import from all these tiddlers?\n\n" + sysServer_Tiddlers)) {
 			return false;
 		};
 	} else {
