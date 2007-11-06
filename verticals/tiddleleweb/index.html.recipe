@@ -1,0 +1,5 @@
+recipe: ../../core/tiddlywiki.html.recipe
+title: title.txt
+recipe: shadows/split.recipe
+tiddler: Home.tiddler
+tiddler: Styles_HorizontalMainMenu.tiddler
