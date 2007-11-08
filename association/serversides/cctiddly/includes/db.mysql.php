@@ -156,7 +156,7 @@ $db_var['error']['query'] = " query: ";*/
 		}
 		
 		$result = db_query("SELECT * FROM ".$table." WHERE `".db_format4SQL(key($data))."`='".db_format4SQL(current($data))."'");
-		
+		//error_log("SELECT * FROM ".$table." WHERE `".db_format4SQL(key($data))."`='".db_format4SQL(current($data))."'", 0);
 		if( $result === FALSE )
 		{
 			return FALSE;

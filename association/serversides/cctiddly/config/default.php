@@ -1,8 +1,8 @@
 <?php
 // database/table
-$tiddlyCfg['db']['host'] = "localhost";		//sql host
+$tiddlyCfg['db']['host'] = "db";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
-$tiddlyCfg['db']['pass'] = "";		//login password
+$tiddlyCfg['db']['pass'] = "0p3ns0urc3";		//login password
 $tiddlyCfg['db']['name'] = "cct";		//db name
 
 $tiddlyCfg['table']['pref'] = "";		//table prefix
@@ -14,6 +14,16 @@ $tiddlyCfg['pref']['tw_ver'] = "tiddlywiki"; // choose between different version
 $tiddlyCfg['pref']['language'] = "en"; // choose between different version of TW, or adaptation
 $tiddlyCfg['pref']['version'] = 1; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
 $tiddlyCfg['pref']['reqLogin'] = 0;		//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
+
+
+
+//ADDED BY SIMONMCMANUS
+
+$tiddlyCfg['pref']['session_timeout'] = 10;		//cookies expire time, in minutes [0=disable]
+$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
+// END OF SIMONMCMANUS
+
+
 $tiddlyCfg['pref']['cookies'] = 0;		//cookies expire time, in minutes [0=disable]
 $tiddlyCfg['pref']['appendModifier'] = 0;		//append modifier name as tag
 $tiddlyCfg['pref']['lock_title'] = array("LoginPanel");		//lock certain tiddler's title such that it can't be changed even with admin
@@ -39,7 +49,7 @@ $tiddlyCfg['pref']['utf8'] = 0;
 		$tiddlyCfg['user'] = array("username1" => "password1", "username2" => "password2);
 */
 //username password pair
-$tiddlyCfg['user'] = array("username"=>"password");		//username password pair, empty array allow everyone to edit the tiddly online (except locked titles)
+$tiddlyCfg['user'] = array("username"=>"password", "simon"=>"password");		//username password pair, empty array allow everyone to edit the tiddly online (except locked titles)
 
 /*
 	put username here would insert them into groups.
@@ -52,7 +62,7 @@ $tiddlyCfg['user'] = array("username"=>"password");		//username password pair, e
 		anonymous (include all users without username password pair)
 		user (users with username and password pair)
 */
-$tiddlyCfg['group']['admin'] = array("username");
+$tiddlyCfg['group']['admin'] = array("simon");
 
 /*
 	various config on privileges

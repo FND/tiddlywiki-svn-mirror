@@ -35,7 +35,6 @@
 	{
 		$user = array();
 		$user['id'] = (strlen($id)>0?(int)$id:"");		//if empty, leave it as empty. otherwise make it as int
-		
 		//get username from cookie if nothing is passed
 		$user['username'] = preg_replace("![/,\\\\,?,*]!","",(strcmp($username,"")==0?user_getUsername():$username));		//no slashes, star and question mark in username
 		if( strlen($password)==0 )
@@ -44,49 +43,89 @@
 		}else{
 			$user['verified'] = ($verified==0?user_validate($username,$password,$reqHash):(bool)$verified);
 		}
-		
 		//NOTE: group is always in array
 		//FORMAT: $user['group'] = array("group1", "group2");
 		$user['group'] = (strcmp($group,"")==0?user_getGroup($user['username'],$user['verified']):$group);
 		//privilege for various tags
 		//FORMAT: $user['privilege'] = array("tag1"=>"AAAA");
-		$user['privilege'] = user_getPrivilege($user['group']);
-		
+		$user['privilege'] = user_getPrivilege($user['group']);		
 		return $user;
 	}
+
+
+
+	function user_ldap_login($un, $pw)
+	{
+		//  error_log('LDAPLOGIN', 0);
+		global $tiddlyCfg;
+		$admin='cn='.$un.',ou=staff,dc=osmosoft,dc=com'; // TODO - check with andrew which of these bits can change.
+		$ds=ldap_connect($tiddlyCfg['pref']['ldap_server']);  // make LDAP C
+		if ($ds) 
+		{	
+			$r=ldap_bind($ds, $admin, $pw);// bind with appropriate dn to give access
+			if(!$r)                // if the username/pass is not accepted then return false 
+				return FALSE;
+			ldap_close($ds); 
+			return TRUE; 
+		} else {
+			return FALSE;
+		}
+	}
 	
+	function user_set_session($un, $pw)
+	{
+		// error_log('SETSESSION', 0);
+		// should the initial expiry time persist or be added to?
+		global $tiddlyCfg;
+		$del_data['session']= cookie_get('passSecretCode');
+		db_record_delete('login_session',$del_data);
+		$insert_data['user_username'] = $un;
+		$mins = date("i")+$tiddlyCfg['pref']['session_timeout'];  // add session timeout time to current time.
+		$expire = strtotime(date("Y").'-'.date("m")."-".date("d")." ".date("H").":".$mins.":".date("s"));	// build up date string
+		$insert_data['expire'] = date('Y-m-d H:i:s', $expire); // add expire time to data array for insert
+		$insert_data['ip'] = $_SERVER['REMOTE_ADDR'];  // get the ip address
+		$insert_data['session'] = sha1($un.$_SERVER['REMOTE_ADDR'].$expire); // colect data together and sh1 it so that we have a unique indentifier 
+		db_record_insert('login_session',$insert_data);
+		cookie_set('txtUserName', $un);
+		cookie_set('passSecretCode', $insert_data['session']);
+	}		
 	
 	///////////////////////////////////////////////////////////////validate and login (set cookie)//////////////////////////////////////////////////
 	//!	@fn bool user_validate($un)
 	//!	@brief check username and password from cookie
 	//!	@param $un username override
-	//!	@param $pw password override, hashed password
-	//!	@param $reqHash if 1, it will hash $pw
-	function user_validate($un="", $pw="", $reqHash=0)
+	//!	@param $pw password over
+	function user_validate($un="", $pw="")
 	{
+		error_log('VALIDATE', 0);
 		global $tiddlyCfg;
-		if( strlen($un)==0 )
+		// if we are not passed a username and password the session has been created and we need to validate it.	
+		if (!$pw || !$un)
 		{
-			$un = user_getUsername();
-		}
-		if( strlen($pw)==0 )
-		{
-			//$pw = isset($_COOKIE['pasSecretCode'])?$_COOKIE['pasSecretCode']:"";		//get cookie pasSecretCode
-			$pw = cookie_get('pasSecretCode');
-		}
-		
-		if( $reqHash==1 )
-		{
-			$pw = user_encodePassword($pw);
+			$pw = cookie_get('passSecretCode');
+			$un = cookie_get('txtUserName');
+			$data['session'] = $pw; 
+			//  TODO CHECK VALUE OF 			
+			$results = db_record_select('login_session', $data);			// get array of results		
+			if (count($results) > 0 )                   //  if the array has 1 or more sessions
+			{
+				user_set_session($un, $pw);
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
 		}
 
-		//if( isset($tiddlyCfg['user'][$un]) && strcmp(md5($tiddlyCfg['user'][$un]),$pw)==0 )
-		if( isset($tiddlyCfg['user'][$un]) && strcasecmp(user_encodePassword($tiddlyCfg['user'][$un]),$pw)==0 )
+		// session has not been created, lets try the user/pass on our ldap server. 
+		if (user_ldap_login($un, $pw))	
 		{
 			return TRUE;
 		}
 		return FALSE;
 	}
+	
 	
 	//!	@fn bool user_login($un="", $pw="", $reqHash=0)
 	//!	@brief check username and password and set them to cookies
@@ -95,31 +134,19 @@
 	//!	@param $reqHash if 1, it will hash $pw
 	function user_login($un, $pw, $reqHash=0)
 	{
-		if( $reqHash==1 )
-		{
-			$pw = user_encodePassword($pw);
-		}
-		//if username password pair is right, set cookie
+		global $tiddlyCfg;
+		error_log('LOGIN', 0);
 		if( user_validate($un, $pw) )
 		{
-			cookie_set('txtUserName',$un);
-			cookie_set('pasSecretCode',$pw);
+			user_set_session($un, $pw);
 			return TRUE;
-		}else{		//if username password pair wrong, clear cookie
+		}
+		else
+		{		//if username password pair wrong, clear cookie
 			user_logout();
 			return FALSE;
 		}
 	}
-	
-	//!	@fn bool user_logout()
-	//!	@brief remove cookie
-	function user_logout()
-	{
-		cookie_set('txtUserName',"");
-		cookie_set('pasSecretCode',"");
-		return TRUE;
-	}
-
 	///////////////////////////////////////////////////////////////get user info//////////////////////////////////////////////////
 	//!	@fn string user_getUsername()
 	//!	@brief get username from cookie
@@ -131,6 +158,15 @@
 			return "YourName";
 		}
 		return $u;
+	}
+	
+	function user_logout()
+	{
+		cookie_set('txtUserName',"");
+		cookie_set('pasSecretCode',"");
+		$data['session']= cookie_get('passSecretCode');
+		db_record_delete('login_session',$data);
+		return TRUE;
 	}
 	
 	//!	@fn array user_getGroup($un)
@@ -145,7 +181,6 @@
 		if( $verified )
 		{
 			$group = array("user");		//logged on user default to "user"
-			
 			//separate admins from non_admins
 			if( in_array($username, $tiddlyCfg['group']['admin']) )
 			{
@@ -153,7 +188,6 @@
 			}else{
 				$group[] = "non_admin";
 			}
-			
 			//check each group to see if user belongs to them
 			//will have duplicate group if belongs to admin
 			while( list($gp_name, $gp_member) = each($tiddlyCfg['group']) )
@@ -162,8 +196,7 @@
 				{
 					$group[] = $gp_name;
 				}
-			}
-			
+			}		
 			return $group;
 		}
 		

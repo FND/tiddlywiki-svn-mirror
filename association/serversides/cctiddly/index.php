@@ -1,4 +1,5 @@
 <?php
+
 	//timing
 	function recordTime_float($name="unnamed")
 	{
@@ -22,7 +23,7 @@
 	include_once("includes/print.php");
 	recordTime_float("includes");
 
-	//logout
+//logout
 	if( isset($_GET['logout']) && $_GET['logout']==1 )
 	{
 		user_logout();
@@ -30,11 +31,13 @@
 		header("Location: ".$_SERVER['PHP_SELF'].'?'.str_replace("logout=1&","",$_SERVER['QUERY_STRING']));
 	}
 	//reqLogin
-	if( $tiddlyCfg['pref']['reqLogin'] == 1 )
+	if( $tiddlyCfg['pref']['reqLogin'] == 1 || ( isset($_POST['cctuser']) && isset($_POST['cctpass']) ) )
 	{
+	
 		if( isset($_POST['cctuser']) && isset($_POST['cctpass']) )		//set cookie for login
 		{
-			user_login(formatParametersPOST($_POST['cctuser']),formatParametersPOST($_POST['cctpass']),1);
+			$user['verified'] = user_login(formatParametersPOST($_POST['cctuser']),formatParametersPOST($_POST['cctpass']));
+			//error_log('login', 0);
 			header("Location: ".$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']);		//redirect to itself to refresh
 		}
 		//////////////////////////////////////////print login box if not logged in or not in the right group////////////////////////////////
