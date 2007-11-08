@@ -1,8 +1,8 @@
 <?php
 // database/table
-$tiddlyCfg['db']['host'] = "db";		//sql host
-$tiddlyCfg['db']['login'] = "root";		//login name
-$tiddlyCfg['db']['pass'] = "0p3ns0urc3";		//login password
+$tiddlyCfg['db']['host'] = "...";		//sql host
+$tiddlyCfg['db']['login'] = "...";		//login name
+$tiddlyCfg['db']['pass'] = "...";		//login password
 $tiddlyCfg['db']['name'] = "cct";		//db name
 
 $tiddlyCfg['table']['pref'] = "";		//table prefix
