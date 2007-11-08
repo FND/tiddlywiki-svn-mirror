@@ -1,5 +1,14 @@
 <div title="StyleSheet" tags="styles excludeLists excludeSearch">
 <pre>
 [[Styles HorizontalMainMenu]]
+#agendaMenu {
+   position: absolute;
+   left: 3px;
+   width: 16em;
+}
+
+#displayArea {
+   margin-left: 15.5em;
+}
 </pre>
 </div>

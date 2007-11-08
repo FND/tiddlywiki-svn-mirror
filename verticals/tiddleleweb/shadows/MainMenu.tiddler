@@ -1,5 +1,7 @@
 <div title="MainMenu" tags="excludeLists excludeSearch">
 <pre>
 [[Home]]
+<<currentSession>>
+<<crossBrowserHelp>>
 </pre>
 </div>

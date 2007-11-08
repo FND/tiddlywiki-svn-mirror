@@ -1,5 +1,9 @@
 recipe: ../../core/tiddlywiki.html.recipe
 title: title.txt
 recipe: shadows/split.recipe
+recipe: js/split.recipe
+tiddler: agendaMenu.tiddler
+tiddler: Help.tiddler
 tiddler: Home.tiddler
+tiddler: sessionViewTemplate.tiddler
 tiddler: Styles_HorizontalMainMenu.tiddler

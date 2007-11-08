@@ -1,6 +1,9 @@
 tiddler: MainMenu.tiddler
 tiddler: DefaultTiddlers.tiddler
+tiddler: EditTemplate.tiddler
+tiddler: PageTemplate.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteUrl.tiddler
 tiddler: StyleSheet.tiddler
+tiddler: ViewTemplate.tiddler
