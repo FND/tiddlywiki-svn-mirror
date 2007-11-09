@@ -1,7 +1,0 @@
-<div title="DefineUsers" modifier="PhilHawksworth" created="200710221403" modified="200710241215" tags="help" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.type="file" changecount="9">
-<pre>In TeamTasks, you can assign tasks to users. If you are using TeamTasks individually and don't need to have different users set up, you can easily remove this functionality to make things appear even simpler in the user interface.
-
-Defining a user is really simple. All you need to do is add user's names to the UserDefinitions tiddler.  Each name should occupy a single line in the tiddler.  All of the names in the UserDefinitions tiddler will be available for you to assign a task to.
-
-There is also a [[wizard to help you create these users|UserSetupWizard]] to help you create users quickly should you need a slightly more complex setup. The wizard will help by creating a 'Home Tiddler' for each user which hold their contact details and quick access to a default set of [[TaskListViews|TaskListView]] which they can customise.</pre>
-</div>
