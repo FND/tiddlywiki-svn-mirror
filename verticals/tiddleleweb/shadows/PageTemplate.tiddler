@@ -1,4 +1,4 @@
-<div title="PageTemplate">
+<div title="PageTemplate" tags="excludeLists excludeSearch">
 <pre>&lt;!--{{{--&gt;
 &lt;div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'&gt;
 &lt;div class='headerShadow'&gt;
