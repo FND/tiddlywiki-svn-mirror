@@ -97,7 +97,11 @@ config.views = {
 };
 
 // Backstage tasks
-config.backstageTasks = ["save","sync","importTask","tweak","plugins"];
+
+
+// SIMONMCMANUS WAS HERE ADDING LOGIN LINKS
+
+config.backstageTasks = ["save","sync","importTask", "Login", "tweak","plugins"];
 
 // Macros; each has a 'handler' member that is inserted later
 config.macros = {
@@ -259,8 +263,13 @@ merge(config.tasks,{
 	sync: {text: "sync", tooltip: "Synchronise changes with other TiddlyWiki files and servers", content: '<<sync>>'},
 	importTask: {text: "import", tooltip: "Import tiddlers and plugins from other TiddlyWiki files and servers", content: '<<importTiddlers>>'},
 	tweak: {text: "tweak", tooltip: "Tweak the appearance and behaviour of TiddlyWiki", content: '<<options>>'},
+	Login: {text: "Logina", tooltip: "Login to your TiddlyWiki", content: '<<LoginTiddler>>'},
 	plugins: {text: "plugins", tooltip: "Manage installed plugins", content: '<<plugins>>'}
 });
+
+
+//  SIMONMCMANUS WAS HERE 
+
 
 // Options that can be set in the options panel and/or cookies
 merge(config.optionsDesc,{

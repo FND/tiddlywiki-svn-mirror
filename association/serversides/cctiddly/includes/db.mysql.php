@@ -1,4 +1,5 @@
 <?php
+
 /**
 	@file
 	@brief generic sql functions using MYSQL
@@ -154,10 +155,23 @@ $db_var['error']['query'] = " query: ";*/
 			next($data);
 			$i++;
 		}
-		
-		$result = db_query("SELECT * FROM ".$table." WHERE `".db_format4SQL(key($data))."`='".db_format4SQL(current($data))."'");
-		//error_log("SELECT * FROM ".$table." WHERE `".db_format4SQL(key($data))."`='".db_format4SQL(current($data))."'", 0);
-		if( $result === FALSE )
+
+	//	$sql = "SELECT * FROM ".$table." WHERE `".db_format4SQL(key($data))."`='".db_format4SQL(current($data))."'";
+	//	$result = db_query($sql);	
+	// CHANGED BY SIMONMCMANUS TO ALLOW MULTIPLE WHERE CLAUSES TO BE PASSED
+	
+		$sql_start = "SELECT * FROM ".$table." WHERE ";
+	
+		while( (list($k,$v) = each($data)) )
+		{
+			$sql .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."' and ";
+		}
+		$sql= $sql_start.substr($sql,0,(strlen($sql)-4));		//remove last "and"
+		$result = db_query($sql);
+
+	// END OF SIMONMCMANUS /////
+	
+			if( $result === FALSE )
 		{
 			return FALSE;
 		}
@@ -329,6 +343,7 @@ $db_var['error']['query'] = " query: ";*/
 		global $db_var;
 		
 		//make query
+		
 		$SQLR=mysql_query($sql);
 		
 		if( $SQLR===FALSE )

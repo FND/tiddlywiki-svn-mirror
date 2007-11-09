@@ -56,7 +56,7 @@
 
 	function user_ldap_login($un, $pw)
 	{
-		//  error_log('LDAPLOGIN', 0);
+		  error_log('LDAPLOGIN', 0);
 		global $tiddlyCfg;
 		$admin='cn='.$un.',ou=staff,dc=osmosoft,dc=com'; // TODO - check with andrew which of these bits can change.
 		$ds=ldap_connect($tiddlyCfg['pref']['ldap_server']);  // make LDAP C
@@ -74,20 +74,22 @@
 	
 	function user_set_session($un, $pw)
 	{
-		// error_log('SETSESSION', 0);
+		 error_log('SETSESSION'.$un.$pw, 0);
 		// should the initial expiry time persist or be added to?
 		global $tiddlyCfg;
-		$del_data['session']= cookie_get('passSecretCode');
+		$del_data['session_token']= cookie_get('passSecretCode');
 		db_record_delete('login_session',$del_data);
-		$insert_data['user_username'] = $un;
+		$insert_data['user_id'] = $un;
 		$mins = date("i")+$tiddlyCfg['pref']['session_timeout'];  // add session timeout time to current time.
 		$expire = strtotime(date("Y").'-'.date("m")."-".date("d")." ".date("H").":".$mins.":".date("s"));	// build up date string
 		$insert_data['expire'] = date('Y-m-d H:i:s', $expire); // add expire time to data array for insert
 		$insert_data['ip'] = $_SERVER['REMOTE_ADDR'];  // get the ip address
-		$insert_data['session'] = sha1($un.$_SERVER['REMOTE_ADDR'].$expire); // colect data together and sh1 it so that we have a unique indentifier 
-		db_record_insert('login_session',$insert_data);
+		$insert_data['session_token'] = sha1($un.$_SERVER['REMOTE_ADDR'].$expire); // colect data together and sh1 it so that we have a unique indentifier 
 		cookie_set('txtUserName', $un);
-		cookie_set('passSecretCode', $insert_data['session']);
+		cookie_set('passSecretCode', $insert_data['session_token']);
+			 error_log('SETSESSION2'.$un.$pw, 0);
+		db_record_insert('login_session',$insert_data);
+
 	}		
 	
 	///////////////////////////////////////////////////////////////validate and login (set cookie)//////////////////////////////////////////////////
@@ -97,20 +99,35 @@
 	//!	@param $pw password over
 	function user_validate($un="", $pw="")
 	{
-		error_log('VALIDATE', 0);
+		error_log('VALIDATE'.$un.$pw, 0);
 		global $tiddlyCfg;
 		// if we are not passed a username and password the session has been created and we need to validate it.	
 		if (!$pw || !$un)
 		{
 			$pw = cookie_get('passSecretCode');
 			$un = cookie_get('txtUserName');
-			$data['session'] = $pw; 
+			$data['session_token'] = $pw; 
+				$data['expire'] = '2007-11-09 11:31:43'; 
 			//  TODO CHECK VALUE OF 			
 			$results = db_record_select('login_session', $data);			// get array of results		
 			if (count($results) > 0 )                   //  if the array has 1 or more sessions
 			{
-				user_set_session($un, $pw);
-				return TRUE;
+				$expire = strtotime($results[0]['expire']);
+		 		$now = strtotime(date('Y-m-d H:i:s'));
+		 		if($expire > $now)
+		 		{
+					//user_set_session($un, $pw);  /// if you want to be really secure you could try this. 
+					return TRUE;
+				}
+				else 
+				{
+				
+				  //  THIS SHOULD PROMPT THE USER FOR A PASSWOR
+					user_logout();
+				 	return FALSE; 
+				 	
+				 	//delete the cookies and session record 
+				}
 			}
 			else
 			{
@@ -119,10 +136,26 @@
 		}
 
 		// session has not been created, lets try the user/pass on our ldap server. 
-		if (user_ldap_login($un, $pw))	
+		if ($tiddlyCfg['pref']['ldap_enabled']==1)
 		{
-			return TRUE;
+			if (user_ldap_login($un, $pw))	
+			{
+				return TRUE;
+			}
+		}else
+		{	
+			$data['id'] = $un;
+			$data['password'] = sha1($pw);
+			$results = db_record_select('user', $data);			// get array of results		
+			if (count($results) > 0 )                   //  if the array has 1 or more sessions
+			{
+				return TRUE;
+			}
+			user_logout();
+			return FALSE;
+		
 		}
+
 		return FALSE;
 	}
 	
@@ -135,7 +168,7 @@
 	function user_login($un, $pw, $reqHash=0)
 	{
 		global $tiddlyCfg;
-		error_log('LOGIN', 0);
+		error_log('LOGIN'.$un.$pw, 0);
 		if( user_validate($un, $pw) )
 		{
 			user_set_session($un, $pw);
@@ -162,10 +195,11 @@
 	
 	function user_logout()
 	{
-		cookie_set('txtUserName',"");
-		cookie_set('pasSecretCode',"");
-		$data['session']= cookie_get('passSecretCode');
+		$data['session_token']= cookie_get('passSecretCode');
 		db_record_delete('login_session',$data);
+		cookie_set('txtUserName', '');
+		cookie_set('pasSecretCode', '');
+	
 		return TRUE;
 	}
 	

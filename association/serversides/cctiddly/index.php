@@ -22,6 +22,7 @@
 	include_once("includes/header.php");
 	include_once("includes/print.php");
 	recordTime_float("includes");
+	
 
 //logout
 	if( isset($_GET['logout']) && $_GET['logout']==1 )
@@ -185,6 +186,18 @@ Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa As
 <div tiddler="StyleSheetLocale" tags="">/***\nStyleSheet for use when a translation requires any css style changes.\nThis StyleSheet can be used directly by languages such as Chinese, Japanese and Korean which use a logographic writing system and need larger font sizes.\n***/\n\n/*{{{*/\nbody {font-size:0.8em;}\n.headerShadow {position:relative; padding:3.5em 0em 1em 1em; left:-1px; top:-1px;}\n.headerForeground {position:absolute; padding:3.5em 0em 1em 1em; left:0px; top:0px;}\n\n#sidebarOptions {font-size:1.05em;}\n#sidebarOptions a {font-style:normal;}\n#sidebarOptions .sliderPanel {font-size:0.95em;}\n\n.subtitle {font-size:0.8em;}\n\n.viewer table.listView {font-size:1em;}\n\n.htmlarea .toolbarHA table {border:1px solid ButtonFace; margin:0em 0em;}\n/*}}}*/</div>
 <div tiddler="StyleSheetPrint" tags="">/*{{{*/\n@media print {\n#mainMenu, #sidebar, #messageArea, .toolbar, #backstageButton, #backstageArea {display: none ! important;}\n#displayArea {margin: 1em 1em 0em 1em;}\n/* Fixes a feature in Firefox 1.5.0.2 where print preview displays the noscript content */\nnoscript {display:none;}\n}\n/*}}}*/</div>
 <div tiddler="ViewTemplate" tags="">&lt;!--{{{--&gt;\n&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump'&gt;&lt;/div&gt;\n&lt;div class='title' macro='view title'&gt;&lt;/div&gt;\n&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;\n&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;\n&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;\n&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;\n&lt;div class='tagClear'&gt;&lt;/div&gt;\n&lt;!--}}}--&gt;</div>
+<div tiddler="LoginTiddler" tags="">
+<?php if($usr_val==0){?> &lt;html&gt;&lt;form action='<?=queryString();?>' method=post&gt;&lt;input type=text value=simon id=cctuser name=cctuser width=15&gt;&lt;input type=password rows=5 id=cctpass name=cctpass&gt;&lt;input type=submit value=login&gt; &lt;/form&gt;&lt;/html&gt;<?php } else {?> &lt;html&gt;&lt;p&gt;Welcome <?php echo $usr?>&lt;/p&gt;&lt;a href='?logout=1&'&gt;Logout&lt;/a&gt;&lt;/html&gt;<?php } ?>
+</div>
+
+
+
+
+
+
+
+
+
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">

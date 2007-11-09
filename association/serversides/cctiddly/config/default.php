@@ -1,31 +1,54 @@
 <?php
 // database/table
-$tiddlyCfg['db']['host'] = "...";		//sql host
-$tiddlyCfg['db']['login'] = "...";		//login name
-$tiddlyCfg['db']['pass'] = "...";		//login password
+$tiddlyCfg['db']['host'] = "..";		//sql host
+$tiddlyCfg['db']['login'] = "..";		//login name
+$tiddlyCfg['db']['pass'] = "..";		//login password
 $tiddlyCfg['db']['name'] = "cct";		//db name
 
 $tiddlyCfg['table']['pref'] = "";		//table prefix
 $tiddlyCfg['table']['name'] = "tiddly_wiki_entry";
 $tiddlyCfg['table']['backup'] = "tiddly_wiki_entry_version";
 
+
+/// CODE ADDED BY SIMONMCMANUS /////////////////////////////////////
+
+// THIS SHOULD BE USING THE BUILT IN FUCTIONS//////////////////////////
+
+include_once("./includes/db.mysql.php");
+$conn = mysql_connect("db", "cct", "cctpass");
+
+if (!$conn) {
+    echo "Unable to connect to DB: " . mysql_error();
+    exit;
+}
+ 
+if (!mysql_select_db("cct")) {
+    echo "Unable to select mydbname: " . mysql_error();
+    exit;
+}
+	$array['name'] = 'permissions';
+$settings = db_record_select('instance', $array);
+
+$tiddlyCfg['pref']['tw_ver'] = $settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
+$tiddlyCfg['pref']['language'] = $settings[0]['lang']; // choose between different version of TW, or adaptation
+$tiddlyCfg['pref']['version'] = $settings[0]['keep_revision']; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
+$tiddlyCfg['pref']['reqLogin'] = $settings[0]['require_login'];	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
+$tiddlyCfg['pref']['cookies'] = $settings[0]['cookie_expire'];		//cookies expire time, in minutes [0=disable]
+$tiddlyCfg['pref']['appendModifier'] =$settings[0]['tag_tiddler_with_modifier'];		//append modifier name as tag
+
+/////// END OF SIMONMCMANUS ///////////////////////
+
+
 // site preferences
-$tiddlyCfg['pref']['tw_ver'] = "tiddlywiki"; // choose between different version of TW, or adaptation
-$tiddlyCfg['pref']['language'] = "en"; // choose between different version of TW, or adaptation
-$tiddlyCfg['pref']['version'] = 1; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
-$tiddlyCfg['pref']['reqLogin'] = 0;		//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
-
-
-
 //ADDED BY SIMONMCMANUS
 
-$tiddlyCfg['pref']['session_timeout'] = 10;		//cookies expire time, in minutes [0=disable]
+$tiddlyCfg['pref']['session_timeout'] = 1;		//cookies expire time, in minutes [0=disable]
 $tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
+$tiddlyCfg['pref']['ldap_enabled'] = 0;	
 // END OF SIMONMCMANUS
 
 
-$tiddlyCfg['pref']['cookies'] = 0;		//cookies expire time, in minutes [0=disable]
-$tiddlyCfg['pref']['appendModifier'] = 0;		//append modifier name as tag
+
 $tiddlyCfg['pref']['lock_title'] = array("LoginPanel");		//lock certain tiddler's title such that it can't be changed even with admin
 $tiddlyCfg['pref']['uploadPluginIgnoreTitle'] = array("ccTiddly_debug_time", "UploadLog","UploadPlugin","UploadOptions");		//this specify what tiddler should uploadplugin ignore. It is recommended to put in uploadPlugin itself and the upload log. CaSe-SeNsItIvE
 $tiddlyCfg['pref']['forceAnonymous'] = 1;		//if enabled, anonymous users will take "anonymous" as username
@@ -49,7 +72,10 @@ $tiddlyCfg['pref']['utf8'] = 0;
 		$tiddlyCfg['user'] = array("username1" => "password1", "username2" => "password2);
 */
 //username password pair
-$tiddlyCfg['user'] = array("username"=>"password", "simon"=>"password");		//username password pair, empty array allow everyone to edit the tiddly online (except locked titles)
+
+// SIMONMCMANUS - THIS DOES NOT APPEAR TO BE USED ANYMORE 
+
+//$tiddlyCfg['user'] = array("username"=>"password", "simon"=>"password");		//username password pair, empty array allow everyone to edit the tiddly online (except locked titles)
 
 /*
 	put username here would insert them into groups.
@@ -62,7 +88,7 @@ $tiddlyCfg['user'] = array("username"=>"password", "simon"=>"password");		//user
 		anonymous (include all users without username password pair)
 		user (users with username and password pair)
 */
-$tiddlyCfg['group']['admin'] = array("simon");
+$tiddlyCfg['group']['admin'] = array("username");
 
 /*
 	various config on privileges
@@ -100,8 +126,8 @@ $tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what shoul
 $tiddlyCfg['privilege_misc']['default_privilege'] = "AUUU";		//default privilege for all group and tags
 //default privileges for certain groups, applied after default_privilege
 //		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
-$tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = "AUUD";
-$tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = "AAAA";
+$tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $settings[0]['default_anonymous_perm'];
+$tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = $settings[0]['default_user_perm'];
 
 ////////////////////////////////////////////////////////ADVANCE PRIVILEGE for tags//////////////////////////////////////////////////////
 /*
@@ -111,8 +137,8 @@ $tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = "AAAA";
 	EXAMPLE: this would deny anonymous users to insert/edit/delete systemConfig tags but still allow it to run
 		$tiddlyCfg['privilege']['anonymous']['systemConfig'] = "ADDD";
 */
-$tiddlyCfg['privilege']['anonymous']['systemConfig'] = "ADDD";
-
+$tiddlyCfg['privilege']['admin']['systemConfig'] = "AAAA";
+$tiddlyCfg['privilege']['user']['systemConfig'] = "DDDD";
 //The following privilege are for blog
 //$tiddlyCfg['privilege']['anonymous']['comments'] = "AADD";		//allow comments to be post anonymously
 

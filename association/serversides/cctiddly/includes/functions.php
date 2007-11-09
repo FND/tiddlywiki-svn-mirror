@@ -386,6 +386,16 @@
 		return setcookie($k,rawurlencode($v),$tiddlyCfg['pref']['cookies'],"/");
 	}
 	
+	
+	
+	function cookie_kill($k)
+	{
+		global $tiddlyCfg;
+		return setcookie($k, "", time() - 3600);
+	}
+	
+	
+	
 	//!	@fn cookie_get($k)
 	//!	@brief get cookie, apply rawurldecode before return and empty string if not exist
 	//!	@param $k cookie name
