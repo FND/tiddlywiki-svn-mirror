@@ -6,6 +6,8 @@ Agenda = {};
 Agenda.isCurrent = false;
 // params array for the tab macro, filled by create_tab_tiddlers
 Agenda.tabsParams = [];
+// Fix for slices regex not correctly matching slices of the form "key:\nkey:value"
+TiddlyWiki.prototype.slicesRE = /(?:[\'\/]*~?([\.\w]+)[\'\/]*\:[\'\/]* *(.*?)\s*$)|(?:\|[\'\/]*~?([\.\w]+)\:?[\'\/]*\|\s*(.*?)\s*\|)/gm;
 
 // function to gather agenda items
 Agenda.getItems = function() {
@@ -45,9 +47,9 @@ Agenda.create_tab_tiddlers = function() {
 	var tracks = Agenda.getTracks();
 	// start by adding the selected tab param
 	params.push("txtAgendaTab");
-	for (var i;i<tracks.length;i++) {
-		var title = titlePrefix+n;
-		var text = textPrefix+n+textSuffix;
+	for (var i=0;i<tracks.length;i++) {
+		var title = titlePrefix+tracks[i];
+		var text = textPrefix+tracks[i]+textSuffix;
 		if(!store.tiddlerExists(title)) {
 			store.saveTiddler(title,title,text);
 			params.push(tracks[i]);
