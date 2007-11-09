@@ -6,5 +6,4 @@ recipe: shadows/split.recipe
 recipe: plugins/split.recipe
 tiddler: agendaMenu.tiddler
 tiddler: Help.tiddler
-tiddler: Home.tiddler
 tiddler: Styles_HorizontalMainMenu.tiddler
