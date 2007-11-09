@@ -39,9 +39,18 @@ config.macros.sessionAnnotation.handler = function(place,macroName,params,wikifi
 config.macros.sessionNotes = {};
 config.macros.sessionNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-	var title = tiddler.title;
-	var wikitext = "Display the session notes here";
-	wikify(wikitext,place,highlightHack,tiddler);
+	// just output each note in a list for the moment
+	var ct = tiddler.title;
+	var ul = null;
+	store.forEachTiddler(function(title,tiddler) {
+		if(title.startsWith(ct) && ct!=title) {
+			if(!ul)
+				ul = createTiddlyElement(place,'ul');
+			var li = createTiddlyElement(ul,'li');
+			var wikitext = tiddler.text;
+			wikify(wikitext,li,highlightHack,tiddler);
+		}
+	});
 };
 } //# end of 'install only once'
 //}}}
