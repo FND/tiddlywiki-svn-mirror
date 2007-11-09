@@ -51,7 +51,7 @@ LocalAdaptor.prototype.setContext = function(context,userParams,callback)
 LocalAdaptor.normalizedTitle = function(title)
 {
 	var id = title;
-	id = id.replace(/ /g,'_').replace(/\t/g,'%09').replace(/#/g,'%23').replace(/%/g,'%25').replace(/\*/g,'%2a').replace(/,/g,'%2c').replace(/\//,'%2f').replace(/:/g,'%3a').replace(/</g,'%3c').replace(/>/g,'%3e').replace(/\?/g,'%3f');
+	id = id.replace(/ /g,'_').replace(/%/g,'%25').replace(/\t/g,'%09').replace(/#/g,'%23').replace(/\*/g,'%2a').replace(/,/g,'%2c').replace(/\//,'%2f').replace(/:/g,'%3a').replace(/</g,'%3c').replace(/>/g,'%3e').replace(/\?/g,'%3f');
 	if(id.charAt(0)=='_')
 		id = id.substr(1);
 	return String(id);
@@ -195,7 +195,7 @@ LocalAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 			var title = entries[i].name;
 			if(title.match(/\.tiddler$/)) {
 				title = title.replace(/\.tiddler$/,'');
-				title = title.replace(/_/g,' ').replace(/%09/g,'\t').replace(/%23/g,'#').replace(/%25/g,'%').replace(/%2a/g,'*').replace(/%2c/g,',').replace(/%2f/g,'/').replace(/%3a/g,':').replace(/%3c/g,'<').replace(/%3e/g,'>').replace(/%3f/g,'?');
+				title = title.replace(/_/g,' ').replace(/%09/g,'\t').replace(/%23/g,'#').replace(/%2a/g,'*').replace(/%2c/g,',').replace(/%2f/g,'/').replace(/%3a/g,':').replace(/%3c/g,'<').replace(/%3e/g,'>').replace(/%3f/g,'?').replace(/%25/g,'%');
 				var tiddler = new Tiddler(title);
 				tiddler.modified = entries[i].modified;
 				list.push(tiddler);
