@@ -25,7 +25,7 @@ Agenda.getTracks = function() {
 	return tracks;
 };
 
-// function to return agenda items for a single track
+// function to return agenda items for a single track sorted by start time
 Agenda.getTrack = function(track) {
 	var trackItems = [];
 	var items = Agenda.getItems();
@@ -34,6 +34,11 @@ Agenda.getTrack = function(track) {
 			trackItems.push(items[i]);
 		}
 	}
+	trackItems.sort(function(a,b){
+		var a_start = store.getTiddlerSlice(a.title,"start");
+		var b_start = store.getTiddlerSlice(b.title,"start");
+		return a_start < b_start ? -1 : (a_start == b_start ? 0 : 1);
+	});
 	return trackItems;
 };
 
@@ -112,7 +117,6 @@ config.macros.agendaMenuByTrack.buildAgendaItem = function(place,item) {
 	createTiddlyElement(header,"span",null,"agendaItemHeaderSpeaker",speaker);
 	var text = createTiddlyElement(wrapper,"div",null,"agendaItemText");
 	createTiddlyElement(text,"span",null,"agendaItemTextTitle",title);
-	createTiddlyElement(text,"span",null,"agendaItemTextBlurb",blurb);
 };
 
 /*******************

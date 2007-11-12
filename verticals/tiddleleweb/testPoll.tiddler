@@ -1,0 +1,4 @@
+<div title="testPoll">
+<pre>~RSS2.0 feed to use for polling example <<option txtPollAdminFeed>>
+Poll? <<option chkDoPolling>></pre>
+</div>
