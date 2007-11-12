@@ -134,7 +134,7 @@ CREATE TABLE `tiddler` (
   `creator` varchar(50) NOT NULL,
   `modified` varchar(12) NOT NULL,
   `created` varchar(12) NOT NULL,
-  `version` int(11) NOT NULL,
+  `revision` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
