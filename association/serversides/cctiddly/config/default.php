@@ -54,8 +54,12 @@ error_log('default.php', 0);
 // the instance does not exist yet. 
 if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 {
+
+
 	if($_POST['instance_name'])
 	{
+	
+
 		// the user has asked us to create an instance 
 		include_once("./includes/instance.php");
 		instance_create($_POST['instance_name']);
