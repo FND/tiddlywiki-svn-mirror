@@ -3,3 +3,5 @@ tiddler: Agenda.js
 tiddler: Poller.js
 tiddler: TaggedTemplateTweak.js
 tiddler: SessionPlugin.js
+tiddler: Queue.js
+tiddler: WebDAV.js

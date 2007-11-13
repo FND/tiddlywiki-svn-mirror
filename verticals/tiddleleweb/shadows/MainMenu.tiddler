@@ -1,8 +1,9 @@
-<div title="MainMenu" tags="excludeLists excludeSearch">
+<div title="MainMenu" tags="excludeLists excludeSearch" refresh="macro" force="true">
 <pre>
 [[Home]]
 <<currentSession>>
 <<crossBrowserHelp>>
 <<testPoll>>
+<<showQueue>>
 </pre>
 </div>
