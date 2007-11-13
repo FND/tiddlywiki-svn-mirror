@@ -38,6 +38,7 @@
 	//!	@param $version version of tiddler, 1 = new
 	function tiddler_create($title, $body="", $modifier="", $modified="", $tags="", $id="", $creator="", $created="", $fields="", $version=1)
 	{
+		global $tiddlyCfg;
 		$tiddler = array();
 		$tiddler['id'] = preg_replace("![^0-9]!","",$id);		//if empty, leave it as empty. otherwise make it as int
 		//$tiddler['title'] = tiddler_bodyEncode($title);
@@ -50,6 +51,7 @@
 		$tiddler['created'] = preg_replace("![^0-9]!","",$created);
 		$tiddler['tags'] = $tags;
 		$tiddler['fields'] = $fields;
+		$tiddler['instance_name'] = $tiddlyCfg['pref']['instance_name'];
 		$tiddler['version'] = preg_replace("![^0-9]!","",$version);
 		
 		return $tiddler;

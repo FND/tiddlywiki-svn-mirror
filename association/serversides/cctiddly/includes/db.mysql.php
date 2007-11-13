@@ -68,6 +68,7 @@ $db_var['error']['query'] = " query: ";*/
 	function db_record_insert($table,$data)
 	{
 		//$data = formatArray4SQL($data);
+		global $tiddlyCfg;		
 		
 		//if first element is empty, remove it since its the primary key and using auto_increment
 		if( strlen(current($data))==0 )
@@ -87,10 +88,11 @@ $db_var['error']['query'] = " query: ";*/
 			$data[$key[$i]]=(string)db_format4SQL($data[$key[$i]]);
 			$i++;
 		}
+		error_log("INSERT INTO ".$table." (`".implode("`,`",$key)."`) VALUES ('".implode("','",$data)."')", 0);
+			$r = db_query("INSERT INTO ".$table." (`".implode("`,`",$key)."`) VALUES ('".implode("','",$data)."')");
 		
-		//insert record into db
-		$r = db_query("INSERT INTO ".$table." (`".implode("`,`",$key)."`) VALUES ('".implode("','",$data)."')");
 		return $r;
+		
 	}
 
 	//!	@fn bool db_record_delete($table,$data)
@@ -136,6 +138,9 @@ $db_var['error']['query'] = " query: ";*/
 		
 		$sql .= " WHERE `".db_format4SQL(key($odata))."` = '".db_format4SQL(current($odata))."'";
 		db_query($sql);
+		
+		error_log($sql, 0);
+		
 		return db_affected_rows();
 	}
 	
@@ -167,6 +172,7 @@ $db_var['error']['query'] = " query: ";*/
 			$sql .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."' and ";
 		}
 		$sql= $sql_start.substr($sql,0,(strlen($sql)-4));		//remove last "and"
+		error_log($sql, 0);
 		$result = db_query($sql);
 
 	// END OF SIMONMCMANUS /////
@@ -192,8 +198,20 @@ $db_var['error']['query'] = " query: ";*/
 	{
 		//$data = formatArray4SQL($data);			//require to check data???
 		
-		$result = db_query("SELECT * FROM ".$table);
 		
+		global $tiddlyCfg;
+			//insert record into db
+		if ($table = $tiddlyCfg['table']['name'])
+{
+			$result = db_query("SELECT * FROM ".$table." where instance_name='".$tiddlyCfg['pref']['instance_name']."'");
+
+
+		error_log("SELECT * FROM ".$table." where instance_name='".$tiddlyCfg['pref']['instance_name']."'", 0);
+		
+		}
+		else
+		{	$result = db_query("SELECT * FROM ".$table);
+}
 		if( $result === FALSE )
 		{
 			return FALSE;

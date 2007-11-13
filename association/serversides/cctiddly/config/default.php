@@ -1,16 +1,38 @@
 <?php
+
 // database/table
-$tiddlyCfg['db']['host'] = "..";		//sql host
-$tiddlyCfg['db']['login'] = "..";		//login name
-$tiddlyCfg['db']['pass'] = "..";		//login password
+$tiddlyCfg['db']['host'] = "db";		//sql host
+$tiddlyCfg['db']['login'] = "cct";		//login name
+$tiddlyCfg['db']['pass'] = "cctpass";		//login password
 $tiddlyCfg['db']['name'] = "cct";		//db name
 
 $tiddlyCfg['table']['pref'] = "";		//table prefix
-$tiddlyCfg['table']['name'] = "tiddly_wiki_entry";
-$tiddlyCfg['table']['backup'] = "tiddly_wiki_entry_version";
+$tiddlyCfg['table']['name'] = "tiddler";
+$tiddlyCfg['table']['backup'] = "tiddly_wiki_version";
 
+$tiddlyCfg['pref']['session_timeout'] = 1;		//cookies expire time, in minutes [0=disable]
+$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
+$tiddlyCfg['pref']['ldap_enabled'] = 1;	
+$tiddlyCfg['pref']['upload_dir'] = '/mnt/content/vhost/wiki.osmosoft.com/docs/svn/upload/';
+$tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if running in the root dir, specifies the position in the URL where the instance name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
 
 /// CODE ADDED BY SIMONMCMANUS /////////////////////////////////////
+
+// confirm instance name 
+if ($_REQUEST['instance'])
+{	
+	$instance = $_REQUEST['instance'];
+}
+else
+{	$url = split('/', $_SERVER['REDIRECT_URL']);
+	$instance =  $url[$tiddlyCfg['pref']['instance_pos']];
+}
+
+$tiddlyCfg['pref']['instance_name'] = $instance;  
+$_SERVER['PHP_SELF']= '/svn/'.$instance.'/';
+
+// LOGIN THEN REFRESH. 
+
 
 // THIS SHOULD BE USING THE BUILT IN FUCTIONS//////////////////////////
 
@@ -19,33 +41,58 @@ $conn = mysql_connect("db", "cct", "cctpass");
 
 if (!$conn) {
     echo "Unable to connect to DB: " . mysql_error();
-    exit;
-}
- 
+    exit;}
 if (!mysql_select_db("cct")) {
     echo "Unable to select mydbname: " . mysql_error();
-    exit;
-}
-	$array['name'] = 'permissions';
-$settings = db_record_select('instance', $array);
+    exit;}
+    
+	$array['name'] = $instance;
+$tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
+error_log('default.php', 0);
 
-$tiddlyCfg['pref']['tw_ver'] = $settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
+
+// the instance does not exist yet. 
+if (count($tiddlyCfg['pref']['instance_settings']) < 1)
+{
+	if($_POST['instance_name'])
+	{
+		// the user has asked us to create an instance 
+		include_once("./includes/instance.php");
+		instance_create($_POST['instance_name']);
+	}
+	else
+	{
+	 	// let show the form to create an instance
+	 	// we need to set the settings manually as there is not record in the database
+	 	
+	 	$tiddlyCfg['pref']['tw_ver'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
+		$tiddlyCfg['pref']['language'] = 'en'; // choose between different version of TW, or adaptation
+		$tiddlyCfg['pref']['version'] = 0; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
+		$tiddlyCfg['pref']['reqLogin'] = 0;	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
+		$tiddlyCfg['pref']['cookies'] = 10;		//cookies expire time, in minutes [0=disable]
+		$tiddlyCfg['pref']['appendModifier'] ='';		//append modifier name as tag
+
+
+		
+	}
+}
+else
+{
+
+// the instance exists so lets get
+$tiddlyCfg['pref']['tw_ver'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
 $tiddlyCfg['pref']['language'] = $settings[0]['lang']; // choose between different version of TW, or adaptation
 $tiddlyCfg['pref']['version'] = $settings[0]['keep_revision']; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
 $tiddlyCfg['pref']['reqLogin'] = $settings[0]['require_login'];	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
 $tiddlyCfg['pref']['cookies'] = $settings[0]['cookie_expire'];		//cookies expire time, in minutes [0=disable]
 $tiddlyCfg['pref']['appendModifier'] =$settings[0]['tag_tiddler_with_modifier'];		//append modifier name as tag
+}
 
-/////// END OF SIMONMCMANUS ///////////////////////
 
-
-// site preferences
-//ADDED BY SIMONMCMANUS
-
-$tiddlyCfg['pref']['session_timeout'] = 1;		//cookies expire time, in minutes [0=disable]
-$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
-$tiddlyCfg['pref']['ldap_enabled'] = 0;	
-// END OF SIMONMCMANUS
+if (stristr($_SERVER['SCRIPT_FILENAME'], 'msghandle.php'))
+{
+//echo 'message header';
+}
 
 
 
@@ -93,7 +140,7 @@ $tiddlyCfg['group']['admin'] = array("username");
 /*
 	various config on privileges
 */
-$tiddlyCfg['privilege_misc']['rss'] = array("admin");				//user allow to upload rss, put in group names here like $tiddlyCfg['privilege_misc']['rss'] = array("<group1>", "<group2>");
+$tiddlyCfg['privilege_misc']['rss'] = array("user");				//user allow to upload rss, put in group names here like $tiddlyCfg['privilege_misc']['rss'] = array("<group1>", "<group2>");
 $tiddlyCfg['privilege_misc']['upload'] = array("admin");			//user allow to upload the whole TW or import TW, put in group names here
 $tiddlyCfg['privilege_misc']['markup'] = array("admin");			//user allow to change markup
 
@@ -138,7 +185,7 @@ $tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = $settings[0]['
 		$tiddlyCfg['privilege']['anonymous']['systemConfig'] = "ADDD";
 */
 $tiddlyCfg['privilege']['admin']['systemConfig'] = "AAAA";
-$tiddlyCfg['privilege']['user']['systemConfig'] = "DDDD";
+$tiddlyCfg['privilege']['user']['systemConfig'] = "AAAA";
 //The following privilege are for blog
 //$tiddlyCfg['privilege']['anonymous']['comments'] = "AADD";		//allow comments to be post anonymously
 

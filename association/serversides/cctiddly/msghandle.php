@@ -1,7 +1,7 @@
 <?php
 	//exit("success");
 	include_once("includes/header.php");
-	
+	error_log('msghanngle.php'.$instance, 0);
 //////////////////////////////////////////////////////////initial checking and required functions////////////////////////////////////////
 	if( !isset($_POST['action']) && !isset($_GET['action']) )
 	{
@@ -324,7 +324,7 @@ Something like this maybe: "?action=contents"
 		
 		
 		//save to file
-		$fhandle = fopen("./$config.xml",'w');
+		$fhandle = fopen($tiddlyCfg['pref']['upload_dir'].$tiddlyCfg['pref']['instance_name']."/$config.xml",'w');
 		if( $fhandle===FALSE )
 		{
 			logerror($ccT_msg['error']['rss_file_create'],0

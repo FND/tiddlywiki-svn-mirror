@@ -101,13 +101,13 @@
 var serverside={
 	url: "<?php print $url?>",		//server url, for use in local TW or TW hosted elsewhere
 	handle:{		//path of file for handling request, can be used to put in GET variable
-		rss: "msghandle.php?<?php print queryString()?>",
-		uploadStoreArea: "msghandle.php?<?php print queryString()?>",		//for uploading the whole storearea
-		saveTiddler: "msghandle.php?<?php print queryString()?>",
-		removeTiddler: "msghandle.php?<?php print queryString()?>",
-		revisionList: "msghandle.php?action=revisionList&<?php print queryString()?>",
-		revisionDisplay: "msghandle.php?action=revisionDisplay&<?php print queryString()?>",
-		login: "login.php?<?php print queryString()?>"
+		rss: "../../svn/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
+		uploadStoreArea: "../../svn/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",		//for uploading the whole storearea
+		saveTiddler: "../../svn/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
+		removeTiddler: "../../svn/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
+		revisionList: "../../svn/msghandle.php?action=revisionList&<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
+		revisionDisplay: "../../svn/msghandle.php?action=revisionDisplay&<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
+		login: "../../svn/login.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>"
 	},
 	handle_msg:{		//message sent to server for action, used for posting message to server. null = not used
 		rss: "action=rss",
@@ -203,7 +203,7 @@ window.cct_tweak = function(){
 ?>
 	//login panel
 	config.options.txtUser = "<?php print $usr ?>";
-	config.shadowTiddlers.<?php print $ccT_msg['loginpanel']['name']?> ="<?php if($usr_val==0){?> <html><form action='<?=queryString();?>' method=post><input type=text value=simon id=cctuser name=cctuser width=15><input type=password rows=5 id=cctpass name=cctpass><input type=submit value=login> </form></html><?php } else {?> <html><p>Welcome <?php echo $usr?></p><a href='?logout=1&'>Logout</a></html><?php } ?>";
+	config.shadowTiddlers.<?php print $ccT_msg['loginpanel']['name']?> ="<?php if($usr_val==0){?> <html><form action='<?=queryString();?>' method=post><input type=text value=simon id=cctuser name=cctuser width=15><input type=password rows=5 id=cctpass name=cctpass><input type=submit value=login> </form></html><?php } else {?> <html><p>Welcome <?php echo $usr?></p><a href='<?php echo $_SERVER['PHP_SELF'];?>?logout=1&'>Logout</a></html><?php } ?>";
 };
 
 <?php

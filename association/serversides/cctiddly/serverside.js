@@ -21,7 +21,7 @@ config.options.chkUsePreForStorage = false;
 	handle:{		//path of file for handling request, can be used to put in GET variable
 		rss: "msghandle.php?action=rss",
 		uploadStoreArea: "msghandle.php?action=upload",		//for uploading the whole storearea
-		saveTiddler: "msghandle.php?action=saveTiddler",
+		saveTiddler: "./svn/msghandle.php?action=saveTiddler",
 		removeTiddler: "msghandle.php?action=removeTiddler",
 		revisionList: "msghandle.php?action=revisionList",
 		revisionDisplay: "msghandle.php?action=revisionDisplay"
