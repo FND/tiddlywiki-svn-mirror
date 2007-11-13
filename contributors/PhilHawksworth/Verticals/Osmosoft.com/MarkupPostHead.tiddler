@@ -1,5 +1,7 @@
-<div title="MarkupPostHead" modifier="PhilHawksworth" created="200709170730" modified="200709170734" tags="excludeLists" changecount="2">
-<pre>&lt;script src=&quot;http://www.google-analytics.com/urchin.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+<div title="MarkupPostHead" modifier="PhilHawksworth" created="200709170730" modified="200711131146" tags="excludeLists" changecount="3">
+<pre>&lt;link rel=&quot;openid.server&quot; href=&quot;https://pip.verisignlabs.com/server&quot;/&gt;
+&lt;link rel=&quot;openid.delegate&quot; href=&quot;http://osmosoft.pip.verisignlabs.com&quot;/&gt;
+&lt;script src=&quot;http://www.google-analytics.com/urchin.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 &lt;script type=&quot;text/javascript&quot;&gt; 
 _uacct = &quot;UA-2171194-1&quot;;
 urchinTracker();
