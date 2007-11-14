@@ -110,13 +110,22 @@ config.macros.agendaMenuByTrack.buildAgendaItem = function(place,item) {
 	var start = store.getTiddlerSlice(title,"start");
 	var end = store.getTiddlerSlice(title,"end");
 	var blurb = store.getTiddlerSlice(title,"blurb");
+
 	// build the entry in the agendaMenu
-	var wrapper = createTiddlyElement(place,"div",null,"agendaItem");
-	var header = createTiddlyLink(createTiddlyElement(wrapper,"div",null,"agendaItemHeader"),title);
-	createTiddlyElement(header,"span",null,"agendaItemHeaderTime",start + " - " + end);
-	createTiddlyElement(header,"span",null,"agendaItemHeaderSpeaker",speaker);
-	var text = createTiddlyElement(wrapper,"div",null,"agendaItemText");
-	createTiddlyElement(text,"span",null,"agendaItemTextTitle",title);
+	// var wrapper = createTiddlyElement(place,"div",null,"agendaItem");
+	// 	var header = createTiddlyLink(createTiddlyElement(wrapper,"div",null,"agendaItemHeader"),title);
+	// 	createTiddlyElement(header,"span",null,"agendaItemHeaderTime",start + " - " + end);
+	// 	createTiddlyElement(header,"span",null,"agendaItemHeaderSpeaker",speaker);
+	// 	var text = createTiddlyElement(wrapper,"div",null,"agendaItemText");
+	// 	createTiddlyElement(text,"span",null,"agendaItemTextTitle",title);
+	
+	// build the entry in the agendaMenu
+	var agendaItem = createTiddlyElement(place,"div",null,"agendaItem");
+	createTiddlyElement(agendaItem,"span",null,"time",start + " - " + end);
+	createTiddlyLink(createTiddlyElement(agendaItem,"span",null,"title"), title, title);
+	createTiddlyElement(agendaItem,"div",null,"speaker",speaker);
+	var notes = createTiddlyElement(agendaItem,"div",null,"notes");
+
 };
 
 /*******************
