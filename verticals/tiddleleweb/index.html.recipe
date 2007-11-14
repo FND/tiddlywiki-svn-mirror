@@ -7,3 +7,5 @@ recipe: plugins/split.recipe
 tiddler: agendaMenu.tiddler
 tiddler: Help.tiddler
 tiddler: Styles_HorizontalMainMenu.tiddler
+
+tiddler: DeepNavigation.tiddler

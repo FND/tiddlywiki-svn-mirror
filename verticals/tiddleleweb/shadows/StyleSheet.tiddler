@@ -2,22 +2,19 @@
 <pre>
 [[Styles HorizontalMainMenu]]
 
-
-
-#displayArea {
-   margin-left: 15.5em;
-}
+/* page framework */
+#displayArea { margin:0; padding:0;}
+#tiddlerDisplay { margin: 0em 1em 1em 24em; }
 
 /* Agenda */
+#agendaMenu { width:23em; float:left;}
 #agendaMenu div.txtAgendaTab div.tabset { height:2em; }
 #agendaMenu div.txtAgendaTab div.tabset a.tab { padding:4px 1em; background-color:#f0f0f0; color:#333; margin:1em 2px; font-weight:bold; font-size:0.9em; border:solid 1px #ccc; border-bottom-width:2px;}
 #agendaMenu div.txtAgendaTab div.tabset a.tab:hover { background-color:#444; color:#fff; border-color:#222; }
 #agendaMenu div.txtAgendaTab div.tabset a.tabSelected {background-color:#fff; border:solid 1px #ccc; border:solid 1px #ccc; border-bottom-width:2px;}
-
 #agendaMenu div.txtAgendaTab div.tabContents { border-style:none; margin:0; padding:0;}
 
-
-div.txtAgendaTab { width:300px; border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
+div.txtAgendaTab { border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
 div.txtAgendaTab div.agendaItem { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px #fff; border-left:solid 10px #ccc; }	
 div.txtAgendaTab div.inProgress { border-left:solid 10px #933; background-color:#fff; }
 div.txtAgendaTab div.agendaItem span.time {	font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; position:absolute; }
