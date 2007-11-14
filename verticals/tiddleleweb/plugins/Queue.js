@@ -1,13 +1,47 @@
 Queue = function() {};
 
+// pushItem works with tiddlers in the story as it assumes that you are hooking into a save event
+// can always extend it later to work with store tiddlers if needs be
+Queue.pushItem = function(tiddlerElem) {
+	var customFields = "inqueue:true";
+	story.addCustomFields(tiddlerElem,customFields);
+};
+
+// popItem is designed to be called after a successful PUT of a tiddler in the store,
+// by the object that pushed the tiddler
+Queue.popItem = function(tiddler) {
+	if(tiddler.fields && tiddler.fields.inqueue && tiddler.fields.inqueue == "true") {
+		tiddler.fields.inqueue == "false";
+	}
+};
+
+Queue.getNextItem = function() {
+	var items = [];
+	store.forEachTiddler(function(title,t) {
+	if (t.fields && t.fields.inqueue && t.fields.inqueue == "true") {
+			tiddlers.push(t);
+		}
+	});
+	return items[0];
+};
+
+Queue.getAllItems = function() {
+	var items = [];
+	store.forEachTiddler(function(title,t) {
+		if (t.fields && t.fields.inqueue && t.fields.inqueue == "true") {
+			tiddlers.push(t);
+		}
+	});
+	return items;
+}
+
 // override saveTiddler function to add tiddler to queue
 // TO-DO: tailor this to work for session notes tiddlers only (presumably)
 // issue with the above: how to examine tags before new tiddler is saved
 Queue.old_saveTiddler = config.commands.saveTiddler.handler;
 config.commands.saveTiddler.handler = function(event,src,title) {
 	var tiddlerElem = document.getElementById(story.idPrefix + title);
-	var customFields = "inqueue:true";
-	story.addCustomFields(tiddlerElem,customFields);
+	Queue.pushItem(tiddlerElem);
 	Queue.old_saveTiddler.call(this,event,src,title);
 }
 
@@ -16,11 +50,7 @@ config.macros.showQueue = {};
 config.macros.showQueue.handler = function(place) {
 	// create a popup of all tiddlers in the queue
 	var tiddlers = [];
-	store.forEachTiddler(function(title,t) {
-		if (t.fields && t.fields.inqueue && t.fields.inqueue == "true") {
-			tiddlers.push(t);
-		}
-	});
+	Queue.getAllItems();
 	if (tiddlers.length !== 0) {
 		var tooltip = "click to show queue";
 		var btn = createTiddlyButton(place,"show queue " + glyph("downArrow"),tooltip,config.macros.showQueue.onClick,"showQueueButton");

@@ -49,6 +49,10 @@ function Poller() {
 			this.handleFailure("noFeed");
 		}
 	};
+	this.pushFeed = function(feed) {
+		// WebDAV PUT
+		// if PUT is successful 
+	};
 	this.handleFailure = function(error,text) {
 		displayMessage(this.messages[error] + text);
 	};
@@ -60,6 +64,8 @@ Poller.openHostCallback = function(context,userParams) {
 	}
 	context.adaptor.getTiddlerList(context,userParams,Poller.getTiddlerListCallback,context.filter);
 };
+
+/* START: methods supporting this.getFeed */
 Poller.getTiddlerListCallback = function(context,userParams) {
 	if(context.status) {
 		var tiddlers = context.tiddlers;
@@ -89,11 +95,12 @@ Poller.getTiddlerListCallback = function(context,userParams) {
 		}
 	}
 };
+
 Poller.getTiddlerCallback = function(context,userParams) {
 	// displayMessage("getting " + context.tiddler.title);
 	if(context.status) {
 		var tiddler = context.tiddler;
-		// add in an extended field to save unread state
+		// add in an extended field to save unread state - NB: this might not be needed
 		tiddler.fields.unread = "true";
 		// uncomment line below to store tiddler
 		// store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
@@ -105,14 +112,18 @@ Poller.getTiddlerCallback = function(context,userParams) {
 	// Q: is this necessary? is there a less "heavy-handed" approach to refreshing? is it needed?
 	// story.refreshAllTiddlers();
 };
-
+/* END: methods supporting this.getFeed */
 
 Poller.prototype.setAdminFeed = function(feed) {
 	this.adminFeed = feed;
 };
 
-Poller.prototype.setFeeds = function(feeds) {
-	this.feeds = feeds;
+Poller.prototype.putFeeds = function() {
+	// check Queue for any feeds that need posting and try to post the first one
+	var item = Queue.getNextItem();
+	if (item) {
+		this.pushFeed(item);
+	}
 };
 
 Poller.prototype.getFeeds = function() {
@@ -126,7 +137,7 @@ Poller.prototype.getFeeds = function() {
  * Timer *
  *********/
 function Timer() {
-	this.pollOption = config.options.chkDoPolling;
+	this.pollOption = "chkDoPolling";
 	this.messages = {
 		noAction:"no timer action set",
 		"default":"error in timer"
@@ -153,7 +164,7 @@ Timer.prototype.setAction = function(action,recur) {
 	} else {
 		var that = this;
 		this.callback = function() {
-			if(that.pollOption) {
+			if(config.options[that.pollOption]) {
 				action();
 			}
 			that.set.call(that,that.ms);
@@ -176,6 +187,7 @@ config.macros.testPoll.handler = function() {
 		clearMessage();
 		displayMessage("polling");
 		p.getFeeds();
+		p.putFeeds();
 	},true);
 	t.set(10000);
 
