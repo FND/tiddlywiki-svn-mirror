@@ -2,34 +2,30 @@ Queue = function() {};
 
 // pushItem works with tiddlers in the story as it assumes that you are hooking into a save event
 // can always extend it later to work with store tiddlers if needs be
-Queue.pushItem = function(tiddlerElem) {
+Queue.push = function(tiddlerElem) {
 	var customFields = "inqueue:true";
 	story.addCustomFields(tiddlerElem,customFields);
 };
 
 // popItem is designed to be called after a successful PUT of a tiddler in the store,
 // by the object that pushed the tiddler
-Queue.popItem = function(tiddler) {
+Queue.pop = function(tiddler) {
 	if(tiddler.fields && tiddler.fields.inqueue && tiddler.fields.inqueue == "true") {
-		tiddler.fields.inqueue == "false";
+		tiddler.fields.inqueue = "false";
+		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields)
 	}
 };
 
-Queue.getNextItem = function() {
-	var items = [];
-	store.forEachTiddler(function(title,t) {
-	if (t.fields && t.fields.inqueue && t.fields.inqueue == "true") {
-			tiddlers.push(t);
-		}
-	});
-	return items[0];
+Queue.getNext = function() {
+	var t = Queue.getAll();
+	return (t.length > 0 ? t[0] : false);
 };
 
-Queue.getAllItems = function() {
+Queue.getAll = function() {
 	var items = [];
 	store.forEachTiddler(function(title,t) {
 		if (t.fields && t.fields.inqueue && t.fields.inqueue == "true") {
-			tiddlers.push(t);
+			items.push(t);
 		}
 	});
 	return items;
@@ -41,7 +37,7 @@ Queue.getAllItems = function() {
 Queue.old_saveTiddler = config.commands.saveTiddler.handler;
 config.commands.saveTiddler.handler = function(event,src,title) {
 	var tiddlerElem = document.getElementById(story.idPrefix + title);
-	Queue.pushItem(tiddlerElem);
+	Queue.push(tiddlerElem);
 	Queue.old_saveTiddler.call(this,event,src,title);
 }
 
@@ -49,8 +45,7 @@ config.macros.showQueue = {};
 
 config.macros.showQueue.handler = function(place) {
 	// create a popup of all tiddlers in the queue
-	var tiddlers = [];
-	Queue.getAllItems();
+	var tiddlers = Queue.getAll();
 	if (tiddlers.length !== 0) {
 		var tooltip = "click to show queue";
 		var btn = createTiddlyButton(place,"show queue " + glyph("downArrow"),tooltip,config.macros.showQueue.onClick,"showQueueButton");

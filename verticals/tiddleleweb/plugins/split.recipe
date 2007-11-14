@@ -1,5 +1,6 @@
 tiddler: ../../../contributors/JonathanLister/components/RSSAdaptor/js/RSSAdaptor.js
 tiddler: Agenda.js
+tiddler: DAVPlugin.js
 tiddler: Poller.js
 tiddler: TaggedTemplateTweak.js
 tiddler: SessionPlugin.js

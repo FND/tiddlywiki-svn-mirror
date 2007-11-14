@@ -5,7 +5,8 @@ recipe: test/split.recipe
 recipe: shadows/split.recipe
 recipe: plugins/split.recipe
 tiddler: agendaMenu.tiddler
+tiddler: Config.tiddler
+tiddler: DeepNavigation.tiddler
 tiddler: Help.tiddler
 tiddler: Styles_HorizontalMainMenu.tiddler
-
-tiddler: DeepNavigation.tiddler
+tiddler: UnitTests.tiddler

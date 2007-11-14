@@ -49,15 +49,43 @@ function Poller() {
 			this.handleFailure("noFeed");
 		}
 	};
-	this.pushFeed = function(feed) {
-		// WebDAV PUT
-		// if PUT is successful 
+	this.pushFeed = function(item) {
+		// build RSS item out of tiddler
+		var rssString = item.saveToRss();
+		var url = this.postBox + item.title;
+		// WebDAV PUT of rssString to this.postBox
+		var params = {
+			callback:function(status,params,responseText,url,xhr){
+				if(!status){
+					// PUT failed, deal with it here
+					// leave item in queue and take no action?
+				}
+				else {
+					// PUT is successful, take item out of queue
+					Queue.pop(params.tiddler);
+				}
+			},
+			tiddler:item
+		};
+		DAV.putAndMove(url,params,rssString);
 	};
 	this.handleFailure = function(error,text) {
 		displayMessage(this.messages[error] + text);
 	};
 }
 
+// this feed is always polled
+Poller.prototype.setAdminFeed = function(feed) {
+	this.adminFeed = feed;
+};
+
+// this is a directory for putting update files
+// this is assuming the directory already exists
+Poller.prototype.setPostBox = function(dir) {
+	this.postBox = dir;
+};
+
+/* START: methods supporting this.getFeed */
 Poller.openHostCallback = function(context,userParams) {
 	if (context.status !== true) {
 		this.handleFailure("openHost",context.statusText);
@@ -65,7 +93,6 @@ Poller.openHostCallback = function(context,userParams) {
 	context.adaptor.getTiddlerList(context,userParams,Poller.getTiddlerListCallback,context.filter);
 };
 
-/* START: methods supporting this.getFeed */
 Poller.getTiddlerListCallback = function(context,userParams) {
 	if(context.status) {
 		var tiddlers = context.tiddlers;
@@ -114,13 +141,9 @@ Poller.getTiddlerCallback = function(context,userParams) {
 };
 /* END: methods supporting this.getFeed */
 
-Poller.prototype.setAdminFeed = function(feed) {
-	this.adminFeed = feed;
-};
-
 Poller.prototype.putFeeds = function() {
 	// check Queue for any feeds that need posting and try to post the first one
-	var item = Queue.getNextItem();
+	var item = Queue.getNext();
 	if (item) {
 		this.pushFeed(item);
 	}
@@ -175,7 +198,7 @@ Timer.prototype.setAction = function(action,recur) {
 /*************
  * Test macro *
  **************/
-config.macros.testPoll = {};
+/* config.macros.testPoll = {};
 
 config.macros.testPoll.handler = function() {
 	var t = new Timer();
@@ -183,6 +206,7 @@ config.macros.testPoll.handler = function() {
 	// TO-DO: figure out a sensible	way to gather feeds
 	// p.setFeeds(feedArray);
 	p.setAdminFeed(config.options.txtPollAdminFeed);
+	p.setPostBox("http://localhost/"+config.options.txtUserName+"/");
 	t.setAction(function() {
 		clearMessage();
 		displayMessage("polling");
@@ -190,5 +214,42 @@ config.macros.testPoll.handler = function() {
 		p.putFeeds();
 	},true);
 	t.set(10000);
+}; */
 
+config.macros.unitTest = {};
+
+config.macros.unitTest.handler = function(place) {
+	var p = new Poller();
+	var postBox = "http://localhost/"+encodeURIComponent(config.options.txtUserName)+"/";
+	p.setPostBox(postBox);
+	// testing p.putFeeds()
+	wikify("testing p.putFeeds()\n",place);
+	var item = Queue.getNext();
+	if (!item) {
+		wikify("nothing in the queue! do some editing and re-open this tiddler",place);
+		return false;
+	}
+	wikify("item to push: " + item.title + "\n",place);
+	var rssString = item.saveToRss();
+	wikify("rss string to push: " + rssString + "\n",place);
+	var params = {
+		callback:function(status,params,responseText,url,xhr){
+			if(!status){
+				// PUT failed, deal with it here
+				// leave item in queue and take no action?
+				displayMessage("directory might not exist on the server at: " + url);
+			}
+			else {
+				// PUT is successful, take item out of queue
+				Queue.pop(params.tiddler);
+				var next = Queue.getNext();
+				displayMessage("success putting item: " + params.tiddler.title);
+				displayMessage("next item in queue after popping this: " + (next ? next.title : "nothing!") + "\n");
+			}
+		},
+		tiddler:item
+	};
+	var url = postBox + encodeURIComponent(item.title) + ".xml";
+	wikify("going to put to: " + url + "\n",place);
+	DAV.putAndMove(url,params,rssString);
 };

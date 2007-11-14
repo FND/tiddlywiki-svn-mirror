@@ -562,19 +562,26 @@ blurb:</pre>
 </div>
 <div title="MainMenu" tags="excludeLists excludeSearch" force="true" refresh="macro">
 <pre>
+&lt;&lt;toggleElement
+	&quot;agendaMenu&quot;
+	&quot;Toggle Agenda&quot;
+	&quot;Switch agenda menu on and off&quot;
+	&quot;agendaButton&quot;
+&gt;&gt;
 [[Home]]
 &lt;&lt;currentSession&gt;&gt;
 &lt;&lt;crossBrowserHelp&gt;&gt;
-&lt;&lt;testPoll&gt;&gt;
 &lt;&lt;showQueue&gt;&gt;</pre>
 </div>
 <div title="DefaultTiddlers" tags="excludeLists excludeSearch">
 <pre>
-[[Home]]</pre>
+[[UnitTests]]
+[[Config]]
+[[DeepNavigation]]</pre>
 </div>
 <div title="PageTemplate" tags="excludeLists excludeSearch">
 <pre>&lt;!--{{{--&gt;
-&lt;div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'&gt;
+&lt;div class='header' macro='gradient vert #000 #001A27 '&gt;
 &lt;div class='headerShadow'&gt;
 &lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
 &lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
@@ -586,10 +593,6 @@ blurb:</pre>
 &lt;/div&gt;
 &lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
 &lt;div id='agendaMenu' refresh='content' force='true' tiddler='agendaMenu'&gt;&lt;/div&gt;
-&lt;div id='sidebar'&gt;
-&lt;div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'&gt;&lt;/div&gt;
-&lt;div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;div id='displayArea'&gt;
 &lt;div id='messageArea'&gt;&lt;/div&gt;
 &lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
@@ -629,22 +632,31 @@ blurb:</pre>
 <pre>
 [[Styles HorizontalMainMenu]]
 
+/* page framework */
+#agendaMenu { position: static;	float: left; width: auto; }
+#displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
+#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0; }
 
+/* Header */
+div.header { border:solid 4px #000; }
 
-#displayArea {
-   margin-left: 15.5em;
-}
+/* Primary Nav Buttons */
+#mainMenu { background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding-left:0; line-height:1.5em; }
+#mainMenu a { display:block; float:left; border-right:solid 1px #999; font-size:1em; margin:0; color:#333;}
+#mainMenu a.tiddlyLink { padding:0 1em; font-size:1em; color:#333;}
+#mainMenu a.agendaButton { width:260px; padding:0; text-align:center;}
+#mainMenu a:hover,
+#mainMenu a.tiddlyLink:hover { background-color:#bbb;}
 
 /* Agenda */
-#agendaMenu div.txtAgendaTab div.tabset { height:2em; }
-#agendaMenu div.txtAgendaTab div.tabset a.tab { padding:4px 1em; background-color:#f0f0f0; color:#333; margin:1em 2px; font-weight:bold; font-size:0.9em; border:solid 1px #ccc; border-bottom-width:2px;}
+#agendaMenu { width:260px; float:left; padding:0; }
+#agendaMenu div.txtAgendaTab div.tabset { height:2.5em; background-color:#f6f6f6;}
+#agendaMenu div.txtAgendaTab div.tabset a.tab { padding:4px 1em; background-color:#f0f0f0; color:#333; margin:1em 2px; font-weight:bold; font-size:0.9em; border:solid 1px #999; border-bottom-width:2px;}
 #agendaMenu div.txtAgendaTab div.tabset a.tab:hover { background-color:#444; color:#fff; border-color:#222; }
-#agendaMenu div.txtAgendaTab div.tabset a.tabSelected {background-color:#fff; border:solid 1px #ccc; border:solid 1px #ccc; border-bottom-width:2px;}
-
+#agendaMenu div.txtAgendaTab div.tabset a.tabSelected {background-color:#fff; border:solid 1px #999; border-bottom-width:2px;}
 #agendaMenu div.txtAgendaTab div.tabContents { border-style:none; margin:0; padding:0;}
 
-
-div.txtAgendaTab { width:300px; border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
+div.txtAgendaTab { border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
 div.txtAgendaTab div.agendaItem { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px #fff; border-left:solid 10px #ccc; }	
 div.txtAgendaTab div.inProgress { border-left:solid 10px #933; background-color:#fff; }
 div.txtAgendaTab div.agendaItem span.time {	font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; position:absolute; }
@@ -1499,7 +1511,11 @@ DAV = {
 	run : function(type,url,data,params,headers){
 		var callback = function(status,params,responseText,url,xhr) {
 			if (!status) {
-				alert(config.messages.davFailed+xhr.status);
+				alert(&quot;failed&quot;);
+console.log(xhr);
+console.log(&quot;response is &quot; +responseText);
+console.log(&quot;url is &quot;+url);
+console.log(&quot;status is &quot;+status);
 				return;
 			}
 			switch(params['type']){
@@ -1529,10 +1545,10 @@ DAV = {
 					status = true;
 					break;
 			}
-			if(!status &amp;&amp; params.methodError){
-				alert(params.methodError);
-				return;
-			}
+			//if(!status &amp;&amp; params.methodError){
+		//		alert(params.methodError);
+		//		return;
+		//	}
 			url = url.indexOf(&quot;nocache=&quot;) &lt; 0 ? url : url.substring(0,url.indexOf(&quot;nocache=&quot;)-1);
 			if(params.callback)
 				params.callback.apply(this,[status,params,responseText,url,xhr]);
@@ -1605,7 +1621,7 @@ DAV = {
 //innerHTML instead of GET?
 //upload file feature
 //list view based DavClient
-//clean up backup files option?			</pre>
+//clean up backup files option?</pre>
 </div>
 <div title="Poller" modifier="Jon Lister" created="200706181748" modified="200710161502" tags="systemConfig" changecount="1">
 <pre>/*********
@@ -1659,16 +1675,43 @@ function Poller() {
 			this.handleFailure(&quot;noFeed&quot;);
 		}
 	};
-	this.pushFeed = function(feed) {
-		// WebDAV PUT
-		// if PUT is successful, take item out of queue
-		// Queue.pop
+	this.pushFeed = function(item) {
+		// build RSS item out of tiddler
+		var rssString = item.saveToRss();
+		var url = this.postBox + item.title;
+		// WebDAV PUT of rssString to this.postBox
+		var params = {
+			callback:function(status,params,responseText,url,xhr){
+				if(!status){
+					// PUT failed, deal with it here
+					// leave item in queue and take no action?
+				}
+				else {
+					// PUT is successful, take item out of queue
+					Queue.pop(params.tiddler);
+				}
+			},
+			tiddler:item
+		};
+		DAV.putAndMove(url,params,rssString);
 	};
 	this.handleFailure = function(error,text) {
 		displayMessage(this.messages[error] + text);
 	};
 }
 
+// this feed is always polled
+Poller.prototype.setAdminFeed = function(feed) {
+	this.adminFeed = feed;
+};
+
+// this is a directory for putting update files
+// this is assuming the directory already exists
+Poller.prototype.setPostBox = function(dir) {
+	this.postBox = dir;
+};
+
+/* START: methods supporting this.getFeed */
 Poller.openHostCallback = function(context,userParams) {
 	if (context.status !== true) {
 		this.handleFailure(&quot;openHost&quot;,context.statusText);
@@ -1676,7 +1719,6 @@ Poller.openHostCallback = function(context,userParams) {
 	context.adaptor.getTiddlerList(context,userParams,Poller.getTiddlerListCallback,context.filter);
 };
 
-/* START: methods supporting this.getFeed */
 Poller.getTiddlerListCallback = function(context,userParams) {
 	if(context.status) {
 		var tiddlers = context.tiddlers;
@@ -1725,13 +1767,9 @@ Poller.getTiddlerCallback = function(context,userParams) {
 };
 /* END: methods supporting this.getFeed */
 
-Poller.prototype.setAdminFeed = function(feed) {
-	this.adminFeed = feed;
-};
-
 Poller.prototype.putFeeds = function() {
 	// check Queue for any feeds that need posting and try to post the first one
-	var item = Queue.getNextItem();
+	var item = Queue.getNext();
 	if (item) {
 		this.pushFeed(item);
 	}
@@ -1786,7 +1824,7 @@ Timer.prototype.setAction = function(action,recur) {
 /*************
  * Test macro *
  **************/
-config.macros.testPoll = {};
+/* config.macros.testPoll = {};
 
 config.macros.testPoll.handler = function() {
 	var t = new Timer();
@@ -1794,6 +1832,7 @@ config.macros.testPoll.handler = function() {
 	// TO-DO: figure out a sensible	way to gather feeds
 	// p.setFeeds(feedArray);
 	p.setAdminFeed(config.options.txtPollAdminFeed);
+	p.setPostBox(&quot;http://localhost/&quot;+config.options.txtUserName+&quot;/&quot;);
 	t.setAction(function() {
 		clearMessage();
 		displayMessage(&quot;polling&quot;);
@@ -1801,7 +1840,44 @@ config.macros.testPoll.handler = function() {
 		p.putFeeds();
 	},true);
 	t.set(10000);
+}; */
 
+config.macros.unitTest = {};
+
+config.macros.unitTest.handler = function(place) {
+	var p = new Poller();
+	var postBox = &quot;http://localhost/&quot;+encodeURIComponent(config.options.txtUserName)+&quot;/&quot;;
+	p.setPostBox(postBox);
+	// testing p.putFeeds()
+	wikify(&quot;testing p.putFeeds()\n&quot;,place);
+	var item = Queue.getNext();
+	if (!item) {
+		wikify(&quot;nothing in the queue! do some editing and re-open this tiddler&quot;,place);
+		return false;
+	}
+	wikify(&quot;item to push: &quot; + item.title + &quot;\n&quot;,place);
+	var rssString = item.saveToRss();
+	wikify(&quot;rss string to push: &quot; + rssString + &quot;\n&quot;,place);
+	var params = {
+		callback:function(status,params,responseText,url,xhr){
+			if(!status){
+				// PUT failed, deal with it here
+				// leave item in queue and take no action?
+				displayMessage(&quot;directory might not exist on the server at: &quot; + url);
+			}
+			else {
+				// PUT is successful, take item out of queue
+				Queue.pop(params.tiddler);
+				var next = Queue.getNext();
+				displayMessage(&quot;success putting item: &quot; + params.tiddler.title);
+				displayMessage(&quot;next item in queue after popping this: &quot; + (next ? next.title : &quot;nothing!&quot;) + &quot;\n&quot;);
+			}
+		},
+		tiddler:item
+	};
+	var url = postBox + encodeURIComponent(item.title) + &quot;.xml&quot;;
+	wikify(&quot;going to put to: &quot; + url + &quot;\n&quot;,place);
+	DAV.putAndMove(url,params,rssString);
 };</pre>
 </div>
 <div title="TaggedTemplateTweak" modifier="Jon Lister" created="200706181748" modified="200710161502" tags="systemConfig excludeLists excludeSearch">
@@ -1941,34 +2017,30 @@ config.macros.sessionNotes.handler = function(place,macroName,params,wikifier,pa
 
 // pushItem works with tiddlers in the story as it assumes that you are hooking into a save event
 // can always extend it later to work with store tiddlers if needs be
-Queue.pushItem = function(tiddlerElem) {
+Queue.push = function(tiddlerElem) {
 	var customFields = &quot;inqueue:true&quot;;
 	story.addCustomFields(tiddlerElem,customFields);
 };
 
 // popItem is designed to be called after a successful PUT of a tiddler in the store,
 // by the object that pushed the tiddler
-Queue.popItem = function(tiddler) {
+Queue.pop = function(tiddler) {
 	if(tiddler.fields &amp;&amp; tiddler.fields.inqueue &amp;&amp; tiddler.fields.inqueue == &quot;true&quot;) {
-		tiddler.fields.inqueue == &quot;false&quot;;
+		tiddler.fields.inqueue = &quot;false&quot;;
+		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields)
 	}
 };
 
-Queue.getNextItem = function() {
-	var items = [];
-	store.forEachTiddler(function(title,t) {
-	if (t.fields &amp;&amp; t.fields.inqueue &amp;&amp; t.fields.inqueue == &quot;true&quot;) {
-			tiddlers.push(t);
-		}
-	});
-	return items[0];
+Queue.getNext = function() {
+	var t = Queue.getAll();
+	return (t.length &gt; 0 ? t[0] : false);
 };
 
-Queue.getAllItems = function() {
+Queue.getAll = function() {
 	var items = [];
 	store.forEachTiddler(function(title,t) {
 		if (t.fields &amp;&amp; t.fields.inqueue &amp;&amp; t.fields.inqueue == &quot;true&quot;) {
-			tiddlers.push(t);
+			items.push(t);
 		}
 	});
 	return items;
@@ -1980,7 +2052,7 @@ Queue.getAllItems = function() {
 Queue.old_saveTiddler = config.commands.saveTiddler.handler;
 config.commands.saveTiddler.handler = function(event,src,title) {
 	var tiddlerElem = document.getElementById(story.idPrefix + title);
-	Queue.pushItem(tiddlerElem);
+	Queue.push(tiddlerElem);
 	Queue.old_saveTiddler.call(this,event,src,title);
 }
 
@@ -1988,8 +2060,7 @@ config.macros.showQueue = {};
 
 config.macros.showQueue.handler = function(place) {
 	// create a popup of all tiddlers in the queue
-	var tiddlers = [];
-	Queue.getAllItems();
+	var tiddlers = Queue.getAll();
 	if (tiddlers.length !== 0) {
 		var tooltip = &quot;click to show queue&quot;;
 		var btn = createTiddlyButton(place,&quot;show queue &quot; + glyph(&quot;downArrow&quot;),tooltip,config.macros.showQueue.onClick,&quot;showQueueButton&quot;);
@@ -2108,24 +2179,101 @@ config.macros.testWebDAV.http = function(type,url,data,callback,params) {
 	return r;
 }</pre>
 </div>
+<div title="ToggleElementPlugin" modifier="FND" created="200706181748" modified="200710161502" tags="systemConfig excludeLists excludeSearch" changecount="1">
+<pre>/***
+|''Name''|ToggleElementMacro|
+|''Description''|toggles the visibility of the element specified|
+|''Author''|FND|
+|''Source''|http://devpad.tiddlyspot.com/#ToggleElementMacro|
+|''Version''|0.6|
+|''Status''|@@experimental@@|
+|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''~CoreVersion''|2.1|
+!Notes
+This macro was created for use with the [[overflow technique|http://cleanlayout.tiddlyspot.com/#StyleSheet]] (cf. [[[twdev] StyleSheetLayout: overflow technique|http://groups.google.at/group/TiddlyWikiDev/browse_thread/thread/b55011665c5e04d9/]]).
+!Usage
+{{{
+&lt;&lt;toggleElement
+	[element ID]
+	[button label]
+	[button tooltip]
+	[button class]
+	[button access key]
+	[startup mode]
+&gt;&gt;
+}}}
+All parameters are optional.
+If the last parameter is {{{&quot;hide&quot;}}}, the respective element will be hidden when the macro is first rendered.
+In order to use the default value for a certain property, the respective parameter can either be omitted or defined as empty by using {{{&quot;&quot;}}}.
+!!Examples
+|!Code|!Result|
+|{{{&lt;&lt;toggleElement&gt;&gt;}}}| &lt;&lt;toggleElement&gt;&gt; |
+|{{{&lt;&lt;toggleElement &quot;mainMenu&quot; &quot;Toggle MainMenu&quot; &quot;&quot; &quot;tiddlyLinkExisting&quot;&gt;&gt;}}}| &lt;&lt;toggleElement &quot;mainMenu&quot; &quot;Toggle MainMenu&quot; &quot;&quot; &quot;tiddlyLinkExisting&quot;&gt;&gt; |
+|{{{&lt;&lt;toggleElement &quot;mainMenu&quot; &quot;Toggle MainMenu&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;hide&quot;&gt;&gt;}}}| &lt;&lt;toggleElement &quot;mainMenu&quot; &quot;Toggle MainMenu&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;hide&quot;&gt;&gt; |
+!To Do
+* rename to [[ToggleElementMacro]]
+* use named parameters
+* documentation (esp. parameters)
+* separate labels for depending on element's toggle state
+* add animations (using [[AnimationsLibrary]]; cf. [[ToggleElementPlugin (animated)]])
+!Revision History
+!!v0.5 (2007-09-22)
+* initial proof-of-concept implementation
+!!v0.6 (2007-11-11)
+* added parameter for hiding element by default
+* renamed to [[ToggleElementMacro]] (from [[ToggleElementPlugin]])
+!Code
+***/
+//{{{
+config.macros.toggleElement = {
+	elementID: &quot;sidebar&quot;,
+	label: &quot;Toggle Sidebar&quot;,
+	prompt: &quot;Switch sidebar on and off&quot;,
+	buttonClass: &quot;&quot;,
+	accessKey: &quot;&quot;
+};
+
+config.macros.toggleElement.handler = function(place, macroName, params) {
+	// process command line parameters
+	var elementID = params[0] || this.elementID;
+	var label = params[1] || this.label;
+	var prompt = params[2] || this.prompt;
+	var buttonClass = params[3] || this.buttonClass;
+	var accessKey = params[4] || this.accessKey;
+	// startup mode
+	if(params[5] == &quot;hide&quot;) {
+		this.toggle(elementID);
+	}
+	// create toggle button
+	createTiddlyButton(place, label, prompt,
+		function() { config.macros.toggleElement.toggle(elementID); },
+		buttonClass, null, accessKey);
+};
+
+config.macros.toggleElement.toggle = function(id) {
+	var e = document.getElementById(id);
+	if(e) {
+		if(e.style.display != &quot;none&quot;) {
+			e.style.display = &quot;none&quot;;
+		} else {
+			e.style.display = &quot;&quot;;
+		}
+	}
+};
+//}}}</pre>
+</div>
 <div title="agendaMenu" tags="excludeLists excludeSearch">
 <pre>&lt;&lt;agendaMenu&gt;&gt;</pre>
 </div>
-<div title="DAV test" tags="systemConfig">
-<pre>{{{
-window.saveRss = function(url){
-	var params = {
-		callback:function(status,params,responseText,url,xhr){
-			if(!status){
-				alert(&quot;RSS save failed&quot;);
-			}
-			else
-				displayMessage(config.messages.rssSaved,url);
-		}	
-	}
-	DAV.putAndMove(url,params,convertUnicodeToUTF8(generateRss()));
-}
-}}}</pre>
+<div title="Config">
+<pre>|Admin feed url|&lt;&lt;option txtPollAdminFeed&gt;&gt;|
+|Poll for updates and queue items|&lt;&lt;option chkDoPolling&gt;&gt;|
+|~UserName|&lt;&lt;option txtUserName&gt;&gt;|</pre>
+</div>
+<div title="DeepNavigation">
+<pre>
+[[SideBarOptions]]
+[[SideBarTabs]]</pre>
 </div>
 <div title="Help">
 <pre>&lt;&lt;crossBrowserHelp&gt;&gt;</pre>
@@ -2143,6 +2291,9 @@ window.saveRss = function(url){
 	margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:1em;
 	padding-top:.1em;padding-bottom:.1em;
 }</pre>
+</div>
+<div title="UnitTests">
+<pre>&lt;&lt;unitTest&gt;&gt;</pre>
 </div>
 <div title="SplarklinePlugin" created="200710154332" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
