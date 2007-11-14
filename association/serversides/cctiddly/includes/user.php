@@ -101,16 +101,19 @@
 	function user_validate($un="", $pw="")
 	{
 		global $tiddlyCfg;
+		
+		error_log('VALIDATE-TOP'.$un.$pw, 0);
+
 		// if we are not passed a username and password the session has been created and we need to validate it.	
 		if (!$pw || !$un)
 		{
 					
-		error_log('VALIDATE-HERE'.$un.$pw, 0);
+		error_log('VALIDATE-HERE1'.$un.$pw, 0);
 		
 			$pw = cookie_get('passSecretCode');
 			$un = cookie_get('txtUserName');
 			
-		error_log('VALIDATE-HERE'.$un.$pw, 0);
+		error_log('VALIDATE-HERE2'.$un.$pw, 0);
 			$data_session['session_token'] = $pw;
 			 
 			//  TODO CHECK VALUE OF 			
@@ -204,10 +207,17 @@
 	
 	function user_logout()
 	{
+		
+		
 		$data['session_token']= cookie_get('passSecretCode');
-		db_record_delete('login_session',$data);
-		cookie_set('txtUserName', '');
-		cookie_set('pasSecretCode', '');
+		echo db_record_delete('login_session',$data);
+
+		error_log('kill cookie', 0);
+		cookie_kill('passSecretCode');
+		cookie_kill('txtUserName');
+		error_log('kill cookie', 0);
+		//cookie_set('txtUserName', '');
+		//cookie_set('pasSecretCode', '');
 	
 		return TRUE;
 	}

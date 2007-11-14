@@ -16,23 +16,9 @@ $tiddlyCfg['pref']['ldap_enabled'] = 1;
 $tiddlyCfg['pref']['upload_dir'] = '/mnt/content/vhost/wiki.osmosoft.com/docs/svn/upload/';
 $tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if running in the root dir, specifies the position in the URL where the instance name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
 
-/// CODE ADDED BY SIMONMCMANUS /////////////////////////////////////
-
-// confirm instance name 
-if ($_REQUEST['instance'])
-{	
-	$instance = $_REQUEST['instance'];
-}
-else
-{	$url = split('/', $_SERVER['REDIRECT_URL']);
-	$instance =  $url[$tiddlyCfg['pref']['instance_pos']];
-}
-
-$tiddlyCfg['pref']['instance_name'] = $instance;  
-$_SERVER['PHP_SELF']= '/svn/'.$instance.'/';
 
 // LOGIN THEN REFRESH. 
-
+include('./includes/url.php');
 
 // THIS SHOULD BE USING THE BUILT IN FUCTIONS//////////////////////////
 
@@ -173,8 +159,8 @@ $tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what shoul
 $tiddlyCfg['privilege_misc']['default_privilege'] = "AUUU";		//default privilege for all group and tags
 //default privileges for certain groups, applied after default_privilege
 //		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
-$tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $settings[0]['default_anonymous_perm'];
-$tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = $settings[0]['default_user_perm'];
+$tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCfg['pref']['instance_settings'][0]['default_anonymous_perm'];
+$tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = $tiddlyCfg['pref']['instance_settings'][0]['default_user_perm'];
 
 ////////////////////////////////////////////////////////ADVANCE PRIVILEGE for tags//////////////////////////////////////////////////////
 /*
@@ -184,6 +170,7 @@ $tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = $settings[0]['
 	EXAMPLE: this would deny anonymous users to insert/edit/delete systemConfig tags but still allow it to run
 		$tiddlyCfg['privilege']['anonymous']['systemConfig'] = "ADDD";
 */
+
 $tiddlyCfg['privilege']['admin']['systemConfig'] = "AAAA";
 $tiddlyCfg['privilege']['user']['systemConfig'] = "AAAA";
 //The following privilege are for blog

@@ -110,7 +110,7 @@ $db_var['error']['query'] = " query: ";*/
 			next($data);
 			$i++;
 		}
-		
+		 error_log("DELETE FROM ".$table." WHERE `".db_format4SQL(key($data))."` = '".db_format4SQL(current($data))."'", 0);
 		return db_query("DELETE FROM ".$table." WHERE `".db_format4SQL(key($data))."` = '".db_format4SQL(current($data))."'");
 	}
 	
