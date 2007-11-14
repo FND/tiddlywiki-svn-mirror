@@ -10,12 +10,20 @@
 /* Header */
 div.header { border:solid 3px #000; }
 
+/* Primary Nav Buttons */
+#mainMenu { background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding-left:0; }
+#mainMenu a { display:block; float:left; border-right:solid 1px #999; font-size:1em; margin:0; color:#333;}
+#mainMenu a.tiddlyLink { padding:0 1em; font-size:1em; color:#333;}
+#mainMenu a.agendaButton { width:260px; padding:0; text-align:center;}
+#mainMenu a:hover,
+#mainMenu a.tiddlyLink:hover { background-color:#bbb;}
+
 /* Agenda */
-#agendaMenu { width:23em; float:left;  border:solid 1px #f00;}
-#agendaMenu div.txtAgendaTab div.tabset { height:2em; }
-#agendaMenu div.txtAgendaTab div.tabset a.tab { padding:4px 1em; background-color:#f0f0f0; color:#333; margin:1em 2px; font-weight:bold; font-size:0.9em; border:solid 1px #ccc; border-bottom-width:2px;}
+#agendaMenu { width:260px; float:left; padding:0; }
+#agendaMenu div.txtAgendaTab div.tabset { height:2.5em; }
+#agendaMenu div.txtAgendaTab div.tabset a.tab { padding:4px 1em; background-color:#f0f0f0; color:#333; margin:1em 2px; font-weight:bold; font-size:0.9em; border:solid 1px #999; border-bottom-width:2px;}
 #agendaMenu div.txtAgendaTab div.tabset a.tab:hover { background-color:#444; color:#fff; border-color:#222; }
-#agendaMenu div.txtAgendaTab div.tabset a.tabSelected {background-color:#fff; border:solid 1px #ccc; border:solid 1px #ccc; border-bottom-width:2px;}
+#agendaMenu div.txtAgendaTab div.tabset a.tabSelected {background-color:#fff; border:solid 1px #999; border-bottom-width:2px;}
 #agendaMenu div.txtAgendaTab div.tabContents { border-style:none; margin:0; padding:0;}
 
 div.txtAgendaTab { border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }

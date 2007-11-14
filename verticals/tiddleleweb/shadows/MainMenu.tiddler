@@ -1,5 +1,11 @@
 <div title="MainMenu" tags="excludeLists excludeSearch" refresh="macro" force="true">
 <pre>
+<<toggleElement
+	"agendaMenu"
+	"Toggle Agenda"
+	"Switch agenda menu on and off"
+	"agendaButton"
+>>
 [[Home]]
 <<currentSession>>
 <<crossBrowserHelp>>

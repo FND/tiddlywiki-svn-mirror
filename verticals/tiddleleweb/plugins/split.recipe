@@ -5,3 +5,4 @@ tiddler: TaggedTemplateTweak.js
 tiddler: SessionPlugin.js
 tiddler: Queue.js
 tiddler: WebDAV.js
+tiddler: ToggleElement.js
