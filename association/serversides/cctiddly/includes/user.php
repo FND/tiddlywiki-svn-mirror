@@ -104,8 +104,13 @@
 		// if we are not passed a username and password the session has been created and we need to validate it.	
 		if (!$pw || !$un)
 		{
+					
+		error_log('VALIDATE-HERE'.$un.$pw, 0);
+		
 			$pw = cookie_get('passSecretCode');
 			$un = cookie_get('txtUserName');
+			
+		error_log('VALIDATE-HERE'.$un.$pw, 0);
 			$data_session['session_token'] = $pw;
 			 
 			//  TODO CHECK VALUE OF 			

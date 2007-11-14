@@ -46,9 +46,10 @@ if (!mysql_select_db("cct")) {
     echo "Unable to select mydbname: " . mysql_error();
     exit;}
     
-	$array['name'] = $instance;
+$array['name'] = $instance;
 $tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
-error_log('default.php', 0);
+
+
 
 
 // the instance does not exist yet. 
@@ -58,8 +59,6 @@ if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 
 	if($_POST['instance_name'])
 	{
-	
-
 		// the user has asked us to create an instance 
 		include_once("./includes/instance.php");
 		instance_create($_POST['instance_name']);
@@ -73,23 +72,20 @@ if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 		$tiddlyCfg['pref']['language'] = 'en'; // choose between different version of TW, or adaptation
 		$tiddlyCfg['pref']['version'] = 0; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
 		$tiddlyCfg['pref']['reqLogin'] = 0;	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
-		$tiddlyCfg['pref']['cookies'] = 10;		//cookies expire time, in minutes [0=disable]
-		$tiddlyCfg['pref']['appendModifier'] ='';		//append modifier name as tag
-
-
-		
+		$tiddlyCfg['pref']['session_expire'] = 2000;
+		$tiddlyCfg['pref']['cookies'] = 100;		//cookies expire time, in minutes [0=disable]
+		$tiddlyCfg['pref']['appendModifier'] ='';		//append modifier name as tag		
 	}
 }
 else
 {
-
-// the instance exists so lets get
-$tiddlyCfg['pref']['tw_ver'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
-$tiddlyCfg['pref']['language'] = $settings[0]['lang']; // choose between different version of TW, or adaptation
-$tiddlyCfg['pref']['version'] = $settings[0]['keep_revision']; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
-$tiddlyCfg['pref']['reqLogin'] = $settings[0]['require_login'];	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
-$tiddlyCfg['pref']['cookies'] = $settings[0]['cookie_expire'];		//cookies expire time, in minutes [0=disable]
-$tiddlyCfg['pref']['appendModifier'] =$settings[0]['tag_tiddler_with_modifier'];		//append modifier name as tag
+	// the instance exists so lets get
+	$tiddlyCfg['pref']['tw_ver'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
+	$tiddlyCfg['pref']['language'] = $tiddlyCfg['pref']['instance_settings'][0]['lang']; // choose between different version of TW, or adaptation
+	$tiddlyCfg['pref']['version'] = $tiddlyCfg['pref']['instance_settings'][0]['keep_revision']; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
+	$tiddlyCfg['pref']['reqLogin'] = $tiddlyCfg['pref']['instance_settings'][0]['require_login'];	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
+	$tiddlyCfg['pref']['cookies'] = $tiddlyCfg['pref']['instance_settings'][0]['cookie_expire'];		//cookies expire time, in minutes [0=disable]
+	$tiddlyCfg['pref']['appendModifier'] =$tiddlyCfg['pref']['instance_settings'][0]['tag_tiddler_with_modifier'];		//append modifier name as tag
 }
 
 

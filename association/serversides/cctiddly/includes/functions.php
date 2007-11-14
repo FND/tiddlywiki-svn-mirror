@@ -383,7 +383,7 @@
 	function cookie_set($k,$v)
 	{
 		global $tiddlyCfg;
-		return setcookie($k,rawurlencode($v),time() +  $tiddlyCfg['pref']['cookies'],"/");
+		return setcookie($k,rawurlencode($v),time() +  $tiddlyCfg['pref']['session_expire'],"/");
 	}
 	
 	
