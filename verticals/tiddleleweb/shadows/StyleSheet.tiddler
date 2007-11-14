@@ -6,6 +6,9 @@
 #displayArea { margin:0; padding:0;}
 #tiddlerDisplay { margin: 0em 1em 1em 24em; }
 
+/* Header */
+div.header { border:solid 3px #000; }
+
 /* Agenda */
 #agendaMenu { width:23em; float:left;}
 #agendaMenu div.txtAgendaTab div.tabset { height:2em; }
