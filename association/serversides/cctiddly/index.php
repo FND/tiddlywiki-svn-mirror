@@ -24,7 +24,7 @@
 	recordTime_float("includes");
 	
 	// check if user is logged in 
-//	echo $user['verified'] = user_validate();	
+	// $user['verified'] = user_validate();	
 	
 	
 

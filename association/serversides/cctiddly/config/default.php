@@ -70,6 +70,7 @@ else
 	$tiddlyCfg['pref']['language'] = $tiddlyCfg['pref']['instance_settings'][0]['lang']; // choose between different version of TW, or adaptation
 	$tiddlyCfg['pref']['version'] = $tiddlyCfg['pref']['instance_settings'][0]['keep_revision']; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
 	$tiddlyCfg['pref']['reqLogin'] = $tiddlyCfg['pref']['instance_settings'][0]['require_login'];	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
+$tiddlyCfg['pref']['session_expire'] = 2000;
 	$tiddlyCfg['pref']['cookies'] = $tiddlyCfg['pref']['instance_settings'][0]['cookie_expire'];		//cookies expire time, in minutes [0=disable]
 	$tiddlyCfg['pref']['appendModifier'] =$tiddlyCfg['pref']['instance_settings'][0]['tag_tiddler_with_modifier'];		//append modifier name as tag
 }
@@ -177,5 +178,5 @@ $tiddlyCfg['privilege']['user']['systemConfig'] = "AAAA";
 //$tiddlyCfg['privilege']['anonymous']['comments'] = "AADD";		//allow comments to be post anonymously
 
 //misc
-$tiddlyCfg['developing']=0;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
+$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
 ?>

@@ -101,7 +101,7 @@
 	function user_validate($un="", $pw="")
 	{
 		global $tiddlyCfg;
-		
+		global $user;
 		error_log('VALIDATE-TOP'.$un.$pw, 0);
 
 		// if we are not passed a username and password the session has been created and we need to validate it.	
@@ -112,7 +112,6 @@
 		
 			$pw = cookie_get('passSecretCode');
 			$un = cookie_get('txtUserName');
-			
 		error_log('VALIDATE-HERE2'.$un.$pw, 0);
 			$data_session['session_token'] = $pw;
 			 
@@ -123,6 +122,7 @@
 		
 			if (count($results) > 0 )                   //  if the array has 1 or more sessions
 			{
+					$user['verified'] = 1;	
 	
 			return true;	
 				$expire = strtotime($results[0]['expire']);
@@ -130,22 +130,26 @@
 		 		if($expire > $now)
 		 		{
 					//user_set_session($un, $pw);  /// if you want to be really secure you could try this. 
+					if ($tiddlyCfg['developing'])
+						error_log('VALIDATE OK - return true '.$un.$pw, 0);
 					return TRUE;
-					
-		error_log('VALIDATE-TRUE'.$un.$pw, 0);
 				}
 				else 
 				{
 				
 				  //  THIS SHOULD PROMPT THE USER FOR A PASSWOR
 					user_logout();
-		error_log('VALIDATEFALSE'.$un.$pw, 0);
+					if ($tiddlyCfg['developing'])
+						error_log('VALIDATE FAILED - SESSION HAS EXPIRED - log out the user '.$un.$pw, 0);
 				 	return FALSE; 
 				 	//delete the cookies and session record 
 				}
 			}
 			else
 			{
+				user_logout();
+				if ($tiddlyCfg['developing'])
+					error_log('VALIDATE FAILED- NO SESSION EXISTS  - log out the user '.$un.$pw, 0);
 				return FALSE;		
 			}
 		}
@@ -183,12 +187,18 @@
 		error_log('LOGIN'.$un.$pw, 0);
 		if( user_validate($un, $pw) )
 		{
+		
 			user_set_session($un, $pw);
+			
+			if ($tiddlyCfg['developing'])
+					error_log('LOGIN -user validated so session should have been set return true '.$un.$pw, 0);
 			return TRUE;
 		}
 		else
 		{		//if username password pair wrong, clear cookie
 			user_logout();
+				if ($tiddlyCfg['developing'])
+					error_log('LOGIN -user name provided did not validated - return false '.$un.$pw, 0);
 			return FALSE;
 		}
 	}
@@ -206,11 +216,11 @@
 	}
 	
 	function user_logout()
-	{
-		
-		
+	{	
+		if ($tiddlyCfg['developing'])
+			error_log('LOG OUT THE USER '.$un.$pw, 0);
 		$data['session_token']= cookie_get('passSecretCode');
-		echo db_record_delete('login_session',$data);
+		db_record_delete('login_session',$data);
 
 		error_log('kill cookie', 0);
 		cookie_kill('passSecretCode');
