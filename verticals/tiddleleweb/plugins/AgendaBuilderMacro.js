@@ -1,6 +1,32 @@
-/*******************
+/*********************
+ * AgendaBuilderPlugin
+ **********************/
+
+/***
+|''Name''|AgendaBuilderMacro|
+|''Author''|JayFresh|
+|''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]]|
+|''Version''|1|
+|''~CoreVersion''|2.2.5|
+|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/tiddleleweb/plugins/AgendaBuilderMacro.js|
+|''Description''|builds a tabbed agenda menu out of tiddlers tagged with "session"|
+|''Syntax''|<<agendaMenu>>|
+|''Status''|@@experimental@@|
+|''Contributors''||
+|''Contact''|jon at osmosoft dot com|
+|''Comments''|please post to http://groups.google.com/TiddlyWikiDev|
+|''Dependencies''||
+|''Browser''||
+|''ReleaseDate''||
+|''Icon''||
+|''Screenshot''||
+|''Tags''||
+|''CodeRepository''|See Source above|
+***/
+//{{{ 
+/*********
  * Agenda
- *******************/
+ *********/
 Agenda = {};
 // flag for whether agenda is up to date
 Agenda.isCurrent = false;
@@ -127,6 +153,7 @@ config.macros.agendaMenuByTrack.buildAgendaItem = function(place,item) {
 	var notes = createTiddlyElement(agendaItem,"div",null,"notes");
 
 };
+//}}}
 
 /*******************
 * currentSession

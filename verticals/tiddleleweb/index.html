@@ -42,9 +42,7 @@ DAMAGE.
 <link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml'/>
 <!--}}}-->
 <!--PRE-HEAD-END-->
-<title>
-TiddleLeWeb - the social conferencing tool
-</title>
+<title> TiddleLeWeb - the social conferencing tool </title>
 <style type="text/css">
 #saveTest {display:none;}
 #messageArea {display:none;}
@@ -55,10 +53,12 @@ TiddleLeWeb - the social conferencing tool
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
 </style>
 <!--POST-HEAD-START-->
+
 <!--POST-HEAD-END-->
 </head>
 <body onload="main();" onunload="if(window.checkUnsavedChanges) checkUnsavedChanges(); if(window.scrubNodes) scrubNodes(document.body);">
 <!--PRE-BODY-START-->
+
 <!--PRE-BODY-END-->
 <div id="copyright">
 Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa Association
@@ -498,13 +498,237 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="Why I Love Vodafone" tags="session">
-<pre>speaker:hello
-track:day1
-date:9/11/07
-start:1600
-end:1900
-blurb:Dan loves all this</pre>
+<div title="Agenda" modifier="Jon Lister" modified="200710161502" created="200706181748" tags="systemConfig excludeLists excludeSearch" changecount="1">
+<pre>/*******************
+ * Agenda
+ *******************/
+Agenda = {};
+// flag for whether agenda is up to date
+Agenda.isCurrent = false;
+// params array for the tab macro, filled by create_tab_tiddlers
+Agenda.tabsParams = [];
+// Fix for slices regex not correctly matching slices of the form &quot;key:\nkey:value&quot;
+TiddlyWiki.prototype.slicesRE = /(?:[\'\/]*~?([\.\w]+)[\'\/]*\:[\'\/]* *(.*?)\s*$)|(?:\|[\'\/]*~?([\.\w]+)\:?[\'\/]*\|\s*(.*?)\s*\|)/gm;
+
+// function to gather agenda items
+Agenda.getItems = function() {
+	var filter = &quot;[tag[session]]&quot;;
+	return store.filterTiddlers(filter);
+};
+
+// function to return array of names of tracks the agenda covers
+Agenda.getTracks = function() {
+	var tracks = [];
+	var items = Agenda.getItems();
+	for (var i=0;i&lt;items.length;i++) {
+		tracks.pushUnique(store.getTiddlerSlice(items[i].title,&quot;track&quot;));
+	}
+	return tracks;
+};
+
+// function to return agenda items for a single track sorted by start time
+Agenda.getTrack = function(track) {
+	var trackItems = [];
+	var items = Agenda.getItems();
+	for (var i=0;i&lt;items.length;i++) {
+		if (store.getTiddlerSlice(items[i].title,&quot;track&quot;) == track) {
+			trackItems.push(items[i]);
+		}
+	}
+	trackItems.sort(function(a,b){
+		var a_start = store.getTiddlerSlice(a.title,&quot;start&quot;);
+		var b_start = store.getTiddlerSlice(b.title,&quot;start&quot;);
+		return a_start &lt; b_start ? -1 : (a_start == b_start ? 0 : 1);
+	});
+	return trackItems;
+};
+
+// create the right tiddlers to populate the tabs in the agendaMenu
+// returns params array for tab macro
+Agenda.create_tab_tiddlers = function() {
+	var params = [];
+	var titlePrefix = &quot;TabAgenda&quot;;
+	var textPrefix = &quot;&lt;&lt;agendaMenuByTrack &quot;;
+	var textSuffix = &quot;&gt;&gt;&quot;;
+	var tracks = Agenda.getTracks();
+	// start by adding the selected tab param
+	params.push(&quot;txtAgendaTab&quot;);
+	for (var i=0;i&lt;tracks.length;i++) {
+		var title = titlePrefix+tracks[i];
+		var text = textPrefix+tracks[i]+textSuffix;
+		if(!store.tiddlerExists(title)) {
+			store.saveTiddler(title,title,text);
+			params.push(tracks[i]);
+			params.push(tracks[i]);
+			params.push(title);
+		}
+	}
+	return params;
+};
+
+Agenda.init = function() {
+	// check to see if Agenda is current before updating
+	if (!Agenda.isCurrent) {
+		// set up the tiddlers for the tabs macro in agendaMenu
+		Agenda.tabsParams = Agenda.create_tab_tiddlers();
+		// set default selected tab in agendaMenu
+		config.options.txtAgendaTab = &quot;&quot;;
+		Agenda.isCurrent = !Agenda.isCurrent;
+	}
+};
+Agenda.init();
+
+/*******************
+ * agendaMenu
+ * agendaMenuByTrack
+ *******************/
+config.macros.agendaMenu = {};
+
+config.macros.agendaMenu.handler = function(place,macroName) {
+	// set up the variables and tiddlers for running the tabs macro
+	config.macros.tabs.handler(place,macroName,Agenda.tabsParams);
+};
+
+config.macros.agendaMenuByTrack = {};
+
+config.macros.agendaMenuByTrack.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	// create the agenda menu for a single track
+	// params[0] is the day
+	var trackItems = Agenda.getTrack(params[0]);
+	if (!trackItems) {
+		displayMessage(&quot;error with agendaMenuByTrack for day: &quot; + params[0]);
+		return;
+	}
+	for (var i=0;i&lt;trackItems.length;i++) {
+		this.buildAgendaItem(place,trackItems[i]);
+	}
+};
+
+config.macros.agendaMenuByTrack.buildAgendaItem = function(place,item) {
+	// collect information from the session tiddler
+	var title = item.title;
+	var speaker = store.getTiddlerSlice(title,&quot;speaker&quot;);
+	var start = store.getTiddlerSlice(title,&quot;start&quot;);
+	var end = store.getTiddlerSlice(title,&quot;end&quot;);
+	var blurb = store.getTiddlerSlice(title,&quot;blurb&quot;);
+
+	// build the entry in the agendaMenu
+	// var wrapper = createTiddlyElement(place,&quot;div&quot;,null,&quot;agendaItem&quot;);
+	// 	var header = createTiddlyLink(createTiddlyElement(wrapper,&quot;div&quot;,null,&quot;agendaItemHeader&quot;),title);
+	// 	createTiddlyElement(header,&quot;span&quot;,null,&quot;agendaItemHeaderTime&quot;,start + &quot; - &quot; + end);
+	// 	createTiddlyElement(header,&quot;span&quot;,null,&quot;agendaItemHeaderSpeaker&quot;,speaker);
+	// 	var text = createTiddlyElement(wrapper,&quot;div&quot;,null,&quot;agendaItemText&quot;);
+	// 	createTiddlyElement(text,&quot;span&quot;,null,&quot;agendaItemTextTitle&quot;,title);
+	
+	// build the entry in the agendaMenu
+	var agendaItem = createTiddlyElement(place,&quot;div&quot;,null,&quot;agendaItem&quot;);
+	createTiddlyElement(agendaItem,&quot;span&quot;,null,&quot;time&quot;,start + &quot; - &quot; + end);
+	createTiddlyLink(createTiddlyElement(agendaItem,&quot;span&quot;,null,&quot;title&quot;), title, title);
+	createTiddlyElement(agendaItem,&quot;div&quot;,null,&quot;speaker&quot;,speaker);
+	var notes = createTiddlyElement(agendaItem,&quot;div&quot;,null,&quot;notes&quot;);
+
+};
+
+/*******************
+* currentSession
+*******************/
+config.macros.currentSession = {};
+
+config.macros.currentSession.handler = function(place) {
+	// find out which agenda items are on now
+	var sessions = config.macros.currentSession.find();
+	var currentSessionButton = createTiddlyElement(place,&quot;span&quot;,&quot;currentSessionButton&quot;);
+	if (sessions.length === 0) {
+		createTiddlyText(currentSessionButton,&quot;no sessions on now&quot;);
+	} else if (sessions.length == 1) {
+		createTiddlyText(createTiddlyLink(currentSessionButton,sessions[0].title),&quot;Jump to current session&quot;);
+	} else {
+		var options = [];
+		options.push({caption:&quot;Jump to current sessions&quot;,name:&quot;&quot;});
+		for (var i=0;i&lt;sessions.length;i++) {
+			options.push({caption:sessions[i].title,name:sessions[i].title});
+		}
+		createTiddlyDropDown(currentSessionButton,config.macros.currentSession.onchange,options,&quot;&quot;);
+	}
+};
+
+config.macros.currentSession.onchange = function() {
+	// open up the selected tiddler and move the agendaMenu to the right session
+	var title = this.value;
+	if (title) {
+		story.displayTiddler(this,title);
+	}
+	// move active agenda item to title
+};
+
+config.macros.currentSession.find = function() {
+	// returns an array of title for sessions on now
+	// assumes agenda items have dates of the form dd/mm/yyyy GMT
+	// and that item start is of the form hhmm
+	var items = Agenda.getItems();
+	var now = new Date();
+	var sessions = [];
+	for (var i=0;i&lt;items.length;i++) {
+		var then = config.macros.currentSession.getTimes(items[i]);
+		// check for now being between start and end of session 
+		if (then.start.getTime() &lt; now.getTime() &amp;&amp; then.end.getTime() &gt; now.getTime()) {
+			sessions.push(items[i]);
+		}
+	}
+	return sessions;
+};
+
+config.macros.currentSession.getTimes = function(item) {
+	// returns two dates for agenda item start and finish
+	var then = {};
+	var title = item.title;
+	var date = store.getTiddlerSlice(title,&quot;date&quot;);
+	var start = store.getTiddlerSlice(title,&quot;start&quot;);
+	var end = store.getTiddlerSlice(title,&quot;end&quot;);
+	// guard against single digit entries in the date
+	date = date.replace(/(\b)(\w)(\b)/g,&quot;$10$2$3&quot;);
+	// convert YY to YYYY, assuming everything to be after 2000
+	date = date.replace(/(\b)(\d\d)$/g,&quot;$120$2&quot;);
+	// convert UK standard date of dd/mm/yyyy to expected YYYYMMDD
+	var d = date.split(&quot;/&quot;).reverse().join(&quot;&quot;);
+	var d1 = d+start;
+	var d2 = d+end;
+	then.start = Date.convertFromYYYYMMDDHHMM(d1);
+	then.end = Date.convertFromYYYYMMDDHHMM(d2);
+	return then;
+};
+
+/*******************
+* crossBrowserHelp
+*******************/
+config.macros.crossBrowserHelp = {};
+
+config.macros.crossBrowserHelp.handler = function(place) {
+	// detect different help messages depending on which browser is being used
+	var text = &quot;&quot;;
+	if(config.browser.isIE) {
+		// IE
+		text = &quot;You're using IE&quot;;
+	} else if (config.browser.isGecko) {
+		// FF
+		text = &quot;You're using Firefox&quot;;
+	} else if (config.browser.isSafari || config.browser.isBadSafari) {
+		// Safari
+		text = &quot;You're using Safari&quot;;
+	} else if (config.browser.isOpera) {
+		// Opera
+		text = &quot;You're using Opera&quot;;
+	}
+	/* Other variables I have to play with:
+	 * ieVersion: // config.browser.ieVersion[1], if it exists, will be the IE version string, eg &quot;6.0&quot;
+	 * firefoxDate: // config.browser.firefoxDate[1], if it exists, will be Firefox release date as &quot;YYYYMMDD&quot;
+	 * isMac:
+	 * isWindows:
+	 * isLinux:
+	 * isUnix
+	 */
+	 createTiddlyText(place,text);
+};</pre>
 </div>
 <div title="Coffee Break" tags="session">
 <pre>speaker:
@@ -514,55 +738,591 @@ start:1600
 end:1800
 blurb:</pre>
 </div>
-<div title="Making your information social" tags="session">
-<pre>speaker:Kevin Rose - DIGG in conversation with Sarah Lacy - Author
-track:day2
-date:13/11/07
-start:1700
-end:1900
-blurb:</pre>
+<div title="Config">
+<pre>|Admin feed url|&lt;&lt;option txtPollAdminFeed&gt;&gt;|
+|Poll for updates and queue items|&lt;&lt;option chkDoPolling&gt;&gt;|
+|~UserName|&lt;&lt;option txtUserName&gt;&gt;|</pre>
 </div>
-<div title="Persistent communication and its impact on being social" tags="session">
-<pre>speaker:Evan Williams
-track:day1
-date:11/12/07
-start:0840
-end:0855
-blurb:</pre>
+<div title="CryptoFunctionsPlugin" created="200710060450" tags="systemConfig excludeLists excludeSearch">
+<pre>/***
+|''Name:''|CryptoFunctionsPlugin|
+|''Description:''|Support for cryptographic functions|
+***/
+//{{{
+if(!version.extensions.CryptoFunctionsPlugin) {
+version.extensions.CryptoFunctionsPlugin = {installed:true};
+
+//--
+//-- Crypto functions and associated conversion routines
+//--
+
+// Crypto &quot;namespace&quot;
+function Crypto() {}
+
+// Convert a string to an array of big-endian 32-bit words
+Crypto.strToBe32s = function(str)
+{
+	var be = Array();
+	var len = Math.floor(str.length/4);
+	var i, j;
+	for(i=0, j=0; i&lt;len; i++, j+=4) {
+		be[i] = ((str.charCodeAt(j)&amp;0xff) &lt;&lt; 24)|((str.charCodeAt(j+1)&amp;0xff) &lt;&lt; 16)|((str.charCodeAt(j+2)&amp;0xff) &lt;&lt; 8)|(str.charCodeAt(j+3)&amp;0xff);
+	}
+	while (j&lt;str.length) {
+		be[j&gt;&gt;2] |= (str.charCodeAt(j)&amp;0xff)&lt;&lt;(24-(j*8)%32);
+		j++;
+	}
+	return be;
+};
+
+// Convert an array of big-endian 32-bit words to a string
+Crypto.be32sToStr = function(be)
+{
+	var str = &quot;&quot;;
+	for(var i=0;i&lt;be.length*32;i+=8)
+		str += String.fromCharCode((be[i&gt;&gt;5]&gt;&gt;&gt;(24-i%32)) &amp; 0xff);
+	return str;
+};
+
+// Convert an array of big-endian 32-bit words to a hex string
+Crypto.be32sToHex = function(be)
+{
+	var hex = &quot;0123456789ABCDEF&quot;;
+	var str = &quot;&quot;;
+	for(var i=0;i&lt;be.length*4;i++)
+		str += hex.charAt((be[i&gt;&gt;2]&gt;&gt;((3-i%4)*8+4))&amp;0xF) + hex.charAt((be[i&gt;&gt;2]&gt;&gt;((3-i%4)*8))&amp;0xF);
+	return str;
+};
+
+// Return, in hex, the SHA-1 hash of a string
+Crypto.hexSha1Str = function(str)
+{
+	return Crypto.be32sToHex(Crypto.sha1Str(str));
+};
+
+// Return the SHA-1 hash of a string
+Crypto.sha1Str = function(str)
+{
+	return Crypto.sha1(Crypto.strToBe32s(str),str.length);
+};
+
+// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
+Crypto.sha1 = function(x,blen)
+{
+	// Add 32-bit integers, wrapping at 32 bits
+	add32 = function(a,b)
+	{
+		var lsw = (a&amp;0xFFFF)+(b&amp;0xFFFF);
+		var msw = (a&gt;&gt;16)+(b&gt;&gt;16)+(lsw&gt;&gt;16);
+		return (msw&lt;&lt;16)|(lsw&amp;0xFFFF);
+	};
+	// Add five 32-bit integers, wrapping at 32 bits
+	add32x5 = function(a,b,c,d,e)
+	{
+		var lsw = (a&amp;0xFFFF)+(b&amp;0xFFFF)+(c&amp;0xFFFF)+(d&amp;0xFFFF)+(e&amp;0xFFFF);
+		var msw = (a&gt;&gt;16)+(b&gt;&gt;16)+(c&gt;&gt;16)+(d&gt;&gt;16)+(e&gt;&gt;16)+(lsw&gt;&gt;16);
+		return (msw&lt;&lt;16)|(lsw&amp;0xFFFF);
+	};
+	// Bitwise rotate left a 32-bit integer by 1 bit
+	rol32 = function(n)
+	{
+		return (n&gt;&gt;&gt;31)|(n&lt;&lt;1);
+	};
+
+	var len = blen*8;
+	// Append padding so length in bits is 448 mod 512
+	x[len&gt;&gt;5] |= 0x80 &lt;&lt; (24-len%32);
+	// Append length
+	x[((len+64&gt;&gt;9)&lt;&lt;4)+15] = len;
+	var w = Array(80);
+
+	var k1 = 0x5A827999;
+	var k2 = 0x6ED9EBA1;
+	var k3 = 0x8F1BBCDC;
+	var k4 = 0xCA62C1D6;
+
+	var h0 = 0x67452301;
+	var h1 = 0xEFCDAB89;
+	var h2 = 0x98BADCFE;
+	var h3 = 0x10325476;
+	var h4 = 0xC3D2E1F0;
+
+	for(var i=0;i&lt;x.length;i+=16) {
+		var j,t;
+		var a = h0;
+		var b = h1;
+		var c = h2;
+		var d = h3;
+		var e = h4;
+		for(j = 0;j&lt;16;j++) {
+			w[j] = x[i+j];
+			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),d^(b&amp;(c^d)),w[j],k1);
+			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
+		}
+		for(j=16;j&lt;20;j++) {
+			w[j] = rol32(w[j-3]^w[j-8]^w[j-14]^w[j-16]);
+			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),d^(b&amp;(c^d)),w[j],k1);
+			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
+		}
+		for(j=20;j&lt;40;j++) {
+			w[j] = rol32(w[j-3]^w[j-8]^w[j-14]^w[j-16]);
+			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),b^c^d,w[j],k2);
+			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
+		}
+		for(j=40;j&lt;60;j++) {
+			w[j] = rol32(w[j-3]^w[j-8]^w[j-14]^w[j-16]);
+			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),(b&amp;c)|(d&amp;(b|c)),w[j],k3);
+			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
+		}
+		for(j=60;j&lt;80;j++) {
+			w[j] = rol32(w[j-3]^w[j-8]^w[j-14]^w[j-16]);
+			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),b^c^d,w[j],k4);
+			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
+		}
+
+		h0 = add32(h0,a);
+		h1 = add32(h1,b);
+		h2 = add32(h2,c);
+		h3 = add32(h3,d);
+		h4 = add32(h4,e);
+	}
+	return Array(h0,h1,h2,h3,h4);
+};
+
+
+}
+//}}}</pre>
 </div>
-<div title="Web 2.0 - The Dark Side" tags="session">
-<pre>speaker:Laurent Haug - LIFT Conference (moderator),Michel Jaccard - attorney,Jaewoong Lee - Daum Communications,Joanna Shields - Bebo,Dan Rose - Facebook,Chris Alden - SixApart
-track:day1
-date:11/12/07
-start:0855
-end:0940
-blurb:</pre>
+<div title="DAVPlugin" modifier="JonLister" created="200711090000" tags="systemConfig excludeLists excludeSearch">
+<pre>WebDav = {
+	orig_saveChanges: saveChanges,
+	defaultFilename: 'index.html',
+	session:{date:new Date().toGMTString(),Q:[]},
+	startSaveMessage: &quot;saving to server...&quot;,
+	
+	runQ : function(){
+		if(WebDav.session.Q.length){
+			(WebDav.session.Q.shift())();
+		}
+	},
+	
+	reset: function(){
+		WebDav.session = {date:WebDav.session.lastSave,Q:[]};
+	},
+	
+	saveChanges : function(onlyIfDirty,tiddlers){
+		if(onlyIfDirty &amp;&amp; !store.isDirty())
+			return;
+		clearMessage();
+		displayMessage(this.startSaveMessage);
+		var Q = this.session.Q =[];
+		Q.push(this.davEnabled.init);
+		Q.push(this.getOriginal.init);
+		Q.push(this.checkRace.init);
+		if (config.options.chkSaveBackups){
+			if (config.options.txtBackupFolder!='')
+				Q.push(this.makeBackupDir.init);
+			Q.push(this.saveBackup.init);
+		}
+		Q.push(this.saveMain.init);
+		if (config.options.chkGenerateAnRssFeed)
+			Q.push(this.saveRss.init);
+		if (config.options.chkSaveEmptyTemplate)
+			Q.push(this.saveEmpty.init);
+		Q.push(this.reset);
+		this.runQ();
+	},
+	
+	getOriginal:{
+		init: function(){		
+			DAV.get(WebDav.session.originalPath,WebDav.getOriginal.params);
+		},	
+		params: {
+			callback : function(status,params,original,url,xhr) {
+				var p = WebDav.session.posDiv = locateStoreArea(original);
+				if(!p || (p[0] == -1) || (p[1] == -1)) {
+					alert(config.messages.invalidFileError.format([url]));
+					return;
+				}
+				WebDav.session.original = original;
+				WebDav.runQ();
+			},
+			methodError: &quot;Could not load original file&quot;	
+		}
+	},
+	
+	checkRace:{
+		init: function(){			
+			DAV.getProp(WebDav.session.originalPath,WebDav.checkRace.params,&quot;getlastmodified&quot;,0);	
+		},
+		params: {
+			callback: function(status,params,responseText,url,xhr){
+				//console.log(params['propvalue']);
+				//console.log(WebDav.session.date);
+				if(Date.parse(params['propvalue']) &gt; Date.parse(WebDav.session.date)){
+					status = confirm(WebDav.checkRace.params.confirmMessage);
+					if(!status){
+						alert(WebDav.checkRace.params.error);
+						return;
+					}	
+				}
+				WebDav.runQ();
+			},
+			confirmMessage: &quot;The remote file has changed since you last loaded or saved it.\nDo you wish to overwrite it?&quot;,
+			methodError: &quot;Could not get last modified date&quot;,
+			error: &quot;Save failed because the remote file is newer than the one you are trying to save&quot;
+		}
+	},
+	
+	davEnabled:{
+		init: function(){
+			DAV.isEnabled(WebDav.session.originalPath,WebDav.davEnabled.params);
+		},
+		params:{
+			callback: function(status){
+				WebDav.runQ();
+			},
+			methodError: &quot;This server does not support WebDav&quot;
+		}
+	},
+	
+	saveRss: {
+		init: function(){
+			var url = WebDav.session.originalPath;
+			var rssPath = url.substr(0,url.lastIndexOf(&quot;.&quot;)) + &quot;.xml&quot;;
+			DAV.putAndMove(rssPath,WebDav.saveRss.params,convertUnicodeToUTF8(generateRss()));
+		},
+		params:{
+			callback: function(status,params,responseText,url,xhr){
+				displayMessage(config.messages.rssSaved,url);
+				WebDav.runQ();
+			},
+			methodError: &quot;Could not save RSS feed to server&quot;
+		}	
+	},
+	
+	saveEmpty: {
+		init: function(){
+			var w = WebDav.session;
+			var url = w.originalPath;
+			var emptyPath,p;
+			if((p = url.lastIndexOf(&quot;/&quot;)) != -1)
+				emptyPath = url.substr(0,p) + &quot;/empty.html&quot;;
+			else
+				emptyPath = url + &quot;.empty.html&quot;;
+			var empty = w.original.substr(0,w.posDiv[0] + startSaveArea.length) + w.original.substr(w.posDiv[1]);
+			DAV.putAndMove(emptyPath,WebDav.saveEmpty.params,empty);
+		},
+		params:{
+			callback: function(status,params,responseText,url,xhr){
+				displayMessage(config.messages.emptySaved,url);
+				WebDav.runQ();
+			},
+			methodError: &quot;Could not save empty template to server&quot;
+		}
+	},
+	
+	saveMain: {
+		init: function(){
+			var w = WebDav.session;	
+			var revised = updateOriginal(w.original,w.posDiv);
+			DAV.putAndMove(w.originalPath,WebDav.saveMain.params,revised);
+		},
+		params:{
+			callback: function(status,params,responseText,url,xhr){
+				WebDav.session.lastSave = xhr.getResponseHeader('Date');
+				displayMessage(config.messages.mainSaved,url);
+				store.setDirty(false);
+				WebDav.runQ();		
+			},
+			methodError: &quot;Could not save main TiddlyWiki file to server&quot;
+		}
+	},
+	
+	saveBackup :{
+		init: function(){
+			var backupPath = getBackupPath(WebDav.session.originalPath);
+		//	DAV.putAndMove(backupPath,WebDav.saveBackup.params,WebDav.session.original);
+			var params = WebDav.saveBackup.params;
+			params.destination = backupPath;
+			DAV.copy(WebDav.session.originalPath,params,backupPath);
+		},
+		params:{
+			callback: function(status,params,responseText,url,xhr){
+				displayMessage(config.messages.backupSaved,params.destination);
+				WebDav.runQ();
+			},
+			methodError: &quot;Could not save backup file&quot;
+		}
+	},
+	
+	makeBackupDir:{
+		init: function(){
+			var url = getBackupPath(WebDav.session.originalPath);
+			var backupDirPath = url.substr(0,url.lastIndexOf(&quot;/&quot;));
+			DAV.makeDir(backupDirPath,WebDav.makeBackupDir.params); 
+		},
+		params:{
+			callback: function(status,params,responseText,url,xhr){
+				WebDav.runQ();
+			},
+			methodError: &quot;Could not create backup directory&quot;
+		}
+	}		
+};
+
+window.saveChanges = function(onlyIfDirty,tiddlers)
+{	
+	var p = document.location.toString();
+	p = convertUriToUTF8(p,config.options.txtFileSystemCharSet);
+	var argPos = p.indexOf(&quot;?&quot;);
+	if(argPos != -1)
+		p = p.substr(0,argPos);
+	var hashPos = p.indexOf(&quot;#&quot;);
+	if(hashPos != -1)
+		p = p.substr(0,hashPos);		
+	if (p.charAt(p.length-1) == &quot;/&quot;)
+		p = p + WebDAV.defaultFilename;
+	WebDav.session.originalPath = p;
+	if (p.substr(0,5) == &quot;http:&quot;)
+		return WebDav.saveChanges(onlyIfDirty,tiddlers);
+	else
+		return WebDav.orig_saveChanges(onlyIfDirty,tiddlers);
+};
+
+
+DAV = {
+	run : function(type,url,data,params,headers){
+		var callback = function(status,params,responseText,url,xhr) {
+			if (!status) {
+				alert(&quot;failed&quot;);
+console.log(xhr);
+console.log(&quot;response is &quot; +responseText);
+console.log(&quot;url is &quot;+url);
+console.log(&quot;status is &quot;+status);
+				return;
+			}
+			switch(params['type']){
+				case &quot;GET&quot;:
+					status = (xhr.status == 200);
+					break;
+				case &quot;PROPFIND&quot;:
+					status = (xhr.status == 207);
+					var rp = new RegExp('&lt;(\\w*?):'+params['prop']+'&gt;(.*?)&lt;\\/\\1:'+params['prop']+'&gt;')
+					params['propvalue'] = rp.exec(responseText)[2];
+					break;
+				case &quot;MKCOL&quot;:
+					status = (xhr.status == 200 || xhr.status == 201);
+					break;
+				case &quot;PUT&quot;:
+				case &quot;COPY&quot;:
+					status = (xhr.status == 201 || xhr.status == 204);
+					break;
+				case &quot;MOVE&quot;:
+					status = (xhr.status == 201 || xhr.status == 204);
+					url = url.replace(&quot;-davsavingtemp&quot;,&quot;&quot;);
+					break;
+				case &quot;OPTIONS&quot;:
+					status = !! xhr.getResponseHeader(&quot;DAV&quot;);
+					break;
+				default:
+					status = true;
+					break;
+			}
+			//if(!status &amp;&amp; params.methodError){
+		//		alert(params.methodError);
+		//		return;
+		//	}
+			url = url.indexOf(&quot;nocache=&quot;) &lt; 0 ? url : url.substring(0,url.indexOf(&quot;nocache=&quot;)-1);
+			if(params.callback)
+				params.callback.apply(this,[status,params,responseText,url,xhr]);
+		};	
+			
+		params['type'] = type;
+		doHttp.apply(this,[type,url,data,null,null,null,callback,params,headers]);
+	},
+	
+	getProp : function(url,params,prop,depth){
+		var xml = '&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;' +
+			'&lt;D:propfind xmlns:D=&quot;DAV:&quot;&gt;' +
+			'&lt;D:prop&gt;'+
+			'&lt;D:'+prop+'/&gt;'+
+			'&lt;/D:prop&gt;'+
+			'&lt;/D:propfind&gt;';
+		params['prop'] = prop;
+		DAV.run(&quot;PROPFIND&quot;,url,xml,params,{&quot;Content-type&quot;:&quot;text/xml&quot;,&quot;Depth&quot;:depth?depth:0});
+	},
+	
+	makeDir : function(url,params){
+		DAV.run(&quot;MKCOL&quot;,url,null,params,null);
+	},
+
+	isEnabled : function(url,params){
+		DAV.run(&quot;OPTIONS&quot;,url,null,params,null);
+	},
+
+	get : function(url,params){
+		DAV.run(&quot;GET&quot;,url,null,params,null);
+	},
+
+	put : function(url,params,data) {
+		DAV.run(&quot;PUT&quot;,url,data,params,null);
+	},
+
+	move : function(url,params,destination) {
+		DAV.run(&quot;MOVE&quot;,url,null,params,{&quot;Destination&quot;:destination,&quot;Overwrite&quot;:&quot;T&quot;});
+	}, 
+
+	copy : function(url,params,destination) {
+		DAV.run(&quot;COPY&quot;,url,null,params,{&quot;Destination&quot;:destination,&quot;Overwrite&quot;:&quot;T&quot;,&quot;Depth&quot;:0});
+	},
+
+	putAndMove : function(url,params,data){
+		params.nextcallback = params.callback;
+		params.callback = function(status,params,responseText,url,xhr){
+			params.callback = params.nextcallback;
+			params.nextcallback = null;
+			DAV.move(url,params,url.replace(&quot;-davsavingtemp&quot;,&quot;&quot;));
+		};
+		
+		DAV.put(url+&quot;-davsavingtemp&quot;,params,data);
+	}
+};
+
+
+// get date from server on start up? too?
+// not entirely happy with reset function. Is it foolproof in situations where the save failed? handling of lastSave date
+// // should reset function run somehow on failure?
+// write as a constructor?
+
+//race timer
+
+//ability to force save despite race conflict
+
+
+//merge conflict feature, import tiddlers from server version, compare dates and merge... synch!
+//locking options?
+//innerHTML instead of GET?
+//upload file feature
+//list view based DavClient
+//clean up backup files option?</pre>
 </div>
-<div title="Welcome to the Evolution/Revolution" tags="session">
-<pre>speaker:Loic Le Meur
-track:day1
-date:11/13/07
-start:0830
-end:0840
-blurb:</pre>
+<div title="DeepNavigation">
+<pre>[[SideBarOptions]]
+[[SideBarTabs]]</pre>
 </div>
-<div title="Why books and school lectures still exist" tags="session">
-<pre>speaker:Hans Rosling
-track:day1
-date:11/12/07
-start:1000
-end:1020
-blurb:</pre>
+<div title="DefaultTiddlers" tags="excludeLists excludeSearch">
+<pre>[[UnitTests]]
+[[Config]]
+[[DeepNavigation]]</pre>
 </div>
-<div title="Welcome to the Evolution/Revolution from JoeBloggs" tags="excludeLists excludeSearch">
-<pre>That was a very good introduction</pre>
+<div title="DeprecatedFunctionsPlugin" created="200710161932" tags="systemConfig excludeLists excludeSearch">
+<pre>/***
+|''Name:''|DeprecatedFunctionsPlugin|
+|''Description:''|Support for deprecated functions removed from core|
+***/
+//{{{
+if(!version.extensions.DeprecatedFunctionsPlugin) {
+version.extensions.DeprecatedFunctionsPlugin = {installed:true};
+
+//--
+//-- Deprecated code
+//--
+
+// @Deprecated: Use createElementAndWikify and this.termRegExp instead
+config.formatterHelpers.charFormatHelper = function(w)
+{
+	w.subWikify(createTiddlyElement(w.output,this.element),this.terminator);
+};
+
+// @Deprecated: Use enclosedTextHelper and this.lookaheadRegExp instead
+config.formatterHelpers.monospacedByLineHelper = function(w)
+{
+	var lookaheadRegExp = new RegExp(this.lookahead,&quot;mg&quot;);
+	lookaheadRegExp.lastIndex = w.matchStart;
+	var lookaheadMatch = lookaheadRegExp.exec(w.source);
+	if(lookaheadMatch &amp;&amp; lookaheadMatch.index == w.matchStart) {
+		var text = lookaheadMatch[1];
+		if(config.browser.isIE)
+			text = text.replace(/\n/g,&quot;\r&quot;);
+		createTiddlyElement(w.output,&quot;pre&quot;,null,null,text);
+		w.nextMatch = lookaheadRegExp.lastIndex;
+	}
+};
+
+// @Deprecated: Use &lt;br&gt; or &lt;br /&gt; instead of &lt;&lt;br&gt;&gt;
+config.macros.br = {};
+config.macros.br.handler = function(place)
+{
+	createTiddlyElement(place,&quot;br&quot;);
+};
+
+// Find an entry in an array. Returns the array index or null
+// @Deprecated: Use indexOf instead
+Array.prototype.find = function(item)
+{
+	var i = this.indexOf(item);
+	return i == -1 ? null : i;
+};
+
+// Load a tiddler from an HTML DIV. The caller should make sure to later call Tiddler.changed()
+// @Deprecated: Use store.getLoader().internalizeTiddler instead
+Tiddler.prototype.loadFromDiv = function(divRef,title)
+{
+	return store.getLoader().internalizeTiddler(store,this,title,divRef);
+};
+
+// Format the text for storage in an HTML DIV
+// @Deprecated Use store.getSaver().externalizeTiddler instead.
+Tiddler.prototype.saveToDiv = function()
+{
+	return store.getSaver().externalizeTiddler(store,this);
+};
+
+// @Deprecated: Use store.allTiddlersAsHtml() instead
+function allTiddlersAsHtml()
+{
+	return store.allTiddlersAsHtml();
+}
+
+// @Deprecated: Use refreshPageTemplate instead
+function applyPageTemplate(title)
+{
+	refreshPageTemplate(title);
+}
+
+// @Deprecated: Use story.displayTiddlers instead
+function displayTiddlers(srcElement,titles,template,unused1,unused2,animate,unused3)
+{
+	story.displayTiddlers(srcElement,titles,template,animate);
+}
+
+// @Deprecated: Use story.displayTiddler instead
+function displayTiddler(srcElement,title,template,unused1,unused2,animate,unused3)
+{
+	story.displayTiddler(srcElement,title,template,animate);
+}
+
+// @Deprecated: Use functions on right hand side directly instead
+var createTiddlerPopup = Popup.create;
+var scrollToTiddlerPopup = Popup.show;
+var hideTiddlerPopup = Popup.remove;
+
+// @Deprecated: Use right hand side directly instead
+var regexpBackSlashEn = new RegExp(&quot;\\\\n&quot;,&quot;mg&quot;);
+var regexpBackSlash = new RegExp(&quot;\\\\&quot;,&quot;mg&quot;);
+var regexpBackSlashEss = new RegExp(&quot;\\\\s&quot;,&quot;mg&quot;);
+var regexpNewLine = new RegExp(&quot;\n&quot;,&quot;mg&quot;);
+var regexpCarriageReturn = new RegExp(&quot;\r&quot;,&quot;mg&quot;);
+
+}
+//}}}</pre>
 </div>
-<div title="Welcome to the Evolution/Revolution from PhilHawksworth" tags="excludeLists excludeSearch">
-<pre>That was an excellent introduction</pre>
+<div title="Help">
+<pre>&lt;&lt;crossBrowserHelp&gt;&gt;</pre>
 </div>
 <div title="MainMenu" tags="excludeLists excludeSearch" force="true" refresh="macro">
-<pre>
-&lt;&lt;toggleElement
+<pre>&lt;&lt;toggleElement
 	&quot;agendaMenu&quot;
 	&quot;Toggle Agenda&quot;
 	&quot;Switch agenda menu on and off&quot;
@@ -573,11 +1333,13 @@ blurb:</pre>
 &lt;&lt;crossBrowserHelp&gt;&gt;
 &lt;&lt;showQueue&gt;&gt;</pre>
 </div>
-<div title="DefaultTiddlers" tags="excludeLists excludeSearch">
-<pre>
-[[UnitTests]]
-[[Config]]
-[[DeepNavigation]]</pre>
+<div title="Making your information social" modifier="Jon Lister" modified="200711150925" tags="session" inqueue="false" changecount="2">
+<pre>speaker:Kevin Rose - DIGG in conversation with Sarah Lacy - Author
+track:day2
+date:13/11/07
+start:1700
+end:1900
+blurb:</pre>
 </div>
 <div title="PageTemplate" tags="excludeLists excludeSearch">
 <pre>&lt;!--{{{--&gt;
@@ -599,78 +1361,346 @@ blurb:</pre>
 &lt;/div&gt;
 &lt;!--}}}--&gt;</pre>
 </div>
-<div title="sessionEditTemplate" tags="excludeLists excludeSearch">
-<pre>&lt;!--{{{--&gt;
-&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;
-&lt;!-- &lt;div class='title' macro='view title'&gt;&lt;/div&gt; --&gt;
-&lt;!-- &lt;div class='editor' macro='edit title'&gt;&lt;/div&gt; --&gt;
-&lt;div macro='annotations'&gt;&lt;/div&gt;
-&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;
-&lt;!-- &lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser'&gt;&lt;/span&gt;&lt;/div&gt; --&gt;
-&lt;!--}}}--&gt;</pre>
+<div title="Persistent communication and its impact on being social" tags="session">
+<pre>speaker:Evan Williams
+track:day1
+date:11/12/07
+start:0840
+end:0855
+blurb:</pre>
 </div>
-<div title="sessionViewTemplate" tags="excludeLists excludeSearch">
-<pre>&lt;!--{{{--&gt;
-&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler'&gt;&lt;/div&gt;
-&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-&lt;!-- &lt;div class='subtitle'&gt;&lt;/div&gt; --&gt;
-&lt;div macro='sessionAnnotation'&gt;&lt;/div&gt;
-&lt;div class='viewer' macro='sessionNotes'&gt;&lt;/div&gt;
-&lt;div class='tagClear'&gt;&lt;/div&gt;
-&lt;!--}}}--&gt;</pre>
-</div>
-<div title="SiteSubtitle" tags="excludeLists excludeSearch">
-<pre>the social conferencing tool</pre>
-</div>
-<div title="SiteTitle" tags="excludeLists excludeSearch">
-<pre>TiddleLeWeb</pre>
-</div>
-<div title="SiteUrl" tags="excludeLists excludeSearch">
-<pre>http://www.tiddlywiki.com/</pre>
-</div>
-<div title="StyleSheet" tags="styles excludeLists excludeSearch">
-<pre>
-[[Styles HorizontalMainMenu]]
+<div title="Poller" modifier="Jon Lister" modified="200710161502" created="200706181748" tags="systemConfig" changecount="1">
+<pre>/*********
+ * Poller *
+ *********/
+function Poller() {
+	this.feeds = [];
+	this.messages = {
+		noAdminFeed:&quot;no Admin Feed set&quot;,
+		noFeed:&quot;no feed in poller&quot;,
+		HTTP:&quot;error with http request: &quot;,
+		openHost:&quot;error opening feed: &quot;,
+		noContent:&quot;nothing to import from &quot;,
+		noImport:&quot;nothing imported from &quot;,
+		noTiddler:&quot;error storing tiddler: &quot;,
+		&quot;default&quot;:&quot;error in poller&quot;
+	};
+	this.chooseFeeds = function() {
+		// empty list
+		this.feeds = [];
+		// always pick the admin feed
+		if (this.adminFeed) {
+			this.feeds.push(this.adminFeed);
+		} else {
+			this.handleFailure(&quot;noAdminFeed&quot;);
+		}
+		// pick the feed for the active session
+		if (config.macros.currentSession) {
+			// get an array of current sessions titles
+			var sessions = [];
+			sessions.push(config.macros.currentSession.find());
+			for (var i=0;i&lt;sessions.length;i++) {
+				// TO-DO: get the feed url from the session title, assuming we use feeds per session
+				// this.feeds.push(xxx);
+			}
+		}
+	};
+	this.getFeed = function(feed) {
+		if (feed) {
+			var adaptor = new RSSAdaptor();
+			var context = {};
+			context.host = feed;
+			context.adaptor = adaptor;
+			// Q: What's the filter going to be?
+			context.filter = &quot;&quot;;
+			var ret = adaptor.openHost(context.host,context,null,Poller.openHostCallback);
+			if(typeof ret == &quot;string&quot;) {
+				this.handleFailure(&quot;HTTP&quot;,ret);
+			}
+		} else {
+			this.handleFailure(&quot;noFeed&quot;);
+		}
+	};
+	this.pushFeed = function(item) {
+		// build RSS item out of tiddler
+		var rssString = item.saveToRss();
+		var url = this.postBox + item.title;
+		// WebDAV PUT of rssString to this.postBox
+		var params = {
+			callback:function(status,params,responseText,url,xhr){
+				if(!status){
+					// PUT failed, deal with it here
+					// leave item in queue and take no action?
+				}
+				else {
+					// PUT is successful, take item out of queue
+					Queue.pop(params.tiddler);
+				}
+			},
+			tiddler:item
+		};
+		DAV.putAndMove(url,params,rssString);
+	};
+	this.handleFailure = function(error,text) {
+		displayMessage(this.messages[error] + text);
+	};
+}
 
-/* page framework */
-#agendaMenu { position: static;	float: left; width: auto; }
-#displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
-#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0; }
+// this feed is always polled
+Poller.prototype.setAdminFeed = function(feed) {
+	this.adminFeed = feed;
+};
 
-/* Header */
-div.header { border:solid 4px #000; }
+// this is a directory for putting update files
+// this is assuming the directory already exists
+Poller.prototype.setPostBox = function(dir) {
+	this.postBox = dir;
+};
 
-/* Primary Nav Buttons */
-#mainMenu { background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding-left:0; line-height:1.5em; }
-#mainMenu a { display:block; float:left; border-right:solid 1px #999; font-size:1em; margin:0; color:#333;}
-#mainMenu a.tiddlyLink { padding:0 1em; font-size:1em; color:#333;}
-#mainMenu a.agendaButton { width:260px; padding:0; text-align:center;}
-#mainMenu a:hover,
-#mainMenu a.tiddlyLink:hover { background-color:#bbb;}
+/* START: methods supporting this.getFeed */
+Poller.openHostCallback = function(context,userParams) {
+	if (context.status !== true) {
+		this.handleFailure(&quot;openHost&quot;,context.statusText);
+	}
+	context.adaptor.getTiddlerList(context,userParams,Poller.getTiddlerListCallback,context.filter);
+};
 
-/* Agenda */
-#agendaMenu { width:260px; float:left; padding:0; }
-#agendaMenu div.txtAgendaTab div.tabset { height:2.5em; background-color:#f6f6f6;}
-#agendaMenu div.txtAgendaTab div.tabset a.tab { padding:4px 1em; background-color:#f0f0f0; color:#333; margin:1em 2px; font-weight:bold; font-size:0.9em; border:solid 1px #999; border-bottom-width:2px;}
-#agendaMenu div.txtAgendaTab div.tabset a.tab:hover { background-color:#444; color:#fff; border-color:#222; }
-#agendaMenu div.txtAgendaTab div.tabset a.tabSelected {background-color:#fff; border:solid 1px #999; border-bottom-width:2px;}
-#agendaMenu div.txtAgendaTab div.tabContents { border-style:none; margin:0; padding:0;}
+Poller.getTiddlerListCallback = function(context,userParams) {
+	if(context.status) {
+		var tiddlers = context.tiddlers;
+		if (tiddlers.length === 0) {
+			handleFailure(&quot;noContent&quot;,context.adaptor.host);
+		} else {
+			var sortField = 'modified';
+			tiddlers.sort(function(a,b) {return a[sortField] &lt; b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
+			var length = tiddlers.length;
+			if(userParams &amp;&amp; userParams.maxCount &amp;&amp; length &gt; userParams.maxCount) {
+				length = userParams.maxCount;
+			}
+			// displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
+			var import_count = 0;
+			for(var i=0; i&lt;length; i++) {
+				tiddler = tiddlers[i];
+				var local_tiddler = store.fetchTiddler(tiddler.title);
+				// if the tiddler exists locally, don't overwrite unless the text is different
+				if(!local_tiddler || local_tiddler.text != tiddler.text) {
+					context.adaptor.getTiddler(tiddler.title,null,null,Poller.getTiddlerCallback);
+					import_count++;
+				}
+			}
+			if (import_count === 0) {
+				handleFailure(&quot;noImport&quot;,context.adaptor.host);
+			}
+		}
+	}
+};
 
-div.txtAgendaTab { border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
-div.txtAgendaTab div.agendaItem { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px #fff; border-left:solid 10px #ccc; }	
-div.txtAgendaTab div.inProgress { border-left:solid 10px #933; background-color:#fff; }
-div.txtAgendaTab div.agendaItem span.time {	font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; position:absolute; }
-div.txtAgendaTab div.agendaItem span.title a { color:#444; display:block; font-weight:bold;	text-decoration:none; margin-left:5em; font-size:12px; }
-div.txtAgendaTab div.agendaItem div.speaker { color:#666; display:block; margin:0.2em 0 0 5em; }
-div.txtAgendaTab div.agendaItem div.notes {	margin:0.4em 0.5em 0 0;	text-align:right; }
-div.txtAgendaTab div.agendaItem div.notes a { display:block; color:#55c; font-size:0.9em; line-height:1.4em; text-decoration:none; }
-div.txtAgendaTab div.agendaItem div.notes a.stale { color:#600; }
-div.txtAgendaTab div.agendaItem div.notes a.tiddlyLink:hover,
-div.txtAgendaTab div.agendaItem div.notes a.stale:hover,
-div.txtAgendaTab div.agendaItem span.title a:hover { color:#000; text-decoration:underline;	background-color:#f0f0f0; }
-div.txtAgendaTab div.inProgress a.tiddlyLink:hover { background-color:#fff;	}</pre>
+Poller.getTiddlerCallback = function(context,userParams) {
+	// displayMessage(&quot;getting &quot; + context.tiddler.title);
+	if(context.status) {
+		var tiddler = context.tiddler;
+		// add in an extended field to save unread state - NB: this might not be needed
+		tiddler.fields.unread = &quot;true&quot;;
+		// uncomment line below to store tiddler
+		// store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+		displayMessage(tiddler.title + &quot; imported successfully&quot;);
+		story.refreshTiddler(tiddler.title,1,true);
+	} else {
+		handleFailure(&quot;noTiddler&quot;,context.statusText);
+	}
+	// Q: is this necessary? is there a less &quot;heavy-handed&quot; approach to refreshing? is it needed?
+	// story.refreshAllTiddlers();
+};
+/* END: methods supporting this.getFeed */
+
+Poller.prototype.putFeeds = function() {
+	// check Queue for any feeds that need posting and try to post the first one
+	var item = Queue.getNext();
+	if (item) {
+		this.pushFeed(item);
+	}
+};
+
+Poller.prototype.getFeeds = function() {
+	this.chooseFeeds();
+	for (var i=0;i&lt;this.feeds.length;i++) {
+		this.getFeed(this.feeds[i]);
+	}
+};
+
+/********
+ * Timer *
+ *********/
+function Timer() {
+	this.pollOption = &quot;chkDoPolling&quot;;
+	this.messages = {
+		noAction:&quot;no timer action set&quot;,
+		&quot;default&quot;:&quot;error in timer&quot;
+	};
+	this.handleFailure = function(error,text) {
+		displayMessage(this.messages[error] + text);
+	};
+}
+
+Timer.prototype.set = function(ms) {
+	if (!this.ms) {
+		this.ms = ms;
+	}
+	if (this.callback) {
+		window.setTimeout(this.callback,ms);
+	} else {
+		this.handleFailure(&quot;noAction&quot;);
+	}
+};
+
+Timer.prototype.setAction = function(action,recur) {
+	if (!recur) {
+		this.callback = action;
+	} else {
+		var that = this;
+		this.callback = function() {
+			if(config.options[that.pollOption]) {
+				action();
+			}
+			that.set.call(that,that.ms);
+		}
+	}
+};
+
+/*************
+ * Test macro *
+ **************/
+/* config.macros.testPoll = {};
+
+config.macros.testPoll.handler = function() {
+	var t = new Timer();
+	var p = new Poller();
+	// TO-DO: figure out a sensible	way to gather feeds
+	// p.setFeeds(feedArray);
+	p.setAdminFeed(config.options.txtPollAdminFeed);
+	p.setPostBox(&quot;http://localhost/&quot;+config.options.txtUserName+&quot;/&quot;);
+	t.setAction(function() {
+		clearMessage();
+		displayMessage(&quot;polling&quot;);
+		p.getFeeds();
+		p.putFeeds();
+	},true);
+	t.set(10000);
+}; */
+
+config.macros.unitTest = {};
+
+config.macros.unitTest.handler = function(place) {
+	var p = new Poller();
+	var postBox = &quot;http://localhost/&quot;+encodeURIComponent(config.options.txtUserName)+&quot;/&quot;;
+	p.setPostBox(postBox);
+	// testing p.putFeeds()
+	wikify(&quot;testing p.putFeeds()\n&quot;,place);
+	var item = Queue.getNext();
+	if (!item) {
+		wikify(&quot;nothing in the queue! do some editing and re-open this tiddler&quot;,place);
+		return false;
+	}
+	wikify(&quot;item to push: &quot; + item.title + &quot;\n&quot;,place);
+	var rssString = item.saveToRss();
+	wikify(&quot;rss string to push: &quot; + rssString + &quot;\n&quot;,place);
+	var params = {
+		callback:function(status,params,responseText,url,xhr){
+			if(!status){
+				// PUT failed, deal with it here
+				// leave item in queue and take no action?
+				displayMessage(&quot;directory might not exist on the server at: &quot; + url);
+			}
+			else {
+				// PUT is successful, take item out of queue
+				Queue.pop(params.tiddler);
+				var next = Queue.getNext();
+				displayMessage(&quot;success putting item: &quot; + params.tiddler.title);
+				displayMessage(&quot;next item in queue after popping this: &quot; + (next ? next.title : &quot;nothing!&quot;) + &quot;\n&quot;);
+			}
+		},
+		tiddler:item
+	};
+	var url = postBox + encodeURIComponent(item.title) + &quot;.xml&quot;;
+	wikify(&quot;going to put to: &quot; + url + &quot;\n&quot;,place);
+	DAV.putAndMove(url,params,rssString);
+};</pre>
 </div>
-<div title="RSSAdaptor" modifier="Jon Lister" created="200709021326" modified="200710161502" tags="systemConfig TiddlyChatterPackage" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.page.revision="200710161108" server.type="file" changecount="1">
+<div title="Queue" modifier="Jon Lister" modified="200711101502" created="200706181748" tags="systemConfig" changecount="1">
+<pre>Queue = function() {};
+
+// pushItem works with tiddlers in the story as it assumes that you are hooking into a save event
+// can always extend it later to work with store tiddlers if needs be
+Queue.push = function(tiddlerElem) {
+	var customFields = &quot;inqueue:true&quot;;
+	story.addCustomFields(tiddlerElem,customFields);
+};
+
+// popItem is designed to be called after a successful PUT of a tiddler in the store,
+// by the object that pushed the tiddler
+Queue.pop = function(tiddler) {
+	if(tiddler.fields &amp;&amp; tiddler.fields.inqueue &amp;&amp; tiddler.fields.inqueue == &quot;true&quot;) {
+		tiddler.fields.inqueue = &quot;false&quot;;
+		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields)
+	}
+};
+
+Queue.getNext = function() {
+	var t = Queue.getAll();
+	return (t.length &gt; 0 ? t[0] : false);
+};
+
+Queue.getAll = function() {
+	var items = [];
+	store.forEachTiddler(function(title,t) {
+		if (t.fields &amp;&amp; t.fields.inqueue &amp;&amp; t.fields.inqueue == &quot;true&quot;) {
+			items.push(t);
+		}
+	});
+	return items;
+}
+
+// override saveTiddler function to add tiddler to queue
+// TO-DO: tailor this to work for session notes tiddlers only (presumably)
+// issue with the above: how to examine tags before new tiddler is saved
+Queue.old_saveTiddler = config.commands.saveTiddler.handler;
+config.commands.saveTiddler.handler = function(event,src,title) {
+	var tiddlerElem = document.getElementById(story.idPrefix + title);
+	Queue.push(tiddlerElem);
+	Queue.old_saveTiddler.call(this,event,src,title);
+}
+
+config.macros.showQueue = {};
+
+config.macros.showQueue.handler = function(place) {
+	// create a popup of all tiddlers in the queue
+	var tiddlers = Queue.getAll();
+	if (tiddlers.length !== 0) {
+		var tooltip = &quot;click to show queue&quot;;
+		var btn = createTiddlyButton(place,&quot;show queue &quot; + glyph(&quot;downArrow&quot;),tooltip,config.macros.showQueue.onClick,&quot;showQueueButton&quot;);
+		btn.tiddlers = tiddlers;
+		btn.place = place;
+	} else {
+		wikify(&quot;nothing in queue&quot;,place);
+	}
+};
+
+config.macros.showQueue.onClick = function(ev) {
+	var e = ev ? ev : window.event;
+	var tiddlerList = &quot;&quot;;
+	var tiddlers = this.tiddlers;
+	for (var i=0;i&lt;tiddlers.length;i++) {
+		tiddlerList += &quot;[[&quot; + tiddlers[i].title + &quot;]]&quot;;
+	}
+	var popup = Popup.create(this,&quot;div&quot;,&quot;popupTiddler&quot;);
+	wikify(tiddlerList,popup);
+	Popup.show();
+	if(e) e.cancelBubble = true;
+	if(e &amp;&amp; e.stopPropagation) e.stopPropagation();
+	return false;
+};</pre>
+</div>
+<div title="RSSAdaptor" modifier="Jon Lister" modified="200710161502" created="200709021326" tags="systemConfig TiddlyChatterPackage" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.page.revision="200710161108" server.type="file" changecount="1">
 <pre>/***
 
 |Title|RSSAdaptor|
@@ -1077,810 +2107,188 @@ Tiddler.prototype.isTaggedAllOf = function(tag_array)
 
 //}}}</pre>
 </div>
-<div title="Agenda" modifier="Jon Lister" created="200706181748" modified="200710161502" tags="systemConfig excludeLists excludeSearch" changecount="1">
-<pre>/*******************
- * Agenda
- *******************/
-Agenda = {};
-// flag for whether agenda is up to date
-Agenda.isCurrent = false;
-// params array for the tab macro, filled by create_tab_tiddlers
-Agenda.tabsParams = [];
-// Fix for slices regex not correctly matching slices of the form &quot;key:\nkey:value&quot;
-TiddlyWiki.prototype.slicesRE = /(?:[\'\/]*~?([\.\w]+)[\'\/]*\:[\'\/]* *(.*?)\s*$)|(?:\|[\'\/]*~?([\.\w]+)\:?[\'\/]*\|\s*(.*?)\s*\|)/gm;
+<div title="SessionPlugin" modifier="MartinBudden" modified="200611090000" created="200711090000" tags="systemConfig excludeLists excludeSearch">
+<pre>/***
+|''Name:''|SessionPlugin|
+|''Description:''|Macros to support session|
+|''Author:''|My Name|
+|''Source:''|http://www.MyWebSite.com/#SessionPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MyDirectory/plugins/SessionPlugin.js |
+|''Version:''|0.0.1|
+|''Status:''|Not for release - this is a template for creating new plugins|
+|''Date:''|July 31, 2006|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.2|
 
-// function to gather agenda items
-Agenda.getItems = function() {
-	var filter = &quot;[tag[session]]&quot;;
-	return store.filterTiddlers(filter);
+To make this example into a real TiddlyWiki adaptor, you need to:
+
+# Globally search and replace SessionPlugin with the name of your plugin
+# Globally search and replace example with the name of your macro
+# Update the header text above with your description, name etc
+# Do the actions indicated by the !!TODO comments, namely:
+## Write the code for the macro
+
+***/
+
+//{{{
+if(!version.extensions.SessionPlugin) {
+version.extensions.SessionPlugin = {installed:true};
+
+config.macros.sessionAnnotation = {};
+config.macros.sessionAnnotation.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	var title = tiddler.title;
+	var wikitext = &quot;''Speaker:''&quot; + store.getTiddlerSlice(title,&quot;speaker&quot;) + &quot;&lt;br/&gt;&quot; +
+	&quot;''From:''&quot; + store.getTiddlerSlice(title,&quot;start&quot;) + &quot;&lt;br/&gt;&quot; +
+	&quot;''To:''&quot; + store.getTiddlerSlice(title,&quot;end&quot;);
+	wikify(wikitext,place,highlightHack,tiddler);
 };
 
-// function to return array of names of tracks the agenda covers
-Agenda.getTracks = function() {
-	var tracks = [];
-	var items = Agenda.getItems();
-	for (var i=0;i&lt;items.length;i++) {
-		tracks.pushUnique(store.getTiddlerSlice(items[i].title,&quot;track&quot;));
-	}
-	return tracks;
-};
-
-// function to return agenda items for a single track sorted by start time
-Agenda.getTrack = function(track) {
-	var trackItems = [];
-	var items = Agenda.getItems();
-	for (var i=0;i&lt;items.length;i++) {
-		if (store.getTiddlerSlice(items[i].title,&quot;track&quot;) == track) {
-			trackItems.push(items[i]);
+config.macros.sessionNotes = {};
+config.macros.sessionNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	// just output each note in a list for the moment
+	var ct = tiddler.title;
+	var ul = null;
+	store.forEachTiddler(function(title,tiddler) {
+		if(title.startsWith(ct) &amp;&amp; ct!=title) {
+			if(!ul)
+				ul = createTiddlyElement(place,'ul');
+			var li = createTiddlyElement(ul,'li');
+			var wikitext = tiddler.text;
+			wikify(wikitext,li,highlightHack,tiddler);
 		}
-	}
-	trackItems.sort(function(a,b){
-		var a_start = store.getTiddlerSlice(a.title,&quot;start&quot;);
-		var b_start = store.getTiddlerSlice(b.title,&quot;start&quot;);
-		return a_start &lt; b_start ? -1 : (a_start == b_start ? 0 : 1);
 	});
-	return trackItems;
 };
+} //# end of 'install only once'
+//}}}</pre>
+</div>
+<div title="SiteSubtitle" tags="excludeLists excludeSearch">
+<pre>the social conferencing tool</pre>
+</div>
+<div title="SiteTitle" tags="excludeLists excludeSearch">
+<pre>TiddleLeWeb</pre>
+</div>
+<div title="SiteUrl" tags="excludeLists excludeSearch">
+<pre>http://www.tiddlywiki.com/</pre>
+</div>
+<div title="SplarklinePlugin" created="200710161932" tags="systemConfig excludeLists excludeSearch">
+<pre>/***
+|''Name:''|SplarklinePlugin|
+|''Description:''|Sparklines|
+***/
+//{{{
+if(!version.extensions.SplarklinePlugin) {
+version.extensions.SplarklinePlugin = {installed:true};
 
-// create the right tiddlers to populate the tabs in the agendaMenu
-// returns params array for tab macro
-Agenda.create_tab_tiddlers = function() {
-	var params = [];
-	var titlePrefix = &quot;TabAgenda&quot;;
-	var textPrefix = &quot;&lt;&lt;agendaMenuByTrack &quot;;
-	var textSuffix = &quot;&gt;&gt;&quot;;
-	var tracks = Agenda.getTracks();
-	// start by adding the selected tab param
-	params.push(&quot;txtAgendaTab&quot;);
-	for (var i=0;i&lt;tracks.length;i++) {
-		var title = titlePrefix+tracks[i];
-		var text = textPrefix+tracks[i]+textSuffix;
-		if(!store.tiddlerExists(title)) {
-			store.saveTiddler(title,title,text);
-			params.push(tracks[i]);
-			params.push(tracks[i]);
-			params.push(title);
-		}
+//--
+//-- Sparklines
+//--
+
+config.macros.sparkline = {};
+config.macros.sparkline.handler = function(place,macroName,params)
+{
+	var data = [];
+	var min = 0;
+	var max = 0;
+	var v;
+	for(var t=0; t&lt;params.length; t++) {
+		v = parseInt(params[t]);
+		if(v &lt; min)
+			min = v;
+		if(v &gt; max)
+			max = v;
+		data.push(v);
 	}
-	return params;
-};
-
-Agenda.init = function() {
-	// check to see if Agenda is current before updating
-	if (!Agenda.isCurrent) {
-		// set up the tiddlers for the tabs macro in agendaMenu
-		Agenda.tabsParams = Agenda.create_tab_tiddlers();
-		// set default selected tab in agendaMenu
-		config.options.txtAgendaTab = &quot;&quot;;
-		Agenda.isCurrent = !Agenda.isCurrent;
-	}
-};
-Agenda.init();
-
-/*******************
- * agendaMenu
- * agendaMenuByTrack
- *******************/
-config.macros.agendaMenu = {};
-
-config.macros.agendaMenu.handler = function(place,macroName) {
-	// set up the variables and tiddlers for running the tabs macro
-	config.macros.tabs.handler(place,macroName,Agenda.tabsParams);
-};
-
-config.macros.agendaMenuByTrack = {};
-
-config.macros.agendaMenuByTrack.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	// create the agenda menu for a single track
-	// params[0] is the day
-	var trackItems = Agenda.getTrack(params[0]);
-	if (!trackItems) {
-		displayMessage(&quot;error with agendaMenuByTrack for day: &quot; + params[0]);
+	if(data.length &lt; 1)
 		return;
-	}
-	for (var i=0;i&lt;trackItems.length;i++) {
-		this.buildAgendaItem(place,trackItems[i]);
-	}
-};
-
-config.macros.agendaMenuByTrack.buildAgendaItem = function(place,item) {
-	// collect information from the session tiddler
-	var title = item.title;
-	var speaker = store.getTiddlerSlice(title,&quot;speaker&quot;);
-	var start = store.getTiddlerSlice(title,&quot;start&quot;);
-	var end = store.getTiddlerSlice(title,&quot;end&quot;);
-	var blurb = store.getTiddlerSlice(title,&quot;blurb&quot;);
-
-	// build the entry in the agendaMenu
-	// var wrapper = createTiddlyElement(place,&quot;div&quot;,null,&quot;agendaItem&quot;);
-	// 	var header = createTiddlyLink(createTiddlyElement(wrapper,&quot;div&quot;,null,&quot;agendaItemHeader&quot;),title);
-	// 	createTiddlyElement(header,&quot;span&quot;,null,&quot;agendaItemHeaderTime&quot;,start + &quot; - &quot; + end);
-	// 	createTiddlyElement(header,&quot;span&quot;,null,&quot;agendaItemHeaderSpeaker&quot;,speaker);
-	// 	var text = createTiddlyElement(wrapper,&quot;div&quot;,null,&quot;agendaItemText&quot;);
-	// 	createTiddlyElement(text,&quot;span&quot;,null,&quot;agendaItemTextTitle&quot;,title);
-	
-	// build the entry in the agendaMenu
-	var agendaItem = createTiddlyElement(place,&quot;div&quot;,null,&quot;agendaItem&quot;);
-	createTiddlyElement(agendaItem,&quot;span&quot;,null,&quot;time&quot;,start + &quot; - &quot; + end);
-	createTiddlyLink(createTiddlyElement(agendaItem,&quot;span&quot;,null,&quot;title&quot;), title, title);
-	createTiddlyElement(agendaItem,&quot;div&quot;,null,&quot;speaker&quot;,speaker);
-	var notes = createTiddlyElement(agendaItem,&quot;div&quot;,null,&quot;notes&quot;);
-
-};
-
-/*******************
-* currentSession
-*******************/
-config.macros.currentSession = {};
-
-config.macros.currentSession.handler = function(place) {
-	// find out which agenda items are on now
-	var sessions = config.macros.currentSession.find();
-	var currentSessionButton = createTiddlyElement(place,&quot;span&quot;,&quot;currentSessionButton&quot;);
-	if (sessions.length === 0) {
-		createTiddlyText(currentSessionButton,&quot;no sessions on now&quot;);
-	} else if (sessions.length == 1) {
-		createTiddlyText(createTiddlyLink(currentSessionButton,sessions[0].title),&quot;Jump to current session&quot;);
-	} else {
-		var options = [];
-		options.push({caption:&quot;Jump to current sessions&quot;,name:&quot;&quot;});
-		for (var i=0;i&lt;sessions.length;i++) {
-			options.push({caption:sessions[i].title,name:sessions[i].title});
-		}
-		createTiddlyDropDown(currentSessionButton,config.macros.currentSession.onchange,options,&quot;&quot;);
-	}
-};
-
-config.macros.currentSession.onchange = function() {
-	// open up the selected tiddler and move the agendaMenu to the right session
-	var title = this.value;
-	if (title) {
-		story.displayTiddler(this,title);
-	}
-	// move active agenda item to title
-};
-
-config.macros.currentSession.find = function() {
-	// returns an array of title for sessions on now
-	// assumes agenda items have dates of the form dd/mm/yyyy GMT
-	// and that item start is of the form hhmm
-	var items = Agenda.getItems();
-	var now = new Date();
-	var sessions = [];
-	for (var i=0;i&lt;items.length;i++) {
-		var then = config.macros.currentSession.getTimes(items[i]);
-		// check for now being between start and end of session 
-		if (then.start.getTime() &lt; now.getTime() &amp;&amp; then.end.getTime() &gt; now.getTime()) {
-			sessions.push(items[i]);
-		}
-	}
-	return sessions;
-};
-
-config.macros.currentSession.getTimes = function(item) {
-	// returns two dates for agenda item start and finish
-	var then = {};
-	var title = item.title;
-	var date = store.getTiddlerSlice(title,&quot;date&quot;);
-	var start = store.getTiddlerSlice(title,&quot;start&quot;);
-	var end = store.getTiddlerSlice(title,&quot;end&quot;);
-	// guard against single digit entries in the date
-	date = date.replace(/(\b)(\w)(\b)/g,&quot;$10$2$3&quot;);
-	// convert YY to YYYY, assuming everything to be after 2000
-	date = date.replace(/(\b)(\d\d)$/g,&quot;$120$2&quot;);
-	// convert UK standard date of dd/mm/yyyy to expected YYYYMMDD
-	var d = date.split(&quot;/&quot;).reverse().join(&quot;&quot;);
-	var d1 = d+start;
-	var d2 = d+end;
-	then.start = Date.convertFromYYYYMMDDHHMM(d1);
-	then.end = Date.convertFromYYYYMMDDHHMM(d2);
-	return then;
-};
-
-/*******************
-* crossBrowserHelp
-*******************/
-config.macros.crossBrowserHelp = {};
-
-config.macros.crossBrowserHelp.handler = function(place) {
-	// detect different help messages depending on which browser is being used
-	var text = &quot;&quot;;
-	if(config.browser.isIE) {
-		// IE
-		text = &quot;You're using IE&quot;;
-	} else if (config.browser.isGecko) {
-		// FF
-		text = &quot;You're using Firefox&quot;;
-	} else if (config.browser.isSafari || config.browser.isBadSafari) {
-		// Safari
-		text = &quot;You're using Safari&quot;;
-	} else if (config.browser.isOpera) {
-		// Opera
-		text = &quot;You're using Opera&quot;;
-	}
-	/* Other variables I have to play with:
-	 * ieVersion: // config.browser.ieVersion[1], if it exists, will be the IE version string, eg &quot;6.0&quot;
-	 * firefoxDate: // config.browser.firefoxDate[1], if it exists, will be Firefox release date as &quot;YYYYMMDD&quot;
-	 * isMac:
-	 * isWindows:
-	 * isLinux:
-	 * isUnix
-	 */
-	 createTiddlyText(place,text);
-};</pre>
-</div>
-<div title="DAVPlugin" modifier="JonLister" created="200711090000" tags="systemConfig excludeLists excludeSearch">
-<pre>WebDav = {
-	orig_saveChanges: saveChanges,
-	defaultFilename: 'index.html',
-	session:{date:new Date().toGMTString(),Q:[]},
-	startSaveMessage: &quot;saving to server...&quot;,
-	
-	runQ : function(){
-		if(WebDav.session.Q.length){
-			(WebDav.session.Q.shift())();
-		}
-	},
-	
-	reset: function(){
-		WebDav.session = {date:WebDav.session.lastSave,Q:[]};
-	},
-	
-	saveChanges : function(onlyIfDirty,tiddlers){
-		if(onlyIfDirty &amp;&amp; !store.isDirty())
-			return;
-		clearMessage();
-		displayMessage(this.startSaveMessage);
-		var Q = this.session.Q =[];
-		Q.push(this.davEnabled.init);
-		Q.push(this.getOriginal.init);
-		Q.push(this.checkRace.init);
-		if (config.options.chkSaveBackups){
-			if (config.options.txtBackupFolder!='')
-				Q.push(this.makeBackupDir.init);
-			Q.push(this.saveBackup.init);
-		}
-		Q.push(this.saveMain.init);
-		if (config.options.chkGenerateAnRssFeed)
-			Q.push(this.saveRss.init);
-		if (config.options.chkSaveEmptyTemplate)
-			Q.push(this.saveEmpty.init);
-		Q.push(this.reset);
-		this.runQ();
-	},
-	
-	getOriginal:{
-		init: function(){		
-			DAV.get(WebDav.session.originalPath,WebDav.getOriginal.params);
-		},	
-		params: {
-			callback : function(status,params,original,url,xhr) {
-				var p = WebDav.session.posDiv = locateStoreArea(original);
-				if(!p || (p[0] == -1) || (p[1] == -1)) {
-					alert(config.messages.invalidFileError.format([url]));
-					return;
-				}
-				WebDav.session.original = original;
-				WebDav.runQ();
-			},
-			methodError: &quot;Could not load original file&quot;	
-		}
-	},
-	
-	checkRace:{
-		init: function(){			
-			DAV.getProp(WebDav.session.originalPath,WebDav.checkRace.params,&quot;getlastmodified&quot;,0);	
-		},
-		params: {
-			callback: function(status,params,responseText,url,xhr){
-				//console.log(params['propvalue']);
-				//console.log(WebDav.session.date);
-				if(Date.parse(params['propvalue']) &gt; Date.parse(WebDav.session.date)){
-					status = confirm(WebDav.checkRace.params.confirmMessage);
-					if(!status){
-						alert(WebDav.checkRace.params.error);
-						return;
-					}	
-				}
-				WebDav.runQ();
-			},
-			confirmMessage: &quot;The remote file has changed since you last loaded or saved it.\nDo you wish to overwrite it?&quot;,
-			methodError: &quot;Could not get last modified date&quot;,
-			error: &quot;Save failed because the remote file is newer than the one you are trying to save&quot;
-		}
-	},
-	
-	davEnabled:{
-		init: function(){
-			DAV.isEnabled(WebDav.session.originalPath,WebDav.davEnabled.params);
-		},
-		params:{
-			callback: function(status){
-				WebDav.runQ();
-			},
-			methodError: &quot;This server does not support WebDav&quot;
-		}
-	},
-	
-	saveRss: {
-		init: function(){
-			var url = WebDav.session.originalPath;
-			var rssPath = url.substr(0,url.lastIndexOf(&quot;.&quot;)) + &quot;.xml&quot;;
-			DAV.putAndMove(rssPath,WebDav.saveRss.params,convertUnicodeToUTF8(generateRss()));
-		},
-		params:{
-			callback: function(status,params,responseText,url,xhr){
-				displayMessage(config.messages.rssSaved,url);
-				WebDav.runQ();
-			},
-			methodError: &quot;Could not save RSS feed to server&quot;
-		}	
-	},
-	
-	saveEmpty: {
-		init: function(){
-			var w = WebDav.session;
-			var url = w.originalPath;
-			var emptyPath,p;
-			if((p = url.lastIndexOf(&quot;/&quot;)) != -1)
-				emptyPath = url.substr(0,p) + &quot;/empty.html&quot;;
-			else
-				emptyPath = url + &quot;.empty.html&quot;;
-			var empty = w.original.substr(0,w.posDiv[0] + startSaveArea.length) + w.original.substr(w.posDiv[1]);
-			DAV.putAndMove(emptyPath,WebDav.saveEmpty.params,empty);
-		},
-		params:{
-			callback: function(status,params,responseText,url,xhr){
-				displayMessage(config.messages.emptySaved,url);
-				WebDav.runQ();
-			},
-			methodError: &quot;Could not save empty template to server&quot;
-		}
-	},
-	
-	saveMain: {
-		init: function(){
-			var w = WebDav.session;	
-			var revised = updateOriginal(w.original,w.posDiv);
-			DAV.putAndMove(w.originalPath,WebDav.saveMain.params,revised);
-		},
-		params:{
-			callback: function(status,params,responseText,url,xhr){
-				WebDav.session.lastSave = xhr.getResponseHeader('Date');
-				displayMessage(config.messages.mainSaved,url);
-				store.setDirty(false);
-				WebDav.runQ();		
-			},
-			methodError: &quot;Could not save main TiddlyWiki file to server&quot;
-		}
-	},
-	
-	saveBackup :{
-		init: function(){
-			var backupPath = getBackupPath(WebDav.session.originalPath);
-		//	DAV.putAndMove(backupPath,WebDav.saveBackup.params,WebDav.session.original);
-			var params = WebDav.saveBackup.params;
-			params.destination = backupPath;
-			DAV.copy(WebDav.session.originalPath,params,backupPath);
-		},
-		params:{
-			callback: function(status,params,responseText,url,xhr){
-				displayMessage(config.messages.backupSaved,params.destination);
-				WebDav.runQ();
-			},
-			methodError: &quot;Could not save backup file&quot;
-		}
-	},
-	
-	makeBackupDir:{
-		init: function(){
-			var url = getBackupPath(WebDav.session.originalPath);
-			var backupDirPath = url.substr(0,url.lastIndexOf(&quot;/&quot;));
-			DAV.makeDir(backupDirPath,WebDav.makeBackupDir.params); 
-		},
-		params:{
-			callback: function(status,params,responseText,url,xhr){
-				WebDav.runQ();
-			},
-			methodError: &quot;Could not create backup directory&quot;
-		}
-	}		
-};
-
-window.saveChanges = function(onlyIfDirty,tiddlers)
-{	
-	var p = document.location.toString();
-	p = convertUriToUTF8(p,config.options.txtFileSystemCharSet);
-	var argPos = p.indexOf(&quot;?&quot;);
-	if(argPos != -1)
-		p = p.substr(0,argPos);
-	var hashPos = p.indexOf(&quot;#&quot;);
-	if(hashPos != -1)
-		p = p.substr(0,hashPos);		
-	if (p.charAt(p.length-1) == &quot;/&quot;)
-		p = p + WebDAV.defaultFilename;
-	WebDav.session.originalPath = p;
-	if (p.substr(0,5) == &quot;http:&quot;)
-		return WebDav.saveChanges(onlyIfDirty,tiddlers);
-	else
-		return WebDav.orig_saveChanges(onlyIfDirty,tiddlers);
-};
-
-
-DAV = {
-	run : function(type,url,data,params,headers){
-		var callback = function(status,params,responseText,url,xhr) {
-			if (!status) {
-				alert(&quot;failed&quot;);
-console.log(xhr);
-console.log(&quot;response is &quot; +responseText);
-console.log(&quot;url is &quot;+url);
-console.log(&quot;status is &quot;+status);
-				return;
-			}
-			switch(params['type']){
-				case &quot;GET&quot;:
-					status = (xhr.status == 200);
-					break;
-				case &quot;PROPFIND&quot;:
-					status = (xhr.status == 207);
-					var rp = new RegExp('&lt;(\\w*?):'+params['prop']+'&gt;(.*?)&lt;\\/\\1:'+params['prop']+'&gt;')
-					params['propvalue'] = rp.exec(responseText)[2];
-					break;
-				case &quot;MKCOL&quot;:
-					status = (xhr.status == 200 || xhr.status == 201);
-					break;
-				case &quot;PUT&quot;:
-				case &quot;COPY&quot;:
-					status = (xhr.status == 201 || xhr.status == 204);
-					break;
-				case &quot;MOVE&quot;:
-					status = (xhr.status == 201 || xhr.status == 204);
-					url = url.replace(&quot;-davsavingtemp&quot;,&quot;&quot;);
-					break;
-				case &quot;OPTIONS&quot;:
-					status = !! xhr.getResponseHeader(&quot;DAV&quot;);
-					break;
-				default:
-					status = true;
-					break;
-			}
-			//if(!status &amp;&amp; params.methodError){
-		//		alert(params.methodError);
-		//		return;
-		//	}
-			url = url.indexOf(&quot;nocache=&quot;) &lt; 0 ? url : url.substring(0,url.indexOf(&quot;nocache=&quot;)-1);
-			if(params.callback)
-				params.callback.apply(this,[status,params,responseText,url,xhr]);
-		};	
-			
-		params['type'] = type;
-		doHttp.apply(this,[type,url,data,null,null,null,callback,params,headers]);
-	},
-	
-	getProp : function(url,params,prop,depth){
-		var xml = '&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;' +
-			'&lt;D:propfind xmlns:D=&quot;DAV:&quot;&gt;' +
-			'&lt;D:prop&gt;'+
-			'&lt;D:'+prop+'/&gt;'+
-			'&lt;/D:prop&gt;'+
-			'&lt;/D:propfind&gt;';
-		params['prop'] = prop;
-		DAV.run(&quot;PROPFIND&quot;,url,xml,params,{&quot;Content-type&quot;:&quot;text/xml&quot;,&quot;Depth&quot;:depth?depth:0});
-	},
-	
-	makeDir : function(url,params){
-		DAV.run(&quot;MKCOL&quot;,url,null,params,null);
-	},
-
-	isEnabled : function(url,params){
-		DAV.run(&quot;OPTIONS&quot;,url,null,params,null);
-	},
-
-	get : function(url,params){
-		DAV.run(&quot;GET&quot;,url,null,params,null);
-	},
-
-	put : function(url,params,data) {
-		DAV.run(&quot;PUT&quot;,url,data,params,null);
-	},
-
-	move : function(url,params,destination) {
-		DAV.run(&quot;MOVE&quot;,url,null,params,{&quot;Destination&quot;:destination,&quot;Overwrite&quot;:&quot;T&quot;});
-	}, 
-
-	copy : function(url,params,destination) {
-		DAV.run(&quot;COPY&quot;,url,null,params,{&quot;Destination&quot;:destination,&quot;Overwrite&quot;:&quot;T&quot;,&quot;Depth&quot;:0});
-	},
-
-	putAndMove : function(url,params,data){
-		params.nextcallback = params.callback;
-		params.callback = function(status,params,responseText,url,xhr){
-			params.callback = params.nextcallback;
-			params.nextcallback = null;
-			DAV.move(url,params,url.replace(&quot;-davsavingtemp&quot;,&quot;&quot;));
-		};
-		
-		DAV.put(url+&quot;-davsavingtemp&quot;,params,data);
+	var box = createTiddlyElement(place,&quot;span&quot;,null,&quot;sparkline&quot;,String.fromCharCode(160));
+	box.title = data.join(&quot;,&quot;);
+	var w = box.offsetWidth;
+	var h = box.offsetHeight;
+	box.style.paddingRight = (data.length * 2 - w) + &quot;px&quot;;
+	box.style.position = &quot;relative&quot;;
+	for(var d=0; d&lt;data.length; d++) {
+		var tick = document.createElement(&quot;img&quot;);
+		tick.border = 0;
+		tick.className = &quot;sparktick&quot;;
+		tick.style.position = &quot;absolute&quot;;
+		tick.src = &quot;data:image/gif,GIF89a%01%00%01%00%91%FF%00%FF%FF%FF%00%00%00%C0%C0%C0%00%00%00!%F9%04%01%00%00%02%00%2C%00%00%00%00%01%00%01%00%40%02%02T%01%00%3B&quot;;
+		tick.style.left = d*2 + &quot;px&quot;;
+		tick.style.width = &quot;2px&quot;;
+		v = Math.floor(((data[d] - min)/(max-min)) * h);
+		tick.style.top = (h-v) + &quot;px&quot;;
+		tick.style.height = v + &quot;px&quot;;
+		box.appendChild(tick);
 	}
 };
 
 
-// get date from server on start up? too?
-// not entirely happy with reset function. Is it foolproof in situations where the save failed? handling of lastSave date
-// // should reset function run somehow on failure?
-// write as a constructor?
-
-//race timer
-
-//ability to force save despite race conflict
-
-
-//merge conflict feature, import tiddlers from server version, compare dates and merge... synch!
-//locking options?
-//innerHTML instead of GET?
-//upload file feature
-//list view based DavClient
-//clean up backup files option?</pre>
-</div>
-<div title="Poller" modifier="Jon Lister" created="200706181748" modified="200710161502" tags="systemConfig" changecount="1">
-<pre>/*********
- * Poller *
- *********/
-function Poller() {
-	this.feeds = [];
-	this.messages = {
-		noAdminFeed:&quot;no Admin Feed set&quot;,
-		noFeed:&quot;no feed in poller&quot;,
-		HTTP:&quot;error with http request: &quot;,
-		openHost:&quot;error opening feed: &quot;,
-		noContent:&quot;nothing to import from &quot;,
-		noImport:&quot;nothing imported from &quot;,
-		noTiddler:&quot;error storing tiddler: &quot;,
-		&quot;default&quot;:&quot;error in poller&quot;
-	};
-	this.chooseFeeds = function() {
-		// empty list
-		this.feeds = [];
-		// always pick the admin feed
-		if (this.adminFeed) {
-			this.feeds.push(this.adminFeed);
-		} else {
-			this.handleFailure(&quot;noAdminFeed&quot;);
-		}
-		// pick the feed for the active session
-		if (config.macros.currentSession) {
-			// get an array of current sessions titles
-			var sessions = [];
-			sessions.push(config.macros.currentSession.find());
-			for (var i=0;i&lt;sessions.length;i++) {
-				// TO-DO: get the feed url from the session title, assuming we use feeds per session
-				// this.feeds.push(xxx);
-			}
-		}
-	};
-	this.getFeed = function(feed) {
-		if (feed) {
-			var adaptor = new RSSAdaptor();
-			var context = {};
-			context.host = feed;
-			context.adaptor = adaptor;
-			// Q: What's the filter going to be?
-			context.filter = &quot;&quot;;
-			var ret = adaptor.openHost(context.host,context,null,Poller.openHostCallback);
-			if(typeof ret == &quot;string&quot;) {
-				this.handleFailure(&quot;HTTP&quot;,ret);
-			}
-		} else {
-			this.handleFailure(&quot;noFeed&quot;);
-		}
-	};
-	this.pushFeed = function(item) {
-		// build RSS item out of tiddler
-		var rssString = item.saveToRss();
-		var url = this.postBox + item.title;
-		// WebDAV PUT of rssString to this.postBox
-		var params = {
-			callback:function(status,params,responseText,url,xhr){
-				if(!status){
-					// PUT failed, deal with it here
-					// leave item in queue and take no action?
-				}
-				else {
-					// PUT is successful, take item out of queue
-					Queue.pop(params.tiddler);
-				}
-			},
-			tiddler:item
-		};
-		DAV.putAndMove(url,params,rssString);
-	};
-	this.handleFailure = function(error,text) {
-		displayMessage(this.messages[error] + text);
-	};
 }
-
-// this feed is always polled
-Poller.prototype.setAdminFeed = function(feed) {
-	this.adminFeed = feed;
-};
-
-// this is a directory for putting update files
-// this is assuming the directory already exists
-Poller.prototype.setPostBox = function(dir) {
-	this.postBox = dir;
-};
-
-/* START: methods supporting this.getFeed */
-Poller.openHostCallback = function(context,userParams) {
-	if (context.status !== true) {
-		this.handleFailure(&quot;openHost&quot;,context.statusText);
-	}
-	context.adaptor.getTiddlerList(context,userParams,Poller.getTiddlerListCallback,context.filter);
-};
-
-Poller.getTiddlerListCallback = function(context,userParams) {
-	if(context.status) {
-		var tiddlers = context.tiddlers;
-		if (tiddlers.length === 0) {
-			handleFailure(&quot;noContent&quot;,context.adaptor.host);
-		} else {
-			var sortField = 'modified';
-			tiddlers.sort(function(a,b) {return a[sortField] &lt; b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
-			var length = tiddlers.length;
-			if(userParams &amp;&amp; userParams.maxCount &amp;&amp; length &gt; userParams.maxCount) {
-				length = userParams.maxCount;
-			}
-			// displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
-			var import_count = 0;
-			for(var i=0; i&lt;length; i++) {
-				tiddler = tiddlers[i];
-				var local_tiddler = store.fetchTiddler(tiddler.title);
-				// if the tiddler exists locally, don't overwrite unless the text is different
-				if(!local_tiddler || local_tiddler.text != tiddler.text) {
-					context.adaptor.getTiddler(tiddler.title,null,null,Poller.getTiddlerCallback);
-					import_count++;
-				}
-			}
-			if (import_count === 0) {
-				handleFailure(&quot;noImport&quot;,context.adaptor.host);
-			}
-		}
-	}
-};
-
-Poller.getTiddlerCallback = function(context,userParams) {
-	// displayMessage(&quot;getting &quot; + context.tiddler.title);
-	if(context.status) {
-		var tiddler = context.tiddler;
-		// add in an extended field to save unread state - NB: this might not be needed
-		tiddler.fields.unread = &quot;true&quot;;
-		// uncomment line below to store tiddler
-		// store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-		displayMessage(tiddler.title + &quot; imported successfully&quot;);
-		story.refreshTiddler(tiddler.title,1,true);
-	} else {
-		handleFailure(&quot;noTiddler&quot;,context.statusText);
-	}
-	// Q: is this necessary? is there a less &quot;heavy-handed&quot; approach to refreshing? is it needed?
-	// story.refreshAllTiddlers();
-};
-/* END: methods supporting this.getFeed */
-
-Poller.prototype.putFeeds = function() {
-	// check Queue for any feeds that need posting and try to post the first one
-	var item = Queue.getNext();
-	if (item) {
-		this.pushFeed(item);
-	}
-};
-
-Poller.prototype.getFeeds = function() {
-	this.chooseFeeds();
-	for (var i=0;i&lt;this.feeds.length;i++) {
-		this.getFeed(this.feeds[i]);
-	}
-};
-
-/********
- * Timer *
- *********/
-function Timer() {
-	this.pollOption = &quot;chkDoPolling&quot;;
-	this.messages = {
-		noAction:&quot;no timer action set&quot;,
-		&quot;default&quot;:&quot;error in timer&quot;
-	};
-	this.handleFailure = function(error,text) {
-		displayMessage(this.messages[error] + text);
-	};
-}
-
-Timer.prototype.set = function(ms) {
-	if (!this.ms) {
-		this.ms = ms;
-	}
-	if (this.callback) {
-		window.setTimeout(this.callback,ms);
-	} else {
-		this.handleFailure(&quot;noAction&quot;);
-	}
-};
-
-Timer.prototype.setAction = function(action,recur) {
-	if (!recur) {
-		this.callback = action;
-	} else {
-		var that = this;
-		this.callback = function() {
-			if(config.options[that.pollOption]) {
-				action();
-			}
-			that.set.call(that,that.ms);
-		}
-	}
-};
-
-/*************
- * Test macro *
- **************/
-/* config.macros.testPoll = {};
-
-config.macros.testPoll.handler = function() {
-	var t = new Timer();
-	var p = new Poller();
-	// TO-DO: figure out a sensible	way to gather feeds
-	// p.setFeeds(feedArray);
-	p.setAdminFeed(config.options.txtPollAdminFeed);
-	p.setPostBox(&quot;http://localhost/&quot;+config.options.txtUserName+&quot;/&quot;);
-	t.setAction(function() {
-		clearMessage();
-		displayMessage(&quot;polling&quot;);
-		p.getFeeds();
-		p.putFeeds();
-	},true);
-	t.set(10000);
-}; */
-
-config.macros.unitTest = {};
-
-config.macros.unitTest.handler = function(place) {
-	var p = new Poller();
-	var postBox = &quot;http://localhost/&quot;+encodeURIComponent(config.options.txtUserName)+&quot;/&quot;;
-	p.setPostBox(postBox);
-	// testing p.putFeeds()
-	wikify(&quot;testing p.putFeeds()\n&quot;,place);
-	var item = Queue.getNext();
-	if (!item) {
-		wikify(&quot;nothing in the queue! do some editing and re-open this tiddler&quot;,place);
-		return false;
-	}
-	wikify(&quot;item to push: &quot; + item.title + &quot;\n&quot;,place);
-	var rssString = item.saveToRss();
-	wikify(&quot;rss string to push: &quot; + rssString + &quot;\n&quot;,place);
-	var params = {
-		callback:function(status,params,responseText,url,xhr){
-			if(!status){
-				// PUT failed, deal with it here
-				// leave item in queue and take no action?
-				displayMessage(&quot;directory might not exist on the server at: &quot; + url);
-			}
-			else {
-				// PUT is successful, take item out of queue
-				Queue.pop(params.tiddler);
-				var next = Queue.getNext();
-				displayMessage(&quot;success putting item: &quot; + params.tiddler.title);
-				displayMessage(&quot;next item in queue after popping this: &quot; + (next ? next.title : &quot;nothing!&quot;) + &quot;\n&quot;);
-			}
-		},
-		tiddler:item
-	};
-	var url = postBox + encodeURIComponent(item.title) + &quot;.xml&quot;;
-	wikify(&quot;going to put to: &quot; + url + &quot;\n&quot;,place);
-	DAV.putAndMove(url,params,rssString);
-};</pre>
+//}}}</pre>
 </div>
-<div title="TaggedTemplateTweak" modifier="Jon Lister" created="200706181748" modified="200710161502" tags="systemConfig excludeLists excludeSearch">
+<div title="StyleSheet" tags="styles excludeLists excludeSearch">
+<pre>[[Styles HorizontalMainMenu]]
+
+/* page framework */
+#agendaMenu { position: static;	float: left; width: auto; }
+#displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
+#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0; }
+
+/* Header */
+div.header { border:solid 4px #000; }
+
+/* Primary Nav Buttons */
+#mainMenu { background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding-left:0; line-height:1.5em; }
+#mainMenu a { display:block; float:left; border-right:solid 1px #999; font-size:1em; margin:0; color:#333;}
+#mainMenu a.tiddlyLink { padding:0 1em; font-size:1em; color:#333;}
+#mainMenu a.agendaButton { width:260px; padding:0; text-align:center;}
+#mainMenu a:hover,
+#mainMenu a.tiddlyLink:hover { background-color:#bbb;}
+
+/* Agenda */
+#agendaMenu { width:260px; float:left; padding:0; }
+#agendaMenu div.txtAgendaTab div.tabset { height:2.5em; background-color:#f6f6f6;}
+#agendaMenu div.txtAgendaTab div.tabset a.tab { padding:4px 1em; background-color:#f0f0f0; color:#333; margin:1em 2px; font-weight:bold; font-size:0.9em; border:solid 1px #999; border-bottom-width:2px;}
+#agendaMenu div.txtAgendaTab div.tabset a.tab:hover { background-color:#444; color:#fff; border-color:#222; }
+#agendaMenu div.txtAgendaTab div.tabset a.tabSelected {background-color:#fff; border:solid 1px #999; border-bottom-width:2px;}
+#agendaMenu div.txtAgendaTab div.tabContents { border-style:none; margin:0; padding:0;}
+
+div.txtAgendaTab { border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
+div.txtAgendaTab div.agendaItem { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px #fff; border-left:solid 10px #ccc; }	
+div.txtAgendaTab div.inProgress { border-left:solid 10px #933; background-color:#fff; }
+div.txtAgendaTab div.agendaItem span.time {	font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; position:absolute; }
+div.txtAgendaTab div.agendaItem span.title a { color:#444; display:block; font-weight:bold;	text-decoration:none; margin-left:5em; font-size:12px; }
+div.txtAgendaTab div.agendaItem div.speaker { color:#666; display:block; margin:0.2em 0 0 5em; }
+div.txtAgendaTab div.agendaItem div.notes {	margin:0.4em 0.5em 0 0;	text-align:right; }
+div.txtAgendaTab div.agendaItem div.notes a { display:block; color:#55c; font-size:0.9em; line-height:1.4em; text-decoration:none; }
+div.txtAgendaTab div.agendaItem div.notes a.stale { color:#600; }
+div.txtAgendaTab div.agendaItem div.notes a.tiddlyLink:hover,
+div.txtAgendaTab div.agendaItem div.notes a.stale:hover,
+div.txtAgendaTab div.agendaItem span.title a:hover { color:#000; text-decoration:underline;	background-color:#f0f0f0; }
+div.txtAgendaTab div.inProgress a.tiddlyLink:hover { background-color:#fff;	}</pre>
+</div>
+<div title="Styles HorizontalMainMenu" modifier="MartinBudden" tags="styles excludeLists excludeSearch">
+<pre>/*{{{*/
+#mainMenu {position:relative;left:auto;width:auto;text-align:left;line-height:normal;padding 0em 1em 0em 1em;font-size:normal;}
+#mainMenu br {display:none;}
+#mainMenu {background:#336699;}
+#mainMenu {padding:2px;}
+#mainMenu .button, #mainMenu .tiddlyLink {padding-left:1em;padding-right:0em;color:white;font-size:115%;}
+
+#displayArea {
+	margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:1em;
+	padding-top:.1em;padding-bottom:.1em;
+}</pre>
+</div>
+<div title="TabAgendaday1" created="200711150921" changecount="1">
+<pre>&lt;&lt;agendaMenuByTrack day1&gt;&gt;</pre>
+</div>
+<div title="TabAgendaday2" created="200711150921" changecount="1">
+<pre>&lt;&lt;agendaMenuByTrack day2&gt;&gt;</pre>
+</div>
+<div title="TaggedTemplateTweak" modifier="Jon Lister" modified="200710161502" created="200706181748" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |Name|TaggedTemplateTweak|
 |Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
@@ -1955,138 +2363,101 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 }
 //}}}</pre>
 </div>
-<div title="SessionPlugin" modifier="MartinBudden" created="200711090000" modified="200611090000" tags="systemConfig excludeLists excludeSearch">
+<div title="ToggleElementPlugin" modifier="FND" modified="200710161502" created="200706181748" tags="systemConfig excludeLists excludeSearch" changecount="1">
 <pre>/***
-|''Name:''|SessionPlugin|
-|''Description:''|Macros to support session|
-|''Author:''|My Name|
-|''Source:''|http://www.MyWebSite.com/#SessionPlugin |
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MyDirectory/plugins/SessionPlugin.js |
-|''Version:''|0.0.1|
-|''Status:''|Not for release - this is a template for creating new plugins|
-|''Date:''|July 31, 2006|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
-|''~CoreVersion:''|2.2|
-
-To make this example into a real TiddlyWiki adaptor, you need to:
-
-# Globally search and replace SessionPlugin with the name of your plugin
-# Globally search and replace example with the name of your macro
-# Update the header text above with your description, name etc
-# Do the actions indicated by the !!TODO comments, namely:
-## Write the code for the macro
-
+|''Name''|ToggleElementMacro|
+|''Description''|toggles the visibility of the element specified|
+|''Author''|FND|
+|''Source''|http://devpad.tiddlyspot.com/#ToggleElementMacro|
+|''Version''|0.6|
+|''Status''|@@experimental@@|
+|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''~CoreVersion''|2.1|
+!Notes
+This macro was created for use with the [[overflow technique|http://cleanlayout.tiddlyspot.com/#StyleSheet]] (cf. [[[twdev] StyleSheetLayout: overflow technique|http://groups.google.at/group/TiddlyWikiDev/browse_thread/thread/b55011665c5e04d9/]]).
+!Usage
+{{{
+&lt;&lt;toggleElement
+	[element ID]
+	[button label]
+	[button tooltip]
+	[button class]
+	[button access key]
+	[startup mode]
+&gt;&gt;
+}}}
+All parameters are optional.
+If the last parameter is {{{&quot;hide&quot;}}}, the respective element will be hidden when the macro is first rendered.
+In order to use the default value for a certain property, the respective parameter can either be omitted or defined as empty by using {{{&quot;&quot;}}}.
+!!Examples
+|!Code|!Result|
+|{{{&lt;&lt;toggleElement&gt;&gt;}}}| &lt;&lt;toggleElement&gt;&gt; |
+|{{{&lt;&lt;toggleElement &quot;mainMenu&quot; &quot;Toggle MainMenu&quot; &quot;&quot; &quot;tiddlyLinkExisting&quot;&gt;&gt;}}}| &lt;&lt;toggleElement &quot;mainMenu&quot; &quot;Toggle MainMenu&quot; &quot;&quot; &quot;tiddlyLinkExisting&quot;&gt;&gt; |
+|{{{&lt;&lt;toggleElement &quot;mainMenu&quot; &quot;Toggle MainMenu&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;hide&quot;&gt;&gt;}}}| &lt;&lt;toggleElement &quot;mainMenu&quot; &quot;Toggle MainMenu&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;hide&quot;&gt;&gt; |
+!To Do
+* rename to [[ToggleElementMacro]]
+* use named parameters
+* documentation (esp. parameters)
+* separate labels for depending on element's toggle state
+* add animations (using [[AnimationsLibrary]]; cf. [[ToggleElementPlugin (animated)]])
+!Revision History
+!!v0.5 (2007-09-22)
+* initial proof-of-concept implementation
+!!v0.6 (2007-11-11)
+* added parameter for hiding element by default
+* renamed to [[ToggleElementMacro]] (from [[ToggleElementPlugin]])
+!Code
 ***/
-
 //{{{
-if(!version.extensions.SessionPlugin) {
-version.extensions.SessionPlugin = {installed:true};
-
-config.macros.sessionAnnotation = {};
-config.macros.sessionAnnotation.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-{
-	var title = tiddler.title;
-	var wikitext = &quot;''Speaker:''&quot; + store.getTiddlerSlice(title,&quot;speaker&quot;) + &quot;&lt;br/&gt;&quot; +
-	&quot;''From:''&quot; + store.getTiddlerSlice(title,&quot;start&quot;) + &quot;&lt;br/&gt;&quot; +
-	&quot;''To:''&quot; + store.getTiddlerSlice(title,&quot;end&quot;);
-	wikify(wikitext,place,highlightHack,tiddler);
+config.macros.toggleElement = {
+	elementID: &quot;sidebar&quot;,
+	label: &quot;Toggle Sidebar&quot;,
+	prompt: &quot;Switch sidebar on and off&quot;,
+	buttonClass: &quot;&quot;,
+	accessKey: &quot;&quot;
 };
 
-config.macros.sessionNotes = {};
-config.macros.sessionNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-{
-	// just output each note in a list for the moment
-	var ct = tiddler.title;
-	var ul = null;
-	store.forEachTiddler(function(title,tiddler) {
-		if(title.startsWith(ct) &amp;&amp; ct!=title) {
-			if(!ul)
-				ul = createTiddlyElement(place,'ul');
-			var li = createTiddlyElement(ul,'li');
-			var wikitext = tiddler.text;
-			wikify(wikitext,li,highlightHack,tiddler);
+config.macros.toggleElement.handler = function(place, macroName, params) {
+	// process command line parameters
+	var elementID = params[0] || this.elementID;
+	var label = params[1] || this.label;
+	var prompt = params[2] || this.prompt;
+	var buttonClass = params[3] || this.buttonClass;
+	var accessKey = params[4] || this.accessKey;
+	// startup mode
+	if(params[5] == &quot;hide&quot;) {
+		this.toggle(elementID);
+	}
+	// create toggle button
+	createTiddlyButton(place, label, prompt,
+		function() { config.macros.toggleElement.toggle(elementID); },
+		buttonClass, null, accessKey);
+};
+
+config.macros.toggleElement.toggle = function(id) {
+	var e = document.getElementById(id);
+	if(e) {
+		if(e.style.display != &quot;none&quot;) {
+			e.style.display = &quot;none&quot;;
+		} else {
+			e.style.display = &quot;&quot;;
 		}
-	});
+	}
 };
-} //# end of 'install only once'
 //}}}</pre>
 </div>
-<div title="Queue" modifier="Jon Lister" created="200706181748" modified="200711101502" tags="systemConfig" changecount="1">
-<pre>Queue = function() {};
-
-// pushItem works with tiddlers in the story as it assumes that you are hooking into a save event
-// can always extend it later to work with store tiddlers if needs be
-Queue.push = function(tiddlerElem) {
-	var customFields = &quot;inqueue:true&quot;;
-	story.addCustomFields(tiddlerElem,customFields);
-};
-
-// popItem is designed to be called after a successful PUT of a tiddler in the store,
-// by the object that pushed the tiddler
-Queue.pop = function(tiddler) {
-	if(tiddler.fields &amp;&amp; tiddler.fields.inqueue &amp;&amp; tiddler.fields.inqueue == &quot;true&quot;) {
-		tiddler.fields.inqueue = &quot;false&quot;;
-		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields)
-	}
-};
-
-Queue.getNext = function() {
-	var t = Queue.getAll();
-	return (t.length &gt; 0 ? t[0] : false);
-};
-
-Queue.getAll = function() {
-	var items = [];
-	store.forEachTiddler(function(title,t) {
-		if (t.fields &amp;&amp; t.fields.inqueue &amp;&amp; t.fields.inqueue == &quot;true&quot;) {
-			items.push(t);
-		}
-	});
-	return items;
-}
-
-// override saveTiddler function to add tiddler to queue
-// TO-DO: tailor this to work for session notes tiddlers only (presumably)
-// issue with the above: how to examine tags before new tiddler is saved
-Queue.old_saveTiddler = config.commands.saveTiddler.handler;
-config.commands.saveTiddler.handler = function(event,src,title) {
-	var tiddlerElem = document.getElementById(story.idPrefix + title);
-	Queue.push(tiddlerElem);
-	Queue.old_saveTiddler.call(this,event,src,title);
-}
-
-config.macros.showQueue = {};
-
-config.macros.showQueue.handler = function(place) {
-	// create a popup of all tiddlers in the queue
-	var tiddlers = Queue.getAll();
-	if (tiddlers.length !== 0) {
-		var tooltip = &quot;click to show queue&quot;;
-		var btn = createTiddlyButton(place,&quot;show queue &quot; + glyph(&quot;downArrow&quot;),tooltip,config.macros.showQueue.onClick,&quot;showQueueButton&quot;);
-		btn.tiddlers = tiddlers;
-		btn.place = place;
-	} else {
-		wikify(&quot;nothing in queue&quot;,place);
-	}
-};
-
-config.macros.showQueue.onClick = function(ev) {
-	var e = ev ? ev : window.event;
-	var tiddlerList = &quot;&quot;;
-	var tiddlers = this.tiddlers;
-	for (var i=0;i&lt;tiddlers.length;i++) {
-		tiddlerList += &quot;[[&quot; + tiddlers[i].title + &quot;]]&quot;;
-	}
-	var popup = Popup.create(this,&quot;div&quot;,&quot;popupTiddler&quot;);
-	wikify(tiddlerList,popup);
-	Popup.show();
-	if(e) e.cancelBubble = true;
-	if(e &amp;&amp; e.stopPropagation) e.stopPropagation();
-	return false;
-};</pre>
+<div title="UnitTests">
+<pre>&lt;&lt;unitTest&gt;&gt;</pre>
 </div>
-<div title="WebDAV" modifier="Jon Lister" created="200706181748" modified="200710161502" tags="systemConfig excludeLists excludeSearch" changecount="1">
+<div title="Web 2.0 - The Dark Side" tags="session">
+<pre>speaker:Laurent Haug - LIFT Conference (moderator),Michel Jaccard - attorney,Jaewoong Lee - Daum Communications,Joanna Shields - Bebo,Dan Rose - Facebook,Chris Alden - SixApart
+track:day1
+date:11/12/07
+start:0855
+end:0940
+blurb:</pre>
+</div>
+<div title="WebDAV" modifier="Jon Lister" modified="200710161502" created="200706181748" tags="systemConfig excludeLists excludeSearch" changecount="1">
 <pre>// Thanks to BidiX for doing much of the groundwork in this area
 
 config.macros.testWebDAV = {
@@ -2179,428 +2550,58 @@ config.macros.testWebDAV.http = function(type,url,data,callback,params) {
 	return r;
 }</pre>
 </div>
-<div title="ToggleElementPlugin" modifier="FND" created="200706181748" modified="200710161502" tags="systemConfig excludeLists excludeSearch" changecount="1">
-<pre>/***
-|''Name''|ToggleElementMacro|
-|''Description''|toggles the visibility of the element specified|
-|''Author''|FND|
-|''Source''|http://devpad.tiddlyspot.com/#ToggleElementMacro|
-|''Version''|0.6|
-|''Status''|@@experimental@@|
-|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''~CoreVersion''|2.1|
-!Notes
-This macro was created for use with the [[overflow technique|http://cleanlayout.tiddlyspot.com/#StyleSheet]] (cf. [[[twdev] StyleSheetLayout: overflow technique|http://groups.google.at/group/TiddlyWikiDev/browse_thread/thread/b55011665c5e04d9/]]).
-!Usage
-{{{
-&lt;&lt;toggleElement
-	[element ID]
-	[button label]
-	[button tooltip]
-	[button class]
-	[button access key]
-	[startup mode]
-&gt;&gt;
-}}}
-All parameters are optional.
-If the last parameter is {{{&quot;hide&quot;}}}, the respective element will be hidden when the macro is first rendered.
-In order to use the default value for a certain property, the respective parameter can either be omitted or defined as empty by using {{{&quot;&quot;}}}.
-!!Examples
-|!Code|!Result|
-|{{{&lt;&lt;toggleElement&gt;&gt;}}}| &lt;&lt;toggleElement&gt;&gt; |
-|{{{&lt;&lt;toggleElement &quot;mainMenu&quot; &quot;Toggle MainMenu&quot; &quot;&quot; &quot;tiddlyLinkExisting&quot;&gt;&gt;}}}| &lt;&lt;toggleElement &quot;mainMenu&quot; &quot;Toggle MainMenu&quot; &quot;&quot; &quot;tiddlyLinkExisting&quot;&gt;&gt; |
-|{{{&lt;&lt;toggleElement &quot;mainMenu&quot; &quot;Toggle MainMenu&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;hide&quot;&gt;&gt;}}}| &lt;&lt;toggleElement &quot;mainMenu&quot; &quot;Toggle MainMenu&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;hide&quot;&gt;&gt; |
-!To Do
-* rename to [[ToggleElementMacro]]
-* use named parameters
-* documentation (esp. parameters)
-* separate labels for depending on element's toggle state
-* add animations (using [[AnimationsLibrary]]; cf. [[ToggleElementPlugin (animated)]])
-!Revision History
-!!v0.5 (2007-09-22)
-* initial proof-of-concept implementation
-!!v0.6 (2007-11-11)
-* added parameter for hiding element by default
-* renamed to [[ToggleElementMacro]] (from [[ToggleElementPlugin]])
-!Code
-***/
-//{{{
-config.macros.toggleElement = {
-	elementID: &quot;sidebar&quot;,
-	label: &quot;Toggle Sidebar&quot;,
-	prompt: &quot;Switch sidebar on and off&quot;,
-	buttonClass: &quot;&quot;,
-	accessKey: &quot;&quot;
-};
-
-config.macros.toggleElement.handler = function(place, macroName, params) {
-	// process command line parameters
-	var elementID = params[0] || this.elementID;
-	var label = params[1] || this.label;
-	var prompt = params[2] || this.prompt;
-	var buttonClass = params[3] || this.buttonClass;
-	var accessKey = params[4] || this.accessKey;
-	// startup mode
-	if(params[5] == &quot;hide&quot;) {
-		this.toggle(elementID);
-	}
-	// create toggle button
-	createTiddlyButton(place, label, prompt,
-		function() { config.macros.toggleElement.toggle(elementID); },
-		buttonClass, null, accessKey);
-};
-
-config.macros.toggleElement.toggle = function(id) {
-	var e = document.getElementById(id);
-	if(e) {
-		if(e.style.display != &quot;none&quot;) {
-			e.style.display = &quot;none&quot;;
-		} else {
-			e.style.display = &quot;&quot;;
-		}
-	}
-};
-//}}}</pre>
+<div title="Welcome to the Evolution/Revolution" tags="session">
+<pre>speaker:Loic Le Meur
+track:day1
+date:11/13/07
+start:0830
+end:0840
+blurb:</pre>
+</div>
+<div title="Welcome to the Evolution/Revolution from JoeBloggs" tags="excludeLists excludeSearch">
+<pre>That was a very good introduction</pre>
+</div>
+<div title="Welcome to the Evolution/Revolution from PhilHawksworth" tags="excludeLists excludeSearch">
+<pre>That was an excellent introduction</pre>
+</div>
+<div title="Why I Love Vodafone" tags="session">
+<pre>speaker:hello
+track:day1
+date:9/11/07
+start:1600
+end:1900
+blurb:Dan loves all this</pre>
+</div>
+<div title="Why books and school lectures still exist" tags="session">
+<pre>speaker:Hans Rosling
+track:day1
+date:11/12/07
+start:1000
+end:1020
+blurb:</pre>
 </div>
 <div title="agendaMenu" tags="excludeLists excludeSearch">
 <pre>&lt;&lt;agendaMenu&gt;&gt;</pre>
 </div>
-<div title="Config">
-<pre>|Admin feed url|&lt;&lt;option txtPollAdminFeed&gt;&gt;|
-|Poll for updates and queue items|&lt;&lt;option chkDoPolling&gt;&gt;|
-|~UserName|&lt;&lt;option txtUserName&gt;&gt;|</pre>
+<div title="sessionEditTemplate" tags="excludeLists excludeSearch">
+<pre>&lt;!--{{{--&gt;
+&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;
+&lt;!-- &lt;div class='title' macro='view title'&gt;&lt;/div&gt; --&gt;
+&lt;!-- &lt;div class='editor' macro='edit title'&gt;&lt;/div&gt; --&gt;
+&lt;div macro='annotations'&gt;&lt;/div&gt;
+&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;
+&lt;!-- &lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser'&gt;&lt;/span&gt;&lt;/div&gt; --&gt;
+&lt;!--}}}--&gt;</pre>
 </div>
-<div title="DeepNavigation">
-<pre>
-[[SideBarOptions]]
-[[SideBarTabs]]</pre>
-</div>
-<div title="Help">
-<pre>&lt;&lt;crossBrowserHelp&gt;&gt;</pre>
-</div>
-<div title="Styles HorizontalMainMenu" modifier="MartinBudden" tags="styles excludeLists excludeSearch">
-<pre>
-/*{{{*/
-#mainMenu {position:relative;left:auto;width:auto;text-align:left;line-height:normal;padding 0em 1em 0em 1em;font-size:normal;}
-#mainMenu br {display:none;}
-#mainMenu {background:#336699;}
-#mainMenu {padding:2px;}
-#mainMenu .button, #mainMenu .tiddlyLink {padding-left:1em;padding-right:0em;color:white;font-size:115%;}
-
-#displayArea {
-	margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:1em;
-	padding-top:.1em;padding-bottom:.1em;
-}</pre>
-</div>
-<div title="UnitTests">
-<pre>&lt;&lt;unitTest&gt;&gt;</pre>
-</div>
-<div title="SplarklinePlugin" created="200710154332" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|SplarklinePlugin|
-|''Description:''|Sparklines|
-***/
-//{{{
-if(!version.extensions.SplarklinePlugin) {
-version.extensions.SplarklinePlugin = {installed:true};
-
-//--
-//-- Sparklines
-//--
-
-config.macros.sparkline = {};
-config.macros.sparkline.handler = function(place,macroName,params)
-{
-	var data = [];
-	var min = 0;
-	var max = 0;
-	var v;
-	for(var t=0; t&lt;params.length; t++) {
-		v = parseInt(params[t]);
-		if(v &lt; min)
-			min = v;
-		if(v &gt; max)
-			max = v;
-		data.push(v);
-	}
-	if(data.length &lt; 1)
-		return;
-	var box = createTiddlyElement(place,&quot;span&quot;,null,&quot;sparkline&quot;,String.fromCharCode(160));
-	box.title = data.join(&quot;,&quot;);
-	var w = box.offsetWidth;
-	var h = box.offsetHeight;
-	box.style.paddingRight = (data.length * 2 - w) + &quot;px&quot;;
-	box.style.position = &quot;relative&quot;;
-	for(var d=0; d&lt;data.length; d++) {
-		var tick = document.createElement(&quot;img&quot;);
-		tick.border = 0;
-		tick.className = &quot;sparktick&quot;;
-		tick.style.position = &quot;absolute&quot;;
-		tick.src = &quot;data:image/gif,GIF89a%01%00%01%00%91%FF%00%FF%FF%FF%00%00%00%C0%C0%C0%00%00%00!%F9%04%01%00%00%02%00%2C%00%00%00%00%01%00%01%00%40%02%02T%01%00%3B&quot;;
-		tick.style.left = d*2 + &quot;px&quot;;
-		tick.style.width = &quot;2px&quot;;
-		v = Math.floor(((data[d] - min)/(max-min)) * h);
-		tick.style.top = (h-v) + &quot;px&quot;;
-		tick.style.height = v + &quot;px&quot;;
-		box.appendChild(tick);
-	}
-};
-
-
-}
-//}}}</pre>
-</div>
-<div title="CryptoFunctionsPlugin" created="200710045250" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|CryptoFunctionsPlugin|
-|''Description:''|Support for cryptographic functions|
-***/
-//{{{
-if(!version.extensions.CryptoFunctionsPlugin) {
-version.extensions.CryptoFunctionsPlugin = {installed:true};
-
-//--
-//-- Crypto functions and associated conversion routines
-//--
-
-// Crypto &quot;namespace&quot;
-function Crypto() {}
-
-// Convert a string to an array of big-endian 32-bit words
-Crypto.strToBe32s = function(str)
-{
-	var be = Array();
-	var len = Math.floor(str.length/4);
-	var i, j;
-	for(i=0, j=0; i&lt;len; i++, j+=4) {
-		be[i] = ((str.charCodeAt(j)&amp;0xff) &lt;&lt; 24)|((str.charCodeAt(j+1)&amp;0xff) &lt;&lt; 16)|((str.charCodeAt(j+2)&amp;0xff) &lt;&lt; 8)|(str.charCodeAt(j+3)&amp;0xff);
-	}
-	while (j&lt;str.length) {
-		be[j&gt;&gt;2] |= (str.charCodeAt(j)&amp;0xff)&lt;&lt;(24-(j*8)%32);
-		j++;
-	}
-	return be;
-};
-
-// Convert an array of big-endian 32-bit words to a string
-Crypto.be32sToStr = function(be)
-{
-	var str = &quot;&quot;;
-	for(var i=0;i&lt;be.length*32;i+=8)
-		str += String.fromCharCode((be[i&gt;&gt;5]&gt;&gt;&gt;(24-i%32)) &amp; 0xff);
-	return str;
-};
-
-// Convert an array of big-endian 32-bit words to a hex string
-Crypto.be32sToHex = function(be)
-{
-	var hex = &quot;0123456789ABCDEF&quot;;
-	var str = &quot;&quot;;
-	for(var i=0;i&lt;be.length*4;i++)
-		str += hex.charAt((be[i&gt;&gt;2]&gt;&gt;((3-i%4)*8+4))&amp;0xF) + hex.charAt((be[i&gt;&gt;2]&gt;&gt;((3-i%4)*8))&amp;0xF);
-	return str;
-};
-
-// Return, in hex, the SHA-1 hash of a string
-Crypto.hexSha1Str = function(str)
-{
-	return Crypto.be32sToHex(Crypto.sha1Str(str));
-};
-
-// Return the SHA-1 hash of a string
-Crypto.sha1Str = function(str)
-{
-	return Crypto.sha1(Crypto.strToBe32s(str),str.length);
-};
-
-// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
-Crypto.sha1 = function(x,blen)
-{
-	// Add 32-bit integers, wrapping at 32 bits
-	add32 = function(a,b)
-	{
-		var lsw = (a&amp;0xFFFF)+(b&amp;0xFFFF);
-		var msw = (a&gt;&gt;16)+(b&gt;&gt;16)+(lsw&gt;&gt;16);
-		return (msw&lt;&lt;16)|(lsw&amp;0xFFFF);
-	};
-	// Add five 32-bit integers, wrapping at 32 bits
-	add32x5 = function(a,b,c,d,e)
-	{
-		var lsw = (a&amp;0xFFFF)+(b&amp;0xFFFF)+(c&amp;0xFFFF)+(d&amp;0xFFFF)+(e&amp;0xFFFF);
-		var msw = (a&gt;&gt;16)+(b&gt;&gt;16)+(c&gt;&gt;16)+(d&gt;&gt;16)+(e&gt;&gt;16)+(lsw&gt;&gt;16);
-		return (msw&lt;&lt;16)|(lsw&amp;0xFFFF);
-	};
-	// Bitwise rotate left a 32-bit integer by 1 bit
-	rol32 = function(n)
-	{
-		return (n&gt;&gt;&gt;31)|(n&lt;&lt;1);
-	};
-
-	var len = blen*8;
-	// Append padding so length in bits is 448 mod 512
-	x[len&gt;&gt;5] |= 0x80 &lt;&lt; (24-len%32);
-	// Append length
-	x[((len+64&gt;&gt;9)&lt;&lt;4)+15] = len;
-	var w = Array(80);
-
-	var k1 = 0x5A827999;
-	var k2 = 0x6ED9EBA1;
-	var k3 = 0x8F1BBCDC;
-	var k4 = 0xCA62C1D6;
-
-	var h0 = 0x67452301;
-	var h1 = 0xEFCDAB89;
-	var h2 = 0x98BADCFE;
-	var h3 = 0x10325476;
-	var h4 = 0xC3D2E1F0;
-
-	for(var i=0;i&lt;x.length;i+=16) {
-		var j,t;
-		var a = h0;
-		var b = h1;
-		var c = h2;
-		var d = h3;
-		var e = h4;
-		for(j = 0;j&lt;16;j++) {
-			w[j] = x[i+j];
-			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),d^(b&amp;(c^d)),w[j],k1);
-			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
-		}
-		for(j=16;j&lt;20;j++) {
-			w[j] = rol32(w[j-3]^w[j-8]^w[j-14]^w[j-16]);
-			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),d^(b&amp;(c^d)),w[j],k1);
-			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
-		}
-		for(j=20;j&lt;40;j++) {
-			w[j] = rol32(w[j-3]^w[j-8]^w[j-14]^w[j-16]);
-			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),b^c^d,w[j],k2);
-			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
-		}
-		for(j=40;j&lt;60;j++) {
-			w[j] = rol32(w[j-3]^w[j-8]^w[j-14]^w[j-16]);
-			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),(b&amp;c)|(d&amp;(b|c)),w[j],k3);
-			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
-		}
-		for(j=60;j&lt;80;j++) {
-			w[j] = rol32(w[j-3]^w[j-8]^w[j-14]^w[j-16]);
-			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),b^c^d,w[j],k4);
-			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
-		}
-
-		h0 = add32(h0,a);
-		h1 = add32(h1,b);
-		h2 = add32(h2,c);
-		h3 = add32(h3,d);
-		h4 = add32(h4,e);
-	}
-	return Array(h0,h1,h2,h3,h4);
-};
-
-
-}
-//}}}</pre>
-</div>
-<div title="DeprecatedFunctionsPlugin" created="200710154332" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|DeprecatedFunctionsPlugin|
-|''Description:''|Support for deprecated functions removed from core|
-***/
-//{{{
-if(!version.extensions.DeprecatedFunctionsPlugin) {
-version.extensions.DeprecatedFunctionsPlugin = {installed:true};
-
-//--
-//-- Deprecated code
-//--
-
-// @Deprecated: Use createElementAndWikify and this.termRegExp instead
-config.formatterHelpers.charFormatHelper = function(w)
-{
-	w.subWikify(createTiddlyElement(w.output,this.element),this.terminator);
-};
-
-// @Deprecated: Use enclosedTextHelper and this.lookaheadRegExp instead
-config.formatterHelpers.monospacedByLineHelper = function(w)
-{
-	var lookaheadRegExp = new RegExp(this.lookahead,&quot;mg&quot;);
-	lookaheadRegExp.lastIndex = w.matchStart;
-	var lookaheadMatch = lookaheadRegExp.exec(w.source);
-	if(lookaheadMatch &amp;&amp; lookaheadMatch.index == w.matchStart) {
-		var text = lookaheadMatch[1];
-		if(config.browser.isIE)
-			text = text.replace(/\n/g,&quot;\r&quot;);
-		createTiddlyElement(w.output,&quot;pre&quot;,null,null,text);
-		w.nextMatch = lookaheadRegExp.lastIndex;
-	}
-};
-
-// @Deprecated: Use &lt;br&gt; or &lt;br /&gt; instead of &lt;&lt;br&gt;&gt;
-config.macros.br = {};
-config.macros.br.handler = function(place)
-{
-	createTiddlyElement(place,&quot;br&quot;);
-};
-
-// Find an entry in an array. Returns the array index or null
-// @Deprecated: Use indexOf instead
-Array.prototype.find = function(item)
-{
-	var i = this.indexOf(item);
-	return i == -1 ? null : i;
-};
-
-// Load a tiddler from an HTML DIV. The caller should make sure to later call Tiddler.changed()
-// @Deprecated: Use store.getLoader().internalizeTiddler instead
-Tiddler.prototype.loadFromDiv = function(divRef,title)
-{
-	return store.getLoader().internalizeTiddler(store,this,title,divRef);
-};
-
-// Format the text for storage in an HTML DIV
-// @Deprecated Use store.getSaver().externalizeTiddler instead.
-Tiddler.prototype.saveToDiv = function()
-{
-	return store.getSaver().externalizeTiddler(store,this);
-};
-
-// @Deprecated: Use store.allTiddlersAsHtml() instead
-function allTiddlersAsHtml()
-{
-	return store.allTiddlersAsHtml();
-}
-
-// @Deprecated: Use refreshPageTemplate instead
-function applyPageTemplate(title)
-{
-	refreshPageTemplate(title);
-}
-
-// @Deprecated: Use story.displayTiddlers instead
-function displayTiddlers(srcElement,titles,template,unused1,unused2,animate,unused3)
-{
-	story.displayTiddlers(srcElement,titles,template,animate);
-}
-
-// @Deprecated: Use story.displayTiddler instead
-function displayTiddler(srcElement,title,template,unused1,unused2,animate,unused3)
-{
-	story.displayTiddler(srcElement,title,template,animate);
-}
-
-// @Deprecated: Use functions on right hand side directly instead
-var createTiddlerPopup = Popup.create;
-var scrollToTiddlerPopup = Popup.show;
-var hideTiddlerPopup = Popup.remove;
-
-// @Deprecated: Use right hand side directly instead
-var regexpBackSlashEn = new RegExp(&quot;\\\\n&quot;,&quot;mg&quot;);
-var regexpBackSlash = new RegExp(&quot;\\\\&quot;,&quot;mg&quot;);
-var regexpBackSlashEss = new RegExp(&quot;\\\\s&quot;,&quot;mg&quot;);
-var regexpNewLine = new RegExp(&quot;\n&quot;,&quot;mg&quot;);
-var regexpCarriageReturn = new RegExp(&quot;\r&quot;,&quot;mg&quot;);
-
-}
-//}}}</pre>
+<div title="sessionViewTemplate" tags="excludeLists excludeSearch">
+<pre>&lt;!--{{{--&gt;
+&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler'&gt;&lt;/div&gt;
+&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
+&lt;!-- &lt;div class='subtitle'&gt;&lt;/div&gt; --&gt;
+&lt;div macro='sessionAnnotation'&gt;&lt;/div&gt;
+&lt;div class='viewer' macro='sessionNotes'&gt;&lt;/div&gt;
+&lt;div class='tagClear'&gt;&lt;/div&gt;
+&lt;!--}}}--&gt;</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
@@ -10685,6 +10686,7 @@ if(useJavaSaver)
 //]]>
 </script>
 <!--POST-SCRIPT-START-->
+
 <!--POST-SCRIPT-END-->
 </body>
 </html>

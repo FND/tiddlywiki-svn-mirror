@@ -1,17 +1,50 @@
-/*********
- * Poller *
- *********/
-function Poller() {
+/********************
+ * PushAndPullPlugin *
+ ********************/
+
+/***
+|''Name''|PushAndPullPlugin|
+|''Author''|JayFresh|
+|''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]]|
+|''Version''|1|
+|''~CoreVersion''|2.2.5|
+|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/tiddleleweb/plugins/PushAndPullPlugin.js|
+|''Description''|provides an abstraction for moving a Collection of tiddlers up to the a server as an RSS feed and retrieving another set of RSS feeds|
+|''Syntax''|see below|
+|''Status''|@@experimental@@|
+|''Contributors''||
+|''Contact''|jon at osmosoft dot com|
+|''Comments''|please post to http://groups.google.com/TiddlyWikiDev|
+|''Dependencies''|RSSAdaptorPlugin,CollectionPlugin|
+|''Browser''||
+|''ReleaseDate''||
+|''Icon''||
+|''Screenshot''||
+|''Tags''||
+|''CodeRepository''|see Source above|
+! Example use
+var p = new PushAndPull();
+p.setFeeds(feedArray);
+p.setAdminFeed(url1);
+p.setPostBox(dir);
+p.getFeeds();
+p.putFeeds();
+***/
+//{{{ 
+/*************
+ * PushAndPull *
+ **************/
+function PushAndPull() {
 	this.feeds = [];
 	this.messages = {
 		noAdminFeed:"no Admin Feed set",
-		noFeed:"no feed in poller",
+		noFeed:"no feeds to pull",
 		HTTP:"error with http request: ",
 		openHost:"error opening feed: ",
 		noContent:"nothing to import from ",
 		noImport:"nothing imported from ",
 		noTiddler:"error storing tiddler: ",
-		"default":"error in poller"
+		"default":"error in PushAndPull"
 	};
 	this.chooseFeeds = function() {
 		// empty list
@@ -41,7 +74,7 @@ function Poller() {
 			context.adaptor = adaptor;
 			// Q: What's the filter going to be?
 			context.filter = "";
-			var ret = adaptor.openHost(context.host,context,null,Poller.openHostCallback);
+			var ret = adaptor.openHost(context.host,context,null,PushAndPull.openHostCallback);
 			if(typeof ret == "string") {
 				this.handleFailure("HTTP",ret);
 			}
@@ -62,7 +95,7 @@ function Poller() {
 				}
 				else {
 					// PUT is successful, take item out of queue
-					Queue.pop(params.tiddler);
+					Collection.pop(params.tiddler);
 				}
 			},
 			tiddler:item
@@ -75,25 +108,25 @@ function Poller() {
 }
 
 // this feed is always polled
-Poller.prototype.setAdminFeed = function(feed) {
+PushAndPull.prototype.setAdminFeed = function(feed) {
 	this.adminFeed = feed;
 };
 
 // this is a directory for putting update files
 // this is assuming the directory already exists
-Poller.prototype.setPostBox = function(dir) {
+PushAndPull.prototype.setPostBox = function(dir) {
 	this.postBox = dir;
 };
 
 /* START: methods supporting this.getFeed */
-Poller.openHostCallback = function(context,userParams) {
+PushAndPull.openHostCallback = function(context,userParams) {
 	if (context.status !== true) {
 		this.handleFailure("openHost",context.statusText);
 	}
-	context.adaptor.getTiddlerList(context,userParams,Poller.getTiddlerListCallback,context.filter);
+	context.adaptor.getTiddlerList(context,userParams,PushAndPull.getTiddlerListCallback,context.filter);
 };
 
-Poller.getTiddlerListCallback = function(context,userParams) {
+PushAndPull.getTiddlerListCallback = function(context,userParams) {
 	if(context.status) {
 		var tiddlers = context.tiddlers;
 		if (tiddlers.length === 0) {
@@ -112,7 +145,7 @@ Poller.getTiddlerListCallback = function(context,userParams) {
 				var local_tiddler = store.fetchTiddler(tiddler.title);
 				// if the tiddler exists locally, don't overwrite unless the text is different
 				if(!local_tiddler || local_tiddler.text != tiddler.text) {
-					context.adaptor.getTiddler(tiddler.title,null,null,Poller.getTiddlerCallback);
+					context.adaptor.getTiddler(tiddler.title,null,null,PushAndPull.getTiddlerCallback);
 					import_count++;
 				}
 			}
@@ -123,7 +156,7 @@ Poller.getTiddlerListCallback = function(context,userParams) {
 	}
 };
 
-Poller.getTiddlerCallback = function(context,userParams) {
+PushAndPull.getTiddlerCallback = function(context,userParams) {
 	// displayMessage("getting " + context.tiddler.title);
 	if(context.status) {
 		var tiddler = context.tiddler;
@@ -141,57 +174,18 @@ Poller.getTiddlerCallback = function(context,userParams) {
 };
 /* END: methods supporting this.getFeed */
 
-Poller.prototype.putFeeds = function() {
-	// check Queue for any feeds that need posting and try to post the first one
-	var item = Queue.getNext();
+PushAndPull.prototype.putFeeds = function() {
+	// check queue for any feeds that need posting and try to post the first one
+	var item = Collection.getNext();
 	if (item) {
 		this.pushFeed(item);
 	}
 };
 
-Poller.prototype.getFeeds = function() {
+PushAndPull.prototype.getFeeds = function() {
 	this.chooseFeeds();
 	for (var i=0;i<this.feeds.length;i++) {
 		this.getFeed(this.feeds[i]);
-	}
-};
-
-/********
- * Timer *
- *********/
-function Timer() {
-	this.pollOption = "chkDoPolling";
-	this.messages = {
-		noAction:"no timer action set",
-		"default":"error in timer"
-	};
-	this.handleFailure = function(error,text) {
-		displayMessage(this.messages[error] + text);
-	};
-}
-
-Timer.prototype.set = function(ms) {
-	if (!this.ms) {
-		this.ms = ms;
-	}
-	if (this.callback) {
-		window.setTimeout(this.callback,ms);
-	} else {
-		this.handleFailure("noAction");
-	}
-};
-
-Timer.prototype.setAction = function(action,recur) {
-	if (!recur) {
-		this.callback = action;
-	} else {
-		var that = this;
-		this.callback = function() {
-			if(config.options[that.pollOption]) {
-				action();
-			}
-			that.set.call(that,that.ms);
-		}
 	}
 };
 
@@ -202,7 +196,7 @@ Timer.prototype.setAction = function(action,recur) {
 
 config.macros.testPoll.handler = function() {
 	var t = new Timer();
-	var p = new Poller();
+	var p = new PushAndPull();
 	// TO-DO: figure out a sensible	way to gather feeds
 	// p.setFeeds(feedArray);
 	p.setAdminFeed(config.options.txtPollAdminFeed);
@@ -215,41 +209,4 @@ config.macros.testPoll.handler = function() {
 	},true);
 	t.set(10000);
 }; */
-
-config.macros.unitTest = {};
-
-config.macros.unitTest.handler = function(place) {
-	var p = new Poller();
-	var postBox = "http://localhost/"+encodeURIComponent(config.options.txtUserName)+"/";
-	p.setPostBox(postBox);
-	// testing p.putFeeds()
-	wikify("testing p.putFeeds()\n",place);
-	var item = Queue.getNext();
-	if (!item) {
-		wikify("nothing in the queue! do some editing and re-open this tiddler",place);
-		return false;
-	}
-	wikify("item to push: " + item.title + "\n",place);
-	var rssString = item.saveToRss();
-	wikify("rss string to push: " + rssString + "\n",place);
-	var params = {
-		callback:function(status,params,responseText,url,xhr){
-			if(!status){
-				// PUT failed, deal with it here
-				// leave item in queue and take no action?
-				displayMessage("directory might not exist on the server at: " + url);
-			}
-			else {
-				// PUT is successful, take item out of queue
-				Queue.pop(params.tiddler);
-				var next = Queue.getNext();
-				displayMessage("success putting item: " + params.tiddler.title);
-				displayMessage("next item in queue after popping this: " + (next ? next.title : "nothing!") + "\n");
-			}
-		},
-		tiddler:item
-	};
-	var url = postBox + encodeURIComponent(item.title) + ".xml";
-	wikify("going to put to: " + url + "\n",place);
-	DAV.putAndMove(url,params,rssString);
-};
+//}}}
