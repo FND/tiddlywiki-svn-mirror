@@ -22,9 +22,10 @@
 	include_once("includes/header.php");
 	include_once("includes/print.php");
 	recordTime_float("includes");
-	
+	// LOGIN THEN REFRESH. 
+
 	// check if user is logged in 
-	// $user['verified'] = user_validate();	
+//	echo $user['verified'] = user_validate();	
 	
 	
 
@@ -134,7 +135,7 @@ DAMAGE.
 	{
 		print tiddler_bodyDecode($tiddlers['MarkupPreHead']['body']);
 	}else{
-		print "<link rel='alternate' type='application/rss+xml' title='RSS' href='$config.xml'>";
+		print "<link rel='alternate' type='application/rss+xml' title='RSS' href='".$tiddlyCfg['pref']['instance_name']."/$config.xml'>";
 	}
 ?>
 <!--PRE-HEAD-END-->
