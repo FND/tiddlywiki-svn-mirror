@@ -1,6 +1,6 @@
 <div title="PageTemplate" tags="excludeLists excludeSearch">
 <pre>&lt;!--{{{--&gt;
-&lt;div class='header' macro='gradient vert #000 #001A27 '&gt;
+&lt;div class='header' &gt;
 &lt;div class='headerShadow'&gt;
 &lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
 &lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;

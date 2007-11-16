@@ -8,7 +8,10 @@
 #displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0; }
 
 /* Header */
-div.header { border:solid 4px #000; }
+div.header { background-color:#000; height:5em;}
+div.headerShadow,
+div.headerForeground { padding:10px 0 0 10px; }
+
 
 /* Primary Nav Buttons */
 #mainMenu { background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding-left:0; line-height:1.5em; }
