@@ -1,6 +1,6 @@
 /*********************
- * AgendaBuilderPlugin
- **********************/
+ * AgendaBuilderMacro *
+ *********************/
 
 /***
 |''Name''|AgendaBuilderMacro|
@@ -8,7 +8,7 @@
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]]|
 |''Version''|1|
 |''~CoreVersion''|2.2.5|
-|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/tiddleleweb/plugins/AgendaBuilderMacro.js|
+|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/AgendaBuilderMacro.js|
 |''Description''|builds a tabbed agenda menu out of tiddlers tagged with "session"|
 |''Syntax''|<<agendaMenu>>|
 |''Status''|@@experimental@@|
@@ -22,6 +22,15 @@
 |''Screenshot''||
 |''Tags''||
 |''CodeRepository''|See Source above|
+
+! Background
+
+The AgendaBuilderMacro was built of part of the "RippleRap" project, to automatically create a conference agenda out of tiddlers that contained the metadata about each conference session. The plugin looks for tiddlers tagged "session" and uses those to create the Agenda. It was designed so that it could be updated - if another method downloads new session tiddlers, it can set the Agenda.isCurrent flag to false and then the Agenda will rebuild when the macro is next run (presumably on a tiddler refresh).
+
+! Re-use guidelines
+
+The AgendaBuilderMacro will plug into any TiddlyWiki where it is desirable to create a menu from a set of tiddlers with a particular tag. The tiddler should contain the slices: speaker, start, end, blurb, date, track.
+
 ***/
 //{{{ 
 /*********

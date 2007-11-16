@@ -8,20 +8,29 @@
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]]|
 |''Version''|1|
 |''~CoreVersion''|2.2.5|
-|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/tiddleleweb/plugins/RippleRapTestingMacro.js|
+|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RippleRapTestingMacro.js|
 |''Description''|Test functions for RippleRap|
 |''Syntax''|<<TWLTesting>>|
 |''Status''|@@experimental@@|
 |''Contributors''||
 |''Contact''|jon at osmosoft dot com|
 |''Comments''|please post to http://groups.google.com/TiddlyWikiDev|
-|''Dependencies''||
+|''Dependencies''|CollectionPlugin,PushAndPullPlugin,DAVPlugin|
 |''Browser''||
 |''ReleaseDate''||
 |''Icon''||
 |''Screenshot''||
 |''Tags''||
 |''CodeRepository''|see Source above|
+
+! Background
+
+The "RippleRap" project is a fairly complex set of interwoven plugins and involves a good deal of asynchronous file transfer. The RippleRapTestingMacro was created as part of that project to allow us to test various end-to-end user journeys automatically after every build. This draws from Agile development principles and their concept of "Unit Tests", which allow a development team to keep track of whether their changes "break the build".
+
+! Re-use guidelines
+
+The RippleRapTestingMacro is dependent on all the elements of the RippleRap project, so re-using this macro in a different TiddlyWiki is only going to validate that those elements work together with a WebDAV server, which is not necessarily useless.
+
 ***/
 //{{{
 config.macros.RippleRapTesting = {};

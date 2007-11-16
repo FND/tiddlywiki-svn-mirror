@@ -1,9 +1,9 @@
 /***
 |''Name:''|SessionPlugin|
 |''Description:''|Macros to support session|
-|''Author:''|My Name|
-|''Source:''|http://www.MyWebSite.com/#SessionPlugin |
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MyDirectory/plugins/SessionPlugin.js |
+|''Author:''|MartinBudden|
+|''Source:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/SessionPlugin.js|
+|''CodeRepository:''|see Source above|
 |''Version:''|0.0.1|
 |''Status:''|Not for release - this is a template for creating new plugins|
 |''Date:''|July 31, 2006|
@@ -12,12 +12,6 @@
 |''~CoreVersion:''|2.2|
 
 To make this example into a real TiddlyWiki adaptor, you need to:
-
-# Globally search and replace SessionPlugin with the name of your plugin
-# Globally search and replace example with the name of your macro
-# Update the header text above with your description, name etc
-# Do the actions indicated by the !!TODO comments, namely:
-## Write the code for the macro
 
 ***/
 

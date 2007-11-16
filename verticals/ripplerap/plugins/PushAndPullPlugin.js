@@ -8,14 +8,14 @@
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]]|
 |''Version''|1|
 |''~CoreVersion''|2.2.5|
-|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/tiddleleweb/plugins/PushAndPullPlugin.js|
+|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/PushAndPullPlugin.js|
 |''Description''|provides an abstraction for moving a Collection of tiddlers up to the a server as an RSS feed and retrieving another set of RSS feeds|
 |''Syntax''|see below|
 |''Status''|@@experimental@@|
 |''Contributors''||
 |''Contact''|jon at osmosoft dot com|
 |''Comments''|please post to http://groups.google.com/TiddlyWikiDev|
-|''Dependencies''|RSSAdaptorPlugin,CollectionPlugin|
+|''Dependencies''|RSSAdaptorPlugin,CollectionPlugin,DAVPlugin|
 |''Browser''||
 |''ReleaseDate''||
 |''Icon''||
@@ -29,6 +29,15 @@ p.setAdminFeed(url1);
 p.setPostBox(dir);
 p.getFeeds();
 p.putFeeds();
+
+! Background
+
+The PushAndPullPlugin was designed as part of the "RippleRap" project to make it easy to push and pull RSS feeds to and from a server in a bandwidth-efficient way, which was important as RippleRap was going to be run in a conference setting, where bandwidth is limited. Three RSS feeds are downloaded every time getFeeds() is run - the AdminFeed (we used this to publish Agenda and other updates), the feed for the ongoing session and another feed for a session chosen using a round-robin.
+
+! Re-use guidelines
+
+The PushAndPullPlugin can be installed into any TiddlyWiki to provide an easy way of getting multiple RSS feeds, and generating and pushing an RSS feed onto a WebDAV-enabled server. A PushAndPull object expects a source Collection of tiddlers to look for objects to push from.
+
 ***/
 //{{{ 
 /*************
@@ -82,10 +91,10 @@ function PushAndPull() {
 			this.handleFailure("noFeed");
 		}
 	};
-	this.pushFeed = function(item) {
+	this.pushFeed = function() {
 		// build RSS item out of tiddler
-		var rssString = item.saveToRss();
-		var url = this.postBox + item.title;
+		var rssString = store.generateRss();
+		var url = this.postBox + "index.xml";
 		// WebDAV PUT of rssString to this.postBox
 		var params = {
 			callback:function(status,params,responseText,url,xhr){
@@ -175,10 +184,10 @@ PushAndPull.getTiddlerCallback = function(context,userParams) {
 /* END: methods supporting this.getFeed */
 
 PushAndPull.prototype.putFeeds = function() {
-	// check queue for any feeds that need posting and try to post the first one
-	var item = Collection.getNext();
-	if (item) {
-		this.pushFeed(item);
+	// check queue for any feeds that need posting and try to post the RSS feed if they do
+	var items = Collection.getAll();
+	if (items) {
+		this.pushFeed();
 	}
 };
 

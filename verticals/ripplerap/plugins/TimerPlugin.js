@@ -8,7 +8,7 @@
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]]|
 |''Version''|1|
 |''~CoreVersion''|2.2.5|
-|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/tiddleleweb/plugins/TimerPlugin.js|
+|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/TimerPlugin.js|
 |''Description''|Provides a means of setting up a heartbeat function call|
 |''Syntax''|see below|
 |''Status''|@@experimental@@|
@@ -29,6 +29,15 @@ t.setAction(function() {
 	displayMessage("yo");
 },true);
 t.set(10000);
+
+! Background
+
+The TimerPlugin was created as part of the "RippleRap" project to provide a "heartbeat" for TiddlyWiki, which fires off method calls in the "PushAndPull" object to check RSS feeds for updates and generate and post a RSS feed to a WebDAV-enabled server. This was done to simulate polling and not require the person using RippleRap to manually check for updates or post.
+
+! Re-use guidelines
+
+The TimerPlugin doesn't have any dependencies on other "RippleRap" plugins, as you define the function that is called after every heartbeat when you instantiate a Timer object. You can set as many Timers going as you like and specify a different function for each one. You can also specify whether you want the Timer to work like a heartbeat or just run once.
+
 ***/
 //{{{
 /********
