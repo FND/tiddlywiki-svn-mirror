@@ -1,8 +1,9 @@
-tiddler: RSSAdaptor.js
+tiddler: ../../../contributors/JonathanLister/components/RSSAdaptor/js/RSSAdaptor.js
 tiddler: AgendaBuilderMacro.js
 tiddler: CollectionPlugin.js
 tiddler: DAVPlugin.js
 tiddler: PushAndPullPlugin.js
+tiddler: RippleRapTestingMacro.js
 tiddler: SessionPlugin.js
 tiddler: TimerPlugin.js
 tiddler: TaggedTemplateTweak.js
