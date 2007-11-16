@@ -6,9 +6,10 @@
 	"Switch agenda menu on and off"
 	"agendaButton"
 >>
-[[Home]]
+[[Notes]]
+[[Blog]]
+[[Microblog]]
+[[Help]]
 <<currentSession>>
-<<crossBrowserHelp>>
-<<showQueue>>
 </pre>
 </div>

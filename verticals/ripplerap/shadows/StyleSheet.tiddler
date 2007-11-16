@@ -1,0 +1,42 @@
+<div title="StyleSheet" tags="styles excludeLists excludeSearch">
+<pre>
+[[Styles HorizontalMainMenu]]
+
+/* page framework */
+#agendaMenu { position: static;	float: left; width: auto; }
+#displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
+#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0; }
+
+/* Header */
+div.header { border:solid 4px #000; }
+
+/* Primary Nav Buttons */
+#mainMenu { background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding-left:0; line-height:1.5em; }
+#mainMenu a { display:block; float:left; border-right:solid 1px #999; font-size:1em; margin:0; color:#333;}
+#mainMenu a.tiddlyLink { padding:0 1em; font-size:1em; color:#333;}
+#mainMenu a.agendaButton { width:260px; padding:0; text-align:center;}
+#mainMenu a:hover,
+#mainMenu a.tiddlyLink:hover { background-color:#bbb;}
+
+/* Agenda */
+#agendaMenu { width:260px; float:left; padding:0; }
+#agendaMenu div.txtAgendaTab div.tabset { height:2.5em; background-color:#f6f6f6;}
+#agendaMenu div.txtAgendaTab div.tabset a.tab { padding:4px 1em; background-color:#f0f0f0; color:#333; margin:1em 2px; font-weight:bold; font-size:0.9em; border:solid 1px #999; border-bottom-width:2px;}
+#agendaMenu div.txtAgendaTab div.tabset a.tab:hover { background-color:#444; color:#fff; border-color:#222; }
+#agendaMenu div.txtAgendaTab div.tabset a.tabSelected {background-color:#fff; border:solid 1px #999; border-bottom-width:2px;}
+#agendaMenu div.txtAgendaTab div.tabContents { border-style:none; margin:0; padding:0;}
+
+div.txtAgendaTab { border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
+div.txtAgendaTab div.agendaItem { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px #fff; border-left:solid 10px #ccc; }	
+div.txtAgendaTab div.inProgress { border-left:solid 10px #933; background-color:#fff; }
+div.txtAgendaTab div.agendaItem span.time {	font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; position:absolute; }
+div.txtAgendaTab div.agendaItem span.title a { color:#444; display:block; font-weight:bold;	text-decoration:none; margin-left:5em; font-size:12px; }
+div.txtAgendaTab div.agendaItem div.speaker { color:#666; display:block; margin:0.2em 0 0 5em; }
+div.txtAgendaTab div.agendaItem div.notes {	margin:0.4em 0.5em 0 0;	text-align:right; }
+div.txtAgendaTab div.agendaItem div.notes a { display:block; color:#55c; font-size:0.9em; line-height:1.4em; text-decoration:none; }
+div.txtAgendaTab div.agendaItem div.notes a.stale { color:#600; }
+div.txtAgendaTab div.agendaItem div.notes a.tiddlyLink:hover,
+div.txtAgendaTab div.agendaItem div.notes a.stale:hover,
+div.txtAgendaTab div.agendaItem span.title a:hover { color:#000; text-decoration:underline;	background-color:#f0f0f0; }
+div.txtAgendaTab div.inProgress a.tiddlyLink:hover { background-color:#fff;	}</pre>
+</div>

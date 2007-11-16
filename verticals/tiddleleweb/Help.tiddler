@@ -1,3 +1,4 @@
 <div title="Help">
-<pre><<crossBrowserHelp>></pre>
+<pre><<crossBrowserHelp>>
+<<showQueue>></pre>
 </div>

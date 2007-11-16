@@ -1,0 +1,14 @@
+<div title="MainMenu" tags="excludeLists excludeSearch" force="true" refresh="macro">
+<pre>
+&lt;&lt;toggleElement
+	&quot;agendaMenu&quot;
+	&quot;Toggle Agenda&quot;
+	&quot;Switch agenda menu on and off&quot;
+	&quot;agendaButton&quot;
+&gt;&gt;
+[[Notes]]
+[[Blog]]
+[[Microblog]]
+[[Help]]
+&lt;&lt;currentSession&gt;&gt;</pre>
+</div>
