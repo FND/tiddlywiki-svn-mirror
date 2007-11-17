@@ -1,9 +1,9 @@
 /***
 |Name|TiddlerEncryptionPlugin|
 |Author|Lyall Pearce|
-|Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptPlugin.html|
-|License|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|Version|1.7.0|
+|Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
+|License|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|Version|1.8.0|
 |~CoreVersion|2.2.4|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
@@ -18,7 +18,7 @@
 ** To have multiple tiddlers use the same password - simply use the same 'prompt'.
 ** Tiddlers that are encrypted are also tagged 'excludeSearch' as there is no point in searching encrypted data - this is configurable by an option - you still may want to search the titles of encrypted tiddlers
 ** Encrypted tiddlers are stored as displayable hex, to keep things visibly tidy, should you display an encrypted tiddler. There is nothing worse than seeing a pile of gobbledy gook on your screen.
-* Tiddlers are decrypted on initial display
+* Tiddlers are decrypted on initial display, not when you load the TiddlyWiki
 ** If you don't display a tiddler, you won't decrypt it.
 ** Tiddlers will re-encrypt automatically on save.
 ** Decryption of Tiddlers does not make your TiddlyWiki 'dirty' - you will not be asked to save if you leave the page.
@@ -26,10 +26,10 @@
 ** Empty passwords, on save, will result in the tiddler being saved unencrypted - this should only occur with new tiddlers or with tiddlers who have had their 'prompt' tag changed.
 ** Encrypted tiddlers know if they are decrypted successfully - failure to decrypt a tiddler will ''not'' lose your data.
 ** Editing of an encrypted (that has not been unencrypted) tiddler will result in loss of that tiddler as the SHA1 checksums will no longer match, upon decryption. To this end, it is best that you do not check the option in AdvancedOptions
-** To change the password on a Tiddler, change the 'prompt' to a new value, after decrypting the tiddler.
+** To change the password on a Tiddler, change the Encrypt('prompt') tag to a new prompt value, after decrypting the tiddler.
 ** You can edit the tags of an encrypted tiddler, so long as you do not edit the text.
-** To change the password for all tiddlers of a particular prompt, use the {{{<<EncryptionChangePassword ["button text" ["tooltip text" ["prompt string"]]]>>}}} macro.
-** To decrypt all tiddlers of a particular "prompt string", use the {{{<<EncryptionDecryptAll ["button text" ["tooltip text" ["prompt string"]]]>>}}} macro - this will make tiddlers encrypted with "prompt string" searchable - or prompt for all 'prompt strings', if none is supplied.
+** To change the password for all tiddlers of a particular prompt, use the {{{<<EncryptionChangePassword ["button text" ["tooltip text" ["prompt string" ["accessKey"]]]]>>}}} macro.
+** To decrypt all tiddlers of a particular "prompt string", use the {{{<<EncryptionDecryptAll ["button text" ["tooltip text" ["prompt string" ["accessKey"]]]]>>}}} macro - this will make tiddlers encrypted with "prompt string" searchable - or prompt for all 'prompt strings', if none is supplied.
 <<<
 !!!!!Revision History
 <<<
@@ -42,6 +42,7 @@
 * 1.5.1 - Invoke autosave after changing passwords - which may result in prompting for passwords of unencrypted tiddlers that require encryption and whose passwords have not been entered yet. Also improved integration with regard to retrieving tiddlerText
 * 1.6.0 - Check for presence of PasswordPromptPlugin, if it's there, use it to enter passwords.
 * 1.7.0 - Add option to turn off excludeSearch on encrypted Tiddlers - defaults to off and remove PasswordPromptPlugin support - it doesn't work.
+* 1.8.0 - fixed source URL in metadata plus added accessKey (ALT-Shift key in FireFox) as the 4th parameter to the {{{<<EncryptionDecryptAll>>}}} and {{{<<EncryptionChangePassword>>}}} macros
 <<<
 !!!!!Additional work
 <<<
@@ -50,7 +51,7 @@
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 7, revision: 0, date: new Date(2007,8,27)};
+version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 8, revision: 0, date: new Date(2007,11,17)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
@@ -66,10 +67,13 @@ config.shadowTiddlers.DecryptionFailed = "Decryption of an encrypted tiddler fai
 config.macros.EncryptionChangePassword = {};
 config.macros.EncryptionChangePassword.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
     var theButton = createTiddlyButton(place,
-				       params[0] ? params[0] : "Change Passwords", 
-				       params[1] ? params[1] : "Change Passwords" + (params[2] ? " for prompt "+params[2] : ""), 
-				       onClickEncryptionChangePassword);
-    if(params[2]) {
+				       (params[0] && params[0].length > 0) ? params[0] : "Change Passwords", 
+				       (params[1] && params[1].length > 0) ? params[1] : "Change Passwords" + (params[2] ? " for prompt "+params[2] : ""), 
+				       onClickEncryptionChangePassword,
+				       null,
+				       null,
+				       params[3]);
+    if(params[2] && params[2].length > 0) {
 	theButton.setAttribute("promptString", params[2]);
     }
 };
@@ -77,10 +81,13 @@ config.macros.EncryptionChangePassword.handler = function(place,macroName,params
 config.macros.EncryptionDecryptAll = {};
 config.macros.EncryptionDecryptAll.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
     var theButton = createTiddlyButton(place,
-				       params[0] ? params[0] : "Decrypt All", 
-				       params[1] ? params[1] : "Decrypt All Tiddlers" + (params[2] ? " for prompt "+params[2] : " for a given 'prompt string'"), 
-				       onClickEncryptionDecryptAll);
-    if(params[2]) {
+				       (params[0] && params[0].length > 0) ? params[0] : "Decrypt All", 
+				       (params[1] && params[1].length > 0) ? params[1] : "Decrypt All Tiddlers" + ((params[2] && params[2].length > 0) ? " for prompt "+params[2] : " for a given 'prompt string'"), 
+				       onClickEncryptionDecryptAll,
+				       null,
+				       null,
+				       params[3]);
+    if(params[2] && params[2].length > 0) {
 	theButton.setAttribute("promptString", params[2]);
     }
 };
@@ -149,7 +156,7 @@ function onClickEncryptionDecryptAll() {
 		    } // for
 		} // if
 	    }); // store.forEachTiddler
-	displayMessage("All encrypted tiddlers have been decrypted" + (promptString != "" ? "for '"+promptString : ""));
+	displayMessage("All encrypted tiddlers have been decrypted" + (promptString != "" ? "for '"+promptString+"'" : ""));
     } catch (e) {
 	if(e == "DecryptionFailed") {
 	    return;
@@ -292,7 +299,7 @@ store.getTiddlerText = function(title,defaultText) {
 function MyPrompt(promptString,defaultValue) {
     if(typeof passwordPrompt != "undefined" && typeof passwordPrompt.handler != "undefined") {
 	return prompt(promptString, defaultValue);
-//	var enteredPassword = nil;
+//	var enteredPassword = null;
 //	passwordPrompt.handler(promptString, enteredPassword);
 //	return enteredPassword;
     } else {
