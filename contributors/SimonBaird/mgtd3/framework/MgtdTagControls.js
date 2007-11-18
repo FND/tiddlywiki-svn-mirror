@@ -39,6 +39,8 @@ merge(config.macros,{
 			var t = store.fetchTiddler(tag);
 
 			var title = getParam(pp,"title",tiddler.title);
+
+
 			var actOnTiddler = store.getTiddler(title);
 
 			var label = store.getTiddlerSlice(t.title,"button");
@@ -116,6 +118,7 @@ merge(config.macros,{
 			var tag = getParam(pp,"tag");
 
 			var refresh = getParam(pp,"refresh"); // stupid bit for pagetemplate hack
+			var longVersion = getParam(pp,"longVersion");
 
 			var title = getParam(pp,"title",tiddler.title);
 			var actOnTiddler = store.getTiddler(title);
@@ -126,7 +129,8 @@ merge(config.macros,{
 
 
 			getValues.each(function(t) {
-				var label = store.getTiddlerSlice(t.title,"button");
+				var label = store.getTiddlerSlice(t.title,longVersion?"buttonLong":"button");
+
 				var extraClass = store.getTiddlerSlice(t.title,"buttonClass");
 				var autoClass = (extraClass ? extraClass : "") + " button " + t.title.replace(/[\/ ]/g,'') 
 				if (!label) label = t.title;

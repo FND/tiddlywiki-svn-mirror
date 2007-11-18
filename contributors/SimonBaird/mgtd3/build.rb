@@ -13,15 +13,20 @@ demo = [
 
   	['Starred',       ''],
 
-  	['Next',          'ActionStatus',  "order:1\nbutton:n\n"],
-	['Waiting For',   'ActionStatus',  "order:2\nbutton:w\n"],
-	['Future',        'ActionStatus',  "order:3\nbutton:f\n"],
+  	['Done',          '',  "button:done\n"],
 
-	['Active',        'ProjectStatus', "order:1\nbutton:a\n"],
-	['Someday/Maybe', 'ProjectStatus', "order:2\nbutton:s/m\n"],
+  	['Next',          'ActionStatus',  "order:1\nbutton:n\nbuttonLong:next\n"],
+	['Waiting For',   'ActionStatus',  "order:2\nbutton:w\nbuttonLong:waiting for\n"],
+	['Future',        'ActionStatus',  "order:3\nbutton:f\nbuttonLong:future\n"],
+
+	['Active',        'ProjectStatus', "order:1\nbutton:a\nbuttonLong:active\n"],
+	['Someday/Maybe', 'ProjectStatus', "order:2\nbutton:s/m\nbuttonLong:someday/maybe\n"],
 
 	['Work',          'Realm',         "order:1\n"],
 	['Personal',      'Realm',         "order:2\n"],
+
+	['Home Maintenance', 'Area'],
+	['Recreation',       'Area'],
 
 	['Do Work',       'Sidebar', "order:1\nbutton:Work\n"                     ],
 	['Process Inbox', 'Sidebar', "order:2\nbutton:Process\n"                  ],
@@ -40,12 +45,12 @@ demo = [
 	['Low Energy',    'Context'],
 	['Reading',       'Context'],
 
-	['Mow Lawn',              "Project Yard Personal Active"],
+	['Mow Lawn',              "Project [[Home Maintenance]] Personal Active"],
 	['Get some mower fuel',   "Action Next Personal [[Mow Lawn]] Errand"],
 	['Pick up palm branches', "Action Next Personal [[Mow Lawn]] Weekend"],
 	['Mow the lawn already',  "Action Future Personal [[Mow Lawn]] Weekend"],
 
-	['Buy snowboard',                          "Project Sports Personal Someday/Maybe"],
+	['Buy snowboard',                          "Project Recreation Personal Someday/Maybe"],
 	['Look in phone book for local ski shops', "Action Next Personal [[Buy snowboard]] Home"],
 	['Ask Ben for recommendations',            "Action Next Personal [[Buy snowboard]] Call"],
 
@@ -69,6 +74,7 @@ make_tw {
   add_tiddlers_from_dir  "supporting"
   add_tiddlers_from_dir  "tiddlers"
   add_tiddlers_from_dir  "menus"
+  add_tiddlers_from_dir  "views"
 
   # load the demo
   demo.each do |t|

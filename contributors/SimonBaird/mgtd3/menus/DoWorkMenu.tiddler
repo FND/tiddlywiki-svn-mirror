@@ -1,8 +1,10 @@
 !Do Work
-* [[Actions]]
-* [[Actions By Context]]
-----
-* [[Next Actions]]
-* [[Waiting Actions]]
-* [[Actions by Context]]
-* [[Done Actions]]
+* By Context
+** [[Action Dashboard|Action Dashboard by Context]]
+** [[Just Next Actions|Just Next Actions by Context]]
+** [[Next and Waiting Actions|Next and Waiting Actions by Context]]
+* Flat
+** [[Action Dashboard]]
+** [[Just Next Actions]]
+** [[Next and Waiting Actions]]
+** [[Done Actions]]

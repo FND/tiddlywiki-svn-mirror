@@ -1,0 +1,38 @@
+
+<div macro="showWhenTagged Project" class="viewer">
+<table class="twocol">
+<tr>
+
+<td>
+
+<div macro="mgtdList title:'Next Actions' startTag:Action tags:'Next && !Done' view:ActionProj
+	group:Context
+	gView:Context
+	where:tiddler.hasActiveProject()
+	"></div>
+
+<div macro="mgtdList title:'Waiting Actions' startTag:Action tags:'[(Waiting For)] && !Done' view:ActionProj
+	group:Context
+	gView:Context
+	where:tiddler.hasActiveProject()
+	"></div>
+
+</td>
+<td>
+
+<div macro="mgtdList title:'Future Actions' startTag:Action tags:'Future && !Done' view:ActionProj
+	group:Context
+	gView:Context
+	where:tiddler.hasActiveProject()
+	"></div>
+
+<div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction
+	"></div>
+
+</td>
+
+</tr></table>
+
+
+</div>
+

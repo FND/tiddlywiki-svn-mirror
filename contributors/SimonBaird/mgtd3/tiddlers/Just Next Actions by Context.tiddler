@@ -1,0 +1,7 @@
+<html>
+<div macro="mgtdList startTag:Action tags:'Next && !Done' view:ActionProj mode:global
+	group:Context
+	gView:Context
+	where:tiddler.hasActiveProject()
+	"></div>
+</html>
