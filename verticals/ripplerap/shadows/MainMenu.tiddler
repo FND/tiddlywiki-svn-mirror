@@ -2,7 +2,7 @@
 <pre>
 &lt;&lt;toggleElement
 	&quot;agendaMenu&quot;
-	&quot;Toggle Agenda&quot;
+	&quot;Agenda&quot;
 	&quot;Switch agenda menu on and off&quot;
 	&quot;agendaButton&quot;
 &gt;&gt;

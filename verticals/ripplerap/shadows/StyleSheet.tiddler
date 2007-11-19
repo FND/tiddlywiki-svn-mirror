@@ -5,7 +5,7 @@
 /* page framework */
 #agendaMenu { position: static;	float: left; width: auto; }
 #displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
-#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0; }
+#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0;}
 
 /* Header */
 div.header { background-color:#000; height:84px;}
