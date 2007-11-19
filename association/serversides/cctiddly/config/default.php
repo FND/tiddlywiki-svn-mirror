@@ -1,15 +1,16 @@
 <?php
 
-// database/table
+
+// GLOBAL PREFERENCES THAT PERSIST ACCROSS ALL INSTANCES
+
+
 $tiddlyCfg['db']['host'] = "db";		//sql host
 $tiddlyCfg['db']['login'] = "cct";		//login name
 $tiddlyCfg['db']['pass'] = "cctpass";		//login password
 $tiddlyCfg['db']['name'] = "cct";		//db name
-
 $tiddlyCfg['table']['pref'] = "";		//table prefix
 $tiddlyCfg['table']['name'] = "tiddler";
 $tiddlyCfg['table']['backup'] = "tiddly_wiki_entry_version";
-
 $tiddlyCfg['pref']['session_timeout'] = 1;		//cookies expire time, in minutes [0=disable]
 $tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
 $tiddlyCfg['pref']['ldap_enabled'] = 1;	
@@ -18,8 +19,12 @@ $tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if running in the root dir,
 $tiddlyCfg['pref']['folder'] ='svn';
 
 
+//  CALLS URL CODE 
 
 include('./includes/url.php');
+
+
+
 // THIS SHOULD BE USING THE BUILT IN FUCTIONS//////////////////////////
 
 include_once("./includes/db.mysql.php");
@@ -66,6 +71,7 @@ if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 else
 {
 	// the instance exists so lets get
+	//  GET THE SETTINGS FROM THE DATABASE 
 	$tiddlyCfg['pref']['tw_ver'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
 	$tiddlyCfg['pref']['language'] = $tiddlyCfg['pref']['instance_settings'][0]['lang']; // choose between different version of TW, or adaptation
 	$tiddlyCfg['pref']['version'] = $tiddlyCfg['pref']['instance_settings'][0]['keep_revision']; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
