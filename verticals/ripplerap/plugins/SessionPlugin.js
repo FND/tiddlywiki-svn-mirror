@@ -23,10 +23,9 @@ config.macros.sessionAnnotation = {};
 config.macros.sessionAnnotation.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	var title = tiddler.title;
-	var wikitext = "''Speaker:''" + store.getTiddlerSlice(title,"speaker") + "<br/>" +
-	"''From:''" + store.getTiddlerSlice(title,"start") + "<br/>" +
-	"''To:''" + store.getTiddlerSlice(title,"end");
-	wikify(wikitext,place,highlightHack,tiddler);
+	createTiddlyElement(place,'span', null, 'time', store.getTiddlerSlice(title,"start") + " - " + store.getTiddlerSlice(title,"end"));
+	createTiddlyElement(place,'span', null, 'speaker', store.getTiddlerSlice(title,"speaker"));
+	createTiddlyElement(place,'div', null, 'synopsis', store.getTiddlerSlice(title,"synopsis"));
 };
 
 config.macros.sessionNotes = {};
