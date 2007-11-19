@@ -8,6 +8,3 @@ tiddler: SessionPlugin.js
 tiddler: TimerPlugin.js
 tiddler: TaggedTemplateTweak.js
 tiddler: ToggleElementPlugin.js
-tiddler: SplarklinePlugin.js
-tiddler: CryptoFunctionsPlugin.js
-tiddler: DeprecatedFunctionsPlugin.js
