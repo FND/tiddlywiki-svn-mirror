@@ -10,11 +10,10 @@
 	&lt;div macro='sessionAnnotation'&gt;&lt;/div&gt;
 
 &lt;/td&gt;
-&lt;td class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler'&gt;
+&lt;td class='toolbar' macro='toolbar closeTiddler closeOthers'&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/table&gt;
-
 
 &lt;!-- &lt;div class='subtitle'&gt;&lt;/div&gt; --&gt;
 
