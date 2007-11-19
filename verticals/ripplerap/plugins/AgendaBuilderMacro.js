@@ -101,6 +101,7 @@ Agenda.create_tab_tiddlers = function() {
 };
 
 Agenda.init = function() {
+/* BUG: 19/11/07 - this doesn't work - on subsequent reloads, the agendaMenu isn't created
 	// check to see if Agenda is current before updating
 	if (!Agenda.isCurrent) {
 		// set up the tiddlers for the tabs macro in agendaMenu
@@ -109,6 +110,8 @@ Agenda.init = function() {
 		config.options.txtAgendaTab = "";
 		Agenda.isCurrent = !Agenda.isCurrent;
 	}
+*/
+	Agenda.tabsParams = Agenda.create_tab_tiddlers();
 };
 Agenda.init();
 
