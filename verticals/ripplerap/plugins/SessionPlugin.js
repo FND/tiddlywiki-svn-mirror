@@ -33,14 +33,19 @@ config.macros.sessionNotes.handler = function(place,macroName,params,wikifier,pa
 {
 	// just output each note in a list for the moment
 	var ct = tiddler.title;
-	var ul = null;
+	var t, user, datestamp, text = null;
 	store.forEachTiddler(function(title,tiddler) {
 		if(title.startsWith(ct) && ct!=title) {
-			if(!ul)
-				ul = createTiddlyElement(place,'ul');
-			var li = createTiddlyElement(ul,'li');
-			var wikitext = tiddler.text;
-			wikify(wikitext,li,highlightHack,tiddler);
+
+			// Development data. This is placeholder data and should be replaced with values gathered from the downloaded tiddlers.
+			user = "from Anne Other";
+			datestamp = 200711140000;
+			text = tiddler.text;
+			
+			t = story.createTiddler(place,null,title,'sharedNoteViewTemplate',null)
+			t.text = text;
+			t.modifier = user;
+			t.modified= datestamp;
 		}
 	});
 };

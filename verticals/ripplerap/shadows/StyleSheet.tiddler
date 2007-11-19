@@ -8,10 +8,10 @@
 #displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0; }
 
 /* Header */
-div.header { background-color:#000; height:5em;}
+div.header { background-color:#000; height:84px;}
 div.headerShadow,
-div.headerForeground { padding:10px 0 0 10px; }
-
+div.headerForeground { padding:0; }
+span.siteSubtitle {bottom:35px; font-size:1em; position:absolute; width:200px;}
 
 /* Primary Nav Buttons */
 #mainMenu { background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding-left:0; line-height:1.5em; }
@@ -45,7 +45,7 @@ div.txtAgendaTab div.inProgress a.tiddlyLink:hover { background-color:#fff;	}
 
 /* Session tiddlers */
 div.session { border:solid 1px #ccc;  }
-div.session table { border-spacing:0; border-bottom:solid 1px #ccc;}
+div.session table { border-spacing:0; border-bottom:solid 1px #ccc; width:100%;}
 div.session table tr td.data { background-color:#f3f3f3; padding:1em;}
 div.session table tr td.toolbar { background-color:#f3f3f3; padding:1em; border-left:solid 1px #ccc; vertical-align:top; width:12em; padding:0;}
 div.session table tr td.toolbar a { display:block; padding:0.5em 1em; text-align:right; border-style:none; font-size:1.2em; color:#aaa; text-align:left; border-bottom:solid 1px #ccc; margin:0;}

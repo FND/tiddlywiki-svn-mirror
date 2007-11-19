@@ -7,4 +7,5 @@ tiddler: SiteUrl.tiddler
 tiddler: StyleSheet.tiddler
 tiddler: sessionEditTemplate.tiddler
 tiddler: sessionViewTemplate.tiddler
+tiddler: sharedNoteViewTemplate.tiddler
 tiddler: Styles_HorizontalMainMenu.tiddler
