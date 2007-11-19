@@ -5,3 +5,6 @@ tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteUrl.tiddler
 tiddler: StyleSheet.tiddler
+tiddler: sessionEditTemplate.tiddler
+tiddler: sessionViewTemplate.tiddler
+tiddler: Styles_HorizontalMainMenu.tiddler
