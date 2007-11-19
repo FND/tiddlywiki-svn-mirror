@@ -39,7 +39,7 @@ The PushAndPullPlugin was designed as part of the "RippleRap" project to make it
 The PushAndPullPlugin can be installed into any TiddlyWiki to provide an easy way of getting multiple RSS feeds, and generating and pushing an RSS feed onto a WebDAV-enabled server. A PushAndPull object expects a source Collection of tiddlers to look for objects to push from.
 
 ***/
-//{{{ 
+//{{{
 /*************
  * PushAndPull *
  **************/
