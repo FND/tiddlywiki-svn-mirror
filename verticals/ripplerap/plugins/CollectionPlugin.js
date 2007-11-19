@@ -41,18 +41,17 @@ The CollectionPlugin overrides the saveTidder command on the EditTemplate ("done
  ************/
 Collection = function() {};
 
-// pushItem works with tiddlers in the story as it assumes that you are hooking into a save event
-// can always extend it later to work with store tiddlers if needs be
-Collection.push = function(tiddlerElem) {
-	var customFields = "inCollection:true";
-	story.addCustomFields(tiddlerElem,customFields);
+// pushItem works by hooking into a save event
+Collection.push = function(tiddler) {
+	tiddler.tags.push("inCollection");
 };
 
 // popItem is designed to be called after a successful PUT of a tiddler in the store,
 // by the object that pushed the tiddler
 Collection.pop = function(tiddler) {
-	if(tiddler.fields && tiddler.fields.inCollection && tiddler.fields.inCollection == "true") {
-		tiddler.fields.inCollection = "false";
+	if(tiddler.isTagged("inCollection")) {
+		// remove inCollection tag
+		tiddler.removeTag("inCollection");
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields)
 	}
 };
@@ -65,7 +64,7 @@ Collection.getNext = function() {
 Collection.getAll = function() {
 	var items = [];
 	store.forEachTiddler(function(title,t) {
-		if (t.fields && t.fields.inCollection && t.fields.inCollection == "true") {
+		if (t.isTagged("inCollection")) {
 			items.push(t);
 		}
 	});
@@ -74,21 +73,32 @@ Collection.getAll = function() {
 
 Collection.clear = function() {
 	store.forEachTiddler(function(title,t) {
-		if (t.fields && t.fields.inCollection && t.fields.inCollection == "true") {
-			t.fields.inCollection = "false";
+		if (t.isTagged("inCollection")) {
+			t.removeTag("inCollection");
 		}
 	});
 };
 
 // override saveTiddler function to add tiddler to Collection
-// TO-DO: tailor this to work for session notes tiddlers only (presumably)
-// issue with the above: how to examine tags before new tiddler is saved
+// only add tiddlers to the queue if they are marked for publishing i.e. tagged with "shared" and are session tiddlers i.e. tagged with "session"
+// assumption: we are working with tiddlers already in the store, because we are adding
+// notes to session tiddlers
 Collection.old_saveTiddler = config.commands.saveTiddler.handler;
 config.commands.saveTiddler.handler = function(event,src,title) {
-	var tiddlerElem = document.getElementById(story.idPrefix + title);
-	Collection.push(tiddlerElem);
+	var tiddler = store.fetchTiddler(title);
+	var tags = tiddler.tags;
+	if (tags.indexOf("shared")!=-1 && tags.indexOf("session")!=-1) {
+		Collection.push(tiddler);
+	}
 	Collection.old_saveTiddler.call(this,event,src,title);
 }
+
+// utility function
+Tiddler.prototype.removeTag = function(tag) {
+	var tags = this.tags;
+	var i = tags.indexOf(tag);
+	this.tags.splice(i,1);
+};
 
 /*********************
  * showCollectionMacro *

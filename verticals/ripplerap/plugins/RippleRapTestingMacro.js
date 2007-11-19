@@ -36,7 +36,7 @@ The RippleRapTestingMacro is dependent on all the elements of the RippleRap proj
 config.macros.RippleRapTesting = {};
 
 config.macros.RippleRapTesting.handler = function(place) {
-	var p = new PushAndPull();
+/*	var p = new PushAndPull();
 	var postBox = "http://localhost/"+encodeURIComponent(config.options.txtUserName)+"/";
 	p.setPostBox(postBox);
 	// testing p.putFeeds()
@@ -69,5 +69,19 @@ config.macros.RippleRapTesting.handler = function(place) {
 	var url = postBox + encodeURIComponent(item.title) + ".xml";
 	wikify("going to put to: " + url + "\n",place);
 	DAV.putAndMove(url,params,rssString);
+*/
+	var t = new Timer();
+	var p = new PushAndPull();
+	// TO-DO: figure out a sensible	way to gather feeds
+	// p.setFeeds(feedArray);
+	p.setAdminFeed(config.options.txtPollAdminFeed);
+	// p.setPostBox("http://localhost/"+config.options.txtUserName+"/");
+	t.setAction(function() {
+		clearMessage();
+		displayMessage("polling");
+		p.getFeeds();
+		// p.putFeeds();
+	},false);
+	t.set(1000);
 };
 //}}}

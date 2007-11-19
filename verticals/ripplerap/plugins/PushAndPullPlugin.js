@@ -45,6 +45,7 @@ The PushAndPullPlugin can be installed into any TiddlyWiki to provide an easy wa
  **************/
 function PushAndPull() {
 	this.feeds = [];
+	this.pushTag = "notes";
 	this.messages = {
 		noAdminFeed:"no Admin Feed set",
 		noFeed:"no feeds to pull",
@@ -55,25 +56,29 @@ function PushAndPull() {
 		noTiddler:"error storing tiddler: ",
 		"default":"error in PushAndPull"
 	};
+	this.roundRobinSession = 0;
 	this.chooseFeeds = function() {
-		// empty list
-		this.feeds = [];
+		// chooseFeeds selects the feeds to poll for updates
+		// the adminFeed is always checked if it exists
+		// the current session(s) feed(s) is/are checked if the currentSession macro is installed
+		// one other session feed is chosen using a round-robin method
+		// this.feeds is the array of feed URL's to poll
+		var sessionsToPoll = [];
 		// always pick the admin feed
 		if (this.adminFeed) {
 			this.feeds.push(this.adminFeed);
 		} else {
 			this.handleFailure("noAdminFeed");
 		}
-		// pick the feed for the active session
+		/* DEBUG: breaks the import if the current session feed isn't there
 		if (config.macros.currentSession) {
 			// get an array of current sessions titles
-			var sessions = [];
-			sessions.push(config.macros.currentSession.find());
-			for (var i=0;i<sessions.length;i++) {
-				// TO-DO: get the feed url from the session title, assuming we use feeds per session
-				// this.feeds.push(xxx);
-			}
-		}
+			var currentSessions = config.macros.currentSession.find();
+			this.feeds.concat(currentSessions);
+		} */
+		var allSessions = store.getTaggedTiddlers("session");
+		// DEBUG: breaks the import if the session feed isn't there
+		// this.feeds.push(allSessions[this.roundRobinSession].getFeedURL());
 	};
 	this.getFeed = function(feed) {
 		if (feed) {
@@ -82,6 +87,8 @@ function PushAndPull() {
 			context.host = feed;
 			context.adaptor = adaptor;
 			// Q: What's the filter going to be?
+			// Suggestion: [tag[session]]
+			// NB: 19/11/07 putting that filter in broke the import!
 			context.filter = "";
 			var ret = adaptor.openHost(context.host,context,null,PushAndPull.openHostCallback);
 			if(typeof ret == "string") {
@@ -92,8 +99,8 @@ function PushAndPull() {
 		}
 	};
 	this.pushFeed = function() {
-		// build RSS item out of tiddler
-		var rssString = store.generateRss();
+		// build RSS item out of tiddlers
+		var rssString = generateRss(this.pushTag);
 		var url = this.postBox + "index.xml";
 		// WebDAV PUT of rssString to this.postBox
 		var params = {
@@ -115,6 +122,12 @@ function PushAndPull() {
 		displayMessage(this.messages[error] + text);
 	};
 }
+
+Tiddler.prototype.getFeedURL = function() {
+	// work out the feed URL from the feed tiddler
+	// TO-DO: refine this when server-side is done
+	return this.title + ".xml";
+};
 
 // this feed is always polled
 PushAndPull.prototype.setAdminFeed = function(feed) {
@@ -139,7 +152,7 @@ PushAndPull.getTiddlerListCallback = function(context,userParams) {
 	if(context.status) {
 		var tiddlers = context.tiddlers;
 		if (tiddlers.length === 0) {
-			handleFailure("noContent",context.adaptor.host);
+			this.handleFailure("noContent",context.adaptor.host);
 		} else {
 			var sortField = 'modified';
 			tiddlers.sort(function(a,b) {return a[sortField] < b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
@@ -159,7 +172,7 @@ PushAndPull.getTiddlerListCallback = function(context,userParams) {
 				}
 			}
 			if (import_count === 0) {
-				handleFailure("noImport",context.adaptor.host);
+				this.handleFailure("noImport",context.adaptor.host);
 			}
 		}
 	}
@@ -172,11 +185,11 @@ PushAndPull.getTiddlerCallback = function(context,userParams) {
 		// add in an extended field to save unread state - NB: this might not be needed
 		tiddler.fields.unread = "true";
 		// uncomment line below to store tiddler
-		// store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 		displayMessage(tiddler.title + " imported successfully");
 		story.refreshTiddler(tiddler.title,1,true);
 	} else {
-		handleFailure("noTiddler",context.statusText);
+		this.handleFailure("noTiddler",context.statusText);
 	}
 	// Q: is this necessary? is there a less "heavy-handed" approach to refreshing? is it needed?
 	// story.refreshAllTiddlers();
@@ -197,6 +210,44 @@ PushAndPull.prototype.getFeeds = function() {
 		this.getFeed(this.feeds[i]);
 	}
 };
+
+/*************************
+ * Overriding generateRSS *
+ * to filter by tag       *
+ ************************/
+function generateRss(filterTag)
+{
+	var s = [];
+	var d = new Date();
+	var u = store.getTiddlerText("SiteUrl");
+	// Assemble the header
+	s.push("<" + "?xml version=\"1.0\"?" + ">");
+	s.push("<rss version=\"2.0\">");
+	s.push("<channel>");
+	s.push("<title" + ">" + wikifyPlain("SiteTitle").htmlEncode() + "</title" + ">");
+	if(u)
+		s.push("<link>" + u.htmlEncode() + "</link>");
+	s.push("<description>" + wikifyPlain("SiteSubtitle").htmlEncode() + "</description>");
+	s.push("<language>en-us</language>");
+	s.push("<copyright>Copyright " + d.getFullYear() + " " + config.options.txtUserName.htmlEncode() + "</copyright>");
+	s.push("<pubDate>" + d.toGMTString() + "</pubDate>");
+	s.push("<lastBuildDate>" + d.toGMTString() + "</lastBuildDate>");
+	s.push("<docs>http://blogs.law.harvard.edu/tech/rss</docs>");
+	s.push("<generator>TiddlyWiki " + version.major + "." + version.minor + "." + version.revision + "</generator>");
+	// The body
+	var tiddlers = store.getTiddlers("modified","excludeLists");
+	var n = config.numRssItems > tiddlers.length ? 0 : tiddlers.length-config.numRssItems;
+	for (var t=tiddlers.length-1; t>=n; t--) {
+		if (!filterTag || tiddler.isTagged(filterTag)) {
+			s.push(tiddlers[t].saveToRss(u));
+		}
+	}
+	// And footer
+	s.push("</channel>");
+	s.push("</rss>");
+	// Save it all
+	return s.join("\n");
+}
 
 /*************
  * Test macro *
