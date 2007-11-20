@@ -41,12 +41,12 @@ The CollectionPlugin overrides the saveTidder command on the EditTemplate ("done
  ************/
 Collection = function() {};
 
-// pushItem works by hooking into a save event
+// push works by hooking into a save event
 Collection.push = function(tiddler) {
-	tiddler.tags.push("inCollection");
+	story.setTiddlerTag(tiddler.title,"inCollection",+1);
 };
 
-// popItem is designed to be called after a successful PUT of a tiddler in the store,
+// pop is designed to be called after a successful PUT of a tiddler in the store,
 // by the object that pushed the tiddler
 Collection.pop = function(tiddler) {
 	if(tiddler.isTagged("inCollection")) {
@@ -82,12 +82,13 @@ Collection.clear = function() {
 // override saveTiddler function to add tiddler to Collection
 // only add tiddlers to the queue if they are marked for publishing i.e. tagged with "shared" and are session tiddlers i.e. tagged with "session"
 // assumption: we are working with tiddlers already in the store, because we are adding
-// notes to session tiddlers
+// notes to session tiddlers; to make sure that this is the case, the AgendaMenu creates
+// your note tiddler with 
 Collection.old_saveTiddler = config.commands.saveTiddler.handler;
 config.commands.saveTiddler.handler = function(event,src,title) {
 	var tiddler = store.fetchTiddler(title);
 	var tags = tiddler.tags;
-	if (tags.indexOf("shared")!=-1 && tags.indexOf("session")!=-1) {
+	if (tags.indexOf("shared")!=-1 && tags.indexOf("note")!=-1) {
 		Collection.push(tiddler);
 	}
 	Collection.old_saveTiddler.call(this,event,src,title);

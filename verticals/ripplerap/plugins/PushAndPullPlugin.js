@@ -101,21 +101,22 @@ function PushAndPull() {
 	this.pushFeed = function() {
 		// build RSS item out of all your notes tiddlers
 		var rssString = generateRss(this.pushTag);
+		console.log("rss generated");
+		console.log(rssString);
 		var url = this.postBox + "index.xml";
+		console.log("putting to " + url);
 		// WebDAV PUT of rssString to this.postBox
 		var params = {
 			callback:function(status,params,responseText,url,xhr){
 				if(!status){
 					// PUT failed, deal with it here
 					// leave item in queue and take no action?
-				}
-				else {
+				} else {
 					// PUT is successful, take item out of queue
-					displayMessage("successfully PUT " + params.tiddler.title);
-					Collection.pop(params.tiddler);
+					displayMessage("successfully PUT");
+					Collection.clear();
 				}
-			},
-			tiddler:item
+			}
 		};
 		DAV.putAndMove(url,params,rssString);
 	};
@@ -201,6 +202,7 @@ PushAndPull.prototype.putFeeds = function() {
 	// check queue for any feeds that need posting and try to post the RSS feed if they do
 	var items = Collection.getAll();
 	if (items) {
+		console.log("about to put: " + items[0].title);
 		this.pushFeed();
 	}
 };
@@ -239,7 +241,7 @@ function generateRss(filterTag)
 	var tiddlers = store.getTiddlers("modified","excludeLists");
 	var n = config.numRssItems > tiddlers.length ? 0 : tiddlers.length-config.numRssItems;
 	for (var t=tiddlers.length-1; t>=n; t--) {
-		if (!filterTag || tiddler.isTagged(filterTag)) {
+		if (!filterTag || tiddlers[t].isTagged(filterTag)) {
 			s.push(tiddlers[t].saveToRss(u));
 		}
 	}

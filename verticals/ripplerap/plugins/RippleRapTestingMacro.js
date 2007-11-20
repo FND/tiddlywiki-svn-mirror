@@ -76,14 +76,14 @@ config.macros.RippleRapTesting.handler = function(place) {
 	// TO-DO: figure out a sensible	way to gather feeds
 	// p.setFeeds(feedArray);
 	// p.setAdminFeed(config.options.txtPollAdminFeed);
-	p.setPostBox("http://localhost/"+config.options.txtUserName+"/");
+	p.setPostBox("http://garden.dachary.org/"+config.options.txtUserName+"/");
 	t.setAction(function() {
 		clearMessage();
 		displayMessage("polling");
 		// p.getFeeds();
 		p.putFeeds();
 	},true);
-	t.set(5000);
+	t.set(8000);
 };
 config.macros.RSSTest = {};
 
