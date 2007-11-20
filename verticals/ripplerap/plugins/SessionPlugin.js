@@ -99,6 +99,7 @@ config.commands.makeNotes.handler = function(event,src,title)
 		store.saveTiddler(t, t, body, config.options.txtUserName, null, 'note', null, true, null);
 	}
 	story.displayTiddler(null,t);
+	//story.displayTiddler(null,title,DEFAULT_EDIT_TEMPLATE,false,null,null);
 	return false;
 };
 

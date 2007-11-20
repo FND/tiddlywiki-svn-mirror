@@ -1,3 +1,6 @@
 <div title="agendaMenu" tags="excludeLists excludeSearch">
-<pre>&lt;&lt;agendaMenu&gt;&gt;</pre>
+<pre>&lt;&lt;agendaMenu&gt;&gt;
+{{secondaryMenu{&lt;&lt;tiddler secondaryMenu&gt;&gt;}}}
+
+</pre>
 </div>
