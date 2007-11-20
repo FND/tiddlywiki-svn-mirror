@@ -134,7 +134,16 @@ config.commands.makeNotes = {text: "make notes", tooltip: "make notes about this
 config.commands.makeNotes.handler = function(event,src,title)
 {
 	var t = title + " from " + config.options.txtUserName;
-	var container = story.findContainingTiddler(src);
+	var n = store.getTiddler(t);
+	if(!n) {
+		var body = 'double-click to start making notes';
+		//var container = story.findContainingTiddler(src);
+		//var mynotes = getElementsByClassName('mySessionNotes', 'div', container);
+		store.saveTiddler(t, t, body, config.options.txtUserName, null, 'note', null, true, null);
+	}
+	
+	
+	//var container = story.findContainingTiddler(src);
 	
 	var tiddlerElem = document.getElementById(story.idPrefix + title);
 	var fields = tiddlerElem.getAttribute("tiddlyFields");
