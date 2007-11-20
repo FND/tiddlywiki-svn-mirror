@@ -13,6 +13,10 @@ div.headerShadow,
 div.headerForeground { padding:0; }
 span.siteSubtitle {bottom:35px; font-size:1em; position:absolute; width:200px;}
 
+#btbrand {
+	position:absolute; top:10px; right:0;
+}
+
 /* Primary Nav Buttons */
 #mainMenu { background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding-left:0; line-height:1.5em; }
 #mainMenu a { display:block; float:left; border-right:solid 1px #999; font-size:1em; margin:0; color:#333;}

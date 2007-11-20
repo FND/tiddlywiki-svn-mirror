@@ -1,6 +1,7 @@
 <div title="PageTemplate" tags="excludeLists excludeSearch">
 <pre>&lt;!--{{{--&gt;
 &lt;div id='messageArea'&gt;&lt;/div&gt;
+&lt;div id='btbrand' refresh='content' tiddler='btbrand'&gt;&lt;/div&gt;
 &lt;div class='header' &gt;
 &lt;div class='headerShadow'&gt;
 &lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;

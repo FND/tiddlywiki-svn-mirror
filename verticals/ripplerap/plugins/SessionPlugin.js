@@ -140,9 +140,6 @@ config.commands.makeNotes.handler = function(event,src,title)
 		store.saveTiddler(t, t, body, config.options.txtUserName, null, 'note', null, true, null);
 	}
 	
-	
-	//var container = story.findContainingTiddler(src);
-	
 	var tiddlerElem = document.getElementById(story.idPrefix + title);
 	var fields = tiddlerElem.getAttribute("tiddlyFields");
 
@@ -153,6 +150,12 @@ config.commands.makeNotes.handler = function(event,src,title)
 
 	story.displayTiddler(null,title,'mySessionNoteEditTemplate',false,null,fields);
 	story.focusTiddler(title,"text");
+	
+	var tid = store.getTiddler(t);
+	tid.tags.push('note');
+	tid.tags.push('shared');
+	//console.log(tid.title +" - "+ tid.tags.join(","));
+
 	return false;
 	
 	
