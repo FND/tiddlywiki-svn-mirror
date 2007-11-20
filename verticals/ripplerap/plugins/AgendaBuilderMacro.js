@@ -108,7 +108,7 @@ Agenda.getSessionNotesByPerson = function(session_title) {
 			var datestamp = tiddler.modified;
 			var text = tiddler.text;
 			var my_note = (user == config.options.txtUserName) ? true : false;
-			people.push({userName:user,noteTitle:note,noteText:text,date:datestamp,my_note:my_note});
+			people.push({userName:user,noteTitle:session_title,noteText:text,date:datestamp,my_note:my_note});
 			people.sort(function(a,b) {
 				return a.modified < b.modified ? -1 : (a.modified == b.modified ? 0 : 1);
 			});
