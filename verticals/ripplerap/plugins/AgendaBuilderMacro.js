@@ -181,7 +181,7 @@ config.macros.currentSession.handler = function(place) {
 	var sessions = config.macros.currentSession.find();
 	var currentSessionButton = createTiddlyElement(place,"span","currentSessionButton");
 	if (sessions.length === 0) {
-		createTiddlyText(currentSessionButton,"no sessions on now");
+		//createTiddlyText(currentSessionButton,"no sessions on now");
 	} else if (sessions.length == 1) {
 		createTiddlyText(createTiddlyLink(currentSessionButton,sessions[0].title),"Jump to current session");
 	} else {
