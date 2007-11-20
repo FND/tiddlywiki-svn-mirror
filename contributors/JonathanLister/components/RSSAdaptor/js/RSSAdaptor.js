@@ -134,7 +134,8 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 		else {
 			// something went wrong grabbing the title, grab the guid instead
 			title = item_match[i].match(regex_guid);
-			displayMessage("problem with getting title: " + item_match[i])
+			// TEMP FIX FOR DEMO 21/11/07
+			// displayMessage("problem with getting title: " + item_match[i])
 			if (title)
 				item.title = title[0].replace(/^<guid>|<\/guid>$/mg,"");
 			else {
