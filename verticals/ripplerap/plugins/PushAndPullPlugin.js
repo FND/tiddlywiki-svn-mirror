@@ -63,12 +63,17 @@ function PushAndPull() {
 		// the current session(s) feed(s) is/are checked if the currentSession macro is installed
 		// one other session feed is chosen using a round-robin method
 		// this.feeds is the array of feed URL's to poll
-		var sessionsToPoll = [];
+		var feedsToPoll = [];
 		// always pick the admin feed
 		if (this.adminFeed) {
-			this.feeds.push(this.adminFeed);
+			feedsToPoll.push(this.adminFeed);
 		} else {
-			this.handleFailure("noAdminFeed");
+			/* 20/11/07 - TEMP measure to avoid having to set adminFeed */
+			// this.handleFailure("noAdminFeed");
+		}
+		/* 20/11/07 - TEMP arrangement as we're only putting one feed in the feed list */
+		if (this.feeds.length > 0) {
+			feedsToPoll = feedsToPoll.concat(this.feeds);
 		}
 		/* DEBUG: breaks the import if the current session feed isn't there
 		if (config.macros.currentSession) {
@@ -76,9 +81,10 @@ function PushAndPull() {
 			var currentSessions = config.macros.currentSession.find();
 			this.feeds.concat(currentSessions);
 		} */
-		var allSessions = store.getTaggedTiddlers("session");
+		// var allSessions = store.getTaggedTiddlers("session");
 		// DEBUG: breaks the import if the session feed isn't there
 		// this.feeds.push(allSessions[this.roundRobinSession].getFeedURL());
+		return feedsToPoll;
 	};
 	this.getFeed = function(feed) {
 		if (feed) {
@@ -96,6 +102,11 @@ function PushAndPull() {
 			}
 		} else {
 			this.handleFailure("noFeed");
+		}
+	};
+	this.setFeeds = function(feedArray) {
+		if (feedArray) {
+			this.feeds = feedArray;
 		}
 	};
 	this.pushFeed = function() {
@@ -185,7 +196,7 @@ PushAndPull.getTiddlerCallback = function(context,userParams) {
 		tiddler.fields.unread = "true";
 		// here's where we decide what to do with the tiddlers
 		// store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-		// displayMessage(tiddler.title + " imported successfully");
+		displayMessage(tiddler.title + " imported successfully");
 		story.refreshTiddler(tiddler.title,1,true);
 	} else {
 		this.handleFailure("noTiddler",context.statusText);
@@ -204,9 +215,9 @@ PushAndPull.prototype.putFeeds = function() {
 };
 
 PushAndPull.prototype.getFeeds = function() {
-	this.chooseFeeds();
-	for (var i=0;i<this.feeds.length;i++) {
-		this.getFeed(this.feeds[i]);
+	var feedsToPoll = this.chooseFeeds();
+	for (var i=0;i<feedsToPoll.length;i++) {
+		this.getFeed(feedsToPoll[i]);
 	}
 };
 

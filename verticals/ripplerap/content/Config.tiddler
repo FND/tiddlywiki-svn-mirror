@@ -1,7 +1,11 @@
 <div title="Config">
 <pre>|Admin feed url|&lt;&lt;option txtPollAdminFeed&gt;&gt;|
-|Main feed for notes|&lt;&lt;option txtNotesFeed&gt;&gt;|
+|Main feed for notes|&lt;&lt;option txtRippleFeed&gt;&gt;|
 |Poll for updates and queue items|&lt;&lt;option chkDoPolling&gt;&gt;|
 |~UserName|&lt;&lt;option txtUserName&gt;&gt;|
+
+Test data for UC Hot House
+|Admin feed url|not needed yet|
+|Main feed for notes|http://lifestream.whatfettle.com/osmosoft/index.xml|
 &lt;&lt;RSSTest&gt;&gt;</pre>
 </div>

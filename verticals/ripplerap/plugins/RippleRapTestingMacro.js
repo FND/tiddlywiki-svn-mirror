@@ -75,8 +75,10 @@ config.macros.RippleRapTesting.handler = function(place) {
 	var t = new Timer();
 	var p = new PushAndPull();
 	// TO-DO: figure out a sensible	way to gather feeds
-	// p.setFeeds(feedArray);
-	p.setAdminFeed(config.options.txtPollAdminFeed);
+	var feedArray = [];
+	feedArray.push(config.options.txtRippleFeed);
+	p.setFeeds(feedArray);
+	// p.setAdminFeed(config.options.txtPollAdminFeed);
 	p.setPostBox("http://garden.dachary.org/"+config.options.txtUserName+"/");
 	t.setAction(function() {
 		clearMessage();
@@ -94,7 +96,10 @@ config.macros.RSSTest.handler = function(place) {
 
 config.macros.RSSTest.onClick = function() {
 	var p = new PushAndPull();
-	p.setAdminFeed(config.options.txtPollAdminFeed);
+	// p.setAdminFeed(config.options.txtPollAdminFeed);
+	var feedArray = [];
+	feedArray.push(config.options.txtRippleFeed);
+	p.setFeeds(feedArray);
 	p.getFeeds();
 };
 //}}}
