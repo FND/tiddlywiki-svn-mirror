@@ -104,10 +104,11 @@ Agenda.getSessionNotesByPerson = function(session_title) {
 		// cycle through all of the sessions tiddler for this session 
 		if(title.startsWith(session_title) && session_title!=title) {
 			var user = tiddler.modifier;
+			var note = tiddler.title;
 			var datestamp = tiddler.modified;
 			var text = tiddler.text;
 			var my_note = (user == config.options.txtUserName) ? true : false;
-			people.push({userName:user,noteTiddler:tiddler,noteText:text,date:datestamp,my_note:my_note});
+			people.push({userName:user,noteTitle:note,noteText:text,date:datestamp,my_note:my_note});
 			people.sort(function(a,b) {
 				return a.modified < b.modified ? -1 : (a.modified == b.modified ? 0 : 1);
 			});
@@ -168,7 +169,13 @@ config.macros.agendaMenuByTrack.buildAgendaItem = function(place,item) {
 	var notes = createTiddlyElement(agendaItem,"div",null,"notes");
 	var notesList = createTiddlyElement(notes,"ul");
 	for (var i=0; i<notesArray.length; i++) {
-		createTiddlyText(createTiddlyLink(createTiddlyElement(notes,"li"),notesArray.noteTiddler),notesArray.userName);
+		var noteItem = createTiddlyLink(createTiddlyElement(notesList,"li"),notesArray[i].noteTitle);
+		var userName = notesArray[i].userName;
+		if (userName) {
+			createTiddlyText(noteItem,notesArray[i].userName);
+		} else {
+			createTiddlyText(noteItem,"anonymous");
+		}
 	}
 };
 //}}}
