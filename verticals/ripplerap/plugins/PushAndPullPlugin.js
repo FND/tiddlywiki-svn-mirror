@@ -178,7 +178,8 @@ PushAndPull.getTiddlerListCallback = function(context,userParams) {
 				tiddler = tiddlers[i];
 				var local_tiddler = store.fetchTiddler(tiddler.title);
 				// if the tiddler exists locally, don't overwrite unless the text is different
-				if(!local_tiddler || local_tiddler.text != tiddler.text) {
+				// TEMP CHANGE 20/11/07: if(!local_tiddler || local_tiddler.text != tiddler.text) {
+				if (!local_tiddler) {
 					context.adaptor.getTiddler(tiddler.title,null,null,PushAndPull.getTiddlerCallback);
 					import_count++;
 				}
