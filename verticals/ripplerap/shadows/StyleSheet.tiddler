@@ -57,6 +57,8 @@ div.session span.time { font-size:1.2em; font-weight:bold; color:#bbb; margin-ri
 div.session span.speaker { font-size:1.2em; font-weight:bold; color:#444; }
 div.session div.synopsis { font-size:1em; color:#222; padding:0.5em 0;}
 
+div.discoveredNotes div.tiddler { border-left:solid 20px #555; }
+div.mySessionNotes div.tiddler { border-left:solid 20px #f55; }
 
 </pre>
 </div>

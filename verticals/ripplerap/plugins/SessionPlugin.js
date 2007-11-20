@@ -1,7 +1,7 @@
 /***
 |''Name:''|SessionPlugin|
 |''Description:''|Macros to support session|
-|''Author:''|MartinBudden|
+|''Author:''|MartinBudden, PhilHawksworth|
 |''Source:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/SessionPlugin.js|
 |''CodeRepository:''|see Source above|
 |''Version:''|0.0.1|
@@ -25,29 +25,53 @@ config.macros.sessionAnnotation.handler = function(place,macroName,params,wikifi
 	var title = tiddler.title;
 	createTiddlyElement(place,'span', null, 'time', store.getTiddlerSlice(title,"start") + " - " + store.getTiddlerSlice(title,"end"));
 	createTiddlyElement(place,'span', null, 'speaker', store.getTiddlerSlice(title,"speaker"));
-	createTiddlyElement(place,'div', null, 'synopsis', store.getTiddlerSlice(title,"synopsis"));
+	createTiddlyElement(place,'div', null, 'synopsis', store.getTiddlerSlice(title,"synopsis"));	
 };
 
 config.macros.sessionNotes = {};
 config.macros.sessionNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-	// just output each note in a list for the moment
+	var whose = params[0];
 	var ct = tiddler.title;
-	var t, user, datestamp, text = null;
-	store.forEachTiddler(function(title,tiddler) {
-		if(title.startsWith(ct) && ct!=title) {
-
-			// Development data. This is placeholder data and should be replaced with values gathered from the downloaded tiddlers.
-			user = "from Anne Other";
-			datestamp = 200711140000;
-			text = tiddler.text;
+		var t, user, datestamp, text = null;
+		store.forEachTiddler(function(title,tiddler) {
 			
-			t = story.createTiddler(place,null,title,'sharedNoteViewTemplate',null)
-			t.text = text;
-			t.modifier = user;
-			t.modified= datestamp;
-		}
-	});
+			// cycle through all of the sessions tiddler fo this session 
+			if(title.startsWith(ct) && ct!=title) {
+		
+				// Development data. This is placeholder data and should be replaced with values gathered from the downloaded tiddlers.
+				user = "from Anne Other";
+				datestamp = 200711140000;
+				text = "Text from someone else's tiddlywiki	";
+		
+				//looking for my notes
+				if(whose == 'mine'){
+					if(tiddler.modifier == config.options.txtUserName) {
+						console.log('mine');
+						t = story.createTiddler(place,null,title,'mySessionNoteViewTemplate',null);
+						//t = story.createTiddler(place,null,title,null,null);
+						t.text = text;
+						t.modifier = user;
+						t.modified= datestamp;
+					}
+
+				}
+				//looking for discovered notes
+				else if(whose == 'discovered'){
+					if(tiddler.modifier != config.options.txtUserName){
+						console.log('discovered');
+						t = story.createTiddler(place,null,title,'discoveredNoteViewTemplate',null);
+						//t = story.createTiddler(place,null,title,null,null);
+						t.text = text;
+						t.modifier = user;
+						t.modified= datestamp;	
+					}	
+				}
+			}
+			
+		});
 };
+
+
 } //# end of 'install only once'
 //}}}
