@@ -111,16 +111,16 @@ config.macros.sessionNotes.handler = function(place,macroName,params,wikifier,pa
 				//looking for my notes
 				if(whose == 'mine'){
 					if(tiddler.modifier == config.options.txtUserName) {
-						var e = createTiddlyElement(place,'div', null, 'myNote');
-						createTiddlyElement(e,'div', null, 'modifier', tiddler.modifier);
+						var e = createTiddlyElement(place,'div', null, 'note');
+						//createTiddlyElement(e,'div', null, 'modifier', tiddler.modifier);
 						createTiddlyElement(e,'div', null, 'text', tiddler.text);
 					}
 				}
 				//looking for discovered notes
 				else if(whose == 'discovered'){
 					if(tiddler.modifier != config.options.txtUserName){
-						e = createTiddlyElement(place,'div', null, 'discoveredNote');
-						createTiddlyElement(e,'div', null, 'modifier', tiddler.modifier);
+						e = createTiddlyElement(place,'div', null, 'note');
+						createTiddlyElement(e,'div', null, 'modifier', tiddler.modifier + " writes..." );
 						createTiddlyElement(e,'div', null, 'text', tiddler.text);
 					}	
 				}
@@ -136,9 +136,7 @@ config.commands.makeNotes.handler = function(event,src,title)
 	var t = title + " from " + config.options.txtUserName;
 	var n = store.getTiddler(t);
 	if(!n) {
-		var body = 'double-click to start making notes';
-		//var container = story.findContainingTiddler(src);
-		//var mynotes = getElementsByClassName('mySessionNotes', 'div', container);
+		var body = 'add your own notes';
 		store.saveTiddler(t, t, body, config.options.txtUserName, null, 'note', null, true, null);
 	}
 	

@@ -29,6 +29,7 @@ span.siteSubtitle {bottom:35px; font-size:1em; position:absolute; width:200px;}
 #agendaMenu div.txtAgendaTab div.tabset a.tabSelected {background-color:#fff; border:solid 1px #999; border-bottom-width:2px;}
 #agendaMenu div.txtAgendaTab div.tabContents { border-style:none; margin:0; padding:0;}
 
+
 /* Secondary menu */
 #agendaMenu span.secondaryMenu { width:250px; text-align:right; display:block;}
 
@@ -40,6 +41,7 @@ div.txtAgendaTab div.agendaItem span.time {	font-weight:bold; color:#888; font-s
 div.txtAgendaTab div.agendaItem span.title a { color:#444; display:block; font-weight:bold;	text-decoration:none; margin-left:5em; font-size:12px; }
 div.txtAgendaTab div.agendaItem div.speaker { color:#666; display:block; margin:0.2em 0 0 5em; }
 div.txtAgendaTab div.agendaItem div.notes {	margin:0.4em 0.5em 0 0;	text-align:right; }
+div.txtAgendaTab div.agendaItem div.notes ul { list-style:none; }
 div.txtAgendaTab div.agendaItem div.notes a { display:block; color:#55c; font-size:0.9em; line-height:1.4em; text-decoration:none; }
 div.txtAgendaTab div.agendaItem div.notes a.stale { color:#600; }
 div.txtAgendaTab div.agendaItem div.notes a.tiddlyLink:hover,
@@ -55,14 +57,25 @@ div.session table tr td.toolbar { background-color:#f3f3f3; padding:1em; border-
 div.session table tr td.toolbar a { display:block; padding:0.5em 1em; text-align:right; border-style:none; font-size:1.2em; color:#aaa; text-align:left; border-bottom:solid 1px #ccc; margin:0;}
 div.session table tr td.toolbar a:hover {background-color:#eee; color:#666;}
 
-
 div.session div.title { font-size:1.5em; font-weight:bold; color:#000; }
 div.session span.time { font-size:1.2em; font-weight:bold; color:#bbb; margin-right:0.5em; }
 div.session span.speaker { font-size:1.2em; font-weight:bold; color:#444; }
 div.session div.synopsis { font-size:1em; color:#222; padding:0.5em 0;}
 
 div.discoveredNotes div.tiddler { border-left:solid 20px #555; }
-div.mySessionNotes div.tiddler { border-left:solid 20px #f55; }
+
+div.mySessionNotes div.note { border-bottom:solid 1px #ccc;  padding:1em;}
+div.mySessionNotes div.note div.modifier{ font-size:1.2em; font-weight:bold; color:#444; }
+div.mySessionNotes div.note div.text{ padding-top:0.5em; }
+div.discoveredNotes div.note { border-bottom:solid 1px #ccc; border-left:solid 20px #ccc; padding:1em;}
+div.discoveredNotes div.note div.modifier{ font-size:1.2em; font-weight:bold; color:#444; }
+div.discoveredNotes div.note div.text{ padding-top:0.5em; }
+
+div.mySessionNotes div.toolbar { margin:1em 0 0.5em 0;}
+div.mySessionNotes div.toolbar a { padding:0.2em 1em; background-color:#222; color:#fff; margin:1em 2px; border:solid 1px #000;}
+div.mySessionNotes div.toolbar a:hover {  background-color:#444; color:#fff; border:solid 1px #000;}
+
+
 
 </pre>
 </div>
