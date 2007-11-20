@@ -22,8 +22,8 @@ demo = [
 	['Active',        'ProjectStatus', "order:1\nbutton:a\nbuttonLong:active\n"],
 	['Someday/Maybe', 'ProjectStatus', "order:2\nbutton:s/m\nbuttonLong:someday/maybe\n"],
 
-	['Work',          'Realm',         "order:1\n"],
-	['Personal',      'Realm',         "order:2\n"],
+	['Work',          'Realm',         "order:1\npriority:1"],
+	['Personal',      'Realm',         "order:2\npriority:2"],
 
 	['Home Maintenance', 'Area'],
 	['Recreation',       'Area'],

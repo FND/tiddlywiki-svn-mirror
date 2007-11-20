@@ -5,13 +5,13 @@
 
 <td>
 
-<div macro="mgtdList title:'Next Actions' startTag:Action tags:'Next && !Done' view:ActionProj
+<div macro="mgtdList title:'Next Actions' tags:'Action && Next && !Done' view:ActionProj
 	group:Context
 	gView:Context
 	where:tiddler.hasActiveProject()
 	"></div>
 
-<div macro="mgtdList title:'Waiting Actions' startTag:Action tags:'[(Waiting For)] && !Done' view:ActionProj
+<div macro="mgtdList title:'Waiting Actions' tags:'Action && [(Waiting For)] && !Done' view:ActionProj
 	group:Context
 	gView:Context
 	where:tiddler.hasActiveProject()
@@ -20,13 +20,13 @@
 </td>
 <td>
 
-<div macro="mgtdList title:'Future Actions' startTag:Action tags:'Future && !Done' view:ActionProj
+<div macro="mgtdList title:'Future Actions' tags:'Action && Future && !Done' view:ActionProj
 	group:Context
 	gView:Context
 	where:tiddler.hasActiveProject()
 	"></div>
 
-<div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction
+<div macro="mgtdList title:'Done Actions' tags:'Action && Done' view:DoneAction
 	"></div>
 
 </td>

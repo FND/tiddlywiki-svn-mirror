@@ -203,6 +203,20 @@ html>body .header2 {background-image:url(http://simonbaird.com/images/monkeygtd/
 	margin:0; padding:0.3em;
 }
 
+.mgtdList h1 br {
+	display:none;
+}
+
+.mgtdList h1 .button {
+	border-color:transparent;
+	font-weight:bold;
+	font-size:110%;
+}
+
+.mgtdList h1 .button:hover {
+	border-color:#999;
+}
+
 .mgtdList h2 {
 	border-style:none!important;
 	font-size:120%;

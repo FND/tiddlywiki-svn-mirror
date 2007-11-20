@@ -1,0 +1,6 @@
+/%
+$1: Realm
+$2: Area
+$3: ProjectStatus
+%/<<newTiddler title:'New Project' label:+ tag:Project [[$1]] [[$2]] [[$3]]>>
+
