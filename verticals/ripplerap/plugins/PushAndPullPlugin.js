@@ -185,7 +185,7 @@ PushAndPull.getTiddlerCallback = function(context,userParams) {
 		tiddler.fields.unread = "true";
 		// here's where we decide what to do with the tiddlers
 		// store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-		displayMessage(tiddler.title + " imported successfully");
+		// displayMessage(tiddler.title + " imported successfully");
 		story.refreshTiddler(tiddler.title,1,true);
 	} else {
 		this.handleFailure("noTiddler",context.statusText);

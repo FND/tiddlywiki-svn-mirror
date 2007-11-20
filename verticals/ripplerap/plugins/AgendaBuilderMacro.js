@@ -96,6 +96,26 @@ Agenda.create_tab_tiddlers = function() {
 	return params;
 };
 
+// Show a linked list of the people who have written notes about a session
+Agenda.getSessionNotesByPerson = function(session_title) {
+	var people = [];
+	store.forEachTiddler(function(title,tiddler) {
+		// cycle through all of the sessions tiddler for this session 
+		if(title.startsWith(session_title) && session_title!=title) {
+			var user = tiddler.modifier;
+			var datestamp = tiddler.modified;
+			var text = tiddler.text;
+			var my_notes = (user == config.options.txtUserName) ? true : false;
+			people.push({userName:user,note:text,date:datestamp,mine:my_notes});
+			people.sort(function(a,b) {
+				return a.modified < b.modified ? -1 : (a.modified == b.modified ? 0 : 1);
+			});
+			console.log("people: " + people.length);
+		}
+	});
+	return people;
+};
+
 Agenda.init = function() {
 	// set up the tiddlers for the tabs macro in agendaMenu
 	Agenda.tabsParams = Agenda.create_tab_tiddlers();
@@ -137,19 +157,12 @@ config.macros.agendaMenuByTrack.buildAgendaItem = function(place,item) {
 	var start = store.getTiddlerSlice(title,"start");
 	var end = store.getTiddlerSlice(title,"end");
 	var blurb = store.getTiddlerSlice(title,"blurb");
-
-	// build the entry in the agendaMenu
-	// var wrapper = createTiddlyElement(place,"div",null,"agendaItem");
-	// 	var header = createTiddlyLink(createTiddlyElement(wrapper,"div",null,"agendaItemHeader"),title);
-	// 	createTiddlyElement(header,"span",null,"agendaItemHeaderTime",start + " - " + end);
-	// 	createTiddlyElement(header,"span",null,"agendaItemHeaderSpeaker",speaker);
-	// 	var text = createTiddlyElement(wrapper,"div",null,"agendaItemText");
-	// 	createTiddlyElement(text,"span",null,"agendaItemTextTitle",title);
 	
 	// build the entry in the agendaMenu
 	var agendaItem = createTiddlyElement(place,"div",null,"agendaItem");
 	createTiddlyElement(agendaItem,"span",null,"time",start + " - " + end);
-	createTiddlyLink(createTiddlyElement(agendaItem,"span",null,"title"), title, title);
+	var no_of_notes = Agenda.getSessionNotesByPerson(title).length;
+	createTiddlyLink(createTiddlyElement(agendaItem,"span",null,"title"), title+" ("+no_of_notes+")", title+" ("+no_of_notes+")");
 	createTiddlyElement(agendaItem,"div",null,"speaker",speaker);
 	var notes = createTiddlyElement(agendaItem,"div",null,"notes");
 
