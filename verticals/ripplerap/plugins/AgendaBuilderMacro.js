@@ -165,7 +165,6 @@ config.macros.agendaMenuByTrack.buildAgendaItem = function(place,item) {
 	createTiddlyLink(createTiddlyElement(agendaItem,"span",null,"title"), title, true);
 	createTiddlyElement(agendaItem,"div",null,"speaker",speaker);
 	var notesArray = Agenda.getSessionNotesByPerson(title);
-	console.log(notesArray);
 	var notes = createTiddlyElement(agendaItem,"div",null,"notes");
 	var notesList = createTiddlyElement(notes,"ul");
 	for (var i=0; i<notesArray.length; i++) {
