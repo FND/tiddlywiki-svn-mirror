@@ -99,10 +99,10 @@ function PushAndPull() {
 			context.filter = "";
 			var ret = adaptor.openHost(context.host,context,null,PushAndPull.openHostCallback);
 			if(typeof ret == "string") {
-				PushAndPull.handleFailure("HTTP",ret);
+				// PushAndPull.handleFailure("HTTP",ret);
 			}
 		} else {
-			PushAndPull.handleFailure("noFeed");
+			// PushAndPull.handleFailure("noFeed");
 		}
 	};
 	this.setFeeds = function(feedArray) {
@@ -155,7 +155,7 @@ PushAndPull.prototype.setPostBox = function(dir) {
 /* START: methods supporting this.getFeed */
 PushAndPull.openHostCallback = function(context,userParams) {
 	if (context.status !== true) {
-		PushAndPull.handleFailure("openHost",context.statusText);
+		// PushAndPull.handleFailure("openHost",context.statusText);
 	}
 	context.adaptor.getTiddlerList(context,userParams,PushAndPull.getTiddlerListCallback,context.filter);
 };
@@ -164,7 +164,7 @@ PushAndPull.getTiddlerListCallback = function(context,userParams) {
 	if(context.status) {
 		var tiddlers = context.tiddlers;
 		if (tiddlers.length === 0) {
-			PushAndPull.handleFailure("noContent",context.adaptor.host);
+			// PushAndPull.handleFailure("noContent",context.adaptor.host);
 		} else {
 			var sortField = 'modified';
 			tiddlers.sort(function(a,b) {return a[sortField] < b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
@@ -184,7 +184,7 @@ PushAndPull.getTiddlerListCallback = function(context,userParams) {
 				}
 			}
 			if (import_count === 0) {
-				PushAndPull.handleFailure("noImport",context.adaptor.host);
+				// PushAndPull.handleFailure("noImport",context.adaptor.host);
 			}
 		}
 	}
@@ -201,7 +201,7 @@ PushAndPull.getTiddlerCallback = function(context,userParams) {
 		// displayMessage(tiddler.title + " is an item in the rss feed");
 		story.refreshTiddler(tiddler.title,1,true);
 	} else {
-		PushAndPull.handleFailure("noTiddler",context.statusText);
+		// PushAndPull.handleFailure("noTiddler",context.statusText);
 	}
 	// Q: is this necessary? is there a less "heavy-handed" approach to refreshing? is it needed?
 	// story.refreshAllTiddlers();
