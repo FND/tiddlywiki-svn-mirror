@@ -1,5 +1,5 @@
 /******************
- * TLWTestingMacro *
+ * RippleRapTestingMacro *
  ******************/
 
 /***
@@ -71,6 +71,7 @@ config.macros.RippleRapTesting.handler = function(place) {
 	DAV.putAndMove(url,params,rssString);
 */
 	config.options.chkAutoSave = true;
+	config.options.txtRippleFeed = "http://lifestream.whatfettle.com/osmosoft/index.xml";
 	createTiddlyText(place,"running in test mode...");
 	var t = new Timer();
 	var p = new PushAndPull();
@@ -82,7 +83,6 @@ config.macros.RippleRapTesting.handler = function(place) {
 	p.setPostBox("http://garden.dachary.org/"+config.options.txtUserName+"/");
 	t.setAction(function() {
 		clearMessage();
-		displayMessage("polling");
 		p.getFeeds();
 		p.putFeeds();
 	},true);

@@ -88,6 +88,7 @@ function PushAndPull() {
 	};
 	this.getFeed = function(feed) {
 		if (feed) {
+			displayMessage("about to download from " + feed);
 			var adaptor = new RSSAdaptor();
 			var context = {};
 			context.host = feed;
@@ -116,7 +117,6 @@ function PushAndPull() {
 		// WebDAV PUT of rssString to this.postBox
 		var params = {
 			callback:function(status,params,responseText,url,xhr){
-				console.log(xhr);
 				if(!status){
 					// PUT failed, deal with it here
 					// leave item in queue and take no action?
@@ -129,10 +129,11 @@ function PushAndPull() {
 		};
 		DAV.putAndMove(url,params,rssString);
 	};
-	this.handleFailure = function(error,text) {
-		displayMessage(this.messages[error] + text);
-	};
 }
+
+PushAndPull.handleFailure = function(error,text) {
+	displayMessage(this.messages[error] + text);
+};
 
 Tiddler.prototype.getFeedURL = function() {
 	// work out the feed URL from the feed tiddler
@@ -154,7 +155,7 @@ PushAndPull.prototype.setPostBox = function(dir) {
 /* START: methods supporting this.getFeed */
 PushAndPull.openHostCallback = function(context,userParams) {
 	if (context.status !== true) {
-		this.handleFailure("openHost",context.statusText);
+		PushAndPull.handleFailure("openHost",context.statusText);
 	}
 	context.adaptor.getTiddlerList(context,userParams,PushAndPull.getTiddlerListCallback,context.filter);
 };
@@ -163,7 +164,7 @@ PushAndPull.getTiddlerListCallback = function(context,userParams) {
 	if(context.status) {
 		var tiddlers = context.tiddlers;
 		if (tiddlers.length === 0) {
-			this.handleFailure("noContent",context.adaptor.host);
+			PushAndPull.handleFailure("noContent",context.adaptor.host);
 		} else {
 			var sortField = 'modified';
 			tiddlers.sort(function(a,b) {return a[sortField] < b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
@@ -183,7 +184,7 @@ PushAndPull.getTiddlerListCallback = function(context,userParams) {
 				}
 			}
 			if (import_count === 0) {
-				this.handleFailure("noImport",context.adaptor.host);
+				PushAndPull.handleFailure("noImport",context.adaptor.host);
 			}
 		}
 	}
@@ -197,10 +198,10 @@ PushAndPull.getTiddlerCallback = function(context,userParams) {
 		tiddler.fields.unread = "true";
 		// here's where we decide what to do with the tiddlers
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-		// displayMessage(tiddler.title + " imported successfully");
+		// displayMessage(tiddler.title + " is an item in the rss feed");
 		story.refreshTiddler(tiddler.title,1,true);
 	} else {
-		this.handleFailure("noTiddler",context.statusText);
+		PushAndPull.handleFailure("noTiddler",context.statusText);
 	}
 	// Q: is this necessary? is there a less "heavy-handed" approach to refreshing? is it needed?
 	// story.refreshAllTiddlers();

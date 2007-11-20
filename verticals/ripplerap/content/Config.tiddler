@@ -4,8 +4,5 @@
 |Poll for updates and queue items|&lt;&lt;option chkDoPolling&gt;&gt;|
 |~UserName|&lt;&lt;option txtUserName&gt;&gt;|
 
-Test data for UC Hot House
-|Admin feed url|not needed yet|
-|Main feed for notes|http://lifestream.whatfettle.com/osmosoft/index.xml|
 &lt;&lt;RSSTest&gt;&gt;</pre>
 </div>
