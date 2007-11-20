@@ -1,3 +1,7 @@
-<div title="Welcome" modifier="JeremyRuston" created="200711201202" changecount="1">
-<pre>RippleRap is a personal RSS read/write re-aggregator that lets users consume, annotate and share data with a highly customisable user interface.</pre>
+<div title="Welcome" modifier="JeremyRuston" created="200711201202" modified="200711201715" changecount="2">
+<pre>RippleRap is a personal RSS read/write re-aggregator that lets users consume, annotate and share data with a highly customisable user interface.
+
+&lt;&lt;slider chkSliderOptionsPanel Whatmenu &quot;What »&quot; &quot;What&quot;&gt;&gt;
+&lt;&lt;slider chkSliderOptionsPanel Whymenu &quot;Why »&quot; &quot;Why&quot;&gt;&gt;
+&lt;&lt;slider chkSliderOptionsPanel Howmenu &quot;How »&quot; &quot;How&quot;&gt;&gt;</pre>
 </div>
