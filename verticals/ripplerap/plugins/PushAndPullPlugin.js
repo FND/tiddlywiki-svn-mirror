@@ -45,7 +45,7 @@ The PushAndPullPlugin can be installed into any TiddlyWiki to provide an easy wa
  **************/
 function PushAndPull() {
 	this.feeds = [];
-	this.pushTag = "notes";
+	this.pushTag = "note";
 	this.messages = {
 		noAdminFeed:"no Admin Feed set",
 		noFeed:"no feeds to pull",
@@ -99,7 +99,7 @@ function PushAndPull() {
 		}
 	};
 	this.pushFeed = function() {
-		// build RSS item out of tiddlers
+		// build RSS item out of all your notes tiddlers
 		var rssString = generateRss(this.pushTag);
 		var url = this.postBox + "index.xml";
 		// WebDAV PUT of rssString to this.postBox
@@ -111,6 +111,7 @@ function PushAndPull() {
 				}
 				else {
 					// PUT is successful, take item out of queue
+					displayMessage("successfully PUT " + params.tiddler.title);
 					Collection.pop(params.tiddler);
 				}
 			},

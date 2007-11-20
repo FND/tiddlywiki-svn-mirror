@@ -70,19 +70,20 @@ config.macros.RippleRapTesting.handler = function(place) {
 	wikify("going to put to: " + url + "\n",place);
 	DAV.putAndMove(url,params,rssString);
 */
+	createTiddlyText(place,"running in test mode...");
 	var t = new Timer();
 	var p = new PushAndPull();
 	// TO-DO: figure out a sensible	way to gather feeds
 	// p.setFeeds(feedArray);
-	p.setAdminFeed(config.options.txtPollAdminFeed);
-	// p.setPostBox("http://localhost/"+config.options.txtUserName+"/");
+	// p.setAdminFeed(config.options.txtPollAdminFeed);
+	p.setPostBox("http://localhost/"+config.options.txtUserName+"/");
 	t.setAction(function() {
 		clearMessage();
 		displayMessage("polling");
-		p.getFeeds();
-		// p.putFeeds();
-	},false);
-	t.set(1000);
+		// p.getFeeds();
+		p.putFeeds();
+	},true);
+	t.set(5000);
 };
 config.macros.RSSTest = {};
 
