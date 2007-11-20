@@ -9,12 +9,14 @@
 	group:Context
 	gView:Context
 	where:tiddler.hasActiveProject()
+	newButton:'NewActionButton Next [[]]'
 	"></div>
 
 <div macro="mgtdList title:'Waiting Actions' startTag:Action tags:'[(Waiting For)] && !Done' view:ActionProj mode:global
 	group:Context
 	gView:Context
 	where:tiddler.hasActiveProject()
+	newButton:'NewActionButton [[Waiting For]] [[]]'
 	"></div>
 
 </td>
@@ -24,6 +26,7 @@
 	group:Context
 	gView:Context
 	where:tiddler.hasActiveProject()
+	newButton:'NewActionButton Future [[]]'
 	"></div>
 
 <div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global

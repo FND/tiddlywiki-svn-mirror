@@ -7,10 +7,12 @@
 
 <div macro="mgtdList title:'Next Actions' startTag:Action tags:'Next && !Done' view:ActionProj mode:global
 	where:tiddler.hasActiveProject()
+	newButton:'NewActionButton Next [[]]'
 	"></div>
 
 <div macro="mgtdList title:'Waiting Actions' startTag:Action tags:'[(Waiting For)] && !Done' view:ActionProj  mode:global
 	where:tiddler.hasActiveProject()
+	newButton:'NewActionButton [[Waiting For]] [[]]'
 	"></div>
 
 </td>
@@ -18,6 +20,7 @@
 
 <div macro="mgtdList title:'Future Actions' startTag:Action tags:'Future && !Done' view:ActionProj mode:global
 	where:tiddler.hasActiveProject()
+	newButton:'NewActionButton Future'
 	"></div>
 
 <div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
