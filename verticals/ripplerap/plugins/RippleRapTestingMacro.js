@@ -71,7 +71,7 @@ config.macros.RippleRapTesting.handler = function(place) {
 	DAV.putAndMove(url,params,rssString);
 */
 	config.options.chkAutoSave = true;
-	config.options.txtRippleFeed = "http://lifestream.whatfettle.com/osmosoft/index.xml";
+	config.options.txtRippleFeed = "http://lifestream.whatfettle.com/ripplerap/index.xml";
 	createTiddlyText(place,"running in test mode...");
 	var t = new Timer();
 	var p = new PushAndPull();
