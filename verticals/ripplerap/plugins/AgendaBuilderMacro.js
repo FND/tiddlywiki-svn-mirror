@@ -37,8 +37,6 @@ The AgendaBuilderMacro will plug into any TiddlyWiki where it is desirable to cr
  * Agenda
  *********/
 Agenda = {};
-// flag for whether agenda is up to date
-Agenda.isCurrent = false;
 // params array for the tab macro, filled by create_tab_tiddlers
 Agenda.tabsParams = [];
 // Fix for slices regex not correctly matching slices of the form "key:\nkey:value"
@@ -90,28 +88,19 @@ Agenda.create_tab_tiddlers = function() {
 	for (var i=0;i<tracks.length;i++) {
 		var title = titlePrefix+tracks[i];
 		var text = textPrefix+tracks[i]+textSuffix;
-		if(!store.tiddlerExists(title)) {
-			store.saveTiddler(title,title,text);
-			params.push(tracks[i]);
-			params.push(tracks[i]);
-			params.push(title);
-		}
+		store.saveTiddler(title,title,text);
+		params.push(tracks[i]);
+		params.push(tracks[i]);
+		params.push(title);
 	}
 	return params;
 };
 
 Agenda.init = function() {
-/* BUG: 19/11/07 - this doesn't work - on subsequent reloads, the agendaMenu isn't created
-	// check to see if Agenda is current before updating
-	if (!Agenda.isCurrent) {
-		// set up the tiddlers for the tabs macro in agendaMenu
-		Agenda.tabsParams = Agenda.create_tab_tiddlers();
-		// set default selected tab in agendaMenu
-		config.options.txtAgendaTab = "";
-		Agenda.isCurrent = !Agenda.isCurrent;
-	}
-*/
+	// set up the tiddlers for the tabs macro in agendaMenu
 	Agenda.tabsParams = Agenda.create_tab_tiddlers();
+	// set default selected tab in agendaMenu
+	config.options.txtAgendaTab = "";
 };
 Agenda.init();
 

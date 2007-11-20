@@ -101,10 +101,7 @@ function PushAndPull() {
 	this.pushFeed = function() {
 		// build RSS item out of all your notes tiddlers
 		var rssString = generateRss(this.pushTag);
-		console.log("rss generated");
-		console.log(rssString);
 		var url = this.postBox + "index.xml";
-		console.log("putting to " + url);
 		// WebDAV PUT of rssString to this.postBox
 		var params = {
 			callback:function(status,params,responseText,url,xhr){
@@ -186,8 +183,8 @@ PushAndPull.getTiddlerCallback = function(context,userParams) {
 		var tiddler = context.tiddler;
 		// add in an extended field to save unread state - NB: this might not be needed
 		tiddler.fields.unread = "true";
-		// uncomment line below to store tiddler
-		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+		// here's where we decide what to do with the tiddlers
+		// store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 		displayMessage(tiddler.title + " imported successfully");
 		story.refreshTiddler(tiddler.title,1,true);
 	} else {
@@ -202,7 +199,6 @@ PushAndPull.prototype.putFeeds = function() {
 	// check queue for any feeds that need posting and try to post the RSS feed if they do
 	var items = Collection.getAll();
 	if (items) {
-		console.log("about to put: " + items[0].title);
 		this.pushFeed();
 	}
 };

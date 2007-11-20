@@ -70,17 +70,18 @@ config.macros.RippleRapTesting.handler = function(place) {
 	wikify("going to put to: " + url + "\n",place);
 	DAV.putAndMove(url,params,rssString);
 */
+	config.options.chkAutoSave = true;
 	createTiddlyText(place,"running in test mode...");
 	var t = new Timer();
 	var p = new PushAndPull();
 	// TO-DO: figure out a sensible	way to gather feeds
 	// p.setFeeds(feedArray);
-	// p.setAdminFeed(config.options.txtPollAdminFeed);
+	p.setAdminFeed(config.options.txtPollAdminFeed);
 	p.setPostBox("http://garden.dachary.org/"+config.options.txtUserName+"/");
 	t.setAction(function() {
 		clearMessage();
 		displayMessage("polling");
-		// p.getFeeds();
+		p.getFeeds();
 		p.putFeeds();
 	},true);
 	t.set(8000);
