@@ -116,6 +116,7 @@ function PushAndPull() {
 		// WebDAV PUT of rssString to this.postBox
 		var params = {
 			callback:function(status,params,responseText,url,xhr){
+				console.log(xhr);
 				if(!status){
 					// PUT failed, deal with it here
 					// leave item in queue and take no action?
@@ -195,8 +196,8 @@ PushAndPull.getTiddlerCallback = function(context,userParams) {
 		// add in an extended field to save unread state - NB: this might not be needed
 		tiddler.fields.unread = "true";
 		// here's where we decide what to do with the tiddlers
-		// store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-		displayMessage(tiddler.title + " imported successfully");
+		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+		// displayMessage(tiddler.title + " imported successfully");
 		story.refreshTiddler(tiddler.title,1,true);
 	} else {
 		this.handleFailure("noTiddler",context.statusText);

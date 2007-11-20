@@ -44,6 +44,7 @@ Collection = function() {};
 // push works by hooking into a save event
 Collection.push = function(tiddler) {
 	story.setTiddlerTag(tiddler.title,"inCollection",+1);
+	displayMessage("tiddler added to queue");
 };
 
 // pop is designed to be called after a successful PUT of a tiddler in the store,
@@ -52,7 +53,8 @@ Collection.pop = function(tiddler) {
 	if(tiddler.isTagged("inCollection")) {
 		// remove inCollection tag
 		tiddler.removeTag("inCollection");
-		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields)
+		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
+		displayMessage("tiddler removed from queue");
 	}
 };
 
