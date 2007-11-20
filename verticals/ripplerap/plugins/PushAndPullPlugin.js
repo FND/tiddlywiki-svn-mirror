@@ -99,10 +99,10 @@ function PushAndPull() {
 			context.filter = "";
 			var ret = adaptor.openHost(context.host,context,null,PushAndPull.openHostCallback);
 			if(typeof ret == "string") {
-				this.handleFailure("HTTP",ret);
+				PushAndPull.handleFailure("HTTP",ret);
 			}
 		} else {
-			this.handleFailure("noFeed");
+			PushAndPull.handleFailure("noFeed");
 		}
 	};
 	this.setFeeds = function(feedArray) {
