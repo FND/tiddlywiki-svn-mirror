@@ -296,9 +296,16 @@ config.macros.importTiddlers.onBrowseChange = function(e)
 // this method has two passes at the string - the first to convert it to html and the second
 // to selectively catch the ASCII-encoded characters without losing the rest of the html
 String.prototype.renderHtmlText = function() {
+	var text = this;
+	var regex_cdata = /<!\[CDATA\[((?:.| )*?)\]\]>/mg;
+	regex_cdata.lastIndex = 0;
+	var match = regex_cdata.exec(this);
+	if (match) {
+		text = match[1];
+	}
 	var e = createTiddlyElement(document.body,"div");
-	e.innerHTML = this;
-	var text = getPlainText(e);
+	e.innerHTML = text;
+	text = getPlainText(e);
 	text = text.replace(/&#[\w]+?;/g,function(word) {
 		var ee = createTiddlyElement(e,"div");
 		ee.innerHTML = word;
