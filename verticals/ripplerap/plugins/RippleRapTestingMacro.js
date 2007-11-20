@@ -84,4 +84,15 @@ config.macros.RippleRapTesting.handler = function(place) {
 	},false);
 	t.set(1000);
 };
+config.macros.RSSTest = {};
+
+config.macros.RSSTest.handler = function(place) {
+	createTiddlyButton(place,"Grab feed","grab feed",config.macros.RSSTest.onClick);
+};
+
+config.macros.RSSTest.onClick = function() {
+	var p = new PushAndPull();
+	p.setAdminFeed(config.options.txtPollAdminFeed);
+	p.getFeeds();
+};
 //}}}
