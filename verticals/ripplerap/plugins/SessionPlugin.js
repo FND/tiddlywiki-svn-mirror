@@ -15,6 +15,23 @@ To make this example into a real TiddlyWiki adaptor, you need to:
 
 ***/
 
+function getElementsByClassName(className, tag, elm){
+	var testClass = new RegExp("(^|\\\\s)" + className + "(\\\\s|$)");
+	var tag = tag || "*";
+	var elm = elm || document;
+	var elements = (tag == "*" && elm.all)? elm.all : elm.getElementsByTagName(tag);
+	var returnElements = [];
+	var current;
+	var length = elements.length;
+	for(var i=0; i<length; i++){
+		current = elements[i];
+		if(testClass.test(current.className)){
+			returnElements.push(current);
+		}
+	}
+	return returnElements;
+}
+
 //{{{
 if(!version.extensions.SessionPlugin) {
 version.extensions.SessionPlugin = {installed:true};
@@ -49,7 +66,6 @@ config.macros.sessionNotes.handler = function(place,macroName,params,wikifier,pa
 					if(tiddler.modifier == config.options.txtUserName) {
 						console.log('mine');
 						t = story.createTiddler(place,null,title,'mySessionNoteViewTemplate',null);
-						//t = story.createTiddler(place,null,title,null,null);
 						t.text = text;
 						t.modifier = user;
 						t.modified= datestamp;
@@ -61,7 +77,6 @@ config.macros.sessionNotes.handler = function(place,macroName,params,wikifier,pa
 					if(tiddler.modifier != config.options.txtUserName){
 						console.log('discovered');
 						t = story.createTiddler(place,null,title,'discoveredNoteViewTemplate',null);
-						//t = story.createTiddler(place,null,title,null,null);
 						t.text = text;
 						t.modifier = user;
 						t.modified= datestamp;	
@@ -71,6 +86,21 @@ config.macros.sessionNotes.handler = function(place,macroName,params,wikifier,pa
 			
 		});
 };
+
+config.commands.makeNotes = {text: "make notes", tooltip: "make notes about this session"};
+config.commands.makeNotes.handler = function(event,src,title)
+{
+	var t = title + " from " + config.options.txtUserName;
+	var body = 'double-click to start making notes';
+	var container = story.findContainingTiddler(src);
+	var mynotes = getElementsByClassName('mySessionNotes', 'div', container);
+	
+//	store.saveTiddler(mynotes,t,body,config.options.txtUserName);
+	store.saveTiddler(t, t, body, config.options.txtUserName, null, 'note', null, true, null);
+	story.displayTiddler(null,t);
+	return false;
+};
+
 
 
 } //# end of 'install only once'
