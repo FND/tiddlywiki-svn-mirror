@@ -4,8 +4,8 @@
 |Feed for activity elsewhere|&lt;&lt;option txtLifestreamFeed&gt;&gt;|
 |Poll for updates and queue items|&lt;&lt;option chkDoPolling&gt;&gt;|
 |~UserName|&lt;&lt;option txtUserName&gt;&gt;|
-
+|~MojoUserName|&lt;&lt;option txtMojoUserName&gt;&gt;|
+|Your Telno|&lt;&lt;option txtMojoTelno&gt;&gt;|
 &lt;&lt;RSSTest&gt;&gt;
-
 &lt;&lt;SendSMS&gt;&gt;</pre>
 </div>

@@ -16,18 +16,17 @@ version.extensions.SimpleMojoPlugin = {installed:true};
 
 config.macros.mojo = {
 
-	debug: true,
+	debug: false,
 	offline: false,
-	telno: '+447918880881',
-	user: 'psd',
 
-
-
-	makeCall: function (caller, callee) {
+	makeCall: function (callee) {
 
 	        var macro = config.macros.mojo;
 	
-		    var body = encodeURIComponent('call[username]') + '=' + macro.user 
+	        var user = config.options.txtMojoUserName;
+	        var caller = config.options.txtMojoTelno;
+	
+		    var body = encodeURIComponent('call[username]') + '=' + user 
 				+ '&' + encodeURIComponent('call[gadgetkey]') + '=' + '1234567891' 
 				+ '&' + encodeURIComponent('call[caller]') + '=' + encodeURIComponent(caller)
 				+ '&' + encodeURIComponent('call[callee]') + '=' + encodeURIComponent(callee); 
@@ -53,7 +52,9 @@ config.macros.mojo = {
 
 	        var macro = config.macros.mojo;
 	
-		    var body = encodeURIComponent('message[username]') + '=' + macro.user 
+	        var user = config.options.txtMojoUserName;
+	
+		    var body = encodeURIComponent('message[username]') + '=' + user 
 				+ '&' + encodeURIComponent('message[gadgetkey]') + '=' + '1234567891' 
 				+ '&' + encodeURIComponent('message[recipient]') + '=' + encodeURIComponent(recipient)
 				+ '&' + encodeURIComponent('message[text]') + '=' + encodeURIComponent(text); 
