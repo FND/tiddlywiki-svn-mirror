@@ -207,13 +207,32 @@ PushAndPull.getTiddlerListCallback = function(context,userParams) {
 				var streamTiddler = store.getTiddler('LifeStream');
 				var stText = "";
 				for (var i=0; i < tiddlers.length; i++) {
-					stText += tiddlers[i].title + "</br>";
+					stText += "<div>" + tiddlers[i].title + "</div>";
 				}
-				streamTiddler.text = stText;
+				stText = PushAndPull.decorateFeed(stText);
+				streamTiddler.text = "<html>" + stText + "</html>";
 			}
 		}
 	}
 };
+
+PushAndPull.decorateFeed = function(text) {
+	var regexp = new RegExp("tel:[0123456789\\(\\)-]+","mg");
+	do {
+		var match = regexp.exec(text);
+		if(match) {
+			var link = "<a href='#' onclick='sendText(\"" + match[0].substr(4) + "\");return false;'>" + match[0].substr(4) + "</a>";
+			text = text.substr(0,match.index) + link + text.substr(regexp.lastIndex);
+			regexp.lastIndex = match.index + link.length;
+		}
+	} while(match);
+	return text;
+};
+
+function sendText(number)
+{
+	alert("Dialling " + number);
+}
 
 PushAndPull.getTiddlerCallback = function(context,userParams) {
 	// displayMessage("getting " + context.tiddler.title);
