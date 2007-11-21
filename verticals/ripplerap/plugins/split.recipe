@@ -6,6 +6,7 @@ tiddler: PushAndPullPlugin.js
 tiddler: RippleRapTestingMacro.js
 tiddler: SendSMS.js
 tiddler: SessionPlugin.js
+tiddler: skinkersUIMacro.js
 tiddler: TimerPlugin.js
 tiddler: TaggedTemplateTweak.js
 tiddler: ToggleElementPlugin.js
