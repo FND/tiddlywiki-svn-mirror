@@ -206,8 +206,10 @@ PushAndPull.getTiddlerListCallback = function(context,userParams) {
 				console.log('no tidders in lifestream');
 			} else {
 				console.log(tiddlers.length + ' lifestream tiddlers to parse');
-	
 				//Add links to these tiddlers to a lifestream tiddler for use in the agenda section.
+				for (var i=0; i < tiddlers.length; i++) {
+					console.log(tiddlers[i].title);
+				};
 			}
 		}
 	}
