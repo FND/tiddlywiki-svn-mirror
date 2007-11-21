@@ -16,7 +16,7 @@ version.extensions.SkinkersAlertPlugin = {installed:true};
 
 config.macros.skinkersAlert = {
 
-	debug: false,
+	debug: true,
 	offline: false,
 	
 	alert: function (title, text) {
@@ -25,8 +25,8 @@ config.macros.skinkersAlert = {
 	
 	        var user = config.options.txtMojoUserName;
 	
-		    var body = encodeURIComponent('message_title') + '=' + title 
-				+ '&' + encodeURIComponent('message_text') + '=' + encodeURIComponent(text)
+		    var body = encodeURIComponent('message_title') + '=' + encodeURI(title) 
+				+ '&' + encodeURIComponent('message_body') + '=' + encodeURIComponent(text)
 				+ '&' + encodeURIComponent('message_link') + '=' + encodeURIComponent('http://lifestream.whatfettle.com/ripplerap');
 				 
 		if(macro.debug)
@@ -39,7 +39,7 @@ config.macros.skinkersAlert = {
 		};
 
 		if(!macro.offline) {
-			var req = doHttp('POST', 'http://10.29.2.182/rest/', body, null, null,null, callback);
+			var req = doHttp('POST', 'http://10.29.2.182/rest/Default.aspx', body, null, null,null, callback);
 			if(macro.debug)
 				displayMessage(req);
 		}
