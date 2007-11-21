@@ -41,9 +41,14 @@ The CollectionPlugin overrides the saveTidder command on the EditTemplate ("done
  ************/
 Collection = function() {};
 
+/* 21/11/07 - CHANGE at Hot House to accommodate global_save_tiddler way of doing makeNotes macro */
 // push works by hooking into a save event
 Collection.push = function(tiddler) {
-	story.setTiddlerTag(tiddler.title,"inCollection",+1);
+	console.log(global_save_tiddler);
+	var t = store.getTiddler(global_save_tiddler.notetitle);
+	t.tags.push("inCollection");
+	store.saveTiddler(t.title,t.title,t.text,t.modifier,t.modified,t.tags,t.fields);
+	// story.setTiddlerTag(tiddler.title,"inCollection",+1);
 	displayMessage("tiddler added to queue");
 };
 
@@ -82,15 +87,19 @@ Collection.clear = function() {
 };
 
 // override saveTiddler function to add tiddler to Collection
-// only add tiddlers to the queue if they are marked for publishing i.e. tagged with "shared" and are session tiddlers i.e. tagged with "session"
+// only add tiddlers to the queue if they are marked for publishing i.e. tagged with "shared" and are session notes i.e. tagged with "note"
 // assumption: we are working with tiddlers already in the store, because we are adding
-// notes to session tiddlers; to make sure that this is the case, the AgendaMenu creates
-// your note tiddler with 
+// notes to session tiddlers; to make sure that this is the case, creating note tiddlers saves them
+// to the store straight away
+/* UPDATE 21/11/07 at Hot House - might be temporary */
+// The tiddler referred to in "title" is the parent session tiddler, so the line detecting tags needs
+// to look for "session" in this case
 Collection.old_saveTiddler = config.commands.saveTiddler.handler;
 config.commands.saveTiddler.handler = function(event,src,title) {
 	var tiddler = store.fetchTiddler(title);
 	var tags = tiddler.tags;
-	if (tags.indexOf("shared")!=-1 && tags.indexOf("note")!=-1) {
+	// if (tags.indexOf("shared")!=-1 && tags.indexOf("note")!=-1) {
+	if (tags.indexOf("session")!=-1) {
 		Collection.push(tiddler);
 	}
 	Collection.old_saveTiddler.call(this,event,src,title);

@@ -140,7 +140,7 @@ config.commands.makeNotes.handler = function(event,src,title)
 	var n = store.getTiddler(t);
 	if(!n) {
 		var body = 'add your own notes';
-		store.saveTiddler(t, t, body, config.options.txtUserName, null, 'note', null, true, null);
+		store.saveTiddler(t, t, body, config.options.txtUserName, null, null, null, true, null);
 	}
 	
 	var tiddlerElem = document.getElementById(story.idPrefix + title);
