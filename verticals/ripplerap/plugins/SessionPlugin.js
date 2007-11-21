@@ -64,7 +64,7 @@ Story.prototype.saveTiddler = function(title,minorUpdate)
 				extendedFields[n] = fields[n];
 		}
 		if(global_save_tiddler.notetitle!==null) {
-			var tiddler = store.saveTiddler(global_save_tiddler.notetitle,global_save_tiddler.notetitle,fields.text,minorUpdate ? undefined : config.options.txtUserName,minorUpdate ? undefined : newDate,fields.tags,extendedFields);
+			var tiddler = store.saveTiddler(global_save_tiddler.notetitle,global_save_tiddler.notetitle,fields.text,minorUpdate ? undefined : config.options.txtUserName,minorUpdate ? undefined : newDate,fields.tags,global_save_tiddler.fields);
 			global_save_tiddler.notetitle = null;
 			var t = store.getTiddler(title);
 			t.text = global_save_tiddler.text;

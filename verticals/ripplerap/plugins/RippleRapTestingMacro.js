@@ -70,8 +70,9 @@ config.macros.RippleRapTesting.handler = function(place) {
 	wikify("going to put to: " + url + "\n",place);
 	DAV.putAndMove(url,params,rssString);
 */
-	config.options.chkAutoSave = true;
+	config.options.chkAutoSave = false;
 	config.options.txtRippleFeed = "http://lifestream.whatfettle.com/ripplerap/index.xml";
+	Collection.clear();
 	createTiddlyText(place,"running in test mode...");
 	var t = new Timer();
 	var p = new PushAndPull();

@@ -42,23 +42,24 @@ The CollectionPlugin overrides the saveTidder command on the EditTemplate ("done
 Collection = function() {};
 
 /* 21/11/07 - CHANGE at Hot House to accommodate global_save_tiddler way of doing makeNotes macro */
+/* 21/11/07 - CHANGE at Hot House - back to using a field to store incollection state */
 // push works by hooking into a save event
 Collection.push = function(tiddler) {
-	console.log(global_save_tiddler);
 	var t = store.getTiddler(global_save_tiddler.notetitle);
-	t.tags.push("inCollection");
-	store.saveTiddler(t.title,t.title,t.text,t.modifier,t.modified,t.tags,t.fields);
-	// story.setTiddlerTag(tiddler.title,"inCollection",+1);
+	global_save_tiddler.fields = { incollection:"true"};
+	// store.setValue(t,"incollection","true");
+	// store.saveTiddler(t.title,t.title,t.text,t.modifier,t.modified,t.tags,t.fields);
+	// story.setTiddlerTag(tiddler.title,"incollection",+1);
 	displayMessage("tiddler added to queue");
 };
 
 // pop is designed to be called after a successful PUT of a tiddler in the store,
 // by the object that pushed the tiddler
 Collection.pop = function(tiddler) {
-	if(tiddler.isTagged("inCollection")) {
-		// remove inCollection tag
-		tiddler.removeTag("inCollection");
-		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
+	if(store.getValue(tiddler,"incollection")=="true") {
+		// remove incollection field
+		store.setValue(tiddler,"incollection","false");
+		// store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
 		displayMessage("tiddler removed from queue");
 	}
 };
@@ -71,7 +72,7 @@ Collection.getNext = function() {
 Collection.getAll = function() {
 	var items = [];
 	store.forEachTiddler(function(title,t) {
-		if (t.isTagged("inCollection")) {
+		if (store.getValue(t,"incollection")=="true") {
 			items.push(t);
 		}
 	});
@@ -80,8 +81,8 @@ Collection.getAll = function() {
 
 Collection.clear = function() {
 	store.forEachTiddler(function(title,t) {
-		if (t.isTagged("inCollection")) {
-			t.removeTag("inCollection");
+		if (store.getValue(t,"incollection")=="true") {
+			store.setValue(t,"incollection","false");
 		}
 	});
 };

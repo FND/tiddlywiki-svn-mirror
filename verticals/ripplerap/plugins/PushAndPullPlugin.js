@@ -251,7 +251,10 @@ function generateRss(filterTag)
 	var tiddlers = store.getTiddlers("modified","excludeLists");
 	var n = config.numRssItems > tiddlers.length ? 0 : tiddlers.length-config.numRssItems;
 	for (var t=tiddlers.length-1; t>=n; t--) {
-		if (!filterTag || tiddlers[t].isTagged(filterTag)) {
+		/* 21/11/07 - CHANGE for Hot House to work with fields instead of tags */
+		// if (!filterTag || tiddlers[t].isTagged(filterTag)) {
+		if (store.getValue(tiddlers[t],"incollection")=="true") {
+			displayMessage("going to publish " + tiddlers[t].title);
 			s.push(tiddlers[t].saveToRss(u));
 		}
 	}
