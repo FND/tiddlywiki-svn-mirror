@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ExampleAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ExampleAdaptorPlugin.js|
-|''Version:''|0.5.2|
+|''Version:''|0.5.3|
 |''Status:''|Not for release - this is a template for creating new adaptors|
 |''Date:''|Mar 11, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -124,7 +124,7 @@ ExampleAdaptor.prototype.getWorkspaceList = function(context,userParams,callback
 // !!TODO set the uriTemplate
 	var uriTemplate = '%0';
 	var uri = uriTemplate.format([context.host]);
-	var req = ExampleAdaptor.doHttpGET(uri,ExampleAdaptor.getWorkspaceListCallback,context,{'accept':'application/json'});
+	var req = ExampleAdaptor.doHttpGET(uri,ExampleAdaptor.getWorkspaceListCallback,context);
 	return typeof req == 'string' ? req : true;
 };
 
@@ -162,7 +162,7 @@ ExampleAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 // !!TODO set the uriTemplate
 	var uriTemplate = '%0%1';
 	var uri = uriTemplate.format([context.host,context.workspace]);
-	var req = ExampleAdaptor.doHttpGET(uri,ExampleAdaptor.getTiddlerListCallback,context,{'accept':'application/json'});
+	var req = ExampleAdaptor.doHttpGET(uri,ExampleAdaptor.getTiddlerListCallback,context);
 	return typeof req == 'string' ? req : true;
 };
 
@@ -202,25 +202,19 @@ ExampleAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	return info;
 };
 
-ExampleAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
-{
-	context = this.setContext(context,userParams,callback);
-	context.title = title;
-	return this.getTiddlerInternal(context,userParams,callback);
-};
-
 ExampleAdaptor.prototype.getTiddlerRevision = function(title,revision,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
-	context.title = title;
-	context.revision = revision;
-	return this.getTiddlerInternal(context,userParams,callback);
+	if(revision)
+		context.revision = revision;
+	return this.getTiddler(title,context,userParams,callback);
 };
 
-// @internal
-ExampleAdaptor.prototype.getTiddlerInternal = function(context,userParams,callback)
+ExampleAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
+	if(title)
+		context.title = title;
 	if(context.revision) {
 // !!TODO set the uriTemplate
 		var uriTemplate = '%0%1%2%3';
@@ -234,7 +228,7 @@ ExampleAdaptor.prototype.getTiddlerInternal = function(context,userParams,callba
 	context.tiddler.fields.wikiformat = 'exampleformat';
 	context.tiddler.fields['server.host'] = ExampleAdaptor.minHostName(context.host);
 	context.tiddler.fields['server.workspace'] = context.workspace;
-	var req = ExampleAdaptor.doHttpGET(uri,ExampleAdaptor.getTiddlerCallback,context,{'accept':'application/json'});
+	var req = ExampleAdaptor.doHttpGET(uri,ExampleAdaptor.getTiddlerCallback,context);
 	return typeof req == 'string' ? req : true;
 };
 
@@ -276,7 +270,7 @@ ExampleAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,u
 	var uriTemplate = '%0%1%2';
 	if(!limit)
 		limit = 10;
-	var uri = uriTemplate.format([this.host,this.workspace,ExampleAdaptor.normalizedTitle(title),limit]);
+	var uri = uriTemplate.format([context.host,context.workspace,ExampleAdaptor.normalizedTitle(title),limit]);
 	var req = ExampleAdaptor.doHttpGET(uri,ExampleAdaptor.getTiddlerRevisionListCallback,context);
 	return typeof req == 'string' ? req : true;
 };
@@ -321,8 +315,8 @@ ExampleAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callba
 	context.title = tiddler.title;
 // !!TODO set the uriTemplate
 	var uriTemplate = '%0%1%2';
-	var host = this && this.host ? this.host : ExampleAdaptor.fullHostName(tiddler.fields['server.host']);
-	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
+	var host = context.host ? context.host : ExampleAdaptor.fullHostName(tiddler.fields['server.host']);
+	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
 	var uri = uriTemplate.format([host,workspace,tiddler.title,tiddler.text]);
 	var req = ExampleAdaptor.doHttpPOST(uri,ExampleAdaptor.putTiddlerCallback,context,{"X-Http-Method": "PUT"},tiddler.text,ExampleAdaptor.mimeType);
 	return typeof req == 'string' ? req : true;
