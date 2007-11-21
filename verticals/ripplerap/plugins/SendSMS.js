@@ -45,7 +45,8 @@ SendSMS.UI = function(place,sendee){
 	butSend.setAttribute("type","button");
 	butSend.setAttribute("name","butSend");
 	butSend.setAttribute("value", "Send Message");
-	butSend.setAttribute("onclick","config.macros.mojo.sendSMS(this.parentNode.parentNode.previousSibling.firstChild.childNodes[1].firstChild.value);");
+	// DEBUG: butSend.setAttribute("onclick","console.log(this.parentNode.parentNode.previousSibling.previousSibling.childNodes[1].firstChild.value);");
+	butSend.setAttribute("onclick","config.macros.mojo.sendSMS(this.parentNode.parentNode.previousSibling.childNodes[1].firstChild.value,this.parentNode.parentNode.previousSibling.previousSibling.childNodes[1].firstChild.value);");
 	var butClose = createTiddlyElement(feedTD,"input");
 	butClose.setAttribute("type","button");
 	butClose.setAttribute("name","butClose");
