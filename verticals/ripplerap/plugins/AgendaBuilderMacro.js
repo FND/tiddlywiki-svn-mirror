@@ -40,7 +40,7 @@ Agenda = {};
 // params array for the tab macro, filled by create_tab_tiddlers
 Agenda.tabsParams = [];
 // Fix for slices regex not correctly matching slices of the form "key:\nkey:value"
-TiddlyWiki.prototype.slicesRE = /(?:[\'\/]*~?([\.\w]+)[\'\/]*\:[\'\/]* *(.*?)\s*$)|(?:\|[\'\/]*~?([\.\w]+)\:?[\'\/]*\|\s*(.*?)\s*\|)/gm;
+//TiddlyWiki.prototype.slicesRE = /(?:[\'\/]*~?([\.\w]+)[\'\/]*\:[\'\/]* *(.*?)\s*$)|(?:\|[\'\/]*~?([\.\w]+)\:?[\'\/]*\|\s*(.*?)\s*\|)/gm;
 
 // function to gather agenda items
 Agenda.getItems = function() {
@@ -54,7 +54,7 @@ Agenda.getTracks = function() {
 	var items = Agenda.getItems();
 	for (var i=0;i<items.length;i++) {
 		tracks.pushUnique(store.getTiddlerSlice(items[i].title,"track"));
-	}
+	}	
 	return tracks;
 };
 
@@ -120,6 +120,12 @@ Agenda.getSessionNotesByPerson = function(session_title) {
 Agenda.init = function() {
 	// set up the tiddlers for the tabs macro in agendaMenu
 	Agenda.tabsParams = Agenda.create_tab_tiddlers();
+	
+	// Add a LifeStream tab.
+	Agenda.tabsParams.push('Elsewhere');
+	Agenda.tabsParams.push('Elsewhere');
+	Agenda.tabsParams.push('LifeStream');
+
 	// set default selected tab in agendaMenu
 	config.options.txtAgendaTab = "";
 };

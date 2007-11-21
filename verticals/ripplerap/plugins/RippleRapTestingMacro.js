@@ -72,6 +72,8 @@ config.macros.RippleRapTesting.handler = function(place) {
 */
 	config.options.chkAutoSave = false;
 	config.options.txtRippleFeed = "http://lifestream.whatfettle.com/ripplerap/index.xml";
+	config.options.txtLifeStreamFeed = "http://lifestream.whatfettle.com/osmosoft/index.xml";
+
 	Collection.clear();
 	createTiddlyText(place,"running in test mode...");
 	var t = new Timer();
@@ -79,6 +81,7 @@ config.macros.RippleRapTesting.handler = function(place) {
 	// TO-DO: figure out a sensible	way to gather feeds
 	var feedArray = [];
 	feedArray.push(config.options.txtRippleFeed);
+	feedArray.push(config.options.txtLifeStreamFeed);
 	p.setFeeds(feedArray);
 	// p.setAdminFeed(config.options.txtPollAdminFeed);
 	p.setPostBox("http://garden.dachary.org/"+config.options.txtUserName+"/");

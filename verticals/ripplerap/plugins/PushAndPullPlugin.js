@@ -162,30 +162,52 @@ PushAndPull.openHostCallback = function(context,userParams) {
 
 PushAndPull.getTiddlerListCallback = function(context,userParams) {
 	if(context.status) {
-		var tiddlers = context.tiddlers;
-		if (tiddlers.length === 0) {
-			// PushAndPull.handleFailure("noContent",context.adaptor.host);
-		} else {
-			var sortField = 'modified';
-			tiddlers.sort(function(a,b) {return a[sortField] < b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
-			var length = tiddlers.length;
-			if(userParams && userParams.maxCount && length > userParams.maxCount) {
-				length = userParams.maxCount;
-			}
-			// displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
-			var import_count = 0;
-			for(var i=0; i<length; i++) {
-				tiddler = tiddlers[i];
-				var local_tiddler = store.fetchTiddler(tiddler.title);
-				// if the tiddler exists locally, don't overwrite unless the text is different
-				// TEMP CHANGE 20/11/07: if(!local_tiddler || local_tiddler.text != tiddler.text) {
-				if (!local_tiddler) {
-					context.adaptor.getTiddler(tiddler.title,null,null,PushAndPull.getTiddlerCallback);
-					import_count++;
+		
+		
+		// hack to perform different functionality depending on the feed being returned. PNH
+		if(context.host == config.options.txtRippleFeed) {
+			
+			//console.log('actioning returned ripplefeed');
+			
+			var tiddlers = context.tiddlers;
+			if (tiddlers.length === 0) {
+				// PushAndPull.handleFailure("noContent",context.adaptor.host);
+			} else {
+				var sortField = 'modified';
+				tiddlers.sort(function(a,b) {return a[sortField] < b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
+				var length = tiddlers.length;
+				if(userParams && userParams.maxCount && length > userParams.maxCount) {
+					length = userParams.maxCount;
+				}
+				// displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length,length]));
+				var import_count = 0;
+				for(var i=0; i<length; i++) {
+					tiddler = tiddlers[i];
+					var local_tiddler = store.fetchTiddler(tiddler.title);
+					// if the tiddler exists locally, don't overwrite unless the text is different
+					// TEMP CHANGE 20/11/07: if(!local_tiddler || local_tiddler.text != tiddler.text) {
+					if (!local_tiddler) {
+						context.adaptor.getTiddler(tiddler.title,null,null,PushAndPull.getTiddlerCallback);
+						import_count++;
+					}
+				}
+				if (import_count === 0) {
+					// PushAndPull.handleFailure("noImport",context.adaptor.host);
 				}
 			}
-			if (import_count === 0) {
-				// PushAndPull.handleFailure("noImport",context.adaptor.host);
+			
+		}
+		else if (context.host == config.options.txtLifeStreamFeed) {
+			
+			console.log('actioning returned lifestream');
+			var tiddlers = context.tiddlers;
+			if (tiddlers.length === 0) {
+				// PushAndPull.handleFailure("noContent",context.adaptor.host);
+				console.log('no tidders in lifestream');
+			} else {
+				console.log(tiddlers.length + ' lifestream tiddlers to parse');
+	
+				//Add links to these tiddlers to a lifestream tiddler for use in the agenda section.
 			}
 		}
 	}

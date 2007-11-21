@@ -1,6 +1,7 @@
 <div title="Config">
 <pre>|Admin feed url|&lt;&lt;option txtPollAdminFeed&gt;&gt;|
 |Main feed for notes|&lt;&lt;option txtRippleFeed&gt;&gt;|
+|Feed for activity elsewhere|&lt;&lt;option txtLifestreamFeed&gt;&gt;|
 |Poll for updates and queue items|&lt;&lt;option chkDoPolling&gt;&gt;|
 |~UserName|&lt;&lt;option txtUserName&gt;&gt;|
 
