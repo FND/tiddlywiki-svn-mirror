@@ -16,7 +16,7 @@ version.extensions.SimpleMojoPlugin = {installed:true};
 
 config.macros.mojo = {
 
-	debug: true,
+	debug: false,
 	offline: false,
 
 	makeCall: function (callee) {

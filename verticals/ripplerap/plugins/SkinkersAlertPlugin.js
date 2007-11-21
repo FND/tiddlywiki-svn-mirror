@@ -16,7 +16,7 @@ version.extensions.SkinkersAlertPlugin = {installed:true};
 
 config.macros.skinkersAlert = {
 
-	debug: true,
+	debug: false,
 	offline: false,
 	
 	alert: function (title, text) {
