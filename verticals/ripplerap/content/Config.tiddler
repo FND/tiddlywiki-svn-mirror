@@ -5,5 +5,7 @@
 |Poll for updates and queue items|&lt;&lt;option chkDoPolling&gt;&gt;|
 |~UserName|&lt;&lt;option txtUserName&gt;&gt;|
 
-&lt;&lt;RSSTest&gt;&gt;</pre>
+&lt;&lt;RSSTest&gt;&gt;
+
+&lt;&lt;SendSMS&gt;&gt;</pre>
 </div>

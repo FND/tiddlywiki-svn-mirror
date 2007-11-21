@@ -4,6 +4,7 @@ tiddler: CollectionPlugin.js
 tiddler: DAVPlugin.js
 tiddler: PushAndPullPlugin.js
 tiddler: RippleRapTestingMacro.js
+tiddler: SendSMS.js
 tiddler: SessionPlugin.js
 tiddler: TimerPlugin.js
 tiddler: TaggedTemplateTweak.js
