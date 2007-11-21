@@ -207,7 +207,7 @@ PushAndPull.getTiddlerListCallback = function(context,userParams) {
 				var streamTiddler = store.getTiddler('LifeStream');
 				var stText = "";
 				for (var i=0; i < tiddlers.length; i++) {
-					stText += "<div>" + tiddlers[i].title + "</div>";
+					stText += "<div class='lifeStreamItem'>" + tiddlers[i].title + "</div>";
 				}
 				stText = PushAndPull.decorateFeed(stText);
 				streamTiddler.text = "<html>" + stText + "</html>";

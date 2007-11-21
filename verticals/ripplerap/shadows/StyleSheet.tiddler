@@ -79,6 +79,7 @@ div.mySessionNotes div.toolbar { margin:1em 0 0.5em 0;}
 div.mySessionNotes div.toolbar a { padding:0.2em 1em; background-color:#222; color:#fff; margin:1em 2px; border:solid 1px #000;}
 div.mySessionNotes div.toolbar a:hover {  background-color:#444; color:#fff; border:solid 1px #000;}
 
+div.lifeStreamItem { color:#666; display:block; margin:0; padding:0.5em; background-color:#fff; border-top:solid 1px #ccc; overflow:hidden;}
 
 
 </pre>
