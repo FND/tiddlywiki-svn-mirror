@@ -205,11 +205,13 @@ PushAndPull.getTiddlerListCallback = function(context,userParams) {
 				// PushAndPull.handleFailure("noContent",context.adaptor.host);
 				console.log('no tidders in lifestream');
 			} else {
-				console.log(tiddlers.length + ' lifestream tiddlers to parse');
 				//Add links to these tiddlers to a lifestream tiddler for use in the agenda section.
+				var streamTiddler = store.getTiddler('LifeStream');
+				var stText = "";
 				for (var i=0; i < tiddlers.length; i++) {
-					console.log(tiddlers[i].title);
-				};
+					stText += tiddlers[i].title + "</br>";
+				}
+				streamTiddler.text = stText;
 			}
 		}
 	}
