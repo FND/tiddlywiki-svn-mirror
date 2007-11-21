@@ -1,24 +1,6 @@
 SendSMS = {};
 
-config.macros.SendSMS = {};
-
-config.macros.SendSMS.handler = function(place) {
-	createTiddlyButton(place,"hello","hello",SendSMS.onclick);
-};
-
-SendSMS.onclick = function(ev) {
-	var e = ev ? ev : window.event;
-	// built to work in the situation where you have [number] [callIcon] [SMSIcon]
-	// var sendee = this.previousSibling.previousSibling;
-	var popup = Popup2.create(this,"div");
-	SendSMS.UI(popup);
-	Popup2.show();
-	e.cancelBubble = true;
-	if(e.stopPropagation) e.stopPropagation();
-	return false;
-};
-
-SendSMS.UI = function(place){
+SendSMS.UI = function(place,sendee){
 	// Some code to insert the appropriate styles into StyleSheet tiddler
 	var cssText = "div.feedSelector {border-width:0px; border:0; padding:5px;} \n" +
                   "div.feedSelector TABLE {border-width:0px; border:0; } \n" +
@@ -52,7 +34,7 @@ SendSMS.UI = function(place){
 	txtPhoneNo.setAttribute("type","text");
 	txtPhoneNo.setAttribute("name","txtPhoneNo");
 	txtPhoneNo.setAttribute("id","txtPhoneNo");
-	txtPhoneNo.setAttribute("value","44");
+	txtPhoneNo.setAttribute("value",sendee);
 
 	var feedTR = createTiddlyElement(feedTable,"tr");
 	var feedTD = createTiddlyElement(feedTR,"td");
@@ -63,7 +45,7 @@ SendSMS.UI = function(place){
 	butSend.setAttribute("type","button");
 	butSend.setAttribute("name","butSend");
 	butSend.setAttribute("value", "Send Message");
-	butSend.setAttribute("onclick","config.macros.mojo.sendSMS();");
+	butSend.setAttribute("onclick","config.macros.mojo.sendSMS(this.parentNode.parentNode.previousSibling.firstChild.childNodes[1].firstChild.value);");
 	var butClose = createTiddlyElement(feedTD,"input");
 	butClose.setAttribute("type","button");
 	butClose.setAttribute("name","butClose");

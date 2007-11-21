@@ -235,7 +235,9 @@ function sendText(e,me)
 {
 	if(!e) var e = window.event;
 	var number = me.getAttribute("number");
-	alert("Dialling " + number);
+	var popup = Popup2.create(me,"div");
+	SendSMS.UI(popup,number);
+	Popup2.show();
 }
 
 PushAndPull.getTiddlerCallback = function(context,userParams) {
