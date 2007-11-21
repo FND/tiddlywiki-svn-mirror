@@ -88,7 +88,7 @@ function PushAndPull() {
 	};
 	this.getFeed = function(feed) {
 		if (feed) {
-			displayMessage("about to download from " + feed);
+			// displayMessage("about to download from " + feed);
 			var adaptor = new RSSAdaptor();
 			var context = {};
 			context.host = feed;
