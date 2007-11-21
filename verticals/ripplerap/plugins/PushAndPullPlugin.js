@@ -221,7 +221,9 @@ PushAndPull.decorateFeed = function(text) {
 	do {
 		var match = regexp.exec(text);
 		if(match) {
-			var link = "<a href='#' onclick='sendText(\"" + match[0].substr(4) + "\");return false;'>" + match[0].substr(4) + "</a>";
+			//var link = "<a href='#' onclick='sendText(\"" + match[0].substr(4) + "\");return false;'>" + match[0].substr(4) + "</a>";
+			var link = "<a href='#' number='" + match[0].substr(4) + "' onclick='return sendText(event,this);'>" + match[0].substr(4) + "</a>";
+			
 			text = text.substr(0,match.index) + link + text.substr(regexp.lastIndex);
 			regexp.lastIndex = match.index + link.length;
 		}
@@ -229,8 +231,10 @@ PushAndPull.decorateFeed = function(text) {
 	return text;
 };
 
-function sendText(number)
+function sendText(e,me)
 {
+	if(!e) var e = window.event;
+	var number = me.getAttribute("number");
 	alert("Dialling " + number);
 }
 
