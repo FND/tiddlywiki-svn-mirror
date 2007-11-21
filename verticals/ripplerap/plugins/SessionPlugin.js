@@ -120,8 +120,11 @@ config.macros.sessionNotes.handler = function(place,macroName,params,wikifier,pa
 				else if(whose == 'discovered'){
 					if(tiddler.modifier != config.options.txtUserName){
 						e = createTiddlyElement(place,'div', null, 'note');
-						createTiddlyElement(e,'div', null, 'modifier', tiddler.modifier + " writes..." );
-						createTiddlyElement(e,'div', null, 'text', tiddler.text);
+						var c = tiddler.title.indexOf("from");
+						var name = tiddler.title.substr(c+5);
+						createTiddlyElement(e,'div', null, 'modifier', name + " writes..." );
+						var ee = createTiddlyElement(e,'div', null, 'text');
+						wikify(tiddler.text,ee);
 					}	
 				}
 			}
