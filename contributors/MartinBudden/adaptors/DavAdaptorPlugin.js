@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#DavAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/DavAdaptorPlugin.js |
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Status:''|Not for release - this is still a work in progress|
 |''Date:''|Mar 11, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -56,6 +56,7 @@ DavAdaptor.doHttpPROPFIND = function(uri,callback,params,headers,data,username,p
 {
 
 data = '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><prop>' +
+//    '<displayname/>' +
     '<resourcetype/>' +
     '<getcontenttype/>' +
     '<getetag/>' +
@@ -216,15 +217,76 @@ DavAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 
 DavAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
-displayMessage('getTiddlerList');
+//#displayMessage('getTiddlerList');
 	context = this.setContext(context,userParams,callback);
 	var uriTemplate = '%0';
 	var uri = uriTemplate.format([context.host,context.workspace]);
-displayMessage("uri:"+uri);
+//#displayMessage("uri:"+uri);
 	var req = DavAdaptor.doHttpPROPFIND(uri,DavAdaptor.getTiddlerListCallback,context);
 	return typeof req == 'string' ? req : true;
 };
 
+DavAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
+{
+	
+	//console.log(this.host)
+	context.status = false;
+	context.statusText = WikispacesAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
+	if(status) {
+		try {
+			var list = [];
+			var doc;
+			if(window.ActiveXObject) {
+				//# code for IE
+				doc = new ActiveXObject("Microsoft.XMLDOM");
+				doc.async = 'false';
+				doc.loadXML(responseText);
+			} else {
+				//# code for Mozilla, Firefox, Opera, etc.
+				var parser=new DOMParser();
+				doc = parser.parseFromString(responseText,"text/xml");
+			}
+			var x = doc.documentElement;
+
+			///console.log(responseText)
+			//console.log(x.getElementsByTagName('prop')) //can simplify now using prop
+			function getProp(e,p) {
+				return e.getElementsByTagName('prop')[0].getElementsByTagName(p)[0].firstChild.data || '';
+			};
+
+			var responses = x.getElementsByTagName('response');
+			for(var i=0; i<responses.length; i++) {
+				var r = responses[i];
+				if(getProp(r,'getcontenttype')=='httpd/unix-directory')
+					continue;
+				//console.log(r.getElementsByTagName('prop')[0].getElementsByTagName('displayname')[0].firstChild.data)
+				var tiddler  = new Tiddler(r.getElementsByTagName('prop')[0].getElementsByTagName('displayname')[0].firstChild.data);
+				//console.log(r.getElementsByTagName('prop')[0].getElementsByTagName('creationdate')[0].firstChild.data)
+				tiddler.created = Date.fromISOString(r.getElementsByTagName('prop')[0].getElementsByTagName('creationdate')[0].firstChild.data);
+				tiddler.modified = new Date(r.getElementsByTagName('prop')[0].getElementsByTagName('getlastmodified')[0].firstChild.data);
+				tiddler.modifier = r.getElementsByTagName('prop')[0].getElementsByTagName('author')[0].firstChild.data;
+				tiddler.fields['server.page.revision'] = new Date(r.getElementsByTagName('prop')[0].getElementsByTagName('getlastmodified')[0].firstChild.data).convertToYYYYMMDDHHMM();
+				list.push(tiddler);
+				//console.log(tiddler)
+			}
+
+		} catch (ex) {
+			context.statusText = exceptionText(ex,WikispacesAdaptor.serverParsingErrorMessage);
+			if(context.callback)
+				context.callback(context,context.userParams);
+			return;
+		}
+		context.tiddlers = list;
+		context.status = true;
+	} else {
+		context.statusText = xhr.statusText;
+	}
+	if(context.callback)
+		context.callback(context,context.userParams);
+};
+
+
+/*
 DavAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
 displayMessage('getTiddlerListCallback status:'+status);
@@ -307,14 +369,14 @@ displayMessage("x5");
 	if(context.callback)
 		context.callback(context,context.userParams);
 };
+*/
 
 DavAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 {
 	var info = {};
 	var host = this && this.host ? this.host : DavAdaptor.fullHostName(tiddler.fields['server.host']);
 	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
-// !!TODO set the uriTemplate
-	uriTemplate = '%0%1%2.tiddler';
+	var uriTemplate = '%0%1%2.tiddler';
 	info.uri = uriTemplate.format([host,workspace,tiddler.title]);
 	return info;
 };
@@ -329,16 +391,18 @@ DavAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 
 DavAdaptor.prototype.getTiddlerRevision = function(title,revision,context,userParams,callback)
 {
+//#displayMessage('LocalAdaptor.getTiddlerRev:' + context.modified);
 	context = this.setContext(context,userParams,callback);
-	context.title = title;
-	context.revision = revision;
-	return this.getTiddlerInternal(context,userParams,callback);
+	if(revision)
+		context.revision = revision;
+	return this.getTiddler(title,context,userParams,callback);
 };
 
-// @internal
-DavAdaptor.prototype.getTiddlerInternal = function(context)
+DavAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
-//#displayMessage("getTiddlerInternal");
+	context = this.setContext(context,userParams,callback);
+	if(title)
+		context.title = title;
 	if(context.revision) {
 		var path = DavAdaptor.revisionPath();
 		var uriTemplate = '%0%1.%2.%3.tiddler';
