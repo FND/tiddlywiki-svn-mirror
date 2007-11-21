@@ -222,8 +222,10 @@ PushAndPull.decorateFeed = function(text) {
 		var match = regexp.exec(text);
 		if(match) {
 			//var link = "<a href='#' onclick='sendText(\"" + match[0].substr(4) + "\");return false;'>" + match[0].substr(4) + "</a>";
-			var link = "<a href='#' number='" + match[0].substr(4) + "' onclick='return sendText(event,this);'>" + match[0].substr(4) + "</a>";
-			
+			//var link = "<a href='#' number='" + match[0].substr(4) + "' onclick='return sendText(event,this);'>" + match[0].substr(4) + "</a>";
+			var nbr = match[0].substr(4);
+			var nbr = nbr.split("-")[0];
+			var link = "<a href='#' number='" + nbr + "' onclick='return sendText(event,this);'>" + nbr + "</a>";			
 			text = text.substr(0,match.index) + link + text.substr(regexp.lastIndex);
 			regexp.lastIndex = match.index + link.length;
 		}

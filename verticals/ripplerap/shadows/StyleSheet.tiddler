@@ -81,6 +81,7 @@ div.mySessionNotes div.toolbar a:hover {  background-color:#444; color:#fff; bor
 
 div.lifeStreamItem { color:#666; display:block; margin:0; padding:0.5em; background-color:#fff; border-top:solid 1px #ccc; overflow:hidden;}
 
+div.viewer img {width:100%;}
 
 </pre>
 </div>
