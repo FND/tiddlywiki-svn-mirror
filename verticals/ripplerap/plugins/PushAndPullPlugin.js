@@ -198,8 +198,6 @@ PushAndPull.getTiddlerListCallback = function(context,userParams) {
 			
 		}
 		else if (context.host == config.options.txtLifeStreamFeed) {
-			
-			console.log('actioning returned lifestream');
 			var tiddlers = context.tiddlers;
 			if (tiddlers.length === 0) {
 				// PushAndPull.handleFailure("noContent",context.adaptor.host);
