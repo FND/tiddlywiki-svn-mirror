@@ -115,19 +115,17 @@ function PushAndPull() {
 		var rssString = generateRss(this.pushTag);
 		var url = this.postBox + "index.xml";
 		// WebDAV PUT of rssString to this.postBox
-		var params = {
-			callback:function(status,params,responseText,url,xhr){
-				if(!status){
-					// PUT failed, deal with it here
-					// leave item in queue and take no action?
-				} else {
-					// PUT is successful, take item out of queue
-					displayMessage("successfully PUT");
-					Collection.clear();
-				}
+		var callback = function(status,params,responseText,url,xhr){
+			if(!status){
+				// PUT failed, deal with it here
+				// leave item in queue and take no action?
+			} else {
+				// PUT is successful, take item out of queue
+				displayMessage("successfully PUT");
+				Collection.clear();
 			}
 		};
-		DAV.putAndMove(url,params,rssString);
+		DAV.safeput(url,callback,null,rssString);
 	};
 }
 
