@@ -42,6 +42,7 @@ DavAdaptor.prototype.setContext = function(context,userParams,callback)
 	context.adaptor = this;
 	if(!context.host)
 		context.host = this.host;
+	context.host = DavAdaptor.fullHostName(context.host);
 	if(!context.workspace)
 		context.workspace = this.workspace;
 	return context;
@@ -50,6 +51,11 @@ DavAdaptor.prototype.setContext = function(context,userParams,callback)
 DavAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
 	return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
+};
+
+DavAdaptor.doHttpOPTIONS = function(uri,callback,params,headers,data,contentType,username,password)
+{
+	return doHttp('OPTIONS',uri,data,contentType,username,password,callback,params,headers);
 };
 
 DavAdaptor.doHttpPROPFIND = function(uri,callback,params,headers,data,username,password)
@@ -223,15 +229,55 @@ DavAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 	var uri = uriTemplate.format([context.host,context.workspace]);
 //#displayMessage("uri:"+uri);
 	var req = DavAdaptor.doHttpPROPFIND(uri,DavAdaptor.getTiddlerListCallback,context);
+	//var req = DavAdaptor.doHttpOPTIONS(uri,DavAdaptor.getTiddlerListCallback,context);
 	return typeof req == 'string' ? req : true;
 };
 
+/* subversion
+<?xml version="1.0" encoding="utf-8"?>
+<D:multistatus xmlns:D="DAV:" xmlns:ns0="DAV:">
+<D:response xmlns:lp1="DAV:" xmlns:lp2="http://subversion.tigris.org/xmlns/dav/" xmlns:g0="DAV:">
+<D:href>/Trunk/contributors/MartinBudden/tiddlers/</D:href>
+
+<D:propstat>
+<D:prop>
+<lp1:resourcetype><D:collection/></lp1:resourcetype>
+<lp1:getcontenttype>text/html; charset=UTF-8</lp1:getcontenttype>
+<lp1:getetag>W/"2683//Trunk/contributors/MartinBudden/tiddlers"</lp1:getetag>
+<lp1:creationdate>2007-10-22T15:24:21.822243Z</lp1:creationdate>
+<lp1:getlastmodified>Mon, 22 Oct 2007 15:24:21 GMT</lp1:getlastmodified>
+<lp1:creator-displayname>MartinBudden</lp1:creator-displayname>
+</D:prop> 
+<D:status>HTTP/1.1 200 OK</D:status> 
+</D:propstat>
+
+ziddlywiki
+<?xml version="1.0" encoding="utf-8"?>
+<d:multistatus xmlns:d="DAV:">
+<d:response>
+<d:href>/ziddlywiki.com/tiddlers/</d:href>
+<d:propstat>
+<d:prop> 
+<n:displayname xmlns:n="DAV:">tiddlers</n:displayname>
+<n:resourcetype xmlns:n="DAV:"><n:collection/></n:resourcetype>
+<n:getcontenttype xmlns:n="DAV:"></n:getcontenttype>
+<n:creationdate xmlns:n="DAV:">1970-01-01T12:00:00Z</n:creationdate>
+<n:getlastmodified xmlns:n="DAV:">Tue, 05 Jun 2007 17:19:35 GMT</n:getlastmodified> 
+</d:prop>
+<d:status>HTTP/1.1 200 OK</d:status>
+</d:propstat>
+<d:propstat> 
+<d:prop>
+<n:getetag xmlns:n="DAV:"/> <n:creator-displayname xmlns:n="DAV:"/>  </d:prop>  <d:status>HTTP/1.1 404 Not Found</d:status> </d:propstat> </d:response> <d:response> <d:href>/ziddlywiki.com/tiddlers/AJAX</d:href> <d:propstat>  <d:prop> <n:displayname xmlns:n="DAV:">AJAX</n:displayname> <n:resourcetype xmlns:n="DAV:"></n:resourcetype> <n:getcontenttype xmlns:n="DAV:">text/html</n:getcontenttype> <n:creationdate xmlns:n="DAV:">1970-01-01T12:00:00Z</n:creationdate> <n:getlastmodified xmlns:n="DAV:">Tue, 05 Jun 2007 17:19:35 GMT</n:getlastmodified>  </d:prop>  <d:status>HTTP/1.1 200 OK</d:status> </d:propstat> <d:propstat>  <d:prop> <n:getetag xmlns:n="DAV:"/> <n:creator-displayname xmlns:n="DAV:"/>  </d:prop>  <d:status>HTTP/1.1 404 Not Found</d:status> </d:propstat> </d:response> <d:response> <d:href>/ziddlywiki.com/tiddlers/ActiveUsersMacro</d:href> <d:propstat>  <d:prop> <n:displayname xmlns:n="DAV:">ActiveUsersMacro</n:displayname> <n:resourcetype xmlns:n="DAV:"></n:resourcetype> <n:getcontenttype xmlns:n="DAV:">text/html</n:getcontenttype> <n:creationdate xmlns:n="DAV:">1970-01-01T12:00:00Z</n:creationdate> <n:getlastmodified xmlns:n="DAV:">Tue, 05 Jun 2007 17:19:35 GMT</n:getlastmodified>  </d:prop>  <d:status>HTTP/1.1 200 OK</d:status> </d:propstat> <d:propstat>  <d:prop> <n:getetag xmlns:n="DAV:"/> <n:creator-displayname xmlns:n="DAV:"/>  </d:prop>  <d:status>HTTP/1.1 404 Not Found</d:status>
+*/
+
+
 DavAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
-	
+displayMessage('getTiddlerListCallback status:'+status);
 	//console.log(this.host)
 	context.status = false;
-	context.statusText = WikispacesAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
+	//context.statusText = WikispacesAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	if(status) {
 		try {
 			var list = [];
@@ -247,30 +293,36 @@ DavAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr
 				doc = parser.parseFromString(responseText,"text/xml");
 			}
 			var x = doc.documentElement;
-
-			///console.log(responseText)
-			//console.log(x.getElementsByTagName('prop')) //can simplify now using prop
+			//#displayMessage("rt:"+responseText.substr(0,2000));
+			//#dislayMessage(x.getElementsByTagName('prop')) //can simplify now using prop
 			function getProp(e,p) {
 				return e.getElementsByTagName('prop')[0].getElementsByTagName(p)[0].firstChild.data || '';
 			};
+			function getProp2(e,p) {
+				return e.getElementsByTagName('prop')[0].getElementsByTagName(p)[0].firstChild.data;
+			};
 
 			var responses = x.getElementsByTagName('response');
+			//#displayMessage("rl:"+responses.length);
 			for(var i=0; i<responses.length; i++) {
+				var name = 'getetag';
 				var r = responses[i];
 				if(getProp(r,'getcontenttype')=='httpd/unix-directory')
 					continue;
 				//console.log(r.getElementsByTagName('prop')[0].getElementsByTagName('displayname')[0].firstChild.data)
-				var tiddler  = new Tiddler(r.getElementsByTagName('prop')[0].getElementsByTagName('displayname')[0].firstChild.data);
+				var t = getProp2(r,name);
+				//displayMessage("tt:"+t);
+				var tiddler  = new Tiddler(t);
 				//console.log(r.getElementsByTagName('prop')[0].getElementsByTagName('creationdate')[0].firstChild.data)
-				tiddler.created = Date.fromISOString(r.getElementsByTagName('prop')[0].getElementsByTagName('creationdate')[0].firstChild.data);
-				tiddler.modified = new Date(r.getElementsByTagName('prop')[0].getElementsByTagName('getlastmodified')[0].firstChild.data);
-				tiddler.modifier = r.getElementsByTagName('prop')[0].getElementsByTagName('author')[0].firstChild.data;
-				tiddler.fields['server.page.revision'] = new Date(r.getElementsByTagName('prop')[0].getElementsByTagName('getlastmodified')[0].firstChild.data).convertToYYYYMMDDHHMM();
+				//tiddler.created = Date.fromISOString(r.getElementsByTagName('prop')[0].getElementsByTagName('creationdate')[0].firstChild.data);
+				//tiddler.modified = new Date(r.getElementsByTagName('prop')[0].getElementsByTagName('getlastmodified')[0].firstChild.data);
+				//tiddler.modifier = getProp2(r,'creator-displayname');
+				//tiddler.fields['server.page.revision'] = new Date(r.getElementsByTagName('prop')[0].getElementsByTagName('getlastmodified')[0].firstChild.data).convertToYYYYMMDDHHMM();
 				list.push(tiddler);
-				//console.log(tiddler)
 			}
 
 		} catch (ex) {
+			displayMessage("caught");
 			context.statusText = exceptionText(ex,WikispacesAdaptor.serverParsingErrorMessage);
 			if(context.callback)
 				context.callback(context,context.userParams);
@@ -381,14 +433,6 @@ DavAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	return info;
 };
 
-DavAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
-{
-//#displayMessage("getTiddler");
-	context = this.setContext(context,userParams,callback);
-	context.title = title;
-	return this.getTiddlerInternal(context,userParams,callback);
-};
-
 DavAdaptor.prototype.getTiddlerRevision = function(title,revision,context,userParams,callback)
 {
 //#displayMessage('LocalAdaptor.getTiddlerRev:' + context.modified);
@@ -400,6 +444,7 @@ DavAdaptor.prototype.getTiddlerRevision = function(title,revision,context,userPa
 
 DavAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
+//#displayMessage("getTiddler""+title);
 	context = this.setContext(context,userParams,callback);
 	if(title)
 		context.title = title;
