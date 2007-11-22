@@ -1,7 +1,7 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 title: title.txt
 recipe: shadows/split.recipe
-tiddler: ../../tiddlers/MainMenuHome.tiddler
+tiddler: ../../shadows/MainMenuHome.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../mystyle/StyleSheet.tiddler
 tiddler: ../../mystyle/StyleSheetMB.tiddler
