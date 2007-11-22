@@ -36,6 +36,7 @@ SharedRecordsAnnotationsAdaptor.prototype.setContext = function(context,userPara
 	context.adaptor = this;
 	if(!context.host)
 		context.host = this.host;
+	context.host = SharedRecordsAnnotationsAdaptor.fullHostName(context.host);
 	if(!context.workspace)
 		context.workspace = this.workspace;
 	return context;
@@ -159,7 +160,7 @@ SharedRecordsAnnotationsAdaptor.prototype.getTiddlerList = function(context,user
 SharedRecordsAnnotationsAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
 //#console.log("list status:"+status);
-//#displayMessage("getTiddlerListCallback:"+status);
+displayMessage("getTiddlerListCallback:"+status);
 	context.statusText = SharedRecordsAnnotationsAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	if(status) {
 		try {
@@ -220,7 +221,7 @@ SharedRecordsAnnotationsAdaptor.prototype.getTiddler = function(title,context,us
 	var uri = uriTemplate.format([context.host,context.workspace,SharedRecordsAnnotationsAdaptor.normalizedTitle(title),context.revision]);
 
 	var req = SharedRecordsAnnotationsAdaptor.doHttpGET(uri,SharedRecordsAnnotationsAdaptor.getTiddlerCallback,context);
-//#displayMessage("getTiddler uri:"+uri);
+displayMessage("getTiddler uri:"+uri);
 	return typeof req == 'string' ? req : true;
 };
 
@@ -298,7 +299,7 @@ SharedRecordsAnnotationsAdaptor.prototype.putTiddler = function(tiddler,context,
 	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
 	var uriTemplate = '%0%1_log?max-sequence-number=%2&format=json';
 	var uri = uriTemplate.format([host,workspace,sequenceNumber]);
-//#displayMessage("put uri:"+uri);
+displayMessage("put uri:"+uri);
 
 	var data = jsonWrapper.format([jsonTiddler]);
 	var req = SharedRecordsAnnotationsAdaptor.doHttpPOST(uri,SharedRecordsAnnotationsAdaptor.putTiddlerCallback,context,null,data);
@@ -309,6 +310,7 @@ SharedRecordsAnnotationsAdaptor.prototype.putTiddler = function(tiddler,context,
 SharedRecordsAnnotationsAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
 //#displayMessage("put status:"+status+", "+context.title);
+//#displayMessage("put statusText:"+xhr.statusText);
 	if(status) {
 		context.status = true;
 	} else {

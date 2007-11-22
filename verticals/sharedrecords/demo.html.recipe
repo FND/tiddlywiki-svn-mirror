@@ -7,3 +7,4 @@ tiddler: feeds/SharedRecordsAnnotationsTestServer.tiddler
 tiddler: plugins/SharedRecordsAnnotationsAdaptorPlugin.js
 tiddler: plugins/settings.js
 tiddler: ../../contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js
+tiddler: ../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
