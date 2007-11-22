@@ -406,7 +406,7 @@ margin-top:0.3em;
 }
 
 #tiddlerWhatsNew h1, #tiddlerWhatsNew h2 {border-bottom:none;}
-div[tags~=&quot;RecentUpdates&quot;], div[tags~=&quot;lewcidExtension&quot;] {margin-bottom: 2em;}
+div[tags~="RecentUpdates"], div[tags~="lewcidExtension"] {margin-bottom: 2em;}
 
 #hoverMenu  .button, #hoverMenu  .tiddlyLink {border:none; font-weight:bold; background:#f37211; color:#fff; padding:0 5px; float:right; margin-bottom:4px;}
 #hoverMenu .button:hover, #hoverMenu .tiddlyLink:hover {font-weight:bold; border:none; color:#f37211; background:#000; padding:0 5px; float:right; margin-bottom:4px;}
@@ -425,5 +425,6 @@ div[tags~=&quot;RecentUpdates&quot;], div[tags~=&quot;lewcidExtension&quot;] {ma
  font-style: normal;
 }
 
-.block a{display:block;}</pre>
+.block a{display:block;}
+</pre>
 </div>

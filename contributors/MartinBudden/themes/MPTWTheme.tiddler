@@ -7,11 +7,13 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.3.0|
 
-|''~StyleSheet:''|#StyleSheet|
-|''~PageTemplate:''|#PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+|''~PageTemplate:''|##PageTemplate|
 
 !StyleSheet
 /*{{{*/
+/* http://mptw.tiddlyspot.com/#MptwStyleSheet ($Rev: 2720 $) */
+
 /* a contrasting background so I can see where one tiddler ends and the other begins */
 body {
 	background: [[ColorPalette::TertiaryLight]];
@@ -24,8 +26,13 @@ body {
 .headerShadow, .headerShadow a {
 	color: [[ColorPalette::PrimaryMid]];
 }
+
+/* separate the top menu parts */
 .headerForeground, .headerShadow {
 	padding: 1em 1em 0;
+}
+
+.headerForeground, .headerShadow {
 	font-family: 'Trebuchet MS' sans-serif;
 	font-weight:bold;
 }
@@ -43,9 +50,11 @@ body {
 }
 
 /* prefer monospace for editing */
-.editor textarea {
+.editor textarea, .editor input {
 	font-family: 'Consolas' monospace;
+	background-color:[[ColorPalette::TertiaryPale]];
 }
+
 
 /* sexy tiddler titles */
 .title {
@@ -83,7 +92,7 @@ h1,h2,h3,h4,h5,h6 {
 	border-right: 2px [[ColorPalette::TertiaryMid]] solid;
 	border-bottom: 2px [[ColorPalette::TertiaryMid]] solid;
 	margin-bottom: 1em;
-	padding-bottom: 2em;
+	padding:1em 2em 2em 1.5em;
 }
 
 /* make options slider look nicer */
@@ -91,21 +100,9 @@ h1,h2,h3,h4,h5,h6 {
 	border:solid 1px [[ColorPalette::PrimaryLight]];
 }
 
-
 /* the borders look wrong with the body background */
 #sidebar .button {
 	border-style: none;
-}
-
-/* displays the list of a tiddler's tags horizontally. used in ViewTemplate */
-.tagglyTagged li.listTitle {
-	display:none
-}
-.tagglyTagged li {
-	display: inline; font-size:90%;
-}
-.tagglyTagged ul {
-	margin:0px; padding:0px;
 }
 
 /* this means you can put line breaks in SidebarOptions for readability */
@@ -143,6 +140,25 @@ h1,h2,h3,h4,h5,h6 {
 	background: [[ColorPalette::PrimaryDark]];
 }
 
+/* make 2.2 act like 2.1 with the invisible buttons */
+.toolbar {
+	visibility:hidden;
+}
+.selected .toolbar {
+	visibility:visible;
+}
+
+/* experimental. this is a little borked in IE7 with the button 
+ * borders but worth it I think for the extra screen realestate */
+.toolbar { float:right; }
+
+/* Tagger Plugin users uncomment this.  from sb56637 */
+/*
+.popup li a {
+   display:inline;
+}
+*/
+
 /* make it print a little cleaner */
 @media print {
 	#topMenu {
@@ -171,30 +187,30 @@ h1,h2,h3,h4,h5,h6 {
 /*}}}*/
 
 !PageTemplate
-&lt;!--{{{--&gt;
-&lt;div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'&gt;
-	&lt;div class='headerShadow'&gt;
-		&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
-		&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
-	&lt;/div&gt;
-	&lt;div class='headerForeground'&gt;
-		&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
-		&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
-	&lt;/div&gt;
-&lt;/div&gt;
-&lt;!-- horizontal MainMenu --&gt;
-&lt;div id='topMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
-&lt;!-- original MainMenu menu --&gt;
-&lt;!-- &lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt; --&gt;
-&lt;div id='sidebar'&gt;
-	&lt;div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'&gt;&lt;/div&gt;
-	&lt;div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id='displayArea'&gt;
-	&lt;div id='messageArea'&gt;&lt;/div&gt;
-	&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;!--}}}--&gt;
-
+<!--{{{-->
+<!-- http://mptw.tiddlyspot.com/#MptwPageTemplate ($Rev: 1829 $) -->
+<div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'>
+	<div class='headerShadow'>
+		<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+	</div>
+	<div class='headerForeground'>
+		<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+	</div>
+</div>
+<!-- horizontal MainMenu -->
+<div id='topMenu' refresh='content' tiddler='MainMenu'></div>
+<!-- original MainMenu menu -->
+<!-- <div id='mainMenu' refresh='content' tiddler='MainMenu'></div> -->
+<div id='sidebar'>
+	<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+	<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+	<div id='messageArea'></div>
+	<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
 </pre>
 </div>

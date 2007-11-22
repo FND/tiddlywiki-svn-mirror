@@ -1,6 +1,8 @@
 <div title="TestStyleSheet" modifier="MartinBudden" tags="TestTheme styles excludeSearch">
-<pre>/*{{{*/
+<pre>
+/*{{{*/
 .headerForeground {color:black;}
 .headerForeground {background:green;}
-/*}}}*/</pre>
+/*}}}*/
+</pre>
 </div>
