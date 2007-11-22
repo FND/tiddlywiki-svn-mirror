@@ -48,6 +48,7 @@ ExampleAdaptor.prototype.setContext = function(context,userParams,callback)
 	context.adaptor = this;
 	if(!context.host)
 		context.host = this.host;
+	context.host = ExampleAdaptor.fullHostName(context.host);
 	if(!context.workspace)
 		context.workspace = this.workspace;
 	return context;
@@ -226,6 +227,7 @@ ExampleAdaptor.prototype.getTiddler = function(title,context,userParams,callback
 
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields.wikiformat = 'exampleformat';
+	context.tiddler.fields['server.type'] = ExampleAdaptor.serverType;
 	context.tiddler.fields['server.host'] = ExampleAdaptor.minHostName(context.host);
 	context.tiddler.fields['server.workspace'] = context.workspace;
 	var req = ExampleAdaptor.doHttpGET(uri,ExampleAdaptor.getTiddlerCallback,context);
