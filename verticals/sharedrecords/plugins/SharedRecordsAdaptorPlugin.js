@@ -159,6 +159,7 @@ SharedRecordsAdaptor.prototype.getTiddler = function(title,context,userParams,ca
 	return true;
 };
 
+//# http://sra.sharedrecords.org:8080/SRCDataStore/RESTServlet/37105c154dd4956cc4e278a5b867a435b5250d19_log?max-sequence-number=-1&format=json
 SharedRecordsAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
@@ -185,6 +186,7 @@ SharedRecordsAdaptor.prototype.putTiddler = function(tiddler,context,userParams,
 			]);
 	var jsonRecord = SharedRecordsAdaptor.jsonWrapper.format([jsonTiddler]);
 	var url = SharedRecordsAdaptor.putTiddlersUrl.format([this.host,this.workspace,sequenceNumber]);
+//#displayMessage("put uri:"+url);
 	var r = doHttp("POST",
 		url,
 		jsonRecord,
