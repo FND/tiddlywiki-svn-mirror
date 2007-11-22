@@ -1,10 +1,10 @@
 <div title="ViewTemplate" tags="excludeLists excludeSearch">
-<pre>&lt;!--{{{--&gt;
-&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'&gt;&lt;/div&gt;
-&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
-&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
-&lt;div class='viewer' macro='include Template:WikipediaArticleFooter'&gt;&lt;/div&gt;
-&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler'&gt;&lt;/div&gt;
-&lt;!--}}}--&gt;</pre>
+<pre><!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
+<div class='title' macro='view title'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagged' macro='tags'></div>
+<div class='viewer' macro='include Template:WikipediaArticleFooter'></div>
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler'></div>
+<!--}}}--></pre>
 </div>
