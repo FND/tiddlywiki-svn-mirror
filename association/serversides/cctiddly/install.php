@@ -6,9 +6,12 @@
 
 include('includes/header.php');
 include('includes/instance.php');
+
+
 //instance_create('home');
 
 // create uploads directory for all the instaces in the db. 
+// ensure permissions on dir are correct
 // turn of debug mode.
 exit;
 
