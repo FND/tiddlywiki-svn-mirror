@@ -3,10 +3,163 @@
 // make htAccess file.
 
 // run sql 
+//connect to db
+
 
 include('includes/header.php');
 include('includes/instance.php');
 
+
+
+$link = db_connectDB();
+if( !$link )
+{
+	exit($ccT_msg['db']['connect'].": ".mysql_error());
+}
+print($ccT_msg['install']['db_connected']."<br>");
+
+//try use db, create if not exist
+if( db_selectDB($tiddlyCfg['db']['name'])===FALSE )
+{
+	//if( mysql_create_db($tiddlyCfg['db']['name']) )
+	//somehow mysql_create_db gives fatal error of function not exist
+	//use mysql query instead
+	print '<h3>'.$ccT_msg['install']['db_setup'].'</h3>';		//setup db
+	if( db_createDB($tiddlyCfg['db']['name']) !== FALSE )
+	{
+        print $ccT_msg['install']['db_created']."<br>";
+		if( db_selectDB($tiddlyCfg['db']['name'])===FALSE )
+		{
+			exit($ccT_msg['db']['connect'].": ".mysql_error());
+		}
+        //print "Tiddly database selected.<br>";
+	}
+	else
+	{
+		exit( $ccT_msg['db']['create'].": ".mysql_error() );
+    }
+}else{
+	print $ccT_msg['install']['db_existed']."<br>";
+}
+
+//use UTF-8
+if( $tiddlyCfg['pref']['utf8']==1 )
+{
+	if( db_query("SET NAMES 'utf8'")===FALSE )
+	{
+		exit($ccT_msg['word']['error'].$ccT_msg['msg']['query']."SET NAMES 'utf8'");
+	}
+}
+
+
+
+
+$query="
+
+CREATE TABLE `admin_of_instance` (
+  `user_id` varchar(255) NOT NULL,
+  `instance_name` varchar(100) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;CREATE TABLE `group` (
+  `name` varchar(50) NOT NULL,
+  `desc` mediumtext NOT NULL
+)";
+
+$query1="
+
+CREATE TABLE `group_membership` (
+  `user_id` varchar(255) NOT NULL,
+  `group_name` varchar(50) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `instance` (
+  `name` varchar(100) NOT NULL,
+  `lang` varchar(10) NOT NULL,
+  `keep_revision` int(1) NOT NULL,
+  `require_login` int(1) NOT NULL,
+  `session_expire` int(10) NOT NULL,
+  `tag_tiddler_with_modifier` int(1) NOT NULL,
+  `char_set` varchar(10) NOT NULL,
+  `hashseed` varchar(50) NOT NULL,
+  `debug` int(1) NOT NULL,
+  `status` varchar(10) NOT NULL,
+  `tiddlywiki_type` varchar(30) NOT NULL,
+  `default_anonymous_perm` varchar(4) NOT NULL,
+  `default_user_perm` varchar(4) NOT NULL,
+  `rss_group` varchar(50) NOT NULL,
+  `markup_group` varchar(50) NOT NULL,
+  PRIMARY KEY  (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `instance` (`name`, `lang`, `keep_revision`, `require_login`, `session_expire`, `tag_tiddler_with_modifier`, `char_set`, `hashseed`, `debug`, `status`, `tiddlywiki_type`, `default_anonymous_perm`, `default_user_perm`, `rss_group`, `markup_group`) VALUES 
+('home', 'en', 1, 0, 0, 0, 'utf8', '9654989', 1, '', 'tiddlywiki', 'ADDD', 'AAAA', '', '');
+
+CREATE TABLE `login_session` (
+  `user_id` varchar(255) NOT NULL,
+  `session_token` varchar(150) NOT NULL COMMENT 'username+password+time',
+  `expire` datetime NOT NULL,
+  `ip` varchar(15) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE `permissions` (
+  `read` int(1) NOT NULL,
+  `insert` int(1) NOT NULL,
+  `edit` int(1) NOT NULL,
+  `delete` int(1) NOT NULL,
+  `group_name` varchar(50) NOT NULL,
+  `instance_name` varchar(100) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `tiddler` (
+  `id` int(11) NOT NULL auto_increment,
+  `instance_name` varchar(100) NOT NULL,
+  `title` text NOT NULL,
+  `body` mediumtext NOT NULL,
+  `fields` text NOT NULL,
+  `tags` text NOT NULL,
+  `modifier` varchar(255) NOT NULL,
+  `creator` varchar(255) NOT NULL,
+  `modified` varchar(12) NOT NULL,
+  `created` varchar(12) NOT NULL,
+  `version` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+CREATE TABLE `tiddly_wiki_entry_version` (
+  `id` int(11) NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL default '',
+  `body` text NOT NULL,
+  `fields` text NOT NULL,
+  `modified` varchar(128) NOT NULL default '',
+  `modifier` varchar(255) NOT NULL default '',
+  `version` int(11) NOT NULL default '0',
+  `tags` varchar(255) NOT NULL default '',
+  `oid` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+
+CREATE TABLE `user` (
+  `username` varchar(255) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `short_name` varchar(50) NOT NULL,
+  `long_name` varchar(100) NOT NULL,
+  PRIMARY KEY  (`username`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `user` (`username`, `password`, `short_name`, `long_name`) VALUES 
+('simon', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'smm', 'simonmcmanus');
+";
+
+
+if($a =db_query($query))
+{
+echo $a;
+}
 
 //instance_create('home');
 

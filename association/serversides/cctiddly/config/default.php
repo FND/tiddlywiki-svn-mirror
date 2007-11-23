@@ -7,7 +7,7 @@
 $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "cct";		//db name
+$tiddlyCfg['db']['name'] = "cctiddly";		//db name
 $tiddlyCfg['table']['pref'] = "";		//table prefix
 $tiddlyCfg['table']['name'] = "tiddler";
 $tiddlyCfg['table']['backup'] = "tiddly_wiki_entry_version";
@@ -15,9 +15,10 @@ $tiddlyCfg['pref']['session_timeout'] = 1;		//cookies expire time, in minutes [0
 $tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
 $tiddlyCfg['pref']['ldap_enabled'] = 0;	
 $tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
-$tiddlyCfg['pref']['upload_dir'] = '/svn/uploads/';
+$tiddlyCfg['pref']['upload_dir'] = '/Applications/xampp/htdocs/cctiddly/uploads/';
 $tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if running in the root dir, specifies the position in the URL where the instance name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
-$tiddlyCfg['pref']['base_folder'] ='svn';
+$tiddlyCfg['pref']['base_folder'] ='cctiddly';
+
 
 
 //  CALLS URL CODE 
@@ -34,7 +35,7 @@ $conn = mysql_connect($tiddlyCfg['db']['host'], $tiddlyCfg['db']['login'], $tidd
 if (!$conn) {
     echo "Unable to connect to DB: " . mysql_error();
     exit;}
-if (!mysql_select_db("cct")) {
+if (!mysql_select_db($tiddlyCfg['db']['name'])) {
     echo "Unable to select mydbname: " . mysql_error();
     exit;}
     
