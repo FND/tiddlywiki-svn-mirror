@@ -1,0 +1,64 @@
+<div title="testWikispacesFormat" modifier="MartinBudden" created="200711230000" tags="test" wikiformat="wikispaces">
+<pre>
+= Text Formatting =
+
+= heading 1 =
+
+== heading 2 ==
+
+=== heading 3 ===
+
+Bulleted List
+* list
+* list
+
+Numbered List
+# numbered
+# numbered
+
+Bold
+	**bold**
+Italics
+	//italics//
+Underline
+	__underline__
+Monospaced Font
+	{{curly braces}}
+Escaping
+	` `escaping` ` (surround in double backtick characters).
+Indenting
+	> indent
+
+= Links and Images and Files =
+
+Page Link
+	[[pagename|label]] or just [[pagename]]
+Page Link in Another Space
+	[[space:pagename|label]] or just [[space:pagename]]
+URL
+	http://some.url
+Email
+	help@wikispaces.org
+Labeled URL
+	[[http://some.url|label]]
+Image
+	[[image:name.jpg]] (png, jpeg, and gif - learn more about image tags)
+File
+	[[file:name.txt]] (any file type supported)
+Anchor
+	[[#anchor]] see wikitext anchor for more details
+
+== Link examples ==
+[[foo]]
+This will display the text "foo" on the page which will be a link to the page in this space also called "foo".
+
+[[foo|bar]]
+This will display the text "bar" on the page which will be a link to the page in this space called "foo".
+
+[[hep:the]]
+This will display the text "hep:the" on the page which will be a link to the page in the "hep" space called "the".
+
+[[hep:the|bar]]
+This will display the text "bar" on the page which will be a link to the page in the "hep" space called "the".
+</pre>
+</div>
