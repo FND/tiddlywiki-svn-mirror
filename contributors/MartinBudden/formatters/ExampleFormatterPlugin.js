@@ -1,10 +1,10 @@
 /***
 |''Name:''|ExampleFormatterPlugin|
-|''Description:''|Example Formatter which can be used as a basis for creating a new Formatter|
+|''Description:''|Example Formatter which can be used as a basis for creating a new Formatter. Allows Tiddlers to use [[example|http://www.example.com/wikitext]] text formatting|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ExampleFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/ExampleFormatterPlugin.js |
-|''Version:''|0.1.9|
+|''Version:''|0.1.10|
 |''Status:''|Not for release - this is a template for creating new formatters|
 |''Date:''|Nov 5, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -90,7 +90,7 @@ config.exampleFormatters = [
 	{
 		var stack = [w.output];
 		var currLevel = 0, currType = null;
-		var listType, itemType;
+		var listLevel, listType, itemType, baseType;
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
@@ -115,19 +115,25 @@ config.exampleFormatters = [
 			default:
 				break;
 			}
-			var listLevel = lookaheadMatch[0].length;
-			w.nextMatch += listLevel;
+			if(!baseType)
+				baseType = listType;
+			listLevel = lookaheadMatch[0].length;
+			w.nextMatch += lookaheadMatch[0].length;
+			var t;
 			if(listLevel > currLevel) {
-				for(var i=currLevel; i<listLevel; i++) {
-					stack.push(createTiddlyElement(stack[stack.length-1],listType));
+				for(t=currLevel; t<listLevel; t++) {
+					var target = (currLevel == 0) ? stack[stack.length-1] : stack[stack.length-1].lastChild;
+					stack.push(createTiddlyElement(target,listType));
 				}
+			} else if(listType!=baseType && listLevel==1) {
+				w.nextMatch -= lookaheadMatch[0].length;
+				return;
 			} else if(listLevel < currLevel) {
-				for(i=currLevel; i>listLevel; i--) {
+				for(t=currLevel; t>listLevel; t--)
 					stack.pop();
-				}
 			} else if(listLevel == currLevel && listType != currType) {
 				stack.pop();
-				stack.push(createTiddlyElement(stack[stack.length-1],listType));
+				stack.push(createTiddlyElement(stack[stack.length-1].lastChild,listType));
 			}
 			currLevel = listLevel;
 			currType = listType;
@@ -295,7 +301,6 @@ config.exampleFormatters = [
 	}
 },
 
-//# note . is anything except \n, so (?:.|\n) matches anything. I think [] is equivalent.
 {
 	name: 'exampleComment',
 	match: '<!\\-\\-',
