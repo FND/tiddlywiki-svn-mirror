@@ -24,23 +24,25 @@ $tiddlyCfg['pref']['base_folder'] ='cctiddly';
 //  CALLS URL CODE 
 
 include('./includes/url.php');
-
-
-
-// THIS SHOULD BE USING THE BUILT IN FUCTIONS//////////////////////////
-
 include_once("./includes/db.mysql.php");
-$conn = mysql_connect($tiddlyCfg['db']['host'], $tiddlyCfg['db']['login'], $tiddlyCfg['db']['pass']);
 
-if (!$conn) {
-    echo "Unable to connect to DB: " . mysql_error();
-    exit;}
-if (!mysql_select_db($tiddlyCfg['db']['name'])) {
-    echo "Unable to select mydbname: " . mysql_error();
-    exit;}
-    
+$link = db_connectDB();
+db_selectDB($tiddlyCfg['db']['name']);
+
+
+// create the instance if it does not already exist.
+if($_POST['instance_name'])
+{
+	// the user has asked us to create an instance 
+	include_once("./includes/instance.php");
+	instance_create($_POST['instance_name']);
+}
+
+
+
 $array['name'] = $instance;
 $tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
+
 
 
 
@@ -49,18 +51,8 @@ $tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
 if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 {
 
-
-	if($_POST['instance_name'])
-	{
-		// the user has asked us to create an instance 
-		include_once("./includes/instance.php");
-		instance_create($_POST['instance_name']);
-	}
-	else
-	{
 	 	// let show the form to create an instance
 	 	// we need to set the settings manually as there is not record in the database
-	 	
 	 	$tiddlyCfg['pref']['tw_ver'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
 		$tiddlyCfg['pref']['language'] = 'en'; // choose between different version of TW, or adaptation
 		$tiddlyCfg['pref']['version'] = 0; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
@@ -68,7 +60,7 @@ if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 		$tiddlyCfg['pref']['session_expire'] = 2000;
 		$tiddlyCfg['pref']['cookies'] = 100;		//cookies expire time, in minutes [0=disable]
 		$tiddlyCfg['pref']['appendModifier'] ='';		//append modifier name as tag		
-	}
+
 }
 else
 {

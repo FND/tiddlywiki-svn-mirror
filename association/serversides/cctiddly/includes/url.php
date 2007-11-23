@@ -22,7 +22,7 @@ if ($instance == '')
 
 
 $tiddlyCfg['pref']['instance_name'] = $instance;  
-$_SERVER['PHP_SELF']= '/svn/'.$instance.'/';
+$_SERVER['PHP_SELF']= '/'.$tiddlyCfg['pref']['base_folder'].'/'.$instance.'/';
 
 
 

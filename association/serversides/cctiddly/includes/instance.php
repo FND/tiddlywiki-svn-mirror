@@ -1,4 +1,5 @@
 <?php 
+include_once('includes/db.mysql.php');
 
 function instance_create($instance)
 {
@@ -59,11 +60,5 @@ function instance_create($instance)
 	
 	mkdir($tiddlyCfg['pref']['upload_dir'].$instance ,  0777);
 	mkdir($tiddlyCfg['pref']['upload_dir'].$instance.'/images' ,  0777);
-	mkdir($tiddlyCfg['pref']['upload_dir'].$instance.'/images/thumbs' ,  0777);
-	
-	
-	header('Location:'.$_SERVER['PHP_SELF']);
-}
-
-
-?> 
+	mkdir($tiddlyCfg['pref']['upload_dir'].$instance.'/thumbs' ,  0777);
+return true;}?> 
