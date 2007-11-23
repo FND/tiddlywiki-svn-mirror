@@ -1,3 +1,7 @@
-tiddler: ../../../contributors/JonathanLister/components/RSSAdaptor/js/RSSAdaptor.js
-tiddler: ../../../contributors/SaqImtiaz/plugins/WebDavLib.js
+tiddler: RSSAdaptor.js
+tiddler: WebDavLib.js
 tiddler: TaggedTemplateTweak.js
+tiddler: SparklinePlugin.js
+tiddler: CryptoFunctionsPlugin.js
+tiddler: DeprecatedFunctionsPlugin.js
+tiddler: ToggleElementPlugin.js

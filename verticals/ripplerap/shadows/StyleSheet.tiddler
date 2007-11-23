@@ -18,10 +18,9 @@ span.siteSubtitle {bottom:35px; font-size:1em; position:absolute; width:200px;}
 }
 
 /* Primary Nav Buttons */
-#mainMenu { background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding-left:0; line-height:1.5em; }
-#mainMenu a { display:block; float:left; border-right:solid 1px #999; font-size:1em; margin:0; color:#333;}
-#mainMenu a.tiddlyLink { padding:0 1em; font-size:1em; color:#333;}
-#mainMenu a.agendaButton { width:260px; padding:0; text-align:center;}
+#mainMenu { background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding-left:0; line-height:1.5em; display:block; }
+#mainMenu a { border-right:solid 1px #999; font-size:1em; margin:0; color:#333; padding:0.3em 1em;}
+#mainMenu a.tiddlyLink { padding:0.3em 1em; font-size:1em; color:#333;}
 #mainMenu a:hover,
 #mainMenu a.tiddlyLink:hover { background-color:#bbb;}
 
@@ -81,7 +80,5 @@ div.mySessionNotes div.toolbar a:hover {  background-color:#444; color:#fff; bor
 
 div.lifeStreamItem { color:#666; display:block; margin:0; padding:0.5em; background-color:#fff; border-top:solid 1px #ccc; overflow:hidden;}
 
-div.viewer img {width:100%;}
-
-</pre>
+div.viewer img {width:100%;}</pre>
 </div>

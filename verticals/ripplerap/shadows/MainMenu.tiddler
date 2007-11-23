@@ -1,17 +1,12 @@
 <div title="MainMenu" tags="excludeLists excludeSearch" force="true" refresh="macro">
 <pre>
-&lt;&lt;toggleElement
-	&quot;agendaMenu&quot;
-	&quot;Agenda&quot;
-	&quot;Switch agenda menu on and off&quot;
-	&quot;agendaButton&quot;
-&gt;&gt;
+<<toggleElement
+	"agendaMenu"
+	"Agenda"
+	"Switch agenda menu on and off"
+	"agendaButton"
+>>
 [[Contents|SideBarTabs]]
-[[Notes]]
-[[Blog]]
-[[Microblog]]
 [[Help]]
-[[SkinkersAlert]]
-&lt;&lt;currentSession&gt;&gt;
-&lt;&lt;RippleRapTesting&gt;&gt;</pre>
+</pre>
 </div>

@@ -5,10 +5,3 @@ tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteUrl.tiddler
 tiddler: StyleSheet.tiddler
-tiddler: sessionEditTemplate.tiddler
-tiddler: sessionViewTemplate.tiddler
-tiddler: discoveredNoteViewTemplate.tiddler
-tiddler: mySessionNoteViewTemplate.tiddler
-tiddler: mySessionNoteEditTemplate.tiddler
-tiddler: Styles_HorizontalMainMenu.tiddler
-

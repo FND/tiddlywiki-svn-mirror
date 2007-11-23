@@ -1,21 +1,21 @@
 <div title="PageTemplate" tags="excludeLists excludeSearch">
-<pre>&lt;!--{{{--&gt;
-&lt;div id='messageArea'&gt;&lt;/div&gt;
-&lt;div id='btbrand' refresh='content' tiddler='btbrand'&gt;&lt;/div&gt;
-&lt;div class='header' &gt;
-&lt;div class='headerShadow'&gt;
-&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
-&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
-&lt;/div&gt;
-&lt;div class='headerForeground'&gt;
-&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
-&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
-&lt;div id='agendaMenu' refresh='content' force='true' tiddler='agendaMenu'&gt;&lt;/div&gt;
-&lt;div id='displayArea'&gt;
-&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;!--}}}--&gt;</pre>
+<pre><!--{{{-->
+<div id='messageArea'></div>
+<div id='btbrand' refresh='content' tiddler='btbrand'></div>
+<div class='header' >
+<div class='headerShadow'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div class='headerForeground'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+</div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='agendaMenu' refresh='content' force='true' tiddler='agendaMenu'></div>
+<div id='displayArea'>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}--></pre>
 </div>
