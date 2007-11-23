@@ -162,7 +162,7 @@
 			}
 		}else
 		{	
-			$data['id'] = $un;
+			$data['username'] = $un;
 			$data['password'] = sha1($pw);
 			$results = db_record_select('user', $data);			// get array of results		
 			if (count($results) > 0 )                   //  if the array has 1 or more sessions

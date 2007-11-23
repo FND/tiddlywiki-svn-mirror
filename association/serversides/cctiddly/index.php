@@ -24,16 +24,16 @@
 	include_once("includes/print.php");
 	recordTime_float("includes");
 
-////////////OPEN ID STUFF]
 
-include('../openid/examples/tiddler.php');
-
-// dispatch the event based on url args.
-dispatch();
+if ($tiddlyCfg['pref']['openid_enabled'] ==1)
+{
+	include('../openid/examples/tiddler.php');
+	// dispatch the event based on url args.
+	dispatch();
 
 // Our helpful display page.
-$buf = <<< END
-  %s
+	$buf = <<< END
+%s
   &lt;div id="login"&gt;
     &lt;form action="%s" method="get"&gt;     
     OpenID: &lt;input  style='background: url(http://mojo.bt.com/images/login-bg.gif) no-repeat #FFF 5px;font-size:1.2em;color:#84807C;border:solid 1px #DFD8D1;
@@ -44,7 +44,7 @@ $buf = <<< END
   &lt;/div&gt;
 END;
  $oid =  sprintf( $buf, drawAlert($_message), $_SERVER['HTTP_REFERER'] );
-
+}
 /// END OF OID
 // LOGIN THEN REFRESH. 
 // check if user is logged in 
@@ -111,7 +111,7 @@ END;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<base href='http://wikidev.osmosoft.com/svn/' />
+<base href='http://<?php echo $_SERVER['SERVER_NAME'];?>/<?php echo $tiddlyCfg['pref']['base_folder'];?>/' />
 <head>
 <script type="text/javascript">
 //<![CDATA[
@@ -262,6 +262,10 @@ if (!$user['verified'])
 { // user is not varified 
 	if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 	{   // instance does not exist 
+					echo "<div tiddler='DefaultTiddlers' tags=''>[[Please Login]] GettingStarted</div>";
+		echo 'sdsdsd';
+		
+
 		echo $login_to_create_tiddlers;
 		echo $cut_down_view;
 		echo $login;
@@ -287,7 +291,7 @@ if (!$user['verified'])
 else
 { // user is varified 
 	if (count($tiddlyCfg['pref']['instance_settings']) < 1)
-	{   // instance does not exist 
+	{   // instance does not exist
 		echo $cut_down_view;
 		echo $logged_in_create_tiddlers;
 	} 
@@ -297,17 +301,12 @@ else
  	}
 }
 ///////////////////////////// END  LOGIN/CREATE SHADOW TIDDLERS ///////////////////////////////////////////////////////////
-
 ?>
-
 <div tiddler="OptionsPanel" tags="">These InterfaceOptions for customising TiddlyWiki are saved in your browser\n\nYour username for signing your edits. Write it as a WikiWord (eg JoeBloggs)\n\n&lt;&lt;option txtUserName&gt;&gt;\n&lt;&lt;option chkSaveBackups&gt;&gt; SaveBackups\n&lt;&lt;option chkAutoSave&gt;&gt; AutoSave\n&lt;&lt;option chkRegExpSearch&gt;&gt; RegExpSearch\n&lt;&lt;option chkCaseSensitiveSearch&gt;&gt; CaseSensitiveSearch\n&lt;&lt;option chkAnimate&gt;&gt; EnableAnimations\n\n----\nAlso see AdvancedOptions</div>
 <div tiddler="PageTemplate" tags="">&lt;!--{{{--&gt;\n&lt;div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'&gt;\n&lt;div class='headerShadow'&gt;\n&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;\n&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;\n&lt;/div&gt;\n&lt;div class='headerForeground'&gt;\n&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;\n&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;\n&lt;/div&gt;\n&lt;/div&gt;\n&lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;\n&lt;div id='sidebar'&gt;\n&lt;div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'&gt;&lt;/div&gt;\n&lt;div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'&gt;&lt;/div&gt;\n&lt;/div&gt;\n&lt;div id='displayArea'&gt;\n&lt;div id='messageArea'&gt;&lt;/div&gt;\n&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;\n&lt;/div&gt;\n&lt;!--}}}--&gt;</div>
 <div tiddler="StyleSheetColors" tags="">/*{{{*/\nbody {background:[[ColorPalette::Background]]; color:[[ColorPalette::Foreground]];}\n\na {color:[[ColorPalette::PrimaryMid]];}\na:hover {background-color:[[ColorPalette::PrimaryMid]]; color:[[ColorPalette::Background]];}\na img {border:0;}\n\nh1,h2,h3,h4,h5,h6 {color:[[ColorPalette::SecondaryDark]]; background:transparent;}\nh1 {border-bottom:2px solid [[ColorPalette::TertiaryLight]];}\nh2,h3 {border-bottom:1px solid [[ColorPalette::TertiaryLight]];}\n\n.button {color:[[ColorPalette::PrimaryDark]]; border:1px solid [[ColorPalette::Background]];}\n.button:hover {color:[[ColorPalette::PrimaryDark]]; background:[[ColorPalette::SecondaryLight]]; border-color:[[ColorPalette::SecondaryMid]];}\n.button:active {color:[[ColorPalette::Background]]; background:[[ColorPalette::SecondaryMid]]; border:1px solid [[ColorPalette::SecondaryDark]];}\n\n.header {background:[[ColorPalette::PrimaryMid]];}\n.headerShadow {color:[[ColorPalette::Foreground]];}\n.headerShadow a {font-weight:normal; color:[[ColorPalette::Foreground]];}\n.headerForeground {color:[[ColorPalette::Background]];}\n.headerForeground a {font-weight:normal; color:[[ColorPalette::PrimaryPale]];}\n\n.tabSelected{color:[[ColorPalette::PrimaryDark]];\n	background:[[ColorPalette::TertiaryPale]];\n	border-left:1px solid [[ColorPalette::TertiaryLight]];\n	border-top:1px solid [[ColorPalette::TertiaryLight]];\n	border-right:1px solid [[ColorPalette::TertiaryLight]];\n}\n.tabUnselected {color:[[ColorPalette::Background]]; background:[[ColorPalette::TertiaryMid]];}\n.tabContents {color:[[ColorPalette::PrimaryDark]]; background:[[ColorPalette::TertiaryPale]]; border:1px solid [[ColorPalette::TertiaryLight]];}\n.tabContents .button {border:0;}\n\n#sidebar {}\n#sidebarOptions input {border:1px solid [[ColorPalette::PrimaryMid]];}\n#sidebarOptions .sliderPanel {background:[[ColorPalette::PrimaryPale]];}\n#sidebarOptions .sliderPanel a {border:none;color:[[ColorPalette::PrimaryMid]];}\n#sidebarOptions .sliderPanel a:hover {color:[[ColorPalette::Background]]; background:[[ColorPalette::PrimaryMid]];}\n#sidebarOptions .sliderPanel a:active {color:[[ColorPalette::PrimaryMid]]; background:[[ColorPalette::Background]];}\n\n.wizard {background:[[ColorPalette::PrimaryPale]]; border:1px solid [[ColorPalette::PrimaryMid]];}\n.wizard h1 {color:[[ColorPalette::PrimaryDark]]; border:none;}\n.wizard h2 {color:[[ColorPalette::Foreground]]; border:none;}\n.wizardStep {background:[[ColorPalette::Background]]; color:[[ColorPalette::Foreground]];\n	border:1px solid [[ColorPalette::PrimaryMid]];}\n.wizardStep.wizardStepDone {background:[[ColorPalette::TertiaryLight]];}\n.wizardFooter {background:[[ColorPalette::PrimaryPale]];}\n.wizardFooter .status {background:[[ColorPalette::PrimaryDark]]; color:[[ColorPalette::Background]];}\n.wizard .button {color:[[ColorPalette::Foreground]]; background:[[ColorPalette::SecondaryLight]]; border: 1px solid;\n	border-color:[[ColorPalette::SecondaryPale]] [[ColorPalette::SecondaryDark]] [[ColorPalette::SecondaryDark]] [[ColorPalette::SecondaryPale]];}\n.wizard .button:hover {color:[[ColorPalette::Foreground]]; background:[[ColorPalette::Background]];}\n.wizard .button:active {color:[[ColorPalette::Background]]; background:[[ColorPalette::Foreground]]; border: 1px solid;\n	border-color:[[ColorPalette::PrimaryDark]] [[ColorPalette::PrimaryPale]] [[ColorPalette::PrimaryPale]] [[ColorPalette::PrimaryDark]];}\n\n#messageArea {border:1px solid [[ColorPalette::SecondaryMid]]; background:[[ColorPalette::SecondaryLight]]; color:[[ColorPalette::Foreground]];}\n#messageArea .button {color:[[ColorPalette::PrimaryMid]]; background:[[ColorPalette::SecondaryPale]]; border:none;}\n\n.popupTiddler {background:[[ColorPalette::TertiaryPale]]; border:2px solid [[ColorPalette::TertiaryMid]];}\n\n.popup {background:[[ColorPalette::TertiaryPale]]; color:[[ColorPalette::TertiaryDark]]; border-left:1px solid [[ColorPalette::TertiaryMid]]; border-top:1px solid [[ColorPalette::TertiaryMid]]; border-right:2px solid [[ColorPalette::TertiaryDark]]; border-bottom:2px solid [[ColorPalette::TertiaryDark]];}\n.popup hr {color:[[ColorPalette::PrimaryDark]]; background:[[ColorPalette::PrimaryDark]]; border-bottom:1px;}\n.popup li.disabled {color:[[ColorPalette::TertiaryMid]];}\n.popup li a, .popup li a:visited {color:[[ColorPalette::Foreground]]; border: none;}\n.popup li a:hover {background:[[ColorPalette::SecondaryLight]]; color:[[ColorPalette::Foreground]]; border: none;}\n.popup li a:active {background:[[ColorPalette::SecondaryPale]]; color:[[ColorPalette::Foreground]]; border: none;}\n.popupHighlight {background:[[ColorPalette::Background]]; color:[[ColorPalette::Foreground]];}\n.listBreak div {border-bottom:1px solid [[ColorPalette::TertiaryDark]];}\n\n.tiddler .defaultCommand {font-weight:bold;}\n\n.shadow .title {color:[[ColorPalette::TertiaryDark]];}\n\n.title {color:[[ColorPalette::SecondaryDark]];}\n.subtitle {color:[[ColorPalette::TertiaryDark]];}\n\n.toolbar {color:[[ColorPalette::PrimaryMid]];}\n.toolbar a {color:[[ColorPalette::TertiaryLight]];}\n.selected .toolbar a {color:[[ColorPalette::TertiaryMid]];}\n.selected .toolbar a:hover {color:[[ColorPalette::Foreground]];}\n\n.tagging, .tagged {border:1px solid [[ColorPalette::TertiaryPale]]; background-color:[[ColorPalette::TertiaryPale]];}\n.selected .tagging, .selected .tagged {background-color:[[ColorPalette::TertiaryLight]]; border:1px solid [[ColorPalette::TertiaryMid]];}\n.tagging .listTitle, .tagged .listTitle {color:[[ColorPalette::PrimaryDark]];}\n.tagging .button, .tagged .button {border:none;}\n\n.footer {color:[[ColorPalette::TertiaryLight]];}\n.selected .footer {color:[[ColorPalette::TertiaryMid]];}\n\n.sparkline {background:[[ColorPalette::PrimaryPale]]; border:0;}\n.sparktick {background:[[ColorPalette::PrimaryDark]];}\n\n.error, .errorButton {color:[[ColorPalette::Foreground]]; background:[[ColorPalette::Error]];}\n.warning {color:[[ColorPalette::Foreground]]; background:[[ColorPalette::SecondaryPale]];}\n.lowlight {background:[[ColorPalette::TertiaryLight]];}\n\n.zoomer {background:none; color:[[ColorPalette::TertiaryMid]]; border:3px solid [[ColorPalette::TertiaryMid]];}\n\n.imageLink, #displayArea .imageLink {background:transparent;}\n\n.annotation {background:[[ColorPalette::SecondaryLight]]; color:[[ColorPalette::Foreground]]; border:2px solid [[ColorPalette::SecondaryMid]];}\n\n.viewer .listTitle {list-style-type:none; margin-left:-2em;}\n.viewer .button {border:1px solid [[ColorPalette::SecondaryMid]];}\n.viewer blockquote {border-left:3px solid [[ColorPalette::TertiaryDark]];}\n\n.viewer table, table.twtable {border:2px solid [[ColorPalette::TertiaryDark]];}\n.viewer th, .viewer thead td, .twtable th, .twtable thead td {background:[[ColorPalette::SecondaryMid]]; border:1px solid [[ColorPalette::TertiaryDark]]; color:[[ColorPalette::Background]];}\n.viewer td, .viewer tr, .twtable td, .twtable tr {border:1px solid [[ColorPalette::TertiaryDark]];}\n\n.viewer pre {border:1px solid [[ColorPalette::SecondaryLight]]; background:[[ColorPalette::SecondaryPale]];}\n.viewer code {color:[[ColorPalette::SecondaryDark]];}\n.viewer hr {border:0; border-top:dashed 1px [[ColorPalette::TertiaryDark]]; color:[[ColorPalette::TertiaryDark]];}\n\n.highlight, .marked {background:[[ColorPalette::SecondaryLight]];}\n\n.editor input {border:1px solid [[ColorPalette::PrimaryMid]];}\n.editor textarea {border:1px solid [[ColorPalette::PrimaryMid]]; width:100%;}\n.editorFooter {color:[[ColorPalette::TertiaryMid]];}\n\n#backstageArea {background:[[ColorPalette::Foreground]]; color:[[ColorPalette::TertiaryMid]];}\n#backstageArea a {background:[[ColorPalette::Foreground]]; color:[[ColorPalette::Background]]; border:none;}\n#backstageArea a:hover {background:[[ColorPalette::SecondaryLight]]; color:[[ColorPalette::Foreground]]; }\n#backstageArea a.backstageSelTab {background:[[ColorPalette::Background]]; color:[[ColorPalette::Foreground]];}\n#backstageButton a {background:none; color:[[ColorPalette::Background]]; border:none;}\n#backstageButton a:hover {background:[[ColorPalette::Foreground]]; color:[[ColorPalette::Background]]; border:none;}\n#backstagePanel {background:[[ColorPalette::Background]]; border-color: [[ColorPalette::Background]] [[ColorPalette::TertiaryDark]] [[ColorPalette::TertiaryDark]] [[ColorPalette::TertiaryDark]];}\n.backstagePanelFooter .button {border:none; color:[[ColorPalette::Background]];}\n.backstagePanelFooter .button:hover {color:[[ColorPalette::Foreground]];}\n#backstageCloak {background:[[ColorPalette::Foreground]]; opacity:0.6; filter:'alpha(opacity:60)';}\n/*}}}*/</div>
 <div tiddler="StyleSheetLocale" tags="">/***\nStyleSheet for use when a translation requires any css style changes.\nThis StyleSheet can be used directly by languages such as Chinese, Japanese and Korean which use a logographic writing system and need larger font sizes.\n***/\n\n/*{{{*/\nbody {font-size:0.8em;}\n.headerShadow {position:relative; padding:3.5em 0em 1em 1em; left:-1px; top:-1px;}\n.headerForeground {position:absolute; padding:3.5em 0em 1em 1em; left:0px; top:0px;}\n\n#sidebarOptions {font-size:1.05em;}\n#sidebarOptions a {font-style:normal;}\n#sidebarOptions .sliderPanel {font-size:0.95em;}\n\n.subtitle {font-size:0.8em;}\n\n.viewer table.listView {font-size:1em;}\n\n.htmlarea .toolbarHA table {border:1px solid ButtonFace; margin:0em 0em;}\n/*}}}*/</div>
 <div tiddler="StyleSheetPrint" tags="">/*{{{*/\n@media print {\n#mainMenu, #sidebar, #messageArea, .toolbar, #backstageButton, #backstageArea {display: none ! important;}\n#displayArea {margin: 1em 1em 0em 1em;}\n/* Fixes a feature in Firefox 1.5.0.2 where print preview displays the noscript content */\nnoscript {display:none;}\n}\n/*}}}*/</div>
-<div tiddler="LoginTiddler" tags="">
-<?php if($usr_val==0){?> &lt;html&gt;&lt;form action='<?=queryString();?>' method=post&gt;&lt;input type=text value=simon id=cctuser name=cctuser width=15&gt;&lt;input type=password rows=5 id=cctpass name=cctpass&gt;&lt;input type=submit value=login&gt; &lt;/form&gt;&lt;/html&gt;<?php } else {?> &lt;html&gt;&lt;p&gt;Welcome <?php echo $usr?>&lt;/p&gt;&lt;a href='?logout=1&'&gt;Logout&lt;/a&gt;&lt;/html&gt;<?php } ?>
-</div>
 
 </div>
 <!--POST-SHADOWAREA-->

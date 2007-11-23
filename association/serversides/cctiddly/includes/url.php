@@ -41,10 +41,14 @@ $_SERVER['PHP_SELF']= '/svn/'.$instance.'/';
 $file_location  =  $tiddlyCfg['pref']['upload_dir'].str_replace('/'.$tiddlyCfg['pref']['folder'].'/', '', $_SERVER['REDIRECT_URL']);   // create url to file 
 //$file_url = '/'.$tiddlyCfg['pref']['folder'].'/upload/'.$instance.''.$_SERVER['SCRIPT_NAME'];
 
-if(file($file_location))
+if(@file($file_location))
 {
 	readfile($file_location);
 	exit;
+}
+else
+{
+//	echo 'file not found';
 }
 
 //  END OF MAPPING FOR FILE UPLOADS  

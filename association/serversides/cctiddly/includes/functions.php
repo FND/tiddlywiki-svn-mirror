@@ -391,7 +391,7 @@
 	function cookie_kill($k)
 	{
 		global $tiddlyCfg;
-		return setcookie($k, "", time() - 3600);
+		return @setcookie($k, "", time() - 3600);
 	}
 	
 	

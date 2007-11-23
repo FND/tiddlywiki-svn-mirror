@@ -1,4 +1,17 @@
 <?php
+// turn on debug mode 
+// make htAccess file.
+
+// run sql 
+
+include('includes/header.php');
+include('includes/instance.php');
+//instance_create('home');
+
+// create uploads directory for all the instaces in the db. 
+// turn of debug mode.
+exit;
+
 /**
 This is used to install the tables and database required for tiddly wiki.  Please edit the config files first though.
 This file can be removed after installation

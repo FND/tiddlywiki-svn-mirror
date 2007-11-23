@@ -4,19 +4,20 @@
 // GLOBAL PREFERENCES THAT PERSIST ACCROSS ALL INSTANCES
 
 
-$tiddlyCfg['db']['host'] = "db";		//sql host
-$tiddlyCfg['db']['login'] = "cct";		//login name
-$tiddlyCfg['db']['pass'] = "cctpass";		//login password
+$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
+$tiddlyCfg['db']['login'] = "root";		//login name
+$tiddlyCfg['db']['pass'] = "";		//login password
 $tiddlyCfg['db']['name'] = "cct";		//db name
 $tiddlyCfg['table']['pref'] = "";		//table prefix
 $tiddlyCfg['table']['name'] = "tiddler";
 $tiddlyCfg['table']['backup'] = "tiddly_wiki_entry_version";
 $tiddlyCfg['pref']['session_timeout'] = 1;		//cookies expire time, in minutes [0=disable]
 $tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
-$tiddlyCfg['pref']['ldap_enabled'] = 1;	
-$tiddlyCfg['pref']['upload_dir'] = '/mnt/content/vhost/wiki.osmosoft.com/docs/svn/upload/';
+$tiddlyCfg['pref']['ldap_enabled'] = 0;	
+$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
+$tiddlyCfg['pref']['upload_dir'] = '/svn/uploads/';
 $tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if running in the root dir, specifies the position in the URL where the instance name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
-$tiddlyCfg['pref']['folder'] ='svn';
+$tiddlyCfg['pref']['base_folder'] ='svn';
 
 
 //  CALLS URL CODE 
@@ -28,7 +29,7 @@ include('./includes/url.php');
 // THIS SHOULD BE USING THE BUILT IN FUCTIONS//////////////////////////
 
 include_once("./includes/db.mysql.php");
-$conn = mysql_connect("db", "cct", "cctpass");
+$conn = mysql_connect($tiddlyCfg['db']['host'], $tiddlyCfg['db']['login'], $tiddlyCfg['db']['pass']);
 
 if (!$conn) {
     echo "Unable to connect to DB: " . mysql_error();
