@@ -27,7 +27,6 @@ tiddler: ../../formatters/JSPWikiFormatterPlugin.js
 tiddler: ../../adaptors/JSPWikiAdaptorPlugin.js
 tiddler: ../../formatters/MediaWikiFormatterPlugin.js
 tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
-tiddler: ../../formatters/TWikiFormatterPlugin.js
 tiddler: ../../adaptors/TWikiAdaptorPlugin.js
 tiddler: ../../formatters/SocialtextFormatterPlugin.js
 tiddler: ../../adaptors/SocialtextAdaptorPlugin.js
