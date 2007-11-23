@@ -128,7 +128,7 @@ $tiddlyCfg['pref']['utf8'] = 0;
 		anonymous (include all users without username password pair)
 		user (users with username and password pair)
 */
-$tiddlyCfg['group']['admin'] = array("username");
+$tiddlyCfg['group']['admin'] = array("simonmcmanus.com/");
 
 /*
 	various config on privileges

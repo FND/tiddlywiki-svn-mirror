@@ -23,38 +23,18 @@
 	include_once("includes/header.php");
 	include_once("includes/print.php");
 	recordTime_float("includes");
-	
-	
-	
-	
-
-
 
 ////////////OPEN ID STUFF]
 
-
 include('../openid/examples/tiddler.php');
-
 
 // dispatch the event based on url args.
 dispatch();
 
 // Our helpful display page.
 $buf = <<< END
-
-
   %s
   &lt;div id="login"&gt;
-
-  &lt;hr/&gt;
-  &lt;h1&gt;OpenID &lt;/h1&gt;
-
-
-
-
-
-
-
     &lt;form action="%s" method="get"&gt;     
     OpenID: &lt;input  style='background: url(http://mojo.bt.com/images/login-bg.gif) no-repeat #FFF 5px;font-size:1.2em;color:#84807C;border:solid 1px #DFD8D1;
 		padding:0.2em;
@@ -62,21 +42,13 @@ $buf = <<< END
     &lt;input type="submit" value="Verify" /&gt;
     &lt;/form&gt;
   &lt;/div&gt;
-
 END;
-
  $oid =  sprintf( $buf, drawAlert($_message), $_SERVER['HTTP_REFERER'] );
 
-
 /// END OF OID
-
-	// LOGIN THEN REFRESH. 
-
-	// check if user is logged in 
+// LOGIN THEN REFRESH. 
+// check if user is logged in 
 //	echo $user['verified'] = user_validate();	
-	
-	
-
 	//logout
 	if( isset($_GET['logout']) && $_GET['logout']==1 )
 	{
@@ -257,63 +229,20 @@ $logged_in_create_tiddlers = "<div tiddler='SiteTitle' tags=''>Error 404 - Pleas
 </div>
 <div  tiddler='DefaultTiddlers' tags=''>[[CreateInstance]][[GettingStarted]]</div>";
 
-$login_to_view_tiddlers =  "
-<div tiddler='SiteTitle' tags=''>Please Login to view the content of this page</div>
-<div tiddler='MainMenu' tags=''></div>
-
-";
+$login_to_view_tiddlers =  "<div tiddler='SiteTitle' tags=''>Please Login to view the content of this page</div>
+<div tiddler='MainMenu' tags=''></div>";
 
 $login_to_create_tiddlers = "<div tiddler='SiteTitle' tags=''>Error 404 - Please login to create this instance</div>";
 
+$default_login_tiddler = "<div tiddler='DefaultTiddlers' tags=''>GettingStarted</div>";
 
 
-
-
-$login = "<div tiddler='DefaultTiddlers' tags=''>[[Please Login]]</div><div tiddler='Please Login' tags=''>&lt;html&gt;&lt;form action='' method=post&gt;".$ccT_msg['loginpanel']['username']."&lt;input type=text value=simon id=cctuser name=cctuser width=15&gt;&lt;br /&gt;".$ccT_msg['loginpanel']['password']."&lt;input type=password rows=5 id=cctpass name=cctpass&gt;&lt;br /&gt;&lt;input type=submit value=login&gt; &lt;/form&gt;
-
-".$oid."
-&lt;/html&gt;</div>
+$login = "<div tiddler='Please Login' tags=''>&lt;html&gt;&lt;form action='' method=post&gt;".$ccT_msg['loginpanel']['username']."&lt;input type=text value=simon id=cctuser name=cctuser width=15&gt;&lt;br /&gt;".$ccT_msg['loginpanel']['password']."&lt;input type=password rows=5 id=cctpass name=cctpass&gt;&lt;br /&gt;&lt;input type=submit value=login&gt; &lt;/form&gt;".$oid."&lt;/html&gt;Username:
+<<option txtUserName>>
+Password:
+<<option pasSecretCode>>
+Welcome anonymous [[login|-/index.php?]]</div>
 <div tiddler='SiteSubtitle' tags=''>Please Login to view this TiddlyWiki.</div>";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -340,10 +269,19 @@ if (!$user['verified'])
 	else
 	{	// instance does exist
 		echo $login;
-		echo $login_to_view_tiddlers;
-		//echo $logged_in_view;
-		echo $cut_down_view ;
-	
+		//echo $login_to_view_tiddlers;
+		
+		if (stristr($tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'], 'D'))
+		{
+		echo "<div tiddler='DefaultTiddlers' tags=''>[[Please Login]] GettingStarted</div>";
+			
+			echo $cut_down_view ;
+			//echo $logged_in_view;
+		}
+		else
+		{
+			echo $cut_down_view ;
+		}
 	}
 }
 else

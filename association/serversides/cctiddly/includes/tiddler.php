@@ -40,20 +40,19 @@
 	{
 		global $tiddlyCfg;
 		$tiddler = array();
-		$tiddler['id'] = preg_replace("![^0-9]!","",$id);		//if empty, leave it as empty. otherwise make it as int
+	 	$tiddler['id'] = preg_replace("![^0-9]!","",$id);		//if empty, leave it as empty. otherwise make it as int
 		//$tiddler['title'] = tiddler_bodyEncode($title);
-		$tiddler['title'] = $title;
+ 		$tiddler['title'] = $title;
 		//$tiddler['body'] = tiddler_bodyEncode($body);
-		$tiddler['body'] = $body;
+	 	$tiddler['body'] = $body;
 		$tiddler['modifier'] = $modifier;
-		$tiddler['modified'] = preg_replace("![^0-9]!","",$modified);
-		$tiddler['creator'] = $creator;
-		$tiddler['created'] = preg_replace("![^0-9]!","",$created);
-		$tiddler['tags'] = $tags;
-		$tiddler['fields'] = $fields;
-		$tiddler['instance_name'] = $tiddlyCfg['pref']['instance_name'];
-		$tiddler['version'] = preg_replace("![^0-9]!","",$version);
-		
+	 	$tiddler['modified'] = preg_replace("![^0-9]!","",$modified);
+	 	$tiddler['creator'] = $creator;
+		 $tiddler['created'] = preg_replace("![^0-9]!","",$created);
+			$tiddler['tags'] = $tags;
+ 		$tiddler['fields'] = $fields;
+ 		$tiddler['instance_name'] = $tiddlyCfg['pref']['instance_name'];
+ 		$tiddler['version'] = preg_replace("![^0-9]!","",$version);
 		return $tiddler;
 	}
 	

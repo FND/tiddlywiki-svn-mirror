@@ -203,7 +203,7 @@ window.cct_tweak = function(){
 ?>
 	//login panel
 	config.options.txtUser = "<?php print $usr ?>";
-	config.shadowTiddlers.<?php print $ccT_msg['loginpanel']['name']?> ="<?php if($usr_val==0){?> <html><form action='<?=queryString();?>' method=post><input type=text value=simon id=cctuser name=cctuser width=15><input type=password rows=5 id=cctpass name=cctpass><input type=submit value=login> </form></html><?php } else {?> <html><p>Welcome <?php echo $usr?></p><a href='<?php echo $_SERVER['PHP_SELF'];?>?logout=1&'>Logout</a></html><?php } ?>";
+	config.shadowTiddlers.<?php print $ccT_msg['loginpanel']['name']?> ="<?php if($usr_val==0){?> \nYou are not logged in :\n\n [[Please Login]]<?php } else {?> <html><p>Welcome <?php echo $usr?></p><a href='<?php echo $_SERVER['PHP_SELF'];?>?logout=1&'>Logout</a></html><?php } ?>";
 };
 
 <?php
