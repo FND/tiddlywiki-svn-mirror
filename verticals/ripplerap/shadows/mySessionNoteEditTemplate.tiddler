@@ -1,0 +1,30 @@
+<div title="mySessionNoteEditTemplate" tags="excludeLists excludeSearch">
+<pre>&lt;!--{{{--&gt;
+	
+
+
+&lt;div class='session'&gt;
+	&lt;div class='sessionHeader'&gt;
+		&lt;table&gt;
+		&lt;tr&gt;
+		&lt;td class='data'&gt;
+
+			&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
+			&lt;div macro='sessionAnnotation'&gt;&lt;/div&gt;
+
+		&lt;/td&gt;
+		&lt;td class='toolbar' macro='toolbar closeTiddler closeOthers makeNotes'&gt;
+		&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;/table&gt;
+	&lt;/div&gt;
+	&lt;div class='mySessionNotes' macro='sessionNotes mine'&gt;
+		&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler'&gt;&lt;/div&gt;
+		&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class='discoveredNotes' macro='sessionNotes discovered'&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;!--}}}--&gt;</pre>
+</div>
