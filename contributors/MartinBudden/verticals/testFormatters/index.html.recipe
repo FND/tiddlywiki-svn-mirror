@@ -18,6 +18,7 @@ tiddler: ../../formatters/SocialtextHtmlFormatterPlugin.js
 tiddler: ../../formatters/TextileFormatterPlugin.js
 tiddler: ../../formatters/TracFormatterPlugin.js
 tiddler: ../../formatters/TWikiFormatterPlugin.js
+tiddler: ../../formatters/WikispacesFormatterPlugin.js
 tiddler: ../tiddlypedia/ViewTemplateTiddlerFields.tiddler
 tiddler: settings.js
 tiddler: ../../tiddlers/Configuration.tiddler
@@ -34,3 +35,4 @@ tiddler: ../../testFormatters/testPmWikiFormat.tiddler
 tiddler: ../../testFormatters/testSocialtextBasic.tiddler
 tiddler: ../../testFormatters/testTracFormat.tiddler
 tiddler: ../../testFormatters/testTWikiFormat.tiddler
+tiddler: ../../testFormatters/testWikispacesFormat.tiddler
