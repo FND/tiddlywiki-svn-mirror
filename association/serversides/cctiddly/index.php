@@ -17,24 +17,17 @@
 	$time=array();
 	recordTime_float("Start");
 
-
-
-
-
 	//includes
 	include_once("includes/header.php");
 	include_once("includes/print.php");
 	recordTime_float("includes");
 
-
+// return correct header response if the page does not exist. 
 if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 {
 	header("HTTP/1.0 404 Not Found"); 
 }
-
-
-
-
+// display open id bits if it is enabled. 
 if ($tiddlyCfg['pref']['openid_enabled'] ==1)
 {
 	include('../openid/examples/tiddler.php');
@@ -53,7 +46,7 @@ if ($tiddlyCfg['pref']['openid_enabled'] ==1)
     &lt;/form&gt;
   &lt;/div&gt;
 END;
- $oid =  sprintf( $buf, drawAlert($_message), $_SERVER['HTTP_REFERER'] );
+ $openid =  sprintf( $buf, drawAlert($_message), $_SERVER['HTTP_REFERER'] );
 }
 /// END OF OID
 // LOGIN THEN REFRESH. 
@@ -247,7 +240,7 @@ $login_to_create_tiddlers = "<div tiddler='SiteTitle' tags=''>Error 404 - Please
 $default_login_tiddler = "<div tiddler='DefaultTiddlers' tags=''>GettingStarted</div>";
 
 
-$login = "<div tiddler='Please Login' tags=''>&lt;html&gt;&lt;form action='' method=post&gt;".$ccT_msg['loginpanel']['username']."&lt;input type=text value=simon id=cctuser name=cctuser width=15&gt;&lt;br /&gt;".$ccT_msg['loginpanel']['password']."&lt;input type=password rows=5 id=cctpass name=cctpass&gt;&lt;br /&gt;&lt;input type=submit value=login&gt; &lt;/form&gt;".$oid."&lt;/html&gt;	
+$login = "<div tiddler='Please Login' tags=''>&lt;html&gt;&lt;form action='' method=post&gt;".$ccT_msg['loginpanel']['username']."&lt;input type=text value=simon id=cctuser name=cctuser width=15&gt;&lt;br /&gt;".$ccT_msg['loginpanel']['password']."&lt;input type=password rows=5 id=cctpass name=cctpass&gt;&lt;br /&gt;&lt;input type=submit value=login&gt; &lt;/form&gt;".$openid."&lt;/html&gt;	
 </div>
 <div tiddler='SiteSubtitle' tags=''>Please Login to view this TiddlyWiki.</div>";
 

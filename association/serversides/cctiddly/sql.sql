@@ -228,3 +228,12 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`username`, `password`, `short_name`, `long_name`) VALUES 
 ('simon', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'smm', 'simonmcmanus');
+
+
+
+INSERT INTO `instance` (`name`, `lang`, `keep_revision`, `require_login`, `session_expire`, `tag_tiddler_with_modifier`, `char_set`, `hashseed`, `debug`, `status`, `tiddlywiki_type`, `default_anonymous_perm`, `default_user_perm`, `rss_group`, `markup_group`) VALUES 
+('home', 'en', 1, 0, 0, 0, 'utf8', '9654989', 1, '', 'tiddlywiki', 'ADDD', 'AAAA', '', '');
+
+
+INSERT INTO `tiddler` (`id`, `instance_name`, `title`, `body`, `fields`, `tags`, `modifier`, `creator`, `modified`, `created`, `version`) VALUES 
+(7, 'home', 'GettingStarted', 'Welcome to ccTiddly \\n\\nthis is how to use ccTiddly', 'changecount="1"', '', 'simon', 'simon', '200711261357', '200711261357', 1);
