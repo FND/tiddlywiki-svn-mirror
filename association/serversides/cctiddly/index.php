@@ -27,6 +27,13 @@
 	recordTime_float("includes");
 
 
+if (count($tiddlyCfg['pref']['instance_settings']) < 1)
+{
+	header("HTTP/1.0 404 Not Found"); 
+}
+
+
+
 
 if ($tiddlyCfg['pref']['openid_enabled'] ==1)
 {
@@ -262,6 +269,7 @@ if (!$user['verified'])
 { // user is not varified 
 	if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 	{   // instance does not exist 
+		
 		echo "<div tiddler='DefaultTiddlers' tags=''>[[Please Login]] GettingStarted</div>";
 		echo $login_to_create_tiddlers;
 		echo $cut_down_view;

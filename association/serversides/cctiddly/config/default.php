@@ -11,15 +11,13 @@ $tiddlyCfg['db']['name'] = "cctiddly";		//db name
 $tiddlyCfg['table']['pref'] = "";		//table prefix
 $tiddlyCfg['table']['name'] = "tiddler";
 $tiddlyCfg['table']['backup'] = "tiddly_wiki_entry_version";
-$tiddlyCfg['pref']['session_timeout'] = 1;		//cookies expire time, in minutes [0=disable]
+$tiddlyCfg['pref']['session_expire'] = 2000; // session expire time in minutes, 0 is disabled.
 $tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
 $tiddlyCfg['pref']['ldap_enabled'] = 0;	
 $tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
 $tiddlyCfg['pref']['upload_dir'] = '/Applications/xampp/htdocs/cctiddly/uploads/';
 $tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if running in the root dir, specifies the position in the URL where the instance name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
 $tiddlyCfg['pref']['base_folder'] ='cctiddly';
-
-
 
 //  CALLS URL CODE 
 
@@ -29,7 +27,6 @@ include_once("./includes/db.mysql.php");
 $link = db_connectDB();
 db_selectDB($tiddlyCfg['db']['name']);
 
-
 // create the instance if it does not already exist.
 if($_POST['instance_name'])
 {
@@ -37,9 +34,6 @@ if($_POST['instance_name'])
 	include_once("./includes/instance.php");
 	instance_create($_POST['instance_name']);
 }
-
-
-
 $array['name'] = $instance;
 $tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
 

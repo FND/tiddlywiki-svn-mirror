@@ -80,9 +80,12 @@
 		//$del_data['session_token']= cookie_get('passSecretCode');
 		//db_record_delete('login_session',$del_data);
 		$insert_data['user_id'] = $un;
-		$mins = date("i")+$tiddlyCfg['pref']['session_timeout'];  // add session timeout time to current time.
+		
+		
+		$mins = date("i")+$tiddlyCfg['pref']['session_expire'];  // add session timeout time to current time.
 		$expire = strtotime(date("Y").'-'.date("m")."-".date("d")." ".date("H").":".$mins.":".date("s"));	// build up date string
 		$insert_data['expire'] = date('Y-m-d H:i:s', $expire); // add expire time to data array for insert
+		
 		$insert_data['ip'] = $_SERVER['REMOTE_ADDR'];  // get the ip address
 		$insert_data['session_token'] = sha1($un.$_SERVER['REMOTE_ADDR'].$expire); // colect data together and sh1 it so that we have a unique indentifier 
 		cookie_set('txtUserName', $un);
