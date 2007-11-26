@@ -627,422 +627,7 @@ div.lifeStreamItem { color:#666; display:block; margin:0; padding:0.5em; backgro
 
 div.viewer img {width:100%;}</pre>
 </div>
-<div title="RSSAdaptor" modifier="Jon Lister" created="200709021326" modified="200710161502" tags="systemConfig TiddlyChatterPackage" server.host="file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html" server.page.revision="200710161108" server.type="file" changecount="1">
-<pre>/***
-
-|Title|RSSAdaptor|
-|Summary|Server adaptor for talking to RSS 2.0 files|
-|Description|Based on FileAdaptor|
-|Version of product it works with|2.2.5|
-|Version of component|1.0|
-|Explanation of how it can be used and modified|This supports the server adaptor interface, a description of which can be found at: http://tiddlywiki.com/#ServerAdaptorMechanism|
-|Examples where it can be seen working|The RSSAdator is used in this RSS Reader: (link to come)|
-***/
-
-//{{{
-
-function RSSAdaptor()
-{
-	this.host = null;
-	this.store = null;
-	this.context = null;
-	return this;
-}
-
-RSSAdaptor.NotLoadedError = &quot;RSS file has not been loaded&quot;;
-RSSAdaptor.serverType = 'RSS';
-// Use the line below instead of the line above if you want to override the local file adaptor
-// RSSAdaptor.serverType = 'file';
-
-// Open the specified host/server
-// Return true if successful, error string if not
-RSSAdaptor.prototype.openHost = function(host,context,userParams,callback)
-{
-	this.host = host;
-	if(!context)
-		context = {};
-	context.adaptor = this;
-	context.callback = callback;
-	context.userParams = userParams;
-	var ret = loadRemoteFile(host,RSSAdaptor.openHostCallback,context);
-	return typeof(ret) == &quot;string&quot; ? ret : true;
-};
-
-RSSAdaptor.openHostCallback = function(status,context,responseText,url,xhr)
-{
-	var adaptor = context.adaptor;
-	context.status = status;
-	if(!status) {
-		context.statusText = &quot;Error reading file: &quot; + xhr.statusText;
-	} else {
-		// CHANGE this bit to store RSS file appropriately (as part of the adaptor?) - DONE
-		// We're just storing the plain text rather than bring XML into it
-		adaptor.store = responseText;
-		// OLD CODE
-		// Load the content into a TiddlyWiki() object
-		// adaptor.store = new TiddlyWiki();
-		// if(!adaptor.store.importTiddlyWiki(responseText))
-		// 	context.statusText = config.messages.invalidFileError.format([url]);
-	}
-	context.callback(context,context.userParams);
-};
-
-// Gets the list of workspaces on a given server
-// Sets context.workspaces, which is a list of workspaces
-// Returns true if successful, error string if not (or it should)
-// Default for RSS file as we don't have a workspace
-RSSAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
-{
-	if(!context)
-		context = {};
-	context.workspaces = [{title:&quot;(default)&quot;}];
-	context.status = true;
-	window.setTimeout(function() {callback(context,userParams);},10);
-	return true;
-};
-
-// Open the specified workspace
-// Returns true if successful, error string if not (or it should)
-// Trivial in the case of RSS file where we don't have a workspace
-RSSAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
-{
-	if(!context)
-		context = {};
-	context.status = true;
-	window.setTimeout(function() {callback(context,userParams);},10);
-	return true;
-};
-
-// Gets the list of tiddlers within a given workspace
-// Returns true if successful, error string if not (or it should)
-// Sets context.tiddlers, which is an array of tiddlers
-// Set these variables if possible:
-// title: tiddler.title, modified: tiddler.modified, modifier: tiddler.modifier, text: tiddler.text, tags: tiddler.tags, size: tiddler.text
-// For RSS each item is a tiddler
-RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
-{
-	if(!this.store)
-		return RSSAdaptor.NotLoadedError;
-	if(!context)
-		context = {};
-	context.tiddlers = [];
-	// First thing to do is strip out any \r characters in the file, as TiddlyWiki doesn't deal with them
-	this.store = this.store.replace(/\r+/mg,&quot;&quot;);
-	// regex_item matches on the items 
-	var regex_item = /&lt;item&gt;(.|\n)*?&lt;\/item&gt;/mg;
-	// regex_title matches for the titles
-	var regex_title = /&lt;title&gt;(.|\n)*?&lt;\/title&gt;/mg;
-	var regex_guid = /&lt;guid&gt;(.|\n)*?&lt;\/guid&gt;/mg;
-	var regex_wiki = /&lt;tw:wikitext&gt;(.|\n)*?&lt;\/tw:wikitext&gt;/mg;
-	var regex_desc = /&lt;description&gt;(.|\n)*?&lt;\/description&gt;/mg;
-	var regex_category = /&lt;category&gt;(.|\n)*?&lt;\/category&gt;/mg;
-	var regex_link = /&lt;link&gt;(\S|\n)*?&lt;\/link&gt;/mg;
-	var regex_pubDate = /&lt;pubDate&gt;(.|\n)*?&lt;\/pubDate&gt;/mg;
-	var regex_author = /&lt;author&gt;(.|\n)*?&lt;\/author&gt;/mg;
-	var item_match = this.store.match(regex_item);
-	// check for filter and then implement tag filter if of the form [tag[public stuff]]
-	// filter syntax: [tag[tag1 tag2 ...]]
-	// tags in the same set of brackets are all compulsory
-	// TO-DO: support bracketed list, where multi-word tags are of the form [two words]
-	if (filter) {
-		var filter_regex = /\[(\w+)\[([ \w]+)\]\]/;
-		var filter_match = filter_regex.exec(filter);
-		if (filter_match) {
-			// filter_match[2] is a space-seperated string of the tags to match on
-			var tags_to_match = filter_match[1]==&quot;tag&quot; ? filter_match[2].split(&quot; &quot;) : null;
-		} else {
-			displayMessage(&quot;no match: check regex in filter&quot;);
-		}
-	}
-	for (var i=0;i&lt;item_match.length;i++) {
-		// create a new Tiddler in context.tiddlers with the finished item object
-		// grab a title
-		var item = {};
-		var title = item_match[i].match(regex_title);
-		if (title)
-			item.title = title[0].replace(/^&lt;title&gt;|&lt;\/title&gt;$/mg,&quot;&quot;);
-		else {
-			// something went wrong grabbing the title, grab the guid instead
-			title = item_match[i].match(regex_guid);
-			// TEMP FIX FOR DEMO 21/11/07
-			// displayMessage(&quot;problem with getting title: &quot; + item_match[i])
-			if (title)
-				item.title = title[0].replace(/^&lt;guid&gt;|&lt;\/guid&gt;$/mg,&quot;&quot;);
-			else {
-				item.title = new Date();
-				displayMessage(&quot;problem with getting title AND guid: &quot; + item_match[i]);
-			}
-		}
-		// This line makes sure any html-encoding in the title is reversed
-		item.title = item.title.htmlDecode();
-		// There is a problem with the title, which is that it is not formatted, so characters like &amp;apos; are not converted at render time
-		// renderHtmlText() extends String and sorts out the problem
-		item.title = item.title.renderHtmlText();
-		// grab original wikitext if it is there as an extended field
-		wikitext = item_match[i].match(regex_wiki);
-		if (wikitext) {
-			item.text = wikitext[0].replace(/^&lt;tw:wikitext&gt;|&lt;\/tw:wikitext&gt;$/mg,&quot;&quot;);
-			item.text = item.text.htmlDecode();
-		} else {
-			// grab a description
-			desc = item_match[i].match(regex_desc);
-			if (desc) {
-				item.text = desc[0].replace(/^&lt;description&gt;|&lt;\/description&gt;$/mg,&quot;&quot;);
-			} else {
-				item.text = &quot;empty, something seriously wrong with this item&quot;;
-				// displayMessage(&quot;description empty for item: &quot; + item.title);
-			}
-		}
-		var t = new Tiddler(item.title);
-		if (wikitext) {
-			t.text = item.text;
-		} else {
-			t.text = &quot;&lt;html&gt;&quot; + item.text.renderHtmlText() + &quot;&lt;/html&gt;&quot;;
-		}
-		// grab the categories
-		category = item_match[i].match(regex_category);
-		if (category) {
-			item.categories = [];
-			for (var j=0;j&lt;category.length;j++) {
-				item.categories[j] = category[j].replace(/^&lt;category&gt;|&lt;\/category&gt;$/mg,&quot;&quot;);
-			}
-			t.tags = item.categories;
-		} else {
-			// displayMessage(&quot;no tags for item: &quot; + item.title);
-		}
-		// grab the link and put it in a custom field (assumes this is sensible)
-		// regex_link assumes you can never have whitespace in a link
-		link = item_match[i].match(regex_link);
-		if (link) {
-			item.link = link[0].replace(/^&lt;link&gt;|&lt;\/link&gt;$/mg,&quot;&quot;);
-		} else {
-			item.link = &quot;#&quot;;
-			// displayMessage(&quot;link empty for item: &quot; + item.title);
-		}
-		t.fields[&quot;link to original&quot;] = item.link;
-		// grab date created
-		pubDate = item_match[i].match(regex_pubDate);
-		if (pubDate) {
-			pubDate = pubDate[0].replace(/^&lt;pubDate&gt;|&lt;\/pubDate&gt;$/mg,&quot;&quot;);
-			item.pubDate = new Date(pubDate);
-		} else {
-			item.pubDate = new Date();
-			// displayMessage(&quot;pubDate empty for item: &quot; + item.title);
-		}
-		t.created = item.pubDate;
-		// grab author
-		author = item_match[i].match(regex_author);
-		if (author) {
-			author = author[0].replace(/^&lt;author&gt;|&lt;\/author&gt;$/mg,&quot;&quot;);
-			item.author = author;
-		} else {
-			item.author = &quot;anonymous&quot;;
-			// displayMessage(&quot;author empty for item: &quot; + item.title);
-		}
-		t.modifier = item.author;
-		// check to see that we have a filter to use
-		if (filter_match) {
-			if(t.isTaggedAllOf(tags_to_match)) {
-				context.tiddlers.push(t);
-			}
-		} else {
-			// with no filter, we just add all the tiddlers
-			context.tiddlers.push(t);
-		}
-	}
-	context.status = true;
-	// Set this.context so that we can refer to the tiddler list even if it is not passed on to us
-	this.context = context;
-	window.setTimeout(function() {callback(context,userParams);},10);
-	return true;
-};
-
-// QUERY: what actually calls this and does it always pass in a real tiddler?
-RSSAdaptor.prototype.generateTiddlerInfo = function(tiddler)
-{
-	var info = {};
-	info.uri = tiddler.fields['server.host'] + &quot;#&quot; + tiddler.title;
-	return info;
-};
-
-// Retrieves a tiddler from a given workspace on a given server
-// Sets context.tiddler to the requested tiddler
-// Context object passed in from importTiddlers is empty so we use this.context
-// Returns true if successful, error string if not (or it should)
-RSSAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
-{
-	if(!this.store)
-		return RSSAdaptor.NotLoadedError;
-	if(!context)
-		context = {};
-	// Retrieve the tiddler from the this.context.tiddlers array
-	for (var i=0; i&lt;this.context.tiddlers.length; i++) {
-		if (this.context.tiddlers[i].title == title) {
-			context.tiddler = this.context.tiddlers[i];
-		}
-	}
-	// NOTE: this doesn't add the filter field - is that ok? Probably not...
-	if(context.tiddler) {
-		context.tiddler.fields['server.type'] = RSSAdaptor.serverType;
-		context.tiddler.fields['server.host'] = this.host;
-		context.tiddler.fields['server.page.revision'] = context.tiddler.modified.convertToYYYYMMDDHHMM();
-		context.status = true;
-	} else {
-		context.status = false;
-		context.statusText = &quot;error retrieving tiddler: &quot; + title;
-		return context.statusText;
-	}
-	if(context.allowSynchronous) {
-		context.isSynchronous = true;
-		callback(context,userParams);
-	} else {
-		window.setTimeout(function() {callback(context,userParams);},10);
-	}
-	return true;
-};
-
-RSSAdaptor.prototype.close = function()
-{
-	delete this.store;
-	this.store = null;
-};
-
-config.adaptors[RSSAdaptor.serverType] = RSSAdaptor;
-
-// Hack to override the importTiddlers local file behaviour
-config.macros.importTiddlers.onBrowseChange = function(e)
-{
-	var wizard = new Wizard(this);
-	var fileInput = wizard.getElement(&quot;txtPath&quot;);
-	fileInput.value = &quot;file://&quot; + this.value;
-	var serverType = wizard.getElement(&quot;selTypes&quot;);
-	if(serverType.value != &quot;RSS&quot;) {
-		serverType.value = &quot;file&quot;;
-	}
-	return false;
-};
-
-// renderHtmlText puts a string through the browser render process and then extracts the text
-// useful to turn HTML entities into literals such as &amp;apos; to '
-// this method has two passes at the string - the first to convert it to html and the second
-// to selectively catch the ASCII-encoded characters without losing the rest of the html
-String.prototype.renderHtmlText = function() {
-	var text = this;
-	var regex_cdata = /&lt;!\[CDATA\[((?:.| )*?)\]\]&gt;/mg;
-	regex_cdata.lastIndex = 0;
-	var match = regex_cdata.exec(this);
-	if (match) {
-		text = match[1];
-	}
-	var e = createTiddlyElement(document.body,&quot;div&quot;);
-	e.innerHTML = text;
-	text = getPlainText(e);
-	text = text.replace(/&amp;#[\w]+?;/g,function(word) {
-		var ee = createTiddlyElement(e,&quot;div&quot;);
-		ee.innerHTML = word;
-		return getPlainText(ee);
-	});
-	removeNode(e);
-	return text;
-};
-
-/* 24/10/07 - NOT USING THIS - extending RSS to include copy of wikitext for a tiddler instead
-// RSSunwikify converts html structures into wikitext
-// As at 24/10/07, only supports tables
-// needed because slice mechanism does not support html table tags
-RSSAdaptor.RSSunwikify = function(text) {
-	console.log(text);
-	var new_text = &quot;&quot;;
-	var table_regex = /&lt;table(\w|[ &quot;'=])*?&gt;(.|\n)*?&lt;\/table&gt;/mg;
-	var tr_regex = /&lt;tr(\w|[ &quot;'=])*?&gt;(.|\n)*?&lt;\/tr&gt;/mg;
-	var td_regex = /&lt;td(\w|[ &quot;'=])*?&gt;(.|\n)*?&lt;\/td&gt;/mg;
-	var table_match = text.match(table_regex);
-	if (table_match) {
-		console.log(&quot;found table: &quot; + table_match[0])
-		var rows = table_match[0].replace(/^&lt;table(\w|[ &quot;'=])*?&gt;|&lt;\/table&gt;$/g,&quot;&quot;).match(tr_regex);
-		if (rows) {
-			for (var i=0;i&lt;rows.length;i++) {
-				console.log(&quot;found row: &quot; + rows[i]);
-				var cells = rows[i].replace(/^&lt;tr(\w|[ &quot;'=])*?&gt;|&lt;\/tr&gt;$/g,&quot;&quot;).match(td_regex);
-				if (cells) {
-					for (var j=0;j&lt;cells.length;j++) {
-						console.log(&quot;found cell: &quot; + cells[j]);
-						// add pipe and cell content
-						new_text += &quot;| &quot; + &quot;&lt;html&gt;&quot;+cells[j].replace(/^&lt;td(\w|[ &quot;'=])*?&gt;|&lt;\/td&gt;$/g,&quot;&quot;)+&quot;&lt;/html&gt;&quot;;
-					}
-				}
-				// add pipe and newline at end of row
-				new_text += &quot;|\n&quot;;
-			}
-		}
-	}
-	console.log(new_text);
-	return new_text;
-}; */
-
-// Test if a tiddler carries any of an array of tags
-// Takes an array of tags
-// Returns true if there is a match, false if not
-Tiddler.prototype.isTaggedAnyOf = function(tag_array)
-{
-	if (tag_array) {
-		// get a string of this tiddler's tags
-		var this_tag_list = this.getTags();
-		// spilt that into an array
-		var this_tag_array = this_tag_list.split(&quot; &quot;);
-		// check that all the members of tag_array are contained in this_tag_array
-		for (var i=0; i&lt;this_tag_array.length; i++) {
-			for (var j=0; j&lt;tag_array.length; j++) {
-				if (this_tag_array[i] == tag_array[j]) {
-					return true;
-				}
-			}
-		}
-		// if we get to this point, we've not had any matches
-		return false;
-	} else {
-		return false;
-	}
-};
-
-// Test if a tiddler carries all of an array of tags
-// Takes an array of tags
-// Returns true if all match, false if not
-Tiddler.prototype.isTaggedAllOf = function(tag_array)
-{
-	if (tag_array) {
-		// get a string of this tiddler's tags
-		var this_tag_list = this.getTags();
-		// spilt that into an array
-		var this_tag_array = this_tag_list.split(&quot; &quot;);
-		// check whether any of the members of tag_array are not contained in this_tag_array
-		for (var i=0; i&lt;tag_array.length; i++) {
-			// tag_match is a flag to signal whether we've had a match for a compulsory tag
-			var tag_match = false;
-			for (var j=0; j&lt;this_tag_array.length; j++) {
-				if (tag_array[i] == this_tag_array[j]) {
-					tag_match = true;
-					break;
-				}
-			}
-			// if tag_match is still false after we've looked through the tiddler's tags,
-			// there is a failed match in the compulsory list so we can return false
-			if (tag_match == false) {
-				return false;
-			}
-		}
-		// now we've looked through the compulsory tags, return true
-		// this is valid because we would have returned false by this point anyway if
-		// there had been no match
-		return true;
-	} else {
-		return false;
-	}
-};
-
-//}}}</pre>
-</div>
-<div title="WebDavLib" modifier="SaqImtiaz" created="200711230000" modified="" tags="systemConfig excludeLists excludeSearch">
+<div title="WebDavLib" modifier="SaqImtiaz" created="200711230000" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |''Name:''|WebDavLib|
 |''Description:''|WebDav utility functions|
@@ -1190,313 +775,6 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 	}
 
 	return template;
-}
-//}}}</pre>
-</div>
-<div title="SparklinePlugin" modifier="" created="200711142805" modified="" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|SparklinePlugin|
-|''Description:''|Sparklines macro|
-***/
-//{{{
-if(!version.extensions.SparklinePlugin) {
-version.extensions.SparklinePlugin = {installed:true};
-
-//--
-//-- Sparklines
-//--
-
-config.macros.sparkline = {};
-config.macros.sparkline.handler = function(place,macroName,params)
-{
-	var data = [];
-	var min = 0;
-	var max = 0;
-	var v;
-	for(var t=0; t&lt;params.length; t++) {
-		v = parseInt(params[t]);
-		if(v &lt; min)
-			min = v;
-		if(v &gt; max)
-			max = v;
-		data.push(v);
-	}
-	if(data.length &lt; 1)
-		return;
-	var box = createTiddlyElement(place,&quot;span&quot;,null,&quot;sparkline&quot;,String.fromCharCode(160));
-	box.title = data.join(&quot;,&quot;);
-	var w = box.offsetWidth;
-	var h = box.offsetHeight;
-	box.style.paddingRight = (data.length * 2 - w) + &quot;px&quot;;
-	box.style.position = &quot;relative&quot;;
-	for(var d=0; d&lt;data.length; d++) {
-		var tick = document.createElement(&quot;img&quot;);
-		tick.border = 0;
-		tick.className = &quot;sparktick&quot;;
-		tick.style.position = &quot;absolute&quot;;
-		tick.src = &quot;data:image/gif,GIF89a%01%00%01%00%91%FF%00%FF%FF%FF%00%00%00%C0%C0%C0%00%00%00!%F9%04%01%00%00%02%00%2C%00%00%00%00%01%00%01%00%40%02%02T%01%00%3B&quot;;
-		tick.style.left = d*2 + &quot;px&quot;;
-		tick.style.width = &quot;2px&quot;;
-		v = Math.floor(((data[d] - min)/(max-min)) * h);
-		tick.style.top = (h-v) + &quot;px&quot;;
-		tick.style.height = v + &quot;px&quot;;
-		box.appendChild(tick);
-	}
-};
-
-
-}
-//}}}</pre>
-</div>
-<div title="CryptoFunctionsPlugin" modifier="" created="200711142805" modified="" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|CryptoFunctionsPlugin|
-|''Description:''|Support for cryptographic functions|
-***/
-//{{{
-if(!version.extensions.CryptoFunctionsPlugin) {
-version.extensions.CryptoFunctionsPlugin = {installed:true};
-
-//--
-//-- Crypto functions and associated conversion routines
-//--
-
-// Crypto &quot;namespace&quot;
-function Crypto() {}
-
-// Convert a string to an array of big-endian 32-bit words
-Crypto.strToBe32s = function(str)
-{
-	var be = Array();
-	var len = Math.floor(str.length/4);
-	var i, j;
-	for(i=0, j=0; i&lt;len; i++, j+=4) {
-		be[i] = ((str.charCodeAt(j)&amp;0xff) &lt;&lt; 24)|((str.charCodeAt(j+1)&amp;0xff) &lt;&lt; 16)|((str.charCodeAt(j+2)&amp;0xff) &lt;&lt; 8)|(str.charCodeAt(j+3)&amp;0xff);
-	}
-	while (j&lt;str.length) {
-		be[j&gt;&gt;2] |= (str.charCodeAt(j)&amp;0xff)&lt;&lt;(24-(j*8)%32);
-		j++;
-	}
-	return be;
-};
-
-// Convert an array of big-endian 32-bit words to a string
-Crypto.be32sToStr = function(be)
-{
-	var str = &quot;&quot;;
-	for(var i=0;i&lt;be.length*32;i+=8)
-		str += String.fromCharCode((be[i&gt;&gt;5]&gt;&gt;&gt;(24-i%32)) &amp; 0xff);
-	return str;
-};
-
-// Convert an array of big-endian 32-bit words to a hex string
-Crypto.be32sToHex = function(be)
-{
-	var hex = &quot;0123456789ABCDEF&quot;;
-	var str = &quot;&quot;;
-	for(var i=0;i&lt;be.length*4;i++)
-		str += hex.charAt((be[i&gt;&gt;2]&gt;&gt;((3-i%4)*8+4))&amp;0xF) + hex.charAt((be[i&gt;&gt;2]&gt;&gt;((3-i%4)*8))&amp;0xF);
-	return str;
-};
-
-// Return, in hex, the SHA-1 hash of a string
-Crypto.hexSha1Str = function(str)
-{
-	return Crypto.be32sToHex(Crypto.sha1Str(str));
-};
-
-// Return the SHA-1 hash of a string
-Crypto.sha1Str = function(str)
-{
-	return Crypto.sha1(Crypto.strToBe32s(str),str.length);
-};
-
-// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
-Crypto.sha1 = function(x,blen)
-{
-	// Add 32-bit integers, wrapping at 32 bits
-	add32 = function(a,b)
-	{
-		var lsw = (a&amp;0xFFFF)+(b&amp;0xFFFF);
-		var msw = (a&gt;&gt;16)+(b&gt;&gt;16)+(lsw&gt;&gt;16);
-		return (msw&lt;&lt;16)|(lsw&amp;0xFFFF);
-	};
-	// Add five 32-bit integers, wrapping at 32 bits
-	add32x5 = function(a,b,c,d,e)
-	{
-		var lsw = (a&amp;0xFFFF)+(b&amp;0xFFFF)+(c&amp;0xFFFF)+(d&amp;0xFFFF)+(e&amp;0xFFFF);
-		var msw = (a&gt;&gt;16)+(b&gt;&gt;16)+(c&gt;&gt;16)+(d&gt;&gt;16)+(e&gt;&gt;16)+(lsw&gt;&gt;16);
-		return (msw&lt;&lt;16)|(lsw&amp;0xFFFF);
-	};
-	// Bitwise rotate left a 32-bit integer by 1 bit
-	rol32 = function(n)
-	{
-		return (n&gt;&gt;&gt;31)|(n&lt;&lt;1);
-	};
-
-	var len = blen*8;
-	// Append padding so length in bits is 448 mod 512
-	x[len&gt;&gt;5] |= 0x80 &lt;&lt; (24-len%32);
-	// Append length
-	x[((len+64&gt;&gt;9)&lt;&lt;4)+15] = len;
-	var w = Array(80);
-
-	var k1 = 0x5A827999;
-	var k2 = 0x6ED9EBA1;
-	var k3 = 0x8F1BBCDC;
-	var k4 = 0xCA62C1D6;
-
-	var h0 = 0x67452301;
-	var h1 = 0xEFCDAB89;
-	var h2 = 0x98BADCFE;
-	var h3 = 0x10325476;
-	var h4 = 0xC3D2E1F0;
-
-	for(var i=0;i&lt;x.length;i+=16) {
-		var j,t;
-		var a = h0;
-		var b = h1;
-		var c = h2;
-		var d = h3;
-		var e = h4;
-		for(j = 0;j&lt;16;j++) {
-			w[j] = x[i+j];
-			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),d^(b&amp;(c^d)),w[j],k1);
-			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
-		}
-		for(j=16;j&lt;20;j++) {
-			w[j] = rol32(w[j-3]^w[j-8]^w[j-14]^w[j-16]);
-			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),d^(b&amp;(c^d)),w[j],k1);
-			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
-		}
-		for(j=20;j&lt;40;j++) {
-			w[j] = rol32(w[j-3]^w[j-8]^w[j-14]^w[j-16]);
-			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),b^c^d,w[j],k2);
-			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
-		}
-		for(j=40;j&lt;60;j++) {
-			w[j] = rol32(w[j-3]^w[j-8]^w[j-14]^w[j-16]);
-			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),(b&amp;c)|(d&amp;(b|c)),w[j],k3);
-			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
-		}
-		for(j=60;j&lt;80;j++) {
-			w[j] = rol32(w[j-3]^w[j-8]^w[j-14]^w[j-16]);
-			t = add32x5(e,(a&gt;&gt;&gt;27)|(a&lt;&lt;5),b^c^d,w[j],k4);
-			e=d; d=c; c=(b&gt;&gt;&gt;2)|(b&lt;&lt;30); b=a; a = t;
-		}
-
-		h0 = add32(h0,a);
-		h1 = add32(h1,b);
-		h2 = add32(h2,c);
-		h3 = add32(h3,d);
-		h4 = add32(h4,e);
-	}
-	return Array(h0,h1,h2,h3,h4);
-};
-
-
-}
-//}}}</pre>
-</div>
-<div title="DeprecatedFunctionsPlugin" modifier="" created="200711142805" modified="" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|DeprecatedFunctionsPlugin|
-|''Description:''|Support for deprecated functions removed from core|
-***/
-//{{{
-if(!version.extensions.DeprecatedFunctionsPlugin) {
-version.extensions.DeprecatedFunctionsPlugin = {installed:true};
-
-//--
-//-- Deprecated code
-//--
-
-// @Deprecated: Use createElementAndWikify and this.termRegExp instead
-config.formatterHelpers.charFormatHelper = function(w)
-{
-	w.subWikify(createTiddlyElement(w.output,this.element),this.terminator);
-};
-
-// @Deprecated: Use enclosedTextHelper and this.lookaheadRegExp instead
-config.formatterHelpers.monospacedByLineHelper = function(w)
-{
-	var lookaheadRegExp = new RegExp(this.lookahead,&quot;mg&quot;);
-	lookaheadRegExp.lastIndex = w.matchStart;
-	var lookaheadMatch = lookaheadRegExp.exec(w.source);
-	if(lookaheadMatch &amp;&amp; lookaheadMatch.index == w.matchStart) {
-		var text = lookaheadMatch[1];
-		if(config.browser.isIE)
-			text = text.replace(/\n/g,&quot;\r&quot;);
-		createTiddlyElement(w.output,&quot;pre&quot;,null,null,text);
-		w.nextMatch = lookaheadRegExp.lastIndex;
-	}
-};
-
-// @Deprecated: Use &lt;br&gt; or &lt;br /&gt; instead of &lt;&lt;br&gt;&gt;
-config.macros.br = {};
-config.macros.br.handler = function(place)
-{
-	createTiddlyElement(place,&quot;br&quot;);
-};
-
-// Find an entry in an array. Returns the array index or null
-// @Deprecated: Use indexOf instead
-Array.prototype.find = function(item)
-{
-	var i = this.indexOf(item);
-	return i == -1 ? null : i;
-};
-
-// Load a tiddler from an HTML DIV. The caller should make sure to later call Tiddler.changed()
-// @Deprecated: Use store.getLoader().internalizeTiddler instead
-Tiddler.prototype.loadFromDiv = function(divRef,title)
-{
-	return store.getLoader().internalizeTiddler(store,this,title,divRef);
-};
-
-// Format the text for storage in an HTML DIV
-// @Deprecated Use store.getSaver().externalizeTiddler instead.
-Tiddler.prototype.saveToDiv = function()
-{
-	return store.getSaver().externalizeTiddler(store,this);
-};
-
-// @Deprecated: Use store.allTiddlersAsHtml() instead
-function allTiddlersAsHtml()
-{
-	return store.allTiddlersAsHtml();
-}
-
-// @Deprecated: Use refreshPageTemplate instead
-function applyPageTemplate(title)
-{
-	refreshPageTemplate(title);
-}
-
-// @Deprecated: Use story.displayTiddlers instead
-function displayTiddlers(srcElement,titles,template,unused1,unused2,animate,unused3)
-{
-	story.displayTiddlers(srcElement,titles,template,animate);
-}
-
-// @Deprecated: Use story.displayTiddler instead
-function displayTiddler(srcElement,title,template,unused1,unused2,animate,unused3)
-{
-	story.displayTiddler(srcElement,title,template,animate);
-}
-
-// @Deprecated: Use functions on right hand side directly instead
-var createTiddlerPopup = Popup.create;
-var scrollToTiddlerPopup = Popup.show;
-var hideTiddlerPopup = Popup.remove;
-
-// @Deprecated: Use right hand side directly instead
-var regexpBackSlashEn = new RegExp(&quot;\\\\n&quot;,&quot;mg&quot;);
-var regexpBackSlash = new RegExp(&quot;\\\\&quot;,&quot;mg&quot;);
-var regexpBackSlashEss = new RegExp(&quot;\\\\s&quot;,&quot;mg&quot;);
-var regexpNewLine = new RegExp(&quot;\n&quot;,&quot;mg&quot;);
-var regexpCarriageReturn = new RegExp(&quot;\r&quot;,&quot;mg&quot;);
-
 }
 //}}}</pre>
 </div>
@@ -1681,17 +959,17 @@ config.macros.toggleElement.toggle = function(id) {
 <div title="Coffee Break" tags="session">
 <pre>speaker:
 track:day1
-date:13/11/07
-start:1600
-end:1800
+date:11/12/07
+start:1100
+end:1120
 blurb:</pre>
 </div>
 <div title="Making your information social" tags="session">
 <pre>speaker:Kevin Rose - DIGG in conversation with Sarah Lacy - Author
-track:day2
-date:13/11/07
-start:1700
-end:1900
+track:day1
+date:11/12/07
+start:0940
+end:1000
 blurb:</pre>
 </div>
 <div title="Persistent communication and its impact on being social" tags="session">
@@ -1713,10 +991,10 @@ blurb:</pre>
 <div title="Welcome to the Evolution/Revolution" tags="session">
 <pre>speaker:Loic Le Meur
 track:day1
-date:11/13/07
+date:11/12/07
 start:0830
 end:0840
-synopsis:Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</pre>
+synopsis:</pre>
 </div>
 <div title="Why books and school lectures still exist" tags="session shared">
 <pre>speaker:Hans Rosling
@@ -1732,7 +1010,442 @@ blurb:</pre>
 <div title="Welcome to the Evolution/Revolution from PhilHawksworth" tags="excludeLists excludeSearch">
 <pre>That was an excellent introduction</pre>
 </div>
-<div title="SparklinePlugin" created="200711142805" tags="systemConfig excludeLists excludeSearch">
+<div title=" Opening remarks  - Loic Le Meur" modifier="Osmosoft" created="200711261126" tags="session shared">
+<pre>speaker:Loic Le Meur
+track:day2
+date:12/12/07
+start:0830
+end:0840
+synopsis:</pre>
+</div>
+<div title="A generational rift - Is trouble brewing with technology leadership? " modifier="Osmosoft" created="200711261147" tags="session shared">
+<pre>speaker:David Weinberger - Author
+track:day2
+date:12/12/07
+start:1620
+end:1640
+synopsis:http://www.evident.com/</pre>
+</div>
+<div title="An environmental riff - where technology fits in" modifier="Osmosoft" created="200711261146" tags="session shared">
+<pre>speaker:Tom Raftery
+track:day2
+date:12/12/07
+start:1600
+end:1620
+synopsis:http://www.tomrafteryit.net/</pre>
+</div>
+<div title="Beyond compression and access to discovery - the new frontier" modifier="Osmosoft" created="200711261108" modified="200711261110" tags="session shared">
+<pre>speaker:Marc Canter - Professor Karlheinz Brandenburg - Fraunhofer Society
+track:day1
+date:11/12/07
+start:1540
+end:1555
+synopsis:http://en.wikipedia.org/wiki/Karlheinz_Brandenburg</pre>
+</div>
+<div title="Breaking the status quo - building a business designed for disruption" modifier="Osmosoft" created="200711261318" modified="200711261319" tags="shared session">
+<pre>speaker:Moderator: Jeff Clavier - SoftTechVC, Tim von Torne - Cellity, Jan Andresen - Weblin, Daniel Ek - Spotify, Zvi Schreiber - G.ho.st
+track:day2-Competition Stage
+date:12/12/07
+start:1110
+end:1200
+synopsis:http://www.cellity.com/en/home.html, http://www.weblin.com/, http://www.spotify.com/, http://g.ho.st/</pre>
+</div>
+<div title="Bringing social to software: Radical change is coming. Are we ready ? " modifier="Osmosoft" created="200711261107" tags="session shared">
+<pre>speaker:Marc Canter - Broadband Mechanics (moderator), Tariq Krim - Netvibes, Hans Peter Brondmo - Plum, Patrick Chanezon - Google, Susan Kish
+track:day1
+date:11/12/07
+start:1455
+end:1540
+synopsis:http://blog.broadbandmechanics.com/, http://www.netvibes.com/, http://www.plum.com/, http://blog.chanezon.com/, http://www.susankish.com/</pre>
+</div>
+<div title="Casual vs. Serious Games" modifier="Osmosoft" created="200711261119" tags="session shared">
+<pre>speaker:Jeff Clavier - SoftTech VC (moderator), Mathieu Nouzareth - Boonty/Cafe.com, Hubert Thieblot - Cursed
+track:day1
+date:11/12/07
+start:1810
+end:1835
+synopsis:http://blog.softtechvc.com/, http://www.boonty.net/games/about_us_1/index.html, http://www.curse.com/</pre>
+</div>
+<div title="Coffee Break " modifier="Osmosoft" created="200711261051" modified="200711261102" tags="session shared">
+<pre>speaker:
+track:day1
+date:11/12/07
+start:1020
+end:1100
+synopsis:</pre>
+</div>
+<div title="Coffee Break Two " modifier="Osmosoft" created="200711261114" modified="200711261115" tags="session shared">
+<pre>speaker:
+track:day1
+date:11/12/07
+start:1645
+end:1530
+synopsis:</pre>
+</div>
+<div title="CompetitionStage" modifier="Osmosoft" created="200711261312">
+<pre>Type the text for 'CompetitionStage'</pre>
+</div>
+<div title="Day2 Lunch Session " modifier="Osmosoft" created="200711261325" tags="session shared">
+<pre>speaker:
+track:day2-Competition Stage
+date:12/12/07
+start:1330
+end:1430
+synopsis:</pre>
+</div>
+<div title="Digital Media: The Future, a workshop discussion" modifier="Osmosoft" created="200711261315" tags="session shared">
+<pre>speaker:Gerd Leonard - Media Futurist
+track:day2-Competition Stage
+date:12/12/07
+start:0950
+end:1010
+synopsis:http://www.mediafuturist.com/</pre>
+</div>
+<div title="Digitized Worlds" modifier="Osmosoft" created="200711261116" tags="shared session">
+<pre>speaker:Joi Ito
+track:day1
+date:11/12/07
+start:1740
+end:1810
+synopsis:http://joi.ito.com/</pre>
+</div>
+<div title="Disruption and Innovation" modifier="Osmosoft" created="200711261120" tags="session shared">
+<pre>speaker:Hugh Macleod - GapingVoid, Ben Metcalfe - DotBen
+track:day1
+date:11/12/07
+start:1835
+end:1850
+synopsis:http://www.gapingvoid.com/, http://benmetcalfe.com/blog/</pre>
+</div>
+<div title="Evolution of social networks, how old school is becoming new" modifier="Osmosoft" created="200711261316" modified="200711261334" tags="session shared">
+<pre>speaker:Moderator: Jeff Clavier - SoftTechVC, Alexander Diehl - BMW, Lisa Sounio - Dopplr, Marko Ahtisaari - Blyk
+track:day2-Competition Stage
+date:12/12/07
+start:1010
+end:1055
+synopsis:http://blog.dopplr.com/, http://about.blyk.com/blog</pre>
+</div>
+<div title="Evolving entrepreneurship" modifier="Osmosoft" created="200711261136" tags="session shared">
+<pre>speaker:Martin Varsavsky - FON - in conversation with Loic Le Meur
+track:day2
+date:12/12/07
+start:1140
+end:1155
+synopsis:http://english.martinvarsavsky.net/, http://www.fon.com/</pre>
+</div>
+<div title="Evolving innovation" modifier="Osmosoft" created="200711261134" tags="session shared">
+<pre>speaker:Dave Winer - Scriping News - in conversation with Loic Le Meur
+track:day2
+date:12/12/07
+start:1045
+end:1100
+synopsis:http://www.scripting.com/</pre>
+</div>
+<div title="Interface design and user experience" modifier="Osmosoft" created="200711261138" tags="session shared">
+<pre>speaker:Shahram Izadi - Microsoft Research
+track:day2
+date:12/12/07
+start:1215
+end:1230
+synopsis:http://research.microsoft.com/~shahrami/</pre>
+</div>
+<div title="Internet pollution and how to stop it" modifier="Osmosoft" created="200711261137" tags="session shared">
+<pre>speaker:Jason Calacanis - Mahalo
+track:day2
+date:12/12/07
+start:1155
+end:1215
+synopsis:http://www.mahalo.com/</pre>
+</div>
+<div title="Is there a Web 3.0 and where do social networks fit in? " modifier="Osmosoft" created="200711261140" tags="session shared">
+<pre>speaker:Reid Hoffman - LinkedIn
+track:day2
+date:12/12/07
+start:1245
+end:1300
+synopsis:http://www.linkedin.com/in/reidhoffman</pre>
+</div>
+<div title="Is there reality to a virtual world economy ? " modifier="Osmosoft" created="200711261123" tags="session shared">
+<pre>speaker:Sasha Frieze - Virtual Worlds Forum (moderator), Clay Shirky - NYU, Marc Samwer -  European Founders Fund, Mattias Miksche - Stardoll, Gilbert Revillon - PCMC at LaSer, Joerg Reimann - BMW
+track:day1
+date:11/12/07
+start:1850
+end:1745
+synopsis:http://virtualworldsforum.com/, http://www.shirky.com/, http://www.europeanfounders.com/marc-samwer.html, http://www.linkedin.com/pub/2/557/961, http://www.stardoll.com/en/, http://www.nano-marketing.eu/, </pre>
+</div>
+<div title="LeWeb3 Party with Netvibes " modifier="Osmosoft" created="200711261124" tags="session shared">
+<pre>speaker: 
+track:day1
+date:11/12/07
+start:1745
+end:1200
+synopsis:</pre>
+</div>
+<div title="Lunch" modifier="SimonMcManus" created="200711261101" modified="200711261341" tags="session shared" changecount="1">
+<pre>speaker:
+track:day1
+date:11/12/07
+start:1235
+end:1430
+synopsis:http://osmosoft.com</pre>
+</div>
+<div title="Lunch for day 2" modifier="Osmosoft" created="200711261141" tags="session shared">
+<pre>speaker:
+track:day2
+date:12/12/07
+start:1300
+end:1445
+synopsis:</pre>
+</div>
+<div title="Making things personal ... investing" modifier="Osmosoft" created="200711261131" tags="session shared">
+<pre>speaker:Danny Rimer - Index Ventures (moderator), Mark Read - WPP, Oliver Jung - Angel Investor, Jean David Chamboredon - 3i, Morten Lund - Angel Investor
+track:day2
+date:12/12/07
+start:0910
+end:0945
+synopsis:http://www.indexventures.com/cgi-local/ivw_team_detail_xy.cgi?spgid=4, http://www.wpp.com/WPP/About/WhoWeAre/Leadership.htm#name5, http://www.xing.com/profile/Oliver_Andreas_Jung, http://www.3i.com/people/jeandavidchamboredon.html, </pre>
+</div>
+<div title="Making your information social" modifier="Osmosoft" created="200711261042" modified="200711261102" tags="session shared">
+<pre>speaker: Kevin Rose - DIGG in conversation with Sarah Lacy - Author
+track:day1
+date:11/12/07
+start:0940
+end:1000
+blurb:http://digg.com/, http://www.sarahlacy.com/</pre>
+</div>
+<div title="Mobile and web convergence" modifier="Osmosoft" created="200711261327" tags="session shared">
+<pre>speaker:Moderator: Pending, Scott Beaumont - RefreshMobile, David Marcus - EchoVox, Daniel Appelquist - Vodafone, Franck Poisson - Webwag
+track:day2-Competition Stage
+date:12/12/07
+start:1430
+end:1530
+synopsis:http://www.refreshmobile.com/, http://www.echovox.com/, http://www.torgo.com/blog, http://webwag.com/mobile/</pre>
+</div>
+<div title="Mobility, multimedia and the consumers' impact" modifier="Osmosoft" created="200711261127" modified="200711261145" tags="session shared">
+<pre>speaker:Ari Virtanen - Nokia
+track:day2
+date:12/12/07
+start:0840
+end:0855
+synopsis:</pre>
+</div>
+<div title="Monetization in the Web 2.0 world" modifier="Osmosoft" created="200711261324" tags="session shared">
+<pre>speaker:Moderator: Ouriel Ohayon, Pierre Chappaz - Wikio, Pascal Rossini - AdsClick, Frederic Montagnon - Nomao, Jeremie Berrebi - Zlio
+track:day2-Competition Stage
+date:12/12/07
+start:1230
+end:1330
+synopsis:http://www.wikio.com/, http://www.ads-click.com/, http://www.nomao.com/, http://zlio.com/</pre>
+</div>
+<div title="Music 2.0: Where do we go from here? " modifier="Osmosoft" created="200711261110" tags="session shared">
+<pre>speaker:Ralph Simon - Chairman Emeritus &amp; Founder Mobile Entertainment Forum - Americas (moderator), Gilles Babinet - Eyeka, Eric Bauptiste - CISAC, Gerd Leonhard - Media Futurist
+track:day1
+date:11/12/07
+start:1555
+end:1620
+synopsis:http://www.cisac.org/, http://www.mediafuturist.com/</pre>
+</div>
+<div title="New and Improved methods for biological data transfer" modifier="Osmosoft" created="200711261139" modified="200711261140" tags="shared session">
+<pre>speaker:Yossi Vardi
+track:day2
+date:12/12/07
+start:1230
+end:1245
+synopsis:http://www.edge.org/3rd_culture/bios/vardi.html</pre>
+</div>
+<div title="Now it's personal, building a business on the personalization trend " modifier="Osmosoft" created="200711261320" modified="200711261334" tags="session shared">
+<pre>speaker:Dan Cohen - Pageflakes 
+track:day2-Competition Stage
+date:12/12/07
+start:1200
+end:1215
+synopsis:http://www.pageflakes.com/Community/ManagementTeam.aspx</pre>
+</div>
+<div title="Persistent communication and its impact on being social" modifier="Osmosoft" created="200711261039" modified="200711261102" tags="session shared">
+<pre>speaker: Evan Williams - Twitter/Obvious
+track:day1
+date:11/12/07
+start:0840
+end:0855
+blurb:http://evhead.com/, http://obvious.com/</pre>
+</div>
+<div title="Personalization 2.0 ...3.0 ... the projection of personal image" modifier="Osmosoft" created="200711261059" tags="session shared">
+<pre>speaker:Jonathan Medved - Vringo
+track:day1
+date:11/12/07
+start:1220
+end:1235
+synopsis:http://www.vringo.com/corporate/management_medved.html, </pre>
+</div>
+<div title="Rattling the Cage" modifier="Osmosoft" created="200711261144" tags="session shared">
+<pre>speaker:Joost - a conversation with a disruptive entrepreneur
+track:day2
+date:12/12/07
+start:1545
+end:1600
+synopsis:http://www.joost.com/</pre>
+</div>
+<div title="Social Media: Is it killing our society ?" modifier="Osmosoft" created="200711261104" tags="session shared">
+<pre>speaker:Eric Archambeau - Wellington Partners (moderator), Andrew Keen - Author, Emily Bell - The Guardian
+track:day1
+date:11/12/07
+start:1430
+end:1455
+synopsis:http://www.wellington-partners.com/wp/team_archambeau.html, http://www.wellington-partners.com/wp/index.html, http://andrewkeen.typepad.com/, http://www.guardian.co.uk/gucontacts/page/0,,361396,00.html</pre>
+</div>
+<div title="Social networks tackling social issues - a session in partnership with UNHCR    " modifier="Osmosoft" created="200711261148" tags="session shared">
+<pre>speaker:The UN Deputy High Commissioner for Refugees, the LeWe3 Digital Champions and some very special guests.
+track:day2
+date:12/12/07
+start:1640
+end:1730
+synopsis:http://www.ninemillion.org/index.html</pre>
+</div>
+<div title="Storytelling and technology - evolution of society" modifier="Osmosoft" created="200711261058" tags="session shared">
+<pre>speaker:June Cohen - TED Conference
+track:day1
+date:11/12/07
+start:1205
+end:1220
+synopsis:http://tedblog.typepad.com/tedbios/2005/10/june_cohen.html, http://www.ted.com/</pre>
+</div>
+<div title="Technology's impact on corporate culture" modifier="Osmosoft" created="200711261056" modified="200711261057" tags="session shared">
+<pre>speaker:Nelson Mattos - Google
+track:day1
+date:11/12/07
+start:1150
+end:1205
+synopsis:http://www.google.com/corporate/execs_fn.html#mattos</pre>
+</div>
+<div title="Television Reborn" modifier="Osmosoft" created="200711261143" tags="session shared">
+<pre>speaker:Jeff Pulver - Pulver.com (moderator), Benjamin Bejbaum - Daily Motion, Nir Ofir - BlogTV, Robert Scoble - PodTech, Anthony Rose - BBC, Conrad Riggs - Mark Burnett Productions (LonelyGirl15)
+track:day2
+date:12/12/07
+start:1445
+end:1545
+synopsis:http://www.pulver.com/, http://www.dailymotion.com/about, http://www.linkedin.com/in/nirofir, http://scobleizer.wordpress.com/</pre>
+</div>
+<div title="The Digital Society - Towards Participatory Culture" modifier="Osmosoft" created="200711261313" tags="session shared">
+<pre>speaker:Nimrod Kozlowski
+track:day2-Competition Stage
+date:12/12/07
+start:0930
+end:0950
+synopsis:http://www.plymedia.com/</pre>
+</div>
+<div title="The Internet's impact on design" modifier="Osmosoft" created="200711261055" modified="200711261102" tags="session shared">
+<pre>speaker:Mattias Luefkens - World Economic Forum (moderator), Brent Hoberman - MyDeco.com, Rafi Haladjan - Nabaztag, Iris Ben David - StyleShake.com, Alexander Casassovici - Wavestorm
+track:day1
+date:11/12/07
+start:1120
+end:1150
+synopsis:http://www.weforum.org/, http://mydeco.com/, http://www.rafi.com/, http://www.styleshake.com/, http://www.wave-storm.com/</pre>
+</div>
+<div title="The beat goes on - and so does the debate (with some more participants)" modifier="Osmosoft" created="200711261112" modified="200711261115" tags="session shared">
+<pre>speaker:Ralph Simon - Chairman Emeritus &amp; Founder Mobile Entertainment Forum - Americas (moderator), Gerd Leonhard - Media Futurist, Eric Bauptiste - CISAC
+track:day1
+date:11/12/07
+start:1620
+end:1645
+synopsis:http://www.cisac.org/, http://www.mediafuturist.com/</pre>
+</div>
+<div title="The small screen goes big time - television evolved" modifier="Osmosoft" created="200711261322" tags="session shared">
+<pre>speaker:Jeff Pulver - Pulver.com
+track:day2-Competition Stage
+date:12/12/07
+start:1215
+end:1230
+synopsis:http://www.pulver.com/</pre>
+</div>
+<div title="The technology that makes it all work - a product showcase by Google" modifier="Osmosoft" created="200711261312" modified="200711261314" tags="session shared">
+<pre>speaker:a product showcase by Google
+track:day2-Competition Stage
+date:12/12/07
+start:0845
+end:0930
+synopsis:</pre>
+</div>
+<div title="Virtual worlds: Real infrastructure " modifier="Osmosoft" created="200711261317" tags="session shared">
+<pre>speaker:Moderator: Gilbert Reveillion - PMC LaSer
+track:day2-Competition Stage
+date:12/12/07
+start:1055
+end:1110
+synopsis:</pre>
+</div>
+<div title="Web 2.0 - The Dark Side " modifier="Osmosoft" created="200711261039" modified="200711261102" tags="session shared" changecount="6">
+<pre>speaker: Laurent Haug - LIFT Conference (moderator), Michel Jaccard - attorney, Jaewoong Lee - Daum Communications, Joanna Shields - Bebo, Dan Rose - Facebook, Chris Alden - SixApart
+track:day1
+date:11/12/07
+start:0855
+end:0940
+blurb:http://www.liftconference.com/person/laurent-haug, http://www.liftconference.com/,  http://www.daum.net/, http://www.bebo.com/, http://www.facebook.com/, http://www.thealdens.com/chris.html, http://www.sixapart.com/</pre>
+</div>
+<div title="Welcome to the Evolution/Revolution" modifier="Osmosoft" created="200711261038" modified="200711261102" tags="session shared">
+<pre>speaker: Loic Le Meur
+track:day1
+date:11/12/07
+start:0830
+end:0840
+blurb:</pre>
+</div>
+<div title="What IS social about design" modifier="Osmosoft" created="200711261052" modified="200711261102" tags="shared session">
+<pre>speaker:Philippe Starck
+track:day1
+date:11/12/07
+start:1100
+end:1120
+synopsis:http://www.philippe-starck.com/</pre>
+</div>
+<div title="What is innovative today ?" modifier="Osmosoft" created="200711261133" modified="200711261134" tags="session shared">
+<pre>speaker:Cathy Brooks - LeWeb3 Content Curator (moderator), &quot;Startathalon&quot; judges, Top three companies from the competition
+track:day2
+date:12/12/07
+start:1000
+end:1045
+synopsis:http://www.otherthanthat.com/</pre>
+</div>
+<div title="Who needs musicians ?" modifier="Osmosoft" created="200711261115" modified="200711261145" tags="session shared">
+<pre>speaker:Tal Choizen - Garage Geeks ... and a special guest
+track:day1
+date:11/12/07
+start:1730
+end:1740
+synopsis:http://www.garagegeeks.org/about.html</pre>
+</div>
+<div title="Why books and school lectures still exist" modifier="Osmosoft" created="200711261043" modified="200711261102" tags="session shared" changecount="5">
+<pre>speaker: Hans Rosling
+track:day1
+date:11/12/07
+start:1000
+end:1020
+synopsis:http://roslingsblogger.blogspot.com/</pre>
+</div>
+<div title="Why enterprise 2.0, isn't " modifier="Osmosoft" created="200711261132" tags="shared session">
+<pre>speaker:JP Rangaswami - British Telecom
+track:day2
+date:12/12/07
+start:0945
+end:1000
+synopsis:http://web21c.bt.com/</pre>
+</div>
+<div title="Why we need to blow things up" modifier="Osmosoft" created="200711261128" modified="200711261129" tags="shared session">
+<pre>speaker:Dan Dubno
+track:day2
+date:12/12/07
+start:0855
+end:0910
+synopsis:http://www.dubno.com/</pre>
+</div>
+<div title="Wireless - the municipal challenge" modifier="Osmosoft" created="200711261328" modified="200711261335" tags="session shared">
+<pre>speaker:Moderator: Esme Vos - MuniWireless, Philippe Llau - TDF France, Jean-Bernard Magescas - FON France
+track:day2-Competition Stage
+date:12/12/07
+start:1530
+end:1600
+synopsis:http://www.muniwireless.com/, http://www.linkedin.com/pub/0/28a/2b1, http://lemigou.hautetfort.com/</pre>
+</div>
+<div title="SparklinePlugin" created="200710151548" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |''Name:''|SparklinePlugin|
 |''Description:''|Sparklines macro|
@@ -1787,7 +1500,7 @@ config.macros.sparkline.handler = function(place,macroName,params)
 }
 //}}}</pre>
 </div>
-<div title="CryptoFunctionsPlugin" created="200711142805" tags="systemConfig excludeLists excludeSearch">
+<div title="CryptoFunctionsPlugin" created="200710151548" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |''Name:''|CryptoFunctionsPlugin|
 |''Description:''|Support for cryptographic functions|
@@ -1937,7 +1650,7 @@ Crypto.sha1 = function(x,blen)
 }
 //}}}</pre>
 </div>
-<div title="DeprecatedFunctionsPlugin" created="200711142805" tags="systemConfig excludeLists excludeSearch">
+<div title="DeprecatedFunctionsPlugin" created="200710151548" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |''Name:''|DeprecatedFunctionsPlugin|
 |''Description:''|Support for deprecated functions removed from core|
