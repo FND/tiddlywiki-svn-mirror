@@ -1,0 +1,17 @@
+<div title="TiddlyWiki" modifier="YourName" created="200711051137" modified="200711261217" tags="notes" changecount="9">
+<pre>~RippleRap is a 'vertical edition' of TiddlyWiki. 
+
+TiddlyWiki is a free, open source, single html file that is incredibly flexible and extensible. It can be used as a fairly conventional wiki (either online or offline), but there are numerous other ways that TiddlyWiki can be used.
+
+Information in a TiddlyWiki is stored in a microcontent format called tiddlers. For example, if you double click this text you'll see that this html file includes all the code needed to edit the text. You can create links by either using CamelCase or by using [[Double square brackets]].
+
+The entire TiddlyWiki is made up of tiddlers, including the code required to make it function. So if you have a working knowledge of javascript or css, you can immediately get under the hood, configuring it in any way you like. If you have questions, the TiddlyWiki community is incredibly helpful - there's a [[developer's group|http://groups.google.com/group/TiddlyWikiDev]] and a [[user's group|http://groups.google.com/group/TiddlyWiki]] on Google Groups.
+
+~RippleRap was created by [[Osmosoft|http://www.osmosoft.com]], a small company owned by British Telecom. Osmosoft is run by the original creator of TiddlyWiki, Jeremy Ruston. You can find out more by looking in our [[FAQs]], or alternatively, if you're online, here are some relevant links:
+
+Official ~TiddlyWiki website: http://www.tiddlywiki.com
+~TiddlyWiki community: http://groups.google.com/group/TiddlyWiki
+~TiddlyWiki developer community: http://groups.google.com/group/TiddlyWikiDev
+Osmosoft website: http://www.osmosoft.com
+~RippleRap: http://www.ripplerap.com</pre>
+</div>
