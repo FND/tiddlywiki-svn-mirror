@@ -3,7 +3,7 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -21,7 +21,6 @@ function RssSynchronizer() {}
 RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
 {
 //#displayMessage("getNotesTiddlersFromRss"+uri);
-	// displayMessage("about to download from " + feed);
 	var adaptor = new RSSAdaptor();
 	var context = {host:uri,adaptor:adaptor};
 	return adaptor.getTiddlerList(context,null,RssSynchronizer.getNotesTiddlerListCallback);
@@ -38,7 +37,6 @@ RssSynchronizer.getNotesTiddlerListCallback = function(context,userParams)
 		// TEMP CHANGE 20/11/07: if(!t || t.text != tiddler.text) {
 		if (!t) {
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-			// displayMessage(tiddler.title + " is an item in the rss feed");
 			story.refreshTiddler(tiddler.title,1,true);
 		}
 	}
@@ -51,7 +49,7 @@ RssSynchronizer.putTiddlersToRss = function(uri,tiddlers)
 		if(status) {
 			// PUT is successful, take item out of queue
 			displayMessage("successfully PUT");
-			Collection.clear();
+			//Collection.clear();
 		}/* else {
 			// PUT failed, deal with it here
 			// leave item in queue and take no action?
@@ -65,7 +63,7 @@ RssSynchronizer.generateRss = function(tiddlers)
 	var s = [];
 	var d = new Date();
 	var u = store.getTiddlerText("SiteUrl");
-	// Assemble the header
+	//# Assemble the header
 	s.push("<" + "?xml version=\"1.0\"?" + ">");
 	s.push("<rss version=\"2.0\">");
 	s.push("<channel>");
@@ -79,14 +77,18 @@ RssSynchronizer.generateRss = function(tiddlers)
 	s.push("<lastBuildDate>" + d.toGMTString() + "</lastBuildDate>");
 	s.push("<docs>http://blogs.law.harvard.edu/tech/rss</docs>");
 	s.push("<generator>TiddlyWiki " + version.major + "." + version.minor + "." + version.revision + "</generator>");
-	// The body
+	//# The body
 	for (var i=tiddlers.length-1; t>=0; i--) {
-		s.push("<item>" + tiddlers[i].toRssItem(u) + "</item>");
+		var item = tiddlers[i].toRssItem(u)
+		if(tiddler.modifier)
+			item += "<author>\n" + this.modifier + "\n</author>");
+		item += "<tw:wikitext>\n" + tiddlers[i].text + "\n</tw:wikitext>";
+		s.push("<item>\n" + item + "\n</item>");
 	}
-	// And footer
+	//# And footer
 	s.push("</channel>");
 	s.push("</rss>");
-	// Save it all
+	//# Save it all
 	return s.join("\n");
 };
 
