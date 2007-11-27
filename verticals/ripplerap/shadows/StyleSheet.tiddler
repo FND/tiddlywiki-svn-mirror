@@ -10,7 +10,7 @@
 div.header { background-color:#000; height:84px;}
 div.headerShadow,
 div.headerForeground { padding:0; }
-span.siteSubtitle {bottom:35px; font-size:1em; position:absolute; width:200px;}
+span.siteSubtitle {bottom:37px; left:245px; font-size:1em; position:absolute; width:200px;}
 
 /* Primary Nav Buttons */
 #mainMenu { display:inline; width:100%; background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding:0; line-height:1.5em; text-align:left;}
@@ -44,6 +44,9 @@ div.txtAgendaTab div.agendaItem div.notes a.tiddlyLink:hover,
 div.txtAgendaTab div.agendaItem div.notes a.stale:hover,
 div.txtAgendaTab div.agendaItem span.title a:hover { color:#000; text-decoration:underline;	background-color:#f0f0f0; }
 div.txtAgendaTab div.inProgress a.tiddlyLink:hover { background-color:#fff;	}
+
+
+
 
 /* Session tiddlers */
 div.session { border:solid 1px #ccc;  }
