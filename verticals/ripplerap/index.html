@@ -549,6 +549,7 @@ Also see AdvancedOptions</pre>
 #agendaMenu { position: static;	float: left; width: auto; }
 #displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
 #displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0;}
+#tiddlerDisplay { margin:2em 0;}
 
 /* Header */
 div.header { background-color:#000; height:84px;}
@@ -563,27 +564,16 @@ span.siteSubtitle {bottom:35px; font-size:1em; position:absolute; width:200px;}
 #mainMenu a:hover,
 #mainMenu a.tiddlyLink:hover { background-color:#aaa;}
 
-/*
-
-#mainMenu a { display:inline; border-right:solid 1px #999; font-size:1em; margin:0; color:#333; padding:0.3em 1em;}
-*//*#mainMenu a { border-right:solid 1px #999; font-size:1em; margin:0; color:#333; padding:0.3em 1em; display:inline;}*/
-/*#mainMenu a { padding:0.4em 1em; border:solid 0 #000; color:#333; font-size:1em; line-height:2em; border-right:solid 1px #ccc;}*/
-/*#mainMenu a.tiddlyLink { padding:0.3em 1em; font-size:1em; color:#333;}
-#mainMenu a:hover,
-#mainMenu a.tiddlyLink:hover { background-color:#bbb;}*/
-
 /* Agenda */
-#agendaMenu { width:260px; float:left; padding:0; }
+#agendaMenu { width:260px; float:left; padding:0; margin-top:2.3em; }
 #agendaMenu div.txtAgendaTab div.tabset { height:2.5em; background-color:#f6f6f6;}
 #agendaMenu div.txtAgendaTab div.tabset a.tab { padding:4px 1em; background-color:#f0f0f0; color:#333; margin:1em 2px; font-weight:bold; font-size:0.9em; border:solid 1px #999; border-bottom-width:2px;}
 #agendaMenu div.txtAgendaTab div.tabset a.tab:hover { background-color:#444; color:#fff; border-color:#222; }
 #agendaMenu div.txtAgendaTab div.tabset a.tabSelected {background-color:#fff; border:solid 1px #999; border-bottom-width:2px;}
 #agendaMenu div.txtAgendaTab div.tabContents { border-style:none; margin:0; padding:0;}
 
-
 /* Secondary menu */
 #agendaMenu span.secondaryMenu { width:250px; text-align:right; display:block;}
-
 
 div.txtAgendaTab { border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
 div.txtAgendaTab div.agendaItem { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px #fff; border-left:solid 10px #ccc; }	
