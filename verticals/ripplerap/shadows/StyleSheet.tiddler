@@ -27,9 +27,6 @@ span.siteSubtitle {bottom:37px; left:245px; font-size:1em; position:absolute; wi
 #agendaMenu div.txtAgendaTab div.tabset a.tabSelected {background-color:#fff; border:solid 1px #999; border-bottom-width:2px;}
 #agendaMenu div.txtAgendaTab div.tabContents { border-style:none; margin:0; padding:0;}
 
-/* Secondary menu */
-#agendaMenu span.secondaryMenu { width:250px; text-align:right; display:block;}
-
 div.txtAgendaTab { border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
 div.txtAgendaTab div.agendaItem { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px #fff; border-left:solid 10px #ccc; }	
 div.txtAgendaTab div.inProgress { border-left:solid 10px #933; background-color:#fff; }
@@ -46,10 +43,43 @@ div.txtAgendaTab div.agendaItem span.title a:hover { color:#000; text-decoration
 div.txtAgendaTab div.inProgress a.tiddlyLink:hover { background-color:#fff;	}
 
 
+div.tiddler {padding:0;}
 
+/* Session and Notes tiddlers */
+div.myNotes { background-color:#ddd; border:solid 1px #333; border-top-style:none;  border-left-width:2px; margin:0;}
+div.myNotes .toolbar {background-color:#eee; }
+div.discoveredNotes { background-color:#ddd; border:solid 1px #333; border-left-width:2px; border-top-style:none; margin:0;}
+div.discoveredNotes .toolbar {background-color:#eee;border-left:solid 40px #ccc;}
+div.discoveredNotes .viewer {border-left:solid 40px #bbb;}
+
+div.synopsis .toolbar,
+div.myNotes .toolbar,
+div.discoveredNotes .toolbar { text-align:right; padding:0.2em 0;}
+
+div.synopsis .viewer,
+div.myNotes .viewer,
+div.discoveredNotes .viewer { padding:1em;}
+
+div.synopsis .toolbar a, 
+div.myNotes .toolbar a,
+div.discoveredNotes .toolbar a {border-style: none; color:#333;}
+div.synopsis .toolbar a:hover, 
+div.myNotes .toolbar a:hover,
+div.discoveredNotes .toolbar a:hover {border-style: none; color:#fff; background-color:#333;}
+
+div.synopsis { background-color:#999; border:solid 2px #333; border-bottom-width:1px; border-right-width:1px; margin:3em 0 0 0; }
+div.synopsis .toolbar {background-color:#aaa; }
+div.synopsis .title { margin:0.2em 0 0 10px; font-size:1.5em; font-weight:bold; color:#000;}
+div.synopsis .time {margin:0 0.2em 0 10px; font-size:1.2em; font-weight:bold; color:#ddd; display:inline;}
+div.synopsis .speaker {margin:0.2em 0 0 0; font-size:1.2em; font-weight:bold; color:#333;display:inline;}
+div.synopsis .viewer {margin:0; font-size:1em; color:#222; padding:0.5em 5px 0.5em 10px;}
+
+
+/* Secondary menu */
+/*#agendaMenu span.secondaryMenu { width:250px; text-align:right; display:block;}*/
 
 /* Session tiddlers */
-div.session { border:solid 1px #ccc;  }
+/*div.session { border:solid 1px #ccc;  }
 div.session table { border-spacing:0; border-bottom:solid 1px #ccc; width:100%;}
 div.session table tr td.data { background-color:#f3f3f3; padding:1em;}
 div.session table tr td.toolbar { background-color:#f3f3f3; padding:1em; border-left:solid 1px #ccc; vertical-align:top; width:12em; padding:0;}
@@ -76,5 +106,7 @@ div.mySessionNotes div.toolbar a:hover {  background-color:#444; color:#fff; bor
 
 div.lifeStreamItem { color:#666; display:block; margin:0; padding:0.5em; background-color:#fff; border-top:solid 1px #ccc; overflow:hidden;}
 
-div.viewer img {width:100%;}</pre>
+div.viewer img {width:100%;}*/
+
+</pre>
 </div>
