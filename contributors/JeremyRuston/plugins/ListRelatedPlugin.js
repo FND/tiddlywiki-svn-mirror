@@ -73,7 +73,6 @@ config.relationships = {
 			var re = "^(.+) from (.+)$";
 			var regexp = new RegExp(re,"mg");
 			var match = regexp.exec(title);
-			if(match) displayMessage(match[1]);
 			if(match)
 				tiddlers.push(match[1]);
 			return tiddlers;
