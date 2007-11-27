@@ -20,7 +20,7 @@ $tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1
 
 //  CALLS URL CODE 
 
-include('./includes/url.php');
+include_once('./includes/url.php');
 include_once("./includes/db.mysql.php");
 
 $link = db_connectDB();
