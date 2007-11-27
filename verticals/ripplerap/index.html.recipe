@@ -1,4 +1,6 @@
 recipe: ../../core/tiddlywiki.html.recipe
+tiddler: ../../contributors/JonathanLister/adaptors/RSSAdaptor.js
+tiddler: ../../contributors/SaqImtiaz/plugins/WebDavLib.js
 recipe: shadows/split.recipe
 recipe: plugins/split.recipe
 recipe: content/split.recipe
