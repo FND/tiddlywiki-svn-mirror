@@ -1,0 +1,4 @@
+<div title="TestListRelated" modifier="JeremyRuston" created="200711271203" changecount="1">
+<pre><<listRelated filter:"[tag[tale]]">>
+<<listRelated filter:"[tag[comment]]" rel:"rapped">></pre>
+</div>
