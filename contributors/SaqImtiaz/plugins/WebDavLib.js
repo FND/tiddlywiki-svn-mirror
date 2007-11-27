@@ -10,7 +10,7 @@
 ***/
 // /%
 //!BEGIN-PLUGIN-CODE
-if (!DAV){
+if (!window.DAV){
 DAV = {
 	run : function(type,u,data,cb,params,headers){
 		var callback = function(status,params,responseText,url,xhr) {
