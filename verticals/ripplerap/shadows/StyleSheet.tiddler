@@ -1,7 +1,5 @@
 <div title="StyleSheet" tags="styles excludeLists excludeSearch">
 <pre>
-[[Styles HorizontalMainMenu]]
-
 /* page framework */
 #agendaMenu { position: static;	float: left; width: auto; }
 #displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
@@ -13,16 +11,12 @@ div.headerShadow,
 div.headerForeground { padding:0; }
 span.siteSubtitle {bottom:35px; font-size:1em; position:absolute; width:200px;}
 
-#btbrand {
-	position:absolute; top:30px; right:10px; color:#ddd;
-}
-
 /* Primary Nav Buttons */
-#mainMenu { background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding-left:0; line-height:1.5em; display:block; }
-#mainMenu a { border-right:solid 1px #999; font-size:1em; margin:0; color:#333; padding:0.3em 1em;}
-#mainMenu a.tiddlyLink { padding:0.3em 1em; font-size:1em; color:#333;}
+#mainMenu { display:inline; width:100%; background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding:0; line-height:1.5em; text-align:left;}
+#mainMenu a,
+#mainMenu a.tiddlyLink { border-right:solid 1px #999; font-size:1em; margin:0; color:#333; padding:0.3em 1em; line-height:1.8em; } 
 #mainMenu a:hover,
-#mainMenu a.tiddlyLink:hover { background-color:#bbb;}
+#mainMenu a.tiddlyLink:hover { background-color:#aaa;}
 
 /* Agenda */
 #agendaMenu { width:260px; float:left; padding:0; }
@@ -32,10 +26,8 @@ span.siteSubtitle {bottom:35px; font-size:1em; position:absolute; width:200px;}
 #agendaMenu div.txtAgendaTab div.tabset a.tabSelected {background-color:#fff; border:solid 1px #999; border-bottom-width:2px;}
 #agendaMenu div.txtAgendaTab div.tabContents { border-style:none; margin:0; padding:0;}
 
-
 /* Secondary menu */
 #agendaMenu span.secondaryMenu { width:250px; text-align:right; display:block;}
-
 
 div.txtAgendaTab { border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
 div.txtAgendaTab div.agendaItem { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px #fff; border-left:solid 10px #ccc; }	

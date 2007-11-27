@@ -1,7 +1,6 @@
 <div title="PageTemplate" tags="excludeLists excludeSearch">
 <pre><!--{{{-->
 <div id='messageArea'></div>
-<div id='btbrand' refresh='content' tiddler='btbrand'></div>
 <div class='header' >
 <div class='headerShadow'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
@@ -13,7 +12,7 @@
 </div>
 </div>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
-<div id='agendaMenu' refresh='content' force='true' tiddler='agendaMenu'></div>
+<div id='agendaMenu' refresh='content' force='true' tiddler='AgendaMenu'></div>
 <div id='displayArea'>
 <div id='tiddlerDisplay'></div>
 </div>

@@ -497,6 +497,9 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
+<div title="AgendaMenu">
+<pre>call the tab builder macro here</pre>
+</div>
 <div title="MainMenu" tags="excludeLists excludeSearch" force="true" refresh="macro">
 <pre>
 &lt;&lt;toggleElement
@@ -504,9 +507,7 @@ Also see AdvancedOptions</pre>
 	&quot;Agenda&quot;
 	&quot;Switch agenda menu on and off&quot;
 	&quot;agendaButton&quot;
-&gt;&gt;
-[[Contents|SideBarTabs]]
-[[Help]]</pre>
+&gt;&gt;[[Contents|SideBarTabs]][[Help]]</pre>
 </div>
 <div title="DefaultTiddlers" tags="excludeLists excludeSearch">
 <pre>
@@ -516,7 +517,6 @@ Also see AdvancedOptions</pre>
 <div title="PageTemplate" tags="excludeLists excludeSearch">
 <pre>&lt;!--{{{--&gt;
 &lt;div id='messageArea'&gt;&lt;/div&gt;
-&lt;div id='btbrand' refresh='content' tiddler='btbrand'&gt;&lt;/div&gt;
 &lt;div class='header' &gt;
 &lt;div class='headerShadow'&gt;
 &lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
@@ -528,7 +528,7 @@ Also see AdvancedOptions</pre>
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
-&lt;div id='agendaMenu' refresh='content' force='true' tiddler='agendaMenu'&gt;&lt;/div&gt;
+&lt;div id='agendaMenu' refresh='content' force='true' tiddler='AgendaMenu'&gt;&lt;/div&gt;
 &lt;div id='displayArea'&gt;
 &lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -545,8 +545,6 @@ Also see AdvancedOptions</pre>
 </div>
 <div title="StyleSheet" tags="styles excludeLists excludeSearch">
 <pre>
-[[Styles HorizontalMainMenu]]
-
 /* page framework */
 #agendaMenu { position: static;	float: left; width: auto; }
 #displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
@@ -558,16 +556,21 @@ div.headerShadow,
 div.headerForeground { padding:0; }
 span.siteSubtitle {bottom:35px; font-size:1em; position:absolute; width:200px;}
 
-#btbrand {
-	position:absolute; top:30px; right:10px; color:#ddd;
-}
-
 /* Primary Nav Buttons */
-#mainMenu { background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding-left:0; line-height:1.5em; display:block; }
-#mainMenu a { border-right:solid 1px #999; font-size:1em; margin:0; color:#333; padding:0.3em 1em;}
-#mainMenu a.tiddlyLink { padding:0.3em 1em; font-size:1em; color:#333;}
+#mainMenu { display:inline; width:100%; background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding:0; line-height:1.5em; text-align:left;}
+#mainMenu a,
+#mainMenu a.tiddlyLink { border-right:solid 1px #999; font-size:1em; margin:0; color:#333; padding:0.3em 1em; line-height:1.8em; } 
 #mainMenu a:hover,
-#mainMenu a.tiddlyLink:hover { background-color:#bbb;}
+#mainMenu a.tiddlyLink:hover { background-color:#aaa;}
+
+/*
+
+#mainMenu a { display:inline; border-right:solid 1px #999; font-size:1em; margin:0; color:#333; padding:0.3em 1em;}
+*//*#mainMenu a { border-right:solid 1px #999; font-size:1em; margin:0; color:#333; padding:0.3em 1em; display:inline;}*/
+/*#mainMenu a { padding:0.4em 1em; border:solid 0 #000; color:#333; font-size:1em; line-height:2em; border-right:solid 1px #ccc;}*/
+/*#mainMenu a.tiddlyLink { padding:0.3em 1em; font-size:1em; color:#333;}
+#mainMenu a:hover,
+#mainMenu a.tiddlyLink:hover { background-color:#bbb;}*/
 
 /* Agenda */
 #agendaMenu { width:260px; float:left; padding:0; }
@@ -860,155 +863,247 @@ config.macros.toggleElement.toggle = function(id) {
 };
 //}}}</pre>
 </div>
-<div title="sessionEditTemplate" tags="excludeLists excludeSearch">
-<pre>&lt;!--{{{--&gt;
-&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;
-&lt;!-- &lt;div class='title' macro='view title'&gt;&lt;/div&gt; --&gt;
-&lt;!-- &lt;div class='editor' macro='edit title'&gt;&lt;/div&gt; --&gt;
-&lt;div macro='annotations'&gt;&lt;/div&gt;
-&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;
-&lt;!-- &lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser'&gt;&lt;/span&gt;&lt;/div&gt; --&gt;
-&lt;!--}}}--&gt;</pre>
-</div>
-<div title="sessionViewTemplate" tags="excludeLists excludeSearch">
-<pre>&lt;!--{{{--&gt;
+<div title="Bonjour!!" modifier="PhilWhitehouse" created="200711051041" modified="200711261417" tags="notes" changecount="10">
+<pre>''Introduction''
 
-&lt;div class='session'&gt;
-	&lt;div class='sessionHeader'&gt;
-		&lt;table&gt;
-		&lt;tr&gt;
-		&lt;td class='data'&gt;
+~RippleRap is a social conferencing tool for managing your conference notes. It's a single html file which can be used to organise, search and save your notes all while offline!
 
-			&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-			&lt;div macro='sessionAnnotation'&gt;&lt;/div&gt;
+When you get online you can [[share your notes|Share notes]] with other delegates (if you want to). Especially useful to receive other people's notes when you've missed a session!
 
-		&lt;/td&gt;
-		&lt;td class='toolbar' macro='toolbar closeTiddler closeOthers makeNotes'&gt;
-		&lt;/td&gt;
-		&lt;/tr&gt;
-		&lt;/table&gt;
-	&lt;/div&gt;
-	&lt;div class='mySessionNotes' macro='sessionNotes mine'&gt;&lt;/div&gt;
-	&lt;div class='discoveredNotes' macro='sessionNotes discovered'&gt;&lt;/div&gt;
-&lt;/div&gt;
+Don't forget to check out BT's SDK - ~RippleRap provides a click to call function using this SDK, exposed using [[Mojo]], which you can use to call the BT stall for free and find out more.
 
-&lt;!--}}}--&gt;</pre>
-</div>
-<div title="discoveredNoteViewTemplate" tags="excludeLists excludeSearch">
-<pre>&lt;!--{{{--&gt;
-&lt;div'&gt;
-	&lt;div class='toolbar' macro='toolbar closeTiddler'&gt;&lt;/div&gt;
-	&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
-&lt;/div&gt;
+''Getting started''
 
-&lt;!--}}}--&gt;</pre>
-</div>
-<div title="mySessionNoteViewTemplate" tags="excludeLists excludeSearch">
-<pre>&lt;!--{{{--&gt;
-&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler'&gt;&lt;/div&gt;
-&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
-&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
-&lt;div class='tagClear'&gt;&lt;/div&gt;
-&lt;!--}}}--&gt;</pre>
-</div>
-<div title="mySessionNoteEditTemplate" tags="excludeLists excludeSearch">
-<pre>&lt;!--{{{--&gt;
-	
+~RippleRap is based on TiddlyWiki, which is a wiki packaged into a single html file. You can use this file from your USB stick if you like, but we recommend you move the file to your computer to avoid damaging the USB key. Once you've done that, and opened that version, to start writing conference notes click on an item in the conference agenda. Click 'done' when you're finished, which will save your file.
 
+Important: Because TiddlyWiki is browser based, there are a few browser issues which can stop it working. If you want to save your work, make sure you click on &quot;save changes&quot; on the right hand side, rather than selecting &quot;Save As&quot; from the browser file menu. And if you're using Safari or Opera you'll need to do [[a little reconfiguration|Safari and Opera configuration]] for ~RippleRap to work (you might find it's easier just using Firefox).
 
-&lt;div class='session'&gt;
-	&lt;div class='sessionHeader'&gt;
-		&lt;table&gt;
-		&lt;tr&gt;
-		&lt;td class='data'&gt;
+''How does this work?''
 
-			&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-			&lt;div macro='sessionAnnotation'&gt;&lt;/div&gt;
+~RippleRap is based on the hugely popular TiddlyWiki product. It's free, open source, and already has a loyal community of developers and enthusiasts helping to develop it and support new users. There are over 400+ plugins which can be used to configure ~TiddlyWiki in a multitude of ways. It can be used as a task management tool, a de-centralised collaboration tool, a platform for writing and de-bugging software, simply for organising notes or many other ways.</pre>
+</div>
+<div title="CamelCase" modifier="PhilWhitehouse" created="200711051317">
+<pre>CamelCase describes a word containing an upper case letter. The first word in this paragraph is written in camel case. If you write a word in camel case in a TiddlyWiki, it creates a link. Click on the link, and you'll find an empty tiddler ready to populate with content. It's a quick way of writing linked content. The other way of creating links is by using [[Double square brackets]].</pre>
+</div>
+<div title="Double square brackets" modifier="PhilWhitehouse" created="200711051319">
+<pre>If you write words or sentences in TiddlyWiki that are surrounded by [[Double square brackets]], TiddlyWiki turns it into a link. If you double click this paragraph, you'll see how this has worked.
 
-		&lt;/td&gt;
-		&lt;td class='toolbar' macro='toolbar closeTiddler closeOthers makeNotes'&gt;
-		&lt;/td&gt;
-		&lt;/tr&gt;
-		&lt;/table&gt;
-	&lt;/div&gt;
-	&lt;div class='mySessionNotes' macro='sessionNotes mine'&gt;
-		&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler'&gt;&lt;/div&gt;
-		&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;
-	&lt;/div&gt;
-	&lt;div class='discoveredNotes' macro='sessionNotes discovered'&gt;&lt;/div&gt;
-&lt;/div&gt;
+Once you've created the link, and then clicked 'done' to close the tiddler, you can click on the link, and you'll find an empty tiddler ready to populate with content. It's a quick way of writing linked content. The other way of creating links is by using CamelCase.</pre>
+</div>
+<div title="FAQs" modifier="PhilWhitehouse" created="200711261026" modified="200711261234" changecount="5">
+<pre>''Who created ~RippleRap?''
 
+A company called [[Osmosoft|http://www.osmosoft.com]] created ~RippleRap. Osmosoft is a small open source innovation company owned by [[BT|http://www.bt.com]].
 
-&lt;!--}}}--&gt;</pre>
-</div>
-<div title="Styles HorizontalMainMenu" modifier="MartinBudden" tags="styles excludeLists excludeSearch">
-<pre>
-/*{{{*/
-#mainMenu {position:relative;left:auto;width:auto;text-align:left;line-height:normal;padding 0em 1em 0em 1em;font-size:normal;}
-#mainMenu br {display:none;}
-#mainMenu {background:#336699;}
-#mainMenu {padding:2px;}
-#mainMenu .button, #mainMenu .tiddlyLink {padding-left:1em;padding-right:0em;color:white;font-size:115%;}
+''What's the relationship between BT and Osmosoft?''
 
-#displayArea {
-	margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:1em;
-	padding-top:.1em;padding-bottom:.1em;
-}</pre>
+If you're attending the conference, you might have seen that BT and Osmosoft are sharing a stand. We're very friendly, so come and say hi! Osmosoft was bought by BT in May 2007, and our remit is to support BT in understanding and adopting open source solutions in a sensible, responsible fashion. BT decided that the best way to go about doing this was to hire people who already had experience of running a successful open source project, and they therefore hired Jeremy Ruston (through the acquisition of his company, Osmosoft) because of his experience creating and running the open source ~TiddlyWiki project.
+
+''What's ~RippleRap based on?''
+
+~RippleRap is based on the popular open source product, TiddlyWiki. ~TiddlyWiki is a wiki packaged within a single html file, complete with all the content, the editing and saving functionality, search and tagging capabilities and much more. It can run locally from your hard drive (so it's great for taking notes or organising personal information) or on a server. It's very extensible; there are over 400 plugins developed by the ~TiddlyWiki community. Several new ~TiddlyWiki plugins have been developed and combined to create ~RippleRap.
+
+~TiddlyWiki is a very well established and stable piece of software. However the new code that was created to support the development of ~RippleRap is relatively new and untested. It is released under a BSD licence, which means we cannot provide the software with any warranties. The full text of the BSD licence can be found on the [[Open Source Initiative web site|http://www.opensource.org/licenses/bsd-license.php]].
+
+''How does ~RippleRap work?''
+
+*The product at the heart of ~RippleRap is ~TiddlyWiki. This product includes all the functionality required to create, edit and save notes locally. ~TiddlyWiki can run on a server, but ~RippleRap isn't intended to be used in this way at Le Web.
+*The sharing of notes with other delegates is done via RSS. When you've [[authorised sharing|Share notes]], ~TiddlyWiki creates an RSS feed that sends your notes to our server. The notes are combined with everyone else's notes on the server, and the aggregated notes are re-published as an RSS feed for your local copy of ~RippleRap. Once they're downloaded, they're stored locally and can be searched within your copy of ~RippleRap.
+*The 'click to call' functionality is provided by [[BT's 21C SDK|http://sdk.bt.com]]. As it happens, ~TiddlyWiki is a great platform for building custom applications for this SDK. 
+
+''Why are you doing this?''
+
+BT recognises the importance of being a good citizen in the open source arena, and wants to play their part in sustaining and growing the ~TiddlyWiki community as a whole. The more people who take an interest in ~TiddlyWiki, the better it is for everyone involved, which is why the product is being showcased by BT at Le Web.
+
+We'd also like to use ~RippleRap to demonstrate the services being provided by the BT 21C SDK. It so happens that ~TiddlyWiki is a great platform for building custom applications for this SDK. 
+
+All the rights to the ~TiddlyWiki code have been passed to a non-for-profit foundation called [[UnaMesa|http://www.uamesa.org]], these rights are not owned by BT.
+
+''Do you plan to do something similar at future conferences?''
+
+Our intention is to use ~RippleRap as a vehicle for meeting the above goals; if it is successful at Le Web we may do something similar at other conferences we attend. Hopefully we'll get some useful feedback and possibly code contributions that improve the product. The code and process are all open source anyway; anyone can take the product and improve it, and use it at future conferences if they wish.
+
+''Can we learn more?''
+
+More information is available on the Osmosoft website at [[http://www.osmosoft.com|http://www.osmosoft.com]] and the product page at [[http://www.ripplerap.com|http://www.ripplerap.com]].
+
+And if you have any more questions while you're at the conference, you can call us using the [[SDK tool|Mojo]] embedded into ~RippleRap, which will set up a free call with an Osmosoftonian. Or just drop into the stall and we'll help you out!</pre>
 </div>
-<div title="Coffee Break" tags="session">
-<pre>speaker:
-track:day1
-date:11/12/07
-start:1100
-end:1120
-blurb:</pre>
+<div title="Formatting TiddlyWikis" modifier="PhilWhitehouse" created="200711261224" changecount="1">
+<pre>TiddlyWiki supports all kinds of formatting options:
+*You can create ''Bold'' text by enclosing it in pairs of single quotes:
+{{{
+''bold text''
+}}}
+
+*You can create ==Strikethrough== text by enclosing it in pairs of equal signs:
+{{{
+==strikethrough text==
+}}}
+
+*You can __Underline__ text by enclosing it in pairs of underscores:
+{{{
+__underlined text__
+}}}
+
+*You can create //Italic// text by enclosing it in pairs of forward slashes:
+{{{
+//italic text//
+}}}
+
+*You can create ^^superscript^^ text by enclosing it in pairs of carets:
+{{{
+^^superscript text^^
+}}}
+
+*You can create ~~subscript~~ text by enclosing it in pairs of tildes:
+{{{
+~~subscript text~~
+}}}
+
+*You can @@highlight text@@ by enclosing it in pairs of at-signs.
+{{{
+@@highlighted text@@
+}}}
+
+*You can also change many other CSS attributes by adding arguments to the highlight command. For example, you can change the text color to @@color:red;red@@ or give it a background-color of @@background-color:#0000FF;color:white;blue@@.
+{{{
+@@CSS attributes separated by semicolons;text@@
+}}}
+
+You can find out more about CSS from the excellent [[w3schools tutorial|http://w3schools.com/css/default.asp]].
+
+*Finally, you can add new CSS classes to the Tiddlywiki so that you can style a number of items with the same CSS formatting. Simply add the new class to the StyleSheet [[ShadowTiddler|ShadowTiddlers]], such as:
+{{{
+.moveover{
+margin-left:120px;
+}
+}}}
+Then, when you want to use that CSS class, use the following formatting:
+{{{
+{{classname{text to be formatted}}}
+}}}
+{{moveover{So, for example, this paragraph has been formatted using the moveover CSS class.}}}</pre>
 </div>
-<div title="Making your information social" tags="session">
-<pre>speaker:Kevin Rose - DIGG in conversation with Sarah Lacy - Author
-track:day1
-date:11/12/07
-start:0940
-end:1000
-blurb:</pre>
+<div title="Help" modifier="PhilWhitehouse" created="200711261027" modified="200711261230" changecount="7">
+<pre>We have a few help options available to you:
+*Come and visit the BT / Osmosoft stall at Le Web - we'll be happy to help.
+*During the conference, we offer a [[click to call|Mojo]] feature - just enter your number, and we'll call you straight back free of charge!
+*We've tried to anticipate the main problems people will have; see if yours is addressed below.
+
+!!Common problems
+
+''I'm having trouble saving!''
+
+~TiddlyWiki has a few known idiosyncracies, many related to saving for the first time. The top tips are:
+*Always make sure you click on the save button
+*Do not try to use the File/Save command in your browser
+*When saving for the first time, you may receive a warning saying that ~TiddlyWiki is trying to access your file system. This is necessary in order for the browser to accept the 'save' request.
+*If you wish to rename the file, save your changes first, then close the file, rename the file (but keep the .HTML extension) and reopen the file
+*We suggest you create a folder called backup in the same directory as your file, and then enable the backup functionality in the [[Advanced Options]].
+''I'm still having problems''
+
+Certain browsers misbehave when running ~TiddlyWiki files. You can find a list of them (including fixes) on the [[TiddlyWiki website|http://tiddlywiki.com/#SaveChanges]]. Unfortunate these problems cannot be fixed by changing ~TiddlyWiki, but they can often be overcome with some simple browser configuration. ~TiddlyWiki generally works best on Firefox.
+
+If you're still having problems, drop by our stall at Le Web and we'll help get you sorted.
+
+''Note sharing isn't working''
+
+Have you checked the box that enables sharing on the [[Share notes]] section? This needs to be checked. Notes will be pulled down automatically after that, and this process can take a few minutes depending on the content.
+
+Alternatively, it might be that the conference wi-fi is down. 
+
+If you've checked the box, and you're sure the conference wi-fi is working, please come and visit us at the stall and we'll help get things moving for you.
+
+''What happens if the conference wi-fi is down?''
+
+If the conference wi-fi is down, the functionality that will still work is the ability to take notes and save these to your hard drive. When the connection comes back up, notes will be shared automatically (assuming you've enabled this functionality).
+
+''How can I format my text?''
+
+~RippleRap uses TiddlyWiki, which provides a [[simple convention for formatting|Formatting TiddlyWikis]].</pre>
 </div>
-<div title="Persistent communication and its impact on being social" tags="session">
-<pre>speaker:Evan Williams
-track:day1
-date:11/12/07
-start:0840
-end:0855
-blurb:</pre>
+<div title="How sharing works" modifier="PhilWhitehouse" created="200711051202" modified="200711051204">
+<pre>Jon's notes explaining how sharing works appears here, together with links to the relevant code.</pre>
 </div>
-<div title="Web 2.0 - The Dark Side" tags="session">
-<pre>speaker:Laurent Haug - LIFT Conference (moderator),Michel Jaccard - attorney,Jaewoong Lee - Daum Communications,Joanna Shields - Bebo,Dan Rose - Facebook,Chris Alden - SixApart
-track:day1
-date:11/12/07
-start:0855
-end:0940
-blurb:</pre>
+<div title="Mojo" modifier="PhilWhitehouse" created="200711261107" modified="200711261440" changecount="21">
+<pre>Mojo is a Web friendly ([[REST|http://en.wikipedia.org/wiki/Representational_State_Transfer]]) exposure of [[BT's Web21C SDK|http://web21c.bt.com]]. You can use this to initiate telephone calls and send SMS messages from Widgets, Gadgets, Web mashups, etc! Sign up for an account at [[http://mojo.bt.com|http://mojo.bt.com]], or come over to the stall for a demo in person.
+
+We've created a simple click-to-call functionality into [[RippleRap|Bonjour!!]] using the [[Mojo API|http://mojo.bt.com/howtos]], so you can see it in action. Enter your phone number in the box below, click 'enter' and, if it's not engaged, the [[Bat Phone|http://en.wikipedia.org/wiki/Bat_phone]] on our stall at Le Web will ring. When we pick up the phone, the call will then be connected with your phone by the ~Web21C SDK. (BT will not charge you for this incoming call, but your mobile phone operator might, especially if you are roaming).
+
+|Your mobile number in this format: +44 798...|&lt;&lt;option txtMojoTelno&gt;&gt;|
+
+Obviously we may be busy serving customers at the time, so if it doesn't work please try later, or if you'd like to see the demo in person swing by our stall.
+
+If you're a developer, then you'll be interested in seeing the code. One of the great aspects of TiddlyWiki is that the entire file - including content, the code which uses the SDK, and the code required for TiddlyWiki to function - can all be inspected. Have a play around and see what you think!</pre>
 </div>
-<div title="Welcome to the Evolution/Revolution" tags="session">
-<pre>speaker:Loic Le Meur
-track:day1
-date:11/12/07
-start:0830
-end:0840
-synopsis:</pre>
+<div title="REST" modifier="YourName" created="200711261140" changecount="1">
+<pre>Put simply, REST gives direct access to data and services in a way that doesn't require an additional messaging layer. This is great for our customers (and the web in general), because it gives developers the flexibility to use these services in whatever way they like. Other claimed benefits include improved response times and server scalability.
+
+The alternative way of exposing these services is over a messaging service such as SOAP. This service is also available if needed.
+
+For a technical description of REST, along with a list of benefits, check out the [[Wikipedia entry|http://en.wikipedia.org/wiki/Representational_State_Transfer]].</pre>
 </div>
-<div title="Why books and school lectures still exist" tags="session shared">
-<pre>speaker:Hans Rosling
-track:day1
-date:11/12/07
-start:1000
-end:1020
-blurb:</pre>
+<div title="Safari and Opera configuration" modifier="PhilWhitehouse" created="200711051308" modified="200711051311">
+<pre>Safari and Opera can save changes using the ~TiddlySaver Java applet.
+
+The ~TiddlySaver Java applet allows TiddlyWiki from a {{{file://}}} URL to save changes with Safari, Opera and other browsers.
+
+It is a small file named [[&quot;TiddlySaver.jar&quot;|http://www.tiddlywiki.com/TiddlySaver.jar]] that must be placed in the same directory as your TiddlyWiki file. Before you can use it, you need to give it the necessary privileges by editting your {{{.java.policy}}} file.
+
+For Windows, the file will be at {{{C:\Documents and Settings\your-user-name\.java.policy}}}. Add the following lines (substituting the directory of your TiddlyWiki file as appropriate):
+{{{
+grant codeBase &quot;file:${user.home}/My Documents/tiddlywiki-folder/*&quot; {
+  permission java.io.FilePermission &quot;${user.home}${/}My Documents${/}tiddlywiki-folder${/}*&quot;, &quot;read,write&quot;;
+};
+}}}
+On Mac OS X, the file is found at {{{/Users/your-user-name/.java.policy}}}:
+{{{
+grant codeBase &quot;file:${user.home}/Documents/tiddlywiki-folder/*&quot; {
+  permission java.io.FilePermission &quot;${user.home}${/}Documents${/}tiddlywiki-folder${/}*&quot;, &quot;read,write&quot;;
+};
+}}}
+It can be tricky creating files whose name starts with a period, so you can use this [[pre-built .java.policy file|.java.policy]]. The same file is suitable for Macs too, just edit it and delete the &quot;My &quot; bit, leaving just &quot;Documents&quot;. Make sure you save it in the right place for each operating system!
+
+If you have trouble setting up the permissions correctly, you can try granting broader permissions to the applet like this:
+
+{{{
+grant codeBase &quot;file://localhost/home/users/Desktop/
+TiddlySaver.jar&quot;
+ { permission java.security.AllPermission; };
+}}}
+
+Note that there is currently [[a bug|http://trac.tiddlywiki.org/ticket/172]] that prevents TiddlySaver from working if you have specified a backup directory in AdvancedOptions.</pre>
 </div>
-<div title="Welcome to the Evolution/Revolution from JoeBloggs" tags="note shared">
-<pre>That was a very good introduction</pre>
+<div title="Share notes" modifier="PhilWhitehouse" created="200711051056" modified="200711261221" tags="notes" changecount="5">
+<pre>If you're connected to the web, you can share your notes with others and receive theirs in return, all saved to your local ~RippleRap file, and all fully searchable!
+
+To share your notes, check the below box. You can turn this functionality off for a specific session or set of notes if you want - just uncheck the check box that appears when you're creating a new set of notes.
+
+Share notes: &lt;&lt;option chkDummy&gt;&gt; 
+
+If you'd like to draw people's attention to your blog or twitter feed, update [[your profile|Your profile]]. This information will then appear on other people's copy of ~RippleRap so they can follow your words of wisdom after the event!
+
+Once you've enabled sharing, to see notes that other people have shared, click on their names under the session you're interested in. These will be downloaded automatically.
+
+Click on this link to find out [[how sharing works|How sharing works]].</pre>
 </div>
-<div title="Welcome to the Evolution/Revolution from PhilHawksworth" tags="excludeLists excludeSearch">
-<pre>That was an excellent introduction</pre>
+<div title="TiddlyWiki" modifier="YourName" created="200711051137" modified="200711261217" tags="notes" changecount="9">
+<pre>~RippleRap is a 'vertical edition' of TiddlyWiki. 
+
+TiddlyWiki is a free, open source, single html file that is incredibly flexible and extensible. It can be used as a fairly conventional wiki (either online or offline), but there are numerous other ways that TiddlyWiki can be used.
+
+Information in a TiddlyWiki is stored in a microcontent format called tiddlers. For example, if you double click this text you'll see that this html file includes all the code needed to edit the text. You can create links by either using CamelCase or by using [[Double square brackets]].
+
+The entire TiddlyWiki is made up of tiddlers, including the code required to make it function. So if you have a working knowledge of javascript or css, you can immediately get under the hood, configuring it in any way you like. If you have questions, the TiddlyWiki community is incredibly helpful - there's a [[developer's group|http://groups.google.com/group/TiddlyWikiDev]] and a [[user's group|http://groups.google.com/group/TiddlyWiki]] on Google Groups.
+
+~RippleRap was created by [[Osmosoft|http://www.osmosoft.com]], a small company owned by British Telecom. Osmosoft is run by the original creator of TiddlyWiki, Jeremy Ruston. You can find out more by looking in our [[FAQs]], or alternatively, if you're online, here are some relevant links:
+
+Official ~TiddlyWiki website: http://www.tiddlywiki.com
+~TiddlyWiki community: http://groups.google.com/group/TiddlyWiki
+~TiddlyWiki developer community: http://groups.google.com/group/TiddlyWikiDev
+Osmosoft website: http://www.osmosoft.com
+~RippleRap: http://www.ripplerap.com</pre>
 </div>
 <div title=" Opening remarks  - Loic Le Meur" modifier="Osmosoft" created="200711261126" tags="session shared">
 <pre>speaker:Loic Le Meur
@@ -1445,7 +1540,7 @@ start:1530
 end:1600
 synopsis:http://www.muniwireless.com/, http://www.linkedin.com/pub/0/28a/2b1, http://lemigou.hautetfort.com/</pre>
 </div>
-<div title="SparklinePlugin" created="200710151548" tags="systemConfig excludeLists excludeSearch">
+<div title="SparklinePlugin" created="200711142805" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |''Name:''|SparklinePlugin|
 |''Description:''|Sparklines macro|
@@ -1500,7 +1595,7 @@ config.macros.sparkline.handler = function(place,macroName,params)
 }
 //}}}</pre>
 </div>
-<div title="CryptoFunctionsPlugin" created="200710151548" tags="systemConfig excludeLists excludeSearch">
+<div title="CryptoFunctionsPlugin" created="200711142805" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |''Name:''|CryptoFunctionsPlugin|
 |''Description:''|Support for cryptographic functions|
@@ -1650,7 +1745,7 @@ Crypto.sha1 = function(x,blen)
 }
 //}}}</pre>
 </div>
-<div title="DeprecatedFunctionsPlugin" created="200710151548" tags="systemConfig excludeLists excludeSearch">
+<div title="DeprecatedFunctionsPlugin" created="200711142805" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |''Name:''|DeprecatedFunctionsPlugin|
 |''Description:''|Support for deprecated functions removed from core|
