@@ -1,0 +1,11 @@
+<div title="SynopsisViewTemplate" tags="excludeLists excludeSearch">
+<pre><!--{{{-->
+<div class='synopsis'>
+	<div class='toolbar' macro='toolbar closeTiddler +editTiddler'></div>
+	<div class='title' macro='view title'></div>
+	<div class='time'>time</div>
+	<div class='speaker'>speaker</div>
+	<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}--></pre>
+</div>
