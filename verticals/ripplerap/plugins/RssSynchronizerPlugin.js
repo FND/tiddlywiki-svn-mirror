@@ -78,11 +78,12 @@ RssSynchronizer.generateRss = function(tiddlers)
 	s.push("<docs>http://blogs.law.harvard.edu/tech/rss</docs>");
 	s.push("<generator>TiddlyWiki " + version.major + "." + version.minor + "." + version.revision + "</generator>");
 	//# The body
-	for (var i=tiddlers.length-1; t>=0; i--) {
-		var item = tiddlers[i].toRssItem(u)
-		if(tiddler.modifier)
-			item += "<author>\n" + this.modifier + "\n</author>");
-		item += "<tw:wikitext>\n" + tiddlers[i].text + "\n</tw:wikitext>";
+	for (var i=tiddlers.length-1; i>=0; i--) {
+		var t = tiddlers[i];
+		var item = t.toRssItem(u);
+		if(t.modifier)
+			item += "<author>\n" + t.modifier + "\n</author>";
+		item += "<tw:wikitext>\n" + t.text + "\n</tw:wikitext>";
 		s.push("<item>\n" + item + "\n</item>");
 	}
 	//# And footer
