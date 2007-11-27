@@ -110,24 +110,20 @@
 		// if we are not passed a username and password the session has been created and we need to validate it.	
 		if (!$pw || !$un)
 		{
-					
-		error_log('VALIDATE-HERE1'.$un.$pw, 0);
-		
 			$pw = cookie_get('passSecretCode');
 			$un = cookie_get('txtUserName');
-		error_log('VALIDATE-HERE2'.$un.$pw, 0);
+			if ($tiddlyCfg['developing'])
+				error_log('USER_VALIDATE - username and pass code have been taken from the cookie:'.$un.$pw, 0);
 			$data_session['session_token'] = $pw;
-			 
-			//  TODO CHECK VALUE OF 			
-			
 			$results = db_record_select('login_session', $data_session);			// get array of results		
-	
 		
 			if (count($results) > 0 )                   //  if the array has 1 or more sessions
 			{
-					$user['verified'] = 1;	
-	
-			return true;	
+				$user['verified'] = 1;	
+				if ($tiddlyCfg['developing'])
+					error_log('USER_VALIDATED -username and passcode are valid'.$un.$pw, 0);
+				return true;
+				// TODO MAKE SURE THIS EXPIRE WORKS CORRECTLY 	
 				$expire = strtotime($results[0]['expire']);
 		 		$now = strtotime(date('Y-m-d H:i:s'));
 		 		if($expire > $now)

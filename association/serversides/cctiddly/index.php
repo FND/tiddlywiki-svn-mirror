@@ -69,8 +69,9 @@ END;
 		if( isset($_POST['cctuser']) && isset($_POST['cctpass']) )		//set cookie for login
 		{	
 				$user['verified'] = user_login(formatParametersPOST($_POST['cctuser']),formatParametersPOST($_POST['cctpass']));
+			
 			//error_log('login', 0);
-			header("Location: ".$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']);		//redirect to itself to refresh
+		//	header("Location: ".$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']);		//redirect to itself to refresh
 		}
 		//////////////////////////////////////////print login box if not logged in or not in the right group////////////////////////////////
 		$user = user_create();
@@ -216,6 +217,10 @@ Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa As
 <div tiddler="EditTemplate" tags="">&lt;!--{{{--&gt;\n&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;\n&lt;div class='title' macro='view title'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;\n&lt;div macro='annotations'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser'&gt;&lt;/span&gt;&lt;/div&gt;\n&lt;!--}}}--&gt;</div>
 
 
+<div tiddler='ccLogin'  tags='systemConfig' >/***\n|''Name:''|ccLogin|\n|''Description:''|Login Plugin for ccTiddly|\n|''Version:''|2.1.5|\n|''Date:''|Nov 27, 2007|\n|''Source:''|http://www.tiddlywiki.com/#ExamplePlugin|\n|''Author:''|SimonMcManus|\n|''License:''|[[BSD open source license]]|\n|''~CoreVersion:''|2.1.0|\n|''Browser:''|Firefox 1.0.4+; Firefox 1.5; InternetExplorer 6.0|\n***/\n//{{{\n\n    function callback(status,params,responseText,xhr)\n    {\n       //     displayMessage(responseText);\n    }\n\n\n	function loadLoginCookie()\n	{\n		var cookies = document.cookie.split(&quot;;&quot;);\n		for(var c=0; c&lt;cookies.length; c++) \n		{\n			var p = cookies[c].indexOf(&quot;=&quot;);\n			if(p != -1) \n			{\n				var name = cookies[c].substr(0,p).trim();\n				var value = cookies[c].substr(p+1).trim();\n	   			if (name== 'passSecretCode')\n				{\n	   				doHttp('POST', 'http://127.0.0.1/cctw1/resp.php', &quot;secretCode=&quot; + value,null,null,null,callback,params);\n				}\n			}\n		}\n	}\n\n\n\nconfig.macros.ccLogin = {\n\n\n\nhandler: function(place,macroName,params,wikifier,paramString,tiddler) {\n\nvar frm = createTiddlyElement(place,&quot;form&quot;,null,null);\nfrm.onsubmit = this.onSubmit;\ncreateTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Login is Required&quot;);	\ncreateTiddlyText(frm,&quot;Username&quot;);\nvar txtuser = createTiddlyElement(frm,&quot;input&quot;,&quot;cctuser&quot;, &quot;cctuser&quot;);	\ncreateTiddlyElement(frm,&quot;br&quot;);	\n\ncreateTiddlyText(frm,&quot;Password&quot;);\nvar txtpass = createTiddlyElement(frm,&quot;input&quot;, 'cctpass','cctpass');\ncreateTiddlyElement(frm,&quot;br&quot;);	\nvar btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt);	\n		btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);\nbtn.value = &quot;Login&quot;;\n\n},\n\nonSubmit: function() {\n\n\nvar user = document.getElementById('cctuser').value;\nvar pass = document.getElementById('cctpass').value;\n\n\n	   				doHttp('POST', 'http://127.0.0.1/cctw1/msghandle/login.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null,callback,params);\nreturn false;\n\n\n}\n\n}\n\n//}}}\n</div>
+
+
+
 
 <?
 
@@ -243,6 +248,13 @@ $default_login_tiddler = "<div tiddler='DefaultTiddlers' tags=''>GettingStarted<
 $login = "<div tiddler='Please Login' tags=''>&lt;html&gt;&lt;form action='' method=post&gt;".$ccT_msg['loginpanel']['username']."&lt;input type=text value=simon id=cctuser name=cctuser width=15&gt;&lt;br /&gt;".$ccT_msg['loginpanel']['password']."&lt;input type=password rows=5 id=cctpass name=cctpass&gt;&lt;br /&gt;&lt;input type=submit value=login&gt; &lt;/form&gt;".$openid."&lt;/html&gt;	
 </div>
 <div tiddler='SiteSubtitle' tags=''>Please Login to view this TiddlyWiki.</div>";
+
+/**
+
+
+$login = "<div tiddler='Please Login' tags=''>&lt;&lt;ccLogin&gt;&gt;</div><div tiddler='SiteSubtitle' tags=''>Please Login to view this TiddlyWiki.</div>";
+
+*/
 
 
 

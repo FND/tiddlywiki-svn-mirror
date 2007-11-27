@@ -15,7 +15,7 @@ $tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';
 $tiddlyCfg['pref']['ldap_enabled'] = 0;	
 $tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
 $tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the instance name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
-
+$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
 
 
 //  CALLS URL CODE 
@@ -166,5 +166,5 @@ $tiddlyCfg['privilege']['user']['systemConfig'] = "AAAA";
 //$tiddlyCfg['privilege']['anonymous']['comments'] = "AADD";		//allow comments to be post anonymously
 
 //misc
-$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
+
 ?>

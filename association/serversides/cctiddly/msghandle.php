@@ -1,7 +1,8 @@
 <?php
 	//exit("success");
 	include_once("includes/header.php");
-	error_log('msghanngle.php'.$instance, 0);
+	if($tiddlyCfg['developing'])
+		error_log('msghanngle.php'.$instance, 0);
 //////////////////////////////////////////////////////////initial checking and required functions////////////////////////////////////////
 	if( !isset($_POST['action']) && !isset($_GET['action']) )
 	{
