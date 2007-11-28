@@ -5,7 +5,7 @@ recipe: shadows/split.recipe
 recipe: plugins/split.recipe
 recipe: content/split.recipe
 recipe: session/split.recipe
+recipe: feeds/split.recipe
 
 tiddler: ../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
 recipe: ../../contributors/JeremyRuston/test/ListRelatedPlugin/split.recipe
-
