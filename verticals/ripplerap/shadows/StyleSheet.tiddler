@@ -6,10 +6,15 @@
 #displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0;}
 #tiddlerDisplay { margin:2em 0 2em 1em;}
 
+
 /* Header */
-div.header { background-color:#000; height:84px;}
+div.header { background-color:#000; height:84px; border-top:solid 10px #111;}
+#backstageArea,
+#backstageToolbar {background-color:#111;}
+#backstageToolbar a{background-color:#111;}
 div.headerShadow,
 div.headerForeground { padding:0; }
+span.siteTitle {top:2px;}
 span.siteSubtitle {bottom:37px; left:245px; font-size:1em; position:absolute; width:200px;}
 
 /* Primary Nav Buttons */
@@ -44,12 +49,6 @@ span.siteSubtitle {bottom:37px; left:245px; font-size:1em; position:absolute; wi
 div.tiddler {padding:0;}
 
 /* Session and Notes tiddlers */
-div.myNotes { background-color:#ddd; border:solid 1px #333; border-top-style:none;  border-left-width:2px; margin:0;}
-div.myNotes .toolbar {background-color:#eee; }
-div.discoveredNotes { background-color:#ddd; border:solid 1px #333; border-left-width:2px; border-top-style:none; margin:0;}
-div.discoveredNotes .toolbar {background-color:#eee;border-left:solid 40px #ccc;}
-div.discoveredNotes .viewer {border-left:solid 40px #bbb;}
-
 div.synopsis .toolbar,
 div.myNotes .toolbar,
 div.discoveredNotes .toolbar { text-align:right; padding:0.2em 0;}
@@ -71,6 +70,18 @@ div.synopsis .title { margin:0.2em 0 0 10px; font-size:1.5em; font-weight:bold; 
 div.synopsis .time {margin:0 0.2em 0 10px; font-size:1.2em; font-weight:bold; color:#ddd; display:inline;}
 div.synopsis .speaker {margin:0.2em 0 0 0; font-size:1.2em; font-weight:bold; color:#333;display:inline;}
 div.synopsis .viewer {margin:0; font-size:1em; color:#222; padding:0.5em 5px 0.5em 10px;}
+
+div.myNotes { background-color:#ddd; border:solid 1px #333; border-top-style:none;  border-left-width:2px; margin:0;}
+div.myNotes .toolbar {background-color:#eee; }
+div.myNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
+div.myNotes .editor .fieldsetFix textarea { border:solid 1px #555; border-top-color:#444; border-bottom-color:#fff; background-color:#fff;}
+
+div.discoveredNotes { background-color:#ddd; border:solid 1px #333; border-left-width:2px; border-top-style:none; margin:0;}
+div.discoveredNotes .toolbar {background-color:#eee;border-left:solid 40px #ccc;}
+div.discoveredNotes .viewer, 
+div.discoveredNotes .editor {border-left:solid 40px #bbb;}
+div.discoveredNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
+div.discoveredNotes .editor .fieldsetFix textarea { border:solid 1px #bbb; border-top-color:#aaa; border-bottom-color:#fff; background-color:#eee;}
 
 
 /* Secondary menu */
