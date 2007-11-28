@@ -89,7 +89,8 @@
 		$insert_data['ip'] = $_SERVER['REMOTE_ADDR'];  // get the ip address
 		$insert_data['session_token'] = sha1($un.$_SERVER['REMOTE_ADDR'].$expire); // colect data together and sh1 it so that we have a unique indentifier 
 		cookie_set('txtUserName', $un);
-		cookie_set('passSecretCode', $insert_data['session_token']);
+ 		cookie_set('sessionToken', $insert_data['session_token']);
+	//	cookie_set('passSecretCode', $insert_data['session_token']); // TODO - REMOVE THIS LINE 
 
 			 error_log('SETSESSION23'.$un.$pw, 0);
 		db_record_insert('login_session',$insert_data);
@@ -222,11 +223,11 @@
 		db_record_delete('login_session',$data);
 
 		error_log('kill cookie', 0);
-		cookie_kill('passSecretCode');
+		cookie_kill('sessionToken');
 		cookie_kill('txtUserName');
 		error_log('kill cookie', 0);
-		//cookie_set('txtUserName', '');
-		//cookie_set('pasSecretCode', '');
+		cookie_set('txtUserName', 'invalid');
+		cookie_set('sessionToken', 'invalid');
 	
 		return TRUE;
 	}

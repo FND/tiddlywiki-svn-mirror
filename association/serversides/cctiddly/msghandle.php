@@ -26,6 +26,8 @@
 		//	header("Location: ".$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']);		//redirect to itself to refresh
 		}
 		
+		if ($_POST['logout'] || $_REQUEST['logo'])
+			user_logout();
 		
 ////////////////////////////////////////////END OF LOGIN BITS ///////////////////////////////////////////
 		
