@@ -54,6 +54,10 @@ JSPWikiAdaptor.prototype.setContext = function(context,userParams,callback)
 	context.userParams = userParams;
 	if(callback) context.callback = callback;
 	context.adaptor = this;
+	if(!context.host)
+		context.host = this.host;
+	if(!context.workspace && this.workspace)
+		context.workspace = this.workspace;
 	return context;
 };
 
@@ -93,8 +97,8 @@ JSPWikiAdaptor.normalizedTitle = function(title)
 JSPWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
 //#displayMessage("openHost:"+host);
-	context = this.setContext(context,userParams,callback);
 	this.host = JSPWikiAdaptor.fullHostName(host);
+	context = this.setContext(context,userParams,callback);
 	this.username = config.options.txttwikiUsername;
 	this.password = config.options.txttwikiPassword;
 	if(context.callback) {
@@ -107,8 +111,8 @@ JSPWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 JSPWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
 //#displayMessage("openWorkspace:"+workspace);
-	context = this.setContext(context,userParams,callback);
 	this.workspace = workspace;
+	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
 		window.setTimeout(context.callback,0,context,userParams);
@@ -135,7 +139,7 @@ JSPWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 //#displayMessage('getTiddlerList');
 	context = this.setContext(context,userParams,callback);
 	var uriTemplate = '%0RPCU/';
-	var uri = uriTemplate.format([this.host]);
+	var uri = uriTemplate.format([context.host]);
 //#displayMessage('uri: '+uri);
 
 	var fn = 'wiki.getAllPages';
@@ -205,7 +209,7 @@ JSPWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callback
 	context = this.setContext(context,userParams,callback);
 
 	var uriTemplate = '%0RPCU/';
-	var uri = uriTemplate.format([this.host]);
+	var uri = uriTemplate.format([context.host]);
 //#displayMessage('uri: '+uri);
 
 	//#var fn = 'wiki.getRPCVersionSupported';
@@ -219,7 +223,7 @@ JSPWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callback
 
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields.wikiformat = 'jspwiki';
-	context.tiddler.fields['server.host'] = JSPWikiAdaptor.minHostName(this.host);
+	context.tiddler.fields['server.host'] = JSPWikiAdaptor.minHostName(context.host);
 	//context.tiddler.fields['server.workspace'] = workspace;
 	var req =doHttp('POST',uri,payload,null,null,null,JSPWikiAdaptor.getTiddlerCallback,context);
 //#displayMessage("req:"+req);
@@ -254,8 +258,8 @@ JSPWikiAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 //#putPage(utf8 page,utf8 content,struct attributes )
 	var fn = 'wiki.putPage';
 	var uriTemplate = '%0RPC2/';
-	var host = this && this.host ? this.host : JSPWikiAdaptor.fullHostName(context.tiddler.fields['server.host']);
-	var workspace = this && this.workspace ? this.workspace : context.tiddler.fields['server.workspace'];
+	var host = context.host ? context.host : JSPWikiAdaptor.fullHostName(context.tiddler.fields['server.host']);
+	var workspace = context.workspace ? context.workspace : context.tiddler.fields['server.workspace'];
 	var uri = uriTemplate.format([host,workspace,tiddler.title]);
 //#displayMessage('uri: '+uri);
 

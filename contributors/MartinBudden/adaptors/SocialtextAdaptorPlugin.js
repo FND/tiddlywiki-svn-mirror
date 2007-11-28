@@ -39,6 +39,10 @@ SocialtextAdaptor.prototype.setContext = function(context,userParams,callback)
 	context.userParams = userParams;
 	if(callback) context.callback = callback;
 	context.adaptor = this;
+	if(!context.host)
+		context.host = this.host;
+	if(!context.workspace && this.workspace)
+		context.workspace = this.workspace;
 	return context;
 };
 
@@ -87,9 +91,9 @@ SocialtextAdaptor.dateFromEditTime = function(editTime)
 
 SocialtextAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
+	this.host = SocialtextAdaptor.fullHostName(host);
 	context = this.setContext(context,userParams,callback);
 //#displayMessage("openHost:"+host);
-	this.host = SocialtextAdaptor.fullHostName(host);
 	if(context.callback) {
 		context.status = true;
 		window.setTimeout(context.callback,0,context,userParams);
@@ -99,9 +103,9 @@ SocialtextAdaptor.prototype.openHost = function(host,context,userParams,callback
 
 SocialtextAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
+	this.workspace = workspace;
 	context = this.setContext(context,userParams,callback);
 //#displayMessage("openWorkspace:"+workspace);
-	this.workspace = workspace;
 	if(context.callback) {
 		context.status = true;
 		window.setTimeout(context.callback,0,context,userParams);
@@ -123,7 +127,7 @@ SocialtextAdaptor.prototype.getWorkspaceList = function(context,userParams,callb
 	context = this.setContext(context,userParams,callback);
 //#displayMessage("getWorkspaceList");
 	var uriTemplate = '%0data/workspaces';
-	var uri = uriTemplate.format([this.host]);
+	var uri = uriTemplate.format([context.host]);
 //#displayMessage('uri:'+uri);
 	var req = SocialtextAdaptor.doHttpGET(uri,SocialtextAdaptor.getWorkspaceListCallback,context,{'accept':'application/json'});
 	return typeof req == 'string' ? req : true;
@@ -169,7 +173,7 @@ SocialtextAdaptor.prototype.getTiddlerList = function(context,userParams,callbac
 //# http://www.socialtext.net/data/workspaces/st-rest-docs/pages?accept=application/json;order=newest;count=4
 //# data/workspaces/:ws/pages/:pname
 	var uriTemplate = '%0data/workspaces/%1/pages?order=newest';//!! ? or ;
-	var uri = uriTemplate.format([this.host,this.workspace]);
+	var uri = uriTemplate.format([context.host,context.workspace]);
 //#displayMessage('uri:'+uri);
 	var req = SocialtextAdaptor.doHttpGET(uri,SocialtextAdaptor.getTiddlerListCallback,context,{'accept':'application/json'});
 //#displayMessage('req:'+req);
@@ -257,13 +261,13 @@ SocialtextAdaptor.prototype.getTiddlerRevision = function(title,revision,context
 		uriTemplate = '%0data/workspaces/%1/pages/%2';
 		context.revision = null;
 	}
-	uri = uriTemplate.format([this.host,this.workspace,SocialtextAdaptor.normalizedTitle(title),revision]);
+	uri = uriTemplate.format([context.host,context.workspace,SocialtextAdaptor.normalizedTitle(title),revision]);
 //#displayMessage('uri: '+uri);
 
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields.wikiformat = 'socialtext';
-	context.tiddler.fields['server.host'] = SocialtextAdaptor.minHostName(this.host);
-	context.tiddler.fields['server.workspace'] = this.workspace;
+	context.tiddler.fields['server.host'] = SocialtextAdaptor.minHostName(context.host);
+	context.tiddler.fields['server.workspace'] = context.workspace;
 	var req = SocialtextAdaptor.doHttpGET(uri,SocialtextAdaptor.getTiddlerCallback,context,{'accept':'application/json'});
 //#displayMessage('req:'+req);
 	return typeof req == 'string' ? req : true;
@@ -314,7 +318,7 @@ SocialtextAdaptor.getTiddlerCallback = function(status,context,responseText,uri,
 	//# request the page's text
 	var uriTemplate = context.revision ? '%0data/workspaces/%1/pages/%2/revisions/%3' : '%0data/workspaces/%1/pages/%2';
 	var host = SocialtextAdaptor.fullHostName(context.tiddler.fields['server.host']);
-	var workspace = this && this.workspace ? this.workspace : context.tiddler.fields['server.workspace'];
+	var workspace = context.workspace ? context.workspace : context.tiddler.fields['server.workspace'];
 	uri = uriTemplate.format([host,workspace,SocialtextAdaptor.normalizedTitle(context.tiddler.title),context.revision]);
 //#displayMessage('cb uri: '+uri);
 	var req = SocialtextAdaptor.doHttpGET(uri,SocialtextAdaptor.getTiddlerCallback2,context,{'accept':SocialtextAdaptor.mimeType});
@@ -347,7 +351,7 @@ SocialtextAdaptor.prototype.getTiddlerRevisionList = function(title,limit,contex
 	var uriTemplate = '%0data/workspaces/%1/pages/%2/revisions?accept=application/json';
 	if(!limit)
 		limit = 5;
-	var uri = uriTemplate.format([this.host,this.workspace,SocialtextAdaptor.normalizedTitle(title),limit]);
+	var uri = uriTemplate.format([context.host,context.workspace,SocialtextAdaptor.normalizedTitle(title),limit]);
 //#displayMessage('uri: '+uri);
 
 	var req = SocialtextAdaptor.doHttpGET(uri,SocialtextAdaptor.getTiddlerRevisionListCallback,context);
@@ -401,8 +405,8 @@ SocialtextAdaptor.prototype.putTiddler = function(tiddler,context,userParams,cal
 //#displayMessage('SocialtextAdaptor.putTiddler:'+tiddler.title);
 //# data/workspaces/:ws/pages/:pname
 	var uriTemplate = '%0data/workspaces/%1/pages/%2';
-	var host = this && this.host ? this.host : SocialtextAdaptor.fullHostName(tiddler.fields['server.host']);
-	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
+	var host = context.host ? context.host : SocialtextAdaptor.fullHostName(tiddler.fields['server.host']);
+	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
 	var uri = uriTemplate.format([host,workspace,tiddler.title,tiddler.text]);
 //#displayMessage('uri:'+uri);
 	//var req = doHttp('POST',uri,tiddler.text,SocialtextAdaptor.mimeType,null,null,SocialtextAdaptor.putTiddlerCallback,context,{"X-Http-Method": "PUT"});

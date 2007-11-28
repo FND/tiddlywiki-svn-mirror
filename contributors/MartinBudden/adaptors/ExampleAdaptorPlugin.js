@@ -36,7 +36,7 @@ function ExampleAdaptor()
 
 // !!TODO set the variables below
 ExampleAdaptor.mimeType = 'text/x.';
-ExampleAdaptor.serverType = 'example';
+ExampleAdaptor.serverType = 'example'; // MUST BE LOWER CASE
 ExampleAdaptor.serverParsingErrorMessage = "Error parsing result from server";
 ExampleAdaptor.errorInFunctionMessage = "Error in function ExampleAdaptor.%0";
 
