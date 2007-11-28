@@ -8,8 +8,8 @@ PrimaryDark: #014
 SecondaryPale: #ffc
 SecondaryLight: #fe8
 SecondaryMid: #fdb4
-/* Orange */
-SecondaryDark: #d70
+/* Magenta */
+SecondaryDark: #D71F85
 TertiaryPale: #eee
 TertiaryLight: #ccc
 TertiaryMid: #999

@@ -3,7 +3,6 @@ tiddler: ColorPalette.tiddler
 tiddler: MainMenu.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: PageTemplate.tiddler
-tiddler: SynopsisViewTemplate.tiddler
 tiddler: NotesViewTemplate.tiddler
 tiddler: NotesEditTemplate.tiddler
 tiddler: DiscoveredNotesViewTemplate.tiddler
@@ -13,3 +12,5 @@ tiddler: SiteTitle.tiddler
 tiddler: SiteUrl.tiddler
 tiddler: StyleSheet.tiddler
 
+tiddler: SessionViewTemplate.tiddler
+tiddler: SessionEditTemplate.tiddler
