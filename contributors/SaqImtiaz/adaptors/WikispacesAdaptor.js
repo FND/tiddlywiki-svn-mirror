@@ -21,7 +21,6 @@ function WikispacesAdaptor()
 	return this;
 }
 
-// !!TODO set the variables below
 WikispacesAdaptor.serverType = 'wikispaces';
 WikispacesAdaptor.serverParsingErrorMessage = "Error parsing result from server";
 WikispacesAdaptor.errorInFunctionMessage = "Error in function WikispacesAdaptor.%0";
@@ -282,8 +281,6 @@ WikispacesAdaptor.getTiddlerCallback2 = function(status,context,responseText,uri
 				doc=parser.parseFromString(responseText,"text/xml");
 			}
 			
-			//console.log(responseText);
-			
 			var x=doc.documentElement.getElementsByTagName('prop')[0];
 
 			context.tiddler.created = Date.fromISOString(x.getElementsByTagName('creationdate')[0].firstChild.data);
@@ -309,6 +306,7 @@ WikispacesAdaptor.prototype.putTiddler = function(tiddler,context,userParams,cal
 {
 	context = this.setContext(context,userParams,callback);
 	context.title = tiddler.title;
+	context.tiddler = tiddler;
 	var uriTemplate = '%0space/dav/pages/%1';
 	var host = this && this.host ? this.host : WikispacesAdaptor.fullHostName(tiddler.fields['server.host']);
 	var uri = uriTemplate.format([host,tiddler.title]);
@@ -321,6 +319,30 @@ WikispacesAdaptor.putTiddlerCallback = function(status,context,responseText,uri,
 	if(status) {
 		context.status = true;
 	} else {
+		context.status = false;
+		context.statusText = xhr.statusText;
+		if(context.callback)
+			context.callback(context,context.userParams);
+	}
+	WikispacesAdaptor.doHttpPROPFIND(uri,WikispacesAdaptor.putTiddlerCallback2,context);
+};
+
+WikispacesAdaptor.putTiddlerCallback2 = function(status,context,responseText,uri,xhr)
+{
+	if(status){
+		context.status = true;
+		try{
+			var revision = responseText.match(/<(\w*?):getlastmodified.*?>(.*?)<\/\1:getlastmodified>/)[2];
+			context.tiddler.fields['server.page.revision'] = revision;
+		}
+		catch(ex){
+			context.statusText = exceptionText(ex,WikispacesAdaptor.serverParsingErrorMessage);
+			if(context.callback)
+				context.callback(context,context.userParams);
+			return;			
+		}
+	}
+	else{
 		context.status = false;
 		context.statusText = xhr.statusText;
 	}
@@ -341,5 +363,3 @@ Date.fromISOString = function(str){
 	return new Date(o[0], (o[1]-1), o[2], o[3], o[4], o[5]);
 };
 //}}}
-//
-// must either proppath remote files after put, or update local tiddler mod date 
