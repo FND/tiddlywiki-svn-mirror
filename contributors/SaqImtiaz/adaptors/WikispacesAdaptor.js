@@ -22,7 +22,7 @@ function WikispacesAdaptor()
 }
 
 // !!TODO set the variables below
-WikispacesAdaptor.serverType = 'Wikispaces';
+WikispacesAdaptor.serverType = 'wikispaces';
 WikispacesAdaptor.serverParsingErrorMessage = "Error parsing result from server";
 WikispacesAdaptor.errorInFunctionMessage = "Error in function WikispacesAdaptor.%0";
 WikispacesAdaptor.mimeType = 'text/plain';
@@ -176,7 +176,11 @@ WikispacesAdaptor.getTiddlerListCallback = function(status,context,responseText,
 				if(getProp(r,'getcontenttype')=='httpd/unix-directory')
 					continue;
 				var href = r.getElementsByTagName('href')[0].firstChild.data;
-				var tiddler  = new Tiddler(href.substr(href.lastIndexOf("/")+1).replace(/\+/g, " "));
+				var title = href.substr(href.lastIndexOf("/")+1).replace(/\+/g, " ");
+		
+				if(title.match(/^\._.*/))
+					continue;
+				var tiddler  = new Tiddler(title);
 				tiddler.created = Date.fromISOString(r.getElementsByTagName('prop')[0].getElementsByTagName('creationdate')[0].firstChild.data);
 				tiddler.modified = new Date(r.getElementsByTagName('prop')[0].getElementsByTagName('getlastmodified')[0].firstChild.data);
 				tiddler.modifier = r.getElementsByTagName('prop')[0].getElementsByTagName('author')[0].firstChild.data;
@@ -224,7 +228,7 @@ WikispacesAdaptor.prototype.getTiddlerInternal = function(context,userParams,cal
 
 	uri = uriTemplate.format([context.host,WikispacesAdaptor.normalizedTitle(context.title)]);
 	context.tiddler = new Tiddler(context.title);
-	context.tiddler.fields.wikiformat = 'WikispacesFormat';
+	context.tiddler.fields.wikiformat = 'wikispaces';
 	context.tiddler.fields['server.type'] = WikispacesAdaptor.serverType;
 	context.tiddler.fields['server.host'] = WikispacesAdaptor.minHostName(context.host);
 	context.tiddler.fields['server.workspace'] = context.workspace;
@@ -305,10 +309,8 @@ WikispacesAdaptor.prototype.putTiddler = function(tiddler,context,userParams,cal
 {
 	context = this.setContext(context,userParams,callback);
 	context.title = tiddler.title;
-// !!TODO set the uriTemplate
 	var uriTemplate = '%0space/dav/pages/%1';
 	var host = this && this.host ? this.host : WikispacesAdaptor.fullHostName(tiddler.fields['server.host']);
-	//var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
 	var uri = uriTemplate.format([host,tiddler.title]);
 	var req = WikispacesAdaptor.doHttpPUT(uri,WikispacesAdaptor.putTiddlerCallback,context,{"X-Http-Method": "PUT"},tiddler.text,WikispacesAdaptor.mimeType);
 	return typeof req == 'string' ? req : true;
