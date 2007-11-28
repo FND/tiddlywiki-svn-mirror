@@ -3,7 +3,7 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -42,7 +42,7 @@ RssSynchronizer.getNotesTiddlerListCallback = function(context,userParams)
 	}
 };
 
-RssSynchronizer.putTiddlersToRss = function(uri,tiddlers)
+RssSynchronizer.prototype.putTiddlersToRss = function(uri,tiddlers)
 {
 	var rss = RssSynchronizer.generateRss(tiddlers);
 	var callback = function(status,params,responseText,uri,xhr) {
@@ -50,12 +50,13 @@ RssSynchronizer.putTiddlersToRss = function(uri,tiddlers)
 			// PUT is successful, take item out of queue
 			displayMessage("successfully PUT");
 			//Collection.clear();
-		}/* else {
+		} else {
+			displayMessage("PUT failed");
 			// PUT failed, deal with it here
 			// leave item in queue and take no action?
-		}*/
+		}
 	};
-	DAV.safeput(uri,callback,null,rssString);
+	DAV.safeput(uri,callback,null,rss);
 };
 
 RssSynchronizer.generateRss = function(tiddlers)
