@@ -3,7 +3,7 @@
 |''Description:''|RippleRap test harness|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RippleRapTestPlugin.js |
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -31,9 +31,17 @@ config.macros.rippleRapTest.onClick = function()
 		if(t.isTagged('systemServer') && t.isTagged('ripplerap') && t.isTagged('notes')) {
 			var type = store.getTiddlerSlice(t.title,'Type');
 			var uri = store.getTiddlerSlice(t.title,'URL');
-			displayMessage("tt:"+t.title+" t:"+type+" u:"+uri);
+			displayMessage("getNotes:"+t.title+" t:"+type+" u:"+uri);
 			if(uri && type=='rss')
 				r.getNotesTiddlersFromRss(uri);
+		}
+		if(t.isTagged('systemServer') && t.isTagged('ripplerap') && t.isTagged('upload')) {
+			var type = store.getTiddlerSlice(t.title,'Type');
+			var uri = store.getTiddlerSlice(t.title,'URL') + '/MartinBudden/index.xml';
+			displayMessage("putTiddlers:"+t.title+" t:"+type+" u:"+uri);
+			var tiddlers = store.getTaggedTiddlers('comment');
+			if(uri && type=='rss')
+				r.putTiddlersToRss(uri,tiddlers);
 		}
 	});
 };
