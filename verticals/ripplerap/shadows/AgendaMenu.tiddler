@@ -1,3 +1,6 @@
-<div title="AgendaMenu">
-<pre>call the tab builder macro here</pre>
+<div title="AgendaMenu" modifier="PhilHawksworth" modified="200711280946" changecount="5">
+<pre>AgendaItemsTemplate
+AgendaSubItemsTemplate
+
+<<listRelated filter:"[tag[session]]" rel:"raps" template:"AgendaItemsTemplate" subtemplate:"AgendaSubItemsTemplate">></pre>
 </div>

@@ -1,0 +1,3 @@
+<div title="AgendaItemsTemplate" modifier="PhilHawksworth" created="200711280945" changecount="1">
+<pre>{{time{time - time}}}{{title{<<view title link>>}}}{{speaker{speaker}}}</pre>
+</div>

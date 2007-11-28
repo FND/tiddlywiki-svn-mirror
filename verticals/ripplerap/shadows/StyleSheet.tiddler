@@ -4,7 +4,7 @@
 #agendaMenu { position: static;	float: left; width: auto; }
 #displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
 #displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0;}
-#tiddlerDisplay { margin:2em 0;}
+#tiddlerDisplay { margin:2em 0 2em 1em;}
 
 /* Header */
 div.header { background-color:#000; height:84px;}
@@ -27,20 +27,18 @@ span.siteSubtitle {bottom:37px; left:245px; font-size:1em; position:absolute; wi
 #agendaMenu div.txtAgendaTab div.tabset a.tabSelected {background-color:#fff; border:solid 1px #999; border-bottom-width:2px;}
 #agendaMenu div.txtAgendaTab div.tabContents { border-style:none; margin:0; padding:0;}
 
-div.txtAgendaTab { border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
-div.txtAgendaTab div.agendaItem { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px #fff; border-left:solid 10px #ccc; }	
-div.txtAgendaTab div.inProgress { border-left:solid 10px #933; background-color:#fff; }
-div.txtAgendaTab div.agendaItem span.time {	font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; position:absolute; }
-div.txtAgendaTab div.agendaItem span.title a { color:#444; display:block; font-weight:bold;	text-decoration:none; margin-left:5em; font-size:12px; }
-div.txtAgendaTab div.agendaItem div.speaker { color:#666; display:block; margin:0.2em 0 0 5em; }
-div.txtAgendaTab div.agendaItem div.notes {	margin:0.4em 0.5em 0 0;	text-align:right; }
-div.txtAgendaTab div.agendaItem div.notes ul { list-style:none; }
-div.txtAgendaTab div.agendaItem div.notes a { display:block; color:#55c; font-size:0.9em; line-height:1.4em; text-decoration:none; }
-div.txtAgendaTab div.agendaItem div.notes a.stale { color:#600; }
-div.txtAgendaTab div.agendaItem div.notes a.tiddlyLink:hover,
-div.txtAgendaTab div.agendaItem div.notes a.stale:hover,
-div.txtAgendaTab div.agendaItem span.title a:hover { color:#000; text-decoration:underline;	background-color:#f0f0f0; }
-div.txtAgendaTab div.inProgress a.tiddlyLink:hover { background-color:#fff;	}
+#agendaMenu { border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
+#agendaMenu div.listRelatedTiddler { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px #fff; border-left:solid 10px #ccc; }	
+#agendaMenu div.listRelatedTiddler span.time {	font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; position:absolute; }
+#agendaMenu div.listRelatedTiddler span.title a { color:#444; display:block; font-weight:bold;	text-decoration:none; margin-left:5em; font-size:12px; }
+#agendaMenu div.listRelatedTiddler span.speaker { color:#666; display:block; margin:0.2em 0 0 5em; }
+
+#agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler { text-align:right; }
+#agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler a { display:block; color:#55c; font-size:0.9em; line-height:1.4em; text-decoration:none; }
+#agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler a.tiddlyLink:hover,
+#agendaMenu div.listRelatedTiddler span.title a:hover { color:#000; text-decoration:underline;	background-color:#f0f0f0; }
+/*#agendaMenu div.inProgress { border-left:solid 10px #933; background-color:#fff; }*/
+/*#agendaMenu div.inProgress a.tiddlyLink:hover { background-color:#fff;	}*/
 
 
 div.tiddler {padding:0;}
