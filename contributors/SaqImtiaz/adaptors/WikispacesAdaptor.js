@@ -71,7 +71,7 @@ WikispacesAdaptor.fullHostName = function(host)
 		return '';
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
-	if(host.substr(-1) != '/')
+	if((host.substr(host.length-1)) !='/')
 		host = host + '/';
 	return host;
 };
@@ -79,6 +79,10 @@ WikispacesAdaptor.fullHostName = function(host)
 WikispacesAdaptor.minHostName = function(host)
 {
 	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
+};
+
+WikispacesAdaptor.prototype.wrap = function(fn,args){
+	return function(){fn.apply(window,args)};
 };
 
 // Convert a page title to the normalized form used in uris
@@ -100,11 +104,12 @@ WikispacesAdaptor.dateFromEditTime = function(editTime)
 
 WikispacesAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
+
 	this.host = WikispacesAdaptor.fullHostName(host);
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(this.wrap(context.callback,[context,userParams]),0);
 	}
 	return true;
 };
@@ -115,7 +120,7 @@ WikispacesAdaptor.prototype.openWorkspace = function(workspace,context,userParam
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(this.wrap(context.callback,[context,userParams]),0);
 	}
 	return true;
 };
@@ -128,7 +133,7 @@ WikispacesAdaptor.prototype.getWorkspaceList = function(context,userParams,callb
 	context.workspaces = list;
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,10,context,userParams);
+		window.setTimeout(this.wrap(context.callback,[context,userParams]),0);
 	}
 	return true;
 };
@@ -138,7 +143,7 @@ WikispacesAdaptor.prototype.getTiddlerList = function(context,userParams,callbac
 	context = this.setContext(context,userParams,callback);
 	var uriTemplate = '%0space/dav/pages';
 	var uri = uriTemplate.format([context.host,context.workspace]);
-	var req = WikispacesAdaptor.doHttpPROPFIND(uri,WikispacesAdaptor.getTiddlerListCallback,context); //why not get?
+	var req = WikispacesAdaptor.doHttpPROPFIND(uri,WikispacesAdaptor.getTiddlerListCallback,context); 
 	return typeof req == 'string' ? req : true;
 };
 
@@ -149,7 +154,6 @@ WikispacesAdaptor.getTiddlerListCallback = function(status,context,responseText,
 	context.statusText = WikispacesAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	if(status) {
 		try {
-
 			var list = [];
 
 			var doc;
@@ -157,14 +161,21 @@ WikispacesAdaptor.getTiddlerListCallback = function(status,context,responseText,
 				//# code for IE
 				doc=new ActiveXObject("Microsoft.XMLDOM");
 				doc.async="false";
-				doc.loadXML(responseText);
-			} else {
+				doc.resolveExternals = false;
+				//doc.validateOnParse = false;
+				doc.loadXML(responseText.replace(/ns0:dt="dateTime.rfc1123"/g,''));
+				 if (doc.parseError != 0){
+				 	alert("Error occurred: " + doc.parseError.reason);
+					return false;
+				}
+			} 
+			else {
 				//# code for Mozilla, Firefox, Opera, etc.
 				var parser=new DOMParser();
 				doc=parser.parseFromString(responseText,"text/xml");
 			}
 			var x=doc.documentElement;
-
+			
 			function getProp(e,p){
 				return e.getElementsByTagName('prop')[0].getElementsByTagName(p)[0].firstChild.data || '';
 			}
