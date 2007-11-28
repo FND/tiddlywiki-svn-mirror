@@ -6,6 +6,4 @@ recipe: plugins/split.recipe
 recipe: content/split.recipe
 recipe: session/split.recipe
 
-tiddler: ../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
-recipe: ../../contributors/JeremyRuston/test/ListRelatedPlugin/split.recipe
 
