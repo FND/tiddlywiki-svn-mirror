@@ -19,6 +19,6 @@
      *  telephone number of your bat phone
      *  - international format:
      */
-    $mojoBatphone = "+447918880881";
+    $mojoBatphone = "+447504522492";
 
 ?>
