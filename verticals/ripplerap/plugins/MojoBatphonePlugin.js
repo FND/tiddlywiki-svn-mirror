@@ -19,8 +19,7 @@ config.macros.mojoBatphone = {
 
 	debug: false,
 	offline: false,
-	//proxy: 'http://ripplerap.com/mojoBatphone',
-	proxy: 'http://psd.local/src/tiddlywiki.org/Trunk/verticals/ripplerap/server/mojoBatphone.php',
+	proxy: 'http://ripplerap.com/LeWeb/mojoBatphone',
 
 	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
 	        var button = createTiddlyButton(place,'RING!','Click here to ring the Bat Phone!',this.ring);
