@@ -81,10 +81,6 @@ WikispacesAdaptor.minHostName = function(host)
 	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
 };
 
-WikispacesAdaptor.prototype.wrap = function(fn,args){
-	return function(){fn.apply(window,args)};
-};
-
 // Convert a page title to the normalized form used in uris
 WikispacesAdaptor.normalizedTitle = function(title)
 {
@@ -109,7 +105,7 @@ WikispacesAdaptor.prototype.openHost = function(host,context,userParams,callback
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(this.wrap(context.callback,[context,userParams]),0);
+		window.setTimeout(function(){context.callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -120,7 +116,7 @@ WikispacesAdaptor.prototype.openWorkspace = function(workspace,context,userParam
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(this.wrap(context.callback,[context,userParams]),0);
+		window.setTimeout(function(){context.callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -133,7 +129,7 @@ WikispacesAdaptor.prototype.getWorkspaceList = function(context,userParams,callb
 	context.workspaces = list;
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(this.wrap(context.callback,[context,userParams]),0);
+		window.setTimeout(function(){context.callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -155,49 +151,32 @@ WikispacesAdaptor.getTiddlerListCallback = function(status,context,responseText,
 	if(status) {
 		try {
 			var list = [];
-
-			var doc;
-			if(window.ActiveXObject) {
-				//# code for IE
-				doc=new ActiveXObject("Microsoft.XMLDOM");
-				doc.async="false";
-				doc.resolveExternals = false;
-				//doc.validateOnParse = false;
-				doc.loadXML(responseText.replace(/ns0:dt="dateTime.rfc1123"/g,''));
-				 if (doc.parseError != 0){
-				 	alert("Error occurred: " + doc.parseError.reason);
-					return false;
-				}
-			} 
-			else {
-				//# code for Mozilla, Firefox, Opera, etc.
-				var parser=new DOMParser();
-				doc=parser.parseFromString(responseText,"text/xml");
+			var responseExp = /<(\w*?):response.*?>((?:.|\n|\r\n)*?)<\/\1:response>/mg;
+			var responses =[];
+			var response;
+			while (response = responseExp.exec(responseText)){
+				responses.push(response[2]);
 			}
-			var x=doc.documentElement;
+			function parseProp(prop,subject){
+				var exp = new RegExp("<(\\w*?):"+prop+".*?>(.*?)<\\/\\1:"+prop+">");
+				return exp.exec(subject)[2];
+			}
 			
-			function getProp(e,p){
-				return e.getElementsByTagName('prop')[0].getElementsByTagName(p)[0].firstChild.data || '';
-			}
-
-			var responses = x.getElementsByTagName('response');
-			for (var i=0; i<responses.length; i++){
-				var r = responses[i];
-				if(getProp(r,'getcontenttype')=='httpd/unix-directory')
+			for(var k=0; k<responses.length; k++){
+				if(parseProp('getcontenttype',responses[k])=='httpd/unix-directory')
 					continue;
-				var href = r.getElementsByTagName('href')[0].firstChild.data;
+				var href = parseProp('href',responses[k]);
 				var title = href.substr(href.lastIndexOf("/")+1).replace(/\+/g, " ");
-		
 				if(title.match(/^\._.*/))
 					continue;
-				var tiddler  = new Tiddler(title);
-				tiddler.created = Date.fromISOString(r.getElementsByTagName('prop')[0].getElementsByTagName('creationdate')[0].firstChild.data);
-				tiddler.modified = new Date(r.getElementsByTagName('prop')[0].getElementsByTagName('getlastmodified')[0].firstChild.data);
-				tiddler.modifier = r.getElementsByTagName('prop')[0].getElementsByTagName('author')[0].firstChild.data;
-				tiddler.fields['server.page.revision'] = new Date(r.getElementsByTagName('prop')[0].getElementsByTagName('getlastmodified')[0].firstChild.data).convertToYYYYMMDDHHMM();
-				list.push(tiddler);
+				var tiddler = new Tiddler(title);
+				tiddler.created = Date.fromISOString(parseProp('creationdate',responses[k]));
+				tiddler.modified = new Date(parseProp('getlastmodified',responses[k]));
+				tiddler.modifier = parseProp('author',responses[k]);
+				tiddler.fields['server.page.revision'] = tiddler.modified.convertToYYYYMMDDHHMM();
+				list.push(tiddler);	
 			}
-
+	
 		} catch (ex) {
 			context.statusText = exceptionText(ex,WikispacesAdaptor.serverParsingErrorMessage);
 			if(context.callback)
@@ -280,25 +259,17 @@ WikispacesAdaptor.getTiddlerCallback2 = function(status,context,responseText,uri
 	if(status) {
 		context.status = true;
 		try {
-			var doc;
-			if(window.ActiveXObject) {
-				//# code for IE
-				doc=new ActiveXObject("Microsoft.XMLDOM");
-				doc.async="false";
-				doc.loadXML(responseText);
-			} else {
-				//# code for Mozilla, Firefox, Opera, etc.
-				var parser=new DOMParser();
-				doc=parser.parseFromString(responseText,"text/xml");
-			}
 			
-			var x=doc.documentElement.getElementsByTagName('prop')[0];
+			function parseProp(prop,subject){
+				var exp = new RegExp("<(\\w*?):"+prop+".*?>(.*?)<\\/\\1:"+prop+">");
+				return exp.exec(subject)[2];
+			}
 
-			context.tiddler.created = Date.fromISOString(x.getElementsByTagName('creationdate')[0].firstChild.data);
-			context.tiddler.modified = new Date(x.getElementsByTagName('getlastmodified')[0].firstChild.data);
-			context.tiddler.modifier = x.getElementsByTagName('author')[0].firstChild.data;
-			context.tiddler.fields['server.page.revision'] = context.tiddler.modified.convertToYYYYMMDDHHMM();
-
+			context.tiddler.created = Date.fromISOString(parseProp('creationdate',responseText));
+			context.tiddler.modified = new Date(parseProp('getlastmodified',responseText));
+			context.tiddler.modifier = parseProp('author',responseText);
+			context.tiddler.fields['server.page.revision'] = tiddler.modified.convertToYYYYMMDDHHMM();		
+			
 		} catch (ex) {
 			context.statusText = exceptionText(ex,WikispacesAdaptor.serverParsingErrorMessage);
 			if(context.callback)
