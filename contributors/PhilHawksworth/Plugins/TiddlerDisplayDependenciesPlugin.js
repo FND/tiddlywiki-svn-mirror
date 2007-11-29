@@ -35,6 +35,7 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 	};
 	
 
+	//TODO: Handle edit view.
 	
 	//store the existing displayTiddler function for use later.
 	config.macros.TiddlerDisplayDependencies.displayTiddler = story.displayTiddler;
@@ -44,7 +45,7 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 		
 		var t = typeof(tiddler) == 'string' ? store.getTiddler(tiddler) : tiddler;
 
-		if(t.isTagged('notes') || t.isTagged('DiscoveredNotes') ) {
+		if( t && (t.isTagged('notes') || t.isTagged('DiscoveredNotes'))) {
 		
 			// display the appropriate session tiddler.
 			var s = config.relationships['rapped'].getRelatedTiddlers(store,t.title);
@@ -80,11 +81,6 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 		
 		
 			topRelated = store.getTiddler(r[0]);
-			
-			//TODO: remove debug logging
-			console.log("toprelated: "+ topRelated.title + " ("+ topRelated.tags +")");
-			
-			
 			if(topRelated && topRelated.isTagged('notes')) {
 				
 				//TODO: remove debug logging
@@ -128,7 +124,6 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 				config.macros.TiddlerDisplayDependencies.closeTiddler.apply(this,arguments);
 			};
 		}
-
 		//close the tiddler.
 		title = t.title;
 		config.macros.TiddlerDisplayDependencies.closeTiddler.apply(this,arguments);
