@@ -29,7 +29,7 @@ config.macros.mojoBatphone = {
 	ring: function () {
 
 	        var macro = config.macros.mojoBatphone;
-	        var username = config.options.txtMojoUserName;
+	        var username = config.options.txtUserName;
 	        var telno = config.options.txtMojoTelno;
 	
 		var body = encodeURIComponent('username') + '=' + username
