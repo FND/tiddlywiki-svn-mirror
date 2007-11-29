@@ -5,7 +5,7 @@ tiddler: settings.js
 tiddler: ../../contributors/JonathanLister/adaptors/RSSAdaptor.js
 tiddler: ../../contributors/SaqImtiaz/plugins/WebDavLib.js
 tiddler: ../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
-tiddler: ../../contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js
+#tiddler: ../../contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js
 
 recipe: shadows/split.recipe
 recipe: plugins/split.recipe
