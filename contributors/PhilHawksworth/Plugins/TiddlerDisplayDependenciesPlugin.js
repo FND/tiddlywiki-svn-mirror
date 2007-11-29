@@ -23,6 +23,20 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 
 	config.macros.TiddlerDisplayDependencies = {};
 	
+	config.macros.TiddlerDisplayDependencies.displayedInStory = function(tiddlers){
+			
+		var inStory = [];
+		for (var t=0; t < tiddlers.length; t++) {
+			var tiddlerElem = document.getElementById(story.idPrefix + tiddlers[t]);
+			if(tiddlerElem){
+				inStory.push(tiddlers[t]);
+			}
+		};
+		return inStory;
+	};
+	
+
+	
 	//store the existing displayTiddler function for use later.
 	config.macros.TiddlerDisplayDependencies.displayTiddler = story.displayTiddler;
 	
@@ -31,7 +45,7 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 		
 		var t = typeof(tiddler) == 'string' ? store.getTiddler(tiddler) : tiddler;
 
-		if(t.isTagged('notes')) {
+		if(t.isTagged('notes') || t.isTagged('DiscoveredNotes') ) {
 		
 			// display the appropriate session tiddler.
 			var s = config.relationships['rapped'].getRelatedTiddlers(store,t.title);
@@ -41,8 +55,10 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 			}
 			var sessionTiddler = store.getTiddler(s[0]);
 		
+		
 			//TODO: remove debug logging
 			console.log("we must ensure that "+ sessionTiddler.title + " is displayed");
+			
 			
 			// display the session tiddler
 			tiddler = sessionTiddler;
@@ -50,25 +66,47 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 			
 			// examine the displayed tiddlers that rap this session tiddler
 			var r = config.relationships['raps'].getRelatedTiddlers(store,sessionTiddler.title);
+			
+			//TODO: remove debug logging
+			console.log("related in store "+ r.join(", "));
+			
+			r = config.macros.TiddlerDisplayDependencies.displayedInStory(r);
+
+			//TODO: remove debug logging
+			console.log("related in store "+ r.join(", "));
+
 		
 			//TODO: remove debug logging
 			console.log("related: " + r.length);
 		
+		
 			topRelated = store.getTiddler(r[0]);
-			if(topRelated.isTagged('discovered')) {
+			
+			//TODO: remove debug logging
+			console.log("toprelated: "+ topRelated.title + " ("+ topRelated.tags +")");
+			
+			
+			if(topRelated && topRelated.isTagged('notes')) {
+				
+				//TODO: remove debug logging
+				console.log("Displaying directly after my notes tiddler: "+ topRelated.title + " ("+ topRelated.tags +")");
+			
 				//display after topRelated
 				srcElement = document.getElementById(story.idPrefix + topRelated.title);
 				tiddler = t;
 				animate = false;
-				config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
 			}
 			else{
+				
+				//TODO: remove debug logging
+				console.log("Displaying directly after session tiddler: "+ sessionTiddler.title);
+				
 				//display after sessionTiddler
 				srcElement = document.getElementById(story.idPrefix + sessionTiddler.title);
 				tiddler = t;
 				animate = false;
-				config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
 			}
+			config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
 		}
 		else {
 			config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
