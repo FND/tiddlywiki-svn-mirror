@@ -1,4 +1,4 @@
-<div title="FAQs" modifier="PhilWhitehouse" created="200711281213" changecount="1">
+<div title="FAQs" modifier="PhilWhitehouse" created="200711281213" modified="200711291333" changecount="2">
 <pre>''Who created ~RippleRap?''
 
 A company called [[Osmosoft]] created ~RippleRap. Osmosoft is a small open source innovation company owned by [[BT|http://www.bt.com]].
@@ -15,7 +15,7 @@ Osmosoft was bought by BT in May 2007, and our remit is to support BT in underst
 
 ''How does ~RippleRap work?''
 
-*The product at the heart of ~RippleRap is ~TiddlyWiki. This product includes all the functionality required to create, edit and save notes locally. ~TiddlyWiki can run on a server, but ~RippleRap isn't intended to be used in this way at Le Web.
+*The product at the heart of ~RippleRap is ~TiddlyWiki. This product includes all the functionality required to create, edit and save notes locally. ~TiddlyWiki can run on a server, but ~RippleRap isn't intended to be used in this way at Le Web 3.
 *The sharing of notes with other delegates is done via RSS. When you've authorised sharing, ~TiddlyWiki creates an RSS feed that sends your notes to our server. The notes are combined with everyone else's notes on the server, and the aggregated notes are re-published as an RSS feed for your local copy of ~RippleRap. Once they're downloaded, they're stored locally and can be searched within your copy of ~RippleRap.
 *The 'click to call' functionality is provided by [[BT's 21C SDK|http://sdk.bt.com]]. As it happens, ~TiddlyWiki is a great platform for building custom applications for this SDK. 
 
