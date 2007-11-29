@@ -1,0 +1,5 @@
+<div title="What's RippleRap based on?" modifier="PhilWhitehouse" created="200711291501" changecount="1">
+<pre>~RippleRap is based on the popular open source product, TiddlyWiki. ~TiddlyWiki is a wiki packaged within a single html file, complete with all the content, the editing and saving functionality, search and tagging capabilities and much more. It can run locally from your hard drive (so it's great for taking notes or organising personal information) or on a server. It's very extensible; there are over 400 plugins developed by the ~TiddlyWiki community. Several new ~TiddlyWiki plugins have been developed and combined to create ~RippleRap.
+
+~TiddlyWiki is a very well established and stable piece of software. However the new code that was created to support the development of ~RippleRap is relatively new and untested. It is released under a BSD licence, which means we cannot provide the software with any warranties. The full text of the BSD licence can be found on the [[Open Source Initiative web site|http://www.opensource.org/licenses/bsd-license.php]].</pre>
+</div>
