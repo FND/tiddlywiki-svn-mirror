@@ -48,6 +48,10 @@ span.siteSubtitle {bottom:37px; left:245px; font-size:1em; position:absolute; wi
 
 div.tiddler {padding:0;}
 
+/* Vanilla tiddlers */
+div.tiddler > div.toolbar {}
+
+
 /* Session and Notes tiddlers */
 div.session .toolbar,
 div.session_edit .toolbar,
