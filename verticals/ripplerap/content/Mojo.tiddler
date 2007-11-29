@@ -3,7 +3,7 @@
 
 We've created a simple click-to-call functionality into [[RippleRap|Bonjour!!]] using the [[Mojo API|http://mojo.bt.com/howtos]], so you can see it in action. Enter your phone number in the box below, click 'enter' and, if it's not engaged, the [[Bat Phone|http://en.wikipedia.org/wiki/Bat_phone]] on our stall at Le Web will ring. When we pick up the phone, the call will then be connected with your phone by the ~Web21C SDK. (BT will not charge you for this incoming call, but your mobile phone operator might, especially if you are roaming).
 
-|Your mobile number in this format: +44 798...|<<option txtMojoTelno>>|
+|Your international mobile number:|<<option txtMojoTelno>>|<<mojoBatphone>>|
 
 Obviously we may be busy serving customers at the time, so if it doesn't work please try later, or if you'd like to see the demo in person swing by our stall.
 
