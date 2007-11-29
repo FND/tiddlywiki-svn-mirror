@@ -3,7 +3,6 @@
 |''Description:''|Extends the opening and closing of  tiddler in the story to ensure that associated tiddlers are correctly displayed|
 |''Dependencies||
 |''Author:''|PhilHawksworth|
-|''Source:''|http://www.osmosoft.com/#TiddlerDisplayDependenciesPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js |
 |''Version:''|0.0.1|
 |''Date:''|Nov 29, 2006|
