@@ -1,0 +1,34 @@
+<div title="ColorPalette" modifier="PhilHawksworth" created="200709041746" modified="200709111153" tags="excludeLists" changecount="16">
+<pre>{{{
+
+Background: #111
+Foreground: #888
+PrimaryPale: #222
+PrimaryLight: #18f
+PrimaryMid: #333
+PrimaryDark: #014
+SecondaryPale: #ffc
+SecondaryLight: #fe8
+SecondaryMid: #999
+SecondaryDark: #841
+TertiaryPale: #eee
+TertiaryLight: #ccc
+TertiaryMid: #999
+TertiaryDark: #666
+Error: #f88
+
+Darkest: #000
+Brightest: #fff
+
+Darker: #111
+Dark: #333
+TextOnDark: #ccc
+DullTextOnDark: #888
+BrightOnDark: #eee
+DullOnDark: #666
+SubtleOnDark: #444
+Magenta:#D71F85
+
+
+}}}</pre>
+</div>

@@ -1,0 +1,7 @@
+<div title="Welcome" modifier="PhilWhitehouse" created="200711261036" modified="200711281223" changecount="4">
+<pre>~RippleRap is a free social conferencing tool for managing your conference notes. It's a single html file based on TiddlyWiki, which can be used to organise, search and save your notes - all while offline! We're developing a special version for [[Le Web 3 conference|http://www.leweb3.com/]] taking place in Paris on 11/12 December 2007, which can be downloaded from this website during and after the event.
+
+At Le Web, when you get online you can share your notes with other delegates (if you want to). Great for sharing different perspectives on each speaker, and especially useful for picking up notes from sessions you may have missed! And if you're not at Le Web, you can download a copy anyway and pick up notes from people who are there.
+
+Don't forget to check out BT's SDK; ~RippleRap provides a click to call function using this SDK, exposed using [[Mojo]], which you can use to call the BT stall for free and find out more.</pre>
+</div>

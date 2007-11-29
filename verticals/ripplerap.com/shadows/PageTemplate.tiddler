@@ -1,0 +1,24 @@
+<div title="PageTemplate" modifier="PhilHawksworth" created="200709041656" modified="200709111157" tags="excludeLists" changecount="16">
+<pre><!--{{{-->
+<div class='header'>
+	<div class='constrainer'>
+		<div class='headerShadow'>
+			<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+			<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+		</div>
+		<div class='headerForeground'>
+			<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+			<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+		</div>
+	</div>
+</div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div class='constrainer'>
+	<div id='sidebar' refresh='content' tiddler='SideBar'></div>
+	<div id='displayArea'>
+		<div id='messageArea'></div>
+		<div id='tiddlerDisplay'></div>
+	</div>
+</div>
+<!--}}}--></pre>
+</div>

@@ -1,0 +1,11 @@
+<div title="ViewTemplate" modifier="PhilHawksworth" created="200709051406" modified="200709111153" tags="excludeLists" changecount="3">
+<pre><!--{{{-->
+<div class='title' macro='view title'></div>
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler'></div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+<!--}}}--></pre>
+</div>

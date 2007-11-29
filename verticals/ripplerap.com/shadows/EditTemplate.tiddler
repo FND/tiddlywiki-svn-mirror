@@ -1,0 +1,10 @@
+<div title="EditTemplate" modifier="PhilHawksworth" created="200709051408" modified="200709111153" tags="excludeLists" changecount="2">
+<pre><!--{{{-->
+<div class='title' macro='view title'></div>
+<div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+<!--}}}--></pre>
+</div>

@@ -1,0 +1,7 @@
+<div title="Mojo" modifier="PhilWhitehouse" created="200711281215" modified="200711281224" changecount="6">
+<pre>Mojo is a Web friendly ([[REST|http://en.wikipedia.org/wiki/Representational_State_Transfer]]) exposure of [[BT's Web21C SDK|http://web21c.bt.com]]. You can use this to initiate telephone calls and send SMS messages from Widgets, Gadgets, Web mashups, etc! Sign up for an account at [[http://mojo.bt.com|http://mojo.bt.com]], or come over to the stall at Le Web for a demo in person.
+
+We've incorporated a simple click-to-call functionality into [[RippleRap|Welcome]] using the [[Mojo API|http://mojo.bt.com/howtos]], so you can see it in action. Download the [[RippleRap|Welcome]] file to see this in action (available from 11 December 2007).
+
+If you're a developer, then you'll be interested in seeing the code. One of the great aspects of TiddlyWiki is that the entire file - including content, the code which uses the SDK, and the code required for TiddlyWiki to function - can all be inspected. Have a play around and see what you think!</pre>
+</div>
