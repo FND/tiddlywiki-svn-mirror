@@ -1,0 +1,39 @@
+<div title="FAQs" modifier="PhilHawksworth" created="200711261026" modified="200711291951" changecount="6">
+<pre>''Who created ~RippleRap?''
+
+A company called [[Osmosoft|http://www.osmosoft.com]] created ~RippleRap. Osmosoft is a small open source innovation company owned by [[BT|http://www.bt.com]].
+
+''What's the relationship between BT and Osmosoft?''
+
+If you're attending the conference, you might have seen that BT and Osmosoft are sharing a stand. We're very friendly, so come and say hi! Osmosoft was bought by BT in May 2007, and our remit is to support BT in understanding and adopting open source solutions in a sensible, responsible fashion. BT decided that the best way to go about doing this was to hire people who already had experience of running a successful open source project, and they therefore hired Jeremy Ruston (through the acquisition of his company, Osmosoft) because of his experience creating and running the open source ~TiddlyWiki project.
+
+''What's ~RippleRap based on?''
+
+~RippleRap is based on the popular open source product, TiddlyWiki. ~TiddlyWiki is a wiki packaged within a single html file, complete with all the content, the editing and saving functionality, search and tagging capabilities and much more. It can run locally from your hard drive (so it's great for taking notes or organising personal information) or on a server. It's very extensible; there are over 400 plugins developed by the ~TiddlyWiki community. Several new ~TiddlyWiki plugins have been developed and combined to create ~RippleRap.
+
+~TiddlyWiki is a very well established and stable piece of software. However the new code that was created to support the development of ~RippleRap is relatively new and untested. It is released under a BSD licence, which means we cannot provide the software with any warranties. The full text of the BSD licence can be found on the [[Open Source Initiative web site|http://www.opensource.org/licenses/bsd-license.php]].
+
+''How does ~RippleRap work?''
+
+*The product at the heart of ~RippleRap is ~TiddlyWiki. This product includes all the functionality required to create, edit and save notes locally. ~TiddlyWiki can run on a server, but ~RippleRap isn't intended to be used in this way at Le Web.
+*The sharing of notes with other delegates is done via RSS. When you've [[authorised sharing|Share notes]], ~TiddlyWiki creates an RSS feed that sends your notes to our server. The notes are combined with everyone else's notes on the server, and the aggregated notes are re-published as an RSS feed for your local copy of ~RippleRap. Once they're downloaded, they're stored locally and can be searched within your copy of ~RippleRap.
+*The 'click to call' functionality is provided by [[BT's 21C SDK|http://sdk.bt.com]]. As it happens, ~TiddlyWiki is a great platform for building custom applications for this SDK. 
+
+''Why are you doing this?''
+
+BT recognises the importance of being a good citizen in the open source arena, and wants to play their part in sustaining and growing the ~TiddlyWiki community as a whole. The more people who take an interest in ~TiddlyWiki, the better it is for everyone involved, which is why the product is being showcased by BT at Le Web.
+
+We'd also like to use ~RippleRap to demonstrate the services being provided by the BT 21C SDK. It so happens that ~TiddlyWiki is a great platform for building custom applications for this SDK. 
+
+All the rights to the ~TiddlyWiki code have been passed to a non-for-profit foundation called [[UnaMesa|http://www.uamesa.org]], these rights are not owned by BT.
+
+''Do you plan to do something similar at future conferences?''
+
+Our intention is to use ~RippleRap as a vehicle for meeting the above goals; if it is successful at Le Web we may do something similar at other conferences we attend. Hopefully we'll get some useful feedback and possibly code contributions that improve the product. The code and process are all open source anyway; anyone can take the product and improve it, and use it at future conferences if they wish.
+
+''Can we learn more?''
+
+More information is available on the Osmosoft website at [[http://www.osmosoft.com|http://www.osmosoft.com]] and the product page at [[http://www.ripplerap.com|http://www.ripplerap.com]].
+
+And if you have any more questions while you're at the conference, you can call us using the [[SDK tool|Mojo]] embedded into ~RippleRap, which will set up a free call with an Osmosoftonian. Or just drop into the stall and we'll help you out!</pre>
+</div>

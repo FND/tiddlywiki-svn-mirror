@@ -1,0 +1,42 @@
+<div title="Help" modifier="PhilWhitehouse" created="200711261027" modified="200711261230" changecount="7">
+<pre>We have a few help options available to you:
+*Come and visit the BT / Osmosoft stall at Le Web - we'll be happy to help.
+*During the conference, we offer a [[click to call|Mojo]] feature - just enter your number, and we'll call you straight back free of charge!
+*We've tried to anticipate the main problems people will have; see if yours is addressed below.
+
+!!Common problems
+
+''I'm having trouble saving!''
+
+~TiddlyWiki has a few known idiosyncracies, many related to saving for the first time. The top tips are:
+*Always make sure you click on the save button
+*Do not try to use the File/Save command in your browser
+*When saving for the first time, you may receive a warning saying that ~TiddlyWiki is trying to access your file system. This is necessary in order for the browser to accept the 'save' request.
+*If you wish to rename the file, save your changes first, then close the file, rename the file (but keep the .HTML extension) and reopen the file
+*We suggest you create a folder called backup in the same directory as your file, and then enable the backup functionality in the [[Advanced Options]].
+
+''I'm still having problems''
+
+Certain browsers misbehave when running ~TiddlyWiki files. You can find a list of them (including fixes) on the [[TiddlyWiki website|http://tiddlywiki.com/#SaveChanges]]. Unfortunate these problems cannot be fixed by changing ~TiddlyWiki, but they can often be overcome with some simple browser configuration. ~TiddlyWiki generally works best on Firefox.
+
+If you're still having problems, drop by our stall at Le Web and we'll help get you sorted.
+
+
+''Note sharing isn't working''
+
+Have you checked the box that enables sharing on the [[Share notes]] section? This needs to be checked. Notes will be pulled down automatically after that, and this process can take a few minutes depending on the content.
+
+Alternatively, it might be that the conference wi-fi is down. 
+
+If you've checked the box, and you're sure the conference wi-fi is working, please come and visit us at the stall and we'll help get things moving for you.
+
+
+''What happens if the conference wi-fi is down?''
+
+If the conference wi-fi is down, the functionality that will still work is the ability to take notes and save these to your hard drive. When the connection comes back up, notes will be shared automatically (assuming you've enabled this functionality).
+
+
+''How can I format my text?''
+
+~RippleRap uses TiddlyWiki, which provides a [[simple convention for formatting|Formatting TiddlyWikis]].</pre>
+</div>
