@@ -1,8 +1,3 @@
-<div title="Lunch" modifier="SimonMcManus" created="200711261101" modified="200711261341" tags="session day1" changecount="1">
-<pre>speaker:
-track:day1
-date:11/12/07
-start:1235
-end:1430
-synopsis:http://osmosoft.com</pre>
+<div title="Lunch" modifier="simon" created="200711261101" modified="200711291038" tags="session day1" rr_session_starttime="1235" rr_session_speaker="" rr_session_endtime="1430" rr_session_date="11/12/07" rr_session_track="day1" changecount="2">
+<pre>http://osmosoft.com</pre>
 </div>
