@@ -70,7 +70,7 @@ ExampleAdaptor.fullHostName = function(host)
 		return '';
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
-	if(host.substr(-1) != '/')
+	if(host.substr(host.length-1) != '/')
 		host = host + '/';
 	return host;
 };
@@ -103,7 +103,7 @@ ExampleAdaptor.prototype.openHost = function(host,context,userParams,callback)
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -114,7 +114,7 @@ ExampleAdaptor.prototype.openWorkspace = function(workspace,context,userParams,c
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };

@@ -61,7 +61,7 @@ DavAdaptor.doHttpOPTIONS = function(uri,callback,params,headers,data,contentType
 DavAdaptor.doHttpPROPFIND = function(uri,callback,params,headers,data,username,password)
 {
 
-data = '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><prop>' +
+/*data = '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><prop>' +
 //    '<displayname/>' +
     '<resourcetype/>' +
     '<getcontenttype/>' +
@@ -70,9 +70,7 @@ data = '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><prop>' +
     '<getlastmodified/>' +
     '<creator-displayname/>' +
     '</prop></propfind>';
-data = '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><allprop/></propfind>';
 data = '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><propname/></propfind>';
-data = null;
 data = '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><prop>' +
     '<displayname/>' +
     '<resourcetype/>' +
@@ -81,7 +79,9 @@ data = '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><prop>' +
     '<creationdate/>' +
     '<getlastmodified/>' +
     '<creator-displayname/>' +
-    '</prop></propfind>';
+    '</prop></propfind>';*/
+//var data = '<?xml version="1.0" encoding="utf-8" ?><D:propfind xmlns:D="DAV:"><D:allprop/></D:propfind>';
+var data = '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><allprop/></propfind>';
 displayMessage("dd:"+data);
 	//var uri = 'http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/verticals/testTiddlyFile/';
 	//uri = 'http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/test/';
@@ -105,7 +105,7 @@ DavAdaptor.fullHostName = function(host)
 		return '';
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
-	if(host.substr(-1) != '/')
+	if(host.substr(host.length-1) != '/')
 		host = host + '/';
 	return host;
 };
@@ -175,7 +175,7 @@ DavAdaptor.prototype.openHost = function(host,context,userParams,callback)
 	//	displayMessage("r:"+req);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,10,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -202,7 +202,7 @@ DavAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callb
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,10,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -216,7 +216,7 @@ DavAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 	context.workspaces = list;
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,10,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -256,19 +256,26 @@ ziddlywiki
 <d:multistatus xmlns:d="DAV:">
 <d:response>
 <d:href>/ziddlywiki.com/tiddlers/</d:href>
-<d:propstat>
-<d:prop> 
-<n:displayname xmlns:n="DAV:">tiddlers</n:displayname>
-<n:resourcetype xmlns:n="DAV:"><n:collection/></n:resourcetype>
-<n:getcontenttype xmlns:n="DAV:"></n:getcontenttype>
-<n:creationdate xmlns:n="DAV:">1970-01-01T12:00:00Z</n:creationdate>
-<n:getlastmodified xmlns:n="DAV:">Tue, 05 Jun 2007 17:19:35 GMT</n:getlastmodified> 
+<d:propstat xmlns:n="http://www.zope.org/propsets/default">
+<d:prop>
+<n:title></n:title>
 </d:prop>
 <d:status>HTTP/1.1 200 OK</d:status>
 </d:propstat>
-<d:propstat> 
+<d:propstat xmlns:n="DAV:">
 <d:prop>
-<n:getetag xmlns:n="DAV:"/> <n:creator-displayname xmlns:n="DAV:"/>  </d:prop>  <d:status>HTTP/1.1 404 Not Found</d:status> </d:propstat> </d:response> <d:response> <d:href>/ziddlywiki.com/tiddlers/AJAX</d:href> <d:propstat>  <d:prop> <n:displayname xmlns:n="DAV:">AJAX</n:displayname> <n:resourcetype xmlns:n="DAV:"></n:resourcetype> <n:getcontenttype xmlns:n="DAV:">text/html</n:getcontenttype> <n:creationdate xmlns:n="DAV:">1970-01-01T12:00:00Z</n:creationdate> <n:getlastmodified xmlns:n="DAV:">Tue, 05 Jun 2007 17:19:35 GMT</n:getlastmodified>  </d:prop>  <d:status>HTTP/1.1 200 OK</d:status> </d:propstat> <d:propstat>  <d:prop> <n:getetag xmlns:n="DAV:"/> <n:creator-displayname xmlns:n="DAV:"/>  </d:prop>  <d:status>HTTP/1.1 404 Not Found</d:status> </d:propstat> </d:response> <d:response> <d:href>/ziddlywiki.com/tiddlers/ActiveUsersMacro</d:href> <d:propstat>  <d:prop> <n:displayname xmlns:n="DAV:">ActiveUsersMacro</n:displayname> <n:resourcetype xmlns:n="DAV:"></n:resourcetype> <n:getcontenttype xmlns:n="DAV:">text/html</n:getcontenttype> <n:creationdate xmlns:n="DAV:">1970-01-01T12:00:00Z</n:creationdate> <n:getlastmodified xmlns:n="DAV:">Tue, 05 Jun 2007 17:19:35 GMT</n:getlastmodified>  </d:prop>  <d:status>HTTP/1.1 200 OK</d:status> </d:propstat> <d:propstat>  <d:prop> <n:getetag xmlns:n="DAV:"/> <n:creator-displayname xmlns:n="DAV:"/>  </d:prop>  <d:status>HTTP/1.1 404 Not Found</d:status>
+<n:creationdate>1970-01-01T12:00:00Z</n:creationdate>
+<n:displayname>tiddlers</n:displayname>
+<n:resourcetype><n:collection/></n:resourcetype>
+<n:getcontenttype></n:getcontenttype>
+<n:getcontentlength></n:getcontentlength>
+<n:source></n:source>
+<n:supportedlock>
+<n:lockentry>
+<d:lockscope><d:exclusive/></d:lockscope>
+<d:locktype><d:write/></d:locktype>
+</n:lockentry>  </n:supportedlock>  <n:lockdiscovery> </n:lockdiscovery>  
+<n:getlastmodified>Tue, 05 Jun 2007 17:19:35 GMT</n:getlastmodified>  </d:prop>  <d:status>HTTP/1.1 200 OK</d:status> </d:propstat> </d:response> <d:response> <d:href>/ziddlywiki.com/tiddlers/AJAX</d:href> <d:propstat xmlns:n="http://www.zope.org/propsets/default">  <d:prop>  <n:title>AJAX</n:title>  <n:created>200606131947</n:created>  <n:tags>features,definitions</n:tags>  <n:modified>200606131947</n:modified>  <n:modifier>mcelrath</n:modifier>  </d:prop>  <d:status>HTTP/1.1 200 OK</d:status> </d:propstat> <d:propstat xmlns:n="DAV:">  <d:prop>  <n:creationdate>1970-01-01T12:00:00Z</n:creationdate>  <n:displayname>AJAX</n:displayname>  <n:resourcetype></n:resourcetype>  <n:getcontenttype>text/html</n:getcontenttype>  <n:getcontentlength>204</n:getcontentlength>  <n:source>  <n:link>  <n:src>/ziddlywiki.com/tiddlers/AJAX</n:src>  <n:dst>/ziddlywiki.com/tiddlers/AJAX/document_src</n:dst>  </n:link>  </n:source>  <n:supportedlock>  <n:lockentry>  <d:lockscope><d:exclusive/></d:lockscope>  <d:locktype><d:write/></d:locktype>  </n:lockentry>  </n:supportedlock>  <n:lockdiscovery> </n:lockdiscovery>  <n:getlastmodified>Tue, 05 Jun 2007 17:19:35 GMT</n:getlastmodified>
 */
 
 
@@ -293,24 +300,29 @@ displayMessage('getTiddlerListCallback status:'+status);
 				doc = parser.parseFromString(responseText,"text/xml");
 			}
 			var x = doc.documentElement;
-			//#displayMessage("rt:"+responseText.substr(0,2000));
+			displayMessage("rt:"+responseText.substr(0,2000));
 			//#dislayMessage(x.getElementsByTagName('prop')) //can simplify now using prop
 			function getProp(e,p) {
 				return e.getElementsByTagName('prop')[0].getElementsByTagName(p)[0].firstChild.data || '';
 			};
-			function getProp2(e,p) {
-				return e.getElementsByTagName('prop')[0].getElementsByTagName(p)[0].firstChild.data;
+			function getProp2(e,n1,n2) {
+				var p = e.getElementsByTagName('prop')[0].getElementsByTagName(n1);
+				if(p && p[0])
+					return p[0].firstChild.data;
+				p = e.getElementsByTagName('prop')[0].getElementsByTagName(n2);
+					return p[0].firstChild.data;
 			};
 
 			var responses = x.getElementsByTagName('response');
 			//#displayMessage("rl:"+responses.length);
 			for(var i=0; i<responses.length; i++) {
-				var name = 'getetag';
+				var name1 = 'displayname';
+				var name2 = 'getetag';// subversion
 				var r = responses[i];
 				if(getProp(r,'getcontenttype')=='httpd/unix-directory')
 					continue;
 				//console.log(r.getElementsByTagName('prop')[0].getElementsByTagName('displayname')[0].firstChild.data)
-				var t = getProp2(r,name);
+				var t = getProp2(r,name1,name2);
 				//displayMessage("tt:"+t);
 				var tiddler  = new Tiddler(t);
 				//console.log(r.getElementsByTagName('prop')[0].getElementsByTagName('creationdate')[0].firstChild.data)

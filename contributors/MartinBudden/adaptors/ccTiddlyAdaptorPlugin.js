@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ccTiddlyAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ccTiddlyAdaptorPlugin.js|
-|''Version:''|0.5.1|
+|''Version:''|0.5.2|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -119,9 +119,10 @@ ccTiddlyAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
 //#displayMessage('getTiddlerList');
-	var uriTemplate = '%0msghandle.php?action=content';
+	//var uriTemplate = '%0msghandle.php?action=content';
+	var uriTemplate = '%0msghandle.php?action=content&username=%1&password=%2';
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
-	var uri = uriTemplate.format([host,this.workspace]);
+	var uri = uriTemplate.format([host,this.workspace,this.username,this.password]);
 //#displayMessage('uri:'+uri);
 	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerListCallback,context);
 //#displayMessage('req:'+req);
@@ -130,8 +131,8 @@ ccTiddlyAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 
 ccTiddlyAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
-//#displayMessage('getTiddlerListCallback status:'+status);
-//#displayMessage('rt:'+responseText.substr(0,50));
+displayMessage('getTiddlerListCallback status:'+status);
+displayMessage('rt:'+responseText.substr(0,80));
 //#displayMessage('xhr:'+xhr);
 	context.status = false;
 	context.statusText = ccTiddlyAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
@@ -200,6 +201,8 @@ ccTiddlyAdaptor.prototype.getTiddlerRevision = function(title,revision,context,u
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
 };
+
+//# http://127.0.0.1/cctiddly/msghandle.php?action=revisionDisplay&title=News&revision=1
 
 //# http://cctiddly.sourceforge.net/msghandle.php?action=revisionList&title=About
 //# 200610221408 6 ccTiddly
@@ -311,7 +314,6 @@ ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,context,respons
 					var tiddler = new Tiddler(context.tiddler.title);
 					tiddler.modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
 					tiddler.fields['server.page.revision'] = String(parts[1]);
-					tiddler.fields['server.page.version'] = tiddler.fields['server.page.revision'];//!! here temporarily for compatibility
 					list.push(tiddler);
 				}
 			}

@@ -72,12 +72,12 @@ ConfluenceAdaptor.doHttpPOST = function(uri,callback,params,headers,data,content
 
 ConfluenceAdaptor.fullHostName = function(host)
 {
-displayMessage("fullHostName:"+host);
+//#displayMessage("fullHostName:"+host);
 	if(!host)
 		return '';
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
-	if(host.substr(-1) != '/')
+	if(host.substr(host.length-1) != '/')
 		host = host + '/';
 	return host;
 };
@@ -101,7 +101,7 @@ displayMessage("openHost:"+host);
 	this.host = ConfluenceAdaptor.fullHostName(host);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 
@@ -199,7 +199,7 @@ ConfluenceAdaptor.prototype.openWorkspace = function(workspace,context,userParam
 	this.workspace = workspace;
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };

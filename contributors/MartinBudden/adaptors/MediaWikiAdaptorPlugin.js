@@ -63,7 +63,7 @@ MediaWikiAdaptor.fullHostName = function(host)
 		return '';
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
-	if(host.substr(-1) != '/')
+	if(host.substr(host.length-1) != '/')
 		host = host + '/';
 	return host;
 };
@@ -103,8 +103,7 @@ MediaWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
-	}
+		window.setTimeout(function() {callback(context,userParams);},0);
 	return true;
 };
 
@@ -159,7 +158,7 @@ MediaWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams
 //#displayMessage("workspaceId:"+this.workspaceId);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -177,7 +176,7 @@ MediaWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callba
 		context.status = true;
 		context.workspaces = [{name:context.workspace,title:context.workspace}];
 		if(context.callback)
-			window.setTimeout(context.callback,0,context,userParams);
+			window.setTimeout(function() {callback(context,userParams);},0);
 		return true;
 	}
 	var uriTemplate = '%0api.php?format=json&action=query&meta=siteinfo&siprop=namespaces';
@@ -291,7 +290,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 			context.tiddlers = list;
 			context.status = true;
 			if(context.callback)
-				window.setTimeout(context.callback,0,context,context.userParams);
+				window.setTimeout(function() {callback(context,userParams);},0);
 			return true;
 		}
 	} else {

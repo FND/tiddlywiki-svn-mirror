@@ -70,7 +70,7 @@ ZiddlyWikiAdaptor.fullHostName = function(host)
 		return '';
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
-	if(host.substr(-1) != '/')
+	if(host.substr(host.length-1) != '/')
 		host = host + '/';
 	return host;
 };
@@ -93,7 +93,7 @@ ZiddlyWikiAdaptor.prototype.openHost = function(host,context,userParams,callback
 //#displayMessage("host:"+this.host);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,10,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -105,7 +105,7 @@ ZiddlyWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParam
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,10,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -119,7 +119,7 @@ ZiddlyWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callb
 	context.workspaces = list;
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,10,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };

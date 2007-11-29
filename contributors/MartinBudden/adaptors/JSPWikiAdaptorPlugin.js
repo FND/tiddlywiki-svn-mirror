@@ -79,7 +79,7 @@ JSPWikiAdaptor.fullHostName = function(host)
 		return '';
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
-	if(host.substr(-1) != '/')
+	if(host.substr(host.length-1) != '/')
 		host = host + '/';
 	return host;
 };
@@ -103,7 +103,7 @@ JSPWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 	this.password = config.options.txttwikiPassword;
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -115,7 +115,7 @@ JSPWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams,c
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -129,7 +129,7 @@ JSPWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callback
 	context.workspaces = list;
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };

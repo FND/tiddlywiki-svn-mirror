@@ -77,7 +77,7 @@ TWikiAdaptor.fullHostName = function(host)
 		host = 'http://' + host;
 	if(!host.match(/\/bin/) && !host.match(/\/cgi-bin/))
 		host = host.replace(/\/$/,'') + '/cgi-bin/';
-	if(host.substr(-1) != '/')
+	if(host.substr(host.length-1) != '/')
 		host = host + '/';
 	return host;
 };
@@ -99,7 +99,7 @@ TWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 //#displayMessage("openHost:"+host);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -111,7 +111,7 @@ TWikiAdaptor.prototype.openWorkspace = function(workspace,context,userParams,cal
 //#displayMessage("openWorkspace:"+workspace);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -125,7 +125,7 @@ TWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 		context.status = true;
 		context.workspace = [{name:context.workspace,title:context.workspace}];
 		if(context.callback)
-			window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 		return true;
 	}
 	var list = [];
@@ -135,7 +135,7 @@ TWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 	context.workspaces = list;
 	context.status = true;
 	if(context && callback) {
-		window.setTimeout(callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -181,7 +181,7 @@ TWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback,fil
 		context.tiddlers = list;
 		context.status = true;
 		if(context.callback)
-			window.setTimeout(context.callback,0,context,context.userParams);
+			window.setTimeout(function() {callback(context,userParams);},0);
 		return true;
 	}
 //# http://twiki.org/cgi-bin/search/TWiki04/?scope=topic&format="$topic"&regex=on&search=\.*

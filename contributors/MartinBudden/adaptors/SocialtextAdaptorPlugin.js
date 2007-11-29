@@ -62,7 +62,7 @@ SocialtextAdaptor.fullHostName = function(host)
 		return '';
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
-	if(host.substr(-1) != '/')
+	if(host.substr(host.length-1) != '/')
 		host = host + '/';
 	return host;
 };
@@ -96,7 +96,7 @@ SocialtextAdaptor.prototype.openHost = function(host,context,userParams,callback
 //#displayMessage("openHost:"+host);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -108,7 +108,7 @@ SocialtextAdaptor.prototype.openWorkspace = function(workspace,context,userParam
 //#displayMessage("openWorkspace:"+workspace);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };

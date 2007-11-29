@@ -93,7 +93,7 @@ LocalAdaptor.fullHostName = function(host)
 		return '';
 	if(!host.match(/:\/\//))
 		host = 'file://' + host;
-	if(host.substr(-1) != '/')
+	if(host.substr(host.length-1) != '/')
 		host = host + '/';
 	return host;
 };
@@ -111,7 +111,7 @@ LocalAdaptor.prototype.openHost = function(host,context,userParams,callback)
 //#displayMessage("host:"+this.host);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -123,7 +123,7 @@ LocalAdaptor.prototype.openWorkspace = function(workspace,context,userParams,cal
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,10,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -137,7 +137,7 @@ LocalAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 	context.workspaces = list;
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,10,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 	return true;
 };
@@ -209,7 +209,7 @@ LocalAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 		context.statusText = LocalAdaptor.errorInFunctionMessage.format(['getTiddlerList']);
 	}
 	if(context.callback)
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	return context;
 };
 
@@ -252,7 +252,7 @@ LocalAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,use
 	if(context.callback) {
 		//# direct callback doesn't work, not sure why
 		//#context.callback(context,context.userParams);
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	}
 };
 
@@ -353,7 +353,7 @@ LocalAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 		}
 	}
 	if(context.callback)
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	return context.status;
 };
 
@@ -373,7 +373,7 @@ LocalAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback
 	this.saveTiddlerAsDiv(context,true);
 	context = this.saveTiddlerAsDiv(context);
 	if(context.callback)
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},0);
 	return context.status;
 };
 
