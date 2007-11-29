@@ -1,5 +1,0 @@
-<div title="Double square brackets" modifier="PhilWhitehouse" created="200711051319">
-<pre>If you write words or sentences in TiddlyWiki that are surrounded by [[Double square brackets]], TiddlyWiki turns it into a link. If you double click this paragraph, you'll see how this has worked.
-
-Once you've created the link, and then clicked 'done' to close the tiddler, you can click on the link, and you'll find an empty tiddler ready to populate with content. It's a quick way of writing linked content. The other way of creating links is by using CamelCase.</pre>
-</div>
