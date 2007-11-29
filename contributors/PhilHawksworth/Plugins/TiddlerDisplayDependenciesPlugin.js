@@ -1,0 +1,101 @@
+/***
+|''Name:''|TiddlerDisplayDependenciesPlugin|
+|''Description:''|Extends the opening and closing of  tiddler in the story to ensure that associated tiddlers are correctly displayed|
+|''Dependencies||
+|''Author:''|PhilHawksworth|
+|''Source:''|http://www.osmosoft.com/#TiddlerDisplayDependenciesPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js |
+|''Version:''|0.0.1|
+|''Date:''|Nov 29, 2006|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.2|
+
+
+Usage:
+
+Including this plugin will simply extend the existing Story.displayTiddler and Story.closeTiddler functions
+***/
+
+//{{{
+if(!version.extensions.TiddlerDisplayDependenciesPlugin) {
+version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
+
+	config.macros.TiddlerDisplayDependencies = {};
+	
+	//store the existing displayTiddler function for use later.
+	config.macros.TiddlerDisplayDependencies.displayTiddler = story.displayTiddler;
+	
+	//replace the displayTiddler function.
+	story.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle){
+		
+		var t = typeof(tiddler) == 'string' ? store.getTiddler(tiddler) : tiddler;
+
+		if(t.isTagged('notes')) {
+		
+			// display the appropriate session tiddler.
+			var s = config.relationships['rapped'].getRelatedTiddlers(store,t.title);
+			if(s.length < 1) { 
+				console.log("No related session tiddler found");
+				return;
+			}
+			var sessionTiddler = store.getTiddler(s[0]);
+		
+			//TODO: remove debug logging
+			console.log("we must ensure that "+ sessionTiddler.title + " is displayed");
+			
+			// display the session tiddler
+			tiddler = sessionTiddler;
+			config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
+			
+			// examine the displayed tiddlers that rap this session tiddler
+			var r = config.relationships['raps'].getRelatedTiddlers(store,sessionTiddler.title);
+		
+			//TODO: remove debug logging
+			console.log("related: " + r.length);
+		
+			topRelated = store.getTiddler(r[0]);
+			if(topRelated.isTagged('discovered')) {
+				//display after topRelated
+				srcElement = document.getElementById(story.idPrefix + topRelated.title);
+				tiddler = t;
+				animate = false;
+				config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
+			}
+			else{
+				//display after sessionTiddler
+				srcElement = document.getElementById(story.idPrefix + sessionTiddler.title);
+				tiddler = t;
+				animate = false;
+				config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
+			}
+		}
+		else {
+			config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
+		}
+	};
+	
+	
+	//store the existing closeTiddler function for use later.
+	config.macros.TiddlerDisplayDependencies.closeTiddler = story.closeTiddler;
+
+	//replace the displayTiddler function.
+	story.closeTiddler = function(title,animate,unused){
+
+		var t = store.getTiddler(title);
+		if(t.isTagged('session')) {
+			//close all the tiddlers that rap about this session tiddler.
+			var r = config.relationships['raps'].getRelatedTiddlers(store,title);
+			for (var i=0; i < r.length; i++) {
+				title = r[i];
+				config.macros.TiddlerDisplayDependencies.closeTiddler.apply(this,arguments);
+			};
+		}
+
+		//close the tiddler.
+		title = t.title;
+		config.macros.TiddlerDisplayDependencies.closeTiddler.apply(this,arguments);
+	};
+
+} //# end of 'install only once'
+//}}}
