@@ -6,6 +6,7 @@
 	<div class="label">Date</div><div class="date editor" macro="edit rr_session_date"></div>
 	<div class="label">Speaker</div><div class="speaker editor" macro="edit rr_session_speaker"></div>
 	<div class="label">Track</div><div class="track editor" macro="edit rr_session_track"></div>
+	<div class="label">Tags (include track)</div><div class="track editor" macro="edit tags"></div>
 	<div class="label">Start time</div><div class="start editor" macro="edit rr_session_starttime"></div>
 	<div class="label">End time</div><div class="end editor" macro="edit rr_session_endtime"></div>
 	<div class="label">Synopsis</div><div class='synopsis editor' macro='edit text'></div>

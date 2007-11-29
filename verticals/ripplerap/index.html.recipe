@@ -1,4 +1,7 @@
 recipe: ../../core/tiddlywiki.html.recipe
+
+tiddler: settings.js
+
 tiddler: ../../contributors/JonathanLister/adaptors/RSSAdaptor.js
 tiddler: ../../contributors/SaqImtiaz/plugins/WebDavLib.js
 tiddler: ../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js

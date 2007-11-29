@@ -1,3 +1,3 @@
 <div title="AgendaMenu" modifier="PhilHawksworth" modified="200711280946" changecount="5">
-<pre><<tabs AgendaDay1 "Day 1" "Day 1 agenda " AgendaDay2 "Day 2" "Day 2 agenda" AgendaWorkshops "Workshops" "Workshops">></pre>
+<pre><<tabs txtMainTab "Day 1" "Day 1 agenda" AgendaDay1 "Day 2" "Day 2 agenda" AgendaDay2 "Workshops" "Workshops" AgendaWorkshops>></pre>
 </div>
