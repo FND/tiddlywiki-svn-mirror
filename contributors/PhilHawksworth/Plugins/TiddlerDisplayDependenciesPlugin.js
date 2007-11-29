@@ -116,7 +116,7 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 	story.closeTiddler = function(title,animate,unused){
 
 		var t = store.getTiddler(title);
-		if(t.isTagged('session')) {
+		if(t && t.isTagged('session')) {
 			//close all the tiddlers that rap about this session tiddler.
 			var r = config.relationships['raps'].getRelatedTiddlers(store,title);
 			for (var i=0; i < r.length; i++) {
@@ -125,7 +125,6 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 			};
 		}
 		//close the tiddler.
-		title = t.title;
 		config.macros.TiddlerDisplayDependencies.closeTiddler.apply(this,arguments);
 	};
 
