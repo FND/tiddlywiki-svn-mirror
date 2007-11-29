@@ -23,8 +23,8 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 
 	config.macros.TiddlerDisplayDependencies = {};
 	
+	// inspect an array of tiddlers and return an array of those whioch are currently present in the story.
 	config.macros.TiddlerDisplayDependencies.displayedInStory = function(tiddlers){
-			
 		var inStory = [];
 		for (var t=0; t < tiddlers.length; t++) {
 			var tiddlerElem = document.getElementById(story.idPrefix + tiddlers[t]);
