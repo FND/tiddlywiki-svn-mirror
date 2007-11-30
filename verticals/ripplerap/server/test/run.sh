@@ -3,4 +3,5 @@
 touch users/TestUser*1/index.xml
 
 export ripplerapdir=..
-../ripplerap.sh 
+
+../bin/ripplerap.sh 

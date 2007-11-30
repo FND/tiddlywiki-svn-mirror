@@ -16,4 +16,4 @@ LANGUAGE=en_US:en_GB:en
 export ripplerapdir=$HOME/src/tiddlywiki.org/Trunk/verticals/ripplerap/server
 cd $ripplerapdir
 
-./ripplerap.sh
+./bin/ripplerap.sh

@@ -59,7 +59,7 @@
 	#
 	#  add user/pass to passwd file
         #
-	$f = fopen("$root/conf/passwd", 'a') or die("can't open the passwd file: ");
+	$f = fopen("$userDir/.htpasswd", 'a') or die("can't open the passwd file: ");
 	fwrite($f, "$username:" .  crypt($password, base64_encode($password)) . "\n");
 	fclose($f);	
 
@@ -69,8 +69,8 @@
 	$f = fopen($userDir."/.htaccess", 'w') or die("can't open users' .htaccess file");
 	fwrite($f, "AuthType Basic\n");
 	fwrite($f, "AuthName 'TiddleLeWeb'\n");
-	fwrite($f, "AuthUserFile ". $root ."/conf/passwd\n");
-	fwrite($f, "Require user osmosoft " . $username ."\n");
+	fwrite($f, "AuthUserFile .htpasswd\n");
+	fwrite($f, "Require user $username\n");
 	fclose($f);	
 
 	print "created user";
