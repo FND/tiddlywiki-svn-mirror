@@ -1,2 +1,4 @@
-tiddler: RippleRapNotesTestFeed.tiddler
-tiddler: RippleRapUploadTestFeed.tiddler
+#tiddler: RippleRapNotesTestFeed.tiddler
+#tiddler: RippleRapUploadTestFeed.tiddler
+tiddler: RippleRapSessionDownloadRootFeed.tiddler
+tiddler: RippleRapUserUploadRootFeed.tiddler
