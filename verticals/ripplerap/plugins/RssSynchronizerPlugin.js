@@ -3,7 +3,7 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.3|
+|''Version:''|0.0.4|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -16,11 +16,71 @@
 if(!version.extensions.RssSynchronizerPlugin) {
 version.extensions.RssSynchronizerPlugin = {installed:true};
 
-function RssSynchronizer() {}
+function RssSynchronizer() 
+{
+	this.sessionDownload = {titles:[],syncIndex:0,putPending:false};
+	this.userUpload = {};
+}
+
+RssSynchronizer.prototype.init = function()
+{
+	var me = this;
+	store.forEachTiddler(function(title,t) {
+		if(t.isTagged('session') && t.fields.rr_session_date) {
+			var s = title;
+			me.sessionDownload.titles.push(s);
+		}
+		if(t.isTagged('systemServer') && t.isTagged('ripplerap')) {
+			if(t.isTagged('notes')) {
+				var type = store.getTiddlerSlice(t.title,'Type');
+				var uri = store.getTiddlerSlice(t.title,'URL');
+				if(uri && type=='rss') {
+					if(uri.substr(uri.length-1) != '/')
+						uri = uri + '/';
+					me.sessionDownload.rootUri = uri;
+				}
+			} else if(t.isTagged('upload')) {
+				type = store.getTiddlerSlice(t.title,'Type');
+				uri = store.getTiddlerSlice(t.title,'URL');
+				if(uri && type=='rss') {
+					if(uri.substr(uri.length-1) != '/')
+						uri = uri + '/';
+					me.userUpload.rootUri = uri;
+				}
+			}
+		}
+	});
+};
+
+// Do a single sync operation, designed to be called off a timer
+// on each call it downl
+RssSynchronizer.prototype.doSync = function()
+{
+	var sessionTitle = this.sessionDownload.titles[this.sessionDownload.syncIndex];
+	this.sessionDownload.syncIndex++;
+	if(this.sessionDownload.syncIndex>=this.sessionDownload.titles.length)
+		this.sessionDownload.syncIndex = 0;
+	var uri = this.sessionDownload.rootUri + sessionTitle + '.xml';
+	this.getNotesTiddlersFromRss(uri);
+	
+	this.doPut();
+
+};
+
+RssSynchronizer.prototype.doPut = function()
+{
+	if(config.options.txtUserName=="YourName") {
+		displayMessage("You have not set up your username");
+		return;
+	}	
+	var tiddlers = store.getTaggedTiddlers('comment');
+	uri = this.userUpload.rootUri + config.options.txtUserName+ '/index.xml';
+	this.putTiddlersToRss(uri,tiddlers);
+};
 
 RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
 {
-//#displayMessage("getNotesTiddlersFromRss"+uri);
+displayMessage("getNotesTiddlersFromRss:"+uri);
 	var adaptor = new RSSAdaptor();
 	var context = {host:uri,adaptor:adaptor};
 	return adaptor.getTiddlerList(context,null,RssSynchronizer.getNotesTiddlerListCallback);
@@ -28,7 +88,8 @@ RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
 
 RssSynchronizer.getNotesTiddlerListCallback = function(context,userParams)
 {
-//#displayMessage("getNotesTiddlerListCallback");
+//#
+displayMessage("getNotesTiddlerListCallback");
 	var tiddlers = context.tiddlers;
 	for(var i=0; i<tiddlers.length; i++) {
 		tiddler = tiddlers[i];
@@ -44,8 +105,10 @@ RssSynchronizer.getNotesTiddlerListCallback = function(context,userParams)
 
 RssSynchronizer.prototype.putTiddlersToRss = function(uri,tiddlers)
 {
+displayMessage("putTiddlersToRss:"+uri);
 	var rss = RssSynchronizer.generateRss(tiddlers);
-	var callback = function(status,params,responseText,uri,xhr) {
+	var callback = function(status,context,responseText,uri,xhr) {
+displayMessage("putTiddlersToRssCallback:"+status);
 		if(status) {
 			// PUT is successful, take item out of queue
 			displayMessage("successfully PUT");
