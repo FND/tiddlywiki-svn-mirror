@@ -3,7 +3,7 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.6|
+|''Version:''|0.0.7|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -24,12 +24,9 @@ function RssSynchronizer()
 	this.timerID = null;
 }
 
-RssSynchronizer.prototype.timerTest = function()
-{
-	displayMessage("hello");
-	displayMessage("mrt:"+this.sessionDownload.mostRecentTitle);
-	
-};
+//#config.macros.TiddlerDisplayDependencies.discoveredNoteTag = "DiscoveredNotes";
+//#config.macros.TiddlerDisplayDependencies.myNoteTag = "note";
+//#config.macros.TiddlerDisplayDependencies.sessionTag = "session";
 
 RssSynchronizer.prototype.init = function()
 {
@@ -166,7 +163,7 @@ RssSynchronizer.generateRss = function(tiddlers)
 	s.push("<rss version=\"2.0\">");
 	s.push("<channel>");
 	s.push("<title" + ">" + wikifyPlain("SiteTitle").htmlEncode() + "</title" + ">");
-	§if(u)
+	if(u)
 		s.push("<link>" + u.htmlEncode() + "</link>");
 	s.push("<description>" + wikifyPlain("SiteSubtitle").htmlEncode() + "</description>");
 	s.push("<language>en-us</language>");
