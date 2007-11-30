@@ -3,7 +3,7 @@
 |''Description:''|RippleRap test harness|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RippleRapTestPlugin.js |
-|''Version:''|0.0.4|
+|''Version:''|0.0.5|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -28,13 +28,13 @@ config.macros.rippleRapTest.init = function()
 
 config.macros.rippleRapTest.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-	createTiddlyButton(place,"Get notes from RSS","Get notes from RSS",config.macros.rippleRapTest.onClick);
+	createTiddlyButton(place,"Start RSS synch","Start RSS synch",config.macros.rippleRapTest.onClick);
 };
 
 
 config.macros.rippleRapTest.onClick = function()
 {
-	//rssSynchronizer.doSync();
+	rssSynchronizer.doPut();
 	var t = new Timer();
 	t.set(rssSynchronizer,RssSynchronizer.prototype.doSync,10000);
 	t.start();
@@ -62,6 +62,7 @@ Timer.prototype.set = function(tickObj,tickFn,duration)
 Timer.prototype.start = function()
 {
 	this.isActive = true;
+	this.tick();
 	var me = this;
 	this.timerID = window.setInterval(function() {me.tick.call(me);},this.duration);
 };
