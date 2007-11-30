@@ -3,7 +3,7 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.7|
+|''Version:''|0.0.8|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -22,7 +22,13 @@ function RssSynchronizer()
 	this.userUpload = {requestPending:false};
 	this.userUpload.time = new Date();
 	this.timerID = null;
+	this.discoveredNoteTag = config.macros.TiddlerDisplayDependencies.discoveredNoteTag;
+	this.myNoteTag = config.macros.TiddlerDisplayDependencies.myNoteTag;
+	this.sessionTag = config.macros.TiddlerDisplayDependencies.sessionTag;
+	this.sharedTag = 'shared';
 }
+
+RssSynchronizer.userNameNotSet = "You have not set your username";
 
 //#config.macros.TiddlerDisplayDependencies.discoveredNoteTag = "DiscoveredNotes";
 //#config.macros.TiddlerDisplayDependencies.myNoteTag = "note";
@@ -84,14 +90,14 @@ RssSynchronizer.prototype.doSync = function()
 RssSynchronizer.prototype.doPut = function()
 {
 	if(config.options.txtUserName=="YourName") {
-		displayMessage("You have not set your username");
+		displayMessage(RssSynchronizer.userNameNotSet);
 		return;
 	}	
 	var putRequired = false;
 	var tiddlers = [];
 	var me = this;
 	store.forEachTiddler(function(title,t) {
-		if(t.isTagged('note') && t.isTagged('shared')) {
+		if(t.isTagged(this.myNoteTag) && t.isTagged(this.sharedTag)) {
 			if(t.modified > me.userUpload.time)
 				putRequired = true;
 			tiddlers.push(t);
@@ -122,7 +128,8 @@ RssSynchronizer.getNotesTiddlerListCallback = function(context,userParams)
 		// if the tiddler exists locally, don't overwrite unless the text is different
 		// TEMP CHANGE 20/11/07: if(!t || t.text != tiddler.text) {
 		if (!t) {
-			tiddler.tags.pushUnique(config.macros.TiddlerDisplayDependencies.discoveredNoteTag);
+			tiddler.tags.pushUnique(this.discoveredNoteTag);
+			tiddler.tags.remove(this.sharedTag);
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 			story.refreshTiddler(tiddler.title,1,true);
 		}
