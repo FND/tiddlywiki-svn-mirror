@@ -1,4 +1,4 @@
-<div title="NotesViewTemplate" tags="excludeLists excludeSearch">
+<div title="NoteViewTemplate" tags="excludeLists excludeSearch">
 <pre><!--{{{-->
 <div class='myNotes'>
 	<div class='toolbar' macro='toolbar closeTiddler +editTiddler'></div>

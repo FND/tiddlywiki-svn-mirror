@@ -1,6 +1,4 @@
 tiddler: AgendaMenu.tiddler
-tiddler: NotesViewTemplate.tiddler
-tiddler: NotesEditTemplate.tiddler
 tiddler: DiscoveredNotesViewTemplate.tiddler
 tiddler: DiscoveredNotesEditTemplate.tiddler
 tiddler: SessionViewTemplate.tiddler
@@ -22,8 +20,8 @@ tiddler: Formatting_TiddlyWikis.tiddler
 tiddler: Help.tiddler
 tiddler: How_sharing_works.tiddler
 tiddler: Mojo.tiddler
-tiddler: NotesEditTemplate.tiddler
-tiddler: NotesViewTemplate.tiddler
+tiddler: NoteEditTemplate.tiddler
+tiddler: NoteViewTemplate.tiddler
 tiddler: REST.tiddler
 tiddler: Safari_and_Opera_configuration.tiddler
 tiddler: SampleDiscoveredNotes.tiddler
