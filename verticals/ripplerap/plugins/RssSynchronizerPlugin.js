@@ -3,7 +3,7 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.5|
+|''Version:''|0.0.6|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -20,6 +20,7 @@ function RssSynchronizer()
 {
 	this.sessionDownload = {titles:[],syncIndex:0,getMostRecent:true,mostRecentTitle:'latest',requestPending:false};
 	this.userUpload = {requestPending:false};
+	this.userUpload.time = new Date();
 	this.timerID = null;
 }
 
@@ -35,7 +36,7 @@ RssSynchronizer.prototype.init = function()
 	var me = this;
 	store.forEachTiddler(function(title,t) {
 		if(t.isTagged('session') && t.fields.rr_session_date) {
-			var s = title;
+			var s = title.replace(/[^\w]/g,'_');
 			me.sessionDownload.titles.push(s);
 		}
 		if(t.isTagged('systemServer') && t.isTagged('ripplerap')) {
@@ -86,12 +87,23 @@ RssSynchronizer.prototype.doSync = function()
 RssSynchronizer.prototype.doPut = function()
 {
 	if(config.options.txtUserName=="YourName") {
-		displayMessage("You have not set up your username");
+		displayMessage("You have not set your username");
 		return;
 	}	
-	var tiddlers = store.getTaggedTiddlers('comment');
-	uri = this.userUpload.rootUri + config.options.txtUserName+ '/index.xml';
-	this.putTiddlersToRss(uri,tiddlers);
+	var putRequired = false;
+	var tiddlers = [];
+	var me = this;
+	store.forEachTiddler(function(title,t) {
+		if(t.isTagged('note') && t.isTagged('shared')) {
+			if(t.modified > me.userUpload.time)
+				putRequired = true;
+			tiddlers.push(t);
+		}
+	});
+	if(putRequired>0) {
+		uri = this.userUpload.rootUri + config.options.txtUserName+ '/index.xml';
+		this.putTiddlersToRss(uri,tiddlers);
+	}
 };
 
 RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
@@ -104,8 +116,7 @@ RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
 
 RssSynchronizer.getNotesTiddlerListCallback = function(context,userParams)
 {
-//#
-displayMessage("getNotesTiddlerListCallback:"+context.status);
+//#displayMessage("getNotesTiddlerListCallback:"+context.status);
 	//context.synchronizer.sessionDownload.requestPending = false;
 	var tiddlers = context.tiddlers;
 	for(var i=0; i<tiddlers.length; i++) {
@@ -114,6 +125,7 @@ displayMessage("getNotesTiddlerListCallback:"+context.status);
 		// if the tiddler exists locally, don't overwrite unless the text is different
 		// TEMP CHANGE 20/11/07: if(!t || t.text != tiddler.text) {
 		if (!t) {
+			tiddler.tags.pushUnique(config.macros.TiddlerDisplayDependencies.discoveredNoteTag);
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 			story.refreshTiddler(tiddler.title,1,true);
 		}
@@ -122,10 +134,11 @@ displayMessage("getNotesTiddlerListCallback:"+context.status);
 
 RssSynchronizer.prototype.putTiddlersToRss = function(uri,tiddlers)
 {
-displayMessage("putTiddlersToRss:"+uri);
+	this.userUpload.time = new Date();
+//#displayMessage("putTiddlersToRss:"+uri);
 	var rss = RssSynchronizer.generateRss(tiddlers);
 	var callback = function(status,context,responseText,uri,xhr) {
-displayMessage("putTiddlersToRssCallback:"+status);
+//#displayMessage("putTiddlersToRssCallback:"+status);
 		//context.synchronizer.sessionDownload.requestPending = false;
 		if(status) {
 			// PUT is successful, take item out of queue
@@ -153,7 +166,7 @@ RssSynchronizer.generateRss = function(tiddlers)
 	s.push("<rss version=\"2.0\">");
 	s.push("<channel>");
 	s.push("<title" + ">" + wikifyPlain("SiteTitle").htmlEncode() + "</title" + ">");
-	if(u)
+	§if(u)
 		s.push("<link>" + u.htmlEncode() + "</link>");
 	s.push("<description>" + wikifyPlain("SiteSubtitle").htmlEncode() + "</description>");
 	s.push("<language>en-us</language>");
@@ -167,7 +180,7 @@ RssSynchronizer.generateRss = function(tiddlers)
 		var t = tiddlers[i];
 		var item = t.toRssItem(u);
 		if(t.modifier)
-			item += "<author>\n" + t.modifier + "\n</author>";
+			item += "\n<author>" + t.modifier + "</author>\n";
 		item += "<tw:wikitext>\n" + t.text + "\n</tw:wikitext>";
 		s.push("<item>\n" + item + "\n</item>");
 	}
