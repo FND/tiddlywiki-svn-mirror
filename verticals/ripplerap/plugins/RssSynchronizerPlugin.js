@@ -3,7 +3,7 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.8|
+|''Version:''|0.0.9|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -182,11 +182,18 @@ RssSynchronizer.generateRss = function(tiddlers)
 	//# The body
 	for (var i=tiddlers.length-1; i>=0; i--) {
 		var t = tiddlers[i];
-		var item = t.toRssItem(u);
+		s.push("<title" + ">" + t.title.htmlEncode() + "</title" + ">");
+		s.push("<description>" + t.text + "</description>");
+		for(var i=0; i<t.tags.length; i++)
+			s.push("<category>" + t.tags[i] + "</category>");
+		s.push("<link>" + uri + "#" + encodeURIComponent(String.encodeTiddlyLink(t.title)) + "</link>");
+		s.push("<pubDate>" + t.modified.toGMTString() + "</pubDate>");
+		s.push("<author>" + t.modifier + "</author>");
+		/*var item = t.toRssItem(u);
 		if(t.modifier)
 			item += "\n<author>" + t.modifier + "</author>\n";
 		item += "<tw:wikitext>\n" + t.text + "\n</tw:wikitext>";
-		s.push("<item>\n" + item + "\n</item>");
+		s.push("<item>\n" + item + "\n</item>");*/
 	}
 	//# And footer
 	s.push("</channel>");
