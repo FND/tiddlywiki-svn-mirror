@@ -93,6 +93,7 @@ div.myNotes { background-color:#ddd; border:solid 1px #333; border-top-style:non
 div.myNotes .toolbar {background-color:#eee; }
 div.myNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
 div.myNotes .editor .fieldsetFix textarea { border:solid 1px #555; border-top-color:#444; border-bottom-color:#fff; background-color:#fff;}
+/*div.myNotes .tags {display:none;}*/
 
 div.discoveredNotes { background-color:#ddd; border:solid 1px #333; border-left-width:2px; border-top-style:none; margin:0;}
 div.discoveredNotes .toolbar {background-color:#eee;border-left:solid 40px #ccc;}
