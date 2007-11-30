@@ -96,7 +96,7 @@ RssSynchronizer.prototype.doPut = function()
 
 RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
 {
-displayMessage("getNotesTiddlersFromRss:"+uri);
+//#displayMessage("getNotesTiddlersFromRss:"+uri);
 	var adaptor = new RSSAdaptor();
 	var context = {synchronizer:this,host:uri,adaptor:adaptor};
 	return adaptor.getTiddlerList(context,null,RssSynchronizer.getNotesTiddlerListCallback);
@@ -105,8 +105,8 @@ displayMessage("getNotesTiddlersFromRss:"+uri);
 RssSynchronizer.getNotesTiddlerListCallback = function(context,userParams)
 {
 //#
-displayMessage("getNotesTiddlerListCallback");
-	context.synchronizer.sessionDownload.requestPending = false;
+displayMessage("getNotesTiddlerListCallback:"+context.status);
+	//context.synchronizer.sessionDownload.requestPending = false;
 	var tiddlers = context.tiddlers;
 	for(var i=0; i<tiddlers.length; i++) {
 		tiddler = tiddlers[i];
@@ -126,7 +126,7 @@ displayMessage("putTiddlersToRss:"+uri);
 	var rss = RssSynchronizer.generateRss(tiddlers);
 	var callback = function(status,context,responseText,uri,xhr) {
 displayMessage("putTiddlersToRssCallback:"+status);
-		context.synchronizer.sessionDownload.requestPending = false;
+		//context.synchronizer.sessionDownload.requestPending = false;
 		if(status) {
 			// PUT is successful, take item out of queue
 			displayMessage("successfully PUT");
@@ -137,7 +137,10 @@ displayMessage("putTiddlersToRssCallback:"+status);
 			// leave item in queue and take no action?
 		}
 	};
-	DAV.safeput(uri,callback,{synchronizer:this},rss);
+	var context = {};
+	context.synchronizer = this;
+// third parameter is an array
+	DAV.safeput(uri,callback,null,rss);
 };
 
 RssSynchronizer.generateRss = function(tiddlers)
