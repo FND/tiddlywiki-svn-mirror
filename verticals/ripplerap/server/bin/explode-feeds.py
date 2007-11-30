@@ -38,7 +38,6 @@ def explode_entry(e):
 	path = os.path.join(outputdir, title) 
 	fp = open(path, 'w')
 	#os.utime(path, (e.updated, e.updated))
-	print e.updated
 	fp.write(rss20ise_entry(e))
 	fp.close
 

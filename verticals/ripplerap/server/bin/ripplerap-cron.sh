@@ -2,7 +2,7 @@
 #
 #   script to build ripplerap feed from individual RSS feeds
 #
-set -x
+#set -x
 set -e
 USER=pauldowney
 HOME=/Users/$USER
