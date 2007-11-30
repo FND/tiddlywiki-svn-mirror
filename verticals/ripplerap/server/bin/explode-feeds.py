@@ -25,6 +25,7 @@ def rss20ise_entry(e):
 	return " <item>\n" + \
 	"  <title>" + e.title + "</title>\n" + \
 	"  <description>" + e.summary + "</description>\n" + \
+	"  <pubDate>" + e.updated + "</pubDate>\n" + \
 	"  <category>note</category>\n" + \
 	"  <category>shared</category>\n" + \
 	" </item>\n";
@@ -36,6 +37,8 @@ def explode_entry(e):
 	title = re.sub(r'[^\w\-]', '_', title)
 	path = os.path.join(outputdir, title) 
 	fp = open(path, 'w')
+	#os.utime(path, (e.updated, e.updated))
+	print e.updated
 	fp.write(rss20ise_entry(e))
 	fp.close
 
