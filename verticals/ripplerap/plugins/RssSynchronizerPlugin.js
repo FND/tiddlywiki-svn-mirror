@@ -3,7 +3,7 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.4|
+|''Version:''|0.0.5|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -18,9 +18,17 @@ version.extensions.RssSynchronizerPlugin = {installed:true};
 
 function RssSynchronizer() 
 {
-	this.sessionDownload = {titles:[],syncIndex:0,putPending:false};
-	this.userUpload = {};
+	this.sessionDownload = {titles:[],syncIndex:0,getMostRecent:true,mostRecentTitle:'latest',requestPending:false};
+	this.userUpload = {requestPending:false};
+	this.timerID = null;
 }
+
+RssSynchronizer.prototype.timerTest = function()
+{
+	displayMessage("hello");
+	displayMessage("mrt:"+this.sessionDownload.mostRecentTitle);
+	
+};
 
 RssSynchronizer.prototype.init = function()
 {
@@ -56,10 +64,18 @@ RssSynchronizer.prototype.init = function()
 // on each call it downl
 RssSynchronizer.prototype.doSync = function()
 {
-	var sessionTitle = this.sessionDownload.titles[this.sessionDownload.syncIndex];
-	this.sessionDownload.syncIndex++;
-	if(this.sessionDownload.syncIndex>=this.sessionDownload.titles.length)
-		this.sessionDownload.syncIndex = 0;
+	this.sessionDownload.requestPending = true;
+	this.userUpload.requestPending = true;
+	if(this.sessionDownload.getMostRecent) {
+		this.sessionDownload.getMostRecent = false;
+		var sessionTitle = this.sessionDownload.mostRecentTitle;
+	} else {
+		this.sessionDownload.getMostRecent = true;
+		sessionTitle = this.sessionDownload.titles[this.sessionDownload.syncIndex];
+		this.sessionDownload.syncIndex++;
+		if(this.sessionDownload.syncIndex>=this.sessionDownload.titles.length)
+			this.sessionDownload.syncIndex = 0;
+	}
 	var uri = this.sessionDownload.rootUri + sessionTitle + '.xml';
 	this.getNotesTiddlersFromRss(uri);
 	
@@ -82,7 +98,7 @@ RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
 {
 displayMessage("getNotesTiddlersFromRss:"+uri);
 	var adaptor = new RSSAdaptor();
-	var context = {host:uri,adaptor:adaptor};
+	var context = {synchronizer:this,host:uri,adaptor:adaptor};
 	return adaptor.getTiddlerList(context,null,RssSynchronizer.getNotesTiddlerListCallback);
 };
 
@@ -90,6 +106,7 @@ RssSynchronizer.getNotesTiddlerListCallback = function(context,userParams)
 {
 //#
 displayMessage("getNotesTiddlerListCallback");
+	context.synchronizer.sessionDownload.requestPending = false;
 	var tiddlers = context.tiddlers;
 	for(var i=0; i<tiddlers.length; i++) {
 		tiddler = tiddlers[i];
@@ -109,6 +126,7 @@ displayMessage("putTiddlersToRss:"+uri);
 	var rss = RssSynchronizer.generateRss(tiddlers);
 	var callback = function(status,context,responseText,uri,xhr) {
 displayMessage("putTiddlersToRssCallback:"+status);
+		context.synchronizer.sessionDownload.requestPending = false;
 		if(status) {
 			// PUT is successful, take item out of queue
 			displayMessage("successfully PUT");
@@ -119,7 +137,7 @@ displayMessage("putTiddlersToRssCallback:"+status);
 			// leave item in queue and take no action?
 		}
 	};
-	DAV.safeput(uri,callback,null,rss);
+	DAV.safeput(uri,callback,{synchronizer:this},rss);
 };
 
 RssSynchronizer.generateRss = function(tiddlers)
