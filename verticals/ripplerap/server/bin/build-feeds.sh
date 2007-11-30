@@ -11,7 +11,6 @@ sess_nitems="$2"
 
 notesdir=./notes
 
-
 #
 #  build feed for pattern, limit
 #
@@ -21,7 +20,7 @@ feed()
     nitems="$2"
     feed="$sess"
     [ -z "$feed" ] && feed="latest"
-    date=$(date)
+    date=$(date +"%a, %e %b %Y %H:%M:%S %Z")
 
     {
 cat <<EOF 
@@ -53,4 +52,3 @@ for sess in $(ls $notesdir | sed 's/-.*$//' | uniq)
 do
     feed "$sess" "$sess_nitems"
 done
-

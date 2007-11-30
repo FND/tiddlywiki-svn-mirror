@@ -1,6 +1,6 @@
 #!/bin/sh
 
-touch users/TestUser*1/index.xml
+touch users/TestUser*/index.xml
 
 export ripplerapdir=..
 
