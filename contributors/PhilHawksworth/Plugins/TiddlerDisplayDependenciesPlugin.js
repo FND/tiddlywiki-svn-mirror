@@ -21,6 +21,9 @@ if(!version.extensions.TiddlerDisplayDependenciesPlugin) {
 version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 
 	config.macros.TiddlerDisplayDependencies = {};
+	config.macros.TiddlerDisplayDependencies.discoveredNoteTag = "DiscoveredNotes";
+	config.macros.TiddlerDisplayDependencies.myNoteTag = "note";
+	config.macros.TiddlerDisplayDependencies.sessionTag = "session";
 	
 	//TODO: Handle edit view.
 	
@@ -42,7 +45,7 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 		//if(editmode) return;
 		
 				
-		if( t && (t.isTagged('notes') || t.isTagged('DiscoveredNotes'))) {
+		if( t && (t.isTagged(config.macros.TiddlerDisplayDependencies.myNoteTag) || t.isTagged(config.macros.TiddlerDisplayDependencies.discoveredNoteTag))) {
 		
 			//TODO: remove debug logging
 			console.log("looking for session tiddlers associated with " + t.title);
@@ -60,16 +63,10 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 			}
 			var sessionTiddler = store.getTiddler(s[0]);
 			
-			if(!sessionTiddler)
-			{
+			if(!sessionTiddler)	{
 				console.log("No session tiddler found in the store");
 				return;
 			}
-		
-		
-			//TODO: remove debug logging
-			//console.log("we must ensure that "+ sessionTiddler.title + " is displayed");
-			
 			
 			// display the session tiddler
 			tiddler = sessionTiddler;
@@ -80,20 +77,13 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 			
 		
 			topRelated = store.getTiddler(r[0]);
-			if(topRelated && topRelated.isTagged('notes')) {
-				
-				//TODO: remove debug logging
-				//console.log("Displaying directly after my notes tiddler: "+ topRelated.title + " ("+ topRelated.tags +")");
-			
+			if(topRelated && topRelated.isTagged(config.macros.TiddlerDisplayDependencies.myNoteTag)) {
 				//display after topRelated
 				srcElement = document.getElementById(story.idPrefix + topRelated.title);
 				tiddler = t;
 				animate = false;
 			}
-			else{
-				//TODO: remove debug logging
-				//console.log("Displaying directly after session tiddler: "+ sessionTiddler.title);
-				
+			else {
 				//display after sessionTiddler
 				srcElement = document.getElementById(story.idPrefix + sessionTiddler.title);
 				tiddler = t;
@@ -114,7 +104,7 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 	story.closeTiddler = function(title,animate,unused){
 		var intentedTitle = title;
 		var t = store.getTiddler(title);
-		if(t && t.isTagged('session')) {
+		if(t && t.isTagged(config.macros.TiddlerDisplayDependencies.sessionTag)) {
 			//close all the tiddlers that rap about this session tiddler.
 			var r = config.relationships['raps'].getRelatedTiddlers(store,title);
 			for (var i=0; i < r.length; i++) {
