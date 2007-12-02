@@ -72,27 +72,26 @@
 		}
 	}
 	
+	
+	
 	function user_set_session($un, $pw)
 	{
-		 error_log('SETSESSION'.$un.$pw, 0);
-		// should the initial expiry time persist or be added to?
 		global $tiddlyCfg;
-		//$del_data['session_token']= cookie_get('passSecretCode');
+		 error_log('SETSESSION'.$tiddlyCfg['pref']['session_expire'], 0);
+			
+		//$del_data['session_token']= cookie_get('passSecretCode');  // TODO : delete old sessions?
 		//db_record_delete('login_session',$del_data);
+
 		$insert_data['user_id'] = $un;
-		
-		
-		$mins = date("i")+$tiddlyCfg['pref']['session_expire'];  // add session timeout time to current time.
-		$expire = strtotime(date("Y").'-'.date("m")."-".date("d")." ".date("H").":".$mins.":".date("s"));	// build up date string
-		$insert_data['expire'] = date('Y-m-d H:i:s', $expire); // add expire time to data array for insert
-		
+		$expire =time()+$tiddlyCfg['pref']['session_expire'];
+		error_log($tiddlyCfg['pref']['session_expire'].date('Y-m-d H:i:s',  $expire));
+		$insert_data['expire'] = date('Y-m-d H:i:s',  $expire); // add expire time to data array for insert		
 		$insert_data['ip'] = $_SERVER['REMOTE_ADDR'];  // get the ip address
 		$insert_data['session_token'] = sha1($un.$_SERVER['REMOTE_ADDR'].$expire); // colect data together and sh1 it so that we have a unique indentifier 
 		cookie_set('txtUserName', $un);
  		cookie_set('sessionToken', $insert_data['session_token']);
 	//	cookie_set('passSecretCode', $insert_data['session_token']); // TODO - REMOVE THIS LINE 
-
-			 error_log('SETSESSION23'.$un.$pw, 0);
+		error_log('SETSESSION23'.$un.$pw, 0);
 		db_record_insert('login_session',$insert_data);
 
 	}		
@@ -107,14 +106,13 @@
 		global $tiddlyCfg;
 		global $user;
 		error_log('VALIDATE-TOP'.$un.$pw, 0);
-
-		// if we are not passed a username and password the session has been created and we need to validate it.	
+			// if we are not passed a username and password the session has been created and we need to validate it.	
 		if (!$pw || !$un)
 		{
-			$pw = cookie_get('passSecretCode');
+			$pw = cookie_get('sessionToken');
 			$un = cookie_get('txtUserName');
 			if ($tiddlyCfg['developing'])
-				error_log('USER_VALIDATE - username and pass code have been taken from the cookie:'.$un.$pw, 0);
+				error_log('USER_VALIDATE - username and session code have been taken from the cookie:'.$un.$pw, 0);
 			$data_session['session_token'] = $pw;
 			$results = db_record_select('login_session', $data_session);			// get array of results		
 		
@@ -137,16 +135,18 @@
 				else 
 				{
 				
-				  //  THIS SHOULD PROMPT THE USER FOR A PASSWOR
+				  //  SESSION HAS EXPIRED 
 					user_logout();
 					if ($tiddlyCfg['developing'])
 						error_log('VALIDATE FAILED - SESSION HAS EXPIRED - log out the user '.$un.$pw, 0);
+			
 				 	return FALSE; 
 				 	//delete the cookies and session record 
 				}
 			}
 			else
 			{
+				// username does not exist 
 				user_logout();
 				if ($tiddlyCfg['developing'])
 					error_log('VALIDATE FAILED- NO SESSION EXISTS  - log out the user '.$un.$pw, 0);
@@ -196,7 +196,7 @@
 		}
 		else
 		{		//if username password pair wrong, clear cookie
-			user_logout();
+			user_logout('Login Failed');
 				if ($tiddlyCfg['developing'])
 					error_log('LOGIN -user name provided did not validated - return false '.$un.$pw, 0);
 			return FALSE;
@@ -215,18 +215,18 @@
 		return $u;
 	}
 	
-	function user_logout()
+	function user_logout($errorMsg = null)
 	{	
 		if ($tiddlyCfg['developing'])
 			error_log('LOG OUT THE USER '.$un.$pw, 0);
-		$data['session_token']= cookie_get('passSecretCode');
+		$data['session_token']= cookie_get('sessionToken');
 		db_record_delete('login_session',$data);
 
 		error_log('kill cookie', 0);
 		cookie_kill('sessionToken');
-		cookie_kill('txtUserName');
-		error_log('kill cookie', 0);
-		cookie_set('txtUserName', 'invalid');
+//		cookie_kill('txtUserName');
+		error_log('delete cookies', 0);
+		cookie_set('sessionError', $errorMsg);
 		cookie_set('sessionToken', 'invalid');
 	
 		return TRUE;

@@ -2,24 +2,6 @@
 
 // GLOBAL PREFERENCES THAT PERSIST ACCROSS ALL INSTANCES
 
-
-$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
-$tiddlyCfg['db']['login'] = "root";		//login name
-$tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "cctw1";		//db name
-$tiddlyCfg['table']['pref'] = "";		//table prefix
-$tiddlyCfg['table']['name'] = "tiddler";
-$tiddlyCfg['table']['backup'] = "tiddly_wiki_entry_version";
-$tiddlyCfg['pref']['session_expire'] = 2000; // session expire time in minutes, 0 is disabled.
-$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
-$tiddlyCfg['pref']['ldap_enabled'] = 0;	
-$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
-$tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the instance name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
-$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
-
-
-//  CALLS URL CODE 
-
 include_once('./includes/url.php');
 include_once("./includes/db.mysql.php");
 
@@ -39,16 +21,12 @@ $tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
 // the instance does not exist yet. 
 if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 {
-	 	// let show the form to create an instance
-	 	// we need to set the settings manually as there is not record in the database
-	 	$tiddlyCfg['pref']['tw_ver'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
-		$tiddlyCfg['pref']['language'] = 'en'; // choose between different version of TW, or adaptation
-		$tiddlyCfg['pref']['version'] = 0; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
-		$tiddlyCfg['pref']['reqLogin'] = 0;	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
-		$tiddlyCfg['pref']['session_expire'] = 2000;
-		$tiddlyCfg['pref']['cookies'] = 100;		//cookies expire time, in minutes [0=disable]
-		$tiddlyCfg['pref']['appendModifier'] ='';		//append modifier name as tag		
-
+ 	// let show the form to create an instance
+ 	// we need to set the settings manually as there is not record in the database
+ 	$tiddlyCfg['pref']['tw_ver'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
+	$tiddlyCfg['pref']['language'] = 'en'; // choose between different version of TW, or adaptation
+	$tiddlyCfg['pref']['version'] = 0; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
+	$tiddlyCfg['pref']['reqLogin'] = 0;	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]		$tiddlyCfg['pref']['appendModifier'] ='';		//append modifier name as tag		
 }
 else
 {
@@ -58,8 +36,8 @@ else
 	$tiddlyCfg['pref']['language'] = $tiddlyCfg['pref']['instance_settings'][0]['lang']; // choose between different version of TW, or adaptation
 	$tiddlyCfg['pref']['version'] = $tiddlyCfg['pref']['instance_settings'][0]['keep_revision']; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
 	$tiddlyCfg['pref']['reqLogin'] = $tiddlyCfg['pref']['instance_settings'][0]['require_login'];	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
-$tiddlyCfg['pref']['session_expire'] = 2000;
-	$tiddlyCfg['pref']['cookies'] = $tiddlyCfg['pref']['instance_settings'][0]['cookie_expire'];		//cookies expire time, in minutes [0=disable]
+	// uncommenting the below line will let the session timeout be specified per instance
+	//$tiddlyCfg['pref']['session_expire'] = $tiddlyCfg['pref']['instance_settings'][0]['cookie_expire'];
 	$tiddlyCfg['pref']['appendModifier'] =$tiddlyCfg['pref']['instance_settings'][0]['tag_tiddler_with_modifier'];		//append modifier name as tag
 }
 

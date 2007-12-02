@@ -138,7 +138,7 @@ var serverside={
 			notExist: "<?php print $ccT_msg['error']['revision_not_found'] ?>"
 		}
 	},
-	loggedIn:<?php print (user_validate()?"true":"false") ?>,
+	loggedIn:,
 	fn:{}		//server-side function
 };
 
@@ -191,7 +191,7 @@ window.cct_tweak = function(){
 	}
 	
 	// time (in minutes, from now) for password to stay in cookie [0= default i.e. year 2038]
-	//config.macros.option.passwordTime = <?php print $tiddlyCfg['pref']['cookies'];?>;
+	//config.macros.option.passwordTime = <?php print $tiddlyCfg['pref']['session_expire'];?>;
 	
 	//copyright panel
 	config.shadowTiddlers.Copyright = "<?php print $ccT_msg['copyright']['power_by']?> [[TiddlyWiki|http://www.tiddlywiki.com/]] <<version>> <?php print $ccT_msg['word']['and']?> [[ccTiddly <?php print $tiddlyCfg['version'];?>|http://cctiddly.sourceforge.net]]\n[[<?php print $ccT_msg['copyright']['standalone']?>|<?php print $_SERVER['PHP_SELF'];?>?standalone=1&<?php print queryString();?>]]";

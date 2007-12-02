@@ -383,7 +383,9 @@
 	function cookie_set($k,$v)
 	{
 		global $tiddlyCfg;
-		return setcookie($k,rawurlencode($v),time() +  $tiddlyCfg['pref']['session_expire'],"/");
+		
+		$expire =  time()+$tiddlyCfg['pref']['session_expire'];	
+		return setcookie($k,rawurlencode($v), $expire,"/");
 	}
 	
 	
@@ -452,6 +454,7 @@
 			//tiddly_alert($display_error);
 		}
 		debug( $record_error );
+	
 		
 		if( $stop_script == 1 )		//display error and exit
 		{
@@ -495,6 +498,8 @@
 		if( $tiddlyCfg['developing']==1 && $standalone!=1 )
 		{
 			print $str;
+			
+			error_log($str, 0);
 			if( $break>0 )
 			{
 				print '<br>';

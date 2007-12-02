@@ -18,6 +18,7 @@
 	recordTime_float("Start");
 
 	//includes
+	
 	include_once("includes/header.php");
 	include_once("includes/print.php");
 	recordTime_float("includes");
@@ -216,6 +217,179 @@ Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa As
 <div tiddler="ColorPalette" tags="">Background: #fff\nForeground: #000\nPrimaryPale: #8cf\nPrimaryLight: #18f\nPrimaryMid: #04b\nPrimaryDark: #014\nSecondaryPale: #ffc\nSecondaryLight: #fe8\nSecondaryMid: #db4\nSecondaryDark: #841\nTertiaryPale: #eee\nTertiaryLight: #ccc\nTertiaryMid: #999\nTertiaryDark: #666\nError: #f88</div>
 <div tiddler="EditTemplate" tags="">&lt;!--{{{--&gt;\n&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;\n&lt;div class='title' macro='view title'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;\n&lt;div macro='annotations'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser'&gt;&lt;/span&gt;&lt;/div&gt;\n&lt;!--}}}--&gt;</div>
 
+<div title="ccLogin" tags="SystemConfig">
+<pre>/***
+|''Name:''|ccLogin|
+|''Description:''|Login Plugin for ccTiddly|
+|''Version:''|2.1.5|
+|''Date:''|Nov 27, 2007|
+|''Source:''||
+|''Author:''|SimonMcManus|
+|''License:''|[[BSD open source license]]|
+|''~CoreVersion:''|2.2.6|
+|''Browser:''| Firefox |
+***/
+
+//{{{
+
+config.backstageTasks = [&quot;login&quot;, &quot;save&quot;,&quot;sync&quot;,&quot;importTask&quot;, &quot;tweak&quot;,&quot;plugins&quot;];
+merge(config.tasks,{
+    login: {text: &quot;login&quot;, tooltip: &quot;Login to your TiddlyWiki&quot;, content: '&lt;&lt;ccLogin&gt;&gt;'},
+});
+
+
+// Returns output var with output.txtUsername and output.sessionToken
+
+
+
+function findToken(cookieStash) {
+    var output = {};
+    var cookies =cookieStash.split(&quot;\n&quot;);
+    for(var c=0; c&lt; cookies.length; c++) {
+        var cl = cookies[c].split(&quot;;&quot;);
+        for(var e=0; e&lt;cl.length; e++) {
+            var p = cl[e].indexOf(&quot;=&quot;);
+            if(p != -1) {
+                var name = cl[e].substr(0,p).trim();
+                var value = cl[e].substr(p+1).trim();        
+                if (name== 'txtUserName') {
+                    output.txtUserName = value;
+                }
+                if (name== 'sessionToken') {
+                    output.sessionToken = value;
+                }
+            }
+        }
+    }
+    return output;
+}
+
+config.macros.ccLogin = {
+
+    handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+        var img = createTiddlyElement(place,&quot;img&quot;);
+        img.src = 'http://www.cot.org.uk/designforliving/companies/logos/bt.jpg ';
+        var loginDiv = createTiddlyElement(place,&quot;div&quot;,null,&quot;loginDiv&quot;,null);
+        this.refresh(loginDiv);
+    },
+
+    refresh: function(place, errorMsg) {
+          var loginDivRef = document.getElementById (&quot;LoginDiv&quot;);
+        removeChildren(loginDivRef);
+         var wrapper = createTiddlyElement(place,&quot;div&quot;);
+        var cookieValues = findToken(document.cookie);
+        if ( cookieValues.sessionToken != 'invalid' &amp;&amp; cookieValues.sessionToken &amp;&amp; cookieValues.txtUserName) {
+            // user is logged in
+            displayMessage('login is ok and we are refreshing');
+            var msg = createTiddlyElement(wrapper,&quot;div&quot;);
+            wikify(&quot;You are logged in as SomeThingOrOther &quot; + cookieValues.txtUserName, msg);
+            var frm = createTiddlyElement(wrapper,&quot;form&quot;,null,null);
+            frm.onsubmit = this.logoutOnSubmit;
+            var btn = createTiddlyElement(frm,&quot;input&quot;,null);
+            btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+            btn.value = &quot;Logout&quot;;        
+        } else {
+            //user not logged in.
+            var frm = createTiddlyElement(wrapper,&quot;form&quot;,null,null);
+            frm.onsubmit = this.loginOnSubmit;
+            createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Login is Required&quot;);
+            if (errorMsg !=null) {
+                createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Login Failed because : &quot;+errorMsg);
+            }
+            createTiddlyText(frm,&quot;Username&quot;);
+            var txtuser = createTiddlyElement(frm,&quot;input&quot;,&quot;cctuser&quot;, &quot;cctuser&quot;);
+            createTiddlyElement(frm,&quot;br&quot;);
+            createTiddlyText(frm,&quot;Password&quot;);
+            var txtpass = createTiddlyElement(frm,&quot;input&quot;, 'cctpass','cctpass');
+            createTiddlyElement(frm,&quot;br&quot;);
+            var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt);
+            btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+            btn.value = &quot;Login&quot;;
+        }
+     },
+
+    killLoginCookie: function() {
+        var c = 'sessionToken=';
+        c+= &quot;; expires=Fri, 1 Jan 1811 12:00:00 UTC; path=/&quot;;
+        document.cookie = c;
+        var d = 'txtUserName=invalid';
+        d+= &quot;; expires=Fri, 1 Jan 1811 12:00:00 UTC; path=/&quot;;
+        document.cookie = d;
+    },
+
+    logoutOnSubmit: function() {
+        var loginDivRef = findRelated(this,&quot;loginDiv&quot;,&quot;className&quot;,&quot;parentNode&quot;);
+        removeChildren(loginDivRef);
+        document.cookie = &quot;sessionToken=invalid;   expires=15/02/2009 00:00:00&quot;;
+        document.cookie = &quot;txtUserName=invalid;   expires=15/02/2009 00:00:00&quot;;
+        config.macros.ccLogin.refresh(loginDivRef);
+        return false;
+    },
+
+
+    loginOnSubmit: function() {
+        var user = document.getElementById('cctuser').value;
+        var pass = document.getElementById('cctpass').value;
+        var params = {};  
+        params.origin = this;
+        var loginResp = doHttp('POST', 'http://127.0.0.1/cctiddly/msghandle.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
+
+
+
+
+        return false;
+    },
+
+loginCallback: function(status,params,responseText,uri,xhr) {
+
+
+
+
+if (status==true)
+{
+displayMessage('COONECTION was ok ');
+} else {
+displayMessage('no connection');
+}
+
+    var cookie = xhr.getResponseHeader(&quot;Set-Cookie&quot;);
+    var cookieValues = this.findToken(cookie);
+displayMessage('you have been called back'+cookieValues.sessionToken);
+
+if (cookieValues.sessionToken == 'invalid') {
+        var errorMsg = 'Login Failed - invalid session token';
+    }
+
+    config.macros.ccLogin.saveCookie(cookieValues);
+    var loginDivRef = findRelated( params.origin,&quot;loginDiv&quot;,&quot;className&quot;,&quot;parentNode&quot;);
+    removeChildren(loginDivRef);
+    if (!errorMsg) {
+        var errorMsg = '';
+    }
+    config.macros.ccLogin.refresh (loginDivRef, errorMsg);
+  
+return false;
+},
+
+    logoutCallback: function(status,params,responseText,uri,xhr) {
+        // return true
+},
+
+    saveCookie: function(cookieValues) {
+        // Save the session token in cookie.
+        var c = 'sessionToken' + &quot;=&quot; + cookieValues.sessionToken;
+        c+= &quot;; expires=Fri, 1 Jan 2811 12:00:00 UTC; path=/&quot;;
+        document.cookie = c;
+        // Save the txtUserName in the normal tiddlywiki format
+        config.options.txtUserName = cookieValues.txtUserName;
+        saveOptionCookie(&quot;txtUserName&quot;);
+    }
+
+}
+//}}}</pre>
+
+</div>
+
 
 
 
@@ -235,7 +409,7 @@ $logged_in_create_tiddlers = "<div tiddler='SiteTitle' tags=''>Error 404 - Pleas
 </div>
 <div  tiddler='DefaultTiddlers' tags=''>[[CreateInstance]][[GettingStarted]]</div>";
 
-$login_to_view_tiddlers =  "<div tiddler='SiteTitle' tags=''>Please Login to view the content of this page</div>
+$login_to_view_tiddlers =  "<div tiddler='SiteTitle' tags=''>	 to view the content of this page</div>
 <div tiddler='MainMenu' tags=''></div>";
 
 $login_to_create_tiddlers = "<div tiddler='SiteTitle' tags=''>Error 404 - Please login to create this instance</div>";
@@ -243,15 +417,31 @@ $login_to_create_tiddlers = "<div tiddler='SiteTitle' tags=''>Error 404 - Please
 $default_login_tiddler = "<div tiddler='DefaultTiddlers' tags=''>GettingStarted</div>";
 
 
+
+
+
+
+
+
+	$login = "<div tiddler='Please Login' tags=''> &lt;&lt;ccLogin&gt;&gt; </div>
+	<div tiddler='SiteSubtitle' tags=''>Please Login to view this TiddlyWiki.</div>";
+	
+	
+	/**
+
+
 $login = "<div tiddler='Please Login' tags=''>&lt;html&gt;&lt;form action='' method=post&gt;".$ccT_msg['loginpanel']['username']."&lt;input type=text value=simon id=cctuser name=cctuser width=15&gt;&lt;br /&gt;".$ccT_msg['loginpanel']['password']."&lt;input type=password rows=5 id=cctpass name=cctpass&gt;&lt;br /&gt;&lt;input type=submit value=login&gt; &lt;/form&gt;".$openid."&lt;/html&gt;	
 </div>
 <div tiddler='SiteSubtitle' tags=''>Please Login to view this TiddlyWiki.</div>";
 
-/**
 
 $login = "<div tiddler='Please Login' tags=''>&lt;&lt;ccLogin&gt;&gt;</div><div tiddler='SiteSubtitle' tags=''>Please Login to view this TiddlyWiki.</div>";
 
 */
+
+
+
+
 
 
 $cut_down_view = "<div tiddler='StyleSheetLayout' tags=''>/*{{{*/\n* html .tiddler {height:1%;}\n\nbody {font-size:.75em; font-family:arial,helvetica; margin:0; padding:0;}\n\nh1,h2,h3,h4,h5,h6 {font-weight:bold; text-decoration:none;}\nh1,h2,h3 {padding-bottom:1px; margin-top:1.2em;margin-bottom:0.3em;}\nh4,h5,h6 {margin-top:1em;}\nh1 {font-size:1.35em;}\nh2 {font-size:1.25em;}\nh3 {font-size:1.1em;}\nh4 {font-size:1em;}\nh5 {font-size:.9em;}\n\nhr {height:1px;}\n\na {text-decoration:none;}\n\ndt {font-weight:bold;}\n\nol {list-style-type:decimal;}\nol ol {list-style-type:lower-alpha;}\nol ol ol {list-style-type:lower-roman;}\nol ol ol ol {list-style-type:decimal;}\nol ol ol ol ol {list-style-type:lower-alpha;}\nol ol ol ol ol ol {list-style-type:lower-roman;}\nol ol ol ol ol ol ol {list-style-type:decimal;}\n\n.txtOptionInput {width:11em;}\n\n#contentWrapper .chkOptionInput {border:0;}\n\n.externalLink {text-decoration:underline;}\n\n.indent {margin-left:3em;}\n.outdent {margin-left:3em; text-indent:-3em;}\ncode.escaped {white-space:nowrap;}\n\n.tiddlyLinkExisting {font-weight:bold;}\n.tiddlyLinkNonExisting {font-style:italic;}\n\n/* the 'a' is required for IE, otherwise it renders the whole tiddler in bold */\na.tiddlyLinkNonExisting.shadow {font-weight:bold;}\n\n#mainMenu .tiddlyLinkExisting,\n	#mainMenu .tiddlyLinkNonExisting,\n	#sidebarTabs .tiddlyLinkNonExisting {font-weight:normal; font-style:normal;}\n#sidebarTabs .tiddlyLinkExisting {font-weight:bold; font-style:normal;}\n\n.header {position:relative;}\n.header a:hover {background:transparent;}\n.headerShadow {position:relative; padding:4.5em 0em 1em 1em; left:-1px; top:-1px;}\n.headerForeground {position:absolute; padding:4.5em 0em 1em 1em; left:0px; top:0px;}\n\n.siteTitle {font-size:3em;}\n.siteSubtitle {font-size:1.2em;}\n\n#mainMenu {position:absolute; left:0; width:10em; text-align:right; line-height:1.6em; padding:1.5em 0.5em 0.5em 0.5em; font-size:1.1em;}\n\n#sidebar {position:absolute; right:3px; width:16em; font-size:.9em;}\n#sidebarOptions {padding-top:0.3em;}\n#sidebarOptions a {margin:0em 0.2em; padding:0.2em 0.3em; display:block;}\n#sidebarOptions input {margin:0.4em 0.5em;}\n#sidebarOptions .sliderPanel {margin-left:1em; padding:0.5em; font-size:.85em;}\n#sidebarOptions .sliderPanel a {font-weight:bold; display:inline; padding:0;}\n#sidebarOptions .sliderPanel input {margin:0 0 .3em 0;}\n#sidebarTabs .tabContents {width:15em; overflow:hidden;}\n\n.wizard {padding:0.1em 1em 0em 2em;}\n.wizard h1 {font-size:2em; font-weight:bold; background:none; padding:0em 0em 0em 0em; margin:0.4em 0em 0.2em 0em;}\n.wizard h2 {font-size:1.2em; font-weight:bold; background:none; padding:0em 0em 0em 0em; margin:0.4em 0em 0.2em 0em;}\n.wizardStep {padding:1em 1em 1em 1em;}\n.wizard .button {margin:0.5em 0em 0em 0em; font-size:1.2em;}\n.wizardFooter {padding:0.8em 0.4em 0.8em 0em;}\n.wizardFooter .status {padding:0em 0.4em 0em 0.4em; margin-left:1em;}\n.wizard .button {padding:0.1em 0.2em 0.1em 0.2em;}\n\n#messageArea {position:fixed; top:2em; right:0em; margin:0.5em; padding:0.5em; z-index:2000; _position:absolute;}\n.messageToolbar {display:block; text-align:right; padding:0.2em 0.2em 0.2em 0.2em;}\n#messageArea a {text-decoration:underline;}\n\n.tiddlerPopupButton {padding:0.2em 0.2em 0.2em 0.2em;}\n.popupTiddler {position: absolute; z-index:300; padding:1em 1em 1em 1em; margin:0;}\n\n.popup {position:absolute; z-index:300; font-size:.9em; padding:0; list-style:none; margin:0;}\n.popup .popupMessage {padding:0.4em;}\n.popup hr {display:block; height:1px; width:auto; padding:0; margin:0.2em 0em;}\n.popup li.disabled {padding:0.4em;}\n.popup li a {display:block; padding:0.4em; font-weight:normal; cursor:pointer;}\n.listBreak {font-size:1px; line-height:1px;}\n.listBreak div {margin:2px 0;}\n\n.tabset {padding:1em 0em 0em 0.5em;}\n.tab {margin:0em 0em 0em 0.25em; padding:2px;}\n.tabContents {padding:0.5em;}\n.tabContents ul, .tabContents ol {margin:0; padding:0;}\n.txtMainTab .tabContents li {list-style:none;}\n.tabContents li.listLink { margin-left:.75em;}\n\n#contentWrapper {display:block;}\n#splashScreen {display:none;}\n\n#displayArea {margin:1em 17em 0em 14em;}\n\n.toolbar {text-align:right; font-size:.9em;}\n\n.tiddler {padding:1em 1em 0em 1em;}\n\n.missing .viewer,.missing .title {font-style:italic;}\n\n.title {font-size:1.6em; font-weight:bold;}\n\n.missing .subtitle {display:none;}\n.subtitle {font-size:1.1em;}\n\n.tiddler .button {padding:0.2em 0.4em;}\n\n.tagging {margin:0.5em 0.5em 0.5em 0; float:left; display:none;}\n.isTag .tagging {display:block;}\n.tagged {margin:0.5em; float:right;}\n.tagging, .tagged {font-size:0.9em; padding:0.25em;}\n.tagging ul, .tagged ul {list-style:none; margin:0.25em; padding:0;}\n.tagClear {clear:both;}\n\n.footer {font-size:.9em;}\n.footer li {display:inline;}\n\n.annotation {padding:0.5em; margin:0.5em;}\n\n* html .viewer pre {width:99%; padding:0 0 1em 0;}\n.viewer {line-height:1.4em; padding-top:0.5em;}\n.viewer .button {margin:0em 0.25em; padding:0em 0.25em;}\n.viewer blockquote {line-height:1.5em; padding-left:0.8em;margin-left:2.5em;}\n.viewer ul, .viewer ol {margin-left:0.5em; padding-left:1.5em;}\n\n.viewer table, table.twtable {border-collapse:collapse; margin:0.8em 1.0em;}\n.viewer th, .viewer td, .viewer tr,.viewer caption,.twtable th, .twtable td, .twtable tr,.twtable caption {padding:3px;}\ntable.listView {font-size:0.85em; margin:0.8em 1.0em;}\ntable.listView th, table.listView td, table.listView tr {padding:0px 3px 0px 3px;}\n\n.viewer pre {padding:0.5em; margin-left:0.5em; font-size:1.2em; line-height:1.4em; overflow:auto;}\n.viewer code {font-size:1.2em; line-height:1.4em;}\n\n.editor {font-size:1.1em;}\n.editor input, .editor textarea {display:block; width:100%; font:inherit;}\n.editorFooter {padding:0.25em 0em; font-size:.9em;}\n.editorFooter .button {padding-top:0px; padding-bottom:0px;}\n\n.fieldsetFix {border:0; padding:0; margin:1px 0px 1px 0px;}\n\n.sparkline {line-height:1em;}\n.sparktick {outline:0;}\n\n.zoomer {font-size:1.1em; position:absolute; overflow:hidden;}\n.zoomer div {padding:1em;}\n\n* html #backstage {width:99%;}\n* html #backstageArea {width:99%;}\n#backstageArea {display:none; position:relative; overflow: hidden; z-index:150; padding:0.3em 0.5em 0.3em 0.5em;}\n#backstageToolbar {position:relative;}\n#backstageArea a {font-weight:bold; margin-left:0.5em; padding:0.3em 0.5em 0.3em 0.5em;}\n#backstageButton {display:none; position:absolute; z-index:175; top:0em; right:0em;}\n#backstageButton a {padding:0.1em 0.4em 0.1em 0.4em; margin:0.1em 0.1em 0.1em 0.1em;}\n#backstage {position:relative; width:100%; z-index:50;}\n#backstagePanel {display:none; z-index:100; position:absolute; margin:0em 3em 0em 3em; padding:1em 1em 1em 1em;}\n.backstagePanelFooter {padding-top:0.2em; float:right;}\n.backstagePanelFooter a {padding:0.2em 0.4em 0.2em 0.4em;}\n#backstageCloak {display:none; z-index:20; position:absolute; width:100%; height:100px;}\n\n.whenBackstage {display:none;}\n.backstageVisible .whenBackstage {display:block;}#sidebar {display:none} .backstageArea {display:none} #backstageToolbar {display:none}\n/*}}}*/</div>

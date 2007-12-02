@@ -21,11 +21,28 @@
 			language.php - error msgs
 	*/
 	
+	global $tiddlyCfg;
+	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
+	$tiddlyCfg['db']['login'] = "root";		//login name
+	$tiddlyCfg['db']['pass'] = "";		//login password
+	$tiddlyCfg['db']['name'] = "cctiddly";		//db name
+	$tiddlyCfg['table']['pref'] = "";		//table prefix
+	$tiddlyCfg['table']['name'] = "tiddler";
+	$tiddlyCfg['table']['backup'] = "tiddly_wiki_entry_version";
+	$tiddlyCfg['pref']['session_expire'] = 2000; //mins
+	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
+	$tiddlyCfg['pref']['ldap_enabled'] = 0;	
+	$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
+	$tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the instance name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
+	$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
+
+
+
+	include_once("includes/functions.php");
+
 	include_once("includes/config.php");
 	include_once("lang/".$tiddlyCfg['pref']['language'].".php");
-	
-	include_once("includes/functions.php");
-	include_once("includes/db.mysql.php");
+	include_once("includes/db.mysql.php");	
 	include_once("includes/tiddler.php");
 	include_once("includes/user.php");
 //////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////
