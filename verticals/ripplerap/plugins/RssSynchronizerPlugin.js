@@ -138,7 +138,7 @@ console.log("getNotesTiddlerListCallback:"+context.status);
 		//if (!t) {
 			tiddler.tags.pushUnique(me.discoveredNoteTag);
 			tiddler.tags.remove(me.sharedTag);
-			tiddler.tags.remove(me.noteTag);
+			tiddler.tags.remove(me.myNoteTag);
 			
 			console.log("Tags: " + tiddler.tags);
 			

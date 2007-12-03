@@ -31,11 +31,13 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		var after =  story.findContainingTiddler(target);
 		var sessionTitle = after.id.substr(7);
 		
-		console.log(" make notes on: " + sessionTitle);
+		console.log("Make notes on: " + sessionTitle);
 		
 		var title = sessionTitle + " from " + config.options.txtUserName;
 		var template = "NoteEditTemplate";
+		
 		story.displayTiddler(after,title,template,false,null,null);
+		
 		var text = "your notes... " + title;
 		story.getTiddlerField(title,"text").value = text.format([title]);
 		story.setTiddlerTag(title,config.macros.TiddlerDisplayDependencies.myNoteTag,+1);
@@ -71,7 +73,6 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		createTiddlyButton(btnCase,"Set up my Ripplerap account for "+ config.macros.ripplerapLoginButton.eventName,null,config.macros.ripplerapLoginButton.onClick);
 		var msg = createTiddlyElement(place,'span','ripplerapAccountMessage');
 		msg.style.display = "none";
-		
 	};
 
 	config.macros.ripplerapLoginButton.onClick = function()
@@ -85,7 +86,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		
 		return false;
 	};
-	
+
 	config.macros.ripplerapLoginButton.showFeedback = function(str){
 		var msg = document.getElementById('ripplerapAccountMessage');
 		removeChildren(msg);
