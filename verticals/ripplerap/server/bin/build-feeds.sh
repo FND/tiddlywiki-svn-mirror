@@ -20,7 +20,7 @@ feed()
     nitems="$2"
     feed="$sess"
     [ -z "$feed" ] && feed="latest"
-    date=$(date +"%a, %e %b %Y %H:%M:%S %Z")
+    date=$(date +"%a, %d %b %Y %H:%M:%S %Z")
 
     {
 cat <<EOF 
