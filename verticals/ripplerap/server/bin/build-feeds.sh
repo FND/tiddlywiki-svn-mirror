@@ -47,14 +47,17 @@ cat <<EOF
   <generator>RippleRap</generator>
 EOF
 	[ -n "$sess" ]&&sess="${sess}-"
-	cat $(ls -rt ${notesdir}/${sess}* | tail -$nitems) 
+	files=$(ls $notesdir/* 2>/dev/null)
+	if [ -n "$files" ]
+	then
+	    cat $(ls -rt $files| tail -$nitems) 
+	fi
 cat <<EOF 
  </channel>
 </rss>
 EOF
     } > $filename
 }
-
 
 feed "" $latest_nitems
 
