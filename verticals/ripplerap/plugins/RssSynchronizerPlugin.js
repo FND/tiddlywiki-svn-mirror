@@ -140,7 +140,7 @@ console.log("getNotesTiddlerListCallback:"+context.status);
 			tiddler.tags.remove(me.sharedTag);
 			tiddler.tags.remove(me.myNoteTag);
 			
-			console.log("Tags: " + tiddler.tags);
+			console.log("Tags: " + tiddler.tags + ", modifier: "+ tiddler.modifier);
 			
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 			story.refreshTiddler(tiddler.title,1,true);

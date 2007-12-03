@@ -17,15 +17,13 @@ if(!version.extensions.MakeNotesControlPlugin) {
 version.extensions.MakeNotesControlPlugin = {installed:true};
 
 	config.macros.MakeNotesControl = {};
-	config.macros.MakeNotesControl.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-	{
+	config.macros.MakeNotesControl.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		if(params[0] == "create") createTiddlyButton(place,"make notes","Make notes on this session",config.macros.MakeNotesControl.onClick);
 		else if(params[0] == "sharethis") createTiddlyCheckbox(place,'private',false,config.macros.MakeNotesControl.togglePrivate);
 		else if(params[0] == "sharing") createTiddlyCheckbox(place,"share my notes",config.options.chkRipplerapShare,config.macros.MakeNotesControl.globalSharing);
 	};
 
-	config.macros.MakeNotesControl.onClick = function(ev)
-	{
+	config.macros.MakeNotesControl.onClick = function(ev) {
 		var e = ev ? ev : window.event;
 		var target = resolveTarget(e);
 		var after =  story.findContainingTiddler(target);
@@ -45,15 +43,13 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		return false;
 	};
 	
-	config.macros.MakeNotesControl.togglePrivate = function(ev)
-	{
+	config.macros.MakeNotesControl.togglePrivate = function(ev) {
 		alert("toggle private");
 		var e = ev ? ev : window.event;
 		var target = resolveTarget(e);
 	};
 	
-	config.macros.MakeNotesControl.globalSharing = function(ev)
-	{
+	config.macros.MakeNotesControl.globalSharing = function(ev) {
 		var e = ev ? ev : window.event;
 		var target = resolveTarget(e);
 		config.options.chkRipplerapShare = target.checked;
@@ -69,16 +65,14 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	config.macros.ripplerapLoginButton.eventName = "Le Web 3";
 	config.macros.ripplerapLoginButton.serverURL = "";
 	
-	config.macros.ripplerapLoginButton.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-	{
+	config.macros.ripplerapLoginButton.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		var btnCase = createTiddlyElement(place,'span',null,'chunkyButton');
 		createTiddlyButton(btnCase,"Set up my Ripplerap account for "+ config.macros.ripplerapLoginButton.eventName,null,config.macros.ripplerapLoginButton.onClick);
 		var msg = createTiddlyElement(place,'span','ripplerapAccountMessage');
 		msg.style.display = "none";
 	};
 
-	config.macros.ripplerapLoginButton.onClick = function()
-	{
+	config.macros.ripplerapLoginButton.onClick = function()	{
 		//send the user details to the server to create their account.
 		var un = config.options.txtUserName;
 		var pw = config.options.txtRipplerapAccountPassword;
@@ -89,7 +83,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		return false;
 	};
 
-	config.macros.ripplerapLoginButton.showFeedback = function(str){
+	config.macros.ripplerapLoginButton.showFeedback = function(str) {
 		var msg = document.getElementById('ripplerapAccountMessage');
 		removeChildren(msg);
 		document.createElement("div");
