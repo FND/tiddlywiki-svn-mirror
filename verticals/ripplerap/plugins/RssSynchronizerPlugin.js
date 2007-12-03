@@ -164,17 +164,18 @@ console.log("doPut");
 	var tiddlers = [];
 	var me = this;
 	store.forEachTiddler(function(title,t) {
-		if(t.isTagged(this.myNoteTag) && t.isTagged(this.sharedTag)) {
+		if(t.isTagged(me.myNoteTag) && t.isTagged(me.sharedTag)) {
 			tiddlers.push(t);
 			if(t.modified > me.userUpload.time)
 				putRequired = true;
 		}
 	});
-//#console.log("putRequired:"+putRequired);
 	if(putRequired) {
+console.log("putRequired");
 		uri = this.userUpload.rootUri + config.options.txtUserName+ '/index.xml';
 		this.putTiddlersToRss(uri,tiddlers);
 	} else {
+console.log("putNotRequired");
 		this.userUpload.requestPending = false;
 		this.makeRequest();
 	}
@@ -183,8 +184,8 @@ console.log("doPut");
 
 RssSynchronizer.prototype.putTiddlersToRss = function(uri,tiddlers)
 {
-	this.userUpload.startTime = new Date();
 console.log("putTiddlersToRss:"+uri);
+	this.userUpload.startTime = new Date();
 	var rss = RssSynchronizer.generateRss(tiddlers);
 	var callback = function(status,params,responseText,uri,xhr) {
 console.log("putTiddlersToRssCallback:"+status);
@@ -233,8 +234,8 @@ RssSynchronizer.generateRss = function(tiddlers)
 		var t = tiddlers[i];
 		s.push("<title" + ">" + t.title.htmlEncode() + "</title" + ">");
 		s.push("<description>" + t.text.htmlEncode() + "</description>");
-		for(var i=0; i<t.tags.length; i++)
-			s.push("<category>" + t.tags[i] + "</category>");
+		for(var j=0; j<t.tags.length; j++)
+			s.push("<category>" + t.tags[j] + "</category>");
 		s.push("<link>" + uri + "#" + encodeURIComponent(String.encodeTiddlyLink(t.title)) + "</link>");
 		s.push("<pubDate>" + t.modified.toGMTString() + "</pubDate>");
 		s.push("<author>" + t.modifier + "</author>");
