@@ -73,7 +73,6 @@ RssSynchronizer.prototype.init = function()
 // on each call it downl
 RssSynchronizer.prototype.makeRequest = function()
 {
-console.log("makeRequest:"+config.options.chkRipplerapShare);
 	if(!config.options.chkRipplerapShare)
 		return;
 	if(this.userUpload.requestPending || this.sessionDownload.requestPending) {
@@ -85,10 +84,10 @@ console.log("makeRequest:"+this.nextIsGet);
 	var me = this;
 	if(this.nextIsGet) {
 		this.userUpload.requestPending = true;
-		window.setInterval(function() {me.doPut.call(me);},this.timerInterval);
+		window.setTimeout(function() {me.doPut.call(me);},this.timerInterval);
 	} else {
 		this.sessionDownload.requestPending = true;
-		window.setInterval(function() {me.doGet.call(me);},this.timerInterval);
+		window.setTimeout(function() {me.doGet.call(me);},this.timerInterval);
 	}
 };
 
@@ -130,10 +129,11 @@ console.log("getNotesTiddlerListCallback:"+context.status);
 	var length = tiddlers ? tiddlers.length : 0;
 	for(var i=0; i<length; i++) {
 		tiddler = tiddlers[i];
-		var t = store.fetchTiddler(tiddler.title);
+		//var t = store.fetchTiddler(tiddler.title);
 		// if the tiddler exists locally, don't overwrite unless the text is different
 		// TEMP CHANGE 20/11/07: if(!t || t.text != tiddler.text) {
-		if (!t) {
+		//if(!t || t.text != tiddler.text) {
+		//if (!t) {
 			tiddler.tags.pushUnique(this.discoveredNoteTag);
 			tiddler.tags.remove(this.sharedTag);
 			
@@ -141,7 +141,7 @@ console.log("getNotesTiddlerListCallback:"+context.status);
 			
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 			story.refreshTiddler(tiddler.title,1,true);
-		}
+		//}
 	}
 	var me = context.synchronizer;
 	me.sessionDownload.requestPending = false;
@@ -173,6 +173,7 @@ console.log("doPut");
 		uri = this.userUpload.rootUri + config.options.txtUserName+ '/index.xml';
 		this.putTiddlersToRss(uri,tiddlers);
 	} else {
+		this.userUpload.requestPending = false;
 		this.makeRequest();
 	}
 	return putRequired;
