@@ -43,12 +43,7 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 		}
 		//if(editmode) return;
 				
-		if( t && (!editmode) && (t.isTagged(config.macros.TiddlerDisplayDependencies.myNoteTag) || t.isTagged(config.macros.TiddlerDisplayDependencies.discoveredNoteTag))) {
-		
-			//TODO: remove debug logging
-			console.log("looking for session tiddlers associated with " + t.title);
-		
-		
+		if( !editmode && t && (t.isTagged(config.macros.TiddlerDisplayDependencies.myNoteTag) || t.isTagged(config.macros.TiddlerDisplayDependencies.discoveredNoteTag))) {
 			var s = config.relationships['rapped'].getRelatedTiddlers(store,t.title);
 			if(!s) console.log("no session tiddlers realted to " +t.title+ " found in the store");
 			else console.log(s.length + " session tiddlers realted to " +t.title+ " found in the store");
@@ -60,7 +55,6 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 				return;
 			}
 			var sessionTiddler = store.getTiddler(s[0]);
-			
 			if(!sessionTiddler)	{
 				console.log("No session tiddler found in the store");
 				return;
@@ -72,9 +66,7 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 			
 			// examine the displayed tiddlers that rap this session tiddler
 			var r = config.relationships['raps'].getRelatedTiddlers(story,sessionTiddler.title);
-			
-		
-			topRelated = store.getTiddler(r[0]);
+			var topRelated = store.getTiddler(r[0]);
 			if(topRelated && topRelated.isTagged(config.macros.TiddlerDisplayDependencies.myNoteTag)) {
 				//display after topRelated
 				srcElement = document.getElementById(story.idPrefix + topRelated.title);
@@ -90,7 +82,7 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 			config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
 		}
 		else {
-			//TODO: remocve logging
+			//TODO: remove logging
 			console.log("displaying without doing anything special");
 			config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
 		}
