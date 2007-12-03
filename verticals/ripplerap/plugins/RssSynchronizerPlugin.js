@@ -234,6 +234,7 @@ RssSynchronizer.generateRss = function(tiddlers)
 	//# The body
 	for (var i=0;i<tiddlers.length;i++) {
 		var t = tiddlers[i];
+		s.push("<item>");
 		s.push("<title" + ">" + t.title.htmlEncode() + "</title" + ">");
 		s.push("<description>" + t.text.htmlEncode() + "</description>");
 		for(var j=0; j<t.tags.length; j++)
@@ -241,6 +242,7 @@ RssSynchronizer.generateRss = function(tiddlers)
 		s.push("<link>" + uri + "#" + encodeURIComponent(String.encodeTiddlyLink(t.title)) + "</link>");
 		s.push("<pubDate>" + t.modified.toGMTString() + "</pubDate>");
 		s.push("<author>" + t.modifier + "</author>");
+		s.push("</item>");
 		/*var item = t.toRssItem(u);
 		if(t.modifier)
 			item += "\n<author>" + t.modifier + "</author>\n";
