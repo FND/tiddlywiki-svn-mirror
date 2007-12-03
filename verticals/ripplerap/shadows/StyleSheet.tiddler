@@ -54,8 +54,8 @@ div.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryDark
 div.tiddler {padding:0;}
 
 /* Vanilla tiddlers */
-div.tiddler > div.toolbar {}
-
+div.tiddler div.VanillaView,
+div.tiddler div.VanillaEdit {padding:0 0 3em 0;}
 div.layoutTable table, div.layoutTable table tr, div.layoutTable table td {margin:0; border-style:none;}
 input.txtOptionInput { padding: 0.4em; border-top:solid 1px #999; border-right:solid 1px #ccc; border-bottom:solid 1px #ccc;  border-left:solid 1px #999; background-color:#f6f6f6;}
 

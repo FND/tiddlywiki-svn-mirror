@@ -11,7 +11,7 @@ SecondaryMid: #fdb
 /* Magenta */
 SecondaryBright: #E5BBFF
 SecondaryDark: #D71F85
-SecondaryDarkest:#430050
+SecondaryDarkest:#7C00A1
 TertiaryPale: #eee
 TertiaryLight: #ccc
 TertiaryMid: #999
