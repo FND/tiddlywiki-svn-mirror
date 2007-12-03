@@ -1,0 +1,40 @@
+<div title="GettingStarted" modifier="SaqImtiaz" created="200712031331" modified="200712031546">
+<pre>This ~TiddlyWiki contains plugins that allow it to import content from Wikispaces, and thereafter be able to synchronize that content with the Wikispaces server. Changes on the server can be downloaded to update the local copy. Similarly, pages edited locally in the ~TiddlyWiki can be uploaded back to the server. Also included is a formatter plugin, that supports basic Wikispaces formatting of the text.
+
+The selected imported pages of your Wikispace are displayed as individual "tiddlers" on the page. When the mouse passes over a tiddler a short toolbar menu appears at the top right. Use the commands here to manipulate that particular tiddler: notably closing and editing it. (You can double click on a tiddler as a shortcut to directly enter edit mode).
+
+Over on the right hand side of the window are commands that affect the entire page, in particular "close all" which can be useful to clear the decks when many tiddlers are open at once.
+
+The user is encouraged to ensure that they can [[Save Changes]] before embarking on widespread editing. (not necessary for the purpose of this demo)
+
+!!Import your content from Wikispaces:
+Click the 'import' button below to bring up the import interface. Enter the address for your Wikispaces space in the following screen (set the server type to wikispaces), you will be presented with a list of pages. Import a subset of pages, or import them all. 
+
+You may use the following test space if you like: http://tw-test.wikispaces.com
+username : lewcid
+password: unamesa
+For the sake of convenience, this space has been added as pre-configured 'feed'. To import from it, just choose it from the 'feed' dropdown in the import screen.
+
+Click this button to import: <<backstage importTask>>
+
+
+!! Edit content locally
+Your pages will be listed in the Timeline on the right, as 'tiddlers'. Click on any tiddler to display it, and and double click it to edit.
+!!Synchronize
+Once you have edit some of your page locally, you can synchronize them back to the server.
+Click this button to bring up the 'sync' interface: <<backstage sync>>
+
+Also note that the import and sync interfaces are available via the backstage bar, the black horizontal bar at the top of the screen.
+
+You might also want to try editing a page on the server, and then going to the 'sync' screen. It will show that the remote page has been updated and will allow you to download the newer version.
+
+!!Future features:
+Most of these features are already supported but have been left out of this introductory demo in the interests of simplicity:
+* This ~TiddlyWiki has not been configured to allow the creation of new pages in your space, but this feature is available and will be supported.
+* It is possible to ship the ~TiddlyWiki pre-configured to synchronize with a specified Wikispaces space. So you could offer a 'download local copy' option for each space, that would generate and serve a ~TiddlyWiki configured to synchronize with that space
+* It is possible to have a ~TiddlyWiki that synchronizes with multiple spaces, and even other wiki back-ends.
+* retrieve the tags associated with each page. Currently we do not have access to this data.
+* The look and feel of the ~TiddlyWiki can be customized to match the default Wikispaces theme
+
+Hopefully a little further down the road in the integration process, we will be able to demonstrate some of the exciting things you can do with your Wikispaces content in ~TiddlyWiki, using plugins.</pre>
+</div>

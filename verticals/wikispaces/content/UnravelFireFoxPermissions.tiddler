@@ -1,0 +1,8 @@
+<div title="UnravelFireFoxPermissions" modifier="SaqImtiaz" created="200712031349" modified="200712031352" tags="excludeLists excludeSearch">
+<pre>Under FireFox, you can run into problems if you accidentally click 'Deny' on the permission request dialog, and have selected //Remember this decision//.
+
+To reverse the effects, first locate the file {{{prefs.js}}} in your FireFox profile directory. Under Windows you'll find it at something like {{{C:\Documents and Settings\Jeremy\Application Data\Mozilla\Firefox\Profiles\o3dhupu6.default\prefs.js}}}, where {{{Jeremy}}} is the name of your windows profile and {{{o3dhupu6}}} will be a similar string of gobbledegook. On the Mac it'll be at {{{~/Library/Application Support/Firefox/Profiles/o3dhupu6.default/prefs.js}}} and on most versions of Linux, at {{{~/.mozilla/firefox/o3dhupu6.default/prefs.js}}}.
+
+Open the file in a text editor and find the line {{{user_pref("capability.principal.codebase.p0.denied", "UniversalXPConnect");}}} and simply replace the word {{{denied}}} with {{{granted}}}.
+//(Thanks to JonScully for figuring out this fix)//</pre>
+</div>

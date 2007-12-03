@@ -1,0 +1,8 @@
+<div title="SavingOnInternetExplorer" modifier="SaqImtiaz" created="200712031347" modified="200712031352" tags="excludeLists excludeSearch">
+<pre>You can save changes with Internet Explorer versions 6 and 7, but not the earlier versions. The procedure is:
+# Click the button labelled 'save changes' over in the right hand sidebar
+# If prompted as follows, click "Yes":
+## "An ActiveX control on this page might be unsafe to interact with other parts of the page. Do you want to allow this interaction?"
+# You should then see a message at the top right of the window saying "Main TiddlyWiki file saved"
+Note that there is currently [[a bug|http://trac.tiddlywiki.org/tiddlywiki/ticket/39]] that prevents Internet Explorer from saving correctly if you have specified a backup directory in AdvancedOptions.</pre>
+</div>
