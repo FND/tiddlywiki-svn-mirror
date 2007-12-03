@@ -21,11 +21,10 @@ if(!version.extensions.TiddlerDisplayDependenciesPlugin) {
 version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 
 	config.macros.TiddlerDisplayDependencies = {};
+	config.macros.TiddlerDisplayDependencies.sharingTag = "shared";
 	config.macros.TiddlerDisplayDependencies.discoveredNoteTag = "DiscoveredNotes";
 	config.macros.TiddlerDisplayDependencies.myNoteTag = "note";
 	config.macros.TiddlerDisplayDependencies.sessionTag = "session";
-	
-	//TODO: Handle edit view.
 	
 	//store the existing displayTiddler function for use later.
 	config.macros.TiddlerDisplayDependencies.displayTiddler = story.displayTiddler;
@@ -40,10 +39,9 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 			console.log(typeof(template) +" : "+ template);
 			if(template == 2) {editmode = true;}
 			else if((typeof(template) == 'string') && (template.indexOf("Edit") != -1)) {editmode = true;}
-			console.log("edit mode.");
+			console.log("edit mode: "+ editmode);
 		}
 		//if(editmode) return;
-		
 				
 		if( t && (t.isTagged(config.macros.TiddlerDisplayDependencies.myNoteTag) || t.isTagged(config.macros.TiddlerDisplayDependencies.discoveredNoteTag))) {
 		
@@ -92,6 +90,8 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 			config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
 		}
 		else {
+			//TODO: remocve logging
+			console.log("displaying without doing anything special");
 			config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
 		}
 	};
