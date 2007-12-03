@@ -114,8 +114,8 @@ config.wikispacesFormatters = [
 
 {
 	name: 'wikispacesHeading',
-	match: '^={1,6}',
-	termRegExp: /(={1,6}$\n)/mg,
+	match: '^={1,6}(?!=)',
+	termRegExp: /(={0,6}\n+)/mg,
 	handler: function(w)
 	{
 		w.subWikifyTerm(createTiddlyElement(w.output,'h'+w.matchLength),this.termRegExp);
