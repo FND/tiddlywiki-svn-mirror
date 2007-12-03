@@ -4,10 +4,6 @@ tiddler: EditTemplate.tiddler
 tiddler: MainMenu.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: PageTemplate.tiddler
-tiddler: NotesViewTemplate.tiddler
-tiddler: NotesEditTemplate.tiddler
-tiddler: DiscoveredNotesViewTemplate.tiddler
-tiddler: DiscoveredNotesEditTemplate.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteUrl.tiddler
