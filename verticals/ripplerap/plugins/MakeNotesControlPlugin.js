@@ -51,7 +51,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	
 	config.macros.ripplerapLoginButton.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 	{
-		var btnCase = createTiddlyElement(place,'div',null,'chunkyButton');
+		var btnCase = createTiddlyElement(place,'span',null,'chunkyButton');
 		createTiddlyButton(btnCase,"setup my ripplerap account for "+ config.macros.ripplerapLoginButton.eventName,null,config.macros.ripplerapLoginButton.onClick);
 	};
 

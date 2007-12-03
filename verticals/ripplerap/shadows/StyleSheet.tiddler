@@ -25,9 +25,10 @@ span.siteSubtitle {bottom:37px; left:245px; font-size:1em; position:absolute; wi
 #mainMenu a.tiddlyLink:hover { background-color:#aaa;}
 
 /* Buttons */
-div.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; padding:0; display:inline; overflow:none; width:auto; line-height:2.2em; }
-div.chunkyButton a.button { font-weight:bold; color:#fff; background-color:[[ColorPalette::SecondaryDark]]; padding:0.5em 2em; margin:0; border-style:none; border-top:solid 1px #fff; }
-div.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryDarkest]];}
+span.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; overflow:auto; display:block; padding:0; margin:0.2em 0 0 0;}
+span.chunkyButton a.button { white-space:nowrap; font-weight:bold; color:#fff; background-color:[[ColorPalette::SecondaryDark]]; text-align:center; padding:0.5em 2em; margin:0; border-style:none;  border-top:solid 1px #fff; display:block;}
+span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryDarkest]]; border-style:none;  border-top:solid 1px #fff;}
+
 
 /* Agenda */
 #agendaMenu { width:260px; float:left; padding:0; margin-top:2.2em; background-color:#f6f6f6; }
