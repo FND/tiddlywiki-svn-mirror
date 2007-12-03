@@ -187,13 +187,14 @@ RssSynchronizer.prototype.putTiddlersToRss = function(uri,tiddlers)
 console.log("putTiddlersToRss:"+uri);
 	this.userUpload.startTime = new Date();
 	var rss = RssSynchronizer.generateRss(tiddlers);
+	
 	var callback = function(status,params,responseText,uri,xhr) {
 console.log("putTiddlersToRssCallback:"+status);
 		var context = params[0];
 		var me = context.synchronizer;
 		me.userUpload.requestPending = false;
 		if(status) {
-			// PUT is successful, take item out of queue
+			// PUT is successful, reset the time
 			me.userUpload.time = me.userUpload.startTime;
 			displayMessage("successfully PUT");
 			//Collection.clear();
@@ -204,6 +205,7 @@ console.log("putTiddlersToRssCallback:"+status);
 		}
 		me.makeRequest.call(me);
 	};
+
 	var context = {};
 	context.synchronizer = this;
 //# third parameter is an array
@@ -230,7 +232,7 @@ RssSynchronizer.generateRss = function(tiddlers)
 	s.push("<docs>http://blogs.law.harvard.edu/tech/rss</docs>");
 	s.push("<generator>TiddlyWiki " + version.major + "." + version.minor + "." + version.revision + "</generator>");
 	//# The body
-	for (var i=tiddlers.length-1; i>=0; i--) {
+	for (var i=0;i<tiddlers.length;i++) {
 		var t = tiddlers[i];
 		s.push("<title" + ">" + t.title.htmlEncode() + "</title" + ">");
 		s.push("<description>" + t.text.htmlEncode() + "</description>");
