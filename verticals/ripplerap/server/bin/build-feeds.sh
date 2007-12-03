@@ -58,7 +58,7 @@ EOF
 
 feed "" $latest_nitems
 
-for sess in $(ls $notesdir | sed 's/-.*$//' | uniq)
+for sess in $(ls $notesdir 2>/dev/null| sed 's/-.*$//' | uniq)
 do
     feed "$sess" "$sess_nitems" 
 done

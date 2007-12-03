@@ -47,10 +47,11 @@ def explode_entry(e):
 	title = squash(e.title)
 	path = os.path.join(outputdir, title) 
 	fp = open(path, 'w')
-	mtime = time.mktime(e.updated_parsed)
-	os.utime(path, (mtime, mtime))
 	fp.write(rss20ise_entry(e))
 	fp.close
+
+	mtime = time.mktime(e.updated_parsed)
+	os.utime(path, (mtime, mtime))
 
 def explode(feed):
 	f = feedparser.parse(feed)
