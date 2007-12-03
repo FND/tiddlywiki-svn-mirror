@@ -12,7 +12,7 @@ export latest_nitems="$2"
 export sess_nitems="$3"
 [ -z "$sess_nitems" ]&&sess_nitems=1000
 
-export link="http://www.ripplerap.com/$name/"
+export rooturi="http://www.ripplerap.com/$name"
 
 notesdir=./notes
 
@@ -23,9 +23,12 @@ feed()
 {
     sess="$1"
     nitems="$2"
+    file="$3"
     feed="$sess"
     [ -z "$feed" ] && feed="latest"
     date=$(date +"%a, %d %b %Y %H:%M:%S %Z")
+    filename="feeds/$feed.xml"
+    link="$rooturi/$filename"
 
     {
 cat <<EOF 
@@ -49,7 +52,7 @@ cat <<EOF
  </channel>
 </rss>
 EOF
-    } > feeds/$feed.xml
+    } > $filename
 }
 
 
@@ -57,5 +60,5 @@ feed "" $latest_nitems
 
 for sess in $(ls $notesdir | sed 's/-.*$//' | uniq)
 do
-    feed "$sess" "$sess_nitems"
+    feed "$sess" "$sess_nitems" 
 done
