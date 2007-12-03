@@ -80,7 +80,7 @@ div.session_edit .toolbar a:hover,
 div.myNotes .toolbar a:hover,
 div.discoveredNotes .toolbar a:hover {border-style: none; color:#fff; background-color:#333;}
 
-div.session {margin:30px 0 0 0;}
+div.session {margin:30px 0 0 0; position:relative;}
 div.session,
 div.session_edit { background-color:#999; border:solid 2px #333; border-bottom-width:1px; border-right-width:1px; margin:3em 0 0 0; }
 div.session .toolbar,
@@ -112,6 +112,7 @@ div.discoveredNotes .editor {border-left:solid 40px #bbb;}
 div.discoveredNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
 div.discoveredNotes .editor .fieldsetFix textarea { border:solid 1px #bbb; border-top-color:#aaa; border-bottom-color:#fff; background-color:#eee;}
 
+div.noteOptions { position:absolute; bottom:10px; right:0;}
 
 /* Secondary menu */
 /*#agendaMenu span.secondaryMenu { width:250px; text-align:right; display:block;}*/
