@@ -5,7 +5,7 @@
 [[Welcome for Camino users]]
 
 {{layoutTable{
-|''Your name'' ^^[[help|About your username]]^^ |''Password'' ^^[[help|About your password]]^^ |
+|''Your wiki name'' ^^[[help|About your username]]^^ |''Password'' ^^[[help|About your password]]^^ |
 |<<option txtUserName>> |<<option txtRipplerapAccountPassword>> | <<option chkRipplerapShare>> share my notes ^^[[help|Share notes]]^^  |
 }}}
 <<ripplerapLoginButton>>

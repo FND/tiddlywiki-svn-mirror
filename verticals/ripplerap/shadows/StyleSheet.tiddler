@@ -25,7 +25,7 @@ span.siteSubtitle {bottom:37px; left:245px; font-size:1em; position:absolute; wi
 #mainMenu a.tiddlyLink:hover { background-color:#aaa;}
 
 /* Buttons */
-div.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; padding:0; display:inline; overflow:none; width:auto; line-height:2.2em;}
+div.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; padding:0; display:inline; overflow:none; width:auto; line-height:2.2em; }
 div.chunkyButton a.button { font-weight:bold; color:#fff; background-color:[[ColorPalette::SecondaryDark]]; padding:0.5em 2em; margin:0; border-style:none; border-top:solid 1px #fff; }
 div.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryDarkest]];}
 
@@ -55,9 +55,10 @@ div.tiddler {padding:0;}
 
 /* Vanilla tiddlers */
 div.tiddler div.VanillaView,
-div.tiddler div.VanillaEdit {padding:0 0 3em 0;}
+div.tiddler div.VanillaEdit {padding:0 0 3em 0; font-size:1.3em; }
+div.layoutTable {margin-bottom:0.5em;}
 div.layoutTable table, div.layoutTable table tr, div.layoutTable table td {margin:0; border-style:none;}
-input.txtOptionInput { padding: 0.4em; border-top:solid 1px #999; border-right:solid 1px #ccc; border-bottom:solid 1px #ccc;  border-left:solid 1px #999; background-color:#f6f6f6;}
+input.txtOptionInput { font-size:1.2em; padding: 0.4em; border-top:solid 1px #999; border-right:solid 1px #ccc; border-bottom:solid 1px #ccc;  border-left:solid 1px #999; background-color:#f6f6f6;}
 
 
 /* Session and Notes tiddlers */
