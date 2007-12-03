@@ -43,7 +43,7 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 		}
 		//if(editmode) return;
 				
-		if( t && (t.isTagged(config.macros.TiddlerDisplayDependencies.myNoteTag) || t.isTagged(config.macros.TiddlerDisplayDependencies.discoveredNoteTag))) {
+		if( t && (!editmode) && (t.isTagged(config.macros.TiddlerDisplayDependencies.myNoteTag) || t.isTagged(config.macros.TiddlerDisplayDependencies.discoveredNoteTag))) {
 		
 			//TODO: remove debug logging
 			console.log("looking for session tiddlers associated with " + t.title);
