@@ -1,4 +1,6 @@
 tiddler: AgendaMenu.tiddler
+tiddler: About_your_username.tiddler
+tiddler: About_your_password.tiddler
 tiddler: DiscoveredNotesViewTemplate.tiddler
 tiddler: DiscoveredNotesEditTemplate.tiddler
 tiddler: SessionViewTemplate.tiddler
@@ -12,8 +14,6 @@ tiddler: AgendaWorkshops.tiddler
 tiddler: Bonjour!!.tiddler
 tiddler: CamelCase.tiddler
 tiddler: CompetitionStage.tiddler
-tiddler: DiscoveredNotesEditTemplate.tiddler
-tiddler: DiscoveredNotesViewTemplate.tiddler
 tiddler: Double_square_brackets.tiddler
 tiddler: FAQs.tiddler
 tiddler: Formatting_TiddlyWikis.tiddler

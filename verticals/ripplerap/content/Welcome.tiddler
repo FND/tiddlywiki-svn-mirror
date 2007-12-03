@@ -2,5 +2,15 @@
 <pre>[[Welcome for Firefox users]]
 [[Welcome for Opera or Safari users]]
 [[Welcome for Internet Explorer users]]
-[[Welcome for Camino users]]</pre>
+[[Welcome for Camino users]]
+
+{{layoutTable{
+|''Your name'' ^^[[help|About your username]]^^ |''Password'' ^^[[help|About your password]]^^|
+|<<option txtUserName>> |<<option txtRipplerapAccountPassword>> |<<ripplerapLoginButton>> |
+}}}
+
+
+
+</pre>
 </div>
+

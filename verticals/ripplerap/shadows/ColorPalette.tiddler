@@ -7,9 +7,11 @@ PrimaryMid: #04b
 PrimaryDark: #014
 SecondaryPale: #ffc
 SecondaryLight: #fe8
-SecondaryMid: #fdb4
+SecondaryMid: #fdb
 /* Magenta */
+SecondaryBright: #E5BBFF
 SecondaryDark: #D71F85
+SecondaryDarkest:#430050
 TertiaryPale: #eee
 TertiaryLight: #ccc
 TertiaryMid: #999

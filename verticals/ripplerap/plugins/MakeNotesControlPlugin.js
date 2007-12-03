@@ -40,5 +40,31 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		return false;
 	};
 
+
+
+	/*
+	Ripplerap account creation helpers
+	*/
+	config.macros.ripplerapLoginButton = {};
+	config.macros.ripplerapLoginButton.eventName = "Le Web 3";
+	config.macros.ripplerapLoginButton.serverURL = "";
+	
+	config.macros.ripplerapLoginButton.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+	{
+		var btnCase = createTiddlyElement(place,'div',null,'chunkyButton');
+		createTiddlyButton(btnCase,"setup my ripplerap account for "+ config.macros.ripplerapLoginButton.eventName,null,config.macros.ripplerapLoginButton.onClick);
+	};
+
+	config.macros.ripplerapLoginButton.onClick = function()
+	{
+		//send the user details to the server to create their account.
+		var un = config.options.txtUserName;
+		var pw = config.options.txtRipplerapAccountPassword;
+		
+		console.log('Loggin in with username: '+ un +' and password: ' + pw);
+		
+		return false;
+	};
+
 } //# end of 'install only once'
 //}}}
