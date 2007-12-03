@@ -80,7 +80,7 @@ RssSynchronizer.prototype.makeRequest = function()
 console.log("request is pending");
 		return;
 	}
-console.log("makeRequest:"+this.nextIsGet);
+console.log(this.nextIsGet ? "makeRequest:get" : "makeRequest:put");
 	this.nextIsGet = !this.nextIsGet;
 	var me = this;
 	if(this.nextIsGet) {
