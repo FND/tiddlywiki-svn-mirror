@@ -78,21 +78,6 @@ END;
 		$user = user_create();
 		
 
-		if( !$user['verified'] )		//if not logged on, display login screen
-		{
-			?>
-			<html><head></head>
-			<body><?php if($usr_val==0){?> <html><form action='<?=queryString();?>' method=post><input type=text value=simon id=cctuser name=cctuser width=15><input type=password rows=5 id=cctpass name=cctpass>
-			<input type=submit value=login> </form></html><?php } else {?> <html><p>Welcome <?php echo $usr?></p><a href='<?php echo $_SERVER['PHP_SELF'];?>?logout=1&'>Logout</a></html><?php } ?>
-			<form method="post" action="<?php print $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']?>">
-			<?php print $ccT_msg['loginpanel']['username']?><input type="text" name="cctuser"><br>
-			<?php print $ccT_msg['loginpanel']['password']?><input type="password" name="cctpass"><br>
-			<input type="submit" value="<?php print $ccT_msg['loginpanel']['login'] ?>" name="ok">
-			</form>
-			</body></html>
-			<?php
-			exit("");
-		}
 	}
 
 	//check if getting revision
@@ -217,182 +202,6 @@ Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa As
 <div tiddler="ColorPalette" tags="">Background: #fff\nForeground: #000\nPrimaryPale: #8cf\nPrimaryLight: #18f\nPrimaryMid: #04b\nPrimaryDark: #014\nSecondaryPale: #ffc\nSecondaryLight: #fe8\nSecondaryMid: #db4\nSecondaryDark: #841\nTertiaryPale: #eee\nTertiaryLight: #ccc\nTertiaryMid: #999\nTertiaryDark: #666\nError: #f88</div>
 <div tiddler="EditTemplate" tags="">&lt;!--{{{--&gt;\n&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;\n&lt;div class='title' macro='view title'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;\n&lt;div macro='annotations'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser'&gt;&lt;/span&gt;&lt;/div&gt;\n&lt;!--}}}--&gt;</div>
 
-<div title='ccLogin' modifier='invalid' modified='200712011034' created='200711282133' tags='systemConfig' changecount='35'>
-<pre>/***
-|''Name:''|ccLogin|
-|''Description:''|Login Plugin for ccTiddly|
-|''Version:''|2.1.5|
-|''Date:''|Nov 27, 2007|
-|''Source:''||
-|''Author:''|SimonMcManus|
-|''License:''|[[BSD open source license]]|
-|''~CoreVersion:''|2.2.6|
-|''Browser:''| Firefox |
-***/
-
-//{{{
-
-config.backstageTasks = [&quot;login&quot;, &quot;save&quot;,&quot;sync&quot;,&quot;importTask&quot;, &quot;tweak&quot;,&quot;plugins&quot;];
-merge(config.tasks,{
-    login: {text: &quot;login&quot;, tooltip: &quot;Login to your TiddlyWiki&quot;, content: '&lt;&lt;ccLogin&gt;&gt;'},
-});
-
-
-// Returns output var with output.txtUsername and output.sessionToken
-
-
-
-function findToken(cookieStash) {
-    var output = {};
-    var cookies =cookieStash.split(&quot;\n&quot;);
-    for(var c=0; c&lt; cookies.length; c++) {
-        var cl = cookies[c].split(&quot;;&quot;);
-        for(var e=0; e&lt;cl.length; e++) {
-            var p = cl[e].indexOf(&quot;=&quot;);
-            if(p != -1) {
-                var name = cl[e].substr(0,p).trim();
-                var value = cl[e].substr(p+1).trim();        
-                if (name== 'txtUserName') {
-                    output.txtUserName = value;
-                }
-                if (name== 'sessionToken') {
-                    output.sessionToken = value;
-                }
-            }
-        }
-    }
-    return output;
-}
-
-config.macros.ccLogin = {
-
-    handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-        var img = createTiddlyElement(place,&quot;img&quot;);
-        img.src = 'http://www.cot.org.uk/designforliving/companies/logos/bt.jpg ';
-        var loginDiv = createTiddlyElement(place,&quot;div&quot;,null,&quot;loginDiv&quot;,null);
-        this.refresh(loginDiv);
-    },
-
-    refresh: function(place, errorMsg) {
-          var loginDivRef = document.getElementById (&quot;LoginDiv&quot;);
-        removeChildren(loginDivRef);
-         var wrapper = createTiddlyElement(place,&quot;div&quot;);
-        var cookieValues = findToken(document.cookie);
-        if ( cookieValues.sessionToken != 'invalid' &amp;&amp; cookieValues.sessionToken &amp;&amp; cookieValues.txtUserName) {
-            // user is logged in
-            displayMessage('login is ok and we are refreshing');
-            var msg = createTiddlyElement(wrapper,&quot;div&quot;);
-            wikify(&quot;You are logged in as SomeThingOrOther &quot; + cookieValues.txtUserName, msg);
-            var frm = createTiddlyElement(wrapper,&quot;form&quot;,null,null);
-            frm.onsubmit = this.logoutOnSubmit;
-            var btn = createTiddlyElement(frm,&quot;input&quot;,null);
-            btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
-            btn.value = &quot;Logout&quot;;        
-        } else {
-            //user not logged in.
-            var frm = createTiddlyElement(wrapper,&quot;form&quot;,null,null);
-            frm.onsubmit = this.loginOnSubmit;
-            createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Login is Required&quot;);
-            if (errorMsg !=null) {
-                createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Login Failed because : &quot;+errorMsg);
-            }
-            createTiddlyText(frm,&quot;Username&quot;);
-            var txtuser = createTiddlyElement(frm,&quot;input&quot;,&quot;cctuser&quot;, &quot;cctuser&quot;);
-            createTiddlyElement(frm,&quot;br&quot;);
-            createTiddlyText(frm,&quot;Password&quot;);
-            var txtpass = createTiddlyElement(frm,&quot;input&quot;, 'cctpass','cctpass');
-            createTiddlyElement(frm,&quot;br&quot;);
-            var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt);
-            btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
-            btn.value = &quot;Login&quot;;
-        }
-     },
-
-    killLoginCookie: function() {
-        var c = 'sessionToken=';
-        c+= &quot;; expires=Fri, 1 Jan 1811 12:00:00 UTC; path=/&quot;;
-        document.cookie = c;
-        var d = 'txtUserName=invalid';
-        d+= &quot;; expires=Fri, 1 Jan 1811 12:00:00 UTC; path=/&quot;;
-        document.cookie = d;
-    },
-
-    logoutOnSubmit: function() {
-        var loginDivRef = findRelated(this,&quot;loginDiv&quot;,&quot;className&quot;,&quot;parentNode&quot;);
-        removeChildren(loginDivRef);
-        document.cookie = &quot;sessionToken=invalid;   expires=15/02/2009 00:00:00&quot;;
-        document.cookie = &quot;txtUserName=invalid;   expires=15/02/2009 00:00:00&quot;;
-        config.macros.ccLogin.refresh(loginDivRef);
-        return false;
-    },
-
-
-    loginOnSubmit: function() {
-        var user = document.getElementById('cctuser').value;
-        var pass = document.getElementById('cctpass').value;
-        var params = {};  
-        params.origin = this;
-        var loginResp = doHttp('POST', 'http://127.0.0.1/cctiddly/msghandle.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
-
-
-
-
-        return false;
-    },
-
-loginCallback: function(status,params,responseText,uri,xhr) {
-
-
-
-
-if (status==true)
-{
-displayMessage('COONECTION was ok ');
-} else {
-displayMessage('no connection');
-}
-
-    var cookie = xhr.getResponseHeader(&quot;Set-Cookie&quot;);
-    var cookieValues = this.findToken(cookie);
-displayMessage('you have been called back'+cookieValues.sessionToken);
-
-if (cookieValues.sessionToken == 'invalid') {
-        var errorMsg = 'Login Failed - invalid session token';
-    }
-
-    config.macros.ccLogin.saveCookie(cookieValues);
-    var loginDivRef = findRelated( params.origin,&quot;loginDiv&quot;,&quot;className&quot;,&quot;parentNode&quot;);
-    removeChildren(loginDivRef);
-    if (!errorMsg) {
-        var errorMsg = '';
-    }
-    config.macros.ccLogin.refresh (loginDivRef, errorMsg);
-  
-return false;
-},
-
-    logoutCallback: function(status,params,responseText,uri,xhr) {
-        // return true
-},
-
-    saveCookie: function(cookieValues) {
-        // Save the session token in cookie.
-        var c = 'sessionToken' + &quot;=&quot; + cookieValues.sessionToken;
-        c+= &quot;; expires=Fri, 1 Jan 2811 12:00:00 UTC; path=/&quot;;
-        document.cookie = c;
-        // Save the txtUserName in the normal tiddlywiki format
-        config.options.txtUserName = cookieValues.txtUserName;
-        saveOptionCookie(&quot;txtUserName&quot;);
-    }
-
-}
-//}}}</pre>
-
-</div>
-
-
-
-
 
 <?
 
@@ -423,7 +232,7 @@ $default_login_tiddler = "<div tiddler='DefaultTiddlers' tags=''>GettingStarted<
 
 
 
-	$login = "<div tiddler='Please Login' tags=''> &lt;&lt;ccLogin&gt; </div>
+	$login = "<div tiddler='Please Login' tags=''> &lt;&lt;ccLogin&gt;&gt;</div>
 	<div tiddler='SiteSubtitle' tags=''>Please Login to view this TiddlyWiki.</div>";
 	
 	
@@ -507,6 +316,167 @@ else
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
+
+<div title="ccLogin" modifier="simon" modified="200712012017" created="200712011507" tags="systemConfig" changecount="17">
+<pre>	/***
+	|''Name:''|ccLogin|
+	|''Description:''|Login Plugin for ccTiddly|
+	|''Version:''|2.1.5|
+	|''Date:''|Nov 27, 2007|
+	|''Source:''||
+	|''Author:''|SimonMcManus|
+	|''License:''|[[BSD open source license]]|
+	|''~CoreVersion:''|2.1.6|
+	|''Browser:''| Firefox |
+	***/
+
+	//{{{
+
+	config.backstageTasks.push(&quot;login&quot;);
+	merge(config.tasks,{
+	    login: {text: &quot;login&quot;, tooltip: &quot;Login to your TiddlyWiki&quot;, content: '&lt;&lt;ccLogin&gt;&gt;'},
+
+	});
+	// Returns output var with output.txtUsername and output.sessionToken
+
+	function findToken(cookieStash) {
+	    var output = {};
+	    var cookies =cookieStash.split(&quot;\n&quot;);
+	    for(var c=0; c&lt; cookies.length ; c++) {
+	        var cl = cookies[c].split(&quot;;&quot;);
+	        for(var e=0; e&lt;cl.length; e++) {
+	            var p = cl[e].indexOf(&quot;=&quot;);
+	            if(p != -1) {
+	                var name = cl[e].substr(0,p).trim();
+	                var value = cl[e].substr(p+1).trim();       
+	                if (name== 'txtUserName') {
+	                    output.txtUserName = value;
+	                }
+	                if (name== 'sessionToken') {
+	                    output.sessionToken = value;
+	                }
+	            }
+	        }
+	    }
+	    return output;
+	}
+
+	config.macros.ccLogin = {
+	    handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+	        var img = createTiddlyElement(place,&quot;img&quot;);
+	        img.src = 'http://www.cot.org.uk/designforliving/companies/logos/bt.jpg ';
+	        var loginDiv = createTiddlyElement(place,&quot;div&quot;,null,&quot;loginDiv&quot;,null);
+	        this.refresh(loginDiv);
+	    },
+
+	    refresh: function(place, errorMsg) {
+	        var loginDivRef = document.getElementById (&quot;LoginDiv&quot;);
+	        removeChildren(loginDivRef);
+	        var wrapper = createTiddlyElement(place,&quot;div&quot;);
+	        var cookieValues = findToken(document.cookie);
+
+	        if ( cookieValues.sessionToken &amp;&amp;  cookieValues.sessionToken.substring(0,3) !== 'MSG' &amp;&amp; cookieValues.txtUserName) {
+	            // user is logged in
+	            var msg = createTiddlyElement(wrapper,&quot;div&quot;);
+	            wikify(&quot;You are logged in as &quot; + cookieValues.txtUserName, msg);
+	            var frm = createTiddlyElement(wrapper,&quot;form&quot;,null,null);
+	            frm.onsubmit = this.logoutOnSubmit ;
+	            var btn = createTiddlyElement(frm,&quot;input&quot;,null);
+	            btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+	            btn.value = &quot;Logout&quot;;       
+	        } else {
+	            //user not logged in.
+	            var frm = createTiddlyElement(wrapper,&quot;form&quot;,null,null);
+	            frm.onsubmit = this.loginOnSubmit;
+	            createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Login is Required&quot;);
+	            if (errorMsg!= null)
+	                createTiddlyElement(frm,&quot;span&quot;, null, null, errorMsg);
+	         createTiddlyElement(frm,&quot;br&quot;);
+	            createTiddlyText(frm,&quot;Username&quot;);
+	            var txtuser = createTiddlyElement(frm,&quot;input&quot;,&quot;cctuser&quot;, &quot;cctuser&quot;)
+	            if (cookieValues.txtUserName !=null) {
+	                txtuser.value =cookieValues.txtUserName ;
+	            }
+	            createTiddlyElement(frm,&quot;br&quot;);
+	            createTiddlyText(frm,&quot;Password&quot;);
+	            var txtpass = createTiddlyElement(frm,&quot;input&quot;, 'cctpass','cctpass');
+	            txtpass.type='password';
+	            createTiddlyElement(frm,&quot;br&quot;);
+	            var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt);
+	            btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+	            btn.value = &quot;Login&quot;;
+	        }
+	     },
+
+	    killLoginCookie: function() {
+	        var c = 'sessionToken=invalid';
+	        c+= &quot;; expires=Fri, 1 Jan 1811 12:00:00 UTC; path=/&quot;;
+	     //   document.cookie = c;
+	        },
+
+	    logoutOnSubmit: function() {
+	        var loginDivRef = findRelated(this,&quot;loginDiv&quot;,&quot;className&quot;,&quot;parentNode&quot;);
+	        removeChildren(loginDivRef);
+		     
+	        document.cookie = &quot;sessionToken=invalid;   expires=15/02/2009 00:00:00&quot;;
+	        config.macros.ccLogin.refresh(loginDivRef);
+	        doHttp('POST', ' http://127.0.0.1/cctw1/msghandle.php', &quot;logout=1&quot;);
+	        	//	window.location = window.location;      
+	 displayMessage('you have reachewd the logout onSubmit ');
+	return false;
+	    },
+
+
+	    logoutCallback: function(status,params,responseText,uri,xhr) {
+	   
+	 //return true;
+	    },
+
+	    loginOnSubmit: function() {
+	        var user = document.getElementById('cctuser').value;
+	        var pass = document.getElementById('cctpass').value;
+	        var params = {}; 
+	        params.origin = this;
+	        var loginResp = doHttp('POST', ' http://127.0.0.1/cctw1/msghandle.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
+	        return false;
+	    },
+
+	    loginCallback: function(status,params,responseText,uri,xhr) {
+
+	        if (status==true) {
+	        //    displayMessage('CONECTION was ok ');
+	        }
+	        var cookie = xhr.getResponseHeader (&quot;Set-Cookie&quot;);
+	        var cookieValues;
+	        cookieValues = sessionToken = this.findToken(cookie);
+	        config.macros.ccLogin.saveCookie(cookieValues);
+	        var loginDivRef = findRelated( params.origin,&quot;loginDiv&quot;,&quot;className&quot;,&quot;parentNode&quot;);
+	        removeChildren(loginDivRef);	
+
+if (cookieValues.sessionToken.substring(0,3) !== 'MSG') {	
+	window.location = window.location;
+}	     
+   config.macros.ccLogin.refresh(loginDivRef, cookieValues.sessionToken.substring(3));
+	  return true;
+	    },
+
+
+	       saveCookie: function(cookieValues) {
+	        // Save the session token in cookie.
+	        var c = 'sessionToken' + &quot;=&quot; + cookieValues.sessionToken;
+	        c+= &quot;; expires=Fri, 1 Jan 2811 12:00:00 UTC; path=&quot;;
+	        document.cookie = c;
+	        // Save the txtUserName in the normal tiddlywiki format
+	       if (cookieValues.txtUserName !=null) {
+	             config.options.txtUserName = cookieValues.txtUserName;
+	            saveOptionCookie(&quot;txtUserName&quot;);
+	        }
+	   }
+	}
+	//}}}
+
+</pre>
+</div>
 
 <?php
 	if( $standalone )

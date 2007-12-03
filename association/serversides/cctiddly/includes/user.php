@@ -33,18 +33,14 @@
 	//!	@param $password password override
 	//!	@param $reqHash state if password need to be hashed
 	// TODO : REMOVE verified = 1
-	function user_create($username="", $group="", $verified=1, $id="", $password="", $reqHash = 0)
+	function user_create($username="", $group="", $verified=0, $id="", $password="", $reqHash = 0)
 	{
+		global $user;
 		$user = array();
 		$user['id'] = (strlen($id)>0?(int)$id:"");		//if empty, leave it as empty. otherwise make it as int
 		//get username from cookie if nothing is passed
 		$user['username'] = preg_replace("![/,\\\\,?,*]!","",(strcmp($username,"")==0?user_getUsername():$username));		//no slashes, star and question mark in username
-		if( strlen($password)==0 )
-		{
-			$user['verified'] = ($verified==0?user_validate($username):(bool)$verified);
-		}else{
-			$user['verified'] = ($verified==0?user_validate($username,$password,$reqHash):(bool)$verified);
-		}
+			$user['verified'] = user_session_validate();
 		//NOTE: group is always in array
 		//FORMAT: $user['group'] = array("group1", "group2");
 		$user['group'] = (strcmp($group,"")==0?user_getGroup($user['username'],$user['verified']):$group);
@@ -79,31 +75,42 @@
 	
 	function user_session_validate()
 	{
-			
-				$pw = cookie_get('sessionToken');
+				error_log('VALIDATING SESSION ', 0 );
+ 	$pw = cookie_get('sessionToken');
 				$data_session['session_token'] = $pw;
+
 				$results = db_record_select('login_session', $data_session);			// get array of results		
-				if (count($results) > 0 )                   //  if the array has 1  session
-				{
-					$user['verified'] = 1;	
-					if($results[0]['expire'] > epochToTiddlyTime(time())) 
-					{
-						return TRUE;
-					}
-					else 
-					{
-					  //  SESSION HAS EXPIRED 
-						user_logout('Your session has expired ');
-					 	return FALSE; 
-					 	//delete the cookies and session record 
-					}
-				}
-				else
-				{
-					// no session exists 
-					user_logout('');
-					return FALSE;		
-				}
+		
+		if (count($results) > 0 )                   //  if the array has 1  session
+		{
+			$user['verified'] = 1;	
+			error_log('expire : '.$results[0]['expire'], 0);
+			error_log('now : '.epochToTiddlyTime(time()), 0);
+			
+			
+			if($results[0]['expire'] > epochToTiddlyTime(time())) 
+			{
+			
+				return TRUE;
+			}
+			else 
+			{
+			  //  SESSION HAS EXPIRED 
+			
+				debug('SESSION has expired ');
+	
+				user_logout('Your session has expired ');
+			 	return FALSE; 
+			 	//delete the cookies and session record 
+			}
+		}
+		else
+		{	
+				error_log('SESSION does not exist ', 0 );
+			// no session exists 
+			user_logout('');
+			return FALSE;		
+		}
 			
 	}
 	
@@ -148,6 +155,7 @@
 		}
 		$data['username'] = $un;
 		$data['password'] = sha1($pw);
+		debug('up'.$un.$pw);
 		$results = db_record_select('user', $data);			// get array of results		
 		if (count($results) > 0 )                   //  if the array has 1 or more sessions
 		{

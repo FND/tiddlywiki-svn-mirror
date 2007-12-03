@@ -25,7 +25,7 @@
 	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
 	$tiddlyCfg['db']['pass'] = "";		//login password
-	$tiddlyCfg['db']['name'] = "cctiddly";		//db name
+	$tiddlyCfg['db']['name'] = "cctw1";		//db name
 	$tiddlyCfg['table']['pref'] = "";		//table prefix
 	$tiddlyCfg['table']['name'] = "tiddler";
 	$tiddlyCfg['table']['backup'] = "tiddly_wiki_entry_version";

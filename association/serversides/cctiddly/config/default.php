@@ -42,10 +42,6 @@ else
 }
 
 
-if (stristr($_SERVER['SCRIPT_FILENAME'], 'msghandle.php'))
-{
-//echo 'message header';
-}
 
 
 

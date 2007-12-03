@@ -1,6 +1,6 @@
 <?php
 
-		error_log('LOGIN', 0);
+error_log('MSG HANDLE - INSTANCE NAME : '.$tiddlyCfg['pref']['instance_name'], 0);
 	//exit("success");
 	include_once("includes/header.php");
 	if($tiddlyCfg['developing'])
@@ -11,7 +11,7 @@
 		if( isset($_POST['cctuser']) && isset($_POST['cctpass']) )		//set cookie for login
 		{	
 			
-			echo user_login(formatParametersPOST($_POST['cctuser']),formatParametersPOST($_POST['cctpass']));
+			user_login(formatParametersPOST($_POST['cctuser']),formatParametersPOST($_POST['cctpass']));
 				//	$user = user_create();
 		}
 		
@@ -227,16 +227,21 @@ Something like this maybe: "?action=contents"
 	}
 	
 //////////////////////////////////////////////////////////ccT functions//////////////////////////////////////////////////////////////
-	debug($_POST['action']);
+	debug('Action : '.$_POST['action'].' Instance : '.$tiddlyCfg['pref']['instance_name']);
 //////////////////////////////////////////////////////////saveTiddler//////////////////////////////////////////////////////////////
 	if( strcmp($_POST['action'],"saveTiddler")==0 )
 	{
+		debug('we must try to save the tiddler '.$_POST['tiddler']); 
+			
 		//strip all slashes first and readd them before adding to SQL
 		$tiddler = formatParameters($_POST['tiddler']);
+		
 		$oldtitle = formatParameters($_POST['otitle']);
 		$omodified = formatParameters($_POST['omodified']);
-		
+
 		$tiddler = tiddler_htmlToArray($tiddler);
+				debug('we have tried to save'); 		
+
 		$ntiddler = tiddler_create($tiddler[0]['title'], 
 									$tiddler[0]['body'], 
 									$tiddler[0]['modifier'], 
@@ -244,7 +249,6 @@ Something like this maybe: "?action=contents"
 									$tiddler[0]['tags'], 
 									"","","",
 									$tiddler[0]['fields']);
-		
 		//append modifier as tag
 		if( $tiddlyCfg['pref']['appendModifier']==1 )
 		{
@@ -259,7 +263,7 @@ Something like this maybe: "?action=contents"
 				$ntiddler['tags'] .= " ".$modifier_add;
 			}
 		}
-		
+				
 		//debugV($ntiddler);
 		//check if empty msg
 		if( strlen($ntiddler['title']) == 0 )
@@ -268,8 +272,9 @@ Something like this maybe: "?action=contents"
 			returnResult($ccT_msg['warning']['blank_entry']);
 		}
 		//save entry
-		$saveResult = saveTiddly( $oldtitle, $omodified, $ntiddler);
 		
+		$saveResult = saveTiddly( $oldtitle, $omodified, $ntiddler);
+
 		switch($saveResult)
 		{
 			case "001":		//insert

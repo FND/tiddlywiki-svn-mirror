@@ -40,6 +40,7 @@
 	//!	@param $version version of tiddler, 1 = new
 	function tiddler_create($title, $body="", $modifier="", $modified="", $tags="", $id="", $creator="", $created="", $fields="", $version=1)
 	{
+		debug('tiddler_create');
 		global $tiddlyCfg;
 		$tiddler = array();
 	 	$tiddler['id'] = preg_replace("![^0-9]!","",$id);		//if empty, leave it as empty. otherwise make it as int

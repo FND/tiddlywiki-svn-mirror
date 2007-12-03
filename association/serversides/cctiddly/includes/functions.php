@@ -165,7 +165,7 @@
 	function saveTiddly($otitle, $omodified, $ntiddler, $username="", $password="", $overwrite=0)
 	{
 		global $tiddlyCfg;
-		
+				debug('saveTiddly');
 		//SCENERIO
 		//	old title NOT exist:
 		//		creating new tiddler		[INSERT]
@@ -380,7 +380,7 @@
 	//  Returns time in TiddlyWiki format from Epoch time stamp.
 	function epochToTiddlyTime($timestamp)
 	{
-		return date('YmsHi', $timestamp); 
+		return date('YmdHi', $timestamp); 
 	}
 
 //////////////////////////////////////////////////////// format related////////////////////////////////////////////////////////

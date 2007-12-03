@@ -138,7 +138,7 @@ var serverside={
 			notExist: "<?php print $ccT_msg['error']['revision_not_found'] ?>"
 		}
 	},
-	loggedIn:,
+	loggedIn:<?php echo $user['verified'];?>,
 	fn:{}		//server-side function
 };
 
