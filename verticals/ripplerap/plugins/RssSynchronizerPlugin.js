@@ -136,6 +136,9 @@ console.log("getNotesTiddlerListCallback:"+context.status);
 		if (!t) {
 			tiddler.tags.pushUnique(this.discoveredNoteTag);
 			tiddler.tags.remove(this.sharedTag);
+			
+			console.log("Tags: " + tiddler.tags);
+			
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 			story.refreshTiddler(tiddler.title,1,true);
 		}

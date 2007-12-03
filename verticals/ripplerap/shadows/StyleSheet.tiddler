@@ -25,9 +25,9 @@ span.siteSubtitle {bottom:37px; left:245px; font-size:1em; position:absolute; wi
 #mainMenu a.tiddlyLink:hover { background-color:#aaa;}
 
 /* Buttons */
-span.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; overflow:auto; display:block; padding:0; margin:0.2em 0 0 0;}
-span.chunkyButton a.button { white-space:nowrap; font-weight:bold; color:#fff; background-color:[[ColorPalette::SecondaryDark]]; text-align:center; padding:0.5em 2em; margin:0; border-style:none;  border-top:solid 1px #fff; display:block;}
-span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryDarkest]]; border-style:none;  border-top:solid 1px #fff;}
+span.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; display:block; padding:0; margin:0.2em 0 0 0;}
+span.chunkyButton a.button { white-space:nowrap; font-weight:bold; color:#fff; background-color:[[ColorPalette::SecondaryDark]]; text-align:center; padding:0.5em 2em; margin:0; border-style:none;  border-top:solid 1px [[ColorPalette::SecondaryBright]]; display:block;}
+span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryDarkest]]; border-style:none;  border-top:solid 1px [[ColorPalette::SecondaryBright]];}
 
 
 /* Agenda */

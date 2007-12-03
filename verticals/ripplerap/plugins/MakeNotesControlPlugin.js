@@ -19,8 +19,6 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	config.macros.MakeNotesControl = {};
 	config.macros.MakeNotesControl.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 	{
-		console.log("make notes control: " + params[0]);
-		
 		if(params[0] == "create") createTiddlyButton(place,"make notes","Make notes on this session",config.macros.MakeNotesControl.onClick);
 		else if(params[0] == "sharethis") createTiddlyCheckbox(place,'private',false,config.macros.MakeNotesControl.togglePrivate);
 		else if(params[0] == "sharing") createTiddlyCheckbox(place,'private',config.options.chkRipplerapShare,config.macros.MakeNotesControl.globalSharing);
@@ -32,18 +30,16 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		var target = resolveTarget(e);
 		var after =  story.findContainingTiddler(target);
 		var sessionTitle = after.id.substr(7);
+		
+		console.log(" make notes on: " + sessionTitle);
+		
 		var title = sessionTitle + " from " + config.options.txtUserName;
-		var template = "NotesEditTemplate";
-		story.displayTiddler(after,title,template,false,null,null);
+		var template = "NoteEditTemplate";
+		story.displayTiddler(after,title,template,true,null,null);
 		var text = "your notes... " + title;
-		
-		//story.getTiddlerField(title,"text").value = text.format([title]);
-		
-		console.log(title);		
-		story.setTiddlerTag(title,'notes',+1);
-		story.setTiddlerTag(title,'shared',+1);
-		story.focusTiddler(title,focus);
-		
+		story.getTiddlerField(title,"text").value = text.format([title]);
+		story.setTiddlerTag(title,config.macros.TiddlerDisplayDependencies.myNoteTag,+1);
+		story.setTiddlerTag(title,config.macros.TiddlerDisplayDependencies.sharingTag,+1);
 		return false;
 	};
 	
@@ -52,8 +48,6 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		alert("toggle private");
 		var e = ev ? ev : window.event;
 		var target = resolveTarget(e);
-		
-	
 	};
 	
 	config.macros.MakeNotesControl.globalSharing = function(ev)
@@ -62,7 +56,6 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		var target = resolveTarget(e);
 		config.options.chkRipplerapShare = target.checked;
 	};
-
 
 
 	/*
@@ -75,7 +68,10 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	config.macros.ripplerapLoginButton.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 	{
 		var btnCase = createTiddlyElement(place,'span',null,'chunkyButton');
-		createTiddlyButton(btnCase,"setup my ripplerap account for "+ config.macros.ripplerapLoginButton.eventName,null,config.macros.ripplerapLoginButton.onClick);
+		createTiddlyButton(btnCase,"Set up my Ripplerap account for "+ config.macros.ripplerapLoginButton.eventName,null,config.macros.ripplerapLoginButton.onClick);
+		var msg = createTiddlyElement(place,'span','ripplerapAccountMessage');
+		msg.style.display = "none";
+		
 	};
 
 	config.macros.ripplerapLoginButton.onClick = function()
@@ -84,11 +80,19 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		var un = config.options.txtUserName;
 		var pw = config.options.txtRipplerapAccountPassword;
 		
-		console.log('Loggin in with username: '+ un +' and password: ' + pw);
+		//doHttp("POST",url,data,contentType,username,password,callback,params,headers)
+		config.macros.ripplerapLoginButton.showFeedback('Logging in with username: '+ un +' and password: ' + pw);
 		
 		return false;
 	};
-
+	
+	config.macros.ripplerapLoginButton.showFeedback = function(str){
+		var msg = document.getElementById('ripplerapAccountMessage');
+		removeChildren(msg);
+		document.createElement("div");
+		msg.appendChild(document.createTextNode(str));
+		msg.style.display = "block";
+	};
 }
 
 //# end of 'install only once'
