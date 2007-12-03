@@ -1,33 +1,22 @@
 <?php
 
+		error_log('LOGIN', 0);
 	//exit("success");
 	include_once("includes/header.php");
 	if($tiddlyCfg['developing'])
 		error_log('msghanngle.php'.$instance, 0);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 ///////////////////////////// START OF LOGIN BITS /////////////////////////////////////////////////	
 		
 		if( isset($_POST['cctuser']) && isset($_POST['cctpass']) )		//set cookie for login
 		{	
+			
 			echo user_login(formatParametersPOST($_POST['cctuser']),formatParametersPOST($_POST['cctpass']));
 				//	$user = user_create();
-			//error_log('login', 0);
-		//	header("Location: ".$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']);		//redirect to itself to refresh
 		}
 		
-		if ($_POST['logout'] || $_REQUEST['logo'])
-			user_logout();
+		if ($_POST['logout'] || $_REQUEST['logoout'])
+			user_logout('You have logged out.');
 		
 ////////////////////////////////////////////END OF LOGIN BITS ///////////////////////////////////////////
 		

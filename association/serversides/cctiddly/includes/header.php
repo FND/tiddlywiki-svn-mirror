@@ -20,7 +20,7 @@
 			config.php - config variable
 			language.php - error msgs
 	*/
-	
+		error_log('header', 0);
 	global $tiddlyCfg;
 	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
@@ -33,13 +33,13 @@
 	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
 	$tiddlyCfg['pref']['ldap_enabled'] = 0;	
 	$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
+	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
 	$tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the instance name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
 	$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
 
 
 
 	include_once("includes/functions.php");
-
 	include_once("includes/config.php");
 	include_once("lang/".$tiddlyCfg['pref']['language'].".php");
 	include_once("includes/db.mysql.php");	
@@ -61,7 +61,7 @@
 	//?time=<number>, override the presetted cookie expiry time for PASSWORD ONLY, UNIT: minutes
 	if( isset($_GET['time']) )
 	{
-		$tiddlyCfg['pref']['cookies'] = (int)$_GET['time'];
+		$tiddlyCfg['pref']['session_expire'] = (int)$_GET['time'];
 	}
 	
 	//?developing=<number>, to enable/disable developing mode via URL

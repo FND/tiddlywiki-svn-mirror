@@ -1,4 +1,6 @@
 <?php
+	error_log('functions.php', 0);
+	
 //////////////////////////////////////////////////////// description ////////////////////////////////////////////////////////
 	/**
 		@file
@@ -374,6 +376,12 @@
 		return deleteTiddler($user, $tiddler);
 	}
 	
+	
+	//  Returns time in TiddlyWiki format from Epoch time stamp.
+	function epochToTiddlyTime($timestamp)
+	{
+		return date('YmsHi', $timestamp); 
+	}
 
 //////////////////////////////////////////////////////// format related////////////////////////////////////////////////////////
 	//!	@fn cookie_set($k,$v)

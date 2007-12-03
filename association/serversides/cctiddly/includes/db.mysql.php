@@ -1,5 +1,5 @@
 <?php
-
+	error_log('MYSQL', 0);
 /**
 	@file
 	@brief generic sql functions using MYSQL
@@ -101,7 +101,7 @@ $db_var['error']['query'] = " query: ";*/
 	//!	@param $data data array, only use first (or defined position) as id  to identify record
 	//!	@param $keyPosition where in the array is the key, normally position '0'
 	//ASSUMPTION: first record is id/key and used to identify record. Can be changed with $keyPosition.
-	function db_record_delete($table,$data,$keyPosition=0)
+	function db_record_delete($table,$data,$keyPosition=0, $operator='=')
 	{
 		//move array pointer to id
 		$i=0;
@@ -110,8 +110,8 @@ $db_var['error']['query'] = " query: ";*/
 			next($data);
 			$i++;
 		}
-		 error_log("DELETE FROM ".$table." WHERE `".db_format4SQL(key($data))."` = '".db_format4SQL(current($data))."'", 0);
-		return db_query("DELETE FROM ".$table." WHERE `".db_format4SQL(key($data))."` = '".db_format4SQL(current($data))."'");
+		 error_log("DELETE FROM ".$table." WHERE `".db_format4SQL(key($data))."` ".$operator." '".db_format4SQL(current($data))."'", 0);
+		return db_query("DELETE FROM ".$table." WHERE `".db_format4SQL(key($data))."` ".$operator." '".db_format4SQL(current($data))."'");
 	}
 	
 	//!	@fn resource db_record_update($table,$data)
@@ -457,5 +457,6 @@ $db_var['error']['query'] = " query: ";*/
 	{
 		return mysql_error();
 	}
+	
 	
 ?>

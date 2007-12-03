@@ -217,7 +217,7 @@ Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa As
 <div tiddler="ColorPalette" tags="">Background: #fff\nForeground: #000\nPrimaryPale: #8cf\nPrimaryLight: #18f\nPrimaryMid: #04b\nPrimaryDark: #014\nSecondaryPale: #ffc\nSecondaryLight: #fe8\nSecondaryMid: #db4\nSecondaryDark: #841\nTertiaryPale: #eee\nTertiaryLight: #ccc\nTertiaryMid: #999\nTertiaryDark: #666\nError: #f88</div>
 <div tiddler="EditTemplate" tags="">&lt;!--{{{--&gt;\n&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;\n&lt;div class='title' macro='view title'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;\n&lt;div macro='annotations'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser'&gt;&lt;/span&gt;&lt;/div&gt;\n&lt;!--}}}--&gt;</div>
 
-<div title="ccLogin" tags="SystemConfig">
+<div title='ccLogin' modifier='invalid' modified='200712011034' created='200711282133' tags='systemConfig' changecount='35'>
 <pre>/***
 |''Name:''|ccLogin|
 |''Description:''|Login Plugin for ccTiddly|
@@ -423,7 +423,7 @@ $default_login_tiddler = "<div tiddler='DefaultTiddlers' tags=''>GettingStarted<
 
 
 
-	$login = "<div tiddler='Please Login' tags=''> &lt;&lt;ccLogin&gt;&gt; </div>
+	$login = "<div tiddler='Please Login' tags=''> &lt;&lt;ccLogin&gt; </div>
 	<div tiddler='SiteSubtitle' tags=''>Please Login to view this TiddlyWiki.</div>";
 	
 	
