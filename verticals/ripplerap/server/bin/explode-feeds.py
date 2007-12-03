@@ -16,6 +16,7 @@ __license__ = "Python"
 import sys
 import os
 import re
+import time
 import getopt
 import feedparser
 
@@ -46,7 +47,8 @@ def explode_entry(e):
 	title = squash(e.title)
 	path = os.path.join(outputdir, title) 
 	fp = open(path, 'w')
-	#os.utime(path, (e.updated, e.updated))
+	mtime = time.mktime(e.updated_parsed)
+	os.utime(path, (mtime, mtime))
 	fp.write(rss20ise_entry(e))
 	fp.close
 
