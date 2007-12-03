@@ -293,23 +293,16 @@ config.wikispacesFormatters = [
 },
 
 {
-	name: 'wikispacesHtmlTag',
-	match: "<(?:[a-zA-Z]{2,}|a)(?:\\s*(?:[a-z]*?=[\"']?[^>]*?[\"']?))*?>",
-	lookaheadRegExp: /<([a-zA-Z]+)((?:\s+[a-z]*?=["']?[^>\/\"\']*?["']?)*?)?\s*(\/)?>/mg,
+	name: "html",
+	match: "<[Hh][Tt][Mm][Ll]>",
+	lookaheadRegExp: /<[Hh][Tt][Mm][Ll]>((?:.|\n)*?)<\/[Hh][Tt][Mm][Ll]>/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var e =createTiddlyElement(w.output,lookaheadMatch[1]);
-			if(lookaheadMatch[2]) {
-				config.formatterHelpers.setAttributesFromParams(e,lookaheadMatch[2]);
-			}
-			if(lookaheadMatch[3]) {
-				w.nextMatch = this.lookaheadRegExp.lastIndex;// empty tag
-			} else {
-				w.subWikify(e,'</'+lookaheadMatch[1]+'>');
-			}
+			createTiddlyElement(w.output,"span").innerHTML = lookaheadMatch[1];
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	}
 }
