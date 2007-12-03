@@ -21,7 +21,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	{
 		if(params[0] == "create") createTiddlyButton(place,"make notes","Make notes on this session",config.macros.MakeNotesControl.onClick);
 		else if(params[0] == "sharethis") createTiddlyCheckbox(place,'private',false,config.macros.MakeNotesControl.togglePrivate);
-		else if(params[0] == "sharing") createTiddlyCheckbox(place,'private',config.options.chkRipplerapShare,config.macros.MakeNotesControl.globalSharing);
+		else if(params[0] == "sharing") createTiddlyCheckbox(place,"share my notes",config.options.chkRipplerapShare,config.macros.MakeNotesControl.globalSharing);
 	};
 
 	config.macros.MakeNotesControl.onClick = function(ev)
@@ -35,7 +35,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		
 		var title = sessionTitle + " from " + config.options.txtUserName;
 		var template = "NoteEditTemplate";
-		story.displayTiddler(after,title,template,true,null,null);
+		story.displayTiddler(after,title,template,false,null,null);
 		var text = "your notes... " + title;
 		story.getTiddlerField(title,"text").value = text.format([title]);
 		story.setTiddlerTag(title,config.macros.TiddlerDisplayDependencies.myNoteTag,+1);

@@ -7,7 +7,7 @@
 {{layoutTable{
 |''Your wiki name'' ^^[[help|About your username]]^^ |''Password'' ^^[[help|About your password]]^^ |
 |<<option txtUserName>> |<<option txtRipplerapAccountPassword>> |
-|<<MakeNotesControl sharing>> share my notes ^^[[help|Share notes]]^^  |
+|<<MakeNotesControl sharing>> ^^[[help|Share notes]]^^  |
 |>|<<ripplerapLoginButton>>|
 }}}
 
