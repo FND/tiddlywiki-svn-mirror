@@ -34,12 +34,12 @@
 	#
 	#  root installation directory
 	#
-	$root = dirname(__FILE__);
+	$root = dirname(__FILE__) . "/..";
 
 	#
 	#  check only contains unicode letters
 	#
-	if (preg_match('#[^\p{L}\p{N}]+#u', $username)) {
+	if (preg_match('/[^\w\pL]/u', $username)) {
 	    header("HTTP/1.0 400 Bad Request");
 	    print "<html><body>username contains punctuation</body></html>";
 	    exit(0);
