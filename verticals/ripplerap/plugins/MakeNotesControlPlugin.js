@@ -57,6 +57,8 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		var e = ev ? ev : window.event;
 		var target = resolveTarget(e);
 		config.options.chkRipplerapShare = target.checked;
+		if(rssSynchronizer && config.options.chkRipplerapShare)
+			rssSynchronizer.makeRequest();
 	};
 
 
