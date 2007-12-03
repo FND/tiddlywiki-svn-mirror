@@ -22,19 +22,28 @@ import feedparser
 outputdir = "notes"
 	
 def rss20ise_entry(e):
+	if hasattr(e, 'guid'):
+		guid = e.guid
+	else:
+		guid = e.link
 	return " <item>\n" + \
 	"  <title>" + e.title + "</title>\n" + \
 	"  <description>" + e.summary + "</description>\n" + \
 	"  <pubDate>" + e.updated + "</pubDate>\n" + \
 	"  <category>note</category>\n" + \
 	"  <category>shared</category>\n" + \
+	"  <link>" + e.link + "</link>\n" + \
+	"  <guid>" + guid + "</guid>\n" + \
 	" </item>\n";
 	
-def explode_entry(e):
-	title = e.title
+def squash(title):
 	title = re.sub(r'-', '_', title)
 	title = re.sub(r'(.*) from (\w+)$', r'\1-\2', title) 
 	title = re.sub(r'[^\w\-]', '_', title)
+	return title
+
+def explode_entry(e):
+	title = squash(e.title)
 	path = os.path.join(outputdir, title) 
 	fp = open(path, 'w')
 	#os.utime(path, (e.updated, e.updated))
