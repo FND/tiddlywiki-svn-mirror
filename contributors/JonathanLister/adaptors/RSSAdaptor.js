@@ -61,12 +61,16 @@ RSSAdaptor.prototype.openHost = function(host,context,userParams,callback)
 
 RSSAdaptor.loadRssCallback = function(status,context,responseText,url,xhr)
 {
-//#displayMessage("loadRssCallback:"+status);
+//#console.log("loadRssCallback:"+status);
 	context.status = status;
 	if(!status) {
 		context.statusText = "Error reading file: " + xhr.statusText;
 	} else {
-		context.tiddlers = RSSAdaptor.rssToTiddlers(responseText,context.filter);
+		try {
+			context.tiddlers = RSSAdaptor.rssToTiddlers(responseText,context.filter);
+		} catch (ex) {
+			displayMessage("Error parsing RSS");
+		}
 	}
 	context.complete(context,context.userParams);
 };
@@ -79,7 +83,8 @@ RSSAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 	context = this.setContext(context,userParams,callback);
 	context.workspaces = [{title:"(default)"}];
 	context.status = true;
-	window.setTimeout(function() {callback(context,userParams);},10);
+	if(callback)
+		window.setTimeout(function() {callback(context,userParams);},10);
 	return true;
 };
 
@@ -103,8 +108,9 @@ RSSAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callb
 //# title: tiddler.title, modified: tiddler.modified, modifier: tiddler.modifier, text: tiddler.text, tags: tiddler.tags, size: tiddler.text
 RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 {
-//#displayMessage("getTiddlerList");
+//#displayMessage("RSS getTiddlerList");
 	context = this.setContext(context,userParams,callback);
+//#displayMessage("h:"+context.host);
 	if(!context.filter)
 		context.filter = filter;
 	context.complete = RSSAdaptor.getTiddlerListComplete;
@@ -170,6 +176,7 @@ RSSAdaptor.prototype.close = function()
 
 RSSAdaptor.rssToTiddlers = function(rss,filter)
 {
+//#displayMessage("rssToTiddlers:"+rss.substr(0,500));
 	var tiddlers = [];
 	rss = rss.replace(/\r+/mg,"");
 	// regex_item matches on the items 
