@@ -3,11 +3,16 @@
 #
 #  limit the number
 #
-latest_nitems="$1"
+export name="$1"
+[ -z "$name" ]&&name="LeWeb"
+
+export latest_nitems="$2"
 [ -z "$latest_nitems" ]&&latest_nitems=60
 
-sess_nitems="$2"
+export sess_nitems="$3"
 [ -z "$sess_nitems" ]&&sess_nitems=1000
+
+export link="http://www.ripplerap.com/$name/"
 
 notesdir=./notes
 
@@ -25,10 +30,12 @@ feed()
     {
 cat <<EOF 
 <?xml version="1.0"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
  <channel>
-  <title>RippleRap : LeWeb</title>
-  <link>http://www.ripplerap.com/LeWeb</link>
+  <title>RippleRap : $name</title>
+  <link>$link</link>
+  <atom:link href="$link" rel="self" type="application/rss+xml" />
+
   <description>the social conferencing tool</description>
   <language>en-us</language>
   <pubDate>$date</pubDate>
