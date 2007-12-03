@@ -3,7 +3,7 @@
 |''Description:''|RippleRap test harness|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RippleRapTestPlugin.js |
-|''Version:''|0.0.5|
+|''Version:''|0.0.6|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -16,14 +16,14 @@
 if(!version.extensions.RippleRapTestPlugin) {
 version.extensions.RippleRapTestPlugin = {installed:true};
 
-rssSynchronizer = null;
+//rssSynchronizer = null;
 
 config.macros.rippleRapTest = {};
 
 config.macros.rippleRapTest.init = function()
 {
-	rssSynchronizer = new RssSynchronizer();
-	rssSynchronizer.init();
+	//rssSynchronizer = new RssSynchronizer();
+	//rssSynchronizer.init();
 };
 
 config.macros.rippleRapTest.handler = function(place,macroName,params,wikifier,paramString,tiddler)
@@ -34,10 +34,11 @@ config.macros.rippleRapTest.handler = function(place,macroName,params,wikifier,p
 
 config.macros.rippleRapTest.onClick = function()
 {
-	rssSynchronizer.doPut();
-	var t = new Timer();
-	t.set(rssSynchronizer,RssSynchronizer.prototype.doSync,10000);
-	t.start();
+	rssSynchronizer.makeRequest();
+	//rssSynchronizer.doPut();
+	//var t = new Timer();
+	//t.set(rssSynchronizer,RssSynchronizer.prototype.doSync,10000);
+	//t.start();
 };
 
 function Timer()
@@ -45,7 +46,7 @@ function Timer()
 	this.tickObj = null;
 	this.tickFn = null;
 	this.timerID = null;
-	this.duration = 0;
+	this.interval = 0;
 	this.isActive = false;
 }
 
@@ -64,7 +65,7 @@ Timer.prototype.start = function()
 	this.isActive = true;
 	this.tick();
 	var me = this;
-	this.timerID = window.setInterval(function() {me.tick.call(me);},this.duration);
+	this.timerID = window.setInterval(function() {me.tick.call(me);},this.interval);
 };
 
 Timer.prototype.stop = function()
