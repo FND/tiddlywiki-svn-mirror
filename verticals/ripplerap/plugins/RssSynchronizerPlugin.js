@@ -30,6 +30,7 @@ function RssSynchronizer()
 	this.discoveredNoteTag = config.macros.TiddlerDisplayDependencies.discoveredNoteTag;
 	this.myNoteTag = config.macros.TiddlerDisplayDependencies.myNoteTag;
 	this.sessionTag = config.macros.TiddlerDisplayDependencies.sessionTag;
+	
 	this.sharedTag = 'shared';
 }
 
@@ -127,6 +128,7 @@ console.log("getNotesTiddlerListCallback:"+context.status);
 	//context.synchronizer.sessionDownload.requestPending = false;
 	var tiddlers = context.tiddlers;
 	var length = tiddlers ? tiddlers.length : 0;
+	var me = context.synchronizer;
 	for(var i=0; i<length; i++) {
 		tiddler = tiddlers[i];
 		//var t = store.fetchTiddler(tiddler.title);
@@ -134,8 +136,8 @@ console.log("getNotesTiddlerListCallback:"+context.status);
 		// TEMP CHANGE 20/11/07: if(!t || t.text != tiddler.text) {
 		//if(!t || t.text != tiddler.text) {
 		//if (!t) {
-			tiddler.tags.pushUnique(this.discoveredNoteTag);
-			tiddler.tags.remove(this.sharedTag);
+			tiddler.tags.pushUnique(me.discoveredNoteTag);
+			tiddler.tags.remove(me.sharedTag);
 			
 			console.log("Tags: " + tiddler.tags);
 			
@@ -143,7 +145,6 @@ console.log("getNotesTiddlerListCallback:"+context.status);
 			story.refreshTiddler(tiddler.title,1,true);
 		//}
 	}
-	var me = context.synchronizer;
 	me.sessionDownload.requestPending = false;
 	me.makeRequest.call(me);
 };
