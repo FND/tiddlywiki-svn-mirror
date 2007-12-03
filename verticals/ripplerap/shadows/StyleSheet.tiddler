@@ -4,7 +4,7 @@
 #agendaMenu { position: static;	float: left; width: auto; }
 #displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
 #displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0;}
-#tiddlerDisplay { margin:2em 0 2em 1em;}
+#tiddlerDisplay { margin:0 1em 2em 1em;}
 
 
 /* Header */
@@ -51,11 +51,11 @@ div.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryDark
 /*#agendaMenu div.inProgress a.tiddlyLink:hover { background-color:#fff;	}*/
 
 
-div.tiddler {padding:0;}
+div.tiddler {padding:0; margin:0;}
 
 /* Vanilla tiddlers */
 div.tiddler div.VanillaView,
-div.tiddler div.VanillaEdit {padding:0 0 3em 0; font-size:1.3em; }
+div.tiddler div.VanillaEdit {margin:30px 0 0 0; font-size:1.3em; }
 div.layoutTable {margin-bottom:0.5em;}
 div.layoutTable table, div.layoutTable table tr, div.layoutTable table td {margin:0; border-style:none;}
 input.txtOptionInput { font-size:1.2em; padding: 0.4em; border-top:solid 1px #999; border-right:solid 1px #ccc; border-bottom:solid 1px #ccc;  border-left:solid 1px #999; background-color:#f6f6f6;}
@@ -80,6 +80,7 @@ div.session_edit .toolbar a:hover,
 div.myNotes .toolbar a:hover,
 div.discoveredNotes .toolbar a:hover {border-style: none; color:#fff; background-color:#333;}
 
+div.session {margin:30px 0 0 0;}
 div.session,
 div.session_edit { background-color:#999; border:solid 2px #333; border-bottom-width:1px; border-right-width:1px; margin:3em 0 0 0; }
 div.session .toolbar,
