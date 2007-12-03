@@ -21,7 +21,12 @@ function RssSynchronizer()
 	this.sessionDownload = {titles:[],syncIndex:0,getMostRecent:true,mostRecentTitle:'latest',requestPending:false};
 	this.userUpload = {requestPending:false};
 	this.userUpload.time = new Date();
+	this.userUpload.time.setFullYear(2000); // to force first time put
+
 	this.timerID = null;
+	this.timerInterval = 10000;
+
+	this.nextIsGet = true;
 	this.discoveredNoteTag = config.macros.TiddlerDisplayDependencies.discoveredNoteTag;
 	this.myNoteTag = config.macros.TiddlerDisplayDependencies.myNoteTag;
 	this.sessionTag = config.macros.TiddlerDisplayDependencies.sessionTag;
@@ -66,10 +71,35 @@ RssSynchronizer.prototype.init = function()
 
 // Do a single sync operation, designed to be called off a timer
 // on each call it downl
+RssSynchronizer.prototype.makeRequest = function()
+{
+console.log("makeRequest:"+config.options.chkRipplerapShare);
+	if(!config.options.chkRipplerapShare)
+		return;
+	if(this.userUpload.requestPending || this.sessionDownload.requestPending) {
+console.log("request is pending");
+		return;
+	}
+console.log("makeRequest:"+this.nextIsGet);
+	this.nextIsGet = !this.nextIsGet;
+	var me = this;
+	if(this.nextIsGet) {
+		this.userUpload.requestPending = true;
+		window.setInterval(function() {me.doPut.call(me);},this.timerInterval);
+	} else {
+		this.sessionDownload.requestPending = true;
+		window.setInterval(function() {me.doGet.call(me);},this.timerInterval);
+	}
+};
+
 RssSynchronizer.prototype.doSync = function()
 {
-	this.sessionDownload.requestPending = true;
-	this.userUpload.requestPending = true;
+	this.doGet();
+	this.doPut();
+};
+
+RssSynchronizer.prototype.doGet = function()
+{
 	if(this.sessionDownload.getMostRecent) {
 		this.sessionDownload.getMostRecent = false;
 		var sessionTitle = this.sessionDownload.mostRecentTitle;
@@ -82,36 +112,11 @@ RssSynchronizer.prototype.doSync = function()
 	}
 	var uri = this.sessionDownload.rootUri + sessionTitle + '.xml';
 	this.getNotesTiddlersFromRss(uri);
-	
-	this.doPut();
-
-};
-
-RssSynchronizer.prototype.doPut = function()
-{
-	if(config.options.txtUserName=="YourName") {
-		displayMessage(RssSynchronizer.userNameNotSet);
-		return;
-	}	
-	var putRequired = false;
-	var tiddlers = [];
-	var me = this;
-	store.forEachTiddler(function(title,t) {
-		if(t.isTagged(this.myNoteTag) && t.isTagged(this.sharedTag)) {
-			if(t.modified > me.userUpload.time)
-				putRequired = true;
-			tiddlers.push(t);
-		}
-	});
-	if(putRequired>0) {
-		uri = this.userUpload.rootUri + config.options.txtUserName+ '/index.xml';
-		this.putTiddlersToRss(uri,tiddlers);
-	}
 };
 
 RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
 {
-//#displayMessage("getNotesTiddlersFromRss:"+uri);
+console.log("getNotesTiddlersFromRss:"+uri);
 	var adaptor = new RSSAdaptor();
 	var context = {synchronizer:this,host:uri,adaptor:adaptor};
 	return adaptor.getTiddlerList(context,null,RssSynchronizer.getNotesTiddlerListCallback);
@@ -119,10 +124,11 @@ RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
 
 RssSynchronizer.getNotesTiddlerListCallback = function(context,userParams)
 {
-//#displayMessage("getNotesTiddlerListCallback:"+context.status);
+console.log("getNotesTiddlerListCallback:"+context.status);
 	//context.synchronizer.sessionDownload.requestPending = false;
 	var tiddlers = context.tiddlers;
-	for(var i=0; i<tiddlers.length; i++) {
+	var length = tiddlers ? tiddlers.length : 0;
+	for(var i=0; i<length; i++) {
 		tiddler = tiddlers[i];
 		var t = store.fetchTiddler(tiddler.title);
 		// if the tiddler exists locally, don't overwrite unless the text is different
@@ -134,18 +140,54 @@ RssSynchronizer.getNotesTiddlerListCallback = function(context,userParams)
 			story.refreshTiddler(tiddler.title,1,true);
 		}
 	}
+	var me = context.synchronizer;
+	me.sessionDownload.requestPending = false;
+	me.makeRequest.call(me);
+};
+
+
+
+// If the user has written any notes since the last put, then put them
+RssSynchronizer.prototype.doPut = function()
+{
+console.log("doPut");
+	if(config.options.txtUserName=="YourName") {
+		displayMessage(RssSynchronizer.userNameNotSet);
+		return;
+	}	
+	var putRequired = false;
+	var tiddlers = [];
+	var me = this;
+	store.forEachTiddler(function(title,t) {
+		if(t.isTagged(this.myNoteTag) && t.isTagged(this.sharedTag)) {
+			tiddlers.push(t);
+			if(t.modified > me.userUpload.time)
+				putRequired = true;
+		}
+	});
+//#console.log("putRequired:"+putRequired);
+	if(putRequired) {
+		uri = this.userUpload.rootUri + config.options.txtUserName+ '/index.xml';
+		this.putTiddlersToRss(uri,tiddlers);
+	} else {
+		this.makeRequest();
+	}
+	return putRequired;
 };
 
 RssSynchronizer.prototype.putTiddlersToRss = function(uri,tiddlers)
 {
-	this.userUpload.time = new Date();
-//#displayMessage("putTiddlersToRss:"+uri);
+	this.userUpload.startTime = new Date();
+console.log("putTiddlersToRss:"+uri);
 	var rss = RssSynchronizer.generateRss(tiddlers);
-	var callback = function(status,context,responseText,uri,xhr) {
-//#displayMessage("putTiddlersToRssCallback:"+status);
-		//context.synchronizer.sessionDownload.requestPending = false;
+	var callback = function(status,params,responseText,uri,xhr) {
+console.log("putTiddlersToRssCallback:"+status);
+		var context = params[0];
+		var me = context.synchronizer;
+		me.userUpload.requestPending = false;
 		if(status) {
 			// PUT is successful, take item out of queue
+			me.userUpload.time = me.userUpload.startTime;
 			displayMessage("successfully PUT");
 			//Collection.clear();
 		} else {
@@ -153,11 +195,12 @@ RssSynchronizer.prototype.putTiddlersToRss = function(uri,tiddlers)
 			// PUT failed, deal with it here
 			// leave item in queue and take no action?
 		}
+		me.makeRequest.call(me);
 	};
 	var context = {};
 	context.synchronizer = this;
-// third parameter is an array
-	DAV.safeput(uri,callback,null,rss);
+//# third parameter is an array
+	DAV.safeput(uri,callback,[context],rss);
 };
 
 RssSynchronizer.generateRss = function(tiddlers)
@@ -183,7 +226,7 @@ RssSynchronizer.generateRss = function(tiddlers)
 	for (var i=tiddlers.length-1; i>=0; i--) {
 		var t = tiddlers[i];
 		s.push("<title" + ">" + t.title.htmlEncode() + "</title" + ">");
-		s.push("<description>" + t.text + "</description>");
+		s.push("<description>" + t.text.htmlEncode() + "</description>");
 		for(var i=0; i<t.tags.length; i++)
 			s.push("<category>" + t.tags[i] + "</category>");
 		s.push("<link>" + uri + "#" + encodeURIComponent(String.encodeTiddlyLink(t.title)) + "</link>");
@@ -192,7 +235,7 @@ RssSynchronizer.generateRss = function(tiddlers)
 		/*var item = t.toRssItem(u);
 		if(t.modifier)
 			item += "\n<author>" + t.modifier + "</author>\n";
-		item += "<tw:wikitext>\n" + t.text + "\n</tw:wikitext>";
+		item += "<tw:wikitext>\n" + t.text..htmlEncode() + "\n</tw:wikitext>";
 		s.push("<item>\n" + item + "\n</item>");*/
 	}
 	//# And footer
@@ -202,5 +245,8 @@ RssSynchronizer.generateRss = function(tiddlers)
 	return s.join("\n");
 };
 
+rssSynchronizer = new RssSynchronizer();
+rssSynchronizer.init();
+	
 } //# end of 'install only once'
 //}}}
