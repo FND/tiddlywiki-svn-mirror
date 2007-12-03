@@ -1,7 +1,7 @@
 /***
 |''Name:''|TiddlerDisplayDependenciesPlugin|
-|''Description:''|Extends the opening and closing of  tiddler in the story to ensure that associated tiddlers are correctly displayed|
-|''Dependencies||
+|''Description:''|Extends the opening and closing of tiddler in the story to ensure that associated tiddlers are correctly displayed|
+|''Dependencies|http://www.osmosoft.com/#ListRelatedPlugin |
 |''Author:''|PhilHawksworth|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js |
 |''Version:''|0.0.1|
