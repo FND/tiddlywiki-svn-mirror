@@ -1,9 +1,12 @@
-<div title="HowToUpgrade" modifier="JeremyRuston" created="200508181412" modified="200602231141" tags="instructions">
-<pre>The core TiddlyWiki code is regularly updated with bug fixes and	 new features. If you're using an earlier revision of TiddlyWiki, here's the simple way to upgrade to the latest version:
-* Open your TiddlyWiki file in FireFox (say it's called &quot;mystuff.html&quot;)
-* SaveChanges (with SaveBackups switched on) to make sure that you've got a backup of it
-* Without closing that page, right-click on [[this link|http://www.tiddlywiki.com/empty.html]], select 'Save target' or 'Save link' and save it as &quot;mystuff.html&quot;, replacing your existing file
-* Now go back to the previously opened copy of &quot;mystuff.html&quot; in your browser and SaveChanges again. It will inherit the newly saved code
-* Refresh the page in the browser to verify that the upgrade has worked
-The most likely cause of the upgrade process not working properly is that one of the [[Plugins]] you're using is not compatible with a change in the new release. If so, you can use the [[ImportTiddlersPlugin|http://www.tiddlytools.com/#ImportTiddlersPlugin]] from TiddlyTools to selectively import your content and [[Plugins]] into a new empty TiddlyWiki. </pre>
+<div title="HowToUpgrade" modifier="JeremyRuston" created="200508181412" modified="200712042157" tags="instructions" changecount="1">
+<pre>The core TiddlyWiki code is regularly updated with bug fixes and new features. If you're using an earlier revision of TiddlyWiki, here's the simple way to upgrade to the latest version:
+* Download a fresh, empty version of TiddlyWiki by right-clicking on [[this link|http://www.tiddlywiki.com/empty.html]], selecting 'Save target' or 'Save link' and saving it in a convenient location as (say) "mynewtiddlywiki.html"
+* Open the new TiddlyWiki file in your browser
+* Choose ''import'' from the BackstageArea at the top of the window (you may need to click the 'backstage' button at the upper right to show the BackstageArea)
+* Click the ''browse'' button and select your original TiddlyWiki file (say, "mytiddlywiki.html") from the file browser
+* Click the ''open'' button on the import wizard; a list of all of your tiddlers is displayed
+* Click on the top-left checkbox to select all the tiddlers in the list
+* Scroll down to the bottom of the wizard and ensure that the checkbox labelled //Keep these tiddlers linked to this server...// is ''clear''
+* Click the ''import'' button
+The most likely cause of the upgrade process not working properly is that one of the [[Plugins]] you're using is not compatible with a change in the new release. If so, you can repeat the process omitting the troublesome plugins.</pre>
 </div>
