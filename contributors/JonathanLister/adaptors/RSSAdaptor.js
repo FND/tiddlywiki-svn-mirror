@@ -67,7 +67,12 @@ RSSAdaptor.loadRssCallback = function(status,context,responseText,url,xhr)
 		context.statusText = "Error reading file: " + xhr.statusText;
 	} else {
 		try {
-			context.tiddlers = RSSAdaptor.rssToTiddlers(responseText,context.filter);
+			context.tiddlers = RSSAdaptor.rssToTiddlers(responseText,context.rssUseRawDescription);
+			/*if(context.filter) {
+				var tw = new TiddlyWiki();
+				tw.tiddlers = tiddlers;
+				tiddlers = tw.filterTiddlers(filter);
+			}*/
 		} catch (ex) {
 			displayMessage("Error parsing RSS");
 		}
@@ -123,7 +128,7 @@ RSSAdaptor.getTiddlerListComplete = function(context,userParams)
 {
 	context.status = true;
 	if(context.callback)
-		window.setTimeout(context.callback,10,context,userParams);
+		window.setTimeout(function() {callback(context,userParams);},10);
 	return true;
 };
 
@@ -174,7 +179,7 @@ RSSAdaptor.prototype.close = function()
 {
 };
 
-RSSAdaptor.rssToTiddlers = function(rss,filter)
+RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 {
 //#displayMessage("rssToTiddlers:"+rss.substr(0,500));
 	var tiddlers = [];
@@ -214,26 +219,25 @@ RSSAdaptor.rssToTiddlers = function(rss,filter)
 		// There is a problem with the title, which is that it is not formatted, so characters like &apos; are not converted at render time
 		// renderHtmlText() extends String and sorts out the problem
 		item.title = item.title.renderHtmlText();
+		var t = new Tiddler(item.title);
+
 		// grab original wikitext if it is there as an extended field
 		wikitext = item_match[i].match(regex_wiki);
 		if(wikitext) {
 			item.text = wikitext[0].replace(/^<tw:wikitext>|<\/tw:wikitext>$/mg,"");
 			item.text = item.text.htmlDecode();
+			t.text = item.text;
 		} else {
-			// grab a description
+			// use the description as the tiddler text
 			desc = item_match[i].match(regex_desc);
 			if(desc) {
 				item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
 			} else {
 				item.text = "empty, something seriously wrong with this item";
 			}
+			t.text = useRawDescription ? item.text.renderHtmlText() : "<html>" + item.text.renderHtmlText() + "</html>";
 		}
-		var t = new Tiddler(item.title);
-		if(wikitext) {
-			t.text = item.text;
-		} else {
-			t.text = "<html>" + item.text.renderHtmlText() + "</html>";
-		}
+
 		// grab the categories
 		category = item_match[i].match(regex_category);
 		if(category) {
@@ -243,6 +247,7 @@ RSSAdaptor.rssToTiddlers = function(rss,filter)
 			}
 			t.tags = item.categories;
 		}
+
 		// grab the link and put it in a custom field (assumes this is sensible)
 		// regex_link assumes you can never have whitespace in a link
 		link = item_match[i].match(regex_link);
@@ -252,6 +257,7 @@ RSSAdaptor.rssToTiddlers = function(rss,filter)
 			item.link = "#";
 		}
 		t.fields["linktooriginal"] = item.link;
+
 		// grab date created
 		pubDate = item_match[i].match(regex_pubDate);
 		if(pubDate) {
@@ -261,6 +267,7 @@ RSSAdaptor.rssToTiddlers = function(rss,filter)
 			item.pubDate = new Date();
 		}
 		t.created = item.pubDate;
+
 		// grab author
 		author = item_match[i].match(regex_author);
 		if(author) {
@@ -272,11 +279,6 @@ RSSAdaptor.rssToTiddlers = function(rss,filter)
 		t.modifier = item.author;
 		tiddlers.push(t);
 		}
-	/*if(filter) {
-		var tw = new TiddlyWiki();
-		tw.tiddlers = tiddlers;
-		tiddlers = tw.filterTiddlers(filter);
-	}*/
 	return tiddlers;
 };
 
