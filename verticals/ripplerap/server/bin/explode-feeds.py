@@ -33,6 +33,7 @@ def rss20ise_entry(e):
 	"  <pubDate>" + e.updated + "</pubDate>\n" + \
 	"  <category>note</category>\n" + \
 	"  <category>shared</category>\n" + \
+	"  <author>" + e.author + "</author>\n" + \
 	"  <link>" + e.link + "</link>\n" + \
 	"  <guid>" + guid + "</guid>\n" + \
 	" </item>\n";
