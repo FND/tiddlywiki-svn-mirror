@@ -64,7 +64,7 @@ RSSAdaptor.loadRssCallback = function(status,context,responseText,url,xhr)
 //#console.log("loadRssCallback:"+status);
 	context.status = status;
 	if(!status) {
-		context.statusText = "Error reading file: " + xhr.statusText;
+		context.statusText = "Error reading RSS file";// + xhr.statusText;
 	} else {
 		try {
 			context.tiddlers = RSSAdaptor.rssToTiddlers(responseText,context.rssUseRawDescription);
@@ -113,19 +113,25 @@ RSSAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callb
 //# title: tiddler.title, modified: tiddler.modified, modifier: tiddler.modifier, text: tiddler.text, tags: tiddler.tags, size: tiddler.text
 RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 {
-//#displayMessage("RSS getTiddlerList");
+//#console.log("RSS getTiddlerList");
 	context = this.setContext(context,userParams,callback);
 //#displayMessage("h:"+context.host);
 	if(!context.filter)
 		context.filter = filter;
 	context.complete = RSSAdaptor.getTiddlerListComplete;
-	return context.tiddlers ? 
-		context.complete(context,context.userParams) :
-		loadRemoteFile(context.host,RSSAdaptor.loadRssCallback,context);
+	if(context.tiddlers) {
+		var ret = context.complete(context,context.userParams);
+	} else {
+		ret = loadRemoteFile(context.host,RSSAdaptor.loadRssCallback,context);
+		if(typeof ret != "string")
+			ret = true;
+	}
+	return ret;
 };
 
 RSSAdaptor.getTiddlerListComplete = function(context,userParams)
 {
+//#console.log("RSS getTiddlerListComplete");
 	context.status = true;
 	if(context.callback)
 		window.setTimeout(function() {context.callback(context,userParams);},10);
