@@ -208,7 +208,7 @@ console.log("putTiddlersToRssCallback:"+status);
 
 	var context = {};
 	context.synchronizer = this;
-	DAV.safeput(uri,callback,[context],rss);
+	DAV.safeput(uri,callback,[context],rss,null,config.options.txtUserName,config.options.txtRipplerapAccountPassword);
 };
 
 RssSynchronizer.generateRss = function(tiddlers)
