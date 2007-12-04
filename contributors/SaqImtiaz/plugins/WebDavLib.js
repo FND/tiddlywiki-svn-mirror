@@ -12,7 +12,7 @@
 //!BEGIN-PLUGIN-CODE
 if (!window.DAV){
 DAV = {
-	run : function(type,u,data,cb,params,headers){
+	run : function(type,u,data,cb,params,headers,contentType,username,password){
 		var callback = function(status,params,responseText,url,xhr) {
 			url = url.indexOf("nocache=") < 0 ? url : url.substring(0,url.indexOf("nocache=")-1);
 			if(params.length){
@@ -21,7 +21,7 @@ DAV = {
 		};	
 		params = params||[];
 		params.unshift(cb);		
-		var r = doHttp.apply(this,[type,u,data,null,null,null,callback,params,headers]);
+		var r = doHttp.apply(this,[type,u,data,contentType,username,password,callback,params,headers]);
 		if (typeof r == "string")
 			alert(r);
 		return r;
@@ -61,14 +61,14 @@ DAV = {
 		return DAV.run("OPTIONS",url,null,cb,params,null);
 	},
 	
-	safeput : function(url,cb,params,data){
+	safeput : function(url,cb,params,data,contentType,username,password){
 		firstcb = function(status,p,responseText,u,xhr){
 			if(status)
 				DAV.move(u,cb,p,u.replace("-davsavingtemp",""));
 			else
 				cb.apply(firstcb,arguments);
 		};
-		return DAV.put(url+"-davsavingtemp",firstcb,params,data);
+		return DAV.put(url+"-davsavingtemp",firstcb,params,data,contentType,username,password);
 	}	
 };
 }
