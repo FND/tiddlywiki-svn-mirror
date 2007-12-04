@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for talking to RSS 2.0 files|
 |''Author''|Jon Lister|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/adaptors/RSSAdaptor.js |
-|''Version:''|0.1.1|
+|''Version:''|0.1.2|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.2.6|
