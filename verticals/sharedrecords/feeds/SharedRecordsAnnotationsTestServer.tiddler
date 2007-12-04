@@ -1,8 +1,8 @@
 <div title="SharedRecordsAnnotationsTestServer" modifier="MartinBudden" created="200711190000" tags="systemServer">
 <pre>
 |''Type:''|sharedrecordsannotations|
-|''URL:''|http://test.sharedrecords.org:80|
-|''Workspace:''|385c7c019544dbe75736223ffd7ee18b872f6b08|
-|''Description:''|Shared Record's test server|
+|''URL:''|http://test.sharedrecords.org |
+|''Workspace:''|385c7c019544dbe75736223ffd7ee18b872f6b08 |
+|''Description:''|Shared Record annotations test server|
 </pre>
 </div>
