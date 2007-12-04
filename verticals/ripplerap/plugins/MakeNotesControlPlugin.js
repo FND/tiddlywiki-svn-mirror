@@ -63,7 +63,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	*/
 	config.macros.ripplerapLoginButton = {};
 	config.macros.ripplerapLoginButton.eventName = "Le Web 3";
-	config.macros.ripplerapLoginButton.serverURL = "";
+	config.macros.ripplerapLoginButton.serverBaseURL = "https:/ripplerap.com/LeWeb/";
 	
 	config.macros.ripplerapLoginButton.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		var btnCase = createTiddlyElement(place,'span',null,'chunkyButton');
@@ -74,13 +74,29 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 
 	config.macros.ripplerapLoginButton.onClick = function()	{
 		//send the user details to the server to create their account.
-		var un = config.options.txtUserName;
-		var pw = config.options.txtRipplerapAccountPassword;
-		
-		//doHttp("POST",url,data,contentType,username,password,callback,params,headers)
-		config.macros.ripplerapLoginButton.showFeedback('Logging in with username: '+ un +' and password: ' + pw);
-		
+		var params = {};
+		params.url = config.macros.ripplerapLoginButton.serverBaseURL + "reg/";;
+		params.username = config.options.txtUserName;
+		var data = "username=" + params.username + "&password=" + config.options.txtRipplerapAccountPassword;
+		doHttp("POST",params.url,data,null,'leweb','88!p29X',config.macros.ripplerapLoginButton.handleUserCreation,params,null);
 		return false;
+	};
+	
+	config.macros.ripplerapLoginButton.handleUserCreation = function(status,params,responseText,xhr) {
+		if(!status) {
+			console.log("request to " + params.url + " Failed");
+			console.log(xhr);
+		}
+		else {
+			console.log("request to " + params.url + ", status: " + status);
+			console.log("   attempting to create " + params.username );
+			if(responseText == "created user"){
+				console.log(params.username + " created and ready to use.");	
+				config.macros.ripplerapLoginButton.showFeedback(params.username + " created and ready to use.");
+				if(rssSynchronizer && config.options.chkRipplerapShare)
+					rssSynchronizer.makeRequest();
+			}
+		}
 	};
 
 	config.macros.ripplerapLoginButton.showFeedback = function(str) {
