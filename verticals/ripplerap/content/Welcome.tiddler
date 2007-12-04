@@ -1,8 +1,27 @@
 <div title="Welcome" modifier="PhilHawksworth" created="200711291946" changecount="1">
-<pre>[[Welcome for Firefox users]]
-[[Welcome for Opera or Safari users]]
-[[Welcome for Internet Explorer users]]
-[[Welcome for Camino users]]
+<pre>!Introduction
+
+~RippleRap is a social conferencing tool for managing your conference notes. It's a single html file which can be used to organise your notes offline!
+
+When you get online you can [[share your notes|Share notes]] with other delegates (if you want to). Especially useful to receive other people's notes when you've missed a session.
+
+Don't forget to check out BT's SDK - ~RippleRap provides a click to call function using this SDK, exposed using [[Mojo]], which you can use to call the BT stall for free and find out more.
+
+!!Setup instructions
+1. Copy the ~RippleRap file to your desktop and open it in your browser from there
+<<browser is Gecko>>
+//''Note:'' If you see dialog boxes asking your permission for the local file operations, allow these for ~RippleRap to work properly. You can select the //Remember this decision// option to avoid seeing the dialogs in future.//
+>><<browser is IE>>
+//''Note:'' If you see dialog boxes asking your permission for the local file operations, allow these for ~RippleRap to work properly.//
+>><<browser is Opera>>
+//''Note:'' You will also need to install the TiddlySaver java applet.//
+>><<browser is Safari>>
+//''Note:'' You will also need to install the TiddlySaver java applet.//
+>>
+2. Click on a session name in the conference agenda, create some dummy notes and click 'done' when you're finished, which will save your file automatically. Close the file in your browser, open it again and check to see if your notes were saved properly.
+3. If they were, you're ready to go! If not, come on by the stall and we'll help you out.
+
+@@Note: Don't use the browser's File > Save As... function; ~RippleRap saves and backups your changes automatically.@@
 
 {{layoutTable{
 |''Your wiki name'' ^^[[help|About your username]]^^ |''Password'' ^^[[help|About your password]]^^ |

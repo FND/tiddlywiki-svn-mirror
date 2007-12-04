@@ -5,6 +5,7 @@ tiddler: settings.js
 tiddler: ../../contributors/JonathanLister/adaptors/RSSAdaptor.js
 tiddler: ../../contributors/SaqImtiaz/plugins/WebDavLib.js
 tiddler: ../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
+tiddler: ../../contributors/JeremyRuston/plugins/BrowserPlugin.js
 tiddler: ../../contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js
 tiddler: ../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
 
