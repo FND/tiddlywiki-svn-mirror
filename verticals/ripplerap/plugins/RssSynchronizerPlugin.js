@@ -3,7 +3,7 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.9|
+|''Version:''|0.0.10|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -35,10 +35,6 @@ function RssSynchronizer()
 }
 
 RssSynchronizer.userNameNotSet = "You have not set your username";
-
-//#config.macros.TiddlerDisplayDependencies.discoveredNoteTag = "DiscoveredNotes";
-//#config.macros.TiddlerDisplayDependencies.myNoteTag = "note";
-//#config.macros.TiddlerDisplayDependencies.sessionTag = "session";
 
 RssSynchronizer.prototype.init = function()
 {
@@ -118,7 +114,7 @@ RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
 {
 console.log("getNotesTiddlersFromRss:"+uri);
 	var adaptor = new RSSAdaptor();
-	var context = {synchronizer:this,host:uri,adaptor:adaptor};
+	var context = {synchronizer:this,host:uri,adaptor:adaptor,rssUseRawDescription:true};
 	return adaptor.getTiddlerList(context,null,RssSynchronizer.getNotesTiddlerListCallback);
 };
 
@@ -135,16 +131,14 @@ console.log("getNotesTiddlerListCallback:"+context.status);
 		// if the tiddler exists locally, don't overwrite unless the text is different
 		// TEMP CHANGE 20/11/07: if(!t || t.text != tiddler.text) {
 		//if(!t || t.text != tiddler.text) {
-		//if (!t) {
+		if(tiddler.modifier!=config.options.txtUserName) {
 			tiddler.tags.pushUnique(me.discoveredNoteTag);
 			tiddler.tags.remove(me.sharedTag);
 			tiddler.tags.remove(me.myNoteTag);
-			
-			console.log("Tags: " + tiddler.tags + ", modifier: "+ tiddler.modifier);
-			
+		console.log("Tags: " + tiddler.tags + ", modifier: "+ tiddler.modifier);
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 			story.refreshTiddler(tiddler.title,1,true);
-		//}
+		}
 	}
 	me.sessionDownload.requestPending = false;
 	me.makeRequest.call(me);
@@ -156,10 +150,10 @@ console.log("getNotesTiddlerListCallback:"+context.status);
 RssSynchronizer.prototype.doPut = function()
 {
 console.log("doPut");
-	if(config.options.txtUserName=="YourName") {
+	if(config.options.txtUserName=='YourName') {
 		displayMessage(RssSynchronizer.userNameNotSet);
-		return;
-	}	
+		return false;
+	}
 	var putRequired = false;
 	var tiddlers = [];
 	var me = this;
@@ -216,44 +210,44 @@ RssSynchronizer.generateRss = function(tiddlers)
 {
 	var s = [];
 	var d = new Date();
-	var u = store.getTiddlerText("SiteUrl");
+	var u = store.getTiddlerText('SiteUrl');
 	//# Assemble the header
-	s.push("<" + "?xml version=\"1.0\"?" + ">");
-	s.push("<rss version=\"2.0\">");
-	s.push("<channel>");
-	s.push("<title" + ">" + wikifyPlain("SiteTitle").htmlEncode() + "</title" + ">");
+	s.push('<' + '?xml version="1.0"?' + '>');
+	s.push('<rss version="2.0">');
+	s.push('<channel>');
+	s.push('<title' + '>' + wikifyPlain('SiteTitle').htmlEncode() + '</title' + '>');
 	if(u)
-		s.push("<link>" + u.htmlEncode() + "</link>");
-	s.push("<description>" + wikifyPlain("SiteSubtitle").htmlEncode() + "</description>");
-	s.push("<language>en-us</language>");
-	s.push("<copyright>Copyright " + d.getFullYear() + " " + config.options.txtUserName.htmlEncode() + "</copyright>");
-	s.push("<pubDate>" + d.toGMTString() + "</pubDate>");
-	s.push("<lastBuildDate>" + d.toGMTString() + "</lastBuildDate>");
-	s.push("<docs>http://blogs.law.harvard.edu/tech/rss</docs>");
-	s.push("<generator>TiddlyWiki " + version.major + "." + version.minor + "." + version.revision + "</generator>");
+		s.push('<link>' + u.htmlEncode() + '</link>');
+	s.push('<description>' + wikifyPlain('SiteSubtitle').htmlEncode() + '</description>');
+	s.push('<language>en-us</language>');
+	s.push('<copyright>Copyright ' + d.getFullYear() + ' ' + config.options.txtUserName.htmlEncode() + '</copyright>');
+	s.push('<pubDate>' + d.toGMTString() + '</pubDate>');
+	s.push('<lastBuildDate>' + d.toGMTString() + '</lastBuildDate>');
+	s.push('<docs>http://blogs.law.harvard.edu/tech/rss</docs>');
+	s.push('<generator>TiddlyWiki (RSS Synchronizer)' + version.major + '.' + version.minor + '.' + version.revision + '</generator>');
 	//# The body
 	for (var i=0;i<tiddlers.length;i++) {
 		var t = tiddlers[i];
-		s.push("<item>");
-		s.push("<title" + ">" + t.title.htmlEncode() + "</title" + ">");
-		s.push("<description>" + t.text.htmlEncode() + "</description>");
+		s.push('<item>');
+		s.push('<title' + '>' + t.title.htmlEncode() + '</title' + '>');
+		s.push('<description>' + t.text.htmlEncode() + '</description>');
 		for(var j=0; j<t.tags.length; j++)
-			s.push("<category>" + t.tags[j] + "</category>");
-		s.push("<link>" + uri + "#" + encodeURIComponent(String.encodeTiddlyLink(t.title)) + "</link>");
-		s.push("<pubDate>" + t.modified.toGMTString() + "</pubDate>");
-		s.push("<author>" + t.modifier + "</author>");
-		s.push("</item>");
+			s.push('<category>' + t.tags[j] + '</category>');
+		s.push('<link>' + uri + '#' + encodeURIComponent(String.encodeTiddlyLink(t.title)) + '</link>');
+		s.push('<pubDate>' + t.modified.toGMTString() + '</pubDate>');
+		s.push('<author>' + t.modifier + '</author>');
+		s.push('</item>');
 		/*var item = t.toRssItem(u);
 		if(t.modifier)
-			item += "\n<author>" + t.modifier + "</author>\n";
-		item += "<tw:wikitext>\n" + t.text..htmlEncode() + "\n</tw:wikitext>";
-		s.push("<item>\n" + item + "\n</item>");*/
+			item += '\n<author>' + t.modifier + '</author>\n';
+		item += '<tw:wikitext>\n' + t.text..htmlEncode() + '\n</tw:wikitext>';
+		s.push('<item>\n' + item + '\n</item>');*/
 	}
 	//# And footer
-	s.push("</channel>");
-	s.push("</rss>");
+	s.push('</channel>');
+	s.push('</rss>');
 	//# Save it all
-	return s.join("\n");
+	return s.join('\n');
 };
 
 rssSynchronizer = new RssSynchronizer();
