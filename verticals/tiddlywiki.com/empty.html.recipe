@@ -1,4 +1,3 @@
 recipe: ../../core/tiddlywiki.html.recipe
-prehead: ../../core/html/rss.link.html
 title: html/title.txt
 tiddler: ../../association/plugins/LegacyStrikeThroughPlugin/LegacyStrikeThroughPlugin.js
