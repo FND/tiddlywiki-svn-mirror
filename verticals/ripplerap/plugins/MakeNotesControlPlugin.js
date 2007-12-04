@@ -63,7 +63,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	*/
 	config.macros.ripplerapLoginButton = {};
 	config.macros.ripplerapLoginButton.eventName = "Le Web 3";
-	config.macros.ripplerapLoginButton.serverBaseURL = "https:/ripplerap.com/LeWeb/";
+	config.macros.ripplerapLoginButton.serverBaseURL = "https://www.ripplerap.com/LeWeb/";
 	
 	config.macros.ripplerapLoginButton.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		var btnCase = createTiddlyElement(place,'span',null,'chunkyButton');
