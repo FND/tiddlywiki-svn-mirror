@@ -75,13 +75,16 @@
 		global $tiddlyCfg;
 		
 		//get current tiddler id
-		$tiddler_id = tiddler_selectTitle(tiddler_create($title));
-		
+
+		$tiddler_id = tiddler_selectTitle($title);
+		debug('getAllVersionTiddly - get current tiddler ok ');
 		//return empty array if not found
 		if( sizeof($tiddler_id)==0 )
 		{
 			return array();
 		}
+		
+		debug('get tiddlers from the revisions table.');
 		$tiddlers = tiddler_selectBackupID($tiddler_id['id']);
 
 		$user = user_create();
@@ -365,7 +368,7 @@
 		}
 
 		$tiddler = tiddler_selectTitle(tiddler_create($title));		//tiddler to delete
-		
+		debug('Number ofTiddlers found matching the title'.sizeof($tiddler));
 		if( sizeof($tiddler)==0 )		//check if tiddler exist
 		{
 			return "014";

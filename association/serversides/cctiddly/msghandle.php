@@ -46,7 +46,7 @@ debug('MSG HANDLE - INSTANCE NAME : '.$tiddlyCfg['pref']['instance_name']);
 			}
 			
 			$title = formatParametersGET($_GET['title']);
-			
+			debug('get revisions ');
 			$result = getAllVersionTiddly($title);		//get all required version
 			
 			//print revision list

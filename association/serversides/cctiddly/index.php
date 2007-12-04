@@ -31,7 +31,10 @@
 	
 	
 		if ($_POST['logout'] || $_REQUEST['logout'])
+	{
 		user_logout('You have logged out.');
+		header("Location: ".$_SERVER['PHP_SELF'].'?'.str_replace("logout=1","",$_SERVER['QUERY_STRING']));		//redirect to itself to refresh
+	}	
 
 // return correct header response if the page does not exist. 
 if (count($tiddlyCfg['pref']['instance_settings']) < 1)

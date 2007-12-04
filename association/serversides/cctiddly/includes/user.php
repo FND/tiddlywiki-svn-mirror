@@ -74,7 +74,7 @@
 	
 	function user_session_validate()
 	{ 
-		debug('VALIDATING SESSION');
+		global $user;
 		$pw = cookie_get('sessionToken');
 		$data_session['session_token'] = $pw;
 		$results = db_record_select('login_session', $data_session);			// get array of results		
@@ -82,9 +82,6 @@
 		if (count($results) > 0 )                   //  if the array has 1  session
 		{
 			$user['verified'] = 1;	
-			error_log('expire : '.$results[0]['expire'], 0);
-			error_log('now : '.epochToTiddlyTime(time()), 0);			
-
 			if($results[0]['expire'] > epochToTiddlyTime(time())) 
 			{
 				return TRUE;
