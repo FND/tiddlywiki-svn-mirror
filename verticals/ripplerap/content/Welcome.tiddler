@@ -12,11 +12,11 @@ Don't forget to check out BT's SDK - ~RippleRap provides a click to call functio
 <<browser is Gecko>>
 //''Note:'' If you see dialog boxes asking your permission for the local file operations, allow these for ~RippleRap to work properly. You can select the //Remember this decision// option to avoid seeing the dialogs in future.//
 >><<browser is IE>>
-//''Note:'' If you see dialog boxes asking your permission for the local file operations, allow these for ~RippleRap to work properly.//
+//''Note:'' Because you are using Internet Explorer, you may see dialog boxes asking your permission for the local file operations, allow these for ~RippleRap to work properly.//
 >><<browser is Opera>>
-//''Note:'' You will also need to install the TiddlySaver java applet.//
+//''Note:'' Because you are using Opera, you will also need to install the TiddlySaver java applet.//
 >><<browser is Safari>>
-//''Note:'' You will also need to install the TiddlySaver java applet.//
+//''Note:'' Because you are using Safari, you will also need to install the TiddlySaver java applet.//
 >>
 2. Click on a session name in the conference agenda, create some dummy notes and click 'done' when you're finished, which will save your file automatically. Close the file in your browser, open it again and check to see if your notes were saved properly.
 3. If they were, you're ready to go! If not, come on by the stall and we'll help you out.
