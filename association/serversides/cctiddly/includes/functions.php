@@ -1,6 +1,4 @@
-<?php
-	error_log('functions.php', 0);
-	
+<?php	
 //////////////////////////////////////////////////////// description ////////////////////////////////////////////////////////
 	/**
 		@file
@@ -393,7 +391,11 @@
 		global $tiddlyCfg;
 		
 		$expire =  time()+$tiddlyCfg['pref']['session_expire'];	
-		return setcookie($k,rawurlencode($v), $expire,"/");
+		debug('SETCOOKIE '.$k,rawurlencode($v), $expire,"/");
+		if(@setcookie($k,rawurlencode($v), $expire,"/"))
+			return true;
+		else
+			return false;
 	}
 	
 	
@@ -505,12 +507,11 @@
 		global $standalone;
 		if( $tiddlyCfg['developing']==1 && $standalone!=1 )
 		{
-			print $str;
-			
+			//print $str;
 			error_log($str, 0);
 			if( $break>0 )
 			{
-				print '<br>';
+	//			print '<br>';
 			}
 		}
 		return TRUE;

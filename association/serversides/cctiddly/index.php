@@ -1,4 +1,6 @@
 <?php
+
+
 	//timing
 	function recordTime_float($name="unnamed")
 	{
@@ -23,11 +25,23 @@
 	include_once("includes/print.php");
 	recordTime_float("includes");
 
+
+
+
+	
+	
+		if ($_POST['logout'] || $_REQUEST['logout'])
+		user_logout('You have logged out.');
+
 // return correct header response if the page does not exist. 
 if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 {
 	header("HTTP/1.0 404 Not Found"); 
 }
+
+$user['verified'] = user_session_validate();
+
+
 // display open id bits if it is enabled. 
 if ($tiddlyCfg['pref']['openid_enabled'] ==1)
 {
@@ -49,36 +63,9 @@ if ($tiddlyCfg['pref']['openid_enabled'] ==1)
 END;
  $openid =  sprintf( $buf, drawAlert($_message), $_SERVER['HTTP_REFERER'] );
 }
-/// END OF OID
-// LOGIN THEN REFRESH. 
-// check if user is logged in 
-//	echo $user['verified'] = user_validate();	
-	//logout
-	if( isset($_GET['logout']) && $_GET['logout']==1 )
-	{
-		user_logout();
-		
-		//redirect to itself to refresh and clear out "logout=1" string
-		header("Location: ".$_SERVER['PHP_SELF'].'?'.str_replace("logout=1&","",$_SERVER['QUERY_STRING']));
-	}
-	
-	
-	//reqLogin
-	if( $tiddlyCfg['pref']['reqLogin'] == 1 || ( isset($_POST['cctuser']) && isset($_POST['cctpass']) ) )
-	{
 
-		if( isset($_POST['cctuser']) && isset($_POST['cctpass']) )		//set cookie for login
-		{	
-				$user['verified'] = user_login(formatParametersPOST($_POST['cctuser']),formatParametersPOST($_POST['cctpass']));
-			
-			//error_log('login', 0);
-		//	header("Location: ".$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']);		//redirect to itself to refresh
-		}
-		//////////////////////////////////////////print login box if not logged in or not in the right group////////////////////////////////
-		$user = user_create();
-		
 
-	}
+ $user['verified'] = user_session_validate();
 
 	//check if getting revision
 	if( isset($_GET['title']) )
@@ -363,8 +350,8 @@ else
 
 	config.macros.ccLogin = {
 	    handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-	        var img = createTiddlyElement(place,&quot;img&quot;);
-	        img.src = 'http://www.cot.org.uk/designforliving/companies/logos/bt.jpg ';
+	       // var img = createTiddlyElement(place,&quot;img&quot;);
+	       // img.src = 'http://www.cot.org.uk/designforliving/companies/logos/bt.jpg ';
 	        var loginDiv = createTiddlyElement(place,&quot;div&quot;,null,&quot;loginDiv&quot;,null);
 	        this.refresh(loginDiv);
 	    },
@@ -375,7 +362,7 @@ else
 	        var wrapper = createTiddlyElement(place,&quot;div&quot;);
 	        var cookieValues = findToken(document.cookie);
 
-	        if ( cookieValues.sessionToken &amp;&amp;  cookieValues.sessionToken.substring(0,3) !== 'MSG' &amp;&amp; cookieValues.txtUserName) {
+	        if ( cookieValues.sessionToken &amp;&amp;  cookieValues.sessionToken!== 'invalid' &amp;&amp; cookieValues.txtUserName) {
 	            // user is logged in
 	            var msg = createTiddlyElement(wrapper,&quot;div&quot;);
 	            wikify(&quot;You are logged in as &quot; + cookieValues.txtUserName, msg);
@@ -411,7 +398,7 @@ else
 	    killLoginCookie: function() {
 	        var c = 'sessionToken=invalid';
 	        c+= &quot;; expires=Fri, 1 Jan 1811 12:00:00 UTC; path=/&quot;;
-	     //   document.cookie = c;
+	        document.cookie = c;
 	        },
 
 	    logoutOnSubmit: function() {
@@ -421,7 +408,7 @@ else
 	        document.cookie = &quot;sessionToken=invalid;   expires=15/02/2009 00:00:00&quot;;
 	        config.macros.ccLogin.refresh(loginDivRef);
 	        doHttp('POST', ' http://127.0.0.1/cctw1/msghandle.php', &quot;logout=1&quot;);
-	        	//	window.location = window.location;      
+	     //   		window.location = window.location;      
 	 displayMessage('you have reachewd the logout onSubmit ');
 	return false;
 	    },
@@ -453,10 +440,9 @@ else
 	        var loginDivRef = findRelated( params.origin,&quot;loginDiv&quot;,&quot;className&quot;,&quot;parentNode&quot;);
 	        removeChildren(loginDivRef);	
 
-if (cookieValues.sessionToken.substring(0,3) !== 'MSG') {	
 	window.location = window.location;
-}	     
-   config.macros.ccLogin.refresh(loginDivRef, cookieValues.sessionToken.substring(3));
+
+//   config.macros.ccLogin.refresh(loginDivRef, cookieValues.sessionToken.substring(3));
 	  return true;
 	    },
 

@@ -10,11 +10,6 @@ else
 	$instance =  $url[$tiddlyCfg['pref']['instance_pos']];
 
 }
-error_log('usrl'.$_SERVER['REDIRECT_URL'], 0);
-
-
-
-
 
 if ($instance == '')  
 {
@@ -29,17 +24,11 @@ $tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].'/'.$tiddlyCfg['pre
 $tiddlyCfg['pref']['instance_name'] = $instance;  
 
 
-
-
-
-
-
 if (stristr($_SERVER['REDIRECT_URL'], 'msghandle.php'))
 {
 	include('./msghandle.php');
 	exit;
 }
-
 
 
 $_SERVER['PHP_SELF']= '/'.$tiddlyCfg['pref']['base_folder'].'/'.$instance.'/';
@@ -58,6 +47,4 @@ else
 //	echo 'file not found';
 } 
 
-
-error_log('Instance Name : '.$instance, 0);
 ?>

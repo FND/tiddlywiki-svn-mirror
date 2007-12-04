@@ -1,5 +1,5 @@
 <?php
-	error_log('user', 0);
+
 //////////////////////////////////////////////////////// description ////////////////////////////////////////////////////////
 	/**
 		@file
@@ -54,7 +54,6 @@
 
 	function user_ldap_login($un, $pw)
 	{
-		  error_log('LDAPLOGIN', 0);
 		global $tiddlyCfg;
 		$admin='cn='.$un.',ou=staff,dc=osmosoft,dc=com'; // TODO - check with andrew which of these bits can change.
 		$ds=ldap_connect($tiddlyCfg['pref']['ldap_server']);  // make LDAP C
@@ -74,41 +73,34 @@
 	
 	
 	function user_session_validate()
-	{
-				error_log('VALIDATING SESSION ', 0 );
- 	$pw = cookie_get('sessionToken');
-				$data_session['session_token'] = $pw;
+	{ 
+		debug('VALIDATING SESSION');
+		$pw = cookie_get('sessionToken');
+		$data_session['session_token'] = $pw;
+		$results = db_record_select('login_session', $data_session);			// get array of results		
 
-				$results = db_record_select('login_session', $data_session);			// get array of results		
-		
 		if (count($results) > 0 )                   //  if the array has 1  session
 		{
 			$user['verified'] = 1;	
 			error_log('expire : '.$results[0]['expire'], 0);
-			error_log('now : '.epochToTiddlyTime(time()), 0);
-			
-			
+			error_log('now : '.epochToTiddlyTime(time()), 0);			
+
 			if($results[0]['expire'] > epochToTiddlyTime(time())) 
 			{
-			
 				return TRUE;
 			}
 			else 
 			{
 			  //  SESSION HAS EXPIRED 
-			
-				debug('SESSION has expired ');
-	
+				debug('SESSION has expired ');	
 				user_logout('Your session has expired ');
 			 	return FALSE; 
 			 	//delete the cookies and session record 
 			}
 		}
 		else
-		{	
-				error_log('SESSION does not exist ', 0 );
-			// no session exists 
-			user_logout('');
+		{ 
+			user_logout('Session Does not exist');
 			return FALSE;		
 		}
 			
@@ -118,8 +110,9 @@
 	function user_set_session($un, $pw)
 	{
 		global $tiddlyCfg;
-		 error_log('SETSESSION'.$tiddlyCfg['pref']['session_expire'], 0);
+		debug('Setting the Session '.$tiddlyCfg['pref']['session_expire']);
 		$insert_data['user_id'] = $un;
+		debug('session is be set : username is : '.$un);
 		$expire =time()+$tiddlyCfg['pref']['session_expire'];
 		$insert_data['expire'] = epochToTiddlyTime($expire); // add expire time to data array for insert		
 		$insert_data['ip'] = $_SERVER['REMOTE_ADDR'];  // get the ip address
@@ -132,6 +125,7 @@
  		cookie_set('sessionToken', $insert_data['session_token']);
 		db_record_insert('login_session',$insert_data);
 
+
 	}		
 
 	
@@ -143,7 +137,7 @@
 	function user_validate($un, $pw)
 	{
 		global $tiddlyCfg;
-			error_log('VALIDATE-TOP'.$un.$pw, 0);
+		debug('validating the session with Username/pass:  '.$un.$pw);
 			
 		// session has not been created, lets try the user/pass on our ldap server. 
 		if ($tiddlyCfg['pref']['ldap_enabled']==1)
@@ -153,18 +147,23 @@
 				return TRUE;
 			}
 		}
-		$data['username'] = $un;
-		$data['password'] = sha1($pw);
-		debug('up'.$un.$pw);
-		$results = db_record_select('user', $data);			// get array of results		
-		if (count($results) > 0 )                   //  if the array has 1 or more sessions
-		{
-			$del_data1['expire'] = epochToTiddlyTime(time());
-			db_record_delete('login_session', $del_data1, 0,  "<");
-			return TRUE;
-		}
-		user_logout('Login Failed, please confirm username/password');		
+		if ($un != '' and $pw != '')
+		{	$data['username'] = $un;
+			$data['password'] = sha1($pw);
+			debug('up'.$un.$pw);
+			$results = db_record_select('user', $data);			// get array of results		
+			debug('Number of user s: '.count($results));
+			if (count($results) > 0 )                   //  if the array has 1 or more acounts 
+			{
+				$del_data1['expire'] = epochToTiddlyTime(time());
+		//		db_record_delete('login_session', $del_data1, 0,  "<");
+				return TRUE;
+			}else
+			{
+			user_logout('Login Failed, please confirm username/password');
+		}		
 		return FALSE;
+	}
 	}
 	
 	
@@ -180,15 +179,12 @@
 		if(user_validate($un, $pw))
 		{
 			user_set_session($un, $pw);	
-			if ($tiddlyCfg['developing'])
-					error_log('LOGIN -user validated so session should have been set return true '.$un.$pw, 0);
+			debug('LOGIN -user validated so session should have been set return true '.$un.$pw);
 			return TRUE;
 		}
 		else
 		{		//if username password pair wrong, clear cookie
 			user_logout('Login Failed');
-				if ($tiddlyCfg['developing'])
-					error_log('LOGIN -user name provided did not validated - return false '.$un.$pw, 0);
 			return FALSE;
 		}
 	}
@@ -211,10 +207,8 @@
 			error_log('LOG OUT THE USER '.$un.$pw, 0);
 		$data['session_token']= cookie_get('sessionToken');
 		db_record_delete('login_session',$data);
-
-		error_log('delete cookies', 0);
-		cookie_set('sessionToken', 'MSG'.$errorMsg);
-	
+		cookie_set('sessionToken', 'invalid');
+	    debug('Logout : '.$errorMsg);
 		return TRUE;
 	}
 	

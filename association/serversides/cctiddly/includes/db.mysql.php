@@ -1,5 +1,5 @@
 <?php
-	error_log('MYSQL', 0);
+
 /**
 	@file
 	@brief generic sql functions using MYSQL
@@ -88,7 +88,6 @@ $db_var['error']['query'] = " query: ";*/
 			$data[$key[$i]]=(string)db_format4SQL($data[$key[$i]]);
 			$i++;
 		}
-		error_log("INSERT INTO ".$table." (`".implode("`,`",$key)."`) VALUES ('".implode("','",$data)."')", 0);
 			$r = db_query("INSERT INTO ".$table." (`".implode("`,`",$key)."`) VALUES ('".implode("','",$data)."')");
 		
 		return $r;
@@ -110,7 +109,6 @@ $db_var['error']['query'] = " query: ";*/
 			next($data);
 			$i++;
 		}
-		 error_log("DELETE FROM ".$table." WHERE `".db_format4SQL(key($data))."` ".$operator." '".db_format4SQL(current($data))."'", 0);
 		return db_query("DELETE FROM ".$table." WHERE `".db_format4SQL(key($data))."` ".$operator." '".db_format4SQL(current($data))."'");
 	}
 	
@@ -127,7 +125,6 @@ $db_var['error']['query'] = " query: ";*/
 			//remove primary key (first element in array)
 			array_shift($ndata);
 		}
-		
 		//make query
 		$sql="UPDATE ".$table." SET ";
 		while( (list($k,$v) = each($ndata)) )
@@ -135,12 +132,8 @@ $db_var['error']['query'] = " query: ";*/
 			$sql .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."',";
 		}
 		$sql=substr($sql,0,(strlen($sql)-1));		//remove last ","
-		
 		$sql .= " WHERE `".db_format4SQL(key($odata))."` = '".db_format4SQL(current($odata))."'";
 		db_query($sql);
-		
-		error_log($sql, 0);
-		
 		return db_affected_rows();
 	}
 	
@@ -172,7 +165,7 @@ $db_var['error']['query'] = " query: ";*/
 			$sql .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."' and ";
 		}
 		$sql= $sql_start.substr($sql,0,(strlen($sql)-4));		//remove last "and"
-		error_log($sql, 0);
+
 		$result = db_query($sql);
 
 	// END OF SIMONMCMANUS /////
@@ -202,16 +195,12 @@ $db_var['error']['query'] = " query: ";*/
 		global $tiddlyCfg;
 			//insert record into db
 		if ($table = $tiddlyCfg['table']['name'])
-{
+		{
 			$result = db_query("SELECT * FROM ".$table." where instance_name='".$tiddlyCfg['pref']['instance_name']."'");
-
-
-		error_log("SELECT * FROM ".$table." where instance_name='".$tiddlyCfg['pref']['instance_name']."'", 0);
-		
 		}
 		else
 		{	$result = db_query("SELECT * FROM ".$table);
-}
+		}
 		if( $result === FALSE )
 		{
 			return FALSE;
@@ -359,9 +348,10 @@ $db_var['error']['query'] = " query: ";*/
 	function db_query($sql)
 	{
 		global $db_var;
-		
+		global $tiddlyCfg;
 		//make query
-		
+		if($tiddlyCfg['mysql_debug'])
+			debug($sql);
 		$SQLR=mysql_query($sql);
 		
 		if( $SQLR===FALSE )

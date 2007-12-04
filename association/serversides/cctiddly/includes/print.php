@@ -138,9 +138,10 @@ var serverside={
 			notExist: "<?php print $ccT_msg['error']['revision_not_found'] ?>"
 		}
 	},
-	loggedIn:<?php echo $user['verified'];?>,
+	loggedIn:<?php echo  $usr_val?user_session_validate():0;?>,
 	fn:{}		//server-side function
 };
+
 
 cctPlugin = {
 	lingo:{
@@ -198,12 +199,14 @@ window.cct_tweak = function(){
 	
 <?php
 	$usr = user_getUsername();
-	$usr_val = user_validate();
+	$usr_val = user_session_validate();
 	$usr = $usr_val?$usr:$ccT_msg['loginpanel']['anoymous'];
 ?>
 	//login panel
 	config.options.txtUser = "<?php print $usr ?>";
-	config.shadowTiddlers.<?php print $ccT_msg['loginpanel']['name']?> ="<?php if($usr_val==0){?> \nYou are not logged in :\n\n [[Please Login]]<?php } else {?> <html><p>Welcome <?php echo $usr?></p><a href='<?php echo $_SERVER['PHP_SELF'];?>?logout=1&'>Logout</a></html><?php } ?>";
+//	config.shadowTiddlers.<?php print $ccT_msg['loginpanel']['name']?> ="<?php if($usr_val==0){?> \nYou are not logged in :\n\n [[Please Login]]<?php } else {?> <html><p>Welcome <?php echo $usr?></p><a href='<?php echo $_SERVER['PHP_SELF'];?>?logout=1&'>Logout</a></html><?php } ?>";
+//	config.shadowTiddlers.<?php print $ccT_msg['loginpanel']['name']?> ="<<ccLogin>>";
+
 };
 
 <?php

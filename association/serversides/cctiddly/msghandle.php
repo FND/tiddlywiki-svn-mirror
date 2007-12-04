@@ -1,11 +1,11 @@
 <?php
 
-error_log('MSG HANDLE - INSTANCE NAME : '.$tiddlyCfg['pref']['instance_name'], 0);
+
 	//exit("success");
 	include_once("includes/header.php");
 	if($tiddlyCfg['developing'])
-		error_log('msghanngle.php'.$instance, 0);
 
+debug('MSG HANDLE - INSTANCE NAME : '.$tiddlyCfg['pref']['instance_name']);
 ///////////////////////////// START OF LOGIN BITS /////////////////////////////////////////////////	
 		
 		if( isset($_POST['cctuser']) && isset($_POST['cctpass']) )		//set cookie for login
