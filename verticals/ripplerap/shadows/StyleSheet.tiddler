@@ -7,14 +7,15 @@
 #tiddlerDisplay { margin:0 1em 2em 1em;}
 
 /* Header */
-div.header { background-color:#000; height:84px; border-top:solid 10px #111;}
+div.header { background-color:#000; height:86px; border-top:solid 10px #111; position:relative;}
 #backstageArea,
 #backstageToolbar {background-color:#111;}
 #backstageToolbar a{background-color:#111;}
 div.headerShadow,
-div.headerForeground { padding:0; }
+div.headerForeground { padding:1px; }
 span.siteTitle {top:2px;}
 span.siteSubtitle {bottom:37px; left:245px; font-size:1em; position:absolute; width:200px;}
+div.headerControls {position:absolute; bottom:10px; right:10px; color:[[ColorPalette::SecondaryDark]]; font-size:1.2em;}
 
 /* Primary Nav Buttons */
 #mainMenu { display:inline; width:100%; background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding:0; line-height:1.5em; text-align:left;}

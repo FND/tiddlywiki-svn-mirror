@@ -53,6 +53,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		var e = ev ? ev : window.event;
 		var target = resolveTarget(e);
 		config.options.chkRipplerapShare = target.checked;
+
 		if(rssSynchronizer && config.options.chkRipplerapShare)
 			rssSynchronizer.makeRequest();
 	};
@@ -74,29 +75,42 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 
 	config.macros.ripplerapLoginButton.onClick = function()	{
 		//send the user details to the server to create their account.
+		var url = config.macros.ripplerapLoginButton.serverBaseURL + "reg/";;
 		var params = {};
-		params.url = config.macros.ripplerapLoginButton.serverBaseURL + "reg/";;
-		params.username = config.options.txtUserName;
+			params.username = config.options.txtUserName;
 		var data = "username=" + params.username + "&password=" + config.options.txtRipplerapAccountPassword;
-		doHttp("POST",params.url,data,null,'leweb','88!p29X',config.macros.ripplerapLoginButton.handleUserCreation,params,null);
+		
+		doHttp("POST",url,data,null,'leweb','88!p29X',config.macros.ripplerapLoginButton.handleUserCreation,params,null);
+		
 		return false;
 	};
 	
-	config.macros.ripplerapLoginButton.handleUserCreation = function(status,params,responseText,xhr) {
-		if(!status) {
-			console.log("request to " + params.url + " Failed");
-			console.log(xhr);
-		}
-		else {
-			console.log("request to " + params.url + ", status: " + status);
-			console.log("   attempting to create " + params.username );
-			if(responseText == "created user"){
-				console.log(params.username + " created and ready to use.");	
-				config.macros.ripplerapLoginButton.showFeedback(params.username + " created and ready to use.");
-				if(rssSynchronizer && config.options.chkRipplerapShare)
-					rssSynchronizer.makeRequest();
+	config.macros.ripplerapLoginButton.handleUserCreation = function(status,params,responseText,url,xhr) {
+		var responseTypes = {
+			400 : {
+				meaning: "Malformed username submitted",
+				message: "Please check the username that you provided. It cannot comtain any special characters or spaces.",
+				formItem: 'txtUserName'
+			},
+			409 : {
+				meaning: "User exists - password mismatch",
+				message: "This username already exists",
+				formItem: 'txtUserName'
+			},
+			200 : {
+				meaning: "User successfully created",
+				message: params.username + " has been created and is ready to use.",
+				formItem: null
+			},
+			0 : {
+				meaning: "Post failed",
+				message: "There was a problem reaching the server to create your username. Please try again shortly.",
+				formItem: null
 			}
-		}
+		};
+		config.macros.ripplerapLoginButton.showFeedback(responseTypes[xhr.status].message + " " + status);
+		if(status && rssSynchronizer && config.options.chkRipplerapShare)
+			rssSynchronizer.makeRequest();
 	};
 
 	config.macros.ripplerapLoginButton.showFeedback = function(str) {
