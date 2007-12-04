@@ -3,7 +3,18 @@
 
 	//exit("success");
 	include_once("includes/header.php");
-	if($tiddlyCfg['developing'])
+	
+	
+//////////////////////////////// START of create instance ///////////////////////////////////////////////
+	// confirm that the user is loggedin properly.
+	if($_POST['instance_name'] || $_REQUEST['instance_name'])
+	{
+		// the user has asked us to create an instance 
+		include_once("includes/instance.php");
+ 	instance_create($_POST['instance_name']);
+        //TODO  to redirect to the page which has been created 
+	}
+//////////////////////////////// end of create instance ///////////////////////////////////////////////
 
 debug('MSG HANDLE - INSTANCE NAME : '.$tiddlyCfg['pref']['instance_name']);
 ///////////////////////////// START OF LOGIN BITS /////////////////////////////////////////////////	
@@ -46,7 +57,7 @@ debug('MSG HANDLE - INSTANCE NAME : '.$tiddlyCfg['pref']['instance_name']);
 			}
 			
 			$title = formatParametersGET($_GET['title']);
-			debug('get revisions ');
+			debug('get revision');
 			$result = getAllVersionTiddly($title);		//get all required version
 			
 			//print revision list

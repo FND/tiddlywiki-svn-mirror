@@ -27,7 +27,7 @@
 	$tiddlyCfg['db']['name'] = "cctw1";		//db name
 	$tiddlyCfg['table']['pref'] = "";		//table prefix
 	$tiddlyCfg['table']['name'] = "tiddler";
-	$tiddlyCfg['table']['backup'] = "tiddly_wiki_entry_version";
+	$tiddlyCfg['table']['backup'] = "tiddler_revisions";
 	$tiddlyCfg['pref']['session_expire'] = 2000; //mins
 	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
 	$tiddlyCfg['pref']['ldap_enabled'] = 0;	

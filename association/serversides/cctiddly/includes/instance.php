@@ -1,8 +1,18 @@
 <?php 
 include_once('includes/db.mysql.php');
 
+// returns false f the instance name already exists.
+
 function instance_create($instance)
 {
+	// TODO check for instance already existing 
+	// TODO return correct error of illegal chars are entered. 
+	
+//	if(!ctype_alnum($instance))
+//	{
+//		return 'Instance name can only include numbers and letters';
+//	}
+
 	global $tiddlyCfg;
 	$data['name'] = $instance;
 	$data['lang'] = 'en';

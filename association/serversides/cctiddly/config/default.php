@@ -9,12 +9,7 @@ $link = db_connectDB();
 db_selectDB($tiddlyCfg['db']['name']);
 
 // create the instance if it does not already exist.
-if($_POST['instance_name'])
-{
-	// the user has asked us to create an instance 
-	include_once("./includes/instance.php");
-	instance_create($_POST['instance_name']);
-}
+
 $array['name'] = $instance;
 $tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
 

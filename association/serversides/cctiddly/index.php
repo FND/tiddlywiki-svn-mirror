@@ -25,11 +25,6 @@
 	include_once("includes/print.php");
 	recordTime_float("includes");
 
-
-
-
-	
-	
 		if ($_POST['logout'] || $_REQUEST['logout'])
 	{
 		user_logout('You have logged out.');
@@ -135,7 +130,10 @@ DAMAGE.
 	{
 		print tiddler_bodyDecode($tiddlers['MarkupPreHead']['body']);
 	}else{
-		print "<link rel='alternate' type='application/rss+xml' title='RSS' href='".$tiddlyCfg['pref']['instance_name']."/$config.xml'>";
+		
+		if(is_file($tiddlyCfg['pref']['upload_dir'] .$tiddlyCfg['pref']['instance_name']."/$config.xml"))
+			print "<link rel='alternate' type='application/rss+xml' title='RSS' href='".$tiddlyCfg['pref']['instance_name']."/$config.xml'>";
+
 	}
 ?>
 <!--PRE-HEAD-END-->
@@ -192,6 +190,7 @@ Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa As
 <div tiddler="ColorPalette" tags="">Background: #fff\nForeground: #000\nPrimaryPale: #8cf\nPrimaryLight: #18f\nPrimaryMid: #04b\nPrimaryDark: #014\nSecondaryPale: #ffc\nSecondaryLight: #fe8\nSecondaryMid: #db4\nSecondaryDark: #841\nTertiaryPale: #eee\nTertiaryLight: #ccc\nTertiaryMid: #999\nTertiaryDark: #666\nError: #f88</div>
 <div tiddler="EditTemplate" tags="">&lt;!--{{{--&gt;\n&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;\n&lt;div class='title' macro='view title'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;\n&lt;div macro='annotations'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser'&gt;&lt;/span&gt;&lt;/div&gt;\n&lt;!--}}}--&gt;</div>
 
+<div  tiddler='CreateInstance' tags=''>&lt;html&gt;&lt;form action='msghandle.php' method='POST'&gt; &lt;input type='text' value='<?php echo $tiddlyCfg['pref']['instance_name']; ?>' id='instance_name' name='instance_name'/&gt;&lt;input type='Submit' value='Create the Instance' /&gt; &lt;/form&gt;&lt;/html&gt;</div>
 
 <?
 
@@ -199,7 +198,6 @@ Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa As
 ///////////////////////////// CREATE LOGIN/CREATE SHADOW TIDDLERS ///////////////////////////////////////////////////////////
 
 $logged_in_create_tiddlers = "<div tiddler='SiteTitle' tags=''>Error 404 - Please click below to create this instance </div>
-<div  tiddler='CreateInstance' tags=''>&lt;html&gt;&lt;form action='' method='POST'&gt; &lt;input type='text' value='".$tiddlyCfg['pref']['instance_name']."' id='instance_name' name='instance_name'/&gt;&lt;input type='Submit' value='Create the Instance' /&gt; &lt;/form&gt;&lt;/html&gt;</div>
 <div  tiddler='MainMenu' tags=''></div>
 
 <div  tiddler='GettingStarted' tags=''>a simple explainaition on how to use TiddlyWiki &lt;br /&gt;
@@ -438,14 +436,13 @@ else
 	        }
 	        var cookie = xhr.getResponseHeader (&quot;Set-Cookie&quot;);
 	        var cookieValues;
-	        cookieValues = sessionToken = this.findToken(cookie);
+	        cookieValues = this.findToken(cookie);
 	        config.macros.ccLogin.saveCookie(cookieValues);
 	        var loginDivRef = findRelated( params.origin,&quot;loginDiv&quot;,&quot;className&quot;,&quot;parentNode&quot;);
 	        removeChildren(loginDivRef);	
-
-	window.location = window.location;
-
-//   config.macros.ccLogin.refresh(loginDivRef, cookieValues.sessionToken.substring(3));
+// if (sessionToken !== 'invalid')
+	//window.location = window.location;
+  config.macros.ccLogin.refresh(loginDivRef, cookieValues.sessionToken.substring(3));
 	  return true;
 	    },
 
