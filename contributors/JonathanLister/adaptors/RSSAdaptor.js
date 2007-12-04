@@ -128,7 +128,7 @@ RSSAdaptor.getTiddlerListComplete = function(context,userParams)
 {
 	context.status = true;
 	if(context.callback)
-		window.setTimeout(function() {callback(context,userParams);},10);
+		window.setTimeout(function() {context.callback(context,userParams);},10);
 	return true;
 };
 
@@ -170,7 +170,7 @@ RSSAdaptor.getTiddlerComplete = function(context,userParams)
 		context.isSynchronous = true;
 		context.callback(context,userParams);
 	} else {
-		window.setTimeout(function() {callback(context,userParams);},10);
+		window.setTimeout(function() {context.callback(context,userParams);},10);
 	}
 	return true;
 };
