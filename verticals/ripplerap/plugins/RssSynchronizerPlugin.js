@@ -72,8 +72,12 @@ RssSynchronizer.prototype.makeRequest = function()
 {
 	if(!config.options.chkRipplerapShare)
 		return;
-	if(this.userUpload.requestPending || this.sessionDownload.requestPending) {
-console.log("request is pending");
+	if(this.userUpload.requestPending) {
+console.log("put request is pending");
+		return;
+	}
+	if(this.sessionDownload.requestPending) {
+console.log("get request is pending");
 		return;
 	}
 console.log(this.nextIsGet ? "makeRequest:get" : "makeRequest:put");
@@ -115,7 +119,9 @@ RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
 console.log("getNotesTiddlersFromRss:"+uri);
 	var adaptor = new RSSAdaptor();
 	var context = {synchronizer:this,host:uri,adaptor:adaptor,rssUseRawDescription:true};
-	return adaptor.getTiddlerList(context,null,RssSynchronizer.getNotesTiddlerListCallback);
+	var ret = adaptor.getTiddlerList(context,null,RssSynchronizer.getNotesTiddlerListCallback);
+console.log("getTiddlerList:"+ret);
+	return ret;
 };
 
 RssSynchronizer.getNotesTiddlerListCallback = function(context,userParams)
@@ -202,7 +208,6 @@ console.log("putTiddlersToRssCallback:"+status);
 
 	var context = {};
 	context.synchronizer = this;
-//# third parameter is an array
 	DAV.safeput(uri,callback,[context],rss);
 };
 
