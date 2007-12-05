@@ -29,7 +29,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		var after =  story.findContainingTiddler(target);
 		var sessionTitle = after.id.substr(7);
 		
-		console.log("Make notes on: " + sessionTitle);
+		displayMessage("Make notes on: " + sessionTitle);
 		
 		var title = sessionTitle + " from " + config.options.txtUserName;
 		var template = "NoteEditTemplate";
