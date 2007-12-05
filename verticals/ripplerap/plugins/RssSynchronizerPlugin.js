@@ -3,7 +3,7 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.10|
+|''Version:''|0.0.11|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -19,9 +19,12 @@ version.extensions.RssSynchronizerPlugin = {installed:true};
 function RssSynchronizer() 
 {
 	this.sessionDownload = {titles:[],syncIndex:0,getMostRecent:true,mostRecentTitle:'latest',requestPending:false};
+
 	this.userUpload = {requestPending:false};
 	this.userUpload.time = new Date();
 	this.userUpload.time.setFullYear(2000); // to force first time put
+
+	this.updates = {};
 
 	this.timerID = null;
 	this.timerInterval = 10000;
@@ -48,10 +51,13 @@ RssSynchronizer.prototype.init = function()
 {
 	var me = this;
 	store.forEachTiddler(function(title,t) {
+		//# add in the session tiddlers
 		if(t.isTagged('session') && t.fields.rr_session_date) {
 			var s = title.replace(/[^\w]/g,'_');
+			//#if(me.sessionDownload.titles.length<3)// for debug
 			me.sessionDownload.titles.push(s);
 		}
+		//# add in the feeds
 		if(t.isTagged('systemServer') && t.isTagged('ripplerap')) {
 			if(t.isTagged('notes')) {
 				var type = store.getTiddlerSlice(t.title,'Type');
@@ -68,6 +74,12 @@ RssSynchronizer.prototype.init = function()
 					if(uri.substr(uri.length-1) != '/')
 						uri = uri + '/';
 					me.userUpload.rootUri = uri;
+				}
+			} else if(t.isTagged('updates')) {
+				type = store.getTiddlerSlice(t.title,'Type');
+				uri = store.getTiddlerSlice(t.title,'URL');
+				if(uri && type=='rss') {
+					me.updates.uri = uri;
 				}
 			}
 		}
@@ -111,14 +123,19 @@ RssSynchronizer.prototype.doGet = function()
 	if(this.sessionDownload.getMostRecent) {
 		this.sessionDownload.getMostRecent = false;
 		var sessionTitle = this.sessionDownload.mostRecentTitle;
+		var uri = this.sessionDownload.rootUri + sessionTitle + '.xml';
 	} else {
 		this.sessionDownload.getMostRecent = true;
-		sessionTitle = this.sessionDownload.titles[this.sessionDownload.syncIndex];
+		if(this.sessionDownload.syncIndex==-1) {
+			uri = this.updates.uri;
+		}else {
+			sessionTitle = this.sessionDownload.titles[this.sessionDownload.syncIndex];
+			uri = this.sessionDownload.rootUri + sessionTitle + '.xml';
+		}
 		this.sessionDownload.syncIndex++;
 		if(this.sessionDownload.syncIndex>=this.sessionDownload.titles.length)
-			this.sessionDownload.syncIndex = 0;
+			this.sessionDownload.syncIndex = this.updates.uri ?-1 : 0; // set to -1 for the updates uri, if it exists
 	}
-	var uri = this.sessionDownload.rootUri + sessionTitle + '.xml';
 	this.getNotesTiddlersFromRss(uri);
 };
 
