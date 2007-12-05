@@ -26,16 +26,13 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 	config.macros.TiddlerDisplayDependencies.myNoteTag = "note";
 	config.macros.TiddlerDisplayDependencies.sessionTag = "session";
 	
-	//store the existing displayTiddler function for use later.
-	config.macros.TiddlerDisplayDependencies.displayTiddler = story.displayTiddler;
 	
+	//store the existing displayTiddler function for use later.
+	config.macros.TiddlerDisplayDependencies.displayTiddler = Story.prototype.displayTiddler;
+
 	//replace the displayTiddler function.
-	story.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle){
-		
+	Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle) {		
 		var t = typeof(tiddler) == 'string' ? store.getTiddler(tiddler) : tiddler;
-
-		//displayMessage('template: ' + template);
-
 		var editmode = false;
 		if(template){ 
 
