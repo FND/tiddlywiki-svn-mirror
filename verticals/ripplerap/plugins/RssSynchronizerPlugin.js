@@ -255,7 +255,7 @@ RssSynchronizer.generateRss = function(tiddlers)
 	s.push('<pubDate>' + d.toGMTString() + '</pubDate>');
 	s.push('<lastBuildDate>' + d.toGMTString() + '</lastBuildDate>');
 	s.push('<docs>http://blogs.law.harvard.edu/tech/rss</docs>');
-	s.push('<generator>TiddlyWiki (RSS Synchronizer)' + version.major + '.' + version.minor + '.' + version.revision + '</generator>');
+	s.push('<generator>TiddlyWiki ' + version.major + '.' + version.minor + '.' + version.revision + ' (RSS Synchronizer)</generator>');
 	//# The body
 	for (var i=0;i<tiddlers.length;i++) {
 		var t = tiddlers[i];
