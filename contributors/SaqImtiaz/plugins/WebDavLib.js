@@ -2,7 +2,7 @@
 |''Name:''|WebDavLib|
 |''Description:''|WebDav utility functions|
 |''Author:''|Saq Imtiaz ( lewcid@gmail.com )|
-|''Version:''|0.1|
+|''Version:''|0.1.1|
 |''Date:''|23/11/2007|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''~CoreVersion:''|2.2.3|
@@ -31,12 +31,12 @@ DAV = {
 		return DAV.run("GET",url,null,cb,params,null);
 	},
 
-	put : function(url,cb,params,data) {
-		return DAV.run("PUT",url,data,cb,params,null);
+	put : function(url,cb,params,data,contentType,username,password) {
+		return DAV.run("PUT",url,data,cb,params,null,contentType,username,password);
 	},
 
-	move : function(url,cb,params,destination) {
-		return DAV.run("MOVE",url,null,cb,params,{"Destination":destination,"Overwrite":"T"});
+	move : function(url,cb,params,destination,contentType,username,password) {
+		return DAV.run("MOVE",url,null,cb,params,{"Destination":destination,"Overwrite":"T"},contentType,username,password);
 	}, 
 
 	copy : function(url,cb,params,destination) {
@@ -64,7 +64,7 @@ DAV = {
 	safeput : function(url,cb,params,data,contentType,username,password){
 		firstcb = function(status,p,responseText,u,xhr){
 			if(status)
-				DAV.move(u,cb,p,u.replace("-davsavingtemp",""));
+				DAV.move(u,cb,p,u.replace("-davsavingtemp",""),contentType,username,password);
 			else
 				cb.apply(firstcb,arguments);
 		};
