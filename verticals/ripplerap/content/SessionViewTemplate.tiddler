@@ -3,7 +3,7 @@
 <div class='session'>
 	<div class='toolbar' macro='toolbar closeTiddler +editTiddler'></div>
 	<div class="title" macro="view title"></div>
-	<span class="time"><span macro="view rr_session_startTime"></span>-<span macro="view rr_session_endTime"></span></span>
+	<span class="time"><span macro="view rr_session_startTime date hhmm"></span>-<span macro="view rr_session_endTime date hhmm"></span></span>
 	<div class="speaker" macro="view rr_session_speaker"></div>
 	<div class="noteOptions" macro="MakeNotesControl create"></div>
 	<div class='viewer' macro='view text wikified'></div>
