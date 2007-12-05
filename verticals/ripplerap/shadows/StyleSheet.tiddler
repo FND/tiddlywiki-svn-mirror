@@ -29,7 +29,6 @@ span.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; display
 span.chunkyButton a.button { white-space:nowrap; font-weight:bold; color:#fff; background-color:[[ColorPalette::SecondaryDark]]; text-align:center; padding:0.5em 2em; margin:0; border-style:none;  border-top:solid 1px [[ColorPalette::SecondaryBrightest]]; display:block;}
 span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBright]]; border-style:none;  border-top:solid 1px [[ColorPalette::SecondaryBrightest]];}
 
-
 /* Agenda */
 #agendaMenu { width:260px; float:left; padding:0; margin-top:2.2em; background-color:#f6f6f6; }
 #agendaMenu div.tabset { margin:1em; padding:0; float:left; overflow:none;}
@@ -40,8 +39,11 @@ span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBri
 #agendaMenu div.tabContents { border-style:none; margin:0; padding:0; clear:left;}
 
 #agendaMenu { border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
-#agendaMenu div.listRelatedTiddler { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px #fff; border-left:solid 10px #ccc; }	
-#agendaMenu div.listRelatedTiddler span.time {	font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; position:absolute; }
+#agendaMenu div.listRelatedTiddler { display: inline-block; ; /* IE bugfix: give layout (hasLayout = true) */ }
+#agendaMenu div.listRelatedTiddler { display: block; /* restore proper behavior (see IE bugfix above) */  }
+#agendaMenu div.listRelatedTiddler { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px #fff; border-left:solid 10px #ccc; position:relative;}	
+
+#agendaMenu div.listRelatedTiddler span.time {	font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; position:absolute; top:8px; left:8px;}
 #agendaMenu div.listRelatedTiddler span.title a { color:#444; display:block; font-weight:bold;	text-decoration:none; margin-left:5em; font-size:12px; }
 #agendaMenu div.listRelatedTiddler span.speaker { color:#666; display:block; margin:0.2em 0 0 5em; }
 #agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler { text-align:right; }
@@ -50,7 +52,6 @@ span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBri
 #agendaMenu div.listRelatedTiddler span.title a:hover { color:#000; text-decoration:underline;	background-color:#f0f0f0; }
 /*#agendaMenu div.inProgress { border-left:solid 10px #933; background-color:#fff; }*/
 /*#agendaMenu div.inProgress a.tiddlyLink:hover { background-color:#fff;	}*/
-
 
 div.tiddler {padding:0; margin:0;}
 
