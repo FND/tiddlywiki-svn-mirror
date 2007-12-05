@@ -62,63 +62,72 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	/*
 	Ripplerap account creation helpers
 	*/
-	config.macros.ripplerapLoginButton = {};
-	config.macros.ripplerapLoginButton.eventName = "Le Web 3";
-	config.macros.ripplerapLoginButton.serverBaseURL = "https://www.ripplerap.com/LeWeb/";
-	
-	config.macros.ripplerapLoginButton.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-		var btnCase = createTiddlyElement(place,'span',null,'chunkyButton');
-		createTiddlyButton(btnCase,"Set up my Ripplerap account for "+ config.macros.ripplerapLoginButton.eventName,null,config.macros.ripplerapLoginButton.onClick);
-		var msg = createTiddlyElement(place,'span','ripplerapAccountMessage');
-		msg.style.display = "none";
+	config.macros.ripplerapAccountButton = {};
+	config.macros.ripplerapAccountButton.eventName = "Le Web 3";
+	config.macros.ripplerapAccountButton.serverBaseURL = "https://www.ripplerap.com/LeWeb/";
+
+	config.macros.ripplerapAccountButton.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+		
+		if(config.options.chkRipplerapReadyToUse) {
+			var msg = createTiddlyElement(place,'span','ripplerapAccountMessage');
+			config.macros.ripplerapAccountButton.showFeedback("You are setup to use Ripplerap.");
+		}
+		else {
+			// create a signup button
+			var btnCase = createTiddlyElement(place,'span',null,'chunkyButton');
+			var btnLabel = "Set up my Ripplerap account for "+ config.macros.ripplerapAccountButton.eventName;
+			var btnClickHandler = config.macros.ripplerapAccountButton.onClickSignup;
+			createTiddlyButton(btnCase,btnLabel,null,config.macros.ripplerapAccountButton.onClick);
+			var msg = createTiddlyElement(place,'span','ripplerapAccountMessage');
+			config.macros.ripplerapAccountButton.clearfeedback();
+			
+		}
 	};
 
-	config.macros.ripplerapLoginButton.onClick = function()	{
-		//send the user details to the server to create their account.
-		var url = config.macros.ripplerapLoginButton.serverBaseURL + "reg/";;
+	config.macros.ripplerapAccountButton.onClick = function(ev)	{
+		config.macros.ripplerapAccountButton.clearfeedback();
+		var url = config.macros.ripplerapAccountButton.serverBaseURL + "reg/";;
 		var params = {};
-			params.username = config.options.txtUserName;
+		params.username = config.options.txtUserName;
 		var data = "username=" + params.username + "&password=" + config.options.txtRipplerapAccountPassword;
-		
-		doHttp("POST",url,data,null,'leweb','88!p29X',config.macros.ripplerapLoginButton.handleUserCreation,params,null);
-		
+		doHttp("POST",url,data,null,'leweb','88!p29X',config.macros.ripplerapAccountButton.handleAccountRequest,params,null);
 		return false;
 	};
-	
-	config.macros.ripplerapLoginButton.handleUserCreation = function(status,params,responseText,url,xhr) {
+
+	config.macros.ripplerapAccountButton.handleAccountRequest = function(status,params,responseText,url,xhr) {
 		var responseTypes = {
-			400 : {
-				meaning: "Malformed username submitted",
-				message: "Please check the username that you provided. It cannot comtain any special characters or spaces.",
-				formItem: 'txtUserName'
-			},
-			409 : {
-				meaning: "User exists - password mismatch",
-				message: "This username already exists",
-				formItem: 'txtUserName'
-			},
-			200 : {
-				meaning: "User successfully created",
-				message: params.username + " has been created and is ready to use.",
-				formItem: null
-			},
-			0 : {
-				meaning: "Post failed",
-				message: "There was a problem reaching the server to create your username. Please try again shortly.",
-				formItem: null
-			}
-		};
-		config.macros.ripplerapLoginButton.showFeedback(responseTypes[xhr.status].message + " " + status);
-		if(status && rssSynchronizer && config.options.chkRipplerapShare)
+				400 : {
+					signupMessage: "Please check the username that you provided. It cannot comtain any special characters or spaces.",
+				},
+				409 : {
+					signupMessage: "This username already exists.",
+				},
+				200 : {
+					signupMessage: config.options.txtUserName + " has been created and is ready to use.",
+				},
+				0 : {
+					signupMessage: "There was a problem reaching the server to create your username. Please try again shortly.",
+				}
+			};
+		config.macros.ripplerapAccountButton.showFeedback(responseTypes[xhr.status].signupMessage);
+		if(status)
+			config.options.chkRipplerapReadyToUse = true; 
+		if(status && rssSynchronizer && config.options.chkRipplerapShare) {
 			rssSynchronizer.makeRequest();
+		}
 	};
 
-	config.macros.ripplerapLoginButton.showFeedback = function(str) {
+	config.macros.ripplerapAccountButton.showFeedback = function(str) {
 		var msg = document.getElementById('ripplerapAccountMessage');
 		removeChildren(msg);
 		document.createElement("div");
 		msg.appendChild(document.createTextNode(str));
 		msg.style.display = "block";
+	};
+	config.macros.ripplerapAccountButton.clearfeedback = function() {
+		var msg = document.getElementById('ripplerapAccountMessage');
+		if(msg)
+			msg.style.display = "none";
 	};
 }
 

@@ -27,7 +27,8 @@ Don't forget to check out BT's SDK - ~RippleRap provides a click to call functio
 |''Your wiki name'' ^^[[help|About your username]]^^ |''Password'' ^^[[help|About your password]]^^ |
 |<<option txtUserName>> |<<option txtRipplerapAccountPassword>> |
 |<<MakeNotesControl sharing>> ^^[[help|Share notes]]^^  |
-|>|<<ripplerapLoginButton>>|
+|>|<<ripplerapAccountButton signup>>|
+
 }}}
 </pre>
 </div>
