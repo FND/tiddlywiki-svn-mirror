@@ -8,6 +8,7 @@ tiddler: ../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
 tiddler: ../../contributors/JeremyRuston/plugins/BrowserPlugin.js
 tiddler: ../../contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js
 tiddler: ../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
+tiddler: ../../contributors/PaulDowney/plugins/MicroformatPlugin.js
 
 recipe: shadows/split.recipe
 recipe: plugins/split.recipe
