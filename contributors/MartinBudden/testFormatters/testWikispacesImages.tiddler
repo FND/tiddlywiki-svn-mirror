@@ -1,0 +1,17 @@
+<div title="testWikispacesImages" modifier="MartinBudden" created="200711230000" tags="test" wikiformat="wikispaces">
+<pre>
+See http://www.wikispaces.com/image+tags
+
+==Including external images==
+
+You can also include images not hosted on Wikispaces. Use the same image tag and reference a URL, for example:
+
+|| image:walking.jpg || [[image:http://www.wikispaces.com/i/l.png]] ||
+
+==Syntax==
+
+|| **attribute** || **example** || **result** || **description** ||
+|| image:imagename || ``[[image:www-wikispaces-logo.gif]]`` || [[image:www-wikispaces-logo.gif]] || include uploaded image ||
+|| width="pixel" || ``[[image:www-wikispaces-logo.gif width="20"]]`` || [[image:www-wikispaces-logo.gif width="50"]] || determine width of image ||
+</pre>
+</div>
