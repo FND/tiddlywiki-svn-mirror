@@ -43,10 +43,15 @@ version.extensions.Microformat = {installed:true};
 		    format = store.getValue(tiddler,params[1]);
 		}
 
+		// assumes date is in TiddlyWiki YYYYMMMDDHHMM format
+		// microformats is ISO YYYY-MM-DDTHH:MM:SS format
+		var text = value.substr(8,2) + ":" + value.substr(10,2);
+		var iso = value.substr(0,4) + "-" + value.substr(4,2) + "-" + value.substr(6,2) + "T" + text + ":00";
+
 		var e = createTiddlyElement(place,'abbr',null,null);
-		e.setAttribute('title',value);
+		e.setAttribute('title',iso);
 		e.setAttribute('class',className);
-		createTiddlyText(e,value);
+		createTiddlyText(e,text);
 	};
 
 } //# end of 'install only once'
