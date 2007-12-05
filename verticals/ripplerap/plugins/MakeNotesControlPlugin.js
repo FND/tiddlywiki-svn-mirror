@@ -110,16 +110,16 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	config.macros.ripplerapAccountButton.handleAccountRequest = function(status,params,responseText,url,xhr) {
 		var responseTypes = {
 				400 : {
-					signupMessage: "Please check the username that you provided. It cannot comtain any special characters or spaces.",
+					signupMessage: "Please check the username that you provided. It cannot comtain any special characters or spaces."
 				},
 				409 : {
-					signupMessage: "This username already exists.",
+					signupMessage: "This username already exists."
 				},
 				200 : {
-					signupMessage: config.options.txtUserName + " has been created and is ready to use.",
+					signupMessage: config.options.txtUserName + " has been created and is ready to use."
 				},
 				0 : {
-					signupMessage: "There was a problem reaching the server to create your username. Please try again shortly.",
+					signupMessage: "There was a problem reaching the server to create your username. Please try again shortly."
 				}
 			};
 		config.macros.ripplerapAccountButton.showFeedback(responseTypes[xhr.status].signupMessage);

@@ -1,16 +1,20 @@
-tiddler: AgendaMenu.tiddler
+
 tiddler: About_your_username.tiddler
 tiddler: About_your_password.tiddler
-tiddler: DiscoveredNotesViewTemplate.tiddler
-tiddler: DiscoveredNotesEditTemplate.tiddler
-tiddler: SessionViewTemplate.tiddler
-tiddler: SessionEditTemplate.tiddler
-tiddler: AgendaDay1.tiddler
-tiddler: AgendaDay2.tiddler
+tiddler: AgendaMain1.tiddler
+tiddler: AgendaMain2.tiddler
+tiddler: AgendaStartup1.tiddler
+tiddler: AgendaStartup2.tiddler
 tiddler: AgendaItemsTemplate.tiddler
 tiddler: AgendaMenu.tiddler
 tiddler: AgendaSubItemsTemplate.tiddler
 tiddler: AgendaWorkshops.tiddler
+
+tiddler: DiscoveredNotesViewTemplate.tiddler
+tiddler: DiscoveredNotesEditTemplate.tiddler
+tiddler: SessionViewTemplate.tiddler
+tiddler: SessionEditTemplate.tiddler
+
 tiddler: Bonjour!!.tiddler
 tiddler: CamelCase.tiddler
 tiddler: CompetitionStage.tiddler
@@ -26,8 +30,7 @@ tiddler: NoteViewTemplate.tiddler
 tiddler: REST.tiddler
 tiddler: Safari_and_Opera_configuration.tiddler
 tiddler: SampleDiscoveredNotes.tiddler
-tiddler: SessionEditTemplate.tiddler
-tiddler: SessionViewTemplate.tiddler
+
 tiddler: Share_notes.tiddler
 tiddler: TiddlySaver.tiddler
 tiddler: TiddlyWiki.tiddler
