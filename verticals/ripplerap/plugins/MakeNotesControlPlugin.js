@@ -20,7 +20,13 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	config.macros.MakeNotesControl.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		if(params[0] == "create") createTiddlyButton(place,"make notes","Make notes on this session",config.macros.MakeNotesControl.onClick);
 		else if(params[0] == "sharethis") createTiddlyCheckbox(place,'private',false,config.macros.MakeNotesControl.togglePrivate);
-		else if(params[0] == "sharing") createTiddlyCheckbox(place,"share my notes",config.options.chkRipplerapShare,config.macros.MakeNotesControl.globalSharing);
+		else if(params[0] == "sharing") {
+			var cb = createTiddlyCheckbox(place,null,config.options.chkRipplerapShare,config.macros.MakeNotesControl.globalSharing);
+			cb.setAttribute("option","chkRipplerapShare");
+		}
+		
+		//if(rssSynchronizer && config.options.chkRipplerapShare && config.options.chkRipplerapReadyToUse)
+		//	rssSynchronizer.makeRequest();
 	};
 
 	config.macros.MakeNotesControl.onClick = function(ev) {
@@ -53,9 +59,16 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		var e = ev ? ev : window.event;
 		var target = resolveTarget(e);
 		config.options.chkRipplerapShare = target.checked;
-
+		var opt = "chkRipplerapShare";
+		var optType = opt.substr(0,3);
+		var handler = config.macros.option.types[optType];
+		if (handler.elementType && handler.valueField)
+			config.macros.option.propagateOption(opt,handler.valueField,this[handler.valueField],handler.elementType);
+		
 		if(rssSynchronizer && config.options.chkRipplerapShare)
 			rssSynchronizer.makeRequest();
+					
+		return true;
 	};
 
 
