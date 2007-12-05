@@ -29,6 +29,7 @@ feed()
     date=$(date +"%a, %d %b %Y %H:%M:%S %Z")
     filename="feeds/$feed.xml"
     link="$rooturi/$filename"
+    tmp="feeds/.$feed.xml.$$"
 
     {
 cat <<EOF 
@@ -56,7 +57,8 @@ cat <<EOF
  </channel>
 </rss>
 EOF
-    } > $filename
+    } > $tmp
+    mv $tmp $filename
 }
 
 feed "" $latest_nitems

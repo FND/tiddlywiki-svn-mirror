@@ -44,22 +44,8 @@ def squash(title):
 	title = re.sub(r'[^\w\-]', '_', title)
 	return title
 
-def explode_entry(e):
-	title = squash(e.title)
-	path = os.path.join(outputdir, title) 
-	fp = open(path, 'w')
-	fp.write(rss20ise_entry(e))
-	fp.close
 
-	mtime = time.mktime(e.updated_parsed)
-	os.utime(path, (mtime, mtime))
-
-def explode(feed):
-	f = feedparser.parse(feed)
-	for e in f.entries:
-		explode_entry(e)
-
-def main():		 
+if __name__ == "__main__":
     try:
         opts, args = getopt.getopt(sys.argv[1:], "ho:", ["help", "output="])
     except getopt.GetoptError:
@@ -78,8 +64,15 @@ def main():
             outputdir = a
 
     for feed in args:
-		explode(feed)
-    
-if __name__ == "__main__":
-	main()
-	sys.exit()
+	f = feedparser.parse(feed)
+	for e in f.entries:
+		title = squash(e.title)
+		path = os.path.join(outputdir, title) 
+		fp = open(path, 'w')
+		fp.write(rss20ise_entry(e))
+		fp.close
+
+		mtime = time.mktime(e.updated_parsed)
+		os.utime(path, (mtime, mtime))
+
+#os.system("ls -l notes")

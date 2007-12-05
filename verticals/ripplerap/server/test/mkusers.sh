@@ -6,7 +6,7 @@
 declare -i nusers=$1
 declare -i nitems=$2
 
-[ $nusers -le 0 ] && nusers=300
+[ $nusers -le 0 ] && nusers=100
 [ $nitems -le 0 ] && nitems=10
 
 [ -d "users" ] || mkdir "users"
