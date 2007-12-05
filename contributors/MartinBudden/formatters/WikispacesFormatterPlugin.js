@@ -115,7 +115,7 @@ config.wikispacesFormatters = [
 {
 	name: 'wikispacesHeading',
 	match: '^={1,6}(?!=)',
-	termRegExp: /(={0,6}\n+)/mg,
+	termRegExp: /(={0,6} *\n)/mg,
 	handler: function(w)
 	{
 		w.subWikifyTerm(createTiddlyElement(w.output,'h'+w.matchLength),this.termRegExp);
@@ -188,6 +188,22 @@ config.wikispacesFormatters = [
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[1]) {
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			invokeMacro(w.output,lookaheadMatch[1],lookaheadMatch[2],w,w.tiddler);
+		}
+	}
+},
+
+{
+	name: 'wikispacesImage',
+	match: '\\[\\[image:',
+	lookaheadRegExp: /\[\[image:(.*?)(?: +(.*?))?\]\]/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+			var img = createTiddlyElement(w.output,"img");
+			img.src = lookaheadMatch[1];
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	}
 },
@@ -278,6 +294,37 @@ config.wikispacesFormatters = [
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+		}
+	}
+},
+
+{
+	name: "wikispacesRawText",
+	match: "``",
+	lookaheadRegExp: /(?:``)((?:.|\n)*?)(?:``)/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+			createTiddlyElement(w.output,"span",null,null,lookaheadMatch[1]);
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+		}
+	}
+},
+
+{
+	name: 'wikispacesMailTo',
+	match: '[\\w\.]+@[\\w]+\.[\\w\.]+',
+	lookaheadRegExp: /([\w\.]+@[\w]+\.[\w\.]+)/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+			var text = lookaheadMatch[1];
+			createTiddlyText(createExternalLink(w.output,'mailto:'+text),text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	}
