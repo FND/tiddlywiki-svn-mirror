@@ -1,4 +1,4 @@
-<div title="Share notes" modifier="PhilHawksworth" created="200711051056" modified="200711291948" changecount="6">
+<div title="Share notes" modifier="PhilHawksworth" created="200711051056">
 <pre>If you're connected to the web, you can share your notes with others and receive theirs in return, all saved to your local ~RippleRap file, and all fully searchable!
 
 To share your notes, check the below box and complete the form. You can turn this functionality off for a specific session or set of notes if you want - just uncheck the check box that appears when you're creating a new set of notes. Your username and password will ensure that your notes are assigned to you in other people's version of ~RippleRap.
@@ -7,7 +7,7 @@ To share your notes, check the below box and complete the form. You can turn thi
 |''Your name'' ^^[[help|About your username]]^^ |''Password'' ^^[[help|About your password]]^^ |
 |<<option txtUserName>> |<<option txtRipplerapAccountPassword>> |<<option chkRipplerapShare>> share my notes ^^[[help|Share notes]]^^ |
 }}}
-
+<<ripplerapAccountButton>>
 If you'd like to draw people's attention to your blog or twitter feed, include the relevant ~URLs at the bottom of your notes. This information will then appear on other people's copy of ~RippleRap so they can follow your words of wisdom after the event!
 
 Once you've enabled sharing, to see notes that other people have shared, click on their names under the session you're interested in. These will be downloaded automatically.
