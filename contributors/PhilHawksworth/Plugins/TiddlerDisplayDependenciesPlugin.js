@@ -41,10 +41,10 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 
 			displayMessage('..template: ' + template);
 
-			console.log(typeof(template) +" : "+ template);
+			displayMessage(typeof(template) +" : "+ template);
 			if(template == 2) {editmode = true;}
 			else if((typeof(template) == 'string') && (template.indexOf("Edit") != -1)) {editmode = true;}
-			console.log("edit mode: "+ editmode);
+			displayMessage("edit mode: "+ editmode);
 		}
 		
 		//displayMessage('survived the template check');
@@ -54,21 +54,21 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 			
 			/*
 			if(!s) 
-				console.log("no session tiddlers realted to " +t.title+ " found in the store");
+				displayMessage("no session tiddlers realted to " +t.title+ " found in the store");
 			else 
-				console.log(s.length + " session tiddlers realted to " +t.title+ " found in the store");
+				displayMessage(s.length + " session tiddlers realted to " +t.title+ " found in the store");
 
 			*/
 			
 			// display the appropriate session tiddler.
 			var s = config.relationships['rapped'].getRelatedTiddlers(store,t.title);
 			if(s.length < 1) { 
-				console.log("No related session tiddler found");
+				displayMessage("No related session tiddler found");
 				return;
 			}
 			var sessionTiddler = store.getTiddler(s[0]);
 			if(!sessionTiddler)	{
-				console.log("No session tiddler found in the store");
+				displayMessage("No session tiddler found in the store");
 				return;
 			}
 			
@@ -95,7 +95,7 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 		}
 		else {
 			//TODO: remove logging
-			//displayMessage("displaying without doing anything special");
+			displayMessage("displaying without doing anything special");
 			config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
 		}
 	};
