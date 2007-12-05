@@ -36,6 +36,14 @@ function RssSynchronizer()
 
 RssSynchronizer.userNameNotSet = "You have not set your username";
 
+RssSynchronizer.log = function(x)
+{
+	if(config.userAgent.indexOf("firefox/2") != -1)
+		console.log(x);
+	else
+		displayMessage(x);
+};
+
 RssSynchronizer.prototype.init = function()
 {
 	var me = this;
@@ -73,14 +81,14 @@ RssSynchronizer.prototype.makeRequest = function()
 	if(!config.options.chkRipplerapShare)
 		return;
 	if(this.userUpload.requestPending) {
-console.log("put request is pending");
+RssSynchronizer.log("put request is pending");
 		return;
 	}
 	if(this.sessionDownload.requestPending) {
-console.log("get request is pending");
+RssSynchronizer.log("get request is pending");
 		return;
 	}
-console.log(this.nextIsGet ? "makeRequest:get" : "makeRequest:put");
+RssSynchronizer.log(this.nextIsGet ? "makeRequest:get" : "makeRequest:put");
 	this.nextIsGet = !this.nextIsGet;
 	var me = this;
 	if(this.nextIsGet) {
@@ -116,17 +124,17 @@ RssSynchronizer.prototype.doGet = function()
 
 RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
 {
-console.log("getNotesTiddlersFromRss:"+uri);
+RssSynchronizer.log("getNotesTiddlersFromRss:"+uri);
 	var adaptor = new RSSAdaptor();
 	var context = {synchronizer:this,host:uri,adaptor:adaptor,rssUseRawDescription:true};
 	var ret = adaptor.getTiddlerList(context,null,RssSynchronizer.getNotesTiddlerListCallback);
-console.log("getTiddlerList:"+ret);
+RssSynchronizer.log("getTiddlerList:"+ret);
 	return ret;
 };
 
 RssSynchronizer.getNotesTiddlerListCallback = function(context,userParams)
 {
-console.log("getNotesTiddlerListCallback:"+context.status);
+RssSynchronizer.log("getNotesTiddlerListCallback:"+context.status);
 	//context.synchronizer.sessionDownload.requestPending = false;
 	var tiddlers = context.tiddlers;
 	var length = tiddlers ? tiddlers.length : 0;
@@ -141,7 +149,7 @@ console.log("getNotesTiddlerListCallback:"+context.status);
 			tiddler.tags.pushUnique(me.discoveredNoteTag);
 			tiddler.tags.remove(me.sharedTag);
 			tiddler.tags.remove(me.myNoteTag);
-		console.log("Tags: " + tiddler.tags + ", modifier: "+ tiddler.modifier);
+		//#RssSynchronizer.log("Tags: " + tiddler.tags + ", modifier: "+ tiddler.modifier);
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 			story.refreshTiddler(tiddler.title,1,true);
 		}
@@ -155,8 +163,9 @@ console.log("getNotesTiddlerListCallback:"+context.status);
 // If the user has written any notes since the last put, then put them
 RssSynchronizer.prototype.doPut = function()
 {
-console.log("doPut");
+RssSynchronizer.log("doPut");
 	if(config.options.txtUserName=='YourName') {
+		this.userUpload.requestPending = false;
 		displayMessage(RssSynchronizer.userNameNotSet);
 		return false;
 	}
@@ -171,11 +180,11 @@ console.log("doPut");
 		}
 	});
 	if(putRequired) {
-console.log("putRequired");
+RssSynchronizer.log("putRequired");
 		uri = this.userUpload.rootUri + config.options.txtUserName+ '/index.xml';
 		this.putTiddlersToRss(uri,tiddlers);
 	} else {
-console.log("putNotRequired");
+RssSynchronizer.log("putNotRequired");
 		this.userUpload.requestPending = false;
 		this.makeRequest();
 	}
@@ -184,12 +193,12 @@ console.log("putNotRequired");
 
 RssSynchronizer.prototype.putTiddlersToRss = function(uri,tiddlers)
 {
-console.log("putTiddlersToRss:"+uri);
+RssSynchronizer.log("putTiddlersToRss:"+uri);
 	this.userUpload.startTime = new Date();
 	var rss = RssSynchronizer.generateRss(tiddlers);
 	
 	var callback = function(status,params,responseText,uri,xhr) {
-console.log("putTiddlersToRssCallback:"+status);
+RssSynchronizer.log("putTiddlersToRssCallback:"+status);
 		var context = params[0];
 		var me = context.synchronizer;
 		me.userUpload.requestPending = false;
