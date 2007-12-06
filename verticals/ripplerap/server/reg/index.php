@@ -68,7 +68,7 @@
 	#
 	$f = fopen($userDir."/.htaccess", 'w') or die("can't open users' .htaccess file");
 	fwrite($f, "AuthType Basic\n");
-	fwrite($f, "AuthName 'TiddleLeWeb'\n");
+	fwrite($f, "AuthName 'LeWeb Ripplerap'\n");
 	fwrite($f, "AuthUserFile $userDir/.htpasswd\n");
 	fwrite($f, "Require user $username\n");
 	fclose($f);	
