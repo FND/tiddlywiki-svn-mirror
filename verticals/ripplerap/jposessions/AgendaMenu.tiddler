@@ -1,0 +1,5 @@
+<div title="AgendaMenu" modifier="PhilHawksworth" modified="200711280946" changecount="5">
+<pre><<tabs txtMainTab 
+	"Thu 6th Dec" "Agenda for the first day" AgendaDay1 
+	"Fri 7th Dec" "Agenda for the second day" AgendaDay2>></pre>
+</div>
