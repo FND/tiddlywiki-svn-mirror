@@ -41,7 +41,9 @@ RssSynchronizer.userNameNotSet = "You have not set your username";
 
 RssSynchronizer.log = function(x)
 {
-	if(config.userAgent.indexOf("firefox/2") != -1)
+	if(!config.options.chkDisplayStartupTime)// reuse this flag for now
+		return;
+	if(window.console)
 		console.log(x);
 	else
 		displayMessage(x);
@@ -84,6 +86,8 @@ RssSynchronizer.prototype.init = function()
 			}
 		}
 	});
+	if(config.options.chkRipplerapShare)
+		this.makeRequest();
 };
 
 // Do a single sync operation, designed to be called off a timer
