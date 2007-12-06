@@ -62,6 +62,7 @@ div.layoutTable {margin-bottom:0.5em;}
 div.layoutTable table, div.layoutTable table tr, div.layoutTable table td {margin:0; border-style:none;}
 input.txtOptionInput { font-size:1.2em; padding: 0.4em; border-top:solid 1px #999; border-right:solid 1px #ccc; border-bottom:solid 1px #ccc;  border-left:solid 1px #999; background-color:#f6f6f6;}
 div.tiddler sup {font-size:0.7em;}
+div.tiddler pre {font-size:0.em;}
 
 /* Session and Notes tiddlers */
 div.session .toolbar,
@@ -103,8 +104,10 @@ div.session_edit textarea { border:solid 1px #555; border-top-color:#444; border
 
 div.myNotes { background-color:#ddd; border:solid 1px #333; border-top-style:none;  border-left-width:2px; margin:0;}
 div.myNotes .toolbar {background-color:#eee; }
+div.myNotes .editor {width:90%;}
+
 div.myNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
-div.myNotes .editor .fieldsetFix textarea { border:solid 1px #555; border-top-color:#444; border-bottom-color:#fff; background-color:#fff;}
+div.myNotes .editor .fieldsetFix textarea { border:solid 1px #555; border-top-color:#444; border-bottom-color:#fff; background-color:#fff;overflow:auto;}
 div.myNotes .tags {display:none;}
 
 div.discoveredNotes { background-color:#ddd; border:solid 1px #333; border-left-width:2px; border-top-style:none; margin:0;}
@@ -113,7 +116,7 @@ div.discoveredNotes .title,
 div.discoveredNotes .viewer, 
 div.discoveredNotes .editor {border-left:solid 40px #bbb;}
 div.discoveredNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
-div.discoveredNotes .editor .fieldsetFix textarea { border:solid 1px #bbb; border-top-color:#aaa; border-bottom-color:#fff; background-color:#eee;}
+div.discoveredNotes .editor .fieldsetFix textarea { border:solid 1px #bbb; border-top-color:#aaa; border-bottom-color:#fff; background-color:#eee; }
 div.discoveredNotes .title { margin:0; padding:0.5em 10px 0 10px; font-size:1.2em; font-weight:bold; color:#666; }
 
 div.noteOptions { position:absolute; bottom:8px; right:8px;}
