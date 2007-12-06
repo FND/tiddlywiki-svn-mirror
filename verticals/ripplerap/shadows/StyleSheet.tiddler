@@ -119,7 +119,7 @@ div.discoveredNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
 div.discoveredNotes .editor .fieldsetFix textarea { border:solid 1px #bbb; border-top-color:#aaa; border-bottom-color:#fff; background-color:#eee; }
 div.discoveredNotes .title { margin:0; padding:0.5em 10px 0 10px; font-size:1.2em; font-weight:bold; color:#666; }
 
-div.noteOptions { position:absolute; bottom:8px; right:8px;}
+div.noteOptions { position:absolute; top:8px; right:2em;}
 div.noteOptions a.button {color:#eee; background-color:#666; border-style:none; border-top:1px solid #bbb; }
 div.noteOptions a.button:hover {color:#fff; background-color:#444; border-style:none; border-top:1px solid #ddd;}
 
