@@ -13,5 +13,6 @@ tiddler: ../../contributors/PaulDowney/plugins/MicroformatPlugin.js
 recipe: shadows/split.recipe
 recipe: plugins/split.recipe
 recipe: content/split.recipe
-recipe: jp_sessions/split.recipe
-recipe: feeds/split.recipe
+
+recipe: jposessions/split.recipe
+recipe: jpofeeds/split.recipe
