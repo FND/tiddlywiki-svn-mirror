@@ -19,6 +19,7 @@ import re
 import time
 import getopt
 import feedparser
+import codecs
 
 outputdir = "notes"
 	
@@ -68,11 +69,12 @@ if __name__ == "__main__":
 	for e in f.entries:
 		title = squash(e.title)
 		path = os.path.join(outputdir, title) 
-		fp = open(path, 'w')
+		fp = codecs.open(path, 'w', 'utf-8')
 		fp.write(rss20ise_entry(e))
 		fp.close
 
 		mtime = time.mktime(e.updated_parsed)
 		os.utime(path, (mtime, mtime))
 
-#os.system("ls -l notes")
+# it seems that the utime after the close depends on a flush from the os?!
+#os.system("ls -l notes/Testing_s__Number___010-TestUser088")
