@@ -76,5 +76,6 @@ config.macros.toggleElement.toggle = function(id) {
 			e.style.display = "";
 		}
 	}
+	return false;
 };
 //}}}

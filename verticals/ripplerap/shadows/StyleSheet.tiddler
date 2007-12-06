@@ -26,7 +26,8 @@ div.headerControls {position:absolute; bottom:10px; right:10px; color:[[ColorPal
 
 /* Buttons */
 span.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; display:block; padding:0; margin:0.2em 0 0 0;}
-span.chunkyButton a.button { white-space:nowrap; font-weight:bold; color:#fff; background-color:[[ColorPalette::SecondaryDark]]; text-align:center; padding:0.5em 2em; margin:0; border-style:none;  border-top:solid 1px [[ColorPalette::SecondaryBrightest]]; display:block;}
+span.chunkyButton a.button,
+span.chunkyButton a:active.button { white-space:nowrap; font-weight:bold; color:#fff; background-color:[[ColorPalette::SecondaryDark]]; text-align:center; padding:0.5em 2em; margin:0; border-style:none;  border-top:solid 1px [[ColorPalette::SecondaryBrightest]]; display:block;}
 span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBright]]; border-style:none; color:#fff;  border-top:solid 1px [[ColorPalette::SecondaryBrightest]];}
 
 /* Agenda */
@@ -120,7 +121,8 @@ div.discoveredNotes .editor .fieldsetFix textarea { border:solid 1px #bbb; borde
 div.discoveredNotes .title { margin:0; padding:0.5em 10px 0 10px; font-size:1.2em; font-weight:bold; color:#666; }
 
 div.noteOptions { position:absolute; top:2em; right:8px;}
-div.noteOptions a.button {color:#eee; background-color:#666; border-style:none; border-top:1px solid #bbb; }
+div.noteOptions a.button,
+div.noteOptions a:active.button {color:#eee; background-color:#666; border-style:none; border-top:1px solid #bbb; }
 div.noteOptions a.button:hover {color:#fff; background-color:#444; border-style:none; border-top:1px solid #ddd;}
 
 
