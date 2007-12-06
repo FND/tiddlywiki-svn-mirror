@@ -76,7 +76,9 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	Ripplerap account creation helpers
 	*/
 	config.macros.ripplerapAccountButton = {};
-	config.macros.ripplerapAccountButton.eventName = "Le Web 3";
+	//config.macros.ripplerapAccountButton.eventName = "Le Web 3";
+	config.macros.ripplerapAccountButton.eventName = "JPO";
+	config.macros.ripplerapAccountButton.btnLabel = "Set up my Ripplerap account for %0";
 	config.macros.ripplerapAccountButton.serverBaseURL = "https://www.ripplerap.com/LeWeb/";
 	config.macros.ripplerapAccountButton.userNameNotSet = "You have not set your username";
 
@@ -87,7 +89,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		} else {
 			// create a signup button
 			var btnCase = createTiddlyElement(place,'span','ripplerapAccountButton','chunkyButton');
-			var btnLabel = "Set up my Ripplerap account for "+ config.macros.ripplerapAccountButton.eventName;
+			var btnLabel = config.macros.ripplerapAccountButton.btnLabel.format([config.macros.ripplerapAccountButton.eventName]);
 			var btnClickHandler = config.macros.ripplerapAccountButton.onClickSignup;
 			createTiddlyButton(btnCase,btnLabel,null,config.macros.ripplerapAccountButton.onClick);
 			msg = createTiddlyElement(place,'span','ripplerapAccountMessage');
@@ -124,6 +126,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 				signupMessage: "There was a problem reaching the server to create your username. Please try again shortly."
 			}
 		};
+//#displayMessage("accountRequestCallback:"+status+" r:"+xhr.status);
 		config.macros.ripplerapAccountButton.showFeedback(responseTypes[xhr.status].signupMessage);
 		if(status) {
 			config.options['chkRipplerapReadyToUse'+config.options.txtUserName] = true;
