@@ -126,13 +126,22 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 				signupMessage: "There was a problem reaching the server to create your username. Please try again shortly."
 			}
 		};
-//#displayMessage("accountRequestCallback:"+status+" r:"+xhr.status);
-		config.macros.ripplerapAccountButton.showFeedback(responseTypes[xhr.status].signupMessage);
+		
 		if(status) {
 			config.options['chkRipplerapReadyToUse'+config.options.txtUserName] = true;
 			config.options.chkRipplerapReadyToUse = true;
 			saveOptionCookie('chkRipplerapReadyToUse'+config.options.txtUserName);
 		}
+		
+		try {
+			var xhrStatus = xhr.status;
+			if(!responseTypes[xhrStatus])
+				xhrStatus = 0;
+		} catch(ex) {
+			xhrStatus = 0;
+		}
+		
+		config.macros.ripplerapAccountButton.showFeedback(responseTypes[xhrStatus].signupMessage);		
 		if(status && rssSynchronizer && config.options.chkRipplerapShare) {
 			rssSynchronizer.makeRequest();
 		}
