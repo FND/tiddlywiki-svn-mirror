@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for talking to RSS 2.0 files|
 |''Author''|Jon Lister|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/adaptors/RSSAdaptor.js |
-|''Version:''|0.1.5|
+|''Version:''|0.1.6|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.2.6|
@@ -223,7 +223,6 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 		}
 		// This line makes sure any html-encoding in the title is reversed
 		item.title = item.title.htmlDecode();
-		item.title = item.title.trim();
 		// There is a problem with the title, which is that it is not formatted, so characters like &apos; are not converted at render time
 		// renderHtmlText() extends String and sorts out the problem
 		item.title = item.title.renderHtmlText();
