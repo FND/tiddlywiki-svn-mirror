@@ -92,7 +92,7 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 		}
 		else {
 			//TODO: remove logging
-			displayMessage("displaying without doing anything special");
+			//displayMessage("displaying without doing anything special");
 			config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
 		}
 	};
