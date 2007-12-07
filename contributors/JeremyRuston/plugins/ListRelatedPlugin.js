@@ -4,7 +4,7 @@
 |''Author:''|JeremyRuston|
 |''Source:''|http://www.osmosoft.com/#ListRelatedPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JeremyRuston/plugins/ListRelatedPlugin.js |
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Date:''|Nov 27, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -54,11 +54,12 @@ config.relationships = {
 		text: "raps",
 		prompt: "Tiddlers that are comments on this one",
 		getRelatedTiddlers: function(store,title) {
-			var re = "^" + title.escapeRegExp() + " from (.+)";
+			var re = "^" + title.trim().escapeRegExp() + " from (?:.+)";
+			var regexp = new RegExp(re,"mg");
 			var tiddlers = [];
 			store.forEachTiddler(function(title,tiddler) {
-				var regexp = new RegExp(re,"mg");
-				var match = regexp.exec(title);
+				regexp.lastIndex = 0;
+				var match = regexp.exec(title.trim().escapeRegExp());
 				if(match)
 					tiddlers.push(title);
 			});
@@ -72,6 +73,7 @@ config.relationships = {
 			var tiddlers = [];
 			var re = "^(.+) from (.+)$";
 			var regexp = new RegExp(re,"mg");
+			regexp.lastIndex = 0;
 			var match = regexp.exec(title);
 			if(match)
 				tiddlers.push(match[1]);
@@ -105,7 +107,7 @@ config.macros.listRelated.handler = function(place,macroName,params,wikifier,par
 	var tiddlers = store.filterTiddlers(filter);
 	for(var t=0; t<tiddlers.length; t++) {
 		var tiddler = tiddlers[t];
-		var wrapper = createTiddlyElement(place,"div",null,"listRelatedTiddler")
+		var wrapper = createTiddlyElement(place,"div",null,"listRelatedTiddler");
 		var wikifier = new Wikifier(template,formatter,null,tiddler);
 		wikifier.subWikifyUnterm(wrapper);
 		var rel = config.relationships[relationship].getRelatedTiddlers(store,tiddler.title);
