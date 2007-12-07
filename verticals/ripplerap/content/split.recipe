@@ -1,8 +1,14 @@
+tiddler: AgendaMenu.tiddler
+tiddler: AgendaMain1.tiddler
+tiddler: AgendaMain2.tiddler
+tiddler: AgendaStartup1.tiddler
+tiddler: AgendaStartup2.tiddler
+tiddler: AgendaWorkshops.tiddler
+tiddler: AgendaItemsTemplate.tiddler
+tiddler: AgendaSubItemsTemplate.tiddler
 
 tiddler: About_your_username.tiddler
 tiddler: About_your_password.tiddler
-tiddler: AgendaItemsTemplate.tiddler
-tiddler: AgendaSubItemsTemplate.tiddler
 
 tiddler: DiscoveredNotesViewTemplate.tiddler
 tiddler: DiscoveredNotesEditTemplate.tiddler
