@@ -63,7 +63,7 @@ config.macros.toggleElement.handler = function(place, macroName, params) {
 	}
 	// create toggle button
 	createTiddlyButton(place, label, prompt,
-		function() { config.macros.toggleElement.toggle(elementID); },
+		function() { config.macros.toggleElement.toggle(elementID); return false;},
 		buttonClass, null, accessKey);
 };
 
