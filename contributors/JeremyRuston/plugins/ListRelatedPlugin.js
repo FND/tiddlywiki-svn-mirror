@@ -4,7 +4,7 @@
 |''Author:''|JeremyRuston|
 |''Source:''|http://www.osmosoft.com/#ListRelatedPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JeremyRuston/plugins/ListRelatedPlugin.js |
-|''Version:''|0.0.3|
+|''Version:''|0.0.4|
 |''Date:''|Nov 27, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -92,6 +92,7 @@ config.macros.listRelated.handler = function(place,macroName,params,wikifier,par
 	params = paramString.parseParams("anon",null,true,false,false);
 	var filter = getParam(params,"filter","");
 	var tag = getParam(params,"tag","");
+	var field = getParam(params,"sort","");
 	var relationship = getParam(params,"rel",this.defaultRelationship);
 	var template = getParam(params,"template",null);
 	if(template)
@@ -109,8 +110,12 @@ config.macros.listRelated.handler = function(place,macroName,params,wikifier,par
 			if(tiddler.isTagged(tag))
 				tiddlers.push(tiddler);
 		});
-		var field = "rr_session_starttime";
-		tiddlers.sort(function(a,b) {return a.fields[field] < b.fields[field] ? -1 : (a.fields[field] == b.fields[field] ? 0 : +1);});
+		if(field) {
+			if(TiddlyWiki.standardFieldAccess[field])
+				tiddlers.sort(function(a,b) {return a[field] < b[field] ? -1 : (a[field] == b[field] ? 0 : +1);});
+			else
+				tiddlers.sort(function(a,b) {return a.fields[field] < b.fields[field] ? -1 : (a.fields[field] == b.fields[field] ? 0 : +1);});
+		}
 	} else {
 		tiddlers = store.filterTiddlers(filter);
 	}
