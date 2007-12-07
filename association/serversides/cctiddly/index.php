@@ -408,7 +408,7 @@ else
 		     
 	        document.cookie = &quot;sessionToken=invalid;   expires=15/02/2009 00:00:00&quot;;
 	        config.macros.ccLogin.refresh(loginDivRef);
-	        doHttp('POST', ' http://127.0.0.1/cctw1/msghandle.php', &quot;logout=1&quot;);
+	        doHttp('POST', ' http://127.0.0.1/cctiddly/msghandle.php', &quot;logout=1&quot;);
 	     //   		window.location = window.location;      
 	 displayMessage('you have reachewd the logout onSubmit ');
 	return false;
@@ -425,7 +425,7 @@ else
 	        var pass = document.getElementById('cctpass').value;
 	        var params = {}; 
 	        params.origin = this;
-	        var loginResp = doHttp('POST', ' http://127.0.0.1/cctw1/msghandle.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
+	        var loginResp = doHttp('POST', ' http://127.0.0.1/cctiddly/msghandle.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
 	        return false;
 	    },
 
@@ -440,11 +440,12 @@ else
 	        config.macros.ccLogin.saveCookie(cookieValues);
 	        var loginDivRef = findRelated( params.origin,&quot;loginDiv&quot;,&quot;className&quot;,&quot;parentNode&quot;);
 	        removeChildren(loginDivRef);	
-// if (sessionToken !== 'invalid')
-	//window.location = window.location;
-  config.macros.ccLogin.refresh(loginDivRef, cookieValues.sessionToken.substring(3));
-	  return true;
-	    },
+			if(xhr.status != 401) {
+				window.location = window.location;
+			}
+			config.macros.ccLogin.refresh(loginDivRef, 'Login Failed ');
+			return true;
+			 },
 
 
 	       saveCookie: function(cookieValues) {

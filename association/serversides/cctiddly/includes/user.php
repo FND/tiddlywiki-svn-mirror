@@ -76,31 +76,37 @@
 	{ 
 		global $user;
 		$pw = cookie_get('sessionToken');
-		$data_session['session_token'] = $pw;
-		$results = db_record_select('login_session', $data_session);			// get array of results		
-
-		if (count($results) > 0 )                   //  if the array has 1  session
+		if ($pw)
 		{
-			$user['verified'] = 1;	
-			if($results[0]['expire'] > epochToTiddlyTime(time())) 
+			$data_session['session_token'] = $pw;
+			$results = db_record_select('login_session', $data_session);			// get array of results		
+
+			if (count($results) > 0 )                   //  if the array has 1  session
 			{
-				return TRUE;
+				$user['verified'] = 1;	
+				if($results[0]['expire'] > epochToTiddlyTime(time())) 
+				{
+					return TRUE;
+				}
+				else 
+				{
+				  //  SESSION HAS EXPIRED 
+					debug('SESSION has expired ');	
+					user_logout('Your session has expired ');
+				 	return FALSE; 
+				 	//delete the cookies and session record 
+				}
 			}
-			else 
-			{
-			  //  SESSION HAS EXPIRED 
-				debug('SESSION has expired ');	
-				user_logout('Your session has expired ');
-			 	return FALSE; 
-			 	//delete the cookies and session record 
+			else
+			{ 
+				user_logout('Session Does not exist');
+				return FALSE;		
 			}
 		}
 		else
-		{ 
-			user_logout('Session Does not exist');
-			return FALSE;		
+		{
+			return FALSE;
 		}
-			
 	}
 	
 	
@@ -182,6 +188,7 @@
 		else
 		{		//if username password pair wrong, clear cookie
 			user_logout('Login Failed');
+			Header("HTTP/1.0 401 Unauthorized");
 			return FALSE;
 		}
 	}
