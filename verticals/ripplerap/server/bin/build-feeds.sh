@@ -48,7 +48,7 @@ cat <<EOF
   <generator>RippleRap</generator>
 EOF
 	[ -n "$sess" ]&&sess="${sess}-"
-	files=$(ls $notesdir/* 2>/dev/null)
+	files=$(ls $notesdir/${sess}* 2>/dev/null)
 	if [ -n "$files" ]
 	then
 	    cat $(ls -rt $files| tail -$nitems) 
