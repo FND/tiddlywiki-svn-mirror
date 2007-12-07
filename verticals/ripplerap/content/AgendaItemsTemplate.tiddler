@@ -1,5 +1,5 @@
 <div title="AgendaItemsTemplate" modifier="PaulDowney" created="200711280945" changecount="1">
 <pre>
-{{vevent{{{time{<<dtstart rr_session_starttime 'HH:MM'>> - <<dtend rr_session_endtime 'HH:MM'>> }}} {{title summary{<<view title link>>}}}}}}
+{{vevent{{{time{<<dtstart rr_session_starttime '0hh:0mm'>> - <<dtend rr_session_endtime '0hh:0mm'>> }}} {{title summary{<<view title link>>}}}}}}
 </pre>
 </div>
