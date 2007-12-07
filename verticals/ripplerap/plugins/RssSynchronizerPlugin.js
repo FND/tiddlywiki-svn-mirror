@@ -3,7 +3,7 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.12|
+|''Version:''|0.0.13|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -165,9 +165,11 @@ RssSynchronizer.log("getNotesTiddlerListCallback:"+context.status);
 		var t = store.fetchTiddler(tiddler.title);
 		//# if the notes tiddler doesn't exist, or it is written by someone else, then get it
 		if(!t || tiddler.modifier!=config.options.txtUserName) {
-			tiddler.tags.pushUnique(me.discoveredNoteTag);
-			tiddler.tags.remove(me.sharedTag);
-			tiddler.tags.remove(me.myNoteTag);
+			if(tiddler.modifier!=config.options.txtUserName) {
+				tiddler.tags.pushUnique(me.discoveredNoteTag);
+				tiddler.tags.remove(me.myNoteTag);
+				tiddler.tags.remove(me.sharedTag);
+			}
 		//#RssSynchronizer.log("Tags: " + tiddler.tags + ", modifier: "+ tiddler.modifier);
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 			story.refreshTiddler(tiddler.title,1,true);
