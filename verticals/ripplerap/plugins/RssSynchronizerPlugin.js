@@ -3,7 +3,7 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.11|
+|''Version:''|0.0.12|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -162,11 +162,9 @@ RssSynchronizer.log("getNotesTiddlerListCallback:"+context.status);
 	var me = context.synchronizer;
 	for(var i=0; i<length; i++) {
 		tiddler = tiddlers[i];
-		//var t = store.fetchTiddler(tiddler.title);
-		// if the tiddler exists locally, don't overwrite unless the text is different
-		// TEMP CHANGE 20/11/07: if(!t || t.text != tiddler.text) {
-		//if(!t || t.text != tiddler.text) {
-		if(tiddler.modifier!=config.options.txtUserName) {
+		var t = store.fetchTiddler(tiddler.title);
+		//# if the notes tiddler doesn't exist, or it is written by someone else, then get it
+		if(!t || tiddler.modifier!=config.options.txtUserName) {
 			tiddler.tags.pushUnique(me.discoveredNoteTag);
 			tiddler.tags.remove(me.sharedTag);
 			tiddler.tags.remove(me.myNoteTag);
