@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for talking to RSS 2.0 files|
 |''Author''|Jon Lister|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/adaptors/RSSAdaptor.js |
-|''Version:''|0.1.2|
+|''Version:''|0.1.3|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.2.6|
@@ -74,7 +74,7 @@ RSSAdaptor.loadRssCallback = function(status,context,responseText,url,xhr)
 				tiddlers = tw.filterTiddlers(filter);
 			}*/
 		} catch (ex) {
-			displayMessage("Error parsing RSS");
+			displayMessage("Error parsing RSS:"+context.host);
 		}
 	}
 	context.complete(context,context.userParams);
@@ -228,14 +228,14 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 		var t = new Tiddler(item.title);
 
 		// grab original wikitext if it is there as an extended field
-		wikitext = item_match[i].match(regex_wiki);
+		var wikitext = item_match[i].match(regex_wiki);
 		if(wikitext) {
 			item.text = wikitext[0].replace(/^<tw:wikitext>|<\/tw:wikitext>$/mg,"");
 			item.text = item.text.htmlDecode();
 			t.text = item.text;
 		} else {
 			// use the description as the tiddler text
-			desc = item_match[i].match(regex_desc);
+			var desc = item_match[i].match(regex_desc);
 			if(desc) {
 				item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
 			} else {
@@ -245,7 +245,7 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 		}
 
 		// grab the categories
-		category = item_match[i].match(regex_category);
+		var category = item_match[i].match(regex_category);
 		if(category) {
 			item.categories = [];
 			for(var j=0;j<category.length;j++) {
@@ -256,7 +256,7 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 
 		// grab the link and put it in a custom field (assumes this is sensible)
 		// regex_link assumes you can never have whitespace in a link
-		link = item_match[i].match(regex_link);
+		var link = item_match[i].match(regex_link);
 		if(link) {
 			item.link = link[0].replace(/^<link>|<\/link>$/mg,"");
 		} else {
@@ -265,7 +265,7 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 		t.fields["linktooriginal"] = item.link;
 
 		// grab date created
-		pubDate = item_match[i].match(regex_pubDate);
+		var pubDate = item_match[i].match(regex_pubDate);
 		if(pubDate) {
 			pubDate = pubDate[0].replace(/^<pubDate>|<\/pubDate>$/mg,"");
 			item.pubDate = new Date(pubDate);
@@ -275,7 +275,7 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 		t.created = item.pubDate;
 
 		// grab author
-		author = item_match[i].match(regex_author);
+		var author = item_match[i].match(regex_author);
 		if(author) {
 			author = author[0].replace(/^<author>|<\/author>$/mg,"");
 			item.author = author;
