@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for talking to RSS 2.0 files|
 |''Author''|Jon Lister|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/adaptors/RSSAdaptor.js |
-|''Version:''|0.1.3|
+|''Version:''|0.1.4|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.2.6|
@@ -64,7 +64,7 @@ RSSAdaptor.loadRssCallback = function(status,context,responseText,url,xhr)
 //#console.log("loadRssCallback:"+status);
 	context.status = status;
 	if(!status) {
-		context.statusText = "Error reading RSS file";// + xhr.statusText;
+		context.statusText = "Error reading RSS file:" + context.host;// + xhr.statusText;
 	} else {
 		try {
 			context.tiddlers = RSSAdaptor.rssToTiddlers(responseText,context.rssUseRawDescription);
@@ -202,7 +202,8 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 	var regex_pubDate = /<pubDate>(.|\n)*?<\/pubDate>/mg;
 	var regex_author = /<author>(.|\n)*?<\/author>/mg;
 	var item_match = rss.match(regex_item);
-	for(var i=0;i<item_match.length;i++) {
+	var length = item_match ? item_match.length : 0;
+	for(var i=0;i<length;i++) {
 		// create a new Tiddler in context.tiddlers with the finished item object
 		// grab a title
 		var item = {};
