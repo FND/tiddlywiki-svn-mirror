@@ -79,13 +79,12 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	config.macros.ripplerapAccountButton = {};
 	config.macros.ripplerapAccountButton.eventName = "Le Web 3";
 	config.macros.ripplerapAccountButton.serverBaseURL = "https://www.ripplerap.com/LeWeb/";
-	//config.macros.ripplerapAccountButton.serverName = "www.ripplerap.com/LeWeb/";
 	config.macros.ripplerapAccountButton.userNameNotSet = "Please choose a username other.";
 
 	config.macros.ripplerapAccountButton.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		var buttonType = {
 				signup : {
-					btnLabel : "Set up my Ripplerap account for %0",
+					btnLabel : "Set up / Validate my Ripplerap account for %0",
 					btnAction : config.macros.ripplerapAccountButton.onSignup
 				},
 				signin : {
@@ -139,11 +138,11 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 				signinMessage: "Signin. http 400" 
 			},
 			409 : {
-				signupMessage: "This username already exists. Either sign in to that account or choose another username.",
+				signupMessage: "The " + config.options.txtUserName + " account is ready to use.",
 				signinMessage: "This username already exists. Either sign in to that account or choose another username."
 			},
 			200 : {
-				signupMessage: config.options.txtUserName + " has been created and is ready to use.",
+				signupMessage: "The " + config.options.txtUserName + " account is ready to use.",
 				signinMessage: "Thanks for signing in. You can now share yor notes with others."
 			},
 			0 : {
@@ -163,7 +162,6 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		config.macros.ripplerapAccountButton.showFeedback(responseTypes[xhrStatus].signupMessage);		
 			
 		if(status) {
-			displayMessage("we have a valid status: " + xhr.status +", working on a " + params.purpose);
 			config.options['chkRipplerapReadyToUse'+config.options.txtUserName] = true;
 			saveOptionCookie('chkRipplerapReadyToUse'+config.options.txtUserName);	
 			if(status && rssSynchronizer && config.options.chkRipplerapShare) {

@@ -30,8 +30,16 @@ config.macros.accountManager.handler = function(place,macroName,params,wikifier,
 	if(ready) {
 		ps.push(params[0]);
 		config.macros.tiddler.handler(place,'tiddler',ps,wikifier,ps.join(','),tiddler);
+		if(rssSynchronizer && config.options.chkRipplerapShare) {
+
+			displayMessage("rippling");
+			rssSynchronizer.makeRequest();
+		}
 	}
 	else {
+		
+		displayMessage("not rippling yet");
+		
 		ps.push(params[1]);
 		config.macros.tiddler.handler(place,'tiddler',ps,wikifier,ps.join(','),tiddler);
 	}
