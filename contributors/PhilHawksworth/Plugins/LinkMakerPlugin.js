@@ -22,7 +22,6 @@ version.extensions.LinkMakerPlugin = {installed:true};
 	config.macros.LinkMaker = {};
 	config.macros.LinkMaker.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		if(params.length < 2) {
-			console.log("Not enough parameters to create a tiddlylink");
 			return;
 		}
 		var text = store.getValue(tiddler,params[0]);
