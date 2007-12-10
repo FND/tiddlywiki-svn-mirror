@@ -34,11 +34,11 @@ span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBri
 
 /* Agenda */
 #agendaMenu { width:260px; float:left; padding:0; margin-top:2.2em; background-color:#f6f6f6; }
-#agendaMenu div.tabset { margin:1em; padding:0; float:left; overflow:none;}
-#agendaMenu div.tabset a.tab { padding:2px 4px; margin:0; line-height:1.7em; background-color:#ddd; color:#333; font-weight:bold; font-size:0.9em; margin-right:1px; border-style:none; }
-#agendaMenu div.tabset a.tab:hover { background-color:#ccc; color:#000; }
+#agendaMenu div.tabset { width:100%; overflow:none; display:block; margin:0; padding:0 0 1em 0; background-color:#f9f9f9;}
+#agendaMenu div.tabset a.tab { display:block; padding:2px 4px; margin:2px; line-height:1.7em; background-color:#ccc; color:#333; font-weight:bold; font-size:0.9em; margin-right:1px;  border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;  }
+#agendaMenu div.tabset a.tab:hover { background-color:#aaa; color:#000; border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;}
 #agendaMenu div.tabset a.tabSelected,
-#agendaMenu div.tabset a.tabSelected:hover {background-color:#bbb; color:#000;border-style:none; }
+#agendaMenu div.tabset a.tabSelected:hover {background-color:#888; color:#000;border-style:none; border-top-style:none; border-bottom:solid 1px #555; border-left:solid 1px #555;}
 #agendaMenu div.tabContents { border-style:none; margin:0; padding:0; clear:left;}
 
 /*#agendaMenu div.tabset { margin:1em; padding:0; float:left; overflow:none;}
