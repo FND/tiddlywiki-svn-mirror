@@ -15,6 +15,10 @@ tiddler: DiscoveredNotesEditTemplate.tiddler
 tiddler: SessionViewTemplate.tiddler
 tiddler: SessionEditTemplate.tiddler
 
+tiddler: AccountDetails.tiddler
+tiddler: SignInOption.tiddler
+
+
 tiddler: Bonjour!!.tiddler
 tiddler: CamelCase.tiddler
 tiddler: CompetitionStage.tiddler

@@ -70,34 +70,36 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 					
 		return true;
 	};
+	
 
 
 	/*
 	Ripplerap account creation helpers
 	*/
 	config.macros.ripplerapAccountButton = {};
-	//config.macros.ripplerapAccountButton.eventName = "Le Web 3";
-	config.macros.ripplerapAccountButton.eventName = "JPO";
-	config.macros.ripplerapAccountButton.btnLabel = "Set up my Ripplerap account for %0";
+	config.macros.ripplerapAccountButton.eventName = "Le Web 3";
 	config.macros.ripplerapAccountButton.serverBaseURL = "https://www.ripplerap.com/LeWeb/";
-	config.macros.ripplerapAccountButton.userNameNotSet = "You have not set your username";
+	//config.macros.ripplerapAccountButton.serverName = "www.ripplerap.com/LeWeb/";
+	config.macros.ripplerapAccountButton.userNameNotSet = "Please choose a username other.";
 
 	config.macros.ripplerapAccountButton.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-		if(config.options['chkRipplerapReadyToUse'+config.options.txtUserName]) {
-			var msg = createTiddlyElement(place,'span','ripplerapAccountMessage');
-			config.macros.ripplerapAccountButton.showFeedback("You are setup to use Ripplerap.");
-		} else {
-			// create a signup button
-			var btnCase = createTiddlyElement(place,'span','ripplerapAccountButton','chunkyButton');
-			var btnLabel = config.macros.ripplerapAccountButton.btnLabel.format([config.macros.ripplerapAccountButton.eventName]);
-			var btnClickHandler = config.macros.ripplerapAccountButton.onClickSignup;
-			createTiddlyButton(btnCase,btnLabel,null,config.macros.ripplerapAccountButton.onClick);
-			msg = createTiddlyElement(place,'span','ripplerapAccountMessage');
-			config.macros.ripplerapAccountButton.clearfeedback();
-		}
+		var buttonType = {
+				signup : {
+					btnLabel : "Set up my Ripplerap account for %0",
+					btnAction : config.macros.ripplerapAccountButton.onSignup
+				},
+				signin : {
+					btnLabel : "Sign in to my Ripplerap account for %0",
+					btnAction : config.macros.ripplerapAccountButton.onSignin
+				}
+			};
+		var btnCase = createTiddlyElement(place,'span','ripplerapAccountButton','chunkyButton');
+		createTiddlyButton(btnCase,buttonType[params[0]].btnLabel.format([config.macros.ripplerapAccountButton.eventName]),null,buttonType[params[0]].btnAction);
+		var msg = createTiddlyElement(place,'span','ripplerapAccountMessage');
+		config.macros.ripplerapAccountButton.clearfeedback();
 	};
 
-	config.macros.ripplerapAccountButton.onClick = function(ev) {
+	config.macros.ripplerapAccountButton.onSignup = function(ev) {
 		if(config.options.txtUserName=='YourName') {
 			displayMessage(config.macros.ripplerapAccountButton.userNameNotSet);
 			return false;
@@ -106,32 +108,49 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		var url = config.macros.ripplerapAccountButton.serverBaseURL + "reg/";
 		var params = {};
 		params.username = config.options.txtUserName;
+		params.purpose = 'signup';
 		var data = "username=" + params.username + "&password=" + config.options.txtRipplerapAccountPassword;
 		doHttp("POST",url,data,null,'leweb','88!p29X',config.macros.ripplerapAccountButton.accountRequestCallback,params);
 		return false;
 	};
 
+/*	
+	config.macros.ripplerapAccountButton.onSignin = function(ev) {
+		config.macros.ripplerapAccountButton.clearfeedback();
+		//attempt to put a file.
+		var payload = 'test post for signin.';
+		var un = config.options.txtUserName; 
+		var pw = config.options.txtRipplerapAccountPassword;
+		var uri = "http://" + config.macros.ripplerapAccountButton.serverBaseURL + 'users/' + un + '/signup.txt';
+		var callback = config.macros.ripplerapAccountButton.accountRequestCallback;
+		context = [];
+		context.purpose = 'signin';
+		displayMessage("signing in.. " + uri);
+		DAV.safeput(uri,callback,context,payload,null,un,pw);	
+		return false;
+	};
+*/
+
+
 	config.macros.ripplerapAccountButton.accountRequestCallback = function(status,params,responseText,url,xhr) {
 		var responseTypes = {
 			400 : {
-				signupMessage: "Please check the username that you provided. It cannot comtain any special characters or spaces."
+				signupMessage: "Please check the username that you provided. It cannot contain any special characters or spaces.",
+				signinMessage: "Signin. http 400" 
 			},
 			409 : {
-				signupMessage: "This username already exists."
+				signupMessage: "This username already exists. Either sign in to that account or choose another username.",
+				signinMessage: "This username already exists. Either sign in to that account or choose another username."
 			},
 			200 : {
-				signupMessage: config.options.txtUserName + " has been created and is ready to use."
+				signupMessage: config.options.txtUserName + " has been created and is ready to use.",
+				signinMessage: "Thanks for signing in. You can now share yor notes with others."
 			},
 			0 : {
-				signupMessage: "There was a problem reaching the server to create your username. Please try again shortly."
+				signupMessage: "There was a problem reaching the server to create your username. Please try again shortly.",
+				signinMessage: "There was a problem reaching the server to sign in. Your work will continue to be saved locally ."
 			}
 		};
-		
-		if(status) {
-			config.options['chkRipplerapReadyToUse'+config.options.txtUserName] = true;
-			config.options.chkRipplerapReadyToUse = true;
-			saveOptionCookie('chkRipplerapReadyToUse'+config.options.txtUserName);
-		}
 		
 		try {
 			var xhrStatus = xhr.status;
@@ -139,11 +158,17 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 				xhrStatus = 0;
 		} catch(ex) {
 			xhrStatus = 0;
-		}
+		}	
 		
 		config.macros.ripplerapAccountButton.showFeedback(responseTypes[xhrStatus].signupMessage);		
-		if(status && rssSynchronizer && config.options.chkRipplerapShare) {
-			rssSynchronizer.makeRequest();
+			
+		if(status) {
+			displayMessage("we have a valid status: " + xhr.status +", working on a " + params.purpose);
+			config.options['chkRipplerapReadyToUse'+config.options.txtUserName] = true;
+			saveOptionCookie('chkRipplerapReadyToUse'+config.options.txtUserName);	
+			if(status && rssSynchronizer && config.options.chkRipplerapShare) {
+				rssSynchronizer.makeRequest();
+			}
 		}
 	};
 
@@ -153,9 +178,6 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		document.createElement("div");
 		msg.appendChild(document.createTextNode(str));
 		msg.style.display = "block";
-		var btn = document.getElementById('ripplerapAccountButton');
-		if(btn && config.options['chkRipplerapReadyToUse'+config.options.txtUserName]==true)
-			btn.style.display = "none";
 	};
 	config.macros.ripplerapAccountButton.clearfeedback = function() {
 		var msg = document.getElementById('ripplerapAccountMessage');

@@ -226,10 +226,10 @@ RssSynchronizer.log("putTiddlersToRssCallback:"+status);
 		if(status) {
 			// PUT is successful, reset the time
 			me.userUpload.time = me.userUpload.startTime;
-			displayMessage("successfully PUT");
+			//displayMessage("successfully PUT");
 			//Collection.clear();
 		} else {
-			displayMessage("PUT failed");
+			// displayMessage("PUT failed");
 			// PUT failed, deal with it here
 			// leave item in queue and take no action?
 		}

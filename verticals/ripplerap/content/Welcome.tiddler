@@ -21,15 +21,10 @@ Don't forget to check out BT's SDK - ~RippleRap provides a click to call functio
 2. Click on a session name in the conference agenda, create some dummy notes and click 'done' when you're finished, which will save your file automatically. Close the file in your browser, open it again and check to see if your notes were saved properly.
 3. If they were, you're ready to go! If not, come on by the stall and we'll help you out.
 
-@@Note: Don't use the browser's File > Save As... function; ~RippleRap saves and backups your changes automatically.@@
+@@Note: Don't use the browser's File > Save As... function; ~RippleRap saves your changes automatically.@@
 
-{{layoutTable{
-|''Your wiki name'' ^^[[help|About your username]]^^ |''Password'' ^^[[help|About your password]]^^ |
-|<<option txtUserName>> |<<option txtRipplerapAccountPassword>> |
-|<<MakeNotesControl sharing>> Share my notes ^^[[help|Share notes]]^^  |
-|>|<<ripplerapAccountButton signup>>|
+<<accountManager SignInOption AccountDetails>>
 
-}}}
 </pre>
 </div>
 

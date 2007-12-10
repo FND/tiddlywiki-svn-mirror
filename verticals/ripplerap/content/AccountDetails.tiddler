@@ -1,0 +1,10 @@
+<div title="AccountDetails" modifier="PhilHawksworth" created="200712071041" modified="200711261417" changecount="1">
+<pre>
+{{layoutTable{
+|''Your wiki name'' ^^[[help|About your username]]^^ |''Password'' ^^[[help|About your password]]^^ |
+|<<option txtUserName>> |<<option txtRipplerapAccountPassword>> |
+|<<MakeNotesControl sharing>> Share my notes ^^[[help|Share notes]]^^  |
+|>|<<ripplerapAccountButton signup>>|
+}}}
+</pre>
+</div>
