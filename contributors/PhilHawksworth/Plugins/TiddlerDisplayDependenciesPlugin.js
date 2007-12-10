@@ -35,13 +35,8 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 		var t = typeof(tiddler) == 'string' ? store.getTiddler(tiddler) : tiddler;
 		var editmode = false;
 		if(template){ 
-
-			displayMessage('..template: ' + template);
-			displayMessage(typeof(template) +" : "+ template);
-
 			if(template == 2) {editmode = true;}
 			else if((typeof(template) == 'string') && (template.indexOf("Edit") != -1)) {editmode = true;}
-			displayMessage("edit mode: "+ editmode);
 		}
 		
 				
@@ -82,8 +77,6 @@ version.extensions.TiddlerDisplayDependenciesPlugin = {installed:true};
 			config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
 		}
 		else {
-			//TODO: remove logging
-			//displayMessage("displaying without doing anything special");
 			config.macros.TiddlerDisplayDependencies.displayTiddler.apply(this,arguments);
 		}
 	};
