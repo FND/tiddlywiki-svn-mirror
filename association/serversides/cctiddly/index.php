@@ -20,22 +20,18 @@
 	recordTime_float("Start");
 
 	//includes
-	
+
 	include_once("includes/header.php");
 	include_once("includes/print.php");
 	recordTime_float("includes");
 
-		if ($_POST['logout'] || $_REQUEST['logout'])
+	if ($_POST['logout'] || $_REQUEST['logout'])
 	{
 		user_logout('You have logged out.');
 		header("Location: ".$_SERVER['PHP_SELF'].'?'.str_replace("logout=1","",$_SERVER['QUERY_STRING']));		//redirect to itself to refresh
 	}	
 
-// return correct header response if the page does not exist. 
-if (count($tiddlyCfg['pref']['instance_settings']) < 1)
-{
-	header("HTTP/1.0 404 Not Found"); 
-}
+
 
 $user['verified'] = user_session_validate();
 
@@ -190,23 +186,24 @@ Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa As
 <div tiddler="ColorPalette" tags="">Background: #fff\nForeground: #000\nPrimaryPale: #8cf\nPrimaryLight: #18f\nPrimaryMid: #04b\nPrimaryDark: #014\nSecondaryPale: #ffc\nSecondaryLight: #fe8\nSecondaryMid: #db4\nSecondaryDark: #841\nTertiaryPale: #eee\nTertiaryLight: #ccc\nTertiaryMid: #999\nTertiaryDark: #666\nError: #f88</div>
 <div tiddler="EditTemplate" tags="">&lt;!--{{{--&gt;\n&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;\n&lt;div class='title' macro='view title'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;\n&lt;div macro='annotations'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;\n&lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser'&gt;&lt;/span&gt;&lt;/div&gt;\n&lt;!--}}}--&gt;</div>
 
-<div  tiddler='CreateInstance' tags=''>&lt;html&gt;&lt;form action='msghandle.php' method='POST'&gt; &lt;input type='text' value='<?php echo $tiddlyCfg['pref']['instance_name']; ?>' id='instance_name' name='instance_name'/&gt;&lt;input type='Submit' value='Create the Instance' /&gt; &lt;/form&gt;&lt;/html&gt;</div>
+<div  tiddler='CreateWorkspace' tags=''>&lt;&lt;ccCreateWorkspace&gt;&gt;</div>
 
 <?
 
 
 ///////////////////////////// CREATE LOGIN/CREATE SHADOW TIDDLERS ///////////////////////////////////////////////////////////
 
-$logged_in_create_tiddlers = "<div tiddler='SiteTitle' tags=''>Error 404 - Please click below to create this instance </div>
+$logged_in_create_tiddlers = "<div tiddler='SiteTitle' tags=''>Error 404 - Workspace does not exist</div>
 <div  tiddler='MainMenu' tags=''></div>
+<div  tiddler='SiteSubtitle' tags=''>Create it below </div>
 
 <div  tiddler='GettingStarted' tags=''>a simple explainaition on how to use TiddlyWiki &lt;br /&gt;[[Logout|".$_SERVER['PHP_SELF']."?logout=1&]]</div>
-<div  tiddler='DefaultTiddlers' tags=''>[[CreateInstance]][[GettingStarted]]</div>";
+<div  tiddler='DefaultTiddlers' tags=''>[[CreateWorkspace]][[GettingStarted]]</div>";
 
-$login_to_view_tiddlers =  "<div tiddler='SiteTitle' tags=''>	 to view the content of this page</div>
+$login_to_view_tiddlers =  "<div tiddler='SiteTitle' tags=''>Please Login to view the content of this page</div>
 <div tiddler='MainMenu' tags=''></div>";
 
-$login_to_create_tiddlers = "<div tiddler='SiteTitle' tags=''>Error 404 - Please login to create this instance</div>";
+$login_to_create_tiddlers = "<div tiddler='SiteTitle' tags=''>Error 404 - Please login to create this Workspace</div>";
 
 $default_login_tiddler = "<div tiddler='DefaultTiddlers' tags=''>GettingStarted</div>";
 
@@ -218,7 +215,6 @@ $default_login_tiddler = "<div tiddler='DefaultTiddlers' tags=''>GettingStarted<
 $cut_down_view = "<div tiddler='StyleSheetLayout' tags=''>/*{{{*/\n* html .tiddler {height:1%;}\n\nbody {font-size:.75em; font-family:arial,helvetica; margin:0; padding:0;}\n\nh1,h2,h3,h4,h5,h6 {font-weight:bold; text-decoration:none;}\nh1,h2,h3 {padding-bottom:1px; margin-top:1.2em;margin-bottom:0.3em;}\nh4,h5,h6 {margin-top:1em;}\nh1 {font-size:1.35em;}\nh2 {font-size:1.25em;}\nh3 {font-size:1.1em;}\nh4 {font-size:1em;}\nh5 {font-size:.9em;}\n\nhr {height:1px;}\n\na {text-decoration:none;}\n\ndt {font-weight:bold;}\n\nol {list-style-type:decimal;}\nol ol {list-style-type:lower-alpha;}\nol ol ol {list-style-type:lower-roman;}\nol ol ol ol {list-style-type:decimal;}\nol ol ol ol ol {list-style-type:lower-alpha;}\nol ol ol ol ol ol {list-style-type:lower-roman;}\nol ol ol ol ol ol ol {list-style-type:decimal;}\n\n.txtOptionInput {width:11em;}\n\n#contentWrapper .chkOptionInput {border:0;}\n\n.externalLink {text-decoration:underline;}\n\n.indent {margin-left:3em;}\n.outdent {margin-left:3em; text-indent:-3em;}\ncode.escaped {white-space:nowrap;}\n\n.tiddlyLinkExisting {font-weight:bold;}\n.tiddlyLinkNonExisting {font-style:italic;}\n\n/* the 'a' is required for IE, otherwise it renders the whole tiddler in bold */\na.tiddlyLinkNonExisting.shadow {font-weight:bold;}\n\n#mainMenu .tiddlyLinkExisting,\n	#mainMenu .tiddlyLinkNonExisting,\n	#sidebarTabs .tiddlyLinkNonExisting {font-weight:normal; font-style:normal;}\n#sidebarTabs .tiddlyLinkExisting {font-weight:bold; font-style:normal;}\n\n.header {position:relative;}\n.header a:hover {background:transparent;}\n.headerShadow {position:relative; padding:4.5em 0em 1em 1em; left:-1px; top:-1px;}\n.headerForeground {position:absolute; padding:4.5em 0em 1em 1em; left:0px; top:0px;}\n\n.siteTitle {font-size:3em;}\n.siteSubtitle {font-size:1.2em;}\n\n#mainMenu {position:absolute; left:0; width:10em; text-align:right; line-height:1.6em; padding:1.5em 0.5em 0.5em 0.5em; font-size:1.1em;}\n\n#sidebar {position:absolute; right:3px; width:16em; font-size:.9em;}\n#sidebarOptions {padding-top:0.3em;}\n#sidebarOptions a {margin:0em 0.2em; padding:0.2em 0.3em; display:block;}\n#sidebarOptions input {margin:0.4em 0.5em;}\n#sidebarOptions .sliderPanel {margin-left:1em; padding:0.5em; font-size:.85em;}\n#sidebarOptions .sliderPanel a {font-weight:bold; display:inline; padding:0;}\n#sidebarOptions .sliderPanel input {margin:0 0 .3em 0;}\n#sidebarTabs .tabContents {width:15em; overflow:hidden;}\n\n.wizard {padding:0.1em 1em 0em 2em;}\n.wizard h1 {font-size:2em; font-weight:bold; background:none; padding:0em 0em 0em 0em; margin:0.4em 0em 0.2em 0em;}\n.wizard h2 {font-size:1.2em; font-weight:bold; background:none; padding:0em 0em 0em 0em; margin:0.4em 0em 0.2em 0em;}\n.wizardStep {padding:1em 1em 1em 1em;}\n.wizard .button {margin:0.5em 0em 0em 0em; font-size:1.2em;}\n.wizardFooter {padding:0.8em 0.4em 0.8em 0em;}\n.wizardFooter .status {padding:0em 0.4em 0em 0.4em; margin-left:1em;}\n.wizard .button {padding:0.1em 0.2em 0.1em 0.2em;}\n\n#messageArea {position:fixed; top:2em; right:0em; margin:0.5em; padding:0.5em; z-index:2000; _position:absolute;}\n.messageToolbar {display:block; text-align:right; padding:0.2em 0.2em 0.2em 0.2em;}\n#messageArea a {text-decoration:underline;}\n\n.tiddlerPopupButton {padding:0.2em 0.2em 0.2em 0.2em;}\n.popupTiddler {position: absolute; z-index:300; padding:1em 1em 1em 1em; margin:0;}\n\n.popup {position:absolute; z-index:300; font-size:.9em; padding:0; list-style:none; margin:0;}\n.popup .popupMessage {padding:0.4em;}\n.popup hr {display:block; height:1px; width:auto; padding:0; margin:0.2em 0em;}\n.popup li.disabled {padding:0.4em;}\n.popup li a {display:block; padding:0.4em; font-weight:normal; cursor:pointer;}\n.listBreak {font-size:1px; line-height:1px;}\n.listBreak div {margin:2px 0;}\n\n.tabset {padding:1em 0em 0em 0.5em;}\n.tab {margin:0em 0em 0em 0.25em; padding:2px;}\n.tabContents {padding:0.5em;}\n.tabContents ul, .tabContents ol {margin:0; padding:0;}\n.txtMainTab .tabContents li {list-style:none;}\n.tabContents li.listLink { margin-left:.75em;}\n\n#contentWrapper {display:block;}\n#splashScreen {display:none;}\n\n#displayArea {margin:1em 17em 0em 14em;}\n\n.toolbar {text-align:right; font-size:.9em;}\n\n.tiddler {padding:1em 1em 0em 1em;}\n\n.missing .viewer,.missing .title {font-style:italic;}\n\n.title {font-size:1.6em; font-weight:bold;}\n\n.missing .subtitle {display:none;}\n.subtitle {font-size:1.1em;}\n\n.tiddler .button {padding:0.2em 0.4em;}\n\n.tagging {margin:0.5em 0.5em 0.5em 0; float:left; display:none;}\n.isTag .tagging {display:block;}\n.tagged {margin:0.5em; float:right;}\n.tagging, .tagged {font-size:0.9em; padding:0.25em;}\n.tagging ul, .tagged ul {list-style:none; margin:0.25em; padding:0;}\n.tagClear {clear:both;}\n\n.footer {font-size:.9em;}\n.footer li {display:inline;}\n\n.annotation {padding:0.5em; margin:0.5em;}\n\n* html .viewer pre {width:99%; padding:0 0 1em 0;}\n.viewer {line-height:1.4em; padding-top:0.5em;}\n.viewer .button {margin:0em 0.25em; padding:0em 0.25em;}\n.viewer blockquote {line-height:1.5em; padding-left:0.8em;margin-left:2.5em;}\n.viewer ul, .viewer ol {margin-left:0.5em; padding-left:1.5em;}\n\n.viewer table, table.twtable {border-collapse:collapse; margin:0.8em 1.0em;}\n.viewer th, .viewer td, .viewer tr,.viewer caption,.twtable th, .twtable td, .twtable tr,.twtable caption {padding:3px;}\ntable.listView {font-size:0.85em; margin:0.8em 1.0em;}\ntable.listView th, table.listView td, table.listView tr {padding:0px 3px 0px 3px;}\n\n.viewer pre {padding:0.5em; margin-left:0.5em; font-size:1.2em; line-height:1.4em; overflow:auto;}\n.viewer code {font-size:1.2em; line-height:1.4em;}\n\n.editor {font-size:1.1em;}\n.editor input, .editor textarea {display:block; width:100%; font:inherit;}\n.editorFooter {padding:0.25em 0em; font-size:.9em;}\n.editorFooter .button {padding-top:0px; padding-bottom:0px;}\n\n.fieldsetFix {border:0; padding:0; margin:1px 0px 1px 0px;}\n\n.sparkline {line-height:1em;}\n.sparktick {outline:0;}\n\n.zoomer {font-size:1.1em; position:absolute; overflow:hidden;}\n.zoomer div {padding:1em;}\n\n* html #backstage {width:99%;}\n* html #backstageArea {width:99%;}\n#backstageArea {display:none; position:relative; overflow: hidden; z-index:150; padding:0.3em 0.5em 0.3em 0.5em;}\n#backstageToolbar {position:relative;}\n#backstageArea a {font-weight:bold; margin-left:0.5em; padding:0.3em 0.5em 0.3em 0.5em;}\n#backstageButton {display:none; position:absolute; z-index:175; top:0em; right:0em;}\n#backstageButton a {padding:0.1em 0.4em 0.1em 0.4em; margin:0.1em 0.1em 0.1em 0.1em;}\n#backstage {position:relative; width:100%; z-index:50;}\n#backstagePanel {display:none; z-index:100; position:absolute; margin:0em 3em 0em 3em; padding:1em 1em 1em 1em;}\n.backstagePanelFooter {padding-top:0.2em; float:right;}\n.backstagePanelFooter a {padding:0.2em 0.4em 0.2em 0.4em;}\n#backstageCloak {display:none; z-index:20; position:absolute; width:100%; height:100px;}\n\n.whenBackstage {display:none;}\n.backstageVisible .whenBackstage {display:block;}#sidebar {display:none} .backstageArea {display:none} #backstageToolbar {display:none}\n/*}}}*/</div>
 
 <div tiddler='ViewTemplate' tags=''>&lt;!--{{{--&gt;\n&lt;div class='title' macro='view title'&gt;&lt;/div&gt;\n\n&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;\n&lt;div class='tagClear'&gt;&lt;/div&gt;\n&lt;!--}}}--&gt;</div>
-
 ";
 
 $logged_in_view = "<div tiddler='ViewTemplate' tags=''>&lt;!--{{{--&gt;\n&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump'&gt;&lt;/div&gt;\n&lt;div class='title' macro='view title'&gt;&lt;/div&gt;\n&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;\n&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;\n&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;\n&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;\n&lt;div class='tagClear'&gt;&lt;/div&gt;\n&lt;!--}}}--&gt;</div>
@@ -229,6 +225,7 @@ $logged_in_view = "<div tiddler='ViewTemplate' tags=''>&lt;!--{{{--&gt;\n&lt;div
 
 if (!$user['verified'])
 { // user is not varified 
+
 	if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 	{   // instance does not exist 
 		
@@ -279,6 +276,111 @@ else
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
+	
+	
+	<div title="ccCreateWorkspace" modifier="simon" modified="200712012017" created="200712011507" tags="systemConfig" changecount="17">
+	<pre>	/***
+		|''Name:''|ccCreateInstance|
+		|''Description:''|Allows users to create instances in ccTiddly|
+		|''Version:''|2.1.5|
+		|''Date:''|Nov 27, 2007|
+		|''Source:''||
+		|''Author:''|SimonMcManus|
+		|''License:''|[[BSD open source license]]|
+		|''~CoreVersion:''|2.1.6|
+		|''Browser:''| Firefox |
+		***/
+//{{{
+		
+			var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
+			var workspace = "<?php echo $tiddlyCfg['pref']['instance_name'];?>";
+		
+		
+		config.macros.ccCreateWorkspace = {
+		 
+		   handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+			// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+	 		
+			var frm = createTiddlyElement(place,&quot;form&quot;,null,null);
+			frm.onsubmit = this.createWorkspaceOnSubmit;
+			createTiddlyElement(frm,&quot;br&quot;);
+			createTiddlyText(frm,url+"/");
+			var workspaceName = createTiddlyElement(frm,&quot;input&quot;,&quot;ccWorkspaceName&quot;, &quot;ccWorkspaceName&quot;)				
+			workspaceName.value = workspace;
+			workspaceName.name = 'ccWorkspaceName';
+			
+		//	var select=createTiddlyElement(frm,&quot;select&quot;, &quot;select&quot;);
+		//	createTiddlyElement(select,&quot;option&quot;, 's'	, null, 'Standard TW');
+		//	createTiddlyElement(select,&quot;option&quot;, 's'	, null, 'GTD TW');
+		//	createTiddlyElement(select,&quot;option&quot;, 's'	, null, 'Team Tasks TW');
+			createTiddlyElement(frm,&quot;br&quot;);
+			createTiddlyElement(frm,&quot;br&quot;);
+	      	var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt);
+	        btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+	        btn.value = &quot;Create the Workspace&quot;;
+			createTiddlyElement(frm,&quot;h2&quot;, null, null,  &quot;Anonymous Users Can :  &quot;);
+			var anC = createTiddlyCheckbox(frm, &quot;Create Tiddlers&quot;, 0);
+			anC.id='anC';
+			anC.name='anC';
+			createTiddlyElement(frm,&quot;br&quot;);
+			var  anR = createTiddlyCheckbox(frm, &quot;Read Tiddler&quot;, 1);
+			anR.id = 'anR';
+			anR.name = 'anR';
+			createTiddlyElement(frm,&quot;br&quot;);
+			var anU = createTiddlyCheckbox(frm, &quot;Updates Tiddlers &quot;, 0);
+			anU.id = anU;
+			anU.name = anU;
+			createTiddlyElement(frm,&quot;br&quot;);
+			var anD = createTiddlyCheckbox(frm, &quot;Delete Tiddlers&quot;, 0);
+			anD.id = anD;
+			anD.name = anD;
+			createTiddlyElement(frm,&quot;br&quot;);
+			createTiddlyElement(frm,&quot;h2&quot;, null, null,  &quot;Registered Users  Can:  &quot;);
+			var usC = createTiddlyCheckbox(frm, &quot;Create Tiddlers&quot;, 1);
+			usC.id = 'usC';
+			usC.name = 'usC';
+			createTiddlyElement(frm,&quot;br&quot;);
+		 	var usR = createTiddlyCheckbox(frm, &quot;Read Tiddler&quot;, 1);
+			usR.id = 'usR';
+			usR.name = 'usR';
+			createTiddlyElement(frm,&quot;br&quot;);
+			var usU = createTiddlyCheckbox(frm, &quot;Updates Tiddlers &quot;, 1);
+			usU.id = 'usU';
+			usU.name = 'usU';
+			createTiddlyElement(frm,&quot;br&quot;);
+			var usD = createTiddlyCheckbox(frm, &quot;Delete Tiddlers&quot;, 1);
+			usD.id='udD';
+			usD.name='udD';
+			createTiddlyElement(frm,&quot;br&quot;);
+			createTiddlyElement(frm,&quot;br&quot;);
+			createTiddlyText(frm,&quot;As the Workspace owner you will have all the above permissions&quot;);
+			createTiddlyElement(frm,&quot;br&quot;);
+      
+},
+		    createWorkspaceOnSubmit: function() {
+			var createURL = url+"/"+workspace; 
+			doHttp('POST',  url+"/"+workspace, null,null,null,null, config.macros.ccCreateWorkspace.createWorkspaceCallback);
+				alert('f');
+				return FALSE;
+			    },
+						
+		   createWorkspaceCallback: function(status,params,responseText,uri,xhr) {
+	alert('a');
+			if(xhr.status != 404) {
+				displayMessage('workspace name in use');				
+			} else {
+	//			window.location = uri;
+			}
+		alert('df');
+		return FALSE;
+			},		   
+
+		}
+		//}}}
+	</pre>
+	</div>
+	
+	
 
 <div title="ccLogin" modifier="simon" modified="200712012017" created="200712011507" tags="systemConfig" changecount="17">
 <pre>	/***
@@ -300,6 +402,8 @@ else
 	    login: {text: &quot;login&quot;, tooltip: &quot;Login to your TiddlyWiki&quot;, content: '&lt;&lt;ccLogin&gt;&gt;'},
 
 	});
+	
+		var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
 	// Returns output var with output.txtUsername and output.sessionToken
 
 	function findToken(cookieStash) {
@@ -383,9 +487,8 @@ else
 		     
 	        document.cookie = &quot;sessionToken=invalid;   expires=15/02/2009 00:00:00&quot;;
 	        config.macros.ccLogin.refresh(loginDivRef);
-	        doHttp('POST', ' http://127.0.0.1/cctiddly/msghandle.php', &quot;logout=1&quot;);
-	     //   		window.location = window.location;      
-	 displayMessage('you have reachewd the logout onSubmit ');
+	        doHttp('POST', url+'msghandle.php', &quot;logout=1&quot;);
+	        		window.location = window.location;      
 	return false;
 	    },
 
@@ -400,7 +503,7 @@ else
 	        var pass = document.getElementById('cctpass').value;
 	        var params = {}; 
 	        params.origin = this;
-	        var loginResp = doHttp('POST', ' http://127.0.0.1/cctiddly/msghandle.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
+	        var loginResp = doHttp('POST', url+'/msghandle.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
 	        return false;
 	    },
 
@@ -413,12 +516,14 @@ else
 	        var cookieValues;
 	        cookieValues = this.findToken(cookie);
 	        config.macros.ccLogin.saveCookie(cookieValues);
-	        var loginDivRef = findRelated( params.origin,&quot;loginDiv&quot;,&quot;className&quot;,&quot;parentNode&quot;);
-	        removeChildren(loginDivRef);	
-			if(xhr.status != 401) {
+	        if(xhr.status != 401) {
 				window.location = window.location;
+			} else {
+				var loginDivRef = findRelated( params.origin,&quot;loginDiv&quot;,&quot;className&quot;,&quot;parentNode&quot;);
+		        removeChildren(loginDivRef);
+				config.macros.ccLogin.refresh(loginDivRef, 'Login Failed ');
+					
 			}
-			config.macros.ccLogin.refresh(loginDivRef, 'Login Failed ');
 			return true;
 			 },
 

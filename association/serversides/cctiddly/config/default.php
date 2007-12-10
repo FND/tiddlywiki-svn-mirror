@@ -13,6 +13,23 @@ db_selectDB($tiddlyCfg['db']['name']);
 $array['name'] = $instance;
 $tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
 
+
+
+echo count($tiddlyCfg['pref']['instance_settings']);
+
+// return correct header response if the page does not exist. 
+if (count($tiddlyCfg['pref']['instance_settings']) < 1)
+{
+	echo 'df';
+	echo 'NOT FOUND';
+	header("HTTP/1.0 404 Not Found"); 
+	if ($_POST)
+	{
+		include('includes/instance.php');
+		instance_create($_POST['ccWorkspaceName']);
+	}
+}
+
 // the instance does not exist yet. 
 if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 {
@@ -35,9 +52,6 @@ else
 	//$tiddlyCfg['pref']['session_expire'] = $tiddlyCfg['pref']['instance_settings'][0]['cookie_expire'];
 	$tiddlyCfg['pref']['appendModifier'] =$tiddlyCfg['pref']['instance_settings'][0]['tag_tiddler_with_modifier'];		//append modifier name as tag
 }
-
-
-
 
 
 $tiddlyCfg['pref']['lock_title'] = array("LoginPanel");		//lock certain tiddler's title such that it can't be changed even with admin

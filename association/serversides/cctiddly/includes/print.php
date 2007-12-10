@@ -153,7 +153,10 @@ window.cct_tweak = function(){
 	//add copyright tiddler
 	config.shadowTiddlers.PageTemplate = config.shadowTiddlers.PageTemplate.replace(/<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'><\/div>/,"\n<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>\n<div id='sidebarCopyright' refresh='content' tiddler='Copyright'></div>\n");
 	//add new option to options panel
-	config.shadowTiddlers.OptionsPanel = "<<ssUploadStoreArea>>\n<<ssUploadRSS>>\n<<option chkAutoSave>> "+cctPlugin.lingo.autoUpload+"\n<<option chkRegExpSearch>>"+config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+26);
+	// OLD config.shadowTiddlers.OptionsPanel = "<<ssUploadStoreArea>>\n<<ssUploadRSS>>\n<<option chkAutoSave>> "+cctPlugin.lingo.autoUpload+"\n<<option chkRegExpSearch>>"+config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+26);
+ config.shadowTiddlers.OptionsPanel = "\n<<option chkAutoSave>> "+cctPlugin.lingo.autoUpload+"\n<<option chkRegExpSearch>>"+config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+26);
+	
+	
 	//change SideBarOption panel to add login panel
 	config.shadowTiddlers.SideBarOptions = "<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal 'DD MMM YYYY'>><<tiddler '<?php print $ccT_msg['loginpanel']['name']?>'>><<slider chkSliderOptionsPanel OptionsPanel '<?php print $ccT_msg['sidebaroption']['options']?> »' 'Change TiddlyWiki advanced options'>>";
 	config.shadowTiddlers.ViewTemplate = config.shadowTiddlers.ViewTemplate.replace(/references jump/,'references revisions jump');
