@@ -34,16 +34,13 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		var target = resolveTarget(e);
 		var after =  story.findContainingTiddler(target);
 		var sessionTitle = after.id.substr(7);
-		
-		displayMessage("Make notes on: " + sessionTitle);
-		
 		var title = sessionTitle + " from " + config.options.txtUserName;
 		var template = "NoteEditTemplate";
 		
 		story.displayTiddler(after,title,template,false,null,null);
 		
-		var text = "your notes... " + title;
-		story.getTiddlerField(title,"text").value = text.format([title]);
+		//var text = "your notes... " + title;
+		//story.getTiddlerField(title,"text").value = text.format([title]);
 		story.setTiddlerTag(title,config.macros.TiddlerDisplayDependencies.myNoteTag,+1);
 		story.setTiddlerTag(title,config.macros.TiddlerDisplayDependencies.sharingTag,+1);
 		return false;
@@ -79,8 +76,9 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	config.macros.ripplerapAccountButton = {};
 	config.macros.ripplerapAccountButton.eventName = "Le Web 3";
 	config.macros.ripplerapAccountButton.serverBaseURL = "https://www.ripplerap.com/LeWeb/";
-	config.macros.ripplerapAccountButton.userNameNotSet = "Please choose a username other.";
-
+	config.macros.ripplerapAccountButton.userNameNotSet = "Please choose another username.";
+	config.macros.ripplerapAccountButton.contactingServerMessage = "Contacting the server...";
+	
 	config.macros.ripplerapAccountButton.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		var buttonType = {
 				signup : {
@@ -99,11 +97,11 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	};
 
 	config.macros.ripplerapAccountButton.onSignup = function(ev) {
-		if(config.options.txtUserName=='YourName') {
-			displayMessage(config.macros.ripplerapAccountButton.userNameNotSet);
+		if(config.options.txtUserName=='YourName' || config.options.txtUserName=='') {
+			config.macros.ripplerapAccountButton.showFeedback(config.macros.ripplerapAccountButton.userNameNotSet);
 			return false;
 		}
-		config.macros.ripplerapAccountButton.clearfeedback();
+		config.macros.ripplerapAccountButton.showFeedback(config.macros.ripplerapAccountButton.contactingServerMessage);
 		var url = config.macros.ripplerapAccountButton.serverBaseURL + "reg/";
 		var params = {};
 		params.username = config.options.txtUserName;
