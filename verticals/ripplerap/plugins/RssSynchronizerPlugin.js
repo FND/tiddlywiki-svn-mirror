@@ -3,7 +3,7 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.14|
+|''Version:''|0.0.15|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -172,6 +172,7 @@ RssSynchronizer.log("getNotesTiddlerListCallback:"+context.status);
 	var tiddlers = context.tiddlers;
 	var length = tiddlers ? tiddlers.length : 0;
 	var me = context.synchronizer;
+	store.suspendNotifications();
 	for(var i=0; i<length; i++) {
 		tiddler = tiddlers[i];
 		var t = store.fetchTiddler(tiddler.title);
@@ -182,11 +183,11 @@ RssSynchronizer.log("getNotesTiddlerListCallback:"+context.status);
 				tiddler.tags.remove(me.myNoteTag);
 				tiddler.tags.remove(me.sharedTag);
 			}
-		//#RssSynchronizer.log("Tags: " + tiddler.tags + ", modifier: "+ tiddler.modifier);
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-			story.refreshTiddler(tiddler.title,1,true);
 		}
 	}
+	store.resumeNotifications();
+	refreshDisplay();
 	me.sessionDownload.requestPending = false;
 	me.makeRequest.call(me);
 };
