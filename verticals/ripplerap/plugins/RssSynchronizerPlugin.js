@@ -3,7 +3,7 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.13|
+|''Version:''|0.0.14|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -16,6 +16,11 @@
 if(!version.extensions.RssSynchronizerPlugin) {
 version.extensions.RssSynchronizerPlugin = {installed:true};
 
+if(!config.options.txtRippleRapInterval)
+	{config.options.txtRippleRapInterval = 60;}
+
+config.optionsDesc.txtRippleRapInterval = "~RippleRap synchronization interval (in seconds)";
+	
 function RssSynchronizer() 
 {
 	this.sessionDownload = {titles:[],syncIndex:0,getMostRecent:true,mostRecentTitle:'latest',requestPending:false};
@@ -27,7 +32,6 @@ function RssSynchronizer()
 	this.updates = {};
 
 	this.timerID = null;
-	this.timerInterval = 10000;
 
 	this.nextIsGet = true;
 	this.discoveredNoteTag = config.macros.TiddlerDisplayDependencies.discoveredNoteTag;
@@ -90,6 +94,14 @@ RssSynchronizer.prototype.init = function()
 		this.makeRequest();
 };
 
+RssSynchronizer.prototype.getInterval = function()
+{
+	var t = config.options.txtRippleRapInterval ? parseInt(config.options.txtRippleRapInterval)*1000 : 60000;
+	if(isNaN(t))
+		t = 60000;
+	return t;
+};
+
 // Do a single sync operation, designed to be called off a timer
 // on each call it downl
 RssSynchronizer.prototype.makeRequest = function()
@@ -109,10 +121,10 @@ RssSynchronizer.log(this.nextIsGet ? "makeRequest:get" : "makeRequest:put");
 	var me = this;
 	if(this.nextIsGet) {
 		this.userUpload.requestPending = true;
-		window.setTimeout(function() {me.doPut.call(me);},this.timerInterval);
+		window.setTimeout(function() {me.doPut.call(me);},this.getInterval());
 	} else {
 		this.sessionDownload.requestPending = true;
-		window.setTimeout(function() {me.doGet.call(me);},this.timerInterval);
+		window.setTimeout(function() {me.doGet.call(me);},this.getInterval());
 	}
 };
 
@@ -138,7 +150,7 @@ RssSynchronizer.prototype.doGet = function()
 		}
 		this.sessionDownload.syncIndex++;
 		if(this.sessionDownload.syncIndex>=this.sessionDownload.titles.length)
-			this.sessionDownload.syncIndex = this.updates.uri ?-1 : 0; // set to -1 for the updates uri, if it exists
+			this.sessionDownload.syncIndex = this.updates.uri ? -1 : 0; // set to -1 for the updates uri, if it exists
 	}
 	this.getNotesTiddlersFromRss(uri);
 };
