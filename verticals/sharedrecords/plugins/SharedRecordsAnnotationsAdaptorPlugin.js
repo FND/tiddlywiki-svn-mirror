@@ -2,12 +2,12 @@
 |''Name:''|SharedRecordsAnnotationsAdaptorPlugin|
 |''Description:''|Shared Records Annotations API Adaptor|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/SharedRecords/adaptors/SharedRecordsAnnotationsAdaptorPlugin.js|
-|''Version:''|0.0.1|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/SharedRecords/adaptors/SharedRecordsAnnotationsAdaptorPlugin.js |
+|''Version:''|0.0.2|
 |''Status:''|Not for release - under development|
 |''Date:''|Nov 19, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.3.0|
 
 ***/
@@ -109,7 +109,7 @@ SharedRecordsAnnotationsAdaptor.prototype.openHost = function(host,context,userP
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
+		window.setTimeout(function() {context.callback(context,userParams);},10);
 	}
 	return true;
 };
@@ -120,7 +120,7 @@ SharedRecordsAnnotationsAdaptor.prototype.openWorkspace = function(workspace,con
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
 		context.status = true;
-		window.setTimeout(context.callback,10,context,userParams);
+		window.setTimeout(function() {context.callback(context,userParams);},10);
 	}
 	return true;
 };
@@ -130,7 +130,7 @@ SharedRecordsAnnotationsAdaptor.prototype.getWorkspaceList = function(context,us
 	context = this.setContext(context,userParams,callback);
 	context.workspaces = [];
 	context.status = true;
-	window.setTimeout(context.callback,10,context,userParams);
+	window.setTimeout(function() {context.callback(context,userParams);},10);
 	return true;
 };
 
@@ -159,8 +159,7 @@ SharedRecordsAnnotationsAdaptor.prototype.getTiddlerList = function(context,user
 //# ]}
 SharedRecordsAnnotationsAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
-//#console.log("list status:"+status);
-displayMessage("getTiddlerListCallback:"+status);
+//#console.log("getTiddlerListCallback:"+status);
 	context.statusText = SharedRecordsAnnotationsAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	if(status) {
 		try {
@@ -212,8 +211,8 @@ SharedRecordsAnnotationsAdaptor.prototype.getTiddlerRevision = function(title,re
 
 SharedRecordsAnnotationsAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
-//# http://test.sharedrecords.org/annotations/12345/MyTitle 
-//# http://test.sharedrecords.org:8080/annotations/385c7c019544dbe75736223ffd7ee18b872f6b08
+//# http://test.sharedrecords.org/annotations/12345/MyTitle
+//# http://test.sharedrecords.org:80/annotations/385c7c019544dbe75736223ffd7ee18b872f6b08
 	context = this.setContext(context,userParams,callback);
 	if(title)
 		context.title = title;
@@ -221,7 +220,7 @@ SharedRecordsAnnotationsAdaptor.prototype.getTiddler = function(title,context,us
 	var uri = uriTemplate.format([context.host,context.workspace,SharedRecordsAnnotationsAdaptor.normalizedTitle(title),context.revision]);
 
 	var req = SharedRecordsAnnotationsAdaptor.doHttpGET(uri,SharedRecordsAnnotationsAdaptor.getTiddlerCallback,context);
-displayMessage("getTiddler uri:"+uri);
+//#displayMessage("getTiddler uri:"+uri);
 	return typeof req == 'string' ? req : true;
 };
 
@@ -264,8 +263,8 @@ SharedRecordsAnnotationsAdaptor.getTiddlerCallback = function(status,context,res
 		context.callback(context,context.userParams);
 };
 
-//# http://test.sharedrecords.org/385c7c019544dbe75736223ffd7ee18b872f6b08_log?max-sequence-number=-1&format=json
-//# http://sra.sharedrecords.org:8080/SRCDataStore/RESTServlet/37105c154dd4956cc4e278a5b867a435b5250d19_log?max-sequence-number=-1&format=json
+//# http://test.sharedrecords.org/records/385c7c019544dbe75736223ffd7ee18b872f6b08_log?max-sequence-number=-1&format=json
+
 SharedRecordsAnnotationsAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
 	var jsonTag = '%0';
@@ -297,9 +296,9 @@ SharedRecordsAnnotationsAdaptor.prototype.putTiddler = function(tiddler,context,
 			]);
 	var host = context.host ? context.host : SharedRecordsAnnotationsAdaptor.fullHostName(tiddler.fields['server.host']);
 	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
-	var uriTemplate = '%0%1_log?max-sequence-number=%2&format=json';
+	var uriTemplate = '%0records/%1_log?max-sequence-number=%2&format=json';
 	var uri = uriTemplate.format([host,workspace,sequenceNumber]);
-displayMessage("put uri:"+uri);
+//#displayMessage("put uri:"+uri);
 
 	var data = jsonWrapper.format([jsonTiddler]);
 	var req = SharedRecordsAnnotationsAdaptor.doHttpPOST(uri,SharedRecordsAnnotationsAdaptor.putTiddlerCallback,context,null,data);
