@@ -19,7 +19,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	config.macros.MakeNotesControl = {};
 	config.macros.MakeNotesControl.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		if(params[0] == "create") createTiddlyButton(place,"make notes","Make notes on this session",config.macros.MakeNotesControl.onClick);
-		else if(params[0] == "sharethis") createTiddlyCheckbox(place,'private',false,config.macros.MakeNotesControl.togglePrivate);
+		//else if(params[0] == "sharethis") createTiddlyCheckbox(place,'private',false,config.macros.MakeNotesControl.togglePrivate);
 		else if(params[0] == "sharing") {
 			var cb = createTiddlyCheckbox(place,null,config.options.chkRipplerapShare,config.macros.MakeNotesControl.globalSharing);
 			cb.setAttribute("option","chkRipplerapShare");
