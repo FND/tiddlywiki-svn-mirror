@@ -141,7 +141,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 				signinMessage: "Thanks for signing in. You can now share yor notes with others."
 			},
 			0 : {
-				signupMessage: "There was a problem reaching the server to create your username. Please try again shortly.",
+				signupMessage: "There was a problem reaching the server to create your account. You can still save your changes locally.",
 				signinMessage: "There was a problem reaching the server to sign in. Your work will continue to be saved locally ."
 			}
 		};

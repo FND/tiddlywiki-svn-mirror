@@ -17,15 +17,15 @@ If you're attending the conference, you might have seen that BT and Osmosoft are
 
 *The product at the heart of ~RippleRap is ~TiddlyWiki. This product includes all the functionality required to create, edit and save notes locally. ~TiddlyWiki can run on a server, but ~RippleRap isn't intended to be used in this way at Le Web.
 *The sharing of notes with other delegates is done via RSS. When you've [[authorised sharing|Share notes]], ~TiddlyWiki creates an RSS feed that sends your notes to our server. The notes are combined with everyone else's notes on the server, and the aggregated notes are re-published as an RSS feed for your local copy of ~RippleRap. Once they're downloaded, they're stored locally and can be searched within your copy of ~RippleRap.
-*The 'click to call' functionality is provided by [[BT's 21C SDK|http://sdk.bt.com]]. As it happens, ~TiddlyWiki is a great platform for building custom applications for this SDK. 
+*The [[click to call|Mojo]] functionality is provided by [[BT's 21C SDK|http://sdk.bt.com]]. As it happens, ~TiddlyWiki is a great platform for building custom applications for this SDK. 
 
 ''Why are you doing this?''
 
 BT recognises the importance of being a good citizen in the open source arena, and wants to play their part in sustaining and growing the ~TiddlyWiki community as a whole. The more people who take an interest in ~TiddlyWiki, the better it is for everyone involved, which is why the product is being showcased by BT at Le Web.
 
-We'd also like to use ~RippleRap to demonstrate the services being provided by the BT 21C SDK. It so happens that ~TiddlyWiki is a great platform for building custom applications for this SDK. 
+We'd also like to use ~RippleRap to demonstrate the services being provided by the [[BT 21C SDK|http://sdk.bt.com]]. As it happens, ~TiddlyWiki is a great platform for building custom applications for this SDK.
 
-All the rights to the ~TiddlyWiki code have been passed to a non-for-profit foundation called [[UnaMesa|http://www.uamesa.org]], these rights are not owned by BT.
+All the rights to the ~TiddlyWiki code have been passed to a not-for-profit foundation called [[UnaMesa|http://www.uamesa.org]], these rights are not owned by BT.
 
 ''Do you plan to do something similar at future conferences?''
 

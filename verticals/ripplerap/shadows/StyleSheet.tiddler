@@ -21,15 +21,16 @@ div.headerControls a.button {border-style:none; background-color:#000; color:[[C
 
 /* Primary Nav Buttons */
 #mainMenu { display:inline; width:100%; background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding:0; line-height:1.5em; text-align:left;}
+#mainMenu a.button { border-style:none; border-right:solid 1px #999;}
 #mainMenu a,
 #mainMenu a.tiddlyLink { border-right:solid 1px #999; font-size:1em; margin:0; color:#333; padding:0.3em 1em; line-height:1.8em; } 
 #mainMenu a:hover,
 #mainMenu a.tiddlyLink:hover { background-color:#aaa;}
 
 /* Buttons */
-span.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; display:block; padding:0; margin:0.2em 0 0 0;}
+span.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; display:block; padding:0; margin:0 0 0 0;}
 span.chunkyButton a.button,
-span.chunkyButton a:active.button { white-space:nowrap; font-weight:bold; color:#fff; background-color:[[ColorPalette::SecondaryDark]]; text-align:center; padding:0.5em 2em; margin:0; border-style:none;  border-top:solid 1px [[ColorPalette::SecondaryBrightest]]; display:block;}
+span.chunkyButton a:active.button { white-space:nowrap; font-weight:bold; color:#fff; background-color:[[ColorPalette::SecondaryDark]]; text-align:center; padding:0.4em 2em; margin:0; border-style:none;  border-top:solid 1px [[ColorPalette::SecondaryBrightest]]; display:block;}
 span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBright]]; border-style:none; color:#fff;  border-top:solid 1px [[ColorPalette::SecondaryBrightest]];}
 
 /* Agenda */

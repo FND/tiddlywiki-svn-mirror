@@ -1,30 +1,35 @@
 <div title="Help" modifier="PhilWhitehouse" created="200711261027" modified="200711261230" changecount="7">
-<pre>We have a few help options available to you:
-*Come and visit the BT / Osmosoft stall at Le Web - we'll be happy to help.
-*During the conference, we offer a [[click to call|Mojo]] feature - just enter your number, and we'll call you straight back free of charge!
-*We've tried to anticipate the main problems people will have; see if yours is addressed below.
+<pre>
+{{layoutTable{
+|''Your international mobile number'' | |
+|<<option txtMojoTelno>> |{{chunkyButton{<<mojoBatphone>>}}}|
+|>|^^powered by [[Mojo]]^^|
+}}}To get help from a member of the team, just enter your phone number in the box above, click 'enter' and, if it's not engaged, the Bat Phone on our stall at Le Web will ring. When we pick up the phone, the call will then be connected with your phone by [[BT's Web21C SDK|http://web21c.bt.com]]. (BT will not charge you for this incoming call, but your mobile phone operator might, especially if you are roaming.)
 
+Alternatively, there are a couple more ways to get help:
+*You can and visit the BT / Osmosoft stall at Le Web - we'll be happy to help.
+*We've tried to anticipate the main problems people will have; see if yours is addressed below.
 !!Common problems
 
 ''I'm having trouble saving!''
 
-~TiddlyWiki has a few known idiosyncracies, many related to saving for the first time. The top tips are:
-*Always make sure you click on the save button
-*Do not try to use the File/Save command in your browser
+The top tips are:
+*When [[setup correctly|Setup_Instructions]] ~RippleRap will save your changes automatically. You should never use your browser's //File > Save As...// function.
 *When saving for the first time, you may receive a warning saying that ~TiddlyWiki is trying to access your file system. This is necessary in order for the browser to accept the 'save' request.
-*If you wish to rename the file, save your changes first, then close the file, rename the file (but keep the .HTML extension) and reopen the file
-*We suggest you create a folder called backup in the same directory as your file, and then enable the backup functionality in the [[Advanced Options]].
+*If you wish to rename the file, save your changes first, then close the file, rename the file (but keep the .HTML extension) and re-open the file
+*We suggest you create a folder called backup in the same directory as your file, and then enable the backup functionality in the [[Advanced Options|AdvancedOptions]].
+
 
 ''I'm still having problems''
 
-Certain browsers misbehave when running ~TiddlyWiki files. You can find a list of them (including fixes) on the [[TiddlyWiki website|http://tiddlywiki.com/#SaveChanges]]. Unfortunate these problems cannot be fixed by changing ~TiddlyWiki, but they can often be overcome with some simple browser configuration. ~TiddlyWiki generally works best on Firefox.
+Certain browsers misbehave when running ~TiddlyWiki files. You can find a list of them (including fixes) on the [[TiddlyWiki website|http://tiddlywiki.com/#SaveChanges]]. Unfortunately these problems cannot be fixed by changing ~TiddlyWiki, but they can often be overcome with some simple browser configuration. ~TiddlyWiki generally works best on Firefox.
 
 If you're still having problems, drop by our stall at Le Web and we'll help get you sorted.
 
 
 ''Note sharing isn't working''
 
-Have you checked the box that enables sharing on the [[Share notes]] section? This needs to be checked. Notes will be pulled down automatically after that, and this process can take a few minutes depending on the content.
+When ~RippleRap is [[setup correctly|Setup_Instructions]], notes will be pulled down automatically and this process can take a few minutes depending on the content.
 
 Alternatively, it might be that the conference wi-fi is down. 
 
