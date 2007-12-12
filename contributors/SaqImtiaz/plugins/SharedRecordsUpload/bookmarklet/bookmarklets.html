@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Untitled Document</title>
+	</head>
+	<body>
+		<p>
+			<a href='javascript:void(eval(decodeURIComponent("(function()%257Bvar%2520w%253Dwindow.open(%2522http%253A%252F%252Fapi.lewcid.org%252Fsharedrecords%252Fxss.cgi%253Furl%253D%2522%2520%252B%2520document.location.toString()%2520%252B%2520%2522%2526mode%253Dbk%2522)%253B%257D)()")))'>WebpageToSharedRecords</a>
+			<!--
+			function(){
+	var w=window.open("http://api.lewcid.org/sharedrecords/xss.cgi?url=" + document.location.toString() + "&mode=bk");
+}
+			-->
+			<br>
+			<a href="javascript:void(eval(decodeURIComponent(&quot;(function%2520()%2520%257B%250A%2520%2520if(window.version%2520%2526%2526%2520window.version.title%2520%253D%253D%2520'TiddlyWiki')%257B%2520%250A%2520%2520var%2520scr%2520%253D%2520document.createElement('script')%253B%250A%2520%2520scr.src%2520%253D%2520'http%253A%252F%252Fapi.lewcid.org%252Fsharedrecords%252Fsruploadbk.js'%253B%250A%2520%2520document.getElementsByTagName('head')%255B0%255D.appendChild(scr)%253B%250A%257D%257D%2520)()&quot;)))">TiddlyWikiToSharedRecords</a>
+			<!--
+			(
+  function () {
+  if(window.version && window.version.title == 'TiddlyWiki'){ 
+  var scr = document.createElement('script');
+  scr.src = 'http://api.lewcid.org/sharedrecords/sruploadbk.js';
+  document.getElementsByTagName('head')[0].appendChild(scr);
+}} )()
+			-->
+		</p>
+	</body>
+</html>
