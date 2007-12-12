@@ -25,9 +25,9 @@ Underline
 Monospaced Font
 	{{curly braces}}
 Escaping
-	` `escaping` ` (surround in double backtick characters).
+	``escaping`` (surround in double backtick characters).
 Indenting
-	> indent
+> indent
 
 = Links and Images and Files =
 

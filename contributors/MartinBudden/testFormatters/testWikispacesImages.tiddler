@@ -2,16 +2,27 @@
 <pre>
 See http://www.wikispaces.com/image+tags
 
-==Including external images==
+==Including external images== 
 
 You can also include images not hosted on Wikispaces. Use the same image tag and reference a URL, for example:
 
 || image:walking.jpg || [[image:http://www.wikispaces.com/i/l.png]] ||
 
-==Syntax==
+==Syntax== 
 
 || **attribute** || **example** || **result** || **description** ||
 || image:imagename || ``[[image:www-wikispaces-logo.gif]]`` || [[image:www-wikispaces-logo.gif]] || include uploaded image ||
 || width="pixel" || ``[[image:www-wikispaces-logo.gif width="20"]]`` || [[image:www-wikispaces-logo.gif width="50"]] || determine width of image ||
+|| height="pixel" || ``[[image:www-wikispaces-logo.gif height="80"]]`` || [[image:www-wikispaces-logo.gif height="80"]] || determine height of image ||
+|| align="left" || ``[[image:www-wikispaces-logo.gif align="left"]]`` || [[image:www-wikispaces-logo.gif align="left"]] || Float the image to the left and wrap the text around it ||
+|| align="right" || ``[[image:www-wikispaces-logo.gif align="right"]]`` || [[image:www-wikispaces-logo.gif align="right"]] || Float the image to the right and wrap the text around it ||
+|| align="center" || ``[[image:www-wikispaces-logo.gif align="center"]]`` || [[image:www-wikispaces-logo.gif align="center"]] || Center the image in the middle of the page or table cell ||
+|| link="page" || ``[[image:www-wikispaces-logo.gif link="image tags"]]`` || [[image:www-wikispaces-logo.gif link="image tags"]] || Make the image a link to another page or URL ||
+|| caption="an image caption" || ``[[image:www-wikispaces-logo.gif caption="This is the Wikispaces logo"]]`` || [[image:www-wikispaces-logo.gif caption="This is the Wikispaces logo"]] || Adds a caption for the image ||
+==Image Links== 
+The image link attribute uses the same syntax as the link tag. The following are all valid:
+|| page name alone || ``[[image:www-wikispaces-logo.gif link="image tags"]]`` ||
+|| space:page name || ``[[image:www-wikispaces-logo.gif link="www:image tags"]]`` ||
+|| full URL || ``[[image:www-wikispaces-logo.gif link="http://www.wikispaces.com/page/edit/image+tags"]]`` ||
 </pre>
 </div>
