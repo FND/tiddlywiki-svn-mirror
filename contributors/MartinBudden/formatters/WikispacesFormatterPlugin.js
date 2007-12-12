@@ -4,7 +4,7 @@
 |''Description:''|Wikispaces Formatter|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/WikispacesFormatterPlugin.js |
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Date:''|Nov 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -32,6 +32,28 @@ wikispacesFormatter.normalizedTitle = function(title)
 {
 	title = title.trim();
 	return title.replace(/\s/g,'_');
+};
+
+wikispacesFormatter.baseUri = function(space,host)
+{
+	if(!space)
+		space = 'www';
+	if(!host)
+		host = 'wikispaces.com';
+	return 'http://' + space + '.' + host;
+};
+
+wikispacesFormatter.processLink = function(link)
+{
+	if(config.formatterHelpers.isExternalLink(link))
+		return link;
+	var space = null;
+	var pos = link.indexOf(':');
+	if(pos!=-1) {
+		space = link.substr(0,pos);
+		link = link.substring(pos+1);
+	}
+	return wikispacesFormatter.baseUri(space) + '/' + link.replace(/\s/g,'+');
 };
 
 config.wikispacesFormatters = [
@@ -83,18 +105,20 @@ config.wikispacesFormatters = [
 				w.nextMatch += 2; //skip over ||
 				var chr = w.source.substr(w.nextMatch,1);
 				var cell;
-				if(chr == '!') {
+				if(chr == '~') {
 					cell = createTiddlyElement(e,'th');
 					w.nextMatch++;
-					chr = w.source.substr(w.nextMatch,1);
 				} else {
 					cell = createTiddlyElement(e,'td');
-				}
-				var spaceLeft = false;
-				while(chr == ' ') {
-					spaceLeft = true;
-					w.nextMatch++;
-					chr = w.source.substr(w.nextMatch,1);
+					if(chr == '>') {
+						cell.align = 'right';
+						w.nextMatch++;
+					} else if(chr == '=') {
+						cell.align = 'center';
+						w.nextMatch++;
+					} else {
+						cell.align = 'left';
+					}
 				}
 				if(colSpanCount > 1) {
 					cell.setAttribute('colspan',colSpanCount);
@@ -102,12 +126,6 @@ config.wikispacesFormatters = [
 					colSpanCount = 1;
 				}
 				w.subWikifyTerm(cell,this.cellTermRegExp);
-				if(w.matchText.substr(w.matchText.length-3,1) == ' ') {
-					// SpaceRight
-					cell.align = spaceLeft ? 'center' : 'left';
-				} else if(spaceLeft) {
-					cell.align = 'right';
-				}
 				prevCell = cell;
 				w.nextMatch -= 2;
 			}
@@ -232,26 +250,37 @@ config.wikispacesFormatters = [
 	}
 },
 
-/*
-width="pixel"
-height="pixel"
-align="left"
-align="right"
-align="center"
-link="page"
-caption="an image caption"
-*/
 {
 	name: 'wikispacesImage',
 	match: '\\[\\[image:',
-	lookaheadRegExp: /\[\[image:(.*?)(?: +(.*?))?\]\]/mg,
+	lookaheadRegExp: /\[\[image:(.*?)(?: +(.*?)=\"(.*?)")*\]\]/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var img = createTiddlyElement(w.output,"img");
-			img.src = lookaheadMatch[1];
+			img.src = wikispacesFormatter.baseUri()+ '/space/showimage/' + lookaheadMatch[1];
+			img.title = lookaheadMatch[1];
+			img.alt = lookaheadMatch[1];
+			var i = 2;
+			var a = lookaheadMatch[i];
+			while(a) {
+				if(a=="width" || a=="height" || a=="align") {
+					if(lookaheadMatch[i+1]) {
+						img[a] = lookaheadMatch[i+1];
+						//#console.log("a:"+a+" v:"+lookaheadMatch[i+1]);
+					}
+				} else if(a=="link") {
+					var link = createTiddlyElement(w.output,"a");
+					link.href = wikispacesFormatter.processLink(lookaheadMatch[i+1]);
+					img = w.output.removeChild(img);
+					link.appendChild(img);
+				//} else if(a=="caption") {
+				}
+				i += 2;
+				a = lookaheadMatch[i];
+			}
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	}
@@ -276,7 +305,6 @@ caption="an image caption"
 	}
 },
 
-
 {
 	name: 'wikispacesExplicitLink',
 	match: '\\[\\[',
@@ -288,7 +316,9 @@ caption="an image caption"
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var link = lookaheadMatch[1];
 			var text = lookaheadMatch[2] ? lookaheadMatch[2] : link;
-			var e = config.formatterHelpers.isExternalLink(link) ? createExternalLink(w.output,link) : createTiddlyLink(w.output,link,false,null,w.isStatic);
+			var e = link.indexOf(':')==-1 ?
+				createTiddlyLink(w.output,link,false,null,w.isStatic) :
+				createExternalLink(w.output,wikispacesFormatter.processLink(link));
 			createTiddlyText(e,text);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
@@ -324,18 +354,19 @@ caption="an image caption"
 			config.formatterHelpers.enclosedTextHelper.call(this,w);
 			break;
 		case "``":
-			this.lookaheadRegExp.lastIndex = w.matchStart;
-			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+			var lookaheadRegExp = /``((?:.|\n)*?)``/mg;
+			lookaheadRegExp.lastIndex = w.matchStart;
+			var lookaheadMatch = lookaheadRegExp.exec(w.source);
 			if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 				createTiddlyElement(w.output,"span",null,null,lookaheadMatch[1]);
-				w.nextMatch = this.lookaheadRegExp.lastIndex;
+				w.nextMatch = lookaheadRegExp.lastIndex;
 			}
 			break;
 		}
 	}
 },
 
-{
+/*{
 	name: 'wikispacesParagraph',
 	match: '\\n{2,}',
 	handler: function(w)
@@ -343,7 +374,7 @@ caption="an image caption"
 		w.output = createTiddlyElement(w.output,'p');
 	}
 },
-
+*/
 {
 	name: 'wikispacesLineBreak',
 	match: '\\n|<br ?/?>',
