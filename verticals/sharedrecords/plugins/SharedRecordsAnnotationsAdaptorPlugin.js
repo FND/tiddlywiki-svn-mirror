@@ -3,7 +3,7 @@
 |''Description:''|Shared Records Annotations API Adaptor|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/SharedRecords/adaptors/SharedRecordsAnnotationsAdaptorPlugin.js |
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Status:''|Not for release - under development|
 |''Date:''|Nov 19, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -290,12 +290,12 @@ SharedRecordsAnnotationsAdaptor.prototype.putTiddler = function(tiddler,context,
 			SharedRecordsAnnotationsAdaptor.dateToUTCISO1806(tiddler.created),
 			jsonTags.join(jsonTagSep),
 			tiddler.text.toJSONString(),
-			this.workspace.toJSONString(),
+			context.workspace.toJSONString(),
 			contentType.toJSONString(),
 			sequenceNumber
 			]);
 	var host = context.host ? context.host : SharedRecordsAnnotationsAdaptor.fullHostName(tiddler.fields['server.host']);
-	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
+	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
 	var uriTemplate = '%0records/%1_log?max-sequence-number=%2&format=json';
 	var uri = uriTemplate.format([host,workspace,sequenceNumber]);
 //#displayMessage("put uri:"+uri);
