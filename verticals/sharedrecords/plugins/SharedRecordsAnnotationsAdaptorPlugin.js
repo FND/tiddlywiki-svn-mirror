@@ -3,8 +3,8 @@
 |''Description:''|Shared Records Annotations API Adaptor|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/SharedRecords/adaptors/SharedRecordsAnnotationsAdaptorPlugin.js |
-|''Version:''|0.0.3|
-|''Status:''|Not for release - under development|
+|''Version:''|0.0.4|
+|''Status:''|Beta release|
 |''Date:''|Nov 19, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -27,6 +27,7 @@ function SharedRecordsAnnotationsAdaptor()
 SharedRecordsAnnotationsAdaptor.serverType = 'sharedrecordsannotations';
 SharedRecordsAnnotationsAdaptor.serverParsingErrorMessage = "Error parsing result from server";
 SharedRecordsAnnotationsAdaptor.errorInFunctionMessage = "Error in function SharedRecordsAnnotationsAdaptor.%0";
+SharedRecordsAnnotationsAdaptor.notFoundError = "SharedRecords tiddler not found";
 
 SharedRecordsAnnotationsAdaptor.prototype.setContext = function(context,userParams,callback)
 {
@@ -71,11 +72,7 @@ SharedRecordsAnnotationsAdaptor.minHostName = function(host)
 // Convert a page title to the normalized form used in uris
 SharedRecordsAnnotationsAdaptor.normalizedTitle = function(title)
 {
-	var n = title.toLowerCase();
-	n = n.replace(/\s/g,'_').replace(/\//g,'_').replace(/\./g,'_').replace(/:/g,'').replace(/\?/g,'');
-	if(n.charAt(0)=='_')
-		n = n.substr(1);
-	return String(n);
+	return title;
 };
 
 // Convert a date in YYYY-MM-DD hh:mm format into a JavaScript Date object
@@ -232,13 +229,28 @@ SharedRecordsAnnotationsAdaptor.getTiddlerCallback = function(status,context,res
 	context.statusText = SharedRecordsAnnotationsAdaptor.errorInFunctionMessage.format(['getTiddlerCallback']);
 	if(status) {
 		try {
-//#console.log("rt:"+responseText);
+//#if(context.title=='title9') {
+//#		console.log("title:"+context.title);
+//#		console.log("rt:"+responseText.substr(0,80));
+//#		console.log("rt:"+responseText.substr(80,80));
+//#}
 			eval('var info=' + responseText);
 			var t = info.tiddlers[0];
+			if(!t) {
+				context.statusText = SharedRecordsAnnotationsAdaptor.notFoundError;
+				console.log("title:"+context.title);
+				console.log("rt:"+responseText);
+				if(context.callback)
+					context.callback(context,context.userParams);
+				return;
+			}
 			var tiddler = new Tiddler(t.title);
 			tiddler.tags = t.tags;
 			tiddler.modifier = t.modifier;
 			tiddler.text = t.text;
+//#if(context.title=='title9') {
+//#	console.log("t9:"+t.text);
+//#}
 			tiddler.modified = SharedRecordsAnnotationsAdaptor.dateFromUTCISO1806(t.modified);
 			tiddler.fields['server.type'] = SharedRecordsAnnotationsAdaptor.serverType;
 			tiddler.fields['server.host'] = SharedRecordsAnnotationsAdaptor.minHostName(context.host);
@@ -294,6 +306,9 @@ SharedRecordsAnnotationsAdaptor.prototype.putTiddler = function(tiddler,context,
 			contentType.toJSONString(),
 			sequenceNumber
 			]);
+//#console.log("title:"+tiddler.title);
+//#console.log("text:"+tiddler.text);
+//#console.log("textJSON:"+tiddler.text.toJSONString());
 	var host = context.host ? context.host : SharedRecordsAnnotationsAdaptor.fullHostName(tiddler.fields['server.host']);
 	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
 	var uriTemplate = '%0records/%1_log?max-sequence-number=%2&format=json';
