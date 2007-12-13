@@ -7,6 +7,8 @@ tiddler: shadows/SiteSubTitle.tiddler
 tiddler: ../../shadows/MainMenuHome.tiddler
 tiddler: ../../shadows/DefaultTiddlersHome.tiddler
 tiddler: ../../shadows/EditTemplateFields.tiddler
+tiddler: ../../adaptors/AdaptorCommandsPlugin.js
+tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../shadows/ViewTemplateGetPutRevisionsFields.tiddler
 tiddler: ../../mystyle/StyleSheet.tiddler
 tiddler: ../../mystyle/StyleSheetMB.tiddler
@@ -18,3 +20,4 @@ tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../formatters/WikispacesFormatterPlugin.js
 tiddler: ../../../SaqImtiaz/adaptors/WikispacesAdaptor.js
 tiddler: ../../feeds/WikispacesTwTestFeed.tiddler
+tiddler: ../../testFormatters/testWikispacesFormat.tiddler
