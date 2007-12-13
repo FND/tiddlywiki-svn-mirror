@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.5.6|
+|''Version:''|0.5.7|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -104,6 +104,7 @@ MediaWikiAdaptor.prototype.openHost = function(host,context,userParams,callback)
 	if(context.callback) {
 		context.status = true;
 		window.setTimeout(function() {callback(context,userParams);},0);
+	}
 	return true;
 };
 
@@ -516,13 +517,6 @@ MediaWikiAdaptor.getTiddlerCallback = function(status,context,responseText,uri,x
 				context.callback(context,context.userParams);
 			return;
 		}
-		//#var links = page.links;
-		//#if (links && links.length) {
-		//#	alert(links[0]['*'] + ' is linked from ' + title);
-		//#	context.tiddler.text += links[0]['*'];
-		//#} else {
-		//#	alert('No links on ' + title + ' found');
-		//#}
 		context.status = true;
 	} else {
 		context.statusText = xhr.statusText;
