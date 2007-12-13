@@ -1,0 +1,10 @@
+<div title="testSections" modifier="MartinBudden">
+<pre>
+A
+<<tiddler Sections##Bar>>
+B
+<<tiddler Sections##Bar>>
+C
+<<tiddler Sections##Bar>>
+</pre>
+</div>
