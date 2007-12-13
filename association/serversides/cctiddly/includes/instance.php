@@ -1,4 +1,6 @@
 <?php 
+
+debug('create4 instance ');
 include_once('includes/db.mysql.php');
 
 // returns false f the instance name already exists.
@@ -71,4 +73,8 @@ function instance_create($instance)
 	mkdir($tiddlyCfg['pref']['upload_dir'].$instance ,  0777);
 	mkdir($tiddlyCfg['pref']['upload_dir'].$instance.'/images' ,  0777);
 	mkdir($tiddlyCfg['pref']['upload_dir'].$instance.'/thumbs' ,  0777);
-return true;}?> 
+
+	header('HTTP/1.0 201 Created');
+return true;
+
+}?> 

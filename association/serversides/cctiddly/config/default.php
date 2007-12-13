@@ -9,26 +9,30 @@ $link = db_connectDB();
 db_selectDB($tiddlyCfg['db']['name']);
 
 // create the instance if it does not already exist.
-
-$array['name'] = $instance;
-$tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
-
-
-
-echo count($tiddlyCfg['pref']['instance_settings']);
-
-// return correct header response if the page does not exist. 
-if (count($tiddlyCfg['pref']['instance_settings']) < 1)
+if ($tiddlyCfg['pref']['instance_name'] == '')  
 {
-	echo 'df';
-	echo 'NOT FOUND';
-	header("HTTP/1.0 404 Not Found"); 
+	$array['name'] = 'home';
+	$tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
+} else {
+
+	$array['name'] = $tiddlyCfg['pref']['instance_name'];
+	$tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
+}
+
+// If the instance name was empty or the instance name provided does not exist. 
+// TODO : WHAT IF ITS THE HOME INSTANCE : 
+if (count($tiddlyCfg['pref']['instance_settings']) < 1 ||  $array['name'] != 'home')
+{
+	//header("HTTP/1.0 404 Not Found"); 
 	if ($_POST)
 	{
-		include('includes/instance.php');
+		debug('create page');
+		include('./includes/instance.php');
 		instance_create($_POST['ccWorkspaceName']);
 	}
 }
+
+
 
 // the instance does not exist yet. 
 if (count($tiddlyCfg['pref']['instance_settings']) < 1)

@@ -28,13 +28,14 @@
 	if ($_POST['logout'] || $_REQUEST['logout'])
 	{
 		user_logout('You have logged out.');
-		header("Location: ".$_SERVER['PHP_SELF'].'?'.str_replace("logout=1","",$_SERVER['QUERY_STRING']));		//redirect to itself to refresh
+	
+	//header('location: http://www.google.com');
+	//	exit;
+		echo 'sdsd'.'?'.str_replace("logout=1","",$_SERVER['QUERY_STRING']);
+		header("'location: ".$_SERVER['PHP_SELF'].'?'.str_replace("logout=1","",$_SERVER['QUERY_STRING']."'"));		//redirect to itself to refresh
 	}	
 
-
-
 $user['verified'] = user_session_validate();
-
 
 // display open id bits if it is enabled. 
 if ($tiddlyCfg['pref']['openid_enabled'] ==1)
@@ -308,12 +309,6 @@ else
 			var workspaceName = createTiddlyElement(frm,&quot;input&quot;,&quot;ccWorkspaceName&quot;, &quot;ccWorkspaceName&quot;)				
 			workspaceName.value = workspace;
 			workspaceName.name = 'ccWorkspaceName';
-			
-		//	var select=createTiddlyElement(frm,&quot;select&quot;, &quot;select&quot;);
-		//	createTiddlyElement(select,&quot;option&quot;, 's'	, null, 'Standard TW');
-		//	createTiddlyElement(select,&quot;option&quot;, 's'	, null, 'GTD TW');
-		//	createTiddlyElement(select,&quot;option&quot;, 's'	, null, 'Team Tasks TW');
-			createTiddlyElement(frm,&quot;br&quot;);
 			createTiddlyElement(frm,&quot;br&quot;);
 	      	var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt);
 	        btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
@@ -321,57 +316,53 @@ else
 			createTiddlyElement(frm,&quot;h2&quot;, null, null,  &quot;Anonymous Users Can :  &quot;);
 			var anC = createTiddlyCheckbox(frm, &quot;Create Tiddlers&quot;, 0);
 			anC.id='anC';
-			anC.name='anC';
 			createTiddlyElement(frm,&quot;br&quot;);
 			var  anR = createTiddlyCheckbox(frm, &quot;Read Tiddler&quot;, 1);
 			anR.id = 'anR';
-			anR.name = 'anR';
 			createTiddlyElement(frm,&quot;br&quot;);
 			var anU = createTiddlyCheckbox(frm, &quot;Updates Tiddlers &quot;, 0);
 			anU.id = anU;
-			anU.name = anU;
 			createTiddlyElement(frm,&quot;br&quot;);
 			var anD = createTiddlyCheckbox(frm, &quot;Delete Tiddlers&quot;, 0);
 			anD.id = anD;
-			anD.name = anD;
 			createTiddlyElement(frm,&quot;br&quot;);
 			createTiddlyElement(frm,&quot;h2&quot;, null, null,  &quot;Registered Users  Can:  &quot;);
 			var usC = createTiddlyCheckbox(frm, &quot;Create Tiddlers&quot;, 1);
 			usC.id = 'usC';
-			usC.name = 'usC';
 			createTiddlyElement(frm,&quot;br&quot;);
 		 	var usR = createTiddlyCheckbox(frm, &quot;Read Tiddler&quot;, 1);
 			usR.id = 'usR';
-			usR.name = 'usR';
 			createTiddlyElement(frm,&quot;br&quot;);
 			var usU = createTiddlyCheckbox(frm, &quot;Updates Tiddlers &quot;, 1);
 			usU.id = 'usU';
-			usU.name = 'usU';
 			createTiddlyElement(frm,&quot;br&quot;);
 			var usD = createTiddlyCheckbox(frm, &quot;Delete Tiddlers&quot;, 1);
-			usD.id='udD';
-			usD.name='udD';
+			usD.id='usD';
 			createTiddlyElement(frm,&quot;br&quot;);
 			createTiddlyElement(frm,&quot;br&quot;);
 			createTiddlyText(frm,&quot;As the Workspace owner you will have all the above permissions&quot;);
 			createTiddlyElement(frm,&quot;br&quot;);
-      
+
+
 },
 		    createWorkspaceOnSubmit: function() {
-			var createURL = url+"/"+workspace; 
-			doHttp('POST',  url+"/"+workspace, null,null,null,null, config.macros.ccCreateWorkspace.createWorkspaceCallback);
-				alert('f');
-				return FALSE;
+				var userString = this.usC.checked+'-'+this.usR.checked+'-'+this.usU.checked+'-'+this.usD.checked;
+			//	var anonString = this.anC.checked+'-'+this.anR.checked+'-'+this.anU.checked+'-'+this.usD.checked;
+			//	alert(this.ccWorkspaceName.value);
+	
+		       var loginResp = doHttp('POST', url+'/'+this.ccWorkspaceName.value, &quot;ccCreateWorkspace=&quot; + encodeURIComponent(this.ccWorkspaceName.value)+&quot;&amp;ccPermissions=&quot;+encodeURIComponent(userString),null,null,null, config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
+	
+			return false; 
+			
 			    },
 						
 		   createWorkspaceCallback: function(status,params,responseText,uri,xhr) {
-	alert('a');
-			if(xhr.status != 404) {
-				displayMessage('workspace name in use');				
+	alert(xhr.status);
+			if(xhr.status =201) {
+				displayMessage('workspace crated');				
 			} else {
 	//			window.location = uri;
 			}
-		alert('df');
 		return FALSE;
 			},		   
 
