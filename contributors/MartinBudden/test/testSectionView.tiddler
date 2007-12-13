@@ -1,0 +1,22 @@
+<div title="testSectionView">
+<pre># <<tiddler testSectionContent##BarNone>>
+# Barxxx<<tiddler testSectionContent##BarNone>>xxx
+# Barxxx<<tiddler "testSectionContent##BarNone">>xxx
+# Barxxx<<tiddler [[testSectionContent##BarNone]]>>xxx
+# Booxxx<<tiddler testSectionContent##Boo>>xxx
+# Fooxxx<<tiddler testSectionContent##FooAfter>>xxx
+# Fooxxx<<tiddler testSectionContent##FooAfter>>xxx
+# Bayxxx<<tiddler testSectionContent##BayBefore>>xxx
+# Bazxxx<<tiddler testSectionContent##BazBoth>>xxx
+# Baaxxx<<tiddler testSectionContent##BaaEnd>>xxx
+<html>
+<style type="text/css">
+#tiddlertestSectionView li {
+    margin: 10px;
+    border: 1px solid #AAA;
+    padding: 5px;
+    background-color: #EEE;
+}
+</style>
+</html></pre>
+</div>

@@ -1,0 +1,19 @@
+<div title="testSectionContent">
+<pre>!FooAfter
+This is @@FooAfter@@.
+
+!BarNone
+This is @@BarNone@@.
+!BayBefore
+
+This is @@BayBefore@@.
+!BazBoth
+
+This is @@BazBoth@@.
+
+!BaaEnd
+
+This is @@BaaEnd@@.
+
+</pre>
+</div>
