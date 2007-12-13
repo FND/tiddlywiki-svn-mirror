@@ -5,7 +5,7 @@
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hans/locale.zh-Hans.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''Version:''|2.2.6|
-|''Date:''|Oct 26, 2007|
+|''Date:''|Dec 01, 2007|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -111,9 +111,10 @@ config.messages.listView = {
 };
 
 config.messages.dates.months = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
-config.messages.dates.days = ["日", "一","二", "三", "四", "五", "六"];
-config.messages.dates.shortMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-config.messages.dates.shortDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+config.messages.dates.days = ["周日", "周一","周二", "周三", "周四", "周五", "周六"];
+config.messages.dates.shortMonths = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
+config.messages.dates.shortDays = ["日", "一","二", "三", "四", "五", "六"];
+
 // suffixes for dates, eg "1st","2nd","3rd"..."30th","31st"
 config.messages.dates.daySuffixes = ["st","nd","rd","th","th","th","th","th","th","th",
 		"th","th","th","th","th","th","th","th","th","th",
@@ -331,7 +332,7 @@ merge(config.macros.sync,{
 	hasChanged: "已更动",
 	hasNotChanged: "未更动",
 	syncStatusList: {
-		none: {text: "...", color: 'none'},
+		none: {text: "...", color: 'transparent'},
 		changedServer: {text: "服务器资料已更动", color: '#80ff80'},
 		changedLocally: {text: "本机资料已更动", color: '#80ff80'},
 		changedBoth: {text: "已同时更新本机与服务器上的资料", color: '#ff8080'},
@@ -444,9 +445,9 @@ merge(config.annotations,{
 	SiteSubtitle: "此默认文章的内容为页面的副标题",
 	SiteTitle: "此默认文章的内容为页面的主标题",
 	SiteUrl: "此默认文章的内容须设定为文件发布时的完整网址",
-	StyleSheetColours: "此默认文章内含的 CSS 规则，为相关的页面元素的配色",
+	StyleSheetColors: "此默认文章内含的 CSS 规则，为相关的页面元素的配色。''勿修改此文''，請於 StyleSheet 中作增修。",
 	StyleSheet: "此默认文章内容可包含 CSS 规则",
-	StyleSheetLayout: "此默认文章内含的 CSS 规则，为相关的页面元素的版面配置",
+	StyleSheetLayout: "此默认文章内含的 CSS 规则，为相关的页面元素的版面配置。''勿修改此文''，請於 StyleSheet 中作增修。",
 	StyleSheetLocale: "此默认文章内含的 CSS 规则，可依翻译语系做适当调整",
 	StyleSheetPrint: "此默认文章内含的 CSS 规则，用于列印时的样式",
 	TabAll: "此默认文章的内容，为于屏幕右侧的“全部”页签的内容",
