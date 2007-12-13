@@ -15,3 +15,5 @@ tiddler: ../tiddlypedia/ViewTemplateTiddlerFields.tiddler
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../test/testLinks.tiddler
+tiddler: ../../test/testSectionContent.tiddler
+tiddler: ../../test/testSectionView.tiddler
