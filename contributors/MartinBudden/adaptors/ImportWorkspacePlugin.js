@@ -65,15 +65,15 @@ config.macros.importWorkspace.handler = function(place,macroName,params,wikifier
 {
 	params = paramString.parseParams('anon',null,false,false,false);
 	var customFields = getParam(params,'fields',false);
-	if(!customFields) {
-		customFields = config.defaultCustomFields;
-	}
 	if(!customFields['server.type']) {
 		var title = getParam(params,'anon');
 		if(!title) {
-			var tiddlers = store.getTaggedTiddlers('systemServer');
-			if(tiddlers.length>0)
-				title = tiddlers[0].title;
+			customFields = config.defaultCustomFields;
+			if(!customFields['server.type']) {
+				var tiddlers = store.getTaggedTiddlers('systemServer');
+				if(tiddlers.length>0)
+					title = tiddlers[0].title;
+			}
 		}
 		if(title) {
 			customFields = {};
