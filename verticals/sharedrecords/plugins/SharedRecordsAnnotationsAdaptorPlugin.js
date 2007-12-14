@@ -295,6 +295,7 @@ SharedRecordsAnnotationsAdaptor.prototype.putTiddler = function(tiddler,context,
 	var contentType = tiddler.fields['content.type'];
 	if(contentType === undefined)
 		contentType = 'text/html';
+	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
 	var jsonTiddler = jsonEntry.format([
 			tiddler.title.toJSONString(),
 			SharedRecordsAnnotationsAdaptor.dateToUTCISO1806(tiddler.modified),
@@ -302,15 +303,14 @@ SharedRecordsAnnotationsAdaptor.prototype.putTiddler = function(tiddler,context,
 			SharedRecordsAnnotationsAdaptor.dateToUTCISO1806(tiddler.created),
 			jsonTags.join(jsonTagSep),
 			tiddler.text.toJSONString(),
-			context.workspace.toJSONString(),
+			workspace.toJSONString(),
 			contentType.toJSONString(),
 			sequenceNumber
-			]);
+		]);
 //#console.log("title:"+tiddler.title);
 //#console.log("text:"+tiddler.text);
 //#console.log("textJSON:"+tiddler.text.toJSONString());
 	var host = context.host ? context.host : SharedRecordsAnnotationsAdaptor.fullHostName(tiddler.fields['server.host']);
-	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
 	var uriTemplate = '%0records/%1_log?max-sequence-number=%2&format=json';
 	var uri = uriTemplate.format([host,workspace,sequenceNumber]);
 //#displayMessage("put uri:"+uri);
