@@ -1,6 +1,5 @@
 <?php
 
-
 	//timing
 	function recordTime_float($name="unnamed")
 	{
@@ -494,7 +493,7 @@ else
 	        var pass = document.getElementById('cctpass').value;
 	        var params = {}; 
 	        params.origin = this;
-	        var loginResp = doHttp('POST', url+'/msghandle.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
+	        var loginResp = doHttp('POST', url+'/handle/login.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
 	        return false;
 	    },
 
@@ -504,6 +503,7 @@ else
 	        //    displayMessage('CONECTION was ok ');
 	        }
 	        var cookie = xhr.getResponseHeader (&quot;Set-Cookie&quot;);
+	displayMessage(xhr.responseText);
 	        var cookieValues;
 	        cookieValues = this.findToken(cookie);
 	        config.macros.ccLogin.saveCookie(cookieValues);

@@ -89,7 +89,7 @@
 		print "\n<script type=\"text/javascript\">\n";
 		
 		//find server name and root path
-		$url = "http://".preg_replace("![^/]*[.]php!","",$_SERVER['PHP_SELF']);
+	//	$url = $_SERVER['PHP_SELF'];
 
 		//in cct online mode
 		if( !$standalone )
@@ -103,7 +103,7 @@ var serverside={
 	handle:{		//path of file for handling request, can be used to put in GET variable
 		rss: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
 		uploadStoreArea: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",		//for uploading the whole storearea
-		saveTiddler: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
+		saveTiddler: "../..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/save.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
 		removeTiddler: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
 		revisionList: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?action=revisionList&<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
 		revisionDisplay: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?action=revisionDisplay&<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",

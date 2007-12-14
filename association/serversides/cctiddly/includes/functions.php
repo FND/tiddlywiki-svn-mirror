@@ -392,10 +392,8 @@
 	function cookie_set($k,$v)
 	{
 		global $tiddlyCfg;
-		
 		$expire =  time()+$tiddlyCfg['pref']['session_expire'];	
-		debug('SETCOOKIE '.$k,rawurlencode($v), $expire,"/");
-		if(@setcookie($k,rawurlencode($v), $expire,"/"))
+		if(setcookie($k,rawurlencode($v), $expire,"/"))
 			return true;
 		else
 			return false;

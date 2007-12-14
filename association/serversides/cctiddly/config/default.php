@@ -2,8 +2,8 @@
 
 // GLOBAL PREFERENCES THAT PERSIST ACCROSS ALL INSTANCES
 
-include_once('./includes/url.php');
-include_once("./includes/db.mysql.php");
+include_once($cct_base.'./includes/url.php');
+include_once($cct_base."./includes/db.mysql.php");
 
 $link = db_connectDB();
 db_selectDB($tiddlyCfg['db']['name']);

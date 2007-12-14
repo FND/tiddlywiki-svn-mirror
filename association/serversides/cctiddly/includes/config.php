@@ -7,7 +7,10 @@
 	//////////////////////////////////////////////////////// config file ////////////////////////////////////////////////////////
 	//include default config file first before the desired config based either on config variable or URL
 	//used for seamless upgrade as possible
-	include_once("./config/default.php");
+
+
+
+	include_once($cct_base."./config/default.php");
 	
 	//override if config variable defined
 	if( isset($_GET['config']) )

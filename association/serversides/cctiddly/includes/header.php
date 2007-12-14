@@ -35,15 +35,30 @@
 	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
 	//$tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the instance name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
 	$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
-	$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
+	$tiddlyCfg['mysql_debug']=0;	 // if set to 1 will output every sql query into the logfile 
 
 
-	include_once("includes/functions.php");
-	include_once("includes/config.php");
-	include_once("lang/".$tiddlyCfg['pref']['language'].".php");
-	include_once("includes/db.mysql.php");	
-	include_once("includes/tiddler.php");
-	include_once("includes/user.php");
+
+
+///// here we are setting a null value to avoid notices in the error logs when it is not used. ////
+// cct_base is used to prefix calls to files, 
+	if(!isset($cct_base) || $cct_base == "")
+	    $cct_base= null;
+	
+	if(!isset($ccT_msg) || $ccT_msg == "")
+		    $ccT_msg= null;
+	if(!isset($instance) || $instance == "")
+				    $instance= null;
+
+	
+////  END OF DECLARING VARS 
+
+	include_once($cct_base."./includes/functions.php");
+	include_once($cct_base."./includes/config.php");
+	include_once($cct_base."./lang/".$tiddlyCfg['pref']['language'].".php");
+	include_once($cct_base."./includes/db.mysql.php");	
+	include_once($cct_base."./includes/tiddler.php");
+	include_once($cct_base."./includes/user.php");
 //////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////
 	//?standalone=1, used for making the script standalone form like a regular tiddlywiki
 	$standalone = ((isset($_GET['standalone'])&&$_GET['standalone']==1)?1:0);		//if 1, will make it into standalone form
@@ -142,6 +157,4 @@
 	}/*else{
 		db_connectDB();
 	}*/
-	
-
-?>
+?> 

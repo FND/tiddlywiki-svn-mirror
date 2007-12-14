@@ -1,12 +1,9 @@
-<?php
-
-
-	//exit("success");
+<?php	//exit("success");
 	include_once("includes/header.php");
 	
 	
 //////////////////////////////// START of create instance ///////////////////////////////////////////////
-	// confirm that the user is loggedin properly.
+	//TODO ::  confirm that the user is loggedin properly.
 	if($_POST['instance_name'] || $_REQUEST['instance_name'])
 	{
 		// the user has asked us to create an instance 
@@ -14,19 +11,12 @@
  	instance_create($_POST['instance_name']);
         //TODO  to redirect to the page which has been created 
 	}
-//////////////////////////////// end of create instance ///////////////////////////////////////////////
-
-debug('MSG HANDLE - INSTANCE NAME : '.$tiddlyCfg['pref']['instance_name']);
+//////////////////////////////// end of create instance ///////////////////////
 ///////////////////////////// START OF LOGIN BITS /////////////////////////////////////////////////	
 		
-		if( isset($_POST['cctuser']) && isset($_POST['cctpass']) )		//set cookie for login
-		{	
-			
-			user_login(formatParametersPOST($_POST['cctuser']),formatParametersPOST($_POST['cctpass']));
-				//	$user = user_create();
-		}
+
 		
-		if ($_POST['logout'] || $_REQUEST['logoout'])
+		if (isset($_POST['logout']) || isset($_REQUEST['logoout']))
 			user_logout('You have logged out.');
 		
 ////////////////////////////////////////////END OF LOGIN BITS ///////////////////////////////////////////
@@ -36,7 +26,7 @@ debug('MSG HANDLE - INSTANCE NAME : '.$tiddlyCfg['pref']['instance_name']);
 //////////////////////////////////////////////////////////initial checking and required functions////////////////////////////////////////
 	if( !isset($_POST['action']) && !isset($_GET['action']) )
 	{
-		exit($ccT_msg['misc']['no_title']);		//not as translation string since this is not normal error
+	//	exit($ccT_msg['misc']['no_title']);		//not as translation string since this is not normal error
 	}
 	
 	//return result/message

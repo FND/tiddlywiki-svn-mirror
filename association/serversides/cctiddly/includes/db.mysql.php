@@ -162,6 +162,7 @@ $db_var['error']['query'] = " query: ";*/
 	
 		while( (list($k,$v) = each($data)) )
 		{
+		$sql = '';
 			if ($v != '')  // make sure we dont search on emtpy values
 				$sql .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."' and ";
 		}
