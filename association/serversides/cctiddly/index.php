@@ -19,9 +19,9 @@
 	recordTime_float("Start");
 
 	//includes
-
-	include_once("includes/header.php");
-	include_once("includes/print.php");
+	$cct_base = "";
+	include_once($cct_base."includes/header.php");
+	include_once($cct_base."includes/print.php");
 	recordTime_float("includes");
 
 	if ($_POST['logout'] || $_REQUEST['logout'])
@@ -30,7 +30,7 @@
 	
 	//header('location: http://www.google.com');
 	//	exit;
-		echo 'sdsd'.'?'.str_replace("logout=1","",$_SERVER['QUERY_STRING']);
+		//echo 'sdsd'.'?'.str_replace("logout=1","",$_SERVER['QUERY_STRING']);
 		header("'location: ".$_SERVER['PHP_SELF'].'?'.str_replace("logout=1","",$_SERVER['QUERY_STRING']."'"));		//redirect to itself to refresh
 	}	
 

@@ -10,7 +10,7 @@
 
 
 
-	include_once($cct_base."./config/default.php");
+	include_once($cct_base."config/default.php");
 	
 	//override if config variable defined
 	if( isset($_GET['config']) )

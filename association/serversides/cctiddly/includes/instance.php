@@ -1,7 +1,7 @@
 <?php 
 
 debug('create4 instance ');
-include_once('includes/db.mysql.php');
+include_once($cct_base."includes/db.mysql.php");
 
 // returns false f the instance name already exists.
 

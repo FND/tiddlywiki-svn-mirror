@@ -2,8 +2,8 @@
 
 // GLOBAL PREFERENCES THAT PERSIST ACCROSS ALL INSTANCES
 
-include_once($cct_base.'./includes/url.php');
-include_once($cct_base."./includes/db.mysql.php");
+include_once($cct_base."includes/url.php");
+include_once($cct_base."includes/db.mysql.php");
 
 $link = db_connectDB();
 db_selectDB($tiddlyCfg['db']['name']);
@@ -27,7 +27,7 @@ if (count($tiddlyCfg['pref']['instance_settings']) < 1 ||  $array['name'] != 'ho
 	if ($_POST)
 	{
 		debug('create page');
-		include('./includes/instance.php');
+		include($cct_base."includes/instance.php");
 		instance_create($_POST['ccWorkspaceName']);
 	}
 }
