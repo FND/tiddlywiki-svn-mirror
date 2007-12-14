@@ -4,6 +4,7 @@ tiddler: HomeMultiHostDemo.tiddler
 tiddler: settings.js
 tiddler: shadows/SiteTitleMultiHostDemo.tiddler
 tiddler: shadows/SiteSubTitle.tiddler
+tiddler: shadows/SideBarOptionsWithFields.tiddler
 tiddler: ../../shadows/MainMenuHome.tiddler
 tiddler: ../../shadows/DefaultTiddlersHome.tiddler
 tiddler: ../../shadows/EditTemplateFields.tiddler
@@ -17,11 +18,14 @@ tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
+tiddler: ../../adaptors/ImportWorkspacePlugin.js
 tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
+tiddler: ../../adaptors/SocialtextAdaptorPlugin.js
 tiddler: ../../../SaqImtiaz/adaptors/WikispacesAdaptor.js
 tiddler: ../../formatters/MediaWikiFormatterPlugin.js
+tiddler: ../../formatters/SocialtextFormatterPlugin.js
 tiddler: ../../formatters/TracFormatterPlugin.js
 tiddler: ../../formatters/WikispacesFormatterPlugin.js
 tiddler: ../../feeds/UnaMesaServiceLinkFeed.tiddler
 tiddler: ../../feeds/MyRicohServiceLinkFeed.tiddler
-tiddler: ../../feeds/SharedRecordsFeed.tiddler
+tiddler: ../../feeds/UnaTechFeed.tiddler

@@ -1,0 +1,5 @@
+<div title="SideBarOptions" modifier="MartinBudden" created="200708030000" tags="excludeLists excludeSearch">
+<pre>
+<<importWorkspace UnaMesaServiceLinkFeed label:"import UnaMesa">><<importWorkspace MyRicohServiceLinkFeed label:"import MyRicoh">><<search>><<closeAll>><<permaview>><<newTiddler>><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel 'options »' 'Change TiddlyWiki advanced options'>>
+</pre>
+</div>
