@@ -2,8 +2,6 @@ tiddler: DefaultTiddlers.tiddler
 tiddler: MainMenu.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
-tiddler: SideBarOptions.tiddler
+tiddler: SideBarOptionsWithFields.tiddler
 tiddler: EditTemplate.tiddler
 tiddler: GettingStarted.tiddler
-tiddler: SharedRecordsWalkthrough.tiddler
-tiddler: AddingTiddlerToServer.tiddler

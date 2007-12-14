@@ -1,0 +1,8 @@
+<div title="SideBarOptions" modifier="MartinBudden" created="200708030000" tags="excludeLists excludeSearch">
+<pre>
+<<search>><<closeAll>><<permaview>><<newTiddler fields:[[server.type:"sharedrecordsannotations"
+server.host:"http://test.sharedrecords.org"
+server.workspace:"385c7c019544dbe75736223ffd7ee18b872f6b08"]]
+feed:SharedRecordsAnnotationsTestServer label:"new synchronized tiddler">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel 'options »' 'Change TiddlyWiki advanced options'>>
+</pre>
+</div>

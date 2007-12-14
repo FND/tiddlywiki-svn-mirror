@@ -1,7 +1,8 @@
 recipe: ../../core/tiddlywiki.html.recipe
 prehead: ../../core/html/rss.link.html
 title: html/title.txt
-recipe: tiddlers/split.recipe
+recipe: shadows/split.recipe
+recipe: content/split.recipe
 tiddler: ../tiddlywiki.com/tiddlers/TiddlySaver.tiddler
 tiddler: feeds/SharedRecordsAnnotationsTestServer.tiddler
 tiddler: plugins/SharedRecordsAnnotationsAdaptorPlugin.js
