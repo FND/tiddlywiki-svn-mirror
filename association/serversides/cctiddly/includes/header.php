@@ -35,8 +35,7 @@
 	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
 	//$tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the instance name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
 	$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
-	$tiddlyCfg['mysql_debug']=0;	 // if set to 1 will output every sql query into the logfile 
-
+	$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
 
 
 
@@ -52,7 +51,10 @@
 ////  END OF DECLARING VARS 
 
 	include_once($cct_base."includes/functions.php");
+	
+	
 	include_once($cct_base."includes/config.php");
+
 	include_once($cct_base."lang/".$tiddlyCfg['pref']['language'].".php");
 	include_once($cct_base."includes/db.mysql.php");	
 	include_once($cct_base."includes/tiddler.php");
@@ -61,11 +63,13 @@
 		$ccT_msg= "";
 		exit("ccT_msg not exist");
 	}
-	
+
 	if(!isset($instance)) {
 		$instance= "";
 		//exit("instance not exist");
 	}
+
+	
 
 
 //////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////
@@ -163,7 +167,4 @@
 		}
 		$db_var['settings']['defaultStop'] = $stop;
 		$db_var['settings']['handleError'] = $handle;
-	}/*else{
-		db_connectDB();
-	}*/
-?> 
+	}?>

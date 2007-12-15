@@ -1,7 +1,8 @@
-<?php	//exit("success");
-	include_once("includes/header.php");
-	
-	
+<?php
+$cct_base = '';
+include_once("includes/header.php");
+
+
 //////////////////////////////// START of create instance ///////////////////////////////////////////////
 	//TODO ::  confirm that the user is loggedin properly.
 	if($_POST['instance_name'] || $_REQUEST['instance_name'])
@@ -13,8 +14,15 @@
 	}
 //////////////////////////////// end of create instance ///////////////////////
 ///////////////////////////// START OF LOGIN BITS /////////////////////////////////////////////////	
-		
 
+if( isset($_REQUEST['cctuser']) && isset($_REQUEST['cctpass']) )		//set cookie for login
+{	
+
+user_login(formatParametersPOST($_REQUEST['cctuser']),formatParametersPOST($_REQUEST['cctpass']));
+//	$user = user_create();
+	
+		exit;
+}
 		
 		if (isset($_POST['logout']) || isset($_REQUEST['logoout']))
 			user_logout('You have logged out.');

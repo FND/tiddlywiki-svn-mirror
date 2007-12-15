@@ -99,15 +99,15 @@
 //cctPlugin
 
 var serverside={
-	url: "<?php print $url?>",		//server url, for use in local TW or TW hosted elsewhere
+	url: "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>",		//server url, for use in local TW or TW hosted elsewhere
 	handle:{		//path of file for handling request, can be used to put in GET variable
 		rss: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
 		uploadStoreArea: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",		//for uploading the whole storearea
-		saveTiddler: "../..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/save.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
+		saveTiddler: "../..<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
 		removeTiddler: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
 		revisionList: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?action=revisionList&<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
 		revisionDisplay: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?action=revisionDisplay&<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
-		login: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/login.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>"
+		login: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>"
 	},
 	handle_msg:{		//message sent to server for action, used for posting message to server. null = not used
 		rss: "action=rss",

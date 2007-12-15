@@ -167,7 +167,10 @@ $db_var['error']['query'] = " query: ";*/
 				$sql .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."' and ";
 		}
 		$sql= $sql_start.substr($sql,0,(strlen($sql)-4));		//remove last "and"
-
+if($sql == $sql_start)
+{
+	$sql = str_replace("WHERE", "", $sql);
+}
 		$result = db_query($sql);
 
 	// END OF SIMONMCMANUS /////

@@ -7,6 +7,7 @@ include_once($cct_base."includes/db.mysql.php");
 
 function instance_create($instance)
 {
+	
 	// TODO check for instance already existing 
 	// TODO return correct error of illegal chars are entered. 
 	
@@ -70,11 +71,11 @@ function instance_create($instance)
 	$data1['title'] = 'TiddlyWiki';
 	db_record_insert($tiddlyCfg['table']['name'],$data1);
 	
-	mkdir($tiddlyCfg['pref']['upload_dir'].$instance ,  0777);
-	mkdir($tiddlyCfg['pref']['upload_dir'].$instance.'/images' ,  0777);
-	mkdir($tiddlyCfg['pref']['upload_dir'].$instance.'/thumbs' ,  0777);
-
+	@mkdir($tiddlyCfg['pref']['upload_dir'].$instance ,  0777);
+	@mkdir($tiddlyCfg['pref']['upload_dir'].$instance.'/images' ,  0777);
+	@mkdir($tiddlyCfg['pref']['upload_dir'].$instance.'/thumbs' ,  0777);
 	header('HTTP/1.0 201 Created');
+
 return true;
 
-}?> 
+}?>

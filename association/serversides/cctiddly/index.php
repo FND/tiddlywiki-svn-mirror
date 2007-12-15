@@ -348,7 +348,6 @@ else
 				var userString = this.usC.checked+'-'+this.usR.checked+'-'+this.usU.checked+'-'+this.usD.checked;
 			//	var anonString = this.anC.checked+'-'+this.anR.checked+'-'+this.anU.checked+'-'+this.usD.checked;
 			//	alert(this.ccWorkspaceName.value);
-	
 		       var loginResp = doHttp('POST', url+'/'+this.ccWorkspaceName.value, &quot;ccCreateWorkspace=&quot; + encodeURIComponent(this.ccWorkspaceName.value)+&quot;&amp;ccPermissions=&quot;+encodeURIComponent(userString),null,null,null, config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
 	
 			return false; 
@@ -357,11 +356,10 @@ else
 						
 		   createWorkspaceCallback: function(status,params,responseText,uri,xhr) {
 	alert(xhr.status);
-			if(xhr.status =201) {
+			if(xhr.status==201) {
+				window.location = uri;
 				displayMessage('workspace crated');				
-			} else {
-	//			window.location = uri;
-			}
+			} 
 		return FALSE;
 			},		   
 
@@ -493,7 +491,7 @@ else
 	        var pass = document.getElementById('cctpass').value;
 	        var params = {}; 
 	        params.origin = this;
-	        var loginResp = doHttp('POST', url+'/handle/login.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
+	        var loginResp = doHttp('POST', url+'/msghandle.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
 	        return false;
 	    },
 

@@ -21,14 +21,18 @@ if ($tiddlyCfg['pref']['instance_name'] == '')
 
 // If the instance name was empty or the instance name provided does not exist. 
 // TODO : WHAT IF ITS THE HOME INSTANCE : 
-if (count($tiddlyCfg['pref']['instance_settings']) < 1 ||  $array['name'] != 'home')
+if (!isset($_POST['cctuser']) && (count($tiddlyCfg['pref']['instance_settings']) < 1 ||  $tiddlyCfg['pref']['instance_name'] != 'home') )
 {
-	//header("HTTP/1.0 404 Not Found"); 
+	
 	if ($_POST)
 	{
 		debug('create page');
 		include($cct_base."includes/instance.php");
-		instance_create($_POST['ccWorkspaceName']);
+		instance_create($tiddlyCfg['pref']['instance_name']);
+	}
+	else
+	{
+		header("HTTP/1.0 404 Not Found"); 
 	}
 }
 
