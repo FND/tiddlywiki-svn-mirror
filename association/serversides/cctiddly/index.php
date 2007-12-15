@@ -365,6 +365,104 @@ else
 	</div>
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		<div title="ccUpload" modifier="simon" modified="200712012017" created="200712011507" tags="systemConfig" changecount="17">
+		<pre>	/***
+			|''Name:''|ccUpload|
+			|''Description:''|Allows users to upload files in ccTiddly|
+			|''Version:''|2.1.5|
+			|''Date:''|Nov 27, 2007|
+			|''Source:''||
+			|''Author:''|SimonMcManus|
+			|''License:''|[[BSD open source license]]|
+			|''~CoreVersion:''|2.1.6|
+			|''Browser:''| Firefox |
+			***/
+	//{{{
+
+				var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
+				var workspace = "<?php echo $tiddlyCfg['pref']['instance_name'];?>";
+
+
+			config.macros.ccUpload = {
+
+			   handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+				// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+				var frm = createTiddlyElement(place,&quot;form&quot;,null,null);
+			    frm.enctype="multipart/form-data";
+			    frm.action ="handle/upload.php";
+				
+			
+			
+				var file = createTiddlyElement(frm,&quot;input&quot;,&quot;ccfile&quot;, &quot;ccfile&quot;)				
+				file.type = "file";
+				file.name="userfile";
+
+			  	var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt);
+		        btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+		        btn.value = &quot;Upload File &quot;;
+			
+
+	},
+			}
+			//}}}
+		</pre>
+		</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 <div title="ccLogin" modifier="simon" modified="200712012017" created="200712011507" tags="systemConfig" changecount="17">
 <pre>	/***
