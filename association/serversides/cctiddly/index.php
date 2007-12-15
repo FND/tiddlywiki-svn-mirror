@@ -413,15 +413,12 @@ else
 				// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
 				var frm = createTiddlyElement(place,&quot;form&quot;,null,null);
 			    frm.enctype="multipart/form-data";
-			    frm.action ="handle/upload.php";
-				
-			
-			
+			    frm.action ="handle/upload.php?instance=simonmcmanus";
+				frm.method ="POST";
 				var file = createTiddlyElement(frm,&quot;input&quot;,&quot;ccfile&quot;, &quot;ccfile&quot;)				
 				file.type = "file";
 				file.name="userfile";
-
-			  	var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt);
+				var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt);
 		        btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
 		        btn.value = &quot;Upload File &quot;;
 			
