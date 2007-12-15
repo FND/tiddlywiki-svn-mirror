@@ -4,7 +4,7 @@
 	function recordTime_float($name="unnamed")
 	{
 		global $time;
-
+		
 		if( !isset($time) )		//stop if time var not exist
 		{
 			return FALSE;
@@ -27,10 +27,6 @@
 	if ($_POST['logout'] || $_REQUEST['logout'])
 	{
 		user_logout('You have logged out.');
-	
-	//header('location: http://www.google.com');
-	//	exit;
-		//echo 'sdsd'.'?'.str_replace("logout=1","",$_SERVER['QUERY_STRING']);
 		header("'location: ".$_SERVER['PHP_SELF'].'?'.str_replace("logout=1","",$_SERVER['QUERY_STRING']."'"));		//redirect to itself to refresh
 	}	
 

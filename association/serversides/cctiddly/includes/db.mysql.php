@@ -357,6 +357,7 @@ if($sql == $sql_start)
 		//make query
 		if($tiddlyCfg['mysql_debug'])
 			debug($sql);
+			
 		$SQLR=mysql_query($sql);
 		
 		if( $SQLR===FALSE )
