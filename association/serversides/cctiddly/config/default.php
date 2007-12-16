@@ -28,7 +28,7 @@ if (!isset($_POST['cctuser']) && count($tiddlyCfg['pref']['instance_settings']) 
 	{
 		debug('create page');
 		include($cct_base."includes/instance.php");
-		instance_create($tiddlyCfg['pref']['instance_name']);
+		instance_create($tiddlyCfg['pref']['instance_name'], $_POST['ccAnonPerm']);
 	}
 	else
 	{

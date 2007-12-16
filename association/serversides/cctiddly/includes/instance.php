@@ -7,7 +7,7 @@ include_once($cct_base."includes/header.php");
 include_once($cct_base."includes/tiddler.php");
 // returns false f the instance name already exists.
 
-function instance_create($instance)
+function instance_create($instance, $anonPerm="ADDD")
 {
 	
 	// TODO check for instance already existing 
@@ -30,7 +30,7 @@ function instance_create($instance)
 	$data['debug'] = '1';	
 	$data['status'] = '';
 	$data['tiddlywiki_type'] = 'tiddlywiki';
-	$data['default_anonymous_perm'] = 'DDDD';	
+	$data['default_anonymous_perm'] = $anonPerm;	
 	$data['default_user_perm'] = 'AAAA';
 	$data['rss_group'] = '';
 	$data['markup_group'] = '';
@@ -57,8 +57,8 @@ function instance_create($instance)
 	$data1['creator'] = 'ccTiddly';
 	$data1['modifier'] = 'ccTiddly';
 	$data1['modifier'] = 'ccTiddly';
-	$data1['version'] = 1;
-	$data1['fields']= "changecount='1'";
+//	$data1['version'] = 1;
+	//$data1['fields']= "changecount='1'";
 	$data1['created'] = epochToTiddlyTime(mktime());
 //	db_record_insert($tiddlyCfg['table']['name'],$data1);
 	
@@ -68,8 +68,8 @@ function instance_create($instance)
 	$r['modifier'] = 'ccTiddly';
 	$r['modified'] = epochToTiddlyTime(mktime());
 	$r['created'] = epochToTiddlyTime(mktime());
-	$r['version'] = 1;
- tiddler_create($r['title'], $r['body'],$r['modifier'],$r['modified'],"","","",$r['created']);
+	//$r['version'] = 1;
+// tiddler_create($r['title'], $r['body'],$r['modifier'],$r['modified'],"","","",$r['created']);
 
 		
 //db_record_insert($tiddlyCfg['table']['backup'],$data1);
