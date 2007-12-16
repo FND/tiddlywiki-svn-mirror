@@ -150,11 +150,10 @@ cctPlugin = {
 };
 
 window.cct_tweak = function(){
-	//add copyright tiddler
-	config.shadowTiddlers.PageTemplate = config.shadowTiddlers.PageTemplate.replace(/<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'><\/div>/,"\n<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>\n<div id='sidebarCopyright' refresh='content' tiddler='Copyright'></div>\n");
+
 	//add new option to options panel
 	// OLD config.shadowTiddlers.OptionsPanel = "<<ssUploadStoreArea>>\n<<ssUploadRSS>>\n<<option chkAutoSave>> "+cctPlugin.lingo.autoUpload+"\n<<option chkRegExpSearch>>"+config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+26);
- config.shadowTiddlers.OptionsPanel = "\n<<option chkAutoSave>> "+cctPlugin.lingo.autoUpload+"\n<<option chkRegExpSearch>>"+config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+26);
+ config.shadowTiddlers.OptionsPanel = "\n<<ccCreateWorkspace>><<option chkAutoSave>> "+cctPlugin.lingo.autoUpload+"\n<<option chkRegExpSearch>>"+config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+26);
 	
 	
 	//change SideBarOption panel to add login panel
@@ -197,8 +196,8 @@ window.cct_tweak = function(){
 	// time (in minutes, from now) for password to stay in cookie [0= default i.e. year 2038]
 	//config.macros.option.passwordTime = <?php print $tiddlyCfg['pref']['session_expire'];?>;
 	
-	//copyright panel
-	config.shadowTiddlers.Copyright = "<?php print $ccT_msg['copyright']['power_by']?> [[TiddlyWiki|http://www.tiddlywiki.com/]] <<version>> <?php print $ccT_msg['word']['and']?> [[ccTiddly <?php print $tiddlyCfg['version'];?>|http://cctiddly.sourceforge.net]]\n[[<?php print $ccT_msg['copyright']['standalone']?>|<?php print $_SERVER['PHP_SELF'];?>?standalone=1&<?php print queryString();?>]]";
+	
+	
 	
 <?php
 	$usr = user_getUsername();

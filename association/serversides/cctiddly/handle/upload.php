@@ -71,7 +71,7 @@ if (!$status)
 }
 else 
 {
-	$output =  $_SERVER['SERVER_NAME']."/".$upload_dir."/".$_FILES["userfile"]["name"]."&quot; was successfully uploaded.</h4>";
+	$output =  $_SERVER['SERVER_NAME']."/"	.$upload_dir."/".$_FILES["userfile"]["name"]."&quot; was successfully uploaded.</h4>";
 	$url= 'http://'.$_SERVER['SERVER_NAME']."/".$upload_dir."/".$_FILES["userfile"]["name"];
   
 	if($upload_dir == 'uploads/images' )  

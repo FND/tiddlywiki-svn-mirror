@@ -1,8 +1,10 @@
 <?php 
 
 debug('create4 instance ');
-include_once($cct_base."includes/db.mysql.php");
+include_once($cct_base."includes/header.php");
 
+
+include_once($cct_base."includes/tiddler.php");
 // returns false f the instance name already exists.
 
 function instance_create($instance)
@@ -44,9 +46,6 @@ function instance_create($instance)
 	$data1['title'] = 'SiteTitle';
 	db_record_insert($tiddlyCfg['table']['name'],$data1);
 	
-	$data1['body'] = 'http://'.$_SERVER['SERVER_NAME'].'/'.$_SERVER['PHP_SELF'];
-	$data1['title'] = 'SiteUrl';
-	db_record_insert($tiddlyCfg['table']['name'],$data1);
 		
 	$data1['body'] = 'http://osmosoft.com/ More info about osmosoft can be found here ' ;
 	$data1['title'] = 'Osmosoft';
@@ -55,8 +54,25 @@ function instance_create($instance)
 	
 	$data1['body'] = 'Provided by [[Osmosoft]] using TiddlyWiki - The Wiki with a silly name';
 	$data1['title'] = 'SiteSubtitle';
-	db_record_insert($tiddlyCfg['table']['name'],$data1);
+	$data1['creator'] = 'ccTiddly';
+	$data1['modifier'] = 'ccTiddly';
+	$data1['modifier'] = 'ccTiddly';
+	$data1['version'] = 1;
+	$data1['fields']= "changecount='1'";
+	$data1['created'] = epochToTiddlyTime(mktime());
+//	db_record_insert($tiddlyCfg['table']['name'],$data1);
 	
+	
+	$r['body'] = 'Pbbbbbbbbbby name';
+	$r['title'] = 'SiteSubtitle';
+	$r['modifier'] = 'ccTiddly';
+	$r['modified'] = epochToTiddlyTime(mktime());
+	$r['created'] = epochToTiddlyTime(mktime());
+	$r['version'] = 1;
+ tiddler_create($r['title'], $r['body'],$r['modifier'],$r['modified'],"","","",$r['created']);
+
+		
+//db_record_insert($tiddlyCfg['table']['backup'],$data1);
 
 	
 	@mkdir($tiddlyCfg['pref']['upload_dir'].$instance ,  0777);

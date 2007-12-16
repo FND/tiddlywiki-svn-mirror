@@ -159,7 +159,7 @@
 			if (count($results) > 0 )                   //  if the array has 1 or more acounts 
 			{
 				$del_data1['expire'] = epochToTiddlyTime(time());
-		//		db_record_delete('login_session', $del_data1, 0,  "<");
+				db_record_delete('login_session', $del_data1, 0,  "<");
 				return TRUE;
 			}else
 			{
