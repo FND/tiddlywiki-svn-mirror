@@ -19,6 +19,7 @@ import re
 import time
 import getopt
 import feedparser
+from xml.sax.saxutils import escape as _xmlescape
 import codecs
 
 outputdir = "notes"
@@ -30,7 +31,7 @@ def rss20ise_entry(e):
 		guid = e.link
 	return " <item>\n" + \
 	"  <title>" + e.title + "</title>\n" + \
-	"  <description>" + e.summary + "</description>\n" + \
+	"  <description>" + _xmlescape(e.summary) + "</description>\n" + \
 	"  <pubDate>" + e.updated + "</pubDate>\n" + \
 	"  <category>note</category>\n" + \
 	"  <category>shared</category>\n" + \
