@@ -125,18 +125,18 @@ CREATE TABLE `tiddler` (
   `creator` varchar(255) NOT NULL,
   `modified` varchar(12) NOT NULL,
   `created` varchar(12) NOT NULL,
-  `version` int(11) NOT NULL,
+  `revision` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
-CREATE TABLE `tiddly_wiki_entry_version` (
+CREATE TABLE `tiddly_wiki_entry_revision` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
   `body` text NOT NULL,
   `fields` text NOT NULL,
   `modified` varchar(128) NOT NULL default '',
   `modifier` varchar(255) NOT NULL default '',
-  `version` int(11) NOT NULL default '0',
+  `revision` int(11) NOT NULL default '0',
   `tags` varchar(255) NOT NULL default '',
   `oid` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
@@ -270,7 +270,7 @@ This file can be removed after installation
 		`created` varchar(128) NOT NULL default '',
 		`modifier` varchar(255) NOT NULL default '',
 		`creator` varchar(255) NOT NULL default '',
-		`version` int(11) NOT NULL default '0',
+		`revision` int(11) NOT NULL default '0',
 		`tags` varchar(255) NOT NULL default '',
 		PRIMARY KEY (id)
 		)
@@ -288,7 +288,7 @@ This file can be removed after installation
 		}
 		print $tiddlyCfg['table']['main'].$ccT_msg['install']['table_created']."<br>";
 
-		//$query = "CREATE TABLE ".$tiddlyCfg['table']['backup']." (  id int(11) NOT NULL auto_increment,  title varchar(255) NOT NULL default '',  body text NOT NULL,  modified varchar(128) NOT NULL default '',  modifier varchar(255) NOT NULL default '',  version int(11) NOT NULL default '0',  tags varchar(128) NOT NULL default '', oid INT(11) NOT NULL, PRIMARY KEY  (id)) TYPE=MyISAM;";
+		//$query = "CREATE TABLE ".$tiddlyCfg['table']['backup']." (  id int(11) NOT NULL auto_increment,  title varchar(255) NOT NULL default '',  body text NOT NULL,  modified varchar(128) NOT NULL default '',  modifier varchar(255) NOT NULL default '',  revision int(11) NOT NULL default '0',  tags varchar(128) NOT NULL default '', oid INT(11) NOT NULL, PRIMARY KEY  (id)) TYPE=MyISAM;";
 		$query = "CREATE TABLE ".$tiddlyCfg['table']['backup']." (
 		`id` int(11) NOT NULL auto_increment,
 		`title` varchar(255) NOT NULL default '',
@@ -296,7 +296,7 @@ This file can be removed after installation
 		`fields` text NOT NULL,
 		`modified` varchar(128) NOT NULL default '',
 		`modifier` varchar(255) NOT NULL default '',
-		`version` int(11) NOT NULL default '0',
+		`revision` int(11) NOT NULL default '0',
 		`tags` varchar(255) NOT NULL default '',
 		`oid` INT(11) NOT NULL,
 		PRIMARY KEY (id)

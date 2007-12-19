@@ -134,7 +134,7 @@ $db_var['error']['query'] = " query: ";*/
 			`created` varchar(128) NOT NULL default '',
 			`modifier` varchar(255) NOT NULL default '',
 			`creator` varchar(255) NOT NULL default '',
-			`version` int(11) NOT NULL default '0',
+			`revision` int(11) NOT NULL default '0',
 			`tags` varchar(255) NOT NULL default '',
 			`instance_name` int(3) NOT NULL default '0',
 			PRIMARY KEY (id)
@@ -171,7 +171,7 @@ $db_var['error']['query'] = " query: ";*/
 			`fields` text NOT NULL,
 			`modified` varchar(128) NOT NULL default '',
 			`modifier` varchar(255) NOT NULL default '',
-			`version` int(11) NOT NULL default '0',
+			`revision` int(11) NOT NULL default '0',
 			`tags` varchar(255) NOT NULL default '',
 			`oid` INT(11) NOT NULL,
 			`instance_name` int(3) NOT NULL default '0',

@@ -86,7 +86,7 @@
 	function tiddler_outputDIV($tiddler)
 	{
 ?>
-<div tiddler="<?php print $tiddler["title"] ?>" modifier="<?php print $tiddler["modifier"] ?>" modified="<?php print $tiddler["modified"] ?>" created="<?php print $tiddler["created"] ?>" tags="<?php print $tiddler["tags"] ?>" temp.ccTversion="<?php print $tiddler["version"] ?>" <?php print $tiddler["fields"] ?>><?php print $tiddler["body"] ?></div>
+<div tiddler="<?php print $tiddler["title"] ?>" modifier="<?php print $tiddler["modifier"] ?>" modified="<?php print $tiddler["modified"] ?>" created="<?php print $tiddler["created"] ?>" tags="<?php print $tiddler["tags"] ?>" temp.ccTrevision="<?php print $tiddler["revision"] ?>" <?php print $tiddler["fields"] ?>><?php print $tiddler["body"] ?></div>
 <?php
 		return;
 	}
@@ -271,7 +271,7 @@
 		}
 		
 		//insert backup if required
-		if( $backup==1 || ($backup==-1 && $tiddlyCfg['pref']['version']==1) )
+		if( $backup==1 || ($backup==-1 && $tiddlyCfg['pref']['revision']==1) )
 		{
 			//set inserted record id as oid
 			$tiddler = tiddler_backup_create($tiddler, db_insert_id($result));
@@ -310,7 +310,7 @@
 		}
 
 		//insert backup if required
-		if( $backup==1 || ($backup==-1 && $tiddlyCfg['pref']['version']==1) )
+		if( $backup==1 || ($backup==-1 && $tiddlyCfg['pref']['revision']==1) )
 		{
 			//set inserted record id as oid
 			$tiddler = tiddler_backup_create($tiddler, $oldtiddler['id']);

@@ -63,7 +63,7 @@ user_login(formatParametersPOST($_REQUEST['cctuser']),formatParametersPOST($_REQ
 			{
 				for( $i=sizeof($result)-1; $i>=0; $i-- )
 				{
-					print $result[$i]['modified']." ".$result[$i]['version']." ".$result[$i]['modifier'];
+					print $result[$i]['modified']." ".$result[$i]['revision']." ".$result[$i]['modifier'];
 					if( $i != 0 )
 					{
 						print "\n";
@@ -72,7 +72,7 @@ user_login(formatParametersPOST($_REQUEST['cctuser']),formatParametersPOST($_REQ
 			}else{//get detailed info
 				for( $i=sizeof($result)-1; $i>=0; $i-- )
 				{
-					if( $result[$i]['version'] == $_GET['revision'] )
+					if( $result[$i]['revision'] == $_GET['revision'] )
 					{
 						print $title."\n";
 						print $result[$i]['title']."\n";
@@ -83,7 +83,7 @@ user_login(formatParametersPOST($_REQUEST['cctuser']),formatParametersPOST($_REQ
 						print $tiddler['created']."\n";
 						//print $result[$i]['created']."\n";
 						print $result[$i]['tags']."\n";
-						print $result[$i]['version']."\n";
+						print $result[$i]['revision']."\n";
 						print $result[$i]['fields'];
 						$i=-1;
 					}
@@ -408,7 +408,7 @@ Something like this maybe: "?action=contents"
 			if( sizeof($tiddler) == 0 )		//insert tiddler if not found
 			{
 				debug("<td>insert</td>",0);
-				$ntiddler['version'] = 1;
+				$ntiddler['revision'] = 1;
 				$ntiddler['creator'] = $ntiddler['modifier'];		//since creator is not given, assume it is same as modifier
 				if( tiddler_insert($ntiddler) === FALSE )
 				{
@@ -423,7 +423,7 @@ Something like this maybe: "?action=contents"
 				debug("<td>update</td>",0);
 				$ntiddler['creator'] = $tiddler['creator'];
 				$ntiddler['created'] = $tiddler['created'];
-				$ntiddler['version'] = $tiddler['version']+1;
+				$ntiddler['revision'] = $tiddler['revision']+1;
 				if( tiddler_update($tiddler, $ntiddler) === FALSE )
 				{
 					debug("<td>failed</td>",0);

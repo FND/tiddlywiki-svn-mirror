@@ -308,7 +308,7 @@
 			$ntiddler = tiddler_create($title, $body, $modifier, $modified, $tags);
 			$tiddlerArr['creator'] = $tiddlerArr['modifier'];
 			$tiddlerArr['created'] = $tiddlerArr['modified'];
-			$tiddlerArr['version'] = 1;
+			$tiddlerArr['revision'] = 1;
 			tiddler_insert($tiddlerArr);
 			return "001";
 		}else{
@@ -329,7 +329,7 @@
 		{
 			$tiddlerArr['creator'] = $otiddlerArr['creator'];
 			$tiddlerArr['created'] = $otiddlerArr['created'];
-			$tiddlerArr['version'] = $otiddlerArr['version']+1;
+			$tiddlerArr['revision'] = $otiddlerArr['revision']+1;
 			tiddler_update($otiddlerArr, $tiddlerArr);
 			return "002";
 		}else{

@@ -64,7 +64,7 @@ END;
 		$t = array();
 		foreach( $tiddlers as $tid )
 		{
-			$tid['title'] .= " version ".$tid['version'];
+			$tid['title'] .= " revision ".$tid['revision'];
 			$t[] = $tid;
 		}
 		$tiddlers = $t;
@@ -710,7 +710,7 @@ config.macros.ccUpload = {
 		recordTime_float("end of script");
 		//$time[] = microtime_float("end of script");
 
-		print "<div tiddler=\"ccTiddly_debug_time\" modified=\"000000000000\" modifier=\"ccTiddly\" created=\"000000000000\" version=\"1\" tags=\"debug\">";
+		print "<div tiddler=\"ccTiddly_debug_time\" modified=\"000000000000\" modifier=\"ccTiddly\" created=\"000000000000\" temp.ccTrevision=\"1\" tags=\"debug\">";
 		for( $i=1; $i<sizeof($time); $i++ )
 		{
 			print $time[$i]["name"]." = ".(round($time[$i]["time"]-$time[0]["time"],3))."s\\n";

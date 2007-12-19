@@ -125,7 +125,7 @@
 			if( sizeof($tiddler) == 0 )		//insert tiddler if not found
 			{
 				print("<td>".$ccT_msg['import']['insert']."</td>");
-				$ntiddler['version'] = 1;
+				$ntiddler['revision'] = 1;
 				$ntiddler['creator'] = $ntiddler['modifier'];		//since creator is not given, assume it is same as modifier
 				if( tiddler_insert($ntiddler) === FALSE )
 				{
@@ -141,7 +141,7 @@
 					print("<td>".$ccT_msg['import']['update']."</td>");
 					$ntiddler['creator'] = $tiddler['creator'];
 					$ntiddler['created'] = $tiddler['created'];
-					$ntiddler['version'] = $tiddler['version']+1;
+					$ntiddler['revision'] = $tiddler['revision']+1;
 					if( tiddler_update($tiddler, $ntiddler) === FALSE )
 					{
 						print("<td>".$ccT_msg['import']['failed']."</td>");

@@ -61,7 +61,7 @@
 				print $t['modified']."\n";
 				print $tiddler['created']."\n";
 				print $t['tags']."\n";
-				print $t['version']."\n";
+				print $t['revision']."\n";
 				print $t['fields'];
 				returnResult("007");
 			}else{		//if no read privilege, stop
