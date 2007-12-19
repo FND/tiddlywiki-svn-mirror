@@ -23,7 +23,7 @@
 				break;
 			default:
 				//logerror($ccT_msg['warning']['del_err']);
-				exit("\n".$ccT_msg['warning']['del_err']);
+				exit("\n".$ccT_msg['warning']['del_err'].": ".$str);
 		}
 	}
 	
@@ -34,7 +34,7 @@
 
 //////////////////////////////////////////////////////////removeTiddler//////////////////////////////////////////////////////////////
 	//make connection to DB
-	db_connect();
+	db_connect_new();
 	
 	//get user and privilege and set variables
 	if( strlen($username)==0 && strlen($password)==0 )
@@ -60,7 +60,7 @@
 	
 	//delete current tiddler
 	if( user_deletePrivilege(user_tiddlerPrivilegeOfUser($user,$tiddler['tags'])) ) {
-		tiddler_delete($tiddler['id']);		//delete current tiddler
+		tiddler_delete_new($tiddler['id']);		//delete current tiddler
 		returnResult("003");
 	}else{
 		returnResult("020");

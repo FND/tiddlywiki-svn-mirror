@@ -31,7 +31,7 @@
 
 //////////////////////////////////////////////////////preliminary data check and action//////////////////////////////////////////////////////////////
 	//make connection to DB
-	db_connect();
+	db_connect_new();
 	
 	//get user and privilege and set variables
 	if( strlen($username)==0 && strlen($password)==0 )

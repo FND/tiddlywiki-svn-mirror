@@ -31,7 +31,7 @@
 	function cct_print_includes($standalone)
 	{
 		global $tiddlyCfg;
-		$tw = "./tiddlywiki/".$tiddlyCfg['pref']['tw_ver'].".js";
+		$tw = $tiddlyCfg['pref']['twFile'];
 		
 		if( $standalone )
 		{
@@ -101,19 +101,19 @@
 var serverside={
 	url: "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>",		//server url, for use in local TW or TW hosted elsewhere
 	handle:{		//path of file for handling request, can be used to put in GET variable
-		rss: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
-		uploadStoreArea: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",		//for uploading the whole storearea
-		saveTiddler: "../..<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
-		removeTiddler: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
-		revisionList: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?action=revisionList&<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
-		revisionDisplay: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?action=revisionDisplay&<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
-		login: "../../<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>"
+		rss: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/rss.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
+		uploadStoreArea: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/uploadstorearea.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",		//for uploading the whole storearea
+		saveTiddler: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/save.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
+		removeTiddler: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/delete.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
+		revisionList: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/revisionlist.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
+		revisionDisplay: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/revisiondisplay.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>",
+		login: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['pref']['instance_name'];?>"
 	},
 	handle_msg:{		//message sent to server for action, used for posting message to server. null = not used
 		rss: "action=rss",
-		uploadStoreArea: "action=upload",
-		saveTiddler: "action=saveTiddler",
-		removeTiddler: "action=removeTiddler",
+		uploadStoreArea: "",
+		saveTiddler: "",
+		removeTiddler: "",
 		login: null
 	},
 	debug: <?php print $tiddlyCfg['developing'] ?>,		//debug mode, display alert box for each action

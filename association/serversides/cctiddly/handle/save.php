@@ -10,7 +10,7 @@ error_log('save ', 0);
 	{
 		global $ccT_msg;
 		db_close();
-		
+
 		switch($str) {
 			case "001":		//insert
 			case "002":		//update
@@ -35,13 +35,13 @@ error_log('save ', 0);
 				break;
 			default:
 				logerror($ccT_msg['warning']['save_error']);
-				exit("\n".$ccT_msg['warning']['save_error']);
+				exit("\n".$ccT_msg['warning']['save_error'].": ".$str);
 		}
 	}
 	
 //////////////////////////////////////////////////////////preformat tiddler data//////////////////////////////////////////////////////////////
-	if( isset($_POST['tiddler']) ) {
-		returnResult("");
+	if( !isset($_POST['tiddler']) ) {
+		returnResult("no tiddler passed");
 	}
 	//strip all slashes first and readd them before adding to SQL
 	$ntiddler = formatParameters($_POST['tiddler']);
@@ -60,7 +60,7 @@ error_log('save ', 0);
 
 //////////////////////////////////////////////////////preliminary data check and action//////////////////////////////////////////////////////////////
 	//make connection to DB
-	db_connect();
+	db_connect_new();
 	
 	//get user and privilege and set variables
 	if( strlen($username)==0 && strlen($password)==0 )
@@ -168,13 +168,14 @@ error_log('save ', 0);
 			$ntiddler['creator'] = $ntiddler['modifier'];
 			$ntiddler['created'] = $ntiddler['modified'];
 			$ntiddler['revision'] = 1;
-			tiddler_insert($ntiddler);
+			tiddler_insert_new($ntiddler);
 			returnResult("001");
 		}else{
 			returnResult("002");
 		}
 	}
 	///////////////////////////////////////////////////////////////new tiddler overwrite existing/////////////////////////////////////////////////////////
+	//warning: if two users creat the same title tiddler without loading each other, the old one would be overwrited without warning!!!
 	if( strcmp($save_status, "newOverwrite") == 0 ) {
 				//require edit privilege on new and old tags
 		if( 	user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) 
@@ -184,7 +185,7 @@ error_log('save ', 0);
 			$ntiddler['creator'] = $tiddler['creator'];
 			$ntiddler['created'] = $tiddler['created'];
 			$ntiddler['revision'] = $tiddler['revision']+1;
-			tiddler_update($tiddler['id'], $ntiddler);
+			tiddler_update_new($tiddler['id'], $ntiddler);
 			returnResult("004");
 		}else{
 			returnResult("020");
@@ -204,7 +205,7 @@ error_log('save ', 0);
 			$ntiddler['creator'] = $otiddler['creator'];
 			$ntiddler['created'] = $otiddler['created'];
 			$ntiddler['revision'] = $otiddler['revision']+1;
-			tiddler_update($otiddler['id'], $ntiddler);
+			tiddler_update_new($otiddler['id'], $ntiddler);
 			returnResult( "002" );
 		}else{
 			returnResult( "020" );
@@ -219,7 +220,7 @@ error_log('save ', 0);
 		
 		//delete current tiddler
 		if( user_deletePrivilege(user_tiddlerPrivilegeOfUser($user,$tiddler['tags'])) ) {
-			tiddler_delete($tiddler['id']);		//delete current tiddler
+			tiddler_delete_new($tiddler['id']);		//delete current tiddler
 		}else{
 			returnResult("020");
 		}
@@ -232,7 +233,7 @@ error_log('save ', 0);
 			$ntiddler['creator'] = $otiddler['creator'];
 			$ntiddler['created'] = $otiddler['created'];
 			$ntiddler['revision'] = $otiddler['revision']+1;
-			tiddler_update($otiddler['id'], $ntiddler);
+			tiddler_update_new($otiddler['id'], $ntiddler);
 			returnResult( "004" );
 		}else{
 			returnResult( "020" );
@@ -241,5 +242,4 @@ error_log('save ', 0);
 	///////////////////////////////////////////////////////////////result manipulate/////////////////////////////////////////////////////////
 	
 	
-	exit(1);
 ?>

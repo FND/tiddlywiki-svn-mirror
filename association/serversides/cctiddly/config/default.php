@@ -43,7 +43,7 @@ if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 {
  	// let show the form to create an instance
  	// we need to set the settings manually as there is not record in the database
- 	$tiddlyCfg['pref']['tw_ver'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
+ 	$tiddlyCfg['pref']['twFile'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
 	$tiddlyCfg['pref']['language'] = 'en'; // choose between different version of TW, or adaptation
 	$tiddlyCfg['pref']['version'] = 0; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
 	$tiddlyCfg['pref']['reqLogin'] = 0;	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]		$tiddlyCfg['pref']['appendModifier'] ='';		//append modifier name as tag		
@@ -52,7 +52,7 @@ else
 {
 	// the instance exists so lets get
 	//  GET THE SETTINGS FROM THE DATABASE 
-	$tiddlyCfg['pref']['tw_ver'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
+	$tiddlyCfg['pref']['twFile'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
 	$tiddlyCfg['pref']['language'] = $tiddlyCfg['pref']['instance_settings'][0]['lang']; // choose between different version of TW, or adaptation
 	$tiddlyCfg['pref']['version'] = $tiddlyCfg['pref']['instance_settings'][0]['keep_revision']; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
 	$tiddlyCfg['pref']['reqLogin'] = $tiddlyCfg['pref']['instance_settings'][0]['require_login'];	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]

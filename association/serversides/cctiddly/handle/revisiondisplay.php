@@ -29,6 +29,7 @@
 	}
 
 	$title = formatParametersGET($_GET['title']);
+	$revision = formatParametersGET($_GET['revision']);
 	
 //////////////////////////////////////////////////////////start of code//////////////////////////////////////////////////////////////
 
@@ -49,28 +50,24 @@
 	//use tiddler_id to obtain list of tiddler for revision
 	$tiddler_list = db_tiddlers_backupSelectOid($tiddler['id']);
 	
-	//check privilege for each tiddler
-	$tmp = array();
+	//find revision
 	foreach( $tiddler_list as $t ) {
-		if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
-		{
-			$tmp[] = $t;
+		if( $revision == $t['revision'] ) {		//if revision equals, check privilege
+			if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) ) {	//if read privilege ok, output
+				print $title."\n";
+				print $t['title']."\n";
+				print $t['body']."\n";
+				print $t['modifier']."\n";
+				print $t['modified']."\n";
+				print $tiddler['created']."\n";
+				print $t['tags']."\n";
+				print $t['version']."\n";
+				print $t['fields'];
+				returnResult("007");
+			}else{		//if no read privilege, stop
+				returnResult("014");
+			}
 		}
 	}
-	$tiddler_list = $tmp;
-	
-	//print revision list
-	$output = "";
-	foreach($tiddler_list as $t) {
-		$output .= $t['modified']." ".$t['revision']." ".$t['modifier']."\n";
-	}
-	print substr( $output, 0, strlen($output) - 1 );
-	/*for( $i=sizeof($tiddler_list)-1; $i>=0; $i-- ) {
-		print $tiddler_list[$i]['modified']." ".$tiddler_list[$i]['version']." ".$tiddler_list[$i]['modifier'];
-		if( $i != 0 )
-		{
-			print "\n";
-		}
-	}*/
-	returnResult("007");
+	returnResult("014");	//error if not found
 ?>

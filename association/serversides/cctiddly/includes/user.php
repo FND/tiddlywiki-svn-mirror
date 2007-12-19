@@ -40,7 +40,7 @@
 		$user['id'] = (strlen($id)>0?(int)$id:"");		//if empty, leave it as empty. otherwise make it as int
 		//get username from cookie if nothing is passed
 		$user['username'] = preg_replace("![/,\\\\,?,*]!","",(strcmp($username,"")==0?user_getUsername():$username));		//no slashes, star and question mark in username
-			$user['verified'] = user_session_validate();
+		$user['verified'] = user_session_validate();
 		//NOTE: group is always in array
 		//FORMAT: $user['group'] = array("group1", "group2");
 		$user['group'] = (strcmp($group,"")==0?user_getGroup($user['username'],$user['verified']):$group);
@@ -74,7 +74,8 @@
 	
 	function user_session_validate()
 	{ 
-		global $user;
+		global $user;return TRUE;
+		db_connect_new();
 		$pw = cookie_get('sessionToken');
 		if ($pw)
 		{

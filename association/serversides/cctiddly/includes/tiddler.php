@@ -25,7 +25,7 @@
 
 //////////////////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////////////////
 
-	//!	@fn array tiddler_create($title, $body="", $modifier="", $modified="", $tags="", $id="", $creator="", $created="", $fields="", $version=1)
+		//!	@fn array tiddler_create($title, $body="", $modifier="", $modified="", $tags="", $id="", $creator="", $created="", $fields="", $version=1)
 	//!	@brief create tiddler array with validation
 	//!	@param $title title of tiddler
 	//!	@param $body body of tiddler
@@ -37,24 +37,23 @@
 	//!	@param $created created date of tiddler
 	//!	@param $fields field variable
 	//!	@param $version version of tiddler, 1 = new
-	function tiddler_create($title, $body="", $modifier="", $modified="", $tags="", $id="", $creator="", $created="", $fields="")
+	function tiddler_create($title, $body="", $modifier="", $modified="", $tags="", 
+				$id="", $creator="", $created="", $fields="", $revision=1)
 	{
-		global $tiddlyCfg;
-	
 		$tiddler = array();
-	 	$tiddler['id'] = preg_replace("![^0-9]!","",$id);		//if empty, leave it as empty. otherwise make it as int
+		$tiddler['id'] = preg_replace("![^0-9]!","",$id);		//if empty, leave it as empty. otherwise make it as int
 		//$tiddler['title'] = tiddler_bodyEncode($title);
- 		$tiddler['title'] = $title;
+		$tiddler['title'] = $title;
 		//$tiddler['body'] = tiddler_bodyEncode($body);
-	 	$tiddler['body'] = $body;
+		$tiddler['body'] = $body;
 		$tiddler['modifier'] = $modifier;
-	 	$tiddler['modified'] = preg_replace("![^0-9]!","",$modified);
-	 	$tiddler['creator'] = $creator;
-		 $tiddler['created'] = preg_replace("![^0-9]!","",$created);
-			$tiddler['tags'] = $tags;
- 		$tiddler['fields'] = $fields;
- 		$tiddler['instance_name'] = $tiddlyCfg['pref']['instance_name'];
- 		$tiddler['version'] = preg_replace("![^0-9]!","",$version);
+		$tiddler['modified'] = preg_replace("![^0-9]!","",$modified);
+		$tiddler['creator'] = $creator;
+		$tiddler['created'] = preg_replace("![^0-9]!","",$created);
+		$tiddler['tags'] = $tags;
+		$tiddler['fields'] = $fields;
+		$tiddler['revision'] = preg_replace("![^0-9]!","",$revision);
+		
 		return $tiddler;
 	}
 	
@@ -67,7 +66,7 @@
 	{
 		$tiddler = array();
 		$tiddler['id'] = preg_replace("![^0-9]!","",$tiddler_create['id']);		//if empty, leave it as empty. otherwise make it as int
-		$tiddler['oid'] = preg_replace("![^0-9]!","",$oid);
+		$tiddler['tiddler_id'] = preg_replace("![^0-9]!","",$oid);
 		$tiddler['title'] = $tiddler_create['title'];
 		$tiddler['body'] = $tiddler_create['body'];
 		$tiddler['modifier'] = $tiddler_create['modifier'];
@@ -76,7 +75,7 @@
 		//$tiddler['created'] = (int)$created;
 		$tiddler['tags'] = $tiddler_create['tags'];
 		$tiddler['fields'] = $tiddler_create['fields'];
-		$tiddler['version'] = preg_replace("![^0-9]!","",$tiddler_create['version']);
+		$tiddler['revision'] = preg_replace("![^0-9]!","",$tiddler_create['revision']);
 		
 		return $tiddler;
 	}
@@ -365,5 +364,65 @@
 		
 		return db_record_select($tiddlyCfg['table']['backup'],tiddler_backup_create(array(),$id),1);
 	}
+	///////////////////////////////////////////////new functions/////////////////////////////////////////
+	//!	@fn bool tiddler_insert($tiddler, $backup=-1)
+	//!	@brief save tiddler to DB
+	//!	@param $tiddler tiddler array
+	//!	@param $backup save backup, [-1 means using value in config]
+	function tiddler_insert_new($tiddler,$stop=1)
+	{
+		global $twCfg;
+		
+		//insert record
+		//$result = db_record_insert($twCfg['table']['main'], $tiddler);
+		$result = db_tiddlers_mainInsert($tiddler,$stop);
+		if( $result===FALSE ) {
+			return FALSE;
+		}
 
+		//insert backup if required
+		if( $twCfg['pref']['revision']==1 ) {
+			$tiddler = tiddler_backup_create($tiddler, db_insert_id());
+			$result = db_tiddlers_backupInsert($tiddler,$stop);
+		}
+		
+		return TRUE;
+	}
+	
+	//!	@fn bool tiddler_delete($tiddler)
+	//!	@brief delete tiddler from DB
+	//!	@param $tiddler tiddler array, use id for delete
+	function tiddler_delete_new($id)
+	{
+		return db_tiddlers_mainDelete($id);
+	}
+	
+	//!	@fn bool tiddler_update($oldtiddler, $tiddler, $backup=-1)
+	//!	@brief update tiddler in DB
+	//!	@param $oldtiddler old tiddler array, only to hold the id for updating
+	//!	@param $tiddler tiddler array
+	//!	@param $backup save backup, [-1 means using value in config]
+	function tiddler_update_new($oid, $tiddler, $stop=1)
+	{
+		global $twCfg;
+		
+		//updaterecord
+		$result = db_tiddlers_mainUpdate($oid,$tiddler,$stop);
+
+		//insert record, will stop at db_query function if error occurs
+		//$result = db_record_update($twCfg['table']['main'], $oldtiddler, $tiddler);
+		
+		if( $result===FALSE ) {
+			return FALSE;
+		}
+
+		//insert backup if required
+		if( $twCfg['pref']['revision']==1 ) {
+			//set inserted record id as oid
+			$tiddler = tiddler_backup_create($tiddler, $oid);
+			$result = db_tiddlers_backupInsert($tiddler,$stop);
+		}
+		
+		return TRUE;
+	}
 ?>

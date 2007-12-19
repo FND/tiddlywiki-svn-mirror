@@ -25,9 +25,21 @@
 	$tiddlyCfg['db']['login'] = "root";		//login name
 	$tiddlyCfg['db']['pass'] = "";		//login password
 	$tiddlyCfg['db']['name'] = "cctiddly";		//db name
+	
+	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
+	$tiddlyCfg['table']['suffix'] = "";					//suffix			suffix of file					suffix of table name
+	$tiddlyCfg['table']['main'] = "tiddler";			//name			name of file for storing tiddlers		name of table for storing tiddlers
+	$tiddlyCfg['table']['backup'] = "tiddler_revision";	//backup	 		backup/versioned tiddlers
+	$tiddlyCfg['table']['instance'] = "instance";		//config			settings for cct					
+	$tiddlyCfg['table']['user'] = "user";				//user	 		username and password
+	$tiddlyCfg['table']['group'] = "group_membership";	//group	 		group name and membership
+	$tiddlyCfg['table']['privilege'] = "privileges";	//privilege 			privileges
+	$tiddlyCfg['table']['admin'] = "admin_of_instance";	//admin of instance	admin of a particular instance
+	$tiddlyCfg['table']['session'] = "login_session";	//login session		used to create login string
 	$tiddlyCfg['table']['pref'] = "";		//table prefix
 	$tiddlyCfg['table']['name'] = "tiddler";
 	$tiddlyCfg['table']['backup'] = "tiddler_revisions";
+	
 	$tiddlyCfg['pref']['session_expire'] = 2000; //mins
 	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
 	$tiddlyCfg['pref']['ldap_enabled'] = 0;	

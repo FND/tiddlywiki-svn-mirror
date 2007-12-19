@@ -34,7 +34,7 @@
 
 //////////////////////////////////////////////////////preliminary data check and action//////////////////////////////////////////////////////////////
 	//make connection to DB
-	db_connect();
+	db_connect_new();
 	
 	//get user and privilege and set variables
 	if( strlen($username)==0 && strlen($password)==0 )
@@ -54,7 +54,7 @@
 //////////////////////////////////////////////////////////rss save//////////////////////////////////////////////////////////////
 	//save to file
 	//$fhandle = fopen("./$config.xml",'w');
-	$fhandle = fopen($cct_base.$twCfg['pref']['instance'].".xml",'w');
+	$fhandle = fopen($cct_base.$tiddlyCfg['pref']['instance_name'].".xml",'w');
 	if( $fhandle===FALSE ) {		//create file error
 		returnResult("015");
 	}

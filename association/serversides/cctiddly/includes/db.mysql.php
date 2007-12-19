@@ -52,6 +52,376 @@ $db_var['error']['selectDB'] = "Error selecting db";
 $db_var['error']['queryErr'] = "query error";
 $db_var['error']['error'] = " error: ";
 $db_var['error']['query'] = " query: ";*/
+///////////////////////////////////////////////////////new core - connection fns///////////////////////////////////////////////////////////
+	//-----------------------------------------------------------------------DB connect functions--------------------------------------------------------------------------//
+	//!	@fn resource db_connect($cont)
+	//!	@brief make connection to database and select database
+	//!	@param $cont do not stop script if TRUE
+	function db_connect_new($cont=FALSE)
+	{
+		global $db_var;
+		global $tiddlyCfg;
+		global $ccT_msg;
+		
+		//connect to db
+		$link = mysql_connect(
+			$db_var['host'].((isset($db_var['port'])&&strlen($db_var['port'])>0)?":".$db_var['port']:"")
+			,$db_var['username']
+			,$db_var['password']
+			,TRUE)
+			or die($ccT_msg['db']['db_connect_err'].$ccT_msg['db']['word_error'].mysql_error());
+		
+		//use database
+		//if $cont is set, return FALSE instead of exit script. This is used for installation
+		if($cont) {
+			if( mysql_select_db($db_var['db'],$link)===FALSE ) {
+				return FALSE;
+			}
+		}else{
+			mysql_select_db($db_var['db'],$link)
+				or die($ccT_msg['db']['db_connect_selectdb'].$ccT_msg['db']['word_error'].mysql_error());
+		}
+		
+		//set to utf-8 communication
+		if( $tiddlyCfg['pref']['utf8'] == 1 )
+		{
+			mysql_query("SET NAMES 'utf8'")
+				or die($ccT_msg['db']['db_connect_utf8'].$ccT_msg['db']['word_error'].mysql_error());
+		}
+		
+		return TRUE;
+	}
+	
+	//!	@fn bool db_close($SQLH)
+	//!	@brief close db
+	//!	@param $SQLH SQL handle
+	function db_close($SQLH=FALSE)
+	{
+		if( $SQLH===FALSE )
+		{
+			mysql_close();
+		}else{
+			mysql_close($SQLH);
+		}
+		return TRUE;
+	}
+
+///////////////////////////////////////////////////////install functions///////////////////////////////////////////////////////////
+	//!	@fn bool db_install_db()
+	//!	@brief install db
+	function db_install_db()
+	{
+		global $db_var; 
+		global $ccT_msg; 
+		mysql_query("CREATE DATABASE `".$db_var['db']."`")
+			or die($ccT_msg['db']['db_install_createDB'].$ccT_msg['db']['word_error'].mysql_error());
+		return TRUE;
+	}
+
+	//!	@fn bool db_install_mainT()
+	//!	@brief install main table
+	function db_install_mainT()
+	{
+		global $ccT_msg;
+		global $tiddlyCfg;
+		
+		$query = "CREATE TABLE ".$tiddlyCfg['table']['name']." (
+			`id` int(11) NOT NULL auto_increment,
+			`title` varchar(255) NOT NULL default '',
+			`body` text NOT NULL,
+			`fields` text NOT NULL,
+			`modified` varchar(128) NOT NULL default '',
+			`created` varchar(128) NOT NULL default '',
+			`modifier` varchar(255) NOT NULL default '',
+			`creator` varchar(255) NOT NULL default '',
+			`version` int(11) NOT NULL default '0',
+			`tags` varchar(255) NOT NULL default '',
+			`instance_name` int(3) NOT NULL default '0',
+			PRIMARY KEY (id)
+			)
+			TYPE=MyISAM";
+		if( $tiddlyCfg['pref']['utf8']==1 )
+		{
+			$query .= "
+				CHARACTER SET utf8
+				COLLATE utf8_unicode_ci";
+		}
+		
+		if( mysql_query("DESCRIBE ".$tiddlyCfg['table']['name'])===FALSE ) {
+			mysql_query( $query	)
+				or die($ccT_msg['db']['word_error'].mysql_error());
+			return TRUE;
+		}else{//table existed
+			return FALSE;
+		}
+	}
+
+	//!	@fn bool db_install_backupT()
+	//!	@brief install backup table
+	function db_install_backupT()
+	{
+		global $ccT_msg;
+		global $tiddlyCfg;
+		
+		
+		$query = "CREATE TABLE ".$tiddlyCfg['table']['backup']." (
+			`id` int(11) NOT NULL auto_increment,
+			`title` varchar(255) NOT NULL default '',
+			`body` text NOT NULL,
+			`fields` text NOT NULL,
+			`modified` varchar(128) NOT NULL default '',
+			`modifier` varchar(255) NOT NULL default '',
+			`version` int(11) NOT NULL default '0',
+			`tags` varchar(255) NOT NULL default '',
+			`oid` INT(11) NOT NULL,
+			`instance_name` int(3) NOT NULL default '0',
+			PRIMARY KEY (id)
+			)
+			TYPE=MyISAM";
+		if( $tiddlyCfg['pref']['utf8']==1 ) {
+			$query .= "
+				CHARACTER SET utf8
+				COLLATE utf8_unicode_ci";
+		}
+
+		if( mysql_query("DESCRIBE ".$tiddlyCfg['table']['backup'])===FALSE ) {
+			mysql_query( $query	)
+				or die($ccT_msg['db']['word_error'].mysql_error());
+			return TRUE;
+		}else{//table existed
+			return FALSE;
+		}
+	}
+	
+///////////////////////////////////////////////////////record functions///////////////////////////////////////////////////////////
+	//!	@fn array db_fetch_assoc($result)
+	//!	@brief return first row of a query result(associative  indices) or data of array from current pointer
+	//!	@param $result result returned from sql query
+	function db_fetch_assoc(&$result)
+	{
+		if( is_array($result) ) {
+			if( sizeof($result) == 0 ) {
+				return FALSE;
+			}
+			
+			//$tmp = reset($tmp);					//reset point to first element
+			$tmp = current($result);		//return result from current element
+			unset($result[key($result)]);
+			return $tmp;
+		}else{
+			return mysql_fetch_assoc($result);
+		}
+		return FALSE;
+	}
+
+///////////////////////////////////////////////////////record select functions///////////////////////////////////////////////////////////
+	//!	@fn array db_tiddlers_mainSelectAll()
+	//!	@brief select all tiddlers from db
+	//!	@param $table table name required
+	//!	@param $instance instance of db
+	//function db_tiddlers_mainSelectAll($table,$instance)
+	function db_tiddlers_mainSelectAll()
+	{
+		//$data = formatArray4SQL($data);			//require to check data???
+		global $tiddlyCfg;
+		global $ccT_msg;
+		//$tiddlyCfg['table']['name'],$tiddlyCfg['pref']['instance_name']
+		$result = mysql_query("SELECT * FROM ".$tiddlyCfg['table']['name']." WHERE instance_name='".$tiddlyCfg['pref']['instance_name']."'")
+			or die($ccT_msg['db']['word_error'].mysql_error());
+
+			return $result;
+	}
+
+	//!	@fn array db_tiddlers_selectTitle($title,$instance)
+	//!	@brief select tiddler with particular title
+	//!	@param $table table name
+	//!	@param $title title of tiddler
+	//!	@param $instance instance of db
+	function db_tiddlers_mainSelectTitle($title)
+	{
+		//$data = formatArray4SQL($data);			//require to check data???
+		global $tiddlyCfg;
+		global $ccT_msg;
+		$q = "SELECT * FROM `".$tiddlyCfg['table']['name']
+			."` WHERE instance_name='".$tiddlyCfg['pref']['instance_name']
+			."' AND title='".db_format4SQL($title)."'";
+		$result = mysql_query($q)
+			or die($ccT_msg['db']['word_error'].mysql_error());
+		
+		//grab record and check if title are the same
+		//this is required since mysql is not binary safe unless deliberately configured in table
+		//result would be empty string if not found, array if found
+		while( $t = mysql_fetch_assoc($result) )
+		{
+			if( strcmp($t['title'],$title)==0 )
+			{
+				//$tmp[] = $t;
+				return $t;
+			}
+		}
+
+		return FALSE;
+	}
+	
+	function db_tiddlers_backupSelectOid($oid)
+	{
+		//$data = formatArray4SQL($data);			//require to check data???
+		global $tiddlyCfg;
+		global $ccT_msg;
+		$q = "SELECT * FROM `".$tiddlyCfg['table']['backup']
+			."` WHERE `tiddler_id`='".db_format4SQL($oid)."'"
+			." ORDER BY `revision` DESC";
+		$result = mysql_query($q)
+			or die($ccT_msg['db']['word_error'].mysql_error());
+		
+		//grab record and check if title are the same
+		//this is required since mysql is not binary safe unless deliberately configured in table
+		//result would be empty string if not found, array if found
+		$r = array();
+		while( $t = mysql_fetch_assoc($result) )
+		{
+			$r[] = $t;
+		}
+
+		return $r;
+	}
+///////////////////////////////////////////////////////record manupulate///////////////////////////////////////////////////////////
+
+	function db_tiddlers_mainInsert($tiddler,$stop=1)
+	{
+		//$data = formatArray4SQL($data);			//require to check data???
+		global $tiddlyCfg;
+		global $ccT_msg;
+		/*
+		//get keys of array
+		$key=array_keys($tiddler);
+		
+		//format using db_format4SQL
+		$i=0;
+		$size=sizeof($key);
+		while($i<$size)
+		{
+			$tiddler[$key[$i]]=(string)db_format4SQL($tiddler[$key[$i]]);
+			$i++;
+		}*/
+		
+		while( (list($k,$v) = each($tiddler)) )
+		{
+			$q .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."',";
+			if( strcmp($k,"id")!=0 ) {
+				$key[] = $k;
+				$val[$k] = (string)db_format4SQL($v);
+			}
+		}
+
+		
+		$q = "INSERT INTO ".$tiddlyCfg['table']['name']
+				."(`".implode("`,`",$key)."`,`instance_name`)"
+				." VALUES ('".implode("','",$val)."','".$tiddlyCfg['pref']['instance_name']."')";
+		
+		if( $stop==1 ) {
+			$result = mysql_query($q)
+				or die($ccT_msg['db']['word_error'].mysql_error().$ccT_msg['db']['word_query'].$q);
+		}else{
+			$result = mysql_query($q);
+		}
+		
+		return $result;
+	}
+
+	//!	@fn array db_tiddlers_insert($table,$instance)
+	//!	@brief insert tiddlers
+	//!	@param $table table name required
+	//!	@param $instance instance of db
+	function db_tiddlers_backupInsert($tiddler,$stop=1)
+	{
+		global $tiddlyCfg;
+		global $ccT_msg;
+		
+		while( (list($k,$v) = each($tiddler)) )
+		{
+			$q .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."',";
+			if( strcmp($k,"id")!=0 ) {
+				$key[] = $k;
+				$val[$k] = (string)db_format4SQL($v);
+			}
+		}
+
+		/*
+		//get keys of array
+		$key=array_keys($tiddler);
+		
+		//format using db_format4SQL
+		$i=0;
+		$size=sizeof($key);
+		while($i<$size)
+		{
+			$tiddler[$key[$i]]=(string)db_format4SQL($tiddler[$key[$i]]);
+			$i++;
+		}*/
+		
+		$q = "INSERT INTO ".$tiddlyCfg['table']['backup']
+				."(`".implode("`,`",$key)."`)"
+				." VALUES ('".implode("','",$val)."')";
+		
+		if( $stop==1 ) {
+			$result = mysql_query($q)
+				or die($ccT_msg['db']['word_error'].mysql_error().$ccT_msg['db']['word_query'].$q);
+		}else{
+			$result = mysql_query($q);
+		}
+		
+		return $result;
+	}
+	
+	
+	//!	@fn array db_tiddlers_insert($table,$instance)
+	//!	@brief insert tiddlers
+	//!	@param $table table name required
+	//!	@param $instance instance of db
+	function db_tiddlers_mainUpdate($oid,$tiddler,$stop=1)
+	{
+		global $tiddlyCfg;
+		global $ccT_msg;
+
+		//remove primary key (first element in array)
+		array_shift($tiddler);
+		
+		//make query
+		$q = "UPDATE ".$tiddlyCfg['table']['name']." SET ";
+		while( (list($k,$v) = each($tiddler)) )
+		{
+			$q .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."',";
+		}
+		$q = substr($q,0,(strlen($q)-1));		//remove last ","
+		$q .= " WHERE `id` = '".$oid."'";
+		
+		//send query
+		if( $stop==1 ) {
+			$result = mysql_query($q)
+				or die($ccT_msg['db']['word_error'].mysql_error().$ccT_msg['db']['word_query'].$q);
+		}else{
+			$result = mysql_query($q);
+		}
+		
+		return db_affected_rows();
+
+	}
+	//!	@fn array db_tiddlers_insert($table,$instance)
+	//!	@brief insert tiddlers
+	//!	@param $table table name required
+	//!	@param $instance instance of db
+	function db_tiddlers_mainDelete($id)
+	{
+		global $tiddlyCfg;
+		global $ccT_msg;
+
+		$q = "DELETE FROM ".$tiddlyCfg['table']['name']." WHERE `id` = '".$id."'";
+		//send query
+		$result = mysql_query($q)
+			or die($ccT_msg['db']['word_error'].mysql_error().$ccT_msg['db']['word_query'].$q);
+		return $result;
+	}
 ///////////////////////////////////////////////////////record functions///////////////////////////////////////////////////////////
 /**
 	Record functions are intermediate functions to interact with DB in array forms.
@@ -327,19 +697,6 @@ if($sql == $sql_start)
 		return mysql_select_db($db,$link);
 	}
 	
-	//!	@fn bool db_close($SQLH)
-	//!	@brief close db
-	//!	@param $SQLH SQL handle
-	function db_close($SQLH=FALSE)
-	{
-		if( $SQLH===FALSE )
-		{
-			mysql_close();
-		}else{
-			mysql_close($SQLH);
-		}
-		return TRUE;
-	}
 	//-----------------------------------------------------------------------DB core functions--------------------------------------------------------------------------//
 	//!	make query to db with statement $sql
 	//!	$sql = query statement
@@ -358,6 +715,7 @@ if($sql == $sql_start)
 		if($tiddlyCfg['mysql_debug'])
 			debug($sql);
 			
+		//print $sql;
 		$SQLR=mysql_query($sql);
 		
 		if( $SQLR===FALSE )
@@ -394,17 +752,6 @@ if($sql == $sql_start)
 		return FALSE;
 	}*/
 	
-	//!	@fn array db_fetch_assoc($result)
-	//!	@brief return first row of a query result as an array (associative  indices)
-	//!	@param $result result returned from sql query
-	function db_fetch_assoc($result)
-	{
-		if ($result)
-		{
-			return mysql_fetch_assoc($result);
-		}
-		return FALSE;
-	}
 	
 	//!	@fn array db_fetch_array($result)
 	//!	@brief return first row of a query result as an array (number and assoc indices)

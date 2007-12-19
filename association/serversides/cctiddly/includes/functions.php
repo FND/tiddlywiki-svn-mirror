@@ -38,33 +38,33 @@
 	//!	@brief get all tiddlers in nested array, removing ones the user do not have read privilege
 	function getAllTiddlers($user="")
 	{
-		global $tiddlyCfg;
+		global $twCfg;
 		
 		//get all data from db
-		//db_connect();
-		$tiddlers = tiddler_selectAll();
-		
+		db_connect();
+		//$tiddlers = tiddler_selectAll();
+		//$tiddlers = db_tiddlers_selectAll($twCfg['table']['main'],$twCfg['pref']['instance']);
+		$tiddlers = db_tiddlers_mainSelectAll();
+		db_close();
 		//check permission and print
 		if( strlen($user)==0 )
 		{
 			$user = user_create();
 		}
-		if( sizeof($tiddlers)>0 )
+		
+		//fetch tiddlers and output ones that the user has read privilege
+		$return_tiddlers = array();
+		while( $t = db_fetch_assoc($tiddlers) )
 		{
-			$return_tiddlers = array();
-			foreach( $tiddlers as $t )
+			//obtain privilege from tag
+			//move tiddlers to another array
+			if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
 			{
-				//obtain privilege from tag
-				//move tiddlers to another array
-				if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
-				{
-					//tiddler_outputDIV($t);
-					$return_tiddlers[$t['title']] = $t;
-				}
+				//tiddler_outputDIV($t);
+				$return_tiddlers[$t['title']] = $t;
 			}
-			return $return_tiddlers;		//tiddlers would be in the form array("<title>"=>array("title"=>"<title>", .....
 		}
-		return array();
+		return $return_tiddlers;		//tiddlers would be in the form array("<title>"=>array("title"=>"<title>", .....
 	}
 
 	//!	@fn bool getAllVersionTiddly($title)
