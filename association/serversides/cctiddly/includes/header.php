@@ -37,7 +37,7 @@
 	$tiddlyCfg['table']['admin'] = "admin_of_instance";	//admin of instance	admin of a particular instance
 	$tiddlyCfg['table']['session'] = "login_session";	//login session		used to create login string
 	$tiddlyCfg['table']['pref'] = "";		//table prefix
-	$tiddlyCfg['table']['name'] = "tiddler";
+	$tiddlyCfg['table']['main'] = "tiddler";
 	$tiddlyCfg['table']['backup'] = "tiddler_revisions";
 	
 	$tiddlyCfg['pref']['session_expire'] = 2000; //mins
@@ -173,7 +173,7 @@
 		}
 		
 		//check if the required table exist, go to install script it does not exist
-		if( db_query("DESCRIBE ".$tiddlyCfg['table']['name'])===FALSE )
+		if( db_query("DESCRIBE ".$tiddlyCfg['table']['main'])===FALSE )
 		{
 			header("Location: install.php?config=".$config);
 		}

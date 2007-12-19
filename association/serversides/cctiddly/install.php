@@ -257,11 +257,11 @@ This file can be removed after installation
 <?php
 ////////////////////////////////////////////////////////////////////////create db////////////////////////////////////////////////////.
 	//check if table exist, and create if not exist
-	if( db_query("DESCRIBE ".$tiddlyCfg['table']['name'])===FALSE || db_query("DESCRIBE ".$tiddlyCfg['table']['backup'])===FALSE )
+	if( db_query("DESCRIBE ".$tiddlyCfg['table']['main'])===FALSE || db_query("DESCRIBE ".$tiddlyCfg['table']['backup'])===FALSE )
 	{
 		print '<h3>'.$ccT_msg['install']['table_setup'].'</h3>';
 		//create tables
-		$query = "CREATE TABLE ".$tiddlyCfg['table']['name']." (
+		$query = "CREATE TABLE ".$tiddlyCfg['table']['main']." (
 		`id` int(11) NOT NULL auto_increment,
 		`title` varchar(255) NOT NULL default '',
 		`body` text NOT NULL,
@@ -286,7 +286,7 @@ This file can be removed after installation
 		{
 			exit($ccT_msg['msg']['error'].mysql_error());
 		}
-		print $tiddlyCfg['table']['name'].$ccT_msg['install']['table_created']."<br>";
+		print $tiddlyCfg['table']['main'].$ccT_msg['install']['table_created']."<br>";
 
 		//$query = "CREATE TABLE ".$tiddlyCfg['table']['backup']." (  id int(11) NOT NULL auto_increment,  title varchar(255) NOT NULL default '',  body text NOT NULL,  modified varchar(128) NOT NULL default '',  modifier varchar(255) NOT NULL default '',  version int(11) NOT NULL default '0',  tags varchar(128) NOT NULL default '', oid INT(11) NOT NULL, PRIMARY KEY  (id)) TYPE=MyISAM;";
 		$query = "CREATE TABLE ".$tiddlyCfg['table']['backup']." (

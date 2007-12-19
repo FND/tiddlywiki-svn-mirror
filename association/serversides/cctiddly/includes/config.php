@@ -53,7 +53,7 @@
 ////////////////////////////////////////////////////////////////////////set default values////////////////////////////////////////////////////.
 
 //$tiddlyCfg['pref']['cookies'] = $tiddlyCfg['pref']['cookies']*1000*60;		//convert time to minutes
-$tiddlyCfg['table']['name'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['name'].$tiddlyCfg['table']['suffix'];
+$tiddlyCfg['table']['main'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['main'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['table']['backup'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['backup'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['table']['config'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['config'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['table']['user'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['user'].$tiddlyCfg['table']['suffix'];

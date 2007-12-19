@@ -125,7 +125,7 @@ $db_var['error']['query'] = " query: ";*/
 		global $ccT_msg;
 		global $tiddlyCfg;
 		
-		$query = "CREATE TABLE ".$tiddlyCfg['table']['name']." (
+		$query = "CREATE TABLE ".$tiddlyCfg['table']['main']." (
 			`id` int(11) NOT NULL auto_increment,
 			`title` varchar(255) NOT NULL default '',
 			`body` text NOT NULL,
@@ -147,7 +147,7 @@ $db_var['error']['query'] = " query: ";*/
 				COLLATE utf8_unicode_ci";
 		}
 		
-		if( mysql_query("DESCRIBE ".$tiddlyCfg['table']['name'])===FALSE ) {
+		if( mysql_query("DESCRIBE ".$tiddlyCfg['table']['main'])===FALSE ) {
 			mysql_query( $query	)
 				or die($ccT_msg['db']['word_error'].mysql_error());
 			return TRUE;
@@ -225,8 +225,8 @@ $db_var['error']['query'] = " query: ";*/
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
 		global $ccT_msg;
-		//$tiddlyCfg['table']['name'],$tiddlyCfg['pref']['instance_name']
-		$result = mysql_query("SELECT * FROM ".$tiddlyCfg['table']['name']." WHERE instance_name='".$tiddlyCfg['pref']['instance_name']."'")
+		//$tiddlyCfg['table']['main'],$tiddlyCfg['pref']['instance_name']
+		$result = mysql_query("SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE instance_name='".$tiddlyCfg['pref']['instance_name']."'")
 			or die($ccT_msg['db']['word_error'].mysql_error());
 
 			return $result;
@@ -242,7 +242,7 @@ $db_var['error']['query'] = " query: ";*/
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
 		global $ccT_msg;
-		$q = "SELECT * FROM `".$tiddlyCfg['table']['name']
+		$q = "SELECT * FROM `".$tiddlyCfg['table']['main']
 			."` WHERE instance_name='".$tiddlyCfg['pref']['instance_name']
 			."' AND title='".db_format4SQL($title)."'";
 		$result = mysql_query($q)
@@ -315,7 +315,7 @@ $db_var['error']['query'] = " query: ";*/
 		}
 
 		
-		$q = "INSERT INTO ".$tiddlyCfg['table']['name']
+		$q = "INSERT INTO ".$tiddlyCfg['table']['main']
 				."(`".implode("`,`",$key)."`,`instance_name`)"
 				." VALUES ('".implode("','",$val)."','".$tiddlyCfg['pref']['instance_name']."')";
 		
@@ -388,7 +388,7 @@ $db_var['error']['query'] = " query: ";*/
 		array_shift($tiddler);
 		
 		//make query
-		$q = "UPDATE ".$tiddlyCfg['table']['name']." SET ";
+		$q = "UPDATE ".$tiddlyCfg['table']['main']." SET ";
 		while( (list($k,$v) = each($tiddler)) )
 		{
 			$q .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."',";
@@ -416,7 +416,7 @@ $db_var['error']['query'] = " query: ";*/
 		global $tiddlyCfg;
 		global $ccT_msg;
 
-		$q = "DELETE FROM ".$tiddlyCfg['table']['name']." WHERE `id` = '".$id."'";
+		$q = "DELETE FROM ".$tiddlyCfg['table']['main']." WHERE `id` = '".$id."'";
 		//send query
 		$result = mysql_query($q)
 			or die($ccT_msg['db']['word_error'].mysql_error().$ccT_msg['db']['word_query'].$q);
@@ -569,7 +569,7 @@ if($sql == $sql_start)
 		
 		global $tiddlyCfg;
 			//insert record into db
-		if ($table = $tiddlyCfg['table']['name'])
+		if ($table = $tiddlyCfg['table']['main'])
 		{
 			$result = db_query("SELECT * FROM ".$table." where instance_name='".$tiddlyCfg['pref']['instance_name']."'");
 		}

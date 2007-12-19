@@ -42,13 +42,13 @@ change tag length in backup table to 255
 		if( $tiddlyCfg['pref']['utf8']==1 )
 		{
 			//TW table
-			$query[] = "ALTER TABLE ".$tiddlyCfg['table']['name']." ADD `fields` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+			$query[] = "ALTER TABLE ".$tiddlyCfg['table']['main']." ADD `fields` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
 			
 			//backup table
 			$query[] = "ALTER TABLE ".$tiddlyCfg['table']['backup']." ADD `fields` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
 		}else{
 			//TW table
-			$query[] = "ALTER TABLE ".$tiddlyCfg['table']['name']." ADD `fields` TEXT NOT NULL";
+			$query[] = "ALTER TABLE ".$tiddlyCfg['table']['main']." ADD `fields` TEXT NOT NULL";
 			
 			//backup table
 			$query[] = "ALTER TABLE ".$tiddlyCfg['table']['backup']." ADD `fields` TEXT NOT NULL";
@@ -67,7 +67,7 @@ change tag length in backup table to 255
 		if( $error>0 )
 			print $error.$ccT_msg['upgrade']['error'];
 		else
-			print '<br>'.$ccT_msg['upgrade']['success'].'('.$tiddlyCfg['table']['name'].' & '.$tiddlyCfg['table']['backup'].')';
+			print '<br>'.$ccT_msg['upgrade']['success'].'('.$tiddlyCfg['table']['main'].' & '.$tiddlyCfg['table']['backup'].')';
 		print '<br>'.$ccT_msg['upgrade']['back'];
 	}
 ?>

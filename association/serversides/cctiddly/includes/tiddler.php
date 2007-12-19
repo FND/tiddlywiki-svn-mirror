@@ -263,7 +263,7 @@
 		global $tiddlyCfg;
 		
 		//insert record
-		$result = db_record_insert($tiddlyCfg['table']['name'], $tiddler);
+		$result = db_record_insert($tiddlyCfg['table']['main'], $tiddler);
 		print db_error();
 		if( $result===FALSE )
 		{
@@ -289,7 +289,7 @@
 		global $tiddlyCfg;
 		
 		//insert record, will stop at db_query function if error occurs
-		return db_record_delete($tiddlyCfg['table']['name'], $tiddler);
+		return db_record_delete($tiddlyCfg['table']['main'], $tiddler);
 	}
 	
 	//!	@fn bool tiddler_update($oldtiddler, $tiddler, $backup=-1)
@@ -302,7 +302,7 @@
 		global $tiddlyCfg;
 		
 		//insert record, will stop at db_query function if error occurs
-		$result = db_record_update($tiddlyCfg['table']['name'], $oldtiddler, $tiddler);
+		$result = db_record_update($tiddlyCfg['table']['main'], $oldtiddler, $tiddler);
 		
 		if( $result===FALSE )
 		{
@@ -331,7 +331,7 @@
 			$tiddler = tiddler_create($tiddler);
 		}
 		
-		$tiddlers = db_record_select($tiddlyCfg['table']['name'],$tiddler,1);
+		$tiddlers = db_record_select($tiddlyCfg['table']['main'],$tiddler,1);
 		
 		//grab record and check if title are the same
 		//this is required since mysql is not binary safe unless deliberately configured in table
@@ -352,7 +352,7 @@
 	function tiddler_selectAll()
 	{
 		global $tiddlyCfg;
-		return db_record_selectAll($tiddlyCfg['table']['name']);
+		return db_record_selectAll($tiddlyCfg['table']['main']);
 	}
 	
 	//!	@fn array tiddler_selectBackupID($id)

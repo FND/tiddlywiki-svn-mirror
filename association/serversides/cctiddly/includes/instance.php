@@ -44,12 +44,12 @@ function instance_create($instance, $anonPerm="ADDD")
 	$data1['instance_name'] = $instance;
 	$data1['body'] = $instance;
 	$data1['title'] = 'SiteTitle';
-	db_record_insert($tiddlyCfg['table']['name'],$data1);
+	db_record_insert($tiddlyCfg['table']['main'],$data1);
 	
 		
 	$data1['body'] = 'http://osmosoft.com/ More info about osmosoft can be found here ' ;
 	$data1['title'] = 'Osmosoft';
-	db_record_insert($tiddlyCfg['table']['name'],$data1);
+	db_record_insert($tiddlyCfg['table']['main'],$data1);
 	
 	
 	$data1['body'] = 'Provided by [[Osmosoft]] using TiddlyWiki - The Wiki with a silly name';
@@ -60,7 +60,7 @@ function instance_create($instance, $anonPerm="ADDD")
 //	$data1['version'] = 1;
 	//$data1['fields']= "changecount='1'";
 	$data1['created'] = epochToTiddlyTime(mktime());
-//	db_record_insert($tiddlyCfg['table']['name'],$data1);
+//	db_record_insert($tiddlyCfg['table']['main'],$data1);
 	
 	
 	$r['body'] = 'Pbbbbbbbbbby name';
