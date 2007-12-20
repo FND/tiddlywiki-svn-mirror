@@ -1,36 +1,51 @@
 <?php
-	//timing
-	function recordTime_float($name="unnamed")
+//timing
+function recordTime_float($name="unnamed")
+{
+	global $time;
+	if( !isset($time) )		//stop if time var not exist
 	{
-		global $time;
-		
-		if( !isset($time) )		//stop if time var not exist
-		{
-			return FALSE;
-		}
-
-		list($usec, $sec) = explode(" ", microtime());
-		$time[] = array("name"=>$name, "time"=>((float)$usec + (float)$sec));
-		return TRUE;
+		return FALSE;
 	}
+	list($usec, $sec) = explode(" ", microtime());
+	$time[] = array("name"=>$name, "time"=>((float)$usec + (float)$sec));
+	return TRUE;
+}
 
-	$time=array();
-	recordTime_float("Start");
+$time=array();
+recordTime_float("Start");
 
-	//includes
-	$cct_base = "";
-	include_once($cct_base."includes/header.php");
-	include_once($cct_base."includes/print.php");
-	recordTime_float("includes");
+//includes
+$cct_base = "";
+include_once($cct_base."includes/header.php");
+include_once($cct_base."includes/print.php");
+recordTime_float("includes");
 
-	if ($_POST['logout'] || $_REQUEST['logout'])
-	{
-		user_logout('You have logged out.');
-		header("'location: ".$_SERVER['PHP_SELF'].'?'.str_replace("logout=1","",$_SERVER['QUERY_STRING']."'"));		//redirect to itself to refresh
-	}	
+
+if ($_POST['logout'] || $_REQUEST['logout'])
+{
+	user_logout('You have logged out.');
+	header("Location: ".str_replace("index.php", "", $_SERVER['PHP_SELF']));
+}	
 	
 
-$user['verified'] = user_session_validate();
+
+ // check to see if user is logged in or not and then assign permissions accordingly. 
+if ($user['verified'] = user_session_validate())
+{
+	$workspace_permissions = $tiddlyCfg['privilege_misc']['group_default_privilege']['user'];
+} else {
+
+	$workspace_permissions = $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'];
+}
+
+if ($workspace_permissions == "")
+{
+	$workspace_permissions = "DDDD";
+}
+
+
+
 
 // display open id bits if it is enabled. 
 if ($tiddlyCfg['pref']['openid_enabled'] ==1)
@@ -53,9 +68,6 @@ if ($tiddlyCfg['pref']['openid_enabled'] ==1)
 END;
  $openid =  sprintf( $buf, drawAlert($_message), $_SERVER['HTTP_REFERER'] );
 }
-
-
- $user['verified'] = user_session_validate();
 
 	//check if getting revision
 	if( isset($_GET['title']) )
@@ -232,18 +244,15 @@ if (!$user['verified'])
 	}
 	else
 	{	// instance does exist
-		echo $login;
-		//echo $login_to_view_tiddlers;		
+		echo $login;		
 		if (stristr($tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'], 'D'))
 		{
-			echo "<div tiddler='DefaultTiddlers' tags=''>[[Please Login]]</div>
-					<div tiddler='MainMenu' tags=''></div>";	
+			echo "<div tiddler='DefaultTiddlers' tags=''>[[Please Login]]</div><div tiddler='MainMenu' tags=''></div>";	
 			echo $cut_down_view ;
-			//echo $logged_in_view;
 		}
 		else
 		{
-			echo $cut_down_view ;
+			echo $cut_down_view;
 		}
 	}
 }
@@ -286,8 +295,8 @@ else
 ***/
 //{{{
 
-var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
-var workspace = "<?php echo $tiddlyCfg['pref']['instance_name'];?>";
+//var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
+//var workspace = "<?php echo $tiddlyCfg['pref']['instance_name'];?>";
 
 
 config.backstageTasks.push(&quot;create&quot;);

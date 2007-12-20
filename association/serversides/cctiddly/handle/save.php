@@ -1,7 +1,7 @@
 <?php
 	
 	
-error_log('save ', 0);
+
 	$cct_base = "../";
 	include_once($cct_base."includes/header.php");
 	
@@ -128,7 +128,7 @@ error_log('save ', 0);
 	//		or it wasn't displayed for that user, which can overwrite another tiddler
 	//	declare otitle false
 	//if old title exist, is it the same as new tiddler?
-
+debug("here");
 	
 	//check if new tiddler title already exist, FALSE if not exist
 	$tiddler = db_tiddlers_mainSelectTitle($ntiddler['title']);
@@ -146,13 +146,18 @@ error_log('save ', 0);
 	if( $otiddler===FALSE ) {
 		if( $tiddler===FALSE ) {	//otiddler and ntiddler not exist = insert
 			$save_status = "insert";
+
 		}else{						//otiddler not exist, ntiddler exist, new overwrite another, use otiddler id
 			$save_status = "newOverwrite";
+	
 			//$save_status = "update";
 		}
 	}else{			//END OF old tiddler not exist
+		
+					
 		if( $tiddler===FALSE ) {		//otiddler exist, ntiddler not exist = rename tiddler
 			$save_status = "update";
+	
 		}else{		//END OF old tiddler exist, new tiddler not exist
 										//otiddler and ntiddler exist
 			if( $otiddler['id'] == $tiddler['id'] ) {
@@ -195,6 +200,7 @@ error_log('save ', 0);
 	///////////////////////////////////////////////////////////////update/////////////////////////////////////////////////////////
 	//$saveResult = saveTiddly( $oldTitle, $oldModified, $ntiddler);
 	if( strcmp($save_status, "update") == 0 ) {
+						debug("ipdares2");
 		if( strcmp($otiddler['modified'],$oldModified)!=0 ) {		//ask to reload if modified date differs
 			returnResult("012");
 		}

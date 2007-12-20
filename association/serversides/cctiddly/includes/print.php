@@ -201,7 +201,7 @@ window.cct_tweak = function(){
 	
 <?php
 	$usr = user_getUsername();
-	$usr_val = user_session_validate();
+	echo $usr_val = user_session_validate();
 	$usr = $usr_val?$usr:$ccT_msg['loginpanel']['anoymous'];
 ?>
 	//login panel

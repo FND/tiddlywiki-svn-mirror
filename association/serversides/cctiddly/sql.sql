@@ -1,16 +1,16 @@
 ﻿-- phpMyAdmin SQL Dump
--- version 2.10.2
+-- version 2.10.1
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Generation Time: Dec 13, 2007 at 09:50 AM
--- Server version: 5.0.45
--- PHP Version: 5.2.3
+-- Generation Time: Dec 20, 2007 at 04:24 PM
+-- Server version: 5.0.41
+-- PHP Version: 5.2.2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 -- 
--- Database: `cctiddly`
+-- Database: `cctw1`
 -- 
 
 -- --------------------------------------------------------
@@ -24,11 +24,6 @@ CREATE TABLE `admin_of_instance` (
   `instance_name` varchar(100) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- 
--- Dumping data for table `admin_of_instance`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
@@ -40,11 +35,6 @@ CREATE TABLE `group` (
   `desc` mediumtext NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- 
--- Dumping data for table `group`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
@@ -55,11 +45,6 @@ CREATE TABLE `group_membership` (
   `user_id` varchar(255) NOT NULL,
   `group_name` varchar(50) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- 
--- Dumping data for table `group_membership`
--- 
-
 
 -- --------------------------------------------------------
 
@@ -86,13 +71,6 @@ CREATE TABLE `instance` (
   PRIMARY KEY  (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- 
--- Dumping data for table `instance`
--- 
-
-INSERT INTO `instance` (`name`, `lang`, `keep_revision`, `require_login`, `session_expire`, `tag_tiddler_with_modifier`, `char_set`, `hashseed`, `debug`, `status`, `tiddlywiki_type`, `default_anonymous_perm`, `default_user_perm`, `rss_group`, `markup_group`) VALUES 
-('', 'en', 1, 0, 0, 0, 'utf8', '9654989', 1, '', 'tiddlywiki', 'ADDD', 'AAAA', '', '');
-
 -- --------------------------------------------------------
 
 -- 
@@ -102,14 +80,9 @@ INSERT INTO `instance` (`name`, `lang`, `keep_revision`, `require_login`, `sessi
 CREATE TABLE `login_session` (
   `user_id` varchar(255) NOT NULL,
   `session_token` varchar(150) NOT NULL COMMENT 'username+password+time',
-  `expire` varchar(20) NOT NULL,
+  `expire` varchar(16) NOT NULL,
   `ip` varchar(15) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- 
--- Dumping data for table `login_session`
--- 
-
 
 -- --------------------------------------------------------
 
@@ -125,11 +98,6 @@ CREATE TABLE `permissions` (
   `group_name` varchar(50) NOT NULL,
   `instance_name` varchar(100) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- 
--- Dumping data for table `permissions`
--- 
-
 
 -- --------------------------------------------------------
 
@@ -148,14 +116,9 @@ CREATE TABLE `tiddler` (
   `creator` varchar(255) NOT NULL,
   `modified` varchar(12) NOT NULL,
   `created` varchar(12) NOT NULL,
-  `version` int(11) NOT NULL,
+  `revision` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=271 ;
-
--- 
--- Dumping data for table `tiddler`
--- 
-
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=40 ;
 
 -- --------------------------------------------------------
 
@@ -170,16 +133,11 @@ CREATE TABLE `tiddler_revisions` (
   `fields` text NOT NULL,
   `modified` varchar(128) NOT NULL default '',
   `modifier` varchar(255) NOT NULL default '',
-  `version` int(11) NOT NULL default '0',
+  `revision` int(11) NOT NULL default '0',
   `tags` varchar(255) NOT NULL default '',
-  `oid` int(11) NOT NULL,
+  `tiddler_id` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=57 ;
-
--- 
--- Dumping data for table `tiddler_revisions`
--- 
-
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 -- --------------------------------------------------------
 
@@ -194,11 +152,3 @@ CREATE TABLE `user` (
   `long_name` varchar(100) NOT NULL,
   PRIMARY KEY  (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- 
--- Dumping data for table `user`
--- 
-
-INSERT INTO `user` (`username`, `password`, `short_name`, `long_name`) VALUES 
-('simon', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'smm', 'simonmcmanus'),
-('username', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', '', '');

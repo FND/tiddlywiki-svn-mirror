@@ -415,9 +415,9 @@
 		if( $result===FALSE ) {
 			return FALSE;
 		}
-
 		//insert backup if required
 		if( $twCfg['pref']['revision']==1 ) {
+
 			//set inserted record id as oid
 			$tiddler = tiddler_backup_create($tiddler, $oid);
 			$result = db_tiddlers_backupInsert($tiddler,$stop);

@@ -47,6 +47,7 @@
 		//privilege for various tags
 		//FORMAT: $user['privilege'] = array("tag1"=>"AAAA");
 		$user['privilege'] = user_getPrivilege($user['group']);		
+	//	var_dump($user['group']);
 		return $user;
 	}
 
@@ -74,7 +75,9 @@
 	
 	function user_session_validate()
 	{ 
-		global $user;return TRUE;
+		global $user;
+		
+	//	return TRUE;
 		db_connect_new();
 		$pw = cookie_get('sessionToken');
 		if ($pw)
@@ -387,13 +390,16 @@
 	function user_tiddlerPrivilegeOfUser($user,$tag)
 	{
 		global $tiddlyCfg;
+		//	var_dump($user['group']);
 		$privilege = $tiddlyCfg['privilege_misc']['default_privilege'];
 		$privilegeArr = $user['privilege'];
 		$group = $user['group'];
 		
 		//redefine default privilege
-		foreach( $group as $g )
+		foreach($group as $g)
 		{
+			
+		//	echo $g;
 			if( isset($tiddlyCfg['privilege_misc']['group_default_privilege'][$g]) )
 			{
 				$privilege = user_mergePrivilege($privilege,$tiddlyCfg['privilege_misc']['group_default_privilege'][$g]);
@@ -406,7 +412,8 @@
 			if( strlen($tag)==0 )		//if no tag, return default privilege
 			{
 				return user_undefinePrivilege($privilege);
-			}else{
+			}else
+			{
 				$tag = tiddler_breakTag($tag);
 			}
 		}

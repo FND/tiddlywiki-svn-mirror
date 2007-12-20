@@ -265,12 +265,15 @@ $db_var['error']['query'] = " query: ";*/
 	
 	function db_tiddlers_backupSelectOid($oid)
 	{
+	
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
 		global $ccT_msg;
 		$q = "SELECT * FROM `".$tiddlyCfg['table']['backup']
 			."` WHERE `tiddler_id`='".db_format4SQL($oid)."'"
 			." ORDER BY `revision` DESC";
+		
+		debug($q);
 		$result = mysql_query($q)
 			or die($ccT_msg['db']['word_error'].mysql_error());
 		
@@ -363,7 +366,7 @@ $db_var['error']['query'] = " query: ";*/
 		$q = "INSERT INTO ".$tiddlyCfg['table']['backup']
 				."(`".implode("`,`",$key)."`)"
 				." VALUES ('".implode("','",$val)."')";
-		
+		debug($q);
 		if( $stop==1 ) {
 			$result = mysql_query($q)
 				or die($ccT_msg['db']['word_error'].mysql_error().$ccT_msg['db']['word_query'].$q);
@@ -458,7 +461,10 @@ $db_var['error']['query'] = " query: ";*/
 			$data[$key[$i]]=(string)db_format4SQL($data[$key[$i]]);
 			$i++;
 		}
-			$r = db_query("INSERT INTO ".$table." (`".implode("`,`",$key)."`) VALUES ('".implode("','",$data)."')");
+		
+			$q = "INSERT INTO ".$table." (`".implode("`,`",$key)."`) VALUES ('".implode("','",$data)."')";
+			debug($q);
+			$r = db_query($q);
 		
 		return $r;
 		
