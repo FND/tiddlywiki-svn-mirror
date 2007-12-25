@@ -48,9 +48,9 @@
 					,$ccT_msg['error']['js_file_read'].$ccT_msg['msg']['file']." $tw.js");
 			}
 			
-			if( strcmp($tiddlyCfg['pref']['language'],"en") != 0 )
+			if( strcmp($tiddlyCfg['twLanguage'],"en") != 0 )
 			{
-				$fhandle = fopen("./plugins/".$tiddlyCfg['pref']['language'].".js",'r');
+				$fhandle = fopen("./plugins/".$tiddlyCfg['twLanguage'].".js",'r');
 				if( $fhandle===FALSE )
 				{
 					logerror($ccT_msg['error']['js_file_open'],1
@@ -69,9 +69,9 @@
 		$r = '<script type="text/javascript" src="'.$tw.'"></script>';
 		
 		//include language file
-		if( strcmp($tiddlyCfg['pref']['language'],"en") != 0 )
+		if( strcmp($tiddlyCfg['twLanguage'],"en") != 0 )
 		{
-			$r .= "\n".'<script type="text/javascript" src="./plugins/'.$tiddlyCfg['pref']['language'].'.js"></script>';
+			$r .= "\n".'<script type="text/javascript" src="./plugins/'.$tiddlyCfg['twLanguage'].'.js"></script>';
 		}
 		return $r."\n";
 	}
@@ -194,7 +194,7 @@ window.cct_tweak = function(){
 	}
 	
 	// time (in minutes, from now) for password to stay in cookie [0= default i.e. year 2038]
-	//config.macros.option.passwordTime = <?php print $tiddlyCfg['pref']['session_expire'];?>;
+	//config.macros.option.passwordTime = <?php print $tiddlyCfg['session_expire'];?>;
 	
 	
 	

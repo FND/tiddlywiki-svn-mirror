@@ -117,10 +117,10 @@
 	function user_set_session($un, $pw)
 	{
 		global $tiddlyCfg;
-		debug('Setting the Session '.$tiddlyCfg['pref']['session_expire']);
+		debug('Setting the Session '.$tiddlyCfg['session_expire']);
 		$insert_data['user_id'] = $un;
 		debug('session is be set : username is : '.$un);
-		$expire =time()+$tiddlyCfg['pref']['session_expire'];
+		$expire =time()+$tiddlyCfg['session_expire'];
 		$insert_data['expire'] = epochToTiddlyTime($expire); // add expire time to data array for insert		
 		$insert_data['ip'] = $_SERVER['REMOTE_ADDR'];  // get the ip address
 		$insert_data['session_token'] = sha1($un.$_SERVER['REMOTE_ADDR'].$expire); // colect data together and sh1 it so that we have a unique indentifier 

@@ -54,7 +54,7 @@ CREATE TABLE `group_membership` (
 
 CREATE TABLE `instance` (
   `name` varchar(100) NOT NULL,
-  `lang` varchar(10) NOT NULL,
+  `twLanguage` varchar(10) NOT NULL,
   `keep_revision` int(1) NOT NULL,
   `require_login` int(1) NOT NULL,
   `session_expire` int(10) NOT NULL,

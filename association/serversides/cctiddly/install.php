@@ -328,9 +328,9 @@ This file can be removed after installation
 		{
 			case "blog":
 				install_plugin("CommentPlugin");
-//				install_plugin("CommentPlugin.".$tiddlyCfg['pref']['language']);
+//				install_plugin("CommentPlugin.".$tiddlyCfg['twLanguage']);
 				install_plugin("CommentTabPlugin");
-//				install_plugin("CommentTabPlugin.".$tiddlyCfg['pref']['language']);
+//				install_plugin("CommentTabPlugin.".$tiddlyCfg['twLanguage']);
 				install_plugin("RecentTiddlersPlugin");
 				break;
 			default:

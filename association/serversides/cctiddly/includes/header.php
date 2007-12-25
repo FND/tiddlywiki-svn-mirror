@@ -4,27 +4,13 @@
 		@file
 		
 		@brief This file process all include files and passed in parameters
-		
-		@author: CoolCold
-		@email: cctiddly.coolcold@dfgh.net
 	*/
-	
-	/**
-		license:
-			This is licensed under GPL v2
-			http://www.gnu.org/licenses/gpl.txt
-
-	*/
-	/**
-		requirement:
-			config.php - config variable
-			language.php - error msgs
-	*/
-	global $tiddlyCfg;
+//////////////////////////////////////////////////////// default configurations ////////////////////////////////////////////////////////
+	$tiddlyCfg['db']['type'] = "mysql";		//sql type
 	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
 	$tiddlyCfg['db']['pass'] = "";		//login password
-	$tiddlyCfg['db']['name'] = "cctw1";		//db name
+	$tiddlyCfg['db']['name'] = "cctiddly";		//db name
 	
 	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
 	$tiddlyCfg['table']['suffix'] = "";					//suffix			suffix of file					suffix of table name
@@ -36,11 +22,12 @@
 	$tiddlyCfg['table']['privilege'] = "privileges";	//privilege 			privileges
 	$tiddlyCfg['table']['admin'] = "admin_of_instance";	//admin of instance	admin of a particular instance
 	$tiddlyCfg['table']['session'] = "login_session";	//login session		used to create login string
-	$tiddlyCfg['table']['pref'] = "";		//table prefix
-	$tiddlyCfg['table']['main'] = "tiddler";
-	$tiddlyCfg['table']['backup'] = "tiddler_revisions";
-	$twCfg['pref']['revision'] = 1;
-	$tiddlyCfg['pref']['session_expire'] = 2000; //mins
+	
+	$tiddlyCfg['keep_revision'] = 1;
+	$tiddlyCfg['require_login'] = 0; //mins
+	$tiddlyCfg['session_expire'] = 2000; //mins
+	$tiddlyCfg['tag_tiddler_with_modifier'] = 2000; //mins
+	//$tiddlyCfg['char_set'] = 2000; //mins
 	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
 	$tiddlyCfg['pref']['ldap_enabled'] = 0;	
 	$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
@@ -50,6 +37,7 @@
 	$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
 
 
+//////////////////////////////////////////////////////// check base variable ////////////////////////////////////////////////////////
 
 ///// here we are setting a null value to avoid notices in the error logs when it is not used. ////
 // cct_base is used to prefix calls to files, 
@@ -57,18 +45,14 @@
 		$cct_base= "";
 		exit("cct_base not exist");
 	}
-	
 
-	
-////  END OF DECLARING VARS 
+//////////////////////////////////////////////////////// include files  ////////////////////////////////////////////////////////
 
 	include_once($cct_base."includes/functions.php");
-	
-	
 	include_once($cct_base."includes/config.php");
 
-	include_once($cct_base."lang/".$tiddlyCfg['pref']['language'].".php");
-	include_once($cct_base."includes/db.mysql.php");	
+	include_once($cct_base."lang/".$tiddlyCfg['twLanguage'].".php");
+	include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");	
 	include_once($cct_base."includes/tiddler.php");
 	include_once($cct_base."includes/user.php");
 	if(!isset($ccT_msg)) {
@@ -100,7 +84,7 @@
 	//?time=<number>, override the presetted cookie expiry time for PASSWORD ONLY, UNIT: minutes
 	if( isset($_GET['time']) )
 	{
-		$tiddlyCfg['pref']['session_expire'] = (int)$_GET['time'];
+		$tiddlyCfg['session_expire'] = (int)$_GET['time'];
 	}
 	
 	//?developing=<number>, to enable/disable developing mode via URL

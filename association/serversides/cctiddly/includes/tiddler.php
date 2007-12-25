@@ -271,7 +271,7 @@
 		}
 		
 		//insert backup if required
-		if( $backup==1 || ($backup==-1 && $tiddlyCfg['pref']['revision']==1) )
+		if( $backup==1 || ($backup==-1 && $tiddlyCfg['keep_revision']==1) )
 		{
 			//set inserted record id as oid
 			$tiddler = tiddler_backup_create($tiddler, db_insert_id($result));
@@ -310,7 +310,7 @@
 		}
 
 		//insert backup if required
-		if( $backup==1 || ($backup==-1 && $tiddlyCfg['pref']['revision']==1) )
+		if( $backup==1 || ($backup==-1 && $tiddlyCfg['keep_revision']==1) )
 		{
 			//set inserted record id as oid
 			$tiddler = tiddler_backup_create($tiddler, $oldtiddler['id']);

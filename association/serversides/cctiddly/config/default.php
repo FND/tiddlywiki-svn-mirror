@@ -44,21 +44,21 @@ if (count($tiddlyCfg['pref']['instance_settings']) < 1)
  	// let show the form to create an instance
  	// we need to set the settings manually as there is not record in the database
  	$tiddlyCfg['pref']['twFile'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
-	$tiddlyCfg['pref']['language'] = 'en'; // choose between different version of TW, or adaptation
-	$tiddlyCfg['pref']['revision'] = 0; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
-	$tiddlyCfg['pref']['reqLogin'] = 0;	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]		$tiddlyCfg['pref']['appendModifier'] ='';		//append modifier name as tag		
+	$tiddlyCfg['twLanguage'] = 'en'; // choose between different version of TW, or adaptation
+	$tiddlyCfg['keep_revision'] = 0; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
+	$tiddlyCfg['require_login'] = 0;	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]		$tiddlyCfg['tag_tiddler_with_modifier'] ='';		//append modifier name as tag		
 }
 else
 {
 	// the instance exists so lets get
 	//  GET THE SETTINGS FROM THE DATABASE 
 	$tiddlyCfg['pref']['twFile'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
-	$tiddlyCfg['pref']['language'] = $tiddlyCfg['pref']['instance_settings'][0]['lang']; // choose between different version of TW, or adaptation
-	$tiddlyCfg['pref']['revision'] = $tiddlyCfg['pref']['instance_settings'][0]['keep_revision']; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
-	$tiddlyCfg['pref']['reqLogin'] = $tiddlyCfg['pref']['instance_settings'][0]['require_login'];	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
+	$tiddlyCfg['twLanguage'] = $tiddlyCfg['pref']['instance_settings'][0]['lang']; // choose between different version of TW, or adaptation
+	$tiddlyCfg['keep_revision'] = $tiddlyCfg['pref']['instance_settings'][0]['keep_revision']; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
+	$tiddlyCfg['require_login'] = $tiddlyCfg['pref']['instance_settings'][0]['require_login'];	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
 	// uncommenting the below line will let the session timeout be specified per instance
-	//$tiddlyCfg['pref']['session_expire'] = $tiddlyCfg['pref']['instance_settings'][0]['cookie_expire'];
-	$tiddlyCfg['pref']['appendModifier'] =$tiddlyCfg['pref']['instance_settings'][0]['tag_tiddler_with_modifier'];		//append modifier name as tag
+	//$tiddlyCfg['session_expire'] = $tiddlyCfg['pref']['instance_settings'][0]['cookie_expire'];
+	$tiddlyCfg['tag_tiddler_with_modifier'] =$tiddlyCfg['pref']['instance_settings'][0]['tag_tiddler_with_modifier'];		//append modifier name as tag
 }
 
 

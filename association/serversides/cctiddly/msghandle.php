@@ -259,7 +259,7 @@ Something like this maybe: "?action=contents"
 									"","","",
 									$tiddler[0]['fields']);
 		//append modifier as tag
-		if( $tiddlyCfg['pref']['appendModifier']==1 )
+		if( $tiddlyCfg['tag_tiddler_with_modifier']==1 )
 		{
 			$modifier_add = $ntiddler['modifier'];
 			if( strpos($modifier_add, " ") !== FALSE )
