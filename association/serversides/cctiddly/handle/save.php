@@ -72,14 +72,14 @@
 	//$modifier = $user['username'];			//this is always true in local TW, set modifier = username
 	
 	//if anonymous and forceAnonymous is on, change username and modifier to $ccT_msg['loginpanel']['anoymous']
-	if( $user['verified'] === FALSE && $twCfg['pref']['forceAnonymous']==1 )
+	if( $user['verified'] === FALSE && $tiddlyCfg['pref']['forceAnonymous']==1 )
 	{
 		$user['username'] = $ccT_msg['loginpanel']['anoymous'];
 		$ntiddler['modifier'] = $ccT_msg['loginpanel']['anoymous'];
 	}
 	
 	//append modifier as tag
-	if( $twCfg['pref']['appendModifier']==1 )
+	if( $tiddlyCfg['pref']['tag_tiddler_with_modifier']==1 )
 	{
 		$modifier_add = (strpos($ntiddler['modifier']," ")?
 							"[[".$ntiddler['modifier']."]]":
@@ -136,7 +136,7 @@ debug("here");
 	if( $oldTitle===NULL ) {
 		$otiddler = FALSE;
 	}else{
-		$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$twCfg['table']['main'],$twCfg['pref']['instance']);
+		$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['pref']['instance_name']);
 	}
 	
 	$save_status = 0;		//use to store save action [insert, overwrite, update]

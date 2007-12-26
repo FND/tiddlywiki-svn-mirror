@@ -38,12 +38,12 @@
 	//!	@brief get all tiddlers in nested array, removing ones the user do not have read privilege
 	function getAllTiddlers($user="")
 	{
-		global $twCfg;
+		global $tiddlyCfg;
 		
 		//get all data from db
 		db_connect();
 		//$tiddlers = tiddler_selectAll();
-		//$tiddlers = db_tiddlers_selectAll($twCfg['table']['main'],$twCfg['pref']['instance']);
+		//$tiddlers = db_tiddlers_selectAll($tiddlyCfg['table']['main'],$tiddlyCfg['pref']['instance']);
 		$tiddlers = db_tiddlers_mainSelectAll();
 		db_close();
 		//check permission and print

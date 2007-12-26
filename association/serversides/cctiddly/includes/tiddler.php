@@ -371,17 +371,17 @@
 	//!	@param $backup save backup, [-1 means using value in config]
 	function tiddler_insert_new($tiddler,$stop=1)
 	{
-		global $twCfg;
+		global $tiddlyCfg;
 		
 		//insert record
-		//$result = db_record_insert($twCfg['table']['main'], $tiddler);
+		//$result = db_record_insert($tiddlyCfg['table']['main'], $tiddler);
 		$result = db_tiddlers_mainInsert($tiddler,$stop);
 		if( $result===FALSE ) {
 			return FALSE;
 		}
 
 		//insert backup if required
-		if( $twCfg['pref']['revision']==1 ) {
+		if( $tiddlyCfg['keep_revision']==1 ) {
 			$tiddler = tiddler_backup_create($tiddler, db_insert_id());
 			$result = db_tiddlers_backupInsert($tiddler,$stop);
 		}
@@ -404,19 +404,19 @@
 	//!	@param $backup save backup, [-1 means using value in config]
 	function tiddler_update_new($oid, $tiddler, $stop=1)
 	{
-		global $twCfg;
+		global $tiddlyCfg;
 		
 		//updaterecord
 		$result = db_tiddlers_mainUpdate($oid,$tiddler,$stop);
 
 		//insert record, will stop at db_query function if error occurs
-		//$result = db_record_update($twCfg['table']['main'], $oldtiddler, $tiddler);
+		//$result = db_record_update($tiddlyCfg['table']['main'], $oldtiddler, $tiddler);
 		
 		if( $result===FALSE ) {
 			return FALSE;
 		}
 		//insert backup if required
-		if( $twCfg['pref']['revision']==1 ) {
+		if( $tiddlyCfg['keep_revision']==1 ) {
 
 			//set inserted record id as oid
 			$tiddler = tiddler_backup_create($tiddler, $oid);
