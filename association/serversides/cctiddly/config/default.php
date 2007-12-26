@@ -122,10 +122,10 @@ $tiddlyCfg['privilege_misc']['markup'] = array("admin");			//user allow to chang
 		undefine/unchange (U)
 	EXAMPLE
 		for a privilege string "ADAU", the privilege for a particular tiddler to the user would be
-			READ: allowed		the user is allowed to read
-			INSERT: deny		the user is NOT allowed to insert a tiddler with a certain tag
-			EDIT: allowed		the user is allow to edit the tiddler
-			DELETE: undefined	undefined privilege. This would be replaced by either allowed or deny depending on the config "undefined_privilege"
+		R	READ: allowed		the user is allowed to read
+		C	INSERT: deny		the user is NOT allowed to insert a tiddler with a certain tag
+		U	EDIT: allowed		the user is allow to edit the tiddler
+		D	DELETE: undefined	undefined privilege. This would be replaced by either allowed or deny depending on the config "undefined_privilege"
 	UNDEFINED (normally treated as DENY, see settings below) can be overwrited by ALLOW
 	DENY has the highest priority and could not be overwrite by ALLOW/UNDEFINED
 	NOTE: if a tiddler has several tag, of which one has deny in one of the privilege, it would be treated as deny on that privilege
@@ -152,7 +152,7 @@ $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCf
 */
 
 $tiddlyCfg['privilege']['admin']['systemConfig'] = "DDDD";
-$tiddlyCfg['privilege']['user']['systemConfig'] = "DDDD";
+$tiddlyCfg['privilege']['user']['systemConfig'] = "AAAA";
 //The following privilege are for blog
 //$tiddlyCfg['privilege']['anonymous']['comments'] = "AADD";		//allow comments to be post anonymously
 

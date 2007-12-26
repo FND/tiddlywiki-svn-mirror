@@ -1,16 +1,10 @@
 <?php 
-
 debug('create4 instance ');
 include_once($cct_base."includes/header.php");
-
-
 include_once($cct_base."includes/tiddler.php");
-// returns false f the instance name already exists.
 
 function instance_create($instance, $anonPerm="ADDD")
 {
-	
-
 	if(!ctype_alnum($instance))
 	{
 		header('HTTP/1.0 400 Bad Request');
@@ -33,18 +27,15 @@ function instance_create($instance, $anonPerm="ADDD")
 	$data['default_user_perm'] = 'AAAA';
 	$data['rss_group'] = '';
 	$data['markup_group'] = '';
-														
-	 db_record_insert('instance',$data);  
+	db_record_insert('instance',$data);  
 	
 	$data1['instance_name'] = $instance;
 	$data1['body'] = $instance;
 	$data1['title'] = 'SiteTitle';
-
 	$data1['creator'] = 'ccTiddly';
 	$data1['modifier'] = 'ccTiddly';
 	$data1['modified'] = epochToTiddlyTime(mktime());
 	$data1['created'] = epochToTiddlyTime(mktime());
-
 	$data1['fields'] = "changecount='1'";
 	db_record_insert($tiddlyCfg['table']['main'],$data1);
 		
@@ -59,13 +50,10 @@ function instance_create($instance, $anonPerm="ADDD")
 	$data1['created'] = epochToTiddlyTime(mktime());
 	db_record_insert($tiddlyCfg['table']['main'],$data1);
 	
-	
-	
 	@mkdir($tiddlyCfg['pref']['upload_dir'].$instance ,  0777);
 	@mkdir($tiddlyCfg['pref']['upload_dir'].$instance.'/images' ,  0777);
 	@mkdir($tiddlyCfg['pref']['upload_dir'].$instance.'/thumbs' ,  0777);
 	header('HTTP/1.0 201 Created');
-
-return true;
-
-}?>
+	return true;
+}
+?>
