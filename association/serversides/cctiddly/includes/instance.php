@@ -20,7 +20,7 @@ function instance_create($instance, $anonPerm="ADDD")
 
 	global $tiddlyCfg;
 	$data['name'] = $instance;
-	$data['lang'] = 'en';
+	$data['twLanguage'] = 'en';
 	$data['keep_revision'] = 1;
 	$data['require_login'] = 0;
 	$data['session_expire'] = $tiddlyCfg['session_expire'];
