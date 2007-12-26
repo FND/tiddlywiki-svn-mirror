@@ -10,13 +10,19 @@ include_once($cct_base."includes/tiddler.php");
 function instance_create($instance, $anonPerm="ADDD")
 {
 	
-	// TODO check for instance already existing 
-	// TODO return correct error of illegal chars are entered. 
+ 	$array['name'] = $tiddlyCfg['pref']['instance_name'];
+	$instance_count = db_record_select('instance', $array);
 	
-//	if(!ctype_alnum($instance))
-//	{
-//		return 'Instance name can only include numbers and letters';
-//	}
+	echo count($instance_count);
+	exit;
+	if (count($instance_count) > 0)
+	{	
+		exit("Workspace name already in use.");
+	}
+	if(!ctype_alnum($instance))
+	{
+		exit("Workspace name can only include numbers and letters.");
+	}
 
 	global $tiddlyCfg;
 	$data['name'] = $instance;
@@ -36,44 +42,31 @@ function instance_create($instance, $anonPerm="ADDD")
 	$data['markup_group'] = '';
 														
 	 db_record_insert('instance',$data);  
-	 	
-	// PRE POPULATE THE DATABASE WITH SOME TIDDLERS
-	// CODE ADDED BY SIMONMCMANUS 
-	
 	
 	$data1['instance_name'] = $instance;
 	$data1['body'] = $instance;
 	$data1['title'] = 'SiteTitle';
+
+	$data1['creator'] = 'ccTiddly';
+	$data1['modifier'] = 'ccTiddly';
+	$data1['modified'] = epochToTiddlyTime(mktime());
+	$data1['created'] = epochToTiddlyTime(mktime());
+
+	$data1['fields'] = "changecount='1'";
 	db_record_insert($tiddlyCfg['table']['main'],$data1);
-	
 		
 	$data1['body'] = 'http://osmosoft.com/ More info about osmosoft can be found here ' ;
 	$data1['title'] = 'Osmosoft';
 	db_record_insert($tiddlyCfg['table']['main'],$data1);
 	
-	
 	$data1['body'] = 'Provided by [[Osmosoft]] using TiddlyWiki - The Wiki with a silly name';
 	$data1['title'] = 'SiteSubtitle';
 	$data1['creator'] = 'ccTiddly';
 	$data1['modifier'] = 'ccTiddly';
-	$data1['modifier'] = 'ccTiddly';
-//	$data1['version'] = 1;
-	//$data1['fields']= "changecount='1'";
 	$data1['created'] = epochToTiddlyTime(mktime());
-//	db_record_insert($tiddlyCfg['table']['main'],$data1);
+	db_record_insert($tiddlyCfg['table']['main'],$data1);
 	
 	
-	$r['body'] = 'Pbbbbbbbbbby name';
-	$r['title'] = 'SiteSubtitle';
-	$r['modifier'] = 'ccTiddly';
-	$r['modified'] = epochToTiddlyTime(mktime());
-	$r['created'] = epochToTiddlyTime(mktime());
-	//$r['version'] = 1;
-// tiddler_create($r['title'], $r['body'],$r['modifier'],$r['modified'],"","","",$r['created']);
-
-		
-//db_record_insert($tiddlyCfg['table']['backup'],$data1);
-
 	
 	@mkdir($tiddlyCfg['pref']['upload_dir'].$instance ,  0777);
 	@mkdir($tiddlyCfg['pref']['upload_dir'].$instance.'/images' ,  0777);

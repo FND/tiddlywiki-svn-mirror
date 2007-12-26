@@ -55,7 +55,7 @@ if (isset($_FILES["userfile"]))
 	else 
     {
   // if (move_uploaded_file($_FILES["userfile"]["tmp_name"], $upload_dirs[$_POST["path"]]["dir"].$_FILES["userfile"]["name"])) 
-      if (move_uploaded_file($_FILES["userfile"]["tmp_name"], "/Applications/xampp/xamppfiles/htdocs/cct3/".$upload_dir.$_FILES["userfile"]["name"])) 
+      if (move_uploaded_file($_FILES["userfile"]["tmp_name"], "/Applications/xampp/xamppfiles/htdocs/cctw5/".$upload_dir.$_FILES["userfile"]["name"])) 
       {
       	$status = 1;
 	   }
