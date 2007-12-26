@@ -386,7 +386,7 @@ return false;
 	createWorkspaceCallback: function(status,params,responseText,uri,xhr) {
 		displayMessage(xhr.status);
 		if(xhr.status==201) {
-			window.location = url;
+			window.location = params.url;
 			//displayMessage('workspace crated');				
 		} else if (xhr.status == 200) {
 			displayMessage('Workspace name is already in use.');
