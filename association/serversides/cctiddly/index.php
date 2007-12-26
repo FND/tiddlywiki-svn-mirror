@@ -376,6 +376,8 @@ anon+=(this.anD.checked?trueStr:falseStr);
 //user+=(this.usR.checked?trueStr:falseStr);
 //user+=(this.usU.checked?trueStr:falseStr);
 //user+=(this.usD.checked?trueStr:falseStr);
+var params = {}; 
+  params.url = url+'/'+this.ccWorkspaceName.value;
  var loginResp = doHttp('POST', url+'/'+this.ccWorkspaceName.value, &quot;ccCreateWorkspace=&quot; + encodeURIComponent(this.ccWorkspaceName.value)+&quot;&amp;ccAnonPerm=&quot;+encodeURIComponent(anon),null,null,null, config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
 
 return false; 
@@ -384,7 +386,7 @@ return false;
 	createWorkspaceCallback: function(status,params,responseText,uri,xhr) {
 		displayMessage(xhr.status);
 		if(xhr.status==201) {
-			window.location = uri;
+			window.location = url;
 			//displayMessage('workspace crated');				
 		} else if (xhr.status == 200) {
 			displayMessage('Workspace name is already in use.');
