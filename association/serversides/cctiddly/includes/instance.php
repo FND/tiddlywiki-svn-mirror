@@ -10,17 +10,10 @@ include_once($cct_base."includes/tiddler.php");
 function instance_create($instance, $anonPerm="ADDD")
 {
 	
- 	$array['name'] = $tiddlyCfg['pref']['instance_name'];
-	$instance_count = db_record_select('instance', $array);
-	
-	echo count($instance_count);
-	exit;
-	if (count($instance_count) > 0)
-	{	
-		exit("Workspace name already in use.");
-	}
+
 	if(!ctype_alnum($instance))
 	{
+		header('HTTP/1.0 400 Bad Request');
 		exit("Workspace name can only include numbers and letters.");
 	}
 

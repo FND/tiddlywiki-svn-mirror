@@ -368,8 +368,8 @@ createWorkspaceOnSubmit: function() {
 var trueStr = "A";
 var falseStr = "D";
 // build up string with permissions values
-var anon=(this.anC.checked?trueStr:falseStr);
-anon+=(this.anR.checked?trueStr:falseStr);
+var anon=(this.anR.checked?trueStr:falseStr);
+anon+=(this.anC.checked?trueStr:falseStr);
 anon+=(this.anU.checked?trueStr:falseStr);
 anon+=(this.anD.checked?trueStr:falseStr);
 //var user=(this.usC.checked?trueStr:falseStr);
@@ -389,7 +389,9 @@ return false;
 			window.location = params.url;
 			//displayMessage('workspace crated');				
 		} else if (xhr.status == 200) {
-			displayMessage(xhr.responseText);
+			displayMessage("Workspace name is already in use.");
+		} else if (xhr.status == 400) {
+				displayMessage(xhr.responseText);	
 		}
 		return FALSE;
 	},		   
