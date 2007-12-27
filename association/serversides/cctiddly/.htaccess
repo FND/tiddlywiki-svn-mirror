@@ -10,7 +10,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 #rewrite anything to index.php i.e. example.com/test => example.com/
 #RewriteRule ^.* index.php
-RewriteRule ([^/]*)/$ index.php?%{QUERY_STRING}&workspace=$1
+RewriteRule ([^/]*)/$ index.php?%{QUERY_STRING}&instance=$1	[L]
 #RewriteRule ([^/]*)/?(.*)$ index.php?workspace=$1&a=$2
 #RewriteRule (\?.) index.php?workspace=$1 [L]
 #RewriteRule (.*) index.php?req_uri=%{REQUEST_URI}&req_filename=%{REQUEST_FILENAME}&script=%{SCRIPT_FILENAME}&q=%{QUERY_STRING} [L]
