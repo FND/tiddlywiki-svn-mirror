@@ -1,4 +1,16 @@
+#need this? http://forum.modrewrite.com/viewtopic.php?t=1443&sid=09c472955dbde119b065e8d3867e5b04
+#Options +FollowSymLinks 
+
+#turn on rewrite engine
 RewriteEngine On
+
+#rewrite if request path is not a directory
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^.* index.php
+#RewriteCond %{REQUEST_FILENAME} !-f
+
+#rewrite anything to index.php i.e. example.com/test => example.com/
+#RewriteRule ^.* index.php
+RewriteRule ([^/]*)/$ index.php?%{QUERY_STRING}&workspace=$1
+#RewriteRule ([^/]*)/?(.*)$ index.php?workspace=$1&a=$2
+#RewriteRule (\?.) index.php?workspace=$1 [L]
+#RewriteRule (.*) index.php?req_uri=%{REQUEST_URI}&req_filename=%{REQUEST_FILENAME}&script=%{SCRIPT_FILENAME}&q=%{QUERY_STRING} [L]
