@@ -151,3 +151,21 @@ CREATE TABLE `user` (
   `long_name` varchar(100) NOT NULL,
   PRIMARY KEY  (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+
+INSERT INTO `user` (`username`, `password`, `short_name`, `long_name`) VALUES 
+('simon', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', '', '');
+
+
+
+INSERT INTO `instance` (`name`, `twLanguage`, `keep_revision`, `require_login`, `session_expire`, `tag_tiddler_with_modifier`, `char_set`, `hashseed`,  `status`, `tiddlywiki_type`, `default_anonymous_perm`, `default_user_perm`, `rss_group`, `markup_group`) VALUES 
+('home', 'en', 1, 0, 2000, 0, 'utf8', '1095800459', '', 'tiddlywiki', 'ADDD', 'AAAA', '', '');
+
+
+
+INSERT INTO `tiddler` (`id`, `instance_name`, `title`, `body`, `fields`, `tags`, `modifier`, `creator`, `modified`, `created`, `revision`) VALUES 
+(4, '', 'SiteTitle', 'Welcome', 'changecount="2"', '', 'simon', 'simon', '200712281713', '200712281712', 2),
+(5, '', 'SiteSubtitle', 'to ccTiddly', 'changecount="1"', '', 'simon', 'simon', '200712281713', '200712281713', 1),
+(6, '', 'GettingStarted', 'Hi, \\n\\nWelcome to ccTiddly, \\n\\nYou can create you own workspace below : \\n\\n&lt;&lt;ccCreateWorkspace&gt;&gt;\\n\\n\\nHere you can see what other people are  sharing on this ccTiddly server. \\n\\n&lt;&lt;ccListWorkspaces&gt;&gt;\\n\\n\\n', 'changecount="2"', '', 'simon', 'simon', '200712281717', '200712281715', 2);
+
