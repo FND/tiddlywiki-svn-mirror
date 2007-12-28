@@ -236,7 +236,7 @@ Something like this maybe: "?action=contents"
 	}
 	
 //////////////////////////////////////////////////////////ccT functions//////////////////////////////////////////////////////////////
-	debug('Action : '.$_POST['action'].' Instance : '.$tiddlyCfg['pref']['instance_name']);
+	debug('Action : '.$_POST['action'].' Instance : '.$tiddlyCfg['instance_name']);
 //////////////////////////////////////////////////////////saveTiddler//////////////////////////////////////////////////////////////
 	if( strcmp($_POST['action'],"saveTiddler")==0 )
 	{
@@ -358,7 +358,7 @@ Something like this maybe: "?action=contents"
 		
 		
 		//save to file
-		$fhandle = fopen($tiddlyCfg['pref']['upload_dir'].$tiddlyCfg['pref']['instance_name']."/$config.xml",'w');
+		$fhandle = fopen($tiddlyCfg['pref']['upload_dir'].$tiddlyCfg['instance_name']."/$config.xml",'w');
 		if( $fhandle===FALSE )
 		{
 			logerror($ccT_msg['error']['rss_file_create'],0

@@ -5,36 +5,6 @@
 		
 		@brief This file process all include files and passed in parameters
 	*/
-//////////////////////////////////////////////////////// default configurations ////////////////////////////////////////////////////////
-	$tiddlyCfg['db']['type'] = "mysql";		//sql type
-	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
-	$tiddlyCfg['db']['login'] = "root";		//login name
-	$tiddlyCfg['db']['pass'] = "";		//login password
-	$tiddlyCfg['db']['name'] = "cctiddly";		//db name
-	
-	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
-	$tiddlyCfg['table']['suffix'] = "";					//suffix			suffix of file					suffix of table name
-	$tiddlyCfg['table']['main'] = "tiddler";			//name			name of file for storing tiddlers		name of table for storing tiddlers
-	$tiddlyCfg['table']['backup'] = "tiddler_revisions";	//backup	 		backup/versioned tiddlers
-	$tiddlyCfg['table']['instance'] = "instance";		//config			settings for cct					
-	$tiddlyCfg['table']['user'] = "user";				//user	 		username and password
-	$tiddlyCfg['table']['group'] = "group_membership";	//group	 		group name and membership
-	$tiddlyCfg['table']['privilege'] = "privileges";	//privilege 			privileges
-	$tiddlyCfg['table']['admin'] = "admin_of_instance";	//admin of instance	admin of a particular instance
-	$tiddlyCfg['table']['session'] = "login_session";	//login session		used to create login string
-	
-	$tiddlyCfg['keep_revision'] = 1;
-	$tiddlyCfg['require_login'] = 0; //mins
-	$tiddlyCfg['session_expire'] = 2000; //mins
-	$tiddlyCfg['tag_tiddler_with_modifier'] = 2000; //mins
-	//$tiddlyCfg['char_set'] = 2000; //mins
-	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
-	$tiddlyCfg['pref']['ldap_enabled'] = 0;	
-	$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
-	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
-	//$tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the instance name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
-	$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
-	$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
 
 
 //////////////////////////////////////////////////////// check base variable ////////////////////////////////////////////////////////
@@ -43,18 +13,20 @@
 // cct_base is used to prefix calls to files, 
 	if(!isset($cct_base)) {
 		$cct_base= "";
-		exit("cct_base not exist");
+		debug("cct_base not exist");
 	}
 
 //////////////////////////////////////////////////////// include files  ////////////////////////////////////////////////////////
+	//include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");	//include in config.php
 
 	include_once($cct_base."includes/functions.php");
 	include_once($cct_base."includes/config.php");
 
-	include_once($cct_base."lang/".$tiddlyCfg['twLanguage'].".php");
-	include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");	
+	//include is used because language file is included once in config.php file
+	include($cct_base."lang/".$tiddlyCfg['twLanguage'].".php");
 	include_once($cct_base."includes/tiddler.php");
 	include_once($cct_base."includes/user.php");
+
 	if(!isset($ccT_msg)) {
 		$ccT_msg= "";
 		exit("ccT_msg not exist");
@@ -64,9 +36,6 @@
 		$instance= "";
 		//exit("instance not exist");
 	}
-
-	
-
 
 //////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////
 	//?standalone=1, used for making the script standalone form like a regular tiddlywiki

@@ -168,8 +168,8 @@ DAMAGE.
 		print tiddler_bodyDecode($tiddlers['MarkupPreHead']['body']);
 	}else{
 		
-		if(is_file($tiddlyCfg['pref']['upload_dir'] .$tiddlyCfg['pref']['instance_name']."/$config.xml"))
-			print "<link rel='alternate' type='application/rss+xml' title='RSS' href='".$tiddlyCfg['pref']['instance_name']."/$config.xml'>";
+		if(is_file($tiddlyCfg['pref']['upload_dir'] .$tiddlyCfg['instance_name']."/$config.xml"))
+			print "<link rel='alternate' type='application/rss+xml' title='RSS' href='".$tiddlyCfg['instance_name']."/$config.xml'>";
 
 	}
 ?>
@@ -328,7 +328,7 @@ else
 //{{{
 
 //var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
-//var workspace = "<?php echo $tiddlyCfg['pref']['instance_name'];?>";
+//var workspace = "<?php echo $tiddlyCfg['instance_name'];?>";
 
 
 config.backstageTasks.push(&quot;create&quot;);
@@ -538,7 +538,7 @@ config.macros.ccAbout = {
 //{{{
 
 var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
-var workspace = "<?php echo $tiddlyCfg['pref']['instance_name'];?>";
+var workspace = "<?php echo $tiddlyCfg['instance_name'];?>";
 
 config.macros.ccUpload = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {

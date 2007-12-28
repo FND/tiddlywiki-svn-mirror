@@ -225,8 +225,8 @@ $db_var['error']['query'] = " query: ";*/
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
 		global $ccT_msg;
-		//$tiddlyCfg['table']['main'],$tiddlyCfg['pref']['instance_name']
-		$result = mysql_query("SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE instance_name='".$tiddlyCfg['pref']['instance_name']."'")
+		//$tiddlyCfg['table']['main'],$tiddlyCfg['instance_name']
+		$result = mysql_query("SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE instance_name='".$tiddlyCfg['instance_name']."'")
 			or die($ccT_msg['db']['word_error'].mysql_error());
 
 			return $result;
@@ -243,7 +243,7 @@ $db_var['error']['query'] = " query: ";*/
 		global $tiddlyCfg;
 		global $ccT_msg;
 		$q = "SELECT * FROM `".$tiddlyCfg['table']['main']
-			."` WHERE instance_name='".$tiddlyCfg['pref']['instance_name']
+			."` WHERE instance_name='".$tiddlyCfg['instance_name']
 			."' AND title='".db_format4SQL($title)."'";
 		$result = mysql_query($q)
 			or die($ccT_msg['db']['word_error'].mysql_error());
@@ -320,7 +320,7 @@ $db_var['error']['query'] = " query: ";*/
 		
 		$q = "INSERT INTO ".$tiddlyCfg['table']['main']
 				."(`".implode("`,`",$key)."`,`instance_name`)"
-				." VALUES ('".implode("','",$val)."','".$tiddlyCfg['pref']['instance_name']."')";
+				." VALUES ('".implode("','",$val)."','".$tiddlyCfg['instance_name']."')";
 		
 		if( $stop==1 ) {
 			$result = mysql_query($q)
@@ -577,7 +577,7 @@ if($sql == $sql_start)
 			//insert record into db
 		if ($table = $tiddlyCfg['table']['main'])
 		{
-			$result = db_query("SELECT * FROM ".$table." where instance_name='".$tiddlyCfg['pref']['instance_name']."'");
+			$result = db_query("SELECT * FROM ".$table." where instance_name='".$tiddlyCfg['instance_name']."'");
 		}
 		else
 		{	$result = db_query("SELECT * FROM ".$table);
