@@ -61,7 +61,6 @@ CREATE TABLE `instance` (
   `tag_tiddler_with_modifier` int(1) NOT NULL,
   `char_set` varchar(10) NOT NULL,
   `hashseed` varchar(50) NOT NULL,
-  `debug` int(1) NOT NULL,
   `status` varchar(10) NOT NULL,
   `tiddlywiki_type` varchar(30) NOT NULL,
   `default_anonymous_perm` varchar(4) NOT NULL,

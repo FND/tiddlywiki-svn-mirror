@@ -20,7 +20,6 @@ function instance_create($instance, $anonPerm="ADDD")
 	$data['tag_tiddler_with_modifier'] = '';
 	$data['char_set'] = 'utf8';
 	$data['hashseed'] = rand();
-	$data['debug'] = '1';	
 	$data['status'] = '';
 	$data['tiddlywiki_type'] = 'tiddlywiki';
 	$data['default_anonymous_perm'] = $anonPerm;	
