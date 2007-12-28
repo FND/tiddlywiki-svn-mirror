@@ -94,6 +94,7 @@ if ($instance == '')
 
 // If the instance name was empty or the instance name provided does not exist. 
 // TODO : WHAT IF ITS THE HOME INSTANCE : 
+//debug( count($tiddlyCfg['pref']['instance_settings']) );
 if (!isset($_POST['cctuser']) && count($tiddlyCfg['pref']['instance_settings']) < 1  )
 {	
 
