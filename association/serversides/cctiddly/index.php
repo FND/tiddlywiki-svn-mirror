@@ -343,10 +343,12 @@ config.macros.ccCreateWorkspace = {
 
 	var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
 	frm.onsubmit = this.createWorkspaceOnSubmit;
-	createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Create New Workspace :  &quot;);
-
-
-	var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
+	createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Create New Workspace &quot;);
+	createTiddlyElement(frm,&quot;br&quot;);
+	createTiddlyText(frm, "You can get your own TiddlyWiki by filling in the form below.");
+	createTiddlyElement(frm,&quot;br&quot;);
+		createTiddlyElement(frm,&quot;br&quot;);
+		var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
 	var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
 
 	createTiddlyText(step,url+"/");
@@ -369,13 +371,12 @@ config.macros.ccCreateWorkspace = {
 	var anD = createTiddlyCheckbox(step, &quot;Delete Tiddlers&quot;, 0);
 	anD.id = 'anD';
 	createTiddlyElement(step,&quot;br&quot;);
-	createTiddlyElement(step,&quot;br&quot;);
-	createTiddlyElement(step,&quot;br&quot;);
+	createTiddlyElement(frm,&quot;br&quot;);
 
 	var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt,"button", "button");
 	 btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
 	 btn.value = &quot;create workspace&quot;
-	createTiddlyElement(frm,&quot;br&quot;);
+ 	createTiddlyElement(frm,&quot;br&quot;);
 	createTiddlyElement(frm,&quot;br&quot;);
 	//createTiddlyElement(step,&quot;h2&quot;, null, null,  &quot;Registered Users  Can:  &quot;);
 	//var usC = createTiddlyCheckbox(frm, &quot;Create Tiddlers&quot;, 1);
@@ -710,23 +711,29 @@ config.macros.ccUpload = {
 	            
 	            var frm = createTiddlyElement(wrapper,&quot;form&quot;,null, "wizard");
 	            frm.onsubmit = this.loginOnSubmit;
-	 			           var body = createTiddlyElement(frm,&quot;h1&quot;,null,null, "Please Login");
+	 			           var body = createTiddlyElement(frm,&quot;h1&quot;,null,null, "");
 	          
 	            createTiddlyText(frm,&quot;username/password should get you in.&quot;);	
+	            
+	            createTiddlyElement(frm,&quot;br&quot;);
+	            createTiddlyElement(frm,&quot;br&quot;);
 	            var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
 	            var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
 				
 	 //createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Login is Required&quot;);
 	            if (errorMsg!= null)
-	                createTiddlyElement(frm,&quot;span&quot;, null, null, errorMsg);
-	         createTiddlyElement(step,&quot;br&quot;);
-	            createTiddlyText(step,&quot;Username&quot;);
+	            {  
+	                createTiddlyElement(step,&quot;span&quot;, null, null, errorMsg);
+	          		createTiddlyElement(step,&quot;br&quot;);
+	          	}
+	         	createTiddlyElement(step,&quot;br&quot;);
+	            createTiddlyText(step,&quot;Username: &quot;);
 	            var txtuser = createTiddlyElement(step,&quot;input&quot;,&quot;cctuser&quot;, &quot;cctuser&quot;)
 	            if (cookieValues.txtUserName !=null) {
 	                txtuser.value =cookieValues.txtUserName ;
 	            }
 	            createTiddlyElement(step,&quot;br&quot;);
-	            createTiddlyText(step,&quot;Password&quot;);
+	            createTiddlyText(step,&quot;Password : &quot;);
 	            var txtpass = createTiddlyElement(step,&quot;input&quot;, 'cctpass','cctpass');
 	            txtpass.type='password';
 	            createTiddlyElement(frm,&quot;br&quot;);
@@ -749,7 +756,7 @@ config.macros.ccUpload = {
 	        removeChildren(loginDivRef);
 		     
 	        document.cookie = &quot;sessionToken=invalid;   expires=15/02/2009 00:00:00&quot;;
-	        config.macros.ccLogin.refresh(loginDivRef);
+	        //config.macros.ccLogin.refresh(loginDivRef);
 	        doHttp('POST', url+'msghandle.php', &quot;logout=1&quot;);
 	        		window.location = window.location;      
 	return false;
@@ -776,13 +783,15 @@ config.macros.ccUpload = {
 	        //    displayMessage('CONECTION was ok ');
 	        }
 	        var cookie = xhr.getResponseHeader (&quot;Set-Cookie&quot;);
-	displayMessage(xhr.responseText);
 	        var cookieValues;
 	        cookieValues = this.findToken(cookie);
 	        config.macros.ccLogin.saveCookie(cookieValues);
 	        if(xhr.status != 401) {
 				window.location = window.location;
 			} else {
+				if (xhr.responseText != "")
+					displayMessage(xhr.responseText);
+	
 				var loginDivRef = findRelated( params.origin,&quot;loginDiv&quot;,&quot;className&quot;,&quot;parentNode&quot;);
 		        removeChildren(loginDivRef);
 				config.macros.ccLogin.refresh(loginDivRef, 'Login Failed ');
