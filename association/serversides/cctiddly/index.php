@@ -343,7 +343,7 @@ config.macros.ccCreateWorkspace = {
 
 	var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
 	frm.onsubmit = this.createWorkspaceOnSubmit;
-	createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Create New Workspace &quot;);
+	createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;create new workspace &quot;);
 	createTiddlyElement(frm,&quot;br&quot;);
 	createTiddlyText(frm, "You can get your own TiddlyWiki by filling in the form below.");
 	createTiddlyElement(frm,&quot;br&quot;);
@@ -445,7 +445,6 @@ config.macros.ccListWorkspaces = {
 			echo "createTiddlyElement(place,&quot;br&quot;);";
 		}
 		?>
-		createTiddlyText(place, "a<?php echo  db_num_rows($result);?>");
 	}
 }
 

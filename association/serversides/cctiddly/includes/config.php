@@ -173,7 +173,7 @@ $tiddlyCfg['pref']['utf8'] = 0;
 		anonymous (include all users without username password pair)
 		user (users with username and password pair)
 */
-$tiddlyCfg['group']['admin'] = array("simonmcmanus");
+$tiddlyCfg['group']['admin'] = array("simon");
 
 /*
 	various config on privileges
@@ -213,7 +213,7 @@ $tiddlyCfg['privilege_misc']['default_privilege'] = "AUUU";		//default privilege
 //		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
 $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCfg['pref']['instance_settings'][0]['default_anonymous_perm'];
  $tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = $tiddlyCfg['pref']['instance_settings'][0]['default_user_perm'];
-
+  $tiddlyCfg['privilege_misc']['group_default_privilege']['admin'] = "AAAA";
 ////////////////////////////////////////////////////////ADVANCE PRIVILEGE for tags//////////////////////////////////////////////////////
 /*
 	assign privilege to specific tag using groups
@@ -223,7 +223,7 @@ $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCf
 		$tiddlyCfg['privilege']['anonymous']['systemConfig'] = "ADDD";
 */
 
-$tiddlyCfg['privilege']['admin']['systemConfig'] = "DDDD";
+$tiddlyCfg['privilege']['admin']['systemConfig'] = "AAAA";
 $tiddlyCfg['privilege']['user']['systemConfig'] = "AAAA";
 //The following privilege are for blog
 //$tiddlyCfg['privilege']['anonymous']['comments'] = "AADD";		//allow comments to be post anonymously
