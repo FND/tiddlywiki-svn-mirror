@@ -81,7 +81,7 @@ include_once($cct_base."includes/url.php");
 db_selectDB($tiddlyCfg['db']['name']);
 
 // create the instance if it does not already exist.
-debug('INS NAME'. $instance);	
+
 if ($instance == '')  
 {
 	$array['name'] = 'home';
@@ -97,10 +97,8 @@ if ($instance == '')
 //debug( count($tiddlyCfg['pref']['instance_settings']) );
 if (!isset($_POST['cctuser']) && count($tiddlyCfg['pref']['instance_settings']) < 1  )
 {	
-
 	if ($_POST)
 	{
-		debug('create page');
 		include($cct_base."includes/instance.php");
 		instance_create($_POST['ccCreateWorkspace'], $_POST['ccAnonPerm']);
 	}

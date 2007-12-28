@@ -447,6 +447,38 @@ config.macros.ccListWorkspaces = {
 		createTiddlyText(place, "a<?php echo  db_num_rows($result);?>");
 	}
 }
+
+config.macros.ccEditWorkspace = {
+	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
+		frm.onsubmit = this.createWorkspaceOnSubmit;
+		createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Edit Workspace Permissions :  &quot;);
+		var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
+		var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
+	
+		createTiddlyElement(step,&quot;h4&quot;, null, null,  &quot;Anonymous Users Can :  &quot;);
+		var anC = createTiddlyCheckbox(step, &quot;Create Tiddlers&quot;, 0);
+		anC.id='anC';
+		createTiddlyElement(step,&quot;br&quot;);
+		var  anR = createTiddlyCheckbox(step, &quot;Read Tiddler&quot;, 1);
+		anR.id = 'anR';
+		createTiddlyElement(step,&quot;br&quot;);
+		var anU = createTiddlyCheckbox(step, &quot;Updates Tiddlers &quot;, 0);
+		anU.id = 'anU';
+		createTiddlyElement(step,&quot;br&quot;);
+		var anD = createTiddlyCheckbox(step, &quot;Delete Tiddlers&quot;, 0);
+		anD.id = 'anD';
+		createTiddlyElement(step,&quot;br&quot;);
+		
+		createTiddlyElement(frm,&quot;br&quot;);
+		var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt,"button", "button");
+		 btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+		 btn.value = &quot;edit workspace permissions&quot;
+		createTiddlyElement(frm,&quot;br&quot;);
+		createTiddlyElement(frm,&quot;br&quot;);
+			}
+}
 //}}}
 </pre>
 </div>
