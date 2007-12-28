@@ -65,24 +65,30 @@ If you got one of the following error message, that may mean your database do no
 
 //////////////////////////////////////////////////////////////////////// manupulate values////////////////////////////////////////////////////.
 	//sort out instance name, only allow a-z, A-Z, 0-9, -_.
-	$tiddlyCfg['instance_name'] = preg_replace('![^a-zA-Z0-9\-_\.]!', '', $_GET['instance']);
+//  THIS WAS BREAKING THINGS SO I HAVE REMOVED IT FOR THE TIME BING.
+//	$tiddlyCfg['instance_name'] = preg_replace('![^a-zA-Z0-9\-_\.]!', '', $_GET['instance']);
 
 	//////////////////////////////////////////////////////// config file ////////////////////////////////////////////////////////
 	//include default config file first before the desired config based either on config variable or URL
 	//used for seamless upgrade as possible
 	// GLOBAL PREFERENCES THAT PERSIST ACCROSS ALL INSTANCES
 
+	
 $link = db_connectDB();
+
+include_once($cct_base."includes/url.php");
+
 db_selectDB($tiddlyCfg['db']['name']);
 
 // create the instance if it does not already exist.
-if ($tiddlyCfg['instance_name'] == '')  
+debug('INS NAME'. $instance);	
+if ($instance == '')  
 {
 	$array['name'] = 'home';
 	$tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
 } else {
 
-	$array['name'] = $tiddlyCfg['instance_name'];
+	$array['name'] = $instance;
 	$tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
 }
 
@@ -95,7 +101,7 @@ if (!isset($_POST['cctuser']) && count($tiddlyCfg['pref']['instance_settings']) 
 	{
 		debug('create page');
 		include($cct_base."includes/instance.php");
-		instance_create($tiddlyCfg['instance_name'], $_POST['ccAnonPerm']);
+		instance_create($_POST['ccCreateWorkspace'], $_POST['ccAnonPerm']);
 	}
 	else
 	{

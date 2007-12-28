@@ -327,8 +327,8 @@ else
 ***/
 //{{{
 
-//var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
-//var workspace = "<?php echo $tiddlyCfg['instance_name'];?>";
+var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
+	var workspace = "<?php echo $tiddlyCfg['instance_name'];?>";
 
 
 config.backstageTasks.push(&quot;create&quot;);

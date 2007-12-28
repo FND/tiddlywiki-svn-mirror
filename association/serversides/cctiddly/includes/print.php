@@ -94,6 +94,8 @@
 		//in cct online mode
 		if( !$standalone )
 		{
+				debug("instance name IS : ".$tiddlyCfg['instance_name']);
+			debug("print ".$tiddlyCfg['instance_name']);
 ?>
 //<![CDATA[
 //cctPlugin

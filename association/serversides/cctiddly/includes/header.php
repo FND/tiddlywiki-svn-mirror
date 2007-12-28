@@ -34,6 +34,7 @@
 
 	if(!isset($instance)) {
 		$instance= "";
+		debug("instance was not set s");
 		//exit("instance not exist");
 	}
 

@@ -2,17 +2,19 @@
 
 $tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
 
-
-
 // confirm instance name 
 if (isset($_REQUEST['instance'])) 
 {
 		$tiddlyCfg['instance_name'] = $_REQUEST['instance'];
+		$instance = $_REQUEST['instance'];  /// TODO : THESE SHOULD BE REDUCED TO ONE VAR
+		
 }
 else 	
 {
 	 	 $temp = str_replace('/', '', str_replace('/index.php', '', $_SERVER["REDIRECT_URL"])); 
 		$tiddlyCfg['instance_name'] = str_replace(str_replace("/", "", $tiddlyCfg['pref']['base_folder']), "", $temp);
+		$instance= $tiddlyCfg['instance_name']; // TODO : THESE SHOULD BE REDUCED TO ONE VAR
+		debug("instance name IS : ".$tiddlyCfg['instance_name']);
 }
 
 // build up the string for the uploads directory 
