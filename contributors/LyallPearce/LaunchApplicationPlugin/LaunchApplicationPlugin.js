@@ -3,42 +3,46 @@
 |''Author:''|Lyall Pearce|
 |''Source:''|http://www.Remotely-Helpful.com/TiddlyWiki/LaunchApplication.html|
 |''License:''|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''Version:''|1.3.1|
-|''~CoreVersion:''|2.2.4|
+|''Version:''|1.4.0|
+|''~CoreVersion:''|2.3.0|
 |''Requires:''| |
 |''Overrides:''| |
 |''Description:''|Launch an application from within TiddlyWiki using a button|
 !!!!!Usage
 <<<
 {{{<<LaunchApplication "buttonLabel" "tooltip" "application" ["arguments" ...]>>}}}
+{{{<<LaunchApplicationButton "buttonLabel" "tooltip" "application" ["arguments" ...]>>}}}
+{{{<<LaunchApplicationLink "buttonLabel" "tooltip" "application" ["arguments" ...]>>}}}
 * buttonLabel is anything you like
 * tooltip is anything you like
-* application is a path to the executable
+* application is a path to the executable (which is Operating System dependant)
 * arguments is any command line arguments the application requires.
 * You must supply relative path from the location of the TiddlyWiki OR a fully qualified path
 * Forward slashes works fine for Windows
 
+{{{<<LaunchApplication...>>}}} functions the same as {{{<<LaunchApplicationButton...>>}}}
+
 eg.
 
 {{{
-<<LaunchApplication "Emacs" "Linux Emacs" "file:///usr/bin/emacs">>
+<<LaunchApplicationButton "Emacs" "Linux Emacs" "file:///usr/bin/emacs">>
 }}}
-<<LaunchApplication "Emacs" "Linux Emacs" "file:///usr/bin/emacs">>
+<<LaunchApplicationButton "Emacs" "Linux Emacs" "file:///usr/bin/emacs">>
 
 {{{
-<<LaunchApplication "LocalProgram" "Program relative to Tiddly html file" "localDir/bin/emacs">>
+<<LaunchApplicationLink "LocalProgram" "Program relative to Tiddly html file" "localDir/bin/emacs">>
 }}}
-<<LaunchApplication "LocalProgram" "Program relative to Tiddly html file" "localDir/bin/emacs">>
+<<LaunchApplicationLink "LocalProgram" "Program relative to Tiddly html file" "localDir/bin/emacs">>
 					     
 {{{
-<<LaunchApplication "Open Notepad" "Text Editing" "file:///e:/Windows/notepad.exe">>
+<<LaunchApplicationButton "Open Notepad" "Text Editing" "file:///e:/Windows/notepad.exe">>
 }}}
-<<LaunchApplication "Open Notepad" "Text Editing" "file:///e:/Windows/notepad.exe">>
+<<LaunchApplicationButton "Open Notepad" "Text Editing" "file:///e:/Windows/notepad.exe">>
 
 {{{
-<<LaunchApplication "C Drive" "Folder" "file:///c:/">>
+<<LaunchApplicationLink "C Drive" "Folder" "file:///c:/">>
 }}}
-<<LaunchApplication "C Drive" "Folder" "file:///c:/">>
+<<LaunchApplicationLink "C Drive" "Folder" "file:///c:/">>
 
 
 !!!!!Revision History
@@ -46,12 +50,15 @@ eg.
 * 1.2.0 - Make launching work in Linux too and use displayMessage() to give diagnostics/status info.
 * 1.3.0 - execute programs relative to TiddlyWiki html file plus fix to args for firefox.
 * 1.3.1 - parameters to the macro are properly parsed, allowing dynamic paramters using {{{ {{javascript}} }}} notation.
+* 1.4.0 - updated core version and fixed empty tooltip and added launch link capability
 
 <<<
 ***/
 //{{{
-version.extensions.LaunchApplication = {major: 1, minor: 3, revision: 1, date: new Date(2007,8,7)};
+version.extensions.LaunchApplication = {major: 1, minor: 4, revision: 0, date: new Date(2007,12,29)};
 config.macros.LaunchApplication = {};
+config.macros.LaunchApplicationButton = {};
+config.macros.LaunchApplicationLink = {};
 
 function LaunchApplication(appToLaunch,appParams) {
     if(! appToLaunch)
@@ -142,8 +149,7 @@ function LaunchApplication(appToLaunch,appParams) {
 
 config.macros.LaunchApplication.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
     // 0=ButtonText, 1=toolTip, 2=AppToLaunch, 3...AppParameters
-    
-    if (params[0] && params[1] && params[2]) {
+    if (params[0] && (params[1] || params[1] == "") && params[2]) {
         var theButton = createTiddlyButton(place, getParam(params,"buttonText",params[0]), getParam(params,"toolTip",params[1]), onClickLaunchApplication);
         theButton.setAttribute("appToLaunch", getParam(params,"appToLaunch",params[2]));
         params.splice(0,3);
@@ -151,11 +157,26 @@ config.macros.LaunchApplication.handler = function (place,macroName,params,wikif
         return;
     }
 }
+config.macros.LaunchApplicationButton.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
+    config.macros.LaunchApplication.handler (place,macroName,params,wikifier,paramString,tiddler);
+}
 
-    function onClickLaunchApplication(e) {
+config.macros.LaunchApplicationLink.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
+    // 0=ButtonText, 1=toolTip, 2=AppToLaunch, 3...AppParameters
+    if (params[0] && (params[1] || params[1] == "") && params[2]) {
+        //var theLink = createExternalLink(place, getParam(params,"buttonText",params[0]));
+        var theLink = createTiddlyButton(place, getParam(params,"buttonText",params[0]), getParam(params,"toolTip",params[1]), onClickLaunchApplication,"link");
+        theLink.setAttribute("appToLaunch", getParam(params,"appToLaunch",params[2]));
+        params.splice(0,3);
+        theLink.setAttribute("appParameters", params.join(" "));
+        return;
+    }
+}
+
+function onClickLaunchApplication(e) {
 	var theAppToLaunch = this.getAttribute("appToLaunch");
 	var theAppParams = this.getAttribute("appParameters").readMacroParams();
 	LaunchApplication(theAppToLaunch,theAppParams);
-    }
+}
 
 //}}}
