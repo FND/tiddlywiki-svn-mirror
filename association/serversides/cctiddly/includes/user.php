@@ -35,7 +35,7 @@
 	// TODO : REMOVE verified = 1
 	function user_create($username="", $group="", $verified=0, $id="", $password="", $reqHash = 0)
 	{
-		global $user;
+		//global $user;
 		$user = array();
 		$user['id'] = (strlen($id)>0?(int)$id:"");		//if empty, leave it as empty. otherwise make it as int
 		//get username from cookie if nothing is passed
@@ -75,7 +75,7 @@
 	
 	function user_session_validate()
 	{ 
-		global $user;
+		//global $user;
 		
 	//	return TRUE;
 		db_connect_new();
@@ -87,7 +87,7 @@
 
 			if (count($results) > 0 )                   //  if the array has 1  session
 			{
-				$user['verified'] = 1;	
+				//$user['verified'] = 1;	
 				if($results[0]['expire'] > epochToTiddlyTime(time())) 
 				{
 					return TRUE;
@@ -107,10 +107,7 @@
 				return FALSE;		
 			}
 		}
-		else
-		{
-			return FALSE;
-		}
+		return FALSE;
 	}
 	
 	

@@ -85,6 +85,7 @@
 	{
 		global $tiddlyCfg;
 		global $ccT_msg;
+		global $user;
 		//compulsory
 		print "\n<script type=\"text/javascript\">\n";
 		
@@ -102,6 +103,7 @@
 
 var serverside={
 	url: "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>",		//server url, for use in local TW or TW hosted elsewhere
+	workspace:"<?php echo $tiddlyCfg['instance_name'];?>",
 	handle:{		//path of file for handling request, can be used to put in GET variable
 		rss: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/rss.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['instance_name'];?>",
 		uploadStoreArea: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/uploadstorearea.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['instance_name'];?>",		//for uploading the whole storearea
@@ -109,6 +111,7 @@ var serverside={
 		removeTiddler: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/delete.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['instance_name'];?>",
 		revisionList: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/revisionlist.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['instance_name'];?>",
 		revisionDisplay: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/revisiondisplay.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['instance_name'];?>",
+		createWorkspace: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/createworkspace.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['instance_name'];?>",
 		login: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&instance=<?php echo $tiddlyCfg['instance_name'];?>"
 	},
 	handle_msg:{		//message sent to server for action, used for posting message to server. null = not used
@@ -116,6 +119,7 @@ var serverside={
 		uploadStoreArea: "",
 		saveTiddler: "",
 		removeTiddler: "",
+		createWorkspace: "",
 		login: null
 	},
 	debug: <?php print $tiddlyCfg['developing'] ?>,		//debug mode, display alert box for each action
@@ -147,7 +151,8 @@ var serverside={
 
 cctPlugin = {
 	lingo:{
-		autoUpload:"<?php print $ccT_msg['optionPanel']['autoUpload'] ?>"
+		autoUpload:"<?php print $ccT_msg['optionPanel']['autoUpload'] ?>",
+		WSinUse:"<?php print $ccT_msg['ccCreateWorkspace']['WSinUse'] ?>"
 	}
 };
 
@@ -202,13 +207,15 @@ window.cct_tweak = function(){
 	
 	
 <?php
-	$usr = user_getUsername();
-	echo $usr_val = user_session_validate();
-	$usr = $usr_val?$usr:$ccT_msg['loginpanel']['anoymous'];
+	///////////////////////////////CC: user variable defined in header and $user['verified'] can be used directly to check user validation
+	//$usr = user_getUsername();
+	//$usr_val = user_session_validate();
+	//$usr = $usr_val?$usr:$ccT_msg['loginpanel']['anoymous'];
+	$usr = $user['verified']?$user['username']:$ccT_msg['loginpanel']['anoymous'];
 ?>
 	//login panel
 	config.options.txtUser = "<?php print $usr ?>";
-	config.shadowTiddlers.<?php print $ccT_msg['loginpanel']['name']?> ="<?php if($usr_val==0){?> \nYou are not logged in :\n\n [[Please Login]]<?php } else {?> <br><<ccLogin>><?php } ?>";
+	config.shadowTiddlers.<?php print $ccT_msg['loginpanel']['name']?> ="<?php if($user['verified']==0){?> \nYou are not logged in :\n\n [[Please Login]]<?php } else {?> <br><<ccLogin>><?php } ?>";
 //	config.shadowTiddlers.<?php print $ccT_msg['loginpanel']['name']?> ="<<ccLogin>>";
 
 };

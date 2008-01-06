@@ -636,3 +636,167 @@ function isCrossSite(url){
 	return (!result);
 
 }; 
+
+////////////////////////////////////////////////////////////////////////////////////////ccWorkspace
+/***
+|''Name:''|ccCreateWorkspace|
+|''Description:''|Allows users to create workspaces in ccTiddly|
+|''Version:''|2.1.5|
+|''Date:''|Nov 27, 2007|
+|''Source:''||
+|''Author:''|SimonMcManus|
+|''License:''|[[BSD open source license]]|
+|''~CoreVersion:''|2.1.6|
+|''Browser:''| Firefox |
+***/
+
+//var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
+//var workspace = "<?php echo $tiddlyCfg['instance_name'];?>";
+var url = serverside.url;
+var workspace = serverside.workspace;
+
+
+config.backstageTasks.push("create");
+merge(config.tasks,{
+    create: {text: "create", tooltip: "Creae", content:'<<ccCreateWorkspace>>'}});
+
+
+config.macros.ccCreateWorkspace = {
+
+	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+
+		var frm = createTiddlyElement(place,"form",null,"wizard");
+		frm.onsubmit = this.createWorkspaceOnSubmit;
+		createTiddlyElement(frm,"h1", null, null,  "create new workspace ");
+		createTiddlyElement(frm,"br");
+		createTiddlyText(frm, "You can get your own TiddlyWiki by filling in the form below.");
+		createTiddlyElement(frm,"br");
+			createTiddlyElement(frm,"br");
+			var body = createTiddlyElement(frm,"div",null, "wizardBody");
+		var step = createTiddlyElement(body,"div",null, "wizardStep");
+
+		createTiddlyText(step,url+"/");
+		var workspaceName = createTiddlyElement(step,"input","ccWorkspaceName", "ccWorkspaceName")				
+		workspaceName.value = workspace;
+		workspaceName.size = 15;
+		workspaceName.name = 'ccWorkspaceName';
+		createTiddlyElement(step,"br");
+
+		createTiddlyElement(step,"h4", null, null,  "Anonymous Users Can :  ");
+		var anC = createTiddlyCheckbox(step, "Create Tiddlers", 0);
+		anC.id='anC';
+		createTiddlyElement(step,"br");
+		var  anR = createTiddlyCheckbox(step, "Read Tiddler", 1);
+		anR.id = 'anR';
+		createTiddlyElement(step,"br");
+		var anU = createTiddlyCheckbox(step, "Updates Tiddlers ", 0);
+		anU.id = 'anU';
+		createTiddlyElement(step,"br");
+		var anD = createTiddlyCheckbox(step, "Delete Tiddlers", 0);
+		anD.id = 'anD';
+		createTiddlyElement(step,"br");
+		createTiddlyElement(frm,"br");
+
+		var btn = createTiddlyElement(frm,"input",this.prompt,"button", "button");
+		btn.setAttribute("type","submit");
+		btn.value = "create workspace"
+	 	createTiddlyElement(frm,"br");
+		createTiddlyElement(frm,"br");
+		//createTiddlyElement(step,"h2", null, null,  "Registered Users  Can:  ");
+		//var usC = createTiddlyCheckbox(frm, "Create Tiddlers", 1);
+		//usC.id = 'usC';
+		//createTiddlyElement(frm,"br");
+		//var usR = createTiddlyCheckbox(frm, "Read Tiddler", 1);
+		//usR.id = 'usR';
+		//createTiddlyElement(frm,"br");
+		//var usU = createTiddlyCheckbox(frm, "Updates Tiddlers ", 1);
+		//usU.id = 'usU';
+		//createTiddlyElement(frm,"br");
+		//var usD = createTiddlyCheckbox(frm, "Delete Tiddlers", 1);
+		//usD.id='usD';
+		//createTiddlyElement(frm,"br");
+		//createTiddlyElement(frm,"hr");
+		//createTiddlyText(frm,"As the Workspace owner you will have all the above permissions");
+		//createTiddlyElement(frm,"br");
+	},
+	createWorkspaceOnSubmit: function() {
+		var trueStr = "A";
+		var falseStr = "D";
+		// build up string with permissions values
+		var anon=(this.anR.checked?trueStr:falseStr);
+		anon+=(this.anC.checked?trueStr:falseStr);
+		anon+=(this.anU.checked?trueStr:falseStr);
+		anon+=(this.anD.checked?trueStr:falseStr);
+		//var user=(this.usC.checked?trueStr:falseStr);
+		//user+=(this.usR.checked?trueStr:falseStr);
+		//user+=(this.usU.checked?trueStr:falseStr);
+		//user+=(this.usD.checked?trueStr:falseStr);
+
+		var params = {}; 
+		params.url = url+'/'+this.ccWorkspaceName.value;
+		var loginResp = doHttp('POST', url+'/'+this.ccWorkspaceName.value,
+			"ccCreateWorkspace=" + encodeURIComponent(this.ccWorkspaceName.value)+"&ccAnonPerm="+encodeURIComponent(anon),
+			null,null,null, config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
+		return false; 
+
+	},
+	createWorkspaceCallback: function(status,params,responseText,uri,xhr) {
+	//	displayMessage(xhr.status);
+		if(xhr.status==201) {
+			window.location = params.url;
+			//displayMessage('workspace crated');				
+		} else if (xhr.status == 200) {
+			displayMessage(cctPlugin.lingo.WSinUse);
+		} else if (xhr.status == 400) {
+			displayMessage(xhr.responseText);	
+		}
+		return FALSE;
+	},		   
+
+}
+
+
+config.macros.ccListWorkspaces = {
+	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+		var item = createTiddlyElement(place, 'A', null, null,  "home");
+item.href= url+'/home';
+createTiddlyElement(place,"br");var item = createTiddlyElement(place, 'A', null, null,  "");
+item.href= url+'/';
+createTiddlyElement(place,"br");var item = createTiddlyElement(place, 'A', null, null,  "test");
+item.href= url+'/test';
+createTiddlyElement(place,"br");	}
+}
+
+config.macros.ccEditWorkspace = {
+	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+		var frm = createTiddlyElement(place,"form",null,"wizard");
+		frm.onsubmit = this.createWorkspaceOnSubmit;
+		createTiddlyElement(frm,"h1", null, null,  "Edit Workspace Permissions :  ");
+		var body = createTiddlyElement(frm,"div",null, "wizardBody");
+		var step = createTiddlyElement(body,"div",null, "wizardStep");
+	
+		createTiddlyElement(step,"h4", null, null,  "Anonymous Users Can :  ");
+		var anC = createTiddlyCheckbox(step, "Create Tiddlers", 0);
+		anC.id='anC';
+		createTiddlyElement(step,"br");
+		var  anR = createTiddlyCheckbox(step, "Read Tiddler", 1);
+		anR.id = 'anR';
+		createTiddlyElement(step,"br");
+		var anU = createTiddlyCheckbox(step, "Updates Tiddlers ", 0);
+		anU.id = 'anU';
+		createTiddlyElement(step,"br");
+		var anD = createTiddlyCheckbox(step, "Delete Tiddlers", 0);
+		anD.id = 'anD';
+		createTiddlyElement(step,"br");
+		
+		createTiddlyElement(frm,"br");
+		var btn = createTiddlyElement(frm,"input",this.prompt,"button", "button");
+		 btn.setAttribute("type","submit");
+		 btn.value = "edit workspace permissions"
+		createTiddlyElement(frm,"br");
+		createTiddlyElement(frm,"br");
+			}
+}

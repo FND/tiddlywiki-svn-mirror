@@ -6,10 +6,10 @@
 */
 //////////////////////////////////////////////////////// default configurations ////////////////////////////////////////////////////////
 	$tiddlyCfg['db']['type'] = "mysql";		//sql type
-	$tiddlyCfg['db']['host'] = "db";		//sql host
+	$tiddlyCfg['db']['host'] = "localhost";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
-	$tiddlyCfg['db']['pass'] = "0p3ns0urc3";		//login password
-	$tiddlyCfg['db']['name'] = "cctiddly_public";		//db name
+	$tiddlyCfg['db']['pass'] = "";		//login password
+	$tiddlyCfg['db']['name'] = "cctiddly";		//db name
 	
 	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
 	$tiddlyCfg['table']['suffix'] = "";					//suffix			suffix of file					suffix of table name
@@ -75,8 +75,6 @@ If you got one of the following error message, that may mean your database do no
 
 	
 $link = db_connectDB();
-
-include_once($cct_base."includes/url.php");
 
 db_selectDB($tiddlyCfg['db']['name']);
 

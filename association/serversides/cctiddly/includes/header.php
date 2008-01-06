@@ -113,9 +113,21 @@
 			}
 		}
 	}
-/////////////////////////////////////////////////////// check db accessability, forward to install if required////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////create user variable//////////////////////////////////////////////////
+	//get user and privilege and set variables
+	$user = user_create();
+	/*if( strlen($username)==0 && strlen($password)==0 )
+	{
+		$user = user_create();		//get username password from cookie
+	}else{
+		$user = user_create($username,"",0,"",$password,1);
+	}*/
+	//$modifier = $user['username'];			//this is always true in local TW, set modifier = username
+
+	
+/////////////////////////////////////////////////////// check db accessability, forward to install if required////////////////////////////////////////////////////
 	//check existance of db if not install script
-	if( strcmp(substr($_SERVER['PHP_SELF'],-11),"install.php") != 0 && strcmp(substr($_SERVER['PHP_SELF'],-11),"upgrade.php") != 0 )
+	/*if( strcmp(substr($_SERVER['PHP_SELF'],-11),"install.php") != 0 && strcmp(substr($_SERVER['PHP_SELF'],-11),"upgrade.php") != 0 )
 	{
 		$stop = $db_var['settings']['defaultStop'];
 		$handle = $db_var['settings']['handleError'];
@@ -133,4 +145,5 @@
 		}
 		$db_var['settings']['defaultStop'] = $stop;
 		$db_var['settings']['handleError'] = $handle;
-	}?>
+	}*/
+?>

@@ -4,7 +4,7 @@ include_once($cct_base."includes/header.php");
 include_once($cct_base."includes/tiddler.php");
 
 function instance_create($instance, $anonPerm="ADDD")
-{
+{debug("instace_create-instance: ".$instance);
 	if(!ctype_alnum($instance))
 	{
 		header('HTTP/1.0 400 Bad Request');

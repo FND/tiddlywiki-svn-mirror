@@ -91,6 +91,7 @@
 	$ccT_msg['optionPanel']['uploadAll'] = "Upload all tiddlers";
 	$ccT_msg['optionPanel']['uploadRSS'] = "uploadRSS";
 	$ccT_msg['optionPanel']['autoUpload'] = "auto upload RSS";
+	$ccT_msg['ccCreateWorkspace']['WSinUse'] = "Workspace name is already in use.";
 	
 	//LoginPanel, option panel
 	

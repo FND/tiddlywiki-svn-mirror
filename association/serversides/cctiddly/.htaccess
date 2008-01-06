@@ -9,8 +9,11 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 
 #rewrite anything to index.php i.e. example.com/test => example.com/
-RewriteRule ^.* index.php
-#RewriteRule ([^/]*)/$ index.php?%{QUERY_STRING}&instance=$1	[L]
+#RewriteRule ^.* index.php	[L]
+RewriteRule ([^/]*)/?$ index.php?instance=$1&%{QUERY_STRING}	[L]
+
+#RewriteRule ^.* index.php?%{QUERY_STRING}&instance=$1	[L]
+#note: GET variable are defined from '?' thus when variables are defined twice, the later one applies
 #RewriteRule ([^/]*)/?(.*)$ index.php?workspace=$1&a=$2
 #RewriteRule (\?.) index.php?workspace=$1 [L]
 #RewriteRule (.*) index.php?req_uri=%{REQUEST_URI}&req_filename=%{REQUEST_FILENAME}&script=%{SCRIPT_FILENAME}&q=%{QUERY_STRING} [L]

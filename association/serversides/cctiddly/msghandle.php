@@ -1,8 +1,6 @@
 <?php
 $cct_base = '';
 include_once("includes/header.php");
-
-
 //////////////////////////////// START of create instance ///////////////////////////////////////////////
 	//TODO ::  confirm that the user is loggedin properly.
 	if($_POST['instance_name'] || $_REQUEST['instance_name'])
@@ -13,6 +11,8 @@ include_once("includes/header.php");
         //TODO  to redirect to the page which has been created 
 	}
 //////////////////////////////// end of create instance ///////////////////////
+
+
 ///////////////////////////// START OF LOGIN BITS /////////////////////////////////////////////////	
 
 if( isset($_REQUEST['cctuser']) && isset($_REQUEST['cctpass']) )		//set cookie for login

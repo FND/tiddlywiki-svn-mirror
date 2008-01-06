@@ -517,5 +517,5 @@
 		}
 		return TRUE;
 	}
-
+debug("log breaker (situated below debug function)------------------------------------------------");
 ?>

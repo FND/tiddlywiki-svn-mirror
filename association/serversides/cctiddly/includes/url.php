@@ -1,7 +1,8 @@
 <?php 
-
 $tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
-
+debug("base folder: ".$tiddlyCfg['pref']['base_folder']);
+debug("request-instance: ".$_REQUEST['instance']);
+debug("QUERY_STRING: ".$_SERVER['QUERY_STRING']);
 // confirm instance name 
 if (isset($_REQUEST['instance'])) 
 {
@@ -11,15 +12,17 @@ if (isset($_REQUEST['instance']))
 }
 else 	
 {
-	 	 $temp = str_replace('/', '', str_replace('/index.php', '', $_SERVER["REDIRECT_URL"])); 
+	 	$temp = str_replace('/', '', str_replace('/index.php', '', $_SERVER["REDIRECT_URL"])); 
 		$tiddlyCfg['instance_name'] = str_replace(str_replace("/", "", $tiddlyCfg['pref']['base_folder']), "", $temp);
 		$instance= $tiddlyCfg['instance_name']; // TODO : THESE SHOULD BE REDUCED TO ONE VAR
 		debug("instance name IS : ".$tiddlyCfg['instance_name']);
 }
 
 // build up the string for the uploads directory 
- $tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder'].'/uploads/';  // location of the file upload directory - assumes is it under the root folder 
-
+	$tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder'].'/uploads/';  // location of the file upload directory - assumes is it under the root folder 
+//header("HTTP/1.0 404 Not Found");
+debug('REDIRECT_URL: '.$_SERVER['REDIRECT_URL']);
+//exit("see");
 if (isset($_SERVER['REDIRECT_URL']) )
 {
 	if (stristr($_SERVER['REDIRECT_URL'], 'msghandle.php')) {
