@@ -315,12 +315,184 @@ else
 	
 	
 
+	
+	
+<div title="ccWorkspace" modifier="ccTiddly"  tags="systemConfig excludeLists excludeSearch" >
+<pre>	/***
+|''Name:''|ccCreateWorkspace|
+|''Description:''|Allows users to create workspaces in ccTiddly|
+|''Version:''|2.1.5|
+|''Date:''|Nov 27, 2007|
+|''Source:''||
+|''Author:''|SimonMcManus|
+|''License:''|[[BSD open source license]]|
+|''~CoreVersion:''|2.1.6|
+|''Browser:''| Firefox |
+***/
+//{{{
 
-<div title="SiteProxy" modifier="ccTiddly" tags="systemTiddler ProxyService">
+var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
+	var workspace = "<?php echo $tiddlyCfg['instance_name'];?>";
+
+
+config.backstageTasks.push(&quot;create&quot;);
+merge(config.tasks,{
+    create: {text: &quot;create&quot;, tooltip: &quot;Creae&quot;, content:'&lt;&lt;ccCreateWorkspace&gt;&gt;'}});
+
+
+config.macros.ccCreateWorkspace = {
+
+	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+	// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+
+	var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
+	frm.onsubmit = this.createWorkspaceOnSubmit;
+	createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;create new workspace &quot;);
+	createTiddlyElement(frm,&quot;br&quot;);
+	createTiddlyText(frm, "You can get your own TiddlyWiki by filling in the form below.");
+	createTiddlyElement(frm,&quot;br&quot;);
+		createTiddlyElement(frm,&quot;br&quot;);
+		var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
+	var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
+
+	createTiddlyText(step,url+"/");
+	var workspaceName = createTiddlyElement(step,&quot;input&quot;,&quot;ccWorkspaceName&quot;, &quot;ccWorkspaceName&quot;)				
+	workspaceName.value = workspace;
+	workspaceName.size = 15;
+	workspaceName.name = 'ccWorkspaceName';
+	createTiddlyElement(step,&quot;br&quot;);
+
+	createTiddlyElement(step,&quot;h4&quot;, null, null,  &quot;Anonymous Users Can :  &quot;);
+	var anC = createTiddlyCheckbox(step, &quot;Create Tiddlers&quot;, 0);
+	anC.id='anC';
+	createTiddlyElement(step,&quot;br&quot;);
+	var  anR = createTiddlyCheckbox(step, &quot;Read Tiddler&quot;, 1);
+	anR.id = 'anR';
+	createTiddlyElement(step,&quot;br&quot;);
+	var anU = createTiddlyCheckbox(step, &quot;Updates Tiddlers &quot;, 0);
+	anU.id = 'anU';
+	createTiddlyElement(step,&quot;br&quot;);
+	var anD = createTiddlyCheckbox(step, &quot;Delete Tiddlers&quot;, 0);
+	anD.id = 'anD';
+	createTiddlyElement(step,&quot;br&quot;);
+	createTiddlyElement(frm,&quot;br&quot;);
+
+	var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt,"button", "button");
+	 btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+	 btn.value = &quot;create workspace&quot;
+ 	createTiddlyElement(frm,&quot;br&quot;);
+	createTiddlyElement(frm,&quot;br&quot;);
+	//createTiddlyElement(step,&quot;h2&quot;, null, null,  &quot;Registered Users  Can:  &quot;);
+	//var usC = createTiddlyCheckbox(frm, &quot;Create Tiddlers&quot;, 1);
+	//usC.id = 'usC';
+	//createTiddlyElement(frm,&quot;br&quot;);
+	//var usR = createTiddlyCheckbox(frm, &quot;Read Tiddler&quot;, 1);
+	//usR.id = 'usR';
+	//createTiddlyElement(frm,&quot;br&quot;);
+	//var usU = createTiddlyCheckbox(frm, &quot;Updates Tiddlers &quot;, 1);
+	//usU.id = 'usU';
+	//createTiddlyElement(frm,&quot;br&quot;);
+	//var usD = createTiddlyCheckbox(frm, &quot;Delete Tiddlers&quot;, 1);
+	//usD.id='usD';
+	//createTiddlyElement(frm,&quot;br&quot;);
+	//createTiddlyElement(frm,&quot;hr&quot;);
+	//createTiddlyText(frm,&quot;As the Workspace owner you will have all the above permissions&quot;);
+	//createTiddlyElement(frm,&quot;br&quot;);
+
+
+	},
+	createWorkspaceOnSubmit: function() {
+		var trueStr = "A";
+		var falseStr = "D";
+		// build up string with permissions values
+		var anon=(this.anR.checked?trueStr:falseStr);
+		anon+=(this.anC.checked?trueStr:falseStr);
+		anon+=(this.anU.checked?trueStr:falseStr);
+		anon+=(this.anD.checked?trueStr:falseStr);
+		//var user=(this.usC.checked?trueStr:falseStr);
+		//user+=(this.usR.checked?trueStr:falseStr);
+		//user+=(this.usU.checked?trueStr:falseStr);
+		//user+=(this.usD.checked?trueStr:falseStr);
+		var params = {}; 
+		  params.url = url+'/'+this.ccWorkspaceName.value;
+		 var loginResp = doHttp('POST', url+'/'+this.ccWorkspaceName.value, &quot;ccCreateWorkspace=&quot; + encodeURIComponent(this.ccWorkspaceName.value)+&quot;&amp;ccAnonPerm=&quot;+encodeURIComponent(anon),null,null,null, config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
+
+		return false; 
+
+	},
+		createWorkspaceCallback: function(status,params,responseText,uri,xhr) {
+		//	displayMessage(xhr.status);
+			if(xhr.status==201) {
+				window.location = params.url;
+				//displayMessage('workspace crated');				
+			} else if (xhr.status == 200) {
+				displayMessage("Workspace name is already in use.");
+			} else if (xhr.status == 400) {
+					displayMessage(xhr.responseText);	
+			}
+			return FALSE;
+		}
+
+}
+
+
+config.macros.ccListWorkspaces = {
+	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+		<?php
+		$sql = "SELECT * FROM ".$tiddlyCfg['table']['instance']." WHERe default_anonymous_perm LIKE 'A%'"; 
+		$result = db_query($sql);
+		while ($row = db_fetch_assoc(&$result))
+		{
+			echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['name']."&quot;);\n";
+			echo "item.href= url+'/".$row['name']."';\n";
+			echo "createTiddlyElement(place,&quot;br&quot;);";
+		}
+		?>
+		createTiddlyText(place, "a<?php echo  db_num_rows($result);?>");
+	}
+}
+
+config.macros.ccEditWorkspace = {
+	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
+		frm.onsubmit = this.createWorkspaceOnSubmit;
+		createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Edit Workspace Permissions :  &quot;);
+		var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
+		var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
+	
+		createTiddlyElement(step,&quot;h4&quot;, null, null,  &quot;Anonymous Users Can :  &quot;);
+		var anC = createTiddlyCheckbox(step, &quot;Create Tiddlers&quot;, 0);
+		anC.id='anC';
+		createTiddlyElement(step,&quot;br&quot;);
+		var  anR = createTiddlyCheckbox(step, &quot;Read Tiddler&quot;, 1);
+		anR.id = 'anR';
+		createTiddlyElement(step,&quot;br&quot;);
+		var anU = createTiddlyCheckbox(step, &quot;Updates Tiddlers &quot;, 0);
+		anU.id = 'anU';
+		createTiddlyElement(step,&quot;br&quot;);
+		var anD = createTiddlyCheckbox(step, &quot;Delete Tiddlers&quot;, 0);
+		anD.id = 'anD';
+		createTiddlyElement(step,&quot;br&quot;);
+		
+		createTiddlyElement(frm,&quot;br&quot;);
+		var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt,"button", "button");
+		 btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+		 btn.value = &quot;edit workspace permissions&quot;
+		createTiddlyElement(frm,&quot;br&quot;);
+		createTiddlyElement(frm,&quot;br&quot;);
+			}
+}
+//}}}
+</pre>
+</div>
+
+<div title="SiteProxy" modifier="ccTiddly" tags="systemTiddler ProxyService  excludeLists excludeSearch">
 <pre>handle/proxy.php?feed=</pre>
 </div>
 
-<div title="ccLoadRemoteFileThroughProxy" tags="systemConfig ProxyService">
+<div title="ccLoadRemoteFileThroughProxy" tags="systemConfig ProxyService excludeLists excludeSearch">
 <pre>
 /***
 |''Name:''|ccLoadRemoteFileThroughProxy (previous LoadRemoteFileHijack)|
@@ -353,7 +525,7 @@ else
 </pre>
 </div>
 
-<div title="ccAbout" modifier="ccTiddly" tags="systemConfig">
+<div title="ccAbout" modifier="ccTiddly" tags="systemConfig excludeLists excludeSearch">
 <pre>	/***
 	|''Name:''|ccAbout|
 	|''Description:''|Allows you to find out about your ccTiddly installation|
@@ -371,7 +543,7 @@ else
 	if(config.backstageTasks[0] == 'save');
 		config.backstageTasks.shift();
 	merge(config.tasks,{
-	    about: {text: &quot;about&quot;, tooltip: &quot;Find out more about ccTiddly &quot;, content: '&lt;&lt;ccAbout&gt;&gt;'},
+	    about: {text: &quot;about&quot;, tooltip: &quot;Find out more about ccTiddly &quot;, content: '&lt;&lt;ccAbout&gt;&gt;'}
 
 	});
 config.macros.ccAbout = {
@@ -397,7 +569,7 @@ config.macros.ccAbout = {
 	createTiddlyText(place, "<?php echo "and ccTiddly"; ?>");
 	createTiddlyLink(place,"ccTiddly","http://www.tiddlywiki.com");
 	
-	},
+	}
 }
 //}}}
 </pre>
@@ -406,18 +578,19 @@ config.macros.ccAbout = {
 
 	
 	
-<div title="ccUpload" modifier="ccTiddly" tags="systemConfig">
-<pre>	/***
-	|''Name:''|ccUpload|
-	|''Description:''|Allows users to upload files in ccTiddly|
-	|''Version:''|2.1.5|
-	|''Date:''|Nov 27, 2007|
-	|''Source:''||
-	|''Author:''|SimonMcManus|
-	|''License:''|[[BSD open source license]]|
-	|''~CoreVersion:''|2.1.6|
-	|''Browser:''| Firefox |
-	***/
+<div title="ccUpload" modifier="ccTiddly" tags="systemConfig excludeLists excludeSearch">
+<pre>	
+/***
+|''Name:''|ccUpload|
+|''Description:''|Allows users to upload files in ccTiddly|
+|''Version:''|2.1.5|
+|''Date:''|Nov 27, 2007|
+|''Source:''||
+|''Author:''|SimonMcManus|
+|''License:''|[[BSD open source license]]|
+|''~CoreVersion:''|2.1.6|
+|''Browser:''| Firefox |
+***/
 //{{{
 
 var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
@@ -459,7 +632,7 @@ config.macros.ccUpload = {
 		var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt);
 		btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
 		btn.value = &quot;Upload File &quot;;
-	},
+	}
 }
 //}}}
 </pre>
@@ -468,7 +641,7 @@ config.macros.ccUpload = {
 	
 	
 
-<div title="ccLogin" modifier="ccTiddly"  tags="systemConfig" >
+<div title="ccLogin" modifier="ccTiddly"  tags="systemConfig excludeLists excludeSearch" >
 <pre>	
 /***
 |''Name:''|ccLogin|
@@ -486,8 +659,7 @@ config.macros.ccUpload = {
 
 	config.backstageTasks.push(&quot;login&quot;);
 	merge(config.tasks,{
-	    login: {text: &quot;login&quot;, tooltip: &quot;Login to your TiddlyWiki&quot;, content: '&lt;&lt;ccLogin&gt;&gt;'},
-
+	    login: {text: &quot;login&quot;, tooltip: &quot;Login to your TiddlyWiki&quot;, content: '&lt;&lt;ccLogin&gt;&gt;'}
 	});
 	
 		var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
@@ -566,8 +738,8 @@ config.macros.ccUpload = {
 	            }
 	            createTiddlyElement(step,&quot;br&quot;);
 	            createTiddlyText(step,&quot;Password : &quot;);
-	            var txtpass = createTiddlyElement(step,&quot;input&quot;, 'cctpass','cctpass');
-	            txtpass.type='password';
+	            var txtpass = createTiddlyElement(step,&quot;input&quot;, &quot;cctpass&quot;,&quot;cctpass&quot;);
+	          txtpass.setAttribute(&quot;type&quot;,&quot;password&quot;);
 	            createTiddlyElement(frm,&quot;br&quot;);
 	            var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt, "button");
 	            btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
@@ -606,11 +778,12 @@ config.macros.ccUpload = {
 	        var params = {}; 
 	        params.origin = this;
 	        var loginResp = doHttp('POST', url+'/msghandle.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
-	        return false;
+	    
+	       return false;
 	    },
 
 	    loginCallback: function(status,params,responseText,uri,xhr) {
-
+	        
 	        if (status==true) {
 	        //    displayMessage('CONECTION was ok ');
 	        }
@@ -618,6 +791,7 @@ config.macros.ccUpload = {
 	        var cookieValues;
 	        cookieValues = this.findToken(cookie);
 	        config.macros.ccLogin.saveCookie(cookieValues);
+	
 	        if(xhr.status != 401) {
 				window.location = window.location;
 			} else {
@@ -649,6 +823,7 @@ config.macros.ccUpload = {
 
 </pre>
 </div>
+
 
 <?php
 	if( $standalone )
