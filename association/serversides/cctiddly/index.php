@@ -783,7 +783,7 @@ config.macros.ccUpload = {
 	    },
 
 	    loginCallback: function(status,params,responseText,uri,xhr) {
-	        
+	        alert('sdsd');
 	        if (status==true) {
 	        //    displayMessage('CONECTION was ok ');
 	        }
