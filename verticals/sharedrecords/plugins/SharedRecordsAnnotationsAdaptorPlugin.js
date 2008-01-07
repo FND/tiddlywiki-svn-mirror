@@ -3,7 +3,7 @@
 |''Description:''|Shared Records Annotations API Adaptor|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/SharedRecords/adaptors/SharedRecordsAnnotationsAdaptorPlugin.js |
-|''Version:''|0.0.4|
+|''Version:''|0.0.5|
 |''Status:''|Beta release|
 |''Date:''|Nov 19, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -215,8 +215,8 @@ SharedRecordsAnnotationsAdaptor.prototype.getTiddler = function(title,context,us
 		context.title = title;
 	var uriTemplate = context.revision ? '%0annotations/%1/%2%3?format=json' : '%0annotations/%1/%2?format=json';
 	var uri = uriTemplate.format([context.host,context.workspace,SharedRecordsAnnotationsAdaptor.normalizedTitle(title),context.revision]);
-
-	var req = SharedRecordsAnnotationsAdaptor.doHttpGET(uri,SharedRecordsAnnotationsAdaptor.getTiddlerCallback,context);
+	var contentType = 'text/html';
+	var req = SharedRecordsAnnotationsAdaptor.doHttpGET(uri,SharedRecordsAnnotationsAdaptor.getTiddlerCallback,context,null,null,contentType);
 //#displayMessage("getTiddler uri:"+uri);
 	return typeof req == 'string' ? req : true;
 };
@@ -256,7 +256,7 @@ SharedRecordsAnnotationsAdaptor.getTiddlerCallback = function(status,context,res
 			tiddler.fields['server.host'] = SharedRecordsAnnotationsAdaptor.minHostName(context.host);
 			tiddler.fields['server.workspace'] = context.workspace;
 			tiddler.fields['server.page.revision'] = String.zeroPad(10,t['sharedRecords.sequenceNumber']);
-			tiddler.fields['content.type'] = t.contentType;
+			//tiddler.fields['content.type'] = t.contentType;
 			context.tiddler = tiddler;
 		} catch (ex) {
 			context.statusText = exceptionText(ex,SharedRecordsAnnotationsAdaptor.serverParsingErrorMessage);
@@ -293,7 +293,7 @@ SharedRecordsAnnotationsAdaptor.prototype.putTiddler = function(tiddler,context,
 	sequenceNumber = sequenceNumber === undefined ? -1 : parseInt(sequenceNumber,10);
 	sequenceNumber = -1; // Just for the moment
 	var contentType = tiddler.fields['content.type'];
-	if(contentType === undefined)
+	if(!contentType)
 		contentType = 'text/html';
 	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
 	var jsonTiddler = jsonEntry.format([
@@ -316,7 +316,7 @@ SharedRecordsAnnotationsAdaptor.prototype.putTiddler = function(tiddler,context,
 //#displayMessage("put uri:"+uri);
 
 	var data = jsonWrapper.format([jsonTiddler]);
-	var req = SharedRecordsAnnotationsAdaptor.doHttpPOST(uri,SharedRecordsAnnotationsAdaptor.putTiddlerCallback,context,null,data);
+	var req = SharedRecordsAnnotationsAdaptor.doHttpPOST(uri,SharedRecordsAnnotationsAdaptor.putTiddlerCallback,context,null,data,contentType);
 
 	return typeof req == 'string' ? req : true;
 };
