@@ -2,7 +2,7 @@
 |''Name:''|MicroformatPlugin|
 |''Description:''|Assist constructing Microformats in a TiddlyWiki|
 |''Author:''|PaulDowney|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/MicroformatPlugin.js |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/Plugins/MicroformatPlugin.js |
 |''Version:''|0.0.1|
 |''Date:''|Dec 03, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -36,10 +36,10 @@ version.extensions.Microformat = {installed:true};
 		className = macroName;
 		var format = "";
 
-		if(params.length > 0) {
+		if(params[0]) {
 		    value = store.getValue(tiddler,params[0]);
 		}
-		if(params.length > 1) {
+		if(params[1]) {
 		    format = store.getValue(tiddler,params[1]);
 		}
 
