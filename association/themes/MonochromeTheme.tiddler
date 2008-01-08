@@ -1,0 +1,246 @@
+<div title="MonochromeTheme" modifier="Saq Imtiaz" created="200701130013" tags="systemTheme excludeSearch">
+<pre>
+|''Name:''|MonochromeTheme|
+|''Description:''|Monochrome Theme for TiddlyWiki|
+|''Author:''|Saq Imtiaz|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/MonochromeTheme.tiddler |
+|''Version:''|1.0|
+|''Date:''|Jan 13, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~StyleSheet:''|##StyleSheet|
+|''~PageTemplate:''|##PageTemplate|
+
+!PageTemplate
+<!--{{{-->
+<div id='header' class='header' macro='gradient vert #555555 #3b3b3b'>
+<div class='siteTitle' refresh='content' tiddler='SiteTitle'></div>
+<span id='topMenu' refresh='content' tiddler='MainMenu'></span>
+</div>
+
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+!StyleSheet
+/*{{{*/
+body {background:#3B3B3B; color:#C3C3C3; font:12px Verdana, Helvetica, sans-serif;}
+
+#header {padding: 0em 0em 0em 0em; background:transparent;	font-family: arial,helvetica; font-size:12px;}
+
+.siteTitle {
+padding-top:5px;
+float:left;
+font-family: 'Trebuchet MS' sans-serif;
+font-weight: bold;
+font-size: 32px;
+color: #ccc; margin-right:2em;margin-left:0.5em;
+}
+
+#topMenu br {display:none;}
+#topMenu a, #topMenu .tiddlyLink, #topMenu .button {margin:0em; color:#666; padding:15px 15px 10px 15px;padding-top:1.6em;border:none; border-right: 1px solid #666;float:left;}
+#topMenu {border-left: 1px solid #666;  float:left;margin:0;}
+#topMenu a:hover {color:#ccc; background:#3b3b3b;}
+
+#displayArea {margin-left:1.35em; margin-right:17.65em; margin-top:0.5em; padding-top:1em; padding-bottom:10px;}
+
+.tiddler {background:#454545; margin-bottom:20px; padding:1em 2em 1em 2em;}
+
+a, a:hover{
+color:#fff;
+text-decoration: none; background:transparent;
+}
+
+.viewer a, .viewer a:hover {border-bottom:1px dotted #fff; font-weight:normal;}
+
+.viewer .button, .editorFooter .button {
+color: #fff;
+border: 1px solid #fff;
+}
+
+.viewer .button:hover,
+.editorFooter .button:hover, .viewer .button:active, .viewer .highlight,.editorFooter .button:active, .editorFooter .highlight {
+color: #fff;
+background: #3B3B3B;
+border-color: #3B3B3B;
+}
+
+.title {color:#ccc; font-family:'Lucida Grande', Verdana, Sans-Serif; font-size:1.5em;}
+
+.subtitle, .subtitle a {color:#777;font-size:0.95em;margin:0.2em;}
+.shadow .title {color:#777;}
+
+.toolbar {font-size:90%;}
+.selected .toolbar a {color:#666;border:0;}
+.selected .toolbar a:hover {color:#999; background:transparent;border:0;}
+
+.toolbar .button:hover, .toolbar .highlight, .toolbar .marked, .toolbar a.button:active{color:#666;border:0; background:transparent;border:0;}
+
+.tagging, .tagged {
+border: 1px solid #555;
+background-color:#444;
+}
+
+.selected .tagging, .selected .tagged {
+background-color:#3B3B3B;
+border: 1px solid #666;
+}
+
+.tagging .listTitle, .tagged .listTitle {
+color:#666;
+}
+
+.selected .tagging .listTitle, .selected .tagged .listTitle {
+color:#aaa;
+}
+
+.tagging .button, .tagged .button {
+color:#838383;
+}
+.selected .tagging .button, .selected .tagged .button {
+color:#c3c3c3;
+}
+
+.highlight, .marked {background:transparent; color:#111; border:none; text-decoration:underline;}
+
+.tagging .button:hover, .tagged .button:hover, .tagging .button:active, .tagged .button:active {
+border: none; background:transparent; text-decoration:underline; color:#333;
+}
+
+#sidebarOptions {margin-top:1em;}
+#sidebar {margin-right:1.35em;}
+
+#sidebarTabs .tabContents {	
+font-family: arial,helvetica;
+}
+
+#sidebarOptions a, #sidebarOptions a:hover{border:none;color:#666;}
+#sidebarOptions a:hover, #sidebarOptions a:active {background:#454545; color:#ccc;}
+#sidebarTabs .tabContents {background:#454545;border:0px solid #666; border-right:1px solid #454545;}
+#sidebarOptions input {background:#ccc; border:1px solid #666;}
+
+#sidebarTabs .tabContents .tiddlyLink, #sidebarTabs .tabContents .button{color:#666;font-weight:normal;}
+#sidebarTabs .tabContents .tiddlyLink:hover, #sidebarTabs .tabContents .button:hover {color:#ccc; background:transparent;}
+.listTitle {color:#777;}
+
+#sidebarTabs .tabSelected,#sidebarTabs .tabSelected:hover{background:#454545;border:none;color:#ccc; border:1px solid #454545;}
+#sidebarTabs .tabUnselected {background:#3B3B3B; border:1px solid #454545; color:#666;}
+
+#sidebarTabs .txtMoreTab .tabSelected,
+#sidebarTabs .txtMoreTab .tab:hover,
+#sidebarTabs .txtMoreTab .tabContents {
+color: #ccc;
+background: #3B3B3B; border:1px solid #3B3B3B;
+}
+
+#sidebarTabs .txtMoreTab .tabUnselected {
+color: #777; border:1px solid #3B3B3B;
+background: #454545;
+}
+
+
+#sidebarTabs .tabContents .button:hover, #sidebarTabs .tabContents .highlight, #sidebarTabs .tabContents .marked, #sidebarTabs .tabContents a.button:active{color:#ccc; background:transparent;}
+
+#sidebarOptions .sliderPanel {
+background: #454545; font-size: .9em;
+}
+
+#sidebarOptions .sliderPanel input {border:1px solid #666; background:#ccc;}
+#sidebarOptions .sliderPanel .txtOptionInput {border:1px solid #666;width:9em;}
+
+#sidebarOptions .sliderPanel a {font-weight:normal; color:#666;background-color: #454545; border-bottom:1px dotted #333;}
+
+#sidebarOptions .sliderPanel a:hover {
+color:#ccc;
+background-color: #454545;
+border:none;
+border-bottom:1px dotted #111;
+}
+
+.popup {
+background: #3B3B3B;
+border: 1px solid #454545;
+}
+
+.popup li.disabled {
+color: #000;
+}
+
+.popup li a, .popup li a:visited {
+color: #777;
+border: none;
+}
+
+.popup li a:hover {
+background: #3b3b3b;
+color: #c3c3c3;
+border: none;
+}
+.popup hr {
+color: #777;
+background: #777;
+border-bottom: 1px;
+}
+
+.listBreak div{border-bottom: 1px solid #777;}
+
+#messageArea {
+border: 4px dotted #ccc;
+background: #454545;
+color: #777;
+font-size:90%;
+}
+
+#messageArea .button{
+color: #3B3B3B;
+background:#ccc;
+border: 1px solid #ccc;
+}
+
+#messageArea .button:hover {
+color: #ccc;
+background: #3B3B3B;
+border-color: #3B3B3B;
+}
+
+.viewer blockquote {
+border-left: 5px solid #3B3B3B; background:#3B3B3B
+}
+
+.viewer table, .viewer td {
+border: 1px solid 	#2E2E2E;
+}
+
+.viewer th, thead td {
+background: #3B3B3B;
+border: 1px solid #3B3B3B;
+color: #ccc;
+}
+.viewer pre {
+border: 1px solid #3b3b3b;
+background: #5F5F5F;
+}
+
+.viewer code {color: #c3c3c3; background:#5f5f5f;}
+
+.viewer hr {border-top: dashed 1px #222; margin:0 1em;}
+
+.editor input {border: 1px solid #ccc; margin-top:5px;}
+
+.editor textarea {border: 1px solid #ccc;}
+
+h1,h2,h3,h4,h5 { color:#9c9c9c; background: transparent; padding-bottom:2px; font-family: Arial, Helvetica, sans-serif;}
+h1 {font-size:18px;}
+h2 {font-size:16px;}
+h3 {font-size: 14px;}
+/*}}}*/
+</pre>
+</div>
