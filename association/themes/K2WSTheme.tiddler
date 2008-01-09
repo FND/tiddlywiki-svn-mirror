@@ -1,0 +1,446 @@
+<div title="K2WSTheme" modifier="Saq Imtiaz" created="200701130013" tags="systemTheme excludeSearch">
+<pre>
+|''Name:''|K2WSTheme|
+|''Description:''|Orange Theme for TiddlyWiki|
+|''Author:''|Saq Imtiaz|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/K2WSTheme.tiddler |
+|''Version:''|1.0|
+|''Date:''|Jan 13, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~SideBarOptions:''|##SideBarOptions|
+|''~StyleSheet:''|##StyleSheet|
+
+!PageTemplate
+<!--{{{-->
+<div class='header' macro='gradient vert #FFF #FFF'>
+<div class='gradient'> 
+<div class='titleLine'>
+<span class='searchBar' macro='search'></span>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div id='topMenu' refresh='content' tiddler='MainMenu'></div>
+</div>
+</div>
+<div id='bodywrapper'>
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' tiddler='K2WSTheme##SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<div id='displayFooter'></div>
+</div>
+<!--}}}-->
+
+!SideBarOptions
+<<closeAll>><<permaview>><<newTiddler>><<newJournal 'DD MMM YYYY'>><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel 'options »' 'Change TiddlyWiki advanced options'>>
+
+!StyleSheet
+/***
+General
+***/
+/*{{{*/
+body {
+background: #EDEDED;
+}
+
+#contentWrapper {
+background: #fff;
+border:1px solid #DDD;
+margin: 0 1em;
+padding:0;
+height:1%;
+}
+/*}}}*/
+
+
+/***
+Links
+***/
+/*{{{*/
+a,
+a.tiddlyLink,
+a.button,
+a.externalLink,
+#sidebarOptions .sliderPanel a {
+color: #1D65BC;
+text-decoration: none;
+background: transparent;
+border: 0;
+}
+
+a:hover,
+a.tiddlyLink:hover,
+a.button:hover,
+a.externalLink:hover,
+#sidebarOptions .sliderPanel a:hover {
+border: 0;
+color: #1D65BC;
+text-decoration: underline;
+background:transparent;
+}
+/*}}}*/
+
+/***
+Header
+***/
+/*{{{*/
+.gradient {margin-top:1em; background:#3371A3;}
+
+.titleLine {padding: 30px 40px 15px 30px;}
+
+.titleLine a:hover {color:#fff; border-bottom:1px dotted #eee; text-decoration:none;}
+
+.titleLine a {color:#fff; border-bottom:1px dotted #ccc;}
+
+.siteTitle {
+font-size: 2.2em;
+font-weight: bold;
+color:#fff;
+}
+
+.siteSubtitle {
+font-size: 1.0em;
+display: block;
+margin: .3em auto 1em;
+color:#fff;
+}
+/*}}}*/
+
+/***
+Top Menu
+***/
+/*{{{*/
+#topMenu br {display:none; }
+#topMenu { background: #3371A3; font-size:1em; }
+#topMenu { padding:5px 32px; }
+#topMenu .button, #topMenu .tiddlyLink {
+ margin-left:0.1em; margin-right:0.1em;
+ padding:0.5em;
+ color:white; font-weight:bold;
+}
+#topMenu a.button:hover, #topMenu a.tiddlyLink:hover { background:#fff; color:#333; text-decoration:none;}
+/*}}}*/
+
+/***
+Display
+***/
+/***
+Display General
+***/
+/*{{{*/
+#displayArea { margin: 0em 15.7em 0em 0em; }
+
+#displayFooter {
+clear: both;
+}
+/*}}}*/
+
+/***
+Tiddler
+***/
+/*{{{*/
+.tiddler {margin-bottom:1em; padding-bottom:1em;}
+
+.tiddler {padding-left:1.5em;}
+
+.title {color:#333; font-size:1.8em; border-bottom:1px solid #333; padding-bottom:0.3px;}
+
+.subtitle {font-size:90%; color:#bbb; padding-left:0.25em; margin-top:0.1em;}
+
+.shadow .title {
+color: #aaa;
+}
+
+h1,h2,h3,h4,h5 {color: #333; background: transparent; padding-bottom:2px; border-bottom: 1px dotted #666;}
+
+* html .viewer pre {
+margin-left: 0em;
+}
+
+.viewer hr {
+border: 0;
+border-top: solid 1px #333;
+margin: 0 8em;
+color: #333;
+}
+
+.viewer a.button {color:#000; border:1px solid #1D65BC; font-weight:bold;}
+
+.viewer a.button:hover {color:#fff; background:#3371a3; text-decoration:none;}
+
+.tagClear {clear:none;}
+/*}}}*/
+
+/***
+Editor
+***/
+/*{{{*/
+* html .editor textarea, * html .editor input {
+width: 98%;
+}
+/*}}}*/
+
+/***
+Sidebar
+***/
+/*{{{*/
+#sidebar{
+position:relative;
+float:right;
+margin-bottom:1em;
+display:inline;
+width: 16em;
+}
+
+.toolbar .button {color:#bbb; border:none;}
+.toolbar .button:hover, .toolbar .highlight, .toolbar .marked, .toolbar a.button:active {background:transparent; color:#111; border:none; text-decoration:underline;}
+
+.tiddler {border-bottom:3px solid #EEF1F3; padding-bottom:2em; padding-top:0em;}
+.title {border-bottom:none; margin-right:8em;}
+
+h1,h2,h3,h4,h5 { color: #333; background: transparent; padding-bottom:2px; border-bottom: none; }
+
+#sidebar {background: #EBEEF1 ; right:0;}
+
+#displayFooter {
+clear: both;
+}
+
+#tiddlerDisplay{padding-top:1em;}
+
+#sidebar .tabSelected, #sidebar .tabSected:hover {
+color: #000;
+background: #dbdee3;
+border-top: solid 1px #B2B6BE;
+border-left: solid 1px #B2B6BE;
+border-right: solid 1px #B2B6BE;
+border-bottom:solid 1px #dbdee3 !important;
+padding-bottom:1px;
+text-decoration:none;
+}
+
+#sidebarOptions, #sidebarTabs {border-left: 1px solid #B2B6BE;}
+#sidebarTabs {border-bottom: 1px solid #B2B6BE;}
+
+#sidebar .tabUnselected, #sidebar .tabUnselected:hover {
+color: #F0F3F5;
+background: #B2B6BE ;
+border: solid 1px #B2B6BE ;
+padding-bottom:1px;
+}
+
+#sidebarTabs .tabContents {border:none; background:#DBDEE3;}
+
+#sidebarTabs .tabContents {border-top:1px solid #B2B6BE;}
+
+#sidebarTabs .tabContents .tabContents {border-left:1px solid #b2b6be;}
+
+.viewer pre, .viewer code {
+border: 1px solid #B2B6BE;
+background: #EBEEF1;
+} 
+
+#sidebarOptions .sliderPanel {
+background: #EBEEF1; border:none;
+}
+
+#sidebarOptions input {
+border: 1px solid #1d65bc;
+}
+
+#sidebarOptions input:hover, #sidebarOptions input:active, #sidebarOptions input:focus {
+border: 1px inset #3371a3;
+}
+
+.tagging, .tagged {
+border: 1px solid #dbdee3;
+background-color: #ebeef1;
+}
+
+.selected .tagging, .selected .tagged {
+background-color: #dbdee3;
+border: 1px solid #B2B6BE;
+}
+
+.tagging .listTitle, .tagged .listTitle {
+color: #bbb;
+}
+
+.selected .tagging .listTitle, .selected .tagged .listTitle {
+color: #014; 
+}
+
+.tagging .button:hover, .tagged .button:hover {
+border: none; background:transparent; text-decoration:underline; color:#014;
+}
+
+.tagged .highlight, .tagged .marked, .tagged a.button:active {text-decoration:underline; background:transparent; color:#014;}
+
+.tagging .button, .tagged .button {
+color:#bbb;
+}
+
+.selected .tagging .button, .selected .tagged .button {
+color:#014;
+}
+
+.viewer blockquote {
+border-left:7px solid #ebeef1;
+}
+
+.viewer table {
+border: 1px solid #3371a3;
+}
+
+.viewer th, thead td {
+background: #3371a3;
+border: 1px solid #3371a3;
+color: #fff;
+}
+
+.viewer td, .viewer tr {
+border: 1px solid #3371a3;
+}
+
+.editor input, .editor textarea {
+border: 1px solid #1d65bc; background:#ebeef1;
+}
+
+.editor {padding-top:0.3em;}
+
+.editor textarea:focus, .editor input:focus {
+border: 1px inset #3371a3; background:#fff;
+}
+
+.popup {
+background: #3371a3;
+border: 1px solid #333;
+}
+
+.popup hr {
+color: #333;
+background: #333;
+border-bottom: 1px;
+}
+
+.popup li.disabled {
+color: #333;
+}
+
+.popup li a, .popup li a:visited {
+color: #eee;
+border: none;
+}
+
+.popup li a:hover {
+background: #3371a3;
+color: #fff;
+border: none;
+text-decoration:underline;
+}
+
+.viewer .button:active, .viewer .marked, .viewer .highlight {
+color: #fff !important;
+background: #3371a3;
+border: 0;
+}
+
+.button:active {background:#1d65bc; border:0;}
+
+#sidebar .button:active, #sidebar .marked, #sidebar .highlight {color:#014; background:transparent;text-decoration:none}
+
+#messageArea {
+border: 2px dashed #3371a3;
+background: #dbdee3;
+color: #fff;
+font-size:90%;
+}
+
+#messageArea .button {
+color: #1d65bc;
+background: #ebeef1;
+text-decoration:none;
+font-weight:bold;
+border:none; 
+}
+
+#messageArea a.button {color:#1d65bc;}
+
+#messageArea .button:hover {text-decoration:underline;}
+
+.viewer .tabSelected, .viewer .tabSelected:hover{
+color: #014;
+background: #eee;
+border-left: 1px solid #B2B6BE;
+border-top: 1px solid #B2B6BE;
+border-right: 1px solid #B2B6BE;
+}
+
+.viewer .tabUnselected, .viewer .tabUnselected:hover {
+color: #fff;
+background: #B2B6BE;
+}
+
+.viewer .tabContents {
+color: #014;
+background: #ebeef1;
+border: 1px solid #B2B6BE;
+}
+
+.searchBar {float:right; font-size:0.9em;}
+.searchBar .button {display:block; border:none; color:#ccc;}
+.searchBar .button:hover{border:none; color:#eee;}
+
+.searchBar input{
+border: 1px inset #1d65bc; background:#dbdee3;
+}
+
+.searchBar input:focus {
+border: 1px inset #3371a3; background:#fff;
+}
+
+.blog h2, .blog h3, .blog h4{
+margin:0;
+padding:0;
+border-bottom:none;
+}
+
+.blog {margin-left:1.5em;}  
+
+.blog .excerpt {
+margin:0;
+margin-top:0.3em;
+padding: 0;
+margin-left:1em;
+padding-left:1em;
+font-size:90%;
+border-left:1px solid #ddd;
+}
+
+#tiddlerWhatsNew h1, #tiddlerWhatsNew h2 {border-bottom:none;}
+div[tags~="RecentUpdates"], div[tags~="lewcidExtension"] {margin-bottom: 2em;}
+
+#topMenu .fontResizer {float:right;}
+
+#topMenu .fontResizer .button{border:1px solid #3371A3;}
+#topMenu .fontResizer .button:hover {border:1px solid #fff; color:#3371A3;}
+#sidebarTabs .txtMainTab .tiddlyLinkExisting {
+font-weight: normal;
+font-style: normal;
+}
+
+#sidebarTabs .txtMoreTab .tiddlyLinkExisting {
+font-weight: bold;
+font-style: normal;
+}
+/*}}}*/
+</pre>
+</div>
