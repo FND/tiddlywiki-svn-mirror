@@ -1,0 +1,66 @@
+<div title="MonkymindTheme" modifier="RobertLindsay" modified="200701290000" tags="systemTheme excludeSearch">
+<pre>
+|''Name:''|MonkymindTheme|
+|''Description:''|Monkymind Theme for TiddlyWiki|
+|''Author:''|Robert Lindsay|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/MonkymindTheme.tiddler |
+|''Version:''|1.0|
+|''Date:''|Jan 29, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~SideBarOptions:''|##SideBarOptions|
+|''~StyleSheet:''|##StyleSheet|
+
+!PageTemplate
+<!-- More ideas shamesslessly begged, borrowed or stolen from Simon Baird, Clint Checketts and Christine Hodges -->
+<!--{{{-->
+<div class='header' macro="gradient vert #04b #18f">
+<div id='topMenu'>
+<span refresh='content' tiddler='SiteTitle'></span>
+<span refresh='content' tiddler='MainMenu'></span>
+</div>
+</div>
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' tiddler='MonkymindTheme##SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+!SideBarOptions
+<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal 'DD MMM YYYY'>><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel 'options »' 'Change TiddlyWiki advanced options'>>
+
+!StyleSheet
+/% The default TW colours with modified layout. Ideas shamesslessly taken from (and suggested by) Simon Baird, Clint Checketts and Christine Hodges %/
+/*{{{*/
+.headerForeground {display: none;}
+#sidebar {width: 170px;}
+#sidebarTabs .tabContents {width: 158px;}
+#displayArea {background: #fff;margin: 1em 15.7em 0em 1em;}
+#topMenu {background: transparent; padding: 6px;margin-left: -5px; border-bottom: solid 3px #0457ce;}
+#topMenu .button,  #topMenu .tiddlyLink, tiddlyLinkExisting, #topMenu .externalLink {
+color: #fff;
+text-align: center;
+font-weight: bold;
+font-size: 1.1em;
+text-decoration: none;
+letter-spacing: 1.5px;
+background: transparent;
+border-right: solid 1px #fff;
+padding: 5px 15px 8px 15px;
+}
+#topMenu a:hover {
+color: #fff;
+background: #18f;
+}
+#topMenu br {display: none; padding-right: 1em;}
+#topMenu span .tiddlyLinkNonExisting {font-style:normal;}
+/*}}}*/
+</pre>
+</div>
