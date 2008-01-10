@@ -17,7 +17,7 @@
 !PageTemplate
 <!--{{{-->
 <div class='header' macro='gradient vert #FFF #FFF'>
-<div class='gradient'> 
+<div class='gradient'>
 <div class='titleLine'>
 <span class='searchBar' macro='search'></span>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
@@ -136,7 +136,7 @@ Display
 Display General
 ***/
 /*{{{*/
-#displayArea { margin: 0em 15.7em 0em 0em; }
+#displayArea {margin: 0em 15.7em 0em 0em;}
 
 #displayFooter {
 clear: both;

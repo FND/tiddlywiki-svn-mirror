@@ -1,6 +1,5 @@
 <div title="Blueberry2Theme" modifier="Robert Lindsay" created="200701230833" tags="systemTheme excludeSearch">
 <pre>
-
 |''Name:''|Blueberry2Theme|
 |''Description:''|Blueberry2 Theme for TiddlyWiki - a colour variation on Berry2|
 |''Author:''|Robert Lindsay|
@@ -15,14 +14,13 @@
 |''~SideBarOptions:''|##SideBarOptions|
 |''~StyleSheet:''|##StyleSheet|
 
-
 !PageTemplate
-/%More ideas shamesslessly begged, borrowed or stolen from..... Simon Baird, Clint Checketts and Christine Hodges :))%/
+<!-- More ideas shamesslessly begged, borrowed or stolen from..... Simon Baird, Clint Checketts and Christine Hodges :)) -->
 <!--{{{-->
 <div class='header' macro="gradient vert #00005a #0000ad">
 	<div id='topMenu'>
 		<span refresh='content' tiddler='SiteTitle'></span>
-		<span refresh='content' tiddler='MainMenu'></span></div>
+		<span refresh='content' tiddler='MainMenu'></span>
 	</div>
 </div> 
 <div id='sidebar'>
