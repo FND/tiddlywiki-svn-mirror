@@ -17,7 +17,14 @@ To make this example into a real TiddlyWiki adaptor, you need to:
 # Globally search and replace example with the name of your macro
 # Update the header text above with your description, name etc
 # Do the actions indicated by the !!TODO comments, namely:
-## Write the code for the macro
+## Write the code for the plugin
+## Write the documentation for the plugin
+
+!!Description
+//!!TODO write a brief description of the plugin here
+
+!!Usage
+//!!TODO describe how to use the plugin - how a user should include it in their TiddlyWiki, parameters to the plugin etc
 
 ***/
 
