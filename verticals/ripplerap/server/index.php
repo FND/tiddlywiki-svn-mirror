@@ -1,6 +1,6 @@
 <?php
 
-$title = "LeWeb";
+$title = basename(dirname(__FILE__));
 
 function list_filename($f, $n="") 
 {

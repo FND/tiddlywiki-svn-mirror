@@ -4,7 +4,7 @@
 #  limit the number
 #
 export name="$1"
-[ -z "$name" ]&&name="LeWeb"
+[ -z "$name" ]&&name=$(basename "$PWD")
 
 export latest_nitems="$2"
 [ -z "$latest_nitems" ]&&latest_nitems=60

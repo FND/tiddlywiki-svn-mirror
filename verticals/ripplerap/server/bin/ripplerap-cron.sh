@@ -1,6 +1,14 @@
 #!/bin/sh
 #
 #   script to build ripplerap feed from individual RSS feeds
+#   change the ripplerapdir variable to point to your server directory
+#
+#	the following is an example crontab line to periodically run 
+#	ripplerap.sh every minute:
+#
+#	*/1 * * * * /path/to/ripplerap/bin/ripplerap-cron.sh
+#
+#	add it to your cron server using crontab -e command
 #
 set -e
 export ripplerapdir=/data/vhost/www.ripplerap.com/html/LeWeb
