@@ -96,38 +96,43 @@ Installing the Code:
 
     2) unzip the code into the Web server directory where you want RippleRap to run e.g.:
     
-            $ cd /data/vhost/www.ripplerap.com/html/LeWeb
-            $ wget http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/server/package/ripplerap-server.zip
-            $ unzip ripplerap-server.zip
+	$ cd /data/vhost/www.ripplerap.com/html/LeWeb
+	$ wget http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/server/package/ripplerap-server.zip
+	$ unzip ripplerap-server.zip
 
-            You might wish to protect the passwords provided by users when registering, 
-            in which case you can setup SSL for the reg directory as follows:
 
-            <VirtualHost foobar:80>
-                    ServerAdmin webmaster@osmosoft.com
-                    ServerName www.ripplerap.com
-                    ServerAlias osmosoft.com
-                    DocumentRoot /data/vhost/www.ripplerap.com/html
-                    <Directory /data/vhost/www.ripplerap.com/html>
-                            Options -Indexes FollowSymlinks MultiViews
-                            AllowOverride None
-                            Order allow,deny
-                            allow from all
-                    </Directory>
-                    <Directory /data/vhost/www.ripplerap.com/html/LeWeb/reg/>
-                          SSLRequireSSL
-                    </Directory>            
-            </VirtualHost>
+Protecting Registration using HTTPS:
 
-       for more information see:
-       http://httpd.apache.org/docs/2.0/ssl/
+    You might wish to protect the passwords provided by users when registering, 
+    in which case you can setup SSL for the reg directory in your httpd.conf as follows:
+
+	<VirtualHost foobar:80>
+		ServerAdmin webmaster@osmosoft.com
+		ServerName www.ripplerap.com
+		ServerAlias osmosoft.com
+		DocumentRoot /data/vhost/www.ripplerap.com/html
+		<Directory /data/vhost/www.ripplerap.com/html>
+			Options -Indexes FollowSymlinks MultiViews
+			AllowOverride None
+			Order allow,deny
+			allow from all
+		</Directory>
+		<Directory /data/vhost/www.ripplerap.com/html/LeWeb/reg/>
+		      SSLRequireSSL
+		</Directory>            
+	</VirtualHost>
+
+   for more information see:
+   http://httpd.apache.org/docs/2.0/ssl/
 
 Configuring User Directories:
 
     Each user is allocated their own directory to host their notes in the form of an RSS
-    feed. The user directory MUST be available via WebDAV. The reg/index.php script
-    generates a subdirectory for each user, protecting writes using 
-    .htaccess and .htpasswd files.
+    feed. The user directory MUST be available via WebDAV. 
+    http://httpd.apache.org/docs/2.0/mod/mod_dav.html
+
+    The reg/index.php script generates a subdirectory for each user, 
+    protecting writes using a local .htaccess and .htpasswd file.
 
 Configuring the Feed Aggregator:
 
@@ -152,6 +157,8 @@ Configuring Mojo:
 
     RippleRap includes a simple example of using BT Mojo, which was used at LeWeb
     to allow a user to ring the Osmosoft bat phone from their mobile phone.
+    You can add your own bat phone by setting your Mojo username, gadgetid, 
+    authorized gadgetsecret and bat phone telephone number in conf/mojoBatphoneKeys.php 
         
 See Also:
     http://ripplerap.com
