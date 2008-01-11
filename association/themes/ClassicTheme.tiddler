@@ -1,0 +1,445 @@
+<div title="ClassicTheme" modifier="Jeremy Ruston" created="200701130000" tags="systemTheme">
+<pre>/***
+|''Name:''|ClassicTheme|
+|''Description:''|TiddlyWiki Classic Theme|
+|''Author:''|Jeremy Ruston|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/ClassicTheme.tiddler |
+|''Version:''|1.0|
+|''Date:''|Jan 13, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+!PageTemplate
+<!--{{{-->
+<div class='header'>
+<div class='titleLine'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+</div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='sidebar'>
+<div macro='gradient vert #ffffff #cc9900'><a> </a><div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+</div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+!StyleSheet
+/***
+Colors Used
+*@@bgcolor(#630):color(#fff): #630@@
+*@@bgcolor(#930): #930@@
+*@@bgcolor(#996633): #963@@
+*@@bgcolor(#c90): #c90@@
+*@@bgcolor(#cf6): #cf6@@
+*@@bgcolor(#cc9): #cc9@@
+*@@bgcolor(#ba9): #ba9@@
+*@@bgcolor(#996): #996@@
+*@@bgcolor(#300):color(#fff): #300@@
+*@@bgcolor(#000000):color(#fff): #000@@
+*@@bgcolor(#666): #666@@
+*@@bgcolor(#888): #888@@
+*@@bgcolor(#aaa): #aaa@@
+*@@bgcolor(#ddd): #ddd@@
+*@@bgcolor(#eee): #eee@@
+*@@bgcolor(#ffffff): #fff@@
+*@@bgcolor(#f00): #f00@@
+*@@bgcolor(#ff3): #ff3@@
+***/
+/***
+Generic Rules
+***/
+/*{{{*/
+body {
+background: #fff;
+color: #000;
+}
+
+a {
+color: #963;
+}
+
+a:hover {
+background: #963;
+color: #fff;
+}
+
+a img{
+border: 0;
+}
+
+h1,h2,h3,h4,h5 {
+background: #cc9;
+}
+/*}}}*/
+/***
+Header
+***/
+/*{{{*/
+.header{
+background: #300;
+}
+
+.titleLine {
+ color: #fff;
+ padding: 5em 0em 1em .5em;
+}
+
+.titleLine a {
+ color: #cf6;
+}
+
+.titleLine a:hover {
+ background: transparent;
+}
+/*}}}*/
+/***
+Main Menu
+***/
+/*{{{*/
+#mainMenu .button {
+color: #930;
+}
+
+#mainMenu .button:hover {
+color: #cf6;
+background: #930;
+}
+
+#mainMenu li{
+list-style: none;
+}
+/*}}}*/
+/***
+Sidebar options
+~TiddlyLinks and buttons are treated identically in the sidebar and slider panel
+***/
+/*{{{*/
+#sidebar {
+background: #c90;
+right: 0;
+}
+
+#sidebarOptions a{
+color: #930;
+border: 0;
+margin: 0;
+padding: .25em .5em;
+}
+
+#sidebarOptions a:hover {
+color: #cf6;
+background: #930;
+}
+
+#sidebarOptions a:active {
+color: #930;
+background: #cf6;
+}
+
+#sidebarOptions .sliderPanel {
+background: #eea;
+margin: 0;
+}
+
+#sidebarOptions .sliderPanel a {
+color: #930;
+}
+
+#sidebarOptions .sliderPanel a:hover {
+color: #cf6;
+background: #930;
+}
+
+#sidebarOptions .sliderPanel a:active {
+color: #930;
+background: #cf6;
+}
+/*}}}*/
+/***
+Sidebar tabs
+***/
+/*{{{*/
+.tabSelected,.tabContents {
+background: #eea;
+border: 0;
+}
+
+.tabUnselected {
+background: #c90;
+}
+
+#sidebarTabs {
+background: #c90;
+}
+
+#sidebarTabs .tabSelected{
+color: #cf6;
+background: #963;
+}
+
+#sidebarTabs .tabUnselected {
+color: #cf6;
+background: #930;
+}
+
+#sidebarTabs .tabContents{
+background: #963;
+}
+
+#sidebarTabs .txtMoreTab .tabSelected,
+#sidebarTabs .txtMoreTab .tabSelected:hover{
+background: #930;
+color: #cf6;
+}
+
+#sidebarTabs .txtMoreTab .tabUnselected,
+#sidebarTabs .txtMoreTab .tabUnselected:hover{
+background: #300;
+color: #cf6;
+}
+
+#sidebarTabs .txtMoreTab .tabContents {
+background: #930;
+}
+
+#sidebarTabs .tabContents a {
+color: #cf6;
+border: 0;
+}
+
+#sidebarTabs .button.highlight,
+#sidebarTabs .tabContents a:hover {
+background: #cf6;
+color: #300;
+}
+/*}}}*/
+/***
+Message Area
+***/
+/*{{{*/
+#messageArea {
+background: #930;
+color: #fff;
+}
+
+#messageArea a:link, #messageArea a:visited {
+color: #c90;
+}
+
+#messageArea a:hover {
+color: #963;
+background: transparent;
+}
+
+#messageArea a:active {
+color: #fff;
+}
+/*}}}*/
+/***
+Popup
+***/
+/*{{{*/
+.popup {
+background: #eea;
+border: 1px solid #930;
+}
+
+.popup hr {
+color: #963;
+background: #963;
+border-bottom: 1px;
+}
+
+.popup li.disabled {
+color: #ba9;
+}
+
+.popup li a, .popup li a:visited {
+color: #300;
+}
+
+.popup li a:hover {
+background: #930;
+color: #eea;
+}
+/*}}}*/
+/***
+Tiddler Display
+***/
+/*{{{*/
+.tiddler .button {
+color: #930;
+}
+
+.tiddler .button:hover {
+color: #cf6;
+background: #930;
+}
+
+.tiddler .button:active {
+color: #fff;
+background: #c90;
+}
+
+.shadow .title {
+color: #888;
+}
+
+.title {
+color: #422;
+}
+
+.subtitle {
+color: #866;
+}
+
+.toolbar {
+color: #aaa;
+}
+
+.toolbar a,
+.toolbar a:hover{
+border: 0;
+}
+
+.tagging, .tagged {
+border: 1px solid #fff;
+background-color: #ffc;
+}
+
+.selected .tagging, .selected .tagged {
+border: 1px solid #aa6;
+background-color: #ffc;
+}
+
+.tagging .listTitle, .tagged .listTitle {
+color: #999999;
+}
+
+.footer {
+color: #ddd;
+}
+
+.selected .footer {
+color: #888;
+}
+
+.sparkline {
+background: #eea;
+border: 0;
+}
+
+.sparktick {
+background: #930;
+}
+
+.errorButton {
+color: #ff0;
+background: #f00;
+}
+
+.zoomer {
+color: #963;
+border: 1px solid #963;
+}
+/*}}}*/
+/***
+''The viewer is where the tiddler content is displayed''
+***/
+/*{{{*/
+.viewer .button {
+background: #c90;
+color: #300;
+border-right: 1px solid #300;
+border-bottom: 1px solid #300;
+}
+
+.viewer .button:hover {
+background: #eea;
+color: #c90;
+}
+
+.viewer .imageLink{
+background: transparent;
+}
+
+.viewer blockquote {
+border-left: 3px solid #666;
+}
+
+.viewer table {
+border: 2px solid #303030;
+}
+
+.viewer th, thead td {
+background: #996;
+border: 1px solid #606060;
+color: #fff;
+}
+
+.viewer td, .viewer tr {
+border: 1px solid #606060;
+}
+
+.viewer pre {
+border: 1px solid #963;
+background: #eea;
+}
+
+.viewer code {
+color: #630;
+}
+
+.viewer hr {
+border: 0;
+border-top: dashed 1px #606060;
+color: #666;
+}
+
+.highlight, .marked {
+background: #ff3;
+}
+/*}}}*/
+/***
+''The editor replaces the viewer in the tiddler''
+***/
+/*{{{*/
+.editor input {
+border: 1px solid #000;
+}
+
+.editor textarea {
+border: 1px solid #000;
+width: 100%;
+}
+
+.editorFooter {
+color: #aaa;
+}
+
+.editorFooter a {
+color: #930;
+}
+
+.editorFooter a:hover {
+color: #cf6;
+background: #930;
+}
+
+.editorFooter a:active {
+color: #fff;
+background: #c90;
+}
+/*}}}*/
+</pre>
+</div>
