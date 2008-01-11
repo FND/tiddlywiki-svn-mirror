@@ -3,11 +3,31 @@
 |''Description:''|Synchronizes TiddlyWikis with RSS feeds|
 |''Author:''|Osmosoft|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.15|
+|''Version:''|0.0.16|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.2.6|
+
+!!Description
+
+This plugin uses the RSSAdaptor and WebDavLib to periodically:
+# download tiddlers from the specified download feed
+# upload user notes to the speficied upload feed
+
+The feeds are standard TiddlyWiki feeds (that is tiddlers tagged "systemServer) that are additionally tagged with "ripplerap"
+and either "notes" "upload" or "updates". "notes" specifies the root uri of where from which other are downloaded. "upload" speficies
+the uri where the user's notes are uploaded. "updates" specifies the uri of the conference agenda, this feed is used to make any
+last minute changes to the conference agenda.
+
+!!Usage
+
+Set up the "note", "upload" and "updates" feeds.
+
+Requires the RSS Adaptor: http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/adaptors/RSSAdaptor.js
+Requires WebDavLib: http://svn.tiddlywiki.org/Trunk/contributors/SaqImtiaz/plugins/WebDavLib.js
+
+If required, set config.options.txtRippleRapInterval (in seconds). Default is 60 seconds.
 
 ***/
 
@@ -43,6 +63,7 @@ function RssSynchronizer()
 
 RssSynchronizer.userNameNotSet = "You have not set your username";
 
+// logging function, for debug
 RssSynchronizer.log = function(x)
 {
 	if(!config.options.chkDisplayStartupTime)// reuse this flag for now
@@ -102,8 +123,8 @@ RssSynchronizer.prototype.getInterval = function()
 	return t;
 };
 
-// Do a single sync operation, designed to be called off a timer
-// on each call it downl
+// If no sync requests are outstanding then queue a sync request on a timer.
+// Alternates between upload and download requests.
 RssSynchronizer.prototype.makeRequest = function()
 {
 	if(!config.options.chkRipplerapShare)
