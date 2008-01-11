@@ -1,0 +1,161 @@
+RippleRap Server
+--------- ------
+
+    RippleRap is a TiddlyWiki for taking conference notes which 
+    may be shared with other RippleRap users. 
+
+    Each conference needs a separate RippleRap instance of the 
+    RippleRap server software and each RippleRap client will need 
+    the URI of the server configured inside it, along with a copy
+    of the Agenda, and other conference specific notes.
+
+    For LeWeb, the server instance was installed at
+	http://www.ripplerap.com/LeWeb and configured in the RippleRap
+	clients in the MakeNotesControlPlugin tiddler as follows:
+
+        config.macros.ripplerapAccountButton.serverBaseURL 
+	     	= "https://www.ripplerap.com/LeWeb/";
+
+
+Prerequisites:
+
+    * an Apache Web server visible to the RippleRap clients
+    * a WebDAV enabled directory on the Apache server
+	* cron with Bourne or Bash shell
+    * PHP 5.1 or later
+    * Python 2.5
+			
+			
+Server Files:
+
+    * index.php
+     a simple PHP to present an index page of current RippleRap activity
+
+	* reg/index.php
+     a PHP Web form to create a WebDAV account for each RippleRap user
+
+    * ripplerap.sh 
+     feed aggregator shell script to explode feeds then build then
+
+	* ripplerap-cron.sh 
+     shell script suitable for calling ripplerap.sh from cron
+
+    * ripplerap.py
+     python script to explode an RSS feed into individual notes
+
+ 	* build-feeds.sh
+	  shell script to reassemble individual notes into the per-session 
+	  and latest RSS feeds
+
+	* mojoBatphone.php
+	 a PHP form, allowing a RippleRap user to phone a bat phone using BT Mojo:
+	 http://mojo.bt.com
+	 depends upon a user token, password and bat telephone number being configued 
+	 in mojoBatphoneKeys.php [this functionality is independent of the note taking
+	 and is optional]
+	
+
+Server Directories:
+
+	* users
+	  each RippleRap user is given their own, password protected, WebDAV directory
+	  http://ripplerap.com/LeWeb/users/
+
+	* notes
+	  the feed aggregator splits each user contributed RSS feed into 
+	  a series of notes held in the notes directory
+	  http://ripplerap.com/LeWeb/notes/
+
+	* feeds
+	  the feed aggregator combines the split notes into a single RSS feed for each session:
+	  http://ripplerap.com/LeWeb/feeds/
+	  and a RSS feed containing the latest notes:
+	  http://ripplerap.com/LeWeb/feeds/latest.xml
+	
+	* conf
+	  directory hidden from the Web server, containing Mojo secrets and other passwords
+	
+	* bin
+	  shell and python scripts
+	
+	* lib
+	  copy of Venus, used to parse RSS feeds:
+	  http://intertwingly.net/code/venus/
+
+
+Installing the Code:
+
+    1) obtain a copy of the server code.
+
+	   the latest version of the RippleRap source, including the server code,
+	   is available from Subversion repository:
+	   http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/
+	
+       and a periodic snapshot of the server component is made available, here:
+       http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/server/package/ripplerap-server.zip
+
+
+	2) unzip the code into the Web server directory where you want RippleRap to run e.g.:
+	
+		$ cd /data/vhost/www.ripplerap.com/html/LeWeb
+		$ wget http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/server/package/ripplerap-server.zip
+		$ unzip ripplerap-server.zip
+
+		You might wish to protect the passwords provided by users when registering, 
+		in which case you can setup SSL for the reg directory as follows:
+
+		<VirtualHost foobar:80>
+			ServerAdmin webmaster@osmosoft.com
+			ServerName www.ripplerap.com
+			ServerAlias osmosoft.com
+			DocumentRoot /data/vhost/www.ripplerap.com/html
+			<Directory /data/vhost/www.ripplerap.com/html>
+			        Options -Indexes FollowSymlinks MultiViews
+			        AllowOverride None
+			        Order allow,deny
+			        allow from all
+			</Directory>
+			<Directory /data/vhost/www.ripplerap.com/html/LeWeb/reg/>
+			      SSLRequireSSL
+			</Directory>		
+		</VirtualHost>
+
+       for more information see:
+       http://httpd.apache.org/docs/2.0/ssl/
+
+Configuring User Directories:
+
+    Each user is allocated their own directory to host their notes in the form of an RSS
+    feed. 
+
+
+Configuring the Feed Aggregator:
+
+    The RSS files supplied by users are aggregated on the sever into a feed for each
+    session, as well as a feed containing the latest notes. 
+
+	The script
+
+   	1) edit ripplerap-cron.sh and change the value for the "ripplerapdir" environment variable	
+	   to point to the directory where the server code is installed, e.g.
+	
+	   $ vi bin/ripplerap-cron.sh
+	   export ripplerapdir=/data/vhost/www.ripplerap.com/html/LeWeb
+
+
+    2) configure cron to run the ripplerap-cron.sh script periodically,
+	   e.g. the following crontab line will run ripplerap.sh every minute
+	
+	   */1 * * * * /path/to/ripplerap/bin/ripplerap-cron.sh
+	
+	   You can edit your crontab on most machines using the "crontab -e" command.
+	
+Configuring Mojo:
+
+    RippleRap includes a simple example of using BT Mojo, which was used at LeWeb
+    to allow a user to ring the Osmosoft bat phone from their mobile phone.
+	
+See Also:
+    http://ripplerap.com
+    http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/server/
+    http://mojo.bt.com
