@@ -5,7 +5,7 @@
 
 cd ..
 
-zipfile="package/ripplerap.zip"
+zipfile="package/ripplerap-server.zip"
 rm -f $zipfile
 
 (
