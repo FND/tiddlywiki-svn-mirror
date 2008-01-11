@@ -4,7 +4,7 @@ RippleRap Server
     RippleRap is a TiddlyWiki for taking conference notes which 
     may be shared with other RippleRap users. 
 
-    Each conference needs a separate RippleRap instance of the 
+    Each conference should have a separate RippleRap instance of the 
     RippleRap server software and each RippleRap client will need 
     the URI of the server configured inside it, along with a copy
     of the Agenda, and other conference specific notes.
@@ -72,7 +72,7 @@ Server Directories:
       http://ripplerap.com/LeWeb/feeds/latest.xml
     
     * conf
-      directory hidden from the Web server, containing Mojo secrets and other passwords
+      directory hidden from the Web server, containing Mojo secrets
     
     * bin
       shell and python scripts
@@ -86,12 +86,12 @@ Installing the Code:
 
     1) obtain a copy of the server code.
 
-	    the latest version of the RippleRap source, including the server code,
-	    is available from Subversion repository:
-	    http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/
+	the latest version of the RippleRap source, including the server code,
+	is available from Subversion repository:
+	http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/
         
-       and a periodic snapshot of the server component is made available, here:
-       http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/server/package/ripplerap-server.zip
+	and a periodic snapshot of the server component is made available, here:
+	http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/server/package/ripplerap-server.zip
 
 
     2) unzip the code into the Web server directory where you want RippleRap to run e.g.:
@@ -125,9 +125,9 @@ Installing the Code:
 Configuring User Directories:
 
     Each user is allocated their own directory to host their notes in the form of an RSS
-    feed. The user directory must be available via WebDAV. The reg/index.php script
-    generates a subdirectory for each user, protected by the user supplied password 
-    using .htaccess and .htpasswd files..
+    feed. The user directory MUST be available via WebDAV. The reg/index.php script
+    generates a subdirectory for each user, protecting writes using 
+    .htaccess and .htpasswd files.
 
 Configuring the Feed Aggregator:
 
