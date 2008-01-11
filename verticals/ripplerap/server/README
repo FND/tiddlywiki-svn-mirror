@@ -16,7 +16,6 @@ RippleRap Server
         config.macros.ripplerapAccountButton.serverBaseURL 
                 = "https://www.ripplerap.com/LeWeb/";
 
-
 Prerequisites:
 
     * an Apache Web server visible to the RippleRap clients
@@ -24,7 +23,6 @@ Prerequisites:
     * cron with Bourne or Bash shell
     * PHP 5.1 or later
     * Python 2.5
-                        
                         
 Server Files:
 
@@ -35,7 +33,8 @@ Server Files:
      a PHP Web form to create a WebDAV account for each RippleRap user
 
     * ripplerap.sh 
-     feed aggregator shell script to explode feeds then build then
+     feed aggregator shell script to explode user RSS feeds into notes,
+     then build them into the per-session and latest RSS feeds
 
     * ripplerap-cron.sh 
      shell script suitable for calling ripplerap.sh from cron
@@ -44,8 +43,8 @@ Server Files:
      python script to explode an RSS feed into individual notes
 
     * build-feeds.sh
-      shell script to reassemble individual notes into the per-session 
-      and latest RSS feeds
+     shell script to reassemble individual notes into the per-session 
+     and latest RSS feeds, called by ripplerap.sh
 
     * mojoBatphone.php
      a PHP form, allowing a RippleRap user to phone a bat phone using BT Mojo:
@@ -87,9 +86,9 @@ Installing the Code:
 
     1) obtain a copy of the server code.
 
-           the latest version of the RippleRap source, including the server code,
-           is available from Subversion repository:
-           http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/
+	    the latest version of the RippleRap source, including the server code,
+	    is available from Subversion repository:
+	    http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/
         
        and a periodic snapshot of the server component is made available, here:
        http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/server/package/ripplerap-server.zip
@@ -126,27 +125,28 @@ Installing the Code:
 Configuring User Directories:
 
     Each user is allocated their own directory to host their notes in the form of an RSS
-    feed. 
-
+    feed. The user directory must be available via WebDAV. The reg/index.php script
+    generates a subdirectory for each user, protected by the user supplied password 
+    using .htaccess and .htpasswd files..
 
 Configuring the Feed Aggregator:
 
-	The RSS files supplied by users are aggregated on the sever into a feed for each
-	session, as well as a feed containing the latest notes. 
+    The RSS files supplied by users are aggregated on the sever into a feed for each
+    session, as well as a feed containing the latest notes. 
 
-	1) edit ripplerap-cron.sh and change the value for the "ripplerapdir" environment variable      
-	   to point to the directory where the server code is installed, e.g.
-   
-      $ vi bin/ripplerap-cron.sh
-      export ripplerapdir=/data/vhost/www.ripplerap.com/html/LeWeb
+    1) edit ripplerap-cron.sh and change the value for the "ripplerapdir" environment variable      
+       to point to the directory where the server code is installed, e.g.
+
+	$ vi bin/ripplerap-cron.sh
+	export ripplerapdir=/data/vhost/www.ripplerap.com/html/LeWeb
 
 
-	2) configure cron to run the ripplerap-cron.sh script periodically,
-	       e.g. the following crontab line will run ripplerap.sh every minute
+    2) configure cron to run the ripplerap-cron.sh script periodically,
+       e.g. the following crontab line will run ripplerap.sh every minute
         
-           */1 * * * * /path/to/ripplerap/bin/ripplerap-cron.sh
+	*/1 * * * * /path/to/ripplerap/bin/ripplerap-cron.sh
         
-           You can edit your crontab on most machines using the "crontab -e" command.
+    You can edit your crontab on most machines using the "crontab -e" command.
         
 Configuring Mojo:
 
