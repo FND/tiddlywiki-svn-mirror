@@ -4,14 +4,21 @@ include_once($cct_base."includes/header.php");
 include_once($cct_base."includes/tiddler.php");
 
 function instance_create($instance, $anonPerm="ADDD")
-{debug("instace_create-instance: ".$instance);
+{
+	global $tiddlyCfg;
+	debug("instace_create-instance: ".$instance);
 	if(!ctype_alnum($instance))
 	{
 		header('HTTP/1.0 400 Bad Request');
 		exit("Workspace name can only include numbers and letters.");
 	}
+	
+	if ($tiddlyCfg['create_workspace']!==1)
+	{
+		header('HTTP/1.0 403  Forbidden');
+		exit("Thie ability to create workspaces on this server is currently disabled. Please contant your system administrator.");
+	}
 
-	global $tiddlyCfg;
 	$data['name'] = $instance;
 	$data['twLanguage'] = 'en';
 	$data['keep_revision'] = 1;

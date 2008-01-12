@@ -27,6 +27,7 @@
 	$tiddlyCfg['twLanguage'] = "en";	//predefine language
 	$tiddlyCfg['keep_revision'] = 1;
 	$tiddlyCfg['require_login'] = 0; //mins
+	$tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
 	$tiddlyCfg['session_expire'] = 2000; //mins
 	$tiddlyCfg['tag_tiddler_with_modifier'] = 0;
 	$tiddlyCfg['char_set'] = "utf8";

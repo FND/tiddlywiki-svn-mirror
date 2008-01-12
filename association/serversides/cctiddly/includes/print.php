@@ -164,8 +164,8 @@ window.cct_tweak = function(){
 	
 	
 	//change SideBarOption panel to add login panel
-	config.shadowTiddlers.SideBarOptions = "<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal 'DD MMM YYYY'>><<tiddler '<?php print $ccT_msg['loginpanel']['name']?>'>><<slider chkSliderOptionsPanel OptionsPanel '<?php print $ccT_msg['sidebaroption']['options']?> »' 'Change TiddlyWiki advanced options'>>";
-	config.shadowTiddlers.ViewTemplate = config.shadowTiddlers.ViewTemplate.replace(/references jump/,'references revisions jump');
+	config.shadowTiddlers.SideBarOptions = config.shadowTiddlers.SideBarOptions+"<<ccLogin>>";
+		config.shadowTiddlers.ViewTemplate = config.shadowTiddlers.ViewTemplate.replace(/references jump/,'references revisions jump');
 	//change saveChange label to upload
 	config.macros.saveChanges.label = "<?php print $ccT_msg['saveChanges']['upload'] ?>";
 	config.macros.saveChanges.prompt = "<?php print $ccT_msg['saveChanges']['uploadPrompt'] ?>";

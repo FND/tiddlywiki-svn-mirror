@@ -44,22 +44,12 @@ if ($workspace_permissions == "")
 {
 	$workspace_permissions = "DDDD";
 }
-echo 	$workspace_permissions;
-
-
-
-////// START  for later permissions bits SIMON  /////
 
 $workspace_read = substr($workspace_permissions, 0, 1);
 $workspace_create = substr($workspace_permissions, 1, 1);
 $workspace_udate = substr($workspace_permissions, 2, 1);
 $workspace_delete = substr($workspace_permissions, 3, 1);
-
-
-
-
-////// END for later Permissions SIMON /////
-
+$instance_settings_count= count($tiddlyCfg['pref']['instance_settings']);
 
 // display open id bits if it is enabled. 
 if ($tiddlyCfg['pref']['openid_enabled'] ==1)
@@ -183,6 +173,7 @@ DAMAGE.
 <body onload="main();" onunload="if(window.checkUnsavedChanges) checkUnsavedChanges(); if(window.scrubNodes) scrubNodes(document.body);">
 <!--PRE-BODY-START-->
 <?php 
+
 	if( isset( $tiddlers['MarkupPreBody'] ) )
 	{
 		print tiddler_bodyDecode($tiddlers['MarkupPreBody']['body']);
@@ -215,23 +206,6 @@ Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa As
 
 ///////////////////////////// CREATE LOGIN/CREATE SHADOW TIDDLERS ///////////////////////////////////////////////////////////
 
-$logged_in_create_tiddlers = "<div tiddler='SiteTitle' tags=''>Error 404 - Workspace does not exist</div>
-<div  tiddler='MainMenu' tags=''></div>
-<div  tiddler='SiteSubtitle' tags=''>Create it below </div>
-
-<div  tiddler='GettingStarted' tags=''>a simple explainaition on how to use TiddlyWiki &lt;br /&gt;[[Logout|".$_SERVER['PHP_SELF']."?logout=1&]]</div>
-<div  tiddler='DefaultTiddlers' tags=''>[[CreateWorkspace]][[GettingStarted]]</div>";
-
-$login_to_view_tiddlers =  "<div tiddler='SiteTitle' tags=''>	 to view the content of this page</div>
-<div tiddler='MainMenu' tags=''></div>";
-
-$login_to_create_tiddlers = "<div tiddler='SiteTitle' tags=''>Error 404 - Please login to create this Workspace</div>";
-
-$default_login_tiddler = "<div tiddler='DefaultTiddlers' tags=''>GettingStarted</div>";
-
-	$login = "<div tiddler='Please Login' tags=''> &lt;&lt;ccLogin&gt;&gt;</div>
-	<div tiddler='SiteSubtitle' tags=''>Please Login to view this TiddlyWiki.</div>";
-	
 
 
 $cut_down_view = "<div tiddler='StyleSheetLayout' tags=''>/*{{{*/\n* html .tiddler {height:1%;}\n\nbody {font-size:.75em; font-family:arial,helvetica; margin:0; padding:0;}\n\nh1,h2,h3,h4,h5,h6 {font-weight:bold; text-decoration:none;}\nh1,h2,h3 {padding-bottom:1px; margin-top:1.2em;margin-bottom:0.3em;}\nh4,h5,h6 {margin-top:1em;}\nh1 {font-size:1.35em;}\nh2 {font-size:1.25em;}\nh3 {font-size:1.1em;}\nh4 {font-size:1em;}\nh5 {font-size:.9em;}\n\nhr {height:1px;}\n\na {text-decoration:none;}\n\ndt {font-weight:bold;}\n\nol {list-style-type:decimal;}\nol ol {list-style-type:lower-alpha;}\nol ol ol {list-style-type:lower-roman;}\nol ol ol ol {list-style-type:decimal;}\nol ol ol ol ol {list-style-type:lower-alpha;}\nol ol ol ol ol ol {list-style-type:lower-roman;}\nol ol ol ol ol ol ol {list-style-type:decimal;}\n\n.txtOptionInput {width:11em;}\n\n#contentWrapper .chkOptionInput {border:0;}\n\n.externalLink {text-decoration:underline;}\n\n.indent {margin-left:3em;}\n.outdent {margin-left:3em; text-indent:-3em;}\ncode.escaped {white-space:nowrap;}\n\n.tiddlyLinkExisting {font-weight:bold;}\n.tiddlyLinkNonExisting {font-style:italic;}\n\n/* the 'a' is required for IE, otherwise it renders the whole tiddler in bold */\na.tiddlyLinkNonExisting.shadow {font-weight:bold;}\n\n#mainMenu .tiddlyLinkExisting,\n	#mainMenu .tiddlyLinkNonExisting,\n	#sidebarTabs .tiddlyLinkNonExisting {font-weight:normal; font-style:normal;}\n#sidebarTabs .tiddlyLinkExisting {font-weight:bold; font-style:normal;}\n\n.header {position:relative;}\n.header a:hover {background:transparent;}\n.headerShadow {position:relative; padding:4.5em 0em 1em 1em; left:-1px; top:-1px;}\n.headerForeground {position:absolute; padding:4.5em 0em 1em 1em; left:0px; top:0px;}\n\n.siteTitle {font-size:3em;}\n.siteSubtitle {font-size:1.2em;}\n\n#mainMenu {position:absolute; left:0; width:10em; text-align:right; line-height:1.6em; padding:1.5em 0.5em 0.5em 0.5em; font-size:1.1em;}\n\n#sidebar {position:absolute; right:3px; width:16em; font-size:.9em;}\n#sidebarOptions {padding-top:0.3em;}\n#sidebarOptions a {margin:0em 0.2em; padding:0.2em 0.3em; display:block;}\n#sidebarOptions input {margin:0.4em 0.5em;}\n#sidebarOptions .sliderPanel {margin-left:1em; padding:0.5em; font-size:.85em;}\n#sidebarOptions .sliderPanel a {font-weight:bold; display:inline; padding:0;}\n#sidebarOptions .sliderPanel input {margin:0 0 .3em 0;}\n#sidebarTabs .tabContents {width:15em; overflow:hidden;}\n\n.wizard {padding:0.1em 1em 0em 2em;}\n.wizard h1 {font-size:2em; font-weight:bold; background:none; padding:0em 0em 0em 0em; margin:0.4em 0em 0.2em 0em;}\n.wizard h2 {font-size:1.2em; font-weight:bold; background:none; padding:0em 0em 0em 0em; margin:0.4em 0em 0.2em 0em;}\n.wizardStep {padding:1em 1em 1em 1em;}\n.wizard .button {margin:0.5em 0em 0em 0em; font-size:1.2em;}\n.wizardFooter {padding:0.8em 0.4em 0.8em 0em;}\n.wizardFooter .status {padding:0em 0.4em 0em 0.4em; margin-left:1em;}\n.wizard .button {padding:0.1em 0.2em 0.1em 0.2em;}\n\n#messageArea {position:fixed; top:2em; right:0em; margin:0.5em; padding:0.5em; z-index:2000; _position:absolute;}\n.messageToolbar {display:block; text-align:right; padding:0.2em 0.2em 0.2em 0.2em;}\n#messageArea a {text-decoration:underline;}\n\n.tiddlerPopupButton {padding:0.2em 0.2em 0.2em 0.2em;}\n.popupTiddler {position: absolute; z-index:300; padding:1em 1em 1em 1em; margin:0;}\n\n.popup {position:absolute; z-index:300; font-size:.9em; padding:0; list-style:none; margin:0;}\n.popup .popupMessage {padding:0.4em;}\n.popup hr {display:block; height:1px; width:auto; padding:0; margin:0.2em 0em;}\n.popup li.disabled {padding:0.4em;}\n.popup li a {display:block; padding:0.4em; font-weight:normal; cursor:pointer;}\n.listBreak {font-size:1px; line-height:1px;}\n.listBreak div {margin:2px 0;}\n\n.tabset {padding:1em 0em 0em 0.5em;}\n.tab {margin:0em 0em 0em 0.25em; padding:2px;}\n.tabContents {padding:0.5em;}\n.tabContents ul, .tabContents ol {margin:0; padding:0;}\n.txtMainTab .tabContents li {list-style:none;}\n.tabContents li.listLink { margin-left:.75em;}\n\n#contentWrapper {display:block;}\n#splashScreen {display:none;}\n\n#displayArea {margin:1em 17em 0em 14em;}\n\n.toolbar {text-align:right; font-size:.9em;}\n\n.tiddler {padding:1em 1em 0em 1em;}\n\n.missing .viewer,.missing .title {font-style:italic;}\n\n.title {font-size:1.6em; font-weight:bold;}\n\n.missing .subtitle {display:none;}\n.subtitle {font-size:1.1em;}\n\n.tiddler .button {padding:0.2em 0.4em;}\n\n.tagging {margin:0.5em 0.5em 0.5em 0; float:left; display:none;}\n.isTag .tagging {display:block;}\n.tagged {margin:0.5em; float:right;}\n.tagging, .tagged {font-size:0.9em; padding:0.25em;}\n.tagging ul, .tagged ul {list-style:none; margin:0.25em; padding:0;}\n.tagClear {clear:both;}\n\n.footer {font-size:.9em;}\n.footer li {display:inline;}\n\n.annotation {padding:0.5em; margin:0.5em;}\n\n* html .viewer pre {width:99%; padding:0 0 1em 0;}\n.viewer {line-height:1.4em; padding-top:0.5em;}\n.viewer .button {margin:0em 0.25em; padding:0em 0.25em;}\n.viewer blockquote {line-height:1.5em; padding-left:0.8em;margin-left:2.5em;}\n.viewer ul, .viewer ol {margin-left:0.5em; padding-left:1.5em;}\n\n.viewer table, table.twtable {border-collapse:collapse; margin:0.8em 1.0em;}\n.viewer th, .viewer td, .viewer tr,.viewer caption,.twtable th, .twtable td, .twtable tr,.twtable caption {padding:3px;}\ntable.listView {font-size:0.85em; margin:0.8em 1.0em;}\ntable.listView th, table.listView td, table.listView tr {padding:0px 3px 0px 3px;}\n\n.viewer pre {padding:0.5em; margin-left:0.5em; font-size:1.2em; line-height:1.4em; overflow:auto;}\n.viewer code {font-size:1.2em; line-height:1.4em;}\n\n.editor {font-size:1.1em;}\n.editor input, .editor textarea {display:block; width:100%; font:inherit;}\n.editorFooter {padding:0.25em 0em; font-size:.9em;}\n.editorFooter .button {padding-top:0px; padding-bottom:0px;}\n\n.fieldsetFix {border:0; padding:0; margin:1px 0px 1px 0px;}\n\n.sparkline {line-height:1em;}\n.sparktick {outline:0;}\n\n.zoomer {font-size:1.1em; position:absolute; overflow:hidden;}\n.zoomer div {padding:1em;}\n\n* html #backstage {width:99%;}\n* html #backstageArea {width:99%;}\n#backstageArea {display:none; position:relative; overflow: hidden; z-index:150; padding:0.3em 0.5em 0.3em 0.5em;}\n#backstageToolbar {position:relative;}\n#backstageArea a {font-weight:bold; margin-left:0.5em; padding:0.3em 0.5em 0.3em 0.5em;}\n#backstageButton {display:none; position:absolute; z-index:175; top:0em; right:0em;}\n#backstageButton a {padding:0.1em 0.4em 0.1em 0.4em; margin:0.1em 0.1em 0.1em 0.1em;}\n#backstage {position:relative; width:100%; z-index:50;}\n#backstagePanel {display:none; z-index:100; position:absolute; margin:0em 3em 0em 3em; padding:1em 1em 1em 1em;}\n.backstagePanelFooter {padding-top:0.2em; float:right;}\n.backstagePanelFooter a {padding:0.2em 0.4em 0.2em 0.4em;}\n#backstageCloak {display:none; z-index:20; position:absolute; width:100%; height:100px;}\n\n.whenBackstage {display:none;}\n.backstageVisible .whenBackstage {display:block;}  #sidebar {display:none;} \n/*}}}*/</div>
@@ -241,14 +215,36 @@ $cut_down_view = "<div tiddler='StyleSheetLayout' tags=''>/*{{{*/\n* html .tiddl
 
 $logged_in_view = "<div tiddler='ViewTemplate' tags=''>&lt;!--{{{--&gt;\n&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump'&gt;&lt;/div&gt;\n&lt;div class='title' macro='view title'&gt;&lt;/div&gt;\n&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;\n&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;\n&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;\n&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;\n&lt;div class='tagClear'&gt;&lt;/div&gt;\n&lt;!--}}}--&gt;</div>
 <div tiddler='StyleSheetLayout' tags=''>/*{{{*/\n* html .tiddler {height:1%;}\n\nbody {font-size:.75em; font-family:arial,helvetica; margin:0; padding:0;}\n\nh1,h2,h3,h4,h5,h6 {font-weight:bold; text-decoration:none;}\nh1,h2,h3 {padding-bottom:1px; margin-top:1.2em;margin-bottom:0.3em;}\nh4,h5,h6 {margin-top:1em;}\nh1 {font-size:1.35em;}\nh2 {font-size:1.25em;}\nh3 {font-size:1.1em;}\nh4 {font-size:1em;}\nh5 {font-size:.9em;}\n\nhr {height:1px;}\n\na {text-decoration:none;}\n\ndt {font-weight:bold;}\n\nol {list-style-type:decimal;}\nol ol {list-style-type:lower-alpha;}\nol ol ol {list-style-type:lower-roman;}\nol ol ol ol {list-style-type:decimal;}\nol ol ol ol ol {list-style-type:lower-alpha;}\nol ol ol ol ol ol {list-style-type:lower-roman;}\nol ol ol ol ol ol ol {list-style-type:decimal;}\n\n.txtOptionInput {width:11em;}\n\n#contentWrapper .chkOptionInput {border:0;}\n\n.externalLink {text-decoration:underline;}\n\n.indent {margin-left:3em;}\n.outdent {margin-left:3em; text-indent:-3em;}\ncode.escaped {white-space:nowrap;}\n\n.tiddlyLinkExisting {font-weight:bold;}\n.tiddlyLinkNonExisting {font-style:italic;}\n\n/* the 'a' is required for IE, otherwise it renders the whole tiddler in bold */\na.tiddlyLinkNonExisting.shadow {font-weight:bold;}\n\n#mainMenu .tiddlyLinkExisting,\n	#mainMenu .tiddlyLinkNonExisting,\n	#sidebarTabs .tiddlyLinkNonExisting {font-weight:normal; font-style:normal;}\n#sidebarTabs .tiddlyLinkExisting {font-weight:bold; font-style:normal;}\n\n.header {position:relative;}\n.header a:hover {background:transparent;}\n.headerShadow {position:relative; padding:4.5em 0em 1em 1em; left:-1px; top:-1px;}\n.headerForeground {position:absolute; padding:4.5em 0em 1em 1em; left:0px; top:0px;}\n\n.siteTitle {font-size:3em;}\n.siteSubtitle {font-size:1.2em;}\n\n#mainMenu {position:absolute; left:0; width:10em; text-align:right; line-height:1.6em; padding:1.5em 0.5em 0.5em 0.5em; font-size:1.1em;}\n\n#sidebar {position:absolute; right:3px; width:16em; font-size:.9em;}\n#sidebarOptions {padding-top:0.3em;}\n#sidebarOptions a {margin:0em 0.2em; padding:0.2em 0.3em; display:block;}\n#sidebarOptions input {margin:0.4em 0.5em;}\n#sidebarOptions .sliderPanel {margin-left:1em; padding:0.5em; font-size:.85em;}\n#sidebarOptions .sliderPanel a {font-weight:bold; display:inline; padding:0;}\n#sidebarOptions .sliderPanel input {margin:0 0 .3em 0;}\n#sidebarTabs .tabContents {width:15em; overflow:hidden;}\n\n.wizard {padding:0.1em 1em 0em 2em;}\n.wizard h1 {font-size:2em; font-weight:bold; background:none; padding:0em 0em 0em 0em; margin:0.4em 0em 0.2em 0em;}\n.wizard h2 {font-size:1.2em; font-weight:bold; background:none; padding:0em 0em 0em 0em; margin:0.4em 0em 0.2em 0em;}\n.wizardStep {padding:1em 1em 1em 1em;}\n.wizard .button {margin:0.5em 0em 0em 0em; font-size:1.2em;}\n.wizardFooter {padding:0.8em 0.4em 0.8em 0em;}\n.wizardFooter .status {padding:0em 0.4em 0em 0.4em; margin-left:1em;}\n.wizard .button {padding:0.1em 0.2em 0.1em 0.2em;}\n\n#messageArea {position:fixed; top:2em; right:0em; margin:0.5em; padding:0.5em; z-index:2000; _position:absolute;}\n.messageToolbar {display:block; text-align:right; padding:0.2em 0.2em 0.2em 0.2em;}\n#messageArea a {text-decoration:underline;}\n\n.tiddlerPopupButton {padding:0.2em 0.2em 0.2em 0.2em;}\n.popupTiddler {position: absolute; z-index:300; padding:1em 1em 1em 1em; margin:0;}\n\n.popup {position:absolute; z-index:300; font-size:.9em; padding:0; list-style:none; margin:0;}\n.popup .popupMessage {padding:0.4em;}\n.popup hr {display:block; height:1px; width:auto; padding:0; margin:0.2em 0em;}\n.popup li.disabled {padding:0.4em;}\n.popup li a {display:block; padding:0.4em; font-weight:normal; cursor:pointer;}\n.listBreak {font-size:1px; line-height:1px;}\n.listBreak div {margin:2px 0;}\n\n.tabset {padding:1em 0em 0em 0.5em;}\n.tab {margin:0em 0em 0em 0.25em; padding:2px;}\n.tabContents {padding:0.5em;}\n.tabContents ul, .tabContents ol {margin:0; padding:0;}\n.txtMainTab .tabContents li {list-style:none;}\n.tabContents li.listLink { margin-left:.75em;}\n\n#contentWrapper {display:block;}\n#splashScreen {display:none;}\n\n#displayArea {margin:1em 17em 0em 14em;}\n\n.toolbar {text-align:right; font-size:.9em;}\n\n.tiddler {padding:1em 1em 0em 1em;}\n\n.missing .viewer,.missing .title {font-style:italic;}\n\n.title {font-size:1.6em; font-weight:bold;}\n\n.missing .subtitle {display:none;}\n.subtitle {font-size:1.1em;}\n\n.tiddler .button {padding:0.2em 0.4em;}\n\n.tagging {margin:0.5em 0.5em 0.5em 0; float:left; display:none;}\n.isTag .tagging {display:block;}\n.tagged {margin:0.5em; float:right;}\n.tagging, .tagged {font-size:0.9em; padding:0.25em;}\n.tagging ul, .tagged ul {list-style:none; margin:0.25em; padding:0;}\n.tagClear {clear:both;}\n\n.footer {font-size:.9em;}\n.footer li {display:inline;}\n\n.annotation {padding:0.5em; margin:0.5em;}\n\n* html .viewer pre {width:99%; padding:0 0 1em 0;}\n.viewer {line-height:1.4em; padding-top:0.5em;}\n.viewer .button {margin:0em 0.25em; padding:0em 0.25em;}\n.viewer blockquote {line-height:1.5em; padding-left:0.8em;margin-left:2.5em;}\n.viewer ul, .viewer ol {margin-left:0.5em; padding-left:1.5em;}\n\n.viewer table, table.twtable {border-collapse:collapse; margin:0.8em 1.0em;}\n.viewer th, .viewer td, .viewer tr,.viewer caption,.twtable th, .twtable td, .twtable tr,.twtable caption {padding:3px;}\ntable.listView {font-size:0.85em; margin:0.8em 1.0em;}\ntable.listView th, table.listView td, table.listView tr {padding:0px 3px 0px 3px;}\n\n.viewer pre {padding:0.5em; margin-left:0.5em; font-size:1.2em; line-height:1.4em; overflow:auto;}\n.viewer code {font-size:1.2em; line-height:1.4em;}\n\n.editor {font-size:1.1em;}\n.editor input, .editor textarea {display:block; width:100%; font:inherit;}\n.editorFooter {padding:0.25em 0em; font-size:.9em;}\n.editorFooter .button {padding-top:0px; padding-bottom:0px;}\n\n.fieldsetFix {border:0; padding:0; margin:1px 0px 1px 0px;}\n\n.sparkline {line-height:1em;}\n.sparktick {outline:0;}\n\n.zoomer {font-size:1.1em; position:absolute; overflow:hidden;}\n.zoomer div {padding:1em;}\n\n* html #backstage {width:99%;}\n* html #backstageArea {width:99%;}\n#backstageArea {display:none; position:relative; overflow: hidden; z-index:150; padding:0.3em 0.5em 0.3em 0.5em;}\n#backstageToolbar {position:relative;}\n#backstageArea a {font-weight:bold; margin-left:0.5em; padding:0.3em 0.5em 0.3em 0.5em;}\n#backstageButton {display:none; position:absolute; z-index:175; top:0em; right:0em;}\n#backstageButton a {padding:0.1em 0.4em 0.1em 0.4em; margin:0.1em 0.1em 0.1em 0.1em;}\n#backstage {position:relative; width:100%; z-index:50;}\n#backstagePanel {display:none; z-index:100; position:absolute; margin:0em 3em 0em 3em; padding:1em 1em 1em 1em;}\n.backstagePanelFooter {padding-top:0.2em; float:right;}\n.backstagePanelFooter a {padding:0.2em 0.4em 0.2em 0.4em;}\n#backstageCloak {display:none; z-index:20; position:absolute; width:100%; height:100px;}\n\n.whenBackstage {display:none;}\n.backstageVisible .whenBackstage {display:block;}  \n/*}}}*/</div>";
-if (count($tiddlyCfg['pref']['instance_settings']) < 1)
+
+
+if (!$user['verified'])
+{
+	$default_tiddlers = '[[Please Login]]';
+	echo "<div  tiddler='DefaultTiddlers' tags=''>".$default_tiddlers."[[GettingStarted]]</div>";
+}
+
+// TODO : check the user has permission to create before display CreateWorkspace in default tiddlers
+$create_workspace = "<div tiddler='SiteTitle' tags=''>Error 404 - Workspace does not exist</div>
+<div  tiddler='MainMenu' tags=''></div>
+<div  tiddler='SiteSubtitle' tags=''>Create it below </div>
+
+<div  tiddler='GettingStarted' tags=''>a simple explainaition on how to use TiddlyWiki &lt;br /&gt;[[Logout|".$_SERVER['PHP_SELF']."?logout=1&]]</div>
+<div  tiddler='DefaultTiddlers' tags=''>".$default_tiddlers."[[CreateWorkspace]][[GettingStarted]]</div>";
+
+
+$login = "<div tiddler='Please Login' tags=''> &lt;&lt;ccLogin&gt;&gt;</div>	";
+	
+	
+if ($instance_settings_count < 1)
 {   // instance does not exist
 	echo $cut_down_view;
-	echo $logged_in_create_tiddlers;
+	echo $create_workspace;
+	echo $login;
 } 
 else
-{ // user varified and instance exists 
+{ // instance exists 
 	echo $logged_in_view;
+	echo $login;
 }
 
 ///////////////////////////// END  LOGIN/CREATE SHADOW TIDDLERS ///////////////////////////////////////////////////////////
@@ -284,6 +280,14 @@ else
 var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
 	var workspace = "<?php echo $tiddlyCfg['instance_name'];?>";
 
+
+<?php
+
+
+if ($workspace_create == "A" ||  ($instance_settings_count < 1 && $tiddlyCfg['create_workspace'] ==1))
+{
+
+?>
 
 config.backstageTasks.push(&quot;create&quot;);
 merge(config.tasks,{
@@ -377,15 +381,21 @@ config.macros.ccCreateWorkspace = {
 				//displayMessage('workspace crated');				
 			} else if (xhr.status == 200) {
 				displayMessage("Workspace name is already in use.");
-			} else if (xhr.status == 400) {
-					displayMessage(xhr.responseText);	
+			} else if (xhr.status == 403) {
+					displayMessage("Permission denied, the ability to create new workspaces may have been disabled by you systems administrator.");	
+			} else
+			{
+					displayMessage(responseText);	
+			
 			}
 			return FALSE;
 		}
 
 }
 
-
+<?php
+}
+?>
 config.macros.ccListWorkspaces = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
 		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
@@ -632,7 +642,7 @@ config.macros.ccUpload = {
 		// DONT ANY OF RIGHT SIDE BAR 
 		// SHOW LOGIN TIDDLER
 		?>
-		displayMessage("You do NOT have read permissions. Please login to view the full Tiddlywiki");
+//		displayMessage("You do NOT have read permissions. Please login to view the full Tiddlywiki");
 		<?php
 	} 	
 	?>
