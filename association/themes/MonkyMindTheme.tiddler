@@ -1,5 +1,5 @@
 <div title="MonkymindTheme" modifier="RobertLindsay" modified="200701290000" tags="systemTheme excludeSearch">
-<pre>
+<pre>/***
 |''Name:''|MonkymindTheme|
 |''Description:''|Monkymind Theme for TiddlyWiki|
 |''Author:''|Robert Lindsay|
@@ -14,9 +14,11 @@
 |''~SideBarOptions:''|##SideBarOptions|
 |''~StyleSheet:''|##StyleSheet|
 
+***/
+
 !PageTemplate
-<!-- More ideas shamesslessly begged, borrowed or stolen from Simon Baird, Clint Checketts and Christine Hodges -->
 <!--{{{-->
+<!--- More ideas shamesslessly begged, borrowed or stolen from Simon Baird, Clint Checketts and Christine Hodges --->
 <div class='header' macro="gradient vert #04b #18f">
 <div id='topMenu'>
 <span refresh='content' tiddler='SiteTitle'></span>

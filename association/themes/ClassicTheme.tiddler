@@ -1,7 +1,7 @@
-<div title="ClassicTheme" modifier="Jeremy Ruston" created="200701130000" tags="systemTheme">
+<div title="ClassicTheme" modifier="JeremyRuston" created="200701130000" tags="systemTheme excludeSearch">
 <pre>/***
 |''Name:''|ClassicTheme|
-|''Description:''|TiddlyWiki Classic Theme|
+|''Description:''|TiddlyWiki Classic Theme - the old official theme for TiddlyWiki|
 |''Author:''|Jeremy Ruston|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/ClassicTheme.tiddler |
 |''Version:''|1.0|
@@ -12,6 +12,8 @@
 
 |''~PageTemplate:''|##PageTemplate|
 |''~StyleSheet:''|##StyleSheet|
+
+***/
 
 !PageTemplate
 <!--{{{-->

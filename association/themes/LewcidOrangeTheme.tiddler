@@ -1,7 +1,7 @@
 <div title="LewcidOrangeTheme" modifier="Saq Imtiaz" created="200701130013" tags="systemTheme excludeSearch">
-<pre>
+<pre>/***
 |''Name:''|LewcidOrangeTheme|
-|''Description:''|Orange Theme for TiddlyWiki|
+|''Description:''|Orange Theme - the current theme from LewcidTW|
 |''Author:''|Saq Imtiaz|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/LewcidOrangeTheme.tiddler |
 |''Version:''|1.0|
@@ -13,6 +13,8 @@
 |''~PageTemplate:''|##PageTemplate|
 |''~SideBarOptions:''|##SideBarOptions|
 |''~StyleSheet:''|##StyleSheet|
+
+***/
 
 !PageTemplate
 <!--{{{-->
@@ -48,7 +50,7 @@ Top Menu Styles
 ***/
 /*{{{*/
 #topMenu br {display:none;}
-#topMenu { background: #000 ; color:#fff;padding: 1em 1em;}
+#topMenu {background: #000 ; color:#fff;padding: 1em 1em;}
 /*}}}*/
 
 /***
