@@ -99,7 +99,6 @@ config.views = {
 // Backstage tasks
 
 
-// SIMONMCMANUS WAS HERE ADDING LOGIN LINKS
 
 config.backstageTasks = ["save","sync","importTask", "tweak","plugins"];
 

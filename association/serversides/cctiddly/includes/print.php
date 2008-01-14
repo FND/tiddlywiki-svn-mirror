@@ -164,7 +164,7 @@ window.cct_tweak = function(){
 	
 	
 	//change SideBarOption panel to add login panel
-	config.shadowTiddlers.SideBarOptions = config.shadowTiddlers.SideBarOptions+"<<ccLogin>>";
+	config.shadowTiddlers.SideBarOptions = config.shadowTiddlers.SideBarOptions+"[[Please Login]]";
 		config.shadowTiddlers.ViewTemplate = config.shadowTiddlers.ViewTemplate.replace(/references jump/,'references revisions jump');
 	//change saveChange label to upload
 	config.macros.saveChanges.label = "<?php print $ccT_msg['saveChanges']['upload'] ?>";
@@ -213,11 +213,7 @@ window.cct_tweak = function(){
 	//$usr = $usr_val?$usr:$ccT_msg['loginpanel']['anoymous'];
 	$usr = $user['verified']?$user['username']:$ccT_msg['loginpanel']['anoymous'];
 ?>
-	//login panel
-	config.options.txtUser = "<?php print $usr ?>";
-	config.shadowTiddlers.<?php print $ccT_msg['loginpanel']['name']?> ="<?php if($user['verified']==0){?> \nYou are not logged in :\n\n [[Please Login]]<?php } else {?> <br><<ccLogin>><?php } ?>";
-//	config.shadowTiddlers.<?php print $ccT_msg['loginpanel']['name']?> ="<<ccLogin>>";
-
+	
 };
 
 <?php
