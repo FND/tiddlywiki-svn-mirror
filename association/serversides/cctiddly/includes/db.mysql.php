@@ -226,7 +226,9 @@ $db_var['error']['query'] = " query: ";*/
 		global $tiddlyCfg;
 		global $ccT_msg;
 		//$tiddlyCfg['table']['main'],$tiddlyCfg['instance_name']
-		$result = mysql_query("SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE instance_name='".$tiddlyCfg['instance_name']."'")
+		$query= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE instance_name='".$tiddlyCfg['instance_name']."'";
+		($query);
+		$result = mysql_query($query)
 			or die($ccT_msg['db']['word_error'].mysql_error());
 
 			return $result;
@@ -244,9 +246,9 @@ $db_var['error']['query'] = " query: ";*/
 		global $tiddlyCfg;
 		global $ccT_msg;
 		//$tiddlyCfg['table']['main'],$tiddlyCfg['instance_name']
-		$result = mysql_query("SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE instance_name='".$tiddlyCfg['instance_name']."' and (title  like '%".$term."%' or body  like '%".$term."%') ")
-			or die($ccT_msg['db']['word_error'].mysql_error());
-
+ 	$query= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE instance_name='".$tiddlyCfg['instance_name']."' and (title  like '%".$term."%' or body  like '%".$term."%')";
+		debug($query);
+		$result = mysql_query($query);
 			return $result;
 	}
 	
@@ -739,7 +741,6 @@ if($sql == $sql_start)
 		global $db_var;
 		global $tiddlyCfg;
 		//make query
-		if($tiddlyCfg['mysql_debug'])
 			debug($sql);
 			
 		//print $sql;

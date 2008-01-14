@@ -57,8 +57,8 @@ If you got one of the following error message, that may mean your database do no
 	$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
 	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
 	//$tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the instance name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
-	$tiddlyCfg['developing']=0;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
-	$tiddlyCfg['mysql_debug']=0;	 // if set to 1 will output every sql query into the logfile 
+	$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
+	$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
 	
 	include_once($cct_base."includes/url.php");
 	include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");
@@ -157,7 +157,6 @@ $tiddlyCfg['pref']['utf8'] = 0;
 */
 //username password pair
 
-// SIMONMCMANUS - THIS DOES NOT APPEAR TO BE USED ANYMORE 
 
 //$tiddlyCfg['user'] = array("username"=>"password", "simon"=>"password");		//username password pair, empty array allow everyone to edit the tiddly online (except locked titles)
 
@@ -225,7 +224,7 @@ $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCf
 $tiddlyCfg['privilege']['admin']['systemConfig'] = "AAAA";
 $tiddlyCfg['privilege']['user']['systemConfig'] = "AAAA";
 //The following privilege are for blog
-//$tiddlyCfg['privilege']['anonymous']['comments'] = "AADD";		//allow comments to be post anonymously
+$tiddlyCfg['privilege']['anonymous']['comments'] = "AADD";		//allow comments to be post anonymously
 ////////////////////////////////////////////////////////////////////////set default values////////////////////////////////////////////////////.
 
 //$tiddlyCfg['pref']['cookies'] = $tiddlyCfg['pref']['cookies']*1000*60;		//convert time to minutes

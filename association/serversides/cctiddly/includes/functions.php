@@ -47,7 +47,7 @@
 		
 		
 		if ($search != "")
-		{echo 'a'.$search;
+		{
 			$tiddlers = db_tiddlers_mainSearchAll($search);
 		}
 		else
@@ -56,7 +56,7 @@
 		}
 		
 		
-		$tiddlers = db_tiddlers_mainSelectAll();
+		//	$tiddlers = db_tiddlers_mainSelectAll();
 		db_close();
 		//check permission and print
 		if( strlen($user)==0 )

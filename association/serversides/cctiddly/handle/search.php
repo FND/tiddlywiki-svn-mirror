@@ -5,15 +5,26 @@
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
-$tiddlers = getAllTiddlers('simon', 'cctiddlyasdfasdfasdfasdf');
-
-echo "<br>";
-//var_dump($a);
-	foreach($tiddlers as $t)
-	{
-		print $t['title']."<br>";
-	}
+$search = $_REQUEST['search'];
+$search = $_POST['search'];
 
 
-//	print tiddler_bodyDecode($tiddlers['M['body']);
+$tiddlers = getAllTiddlers('simon', $search);
+
+if(!$tiddlers)
+{
+	echo "{no results found}";
+	exit;
+}
+$count = 1;
+$str=  "{";
+foreach($tiddlers as $t)
+{
+	$str .= "'".$count++."':'";
+	$str .= $t['title']."',";
+}
+echo $str = substr($str,0,	(strlen($str)-1));		//remove last ","
+print "}";
+
+
 ?>
