@@ -232,6 +232,27 @@ $db_var['error']['query'] = " query: ";*/
 			return $result;
 	}
 
+
+
+
+
+
+
+	function db_tiddlers_mainSearchAll($term)
+	{
+		//$data = formatArray4SQL($data);			//require to check data???
+		global $tiddlyCfg;
+		global $ccT_msg;
+		//$tiddlyCfg['table']['main'],$tiddlyCfg['instance_name']
+		$result = mysql_query("SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE instance_name='".$tiddlyCfg['instance_name']."' and (title  like '%".$term."%' or body  like '%".$term."%') ")
+			or die($ccT_msg['db']['word_error'].mysql_error());
+
+			return $result;
+	}
+	
+	
+
+
 	//!	@fn array db_tiddlers_selectTitle($title,$instance)
 	//!	@brief select tiddler with particular title
 	//!	@param $table table name
