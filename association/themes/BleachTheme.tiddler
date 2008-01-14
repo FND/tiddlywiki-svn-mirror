@@ -1,0 +1,366 @@
+<div title="BleachTheme" modifier="SaqImtiaz" modified="200708091500" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|BleachTheme|
+|''Description:''|Bleach Theme - a theme with lots of white space and a clean and elegant presentation|
+|''Author:''|Saq Imtiaz|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/BleachTheme.tiddler |
+|''Version:''|1.0|
+|''Date:''|Aug 9, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div id='header' class='header'>
+<div id='title'>
+<div id='topMenu' refresh='content' tiddler='MainMenu'></div>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+</div>
+
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+<div class='clearAll'></div>
+</div>
+<div id='contentFooter' refresh='content' tiddler='contentFooter'></div>
+<!--}}}-->
+
+!StyleSheet
+/***
+General
+***/
+/*{{{*/
+body {
+background: #fff;
+}
+
+#contentWrapper{
+margin: 2.5em auto;
+width:759px;
+line-height: 1.6em;
+border:1px solid #999;
+font-size: 11px;
+font-family: Lucida Grande, Tahoma, Arial, Helvetica, sans-serif;
+color: #555;height:1%;
+}
+
+.clearAll {clear:both;}
+.tagClear {clear:none;}
+/*}}}*/
+
+/***
+Header
+***/
+/*{{{*/
+#header {background:#fff; border-bottom:1px solid #999;padding: 2.5em 2em 1.6em 2em; height:1%;
+}
+
+.siteTitle {
+font-family: 'Trebuchet MS' sans-serif;
+font-weight: bold;
+font-size: 32px;
+color: #EF680E;
+background-color: #FFF; 
+}
+
+.siteSubtitle {
+font-size: 1.0em;
+display:block; 
+color: #999999; margin-top:0.5em !important; margin-top:1em; margin-left:3em;
+}
+
+#topMenu { positon:relative; float:right; display:inline; margin-right:2em;}
+#topMenu br {display:none;}
+#topMenu { background: #fff; color:#000;padding: 1em 1em;}
+#topMenu a, #topMenu .tiddlyLink, #topMenu .button {margin:0 0.5em; color:#666;}
+/*}}}*/
+
+/***
+displayArea
+***/
+
+/*{{{*/
+#displayArea {margin-left:1.35em; margin-right:16.3em; margin-top:0; padding-top:1em; padding-bottom:10px;}
+/*}}}*/
+
+/***
+Sidebar
+***/
+/*{{{*/
+#sidebar {position:relative;float:right; line-height: 1.4em; border-left:0px solid#000; display:inline; background:#fff; right:0; 
+width: 16em;}
+/*}}}*/
+
+/***
+SidebarOptions
+***/
+/*{{{*/
+#sidebarOptions {padding-left:0.5em; border-left:1px solid #999;padding-top:1em;}
+
+#sidebarOptions a {
+color:#999;
+text-decoration: none;
+}
+#sidebarOptions	a:hover, #sidebarOptions .button:active {
+color:#333;
+background-color: #fff;border:1px solid #fff;
+}
+#sidebarOptions input {border:1px solid #999; width:10em;}
+/*}}}*/
+
+
+/***
+SidebarTabs
+***/
+/*{{{*/
+#sidebarTabs {border-left:1px solid #999;}
+#sidebarTabs .tabContents {background:#fff;}
+#sidebarTabs .tabContents .tiddlyLink, #sidebarTabs .tabContents .button{color:#999;}
+#sidebarTabs .tabContents .tiddlyLink:hover,#sidebarTabs .tabContents .button:hover{color:#333;background:#fff;border:none;}
+
+#sidebarTabs .tabContents .button:hover, #sidebarTabs .tabContents .highlight, #sidebarTabs .tabContents .marked, #sidebarTabs .tabContents a.button:active{color:#333;background:#fff}
+
+.tabSelected{color:#fff; background:#999;}
+
+.tabUnselected {
+background: #ccc;
+}
+
+.tabSelected, .tabSelected:hover {
+color: #fff;
+background: #999;
+border: solid 1px #999;
+padding-bottom:1px;
+}
+
+#sidebarTabs .tabUnselected:hover { border-bottom: none;padding-bottom:3px;color:#4F4B45}
+
+.tabUnselected {
+color: #999;
+background: #eee;
+border: solid 1px #ccc;
+padding-bottom:1px;
+}
+
+#sidebarTabs .tabUnselected { border-bottom: none;padding-bottom:3px;}
+#sidebarTabs .tabSelected{padding-bottom:3px;}
+
+#sidebarOptions .sliderPanel {
+background: #fff; border:none;
+font-size: .9em;
+}
+#sidebarOptions .sliderPanel a {font-weight:normal;}
+#sidebarOptions .sliderPanel input {border:1px solid #999;width:auto;}
+#sidebarOptions .sliderPanel .txtOptionInput {border:1px solid #999;width:9em;}
+
+#sidebarTabs .tabContents {border-right:0; border-left:0; border-bottom:1px solid#999; padding-left:4px;}
+.listLink,#sidebarTabs .tabContents {line-height:1.5em;}
+.listTitle {color:#666;
+}
+
+#sidebarTabs .tabUnselected:hover { border-bottom: none;padding-bottom:3px;color:#4F4B45}
+#sidebarTabs .txtMoreTab .tabContents {border-left:1px solid #999;}
+#sidebarTabs .txtMainTab .tabContents li a{font-weight:bold;}
+/*}}}*/
+
+/*{{{*/
+.title {color:#EF680E;}
+.subtitle, .subtitle a {color: #999999; font-size: 1em;margin:0.2em; font-variant: small-caps;}
+.shadow .title {color:#999;}
+
+.selected .toolbar a {color:#999999;}
+.selected .toolbar a:hover {color:#333; background:transparent;border:1px solid #fff;}
+
+.toolbar .button:hover, .toolbar .highlight, .toolbar .marked, .toolbar a.button:active{color:#333; background:transparent;border:1px solid #fff;}
+
+* html .viewer pre {
+margin-left: 0em;
+}
+
+* html .editor textarea, * html .editor input {
+width: 98%;
+}
+
+a,#sidebarOptions .sliderPanel a {
+color:#EF680E;
+text-decoration: none;
+}
+
+a:hover,#sidebarOptions .sliderPanel a:hover {
+color:#EF680E;
+background-color: #fff; 
+border-bottom:1px dotted #EF680E;
+}
+
+.viewer .button, .editorFooter .button {
+color: #555;
+border: 1px solid #EF680E;
+}
+
+.viewer .button:hover, 
+.editorFooter .button:hover{
+	color: #fff;
+	background: #EF680E;
+	border-color: #EF680E;
+}
+
+.viewer .button:active, .viewer .highlight,.editorFooter .button:active, .editorFooter .highlight{color:#fff; background:#DF691B;border-color:#DF691B;}
+
+#topMenu a, #topMenu .button {
+padding: 20px 10px; border:none; font-weight:bold;
+}
+
+#topMenu a:link {
+text-decoration: none;
+}
+
+#topMenu a:hover, #topMenu .button:hover {
+background-color: #fff;
+color:#EF680E;
+border:none;
+}
+
+.tagging, .tagged {
+border: 1px solid #eee;
+background-color: #F7F7F7;
+}
+
+.selected .tagging, .selected .tagged {
+background-color: #eee;
+border: 1px solid #BFBAB3;
+}
+
+.tagging .listTitle, .tagged .listTitle {
+color: #bbb;
+}
+
+.selected .tagging .listTitle, .selected .tagged .listTitle {
+color: #666; 
+}
+
+.tagging .button, .tagged .button {
+color:#aaa;
+}
+
+.selected .tagging .button, .selected .tagged .button {
+color:#BFBAB3;
+}
+
+.highlight, .marked {background:transparent; color:#111; border:none; text-decoration:underline;}
+
+.tagging .button:hover, .tagged .button:hover, .tagging .button:active, .tagged .button:active {
+border: none; background:transparent; text-decoration:underline; color:#333;
+}
+
+.popup {
+background: #999;
+border: 1px solid #999;
+}
+
+.popup li.disabled {
+color: #000;
+}
+
+.popup li a, .popup li a:visited {
+color: #eee;
+border: none;
+}
+
+.popup li a:hover {
+background: #6F6A68;
+color: #fff;
+border: none;
+}
+
+.tiddler {
+padding-bottom: 40px;
+/*border-bottom: 1px solid #999; */
+}
+
+#messageArea {
+border: 4px solid #999;
+background: #f5f5f5;
+color: #999;
+font-size:90%;
+}
+
+#messageArea a:hover {background:#f5f5f5; border:none;}
+
+#messageArea .button{
+color: #666;
+border: 1px solid #CC6714;
+}
+
+#messageArea .button:hover {
+color: #fff;
+background: #999;
+border-color: #999;
+}
+
+.viewer blockquote {
+border-left: 5px solid #888;
+}
+
+.viewer table {
+border: 2px solid #888;
+}
+
+.viewer th, thead td {
+background: #888;
+border: 1px solid #888;
+color: #fff;
+}
+.viewer pre {
+border: 1px solid #999;
+background: #f5f5f5;
+}
+
+.viewer code {
+color: #111; background:#f5f5f5;
+}
+
+.viewer hr {
+border-top: dashed 1px #999;
+}
+
+.editor input {
+border: 1px solid #888;
+}
+
+.editor textarea {
+border: 1px solid #888;
+}
+
+.tabContents {background:#f7f7f7;}
+
+h1,h2,h3,h4,h5 { color: #555; background: transparent; padding-bottom:2px; font-family: Arial, Helvetica, sans-serif;}
+h1 {font-size:18px;}
+h2 {font-size:16px;}
+h3 {font-size: 14px;}
+
+#contentFooter {background:#999; color:#dfdfdf; clear: both; padding: 0.5em 1em;}
+
+#contentFooter a {
+color: #dfdfdf;
+border-bottom: 1px dotted #fff; font-weight:normal;
+}
+
+#contentFooter a:hover {
+color: #FFFFFF;
+background-color:transparent;
+}	
+/*}}}*/
+</pre>
+</div>
