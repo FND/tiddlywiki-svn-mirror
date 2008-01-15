@@ -1,0 +1,94 @@
+<div title="Berry2Theme" modifier="RobertLindsay" created="200701230832" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|Berry2Theme|
+|''Description:''|Berry2 Theme - a simple layout that offers a lot of screen space|
+|''Author:''|Robert Lindsay|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/Berry2Theme.tiddler |
+|''Version:''|1.0|
+|''Date:''|Jan 23, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~SideBarOptions:''|##SideBarOptions|
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<!-- More ideas shamesslessly begged, borrowed or stolen from..... Simon Baird, Clint Checketts and Christine Hodges :)) -->
+<div class='header' macro="gradient vert #5c4894 #6b69ad">
+<div id='topMenu'>
+<span refresh='content' tiddler='SiteTitle'></span>
+<span refresh='content' tiddler='MainMenu'></span>
+</div>
+</div> 
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' tiddler='Berry2Theme##SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+!SideBarTools
+<<closeAll>>
+<<permaview>>
+<<newTiddler>>
+<<newJournal 'DD MMM YYYY'>>
+<<saveChanges>>
+<<importTiddlers link>>
+
+!SideBarOptions
+<<search>>
+<<slider chkSliderToolsPanel Berry2Theme##SideBarTools '» Tools »' 'New tiddler, save changes etc..'>><<slider chkSliderOptionsPanel OptionsPanel '» Options »' 'Change TiddlyWiki advanced options'>>
+
+!StyleSheet
+/*{{{*/
+<!-- StyleSheet with ideas shamesslessly taken from (and suggested by) Simon Baird, Clint Checketts and Christine Hodges -->
+.headerForeground {display: none;}
+#sidebar {width: 170px; background: #efefef;border-left: solid 2px #b8b9c7;border-top: solid 2px #d7d8e8;}
+#sidebarTabs .tabContents {width: 158px; background: #eae9ee;font-weight: bold; color: #333 ;}
+#sidebarOptions input {border: solid 2px #b8b9c7;}
+#sidebarOptions .sliderPanel {background: #eee;}
+#sidebarOptions a {;border: none;}
+#sidebarOptions .sliderPanel a {border: none;color: #5c4894;}
+#displayArea {background: #fff;margin: 1em 15.7em 0em 1em;border-left: solid 2px #b8b9c7;}
+.viewer {line-height: 1.4em;padding-bottom: 1em;border-bottom:solid 1px #b8b9c7;}
+.viewer th, thead td {background: #5d4b97;border: 1px solid #666;color: #fff;}
+.title {color: #000}
+h1,h2,h3,h4,h5 {color: #fff;background: #6b69ad;}
+a {color: #700126;}
+a:hover {background: #6b69ad; color: #fff;font-weight: bold;}
+.externalLink {	text-decoration: underline; color: #000083;}
+body {background: #d7d8e8;}
+.popup {background: #6b69ad; border: 1px solid #04b;}
+.popup li a:hover {background: #d7d8e8;color: #000;border: none;}
+.popup li.disabled {color: #000;}
+.button:hover {color: #fff;background: #6b69ad;
+border: 1px solid #d7d8e8;}
+#topMenu {background: transparent; padding: 6px;margin-left: -5px;border-bottom: solid 3px  #5c4894;}
+#topMenu .button, #topMenu .tiddlyLink, tiddlyLinkExisting, #topMenu .externalLink {
+color: #fff;
+text-align: center;
+font-weight: bold;
+font-size: 1.1em;
+text-decoration: none;
+letter-spacing: 1.5px;
+background: transparent;
+border-right: solid 1px #fff;
+padding: 5px 15px 8px 15px;
+}
+#topMenu a:hover {
+color: #700126;
+background: #d7d8e8;
+}
+#topMenu br {display: none; padding-right: 1em;}
+#topMenu span .tiddlyLinkNonExisting {font-style:normal;}
+
+/*}}}*/</pre>
+</div>
