@@ -5,21 +5,7 @@
 		@file
 		
 		@brief This file provides functions to validate users and obtain privileges
-		
-		@author: CoolCold
-		@email: cctiddly.coolcold@dfgh.net
 	*/
-	
-	/*
-		license:
-			This is licensed under GPL v2
-			http://www.gnu.org/licenses/gpl.txt
-
-	*/
-	/**
-		requirement:
-	*/
-	
 //////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////////////////

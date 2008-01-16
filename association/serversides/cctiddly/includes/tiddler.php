@@ -5,20 +5,6 @@
 		@file
 		
 		@brief This file provides PHP functions related to tiddler (it mimic a class but didn't put as a class to speed things up abit).
-		
-		@author: CoolCold
-		@email: cctiddly.coolcold@dfgh.net
-	*/
-	
-	/*
-		license:
-			This is licensed under GPL v2
-			http://www.gnu.org/licenses/gpl.txt
-
-	*/
-	/**
-		requirement:
-			db.*.php
 	*/
 	
 //////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////

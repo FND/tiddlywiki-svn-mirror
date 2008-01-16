@@ -3,31 +3,7 @@
 	/**
 		@file
 		
-		@brief This is a php version of TiddlyWiki, which provide server side functions allowing the wiki to be editted over HTTP.
-		
-		@author: CoolCold
-		@email: cctiddly.coolcold@dfgh.net
-	*/
-	
-	/**
-		features:
-			-standalone: make standalone version of tiddly
-			-access control: only users with correct secret code can change content
-			-privacy control: can hide certain tags from display to unauthorized user
-			-versioning: see all versions of a particular tiddly
-			
-		acknowledgement:
-			This is derived from phpTiddlyWiki written by Patrick Curry [http://www.patrickcurry.com/tiddly/]
-			
-		license:
-			This is licensed under GPL v2
-			http://www.gnu.org/licenses/gpl.txt
-
-	*/
-	/**
-		requirement:
-			config.php - config variable
-			language.php - error msgs
+		@brief misc functions of ccT
 	*/
 	
 

@@ -1,24 +1,8 @@
 <?php
 //////////////////////////////////////////////////////// description ////////////////////////////////////////////////////////
-	/**description
-		print functions that printout code into tiddly wiki to change its action. 
-	*/
-
 	/**
-		author: CoolCold
-		email: cctiddly.coolcold@dfgh.net
-	*/
-	
-	/**
-		license:
-			This is licensed under GPL v2
-			http://www.gnu.org/licenses/gpl.txt
-	*/
-
-	/**
-		requirement:
-			config.php
-			functions.php (including config.php, language.php)
+		@file
+		@brief print functions that printout code into tiddly wiki to change its action. 
 	*/
 	if( !isset($tiddlyCfg) )
 	{
