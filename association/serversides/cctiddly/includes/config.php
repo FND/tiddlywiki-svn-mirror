@@ -15,11 +15,11 @@
 	$tiddlyCfg['table']['suffix'] = "";					//suffix			suffix of file					suffix of table name
 	$tiddlyCfg['table']['main'] = "tiddler";			//name			name of file for storing tiddlers		name of table for storing tiddlers
 	$tiddlyCfg['table']['backup'] = "tiddler_revisions";	//backup	 		backup/versioned tiddlers
-	$tiddlyCfg['table']['instance'] = "instance";		//config			settings for cct					
+	$tiddlyCfg['table']['workspace'] = "workspace";		//config			settings for cct					
 	$tiddlyCfg['table']['user'] = "user";				//user	 		username and password
 	$tiddlyCfg['table']['group'] = "group_membership";	//group	 		group name and membership
 	$tiddlyCfg['table']['privilege'] = "privileges";	//privilege 			privileges
-	$tiddlyCfg['table']['admin'] = "admin_of_instance";	//admin of instance	admin of a particular instance
+	$tiddlyCfg['table']['admin'] = "admin_of_workspace";	//admin of workspace	admin of a particular workspace
 	$tiddlyCfg['table']['session'] = "login_session";	//login session		used to create login string
 	
 	//workspace default values
@@ -56,7 +56,7 @@ If you got one of the following error message, that may mean your database do no
 	$tiddlyCfg['pref']['ldap_enabled'] = 0;	
 	$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
 	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
-	//$tiddlyCfg['pref']['instance_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the instance name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
+	//$tiddlyCfg['pref']['workspace_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the workspace name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
 	$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
 	$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
 	
@@ -65,41 +65,41 @@ If you got one of the following error message, that may mean your database do no
 	include($cct_base."lang/".$tiddlyCfg['twLanguage'].".php");
 
 //////////////////////////////////////////////////////////////////////// manupulate values////////////////////////////////////////////////////.
-	//sort out instance name, only allow a-z, A-Z, 0-9, -_.
+	//sort out workspace name, only allow a-z, A-Z, 0-9, -_.
 //  THIS WAS BREAKING THINGS SO I HAVE REMOVED IT FOR THE TIME BING.
-//	$tiddlyCfg['instance_name'] = preg_replace('![^a-zA-Z0-9\-_\.]!', '', $_GET['instance']);
+//	$tiddlyCfg['workspace_name'] = preg_replace('![^a-zA-Z0-9\-_\.]!', '', $_GET['workspace']);
 
 	//////////////////////////////////////////////////////// config file ////////////////////////////////////////////////////////
 	//include default config file first before the desired config based either on config variable or URL
 	//used for seamless upgrade as possible
-	// GLOBAL PREFERENCES THAT PERSIST ACCROSS ALL INSTANCES
+	// GLOBAL PREFERENCES THAT PERSIST ACCROSS ALL workspaceS
 
 	
 $link = db_connectDB();
 
 db_selectDB($tiddlyCfg['db']['name']);
 
-// create the instance if it does not already exist.
+// create the workspace if it does not already exist.
 
-if ($instance == '')  
+if ($workspace == '')  
 {
 	$array['name'] = 'home';
-	$tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
+	$tiddlyCfg['pref']['workspace_settings'] = db_record_select('workspace', $array);
 } else {
 
-	$array['name'] = $instance;
-	$tiddlyCfg['pref']['instance_settings'] = db_record_select('instance', $array);
+	$array['name'] = $workspace;
+	$tiddlyCfg['pref']['workspace_settings'] = db_record_select('workspace', $array);
 }
 
-// If the instance name was empty or the instance name provided does not exist. 
-// TODO : WHAT IF ITS THE HOME INSTANCE : 
-//debug( count($tiddlyCfg['pref']['instance_settings']) );
-if (!isset($_POST['cctuser']) && count($tiddlyCfg['pref']['instance_settings']) < 1  )
+// If the workspace name was empty or the workspace name provided does not exist. 
+// TODO : WHAT IF ITS THE HOME workspace : 
+//debug( count($tiddlyCfg['pref']['workspace_settings']) );
+if (!isset($_POST['cctuser']) && count($tiddlyCfg['pref']['workspace_settings']) < 1  )
 {	
 	if ($_POST)
 	{
-		include($cct_base."includes/instance.php");
-		instance_create($_POST['ccCreateWorkspace'], $_POST['ccAnonPerm']);
+		include($cct_base."includes/workspace.php");
+		workspace_create($_POST['ccCreateWorkspace'], $_POST['ccAnonPerm']);
 	}
 	else
 	{
@@ -109,10 +109,10 @@ if (!isset($_POST['cctuser']) && count($tiddlyCfg['pref']['instance_settings']) 
 
 
 
-// the instance does not exist yet. 
-if (count($tiddlyCfg['pref']['instance_settings']) < 1)
+// the workspace does not exist yet. 
+if (count($tiddlyCfg['pref']['workspace_settings']) < 1)
 {
- 	// let show the form to create an instance
+ 	// let show the form to create an workspace
  	// we need to set the settings manually as there is not record in the database
  	$tiddlyCfg['pref']['twFile'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
 	$tiddlyCfg['twLanguage'] = 'en'; // choose between different version of TW, or adaptation
@@ -121,15 +121,15 @@ if (count($tiddlyCfg['pref']['instance_settings']) < 1)
 }
 else
 {
-	// the instance exists so lets get
+	// the workspace exists so lets get
 	//  GET THE SETTINGS FROM THE DATABASE 
 	$tiddlyCfg['pref']['twFile'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
-	$tiddlyCfg['twLanguage'] = $tiddlyCfg['pref']['instance_settings'][0]['twLanguage']; // choose between different version of TW, or adaptation
-	$tiddlyCfg['keep_revision'] = $tiddlyCfg['pref']['instance_settings'][0]['keep_revision']; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
-	$tiddlyCfg['require_login'] = $tiddlyCfg['pref']['instance_settings'][0]['require_login'];	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
-	// uncommenting the below line will let the session timeout be specified per instance
-	//$tiddlyCfg['session_expire'] = $tiddlyCfg['pref']['instance_settings'][0]['cookie_expire'];
-	$tiddlyCfg['tag_tiddler_with_modifier'] =$tiddlyCfg['pref']['instance_settings'][0]['tag_tiddler_with_modifier'];		//append modifier name as tag
+	$tiddlyCfg['twLanguage'] = $tiddlyCfg['pref']['workspace_settings'][0]['twLanguage']; // choose between different version of TW, or adaptation
+	$tiddlyCfg['keep_revision'] = $tiddlyCfg['pref']['workspace_settings'][0]['keep_revision']; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
+	$tiddlyCfg['require_login'] = $tiddlyCfg['pref']['workspace_settings'][0]['require_login'];	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
+	// uncommenting the below line will let the session timeout be specified per workspace
+	//$tiddlyCfg['session_expire'] = $tiddlyCfg['pref']['workspace_settings'][0]['cookie_expire'];
+	$tiddlyCfg['tag_tiddler_with_modifier'] =$tiddlyCfg['pref']['workspace_settings'][0]['tag_tiddler_with_modifier'];		//append modifier name as tag
 }
 
 
@@ -209,8 +209,8 @@ $tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what shoul
 $tiddlyCfg['privilege_misc']['default_privilege'] = "AUUU";		//default privilege for all group and tags
 //default privileges for certain groups, applied after default_privilege
 //		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
-$tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCfg['pref']['instance_settings'][0]['default_anonymous_perm'];
- $tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = $tiddlyCfg['pref']['instance_settings'][0]['default_user_perm'];
+$tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCfg['pref']['workspace_settings'][0]['default_anonymous_perm'];
+ $tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = $tiddlyCfg['pref']['workspace_settings'][0]['default_user_perm'];
   $tiddlyCfg['privilege_misc']['group_default_privilege']['admin'] = "AAAA";
 ////////////////////////////////////////////////////////ADVANCE PRIVILEGE for tags//////////////////////////////////////////////////////
 /*

@@ -16,12 +16,12 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `admin_of_instance`
+-- Table structure for table `admin_of_workspace`
 -- 
 
-CREATE TABLE `admin_of_instance` (
+CREATE TABLE `admin_of_workspace` (
   `user_id` varchar(255) NOT NULL,
-  `instance_name` varchar(100) NOT NULL
+  `workspace_name` varchar(100) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -49,10 +49,10 @@ CREATE TABLE `group_membership` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `instance`
+-- Table structure for table `workspace`
 -- 
 
-CREATE TABLE `instance` (
+CREATE TABLE `workspace` (
   `name` varchar(100) NOT NULL,
   `twLanguage` varchar(10) NOT NULL,
   `keep_revision` int(1) NOT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE `permissions` (
   `edit` int(1) NOT NULL,
   `delete` int(1) NOT NULL,
   `group_name` varchar(50) NOT NULL,
-  `instance_name` varchar(100) NOT NULL
+  `workspace_name` varchar(100) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -106,7 +106,7 @@ CREATE TABLE `permissions` (
 
 CREATE TABLE `tiddler` (
   `id` int(11) NOT NULL auto_increment,
-  `instance_name` varchar(100) NOT NULL,
+  `workspace_name` varchar(100) NOT NULL,
   `title` text NOT NULL,
   `body` mediumtext NOT NULL,
   `fields` text NOT NULL,
@@ -159,12 +159,12 @@ INSERT INTO `user` (`username`, `password`, `short_name`, `long_name`) VALUES
 
 
 
-INSERT INTO `instance` (`name`, `twLanguage`, `keep_revision`, `require_login`, `session_expire`, `tag_tiddler_with_modifier`, `char_set`, `hashseed`,  `status`, `tiddlywiki_type`, `default_anonymous_perm`, `default_user_perm`, `rss_group`, `markup_group`) VALUES 
+INSERT INTO `workspace` (`name`, `twLanguage`, `keep_revision`, `require_login`, `session_expire`, `tag_tiddler_with_modifier`, `char_set`, `hashseed`,  `status`, `tiddlywiki_type`, `default_anonymous_perm`, `default_user_perm`, `rss_group`, `markup_group`) VALUES 
 ('home', 'en', 1, 0, 2000, 0, 'utf8', '1095800459', '', 'tiddlywiki', 'ADDD', 'AAAA', '', '');
 
 
 
-INSERT INTO `tiddler` (`id`, `instance_name`, `title`, `body`, `fields`, `tags`, `modifier`, `creator`, `modified`, `created`, `revision`) VALUES 
+INSERT INTO `tiddler` (`id`, `workspace_name`, `title`, `body`, `fields`, `tags`, `modifier`, `creator`, `modified`, `created`, `revision`) VALUES 
 (4, '', 'SiteTitle', 'Welcome', 'changecount="2"', '', 'simon', 'simon', '200712281713', '200712281712', 2),
 (5, '', 'SiteSubtitle', 'to ccTiddly', 'changecount="1"', '', 'simon', 'simon', '200712281713', '200712281713', 1),
 (6, '', 'GettingStarted', 'Hi, \\n\\nWelcome to ccTiddly, \\n\\nYou can create you own workspace below : \\n\\n&lt;&lt;ccCreateWorkspace&gt;&gt;\\n\\n\\nHere you can see what other people are  sharing on this ccTiddly server. \\n\\n&lt;&lt;ccListWorkspaces&gt;&gt;\\n\\n\\n', 'changecount="2"', '', 'simon', 'simon', '200712281717', '200712281715', 2);

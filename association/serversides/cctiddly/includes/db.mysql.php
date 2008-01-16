@@ -136,7 +136,7 @@ $db_var['error']['query'] = " query: ";*/
 			`creator` varchar(255) NOT NULL default '',
 			`revision` int(11) NOT NULL default '0',
 			`tags` varchar(255) NOT NULL default '',
-			`instance_name` int(3) NOT NULL default '0',
+			`workspace_name` int(3) NOT NULL default '0',
 			PRIMARY KEY (id)
 			)
 			TYPE=MyISAM";
@@ -174,7 +174,7 @@ $db_var['error']['query'] = " query: ";*/
 			`revision` int(11) NOT NULL default '0',
 			`tags` varchar(255) NOT NULL default '',
 			`oid` INT(11) NOT NULL,
-			`instance_name` int(3) NOT NULL default '0',
+			`workspace_name` int(3) NOT NULL default '0',
 			PRIMARY KEY (id)
 			)
 			TYPE=MyISAM";
@@ -218,15 +218,15 @@ $db_var['error']['query'] = " query: ";*/
 	//!	@fn array db_tiddlers_mainSelectAll()
 	//!	@brief select all tiddlers from db
 	//!	@param $table table name required
-	//!	@param $instance instance of db
-	//function db_tiddlers_mainSelectAll($table,$instance)
+	//!	@param $workspace workspace of db
+	//function db_tiddlers_mainSelectAll($table,$workspace)
 	function db_tiddlers_mainSelectAll()
 	{
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
 		global $ccT_msg;
-		//$tiddlyCfg['table']['main'],$tiddlyCfg['instance_name']
-		$query= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE instance_name='".$tiddlyCfg['instance_name']."'";
+		//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
+		$query= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE workspace_name='".$tiddlyCfg['workspace_name']."'";
 		($query);
 		$result = mysql_query($query)
 			or die($ccT_msg['db']['word_error'].mysql_error());
@@ -245,8 +245,8 @@ $db_var['error']['query'] = " query: ";*/
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
 		global $ccT_msg;
-		//$tiddlyCfg['table']['main'],$tiddlyCfg['instance_name']
- 	$query= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE instance_name='".$tiddlyCfg['instance_name']."' and (title  like '%".$term."%' or body  like '%".$term."%')";
+		//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
+ 	$query= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE workspace_name='".$tiddlyCfg['workspace_name']."' and (title  like '%".$term."%' or body  like '%".$term."%')";
 		debug($query);
 		$result = mysql_query($query);
 			return $result;
@@ -255,18 +255,18 @@ $db_var['error']['query'] = " query: ";*/
 	
 
 
-	//!	@fn array db_tiddlers_selectTitle($title,$instance)
+	//!	@fn array db_tiddlers_selectTitle($title,$workspace)
 	//!	@brief select tiddler with particular title
 	//!	@param $table table name
 	//!	@param $title title of tiddler
-	//!	@param $instance instance of db
+	//!	@param $workspace workspace of db
 	function db_tiddlers_mainSelectTitle($title)
 	{
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
 		global $ccT_msg;
 		$q = "SELECT * FROM `".$tiddlyCfg['table']['main']
-			."` WHERE instance_name='".$tiddlyCfg['instance_name']
+			."` WHERE workspace_name='".$tiddlyCfg['workspace_name']
 			."' AND title='".db_format4SQL($title)."'";
 		$result = mysql_query($q)
 			or die($ccT_msg['db']['word_error'].mysql_error());
@@ -342,8 +342,8 @@ $db_var['error']['query'] = " query: ";*/
 
 		
 		$q = "INSERT INTO ".$tiddlyCfg['table']['main']
-				."(`".implode("`,`",$key)."`,`instance_name`)"
-				." VALUES ('".implode("','",$val)."','".$tiddlyCfg['instance_name']."')";
+				."(`".implode("`,`",$key)."`,`workspace_name`)"
+				." VALUES ('".implode("','",$val)."','".$tiddlyCfg['workspace_name']."')";
 		
 		if( $stop==1 ) {
 			$result = mysql_query($q)
@@ -355,10 +355,10 @@ $db_var['error']['query'] = " query: ";*/
 		return $result;
 	}
 
-	//!	@fn array db_tiddlers_insert($table,$instance)
+	//!	@fn array db_tiddlers_insert($table,$workspace)
 	//!	@brief insert tiddlers
 	//!	@param $table table name required
-	//!	@param $instance instance of db
+	//!	@param $workspace workspace of db
 	function db_tiddlers_backupInsert($tiddler,$stop=1)
 	{
 		global $tiddlyCfg;
@@ -401,10 +401,10 @@ $db_var['error']['query'] = " query: ";*/
 	}
 	
 	
-	//!	@fn array db_tiddlers_insert($table,$instance)
+	//!	@fn array db_tiddlers_insert($table,$workspace)
 	//!	@brief insert tiddlers
 	//!	@param $table table name required
-	//!	@param $instance instance of db
+	//!	@param $workspace workspace of db
 	function db_tiddlers_mainUpdate($oid,$tiddler,$stop=1)
 	{
 		global $tiddlyCfg;
@@ -433,10 +433,10 @@ $db_var['error']['query'] = " query: ";*/
 		return db_affected_rows();
 
 	}
-	//!	@fn array db_tiddlers_insert($table,$instance)
+	//!	@fn array db_tiddlers_insert($table,$workspace)
 	//!	@brief insert tiddlers
 	//!	@param $table table name required
-	//!	@param $instance instance of db
+	//!	@param $workspace workspace of db
 	function db_tiddlers_mainDelete($id)
 	{
 		global $tiddlyCfg;
@@ -600,7 +600,7 @@ if($sql == $sql_start)
 			//insert record into db
 		if ($table = $tiddlyCfg['table']['main'])
 		{
-			$result = db_query("SELECT * FROM ".$table." where instance_name='".$tiddlyCfg['instance_name']."'");
+			$result = db_query("SELECT * FROM ".$table." where workspace_name='".$tiddlyCfg['workspace_name']."'");
 		}
 		else
 		{	$result = db_query("SELECT * FROM ".$table);

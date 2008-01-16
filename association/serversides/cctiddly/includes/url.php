@@ -1,21 +1,21 @@
 <?php 
 $tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
 debug("base folder: ".$tiddlyCfg['pref']['base_folder']);
-debug("request-instance: ".$_REQUEST['instance']);
+debug("request-workspace: ".$_REQUEST['workspace']);
 debug("QUERY_STRING: ".$_SERVER['QUERY_STRING']);
-// confirm instance name 
-if (isset($_REQUEST['instance'])) 
+// confirm workspace name 
+if (isset($_REQUEST['workspace'])) 
 {
-		$tiddlyCfg['instance_name'] = $_REQUEST['instance'];
-		$instance = $_REQUEST['instance'];  /// TODO : THESE SHOULD BE REDUCED TO ONE VAR
+		$tiddlyCfg['workspace_name'] = $_REQUEST['workspace'];
+		$workspace = $_REQUEST['workspace'];  /// TODO : THESE SHOULD BE REDUCED TO ONE VAR
 		
 }
 else 	
 {
 	 	$temp = str_replace('/', '', str_replace('/index.php', '', $_SERVER["REDIRECT_URL"])); 
-		$tiddlyCfg['instance_name'] = str_replace(str_replace("/", "", $tiddlyCfg['pref']['base_folder']), "", $temp);
-		$instance= $tiddlyCfg['instance_name']; // TODO : THESE SHOULD BE REDUCED TO ONE VAR
-		debug("instance name IS : ".$tiddlyCfg['instance_name']);
+		$tiddlyCfg['workspace_name'] = str_replace(str_replace("/", "", $tiddlyCfg['pref']['base_folder']), "", $temp);
+		$workspace= $tiddlyCfg['workspace_name']; // TODO : THESE SHOULD BE REDUCED TO ONE VAR
+		debug("workspace name IS : ".$tiddlyCfg['workspace_name']);
 }
 
 // build up the string for the uploads directory 
@@ -32,9 +32,9 @@ if (isset($_SERVER['REDIRECT_URL']) )
 	$redirect_url = $_SERVER['REDIRECT_URL'];
 }	
 
-//$_SERVER['PHP_SELF']=    $_SERVER['SERVER_NAME'] .'/'.$tiddlyCfg['pref']['base_folder'].'/'.$instance.'/';
+//$_SERVER['PHP_SELF']=    $_SERVER['SERVER_NAME'] .'/'.$tiddlyCfg['pref']['base_folder'].'/'.$workspace.'/';
 $file_location  =  $tiddlyCfg['pref']['upload_dir'].str_replace('/'.$tiddlyCfg['pref']['folder'].'/', '', $redirect_url);   // create url to file 
-//$file_url = '/'.$tiddlyCfg['pref']['folder'].'/upload/'.$instance.''.$_SERVER['SCRIPT_NAME'];
+//$file_url = '/'.$tiddlyCfg['pref']['folder'].'/upload/'.$workspace.''.$_SERVER['SCRIPT_NAME'];
 
 if(@file($file_location))
 {

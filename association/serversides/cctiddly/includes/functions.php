@@ -43,7 +43,7 @@
 		//get all data from db
 		db_connect();
 		//$tiddlers = tiddler_selectAll();
-		//$tiddlers = db_tiddlers_selectAll($tiddlyCfg['table']['main'],$tiddlyCfg['pref']['instance']);
+		//$tiddlers = db_tiddlers_selectAll($tiddlyCfg['table']['main'],$tiddlyCfg['pref']['workspace']);
 		
 		
 		if ($search != "")

@@ -3,11 +3,11 @@ $cct_base = '';
 include_once("includes/header.php");
 //////////////////////////////// START of create instance ///////////////////////////////////////////////
 	//TODO ::  confirm that the user is loggedin properly.
-	if($_POST['instance_name'] || $_REQUEST['instance_name'])
+	if($_POST['workspace_name'] || $_REQUEST['workspace_name'])
 	{
 		// the user has asked us to create an instance 
-		include_once("includes/instance.php");
- 	instance_create($_POST['instance_name']);
+		include_once("includes/workspace.php");
+ 	workspace_create($_POST['workspace_name']);
         //TODO  to redirect to the page which has been created 
 	}
 //////////////////////////////// end of create instance ///////////////////////
@@ -236,7 +236,7 @@ Something like this maybe: "?action=contents"
 	}
 	
 //////////////////////////////////////////////////////////ccT functions//////////////////////////////////////////////////////////////
-	debug('Action : '.$_POST['action'].' Instance : '.$tiddlyCfg['instance_name']);
+	debug('Action : '.$_POST['action'].' workspace : '.$tiddlyCfg['workspace_name']);
 //////////////////////////////////////////////////////////saveTiddler//////////////////////////////////////////////////////////////
 	if( strcmp($_POST['action'],"saveTiddler")==0 )
 	{
@@ -358,7 +358,7 @@ Something like this maybe: "?action=contents"
 		
 		
 		//save to file
-		$fhandle = fopen($tiddlyCfg['pref']['upload_dir'].$tiddlyCfg['instance_name']."/$config.xml",'w');
+		$fhandle = fopen($tiddlyCfg['pref']['upload_dir'].$tiddlyCfg['workspace_name']."/$config.xml",'w');
 		if( $fhandle===FALSE )
 		{
 			logerror($ccT_msg['error']['rss_file_create'],0

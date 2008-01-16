@@ -136,7 +136,7 @@ debug("here");
 	if( $oldTitle===NULL ) {
 		$otiddler = FALSE;
 	}else{
-		$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['instance_name']);
+		$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']);
 	}
 	
 	$save_status = 0;		//use to store save action [insert, overwrite, update]

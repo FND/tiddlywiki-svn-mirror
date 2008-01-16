@@ -7,7 +7,7 @@
 
 
 include('includes/header.php');
-include('includes/instance.php');
+include('includes/workspace.php');
 
 
 
@@ -56,9 +56,9 @@ if( $tiddlyCfg['pref']['utf8']==1 )
 
 $query="
 
-CREATE TABLE `admin_of_instance` (
+CREATE TABLE `admin_of_workspace` (
   `user_id` varchar(255) NOT NULL,
-  `instance_name` varchar(100) NOT NULL
+  `workspace_name` varchar(100) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;CREATE TABLE `group` (
   `name` varchar(50) NOT NULL,
   `desc` mediumtext NOT NULL
@@ -72,7 +72,7 @@ CREATE TABLE `group_membership` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `instance` (
+CREATE TABLE `workspace` (
   `name` varchar(100) NOT NULL,
   `lang` varchar(10) NOT NULL,
   `keep_revision` int(1) NOT NULL,
@@ -92,7 +92,7 @@ CREATE TABLE `instance` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-INSERT INTO `instance` (`name`, `lang`, `keep_revision`, `require_login`, `session_expire`, `tag_tiddler_with_modifier`, `char_set`, `hashseed`, `debug`, `status`, `tiddlywiki_type`, `default_anonymous_perm`, `default_user_perm`, `rss_group`, `markup_group`) VALUES 
+INSERT INTO `workspace` (`name`, `lang`, `keep_revision`, `require_login`, `session_expire`, `tag_tiddler_with_modifier`, `char_set`, `hashseed`, `debug`, `status`, `tiddlywiki_type`, `default_anonymous_perm`, `default_user_perm`, `rss_group`, `markup_group`) VALUES 
 ('home', 'en', 1, 0, 0, 0, 'utf8', '9654989', 1, '', 'tiddlywiki', 'ADDD', 'AAAA', '', '');
 
 CREATE TABLE `login_session` (
@@ -110,13 +110,13 @@ CREATE TABLE `permissions` (
   `edit` int(1) NOT NULL,
   `delete` int(1) NOT NULL,
   `group_name` varchar(50) NOT NULL,
-  `instance_name` varchar(100) NOT NULL
+  `workspace_name` varchar(100) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `tiddler` (
   `id` int(11) NOT NULL auto_increment,
-  `instance_name` varchar(100) NOT NULL,
+  `workspace_name` varchar(100) NOT NULL,
   `title` text NOT NULL,
   `body` mediumtext NOT NULL,
   `fields` text NOT NULL,
@@ -161,7 +161,7 @@ if($a =db_query($query))
 echo $a;
 }
 
-//instance_create('home');
+//workspace_create('home');
 
 // create uploads directory for all the instaces in the db. 
 // ensure permissions on dir are correct

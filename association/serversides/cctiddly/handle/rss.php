@@ -54,7 +54,7 @@
 //////////////////////////////////////////////////////////rss save//////////////////////////////////////////////////////////////
 	//save to file
 	//$fhandle = fopen("./$config.xml",'w');
-	$fhandle = fopen($cct_base.$tiddlyCfg['instance_name'].".xml",'w');
+	$fhandle = fopen($cct_base.$tiddlyCfg['workspace_name'].".xml",'w');
 	if( $fhandle===FALSE ) {		//create file error
 		returnResult("015");
 	}

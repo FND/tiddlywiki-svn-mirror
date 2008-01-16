@@ -49,7 +49,7 @@ $workspace_read = substr($workspace_permissions, 0, 1);
 $workspace_create = substr($workspace_permissions, 1, 1);
 $workspace_udate = substr($workspace_permissions, 2, 1);
 $workspace_delete = substr($workspace_permissions, 3, 1);
-$instance_settings_count= count($tiddlyCfg['pref']['instance_settings']);
+$workspace_settings_count= count($tiddlyCfg['pref']['workspace_settings']);
 
 // display open id bits if it is enabled. 
 if ($tiddlyCfg['pref']['openid_enabled'] ==1)
@@ -139,8 +139,8 @@ DAMAGE.
 		print tiddler_bodyDecode($tiddlers['MarkupPreHead']['body']);
 	}else{
 		
-		if(is_file($tiddlyCfg['pref']['upload_dir'] .$tiddlyCfg['instance_name']."/$config.xml"))
-			print "<link rel='alternate' type='application/rss+xml' title='RSS' href='".$tiddlyCfg['instance_name']."/$config.xml'>";
+		if(is_file($tiddlyCfg['pref']['upload_dir'] .$tiddlyCfg['workspace_name']."/$config.xml"))
+			print "<link rel='alternate' type='application/rss+xml' title='RSS' href='".$tiddlyCfg['workspace_name']."/$config.xml'>";
 
 	}
 ?>
@@ -235,14 +235,14 @@ $create_workspace = "<div tiddler='SiteTitle' tags=''>Error 404 - Workspace does
 $login = "<div tiddler='Please Login' tags=''> &lt;&lt;ccLogin&gt;&gt;</div>	";
 	
 	
-if ($instance_settings_count < 1)
-{   // instance does not exist
+if ($workspace_settings_count < 1)
+{   // workspace does not exist
 	echo $cut_down_view;
 	echo $create_workspace;
 	echo $login;
 } 
 else
-{ // instance exists 
+{ // workspace exists 
 	echo $logged_in_view;
 	echo $login;
 }
@@ -278,13 +278,13 @@ else
 //{{{
 
 var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
-	var workspace = "<?php echo $tiddlyCfg['instance_name'];?>";
+	var workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 
 
 <?php
 
 
-if ($workspace_create == "A" ||  ($instance_settings_count < 1 && $tiddlyCfg['create_workspace'] ==1))
+if ($workspace_create == "A" ||  ($workspace_settings_count < 1 && $tiddlyCfg['create_workspace'] ==1))
 {
 
 ?>
@@ -400,7 +400,7 @@ config.macros.ccListWorkspaces = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
 		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
 		<?php
-		$sql = "SELECT * FROM ".$tiddlyCfg['table']['instance']." WHERe default_anonymous_perm LIKE 'A%'"; 
+		$sql = "SELECT * FROM ".$tiddlyCfg['table']['workspace']." WHERe default_anonymous_perm LIKE 'A%'"; 
 		$result = db_query($sql);
 		while ($row = db_fetch_assoc(&$result))
 		{
@@ -554,14 +554,14 @@ config.macros.ccAbout = {
 //{{{
 
 var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
-var workspace = "<?php echo $tiddlyCfg['instance_name'];?>";
+var workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 
 config.macros.ccUpload = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
 		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
 		var frm = createTiddlyElement(place,&quot;form&quot;,null,null);
 		frm.enctype="multipart/form-data";
-		frm.action ="handle/upload.php?instance=simonmcmanus";
+		frm.action ="handle/upload.php?workspace=simonmcmanus";
 		frm.method ="POST";
 		var file = createTiddlyElement(frm,&quot;input&quot;,&quot;ccfile&quot;, &quot;ccfile&quot;);				
 		file.type = "file";

@@ -32,10 +32,10 @@
 		exit("ccT_msg not exist");
 	}
 
-	if(!isset($instance)) {
-		$instance= "";
-		debug("instance was not set s");
-		//exit("instance not exist");
+	if(!isset($workspace)) {
+		$workspace= "";
+		debug("workspace was not set s");
+		//exit("workspace not exist");
 	}
 
 //////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////
