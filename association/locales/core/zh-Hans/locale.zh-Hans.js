@@ -4,8 +4,8 @@
 |''Source:''|http://tiddlywiki-zh.googlecode.com/svn/trunk/|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hans/locale.zh-Hans.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
-|''Version:''|2.2.6|
-|''Date:''|Dec 01, 2007|
+|''Version:''|2.3.0|
+|''Date:''|Jan 19, 2008|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -19,7 +19,6 @@
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
 config.locale = 'zh-Hans'; // W3C language tag
-//# config.options.txtFileSystemCharSet = 'GBK';
 
 if (config.options.txtUserName == 'YourName' || !config.options.txtUserName) // do not translate this line, but do translate the next line
 	merge(config.options,{txtUserName: "YourName"});
@@ -41,7 +40,7 @@ merge(config.optionsDesc,{
 	chkAutoSave: "自动保存变更",
 	chkGenerateAnRssFeed: "保存变更时，也保存 RSS feed",
 	chkSaveEmptyTemplate: "保存变更时，也保存空白模版",
-	chkOpenInNewWindow: "于新视窗开启链接",
+	chkOpenInNewWindow: "于新窗口开启链接",
 	chkToggleLinks: "点击已开启文章将其关闭",
 	chkHttpReadOnly: "非本机浏览文件时，隐藏编辑功能",
 	chkForceMinorUpdate: "修改文章时，不变更作者名称与日期时间",
@@ -114,7 +113,6 @@ config.messages.dates.months = ["一月", "二月", "三月", "四月", "五月"
 config.messages.dates.days = ["周日", "周一","周二", "周三", "周四", "周五", "周六"];
 config.messages.dates.shortMonths = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
 config.messages.dates.shortDays = ["日", "一","二", "三", "四", "五", "六"];
-
 // suffixes for dates, eg "1st","2nd","3rd"..."30th","31st"
 config.messages.dates.daySuffixes = ["st","nd","rd","th","th","th","th","th","th","th",
 		"th","th","th","th","th","th","th","th","th","th",
@@ -162,7 +160,7 @@ merge(config.views.editor.tagChooser,{
 		]});
 
 merge(config.macros.search,{
-	label: " 寻找",
+	label: " 查找",
 	prompt: "搜索本 Wiki",
 	accessKey: "F",
 	successMsg: " %0 篇符合条件: %1",
@@ -196,7 +194,7 @@ merge(config.macros.permaview,{
 
 merge(config.macros.saveChanges,{
 	label: "保存变更",
-	prompt: "保存所有文章，产生新的版本",
+	prompt: "保存所有文章，生成新的版本",
 	accessKey: "S"});
 
 merge(config.macros.newTiddler,{
@@ -233,8 +231,8 @@ merge(config.macros.plugins,{
 	skippedText: "(此插件因刚加入，故尚未执行)",
 	noPluginText: "未安装插件",
 	confirmDeleteText: "确认是否删除此文章:\n\n%0",
-	removeLabel: "移除 'systemConfig' 标签",
-	removePrompt: "移除 'systemConfig' 标签",
+	removeLabel: "删除 'systemConfig' 标签",
+	removePrompt: "删除 'systemConfig' 标签",
 	deleteLabel: "删除",
 	deletePrompt: "永远删除所选插件",
 	listViewTemplate : {
@@ -257,7 +255,8 @@ merge(config.macros.plugins,{
 
 merge(config.macros.toolbar,{
 	moreLabel: "其他",
-	morePrompt: "显示更多工具命令"});
+	morePrompt: "显示更多工具命令"
+	});
 
 merge(config.macros.refreshDisplay,{
 	label: "刷新",
@@ -266,7 +265,6 @@ merge(config.macros.refreshDisplay,{
 
 merge(config.macros.importTiddlers,{
 	readOnlyWarning: "TiddlyWiki 于唯读模式下，不支持导入文章。请由本机（file://）开启 TiddlyWiki 文件",
-	wizardTitle: "自其他文件服务器导入文章",
 	wizardTitle: "自其他档案或服务器汇入文章",
 	step1Title: "步骤一：指定服务器或来源文件",
 	step1Html: "指定服务器类型：<select name='selTypes'><option value=''>选取...</option></select><br>请输入网址或路径：<input type='text' size=50 name='txtPath'><br>...或选择来源文件：<input type='file' size=50 name='txtBrowse'><br><hr>...或选择指定的馈入来源：<select name='selFeeds'><option value=''>选取...</option></select>",

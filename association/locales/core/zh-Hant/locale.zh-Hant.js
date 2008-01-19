@@ -4,8 +4,8 @@
 |''Source:''|http://tiddlywiki-zh.googlecode.com/svn/trunk/|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hant/locale.zh-Hant.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
-|''Version:''|2.2.6|
-|''Date:''|Dec 01, 2007|
+|''Version:''|2.3.0|
+|''Date:''|Jan 19, 2008|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.2.0|
@@ -112,7 +112,9 @@ config.messages.listView = {
 
 config.messages.dates.months = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
 config.messages.dates.days = ["星期日", "星期一","星期二", "星期三", "星期四", "星期五", "星期六"];
+// config.messages.dates.shortMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 config.messages.dates.shortMonths = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
+// config.messages.dates.shortDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 config.messages.dates.shortDays = ["日", "一","二", "三", "四", "五", "六"];
 // suffixes for dates, eg "1st","2nd","3rd"..."30th","31st"
 config.messages.dates.daySuffixes = ["st","nd","rd","th","th","th","th","th","th","th",
