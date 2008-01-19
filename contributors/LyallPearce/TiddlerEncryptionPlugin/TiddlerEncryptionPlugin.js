@@ -2,8 +2,8 @@
 |Name|TiddlerEncryptionPlugin|
 |Author|Lyall Pearce|
 |Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
-|License|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|Version|1.8.0|
+|License|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|Version|1.9.0|
 |~CoreVersion|2.2.4|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
@@ -43,15 +43,16 @@
 * 1.6.0 - Check for presence of PasswordPromptPlugin, if it's there, use it to enter passwords.
 * 1.7.0 - Add option to turn off excludeSearch on encrypted Tiddlers - defaults to off and remove PasswordPromptPlugin support - it doesn't work.
 * 1.8.0 - fixed source URL in metadata plus added accessKey (ALT-Shift key in FireFox) as the 4th parameter to the {{{<<EncryptionDecryptAll>>}}} and {{{<<EncryptionChangePassword>>}}} macros
+* 1.9.0 - Add option to turn off password caching, so you are prompted for the password every time to decrypt a tiddler. The password is still kept for encrypting.
+
 <<<
 !!!!!Additional work
 <<<
-* If the tiddler is encryptable, do not include it's body in an RSS feed. 
 <<<
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 8, revision: 0, date: new Date(2007,11,17)};
+version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 9, revision: 0, date: new Date(2008,01,19)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
@@ -61,6 +62,8 @@ if(config.options.chkEncryptShowEncrypted == undefined) config.options.chkEncryp
 if(config.optionsDesc.chkEncryptShowEncrypted == undefined) config.optionsDesc.chkEncryptShowEncrypted = "TiddlerEncryptionPlugin\nShow encrypted tiddler contents on decrypt failure.\n<<EncryptionChangePassword>> - Change passwords of encrypted tiddlers\n<<EncryptionDecryptAll>> - Decrypt ALL tiddlers - enables searching.";
 if(config.options.chkExcludeEncryptedFromSearch == undefined) config.options.chkExcludeEncryptedFromSearch = false;
 if(config.optionsDesc.chkExcludeEncryptedFromSearch == undefined) config.optionsDesc.chkExcludeEncryptedFromSearch = "TiddlerEncryptionPlugin\nIf set, Encrypted Tiddlers are excluded from searching by tagging with excludeSearch. If Clear, excludeSearch is not added and it is also removed from existing Encrypted Tiddlers only if it is the last Tag. Searching of Encrypted Tiddlers is only meaningful for the Title and Tags.";
+if(config.options.chkCachePasswords == undefined) config.options.chkCachePasswords = true;
+if(config.optionsDesc.chkCachePasswords == undefined) config.optionsDesc.chkCachePasswords = "TiddlerEncryptionPlugin\nIf unchecked, do not cache passwords. This means you will be prompted for the password every time you display an encrypted tiddler (not forgetting that once they are displayed, they stay decrypted until the next save).";
 
 config.shadowTiddlers.DecryptionFailed = "Decryption of an encrypted tiddler failed.";
 
@@ -103,7 +106,7 @@ function onClickEncryptionChangePassword() {
 	return;
     }
     // Prompt for 'old password'
-    var oldPassword = GetAndSetPasswordForPrompt(promptString);
+    var oldPassword = GetAndSetPasswordForPrompt_TiddlerEncryptionPlugin(promptString);
     if(!oldPassword) {
 	return;
     }
@@ -122,11 +125,13 @@ function onClickEncryptionChangePassword() {
 	    throw e;
 	}
     }
-    var newPassword = MyPrompt("Enter new password for '"+promptString+"'", "");
+    var newPassword = MyPrompt_TiddlerEncryptionPlugin("Enter new password for '"+promptString+"'", "");
     if(newPassword) {
-	var newPasswordAgain = MyPrompt("Enter new password, again, for '"+promptString+"'", "");
+	var newPasswordAgain = MyPrompt_TiddlerEncryptionPlugin("Enter new password, again, for '"+promptString+"'", "");
 	if(newPasswordAgain && newPassword == newPasswordAgain) {
-	    config.encryptionPasswords[promptString] = newPasswordAgain;
+	    if(config.optionsDesc.chkCachePasswords == false) {
+		config.encryptionPasswords[promptString] = newPasswordAgain;
+	    }
 	    displayMessage("Password for '"+promptString+"' updated.");
 	}
     }
@@ -180,10 +185,10 @@ store.getSaver().externalizeTiddler = function(store, tiddler) {
 		    var passwordPrompt=tag.substring(8,lastBracket);
 		    // Ok, Encrypt this tiddler!
 		    var decryptedSHA1 = Crypto.hexSha1Str(tiddler.text);
-		    var password =  GetAndSetPasswordForPrompt(passwordPrompt);
+		    var password =  GetAndSetPasswordForPrompt_TiddlerEncryptionPlugin(passwordPrompt);
 		    if(password) {
 			var encryptedText = TEAencrypt(tiddler.text, password);
-			encryptedText = StringToHex(encryptedText);
+			encryptedText = StringToHext_TiddlerEncryptionPlugin(encryptedText);
 			tiddler.text = "Encrypted("+decryptedSHA1+")\n"+encryptedText;
 			// Replace the Tag with the Decrypt() tag
 			tiddler.tags[g]="Decrypt("+passwordPrompt+")";
@@ -222,8 +227,8 @@ function CheckTiddlerForDecryption_TiddlerEncryptionPlugin(tiddler) {
 			var passwordPrompt=tag.substring(8,lastBracket);
 			// Ok, Decrypt this tiddler!
 			var decryptedText = tiddler.text.substr(closingSHA1Bracket+2);
-			decryptedText = HexToString(decryptedText);
-			var password = GetAndSetPasswordForPrompt(passwordPrompt);
+			decryptedText = HexToString_TiddlerEncryptionPlugin(decryptedText);
+			var password = GetAndSetPasswordForPromptToDecrypt_TiddlerEncryptionPlugin(passwordPrompt);
 			if(password) {
 			    decryptedText = TEAdecrypt(decryptedText, password );
 			    var thisDecryptedSHA1 = Crypto.hexSha1Str(decryptedText);
@@ -296,7 +301,7 @@ store.getTiddlerText = function(title,defaultText) {
 
 // Given a prompt, search our cache to see if we have already entered the password.
 // Can return null if the user enters nothing.
-function MyPrompt(promptString,defaultValue) {
+function MyPrompt_TiddlerEncryptionPlugin(promptString,defaultValue) {
     if(typeof passwordPrompt != "undefined" && typeof passwordPrompt.handler != "undefined") {
 	return prompt(promptString, defaultValue);
 //	var enteredPassword = null;
@@ -307,15 +312,26 @@ function MyPrompt(promptString,defaultValue) {
     }
 }
 
-function GetAndSetPasswordForPrompt(promptString) {
+function GetAndSetPasswordForPrompt_TiddlerEncryptionPlugin(promptString) {
     if(!config.encryptionPasswords[promptString]) {
-	config.encryptionPasswords[promptString] = MyPrompt("Enter password for '"+promptString+"' :", "");
+	config.encryptionPasswords[promptString] = MyPrompt_TiddlerEncryptionPlugin("Enter password for '"+promptString+"' :", "");
     }
     return config.encryptionPasswords[promptString]; // may be null, prompt can be cancelled.
 }
 
+function GetAndSetPasswordForPromptToDecrypt_TiddlerEncryptionPlugin(promptString) {
+    if(config.optionsDesc.chkCachePasswords == true) {
+	DisplayMessage('caching enabled');
+	return GetAndSetPasswordForPrompt_TiddlerEncryptionPlugin(promptString);
+    } else {
+	DisplayMessage('caching disabled');
+	config.encryptionPasswords[promptString] = MyPrompt_TiddlerEncryptionPlugin("Enter password for '"+promptString+"' :", "");
+	return config.encryptionPasswords[promptString];
+    }
+}
+
 // Make the encrypted tiddlies look a little more presentable.
-function StringToHex(theString) {
+function StringToHext_TiddlerEncryptionPlugin(theString) {
     var theResult = "";
     for(var i=0; i<theString.length; i++) {
 	var theHex = theString.charCodeAt(i).toString(16);
@@ -330,7 +346,7 @@ function StringToHex(theString) {
     return theResult;
 }
 
-function HexToString(theString) {
+function HexToString_TiddlerEncryptionPlugin(theString) {
     var theResult = "";
     for(var i=0; i<theString.length; i+=2) {
 	if(theString.charAt(i) == "\n") {
