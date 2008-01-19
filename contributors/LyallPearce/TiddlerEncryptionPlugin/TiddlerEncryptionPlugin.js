@@ -3,8 +3,8 @@
 |Author|Lyall Pearce|
 |Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
 |License|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|Version|1.9.0|
-|~CoreVersion|2.2.4|
+|Version|1.9.1|
+|~CoreVersion|2.3.0|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
 |Description|Encrypt/Decrypt Tiddlers with a Password key|
@@ -44,6 +44,7 @@
 * 1.7.0 - Add option to turn off excludeSearch on encrypted Tiddlers - defaults to off and remove PasswordPromptPlugin support - it doesn't work.
 * 1.8.0 - fixed source URL in metadata plus added accessKey (ALT-Shift key in FireFox) as the 4th parameter to the {{{<<EncryptionDecryptAll>>}}} and {{{<<EncryptionChangePassword>>}}} macros
 * 1.9.0 - Add option to turn off password caching, so you are prompted for the password every time to decrypt a tiddler. The password is still kept for encrypting.
+* 1.9.1 - Fix up core version number
 
 <<<
 !!!!!Additional work
