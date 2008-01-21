@@ -2,8 +2,8 @@
 |Name|TiddlerEncryptionPlugin|
 |Author|Lyall Pearce|
 |Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
-|License|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|Version|1.9.1|
+|License|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|Version|1.9.2|
 |~CoreVersion|2.3.0|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
@@ -45,7 +45,7 @@
 * 1.8.0 - fixed source URL in metadata plus added accessKey (ALT-Shift key in FireFox) as the 4th parameter to the {{{<<EncryptionDecryptAll>>}}} and {{{<<EncryptionChangePassword>>}}} macros
 * 1.9.0 - Add option to turn off password caching, so you are prompted for the password every time to decrypt a tiddler. The password is still kept for encrypting.
 * 1.9.1 - Fix up core version number
-
+* 1.9.2 - Uploaded the wrong version... sigh...
 <<<
 !!!!!Additional work
 <<<
@@ -53,7 +53,7 @@
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 9, revision: 0, date: new Date(2008,01,19)};
+version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 9, revision: 2, date: new Date(2008,01,21)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
@@ -303,14 +303,7 @@ store.getTiddlerText = function(title,defaultText) {
 // Given a prompt, search our cache to see if we have already entered the password.
 // Can return null if the user enters nothing.
 function MyPrompt_TiddlerEncryptionPlugin(promptString,defaultValue) {
-    if(typeof passwordPrompt != "undefined" && typeof passwordPrompt.handler != "undefined") {
-	return prompt(promptString, defaultValue);
-//	var enteredPassword = null;
-//	passwordPrompt.handler(promptString, enteredPassword);
-//	return enteredPassword;
-    } else {
-	return prompt(promptString, defaultValue);
-    }
+   return prompt(promptString, defaultValue);
 }
 
 function GetAndSetPasswordForPrompt_TiddlerEncryptionPlugin(promptString) {
@@ -322,10 +315,8 @@ function GetAndSetPasswordForPrompt_TiddlerEncryptionPlugin(promptString) {
 
 function GetAndSetPasswordForPromptToDecrypt_TiddlerEncryptionPlugin(promptString) {
     if(config.optionsDesc.chkCachePasswords == true) {
-	DisplayMessage('caching enabled');
 	return GetAndSetPasswordForPrompt_TiddlerEncryptionPlugin(promptString);
     } else {
-	DisplayMessage('caching disabled');
 	config.encryptionPasswords[promptString] = MyPrompt_TiddlerEncryptionPlugin("Enter password for '"+promptString+"' :", "");
 	return config.encryptionPasswords[promptString];
     }
