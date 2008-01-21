@@ -3,7 +3,7 @@
 |Author|Lyall Pearce|
 |Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
 |License|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|Version|1.9.2|
+|Version|1.9.3|
 |~CoreVersion|2.3.0|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
@@ -46,6 +46,7 @@
 * 1.9.0 - Add option to turn off password caching, so you are prompted for the password every time to decrypt a tiddler. The password is still kept for encrypting.
 * 1.9.1 - Fix up core version number
 * 1.9.2 - Uploaded the wrong version... sigh...
+* 1.9.3 - Fixed typo
 <<<
 !!!!!Additional work
 <<<
@@ -53,7 +54,7 @@
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 9, revision: 2, date: new Date(2008,01,21)};
+version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 9, revision: 3, date: new Date(2008,01,22)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
@@ -314,7 +315,7 @@ function GetAndSetPasswordForPrompt_TiddlerEncryptionPlugin(promptString) {
 }
 
 function GetAndSetPasswordForPromptToDecrypt_TiddlerEncryptionPlugin(promptString) {
-    if(config.optionsDesc.chkCachePasswords == true) {
+    if(config.options.chkCachePasswords == true) {
 	return GetAndSetPasswordForPrompt_TiddlerEncryptionPlugin(promptString);
     } else {
 	config.encryptionPasswords[promptString] = MyPrompt_TiddlerEncryptionPlugin("Enter password for '"+promptString+"' :", "");
