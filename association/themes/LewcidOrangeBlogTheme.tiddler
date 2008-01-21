@@ -1,0 +1,619 @@
+<div title="LewcidOrangeBlogTheme" modifier="Saq Imtiaz" created="200701130013" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|LewcidOrangeBlogTheme|
+|''Description:''|LewcidOrangeBlog is a blog styled version of the Lewcid Orange theme.|
+|''Author:''|Saq Imtiaz|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/LewcidOrangeBlogTheme.tiddler |
+|''Version:''|1.0|
+|''Date:''|Jan 13, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div class='header'>
+<div class='gradient' macro='gradient vert #FF8614 #DA4A0D'>
+<div class='titleLine' >
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div id='topMenu' refresh='content' tiddler='MainMenu'></div>
+</div>
+</div>
+<div id='bodywrapper'>
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' 	tiddler='SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<div id='contentFooter'>TiddlyWiki</div>
+</div>
+<!--}}}-->
+
+!StyleSheet
+/***
+Top Menu Styles
+***/
+/*{{{*/
+#topMenu br {display:none;}
+#topMenu {background: #000 ; color:#fff;padding: 1em 1em;}
+/*}}}*/
+
+/***
+General
+***/
+/*{{{*/
+body {
+background: #444;
+margin: 0 auto;
+}
+
+#contentWrapper{
+background: #fff;
+border: 0;
+margin: 0 auto;
+width: 792px;
+padding:0;
+}
+/*}}}*/
+
+/***
+Header rules
+***/
+/*{{{*/
+.titleLine{
+margin: 80px auto 0em;
+margin-left:1.7em;
+margin-bottom: 40px;
+padding: 0;
+text-align: left;
+color: #fff;
+}
+
+.siteTitle {
+font-size: 2em;
+font-weight: bold;
+}
+
+.siteSubtitle {
+font-size: 1.1em;
+display: block;
+margin: .5em auto 1em;
+}
+
+.gradient {margin: 0 auto;}
+
+
+
+.header {
+background: #fff; 
+margin: 0 auto;
+padding:0 12px;
+width: 768px;
+}
+/*}}}*/
+
+/***
+Display Area
+***/
+/*{{{*/
+#bodywrapper {margin:0 12px; padding:0;background:#fff; height:1%}
+
+#displayArea{
+margin: 0em 16em 0em 1em;
+text-align: left;
+}
+
+.tiddler {
+padding: 1em 1em 0em 0em;
+}
+
+h1,h2,h3,h4,h5 {color: #000; background: transparent; padding-bottom:2px; border-bottom: 1px dotted #666;}
+.title {color:black; font-size:1.8em; border-bottom:1px solid #333; padding-bottom:0.3px;}
+.subtitle {font-size:90%; color:#ccc; padding-left:0.25em; margin-top:0.1em;}
+
+.shadow .title {
+color: #aaa;
+}
+
+.tagClear{
+clear: none; 
+}
+
+* html .viewer pre {
+margin-left: 0em;
+}
+
+* html .editor textarea, * html .editor input {
+width: 98%;
+}
+
+.tiddler {margin-bottom:1em; padding-bottom:0em;}
+
+
+.toolbar .button {color:#bbb; border:none;}
+.toolbar .button:hover, .toolbar .highlight, .toolbar .marked, .toolbar a.button:active {background:transparent; color:#111; border:none; text-decoration:underline;}
+
+#sidebar .highlight, #sidebar .marked {background:transparent;}
+
+.tagging, .tagged {
+border: 1px solid #eee;
+background-color: #F7F7F7;
+}
+
+.selected .tagging, .selected .tagged {
+background-color: #eee;
+border: 1px solid #bbb;
+}
+
+.tagging .listTitle, .tagged .listTitle {
+color: #bbb;
+}
+
+.selected .tagging .listTitle, .selected .tagged .listTitle {
+color: #222; 
+}
+
+
+.tagging .button:hover, .tagged .button:hover {
+border: none; background:transparent; text-decoration:underline; color:#000;
+}
+
+.tagging .button, .tagged .button {
+color:#aaa;
+}
+
+.selected .tagging .button, .selected .tagged .button {
+color:#000;
+}
+
+.viewer blockquote {
+border-left: 3px solid #000;
+}
+
+.viewer pre, .viewer code {
+border: 1px dashed #ccc;
+background: #eee;}
+
+.viewer hr {
+border: 0;
+border-top: solid 1px #333;
+margin: 0 8em;
+color: #333;
+}
+
+.highlight, .marked {background:transparent; color:#111; border:none; text-decoration:underline;}
+
+.viewer .highlight, .viewer .marked {text-decoration:none;}
+
+#sidebarTabs .highlight, #sidebarTabs .marked {color:#000; text-decoration:none;}
+
+.tabSelected {
+color: #000;
+background: #fff;
+border-top: solid 1px #ccc;
+border-left: solid 1px #ccc;
+border-right: solid 1px #ccc;
+border-bottom: none;
+}
+
+.viewer .tabSelected:hover{color:#000;}
+
+.viewer .tabSelected {font-weight:bold;}
+
+.tabUnselected {
+color: #999;
+background: #eee;
+border-top: solid 1px #ccc;
+border-left: solid 1px #ccc;
+border-right: solid 1px #ccc;
+border-bottom: solid 1px #ccc;
+padding-bottom:1px;
+}
+
+.tabContents {
+background: #fff;
+color: #000;
+}
+/*}}}*/
+/***
+Tables
+***/
+/*{{{*/
+.viewer table {
+border: 1px solid #000;
+}
+
+.viewer th, thead td {
+background: #000;
+border: 1px solid #000;
+color: #fff;
+}
+
+.viewer td, .viewer tr {
+border: 1px solid #111;
+}
+/*}}}*/
+
+
+/***
+Editor area
+***/
+/*{{{*/
+.editor input, .editor textarea {
+border: 1px solid #ccc;
+}
+
+.editor {padding-top:0.3em;}
+
+.editor textarea:focus, .editor input:focus {
+border: 1px solid #333;
+}
+/*}}}*/
+
+/***
+Sidebar
+***/
+/*{{{*/
+#sidebar{
+position:relative;
+float:right;
+margin-bottom:1em;
+display:inline;
+width: 16em;
+}
+
+#sidebarOptions .sliderPanel {
+background: #eee; border:1px solid #ccc;
+}
+
+/*}}}*/
+
+/***
+Body Footer rules
+***/
+/*{{{*/
+#contentFooter {
+text-align: left;
+clear: both;
+color:#fff;
+background: #000;
+padding: 1em 2em;
+font-weight:bold;
+}
+
+/*}}}*/
+/***
+Link Styles
+***/
+/*{{{*/
+a{
+color: #000;
+}
+
+a:hover{
+color: #FF6600;
+background:#fff;
+}
+
+
+.button {
+color: #000;
+border: 1px solid #fff;
+}
+
+.button:hover {
+color: #fff;
+background: #ff8614;
+border-color: #000;
+}
+
+.button:active {
+color: #fff;
+background: #ff8614;
+border: 1px solid #000;
+}
+
+.tiddlyLink {border-bottom: 1px dotted #000;}
+.tiddlyLink:hover {border-bottom: 1px dotted #FF6600;} 
+
+.titleLine a {border-bottom: 1px dotted #FF9900;}
+
+.titleLine a:hover {border-bottom: 1px dotted #fff;}
+
+.siteTitle a, .siteSubtitle a{
+color: #fff;
+}
+
+.viewer .button {border: 1px solid #ff8614; font-weight:bold;}
+.viewer .button:hover, .viewer .marked, .viewer .highlight{background:#ff8614; color:#fff; font-weight:bold; border: 1px solid #000;}
+
+#topMenu .button, #topMenu .tiddlyLink {
+margin-left:0.5em; margin-right:0.5em;
+padding-left:3px; padding-right:3px;
+color:white;
+}
+#topMenu .button:hover, #topMenu .tiddlyLink:hover {background:#000; color:#FF8814}
+
+#topMenu a{border:none;}
+/*}}}*/
+
+/***
+Message Area
+***/
+/*{{{*/
+#messageArea {
+border: 4px dotted #ff8614;
+background: #000;
+color: #fff;
+font-size:90%;
+}
+
+#messageArea .button {
+padding: 0.2em;
+color: #000;
+background: #fff;
+text-decoration:none;
+font-weight:bold;
+border:1px solid #000; 
+}
+
+#messageArea a {color:#fff;}
+
+#messageArea a:hover {color:#ff8614; background:transparent;}
+
+#messageArea .button:hover {background: #FF8614; color:#fff; border:1px solid #fff;}
+
+/*}}}*/
+
+/***
+Popup
+***/
+/*{{{*/
+.popup {
+background: #ff8814;
+border: 1px solid #333;
+}
+
+.popup hr {
+color: #333;
+background: #333;
+border-bottom: 1px;
+}
+
+.popup li.disabled {
+color: #333;
+}
+
+.popup li a, .popup li a:visited {
+color: #eee;
+border: none;
+}
+
+.popup li a:hover {
+background: #ff8614;
+color: #fff;
+border: none;
+text-decoration:underline;
+}
+/*}}}*/
+
+/*{{{*/
+.blog h2, .blog h3, .blog h4{
+margin:0;
+padding:0;
+border-bottom:none;
+}
+.blog {margin-left:1.5em;}  
+
+.blog .excerpt {
+margin:0;
+margin-top:0.3em;
+padding: 0;
+margin-left:1em;
+padding-left:1em;
+font-size:90%;
+border-left:1px solid #ddd;
+}
+
+#tiddlerWhatsNew h1, #tiddlerWhatsNew h2 {border-bottom:none;}
+div[tags~="RecentUpdates"], div[tags~="lewcidExtension"] {margin-bottom: 2em;}
+
+#hoverMenu  .button, #hoverMenu  .tiddlyLink {border:none; font-weight:bold; background:#f37211; color:#fff; padding:0 5px; float:right; margin-bottom:4px;}
+#hoverMenu .button:hover, #hoverMenu .tiddlyLink:hover {font-weight:bold; border:none; color:#f37211; background:#000; padding:0 5px; float:right; margin-bottom:4px;}
+
+#topMenu .fontResizer {float:right;}
+
+#topMenu .fontResizer .button{border:1px solid #000;}
+#topMenu .fontResizer .button:hover {border:1px solid #f37211; color:#fff;}
+#sidebarTabs .txtMainTab .tiddlyLinkExisting {
+font-weight: normal;
+font-style: normal;
+}
+
+#sidebarTabs .txtMoreTab .tiddlyLinkExisting {
+font-weight: bold;
+font-style: normal;
+}
+
+.blog h2, .blog h3, .blog h4{
+margin:0;
+padding:0;
+border-bottom:none;
+}
+.blog {margin-left:1.5em;}  
+
+
+.blog .excerpt {
+margin:0;
+margin-top:0.3em;
+padding: 0;
+margin-left:1em;
+padding-left:1em;
+font-size:90%;
+border-left:1px solid #ddd;
+}
+
+#tiddlerWhatsNew h1, #tiddlerWhatsNew h2 {border-bottom:none;}
+div[tags~="RecentUpdates"], div[tags~="lewcidExtension"] {margin-bottom: 2em;}
+
+#hoverMenu {background:transparent;}
+#hoverMenu  .button, #hoverMenu  .tiddlyLink {border:none; font-weight:bold; background:#f37211; color:#fff; padding:0 5px; float:right; margin-bottom:4px;}
+#hoverMenu .button:hover, #hoverMenu .tiddlyLink:hover {font-weight:bold; border:none; color:#f37211; background:#000; padding:0 5px; float:right; margin-bottom:4px;}
+
+#topMenu .fontResizer {float:right;}
+
+#topMenu .fontResizer .button{border:1px solid #000;}
+#topMenu .fontResizer .button:hover {border:1px solid #f37211; color:#fff;}
+#sidebarTabs .txtMainTab .tiddlyLinkExisting {
+font-weight: normal;
+font-style: normal;
+}
+
+#sidebarTabs .txtMoreTab .tiddlyLinkExisting {
+font-weight: bold;
+font-style: normal;
+}
+/*}}}*/
+
+/***
+Sidebar CSS by DaveBirss.
+***/
+/*{{{*/
+.tabSelected {
+background: #fff;
+}
+
+.tabUnselected {
+background: #eee;
+}
+
+#sidebar {
+color: #000;
+background: transparent; 
+}
+
+#sidebarOptions {
+background: #fff;
+}
+
+#sidebarOptions input {
+border: 1px solid #ccc;
+}
+
+#sidebarOptions input:hover, #sidebarOptions input:active,  #sidebarOptions input:focus {
+border: 1px solid #000;
+}
+
+#sidebarOptions .button {
+color: #999;
+}
+
+#sidebarOptions .button:hover {
+color: #000;
+background: #fff;
+border-color:white;
+}
+
+#sidebarOptions .button:active {
+color: #000;
+background: #fff;
+}
+
+#sidebarOptions .sliderPanel {
+background: transparent;
+}
+
+#sidebarOptions .sliderPanel A {
+color: #999;
+}
+
+#sidebarOptions .sliderPanel A:hover {
+color: #000;
+background: #fff;
+}
+
+#sidebarOptions .sliderPanel A:active {
+color: #000;
+background: #fff;
+}
+
+.sidebarSubHeading {
+color: #000;
+}
+
+#sidebarTabs {`
+background: #fff
+}
+
+#sidebarTabs .tabSelected {
+color: #000;
+background: #fff;
+border-top: solid 1px #ccc;
+border-left: solid 1px #ccc;
+border-right: solid 1px #ccc;
+border-bottom: none;
+}
+
+#sidebarTabs .tabUnselected {
+color: #999;
+background: #eee;
+border-top: solid 1px #ccc;
+border-left: solid 1px #ccc;
+border-right: solid 1px #ccc;
+border-bottom: none;
+}
+
+#sidebarTabs .tabContents {
+background: #fff;
+}
+
+#sidebarTabs .txtMoreTab .tabSelected {
+background: #fff;
+}
+
+#sidebarTabs .txtMoreTab .tabUnselected {
+background: #eee;
+}
+
+#sidebarTabs .txtMoreTab .tabContents {
+background: #fff;
+}
+
+#sidebarTabs .tabContents .tiddlyLink {
+color: #999;
+border:none;
+}
+
+#sidebarTabs .tabContents .tiddlyLink:hover {
+background: #fff;
+color: #000;
+border:none;
+}
+
+#sidebarTabs .tabContents {
+color: #000;
+}
+
+#sidebarTabs .button {
+color: #666;
+}
+
+#sidebarTabs .tabContents .button:hover {
+color: #000;
+background: #fff;
+}
+
+#sidebar {color:#999;}
+/*}}}*/
+</pre>
+</div>
