@@ -28,6 +28,16 @@ Escaping
 	``escaping`` (surround in double backtick characters).
 Indenting
 > indent
+>> double indent
+
+= Tables =
+
+||~ heading1 ||~ heading2 ||~ heading3 ||
+|| table cell || table cell || table cell ||
+||= centered ||> right || normal ||
+|||| spans 2 columns || cell ||
+|| col1 || col2 || col3 ||
+||col1||col2||col3||
 
 = Links and Images and Files =
 
