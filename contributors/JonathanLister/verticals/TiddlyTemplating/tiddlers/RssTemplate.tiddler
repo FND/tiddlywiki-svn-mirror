@@ -1,0 +1,17 @@
+<div title="RssTemplate" modifier="YourName" created="200801221609" modified="200801221855">
+<pre><?xml version="1.0"?>
+<rss version="2.0">
+<channel>
+<title><<tiddler SiteTitle>></title>
+<link><<tiddler SiteURL>></link>
+<description><<tiddler SiteSubtitle>></description>
+<language>en-us</language>
+(pending fix for {this_year})<copyright>Copyright {this_year} ${username}</copyright>
+<pubDate>{GMTdate}</pubDate>
+<lastBuildDate>{GMTdate}</lastBuildDate>
+<docs>http://blogs.law.harvard.edu/tech/rss</docs>
+(pending fix for ${...})<generator>TiddlyWiki ${version.major}.${version.minor}.${version.revision}</generator>
+<<ListTemplate filter:"[tag[docs]]" template:"RssItemTemplate">>
+</channel>
+</rss></pre>
+</div>
