@@ -46,21 +46,44 @@ if(!version.extensions.ListTemplateMacro) {
 version.extensions.ListTemplateMacro = {installed:true};
 
 config.macros.ListTemplate = {
-	defaultTemplate: "\n",
+	defaultTemplate: "<<view text>>",
+	defaultData: "TemplateData"
 };
 
 config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
+	console.log("logging what 'this' is at top of handler:");
+	console.log(this);
+	console.log("logging what 'tiddler' is at the top of handler:");
+	console.log(tiddler);
 	params = paramString.parseParams("anon",null,true,false,false);
 	var filter = getParam(params,"filter","");
 	var template = getParam(params,"template",null);
 	var list = getParam(params,"list","");
+	var data = getParam(params,"data","");
 	if(template)
 		template = store.getTiddlerText(template,this.defaultTemplate);
 	else
 		template = this.defaultTemplate;
-	var wrapper = createTiddlyElement(place,"div",null,"ListTemplateTiddler");
-	if(filter) {
+	var tiddlers = [];
+	if(data) {
+		// go get the data description and get the tiddlers out
+		// done here using slices of a TemplateData tiddler
+		// could also be done with individual tiddlers or not using slices
+		var filter = store.getTiddlerSlice(this.defaultData,data);
+		tiddlers = store.filterTiddlers(filter);
+	} else {
+		// no data provided, so we inherit
+		// tiddler here refers to the tiddler that the wikifier is using
+		// if this is the top-level template, you will need to give it some data or it will use the containing tiddler for any view (et al.) macros
+		tiddlers.push(tiddler);
+	}
+	for (var t=0; t<tiddlers.length; t++) {
+		var tiddler = tiddlers[t];
+		var wikifier = new Wikifier(template,formatter,null,tiddler);
+		wikifier.subWikifyUnterm(place);
+	}
+	/* if(filter) {
 		// looking for tiddlers
 		var tiddlers = [];
 		tiddlers = store.filterTiddlers(filter);
@@ -83,8 +106,84 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 		// you'd expect not to use any display macros in a template that you weren't passing content to, but the way it works if you run it is that the content would be the tiddler that encloses this call to ListTemplate e.g. another template. We're leaving this in until we have a reason not to
 		var wikifier = new Wikifier(template,formatter,null,tiddler);
 		wikifier.subWikifyUnterm(wrapper);
-	}
+	} */
 };
 
 } //# end of 'install only once'
 //}}}
+
+
+/* Overwriting view macro to allow access to global variables */
+config.macros.view.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	if((tiddler instanceof Tiddler) && params[0]) {
+		if(params[2]=='global') {
+			// little hack to allow you to provide string references to variables e.g. "version.major"
+			var values = params[0].split(".");
+			var value = window;
+			for (var i=0; i<values.length; i++) {
+				value = value[values[i]];
+			}
+		} else
+			var value = store.getValue(tiddler,params[0]);
+		if(value != undefined) {
+			switch(params[1]) {
+				case undefined:
+					highlightify(value,place,highlightHack,tiddler);
+					break;
+				case "link":
+					createTiddlyLink(place,value,true);
+					break;
+				case "wikified":
+					wikify(value,place,highlightHack,tiddler);
+					break;
+				case "date":
+					value = Date.convertFromYYYYMMDDHHMM(value);
+					createTiddlyText(place,value.formatString(params[2] ? params[2] : config.views.wikified.dateFormat));
+					break;
+				default:
+					createTiddlyText(place,value);
+					break;
+			}
+		}
+	}
+};
+
+/***
+!now macro
+
+Usage: <<now what format>>
+'what' can be: hour
+'format' is a date template e.g. "DD MMM YYYY"
+***/
+
+config.macros.now = {};
+config.macros.now.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	var d = new Date();
+	if(params[0] !== undefined) {
+		switch(params[0]) {
+			case "GMT":
+				createTiddlyText(place,d.toUTCString());
+				break;
+			case "hour":
+				dateFormat = "hh";
+				createTiddlyText(place,d.formatString(dateFormat));
+				break;
+			case "year":
+				dateFormat = "YYYY";
+				createTiddlyText(place,d.formatString(dateFormat));
+				break;
+			default:
+				dateFormat = config.views.wikified.dateFormat;
+				createTiddlyText(place,d.formatString(dateFormat));
+				break;
+		}
+	}
+};
+
+/***
+!permaLink macro
+
+Usage: <<permaLink tiddler>>
+If 'tiddler' is not included, the permalink applies to the whole story
+***/

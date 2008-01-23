@@ -1,7 +1,10 @@
 tiddler: DefaultTiddlers.tiddler
 tiddler: DocTest.tiddler
+tiddler: DocTest2.tiddler
 tiddler: ListTemplate_Test.tiddler
+tiddler: RssItemCategoryTemplate.tiddler
 tiddler: RssItemTemplate.tiddler
 tiddler: RssTemplate.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
+tiddler: TemplateData.tiddler

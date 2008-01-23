@@ -6,12 +6,12 @@
 <link><<tiddler SiteURL>></link>
 <description><<tiddler SiteSubtitle>></description>
 <language>en-us</language>
-(pending fix for {this_year})<copyright>Copyright {this_year} ${username}</copyright>
-<pubDate>{GMTdate}</pubDate>
-<lastBuildDate>{GMTdate}</lastBuildDate>
+<copyright>Copyright <<now year>> <<view config.options.txtUserName text global>></copyright>
+<pubDate><<now GMT>></pubDate>
+<lastBuildDate><<now GMT>></lastBuildDate>
 <docs>http://blogs.law.harvard.edu/tech/rss</docs>
-(pending fix for ${...})<generator>TiddlyWiki ${version.major}.${version.minor}.${version.revision}</generator>
-<<ListTemplate filter:"[tag[docs]]" template:"RssItemTemplate">>
+<generator>TiddlyWiki <<view version.major text global>>.<<view version.minor text global>>.<<view version.revision text global>></generator>
+<<ListTemplate data:"RssData" template:"RssItemTemplate">>
 </channel>
 </rss></pre>
 </div>
