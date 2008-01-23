@@ -1,10 +1,11 @@
 package HTML::WikiConverter::Wikispaces;
+use base 'HTML::WikiConverter';
 
 use warnings;
 use strict;
 
-use base 'HTML::WikiConverter';
-
+use URI;
+use File::Basename;
 our $VERSION = '0.01';
 
 =head1 NAME
@@ -21,6 +22,7 @@ HTML::WikiConverter::Wikispaces - Convert HTML to Wikispaces markup
 
 This module contains rules for converting HTML into Wikispaces
 markup. See L<HTML::WikiConverter> for additional usage details.
+
 =cut
 
 sub rules {
@@ -41,9 +43,9 @@ sub rules {
     strong => { alias => 'b' },
     i      => { start => "//", end => "//" },
     em     => { alias => 'i' },
-    u      => { start => '__', end => '__'},
-    code   => { start => '\n[[code]]\n', end => '\n[[code]]\n'},
-    tt     => { start => '{{', end => '}}'},
+    u      => { start => "__", end => "__"},
+    code   => { start => "\n[[code]]\n", end => "\n[[code]]\n"},
+    tt     => { start => "{{", end => "}}"},
 
 # from PhpWiki
     blockquote => { start => \&_blockquote_start, block => 1, line_format => 'multi' },
@@ -58,11 +60,11 @@ sub rules {
 
 # from PmWiki
     table => { block => 1 },
-    tr    => { start => "\n||", line_format => 'single' },
+    tr    => { start => "\n||", line_format => 'multi' },
     td    => { start => \&_td_start, end => \&_td_end, trim => 'both' },
-    th    => { alias => 'td' }
+    th    => { alias => 'td' },
 
-    pre => { preserve => 1 },
+    pre => { preserve => 1 }
   );
 
   return \%rules;
@@ -83,29 +85,36 @@ sub _li_start {
   return "\n$prefix ";
 }
 
+# derived from MediaWiki
 sub _image {
   my( $self, $node, $rules ) = @_;
   return '' unless $node->attr('src');
 
-  my $img = basename( URI->new($node->attr('src'))->path );
-
+  #my $img = basename( URI->new($node->attr('src'))->path );
+  my $img = $node->attr('src');
   my $alt = $node->attr('alt') || '';
+  my $align = $node->attr('align') || '';
+  my $title = $node->attr('title') || '';
   my $width = $node->attr('width') || '';
   my $height = $node->attr('height') || '';
-  my $align = $node->attr('align') || '';
-  my $link = $node->attr('link') || '';
-  my $caption = $node->attr('caption') || '';
-
-  $img .= ' alt="'.$alt.'"' if $alt
-
-  return "[[image:$img]]"
+  
+  my $ret = "[[image:$img";
+  $ret .= " alt=\"$alt\"" if $alt;
+  $ret .= " align=\"$align\"" if $align;
+  $ret .= " width=\"$width\"" if $width;
+  $ret .= " height=\"$height\"" if $height;
+  $ret .= " caption=\"$title\"" if $title;
+  $ret .= "]]";
 }
 
 # derived from PmWiki
 sub _anchor {
   my( $self, $node, $rules ) = @_;
   my $name = $node->attr('name') || '';
-  return "[[#$name]]";
+  my $text = $self->get_elem_contents($node);
+  my $ret = "[[#$name]]";
+  $ret .= "$text" if $text;
+  return $ret;
 }
 
 # derived from PmWiki
@@ -120,24 +129,29 @@ sub _link {
   return "[[$url|$text]]";
 }
 
-
 # tables derived from PmWiki
 sub _td_start {
   my( $self, $node, $rules ) = @_;
-  my $prefix = $node->tag eq 'th' ? '~' : '';
+  my $colspan = $node->attr('colspan') || 1;
+  my $prefix = ( '||' ) x ($colspan-1);
+  $prefix .= $node->tag eq 'th' ? '~' : '';
 
   my $align = $node->attr('align') || 'left';
-  $prefix .= '= ' if $align eq 'center'
-  $prefix .= '> ' if $align eq 'right'
+  my $style = $node->attr('style') || '';
+  $align = 'center' if $style eq 'text-align: center;';
+  $align = 'right' if $style eq 'text-align: right;';
+
+  $prefix .= '= ' if $align eq 'center';
+  $prefix .= '> ' if $align eq 'right';
+  $prefix .= ' ' if $align eq 'left';
 
   return $prefix;
 }
 
 sub _td_end {
   my( $self, $node, $rules ) = @_;
-  my $colspan = $node->attr('colspan') || 1;
-  my $suffix = ( '||' ) x $colspan;
-
+  my $suffix = ' ||';
+ 
   return $suffix;
 }
 
@@ -148,7 +162,7 @@ sub _blockquote_start {
   my $depth = @parent_bqs;
   
   my $start = ( '>' ) x $depth;
-  return "\n".$start;
+  return "\n".$start.' ';
 }
 
 =head1 AUTHOR
