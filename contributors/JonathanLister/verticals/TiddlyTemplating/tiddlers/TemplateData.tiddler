@@ -1,2 +1,3 @@
 <div title="TemplateData" modifier="YourName" created="200801221853" modified="200801221916">
-<pre>| RssData: | [tag[docs]] |</pre></div>
+<pre>One of the main ideas with templating is to get the application logic away from the people controlling the layout. One way to do this is through abstracting away decisions about data.
+| RssData: | [tag[docs]] |</pre></div>
