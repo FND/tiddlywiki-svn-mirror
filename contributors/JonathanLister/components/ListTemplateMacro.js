@@ -46,60 +46,43 @@ if(!version.extensions.ListTemplateMacro) {
 version.extensions.ListTemplateMacro = {installed:true};
 
 config.macros.ListTemplate = {
-	defaultTemplate: "<<view title>>",
+	defaultTemplate: "\n",
 };
 
 config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	params = paramString.parseParams("anon",null,true,false,false);
-	console.log(paramString);
 	var filter = getParam(params,"filter","");
-	var tag = getParam(params,"tag","");
-	var field = getParam(params,"sort","");
 	var template = getParam(params,"template",null);
 	var list = getParam(params,"list","");
 	if(template)
 		template = store.getTiddlerText(template,this.defaultTemplate);
 	else
 		template = this.defaultTemplate;
-	var tiddlers = [];
-	if(tag) {
-		store.forEachTiddler(function(title,tiddler) {
-			if(tiddler.isTagged(tag))
-				tiddlers.push(tiddler);
-		});
-		if(field) {
-			if(TiddlyWiki.standardFieldAccess[field])
-				tiddlers.sort(function(a,b) {return a[field] < b[field] ? -1 : (a[field] == b[field] ? 0 : +1);});
-			else
-				tiddlers.sort(function(a,b) {return a.fields[field] < b.fields[field] ? -1 : (a.fields[field] == b.fields[field] ? 0 : +1);});
-		}
-	} else if(list) {
-		tiddlers = list.readBracketedList();
-	} else {
+	var wrapper = createTiddlyElement(place,"div",null,"ListTemplateTiddler");
+	if(filter) {
+		// looking for tiddlers
+		var tiddlers = [];
 		tiddlers = store.filterTiddlers(filter);
-		console.log(tiddlers);
-	}
-	if(tiddlers[0] instanceof Tiddler) {
-		console.log("working with tiddlers:");
-		console.log(tiddlers);
 		for(var t=0; t<tiddlers.length; t++) {
 			var tiddler = tiddlers[t];
-			var wrapper = createTiddlyElement(place,"div",null,"ListTemplateTiddler");
+			var wikifier = new Wikifier(template,formatter,null,tiddler);
+			wikifier.subWikifyUnterm(wrapper);
+		}
+	} else if(list) {
+		// now we assume we are working with a string of text, so we split it up and make tiddlers out of it
+		var items = list.readBracketedList();
+		for (var t=0; t<items.length; t++) {
+			var tiddler = new Tiddler(items[t]);
+			tiddler.assign(items[t],items[t]);
 			var wikifier = new Wikifier(template,formatter,null,tiddler);
 			wikifier.subWikifyUnterm(wrapper);
 		}
 	} else {
-		console.log("not tiddlers:");
-		console.log(tiddlers);
-		// now we assume we are working with a simple array of text
-		for (var t=0; t<tiddlers.length; t++) {
-			var t = tiddlers[t];
-			var wrapper = createTiddlyElement(place,"div",null,"ListTemplateContent");
-			// in this line, tiddler refers to the parent tiddler running the macro
-			// Q: is this right? think so...
-			wikify(t,wrapper,null,tiddler);
-		}
+		// no content provided, just render template
+		// you'd expect not to use any display macros in a template that you weren't passing content to, but the way it works if you run it is that the content would be the tiddler that encloses this call to ListTemplate e.g. another template. We're leaving this in until we have a reason not to
+		var wikifier = new Wikifier(template,formatter,null,tiddler);
+		wikifier.subWikifyUnterm(wrapper);
 	}
 };
 

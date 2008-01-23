@@ -191,7 +191,6 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 			if(!local_tiddler || local_tiddler.text != tiddler.text) {
 				context.adaptor.getTiddler(tiddler.title,null,null,config.macros.importWorkspace.getTiddlerCallback);
 				import_count++;
-				displayMessage("writing tiddler: " + tiddler.title);
 			}
 		}
 		if (import_count === 0) {

@@ -2,7 +2,9 @@
 <pre><item>
 	<title><<view title>></title>
 	<description><<view text>></description>
-    <<ListTemplate list:"<<view tags>>">>
+   /% <<ListTemplate list:"<<view tags>>">> %/
+   /% manual insert of tags in parameter %/
+    <<ListTemplate list:"tagly taggly">>
 	(pending fix for ${...})<link>${tiddlerPermalink tiddler}</link>
 	<pubDate><<view modified date>></pubDate>
 </item></pre>
