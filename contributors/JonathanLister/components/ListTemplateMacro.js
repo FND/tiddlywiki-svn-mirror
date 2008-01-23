@@ -9,7 +9,7 @@
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.3|
 
-ListTemplateMacro finds a set of tiddlers and renders them through a template. The template can contain additional calls to the macro to allow for e.g. templated looping.
+ListTemplateMacro finds a set of tiddlers and renders them once each through a template. The template can contain additional calls to the macro to allow for e.g. looping inside a template (think RSS items).
 
 -------
 What I'm aiming for here with the adaptation of ListRelatedPlugin:
@@ -52,10 +52,6 @@ config.macros.ListTemplate = {
 
 config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-	console.log("logging what 'this' is at top of handler:");
-	console.log(this);
-	console.log("logging what 'tiddler' is at the top of handler:");
-	console.log(tiddler);
 	params = paramString.parseParams("anon",null,true,false,false);
 	var filter = getParam(params,"filter","");
 	var template = getParam(params,"template",null);
@@ -141,6 +137,9 @@ config.macros.view.handler = function(place,macroName,params,wikifier,paramStrin
 					value = Date.convertFromYYYYMMDDHHMM(value);
 					createTiddlyText(place,value.formatString(params[2] ? params[2] : config.views.wikified.dateFormat));
 					break;
+				case "html":
+					wikify("<!--{{{-->\n"+value+"\n<!--}}}-->",place);
+					break;
 				default:
 					createTiddlyText(place,value);
 					break;
@@ -182,8 +181,13 @@ config.macros.now.handler = function(place,macroName,params,wikifier,paramString
 };
 
 /***
-!permaLink macro
+!permalink macro
 
-Usage: <<permaLink tiddler>>
-If 'tiddler' is not included, the permalink applies to the whole story
+Usage: <<permalink>>
 ***/
+config.macros.permalink = {};
+config.macros.permalink.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	var t = encodeURIComponent(String.encodeTiddlyLink(tiddler.title));
+	createTiddlyText(place,window.location+"#"+t);
+};
