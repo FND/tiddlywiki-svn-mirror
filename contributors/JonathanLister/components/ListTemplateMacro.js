@@ -42,44 +42,38 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 	params = paramString.parseParams("anon",null,true,false,false);
 	var filter = getParam(params,"filter","");
 	var template = getParam(params,"template",null);
+	template = template ? store.getTiddlerText(template,this.defaultTemplate) : this.defaultTemplate;
 	var list = getParam(params,"list","");
 	var data = getParam(params,"data","");
-	if(template)
-		template = store.getTiddlerText(template,this.defaultTemplate);
-	else
-		template = this.defaultTemplate;
 	var tiddlers = [];
 	/* METHOD4 - 24/1/08 - using these calls:
 		<<ListTemplate filter:"[tag[docs]]" template:"RssItemTemplate">>
 		<<ListTemplate data:"tags" template:"RssItemCategoryTemplate">>
 		<<view text>> (for the tags)
-		The way we cope with data passed through to a subtemplate is to create a set of new Tiddler objects with the same title as the current tiddler; each one has a piece of the data array and we then iterate through those */
+		This method for passing data through to subTemplates works by creating "pseudo-tiddlers" (Tiddler objects not in the store) that each carry a part of the data array we want iterating through. We do this to keep the unit of data as the tiddler. */
 	if(filter) {
-		var tiddlers = [];
 		tiddlers = store.filterTiddlers(filter);
 	} else if(data) {
 		switch(data) {
-			case "tags":
-				// creates a new tiddler for each tag and has that tag as its tags
-				for (var i=0;i<tiddler.tags.length;i++) {
-					var t = new Tiddler(tiddler.title);
-					t.tags = new Array(tiddler.tags[i]);
-					tiddlers.push(t);
-				}
-				break;
-			default:
-				tiddlers.push(tiddler);
-				break;		
+		case "tags":
+			// creates a new tiddler for each tag and has that tag as its tags
+			for(var i=0;i<tiddler.tags.length;i++) {
+				var t = new Tiddler(tiddler.title);
+				t.tags = new Array(tiddler.tags[i]);
+				tiddlers.push(t);
+			}
+			break;
+		default:
+			tiddlers.push(tiddler);
+			break;		
 		}
 	} else {
 		// no data provided, so inherit
 		tiddlers.push(tiddler);
 	}
-	for (var t=0; t<tiddlers.length; t++) {
-		var tiddler = tiddlers[t];
+	for(i=0; i<tiddlers.length; i++) {
 		// NOTE: Saq suggested using WikifyStatic here, which returns html and then I could output it batch later
-		var wikifier = new Wikifier(template,formatter,null,tiddler);
-		wikifier.subWikifyUnterm(place);
+		new Wikifier(template,formatter,null,tiddlers[i]).subWikify(place);
 	}
 
 	/* METHOD3 - 24/1/08 - data tells you what you're dealing with and where to get your array from to iterate through. We can expect either to be told to work with tags, text, title or fields, or a set of tiddlers. If we get tiddlers, clearly tiddlers are passed onto the wikifier; if we just get given an array, we can't guarantee that one of those is a "tiddler" per se. There is a problem with creating the wikifier, as that uses autoLinkWikiWords() on the tiddler. This also affects some functions used in formatters: createTiddlyLink, invokeMacro. createTiddlyLink uses getInheritedFields() on the tiddler and that won't work; invokeMacro just passes the tiddler on to the handler. POTENTIAL PROBLEM: SubTemplates can call ListTemplate, and the tiddler parameter could be set to a simple text field. So do we turn these text fields into tiddlers before passing them on to the wikifier? Hmm... Maybe we could overwrite the relevant part of the current tiddler with the data we want? Ok, that's what I'll do... After conversation with Saq, going to stop passing through non-tiddler objects to the wikifier.
@@ -154,38 +148,36 @@ config.macros.view.handler = function(place,macroName,params,wikifier,paramStrin
 			// little hack to allow you to provide string references to variables e.g. "version.major"
 			var values = params[0].split(".");
 			var value = window;
-			for (var i=0; i<values.length; i++) {
+			for(var i=0; i<values.length; i++) {
 				value = value[values[i]];
 			}
-		} else
-			var value = store.getValue(tiddler,params[0]);
+		} else {
+			value = store.getValue(tiddler,params[0]);
+		}
 		if(value != undefined) {
 			switch(params[1]) {
-				case undefined:
-					// highlightify(value,place,highlightHack,tiddler);
-					createTiddlyText(place,value);
-					break;
-				case "link":
-					createTiddlyLink(place,value,true);
-					break;
-				case "wikified":
-					wikify(value,place,highlightHack,tiddler);
-					break;
-				case "date":
-					value = Date.convertFromYYYYMMDDHHMM(value);
-					createTiddlyText(place,value.formatString(params[2] ? params[2] : config.views.wikified.dateFormat));
-					break;
-				case "html":
-					wikify("<!--{{{-->\n"+value+"\n<!--}}}-->",place);
-					break;
-				default:
-					createTiddlyText(place,value);
-					break;
+			case undefined:
+				highlightify(value,place,highlightHack,tiddler);
+				break;
+			case "link":
+				createTiddlyLink(place,value,true);
+				break;
+			case "wikified":
+				wikify(value,place,highlightHack,tiddler);
+				break;
+			case "date":
+				value = Date.convertFromYYYYMMDDHHMM(value);
+				createTiddlyText(place,value.formatString(params[2] ? params[2] : config.views.wikified.dateFormat));
+				break;
+			case "template":
+				wikify("<!--{{{-->\n"+value+"\n<!--}}}-->",place);
+				break;
 			}
 		}
 	} else {
 		// if tiddler isn't an instance of tiddler or we don't provide a paramter for viewing, just print out the tiddler
 		// NB: I don't like this. I would like to fix it so that <<view>> doesn't only works for tiddlers i.e. doesn't do an instanceof check at the top
+		// Don't think I need this anymore 24/1/08 - check this.
 		createTiddlyText(place,tiddler.toString());
 	}
 };
