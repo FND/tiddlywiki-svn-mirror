@@ -1,5 +1,11 @@
 <div title="Welcome" modifier="YourName" created="200801221853" modified="200801221916">
 <pre>Hi!
 
-To see the example of creating a RSS feed using templates, go to [[ListTemplate Test]]. If you go to [[Templates]] you can see what templates are used to create the feed.</pre>
+To see the example of creating a RSS feed using templates, go to [[ListTemplate Test]]. If you go to [[Templates]] you can see what templates are used to create the feed.
+
+If you [[download|http://jonny.jonathan.googlepages.com/TiddlyTemplating.html]] this page - ''right-click and "save as..."'' - and run it locally, you can edit the templates. Closing and re-opening the [[ListTemplate Test]] tiddler triggers re-building the feed.
+
+To track discussion about ~TiddlyTemplating, see the ~TiddlyWikiDev Google Group: http://groups.google.com/group/TiddlyWikiDev
+and this first thread: http://groups.google.com/group/TiddlyWikiDev/t/fbe503a2adc40b06
+I'm blogging about ~TiddlyTemplating at: http://jaybyjayfresh.com</pre>
 </div>
