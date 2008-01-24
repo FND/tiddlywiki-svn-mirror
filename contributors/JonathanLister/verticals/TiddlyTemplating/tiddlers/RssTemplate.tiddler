@@ -11,7 +11,7 @@
 <lastBuildDate><<now GMT>></lastBuildDate>
 <docs>http://blogs.law.harvard.edu/tech/rss</docs>
 <generator>TiddlyWiki <<view version.major text global>>.<<view version.minor text global>>.<<view version.revision text global>></generator>
-<<ListTemplate data:"RssData" template:"RssItemTemplate">>
+<<ListTemplate data:"tiddlers" filter:"[tag[docs]]" template:"RssItemTemplate">>
 </channel>
 </rss></pre>
 </div>

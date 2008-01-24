@@ -62,8 +62,28 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 	else
 		template = this.defaultTemplate;
 	var tiddlers = [];
-	if(data) {
-		// go get the data description and get the tiddlers out
+	/* METHOD3 - 24/1/08 - data tells you what you're dealing with and where to get your array from to iterate through. We can expect either to be told to work with tags, text, title or fields, or a set of tiddlers. If we get tiddlers, clearly tiddlers are passed onto the wikifier; if we just get given an array, we can't guarantee that one of those is a "tiddler" per se. There is a problem with creating the wikifier, as that uses autoLinkWikiWords() on the tiddler. This also affects some functions used in formatters: createTiddlyLink, invokeMacro. createTiddlyLink uses getInheritedFields() on the tiddler and that won't work; invokeMacro just passes the tiddler on to the handler. POTENTIAL PROBLEM: SubTemplates can call ListTemplate, and the tiddler parameter could be set to a simple text field. So do we turn these text fields into tiddlers before passing them on to the wikifier? Hmm... Maybe we could overwrite the relevant part of the current tiddler with the data we want? */
+	switch(data) {
+		case "text":
+			tiddlers.push(tiddler.text);
+			break;
+		case "tags":
+			tiddlers.push(tiddler.tags);
+			break;
+		case "fields":
+			tiddlers.push(tiddler.fields);
+			break;
+		case "tiddlers":
+			// if filter is not provided it will be "", which returns nothing (at core 2.3.0)
+			tiddlers = store.filterTiddlers(filter);
+			break;
+		default:
+			// if you don't provide any data, just pass the tiddler through
+			tiddlers.push(tiddler);
+			break;
+		}
+	/* METHOD2 - 23/1/08
+ 		// go get the data description and get the tiddlers out
 		// done here using slices of a TemplateData tiddler
 		// could also be done with individual tiddlers or not using slices
 		var filter = store.getTiddlerSlice(this.defaultData,data);
@@ -73,13 +93,14 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 		// tiddler here refers to the tiddler that the wikifier is using
 		// if this is the top-level template, you will need to give it some data or it will use the containing tiddler for any view (et al.) macros
 		tiddlers.push(tiddler);
-	}
+	} */
 	for (var t=0; t<tiddlers.length; t++) {
 		var tiddler = tiddlers[t];
 		var wikifier = new Wikifier(template,formatter,null,tiddler);
 		wikifier.subWikifyUnterm(place);
 	}
-	/* if(filter) {
+	/* METHOD1 - close to ListRelated
+	if(filter) {
 		// looking for tiddlers
 		var tiddlers = [];
 		tiddlers = store.filterTiddlers(filter);
@@ -145,6 +166,10 @@ config.macros.view.handler = function(place,macroName,params,wikifier,paramStrin
 					break;
 			}
 		}
+	} else {
+		// if tiddler isn't an instance of tiddler or we don't provide a paramter for viewing, just print out the tiddler
+		// NB: I don't like this. I would like to fix it so that <<view>> doesn't only works for tiddlers i.e. doesn't do an instanceof check at the top
+		createTiddlyText(place,tiddler.toString());
 	}
 };
 
