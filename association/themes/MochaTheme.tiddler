@@ -1,0 +1,402 @@
+<div title="MochaTheme" modifier="SaqImtiaz" created="200709121208" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|MochaTheme|
+|''Description:''|Mocha is a minimalistic theme for those that like a clean and elegant presentation|
+|''Author:''|Saq Imtiaz|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/MochaTheme.tiddler |
+|''Version:''|1.0|
+|''Date:''|Jan 13, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~SideBarOptions:''|##MochaSideBarOptions|
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div id='header' class='header'>
+<div class='headerShadow'>
+<span class='searchBar' macro='search'></span>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+
+</div>
+<div id='mainMenu'>
+<span refresh='content' tiddler='MainMenu'></span>
+<span id='noticeBoard' refresh='content' tiddler='MochaTheme##NoticeBoard'></span>
+
+</div>
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' tiddler='MochaTheme##MochaSideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<div id='contentFooter' refresh='content' tiddler='MochaTheme##contentFooter'></div>
+<!--}}}-->
+
+!MochaSideBarOptions
+<<closeAll>><<permaview>><<newTiddler>><<newJournal 'DD MMM YYYY'>><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel 'options »' 'Change TiddlyWiki advanced options'>>
+
+!contentFooter
+[[TiddlyWiki|http://www.tiddlywiki.com]] © Osmosoft
+
+!NoticeBoard
+Last Updated: 
+Copyright ©
+
+!StyleSheet
+/*{{{*/
+/*Design and CSS originally by Anthony, ported to TiddlyWiki by Saq Imtiaz.*/
+/*}}}*/
+/*{{{*/
+#contentWrapper {
+margin: 0 3.4em;
+font-family: Lucida Grande, Tahoma, Arial, Helvetica, sans-serif; /* Lucida Grande for the Macs, Tahoma for the PCs */
+font-size: 11px;
+line-height: 1.6em;
+color: #666;
+}
+
+.header {
+background: #fff; 
+padding-top: 10px;
+clear: both;
+border-bottom: 4px solid #948979;
+}
+
+.headerShadow {padding: 2.6em 0em 0.5em 0em;}
+
+.siteTitle {
+font-family: 'Trebuchet MS' sans-serif;
+font-weight: bold;
+font-size: 32px;
+color: #CC6633;
+margin-bottom: 30px;
+background-color: #FFF;
+}
+
+.siteTitle a{color:#CC6633; border-bottom:1px dotted #cc6633;}
+
+.siteSubtitle {
+font-size: 1.0em;
+display: block;
+margin: .5em 3em; color: #999999;
+}
+
+#mainMenu {
+position:relative;
+float:left;
+margin-bottom:1em;
+display:inline;
+text-align:left;
+padding: 2em 0.5em 0.5em 0em;
+width:13em;
+font-size:1em;
+}
+
+#sidebar{
+position:relative;
+float:right;
+margin-bottom:1em;
+padding-top:2em;
+display:inline;
+}
+
+#displayArea {
+margin: 0em 17em 0em 15em;
+}
+
+.tagClear {clear:none;}
+
+#contentFooter {background:#575352; color:#BFB6B3; clear: both; padding: 0.5em 1em;}
+
+#contentFooter a {
+color: #BFB6B3;
+border-bottom: 1px dotted #BFB6B3;
+}
+
+#contentFooter a:hover {
+color: #FFFFFF;
+background-color:#575352;
+}
+
+a,#sidebarOptions .sliderPanel a{
+color:#CC6714;
+text-decoration: none;
+}
+
+a:hover,#sidebarOptions .sliderPanel a:hover {
+color:#CC6714;
+background-color: #F5F5F5; 
+}
+
+.viewer .button, .editorFooter .button{
+color: #666;
+border: 1px solid #CC6714;
+}
+
+.viewer .button:hover, 
+.editorFooter .button:hover{
+color: #fff;
+background: #CC6714;
+border-color: #CC6714;
+}
+
+.viewer .button:active, .viewer .highlight,.editorFooter .button:active, .editorFooter .highlight{color:#fff; background:#575352;border-color:#575352;}
+
+#mainMenu a {
+display: block;
+padding: 5px;
+border-bottom: 1px solid #CCC;
+}
+
+#mainMenu a:link, #navlist a:visited {
+color:#CC6714;
+text-decoration: none;
+}
+
+#mainMenu a:hover {
+background: #000000 url(arrow.gif) 96% 50% no-repeat;
+background-color: #F5F5F5;
+color:#CC6714;
+}
+
+#mainMenu a:hover, #mainMenu a:active, #mainMenu .highlight, #mainMenu .marked {
+background: #000000 url(arrow.gif) 96% 50% no-repeat;
+background-color: #F5F5F5;
+color:#CC6714;
+}
+
+#mainMenu span {position:relative;}
+
+#mainMenu br {display:none;}
+
+#sidebarOptions a {
+color:#999;
+text-decoration: none;
+}
+
+#sidebarOptions	a:hover {
+color:#4F4B45;
+background-color: #F5F5F5;border:1px solid #fff;
+}
+
+#sidebarOptions {line-height:1.4em;}
+
+.tiddler {
+padding-bottom: 40px;
+border-bottom: 1px solid #DDDDDD; 
+}
+
+.title {color:#CC6633;}
+.subtitle, .subtitle a {color:#999999;font-size:1.0em;margin:0.2em;}
+.shadow .title{color:#948979;}
+
+.selected .toolbar a {color:#999999;}
+.selected .toolbar a:hover {color:#4F4B45; background:transparent;border:1px solid #fff;}
+
+.toolbar .button:hover, .toolbar .highlight, .toolbar .marked, .toolbar a.button:active{color:#4F4B45; background:transparent;border:1px solid #fff;}
+
+.listLink,#sidebarTabs .tabContents {line-height:1.5em;}
+.listTitle {color:#888;}
+
+#sidebarTabs .tabContents {background:#fff;}
+#sidebarTabs .tabContents .tiddlyLink, #sidebarTabs .tabContents .button{color:#999;}
+#sidebarTabs .tabContents .tiddlyLink:hover,#sidebarTabs .tabContents .button:hover{color:#4F4B45;background:#fff}
+#sidebarTabs .tabContents .button:hover, #sidebarTabs .tabContents .highlight, #sidebarTabs .tabContents .marked, #sidebarTabs .tabContents a.button:active{color:#4F4B45;background:#fff}
+
+.tabSelected{color:#fff; background:#948979;}
+
+.tabUnselected {
+background: #ccc;
+}
+
+.tabSelected, .tabSelected:hover {
+color: #fff;
+background: #948979;
+border: solid 1px #948979;
+padding-bottom:1px;
+}
+
+.tabUnselected {
+color: #999;
+background: #eee;
+border: solid 1px #ccc;
+padding-bottom:1px;
+}
+
+#sidebarTabs .tabUnselected {border-bottom:none;padding-bottom:3px;}
+#sidebarTabs .tabSelected {padding-bottom:3px;}
+
+#sidebarTabs .tabUnselected:hover {border-bottom:none;padding-bottom:3px;color:#4F4B45}
+
+#sidebarOptions .sliderPanel {
+background: #fff; border:none;
+font-size: .9em;
+}
+#sidebarOptions .sliderPanel a {font-weight:normal;}
+#sidebarOptions .sliderPanel input {border:1px solid #999;}
+
+.viewer blockquote {
+border-left: 3px solid #948979;
+}
+
+.viewer table {
+border: 2px solid [[ColorPalette::TertiaryDark]];
+}
+
+.viewer th, thead td {
+background: #948979;
+border: 1px solid #948979;
+color: #fff;
+}
+
+.viewer pre {
+border: 1px solid #948979;
+background: #f5f5f5;
+}
+
+.viewer code {
+color: #2F2A29;
+}
+
+.viewer hr {
+border-top: dashed 1px #948979;
+}
+
+.editor input {
+border: 1px solid #948979;
+}
+
+.editor textarea {
+border: 1px solid #948979;
+}
+
+.popup {
+background: #948979;
+border: 1px solid #948979;
+}
+
+.popup li.disabled {
+color: #000;
+}
+
+.popup li a, .popup li a:visited {
+color: #eee;
+border: none;
+}
+
+.popup li a:hover {
+background: #575352;
+color: #fff;
+border: none;
+}
+
+.tagging, .tagged {
+border: 1px solid #eee;
+background-color: #F7F7F7;
+}
+
+.selected .tagging, .selected .tagged {
+background-color: #eee;
+border: 1px solid #BFBAB3;
+}
+
+.tagging .listTitle, .tagged .listTitle {
+color: #bbb;
+}
+
+.selected .tagging .listTitle, .selected .tagged .listTitle {
+color: #666; 
+}
+
+.tagging .button, .tagged .button {
+color:#aaa;
+}
+.selected .tagging .button, .selected .tagged .button {
+color:#4F4B45;
+}
+
+.highlight, .marked {background:transparent; color:#111; border:none; text-decoration:underline;}
+
+.tagging .button:hover, .tagged .button:hover, .tagging .button:active, .tagged .button:active {
+border: none; background:transparent; text-decoration:underline; color:#000;
+}
+
+h1,h2,h3,h4,h5 {color:#666;background:transparent;padding-bottom:2px;font-family:Arial,Helvetica,sans-serif;}
+h1 {font-size:18px;}
+h2 {font-size:16px;}
+h3 {font-size: 14px;}
+
+#messageArea {
+border: 4px solid #948979;
+background: #f5f5f5;
+color: #999;
+font-size:90%;
+}
+
+#messageArea a:hover {background:#f5f5f5;}
+
+#messageArea .button{
+color: #666;
+border: 1px solid #CC6714;
+}
+
+#messageArea .button:hover {
+color: #fff;
+background: #948979;
+border-color: #948979;
+}
+
+* html .viewer pre {
+margin-left: 0em;
+}
+
+* html .editor textarea, * html .editor input {
+width: 98%;
+}
+
+.searchBar {float:right;font-size: 1.0em;}
+.searchBar .button {color:#999;display:block;}
+.searchBar .button:hover {border:1px solid #fff;color:#4F4B45;}
+.searchBar input {			
+	background-color: #FFF;
+color: #999999;
+border: 1px solid #CCC;		margin-right:3px;
+}
+
+#sidebarOptions .button:active, #sidebarOptions .highlight {background:#F5F5F5;}
+
+*html #contentFooter {padding:0.25em 1em 0.5em 1em;}
+
+#noticeBoard {font-size: 0.9em; color:#999; position:relative;display:block;background:#fff; clear: both; margin-right:0.5em; margin-top:60px; padding:5px; border-bottom: 1px dotted #CCC; border-top: 1px dotted #CCC;}
+#mainMenu #noticeBoard a,#mainMenu #noticeBoard .tiddlyLink {display:inline;border:none;padding:5px 2px;color:#DF9153}
+#noticeBoard a:hover {border:none;}	
+
+#noticeBoard br {display:inline;}
+
+#mainMenu #noticeBoard  .button{
+color: #666;
+border: 1px solid #DF9153;padding:2px;
+}
+
+#mainMenu #noticeBoard  .button:hover{
+color: #fff;
+background: #DF9153;
+border-color: #DF9153;
+}
+
+.searchbar {position:relative; width:11em;}
+.searchbar .button{margin:0; width:11em;}
+#header {display:inline-block;}
+/*}}}*
+/</pre>
+</div>
