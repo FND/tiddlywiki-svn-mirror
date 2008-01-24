@@ -397,6 +397,6 @@ border-color: #DF9153;
 .searchbar {position:relative; width:11em;}
 .searchbar .button{margin:0; width:11em;}
 #header {display:inline-block;}
-/*}}}*
-/</pre>
+/*}}}*/
+</pre>
 </div>
