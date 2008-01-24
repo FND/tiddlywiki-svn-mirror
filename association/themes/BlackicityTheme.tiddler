@@ -1,0 +1,283 @@
+<div title="BlackicityTheme" modifier="TiddlyThemes" created="200612290000" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|BlackicityTheme|
+|''Description:''|Blackicity is a simple and clean theme that offers maximum work space|
+|''Author:''|Saq Imtiaz|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/BlackicityTheme.tiddler |
+|''Version:''|1.0|
+|''Date:''|Jan 13, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div id='topMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+!StyleSheet
+/*{{{*/
+body {font-family: "Neue Helvetica", Helvetica, "Lucida Grande", Verdana, sans-serif;
+background-color:#fff;
+color:#333;
+}
+
+#topMenu {position:relative; background:#282826; padding:10px; color:#fff;font-family:'Lucida Grande', Verdana, Sans-Serif;}
+#topMenu br {display:none;}
+
+#topMenu a {color: #999;
+padding: 0px 8px 0px 8px;
+border-right: 1px solid #444;
+}
+
+#topMenu a:hover {color:#fff; background:transparent;}
+
+#displayArea {margin-left:1em; margin-bottom:2em; margin-top:0.5em;}
+
+a, a:hover{
+color:#333;
+text-decoration: none;   background:transparent; 
+}
+
+.viewer a, .viewer a:hover {border-bottom:1px dotted #333; font-weight:bold;}
+
+.viewer .button, .editorFooter .button{
+color: #333;
+border: 1px solid #333;
+}
+
+.viewer .button:hover,
+.editorFooter .button:hover, .viewer .button:active, .viewer .highlight,.editorFooter .button:active, .editorFooter .highlight{
+color: #fff;
+background: #333;
+border-color: #333;
+}
+
+.tiddler .viewer {line-height:1.45em;}
+.title {color:#222; border-bottom:1px solid#222; font-family:'Lucida Grande', Verdana, Sans-Serif; font-size:1.5em;}
+.subtitle, .subtitle a {color:#999999;font-size:0.95em;margin:0.2em;}
+.shadow .title{color:#999;}
+
+.toolbar {font-size:90%;}
+.selected .toolbar a {color:#999999;}
+.selected .toolbar a:hover {color:#333; background:transparent;border:1px solid #fff;}
+
+.toolbar .button:hover, .toolbar .highlight, .toolbar .marked, .toolbar a.button:active{color:#333; background:transparent;border:1px solid #fff;}
+
+/***
+Sidebar
+***/
+#sidebar {margin-bottom:2em !important; margin-bottom:1em; right:0;}
+
+/***
+SidebarOptions
+***/
+#sidebarOptions {padding-top:2em;background:#f3f3f3;padding-left:0.5em;}
+
+#sidebarOptions a {
+color:#333;
+background:#f3f3f3;
+border:1px solid #f3f3f3;
+text-decoration: none;
+}
+
+#sidebarOptions	a:hover, #sidebarOptions a:active {
+color:#222;
+background-color:#fff;border:1px solid #fff;
+}
+
+#sidebarOptions input {border:1px solid #ccc;}
+
+#sidebarOptions .sliderPanel {
+background: #f3f3f3; 	font-size: .9em;
+}
+
+#sidebarOptions .sliderPanel input {border:1px solid #999;}
+#sidebarOptions .sliderPanel .txtOptionInput {border:1px solid #999;width:9em;}
+
+#sidebarOptions .sliderPanel a {font-weight:normal; color:#555;background-color: #f3f3f3; border-bottom:1px dotted #333;}
+
+#sidebarOptions .sliderPanel a:hover {
+color:#111;
+background-color: #f3f3f3;
+border:none;
+border-bottom:1px dotted #111;
+}
+
+/***
+SidebarTabs
+***/
+.listTitle {color:#222;}
+#sidebarTabs {background:#f3f3f3;}
+
+#sidebarTabs .tabContents {background:#cfcfcf;}
+
+#sidebarTabs .tabUnselected:hover {color:#999;}
+
+#sidebarTabs .tabSelected{background:#cfcfcf;}
+
+#sidebarTabs .tabContents .tiddlyLink, #sidebarTabs .tabContents .button{color:#666;}
+#sidebarTabs .tabContents .tiddlyLink:hover,#sidebarTabs .tabContents .button:hover{color:#222;background:transparent; text-decoration:none;border:none;}
+
+#sidebarTabs .tabContents .button:hover, #sidebarTabs .tabContents .highlight, #sidebarTabs .tabContents .marked, #sidebarTabs .tabContents a.button:active{color:#222;background:transparent;}
+
+#sidebarTabs .txtMoreTab .tabSelected,
+#sidebarTabs .txtMoreTab .tab:hover,
+#sidebarTabs .txtMoreTab .tabContents{
+color: #111;
+background: #f3f3f3; border:1px solid #f3f3f3;
+}
+
+#sidebarTabs .txtMoreTab .tabUnselected {
+color: #555;
+background: #AFAFAF;
+}
+
+/***
+Tabs
+***/
+.tabSelected{color:#fefefe; background:#999; padding-bottom:1px;}
+.tabSelected, .tabSelected:hover {
+color: #111;
+background: #fefefe;
+border: solid 1px #cfcfcf;
+}
+
+.tabUnselected {
+color: #999;
+background: #eee;
+border: solid 1px #cfcfcf;
+padding-bottom:1px;
+}
+
+.tabUnselected:hover {text-decoration:none; border:1px solid #cfcfcf;}
+.tabContents {background:#fefefe;}
+
+.tagging, .tagged {
+border: 1px solid #eee;
+background-color: #F7F7F7;
+}
+
+.selected .tagging, .selected .tagged {
+background-color: #f3f3f3;
+border: 1px solid #ccc;
+}
+
+.tagging .listTitle, .tagged .listTitle {
+color: #bbb;
+}
+
+.selected .tagging .listTitle, .selected .tagged .listTitle {
+color: #333;
+}
+
+.tagging .button, .tagged .button {
+color:#ccc;
+}
+
+.selected .tagging .button, .selected .tagged .button {
+color:#aaa;
+}
+
+.highlight, .marked {background:transparent; color:#111; border:none; text-decoration:underline;}
+
+.tagging .button:hover, .tagged .button:hover, .tagging .button:active, .tagged .button:active {
+border: none; background:transparent; text-decoration:underline; color:#333;
+}
+
+.popup {
+background: #cfcfcf;
+border: 1px solid #333;
+}
+
+.popup li.disabled {
+color: #000;
+}
+
+.popup li a, .popup li a:visited {
+color: #555;
+border: none;
+}
+
+.popup li a:hover {
+background: #f3f3f3;
+color: #555;
+border: none;
+}
+
+#messageArea {
+border: 4px dotted #282826;
+background: #F3F3F3;
+color: #333;
+font-size:90%;
+}
+
+#messageArea a:hover {background:#f5f5f5; border:none;}
+
+#messageArea .button{
+color: #333;
+border: 1px solid #282826;
+}
+
+#messageArea .button:hover {
+color: #fff;
+background: #282826;
+border-color: #282826;
+}
+
+.tiddler {padding-bottom:10px;}
+
+.viewer blockquote {
+border-left: 5px solid #282826;
+}
+
+.viewer table, .viewer td {
+border: 1px solid #282826;
+}
+
+.viewer th, thead td {
+background: #282826;
+border: 1px solid #282826;
+color: #fff;
+}
+.viewer pre {
+border: 1px solid #ccc;
+background: #f5f5f5;
+}
+
+.viewer code {
+color: #111; background:#f5f5f5;
+}
+
+.viewer hr {
+border-top: dashed 1px #222; margin:0 1em;
+}
+
+.editor input {
+border: 1px solid #ccc; margin-top:5px;
+}
+
+.editor textarea {
+border: 1px solid #ccc;
+}
+
+h1,h2,h3,h4,h5 {color: #282826; background:transparent;padding-bottom:2px;font-family:Arial,Helvetica,sans-serif;}
+h1 {font-size:18px;}
+h2 {font-size:16px;}
+h3 {font-size: 14px;}
+/*}}}*/
+</pre>
+</div>
