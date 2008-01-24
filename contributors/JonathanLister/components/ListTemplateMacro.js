@@ -11,32 +11,19 @@
 
 ListTemplateMacro finds a set of tiddlers and renders them once each through a template. The template can contain additional calls to the macro to allow for e.g. looping inside a template (think RSS items).
 
--------
-What I'm aiming for here with the adaptation of ListRelatedPlugin:
+It needs to be able to support recursion, so that sub-templates make sense. The content is passed in either through a filter for tiddlers, a tag to get tiddlers, or a space-separated list. We'll support more as we go along, but this is what we need for RSS.
 
-Usage:
+Usage example:
 
 {{{
 <<ListTemplate filter:"[tag[!excludeLists]]" template:"RssTemplate">>
 }}}
 
-It needs to be able to support recursion, so that sub-templates make sense. The content is passed in either through a filter for tiddlers, a tag to get tiddlers, or a space-separated list. We'll support more as we go along, but this is what we need for RSS.
--------
+Parameters can be:
+filter - a tiddler filter
+data - the part of a tiddler to use in the subTemplate
 
-The parameters are as follows:
-
-|Parameter |Description |Default |
-|filter |A tiddler filter expression that filters and sorts the tiddlers to be listed |(none) |
-|list |A space-separated list |
-|template |A template to determine how each tiddler in the list is laid out |"<<view title>>" |
-
-The optional template parameter specifies the name of a tiddler that contains the template to be used. The template is specified
-in TiddlyWiki format (not HTML), and can use the <<view>> macro to extract particular fields. For example:
-
-{{{
-Item ''<<view title>>'' by <<view modifier>>
-^^last saved on <<view modified date>>^^
-}}}
+NOTE: FOR NOW, THIS PLUGIN ALSO INCLUDES OVERRIDEN "VIEW" MACRO AND NEW "NOW" MACRO (AT BOTTOM)
 
 ***/
 
@@ -47,7 +34,7 @@ version.extensions.ListTemplateMacro = {installed:true};
 
 config.macros.ListTemplate = {
 	defaultTemplate: "<<view text>>",
-	defaultData: "TemplateData"
+	// defaultData: "TemplateData" (only needed for METHOD2)
 };
 
 config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,paramString,tiddler)
@@ -62,10 +49,44 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 	else
 		template = this.defaultTemplate;
 	var tiddlers = [];
-	/* METHOD3 - 24/1/08 - data tells you what you're dealing with and where to get your array from to iterate through. We can expect either to be told to work with tags, text, title or fields, or a set of tiddlers. If we get tiddlers, clearly tiddlers are passed onto the wikifier; if we just get given an array, we can't guarantee that one of those is a "tiddler" per se. There is a problem with creating the wikifier, as that uses autoLinkWikiWords() on the tiddler. This also affects some functions used in formatters: createTiddlyLink, invokeMacro. createTiddlyLink uses getInheritedFields() on the tiddler and that won't work; invokeMacro just passes the tiddler on to the handler. POTENTIAL PROBLEM: SubTemplates can call ListTemplate, and the tiddler parameter could be set to a simple text field. So do we turn these text fields into tiddlers before passing them on to the wikifier? Hmm... Maybe we could overwrite the relevant part of the current tiddler with the data we want? */
+	/* METHOD4 - 24/1/08 - using these calls:
+		<<ListTemplate filter:"[tag[docs]]" template:"RssItemTemplate">>
+		<<ListTemplate data:"tags" template:"RssItemCategoryTemplate">>
+		<<view text>> (for the tags)
+		The way we cope with data passed through to a subtemplate is to create a set of new Tiddler objects with the same title as the current tiddler; each one has a piece of the data array and we then iterate through those */
+	if(filter) {
+		var tiddlers = [];
+		tiddlers = store.filterTiddlers(filter);
+	} else if(data) {
+		switch(data) {
+			case "tags":
+				// creates a new tiddler for each tag and has that tag as its tags
+				for (var i=0;i<tiddler.tags.length;i++) {
+					var t = new Tiddler(tiddler.title);
+					t.tags = new Array(tiddler.tags[i]);
+					tiddlers.push(t);
+				}
+				break;
+			default:
+				tiddlers.push(tiddler);
+				break;		
+		}
+	} else {
+		// no data provided, so inherit
+		tiddlers.push(tiddler);
+	}
+	for (var t=0; t<tiddlers.length; t++) {
+		var tiddler = tiddlers[t];
+		// NOTE: Saq suggested using WikifyStatic here, which returns html and then I could output it batch later
+		var wikifier = new Wikifier(template,formatter,null,tiddler);
+		wikifier.subWikifyUnterm(place);
+	}
+
+	/* METHOD3 - 24/1/08 - data tells you what you're dealing with and where to get your array from to iterate through. We can expect either to be told to work with tags, text, title or fields, or a set of tiddlers. If we get tiddlers, clearly tiddlers are passed onto the wikifier; if we just get given an array, we can't guarantee that one of those is a "tiddler" per se. There is a problem with creating the wikifier, as that uses autoLinkWikiWords() on the tiddler. This also affects some functions used in formatters: createTiddlyLink, invokeMacro. createTiddlyLink uses getInheritedFields() on the tiddler and that won't work; invokeMacro just passes the tiddler on to the handler. POTENTIAL PROBLEM: SubTemplates can call ListTemplate, and the tiddler parameter could be set to a simple text field. So do we turn these text fields into tiddlers before passing them on to the wikifier? Hmm... Maybe we could overwrite the relevant part of the current tiddler with the data we want? Ok, that's what I'll do... After conversation with Saq, going to stop passing through non-tiddler objects to the wikifier.
 	switch(data) {
 		case "text":
-			tiddlers.push(tiddler.text);
+			var t = tiddlers.push(tiddler);
+			t.text = tiddler.text;
 			break;
 		case "tags":
 			tiddlers.push(tiddler.tags);
@@ -81,7 +102,7 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 			// if you don't provide any data, just pass the tiddler through
 			tiddlers.push(tiddler);
 			break;
-		}
+		} */
 	/* METHOD2 - 23/1/08
  		// go get the data description and get the tiddlers out
 		// done here using slices of a TemplateData tiddler
@@ -94,11 +115,6 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 		// if this is the top-level template, you will need to give it some data or it will use the containing tiddler for any view (et al.) macros
 		tiddlers.push(tiddler);
 	} */
-	for (var t=0; t<tiddlers.length; t++) {
-		var tiddler = tiddlers[t];
-		var wikifier = new Wikifier(template,formatter,null,tiddler);
-		wikifier.subWikifyUnterm(place);
-	}
 	/* METHOD1 - close to ListRelated
 	if(filter) {
 		// looking for tiddlers
@@ -146,7 +162,8 @@ config.macros.view.handler = function(place,macroName,params,wikifier,paramStrin
 		if(value != undefined) {
 			switch(params[1]) {
 				case undefined:
-					highlightify(value,place,highlightHack,tiddler);
+					// highlightify(value,place,highlightHack,tiddler);
+					createTiddlyText(place,value);
 					break;
 				case "link":
 					createTiddlyLink(place,value,true);
