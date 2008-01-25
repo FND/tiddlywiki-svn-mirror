@@ -6,12 +6,12 @@
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MyDirectory/plugins/ExamplePlugin.js |
 |''Version:''|0.0.1|
 |''Status:''|Not for release - this is a template for creating new plugins|
-|''Date:''|July 31, 2006|
+|''Date:''|Jan 25, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
-|''~CoreVersion:''|2.2|
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
+|''~CoreVersion:''|2.3|
 
-To make this example into a real TiddlyWiki adaptor, you need to:
+To make this example into a real TiddlyWiki plugin, you need to:
 
 # Globally search and replace ExamplePlugin with the name of your plugin
 # Globally search and replace example with the name of your macro
