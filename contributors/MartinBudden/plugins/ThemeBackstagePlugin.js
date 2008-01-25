@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden|
 |''Source:''|http://www.martinswiki.com/#ThemeBackstagePlugin |
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ThemeBackstagePlugin.js |
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Date:''|Jan 25, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -76,6 +76,7 @@ merge(config.macros.themes,{
 		columns: [
 			{name: 'Selected', field: 'option', rowName: 'theme', type: 'Radio'},
 			{name: 'Theme', field: 'theme', title: "Theme", type: 'String'},
+			{name: 'Author', field: 'author', title: "Author", type: 'String'},
 			{name: 'Description', field: 'description', title: "Description", type: 'String'}
 			],
 		rowClasses: [
@@ -105,7 +106,10 @@ config.macros.themes.refreshOptions = function(listView)
 	for(var i=0; i<tiddlers.length; i++) {
 		var t = tiddlers[i].title;
 		var name = store.getTiddlerSlice(t,'Name');
-		options.push({option:config.options.txtTheme==name ? true : false, theme:name, description:store.getTiddlerSlice(t,'Description')});
+		options.push({option:config.options.txtTheme==name ? true : false,
+			theme:name,
+			author:store.getTiddlerSlice(t,'Author'),
+			description:store.getTiddlerSlice(t,'Description')});
 	}
 	ListView.create(listView,options,this.listViewTemplate);
 };
