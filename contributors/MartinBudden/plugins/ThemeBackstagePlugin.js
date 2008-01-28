@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden|
 |''Source:''|http://www.martinswiki.com/#ThemeBackstagePlugin |
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ThemeBackstagePlugin.js |
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|Jan 25, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -30,22 +30,11 @@ merge(config.tasks,{
 	themes: {text: "themes", tooltip: "Switch theme", content: '<<themes>>'}
 });
 
-function createTiddlyRadio(parent,checked,onChange,caption)
-{
-	var e = document.createElement("input");
-	e.setAttribute("type","radio");
-	e.onclick = onChange;
-	parent.appendChild(e);
-	e.checked = checked;
-	e.className = "radOptionInput";
-	if(caption)
-		wikify(caption,parent);
-	return e;
-}
-
 ListView.columnTypes.Radio = {
 	createItem: function(place,listObject,field,columnTemplate,col,row) {
-		var e = createTiddlyRadio(place,listObject[field],ListView.columnTypes.Radio.onItemChange);
+		var e = createTiddlyCheckbox(place,null,listObject[field],ListView.columnTypes.Radio.onItemChange);
+		if(!config.browser.isIE) //# IE does not support radio buttons very well, so keep as checkbox
+			e.setAttribute("type","radio");
 		e.setAttribute("rowName",listObject[columnTemplate.rowName]);
 	},
 	onItemChange: function(ev) {
@@ -56,7 +45,8 @@ ListView.columnTypes.Radio = {
 		var elements = view.getElementsByTagName("input");
 		for(var i=0; i<elements.length; i++) {
 			var e = elements[i];
-			if(e.getAttribute("type") == "radio") {
+			var t = e.getAttribute("type");
+			if(t == "radio" || (config.browser.isIE && t=="checkbox")) {
 				if(e.getAttribute("rowName")!=this.getAttribute("rowname"))
 					e.checked = false;
 			}
