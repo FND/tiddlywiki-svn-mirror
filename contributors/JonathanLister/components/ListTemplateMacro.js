@@ -75,65 +75,6 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 		// NOTE: Saq suggested using WikifyStatic here, which returns html and then I could output it batch later
 		new Wikifier(template,formatter,null,tiddlers[i]).subWikify(place);
 	}
-
-	/* METHOD3 - 24/1/08 - data tells you what you're dealing with and where to get your array from to iterate through. We can expect either to be told to work with tags, text, title or fields, or a set of tiddlers. If we get tiddlers, clearly tiddlers are passed onto the wikifier; if we just get given an array, we can't guarantee that one of those is a "tiddler" per se. There is a problem with creating the wikifier, as that uses autoLinkWikiWords() on the tiddler. This also affects some functions used in formatters: createTiddlyLink, invokeMacro. createTiddlyLink uses getInheritedFields() on the tiddler and that won't work; invokeMacro just passes the tiddler on to the handler. POTENTIAL PROBLEM: SubTemplates can call ListTemplate, and the tiddler parameter could be set to a simple text field. So do we turn these text fields into tiddlers before passing them on to the wikifier? Hmm... Maybe we could overwrite the relevant part of the current tiddler with the data we want? Ok, that's what I'll do... After conversation with Saq, going to stop passing through non-tiddler objects to the wikifier.
-	switch(data) {
-		case "text":
-			var t = tiddlers.push(tiddler);
-			t.text = tiddler.text;
-			break;
-		case "tags":
-			tiddlers.push(tiddler.tags);
-			break;
-		case "fields":
-			tiddlers.push(tiddler.fields);
-			break;
-		case "tiddlers":
-			// if filter is not provided it will be "", which returns nothing (at core 2.3.0)
-			tiddlers = store.filterTiddlers(filter);
-			break;
-		default:
-			// if you don't provide any data, just pass the tiddler through
-			tiddlers.push(tiddler);
-			break;
-		} */
-	/* METHOD2 - 23/1/08
- 		// go get the data description and get the tiddlers out
-		// done here using slices of a TemplateData tiddler
-		// could also be done with individual tiddlers or not using slices
-		var filter = store.getTiddlerSlice(this.defaultData,data);
-		tiddlers = store.filterTiddlers(filter);
-	} else {
-		// no data provided, so we inherit
-		// tiddler here refers to the tiddler that the wikifier is using
-		// if this is the top-level template, you will need to give it some data or it will use the containing tiddler for any view (et al.) macros
-		tiddlers.push(tiddler);
-	} */
-	/* METHOD1 - close to ListRelated
-	if(filter) {
-		// looking for tiddlers
-		var tiddlers = [];
-		tiddlers = store.filterTiddlers(filter);
-		for(var t=0; t<tiddlers.length; t++) {
-			var tiddler = tiddlers[t];
-			var wikifier = new Wikifier(template,formatter,null,tiddler);
-			wikifier.subWikifyUnterm(wrapper);
-		}
-	} else if(list) {
-		// now we assume we are working with a string of text, so we split it up and make tiddlers out of it
-		var items = list.readBracketedList();
-		for (var t=0; t<items.length; t++) {
-			var tiddler = new Tiddler(items[t]);
-			tiddler.assign(items[t],items[t]);
-			var wikifier = new Wikifier(template,formatter,null,tiddler);
-			wikifier.subWikifyUnterm(wrapper);
-		}
-	} else {
-		// no content provided, just render template
-		// you'd expect not to use any display macros in a template that you weren't passing content to, but the way it works if you run it is that the content would be the tiddler that encloses this call to ListTemplate e.g. another template. We're leaving this in until we have a reason not to
-		var wikifier = new Wikifier(template,formatter,null,tiddler);
-		wikifier.subWikifyUnterm(wrapper);
-	} */
 };
 
 } //# end of 'install only once'
@@ -224,4 +165,71 @@ config.macros.permalink.handler = function(place,macroName,params,wikifier,param
 {
 	var t = encodeURIComponent(String.encodeTiddlyLink(tiddler.title));
 	createTiddlyText(place,window.location+"#"+t);
+};
+
+/***
+Experimental override of saveRSS using templating
+***/
+var saveRssOld = saveRss;
+function saveRss(localPath)
+{
+	if (!config.macros.ListTemplate) {
+		saveRssOld(localPath);
+		return;
+	}
+	//# Save Rss
+	if(config.options.chkGenerateAnRssFeed) {
+		var rssPath = localPath.substr(0,localPath.lastIndexOf(".")) + ".xml";
+		// START hack
+		var e = document.createElement("div");
+		var paramString = 'template:"RssTemplate"';
+		config.macros.ListTemplate.handler(e,"ListTemplate",null,null,paramString);
+		var rssSave = saveFile(rssPath,convertUnicodeToUTF8(e.textContent));
+		// END hack
+		// OLD var rssSave = saveFile(rssPath,convertUnicodeToUTF8(generateRss()));
+		if(rssSave)
+			displayMessage(config.messages.rssSaved,"file://" + rssPath);
+		else
+			alert(config.messages.rssFailed);
+	}
+}
+
+/***
+Experimental TiddlyTemplating save macro
+
+usage: <<TiddlyTemplating template path>>
+***/
+config.macros.TiddlyTemplating = {};
+
+config.macros.TiddlyTemplating.handler = function(place,macroName,params) {
+	config.messages.fileSaved = "file successfully saved";
+	config.messages.fileFailed = "file save failed";
+	var saveName = params[0];
+	var template = params[1];
+	if (!template) {
+		// Change to use a default template when one exists, maybe to backup the whole TW?
+		displayMessage("TiddlyTemplating: usage <<TiddlyTemplating filename template>>");
+		return;
+	}
+	var localPath = getLocalPath(document.location.toString());
+	var savePath;
+	if((p = localPath.lastIndexOf("/")) != -1)
+		savePath = localPath.substr(0,p) + "/" + saveName;
+	else if((p = localPath.lastIndexOf("\\")) != -1)
+		savePath = localPath.substr(0,p) + "\\" + saveName;
+	else
+		savePath = localPath + "." + saveName;
+	var e = document.createElement("div");
+	var paramString = 'template:"'+template+'"';
+	createTiddlyText(place,"generating...");
+	config.macros.ListTemplate.handler(e,"ListTemplate",null,null,paramString,null);
+	createTiddlyText(place,"saving...");
+	var fileSave = saveFile(savePath,convertUnicodeToUTF8(e.textContent));
+	if(fileSave) {
+		createTiddlyText(place,"saved...");
+		// would rather use displayMessage, but doesn't work when opening tiddler
+		// displayMessage(config.messages.fileSaved,"file://" + savePath);
+	}
+	else
+		alert(config.messages.fileFailed,"file://"+savePath);
 };

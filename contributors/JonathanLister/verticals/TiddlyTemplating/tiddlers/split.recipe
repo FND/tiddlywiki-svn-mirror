@@ -1,6 +1,10 @@
 tiddler: DefaultTiddlers.tiddler
 tiddler: DocTest.tiddler
 tiddler: DocTest2.tiddler
+tiddler: HtmlPagePostTemplate.tiddler
+tiddler: HtmlPageTemplate_Test.tiddler
+tiddler: HtmlPageTemplate.tiddler
+tiddler: HtmlSave_Test.tiddler
 tiddler: ListTemplate_Test.tiddler
 tiddler: MainMenu.tiddler
 tiddler: RssItemCategoryTemplate.tiddler
@@ -8,7 +12,8 @@ tiddler: RssItemTemplate.tiddler
 tiddler: RssTemplate.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
+tiddler: Post_1_-_This_is_the_new_world_order.tiddler
+tiddler: Post_2_-_In_Cars.tiddler
 tiddler: TemplateData.tiddler
-tiddler: Templates.tiddler
 tiddler: templateViewTemplate.tiddler
 tiddler: Welcome.tiddler
