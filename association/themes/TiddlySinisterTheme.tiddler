@@ -1,0 +1,406 @@
+<div title="TiddlySinisterTheme" modifier="ClintChecketts" created="200701130013" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|TiddlySinisterTheme|
+|''Description:''|The darker side of TW|
+|''Author:''|ClintChecketts|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/TiddlySinisterTheme.tiddler |
+|''Version:''|1.1|
+|''Date:''|Jan 13, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+Desgined by Clint Checketts (http://www.checkettsweb.com) and inspired from Minz Meyer (http://www.minzweb.de)
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div id='header'>
+<div id='titleline'>
+<span id='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span id='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+</div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+!StyleSheet 
+/***
+''Sections in this Tiddler:''
+*Generic rules
+**Links styles
+**Link Exceptions
+*Header
+*Main menu
+*Sidebar
+**Sidebar options
+**Sidebar tabs
+*Message area
+*Popup
+*Tabs
+*Tiddler display
+**Viewer
+**Editor
+*Misc. rules
+***/
+/***
+''Generic Layout Rules''
+***/
+/*{{{*/
+body{
+position: static;
+background: #000;
+}
+
+#contentWrapper{
+margin: 0 10px;
+background: #321c10;
+border: 1px solid #613725;
+position: relative;
+}
+
+h1, h2, h3, h4, h5, h6{
+background: transparent;
+}
+
+#contentWrapper a.button{
+border: 0;
+}
+/*}}}*/
+/***
+''Link Styles''
+***/
+/*{{{*/
+#sidebarOptions .tiddlyLink{
+padding: .5em 0 .5em 1em;
+display: block;
+font-weight: normal;
+}
+
+#sidebarOptions .sliderPanel .tiddlyLink{
+display:inline;
+padding: 0;
+}
+
+#contentWrapper #mainMenu a, 
+#messageArea a, 
+#contentWrapper #sidebar a{
+color: #fb9950;
+text-decoration: none;
+}
+
+#messageArea a:link{
+font-weight: bold;
+}
+
+#contentWrapper #mainMenu a:hover,
+#messageArea a:hover,
+#contentWrapper #sidebar a:hover{
+background: transparent;
+text-decoration: underline;
+}
+
+a, a.button{
+color: #fb9950;
+background: transparent;
+border: 0;
+}
+
+a:hover,#contentWrapper a:active,
+.tiddler .button:hover,.tiddler .button:active {
+color: #c17135;
+background: transparent;
+text-decoration: underline;
+}
+
+/*}}}*/
+/***
+''Header styles''
+***/
+/*{{{*/
+#titleLine{
+color: #94532d;
+background: #000;
+border-bottom: 1px solid #613725;
+padding: 1em 0;
+}
+
+#titleLine a{
+color: #fb9950;
+}
+
+#siteTitle{
+font-size: 2.3em;
+font-weight: bold;
+}
+/*}}}*/
+/***
+''Main menu styles''
+***/
+/*{{{*/
+#mainMenu{
+float: left;
+font-size: 12px;
+text-align: left;
+background: #321c10;
+color: #c5886b;
+width: 15em;
+padding: .2em .5em .2em 0;
+}
+
+#mainMenu h1{
+font-size: 13px;
+font-weight: normal;
+margin: 0 0 0 2px;
+color: #c5886b;
+}
+
+#mainMenu li, #mainMenu ul{
+padding: 0;
+margin: 0;
+list-style: none;
+}
+
+#mainMenu ul, #messageArea{
+display: block;
+border: 1px solid #905437;
+padding: 0 0 0 1em;
+background: #522d1e;
+margin: 0 0 1em 0;
+}
+
+#messageArea{
+color: #c5886b;
+padding: 1em;
+}
+/*}}}*/
+/***
+''Sidebar styles''
+***/
+/*{{{*/
+#sidebar{
+padding: 10px;
+background: #000;
+right: 0;
+}
+
+#sidebar .sliderPanel{
+background: #000;
+color: #94532d;
+margin: 0;
+}
+
+#sidebar, #sidebarOptions, #sidebarTabs{
+background: transparent;
+}
+
+#sidebarTabs .tabSelected{
+background: #522d1e;
+border: 1px solid #905437;
+border-bottom: 0;
+padding-bottom: 3px;
+cursor: default;
+color: #fb9950;
+font-weight: bold;
+}
+
+#sidebarTabs .tabUnselected,#sidebarTabs .tabcontents .tabSelected{
+background: #2a170d;
+border: 1px solid #542e21;
+border-bottom: 0;
+padding-bottom: 0px;
+color: #fb9950;
+}
+
+#sidebarTabs .tabUnselected:hover{
+color: #c17135
+}
+
+#sidebarTabs .tabcontents .tabSelected{
+padding-bottom: 3px;
+border: 1px solid #905437;
+border-bottom: 0;
+}
+
+#sidebarTabs .tabcontents .tabUnselected{
+background: #522d1e;
+border: 1px solid #613725;
+border-bottom: 0;
+padding-bottom: 0;
+}
+
+#sidebarTabs .tabContents{
+background: #522d1e;
+border: 1px solid #905437;
+border-width: 1px 0;
+}
+
+#sidebarTabs .tabContents .tabContents{
+background: #2a170d;
+border: 1px solid #905437;
+}
+
+#sidebarTabs .tabContents li.listTitle{
+color: #c5886b;
+}
+/*}}}*/
+/***
+''Popup styles''
+***/
+/*{{{*/
+#popup{
+background: #522d1e;
+border: 1px solid #905437;
+margin-left: -10px;
+}
+
+#popup hr{
+border-top: 1px solid #905437;
+}
+
+#popup a{
+color: #fb9950
+}
+
+#popup a:hover{
+color: #c17135;
+background: transparent;
+text-decoration: underline;
+}
+
+.popup li.disabled{color: #c5886b;}
+
+#popup .currentlySelected,
+#popup .currentlySelected:hover{
+background: #2a170d;
+}
+/*}}}*/
+/***
+''Tiddler display styles''
+***/
+/*{{{*/
+#displayArea{
+margin: 0 15em 0em 15.5em;
+padding: 1em 2em 0 2em;
+background: #33180a;
+border: 1px solid #613725;
+min-height: 400px;
+_position: static;
+}
+
+.tiddler{
+background: #2a170d;
+border: 1px solid #542e21;
+margin: 0 0 2em 0;
+position: relative;
+_position; static;
+padding: 0;
+}
+
+.title{
+color: #fb9950;
+font-size: 14px;
+font-weight: normal;
+line-height: 23px;
+_position: static;
+}
+
+/*}}}*/
+/***
+''Viewer styles''
+***/
+/*{{{*/
+.viewer table {
+border: 1px solid #905437;
+}
+
+.viewer td {
+color: #c5886b;
+background: #522d1e;
+border: 1px solid #905437;
+}
+
+.viewer, .editer, .editorFooter{
+color: #c5886b;
+}
+
+.viewer pre{
+background: #522d1e;
+border: 1px solid #905437;
+}
+
+.toolbar{
+float: none;
+background: #000;
+padding: .5em 0;
+visibility: visible;
+}
+
+#contentWrapper .toolbar a.button{
+visibility: hidden;
+}
+
+#contentWrapper .selected .toolbar a.button{
+visibility: visible;
+}
+
+.selected .isTag .tagging,
+.selected .tagged,
+.isTag .tagging,
+.tagged {
+float: none;
+display: inline;
+border: 0;
+background: transparent;
+color: #fb9950;
+margin: 0;
+}
+
+.tagged li, .tagging li,
+.tagged ul, .tagging ul{
+display: inline;
+}
+
+.tiddler .tagging .listTitle,
+.tiddler .tagged .listTitle{
+color: #c5886b;
+}
+
+.tiddler .tagging a.button,
+.tiddler .tagged a.button{
+margin: 0;
+padding: 0;
+}
+/*}}}*/
+/***
+''Editor styles''
+***/
+/*{{{*/
+.editor textarea,#contentWrapper input{
+max-height: 35em;
+background: #c5886b;
+border: 2px inset #613725;
+}
+
+.editor textarea:focus, input:focus{
+background: #ddb9a8;
+}
+
+#contentWrapper input.chkOptionInput{
+background: transparent;
+}
+/*}}}*/
+</pre>
+</div>
