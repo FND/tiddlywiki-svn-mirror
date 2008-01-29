@@ -75,13 +75,15 @@ sub rules {
 sub _li_start {
   my( $self, $node, $rules ) = @_;
   my @parent_lists = $node->look_up( _tag => qr/ul|ol/ );
-  my $depth = @parent_lists;
 
-  my $bullet = '';
-  $bullet = '*' if $node->parent->tag eq 'ul';
-  $bullet = '#' if $node->parent->tag eq 'ol';
+  my $prefix = '';
+  foreach my $parent ( @parent_lists ) {
+    my $bullet = '';
+    $bullet = '*' if $parent->tag eq 'ul';
+    $bullet = '#' if $parent->tag eq 'ol';
+    $prefix = $bullet.$prefix;
+  }
 
-  my $prefix = ( $bullet ) x $depth;
   return "\n$prefix ";
 }
 
@@ -90,8 +92,11 @@ sub _image {
   my( $self, $node, $rules ) = @_;
   return '' unless $node->attr('src');
 
-  #my $img = basename( URI->new($node->attr('src'))->path );
   my $img = $node->attr('src');
+  # if it's not an absolute path then strip to just the base name
+  if($img =~ m/^http:\/\/www\.test\.com/) { # wikiconverter adds http://www.test.com if no host specified
+  	$img = basename( URI->new($node->attr('src'))->path );
+  }
   my $alt = $node->attr('alt') || '';
   my $align = $node->attr('align') || '';
   my $title = $node->attr('title') || '';
@@ -105,12 +110,15 @@ sub _image {
   $ret .= " height=\"$height\"" if $height;
   $ret .= " caption=\"$title\"" if $title;
   $ret .= "]]";
+  return $ret;
 }
 
 # derived from PmWiki
 sub _anchor {
   my( $self, $node, $rules ) = @_;
   my $name = $node->attr('name') || '';
+  # Wikispaces does not support anchors begining with non-alphabetic characters, so prefix all anchors with ws_
+  $name = 'ws_'.$name if $name;
   my $text = $self->get_elem_contents($node);
   my $ret = "[[#$name]]";
   $ret .= "$text" if $text;
@@ -123,10 +131,20 @@ sub _link {
   return $self->_anchor($node, $rules) if $node->attr('name');
 
   my $url = $node->attr('href') || '';
-  my $text = $self->get_elem_contents($node) || '';
-
-  return $url if $text eq $url;
-  return "[[$url|$text]]";
+  if ($url =~ m/^http:\/\/www\.test\.com/) { # wikiconverter adds http://www.test.com if no host specified
+  	my($link,$path,$suffix) = fileparse($url,qr{\..*});
+  	my $r = rindex($suffix,'#');
+  	if($r!=-1) {
+  		$suffix = substr $suffix, $r;
+  		$link .= $suffix;
+  	}
+	my $text = $self->get_elem_contents($node) || '';
+	
+	return "[[$link]]" if $text eq $link;
+	return "[[$link|$text]]";
+  } else {
+  	return $url;
+  }
 }
 
 # tables derived from PmWiki
