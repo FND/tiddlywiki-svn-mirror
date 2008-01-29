@@ -36,8 +36,7 @@ config.macros.getEarthCalendar.process = function(status,context,responseText,ur
 		if (EarthCalendarDayCount%10===0)
 			clearMessage();
 		displayMessage(++EarthCalendarDayCount);
-		// If this can't be done, fix the macro to create one line entry for each country
-		// Note to self: write another macro to combine the tables produced here into one (although it looks like dabbleDB doesn't need this)
+		// Note to self: there is still some messed up data from the website caused by linebreaks. I think I need to not break the line if the first character of the next line is a space
 };
 
 config.macros.getEarthCalendarForYear = {};
