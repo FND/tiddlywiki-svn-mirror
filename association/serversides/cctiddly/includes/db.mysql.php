@@ -205,9 +205,6 @@ $db_var['error']['query'] = " query: ";*/
 ///////////////////////////////////////////////////////record select functions///////////////////////////////////////////////////////////
 	//!	@fn array db_tiddlers_mainSelectAll()
 	//!	@brief select all tiddlers from db
-	//!	@param $table table name required
-	//!	@param $workspace workspace of db
-	//function db_tiddlers_mainSelectAll($table,$workspace)
 	function db_tiddlers_mainSelectAll()
 	{
 		//$data = formatArray4SQL($data);			//require to check data???
@@ -215,14 +212,50 @@ $db_var['error']['query'] = " query: ";*/
 		global $ccT_msg;
 		//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
 		$query= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE workspace_name='".$tiddlyCfg['workspace_name']."'";
-		($query);
+		debug($query);
 		$result = mysql_query($query)
 			or die($ccT_msg['db']['word_error'].mysql_error());
 
-			return $result;
+		return $result;
 	}
 
+	//!	@fn array db_tiddlers_mainSelect4RSS()
+	//!	@brief select query for RSS
+	function db_tiddlers_mainSelect4RSS()
+	{
+		//$data = formatArray4SQL($data);			//require to check data???
+		global $tiddlyCfg;
+		global $ccT_msg;
+		//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
+		$query= "SELECT * FROM ".$tiddlyCfg['table']['main']
+			." WHERE workspace_name='".$tiddlyCfg['workspace_name']
+			."' ORDER BY modified DESC LIMIT 20";
+		debug($query);
+		$result = mysql_query($query)
+			or die($ccT_msg['db']['word_error'].mysql_error());
+//return mysql_fetch_assoc($result);
+		return $result;
+	}
+	
+	//!	@fn array db_tiddlers_mainSelect4RSS()
+	//!	@brief select query for RSS
+	function db_tiddlers_mainSelectSiteConfig()
+	{
+		//$data = formatArray4SQL($data);			//require to check data???
+		global $tiddlyCfg;
+		global $ccT_msg;
+		//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
+		$query= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE workspace_name='".$tiddlyCfg['workspace_name']."'";
+		$query .= " AND (title='SiteTitle'";
+		$query .= " OR title='SiteUrl'";
+		$query .= " OR title='SiteSubtitle'";
+		$query .= ")";
+		debug($query);
+		$result = mysql_query($query)
+			or die($ccT_msg['db']['word_error'].mysql_error());
 
+		return $result;
+	}
 
 
 

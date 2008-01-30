@@ -93,6 +93,12 @@
 			$array[] = $tag;
 			$tagStr = str_replace('[['.$tag.']]'," ",$tagStr);
 		}
+		/* similar using RegEx but does not work with space within bracket tags
+			$s = "one [[two for test]] [[th ree]] [[four with-dash]]";
+			$p = "!\[{2}([^\[]{2})*\]{2}!";
+			$a = preg_match_all($p,$s,$m);
+			$r = preg_replace($p,"",$s);
+		*/
 		
 		//obtain regular tags separate by space
 		//put in all tags into $array

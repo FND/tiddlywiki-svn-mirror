@@ -440,6 +440,13 @@
 		return rawurldecode($source);
 	}
 
+	//!	@fn format4Name($str)
+	//!	@brief format string for used in names, allow [a-zA-Z0-9-_.]
+	//!	@param $str string to format
+	function format4Name($str) {
+		return preg_replace('![^a-zA-Z0-9\-_\.]!', '', $str);
+	}
+
 //////////////////////////////////////////////////////// error related////////////////////////////////////////////////////////
 	//!	@fn bool logerror( $display_error, $stop_script=0, $record_error="" )
 	//!	@brief log error in this function
@@ -505,5 +512,4 @@
 		}
 		return TRUE;
 	}
-debug("log breaker (situated below debug function)------------------------------------------------");
 ?>

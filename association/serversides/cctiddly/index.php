@@ -29,6 +29,12 @@ if ($_POST['logout'] || $_REQUEST['logout'])
 }	
 	
 
+///////////////////////////////RSS
+	if( strcmp($cctAction,"RSS")==0 )
+	{
+		include_once($cct_base."handle/rss.php");
+		exit;
+	}
 ///////////////////////////////CC: user variable defined in header and $user['verified'] can be used directly to check user validation
  // check to see if user is logged in or not and then assign permissions accordingly. 
 //if ($user['verified'] = user_session_validate())

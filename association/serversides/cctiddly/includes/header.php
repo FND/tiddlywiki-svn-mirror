@@ -41,6 +41,11 @@
 //////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////
 	//?standalone=1, used for making the script standalone form like a regular tiddlywiki
 	$standalone = ((isset($_GET['standalone'])&&$_GET['standalone']==1)?1:0);		//if 1, will make it into standalone form
+	
+	//?action=something, used for modulation
+	$cctAction = (isset($_GET['action'])?format4Name($_GET['action']):"");
+	debug($cctAction);
+	
 	//?title="tiddly title", get all version of that tiddly
 	if( isset($_GET['title']) )
 	{

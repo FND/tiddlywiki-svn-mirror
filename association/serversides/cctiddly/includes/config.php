@@ -60,6 +60,8 @@ If you got one of the following error message, that may mean your database do no
 	$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
 	$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
 	
+/////////////////////////////////////////////////////////config dependent include////////////////////////////////////////////////////.
+	debug("log breaker (situated below debug function)------------------------------------------------");
 	include_once($cct_base."includes/url.php");
 	include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");
 	include($cct_base."lang/".$tiddlyCfg['twLanguage'].".php");
