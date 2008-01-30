@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden|
 |''Source:''|http://www.martinswiki.com/#ThemeBackstagePlugin |
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ThemeBackstagePlugin.js |
-|''Version:''|0.0.3|
+|''Version:''|0.0.4|
 |''Date:''|Jan 25, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -33,7 +33,7 @@ merge(config.tasks,{
 ListView.columnTypes.Radio = {
 	createItem: function(place,listObject,field,columnTemplate,col,row) {
 		var e = createTiddlyCheckbox(place,null,listObject[field],ListView.columnTypes.Radio.onItemChange);
-		if(!config.browser.isIE) //# IE does not support radio buttons very well, so keep as checkbox
+		if(config.browser.firefoxDate) //# only firefox reliably supports radio buttons
 			e.setAttribute("type","radio");
 		e.setAttribute("rowName",listObject[columnTemplate.rowName]);
 	},
@@ -46,10 +46,8 @@ ListView.columnTypes.Radio = {
 		for(var i=0; i<elements.length; i++) {
 			var e = elements[i];
 			var t = e.getAttribute("type");
-			if(t == "radio" || (config.browser.isIE && t=="checkbox")) {
-				if(e.getAttribute("rowName")!=this.getAttribute("rowname"))
-					e.checked = false;
-			}
+			if(t == "radio" || t=="checkbox")
+				e.checked = e.getAttribute("rowName")==this.getAttribute("rowname") ? true : false;
 		}
 	}
 };
@@ -96,7 +94,8 @@ config.macros.themes.refreshOptions = function(listView)
 	for(var i=0; i<tiddlers.length; i++) {
 		var t = tiddlers[i].title;
 		var name = store.getTiddlerSlice(t,'Name');
-		options.push({option:config.options.txtTheme==name ? true : false,
+		var theme = config.options.txtTheme ?  config.options.txtTheme : "DefaultTheme";
+		options.push({option:theme==name ? true : false,
 			theme:name,
 			author:store.getTiddlerSlice(t,'Author'),
 			description:store.getTiddlerSlice(t,'Description')});
@@ -112,7 +111,7 @@ config.macros.themes.select = function(ev)
 	var elements = listView.getElementsByTagName("input");
 	for(var i=0; i<elements.length; i++) {
 		var e = elements[i];
-		if(e.getAttribute("type") == "radio" && e.checked) {
+		if(e.checked) {
 			theme = e.getAttribute("rowName");
 			break;
 		}
