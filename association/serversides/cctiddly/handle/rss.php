@@ -31,12 +31,17 @@
 //////////////////////////////////////////////////////////preformat tiddler data//////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////preliminary data check and action//////////////////////////////////////////////////////////////
 	
-	//check authorization
-	/*if( !tiddler_privilegeMiscCheck($user, "rss") )
-	{
-		returnResult("020");
-	}*/
 
+//////////////////////////////////////////////////////////parameters//////////////////////////////////////////////////////////////
+	//user and code for logging in users
+	if( isset($_GET['user']) && isset($_GET['code']) ) {
+		if( strcmp($_GET['code'],sha1($_GET['user'].$tiddlyCfg['hashseed']))==0 ) {
+			$user = user_create($_GET['user'], "", 1);
+		}
+	}
+	
+	//force anonymous due to security concerns
+	$user['verified']=0;
 //////////////////////////////////////////////////////////rss save//////////////////////////////////////////////////////////////
 
 		//check if cache expired
@@ -99,14 +104,6 @@
 			$count++;
 		}
 	}
-	/*
-<item>
-<title>Tyndall</title>
-<description>&lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.tyndall.ie/&quot; href=&quot;http://www.tyndall.ie/&quot; class=&quot;externalLink&quot;&gt;http://www.tyndall.ie/&lt;/a&gt;&lt;br&gt;got my email whitelisted but havent applied yet&lt;br&gt;&lt;br&gt;vacancy list&lt;br&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.tyndall.ie/careers/research.html&quot; href=&quot;http://www.tyndall.ie/careers/research.html&quot; class=&quot;externalLink&quot;&gt;http://www.tyndall.ie/careers/research.html&lt;/a&gt;&lt;br&gt;&lt;br&gt;photonic group&lt;br&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.tyndall.ie/research/photonics-systems-group/index.htm&quot; href=&quot;http://www.tyndall.ie/research/photonics-systems-group/index.htm&quot; class=&quot;externalLink&quot;&gt;http://www.tyndall.ie/research/photonics-systems-group/index.htm&lt;/a&gt;&lt;br&gt;telecommunication like WDM&lt;br&gt;vacancy!&lt;br&gt;&lt;br&gt;photonic source group&lt;br&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.tyndall.ie/research/photonics-sources-group/index.html&quot; href=&quot;http://www.tyndall.ie/research/photonics-sources-group/index.html&quot; class=&quot;externalLink&quot;&gt;http://www.tyndall.ie/research/photonics-sources-group/index.html&lt;/a&gt;&lt;br&gt;VCSEL&lt;br&gt;semiconductor&lt;br&gt;&lt;br&gt;optoelectronics&lt;br&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://www.tyndall.ie/research/optoelectronics/index.html&quot; href=&quot;http://www.tyndall.ie/research/optoelectronics/index.html&quot; class=&quot;externalLink&quot;&gt;http://www.tyndall.ie/research/optoelectronics/index.html&lt;/a&gt;&lt;br&gt;semiconductor laser</description>
-<category>can_apply</category>
-<link>http://www.tiddlywiki.com/#Tyndall</link>
-<pubDate>Thu, 17 Jan 2008 10:53:00 GMT</pubDate>
-</item>*/
 
 //////////////////////////////////////////////////////////close heading//////////////////////////////////////////////////////////////
 	//close headings

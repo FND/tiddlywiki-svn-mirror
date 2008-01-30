@@ -55,7 +55,7 @@ $workspace_read = substr($workspace_permissions, 0, 1);
 $workspace_create = substr($workspace_permissions, 1, 1);
 $workspace_udate = substr($workspace_permissions, 2, 1);
 $workspace_delete = substr($workspace_permissions, 3, 1);
-$workspace_settings_count= count($tiddlyCfg['pref']['workspace_settings']);
+$workspace_settings_count= count($workspace_settings);
 
 // display open id bits if it is enabled. 
 if ($tiddlyCfg['pref']['openid_enabled'] ==1)

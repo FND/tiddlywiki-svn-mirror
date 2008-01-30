@@ -22,12 +22,14 @@
 	$tiddlyCfg['table']['admin'] = "admin_of_workspace";	//admin of workspace	admin of a particular workspace
 	$tiddlyCfg['table']['session'] = "login_session";	//login session		used to create login string
 	
-	//workspace default values
+	//cct core settings, do not affect by DB settings
 	$tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, 2=allow by user
+	$tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
+	
+	//workspace default values
 	$tiddlyCfg['twLanguage'] = "en";	//predefine language
 	$tiddlyCfg['keep_revision'] = 1;
 	$tiddlyCfg['require_login'] = 0; //mins
-	$tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
 	$tiddlyCfg['session_expire'] = 2000; //mins
 	$tiddlyCfg['tag_tiddler_with_modifier'] = 0;
 	$tiddlyCfg['char_set'] = "utf8";
@@ -36,13 +38,11 @@
 	$tiddlyCfg['default_user_perm'] = "AAAA";
 	$tiddlyCfg['rss_group'] = "";
 	$tiddlyCfg['markup_group'] = "";
-	$tiddlyCfg['pref']['twFile'] = "tiddlywiki";
+	//$tiddlyCfg['pref']['twFile'] = "tiddlywiki";
+	$tiddlyCfg['tiddlywiki_type'] = $tiddlyCfg['pref']['twFile'];
+	$tiddlyCfg['tiddlywiki_type'] = "tiddlywiki";
+	$tiddlyCfg['status'] = "";
 	
-	//.",'".$data['hashseed']."'"
-	//.",'".$data['debug']."'"		//is this equivilant to developing?
-	//.",'".$data['status']."'"		//what should this be defined as?
-	//.",'".$data['tiddlywiki_type']."'"		//twFile?
-
 /*
 This specify whether utf8 is required [1 = enable, 0 =disable]
 If you got one of the following error message, that may mean your database do not support utf8
@@ -76,27 +76,61 @@ If you got one of the following error message, that may mean your database do no
 	//used for seamless upgrade as possible
 	// GLOBAL PREFERENCES THAT PERSIST ACCROSS ALL workspaceS
 
+	//make connection to DB and select DB name
+	db_connect_new();
 	
-$link = db_connectDB();
+	//return array form, empty array means workspace not exist
+	$workspace_settings = db_workspace_selectSettings();
+	
+	//if no instance found, check if instance name is empty string
+	if( sizeof($workspace_settings)==0 )
+	{//exit($tiddlyCfg['instance_name']);
+		//if instance name is empty string, do install as this is the base ccT
+		//the first install is always possible
+		if( strlen($tiddlyCfg['workspace_name'])==0 )
+		{//do install
+			include_once($cct_base."includes/workspace.php");
+			workspace_create_new();
+		}else{	//if not empty, check if installation can be done
+			if( $tiddlyCfg['allow_workspace_creation']>0 )
+			{//if allow workspace creation
+				if ($_POST)
+				{
+					include($cct_base."includes/workspace.php");
+					workspace_create($tiddlyCfg['workspace_name'], $_POST['ccAnonPerm']);
+				}
+				
+				if( $tiddlyCfg['allow_workspace_creation']==2 )	//if =2, only allow user to create workspace
+				{
+					//check if user login valid
+				}
+				//db_workspace_install($tiddlyCfg);		//install using default parameters
+			}else{	//give error message of workspace not found
+				header("HTTP/1.0 404 Not Found"); 
+				exit($ccT_msg['error']['workspace_not_found']);
+			}
+		}
+	}
+	//exit("2");
+	//append config from db to tiddlyCfg
+	$tiddlyCfg = array_merge($tiddlyCfg, $workspace_settings);
+	
+	
+	
+//$link = db_connectDB();
 
-db_selectDB($tiddlyCfg['db']['name']);
+//db_selectDB($tiddlyCfg['db']['name']);
 
 // create the workspace if it does not already exist.
+//$array['name'] = $workspace;
+//$tiddlyCfg['pref']['workspace_settings'] = db_record_select('workspace', $array);
 
-if ($workspace == '')  
-{
-	$array['name'] = 'home';
-	$tiddlyCfg['pref']['workspace_settings'] = db_record_select('workspace', $array);
-} else {
-
-	$array['name'] = $workspace;
-	$tiddlyCfg['pref']['workspace_settings'] = db_record_select('workspace', $array);
-}
 
 // If the workspace name was empty or the workspace name provided does not exist. 
 // TODO : WHAT IF ITS THE HOME workspace : 
+	//let empty workspace name as its own workspace i.e. allowing the creation of a workspace named ""
 //debug( count($tiddlyCfg['pref']['workspace_settings']) );
-if (!isset($_POST['cctuser']) && count($tiddlyCfg['pref']['workspace_settings']) < 1  )
+/*if (!isset($_POST['cctuser']) && count($tiddlyCfg['pref']['workspace_settings']) < 1  )
 {	
 	if ($_POST)
 	{
@@ -107,12 +141,12 @@ if (!isset($_POST['cctuser']) && count($tiddlyCfg['pref']['workspace_settings'])
 	{
 		header("HTTP/1.0 404 Not Found"); 
 	}
-}
+}*/
 
 
 
 // the workspace does not exist yet. 
-if (count($tiddlyCfg['pref']['workspace_settings']) < 1)
+/*if (count($tiddlyCfg['pref']['workspace_settings']) < 1)
 {
  	// let show the form to create an workspace
  	// we need to set the settings manually as there is not record in the database
@@ -134,7 +168,7 @@ else
 	$tiddlyCfg['tag_tiddler_with_modifier'] =$tiddlyCfg['pref']['workspace_settings'][0]['tag_tiddler_with_modifier'];		//append modifier name as tag
 }
 
-
+*/
 $tiddlyCfg['pref']['lock_title'] = array("LoginPanel");		//lock certain tiddler's title such that it can't be changed even with admin
 $tiddlyCfg['pref']['uploadPluginIgnoreTitle'] = array("ccTiddly_debug_time", "UploadLog","UploadPlugin","UploadOptions");		//this specify what tiddler should uploadplugin ignore. It is recommended to put in uploadPlugin itself and the upload log. CaSe-SeNsItIvE
 $tiddlyCfg['pref']['forceAnonymous'] = 1;		//if enabled, anonymous users will take "anonymous" as username
@@ -211,8 +245,8 @@ $tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what shoul
 $tiddlyCfg['privilege_misc']['default_privilege'] = "AUUU";		//default privilege for all group and tags
 //default privileges for certain groups, applied after default_privilege
 //		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
-$tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCfg['pref']['workspace_settings'][0]['default_anonymous_perm'];
- $tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = $tiddlyCfg['pref']['workspace_settings'][0]['default_user_perm'];
+$tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCfg['default_anonymous_perm'];
+ $tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = $tiddlyCfg['default_user_perm'];
   $tiddlyCfg['privilege_misc']['group_default_privilege']['admin'] = "AAAA";
 ////////////////////////////////////////////////////////ADVANCE PRIVILEGE for tags//////////////////////////////////////////////////////
 /*
@@ -236,7 +270,7 @@ $tiddlyCfg['table']['config'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table'
 $tiddlyCfg['table']['user'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['user'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['table']['group'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['group'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['table']['privilege'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['privilege'].$tiddlyCfg['table']['suffix'];
-$tiddlyCfg['pref']['twFile'] = $cct_base."tiddlywiki/".$tiddlyCfg['pref']['twFile'].".js"; // plain TW file, $cct_base defined in config.php
+$tiddlyCfg['tiddlywiki_type'] = $cct_base."tiddlywiki/".$tiddlyCfg['tiddlywiki_type'].".js"; // plain TW file, $cct_base defined in config.php
 
 $tiddlyCfg['version']="1.3";	
 ?>

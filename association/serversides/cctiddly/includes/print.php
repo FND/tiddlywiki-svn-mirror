@@ -15,7 +15,7 @@
 	function cct_print_includes($standalone)
 	{
 		global $tiddlyCfg;
-		$tw = $tiddlyCfg['pref']['twFile'];
+		$tw = $tiddlyCfg['tiddlywiki_type'];
 		
 		if( $standalone )
 		{

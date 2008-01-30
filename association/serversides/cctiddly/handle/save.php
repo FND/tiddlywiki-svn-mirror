@@ -60,15 +60,15 @@
 
 //////////////////////////////////////////////////////preliminary data check and action//////////////////////////////////////////////////////////////
 	//make connection to DB
-	db_connect_new();
+	//db_connect_new();
 	
 	//get user and privilege and set variables
-	if( strlen($username)==0 && strlen($password)==0 )
+	/*if( strlen($username)==0 && strlen($password)==0 )
 	{
 		$user = user_create();		//get username password from cookie
 	}else{
 		$user = user_create($username,"",0,"",$password,1);
-	}
+	}*/
 	//$modifier = $user['username'];			//this is always true in local TW, set modifier = username
 	
 	//if anonymous and forceAnonymous is on, change username and modifier to $ccT_msg['loginpanel']['anoymous']
@@ -176,7 +176,7 @@ debug("here");
 			tiddler_insert_new($ntiddler);
 			returnResult("001");
 		}else{
-			returnResult("002");
+			returnResult("020");
 		}
 	}
 	///////////////////////////////////////////////////////////////new tiddler overwrite existing/////////////////////////////////////////////////////////

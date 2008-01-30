@@ -19,14 +19,14 @@
 	//!	@param $password password override
 	//!	@param $reqHash state if password need to be hashed
 	// TODO : REMOVE verified = 1
-	function user_create($username="", $group="", $verified=0, $id="", $password="", $reqHash = 0)
+	function user_create($username="", $group="", $verified=-1, $id="", $password="", $reqHash = 0)
 	{
 		//global $user;
 		$user = array();
 		$user['id'] = (strlen($id)>0?(int)$id:"");		//if empty, leave it as empty. otherwise make it as int
 		//get username from cookie if nothing is passed
 		$user['username'] = preg_replace("![/,\\\\,?,*]!","",(strcmp($username,"")==0?user_getUsername():$username));		//no slashes, star and question mark in username
-		$user['verified'] = user_session_validate();
+		$user['verified'] = (($verified==-1)?user_session_validate():$verified);
 		//NOTE: group is always in array
 		//FORMAT: $user['group'] = array("group1", "group2");
 		$user['group'] = (strcmp($group,"")==0?user_getGroup($user['username'],$user['verified']):$group);
@@ -60,7 +60,7 @@
 	
 	
 	function user_session_validate()
-	{ 
+	{
 		//global $user;
 		
 	//	return TRUE;
