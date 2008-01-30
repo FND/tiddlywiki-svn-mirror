@@ -1,0 +1,6 @@
+<div title="ConsoleTest" modifier="PhilHawksworth" created="200801230000" changecount="1">
+<pre>
+!!Test the Console  plugin.
+<<Console hijackDisplayMessage>>
+<<Console>></pre>
+</div>

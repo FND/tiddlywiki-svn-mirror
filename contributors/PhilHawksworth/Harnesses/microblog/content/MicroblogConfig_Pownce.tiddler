@@ -1,0 +1,6 @@
+<div title="MicroblogConfig_Pownce" modifier="PhilHawksworth" tags="systemServer excludeLists Microblog">
+<pre>|''Description:''|Resources for microblogging with Pownce|
+|''ListenURI:''|http://api.pownce.com/1.0/public_note_lists/for/philhawksworth.xml|
+|''PostURI:''|http://twitter.com/statuses/update.json|
+</pre>
+</div>

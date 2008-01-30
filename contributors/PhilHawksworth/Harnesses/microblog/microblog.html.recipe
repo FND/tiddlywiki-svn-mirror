@@ -1,0 +1,16 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+
+tiddler: ../../../../contributors/JonathanLister/adaptors/RSSAdaptor.js
+tiddler: ../../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
+tiddler: ../../Plugins/MicroblogPlugin.js
+tiddler: ../../Plugins/ConsolePlugin.js
+tiddler: ../../Plugins/LinkMakerPlugin.js
+
+recipe: content/split.recipe
+recipe: shadows/split.recipe
+
+tiddler: ../../Themes/TestHarnessTheme.tiddler
+
+tiddler: settings.js
+
+

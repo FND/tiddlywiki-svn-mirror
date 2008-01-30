@@ -1,0 +1,9 @@
+<div title="TweetTemplate" modifier="Phil Hawksworth" created="200801281339" changecount="1">
+<pre>
+{{update{
+	<<LinkMaker modifier uri author>>
+	{{text{<<view text>}}}
+	{{meta{<<view modified date '0hh:0mm'>>}}}		
+}}}
+</pre>
+</div>

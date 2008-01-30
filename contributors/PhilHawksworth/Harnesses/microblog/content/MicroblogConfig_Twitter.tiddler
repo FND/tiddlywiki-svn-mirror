@@ -1,0 +1,10 @@
+<div title="MicroblogConfig_Twitter" modifier="PhilHawksworth" tags="systemServer excludeLists Microblog">
+<pre>|''Description:''|Resources for microbloggin with Twitter|
+|''RootURI:''|http://twitter.com|
+|''LoginURI:''|http://twitter.com/account/verify_credentials.json|
+|''LogoutURI:''|http://twitter.com/account/end_session|
+|''ListenURI:''|http://twitter.com/statuses/friends_timeline.json|
+|''PostURI:''|http://twitter.com/statuses/update.json|
+|''CharacterLimit:''|140|
+</pre>
+</div>
