@@ -1,0 +1,524 @@
+<div title="ZeldmanTheme" modifier="ClintChecketts" created="200612290000" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|ZeldmanTheme|
+|''Description:''|Clint's Zeldman theme|
+|''Author:''|Clint Checketts|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/ZeldmanTheme.tiddler |
+|''Version:''|1.0|
+|''Date:''|Dec 29, 2006|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div class='header'>
+<div class='titleLine'>
+<div class='siteTitle' refresh='content' tiddler='SiteTitle'></div>
+<div class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></div>
+</div>
+<div class='headerLine'></div>
+</div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+!StyleSheet
+/***
+''Colors used by this Theme''
+*@@background(#f79b60):#f79b60@@
+*@@background(#c51):#c51@@
+*@@background(#d16400):#d16400@@
+*@@background(#be540b):#be540b@@
+*@@background(#b44):#b44@@
+*@@background(#930):#930@@
+*@@background(#922):#922@@
+*@@background(#f5d7b4):#f5d7b4@@
+*@@background(#cf936c):#cf936c@@
+*@@background(#c5886b):#c5886b@@
+*@@background(#b8764c):#b8764c@@
+*@@background(#867663):#867663@@ Used for MSG Area, Tiddler Title, text, and SubTitle
+
+*@@background(#fff):#fff@@
+*@@background(#ccc):#ccc@@
+*@@background(#aaa):#aaa@@
+*@@background(#888):#888@@
+*@@background(#666):#666@@
+*@@background(#333):#333@@
+*@@background(#000):#000@@
+***/
+/***
+''Popup styles''
+***/
+/*{{{*/
+#popup {
+border:1px solid #aaa;
+padding:0;
+background:#fff;
+color:#f79b60;
+}
+
+#popup a {
+color:#f79b60;
+font-weight: normal;
+}
+
+#popup a:hover {
+background: #f5d7b4;
+color:#930;
+}
+
+#popup hr {border-top: solid 1px #f5d7b48;}
+#popup li.disabled{color:#cf936c;}
+
+#popup .currentlySelected,
+#popup .currentlySelected:hover {
+background: #f5d7b4;
+}
+/*}}}*/
+/***
+''Generic styles''
+***/
+/*{{{*/
+h1,h2,h3,h4,h5,h6 {
+background-color:transparent;
+margin: .25em 0;
+}
+
+h1 {
+border-bottom: 2px dotted #ccc;
+}
+
+h2 {
+border-bottom: 1px dotted #ccc;
+}
+
+a {
+color:#f79b60;
+color:#c51;
+}
+
+a.button:active,
+a:hover {
+color:#f79b60;
+background:transparent;
+}
+
+a.button,
+a.button:active {
+border: 0;
+}
+/*}}}*/
+/***
+''Header styles''
+***/
+/*{{{*/
+.header {
+position: static;
+}
+
+.titleLine {
+height: 7.5em;
+background: #c51;
+border-bottom: 8px solid #b8764c;
+color:#fff;
+left:0;
+}
+
+.titleLine a,
+.titleLine a:link,
+.titleLine a:hover {
+color:#fff;
+}
+
+.titleLine a:hover {
+border-bottom: 2px dotted;
+}
+
+.headerLine {
+padding: 0;
+border-top: 5px solid #cf936c;
+border-bottom: 3px solid #f5d7b4;
+}
+
+.siteTitle {
+text-align: right;
+font-size: 4.5em;
+font-weight: bold;
+padding-right: .5em;
+}
+
+.siteSubtitle {
+text-align:right;
+font-size:1.5em;
+font-family:georgia,times;
+padding-right:1.5em;
+}
+/*}}}*/
+/***
+''Main menu styles''
+***/
+/*{{{*/
+#mainMenu {
+width: 12em;
+margin-top: .5em;
+left: .5em;
+padding: 0;
+border: 1px solid #f5d7b4;
+color:#666
+}
+
+#mainMenu ul,
+#mainMenu li {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+
+#mainMenu li strong a {
+color:#fff;
+background: #d16400;
+}
+
+#mainMenu li strong a:hover,#mainMenu li strong .button:hover {
+color:#f5d7b4;
+background: #930;
+text-decoration: none;
+}
+
+/* The bold has to be a block to contain the links <a>
+because inline elements can't contain blocks */
+#mainMenu li strong,
+#mainMenu li span {
+display: block;
+}
+
+#mainMenu li a,
+#mainMenu li a:link {
+display: block; 
+width: 100%;
+text-decoration: none;
+padding-right: 5px;
+margin-right: 0;
+color:#f79b60;
+border: 0;
+}
+
+#mainMenu li a:hover, #mainMenu li .button:hover {
+background-color:#f5d7b4;
+text-decoration: none;
+}
+
+#mainMenu a:link {
+text-decoration: none;
+color:#f79b60;
+margin-right: 5px;
+}
+
+#mainMenu a:hover,#mainMenu .button:hover {
+text-decoration: underline;
+background: transparent;
+color:#930;
+}
+/*}}}*/
+/***
+''Message area styles''
+***/
+/*{{{*/
+#messageArea {
+background-color:#f5d7b4;
+color:#867663;
+padding: 0.5em;
+border: 1px solid #ccc;
+}
+
+#messageArea a:link, #messageArea a:visited {
+color:#c51;
+}
+
+#messageArea a:hover {
+color:#f79b60;
+}
+
+#messageArea a:active {
+color:#fff;
+}
+/*}}}*/
+/***
+''Sidebar styles''
+***/
+/*{{{*/
+#sidebar {
+width: 14.5em;
+border-bottom:1px solid #aaa; 
+border-left: 1px solid #aaa;
+}
+
+#sidebarOptions {
+background-color:#fff;
+}
+
+#sidebarOptions a {
+color:#f79b60;
+background: transparent;
+text-decoration: none;
+border: 0;
+}
+
+#sidebarOptions a:hover {
+color:#c51;
+background: #fff;
+text-decoration: underline;
+}
+
+#sidebarOptions .sliderPanel{
+background: #f5d7b4;
+margin: 0;
+}
+
+#sidebarOptions .sliderPanel a {
+color:#922;
+font-weight:normal;
+}
+
+#sidebarOptions .sliderPanel a:hover {
+color:#b44;
+background: transparent;
+}
+
+#sidebarTabs {background-color:#fff;}
+
+#sidebarTabs a {
+background: transparent;
+}
+
+#sidebarTabs .tabContents a:hover {
+color:#922;
+text-decoration: underline;
+background-color: transparent;
+}
+
+.tab {
+margin: 0px 1px; 
+border:1px solid #aaa;
+border-bottom:none;
+color:#922;
+}
+
+.tab:hover {
+border-color: black;
+text-decoration: none;
+}
+
+#sidebarTabs .tabSelected {
+background:#f5d7b4;
+padding: 2px 4px;
+color:#922;
+}
+
+#sidebarTabs .tabUnselected {
+background:#c51;
+padding: 2px 4px 0px 4px;
+color:#fff;
+}
+
+#sidebarTabs .tabContents {
+background-color:#f5d7b4;
+}
+
+#sidebarTabs .tabContents a {
+color:#922;
+}
+
+#sidebarTabs .tabContents a:hover {
+color:#b44;
+}
+
+#sidebarTabs .txtMoreTab .tabSelected,
+#sidebarTabs .txtMoreTab .tabSelected:hover {
+background:#cf936c;
+color:#000;
+text-decoration:none;
+}
+
+#sidebarTabs .txtMoreTab .tabUnselected,
+#sidebarTabs .txtMoreTab .tabUnselected:hover {
+background:#f5d7b4;
+color:#000;
+text-decoration:none;
+}
+
+#sidebarTabs .txtMoreTab .tabContents {
+color:#fff;
+background:#cf936c;
+border-bottom: solid #aaa 1px;
+}
+/*}}}*/
+/***
+''Tiddler display styles''
+***/
+/*{{{*/
+#displayArea {
+margin: 1em 15em 0em 15em;
+}
+
+.tiddler {
+padding:0;
+border: 1px solid #ccc;
+padding:5px;
+}
+
+.title {font-size:1.5em;color:#867663;font-weight:bold;}
+
+.toolbar {font-size: .9em;}
+
+.toolbar a.button {
+color:#f79b60;
+border: 1px solid #fff;
+}
+
+.tiddler .toolbar a.button:hover,
+.tiddler .toolbar a.button:active {
+color:#930;
+background:#f5d7b4;
+border: 1px solid #f79b60;
+}
+
+.toolbar a.button:active {
+color:#666;
+}
+
+.body {
+border-top:1px solid #ccc;
+padding-top:0.5em;
+margin-top:0.3em;
+}
+/*}}}*/
+/***
+''Viewer styles''
+***/
+/*{{{*/
+.tiddler a.button {
+color:#f79b60;
+}
+
+.tiddler a.button:hover {
+color:#be540b;
+background:transparent;
+}
+
+.subtitle,
+.viewer {
+color:#867663;
+}
+
+.viewer .button {
+background: transparent;
+color:#888;
+border: 1px solid transparent;
+}
+
+
+.viewer a:link, .body a:visited {
+color:#be540b;
+}
+
+.viewer a:hover {
+background-color:transparent;
+text-decoration:underline;
+}
+
+.viewer blockquote {
+border-left: 1px solid #ccc;
+}
+
+.viewer table {
+border: 2px solid #333;
+}
+
+
+.viewer td, tr {
+border: 1px solid #666;
+padding:3px;
+}
+
+.viewer hr {
+border-color:#666;
+color:#666;
+}
+
+.viewer pre {
+border: 1px solid #aaa;
+background:#f5d7b4;
+color:#333;
+}
+
+.viewer code {
+color:#922;
+}
+
+.selected .isTag .tagging,
+.selected .tagged,
+.isTag .tagging,
+.tagged {
+float:none;
+display:inline;
+border:0;
+background:transparent;
+color:#f79b60;
+margin:0;
+}
+
+.tagged li, .tagging li,
+.tagged ul, .tagging ul {
+display:inline;
+}
+
+
+.tiddler .tagging .listTitle,
+.tiddler .tagged .listTitle {
+color:#ccc;
+}
+
+.tiddler .tagging a.button,
+.tiddler .tagged a.button {
+margin:0;
+padding:0;
+color:#ccc;
+}
+
+.selected .tagging .listTitle,
+.selected .tagged .listTitle,
+.selected .tagging a.button,
+.selected .tagged a.button {
+color:#333;
+}
+/*}}}*/
+/***
+''Editor styles''
+***/
+/*{{{*/
+.editor input,
+.editor textarea {
+border: 1px solid black;
+}
+
+.editor textarea{
+font-size: .8em;
+}
+/*}}}*/
+</pre>
+</div>
