@@ -410,7 +410,11 @@ config.macros.ccListWorkspaces = {
 		while ($row = db_fetch_assoc($result))
 		{
 			echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['name']."&quot;);\n";
-			echo "item.href= url+'/".$row['name']."';\n";
+			if( $tiddlyCfg['mod_rewrite']==1 ) {
+				echo "item.href= url+'/".$row['name']."';\n";
+			}else{
+				echo "item.href= url+'?workspace=".$row['name']."';\n";
+			}
 			echo "createTiddlyElement(place,&quot;br&quot;);";
 		}
 		?>
