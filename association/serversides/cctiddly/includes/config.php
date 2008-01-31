@@ -40,7 +40,7 @@
 	$tiddlyCfg['rss_group'] = "";
 	$tiddlyCfg['markup_group'] = "";
 	//$tiddlyCfg['pref']['twFile'] = "tiddlywiki";
-	$tiddlyCfg['tiddlywiki_type'] = $tiddlyCfg['pref']['twFile'];
+	//$tiddlyCfg['tiddlywiki_type'] = $tiddlyCfg['pref']['twFile'];
 	$tiddlyCfg['tiddlywiki_type'] = "tiddlywiki";
 	$tiddlyCfg['status'] = "";
 	
@@ -61,9 +61,48 @@ If you got one of the following error message, that may mean your database do no
 	$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
 	$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
 	
-/////////////////////////////////////////////////////////config dependent include////////////////////////////////////////////////////.
+/////////////////////////////////////////////////////////url dependent config////////////////////////////////////////////////////.
 	debug("log breaker (situated below debug function)------------------------------------------------");
-	include_once($cct_base."includes/url.php");
+	debug("QUERY_STRING: ".$_SERVER['QUERY_STRING']);
+	
+	// workspace name 
+	$tiddlyCfg['workspace_name'] = isset($_REQUEST['workspace'])?format4Name($_REQUEST['workspace']):"";
+	debug("request-workspace: ".$_REQUEST['workspace']);
+	debug("workspace_name : ".$tiddlyCfg['workspace_name']);
+	
+	// base folder
+	$tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
+	debug("base folder: ".$tiddlyCfg['pref']['base_folder']);
+	
+	//upload directory
+	//header("HTTP/1.0 404 Not Found");
+	debug('REDIRECT_URL: '.$_SERVER['REDIRECT_URL']);
+
+	//install new workspace??
+	if (isset($_SERVER['REDIRECT_URL']) )
+	{
+		if (stristr($_SERVER['REDIRECT_URL'], 'msghandle.php')) {
+			include('./msghandle.php');
+			exit;
+		}
+		$redirect_url = $_SERVER['REDIRECT_URL'];
+	}	
+
+	$tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder'].'/uploads/';  // location of the file upload directory - assumes is it under the root folder 
+	$file_location  =  $tiddlyCfg['pref']['upload_dir'].str_replace('/'.$tiddlyCfg['pref']['folder'].'/', '', $redirect_url);   // create url to file 
+	//$file_url = '/'.$tiddlyCfg['pref']['folder'].'/upload/'.$workspace.''.$_SERVER['SCRIPT_NAME'];
+
+	if(@file($file_location))
+	{
+		readfile($file_location);
+		exit;
+	}
+	else
+	{
+		//	echo 'file not found';
+	} 
+/////////////////////////////////////////////////////////config dependent include////////////////////////////////////////////////////.
+	//include_once($cct_base."includes/url.php");
 	include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");
 	include($cct_base."lang/".$tiddlyCfg['twLanguage'].".php");
 

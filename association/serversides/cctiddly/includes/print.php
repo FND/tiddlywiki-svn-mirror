@@ -86,7 +86,7 @@
 //cctPlugin
 
 var serverside={
-	url: "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>",		//server url, for use in local TW or TW hosted elsewhere
+	url: "<?php echo ($_SERVER['HTTPS']?"https://":"http://").$_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>",		//server url, for use in local TW or TW hosted elsewhere
 	workspace:"<?php echo $tiddlyCfg['workspace_name'];?>",
 	handle:{		//path of file for handling request, can be used to put in GET variable
 		rss: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/rss.php?<?php print queryString()?>&workspace=<?php echo $tiddlyCfg['workspace_name'];?>",

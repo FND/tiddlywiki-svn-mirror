@@ -7,7 +7,8 @@ include_once("includes/header.php");
 	{
 		// the user has asked us to create an instance 
 		include_once("includes/workspace.php");
- 	workspace_create($_POST['workspace_name']);
+ 	//workspace_create($_POST['workspace_name']);
+		workspace_create_new();
         //TODO  to redirect to the page which has been created 
 	}
 //////////////////////////////// end of create instance ///////////////////////
