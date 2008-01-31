@@ -1,16 +1,14 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 
+tiddler: settings.js
+
 tiddler: ../../../../contributors/JonathanLister/adaptors/RSSAdaptor.js
 tiddler: ../../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
 tiddler: ../../Plugins/MicroblogPlugin.js
 tiddler: ../../Plugins/ConsolePlugin.js
 tiddler: ../../Plugins/LinkMakerPlugin.js
 
+tiddler: SimpleOffWhiteTheme.tiddler
 recipe: content/split.recipe
 recipe: shadows/split.recipe
-
-tiddler: ../../Themes/TestHarnessTheme.tiddler
-
-tiddler: settings.js
-
 

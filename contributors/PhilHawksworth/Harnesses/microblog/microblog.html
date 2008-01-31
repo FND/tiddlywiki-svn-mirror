@@ -497,6 +497,16 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
+<div title="settings" modifier="PhilHawksworth" created="200711142805" modified="" tags="systemConfig excludeLists excludeSearch">
+<pre>//{{{
+
+config.options.chkAutoSave = true;
+config.options.chkAnimate = true;
+config.options.chkSaveBackups = false;
+config.options.txtTheme = &quot;TestHarnessTheme&quot;;
+
+//}}}</pre>
+</div>
 <div title="RSSAdaptor" modifier="Jon Lister" created="200709020000" modified="200710160000" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |''Name:''|RSSAdaptor|
@@ -1414,6 +1424,99 @@ version.extensions.LinkMakerPlugin = {installed:true};
 } //# end of 'install only once'
 //}}}</pre>
 </div>
+<div title="TestHarnessTheme" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|SimpleOffWhiteTheme|
+|''Description:''|A simple theme to get started from|
+|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/Harnesses/microblog/SimpleOffWhiteTheme.tiddler |
+|''Version:''|0.2|
+|''Date:''|Jan 30th, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+
+
+***/
+
+!PageTemplate
+&lt;!--{{{--&gt;
+&lt;div macro='Console'&gt;&lt;/div&gt;
+&lt;div class='header'&gt;
+&lt;div class='headerShadow'&gt;
+&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
+&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class='headerForeground'&gt;
+&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
+&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
+&lt;div id='sidebar'&gt;
+&lt;div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'&gt;&lt;/div&gt;
+&lt;div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id='displayArea'&gt;
+&lt;div id='messageArea'&gt;&lt;/div&gt;
+&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+
+!StyleSheet
+/*{{{*/
+	
+/* Debug Console */
+div#tiddlyconsole { width:100%; background-color:#333; color:#ca2;}
+div#tiddlyconsole div.log { height:8em; overflow:auto;}
+div#tiddlyconsole div.log div.entry { line-height:1.4em; border-bottom:solid 1px #222;padding:2px;}
+div#tiddlyconsole p.message { width:100%; background-color:#222; color:#ccc; }
+
+
+.hidden { display:none; }
+
+body {background-color:#E7E7DE; }
+
+/* Header */
+div.header { border-bottom:solid 1px #fff; background-color:#172322; color:#fff;}
+div.headerForeground {display:none;}
+div.headerShadow span.siteTitle {color:[[ColorPalette::Background]];}
+div.headerShadow span.siteSubtitle {color:#E7E7DE;}
+
+.tiddler {background-color:#fff; margin:2em 1em 1em 1em; padding-bottom:1em}
+
+/* Sidebar */
+#sidebar {margin-top:1em;}
+#sidebarOptions {margin-bottom:1em;}
+#sidebarOptions a.button { margin:1px 0; border-style:none; background-color:#d7d7cE; padding:0.5em; color:#77776E; font-size:1.1em; }
+#sidebarOptions a.button:hover { border-style:none; background-color:#172322; color:#fff;}
+
+
+
+/* Twitter */
+.latestTweet div.microblog_update {font-size:0.8; margin:0; padding:0.4em 0; position:relative; }
+.latestTweet div.microblog_update img {width:2em; height:2em; border:solid 1px #ccc; padding:1px; position:absolute}
+.latestTweet div.microblog_update span.user {color:#669; margin-left:3em;}
+.latestTweet div.microblog_update span.date {display:none}
+.latestTweet div.microblog_update span.text {color:#333; clear:left; margin-left:3em; display:block;}
+
+
+.twitterStream div.microblog_update {font-size:1em; margin:0; padding:0.4em 0; border-bottom:solid 1px #eee; position:relative; }
+.twitterStream div.microblog_update img {width:2em; height:2em; border:solid 1px #ccc; padding:1px; position:absolute}
+.twitterStream div.microblog_update span.user {color:#669; margin-left:3em;}
+.twitterStream div.microblog_update span.date {color:#ccc; margin-left:1em}
+.twitterStream div.microblog_update span.text {color:#333; clear:left; margin-left:3em; display:block;}
+
+
+
+/*}}}*/</pre>
+</div>
 <div title="MicroblogTest" modifier="PhilHawksworth" created="200801230000" tags="Microblog" changecount="1">
 <pre>
 !!Test the Microblog  plugin.
@@ -1485,134 +1588,6 @@ LatestTweet
 </div>
 <div title="SideBarOptions" modifier="PhilHawksworth" created="200801311227" changecount="1">
 <pre>&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newJournal &quot;DD MMM YYYY&quot; &quot;journal&quot;&gt;&gt;&lt;&lt;saveChanges&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel OptionsPanel &quot;options »&quot; &quot;Change TiddlyWiki advanced options&quot;&gt;&gt;&lt;&lt;search&gt;&gt;</pre>
-</div>
-<div title="TestHarnessTheme" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch">
-<pre>/***
-|''Name:''|TestHarnessTheme|
-|''Description:''|TiddlyWiki simple test harness theme|
-|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com|
-|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/TestHarnessTheme.tiddler |
-|''Version:''|0.1|
-|''Date:''|Jan 30th, 2008|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
-|''~CoreVersion:''|2.3.0|
-
-|''~PageTemplate:''|##PageTemplate|
-|''~ColorPalette:''|##ColorPalette|
-|''~StyleSheet:''|##StyleSheet|
-
-
-
-***/
-
-!PageTemplate
-&lt;!--{{{--&gt;
-&lt;div macro='Console'&gt;&lt;/div&gt;
-&lt;div class='header'&gt;
-&lt;div class='headerShadow'&gt;
-&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
-&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
-&lt;/div&gt;
-&lt;div class='headerForeground'&gt;
-&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
-&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
-&lt;div id='sidebar'&gt;
-&lt;div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'&gt;&lt;/div&gt;
-&lt;div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id='displayArea'&gt;
-&lt;div id='messageArea'&gt;&lt;/div&gt;
-&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;!--}}}--&gt;
-
-
-!ColorPalette
-/*{{{*/
-
-Background: #fff
-
-Foreground: #000
-PrimaryPale: #8cf
-PrimaryLight: #18f
-PrimaryMid: #04b
-PrimaryDark: #014
-SecondaryPale: #ffc
-SecondaryLight: #fe8
-SecondaryMid: #db4
-
-SecondaryDark: #f00
-
-TertiaryPale: #eee
-TertiaryLight: #ccc
-TertiaryMid: #999
-TertiaryDark: #666
-Error: #f88
-/*}}}*/
-
-
-!StyleSheet
-/*{{{*/
-	
-/* Debug Console */
-div#tiddlyconsole { width:100%; background-color:#333; color:#ca2;}
-div#tiddlyconsole div.log { height:8em; overflow:auto;}
-div#tiddlyconsole div.log div.entry { line-height:1.4em; border-bottom:solid 1px #222;padding:2px;}
-div#tiddlyconsole p.message { width:100%; background-color:#222; color:#ccc; }
-#tiddlyconsole { display:none; }
-
-.hidden { display:none; }
-
-body {background-color:#E7E7DE; }
-
-/* Header */
-div.header { border-bottom:solid 1px #fff; background-color:#172322; color:#fff;}
-div.headerForeground {display:none;}
-div.headerShadow span.siteTitle {color:[[ColorPalette::Background]];}
-div.headerShadow span.siteSubtitle {color:#E7E7DE;}
-
-.tiddler {background-color:#fff; margin:2em 1em 1em 1em; padding-bottom:1em}
-
-/* Sidebar */
-#sidebar {margin-top:1em;}
-#sidebarOptions {margin-bottom:1em;}
-#sidebarOptions a.button { margin:1px 0; border-style:none; background-color:#d7d7cE; padding:0.5em; color:#77776E; font-size:1.1em; }
-#sidebarOptions a.button:hover { border-style:none; background-color:#172322; color:#fff;}
-
-
-
-/* Twitter */
-.latestTweet div.microblog_update {font-size:0.8; margin:0; padding:0.4em 0; position:relative; }
-.latestTweet div.microblog_update img {width:2em; height:2em; border:solid 1px #ccc; padding:1px; position:absolute}
-.latestTweet div.microblog_update span.user {color:#669; margin-left:3em;}
-.latestTweet div.microblog_update span.date {display:none}
-.latestTweet div.microblog_update span.text {color:#333; clear:left; margin-left:3em; display:block;}
-
-
-.twitterStream div.microblog_update {font-size:1em; margin:0; padding:0.4em 0; border-bottom:solid 1px #eee; position:relative; }
-.twitterStream div.microblog_update img {width:2em; height:2em; border:solid 1px #ccc; padding:1px; position:absolute}
-.twitterStream div.microblog_update span.user {color:#669; margin-left:3em;}
-.twitterStream div.microblog_update span.date {color:#ccc; margin-left:1em}
-.twitterStream div.microblog_update span.text {color:#333; clear:left; margin-left:3em; display:block;}
-
-
-
-/*}}}*/</pre>
-</div>
-<div title="settings" modifier="PhilHawksworth" created="200711142805" modified="" tags="systemConfig excludeLists excludeSearch">
-<pre>//{{{
-
-config.options.chkAutoSave = true;
-config.options.chkAnimate = true;
-config.options.chkSaveBackups = false;
-config.options.txtTheme = &quot;TestHarnessTheme&quot;;
-
-//}}}</pre>
 </div>
 <div title="SparklinePlugin" created="200710174720" tags="systemConfig excludeLists excludeSearch">
 <pre>/***

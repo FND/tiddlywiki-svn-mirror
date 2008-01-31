@@ -1,0 +1,95 @@
+<div title="TestHarnessTheme" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|SimpleOffWhiteTheme|
+|''Description:''|A simple theme to get started from|
+|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/Harnesses/microblog/SimpleOffWhiteTheme.tiddler |
+|''Version:''|0.2|
+|''Date:''|Jan 30th, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div macro='Console'></div>
+<div class='header'>
+<div class='headerShadow'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div class='headerForeground'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+</div>
+
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+
+!StyleSheet
+/*{{{*/
+	
+/* Debug Console */
+div#tiddlyconsole { width:100%; background-color:#333; color:#ca2;}
+div#tiddlyconsole div.log { height:8em; overflow:auto;}
+div#tiddlyconsole div.log div.entry { line-height:1.4em; border-bottom:solid 1px #222;padding:2px;}
+div#tiddlyconsole p.message { width:100%; background-color:#222; color:#ccc; }
+
+
+.hidden { display:none; }
+
+body {background-color:#E7E7DE; }
+
+/* Header */
+div.header { border-bottom:solid 1px #fff; background-color:#172322; color:#fff;}
+div.headerForeground {display:none;}
+div.headerShadow span.siteTitle {color:[[ColorPalette::Background]];}
+div.headerShadow span.siteSubtitle {color:#E7E7DE;}
+
+.tiddler {background-color:#fff; margin:2em 1em 1em 1em; padding-bottom:1em}
+
+/* Sidebar */
+#sidebar {margin-top:1em;}
+#sidebarOptions {margin-bottom:1em;}
+#sidebarOptions a.button { margin:1px 0; border-style:none; background-color:#d7d7cE; padding:0.5em; color:#77776E; font-size:1.1em; }
+#sidebarOptions a.button:hover { border-style:none; background-color:#172322; color:#fff;}
+
+
+
+/* Twitter */
+.latestTweet div.microblog_update {font-size:0.8; margin:0; padding:0.4em 0; position:relative; }
+.latestTweet div.microblog_update img {width:2em; height:2em; border:solid 1px #ccc; padding:1px; position:absolute}
+.latestTweet div.microblog_update span.user {color:#669; margin-left:3em;}
+.latestTweet div.microblog_update span.date {display:none}
+.latestTweet div.microblog_update span.text {color:#333; clear:left; margin-left:3em; display:block;}
+
+
+.twitterStream div.microblog_update {font-size:1em; margin:0; padding:0.4em 0; border-bottom:solid 1px #eee; position:relative; }
+.twitterStream div.microblog_update img {width:2em; height:2em; border:solid 1px #ccc; padding:1px; position:absolute}
+.twitterStream div.microblog_update span.user {color:#669; margin-left:3em;}
+.twitterStream div.microblog_update span.date {color:#ccc; margin-left:1em}
+.twitterStream div.microblog_update span.text {color:#333; clear:left; margin-left:3em; display:block;}
+
+
+
+/*}}}*/
+
+</pre>
+</div>
