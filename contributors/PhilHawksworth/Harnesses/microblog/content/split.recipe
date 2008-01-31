@@ -1,7 +1,14 @@
 tiddler: MicroblogTest.tiddler
 tiddler: MicroblogConfig_Twitter.tiddler
 tiddler: MicroblogConfig_Pownce.tiddler
+
 tiddler: TabTweets.tiddler
-tiddler: Tweets.tiddler
-tiddler: TweetTemplate.tiddler
+
+tiddler: TwitterStream.tiddler
+tiddler: TwitterLogin.tiddler
+tiddler: TwitterPost.tiddler
 tiddler: LatestTweet.tiddler
+tiddler: TweetTiddlers.tiddler
+
+tiddler: TweetTemplate.tiddler
+

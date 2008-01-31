@@ -1,4 +1,5 @@
-# tiddler: StyleSheet.tiddler
 tiddler: DefaultTiddlers.tiddler
-# tiddler: PageTemplate.tiddler
-# tiddler: SideBarTabs.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: MainMenu.tiddler
+tiddler: SidebarOptions.tiddler

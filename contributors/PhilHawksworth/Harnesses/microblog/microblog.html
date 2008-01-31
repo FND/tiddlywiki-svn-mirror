@@ -1439,9 +1439,25 @@ version.extensions.LinkMakerPlugin = {installed:true};
 <pre>
 &lt;&lt;list filter [tag[tweet]] template:&quot;TweetTemplate&quot; &gt;&gt;</pre>
 </div>
-<div title="Tweets" modifier="Phil Hawksworth" created="200801281339" tags="Microblog" changecount="1">
+<div title="TwitterStream" modifier="Phil Hawksworth" created="200801281339" tags="Microblog" changecount="1">
 <pre>
-{{{&lt;&lt;listRelated filter:&quot;[tag[Microblog]]&quot; template:&quot;TweetTemplate&quot;&gt;&gt;}}}</pre>
+{{twitterStream{&lt;&lt;Microblog Twitter listen all avatars false&gt;&gt;}}}	</pre>
+</div>
+<div title="TwitterLogin" modifier="PhilHawksworth" created="200801230000" tags="Microblog Twitter" changecount="1">
+<pre>
+&lt;&lt;Microblog Twitter config&gt;&gt;</pre>
+</div>
+<div title="TwitterPost" modifier="PhilHawksworth" created="200801230000" tags="Microblog Twitter" changecount="1">
+<pre>
+&lt;&lt;Microblog Twitter ui&gt;&gt;</pre>
+</div>
+<div title="LatestTweet" modifier="Phil Hawksworth" created="200801281339" tags="Microblog" changecount="1">
+<pre>
+{{latestTweet{&lt;&lt;Microblog Twitter listen 1 avatars false&gt;&gt;}}}	</pre>
+</div>
+<div title="TweetTiddlers" modifier="PhilHawksworth" created="200801281339" tags="Microblog" changecount="1">
+<pre>
+{{twitterStream{&lt;&lt;Microblog Twitter listen all avatars false&gt;&gt;}}}	</pre>
 </div>
 <div title="TweetTemplate" modifier="Phil Hawksworth" created="200801281339" changecount="1">
 <pre>
@@ -1451,15 +1467,24 @@ version.extensions.LinkMakerPlugin = {installed:true};
 	{{meta{&lt;&lt;view modified date '0hh:0mm'&gt;&gt;}}}		
 }}}</pre>
 </div>
-<div title="LatestTweet" modifier="Phil Hawksworth" created="200801281339" tags="Microblog" changecount="1">
-<pre>
-{{latestTweet{&lt;&lt;Microblog Twitter listen 1 avatars false&gt;&gt;}}}
-----
-{{twitterStream{&lt;&lt;Microblog Twitter listen all avatars false&gt;&gt;}}}	
-	</pre>
-</div>
 <div title="DefaultTiddlers" modifier="PhilHawksworth" created="200801231107" changecount="1">
-<pre>[[LatestTweet]]</pre>
+<pre>[[TwitterStream]]</pre>
+</div>
+<div title="SiteTitle" modifier="PhilHawksworth" created="200801310005" changecount="1">
+<pre>~TwitteryWiki</pre>
+</div>
+<div title="SiteSubtitle" modifier="PhilHawksworth" created="200801310006" changecount="1">
+<pre>it's tiddlywiki with a sprinkling of microblogging</pre>
+</div>
+<div title="MainMenu" modifier="PhilHawksworth" created="200801311227" changecount="1">
+<pre>TwitterLogin
+TwitterPost
+TwitterStream
+LatestTweet
+[[Console]]</pre>
+</div>
+<div title="SideBarOptions" modifier="PhilHawksworth" created="200801311227" changecount="1">
+<pre>&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newJournal &quot;DD MMM YYYY&quot; &quot;journal&quot;&gt;&gt;&lt;&lt;saveChanges&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel OptionsPanel &quot;options »&quot; &quot;Change TiddlyWiki advanced options&quot;&gt;&gt;&lt;&lt;search&gt;&gt;</pre>
 </div>
 <div title="TestHarnessTheme" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch">
 <pre>/***
@@ -1474,14 +1499,17 @@ version.extensions.LinkMakerPlugin = {installed:true};
 |''~CoreVersion:''|2.3.0|
 
 |''~PageTemplate:''|##PageTemplate|
+|''~ColorPalette:''|##ColorPalette|
 |''~StyleSheet:''|##StyleSheet|
+
+
 
 ***/
 
 !PageTemplate
 &lt;!--{{{--&gt;
 &lt;div macro='Console'&gt;&lt;/div&gt;
-&lt;div class='header' macro='gradient vert #fcfcfc #fcfcfc  #fcfcfc  #fcfcfc #eeeeee'&gt;
+&lt;div class='header'&gt;
 &lt;div class='headerShadow'&gt;
 &lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
 &lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
@@ -1491,6 +1519,7 @@ version.extensions.LinkMakerPlugin = {installed:true};
 &lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+
 &lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
 &lt;div id='sidebar'&gt;
 &lt;div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'&gt;&lt;/div&gt;
@@ -1503,25 +1532,69 @@ version.extensions.LinkMakerPlugin = {installed:true};
 &lt;!--}}}--&gt;
 
 
+!ColorPalette
+/*{{{*/
+
+Background: #fff
+
+Foreground: #000
+PrimaryPale: #8cf
+PrimaryLight: #18f
+PrimaryMid: #04b
+PrimaryDark: #014
+SecondaryPale: #ffc
+SecondaryLight: #fe8
+SecondaryMid: #db4
+
+SecondaryDark: #f00
+
+TertiaryPale: #eee
+TertiaryLight: #ccc
+TertiaryMid: #999
+TertiaryDark: #666
+Error: #f88
+/*}}}*/
+
+
 !StyleSheet
 /*{{{*/
 	
+/* Debug Console */
 div#tiddlyconsole { width:100%; background-color:#333; color:#ca2;}
 div#tiddlyconsole div.log { height:8em; overflow:auto;}
 div#tiddlyconsole div.log div.entry { line-height:1.4em; border-bottom:solid 1px #222;padding:2px;}
 div#tiddlyconsole p.message { width:100%; background-color:#222; color:#ccc; }
+#tiddlyconsole { display:none; }
 
 .hidden { display:none; }
 
-div.header { border-bottom:solid 1px #ccc; border-top:solid 1px #fff;}
+body {background-color:#E7E7DE; }
 
-.latestTweet div.microblog_update {font-size:0.8; margin:0; padding:0.4em 0; border-bottom:solid 1px #eee; position:relative; }
+/* Header */
+div.header { border-bottom:solid 1px #fff; background-color:#172322; color:#fff;}
+div.headerForeground {display:none;}
+div.headerShadow span.siteTitle {color:[[ColorPalette::Background]];}
+div.headerShadow span.siteSubtitle {color:#E7E7DE;}
+
+.tiddler {background-color:#fff; margin:2em 1em 1em 1em; padding-bottom:1em}
+
+/* Sidebar */
+#sidebar {margin-top:1em;}
+#sidebarOptions {margin-bottom:1em;}
+#sidebarOptions a.button { margin:1px 0; border-style:none; background-color:#d7d7cE; padding:0.5em; color:#77776E; font-size:1.1em; }
+#sidebarOptions a.button:hover { border-style:none; background-color:#172322; color:#fff;}
+
+
+
+/* Twitter */
+.latestTweet div.microblog_update {font-size:0.8; margin:0; padding:0.4em 0; position:relative; }
 .latestTweet div.microblog_update img {width:2em; height:2em; border:solid 1px #ccc; padding:1px; position:absolute}
 .latestTweet div.microblog_update span.user {color:#669; margin-left:3em;}
 .latestTweet div.microblog_update span.date {display:none}
 .latestTweet div.microblog_update span.text {color:#333; clear:left; margin-left:3em; display:block;}
 
-.twitterStream div.microblog_update {font-size:0.8; margin:0; padding:0.4em 0; border-bottom:solid 1px #eee; position:relative; }
+
+.twitterStream div.microblog_update {font-size:1em; margin:0; padding:0.4em 0; border-bottom:solid 1px #eee; position:relative; }
 .twitterStream div.microblog_update img {width:2em; height:2em; border:solid 1px #ccc; padding:1px; position:absolute}
 .twitterStream div.microblog_update span.user {color:#669; margin-left:3em;}
 .twitterStream div.microblog_update span.date {color:#ccc; margin-left:1em}

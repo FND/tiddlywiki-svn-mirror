@@ -1,8 +1,5 @@
 <div title="LatestTweet" modifier="Phil Hawksworth" created="200801281339" changecount="1" tags="Microblog">
 <pre>
-{{latestTweet{<<Microblog Twitter listen 1 avatars false>>}}}
-----
-{{twitterStream{<<Microblog Twitter listen all avatars false>>}}}	
-	
+{{latestTweet{<<Microblog Twitter listen 1 avatars false>>}}}	
 </pre>
 </div>
