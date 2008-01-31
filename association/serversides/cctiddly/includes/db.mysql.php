@@ -229,6 +229,23 @@ $db_var['error']['query'] = " query: ";*/
 		return array();
 	}
 
+	//!	@fn array db_workspace_selectAll()
+	//!	@brief select all workspace name from DB
+	function db_workspace_selectAllPublic()
+	{
+		global $tiddlyCfg;
+		global $ccT_msg;
+		
+		//or use status=P for public???
+		$q = "SELECT * FROM ".$tiddlyCfg['table']['workspace']." WHERE default_anonymous_perm LIKE 'A%'";
+
+		debug("db_workspace_selectAll: ".$q);
+		$r = mysql_query($q)
+			or die($ccT_msg['db']['word_error'].mysql_error());
+		
+		return $r;
+	}
+
 	//!	@fn array db_workspace_install()
 	//!	@brief install workspace
 	function db_workspace_install()

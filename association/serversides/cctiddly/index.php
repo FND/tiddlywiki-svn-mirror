@@ -406,9 +406,8 @@ config.macros.ccListWorkspaces = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
 		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
 		<?php
-		$sql = "SELECT * FROM ".$tiddlyCfg['table']['workspace']." WHERe default_anonymous_perm LIKE 'A%'"; 
-		$result = db_query($sql);
-		while ($row = db_fetch_assoc(&$result))
+		$result = db_workspace_selectAllPublic();
+		while ($row = db_fetch_assoc($result))
 		{
 			echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['name']."&quot;);\n";
 			echo "item.href= url+'/".$row['name']."';\n";
