@@ -1,0 +1,459 @@
+<div title="KubrickTheme" modifier="ClintChecketts" created="200612290000" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|KubrickTheme|
+|''Description:''|A Kubrick inspired TiddlyWiki theme|
+|''Author:''|Clint Checketts|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/KubrickTheme.tiddler |
+|''Version:''|1.0|
+|''Date:''|Dec 29, 2006|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+Please note that this theme requires you to save the following images to the same folder as your TW file: kubrickheader.jpg, kubrickbg.jpg, kubrickfooter.jpg
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div class='header'>
+<div class='titleLine'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+</div>
+<div id='sidebar'>
+<div id='sidebarSearch' macro='search'></div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='sidebarOptions' refresh='content' tiddler='KubrickTheme##KubrickSidebar'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<div id='contentFooter'><p>TiddlyWiki was created by <a href='http://tiddlywiki.com'>Jeremy Ruston</a> and TiddlyKubrick was created by <a href='http://checkettsweb.com'>Clint Checketts</a></p></div>
+<!--}}}-->
+
+!KubrickSidebar
+''Categories''
+<<allTags>>
+''Blog!''
+*<<newTiddler>>
+*<<newJournal 'DD MMM YYYY' journal>>
+
+''Meta''
+*<<closeAll>>
+*<<permaview>>
+*<<saveChanges>>
+*<<slider chkSliderOptionsPanel OptionsPanel 'options »' 'Change TiddlyWiki advanced options'>>
+
+!StyleSheet
+/***
+''General Rules''
+***/
+/*{{{*/
+a, .button {
+color:#06c;
+text-decoration: none;
+background: transparent;
+}
+
+a:hover,
+.button:hover {
+background: transparent;
+text-decoration: underline;
+color:#147;
+}
+
+body {
+font-size: 62.5%; /* Resets 1em to 10px */
+font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
+background-color:#d5d6d7;
+color:#666;
+background:#e7e7e7;
+margin:0 auto;
+}
+
+#contentWrapper {
+background:transparent url("kubrickbg.jpg") repeat-y 0px 0px;
+border:0;
+margin:0 auto;
+width:760px;
+}
+
+/*}}}*/
+/***
+''Header Rules''
+***/
+/*{{{*/
+.titleLine {
+margin:80px auto 0em;
+padding:0;
+width: 745px;
+text-align:center;
+color:#fff;
+}
+
+.siteTitle {
+font-weight: bold;
+}
+
+.siteTitle a, .siteSubtitle a {
+color:#fff;
+}
+
+.siteTitle a:hover, .siteSubtitle a:hover {
+text-decoration: underline;
+}
+
+.siteSubtitle {
+display: block;
+margin: .5em auto 1em;
+}
+
+.header {
+background: url("kubrickheader.jpg") no-repeat bottom center; 
+margin:0;
+padding:1px;
+height:198px;
+width:758px;
+
+}
+/*}}}*/
+/***
+''Footer Styles''
+***/
+/*{{{*/
+#contentFooter {
+text-align:center;
+clear:both;
+background: url("kubrickfooter.jpg") no-repeat bottom;
+border:none;
+padding:2em;
+height:3em;
+}
+/*}}}*/
+/***
+''Sidebar styles''
+***/
+/*{{{*/
+#sidebar {
+margin: 1em 2em 0 0;
+position:static;
+float:right;
+}
+
+#sidebar a,
+#sidebar a:hover {
+border:0;
+}
+
+#sidebar h1 {
+font-size:1.4em;
+font-weight:bold;
+margin:0;
+background:transparent;
+color:#000;
+}
+
+#sidebar ul {
+padding: 0;
+margin: 0 0 0 1em;
+}
+
+#sidebar li {
+list-style: none;
+}
+
+#sidebar li:before {
+color:#000;
+content: "\00BB \0020";
+}
+
+#sidebar, #mainMenu, #sideBarOptions {
+width:200px;
+text-align:left;
+}
+
+#mainMenu {
+position: static;
+}
+/*}}}*/
+/***
+''Sidebar search styles''
+***/
+/*{{{*/
+#sidebarSearch {
+margin:0 0 0 10px;
+width:145px;
+}
+
+#sidebarSearch input {
+font-size: .9em;
+width: 100px;
+}
+
+#sidebarSearch .button {
+float:right;
+margin-top:1px;
+}
+/*}}}*/
+/***
+''Sidebar option styles''
+***/
+/*{{{*/
+#sidebarOptions {
+margin-left: .75em;
+}
+
+#sidebarOptions h1 {
+font-size:1.3em;
+}
+
+#sidebarOptions a {
+display:inline;
+border:0;
+}
+
+#sidebarOptions .sliderPanel {
+background-color: transparent;
+font-size:1em;
+margin:0;
+}
+
+#sidebarOptions .sliderPanel a:before,
+#sidebarTabs li:before {
+content:"";
+}
+/*}}}*/
+/***
+''Sidebar tab styles''
+***/
+/*{{{*/
+#sidebarTabs .tab,
+#sidebarTabs .tab:hover {
+border: 1px solid #ccc;
+text-decoration:none;
+}
+
+#sidebarTabs .tabSelected {
+background:#ccc;
+color:#333;
+}
+
+#sidebarTabs .tabUnselected {
+background:#e6e6e6;
+color:#333;
+}
+
+#sidebarTabs .tabContents {
+background:#ccc;
+color:#333;
+border: 1px solid #ccc;
+width:95%;
+}
+
+#sidebarTabs .tabContents a {
+color:#06c;
+}
+
+#sidebarTabs .tabContents a:hover {
+color:#147;
+
+}
+
+#sidebarTabs a.tabSelected:hover {
+cursor:default;
+}
+
+#sidebarTabs .txtMoreTab .tab {
+border: 1px solid #aaa;
+color:#333;
+}
+
+#sidebarTabs .txtMoreTab .tabSelected {
+background:#aaa;
+color:#333;
+}
+
+#sidebarTabs .txtMoreTab .tabSelected:hover {
+background:#aaa;
+color:#333
+}
+
+#sidebarTabs .txtMoreTab .tabUnselected {
+background:#ccc;
+color:#333;
+}
+
+#contentWrapper #sidebar .txtMoreTab .tabUnselected:hover,#contentWrapper #displayArea .txtMoreTab .tabUnselected:hover {
+color:#333;
+}
+
+#contentWrapper .txtMoreTab .tabContents {
+background:#aaa;
+color:#333;
+border: 1px solid #aaa;
+}
+/*}}}*/
+/***
+''Message area styles''
+***/
+/*{{{*/
+#messageArea {
+background-color:#eee;
+border: 1px solid #ccc;
+color:#bbb;
+margin: 0 1em;
+font-size: .8em;
+}
+
+#messageArea a:link {
+color:#aaa;
+}
+#messageArea a:hover {
+color:#06c;
+}
+
+#messageArea .messageToolbar .button {
+border: 1px solid #ccc;
+color:#aaa;
+text-decoration:none;
+}
+
+#messageArea .messageToolbar .button:hover {
+border: 1px solid #777;
+color:#777;
+}
+/*}}}*/
+/***
+''Popup styles''
+***/
+/*{{{*/
+#popup{
+padding:0;
+background:#eee;
+border: 1px solid #ccc;
+color:#333;
+}
+
+#popup a {
+color:#06c;
+font-weight:normal;
+}
+
+#popup a:hover {
+color:#fff;
+background: #aaa;
+text-decoration: none;
+}
+/*}}}*/
+/***
+''Tiddler display styles''
+***/
+/*{{{*/
+#displayArea{
+margin: 1em 18em 1em 1em;
+text-align: left;
+font-size: 1.2em;
+}
+
+h1, h2, h3, h4, h5, .title {
+font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, Sans-Serif;
+color:#333;
+padding:0;
+}
+
+.viewer h1,.viewer h2,.viewer h3,.viewer h4,.viewer h5,.viewer h6 {
+background: transparent;
+border-bottom: 1px dotted #ccc;
+}
+
+.title {font-size:1.6em;}
+
+.subtitle {
+color:#777;
+font-size: .9em;
+}
+
+.toolbar {font-size: .8em;}
+
+.toolbar a:link,.toolbar a:visited {
+background:#e6e6e6;
+border: 1px solid #ccc;
+color:#aaa;
+padding: 1px 3px;
+margin: 0 .5em 0 0;
+}
+
+.toolbar a.button:hover {
+background:#ccc;
+border-color:#bbb;
+color:#06c;
+text-decoration:none;
+}
+
+.viewer a.tiddlyLinkNonExisting:link {
+color:#b85b5a;
+font-style:normal;
+}
+
+.viewer a.tiddlyLinkNonExisting:hover {
+text-decoration:underline; 
+}
+
+.viewer a.tiddlyLinkExisting:link,#displayArea .viewer a.externalLink {
+font-weight:normal;
+color:#06c;
+}
+
+.viewer a.tiddlyLinkExisting:hover,.viewer a.externalLink:hover {
+color:#147;
+text-decoration:underline; 
+}
+
+.viewer .button {
+border: 0;
+}
+
+.editor {
+font-size: 8pt;
+color:#402c74;
+font-weight: normal;
+}
+
+.editor input, .editor textarea {
+display: block;
+font: 11px/110% "Andale Mono", "Monaco", "Lucida Console", "Courier New", monospace;
+margin: 0 0 10px 0;
+border: 1px inset #333;
+padding: 2px 0;
+}
+
+.footer, .footer a.button,.editorFooter, .footer a.button {
+color:#aaa;
+}
+
+.selected .footer,.selected .footer a {
+color:#777;
+}
+
+.selected .footer a.button,.selected .editorFooter a.button {
+color:#06c;
+}
+
+.footer a.button:hover,.editorFooter a.button:hover {
+color:#147;
+background: transparent;
+} 
+
+.tagClear {
+clear: none; 
+}
+/*}}}*/
+</pre>
+</div>
