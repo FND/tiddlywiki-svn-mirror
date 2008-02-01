@@ -504,6 +504,7 @@ config.options.chkAutoSave = true;
 config.options.chkAnimate = true;
 config.options.chkSaveBackups = false;
 config.options.txtTheme = &quot;TestHarnessTheme&quot;;
+config.options.txtTwitterUser = null; 
 
 //}}}</pre>
 </div>
@@ -1026,10 +1027,11 @@ version.extensions.MicroblogPlugin = {installed:true};
 				this.ui(place,platform);
 				break;
 			case 'listen':
+				
 				var count = params[2] ? params[2] : false;
-				var avatars = params[3] =='avatars' ? true : false;
-				var makeTiddlers = params[4] =='makeTiddlers' ? true : false;
-				this.listen(place, platform, count, avatars, makeTiddlers);
+								var avatars = params[3] =='avatars' ? true : false;
+								var makeTiddlers = params[4] =='makeTiddlers' ? true : false;
+								this.listen(place, platform, count, avatars, makeTiddlers);
 				break;
 			default:
 				log('ERROR. '+ action+ ' is not a valid parameter for the Microblog plugin.');
@@ -1137,8 +1139,8 @@ version.extensions.MicroblogPlugin = {installed:true};
 		/*
 			TODO remove logging.
 		*/
-		console.log(status);
-		console.log(xhr);
+		log(status);
+		log(xhr);
 		
 		if(xhr.status == 200){
 			var p = document.getElementById('microblog_loggedin_'+params.platform);
@@ -1175,8 +1177,8 @@ version.extensions.MicroblogPlugin = {installed:true};
 		/*
 			TODO remove debug logging.
 		*/
-		console.log(status);
-		console.log(xhr);
+		log(status);
+		log(xhr);
 		
 		log(&quot;logged out of &quot; + params.platform);
 		var p = document.getElementById('microblog_loggedin_'+params.platform);
@@ -1232,18 +1234,34 @@ version.extensions.MicroblogPlugin = {installed:true};
 			/*
 				TODO remove debug logging
 			*/
-			console.log(msg);
+			log(msg);
 			
-			m =	createTiddlyElement(params.place,&quot;div&quot;,null,&quot;microblog_update&quot;,null);
-			if(params.avatars){
-				a =	createTiddlyElement(m,&quot;a&quot;,null,null,null);
-				a.href = rootURI + &quot;/&quot; + msg.user.screen_name + &quot;/statuses/&quot; + msg.id;
-				i =	createTiddlyElement(a,&quot;img&quot;,null,null,null);
-				i.src = msg.user.profile_image_url;
+			
+			/*
+				TODO move this test to be somewhere more efficient?
+			*/
+			if(params.makeTiddlers) {
+				log(&quot;Make tiddlers&quot;);
+				var t = new Tiddler();
+				t.text = msg.text.htmlDecode();				
+				log(t);
+				
+
 			}
-			createTiddlyElement(m,&quot;span&quot;,null,'user',msg.user.name);		
-			createTiddlyElement(m,&quot;span&quot;,null,'date',msg.created_at);		
-			createTiddlyElement(m,&quot;span&quot;,null,'text',msg.text);	
+			else {
+				m =	createTiddlyElement(params.place,&quot;div&quot;,null,&quot;microblog_update&quot;,null);
+				if(params.avatars){
+					a =	createTiddlyElement(m,&quot;a&quot;,null,null,null);
+					a.href = rootURI + &quot;/&quot; + msg.user.screen_name + &quot;/statuses/&quot; + msg.id;
+					i =	createTiddlyElement(a,&quot;img&quot;,null,null,null);
+					i.src = msg.user.profile_image_url;
+				}
+				createTiddlyElement(m,&quot;span&quot;,null,'user',msg.user.name);		
+				createTiddlyElement(m,&quot;span&quot;,null,'date',msg.created_at);		
+				createTiddlyElement(m,&quot;span&quot;,null,'text',msg.text.htmlDecode());	
+			}
+			
+
 		}
 	};
 	
@@ -1313,7 +1331,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.2|
 
-
+{{{
 Usage:
 
 Create a console panel:
@@ -1330,6 +1348,7 @@ config.macros.Console.activity(string);
 
 Reset the console display to its idle state:
 config.macros.Console.idle();
+}}}
 
 ***/
 
@@ -1338,7 +1357,6 @@ if(!version.extensions.ConsolePlugin) {
 version.extensions.ConsolePlugin = {installed:true};
 	
 	config.macros.Console = {};
-	config.macros.Console.defaultToFirebug = false;
 	config.macros.Console.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		if(config.macros.Console.exists()) {
 			this.log('Tiddlyconsole already exists. Duplicate not created.');
@@ -1354,10 +1372,13 @@ version.extensions.ConsolePlugin = {installed:true};
 		}
 		//TODO: handle option of defaulting to firebug.
 		//this.defaultToFirebug = true;
+		
 	};
 	
 	config.macros.Console.log = function(msg) {
-		if(console.log &amp;&amp; this.defaultToFirebug) {
+
+		//If firebug is present, use that. It's simply better.
+		if(window.console) {
 			console.log(msg);
 			return;
 		}
@@ -1486,8 +1507,9 @@ body {background-color:#E7E7DE; }
 /* Header */
 div.header { border-bottom:solid 1px #fff; background-color:#172322; color:#fff;}
 div.headerForeground {display:none;}
-div.headerShadow span.siteTitle {color:[[ColorPalette::Background]];}
-div.headerShadow span.siteSubtitle {color:#E7E7DE;}
+div.headerShadow {  }
+div.headerShadow span.siteTitle {color:#fff;}
+div.headerShadow span.siteSubtitle {color:#77776E;}
 
 .tiddler {background-color:#fff; margin:2em 1em 1em 1em; padding-bottom:1em}
 
@@ -1587,7 +1609,9 @@ LatestTweet
 [[Console]]</pre>
 </div>
 <div title="SideBarOptions" modifier="PhilHawksworth" created="200801311227" changecount="1">
-<pre>&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newJournal &quot;DD MMM YYYY&quot; &quot;journal&quot;&gt;&gt;&lt;&lt;saveChanges&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel OptionsPanel &quot;options »&quot; &quot;Change TiddlyWiki advanced options&quot;&gt;&gt;&lt;&lt;search&gt;&gt;</pre>
+<pre>&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newJournal &quot;DD MMM YYYY&quot; &quot;journal&quot;&gt;&gt;&lt;&lt;saveChanges&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel OptionsPanel &quot;options »&quot; &quot;Change TiddlyWiki advanced options&quot;&gt;&gt;
+
+&lt;&lt;search&gt;&gt;</pre>
 </div>
 <div title="SparklinePlugin" created="200710174720" tags="systemConfig excludeLists excludeSearch">
 <pre>/***

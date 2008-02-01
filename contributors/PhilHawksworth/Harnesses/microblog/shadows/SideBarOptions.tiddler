@@ -1,3 +1,5 @@
 <div title="SideBarOptions" modifier="PhilHawksworth" created="200801311227" changecount="1">
-<pre><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY" "journal">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Change TiddlyWiki advanced options">><<search>></pre>
+<pre><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY" "journal">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Change TiddlyWiki advanced options">>
+
+<<search>></pre>
 </div>

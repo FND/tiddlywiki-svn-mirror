@@ -60,8 +60,9 @@ body {background-color:#E7E7DE; }
 /* Header */
 div.header { border-bottom:solid 1px #fff; background-color:#172322; color:#fff;}
 div.headerForeground {display:none;}
-div.headerShadow span.siteTitle {color:[[ColorPalette::Background]];}
-div.headerShadow span.siteSubtitle {color:#E7E7DE;}
+div.headerShadow {  }
+div.headerShadow span.siteTitle {color:#fff;}
+div.headerShadow span.siteSubtitle {color:#77776E;}
 
 .tiddler {background-color:#fff; margin:2em 1em 1em 1em; padding-bottom:1em}
 
