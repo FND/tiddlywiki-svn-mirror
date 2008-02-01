@@ -14,38 +14,28 @@
 
 		switch($str) {
 			case "001":		//insert
-				header("HTTP/1.0 201 Created");
+				sendHeader(201,$ccT_msg['notice']['TiddlerSaved'],"",1);
+				/*header("HTTP/1.0 201 Created");
 				exit($ccT_msg['notice']['TiddlerSaved']);
-				break;
+				break;*/
 			case "002":		//update
 				//mail ( "receiever@example.com", "TiddlyWiki changes (title:".$title.")", $body."\n\n".$tags);
-				header("HTTP/1.0 200 OK");
-				exit($ccT_msg['notice']['TiddlerSaved']);
-				break;
+				sendHeader(200,$ccT_msg['notice']['TiddlerSaved'],"",1);
 			case "004":		//update
 				//mail ( "receiever@example.com", "TiddlyWiki changes (title:".$title.")", $body."\n\n".$tags);
 				//logerror($ccT_msg['warning']['tiddler_overwritten'],0);			//alert user of warning
-				header("HTTP/1.0 200 OK");
-				exit("\n".$ccT_msg['notice']['TiddlerSaved'].". ".$ccT_msg['warning']['tiddler_overwritten']);
-				break;
+				sendHeader(200,$ccT_msg['notice']['TiddlerSaved'].". ".$ccT_msg['warning']['tiddler_overwritten'],"",1);
 			case "012":
 				//logerror($ccT_msg['warning']['tiddler_need_reload'],0);			//alert user of error and stop script
-				header("HTTP/1.0 403 Forbidden");
-				exit("\n".$ccT_msg['warning']['tiddler_need_reload']);		//return error to display in displayMessage and make iframe idle
-				break;
+				sendHeader(403,$ccT_msg['warning']['tiddler_need_reload'],"",1);
 			case "013":		//no title passed
-				header("HTTP/1.0 400 Bad Request");
-				exit("\n".$ccT_msg['misc']['no_title']);
-				break;
+				sendHeader(400,$ccT_msg['misc']['no_title'],"",1);
 			case "020":
 				//logerror($ccT_msg['warning']['not_authorized'],0);			//alert user of error and stop script
-				header("HTTP/1.0 401 Unauthorized");
-				exit("\n".$ccT_msg['warning']['not_authorized']);		//return error to display in displayMessage and make iframe idle
-				break;
+				sendHeader(401,$ccT_msg['warning']['not_authorized'],"",1);
 			default:
-				header("HTTP/1.0 400 Bad Request");
 				logerror($ccT_msg['warning']['save_error']);
-				exit("\n".$ccT_msg['warning']['save_error'].": ".$str);
+				sendHeader(400,$ccT_msg['warning']['save_error'].": ".$str,"",1);
 		}
 	}
 	

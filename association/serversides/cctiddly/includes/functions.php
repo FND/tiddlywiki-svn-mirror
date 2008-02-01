@@ -367,7 +367,7 @@
 		return date('YmdHi', $timestamp); 
 	}
 
-//////////////////////////////////////////////////////// format related////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////// cookie related////////////////////////////////////////////////////////
 	//!	@fn cookie_set($k,$v)
 	//!	@brief set cookie, apply rawurlencode before setting cookie for compatibility with TW
 	//!	@param $k cookie name
@@ -442,6 +442,59 @@
 		return preg_replace('![^a-zA-Z0-9\-_\.]!', '', $str);
 	}
 
+//////////////////////////////////////////////////////// result related////////////////////////////////////////////////////////
+	//!	@fn sendHeader( $httpCode, $returnStr, $processReport, $stop )
+	//!	@brief send header and result. Last line of return str is displayed in MessageBox of TW
+	//!	@param $httpCode header code returned
+	//!	@param $returnStr summary of process result, shown in MessageBox of TW
+	//!	@param $processReport a detailed result, detail of error if occured
+	//!	@param $stop stop the process [1=stop, 0=continue]
+	function sendHeader( $httpCode, $returnStr="", $processReport="", $stop=0 )
+	{
+		$httpCode = (int)$httpCode;		//code must be in int
+		switch($httpCode)
+		{
+			case 200:
+				header("HTTP/1.0 200 OK");
+				break;
+			case 201:
+				header("HTTP/1.0 201 Created");
+				break;
+			case 202:
+				header("HTTP/1.0 202 Accepted");
+				break;
+			case 204:
+				header("HTTP/1.0 204 No Content");
+				break;
+			case 304:
+				header("HTTP/1.0 304 Not Modified");
+				break;
+			case 400:
+				header("HTTP/1.0 400 Bad Request");
+				break;
+			case 401:
+				header("HTTP/1.0 401 Unauthorized");
+				break;
+			case 403:
+				header("HTTP/1.0 403 Forbidden");
+				break;
+			case 404:
+				header("HTTP/1.0 404 Not Found");
+				break;
+			case 501:
+				header("HTTP/1.0 501 Not Implemented");
+				break;
+		}
+		
+		//display messages
+		if( $stop==0 ) {
+			print $processReport."\n".$returnStr;
+		}else{
+			exit($processReport."\n".$returnStr);
+		}
+		
+		return TRUE;
+	}
 //////////////////////////////////////////////////////// error related////////////////////////////////////////////////////////
 	//!	@fn bool logerror( $display_error, $stop_script=0, $record_error="" )
 	//!	@brief log error in this function

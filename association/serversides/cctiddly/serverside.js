@@ -165,10 +165,12 @@ ajax.posts=function(u,a){ajax.send(u,function(s){return s.responseText},'POST',a
 //				callback(false,params,null,url,x);
 serverside.fn.genericCallback = function(status,params,responseText,uri,xhr) {
 	result = responseText.split("\n");
-	result = result[result.length-1];	//display last line of result as info
+	if( result.count>1 )
+		result = ', ' + result[result.length-1];	//display last line of result as info
+		
 	if( status )
 	{
-		displayMessage(serverside.status[xhr.status] + ', ' + result
+		displayMessage(serverside.status[xhr.status] + result
 			,"javascript:document.open(\"text/html\");document.write(\"<html><head><title>"+serverside.lingo.returnedTextTitle+"</title></head><body>"+responseText+"</body></html>\");document.close()"
 		);
 	}else{
