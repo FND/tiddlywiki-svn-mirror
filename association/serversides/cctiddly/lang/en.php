@@ -117,6 +117,9 @@
 	$ccT_msg['notice']['uploadRSS'] = "upload RSS";
 	$ccT_msg['notice']['uploadStoreArea'] = "upload storeArea";
 	$ccT_msg['notice']['timeOut'] = "Time out! Action not complete";
+	$ccT_msg['notice']['error'] = "error";
+	$ccT_msg['notice']['click4Details'] = "(click for details)";
+	$ccT_msg['notice']['returnedTextTitle'] = "ccTiddly returned result";
 	$ccT_msg['notice']['RSScreated'] = "RSS created";
 	$ccT_msg['notice']['uploadStoreArea_complete'] = "storeArea upload completed";
 	

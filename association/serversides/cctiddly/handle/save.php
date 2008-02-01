@@ -1,6 +1,7 @@
 <?php
 	
-	
+	//header("HTTP/1.0 201 Not Found");
+	//exit("in");
 
 	$cct_base = "../";
 	include_once($cct_base."includes/header.php");
@@ -13,27 +14,36 @@
 
 		switch($str) {
 			case "001":		//insert
+				header("HTTP/1.0 201 Created");
+				exit($ccT_msg['notice']['TiddlerSaved']);
+				break;
 			case "002":		//update
 				//mail ( "receiever@example.com", "TiddlyWiki changes (title:".$title.")", $body."\n\n".$tags);
-				exit("\n".$ccT_msg['notice']['TiddlerSaved']);
+				header("HTTP/1.0 200 OK");
+				exit($ccT_msg['notice']['TiddlerSaved']);
 				break;
 			case "004":		//update
 				//mail ( "receiever@example.com", "TiddlyWiki changes (title:".$title.")", $body."\n\n".$tags);
 				//logerror($ccT_msg['warning']['tiddler_overwritten'],0);			//alert user of warning
+				header("HTTP/1.0 200 OK");
 				exit("\n".$ccT_msg['notice']['TiddlerSaved'].". ".$ccT_msg['warning']['tiddler_overwritten']);
 				break;
 			case "012":
 				//logerror($ccT_msg['warning']['tiddler_need_reload'],0);			//alert user of error and stop script
+				header("HTTP/1.0 403 Forbidden");
 				exit("\n".$ccT_msg['warning']['tiddler_need_reload']);		//return error to display in displayMessage and make iframe idle
 				break;
 			case "013":		//no title passed
+				header("HTTP/1.0 400 Bad Request");
 				exit("\n".$ccT_msg['misc']['no_title']);
 				break;
 			case "020":
 				//logerror($ccT_msg['warning']['not_authorized'],0);			//alert user of error and stop script
+				header("HTTP/1.0 401 Unauthorized");
 				exit("\n".$ccT_msg['warning']['not_authorized']);		//return error to display in displayMessage and make iframe idle
 				break;
 			default:
+				header("HTTP/1.0 400 Bad Request");
 				logerror($ccT_msg['warning']['save_error']);
 				exit("\n".$ccT_msg['warning']['save_error'].": ".$str);
 		}
@@ -46,7 +56,8 @@
 	//strip all slashes first and readd them before adding to SQL
 	$ntiddler = formatParameters($_POST['tiddler']);
 	$oldTitle = formatParameters($_POST['otitle']);
-	$oldModified = formatParameters($_POST['omodified']);
+	$oldModified = formatParameters(isset($_POST['omodified'])?$_POST['omodified']:"");
+	$oldChangecount = formatParameters(isset($_POST['ochangecount'])?$_POST['ochangecount']:"");
 	
 	//explode tiddler DIV into array
 	$ntiddler = tiddler_htmlToArray($ntiddler);

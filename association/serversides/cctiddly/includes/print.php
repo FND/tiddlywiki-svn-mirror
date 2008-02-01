@@ -79,8 +79,11 @@
 		//in cct online mode
 		if( !$standalone )
 		{
-				debug("workspace name IS : ".$tiddlyCfg['workspace_name']);
+			debug("workspace name IS : ".$tiddlyCfg['workspace_name']);
 			debug("print ".$tiddlyCfg['workspace_name']);
+			
+			//remove workspace from query_string
+			$_SERVER['QUERY_STRING'] = preg_replace("!workspace=([^&]*&|.*$)!","",$_SERVER['QUERY_STRING']);
 ?>
 //<![CDATA[
 //cctPlugin
@@ -88,15 +91,16 @@
 var serverside={
 	url: "<?php echo ($_SERVER['HTTPS']?"https://":"http://").$_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>",		//server url, for use in local TW or TW hosted elsewhere
 	workspace:"<?php echo $tiddlyCfg['workspace_name'];?>",
+	queryString:"<?php echo queryString();?>",
 	handle:{		//path of file for handling request, can be used to put in GET variable
-		rss: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/rss.php?<?php print queryString()?>&workspace=<?php echo $tiddlyCfg['workspace_name'];?>",
-		uploadStoreArea: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/uploadstorearea.php?<?php print queryString()?>&workspace=<?php echo $tiddlyCfg['workspace_name'];?>",		//for uploading the whole storearea
-		saveTiddler: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/save.php?<?php print queryString()?>&workspace=<?php echo $tiddlyCfg['workspace_name'];?>",
-		removeTiddler: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/delete.php?<?php print queryString()?>&workspace=<?php echo $tiddlyCfg['workspace_name'];?>",
-		revisionList: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/revisionlist.php?<?php print queryString()?>&workspace=<?php echo $tiddlyCfg['workspace_name'];?>",
-		revisionDisplay: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/revisiondisplay.php?<?php print queryString()?>&workspace=<?php echo $tiddlyCfg['workspace_name'];?>",
-		createWorkspace: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/handle/createworkspace.php?<?php print queryString()?>&workspace=<?php echo $tiddlyCfg['workspace_name'];?>",
-		login: "..<?php print $tiddlyCfg['pref']['base_folder'];?>/msghandle.php?<?php print queryString()?>&workspace=<?php echo $tiddlyCfg['workspace_name'];?>"
+		rss: "/handle/rss.php?<?php print queryString()?>",
+		uploadStoreArea: "/handle/uploadstorearea.php?<?php print queryString()?>",		//for uploading the whole storearea
+		saveTiddler: "/handle/save.php?<?php print queryString()?>",
+		removeTiddler: "/handle/delete.php?<?php print queryString()?>",
+		revisionList: "/handle/revisionlist.php?<?php print queryString()?>",
+		revisionDisplay: "/handle/revisiondisplay.php?<?php print queryString()?>",
+		createWorkspace: "/handle/createworkspace.php?<?php print queryString()?>",
+		login: "/msghandle.php?<?php print queryString()?>"
 	},
 	handle_msg:{		//message sent to server for action, used for posting message to server. null = not used
 		rss: "action=rss",
@@ -113,6 +117,9 @@ var serverside={
 		uploadStoreArea: "<?php print $ccT_msg['notice']['uploadStoreArea'] ?>",
 		rss: "<?php print $ccT_msg['notice']['uploadRSS'] ?>",
 		timeOut: "<?php print $ccT_msg['notice']['timeOut'] ?>",
+		error: "<?php print $ccT_msg['notice']['error'] ?>",
+		click4Details: "<?php print $ccT_msg['notice']['click4Details'] ?>",
+		returnedTextTitle: "<?php print $ccT_msg['notice']['returnedTextTitle'] ?>",
 		anonymous: "<?php print $ccT_msg['loginpanel']['anoymous'] ?>",
 		login:{
 			login: "<?php print $ccT_msg['loginpanel']['login'] ?>",
@@ -129,9 +136,18 @@ var serverside={
 		}
 	},
 	loggedIn:<?php echo  $usr_val?user_session_validate():0;?>,
+	status:{		//require translation later
+		200: "OK",
+		201: "Created",
+		204: "Empty",
+		207: "MultiStatus",
+		401: "Unauthorized",
+		403: "Forbidden",
+		404: "Not found",
+		405: "Method not allowed"
+	},
 	fn:{}		//server-side function
 };
-
 
 cctPlugin = {
 	lingo:{
@@ -206,7 +222,7 @@ window.cct_tweak = function(){
 
 		if( !$standalone )		//online version only
 		{
-			print '<script type="text/javascript" src="cctplugins.js"></script>'."\n";
+			//print '<script type="text/javascript" src="cctplugins.js"></script>'."\n";
 			print '<script type="text/javascript" src="serverside.js"></script>'."\n";
 		}
 		return '';

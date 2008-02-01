@@ -1,3 +1,64 @@
+//This file contains all ccTiddly's plugins that would not exist in standalone version
+//The plugins were moved from inside the code to an extra js file is because:
+//	1/ allow for caching 
+//	2/ ease in reading the code and updating
+//	3/ load quicker?
+//	4/ avoid overwriting functions that are also used by other plugins (such as saveTiddler)
+
+/////////////////////////////////////////////////////////remove isDirty popup dialog/////////////////////////////////////////////////
+
+window.checkUnsavedChanges = function()	{};//ccT save on the fly
+
+window.confirmExit = function()
+{
+	hadConfirmExit = true;		//assume confirm exit since ccT save "on the fly"
+}
+
+/////////////////////////////////////////////////////////change title/////////////////////////////////////////////////
+window.cct_main = window.main
+window.main = function()
+{
+	window.cct_main();
+	window.cct_tweak();
+	refreshPageTemplate('PageTemplate');
+	story.forEachTiddler(function(title){story.refreshTiddler(title,DEFAULT_VIEW_TEMPLATE,true);});
+	//document.title=(wikifyPlain("SiteTitle") + " - " + wikifyPlain("SiteSubtitle")).htmlEncode();
+	document.title=(wikifyPlain("SiteTitle") + " - " + wikifyPlain("SiteSubtitle"));
+}
+
+/////////////////////////////////////////////////////////saveChanegs/////////////////////////////////////////////////
+window.saveChanges = function ()
+{
+	clearMessage();
+	//var cct_msg = "";
+	
+	//set delay in saveChanges to allow auto generating RSS/upload store area
+	//otherwise it skips generating RSS, possibly because iframe is not ready
+	//serverside.fn.uploadRSS();		//RSS is now generated on the fly
+	// Save Rss
+	/*if(config.options.chkGenerateAnRssFeed)
+	{
+		//setTimeout("window.cct_genRss ()",cctPlugin.timeDelay);
+		serverside.fn.uploadRSS();
+		//cct_msg = cct_msg+config.cctPlugin.lingo.generateRSS+"\n";
+	}
+
+	//if( config.options.chkGenerateAnRssFeed===false && config.options.chkUploadStoreArea===false )
+	if( config.options.chkGenerateAnRssFeed===false )
+	{
+		displayMessage(cctPlugin.lingo.checkOption);
+	}*/
+}
+
+//////////////////////////////////////////////////Reload config file
+/***
+!!!Reload config file
+uncomment it to enable
+require variables defined by this time
+***/
+//window.loadOptionsCookie();
+
+///////////////////////////////////////////////////////////////////above is cctplugins.js stuff/////////////////////////////////////////
 /***
 ! server-side TW plugin
 this is acting as a common script for server-side TW
@@ -6,52 +67,10 @@ this is acting as a common script for server-side TW
 !!!TW predefined variables for sever-side
 ***/
 //{{{
-config.options.chkHttpReadOnly = false;	//make it HTTP writable by default
-config.options.chkSaveBackups = false;	//disable save backup
-config.options.chkAutoSave = false;		//disable autosave
+config.options.chkHttpReadOnly = false;		//make it HTTP writable by default
+config.options.chkSaveBackups = false;		//disable save backup
+config.options.chkAutoSave = false;			//disable autosave
 config.options.chkUsePreForStorage = false; 
-//}}}
-
-/***
-!!!TW server-side variables
-***/
-//{{{
-/*var serverside={
-	url: "http://127.0.0.1",		//server url, for use in local TW or TW hosted elsewhere
-	handle:{		//path of file for handling request, can be used to put in GET variable
-		rss: "msghandle.php?action=rss",
-		uploadStoreArea: "msghandle.php?action=upload",		//for uploading the whole storearea
-		saveTiddler: "msghandle.php?action=saveTiddler",
-		removeTiddler: "msghandle.php?action=removeTiddler",
-		revisionList: "msghandle.php?action=revisionList",
-		revisionDisplay: "msghandle.php?action=revisionDisplay"
-	},
-	handle_msg:{		//message sent to server for action, used for posting message to server. null = not used
-		rss: "action=rss",
-		uploadStoreArea: "action=upload",
-		saveTiddler: "action=saveTiddler",
-		removeTiddler: "action=removeTiddler"
-	},
-	debug: 1,		//debug mode, display alert box for each action
-	passwordTime: 0,		//defines how long password variable store in cookie. 0 = indefinite
-	messageDuration: 5000,				//displayMessage autoclose duration (in milliseconds), 0=leave open
-	lingo:{		//message for different language
-		uploadStoreArea: "storeArea uploaded",
-		rss: "rss uploaded",
-		timeOut: "timeout",
-		revision:{
-			text: "revision",
-			tooltip: "view revision of this tiddler",
-			popupNone: "no revision available",
-			notExist: "revision not exist"
-		}
-	},
-	ajax:{
-		disable:0,		//disable ajax and use traditional iframe
-		timeoutDuration: 10000		//set timeout duration, and return 404 status
-	},
-	fn:{}		//server-side function
-};*/
 //}}}
 
 /***
@@ -60,11 +79,11 @@ config.options.chkUsePreForStorage = false;
 //{{{
 if( serverside.url != null )		//if url not null, add to front of handle
 {
-	if( serverside.url != null && serverside.url[serverside.url.length-1] != '/' ) {		//add '/' to end of url
+	/*if( serverside.url != null && serverside.url[serverside.url.length-1] != '/' ) {		//add '/' to end of url
 		serverside.url = serverside.url+'/';
-	}
+	}*/
 	for( var i in serverside.handle ) {
-		serverside.handle[i] = serverside.url + serverside.handle[i];
+		serverside.handle[i] = serverside.url + '/' + serverside.handle[i] + '&workspace=' + serverside.workspace;
 	}
 }
 //}}}
@@ -119,7 +138,9 @@ serverside.fn.no_cache = function() {return "time"+new String((new Date()).getTi
 //{{{
 var ajax={};
 ajax.x=function(){try{return new ActiveXObject('Msxml2.XMLHTTP')}catch(e){try{return new ActiveXObject('Microsoft.XMLHTTP')}catch(e){try{return new XMLHttpRequest()}catch(e){return false}}}};
-ajax.send=function(u,f,m,a){var x=ajax.x();x.open(m,u,true);x.onreadystatechange=function(){if(x.readyState==4)f(x)};if(m=='POST')x.setRequestHeader('Content-type','application/x-www-form-urlencoded; charset=UTF-8');x.send(a)};
+ajax.send=function(u,f,m,a){var x=ajax.x();x.open(m,u,true);
+x.onreadystatechange=function(){if(x.readyState==4)f(x)};
+if(m=='POST')x.setRequestHeader('Content-type','application/x-www-form-urlencoded; charset=UTF-8');x.send(a)};
 //ajax.sends=function(u,m,a){ajax.send(url,function(s){return s.responseText},m,a)};
 ajax.check=function(){if(ajax.x()===false)return false; return true;};		//check if ajax available
 ajax.escape=function(f,s){return f+'='+encodeURIComponent(s)};
@@ -133,6 +154,32 @@ ajax.posts=function(u,a){ajax.send(u,function(s){return s.responseText},'POST',a
 //}}}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/***
+!!!Generic callback function
+*display status as result
+*can click on status in displayMessage for further info
+*called when readystatus=4
+*status=true if status=0,200,201,204,207
+***/
+//				callback(true,params,x.responseText,url,x);
+//				callback(false,params,null,url,x);
+serverside.fn.genericCallback = function(status,params,responseText,uri,xhr) {
+	result = responseText.split("\n");
+	result = result[result.length-1];	//display last line of result as info
+	if( status )
+	{
+		displayMessage(serverside.status[xhr.status] + ', ' + result
+			,"javascript:document.open(\"text/html\");document.write(\"<html><head><title>"+serverside.lingo.returnedTextTitle+"</title></head><body>"+responseText+"</body></html>\");document.close()"
+		);
+	}else{
+		displayMessage(xhr.status + ' ' + serverside.lingo.error + ' ' + serverside.lingo.click4Details
+			,"javascript:document.open(\"text/html\");document.write(\"<html><head><title>"+serverside.lingo.returnedTextTitle+"</title></head><body>"+responseText+"</body></html>\");document.close()"
+		);
+		alert(xhr.status + ' ' + serverside.lingo.error);
+	}
+	//if( serverside.messageDuration != 0 )
+	//	setTimeout("clearMessage()",serverside.messageDuration);
+}
 /***
 !!!message function
 *using displayMessage in TW, but add autoclose timer (defined by serverside.messageDuration)
@@ -465,32 +512,62 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 {
 	//get previous title and
 	var tiddler = this.fetchTiddler(title);
+	//variables for making sure no tiddlers are overwritted
+	var omodified=null;
+	var ochangecount=null;
 
 	//if minorupdate is used, it is possible that a tiddler is accidentally overwrite by another due to collision detection is done via modified date
 	if( modified == undefined )
 	{
-		if(tiddler)
+		if(tiddler)				//get modified date and change count from previous tiddler
 		{
 			modified = tiddler.modified;
-		}else{
+			
+		}else{					//if new tiddler
 			modified =  new Date();
 		}
 	}
-	var omodified = modified;
+	
+	//if old tiddler exist, get data for collision detection
 	if(tiddler){
 		omodified = tiddler.modified; // get original modified date
+		ochangecount = tiddler.changecount;
 	}
-	//alert(fields);
+
 	//save in local TW
-	var tiddler = "";
+	//var tiddler = "";
 	tiddler =  store.ss_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created);//save to local copy
 
+	//send to server
+	doHttp('POST'
+		,serverside.url + '/handle/save.php?' + serverside.queryString + '&workspace=' + serverside.workspace
+		,'tiddler=' + encodeURIComponent(tiddler.saveToDiv())
+			+ '&otitle=' + encodeURIComponent(title.htmlDecode())
+			+ ((omodified!==null)?'&omodified=' + encodeURIComponent(omodified.convertToYYYYMMDDHHMM()):"")
+			+ ((ochangecount!==null)?'&ochangecount=' + encodeURIComponent(ochangecount):"")
+		,null, null, null
+		,serverside.fn.genericCallback
+	);
+	
+	/*var params = {}; 
+	params.url = url+'/'+this.ccWorkspaceName.value;
+	var loginResp = doHttp('POST', 
+		url+'/'+this.ccWorkspaceName.value, 
+		&quot;ccCreateWorkspace=&quot; + encodeURIComponent(this.ccWorkspaceName.value)+&quot;&amp;ccAnonPerm=&quot;+encodeURIComponent(anon)
+		,null,null,null, config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
+
+	function doHttp(type,url,data,contentType,username,password,callback,params,headers)
+	
 	var postStr = ajax.escape("tiddler",tiddler.saveToDiv());
 	postStr += '&' + ajax.escape("omodified",omodified.convertToYYYYMMDDHHMM());
 	postStr += '&' + ajax.escape("otitle",title.htmlDecode());
 	if( serverside.handle_msg.saveTiddler != null )
 		postStr += '&' + serverside.handle_msg.saveTiddler;
 	ajax.post(serverside.handle.saveTiddler,serverside.fn.displayMessage,postStr);
+	*/
+	//ajax.post=function(u,f,a){ajax.send(u,f,'POST',a)};
+	
+	//var loginResp = doHttp('POST', url+'/'+this.ccWorkspaceName.value, &quot;ccCreateWorkspace=&quot; + encodeURIComponent(this.ccWorkspaceName.value)+&quot;&amp;ccAnonPerm=&quot;+encodeURIComponent(anon),null,null,null, config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
 	//serverside.fn.displayMessage(result);
 	return tiddler;
 }

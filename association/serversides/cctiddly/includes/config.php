@@ -25,7 +25,7 @@
 	//cct core settings, do not affect by DB settings
 	$tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, 2=allow by user
 	$tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
-	$tiddlyCfg['mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
+	$tiddlyCfg['use_mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
 	
 	//workspace default values
 	$tiddlyCfg['twLanguage'] = "en";	//predefine language
