@@ -466,6 +466,9 @@
 			case 204:
 				header("HTTP/1.0 204 No Content");
 				break;
+			case 302:
+				header("HTTP/1.1 302 Found");
+				break;
 			case 304:
 				header("HTTP/1.0 304 Not Modified");
 				break;
@@ -480,6 +483,21 @@
 				break;
 			case 404:
 				header("HTTP/1.0 404 Not Found");
+				break;
+			case 405:
+				header("HTTP/1.1 405 Method Not Allowed");
+				break;
+			case 406:
+				header("HTTP/1.1 406 Not Acceptable");//14 40min
+				break;
+			case 408:
+				header("HTTP/1.1 408 Request Time-out");//14 40min
+				break;
+			case 409:
+				header("HTTP/1.1 409 Conflict");//14 40min
+				break;
+			case 410:
+				header("HTTP/1.1 410 Gone");//14 40min
 				break;
 			case 501:
 				header("HTTP/1.0 501 Not Implemented");

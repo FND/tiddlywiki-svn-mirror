@@ -129,7 +129,7 @@
 	//		or it wasn't displayed for that user, which can overwrite another tiddler
 	//	declare otitle false
 	//if old title exist, is it the same as new tiddler?
-debug("here");
+
 	
 	//check if new tiddler title already exist, FALSE if not exist
 	$tiddler = db_tiddlers_mainSelectTitle($ntiddler['title']);
