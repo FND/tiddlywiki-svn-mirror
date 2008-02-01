@@ -2,7 +2,7 @@
 	$cct_base = "../";
 	include_once($cct_base."includes/header.php");
 	//return result/message
-	function returnResult($str)
+	/*function returnResult($str)
 	{
 		global $ccT_msg;
 		db_close();
@@ -25,7 +25,7 @@
 				//logerror($ccT_msg['warning']['del_err']);
 				exit("\n".$ccT_msg['warning']['del_err'].": ".$str);
 		}
-	}
+	}*/
 	
 //////////////////////////////////////////////////////////preformat tiddler data//////////////////////////////////////////////////////////////
 	//strip all slashes first and readd them before adding to SQL
@@ -35,32 +35,37 @@
 //////////////////////////////////////////////////////////removeTiddler//////////////////////////////////////////////////////////////
 	
 	//get user and privilege and set variables
-	if( strlen($username)==0 && strlen($password)==0 )
+	/*if( strlen($username)==0 && strlen($password)==0 )
 	{
 		$user = user_create();		//get username password from cookie
 	}else{
 		$user = user_create($username,"",0,"",$password,1);
-	}
+	}*/
 
 	//check for markup
 	if( !tiddler_markupCheck($user,$title) )
 	{
 		//debug("markup check");
 		//return "020";
-		returnResult("020");
+		//returnResult("020");
+		sendHeader(401,$ccT_msg['warning']['not_authorized'],"",1);
 	}
 
 	//get tiddler to check for privilege
 	$tiddler = db_tiddlers_mainSelectTitle($title);
 	if( $tiddler===FALSE ) {
-		returnResult("014");
+		sendHeader(404,$ccT_msg['warning']['tiddler_not_found'],"",1);
+		//returnResult("014");
 	}
 	
 	//delete current tiddler
 	if( user_deletePrivilege(user_tiddlerPrivilegeOfUser($user,$tiddler['tags'])) ) {
 		tiddler_delete_new($tiddler['id']);		//delete current tiddler
-		returnResult("003");
+		//returnResult("003");
+		sendHeader(200,$ccT_msg['notice']['TiddlerDeleted'],"",1);
 	}else{
-		returnResult("020");
+		//returnResult("020");
+		sendHeader(401,$ccT_msg['warning']['not_authorized'],"",1);
 	}
+	sendHeader(400,$ccT_msg['warning']['del_error'],"",1);
 ?>

@@ -587,10 +587,19 @@ TiddlyWiki.prototype.ss_removeTiddler = TiddlyWiki.prototype.removeTiddler;
 TiddlyWiki.prototype.removeTiddler = function(title)
 {
 	store.ss_removeTiddler(title);
-	var postStr = ajax.escape("title",title);
+	
+	//send to server
+	doHttp('POST'
+		,serverside.url + '/handle/delete.php?' + serverside.queryString + '&workspace=' + serverside.workspace
+		,'title=' + encodeURIComponent(title.htmlDecode())		//need htmlDecode?
+		,null, null, null
+		,serverside.fn.genericCallback
+	);
+	
+	/*var postStr = ajax.escape("title",title);
 	if( serverside.handle_msg.removeTiddler != null )
 		postStr += '&' + serverside.handle_msg.removeTiddler;
-	ajax.post(serverside.handle.removeTiddler,serverside.fn.displayMessage,postStr);
+	ajax.post(serverside.handle.removeTiddler,serverside.fn.displayMessage,postStr);*/
 }
 //}}}
 
