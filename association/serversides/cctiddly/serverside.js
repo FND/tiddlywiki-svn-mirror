@@ -615,10 +615,18 @@ used to upload all tiddlers to the server
 //{{{
 serverside.fn.uploadStoreArea = function ()
 {
-	var postStr = ajax.escape("upload",allTiddlersAsHtml());
+	//send to server
+	doHttp('POST'
+		,serverside.url + '/handle/uploadstorearea.php?' + serverside.queryString + '&workspace=' + serverside.workspace
+		,'upload=' + encodeURIComponent(allTiddlersAsHtml())		//need htmlDecode?
+		,null, null, null
+		,serverside.fn.genericCallback
+	);
+	//alert("2");
+	/*var postStr = ajax.escape("upload",allTiddlersAsHtml());
 	if( serverside.handle_msg.uploadStoreArea != null )
 		postStr += '&' + serverside.handle_msg.uploadStoreArea;
-	ajax.post(serverside.handle.uploadStoreArea,serverside.fn.displayMessage,postStr);
+	ajax.post(serverside.handle.uploadStoreArea,serverside.fn.displayMessage,postStr);*/
 }
 //upload storeArea marco, will create a text button
 config.macros.ssUploadStoreArea = {

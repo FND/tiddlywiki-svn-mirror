@@ -384,22 +384,20 @@ config.macros.ccCreateWorkspace = {
 		return false; 
 
 	},
-		createWorkspaceCallback: function(status,params,responseText,uri,xhr) {
-		//	displayMessage(xhr.status);
-			if(xhr.status==201) {
-				window.location = params.url;
-				//displayMessage('workspace crated');				
-			} else if (xhr.status == 200) {
-				displayMessage("Workspace name is already in use.");
-			} else if (xhr.status == 403) {
-					displayMessage("Permission denied, the ability to create new workspaces may have been disabled by you systems administrator.");	
-			} else
-			{
-					displayMessage(responseText);	
-			
-			}
-			return FALSE;
+	createWorkspaceCallback: function(status,params,responseText,uri,xhr) {
+	//	displayMessage(xhr.status);
+		if(xhr.status==201) {
+			window.location = params.url;
+			//displayMessage('workspace crated');				
+		} else if (xhr.status == 200) {
+			displayMessage("Workspace name is already in use.");
+		} else if (xhr.status == 403) {
+			displayMessage("Permission denied, the ability to create new workspaces may have been disabled by you systems administrator.");	
+		} else {
+			displayMessage(responseText);	
 		}
+		return FALSE;
+	}
 
 }
 
