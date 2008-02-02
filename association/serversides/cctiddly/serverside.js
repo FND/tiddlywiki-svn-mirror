@@ -114,11 +114,11 @@ if( serverside.debug == 1 )
 ''TW2.1 check''
 ***/
 //{{{
-function isTW21(){
+/*function isTW21(){
 	if( version.major==2 && version.minor==1 )
 		return true;
 	return false;
-}
+}*/
 //}}}
 
 /***
@@ -369,18 +369,53 @@ code obtained from ZiddlyWiki
 ***/
 //{{{
 config.commands.revisions = {
-  text: serverside.lingo.revision.text,
-  tooltip: serverside.lingo.revision.tooltip,
-  popupNone: serverside.lingo.revision.popupNone,
-  hideShadow: true,
-  handler: function(event,src,title) {
-    var popup = Popup.create(src);
-    Popup.show(popup,false);
-	
-	var callback = function(r) {
-		if(popup) {
-			if(r.status == 200) {
-				var revs = r.responseText.split('\n');
+	text: serverside.lingo.revision.text,
+	tooltip: serverside.lingo.revision.tooltip,
+	popupNone: serverside.lingo.revision.popupNone,
+	hideShadow: true,
+	handler: function(event,src,title) {
+		//create popup for holding revision list
+		var popup = Popup.create(src);
+		Popup.show(popup,false);
+
+		//call back function for revision list
+		//var callback = function(r) {
+		var callback = function(status,params,responseText,uri,xhr) {
+			if(!popup) return;		//end if popup not exist
+			if( !status ) {			//if error
+				if( xhr.status==204 ) {		//empty/no content
+					createTiddlyText(createTiddlyElement(popup,"li",null,"disabled"),serverside.lingo.revision.popupNone);
+				}else{
+					createTiddlyText(createTiddlyElement(popup,"li",null,"disabled"),serverside.lingo.revision.error);
+				}
+			}else{					//if ok, get list
+				var revisionList = responseText.split('\n');
+				
+				for(var i=0; i<revisionList.length; i++) {
+					var parts = revisionList[i].split(' ');
+					if( parts.length==3 ) {
+						var modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
+						var key = parts[1];
+						var modifier = parts[2];
+						var button = createTiddlyButton(createTiddlyElement(popup,"li")
+							, "(" + key + ")" + " - " + modified.toLocaleString() +" "+ modifier
+							, serverside.lingo.revision.tooltip
+							, function(){
+								displayTiddlerRevision(this.getAttribute('tiddlerTitle'), 
+								this.getAttribute('revisionkey'), this); 
+								return false;
+							}
+							, 'tiddlyLinkExisting tiddlyLink');
+						button.setAttribute('tiddlerTitle', title);
+						button.setAttribute('revisionkey', key);
+						var t = store.fetchTiddler(title);
+						if(!t) alert(title+serverside.lingo.revision.notExist);
+						//if(t && (store.getValue(t, 'revisionkey') == key))
+						if( t && t.modified == modified )
+							button.className = 'revisionCurrent';
+					}
+				}
+				/*var revs = r.responseText.split('\n');
 				if( revs.length<2 ){		//no revision available, current version is also counted as 1 so min is 1
 					createTiddlyText(createTiddlyElement(popup,"li",null,"disabled"),serverside.lingo.revision.popupNone);
 				}else{
@@ -405,25 +440,35 @@ config.commands.revisions = {
 							//if(t && (store.getValue(t, 'revisionkey') == key))
 							if( t && t.modified == modified )
 								button.className = 'revisionCurrent';
-						}
+							}
 					}
-				}
+				}*/
 			}
 		}
-	}
-
-	//get revision from server
-	var url = serverside.handle.revisionList;
-	if( url.indexOf("?") == -1 )
-		url += '?' + ajax.escape("title",title.htmlDecode());
-	else
-		url += '&' + ajax.escape("title",title.htmlDecode());
-	url += '&' + serverside.fn.no_cache();
-	ajax.get(url,callback);
-	
-	event.cancelBubble = true;
-	if (event.stopPropagation) event.stopPropagation();
-	return true;
+		
+		//send to server
+		doHttp('POST'
+			,serverside.url + '/handle/revisionlist.php?' + serverside.queryString
+				+ '&workspace=' + serverside.workspace
+				+ '&title=' + encodeURIComponent(title.htmlDecode())
+				+ '&' + serverside.fn.no_cache()
+			, null, null, null, null
+			,callback
+		);
+		
+		//get revision from server
+		/*var url = serverside.handle.revisionList;
+		if( url.indexOf("?") == -1 )
+			url += '?' + ajax.escape("title",title.htmlDecode());
+		else
+			url += '&' + ajax.escape("title",title.htmlDecode());
+		url += '&' + serverside.fn.no_cache();
+		ajax.get(url,callback);
+		*/
+		
+		event.cancelBubble = true;
+		if (event.stopPropagation) event.stopPropagation();
+		return true;
 	}
 }
 //}}}
@@ -533,7 +578,9 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 	//if old tiddler exist, get data for collision detection
 	if(tiddler){
 		omodified = tiddler.modified; // get original modified date
-		ochangecount = tiddler.changecount;
+		//if(t && (store.getValue(t, 'revisionkey') == key))
+		//ochangecount = tiddler.changecount;
+		ochangecount = store.getValue(tiddler, 'changecount');
 	}
 
 	//save in local TW

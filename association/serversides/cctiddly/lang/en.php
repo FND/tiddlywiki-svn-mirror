@@ -130,6 +130,7 @@
 	$ccT_msg['error']['js_file_read'] = "Cannot read js file";
 	$ccT_msg['error']['config_not_found'] = "config not found";
 	$ccT_msg['error']['revision_not_found'] = "revision not found";
+	$ccT_msg['error']['revision_error'] = "revision not found";
 	$ccT_msg['error']['workspace_not_found'] = "workspace not found";
 	
 	//db error

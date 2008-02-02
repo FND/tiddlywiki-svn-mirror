@@ -132,6 +132,7 @@ var serverside={
 			text: "<?php print $ccT_msg['word']['revision'] ?>",
 			tooltip: "<?php print $ccT_msg['misc']['revision_tooltip'] ?>",
 			popupNone: "<?php print $ccT_msg['warning']['no_revision'] ?>",
+			error: "<?php print $ccT_msg['error']['revision_error'] ?>",
 			notExist: "<?php print $ccT_msg['error']['revision_not_found'] ?>"
 		}
 	},
