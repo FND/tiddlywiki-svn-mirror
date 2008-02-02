@@ -164,20 +164,20 @@ ajax.posts=function(u,a){ajax.send(u,function(s){return s.responseText},'POST',a
 //				callback(true,params,x.responseText,url,x);
 //				callback(false,params,null,url,x);
 serverside.fn.genericCallback = function(status,params,responseText,uri,xhr) {
-	result = responseText.split("\n");
+	result = xhr.responseText.split("\n");
 	if( result.count>1 )
 		result = ', ' + result[result.length-1];	//display last line of result as info
-		
+
 	if( status )
 	{
 		displayMessage(serverside.status[xhr.status] + result
-			,"javascript:document.open(\"text/html\");document.write(\"<html><head><title>"+serverside.lingo.returnedTextTitle+"</title></head><body>"+responseText+"</body></html>\");document.close()"
+			,"javascript:document.open(\"text/html\");document.write(\"<html><head><title>"+serverside.lingo.returnedTextTitle+"</title></head><body>"+xhr.responseText+"</body></html>\");document.close()"
 		);
 	}else{
-		displayMessage(xhr.status + ' ' + serverside.lingo.error + ' ' + serverside.lingo.click4Details
-			,"javascript:document.open(\"text/html\");document.write(\"<html><head><title>"+serverside.lingo.returnedTextTitle+"</title></head><body>"+responseText+"</body></html>\");document.close()"
+		displayMessage(result + ' ' + serverside.lingo.error + ' ' + serverside.lingo.click4Details
+			,"javascript:document.open(\"text/html\");document.write(\"<html><head><title>"+serverside.lingo.returnedTextTitle+"</title></head><body>"+xhr.responseText+"</body></html>\");document.close()"
 		);
-		alert(xhr.status + ' ' + serverside.lingo.error);
+		//alert(xhr.status + ' ' + serverside.lingo.error);
 	}
 	//if( serverside.messageDuration != 0 )
 	//	setTimeout("clearMessage()",serverside.messageDuration);
@@ -402,7 +402,7 @@ config.commands.revisions = {
 							, serverside.lingo.revision.tooltip
 							, function(){
 								displayTiddlerRevision(this.getAttribute('tiddlerTitle'), 
-								this.getAttribute('revisionkey'), this); 
+									this.getAttribute('revisionkey'), this); 
 								return false;
 							}
 							, 'tiddlyLinkExisting tiddlyLink');
@@ -490,48 +490,63 @@ config.commands.revisions = {
 //{{{
 function displayTiddlerRevision(title, revision, src, updateTimeline) {
 	//display tiddler function
-	var displayTiddler = function(result) {
-		if( result.status==200 )
-		{
-			if(result.responseText.indexOf('\n') > -1) {
-			var parts = result.responseText.split('\n');
-			if( parts[parts.length-1] == "ERROR" ) {
-				serverside.fn.displayMessage(result);
-				return false;
+	var callback = function(status,params,responseText,uri,xhr) {
+		if( !status ) {		//if not found or authorized, do nothing
+			serverside.fn.genericCallback(status,params,responseText,uri,xhr);
+			return false;
+		}
+
+		//break result apart
+		var parts = xhr.responseText.split('\n');
+		//if( parts[parts.length-1] == "ERROR" ) {
+		if( parts.length<3 ) {	//if only 1-2 lines, should be error (3 because there could be an empty line followed by the message
+			serverside.fn.genericCallback(status,params,responseText,uri,xhr);
+			return false;
+		}
+		
+		//get old tiddler
+		var tiddler = new Tiddler();
+		var oldtiddler = store.fetchTiddler(title);
+		var oldtitle = parts[0];
+		
+		//set revision info ext var in tiddler. is this still in use????????????????????????
+		if(oldtiddler && oldtiddler.modified != parts[4]) {
+			var tmpstr = " (Historical revision " + parts[7];
+			if(title != oldtitle) {
+				tmpstr += " renamed from " + oldtitle;
 			}
-			var tiddler = new Tiddler();
-			var oldtiddler = store.fetchTiddler(title);
-			var oldtitle = parts[0];
-			/*setValue not available in TW 2.0.11*/
-//			if( isTW21() ) {
-				if(oldtiddler && oldtiddler.modified != parts[4]) {
-					var tmpstr = " (Historical revision " + parts[7];
-					if(title != oldtitle) {
-						tmpstr += " renamed from " + oldtitle;
-					}
-					tmpstr += ")";
-					store.setValue(tiddler, "revisioninfo", tmpstr);
-				}
-//			}
-			tiddler.set(title, Tiddler.unescapeLineBreaks(parts[2].htmlDecode()), parts[3], 
-			Date.convertFromYYYYMMDDHHMM(parts[4]), parts[6], 
-			Date.convertFromYYYYMMDDHHMM(parts[5]));
-			//store.setValue(tiddler, 'revisionkey', parts[7]);
-			store.addTiddler(tiddler);
-			//if(tiddler.tags.contains('deleted')) store.deleteTiddler(title);
-			//config.commands.revisions.text = serverside.lingo.revision.text+"("+parts[7]+")";
-			story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
-			if(parts[9] == 'update timeline')
-				store.notify('TabTimeline', true)
-			}else{		//if only 1 line, treat as error
-				serverside.fn.displayMessage(result);
-			}
+			tmpstr += ")";
+			store.setValue(tiddler, "revisioninfo", tmpstr);
+		}
+
+		//change current to old content
+		tiddler.set(title, Tiddler.unescapeLineBreaks(parts[2].htmlDecode()), parts[3], 
+		Date.convertFromYYYYMMDDHHMM(parts[4]), parts[6], 
+		Date.convertFromYYYYMMDDHHMM(parts[5]));
+		store.setValue(tiddler, 'changecount', parts[7]);
+		store.addTiddler(tiddler);
+		//if(tiddler.tags.contains('deleted')) store.deleteTiddler(title);
+		//config.commands.revisions.text = serverside.lingo.revision.text+"("+parts[7]+")";
+		story.refreshTiddler(title, DEFAULT_VIEW_TEMPLATE, true);
+		if(parts.length>9 && parts[9] == 'update timeline') {
+			store.notify('TabTimeline', true)
 		}
 	}
 	
+	//send to server
+	doHttp('POST'
+		,serverside.url + '/handle/revisiondisplay.php?' + serverside.queryString
+			+ '&workspace=' + serverside.workspace
+			+ '&title=' + encodeURIComponent(title.htmlDecode())
+			+ '&revision=' + encodeURIComponent(revision)
+			+ '&' + serverside.fn.no_cache()
+		, null, null, null, null
+		,callback
+	);
+	
 	//get revision from server
 	//supply parameter: title, revision
-	var url = serverside.handle.revisionDisplay;
+	/*var url = serverside.handle.revisionDisplay;
 	if( url.indexOf("?") == -1 )
 		url += '?';
 	else
@@ -539,6 +554,7 @@ function displayTiddlerRevision(title, revision, src, updateTimeline) {
 	url += ajax.escape("title",title.htmlDecode());
 	url += '&' + ajax.escape("revision",revision);
 	result = ajax.get(url,displayTiddler);		//return http_handle
+	*/
 };
 //}}}
 

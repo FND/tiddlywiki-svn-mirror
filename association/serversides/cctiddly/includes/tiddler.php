@@ -71,8 +71,11 @@
 	//!	@param $tiddler tiddler array
 	function tiddler_outputDIV($tiddler)
 	{
-?>
+/*?>
 <div tiddler="<?php print $tiddler["title"] ?>" modifier="<?php print $tiddler["modifier"] ?>" modified="<?php print $tiddler["modified"] ?>" created="<?php print $tiddler["created"] ?>" tags="<?php print $tiddler["tags"] ?>" temp.ccTrevision="<?php print $tiddler["revision"] ?>" <?php print $tiddler["fields"] ?>><?php print $tiddler["body"] ?></div>
+<?php*/
+?>
+<div tiddler="<?php print $tiddler["title"] ?>" modifier="<?php print $tiddler["modifier"] ?>" modified="<?php print $tiddler["modified"] ?>" created="<?php print $tiddler["created"] ?>" tags="<?php print $tiddler["tags"] ?>" changecount="<?php print $tiddler["revision"] ?>" <?php print $tiddler["fields"] ?>><?php print $tiddler["body"] ?></div>
 <?php
 		return;
 	}
@@ -160,6 +163,11 @@
 			$t = preg_replace($reg, "", $t);		//remove data from div string
 			$r['tags'] = trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
 
+			$reg = "!changecount=\"[^\"]*\"!";
+			preg_match($reg, $t, $tmp);				//obtain string from tiddler
+			$t = preg_replace($reg, "", $t);		//remove data from div string
+			$r['revision'] = trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
+			
 			//remove "temp." fields as they are temporary
 			$t = preg_replace("!temp[.][^\"]*=\"[^\"]*\"!", "", $t);
 			$t = str_replace("  ", " ", $t);		//remove double-space

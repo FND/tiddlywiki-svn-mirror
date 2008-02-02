@@ -1,11 +1,7 @@
 <?php
-	
-	//header("HTTP/1.0 201 Not Found");
-	//exit("in");
-
 	$cct_base = "../";
 	include_once($cct_base."includes/header.php");
-	
+
 	//return result/message
 	function returnResult($str)
 	{

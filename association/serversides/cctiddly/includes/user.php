@@ -416,7 +416,7 @@
 				$privilege = user_mergePrivilege($privilege, $privilegeArr[$t]);
 			}
 		}
-			
+		
 		//redefine undefine privilege
 		return user_undefinePrivilege($privilege);
 	}
