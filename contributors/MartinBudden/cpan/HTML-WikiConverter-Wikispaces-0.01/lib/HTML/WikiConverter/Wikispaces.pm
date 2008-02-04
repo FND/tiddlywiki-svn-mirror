@@ -94,7 +94,7 @@ sub _image {
 
   my $img = $node->attr('src');
   # if it's not an absolute path then strip to just the base name
-  if($img =~ m/^http:\/\/www\.test\.com/) { # wikiconverter adds http://www.test.com if no host specified
+  if($img !~ m/^https?:\/\//) {
   	$img = basename( URI->new($node->attr('src'))->path );
   }
   my $alt = $node->attr('alt') || '';
@@ -131,7 +131,8 @@ sub _link {
   return $self->_anchor($node, $rules) if $node->attr('name');
 
   my $url = $node->attr('href') || '';
-  if ($url =~ m/^http:\/\/www\.test\.com/) { # wikiconverter adds http://www.test.com if no host specified
+  # if it's not an absolute path then strip to just the base name
+  if($url !~ m/^https?:\/\//) {
   	my($link,$path,$suffix) = fileparse($url,qr{\..*});
   	my $r = rindex($suffix,'#');
   	if($r!=-1) {

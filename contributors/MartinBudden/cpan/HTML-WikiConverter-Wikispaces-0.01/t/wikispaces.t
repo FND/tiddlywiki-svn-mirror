@@ -208,15 +208,6 @@ __H__
 __W__
 === h6 ===
 __NEXT__
-img relative
-__H__
-<p><img src="logo1.png" alt="logo1" /></p>
-<p><img src="path/logo2.png" alt="logo2" /></p>
-__W__
-[[image:logo1.png alt="logo1"]]
-
-[[image:logo2.png alt="logo2"]]
-__NEXT__
 img
 __H__
 <p><img src="http://www.example.com/logo.png" alt="logo" /></p>
@@ -246,15 +237,6 @@ __H__
 <html><a href="http://www.example.com">http://www.example.com</a></html>
 __W__
 http://www.example.com
-__NEXT__
-internal links
-__H__
-<p><A HREF="dwe00203.htm#part1chap1">PARTS 1,</A></p>
-<p><A HREF="dwe00208.htm#052">Page52 to 58.</A></p>
-__W__
-[[dwe00203#part1chap1|PARTS 1,]]
-
-[[dwe00208#052|Page52 to 58.]]
 __NEXT__
 anchor
 __H__
