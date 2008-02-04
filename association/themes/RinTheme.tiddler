@@ -1,0 +1,469 @@
+<div title="RinTheme" modifier="ClintChecketts" created="200612290000" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|RinTheme|
+|''Description:''|The popular Rin theme ported to TiddlyWiki|
+|''Author:''|Clint Checketts|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/RinTheme.tiddler |
+|''Version:''|1.0|
+|''Date:''|Dec 29, 2006|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+RinTheme Beta, inspired by Broken Kode and implemented by Clint Checketts
+
+Please note that this theme requires you to save the following images to the same folder as your TW file: rinback.jpg, ringradient.jpg, rinbullet.gif
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div class='titleLine'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+
+<div class="headerOptions">
+<span macro="search"></span>
+<span macro="slider chkSliderOptionsPanel OptionsPanel options 'Change TiddlyWiki advanced options'"></span>
+</div>
+</div>
+
+<div class='header'>
+<div id='rinTopMenu' refresh='content' tiddler='RinTheme##RinTopMenu'></div>
+</div>
+
+<div id='messageArea'></div>
+
+<div id='bodyWrapper'>
+<div id='rinSidebar'>
+<div class='sidebarBlock'>
+<h3>Tools</h3>
+<div refresh='content' tiddler='RinTheme##RinTools'></div>
+</div>
+
+<div class='sidebarBlock'>
+<h3>Links</h3>
+<div refresh='content' tiddler='RinTheme##RinLinks'></div>
+</div>
+
+<div class='sidebarBlock'>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+</div>
+
+<div id='displayArea'>
+<div id='tiddlerDisplay'></div>
+</div>
+<div id='contentFooter'><p>TiddlyWiki was created by <a href="http://www.tidlywiki.com" title="TiddlyWiki">Jeremy Ruston</a> and TiddlyRin was created by <a href="http://www.checkettsweb.com" title="Checketts Web">Clint Checketts</a></p></div>
+</div>
+<!--}}}-->
+
+!RinTopMenu
+*<<newTiddler>>
+
+!RinTools
+*<<closeAll>>
+*<<permaview>>
+*<<saveChanges>>
+
+!RinLinks
+*[[A link]]
+*[[A link]]
+*[[A link]]
+
+!StyleSheet
+/***
+''General Styles''
+***/
+/*{{{*/
+a,
+a.tiddlyLink,
+a.button,
+a.externalLink {
+color:#005d93;
+text-decoration:none;
+background:transparent;
+border:0;
+}
+
+a:hover,
+a.tiddlyLink:hover,
+a.button:hover,
+a.externalLink:hover {
+border:0;
+color:#900;
+text-decoration:underline;
+}
+
+body {
+background-color:#fff;
+font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+#contentWrapper {
+border:0;
+margin: .5em 1em;
+}
+/*}}}*/
+/***
+''Header Styles''
+***/
+/*{{{*/
+.header {
+height:150px;
+background: url('rinback.jpg') repeat-x bottom left;
+position:relative;
+}
+
+.titleLine {
+background:#ccc url('ringradient.jpg') repeat-x top center;
+padding: 0 5px;
+}
+
+.siteTitle, .siteSubtitle {
+display:inline;
+font-size:11px;
+line-height:25px;
+font-weight:bold;
+color:#000;
+}
+
+.siteTitle a {
+color:#000;
+}
+
+.siteTitle a:hover, .siteSubtitle a:hover,.header .headerOptions a:hover {
+color:#cdcecf;
+text-decoration:none;
+background:transparent;
+}
+
+.siteSubtitle, #siteSubtitle a {
+font-weight:normal;
+color:#8b9198;
+}
+
+.headerOptions {
+position:absolute;
+z-index:10;
+top:4px;
+right:17px;
+text-align:right;
+font-size: .9em;
+}
+
+.headerOptions a {
+position:relative;
+top: -2px;
+color:#8b9190;
+}
+
+.headerOptions .sliderPanel {
+color:#000;
+background:#fff;
+border-right:2px solid #999;
+border-bottom:2px solid #999;
+border-left:1px solid #ccc;
+font-size:10px;
+text-align:left;
+line-height:1.2em;
+padding: .5em 1em;
+margin: -3px -2px 0 0;
+width:180px; 
+}
+
+.headerOptions input {
+margin: 0em 1em 0 .5em;
+font-size:9px;
+}
+/*}}}*/
+/***
+''Top menu styles''
+***/
+/*{{{*/
+#rinTopMenu {
+position:absolute;
+bottom:0;
+left:0;
+width:auto;
+padding:0;
+margin:0;
+color:#fff;
+}
+
+#rinTopMenu br {
+display:none;
+}
+
+#rinTopMenu a {
+color:#e6e6e6;
+}
+
+#rinTopMenu ul {
+margin: 0 0 2px 2px;
+padding:0;
+}
+
+#rinTopMenu li {
+display:inline;
+}
+
+#rinTopMenu li a.tiddlyLink,#rinTopMenu li a.button,#rinTopMenu li a.externalLink {
+padding: 2px 10px;
+color:#e6e6e6;
+text-decoration:none;
+}
+
+#rinTopMenu li a.tiddlyLink:hover,#rinTopMenu li a.button:hover,#rinTopMenu li a.externalLink:hover {
+background:#97ced5;
+color:#19729e;
+}
+/*}}}*/
+/***
+''Sidebar styles''
+***/
+/*{{{*/
+#rinSidebar{
+float:left;
+margin: 9px 0 0 15px;
+width:220px;
+}
+
+#sidebarOptions a.button {
+display:inline;
+}
+
+.sidebarBlock {
+display:block;
+margin: 0 0 .5em 0;
+background:#fff;
+padding-bottom:5px;
+}
+
+.sidebarBlock h1, .sidebarBlock h2, .sidebarBlock h3, .sidebarBlock .tabset {
+background:#ccc url('ringradient.jpg') repeat-x top left;
+font-size:11px;
+line-height:23px;
+font-weight:bold;
+color:#000; 
+padding-left:5px;
+}
+
+.sidebarBlock .tabset {
+padding:0;
+}
+
+#rinSidebar .sidebarBlock .tabContents,
+#displayArea .sidebarBlock .tabContents .tabContents, 
+#displayArea .viewer .tabUnselected,
+#displayArea .viewer .tabContents .tabSelected{
+background:#fff;
+border:0;
+width:205px;
+}
+
+
+#sidebar .sidebarBlock .tabContents .tabContents,
+#displayArea .sidebarBlock .tabContents,
+#displayArea .viewer .tabSelected,
+#displayArea .viewer .tabContents .tabUnselected {
+background:#f5f6f7;
+}
+
+#sidebar .sidebarBlock .tabContents .tab {
+background:#f5f6f8;
+}
+
+
+#sidebar .sidebarBlock .tabContents .tabUnselected {
+background:#f0f0f0;
+}
+
+#sidebar .sidebarBlock .tabContents .tabUnselected:hover {
+text-decoration:underline;
+}
+
+#contentWrapper .tab {
+position:relative;
+padding-bottom:2px;
+font-weight:normal;
+top:3px;
+background:#f5f6f8;
+color:#000;
+text-decoration:none;
+}
+
+#contentWrapper .tabSelected {
+border:0;
+top:1px;
+padding-bottom:4px !important;
+background:#fff;
+font-weight:bold;
+cursor:default;
+}
+
+#sidebarTabs .tabContents li.listTitle,#sidebarTabs .tabContents li.listTitle:hover {
+padding: 0 0 0 .5em;
+margin:0;
+background:transparent;
+}
+
+#sidebarTabs .tabContents li.listLink {
+margin-left:1em; 
+}
+
+#sidebarTabs .sidebarBlock li {
+list-style:none;
+margin-left:1em;
+padding: 1px 0 1px 1.5em;
+background:transparent url('rinbulletOver.gif') no-repeat left center;
+}
+
+#sidebarTabs .sidebarBlock li:hover {
+background: transparent url('rinbullet.gif') no-repeat left center;
+}
+
+#contentWrapper .tabContents a.tiddlyLink,#contentWrapper .tabContents a.button {
+display:block;
+color:#005d93;
+border:0;
+}
+
+#contentWrapper .tabContents a.tiddlyLink:hover,#contentWrapper .tabContents a.button:hover {
+color:#900;
+background:#f0f0f0;
+text-decoration:none;
+}
+
+#rinSidebar ul,
+#rinSidebar li {
+list-style:none;
+padding:0;
+margin:0;
+}
+
+#rinSidebar li a {
+display:block;
+margin: 0 0 0 .5em;
+padding: 0 0 0 1.5em;
+background:transparent url('rinbullet.gif') no-repeat 5px -22px;
+}
+
+#rinSidebar li a:hover,
+#rinSidebar #sidebarTabs li a:hover {
+background:transparent url('rinbullet.gif') no-repeat 5px 0;
+text-decoration:underline;
+}
+
+#rinSidebar #sidebarTabs li{
+margin:0;
+padding:0;
+}
+/*}}}*/
+/***
+''Message area styles''
+***/
+/*{{{*/
+#messageArea {
+background:#cdced2 url('ringradient.jpg') repeat-x left top;
+color:#000;
+position:absolute;
+top:135px;
+right:10px;
+}
+
+#messageArea a:link {
+color:#000;
+}
+
+#messageArea a:hover{
+text-decoration:none;
+}
+/*}}}*/
+/***
+''Display styles''
+***/
+/*{{{*/
+#bodyWrapper{
+border: 1px solid #d5d7db;
+border-width: 15px 1px 3px 1px;
+margin: 10px 0;
+background:#f5f6f7;
+}
+
+#displayArea {
+margin: 0 0 0 20em;
+}
+
+#contentFooter {
+clear:both;
+background:#d5d7db;
+text-align:center;
+}
+
+#contentFooter p {
+margin:0;
+}
+
+.tiddler {
+background:#fff;
+margin: 10px 0;
+}
+
+.tiddler .toolbar a.button,.tiddler .footer a.button,.tiddler .editorFooter a.button {
+padding: 2px 5px;
+color:#19729e;
+text-decoration:none;
+}
+
+.tiddler .toolbar a.button:hover,.tiddler .footer a.button:hover,.tiddler .editorFooter a.button:hover {
+background:#97ced5;
+color:#19729e;
+}
+
+.title {font-size:16px;}
+
+.tagClear {clear:none;}
+
+.viewer h1,
+.viewer h2,
+.viewer h3,
+.viewer h4,
+.viewer h5,
+.viewer h6 {
+background:transparent;
+}
+
+.viewer h1 {
+border-bottom: 1px dotted #97ced5;
+}
+
+.viewer th,
+.viewer thead td {
+background:#2b7ea6
+}
+
+#popup {color:#000;background:#d5d7db;}
+
+#popup hr {
+color:#999;
+border-top: 1px solid #999;
+width:96%;
+}
+
+#popup a {
+display:block;
+color:#005d93;
+}
+
+#popup a:hover {
+color:#900;
+background:#f0f0f0;
+text-decoration:none;
+}
+/*}}}*/
+</pre>
+</div>
