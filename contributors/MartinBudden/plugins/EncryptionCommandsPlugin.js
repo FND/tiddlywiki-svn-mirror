@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/#EncryptionCommandsPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/EncryptionCommandsPlugin.js |
-|''Version:''|0.1.6|
+|''Version:''|0.1.7|
 |''Date:''|Feb 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -20,6 +20,11 @@ version.extensions.EncryptionCommandsPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1) || (version.major == 2 && version.minor == 1 && version.revision <3 ))
 	alertAndThrow("EncryptionCommandsPlugin requires TiddlyWiki 2.1.3 or later.");
+
+config.commands.editTiddler.isEnabled = function(tiddler)
+{
+	return tiddler.fields.encryption ? false : true;
+};
 
 config.commands.encryptTiddler = {
 	hideReadOnly: true,
@@ -189,10 +194,11 @@ encryptionCommandPluginUpdateViewTemplate = function()
 		tiddler.text = config.shadowTiddlers[title];
 		tiddler.tags.pushUnique('excludeLists');
 	}
-	if(tiddler.text.indexOf('encryptTiddler') == -1)
+	if(tiddler.text.indexOf('encryptTiddler') == -1) {
 		tiddler.text = tiddler.text.replace("<div class='toolbar' macro='toolbar ","<div class='toolbar' macro='toolbar encryptTiddler displayDecryptedTiddler decryptTiddler ");
-	store.addTiddler(tiddler);
-	store.setDirty(true);
+		store.addTiddler(tiddler);  
+		store.setDirty(true);
+	}
 };
 
 encryptionCommandPluginSetFunctions = function()
