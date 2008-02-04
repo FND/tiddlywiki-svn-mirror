@@ -54,6 +54,15 @@ demo = [
 	['Look in phone book for local ski shops', "Action Next Personal [[Buy snowboard]] Home"],
 	['Ask Ben for recommendations',            "Action Next Personal [[Buy snowboard]] Call"],
 
+  ['Hung up bedroom curtains', "Project [[Home Maintenance]] Personal Active"],
+  ['Buy curtain rail and screws', "Action Next Personal [[Hung up bedroom curtains]] Errand"],
+  ['Drill holes and hung up curtain rail', "Action Future Personal [[Hung up bedroom curtains]] Home"],
+  ['Place curtain pins and hung up curtains', "Action Future Personal [[Hung up bedroom curtains]] Home"],
+  
+  ['Go to theater with Sue', "Project Recreation Personal Active"],
+  ['Ring Sue: decide play and dates', "Action Next Personal [[Go to theater with Sue]] Call"],
+  ['Ring ticket office and book places', "Action Future Personal [[Go to theater with Sue]] Call"],
+  
 	['A project-less task',   "Action Next Personal"],
 
 ]
@@ -98,4 +107,5 @@ make_tw {
   # add many demo bits here
   to_file                "upload/index3.html"
 }
+
 
