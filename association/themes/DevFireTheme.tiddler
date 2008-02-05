@@ -1,0 +1,326 @@
+<div title="DevFireTheme" modifier="ClintChecketts" created="200612290000" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|DevFireTheme|
+|''Description:''|A snazzy theme that was created for TiddlyWikiDev|
+|''Author:''|Clint Checketts|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/DevFireTheme.tiddler |
+|''Version:''|1.0|
+|''Date:''|Dec 29, 2006|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div class='header' macro='gradient vert #390108 #900'>
+<div class='headerShadow'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div class='headerForeground'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+</div>
+<div id='mainMenu'>
+<div refresh='content' tiddler='MainMenu'></div>
+</div>
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+!StyleSheet
+/*{{{*/
+body {background:#000;}
+/*}}}*/
+/***
+''Link styles''
+***/
+/*{{{*/
+a,
+a.button,
+#mainMenu a.button,
+#sidebarOptions .sliderPanel a {
+color:#ffbf00;
+border: 0;
+background: transparent;
+}
+
+a:hover,
+a.button:hover,
+#mainMenu a.button:hover,
+#sidebarOptions .sliderPanel a:hover
+#sidebarOptions .sliderPanel a:active {
+color:#ff7f00;
+border: 0;
+border-bottom:#ff7f00 1px dashed;
+background: transparent;
+text-decoration: none;
+}
+
+#displayArea .button.highlight {
+color:#ffbf00;
+background:#4c4c4c;
+}
+/*}}}*/
+/***
+''Header styles''
+***/
+/*{{{*/
+.header {
+border-bottom: 2px solid #ffbf00;
+color:#fff;
+}
+
+.headerForeground a {
+color:#fff;
+}
+
+.header a:hover {
+border-bottom: 1px dashed #fff;
+}
+/*}}}*/
+/***
+''Main menu styles''
+***/
+/*{{{*/
+#mainMenu {color:#fff;}
+
+#mainMenu h1 {
+font-size: 1.1em;
+}
+
+#mainMenu li,#mainMenu ul {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+/*}}}*/
+/***
+''Sidebar styles''
+***/
+/*{{{*/
+#sidebar {
+right: 0;
+color:#fff;
+border: 2px solid #ffbf00;
+border-width: 0 0 2px 2px;
+}
+
+#sidebarOptions {
+background-color:#4c4c4c;
+padding: 0;
+}
+
+#sidebarOptions a {
+margin: 0;
+color:#ffbf00;
+border: 0;
+}
+
+#sidebarOptions a:hover {
+color:#4c4c4c;
+background-color:#ffbf00;
+}
+
+#sidebarOptions a:active {
+color:#ffbf00;
+background-color: transparent;
+}
+
+#sidebarOptions .sliderPanel {
+background-color:#333;
+margin: 0;
+}
+
+#sidebarTabs {background-color:#4c4c4c;}
+
+#sidebarTabs .tabSelected {
+padding: 3px 3px;
+cursor: default;
+color:#ffbf00;
+background-color:#666;
+}
+
+#sidebarTabs .tabUnselected {
+color:#ffbf00;
+background-color:#5f5f5f;
+padding: 0 4px;
+}
+
+#sidebarTabs .tabUnselected:hover,
+#sidebarTabs .tabContents {
+background-color:#666;
+}
+
+.listTitle{color:#FFF;}
+
+#sidebarTabs .tabContents a {
+color:#ffbf00;
+}
+
+#sidebarTabs .tabContents a:hover {
+color:#ff7f00;
+background: transparent;
+}
+
+#sidebarTabs .txtMoreTab .tabSelected,
+#sidebarTabs .txtMoreTab .tab:hover,
+#sidebarTabs .txtMoreTab .tabContents {
+color:#ffbf00;
+background:#4c4c4c;
+}
+
+#sidebarTabs .txtMoreTab .tabUnselected {
+color:#ffbf00;
+background:#5f5f5f;
+}
+
+.tab.tabSelected, .tab.tabSelected:hover {color:#ffbf00;border:0;background-color:#4c4c4c;cursor:default;}
+.tab.tabUnselected {background-color:#666;}
+.tab.tabUnselected:hover{color:#ffbf00; border: 0;background-color:#4c4c4c;}
+
+.tabContents {background-color:#4c4c4c;border:0;}
+.tabContents .tabContents{background:#666;}
+.tabContents .tabSelected{background:#666;}
+.tabContents .tabUnselected{background:#5f5f5f;}
+.tabContents .tab:hover{background:#666;}
+/*}}}*/
+/***
+''Message area styles''
+***/
+/*{{{*/
+#messageArea {background-color:#666; color:#fff; border: 2px solid #ffbf00;}
+#messageArea a:link, #messageArea a:visited {color:#ffbf00; text-decoration:none;}
+#messageArea a:hover {color:#ff7f00;}
+#messageArea a:active {color:#ff7f00;}
+#messageArea .messageToolbar a{
+border: 1px solid #ffbf00;
+background:#4c4c4c;
+}
+/*}}}*/
+/***
+''Popup styles''
+***/
+/*{{{*/
+.popup {color:#fff; background-color:#4c4c4c; border: 1px solid #ffbf00;}
+.popup li.disabled {color:#fff;}
+.popup a {color:#ffbf00; }
+.popup a:hover { background: transparent; color:#ff7f00; border: 0;}
+.popup hr {color:#ffbf00; background:#ffbf00;}
+/*}}}*/
+/***
+''Tiddler Display styles''
+***/
+/*{{{*/
+.title {color:#fff;}
+
+h1, h2, h3, h4, h5 {
+color:#fff;
+background-color:transparent;
+border-bottom: 1px solid #333;
+}
+
+.subtitle {color:#666;}
+
+.viewer {color:#fff;}
+
+.viewer table{background:#666;color:#fff;}
+
+.viewer th {background-color:#996;color:#fff;}
+
+.viewer pre, .viewer code {color:#ddd; background-color:#4c4c4c; border: 1px solid #ffbf00;}
+
+.viewer hr {color:#666;}
+
+.tiddler .button {color:#4c4c4c;}
+.tiddler .button:hover {color:#ffbf00; background-color:#4c4c4c;}
+.tiddler .button:active {color:#ffbf00; background-color:#4c4c4c;}
+
+.toolbar {color:#4c4c4c;}
+
+.toolbar a.button,
+.toolbar a.button:hover,
+.toolbar a.button:active,
+.editorFooter a {
+border: 0;
+}
+
+.footer {color:#ddd;}
+
+.selected .footer {
+color:#888;
+}
+
+.highlight, .marked {
+color:#000;
+background-color:#ffe72f;
+}
+.editorFooter {color:#aaa;}
+
+.tab{
+-moz-border-radius-topleft: 3px;
+-moz-border-radius-topright: 3px;
+}
+
+.tagging,
+.tagged {
+background:#4c4c4c;
+border: 1px solid #4c4c4c; 
+}
+
+.selected .tagging,
+.selected .tagged {
+background-color:#333;
+border: 1px solid #ffbf00;
+}
+
+.tagging .listTitle,
+.tagged .listTitle {
+color:#fff;
+}
+
+.tagging .button,
+.tagged .button {
+color:#ffbf00;
+border: 0;
+padding: 0;
+}
+
+.tagging .button:hover,
+.tagged .button:hover {
+background: transparent;
+}
+
+.selected .isTag .tagging.simple,
+.selected .tagged.simple,
+.isTag .tagging.simple,
+.tagged.simple {
+float: none;
+display: inline;
+border: 0;
+background: transparent;
+color:#fff;
+margin: 0;
+}
+
+.cascade {
+background:#4c4c4c;
+color:#ddd;
+border: 1px solid #ffbf00;
+}
+/*}}}*/
+</pre>
+</div>
