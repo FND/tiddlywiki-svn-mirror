@@ -4,17 +4,17 @@
 |Italic|{{{//Italic//}}}|//Italic//|
 |Bold Italic|{{{''//Bold Italic//''}}}|''//Bold Italic//''|
 |Underlined|{{{__Underline__}}}(2 underscores)|__Underlined__|
-|Strikethough|{{{--Strikethrough--}}}&lt;&lt;br&gt;&gt;{{{--}}} replaced {{{==}}} for Stikethrough in TiddlyWiki 2.1|--Strikethrough--|
+|Strikethough|{{{--Strikethrough--}}}<br />{{{--}}} replaced {{{==}}} for Stikethrough in TiddlyWiki 2.1|--Strikethrough--|
 |Superscript|{{{Text^^Superscript^^}}}|Text^^Superscript^^|
 |Subscript|{{{Text~~Subscript~~}}}|Text~~Subscript~~|
-|Monospaced text|&lt;html&gt;&lt;code&gt;{{{Monospaced}}}&lt;/code&gt;&lt;/html&gt;|{{{Monospaced}}}|
-|Monospaced multiline block|Put &lt;html&gt;&lt;code&gt;{{{&lt;/code&gt;&lt;/html&gt; and &lt;html&gt;&lt;code&gt;}}}&lt;/code&gt;&lt;/html&gt; on their own lines|&lt;html&gt;&lt;pre&gt;{{{&lt;br/&gt;Monospaced&lt;br/&gt;Multi-line&lt;br/&gt;Block&lt;br/&gt;}}}&lt;/pre&gt;&lt;/html&gt;|
+|Monospaced text|<html><code>{{{Monospaced}}}</code></html>|{{{Monospaced}}}|
+|Monospaced multiline block|Put <html><code>{{{</code></html> and <html><code>}}}</code></html> on their own lines|<html><pre>{{{<br/>Monospaced<br/>Multi-line<br/>Block<br/>}}}</pre></html>|
 |Highlight|{{{@@Highlight@@}}}|@@Highlight@@|
 |Color|{{{@@color(green):green text@@}}}|@@color(green):green text@@ |
 |~|{{{@@bgcolor(green):text@@}}}|@@bgcolor(green):text@@ |
 |~|{{{@@bgcolor(#3399ff):text@@}}}|@@bgcolor(#3399ff):text@@|
 |~|{{{@@bgcolor(#39f):text@@}}}|@@bgcolor(#39f):text@@|
-|CSS Extended Highlights|{{{@@some css;Highlight@@}}}&lt;&lt;br&gt;&gt;For backwards compatibility, the following highlight syntax is also accepted:&lt;&lt;br&gt;&gt;{{{@@bgcolor(#ff0000):color(#ffffff):red coloured@@}}}|@@background-color:#ff0000;color:#ffffff;red coloured@@&lt;&lt;br&gt;&gt;&lt;&lt;slider AtEg ./atEg 'Extended example ...'&gt;&gt;|
-|Custom CSS Class|&lt;html&gt;&lt;code&gt;{{wrappingClass{Text that is now accentuated}}}&lt;/code&gt;&lt;/html&gt;&lt;&lt;br&gt;&gt;By default, the text is placed in a &lt;span&gt;. To use a &lt;div&gt; instead, insert a line break before the text (after the single {)&lt;&lt;br&gt;&gt;In the CSS:&lt;&lt;br&gt;&gt;{{{.wrappingClass {color: red;} }}}|Add .wrappingClass to StyleSheet|
-|Any HTML|{{{&lt;html&gt;&lt;span&gt;any&lt;/span&gt;&lt;br /&gt;}}}&lt;&lt;br&gt;&gt;{{{&lt;b&gt;valid&lt;/b&gt; &lt;em&gt;xhtml&lt;/em&gt;&lt;/html&gt;}}}|&lt;html&gt;&lt;span&gt;any&lt;/span&gt;&lt;br /&gt;&lt;b&gt;valid&lt;/b&gt; &lt;em&gt;xhtml&lt;/em&gt;&lt;/html&gt;|</pre>
+|CSS Extended Highlights|{{{@@some css;Highlight@@}}}<br />For backwards compatibility, the following highlight syntax is also accepted:<br />{{{@@bgcolor(#ff0000):color(#ffffff):red coloured@@}}}|@@background-color:#ff0000;color:#ffffff;red coloured@@<br /><<slider AtEg ./atEg 'Extended example ...'>>|
+|Custom CSS Class|<html><code>{{wrappingClass{Text that is now accentuated}}}</code></html><br />By default, the text is placed in a <span>. To use a <div> instead, insert a line break before the text (after the single {)<br />In the CSS:<br />{{{.wrappingClass {color: red;} }}}|Add .wrappingClass to StyleSheet|
+|Any HTML|{{{<html><span>any</span><br />}}}<br />{{{<b>valid</b> <em>xhtml</em></html>}}}|<html><span>any</span><br /><b>valid</b> <em>xhtml</em></html>|</pre>
 </div>

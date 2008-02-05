@@ -1,14 +1,14 @@
 <div title="TodoItems" modifier="MartinBudden">
 <pre>!!Today
-&lt;part Today&gt;&lt;&lt;listTodos Todo Today&gt;&gt;&lt;/part&gt;
+<part Today><<listTodos Todo Today>></part>
 !!Priority1
-&lt;part Priority1&gt;&lt;&lt;listTodos Todo Priority1&gt;&gt;&lt;/part&gt;
+<part Priority1><<listTodos Todo Priority1>></part>
 !!Priority2
-&lt;part Priority2&gt;&lt;&lt;listTodos Todo Priority2&gt;&gt;&lt;/part&gt;
+<part Priority2><<listTodos Todo Priority2>></part>
 !!Area1
-&lt;part Area1&gt;&lt;&lt;listTodos Todo Area1&gt;&gt;&lt;/part&gt;
+<part Area1><<listTodos Todo Area1>></part>
 !!Area2
-&lt;part Area2&gt;&lt;&lt;listTodos Todo Area2&gt;&gt;&lt;/part&gt;
+<part Area2><<listTodos Todo Area2>></part>
 !!Completed
-&lt;part Completed&gt;&lt;&lt;listTags TodoCompleted&gt;&gt;&lt;/part&gt;</pre>
+<part Completed><<listTags TodoCompleted>></part></pre>
 </div>

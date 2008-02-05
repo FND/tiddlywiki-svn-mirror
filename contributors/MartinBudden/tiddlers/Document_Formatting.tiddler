@@ -1,25 +1,25 @@
 <div title="Document Formatting" modifier="MartinBudden">
 <pre>|!Format|!Markup|!Example|
-|''Headings''|{{{!!Heading 2}}}&lt;&lt;br&gt;&gt;{{{!!!Heading 3}}}&lt;&lt;br&gt;&gt;{{{!!!!Heading 4}}}&lt;&lt;br&gt;&gt;{{{!!!!!Heading 5}}}&lt;&lt;br&gt;&gt;&lt;&lt;br&gt;&gt;Usually avoid Heading1 as Tiddler titles are nominally Heading1.|&lt;html&gt;&lt;h2&gt;Heading 2&lt;/h2&gt;&lt;h3&gt;Heading 3&lt;/h3&gt;&lt;h4&gt;Heading 4&lt;/h4&gt;&lt;h5&gt;Heading 5&lt;/h5&gt;&lt;/html&gt;|
-|''Lists''|{{{*Bulleted list}}}|&lt;html&gt;&lt;ul&gt;&lt;li&gt;Bulleted List&lt;/li&gt;&lt;/ul&gt;&lt;/html&gt;|
-|~|{{{#Numbered list}}}|&lt;html&gt;&lt;ol&gt;&lt;li&gt;Numbered List&lt;/li&gt;&lt;/ol&gt;&lt;/html&gt;|
-|~|Definition list&lt;&lt;br&gt;&gt;{{{;Term}}}&lt;&lt;br&gt;&gt;{{{:definition}}}|&lt;html&gt;&lt;dl&gt;&lt;dt&gt;Term&lt;/dt&gt;&lt;dd&gt;definition&lt;/dd&gt;&lt;/dl&gt;&lt;/html&gt;|
-|~|Lists can be mixed and nested&lt;&lt;br&gt;&gt;{{{*}}}Bullet&lt;&lt;br&gt;&gt;{{{*#}}}Number&lt;&lt;br&gt;&gt;{{{*#;}}}Item&lt;&lt;br&gt;&gt;{{{*#:}}}Definition|&lt;html&gt;&lt;ul&gt;&lt;li&gt;Bullet&lt;ol&gt;&lt;li&gt;Numbered&lt;dl&gt;&lt;dt&gt;&lt;/dt&gt;Item&lt;dd&gt;Definition&lt;/dd&gt;&lt;/dl&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/html&gt;|
-|''Block quotes''|{{{&gt;Blockquote}}}&lt;&lt;br&gt;&gt;{{{&gt;&gt;Nested quote}}}|&lt;html&gt;&lt;blockquote&gt;Blockquote&lt;blockquote&gt;Nested&lt;br/&gt; quote&lt;/blockquote&gt;&lt;/blockquote&gt;&lt;/html&gt;|
-|~|{{{&lt;&lt;&lt;}}}&lt;&lt;br&gt;&gt;{{{multi-line}}}&lt;&lt;br&gt;&gt;{{{blockquote}}}&lt;&lt;br&gt;&gt;{{{&lt;&lt;&lt;}}}|&lt;html&gt;&lt;blockquote&gt;multi-line&lt;br/&gt;blockquote&lt;/blockquote&gt;&lt;/html&gt;|
-|''Horizontal Rule''|{{{----}}} (4 dashes on a line of their own)|&lt;html&gt;&lt;hr&gt;&lt;/html&gt;|
-|''Links''|Any {{{WikiWord}}} creates a link to a tiddler (whether it exists or not).&lt;&lt;br&gt;&gt;Note that a WikiWord has to start with a capital letter and have a further mix of upper and lower case.|[[WikiWord]]|
-|~|Manual link&lt;&lt;br&gt;&gt;{{{[[Table of Contents]]}}} (Especially for tiddlers with spaces in their titles)|[[Table of Contents]]|
+|''Headings''|{{{!!Heading 2}}}<br />{{{!!!Heading 3}}}<br />{{{!!!!Heading 4}}}<br />{{{!!!!!Heading 5}}}<br /><br />Usually avoid Heading1 as Tiddler titles are nominally Heading1.|<html><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><h5>Heading 5</h5></html>|
+|''Lists''|{{{*Bulleted list}}}|<html><ul><li>Bulleted List</li></ul></html>|
+|~|{{{#Numbered list}}}|<html><ol><li>Numbered List</li></ol></html>|
+|~|Definition list<br />{{{;Term}}}<br />{{{:definition}}}|<html><dl><dt>Term</dt><dd>definition</dd></dl></html>|
+|~|Lists can be mixed and nested<br />{{{*}}}Bullet<br />{{{*#}}}Number<br />{{{*#;}}}Item<br />{{{*#:}}}Definition|<html><ul><li>Bullet<ol><li>Numbered<dl><dt></dt>Item<dd>Definition</dd></dl></li></ol></li></ul></html>|
+|''Block quotes''|{{{>Blockquote}}}<br />{{{>>Nested quote}}}|<html><blockquote>Blockquote<blockquote>Nested<br/> quote</blockquote></blockquote></html>|
+|~|{{{<<<}}}<br />{{{multi-line}}}<br />{{{blockquote}}}<br />{{{<<<}}}|<html><blockquote>multi-line<br/>blockquote</blockquote></html>|
+|''Horizontal Rule''|{{{----}}} (4 dashes on a line of their own)|<html><hr></html>|
+|''Links''|Any {{{WikiWord}}} creates a link to a tiddler (whether it exists or not).<br />Note that a WikiWord has to start with a capital letter and have a further mix of upper and lower case.|[[WikiWord]]|
+|~|Manual link<br />{{{[[Table of Contents]]}}} (Especially for tiddlers with spaces in their titles)|[[Table of Contents]]|
 |~|{{{[[Pretty Link|Link]]}}}|[[Pretty Link|Link]]|
 |~|Automatic external link {{{http://www.tiddlywiki.com}}}|http://www.tiddlywiki.com|
-|~|Pretty external link&lt;&lt;br&gt;&gt;{{{[[My Home Page|http://www.tiddlywiki.com]]}}}|[[My Home Page|http://www.tiddlywiki.com]]|
-|~|OS Folder link&lt;&lt;br&gt;&gt;Windows Share: {{{file://///server/share}}}&lt;&lt;br&gt;&gt;Windows Local: {{{file:///c:/folder/file}}}&lt;&lt;br&gt;&gt;Un*x Local File: {{{file://folder/file}}}&lt;&lt;br&gt;&gt;Relative File: {{{[[folder/file]]}}}|file://///server/share &lt;&lt;br&gt;&gt;file:///c:/folder/file &lt;&lt;br&gt;&gt;file://folder/file &lt;&lt;br&gt;&gt; [[folder/file]]|
-|''Images''|{{{[img[favicon.ico]]}}}&lt;&lt;br&gt;&gt;Note that image files are always external to the TW file|[img[http://www.tiddlywiki.com/favicon.ico]]|
-|~|Right aligned&lt;&lt;br&gt;&gt;{{{[&gt;img[favicon.ico]]}}}|[&gt;img[http://www.tiddlywiki.com/favicon.ico]]|
-|~|Left aligned&lt;&lt;br&gt;&gt;{{{[&lt;img[favicon.ico]]}}}|[&lt;img[http://www.tiddlywiki.com/favicon.ico]]|
+|~|Pretty external link<br />{{{[[My Home Page|http://www.tiddlywiki.com]]}}}|[[My Home Page|http://www.tiddlywiki.com]]|
+|~|OS Folder link<br />Windows Share: {{{file://///server/share}}}<br />Windows Local: {{{file:///c:/folder/file}}}<br />Un*x Local File: {{{file://folder/file}}}<br />Relative File: {{{[[folder/file]]}}}|file://///server/share <br />file:///c:/folder/file <br />file://folder/file <br /> [[folder/file]]|
+|''Images''|{{{[img[favicon.ico]]}}}<br />Note that image files are always external to the TW file|[img[http://www.tiddlywiki.com/favicon.ico]]|
+|~|Right aligned<br />{{{[>img[favicon.ico]]}}}|[>img[http://www.tiddlywiki.com/favicon.ico]]|
+|~|Left aligned<br />{{{[<img[favicon.ico]]}}}|[<img[http://www.tiddlywiki.com/favicon.ico]]|
 |''Image Links''|{{{[img[fav.ico][TiddlerName]]}}}|[img[http://www.tiddlywiki.com/favicon.ico][TiddlerName]]|
 |~|{{{[img[fav.ico][Alias|TiddlerName]]}}}|[img[http://www.tiddlywiki.com/favicon.ico][Alias|TiddlerName]]|
 |~|{{{[img[fav.ico][http://www.aa.com]]}}}|[img[http://www.tiddlywiki.com/favicon.ico][http://www.tiddlywiki.com]]|
-|~|&gt;|also see ''Links'' and ''Images'' sections in this table|
-|''Inline''&lt;&lt;br&gt;&gt;''Comments''|{{{Not shown: /% hidden comment %/}}}&lt;&lt;br&gt;&gt;Text between the markers will not be shown|Not shown:/% hidden text %/|</pre>
+|~|>|also see ''Links'' and ''Images'' sections in this table|
+|''Inline''<br />''Comments''|{{{Not shown: /% hidden comment %/}}}<br />Text between the markers will not be shown|Not shown:/% hidden text %/|</pre>
 </div>

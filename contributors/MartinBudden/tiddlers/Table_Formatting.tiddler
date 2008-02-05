@@ -2,19 +2,19 @@
 <pre>|!Markup|!Explanation|
 | {{{|}}} |Column Seperator |
 | {{{!}}} |Heading (Row or Column) |
-| {{{&gt;}}} |Column Span |
+| {{{>}}} |Column Span |
 | {{{~}}} |Row Span |
 | {{{|Left |}}} |Left Align |
 | {{{| Right|}}} |Right Align|
 | {{{| Center |}}} |Center Align |
 | {{{|Caption|c}}} |Table Caption (Can be at top or bottom)|
-| {{{|Header|h}}} |Marks the row as being a header row (will be wrapped with a {{{&lt;thead&gt;}}} and so all entries are automatically formatted as per {{{|!}}} cells)|
-| {{{|Footer|f}}} |Marks the row as being a footer row (will be wrapped with a {{{&lt;tfoot&gt;}}}, no special formatting is pre-defined for this but can be added to your own CSS)|
+| {{{|Header|h}}} |Marks the row as being a header row (will be wrapped with a {{{<thead>}}} and so all entries are automatically formatted as per {{{|!}}} cells)|
+| {{{|Footer|f}}} |Marks the row as being a footer row (will be wrapped with a {{{<tfoot>}}}, no special formatting is pre-defined for this but can be added to your own CSS)|
 | {{{|CSSclass|k}}} |Applies a CSS class to the table to allow additional formatting (NB: only works if no whitespace after the k)|
-|&gt;|To have a table with no borders at all. Use {{{|noBorder|k}}} with the CSS (in your StyleSheet tiddler):&lt;&lt;br&gt;&gt;{{{ .noBorder,.noBorder td,.noBorder th,.noBorder tr{border:0} }}}|
-|&gt;|!Sample Table|
-|&gt;|{{{|table caption|c}}}&lt;&lt;br&gt;&gt;{{{|header|header|h}}}&lt;&lt;br&gt;&gt;{{{|text|more text|}}}&lt;&lt;br&gt;&gt;{{{|!heading|!heading|}}}&lt;&lt;br&gt;&gt;{{{|&gt;|colspan|}}}&lt;&lt;br&gt;&gt;{{{|rowspan|left align |}}}&lt;&lt;br&gt;&gt;{{{|~| center |}}}&lt;&lt;br&gt;&gt;{{{|bgcolor(green):green| right|}}}&lt;&lt;br&gt;&gt;{{{|footer|footer|f}}} |
-|&gt;|&lt;&lt;tiddler ./tblShow&gt;&gt;|
+|>|To have a table with no borders at all. Use {{{|noBorder|k}}} with the CSS (in your StyleSheet tiddler):<br />{{{ .noBorder,.noBorder td,.noBorder th,.noBorder tr{border:0} }}}|
+|>|!Sample Table|
+|>|{{{|table caption|c}}}<br />{{{|header|header|h}}}<br />{{{|text|more text|}}}<br />{{{|!heading|!heading|}}}<br />{{{|>|colspan|}}}<br />{{{|rowspan|left align |}}}<br />{{{|~| center |}}}<br />{{{|bgcolor(green):green| right|}}}<br />{{{|footer|footer|f}}} |
+|>|<<tiddler ./tblShow>>|
 
 !Notes
 You can use the custom CSS formatter in combination with headers and lists to allow new lines within the entry. e.g.:
@@ -22,7 +22,7 @@ You can use the custom CSS formatter in combination with headers and lists to al
 #{{block{
 Bullet 1
 Some text in the same bullet
-(Note that &quot;block&quot; can be anything, it is the formatters CSS class name)
+(Note that "block" can be anything, it is the formatters CSS class name)
  }}}
 # Bullet 2 
 }}}
@@ -33,7 +33,7 @@ Some text in the same bullet
 # Bullet 2 
 
 (Julian Knight, 2006-05-11)
-&lt;part atEg hidden&gt;
+<part atEg hidden>
 {{{
 This is before the indented text
 @@display:block;margin-left:2em;This text will be indented...
@@ -48,29 +48,29 @@ This is before the indented text
 
 ...or even include blank lines.
 @@This is after the indented text 
-&lt;/part&gt;
-&lt;part tblMarkup hidden&gt;
+</part>
+<part tblMarkup hidden>
 {{{
 |table caption|c
 |header|header|h
 |text|more text|
 |!heading|!heading|
-|&gt;|colspan|
+|>|colspan|
 |rowspan|left align |
 |~| center |
 |bgcolor(green):green| right|
 |footer|footer|f
 }}}
-&lt;/part&gt;
-&lt;part tblShow hidden&gt;
+</part>
+<part tblShow hidden>
 |table caption|c
 |header|header|h
 |text|more text|
 |!heading|!heading|
-|&gt;|colspan|
+|>|colspan|
 |rowspan|left align |
 |~| center |
 |bgcolor(green):green| right|
 |footer|footer|f
-&lt;/part&gt;</pre>
+</part></pre>
 </div>
