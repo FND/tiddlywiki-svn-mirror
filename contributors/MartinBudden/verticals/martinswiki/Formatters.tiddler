@@ -11,5 +11,6 @@
 |[[SocialtextFormatterPlugin]]|Allows Tiddlers to use [[Socialtext|http://www.socialtext.com/]] text formatting|
 |[[TracFormatterPlugin]]|Allows Tiddlers to use [[Trac|http://trac.edgewall.org/wiki/WikiFormatting]] text formatting|
 |[[TWikiFormatterPlugin]]|Allows Tiddlers to use [[TWiki|http://twiki.org/cgi-bin/view/TWiki/TextFormattingRules]] text formatting|
+|[[WikispacesFormatterPlugin]]|Allows Tiddlers to use [[Wikispaces|http://www.wikispaces.com]] text formatting|
 </pre>
 </div>
