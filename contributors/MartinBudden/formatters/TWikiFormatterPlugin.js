@@ -51,7 +51,7 @@ twDebug = function(out,str)
 TWikiFormatter.Tiddler_changed = Tiddler.prototype.changed;
 Tiddler.prototype.changed = function()
 {
-	if((this.fields.wikiformat==config.twikiFormatter.format) || this.isTagged(config.twikiFormatter.formatTag)) {
+	if((this.fields.wikiformat==config.parsers.twikiFormatter.format) || this.isTagged(config.parsers.twikiFormatter.formatTag)) {
 		//# update the links array, by checking for TWiki format links
 		this.links = [];
 		var tiddlerLinkRegExp = /\[\[(.*?)(?:\]\[(?:.*?))?\]\]/mg;
