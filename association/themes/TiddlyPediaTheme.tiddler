@@ -1,0 +1,358 @@
+<div title="TiddlyPediaTheme" modifier="ClintChecketts" created="200710160000" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|TiddlyPediaTheme|
+|''Description:''|A wikipedia inspired flavour|
+|''Author:''|Clint Checketts|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/TiddlyPediaTheme.tiddler |
+|''Version:''|1.1|
+|''Date:''|Oct 16, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~PageTemplate:''|##PageTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~EditTemplate:''|##EditTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+TiddlyPediaTheme was Created by Clinton Checketts based on the Monobook skin of Wikipedia.
+
+Please note that this theme requires you to save the following images to the same folder as your TW file: wiki.png, bullet.gif, external.png, headbg.jpg
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div id='header'>
+</div>
+<div id='sidebar'>
+<div id='titleLine'></div>
+<span id='siteTitle' refresh='content' tiddler='SiteTitle'></span>- <span id='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+!ViewTemplate
+<!--{{{-->
+<div class='title' macro='view title'></div>
+<div class='toolbar' macro='toolbar -closeTiddler closeOthers +editTiddler permalink references jump'></div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+<!--}}}-->
+
+!EditTemplate
+<!--{{{-->
+ <div class='title' macro='view title'></div>
+<div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'></div>
+<div class='editor' macro='edit title'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+<!--}}}-->
+
+!StyleSheet
+/*{{{*/
+body {background:#f9f9f9 url(headbg.jpg) no-repeat top left;}
+
+#titleLine {
+display: block;
+background: transparent url(wiki.png) no-repeat 18px -7px;
+_background: transparent;
+height: 120px;
+_height: 135px;
+width: 150px;
+color:#000;
+border: 1px;
+padding: 0;
+margin: 0;
+}
+
+* html #titleLine {
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='wiki.png',sizingMethod='scale');
+}
+
+#contentWrapper #siteTitle a {
+display: inline;
+font-weight: bold;
+color:#000;
+font-size: 13px;
+}
+
+#siteSubtitle {padding: 0;}
+
+#siteTitle, #mainMenu {
+position: static;
+}
+
+#contentWrapper #sidebar {
+top: 0;
+left: 0;
+}
+
+#displayArea {margin: 0 0 0 15em;}
+
+#messageArea {
+position: fixed;
+top: 0;
+right: 0;
+font-size: 10px;
+border: 1px solid #aaa;
+background:#fff;
+z-index: 25;
+}
+
+#messageArea a:link {
+color:#002bb8;
+text-decoration: none;
+}
+
+#messageArea a:hover {
+text-decoration: underline;
+}
+
+.viewer {
+background:#fff;
+border: 1px solid #aaa;
+padding: 1em;
+margin: 0;
+}
+
+.body {padding:1px;}
+
+.title {
+background:#fff;
+border: 1px solid #aaa;
+display: inline;
+margin-left: .5em;
+padding: 2px .5em;
+border-bottom: 0;
+font-weight: bold;
+color:#000;
+font-size: 1.2em;
+}
+
+.toolbar {
+visibility: visible;
+display: inline;
+padding: 0;
+font-family: sans-serif;
+}
+
+.toolbar a.button:link,.toolbar a.button:visited {
+background:#fff;
+border: 1px solid #aaa;
+color:#002bb8;
+font-size: 11px;
+padding-bottom: 0;
+margin-right: .25em;
+}
+
+#contentWrapper .toolbar .button:hover {
+border-bottom: 1px solid #fff;
+background:#fff;
+color:#002bb8;
+}
+
+.toolbar a.button:hover {
+border-bottom: 1px solid #fff;
+background:#fff;
+color:#000;
+}
+
+#displayArea .viewer a,a.button:link,a.button:visited,
+a.tiddlyLink:link,a.tiddlyLink:visited,
+#sidebarOptions .sliderPanel a {
+color:#002bb8;
+background: transparent;
+border: 0;
+}
+
+.viewer a:hover,a.button:hover,a.button:active,
+a.tiddlyLink:hover,a.tiddlyLink:active,
+.viewer a.button:hover,
+#sidebarOptions .sliderPanel a:hover {
+color:#002bb8;
+background: transparent;
+text-decoration: underline;
+}
+
+#mainMenu {
+font-family: sans-serif;
+text-align: left;
+font-size: x-small;
+width: 100%;
+margin: 0;
+padding: 0;
+}
+
+#mainMenu h1 {
+font-size: 11px;
+font-weight: normal;
+padding: 0;
+margin: 0;
+background: transparent;
+}
+
+#mainMenu ul {
+font-size: 11px;
+border: 1px solid #aaa;
+padding: .25em 0;
+margin: 0;
+list-style-type: square;
+list-style-image: url(bullet.gif);
+background:#fff;
+width: 100%;
+}
+
+#mainMenu li {
+margin: 0 0 0 2em;
+padding: 0;
+}
+
+#contentWrapper #mainMenu a:link,#contentWrapper #mainMenu a:visited {
+color:#002bb8;
+padding: 0;
+margin: 0;
+background: transparent;
+}
+
+#mainMenu .externalLink {
+text-decoration: none;
+}
+
+#mainMenu .externalLink:hover {
+text-decoration: underline;
+}
+
+#sidebar {padding: .5em;font-family: sans-serif;}
+
+#sidebarOptions {
+border: 1px solid #aaa;
+background:#fff;
+margin-top: .5em;
+width: 100%;
+}
+
+#sidebar .sliderPanel {
+margin: 0;
+}
+
+#contentWrapper #sidebarOptions .button,#contentWrapper #sidebarOptions .button:hover {
+color:#002bb8;
+padding: .1em 0 .1em 2em;
+background: transparent url(bullet.gif) 10px -2px no-repeat;
+}
+
+#sidebarOptions input {
+width: 80%;
+margin: 0 .5em;
+}
+
+#sidebarTabs {
+background:#fff;
+margin-top: .5em;
+width: 100%;
+}
+
+#sidebarTabs .tabContents,#sidebarTabs .tabContents .tabContents {
+border: 1px solid #aaa;
+background:#fff;
+}
+
+#sidebarTabs .tabSelected,#sidebarTabs .tabcontents .tabSelected {
+background:#fff;
+border: 1px solid #aaa;
+border-bottom: 0;
+cursor: default;
+padding-bottom: 3px;
+color:#000;
+}
+
+#sidebarTabs .tabUnselected,#sidebarTabs .tabContents .tabUnselected {
+background:#aaa;
+padding-bottom: 0;
+color:#000; 
+}
+
+#contentWrapper #sidebarTabs .tiddlyLink,#contentWrapper #sidebarTabs .button,
+#contentWrapper #sidebarTabs a.tiddlyLink:hover,#contentWrapper #sidebarTabs a.button:hover {
+background: transparent;
+color:#002bb8;
+}
+
+.footer {margin: -1em 0 1em 0;}
+
+.footer .button:hover,.editorFooter .button:hover {
+background: transparent;
+color:#002bb8;
+border-bottom: 1px solid #002bb8;
+}
+
+#popup {background:#e9e9e9;color:#000;}
+
+#popup hr {
+border-color:#aaa;
+background-color:#aaa;
+}
+
+#popup a {
+color:#000;
+}
+
+#popup a:hover,#contentWrapper #sidebarTabs #popup a:hover {
+background:#666;
+color:#fff;
+text-decoration: none;
+}
+
+#displayArea .tiddler a.tiddlyLinkNonExisting {
+color:#ba0000;
+}
+
+#displayArea .tiddler a.externalLink {
+text-decoration: none;
+color:#002bb8;
+padding-right: 1em;
+background: transparent url(external.png) 100% 50% no-repeat;
+}
+
+#displayArea .tiddler a.externalLink:hover {
+text-decoration: underline;
+}
+
+.viewer pre {
+background:#e9e9e9;
+border: 1px solid #666;
+}
+
+.viewer h1, .viewer h2, .viewer h3, .viewer h4, .viewer h5, .viewer h6{
+background: transparent;
+border-bottom: .2em solid #aaa;
+}
+
+#sidebar .sliderPanel {
+background:#e9e9e9;
+}
+
+#sidebar .sliderPanel input{width: auto;}
+
+.tagged, .tagging, .listTitle {
+float: none;
+display: inline;
+}
+
+.tagged li, .tagging li,
+.tagged ul, .tagging ul {
+display: inline;
+}
+
+/*}}}*/
+</pre>
+</div>
