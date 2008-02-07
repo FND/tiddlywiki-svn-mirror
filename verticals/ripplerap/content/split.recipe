@@ -1,32 +1,10 @@
-tiddler: AgendaMenu.tiddler
-tiddler: AgendaMain1.tiddler
-tiddler: AgendaMain2.tiddler
-tiddler: AgendaStartup1.tiddler
-tiddler: AgendaStartup2.tiddler
-tiddler: AgendaWorkshops.tiddler
-tiddler: AgendaItemsTemplate.tiddler
-tiddler: AgendaSubItemsTemplate.tiddler
-
-tiddler: About_your_username.tiddler
-tiddler: About_your_password.tiddler
-
-tiddler: DiscoveredNotesViewTemplate.tiddler
-tiddler: DiscoveredNotesEditTemplate.tiddler
-tiddler: SessionViewTemplate.tiddler
-tiddler: SessionEditTemplate.tiddler
-
-tiddler: AccountDetails.tiddler
-tiddler: SignInOption.tiddler
-
 tiddler: CamelCase.tiddler
-tiddler: CompetitionStage.tiddler
 tiddler: Double_square_brackets.tiddler
 tiddler: FAQs.tiddler
 tiddler: Formatting_TiddlyWikis.tiddler
 tiddler: HeaderControls.tiddler
 tiddler: Help.tiddler
 tiddler: How_sharing_works.tiddler
-tiddler: Mojo.tiddler
 tiddler: NoteEditTemplate.tiddler
 tiddler: NoteViewTemplate.tiddler
 tiddler: REST.tiddler
@@ -36,7 +14,6 @@ tiddler: Setup_Instructions.tiddler
 tiddler: Share_notes.tiddler
 tiddler: TiddlySaver.tiddler
 tiddler: TiddlyWiki.tiddler
-tiddler: Welcome.tiddler
 
 
 
