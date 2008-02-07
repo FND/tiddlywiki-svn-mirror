@@ -5,9 +5,9 @@
 ''bold text''
 }}}
 
-*You can create ==Strikethrough== text by enclosing it in pairs of equal signs:
+*You can create ==Strikethrough== text by enclosing it in pairs of hyphens:
 {{{
-==strikethrough text==
+--strikethrough text--
 }}}
 
 *You can __Underline__ text by enclosing it in pairs of underscores:
