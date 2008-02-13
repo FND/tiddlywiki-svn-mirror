@@ -6,10 +6,10 @@
 */
 //////////////////////////////////////////////////////// default configurations ////////////////////////////////////////////////////////
 	$tiddlyCfg['db']['type'] = "mysql";		//sql type
-	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
+	$tiddlyCfg['db']['host'] = "db";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
-	$tiddlyCfg['db']['pass'] = "";		//login password
-	$tiddlyCfg['db']['name'] = "cctiddly";		//db name
+	$tiddlyCfg['db']['pass'] = "0p3ns0urc3";		//login password
+	$tiddlyCfg['db']['name'] = "cctw_public2";		//db name
 	
 	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
 	$tiddlyCfg['table']['suffix'] = "";					//suffix			suffix of file					suffix of table name
@@ -23,7 +23,7 @@
 	$tiddlyCfg['table']['session'] = "login_session";	//login session		used to create login string
 	
 	//cct core settings, do not affect by DB settings
-	$tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, 2=allow by user
+	$tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 
 	$tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
 	$tiddlyCfg['use_mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
 	
@@ -36,7 +36,7 @@
 	$tiddlyCfg['char_set'] = "utf8";
 	$tiddlyCfg['hashseed'] = "aigijgij";
 	$tiddlyCfg['default_anonymous_perm'] = "AUUU";
-	$tiddlyCfg['default_user_perm'] = "AAAA";
+	$tiddlyCfg['default_user_perm'] = "ADDD";
 	$tiddlyCfg['rss_group'] = "";
 	$tiddlyCfg['markup_group'] = "";
 	//$tiddlyCfg['pref']['twFile'] = "tiddlywiki";

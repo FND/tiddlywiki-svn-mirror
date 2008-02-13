@@ -38,12 +38,13 @@ if ($_POST['logout'] || $_REQUEST['logout'])
 ///////////////////////////////CC: user variable defined in header and $user['verified'] can be used directly to check user validation
  // check to see if user is logged in or not and then assign permissions accordingly. 
 //if ($user['verified'] = user_session_validate())
-if ($user['verified'])
+if ($user['verified'] == user_session_validate())
 {
-	$workspace_permissions = $tiddlyCfg['privilege_misc']['group_default_privilege']['user'];
+ $workspace_permissions = $tiddlyCfg['default_user_perm'];
+	
 } else {
 
-	$workspace_permissions = $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'];
+	$workspace_permissions = $tiddlyCfg['default_anonymous_perm'];
 }
 
 if ($workspace_permissions == "")
@@ -56,6 +57,8 @@ $workspace_create = substr($workspace_permissions, 1, 1);
 $workspace_udate = substr($workspace_permissions, 2, 1);
 $workspace_delete = substr($workspace_permissions, 3, 1);
 $workspace_settings_count= count($workspace_settings);
+//echo $user['verified'];
+//echo $workspace_permissions;
 
 // display open id bits if it is enabled. 
 if ($tiddlyCfg['pref']['openid_enabled'] ==1)
@@ -290,7 +293,7 @@ var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '
 <?php
 
 
-if ($workspace_create == "A" ||  ($workspace_settings_count < 1 && $tiddlyCfg['create_workspace'] ==1))
+if ($workspace_create == "A" ||   $tiddlyCfg['allow_workspace_creation'] ==1)
 {
 
 ?>
@@ -329,25 +332,65 @@ config.macros.ccCreateWorkspace = {
 
 		//privilege form
 		createTiddlyElement(step,&quot;h4&quot;, null, null,  &quot;Anonymous Users Can :  &quot;);
-		var anC = createTiddlyCheckbox(step, &quot;Create Tiddlers&quot;, 0);
-		anC.id='anC';
+	//	var anC = createTiddlyCheckbox(null, &quot;Create Tiddlers&quot;, 0);
+		
+		
+		
+		
+		
+		 var anC = createTiddlyElement(null,&quot;input&quot;, &quot;anC&quot;,&quot;anC&quot;);
+	     anC.setAttribute(&quot;type&quot;,&quot;checkbox&quot;);
+	     step.appendChild(anC);
+		 createTiddlyText(step, "Create Tiddlers");
+		 createTiddlyElement(step,&quot;br&quot;);
+		 
+		  var anR = createTiddlyElement(null,&quot;input&quot;, &quot;anR&quot;,&quot;anR&quot;);
+	     anR.setAttribute(&quot;type&quot;,&quot;checkbox&quot;);
+	     step.appendChild(anR);
+		 createTiddlyText(step, "Read Tiddlers");
+	createTiddlyElement(step,&quot;br&quot;);
+		 
+		  var anU = createTiddlyElement(null,&quot;input&quot;, &quot;anU&quot;,&quot;anU&quot;);
+	     anU.setAttribute(&quot;type&quot;,&quot;checkbox&quot;);
+	     step.appendChild(anU);
+		 createTiddlyText(step, "Update Tiddlers");
+	createTiddlyElement(step,&quot;br&quot;);
+		 
+		  var anD = createTiddlyElement(null,&quot;input&quot;, &quot;anD&quot;,&quot;anD&quot;);
+	     anD.setAttribute(&quot;type&quot;,&quot;checkbox&quot;);
+	     step.appendChild(anD);
+		 createTiddlyText(step, "Delete Tiddlers");
 		createTiddlyElement(step,&quot;br&quot;);
-		var  anR = createTiddlyCheckbox(step, &quot;Read Tiddler&quot;, 1);
-		anR.id = 'anR';
-		createTiddlyElement(step,&quot;br&quot;);
-		var anU = createTiddlyCheckbox(step, &quot;Updates Tiddlers &quot;, 0);
-		anU.id = 'anU';
-		createTiddlyElement(step,&quot;br&quot;);
-		var anD = createTiddlyCheckbox(step, &quot;Delete Tiddlers&quot;, 0);
-		anD.id = 'anD';
+		
+		
+	
+//		anC.id='anC';
+//		frm.appendChild(anC);
+//		createTiddlyElement(step,&quot;br&quot;);
+//		var  anR = createTiddlyCheckbox(step, &quot;Read Tiddler&quot;, 1);
+	//	anR.id = 'anR';
+	//	createTiddlyElement(step,&quot;br&quot;);
+	//	var anU = createTiddlyCheckbox(step, &quot;Updates Tiddlers &quot;, 0);
+	//	anU.id = 'anU';
+	//	createTiddlyElement(step,&quot;br&quot;);
+	//	var anD = createTiddlyCheckbox(step, &quot;Delete Tiddlers&quot;, 0);
+	//	anD.id = 'anD';
 		createTiddlyElement(step,&quot;br&quot;);
 		createTiddlyElement(frm,&quot;br&quot;);
+		
+		
+		
 
-		var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt,"button", "button");
+	var btn = createTiddlyElement(null,&quot;input&quot;,this.prompt,&quot;button&quot;);
 		btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
 		btn.value = &quot;Create workspace&quot;
-	 	createTiddlyElement(frm,&quot;br&quot;);
-		createTiddlyElement(frm,&quot;br&quot;);
+	    step.appendChild(btn);
+
+
+
+
+	 	//createTiddlyElement(frm,&quot;br&quot;);
+		//createTiddlyElement(frm,&quot;br&quot;);
 		//createTiddlyElement(step,&quot;h2&quot;, null, null,  &quot;Registered Users  Can:  &quot;);
 		//var usC = createTiddlyCheckbox(frm, &quot;Create Tiddlers&quot;, 1);
 		//usC.id = 'usC';
@@ -396,7 +439,7 @@ config.macros.ccCreateWorkspace = {
 		} else {
 			displayMessage(responseText);	
 		}
-		return FALSE;
+
 	}
 
 }
@@ -521,24 +564,11 @@ config.macros.ccAbout = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
 		
 		createTiddlyElement(place, "h1","","","About ccTiddly");
-		createTiddlyElement(place, "div","","","Brought to you by osmosoft.");
 	
-	
-		$img2 = 	createTiddlyElement(place, "img","","");
-		$img2.src= "http://www.osmosoft.com/images/logo.png";
-	createTiddlyLink(place,"http://www.osmosoft.com","http://www.osmosoft.com");
 	
 	createTiddlyElement(place, "br");
-	
-	createTiddlyLink(place,"http://www.simonmcmanus.com","http://www.simonmcmanus.com");
-	$img = 	createTiddlyElement(place, "img","","");
-	$img.src= "http://tbn0.google.com/images?q=tbn:iuuyIpZVbxrAhM:http://a.wordpress.com/avatar/simonmcmanus-128.jpg";
-	
-	createTiddlyText(place, "<?php print $ccT_msg['copyright']['power_by']?>");
-	createTiddlyLink(place,"TiddlyWiki","http://www.tiddlywiki.com");
-	
-	createTiddlyText(place, "<?php echo "and ccTiddly"; ?>");
-	createTiddlyLink(place,"ccTiddly","http://www.tiddlywiki.com");
+	var str = "more info about ccTiddly can be found  at http://tiddlywiki.org/wiki/CcTiddly" ;
+	createTiddlyText(place, str);
 	
 	}
 }
@@ -708,6 +738,45 @@ config.macros.ccUpload = {
 	    return output;
 	}
 
+config.macros.ccLoginStatus = {
+	    handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+
+        var loginDiv = createTiddlyElement(place,&quot;div&quot;,null,&quot;loginDiv&quot;,null);
+	        this.refresh(loginDiv);
+	    },
+	    
+	    	    refresh: function(place, errorMsg) {
+	        var loginDivRef = document.getElementById (&quot;LoginDiv&quot;);
+	        removeChildren(loginDivRef);
+         var wrapper = createTiddlyElement(place,&quot;div&quot;);
+	        var cookieValues = findToken(document.cookie);
+
+	        if ( cookieValues.sessionToken && cookieValues.sessionToken!== 'invalid' && cookieValues.txtUserName) {
+	        
+				var str = wikify(&quot;You are logged in as &quot; + cookieValues.txtUserName, wrapper);
+	
+	
+	
+		  		var frm = createTiddlyElement(n,&quot;form&quot;,null);
+	            frm.onsubmit = config.macros.ccLogin.logoutOnSubmit;
+        wrapper.appendChild(frm);	
+        
+	            var btn = createTiddlyElement(null,&quot;input&quot;, null);
+	           btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+	            btn.value = &quot;Logout&quot;;   
+	            frm.appendChild(btn);	
+	    
+	        } else {
+				var str = wikify(&quot;[[Please Login	]]&quot;, wrapper);
+				
+	        }
+	        
+	        }
+	        
+	        
+
+
+}
 	config.macros.ccLogin = {
 	    handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 	       // var img = createTiddlyElement(place,&quot;img&quot;);
@@ -728,9 +797,11 @@ config.macros.ccUpload = {
 	            wikify(&quot;You are logged in as &quot; + cookieValues.txtUserName, msg);
 	            var frm = createTiddlyElement(wrapper,&quot;form&quot;,null,null);
 	            frm.onsubmit = this.logoutOnSubmit ;
-	            var btn = createTiddlyElement(frm,&quot;input&quot;,null);
+	            var btn = createTiddlyElement(null,&quot;input&quot;,null);
 	            btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
-	            btn.value = &quot;Logout&quot;;       
+	            btn.value = &quot;Logout&quot;;             	    
+	        frm.appendChild(btn);
+	        
 	        } else {
 	            //user not logged in.
 	            
@@ -759,12 +830,21 @@ config.macros.ccUpload = {
 	            }
 	            createTiddlyElement(step,&quot;br&quot;);
 	            createTiddlyText(step,&quot;Password : &quot;);
-	            var txtpass = createTiddlyElement(step,&quot;input&quot;, &quot;cctpass&quot;,&quot;cctpass&quot;);
-	          txtpass.setAttribute(&quot;type&quot;,&quot;password&quot;);
+	        
+	       var txtpass =   createTiddlyElement(null, &quot;input&quot;, &quot;cctpass&quot;, &quot;cctpass&quot;, null, {&quot;type&quot;:&quot;password&quot;});
+	        //  var txtpass = createTiddlyElement(step,&quot;input&quot;, &quot;cctpass&quot;,&quot;cctpass&quot;);
+	         txtpass.setAttribute(&quot;type&quot;,&quot;password&quot;);
+	        
+	        step.appendChild(txtpass);
+	        
+	        
 	            createTiddlyElement(frm,&quot;br&quot;);
-	            var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt, "button");
+	            var btn = createTiddlyElement(null,&quot;input&quot;,this.prompt, "button");
 	            btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
 	       	    btn.value = &quot;Login&quot;
+	       	    
+	        frm.appendChild(btn);
+	        
 				createTiddlyElement(frm,&quot;br&quot;);
 				createTiddlyElement(frm,&quot;br&quot;);
 	        }
@@ -796,6 +876,7 @@ config.macros.ccUpload = {
 	    loginOnSubmit: function() {
 	        var user = document.getElementById('cctuser').value;
 	        var pass = document.getElementById('cctpass').value;
+	        displayMessage(user+pass);
 	        var params = {}; 
 	        params.origin = this;
 	        var loginResp = doHttp('POST', url+'/msghandle.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
@@ -804,15 +885,17 @@ config.macros.ccUpload = {
 	    },
 
 	    loginCallback: function(status,params,responseText,uri,xhr) {
-	        alert('sdsd');
 	        if (status==true) {
-	        //    displayMessage('CONECTION was ok ');
+	          displayMessage('CONECTION was ok ');
 	        }
-	        var cookie = xhr.getResponseHeader (&quot;Set-Cookie&quot;);
-	        var cookieValues;
-	        cookieValues = this.findToken(cookie);
+	        alert('here');
+	     var cookie;
+	     cookie = xhr.getResponseHeader(&quot;Set-Cookie&quot;);
+	   alert(cookie);
+	        var cookieValues = findToken(cookie);
+	        
 	        config.macros.ccLogin.saveCookie(cookieValues);
-	
+	        alert(cookieValues.sessionToken);
 	        if(xhr.status != 401) {
 				window.location = window.location;
 			} else {

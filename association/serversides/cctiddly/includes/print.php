@@ -126,7 +126,7 @@ var serverside={
 			loginFailed: "<?php print $ccT_msg['loginpanel']['loginFailed'] ?>",
 			loginPrompt: "<?php print $ccT_msg['loginpanel']['loginPrompt'] ?>",
 			logout: "<?php print $ccT_msg['loginpanel']['logout'] ?>",
-			logoutPrompt: "<?php print $ccT_msg['loginpanel']['logoutPrompt'] ?>",
+			logoutPrompt: "<?php print $ccT_msg['loginpanel']['logoutPrompt'] ?>"
 		},
 		revision:{
 			text: "<?php print $ccT_msg['word']['revision'] ?>",
@@ -165,7 +165,9 @@ window.cct_tweak = function(){
 	
 	
 	//change SideBarOption panel to add login panel
-	config.shadowTiddlers.SideBarOptions = config.shadowTiddlers.SideBarOptions+"[[Please Login]]";
+		config.shadowTiddlers.SideBarOptions = config.shadowTiddlers.SideBarOptions+"<<ccLoginStatus>>";
+
+	
 		config.shadowTiddlers.ViewTemplate = config.shadowTiddlers.ViewTemplate.replace(/references jump/,'references revisions jump');
 	//change saveChange label to upload
 	config.macros.saveChanges.label = "<?php print $ccT_msg['saveChanges']['upload'] ?>";

@@ -66,7 +66,8 @@
 	//	return TRUE;
 		db_connect_new();
 		$pw = cookie_get('sessionToken');
-		if ($pw)
+		debug("SESSINO TOKEN IS '".$pw."'");
+		if ($pw && $pw !== "invalid")
 		{
 			$data_session['session_token'] = $pw;
 			$results = db_record_select('login_session', $data_session);			// get array of results		
@@ -90,10 +91,12 @@
 			else
 			{ 
 				user_logout('Session Does not exist');
+				debug("HERE I AM ");
 				return FALSE;		
 			}
 		}
-		return FALSE;
+		
+				return FALSE;
 	}
 	
 	
