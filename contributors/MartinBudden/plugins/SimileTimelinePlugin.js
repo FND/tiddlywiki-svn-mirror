@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Source:''|http://www.martinswiki.com/#SimileTimelineBundlePlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelinePlugin.js |
-|''Version:''|0.1.2|
+|''Version:''|0.1.3|
 |''Date:''|Mar 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -127,12 +127,13 @@ Timeline.loadTiddlers = function(data,fn)
 Timeline.DefaultEventSource.prototype.loadTiddlers = function(data)
 {
 //#displayMessage('loadTiddlers:'+data.params);
+	var include = true;
+	var tag = data.params;
 	if(data.type && data.type=='tiddlerFields') {
-		var include = false;
-		var tag = 'excludeLists';
-	} else {
-		include = true;
-		tag = data.params;
+		if(!tag) {
+			tag = 'excludeLists';
+			include = false;
+		}
 	}
 	var url = data.url ? data.url : "dummy";
 	var base = this._getBaseURL(url);
@@ -184,10 +185,12 @@ Tiddler.prototype.getSimileTimelineEvent = function(type,eventFields)
 	var f = eventFields ? eventFields : config.macros.SimileTimeline.eventFields;
 	var ev = {};
 	if(type && type=='tiddlerFields') {
-		ev.start = this.created;
-		ev.title = this.title;
+		ev.start = this.modified;
+		ev.title = t;
 		ev.description = this.text ? this.text : '';
-		ev.link = null;
+		ev.link = this.fields.link;
+		if(!ev.link)
+			ev.link = 'javascript:story.displayTiddler(null,"' + t + '")';
 		//ev.link = 'index.html#' + encodeURIComponent(String.encodeTiddlyLink(this.title));
 //#displayMessage("link:"+ev.link);
 	} else {
