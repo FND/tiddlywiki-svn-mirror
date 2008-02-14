@@ -2,21 +2,21 @@
 <pre>
 |timelineHeight:|400|
 
-|width0:|80%|
-|intervalUnit0:|MONTH|
-|intervalPixels0:|100|
-|date0:|2006|
-|eventSourceType0:|tiddlerFields|
+|band0.width:|80%|
+|band0.intervalUnit:|MONTH|
+|band0.intervalPixels:|100|
+|band0.date:|Dec 1 2007|
+|band0.eventSourceType:|tiddlerFields|
 
-|width1:|5%|
-|intervalUnit1:|WEEK|
-|intervalPixels1:|100*7/31|
+|band1.width:|5%|
+|band1.intervalUnit:|WEEK|
+|band1.intervalPixels:|100*7/31|
 
-|width2:|15%|
-|intervalUnit2:|MONTH|
-|intervalPixels2:|25|
-|showEventText2:|false|
-|eventSourceType2:|tiddlerFields|
+|band2.width:|15%|
+|band2.intervalUnit:|MONTH|
+|band2.intervalPixels:|25|
+|band2.showEventText:|false|
+|band2.eventSourceType:|tiddlerFields|
 
 </pre>
 </div>
