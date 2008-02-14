@@ -1,0 +1,22 @@
+<div title="TiddlersTimelineSpec" modifier="Martin Budden">
+<pre>
+|timelineHeight:|400|
+
+|band0.width:|80%|
+|band0.intervalUnit:|MONTH|
+|band0.intervalPixels:|100|
+|band0.date:|Dec 1 2007|
+|band0.eventSourceType:|tiddlerFields|
+
+|band1.width:|5%|
+|band1.intervalUnit:|WEEK|
+|band1.intervalPixels:|100*7/31|
+
+|band2.width:|15%|
+|band2.intervalUnit:|MONTH|
+|band2.intervalPixels:|25|
+|band2.showEventText:|false|
+|band2.eventSourceType:|tiddlerFields|
+
+</pre>
+</div>
