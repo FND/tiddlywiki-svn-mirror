@@ -1,3 +1,5 @@
 <div title="Welcome" modifier="YourName" created="200801221853" modified="200801221916">
-<pre>Hi!</pre>
+<pre>Hi!
+
+This ~TiddlyWiki contains some tests for an enhanced filterTiddlers core method. The ticket in Trac is [[here|http://trac.tiddlywiki.org/ticket/454].</pre>
 </div>
