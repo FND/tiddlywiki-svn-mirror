@@ -353,64 +353,45 @@ config.trac.formatters = [
 	name: 'tracBold',
 	match: "'''",
 	termRegExp: /(''')/mg,
-	element: 'strong',
+	element: 'b',
 	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
-	name: 'tracItalic',
-	match: "''",
-	termRegExp: /('')/mg,
-	element: 'em',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'tracUnderline',
-	match: '__',
-	termRegExp: /(__)/mg,
-	element: 'u',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'tracStrike',
-	match: '~~',
-	termRegExp: /(~~)/mg,
-	element: 'strike',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'tracSuperscript',
-	match: '\\^',
-	termRegExp: /(\^)/mg,
-	element: 'sup',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'tracSubscript',
-	match: ',,',
-	termRegExp: /(,,)/mg,
-	element: 'sub',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'tracMonospacedTick',
-	match: '`',
-	lookaheadRegExp: /`((?:.|\n)*?)`/mg,
-	element: 'code',
-	handler: config.formatterHelpers.enclosedTextHelper
-},
-
-{
-	name: 'tracMonospaced',
-	match: '\\{\\{\\{',
-	lookaheadRegExp: /\{\{\{((?:.|\n)*?)\}\}\}/mg,
-	element: 'code',
-	handler: config.formatterHelpers.enclosedTextHelper
+	name: 'characterFormat',
+	match: "''|__|\\^|,,|~~|`|\\{\\{\\{",
+	handler: function(w)
+	{
+		switch(w.matchText) {
+		case "''":
+			w.subWikifyTerm(createTiddlyElement(w.output,'i'),/('')/mg);
+			break;
+		case '__':
+			var e = createTiddlyElement(w.output,'span');
+			e.setAttribute('style','text-decoration:underline');
+			w.subWikifyTerm(e,/(__)/mg);
+			break;
+		case '^':
+			w.subWikifyTerm(createTiddlyElement(w.output,'sup'),/(\^)/mg);
+			break;
+		case ',,':
+			w.subWikifyTerm(createTiddlyElement(w.output,'sub'),/(,,)/mg);
+			break;
+		case '~~':
+			w.subWikifyTerm(createTiddlyElement(w.output,'del'),/(~~)/mg);
+			break;
+		case '`':
+			this.lookaheadRegExp = /`((?:.|\n)*?)`/mg;
+			this.element = 'code';
+			config.formatterHelpers.enclosedTextHelper.call(this,w);
+			break;
+		case '{{{':
+			this.lookaheadRegExp = /\{\{\{((?:.|\n)*?)\}\}\}/mg;
+			this.element = 'code';
+			config.formatterHelpers.enclosedTextHelper.call(this,w);
+			break;
+		}
+	}
 },
 
 {
