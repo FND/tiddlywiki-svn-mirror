@@ -58,6 +58,16 @@ wikispacesFormatter.processLink = function(link)
 
 config.wikispacesFormatters = [
 {
+	name: 'wikispacesHeading',
+	match: '^={1,3}(?!=)',
+	termRegExp: /(={0,3} *\n+)/mg,
+	handler: function(w)
+	{
+		w.subWikifyTerm(createTiddlyElement(w.output,'h'+w.matchLength),this.termRegExp);
+	}
+},
+
+{
 	name: 'wikispacesTable',
 	match: '^\\|\\|(?:[^\\n]*)\\|\\|$',
 	lookaheadRegExp: /^\|\|([^\n]*)\|\|$/mg,
@@ -137,17 +147,7 @@ config.wikispacesFormatters = [
 },
 
 {
-	name: 'wikispacesHeading',
-	match: '^={1,6}(?!=)',
-	termRegExp: /(={0,6} *\n+)/mg,
-	handler: function(w)
-	{
-		w.subWikifyTerm(createTiddlyElement(w.output,'h'+w.matchLength),this.termRegExp);
-	}
-},
-
-{
-	name: "wikispaceslist",
+	name: 'wikispaceslist',
 	match: '^[\\*#]+ ',
 	lookaheadRegExp: /^([\*#])+ /mg,
 	termRegExp: /(\n)/mg,
@@ -193,11 +193,11 @@ config.wikispacesFormatters = [
 },
 
 {
-	name: "wikispacesQuoteByLine",
-	match: "^>+",
+	name: 'wikispacesQuoteByLine',
+	match: '^>+',
 	lookaheadRegExp: /^>+/mg,
 	termRegExp: /(\n)/mg,
-	element: "blockquote",
+	element: 'blockquote',
 	handler: function(w)
 	{
 		var stack = [w.output];
@@ -214,7 +214,7 @@ config.wikispacesFormatters = [
 			}
 			currLevel = newLevel;
 			w.subWikifyTerm(stack[stack.length-1],this.termRegExp);
-			createTiddlyElement(stack[stack.length-1],"br");
+			createTiddlyElement(stack[stack.length-1],'br');
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			var matched = lookaheadMatch && lookaheadMatch.index == w.nextMatch;
@@ -259,24 +259,24 @@ config.wikispacesFormatters = [
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			var img = createTiddlyElement(w.output,"img");
+			var img = createTiddlyElement(w.output,'img');
 			img.src = wikispacesFormatter.baseUri()+ '/space/showimage/' + lookaheadMatch[1];
 			img.title = lookaheadMatch[1];
 			img.alt = lookaheadMatch[1];
 			var i = 2;
 			var a = lookaheadMatch[i];
 			while(a) {
-				if(a=="width" || a=="height" || a=="align") {
+				if(a=='width' || a=='height' || a=='align') {
 					if(lookaheadMatch[i+1]) {
 						img[a] = lookaheadMatch[i+1];
-						//#console.log("a:"+a+" v:"+lookaheadMatch[i+1]);
+						//#console.log('a:'+a+' v:'+lookaheadMatch[i+1]);
 					}
-				} else if(a=="link") {
-					var link = createTiddlyElement(w.output,"a");
+				} else if(a=='link') {
+					var link = createTiddlyElement(w.output,'a');
 					link.href = wikispacesFormatter.processLink(lookaheadMatch[i+1]);
 					img = w.output.removeChild(img);
 					link.appendChild(img);
-				//} else if(a=="caption") {
+				//} else if(a=='caption') {
 				}
 				i += 2;
 				a = lookaheadMatch[i];
@@ -334,31 +334,33 @@ config.wikispacesFormatters = [
 	}
 },
 {
-	name: "wikispacesCharacterFormat",
-	match: "\\*\\*|//|__|\\{\\{|``",
+	name: 'wikispacesCharacterFormat',
+	match: '\\*\\*|//|__|\\{\\{|``',
 	handler: function(w)
 	{
 		switch(w.matchText) {
-		case "**":
-			w.subWikifyTerm(w.output.appendChild(document.createElement("strong")),/(\*\*|(?=\n\n))/mg);
+		case '**':
+			w.subWikifyTerm(createTiddlyElement(w.output,'b'),/(\*\*|(?=\n\n))/mg);
 			break;
-		case "//":
-			w.subWikifyTerm(createTiddlyElement(w.output,"em"),/(\/\/|(?=\n\n))/mg);
+		case '//':
+			w.subWikifyTerm(createTiddlyElement(w.output,'i'),/(\/\/|(?=\n\n))/mg);
 			break;
-		case "__":
-			w.subWikifyTerm(createTiddlyElement(w.output,"u"),/(__|(?=\n\n))/mg);
+		case '__':
+			var e = createTiddlyElement(w.output,"span");
+			e.setAttribute("style","text-decoration:underline");
+			w.subWikifyTerm(e,/(__|(?=\n\n))/mg);
 			break;
-		case "{{":
+		case '{{':
 			this.lookaheadRegExp = /\{\{((?:.|\n)*?)\}\}/mg;
 			this.element = 'code';
 			config.formatterHelpers.enclosedTextHelper.call(this,w);
 			break;
-		case "``":
+		case '``':
 			var lookaheadRegExp = /``((?:.|\n)*?)``/mg;
 			lookaheadRegExp.lastIndex = w.matchStart;
 			var lookaheadMatch = lookaheadRegExp.exec(w.source);
 			if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-				createTiddlyElement(w.output,"span",null,null,lookaheadMatch[1]);
+				createTiddlyElement(w.output,'span',null,null,lookaheadMatch[1]);
 				w.nextMatch = lookaheadRegExp.lastIndex;
 			}
 			break;
@@ -420,21 +422,6 @@ config.wikispacesFormatters = [
 	handler: function(w)
 	{
 		createTiddlyElement(w.output,'span').innerHTML = w.matchText;
-	}
-},
-
-{
-	name: "html",
-	match: "<[Hh][Tt][Mm][Ll]>",
-	lookaheadRegExp: /<[Hh][Tt][Mm][Ll]>((?:.|\n)*?)<\/[Hh][Tt][Mm][Ll]>/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			createTiddlyElement(w.output,"span").innerHTML = lookaheadMatch[1];
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-		}
 	}
 }
 ];
