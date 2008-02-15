@@ -1,3 +1,6 @@
 <div title="MainMenu" modifier="YourName" created="200801221853" modified="200801221916">
-<pre>[[Welcome]]</pre>
+<pre>[[Welcome]]
+<<newTiddler label:"New test case" title:"Test Case x" tag:"testcase">>
+[[Run the tests]]
+[[Test cases|test cases]]</pre>
 </div>

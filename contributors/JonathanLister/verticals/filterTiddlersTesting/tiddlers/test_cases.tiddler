@@ -1,13 +1,3 @@
 <div title="test cases" modifier="JayFresh" created="200802141140" modified="200802141257" changecount="6">
-<pre>|1WordTitle:|1WordTitle|
-|[[MultiWord Title]]:|[[MultiWord Title]]|
-|[tag[singletag]]:|1WordTag1 1WordTag1WordTitle [[1WordTagMultiWord Title]]|
-|[tag[multi tag]]:|MultiWordTag1 MultiWordTag1WordTitle [[MultiWordTagMultiWord Title]]|
-|1WordTag1WordTitle [tag[singletag]]:|1WordTag1WordTitle 1WordTag1 [[1WordTagMultiWord Title]]|
-|MultiWordTag1WordTitle [tag[multi tag]]:|MultiWordTag1WordTitle MultiWordTag1 [[MultiWordTagMultiWord Title]]|
-|[[1WordTagMultiWord Title]] [tag[singletag]]:|[[1WordTagMultiWord Title]] 1WordTag1 1WordTag1WordTitle|
-|[[MultiWordTagMultiWord Title]] [tag[multi tag]]:|[[MultiWordTagMultiWord Title]] MultiWordTag1 MultiWordTag1WordTitle|
-|[tag[singletag]tag[singletagtwo]]:|1WordTag1 1WordTag1WordTitle [[1WordTagMultiWord Title]] 1WordTag2|
-|[tag[multi tag]tag[multi tag two]]:|MultiWordTag1 MultiWordTag1WordTitle [[MultiWordTagMultiWord Title]] MultiWordTag2|
-|[tag[singletag]tag[multi tag]]:|1WordTag1 1WordTag1WordTitle [[1WordTagMultiWord Title]] MultiWordTag1 MultiWordTag1WordTitle [[MultiWordTagMultiWord Title]]|</pre>
+<pre><<tagging testcase>></pre>
 </div>

@@ -1,0 +1,4 @@
+<div title="Test Case 10" modifier="JayFresh" created="200802151311" tags="testcase" changecount="2">
+<pre>|test:|[tag[multi tag]tag[multi tag two]]|
+|expected:|MultiWordTag1 MultiWordTag1WordTitle [[MultiWordTagMultiWord Title]] MultiWordTag2|</pre>
+</div>
