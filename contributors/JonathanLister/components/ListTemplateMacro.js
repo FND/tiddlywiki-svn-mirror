@@ -82,6 +82,7 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 
 
 /* Overwriting view macro to allow access to global variables */
+/* in my core as patch
 config.macros.view.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	if((tiddler instanceof Tiddler) && params[0]) {
@@ -122,39 +123,31 @@ config.macros.view.handler = function(place,macroName,params,wikifier,paramStrin
 		createTiddlyText(place,tiddler.toString());
 	}
 };
-
+*/
 /***
-!now macro
+!today macro (overriding)
 
-Usage: <<now what format>>
-'what' can be: hour
-'format' is a date template e.g. "DD MMM YYYY"
+Usage: <<today what>>
+'what' can be: GMT, hour, year or a date template e.g. "DD MMM YYYY"
 ***/
-
-config.macros.now = {};
-config.macros.now.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	var d = new Date();
-	if(params[0] !== undefined) {
-		switch(params[0]) {
-			case "GMT":
-				createTiddlyText(place,d.toUTCString());
-				break;
-			case "hour":
-				dateFormat = "hh";
-				createTiddlyText(place,d.formatString(dateFormat));
-				break;
-			case "year":
-				dateFormat = "YYYY";
-				createTiddlyText(place,d.formatString(dateFormat));
-				break;
-			default:
-				dateFormat = config.views.wikified.dateFormat;
-				createTiddlyText(place,d.formatString(dateFormat));
-				break;
+/* (macro is in my core as a patch) */
+merge(config.macros.today.views,{
+	UTC: {
+		handler: function(d) {
+			return d.toUTCString();
+		}
+	},
+	hour: {
+		handler: function(d) {
+			return d.formatString("hh");
+		}
+	},
+	year: {
+		handler: function(d) {
+			return d.formatString("YYYY");
 		}
 	}
-};
-
+});
 /***
 !permalink macro
 
