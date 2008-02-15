@@ -2,11 +2,11 @@
 |''Name:''|CreoleBaseFormatterPlugin|
 |''Description:''|Base Formatter to support other Creole Formatters|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#CreoleBaseFormatterPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/CreoleBaseFormatterPlugin.js|
+|''Source:''|http://www.martinswiki.com/#CreoleBaseFormatterPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/CreoleBaseFormatterPlugin.js |
 |''Version:''|0.0.1|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.1.0|
 ***/
 
