@@ -161,7 +161,7 @@ window.cct_tweak = function(){
 
 	//add new option to options panel
 	// OLD config.shadowTiddlers.OptionsPanel = "<<ssUploadStoreArea>>\n<<ssUploadRSS>>\n<<option chkAutoSave>> "+cctPlugin.lingo.autoUpload+"\n<<option chkRegExpSearch>>"+config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+26);
- config.shadowTiddlers.OptionsPanel = "<<option chkAutoSave>> "+cctPlugin.lingo.autoUpload+"\n<<option chkRegExpSearch>>"+config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+26);
+ config.shadowTiddlers.OptionsPanel = config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+39);
 	
 	
 	//change SideBarOption panel to add login panel
@@ -170,8 +170,10 @@ window.cct_tweak = function(){
 	
 		config.shadowTiddlers.ViewTemplate = config.shadowTiddlers.ViewTemplate.replace(/references jump/,'references revisions jump');
 	//change saveChange label to upload
-	config.macros.saveChanges.label = "<?php print $ccT_msg['saveChanges']['upload'] ?>";
-	config.macros.saveChanges.prompt = "<?php print $ccT_msg['saveChanges']['uploadPrompt'] ?>";
+
+	config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){};
+	//config.macros.saveChanges.label = "<?php print $ccT_msg['saveChanges']['upload'] ?>";
+	//config.macros.saveChanges.prompt = "<?php print $ccT_msg['saveChanges']['uploadPrompt'] ?>";
 
 <?php
 		}

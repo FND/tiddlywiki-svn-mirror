@@ -86,6 +86,19 @@ if ($tiddlyCfg['pref']['openid_enabled'] ==1)
 		$tiddlers = getAllTiddlers();
 	}
 	recordTime_float("get all tiddlers");
+	
+	
+	// log the workspace viewing : 
+	
+	$data1['username'] = 'simon';
+	$data1['workspace'] = 'smm';
+
+	$data1['time'] = date( 'Y-m-d H:i:s', mktime());
+	db_record_insert($tiddlyCfg['table']['workspace_view'],$data1);
+	
+	
+	
+	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -453,6 +466,32 @@ config.macros.ccListWorkspaces = {
 	}
 }
 
+
+
+config.macros.ccListMyWorkspaces = {
+	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+		<?php
+		$result = db_workspace_selectOwnedBy('http://simonmcmanus.myopenid.com/');
+		while ($row = db_fetch_assoc($result))
+		{
+			echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['workspace_name']."&quot;);\n";
+			if( $tiddlyCfg['mod_rewrite']==1 ) {
+				echo "item.href= url+'/".$row['workspace_name']."';\n";
+			}else{
+				echo "item.href= url+'?workspace=".$row['workspace_name']."';\n";
+			}
+			echo "createTiddlyElement(place,&quot;br&quot;);";
+		}
+		?>
+		createTiddlyText(place, "a<?php echo  db_num_rows($result);?>");
+	}
+}
+
+
+
+
+
 config.macros.ccEditWorkspace = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
 		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
@@ -731,43 +770,34 @@ config.macros.ccLoginStatus = {
 	        this.refresh(loginDiv);
 	    },
 	    
-	    	    refresh: function(place, errorMsg) {
+	    	   refresh: function(place, errorMsg) {
 	      var loginDivRef = document.getElementById (&quot;LoginDiv&quot;);
 	     removeChildren(loginDivRef);
          var wrapper = createTiddlyElement(place,&quot;div&quot;);
 	        var cookieValues = findToken(document.cookie);
 
 	        if ( cookieValues.sessionToken && cookieValues.sessionToken!== 'invalid' && cookieValues.txtUserName) {
-	       
-	console.log(cookieValues.txtUserName);
-	 var name = decodeURIComponent(decodeURIComponent(cookieValues.txtUserName));
+  				createTiddlyElement(wrapper,&quot;br&quot;);
+				var name = decodeURIComponent(decodeURIComponent(cookieValues.txtUserName));
 				var str = wikify("You are logged in " + name, wrapper);
-	
-	
-	
-		  		var frm = createTiddlyElement(n,&quot;form&quot;,null);
-	   			frm.action = "";
-	    		frm.method = "get";
-	            //frm.onsubmit = config.macros.ccLogin.logoutOnSubmit;
-        wrapper.appendChild(frm);	
-        
-        
-	            var logout = createTiddlyElement(null,&quot;input&quot;, logout, logout);
-	           logout.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
-	            logout.value = &quot;1&quot;;   
-	            logout.name = &quot;logout&quot;;   
-	            frm.appendChild(logout);	
-	    
-	    
-	    
-	            var btn = createTiddlyElement(null,&quot;input&quot;, null);
-	           btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
-	            btn.value = &quot;Logout&quot;;   
-	            frm.appendChild(btn);	
-	    
-	    
-	    
-	    
+
+				var frm = createTiddlyElement(n,&quot;form&quot;,null);
+				frm.action = "";
+				frm.method = "get";
+				 //frm.onsubmit = config.macros.ccLogin.logoutOnSubmit;
+				wrapper.appendChild(frm);	
+                
+				var logout = createTiddlyElement(null,&quot;input&quot;, logout, logout);
+				logout.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
+				logout.value = &quot;1&quot;;   
+				logout.name = &quot;logout&quot;;   
+				frm.appendChild(logout);	
+
+				var btn = createTiddlyElement(null,&quot;input&quot;, null);
+				btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+				btn.value = &quot;Logout&quot;;   
+				frm.appendChild(btn);	
+
 	        } else {
 				var str = wikify(&quot;[[Please Login	]]&quot;, wrapper);
 				

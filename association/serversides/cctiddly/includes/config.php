@@ -21,6 +21,7 @@
 	$tiddlyCfg['table']['privilege'] = "privileges";	//privilege 			privileges
 	$tiddlyCfg['table']['admin'] = "admin_of_workspace";	//admin of workspace	admin of a particular workspace
 	$tiddlyCfg['table']['session'] = "login_session";	//login session		used to create login string
+	$tiddlyCfg['table']['workspace_view'] = 'workspace_view'; // used to record each viewing of a workspace
 	
 	//cct core settings, do not affect by DB settings
 	$tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 

@@ -165,7 +165,7 @@ INSERT INTO `workspace` (`name`, `twLanguage`, `keep_revision`, `require_login`,
 
 
 INSERT INTO `tiddler` (`id`, `workspace_name`, `title`, `body`, `fields`, `tags`, `modifier`, `creator`, `modified`, `created`, `revision`) VALUES 
-(4, '', 'SiteTitle', 'Welcome', 'changecount="2"', '', 'simon', 'simon', '200712281713', '200712281712', 2),
+(4, '', 'SiteTitle', 'Welcome', 'changecount="1"', '', 'simon', 'simon', '200712281713', '200712281712', 2),
 (5, '', 'SiteSubtitle', 'to ccTiddly', 'changecount="1"', '', 'simon', 'simon', '200712281713', '200712281713', 1),
-(6, '', 'GettingStarted', 'Hi, \\n\\nWelcome to ccTiddly, \\n\\nYou can create you own workspace below : \\n\\n&lt;&lt;ccCreateWorkspace&gt;&gt;\\n\\n\\nHere you can see what other people are  sharing on this ccTiddly server. \\n\\n&lt;&lt;ccListWorkspaces&gt;&gt;\\n\\n\\n', 'changecount="2"', '', 'simon', 'simon', '200712281717', '200712281715', 2);
+(6, '', 'GettingStarted', 'Hi, \\n\\nWelcome to ccTiddly, \\nHere is a list of your workspaces : &lt;&lt;ccListMyWorkspaceL&gt;&gt;\\nYou can create you own workspace below : \\n\\n&lt;&lt;ccCreateWorkspace&gt;&gt;\\n\\n\\nHere you can see what other people are  sharing on this ccTiddly server. \\n\\n&lt;&lt;ccListWorkspaces&gt;&gt;\\n\\n\\n', 'changecount="2"', '', 'simon', 'simon', '200712281717', '200712281715', 2);
 

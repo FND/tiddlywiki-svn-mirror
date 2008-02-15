@@ -246,6 +246,25 @@ $db_var['error']['query'] = " query: ";*/
 		return $r;
 	}
 
+
+	//!	@fn array db_workspace_selectOwnedBy($user)
+	//!	@brief select all workspace name from DB where user owns the workspace
+	function db_workspace_selectOwnedBy($user)
+	{
+		global $tiddlyCfg;
+		global $ccT_msg;
+		
+		//or use status=P for public???
+		$q = "SELECT * FROM ".$tiddlyCfg['table']['admin']." WHERE username='".$user."'";
+
+		debug("db_workspace_selectOwnedBy: ".$q);
+		$r = mysql_query($q)
+			or die($ccT_msg['db']['word_error'].mysql_error());
+		
+		return $r;
+	}
+	
+	
 	//!	@fn array db_workspace_install()
 	//!	@brief install workspace
 	function db_workspace_install()
