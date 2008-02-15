@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.4.3|
+|''Version:''|0.4.4|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -159,30 +159,9 @@ config.macros.list.categories.handler = function(params)
 	return store.getMediaWikiPagesInNamespace('Category:');
 };
 
-wikify = function(source,output,highlightRegExp,tiddler)
-{
-	if(source && source != '') {
-		var w = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
-		w.linkCount = 0;
-		w.tableDepth = 0;
-		w.output = tiddler==null ? output : createTiddlyElement2(output,'p');
-		var t1,t0 = new Date();
-		w.subWikifyUnterm(w.output);
-		if(tiddler && config.options.chkDisplayInstrumentation) {
-			t1 = new Date();
-			var t = tiddler ? tiddler.title : source.substr(0,10);
-			displayMessage('Wikify "'+t+'" in ' + (t1-t0) + ' ms');
-		}
-	}
-//#at point of usage can use:
-//#var output = w.output.nodeType==1 && w.output.nodeName=='P' ? w.output.parentNode : w.output;
-};
-
 function createTiddlyElement2(parent,element)
 {
-	var e = document.createElement(element);
-	parent.appendChild(e);
-	return e;
+	return parent.appendChild(document.createElement(element));
 }
 
 config.formatterHelpers.createElementAndWikify = function(w)
