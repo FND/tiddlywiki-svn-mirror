@@ -94,7 +94,7 @@
 				return FALSE;		
 			}
 		}
-		
+				// no session key or its invalid
 				return FALSE;
 	}
 	

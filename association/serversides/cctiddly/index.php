@@ -40,15 +40,15 @@ if ($_POST['logout'] || $_REQUEST['logout'])
 ///////////////////////////////CC: user variable defined in header and $user['verified'] can be used directly to check user validation
  // check to see if user is logged in or not and then assign permissions accordingly. 
 //if ($user['verified'] = user_session_validate())
-if ($user['verified'] == user_session_validate())
+$user['verified'] == user_session_validate();
+if ($user['verified'])
 {
- $workspace_permissions = $tiddlyCfg['default_user_perm'];
+$workspace_permissions = $tiddlyCfg['default_user_perm'];
 	
 } else {
 
-	$workspace_permissions = $tiddlyCfg['default_anonymous_perm'];
+ 	$workspace_permissions = $tiddlyCfg['default_anonymous_perm'];
 }
-
 if ($workspace_permissions == "")
 {
 	$workspace_permissions = "DDDD";
