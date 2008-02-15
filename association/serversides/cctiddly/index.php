@@ -18,6 +18,7 @@ recordTime_float("Start");
 //includes
 $cct_base = "";
 include_once($cct_base."includes/header.php");
+
 include_once($cct_base."includes/print.php");
 recordTime_float("includes");
 
@@ -28,6 +29,7 @@ if ($_POST['logout'] || $_REQUEST['logout'])
 	header("Location: ".str_replace("index.php", "", $_SERVER['PHP_SELF']));
 }	
 	
+	echo $_REQUEST['msg'];
 
 ///////////////////////////////RSS
 	if( strcmp($cctAction,"RSS")==0 )
@@ -61,26 +63,16 @@ $workspace_settings_count= count($workspace_settings);
 //echo $workspace_permissions;
 
 // display open id bits if it is enabled. 
-if ($tiddlyCfg['pref']['openid_enabled'] ==1)
-{
-	include('../openid/examples/tiddler.php');
-	// dispatch the event based on url args.
-	dispatch();
+//if ($tiddlyCfg['pref']['openid_enabled'] ==1)
+//{
 
-// Our helpful display page.
-	$buf = <<< END
-%s
-  &lt;div id="login"&gt;
-    &lt;form action="%s" method="get"&gt;     
-    OpenID: &lt;input  style='background: url(http://mojo.bt.com/images/login-bg.gif) no-repeat #FFF 5px;font-size:1.2em;color:#84807C;border:solid 1px #DFD8D1;
-		padding:0.2em;
-   padding-left:28px;' type="text" name="identity_url" class="identity_url" /&gt;
-    &lt;input type="submit" value="Verify" /&gt;
-    &lt;/form&gt;
-  &lt;/div&gt;
-END;
- $openid =  sprintf( $buf, drawAlert($_message), $_SERVER['HTTP_REFERER'] );
-}
+	require_once "includes/o/common.php";
+
+
+
+
+
+//}
 
 	//check if getting revision
 	if( isset($_GET['title']) )
@@ -746,8 +738,8 @@ config.macros.ccLoginStatus = {
 	    },
 	    
 	    	    refresh: function(place, errorMsg) {
-	        var loginDivRef = document.getElementById (&quot;LoginDiv&quot;);
-	        removeChildren(loginDivRef);
+	      var loginDivRef = document.getElementById (&quot;LoginDiv&quot;);
+	     removeChildren(loginDivRef);
          var wrapper = createTiddlyElement(place,&quot;div&quot;);
 	        var cookieValues = findToken(document.cookie);
 
@@ -758,13 +750,27 @@ config.macros.ccLoginStatus = {
 	
 	
 		  		var frm = createTiddlyElement(n,&quot;form&quot;,null);
-	            frm.onsubmit = config.macros.ccLogin.logoutOnSubmit;
+	   			frm.action = "";
+	    		frm.method = "get";
+	            //frm.onsubmit = config.macros.ccLogin.logoutOnSubmit;
         wrapper.appendChild(frm);	
         
+        
+	            var logout = createTiddlyElement(null,&quot;input&quot;, logout, logout);
+	           logout.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
+	            logout.value = &quot;1&quot;;   
+	            logout.name = &quot;logout&quot;;   
+	            frm.appendChild(logout);	
+	    
+	    
+	    
 	            var btn = createTiddlyElement(null,&quot;input&quot;, null);
 	           btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
 	            btn.value = &quot;Logout&quot;;   
 	            frm.appendChild(btn);	
+	    
+	    
+	    
 	    
 	        } else {
 				var str = wikify(&quot;[[Please Login	]]&quot;, wrapper);
@@ -795,13 +801,30 @@ config.macros.ccLoginStatus = {
 	            // user is logged in
 	            var msg = createTiddlyElement(wrapper,&quot;div&quot;);
 	            wikify(&quot;You are logged in as &quot; + cookieValues.txtUserName, msg);
-	            var frm = createTiddlyElement(wrapper,&quot;form&quot;,null,null);
-	            frm.onsubmit = this.logoutOnSubmit ;
-	            var btn = createTiddlyElement(null,&quot;input&quot;,null);
-	            btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
-	            btn.value = &quot;Logout&quot;;             	    
-	        frm.appendChild(btn);
-	        
+	          
+	          
+	          
+		  		var frm = createTiddlyElement(n,&quot;form&quot;,null);
+	   			frm.action = "";
+	    		frm.method = "get";
+	            //frm.onsubmit = config.macros.ccLogin.logoutOnSubmit;
+        wrapper.appendChild(frm);	
+        
+        
+	            var logout = createTiddlyElement(null,&quot;input&quot;, logout, logout);
+	           logout.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
+	            logout.value = &quot;1&quot;;   
+	            logout.name = &quot;logout&quot;;   
+	            frm.appendChild(logout);	
+	    
+	    
+	    
+	            var btn = createTiddlyElement(null,&quot;input&quot;, null);
+	           btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+	            btn.value = &quot;Logout&quot;;   
+	            frm.appendChild(btn);	
+	            
+	            
 	        } else {
 	            //user not logged in.
 	            
@@ -834,20 +857,52 @@ config.macros.ccLoginStatus = {
 	       var txtpass =   createTiddlyElement(null, &quot;input&quot;, &quot;cctpass&quot;, &quot;cctpass&quot;, null, {&quot;type&quot;:&quot;password&quot;});
 	        //  var txtpass = createTiddlyElement(step,&quot;input&quot;, &quot;cctpass&quot;,&quot;cctpass&quot;);
 	         txtpass.setAttribute(&quot;type&quot;,&quot;password&quot;);
+	         
 	        
 	        step.appendChild(txtpass);
-	        
-	        
-	            createTiddlyElement(frm,&quot;br&quot;);
-	            var btn = createTiddlyElement(null,&quot;input&quot;,this.prompt, "button");
-	            btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
-	       	    btn.value = &quot;Login&quot;
-	       	    
-	        frm.appendChild(btn);
-	        
-				createTiddlyElement(frm,&quot;br&quot;);
-				createTiddlyElement(frm,&quot;br&quot;);
-	        }
+			createTiddlyElement(frm,&quot;br&quot;);
+			var btn = createTiddlyElement(null,&quot;input&quot;,this.prompt, "button");
+			btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+			btn.value = &quot;Login&quot;
+			frm.appendChild(btn);
+		
+			
+			var oidfrm = createTiddlyElement(step,&quot;form&quot;,null, null);
+			oidfrm.method = 'get';
+			oidfrm.action='includes/o/try_auth.php';
+		
+		
+		
+			createTiddlyElement(oidfrm,&quot;br&quot;);
+			createTiddlyText(oidfrm, 'OpenID:');
+			
+			var oidaction = createTiddlyElement(null,&quot;input&quot;,null);
+			oidaction.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
+			oidaction.setAttribute(&quot;value&quot;,&quot;verify&quot;);
+			oidfrm.appendChild(oidaction);
+			
+			var oidid = createTiddlyElement(null,&quot;input&quot;,null);
+			oidid.setAttribute(&quot;type&quot;,&quot;text&quot;);
+			oidid.setAttribute(&quot;name&quot;,&quot;openid_identifier&quot;);
+			oidfrm.appendChild(oidid);
+			
+			var oidsub = createTiddlyElement(null,&quot;input&quot;,null);
+			oidsub.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+			oidsub.setAttribute(&quot;value&quot;,&quot;Verify&quot;);
+			oidfrm.appendChild(oidsub);
+			
+	
+	// TODO : DELETE 		
+	//		var oidurl = createTiddlyElement(null,&quot;input&quot;,&quot;oidurl&quot;);
+	//		oidurl.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
+	//		oidurl.setAttribute(&quot;value&quot;, url+"/"+workspace);		
+	//		oidurl.setAttribute(&quot;name&quot;, &quot;oidurl&quot;);
+	//		oidfrm.appendChild(oidurl);
+			
+			
+			createTiddlyElement(frm,&quot;br&quot;);
+			createTiddlyElement(frm,&quot;br&quot;);
+			}
 	     },
 
 	    killLoginCookie: function() {
@@ -876,7 +931,6 @@ config.macros.ccLoginStatus = {
 	    loginOnSubmit: function() {
 	        var user = document.getElementById('cctuser').value;
 	        var pass = document.getElementById('cctpass').value;
-	        displayMessage(user+pass);
 	        var params = {}; 
 	        params.origin = this;
 	        var loginResp = doHttp('POST', url+'/msghandle.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
@@ -886,16 +940,14 @@ config.macros.ccLoginStatus = {
 
 	    loginCallback: function(status,params,responseText,uri,xhr) {
 	        if (status==true) {
-	          displayMessage('CONECTION was ok ');
+	         // displayMessage('CONECTION was ok ');
 	        }
-	        alert('here');
 	     var cookie;
 	     cookie = xhr.getResponseHeader(&quot;Set-Cookie&quot;);
-	   alert(cookie);
+	   
 	        var cookieValues = findToken(cookie);
 	        
 	        config.macros.ccLogin.saveCookie(cookieValues);
-	        alert(cookieValues.sessionToken);
 	        if(xhr.status != 401) {
 				window.location = window.location;
 			} else {

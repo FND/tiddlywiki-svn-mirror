@@ -13,7 +13,7 @@
 // cct_base is used to prefix calls to files, 
 	if(!isset($cct_base)) {
 		$cct_base= "";
-		debug("cct_base not exist");
+	//	debug("cct_base not exist");
 	}
 
 //////////////////////////////////////////////////////// include files  ////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@
 
 	if(!isset($ccT_msg)) {
 		$ccT_msg= "";
-		exit("ccT_msg not exist");
+	//	exit("ccT_msg not exist");
 	}
 
 	if(!isset($workspace)) {
