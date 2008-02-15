@@ -63,16 +63,10 @@ $workspace_settings_count= count($workspace_settings);
 //echo $workspace_permissions;
 
 // display open id bits if it is enabled. 
-//if ($tiddlyCfg['pref']['openid_enabled'] ==1)
-//{
-
-	require_once "includes/o/common.php";
-
-
-
-
-
-//}
+if ($tiddlyCfg['pref']['openid_enabled'] ==1)
+{
+		require_once "includes/o/common.php";
+}
 
 	//check if getting revision
 	if( isset($_GET['title']) )
@@ -744,8 +738,10 @@ config.macros.ccLoginStatus = {
 	        var cookieValues = findToken(document.cookie);
 
 	        if ( cookieValues.sessionToken && cookieValues.sessionToken!== 'invalid' && cookieValues.txtUserName) {
-	        
-				var str = wikify(&quot;You are logged in as &quot; + cookieValues.txtUserName, wrapper);
+	       
+	console.log(cookieValues.txtUserName);
+	 var name = decodeURIComponent(decodeURIComponent(cookieValues.txtUserName));
+				var str = wikify("You are logged in " + name, wrapper);
 	
 	
 	
@@ -800,7 +796,7 @@ config.macros.ccLoginStatus = {
 	        if ( cookieValues.sessionToken &amp;&amp;  cookieValues.sessionToken!== 'invalid' &amp;&amp; cookieValues.txtUserName) {
 	            // user is logged in
 	            var msg = createTiddlyElement(wrapper,&quot;div&quot;);
-	            wikify(&quot;You are logged in as &quot; + cookieValues.txtUserName, msg);
+	            wikify(&quot;You are logged in as &quot; + decodeURIComponent(decodeURIComponent(cookieValues.txtUserName)), msg);
 	          
 	          
 	          
@@ -845,35 +841,21 @@ config.macros.ccLoginStatus = {
 	                createTiddlyElement(step,&quot;span&quot;, null, null, errorMsg);
 	          		createTiddlyElement(step,&quot;br&quot;);
 	          	}
-	         	createTiddlyElement(step,&quot;br&quot;);
-	            createTiddlyText(step,&quot;Username: &quot;);
-	            var txtuser = createTiddlyElement(step,&quot;input&quot;,&quot;cctuser&quot;, &quot;cctuser&quot;)
-	            if (cookieValues.txtUserName !=null) {
-	                txtuser.value =cookieValues.txtUserName ;
-	            }
-	            createTiddlyElement(step,&quot;br&quot;);
-	            createTiddlyText(step,&quot;Password : &quot;);
+
 	        
-	       var txtpass =   createTiddlyElement(null, &quot;input&quot;, &quot;cctpass&quot;, &quot;cctpass&quot;, null, {&quot;type&quot;:&quot;password&quot;});
-	        //  var txtpass = createTiddlyElement(step,&quot;input&quot;, &quot;cctpass&quot;,&quot;cctpass&quot;);
-	         txtpass.setAttribute(&quot;type&quot;,&quot;password&quot;);
-	         
-	        
-	        step.appendChild(txtpass);
-			createTiddlyElement(frm,&quot;br&quot;);
-			var btn = createTiddlyElement(null,&quot;input&quot;,this.prompt, "button");
-			btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
-			btn.value = &quot;Login&quot;
-			frm.appendChild(btn);
-		
+	   
 			
 			var oidfrm = createTiddlyElement(step,&quot;form&quot;,null, null);
 			oidfrm.method = 'get';
 			oidfrm.action='includes/o/try_auth.php';
 		
 		
+	<?php 
+	 if ($tiddlyCfg['pref']['openid_enabled'] ==1)
+	{
 		
-			createTiddlyElement(oidfrm,&quot;br&quot;);
+		?>
+				createTiddlyElement(oidfrm,&quot;br&quot;);
 			createTiddlyText(oidfrm, 'OpenID:');
 			
 			var oidaction = createTiddlyElement(null,&quot;input&quot;,null);
@@ -891,14 +873,30 @@ config.macros.ccLoginStatus = {
 			oidsub.setAttribute(&quot;value&quot;,&quot;Verify&quot;);
 			oidfrm.appendChild(oidsub);
 			
-	
-	// TODO : DELETE 		
-	//		var oidurl = createTiddlyElement(null,&quot;input&quot;,&quot;oidurl&quot;);
-	//		oidurl.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
-	//		oidurl.setAttribute(&quot;value&quot;, url+"/"+workspace);		
-	//		oidurl.setAttribute(&quot;name&quot;, &quot;oidurl&quot;);
-	//		oidfrm.appendChild(oidurl);
-			
+	<?php 
+}else { 
+	?>
+	  createTiddlyText(step,&quot;Username: &quot;);
+        var txtuser = createTiddlyElement(step,&quot;input&quot;,&quot;cctuser&quot;, &quot;cctuser&quot;)
+        if (cookieValues.txtUserName !=null) {
+            txtuser.value =cookieValues.txtUserName ;
+        }
+        createTiddlyElement(step,&quot;br&quot;);
+        createTiddlyText(step,&quot;Password : &quot;);
+    
+   var txtpass =   createTiddlyElement(null, &quot;input&quot;, &quot;cctpass&quot;, &quot;cctpass&quot;, null, {&quot;type&quot;:&quot;password&quot;});
+    //  var txtpass = createTiddlyElement(step,&quot;input&quot;, &quot;cctpass&quot;,&quot;cctpass&quot;);
+     txtpass.setAttribute(&quot;type&quot;,&quot;password&quot;);
+	     step.appendChild(txtpass);
+			createTiddlyElement(frm,&quot;br&quot;);
+			var btn = createTiddlyElement(null,&quot;input&quot;,this.prompt, "button");
+			btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+			btn.value = &quot;Login&quot;
+			frm.appendChild(btn);
+
+	<?php
+}
+	?>
 			
 			createTiddlyElement(frm,&quot;br&quot;);
 			createTiddlyElement(frm,&quot;br&quot;);

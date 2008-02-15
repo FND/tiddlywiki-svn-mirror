@@ -66,7 +66,6 @@
 	//	return TRUE;
 		db_connect_new();
 		$pw = cookie_get('sessionToken');
-		debug("SESSINO TOKEN IS '".$pw."'");
 		if ($pw && $pw !== "invalid")
 		{
 			$data_session['session_token'] = $pw;
@@ -103,6 +102,27 @@
 	function user_set_session($un, $pw)
 	{
 		global $tiddlyCfg;
+		
+		
+		
+		if ($tiddlyCfg['users_required_in_db']==1)
+		{
+		 	$data['username'] = $un;
+			$login_check = db_record_select($tiddlyCfg['table']['user'], $data);			// get array of results		
+		
+			if (count($login_check) > 0 ) 
+			{
+				//return true;
+			}
+			else
+			{
+				// user does not exists in the user database. 
+				return false;
+			}     
+		}
+		
+		
+		
 		debug('Setting the Session '.$tiddlyCfg['session_expire']);
 		$insert_data['user_id'] = $un;
 		debug('session is be set : username is : '.$un);
@@ -148,6 +168,7 @@
 			debug('Number of user s: '.count($results));
 			if (count($results) > 0 )                   //  if the array has 1 or more acounts 
 			{
+	
 				$del_data1['expire'] = epochToTiddlyTime(time());
 				db_record_delete('login_session', $del_data1, 0,  "<");
 				return TRUE;
@@ -182,6 +203,11 @@
 			return FALSE;
 		}
 	}
+	
+	
+	// used by openID to check if the ID provided already exists in the user database. 
+	
+
 	///////////////////////////////////////////////////////////////get user info//////////////////////////////////////////////////
 	//!	@fn string user_getUsername()
 	//!	@brief get username from cookie

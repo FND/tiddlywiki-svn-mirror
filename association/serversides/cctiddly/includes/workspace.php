@@ -39,6 +39,11 @@ function workspace_create_new($anonPerm="AUUU",$hash=null)
 	$data1['created'] = epochToTiddlyTime(mktime());
 	db_record_insert($tiddlyCfg['table']['main'],$data1);
 	
+	
+	
+	
+	
+	
 	@mkdir($tiddlyCfg['pref']['upload_dir'].$workspace ,  0777);
 	@mkdir($tiddlyCfg['pref']['upload_dir'].$workspace.'/images' ,  0777);
 	@mkdir($tiddlyCfg['pref']['upload_dir'].$workspace.'/thumbs' ,  0777);
@@ -97,6 +102,14 @@ function workspace_create($workspace, $anonPerm="ADDD")
 	$data1['modifier'] = 'ccTiddly';
 	$data1['created'] = epochToTiddlyTime(mktime());
 	db_record_insert($tiddlyCfg['table']['main'],$data1);
+	
+	
+	
+	// ASSIGN THE WORKSPACE OWNERSHIP : 
+	$owner['username'] = cookie_get('txtUserName');
+	$owner['workspace_name']=$workspace;
+	db_record_insert($tiddlyCfg['table']['admin'],$owner);
+	
 	
 	@mkdir($tiddlyCfg['pref']['upload_dir'].$workspace ,  0777);
 	@mkdir($tiddlyCfg['pref']['upload_dir'].$workspace.'/images' ,  0777);
