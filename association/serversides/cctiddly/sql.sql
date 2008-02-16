@@ -154,6 +154,14 @@ CREATE TABLE `user` (
 
 
 
+CREATE TABLE `workspace_view` (
+`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`username` VARCHAR( 255 ) NOT NULL ,
+`workspace` VARCHAR( 255 ) NOT NULL ,
+`time` DATETIME NOT NULL
+) ENGINE = MYISAM COMMENT = '(`username`,`workspace`,`time`)';
+
+
 INSERT INTO `user` (`username`, `password`, `short_name`, `long_name`) VALUES 
 ('simon', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', '', '');
 

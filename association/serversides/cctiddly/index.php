@@ -29,8 +29,6 @@ if ($_POST['logout'] || $_REQUEST['logout'])
 	header("Location: ".str_replace("index.php", "", $_SERVER['PHP_SELF']));
 }	
 	
-	echo $_REQUEST['msg'];
-
 ///////////////////////////////RSS
 	if( strcmp($cctAction,"RSS")==0 )
 	{
@@ -40,15 +38,16 @@ if ($_POST['logout'] || $_REQUEST['logout'])
 ///////////////////////////////CC: user variable defined in header and $user['verified'] can be used directly to check user validation
  // check to see if user is logged in or not and then assign permissions accordingly. 
 //if ($user['verified'] = user_session_validate())
-$user['verified'] == user_session_validate();
+$user['verified'] = user_session_validate();
+
 if ($user['verified'])
 {
 $workspace_permissions = $tiddlyCfg['default_user_perm'];
 	
 } else {
-
  	$workspace_permissions = $tiddlyCfg['default_anonymous_perm'];
 }
+
 if ($workspace_permissions == "")
 {
 	$workspace_permissions = "DDDD";
@@ -366,7 +365,7 @@ config.macros.ccCreateWorkspace = {
 //		anC.id='anC';
 //		frm.appendChild(anC);
 //		createTiddlyElement(step,&quot;br&quot;);
-//		var  anR = createTiddlyCheckbox(step, &quot;Read Tiddler&quot;, 1);
+//	var  anR = createTiddlyCheckbox(step, &quot;Read Tiddler&quot;, 1);
 	//	anR.id = 'anR';
 	//	createTiddlyElement(step,&quot;br&quot;);
 	//	var anU = createTiddlyCheckbox(step, &quot;Updates Tiddlers &quot;, 0);
@@ -377,16 +376,10 @@ config.macros.ccCreateWorkspace = {
 		createTiddlyElement(step,&quot;br&quot;);
 		createTiddlyElement(frm,&quot;br&quot;);
 		
-		
-		
-
-	var btn = createTiddlyElement(null,&quot;input&quot;,this.prompt,&quot;button&quot;);
+		var btn = createTiddlyElement(null,&quot;input&quot;,this.prompt,&quot;button&quot;);
 		btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
 		btn.value = &quot;Create workspace&quot;
 	    step.appendChild(btn);
-
-
-
 
 	 	//createTiddlyElement(frm,&quot;br&quot;);
 		//createTiddlyElement(frm,&quot;br&quot;);
@@ -446,49 +439,6 @@ config.macros.ccCreateWorkspace = {
 <?php
 }
 ?>
-config.macros.ccListWorkspaces = {
-	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
-		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
-		<?php
-		$result = db_workspace_selectAllPublic();
-		while ($row = db_fetch_assoc($result))
-		{
-			echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['name']."&quot;);\n";
-			if( $tiddlyCfg['mod_rewrite']==1 ) {
-				echo "item.href= url+'/".$row['name']."';\n";
-			}else{
-				echo "item.href= url+'?workspace=".$row['name']."';\n";
-			}
-			echo "createTiddlyElement(place,&quot;br&quot;);";
-		}
-		?>
-		createTiddlyText(place, "a<?php echo  db_num_rows($result);?>");
-	}
-}
-
-
-
-config.macros.ccListMyWorkspaces = {
-	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
-		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
-		<?php
-		$result = db_workspace_selectOwnedBy('http://simonmcmanus.myopenid.com/');
-		while ($row = db_fetch_assoc($result))
-		{
-			echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['workspace_name']."&quot;);\n";
-			if( $tiddlyCfg['mod_rewrite']==1 ) {
-				echo "item.href= url+'/".$row['workspace_name']."';\n";
-			}else{
-				echo "item.href= url+'?workspace=".$row['workspace_name']."';\n";
-			}
-			echo "createTiddlyElement(place,&quot;br&quot;);";
-		}
-		?>
-		createTiddlyText(place, "a<?php echo  db_num_rows($result);?>");
-	}
-}
-
-
 
 
 
