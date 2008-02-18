@@ -467,6 +467,14 @@ MediaWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callba
 //#	}
 //#}
 
+//# Override this to do postprocessing on tiddler after it is retrieved from the server
+MediaWikiAdaptor.prototype.getTiddlerPostProcess = function(context)
+{
+	if(context.tiddler.title=="Area 51")
+		context.tiddler.text = "Does not exist";
+	return context.tiddler;
+};
+
 MediaWikiAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
 //#displayMessage('getTiddlerCallback status:'+status);
@@ -511,6 +519,7 @@ MediaWikiAdaptor.getTiddlerCallback = function(status,context,responseText,uri,x
 				match = catRegExp.exec(text);
 			}
 			context.tiddler.tags = tags;
+			context.tiddler = context.adaptor.getTiddlerPostProcess.call(context.adaptor,context);
 		} catch (ex) {
 			context.statusText = exceptionText(ex,MediaWikiAdaptor.serverParsingErrorMessage);
 			if(context.callback)
