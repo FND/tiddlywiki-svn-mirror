@@ -1,0 +1,28 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+title: title.txt
+tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
+tiddler: settings.js
+tiddler: DownloadThisTiddlyWiki.tiddler
+tiddler: MediaWikiWalkthrough.tiddler
+tiddler: ../tiddlypedia/StyleSheet.tiddler
+tiddler: ../tiddlypedia/OptionsPanel.tiddler
+tiddler: ../tiddlypedia/PageTemplateWithLogo.tiddler
+tiddler: ../tiddlypedia/SideBarOptionsWithMediaWikiFormat.tiddler
+tiddler: ../tiddlypedia/SideBarTabs.tiddler
+tiddler: ../tiddlypedia/TabMoreOtherPagesUpdatedShadowed.tiddler
+tiddler: ../tiddlypedia/TabTags.tiddler
+tiddler: ../tiddlypedia/TabOtherPages.tiddler
+tiddler: ../../tiddlers/Logo.tiddler
+# tiddler: ../../tiddlers/Download_this_wiki.tiddler
+tiddler: ../../adaptors/AdaptorMacrosPlugin.js
+tiddler: ../../adaptors/AdaptorCommandsPlugin.js
+tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
+tiddler: ../../feeds/WikipediaInfoboxAirportTemplateFeed.tiddler
+tiddler: ../../formatters/MediaWikiFormatterPlugin.js
+tiddler: ../../plugins/DisableWikiLinksPlugin.js
+tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
+tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
+tiddler: ../../styles/wikipediaStyle.js
+tiddler: ../../tiddlers/Configuration.tiddler
+tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
+tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js tags="systemConfig excludeLists excludeSearch"
