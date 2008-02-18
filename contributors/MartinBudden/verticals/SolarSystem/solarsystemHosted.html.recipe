@@ -21,3 +21,4 @@ tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../feeds/WikipediaSolarSystemFeed.tiddler
 tiddler: ../../feeds/WikipediaSolarSystemPlanetsFeed.tiddler
 tiddler: ../../feeds/WikipediaSolarSystemTemplateFeed.tiddler
+tiddler: MediaWikiAdaptorInfoboxPlanetFilter.js
