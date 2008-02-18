@@ -17,6 +17,7 @@ tiddler: ../../tiddlers/Logo.tiddler
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
+tiddler: ../../adaptors/MediaWikiAdaptorInfoboxFilter.js
 tiddler: ../../feeds/WikipediaInfoboxAirportTemplateFeed.tiddler
 tiddler: ../../formatters/MediaWikiFormatterPlugin.js
 tiddler: ../../plugins/DisableWikiLinksPlugin.js
