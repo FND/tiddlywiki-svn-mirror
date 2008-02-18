@@ -2,8 +2,6 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 title: title.txt
 recipe: shadows/split.recipe
 tiddler: settings.js
-tiddler: Tiddlers_Timeline.tiddler
-tiddler: TiddlersTimelineSpec.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../mystyle/ViewTemplate.tiddler
 tiddler: ../../tiddlers/Configuration.tiddler
@@ -13,6 +11,7 @@ recipe: ../../timelines/TiddlyWiki/TiddlyWikiTimeline.recipe
 recipe: ../../timelines/Monet/MonetTimeline.recipe
 recipe: ../../timelines/example/SimileExampleTimeline.recipe
 recipe: ../../timelines/clock/ClockTimeline.recipe
+recipe: ../../timelines/Tiddlers/split.recipe
 tiddler: ../../styles/SimileTimelineStyleBundle.css.js
 tiddler: ../../plugins/SimileTimelineBundlePlugin.js
 tiddler: ../../plugins/SimileTimelinePlugin.js
