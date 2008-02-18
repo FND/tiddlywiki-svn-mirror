@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.5.7|
+|''Version:''|0.5.8|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -470,8 +470,6 @@ MediaWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callba
 //# Override this to do postprocessing on tiddler after it is retrieved from the server
 MediaWikiAdaptor.prototype.getTiddlerPostProcess = function(context)
 {
-	if(context.tiddler.title=="Area 51")
-		context.tiddler.text = "Does not exist";
 	return context.tiddler;
 };
 
