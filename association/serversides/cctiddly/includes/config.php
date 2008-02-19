@@ -8,8 +8,13 @@
 	$tiddlyCfg['db']['type'] = "mysql";		//sql type
 	$tiddlyCfg['db']['host'] = "db";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
+<<<<<<< .mine
+	$tiddlyCfg['db']['pass'] = "";		//login password
+	$tiddlyCfg['db']['name'] = "cctw12";		//db name
+=======
 	$tiddlyCfg['db']['pass'] = "0p3ns0urc3";		//login password
 	$tiddlyCfg['db']['name'] = "cctw2";		//db name
+>>>>>>> .r3565
 	
 	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
 	$tiddlyCfg['table']['suffix'] = "";					//suffix			suffix of file					suffix of table name
@@ -56,7 +61,7 @@ If you got one of the following error message, that may mean your database do no
 	$tiddlyCfg['pref']['utf8'] = 0;	
 	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
 	$tiddlyCfg['pref']['ldap_enabled'] = 0;	
-	$tiddlyCfg['pref']['openid_enabled'] = 1;  // openid end not fully implented yet. 
+	$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
 	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
 	//$tiddlyCfg['pref']['workspace_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the workspace name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
 	$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter

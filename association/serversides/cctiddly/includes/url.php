@@ -16,7 +16,7 @@
 else 	
 {
 	 	$temp = str_replace('/', '', str_replace('/index.php', '', $_SERVER["REDIRECT_URL"])); 
-		$tiddlyCfg['workspace_name'] = str_replace(str_replace("/", "", $tiddlyCfg['pref']['base_folder']), "", $temp);
+		$tixddlyCfg['workspace_name'] = str_replace(str_replace("/", "", $tiddlyCfg['pref']['base_folder']), "", $temp);
 		$workspace= $tiddlyCfg['workspace_name']; // TODO : THESE SHOULD BE REDUCED TO ONE VAR
 		
 }*/
