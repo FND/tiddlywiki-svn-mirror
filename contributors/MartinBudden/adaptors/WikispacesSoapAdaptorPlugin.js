@@ -56,7 +56,7 @@ WikispacesSoapAdaptor.prototype.setContext = function(context,userParams,callbac
 	context.host = WikispacesSoapAdaptor.fullHostName(context.host);
 	if(!context.workspace)
 		context.workspace = this.workspace;
-console.log('setContext:'+context.host);
+//console.log('setContext:'+context.host);
 	return context;
 };
 
@@ -78,7 +78,6 @@ WikispacesSoapAdaptor.fullHostName = function(host)
 		host = 'http://' + host;
 	if(host.substr(host.length-1) != '/')
 		host = host + '/';
-console.log('fullHostName:'+host);
 	return host;
 };
 
@@ -104,15 +103,15 @@ WikispacesSoapAdaptor.dateFromEditTime = function(editTime)
 	return new Date(Date.UTC(dt.substr(0,4),dt.substr(5,2)-1,dt.substr(8,2),dt.substr(11,2),dt.substr(14,2)));
 };
 
-WikispacesSoapAdaptor.prototype.login = function(context,userParams,callback)
+/*WikispacesSoapAdaptor.prototype.login = function(context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
 	//if(!context.host)
 		context.host = 'http://wikispaces.com/';
 console.log('login:'+context.host);
 // http://www.wikispaces.com/site/api?wsdl
-	var uriTemplate = '%0/page/api?wsdl';
-	//var uri = uriTemplate.format([context.host]);
+	var uriTemplate = '%0/site/api?wsdl';
+	var uri = uriTemplate.format([context.host]);
 	var uri = uriTemplate.format(['http://www.wikispaces.com/']);
 	var fn = 'login';
 	var ns = 'wikispaces';
@@ -126,20 +125,37 @@ console.log('login POST:'+uri);
 console.log('login payload:'+payload);
 	var req = WikispacesSoapAdaptor.HttpPOST(uri,WikispacesSoapAdaptor.loginCallback,context,null,payload);
 	return typeof req == 'string' ? req : true;
-};
+};*/
 
-WikispacesSoapAdaptor.loginCallback = function(status,context,responseText,url,xhr)
+WikispacesSoapAdaptor.prototype.login = function(context,userParams,callback)
+{
+	context = this.setContext(context,userParams,callback);
+	if(!context.host)
+		context.host = 'http://wikispaces.com/';
+console.log('login:'+context.host);
+// http://www.wikispaces.com/site/api?wsdl
+	var uriTemplate = '%0/site/api';
+	var uri = uriTemplate.format(['http://tw-test.wikispaces.com']);
+	var pl = new SOAPClientParameters();
+	pl.add('username','');
+	pl.add('password','');
+console.log('uri:'+uri);
+	SOAPClient.invoke(uri,'login',pl,true,WikispacesSoapAdaptor.loginCallback);
+}
+
+WikispacesSoapAdaptor.loginCallback = function(r,x)//status,context,responseText,url,xhr)
 {
 console.log('loginCallback');
-console.log(responseText);
-	context.status = status;
+console.log(r);
+console.log(x);
+/*	context.status = status;
 	if(status) {
 		context.sessionToken = '';
 	} else {
 		context.statusText = "Error reading file: " + xhr.statusText;
 	}
 	if(context.complete)
-		context.complete(context,context.userParams);
+		context.complete(context,context.userParams);*/
 };
 
 WikispacesSoapAdaptor.prototype.openHost = function(host,context,userParams,callback)
@@ -216,7 +232,7 @@ console.log('getWorkspaceList');
 	if(context.sessionId) {
 		var ret = context.complete(context,context.userParams);
 	} else {
-		ret = this.login(context.host,WikispacesSoapAdaptor.getTiddlerListCallback);
+		ret = this.login(context,WikispacesSoapAdaptor.getTiddlerListCallback);
 	}
 	return ret;
 };
