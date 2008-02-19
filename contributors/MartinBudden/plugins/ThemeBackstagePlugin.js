@@ -91,10 +91,16 @@ config.macros.themes.refreshOptions = function(listView)
 {
 	var options = [];
 	var tiddlers = store.getTaggedTiddlers('systemTheme');
+	var d = 'DefaultTheme';
+	if(!tiddlers.indexOf(d) != -1) {
+		var tiddler = new Tiddler(d);
+		tiddler.text = store.getTiddlerText(d);
+		tiddlers.push(tiddler);
+	}
 	for(var i=0; i<tiddlers.length; i++) {
 		var t = tiddlers[i].title;
 		var name = store.getTiddlerSlice(t,'Name');
-		var theme = config.options.txtTheme ?  config.options.txtTheme : "DefaultTheme";
+		var theme = config.options.txtTheme ?  config.options.txtTheme : d;
 		options.push({option:theme==name ? true : false,
 			theme:name,
 			author:store.getTiddlerSlice(t,'Author'),
