@@ -140,14 +140,15 @@ console.log('login:'+context.host);
 	pl.add('username','');
 	pl.add('password','');
 console.log('uri:'+uri);
-	SOAPClient.invoke(uri,'login',pl,true,WikispacesSoapAdaptor.loginCallback);
+	SOAPClient.invoke(uri,'login',pl,true,WikispacesSoapAdaptor.loginCallback,context);
 }
 
-WikispacesSoapAdaptor.loginCallback = function(r,x)//status,context,responseText,url,xhr)
+WikispacesSoapAdaptor.loginCallback = function(r,x,context)//status,context,responseText,url,xhr)
 {
 console.log('loginCallback');
 console.log(r);
 console.log(x);
+console.log(context);
 /*	context.status = status;
 	if(status) {
 		context.sessionToken = '';
