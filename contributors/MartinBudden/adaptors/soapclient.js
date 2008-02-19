@@ -121,8 +121,14 @@ function SOAPClient() {}
 SOAPClient.username = null;
 SOAPClient.password = null;
 
+SOAPClient.setPrivileges() = function()// added by MB
+{
+	if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
+		window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+}
 SOAPClient.invoke = function(url, method, parameters, async, callback)
 {
+	SOAPClient.setPrivileges();
 	if(async)
 		SOAPClient._loadWsdl(url, method, parameters, async, callback);
 	else
@@ -162,8 +168,11 @@ SOAPClient._onLoadWsdl = function(url, method, parameters, async, callback, req)
 };
 SOAPClient._sendSoapRequest = function(url, method, parameters, async, callback, wsdl)
 {
+console.log(wsdl);
+	SOAPClient.setPrivileges();
 	// get namespace
 	var ns = (wsdl.documentElement.attributes["targetNamespace"] + "" == "undefined") ? wsdl.documentElement.attributes.getNamedItem("targetNamespace").nodeValue : wsdl.documentElement.attributes["targetNamespace"].value;
+//console.log('ns:'+ns);
 	// build SOAP request
 	var sr = 
 				"<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
@@ -199,10 +208,10 @@ SOAPClient._sendSoapRequest = function(url, method, parameters, async, callback,
 	if (!async)
 		return SOAPClient._onSendSoapRequest(method, async, callback, wsdl, xmlHttp);
 };
-
 SOAPClient._onSendSoapRequest = function(method, async, callback, wsdl, req) 
 {
 	var o = null;
+	SOAPClient.setPrivileges();
 	var nd = SOAPClient._getElementsByTagName(req.responseXML, method + "Result");
 	if(nd.length == 0)
 		nd = SOAPClient._getElementsByTagName(req.responseXML, "return");	// PHP web Service?
