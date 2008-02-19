@@ -6,15 +6,11 @@
 */
 //////////////////////////////////////////////////////// default configurations ////////////////////////////////////////////////////////
 	$tiddlyCfg['db']['type'] = "mysql";		//sql type
-	$tiddlyCfg['db']['host'] = "db";		//sql host
+	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
-<<<<<<< .mine
 	$tiddlyCfg['db']['pass'] = "";		//login password
 	$tiddlyCfg['db']['name'] = "cctw12";		//db name
-=======
-	$tiddlyCfg['db']['pass'] = "0p3ns0urc3";		//login password
-	$tiddlyCfg['db']['name'] = "cctw2";		//db name
->>>>>>> .r3565
+
 	
 	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
 	$tiddlyCfg['table']['suffix'] = "";					//suffix			suffix of file					suffix of table name
