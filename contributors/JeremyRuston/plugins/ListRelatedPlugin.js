@@ -4,8 +4,8 @@
 |''Author:''|JeremyRuston|
 |''Source:''|http://www.osmosoft.com/#ListRelatedPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JeremyRuston/plugins/ListRelatedPlugin.js |
-|''Version:''|0.0.4|
-|''Date:''|Nov 27, 2006|
+|''Version:''|0.0.5|
+|''Date:''|Feb 19, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.2|
@@ -54,11 +54,13 @@ config.relationships = {
 		text: "raps",
 		prompt: "Tiddlers that are comments on this one",
 		getRelatedTiddlers: function(store,title) {
-			var from = title + " from";
-			var len = from.length;
+			var re = "^" + title.trim().escapeRegExp() + " from (?:.+)";
+			var regexp = new RegExp(re,"mg");
 			var tiddlers = [];
 			store.forEachTiddler(function(title,tiddler) {
-				if(title.substr(0,len)==from)
+				regexp.lastIndex = 0;
+				var match = regexp.exec(title.trim().escapeRegExp());
+				if(match)
 					tiddlers.push(title);
 			});
 			return tiddlers;
@@ -91,8 +93,6 @@ config.macros.listRelated.handler = function(place,macroName,params,wikifier,par
 {
 	params = paramString.parseParams("anon",null,true,false,false);
 	var filter = getParam(params,"filter","");
-	var tag = getParam(params,"tag","");
-	var field = getParam(params,"sort","");
 	var relationship = getParam(params,"rel",this.defaultRelationship);
 	var template = getParam(params,"template",null);
 	if(template)
@@ -104,21 +104,7 @@ config.macros.listRelated.handler = function(place,macroName,params,wikifier,par
 		subTemplate = store.getTiddlerText(subTemplate,this.defaultSubTemplate);
 	else
 		subTemplate = this.defaultSubTemplate;
-	var tiddlers = [];
-	if(tag) {
-		store.forEachTiddler(function(title,tiddler) {
-			if(tiddler.isTagged(tag))
-				tiddlers.push(tiddler);
-		});
-		if(field) {
-			if(TiddlyWiki.standardFieldAccess[field])
-				tiddlers.sort(function(a,b) {return a[field] < b[field] ? -1 : (a[field] == b[field] ? 0 : +1);});
-			else
-				tiddlers.sort(function(a,b) {return a.fields[field] < b.fields[field] ? -1 : (a.fields[field] == b.fields[field] ? 0 : +1);});
-		}
-	} else {
-		tiddlers = store.filterTiddlers(filter);
-	}
+	var tiddlers = store.filterTiddlers(filter);
 	for(var t=0; t<tiddlers.length; t++) {
 		var tiddler = tiddlers[t];
 		var wrapper = createTiddlyElement(place,"div",null,"listRelatedTiddler");
