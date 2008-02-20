@@ -11,7 +11,8 @@ make_tw {
   to_file               'upload/emptyempty.html'
   remove_tiddler        'LegacyStrikeThroughPlugin'
   add_tiddlers_from_dir 'core'
-  package_as_from_dir   'misc/MptwLayoutPlugin.js', 'layout'
+  add_tiddlers_from_dir 'themes'
+  # package_as_from_dir   'misc/MptwLayoutPlugin.js', 'layout'
   store_to_file         'upload/upgrade.html'
   add_tiddlers_from_dir 'noupgrade'
   to_file               'upload/empty.html'
@@ -21,9 +22,7 @@ make_tw {
   remove_tiddler        'StyleSheet'
   remove_tiddler        'MptwLayoutPlugin'
   remove_tiddler        'MptwUpgradeURL'
-  remove_tiddler        'MptwUpgradeTsURL'
   add_tiddler_from_file('misc/MptwUpgrade.pub')
-  add_tiddler_from_file('misc/MptwUpgradeTs.pub')
   remove_tiddler        'ViewTemplate'
   add_tiddler_from_file('layout/MptwViewTemplate.html').rename("ViewTemplate")
   remove_tiddler        'EditTemplate'

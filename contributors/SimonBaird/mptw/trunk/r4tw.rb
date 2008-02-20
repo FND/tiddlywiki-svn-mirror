@@ -6,7 +6,7 @@
 # r4tw is some ruby classes for manipuating TiddlyWikis and tiddlers.
 # It is similar to cook and ginsu but cooler.
 #
-# <i>$Rev: 2238 $</i>
+# <i>$Rev: 3475 $</i>
 # 
 # ===Known problems
 # from_remote_tw can be problematic if importing from a 2.1 TW into a 2.2 TW.
@@ -127,10 +127,11 @@ class Tiddler
   # used by from_file
   @@default_ext_tag_map = {
       '.js'      => %[systemConfig],
+      '.theme'   => %[systemTheme],
+      '.palette' => %[systemPalette],
       '.html'    => %[html],
       '.css'     => %[css],
-      '.pub'     => %[systemServer],
-      '.palette' => %[palette],
+      '.pub'     => %[contentPublisher],
   }
   
   attr_accessor :fields
@@ -298,6 +299,7 @@ class Tiddler
           use_pre and (
             # seems like we have to leave out modified if there is none
             (f == 'modified' and !@fields[f]) or
+            (f == 'modifier' and !@fields[f]) or
             # seems like we have to not print tags="" any more
             (f == 'tags' and (!@fields[f] or @fields[f].length == 0))
           )
@@ -320,6 +322,7 @@ class Tiddler
     else
       "<div #{fields_string.join(' ')}>#{@fields['text'].escapeLineBreaks.encodeHTML}</div>"
     end
+
 
   end
 
@@ -491,7 +494,7 @@ class TiddlyWiki
     # stupid ctrl (\r) char
     #@raw.eat_ctrl_m!
 
-    if @raw =~ /var version = \{title: "TiddlyWiki", major: 2, minor: 1/
+    if @raw !~ /var version = \{title: "TiddlyWiki", major: 2, minor: [23456]/ # fix me
       @use_pre = false
     end
 
@@ -746,7 +749,7 @@ end
 # A short hand for DSL style TiddlyWiki creation. Takes a block of TiddlyWiki methods that get instance_eval'ed
 #
 def make_tw(source=nil,&block)
-  tw = TiddlyWiki.new
+  tw = TiddlyWiki.new(true)
   tw.source_empty(source) if source
   tw.instance_eval(&block) if block
   tw
