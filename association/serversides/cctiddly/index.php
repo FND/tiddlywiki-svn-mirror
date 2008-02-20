@@ -65,6 +65,119 @@ $workspace_settings_count= count($workspace_settings);
 if ($tiddlyCfg['pref']['openid_enabled'] ==1)
 {
 		require_once "includes/o/common.php";
+		
+				
+		
+	 $consumer = getConsumer();
+
+	    // Complete the authentication process using the server's
+	    // response.
+	  echo   $return_to = getReturnTo();
+	    $response = $consumer->complete($return_to);
+		
+	    // Check the response stat		us.
+	    if ($response->status == Auth_OpenID_CANCEL) {
+	        // This means the authentication was cancelled.
+	        $msg = 'Verification cancelled.';
+	    } else if ($response->status == Auth_OpenID_FAILURE) {
+	        // Authentication failed; display the error message.
+	      $msg = "OpenID authentication failed: " . $response->message;
+	
+echo 	$oidmsg = $msg; 
+	    } else if ($response->status == Auth_OpenID_SUCCESS) {
+	    
+	
+	    // This means the authentication succeeded; extract the
+	        // identity URL and Simple Registration data (if it was
+	        // returned).
+	        $openid = $response->getDisplayIdentifier();
+	        $esc_identity = htmlspecialchars($openid, ENT_QUOTES);
+	   echo      $success = sprintf('You have successfully verified ' .
+	                           '<a href="%s">%s</a> as your identity.',
+	                           $esc_identity, $esc_identity);
+
+
+	        if ($response->endpoint->canonicalID) {
+	            $success .= '  (XRI CanonicalID: '.$response->endpoint->canonicalID.') ';
+	        }
+
+	        $sreg_resp = Auth_OpenID_SRegResponse::fromSuccessResponse($response);
+
+	        $sreg = $sreg_resp->contents();
+
+	        if (@$sreg['email']) {
+	            $success .= "  You also returned '".$sreg['email']."' as your email.";
+	        }
+
+	        if (@$sreg['nickname']) {
+	            $success .= "  Your nickname is '".$sreg['nickname']."'.";
+	        }
+
+	        if (@$sreg['fullname']) {
+	            $success .= "  Your fullname is '".$sreg['fullname']."'.";
+	        }
+
+
+		$pape_resp = Auth_OpenID_PAPE_Response::fromSuccessResponse($response);
+
+		if ($pape_resp) {
+		  if ($pape_resp->auth_policies) {
+		    $success .= "<p>The following PAPE policies affected the authentication:</p><ul>";
+
+		    foreach ($pape_resp->auth_policies as $uri) {
+		      $success .= "<li><tt>$uri</tt></li>";
+		    }
+
+		    $success .= "</ul>";
+		  } else {
+		    $success .= "<p>No PAPE policies affected the authentication.</p>";
+		  }
+
+		  if ($pape_resp->auth_age) {
+		    $success .= "<p>The authentication age returned by the " .
+		      "server is: <tt>".$pape_resp->auth_age."</tt></p>";
+		  }
+
+
+		  if ($pape_resp->nist_auth_level) {
+		    $success .= "<p>The NIST auth level returned by the " .
+		      "server is: <tt>".$pape_resp->nist_auth_level."</tt></p>";
+		  }
+
+		} else {
+		  $success .= "<p>No PAPE response was sent by the provider.</p>";
+		}
+
+	echo 	$oidmsg = $success;
+	                 user_set_session(urldecode(urldecode($esc_identity)), 'openID');
+
+					 $scheme = 'http';
+	    			if (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
+	       	 			$scheme .= 's';
+	    			}
+
+
+	                 header("location:".$scheme."://".$_SERVER['SERVER_NAME'].dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
+
+	    }
+		
+		
+			
+		
+		
+		
+		
+		
+		
+		
+		
+	
+		
+		
+		
+		
+		
+		
 }
 
 	//check if getting revision
@@ -442,6 +555,49 @@ config.macros.ccCreateWorkspace = {
 
 
 
+ 	config.macros.ccListWorkspaces = {
+ 	        handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+ 	                // When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+ 	                <?php
+ 	                $result = db_workspace_selectAllPublic();
+ 	                while ($row = db_fetch_assoc($result))
+ 	                {
+ 	                        echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['name']."&quot;);\n";
+ 	                        if( $tiddlyCfg['mod_rewrite']==1 ) {
+ 	                                echo "item.href= url+'/".$row['name']."';\n";
+ 	                        }else{
+ 	                                echo "item.href= url+'?workspace=".$row['name']."';\n";
+ 	                        }
+ 	                        echo "createTiddlyElement(place,&quot;br&quot;);";
+ 	                }
+ 	                ?>
+ 	                createTiddlyText(place, "a<?php echo  db_num_rows($result);?>");
+ 	        }
+ 	}
+
+
+
+ 	config.macros.ccListMyWorkspaces = {
+ 	        handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+ 	                // When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+ 	                <?php
+ 	                $result =  db_workspace_selectOwnedBy($user['username']);
+ 	                while ($row = db_fetch_assoc($result))
+ 	                {
+ 	                        echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['workspace_name']."&quot;);\n";
+ 	                        if( $tiddlyCfg['mod_rewrite']==1 ) {
+ 	                                echo "item.href= url+'/".$row['workspace_name']."';\n";
+ 	                        }else{
+ 	                                echo "item.href= url+'?workspace=".$row['workspace_name']."';\n";
+ 	                        }
+ 	                        echo "createTiddlyElement(place,&quot;br&quot;);";
+ 	                }
+ 	                ?>
+ 	                createTiddlyText(place, "\n Number or workspaces : <?php echo  db_num_rows($result);?>");
+ 	        }
+ 	}
+
+
 config.macros.ccEditWorkspace = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
 		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
@@ -568,8 +724,15 @@ config.macros.ccAbout = {
 |''Browser:''| Firefox |
 ***/
 //{{{
+<?php
 
-var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
+$scheme = 'http';
+if (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
+	$scheme .= 's';
+}
+
+?>
+var url = "<?php echo $scheme.$_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
 var workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 
 config.macros.ccUpload = {
@@ -729,7 +892,7 @@ config.macros.ccLoginStatus = {
 	        if ( cookieValues.sessionToken && cookieValues.sessionToken!== 'invalid' && cookieValues.txtUserName) {
   				createTiddlyElement(wrapper,&quot;br&quot;);
 				var name = decodeURIComponent(decodeURIComponent(cookieValues.txtUserName));
-				var str = wikify("You are logged in " + name, wrapper);
+				var str = wikify("Hi  " + name, wrapper);
 
 				var frm = createTiddlyElement(n,&quot;form&quot;,null);
 				frm.action = "";
@@ -760,6 +923,7 @@ config.macros.ccLoginStatus = {
 
 }
 	config.macros.ccLogin = {
+		
 	    handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 	       // var img = createTiddlyElement(place,&quot;img&quot;);
 	       // img.src = 'http://www.cot.org.uk/designforliving/companies/logos/bt.jpg ';

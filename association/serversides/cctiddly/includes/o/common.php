@@ -80,10 +80,10 @@ function getScheme() {
 }
 
 function getReturnTo() {
-    return sprintf("%s://%s:%s%s/finish_auth.php",
+    return sprintf("%s://%s:%s%s/",
                    getScheme(), $_SERVER['SERVER_NAME'],
                    $_SERVER['SERVER_PORT'],
-                   dirname($_SERVER['PHP_SELF']));
+                   dirname($_SERVER['PHP_SELF'])).'';
 }
 
 function getTrustRoot() {

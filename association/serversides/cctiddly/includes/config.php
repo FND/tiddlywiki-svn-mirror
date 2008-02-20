@@ -9,7 +9,7 @@
 	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
 	$tiddlyCfg['db']['pass'] = "";		//login password
-	$tiddlyCfg['db']['name'] = "cctw12";		//db name
+	$tiddlyCfg['db']['name'] = "cctw";		//db name
 
 	
 	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
@@ -91,7 +91,7 @@ If you got one of the following error message, that may mean your database do no
 	{
 		if (stristr($_SERVER['REDIRECT_URL'], 'msghandle.php')) {
 			include('./msghandle.php');
-			exit;
+			exit;	
 		}
 		$redirect_url = $_SERVER['REDIRECT_URL'];
 	}	

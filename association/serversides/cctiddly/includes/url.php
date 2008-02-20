@@ -21,8 +21,6 @@ else
 		
 }*/
 
-	
-
 	//$_SERVER['PHP_SELF']=    $_SERVER['SERVER_NAME'] .'/'.$tiddlyCfg['pref']['base_folder'].'/'.$workspace.'/';
 	
 

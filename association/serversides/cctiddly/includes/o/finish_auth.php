@@ -79,29 +79,21 @@ function run() {
 	  
 
 	  if ($pape_resp->nist_auth_level) {
-	    $success .= "<p>The NIST auth level returned by the " .
-	      "server is: <tt>".$pape_resp->nist_auth_level."</tt></p>";
+	    	$success .= "<p>The NIST auth level returned by the " .
+	  			"server is: <tt>".$pape_resp->nist_auth_level."</tt></p>";
 	  }
-
 	} else {
 	  $success .= "<p>No PAPE response was sent by the provider.</p>";
 	}
-	
-                 user_set_session(urldecode(urldecode($esc_identity)), 'openID');
+               	user_set_session(urldecode(urldecode($esc_identity)), 'openID');
 				
-				 $scheme = 'http';
+				$scheme = 'http';
     			if (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
        	 			$scheme .= 's';
     			}
-				
-				
-                 header("location:".$scheme."://".$_SERVER['SERVER_NAME'].dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
-                           
+		        header("location:".$scheme."://".$_SERVER['SERVER_NAME'].dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));                    
     }
-
     include 'index.php';
 }
-
 run();
-
 ?>

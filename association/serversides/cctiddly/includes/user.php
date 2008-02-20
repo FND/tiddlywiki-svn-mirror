@@ -21,7 +21,6 @@
 	// TODO : REMOVE verified = 1
 	function user_create($username="", $group="", $verified=-1, $id="", $password="", $reqHash = 0)
 	{
-		//global $user;
 		$user = array();
 		$user['id'] = (strlen($id)>0?(int)$id:"");		//if empty, leave it as empty. otherwise make it as int
 		//get username from cookie if nothing is passed

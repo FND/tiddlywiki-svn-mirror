@@ -165,7 +165,7 @@ window.cct_tweak = function(){
 	
 	
 	//change SideBarOption panel to add login panel
-		config.shadowTiddlers.SideBarOptions = config.shadowTiddlers.SideBarOptions+"<<ccLoginStatus>>";
+		config.shadowTiddlers.SideBarOptions = "<<ccLoginStatus>>"+ config.shadowTiddlers.SideBarOptions;
 
 	
 		config.shadowTiddlers.ViewTemplate = config.shadowTiddlers.ViewTemplate.replace(/references jump/,'references revisions jump');
