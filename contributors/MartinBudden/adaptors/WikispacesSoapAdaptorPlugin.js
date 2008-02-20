@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#WikispacesSoapAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js |
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|Feb 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -17,7 +17,18 @@ To make this example into a real TiddlyWiki adaptor, you need to:
 ## Fill in the uri templates in the .prototype functions
 ## Parse the responseText returned in the Callback functions and put the results in the appropriate variables
 
+''For debug:''
+|''Default Wikispaces username''|<<option txtWikispacesUsername>>|
+|''Default Wikispaces password''|<<option txtWikispacesPassword>>|
+
 ***/
+//{{{
+// For debug:
+if(!config.options.txtWikispacesUsername)
+	{config.options.txtWikispacesUsername = '';}
+if(!config.options.txtWikispacesPassword)
+	{config.options.txtWikispacesPassword = '';}
+//}}}
 
 //{{{
 //# Ensure that the plugin is only installed once.
@@ -56,7 +67,6 @@ WikispacesSoapAdaptor.prototype.setContext = function(context,userParams,callbac
 	context.host = WikispacesSoapAdaptor.fullHostName(context.host);
 	if(!context.workspace)
 		context.workspace = this.workspace;
-//console.log('setContext:'+context.host);
 	return context;
 };
 
@@ -73,7 +83,7 @@ WikispacesSoapAdaptor.fullHostName = function(host)
 
 WikispacesSoapAdaptor.SoapUri = function(context,uriTemplate)
 {
-	return uriTemplate.format(['http://tw-test.wikispaces.com']);
+	return uriTemplate.format(['http://'+context.workspace+'.'+WikispacesSoapAdaptor.minHostName(context.host)]);
 };
 
 WikispacesSoapAdaptor.minHostName = function(host)
@@ -116,8 +126,8 @@ console.log('login:'+context.host);
 	var uri = WikispacesSoapAdaptor.SoapUri(context,'%0/site/api');
 console.log('uri:'+uri);
 	var pl = new SOAPClientParameters();
-	pl.add('username','');
-	pl.add('password','');
+	pl.add('username',config.options.txtWikispacesUsername);
+	pl.add('password',config.options.txtWikispacesPassword);
 	SOAPClient.invoke(uri,'login',pl,true,WikispacesSoapAdaptor.loginCallback,context);
 };
 
@@ -140,7 +150,7 @@ console.log('loginCallback');
 
 WikispacesSoapAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
-console.log('openHost');
+console.log('openHost:'+host);
 	this.host = WikispacesSoapAdaptor.fullHostName(host);
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
@@ -152,7 +162,7 @@ console.log('openHost');
 
 WikispacesSoapAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
-console.log('openWorkspace');
+console.log('openWorkspace:'+workspace);
 	this.workspace = workspace;
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
@@ -166,8 +176,10 @@ WikispacesSoapAdaptor.prototype.getWorkspaceList = function(context,userParams,c
 {
 console.log('getWorkspaceList');
 	context = this.setContext(context,userParams,callback);
+	var workspace = userParams.getValue("feedWorkspace");//!! kludge until core fixed
 	var list = [];
-	list.push({title:"tw-test",name:"tw-test"});
+	list.push({title:workspace,name:workspace});
+	context.workspace = workspace;
 	context.workspaces = list;
 	return this.complete(context,WikispacesSoapAdaptor.getWorkspaceListComplete);
 };
@@ -187,21 +199,17 @@ console.log('uri:'+uri);
 WikispacesSoapAdaptor.getWorkspaceListCallback = function(r,x,context)//(status,context,responseText,uri,xhr)
 {
 console.log('getWorkspaceListCallback');
-console.log(r);
+//console.log(r);
 //console.log(x);
-//console.log(x.documentElement.textContent);
 	var status = r instanceof Error ? false : true;
 	context.status = false;
+	function gev(p,i,n) {
+		return p[i].getElementsByTagName(n)[0].childNodes[0].nodeValue;
+	}
 	if(status) {
 		try {
-			var spaceStruct = x.documentElement.textContent;
-			var mRe = /\n*(.*)/mg;
-			mRe.lastIndex = 0;
-			var m = mRe.exec(spaceStruct);
-			console.log(m);
-			if(m) {
-				context.workspaceId = m[1];
-			}
+			var p = x.getElementsByTagName('space');
+			context.workspaceId = gev(p,0,'id');
 console.log("workspaceId:"+context.workspaceId);
 		} catch (ex) {
 			context.statusText = exceptionText(ex,WikispacesSoapAdaptor.serverParsingErrorMessage);
@@ -244,15 +252,38 @@ WikispacesSoapAdaptor.getTiddlerListCallback = function(r,x,context)//(status,co
 {
 console.log('getTiddlerListCallback');
 console.log(r);
+console.log(x);
 	var status = r instanceof Error ? false : true;
 	context.status = false;
 	context.statusText = WikispacesSoapAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
+	function gev(p,i,n) {
+		return p[i].getElementsByTagName(n)[0].childNodes[0].nodeValue;
+	}
 	if(status) {
 		try {
-// !!TODO: parse the responseText here
+// /envelope/body/listpagesresponse/pagelist/page[0]/name
 			var list = [];
-			var tiddler = new Tiddler('example');
-			list.push(tiddler);
+			var p = x.getElementsByTagName('page');
+			//console.log(p);
+			for(var i = 0;i<p.length;i++) {
+				console.log(p[i]);
+				//console.log(p[i].getElementsByTagName('name')[0].childNodes[0].nodeValue);
+				var title = gev(p,i,'name');
+				if(title.indexOf('._')!=0 && !store.isShadowTiddler(title)) {
+					var tiddler = new Tiddler(title);
+					//tiddler.modified = WikispacesSoapAdaptor.dateFromEditTime(gev(p,i,'date_created'));
+					//tiddler.modifier = gev();
+					tiddler.tags = '';
+					tiddler.text = gev(p,i,'content');
+					tiddler.fields['server.modifier.id'] = gev(p,i,'user_created');
+					tiddler.fields['server.page.id'] = gev(p,i,'id');
+					tiddler.fields['server.page.revision'] = gev(p,i,'versionId');
+					tiddler.fields.workspaceId = gev(p,i,'spaceId');
+					tiddler.fields.wikiformat = 'wikispaces';
+					tiddler.fields['server.host'] = WikispacesSoapAdaptor.minHostName(context.host);
+					list.push(tiddler);
+				}
+			}
 		} catch (ex) {
 			context.statusText = exceptionText(ex,WikispacesSoapAdaptor.serverParsingErrorMessage);
 			if(context.callback)
@@ -289,8 +320,19 @@ WikispacesSoapAdaptor.prototype.getTiddlerRevision = function(title,revision,con
 
 WikispacesSoapAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
-console.log('getTiddler');
+console.log('getTiddler:'+title);
 	context = this.setContext(context,userParams,callback);
+	/*if(context.tiddlers && !context.revision) {
+		var i = context.tiddlers.findByField('title',title);
+		if(i!=-1) {
+			context.tiddler = context.tiddlers[i];
+			context.tiddlers = null;
+			context.status = true;
+			window.setTimeout(function() {callback(context,userParams);},0);
+			return;
+		}
+	}*/
+
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields.wikiformat = 'wikispaces';
 	context.tiddler.fields['server.type'] = WikispacesSoapAdaptor.serverType;
@@ -302,19 +344,20 @@ console.log('getTiddler');
 
 WikispacesSoapAdaptor.getTiddlerComplete = function(context,userParams)
 {
-console.log('getTiddlerComplete');
+console.log('getTiddlerComplete:'+context.tiddler.title);
 	var uri = WikispacesSoapAdaptor.SoapUri(context,'%0/page/api');
 console.log('uri:'+uri);
 	var pl = new SOAPClientParameters();
 	pl.add('session',context.sessionToken);
-	pl.add('spaceId',context.workspaceId);
+	pl.add('spaceId',context.tiddler.fields.workspaceId);
 	pl.add('name',context.tiddler.title);
+//console.log(pl);
 	SOAPClient.invoke(uri,'getPage',pl,true,WikispacesSoapAdaptor.getTiddlerCallback,context);
 };
 
 WikispacesSoapAdaptor.getTiddlerRevisionComplete = function(context,userParams)
 {
-console.log('getTiddlerComplete');
+console.log('getTiddlerRevisionComplete:'+context.tiddler.title);
 	var uri = WikispacesSoapAdaptor.SoapUri(context,'%0/page/api');
 console.log('uri:'+uri);
 	var pl = new SOAPClientParameters();
@@ -331,18 +374,32 @@ console.log('getTiddlerCallback');
 	var status = r instanceof Error ? false : true;
 	context.status = false;
 	context.statusText = WikispacesSoapAdaptor.errorInFunctionMessage.format(['getTiddlerCallback']);
+	function gev(p,i,n) {
+		return p[i].getElementsByTagName(n)[0].childNodes[0].nodeValue;
+	}
 	if(status) {
 		try {
-// !!TODO: parse the responseText here
-// !!TODO: fill in tiddler fields as available
-			context.tiddler.tags = '';
-			//context.tiddler.fields['server.page.id'] = ;
-			//context.tiddler.fields['server.page.name'] = ;
-			//context.tiddler.fields['server.page.revision'] = String(...);
-			//context.tiddler.modifier = ;
-			//context.tiddler.modified = WikispacesSoapAdaptor.dateFromEditTime(...);
+			var p = x.getElementsByTagName('page');
+			//console.log(p);
+			var i = 0;
+			var tiddler = context.tiddler;
+			tiddler.tags = '';
+			tiddler.text = gev(p,i,'content');
+			tiddler.fields['server.modifier.id'] = gev(p,i,'user_created');
+			tiddler.fields['server.page.id'] = gev(p,i,'id');
+			tiddler.fields['server.page.revision'] = gev(p,i,'versionId');
+			tiddler.fields.workspace = context.workspace;
+			tiddler.fields.workspaceId = gev(p,i,'spaceId');
+			tiddler.fields.wikiformat = 'wikispaces';
+			tiddler.fields['server.host'] = WikispacesSoapAdaptor.minHostName(context.host);
+
+			//tiddler.fields['server.page.name'] = ;
+			//tiddler.modified = WikispacesSoapAdaptor.dateFromEditTime(...);
+			context.tiddler = tiddler;
+			context.status = true;
 		} catch (ex) {
 			context.statusText = exceptionText(ex,WikispacesSoapAdaptor.serverParsingErrorMessage);
+			console.log(statusText);
 			if(context.callback)
 				context.callback(context,context.userParams);
 			return;
