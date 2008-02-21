@@ -1,12 +1,9 @@
-tiddler: AgendaItemsTemplate.tiddler
-tiddler: AgendaDay0.tiddler
-tiddler: AgendaDay1.tiddler
-tiddler: AgendaDay2.tiddler
-tiddler: AgendaMenu.tiddler
-tiddler: AgendaSubItemsTemplate.tiddler
-tiddler: FAQs.tiddler
-tiddler: Help.tiddler
 tiddler: Welcome.tiddler
 
+tiddler: AgendaMenu.tiddler
+tiddler: AgendaDay1.tiddler
+tiddler: AgendaDay2.tiddler
+tiddler: AgendaDay3.tiddler
 
-
+tiddler: AgendaItemsTemplate.tiddler
+tiddler: AgendaSubItemsTemplate.tiddler

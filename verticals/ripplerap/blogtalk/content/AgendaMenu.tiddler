@@ -1,7 +1,7 @@
-<div title="AgendaMenu" modifier="PhilHawksworth" modified="200802070000">
+<div title="AgendaMenu" modifier="PaulDowney" modified="200711280946" changecount="5">
 <pre><<tabs txtMainTab 
-	"Mar 2nd" "Day 0 agenda" AgendaDay0
-	"Mar 3rd" "Day 1 agenda" AgendaDay1
-	"Mar 4th" "Day 2 agenda" AgendaDay2>>
-</pre>
+	"2nd March 2008" "2nd March Agenda" AgendaDay1 
+	"3rd March 2008" "3rd March Agenda" AgendaDay2
+	"4th March 2008" "4th March Agenda" AgendaDay3
+>></pre>
 </div>
