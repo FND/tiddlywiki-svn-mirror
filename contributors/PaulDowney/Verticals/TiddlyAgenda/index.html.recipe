@@ -1,0 +1,12 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+
+tiddler: ../../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
+tiddler: ../../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
+tiddler: ../../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
+
+tiddler: ../../../../verticals/ripplerap/plugins/TaggedTemplateTweak.js
+tiddler: ../../../../verticals/ripplerap/plugins/ToggleElementPlugin.js
+tiddler: ../../../../verticals/ripplerap/plugins/MakeNotesControlPlugin.js
+
+recipe: shadows/split.recipe
+recipe: content/split.recipe
