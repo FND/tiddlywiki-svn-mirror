@@ -1,9 +1,27 @@
-tiddler: Welcome.tiddler
-
-tiddler: AgendaMenu.tiddler
+tiddler: About_your_password.tiddler
+tiddler: About_your_username.tiddler
+tiddler: AccountDetails.tiddler
+tiddler: AgendaDay0.tiddler
 tiddler: AgendaDay1.tiddler
 tiddler: AgendaDay2.tiddler
-tiddler: AgendaDay3.tiddler
-
 tiddler: AgendaItemsTemplate.tiddler
+tiddler: AgendaMenu.tiddler
 tiddler: AgendaSubItemsTemplate.tiddler
+tiddler: CamelCase.tiddler
+tiddler: Double_square_brackets.tiddler
+tiddler: FAQs.tiddler
+tiddler: Formatting_TiddlyWikis.tiddler
+tiddler: HeaderControls.tiddler
+tiddler: Help.tiddler
+tiddler: How_sharing_works.tiddler
+tiddler: NoteEditTemplate.tiddler
+tiddler: NoteViewTemplate.tiddler
+tiddler: REST.tiddler
+tiddler: Safari_and_Opera_configuration.tiddler
+tiddler: SampleDiscoveredNotes.tiddler
+tiddler: Setup_Instructions.tiddler
+tiddler: Share_notes.tiddler
+tiddler: SignInOption.tiddler
+tiddler: TiddlySaver.tiddler
+tiddler: TiddlyWiki.tiddler
+tiddler: Welcome.tiddler

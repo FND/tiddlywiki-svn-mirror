@@ -1,0 +1,9 @@
+<div title="NoteViewTemplate" tags="excludeLists excludeSearch">
+<pre><!--{{{-->
+<div class='myNotes'>
+	<div class='toolbar' macro='toolbar closeTiddler +editTiddler'></div>
+	<div class="noteOptions" macro="MakeNotesControl sharing"></div>
+	<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}--></pre>
+</div>

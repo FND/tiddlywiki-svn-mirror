@@ -1,0 +1,15 @@
+<div title="Setup_Instructions" modifier="YourName" created="200711291946" modified="200802151110" changecount="23">
+<pre>1. Copy the ~RippleRap file to your desktop and open it in your browser from there. <<browser is Gecko>>
+''Note:'' If you see dialog boxes asking your permission for the local file operations, allow these for ~RippleRap to work properly. You can select the //Remember this decision// option to avoid seeing the dialogs in future.
+>><<browser is IE>>
+//''Note:'' Because you are using Internet Explorer, you may see dialog boxes asking your permission for the local file operations, allow these for ~RippleRap to work properly.//
+>><<browser is Opera>>
+//''Note:'' Because you are using Opera, you will also need to install the TiddlySaver java applet.//
+>><<browser is Safari>>
+//''Note:'' Because you are using Safari, you will also need to install the TiddlySaver java applet.//
+>>
+2. Enter a name and password, and then click the big pink button. At this point, ~RippleRap will save your settings - refresh the file in your browser if you want to make sure. If they were saved, you're ready to go! If not, come on by the Osmosoft stall and we'll help you out, or [[click here for support|Help]].
+
+<<tiddler AccountDetails>>
+Note: Don't use the browser's //File > Save As...// function. Since ~RippleRap saves your changes automatically, there's no need.</pre>
+</div>

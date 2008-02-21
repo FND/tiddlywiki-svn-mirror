@@ -1,9 +1,9 @@
-<div title="Welcome" modifier="PhilHawksworth" created="200711291946">
-<pre>With ~RippleRap you can:
-*Manage your conference notes - offline!
-*Share your notes with other delegates!
-!!Setup instructions
-
-<<accountManager SignInOption Setup_Instructions>>
-</pre>
+<div title="Welcome" modifier="YourName" created="200711291946" modified="200802151133" changecount="30">
+<pre>With ~RippleRap:
+*Have easy access to the ''~BlogTalk agenda''
+*Manage your conference notes ''offline''
+*''Share your notes'' with other delegates
+*''See what's said'' - read conference notes from sessions you may have missed
+!!Setup instructions 
+<<accountManager SignInOption Setup_Instructions>></pre>
 </div>

@@ -1,0 +1,8 @@
+<div title="AccountDetails" modifier="YourName" created="200712071041" modified="200802151108" changecount="2">
+<pre>{{layoutTable{
+|''Name'' |''Password''|
+|<<option txtUserName>> |<<option txtRipplerapAccountPassword>> |
+|<<MakeNotesControl sharing>> Share my notes|
+|>|<<ripplerapAccountButton signup>>|
+}}}</pre>
+</div>
