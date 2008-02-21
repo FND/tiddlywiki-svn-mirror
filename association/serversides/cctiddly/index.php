@@ -53,10 +53,48 @@ if ($workspace_permissions == "")
 	$workspace_permissions = "DDDD";
 }
 
-$workspace_read = substr($workspace_permissions, 0, 1);
-$workspace_create = substr($workspace_permissions, 1, 1);
-$workspace_udate = substr($workspace_permissions, 2, 1);
-$workspace_delete = substr($workspace_permissions, 3, 1);
+
+
+//////////////
+//  Can this use an existing function ?!?!?!
+
+//  SET WORKSPACE CREATE PERMISSION FLAG
+if (substr($workspace_permissions, 1, 1) == "U")
+{
+	$workspace_create = $tiddlyCfg['privilege_misc']['undefined_privilege'];
+}else{
+	$workspace_create = substr($workspace_permissions, 1, 1);
+}
+
+
+//  SET WORKSPACE READ PERMISSION FLAG
+if (substr($workspace_permissions, 0, 1) == "U")
+{
+	$workspace_read = $tiddlyCfg['privilege_misc']['undefined_privilege'];
+}else{
+	$workspace_read = substr($workspace_permissions, 0, 1);
+}
+
+//  SET WORKSPACE UDATE PERMISSION FLAG
+if (substr($workspace_permissions, 2, 1) == "U")
+{
+	$workspace_udate = $tiddlyCfg['privilege_misc']['undefined_privilege'];
+}else{
+	$workspace_udate = substr($workspace_permissions, 2, 1);
+}
+
+
+//  SET WORKSPACE DELETE PERMISSION FLAG
+if (substr($workspace_permissions, 2, 1) == "U")
+{
+	$workspace_delete = $tiddlyCfg['privilege_misc']['undefined_privilege'];
+}else{
+	$workspace_delete = substr($workspace_permissions, 2, 1);
+}
+
+//
+////////////////////////////////////////////
+
 $workspace_settings_count= count($workspace_settings);
 //echo $user['verified'];
 //echo $workspace_permissions;
