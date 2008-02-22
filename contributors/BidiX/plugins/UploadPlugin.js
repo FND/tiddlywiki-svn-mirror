@@ -1,22 +1,22 @@
 /***
 |''Name:''|UploadPlugin|
 |''Description:''|Save to web a TiddlyWiki|
-|''Version:''|4.1.1|
-|''Date:''|Sep 15, 2007|
+|''Version:''|4.1.2|
+|''Date:''|Feb 23, 2008|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadPlugin|
 |''Documentation:''|http://tiddlywiki.bidix.info/#UploadPluginDoc|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
-|''~CoreVersion:''|2.2.0 (#3125)|
+|''~CoreVersion:''|2.2.0|
 |''Requires:''|PasswordOptionPlugin|
 ***/
 //{{{
 version.extensions.UploadPlugin = {
-	major: 4, minor: 1, revision: 1,
-	date: new Date("Sep 15, 2007"),
+	major: 4, minor: 1, revision: 2,
+	date: new Date("Feb 23, 2008"),
 	source: 'http://tiddlywiki.bidix.info/#UploadPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
-	coreVersion: '2.2.0 (#3125)'
+	coreVersion: '2.2.0'
 };
 
 //
@@ -73,6 +73,7 @@ config.macros.upload.handler = function(place,macroName,params) {
 config.macros.upload.action = function(params)
 {
 		// for missing macro parameter set value from options
+		if (!params) params = {};
 		var storeUrl = params[0] ? params[0] : config.options.txtUploadStoreUrl;
 		var toFilename = params[1] ? params[1] : config.options.txtUploadFilename;
 		var backupDir = params[2] ? params[2] : config.options.txtUploadBackupDir;
@@ -154,12 +155,12 @@ config.macros.uploadOptions = {
 			"txtUploadFilename",
 			"txtUploadBackupDir",
 			"chkUploadLog",
-			"txtUploadLogMaxLine",
-			]
+			"txtUploadLogMaxLine"
+			];
 		var opts = [];
 		for(i=0; i<uploadOpts.length; i++) {
 			var opt = {};
-			opts.push()
+			opts.push();
 			opt.option = "";
 			n = uploadOpts[i];
 			opt.name = n;
@@ -197,7 +198,7 @@ config.macros.uploadOptions = {
 		rowClasses: [
 			{className: 'lowlight', field: 'lowlight'} 
 			]}
-}
+};
 
 //
 // upload functions
@@ -250,7 +251,7 @@ bidix.upload.uploadChanges = function(onlyIfDirty,tiddlers,storeUrl,toFilename,u
 		saveChanges();
 	}
 	// get original
-	var uploadParams = Array(storeUrl,toFilename,uploadDir,backupDir,username,password);
+	var uploadParams = new Array(storeUrl,toFilename,uploadDir,backupDir,username,password);
 	var originalPath = document.location.toString();
 	// If url is a directory : add index.html
 	if (originalPath.charAt(originalPath.length-1) == "/")
@@ -261,7 +262,7 @@ bidix.upload.uploadChanges = function(onlyIfDirty,tiddlers,storeUrl,toFilename,u
 	displayMessage(bidix.upload.messages.aboutToSaveOnHttpPost.format([dest]));
 	if (bidix.debugMode) 
 		alert("about to execute Http - GET on "+originalPath);
-	var r = doHttp("GET",originalPath,null,null,null,null,callback,uploadParams,null);
+	var r = doHttp("GET",originalPath,null,null,username,password,callback,uploadParams,null);
 	if (typeof r == "string")
 		displayMessage(r);
 	return r;
@@ -281,7 +282,7 @@ bidix.upload.uploadRss = function(uploadParams,original,posDiv)
 	// do uploadRss
 	if(config.options.chkGenerateAnRssFeed) {
 		var rssPath = uploadParams[1].substr(0,uploadParams[1].lastIndexOf(".")) + ".xml";
-		var rssUploadParams = Array(uploadParams[0],rssPath,uploadParams[2],'',uploadParams[4],uploadParams[5]);
+		var rssUploadParams = new Array(uploadParams[0],rssPath,uploadParams[2],'',uploadParams[4],uploadParams[5]);
 		var rssString = generateRss();
 		// no UnicodeToUTF8 conversion needed when location is "file" !!!
 		if (document.location.toString().substr(0,4) != "file")
@@ -356,7 +357,7 @@ bidix.upload.httpUpload = function(uploadParams,data,callback,params)
 	strailer = "\r\n--" + boundary + "--\r\n";
 	data = sheader + data + strailer;
 	if (bidix.debugMode) alert("about to execute Http - POST on "+uploadParams[0]+"\n with \n"+data.substr(0,500)+ " ... ");
-	var r = doHttp("POST",uploadParams[0],data,"multipart/form-data; boundary="+boundary,uploadParams[4],uploadParams[5],localCallback,params,null);
+	var r = doHttp("POST",uploadParams[0],data,"multipart/form-data; ;charset=UTF-8; boundary="+boundary,uploadParams[4],uploadParams[5],localCallback,params,null);
 	if (typeof r == "string")
 		displayMessage(r);
 	return r;
