@@ -8,5 +8,18 @@ tiddler: ../../../../verticals/ripplerap/plugins/TaggedTemplateTweak.js
 tiddler: ../../../../verticals/ripplerap/plugins/ToggleElementPlugin.js
 tiddler: ../../../../verticals/ripplerap/plugins/MakeNotesControlPlugin.js
 
-recipe: shadows/split.recipe
-recipe: content/split.recipe
+tiddler: ColorPalette.tiddler
+tiddler: StyleSheet.tiddler
+
+tiddler: PageTemplate.tiddler
+tiddler: MainMenu.tiddler
+tiddler: DefaultTiddlers.tiddler
+tiddler: HeaderControls.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteUrl.tiddler
+
+tiddler: ViewTemplate.tiddler
+tiddler: EditTemplate.tiddler
+
+tiddler: Agenda.tiddler

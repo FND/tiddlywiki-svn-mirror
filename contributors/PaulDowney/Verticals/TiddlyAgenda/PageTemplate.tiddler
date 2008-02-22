@@ -1,0 +1,20 @@
+<div title="PageTemplate" tags="excludeLists excludeSearch">
+<pre><!--{{{-->
+<div id='messageArea'></div>
+<div class='header' >
+<div class='headerShadow'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div class='headerForeground'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div class='headerControls' refresh='content' tiddler='HeaderControls'></div>
+</div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='displayArea'>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}--></pre>
+</div>
