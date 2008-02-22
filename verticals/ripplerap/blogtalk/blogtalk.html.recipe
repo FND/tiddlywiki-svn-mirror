@@ -12,7 +12,7 @@ tiddler: ../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
 
 recipe: ../shadows/split.recipe
 recipe: ../plugins/split.recipe
-recipe: ../content/split.recipe
+#recipe: ../content/split.recipe
 
 recipe: shadows/split.recipe
 recipe: content/split.recipe
