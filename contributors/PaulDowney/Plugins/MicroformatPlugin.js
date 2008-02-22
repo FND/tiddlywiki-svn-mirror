@@ -9,17 +9,17 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.2|
 
-
-Usage:
-<<Microformat className [value] [format]>>
-
-Currently produces a date value ..
+Create hCalendar abbr:
+<<dtstart [storeName|'YYYYMMDDHHMM'] [dateFormatString]>>
+<<dtend [storeName|'YYYYMMDDHHMM'] [dateFormatSting]>>
 
 ***/
 
 //{{{
 if(!version.extensions.Microformat) {
 version.extensions.Microformat = {installed:true};
+
+	config.options.timeFormat = "0hh:0mm";
 	
 	config.macros.dtstart = {};
 	config.macros.dtstart.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -34,19 +34,29 @@ version.extensions.Microformat = {installed:true};
 	Microformat_abbr = function(place,macroName,params,wikifier,paramString,tiddler) {
 
 		className = macroName;
-		var format = "";
+		format = config.options.timeFormat;
 
+		// date is in TiddlyWiki YYYYMMMDDHHMM format
 		if(params[0]) {
-		    value = store.getValue(tiddler,params[0]);
-		}
-		if(params[1]) {
-		    format = store.getValue(tiddler,params[1]);
+		    if(params[0].match(/^[\'\"]/)) {
+			value = params[0].replace(/[\'\"]/g, "");
+		    }else{
+			value = store.getValue(tiddler,params[0]);
+		    }
 		}
 
-		// assumes date is in TiddlyWiki YYYYMMMDDHHMM format
+		// formatDateString
+		if(params[1]) {
+			format = params[1].replace(/[\'\"]/g, "");
+		}
+
+		d = Date.convertFromYYYYMMDDHHMM(value);
+		var text = d.formatString(format);
+
 		// microformats is ISO YYYY-MM-DDTHH:MM:SS format
-		var text = value.substr(8,2) + ":" + value.substr(10,2);
-		var iso = value.substr(0,4) + "-" + value.substr(4,2) + "-" + value.substr(6,2) + "T" + text + ":00";
+
+		var iso = value.substr(0,4) + "-" + value.substr(4,2) + "-" + value.substr(6,2) 
+			+ "T" + value.substr(8,2) + ":" + value.substr(10,2) + ":00";
 
 		var e = createTiddlyElement(place,'abbr',null,null);
 		e.setAttribute('title',iso);
