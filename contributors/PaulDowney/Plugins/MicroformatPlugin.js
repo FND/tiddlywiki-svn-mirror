@@ -1,12 +1,11 @@
 /***
 |''Name:''|MicroformatPlugin|
 |''Description:''|Assist constructing Microformats in a TiddlyWiki|
-|''Author:''|PaulDowney|
+|''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/Plugins/MicroformatPlugin.js |
-|''Version:''|0.0.1|
-|''Date:''|Dec 03, 2007|
+|''Version:''|0.1|
+|''License:''|[[BSD open source license]]|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.2|
 
 Create hCalendar abbr:
@@ -38,8 +37,8 @@ version.extensions.Microformat = {installed:true};
 
 		// date is in TiddlyWiki YYYYMMMDDHHMM format
 		if(params[0]) {
-		    if(params[0].match(/^[\'\"]/)) {
-			value = params[0].replace(/[\'\"]/g, "");
+		    if(params[0].match(/^\d/)) {
+			value = params[0];
 		    }else{
 			value = store.getValue(tiddler,params[0]);
 		    }
@@ -47,7 +46,7 @@ version.extensions.Microformat = {installed:true};
 
 		// formatDateString
 		if(params[1]) {
-			format = params[1].replace(/[\'\"]/g, "");
+			format = params[1];
 		}
 
 		d = Date.convertFromYYYYMMDDHHMM(value);
