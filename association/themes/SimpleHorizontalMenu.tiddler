@@ -1,0 +1,31 @@
+<div title="SimpleHorizontalMenu" modifier="MartinBudden" created="200802220000" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|SimpleHorizontalMenu|
+|''Description:''|A simple theme with a horizontal menu|
+|''Author:''|Martin Budden|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/SimpleHorizontalMenu.tiddler |
+|''Version:''|1.0|
+|''Date:''|Feb 22, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+
+!StyleSheet
+/*{{{*/
+#mainMenu {position:relative;left:auto;width:auto;text-align:left;line-height:normal;padding 0em 1em 0em 1em;font-size:normal;}
+#mainMenu br {display:none;}
+#mainMenu {background:#336699;}
+#mainMenu {padding:2px;}
+#mainMenu .button, #mainMenu .tiddlyLink {padding-left:0.5em;padding-right:0.5em;color:white;font-size:115%;}
+
+#displayArea {
+	margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:1em;
+	padding-top:.1em;padding-bottom:.1em;
+}
+/*}}}*/
+</pre>
+</div>
