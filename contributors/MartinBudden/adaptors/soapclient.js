@@ -1,119 +1,130 @@
 /***
 |''Name:''|soapclient|
-|''Description:''|A thin TiddlyWiki wrapper around Matteo's Javascript "SOAP Client" library|
-|''Author:''|Matteo Casati - http://www.guru4.net/ author original library|
+|''Description:''|A thin TiddlyWiki wrapper around Matteo Casati's JavaScript 'SOAP Client' library|
+|''Author:''|Martin Budden|
 |''Source:''|http://www.codeplex.com/JavaScriptSoapClient location of original library|
-|''Version:''|2.4|
+|''Version:''|0.1.0|
 |''Date:''|Dec 21, 2007|
 |''License:''|[[GNU General Public License (GPL) v2|see http://www.codeplex.com/JavaScriptSoapClient/license]] |
 |''~CoreVersion:''|2.3.0|
+
+This plugin is a thin wrapper around version 2.4 of Matteo Casati's (contactable at http://www.guru4.net/ )
+JavaScript 'SOAP Client' library. It is licensed under GPL v2 (see above).
+
+The original source can be obtained at http://www.codeplex.com/JavaScriptSoapClient
+
+There are two significant changes to allow the use of the library by TiddlyWiki adaptors:
+
+i) the addition of a token parameter to the SOAPClient.invoke function, this token is then passed back to the callback
+ii) setting "UniversalBrowserRead" privileges where required, so functions can be called from a file url
 
 ***/
 
 //{{{
 //# Ensure that the plugin is only installed once.
-if(!version.extensions.MediaWikiAdaptorPlugin) {
-version.extensions.MediaWikiAdaptorPlugin = {installed:true};
+if(!version.extensions.SOAPClient) {
+version.extensions.SOAPClient = {installed:true};
 
 function SOAPClientParameters()
 {
 	var _pl = new Array();
-	this.add = function(name, value) 
+	this.add = function(name, value)
 	{
-		_pl[name] = value; 
-		return this; 
+		_pl[name] = value;
+		return this;
 	};
 	this.toXml = function()
 	{
 		var xml = "";
 		for(var p in _pl)
 		{
-			switch(typeof(_pl[p])) 
+			switch(typeof(_pl[p]))
 			{
-                case "string":
-                case "number":
-                case "boolean":
-                case "object":
-                    xml += "<" + p + ">" + SOAPClientParameters._serialize(_pl[p]) + "</" + p + ">";
-                    break;
-                default:
-                    break;
-            }
+			case "string":
+			case "number":
+			case "boolean":
+			case "object":
+				xml += "<" + p + ">" + SOAPClientParameters._serialize(_pl[p]) + "</" + p + ">";
+				break;
+			default:
+				break;
+			}
 		}
-		return xml;	
+		return xml;
 	};
 };
 SOAPClientParameters._serialize = function(o)
 {
-    var s = "";
-    switch(typeof(o))
-    {
-        case "string":
-            s += o.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); break;
-        case "number":
-        case "boolean":
-            s += o.toString(); break;
-        case "object":
-            // Date
-            if(o.constructor.toString().indexOf("function Date()") > -1)
-            {
-        
-                var year = o.getFullYear().toString();
-                var month = (o.getMonth() + 1).toString(); month = (month.length == 1) ? "0" + month : month;
-                var date = o.getDate().toString(); date = (date.length == 1) ? "0" + date : date;
-                var hours = o.getHours().toString(); hours = (hours.length == 1) ? "0" + hours : hours;
-                var minutes = o.getMinutes().toString(); minutes = (minutes.length == 1) ? "0" + minutes : minutes;
-                var seconds = o.getSeconds().toString(); seconds = (seconds.length == 1) ? "0" + seconds : seconds;
-                var milliseconds = o.getMilliseconds().toString();
-                var tzminutes = Math.abs(o.getTimezoneOffset());
-                var tzhours = 0;
-                while(tzminutes >= 60)
-                {
-                    tzhours++;
-                    tzminutes -= 60;
-                }
-                tzminutes = (tzminutes.toString().length == 1) ? "0" + tzminutes.toString() : tzminutes.toString();
-                tzhours = (tzhours.toString().length == 1) ? "0" + tzhours.toString() : tzhours.toString();
-                var timezone = ((o.getTimezoneOffset() < 0) ? "+" : "-") + tzhours + ":" + tzminutes;
-                s += year + "-" + month + "-" + date + "T" + hours + ":" + minutes + ":" + seconds + "." + milliseconds + timezone;
-            }
-            // Array
-            else if(o.constructor.toString().indexOf("function Array()") > -1)
-            {
-                for(var p in o)
-                {
-                    if(!isNaN(p))   // linear array
-                    {
-                        (/function\s+(\w*)\s*\(/ig).exec(o[p].constructor.toString());
-                        var type = RegExp.$1;
-                        switch(type)
-                        {
-                            case "":
-                                type = typeof(o[p]);
-                            case "String":
-                                type = "string"; break;
-                            case "Number":
-                                type = "int"; break;
-                            case "Boolean":
-                                type = "bool"; break;
-                            case "Date":
-                                type = "DateTime"; break;
-                        }
-                        s += "<" + type + ">" + SOAPClientParameters._serialize(o[p]) + "</" + type + ">";
-                    }
-                    else    // associative array
-                        s += "<" + p + ">" + SOAPClientParameters._serialize(o[p]) + "</" + p + ">";
-                }
-            }
-            // Object or custom function
-            else
-                for(var p in o)
-                    s += "<" + p + ">" + SOAPClientParameters._serialize(o[p]) + "</" + p + ">";
-            break;
-        default:
-            break; // throw new Error(500, "SOAPClientParameters: type '" + typeof(o) + "' is not supported");
-    }
-    return s;
+	var s = "";
+	switch(typeof(o))
+	{
+	case "string":
+		s += o.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); break;
+	case "number":
+	case "boolean":
+		s += o.toString(); break;
+	case "object":
+		// Date
+		if(o.constructor.toString().indexOf("function Date()") > -1)
+		{
+			var year = o.getFullYear().toString();
+			var month = (o.getMonth() + 1).toString(); month = (month.length == 1) ? "0" + month : month;
+			var date = o.getDate().toString(); date = (date.length == 1) ? "0" + date : date;
+			var hours = o.getHours().toString(); hours = (hours.length == 1) ? "0" + hours : hours;
+			var minutes = o.getMinutes().toString(); minutes = (minutes.length == 1) ? "0" + minutes : minutes;
+			var seconds = o.getSeconds().toString(); seconds = (seconds.length == 1) ? "0" + seconds : seconds;
+			var milliseconds = o.getMilliseconds().toString();
+			var tzminutes = Math.abs(o.getTimezoneOffset());
+			var tzhours = 0;
+			while(tzminutes >= 60)
+			{
+				tzhours++;
+				tzminutes -= 60;
+			}
+			tzminutes = (tzminutes.toString().length == 1) ? "0" + tzminutes.toString() : tzminutes.toString();
+			tzhours = (tzhours.toString().length == 1) ? "0" + tzhours.toString() : tzhours.toString();
+			var timezone = ((o.getTimezoneOffset() < 0) ? "+" : "-") + tzhours + ":" + tzminutes;
+			s += year + "-" + month + "-" + date + "T" + hours + ":" + minutes + ":" + seconds + "." + milliseconds + timezone;
+		}
+		// Array
+		else if(o.constructor.toString().indexOf("function Array()") > -1)
+		{
+			for(var p in o)
+			{
+				if(!isNaN(p))   // linear array
+				{
+					(/function\s+(\w*)\s*\(/ig).exec(o[p].constructor.toString());
+					var type = RegExp.$1;
+					switch(type)
+					{
+						case "":
+							type = typeof(o[p]);
+						case "String":
+							type = "string"; break;
+						case "Number":
+							type = "int"; break;
+						case "Boolean":
+							type = "bool"; break;
+						case "Date":
+							type = "DateTime"; break;
+					}
+					s += "<" + type + ">" + SOAPClientParameters._serialize(o[p]) + "</" + type + ">";
+				}
+				else	// associative array
+					s += "<" + p + ">" + SOAPClientParameters._serialize(o[p]) + "</" + p + ">";
+			}
+		}
+		// Object or custom function
+		else
+		{
+			for(var p in o)
+				s += "<" + p + ">" + SOAPClientParameters._serialize(o[p]) + "</" + p + ">";
+		}
+		break;
+	default:
+		break; // throw new Error(500, "SOAPClientParameters: type '" + typeof(o) + "' is not supported");
+	}
+	return s;
 };
 
 function SOAPClient() {}
@@ -121,57 +132,57 @@ function SOAPClient() {}
 SOAPClient.username = null;
 SOAPClient.password = null;
 
-SOAPClient.invoke = function(url, method, parameters, async, callback, context)
+SOAPClient.invoke = function(url, method, parameters, async, callback, token)
 {
 	if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
 		window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
 	if(async)
-		SOAPClient._loadWsdl(url, method, parameters, async, callback, context);
+		SOAPClient._loadWsdl(url, method, parameters, async, callback, token);
 	else
-		return SOAPClient._loadWsdl(url, method, parameters, async, callback, context);
+		return SOAPClient._loadWsdl(url, method, parameters, async, callback, token);
 };
 
 // private: wsdl cache
 SOAPClient_cacheWsdl = new Array();
 
 // private: invoke async
-SOAPClient._loadWsdl = function(url, method, parameters, async, callback, context)
+SOAPClient._loadWsdl = function(url, method, parameters, async, callback, token)
 {
 	// load from cache?
 	var wsdl = SOAPClient_cacheWsdl[url];
 	if(wsdl + "" != "" && wsdl + "" != "undefined")
-		return SOAPClient._sendSoapRequest(url, method, parameters, async, callback, wsdl, context);
+		return SOAPClient._sendSoapRequest(url, method, parameters, async, callback, wsdl, token);
 	// get wsdl
 	var xmlHttp = SOAPClient._getXmlHttp();
 	xmlHttp.open("GET", url + "?wsdl", async);
-	if(async) 
+	if(async)
 	{
-		xmlHttp.onreadystatechange = function() 
+		xmlHttp.onreadystatechange = function()
 		{
 			if(xmlHttp.readyState == 4)
-				SOAPClient._onLoadWsdl(url, method, parameters, async, callback, xmlHttp, context);
+				SOAPClient._onLoadWsdl(url, method, parameters, async, callback, xmlHttp, token);
 		};
 	}
 	xmlHttp.send(null);
 	if (!async)
-		return SOAPClient._onLoadWsdl(url, method, parameters, async, callback, xmlHttp, context);
+		return SOAPClient._onLoadWsdl(url, method, parameters, async, callback, xmlHttp, token);
 };
-SOAPClient._onLoadWsdl = function(url, method, parameters, async, callback, req, context)
+SOAPClient._onLoadWsdl = function(url, method, parameters, async, callback, req, token)
 {
 	var wsdl = req.responseXML;
 	SOAPClient_cacheWsdl[url] = wsdl;	// save a copy in cache
-	return SOAPClient._sendSoapRequest(url, method, parameters, async, callback, wsdl, context);
+	return SOAPClient._sendSoapRequest(url, method, parameters, async, callback, wsdl, token);
 };
-SOAPClient._sendSoapRequest = function(url, method, parameters, async, callback, wsdl, context)
+SOAPClient._sendSoapRequest = function(url, method, parameters, async, callback, wsdl, token)
 {
-console.log(wsdl);
+//console.log(wsdl);
 	if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
 		window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
 	// get namespace
 	var ns = (wsdl.documentElement.attributes["targetNamespace"] + "" == "undefined") ? wsdl.documentElement.attributes.getNamedItem("targetNamespace").nodeValue : wsdl.documentElement.attributes["targetNamespace"].value;
 //console.log('ns:'+ns);
 	// build SOAP request
-	var sr = 
+	var sr =
 				"<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
 				"<soap:Envelope " +
 				"xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
@@ -193,19 +204,19 @@ console.log(wsdl);
 	var soapaction = ((ns.lastIndexOf("/") != ns.length - 1) ? ns + "/" : ns) + method;
 	xmlHttp.setRequestHeader("SOAPAction", soapaction);
 	xmlHttp.setRequestHeader("Content-Type", "text/xml; charset=utf-8");
-	if(async) 
+	if(async)
 	{
-		xmlHttp.onreadystatechange = function() 
+		xmlHttp.onreadystatechange = function()
 		{
 			if(xmlHttp.readyState == 4)
-				SOAPClient._onSendSoapRequest(method, async, callback, wsdl, xmlHttp, context);
+				SOAPClient._onSendSoapRequest(method, async, callback, wsdl, xmlHttp, token);
 		};
 	}
 	xmlHttp.send(sr);
 	if (!async)
-		return SOAPClient._onSendSoapRequest(method, async, callback, wsdl, xmlHttp, context);
+		return SOAPClient._onSendSoapRequest(method, async, callback, wsdl, xmlHttp, token);
 };
-SOAPClient._onSendSoapRequest = function(method, async, callback, wsdl, req, context) 
+SOAPClient._onSendSoapRequest = function(method, async, callback, wsdl, req, token)
 {
 	var o = null;
 	if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
@@ -217,23 +228,23 @@ SOAPClient._onSendSoapRequest = function(method, async, callback, wsdl, req, con
 	{
 		if(req.responseXML.getElementsByTagName("faultcode").length > 0)
 		{
-		    if(async || callback)
-		        o = new Error(500, req.responseXML.getElementsByTagName("faultstring")[0].childNodes[0].nodeValue);
+			if(async || callback)
+				o = new Error(500, req.responseXML.getElementsByTagName("faultstring")[0].childNodes[0].nodeValue);
 			else
-			    throw new Error(500, req.responseXML.getElementsByTagName("faultstring")[0].childNodes[0].nodeValue);			
+				throw new Error(500, req.responseXML.getElementsByTagName("faultstring")[0].childNodes[0].nodeValue);
 		}
 	}
 	else
 		o = SOAPClient._soapresult2object(nd[0], wsdl);
 	if(callback)
-		callback(o, req.responseXML, context);
+		callback(o, req.responseXML, token);
 	if(!async)
 		return o;
 };
 SOAPClient._soapresult2object = function(node, wsdl)
 {
-    var wsdlTypes = SOAPClient._getTypesFromWsdl(wsdl);
-    return SOAPClient._node2object(node, wsdlTypes);
+	var wsdlTypes = SOAPClient._getTypesFromWsdl(wsdl);
+	return SOAPClient._node2object(node, wsdlTypes);
 };
 SOAPClient._node2object = function(node, wsdlTypes)
 {
@@ -277,7 +288,7 @@ SOAPClient._extractValue = function(node, wsdlTypes)
 	switch(SOAPClient._getTypeFromWsdl(node.parentNode.nodeName, wsdlTypes).toLowerCase())
 	{
 		default:
-		case "s:string":			
+		case "s:string":
 			return (value != null) ? value + "" : "";
 		case "s:boolean":
 			return value + "" == "true";
@@ -296,8 +307,8 @@ SOAPClient._extractValue = function(node, wsdlTypes)
 				value = value.replace(/T/gi," ");
 				value = value.replace(/-/gi,"/");
 				var d = new Date();
-				d.setTime(Date.parse(value));										
-				return d;				
+				d.setTime(Date.parse(value));
+				return d;
 			}
 	}
 };
@@ -305,21 +316,21 @@ SOAPClient._getTypesFromWsdl = function(wsdl)
 {
 	var wsdlTypes = new Array();
 	// IE
-	var ell = wsdl.getElementsByTagName("s:element");	
+	var ell = wsdl.getElementsByTagName("s:element");
 	var useNamedItem = true;
 	// MOZ
 	if(ell.length == 0)
 	{
-		ell = wsdl.getElementsByTagName("element");	     
+		ell = wsdl.getElementsByTagName("element");
 		useNamedItem = false;
 	}
 	for(var i = 0; i < ell.length; i++)
 	{
 		if(useNamedItem)
 		{
-			if(ell[i].attributes.getNamedItem("name") != null && ell[i].attributes.getNamedItem("type") != null) 
+			if(ell[i].attributes.getNamedItem("name") != null && ell[i].attributes.getNamedItem("type") != null)
 				wsdlTypes[ell[i].attributes.getNamedItem("name").nodeValue] = ell[i].attributes.getNamedItem("type").nodeValue;
-		}	
+		}
 		else
 		{
 			if(ell[i].attributes["name"] != null && ell[i].attributes["type"] != null)
@@ -330,8 +341,8 @@ SOAPClient._getTypesFromWsdl = function(wsdl)
 };
 SOAPClient._getTypeFromWsdl = function(elementname, wsdlTypes)
 {
-    var type = wsdlTypes[elementname] + "";
-    return (type == "undefined") ? "" : type;
+	var type = wsdlTypes[elementname] + "";
+	return (type == "undefined") ? "" : type;
 };
 // private: utils
 SOAPClient._getElementsByTagName = function(document, tagName)
@@ -346,19 +357,19 @@ SOAPClient._getElementsByTagName = function(document, tagName)
 	return document.getElementsByTagName(tagName);
 };
 // private: xmlhttp factory
-SOAPClient._getXmlHttp = function() 
+SOAPClient._getXmlHttp = function()
 {
 	try
 	{
-		if(window.XMLHttpRequest) 
+		if(window.XMLHttpRequest)
 		{
 			var req = new XMLHttpRequest();
 			// some versions of Moz do not support the readyState property and the onreadystate event so we patch it!
-			if(req.readyState == null) 
+			if(req.readyState == null)
 			{
 				req.readyState = 1;
-				req.addEventListener("load", 
-									function() 
+				req.addEventListener("load",
+									function()
 									{
 										req.readyState = 4;
 										if(typeof req.onreadystatechange == "function")
@@ -368,7 +379,7 @@ SOAPClient._getXmlHttp = function()
 			}
 			return req;
 		}
-		if(window.ActiveXObject) 
+		if(window.ActiveXObject)
 			return new ActiveXObject(SOAPClient._getXmlHttpProgID());
 	}
 	catch (ex) {}
