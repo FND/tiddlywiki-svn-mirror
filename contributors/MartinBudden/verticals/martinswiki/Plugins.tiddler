@@ -6,9 +6,9 @@
 |!Plugin|!Description|
 |[[ExamplePlugin]]|Example empty plugin. You can use this as a template to write your own plugin|
 |[[DisableWikiLinksPlugin]]|Allows you to disable TiddlyWiki's automatic linking of WikiWords|
+|[[DisableStrikeThroughPlugin]]|Allows you to disable TiddlyWiki's strikethrough formatting|
 |[[SHA-1UnwoundPlugin]]|Faster wersion of SHA-1 with unwound loops|
 |[[CryptoTEAPlugin]]|TEA (Tiny Encryption Algorithm) and supporting Cryptographic functions|
 |[[EncryptionCommandsPlugin]]|Use this in association with CryptoTEAPlugin to encrypt individual tiddlers|
-|[[ThemeBackstagePlugin]]|Adds a theme switcher to the backstage bar|
 </pre>
 </div>
