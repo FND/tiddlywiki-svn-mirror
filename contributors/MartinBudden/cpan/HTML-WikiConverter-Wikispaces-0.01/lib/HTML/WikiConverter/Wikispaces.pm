@@ -39,24 +39,27 @@ sub rules {
 
     img => { replace => \&_image },
 
-    b      => { start => "**", end => "**" },
+    b      => { start => "**", end => "**", trim => 'leading' },
     strong => { alias => 'b' },
     i      => { start => "//", end => "//" },
     em     => { alias => 'i' },
     u      => { start => "__", end => "__"},
-    code   => { start => "\n[[code]]\n", end => "\n[[code]]\n"},
-    tt     => { start => "{{", end => "}}"},
+    code   => { start => "\n[[code]]\n", end => "\n[[code]]\n" },
+    tt     => { start => "{{", end => "}}" },
 
 # from PhpWiki
     blockquote => { start => \&_blockquote_start, block => 1, line_format => 'multi' },
     p => { block => 1, trim => 'both', line_format => 'multi' },
 
-    a => { replace => \&_link },
+    a => { replace => \&_link},
 
     ul => { line_format => 'multi', block => 1 },
     ol => { alias => 'ul' },
+    dl => { alias => 'ul' },
 
     li => { start => \&_li_start, trim => 'leading' },
+    dt => { alias => 'li' },
+    dd => { alias => 'li' },
 
 # from PmWiki
     table => { block => 1 },
@@ -74,13 +77,16 @@ sub rules {
 # List item include ordered and unordered list items.
 sub _li_start {
   my( $self, $node, $rules ) = @_;
-  my @parent_lists = $node->look_up( _tag => qr/ul|ol/ );
+  my @parent_lists = $node->look_up( _tag => qr/ul|ol|dl/ );
 
   my $prefix = '';
   foreach my $parent ( @parent_lists ) {
     my $bullet = '';
     $bullet = '*' if $parent->tag eq 'ul';
     $bullet = '#' if $parent->tag eq 'ol';
+    # just map definition lists onto unordered lists
+    $bullet = '*' if $parent->tag eq 'dl';
+    $bullet = '*' if $parent->tag eq 'dl' and $node->tag eq 'dt';
     $prefix = $bullet.$prefix;
   }
 
@@ -136,8 +142,8 @@ sub _link {
   	my($link,$path,$suffix) = fileparse($url,qr{\..*});
   	my $r = rindex($suffix,'#');
   	if($r!=-1) {
-  		$suffix = substr $suffix, $r;
-  		$link .= $suffix;
+  		$suffix = substr $suffix, $r+1;
+  		$link .= '#ws_'.$suffix;
   	}
 	my $text = $self->get_elem_contents($node) || '';
 	
