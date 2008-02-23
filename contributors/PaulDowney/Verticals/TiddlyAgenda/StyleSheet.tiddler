@@ -40,6 +40,7 @@ div.headerControls a.button {border-style:none; background-color:#000; color:[[C
 
 /* Primary Nav Buttons */
 #mainMenu { display:inline; width:100%; background-color:#dde; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding:0; line-height:1.5em; text-align:center;}
+#mainMenu .externalLink {text-decoration:none;}
 
 /* Buttons */
 span.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; display:block; padding:0; margin:0 0 0 0;}

@@ -1,0 +1,10 @@
+<div title="BackstageMod" tags="excludeLists excludeSearch systemConfig">
+<pre>//{{{
+backstage.init_old = backstage.init;
+backstage.init = function() {
+	var s = "<<closeAll>><<permaview>><<newTiddler>>[[options]][[navigation]]";
+	this.init_old.apply(this, arguments);
+	wikify(s, document.getElementById("backstageToolbar"));
+};
+//}}}</pre>
+</div>

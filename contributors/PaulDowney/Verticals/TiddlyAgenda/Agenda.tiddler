@@ -3,10 +3,10 @@
 |vcalendar|k
 |Saturday, February 3rd|c
 ||!{{location{Room One}}}|!{{location{Room Two}}}|!{{location{Room Three}}}|h
-|!{{time{<<dtstart 200802030900>>-<<dtend 200802021000>>}}}|{{vevent{[[First Talk]]}}}|{{vevent{{{summary{[[Second Talk]]}}}}}}|{{vevent{{{summary{[[Third Talk]]}}}}}}|
-|!{{time{<<dtstart '200802031000'>>-<<dtend '200802031030'>>}}}|~|{{vevent{{{summary{[[Fourth Talk]]}}}}}}|{{vevent{{{summary{[[Fith Talk]]}}}}}}|
-|!{{time{<<dtstart '200802031030'>>-<<dtend '200802031100'>>}}}|{{vevent global{Tea and Coffee}}}|>|>|
-|!{{time{<<dtstart '200802031100'>>-<<dtend '200802031300'>>}}}|{{vevent{[[Sixth Talk]]}}}|{{vevent{{{summary{[[Seventh Talk]]}}}}}}|{{vevent{{{summary{[[Eight Talk]]}}}}}}|
-|!{{time{<<dtstart '200802031300'>>-<<dtend '200802031400'>>}}}|{{vevent global{Lunch}}}|>|>|
+|!<<dtstart 200802030900>>-<<dtend 200802021000>>|{{vevent{[[First Talk]]}}}|{{vevent{{{summary{[[Second Talk]]}}}}}}|{{vevent{{{summary{[[Third Talk]]}}}}}}|
+|!<<dtstart 200802031000>>-<<dtend 200802031030>>|~|{{vevent{{{summary{[[Fourth Talk]]}}}}}}|{{vevent{{{summary{[[Fith Talk]]}}}}}}|
+|!<<dtstart 200802031030>>-<<dtend 200802031100>>|{{vevent global{Tea and Coffee}}}|>|>|
+|!<<dtstart 200802031100>>-<<dtend 200802031300>>|{{vevent{[[Sixth Talk]]}}}|{{vevent{{{summary{[[Seventh Talk]]}}}}}}|{{vevent{{{summary{[[Eight Talk]]}}}}}}|
+|!<<dtstart 200802031300>>-<<dtend 200802031400>>|{{vevent global{Lunch}}}|>|>|
 </pre>
 </div>

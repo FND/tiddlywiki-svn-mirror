@@ -19,6 +19,10 @@ tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteUrl.tiddler
 
+tiddler: BackstageMod.tiddler
+tiddler: options.tiddler
+tiddler: navigation.tiddler
+
 tiddler: ViewTemplate.tiddler
 tiddler: EditTemplate.tiddler
 
