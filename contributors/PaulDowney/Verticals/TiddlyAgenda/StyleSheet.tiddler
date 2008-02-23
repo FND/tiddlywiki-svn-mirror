@@ -21,6 +21,7 @@ span.siteTitle {
 	font-family: "Lucida Grande", "Trebuchet MS", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
 	font-size: 30px;
 	top:2px;
+	padding-left: 10px;;
 }
 
 span.siteSubtitle {
