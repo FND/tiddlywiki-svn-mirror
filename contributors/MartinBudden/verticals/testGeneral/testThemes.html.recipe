@@ -1,11 +1,14 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
-title: title.txt
+title: titleThemes.txt
 tiddler: HomeTestThemes.tiddler
 tiddler: settings.js
-tiddler: ../../shadows/DefaultTiddlersHome.tiddler
-tiddler: ../../shadows/MainMenuHome.tiddler
+recipe:  shadows/splitThemes.recipe
+tiddler: ../../tiddlers/Basic_Formatting.tiddler
+tiddler: ../../tiddlers/Document_Formatting.tiddler
+tiddler: ../../tiddlers/Table_Formatting.tiddler
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
+tiddler: ../../tiddlers/Download_this_wiki.tiddler
 #tiddler: ../../plugins/ThemeSwitcherPlugin.js
 tiddler: ../../plugins/ThemeBackstagePlugin.js
 recipe: ../../../../association/themes/split.recipe
