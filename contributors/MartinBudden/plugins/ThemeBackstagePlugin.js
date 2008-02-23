@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden|
 |''Source:''|http://www.martinswiki.com/#ThemeBackstagePlugin |
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ThemeBackstagePlugin.js |
-|''Version:''|0.1.0|
+|''Version:''|0.1.1|
 |''Date:''|Jan 25, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -90,11 +90,12 @@ config.macros.themes.refreshOptions = function(listView)
 	var options = [];
 	var tiddlers = store.getTaggedTiddlers('systemTheme');
 	var d = 'DefaultTheme';
-	if(tiddlers.indexOf(d) != -1) {
+	if(tiddlers.findByField('title',d) != -1) {
 		var tiddler = new Tiddler(d);
 		tiddler.text = store.getTiddlerText(d);
 		tiddlers.push(tiddler);
 	}
+	tiddlers.sort(function(a,b) {return a.title < b.title ? -1 : +1;});
 	for(var i=0; i<tiddlers.length; i++) {
 		var t = tiddlers[i].title;
 		var name = store.getTiddlerSlice(t,'Name');
