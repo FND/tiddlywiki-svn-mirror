@@ -26,6 +26,8 @@
 	margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:1em;
 	padding-top:.1em;padding-bottom:.1em;
 }
+
+.tiddler {-moz-border-radius:1em;border:1px solid #ccc;margin:0.5em;background:#fff;padding:0.5em;}
 /*}}}*/
 </pre>
 </div>
