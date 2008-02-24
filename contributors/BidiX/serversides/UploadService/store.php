@@ -4,7 +4,7 @@
 Edit these lines according to your need
 ***/
 //{{{
-$AUTHENTICATE_USER = false;	// true | false
+$AUTHENTICATE_USER = true;	// true | false
 $USERS = array(
 	'UserName1'=>'Password1', 
 	'UserName2'=>'Password2', 
