@@ -29,6 +29,7 @@ config.taggly = {
 			numCols:    "cols\u00b1", // plus minus sign
 			label:      "Tagged as '%0':",
 			excerpts:   "excerpts",
+			descr:      "descr",
 			contents:   "contents",
 			sliders:    "sliders",
 			noexcerpts: "title only"
@@ -46,6 +47,7 @@ config.taggly = {
 			commas:   "Click to show a comma separated list",
 			numCols:  "Click to change number of columns",
 			excerpts: "Click to show excerpts",
+			descr:    "Click to show the description slice",
 			contents: "Click to show entire tiddler contents",
 			sliders:  "Click to show tiddler contents in sliders",
 			noexcerpts: "Click to show entire title only"
@@ -61,7 +63,7 @@ config.taggly = {
 			hideState:  ["show","hide"],
 			listMode:   ["normal","group","sitemap","commas"],
 			numCols:    ["1","2","3","4","5","6"],
-			excerpts:   ["noexcerpts","excerpts","contents","sliders"]
+			excerpts:   ["noexcerpts","excerpts","descr","contents","sliders"]
 		},
 		valuePrefix: "taggly.",
 		excludeTags: ["excludeLists","excludeTagging"],
@@ -200,35 +202,34 @@ config.taggly = {
 	},
 
 	getExcerpt: function(inTiddlerTitle,title,indent) {
-    if (!indent)
+		if (!indent)
 			indent = 1;
-		if (this.getTagglyOpt(inTiddlerTitle,"excerpts") == "excerpts") {
-			var t = store.getTiddler(title);
-			if (t) {
-				var text = t.text.replace(/\n/," ");
-				var marker = text.indexOf(this.config.excerptMarker);
-				if (marker != -1) {
-					return " {{excerpt{<nowiki>" + text.substr(0,marker) + "</nowiki>}}}";
-				}
-				else if (text.length < this.config.excerptSize) {
-					return " {{excerpt{<nowiki>" + t.text + "</nowiki>}}}";
-				}
-				else {
-					return " {{excerpt{<nowiki>" + t.text.substr(0,this.config.excerptSize) + "..." + "</nowiki>}}}";
-				}
+
+		var displayMode = this.getTagglyOpt(inTiddlerTitle,"excerpts");
+		var t = store.getTiddler(title);
+
+		if (t && displayMode == "excerpts") {
+			var text = t.text.replace(/\n/," ");
+			var marker = text.indexOf(this.config.excerptMarker);
+			if (marker != -1) {
+				return " {{excerpt{<nowiki>" + text.substr(0,marker) + "</nowiki>}}}";
+			}
+			else if (text.length < this.config.excerptSize) {
+				return " {{excerpt{<nowiki>" + t.text + "</nowiki>}}}";
+			}
+			else {
+				return " {{excerpt{<nowiki>" + t.text.substr(0,this.config.excerptSize) + "..." + "</nowiki>}}}";
 			}
 		}
-		else if (this.getTagglyOpt(inTiddlerTitle,"excerpts") == "contents") {
-			var t = store.getTiddler(title);
-			if (t) {
-				return "\n{{contents indent"+indent+"{\n" + t.text + "\n}}}";
-			}
+		else if (t && displayMode == "contents") {
+			return "\n{{contents indent"+indent+"{\n" + t.text + "\n}}}";
 		}
-		else if (this.getTagglyOpt(inTiddlerTitle,"excerpts") == "sliders") {
-			var t = store.getTiddler(title);
-			if (t) {
-				return "<slider slide>\n{{contents{\n" + t.text + "\n}}}\n</slider>";
-			}
+		else if (t && displayMode == "sliders") {
+			return "<slider slide>\n{{contents{\n" + t.text + "\n}}}\n</slider>";
+		}
+		else if (t && displayMode == "descr") {
+			var descr = store.getTiddlerSlice(title,'Description');
+			return descr ? " {{excerpt{" + descr  + "}}}" : "";
 		}
 		return "";
 	},
