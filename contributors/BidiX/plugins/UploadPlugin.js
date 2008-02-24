@@ -1,8 +1,8 @@
 /***
 |''Name:''|UploadPlugin|
 |''Description:''|Save to web a TiddlyWiki|
-|''Version:''|4.1.2|
-|''Date:''|Feb 23, 2008|
+|''Version:''|4.1.3|
+|''Date:''|Feb 24, 2008|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadPlugin|
 |''Documentation:''|http://tiddlywiki.bidix.info/#UploadPluginDoc|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
@@ -12,8 +12,8 @@
 ***/
 //{{{
 version.extensions.UploadPlugin = {
-	major: 4, minor: 1, revision: 2,
-	date: new Date("Feb 23, 2008"),
+	major: 4, minor: 1, revision: 3,
+	date: new Date("Feb 24, 2008"),
 	source: 'http://tiddlywiki.bidix.info/#UploadPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
 	coreVersion: '2.2.0'
@@ -146,23 +146,23 @@ config.macros.uploadOptions = {
 				
 			]);
 	},
+	options: [
+		"txtUploadUserName",
+		"pasUploadPassword",
+		"txtUploadStoreUrl",
+		"txtUploadDir",
+		"txtUploadFilename",
+		"txtUploadBackupDir",
+		"chkUploadLog",
+		"txtUploadLogMaxLine"		
+	],
 	refreshOptions: function(listWrapper) {
-		var uploadOpts = [
-			"txtUploadUserName",
-			"pasUploadPassword",
-			"txtUploadStoreUrl",
-			"txtUploadDir",
-			"txtUploadFilename",
-			"txtUploadBackupDir",
-			"chkUploadLog",
-			"txtUploadLogMaxLine"
-			];
 		var opts = [];
-		for(i=0; i<uploadOpts.length; i++) {
+		for(i=0; i<this.options.length; i++) {
 			var opt = {};
 			opts.push();
 			opt.option = "";
-			n = uploadOpts[i];
+			n = this.options[i];
 			opt.name = n;
 			opt.lowlight = !config.optionsDesc[n];
 			opt.description = opt.lowlight ? this.unknownDescription : config.optionsDesc[n];
