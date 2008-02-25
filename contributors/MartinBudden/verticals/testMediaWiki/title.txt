@@ -1,0 +1,1 @@
+MediaWiki test - formatter and adaptor testing
