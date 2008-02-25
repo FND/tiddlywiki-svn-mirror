@@ -40,7 +40,7 @@ The SQL create three users for you.
 2 .. simon 
 3 .. admin
 
-each has a password of simon. If you wish to change the passwords you will need to create a sha1 hash of the new password (sha1(password) and add the hash into the user table in the database. 
+each has a password of password. If you wish to change the passwords you will need to create a sha1 hash of the new password (sha1(password) and add the hash into the user table in the database. 
 
 The admin user is the owner of the root workspace.
 

@@ -57,7 +57,7 @@ If you got one of the following error message, that may mean your database do no
 	$tiddlyCfg['pref']['utf8'] = 0;	
 	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
 	$tiddlyCfg['pref']['ldap_enabled'] = 0;	
-	$tiddlyCfg['pref']['openid_enabled'] = 1;  // openid end not fully implented yet. 
+	$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
 	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
 	//$tiddlyCfg['pref']['workspace_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the workspace name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
 	$tiddlyCfg['developing']=0;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
@@ -255,6 +255,10 @@ $tiddlyCfg['pref']['utf8'] = 0;
 		anonymous (include all users without username password pair)
 		user (users with username and password pair)
 */
+
+
+//TODO :  This value should be pulled from the database and assigned. We need to finalise how groups are going to work.
+
 $tiddlyCfg['group']['admin'] = array("simon");
 
 /*
@@ -320,5 +324,5 @@ $tiddlyCfg['table']['group'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']
 $tiddlyCfg['table']['privilege'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['privilege'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['tiddlywiki_type'] = $cct_base."tiddlywiki/".$tiddlyCfg['tiddlywiki_type'].".js"; // plain TW file, $cct_base defined in config.php
 
-$tiddlyCfg['version']="1.3";	
+$tiddlyCfg['version']="1.5";	
 ?>
