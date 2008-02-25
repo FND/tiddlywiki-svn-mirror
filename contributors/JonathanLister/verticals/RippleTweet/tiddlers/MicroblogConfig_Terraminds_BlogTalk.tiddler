@@ -1,0 +1,10 @@
+<div title="MicroblogConfig_Terraminds_BlogTalk" modifier="JonLister" tags="systemServer excludeLists Microblog">
+<pre>|''Description:''|Resources for microbloggin with Terraminds, a Twitter search engine|
+|''RootURI:''|http://terraminds.com|
+|''LoginURI:''||
+|''LogoutURI:''||
+|''ListenURI:''|http://terraminds.com/twitter/json?query=BlogTalk|
+|''PostURI:''||
+|''CharacterLimit:''|140|
+|''authenticated:''|true|</pre>
+</div>

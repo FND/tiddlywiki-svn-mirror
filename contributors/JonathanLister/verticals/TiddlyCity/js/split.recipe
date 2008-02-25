@@ -1,2 +1,2 @@
-tiddler: DabbleDBPlugin.js
-tiddler: TerramindsSearchPlugin.js
+tiddler: ../../../components/DabbleDBPlugin.js
+tiddler: ../../../components/TerramindsSearchPlugin.js
