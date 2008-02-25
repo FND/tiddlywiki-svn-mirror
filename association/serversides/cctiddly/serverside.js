@@ -602,18 +602,16 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 	//save in local TW
 	//var tiddler = "";
 	tiddler =  store.ss_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created);//save to local copy
-
 	//send to server
 	doHttp('POST'
 		,serverside.url + '/handle/save.php?' + serverside.queryString + '&workspace=' + serverside.workspace
-		,'tiddler=' + encodeURIComponent(tiddler.saveToDiv())
+		,'tiddler=' + encodeURIComponent(store.getSaver().externalizeTiddler(store,tiddler))
 			+ '&otitle=' + encodeURIComponent(title.htmlDecode())
 			+ ((omodified!==null)?'&omodified=' + encodeURIComponent(omodified.convertToYYYYMMDDHHMM()):"")
 			+ ((ochangecount!==null)?'&ochangecount=' + encodeURIComponent(ochangecount):"")
 		,null, null, null
 		,serverside.fn.genericCallback
 	);
-	
 	/*var params = {}; 
 	params.url = url+'/'+this.ccWorkspaceName.value;
 	var loginResp = doHttp('POST', 
