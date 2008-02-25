@@ -1,13 +1,13 @@
 tiddler: Template_TestTpf.tiddler
 tiddler: Template_TestNoParams.tiddler
 tiddler: TestNoParams.tiddler
-tiddler: TestNoParamsResult.tiddler
+tiddler: TestNoParams_Result.tiddler
 tiddler: Template_TestParams1.tiddler
 tiddler: TestParams1.tiddler
-tiddler: TestParams1Result.tiddler
+tiddler: TestParams1_Result.tiddler
 tiddler: Template_t1demo.tiddler
 tiddler: t1demo.tiddler
-tiddler: t1demoResult.tiddler
+tiddler: t1demo_Result.tiddler
 tiddler: Template_T.tiddler
 tiddler: T.tiddler
-tiddler: TResult.tiddler
+tiddler: T_Result.tiddler
