@@ -1,0 +1,3 @@
+<div title="Template:TestParams1" wikiformat="mediawiki">
+<pre>value={{{param1|default1}}}</pre>
+</div>

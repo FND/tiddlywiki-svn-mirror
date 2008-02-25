@@ -1,0 +1,7 @@
+<div title="TestParams1" wikiformat="mediawiki">
+<pre>
+{{TestParams1}}
+{{TestParams1|param1=aaa}}
+{{TestParams1|bbb}}
+</pre>
+</div>

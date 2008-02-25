@@ -1,0 +1,9 @@
+<div title="T1demo" wikiformat="mediawiki">
+<pre>
+{{t1demo|ABC}}
+{{t1demo|abc]]def[[ghi}}
+{{t1demo|abc}}def}}
+{{t1demo|abc]def[ghi}}
+[http://1 {{t1demo|abc]def}}
+</pre>
+</div>
