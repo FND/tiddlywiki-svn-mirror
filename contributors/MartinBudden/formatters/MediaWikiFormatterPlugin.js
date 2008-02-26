@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.4.4|
+|''Version:''|0.4.5|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -206,8 +206,43 @@ MediaWikiFormatter.expandVariable = function(w,variable)
 	return true;
 };
 
+MediaWikiFormatter.getParserFunctionParams = function(text)
+{
+//#console.log('getParserFunctionParams');
+//#console.log(text);
+//#{{test|a|b}}
+//#{{test|n=a|m=b}}
+	var params = [];
+	
+//	#if: foo | do if true | do if false
+
+	text += '|';
+	//var fRegExp = / ? # ?([a-z]*) ?:/mg;
+	//var fRegExp = /#(if) : (foo) :/mg;
+	var fRegExp = /(#([a-z]*) *: ([^\|]*))\|/mg;
+	fRegExp.lastIndex = 0;
+	var match = fRegExp.exec(text);
+//#console.log(match);
+//#console.log(fRegExp.lastIndex);
+	var pRegExp = /([^\|]*)\|/mg;
+	if(match) {
+		//# skip function name
+		pRegExp.lastIndex = fRegExp.lastIndex;
+		match = pRegExp.exec(text);
+	}
+	var i = 1;
+	while(match) {
+		params[i] = match[1].trim();
+		i++;
+		match = pRegExp.exec(text);
+	}
+	return params;
+};
+
 MediaWikiFormatter.getTemplateParams = function(text)
 {
+//#console.log('getTemplateParams');
+//#console.log(text);
 //#{{test|a|b}}
 //#{{test|n=a|m=b}}
 	var params = {};
@@ -265,36 +300,33 @@ MediaWikiFormatter.getTemplateParams = function(text)
 //# http://www.mediawiki.org/wiki/Extension:Parser_function_extensions
 //# http://svn.wikimedia.org/viewvc/mediawiki/trunk/extensions/ParserFunctions/ParserFunctions.php?view=markup
 //# http://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/includes/Parser.php?view=markup
-MediaWikiFormatter.evaluateTemplateParserFunctions = function(text)
+MediaWikiFormatter.expandParserFunction = function(w,text,expr,params)
 {
-//#displayMessage("evtpf:"+text);
-//#if(text=="{{#if:hello | param1value=hello }}")
-//#	return "param1value=hello";
-//#	return text;
-	var fnRegExp = /\{\{#if:([^\|]*?)\|([^\|]*?)(?:\|(.*?))?\}\}/mg;
-	var t = '';
-	var fi = 0;
-	match = fnRegExp.exec(text);
-	while(match) {
+//#console.log('expandParserFunction'+text);
+//#console.log(params);
+//#console.log(expr);
+	var fnRegExp = / *#(if) */mg;
+	var t = '';//params[0];
+	fnRegExp.lastIndex = 0;
+	var match = fnRegExp.exec(text);
+//#console.log(match);
+	if(match) {
 //#displayMessage("m:"+match);
 //#displayMessage("m0:"+match[0]);
 //#displayMessage("m1:"+match[1]);
 //#displayMessage("m2:"+match[2]);
 //#displayMessage("m3:"+match[3]);
 //#displayMessage("ss:"+text.substring(fi,match.index));
-		t += text.substring(fi,match.index);
-		var m = match[1] ? match[1].trim() : null;
-		if(m)
-			t += match[2];
-		else if(match[3])
-			t += match[3].trim();
-		fi = fnRegExp.lastIndex;
-		match = fnRegExp.exec(text);
+		switch(match[1]) {
+		case 'if':
+			t = expr.trim()=='' ? params[2] : params[1];
+			break;
+		default:
+			break;
+		}
 	}
-	t += text.substring(fi);
-	text = t == '' ? text : t;
 //#displayMessage("text:"+text);
-	return text;
+	return t;
 };
 
 MediaWikiFormatter.expandTemplate = function(w,templateText,params)
@@ -302,7 +334,6 @@ MediaWikiFormatter.expandTemplate = function(w,templateText,params)
 //# see http://meta.wikimedia.org/wiki/Help:Template
 {
 //#mwDebug(w.output,'et:'+templateText);
-//#displayMessage("expandTemplate:"+templateText);
 	var text = templateText;
 	text = text.replace(/<noinclude>((?:.|\n)*?)<\/noinclude>/mg,'');// remove text between noinclude tags
 	var includeOnlyRegExp = /<includeonly>((?:.|\n)*?)<\/includeonly>/mg;
@@ -313,6 +344,8 @@ MediaWikiFormatter.expandTemplate = function(w,templateText,params)
 		match = includeOnlyRegExp.exec(text);
 	}
 	text = t == '' ? text : t;
+//#console.log("expandTemplate:"+text);
+//#console.log(params);
 
 	var paramsRegExp = /\{\{\{(.*?)(?:\|(.*?))?\}\}\}/mg;
 	t = '';
@@ -333,7 +366,9 @@ MediaWikiFormatter.expandTemplate = function(w,templateText,params)
 		pi = paramsRegExp.lastIndex;
 		match = paramsRegExp.exec(text);
 	}
-	return t == '' ? text : t;
+	t += text.substring(pi);
+	return t;
+	//return t == '' ? text : t;
 /*	//displayMessage("ss:"+text.substring(pi));
 	t += text.substring(pi);
 	t = MediaWikiFormatter.evaluateTemplateParserFunctions(t);
@@ -990,11 +1025,19 @@ config.mediawiki.formatters = [
 			var title = i==-1 ? contents : contents.substr(0,i);
 			//# normalize title
 			title = title.trim().replace(/_/mg,' ');
-			title = 'Template:' + title.substr(0,1).toUpperCase() + title.substring(1);
-			var tiddler = store.fetchTiddler(title);
+			if(title.substr(0,1)=='#') {
+				var parserFn = true;
+				var j = contents.indexOf(':');
+				var expr = contents.substring(j+1,i);
+				i = title.indexOf(':');
+				title = title.substr(0,i);
+			} else {
+				title = 'Template:' + title.substr(0,1).toUpperCase() + title.substring(1);
+				var tiddler = store.fetchTiddler(title);
+			}
 			var oldSource = w.source;
 			if(tiddler) {
-				params = {};
+				var params = {};
 				if(i!=-1) {
 					//#w.nextMatch = 0;
 					params = MediaWikiFormatter.getTemplateParams(lookaheadMatch[1]);
@@ -1002,6 +1045,14 @@ config.mediawiki.formatters = [
 				w.source = MediaWikiFormatter.expandTemplate(w,tiddler.text,params);
 				w.nextMatch = 0;
 				w.subWikifyUnterm(w.output);
+			} else if(parserFn) {
+				if(i!=-1) {
+					//#w.nextMatch = 0;
+					params = MediaWikiFormatter.getParserFunctionParams(lookaheadMatch[1]);
+				}
+				w.source = MediaWikiFormatter.expandParserFunction(w,title,expr,params);
+				w.nextMatch = 0;
+				w.subWikifyUnterm(w.output);			
 			} else {
 				if(config.options.chkMediaWikiDisplayEmptyTemplateLinks) {
 					//# for conveniece, output the name of the template so can click on it and create tiddler
