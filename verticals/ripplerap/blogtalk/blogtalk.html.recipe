@@ -9,6 +9,7 @@ tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
+tiddler: ../../../contributors/PaulDowney/plugins/TiddlifyList.js
 
 recipe: ../shadows/split.recipe
 recipe: ../plugins/split.recipe
