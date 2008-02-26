@@ -17,7 +17,7 @@ We have not written the install script for this version yet so you will need to 
 STEPS FOR INSTALLATION : 
 
 1 .. Copy contents into folder on your web server 
-2 .. create database and run the sql.sql file to create the tables.
+2 .. create database and run the install.sql file to create the tables.
 3 .. edit /includes/config.php  to reflect your settings : 
 
 	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
