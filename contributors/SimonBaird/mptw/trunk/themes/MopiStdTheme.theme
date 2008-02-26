@@ -1,0 +1,4 @@
+|Name|MopiStd|
+|Description|Mopi Theme with the default TiddlyWiki PageLayout|
+|ViewTemplate|MopiTheme##ViewTemplate|
+|EditTemplate|MopiTheme##EditTemplate|

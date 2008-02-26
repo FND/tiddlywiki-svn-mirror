@@ -1,11 +1,11 @@
 /***
-| Name|ToggleTagPlugin|
-| Description|Makes a checkbox which toggles a tag in a tiddler|
-| Version|3.0 ($Rev$)|
-| Date|$Date$|
-| Source|http://tiddlyspot.com/mptw/#ToggleTagMacro|
-| Author|Simon Baird <simon.baird@gmail.com>|
-| License|http://mptw.tiddlyspot.com/#TheBSDLicense|
+|Name:|ToggleTagPlugin|
+|Description:|Makes a checkbox which toggles a tag in a tiddler|
+|Version:|3.0 ($Rev$)|
+|Date:|$Date$|
+|Source:|http://mopi.tiddlyspot.com/#ToggleTagPlugin|
+|Author:|Simon Baird <simon.baird@gmail.com>|
+|License:|http://mopi.tiddlyspot.com/#TheBSDLicense|
 !Usage
 {{{<<toggleTag }}}//{{{TagName TiddlerName LabelText}}}//{{{>>}}}
 * TagName - the tag to be toggled, default value "checked"

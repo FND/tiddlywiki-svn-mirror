@@ -1,11 +1,11 @@
 /***
-| Name|CloseOnCancelPlugin|
-| Description|Closes the tiddler if you click new tiddler then cancel. Default behaviour is to leave it open|
-| Version|3.0 ($Rev$)|
-| Date|$Date$|
-| Source|http://mptw.tiddlyspot.com/#CloseOnCancelPlugin|
-| Author|Simon Baird <simon.baird@gmail.com>|
-| License|http://mptw.tiddlyspot.com/#TheBSDLicense|
+|Name:|CloseOnCancelPlugin|
+|Description:|Closes the tiddler if you click new tiddler then cancel. Default behaviour is to leave it open|
+|Version:|3.0 ($Rev$)|
+|Date:|$Date$|
+|Source:|http://mopi.tiddlyspot.com/#CloseOnCancelPlugin|
+|Author:|Simon Baird <simon.baird@gmail.com>|
+|License:|http://mopi.tiddlyspot.com/#TheBSDLicense|
 ***/
 //{{{
 merge(config.commands.cancelTiddler,{

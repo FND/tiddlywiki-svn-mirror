@@ -1,12 +1,12 @@
 /***
-| Name|LessBackupsPlugin|
-| Description|Intelligently limit the number of backup files you create|
-| Version|3.0 ($Rev: 2320 $)|
-| Date|$Date: 2007-06-18 22:37:46 +1000 (Mon, 18 Jun 2007) $|
-| Source|http://mptw.tiddlyspot.com/#LessBackupsPlugin|
-| Author|Simon Baird|
-| Email|simon.baird@gmail.com|
-| License|http://mptw.tiddlyspot.com/#TheBSDLicense|
+|Name:|LessBackupsPlugin|
+|Description:|Intelligently limit the number of backup files you create|
+|Version:|3.0 ($Rev: 2320 $)|
+|Date:|$Date: 2007-06-18 22:37:46 +1000 (Mon, 18 Jun 2007) $|
+|Source:|http://mopi.tiddlyspot.com/#LessBackupsPlugin|
+|Author:|Simon Baird|
+|Email:|simon.baird@gmail.com|
+|License:|http://mopi.tiddlyspot.com/#TheBSDLicense|
 !!!Description
 You end up with just backup one per year, per month, per weekday, per hour, minute, and second.  So total number won't exceed about 200 or so. Can be reduced by commenting out the seconds/minutes/hours line from modes array
 

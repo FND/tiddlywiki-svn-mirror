@@ -1,13 +1,13 @@
 /***
-| Name|TagglyTaggingPlugin|
-| Description|tagglyTagging macro is a replacement for the builtin tagging macro in your ViewTemplate|
-| Version|3.1 ($Rev$)|
-| Date|$Date$|
-| Source|http://mptw.tiddlyspot.com/#TagglyTaggingPlugin|
-| Author|Simon Baird <simon.baird@gmail.com>|
-| License|http://mptw.tiddlyspot.com/#TheBSDLicense|
+|Name:|TagglyTaggingPlugin|
+|Description:|tagglyTagging macro is a replacement for the builtin tagging macro in your ViewTemplate|
+|Version:|3.1 ($Rev$)|
+|Date:|$Date$|
+|Source:|http://mopi.tiddlyspot.com/#TagglyTaggingPlugin|
+|Author:|Simon Baird <simon.baird@gmail.com>|
+|License:|http://mopi.tiddlyspot.com/#TheBSDLicense|
 !Notes
-See http://mptw.tiddlyspot.com/#TagglyTagging
+See http://mopi.tiddlyspot.com/#TagglyTagging
 ***/
 //{{{
 config.taggly = {
@@ -30,6 +30,7 @@ config.taggly = {
 			label:      "Tagged as '%0':",
 			excerpts:   "excerpts",
 			descr:      "descr",
+			slices:     "slices",
 			contents:   "contents",
 			sliders:    "sliders",
 			noexcerpts: "title only"
@@ -48,6 +49,7 @@ config.taggly = {
 			numCols:  "Click to change number of columns",
 			excerpts: "Click to show excerpts",
 			descr:    "Click to show the description slice",
+			slices:    "Click to show all slices",
 			contents: "Click to show entire tiddler contents",
 			sliders:  "Click to show tiddler contents in sliders",
 			noexcerpts: "Click to show entire title only"
@@ -63,7 +65,7 @@ config.taggly = {
 			hideState:  ["show","hide"],
 			listMode:   ["normal","group","sitemap","commas"],
 			numCols:    ["1","2","3","4","5","6"],
-			excerpts:   ["noexcerpts","excerpts","descr","contents","sliders"]
+			excerpts:   ["noexcerpts","excerpts","descr","slices","contents","sliders"]
 		},
 		valuePrefix: "taggly.",
 		excludeTags: ["excludeLists","excludeTagging"],
@@ -230,6 +232,13 @@ config.taggly = {
 		else if (t && displayMode == "descr") {
 			var descr = store.getTiddlerSlice(title,'Description');
 			return descr ? " {{excerpt{" + descr  + "}}}" : "";
+		}
+		else if (t && displayMode == "slices") {
+			var result = "";
+			var slices = store.calcAllSlices(title);
+			for (var s in slices)
+				result += "|%0|%1|\n".format([s,slices[s]]);
+			return result ? "\n{{excerpt excerptIndent{\n" + result  + "}}}" : "";
 		}
 		return "";
 	},
@@ -453,6 +462,7 @@ config.taggly = {
 ".tagglyTagged li { display: inline; font-size:90%; }",
 ".tagglyTagged ul { margin:0px; padding:0px; }",
 ".excerpt { color:[[ColorPalette::TertiaryDark]]; }",
+".excerptIndent { margin-left:4em; }",
 "div.tagglyTagging table,",
 "div.tagglyTagging table tr,",
 "td.tagglyTagging",

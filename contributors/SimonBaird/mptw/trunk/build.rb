@@ -14,6 +14,10 @@ make_tw {
   add_tiddlers_from_dir 'themes'
   store_to_file         'upload/upgrade.html'
   add_tiddlers_from_dir 'noupgrade'
+  add_tiddler_from_scratch({
+    'tiddler'=>'systemConfig',
+    'taggly.excerpts'=>'descr',
+  })
   to_file               'upload/empty.html'
 }
 

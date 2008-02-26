@@ -1,11 +1,11 @@
 /***
-| Name:|ExtentTagButtonPlugin|
-| Description:|Adds a New tiddler button in the tag drop down|
-| Version:|3.2 ($Rev$)|
-| Date:|$Date$|
-| Source:|http://mptw.tiddlyspot.com/#ExtendTagButtonPlugin|
-| Author:|Simon Baird <simon.baird@gmail.com>|
-| License|http://mptw.tiddlyspot.com/#TheBSDLicense|
+|Name:|ExtentTagButtonPlugin|
+|Description:|Adds a New tiddler button in the tag drop down|
+|Version:|3.2 ($Rev$)|
+|Date:|$Date$|
+|Source:|http://mopi.tiddlyspot.com/#ExtendTagButtonPlugin|
+|Author:|Simon Baird <simon.baird@gmail.com>|
+|License|http://mopi.tiddlyspot.com/#TheBSDLicense|
 ***/
 //{{{
 

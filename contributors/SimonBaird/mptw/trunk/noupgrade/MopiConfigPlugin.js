@@ -14,8 +14,7 @@ config.mptwJournalFormat = 'Journal DD/MM/YY';
 //config.mptwDateFormat = 'MM/0DD/YY';
 //config.mptwJournalFormat = 'Journal MM/0DD/YY';
 
-config.shadowTiddlers.GettingStarted += "\n\nSee also MonkeyPirateTiddlyWiki.";
-
-config.shadowTiddlers.OptionsPanel = "<<selectTheme>>\n<<selectPalette>>\n\n" + config.shadowTiddlers.OptionsPanel;
+config.shadowTiddlers.GettingStarted += "\n\nSee also [[Mopi]].";
+config.shadowTiddlers.OptionsPanel = config.shadowTiddlers.OptionsPanel.replace(/(\n\-\-\-\-\nAlso see AdvancedOptions)/, "{{select{<<selectTheme>>\n<<selectPalette>>}}}$1");
 
 //}}}

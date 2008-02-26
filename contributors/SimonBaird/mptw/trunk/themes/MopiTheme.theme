@@ -1,13 +1,14 @@
-|Name|MPTW|
-|Description|MonkeyPirateTiddlyWiki Theme with custom PageLayout|
-|PageTemplate|MptwTheme##PageTemplate|
-|ViewTemplate|MptwTheme##ViewTemplate|
-|EditTemplate|MptwTheme##EditTemplate|
-|StyleSheet|MptwTheme##StyleSheet|
+|Name|Mopi|
+|Description|Mopi Theme including custom PageLayout|
+|PageTemplate|MopiTheme##PageTemplate|
+|ViewTemplate|MopiTheme##ViewTemplate|
+|EditTemplate|MopiTheme##EditTemplate|
+|StyleSheet|MopiTheme##StyleSheet|
+
+http://mopi.tiddlyspot.com/#MopiTheme ($Rev: 1829 $) -->
 
 !PageTemplate
 <!--{{{-->
-<!-- http://mptw.tiddlyspot.com/#MptwPageTemplate ($Rev: 1829 $) -->
 <div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'>
 	<div class='headerShadow'>
 		<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
@@ -34,8 +35,6 @@
 
 !ViewTemplate
 <!--{{{-->
-<!--- http://mptw.tiddlyspot.com/#MptwViewTemplate ($Rev: 2930 $) --->
-
 <div class='toolbar'>
 	<span macro="showWhenTagged systemConfig">
 		<span macro="toggleTag systemConfigDisable . '[[disable|systemConfigDisable]]'"></span>
@@ -55,10 +54,12 @@
 </div>
 
 <div class='subtitle'>
-	<span macro='view modifier link'></span>,
-	<span macro='view modified date {{config.mptwDateFormat?config.mptwDateFormat:"MM/0DD/YY"}}'></span>
+	<!--- <span macro='view modifier link'></span>, --->
+	<span macro='view modified date {{config.mptwDateFormat?config.mptwDateFormat:"pppp MM/0DD/YY"}}'></span>
+	<!--
 	(<span macro='message views.wikified.createdPrompt'></span>
 	<span macro='view created date {{config.mptwDateFormat?config.mptwDateFormat:"MM/0DD/YY"}}'></span>)
+	-->
 </div>
 
 <div macro="showWhenExists ViewPanelTemplate">[[ViewPanelTemplate]]</div>
@@ -78,7 +79,6 @@
 
 !EditTemplate
 <!--{{{-->
-<!--- http://mptw.tiddlyspot.com/#MptwEditTemplate ($Rev: 2720 $) --->
 <div class="toolbar" macro="toolbar +saveTiddler saveCloseTiddler closeOthers -cancelTiddler cancelCloseTiddler deleteTiddler"></div>
 <div class="title" macro="view title"></div>
 <div class="editLabel">Title</div><div class="editor" macro="edit title"></div>
@@ -91,7 +91,6 @@
 
 !StyleSheet
 /*{{{*/
-/* http://mptw.tiddlyspot.com/#MptwStyleSheet ($Rev: 2720 $) */
 
 /* a contrasting background so I can see where one tiddler ends and the other begins */
 body {
@@ -234,6 +233,15 @@ h1,h2,h3,h4,h5,h6 {
 /* fix for TaggerPlugin. from sb56637. improved by FND */
 .popup li .tagger a {
    display:inline;
+}
+
+/* makes theme selector look a little better */
+#sidebarOptions .sliderPanel .select .button {
+  padding:0.5em;
+  display:block;
+}
+#sidebarOptions .sliderPanel .select br {
+	display:none;
 }
 
 /* make it print a little cleaner */

@@ -1,11 +1,11 @@
 /***
-| Name:|NewMeansNewPlugin|
-| Description:|If 'New Tiddler' already exists then create 'New Tiddler (1)' and so on|
-| Version:|1.0 ($Rev: 2263 $)|
-| Date:|$Date: 2007-06-13 04:22:32 +1000 (Wed, 13 Jun 2007) $|
-| Source:|http://mptw.tiddlyspot.com/empty.html#NewMeansNewPlugin|
-| Author:|Simon Baird <simon.baird@gmail.com>|
-| License|http://mptw.tiddlyspot.com/#TheBSDLicense|
+|Name:|NewMeansNewPlugin|
+|Description:|If 'New Tiddler' already exists then create 'New Tiddler (1)' and so on|
+|Version:|1.0 ($Rev: 2263 $)|
+|Date:|$Date: 2007-06-13 04:22:32 +1000 (Wed, 13 Jun 2007) $|
+|Source:|http://mopi.tiddlyspot.com/empty.html#NewMeansNewPlugin|
+|Author:|Simon Baird <simon.baird@gmail.com>|
+|License|http://mopi.tiddlyspot.com/#TheBSDLicense|
 ***/
 //{{{
 
