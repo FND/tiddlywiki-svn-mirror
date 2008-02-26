@@ -54,13 +54,11 @@ config.relationships = {
 		text: "raps",
 		prompt: "Tiddlers that are comments on this one",
 		getRelatedTiddlers: function(store,title) {
-			var re = "^" + title.trim().escapeRegExp() + " from (?:.+)";
-			var regexp = new RegExp(re,"mg");
+			var match = title.trim() + " from ";
+			var matchLen = match.length;
 			var tiddlers = [];
 			store.forEachTiddler(function(title,tiddler) {
-				regexp.lastIndex = 0;
-				var match = regexp.exec(title.trim().escapeRegExp());
-				if(match)
+				if(title.trim().substr(0,matchLen) === match)
 					tiddlers.push(title);
 			});
 			return tiddlers;
