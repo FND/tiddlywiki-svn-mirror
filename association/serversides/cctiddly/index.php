@@ -59,7 +59,7 @@ db_record_insert($tiddlyCfg['table']['workspace_view'],$data1);
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<base href='http://<?php echo $_SERVER['SERVER_NAME'];?>/<?php echo $tiddlyCfg['pref']['base_folder'];?>/' />
+<base href='http://<?php echo $_SERVER['SERVER_NAME'];?><?php echo $tiddlyCfg['pref']['base_folder'];?>/' />
 <head>
 <script type="text/javascript">
 //<![CDATA[
