@@ -94,7 +94,7 @@ function run() {
 		      
 		      header("location:".$scheme."://".$_SERVER['SERVER_NAME'].dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));                    
     }
-    //require_once('index.php');
+
 }
 run();
 ?>

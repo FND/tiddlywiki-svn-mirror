@@ -89,7 +89,6 @@
 			else
 			{ 
 				user_logout('Session Does not exist');
-				debug("HERE I AM ");
 				return FALSE;		
 			}
 		}
@@ -120,8 +119,6 @@
 			}     
 		}
 		
-		
-		
 		debug('Setting the Session '.$tiddlyCfg['session_expire']);
 		$insert_data['user_id'] = $un;
 		debug('session is be set : username is : '.$un);
@@ -149,7 +146,7 @@
 	function user_validate($un, $pw)
 	{
 		global $tiddlyCfg;
-		debug('validating the session with Username/pass:  '.$un.$pw);
+		debug('validating the session with Username/pass:  '.$un);
 			
 		// session has not been created, lets try the user/pass on our ldap server. 
 		if ($tiddlyCfg['pref']['ldap_enabled']==1)
@@ -162,12 +159,10 @@
 		if ($un != '' and $pw != '')
 		{	$data['username'] = $un;
 			$data['password'] = sha1($pw);
-			debug('up'.$un.$pw);
 			$results = db_record_select('user', $data);			// get array of results		
 			debug('Number of user s: '.count($results));
 			if (count($results) > 0 )                   //  if the array has 1 or more acounts 
 			{
-	
 				$del_data1['expire'] = epochToTiddlyTime(time());
 				db_record_delete('login_session', $del_data1, 0,  "<");
 				return TRUE;
@@ -188,11 +183,10 @@
 	function user_login($un, $pw, $reqHash=0)
 	{
 		global $tiddlyCfg;
-		error_log('LOGIN'.$un.$pw, 0);
 		if(user_validate($un, $pw))
 		{
 			user_set_session($un, $pw);	
-			debug('LOGIN -user validated so session should have been set return true '.$un.$pw);
+			debug('LOGIN -user validated so session should have been set return true ');
 			return TRUE;
 		}
 		else
@@ -222,8 +216,6 @@
 	
 	function user_logout($errorMsg = null)
 	{	
-		if ($tiddlyCfg['developing'])
-			error_log('LOG OUT THE USER '.$un.$pw, 0);
 		$data['session_token']= cookie_get('sessionToken');
 		db_record_delete('login_session',$data);
 		cookie_set('sessionToken', 'invalid');

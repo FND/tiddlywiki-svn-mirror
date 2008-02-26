@@ -7,8 +7,8 @@
 //////////////////////////////////////////////////////// default configurations ////////////////////////////////////////////////////////
 	$tiddlyCfg['db']['type'] = "mysql";		//sql type
 	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
-	$tiddlyCfg['db']['login'] = "cctiddly_public";		//login name
-	$tiddlyCfg['db']['pass'] = "piewallchicken";		//login password
+	$tiddlyCfg['db']['login'] = "root";		//login name
+	$tiddlyCfg['db']['pass'] = "";		//login password
 	$tiddlyCfg['db']['name'] = "cctiddly_public";		//db name
 
 	
@@ -38,7 +38,7 @@
 	$tiddlyCfg['char_set'] = "utf8";
 	$tiddlyCfg['hashseed'] = "aigijgij";
 	$tiddlyCfg['default_anonymous_perm'] = "AUUU";
-	$tiddlyCfg['default_user_perm'] = "ADDD";
+	$tiddlyCfg['default_user_perm'] = "AADD";
 	$tiddlyCfg['rss_group'] = "";
 	$tiddlyCfg['markup_group'] = "";
 	//$tiddlyCfg['pref']['twFile'] = "tiddlywiki";
@@ -60,7 +60,7 @@ If you got one of the following error message, that may mean your database do no
 	$tiddlyCfg['pref']['openid_enabled'] = 1;  // openid end not fully implented yet. 
 	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
 	//$tiddlyCfg['pref']['workspace_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the workspace name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
-	$tiddlyCfg['developing']=0;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
+	$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
 	$tiddlyCfg['mysql_debug']=0;	 // if set to 1 will output every sql query into the logfile 
 	
 	$tiddlyCfg['users_required_in_db']=0; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db

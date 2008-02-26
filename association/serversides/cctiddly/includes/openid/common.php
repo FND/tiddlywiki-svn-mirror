@@ -89,7 +89,7 @@ function getTrustRoot() {
     return sprintf("%s://%s:%s%s/",
                    getScheme(), $_SERVER['SERVER_NAME'],
                    $_SERVER['SERVER_PORT'],
-                   dirname($_SERVER['PHP_SELF']));
+                   dirname(dirname(dirname($_SERVER['PHP_SELF']))));
 }
 
 
