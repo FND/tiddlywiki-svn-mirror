@@ -23,15 +23,14 @@ config.macros.testMacro.test = function(title,params)
 // http://meta.wikimedia.org/wiki/Template
 	clearMessage();
 	displayMessage("Testing");
-	var titles = ["TestNoParams","TestParams1","T1demo"];
-	for(var i=0;i<titles.length;i++) {
-		var t = store.fetchTiddler(titles[i]);
-		var r = store.fetchTiddler(titles[i]+"Result");
-		displayMessage(titles[i]+":");
+	var tiddlers = store.getTaggedTiddlers("test");
+	for(var i=0;i<tiddlers.length;i++) {
+		var t = tiddlers[i];
+		var r = store.fetchTiddler(t.title+" Result");
+		displayMessage(t.title+":");
 		displayMessage(":"+wikifyStatic(t.text,null,t));
 		displayMessage(":"+r.text);
 	}
-// insert test code here
 };
 
 config.macros.testMacro.handler = function(place,macroName,params,wikifier,paramString,tiddler)

@@ -24,7 +24,10 @@ tiddler: ../../plugins/DisableWikiLinksPlugin.js
 tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
 tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
 tiddler: ../../styles/wikipediaStyle.js
+tiddler: ../../shadows/ViewTemplateGetPutRevisions.tiddler
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
+tiddler: ../../feeds/MetaWikimediaHelpFeed.tiddler
+tiddler: ../../feeds/MetaWikimediaDemoTemplateFeed.tiddler
 recipe: ../../test/templates/split.recipe
 tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js tags="systemConfig excludeLists excludeSearch"
