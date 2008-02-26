@@ -4,7 +4,6 @@ require_once "common.php";
 
 $cct_base = "../../";
 include_once($cct_base."includes/header.php");
-
 include_once($cct_base."includes/user.php");
 
 session_start();
@@ -91,9 +90,11 @@ function run() {
     			if (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
        	 			$scheme .= 's';
     			}
-		        header("location:".$scheme."://".$_SERVER['SERVER_NAME'].dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));                    
+
+		      
+		      header("location:".$scheme."://".$_SERVER['SERVER_NAME'].dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));                    
     }
-    include 'index.php';
+    //require_once('index.php');
 }
 run();
 ?>

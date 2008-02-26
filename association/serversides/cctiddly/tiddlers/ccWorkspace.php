@@ -14,13 +14,15 @@
 
 var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
 	var workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
-
-
-<?php
-
-
-if ($workspace_create == "A" ||   $tiddlyCfg['allow_workspace_creation'] ==1)
+	var workspacePermission =  {};
+	
+		<?php
+	
+if ($workspace_create == "A" &&  $tiddlyCfg['allow_workspace_creation'] ==1)
 {
+echo "workspacePermission.create = 1;";
+}
+
 
 ?>
 
@@ -35,6 +37,13 @@ config.macros.ccCreateWorkspace = {
 	// When we server this tiddler it need to know the URL of the server to post back to
 	//this value is currently set in index.php, should be index.php?action=createWorkspace to prepare for modulation
 		//form heading
+		
+		
+		if (workspacePermission.create != 1)
+		{
+			createTiddlyElement(place,&quot;div&quot;, null, "annotation",  &quot;You do not have permissions to create a workspace. &quot;);
+			return null;
+		}
 		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
 		frm.onsubmit = this.createWorkspaceOnSubmit;
 		createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Create new workspace &quot;);
@@ -163,11 +172,6 @@ config.macros.ccCreateWorkspace = {
 	}
 
 }
-
-<?php
-}
-?>
-
 
 
  	config.macros.ccListWorkspaces = {

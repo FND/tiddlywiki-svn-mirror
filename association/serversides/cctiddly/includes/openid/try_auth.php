@@ -8,7 +8,7 @@ function getOpenIDURL() {
     // value.
     if (empty($_GET['openid_identifier'])) {
         $error = "Expected an OpenID URL.";
-     //   include 'index.php';
+        include 'index.php';
         exit(0);
     }
 
@@ -77,7 +77,7 @@ function run() {
                "<html><head><title>",
                "OpenID transaction in progress",
                "</title></head>",
-               "<body>",
+               "<body onload='document.getElementById(\"".$form_id."\").submit()'>",
                $form_html,
                "</body></html>");
 
