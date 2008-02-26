@@ -23,7 +23,7 @@ Parameters can be:
 filter - a tiddler filter
 data - the part of a tiddler to use in the subTemplate
 
-NOTE: FOR NOW, THIS PLUGIN ALSO INCLUDES OVERRIDEN "VIEW" MACRO AND NEW "NOW" MACRO (AT BOTTOM)
+NOTE: FOR NOW, THIS PLUGIN ALSO OVERRIDES THE RSS SAVING AND PRODVIDES A MACRO CALLED TIDDLYTEMPLATING TO SAVE AN EXTERNAL FILE
 
 ***/
 
@@ -34,7 +34,6 @@ version.extensions.ListTemplateMacro = {installed:true};
 
 config.macros.ListTemplate = {
 	defaultTemplate: "<<view text>>",
-	// defaultData: "TemplateData" (only needed for METHOD2)
 };
 
 config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,paramString,tiddler)
@@ -80,74 +79,6 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 } //# end of 'install only once'
 //}}}
 
-
-/* Overwriting view macro to allow access to global variables */
-/* in my core as patch
-config.macros.view.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-{
-	if((tiddler instanceof Tiddler) && params[0]) {
-		if(params[2]=='global') {
-			// little hack to allow you to provide string references to variables e.g. "version.major"
-			var values = params[0].split(".");
-			var value = window;
-			for(var i=0; i<values.length; i++) {
-				value = value[values[i]];
-			}
-		} else {
-			value = store.getValue(tiddler,params[0]);
-		}
-		if(value != undefined) {
-			switch(params[1]) {
-			case undefined:
-				highlightify(value,place,highlightHack,tiddler);
-				break;
-			case "link":
-				createTiddlyLink(place,value,true);
-				break;
-			case "wikified":
-				wikify(value,place,highlightHack,tiddler);
-				break;
-			case "date":
-				value = Date.convertFromYYYYMMDDHHMM(value);
-				createTiddlyText(place,value.formatString(params[2] ? params[2] : config.views.wikified.dateFormat));
-				break;
-			case "template":
-				wikify("<!--{{{-->\n"+value+"\n<!--}}}-->",place);
-				break;
-			}
-		}
-	} else {
-		// if tiddler isn't an instance of tiddler or we don't provide a paramter for viewing, just print out the tiddler
-		// NB: I don't like this. I would like to fix it so that <<view>> doesn't only works for tiddlers i.e. doesn't do an instanceof check at the top
-		// Don't think I need this anymore 24/1/08 - check this.
-		createTiddlyText(place,tiddler.toString());
-	}
-};
-*/
-/***
-!today macro (overriding)
-
-Usage: <<today what>>
-'what' can be: GMT, hour, year or a date template e.g. "DD MMM YYYY"
-***/
-/* (macro is in my core as a patch) */
-merge(config.macros.today.views,{
-	UTC: {
-		handler: function(d) {
-			return d.toUTCString();
-		}
-	},
-	hour: {
-		handler: function(d) {
-			return d.formatString("hh");
-		}
-	},
-	year: {
-		handler: function(d) {
-			return d.formatString("YYYY");
-		}
-	}
-});
 /***
 !permalink macro
 
