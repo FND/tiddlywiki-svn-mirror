@@ -1,0 +1,7 @@
+<div title="TestParserFunctions" tags="test" wikiformat="mediawiki">
+<pre>
+# {{#if: foo | do if true | do if false}}
+# {{#if: 0 | do if true | do if false}}
+# {{#if: | do if true | do if false}}
+</pre>
+</div>

@@ -1,0 +1,9 @@
+<div title="T2demo" tags="test" wikiformat="mediawiki">
+<pre>
+# {{t2demo}
+# {{t2demo|2=a}}
+# {{t2ademo|b}}
+# {{t2a1|b}}
+# {{t2a2|b}}
+</pre>
+</div>

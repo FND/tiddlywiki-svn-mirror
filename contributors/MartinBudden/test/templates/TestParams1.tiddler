@@ -1,4 +1,4 @@
-<div title="TestParams1" wikiformat="mediawiki">
+<div title="TestParams1" tags="test" wikiformat="mediawiki">
 <pre>
 {{TestParams1}}
 {{TestParams1|param1=aaa}}

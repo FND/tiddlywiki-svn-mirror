@@ -1,9 +1,9 @@
 <div title="T1demo Result" wikiformat="mediawiki">
 <pre>
-startABCend
-{{t1demo|abc]]def[[ghi}}
-startabcenddef}}
-startabc]def[ghiend
-startabcdefend
+# startABCend
+# {{t1demo|abc]]def[[ghi}}
+# startabcenddef}}
+# startabc]def[ghiend
+# startabc (http://1) defend
 </pre>
 </div>

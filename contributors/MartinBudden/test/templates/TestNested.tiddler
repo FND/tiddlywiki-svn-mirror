@@ -1,0 +1,5 @@
+<div title="TestNested" tags="test" wikiformat="mediawiki">
+<pre>
+# {{TestParams1|param1={{tc}}}}
+</pre>
+</div>

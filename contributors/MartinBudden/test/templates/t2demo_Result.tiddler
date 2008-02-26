@@ -1,0 +1,9 @@
+<div title="T2demo Result" wikiformat="mediawiki">
+<pre>
+# start-{{{1}}}-middle-{{{2}}}-end
+# start-{{{1}}}-middle-a-end
+# start-a-middle-{{{2}}}-end
+# start-a-middle-b-end.
+# start-a-middle-b-end.
+</pre>
+</div>
