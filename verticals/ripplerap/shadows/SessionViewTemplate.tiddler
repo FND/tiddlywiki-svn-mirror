@@ -1,0 +1,12 @@
+<div title="SessionViewTemplate" tags="excludeLists excludeSearch">
+<pre><!--{{{-->
+<div class='session'>
+	<div class='toolbar' macro='toolbar closeTiddler editTiddler'></div>
+	<div class="title" macro="view title"></div>
+	<span class="time"><span macro="dtstart rr_session_starttime '0hh:0mm'"></span>-<span macro="dtend rr_session_endtime '0hh:0mm'"></span></span>
+	<div class="speaker" macro="view rr_session_speaker"></div>
+	<div class="noteOptions" macro="MakeNotesControl create"></div>
+	<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}--></pre>
+</div>
