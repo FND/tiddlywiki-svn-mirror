@@ -350,6 +350,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
 //#console.log('getTiddlerListCallback status:'+status);
+//#console.log(context.responseType);
 //#console.log(responseText);
 //#displayMessage('rt:'+responseText.substr(0,60));
 //#displayMessage('xhr:'+xhr);
@@ -367,23 +368,13 @@ MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,u
 			else
 				pages = info.pages;
 			var list = [];
-			if(context.responseType == 'query.embeddedin') {
-				for(var i=0;i<pages.length;i++) {
-					var tiddler = new Tiddler(pages[i].title);
-					tiddler.fields.workspaceId = pages[i].ns;
+			for(i in pages) {
+				var title = pages[i].title;
+				if(title && !store.isShadowTiddler(title)) {
 					//# avoid overwriting shadow tiddlers
-					if(!store.isShadowTiddler(tiddler.title))
-						list.push(tiddler);
-				}
-			} else {
-				for(i in pages) {
-					var title = pages[i].title;
-					if(title && !store.isShadowTiddler(title)) {
-						//# avoid overwriting shadow tiddlers
-						tiddler = new Tiddler(title);
-						tiddler.fields.workspaceId = pages[i].ns;
-						list.push(tiddler);
-					}
+					tiddler = new Tiddler(title);
+					tiddler.fields.workspaceId = pages[i].ns;
+					list.push(tiddler);
 				}
 			}
 			context.tiddlers = list;
