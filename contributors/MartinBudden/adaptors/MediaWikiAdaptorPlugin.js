@@ -25,7 +25,7 @@ if(!version.extensions.MediaWikiAdaptorPlugin) {
 version.extensions.MediaWikiAdaptorPlugin = {installed:true};
 
 if(config.options.txtMediaAdaptorLimit == undefined)
-	{config.options.txtMediaAdaptorLimit = '100';}
+	{config.options.txtMediaAdaptorLimit = '500';}
 	
 function MediaWikiAdaptor()
 {
@@ -182,7 +182,7 @@ MediaWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callba
 	}
 	var uriTemplate = '%0api.php?format=json&action=query&meta=siteinfo&siprop=namespaces';
 	var uri = uriTemplate.format([context.host]);
-//#displayMessage("uri:"+uri);
+//#console.log("uri:"+uri);
 	var req = MediaWikiAdaptor.doHttpGET(uri,MediaWikiAdaptor.getWorkspaceListCallback,context);
 	return typeof req == 'string' ? req : true;
 };
@@ -216,6 +216,7 @@ MediaWikiAdaptor.prototype.getWorkspaceList = function(context,userParams,callba
 MediaWikiAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
 {
 //#displayMessage("getWorkspaceListCallback:"+status);
+//#console.log(responseText);
 	context.status = false;
 	if(status) {
 		try {
@@ -269,7 +270,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 			switch(match[1]) {
 			case 'tag':
 				context.responseType = 'pages';
-				var uriTemplate = '%0query.php?format=json&what=category&cpnamespace=0&cptitle=%3';
+				var uriTemplate = '%0query.php?format=json&what=category&cpnamespace=%1&cplimit=%2&cptitle=%3';
 				break;
 			case 'template':
 				context.responseType = 'query.embeddedin';
@@ -304,7 +305,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 	}
 	var host = MediaWikiAdaptor.fullHostName(this.host);
 	var uri = uriTemplate.format([host,this.workspaceId,limit,filterParams]);
-//#displayMessage('uri: '+uri);
+//#console.log('uri: '+uri);
 	var req = MediaWikiAdaptor.doHttpGET(uri,MediaWikiAdaptor.getTiddlerListCallback,context);
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
@@ -348,7 +349,8 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 
 MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
-//#displayMessage('getTiddlerListCallback status:'+status);
+//#console.log('getTiddlerListCallback status:'+status);
+//#console.log(responseText);
 //#displayMessage('rt:'+responseText.substr(0,60));
 //#displayMessage('xhr:'+xhr);
 	context.status = false;
@@ -426,7 +428,7 @@ MediaWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callba
 {
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
-//#displayMessage('MediaWikiAdaptor.getTiddler:'+context.title+" revision:"+context.revision);
+//#console.log('MediaWikiAdaptor.getTiddler:'+context.title+" revision:"+context.revision);
 //# http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Elongation&rvprop=content
 //# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&prop=revisions&titles=Main%20Page&rvprop=content|timestamp|user
 //# http://www.tiddlywiki.org/api.php?action=query&prop=revisions&titles=Main%20Page&rvprop=content
@@ -436,7 +438,7 @@ MediaWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callba
 	if(context.revision)
 		uriTemplate += '&rvstartid=%2&rvlimit=1';
 	uri = uriTemplate.format([host,MediaWikiAdaptor.normalizedTitle(context.title),context.revision]);
-//#displayMessage('uri: '+uri);
+//#console.log('uri: '+uri);
 	context.tiddler = new Tiddler(context.title);
 	context.tiddler.fields.wikiformat = 'mediawiki';
 	context.tiddler.fields['server.host'] = MediaWikiAdaptor.minHostName(host);
@@ -475,7 +477,9 @@ MediaWikiAdaptor.prototype.getTiddlerPostProcess = function(context)
 
 MediaWikiAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
-//#displayMessage('getTiddlerCallback status:'+status);
+//#console.log('getTiddlerCallback status:'+status);
+//#console.log('tiddler:'+context.tiddler.title);
+//#console.log(responseText);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
 	context.status = false;
