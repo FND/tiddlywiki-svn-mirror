@@ -20,6 +20,9 @@
 	});
 	
 	
+		config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){};
+	
+	
 	<?php 
 	if ($workspace_create == "D")
 	{

@@ -39,6 +39,8 @@
 	$tiddlyCfg['hashseed'] = "aigijgij";
 	$tiddlyCfg['default_anonymous_perm'] = "AUUU";
 	$tiddlyCfg['default_user_perm'] = "AADD";
+	$tiddlyCfg['default_new_workspace_perm'] = "AADD";   // speicify the permissions for new workspace (these appear on the ccCreateWorkspace macro)
+	
 	$tiddlyCfg['rss_group'] = "";
 	$tiddlyCfg['markup_group'] = "";
 	//$tiddlyCfg['pref']['twFile'] = "tiddlywiki";
@@ -60,7 +62,7 @@ If you got one of the following error message, that may mean your database do no
 	$tiddlyCfg['pref']['openid_enabled'] = 1;  // openid end not fully implented yet. 
 	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
 	//$tiddlyCfg['pref']['workspace_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the workspace name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
-	$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
+	$tiddlyCfg['developing']=0;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
 	$tiddlyCfg['mysql_debug']=0;	 // if set to 1 will output every sql query into the logfile 
 	
 	$tiddlyCfg['users_required_in_db']=0; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db

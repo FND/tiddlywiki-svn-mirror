@@ -81,7 +81,8 @@ config.macros.ccCreateWorkspace = {
 		 
 		  var anR = createTiddlyElement(null,&quot;input&quot;, &quot;anR&quot;,&quot;anR&quot;);
 	     anR.setAttribute(&quot;type&quot;,&quot;checkbox&quot;);
-	     step.appendChild(anR);
+		anR.setAttribute(&quot;checked&quot;,&quot;checked&quot;);
+	    step.appendChild(anR);
 		 createTiddlyText(step, "Read Tiddlers");
 	createTiddlyElement(step,&quot;br&quot;);
 		 
