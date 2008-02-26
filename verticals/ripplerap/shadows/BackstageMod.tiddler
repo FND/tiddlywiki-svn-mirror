@@ -1,0 +1,12 @@
+<div title="BackstageMod" tags="excludeLists excludeSearch systemConfig">
+<pre>//{{{
+backstage.init_old = backstage.init;
+backstage.init = function() {
+        var s = '[[AgendaMenu]]'
+		+ '<<newTiddler label:"New Track" text:"&lt;&lt;listRelated tag:track1 sort:rr_session_starttime filter:[tag[track1]] [sort[+rr_session_starttime]] rel:raps template:AgendaItemsTemplate subtemplate:AgendaSubItemsTemplate&gt;'+'***&gt;">>'
+		+ '<<newTiddler label:"New Session" template:SessionEditTemplate tag:"session" text:"">>';
+        this.init_old.apply(this, arguments);
+        wikify(s, document.getElementById("backstageToolbar"));
+};
+//}}}</pre>
+</div>
