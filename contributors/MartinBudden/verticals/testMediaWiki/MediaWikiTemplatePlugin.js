@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -44,13 +44,26 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1))
 
 fnLog = function(text)
 {
-//	console.log(text);
+//	console.log(text.substr(0,60));
 };
 
 MediaWikiTemplate = function()
 {
 	this.stack = [];
 	this.error = false;
+	this.tiddler = null;
+};
+
+MediaWikiTemplate.subWikify = Wikifier.prototype.subWikify;
+Wikifier.prototype.subWikify = function(output,terminator)
+{
+//console.log('aaa');
+//console.log
+	if(this.formatter.format=='mediawiki') {
+		var mwt = new MediaWikiTemplate();
+		this.source = mwt.transcludeTemplates(this.source,this.tiddler);
+	}
+	MediaWikiTemplate.subWikify.apply(this,arguments);
 };
 
 MediaWikiTemplate.prototype.normalizeTitle = function(title)
@@ -66,11 +79,12 @@ fnLog('getTemplateContent:'+name);
 	name = name.replace(/_/mg,' ');
 	name = 'Template:' + name.substr(0,1).toUpperCase() + name.substring(1);
 	var tiddler = store.fetchTiddler(name);
+	var text = '';
 	if(tiddler) {
-		var text = tiddler.text;
+		text = tiddler.text;
 	} else {
 		if(config.options.chkMediaWikiDisplayEmptyTemplateLinks) {
-			//# for conveniece, output the name of the template so can click on it and create tiddler
+			//# for conveniece, output the name of the template so user can click on it and create tiddler
 			text = '[['+name+']]';
 		}	
 	}
@@ -79,7 +93,7 @@ fnLog('getTemplateContent:'+name);
 
 MediaWikiTemplate.prototype.findTemplateTag = function(text,start)
 // template tag is openingbrace templatename followed by optional parameter definitions separated by raw pipes closing brace
-// does not yet handle nested templates
+// !!does not yet handle nested templates, by properly matching {{ and }}
 {
 fnLog('findTemplateTag:'+text);
 	var ret = {start:-1,end:0};
@@ -122,14 +136,11 @@ MediaWikiTemplate.prototype.expandTemplateContent = function(templateName,params
 //# see http://meta.wikimedia.org/wiki/Help:Template
 {
 fnLog('expandTemplateContent:'+templateName);
-fnLog('stackdepth:'+this.stack.length);
 	if(this.stack.indexOf(templateName)!=-1) {
-		console.log('ERROR: template recursion detected');
 		this.error = true;
 		return 'ERROR: template recursion detected';
 	}
 	this.stack.push(templateName);
-fnLog('stackdepth:'+this.stack.length);
 	var text = this.getTemplateContent(templateName);
 	text = text.replace(/<noinclude>((?:.|\n)*?)<\/noinclude>/mg,'');// remove text between noinclude tags
 	var includeOnlyRegExp = /<includeonly>((?:.|\n)*?)<\/includeonly>/mg;
@@ -164,18 +175,18 @@ fnLog('stackdepth:'+this.stack.length);
 	return t;
 };
 
-MediaWikiTemplate.prototype.expandVariable = function(tag,tiddler)
+MediaWikiTemplate.prototype.expandVariable = function(tag)
 {
 	var ret = false;
 	switch(tag) {
 	case 'PAGENAME':
-		ret = tiddler.title;
+		ret = this.tiddler.title;
 		break;
 	case 'PAGENAMEE':
-		ret = MediaWikiTemplate.normalizedTitle(tiddler.title);
+		ret = MediaWikiTemplate.normalizedTitle(this.tiddler.title);
 		break;
 	case 'REVISIONID':
-		ret  = tiddler.fields['server.revision'];
+		ret  = this.tiddler.fields['server.revision'];
 		break;
 	default:
 		return ret;
@@ -223,11 +234,11 @@ fnLog('expandParserFunction'+fn);
 	return ret;
 };
 
-MediaWikiTemplate.prototype.expandTemplateTag = function(tag,tiddler)
+MediaWikiTemplate.prototype.expandTemplateTag = function(tag)
 {
 //console.log('expandTemplateTag'+tag);
 	tag = tag.substring(2,tag.length-2);
-	var v = this.expandVariable(tag,tiddler);
+	var v = this.expandVariable(tag);
 	if(v!==false) {
 		return v;
 	}
@@ -270,20 +281,21 @@ MediaWikiTemplate.prototype.transcludeTemplates = function(text,tiddler)
 {
 	this.stack = [];
 	this.error = false;
-	return this.transcludeTemplates2(text,tiddler);
+	this.tiddler = tiddler;
+	return this.transcludeTemplates2(text);
 };
 
-MediaWikiTemplate.prototype.transcludeTemplates2 = function(text,tiddler)
+MediaWikiTemplate.prototype.transcludeTemplates2 = function(text)
 {
 fnLog('transcludeTemplates2:'+text);
 	var c = this.findTemplateTag(text,0);
 	while(c.start!=-1) {
-		var t = this.expandTemplateTag(text.substring(c.start,c.end),tiddler);
+		var t = this.expandTemplateTag(text.substring(c.start,c.end));
 		if(this.error) {
 			text = text.substring(0,c.start) + t + text.substring(c.end);
 			return text;
 		}
-		t = this.transcludeTemplates2(t,tiddler);
+		t = this.transcludeTemplates2(t);
 		text = text.substring(0,c.start) + t + text.substring(c.end);
 		if(this.error)
 			return text;
