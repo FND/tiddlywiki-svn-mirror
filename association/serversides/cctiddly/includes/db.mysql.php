@@ -237,7 +237,7 @@ $db_var['error']['query'] = " query: ";*/
 		global $ccT_msg;
 		
 		//or use status=P for public???
-		$q = "SELECT * FROM ".$tiddlyCfg['table']['workspace']." WHERE default_anonymous_perm LIKE 'A%'";
+		$q = "SELECT * FROM ".$tiddlyCfg['table']['workspace']." WHERE default_anonymous_perm LIKE 'A%%%'";
 
 		debug("db_workspace_selectAll: ".$q);
 		$r = mysql_query($q)
