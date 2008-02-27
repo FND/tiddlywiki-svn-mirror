@@ -250,9 +250,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 			log("We couldn't get a response from " + params.platform + ". Please check your settings and ensure that all is well with " + params.platform);
 			return;
 		}
-		
-		log("parsing updates from " + params.platform);
-		
+				
 		var rootURI = microblogs[params.platform].RootURI;
 		 
 		/*
@@ -273,16 +271,16 @@ version.extensions.MicroblogPlugin = {installed:true};
 		var msg, m, a, i;
 		var id, text, creator, timestamp;
 		for(var u=0; u<count; u++) {
-			
-			/*
-				TODO remove debug logging.
-			*/
-			log(msg);
-			
+					
 			msg = updates[u];
 			id = msg.id;
 			text = msg.text.htmlDecode();
+			
+			/*
+				TODO Format date string nicely.
+			*/
 			timestamp = msg.created_at;
+			
 			creator = msg.user.name;
 			screenname = msg.user.screen_name;
 			image = msg.user.profile_image_url;
@@ -321,7 +319,8 @@ version.extensions.MicroblogPlugin = {installed:true};
 			TODO Make the polling period configurable.
 		*/
 		if(microblogs[params.platform].poll) {
-			microblogs[params.platform].timer = window.setTimeout(function() {config.macros.Microblog.listen(params.place, params.platform, params.count, params.output);}, 60000); 
+			var period = config.macros.Microblog.getInterval(params.platform);
+			microblogs[params.platform].timer = window.setTimeout(function() {config.macros.Microblog.listen(params.place, params.platform, params.count, params.avatars, params.makeTiddlers);}, period); 
 		}
 		else {
 			microblogs[params.platform].timer = null;
@@ -384,6 +383,13 @@ version.extensions.MicroblogPlugin = {installed:true};
 			log('There was a problem posting your update to ' + params.platform);
 
 	};
+	config.macros.Microblog.getInterval = function(platform) {
+		var t = microblogs[platform].Period ? parseInt(microblogs[platform].Period) * 1000 : 60000;
+		if(isNaN(t))
+			t = 60000;
+		return t;
+	};
+
 
 } //# end of 'install only once'
 //}}}
