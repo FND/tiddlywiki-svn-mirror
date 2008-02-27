@@ -3,6 +3,7 @@ tiddler: About_your_username.tiddler
 tiddler: AccountDetails.tiddler
 tiddler: AgendaItemsTemplate.tiddler
 tiddler: AgendaSubItemsTemplate.tiddler
+tiddler: Blogs.tiddler
 tiddler: CamelCase.tiddler
 tiddler: Double_square_brackets.tiddler
 tiddler: FAQs.tiddler
@@ -20,4 +21,5 @@ tiddler: Share_notes.tiddler
 tiddler: SignInOption.tiddler
 tiddler: TiddlySaver.tiddler
 tiddler: TiddlyWiki.tiddler
+tiddler: Tweets.tiddler
 tiddler: Welcome.tiddler
