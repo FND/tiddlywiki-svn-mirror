@@ -48,7 +48,7 @@ config.macros.ccCreateWorkspace = {
 		frm.onsubmit = this.createWorkspaceOnSubmit;
 		createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Create new workspace &quot;);
 		createTiddlyElement(frm,&quot;br&quot;);
-		createTiddlyText(frm, "You can get your own TiddlyWiki by filling in the form below.");
+		createTiddlyText(frm, "You can get your own TiddlyWiki workspace by filling in the form below.");
 		createTiddlyElement(frm,&quot;br&quot;);
 		createTiddlyElement(frm,&quot;br&quot;);
 		

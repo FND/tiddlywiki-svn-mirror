@@ -88,9 +88,9 @@ function workspace_create($workspace, $anonPerm="ADDD")
 	db_record_insert($tiddlyCfg['table']['main'],$data1);
 	
 	
-	$data1['body'] = 'getting started hel' ;
+	$data1['body'] = "To get started with this blank TiddlyWiki, you'll need to modify the following tiddlers:\n* SiteTitle &amp; SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the TiddlyWiki is opened\n\";
 	$data1['title'] = 'GettingStarted';
-	db_record_insert($tiddlyCfgyCfg['table']['main'], $data1);
+	db_record_insert($tiddlyCfg['table']['main'], $data1);
 	
 	
 	
