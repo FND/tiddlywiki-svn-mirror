@@ -5,12 +5,12 @@ tiddler: settings.js
 tiddler: Home.tiddler
 tiddler: Test.tiddler
 tiddler: testMacro.js
+tiddler: MediaWikiTemplatePlugin.js
 tiddler: DownloadThisTiddlyWiki.tiddler
 recipe: shadows/split.recipe
 tiddler: ../tiddlypedia/StyleSheet.tiddler
 tiddler: ../tiddlypedia/OptionsPanel.tiddler
 tiddler: ../tiddlypedia/PageTemplateWithLogo.tiddler
-tiddler: ../tiddlypedia/SideBarOptionsWithMediaWikiFormat.tiddler
 tiddler: ../tiddlypedia/SideBarTabs.tiddler
 tiddler: ../tiddlypedia/TabMoreOtherPagesUpdatedShadowed.tiddler
 tiddler: ../tiddlypedia/TabTags.tiddler

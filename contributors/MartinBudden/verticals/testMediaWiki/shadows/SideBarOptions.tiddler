@@ -1,0 +1,3 @@
+<div title="SideBarOptions" tags="excludeLists excludeSearch">
+<pre><<search>><<closeAll>><<permaview>><<newTiddler 'New Tiddler' fields:'server.host:meta.wikimedia.org/w wikiformat:mediawiki'>><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Change TiddlyWiki advanced options">></pre>
+</div>

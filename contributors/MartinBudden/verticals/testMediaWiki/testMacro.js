@@ -18,7 +18,55 @@ config.macros.testMacro = {
 	title: "Test Macro"
 };
 
+tpTest = function(content,tag,expected)
+{
+console.log('content:'+content);
+console.log('tag:'+tag);
+	var mwt = new MediaWikiTemplate();
+	var tiddler = store.fetchTiddler('Test');
+	var template = new Tiddler('Template:Test');
+	template.text = content;
+	store.addTiddler(template);
+	text = mwt.transcludeTemplates(tag,tiddler);
+	if(expected && text!=expected) {
+		displayMessage('Error:'+content);
+	}
+	console.log('RET:'+text+'\n');
+};
+
 config.macros.testMacro.test = function(title,params)
+{
+	tpTest('{{test}}','{{test}}');
+	tpTest('hello','{{test}}');
+	tpTest('hello {{{1}}}','ABC{{test|world}}XYZ','ABChello worldXYZ');
+	tpTest('hello {{{1}}}','{{test}}');
+	tpTest('hello {{{param1|nobody}}}','{{test|param1=world}}');
+	tpTest('hello {{{param1|nobody}}}','{{test|param2=world}}');
+	tpTest('{{tc}} {{tc}}','{{test}}','in in');
+	tpTest('','{{PAGENAME}}');
+	tpTest('','{{#if: 0 | a |b }}');
+};
+
+config.macros.testMacro.test1 = function(title,params)
+{
+// http://meta.wikimedia.org/wiki/Template
+	clearMessage();
+	displayMessage("Testing");
+	// tc is "in"
+	var mwt = new MediaWikiTemplate();
+	var tiddler = store.fetchTiddler('Test');
+	var text;
+	text = mwt.transcludeTemplates('{{tc}}',tiddler);
+	console.log('RET:'+text);
+	text = mwt.transcludeTemplates('{{tc}}X{{tc}}',tiddler);
+	console.log('RET:'+text);
+	text = mwt.transcludeTemplates('{{PAGENAME}}',tiddler);
+	console.log('RET:'+text);
+	text = mwt.transcludeTemplates('{{#if: 0 | a |b }}',tiddler);
+	console.log('RET:'+text);
+};
+
+config.macros.testMacro.test2 = function(title,params)
 {
 // http://meta.wikimedia.org/wiki/Template
 	clearMessage();
