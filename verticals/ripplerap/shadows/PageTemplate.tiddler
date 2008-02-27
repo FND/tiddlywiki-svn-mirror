@@ -11,8 +11,9 @@
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
 </div>
 <div class='headerControls' refresh='content' tiddler='HeaderControls'></div>
-</div>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+</div>
+
 <div id='agendaMenu' refresh='content' force='true' tiddler='AgendaMenu'></div>
 <div id='displayArea'>
 <div id='tiddlerDisplay'></div>
