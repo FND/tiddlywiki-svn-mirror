@@ -28,16 +28,6 @@ function workspace_create_new($anonPerm="AUUU",$hash=null)
 	$data1['fields'] = "changecount='1'";
 	db_record_insert($tiddlyCfg['table']['main'],$data1);
 		
-	$data1['body'] = 'http://osmosoft.com/ More info about osmosoft can be found here ' ;
-	$data1['title'] = 'Osmosoft';
-	db_record_insert($tiddlyCfg['table']['main'],$data1);
-	
-	$data1['body'] = 'Provided by [[Osmosoft]] using TiddlyWiki - The Wiki with a silly name';
-	$data1['title'] = 'SiteSubtitle';
-	$data1['creator'] = 'ccTiddly';
-	$data1['modifier'] = 'ccTiddly';
-	$data1['created'] = epochToTiddlyTime(mktime());
-	db_record_insert($tiddlyCfg['table']['main'],$data1);
 	
 	
 	
@@ -92,9 +82,17 @@ function workspace_create($workspace, $anonPerm="ADDD")
 	$data1['fields'] = "changecount='1'";
 	db_record_insert($tiddlyCfg['table']['main'],$data1);
 		
+		
 	$data1['body'] = 'http://osmosoft.com/ More info about osmosoft can be found here ' ;
 	$data1['title'] = 'Osmosoft';
 	db_record_insert($tiddlyCfg['table']['main'],$data1);
+	
+	
+	$data1['body'] = 'getting started hel' ;
+	$data1['title'] = 'GettingStarted';
+	db_record_insert($tiddlyCfgyCfg['table']['main'], $data1);
+	
+	
 	
 	$data1['body'] = 'Provided by [[Osmosoft]] using TiddlyWiki - The Wiki with a silly name';
 	$data1['title'] = 'SiteSubtitle';

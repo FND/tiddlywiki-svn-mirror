@@ -27,7 +27,7 @@
 	//cct core settings, do not affect by DB settings
 	$tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 
 	$tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
-	$tiddlyCfg['use_mod_rewrite'] = 0;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
+	$tiddlyCfg['use_mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
 	
 	//workspace default values
 	$tiddlyCfg['twLanguage'] = "en";	//predefine language
@@ -61,8 +61,8 @@ If you got one of the following error message, that may mean your database do no
 	$tiddlyCfg['pref']['openid_enabled'] = 1;  // openid end not fully implented yet. 
 	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
 	//$tiddlyCfg['pref']['workspace_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the workspace name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
-	$tiddlyCfg['developing']=0;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
-	$tiddlyCfg['mysql_debug']=0;	 // if set to 1 will output every sql query into the logfile 
+	$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
+	$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
 	
 	$tiddlyCfg['users_required_in_db']=0; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db
 	

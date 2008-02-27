@@ -645,7 +645,7 @@ class Auth_OpenID_Message {
     }
 
     function toFormMarkup($action_url, $form_tag_attrs = null,
-                          $submit_text = "Continue")
+                          $submit_text = "Authenticating.......please wait......")
     {
         $form = "<form accept-charset=\"UTF-8\" ".
             "enctype=\"application/x-www-form-urlencoded\"";

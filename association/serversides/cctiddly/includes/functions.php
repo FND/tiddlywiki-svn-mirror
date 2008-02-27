@@ -376,7 +376,7 @@
 	{
 		global $tiddlyCfg;
 		$expire =  time()+$tiddlyCfg['session_expire'];	
-		if(setcookie($k,rawurlencode($v), $expire,"/"))
+		if(setcookie($k,$v, $expire,"/"))
 			return true;
 		else
 			return false;

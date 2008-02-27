@@ -119,7 +119,7 @@ config.macros.ccLoginStatus = {
 				frm.method = "get";
 				 //frm.onsubmit = config.macros.ccLogin.logoutOnSubmit;
 				wrapper.appendChild(frm);	
-              	var str = wikify("Hi  " + name, frm);
+              	var str = wikify("You are logged in as :  " + name + "<br />", frm);
 			  
 				var logout = createTiddlyElement(null,&quot;input&quot;, logout, logout);
 				logout.setAttribute(&quot;type&quot;,&quot;hidden&quot;);

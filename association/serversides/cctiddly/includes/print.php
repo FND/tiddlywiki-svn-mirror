@@ -162,11 +162,10 @@ window.cct_tweak = function(){
 	//add new option to options panel
 	// OLD config.shadowTiddlers.OptionsPanel = "<<ssUploadStoreArea>>\n<<ssUploadRSS>>\n<<option chkAutoSave>> "+cctPlugin.lingo.autoUpload+"\n<<option chkRegExpSearch>>"+config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+26);
 	config.shadowTiddlers.OptionsPanel = config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+39);
- //config.shadowTiddlers.OptionsPanel = "[[ccEditWorkspace]]";
 	
 	
 	//change SideBarOption panel to add login panel
-		config.shadowTiddlers.SideBarOptions = "<<ccLoginStatus>>"+ config.shadowTiddlers.SideBarOptions;
+		config.shadowTiddlers.SideBarOptions =  "<<search>><<slider 'chkLoginStatus' 'LoginStatus' '  Login Status »' 'Login to make changes'>>" + config.shadowTiddlers.SideBarOptions.replace('<<search>>', '') ;
 
 	
 		config.shadowTiddlers.ViewTemplate = config.shadowTiddlers.ViewTemplate.replace(/references jump/,'references revisions jump');
