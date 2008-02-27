@@ -27,7 +27,7 @@
 	//cct core settings, do not affect by DB settings
 	$tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 
 	$tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
-	$tiddlyCfg['use_mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
+	$tiddlyCfg['use_mod_rewrite'] = 0;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
 	
 	//workspace default values
 	$tiddlyCfg['twLanguage'] = "en";	//predefine language
@@ -39,7 +39,6 @@
 	$tiddlyCfg['hashseed'] = "aigijgij";
 	$tiddlyCfg['default_anonymous_perm'] = "AUUU";
 	$tiddlyCfg['default_user_perm'] = "AADD";
-	$tiddlyCfg['default_new_workspace_perm'] = "AADD";   // speicify the permissions for new workspace (these appear on the ccCreateWorkspace macro)
 	
 	$tiddlyCfg['rss_group'] = "";
 	$tiddlyCfg['markup_group'] = "";

@@ -183,7 +183,7 @@ config.macros.ccCreateWorkspace = {
  	                while ($row = db_fetch_assoc($result))
  	                {
  	                        echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['name']."&quot;);\n";
- 	                        if( $tiddlyCfg['mod_rewrite']==1 ) {
+ 	                        if( $tiddlyCfg['use_mod_rewrite']==1 ) {
  	                                echo "item.href= url+'/".$row['name']."';\n";
  	                        }else{
  	                                echo "item.href= url+'?workspace=".$row['name']."';\n";
@@ -205,7 +205,7 @@ config.macros.ccCreateWorkspace = {
  	                while ($row = db_fetch_assoc($result))
  	                {
  	                        echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['workspace_name']."&quot;);\n";
- 	                        if( $tiddlyCfg['mod_rewrite']==1 ) {
+ 	                        if( $tiddlyCfg['use_mod_rewrite']==1 ) {
  	                                echo "item.href= url+'/".$row['workspace_name']."';\n";
  	                        }else{
  	                                echo "item.href= url+'?workspace=".$row['workspace_name']."';\n";
