@@ -101,8 +101,6 @@
 	{
 		global $tiddlyCfg;
 		
-		
-		
 		if ($tiddlyCfg['users_required_in_db']==1)
 		{
 		 	$data['username'] = $un;
@@ -113,8 +111,7 @@
 				//return true;
 			}
 			else
-			{
-				// user does not exists in the user database. 
+			{	// user does not exists in the user database. 
 				return false;
 			}     
 		}

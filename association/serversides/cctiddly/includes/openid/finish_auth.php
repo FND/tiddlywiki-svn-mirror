@@ -85,7 +85,7 @@ function run() {
 	  $success .= "<p>No PAPE response was sent by the provider.</p>";
 	}
 	
-               	user_set_session(urldecode(urldecode(urldecode($esc_identity))), 'openID'.rand());
+               	user_set_session(rawurldecode($esc_identity), 'openID'.rand());
 				
 				$scheme = 'http';
     			if (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {

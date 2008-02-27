@@ -1,3 +1,4 @@
+
 <div title="ccLogin" modifier="ccTiddly"  tags="systemConfig excludeLists excludeSearch" >
 <pre>	
 /***
@@ -119,7 +120,7 @@ config.macros.ccLoginStatus = {
 				frm.method = "get";
 				 //frm.onsubmit = config.macros.ccLogin.logoutOnSubmit;
 				wrapper.appendChild(frm);	
-              	var str = wikify("You are logged in as :  " + name + "<br />", frm);
+              	var str = wikify("You are logged in as :  " + name , frm);
 			  
 				var logout = createTiddlyElement(null,&quot;input&quot;, logout, logout);
 				logout.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
@@ -340,5 +341,10 @@ config.macros.ccLoginStatus = {
 	}
 	//}}}
 
+</pre>
+</div>
+<div title="LoginStatus" modifier="ccTiddly"  tags="systemConfig excludeLists excludeSearch" >
+<pre>
+&lt;&lt;ccLoginStatus&gt;&gt;
 </pre>
 </div>
