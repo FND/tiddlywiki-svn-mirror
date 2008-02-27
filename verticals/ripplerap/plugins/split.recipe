@@ -2,3 +2,4 @@ tiddler: TaggedTemplateTweak.js
 tiddler: RssSynchronizerPlugin.js
 tiddler: MakeNotesControlPlugin.js
 tiddler: AccountManagerPlugin.js
+tiddler: AgendaTrack.js

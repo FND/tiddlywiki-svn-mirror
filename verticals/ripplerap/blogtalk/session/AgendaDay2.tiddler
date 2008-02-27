@@ -1,3 +1,1 @@
-<div title="AgendaDay2" modifier="PaulDowney" created="200711280945">
-<pre><<listRelated tag:"day2" sort:"rr_session_starttime" filter:"[tag[day2]] [sort[+rr_session_starttime]]" rel:"raps" template:"AgendaItemsTemplate" subtemplate:"AgendaSubItemsTemplate">></pre>
-</div>
+<div title="3rd March 2008" modifier="PaulDowney" created="200711280945" tags="track" rr_session_tag="day2"><pre><<AgendaTrackSessions>></pre></div>

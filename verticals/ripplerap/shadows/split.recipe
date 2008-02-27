@@ -11,3 +11,5 @@ tiddler: StyleSheet.tiddler
 tiddler: ViewTemplate.tiddler
 tiddler: SessionViewTemplate.tiddler
 tiddler: SessionEditTemplate.tiddler
+tiddler: TrackEditTemplate.tiddler
+tiddler: AgendaMenu.tiddler

@@ -79,7 +79,7 @@ RssSynchronizer.prototype.init = function()
 	var me = this;
 	store.forEachTiddler(function(title,t) {
 		//# add in the session tiddlers
-		if(t.isTagged('session') && t.fields.rr_session_date) {
+		if(t.isTagged('session') && t.fields.rr_session_starttime) {
 			var s = title.replace(/[^\w]/g,'_');
 			//#if(me.sessionDownload.titles.length<3)// for debug
 			me.sessionDownload.titles.push(s);
