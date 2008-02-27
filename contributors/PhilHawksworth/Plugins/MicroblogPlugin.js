@@ -15,13 +15,13 @@ Usage:
 Display the login interface:
 <identifier> corresponds to the name of the microblogging platfom and requires an associated MicroblogConfig_identifier tiddler
 {{{
-	<<microblog identifier config>>
+	<<microblog identifier signin>>
 }}}
 
 
 Display the interface to allow posting of an update.
 {{{
-	<<microblog identifier ui>>	
+	<<microblog identifier postform>>	
 }}}
 
 
@@ -40,17 +40,17 @@ Display a stream of updates from the microblogging platform.
 if(!version.extensions.MicroblogPlugin) {
 version.extensions.MicroblogPlugin = {installed:true};
 	
-	/*
-		TODO add polling mechanism
-	*/
-	/*
-		TODO add force refresh mechanisim
-	*/
+	var log = function(str) {
+		if(window.console) {
+			console.log(str);
+			return;
+		}
+	};
 	
-	var log = config.macros.Console.log;
 
 	config.macros.Microblog = {};
-	config.macros.Microblog.microblogs = [];
+	var microblogs = config.macros.Microblog.microblogs = [];
+
 	config.macros.Microblog.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		if(params.length < 2) {
 			log('Not enough arguments in the call to the Microblog plugin');
@@ -60,20 +60,21 @@ version.extensions.MicroblogPlugin = {installed:true};
 		var action = params[1]; 
 		
 		//get the settings for this Microblog platform.
-		if(!config.macros.Microblog.microblogs[platform])
+		if(!microblogs[platform])
 			this.settings(platform);
 		
 		switch(action) {
-			case 'config':
-				this.config(place,platform);
-				break;    
-			case 'ui':
-				this.ui(place,platform);
+			case 'signin':
+				this.signin(place,platform);
+				break;	  
+			case 'postform':
+				this.postform(place,platform);
 				break;
-			case 'listen':
+			case 'listen':			
 				var count = params[2] ? params[2] : false;
 				var avatars = params[3] =='avatars' ? true : false;
 				var makeTiddlers = params[4] =='makeTiddlers' ? true : false;
+				microblogs[platform].poll = true;
 				this.listen(place, platform, count, avatars, makeTiddlers);
 				break;
 			default:
@@ -87,40 +88,42 @@ version.extensions.MicroblogPlugin = {installed:true};
 	config.macros.Microblog.settings = function(platform){
 		
 		//Get the existing data object or create a new one.
-		var mb = config.macros.Microblog.microblogs[platform] ? config.macros.Microblog.microblogs[platform] : {};
+		var mb = microblogs[platform] ? microblogs[platform] : {};
 		
 		//Gather the data from the tiddler.
 		var configTiddlerTitle = "MicroblogConfig_" + platform;
 		var slices = store.calcAllSlices(configTiddlerTitle);
+		mb['authenticated'] = false;
 		for(var s in slices) {
 			mb[s] = store.getTiddlerSlice(configTiddlerTitle, s);
 		}
 		
-		config.macros.Microblog.microblogs[platform] = mb;	
+		microblogs[platform] = mb;	
 		
 		/*
 			TODO Remove debug logging.
 		*/
 		log("-----------------");
-		var m = config.macros.Microblog.microblogs[platform];	
+		var m = microblogs[platform];	
 		for (var t in m) {
 			log(t +" : "+ m[t]);
 		};
 		log("-----------------");
 	};
+	
 
 
-	//create config UI.
-	config.macros.Microblog.config = function(place, platform){
+	//create signin UI.
+	config.macros.Microblog.signin = function(place, platform){
 
 		// The user details to gather.
 		var userDetails = [];
 		userDetails.push(['username','Username']);
-		userDetails.push(['password','Password']);		
+		userDetails.push(['password','Password']);
 		
 		//Build the UI for the conifg
-		createTiddlyElement(place,"span",null,null,"Configuration for " + platform + "microblog.");
-		var f = createTiddlyElement(place,"form");
+		var f = createTiddlyElement(place,"form","user_form_"+platform);
+		createTiddlyElement(f,"span",null,null,"Signin for " + platform + " microblog.");
 		for(var d=0; d<userDetails.length; d++){
 			createTiddlyElement(f,"span",null,null,userDetails[d][1]);
 			if(userDetails[d][0] == "password") {
@@ -131,20 +134,21 @@ version.extensions.MicroblogPlugin = {installed:true};
 			}
 			input.setAttribute('name',userDetails[d][0]);
 		}
-		var btn = createTiddlyButton(f,"Start using " + platform,"Store these settings and start using the microblog",config.macros.Microblog.configClick);
+		var btn = createTiddlyButton(f,"Start using " + platform,"Store these settings and start using the microblog",config.macros.Microblog.signinClick);
 		btn.setAttribute("platform",platform);
+		
 		var loggedin = createTiddlyElement(place,"span",'microblog_loggedin_' + platform,'hidden',"Logged in to " + platform);
 		var logoutbtn = createTiddlyButton(loggedin,"Signout of " + platform,"Signout of " + platform,config.macros.Microblog.logout);
 		logoutbtn.setAttribute("platform",platform);
 	};
 	
 	
-	// Record the config data for a new Microblog and initialise.
-	config.macros.Microblog.configClick = function(ev){
+	// update the config details for this micoroblog with the user details and then try to authenticate.
+	config.macros.Microblog.signinClick = function(ev){
 		
 		var e = ev ? ev : window.event;
 		var platform = this.getAttribute("platform");
-		var mb = config.macros.Microblog.microblogs[platform];
+		var mb = microblogs[platform];
 		
 		//record the details.
 		var form = this.parentNode;
@@ -154,18 +158,16 @@ version.extensions.MicroblogPlugin = {installed:true};
 			f = inputs[i];
 			mb[f.name] = f.value;
 		};
-		config.macros.Microblog.auth(platform);	
+		config.macros.Microblog.auth(platform); 
 	};
 
 
 	//Attempt to authenticate the user.
 	config.macros.Microblog.auth = function(platform)
 	{
-		var uri = config.macros.Microblog.microblogs[platform].LoginURI;
-		var usr = config.macros.Microblog.microblogs[platform].username;
-		var pwd = config.macros.Microblog.microblogs[platform].password;
-		
-		log("checking : "+ usr + ":" + pwd + "@" +uri );
+		var uri = microblogs[platform].LoginURI;
+		var usr = microblogs[platform].username;
+		var pwd = microblogs[platform].password;
 		
 		if(uri && usr && pwd) {
 			//get the update and post it.
@@ -182,29 +184,25 @@ version.extensions.MicroblogPlugin = {installed:true};
 		/*
 			TODO remove logging.
 		*/
-		console.log(status);
-		console.log(xhr);
+		log(xhr);
 		
 		if(xhr.status == 200){
+			microblogs[params.platform].authenticated = true;
 			var p = document.getElementById('microblog_loggedin_'+params.platform);
 			p.style.display = "block";
 			
 			/*
 				TODO Decide what feedback mechanisim is best to signify a successful login.
 			*/
-			// var uri = config.macros.Microblog.microblogs[params.platform].ListenURI;
-			// log("logged in, so going to read " + uri);
-			// config.macros.Microblog.listen(params.platform);
 		}
 	};
 	
 	
 	//Attempt to authenticate the user.
-	config.macros.Microblog.logout = function(ev)
-	{
+	config.macros.Microblog.logout = function(ev) {
 		var e = ev ? ev : window.event;
 		var platform = this.getAttribute("platform");	
-		var uri = config.macros.Microblog.microblogs[platform].LogoutURI;
+		var uri = microblogs[platform].LogoutURI;
 		
 		if(uri) {
 			var params = {};
@@ -216,14 +214,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 		}
 	};
 	config.macros.Microblog.logoutCalback = function(status,params,responseText,url,xhr){
-		
-		/*
-			TODO remove debug logging.
-		*/
-		console.log(status);
-		console.log(xhr);
-		
-		log("logged out of " + params.platform);
+		microblogs[params.platform].authenticated = false;			
 		var p = document.getElementById('microblog_loggedin_'+params.platform);
 		p.style.display = "none";
 	};
@@ -231,9 +222,14 @@ version.extensions.MicroblogPlugin = {installed:true};
 
 	
 	//create listener.
-	config.macros.Microblog.listen = function(place, platform, count, avatars, makeTiddlers)
-	{
-		var uri = config.macros.Microblog.microblogs[platform].ListenURI;	
+	config.macros.Microblog.listen = function(place, platform, count, avatars, makeTiddlers) {
+		//display the signin form if user not authenticated.
+		if(!microblogs[platform].authenticated) {
+			createTiddlyElement(place,"span",null,null,"Please log in to " + platform );
+			return;
+		} 
+		
+		var uri = microblogs[platform].ListenURI;	
 		var context = {
 				host:uri, 
 				place:place, 
@@ -254,75 +250,119 @@ version.extensions.MicroblogPlugin = {installed:true};
 			log("We couldn't get a response from " + params.platform + ". Please check your settings and ensure that all is well with " + params.platform);
 			return;
 		}
-		
-		log("parsing updates from " + params.platform);
-		
-		var rootURI = config.macros.Microblog.microblogs[params.platform].RootURI;
+				
+		var rootURI = microblogs[params.platform].RootURI;
 		 
 		/*
-			TODO Replace this nasty JSON eval. Create a smart TW JSON parsing helper.
+			TODO Replace this nasty JSON eval. Create a smart TW JSON parsing helper?
 		*/
 		var updates = eval(responseText);
 		var count = params.count ? params.count : updates.length;
 		if (count == 'all') 
 			count = updates.length;
 
+		store.suspendNotifications();
+		
 		/*
-			TODO abstract the of update to allow for different platforms
-		*/ 
+			TODO Cleaning out the display this way seems to kill future images. Fix me!
+		*/
+		removeChildren(params.place);
+	
 		var msg, m, a, i;
+		var id, text, creator, timestamp;
 		for(var u=0; u<count; u++) {
+					
 			msg = updates[u];
+			id = msg.id;
+			text = msg.text.htmlDecode();
 			
 			/*
-				TODO remove debug logging
+				TODO Format date string nicely.
 			*/
-			console.log(msg);
+			timestamp = msg.created_at;
 			
-			m =	createTiddlyElement(params.place,"div",null,"microblog_update",null);
-			if(params.avatars){
-				a =	createTiddlyElement(m,"a",null,null,null);
-				a.href = rootURI + "/" + msg.user.screen_name + "/statuses/" + msg.id;
-				i =	createTiddlyElement(a,"img",null,null,null);
-				i.src = msg.user.profile_image_url;
+			creator = msg.user.name;
+			screenname = msg.user.screen_name;
+			image = msg.user.profile_image_url;
+		
+			/*
+				TODO move this test to be somewhere more efficient?
+			*/
+			if(params.makeTiddlers) {
+				//create a tiddler for each tweet.
+				
+				/*
+					TODO Make a tiddler for this tweet.
+				*/
+						
 			}
-			createTiddlyElement(m,"span",null,'user',msg.user.name);		
-			createTiddlyElement(m,"span",null,'date',msg.created_at);		
-			createTiddlyElement(m,"span",null,'text',msg.text);	
+			
+			else {
+				//render the tweets inline.
+				m = createTiddlyElement(params.place,"div",null,"microblog_update",null);
+				if(params.avatars){
+					a = createTiddlyElement(m,"a",null,null,null);
+					a.href = rootURI + "/" + screenname + "/statuses/" + id;
+					i = createTiddlyElement(a,"img",null,null,null);
+					i.src = image;
+				}
+				createTiddlyElement(m,"span",null,'user',creator);		
+				createTiddlyElement(m,"span",null,'date',timestamp);		
+				createTiddlyElement(m,"span",null,'text',text); 
+			}
+		}
+		
+		refreshDisplay();
+		store.resumeNotifications();
+		
+		/*
+			TODO Make the polling period configurable.
+		*/
+		if(microblogs[params.platform].poll) {
+			var period = config.macros.Microblog.getInterval(params.platform);
+			microblogs[params.platform].timer = window.setTimeout(function() {config.macros.Microblog.listen(params.place, params.platform, params.count, params.avatars, params.makeTiddlers);}, period); 
+		}
+		else {
+			microblogs[params.platform].timer = null;
 		}
 	};
 	
 	
 	//create input UI.
-	config.macros.Microblog.ui = function(place,platform){
-		var f = createTiddlyElement(place,"form");
-		createTiddlyElement(f,"span",null,null,"post an update");
-		var input = createTiddlyElement(f,"input",null);
-		input.setAttribute('name','update');
-		var btn = createTiddlyButton(f,"Update " + platform,"post an update to" + platform,config.macros.Microblog.postUpdate);
-		btn.setAttribute("platform",platform);
+	config.macros.Microblog.postform = function(place,platform){
+		
+		//display the signin form if user not authenticated.
+		if(!microblogs[platform].authenticated) {
+			log('authentication needed for ' + platform);
+			createTiddlyElement(place,"span",null,null,"Please log in to " + platform + " before posting an update." );
+		} 
+		else {
+			var f = createTiddlyElement(place,"form");
+			createTiddlyElement(f,"span",null,null,"post an update");
+			var input = createTiddlyElement(f,"input",null);
+			input.setAttribute('name','update');
+			var btn = createTiddlyButton(f,"Update " + platform,"post an update to" + platform,config.macros.Microblog.postUpdate);
+			btn.setAttribute("platform",platform);
+		}
 	};
 	
 	//Post an upate to the microblog platform.
 	config.macros.Microblog.postUpdate = function(ev){
 		var e = ev ? ev : window.event;
 		var platform = this.getAttribute("platform");
-		var uri = config.macros.Microblog.microblogs[platform].PostURI;
-		var usr = config.macros.Microblog.microblogs[platform].username;
-		var pwd = config.macros.Microblog.microblogs[platform].password;
+		var uri = microblogs[platform].PostURI;
 		
-		if(uri && usr && pwd) {
+		//not required if we let the browser session take care of the authentication.
+		var usr = microblogs[platform].username;
+		var pwd = microblogs[platform].password;
+		
+		if(uri) {
 			//get the update and post it.
 			var form = this.parentNode;
 			var update = "status=" + form['update'].value;
-			
-			/*
-				TODO Remove debug logging.
-			*/
-			log("Posting to: "+ usr + ":" + pwd + "@" +uri + " ...(" + update + ")");
-			
 			var params = {};
 			params.platform = platform;
+			params.field = form['update'];
 			doHttp("POST",uri,update,null,null,null,config.macros.Microblog.postUpdateCalback,params);	
 		}
 		else {
@@ -332,16 +372,24 @@ version.extensions.MicroblogPlugin = {installed:true};
 	};
 	config.macros.Microblog.postUpdateCalback = function(status,params,responseText,url,xhr){
 		
-		if(!status)
+		if(xhr.status == 200)
+			log("posted");
+			if(params.field)
+				params.field.value="";
+			/*
+				TODO refresh any listings that would show this update.
+			*/
+		else
 			log('There was a problem posting your update to ' + params.platform);
-		/*
-			TODO refresh any listings that would show this update.
-		*/
-		
-		/*
-			TODO reset the update form after posting.
-		*/
+
 	};
+	config.macros.Microblog.getInterval = function(platform) {
+		var t = microblogs[platform].Period ? parseInt(microblogs[platform].Period) * 1000 : 60000;
+		if(isNaN(t))
+			t = 60000;
+		return t;
+	};
+
 
 } //# end of 'install only once'
 //}}}
