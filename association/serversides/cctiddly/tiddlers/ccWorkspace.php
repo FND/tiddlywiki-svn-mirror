@@ -191,7 +191,7 @@ config.macros.ccCreateWorkspace = {
  	                        echo "createTiddlyElement(place,&quot;br&quot;);";
  	                }
  	                ?>
- 	                createTiddlyText(place, "a<?php echo  db_num_rows($result);?>");
+ 	                createTiddlyText(place, "\n Total Number of workspaces : <?php echo  db_num_rows($result);?>");
  	        }
  	}
 
@@ -213,7 +213,7 @@ config.macros.ccCreateWorkspace = {
  	                        echo "createTiddlyElement(place,&quot;br&quot;);";
  	                }
  	                ?>
- 	                createTiddlyText(place, "\n Number or workspaces : <?php echo  db_num_rows($result);?>");
+ 	                createTiddlyText(place, "\n Your workspaces : <?php echo  db_num_rows($result);?>");
  	        }
  	}
 

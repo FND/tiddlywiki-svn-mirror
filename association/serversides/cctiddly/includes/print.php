@@ -160,8 +160,8 @@ cctPlugin = {
 window.cct_tweak = function(){
 
 	//add new option to options panel
-	// OLD config.shadowTiddlers.OptionsPanel = "<<ssUploadStoreArea>>\n<<ssUploadRSS>>\n<<option chkAutoSave>> "+cctPlugin.lingo.autoUpload+"\n<<option chkRegExpSearch>>"+config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+26);
- config.shadowTiddlers.OptionsPanel = "[[ccEditWorkspace]]";
+	config.shadowTiddlers.OptionsPanel = "<<ssUploadStoreArea>>\n<<ssUploadRSS>>\n<<option chkAutoSave>> "+cctPlugin.lingo.autoUpload+"\n<<option chkRegExpSearch>>"+config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+26);
+ //config.shadowTiddlers.OptionsPanel = "[[ccEditWorkspace]]";
 	
 	
 	//change SideBarOption panel to add login panel
