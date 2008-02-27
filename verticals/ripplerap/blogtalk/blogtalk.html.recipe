@@ -6,16 +6,14 @@ tiddler: ../../../contributors/JonathanLister/adaptors/RSSAdaptor.js
 tiddler: ../../../contributors/JonathanLister/components/JS2JSON.js
 tiddler: ../../../contributors/JonathanLister/verticals/RippleTweet/js/RippleTechMacro.js
 tiddler: ../../../contributors/JonathanLister/verticals/RippleTweet/js/RippleTweetMicroblogHack.js
-tiddler: ../../../contributors/JonathanLister/verticals/RippleTweet/tiddlers/Blogs.tiddler
 tiddler: ../../../contributors/JonathanLister/verticals/RippleTweet/tiddlers/MicroBlogConfig_Technorati_Blogtalk.tiddler
 tiddler: ../../../contributors/JonathanLister/verticals/RippleTweet/tiddlers/MicroBlogConfig_Terraminds_Blogtalk.tiddler
-tiddler: ../../../contributors/JonathanLister/verticals/RippleTweet/tiddlers/Tweets.tiddler
 tiddler: ../../../contributors/SaqImtiaz/plugins/WebDavLib.js
 tiddler: ../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
 tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
-tiddler: ../../../contributors/PhilHawksworth/Verticals/twitter/plugins/MicroblogPlugin.js
+tiddler: ../../../contributors/PhilHawksworth/plugins/MicroblogPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/TiddlifyList.js
 
