@@ -113,14 +113,14 @@ config.macros.ccLoginStatus = {
 	        if ( cookieValues.sessionToken && cookieValues.sessionToken!== 'invalid' && cookieValues.txtUserName) {
   				createTiddlyElement(wrapper,&quot;br&quot;);
 				var name = decodeURIComponent(decodeURIComponent(cookieValues.txtUserName));
-				var str = wikify("Hi  " + name, wrapper);
-
+				
 				var frm = createTiddlyElement(n,&quot;form&quot;,null);
 				frm.action = "";
 				frm.method = "get";
 				 //frm.onsubmit = config.macros.ccLogin.logoutOnSubmit;
 				wrapper.appendChild(frm);	
-                
+              	var str = wikify("Hi  " + name, frm);
+			  
 				var logout = createTiddlyElement(null,&quot;input&quot;, logout, logout);
 				logout.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
 				logout.value = &quot;1&quot;;   
