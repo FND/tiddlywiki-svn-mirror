@@ -18,6 +18,7 @@ make_tw {
     'tiddler'=>'systemConfig',
     'taggly.excerpts'=>'descr',
   })
+  tiddlers.each { |t| t.fields['modifier'] = 'Mopi' }
   to_file               'upload/empty.html'
 }
 

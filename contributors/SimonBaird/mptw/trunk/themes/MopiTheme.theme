@@ -5,7 +5,7 @@
 |EditTemplate|MopiTheme##EditTemplate|
 |StyleSheet|MopiTheme##StyleSheet|
 
-http://mopi.tiddlyspot.com/#MopiTheme ($Rev: 1829 $) -->
+http://mopi.tiddlyspot.com/#MopiTheme ($Rev: 1829 $)
 
 !PageTemplate
 <!--{{{-->
@@ -54,8 +54,8 @@ http://mopi.tiddlyspot.com/#MopiTheme ($Rev: 1829 $) -->
 </div>
 
 <div class='subtitle'>
-	<!--- <span macro='view modifier link'></span>, --->
-	<span macro='view modified date {{config.mptwDateFormat?config.mptwDateFormat:"pppp MM/0DD/YY"}}'></span>
+	(updated <span macro='view modified date {{config.mptwDateFormat?config.mptwDateFormat:"MM/0DD/YY"}}'></span>
+	by <span macro='view modifier link'></span>)
 	<!--
 	(<span macro='message views.wikified.createdPrompt'></span>
 	<span macro='view created date {{config.mptwDateFormat?config.mptwDateFormat:"MM/0DD/YY"}}'></span>)
@@ -145,7 +145,7 @@ body {
 .subtitle {
 	padding:0px;
 	margin:0px;
-	padding-left:0.5em;
+	padding-left:1em;
 	font-size: 90%;
 	color: [[ColorPalette::TertiaryMid]];
 }
