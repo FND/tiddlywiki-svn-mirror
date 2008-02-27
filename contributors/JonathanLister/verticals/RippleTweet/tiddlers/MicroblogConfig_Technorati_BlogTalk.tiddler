@@ -3,7 +3,7 @@
 |''RootURI:''|http://technorati.com|
 |''LoginURI:''||
 |''LogoutURI:''||
-|''ListenURI:''|http://feeds.technorati.com/search/BlogTalk|
+|''ListenURI:''|http://feeds.technorati.com/search/%22BlogTalk%22+-%22BlogTalk+Radio%22?authority=a1|
 |''PostURI:''||
 |''CharacterLimit:''||
 |''Period:''|900|

@@ -63,10 +63,12 @@ config.macros.RippleTech.convertItemsToJSON = function(context,params) {
 			itemObject.created_at = item.created.formatString("ddd, DD MMM YYYY 0hh:0hh:0ss TZD");
 			itemObject.text = item.text;
 			itemObject.user = {};
-			if(item.modifier == "anonymous" && item.fields.source_name)
-				itemObject.user.name = item.fields.source_name;
+			// this isn't really the name, but the first field that gets display by the Microblog listenHandler
+			itemObject.user.name = item.title;
+			if(item.modifier == "anonymous")
+				itemObject.user.name += " by <a href="+item.fields.linktooriginal+">"+item.fields.source_name+"</a>";
 			else
-				itemObject.user.name = item.modifier;
+				itemObject.user.name += " by <a href="+item.fields.linktooriginal+">"+item.modifier+"</a>";
 			JSONarray.push(itemObject);
 		}
 	}
