@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for talking to RSS 2.0 files|
 |''Author''|Jon Lister|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/adaptors/RSSAdaptor.js |
-|''Version:''|0.1.6|
+|''Version:''|0.1.7|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.2.6|
@@ -201,6 +201,7 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 	var regex_link = /<link>(\S|\n)*?<\/link>/mg;
 	var regex_pubDate = /<pubDate>(.|\n)*?<\/pubDate>/mg;
 	var regex_author = /<author>(.|\n)*?<\/author>/mg;
+	var regex_source = /<source([^>]*)>([^<]*)<\/source>/m;
 	var item_match = rss.match(regex_item);
 	var length = item_match ? item_match.length : 0;
 	for(var i=0;i<length;i++) {
@@ -284,6 +285,18 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 			item.author = "anonymous";
 		}
 		t.modifier = item.author;
+		
+		// grab source url and name
+		source = item_match[i].match(regex_source);
+		if (source) {
+			source_url = source[1].replace(/ url="|"$/mg,"");
+			source_name = source[2];
+			t.fields.source_url = source_url;
+			t.fields.source_name = source_name;
+		} else {
+			// No source field is ok
+		}
+		
 		tiddlers.push(t);
 		}
 	return tiddlers;

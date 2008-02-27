@@ -6,5 +6,6 @@
 |''ListenURI:''|http://terraminds.com/twitter/json?query=BlogTalk|
 |''PostURI:''||
 |''CharacterLimit:''|140|
+|''Period:''|900|
 |''authenticated:''|true|</pre>
 </div>
