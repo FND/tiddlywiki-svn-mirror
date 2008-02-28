@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -92,12 +92,70 @@ fnLog('getTemplateContent:'+name);
 	return text;
 };
 
+MediaWikiTemplate.prototype.findBracePair = function(text,start)
+// {{{{x}}}} is interpreted as { {{{x}}}}
+// ignore triple braces for the moment
+{
+//console.log('text:'+text);
+//console.log('st:'+start);
+	var ret = {start:-1,end:0};
+	var s = text.indexOf('{{',start);
+	while(s!=-1 && text.substr(s+2,1)=='{') {
+//console.log('s:'+s);
+		var pe = text.indexOf('}}}',s);
+		if(pe==-1)
+			return ret;
+		var ps2 = text.indexOf('{{{',s+3);
+		if(ps2!=-1 && pe>ps2)
+			pe = text.indexOf('}}}',pe+3);// just deal with one level of nesting
+//console.log('pe:'+pe);
+		if(pe==-1)
+			return ret;
+		s = text.indexOf('{{',pe);
+	}
+	if(s!=-1) {
+		var s2 = text.indexOf('{{',s+2);
+		while(s2!=-1 && text.substr(s2+2,1)=='{') {
+			pe = text.indexOf('}}}',s2);
+			if(pe==-1)
+				return ret;;
+			ps2 = text.indexOf('{{{',s2+3);
+			if(ps2!=-1 && pe>ps2)
+				pe = text.indexOf('}}}',pe+3);// just deal with one level of nesting
+			if(pe==-1)
+				return ret;;
+			s2 = text.indexOf('{{',pe);
+		}
+//console.log('s2:'+s2);
+		var e = text.indexOf('}}',s+2);
+//console.log('e:'+e);
+		if(e==-1)
+			return ret;
+		if(s2==-1 || e<s2)
+			return {start:s,end:e};
+		
+		var inner = this.findBracePair(text,s2);
+//console.log('is:'+inner.start+'ie:'+inner.end);
+		if(inner.start==-1)
+			return ret;
+		var e2 = text.indexOf('}}',inner.end+2);
+//console.log('e2:'+e2);
+		if(e2==-1)
+			return ret;
+		return {start:s,end:e2}
+	}
+	return ret;
+};
+
 MediaWikiTemplate.prototype.findTemplateTag = function(text,start)
 // template tag is openingbrace templatename followed by optional parameter definitions separated by raw pipes closing brace
 // !!does not yet handle nested templates, by properly matching {{ and }}
 {
 fnLog('findTemplateTag:'+text);
-	var ret = {start:-1,end:0};
+	var ret = this.findBracePair(text,start);
+	ret.end += 2;
+	return ret;
+	/*var ret = {start:-1,end:0};
 	var tsRe = /\{\{/mg;
 	tsRe.lastIndex = start;
 	var matchS = tsRe.exec(text);
@@ -110,7 +168,7 @@ fnLog('findTemplateTag:'+text);
 			ret.end = matchE.index+2;
 		}
 	}
-	return ret;
+	return ret;*/
 };
 
 MediaWikiTemplate.prototype.splitTemplateTag = function(tag)
@@ -276,11 +334,14 @@ MediaWikiTemplate.prototype.expandTemplateTag = function(tag)
 		match = pRegExp.exec(pd[i]);
 		if(match) {
 			if(match[1]) {
-				var m = match[1].trim();
-				//var m = this.transcludeTemplates(match[1]);
+				//var m = match[1].trim();
+				var m = this.transcludeTemplates(match[1].trim());
 				params[m] = match[2].trim();// trim named parameter values
 			} else {
 				params[j] = match[2];
+				//var k = j-1;
+				//if(params[k]===undefined)
+				//	params[k]='';
 				j++;
 			}
 		}
