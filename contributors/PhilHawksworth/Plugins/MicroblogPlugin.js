@@ -123,7 +123,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 		
 		//Build the UI for the conifg
 		var f = createTiddlyElement(place,"form","user_form_"+platform);
-		createTiddlyElement(f,"span",null,null,"Signin for " + platform + " microblog.");
+		// createTiddlyElement(f,"span",null,null,"Signin for " + platform + " microblog.");
 		for(var d=0; d<userDetails.length; d++){
 			createTiddlyElement(f,"span",null,null,userDetails[d][1]);
 			if(userDetails[d][0] == "password") {
@@ -136,10 +136,14 @@ version.extensions.MicroblogPlugin = {installed:true};
 		}
 		var btn = createTiddlyButton(f,"Start using " + platform,"Store these settings and start using the microblog",config.macros.Microblog.signinClick);
 		btn.setAttribute("platform",platform);
+		btn.setAttribute("place",place);
+		var t = story.findContainingTiddler(place);		
+		btn.setAttribute("tiddlerTitle",t.getAttribute('tiddler'));
+
 		
-		var loggedin = createTiddlyElement(place,"span",'microblog_loggedin_' + platform,'hidden',"Logged in to " + platform);
-		var logoutbtn = createTiddlyButton(loggedin,"Signout of " + platform,"Signout of " + platform,config.macros.Microblog.logout);
-		logoutbtn.setAttribute("platform",platform);
+		// var loggedin = createTiddlyElement(place,"span",'microblog_loggedin_' + platform,'hidden',"Logged in to " + platform);
+		// var logoutbtn = createTiddlyButton(loggedin,"Signout of " + platform,"Signout of " + platform,config.macros.Microblog.logout);
+		// logoutbtn.setAttribute("platform",platform);
 	};
 	
 	
@@ -148,6 +152,9 @@ version.extensions.MicroblogPlugin = {installed:true};
 		
 		var e = ev ? ev : window.event;
 		var platform = this.getAttribute("platform");
+		var place = this.getAttribute("place");
+		var tiddlerTitle = this.getAttribute("tiddlerTitle");
+		
 		var mb = microblogs[platform];
 		
 		//record the details.
@@ -158,13 +165,14 @@ version.extensions.MicroblogPlugin = {installed:true};
 			f = inputs[i];
 			mb[f.name] = f.value;
 		};
-		config.macros.Microblog.auth(platform); 
+		config.macros.Microblog.auth(tiddlerTitle, platform); 
 	};
 
 
 	//Attempt to authenticate the user.
-	config.macros.Microblog.auth = function(platform)
+	config.macros.Microblog.auth = function(tiddlerTitle, platform)
 	{
+
 		var uri = microblogs[platform].LoginURI;
 		var usr = microblogs[platform].username;
 		var pwd = microblogs[platform].password;
@@ -173,6 +181,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 			//get the update and post it.
 			var params = {};
 			params.platform = platform;
+			params.tiddlerTitle = tiddlerTitle;
 			doHttp("POST",uri,null,null,usr,pwd,config.macros.Microblog.authCalback,params);	
 		}
 		else {
@@ -188,8 +197,11 @@ version.extensions.MicroblogPlugin = {installed:true};
 		
 		if(xhr.status == 200){
 			microblogs[params.platform].authenticated = true;
-			var p = document.getElementById('microblog_loggedin_'+params.platform);
-			p.style.display = "block";
+			config.options.txtTwitterSignedIn = 'true';
+			story.refreshTiddler(params.tiddlerTitle, null, true);
+			
+			// var p = document.getElementById('microblog_loggedin_'+params.platform);
+			// p.style.display = "block";
 			
 			/*
 				TODO Decide what feedback mechanisim is best to signify a successful login.
@@ -214,7 +226,10 @@ version.extensions.MicroblogPlugin = {installed:true};
 		}
 	};
 	config.macros.Microblog.logoutCalback = function(status,params,responseText,url,xhr){
-		microblogs[params.platform].authenticated = false;			
+		microblogs[params.platform].authenticated = false;
+		
+		config.options.txtTwitterSignedIn = 'false';
+					
 		var p = document.getElementById('microblog_loggedin_'+params.platform);
 		p.style.display = "none";
 	};
@@ -338,8 +353,9 @@ version.extensions.MicroblogPlugin = {installed:true};
 		} 
 		else {
 			var f = createTiddlyElement(place,"form");
+			f.id = platform + "_postform";
 			createTiddlyElement(f,"span",null,null,"post an update");
-			var input = createTiddlyElement(f,"input",null);
+			var input = createTiddlyElement(f,"textarea",null);
 			input.setAttribute('name','update');
 			var btn = createTiddlyButton(f,"Update " + platform,"post an update to" + platform,config.macros.Microblog.postUpdate);
 			btn.setAttribute("platform",platform);
