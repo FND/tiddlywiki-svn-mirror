@@ -3,7 +3,7 @@
 config.options.txtMainTab = "AgendaDay2";
 config.options.txtMojoTelno = "+3368...";
 config.options.txtRippleRapRealm = "BlogTalk";
-config.options.txtRippleRapPass = "88!p29X";
+config.options.txtRippleRapPass = "E1r3";
 config.options.chkAutoSave = true;
 config.options.chkAnimate = true;
 config.options.chkSaveBackups = false;
