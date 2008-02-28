@@ -185,14 +185,11 @@ RssSynchronizer.prototype.doGet = function()
 	var ret = this.getNotesTiddlersFromRss(uri);
 	if(typeof ret == "string") {
 		if(ret == "timeout") {
-			clearMessage();
 			displayMessage(config.messages.xhrTimeout);
 		} else if (window.console) {
-			clearMessage();
 			displayMessage(config.messages.xhrError);
 		}
 	} else {
-		clearMessage();
 		displayMessage(config.messages.contentDownloading);
 	}
 };
