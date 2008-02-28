@@ -353,13 +353,3 @@ config.macros.ccLoginStatus = {
 
 </pre>
 </div>
-<div title="LoginStatus" modifier="ccTiddly"  tags="systemConfig excludeLists excludeSearch" >
-<pre>
-&lt;&lt;ccLoginStatus&gt;&gt;
-</pre>
-</div>
-<div title="Please Login" modifier="ccTiddly">
-<pre>
-&lt;&lt;ccLogin&gt;&gt;
-</pre>
-</div>
