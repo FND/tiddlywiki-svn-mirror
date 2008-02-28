@@ -33,7 +33,23 @@ console.log('tag:'+tag);
 	if(expected && text!=expected) {
 		displayMessage('Error:'+tag);
 	}
-	console.log('RET:'+text+'\n');
+	console.log('RET:'+text);
+	console.log('');
+};
+
+brTest = function(text,start,es,ee)
+{
+//console.log('content:'+content);
+console.log('test:'+text+'    ('+es+','+ee+')');
+	var mwt = new MediaWikiTemplate();
+	ret = mwt.findBracePair(text,start);
+	if(es && ret.start!=es) {
+		displayMessage('Error:'+text);
+	}
+	if(ee && ret.end!=ee) {
+		displayMessage('Error:'+text);
+	}
+	console.log('RET:'+ret.start+','+ret.end);
 	console.log('');
 };
 
@@ -41,10 +57,22 @@ config.macros.testMacro.test = function(title,params)
 {
 	clearMessage();
 	displayMessage("Testing");
+	config.macros.testMacro.testBraces(title,params);
 	config.macros.testMacro.testVariables(title,params);
 	config.macros.testMacro.testParserFunctions(title,params);
 	config.macros.testMacro.testBasic(title,params);
 	config.macros.testMacro.testExamples(title,params);
+};
+
+config.macros.testMacro.testBraces = function(title,params)
+{
+	brTest('a{{n}}c',0,1,4);
+	brTest('{{}}',0,0,2);
+	brTest('abcd',0,-1,0);
+	brTest('a{{ {{abc}} }}',0,1,12);
+	brTest('a{{ {{abc}} }}',2,4,9);
+	brTest('a{{ {{a{{b}}c}} }}',0,1,16);
+	brTest('a{{{x}}} {{a}}',0,9,12);
 };
 
 config.macros.testMacro.testVariables = function(title,params)
@@ -69,8 +97,7 @@ config.macros.testMacro.testBasic = function(title,params)
 
 	tpTest('Tc','in','{{tc}}','in');
 	tpTest('Tc','in','{{tc}}X{{tc}}','inXin');
-
-	//tpTest('Tc','in','{{{{tc}}}}','{{{{tc}}}}');
+	tpTest('Tc','in','{{{{tc}}}}','{{{{tc}}}}');
 	//tpTest('Tc','in','{{ {{tc}}}}','Template:in');
 
 	tpTest('t1demo','start-{{{1}}}-end','{{t1demo|a}}','start-a-end');
@@ -100,8 +127,8 @@ config.macros.testMacro.testExamples = function(title,params)
 
 	tpTest('TEx2','abc{{{1}}}def','{{TEx2|1=Hello World!}}','abcHello World!def');
 	tpTest('TEx2','abc{{{1}}}def','{{TEx2|Hello World!}}','abcHello World!def');
-	//tpTest('TEx2','abc{{{1}}}def','{{TEx2|2=Hello World!}}','abcdef');
-	//tpTest('TEx2','abc{{{1}}}def','{{TEx2||Hello World!}}','abcdef');
+	tpTest('TEx2','abc{{{1}}}def','{{TEx2|2=Hello World!}}','abcdef');
+	tpTest('TEx2','abc{{{1}}}def','{{TEx2||Hello World!}}','abcdef');
 
 	tpTest('TEx3','{{{1}}}{{{2}}}{{{3}}} ({{{x}}})','{{TEx3|A|B|C}}','ABC ({.{.{x}}})');
 	tpTest('TEx3','{{{1}}}{{{2}}}{{{3}}} ({{{x}}})','{{TEx3|A| B |x=C}}','A B {.{.{3}}} (C)');
@@ -118,13 +145,11 @@ config.macros.testMacro.testExamples = function(title,params)
 	tpTest('TEx8','abc<includeonly>def</includeonly>ghi','{{TEx8}}','abcdefghi');
 	tpTest('TEx9','abc<onlyinclude>def</onlyinclude>ghi','{{TEx9}}','def');
 
-//	tpTest('TEx10','{{{1|pqr}}} {{{TEx1}}} {{{2|stu}}}','{{TEx10|abc|def}}','abc Hello world! def');
+	//tpTest('TEx10','{{{1|pqr}}} {{{TEx1}}} {{{2|stu}}}','{{TEx10|abc|def}}','abc Hello world! def');
 
-//	tpTest('TEx11','pqr {{TEx3|{{{1}}}|x={{{x}}} }} stu','{{TEx11|ABC|x=DEF}}','pqr ABC{{{2}}}{{{3}}} (DEF) stu');
-	tpTest('Tc','in','{{tc}}','in');
+	//tpTest('TEx11','pqr {{TEx3|{{{1}}}|x={{{x}}} }} stu','{{TEx11|ABC|x=DEF}}','pqr ABC{{{2}}}{{{3}}} (DEF) stu');
 
-//	tpTest('TEx12','{{{1}}} {{TEx12}} {{{2}}}','{{TEx12|abc|def}}','abc Template loop detected: Template:Tex12 def');
-
+	//tpTest('TEx12','{{{1}}} {{TEx12}} {{{2}}}','{{TEx12|abc|def}}','abc Template loop detected: Template:Tex12 def');
 
 	//tpTest('TEx','','{{TEx}}','');
 };
