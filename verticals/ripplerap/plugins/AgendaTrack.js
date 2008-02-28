@@ -40,13 +40,21 @@ version.extensions.AgendaTrack = {installed:true};
 
 		var track = store.getValue(tiddler,'rr_session_tag');
 		var text = "<<listRelated tag:" + track 
-			+ " sort:rr_session_starttime filter:[tag[" + track + "]]"
-			+ " [sort[+rr_session_starttime]]"
+			+ " filter:[tag[" + track + "]][sort[+rr_session_starttime]]"
 			+ " hrel:raps template:AgendaItemsTemplate"
 			+ " subtemplate:AgendaSubItemsTemplate>>";
 
 		wikify(text,place);
 	};
+
+	config.macros.AgendaTrackText= {};
+	config.macros.AgendaTrackText.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+
+		tiddler.text = "<<AgendaTrackSession>>";
+		story.setDirty(tiddler.title,true);
+
+	};
+
 
 } //# end of 'install only once'
 //}}}
