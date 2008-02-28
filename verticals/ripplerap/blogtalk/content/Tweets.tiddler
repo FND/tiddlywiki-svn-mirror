@@ -1,9 +1,9 @@
 <div title="Tweets" modifier="PhilHawksworth" created="200802221734" changecount="1">
 <pre>
 <<conditionalDisplay config.options.txtTwitterSignedIn true TwitterPost TwitterLogin>>
-<<tabs txtMainTab 
-	"About blogtalk" "Tweets about Blogtalk" BlogTalkTweets 
+{{subtleTabs{<<tabs txtMainTab 
+	"BlogTalk buzz" "Tweets about Blogtalk" BlogTalkTweets 
 	"Your Twitter stream" "You and your friends" TwitterStream 
 	"hide tweets" "hide the twitter streams" Blank >>
-</pre>
+</pre>}}}
 </div>
