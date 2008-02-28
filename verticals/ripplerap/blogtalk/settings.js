@@ -11,4 +11,6 @@ config.options.chkSaveBackups = false;
 config.options.chkRipplerapShare = true;
 config.options.chkRipplerapReadyToUse = false;
 
+config.options.txtTwitterSignedIn = false;
+
 //}}}

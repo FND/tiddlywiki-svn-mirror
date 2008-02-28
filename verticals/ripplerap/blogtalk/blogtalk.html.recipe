@@ -13,6 +13,7 @@ tiddler: ../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
 tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
+tiddler: ../../../contributors/PhilHawksworth/plugins/ConditionalDisplayPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/MicroblogPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/TiddlifyList.js

@@ -22,4 +22,8 @@ tiddler: SignInOption.tiddler
 tiddler: TiddlySaver.tiddler
 tiddler: TiddlyWiki.tiddler
 tiddler: Tweets.tiddler
+tiddler: TwitterPost.tiddler
+tiddler: TwitterLogin.tiddler
+tiddler: TwitterStream.tiddler
+tiddler: BlogTalkTweets.tiddler
 tiddler: Welcome.tiddler
