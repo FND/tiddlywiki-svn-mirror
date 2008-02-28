@@ -104,7 +104,8 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		params.username = config.options.txtUserName;
 		params.purpose = 'signup';
 		var data = "username=" + params.username + "&password=" + config.options.txtRipplerapAccountPassword;
-		doHttp("POST",url,data,null,'leweb','88!p29X',config.macros.ripplerapAccountButton.accountRequestCallback,params);
+		//doHttp("POST",url,data,null,'leweb','88!p29X',config.macros.ripplerapAccountButton.accountRequestCallback,params);
+		doHttp("POST",url,data,null,config.options.txtRippleRapRealm,config.options.txtRippleRapPass,config.macros.ripplerapAccountButton.accountRequestCallback,params);
 		return false;
 	};
 
