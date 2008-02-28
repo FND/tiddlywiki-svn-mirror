@@ -2,7 +2,7 @@
 <pre>//{{{
 backstage.init_old = backstage.init;
 backstage.init = function() {
-        var s = '<<newTiddler label:"new track" template:TrackEditTemplate tag:"track" title:"New Track">>'
+        var s = '<<newTiddler label:"new track" template:TrackEditTemplate tag:"track" text:{{store.getTiddlerText("TrackText")}} title:"New Track">>'
 		+ '<<newTiddler label:"new session" template:SessionEditTemplate tag:"session" text:"" title:"New Session">>';
         this.init_old.apply(this, arguments);
         wikify(s, document.getElementById("backstageToolbar"));

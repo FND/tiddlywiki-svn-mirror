@@ -6,9 +6,9 @@ tiddler: ../../../contributors/JonathanLister/adaptors/RSSAdaptor.js
 tiddler: ../../../contributors/SaqImtiaz/plugins/WebDavLib.js
 tiddler: ../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
 tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
-tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js
-tiddler: ../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
-tiddler: ../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
+tiddler: ../../../contributors/PhilHawksworth/Plugins/TiddlerDisplayDependenciesPlugin.js
+tiddler: ../../../contributors/PhilHawksworth/Plugins/LinkMakerPlugin.js
+tiddler: ../../../contributors/PaulDowney/Plugins/MicroformatPlugin.js
 
 recipe: ../shadows/split.recipe
 recipe: ../plugins/split.recipe
