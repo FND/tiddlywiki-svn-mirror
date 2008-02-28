@@ -194,8 +194,6 @@ config.macros.ccLoginStatus = {
 	            frm.onsubmit = this.loginOnSubmit;
 	 			           var body = createTiddlyElement(frm,&quot;h1&quot;,null,null, "");
 	          
-	            createTiddlyText(frm,&quot;username/password should get you in.&quot;);	
-	            
 	            createTiddlyElement(frm,&quot;br&quot;);
 	            createTiddlyElement(frm,&quot;br&quot;);
 	            var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
@@ -221,7 +219,15 @@ config.macros.ccLoginStatus = {
 	{
 		
 		?>
+		      
 				createTiddlyElement(oidfrm,&quot;br&quot;);
+				         createTiddlyText(oidfrm,&quot;You can get an openID from &quot;);
+				
+				var link = createExternalLink(oidfrm, 'http://myopenid.com');
+				link.textContent=  'http://myopenid.com';
+
+				  		createTiddlyElement(oidfrm,&quot;br&quot;);
+					createTiddlyElement(oidfrm,&quot;br&quot;);
 			createTiddlyText(oidfrm, 'OpenID:');
 			
 			var oidaction = createTiddlyElement(null,&quot;input&quot;,null);
@@ -242,6 +248,10 @@ config.macros.ccLoginStatus = {
 	<?php 
 }else { 
 	?>
+	
+	
+        createTiddlyText(step, &quot;username/password should get you in.&quot;);	
+					createTiddlyElement(step,&quot;br&quot;);
 	  createTiddlyText(step,&quot;Username: &quot;);
         var txtuser = createTiddlyElement(step,&quot;input&quot;,&quot;cctuser&quot;, &quot;cctuser&quot;)
         if (cookieValues.txtUserName !=null) {
@@ -346,5 +356,10 @@ config.macros.ccLoginStatus = {
 <div title="LoginStatus" modifier="ccTiddly"  tags="systemConfig excludeLists excludeSearch" >
 <pre>
 &lt;&lt;ccLoginStatus&gt;&gt;
+</pre>
+</div>
+<div title="Please Login" modifier="ccTiddly">
+<pre>
+&lt;&lt;ccLogin&gt;&gt;
 </pre>
 </div>
