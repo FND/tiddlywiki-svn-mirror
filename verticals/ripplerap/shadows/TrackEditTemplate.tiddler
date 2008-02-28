@@ -4,7 +4,8 @@
 	<div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
 	<div class="label">Track title</div><div class="title editor" macro="edit title"></div>
 	<div class="label">Session tag</div><div class="track editor" macro="edit rr_session_tag"></div>
-	<div class="label"></div>
+	<div class="label">Tags (include "track")</div><div class="track editor" macro="edit tags"></div>
+	<div class="label"></div><div style="display:none" macro="edit text"></div>
 </div>
 <!--}}}--></pre>
 </div>
