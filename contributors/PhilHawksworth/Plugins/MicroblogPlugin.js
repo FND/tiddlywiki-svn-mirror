@@ -134,8 +134,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 			}
 			input.setAttribute('name',userDetails[d][0]);
 		}
-		var s = createTiddlyElement(f,"span",null,"chunkyButton");
-		var btn = createTiddlyButton(s,"Sign in to " + platform,"Store these settings and start using the microblog",config.macros.Microblog.signinClick);
+		var btn = createTiddlyButton(f,"Sign in to " + platform,"Store these settings and start using the microblog",config.macros.Microblog.signinClick);
 		btn.setAttribute("platform",platform);
 		btn.setAttribute("place",place);
 		var t = story.findContainingTiddler(place);		
