@@ -71,15 +71,15 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	Ripplerap account creation helpers
 	*/
 	config.macros.ripplerapAccountButton = {};
-	config.macros.ripplerapAccountButton.eventName = "Le Web 3";
-	config.macros.ripplerapAccountButton.serverBaseURL = "https://www.ripplerap.com/LeWeb/";
+	config.macros.ripplerapAccountButton.eventName = "BlogTalk";
+	config.macros.ripplerapAccountButton.serverBaseURL = "https://www.ripplerap.com/BlogTalk/";
 	config.macros.ripplerapAccountButton.userNameNotSet = "Please choose another username.";
 	config.macros.ripplerapAccountButton.contactingServerMessage = "Contacting the server...";
 	
 	config.macros.ripplerapAccountButton.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		var buttonType = {
 				signup : {
-					btnLabel : "Set up / Validate my Ripplerap account for %0",
+					btnLabel : "Set up my Ripplerap account for %0",
 					btnAction : config.macros.ripplerapAccountButton.onSignup
 				},
 				signin : {

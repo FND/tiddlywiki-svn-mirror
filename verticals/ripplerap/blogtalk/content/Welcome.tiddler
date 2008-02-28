@@ -1,9 +1,12 @@
 <div title="Welcome" modifier="YourName" created="200711291946" modified="200802151133" changecount="30">
-<pre>With ~RippleRap:
+
+<pre>~RippleRap is your one-stop event dossier!
 *Have easy access to the ''~BlogTalk agenda''
 *Manage your conference notes ''offline''
 *''Share your notes'' with other delegates
-*''See what's said'' - read conference notes from sessions you may have missed
+*''See what's said'' - read notes from sessions you may have missed
+*''Catch the banter'' - see what ~BlogTalk attendees are chatting about
+*''Follow the story'' - read blog posts about ~BlogTalk
 !!Setup instructions 
 <<accountManager SignInOption Setup_Instructions>></pre>
 </div>
