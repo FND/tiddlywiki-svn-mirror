@@ -7,10 +7,10 @@
 #tiddlerDisplay { margin:0 1em 2em 1em;}
 
 /* Header */
-div.header { background-color:#000; height:86px; border-top:solid 10px #000; position:relative; clear:left;}
+div.header { background-color:#000; height:86px; border-top:solid 10px #111; position:relative; clear:left;}
 #backstageArea,
-#backstageToolbar {background-color:#000;}
-#backstageToolbar a{background-color:#000;}
+#backstageToolbar {background-color:#111;}
+#backstageToolbar a{background-color:#111;}
 div.headerShadow,
 div.headerForeground { padding:1px; }
 div.headerShadow {color:#fff; height:80px;}
@@ -169,8 +169,6 @@ span.description {font-size:0.8em; color:#555; font-weight:normal; display:block
 .subtleTabs div.tabset a.tabSelected {border:solid 1px #ccc; border-bottom:solid 3px #fff; background-color:#fff; color:#777;}
 .subtleTabs div.tabset a.tabUnselected:hover {color:#444;}
 .subtleTabs div.tabContents {background-color:transparent; border-style:none; border-top:solid 1px #ccc;}
-
-
 
 
 </pre>
