@@ -52,11 +52,12 @@ config.macros.RippleTech.convertItemsToJSON = function(context,params) {
 	for (var i in items) {
 		var item = items[i];
 		if (item instanceof Tiddler) {
-						var itemObject = {};
+			var itemObject = {};
+			itemObject.id = item.fields.linktooriginal;
 			itemObject.created_at = item.created.formatString("ddd, DD MMM YYYY 0hh:0hh:0ss TZD");
 			itemObject.text = item.text;
 			itemObject.user = {};
-			// this isn't really the name, but the first field that gets display by the Microblog listenHandler
+			// this isn't really the name, but the first field that gets displayed by the Microblog listenHandler
 			itemObject.user.name = item.title;
 			if(item.modifier == "anonymous" && item.fields.source_name)
 				// itemObject.user.name += " by <a href="+item.fields.linktooriginal+">"+item.fields.source_name+"</a>";

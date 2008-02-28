@@ -45,7 +45,8 @@ merge(config.messages,{
 	polling:"Polling server...",
 	updateCheck:"Checking for new notes",
 	xhrTimeout:"No web connection available - trying again shortly",
-	xhrError:"Problem with sending the XMLHttpRequest (if you are using Firebug, turn off network monitoring",
+	xhrFirebugError:"Problem with sending the XMLHttpRequest (if you are using Firebug, turn off network monitoring",
+	xhrError:"Problem with sending the XMLHttpRequest",
 	updateComplete:"Download complete!",
 	noUpdate:"No new notes"
 });
@@ -188,8 +189,9 @@ RssSynchronizer.prototype.doGet = function()
 		if(ret == "timeout") {
 			displayMessage(config.messages.xhrTimeout);
 		} else if (window.console) {
+			displayMessage(config.messages.xhrFirebugError);
+		} else
 			displayMessage(config.messages.xhrError);
-		}
 	} else {
 		displayMessage(config.messages.updateCheck);
 	}
@@ -227,12 +229,14 @@ RssSynchronizer.log("getNotesTiddlerListCallback:"+context.status);
 				tiddler.tags.remove(me.sharedTag);
 			}
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-			if(!newContent)
+			// JRL: I don't this should be neccessary and I think the OR logic above is flawed
+			if(!t)
 				newContent = true;
 		}
 	}
-	if(newContent)
+	if(newContent) {
 		displayMessage(config.messages.updateComplete);
+	}
 	else
 		displayMessage(config.messages.noUpdate);
 	store.resumeNotifications();
