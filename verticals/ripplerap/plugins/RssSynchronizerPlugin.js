@@ -234,7 +234,7 @@ RssSynchronizer.log("getNotesTiddlerListCallback:"+context.status);
 	if(newContent)
 		displayMessage(config.messages.updateComplete);
 	else
-		displayMessage(config.message.noUpdate);
+		displayMessage(config.messages.noUpdate);
 	store.resumeNotifications();
 	refreshDisplay();
 	me.sessionDownload.requestPending = false;
