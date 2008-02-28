@@ -7,10 +7,10 @@
 #tiddlerDisplay { margin:0 1em 2em 1em;}
 
 /* Header */
-div.header { background-color:#000; height:86px; border-top:solid 10px #111; position:relative; clear:left;}
+div.header { background-color:#000; height:86px; border-top:solid 10px #000; position:relative; clear:left;}
 #backstageArea,
-#backstageToolbar {background-color:#111;}
-#backstageToolbar a{background-color:#111;}
+#backstageToolbar {background-color:#000;}
+#backstageToolbar a{background-color:#000;}
 div.headerShadow,
 div.headerForeground { padding:1px; }
 div.headerShadow {color:#fff; height:80px;}
