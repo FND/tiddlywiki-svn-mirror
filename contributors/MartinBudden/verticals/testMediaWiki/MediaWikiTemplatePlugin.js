@@ -68,6 +68,7 @@ Wikifier.prototype.subWikify = function(output,terminator)
 
 MediaWikiTemplate.prototype.normalizeTitle = function(title)
 {
+	title = title.trim();
 	title = title.replace(/_/mg,' ');
 	title = title.substr(0,1).toUpperCase() + title.substring(1);
 	return title;
@@ -124,7 +125,7 @@ fnLog('splitTemplateTag:'+tag);
 	pRegExp.lastIndex = 0;
 	var match = pRegExp.exec(tag);
 	while(match) {
-		pd[i] = match[1].trim();
+		pd[i] = match[1];
 		i++;
 		match = pRegExp.exec(tag);
 	}
@@ -138,34 +139,44 @@ MediaWikiTemplate.prototype.expandTemplateContent = function(templateName,params
 fnLog('expandTemplateContent:'+templateName);
 	if(this.stack.indexOf(templateName)!=-1) {
 		this.error = true;
-		return 'ERROR: template recursion detected';
+		//return 'ERROR: template recursion detected';
+		return 'Template loop detected: '+templateName;
 	}
 	this.stack.push(templateName);
+
+	//# deal with <noinclude>, <includeonly> and <onlyinlcude>
 	var text = this.getTemplateContent(templateName);
 	text = text.replace(/<noinclude>((?:.|\n)*?)<\/noinclude>/mg,'');// remove text between noinclude tags
-	var includeOnlyRegExp = /<includeonly>((?:.|\n)*?)<\/includeonly>/mg;
+	text = text.replace(/<includeonly>/mg,'');
+	text = text.replace(/<\/includeonly>/mg,'');
+	var onlyIncludeRegExp = /<onlyinclude>((?:.|\n)*?)<\/onlyinclude>/mg;
 	var t = '';
-	var match = includeOnlyRegExp.exec(text);
+	onlyIncludeRegExp.lastIndex = 0;
+	var match = onlyIncludeRegExp.exec(text);
 	while(match) {
 		t += match[1];
-		match = includeOnlyRegExp.exec(text);
+		match = onlyIncludeRegExp.exec(text);
 	}
 	text = t == '' ? text : t;
 
+	//# substitute the parameters
 	var paramsRegExp = /\{\{\{(.*?)(?:\|(.*?))?\}\}\}/mg;
 	t = '';
 	var pi = 0;
 	match = paramsRegExp.exec(text);
 	while(match) {
+//console.log('match');
+//console.log(match);
 		var name = match[1];
 		var val = params[name];
-		if(!val) {
+		if(val===undefined) {
 			//# use default
 			val = match[2];
 		}
-		if(!val) {
+		if(val===undefined) {
 			//# if no value or default, parameter evaluates to name
-			val = '';//val = match[0];
+			//val = '';
+			val = '{.{.{'+name+'}}}';
 		}
 		t += text.substring(pi,match.index) + val;
 		pi = paramsRegExp.lastIndex;
@@ -266,8 +277,8 @@ MediaWikiTemplate.prototype.expandTemplateTag = function(tag)
 		if(match) {
 			if(match[1]) {
 				var m = match[1].trim();
-				//var m = this.transcludeTemplages(match[1]);
-				params[m] = match[2];
+				//var m = this.transcludeTemplates(match[1]);
+				params[m] = match[2].trim();// trim named parameter values
 			} else {
 				params[j] = match[2];
 				j++;
