@@ -13,3 +13,5 @@ tiddler: SessionViewTemplate.tiddler
 tiddler: SessionEditTemplate.tiddler
 tiddler: TrackEditTemplate.tiddler
 tiddler: AgendaMenu.tiddler
+tiddler: DiscoveredNotesEditTemplate.tiddler
+tiddler: DiscoveredNotesViewTemplate.tiddler

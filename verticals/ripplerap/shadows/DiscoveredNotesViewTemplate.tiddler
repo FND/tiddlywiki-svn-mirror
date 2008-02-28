@@ -1,0 +1,9 @@
+<div title="DiscoveredNotesViewTemplate" tags="excludeLists excludeSearch">
+<pre><!--{{{-->
+<div class='discoveredNotes'>
+	<div class='toolbar' macro='toolbar closeTiddler +editTiddler'></div>
+	<div class='title'>notes from <span macro='view modifier'></span></div>
+	<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}--></pre>
+</div>
