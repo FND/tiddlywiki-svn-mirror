@@ -40,6 +40,14 @@ if(!config.options.txtRippleRapInterval)
 	{config.options.txtRippleRapInterval = 60;}
 
 config.optionsDesc.txtRippleRapInterval = "~RippleRap synchronization interval (in seconds)";
+
+merge(config.messages,{
+	polling:"Polling server...",
+	contentDownloading:"New content being downloaded",
+	xhrTimeout:"No web connection available - unable to download content",
+	xhrError:"Problem with sending the XMLHttpRequest (if you are using Firebug, turn off network monitoring",
+	downloadComplete:"Download complete!"
+});
 	
 function RssSynchronizer() 
 {
@@ -111,8 +119,9 @@ RssSynchronizer.prototype.init = function()
 			}
 		}
 	});
-	if(config.options.chkRipplerapShare)
+	if(config.options.chkRipplerapShare) {
 		this.makeRequest();
+	}
 };
 
 RssSynchronizer.prototype.getInterval = function()
@@ -173,7 +182,19 @@ RssSynchronizer.prototype.doGet = function()
 		if(this.sessionDownload.syncIndex>=this.sessionDownload.titles.length)
 			this.sessionDownload.syncIndex = this.updates.uri ? -1 : 0; // set to -1 for the updates uri, if it exists
 	}
-	this.getNotesTiddlersFromRss(uri);
+	var ret = this.getNotesTiddlersFromRss(uri);
+	if(typeof ret == "string") {
+		if(ret == "timeout") {
+			clearMessage();
+			displayMessage(config.messages.xhrTimeout);
+		} else if (window.console) {
+			clearMessage();
+			displayMessage(config.messages.xhrError);
+		}
+	} else {
+		clearMessage();
+		displayMessage(config.messages.contentDownloading);
+	}
 };
 
 RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
@@ -181,6 +202,8 @@ RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
 RssSynchronizer.log("getNotesTiddlersFromRss:"+uri);
 	var adaptor = new RSSAdaptor();
 	var context = {synchronizer:this,host:uri,adaptor:adaptor,rssUseRawDescription:true};
+	clearMessage();
+	displayMessage(config.messages.polling);
 	var ret = adaptor.getTiddlerList(context,null,RssSynchronizer.getNotesTiddlerListCallback);
 RssSynchronizer.log("getTiddlerList:"+ret);
 	return ret;
@@ -207,6 +230,7 @@ RssSynchronizer.log("getNotesTiddlerListCallback:"+context.status);
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 		}
 	}
+	displayMessage(config.messages.downloadComplete);
 	store.resumeNotifications();
 	refreshDisplay();
 	me.sessionDownload.requestPending = false;

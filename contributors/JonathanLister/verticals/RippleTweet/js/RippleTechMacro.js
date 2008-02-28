@@ -21,6 +21,7 @@ config.macros.RippleTech.handler = function(place,macroName,params,wikifier,para
 				};
 					
 		var adaptor = new RSSAdaptor();
+		wikify("{{loadingIndicator{\n\nloading...}}}",place);
 		var ret = adaptor.openHost(context.host,context,params,config.macros.RippleTech.onOpenHost);
 		if (typeof(ret) == "string") {
 			displayMessage("problem opening host: " + ret);
@@ -57,10 +58,14 @@ config.macros.RippleTech.convertItemsToJSON = function(context,params) {
 			itemObject.user = {};
 			// this isn't really the name, but the first field that gets display by the Microblog listenHandler
 			itemObject.user.name = item.title;
-			if(item.modifier == "anonymous")
-				itemObject.user.name += " by <a href="+item.fields.linktooriginal+">"+item.fields.source_name+"</a>";
+			if(item.modifier == "anonymous" && item.fields.source_name)
+				// itemObject.user.name += " by <a href="+item.fields.linktooriginal+">"+item.fields.source_name+"</a>";
+				itemObject.user.name += " by "+item.fields.source_name;
+			else if(item.modifier)
+				// itemObject.user.name += " by <a href="+item.fields.linktooriginal+">"+item.modifier+"</a>";
+				itemObject.user.name += " by "+item.modifier;
 			else
-				itemObject.user.name += " by <a href="+item.fields.linktooriginal+">"+item.modifier+"</a>";
+				itemObject.user.name += " by anonymous";
 			JSONarray.push(itemObject);
 		}
 	}

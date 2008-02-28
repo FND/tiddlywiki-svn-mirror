@@ -3,13 +3,13 @@
  ******************/
 
 /***
-|''Name''|TLWTestingMacro|
+|''Name''|RippleRapTestingMacro|
 |''Author''|JayFresh|
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]]|
 |''Version''|1|
 |''~CoreVersion''|2.2.5|
-|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/tiddleleweb/plugins/TLWTestingMacro.js|
-|''Description''|Test functions for the TiddleLeWeb project|
+|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/tiddleleweb/plugins/RippleRapTestingMacro.js|
+|''Description''|Test functions for RippleRap|
 |''Syntax''|<<TWLTesting>>|
 |''Status''|@@experimental@@|
 |''Contributors''||
@@ -24,9 +24,9 @@
 |''CodeRepository''|see Source above|
 ***/
 //{{{
-config.macros.TLWTesting = {};
+config.macros.RippleRapTesting = {};
 
-config.macros.TLWTesting.handler = function(place) {
+config.macros.RippleRapTesting.handler = function(place) {
 	var p = new PushAndPull();
 	var postBox = "http://localhost/"+encodeURIComponent(config.options.txtUserName)+"/";
 	p.setPostBox(postBox);

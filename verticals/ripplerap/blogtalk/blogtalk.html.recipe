@@ -6,6 +6,7 @@ tiddler: ../../../contributors/JonathanLister/adaptors/RSSAdaptor.js
 tiddler: ../../../contributors/JonathanLister/components/JS2JSON.js
 tiddler: ../../../contributors/JonathanLister/verticals/RippleTweet/js/RippleTechMacro.js
 tiddler: ../../../contributors/JonathanLister/verticals/RippleTweet/js/RippleTweetMicroblogHack.js
+tiddler: ../../../contributors/JonathanLister/verticals/RippleTweet/js/xhrTimeoutPlugin.js
 tiddler: ../../../contributors/JonathanLister/verticals/RippleTweet/tiddlers/MicroBlogConfig_Technorati_Blogtalk.tiddler
 tiddler: ../../../contributors/JonathanLister/verticals/RippleTweet/tiddlers/MicroBlogConfig_Terraminds_Blogtalk.tiddler
 tiddler: ../../../contributors/SaqImtiaz/plugins/WebDavLib.js
