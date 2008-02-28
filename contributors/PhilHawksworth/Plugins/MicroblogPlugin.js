@@ -134,7 +134,8 @@ version.extensions.MicroblogPlugin = {installed:true};
 			}
 			input.setAttribute('name',userDetails[d][0]);
 		}
-		var btn = createTiddlyButton(f,"Start using " + platform,"Store these settings and start using the microblog",config.macros.Microblog.signinClick);
+		var s = createTiddlyElement(f,"span",null,"chunkyButton");
+		var btn = createTiddlyButton(s,"Sign in to " + platform,"Store these settings and start using the microblog",config.macros.Microblog.signinClick);
 		btn.setAttribute("platform",platform);
 		btn.setAttribute("place",place);
 		var t = story.findContainingTiddler(place);		
@@ -253,7 +254,9 @@ version.extensions.MicroblogPlugin = {installed:true};
 				avatars:avatars,
 				makeTiddlers:makeTiddlers
 				};
-				
+		
+		if(place.childNodes.length==0)
+			wikify("{{loadingIndicator{\n\nloading...}}}",place);
 		log("Getting updates from " + platform);
 		doHttp("GET",uri,null,null,null,null,config.macros.Microblog.listenHandler,context);
 	};
