@@ -10,6 +10,30 @@
 //////////////////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////////////////
 
 
+    function arrayToJson($data, $entityname) {
+	    $out = "{";
+	 	$out .= "\"".$entityname."\" : [";
+		while ($row = db_fetch_assoc($data))
+		{
+			$out .= "{";
+			foreach($row as $key=>$val){
+		    if (is_array($val)) {
+			    $output .= "\"".$key."\" : [{";
+			    foreach($val as $subkey=>$subval){
+				    $out .= "\"".$subkey."\" : \"".$subval."\",";
+				    }
+				    	$out .= "}],";
+				    } else {
+				    	$out .= "\"".$key."\" : \"".$val."\",";
+			    }
+		    }
+			 $out .= "},";
+		}
+	    $out .= "]}";
+		$out = 	str_replace(",}", "}", $out);
+	    return $out;
+    }
+
 	//!	@fn array getAllTiddlers()
 	//!	@brief get all tiddlers in nested array, removing ones the user do not have read privilege
 	function getAllTiddlers($user_remove="", $search="")
