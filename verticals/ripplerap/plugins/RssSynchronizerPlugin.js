@@ -43,10 +43,11 @@ config.optionsDesc.txtRippleRapInterval = "~RippleRap synchronization interval (
 
 merge(config.messages,{
 	polling:"Polling server...",
-	contentDownloading:"New content being downloaded",
-	xhrTimeout:"No web connection available - unable to download content",
+	updateCheck:"Checking for new notes",
+	xhrTimeout:"No web connection available - trying again shortly",
 	xhrError:"Problem with sending the XMLHttpRequest (if you are using Firebug, turn off network monitoring",
-	downloadComplete:"Download complete!"
+	updateComplete:"Download complete!",
+	noUpdate:"No new notes"
 });
 	
 function RssSynchronizer() 
@@ -190,7 +191,7 @@ RssSynchronizer.prototype.doGet = function()
 			displayMessage(config.messages.xhrError);
 		}
 	} else {
-		displayMessage(config.messages.contentDownloading);
+		displayMessage(config.messages.updateCheck);
 	}
 };
 
@@ -214,6 +215,7 @@ RssSynchronizer.log("getNotesTiddlerListCallback:"+context.status);
 	var length = tiddlers ? tiddlers.length : 0;
 	var me = context.synchronizer;
 	store.suspendNotifications();
+	var newContent = false;
 	for(var i=0; i<length; i++) {
 		tiddler = tiddlers[i];
 		var t = store.fetchTiddler(tiddler.title);
@@ -225,9 +227,14 @@ RssSynchronizer.log("getNotesTiddlerListCallback:"+context.status);
 				tiddler.tags.remove(me.sharedTag);
 			}
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+			if(!newContent)
+				newContent = true;
 		}
 	}
-	displayMessage(config.messages.downloadComplete);
+	if(newContent)
+		displayMessage(config.messages.updateComplete);
+	else
+		displayMessage(config.message.noUpdate);
 	store.resumeNotifications();
 	refreshDisplay();
 	me.sessionDownload.requestPending = false;
