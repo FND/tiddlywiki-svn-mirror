@@ -1,19 +1,6 @@
-recipe: ../../core/tiddlywiki.html.recipe
+recipe: ripplerap.recipe
+
+recipe: session/split.recipe
 
 tiddler: settings.js
 
-tiddler: ../../contributors/JonathanLister/adaptors/RSSAdaptor.js
-tiddler: ../../contributors/SaqImtiaz/plugins/WebDavLib.js
-tiddler: ../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
-tiddler: ../../contributors/JeremyRuston/plugins/BrowserPlugin.js
-tiddler: ../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
-tiddler: ../../contributors/PhilHawksworth/Plugins/TiddlerDisplayDependenciesPlugin.js
-tiddler: ../../contributors/PhilHawksworth/Plugins/LinkMakerPlugin.js
-tiddler: ../../contributors/PaulDowney/Plugins/MicroformatPlugin.js
-tiddler: ../../contributors/PaulDowney/Plugins/TiddlifyList.js
-
-recipe: shadows/split.recipe
-recipe: plugins/split.recipe
-recipe: content/split.recipe
-recipe: feeds/split.recipe
-recipe: session/split.recipe
