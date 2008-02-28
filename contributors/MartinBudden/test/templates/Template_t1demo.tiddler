@@ -1,5 +1,5 @@
 <div title="Template:T1demo" wikiformat="mediawiki">
-<pre>start{{{1}}}end<noinclude>
+<pre>start-{{{1}}}-end<noinclude>
 
 [[Category:Demo template]]</noinclude>
 </pre>
