@@ -164,6 +164,12 @@ ajax.posts=function(u,a){ajax.send(u,function(s){return s.responseText},'POST',a
 //				callback(true,params,x.responseText,url,x);
 //				callback(false,params,null,url,x);
 serverside.fn.genericCallback = function(status,params,responseText,uri,xhr) {
+	
+	if(xhr.status == 401);
+	{
+		story.displayTiddler(null,'Please Login', 1);
+	}			
+	
 	result = xhr.responseText.split("\n");
 	if( result.count>1 )
 		result = ', ' + result[result.length-1];	//display last line of result as info
@@ -194,6 +200,7 @@ serverside.fn.genericCallback = function(status,params,responseText,uri,xhr) {
 serverside.fn.displayMessage = function(h)
 {
 	var s = h.responseText;
+
 	if (h.status == 200)
 	{
 		result = s.split("\n");
@@ -573,6 +580,7 @@ Hijack saveTiddler for saving tiddler to server
 TiddlyWiki.prototype.ss_saveTiddler = TiddlyWiki.prototype.saveTiddler;		//hijack
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created)
 {
+	
 	//get previous title and
 	var tiddler = this.fetchTiddler(title);
 	//variables for making sure no tiddlers are overwritted
