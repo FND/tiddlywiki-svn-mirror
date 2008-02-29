@@ -56,7 +56,7 @@ config.macros.RippleTech.convertItemsToJSON = function(context,params) {
 		if (item instanceof Tiddler) {
 			var itemObject = {};
 			itemObject.url = item.fields.linktooriginal;
-			itemObject.id = "post from "+url;
+			itemObject.id = "post from "+itemObject.url;
 			itemObject.created_at = item.created.formatString("ddd, DD MMM YYYY 0hh:0hh:0ss TZD");
 			itemObject.text = item.text;
 			itemObject.user = {};
