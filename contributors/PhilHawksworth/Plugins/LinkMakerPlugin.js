@@ -1,19 +1,18 @@
 /***
 |''Name:''|LinkMakerPlugin|
-|''Description:''|Create a tiddlylink pragramtically|
+|''Description:''|Create a link from a Template, accessing a tiddlers properties|
 |''Author:''|PhilHawksworth|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/LinkMakerPlugin.js |
-|''Version:''|0.0.1|
-|''Date:''|Dec 03, 2007|
+|''Version:''|0.0.2|
+|''Date:''|Feb 29, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
-|''~CoreVersion:''|2.2|
+|''~CoreVersion:''|2.3|
 
 
 Usage:
-<<LinkMaker DisplayedText TargetTiddler [className]>>
 
-<<LinkMaker type:'text|image|img' display:'tiddler field|image path' linkto:'href|TiddlerTitle' [title:'title'] [alt:'alt'] [classname:'classname'] >>
+<<LinkMaker type:'text|image|img' display:'tiddler field|image path' linkto:'href|TiddlerTitle' [classname:'classname'] >>
 
 ***/
 
@@ -38,12 +37,8 @@ version.extensions.LinkMakerPlugin = {installed:true};
 			var fakeParams = [null,null,dateformat];
 		}
 		
-		
-		
 		if(linktype == 'image' || linktype ==  'img') {
 			var a = createTiddlyElement(place,'a',null,classname);
-			// a.setAttribute('title',title);
-			// a.setAttribute('alt',alt);
 			a.setAttribute('href',linkto);
 			var i = createTiddlyElement(a,'img');
 			i.setAttribute('src',display);
@@ -54,8 +49,6 @@ version.extensions.LinkMakerPlugin = {installed:true};
 				handler(display,a,fakeParams);
 			else 
 				createTiddlyText(a,display);
-			// a.setAttribute('title',title);
-			// a.setAttribute('alt',alt);
 			a.setAttribute('href',linkto);
 		}
 		else {			
@@ -65,11 +58,6 @@ version.extensions.LinkMakerPlugin = {installed:true};
 			else 
 				createTiddlyText(e,display);
 		}
-
-
-
-
-
 	};
 
 } //# end of 'install only once'

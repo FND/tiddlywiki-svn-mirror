@@ -74,8 +74,9 @@ version.extensions.MicroblogPlugin = {installed:true};
 				var count = params[2] ? params[2] : false;
 				var avatars = params[3] =='avatars' ? true : false;
 				var makeTiddlers = params[4] =='makeTiddlers' ? true : false;
+				var template = params[5] ? params[5] : null;
 				microblogs[platform].poll = true;
-				this.listen(place, platform, count, avatars, makeTiddlers);
+				this.listen(place, platform, count, avatars, makeTiddlers, template);
 				break;
 			default:
 				log('ERROR. '+ action+ ' is not a valid parameter for the Microblog plugin.');
@@ -99,16 +100,6 @@ version.extensions.MicroblogPlugin = {installed:true};
 		}
 		
 		microblogs[platform] = mb;	
-		
-		/*
-			TODO Remove debug logging.
-		*/
-		log("-----------------");
-		var m = microblogs[platform];	
-		for (var t in m) {
-			log(t +" : "+ m[t]);
-		};
-		log("-----------------");
 	};
 	
 
@@ -172,7 +163,6 @@ version.extensions.MicroblogPlugin = {installed:true};
 	//Attempt to authenticate the user.
 	config.macros.Microblog.auth = function(tiddlerTitle, platform)
 	{
-
 		var uri = microblogs[platform].LoginURI;
 		var usr = microblogs[platform].username;
 		var pwd = microblogs[platform].password;
@@ -189,11 +179,6 @@ version.extensions.MicroblogPlugin = {installed:true};
 		}
 	};
 	config.macros.Microblog.authCalback = function(status,params,responseText,url,xhr){
-		
-		/*
-			TODO remove logging.
-		*/
-		log(xhr);
 		
 		if(xhr.status == 200){
 			microblogs[params.platform].authenticated = true;
@@ -234,10 +219,9 @@ version.extensions.MicroblogPlugin = {installed:true};
 		p.style.display = "none";
 	};
 	
-
 	
 	//create listener.
-	config.macros.Microblog.listen = function(place, platform, count, avatars, makeTiddlers) {
+	config.macros.Microblog.listen = function(place, platform, count, avatars, makeTiddlers, template) {
 		//display the signin form if user not authenticated.
 		if(!microblogs[platform].authenticated) {
 			createTiddlyElement(place,"span",null,null,"Please log in to " + platform );
@@ -251,7 +235,8 @@ version.extensions.MicroblogPlugin = {installed:true};
 				platform:platform, 
 				count:count,
 				avatars:avatars,
-				makeTiddlers:makeTiddlers
+				makeTiddlers:makeTiddlers,
+				template:template
 				};
 		
 		if(place.childNodes.length==0)
@@ -286,40 +271,53 @@ version.extensions.MicroblogPlugin = {installed:true};
 		removeChildren(params.place);
 	
 		var msg, m, a, i;
-		var id, text, creator, timestamp;
+		var id, text, creator, timestamp, d;
 		for(var u=0; u<count; u++) {
 					
 			msg = updates[u];
-			id = msg.id;
+			id = msg.id.toString();
 			text = msg.text.htmlDecode();
 			
 			/*
 				TODO Format date string nicely.
 			*/
 			timestamp = msg.created_at;
+			d = new Date(timestamp);
 			
 			creator = msg.user.name;
 			screenname = msg.user.screen_name;
 			image = msg.user.profile_image_url;
+			status_link = rootURI + "/" + screenname + "/statuses/" + id;
+			user_link = rootURI + "/" + screenname;
 		
 			/*
 				TODO move this test to be somewhere more efficient?
 			*/
 			if(params.makeTiddlers) {
 				//create a tiddler for each tweet.
-				
-				/*
-					TODO Make a tiddler for this tweet.
-				*/
+				var t = store.fetchTiddler(id);
+	  			//if the notes tiddler doesn't exist, then create and save it
+	  			if(!t) {
+	  				t = new Tiddler(id);
+					t.text = text;
+	  				t.created = d;
+	  				t.modifier = creator;
+	  				t.fields.screen_name = screenname;
+	  				t.fields.profile_image_url = image;
+					t.fields.status_link = status_link;
+					t.fields.user_link = user_link;
+	  				t.tags.pushUnique(params.platform);
+	  				t.tags.pushUnique("Microblog_update");
+	  				store.saveTiddler(t.title,t.title,t.text,t.modifier,null,t.tags,t.fields,true,t.created);
+	  			}
 						
 			}
-			
 			else {
 				//render the tweets inline.
 				m = createTiddlyElement(params.place,"div",null,"microblog_update",null);
 				if(params.avatars){
 					a = createTiddlyElement(m,"a",null,null,null);
-					a.href = rootURI + "/" + screenname + "/statuses/" + id;
+					a.href = status_link;
 					i = createTiddlyElement(a,"img",null,null,null);
 					i.src = image;
 				}
@@ -329,12 +327,15 @@ version.extensions.MicroblogPlugin = {installed:true};
 			}
 		}
 		
-		refreshDisplay();
+		// Render the tiddlers if they were created.
+		if(params.makeTiddlers) {
+			var paramString = 'filter:"[tag['+ params.platform+ ']]" template:' + params.template;
+			config.macros.ListTemplate.handler(params.place,null,null,null,paramString,null);
+		}
+		
+		// refreshDisplay();
 		store.resumeNotifications();
 		
-		/*
-			TODO Make the polling period configurable.
-		*/
 		if(microblogs[params.platform].poll) {
 			var period = config.macros.Microblog.getInterval(params.platform);
 			microblogs[params.platform].timer = window.setTimeout(function() {config.macros.Microblog.listen(params.place, params.platform, params.count, params.avatars, params.makeTiddlers);}, period); 
@@ -356,7 +357,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 		else {
 			var f = createTiddlyElement(place,"form");
 			f.id = platform + "_postform";
-			createTiddlyElement(f,"span",null,null,"post an update");
+			// createTiddlyElement(f,"span",null,null,"post an update");
 			var input = createTiddlyElement(f,"textarea",null);
 			input.setAttribute('name','update');
 			var btn = createTiddlyButton(f,"Update " + platform,"post an update to" + platform,config.macros.Microblog.postUpdate);

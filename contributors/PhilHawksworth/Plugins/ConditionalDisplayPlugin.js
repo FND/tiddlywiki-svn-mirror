@@ -29,6 +29,7 @@ config.macros.conditionalDisplay.handler = function(place,macroName,params,wikif
 	var testValue = params[1];
 	var ifTrueDisplay = params[2];
 	var ifFalseDisplay = params[3];
+	
 	var ps = [];
 	if(testSubject && eval(testSubject) == testValue ) {
 		ps.push(ifTrueDisplay);
