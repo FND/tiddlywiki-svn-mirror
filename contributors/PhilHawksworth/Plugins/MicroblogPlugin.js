@@ -47,11 +47,12 @@ version.extensions.MicroblogPlugin = {installed:true};
 		}
 	};
 	
-
+	
 	config.macros.Microblog = {};
 	var microblogs = config.macros.Microblog.microblogs = [];
 
 	config.macros.Microblog.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+		
 		if(params.length < 2) {
 			log('Not enough arguments in the call to the Microblog plugin');
 			return;
@@ -80,6 +81,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 				break;
 			case 'refreshButton':
 				this.refreshBtn(place);
+				break;
 			default:
 				log('ERROR. '+ action+ ' is not a valid parameter for the Microblog plugin.');
 				break;
@@ -144,26 +146,27 @@ version.extensions.MicroblogPlugin = {installed:true};
 	config.macros.Microblog.signinClick = function(ev){
 		
 		var e = ev ? ev : window.event;
-		var platform = this.getAttribute("platform");
-		var place = this.getAttribute("place");
-		var tiddlerTitle = this.getAttribute("tiddlerTitle");
+		var btn = this;
+		var platform = btn.getAttribute("platform");
+		var place = btn.getAttribute("place");
+		var tiddlerTitle = btn.getAttribute("tiddlerTitle");
 		
 		var mb = microblogs[platform];
 		
 		//record the details.
-		var form = this.parentNode;
+		var form = btn.parentNode;
 		var inputs = form.getElementsByTagName('input');
 		var f;
 		for (var i=0; i < inputs.length; i++) {
 			f = inputs[i];
 			mb[f.name] = f.value;
 		};
-		config.macros.Microblog.auth(tiddlerTitle, platform); 
+		config.macros.Microblog.auth(tiddlerTitle, platform, btn); 
 	};
 
 
 	//Attempt to authenticate the user.
-	config.macros.Microblog.auth = function(tiddlerTitle, platform)
+	config.macros.Microblog.auth = function(tiddlerTitle, platform, btn)
 	{
 		var uri = microblogs[platform].LoginURI;
 		var usr = microblogs[platform].username;
@@ -171,6 +174,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 		
 		if(uri && usr && pwd) {
 			//get the update and post it.
+			log("logging in to "+ platform);
 			var params = {};
 			params.platform = platform;
 			params.tiddlerTitle = tiddlerTitle;
@@ -270,6 +274,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 		/*
 			TODO Cleaning out the display this way seems to kill future images. Fix me!
 		*/
+		
 		removeChildren(params.place);
 	
 		var msg, m, a, i;
@@ -333,17 +338,21 @@ version.extensions.MicroblogPlugin = {installed:true};
 		}
 		
 		// Render the tiddlers if they were created.
+		//var notDrawn = params.place.childNodes;
 		if(params.makeTiddlers) {
 			var paramString = 'filter:"[tag['+ params.platform+ ']]" template:' + params.template;
 			config.macros.ListTemplate.handler(params.place,null,null,null,paramString,null);
 		}
 		
-		refreshDisplay();
+		/*
+			TODO Prevent the refresh from clearing the posting form.
+		*/
+		refreshDisplay();		
 		store.resumeNotifications();
 		
 		if(microblogs[params.platform].poll) {
 			var period = config.macros.Microblog.getInterval(params.platform);
-			microblogs[params.platform].timer = window.setTimeout(function() {config.macros.Microblog.listen(params.place, params.platform, params.count, params.avatars, params.makeTiddlers);}, period); 
+			microblogs[params.platform].timer = window.setTimeout(function() {config.macros.Microblog.listen(params.place, params.platform, params.count, params.avatars, params.makeTiddlers, params.template);}, period); 
 		}
 		else {
 			microblogs[params.platform].timer = null;
