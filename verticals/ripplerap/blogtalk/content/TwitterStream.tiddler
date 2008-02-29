@@ -1,5 +1,0 @@
-<div title="TwitterStream" modifier="PhilHawksworth" created="200802221734" changecount="1">
-<pre>
-{{description{These are the [[Twitter|http://www.twitter.com]] updates from you and your friends timelines. This content is updated every 2 minutes. You can also <<Microblog Twitter refreshButton>> the display right now.}}}
-{{twitterStream{<<Microblog Twitter listen all avatars makeTiddlers TwitterItemsTemplate>>}}}</pre>
-</div>
