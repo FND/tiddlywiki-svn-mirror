@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.0.3|
+|''Version:''|0.0.4|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -28,7 +28,7 @@ When the MediaWiki [[mw:Manual:Parser.php|parser]] encounters a template (define
 #Any parameter expression now containing a raw equals sign is split around that equals sign into a parameter ''name'' and parameter ''value''.  If a parameter expression contains more than one equals sign, the division is done around the ''first'' (working left to right).  
 #Any remaining parameter expressions which do not contain equals signs are assigned as values to the implicit parameters, working left to right.  So the first parameter expression which does not contain an equals sign is assigned as the value of parameter <code>1</code>, the next parameter expression is assigned as the value of parameter <code>2</code>, etc.  
 #The wikicode of the template page is analysed and stripped around <code><nowiki><noinclude></nowiki></code>, <code><nowiki><includeonly></nowiki></code> or <code><nowiki><onlyinclude></nowiki></code> tags, if present.
-#The template call is replaced by the analysed wikicode, replacing parameters by their values if possible.  
+#The template call is replaced by the analysed wikicode, replacing parameters by their values if possible.
 #*Any parameters that do not appear in the analysed wikicode are discarded, and any parameters appearing in the wikicode which have not been assigned a value are replaced by their defaults (if defined) or left as they are.
 
 ***/
@@ -57,8 +57,6 @@ MediaWikiTemplate = function()
 MediaWikiTemplate.subWikify = Wikifier.prototype.subWikify;
 Wikifier.prototype.subWikify = function(output,terminator)
 {
-//console.log('aaa');
-//console.log
 	if(this.formatter.format=='mediawiki') {
 		var mwt = new MediaWikiTemplate();
 		this.source = mwt.transcludeTemplates(this.source,this.tiddler);
@@ -68,7 +66,6 @@ Wikifier.prototype.subWikify = function(output,terminator)
 
 MediaWikiTemplate.prototype.normalizeTitle = function(title)
 {
-	title = title.trim();
 	title = title.replace(/_/mg,' ');
 	title = title.substr(0,1).toUpperCase() + title.substring(1);
 	return title;
@@ -77,54 +74,135 @@ MediaWikiTemplate.prototype.normalizeTitle = function(title)
 MediaWikiTemplate.prototype.getTemplateContent = function(name)
 {
 fnLog('getTemplateContent:'+name);
-	name = name.replace(/_/mg,' ');
-	name = 'Template:' + name.substr(0,1).toUpperCase() + name.substring(1);
-	var tiddler = store.fetchTiddler(name);
+	var i = name.indexOf(':');
+	var namespace = 'Template:';
+	if(i==0) {
+		name = name.substr(1);
+		namespace = '';
+	} else if(i!=-1) {
+		namespace = '';
+	}
+	i = name.indexOf('#');
+	if(i!=-1) {
+		name = name.substr(0,i);
+	}
+	
+	name = this.normalizeTitle(name);
+	var tiddler = store.fetchTiddler(namespace+name);
 	var text = '';
 	if(tiddler) {
 		text = tiddler.text;
+		//# deal with <noinclude>, <includeonly> and <onlyinlcude>
+		if(text.indexOf('<')==-1)
+			return text; // optimization to avoid regular expression matching
+		text = text.replace(/<noinclude>((?:.|\n)*?)<\/noinclude>/mg,'');// remove text between noinclude tags
+		text = text.replace(/<includeonly>/mg,'');
+		text = text.replace(/<\/includeonly>/mg,'');
+		var onlyIncludeRegExp = /<onlyinclude>((?:.|\n)*?)<\/onlyinclude>/mg;
+		var t = '';
+		onlyIncludeRegExp.lastIndex = 0;
+		var match = onlyIncludeRegExp.exec(text);
+		while(match) {
+			t += match[1];
+			match = onlyIncludeRegExp.exec(text);
+		}
+		text = t == '' ? text : t;
 	} else {
 		if(config.options.chkMediaWikiDisplayEmptyTemplateLinks) {
 			//# for conveniece, output the name of the template so user can click on it and create tiddler
 			text = '[['+name+']]';
-		}	
+		}
+		text = namespace + name;
 	}
+fnLog('ret getTemplateContent:'+text);
 	return text;
 };
 
-MediaWikiTemplate.prototype.findBracePair = function(text,start)
-// {{{{x}}}} is interpreted as { {{{x}}}}
-// ignore triple braces for the moment
+/*
+* Matched sets of four consecutive braces are interpreted as a parameter surrounded by single braces:
+	{{{{foo}}}} is equivalent to { {{{foo}}} }.
+* Unmatched sets of four braces are interpreted as nested template calls:
+	{{{{TEx1}} }} is parsed as a call to a template, the name of which is dependent on the output of TEx1.
+In this example, {{{{TEx1}} }} results in Template:Hello world!, as the Hello world! template does not exist.
+* Matched sets of five consecutive braces are interpreted as a template call surrounding a parameter:
+	{{{{{foo}}}}} is equivalent to {{ {{{foo}}} }}.
+* Unmatched sets of five braces are interpreted using the standard rules:
+	{{{{{TEx1}} }}} is interpreted as a named parameter with the name dependent on the result of Template:TEx1,
+	which in this case is equivalent to {{{Hello world!}}}.
+*/
+MediaWikiTemplate.prototype.findTripleBracePair = function(text,start)
 {
+fnLog('findTripleBracePair:'+text+' s:'+start);
 //console.log('text:'+text);
-//console.log('st:'+start);
+//console.log('start:'+start);
+	var ret = {start:-1,end:0};
+	var s = text.indexOf('{{{',start);
+//console.log('s:'+s);
+	if(s!=-1) {
+		var s2 = text.indexOf('{{{',s+3);
+		var e = text.indexOf('}}}',s+3);
+//console.log('e:'+e);
+		var innerD = this.findDoubleBracePair(text,s+3);
+		while(innerD.start!=-1 && innerD.end!=-1 && innerD.start<e && innerD.end<=e) {
+			e = text.indexOf('}}}',innerD.end+2);
+//console.log('eX:'+e);
+			innerD = this.findDoubleBracePair(text,innerD.end+2);
+		}
+//console.log('s2:'+s2);
+//console.log('e:'+e);
+		if(e==-1)
+			return ret;
+		if(s2==-1 || e<s2)
+			return {start:s,end:e};
+		var innerT = this.findTripleBracePair(text,s+3);
+		if(innerT.start==-1)
+			return ret;
+//console.log('inT:'+innerT.start+','+innerT.end);
+		var e2 = text.indexOf('}}}',innerT.end+3);
+//console.log('e2:'+e2);
+		innerD = this.findDoubleBracePair(text,s+3);
+		while(innerD.start!=-1 && innerD.end!=-1 && innerD.start<e2 && innerD.end<=e2) {
+			e2 = text.indexOf('}}}',innerD.end+2);
+			innerD = this.findDoubleBracePair(text,innerD.end+2);
+		}
+		/*if(text.substr(s2,6)=='{{{{{{') {
+			var inner = this.findTripleBracePair(text,s+3);
+			if(inner.start==-1)
+				return ret;
+			var e2 = text.indexOf('}}}',inner.end+3);
+		} else {
+			inner = this.findDoubleBracePair(text,s+2);
+			if(inner.start==-1)
+				return ret;
+			e2 = text.indexOf('}}',inner.end+2);
+		}*/
+		if(e2!=-1)
+			return {start:s,end:e2};
+	}
+	return ret;
+};
+
+MediaWikiTemplate.prototype.findDoubleBracePair = function(text,start)
+// {{{{x}}}} is interpreted as { {{{x}}}}
+{
+fnLog('findDoubleBracePair:'+text+' s:'+start);
 	var ret = {start:-1,end:0};
 	var s = text.indexOf('{{',start);
-	while(s!=-1 && text.substr(s+2,1)=='{') {
 //console.log('s:'+s);
-		var pe = text.indexOf('}}}',s);
-		if(pe==-1)
+	while(s!=-1 && text.substr(s+2,1)=='{') { // && text.substr(s+3,1)!='{') {// if tripe brace and not quadrupal brace
+		var tb = this.findTripleBracePair(text,s);
+		if(tb.start==-1 || tb.end==-1)
 			return ret;
-		var ps2 = text.indexOf('{{{',s+3);
-		if(ps2!=-1 && pe>ps2)
-			pe = text.indexOf('}}}',pe+3);// just deal with one level of nesting
-//console.log('pe:'+pe);
-		if(pe==-1)
-			return ret;
-		s = text.indexOf('{{',pe);
+		s = text.indexOf('{{',tb.end);
 	}
+//console.log('s:'+s);
 	if(s!=-1) {
 		var s2 = text.indexOf('{{',s+2);
-		while(s2!=-1 && text.substr(s2+2,1)=='{') {
-			pe = text.indexOf('}}}',s2);
-			if(pe==-1)
-				return ret;;
-			ps2 = text.indexOf('{{{',s2+3);
-			if(ps2!=-1 && pe>ps2)
-				pe = text.indexOf('}}}',pe+3);// just deal with one level of nesting
-			if(pe==-1)
-				return ret;;
-			s2 = text.indexOf('{{',pe);
+		while(s2!=-1 && text.substr(s2+2,1)=='{') {// && text.substr(s+3,1)!='{') {
+			tb = this.findTripleBracePair(text,s+2);
+			if(tb.start==-1 || tb.end==-1)
+				return ret;
+			s2 = text.indexOf('{{',tb.end);
 		}
 //console.log('s2:'+s2);
 		var e = text.indexOf('}}',s+2);
@@ -134,7 +212,7 @@ MediaWikiTemplate.prototype.findBracePair = function(text,start)
 		if(s2==-1 || e<s2)
 			return {start:s,end:e};
 		
-		var inner = this.findBracePair(text,s2);
+		var inner = this.findDoubleBracePair(text,s2);
 //console.log('is:'+inner.start+'ie:'+inner.end);
 		if(inner.start==-1)
 			return ret;
@@ -142,52 +220,83 @@ MediaWikiTemplate.prototype.findBracePair = function(text,start)
 //console.log('e2:'+e2);
 		if(e2==-1)
 			return ret;
-		return {start:s,end:e2}
+		return {start:s,end:e2};
 	}
 	return ret;
 };
 
-MediaWikiTemplate.prototype.findTemplateTag = function(text,start)
-// template tag is openingbrace templatename followed by optional parameter definitions separated by raw pipes closing brace
-// !!does not yet handle nested templates, by properly matching {{ and }}
+MediaWikiTemplate.prototype.findRawDelimiter = function(delimiter,text,start)
 {
-fnLog('findTemplateTag:'+text);
-	var ret = this.findBracePair(text,start);
-	ret.end += 2;
-	return ret;
-	/*var ret = {start:-1,end:0};
-	var tsRe = /\{\{/mg;
-	tsRe.lastIndex = start;
-	var matchS = tsRe.exec(text);
-	if(matchS) {
-		var teRe = /\}\}/mg;
-		teRe.lastIndex = matchS.index;
-		var matchE = teRe.exec(text);
-		if(matchE) {
-			ret.start = matchS.index;
-			ret.end = matchE.index+2;
-		}
+//fnLog('findRawDelimiter:'+text);
+	var s = text.indexOf(delimiter,start);
+	if(s==-1)
+		return -1;
+	var s2 = text.indexOf('[[',start);
+	if(s2!=-1 && s2 <s) {
+		var be = text.indexOf(']]',s2);
+		if(be!=-1)
+			return this.findRawDelimiter(delimiter,text,be);
 	}
-	return ret;*/
+	var bp = this.findDoubleBracePair(text,start);
+	if(bp.start!=-1 && bp.start <s) {
+		if(bp.end!=-1)
+			return this.findRawDelimiter(delimiter,text,bp.end);
+	}
+	return s;
 };
 
-MediaWikiTemplate.prototype.splitTemplateTag = function(tag)
+MediaWikiTemplate.prototype.splitTemplateNTag = function(ntag)
 // split template tag at raw pipes into name and parameter definitions
-//!! does not yet do raw pipes
 {
-fnLog('splitTemplateTag:'+tag);
+fnLog('splitTemplateNTag:'+ntag);
 	var pd = []; // parameters definitions array, p[0] contains template name
-	tag += '|';
 	var i = 0;
-	var pRegExp = /([^\|]*)\|/mg;
-	pRegExp.lastIndex = 0;
-	var match = pRegExp.exec(tag);
-	while(match) {
-		pd[i] = match[1];
+	var s = 0;
+	var e = this.findRawDelimiter('|',ntag,s);
+	while(e!=-1) {
+		pd[i] = ntag.substring(s,e);
 		i++;
-		match = pRegExp.exec(tag);
+		s = e+1;
+		e = this.findRawDelimiter('|',ntag,s);
 	}
+	pd[i] = ntag.substring(s);
 	return pd;
+};
+
+MediaWikiTemplate.prototype.substituteParameters = function(text,params)
+{
+fnLog('substituteParameters:'+text);
+	var t = '';
+	var pi = 0;
+	var bp = this.findTripleBracePair(text,pi);
+	while(bp.start!=-1) {
+//#console.log('bps:'+bp.start);
+		var name = text.substring(bp.start+3,bp.end);
+		var d = this.findRawDelimiter('|',name,0);
+//#console.log('name:'+name);
+//#console.log(d);
+		if(d!=-1) {
+			var def = name.substr(d+1);
+			name = name.substr(0,d);
+		}
+		var val = params[name];
+		if(val===undefined) {
+			//# use default
+			val = def;
+		}
+		if(val===undefined) {
+			//# if no value or default, parameter evaluates to name
+			val = '{{{'+name+'}}}';
+		} else {
+			val = this.substituteParameters(val,params);
+		}
+		t += text.substring(pi,bp.start) + this.transcludeTemplates2(val);
+		pi = bp.end+3;
+		bp = this.findTripleBracePair(text,pi);
+	}
+	t += text.substring(pi);
+fnLog('ret substituteParameters:'+t);
+	return t;
 };
 
 MediaWikiTemplate.prototype.expandTemplateContent = function(templateName,params)
@@ -202,52 +311,18 @@ fnLog('expandTemplateContent:'+templateName);
 	}
 	this.stack.push(templateName);
 
-	//# deal with <noinclude>, <includeonly> and <onlyinlcude>
 	var text = this.getTemplateContent(templateName);
-	text = text.replace(/<noinclude>((?:.|\n)*?)<\/noinclude>/mg,'');// remove text between noinclude tags
-	text = text.replace(/<includeonly>/mg,'');
-	text = text.replace(/<\/includeonly>/mg,'');
-	var onlyIncludeRegExp = /<onlyinclude>((?:.|\n)*?)<\/onlyinclude>/mg;
-	var t = '';
-	onlyIncludeRegExp.lastIndex = 0;
-	var match = onlyIncludeRegExp.exec(text);
-	while(match) {
-		t += match[1];
-		match = onlyIncludeRegExp.exec(text);
-	}
-	text = t == '' ? text : t;
-
-	//# substitute the parameters
-	var paramsRegExp = /\{\{\{(.*?)(?:\|(.*?))?\}\}\}/mg;
-	t = '';
-	var pi = 0;
-	match = paramsRegExp.exec(text);
-	while(match) {
-//console.log('match');
-//console.log(match);
-		var name = match[1];
-		var val = params[name];
-		if(val===undefined) {
-			//# use default
-			val = match[2];
-		}
-		if(val===undefined) {
-			//# if no value or default, parameter evaluates to name
-			//val = '';
-			val = '{.{.{'+name+'}}}';
-		}
-		t += text.substring(pi,match.index) + val;
-		pi = paramsRegExp.lastIndex;
-		match = paramsRegExp.exec(text);
-	}
-	t += text.substring(pi);
-	return t;
+	text = this.substituteParameters(text,params);
+fnLog('ret expandTemplateContent'+text);
+	return text;
 };
 
-MediaWikiTemplate.prototype.expandVariable = function(tag)
+MediaWikiTemplate.prototype.expandVariable = function(text)
 {
+	if(text.length>16)// optimization to avoid switch statement
+		return false;
 	var ret = false;
-	switch(tag) {
+	switch(text) {
 	case 'PAGENAME':
 		ret = this.tiddler.title;
 		break;
@@ -263,37 +338,12 @@ MediaWikiTemplate.prototype.expandVariable = function(tag)
 	return ret;
 };
 
-//#The #if function is an if-then-else construct. The syntax is:
-//#	{{#if: <condition> | <then text> | <else text> }}
-//#	{{#if: <condition> | <then text> }}
-
-//#If the condition is an empty string or consists only of whitespace, then it is considered false, and the ''else text'' is returned. Otherwise, the ''then text'' is returned. The ''else text'' may be omitted, in which case the result will be blank if the condition is false.
-
-//#An example:
-//#	{{#if| {{{parameter|}}} | Parameter is defined. | Parameter is undefined, or empty}}
-
-//#Note that the {{#if}} function does '''not''' support "=" signs or mathematical expressions.
-//#	{{#if|1 = 2 | yes | no}} will return "yes", because the string "1 = 2" is not blank.
-//#	It is intended as an ''"if not empty"'' structure.
-
-//# {{#if:{{{param1|}}} | param1value:{{{param1}}} }}
-//# include {{testTpf|param1=hello}}
-//# becomes:
-//# {{#if:hello | param1value:hello }}
-//# becomes:
-//# param1value:hello
-
-//# include {{testTpf}}
-//# becomes:
-//# {{#if: | param1value: }}
-//# becomes:
-//# <nothing>
 MediaWikiTemplate.prototype.expandParserFunction = function(fn,params)
 {
 fnLog('expandParserFunction'+fn);
 //#console.log(params);
 	var ret = '';
-	switch(fn) {
+	switch(fn.toLowerCase()) {
 	case '#if':
 		ret = params[1].trim()=='' ? params[3] : params[2];
 		break;
@@ -303,21 +353,19 @@ fnLog('expandParserFunction'+fn);
 	return ret;
 };
 
-MediaWikiTemplate.prototype.expandTemplateTag = function(tag)
+MediaWikiTemplate.prototype.expandTemplateNTag = function(ntag)
 {
-//console.log('expandTemplateTag'+tag);
-	tag = tag.substring(2,tag.length-2);
-	var v = this.expandVariable(tag);
+//fnLog('expandTemplateNTag:'+ntag);
+	var v = this.expandVariable(ntag);
 	if(v!==false) {
 		return v;
 	}
-	var pd = this.splitTemplateTag(tag);
-	var templateName = this.normalizeTitle(pd[0]);
+	var pd = this.splitTemplateNTag(ntag);
+	var templateName = pd[0].trim();
 	var s = 1;
 	var fnRegExp = /([#a-z]*): +([^\|]*)/mg;
 	fnRegExp.lastIndex = 0;
 	var match = fnRegExp.exec(templateName);
-//#console.log('templateName:'+templateName);
 //#console.log(match);
 	if(match) {
 		// it's a parser function
@@ -325,28 +373,26 @@ MediaWikiTemplate.prototype.expandTemplateTag = function(tag)
 		var fnLog = match[1];
 		pd[0] = match[2];
 	}
-	
+
 	var params = [];
-	var pRegExp = /(?:([^=]*)=)?([^=]*)/mg;
-	var j = 1;
+	var n = 1;
 	for(var i = s;i<pd.length;i++) {
-		pRegExp.lastIndex = 0;
-		match = pRegExp.exec(pd[i]);
-		if(match) {
-			if(match[1]) {
-				//var m = match[1].trim();
-				var m = this.transcludeTemplates(match[1].trim());
-				params[m] = match[2].trim();// trim named parameter values
-			} else {
-				params[j] = match[2];
-				//var k = j-1;
-				//if(params[k]===undefined)
-				//	params[k]='';
-				j++;
-			}
+		var t = pd[i];
+		var p = this.findRawDelimiter('=',t,0);
+		if(p==-1) {
+			// numbered parameter
+			params[n] = t;
+			n++;
+		} else if(p!=0) {//p==0 sets null parameter
+			// named parameter
+			var name = t.substr(0,p).trim();
+			name = this.transcludeTemplates2(name);
+			params[name] = t.substr(p+1).trim();// trim named parameter values
 		}
 	}
-	return fnLog ? this.expandParserFunction(fnLog,params) : this.expandTemplateContent(templateName,params);
+	var ret = fnLog ? this.expandParserFunction(fnLog,params) : this.expandTemplateContent(templateName,params);
+//fnLog('ret expandTemplateNTag:'+ret);
+	return ret;
 };
 
 MediaWikiTemplate.prototype.transcludeTemplates = function(text,tiddler)
@@ -360,21 +406,24 @@ MediaWikiTemplate.prototype.transcludeTemplates = function(text,tiddler)
 MediaWikiTemplate.prototype.transcludeTemplates2 = function(text)
 {
 fnLog('transcludeTemplates2:'+text);
-	var c = this.findTemplateTag(text,0);
+	if(!text)
+		return text;
+	var c = this.findDoubleBracePair(text,0);
 	while(c.start!=-1) {
-		var t = this.expandTemplateTag(text.substring(c.start,c.end));
+		var t = this.expandTemplateNTag(text.substring(c.start+2,c.end));
 		if(this.error) {
-			text = text.substring(0,c.start) + t + text.substring(c.end);
+			text = text.substring(0,c.start) + t + text.substring(c.end+2);
 			return text;
 		}
 		t = this.transcludeTemplates2(t);
-		text = text.substring(0,c.start) + t + text.substring(c.end);
+		text = text.substring(0,c.start) + t + text.substring(c.end+2);
 		if(this.error)
 			return text;
-		c = this.findTemplateTag(text,c.start+t.length);
+		c = this.findDoubleBracePair(text,c.start+t.length);
 		this.stack = [];
 		this.error = false;
 	}
+fnLog('ret:'+text);
 	return text;
 };
 
