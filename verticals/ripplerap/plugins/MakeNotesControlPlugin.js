@@ -79,11 +79,11 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 	config.macros.ripplerapAccountButton.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		var buttonType = {
 				signup : {
-					btnLabel : "Set up my Ripplerap account for %0",
+					btnLabel : "Set up my RippleRap account for %0",
 					btnAction : config.macros.ripplerapAccountButton.onSignup
 				},
 				signin : {
-					btnLabel : "Sign in to my Ripplerap account for %0",
+					btnLabel : "Sign in to my RippleRap account for %0",
 					btnAction : config.macros.ripplerapAccountButton.onSignin
 				}
 			};
@@ -98,6 +98,10 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 			config.macros.ripplerapAccountButton.showFeedback(config.macros.ripplerapAccountButton.userNameNotSet);
 			return false;
 		}
+		
+		config.options.txtRipplerapAccountPassword = document.getElementById('rr_account_password').value;
+		saveOptionCookie('txtRipplerapAccountPassword');
+		
 		config.macros.ripplerapAccountButton.showFeedback(config.macros.ripplerapAccountButton.contactingServerMessage);
 		var url = config.macros.ripplerapAccountButton.serverBaseURL + "reg/";
 		var params = {};
@@ -155,11 +159,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		}	
 		
 		config.macros.ripplerapAccountButton.showFeedback(responseTypes[xhrStatus].signupMessage);		
-			
-		log("the xhr.. ");
-		log(xhr);
-			
-			
+						
 		if(status) {
 			
 			console.log("flag as ready to use");
@@ -184,6 +184,15 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		if(msg)
 			msg.style.display = "none";
 	};
+	
+	
+	config.macros.ripplerapAccountPassword = {};
+	config.macros.ripplerapAccountPassword.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+		var p = createTiddlyElement(place,'input','rr_account_password','txtOptionInput',null,{'type':'password'});
+		p.setAttribute('option','txtRipplerapAccountPassword');
+		p.value = config.options.txtRipplerapAccountPassword;
+	};
+	
 }
 
 //# end of 'install only once'

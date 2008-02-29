@@ -7,17 +7,17 @@
 #tiddlerDisplay { margin:0 1em 2em 1em;}
 
 /* Header */
-div.header { background-color:#000; height:86px; border-top:solid 10px #111; position:relative; clear:left;}
+div.header { background-color:#000; height:96px; position:relative; clear:left;}
 #backstageArea,
-#backstageToolbar {background-color:#111;}
-#backstageToolbar a{background-color:#111;}
+#backstageToolbar {background-color:#000;}
+#backstageToolbar a{background-color:#000;}
 div.headerShadow,
 div.headerForeground { padding:1px; }
 div.headerShadow {color:#fff; height:80px;}
 div.headerForeground {display:none; }
 span.siteTitle {top:2px;}
 span.siteSubtitle {bottom:25px; left:245px; font-size:1em; position:absolute; width:200px;}
-div.headerControls { position:absolute; bottom:10px; right:10px; color:[[ColorPalette::SecondaryDark]]; font-size:1.2em;}
+div.headerControls { position:absolute; bottom:20px; right:10px; color:[[ColorPalette::SecondaryDark]]; font-size:1.2em;}
 div.headerControls input.txtOptionInput { font-size:0.9em; padding: 0.2em; background-color:#222; border:solid 1px #666; color:#eee; margin-right:2em;}
 div.headerControls a.button {border-style:none; background-color:#000; color:[[ColorPalette::SecondaryDark]]; margin-right:0.5em;} 
 
@@ -157,7 +157,7 @@ div.noteOptions a.button:hover {color:#fff; background-color:#444; border-style:
 #Twitter_postform textarea {margin-right:2em; font-size:1em; padding: 0.4em; border-top:solid 1px #999; border-right:solid 1px #ccc; border-bottom:solid 1px #ccc;  border-left:solid 1px #999; background-color:#f6f6f6;}
 #Twitter_postform textarea {width:30em; height:4em; font-family:arial; font-size:1em;}
 #user_form_Twitter a.button,
-#Twitter_postform a.button { font-size:0.8em; padding:0.4em; background-color:#444; border-style:none; color:#fff;}
+#Twitter_postform a.button { font-size:0.8em; padding:0.4em; background-color:#444; border-style:none; color:#fff; white-space:nowrap;}
 #user_form_Twitter a.button:hover,
 #Twitter_postform a.button:hover { background-color:#000; border-style:none; color:#fff;}
 
