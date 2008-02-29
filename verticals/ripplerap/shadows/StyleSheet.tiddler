@@ -145,10 +145,10 @@ div.noteOptions a:active.button {color:#eee; background-color:#666; border-style
 div.noteOptions a.button:hover {color:#fff; background-color:#444; border-style:none; border-top:1px solid #ddd;}
 
 /* Twittering */
-.twitterStream div.microblog_update {font-size:1em; margin:0; padding:0.4em 0; border-top:solid 1px #eee; position:relative; }
+.twitterStream div.microblog_update {font-size:1em; margin:0; padding:0.4em 0; border-top:solid 1px #ddd; position:relative; }
 .twitterStream div.microblog_update img {width:2em; height:2em; border:solid 1px #ccc; padding:1px; position:absolute}
 .twitterStream div.microblog_update span.user {color:#669; margin-left:3em;}
-.twitterStream div.microblog_update span.date {color:#ccc; margin-left:1em}
+.twitterStream div.microblog_update span.date {color:#ccc; margin-left:1em; font-size:0.8em;}
 .twitterStream div.microblog_update span.text {color:#333; clear:left; margin-left:3em; display:block;}
 
 #user_form_Twitter span,
@@ -162,12 +162,10 @@ div.noteOptions a.button:hover {color:#fff; background-color:#444; border-style:
 #Twitter_postform a.button:hover { background-color:#000; border-style:none; color:#fff;}
 
 /* Blogs */
-
-.blog_item div.microblog_update {font-size:1em; margin:0; padding:0.4em 0; border-top:solid 1px #eee; position:relative; }
-.blog_item div.microblog_update img {width:2em; height:2em; border:solid 1px #ccc; padding:1px; position:absolute}
-.blog_item div.microblog_update span.user {color:#669; margin-left:3em;}
-.blog_item div.microblog_update span.date {color:#ccc; margin-left:1em}
-.blog_item div.microblog_update span.text {color:#333; clear:left; margin-left:3em; display:block;}
+.blog_item  { font-size:1em; margin:0; padding:0.4em 0; border-top:solid 1px #ddd; position:relative; }
+.blog_item  div.title {color:#669; margin:0; font-size:1em;}
+.blog_item  div.date {color:#888; font-size:0.8em;  margin:0;}
+.blog_item  div.text {color:#333;  margin-bottom:0.6em; clear:left; display:block;}
 
 
 span.description {font-size:0.8em; color:#555; font-weight:normal; display:block;}
