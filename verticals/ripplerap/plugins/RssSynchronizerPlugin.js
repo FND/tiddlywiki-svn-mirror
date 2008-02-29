@@ -236,9 +236,12 @@ RssSynchronizer.log("getNotesTiddlerListCallback:"+context.status);
 	}
 	if(newContent) {
 		displayMessage(config.messages.updateComplete);
+		window.setTimeout("clearMessage()",2000);
 	}
-	else
+	else {
 		displayMessage(config.messages.noUpdate);
+		window.setTimeout("clearMessage()",2000);
+	}
 	store.resumeNotifications();
 	refreshDisplay();
 	me.sessionDownload.requestPending = false;

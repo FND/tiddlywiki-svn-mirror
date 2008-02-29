@@ -176,6 +176,9 @@ span.description {font-size:0.8em; color:#555; font-weight:normal; display:block
 .subtleTabs div.tabset a.tabUnselected:hover {color:#444;}
 .subtleTabs div.tabContents {background-color:transparent; border-style:none; border-top:solid 1px #ccc;}
 
+#messageArea { position: fixed; background-color: #000000; border-color: #CCCCCC; color: #CCCCCC;}
+#messageArea a {color:#CCCCCC;}
+#messageArea a.button {background-color:#000000; color:#CCCCCC;}
 
 </pre>
 </div>
