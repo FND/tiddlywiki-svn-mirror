@@ -1,6 +1,7 @@
 <div title="TwitterLogin" modifier="PhilHawksworth" created="200802221734" changecount="1">
 <pre>
 {{description{In order to post 'tweets' and to access your 'with friends' timeline, you will need to login to [[Twitter|http://twitter.com]] first}}}
+
 <<Microblog Twitter signin>>
 </pre>
 </div>
