@@ -180,5 +180,7 @@ span.description {font-size:0.8em; color:#555; font-weight:normal; display:block
 #messageArea a {color:#CCCCCC;}
 #messageArea a.button {background-color:#000000; color:#CCCCCC;}
 
+.Speaker img { float: right; }
+
 </pre>
 </div>
