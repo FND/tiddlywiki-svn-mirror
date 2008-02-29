@@ -10,6 +10,7 @@ config.macros.RippleTech.handler = function(place,macroName,params,wikifier,para
 				var count = params[2];
 		var avatars = params[3] =='avatars' ? true : false;
 		var makeTiddlers = params[4] =='makeTiddlers' ? true : false;
+		var template = params[5];
 		var context = {
 				host:uri,
 				place:place,
@@ -17,7 +18,8 @@ config.macros.RippleTech.handler = function(place,macroName,params,wikifier,para
 				count:count,
 				avatars:avatars,
 				makeTiddlers:makeTiddlers,
-				rssUseRawDescription:true
+				rssUseRawDescription:true,
+				template:template
 				};
 					
 		var adaptor = new RSSAdaptor();
@@ -71,5 +73,5 @@ config.macros.RippleTech.convertItemsToJSON = function(context,params) {
 		}
 	}
 	var JSONstring = JSONarray.toJSONString();
-		config.macros.Microblog.listenHandler(true,context,JSONstring,context.host,null);
+		config.macros.Microblog.listenHandler(true,context,JSONstring,context.host,null,context.template);
 };
