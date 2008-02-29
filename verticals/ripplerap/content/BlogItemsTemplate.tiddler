@@ -1,0 +1,7 @@
+<div title="BlogItemsTemplate" modifier="PhilHawksworth" created="200711280945">
+<pre>{{blog_item{
+			{{title{
+				<<LinkMaker type:text display:modifier linkto:url>>}}}{{date{
+				<<view created date 'MMM DD, 0hh:0mm'>>}}}{{text{
+				<<view text>>}}}}}}</pre>
+</div>

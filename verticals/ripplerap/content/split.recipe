@@ -16,3 +16,12 @@ tiddler: TiddlySaver.tiddler
 tiddler: TiddlyWiki.tiddler
 tiddler: AgendaItemsTemplate.tiddler
 tiddler: Speakers.tiddler
+
+tiddler: Tweets.tiddler
+tiddler: TwitterPost.tiddler
+tiddler: TwitterLogin.tiddler
+tiddler: TwitterStream.tiddler
+tiddler: TwitterItemsTemplate.tiddler
+tiddler: BlogItemsTemplate.tiddler
+tiddler: BlogTalkTweets.tiddler
+tiddler: Blogs.tiddler
