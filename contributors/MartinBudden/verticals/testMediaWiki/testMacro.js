@@ -23,6 +23,8 @@ config.macros.testMacro.test = function(title,params)
 {
 	clearMessage();
 	displayMessage("Testing");
+//	config.macros.testMacro.testDoubleBraces(title,params);
+//	return;
 	config.macros.testMacro.testDoubleBraces(title,params);
 	config.macros.testMacro.testTripleBraces(title,params);
 	config.macros.testMacro.testRawPipes(title,params);
@@ -35,13 +37,27 @@ config.macros.testMacro.test = function(title,params)
 tpTest = function(templateName,content,tag,expected)
 {
 //console.log('content:'+content);
-//console.log('tag:'+tag);
+console.log('test:'+tag);
 	var mwt = new MediaWikiTemplate();
 	var tiddler = store.fetchTiddler('Test');
 	var namespace = 'Template:';
 	var template = new Tiddler(namespace+mwt.normalizeTitle(templateName));
 	template.text = content;
 	store.addTiddler(template);
+	text = mwt.transcludeTemplates(tag,tiddler);
+	if(expected && text!=expected) {
+		displayMessage('Error:'+tag);
+	}
+	console.log('RET:'+text);
+	console.log('');
+};
+
+tp2Test = function(tag,expected)
+{
+//console.log('content:'+content);
+console.log('test:'+tag);
+	var mwt = new MediaWikiTemplate();
+	var tiddler = store.fetchTiddler('Test');
 	text = mwt.transcludeTemplates(tag,tiddler);
 	if(expected && text!=expected) {
 		displayMessage('Error:'+tag);
@@ -109,18 +125,24 @@ config.macros.testMacro.testRawPipes = function(title,params)
 
 config.macros.testMacro.testDoubleBraces = function(title,params)
 {
-	dbrTest('a{{n}}c',0,1,4);
+	dbrTest('{{a}}',0,0,3);
 	dbrTest('{{}}',0,0,2);
+	dbrTest('a{{n}}c',0,1,4);
 	dbrTest('abcd',0,-1,0);
 	dbrTest('a{{ {{abc}} }}',0,1,12);
 	dbrTest('a{{ {{abc}} }}',2,4,9);
 	dbrTest('a{{ {{a{{b}}c}} }}',0,1,16);
 	dbrTest('a{{{x}}} {{a}}',0,9,12);
 	dbrTest('{{{1|pqr}}} {{TEx1}} {{{2|stu}}}',3,12,18);
+	var t= '{{#if: {{{image<includeonly>|</includeonly>}}} | {{!}} colspan="4" {{!}} [[Image:{{{image}}}|{{#if:{{{image-width|}}}|{{{image-width}}}|200}}px]]{{#if: {{{caption}}} |{{{caption}}}}}</p>}}';
+	dbrTest(t,3,49,52);
 };
 
 config.macros.testMacro.testTripleBraces = function(title,params)
 {
+	tbrTest('{{{a}}}',0,0,4);
+	tbrTest('{{{}}}',0,0,3);
+
 	tbrTest('a{{{n}}}c',0,1,5);
 	tbrTest('{{{x|{{{y|s}}}}}}',0,0,14);
 	tbrTest('{{{x{{a}}}}}}',0,0,9);
@@ -146,6 +168,14 @@ config.macros.testMacro.testVariables = function(title,params)
 config.macros.testMacro.testParserFunctions = function(title,params)
 {
 	tpTest('Dummy','','{{#if: 0 | a |b }}',' a ');
+	tpTest('Dummy','','{{#if: 0 | a }}',' a ');
+	tpTest('Dummy','','{{#if:  | a |b }}','b ');
+	tpTest('Dummy','','{{#if:  | a }}','');
+
+	tpTest('TFn1','{{#if: {{{type|}}} | Airport type {{{type}}} }}','{{TFn1}}','');
+	tpTest('TFn1','{{#if: {{{type<includeonly>|</includeonly>}}} | Airport type {{{type}}} }}','{{TFn1}}','');
+	tpTest('TFn1','{{#if: {{{type|}}} | Airport type {{{type}}} }}','{{TFn1|type=public}}',' Airport type public ');
+	tpTest('TFn1','{{#if: {{{type<includeonly>|</includeonly>}}} | Airport type {{{type}}} }}','{{TFn1|type=public}}',' Airport type public ');
 };
 
 config.macros.testMacro.testBasic = function(title,params)
