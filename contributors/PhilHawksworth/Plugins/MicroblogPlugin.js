@@ -275,6 +275,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 		for(var u=0; u<count; u++) {
 					
 			msg = updates[u];
+			
 			id = msg.id.toString();
 			text = msg.text.htmlDecode();
 			
@@ -289,7 +290,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 			image = msg.user.profile_image_url;
 			status_link = rootURI + "/" + screenname + "/statuses/" + id;
 			user_link = rootURI + "/" + screenname;
-		
+	
 			/*
 				TODO move this test to be somewhere more efficient?
 			*/
@@ -302,6 +303,8 @@ version.extensions.MicroblogPlugin = {installed:true};
 					t.text = text;
 	  				t.created = d;
 	  				t.modifier = creator;
+					if(msg.url)
+						t.fields.url = msg.url;
 	  				t.fields.screen_name = screenname;
 	  				t.fields.profile_image_url = image;
 					t.fields.status_link = status_link;
@@ -333,7 +336,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 			config.macros.ListTemplate.handler(params.place,null,null,null,paramString,null);
 		}
 		
-		// refreshDisplay();
+		refreshDisplay();
 		store.resumeNotifications();
 		
 		if(microblogs[params.platform].poll) {
