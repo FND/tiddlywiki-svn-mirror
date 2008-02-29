@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.0.5|
+|''Version:''|0.0.6|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -44,7 +44,7 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1))
 
 fnLog = function(text)
 {
-	console.log(text.substr(0,60));
+//	console.log(text.substr(0,60));
 };
 
 MediaWikiTemplate = function()
@@ -108,11 +108,11 @@ fnLog('getTemplateContent:'+name);
 		}
 		text = t == '' ? text : t;
 	} else {
+		text = namespace + name;
 		if(config.options.chkMediaWikiDisplayEmptyTemplateLinks) {
 			//# for conveniece, output the name of the template so user can click on it and create tiddler
-			text = '[['+name+']]';
+			text = '[['+text+']]';
 		}
-		//text = namespace + name;
 	}
 fnLog('ret getTemplateContent:'+text);
 	return text;
