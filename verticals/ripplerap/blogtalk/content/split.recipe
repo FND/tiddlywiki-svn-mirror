@@ -26,5 +26,6 @@ tiddler: TwitterPost.tiddler
 tiddler: TwitterLogin.tiddler
 tiddler: TwitterStream.tiddler
 tiddler: TwitterItemsTemplate.tiddler
+tiddler: BlogItemsTemplate.tiddler
 tiddler: BlogTalkTweets.tiddler
 tiddler: Welcome.tiddler

@@ -161,6 +161,14 @@ div.noteOptions a.button:hover {color:#fff; background-color:#444; border-style:
 #user_form_Twitter a.button:hover,
 #Twitter_postform a.button:hover { background-color:#000; border-style:none; color:#fff;}
 
+/* Blogs */
+
+.blog_item div.microblog_update {font-size:1em; margin:0; padding:0.4em 0; border-top:solid 1px #eee; position:relative; }
+.blog_item div.microblog_update img {width:2em; height:2em; border:solid 1px #ccc; padding:1px; position:absolute}
+.blog_item div.microblog_update span.user {color:#669; margin-left:3em;}
+.blog_item div.microblog_update span.date {color:#ccc; margin-left:1em}
+.blog_item div.microblog_update span.text {color:#333; clear:left; margin-left:3em; display:block;}
+
 
 span.description {font-size:0.8em; color:#555; font-weight:normal; display:block;}
 
