@@ -1,0 +1,11 @@
+<div title="MicroblogConfig_Technorati_BlogTalk" modifier="JonLister" tags="systemServer excludeLists Microblog">
+<pre>|''Description:''|Resources for microbloggin with Technorati, a blog search engine|
+|''RootURI:''|http://technorati.com|
+|''LoginURI:''||
+|''LogoutURI:''||
+|''ListenURI:''|http://feeds.technorati.com/search/%22BlogTalk%22+-%22BlogTalk+Radio%22?authority=a1|
+|''PostURI:''||
+|''CharacterLimit:''||
+|''Period:''|900|
+|''authenticated:''|true|</pre>
+</div>
