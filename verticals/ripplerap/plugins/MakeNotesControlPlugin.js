@@ -156,7 +156,14 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		
 		config.macros.ripplerapAccountButton.showFeedback(responseTypes[xhrStatus].signupMessage);		
 			
+		log("the xhr.. ");
+		log(xhr);
+			
+			
 		if(status) {
+			
+			console.log("flag as ready to use");
+			
 			config.options['chkRipplerapReadyToUse'+config.options.txtUserName] = true;
 			saveOptionCookie('chkRipplerapReadyToUse'+config.options.txtUserName);	
 			if(status && rssSynchronizer && config.options.chkRipplerapShare) {

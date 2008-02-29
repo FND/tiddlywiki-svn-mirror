@@ -37,7 +37,7 @@ if(!version.extensions.RssSynchronizerPlugin) {
 version.extensions.RssSynchronizerPlugin = {installed:true};
 
 if(!config.options.txtRippleRapInterval)
-	{config.options.txtRippleRapInterval = 60;}
+	{config.options.txtRippleRapInterval = 10;}
 
 config.optionsDesc.txtRippleRapInterval = "~RippleRap synchronization interval (in seconds)";
 
