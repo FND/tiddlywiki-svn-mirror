@@ -3,7 +3,7 @@
 |''RootURI:''|http://twitter.com|
 |''LoginURI:''||
 |''LogoutURI:''||
-|''ListenURI:''|http://terraminds.com/twitter/json?query=BlogTalk|
+|''ListenURI:''|http://terraminds.com/twitter/json?query=blogtalk|
 |''PostURI:''||
 |''CharacterLimit:''|140|
 |''Period:''|900|
