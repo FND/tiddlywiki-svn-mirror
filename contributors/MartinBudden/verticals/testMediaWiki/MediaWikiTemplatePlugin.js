@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.0.4|
+|''Version:''|0.0.5|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -44,7 +44,7 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1))
 
 fnLog = function(text)
 {
-//	console.log(text.substr(0,60));
+	console.log(text.substr(0,60));
 };
 
 MediaWikiTemplate = function()
@@ -112,7 +112,7 @@ fnLog('getTemplateContent:'+name);
 			//# for conveniece, output the name of the template so user can click on it and create tiddler
 			text = '[['+name+']]';
 		}
-		text = namespace + name;
+		//text = namespace + name;
 	}
 fnLog('ret getTemplateContent:'+text);
 	return text;
@@ -341,11 +341,12 @@ MediaWikiTemplate.prototype.expandVariable = function(text)
 MediaWikiTemplate.prototype.expandParserFunction = function(fn,params)
 {
 fnLog('expandParserFunction'+fn);
-//#console.log(params);
+//console.log(params);
 	var ret = '';
 	switch(fn.toLowerCase()) {
 	case '#if':
 		ret = params[1].trim()=='' ? params[3] : params[2];
+		if(!ret) ret = '';
 		break;
 	default:
 		break;
@@ -355,22 +356,21 @@ fnLog('expandParserFunction'+fn);
 
 MediaWikiTemplate.prototype.expandTemplateNTag = function(ntag)
 {
-//fnLog('expandTemplateNTag:'+ntag);
+fnLog('expandTemplateNTag:'+ntag);
 	var v = this.expandVariable(ntag);
 	if(v!==false) {
 		return v;
 	}
 	var pd = this.splitTemplateNTag(ntag);
-	var templateName = pd[0].trim();
+	var templateName = pd[0];
 	var s = 1;
 	var fnRegExp = /([#a-z]*): +([^\|]*)/mg;
 	fnRegExp.lastIndex = 0;
 	var match = fnRegExp.exec(templateName);
-//#console.log(match);
 	if(match) {
 		// it's a parser function
 		s = 0;
-		var fnLog = match[1];
+		var fn = match[1];
 		pd[0] = match[2];
 	}
 
@@ -390,8 +390,8 @@ MediaWikiTemplate.prototype.expandTemplateNTag = function(ntag)
 			params[name] = t.substr(p+1).trim();// trim named parameter values
 		}
 	}
-	var ret = fnLog ? this.expandParserFunction(fnLog,params) : this.expandTemplateContent(templateName,params);
-//fnLog('ret expandTemplateNTag:'+ret);
+	var ret = fn ? this.expandParserFunction(fn,params) : this.expandTemplateContent(templateName.trim(),params);
+fnLog('ret expandTemplateNTag:'+ret);
 	return ret;
 };
 
@@ -400,6 +400,8 @@ MediaWikiTemplate.prototype.transcludeTemplates = function(text,tiddler)
 	this.stack = [];
 	this.error = false;
 	this.tiddler = tiddler;
+	if(tiddler.title.indexOf('Template:')==0)
+		return text;
 	return this.transcludeTemplates2(text);
 };
 
