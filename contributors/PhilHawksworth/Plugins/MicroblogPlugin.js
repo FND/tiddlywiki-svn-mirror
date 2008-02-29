@@ -78,6 +78,8 @@ version.extensions.MicroblogPlugin = {installed:true};
 				microblogs[platform].poll = true;
 				this.listen(place, platform, count, avatars, makeTiddlers, template);
 				break;
+			case 'refreshButton':
+				this.refreshBtn(place);
 			default:
 				log('ERROR. '+ action+ ' is not a valid parameter for the Microblog plugin.');
 				break;
@@ -348,7 +350,21 @@ version.extensions.MicroblogPlugin = {installed:true};
 		}
 	};
 	
+	//refresh this display
+	config.macros.Microblog.refreshBtn = function(place){
+		var btn = createTiddlyButton(place, "refresh","refresh",config.macros.Microblog.doRefresh);
+		var t = story.findContainingTiddler(place);		
+		btn.setAttribute("tiddlerTitle",t.getAttribute('tiddler'));
 	
+	};
+	
+	config.macros.Microblog.doRefresh = function(ev){
+		var e = ev ? ev : window.event;
+		var t = this.getAttribute("tiddlerTitle");	
+		story.refreshTiddler(t, null, true);
+	};
+	
+
 	//create input UI.
 	config.macros.Microblog.postform = function(place,platform){
 		
