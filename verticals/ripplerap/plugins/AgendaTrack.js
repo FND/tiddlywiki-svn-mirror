@@ -59,7 +59,7 @@ version.extensions.AgendaTrack = {installed:true};
 	config.macros.SpeakerSession= {};
 	config.macros.SpeakerSession.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 
-		var text = store.getValue(tiddler,'speaker_bio');
+		var text = store.getValue(tiddler,'speaker_bio', '');
 		wikify(text,place);
 	};
 
