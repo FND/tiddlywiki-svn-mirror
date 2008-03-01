@@ -1,4 +1,4 @@
-<div title="SpeakerViewTemplate" modifier="PaulDowney" created="200712031004" changecount="1">
+<div title="CommitteeViewTemplate" modifier="PaulDowney" created="200712031004" changecount="1">
 <pre><!--{{{-->
 <div class="VanillaView Speaker">
 <div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
