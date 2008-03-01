@@ -61,10 +61,28 @@ version.extensions.AgendaTrack = {installed:true};
 	config.macros.SpeakerSession= {};
 	config.macros.SpeakerSession.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 
-		var text = store.getValue(tiddler,'speaker_bio', '');
+		var tagged = store.getTaggedTiddlers("session");
+
+		// search for sessions where speaker list contains speaker
+		// TBD: there must be a better way of doing this!
+		var sess = [];
+		for(var t=0; t<tagged.length; t++) {
+		    var speakers = store.getValue(tagged[t],'rr_session_speaker');
+		    if (speakers) {
+			var slist = speakers.split(/\s*,\s*/);
+			for(var s=0; s<slist.length; s++) {
+			    if (slist[s].trim() == tiddler.title) {
+				sess.push(tagged[t].title);
+			    }
+			}
+		    }
+		}
+
+		var text = (sess.length ? "*[[" + sess.join("]]\n*[[") + "]]" : "")
+			+ "\n<html><i>Text taken from: <a href='" + store.getValue(tiddler,'speaker_bio', '') + "'>"
+			+ store.getValue(tiddler,'speaker_bio', '') + "</a></i></html>";
 		wikify(text,place);
 	};
-
 
 } //# end of 'install only once'
 //}}}
