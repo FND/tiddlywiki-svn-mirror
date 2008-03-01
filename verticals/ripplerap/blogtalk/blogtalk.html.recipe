@@ -1,4 +1,5 @@
 recipe: ../ripplerap.recipe
+recipe: ../images.recipe
 
 tiddler: settings.js
 
