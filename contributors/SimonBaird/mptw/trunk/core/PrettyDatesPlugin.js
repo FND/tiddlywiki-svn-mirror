@@ -32,14 +32,14 @@ Date.prototype.prettyDate = function() {
 	else                      return Math.ceil(day_diff/365) + " years ago";
 }
 
-Date.prototype.formatString_orig_mptw = Date.prototype.formatString;
+Date.prototype.formatString_orig_mopi = Date.prototype.formatString;
 
 Date.prototype.formatString = function(template) {
-	return this.formatString_orig_mptw(template).replace(/pppp/,this.prettyDate());
+	return this.formatString_orig_mopi(template).replace(/pppp/,this.prettyDate());
 }
 
-// for mptw. otherwise edit your ViewTemplate as required.
-// config.mptwDateFormat = 'pppp (MM/0DD/YY)'; 
-config.mptwDateFormat = 'pppp'; 
+// for Mopi. otherwise edit your ViewTemplate as required.
+// config.mopiDateFormat = 'pppp (MM/0DD/YY)'; 
+config.mopiDateFormat = 'pppp'; 
 
 //}}}

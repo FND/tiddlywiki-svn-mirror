@@ -43,7 +43,7 @@ http://mopi.tiddlyspot.com/#MopiTheme ($Rev: 1829 $)
 	<span macro="showWhenTagged systemPalette"><span macro="applyPalette"></span></span>
 	<span style="padding:1em;"></span>
 	<span macro='toolbar closeTiddler closeOthers +editTiddler deleteTiddler > fields syncing permalink references jump'></span> <span macro='newHere label:"new here"'></span>
-	<span macro='newJournalHere {{config.mptwJournalFormat?config.mptwJournalFormat:"MM/0DD/YY"}}'></span>
+	<span macro='newJournalHere {{config.mopiJournalFormat?config.mopiJournalFormat:"MM/0DD/YY"}}'></span>
 </div>
 
 <div class="tagglyTagged" macro="tags"></div>
@@ -54,11 +54,11 @@ http://mopi.tiddlyspot.com/#MopiTheme ($Rev: 1829 $)
 </div>
 
 <div class='subtitle'>
-	(updated <span macro='view modified date {{config.mptwDateFormat?config.mptwDateFormat:"MM/0DD/YY"}}'></span>
+	(updated <span macro='view modified date {{config.mopiDateFormat?config.mopiDateFormat:"MM/0DD/YY"}}'></span>
 	by <span macro='view modifier link'></span>)
 	<!--
 	(<span macro='message views.wikified.createdPrompt'></span>
-	<span macro='view created date {{config.mptwDateFormat?config.mptwDateFormat:"MM/0DD/YY"}}'></span>)
+	<span macro='view created date {{config.mopiDateFormat?config.mopiDateFormat:"MM/0DD/YY"}}'></span>)
 	-->
 </div>
 
@@ -269,5 +269,9 @@ h1,h2,h3,h4,h5,h6 {
 		display: none ! important;
 	}
 }
+
+/* get user styles specified in StyleSheet */
+[[StyleSheet]]
+
 /*}}}*/
 

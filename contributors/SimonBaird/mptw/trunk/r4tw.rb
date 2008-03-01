@@ -247,11 +247,11 @@ class Tiddler
     text_str.sub!(/\n<pre>/,'')
     text_str.sub!(/<\/pre>\n/,'')
 
-    if (use_pre)
+    #if (use_pre)
       @fields['text'] = text_str.decodeHTML
-    else
-      @fields['text'] = text_str.unescapeLineBreaks.decodeHTML
-    end
+    #else
+    #  @fields['text'] = text_str.unescapeLineBreaks.decodeHTML
+    #end
 
     self
   end
@@ -317,11 +317,11 @@ class Tiddler
       extended_fields.
         map{ |f| %{#{f}="#{@fields[f]}"} }    
 
-    if use_pre
+    #if use_pre
       "<div #{fields_string.join(' ')}>\n<pre>#{@fields['text'].encodeHTML}</pre>\n</div>"
-    else
-      "<div #{fields_string.join(' ')}>#{@fields['text'].escapeLineBreaks.encodeHTML}</div>"
-    end
+    #else
+    #  "<div #{fields_string.join(' ')}>#{@fields['text'].escapeLineBreaks.encodeHTML}</div>"
+    #end
 
 
   end
