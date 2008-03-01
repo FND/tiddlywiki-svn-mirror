@@ -47,12 +47,20 @@ version.extensions.AgendaTrack = {installed:true};
 		wikify(text,place);
 	};
 
-	config.macros.AgendaTrackText= {};
-	config.macros.AgendaTrackText.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	config.macros.Speaker= {};
+	config.macros.Speaker.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 
-		tiddler.text = "<<AgendaTrackSession>>";
-		story.setDirty(tiddler.title,true);
+		var text = "[img["+ store.getValue(tiddler,'speaker_img') + "]]"
+			+ "[[" + tiddler.title + "|" + store.getValue(tiddler,'speaker_uri') + "]]"
+			+ " " + store.getValue(tiddler,'speaker_co');
+		wikify(text,place);
+	};
 
+	config.macros.SpeakerSession= {};
+	config.macros.SpeakerSession.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+
+		var text = store.getValue(tiddler,'speaker_bio');
+		wikify(text,place);
 	};
 
 
