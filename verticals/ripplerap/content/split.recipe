@@ -15,7 +15,10 @@ tiddler: Share_notes.tiddler
 tiddler: TiddlySaver.tiddler
 tiddler: TiddlyWiki.tiddler
 tiddler: AgendaItemsTemplate.tiddler
-tiddler: Speakers.tiddler
+
+tiddler: speaker.tiddler
+tiddler: committee.tiddler
+tiddler: chair.tiddler
 
 tiddler: Tweets.tiddler
 tiddler: TwitterPost.tiddler

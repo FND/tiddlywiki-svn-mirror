@@ -79,7 +79,7 @@ version.extensions.AgendaTrack = {installed:true};
 		}
 
 		var text = (sess.length ? "*[[" + sess.join("]]\n*[[") + "]]" : "")
-			+ "\n<html><i>Text taken from: <a href='" + store.getValue(tiddler,'speaker_bio', '') + "'>"
+			+ "\n<html><i>Taken from: <a href='" + store.getValue(tiddler,'speaker_bio', '') + "'>"
 			+ store.getValue(tiddler,'speaker_bio', '') + "</a></i></html>";
 		wikify(text,place);
 	};
