@@ -51,7 +51,9 @@ version.extensions.AgendaTrack = {installed:true};
 	config.macros.Speaker.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 
 		var text = "[img["+ store.getValue(tiddler,'speaker_img') + "]]"
-			+ "[[" + tiddler.title + "|" + store.getValue(tiddler,'speaker_uri') + "]]"
+			+ "<html><a class='fn url' href='" + store.getValue(tiddler,'speaker_uri') + "'>" 
+			    +  tiddler.title 
+			    + "</a></html>" 
 			+ " " + store.getValue(tiddler,'speaker_co');
 		wikify(text,place);
 	};
