@@ -12,9 +12,7 @@
 
 //{{{
 
-merge(config.macros.tagging,{
-	label: "",
-	labelNotTag: "",
-	tooltip: "List of tiddlers tagged with '%0'"});
+config.macros.tagging.label = "";
+config.macros.tagging.labelNotTag = "";
 
 //}}}
