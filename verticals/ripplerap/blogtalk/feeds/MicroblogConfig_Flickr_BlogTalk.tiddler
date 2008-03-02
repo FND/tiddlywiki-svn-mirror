@@ -1,0 +1,11 @@
+<div title="MicroblogConfig_Flickr_BlogTalk" modifier="PaulDowney" tags="systemServer excludeLists Microblog">
+<pre>|''Description:''|Resources for microblogging with Flickr|
+|''RootURI:''|http://flickr.com|
+|''LoginURI:''||
+|''LogoutURI:''||
+|''ListenURI:''|http://api.flickr.com/services/feeds/photos_public.gne?tags=blogtalk&lang=en-us&format=rss_200|
+|''PostURI:''||
+|''CharacterLimit:''||
+|''Period:''|900|
+|''authenticated:''|true|</pre>
+</div>

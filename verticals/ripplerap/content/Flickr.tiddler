@@ -1,0 +1,4 @@
+<div title="Flickr" modifier="PaulDowney" created="200802221734" changecount="1">
+<pre>{{description{These are what we've found searching [[Flickr|http://www.flickr.com/photos/tags/blogtalk]] for photos posts tagged with the word "~BlogTalk".  We refresh this page every 15 minutes, but can also <<Microblog Twitter refreshButton>> the display right now.}}}
+{{FlickrStream{<<RippleTech Flickr_BlogTalk listen all null makeTiddlers FlickrItemsTemplate>>}}}</pre>
+</div>

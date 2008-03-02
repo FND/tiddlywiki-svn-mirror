@@ -15,6 +15,7 @@ tiddler: ../../contributors/PhilHawksworth/Plugins/MicroblogPlugin.js
 tiddler: ../../contributors/PhilHawksworth/Plugins/ConditionalDisplayPlugin.js
 tiddler: ../../contributors/PaulDowney/Plugins/MicroformatPlugin.js
 tiddler: ../../contributors/PaulDowney/Plugins/TiddlifyList.js
+tiddler: ../../contributors/PaulDowney/Plugins/RawViewMacroPlugin.js
 
 recipe: shadows/split.recipe
 recipe: plugins/split.recipe
