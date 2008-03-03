@@ -20,17 +20,18 @@ from another tab/window
 if(!version.extensions.SimpleMojoPlugin) {
 version.extensions.SimpleMojoPlugin = {installed:true};
 
+merge(config.optionsDesc,{'txtMojoUserName':'Mojo Username'});
+
 config.macros.mojo = {
 
 	debug: false,
 	offline: false,
 
-	makeCall: function (callee) {
+	makeCall: function (caller, callee) {
 
 	        var macro = config.macros.mojo;
 	
 	        var user = config.options.txtMojoUserName;
-	        var caller = config.options.txtMojoTelno;
 	
 		    var body = encodeURIComponent('call[username]') + '=' + user 
 				+ '&' + encodeURIComponent('call[gadgetkey]') + '=' + '1234567891' 
