@@ -3,8 +3,11 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 tiddler: ../../Plugins/SimpleMojoPlugin.js
 tiddler: ../../Plugins/SpeedGeekingPlugin.js
 
-tiddler: MainMenu.tiddler
 tiddler: SpeedGeek.tiddler
 tiddler: geek.tiddler
 
+tiddler: MainMenu.tiddler
+tiddler: DefaultTiddlers.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
 tiddler: PaulDowney.tiddler
