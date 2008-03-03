@@ -31,3 +31,5 @@ tiddler: ../../feeds/MetaWikimediaHelpFeed.tiddler
 tiddler: ../../feeds/MetaWikimediaDemoTemplateFeed.tiddler
 recipe: ../../test/templates/split.recipe
 tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js tags="systemConfig excludeLists excludeSearch"
+tiddler: ../SolarSystem/templates/Template_Planet_Infobox_Mercury.tiddler
+tiddler: ../MediaWikiContent/airports/templates/Template_Infobox_Airport.tiddler
