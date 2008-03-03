@@ -23,8 +23,10 @@ config.macros.testMacro.test = function(title,params)
 {
 	clearMessage();
 	displayMessage("Testing");
-//	config.macros.testMacro.testDoubleBraces(title,params);
-//	return;
+	//tpTest('Dummy','','{{Infobox Airports}}');
+	//displayMessage("Testing complete");
+	//return;
+	config.macros.testMacro.testRawPipes(title,params);
 	config.macros.testMacro.testDoubleBraces(title,params);
 	config.macros.testMacro.testTripleBraces(title,params);
 	config.macros.testMacro.testRawPipes(title,params);
@@ -32,6 +34,8 @@ config.macros.testMacro.test = function(title,params)
 	config.macros.testMacro.testParserFunctions(title,params);
 	config.macros.testMacro.testBasic(title,params);
 	config.macros.testMacro.testExamples(title,params);
+	config.macros.testMacro.testTableBraces(title,params);
+	displayMessage("Testing complete");
 };
 
 tpTest = function(templateName,content,tag,expected)
@@ -71,12 +75,9 @@ dbrTest = function(text,start,es,ee)
 //console.log('content:'+content);
 console.log('test:'+text+'    ('+es+','+ee+')');
 	var mwt = new MediaWikiTemplate();
-	ret = mwt.findDoubleBracePair(text,start);
-	if(es && ret.start!=es) {
-		displayMessage('Error:'+text);
-	}
-	if(ee && ret.end!=ee) {
-		displayMessage('Error:'+text);
+	ret = mwt.findDBP(text,start);
+	if((es && ret.start!=es)||(ee && ret.end!=ee)) {
+		displayMessage('Error:'+'('+es+','+ee+') '+text);
 	}
 	console.log('RET:'+ret.start+','+ret.end);
 	console.log('');
@@ -84,15 +85,23 @@ console.log('test:'+text+'    ('+es+','+ee+')');
 
 tbrTest = function(text,start,es,ee)
 {
-//console.log('content:'+content);
-console.log('test:'+text+'    ('+es+','+ee+')');
+console.log('tbrTest:'+text+'    ('+es+','+ee+')');
 	var mwt = new MediaWikiTemplate();
-	ret = mwt.findTripleBracePair(text,start);
-	if(es && ret.start!=es) {
-		displayMessage('Error:'+text);
+	ret = mwt.findTBP(text,start);
+	if((es && ret.start!=es)||(ee && ret.end!=ee)) {
+		displayMessage('Error:'+'('+es+','+ee+') '+text);
 	}
-	if(ee && ret.end!=ee) {
-		displayMessage('Error:'+text);
+	console.log('RET:'+ret.start+','+ret.end);
+	console.log('');
+};
+
+taTest = function(text,start,es,ee)
+{
+console.log('taTest:'+text+'    ('+es+','+ee+')');
+	var mwt = new MediaWikiTemplate();
+	ret = mwt.findTableBracePair(text,start);
+	if((es && ret.start!=es)||(ee && ret.end!=ee)) {
+		displayMessage('Error:'+'('+es+','+ee+') '+text);
 	}
 	console.log('RET:'+ret.start+','+ret.end);
 	console.log('');
@@ -100,17 +109,11 @@ console.log('test:'+text+'    ('+es+','+ee+')');
 
 rpTest = function(text,start,expected)
 {
-//console.log('content:'+content);
-console.log('test:'+text+'    ('+expected+')');
+console.log('rpTest:'+text+'    ('+expected+')');
 	var mwt = new MediaWikiTemplate();
-/*console.log('pd:'+'hello|a|b|c=d|a[[fds|fds]]a|x{{a|b}}|qq');
-var pd = mwt.splitTemplateNTag2('hello|a|b|c=d|a[[fds|fds]]a|x{{a|b}}|qq');
-console.log(pd);
-return;*/
-
 	var ret = mwt.findRawDelimiter('|',text,start);
 	if(expected && ret!=expected) {
-		displayMessage('Error:'+text);
+		displayMessage('ErrorT:'+text);
 	}
 	console.log('RET:'+ret);
 	console.log('');
@@ -121,6 +124,11 @@ config.macros.testMacro.testRawPipes = function(title,params)
 	rpTest('abcd|efgh',0,4);
 	rpTest('abc[[d|e]]f|gh',0,11);
 	rpTest('abc{{d|e}}f|gh',0,11);
+	rpTest('abc[[{{d|e}}]]f|gh',0,15);
+	rpTest('abc[[{{d|e}}]]{{{|}}}f|gh',0,22);
+	rpTest('abc[[{{d|e}}{{{|}}}]]f|gh',0,22);
+	rpTest('abc[[{{d{{|}}e}}{{{|}}}]]f|gh',0,26);
+	rpTest('abc{{d|[[e]]}}{{{|}}}f|gh',0,22);
 };
 
 config.macros.testMacro.testDoubleBraces = function(title,params)
@@ -128,11 +136,33 @@ config.macros.testMacro.testDoubleBraces = function(title,params)
 	dbrTest('{{a}}',0,0,3);
 	dbrTest('{{}}',0,0,2);
 	dbrTest('a{{n}}c',0,1,4);
-	dbrTest('abcd',0,-1,0);
+	dbrTest('abcd',0,-1,-1);
+
 	dbrTest('a{{ {{abc}} }}',0,1,12);
 	dbrTest('a{{ {{abc}} }}',2,4,9);
 	dbrTest('a{{ {{a{{b}}c}} }}',0,1,16);
+
 	dbrTest('a{{{x}}} {{a}}',0,9,12);
+//	{{{{foo}}}} is equivalent to { {{{foo}}} }
+	dbrTest('{{{{x}}}}',0,-1,-1);
+//	{{{{foo}} }} is equivalent to {{ {{foo}} }}
+	dbrTest('{{{{x}} }}',0,0,8);
+//	{{{{{foo}}}}} is equivalent to {{ {{{foo}}} }}
+	dbrTest('{{{{{x}}}}}',0,0,9);
+	dbrTest('{{{{{x}} }}}',0,3,6);
+	dbrTest('{{{{{x}}} }}',0,0,10);
+	dbrTest('{{{{{{x}}}}}}',0,-1,-1);
+
+	dbrTest('{{ {{{wid|}}}|w|200 }}',0,0,20);
+	dbrTest('{{ {{ {{{wid|}}}|w|200 }} }}',0,0,26);
+	dbrTest('{{ {{ b }} {{c}} }}',0,0,17);
+	dbrTest('{{ {{{a}}} b {{c}} }}',0,0,19);
+	dbrTest('{{ {{{a}}} b }}',0,0,13);
+	dbrTest('{{ {{{a}}} b }} {{c}}',0,0,13);
+	dbrTest('{{ {{ {{{a}}} b }} {{c}} }}',0,0,25);
+	dbrTest('{{ {{ {{{wid|}}}|w|200 }} {{c}} }}',0,0,32);
+	dbrTest('{{ i | [[img|{{ {{{wid|}}}|w|200 }}px]] {{ c |c }} }}',0,0,51	);
+
 	dbrTest('{{{1|pqr}}} {{TEx1}} {{{2|stu}}}',3,12,18);
 	var t= '{{#if: {{{image<includeonly>|</includeonly>}}} | {{!}} colspan="4" {{!}} [[Image:{{{image}}}|{{#if:{{{image-width|}}}|{{{image-width}}}|200}}px]]{{#if: {{{caption}}} |{{{caption}}}}}</p>}}';
 	dbrTest(t,3,49,52);
@@ -142,8 +172,11 @@ config.macros.testMacro.testTripleBraces = function(title,params)
 {
 	tbrTest('{{{a}}}',0,0,4);
 	tbrTest('{{{}}}',0,0,3);
-
 	tbrTest('a{{{n}}}c',0,1,5);
+	tbrTest('abcd',0,-1,-1);
+
+	tbrTest('a{{{x}}} {{a}}',1,1,5);
+	tbrTest('{{{x|{{{y|s}}}}}}',5,5,11);
 	tbrTest('{{{x|{{{y|s}}}}}}',0,0,14);
 	tbrTest('{{{x{{a}}}}}}',0,0,9);
 	
@@ -156,8 +189,35 @@ config.macros.testMacro.testTripleBraces = function(title,params)
 	tbrTest('{{{1|p}}}{{{2|q}}}{{{3|r}}} ({{{x|{{{y|s}}}}}})',29,29,43);
 	tbrTest('{{{1|p}}}{{{2|q}}}{{{3|r}}} ({{{x|{{{y|s}}}}}})',32,34,40);
 	tbrTest('{{{1|p}}}{{{2|q}}}{{{3|r}}} ({{{x|{{{y|s}}}}}})',34,34,40);
+
+//	{{{{foo}}}} is equivalent to { {{{foo}}} }
+	tbrTest('{{{{x}}}}',0,1,5);
+//	{{{{foo}} }} is equivalent to {{ {{foo}} }}
+	tbrTest('{{{{x}} }}',0,-1,-1);
+//	{{{{{foo}}}}} is equivalent to {{ {{{foo}}} }}
+	//tbrTest('{{{{{x}}}}}',0,2,6);
+
+//	{{{{{foo}}}}} is equivalent to {{ {{{foo}}} }}
+	tbrTest('{{{{{x}}}}}',0,2,6);
+	tbrTest('{{{{{x}} }}}',0,0,9);
+	tbrTest('{{{{{x}}} }}',0,2,6);
+	
+	tbrTest('{{{{{{x}}}}}}',0,0,10);
+
+
 	//tbrTest('',0,1,4);
 	//tbrTest('',0,1,4);
+};
+
+config.macros.testMacro.testTableBraces = function(title,params)
+{
+	taTest('{|a|}',0,0,3);
+	taTest('{||}',0,0,2);
+	taTest('a{|n|}c',0,1,4);
+	taTest('abcd',0,-1,-1);
+
+	taTest('a{|nm{|xy|}z|}c',0,1,12);
+	taTest('a{|nm{|xy|}z|}c',3,5,9);
 };
 
 config.macros.testMacro.testVariables = function(title,params)
@@ -257,6 +317,7 @@ config.macros.testMacro.testExamples = function(title,params)
 	//tpTest('TEx12','{{{1}}} {{TEx12}} {{{2}}}','{{TEx12|abc|def}}','abc Template loop detected: Template:Tex12 def');
 
 	//tpTest('TEx','','{{TEx}}','');
+	tpTest('Dummy','','{{Infobox Airports}}');
 
 };
 
