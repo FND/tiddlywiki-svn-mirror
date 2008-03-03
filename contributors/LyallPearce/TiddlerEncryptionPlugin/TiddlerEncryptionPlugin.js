@@ -3,7 +3,7 @@
 |Author|Lyall Pearce|
 |Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
 |License|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|Version|1.9.3|
+|Version|1.10.0|
 |~CoreVersion|2.3.0|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
@@ -16,8 +16,10 @@
 * Upon save, the Tiddler will be encrypted and the tag replaced with Decrypt(prompt).
 ** Failure to encrypt (by not entering a password) will leave the tiddler unencrypted and will leave the Encrypt(prompt) tag in place. This means that the next time you save, you will be asked for the password again.
 ** To have multiple tiddlers use the same password - simply use the same 'prompt'.
-** Tiddlers that are encrypted are also tagged 'excludeSearch' as there is no point in searching encrypted data - this is configurable by an option - you still may want to search the titles of encrypted tiddlers
-** Encrypted tiddlers are stored as displayable hex, to keep things visibly tidy, should you display an encrypted tiddler. There is nothing worse than seeing a pile of gobbledy gook on your screen.
+** Tiddlers that are encrypted may be tagged 'excludeSearch' as there is no point in searching encrypted data - this is configurable by an option - you still may want to search the titles of encrypted tiddlers
+** Tiddlers that are encrypted may be tagged 'excludeLists', as activities that list tiddlers may trigger password prompting when none was desired - this is configurable by an option.
+** Automatic removal of excludeLists and excludeSearch tags is performed, if the above two options are set, only if these two tags are the last 2 tags for a tiddler.
+** Encrypted tiddlers are stored as displayable hex, to keep things visibly tidy, should you display an encrypted tiddler. There is nothing worse than seeing a pile of gobbledy gook on your screen. Additionally, the encrypted data is easily cut/paste/emailed if displayed in hex form.
 * Tiddlers are decrypted on initial display, not when you load the TiddlyWiki
 ** If you don't display a tiddler, you won't decrypt it.
 ** Tiddlers will re-encrypt automatically on save.
@@ -33,20 +35,7 @@
 <<<
 !!!!!Revision History
 <<<
-* 1.0.0 - Initial release
-* 1.1.0 - Cached passwords across tiddlers (not per tiddler) plus use Shadow tiddlers for display on failed decryptions.
-* 1.2.0 - catch 'cancel' on password entry and options to not use the shadow tiddler reporting mechanism
-* 1.3.0 - Change password caching mechansim slightly. Change the decryption hook so we now capture {{{<<tiddler encryptedTiddlers>>}}}. Ditched the shadow tiddler diagnostics - either display encrypted tiddler or pretend the encrypted tiddler does not exist, when decryption fails.
-* 1.4.0 - Added Change password macro and decrypt all macro. Also make use of the displayMessage() method. <<EncryptionChangePassword>><<EncryptionDecryptAll>>
-* 1.5.0 - Password change macro now has button text, tooltip and default prompt string parameters. Password change now sets store to dirty. Re-instated DecryptionFailed shadow tiddler, which is shown as tiddler contents if decryption fails and the AdvancedOptions checkbox is not checked.
-* 1.5.1 - Invoke autosave after changing passwords - which may result in prompting for passwords of unencrypted tiddlers that require encryption and whose passwords have not been entered yet. Also improved integration with regard to retrieving tiddlerText
-* 1.6.0 - Check for presence of PasswordPromptPlugin, if it's there, use it to enter passwords.
-* 1.7.0 - Add option to turn off excludeSearch on encrypted Tiddlers - defaults to off and remove PasswordPromptPlugin support - it doesn't work.
-* 1.8.0 - fixed source URL in metadata plus added accessKey (ALT-Shift key in FireFox) as the 4th parameter to the {{{<<EncryptionDecryptAll>>}}} and {{{<<EncryptionChangePassword>>}}} macros
-* 1.9.0 - Add option to turn off password caching, so you are prompted for the password every time to decrypt a tiddler. The password is still kept for encrypting.
-* 1.9.1 - Fix up core version number
-* 1.9.2 - Uploaded the wrong version... sigh...
-* 1.9.3 - Fixed typo
+* 1.10.0 - As well as excludeSearch, also put excludeLists tag on encrypted tiddlers, if requested - discard previous history.
 <<<
 !!!!!Additional work
 <<<
@@ -54,7 +43,7 @@
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 9, revision: 3, date: new Date(2008,01,22)};
+version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 10, revision: 0, date: new Date(2008,02,28)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
@@ -64,6 +53,8 @@ if(config.options.chkEncryptShowEncrypted == undefined) config.options.chkEncryp
 if(config.optionsDesc.chkEncryptShowEncrypted == undefined) config.optionsDesc.chkEncryptShowEncrypted = "TiddlerEncryptionPlugin\nShow encrypted tiddler contents on decrypt failure.\n<<EncryptionChangePassword>> - Change passwords of encrypted tiddlers\n<<EncryptionDecryptAll>> - Decrypt ALL tiddlers - enables searching.";
 if(config.options.chkExcludeEncryptedFromSearch == undefined) config.options.chkExcludeEncryptedFromSearch = false;
 if(config.optionsDesc.chkExcludeEncryptedFromSearch == undefined) config.optionsDesc.chkExcludeEncryptedFromSearch = "TiddlerEncryptionPlugin\nIf set, Encrypted Tiddlers are excluded from searching by tagging with excludeSearch. If Clear, excludeSearch is not added and it is also removed from existing Encrypted Tiddlers only if it is the last Tag. Searching of Encrypted Tiddlers is only meaningful for the Title and Tags.";
+if(config.options.chkExcludeEncryptedFromLists == undefined) config.options.chkExcludeEncryptedFromLists = false;
+if(config.optionsDesc.chkExcludeEncryptedFromLists == undefined) config.optionsDesc.chkExcludeEncryptedFromLists = "TiddlerEncryptionPlugin\nIf set, Encrypted Tiddlers are excluded from lists by tagging with excludeLists. If Clear, excludeLists is not added and it is also removed from existing Encrypted Tiddlers only if it is the last Tag. Preventing encrypted tiddlers from appearing in lists effectively hides them.";
 if(config.options.chkCachePasswords == undefined) config.options.chkCachePasswords = true;
 if(config.optionsDesc.chkCachePasswords == undefined) config.optionsDesc.chkCachePasswords = "TiddlerEncryptionPlugin\nIf unchecked, do not cache passwords. This means you will be prompted for the password every time you display an encrypted tiddler (not forgetting that once they are displayed, they stay decrypted until the next save).";
 
@@ -200,6 +191,10 @@ store.getSaver().externalizeTiddler = function(store, tiddler) {
 			if(config.options.chkExcludeEncryptedFromSearch == true) {
 			    tiddler.tags.push("excludeSearch");
 			}
+			// prevent lists of encrypted tiddlers
+			if(config.options.chkExcludeEncryptedFromLists == true) {
+			    tiddler.tags.push("excludeLists");
+			}
 		    } else {
 			// do not encrypt - no password entered
 		    }
@@ -230,6 +225,7 @@ function CheckTiddlerForDecryption_TiddlerEncryptionPlugin(tiddler) {
 			// Ok, Decrypt this tiddler!
 			var decryptedText = tiddler.text.substr(closingSHA1Bracket+2);
 			decryptedText = HexToString_TiddlerEncryptionPlugin(decryptedText);
+                        // prompt("Decryption request for Tiddler '"+tiddler.title+"'");
 			var password = GetAndSetPasswordForPromptToDecrypt_TiddlerEncryptionPlugin(passwordPrompt);
 			if(password) {
 			    decryptedText = TEAdecrypt(decryptedText, password );
@@ -238,6 +234,11 @@ function CheckTiddlerForDecryption_TiddlerEncryptionPlugin(tiddler) {
 				tiddler.text = decryptedText;
 				// Replace the Tag with the Encrypt() tag
 				tiddler.tags[g]="Encrypt("+passwordPrompt+")";
+				if(tiddler.tags[tiddler.tags.length-1] == 'excludeLists') {
+				    // Remove exclude lists only if it's the last entry
+				    // as it's automatically put there by encryption
+				    tiddler.tags.length--;
+				}
 				if(tiddler.tags[tiddler.tags.length-1] == 'excludeSearch') {
 				    // Remove exclude search only if it's the last entry
 				    // as it's automatically put there by encryption
