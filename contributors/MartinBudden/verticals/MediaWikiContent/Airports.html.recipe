@@ -4,6 +4,10 @@ tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: settings.js
 tiddler: DownloadThisTiddlyWiki.tiddler
 tiddler: MediaWikiWalkthrough.tiddler
+tiddler: templates/Template_!.tiddler
+tiddler: airports/Brussels_Airport.tiddler
+tiddler: airports/templates/Template_Infobox_Airport.tiddler
+tiddler: ../testMediaWiki/MediaWikiTemplatePlugin.js
 tiddler: ../tiddlypedia/StyleSheet.tiddler
 tiddler: ../tiddlypedia/OptionsPanel.tiddler
 tiddler: ../tiddlypedia/PageTemplateWithLogo.tiddler
