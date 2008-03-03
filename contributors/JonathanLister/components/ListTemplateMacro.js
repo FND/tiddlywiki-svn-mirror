@@ -33,7 +33,7 @@ if(!version.extensions.ListTemplateMacro) {
 version.extensions.ListTemplateMacro = {installed:true};
 
 config.macros.ListTemplate = {
-	defaultTemplate: "<<view text>>",
+	defaultTemplate: "<<view text>>"
 };
 
 config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,paramString,tiddler)
