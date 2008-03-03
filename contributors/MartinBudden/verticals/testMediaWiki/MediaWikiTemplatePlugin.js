@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.0.6|
+|''Version:''|0.0.7|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -44,7 +44,7 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1))
 
 fnLog = function(text)
 {
-//	console.log(text.substr(0,60));
+//	console.log(text.substr(0,80));
 };
 
 MediaWikiTemplate = function()
@@ -118,131 +118,67 @@ fnLog('ret getTemplateContent:'+text);
 	return text;
 };
 
-/*
-* Matched sets of four consecutive braces are interpreted as a parameter surrounded by single braces:
-	{{{{foo}}}} is equivalent to { {{{foo}}} }.
-* Unmatched sets of four braces are interpreted as nested template calls:
-	{{{{TEx1}} }} is parsed as a call to a template, the name of which is dependent on the output of TEx1.
-In this example, {{{{TEx1}} }} results in Template:Hello world!, as the Hello world! template does not exist.
-* Matched sets of five consecutive braces are interpreted as a template call surrounding a parameter:
-	{{{{{foo}}}}} is equivalent to {{ {{{foo}}} }}.
-* Unmatched sets of five braces are interpreted using the standard rules:
-	{{{{{TEx1}} }}} is interpreted as a named parameter with the name dependent on the result of Template:TEx1,
-	which in this case is equivalent to {{{Hello world!}}}.
-*/
-MediaWikiTemplate.prototype.findTripleBracePair = function(text,start)
+MediaWikiTemplate.prototype.findRawDelimiter2 = function(delimiter,text,start)
 {
-fnLog('findTripleBracePair:'+text+' s:'+start);
-//console.log('text:'+text);
-//console.log('start:'+start);
-	var ret = {start:-1,end:0};
-	var s = text.indexOf('{{{',start);
-//console.log('s:'+s);
-	if(s!=-1) {
-		var s2 = text.indexOf('{{{',s+3);
-		var e = text.indexOf('}}}',s+3);
-//console.log('e:'+e);
-		var innerD = this.findDoubleBracePair(text,s+3);
-		while(innerD.start!=-1 && innerD.end!=-1 && innerD.start<e && innerD.end<=e) {
-			e = text.indexOf('}}}',innerD.end+2);
-//console.log('eX:'+e);
-			innerD = this.findDoubleBracePair(text,innerD.end+2);
-		}
-//console.log('s2:'+s2);
-//console.log('e:'+e);
-		if(e==-1)
-			return ret;
-		if(s2==-1 || e<s2)
-			return {start:s,end:e};
-		var innerT = this.findTripleBracePair(text,s+3);
-		if(innerT.start==-1)
-			return ret;
-//console.log('inT:'+innerT.start+','+innerT.end);
-		var e2 = text.indexOf('}}}',innerT.end+3);
-//console.log('e2:'+e2);
-		innerD = this.findDoubleBracePair(text,s+3);
-		while(innerD.start!=-1 && innerD.end!=-1 && innerD.start<e2 && innerD.end<=e2) {
-			e2 = text.indexOf('}}}',innerD.end+2);
-			innerD = this.findDoubleBracePair(text,innerD.end+2);
-		}
-		/*if(text.substr(s2,6)=='{{{{{{') {
-			var inner = this.findTripleBracePair(text,s+3);
-			if(inner.start==-1)
-				return ret;
-			var e2 = text.indexOf('}}}',inner.end+3);
-		} else {
-			inner = this.findDoubleBracePair(text,s+2);
-			if(inner.start==-1)
-				return ret;
-			e2 = text.indexOf('}}',inner.end+2);
-		}*/
-		if(e2!=-1)
-			return {start:s,end:e2};
+fnLog('findRawDelimiter:'+text);
+	var e = text.indexOf(delimiter,start);
+	if(e==-1)
+		return -1;
+	var b = {start:-1,end:-1};
+	var bs = text.indexOf('[[',start);
+	if(bs!=-1 && bs <e) {
+		var be = text.indexOf(']]',be);
+		if(be!=-1)
+			b.start = bs;
+			b.end = be;
+			return this.findRawDelimiter(delimiter,text,b.end+2);
 	}
-	return ret;
-};
-
-MediaWikiTemplate.prototype.findDoubleBracePair = function(text,start)
-// {{{{x}}}} is interpreted as { {{{x}}}}
-{
-fnLog('findDoubleBracePair:'+text+' s:'+start);
-	var ret = {start:-1,end:0};
-	var s = text.indexOf('{{',start);
-//console.log('s:'+s);
-	while(s!=-1 && text.substr(s+2,1)=='{') { // && text.substr(s+3,1)!='{') {// if tripe brace and not quadrupal brace
-		var tb = this.findTripleBracePair(text,s);
-		if(tb.start==-1 || tb.end==-1)
-			return ret;
-		s = text.indexOf('{{',tb.end);
+	var bp = this.findDBP(text,start);
+//console.log('bp.s:'+bp.start+' e:'+bp.end);
+	if(bp.start!=-1 && bp.start <e) {
+		if(bp.end!=-1)
+			return this.findRawDelimiter(delimiter,text,bp.end+2);
 	}
-//console.log('s:'+s);
-	if(s!=-1) {
-		var s2 = text.indexOf('{{',s+2);
-		while(s2!=-1 && text.substr(s2+2,1)=='{') {// && text.substr(s+3,1)!='{') {
-			tb = this.findTripleBracePair(text,s+2);
-			if(tb.start==-1 || tb.end==-1)
-				return ret;
-			s2 = text.indexOf('{{',tb.end);
-		}
-//console.log('s2:'+s2);
-		var e = text.indexOf('}}',s+2);
-//console.log('e:'+e);
-		if(e==-1)
-			return ret;
-		if(s2==-1 || e<s2)
-			return {start:s,end:e};
-		
-		var inner = this.findDoubleBracePair(text,s2);
-//console.log('is:'+inner.start+'ie:'+inner.end);
-		if(inner.start==-1)
-			return ret;
-		var e2 = text.indexOf('}}',inner.end+2);
-//console.log('e2:'+e2);
-		if(e2==-1)
-			return ret;
-		return {start:s,end:e2};
+	var tp = this.findTBP(text,start);
+	if(tp.start!=-1 && tp.start <e) {
+		if(tp.end!=-1)
+			return this.findRawDelimiter(delimiter,text,tp.end+3);
 	}
-	return ret;
+	return e;
 };
 
 MediaWikiTemplate.prototype.findRawDelimiter = function(delimiter,text,start)
 {
-//fnLog('findRawDelimiter:'+text);
-	var s = text.indexOf(delimiter,start);
-	if(s==-1)
+fnLog('findRawDelimiter:'+text);
+	var e = text.indexOf(delimiter,start);
+	if(e==-1)
 		return -1;
-	var s2 = text.indexOf('[[',start);
-	if(s2!=-1 && s2 <s) {
-		var be = text.indexOf(']]',s2);
-		if(be!=-1)
-			return this.findRawDelimiter(delimiter,text,be);
+	var b = {start:-1,end:-1};
+	var bs = text.indexOf('[[',start);
+	var bi = text.indexOf('{{',start);
+	if((bi==-1 || bi > e) && (bs==-1 || bs >e))
+		return e;
+	if(bs!=-1 && bs <e) {
+		var be = text.indexOf(']]',be);
+		if(be!=-1) {
+			b.start = bs;
+			b.end = be;
+		}
 	}
-	var bp = this.findDoubleBracePair(text,start);
-	if(bp.start!=-1 && bp.start <s) {
-		if(bp.end!=-1)
-			return this.findRawDelimiter(delimiter,text,bp.end);
+	var db = this.findDBP(text,start);
+	var tb = this.findTBP(text,start);
+	var s1 = -1;
+	if(b.end!=-1 && e>b.start && e<=b.end)
+		s1 = b.end+2;
+	if(db.end!=-1 && e>db.start && e<=db.end) {
+		if(db.end+2>s1)
+			s1 = db.end+2;
 	}
-	return s;
+	if(tb.end!=-1 && e>tb.start && e<=tb.end) {
+		if(tb.end+3>s1)
+			s1 = tb.end+3;
+	}
+	return s1==-1 ? e : this.findRawDelimiter(delimiter,text,s1);
 };
 
 MediaWikiTemplate.prototype.splitTemplateNTag = function(ntag)
@@ -268,7 +204,7 @@ MediaWikiTemplate.prototype.substituteParameters = function(text,params)
 fnLog('substituteParameters:'+text);
 	var t = '';
 	var pi = 0;
-	var bp = this.findTripleBracePair(text,pi);
+	var bp = this.findTBP(text,pi);
 	while(bp.start!=-1) {
 //#console.log('bps:'+bp.start);
 		var name = text.substring(bp.start+3,bp.end);
@@ -292,7 +228,7 @@ fnLog('substituteParameters:'+text);
 		}
 		t += text.substring(pi,bp.start) + this.transcludeTemplates2(val);
 		pi = bp.end+3;
-		bp = this.findTripleBracePair(text,pi);
+		bp = this.findTBP(text,pi);
 	}
 	t += text.substring(pi);
 fnLog('ret substituteParameters:'+t);
@@ -341,7 +277,7 @@ MediaWikiTemplate.prototype.expandVariable = function(text)
 MediaWikiTemplate.prototype.expandParserFunction = function(fn,params)
 {
 fnLog('expandParserFunction'+fn);
-//console.log(params);
+//#console.log(params);
 	var ret = '';
 	switch(fn.toLowerCase()) {
 	case '#if':
@@ -368,7 +304,7 @@ fnLog('expandTemplateNTag:'+ntag);
 	fnRegExp.lastIndex = 0;
 	var match = fnRegExp.exec(templateName);
 	if(match) {
-		// it's a parser function
+		//# it's a parser function
 		s = 0;
 		var fn = match[1];
 		pd[0] = match[2];
@@ -380,11 +316,11 @@ fnLog('expandTemplateNTag:'+ntag);
 		var t = pd[i];
 		var p = this.findRawDelimiter('=',t,0);
 		if(p==-1) {
-			// numbered parameter
+			//# numbered parameter
 			params[n] = t;
 			n++;
 		} else if(p!=0) {//p==0 sets null parameter
-			// named parameter
+			//# named parameter
 			var name = t.substr(0,p).trim();
 			name = this.transcludeTemplates2(name);
 			params[name] = t.substr(p+1).trim();// trim named parameter values
@@ -410,7 +346,7 @@ MediaWikiTemplate.prototype.transcludeTemplates2 = function(text)
 fnLog('transcludeTemplates2:'+text);
 	if(!text)
 		return text;
-	var c = this.findDoubleBracePair(text,0);
+	var c = this.findDBP(text,0);
 	while(c.start!=-1) {
 		var t = this.expandTemplateNTag(text.substring(c.start+2,c.end));
 		if(this.error) {
@@ -421,12 +357,222 @@ fnLog('transcludeTemplates2:'+text);
 		text = text.substring(0,c.start) + t + text.substring(c.end+2);
 		if(this.error)
 			return text;
-		c = this.findDoubleBracePair(text,c.start+t.length);
+		c = this.findDBP(text,c.start+t.length);
 		this.stack = [];
 		this.error = false;
 	}
 fnLog('ret:'+text);
 	return text;
+};
+
+/*
+* Matched sets of four consecutive braces are interpreted as a parameter surrounded by single braces:
+	{{{{foo}}}} is equivalent to { {{{foo}}} }.
+* Unmatched sets of four braces are interpreted as nested template calls:
+	{{{{TEx1}} }} is parsed as a call to a template, the name of which is dependent on the output of TEx1.
+In this example, {{{{TEx1}} }} results in Template:Hello world!, as the Hello world! template does not exist.
+* Matched sets of five consecutive braces are interpreted as a template call surrounding a parameter:
+	{{{{{foo}}}}} is equivalent to {{ {{{foo}}} }}.
+* Unmatched sets of five braces are interpreted using the standard rules:
+	{{{{{TEx1}} }}} is interpreted as a named parameter with the name dependent on the result of Template:TEx1,
+	which in this case is equivalent to {{{Hello world!}}}.
+*/
+//	dbrTest('{{ {{{a}}} b }} {{c}}',0,0,13);
+MediaWikiTemplate.prototype.findDBP = function(text,start)
+// findDoubleBracePair
+{
+fnLog('findDBP:'+start+' t:'+text);
+	var ret = {start:-1,end:-1};
+	var s = text.indexOf('{{',start);
+	if(s==-1)
+		return ret;
+	if(text.substr(s+2,1)!='{') {
+		//# only two braces
+		var e = text.indexOf('}}',s+2);
+//#console.log('db:'+db.start+' ,'+db.end);
+//#console.log('tb:'+tb.start+' ,'+tb.end);
+//#console.log('e:'+e);
+		if(e==-1)
+			return ret;
+		var s2 = text.indexOf('{{',s+2);
+		if(s2==-1 || s2 > e)
+			return {start:s,end:e};
+		var db = this.findDBP(text,s+2);
+		var tb = this.findTBP(text,s+2);
+		while((db.end!=-1 && e>db.start && e<=db.end) || (tb.end!=-1 && e>tb.start && e<=tb.end)) {
+			//# intervening double or triple brace pair, so skip over
+			if(db.end!=-1 && e>db.start && e<=db.end) {
+				var e2 = db.end+2;
+				if(tb.end!=-1 && e>tb.start && e<=tb.end) {
+					if(tb.end>db.end)
+						e2 = tb.end+3;
+				}
+				e = e2;
+			} else {
+				e = tb.end+3;
+			}
+			db = this.findDBP(text,e);
+			tb = this.findTBP(text,e);
+			e = text.indexOf('}}',e);
+//#console.log('db:'+db.start+' ,'+db.end);
+//#console.log('tb:'+tb.start+' ,'+tb.end);
+//#console.log('e:'+e);
+			if(e==-1)
+				return ret;
+		}
+		return {start:s,end:e};
+	}
+	//# more than two braces, so count them
+	var c = 2;
+	while(text.substr(s+c,1)=='{') {
+		c++;
+	}
+	if(c==3) {
+		//# it's a triple brace, so skip over it
+		tb = this.findTBP(text,s);
+//#console.log('s:'+s+' t:'+text);
+//#console.log('tb:'+tb.start+' ,'+tb.end);
+		return tb.end==-1 ? ret : this.findDBP(text,tb.end+3);
+	} else if(c==4) {
+		//# it's a quadrupal brace, so see if it is matched (eg {{{{x}}}} ) or not (eg {{{{x}} }} )
+		db = this.findDBP(text,s+2);
+		if(db.end==-1)
+			return ret;
+		if(text.substr(db.end+2,2)=='}}') {
+			//# it's matched, so skip over 
+			//# {{{{foo}}}} is equivalent to { {{{foo}}} }
+			return this.findDBP(text,db.end+4);
+		} else {
+			//# it's not matched
+			//# {{{{foo}} }} is equivalent to {{ {{foo}} }}
+			e = text.indexOf('}}',db.end+2);
+			return e==-1 ? ret : {start:s,end:e};
+		}
+	} else if(c==5) {
+		//# it's a quintupal brace, so see if it is matched (eg {{{{{x}}}}} ) or not (eg {{{{{x}} }}} or {{{{{x}}} }})
+		//# {{{{{foo}}}}} is equivalent to {{ {{{foo}}} }}.
+		db = this.findDBP(text,s+3);
+		if(db.end==-1)
+			return ret;
+		if(text.substr(db.end+2,3)=='}}}') {
+			// it's matched
+			return {start:s,end:db.end+3};
+		} else if(text.substr(db.end+2,1)!='}') {
+			// it's not matched
+			// {{{{{x}} }}}
+			return {start:s+3,end:db.end};
+		} else {
+			// }}} }}
+			e = text.indexOf('}}',db.end+3);
+			return e==-1 ? ret : {start:s,end:e};
+		}
+	} else {
+		//# presume treat six braces as two sets of {{{, so skip
+		return this.findDBP(text,s+6);
+	}
+};
+
+MediaWikiTemplate.prototype.findTBP = function(text,start)
+// findTripleBracePair
+{
+fnLog('findTBP:'+start+' t:'+text);
+	var ret = {start:-1,end:-1};
+	var s = text.indexOf('{{{',start);
+	if(s==-1)
+		return ret;
+	if(text.substr(s+3,1)!='{' || text.substr(s+3,3)=='{{{') {
+		//# only three braces, or 6 braces
+		var e = text.indexOf('}}}',s+3);
+		if(e==-1)
+			return ret;
+		var s2 = text.indexOf('{{',s+2);
+		if(s2==-1 || s2 > e)
+			return {start:s,end:e};
+		var db = this.findDBP(text,s+3);
+		var tb = this.findTBP(text,s+3);
+		while((db.end!=-1 && e>db.start && e<=db.end) || (tb.end!=-1 && e>tb.start && e<=tb.end)) {
+			//# intervening double or triple brace pair, so skip over
+			if(db.end!=-1 && e>db.start && e<=db.end) {
+				var e2 = db.end+2;
+				if(tb.end!=-1 && e>tb.start && e<=tb.end) {
+					if(tb.end>db.end)
+						e2 = tb.end+3;
+				}
+				e = e2;
+			} else {
+				e = tb.end+3;
+			}
+			db = this.findDBP(text,e);
+			tb = this.findTBP(text,e);
+			e = text.indexOf('}}}',e);
+			if(e==-1)
+				return ret;
+		}
+		return {start:s,end:e};
+	}
+	//# more than three braces, so count them
+	var c = 3;
+	while(text.substr(s+c,1)=='{') {
+		c++;
+	}
+	if(c==4) {
+		//# it's a quadrupal brace, so see if it is matched (eg {{{{x}}}} ) or not (eg {{{{x}} }} )
+		tb = this.findTBP(text,s+1);
+		if(tb.end==-1)
+			return ret;
+		if(text.substr(tb.end+1,1)=='}') {
+			//# it's matched 
+			//# {{{{foo}}}} is equivalent to { {{{foo}}} }
+			return {start:s+1,end:tb.end};
+		} else {
+			//# it's not matched, so skip
+			//# {{{{foo}} }} is equivalent to {{ {{foo}} }}
+			return this.findTBP(text,tb.end+4);
+		}
+	} else if(c==5) {
+		//# it's a quintupal brace, so see if it is matched (eg {{{{{x}}}}} ) or not (eg {{{{{x}} }}} or {{{{{x}}} }})
+		//# {{{{{foo}}}}} is equivalent to {{ {{{foo}}} }}.
+		db = this.findDBP(text,s+3);
+		if(db.end==-1)
+			return ret;
+		if(text.substr(db.end+2,3)=='}}}') {
+			//# it's matched
+			return {start:s+2,end:db.end};
+		} else if(text.substr(db.end+2,1)!='}') {
+			//# it's not matched
+			//# {{{{{x}} }}}
+			e = text.indexOf('}}}',db.end+2);
+			return e==-1 ? ret : {start:s,end:e};
+		} else {
+			//# {{{{{{x}}} }}
+			return {start:s+2,end:db.end};
+		}
+	}
+};
+
+MediaWikiTemplate.prototype.findTableBracePair = function(text,start)
+{
+fnLog('findTableBracePair:'+start+' t:'+text);
+	var ret = {start:-1,end:-1};
+	var s = text.indexOf('{|',start);
+	if(s==-1)
+		return ret;
+	var e = text.indexOf('|}',s+2);
+	if(e==-1)
+		return ret;
+	var s2 = text.indexOf('{|',s+2);
+	if(s2==-1 || s2 > e)
+		return {start:s,end:e};
+	var tp = this.findTableBracePair(text,s+2);
+	while(tp.end!=-1 && e>tp.start && e<=tp.end) {
+		//# intervening table brace pair, so skip over
+		e = tp.end+2;
+		tp = this.findTableBracePair(text,e);
+		e = text.indexOf('|}',e);
+		if(e==-1)
+			return ret;
+	}
+	return {start:s,end:e};
 };
 
 } //# end of 'install only once'
