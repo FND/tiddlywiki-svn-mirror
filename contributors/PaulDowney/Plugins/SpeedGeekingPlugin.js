@@ -83,7 +83,7 @@ config.macros.speedGeek = {
 		if (limit > tiddlers.length) { limit = tiddlers.length; }
 
 		for(var n=0;n<limit;n+=2) {
-			body = body + '|[[' + tiddlers[n].title + ']]|[[' + (tiddlers[n+1]?tiddlers[n+1].title : "") + ']]|\n'
+			body = body + '|' + tiddlers[n].title + '|' + (tiddlers[n+1]?tiddlers[n+1].title : "") + '|\n'
 		}
 
 		tiddler = store.saveTiddler(title,title,body,config.options.txtUserName);
