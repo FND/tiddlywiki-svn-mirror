@@ -1,0 +1,39 @@
+<div title="format conversion" created="200803031714" modified="200802220926" server.modifier.id="1193235" server.host="disabledvillagechildren.projects.unamesa.org" server.page.revision="17562815" server.page.id="2972725" server.workspaceid="484035" wikiformat="wikispaces" server.workspace="disabledvillagechildren">
+<pre>**Tools used:**
+* [[http://search.cpan.org/%7Ediberri/HTML-WikiConverter/|html2wiki]]
+* [[http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/cpan/HTML-WikiConverter-Wikispaces-0.01/|Wikispaces module]] for html2wiki
+
+**Issues with the formatting conversion using html2wiki:**
+* Image links are not supported.
+> [[code format="html4strict"]]
+<a href='http://unamesa.org><img src='logo.jpg></a> is converted to [[http://unamesa.org|[[image:logo.jpg]]]]
+instead of [[image:logo.jpg link:unamesa.org]]
+[[code]]
+* Nested tables are not supported
+* Row spans for tables are not supported (work around below)
+
+There are also various layout problems most likely associated with oversized images and the text flow around images. These will most likely need to be corrected by hand.
+
+**Other problems:**
+* The Wikispaces WYSIWYG editor truncates long pages and therefore some pages have to be edited using a combination of Preview and the Text Editor.
+
+**The conversion process used:**
+# Identify source html files with rowspans
+** [[code format="bash"]]
+grep -G -i -R -B3 -A4 -n "rowspan" ./dvc-htmlsourcefiles/* >rowspan.log
+[[code]]
+** Edit these files with a text editor, removing rowspans and inserting extra <td></td>
+# run all html files through html2wiki to convert to Wikispaces dialect
+** [[code format="bash"]]
+for f in *; do html2wiki --dialect Wikispaces $f > ${f/.htm/}; done
+[[code]]
+# remove string http://www.dinf.ne.jp/doc/english/global/david/dwe002/ to convert absolute links to local links
+** remove string .htm from all files to make links point to pages like dwe00201 and not dwe00201.htm
+** Also add _ws prefix to anchor portion of all absolute links
+** Please note that I used a modified version of Martin's Wikispaces module for html2wiki, which automatically handled absolute links which led to other pages within the site, making this step unnecessary.
+# Upload images and converted files using WebDav
+# Go through each uploaded page and correct formatting and layout problems via the Wikispaces WYSIWYG editor. Ensure correct flow of text around images and proper table formatting. Insert line breaks and correct image alignment where necessary. After editing via WYSIWYG editor and saving, check saved page again for further layout problems. Some changes made to the layout via the WYSIWYG editor do not take.
+
+
+**All source html files can be downloaded in a zip file**: http://disabledvillagechildren.projects.unamesa.org/space/showimage/dvc-htmlsourcefiles.zip</pre>
+</div>
