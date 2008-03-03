@@ -5,6 +5,7 @@ tiddler: ../../Plugins/SpeedGeekingPlugin.js
 
 tiddler: SpeedGeek.tiddler
 tiddler: geek.tiddler
+tiddler: Mojo.tiddler
 
 tiddler: MainMenu.tiddler
 tiddler: DefaultTiddlers.tiddler
