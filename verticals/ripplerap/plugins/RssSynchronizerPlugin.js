@@ -184,6 +184,7 @@ RssSynchronizer.prototype.doGet = function()
 		if(this.sessionDownload.syncIndex>=this.sessionDownload.titles.length)
 			this.sessionDownload.syncIndex = this.updates.uri ? -1 : 0; // set to -1 for the updates uri, if it exists
 	}
+	
 	var ret = this.getNotesTiddlersFromRss(uri);
 	if(typeof ret == "string") {
 		if(ret == "timeout") {
@@ -215,6 +216,9 @@ RssSynchronizer.log("getNotesTiddlerListCallback:"+context.status);
 	//context.synchronizer.sessionDownload.requestPending = false;
 	var tiddlers = context.tiddlers;
 	var length = tiddlers ? tiddlers.length : 0;
+	
+	// log("Downloaded:" + length);
+	
 	var me = context.synchronizer;
 	store.suspendNotifications();
 	var newContent = false;

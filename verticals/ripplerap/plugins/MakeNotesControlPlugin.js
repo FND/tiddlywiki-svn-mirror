@@ -131,6 +131,7 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 
 
 	config.macros.ripplerapAccountButton.accountRequestCallback = function(status,params,responseText,url,xhr) {
+	
 		var responseTypes = {
 			400 : {
 				signupMessage: "Please check the username that you provided. It cannot contain any special characters or spaces.",
@@ -159,10 +160,10 @@ version.extensions.MakeNotesControlPlugin = {installed:true};
 		}	
 		
 		config.macros.ripplerapAccountButton.showFeedback(responseTypes[xhrStatus].signupMessage);		
-						
-		if(status) {
+								
+		if(xhrStatus != 0) {
 			
-			console.log("flag as ready to use");
+			log("flag as ready to use - init polling.");
 			
 			config.options['chkRipplerapReadyToUse'+config.options.txtUserName] = true;
 			saveOptionCookie('chkRipplerapReadyToUse'+config.options.txtUserName);	
