@@ -48,6 +48,23 @@ version.extensions.MicroblogPlugin = {installed:true};
 	};
 	
 	
+	// var refreshDisplay_original = refreshDisplay;
+	// var refreshDisplay = function() {
+	// 	
+	// 	var tempTweet = document.getElementById('twitter_post_input');
+	// 	if(tempTweet){
+	// 		var tweetValue = tempTweet.value;
+	// 		log("TT:" + tweetValue);
+	// 	}
+	// 	
+	// 	refreshDisplay_original();		
+	// 	
+	// 	if(tweetValue && tweetValue != "")
+	// 		tempTweet.value = tweetValue;
+	// 		
+	// };
+	
+	
 	config.macros.Microblog = {};
 	var microblogs = config.macros.Microblog.microblogs = [];
 
@@ -349,6 +366,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 		*/
 		refreshDisplay();		
 		store.resumeNotifications();
+
 		
 		if(microblogs[params.platform].poll) {
 			var period = config.macros.Microblog.getInterval(params.platform);
@@ -386,7 +404,7 @@ version.extensions.MicroblogPlugin = {installed:true};
 			var f = createTiddlyElement(place,"form");
 			f.id = platform + "_postform";
 			// createTiddlyElement(f,"span",null,null,"post an update");
-			var input = createTiddlyElement(f,"textarea",null);
+			var input = createTiddlyElement(f,"textarea",'twitter_post_input','twitter_post_input');
 			input.setAttribute('name','update');
 			var btn = createTiddlyButton(f,"Update " + platform,"post an update to" + platform,config.macros.Microblog.postUpdate);
 			btn.setAttribute("platform",platform);
