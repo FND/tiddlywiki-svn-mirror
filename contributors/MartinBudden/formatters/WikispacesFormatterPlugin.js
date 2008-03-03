@@ -4,7 +4,7 @@
 |''Description:''|Wikispaces Formatter|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/WikispacesFormatterPlugin.js |
-|''Version:''|0.0.3|
+|''Version:''|0.0.4|
 |''Date:''|Nov 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -260,7 +260,8 @@ config.wikispacesFormatters = [
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var img = createTiddlyElement(w.output,'img');
-			img.src = wikispacesFormatter.baseUri()+ '/space/showimage/' + lookaheadMatch[1];
+			//#img.src = wikispacesFormatter.baseUri()+ '/space/showimage/' + lookaheadMatch[1];
+			img.src = 'images/' + lookaheadMatch[1];
 			img.title = lookaheadMatch[1];
 			img.alt = lookaheadMatch[1];
 			var i = 2;
@@ -291,15 +292,16 @@ config.wikispacesFormatters = [
 {
 	name: 'wikispacesAnchor',
 	match: '\\[\\[#',
-	lookaheadRegExp: /\[\[#:(.*?)\]\]/mg,
+	lookaheadRegExp: /\[\[#(.*?)\]\]/mg,
 	handler: function(w)
 	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			//# drop anchor
-			var a = createTiddlyElement2(w.output,'a');
+			var a = createTiddlyElement(w.output,'a');
 			var t = w.tiddler ? wikispacesFormatter.normalizedTitle(w.tiddler.title) + ':' : '';
-			//a.setAttribute('name',t+wikispacesFormatter.normalizedTitle(w.source.substr(w.nextMatch,len)));
+			a.setAttribute('name',t+lookaheadMatch[1]);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	}
