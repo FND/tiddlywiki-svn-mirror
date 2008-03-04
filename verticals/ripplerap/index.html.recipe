@@ -1,6 +1,7 @@
 recipe: ripplerap.recipe
 
 recipe: session/split.recipe
+recipe: feeds/split.recipe
 
 tiddler: settings.js
 
