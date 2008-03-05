@@ -1,5 +1,6 @@
 title: InlineJavascriptPlugin
 modifier: ELSDesignStudios
-modified: 200606020404
 created: 200512130544
-tags: systemConfig includeNew authoring
+modified: 200803032241
+tags: BackstagePackage CatalogPackage DiscoveryPackage IconPackage MediaPackage MenuPackage TaskPackage TidIDEPackage includeNew systemConfig FormattingPackage QuickEditPackage
+changecount: 3

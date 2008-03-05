@@ -1,0 +1,54 @@
+<div title="SinglePageModePluginInfo" modifier="ELSDesignStudios" created="200512271815" modified="200803011602" tags="plugininfo" creator="ELSDesignStudios">
+<pre>/***
+|Name|SinglePageModePluginInfo|
+|Source|http://www.TiddlyTools.com/#SinglePageModePlugin|
+|Documentation|http://www.TiddlyTools.com/#SinglePageModePluginInfo|
+|Version|2.6.0|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|documentation|
+|Requires||
+|Overrides||
+|Description|Documentation for SinglePageModePlugin|
+Normally, as you click on the links in TiddlyWiki, more and more tiddlers are displayed on the page. The order of this tiddler display depends upon when and where you have clicked. Some people like this non-linear method of reading the document, while others have reported that when many tiddlers have been opened, it can get somewhat confusing.  SinglePageModePlugin allows you to configure TiddlyWiki to navigate more like a traditional multipage web site with only one item displayed at a time.
+!!!!!Usage
+&lt;&lt;&lt;
+When the plugin is enabled, only one tiddler will be displayed at a time and the browser window's titlebar is updated to include the current tiddler title.  The browser's location URL is also updated with a 'permalink' for the current tiddler so that it is easier to create a browser 'bookmark' for the current tiddler.  Alternatively, even when displaying multiple tiddlers //is// permitted, you can still reduce the potential for confusion by forcing  tiddlers to always open at the top (or bottom) of the page instead of being displayed following the tiddler containing the link that was clicked.
+&lt;&lt;&lt;
+!!!!!Configuration
+&lt;&lt;&lt;
+When installed, this plugin automatically adds checkboxes in the AdvancedOptions tiddler so you can enable/disable the plugin behavior.  For convenience, these checkboxes are also included here:
+&lt;&lt;option chkSinglePageMode&gt;&gt; Display one tiddler at a time
+&lt;&lt;option chkSinglePagePermalink&gt;&gt; Automatically permalink current tiddler
+&lt;&lt;option chkSinglePageAutoScroll&gt;&gt; Automatically scroll tiddler into view (if needed)
+&lt;&lt;option chkTopOfPageMode&gt;&gt; Always open tiddlers at the top of the page
+&lt;&lt;option chkBottomOfPageMode&gt;&gt; Always open tiddlers at the bottom of the page
+//Note: if both 'top' and 'bottom' settings are selected, &quot;top of page&quot; will be used.  Also, in Apple's Safari browser, automatically setting the permalink causes an error and is disabled.//
+
+When installed, this plugin automatically adds checkboxes in the ''shadow'' AdvancedOptions tiddler so you can enable/disable this behavior.  However, if you have customized your AdvancedOptions, you may need to ''manually add these checkboxes to your customized tiddler.''
+&lt;&lt;&lt;
+!!!!!Revisions
+&lt;&lt;&lt;
+2008.03.01 [2.6.0] in hijack of displayTiddler(), added 'title' argument to closeAllTiddlers() so that target tiddler isn't closed-and-reopened if it was already displayed.  Also, added config.options.chkSinglePageAutoScrolloption to bypass automatic 'scroll into view' logic (note: core still does it's own ensureVisible() handling)
+2007.12.22 [2.5.3] in checkLastURL(), use decodeURIComponent() instead of decodeURI so that tiddler titles with commas (and/or other punctuation) are correctly handled.
+2007.10.26 [2.5.2] documentation cleanup
+2007.10.08 [2.5.1] in displayTiddler(), when using single-page or top-of-page mode, scrollTo(0,0) to ensure that page header is in view.
+2007.09.13 [2.5.0] for TPM/BPM modes, don't force tiddler to redisplay if already shown.  Allows transition between view/edit or collapsed/view templates, without repositioning displayed tiddler.
+2007.09.12 [2.4.0] added option to disable automatic permalink feature.  Also, Safari is now excluded from permalinking action to avoid bug where tiddlers don't display after hash is updated.
+2007.03.03 [2.3.1] fix typo when adding BPM option to AdvancedOptions (prevented checkbox from appearing)
+2007.03.03 [2.3.0] added support for BottomOfPageMode (BPM) based on request from DaveGarbutt
+2007.02.06 [2.2.3] in Story.prototype.displayTiddler(), use convertUnicodeToUTF8() for correct I18N string handling when creating URL hash string from tiddler title (based on bug report from BidiX)
+2007.01.08 [2.2.2] use apply() to invoke hijacked core functions
+2006.07.04 [2.2.1] in hijack for displayTiddlers(), suspend TPM as well as SPM so that DefaultTiddlers displays in the correct order.
+2006.06.01 [2.2.0] added chkTopOfPageMode (TPM) handling
+2006.02.04 [2.1.1] moved global variable declarations to config.* to avoid FireFox 1.5.0.1 crash bug when assigning to globals
+2005.12.27 [2.1.0] hijack displayTiddlers() so that SPM can be suspended during startup while displaying the DefaultTiddlers (or #hash list).  Also, corrected initialization for undefined SPM flag to &quot;false&quot;, so default behavior is to display multiple tiddlers
+2005.12.27 [2.0.0] Update for TW2.0
+2005.11.24 [1.1.2] When the back and forward buttons are used, the page now changes to match the URL.  Based on code added by Clint Checketts
+2005.10.14 [1.1.1] permalink creation now calls encodeTiddlyLink() to handle tiddler titles with spaces in them
+2005.10.14 [1.1.0] added automatic setting of window title and location bar ('auto-permalink').  feature suggestion by David Dickens.
+2005.10.09 [1.0.1] combined documentation and code in a single tiddler
+2005.08.15 [1.0.0] Initial Release
+&lt;&lt;&lt;</pre>
+</div>

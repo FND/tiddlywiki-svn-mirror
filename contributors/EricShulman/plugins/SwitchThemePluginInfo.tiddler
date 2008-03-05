@@ -1,0 +1,84 @@
+<div title="SwitchThemePluginInfo" modifier="ELSDesignStudios" created="200801230020" modified="200801262119" tags="plugininfo">
+<pre>/***
+|Name|SwitchThemePluginInfo|
+|Source|http://www.TiddlyTools.com/#SwitchThemePlugin|
+|Documentation|http://www.TiddlyTools.com/#SwitchThemePluginInfo|
+|Version|5.0.0|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.3|
+|Type|documentation|
+|Requires||
+|Overrides||
+|Description|documentation for SwitchThemePlugin|
+This plugin replaces the features previously provided by SelectStylesheetPlugin (which has been retired from distribution because it is no longer compatible with the current release of the TiddlyWiki core).
+
+Please note: ''//This plugin requires TiddlyWiki version 2.3.0 or later//''
+!!!!!Usage
+&lt;&lt;&lt;
+{{medium{__Defining a theme:__}}}
+First, create a new tiddler (or import an existing tiddler) containing the desired CSS definitions and tag that tiddler with&lt;&lt;tag systemTheme&gt;&gt;.  At the top of that tiddler, embed a //slice table// that defines at least one slice, &quot;~StyleSheet&quot;, whose value is the name of the tiddler itself, e.g., in a tiddler called [[MyTheme]], you would write:
+{{{
+/***
+|StyleSheet|MyTheme|
+***/
+}}}
+&gt;Take note of the use of {{{/***}}} and {{{***/}}} surrounding the slice table syntax.   This is a ~TiddlyWiki-enhanced comment syntax that, when used in a stylesheet, permits the browser to ignore any wiki-syntax that has been embedded within the tiddler while still processing the ~CSS-syntax it contains.
+In addition to the &quot;~StyleSheet&quot; slice entry, a theme tiddler can also contain one or more slices that associate customized versions of [[PageTemplate]], [[ViewTemplate]], and/or [[EditTemplate]], for use with that theme:
+{{{
+/***
+|PageTemplate|MyPageTemplate|
+|ViewTemplate|MyViewTemplate|
+|EditTemplate|MyEditTemplate|
+***/
+}}}
+where the slice //name// is the standard template name, and the slice //value// is the title of the alternative custom template that will be used when that theme is selected.
+
+You can also associate a secondary set of ''&quot;Web&quot; templates that will be automatically applied whenever a document is being viewed in read-only mode'' (i.e., via http: protocol).
+{{{
+|WebPageTemplate|MyWebPageTemplate|
+|WebViewTemplate|MyWebViewTemplate|
+|WebEditTemplate|MyWebEditTemplate|
+}}}
+These definitions can be used to seemlessly present a reduced-feature &quot;reader&quot; interface when your document is being viewed on-line by others, while still offering you access to the full-featured &quot;author&quot; interface when you are updating your content locally.
+
+{{medium{__Selecting a theme from a droplist:__}}}
+To display a droplist of available themes, use this syntax:
+{{{
+&lt;&lt;switchTheme width:nnn&gt;&gt;
+}}}
+where ''width:nnn[cm|px|em|%]'' is optional, and overrides the built-in CSS width declaration (=100%).  Use standard CSS width units (cm=centimeters, px=pixels, em=M-space, %=proportional to containing area).  You can also use a &quot;.switchTheme&quot; custom CSS class definition to override the built-in CSS declarations.}}}
+
+All tiddlers tagged with&lt;&lt;tag systemTheme&gt;&gt; will be included in the droplist of available themes for you to select.  The currently selected theme is remembered between browser sessions using a TiddlyWiki option cookie (&quot;txtTheme&quot;).  Each time you reload your document, the selected theme is automatically re-applied, based on the stored cookie value.  If there is no cookie or the selected theme no longer exists in the document (e.g., it was deleted/renamed after being selected), the [default] CSS tiddler, [[StyleSheet]], will be used as a fallback theme.  If [random] is seleced, the plugin automatically selects a random theme.  You can exclude a theme from being randomly selected by tagged it with &lt;&lt;tag noRandom&gt;&gt;.
+
+Example:
+{{{&lt;&lt;switchTheme width:30%&gt;&gt;}}}
+&lt;&lt;switchTheme width:30%&gt;&gt;
+
+{{medium{__Selecting a theme from a command link:__}}}
+The {{{&lt;&lt;switchTheme&gt;&gt;}}} macro can also be used to embed a command link that, when clicked, will apply a specific, pre-selected theme, using the following syntax:
+{{{
+&lt;&lt;switchTheme &quot;label:link text&quot; &quot;prompt:tooltip text&quot; TiddlerName&gt;&gt;
+}}}
+where:
+* {{block{
+''label:text'' and ''prompt:text'' (optional)
+define the link text the 'tooltip' text that appears near the mouse pointer when placed over the link, respectively.}}}
+* {{block{
+''~TiddlerName''
+specifies the name of the theme tiddler to be applied (e.g., {{{&lt;&lt;switchTheme [[Woodshop]]&gt;&gt;}}}}}}
+Examples:
+{{{
+&lt;&lt;switchTheme Plain&gt;&gt;
+&lt;&lt;switchTheme Blackout&gt;&gt; 
+&lt;&lt;switchTheme Woodshop&gt;&gt;
+&lt;&lt;switchTheme Textures&gt;&gt;
+&lt;&lt;switchTheme [[Edge of Night]]&gt;&gt;
+&lt;&lt;switchTheme [default]&gt;&gt;
+}}}
+&lt;&lt;switchTheme Plain&gt;&gt; &lt;&lt;switchTheme Blackout&gt;&gt; &lt;&lt;switchTheme Woodshop&gt;&gt; &lt;&lt;switchTheme Textures&gt;&gt; &lt;&lt;switchTheme [[Edge of Night]]&gt;&gt; &lt;&lt;switchTheme [default]&gt;&gt;
+
+NOTE:
+&gt;You can also create a command link to select a theme at random by using the {{{&lt;&lt;randomTheme&gt;&gt;}}} macro (previously released as the [[RandomThemeChooser]] inline script, now retired).  Note that this command does //not// set the current theme selection to the &quot;[random]&quot; keyword, which would cause a different theme to be applied each time the document is loaded.  Instead, the macro selects a specific theme //at random// from the current list of available themes, which is re-applied each time the document is loaded, unless a different theme selection has been made.
+&lt;&lt;&lt;</pre>
+</div>

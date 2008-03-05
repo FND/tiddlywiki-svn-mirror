@@ -1,0 +1,71 @@
+<div title="ExportTiddlersPluginInfo" modifier="ELSDesignStudios" created="200703222349" tags="plugininfo">
+<pre>/***
+|Name|ExportTiddlersPluginInfo|
+|Source|http://www.TiddlyTools.com/#ExportTiddlersPlugin|
+|Documentation|http://www.TiddlyTools.com/#ExportTiddlersPluginInfo|
+|Version|2.5.1|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|documentation|
+|Requires||
+|Overrides||
+|Description|Documentation for ExportTiddlersPlugin|
+ExportTiddlersPlugin lets you select and extract tiddlers from your ~TiddlyWiki documents using interactive control panel lets you specify a destination, and then select which tiddlers to export. Tiddler data can be output as complete, stand-alone TiddlyWiki documents, or just the selected tiddlers (&quot;~PureStore&quot; format -- smaller files!) that can be imported directly into another ~TiddlyWiki, or as an ~RSS-compatible XML file that can be published for RSS syndication.
+!!!!!Usage
+&lt;&lt;&lt;
+{{{
+&lt;&lt;exportTiddlers&gt;&gt; (sidebar menu item)
+&lt;&lt;exportTiddlers inline&gt;&gt; (embedded control panel)
+}}}
+
+Inline control panel (live):
+&lt;&lt;exportTiddlers inline&gt;&gt;
+
+Optional &quot;special tiddlers&quot; used by this plugin:
+* SiteUrl&lt;br&gt;URL for official server-published version of document being viewed (used in XML export). Ddefault: //none//
+* SiteDate&lt;br&gt;stored date/time stamp for most recent published version of document.  Default: current document.modified value (i.e., the 'file date')
+&lt;&lt;&lt;
+!!!!!Revisions
+&lt;&lt;&lt;
+2007.12.04 [*.*.*] update for TW2.3.0: replaced deprecated core functions, regexps, and macros
+2007.11.10 [2.5.1] removed debugging alert messages from promptForExportFilename()
+2007.10.31 [2.5.0] code reduction: removed incomplete/unused interface and supporting functions for exporting directly to http, https or ftp servers.  Plugin now supports exporting to local file only.  Transferring that file is now left to other mechanisms, such as email attachments, FTP uploads, portable media (USB,CD,DVD,...), etc.  Also, updated &quot;save as TiddlyWiki document&quot; output to correctly generate TW2.2 compatible file format.
+2007.10.30 [2.4.2] added automatic shadow tiddler definition for [[ExportTiddlers]]
+2007.07.16 [2.4.1] in exportTWHeader(), reset HTML source 'markup' so installed markup is NOT copied to new file.
+2007.06.30 [2.4.0] added &quot;select related tiddlers&quot; feature.  Recursively scans the tiddler links[] info to find all tiddlers referenced by any of the currently selected tiddler, and then selects them all (including the original tiddlers).  //Theoretically//, selecting all related tiddlers should ensure that the exported file contains all tiddlers needed to properly render all of the originally selected tiddlers.
+2007.04.19 [2.3.0] in exportData(), pass SiteURL value as param to saveToRss().  Fixes 'undefined' appearing in tiddler link in XML output.  Also, in refreshExportList(), added 'sort by tags'.  Also, added 'group select'... selecting a heading (date,author,tag) auto-selects all tiddlers in that group.
+2007.03.02 [2.2.6] in onClickExportButton(), when selecting open tiddlers for TW2.2, look for &quot;storyDisplay&quot; instead of &quot;tiddlerDisplay&quot; but keep fallback to &quot;tiddlerDisplay&quot; for TW2.1 or earlier
+2007.03.01 [2.2.5] removed hijack of store.saveChanges() (was catching save on http:, but there are other solutions that do a much better job of handling save to server.
+2006.11.08 [2.2.4] added promptForExportFilename() and replaced type=&quot;file&quot; control with edit field + browse button (&quot;...&quot;).
+2006.10.12 [2.2.3] in exportDIVFooter(), write POST-BODY-START/END markers for compatibility with TW2.1 core file format.  Based on report from Jose Gonzalez.
+2006.05.11 [2.2.2] in createExportPanel, removed call to addNotification() to no longer auto-refresh the list every time a tiddler is changed.  Instead, call refreshExportList(0) only when the panel is first rendered and each time it is made visible.  Prevents unneeded feedback messages from being displayed and increases overall document performance, since the listbox is no longer being updated each time a tiddler is saved.
+2006.05.02 [2.2.1] Use displayMessage() to show number of selected tiddlers instead of updating listbox 'header' item after each selection.  Prevents awkward 'scroll-to-top' behavior that made multi-select via ctrl-click nearly impossible.  Reported by Paul Reiber.
+2006.04.29 [2.2.0] New features: &quot;Notes&quot; are free-form text that is inserted in the header of a TWDIV export file.  When exporting to a server, the &quot;notify&quot; checkbox indicates that server-side script processing should send an email message when the export file is stored on the server.  Comma-separated addresses may be typed in, or pre-defined in the SiteNotify tiddler.
+2006.03.29 [2.1.3] added calls to convertUnicodeToUTF8() for generated output, so it better handles international characters.
+2006.02.12 [2.1.2] added var to unintended global 'tags' in matchTags(). Avoids FF1501 bug when filtering by tags.  (based on report by TedPavlic)
+2006.02.04 [2.1.1] added var to variables that were unintentionally global.  Avoids FireFox 1.5.0.1 crash bug when referencing global variables
+2006.02.02 [2.1.0] Added support for output of complete TiddlyWiki documents.  Let's you use ExportTiddlers to generate 'starter' documents from selected tiddlers.
+2006.01.21 [2.0.1] Defer initial panel creation and only register a notification function when panel first is created
+in saveChanges 'hijack', create panel as needed.  Note: if window.event is not available to identify the click location, the export panel is positioned relative to the 'tiddlerDisplay' element of the TW document.
+2005.12.27 [2.0.0] Update for TW2.0
+Defer initial panel creation and only register a notification function when panel first is created
+2005.12.24 [0.9.5] Minor adjustments to CSS to force correct link colors regardless of TW stylesheet selection
+2005.12.16 [0.9.4] Dynamically create/remove exportPanel as needed to ensure only one instance of interface elements exists, even if there are multiple instances of macro embedding.
+2005.11.15 [0.9.2] added non-Ajax post function to bypass javascript security restrictions on cross-domain I/O.  Moved AJAX functions to separate tiddler (no longer needed here).  Generalized HTTP server to support UnaWiki servers
+2005.11.08 [0.9.1] moved HTML, CSS and control initialization into exportInit() function and call from macro handler instead of at load time.  This allows exportPanel to be placed within the same containing element as the &quot;export tiddlers&quot; button, so that relative positioning can be achieved.
+2005.10.28 [0.9.0] added 'select opened tiddlers' feature. Based on a suggestion by Geoff Slocock
+2005.10.24 [0.8.3] Corrected hijack of 'save changes' when using http:
+2005.10.18 [0.8.2] added AJAX functions
+2005.10.18 [0.8.1] Corrected timezone handling when filtering for date ranges. Improved error checking/reporting for invalid filter values and filters that don't match any tiddlers. Exporting localfile-to-localfile is working for IE and FF.  Exporting server-to-localfile works in IE (after ActiveX warnings), but has security issues in FF. Cross-domain exporting (localfile/server-to-server) is under development.  More style tweaks, minor text changes and some assorted layout cleanup.
+2005.10.17 [0.8.0] First pre-release.
+2005.10.16 [0.7.0] filter by tags
+2005.10.15 [0.6.0] filter by title/text
+2005.10.14 [0.5.0] export to local file (DIV or XML)
+2005.10.14 [0.4.0] filter by start/end date
+2005.10.13 [0.3.0] panel interaction
+2005.10.11 [0.2.0] panel layout
+2005.10.10 [0.1.0] code framework
+2005.10.09 [0.0.0] development started
+&lt;&lt;&lt;</pre>
+</div>

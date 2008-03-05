@@ -1,0 +1,127 @@
+<div title="ImportTiddlersPluginInfo" modifier="ELSDesignStudios" created="200801090740" modified="200801090742" tags="plugininfo" creator="ELSDesignStudios">
+<pre>/***
+|Name|ImportTiddlersPluginInfo|
+|Source|http://www.TiddlyTools.com/#ImportTiddlersPlugin|
+|Documentation|http://www.TiddlyTools.com/#ImportTiddlersPluginInfo|
+|Version|3.6.0|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|documentation|
+|Requires||
+|Overrides||
+|Description|documentation for ImportTiddlersPlugin|
+This plugin lets you selectively combine tiddlers from any two TiddlyWiki documents.  An interactive control panel lets you pick a document to import from, and then select which tiddlers to import, with prompting for skip, rename, merge or replace actions when importing tiddlers that match existing titles.  Automatically add tags to imported tiddlers so they are easy to find later on.  Generates a detailed report of import 'history' in ImportedTiddlers.
+!!!!!Usage
+&lt;&lt;&lt;
+{{{&lt;&lt;importTiddlers&gt;&gt;}}} or {{{&lt;&lt;importTiddlers core&gt;&gt;}}}
+invokes the built-in importTiddlers macro (TW2.1.x+).  If installed in documents using TW2.0.x or earlier, fallback is to use 'link' display (see below)
+
+{{{&lt;&lt;importTiddlers link label tooltip&gt;&gt;}}}
+The ''link'' keyword creates an &quot;import tiddlers&quot; link that when clicked to show/hide import control panel.  ''label'' and ''tooltip'' are optional text parameters (enclosed in quotes or {{{[[...]]}}}, and allow you to override the default display text for the link and the mouseover help text, respectively.
+
+{{{&lt;&lt;importTiddlers inline&gt;&gt;}}}
+creates import control panel directly in tiddler content
+
+&lt;&lt;importTiddlers inline&gt;&gt;
+
+Press ''[browse]'' to select a TiddlyWiki document file to import, and then press ''[open]''.  Alternatively, you can type in the path/filename or a remote document URL (starting with http://).  When you have entered the desired source location, press ''[load]'' to retrieve the tiddlers from the remote source.  //Note: There may be some delay to permit the browser time to access and load the document before updating the listbox with the titles of all tiddlers that are available to be imported.//
+
+Select one or more titles from the listbox (hold CTRL or SHIFT while clicking to add/remove the highlight from individual list items).  You can press ''[select all]'' to quickly highlight all tiddler titles in the list.  Use the ''[-]'', ''[+]'', or ''[=]'' links to adjust the listbox size so you can view more (or less) tiddler titles at one time.  When you have chosen the tiddlers you want to import and entered any extra tags, press ''[import]'' to begin copying them to the current TiddlyWiki document.
+
+''select: all, new, changes, or differences''
+
+You can click on ''all'', ''new'', ''changes'', or ''differences'' to automatically select a subset of tiddlers from the list. This makes it very quick and easy to find and import just the updated tiddlers you are interested in:
+&gt;''&quot;all&quot;'' selects ALL tiddlers from the import source document, even if they have not been changed.
+&gt;''&quot;new&quot;'' selects only tiddlers that are found in the import source document, but do not yet exist in the destination document
+&gt;''&quot;changes&quot;'' selects only tiddlers that exist in both documents but that are newer in the source document
+&gt;''&quot;differences&quot;'' selects all new and existing tiddlers that are different from the destination document (even if destination tiddler is newer)
+
+''Import Tagging:''
+
+Tiddlers that have been imported can be automatically tagged, so they will be easier to find later on, after they have been added to your document.  New tags are entered into the &quot;add tags&quot; input field, and then //added// to the existing tags for each tiddler as it is imported.
+
+''Skip, Rename, Merge, or Replace:''
+
+When importing a tiddler whose title is identical to one that already exists, the import process pauses and the tiddler title is displayed in an input field, along with four push buttons: ''[skip]'', ''[rename]'', ''[merge]'' and ''[replace]''.
+
+To bypass importing this tiddler, press ''[skip]''.  To import the tiddler with a different name (so that both the tiddlers will exist when the import is done), enter a new title in the input field and then press ''[rename]''.   Press ''[merge]'' to combine the content from both tiddlers into a single tiddler.  Press ''[replace]'' to overwrite the existing tiddler with the imported one, discarding the previous tiddler content.
+
+//Note: if both the title ''and'' modification date/////time match, the imported tiddler is assumed to be identical to the existing one, and will be automatically skipped (i.e., not imported) without asking.//
+
+''Import Report History''
+
+When tiddlers are imported, a report is generated into ImportedTiddlers, indicating when the latest import was performed, the number of tiddlers successfully imported, from what location, and by whom. It also includes a list with the title, date and author of each tiddler that was imported.
+
+When the import process is completed, the ImportedTiddlers report is automatically displayed for your review.  If more tiddlers are subsequently imported, a new report is //added// to ImportedTiddlers, above the previous report (i.e., at the top of the tiddler), so that a reverse-chronological history of imports is maintained.
+
+If a cumulative record is not desired, the ImportedTiddlers report may be deleted at any time. A new ImportedTiddlers report will be created the next time tiddlers are imported.
+
+Note: You can prevent the ImportedTiddlers report from being generated for any given import activity by clearing the &quot;create a report&quot; checkbox before beginning the import processing.
+&lt;&lt;&lt;
+!!!!!Revisions
+&lt;&lt;&lt;
+2008.01.03 [3.6.0] in loadRemoteFile(), use lower-level doHttp() instead of loadRemoteFile() in order to support username/password access to remote server
+2007.10.30 [3.5.6] update [[ImportTiddlers]] shadow tiddler definition to include &quot;inline&quot; link, so the plugin control panel is displayed instead of the standard core interface.
+2007.06.27 [3.5.5] added missing 'fields' params to saveTiddler() calls.  Fixes problem where importing tiddlers would lose the custom fields.  Also, moved functions for backward-compatibility with TW2.1.x to separate [[ImportTiddlersPluginPatch2.1.x]] tiddler, reducing the size of //this// plugin tiddler by a significant amount.
+2007.06.25 [3.5.4] added calls to store.suspendNotifications() and store.resumeNotifications().  Eliminates redisplay processing overhead DURING import activities
+2007.04.29 [3.5.3] if refreshImportList() when inbound tiddlers are loaded, change &quot;close&quot; button to &quot;done&quot;, and disable certain controls to creates a modal condition, so that actions that reload tiddlers cannot be performed unless &quot;done&quot; is first pressed to end the mode..
+2007.04.28 [3.5.2] in handler(), added param support for custom link label/prompt
+2007.04.19 [3.5.1] in readTiddlersFromHTML(), for TW2.2 and above, use importTiddlyWiki() (new core functionality) to get tiddlers from remote file content.  Also, copied updated TW21Loader.prototype.internalizeTiddler() definition from TW2.2b5 so plugin can read tiddlers from TW2.2+ even when running under TW2.1.x
+2007.03.22 [3.5.0] in refreshImportList(), add handling for 'select section' when a heading is selected.  Makes it really easy to import by tag or date!
+2007.03.21 [3.4.0] split loadTiddlers functionality into separate plugin (see [[LoadTiddlersPlugin]])
+2007.03.20 [3.3.1] tweak to previous change to allow relative file references via http: (bypasses getLocalPath() so remote URL will be used)
+2007.03.20 [3.3.0] added support for local, relative file references: in loadRemoteFile(), check for fileExists().  If not found, prepend relative path location and try again.  Allows use of simple &quot;foo.html&quot; file references with importTiddlers and/or loadTiddlers macros
+2007.02.24 [3.2.1] re-labeled control panel &quot;open&quot; button to &quot;load&quot; to avoid confusion with &quot;open&quot; button in system-provided Browse... dialog.  (i.e., &quot;browse, open, open&quot; becomes &quot;browse, open, load&quot;)
+2007.02.09 [3.2.0] loadTiddlers: added support for &quot;noReload&quot; tag (prevents overwriting existing tiddler, even if inbound tiddler is newer)
+2007.02.08 [3.1.3] loadTiddlers: added missing code and documentation for &quot;newTags&quot; handling (a feature change from long, long ago that somehow got lost!)
+2006.11.14 [3.1.2] fix macro handler parameter declaration (double-pasted param list corrupts IE)
+2006.11.13 [3.1.1] use apply() method to invoke hijacked core handler
+2006.11.13 [3.1.0] hijack TW2.1 built-in importTiddlers.handler() so it can co-exist with the plugin interface 'panel'.  Use macro without params (or use 'core' keyword) to display built-in core interface.  Use new &quot;link&quot; param to embed &quot;import tiddlers&quot; link that shows floating panel when clicked.  Renamed a few plugin utility functions so they don't collide with core internal functions.  More code restructuring to come.
+2006.10.12 [3.0.8] in readTiddlersFromHTML(), fallback to find end of store area by matching &quot;/body&quot; when POST-BODY-START is not present (backward compatibility for older documents)
+2006.09.10 [3.0.7] in readTiddlersFromHTML(), find end of store area by matching &quot;POST-BODY-START&quot; instead of &quot;/body&quot; 
+2006.08.16 [3.0.6] Use higher-level store.saveTiddler() instead of store.addTiddler() to avoid conflicts with ZW and other adaptations that hijack low-level tiddler handling.  Also, in CreateImportPanel(), no longer register notify to &quot;refresh listbox after every tiddler change&quot; (left over from old 'auto-filtered' list handling).  Thanks to Bob McElrath for report/solution.
+2006.07.29 [3.0.5] added noChangeMsg to loadTiddlers processing.  if not 'quiet' mode, reports skipped tiddlers.
+2006.04.18 [3.0.4] in loadTiddlers.handler, fixed parsing of &quot;prompt:&quot; param. Also, corrected parameters mismatch in loadTiddlers() callback function definition (order of params was wrong, resulting in filters NOT being applied)
+2006.04.12 [3.0.3] moved many display messages to macro properties for easier L10N translations via 'lingo' definitions.
+2006.04.12 [3.0.2] additional refactoring of 'core candidate' code.  Proposed API now defines &quot;loadRemoteFile()&quot; for XMLHttpRequest processing with built in fallback for handling local filesystem access, and readTiddlersFromHTML() to process the resulting source HTML content.
+2006.04.04 [3.0.1] in refreshImportList(), when using [by tags], tiddlers without tags are now included in a new &quot;untagged&quot; psuedo-tag list section
+2006.04.04 [3.0.0] Separate non-interactive {{{&lt;&lt;importTiddlers...&gt;&gt;}}} macro functionality for incorporation into TW2.1 core and renamed as {{{&lt;&lt;loadTiddlers&gt;&gt;}}} macro.  New parameters for loadTiddlers: ''label:text'' and ''prompt:text'' for link creation,  ''ask'' for filename/URL, ''tag:text'' for filtering, &quot;confirm&quot; for accept/reject of individual inbound tiddlers.  Also, ImportedTiddlers report generator output has been simplified and &quot;importReplace/importPublic&quot; tags and associated &quot;force&quot; param (which were rarely, if ever, used) has been dropped.
+2006.03.30 [2.9.1] when extracting store area from remote URL, look for &quot;&lt;/body&gt;&quot; instead of &quot;&lt;/body&gt;\n&lt;/html&gt;&quot; so it will match even if the &quot;\n&quot; is absent from the source.
+2006.03.30 [2.9.0] added optional 'force' macro param.  When present, autoImportTiddlers() bypasses the checks for importPublic and importReplace.  Based on a request from Tom Otvos.
+2006.03.28 [2.8.1] in loadImportFile(), added checks to see if 'netscape' and 'x.overrideMimeType()' are defined (IE does *not* define these values, so we bypass this code)
+Also, when extracting store area from remote URL, explicitly look for &quot;&lt;/body&gt;\n&lt;/html&gt;&quot; to exclude any extra content that may have been added to the end of the file by hosting environments such as GeoCities.  Thanks to Tom Otvos for finding these bugs and suggesting some fixes.
+2006.02.21 [2.8.0] added support for &quot;tiddler:TiddlerName&quot; filtering parameter in auto-import processing
+2006.02.21 [2.7.1] Clean up layout problems with IE.  (Use tables for alignment instead of SPANs styled with float:left and float:right)
+2006.02.21 [2.7.0] Added &quot;local file&quot; and &quot;web server&quot; radio buttons for selecting dynamic import source controls in ImportPanel.  Default file control is replaced with URL text input field when &quot;web server&quot; is selected.  Default remote document URL is defined in SiteURL tiddler.  Also, added option for prepending SiteProxy URL as prefix to remote URL to mask cross-domain document access (requires compatible server-side script)
+2006.02.17 [2.6.0] Removed &quot;differences only&quot; listbox display mode, replaced with selection filter 'presets': all/new/changes/differences.  Also fixed initialization handling for &quot;add new tags&quot; so that checkbox state is correctly tracked when panel is first displayed.
+2006.02.16 [2.5.4] added checkbox options to control &quot;import remote tags&quot; and &quot;keep existing tags&quot; behavior, in addition to existing &quot;add new tags&quot; functionality.
+2006.02.14 [2.5.3] FF1501 corrected unintended global 't' (loop index) in importReport() and autoImportTiddlers()
+2006.02.10 [2.5.2] corrected unintended global variable in importReport().
+2006.02.05 [2.5.1] moved globals from window.* to config.macros.importTiddlers.* to avoid FireFox 1.5.0.1 crash bug when referencing globals
+2006.01.18 [2.5.0] added checkbox for &quot;create a report&quot;.  Default is to create/update the ImportedTiddlers report.  Clear the checkbox to skip this step.
+2006.01.15 [2.4.1] added &quot;importPublic&quot; tag and inverted default so that auto sharing is NOT done unless tagged with importPublic
+2006.01.15 [2.4.0] Added support for tagging individual tiddlers with importSkip, importReplace, and/or importPrivate to control which tiddlers can be overwritten or shared with others when using auto-import macro syntax.  Defaults are to SKIP overwriting existing tiddlers with imported tiddlers, and ALLOW your tiddlers to be auto-imported by others.
+2006.01.15 [2.3.2] Added &quot;ask&quot; parameter to confirm each tiddler before importing (for use with auto-importing)
+2006.01.15 [2.3.1] Strip TW core scripts from import source content and load just the storeArea into the hidden IFRAME.  Makes loading more efficient by reducing the document size and by preventing the import document from executing its TW initialization (including plugins).  Seems to resolve the &quot;Found 0 tiddlers&quot; problem.  Also, when importing local documents, use convertUTF8ToUnicode() to convert the file contents so support international characters sets.
+2006.01.12 [2.3.0] Reorganized code to use callback function for loading import files to support event-driven I/O via an ASYNCHRONOUS XMLHttpRequest.  Let's processing continue while waiting for remote hosts to respond to URL requests.  Added non-interactive 'batch' macro mode, using parameters to specify which tiddlers to import, and from what document source.  Improved error messages and diagnostics, plus an optional 'quiet' switch for batch mode to eliminate //most// feedback.
+2006.01.11 [2.2.0] Added &quot;[by tags]&quot; to list of tiddlers, based on code submitted by BradleyMeck
+2006.01.09 [2.1.1] When a URL is typed in, and then the &quot;open&quot; button is pressed, it generates both an onChange event for the file input and a click event for open button.  This results in multiple XMLHttpRequest()'s which seem to jam things up quite a bit.  I removed the onChange handling for file input field.  To open a file (local or URL), you must now explicitly press the &quot;open&quot; button in the control panel.
+2006.01.08 [2.1.0] IMPORT FROM ANYWHERE!!! re-write getImportedTiddlers() logic to either read a local file (using local I/O), OR... read a remote file, using a combination of XML and an iframe to permit cross-domain reading of DOM elements.  Adapted from example code and techniques courtesy of Jonny LeRoy.
+2006.01.06 [2.0.2] When refreshing list contents, fixed check for tiddlerExists() when &quot;show differences only&quot; is selected, so that imported tiddlers that don't exist in the current file will be recognized as differences and included in the list.
+2006.01.04 [2.0.1] When &quot;show differences only&quot; is NOT checked, import all tiddlers that have been selected even when they have a matching title and date.
+2005.12.27 [2.0.0] Update for TW2.0
+Defer initial panel creation and only register a notification function when panel first is created
+2005.12.22 [1.3.1] tweak formatting in importReport() and add 'discard report' link to output
+2005.12.03 [1.3.0] Dynamically create/remove importPanel as needed to ensure only one instance of interface elements exists, even if there are multiple instances of macro embedding.  Also, dynamically create/recreate importFrame each time an external TW document is loaded for importation (reduces DOM overhead and ensures a 'fresh' frame for each document)
+2005.11.29 [1.2.1] fixed formatting of 'detail info' in importReport()
+2005.11.11 [1.2.0] added 'inline' param to embed controls in a tiddler
+2005.11.09 [1.1.0] only load HTML and CSS the first time the macro handler is called.  Allows for redundant placement of the macro without creating multiple instances of controls with the same ID's.
+2005.10.25 [1.0.5] fixed typo in importReport() that prevented reports from being generated
+2005.10.09 [1.0.4] combined documentation with plugin code instead of using separate tiddlers
+2005.08.05 [1.0.3] moved CSS and HTML definitions into plugin code instead of using separate tiddlers
+2005.07.27 [1.0.2] core update 1.2.29: custom overlayStyleSheet() replaced with new core setStylesheet()
+2005.07.23 [1.0.1] added parameter checks and corrected addNotification() usage
+2005.07.20 [1.0.0] Initial Release
+&lt;&lt;&lt;</pre>
+</div>

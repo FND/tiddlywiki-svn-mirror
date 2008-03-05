@@ -1,0 +1,42 @@
+<div title="HTMLFormattingPluginInfo" modifier="ELSDesignStudios" created="200801090044" tags="plugininfo">
+<pre>|Name|HTMLFormattingPluginInfo|
+|Source|http://www.TiddlyTools.com/#HTMLFormattingPlugin|
+|Documentation|http://www.TiddlyTools.com/#HTMLFormattingPluginInfo|
+|Version|2.1.5|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|documentation|
+|Requires||
+|Overrides||
+|Description|documentation for HTMLFormattingPlugin|
+The shorthand Wiki-style formatting syntax of ~TiddlyWiki is very convenient and enables most content to be reasonably well presented. However, there are times when tried-and-true HTML formatting syntax allows more more precise control of the content display.  When HTML formatting syntax is embedded within a tiddler (in between {{{&lt;}}}{{{html&gt;}}} and {{{&lt;}}}{{{/html&gt;}}} markers) TiddlyWiki passes this content to the browser for processing as 'native' HTML.  However, TiddlyWiki does not also process the HTML source content for any embedded wiki-formatting syntax it may contain.  This means that while you can use HTML formatted content, you cannot mix wiki-formatted content within the HTML formatting.
+
+The ~HTMLFormatting plugin allows you to freely ''mix wiki-style formatting syntax within HTML formatted content'' by extending the action of the standard TiddlyWiki formatting handler.
+!!!!!Usage
+&lt;&lt;&lt;
+When a tiddler is about to be displayed, ~TiddlyWiki looks for tiddler content contained within ''&lt;{{{html}}}&gt;'' and ''&lt;{{{/html}}}&gt;'' HTML tags.  This content (if any) is passed directly to the browser's internal &quot;rendering engine&quot; to process as ~HTML-formatted content.  Once the HTML formatting has been processed, all the pieces of text occuring in between the HTML formatting are then processed by the ~TiddlyWiki rendering engine, one piece at a time, so that normal wiki-style formatting can be applied to the individual text pieces.
+&lt;&lt;&lt;
+!!!!!Line breaks
+&lt;&lt;&lt;
+One major difference between Wiki formatting and HTML formatting is how &quot;line breaks&quot; are processed. Wiki formatting treats all line breaks as literal content to be displayed //as-is//. However, because HTML normally ignores line breaks and actually processes them as simple &quot;word separators&quot; instead, many people who write HTML include extra line breaks in their documents, just to make the &quot;source code&quot; easier to read.
+
+Even though you can use HTML tags within your tiddler content, the default treatment for line breaks still follows the Wiki-style rule (i.e., all new lines are displayed as-is). When adding HTML content to a tiddler (especially if you cut-and-paste it from another web page), you should take care to avoid adding extra line breaks to the text.
+
+If removing all the extra line breaks from your HTML content would be a big hassle, you can quickly //override the default Wiki-style line break rule// so that the line breaks use the standard HTML rules instead.  Placing a ''&lt;{{{hide linebreaks}}}&gt;'' tag within the tiddler's HTML content changes all line breaks to spaces before rendering the content, so that the literal line breaks will be processed as simple word-breaks instead.
+
+Note: this does //not// alter the actual tiddler content that is stored in the document, just the manner in which it is displayed. Any line breaks contained in the tiddler will still be there when you edit its content. Also, to include a literal line break when the ''&lt;{{{hide linebreaks}}}&gt;'' tag is present, you will need to use a ''&lt;{{{br}}}&gt;'' or ''&lt;{{{p}}}&gt;'' HTML tag instead of simply typing a line break.
+&lt;&lt;&lt;
+!!!!!How it works
+&lt;&lt;&lt;
+The TW core support for HTML does not let you put ANY wiki-style syntax (including TW macros) *inside* the {{{&lt;html&gt;...&lt;/html&gt;}}} block.  Everything between {{{&lt;html&gt;}}} and {{{&lt;/html&gt;}}} is handed to the browser for processing and that is it.  Fortunately, this plugin ADDS the ability to let you put wiki-syntax (including macros) inside the html.  It does this by first giving the tiddler source content to the browser to process the HTML, and then handling any wiki-based syntax that remains afterward.
+
+However, not all wiki syntax can be safely passed through the browser's parser. Specifically, any TW macros inside the HTML will get 'eaten' by the browser since the macro brackets, {{{&lt;&lt;...&gt;&gt;}}} use the &quot;&lt;&quot; and &quot;&gt;&quot; that normally delimit the HTML/XML syntax recognized by the browser's parser.
+
+Similarly, you can't use InlineJavascript within the HTML because the {{{&lt;script&gt;...&lt;/script&gt;}}} syntax will also be consumed by the browser and there will be nothing left to process afterward.  Note: unfortunately, even though the browser removes the {{{&lt;script&gt;...&lt;/script&gt;}}} sequence, it doesn't actually execute the embedded javascript code that it removes, so any scripts contained inside of &lt;html&gt; blocks in TW are currently being ignored. :-(
+
+As a work-around to allow TW *macros* (but not inline scripts) to exist inside of &lt;html&gt; formatted blocks of content, the plugin first converts the {{{&lt;&lt;}}} and {{{&gt;&gt;}}} into &quot;%%(&quot; and &quot;)%%&quot;, making them &quot;indigestible&quot; so they can pass unchanged through the belly of the beast (the browser's HTML parser).
+
+After the browser has done its job, the wiki syntax sequences (including the &quot;undigested&quot; macros) are contained in #text nodes in the browser-generated DOM elements.  The plugin then recursively locates and processes each #text node, converts the %%( and )%% back into {{{&lt;&lt;}}} and {{{&gt;&gt;}}}, passes the result to wikify() for further rendering of the wiki-formatted syntax into a containing SPAN that replaces the previous #text node.  At the end of this process, none of the encoded %%( and )%% sequences remain in the rendered tiddler output.
+&lt;&lt;&lt;</pre>
+</div>

@@ -1,0 +1,157 @@
+<div title="NestedSlidersPluginInfo" modifier="ELSDesignStudios" created="200801081313" modified="200801081302" tags="plugininfo">
+<pre>/***
+|Name|NestedSlidersPluginInfo|
+|Source|http://www.TiddlyTools.com/#NestedSlidersPlugin|
+|Documentation|http://www.TiddlyTools.com/#NestedSlidersPluginInfo|
+|Version|2.3.4|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|documentation|
+|Requires||
+|Overrides||
+|Description|documentation for NestedSlidersPlugin|
+This plugin adds new wiki syntax for embedding 'slider' panels directly into tiddler content.
+!!!!!Usage
+&lt;&lt;&lt;
+Use {{{+++}}} and {{{===}}} to delimit the slider content.  You can also 'nest' these sliders as deep as you like (see complex nesting example below), so that expandable 'tree-like' hierarchical displays can be created.  This is most useful when converting existing in-line text content to create in-line annotations, footnotes, context-sensitive help, or other subordinate information displays.
+
+Additional optional syntax elements let you specify
+*default to open
+*cookiename
+*heading level
+*floater (with optional CSS width value)
+*transient display (clicking elsewhere closes panel)
+*custom class/label/tooltip/accesskey
+*alternate label/tooltip (displayed when panel is open)
+*panelID (for later use with {{{&lt;&lt;DOM&gt;&gt;}}} macro.  See [[DOMTweaksPlugin]])
+*automatic blockquote style on panel
+*deferred rendering of panel content
+The complete syntax, using all options, is:
+//{{{
+++++(cookiename)!!!!!^width^*{{class{[label=key|tooltip][altlabel|alttooltip]}}}#panelID:&gt;...
+content goes here
+===
+//}}}
+where:
+* {{{+++}}} (or {{{++++}}}) and {{{===}}}&lt;br&gt;marks the start and end of the slider definition, respectively.  When the extra {{{+}}} is used, the slider will be open when initially displayed.
+* {{{(cookiename)}}}&lt;br&gt;saves the slider opened/closed state, and restores this state whenever the slider is re-rendered.
+* {{{!}}} through {{{!!!!!}}}&lt;br&gt;displays the slider label using a formatted headline (Hn) style instead of a button/link style
+* {{{^width^}}} (or just {{{^}}})&lt;br&gt;makes the slider 'float' on top of other content rather than shifting that content downward.  'width' must be a valid CSS value (e.g., &quot;30em&quot;, &quot;180px&quot;, &quot;50%&quot;, etc.).  If omitted, the default width is &quot;auto&quot; (i.e., fit to content)
+* {{{&quot;*&quot;}}} //(without the quotes)//&lt;br&gt;denotes &quot;transient display&quot;: when a click occurs elsewhere in the document, the slider/floating panel will be automatically closed.  This is useful for creating 'pulldown menus' that automatically go away after they are used.  //Note: using SHIFT-click on a slider label will open/close that slider without triggering the automatic closing of any transient slider panels that are currently displayed, permitting ''temporary'' display of several transient panels at once.//
+* &quot;&quot;&quot;{{class{[label=key|tooltip][altlabel|alttooltip]}}}&quot;&quot;&quot;&lt;br&gt;uses label/tooltip/accesskey.  &quot;&quot;&quot;{{class{...}}}&quot;&quot;&quot;, &quot;&quot;&quot;=key&quot;&quot;&quot;, &quot;&quot;&quot;|tooltip&quot;&quot;&quot; and &quot;&quot;&quot;[altlabel|alttooltip]&quot;&quot;&quot; are optional.  'class' is any valid CSS class name, used to style the slider label text.  'key' must be a ''single letter only''.  altlabel/alttooltip specifiy alternative label/tooltip for use when slider/floating panel is displayed.
+* {{{#panelID:}}}&lt;br&gt;defines a unique DOM element ID that is assigned to the panel element used to display the slider content.  This ID can then be used later to reposition the panel using the {{{&lt;&lt;DOM move id&gt;&gt;}}} macro (see [[DOMTweaksPlugin]]), or to access/modify the panel element through use of {{{document.getElementById(...)}}}) javascript code in a plugin or inline script.
+* {{{&quot;&gt;&quot;}}} //(without the quotes)//&lt;br&gt;automatically adds blockquote formatting to slider content
+* {{{&quot;...&quot;}}} //(without the quotes)//&lt;br&gt;defers rendering of closed sliders until the first time they are opened.  //Note: deferred rendering may produce unexpected results in some cases.  Use with care.//
+
+//Note: to make slider definitions easier to read and recognize when editing a tiddler, newlines immediately following the {{{+++}}} 'start slider' or preceding the {{{===}}} 'end slider' sequence are automatically supressed so that excess whitespace is eliminated from the output.//
+&lt;&lt;&lt;
+!!!!!Examples
+&lt;&lt;&lt;
+simple in-line slider: 
+{{{
++++
+   content
+===
+}}}
++++
+   content
+===
+----
+use a custom label and tooltip: 
+{{{
++++[label|tooltip]
+   content
+===
+}}}
++++[label|tooltip]
+   content
+===
+----
+content automatically blockquoted: 
+{{{
++++&gt;
+   content
+===
+}}}
++++&gt;
+   content
+===
+----
+all options combined //(default open, cookie, heading, sized floater, transient, class, label/tooltip/key, blockquoted, deferred)//
+{{{
+++++(testcookie)!!!^30em^*{{big{[label=Z|click or press Alt-Z to open]}}}&gt;...
+   content
+===
+}}}
+++++(testcookie)!!!^30em^*{{big{[label=Z|click or press Alt-Z to open]}}}&gt;...
+   content
+===
+----
+complex nesting example:
+{{{
++++[get info...=I|click for information or press Alt-I]
+	put some general information here,
+	plus a floating panel with more specific info:
+	+++^10em^[view details...|click for details]
+		put some detail here, which could in turn contain a transient panel,
+		perhaps with a +++^25em^*[glossary definition]explaining technical terms===
+	===
+===
+}}}
++++[get info...=I|click for information or press Alt-I]
+	put some general information here,
+	plus a floating panel with more specific info:
+	+++^10em^[view details...|click for details]
+		put some detail here, which could in turn contain a transient panel,
+		perhaps with a +++^25em^*[glossary definition]explaining technical terms===
+	===
+===
+&lt;&lt;&lt;
+!!!!!Revisions
+&lt;&lt;&lt;
+2008.01.08 - [*.*.*] plugin size reduction: documentation moved to ...Info tiddler
+2007.12.28 - 2.3.4 added hijack for Animator.prototype.startAnimating().  Previously, the plugin code simply set the overflow to &quot;visible&quot; after animation.  This code tweak corrects handling of elements that were styled with overflow=hidden/auto/scroll before animation by saving the overflow style and then restoring it after animation has completed.
+2007.12.17 - 2.3.3 use hasClass() instead of direct comparison to test for &quot;floatingPanel&quot; class.  Allows floating panels to have additional classes assigned to them (i.e., by AnimationEffectsPlugin).
+2007.11.14 - 2.3.2 in onClickNestedSlider(), prevent SHIFT-click events from opening a new, empty browser window by setting &quot;cancelBubble=true&quot; and calling &quot;stopPropagation()&quot;.  Note: SHIFT-click is still processed as a normal click (i.e., it toggles the slider panel display).  Also, using SHIFT-click will prevent 'transient' sliders from being automatically closed when another slider is opened, allowing you to *temporarily* display several transient sliders at once.
+2007.07.26 - 2.3.1 in document.onclick(), propagate return value from hijacked core click handler to consume OR bubble up click as needed.  Fixes &quot;IE click disease&quot;, whereby nearly every mouse click causes a page transition.
+2007.07.20 - 2.3.0 added syntax for setting panel ID (#panelID:).  This allows individual slider panels to be repositioned within tiddler content simply by giving them a unique ID and then moving them to the desired location using the {{{&lt;&lt;DOM move id&gt;&gt;}}} macro.
+2007.07.19 - 2.2.0 added syntax for alttext and alttip (button label and tooltip to be displayed when panel is open)
+2007.07.14 - 2.1.2 corrected use of 'transient' attribute in IE to prevent (non-recursive) infinite loop
+2007.07.12 - 2.1.0 replaced use of &quot;*&quot; for 'open/close on rollover' (which didn't work too well).  &quot;*&quot; now indicates 'transient' panels that are automatically closed if a click occurs somewhere else in the document.  This permits use of nested sliders to create nested &quot;pulldown menus&quot; that automatically disappear after interaction with them has been completed.  Also, in onClickNestedSlider(), use &quot;theTarget.sliderCookie&quot;, instead of &quot;this.sliderCookie&quot; to correct cookie state tracking when automatically dismissing transient panels.
+2007.06.10 - 2.0.5 add check to ensure that window.adjustSliderPanel() is defined before calling it (prevents error on shutdown when mouse event handlers are still defined)
+2007.05.31 - 2.0.4 add handling to invoke adjustSliderPanel() for onmouseover events on slider button and panel.  This allows the panel position to be re-synced when the button position shifts due to changes in unrelated content above it on the page.  (thanks to Harsha for bug report)
+2007.03.30 - 2.0.3 added chkFloatingSlidersAnimate (default to FALSE), so that slider animation can be disabled independent of the overall document animation setting (avoids strange rendering and focus problems in floating panels)
+2007.03.01 - 2.0.2 for TW2.2+, hijack Morpher.prototype.stop so that &quot;overflow:hidden&quot; can be reset to &quot;overflow:visible&quot; after animation ends
+2007.03.01 - 2.0.1 in hijack for Slider.prototype.stop, use apply() to pass params to core function
+2006.07.28 - 2.0.0 added custom class syntax around label/tip/key syntax: {{{{{classname{[label=key|tip]}}}}}}
+2006.07.25 - 1.9.3 when parsing slider, save default open/closed state in button element, then in onClickNestedSlider(), if slider state matches saved default, instead of saving cookie, delete it.  Significantly reduces the 'cookie overhead' when default slider states are used.
+2006.06.29 - 1.9.2 in onClickNestedSlider(), when setting focus to first control, skip over type=&quot;hidden&quot;
+2006.06.22 - 1.9.1 added panel.defaultPanelWidth to save requested panel width, even after resizing has changed the style value
+2006.05.11 - 1.9.0 added optional '^width^' syntax for floating sliders and '=key' syntax for setting an access key on a slider label
+2006.05.09 - 1.8.0 in onClickNestedSlider(), when showing panel, set focus to first child input/textarea/select element
+2006.04.24 - 1.7.8 in adjustSliderPos(), if floating panel is contained inside another floating panel, subtract offset of containing panel to find correct position
+2006.02.16 - 1.7.7 corrected deferred rendering to account for use-case where show/hide state is tracked in a cookie
+2006.02.15 - 1.7.6 in adjustSliderPos(), ensure that floating panel is positioned completely within the browser window (i.e., does not go beyond the right edge of the browser window)
+2006.02.04 - 1.7.5 add 'var' to unintended global variable declarations to avoid FireFox 1.5.0.1 crash bug when assigning to globals
+2006.01.18 - 1.7.4 only define adjustSliderPos() function if it has not already been provided by another plugin.  This lets other plugins 'hijack' the function even when they are loaded first.
+2006.01.16 - 1.7.3 added adjustSliderPos(place,btn,panel,panelClass) function to permit specialized logic for placement of floating panels.  While it provides improved placement for many uses of floating panels, it exhibits a relative offset positioning error when used within *nested* floating panels.  Short-term workaround is to only adjust the position for 'top-level' floaters.
+2006.01.16 - 1.7.2 added button property to slider panel elements so that slider panel can tell which button it belongs to.  Also, re-activated and corrected animation handling so that nested sliders aren't clipped by hijacking Slider.prototype.stop so that &quot;overflow:hidden&quot; can be reset to &quot;overflow:visible&quot; after animation ends
+2006.01.14 - 1.7.1 added optional &quot;^&quot; syntax for floating panels.  Defines new CSS class, &quot;.floatingPanel&quot;, as an alternative for standard in-line &quot;.sliderPanel&quot; styles.
+2006.01.14 - 1.7.0 added optional &quot;*&quot; syntax for rollover handling to show/hide slider without requiring a click (Based on a suggestion by tw4efl)
+2006.01.03 - 1.6.2 When using optional &quot;!&quot; heading style, instead of creating a clickable &quot;Hn&quot; element, create an &quot;A&quot; element inside the &quot;Hn&quot; element.  (allows click-through in SlideShowPlugin, which captures nearly all click events, except for hyperlinks)
+2005.12.15 - 1.6.1 added optional &quot;...&quot; syntax to invoke deferred ('lazy') rendering for initially hidden sliders
+removed checkbox option for 'global' application of lazy sliders
+2005.11.25 - 1.6.0 added optional handling for 'lazy sliders' (deferred rendering for initially hidden sliders)
+2005.11.21 - 1.5.1 revised regular expressions: if present, a single newline //preceding// and/or //following// a slider definition will be suppressed so start/end syntax can be place on separate lines in the tiddler 'source' for improved readability.  Similarly, any whitespace (newlines, tabs, spaces, etc.) trailing the 'start slider' syntax or preceding the 'end slider' syntax is also suppressed.
+2005.11.20 - 1.5.0 added (cookiename) syntax for optional tracking and restoring of slider open/close state
+2005.11.11 - 1.4.0 added !!!!! syntax to render slider label as a header (Hn) style instead of a button/link style
+2005.11.07 - 1.3.0 removed alternative syntax {{{(((}}} and {{{)))}}} (so they can be used by other formatting extensions) and simplified/improved regular expressions to trim multiple excess newlines
+2005.11.05 - 1.2.1 changed name to NestedSlidersPlugin
+2005.11.04 - 1.2.0 added alternative character-mode syntax {{{(((}}} and {{{)))}}}
+tweaked &quot;eat newlines&quot; logic for line-mode {{{+++}}} and {{{===}}} syntax
+2005.11.03 - 1.1.1 fixed toggling of default tooltips (&quot;more...&quot; and &quot;less...&quot;) when a non-default button label is used.  code cleanup, added documentation
+2005.11.03 - 1.1.0 changed delimiter syntax from {{{(((}}} and {{{)))}}} to {{{+++}}} and {{{===}}}.  changed name to EasySlidersPlugin
+2005.11.03 - 1.0.0 initial public release
+&lt;&lt;&lt;</pre>
+</div>
