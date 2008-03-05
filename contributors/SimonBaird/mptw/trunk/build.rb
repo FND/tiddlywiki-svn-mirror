@@ -12,11 +12,14 @@ make_tw {
   remove_tiddler        'LegacyStrikeThroughPlugin'
   add_tiddlers_from_dir 'core'
   add_tiddlers_from_dir 'themes'
+  add_tiddlers_from_dir 'palettes'
   store_to_file         'upload/upgrade.html'
   add_tiddlers_from_dir 'noupgrade'
   add_tiddler_from_scratch({
     'tiddler'=>'systemConfig',
     'taggly.excerpts'=>'descr',
+    'taggly.sortby'=>'created',
+    'taggly.sortorder'=>'desc',
   })
   tiddlers.each { |t| t.fields['modifier'] = 'Mopi' }
   to_file               'upload/empty.html'

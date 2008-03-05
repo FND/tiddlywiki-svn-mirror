@@ -6,26 +6,27 @@
 |Source:|http://mopi.tiddlyspot.com/#MopiConfigPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
 |License:|http://mopi.tiddlyspot.com/#MopiConfigPlugin|
-!Note: instead of editing this consider putting overrides in MopiUserConfigPlugin
+!!Note: instead of editing this you should put overrides in MopiUserConfigPlugin
 ***/
 //{{{
 var originalReadOnly = readOnly;
-readOnly = false;
 config.options.chkHttpReadOnly = false; // means web visitors can experiment with your site by clicking edit
+readOnly = false;						// needed because the above doesn't work any more post 2.1 (??)
 config.options.chkInsertTabs = true;    // tab inserts a tab when editing a tiddler
 config.views.wikified.defaultText = ""; // don't need message when a tiddler doesn't exist
 config.views.editor.defaultText = "";   // don't need message when creating a new tiddler 
 
 if (config.options.txtTheme == '')
-	config.options.txtTheme = 'MopiTheme';  // change this to set default theme
+	config.options.txtTheme = 'MopiTheme';
 
+// add to default GettingStarted
 config.shadowTiddlers.GettingStarted += "\n\nSee also [[Mopi]].";
+
+// add select theme and palette controls in default OptionsPanel
 config.shadowTiddlers.OptionsPanel = config.shadowTiddlers.OptionsPanel.replace(/(\n\-\-\-\-\nAlso see AdvancedOptions)/, "{{select{<<selectTheme>>\n<<selectPalette>>}}}$1");
 
-// used in ViewTemplate
+// these are used by ViewTemplate
 config.mopiDateFormat = 'DD/MM/YY';
 config.mopiJournalFormat = 'Journal DD/MM/YY';
-//config.mopiDateFormat = 'MM/0DD/YY';
-//config.mopiJournalFormat = 'Journal MM/0DD/YY';
 
 //}}}

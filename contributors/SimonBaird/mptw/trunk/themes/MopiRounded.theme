@@ -1,0 +1,27 @@
+|Name|MopiRounded|
+|Description|Mopi Theme with the default TiddlyWiki PageLayout|
+|ViewTemplate|MopiTheme##ViewTemplate|
+|EditTemplate|MopiTheme##EditTemplate|
+|PageTemplate|MopiTheme##PageTemplate|
+|StyleSheet|MopiRounded##StyleSheet|
+
+!StyleSheet
+
+[[MopiTheme##StyleSheet]]
+
+.tiddler,
+.sliderPanel,
+.button,
+.tiddlyLink,
+.tabContents
+{ -moz-border-radius: 1em; }
+
+.tab {
+	-moz-border-radius-topleft: 0.5em;
+	-moz-border-radius-topright: 0.5em;
+}
+#topMenu {
+	-moz-border-radius-bottomleft: 2em;
+	-moz-border-radius-bottomright: 2em;
+}
+

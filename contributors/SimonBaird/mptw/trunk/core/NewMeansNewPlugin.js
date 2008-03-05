@@ -6,6 +6,7 @@
 |Source:|http://mopi.tiddlyspot.com/empty.html#NewMeansNewPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
 |License|http://mopi.tiddlyspot.com/#TheBSDLicense|
+!!Note: I think this should be in the core
 ***/
 //{{{
 

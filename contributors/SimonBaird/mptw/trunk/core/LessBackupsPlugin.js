@@ -7,12 +7,10 @@
 |Author:|Simon Baird|
 |Email:|simon.baird@gmail.com|
 |License:|http://mopi.tiddlyspot.com/#TheBSDLicense|
-!!!Description
+!!Description
 You end up with just backup one per year, per month, per weekday, per hour, minute, and second.  So total number won't exceed about 200 or so. Can be reduced by commenting out the seconds/minutes/hours line from modes array
-
-!!!Notes
-Works in IE and Firefox only.  Algorithm by Daniel Baird. IE code by by Saq Imtiaz.
-!!!Code
+!!Notes
+Works in IE and Firefox only.  Algorithm by Daniel Baird. IE specific code by by Saq Imtiaz.
 ***/
 //{{{
 window.getSpecialBackupPath = function(backupPath) {
@@ -39,10 +37,9 @@ window.getSpecialBackupPath = function(backupPath) {
 
 		// the filename we will try
 		var specialBackupPath = backupPath.replace(/(\.)([0-9]+\.[0-9]+)(\.html)$/,
-						'$1'+now.formatString(modes[i][0]).toLowerCase()+'$3')
+				'$1'+now.formatString(modes[i][0]).toLowerCase()+'$3')
 
 		// open the file
-
 		try {
 			if (config.browser.isIE) {
 				var fsobject = new ActiveXObject("Scripting.FileSystemObject")
@@ -69,7 +66,7 @@ window.getSpecialBackupPath = function(backupPath) {
 
 		// expiry is used to tell if it's an 'old' one. Eg, if the month is June and there is a
 		// June file on disk that's more than an month old then it must be stale so overwrite
-		// note that "latest" should be always because the expiration period is zero (see above)
+		// note that "latest" should be always written because the expiration period is zero (see above)
 		var expiry = new Date(modDate + modes[i][1]);
 		if (!fileExists || now > expiry)
 			return specialBackupPath;
@@ -77,9 +74,9 @@ window.getSpecialBackupPath = function(backupPath) {
 }
 
 // hijack the core function
-window.getBackupPath_orig = window.getBackupPath;
+window.getBackupPath_mopi_orig = window.getBackupPath;
 window.getBackupPath = function(localPath) {
-	return getSpecialBackupPath(getBackupPath_orig(localPath));
+	return getSpecialBackupPath(getBackupPath_mopi_orig(localPath));
 }
 
 //}}}

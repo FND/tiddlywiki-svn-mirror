@@ -13,7 +13,7 @@ config.quickOpenTag = {
 	dropdownChar: (document.all ? "\u25bc" : "\u25be"), // the little one doesn't work in IE?
 
 	createTagButton: function(place,tag,excludeTiddler) {
-		// little hack so we can to <<tag PrettyTagName|RealTagName>>
+		// little hack so we can do this: <<tag PrettyTagName|RealTagName>>
 		var splitTag = tag.split("|");
 		var pretty = tag;
 		if (splitTag.length == 2) {
@@ -106,3 +106,4 @@ config.quickOpenTag = {
 config.quickOpenTag.init();
 
 //}}}
+

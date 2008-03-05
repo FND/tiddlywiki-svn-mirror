@@ -6,14 +6,14 @@
 |Source:|http://mopi.tiddlyspot.com/#InstantTimestampPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
 |License:|http://mopi.tiddlyspot.com/#TheBSDLicense|
-!Usage
+!!Usage
 If you enter {ts} in your tiddler content (without the spaces) it will be replaced with a timestamp when you save the tiddler. Full list of formats:
 * {ts} or {t} -> timestamp
 * {ds} or {d} -> datestamp
 * !ts or !t at start of line -> !!timestamp
 * !ds or !d at start of line -> !!datestamp
 (I added the extra ! since that's how I like it. Remove it from translations below if required)
-!Notes
+!!Notes
 * Change the timeFormat and dateFormat below to suit your preference.
 * See also http://mptw2.tiddlyspot.com/#AutoCorrectPlugin
 * You could invent other translations and add them to the translations array below.

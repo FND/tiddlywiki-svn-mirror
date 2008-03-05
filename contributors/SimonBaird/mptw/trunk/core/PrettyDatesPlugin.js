@@ -6,7 +6,7 @@
 |Source:|http://mopi.tiddlyspot.com/#PrettyDatesPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
 |License:|http://mopi.tiddlyspot.com/#TheBSDLicense|
-!Notes
+!!Notes
 * If you want to you can rename this plugin. :) Some suggestions: LastUpdatedPlugin, RelativeDatesPlugin, SmartDatesPlugin, SexyDatesPlugin.
 * Inspired by http://ejohn.org/files/pretty.js
 ***/
@@ -39,7 +39,8 @@ Date.prototype.formatString = function(template) {
 }
 
 // for Mopi. otherwise edit your ViewTemplate as required.
-// config.mopiDateFormat = 'pppp (MM/0DD/YY)'; 
+// config.mopiDateFormat = 'pppp (DD/MM/YY)'; 
 config.mopiDateFormat = 'pppp'; 
 
 //}}}
+

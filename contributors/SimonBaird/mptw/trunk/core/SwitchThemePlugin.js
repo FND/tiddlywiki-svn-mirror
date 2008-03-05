@@ -9,7 +9,7 @@
 !Notes
 * Borrows largely from ThemeSwitcherPlugin by Martin Budden http://www.martinswiki.com/#ThemeSwitcherPlugin
 * Theme is cookie based. But set a default by setting config.options.txtTheme in MopiConfigPlugin (for example)
-* Palette is not cookie based. It actually overwrites your ColorPalette tiddler when you select a palette so beware. 
+* Palette is not cookie based. It actually overwrites your ColorPalette tiddler when you select a palette, so beware. 
 !Usage
 * {{{<<selectTheme>>}}} makes a dropdown selector
 * {{{<<selectPalette>>}}} makes a dropdown selector
@@ -92,17 +92,18 @@ config.macros.selectTheme.updatePalette = function(title)
 
 config.macros.applyTheme = {
 	label: "apply",
-	prompt: "apply this theme or palette" // lazy
+	prompt: "apply this theme or palette" // i'm lazy
 };
 
 config.macros.applyTheme.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var useTiddler = params[0] ? params[0] : tiddler.title;
 	var btn = createTiddlyButton(place,this.label,this.prompt,config.macros.selectTheme.onClickTheme);
 	btn.setAttribute('theme',useTiddler);
-	btn.setAttribute('mode',macroName=="applyTheme"?"selectTheme":"selectPalette"); // a bit messy
+	btn.setAttribute('mode',macroName=="applyTheme"?"selectTheme":"selectPalette"); // a bit untidy here
 }
 
 config.macros.selectPalette = config.macros.selectTheme;
 config.macros.applyPalette = config.macros.applyTheme;
 
 //}}}
+
