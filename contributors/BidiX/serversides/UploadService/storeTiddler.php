@@ -21,13 +21,14 @@ No change needed under
 
 /***
  * storeTiddler.php - upload a tiddler to a TiddlyWiki file in this directory
- * version: 1.0.0 - 2008/02/24 - BidiX@BidiX.info
+ * version: 1.1.0 - 2008/03/05 - BidiX@BidiX.info
  * 
  * tiddler is POST as <FORM> with :
  *	FORM = 
  *		title=<the title of the tiddler>
  *		tiddler=<result of externalizeTiddler() : the div in StoreArea format>
- *		[fileName=<tiddlyWiki filename>] (default; index.html)
+ *		[oldTitle=<the previous title of the tiddler>] 
+ *		[fileName=<tiddlyWiki filename>] (default: index.html)
  *		[backupDir=<backupdir>] (default: .)
  *		[user=<user>] (no default)
  *		[password=<password>] (no default)
@@ -43,6 +44,8 @@ No change needed under
  *		Display a form for 
  *
  * Revision history
+ * V1.1.0 - 2008/03/05
+ * Delete tiddler with oldTitle
  * V1.0.0 - 2008/02/24
  * First public Version
  * V0.3.0 - 2008/02/23
@@ -73,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	</head>
 	<body>
 		<p>
-		<p>storeTiddler.php V 1.0.0
+		<p>storeTiddler.php V 1.1.0
 		<p>BidiX@BidiX.info
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
@@ -95,6 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 &lt;pre&gt;Type the text for &#x27;New Tiddler&#x27;&lt;/pre&gt;
 &lt;/div&gt;
 						</TEXTAREA></td>
+					</tr>
+					<tr>
+						<td align=RIGHT>Old Title:</td>
+						<td><input type=TEXT name="oldTitle" size=80 value=''></td>
 					</tr>
 					<tr>
 						<td align=RIGHT>fileName:</td>
@@ -244,22 +251,6 @@ exit;
  * parse and print a TiddlyWiki file
  */
 
-/*function replaceJSContentIn($content) {
-	if (preg_match ("/(.*?)<!--DOWNLOAD-INSERT-FILE:\"(.*?)\"--><script\s+type=\"text\/javascript\">(.*)/ms", $content,$matches)) {
-		$front = $matches[1];
-		$js = $matches[2];
-		$tail = $matches[3];
-		if (preg_match ("/<\/script>(.*)/ms", $tail,$matches2)) {		
-			$tail = $matches2[1];
-		}
-		$jsContent = "<script type=\"text/javascript\" src=\"$js\"></script>";
-		$tail = replaceJSContentIn($tail);
-		return($front.$jsContent.$tail);
-	}
-	else
-		return $content;
-}
-*/
 Function readTiddlyWiki($file) {
 	
 	if (file_exists($file)) {
@@ -272,7 +263,7 @@ Function readTiddlyWiki($file) {
 				$h=$matches[4];
 				$tiddlers[$matches[3]] = $matches[2];
 			}
-			$tail = $h;
+			$tail = ltrim($h);
 		}
 		else {
 			echo("The file '$file' isn't a valid TiddlyWiki");
@@ -295,10 +286,6 @@ Function writeTiddlyWiki($head,$tiddlers,$tail) {
 	$content .= $tail;
 	return $content;
 }
-
-# $destfile = $uploadDir . $filename;
-$destfile = "index.html";
-
 
 // var definitions
 $uploadDir = './';
@@ -378,9 +365,11 @@ if (file_exists($destfile) && ($options['backupDir'])) {
 if (file_exists($destfile)) {
 	list($head,$tiddlers,$tail) = readTiddlyWiki($destfile);
 	$title = $_POST['title'];
-	//print_r($tiddlers);
+	$oldTitle = $_POST['oldTitle'];
+	if ($oldTitle && ($title != $oldTitle)) {
+		unset($tiddlers[$oldTitle]);
+	}
 	$tiddlers[$title] = stripslashes($_POST['tiddler']);
-	//ksort($tiddlers);
 	$content = writeTiddlyWiki($head,$tiddlers,$tail);
 	$f = fopen($destfile,'w');
 	fwrite($f, $content );

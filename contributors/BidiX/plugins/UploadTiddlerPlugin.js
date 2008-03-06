@@ -1,8 +1,8 @@
 /***
 |''Name:''|UploadTiddlerPlugin|
 |''Description:''|Upload a tiddler and Update a remote TiddlyWiki |
-|''Version:''|1.0.0|
-|''Date:''|2008 02 24|
+|''Version:''|1.1.0|
+|''Date:''|2008 03 05|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadTiddlerPlugin|
 |''Usage:''|Uses {{{<<uploadOptions>>}}}<br>with those UploadTiddler Options : <br>chkUploadTiddler: <<option chkUploadTiddler>><br>txtUploadTiddlerStoreUrl: <<option txtUploadTiddlerStoreUrl>>|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
@@ -11,8 +11,8 @@
 ***/
 //{{{
 version.extensions.UploadTiddlerPlugin = {
-	major: 1, minor: 0, revision: 0, 
-	date: new Date("2008 02 24"),
+	major: 1, minor: 1, revision: 0, 
+	date: new Date("2008 03 05"),
 	source: 'http://tiddlywiki.bidix.info/#UploadTiddlerPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
 	coreVersion: '2.3.0'
@@ -26,7 +26,7 @@ bidix.uploadTiddler = {
 		storeTiddlerNotFound: "Script store tiddler '%0' not found",
 		tiddlerSaved: "Tiddler '%0' saved in '%1'"
 	},
-	upload: function(title,tiddler) {
+	upload: function(title,tiddler,oldTitle) {
 		var callback = function(status,params,responseText,url,xhr) {
 			if (xhr.status == httpStatus.NotFound) {
 				alert(bidix.uploadTiddler.messages.storeTiddlerNotFound.format([url]));
@@ -51,6 +51,7 @@ bidix.uploadTiddler = {
 			var form = "title="+encodeURIComponent(title);
 			form = form + "&tiddler="+encodeURIComponent(ExtTiddler);
 			var filename = (config.options['txtUploadFilename']?config.options['txtUploadFilename']:'index.html');
+			form = form +"&oldTitle="+encodeURIComponent(oldTitle);
 			form = form +"&fileName="+encodeURIComponent(filename);
 			form = form +"&backupDir="+encodeURIComponent(config.options['txtUploadBackupDir']);
 			form = form +"&user="+encodeURIComponent(config.options['txtUploadUserName']);
@@ -66,10 +67,12 @@ bidix.uploadTiddler = {
 	}
 }
 TiddlyWiki.prototype.saveTiddler_bidix = TiddlyWiki.prototype.saveTiddler;
-TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created) {
+TiddlyWiki.prototype.saveTiddler = function(oldTitle,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created) {
 	var tiddler = TiddlyWiki.prototype.saveTiddler_bidix.apply(this,arguments);
-	title = (newTitle?newTitle:title);
-	bidix.uploadTiddler.upload(title, tiddler);
+	var title = (newTitle?newTitle:oldTitle);
+	if (oldTitle == title)
+		oldTitle = null;
+	bidix.uploadTiddler.upload(title, tiddler, oldTitle);
 }
 TiddlyWiki.prototype.removeTiddler_bidix =TiddlyWiki.prototype.removeTiddler;
 TiddlyWiki.prototype.removeTiddler = function(title) {
