@@ -20,7 +20,9 @@ Getting all tiddler slices will return only those tasks have not been marked up 
 config.macros.dailyTasks = {
 	titlePrefix: 'DailyTasks_',
 	sliceName: 'task',
-	tag: 'dailytask'
+	tag: 'dailytask',
+	checkboxOnclickMacro: '<<checkbox config.macros.dailyTasks.completeTask>>',
+	checkboxOnclickMacroChecked: '<<checkbox config.macros.dailyTasks.completeTask true>>'
 };
 
 config.macros.dailyTasks.getDailyTasks = function() {
@@ -34,7 +36,7 @@ config.macros.dailyTasks.getDailyTasks = function() {
 };
 
 config.macros.dailyTasks.createDailyTaskTiddler = function(date) {
-	var day = date.formatString("DDD");
+	var day = date.formatString("DDD MMM YYYY");
 	var title = this.titlePrefix + day;
 	if(!store.tiddlerExists(title)) {
 		var t = new Tiddler(title);
@@ -42,23 +44,23 @@ config.macros.dailyTasks.createDailyTaskTiddler = function(date) {
 		var body = createTiddlyElement(null,"span");
 		for (var i=0; i<tasks.length; i++) {
 			var task = tasks[i];
-			createTiddlyText(createTiddlyElement(body,"span"),task+": ");
-			createTiddlyCheckbox(body,null,null,this.completeTask);
+			createTiddlyText(body,task+": ");
+			createTiddlyText(body,this.checkboxOnclickMacro);
 		}
-		t.text = "<html>"+body.innerHTML+"</html>";
+		t.text = body.textContent;
 		console.log(t.text);
 		store.saveTiddler(t.title,t.title,t.text,config.options.txtUserName);
-	}
-	return title;
+		return title;
+	} else
+		return false;
 };
 
 config.macros.dailyTasks.completeTask = function(ev) {
 	var e = ev ? ev : window.event;
+	console.log(e);
 	var target = resolveTarget(e);
-	if(target.checked)
-		target.checked = false;
-	else
-		target.checked = true;
+	console.log(target);
+	console.log(this);
 	// this now refers to the clicked element
 	var tiddlerElem = story.findContainingTiddler(this);
 	var title = tiddlerElem.getAttribute("tiddler");
@@ -66,16 +68,42 @@ config.macros.dailyTasks.completeTask = function(ev) {
 	var taskCompleted = textSpan.textContent;
 	// change the tiddler text and refresh the tiddler
 	var t = store.getTiddler(title);
-	var regexString = taskCompleted;
-	var taskRegex = new Regex(regexString,"m");
-	t.text.replace(taskRegex,"---$1---");
+	console.log(t);
+	var regexString = "("+taskCompleted+")";
+	console.log(regexString);
+	var taskRegex = new RegExp(regexString,"m");
+	t.text = t.text.replace(taskRegex,"--$1--");
+	//DEBUG: this line doesn't work
+	taskRegex = new RegExp(this.checkboxOnclickMacro,"m");
+	t.text = t.text.replace(taskRegex,this.checkboxOnclickMacroChecked);
 	store.saveTiddler(t.title,t.title,t.text,config.options.txtUserName,new Date(),t.tags,t.fields,true,t.created);
-	story.refreshTiddler(title);
+	story.refreshTiddler(title,null,true);
 };
 
 config.macros.dailyTasks.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var today = new Date();
 	var todayTiddler = this.createDailyTaskTiddler(today);
-	// THIS LINE ISN'T WORKING
-	story.displayTiddler(todayTiddler);
+	console.log(todayTiddler);
+	story.displayTiddler(place,todayTiddler);
+};
+
+// macro to add checkboxes inline with onlick behaviour
+config.macros.checkbox = {};
+
+config.macros.checkbox.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	var names = params[0] ? params[0].split(".") : null;
+	var checked = params[1] ? params[1] : false;
+	// function to break a string function reference down into an object reference
+	// stolen from config.macros.message (suggest core change if can find a way to escape need for closure)
+	var lookupMessage = function(root,nameIndex) {
+			if(names[nameIndex] in root) {
+				if(nameIndex < names.length-1)
+					return (lookupMessage(root[names[nameIndex]],nameIndex+1));
+				else
+					return root[names[nameIndex]];
+			} else
+				return null;
+	};
+	var onclick = lookupMessage(window,0);
+	var checkbox = createTiddlyCheckbox(place,null,checked,onclick);
 };
