@@ -30,7 +30,7 @@
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
 </div>
 </div>
-
+<div id='twitterbar' tiddler='TwitterBar' refresh='content'></div>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 <div id='sidebar'>
 <div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
@@ -47,7 +47,7 @@
 /*{{{*/
 	
 /* Debug Console */
-div#tiddlyconsole { width:100%; background-color:#333; color:#ca2;}
+div#tiddlyconsole { width:100%; background-color:#333; color:#ca2; display:none;}
 div#tiddlyconsole div.log { height:8em; overflow:auto;}
 div#tiddlyconsole div.log div.entry { line-height:1.4em; border-bottom:solid 1px #222;padding:2px;}
 div#tiddlyconsole p.message { width:100%; background-color:#222; color:#ccc; }
@@ -66,6 +66,7 @@ div.headerShadow span.siteSubtitle {color:#77776E;}
 
 .tiddler {background-color:#fff; margin:2em 1em 1em 1em; padding-bottom:1em}
 
+
 /* Sidebar */
 #sidebar {margin-top:1em;}
 #sidebarOptions {margin-bottom:1em;}
@@ -75,6 +76,11 @@ div.headerShadow span.siteSubtitle {color:#77776E;}
 
 
 /* Twitter */
+#twitterbar {display:block; background-color:#d7d7cE; margin:0px; padding:0.6em 0; text-align:right; }
+#twitterbar > a.button { background-color:#b7b7aE; margin:0 0 0 1px; padding:0.6em 2em; border-style:none; }
+#twitterbar > a.button:hover { background-color:#97978E; border-style:none; }
+
+
 .latestTweet div.microblog_update {font-size:0.8; margin:0; padding:0.4em 0; position:relative; }
 .latestTweet div.microblog_update img {width:2em; height:2em; border:solid 1px #ccc; padding:1px; position:absolute}
 .latestTweet div.microblog_update span.user {color:#669; margin-left:3em;}
@@ -88,6 +94,7 @@ div.headerShadow span.siteSubtitle {color:#77776E;}
 .twitterStream div.microblog_update span.date {color:#ccc; margin-left:1em}
 .twitterStream div.microblog_update span.text {color:#333; clear:left; margin-left:3em; display:block;}
 
+.tagging {display:hidden;}
 
 
 /*}}}*/
