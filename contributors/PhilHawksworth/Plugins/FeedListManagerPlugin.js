@@ -137,6 +137,9 @@ FeedListManager.prototype.next = function() {
 	this.currentPosition++;
 	if(this.currentPosition >= this.uris.length)
 		this.currentPosition = 0;
+	var now = new Date();
+	now = now.convertToYYYYMMDDHHMM();
+	this.lastIncrement = now;
 	return uri;
 };
 
