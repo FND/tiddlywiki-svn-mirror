@@ -164,6 +164,9 @@ FeedListManager.prototype.stats = function(uri) {
 		var uris = this.uris[uri];
 	else
 		var uris = this.uris;
+
+	console.log(uris);
+
 	var stats = null;
 	for(var u=0; u<uris.length; u++) {
 		FeedListManager.log(uris[u].uri +", called "+ uris[u].callCount + " times, last called at " + uris[u].lastCall);
@@ -174,6 +177,7 @@ FeedListManager.prototype.stats = function(uri) {
 // Purge the list of uris currently managed.
 FeedListManager.prototype.purge = function() {
 	this.uris = [];
+	this.currentPosition = 0;
 };
 
 } //# end of 'install only once'
