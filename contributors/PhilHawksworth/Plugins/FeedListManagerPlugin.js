@@ -125,7 +125,7 @@ FeedListManager.prototype.registered = function(uri) {
 FeedListManager.prototype.get = function(i) {
 	var u = this.uris[i];
 	var uri = null;
-	if(u)
+	if(u != null)
 		uri = u.uri;
 	return uri;
 };
@@ -138,9 +138,23 @@ FeedListManager.prototype.next = function() {
 	if(this.currentPosition >= this.uris.length)
 		this.currentPosition = 0;
 	var now = new Date();
-	now = now.convertToYYYYMMDDHHMM();
+	now = now.convertToYYYYMMDDHHMMSSMMM();
 	this.lastIncrement = now;
 	return uri;
+};
+
+
+// Make a note of a call to a given yri
+FeedListManager.prototype.logCall = function(uri) {
+	var p = this.registered(uri);
+	if(p == null)
+		return;
+	u = this.uris[p];
+	var now = new Date();
+	now = now.convertToYYYYMMDDHHMMSSMMM();
+	this.lastIncrement = now;
+	u.lastCall = now;
+	u.callCount++;
 };
 
 

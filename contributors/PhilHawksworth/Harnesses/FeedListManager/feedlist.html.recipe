@@ -1,7 +1,9 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 
 tiddler: settings.js
+
 tiddler: ../../Plugins/FeedListManagerPlugin.js
+
 tiddler: FeedListManagerTest.js
 tiddler: DefaultTiddlers.tiddler
 tiddler: MainMenu.tiddler
