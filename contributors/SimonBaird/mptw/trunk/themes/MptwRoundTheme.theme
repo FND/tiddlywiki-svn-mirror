@@ -1,13 +1,14 @@
-|Name|MopiRounded|
-|Description|Mopi Theme with the default TiddlyWiki PageLayout|
-|ViewTemplate|MopiTheme##ViewTemplate|
-|EditTemplate|MopiTheme##EditTemplate|
-|PageTemplate|MopiTheme##PageTemplate|
-|StyleSheet|MopiRounded##StyleSheet|
+|Name|MptwRounded|
+|Description|Mptw Theme with the default TiddlyWiki PageLayout|
+|ViewTemplate|MptwTheme##ViewTemplate|
+|EditTemplate|MptwTheme##EditTemplate|
+|PageTemplate|MptwTheme##PageTemplate|
+|StyleSheet|MptwRoundTheme##StyleSheet|
 
 !StyleSheet
+/*{{{*/
 
-[[MopiTheme##StyleSheet]]
+[[MptwTheme##StyleSheet]]
 
 .tiddler,
 .sliderPanel,
@@ -24,4 +25,6 @@
 	-moz-border-radius-bottomleft: 2em;
 	-moz-border-radius-bottomright: 2em;
 }
+
+/*}}}*/
 

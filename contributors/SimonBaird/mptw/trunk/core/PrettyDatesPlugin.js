@@ -3,9 +3,9 @@
 |Description:|Provides a new date format ('pppp') that displays times such as '2 days ago'|
 |Version:|1.0 ($Rev: 3646 $)|
 |Date:|$Date: 2008-02-27 02:34:38 +1000 (Wed, 27 Feb 2008) $|
-|Source:|http://mopi.tiddlyspot.com/#PrettyDatesPlugin|
+|Source:|http://mptw.tiddlyspot.com/#PrettyDatesPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
-|License:|http://mopi.tiddlyspot.com/#TheBSDLicense|
+|License:|http://mptw.tiddlyspot.com/#TheBSDLicense|
 !!Notes
 * If you want to you can rename this plugin. :) Some suggestions: LastUpdatedPlugin, RelativeDatesPlugin, SmartDatesPlugin, SexyDatesPlugin.
 * Inspired by http://ejohn.org/files/pretty.js
@@ -32,15 +32,15 @@ Date.prototype.prettyDate = function() {
 	else                      return Math.ceil(day_diff/365) + " years ago";
 }
 
-Date.prototype.formatString_orig_mopi = Date.prototype.formatString;
+Date.prototype.formatString_orig_mptw = Date.prototype.formatString;
 
 Date.prototype.formatString = function(template) {
-	return this.formatString_orig_mopi(template).replace(/pppp/,this.prettyDate());
+	return this.formatString_orig_mptw(template).replace(/pppp/,this.prettyDate());
 }
 
-// for Mopi. otherwise edit your ViewTemplate as required.
-// config.mopiDateFormat = 'pppp (DD/MM/YY)'; 
-config.mopiDateFormat = 'pppp'; 
+// for MPTW. otherwise edit your ViewTemplate as required.
+// config.mptwDateFormat = 'pppp (DD/MM/YY)'; 
+config.mptwDateFormat = 'pppp'; 
 
 //}}}
 

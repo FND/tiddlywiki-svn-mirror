@@ -3,9 +3,9 @@
 |Description:|A handy way to insert timestamps in your tiddler content|
 |Version:|1.0.9 ($Rev: 3646 $)|
 |Date:|$Date: 2008-02-27 02:34:38 +1000 (Wed, 27 Feb 2008) $|
-|Source:|http://mopi.tiddlyspot.com/#InstantTimestampPlugin|
+|Source:|http://mptw.tiddlyspot.com/#InstantTimestampPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
-|License:|http://mopi.tiddlyspot.com/#TheBSDLicense|
+|License:|http://mptw.tiddlyspot.com/#TheBSDLicense|
 !!Usage
 If you enter {ts} in your tiddler content (without the spaces) it will be replaced with a timestamp when you save the tiddler. Full list of formats:
 * {ts} or {t} -> timestamp
@@ -65,7 +65,7 @@ config.InstantTimestamp = {
 
 }; 
 
-TiddlyWiki.prototype.saveTiddler_mopi_instanttimestamp = TiddlyWiki.prototype.saveTiddler;
+TiddlyWiki.prototype.saveTiddler_mptw_instanttimestamp = TiddlyWiki.prototype.saveTiddler;
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields) {
 
 	tags = (typeof(tags) == "string") ? tags.readBracketedList() : tags;
@@ -80,7 +80,7 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 		}
 	}
 
-	return this.saveTiddler_mopi_instanttimestamp(title,newTitle,newBody,modifier,modified,tags,fields);
+	return this.saveTiddler_mptw_instanttimestamp(title,newTitle,newBody,modifier,modified,tags,fields);
 }
 
 // you can override these in StyleSheet 

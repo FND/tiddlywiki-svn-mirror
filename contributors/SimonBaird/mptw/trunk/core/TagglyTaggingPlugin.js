@@ -3,11 +3,11 @@
 |Description:|tagglyTagging macro is a replacement for the builtin tagging macro in your ViewTemplate|
 |Version:|3.1 ($Rev$)|
 |Date:|$Date$|
-|Source:|http://mopi.tiddlyspot.com/#TagglyTaggingPlugin|
+|Source:|http://mptw.tiddlyspot.com/#TagglyTaggingPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
-|License:|http://mopi.tiddlyspot.com/#TheBSDLicense|
+|License:|http://mptw.tiddlyspot.com/#TheBSDLicense|
 !Notes
-See http://mopi.tiddlyspot.com/#TagglyTagging
+See http://mptw.tiddlyspot.com/#TagglyTagging
 ***/
 //{{{
 config.taggly = {

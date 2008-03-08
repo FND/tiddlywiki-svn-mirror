@@ -1,0 +1,4 @@
+|Name|MptwStandard|
+|Description|Mptw Theme with the default TiddlyWiki PageLayout|
+|ViewTemplate|MptwTheme##ViewTemplate|
+|EditTemplate|MptwTheme##EditTemplate|

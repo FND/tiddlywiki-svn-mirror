@@ -1,10 +1,10 @@
-Name: Blue
+Name: MptwRed
 Background: #fff
 Foreground: #000
-PrimaryPale: #cdf
-PrimaryLight: #57c
-PrimaryMid: #114
-PrimaryDark: #012
+PrimaryPale: #eaa
+PrimaryLight: #c55
+PrimaryMid: #711
+PrimaryDark: #500
 SecondaryPale: #ffc
 SecondaryLight: #fe8
 SecondaryMid: #db4

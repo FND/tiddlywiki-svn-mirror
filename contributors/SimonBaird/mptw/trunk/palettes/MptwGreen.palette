@@ -1,10 +1,10 @@
-Name: Red
+Name: MptwGreen
 Background: #fff
 Foreground: #000
-PrimaryPale: #eaa
-PrimaryLight: #c55
-PrimaryMid: #711
-PrimaryDark: #500
+PrimaryPale: #9b9
+PrimaryLight: #385
+PrimaryMid: #031
+PrimaryDark: #020
 SecondaryPale: #ffc
 SecondaryLight: #fe8
 SecondaryMid: #db4

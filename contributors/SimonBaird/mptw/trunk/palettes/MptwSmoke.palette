@@ -1,16 +1,17 @@
-Name: Teal
+Name: MptwSmoke
 Background: #fff
 Foreground: #000
-PrimaryPale: #B5D1DF
-PrimaryLight: #618FA9
-PrimaryMid: #1a3844
+PrimaryPale: #aaa
+PrimaryLight: #777
+PrimaryMid: #111
 PrimaryDark: #000
 SecondaryPale: #ffc
 SecondaryLight: #fe8
 SecondaryMid: #db4
 SecondaryDark: #841
-TertiaryPale: #f8f8f8
-TertiaryLight: #bbb
+TertiaryPale: #eee
+TertiaryLight: #ccc
 TertiaryMid: #999
-TertiaryDark: #888
+TertiaryDark: #666
 Error: #f88
+

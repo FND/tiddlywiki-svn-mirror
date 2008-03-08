@@ -3,9 +3,9 @@
 |Description:|Changes tag links to make it easier to open tags as tiddlers|
 |Version:|3.0.1 ($Rev$)|
 |Date:|$Date$|
-|Source:|http://mopi.tiddlyspot.com/#QuickOpenTagPlugin|
+|Source:|http://mptw.tiddlyspot.com/#QuickOpenTagPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
-|License:|http://mopi.tiddlyspot.com/#TheBSDLicense|
+|License:|http://mptw.tiddlyspot.com/#TheBSDLicense|
 ***/
 //{{{
 config.quickOpenTag = {

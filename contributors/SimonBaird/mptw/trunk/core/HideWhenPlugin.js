@@ -3,9 +3,9 @@
 |Description:|Allows conditional inclusion/exclusion in templates|
 |Version:|3.0 ($Rev$)|
 |Date:|$Date$|
-|Source:|http://mopi.tiddlyspot.com/#HideWhenPlugin|
+|Source:|http://mptw.tiddlyspot.com/#HideWhenPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
-|License:|http://mopi.tiddlyspot.com/#TheBSDLicense|
+|License:|http://mptw.tiddlyspot.com/#TheBSDLicense|
 For use in ViewTemplate and EditTemplate. Example usage:
 {{{<div macro="showWhenTagged Task">[[TaskToolbar]]</div>}}}
 {{{<div macro="showWhen tiddler.modifier == 'BartSimpson'"><img src="bart.gif"/></div>}}}

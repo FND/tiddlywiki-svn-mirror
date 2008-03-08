@@ -3,10 +3,10 @@
 |Description:|Intelligently limit the number of backup files you create|
 |Version:|3.0 ($Rev: 2320 $)|
 |Date:|$Date: 2007-06-18 22:37:46 +1000 (Mon, 18 Jun 2007) $|
-|Source:|http://mopi.tiddlyspot.com/#LessBackupsPlugin|
+|Source:|http://mptw.tiddlyspot.com/#LessBackupsPlugin|
 |Author:|Simon Baird|
 |Email:|simon.baird@gmail.com|
-|License:|http://mopi.tiddlyspot.com/#TheBSDLicense|
+|License:|http://mptw.tiddlyspot.com/#TheBSDLicense|
 !!Description
 You end up with just backup one per year, per month, per weekday, per hour, minute, and second.  So total number won't exceed about 200 or so. Can be reduced by commenting out the seconds/minutes/hours line from modes array
 !!Notes
@@ -74,9 +74,9 @@ window.getSpecialBackupPath = function(backupPath) {
 }
 
 // hijack the core function
-window.getBackupPath_mopi_orig = window.getBackupPath;
+window.getBackupPath_mptw_orig = window.getBackupPath;
 window.getBackupPath = function(localPath) {
-	return getSpecialBackupPath(getBackupPath_mopi_orig(localPath));
+	return getSpecialBackupPath(getBackupPath_mptw_orig(localPath));
 }
 
 //}}}

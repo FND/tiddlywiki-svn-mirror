@@ -3,9 +3,9 @@
 |Description:|Creates the new here and new journal macros|
 |Version:|3.0 ($Rev$)|
 |Date:|$Date$|
-|Source:|http://mopi.tiddlyspot.com/#NewHerePlugin|
+|Source:|http://mptw.tiddlyspot.com/#NewHerePlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
-|License|http://mopi.tiddlyspot.com/#TheBSDLicense|
+|License|http://mptw.tiddlyspot.com/#TheBSDLicense|
 ***/
 //{{{
 merge(config.macros, {

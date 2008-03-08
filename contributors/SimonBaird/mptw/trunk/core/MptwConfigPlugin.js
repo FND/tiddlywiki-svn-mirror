@@ -1,12 +1,12 @@
 /***
-|Name:|MopiConfigPlugin|
-|Description:|Miscellaneous tweaks used by Mopi|
+|Name:|MptwConfigPlugin|
+|Description:|Miscellaneous tweaks used by MPTW|
 |Version:|1.0 ($Rev: 3646 $)|
 |Date:|$Date: 2008-02-27 02:34:38 +1000 (Wed, 27 Feb 2008) $|
-|Source:|http://mopi.tiddlyspot.com/#MopiConfigPlugin|
+|Source:|http://mptw.tiddlyspot.com/#MptwConfigPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
-|License:|http://mopi.tiddlyspot.com/#MopiConfigPlugin|
-!!Note: instead of editing this you should put overrides in MopiUserConfigPlugin
+|License:|http://mptw.tiddlyspot.com/#MptwConfigPlugin|
+!!Note: instead of editing this you should put overrides in MptwUserConfigPlugin
 ***/
 //{{{
 var originalReadOnly = readOnly;
@@ -17,16 +17,16 @@ config.views.wikified.defaultText = ""; // don't need message when a tiddler doe
 config.views.editor.defaultText = "";   // don't need message when creating a new tiddler 
 
 if (config.options.txtTheme == '')
-	config.options.txtTheme = 'MopiTheme';
+	config.options.txtTheme = 'MptwTheme';
 
 // add to default GettingStarted
-config.shadowTiddlers.GettingStarted += "\n\nSee also [[Mopi]].";
+config.shadowTiddlers.GettingStarted += "\n\nSee also [[MPTW]].";
 
 // add select theme and palette controls in default OptionsPanel
 config.shadowTiddlers.OptionsPanel = config.shadowTiddlers.OptionsPanel.replace(/(\n\-\-\-\-\nAlso see AdvancedOptions)/, "{{select{<<selectTheme>>\n<<selectPalette>>}}}$1");
 
 // these are used by ViewTemplate
-config.mopiDateFormat = 'DD/MM/YY';
-config.mopiJournalFormat = 'Journal DD/MM/YY';
+config.mptwDateFormat = 'DD/MM/YY';
+config.mptwJournalFormat = 'Journal DD/MM/YY';
 
 //}}}

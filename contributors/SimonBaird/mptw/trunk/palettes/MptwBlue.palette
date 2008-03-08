@@ -1,10 +1,10 @@
-Name: Green
+Name: MptwBlue
 Background: #fff
 Foreground: #000
-PrimaryPale: #9b9
-PrimaryLight: #385
-PrimaryMid: #031
-PrimaryDark: #020
+PrimaryPale: #cdf
+PrimaryLight: #57c
+PrimaryMid: #114
+PrimaryDark: #012
 SecondaryPale: #ffc
 SecondaryLight: #fe8
 SecondaryMid: #db4
