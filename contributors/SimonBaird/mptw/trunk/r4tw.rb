@@ -131,7 +131,7 @@ class Tiddler
       '.palette' => %[systemPalette],
       '.html'    => %[html],
       '.css'     => %[css],
-      '.pub'     => %[contentPublisher],
+      '.pub'     => %[systemServer],
   }
   
   attr_accessor :fields
