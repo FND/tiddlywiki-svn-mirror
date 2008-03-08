@@ -21,7 +21,7 @@ make_tw {
     'taggly.sortby'=>'created',
     'taggly.sortorder'=>'desc',
   })
-  tiddlers.each { |t| t.fields['modifier'] = 'Mopi' }
+  tiddlers.each { |t| t.fields['modifier'] = 'MPTW' }
   to_file               'upload/empty.html'
 }
 
