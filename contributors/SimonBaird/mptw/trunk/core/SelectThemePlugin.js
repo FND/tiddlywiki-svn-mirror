@@ -1,9 +1,9 @@
 /***
-|Name:|SwitchThemePlugin|
+|Name:|SelectThemePlugin|
 |Description:|Lets you easily switch theme and palette|
 |Version:|1.0 ($Rev: 3646 $)|
 |Date:|$Date: 2008-02-27 02:34:38 +1000 (Wed, 27 Feb 2008) $|
-|Source:|http://mptw.tiddlyspot.com/#SwitchThemePlugin|
+|Source:|http://mptw.tiddlyspot.com/#SelectThemePlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
 |License:|http://mptw.tiddlyspot.com/#TheBSDLicense|
 !Notes
