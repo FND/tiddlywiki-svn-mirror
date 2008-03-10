@@ -27,7 +27,7 @@ config.macros.testMacro.test = function(title,params)
 	//displayMessage("Testing complete");
 	//return;
 	config.macros.testMacro.testRawPipes(title,params);
-	config.macros.testMacro.testDoubleBraces(title,params);
+	/*config.macros.testMacro.testDoubleBraces(title,params);
 	config.macros.testMacro.testTripleBraces(title,params);
 	config.macros.testMacro.testRawPipes(title,params);
 	config.macros.testMacro.testVariables(title,params);
@@ -35,16 +35,16 @@ config.macros.testMacro.test = function(title,params)
 	config.macros.testMacro.testBasic(title,params);
 	config.macros.testMacro.testExamples(title,params);
 	config.macros.testMacro.testTableBraces(title,params);
-	displayMessage("Testing complete");
+	*/displayMessage("Testing complete");
 };
 
 tpTest = function(templateName,content,tag,expected)
 {
 //console.log('content:'+content);
 console.log('test:'+tag);
-	var mwt = new MediaWikiTemplate();
 	var tiddler = store.fetchTiddler('Test');
 	var namespace = 'Template:';
+	var mwt = new MediaWikiTemplate();
 	var template = new Tiddler(namespace+mwt.normalizeTitle(templateName));
 	template.text = content;
 	store.addTiddler(template);
@@ -60,8 +60,8 @@ tp2Test = function(tag,expected)
 {
 //console.log('content:'+content);
 console.log('test:'+tag);
-	var mwt = new MediaWikiTemplate();
 	var tiddler = store.fetchTiddler('Test');
+	var mwt = new MediaWikiTemplate();
 	text = mwt.transcludeTemplates(tag,tiddler);
 	if(expected && text!=expected) {
 		displayMessage('Error:'+tag);
@@ -121,6 +121,7 @@ console.log('rpTest:'+text+'    ('+expected+')');
 
 config.macros.testMacro.testRawPipes = function(title,params)
 {
+	/*rpTest('abcdefgh',0,-1);
 	rpTest('abcd|efgh',0,4);
 	rpTest('abc[[d|e]]f|gh',0,11);
 	rpTest('abc{{d|e}}f|gh',0,11);
@@ -129,6 +130,10 @@ config.macros.testMacro.testRawPipes = function(title,params)
 	rpTest('abc[[{{d|e}}{{{|}}}]]f|gh',0,22);
 	rpTest('abc[[{{d{{|}}e}}{{{|}}}]]f|gh',0,26);
 	rpTest('abc{{d|[[e]]}}{{{|}}}f|gh',0,22);
+	*/
+	rpTest('[[Semimajor axis|Avg. distance from Sun]]',0,-1);
+	rpTest('aa[[Semimajor axis|Avg. distance from Sun]]bb',0,-1);
+	rpTest('aa[[Semimajor axis|Avg. distance from Sun]]bb',2,-1);
 };
 
 config.macros.testMacro.testDoubleBraces = function(title,params)

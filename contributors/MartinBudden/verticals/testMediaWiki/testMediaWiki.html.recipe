@@ -5,8 +5,16 @@ tiddler: settings.js
 tiddler: Home.tiddler
 tiddler: Test.tiddler
 tiddler: testMacro.js
+tiddler: Table.tiddler
+tiddler: TestInfobox.tiddler
 tiddler: MediaWikiTemplatePlugin.js
+tiddler: MediaWikiFormatterPlugin.js
 tiddler: DownloadThisTiddlyWiki.tiddler
+tiddler: ../../testformatters/testMediaWikiBasic.tiddler
+tiddler: ../../testformatters/testMediaWikiFormat.tiddler
+tiddler: ../../testformatters/testMediaWikiTable4.tiddler
+tiddler: ../../testformatters/testMediaWikiTableNested.tiddler
+tiddler: ../../testformatters/testMediaWikiTemplateFunctions.tiddler
 recipe: shadows/split.recipe
 tiddler: ../tiddlypedia/StyleSheet.tiddler
 tiddler: ../tiddlypedia/OptionsPanel.tiddler
@@ -19,7 +27,7 @@ tiddler: ../../tiddlers/Logo.tiddler
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
-tiddler: ../../formatters/MediaWikiFormatterPlugin.js
+#tiddler: ../../formatters/MediaWikiFormatterPlugin.js
 tiddler: ../../plugins/DisableWikiLinksPlugin.js
 tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
 tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
@@ -32,4 +40,5 @@ tiddler: ../../feeds/MetaWikimediaDemoTemplateFeed.tiddler
 recipe: ../../test/templates/split.recipe
 tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js tags="systemConfig excludeLists excludeSearch"
 tiddler: ../SolarSystem/templates/Template_Planet_Infobox_Mercury.tiddler
+tiddler: ../SolarSystem/templates/Template_Infobox_Planet_Abridged.tiddler
 tiddler: ../MediaWikiContent/airports/templates/Template_Infobox_Airport.tiddler
