@@ -1,0 +1,21 @@
+!Project
+<!--{{{-->
+<span macro="toggleTag Complete . -"></span>
+<span macro="multiToggleTag ProjectStatus longVersion:on"></span>
+<span macro="singleToggleTag tag:Starred"></span>
+<br/>
+Area:<span macro="multiSelectTag Area"></span>
+Realm:<span macro="multiSelectTag Realm"></span>
+<!--}}}-->
+
+!Action
+<!--{{{-->
+<span macro="toggleTag Done . -"></span>
+<span macro="multiToggleTag ActionStatus longVersion:on"></span>
+<span macro="singleToggleTag tag:Starred"></span>
+<br/>
+Context:<span macro="multiSelectTag Context"></span>
+Project:<span macro="multiSelectTag Project"></span>
+Realm:<span macro="multiSelectTag Realm"></span>
+<!--}}}-->
+

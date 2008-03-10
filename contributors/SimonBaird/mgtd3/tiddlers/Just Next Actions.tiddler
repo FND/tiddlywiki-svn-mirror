@@ -1,5 +1,0 @@
-<html>
-<div macro="mgtdList startTag:Action tags:'Next && !Done' view:ActionProj mode:global
-	where:tiddler.hasActiveProject()
-	"></div>
-</html>

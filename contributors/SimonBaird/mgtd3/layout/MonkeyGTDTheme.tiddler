@@ -1,0 +1,290 @@
+|Name|MonkeyGTD|
+|Description|MonkeyGTD Theme|
+|PageTemplate|MonkeyGTDTheme##PageTemplate|
+|StyleSheet|MonkeyGTDTheme##StyleSheet|
+|ViewTemplate|MonkeyGTDTheme##ViewTemplate|
+|EditTemplate|MptwTheme##EditTemplate|
+
+!ViewTemplate
+<!--{{{-->
+<div macro="showWhen tiddler.tags.containsAny(config.mGTD.specialTags)">
+	[[MptwTheme##ViewTemplateToolbar]]
+	<div class='titleContainer viewer'>
+		<span class='title' macro='view title'></span>
+		[[MonkeyGTDTheme##TitleButtons]]
+		[[MonkeyGTDTheme##Subtitle]]
+	</div>
+	[[MonkeyGTDTheme##Panel]]
+	<div macro="showWhen tiddler.text != ''">
+		<div class='viewer'>Notes:</div>
+		<div class='viewer postityellow' macro='view text wikified'></div>
+	</div>
+	<div class='viewer'>[[MonkeyGTDTheme##Dashboard]]</div>
+</div>
+<div macro="hideWhen tiddler.tags.containsAny(config.mGTD.specialTags)">
+	<!--- use standard template for non gtd tiddlers --->
+	[[MptwTheme##ViewTemplate]]
+</div>
+<!--}}}-->
+
+!TitleButtons
+<!--{{{-->
+<span macro="showWhenTagged Project">[[TitleButtons##Project]]</span>
+<span macro="showWhenTagged Action">[[TitleButtons##Action]]</span>
+<!--}}}-->
+
+!Panel
+<!--{{{-->
+<!--- nothing as yet? --->
+<!--}}}-->
+
+!Dashboard
+<!--{{{-->
+<div macro="showWhenTagged Project" class="viewer"          >[[Dashboards##Project]]</div>
+<div macro="showWhenTagged Area" class="viewer"             >[[Dashboards##Area]]</div>
+<div macro="showWhenTagged Realm" class="viewer"            >[[Dashboards##Realm]]</div>
+<div macro="showWhenTagged Context" class="viewer"          >[[Dashboards##Context]]</div>
+
+<div macro="showWhenTitleIs 'Action Dashboard'"             >[[Dashboards##Action Dashboard]]</div>
+<div macro="showWhenTitleIs 'Action Dashboard by Context'"  >[[Dashboards##Action Dashboard by Context]]</div>
+<div macro="showWhenTitleIs 'Just Next Actions'"            >[[Dashboards##Just Next Actions]]</div>
+<div macro="showWhenTitleIs 'Just Next Actions by Context'" >[[Dashboards##Just Next Actions by Context]]</div>
+<div macro="showWhenTitleIs 'Projects'"                     >[[Dashboards##Projects]]</div>
+<!--- many more. but fix DRY issues --->
+<!--}}}-->
+
+!Subtitle
+<span class='subtitle'>
+	Updated
+	<span macro='view modified date {{config.mptwDateFormat?config.mptwDateFormat:"MM/0DD/YY"}}'></span>
+	(<span macro='message views.wikified.createdPrompt'></span>
+	<span macro='view created date {{config.mptwDateFormat?config.mptwDateFormat:"MM/0DD/YY"}}'></span>)
+</span>
+
+!PageTemplate
+<!--{{{-->
+<div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'>
+	<div class='header2'>MonkeyGTD <span style="font-size:75%;font-weight:normal;">3.0</span></div>
+</div>
+<div macro='gradient vert [[ColorPalette::PrimaryMid]] [[ColorPalette::PrimaryDark]]'>
+	<div class='mtoolbar'>
+	<div style="float:right" id='sidebarSwitcher' macro="multiToggleTag title:MgtdSettings tag:Sidebar refresh:page"><span class="label">MENU</span></div>
+	<div id='arealmSelector' macro="groupOfSingleToggleTags tag:Realm title:MgtdSettings refresh:page"><span class="label">REALM</span></div>
+	</div>
+</div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='sidebar'>[[MonkeyGTDTheme##SidebarMenus]]</div>
+<div id='displayArea'>
+	<div id='messageArea'></div>
+	<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+!SidebarMenus
+<!--{{{-->
+<div id='twsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('TW')">
+	<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+	<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='twsidebar' macro="hideWhen store.fetchTiddler('MgtdSettings').tags.contains('TW')">
+	<div id='sidebarOptions' refresh='content' tiddler='CommonMenu'></div>
+</div>
+<div id='monkeygtdsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('Do Work')">
+	<div class="menu" refresh='content' tiddler='DoWorkMenu'></div>
+</div>
+<div id='monkeygtdsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('Review')">
+	<div class='menu' refresh='content' tiddler='ReviewMenu'></div>
+</div>
+<div id='monkeygtdsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('Process Inbox')">
+	<div class='menu' refresh='content' tiddler='ProcessInboxMenu'></div>
+</div>
+<div id='monkeygtdsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('Collect Items')">
+	<div class='menu' refresh='content' tiddler='CollectItemsMenu'></div>
+</div>
+<div id='monkeygtdsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('Config')">
+	<div class='menu' refresh='content' tiddler='ConfigMenu'></div>
+</div>
+<!--}}}-->
+
+!StyleSheet
+/*{{{*/
+
+[[MptwTheme##StyleSheet]]
+
+.header2 {
+	background:url(http://simonbaird.com/images/monkeygtd/logo-trans.gif) no-repeat -15px 2px transparent;
+	padding:5px;
+	padding-left:80px;
+	color:white;
+	font-size:1.3em;
+	font-weight:bold;
+}
+
+#backstageShow { color:[[ColorPalette::PrimaryLight]] ! important; }
+
+/* the png is superior due to alpha transparency. stupid IE */
+html>body .header2 {background-image:url(http://simonbaird.com/images/monkeygtd/logo-trans.png)}
+
+.headerShadow, .headerForeground {
+	padding:0;
+}
+
+.mtoolbar { padding:0.1em; padding-top:0.5em;}
+.mtoolbar .button { margin-left:0.5em; padding:0.2em 0.3em; margin:0.2em 0.3em;  }
+.mtoolbar .button.off {background-color:[[ColorPalette::TertiaryMid]]!important; color:black; font-weight:normal;border-color:[[ColorPalette::PrimaryDark]];}
+.mtoolbar .button.on {background-color:[[ColorPalette::TertiaryLight]]; color:black; border-color:[[ColorPalette::PrimaryDark]];} 
+
+.mtoolbar .label { font-size:80%; color:white; padding:0.5em;}
+
+#displayArea {
+	margin: 1em 15.7em 0em 1em; /* use the freed up space */
+}
+
+#sidebar, #sidebarOptions
+	width:18em;
+}
+
+#sidebarTabs {
+	width:100%;
+}
+
+#mainMenu { display:none; }
+
+#sidebar .menu a {
+	font-size:140%;
+}
+
+#sidebar .menu ul {
+	padding-left:2em;
+	padding-top:0;
+	margin-top:0;
+}
+#sidebar .menu h1,
+#sidebar .menu h2
+{
+	color:[[ColorPalette::PrimaryDark]];
+	background-color:[[ColorPalette::TertiaryLight]];
+	margin:0;
+	padding:0;
+	margin-top:0.25em;
+}
+#sidebar .menu h1 {
+	font-size:180%;
+}
+#sidebar .menu h2 {
+	font-size:140%;
+	margin-left:0.5em;
+}
+
+
+.viewer table {
+	border-style:none ! important;
+	border-collapse:no-collapse;
+	width:100%;
+	padding:0; margin:0;
+}
+
+.viewer table td {
+	border-style:none ! important;
+	width:50%;
+	vertical-align:top;
+	padding-right:1em;
+}
+
+.viewer table tr {
+	border-style:none ! important;
+}
+
+.viewer table.twocol td {
+	width:50%;
+}
+.viewer table.threecol td {
+	width:33%;
+}
+
+
+.mgtdList h1 {
+	border-bottom:1px solid #aaa;
+	color:#444;
+	font-size:110%;
+	margin:0;
+	padding:0;
+}
+
+.mgtdList h1 br {
+	display:none;
+}
+
+.mgtdList h1 .button {
+	border-color:transparent;
+	font-weight:bold;
+	font-size:110%;
+}
+
+.mgtdList h1 .button:hover {
+	border-color:#999;
+}
+
+.mgtdList h2 {
+	border-style:none!important;
+	font-size:120%;
+	margin:0; padding:0;
+	margin-top:0.7em;
+	margin-left:-0.2em;
+	color:#444;
+}
+
+.mgtdList {
+	padding:0;
+	padding-right:1em;
+}
+
+.mgtdList .innerList {
+	padding:0.5em 1em 0em 1em;
+}
+
+.mgtdList .action .tiddlyLinkExisting {
+	font-weight: normal ! important;
+}
+
+.mgtdList .action .tiddlyLink {
+	font-weight: normal ! important;
+}
+
+.mgtdList .button {
+	font-weight: normal;
+	margin:1px;
+}
+
+body {
+	background: [[ColorPalette::TertiaryLight]];
+}
+
+.title { font-size:150%; color:black; }
+
+#monkeygtdsidebar h1 {
+	font-size:120%; color:green;
+}
+
+.none { color:[[ColorPalette::TertiaryMid]]; font-size:90%; font-style:italic; }
+
+.postityellow {
+	background-color:#ffa;
+	border:2px solid #dd8;
+	padding-left:1em;
+	padding-bottom:0.5em;
+}
+.postityellow h1,
+.postityellow h2,
+.postityellow h3,
+.postityellow h4
+{
+	background-color:#ffa;
+	border-style:none;
+}
+
+/* for user styles */
+[[StyleSheet]]
+
+/*}}}*/
+

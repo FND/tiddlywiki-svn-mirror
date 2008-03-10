@@ -1,0 +1,138 @@
+
+!Project
+<!--{{{-->
+
+<table class="twocol"><tr><td>
+<div macro="mgtdList title:'Next Actions' tags:'Action && Next && !Done' view:ActionProj
+	group:Context
+	gView:Context
+	where:tiddler.hasActiveProject()
+	"></div>
+
+<div macro="mgtdList title:'Waiting Actions' tags:'Action && [(Waiting For)] && !Done' view:ActionProj
+	group:Context
+	gView:Context
+	where:tiddler.hasActiveProject()
+	"></div>
+
+</td><td>
+
+<div macro="mgtdList title:'Future Actions' tags:'Action && Future && !Done' view:ActionProj
+	group:Context
+	gView:Context
+	where:tiddler.hasActiveProject()
+	"></div>
+
+<div macro="mgtdList title:'Done Actions' tags:'Action && Done' view:DoneAction
+	"></div>
+
+</td></tr></table>
+
+<!--}}}-->
+
+!Action Dashboard
+<!--{{{-->
+<table class="threecol"><tr><td>
+
+<div macro="mgtdList title:'Next Actions' startTag:Action tags:'Next && !Done' view:ActionProj mode:global
+	where:tiddler.hasActiveProject()
+	newButton:'NewActionButton Next [[]]'
+	"></div>
+
+<div macro="mgtdList title:'Waiting Actions' startTag:Action tags:'[(Waiting For)] && !Done' view:ActionProj  mode:global
+	where:tiddler.hasActiveProject()
+	newButton:'NewActionButton [[Waiting For]] [[]]'
+	"></div>
+
+</td><td>
+
+<div macro="mgtdList title:'Future Actions' startTag:Action tags:'Future && !Done' view:ActionProj mode:global
+	where:tiddler.hasActiveProject()
+	newButton:'NewActionButton Future'
+	"></div>
+
+<div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
+	"></div>
+
+</td><td>
+<div macro="mgtdList title:'Active Projects' startTag:Project tags:'!Complete && !Someday/Maybe' view:ProjectBare mode:global
+	"></div>
+</td>
+</tr></table>
+<!--}}}-->
+
+!Action Dashboard by Context 
+<!--{{{-->
+<table class="threecol"><tr><td>
+
+<div macro="mgtdList title:'Next Actions' startTag:Action tags:'Next && !Done' view:ActionProj mode:global
+	group:Context
+	gView:Context
+	where:tiddler.hasActiveProject()
+	newButton:'NewActionButton Next [[]]'
+	"></div>
+
+<div macro="mgtdList title:'Waiting Actions' startTag:Action tags:'[(Waiting For)] && !Done' view:ActionProj mode:global
+	group:Context
+	gView:Context
+	where:tiddler.hasActiveProject()
+	newButton:'NewActionButton [[Waiting For]] [[]]'
+	"></div>
+
+</td><td>
+
+<div macro="mgtdList title:'Future Actions' startTag:Action tags:'Future && !Done' view:ActionProj mode:global
+	group:Context
+	gView:Context
+	where:tiddler.hasActiveProject()
+	newButton:'NewActionButton Future [[]]'
+	"></div>
+
+<div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
+	"></div>
+
+</td><td>
+
+<div macro="mgtdList title:'Active Projects' startTag:Project tags:'!Complete && !Someday/Maybe' view:ProjectBare mode:global
+	"></div>
+
+</td></tr></table>
+<!--}}}-->
+
+!Just Next Actions
+<!--{{{-->
+<div macro="mgtdList startTag:Action tags:'Next && !Done' view:ActionProj mode:global
+	where:tiddler.hasActiveProject()
+	"></div>
+<!--}}}-->
+
+!Just Next Actions by Context
+<!--{{{-->
+<div macro="mgtdList startTag:Action tags:'Next && !Done' view:ActionProj mode:global
+	group:Context
+	gView:Context
+	where:tiddler.hasActiveProject()
+	"></div>
+<!--}}}-->
+
+!Projects
+<table class="threecol"><tr><td>
+
+<div macro="mgtdList title:'Active Projects' startTag:Project tags:'Active && !Complete' view:Project mode:global
+	newButton:'NewProjectButton Active'
+	"></div>
+
+</td><td>
+
+<div macro="mgtdList title:'Someday/Maybe Projects' startTag:Project tags:'Someday/Maybe && !Complete' view:Project mode:global
+	newButton:'NewProjectButton Someday/Maybe'
+	"></div>
+
+</td><td>
+
+<div macro="mgtdList title:'Completed Projects' startTag:Project tags:'Complete' view:Project mode:global
+	"></div>
+
+</td></tr></table>
+
+</html>

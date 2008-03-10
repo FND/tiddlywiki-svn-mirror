@@ -1,4 +1,6 @@
 
+// requires MgtdIndexedTags for the fastTagged and getByIndex methods
+
 merge(Tiddler.prototype,{
 
 	setTagFromGroup: function(tagGroup,tag) {

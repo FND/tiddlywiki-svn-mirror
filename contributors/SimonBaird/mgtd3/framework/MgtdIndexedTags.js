@@ -7,16 +7,8 @@ config.indexedTags = {
 	// will be populated with our tag indexes
 	indexes: {},
 
-	tagsToIndex: [
-		"Project",
-		"Area",
-		"Realm",
-		"Context",
-		"ActionStatus",
-		"ProjectStatus",
-		"GTDComponent",
-		"Sidebar"
-	],
+	// will be populated with the tags that need indexing
+	tagsToIndex: [],
 
 	saveTiddlerHijack: function(title,newTitle,newBody,modifier,modified,tags,fields) {
 		var before = store.getTiddler(title);
@@ -142,11 +134,12 @@ config.indexedTags = {
 		}
 	},
 
-	init: function() {
+	init: function(tagsToIndex) {
 
 		merge(window,this.globalMethods);
 		merge(Tiddler.prototype,this.tiddlerMethods);
 
+		this.tagsToIndex = tagsToIndex;
 		this.initTagLists();
 		this.initIndexes();
 
@@ -160,5 +153,4 @@ config.indexedTags = {
 	}
 };
 
-config.indexedTags.init();
-
+config.indexedTags.init(config.mGTD.tagsToIndex);

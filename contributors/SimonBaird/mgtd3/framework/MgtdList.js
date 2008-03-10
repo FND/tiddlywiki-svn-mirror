@@ -33,7 +33,7 @@ merge(config.macros,{
 			var pp = paramString.parseParams("tags",null,true);
 
 			// title of the list
-			var title = getParam(pp,"title","local");
+			var title = getParam(pp,"title","");
 
 			// local means only look at tiddlers tagged with this tiddler
 			// global means look at every tiddler
@@ -85,6 +85,7 @@ merge(config.macros,{
 
 			var listRefreshContainer = createTiddlyElement(place,"div");
 
+			// TODO one big attribute?
 			listRefreshContainer.setAttribute("refresh","macro");
 			listRefreshContainer.setAttribute("macroName",macroName);
 
@@ -131,7 +132,8 @@ merge(config.macros,{
 
 			wikifyThis += "{{mgtdList{\n";
 
-			wikifyThis += "!"+title
+            if (title != "")
+			    wikifyThis += "!"+title
 
 			if (newButton != "") {
 				var newButtonParams = newButton.readBracketedList();
@@ -142,9 +144,12 @@ merge(config.macros,{
 				wikifyThis += " <<tiddler "+newButtonTiddler+" with:[["+config.macros.mgtdList.getRealm()+"]] "+newButtonArgs+">>";
 			}
 
-			wikifyThis += "\n";
+            if (title != "" || newButton != "")
+			    wikifyThis += "\n";
 
 			wikifyThis += "{{innerList{\n";
+
+			var checkForContent = wikifyThis;
 
 			var theList = fastTagged(startTag);
 			if (tagExpr != "") theList = theList.filterByTagExpr(tagExpr);
@@ -171,6 +176,9 @@ merge(config.macros,{
 				theList = theList.tiddlerSort(sortBy);
 				wikifyThis += theList.render(viewType);
 			}
+
+			if (wikifyThis == checkForContent)
+				wikifyThis += "{{none{none}}}";
 
 			wikifyThis += "}}}\n";
 			wikifyThis += "}}}\n";

@@ -78,18 +78,31 @@ make_tw {
   remove_tiddler         "MonkeyPirateTiddlyWiki"
 
   add_tiddlers_from_dir  "framework"
-  add_tiddlers_from_dir  "monkeygtd"
   add_tiddlers_from_dir  "layout"
   add_tiddlers_from_dir  "supporting"
-  add_tiddlers_from_dir  "tiddlers"
   add_tiddlers_from_dir  "menus"
   add_tiddlers_from_dir  "views"
+
+  add_tiddlers_from_dir  "tiddlers"
+
+  # should match what's in Dashboard and MonkeyGTDTheme. Uhoh, we have some DRY problems...
+  [
+    'Action Dashboard',
+    'Action Dashboard by Context',
+    'Just Next Actions',
+    'Just Next Actions by Context',
+    'Projects',
+  ].each do |t|
+	  add_tiddler_from_scratch('tiddler' => t, 'tags' => 'View', 'text' => '')
+   end
 
   # load the demo
   demo.each do |t|
 	  t[2] ||= ''
 	  add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2])
   end
+
+  add_tiddler(get_tiddler('MptwBlue').copy_to('ColorPalette'))
 
   # add some demo projects
   
