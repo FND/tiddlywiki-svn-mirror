@@ -1,0 +1,7 @@
+<div title="Template:Infobox Planet" server.host="www.wikipedia.org/w" server.page.revision="115137127" downloaded="200703171710" wikiformat="mediawiki">
+<pre>{| class="infobox" style="width: {{{width|20em}}}; text-align: left; font-size: 90%" cellspacing="2"
+|+ '''{{{name}}}'''
+{{#if: {{{aphelion|}}} | <tr> <th>[[Apsis|Aphelion distance]]:</th> <td>{{{aphelion}}}</td> </tr>}}
+{{#if: {{{perihelion|}}} | <tr> <th>[[Apsis|Perihelion distance]]:</th> <td>{{{perihelion}}}</td> </tr>}}
+|}</pre>
+</div>
