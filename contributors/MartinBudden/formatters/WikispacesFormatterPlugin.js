@@ -4,7 +4,7 @@
 |''Description:''|Wikispaces Formatter|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/WikispacesFormatterPlugin.js |
-|''Version:''|0.0.4|
+|''Version:''|0.0.5|
 |''Date:''|Nov 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -287,20 +287,20 @@ config.wikispacesFormatters = [
 	}
 },
 
-//#The syntax for the anchor on the page is [[#AnchorName]]
-//#The syntax for the link is [[PageName#AnchorName|DisplayText]] or you can use the visual link editor.
+//#The syntax for the anchor on the page is [[#AnchorName]] or [[#AnchorName|DisplayText]]
+//#The syntax for the link is [[PageName#AnchorName|DisplayText]]
 {
 	name: 'wikispacesAnchor',
 	match: '\\[\\[#',
-	lookaheadRegExp: /\[\[#(.*?)\]\]/mg,
+	lookaheadRegExp: /\[\[#(.*?)(?:\|~?(.*?))?\]\]/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			//# drop anchor
-			var a = createTiddlyElement(w.output,'a');
-			var t = w.tiddler ? wikispacesFormatter.normalizedTitle(w.tiddler.title) + ':' : '';
+			var a = createTiddlyElement(w.output,'a',null,null,lookaheadMatch[2]? lookaheadMatch[2]:null);
+			var t = w.tiddler ? wikispacesFormatter.normalizedTitle(w.tiddler.title) + '#' : '';
 			a.setAttribute('name',t+lookaheadMatch[1]);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
@@ -335,6 +335,7 @@ config.wikispacesFormatters = [
 		w.outputText(createExternalLink(w.output,w.matchText),w.matchStart,w.nextMatch);
 	}
 },
+
 {
 	name: 'wikispacesCharacterFormat',
 	match: '\\*\\*|//|__|\\{\\{|``',
