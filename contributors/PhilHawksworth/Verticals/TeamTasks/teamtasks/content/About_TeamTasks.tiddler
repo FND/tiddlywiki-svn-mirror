@@ -1,0 +1,11 @@
+<div title="About TeamTasks" modifier="PhilHawksworth" created="200709171222" modified="200710241354" tags="help" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709181250" server.type="file" changecount="27">
+<pre>A quick start guide is provided in the [[Getting Started with TeamTasks]] tiddler.
+
+This application has been built using TiddlyWiki and requires several plugins to function.  For an up-to-date list of the plugins used, and other building blocks required to build TeamTasks, take a look at the [[Release Notes]].
+
+TeamTasks also require some definitions, which you can modify and add to as required:
+UserDefinitions
+PriorityDefinitions
+ScopeDefinitions
+StatusDefinitions</pre>
+</div>

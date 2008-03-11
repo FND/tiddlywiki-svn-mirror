@@ -1,0 +1,11 @@
+<div title="UserSetupWizard" modifier="PhilHawksworth" created="200710221541" modified="200710241440" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.type="file" changecount="5">
+<pre>This wizard will help you to quickly create a user in TeamTasks.  This is what it will do for you:
+#Add your new user to the UserDefinitions tiddler so that you will be able to assign them tasks
+#Create a 'home tiddler' for the user that contains 
+**their contact details in hCard format. (you can change what contact details are required by editting UserDetailsTemplate)
+**a sample list of 'task list views' to help get them started. (you can change the sample list by editting SampleTaskListTemplate)
+Please complete the form below to create a new user.
+
+&lt;&lt;tiddler UserDetailsTemplate&gt;&gt;
+&lt;&lt;newUserWizard&gt;&gt;</pre>
+</div>
