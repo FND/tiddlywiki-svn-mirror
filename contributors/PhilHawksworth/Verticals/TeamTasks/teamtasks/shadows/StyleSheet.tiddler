@@ -2,7 +2,7 @@
 <pre>/*{{{*/
 
 /* flag dev version */
-body {border-top:solid 3px #c44; }
+body {border-top:solid 3px #000; }
 
 #sidebar {display:none;}
 

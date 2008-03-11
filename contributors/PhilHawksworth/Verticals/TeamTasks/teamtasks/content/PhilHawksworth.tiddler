@@ -1,12 +1,13 @@
-<div title="PhilHawksworth" modifier="PhilHawksworth" created="200710290942" modified="200710290948" changecount="3">
-<pre>&lt;html&gt;
-&lt;div class=&quot;vcard&quot;&gt;
-&lt;a class=&quot;url fn n&quot; href=&quot;undefined&quot;&gt;&lt;span class=&quot;given-name&quot;&gt;Phil&lt;/span&gt;&lt;span class=&quot;family-name&quot;&gt;Hawksworth&lt;/span&gt;&lt;/a&gt;
-&lt;div class=&quot;org&quot;&gt;&lt;span class=&quot;organization-name&quot;&gt;Osmosoft&lt;/span&gt;&lt;/div&gt;
-&lt;div class=&quot;email&quot;&gt;&lt;span&gt;&lt;a href=&quot;mailto:phil.hawksworth@osmosoft.com&quot;&gt;phil.hawksworth@osmosoft.com&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div class=&quot;photos&quot;&gt;&lt;span&gt;&lt;a href=&quot;http://flickr/photos/philhawksworth&quot;&gt;http://flickr/photos/philhawksworth&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div class=&quot;twitter&quot;&gt;&lt;span&gt;&lt;a href=&quot;http://twitter.com/philhawksworx.com&quot;&gt;http://twitter.com/philhawksworth&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;/div&gt;&lt;/html&gt;
+<div title="PhilHawksworth" modifier="PhilHawksworth" created="200710290942" modified="200711091615" changecount="4">
+<pre><html>
+<div class="vcard">
+<a class="url fn n" href=""><span class="given-name">Phil</span><span class="family-name">Hawksworth</span></a>
+<div class="org"><span class="organization-name">Osmosoft</span></div>
+<div><span><a href="http://www.hawksworx.com">www.hawksworx.com</a></span></div>
+<div class="email"><span><a href="mailto:ph@osmosoft.com">ph@osmosoft.com</a></span></div>
+<div class="photos"><span><a href="http://flickr/photos/philhawksworth">flickr/photos/philhawksworth</a></span></div>
+<div class="twitter"><span><a href="http://twitter.com/philhawksworx.com">twitter.com/philhawksworth</a></span></div>
+</div></html>
 | !In any project |
 |[[Open tasks|PhilHawksworthOpenTasks]] |
 |[[Current tasks|PhilHawksworthInProgressTasks]] |
