@@ -1,0 +1,7 @@
+recipe: ../../../../../core/tiddlywiki.html.recipe
+
+recipe: shadows/split.recipe
+recipe: plugins/split.recipe
+recipe: content/split.recipe
+
+
