@@ -3,7 +3,7 @@
 |''Description:''|macro to use for general testing|
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/verticals\testGeneral/testMacro.js |
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|July 31, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -23,11 +23,11 @@ config.macros.testMacro.test = function(title,params)
 {
 	clearMessage();
 	displayMessage("Testing");
-	//tpTest('Dummy','','{{Infobox Airports}}');
+	//tpTest('Dummy','','{{Infobox Airport}}');
 	//displayMessage("Testing complete");
 	//return;
 	config.macros.testMacro.testRawPipes(title,params);
-	/*config.macros.testMacro.testDoubleBraces(title,params);
+	config.macros.testMacro.testDoubleBraces(title,params);
 	config.macros.testMacro.testTripleBraces(title,params);
 	config.macros.testMacro.testRawPipes(title,params);
 	config.macros.testMacro.testVariables(title,params);
@@ -35,20 +35,21 @@ config.macros.testMacro.test = function(title,params)
 	config.macros.testMacro.testBasic(title,params);
 	config.macros.testMacro.testExamples(title,params);
 	config.macros.testMacro.testTableBraces(title,params);
-	*/displayMessage("Testing complete");
+	displayMessage("Testing complete");
 };
 
 tpTest = function(templateName,content,tag,expected)
 {
 //console.log('content:'+content);
-console.log('test:'+tag);
+console.log('tpTest:'+tag);
 	var tiddler = store.fetchTiddler('Test');
 	var namespace = 'Template:';
 	var mwt = new MediaWikiTemplate();
-	var template = new Tiddler(namespace+mwt.normalizeTitle(templateName));
+	var template = new Tiddler(namespace+MediaWikiTemplate.normalizeTitle(templateName));
 	template.text = content;
 	store.addTiddler(template);
 	text = mwt.transcludeTemplates(tag,tiddler);
+	console.log('transcluded:'+text);
 	if(expected && text!=expected) {
 		displayMessage('Error:'+tag);
 	}
@@ -59,7 +60,7 @@ console.log('test:'+tag);
 tp2Test = function(tag,expected)
 {
 //console.log('content:'+content);
-console.log('test:'+tag);
+console.log('tp2Tsest:'+tag);
 	var tiddler = store.fetchTiddler('Test');
 	var mwt = new MediaWikiTemplate();
 	text = mwt.transcludeTemplates(tag,tiddler);
@@ -73,9 +74,8 @@ console.log('test:'+tag);
 dbrTest = function(text,start,es,ee)
 {
 //console.log('content:'+content);
-console.log('test:'+text+'    ('+es+','+ee+')');
-	var mwt = new MediaWikiTemplate();
-	ret = mwt.findDBP(text,start);
+console.log('dprTest:'+text+'    ('+es+','+ee+')');
+	var ret = MediaWikiTemplate.findDBP(text,start);
 	if((es && ret.start!=es)||(ee && ret.end!=ee)) {
 		displayMessage('Error:'+'('+es+','+ee+') '+text);
 	}
@@ -86,8 +86,7 @@ console.log('test:'+text+'    ('+es+','+ee+')');
 tbrTest = function(text,start,es,ee)
 {
 console.log('tbrTest:'+text+'    ('+es+','+ee+')');
-	var mwt = new MediaWikiTemplate();
-	ret = mwt.findTBP(text,start);
+	var ret = MediaWikiTemplate.findTBP(text,start);
 	if((es && ret.start!=es)||(ee && ret.end!=ee)) {
 		displayMessage('Error:'+'('+es+','+ee+') '+text);
 	}
@@ -98,8 +97,7 @@ console.log('tbrTest:'+text+'    ('+es+','+ee+')');
 taTest = function(text,start,es,ee)
 {
 console.log('taTest:'+text+'    ('+es+','+ee+')');
-	var mwt = new MediaWikiTemplate();
-	ret = mwt.findTableBracePair(text,start);
+	var ret = MediaWikiTemplate.findTableBracePair(text,start);
 	if((es && ret.start!=es)||(ee && ret.end!=ee)) {
 		displayMessage('Error:'+'('+es+','+ee+') '+text);
 	}
@@ -110,8 +108,7 @@ console.log('taTest:'+text+'    ('+es+','+ee+')');
 rpTest = function(text,start,expected)
 {
 console.log('rpTest:'+text+'    ('+expected+')');
-	var mwt = new MediaWikiTemplate();
-	var ret = mwt.findRawDelimiter('|',text,start);
+	var ret = MediaWikiTemplate.findRawDelimiter('|',text,start);
 	if(expected && ret!=expected) {
 		displayMessage('ErrorT:'+text);
 	}
@@ -121,7 +118,7 @@ console.log('rpTest:'+text+'    ('+expected+')');
 
 config.macros.testMacro.testRawPipes = function(title,params)
 {
-	/*rpTest('abcdefgh',0,-1);
+	rpTest('abcdefgh',0,-1);
 	rpTest('abcd|efgh',0,4);
 	rpTest('abc[[d|e]]f|gh',0,11);
 	rpTest('abc{{d|e}}f|gh',0,11);
@@ -130,7 +127,6 @@ config.macros.testMacro.testRawPipes = function(title,params)
 	rpTest('abc[[{{d|e}}{{{|}}}]]f|gh',0,22);
 	rpTest('abc[[{{d{{|}}e}}{{{|}}}]]f|gh',0,26);
 	rpTest('abc{{d|[[e]]}}{{{|}}}f|gh',0,22);
-	*/
 	rpTest('[[Semimajor axis|Avg. distance from Sun]]',0,-1);
 	rpTest('aa[[Semimajor axis|Avg. distance from Sun]]bb',0,-1);
 	rpTest('aa[[Semimajor axis|Avg. distance from Sun]]bb',2,-1);
@@ -249,7 +245,7 @@ config.macros.testMacro.testBasic = function(title,params)
 	tpTest('test','hello','{{Test}}','hello');
 	tpTest('test','hello','{{test#extra}}','hello');
 	tpTest('test','hello','{{Test#extra}}','hello');
-	tpTest('test','hello','{{TEST}}','Template:TEST');
+	tpTest('test','hello','{{TEST}}','[[Template:TEST]]');
 
 	tpTest('test','hello {{{1}}}','ABC{{test|world}}XYZ','ABChello worldXYZ');
 	tpTest('test','hello {{{1}}}','{{test}}','hello {{{1}}}');
@@ -260,7 +256,7 @@ config.macros.testMacro.testBasic = function(title,params)
 	tpTest('Tc','in','{{tc}}','in');
 	tpTest('Tc','in','{{tc}}X{{tc}}','inXin');
 	tpTest('Tc','in','{{{{tc}}}}','{{{{tc}}}}');
-	tpTest('Tc','in','{{ {{tc}}}}','Template:in');
+	tpTest('Tc','in','{{ {{tc}}}}','[[Template:in]]');
 
 	tpTest('t1demo','start-{{{1}}}-end','{{t1demo|a}}','start-a-end');
 	tpTest('t1demo','start-{{{1}}}-end','{{t1demo| }}','start- -end');
@@ -322,7 +318,7 @@ config.macros.testMacro.testExamples = function(title,params)
 	//tpTest('TEx12','{{{1}}} {{TEx12}} {{{2}}}','{{TEx12|abc|def}}','abc Template loop detected: Template:Tex12 def');
 
 	//tpTest('TEx','','{{TEx}}','');
-	tpTest('Dummy','','{{Infobox Airports}}');
+	tpTest('Dummy','','{{Infobox Airport}}');
 
 };
 
