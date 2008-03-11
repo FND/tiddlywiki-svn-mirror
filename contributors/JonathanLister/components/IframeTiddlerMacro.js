@@ -91,7 +91,7 @@ config.macros.IframeTiddler.handler = function(place,macroName,params,wikifier,p
 	// remove the new Story
 	removeNode(tempStory);
 	// get an iframe
-	var ifr = new Iframe();
+	var ifr = new Iframe(place);
 	ifr.doc.body.innerHTML = html;
 	ifr.style.width = width;
 	ifr.style.height = height ? height : ifr.doc.body.offsetHeight+"px";
