@@ -2,9 +2,9 @@
 <pre>[[Getting Started with TeamTasks]]
 [[Release Notes]]
 
-&lt;&lt;slider chkSliderOptionsPanel UserDefinitions &quot;Users »&quot; &quot;A list of users&quot;&gt;&gt;
-&lt;&lt;slider chkSliderOptionsPanel TaskViews &quot;Task views »&quot; &quot;A selection of task views&quot;&gt;&gt;
-&lt;&lt;slider chkSliderOptionsPanel TaskDefinitions &quot;Task definitions »&quot; &quot;The definitions that drive the task management&quot;&gt;&gt;
+<<slider chkSliderOptionsPanel UserDefinitions 'Users »' 'A list of users'>>
+<<slider chkSliderOptionsPanel TaskViews 'Task views »' 'A selection of task views'>>
+<<slider chkSliderOptionsPanel TaskDefinitions 'Task definitions »' 'The definitions that drive the task management'>>
 
 ----
 [[modify this menu|MainMenu]]|[[options|OptionsPanel]]|[[about|About TeamTasks]]
