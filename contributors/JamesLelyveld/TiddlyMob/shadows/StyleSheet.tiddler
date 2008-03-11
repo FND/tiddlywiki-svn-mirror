@@ -1,0 +1,174 @@
+<div title="StyleSheet" modifier="YourName" created="200712061745" modified="200803031211" tags="systemTiddler itwTheme" changecount="8">
+<pre>/*{{{*/
+body {font-size:12px; font-family:arial,helvetica; margin:0; padding:0;	min-height: 418px; width: 100%}
+#messageArea {position:fixed; top:1em; left:0em; margin:0.5em; padding:0.5em; z-index:2000; _position:absolute;}
+#displayArea {margin:0em 0em 0em 0em;}
+#backstageButton {display:none; position:absolute; z-index:175; top:0em; left:0em;}
+
+#topMenu { 
+ positon:relative;
+ padding-top:0.1em;
+ padding-left:0.1em;
+ }
+
+
+#topMenu br {display:none; }
+
+#topMenu {
+	background: [[ColorPalette::HeaderBack]] repeat-x;
+	box-sizing: border-box;
+	border-bottom: 1px solid #2d3642;	
+	margin: 0;
+	line-height: 15px;
+        height: 15px;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 1px 1px 10px 1px;
+	text-align: center;
+	color: #FFFFFF;
+	text-shadow: rgba(0, 0, 0, 0.6) 0px -1px 0;
+	text-overflow: ellipsis;
+	box-sizing: border-box;
+	overflow: hidden;
+	white-space: nowrap;
+	
+}
+.backButton, .ibutton
+{
+	font-weight: bold;
+	color: #FFFFFF;
+	top: 6px;
+	text-decoration: none;
+	background: none;
+}
+
+ #topMenu .button, .toolbar .button {
+	font-weight: normal;
+	font-family: Arial;
+	color: #FFFFFF;
+	text-decoration: none;
+	background: none;
+}
+
+
+.backButton {
+	position: absolute;
+	left: 6px;
+	right: auto;
+	-webkit-border-image: url(images/iPhoneBackButton.png) 0 8 0 14;
+	border-width: 0 8px 0 14px;
+}
+
+.backButton.pressed {
+	-webkit-border-image: url(images/iPhoneBackButtonPresses.png) 0 8 0 14;
+}
+.ibutton{
+	position: absolute;
+	right: 6px;
+	-webkit-border-image: url(images/iPhoneButton.png) 0 5 0 5;
+	border-width: 0 5px 0 5px;
+}
+
+
+#topMenu .button {
+	position: relative;
+	height: 28px;
+        padding : 8px 8px 8px 8px;
+        margin-top: 16px;
+	line-height: 28px;
+	-webkit-border-image: url(images/iPhoneButton.png) 0 1 0 1;
+	border-width: 0 1px 0 1px;
+}
+
+#topMenu .button, .toolbar .button {
+	position: relative;
+	height: 28px;
+        padding : 8px 8px 8px 8px;
+        margin-top: 16px;
+	line-height: 28px;
+	-webkit-border-image: url(images/iPhoneButton.png) 0 1 0 1;
+	border-width: 0 1px 0 1px;
+}
+
+.popup li a {display:block; padding:1em; font-weight:bold; cursor:pointer;}
+.toolbar {height: 34px;}
+.selected .toolbar a {color:#FFF;}
+.selected .toolbar a:hover {color:#FFF;}
+
+
+.tagged { float:left; }
+.tagged li { display:inline; }  
+.tagged { background:transparent  !important; border:0  !important; }
+.tagged .button {color: [[ColorPalette::TiertiaryPale]] !important; }
+.tiddler {padding:0em 1em 0em 1em;}
+
+.tiddlerListItem .tiddlerListItemTitle, .tiddlerListItem  .tiddlerListItemTitle a {
+line-height: 28px;
+    font-size: 1.35em;
+    color: #000;
+    background: #FFF;
+    text-decoration: none;
+}
+.tiddlerListItem, .tiddlerListItem a, .tiddlerListItem code {
+    font-family: Arial;
+    font-size: 1em;
+    color: #333;
+    background: #FFF;
+    text-decoration: none;
+}
+ 
+ div.tiddler div.viewer{
+ 	height: 210px;
+	overflow: auto;
+	clear:left;
+ }
+
+.info{
+	position:fixed; top:25px; right:5px; margin:0.5px; padding:0.5px; z-index:100; position:absolute;
+}
+
+div.tiddler div.subtitle{
+	display:none;
+	font-weight: normal;
+	font-family: Arial;
+	font-style: italic;
+	font-size: 0.5em;
+	
+}
+div.tiddler div.utagging{
+	display:block;
+	width:100%;
+}
+
+div.tiddler div.utagged{
+	display:block;
+	width:100%;
+}
+
+div.tiddler div.utagged ul, div.tiddler div.utagging ul{
+	list-style:none;
+	display:block;
+	margin: 0;
+	padding: 0;
+	
+}
+
+div.tiddler div.utagged li, div.tiddler div.utagging li{
+	list-style:none;
+	float: left;
+}
+
+div.tiddler .infoButton{
+	font-weight: bold;
+	font-family: Arial;
+	font-style: italic;
+	font-size: 0.5em;
+}
+
+div.tiddler div.headbar{
+	padding:3px 0px 0px 0px;
+}
+
+/*}}}*/
+</pre>
+</div>

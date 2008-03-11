@@ -1,0 +1,9 @@
+<div title="PageTemplate" modifier="BidiX" created="200712012249" modified="200801190951" tags="systemTiddler">
+<pre><!--{{{-->
+<div id='displayArea'>
+<div id='topMenu' refresh='content' tiddler='TopMenu'></div>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}--></pre>
+</div>

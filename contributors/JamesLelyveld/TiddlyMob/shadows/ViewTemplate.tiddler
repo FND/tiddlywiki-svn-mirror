@@ -1,0 +1,16 @@
+<div title="ViewTemplate">
+<pre><!--{{{-->
+<div class ='headbar'>
+	<span class='title' macro='view title'></span>
+	<span class='toolbar' macro='toolbar +editTiddler > references jump'></span>
+	<div class='info' macro='elementToggle name:info divClass:subtitle helptext:"more info"' refresh='content'></div>
+</div>
+<div class='subtitle' style = "">
+	<span macro='view modifier link'></span>, 
+	<span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)
+	<div class='utagged' macro='tags'></div>
+</div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+<!--}}}--></pre>
+</div>

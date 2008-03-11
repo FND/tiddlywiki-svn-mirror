@@ -1,0 +1,18 @@
+<div title="ColorPalette" modifier="YourName" created="200802261639" modified="200803031258" changecount="7">
+<pre>Background: #ddd
+Foreground: #000
+PrimaryPale: #8cf
+PrimaryLight: #18f
+PrimaryMid: #375F11
+PrimaryDark: #014
+SecondaryPale: #ffc
+SecondaryLight: #78C824
+SecondaryMid: #9FA0A2
+SecondaryDark: #5EC200
+TertiaryPale: #eee
+TertiaryLight: #ccc
+TertiaryMid: #999
+TertiaryDark: #666
+Error: #f88
+HeaderBack: #404041</pre>
+</div>
