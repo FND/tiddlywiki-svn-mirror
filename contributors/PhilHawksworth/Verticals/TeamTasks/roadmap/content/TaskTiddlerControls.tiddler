@@ -1,0 +1,7 @@
+<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200711091528" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709131152" server.type="file" changecount="3">
+<pre>|scope |<<ValueSwitcher dropdown ScopeDefinitions>> |
+|priority |<<ValueSwitcher dropdown PriorityDefinitions>> |
+|release target |<<ValueSwitcher dropdown VersionDefinitions>> |
+|assigned to |<<ValueSwitcher dropdown UserDefinitions>> |
+|status |<<ValueSwitcher dropdown StatusDefinitions>> |</pre>
+</div>
