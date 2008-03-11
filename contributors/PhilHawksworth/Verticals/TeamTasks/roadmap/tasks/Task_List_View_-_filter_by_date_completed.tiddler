@@ -1,0 +1,4 @@
+<div title="Task List View - filter by date completed" modifier="PhilH" created="200710221115" modified="200803061052" tags="task" versiondefinitions="v0.6" server.host="http://osmosoft.servehttp.com/cc/osworld/" scopedefinitions="TeamTasksDevelopment" server.page.revision="200710221115" server.type="file" prioritydefinitions="Low" statusdefinitions="Pending" changecount="5" userdefinitions="PhilHawksworth">
+<pre>Add the ability to build a task list view of tasks that have been 
+marked as completed today. ...or order by date field</pre>
+</div>

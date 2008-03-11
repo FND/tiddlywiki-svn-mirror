@@ -1,0 +1,10 @@
+<div title="Create Task/Story template for Scrum" modifier="PhilH" created="200803101236" modified="200803101248" tags="task scrum" versiondefinitions="v0.5" scopedefinitions="TeamTasksDevelopment" prioritydefinitions="Medium" statusdefinitions="Pending" changecount="8" userdefinitions="PhilHawksworth">
+<pre>Template should include UI to capture required metadata for Scrum.
+*Story name
+*Story description
+*Story points
+*Priority
+*Status [done | in progress | to do]
+*Assigned to
+*Team</pre>
+</div>

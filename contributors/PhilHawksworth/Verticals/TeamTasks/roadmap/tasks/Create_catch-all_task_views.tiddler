@@ -1,0 +1,6 @@
+<div title="Create catch-all task views" modifier="PhilHawksworth" created="200710161041" modified="200711091631" tags="task" versiondefinitions="v0.5" server.host="http://osmosoft.servehttp.com/cc/osworld/" scopedefinitions="TeamTasksDevelopment" server.page.revision="200710161041" server.type="file" prioritydefinitions="Medium" statusdefinitions="Pending" changecount="3" userdefinitions="PhilHawksworth">
+<pre>Allow the TaskViewBuilderPlugin to create views where given field
+has not been given a value.
+
+Document the feature.</pre>
+</div>

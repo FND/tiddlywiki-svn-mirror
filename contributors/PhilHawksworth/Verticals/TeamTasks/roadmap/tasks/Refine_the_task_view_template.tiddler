@@ -1,0 +1,4 @@
+<div title="Refine the task view template" modifier="PhilHawksworth" created="200710160948" modified="200711091632" tags="task" versiondefinitions="v0.4" server.host="http://osmosoft.servehttp.com/cc/osworld/" scopedefinitions="TeamTasksDevelopment" server.page.revision="200710160948" server.type="file" prioritydefinitions="Medium" statusdefinitions="Pending" changecount="3" userdefinitions="PhilHawksworth">
+<pre>The TaskViewTemplate is not yet bulletproof.
+Make sure that it behaves well when the window gets small</pre>
+</div>

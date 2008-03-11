@@ -1,0 +1,4 @@
+<div title="Create priority setting drag and drop UI" modifier="PhilH" created="200803101240" modified="200803101248" tags="task" versiondefinitions="v0.5" scopedefinitions="TeamTasksDevelopment" prioritydefinitions="Medium" statusdefinitions="Pending" changecount="8" userdefinitions="PhilHawksworth">
+<pre>Build a UI to allow the ordering of Stories / tasks to set priority.
+Use jQuery or build TW drag and drop library.</pre>
+</div>

@@ -1,0 +1,7 @@
+<div title="Add deadline functionality" modifier="PhilHawksworth" created="200710231301" modified="200711091631" tags="task" versiondefinitions="v0.4" server.host="http://osmosoft.servehttp.com/cc/osworld/" scopedefinitions="TeamTasksDevelopment" server.page.revision="200710231302" server.type="file" prioritydefinitions="High" statusdefinitions="Pending" changecount="5" userdefinitions="PhilHawksworth">
+<pre>Add an simple calendar interface to support a deadline
+field on tasks in TeamTasks
+
+consider using:
+http://calendar.swazz.org/</pre>
+</div>
