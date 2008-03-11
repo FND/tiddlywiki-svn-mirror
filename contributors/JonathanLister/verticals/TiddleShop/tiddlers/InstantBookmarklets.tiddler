@@ -1,0 +1,186 @@
+<div title="InstantBookmarklets" modifier="ELSDesignStudios" created="200712142337" modified="200803022141" tags="script includeNew" server.host="www.tiddlytools.com/#InstantBookmarklets" server.page.revision="200803022141" server.type="file">
+<pre>/%
+|Name|InstantBookmarklets|
+|Source|http://www.TiddlyTools.com/#InstantBookmarklets|
+|Version|1.0.0|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements <br>and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|script|
+|Requires|InlineJavascriptPlugin|
+|Overrides||
+|Description|instantly create bookmarklets by dragging onclick links to the browser toolbar|
+ 
+If you use InlineJavascripPlugin's <script> syntax with the 'label="..."' option, then instead of immediately processing the associated javascript code, the plugin creates linked text that directly invokes the javascript code whenever that link is clicked on.
+
+In addition, the plugin automatically generates a URI-encoded "bookmarklet"-ready version of the script code, which it binds to the HREF of the "onclick" link, allowing you to simply drag-and-drop the link onto the browser's toolbar (or right-click and use the "bookmark this link" menu command) to save the encoded script as a stand-alone "bookmarklet" toolbar item (or bookmark).  That's it!  The URI-encoded script is automatically saved in the browser's toolbar/bookmarks, and can then be invoked directly from the toolbar/bookmarks, without requiring access to (or even a copy of) the document in which the original "onclick" script was defined!!
+
+Note: Typically, an "onclick" script defined with InlineJavascriptPlugin can use an automatically-defined context variable, "place", to generate output into the tiddler in which the script is embedded.  However, because a saved bookmarklet script is not embedded in any tiddler content (in fact, it's not even embedded in a *document*), there is no current rendering context and "place" is UNDEFINED.  If you create a bookmarklet from an "onclick" script does refer to "place", it will halt and report a "Reference Error" when that bookmarklet is invoked.  
+
+Also, in addition to not using "place" within bookmarklets, you must not include a double-quote character (") anywhere in the original onclick script, due to the syntax needed by the browser to invoke a URI-encoded bookmarklet script.  If a double-quote DOES occur in the original script code, the stored bookmarklet will report a "syntax error" when invoked.  To create a valid bookmarklet, use only single-quotes (') within the script code.
+
+%/{{nowrap{
+__[[InstantBookmarklets:|InstantBookmarklets]]{{fine{// drag these links to your browser toolbar!//}}}__
+
+//~TiddlyWiklets: {{fine{(TiddlyWiki "tear-off" utilities)}}}///%
+
+========================== TOGGLE SITE TITLES %/
+*<script label="&#x25b2; - toggle titles" title="show/hide SiteTitle and SiteSubtitle (header) content">
+	var c=document.getElementById('contentWrapper');  if (!c) return;
+	for (var i=0; i<c.childNodes.length; i++)
+		if (hasClass(c.childNodes[i],'header')) { var h=c.childNodes[i]; break; }
+	if (!h) return;
+	config.options.chkHideSiteTitles=h.style.display!='none';
+	h.style.display=config.options.chkHideSiteTitles?'none':'block';
+	saveOptionCookie('chkHideSiteTitles');
+	return false;
+</script>/%
+
+========================== TOGGLE LEFT SIDEBAR %/
+*<script label="&#x25c4; - toggle left sidebar" title="show/hide MainMenu content">
+	var mm=document.getElementById('mainMenu'); if (!mm) return;
+	var show=mm.style.display=='none';
+	if (!show) { mm.style.display='none'; var margin='1em'; }
+	else { mm.style.display='block'; var margin=config.options.txtDisplayAreaLeftMargin||''; }
+	document.getElementById('displayArea').style.marginLeft=margin;
+	config.options.chkShowLeftSidebar=show;
+	saveOptionCookie('chkShowLeftSidebar');
+	var sm=document.getElementById('storyMenu'); if (sm) config.refreshers.content(sm);
+	return false;
+</script>/%
+
+========================== TOGGLE RIGHT SIDEBAR %/
+*<script label="&#x25ba; - toggle right sidebar" title="show/hide SideBarOptions content">
+	var sb=document.getElementById('sidebar'); if (!sb) return;
+	var show=sb.style.display=='none';
+	if (!show) { sb.style.display='none'; var margin='1em'; }
+	else { sb.style.display='block'; var margin=config.options.txtDisplayAreaRightMargin||''; }
+	document.getElementById('displayArea').style.marginRight=margin;
+	config.options.chkShowRightSidebar=show;
+	saveOptionCookie('chkShowRightSidebar');
+	var sm=document.getElementById('storyMenu'); if (sm) config.refreshers.content(sm);
+	return false;
+</script>/%
+
+========================== TOGGLE ANIMATION EFFECTS %/
+*<script label="&infin; - toggle animation effects" title="enable/disable animation effects">
+	config.options.chkAnimate=!config.options.chkAnimate;
+	saveOptionCookie('chkAnimate');
+	displayMessage('Animation effects are: '+(config.options.chkAnimate?'ON':'OFF'));
+	return false;
+</script>/%
+
+========================== TOGGLE SINGLE PAGE MODE %/
+*<script label="1 - toggle single-page mode" title="enable/disable 'one tiddler at a time' display">
+	config.options.chkSinglePageMode=!config.options.chkSinglePageMode;
+	saveOptionCookie('chkSinglePageMode');
+	displayMessage('Single-page mode is: '+(config.options.chkSinglePageMode?'ON':'OFF'));
+	return false;
+</script>/%
+
+========================== TOGGLE "FULLSCREEN" (SIDEBARS AND TITLES) %/
+*<<tiddler ToggleFullScreen with: "&loz; - toggle fullscreen">>/%
+
+========================== RESTART WITHOUT RELOADING %/
+*<script label="&#x2302; - Home (redisplay initial page content)" title="Restart initial page content WITHOUT RELOADING!">
+	story.closeAllTiddlers(); restart(); refreshPageTemplate(); 
+ 	return false;
+</script>/%
+
+========================== REFRESH WITHOUT RESTARTING %/
+*<script label="&asymp; - Refresh (redisplay current page content)" title="Redisplay current page content WITHOUT RESTARTING!">
+	story.forEachTiddler(function(t,e){story.refreshTiddler(t,null,true)});
+	refreshDisplay();
+ 	return false;
+</script>/%
+
+========================== SHOW CURRENT VERSION, TIMESTAMP, and TIDDLER INFO %/
+*<<tiddler ShowDocumentInfo>>/%
+
+========================== RESET TIDDLYWIKI OPTION COOKIES (WITH CONFIRM) %/
+*<<tiddler ResetOptionCookies>>/%
+
+========================== CLEAR CHANGE COUNTERS %/
+*<<tiddler ResetChangeCounters>>/%
+
+========================== SHOW FIREFOX DOMAIN PERMISSIONS (adapted from scripts written by Xavier Vergés) %/
+*<<tiddler ShowFirefoxPermissions>>/%
+
+========================== LOAD REMOTE PLUGINS... %/
+
+//Load remote plugins: {{fine{(load on demand)}}}///%
+
+========================== Abego Software (Udo Borkowski)...%/
+*[[Abego Software|http://tiddlywiki.abego-software.de/]]{{block{/%
+
+========================== LOAD YOURSEARCH PLUGIN
+%/<script label="YourSearchPlugin" title="Load YourSearchPlugin from tiddlywiki.abego-software.de">
+	var script=document.createElement('script');
+	script.src='http://tiddlywiki.abego-software.de/archive/YourSearchPlugin/Plugin-YourSearch-src.2.1.1.js';
+	script.onload=function(){
+		refreshPageTemplate();
+		alert('YourSearchPlugin has been loaded.');
+	};
+	document.getElementsByTagName('head')[0].appendChild(script);
+	return false;
+</script>/%
+%/}}}/%
+
+========================== TiddlyTools (Eric Shulman)...%/
+*[[TiddlyTools|http://www.TiddlyTools.com/]]{{block{/%
+
+========================== LOAD IMPORT TIDDLERS PLUGIN
+%/<script label="ImportTiddlersPlugin" title="Load ImportTiddlersPlugin from www.TiddlyTools.com">
+	var script=document.createElement('script');
+	script.src='http://www.TiddlyTools.com/plugins/ImportTiddlersPlugin.js';
+	script.onload=function(){
+		story.displayTiddler(null,'ImportTiddlers');
+		displayMessage('ImportTiddlersPlugin has been loaded.');
+	};
+	document.getElementsByTagName('head')[0].appendChild(script);
+	return false;
+</script> /%
+
+========================== LOAD TIDDLER TWEAKER PLUGIN
+%/<script label="TiddlerTweakerPlugin" title="Load TiddlerTweakerPlugin from www.TiddlyTools.com">
+	var script=document.createElement('script');
+	script.src='http://www.TiddlyTools.com/plugins/TiddlerTweakerPlugin.js';
+	script.onload=function(){
+		story.displayTiddler(null,'TiddlerTweaker');
+		displayMessage('TiddlerTweakerPlugin has been loaded.');
+	};
+	document.getElementsByTagName('head')[0].appendChild(script);
+	return false;
+</script> /%
+
+========================== REARRANGE TIDDLERS PLUGIN
+%/<script label="RearrangeTiddlersPlugin" title="Load RearrangeTiddlersPlugin from www.TiddlyTools.com">
+	var script=document.createElement('script');
+	script.src='http://www.TiddlyTools.com/plugins/RearrangeTiddlersPlugin.js';
+	script.onload=function(){
+		story.forEachTiddler(function(t,e){story.refreshTiddler(t,null,true)});
+		refreshDisplay();
+		displayMessage('RearrangeTiddlersPlugin has been loaded.');
+	};
+	document.getElementsByTagName('head')[0].appendChild(script);
+	return false;
+</script>/%
+
+%/}}}/%
+
+========================== Jash (Billy Reisinger) %/
+*[[BillyReisinger.com:|http://www.billyreisinger.com/jash/]]{{block{/%
+
+========================== LOAD AND DISPLAY JAVASCRIPT SHELL
+%/<script label="Jash (JAvascript SHell)" title="Load Jash (JAvascript SHell) from www.billyreisinger.com/jash">
+	var script=document.createElement('script');
+	script.src='http://www.billyreisinger.com/jash/source/latest/Jash.js';
+	script.onload=function(){ displayMessage('JASH has been loaded'); };
+	document.getElementsByTagName('head')[0].appendChild(script);
+	return false;
+</script>/%
+
+%/}}}
+
+}}}/%  END NOWRAP %/</pre>
+</div>

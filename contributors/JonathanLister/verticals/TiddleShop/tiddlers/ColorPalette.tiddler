@@ -1,0 +1,17 @@
+<div title="ColorPalette" modifier="NickWebb" created="200803061118" changecount="3">
+<pre>Background: #fff
+Foreground: #000
+PrimaryPale: #fff
+PrimaryLight: #000
+PrimaryMid: #000
+PrimaryDark: #000
+SecondaryPale: #ffc
+SecondaryLight: #fe8
+SecondaryMid: #db4
+SecondaryDark: #841
+TertiaryPale: #eee
+TertiaryLight: #ccc
+TertiaryMid: #999
+TertiaryDark: #666
+Error: #f88</pre>
+</div>

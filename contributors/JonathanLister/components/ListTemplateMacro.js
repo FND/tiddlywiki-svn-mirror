@@ -22,6 +22,7 @@ Usage example:
 Parameters can be:
 filter - a tiddler filter
 data - the part of a tiddler to use in the subTemplate
+raw - if set to "true", renders the template in place in the page (NB: only works as expected if set at the top-level)
 
 NOTE: FOR NOW, THIS PLUGIN ALSO OVERRIDES THE RSS SAVING AND PRODVIDES A MACRO CALLED TIDDLYTEMPLATING TO SAVE AN EXTERNAL FILE
 
@@ -44,6 +45,7 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 	template = template ? store.getTiddlerText(template,this.defaultTemplate) : this.defaultTemplate;
 	var list = getParam(params,"list","");
 	var data = getParam(params,"data","");
+	var raw = getParam(params,"raw",false);
 	var tiddlers = [];
 	/* METHOD4 - 24/1/08 - using these calls:
 		<<ListTemplate filter:"[tag[docs]]" template:"RssItemTemplate">>
@@ -64,16 +66,38 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 			break;
 		default:
 			tiddlers.push(tiddler);
-			break;		
+			break;
 		}
 	} else {
 		// no data provided, so inherit
 		tiddlers.push(tiddler);
 	}
+	var html = "";
+	var d = document.createElement("div");
 	for(i=0; i<tiddlers.length; i++) {
 		// NOTE: Saq suggested using WikifyStatic here, which returns html and then I could output it batch later
-		new Wikifier(template,formatter,null,tiddlers[i]).subWikify(place);
+		// new Wikifier(template,formatter,null,tiddlers[i]).subWikify(place);
+		html += wikifyStatic(template,null,tiddlers[i]);
 	}
+	d.innerHTML = html;
+	// console.log(d.textContent);
+	if(raw) {
+		var e = document.createElement("div");
+		wikify(d.textContent,e);
+		// console.log(e.textContent);
+		place.innerHTML = e.textContent;
+	} else {
+		wikify(d.textContent,place);
+	}
+	// console.log(place.innerHTML);
+	// html = "<html>" + html + "</html>";
+	// createTiddlyText(place,html);
+	// console.log(html);
+	// wikify(html,place);
+	// place.innerHTML += d.innerHTML;
+	// console.log(d.textContent);
+	// console.log(place.innerHTML);
+	// console.log("--------");
 };
 
 } //# end of 'install only once'
@@ -121,7 +145,7 @@ function saveRss(localPath)
 /***
 Experimental TiddlyTemplating save macro
 
-usage: <<TiddlyTemplating template path>>
+usage: <<TiddlyTemplating path template>>
 ***/
 config.macros.TiddlyTemplating = {};
 
