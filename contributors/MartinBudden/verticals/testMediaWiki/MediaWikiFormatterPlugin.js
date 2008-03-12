@@ -340,11 +340,11 @@ config.mediawiki.formatters = [
 	match: '^\\{\\|', // ^{|
 	handler: function(w)
 	{
-		var mwt = new MediaWikiTemplate();
-		var pair = mwt.findTableBracePair(w.source,w.matchStart);
+		var pair = MediaWikiTemplate.findTableBracePair(w.source,w.matchStart);
 		if(pair.start==w.matchStart) {
 			w.nextMatch = w.matchStart;
 			var table = createTiddlyElement2(w.output,'table');
+			var mwt = new MediaWikiTemplate();
 			mwt.wikifyTable(table,w,pair);
 		}
 	}
@@ -690,66 +690,38 @@ config.mediawiki.formatters = [
 },
 
 {
-	name: 'mediaWikiBoldItalic',
-	match: "'''''",
-	termRegExp: /('''''|(?=\n))/mg,
-	element: 'strong',
+	name: "mediaWikiCharacterFormat",
+	match: "'{2,5}|(?:<[usbi]>)",
 	handler: function(w)
 	{
-		var e = createTiddlyElement(w.output,this.element);
-		w.subWikifyTerm(createTiddlyElement(e,'em'),this.termRegExp);
+		switch(w.matchText) {
+		case "'''''":
+			var e = createTiddlyElement(w.output,'strong');
+			w.subWikifyTerm(createTiddlyElement(e,'em'),/('''''|(?=\n))/mg);
+			break;
+		case "'''":
+			w.subWikifyTerm(createTiddlyElement(w.output,'strong'),/('''|(?=\n))/mg);
+			break;
+		case "''":
+			w.subWikifyTerm(createTiddlyElement(w.output,'em'),/((?:''(?!'))|(?=\n))/mg);
+			break;
+		case '<u>':
+			w.subWikifyTerm(createTiddlyElement(w.output,'u'),/(<\/u>|(?=\n))/mg);
+			break;
+		case '<s>':
+			w.subWikifyTerm(createTiddlyElement(w.output,'del'),/(<\/s>|(?=\n))/mg);
+			break;
+		case '<b>':
+			w.subWikifyTerm(createTiddlyElement(w.output,'b'),/(<\/b>|(?=\n))/mg);
+			break;
+		case '<i>':
+			w.subWikifyTerm(createTiddlyElement(w.output,'i'),/(<\/i>|(?=\n))/mg);
+			break;
+		}
 	}
 },
 
-{
-	name: 'mediaWikiBold',
-	match: "'''",
-	termRegExp: /('''|(?=\n))/mg,
-	element: 'strong',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'mediaWikiItalic',
-	match: "''",
-	termRegExp: /((?:''(?!'))|(?=\n))/mg,
-	element: 'em',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'mediaWikiUnderline',
-	match: '<u>',
-	termRegExp: /(<\/u>|(?=\n))/mg,
-	element: 'u',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'mediaWikiStrike',
-	match: '<s>',
-	termRegExp: /(<\/s>|(?=\n))/mg,
-	element: 'strike',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'mediaWikiBoldTag',
-	match: '<b>',
-	termRegExp: /(<\/b>|(?=\n))/mg,
-	element: 'b',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'mediaWikiItalicTag',
-	match: '<i>',
-	termRegExp: /(<\/i>|(?=\n))/mg,
-	element: 'i',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
+/*{
 	//# note, this only gets invoked when viewing the template
 	name: 'mediaWikiTemplateParam',
 	match: '\\{\\{\\{',
@@ -757,6 +729,7 @@ config.mediawiki.formatters = [
 	element: 'span',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
+*/
 
 //# See http://en.wikipedia.org/wiki/Wikipedia:Footnotes
 //# for an explanation of how to generate footnotes using the <ref(erences/)> tags
