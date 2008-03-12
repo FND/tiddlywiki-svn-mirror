@@ -165,7 +165,7 @@ ajax.posts=function(u,a){ajax.send(u,function(s){return s.responseText},'POST',a
 //				callback(false,params,null,url,x);
 serverside.fn.genericCallback = function(status,params,responseText,uri,xhr) {
 	
-	if(xhr.status == 401);
+	if(xhr.status == 401)
 	{
 		story.displayTiddler(null,'Please Login', 1);
 	}			
