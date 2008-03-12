@@ -1,0 +1,16 @@
+<div title="Template:Infobox Airport" modifier="www.wikipedia.org" server.host="www.wikipedia.org/w" wikiformat="mediawiki">
+<pre>
+{| class="infobox bordered vcard" style="width:220px; font-size:80%; line-height:160%;"
+! style="background:#4682B4; color:white; line-height:180%;" | <span class="fn" style="font-size:120%;">{{{name}}}</span>
+|-
+! colspan="4" style="white-space:nowrap;" | [[International Air Transport Association airport code|IATA]]:  &ndash; [[International Civil Aviation Organization airport code|ICAO]]: 
+|- style="background:#4682B4; color:white; font-size:120%;"
+! colspan="4" | Summary
+|- style="text-align:left;"
+{{#if: {{{built|}}} |
+!     colspan="2" {{!}} Built
+{{!}} colspan="2" {{!}} {{{built}}}
+}}
+|}
+</pre>
+</div>

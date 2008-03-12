@@ -1,0 +1,11 @@
+<div title="Template:TestFunctions" wikiformat="mediawiki">
+<pre>
+{|
+!{{{name}}}
+|-
+!{{#if:{{{IATA|}}}|{{{IATA}}}|''none''}}
+|-
+! Summary
+|}
+</pre>
+</div>
