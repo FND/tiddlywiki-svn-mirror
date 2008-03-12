@@ -1,0 +1,22 @@
+<div title="testWikispacesTables" modifier="MartinBudden" created="200711230000" tags="test" wikiformat="wikispaces">
+<pre>
+|| a || b || c ||
+|| d || e || f ||
+
+|| this will rowspan 2 rows || this is a single cell ||
+||^ || this is another single cell ||
+|| single cell below rowspan || last single cell ||
+
+|| a || b || c ||
+|| d || e
+second line of e || f ||
+|| g || h || i ||
+
+||~ heading1 ||~ heading2 ||~ heading3 ||
+|| table cell || table cell || table cell ||
+||= centered ||> right || normal ||
+|||| spans 2 columns || cell ||
+|| col1 || col2 || col3 ||
+||col1||col2||col3||
+</pre>
+</div>
