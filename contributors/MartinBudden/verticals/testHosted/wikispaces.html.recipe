@@ -21,3 +21,4 @@ tiddler: ../../formatters/WikispacesFormatterPlugin.js
 tiddler: ../../../SaqImtiaz/adaptors/WikispacesAdaptor.js
 tiddler: ../../feeds/WikispacesTwTestFeed.tiddler
 tiddler: ../../testFormatters/testWikispacesFormat.tiddler
+tiddler: ../../testFormatters/testWikispacesTables.tiddler
