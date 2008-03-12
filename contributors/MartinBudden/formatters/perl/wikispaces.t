@@ -60,46 +60,30 @@ para1
 
 para2
 __NEXT__
-bold
+character formatting
 __H__
-<html><b>bold</b></html>
+<html>
+<b>bold</b>
+<p><i>italics</i></p>
+<p><u>underline</u></p>
+<p><b>bold</b> and <i>italics</i></p>
+<p><i><b>bold-italics</b> nested</i></p>
+<p><strong>strong</strong></p>
+<p><em>emphasized</em></p>
+</html>
 __W__
 **bold**
-__NEXT__
-italics
-__H__
-<html><i>italics</i></html>
-__W__
+
 //italics//
-__NEXT__
-underline
-__H__
-<html><u>underline</u></html>
-__W__
+
 __underline__
-__NEXT__
-bold and italics
-__H__
-<html><b>bold</b> and <i>italics</i></html>
-__W__
+
 **bold** and //italics//
-__NEXT__
-bold-italics nested
-__H__
-<html><i><b>bold-italics</b> nested</i></html>
-__W__
+
 //**bold-italics** nested//
-__NEXT__
-strong
-__H__
-<html><strong>strong</strong></html>
-__W__
+
 **strong**
-__NEXT__
-emphasized
-__H__
-<html><em>emphasized</em></html>
-__W__
+
 //emphasized//
 __NEXT__
 one-line phrasals
@@ -139,7 +123,7 @@ __H__
 __W__
 * 1
 ** a
-### i
+**# i
 ** b
 * 2
 __NEXT__
@@ -226,15 +210,27 @@ __W__
 __NEXT__
 img
 __H__
-<img src="http://www.example.com/logo.png" alt="logo" />
-<img src="http://www.example.com/logo.png" alt="logo" align="left" />
-<img src="http://www.example.com/logo.png" alt="logo" align="right" />
-<img src="http://www.example.com/logo.png" alt="logo" align="center" />
-<img src="http://www.example.com/logo.png" alt="logo" title="caption for logo" />
-<img src="http://www.example.com/logo.png" width="180" />
-<img src="http://www.example.com/logo.png" height="80" />
+<p><img src="http://www.example.com/logo.png" alt="logo" /></p>
+<p><img src="http://www.example.com/logo.png" alt="logo" align="left" /></p>
+<p><img src="http://www.example.com/logo.png" alt="logo" align="right" /></p>
+<p><img src="http://www.example.com/logo.png" alt="logo" align="center" /></p>
+<p><img src="http://www.example.com/logo.png" alt="logo" title="caption for logo" /></p>
+<p><img src="http://www.example.com/logo.png" width="180" /></p>
+<p><img src="http://www.example.com/logo.png" height="80" /></p>
 __W__
-[[image:http://www.example.com/logo.png alt="logo"]] [[image:http://www.example.com/logo.png alt="logo" align="left"]] [[image:http://www.example.com/logo.png alt="logo" align="right"]] [[image:http://www.example.com/logo.png alt="logo" align="center"]] [[image:http://www.example.com/logo.png alt="logo" caption="caption for logo"]] [[image:http://www.example.com/logo.png width="180"]] [[image:http://www.example.com/logo.png height="80"]]
+[[image:http://www.example.com/logo.png alt="logo"]]
+
+[[image:http://www.example.com/logo.png alt="logo" align="left"]]
+
+[[image:http://www.example.com/logo.png alt="logo" align="right"]]
+
+[[image:http://www.example.com/logo.png alt="logo" align="center"]]
+
+[[image:http://www.example.com/logo.png alt="logo" caption="caption for logo"]]
+
+[[image:http://www.example.com/logo.png width="180"]]
+
+[[image:http://www.example.com/logo.png height="80"]]
 __NEXT__
 external links 2
 __H__
@@ -246,7 +242,13 @@ anchor
 __H__
 <html><a name="anchor">text</a></html>
 __W__
-[[#anchor]]text
+[[#ws_anchor]]text
+__NEXT__
+bold anchor with space
+__H__
+<html><b> <a name="anchor">text</a></b></html>
+__W__
+**[[#ws_anchor]]text**
 __NEXT__
 simple tables
 __H__
