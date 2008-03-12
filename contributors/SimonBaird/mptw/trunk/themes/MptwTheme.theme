@@ -35,17 +35,7 @@ http://mptw.tiddlyspot.com/#MptwTheme ($Rev: 1829 $)
 
 !ViewTemplate
 <!--{{{-->
-<div class='toolbar'>
-	<span macro="showWhenTagged systemConfig">
-		<span macro="toggleTag systemConfigDisable . '[[disable|systemConfigDisable]]'"></span>
-	</span>
-	<span macro="showWhenTagged systemTheme"><span macro="applyTheme"></span></span>
-	<span macro="showWhenTagged systemPalette"><span macro="applyPalette"></span></span>
-	<span macro="showWhen tiddler.tags.contains('css') || tiddler.title == 'StyleSheet'"><span macro="refreshAll"></span></span>
-	<span style="padding:1em;"></span>
-	<span macro='toolbar closeTiddler closeOthers +editTiddler deleteTiddler > fields syncing permalink references jump'></span> <span macro='newHere label:"new here"'></span>
-	<span macro='newJournalHere {{config.mptwJournalFormat?config.mptwJournalFormat:"MM/0DD/YY"}}'></span>
-</div>
+[[MptwTheme##ViewTemplateToolbar]]
 
 <div class="tagglyTagged" macro="tags"></div>
 
@@ -63,19 +53,30 @@ http://mptw.tiddlyspot.com/#MptwTheme ($Rev: 1829 $)
 	-->
 </div>
 
-<div macro="showWhenExists ViewPanelTemplate">[[ViewPanelTemplate]]</div>
-
-<div macro="hideWhen tiddler.tags.containsAny(['css','html','pre','systemConfig']) && !tiddler.text.match('{{'+'{')">
-	<div class='viewer' macro='view text wikified'></div>
-</div>
 <div macro="showWhen tiddler.tags.containsAny(['css','html','pre','systemConfig']) && !tiddler.text.match('{{'+'{')">
 	<div class='viewer'><pre macro='view text'></pre></div>
 </div>
-
-<div macro="showWhenExists ViewDashboardTemplate">[[ViewDashboardTemplate]]</div>
+<div macro="else">
+	<div class='viewer' macro='view text wikified'></div>
+</div>
 
 <div class="tagglyTagging" macro="tagglyTagging"></div>
 
+<!--}}}-->
+
+!ViewTemplateToolbar
+<!--{{{-->
+<div class='toolbar'>
+	<span macro="showWhenTagged systemConfig">
+		<span macro="toggleTag systemConfigDisable . '[[disable|systemConfigDisable]]'"></span>
+	</span>
+	<span macro="showWhenTagged systemTheme"><span macro="applyTheme"></span></span>
+	<span macro="showWhenTagged systemPalette"><span macro="applyPalette"></span></span>
+	<span macro="showWhen tiddler.tags.contains('css') || tiddler.title == 'StyleSheet'"><span macro="refreshAll"></span></span>
+	<span style="padding:1em;"></span>
+	<span macro='toolbar closeTiddler closeOthers +editTiddler deleteTiddler > fields syncing permalink references jump'></span> <span macro='newHere label:"new here"'></span>
+	<span macro='newJournalHere {{config.mptwJournalFormat?config.mptwJournalFormat:"MM/0DD/YY"}}'></span>
+</div>
 <!--}}}-->
 
 !EditTemplate

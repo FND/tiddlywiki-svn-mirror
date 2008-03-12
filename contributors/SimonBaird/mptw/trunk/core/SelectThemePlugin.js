@@ -23,7 +23,7 @@
 config.macros.selectTheme = {
 	label: {
       		selectTheme:"select theme",
-      		selectPalette:"select palette",
+      		selectPalette:"select palette"
 	},
 	prompt: {
 		selectTheme:"Select the current theme",

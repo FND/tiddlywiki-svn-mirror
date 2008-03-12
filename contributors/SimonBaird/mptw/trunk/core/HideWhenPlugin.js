@@ -1,7 +1,7 @@
 /***
 |Name:|HideWhenPlugin|
 |Description:|Allows conditional inclusion/exclusion in templates|
-|Version:|3.0 ($Rev$)|
+|Version:|3.1 ($Rev$)|
 |Date:|$Date$|
 |Source:|http://mptw.tiddlyspot.com/#HideWhenPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
@@ -12,12 +12,16 @@ For use in ViewTemplate and EditTemplate. Example usage:
 ***/
 //{{{
 
+window.hideWhenLastTest = false;
+
 window.removeElementWhen = function(test,place) {
+	window.hideWhenLastTest = test;
 	if (test) {
 		removeChildren(place);
 		place.parentNode.removeChild(place);
 	}
 };
+
 
 merge(config.macros,{
 
@@ -59,6 +63,18 @@ merge(config.macros,{
 
 	showWhenExists: { handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 		removeElementWhen( !(store.tiddlerExists(params[0]) || store.isShadowTiddler(params[0])), place);
+	}},
+
+	hideWhenTitleIs: { handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+		removeElementWhen( tiddler.title == params[0], place);
+	}},
+
+	showWhenTitleIs: { handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+		removeElementWhen( tiddler.title != params[0], place);
+	}},
+
+	'else': { handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+		removeElementWhen( !window.hideWhenLastTest, place);
 	}}
 
 });
