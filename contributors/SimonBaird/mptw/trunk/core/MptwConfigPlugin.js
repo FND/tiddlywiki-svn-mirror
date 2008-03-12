@@ -16,7 +16,7 @@ config.options.chkInsertTabs = true;    // tab inserts a tab when editing a tidd
 config.views.wikified.defaultText = ""; // don't need message when a tiddler doesn't exist
 config.views.editor.defaultText = "";   // don't need message when creating a new tiddler 
 
-config.mptwVersion = "2.3.1";
+config.mptwVersion = "2.3.2";
 
 config.macros.mptwVersion={handler:function(place){wikify(config.mptwVersion,place);}};
 
