@@ -6,6 +6,7 @@ tiddler: Home.tiddler
 tiddler: Test.tiddler
 tiddler: testMacro.js
 tiddler: Table.tiddler
+tiddler: TableEmpty.tiddler
 tiddler: TestInfobox.tiddler
 tiddler: MediaWikiTemplatePlugin.js
 tiddler: MediaWikiFormatterPlugin.js
@@ -41,4 +42,8 @@ recipe: ../../test/templates/split.recipe
 tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js tags="systemConfig excludeLists excludeSearch"
 tiddler: ../SolarSystem/templates/Template_Planet_Infobox_Mercury.tiddler
 tiddler: ../SolarSystem/templates/Template_Infobox_Planet_Abridged.tiddler
-tiddler: ../MediaWikiContent/airports/templates/Template_Infobox_Airport.tiddler
+#tiddler: ../MediaWikiContent/airports/templates/Template_Infobox_Airport.tiddler
+tiddler: ../MediaWikiContent/templates/Template_!.tiddler
+tiddler: Template_Infobox_Airport_Abridged.tiddler
+tiddler: Template_TestFunctions.tiddler
+
