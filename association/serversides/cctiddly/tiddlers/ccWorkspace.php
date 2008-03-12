@@ -12,7 +12,7 @@
 ***/
 //{{{
 
-var url = "http://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
+var url = "<?php echo $scheme;?>://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
 	var workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 	var workspacePermission =  {};
 	
