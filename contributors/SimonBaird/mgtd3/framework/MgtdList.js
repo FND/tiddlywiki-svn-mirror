@@ -51,6 +51,9 @@ merge(config.macros,{
 			// group by another tag
 			var groupBy = getParam(pp,"group","");
 
+			// group by count only mode
+			var groupCountOnly = getParam(pp,"groupCountOnly","");
+
 			// filter the groups by tag expr
 			var gTagExpr = getParam(pp,"gTag","");
 
@@ -94,6 +97,7 @@ merge(config.macros,{
 			listRefreshContainer.setAttribute("tagMode",tagMode);
 			listRefreshContainer.setAttribute("tagExpr",tagExpr);
 			listRefreshContainer.setAttribute("groupBy",groupBy);
+			listRefreshContainer.setAttribute("groupCountOnly",groupCountOnly);
 			listRefreshContainer.setAttribute("gTagExpr",gTagExpr);
 			listRefreshContainer.setAttribute("whereExpr",whereExpr);
 			listRefreshContainer.setAttribute("gWhereExpr",gWhereExpr);
@@ -117,6 +121,7 @@ merge(config.macros,{
 			var tagMode = place.getAttribute("tagMode");
 			var tagExpr = place.getAttribute("tagExpr");
 			var groupBy = place.getAttribute("groupBy");
+			var groupCountOnly = place.getAttribute("groupCountOnly");
 			var gTagExpr = place.getAttribute("gTagExpr");
 			var whereExpr = place.getAttribute("whereExpr");
 			var gWhereExpr = place.getAttribute("gWhereExpr");
@@ -166,11 +171,17 @@ merge(config.macros,{
 				});
 			}
 
-			if (groupBy != "") {
+            if (groupBy == "day") {
+                // experimental. changing a tag doesn't update modified so
+                // this isn't as useful
+                theList = theList.groupBy(function(t){return [t.modified.formatString('YYYY-0MM-0DD')];});
+				wikifyThis += theList.renderGrouped(viewType,gViewType,leftoverTitle);
+            }
+			else if (groupBy != "") {
 				theList = theList.groupByTag(groupBy,sortBy,gSortBy);
 				if (gTagExpr != "") theList = theList.filterGroupsByTagExpr(gTagExpr);
 				if (gWhereExpr != "") theList = theList.filterGroupsByEval(gWhereExpr);
-				wikifyThis += theList.renderGrouped(viewType,gViewType,leftoverTitle);
+				wikifyThis += theList.renderGrouped(viewType,gViewType,leftoverTitle,null,groupCountOnly);
 			}
 			else {
 				theList = theList.tiddlerSort(sortBy);

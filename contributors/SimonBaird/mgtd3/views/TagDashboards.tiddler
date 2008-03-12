@@ -1,0 +1,44 @@
+!Project
+<!--{{{-->
+<table class="twocol"><tr><td>
+<div macro="mgtdList title:'Next Actions' tags:'Action && Next && !Done' view:ActionProj
+	group:Context
+	gView:Context
+	where:tiddler.hasActiveProject()
+	"></div>
+
+<div macro="mgtdList title:'Waiting Actions' tags:'Action && [(Waiting For)] && !Done' view:ActionProj
+	group:Context
+	gView:Context
+	where:tiddler.hasActiveProject()
+	"></div>
+
+</td><td>
+
+<div macro="mgtdList title:'Future Actions' tags:'Action && Future && !Done' view:ActionProj
+	group:Context
+	gView:Context
+	where:tiddler.hasActiveProject()
+	"></div>
+
+<div macro="mgtdList title:'Done Actions' tags:'Action && Done' view:DoneAction
+	"></div>
+
+</td></tr></table>
+<!--}}}-->
+
+
+!Context
+<!--{{{-->
+<table class="twocol"><tr><td>
+<div macro="mgtdList title:'Next' tags:'Action && Next && !Done' view:ActionProj
+	where:tiddler.hasActiveProject()
+	"></div>
+
+</td><td>
+<div macro="mgtdList title:'Waiting' tags:'Action && [(Waiting For)] && !Done' view:ActionProj
+	where:tiddler.hasActiveProject()
+	"></div>
+
+</td></tr></table>
+<!--}}}-->

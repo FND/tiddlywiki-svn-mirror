@@ -24,7 +24,7 @@ merge(Tiddler.prototype,{
 		//'<<multiSelectTag tag:Project title:[[%0]]>>'+
 		//'<<multiCheckboxTag tag:ActionStatus title:[[%0]]>>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
-		' &nbsp;[[%0]] }}}\n',
+		' &nbsp;[[%0]] }}}',
 		[
 			this.title
 		]
@@ -37,7 +37,7 @@ merge(Tiddler.prototype,{
 		//'<<multiSelectTag tag:Project title:[[%0]]>>'+
 		//'<<multiCheckboxTag tag:ActionStatus title:[[%0]]>>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
-		' &nbsp;[[%0]] }}}\n',
+		' &nbsp;[[%0]] }}}',
 		[
 			this.title
 		]
@@ -48,7 +48,7 @@ merge(Tiddler.prototype,{
 		//'<<multiSelectTag tag:Project title:[[%0]]>>'+
 		//'<<multiCheckboxTag tag:ActionStatus title:[[%0]]>>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
-		'&nbsp;[[%0]] }}}\n',
+		'&nbsp;[[%0]] }}}',
 		[
 			this.title
 		]
@@ -72,7 +72,7 @@ merge(Tiddler.prototype,{
 		'<<toggleTag Done [[%0]] ->>'+
 		'<<multiToggleTag tag:ActionStatus title:[[%0]]>>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
-		' &nbsp;[[%0]] %1}}}\n',
+		' &nbsp;[[%0]] %1}}}',
 		[
 			this.title,
 			pLink
@@ -82,7 +82,7 @@ merge(Tiddler.prototype,{
 	render_DoneAction: function() { return this.renderUtil(
 		'{{action{'+
 		'<<toggleTag Done [[%0]] ->>'+
-		' [[%0]] }}}\n',
+		' [[%0]] }}}',
 		[
 			this.title
 		]
@@ -94,22 +94,21 @@ merge(Tiddler.prototype,{
 		'<<toggleTag Complete [[%0]] ->>'+
 		'@@font-size:80%;<<multiToggleTag tag:ProjectStatus title:[[%0]]>>@@'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
- 		'}}}'+
-		'\n',
+ 		'}}}',
 		[
 			this.title
 		]
 	);},
 
 	render_Context: function() { return this.renderUtil(
-		'[[%0]]\n',
+		'[[%0]]',
 		[
 			this.title
 		]
 	);},
 
 	render_plain: function() { return this.renderUtil(
-		'[[%0]]\n',
+		'[[%0]]',
 		[
 			this.title
 		]

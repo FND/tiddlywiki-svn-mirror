@@ -108,6 +108,7 @@ config.indexedTags = {
 		getByIndex: function(tag) {
 			return config.indexedTags.indexes[this.title][tag];
 		},
+
 		hasActiveProject: function() {
 			var projs = this.getByIndex("Project");
 
@@ -124,6 +125,11 @@ config.indexedTags = {
 					)
 					return true;
 			return false;
+		},
+
+		hasNextAction: function() {
+			var children = fastTagged(this.title).filterByTagExpr('Action && !Done && (Next || [(Waiting For)])');
+			return children.length > 0;
 		}
 	},
 

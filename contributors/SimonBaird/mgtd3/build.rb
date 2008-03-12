@@ -11,11 +11,11 @@ end
 demo = [
 	['MgtdSettings', "[[Do Work]] Work Personal" ],
 
-  	['Starred',       ''],
+ 	['Starred',       ''],
 
-  	['Done',          '',  "button:done\n"],
+ 	['Done',          '',  "button:done\n"],
 
-  	['Next',          'ActionStatus',  "order:1\nbutton:n\nbuttonLong:next\n"],
+ 	['Next',          'ActionStatus',  "order:1\nbutton:n\nbuttonLong:next\n"],
 	['Waiting For',   'ActionStatus',  "order:2\nbutton:w\nbuttonLong:waiting for\n"],
 	['Future',        'ActionStatus',  "order:3\nbutton:f\nbuttonLong:future\n"],
 
@@ -29,44 +29,50 @@ demo = [
 	['Recreation',       'Area'],
 
 	['Do Work',       'Sidebar', "order:1\nbutton:Work\n"                     ],
-	['Process Inbox', 'Sidebar', "order:2\nbutton:Process\n"                  ],
+	['Process Inbox', 'Sidebar', "order:2\nbutton:Inbox\n"                  ],
 	['Review',        'Sidebar', "order:3\nbutton:Review\n"                   ],
 	['Collect Items', 'Sidebar', "order:4\nbutton:Collect\n"                  ],
 	['Config',        'Sidebar', "order:998\nbutton:Conf\nbuttonClass:tiny\n" ],
 	['TW',            'Sidebar', "order:999\nbutton:TW\nbuttonClass:tiny\n"   ],
 
-  	['Weekend',       'Context'],
-	['Call',          'Context'],
-	['Home',          'Context'],
-	['Office',        'Context'],
-	['Errand',        'Context'],
-	['Email',         'Context'],
-	['Offline',       'Context'],
-	['Low Energy',    'Context'],
-	['Reading',       'Context'],
+ 	['@Weekend',       'Context'],
+	['@Call',          'Context'],
+	['@Home',          'Context'],
+	['@Office',        'Context'],
+	['@Errand',        'Context'],
+	['@Email',         'Context'],
+	['@Offline',       'Context'],
+	['@Low Energy',    'Context'],
+	['@Reading',       'Context'],
 
 	['Mow Lawn',              "Project [[Home Maintenance]] Personal Active"],
-	['Get some mower fuel',   "Action Next Personal [[Mow Lawn]] Errand"],
-	['Pick up palm branches', "Action Next Personal [[Mow Lawn]] Weekend"],
-	['Mow the lawn already',  "Action Future Personal [[Mow Lawn]] Weekend"],
+	['Get some mower fuel',   "Action Next Personal [[Mow Lawn]] @Errand"],
+	['Pick up palm branches', "Action Next Personal [[Mow Lawn]] @Weekend"],
+	['Mow the lawn already',  "Action Future Personal [[Mow Lawn]] @Weekend"],
 
 	['Buy snowboard',                          "Project Recreation Personal Someday/Maybe"],
-	['Look in phone book for local ski shops', "Action Next Personal [[Buy snowboard]] Home"],
-	['Ask Ben for recommendations',            "Action Next Personal [[Buy snowboard]] Call"],
+	['Look in phone book for local ski shops', "Action Next Personal [[Buy snowboard]] @Home"],
+	['Ask Ben for recommendations',            "Action Next Personal [[Buy snowboard]] @Call"],
 
-  ['Hung up bedroom curtains', "Project [[Home Maintenance]] Personal Active"],
-  ['Buy curtain rail and screws', "Action Next Personal [[Hung up bedroom curtains]] Errand"],
-  ['Drill holes and hung up curtain rail', "Action Future Personal [[Hung up bedroom curtains]] Home"],
-  ['Place curtain pins and hung up curtains', "Action Future Personal [[Hung up bedroom curtains]] Home"],
+  ['Hang up bedroom curtains', "Project [[Home Maintenance]] Personal Active"],
+  ['Buy curtain rail and screws', "Action Next Personal [[Hang up bedroom curtains]] @Errand"],
+  ['Drill holes and hung up curtain rail', "Action Future Personal [[Hang up bedroom curtains]] @Home"],
+  ['Place curtain pins and hung up curtains', "Action Future Personal [[Hang up bedroom curtains]] @Home"],
   
   ['Go to theater with Sue', "Project Recreation Personal Active"],
-  ['Ring Sue: decide play and dates', "Action Next Personal [[Go to theater with Sue]] Call"],
-  ['Ring ticket office and book places', "Action Future Personal [[Go to theater with Sue]] Call"],
+  ['Ring Sue: decide play and dates', "Action Next Personal [[Go to theater with Sue]] @Call"],
+  ['Ring ticket office and book places', "Action Future Personal [[Go to theater with Sue]] @Call"],
   
 	['A project-less task',   "Action Next Personal"],
 
 ]
 
+# TODO put into r4tw
+class Tiddler
+  def get_sections
+    @fields['text'].scan(/^!([^\n]+)$/m).map { |m| m[0] }
+  end
+end 
 
 make_tw {
 
@@ -85,16 +91,23 @@ make_tw {
 
   add_tiddlers_from_dir  "tiddlers"
 
-  # should match what's in Dashboard and MonkeyGTDTheme. Uhoh, we have some DRY problems...
-  [
-    'Action Dashboard',
-    'Action Dashboard by Context',
-    'Just Next Actions',
-    'Just Next Actions by Context',
-    'Projects',
-  ].each do |t|
-	  add_tiddler_from_scratch('tiddler' => t, 'tags' => 'View', 'text' => '')
-   end
+  # generate some content
+  content = ""
+  get_tiddler('NameDashboards').get_sections.each do |s|
+    content += "<div macro=\"showWhenTitleIs '#{s}'\">[[NameDashboards###{s}]]</div>\n"
+	  add_tiddler_from_scratch('tiddler' => s, 'tags' => 'View', 'text' => '')
+  end
+  get_tiddler('TagDashboards').get_sections.each do |s|
+    content += "<div macro=\"showWhenTagged '#{s}'\">[[TagDashboards###{s}]]</div>\n"
+  end
+
+  add_tiddler_from_scratch ({'tiddler' => 'DashboardSelector', 'text' => content });
+
+  content = ""
+  get_tiddler('TitleButtons').get_sections.each do |s|
+    content += "<div macro=\"showWhenTagged '#{s}'\">[[TitleButtons###{s}]]</div>\n"
+  end
+  add_tiddler_from_scratch ({'tiddler' => 'TitleButtonsSelector', 'text' => content });
 
   # load the demo
   demo.each do |t|

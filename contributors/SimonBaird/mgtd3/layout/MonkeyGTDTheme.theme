@@ -9,28 +9,18 @@
 <!--{{{-->
 <div macro="showWhen tiddler.tags.containsAny(config.mGTD.specialTags)">
 	[[MptwTheme##ViewTemplateToolbar]]
-	<div class='titleContainer viewer'>
-		<span class='title' macro='view title'></span>
-		[[MonkeyGTDTheme##TitleButtons]]
-		[[MonkeyGTDTheme##Subtitle]]
-	</div>
+	<div class='titleContainer viewer'>[[TitleButtonsSelector]]</div>
 	[[MonkeyGTDTheme##Panel]]
 	<div macro="showWhen tiddler.text != ''">
 		<div class='viewer'>Notes:</div>
 		<div class='viewer postityellow' macro='view text wikified'></div>
 	</div>
-	<div class='viewer'>[[MonkeyGTDTheme##Dashboard]]</div>
+	<div class='viewer'>[[DashboardSelector]]</div>
 </div>
 <div macro="hideWhen tiddler.tags.containsAny(config.mGTD.specialTags)">
 	<!--- use standard template for non gtd tiddlers --->
 	[[MptwTheme##ViewTemplate]]
 </div>
-<!--}}}-->
-
-!TitleButtons
-<!--{{{-->
-<span macro="showWhenTagged Project">[[TitleButtons##Project]]</span>
-<span macro="showWhenTagged Action">[[TitleButtons##Action]]</span>
 <!--}}}-->
 
 !Panel
@@ -281,6 +271,14 @@ body {
 {
 	background-color:#ffa;
 	border-style:none;
+}
+
+#sidebar .sliderButton { font-weight:bold; padding-left:0.25em; }
+#sidebar .sliderPanel ul { margin-bottom:0px; }
+#sidebar .sliderPanel li { font-weight:medium; font-size:90%; }
+
+#sidebar .mgtdList .innerList .tiddlyLink {
+	font-size:120%;
 }
 
 /* for user styles */

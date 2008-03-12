@@ -1,21 +1,35 @@
 !Project
 <!--{{{-->
+<span class='title' macro='view title'></span> (Project)
 <span macro="toggleTag Complete . -"></span>
 <span macro="multiToggleTag ProjectStatus longVersion:on"></span>
 <span macro="singleToggleTag tag:Starred"></span>
 <br/>
-Area:<span macro="multiSelectTag Area"></span>
+Area:<span macro="multiSelectTag Area allowNone:on"></span>
 Realm:<span macro="multiSelectTag Realm"></span>
+[[MonkeyGTDTheme##Subtitle]]
 <!--}}}-->
 
 !Action
 <!--{{{-->
+<span class='title' macro='view title'></span> (Action)
 <span macro="toggleTag Done . -"></span>
 <span macro="multiToggleTag ActionStatus longVersion:on"></span>
 <span macro="singleToggleTag tag:Starred"></span>
 <br/>
-Context:<span macro="multiSelectTag Context"></span>
-Project:<span macro="multiSelectTag Project"></span>
+Context:<span macro="multiSelectTag Context allowNone:on"></span>
+Project:<span macro="multiSelectTag Project allowNone:on"></span>
 Realm:<span macro="multiSelectTag Realm"></span>
+[[MonkeyGTDTheme##Subtitle]]
+<!--}}}-->
+
+!View
+<!--{{{-->
+<span class='title' macro='view title'></span>
+<!--}}}-->
+
+!Context
+<!--{{{-->
+<span class='title' macro='view title'></span> (Context)
 <!--}}}-->
 

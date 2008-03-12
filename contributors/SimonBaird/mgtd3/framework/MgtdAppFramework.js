@@ -231,28 +231,41 @@ merge(Array.prototype,{
 	render: function(renderMethod,renderOptions) {
 		return this.map(function(tiddler){
 			return tiddler.render(renderMethod,renderOptions);
-		}).join("");
+		}).join("\n");
 	},
 
-	renderGrouped: function(listRenderMethod,headingRenderMethod,noneHeading,renderOptions) {
+	renderGrouped: function(listRenderMethod,headingRenderMethod,noneHeading,renderOptions,groupCountOnly) {
+		// do I ever use renderOptions??
+		// this lost some elegance when I shoehorned the groupCountOnly part in. todo refactor
 		var result = "";
 		this.each(function(g) {
 			var groupName = g[0];
 			var groupItems = g[1];
+
+			var showCount = "";
+			if (groupCountOnly && groupCountOnly != "")
+				showCount = groupItems.length > 0 ? " ("+groupItems.length+")" : "";
+
+			var makeHeading = (groupCountOnly&&groupCountOnly!="") ? "" : "!!";
 			if (groupName == "__NONE__") {
-				result = result + "!!("+(noneHeading?noneHeading:"No "+headingRenderMethod)+")\n";
+				result = result + makeHeading + "[[("+(noneHeading?noneHeading:"No "+headingRenderMethod)+")]]"+showCount+"\n";
 			}
 			else {
 				var gTiddler = store.getTiddler(groupName);
 				if (gTiddler) {
-					result = result + "!!"+gTiddler.render(headingRenderMethod);
+					result = result + makeHeading+gTiddler.render(headingRenderMethod)+showCount+"\n";
 				}
 				else {
-					result = result + "!![["+groupName+"]]\n";
+					result = result + makeHeading+"[["+groupName+"]]"+showCount+"\n";
 				}
 			}
-			result = result + groupItems.render(listRenderMethod,renderOptions);
+			if (!groupCountOnly || groupCountOnly == "")
+				result = result + groupItems.render(listRenderMethod,renderOptions) + "\n";
 		});
+			
+		if (groupCountOnly && groupCountOnly != "")
+			result = result.replace(/\n$/,''); // hack. remove trailing linefeed
+
 		return result;
 	},
 
