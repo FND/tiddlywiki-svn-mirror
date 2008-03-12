@@ -1,9 +1,9 @@
 tiddler: Blog_Template_2.tiddler
-tiddler: BlogChoosePage.tiddler
-tiddler: BlogPage1.tiddler
-tiddler: BlogPageTemplate.tiddler
+tiddler: BlogGallery.tiddler
+tiddler: Blog1.tiddler
+tiddler: BlogTemplate.tiddler
 tiddler: BlogPostTemplate.tiddler
-tiddler: BlogThumb1.tiddler
+tiddler: BlogThumbnail1.tiddler
 tiddler: Choose_template.tiddler
 tiddler: ColorPalette.tiddler
 tiddler: DefaultTiddlers.tiddler
@@ -13,11 +13,11 @@ tiddler: MainMenu.tiddler
 tiddler: PageTemplate.tiddler
 tiddler: Preview.tiddler
 tiddler: PreviewBar.tiddler
-tiddler: PreviewBlogPage1.tiddler
+tiddler: PreviewBlog1.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: StyleSheet.tiddler
 tiddler: StyleSheetLayout.tiddler
 tiddler: TestPost1.tiddler
-tiddler: ThumbTemplate.tiddler
+tiddler: ThumbnailTemplate.tiddler
 tiddler: ViewTemplate.tiddler
