@@ -23,6 +23,7 @@ config.macros.testMacro.test = function(title,params)
 {
 	clearMessage();
 	displayMessage("Testing");
+	//tpTest('Dummy','','{{#if: {{{built|}}} |\n!     colspan="2" {{!}} Built\n{{!}} colspan="2" {{!}} {{{built}}}\n}}');
 	//tpTest('Dummy','','{{Infobox Airport}}');
 	//displayMessage("Testing complete");
 	//return;
@@ -237,6 +238,9 @@ config.macros.testMacro.testParserFunctions = function(title,params)
 	tpTest('TFn1','{{#if: {{{type<includeonly>|</includeonly>}}} | Airport type {{{type}}} }}','{{TFn1}}','');
 	tpTest('TFn1','{{#if: {{{type|}}} | Airport type {{{type}}} }}','{{TFn1|type=public}}',' Airport type public ');
 	tpTest('TFn1','{{#if: {{{type<includeonly>|</includeonly>}}} | Airport type {{{type}}} }}','{{TFn1|type=public}}',' Airport type public ');
+	
+	tpTest('Dummy','{{#if: {{{built|}}} |\n!     colspan="2" {{!}} Built\n{{!}} colspan="2" {{!}} {{{built}}}\n}}');
+
 };
 
 config.macros.testMacro.testBasic = function(title,params)
