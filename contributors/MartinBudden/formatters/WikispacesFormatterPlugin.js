@@ -4,7 +4,7 @@
 |''Description:''|Wikispaces Formatter|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/WikispacesFormatterPlugin.js |
-|''Version:''|0.0.5|
+|''Version:''|0.0.6|
 |''Date:''|Nov 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -70,45 +70,66 @@ config.wikispacesFormatters = [
 {
 	name: 'wikispacesTable',
 	match: '^\\|\\|(?:[^\\n]*)\\|\\|$',
-	lookaheadRegExp: /^\|\|([^\n]*)\|\|$/mg,
+	lookaheadRegExp: /^\|\|((?:.|\n)*)\|\|$/mg,
 	rowTermRegExp: /(\|\|$\n?)/mg,
-	cellRegExp: /(?:\|\|([^\n]*)\|\|)|(\|\|$\n?)/mg,
+	cellRegExp: /(?:\|\|((?:.|\n)*)\|\|)/mg,
 	cellTermRegExp: /((?:\x20*)\|\|)/mg,
 
 	handler: function(w)
 	{
 		var table = createTiddlyElement(w.output,'table');
-		var rowContainer = createTiddlyElement(table,'tbody');
+		var prevColumns = [];
 		var rowCount = 0;
 		w.nextMatch = w.matchStart;
 		this.lookaheadRegExp.lastIndex = w.nextMatch;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
-			this.rowHandler(w,createTiddlyElement(rowContainer,'tr',null,(rowCount&1)?'oddRow':'evenRow'));
+			this.rowHandler(w,createTiddlyElement(table,'tr',null,(rowCount&1)?'oddRow':'evenRow'),prevColumns);
 			rowCount++;
 			this.lookaheadRegExp.lastIndex = w.nextMatch;
 			lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		}
 	},//# end handler
-	rowHandler: function(w,e)
+	rowHandler: function(w,e,prevColumns)
 	{
 		var col = 0;
 		var colSpanCount = 1;
 		var prevCell = null;
 		this.cellRegExp.lastIndex = w.nextMatch;
 		var cellMatch = this.cellRegExp.exec(w.source);
+//#console.log('len:'+w.source.length);
+//#console.log('t1:'+w.source.substr(w.nextMatch,40));
+//#console.log(cellMatch);
 		while(cellMatch && cellMatch.index == w.nextMatch) {
+//#console.log('n:'+w.nextMatch);
 			if(w.source.substr(w.nextMatch,4) == '||||') {
 				// Colspan
 				colSpanCount++;
 				w.nextMatch += 2;
-			} else if(cellMatch[2]) {
+			} else if(w.source.substr(w.nextMatch+2,1)=='^') {
+				// Rowspan
+				var last = prevColumns[col];
+				if(last) {
+					last.rowSpanCount++;
+					last.element.setAttribute("rowspan",last.rowSpanCount);
+					last.element.setAttribute("rowSpan",last.rowSpanCount); // Needed for IE
+					last.element.valign = "center";
+				}
+				var n = w.source.indexOf('||',w.nextMatch+2);
+				if(n!=-1)
+					w.nextMatch = n;
+				else
+					w.nextMatch += 3;
+			} else if(w.source.substr(w.nextMatch,3)=='||\n') {
 				// End of row
 				if(colSpanCount > 1) {
 					prevCell.setAttribute('colspan',colSpanCount);
 					prevCell.setAttribute('colSpan',colSpanCount); // Needed for IE
 				}
-				w.nextMatch = this.cellRegExp.lastIndex;
+				w.nextMatch += 3;
+//#console.log('tr:'+w.source.substr(w.nextMatch,40));
+//#console.log('nr:'+w.nextMatch);
+				//#w.nextMatch = this.cellRegExp.lastIndex;
 				break;
 			} else {
 				// Cell
@@ -130,6 +151,8 @@ config.wikispacesFormatters = [
 						cell.align = 'left';
 					}
 				}
+				prevCell = cell;
+				prevColumns[col] = {rowSpanCount:1,element:cell};
 				if(colSpanCount > 1) {
 					cell.setAttribute('colspan',colSpanCount);
 					cell.setAttribute('colSpan',colSpanCount); // Needed for IE
@@ -140,8 +163,22 @@ config.wikispacesFormatters = [
 				w.nextMatch -= 2;
 			}
 			col++;
+			if(w.source.substr(w.nextMatch,3)=='||\n') {
+				w.nextMatch += 3;
+				break;
+			}
+			if(w.nextMatch==w.source.length-2) {
+				// table ends at end of tiddler
+				w.nextMatch += 2;
+				break;
+			}
+			
 			this.cellRegExp.lastIndex = w.nextMatch;
 			cellMatch = this.cellRegExp.exec(w.source);
+//#console.log('tn:'+w.nextMatch);
+//#console.log('t2:'+w.source.substr(w.nextMatch,40));
+//#console.log(cellMatch);
+			col++;
 		}
 	}//# end rowHandler
 },
