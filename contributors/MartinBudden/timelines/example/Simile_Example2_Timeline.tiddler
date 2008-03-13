@@ -1,6 +1,5 @@
 <div title="Simile Example2 Timeline" modifier="Martin Budden">
 <pre>
-
-&lt;&lt;SimileTimeline SimileExample2TimelineSpec&gt;&gt;
+<<SimileTimeline SimileExample2TimelineSpec>>
 </pre>
 </div>
