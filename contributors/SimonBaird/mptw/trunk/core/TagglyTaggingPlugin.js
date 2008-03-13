@@ -237,7 +237,7 @@ config.taggly = {
 			var result = "";
 			var slices = store.calcAllSlices(title);
 			for (var s in slices)
-				result += "|%0|%1|\n".format([s,slices[s]]);
+				result += "|%0|<nowiki>%1</nowiki>|\n".format([s,slices[s]]);
 			return result ? "\n{{excerpt excerptIndent{\n" + result  + "}}}" : "";
 		}
 		return "";
