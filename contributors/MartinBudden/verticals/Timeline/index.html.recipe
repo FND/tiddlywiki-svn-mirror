@@ -6,11 +6,11 @@ tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../mystyle/ViewTemplate.tiddler
 tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
-recipe: ../../timelines/Cubism/CubismTimeline.recipe
-recipe: ../../timelines/TiddlyWiki/TiddlyWikiTimeline.recipe
-recipe: ../../timelines/Monet/MonetTimeline.recipe
-recipe: ../../timelines/example/SimileExampleTimeline.recipe
-recipe: ../../timelines/clock/ClockTimeline.recipe
+recipe: ../../timelines/Cubism/split.recipe
+recipe: ../../timelines/TiddlyWiki/split.recipe
+recipe: ../../timelines/Monet/split.recipe
+recipe: ../../timelines/example/split.recipe
+recipe: ../../timelines/clock/split.recipe
 recipe: ../../timelines/Tiddlers/split.recipe
 tiddler: ../../styles/SimileTimelineStyleBundle.css.js
 tiddler: ../../plugins/SimileTimelineBundlePlugin.js
