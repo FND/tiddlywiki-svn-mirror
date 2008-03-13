@@ -318,7 +318,7 @@ config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,
 	if(bHeight)
 		theme.event.bubble.height = bHeight;
 
-	//var defaultDate = Timeline.DateTime.parseGregorianDateTime('2000');
+	//#var defaultDate = Timeline.DateTime.parseGregorianDateTime('2000');
 	var defaultDate = new Date();
 	var eventSources = [];
 	var ev = {};
@@ -388,7 +388,7 @@ config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,
 		if(ev.source) {
 			switch(data.type) {
 			case 'XML':
-		  		//Timeline.loadXML("example1.xml", function(xml,url) { ev.source.loadXML(xml,url); });
+		  		//#Timeline.loadXML("example1.xml", function(xml,url) { ev.source.loadXML(xml,url); });
   				Timeline.loadXMLRemote(data.params,function(xml,url) { if(ev.source) ev.source.loadXML(xml,url); });
 				break;
 			case 'JSON':
