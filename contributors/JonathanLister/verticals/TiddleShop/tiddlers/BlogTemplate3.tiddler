@@ -1,0 +1,161 @@
+<div title="BlogTemplate3" modifier="YourName" created="200803121542" modified="200803121629" tags="template tiddleShop" changecount="9">
+<pre><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head profile="http://gmpg.org/xfn/11">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<title>Using TiddlyWiki to improve access to quality education &#8212; Tiddly Learning</title>
+
+	<meta name="generator" content="WordPress 2.3" /> <!-- leave this for stats -->
+
+	<link rel="stylesheet" href="http://lewcid.org/wp-content/themes/copyblogger/style.css" type="text/css" media="screen" />
+
+	<link rel="stylesheet" href="http://lewcid.org/wp-content/themes/copyblogger/custom.css" type="text/css" media="screen" />
+	<!--[if lte IE 7]>
+	<link rel="stylesheet" type="text/css" href="http://lewcid.org/wp-content/themes/copyblogger/ie7.css" />
+	<![endif]-->
+	<!--[if lte IE 6]>
+	<link rel="stylesheet" type="text/css" href="http://lewcid.org/wp-content/themes/copyblogger/ie6.css" />
+	<![endif]-->
+	<link rel="alternate" type="application/rss+xml" title="Tiddly Learning RSS Feed" href="http://lewcid.org/feed" />
+	<link rel="alternate" type="application/rss+xml" title="Comments for Tiddly Learning RSS Feed" href="http://lewcid.org/comments/feed" />
+	<link rel="alternate" type="application/rss+xml" title="Tiddly Learning - Education RSS Feed" href="http://lewcid.org/category/education/feed" />
+	<link rel="alternate" type="application/rss+xml" title="Tiddly Learning - TiddlyWiki RSS Feed" href="http://lewcid.org/tiddlywiki/education/feed" />
+
+	<link rel="pingback" href="http://lewcid.org/xmlrpc.php" />
+
+		<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://lewcid.org/xmlrpc.php?rsd" />
+<script src="http://lewcid.org/wp-content/plugins/anarchy_media/anarchy_media_player.php?anarchy.js" type="text/javascript"></script><script type="text/javascript"> lb_path = "http://lewcid.org/wp-content/plugins/lightbox/"; </script>
+<link rel="stylesheet" href="http://lewcid.org/wp-content/plugins/lightbox/lightbox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="http://lewcid.org/wp-content/plugins/lightbox/prototype.js"></script>
+<script type="text/javascript" src="http://lewcid.org/wp-content/plugins/lightbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="http://lewcid.org/wp-content/plugins/lightbox/lightbox.js"></script>
+<link type="text/css" rel="stylesheet" href="http://lewcid.org/wp-content/plugins/wp-ajax-edit-comments/css/editComments.css" />
+
+
+<!-- GBCF -->
+
+<link rel="stylesheet" type="text/css" media="screen" href="http://lewcid.org/wp-content/plugins/wp-gbcf/wp-gbcf_themes/ocadia.css" />
+<!--[if IE]><script src="http://lewcid.org/wp-content/plugins/wp-gbcf/wp-gbcf_focus.js" type="text/javascript"></script><![endif]-->
+<!-- GBCF -->
+
+<style type="text/css">.recentcomments a{display:inline !important;padding: 0 !important;margin: 0 !important;}</style>
+</head>
+<body class="custom">
+
+<div id="header">
+	<div id="logo">
+		<a href="http://lewcid.org" title="Tiddly Learning">Tiddly Learning</a>
+				<h1>Using TiddlyWiki to improve access to quality education</h1>
+
+			</div>
+</div>
+	
+<div id="container">
+	<div id="nav">
+		<ul>
+			<li><a class="current" href="http://lewcid.org">home</a></li>
+<li><a class="first_nav_cat " href="http://lewcid.org/category/education">education</a></li>
+<li><a class="last_nav_cat " href="http://lewcid.org/category/tiddlywiki">tiddlywiki</a></li>
+<li><a href="http://lewcid.org/archives/">archives</a></li>
+
+<li><a href="http://lewcid.org/links/">links</a></li>
+<li><a href="http://lewcid.org/about/">about</a></li>		</ul>
+	</div>
+	<div id="content_box">
+	
+		<div id="content">
+
+					<<ListTemplate filter:"[tag[BlogPost]]" template:"BlogPostTemplate3">>
+			
+				
+		</div>
+
+		<div id="sidebar">
+	<p id="rss"><a href="http://lewcid.org/subscribe/" title="Subscribe to this site's feeds"></a></p>
+	<ul class="sidebar_list">
+
+		<li class="widget">
+			<h2>Search</h2>
+			<form method="get" id="search_form" action="http://lewcid.org/">
+	<input type="text" class="search_input" value="To search, type and hit enter" name="s" id="s" onfocus="if (this.value == 'To search, type and hit enter') {this.value = '';}" onblur="if (this.value == '') {this.value = 'To search, type and hit enter';}" />
+	<input type="hidden" id="searchsubmit" value="Search" />
+</form>
+		</li>
+				<li id="text-1" class="widget widget_text">			<h2 class="widgettitle">About</h2>
+
+			<div class="textwidget"><span class="about_blurb widget">News and developments in the TiddlyWiki community, with a particular focus on educational usage. <a href="http://lewcid.org/about" title="About">Read more</a></span></div>
+		</li>
+		<li id="text-2" class="widget widget_text">			<h2 class="widgettitle">Email updates</h2>
+			<div class="textwidget"><form style="padding: 3px; text-align: left;" action="http://www.feedburner.com/fb/a/emailverify" method="post" target="popupwindow" onsubmit="window.open('http://www.feedburner.com/fb/a/emailverifySubmit?feedId=1254989', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true">Enter your email address:
+<input style="width: 140px" name="email" type="text" /> <input value="http://feeds.feedburner.com/~e?ffid=1254989" name="url" type="hidden" /> <input value="Tiddly Learning" name="title" type="hidden" /> <input name="loc" value="en_US" type="hidden" /> <input value="Subscribe" type="submit" /></form></div>
+
+		</li>
+
+		<li id="recent-comments" class="widget widget_recent_comments">			<h2 class="widgettitle">Recent comments</h2>
+			<ul id="recentcomments"><li class="recentcomments"><a href='http://www.giffmex.org' rel='external nofollow'>Dave Gifford</a> on <a href="http://lewcid.org/2007/12/14/jeremy-ruston-sells-out/#comment-84">Jeremy Ruston sells out.</a></li><li class="recentcomments"><a href='http://www.giffmex.org' rel='external nofollow'>Dave Gifford</a> on <a href="http://lewcid.org/2007/12/14/jeremy-ruston-sells-out/#comment-82">Jeremy Ruston sells out.</a></li><li class="recentcomments">Saq on <a href="http://lewcid.org/2007/10/19/a-new-direction/#comment-80">A new direction.</a></li><li class="recentcomments">Richard Smith on <a href="http://lewcid.org/2007/10/19/a-new-direction/#comment-77">A new direction.</a></li><li class="recentcomments"><a href='http://habitat.igc.org/' rel='external nofollow'>Robert Pollard</a> on <a href="http://lewcid.org/2007/11/13/tiddlywiki-and-distance-learning/#comment-73">TiddlyWiki and distance-learning.</a></li></ul>
+
+		</li>
+		<li id="recent-posts" class="widget widget_recent_entries">			<h2 class="widgettitle">Recent posts</h2>
+			<ul>
+						<li><a href="http://lewcid.org/2007/12/14/jeremy-ruston-sells-out/">Jeremy Ruston sells out. </a></li>
+						<li><a href="http://lewcid.org/2007/11/28/easy-sortable-tables-in-tiddlywiki/">Easy sortable tables in TiddlyWiki. </a></li>
+						<li><a href="http://lewcid.org/2007/11/21/recommended-reading-for-nov-20th/">Recommended reading for Nov 20th </a></li>
+
+						<li><a href="http://lewcid.org/2007/11/13/tiddlywiki-and-distance-learning/">TiddlyWiki and distance-learning. </a></li>
+						<li><a href="http://lewcid.org/2007/11/06/creating-tiddlywiki-navigation-menus-the-easy-way/">Creating TiddlyWiki navigation menus &#8212; the easy way. </a></li>
+						</ul>
+		</li>
+<li id="categories-1" class="widget widget_catgories"><h2 class="widgettitle">Categories</h2>
+		<ul>
+			<li class="cat-item cat-item-22"><a href="http://lewcid.org/category/tiddlywiki/bookmarklets/" title="Tools for everyday TiddlyWiki use">Bookmarklets</a>
+
+</li>
+	<li class="cat-item cat-item-13"><a href="http://lewcid.org/category/tiddlywiki/community/" title="News from the TiddlyWiki community">Community</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://lewcid.org/category/tiddlywiki/development/" title="News related to TiddlyWiki development ">Development</a>
+</li>
+	<li class="cat-item cat-item-27"><a href="http://lewcid.org/category/distance-learning/" title="View all posts filed under Distance-learning">Distance-learning</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="http://lewcid.org/category/education/" title="Use of technology in education, with a particular focus on TiddlyWiki.">Education</a>
+</li>
+
+	<li class="cat-item cat-item-21"><a href="http://lewcid.org/category/tiddlywiki/how-to/" title="Tips and tricks on how to use TiddlyWiki">How To</a>
+</li>
+	<li class="cat-item cat-item-9"><a href="http://lewcid.org/category/programming/javascript/" title="Links, articles and other JavaScript programming resources">JavaScript</a>
+</li>
+	<li class="cat-item cat-item-28"><a href="http://lewcid.org/category/more-project/" title="View all posts filed under MORE project">MORE project</a>
+</li>
+	<li class="cat-item cat-item-6"><a href="http://lewcid.org/category/tiddlywiki/plugins/" title="Plugin releases at LewcidTW (http://tw.lewcid.org)">Plugins</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://lewcid.org/category/programming/" title="Links, articles and other programming resources">Programming</a>
+
+</li>
+	<li class="cat-item cat-item-15"><a href="http://lewcid.org/category/bookmarks/" title="My shared bookmarks from Del.icio.us">Shared Bookmarks</a>
+</li>
+	<li class="cat-item cat-item-4"><a href="http://lewcid.org/category/tiddlywiki/" title="News and plugin releases for TiddlyWiki">TiddlyWiki</a>
+</li>
+		</ul>
+</li>
+	</ul>
+</div>	
+	</div>
+
+</div>
+
+<div id="footer">
+	<p>&copy; Tiddly Learning &#8212; <a href="http://www.copyblogger.com">Copyblogger</a> theme design by <a href="http://pearsonified.com">Chris Pearson</a></p>
+	<script src="http://stats.wordpress.com/e-200811.js" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({blog:'1865072',v:'ext',post:'0'});
+var load_cmc = function(){linktracker_init(1865072,0,2);};
+if ( typeof addLoadEvent != 'undefined' ) addLoadEvent(load_cmc);
+else load_cmc();
+</script>
+
+</div>
+
+</body>
+</html></pre>
+</div>

@@ -1,4 +1,16 @@
-<div title="StyleSheet" modifier="NickWebb" created="200803061235" modified="200803061237" changecount="2">
-<pre>#displayArea {margin-left:0em;}
-.listRelatedTiddler {display:inline;}</pre>
+<div title="StyleSheet" modifier="YourName" created="200803061235" modified="200803131636" changecount="40">
+<pre>
+#sidebar {display:none;}
+#displayArea {margin-left:0em; margin-right:0em;}
+.listRelatedTiddler {display:inline;}
+
+.previewbar {
+   background-image: url('images/previewbar.jpg');
+  background-repeat: repeat-x;
+   font-size: 3em;
+   line-height: 2.8em;
+   width: 100%;
+   padding-left: 2.5em;
+
+}</pre>
 </div>

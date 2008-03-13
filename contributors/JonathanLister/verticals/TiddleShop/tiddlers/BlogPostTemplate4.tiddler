@@ -1,0 +1,13 @@
+<div title="BlogPostTemplate4" modifier="YourName" created="200803121620" modified="200803121622" tags="template" changecount="2">
+<pre>						<div class="post" id="post-255">
+				<h2><<view title>></a></h2>
+				<span class="postdate"><<view modified date>></span> <span class="postcomment"><a href="http://www.ndesign-studio.com/blog/updates/i-am-still-alive/#comments" title="Comment on I am Still Alive">58 Comments</a></span>
+
+				<div class="entry">
+
+					<p><<view text>></p>
+				</div>
+
+			</div>
+					</pre>
+</div>

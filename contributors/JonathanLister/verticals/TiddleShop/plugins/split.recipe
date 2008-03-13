@@ -3,8 +3,11 @@ tiddler: ../../../components/IframeTiddlerMacro.js
 tiddler: ../../../../JeremyRuston/plugins/ListRelatedPlugin.js
 tiddler: CryptoFunctionsPlugin.js
 tiddler: DeprecatedFunctionsPlugin.js
+tiddler: FileSavePlugin.js
 tiddler: ImageSizePlugin.js
+tiddler: JSSerializePlugin.js
 tiddler: LegacyStrikeThroughPlugin.js
+tiddler: SaveButtonMacro.js
 tiddler: SinglePageModePlugin.js
 tiddler: SparklinePlugin.js
 tiddler: TaggedTemplateTweak.js

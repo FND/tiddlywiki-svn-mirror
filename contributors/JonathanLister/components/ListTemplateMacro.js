@@ -169,12 +169,12 @@ config.macros.TiddlyTemplating.handler = function(place,macroName,params) {
 		savePath = localPath + "." + saveName;
 	var e = document.createElement("div");
 	var paramString = 'template:"'+template+'"';
-	createTiddlyText(place,"generating...");
+	displayMessage("generating...");
 	config.macros.ListTemplate.handler(e,"ListTemplate",null,null,paramString,null);
-	createTiddlyText(place,"saving...");
+	displayMessage("saving...");
 	var fileSave = saveFile(savePath,convertUnicodeToUTF8(e.textContent));
 	if(fileSave) {
-		createTiddlyText(place,"saved...");
+		displayMessage("saved... click here to load","file://"+savePath);
 		// would rather use displayMessage, but doesn't work when opening tiddler
 		// displayMessage(config.messages.fileSaved,"file://" + savePath);
 	}

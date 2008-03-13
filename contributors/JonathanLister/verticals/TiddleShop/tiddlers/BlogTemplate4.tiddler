@@ -1,0 +1,197 @@
+<div title="BlogTemplate4" modifier="YourName" created="200803121620" modified="200803121629" tags="template tiddleShop" changecount="3">
+<pre><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>N.Design Studio - Blog &#038; Design</title>
+<meta name="Description" content="N.Design Studio is a design blog and portfolio of Nick La, Toronto based illustrator and web designer. I specialize in designing beautiful illustrations and web standard CSS websites." />
+<meta name="generator" content="WordPress 2.2" />
+<link rel="stylesheet" href="http://www.ndesign-studio.com/wp-content/themes/phoenix/style.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="http://www.ndesign-studio.com/wp-content/themes/phoenix/print.css" type="text/css" media="print" />
+<link rel="alternate" type="application/rss+xml" title="N.Design Studio - Blog &#038; Design RSS Feed" href="http://www.ndesign-studio.com/feed/" />
+<link rel="pingback" href="http://www.ndesign-studio.com/xmlrpc.php" />
+</head>
+<body id="home">
+<div id="header_wrap">
+	<h1><a href="http://www.ndesign-studio.com/">N.Design Studio</a></h1>
+
+	<div id="search_wrap">
+		<form method="get" id="searchform" action="http://www.ndesign-studio.com/">
+		<label for="s">Search</label>		
+		<input type="text" value="" name="s" id="s" />
+		<input type="submit" id="searchsubmit" value="Search" />
+		</form>
+		<div id="header_nav">
+		<a href="http://www.ndesign-studio.com/archive/" class="archive-mini" title="Blog archives">Archive</a> <a href="http://www.ndesign-studio.com/resources/links/" class="links-mini" title="Resource links">Links</a>  <a href="http://www.ndesign-studio.com/about/contact/" class="contact-mini" title="Contact me">Contact</a> <a href="http://feeds.feedburner.com/ndesign-studio" class="rss-mini" title="Subscribe my RSS">RSS</a>		</div>
+
+	</div><!--/search wrap -->
+		<ul id="nav">
+		  <li id="nav-home"><a href="http://www.ndesign-studio.com/">Blog</a></li>
+		  <li id="nav-about"><a href="http://www.ndesign-studio.com/about/">About</a></li>
+		  <li id="nav-portfolio"><a href="http://www.ndesign-studio.com/portfolio/">Portfolio</a></li>
+		  <li id="nav-icons"><a href="http://www.ndesign-studio.com/stock-icons/">Stock Icons</a></li>
+		  <li id="nav-resources"><a href="http://www.ndesign-studio.com/resources/">Resources</a></li>
+
+</ul>	
+</div><!--/header wrap --><div id="body_wrap">
+ <div id="home-leftcol">
+		<<ListTemplate filter:"[tag[BlogPost]]" template:"BlogPostTemplate4">>
+<p class="pagenav"> Pages (13): <strong>[1] <a href="http://www.ndesign-studio.com/page/2/">2</a>  <a href="http://www.ndesign-studio.com/page/3/">3</a>  <a href="http://www.ndesign-studio.com/page/4/">4</a> <a href="http://www.ndesign-studio.com/page/2/">&raquo;</a> ... <a href="http://www.ndesign-studio.com/page/13/">Last &raquo;</a></strong></p>
+
+	  </div><!--/leftcol -->
+<div id="home-rightcol">
+	  <h3 class="cat_heading">Famous Pages</h3>
+	  <div class="sidebar-half separator">
+	  <ul class="popular-list">
+	    <li><a href="http://www.ndesign-studio.com/resources/tutorials/">Illustrator Tutorials</a></li>
+	    <li><a href="http://www.ndesign-studio.com/resources/dreamweaver/">Dreamweaver Tutorials</a></li>
+	    <li><a href="http://www.ndesign-studio.com/resources/phpbb-template/">PhpBB Template</a></li>
+
+	    <li><a href="http://www.ndesign-studio.com/about/recognition/">Recognition</a></li>
+	    <li><a href="http://www.ndesign-studio.com/stock-icons/">Stock Web Icons</a></li>
+      </ul>
+	  </div>
+	  <div class="sidebar-half">
+	  <ul class="popular-list">
+	    <li><a href="http://www.ndesign-studio.com/resources/mini-pixel-icons/">Free Mini Icons</a></li>
+
+	    <li><a href="http://www.ndesign-studio.com/resources/wallpapers/">Design Wallpapers</a></li>
+	    <li><a href="http://www.ndesign-studio.com/resources/vector-cliparts/">Vector Cliparts</a></li>
+	    <li><a href="http://www.ndesign-studio.com/portfolio/illustration/">Illustration</a></li>
+	    <li><a href="http://www.ndesign-studio.com/resources/wp-themes/">WordPress Themes</a></li>
+      </ul>
+  </div>
+	  <div class="sidebar-half separator">
+
+	  <h3 class="cat_heading">Blog Category</h3>
+		<ul class="submenu">
+			<li><a href="http://www.ndesign-studio.com/blog/category/design/" title="View all posts filed under Design">Design</a>
+</li>
+	<li><a href="http://www.ndesign-studio.com/blog/category/mac/" title="View all posts filed under Mac">Mac</a>
+</li>
+	<li><a href="http://www.ndesign-studio.com/blog/category/updates/" title="View all posts filed under News &amp; Updates">News &amp; Updates</a>
+
+</li>
+	<li><a href="http://www.ndesign-studio.com/blog/category/reviews/" title="View all posts filed under Reviews">Reviews</a>
+</li>
+	<li><a href="http://www.ndesign-studio.com/blog/category/tricks-tips/" title="View all posts filed under Tricks &amp; Tips">Tricks &amp; Tips</a>
+</li>
+	<li><a href="http://www.ndesign-studio.com/blog/category/wordpress/" title="View all posts filed under WordPress">WordPress</a>
+</li>
+		</ul>
+
+	  </div>
+	  <div class="sidebar-half">
+	  <h3 class="cat_heading">Archive</h3>
+		<ul class="submenu">
+			<li><a href='http://www.ndesign-studio.com/blog/2008/02/' title='February 2008'>February 2008</a></li>
+	<li><a href='http://www.ndesign-studio.com/blog/2007/11/' title='November 2007'>November 2007</a></li>
+	<li><a href='http://www.ndesign-studio.com/blog/2007/10/' title='October 2007'>October 2007</a></li>
+
+	<li><a href='http://www.ndesign-studio.com/blog/2007/09/' title='September 2007'>September 2007</a></li>
+	<li><a href='http://www.ndesign-studio.com/blog/2007/08/' title='August 2007'>August 2007</a></li>
+	<li><a href='http://www.ndesign-studio.com/blog/2007/07/' title='July 2007'>July 2007</a></li>
+		</ul>
+	  </div>
+	  <h3 class="cat_heading-alt">Featured Work</h3>
+	  <p><a href="http://www.next2friends.com" target="_blank"><img src="http://www.ndesign-studio.com/images/portfolio/web/next2friends.jpg" alt="Next2Friends" class="img_border" /></a></p>
+
+	  <p><a href="http://www.webdesignerwall.com" target="_blank"><img src="http://www.ndesign-studio.com/images/portfolio/web/webdesignerwall.jpg" alt="web designer wall" class="img_border" /></a></p>
+	  <p><a href="http://bestwebgallery.com" target="_blank"><img src="http://www.ndesign-studio.com/images/portfolio/web/bestwebgallery.jpg" alt="Best Web Gallery" class="img_border" /></a></p>
+	  <p><a href="http://www.ndesign-studio.com/portfolio/graphic/pogo-illustration/"><img src="http://www.ndesign-studio.com/images/portfolio/graphic/pogo.jpg" alt="POGO illustration" class="img_border" /></a></p>
+	  <p><a href="http://www.ndesign-studio.com/portfolio/graphic/flow/"><img src="http://www.ndesign-studio.com/images/portfolio/graphic/flow.jpg" alt="Flow" class="img_border" /></a></p>
+<script type="text/javascript"><!--
+google_ad_client = "pub-8670267868323748";
+google_ad_width = 300;
+google_ad_height = 250;
+google_ad_format = "300x250_as";
+google_ad_type = "text";
+google_ad_channel ="9603638669";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "FF6600";
+google_color_text = "191919";
+google_color_url = "999999";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div><!--/rightcol -->	  <hr class="hidden" />
+</div><!--/body wrap -->
+
+<div id="footer_wrap">
+
+	<div class="footer_leftcol">
+    <h4>Recent Posts</h4>
+  		<ul class="footer_submenu">
+		<li>
+	<a href="http://www.ndesign-studio.com/blog/updates/i-am-still-alive/" rel="bookmark" title="Permanent link to I am Still Alive"><small>02-07-2008</small><br />
+I am Still Alive</a>
+	</li>
+		<li>
+
+	<a href="http://www.ndesign-studio.com/blog/updates/learn-my-illustrator-and-photoshop-techniques/" rel="bookmark" title="Permanent link to Learn My Illustrator and Photoshop Techniques"><small>11-26-2007</small><br />
+Learn My Illustrator and Photoshop Techniques</a>
+	</li>
+		<li>
+	<a href="http://www.ndesign-studio.com/blog/updates/freericecom/" rel="bookmark" title="Permanent link to FreeRice.com"><small>11-26-2007</small><br />
+FreeRice.com</a>
+	</li>
+		<li>
+
+	<a href="http://www.ndesign-studio.com/blog/updates/see-you-at-the-fowd-event/" rel="bookmark" title="Permanent link to See You at the FOWD Event"><small>11-01-2007</small><br />
+See You at the FOWD Event</a>
+	</li>
+		<li>
+	<a href="http://www.ndesign-studio.com/blog/tricks-tips/how-to-create-an-advanced-css-menu/" rel="bookmark" title="Permanent link to How to Create an Advanced CSS Menu"><small>10-30-2007</small><br />
+How to Create an Advanced CSS Menu</a>
+	</li>
+		</ul>        
+	</div>
+
+    
+	<div class="footer_leftcol">
+    	<h4>Recent Comments</h4>
+<ul class='footer_submenu'>
+	<li><a href="http://www.ndesign-studio.com/blog/design/design-process-of-phoenix-illustration/#comment-46793" title="Comment on Design Process of Phoenix Illustration"><small>K:</small><br /> cool and nice. try also www.alexliem.co.cc...</a></li>
+	<li><a href="http://www.ndesign-studio.com/blog/updates/see-you-at-the-fowd-event/#comment-46792" title="Comment on See You at the FOWD Event"><small>K:</small><br /> cool man. try also www.alexliem.co.cc...</a></li>
+	<li><a href="http://www.ndesign-studio.com/blog/design/css-dock-menu/#comment-46791" title="Comment on CSS Dock Menu"><small>Fooberichu:</small><br /> Saw other people asking but couldn't see if it had be...</a></li>
+
+	<li><a href="http://www.ndesign-studio.com/blog/updates/learn-my-illustrator-and-photoshop-techniques/#comment-46790" title="Comment on Learn My Illustrator and Photoshop Techniques"><small>MaTaDoR:</small><br /> Thanks for information.
+
+I am trying to do somethin...</a></li>
+</ul>    </div>
+    
+	<div class="footer_rightcol">
+	  <h4>About</h4>
+	  <p>Welcome to the design blog and <a href="http://www.ndesign-studio.com/portfolio/" title="View my portfolio">portfolio</a> of Nick La, Toronto based illustrator and web designer. I love to design beautiful and usable CSS websites. Find out more <a href="http://www.ndesign-studio.com/about/" title="About me">about me</a> here. Don't forget to visit my <a href="http://bestwebgallery.com" title="Visit Best Web Gallery">Best Web Gallery</a> and <a href="http://www.webdesignerwall.com" title="Visit Web Designer Wall">Web Designer Wall</a>. </p>
+
+	  <div class="footer_nav"><a href="http://www.ndesign-studio.com/sitemap/" class="sitemap-mini" title="Sitemap">Sitemap</a> <a href="http://jigsaw.w3.org/css-validator/validator?uri=www.ndesign-studio.com&amp;usermedium=all" class="validcss-mini" title="This site is coded with validate CSS">CSS</a> <a href="http://validator.w3.org/check?uri=referer" class="validhtml-mini" title="This site is W3C compliant">XHTML</a> <a href="http://feeds.feedburner.com/ndesign-studio" class="rss-mini" title="Subscribe my RSS provided by Feedburner">RSS</a></div>
+	  <div class="copyright"><span class="left">Hosting Sponsor: <a href="http://www.imhosted.com/">ImHosted</a></span> <span class="right">&copy; <a href="http://www.ndesign-studio.com/">N.Design Studio</a> 2007</span></div>
+
+	</div>
+    <hr class="hidden" />
+</div><!--/footer -->
+<div class="displaynone">
+	<!-- Begin W3Counter Tracking Code -->
+	<script type="text/javascript" src="http://www.w3counter.com/tracker.js"></script>
+	<script type="text/javascript">
+	w3counter(3540);
+	</script>
+	<noscript>
+	<a href="http://www.w3counter.com"><img src="http://www.w3counter.com/tracker.php?id=3540" alt="W3Counter" /></a>
+	</noscript>
+
+	<!-- End W3Counter Tracking Code-->
+	<!-- Google Analytics -->
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+	</script>
+	<script type="text/javascript">
+	_uacct = "UA-253188-1";
+	urchinTracker();
+	</script><!--/ Google Analytics -->
+</div>
+<!-- 24 queries. 0.391 seconds. -->
+</body>
+</html></pre>
+</div>

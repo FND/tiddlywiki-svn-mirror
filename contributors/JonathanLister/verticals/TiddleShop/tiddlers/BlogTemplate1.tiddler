@@ -1,4 +1,4 @@
-<div title="BlogTemplate" modifier="JonLister" created="200803061235" tags="template tiddleShop">
+<div title="BlogTemplate1" modifier="JonLister" created="200803061235" tags="template tiddleShop">
 <pre><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
 
@@ -90,7 +90,7 @@ urchinTracker();
 	<div id="bloque">
 		
 		<div id="noticias">
-	<<ListTemplate filter:"[tag[BlogPost]]" template:"BlogPostTemplate">>
+	<<ListTemplate filter:"[tag[BlogPost]]" template:"BlogPostTemplate1">>
 						
 					
 		

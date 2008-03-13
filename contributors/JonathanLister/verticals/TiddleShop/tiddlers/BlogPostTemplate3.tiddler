@@ -1,0 +1,23 @@
+<div title="BlogPostTemplate3" modifier="YourName" created="200803121547" modified="200803121630" tags="template" changecount="4">
+<pre>			
+			<h2><<view title>></a></h2>
+			<p class="post_date"><<view modified date>><a href="http://lewcid.org/category/tiddlywiki/community/" title="View all posts in Community" rel="category tag">Community</a>,  <a href="http://lewcid.org/category/tiddlywiki/" title="View all posts in TiddlyWiki" rel="category tag">TiddlyWiki</a></p>
+
+			<div class="entry">
+				<p><<view text>></p>
+
+			</div>
+			<p class="post_meta"><span class="add_comment"><a href="http://lewcid.org/2007/12/14/jeremy-ruston-sells-out/#comments" title="Comment on Jeremy Ruston sells out.">5 Comments</a></span></p>
+			
+						
+			
+			
+						
+			
+<div class="navigation">
+	<p></p>
+	<p class="next"></p>
+</div>
+
+			</pre>
+</div>

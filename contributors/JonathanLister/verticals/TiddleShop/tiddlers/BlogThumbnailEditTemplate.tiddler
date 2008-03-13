@@ -1,0 +1,12 @@
+<div title="BlogThumbnailEditTemplate" modifier="NickWebb" created="200803061157" changecount="2">
+<pre><!--{{{-->
+<div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'></div>
+<div class='title' macro='view title'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div>
+Image: <div class='editor' macro='edit image'></div>
+Link: <div class='editor' macro='edit link'></div>
+<div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+<!--}}}--></pre></div>

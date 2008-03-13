@@ -1,0 +1,181 @@
+<div title="BlogTemplate2" modifier="JonLister" created="200803061235" tags="template tiddleShop">
+<pre><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Erratic Musings - learn from the experiences, successes & failures of a young entrepreneur</title>
+<meta name="generator" content="WordPress 2.3.2" /> <!-- leave this for stats -->
+<link rel="stylesheet" href="http://www.erraticmusings.com/wp-content/themes/drunkey-love/style.css" type="text/css" media="screen" />
+<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://www.erraticmusings.com/?feed=rss2" />
+<link rel="alternate" type="text/xml" title="RSS .92" href="http://www.erraticmusings.com/?feed=rss" />
+<link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="http://www.erraticmusings.com/?feed=atom" />
+<link rel="pingback" href="http://www.erraticmusings.com/xmlrpc.php" />
+	<link rel='archives' title='March 2008' href='http://www.erraticmusings.com/?m=200803' />
+	<link rel='archives' title='January 2008' href='http://www.erraticmusings.com/?m=200801' />
+
+<!-- META Tags added by Add-Meta-Tags WordPress plugin. Get it at: http://www.g-loaded.eu/ -->
+<meta name="description" content="Learn from the experiences, successes &amp; failures of a young entrepreneur." />
+<meta name="keywords" content="Nick Webb, entrepreneur, blog, business, money, learn, business models, business plans" />
+<meta name="resource-type" content="document" />
+<meta http-equiv="content-type" content="text/html; charset=US-ASCII" />
+<meta http-equiv="content-language" content="en-us" />
+<meta http-equiv="author" content="Nick Webb" />
+<meta name="copyright" content="Copyright (c)2008 
+Nick Webb. All Rights Reserved." />
+<meta name="keywords" content="Nick Webb, entrepreneur, blog, business, money, learning, IT, Technology, business model" />
+
+	<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.erraticmusings.com/xmlrpc.php?rsd" />
+ <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.erraticmusings.com/wp-includes/wlwmanifest.xml" /> 
+<!-- all in one seo pack 1.4.3.9 [280,304,Erratic Musings - learn from the experiences, successes & failures of a young entrepreneur] -->
+<meta name="description" content="Learn from the experiences, successes & failures of a young entrepreneur." />
+
+<meta name="keywords" content="Nick Webb, Nicholas Webb, blog, entrepreneur, business, learning, business plan, money, videos," />
+	<!-- Google Analytics for WordPress | http://www.joostdevalk.nl/wordpress/google-analytics/ -->
+	<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker("UA-3352974-1");
+	</script>
+	<script type="text/javascript">
+		pageTracker._initData();
+		
+		pageTracker._trackPageview();
+	</script>
+	<!-- End of Google Analytics code -->
+	<!--[if lt IE 6]>
+<link rel="stylesheet" type="text/css" href="http://www.erraticmusings.com/wp-content/themes/drunkey-love/ie.css">
+<![endif]-->
+<script type="text/javascript" src="http://www.erraticmusings.com/wp-content/themes/drunkey-love/fold.js"></script>	
+<style>#primary {width:440px;}</style>
+</head>
+<body>
+<div id="header">
+	<a name="top"></a>
+	<div class="main">
+		<div id="blog-title"><a href="http://www.erraticmusings.com" title="erratic musings Homepage">erratic musings</a></div>
+		<ul id="pages">
+			<li class="page_item page-item-2"><a href="http://www.erraticmusings.com/?page_id=2" title="About">About</a></li>
+		</ul>
+
+	</div>
+</div>
+<hr />
+<div id="content">
+	<div id="primary">
+	<<ListTemplate filter:"[tag[BlogPost]]" template:"BlogPostTemplate2">>
+	</div>
+		<div id="secondary">
+
+				<div id="search">
+			<h2>Search</h2>
+			<div class="unfold">
+				<form method="get" id="searchform" action="/index.php">
+	<fieldset>
+		<legend>Search erratic musings</legend>
+		<label for="s">Keywords</label>
+
+		<input type="text" value="" name="s" id="s" />
+		<input type="submit" id="searchsubmit" value="Search" />
+	</fieldset>
+</form>
+			</div>
+		</div>
+				<div id="categories">
+			<h2>Categories</h2>
+			<div class="unfold">
+
+				<ul class="linklist">
+						<li class="cat-item cat-item-7"><a href="http://www.erraticmusings.com/?cat=7" title="View all posts filed under blogs">blogs</a>
+</li>
+	<li class="cat-item cat-item-18"><a href="http://www.erraticmusings.com/?cat=18" title="View all posts filed under Business">Business</a>
+</li>
+	<li class="cat-item cat-item-35"><a href="http://www.erraticmusings.com/?cat=35" title="View all posts filed under education">education</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.erraticmusings.com/?cat=14" title="View all posts filed under Entrepreneur">Entrepreneur</a>
+
+</li>
+	<li class="cat-item cat-item-28"><a href="http://www.erraticmusings.com/?cat=28" title="View all posts filed under learning">learning</a>
+</li>
+	<li class="cat-item cat-item-34"><a href="http://www.erraticmusings.com/?cat=34" title="View all posts filed under memory">memory</a>
+</li>
+	<li class="cat-item cat-item-16"><a href="http://www.erraticmusings.com/?cat=16" title="View all posts filed under Nick Webb">Nick Webb</a>
+</li>
+	<li class="cat-item cat-item-41"><a href="http://www.erraticmusings.com/?cat=41" title="View all posts filed under Osmosoft">Osmosoft</a>
+</li>
+
+	<li class="cat-item cat-item-15"><a href="http://www.erraticmusings.com/?cat=15" title="View all posts filed under Recommendation">Recommendation</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="http://www.erraticmusings.com/?cat=1" title="View all posts filed under Uncategorized">Uncategorized</a>
+</li>
+	<li class="cat-item cat-item-17"><a href="http://www.erraticmusings.com/?cat=17" title="View all posts filed under Vids">Vids</a>
+</li>
+				</ul>
+			</div>
+		</div>
+
+		<div id="archives">
+			<h2>Archives</h2>
+			<div class="unfold">
+				<ul class="linklist">
+						<li><a href='http://www.erraticmusings.com/?m=200803' title='March 2008'>March 2008</a></li>
+	<li><a href='http://www.erraticmusings.com/?m=200801' title='January 2008'>January 2008</a></li>
+				</ul>
+
+			</div>
+		</div>
+				
+		<div id="blogroll">
+			<h2>Blogroll</h2>
+			<div class="unfold">
+				<ul class="linklist">
+					<li><a href="http://wordpress.org/development/" rel="" onclick="javascript:pageTracker._trackPageview('/outbound/blogroll/wordpress.org');">Development Blog</a></li>
+<li><a href="http://codex.wordpress.org/" rel="" onclick="javascript:pageTracker._trackPageview('/outbound/blogroll/codex.wordpress.org');">Documentation</a></li>
+
+<li><a href="http://wordpress.org/extend/plugins/" rel="" onclick="javascript:pageTracker._trackPageview('/outbound/blogroll/wordpress.org');">Plugins</a></li>
+<li><a href="http://wordpress.org/extend/ideas/" rel="" onclick="javascript:pageTracker._trackPageview('/outbound/blogroll/wordpress.org');">Suggest Ideas</a></li>
+<li><a href="http://wordpress.org/support/" rel="" onclick="javascript:pageTracker._trackPageview('/outbound/blogroll/wordpress.org');">Support Forum</a></li>
+<li><a href="http://wordpress.org/extend/themes/" rel="" onclick="javascript:pageTracker._trackPageview('/outbound/blogroll/wordpress.org');">Themes</a></li>
+<li><a href="http://planet.wordpress.org/" rel="" onclick="javascript:pageTracker._trackPageview('/outbound/blogroll/planet.wordpress.org');">WordPress Planet</a></li>
+				</ul>
+			</div>
+		</div>
+						
+		<div id="feeds">
+
+			<h2>Feeds</h2>
+			<div class="unfold">
+				<ul class="linklist">
+					<li><a href="http://www.erraticmusings.com/?feed=rss2" title="RSS 2.0 Feed for entries">Entries <small>(RSS 2.0)</small></a></li>
+					<li><a href="http://www.erraticmusings.com/?feed=atom" title="Atom 0.3 Feed for entries">Entries <small>(Atom 0.3)</small></a></li>
+					<li><a href="http://www.erraticmusings.com/?feed=comments-rss2" title="Feed for comments">Comments <small>(RSS 2.0)</small></a></li>
+
+				</ul>
+			</div>
+		</div>
+		<div id="blog-meta">
+			<h2>Meta</h2>
+			<div class="unfold">
+				<ul class="linklist">
+										<li><a href="http://www.erraticmusings.com/wp-login.php">Login</a></li>
+
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<hr />
+<div id="footer">
+	<div class="main">
+		<p>
+			erratic musings is proudly powered by <a href="http://wordpress.org" title="Wordpress: free blog tool and weblog platform">WordPress</a> and <a href="http://www.el73.be/drunkey-love/" title="Drunkey Love Wordpress Themes">Drunkey Love</a>.		</p>
+
+		<!--17 queries. 0.963 seconds.-->
+
+			</div>
+</div>
+
+</body>
+</html>
+</pre></div>

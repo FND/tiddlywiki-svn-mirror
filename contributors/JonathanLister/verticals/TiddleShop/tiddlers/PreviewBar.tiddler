@@ -1,3 +1,7 @@
-<div title="PreviewBar" modifier="JonLister" created="200803061235">
-<pre>@@font-size(2.5em):edit bar@@</pre>
+<div title="PreviewBar" modifier="YourName" created="200803061235" modified="200803131638" changecount="32">
+<pre><<tiddler Header>>
+
+
+{{previewbar{
+Nice! Check out your blog! Now you can either <<saveButton>> or go back to the [[blog gallery|Frontpage]]}}}</pre>
 </div>
