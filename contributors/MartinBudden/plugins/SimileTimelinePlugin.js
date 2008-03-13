@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Source:''|http://www.martinswiki.com/#SimileTimelineBundlePlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelinePlugin.js |
-|''Version:''|0.1.3|
+|''Version:''|0.1.4|
 |''Date:''|Mar 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -177,6 +177,86 @@ Timeline.DefaultEventSource.prototype.loadTiddlers = function(data)
 		this._fire('onAddMany',[]);
 	}
 };
+/*
+Timeline.loadXML = function(url, f) {
+	var fError = function(statusText, status, xmlhttp) {
+		alert("Failed to load data xml from " + url + "\n" + statusText);
+	};
+	var fDone = function(xmlhttp) {
+		var xml = xmlhttp.responseXML;
+		if (!xml.documentElement && xmlhttp.responseStream) {
+			xml.load(xmlhttp.responseStream);
+		}
+		f(xml,url);
+	};
+	SimileAjax.XmlHttp.get(url, fError, fDone);
+};
+*/
+Timeline.loadXMLRemote = function(uri,f) {
+	var callback = function(status,context,responseText,uri,xhr) {
+		if(status) {
+			var xml = xhr.responseXML;
+			if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
+				window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+			if (!xml.documentElement && xhr.responseStream) {
+				xml.load(xhr.responseStream);
+			}
+			try {
+				f(xml,uri);
+			} catch(ex) {
+				console.log(ex);
+				return exceptionText(ex);
+			}
+		} else {
+			alert("Failed to load data xml from " + uri + "\n" + xhr.statusText);
+		}
+	};
+	loadRemoteFile(uri,callback)
+};
+
+/*
+Timeline.loadJSON = function(url, f) {
+	var fError = function(statusText, status, xmlhttp) {
+		alert("Failed to load json data from " + url + "\n" + statusText);
+	};
+	var fDone = function(xmlhttp) {
+		f(eval('(' + xmlhttp.responseText + ')'), url);
+	};
+	SimileAjax.XmlHttp.get(url, fError, fDone);
+};
+*/
+
+Timeline.loadJSONRemote = function(uri,f) {
+	var callback = function(status,context,responseText,uri,xhr) {
+		if(status) {
+			var json = responseText;
+			var data = eval('(' + json + ')');
+			try {
+				f(data,uri);
+			} catch(ex) {
+				console.log(ex);
+				return exceptionText(ex);
+			}
+		} else {
+			alert("Failed to load data xml from " + uri + "\n" + xhr.statusText);
+		}
+	};
+	loadRemoteFile(uri,callback)
+};
+
+Timeline.loadJSONFile = function(filePath,f) {
+	var json = loadFile(filePath);
+	try {
+		var data = eval('(' + json + ')');
+		f(data, filePath);
+	} catch(ex) {
+		console.log(ex);
+		return exceptionText(ex);
+	}
+};
+
+
+
 
 Tiddler.prototype.getSimileTimelineEvent = function(type,eventFields)
 {
@@ -185,15 +265,17 @@ Tiddler.prototype.getSimileTimelineEvent = function(type,eventFields)
 	var f = eventFields ? eventFields : config.macros.SimileTimeline.eventFields;
 	var ev = {};
 	if(type && type=='tiddlerFields') {
+		//# get the event from the tiddler's fields
 		ev.start = this.modified;
 		ev.title = t;
 		ev.description = this.text ? this.text : '';
 		ev.link = this.fields.link;
 		if(!ev.link)
 			ev.link = 'javascript:story.displayTiddler(null,"' + t + '")';
-		//ev.link = 'index.html#' + encodeURIComponent(String.encodeTiddlyLink(this.title));
+		//#ev.link = 'index.html#' + encodeURIComponent(String.encodeTiddlyLink(this.title));
 //#displayMessage("link:"+ev.link);
 	} else {
+		//# get the event from the slices specified by the eventFields
 		ev.start = store.getTiddlerSlice(t,f.start);
 		ev.latestStart = store.getTiddlerSlice(t,f.latestStart);
 		ev.end = store.getTiddlerSlice(t,f.end);
@@ -303,8 +385,21 @@ config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,
 		}
 		data.type = ev.type;
 		data.params = ev.params;
-		if(ev.source && data.type||data.params) {
-			Timeline.loadTiddlers(data,function(data,url) { if(ev.source) ev.source.loadTiddlers(data,url); });
+		if(ev.source) {
+			switch(data.type) {
+			case 'XML':
+		  		//Timeline.loadXML("example1.xml", function(xml,url) { ev.source.loadXML(xml,url); });
+  				Timeline.loadXMLRemote(data.params,function(xml,url) { if(ev.source) ev.source.loadXML(xml,url); });
+				break;
+			case 'JSON':
+		  		Timeline.loadJSONRemote(data.params,function(data,url) { if(ev.source) ev.source.loadJSON(data,url); });
+				break;
+			default:
+				if(data.type||data.params) {
+					Timeline.loadTiddlers(data,function(data,url) { if(ev.source) ev.source.loadTiddlers(data,url); });
+				}
+				break;
+			}
 		}
 	}
 };
