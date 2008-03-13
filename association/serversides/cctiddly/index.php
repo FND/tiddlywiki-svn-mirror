@@ -59,13 +59,7 @@ db_record_insert($tiddlyCfg['table']['workspace_view'],$data1);
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<?php
-	$scheme = 'http';
-	if (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
-$scheme .= 's';
-}
-?>
-<base href='<?php echo $scheme;?>://<?php echo $_SERVER['SERVER_NAME'];?><?php echo $tiddlyCfg['pref']['base_folder'];?>/' /><head>
+<base href='<?php echo getURL();?>'/><head>
 <script type="text/javascript">
 //<![CDATA[
 var version = {title: "TiddlyWiki", major: 2, minor: 3, revision: 0, date: new Date("Dec 4, 2007"), extensions: {}};

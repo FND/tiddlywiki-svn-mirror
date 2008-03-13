@@ -73,7 +73,7 @@
 
 	}
 	
-		var url = "<?php echo $scheme;?>://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
+		var url = "<?php echo getURL();?>";
 	// Returns output var with output.txtUsername and output.sessionToken
 	
 	function findToken(cookieStash) {

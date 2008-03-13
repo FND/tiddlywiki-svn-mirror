@@ -12,7 +12,7 @@
 ***/
 //{{{
 
-var url = "<?php echo $scheme;?>://<?php echo $_SERVER['SERVER_NAME'].str_replace('/index.php', '',  $_SERVER['SCRIPT_NAME']);?>";
+var url = "<?php echo getURL();?>";
 	var workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 	var workspacePermission =  {};
 	
@@ -58,7 +58,7 @@ config.macros.ccCreateWorkspace = {
 		var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
 		
 		//form workspace name/url
-		createTiddlyText(step,url+"/");
+		createTiddlyText(step,url);
 		var workspaceName = createTiddlyElement(step,&quot;input&quot;,&quot;ccWorkspaceName&quot;, &quot;ccWorkspaceName&quot;)				
 		workspaceName.value = workspace;
 		workspaceName.size = 15;
@@ -151,8 +151,8 @@ config.macros.ccCreateWorkspace = {
 		//user+=(this.usU.checked?trueStr:falseStr);
 		//user+=(this.usD.checked?trueStr:falseStr);
 		var params = {}; 
-		params.url = url+'/'+this.ccWorkspaceName.value;
-		var loginResp = doHttp('POST', url+'/'+this.ccWorkspaceName.value, &quot;ccCreateWorkspace=&quot; + encodeURIComponent(this.ccWorkspaceName.value)+&quot;&amp;ccAnonPerm=&quot;+encodeURIComponent(anon),null,null,null, config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
+		params.url = url+this.ccWorkspaceName.value;
+		var loginResp = doHttp('POST', url+this.ccWorkspaceName.value, &quot;ccCreateWorkspace=&quot; + encodeURIComponent(this.ccWorkspaceName.value)+&quot;&amp;ccAnonPerm=&quot;+encodeURIComponent(anon),null,null,null, config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
 
 		return false; 
 
@@ -184,7 +184,7 @@ config.macros.ccCreateWorkspace = {
  	                {
  	                        echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['name']."&quot;);\n";
  	                        if( $tiddlyCfg['use_mod_rewrite']==1 ) {
- 	                                echo "item.href= url+'/".$row['name']."';\n";
+ 	                                echo "item.href= url+'".$row['name']."';\n";
  	                        }else{
  	                                echo "item.href= url+'?workspace=".$row['name']."';\n";
  	                        }
@@ -206,7 +206,7 @@ config.macros.ccCreateWorkspace = {
  	                {
  	                        echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['workspace_name']."&quot;);\n";
  	                        if( $tiddlyCfg['use_mod_rewrite']==1 ) {
- 	                                echo "item.href= url+'/".$row['workspace_name']."';\n";
+ 	                                echo "item.href= url+'".$row['workspace_name']."';\n";
  	                        }else{
  	                                echo "item.href= url+'?workspace=".$row['workspace_name']."';\n";
  	                        }

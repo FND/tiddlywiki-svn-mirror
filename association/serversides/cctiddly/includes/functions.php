@@ -34,6 +34,24 @@
 	    return $out;
     }
 
+
+
+function getScheme()
+{
+	$scheme = 'http';
+	if (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
+			$scheme .= 's';
+	}
+	return $scheme; 
+}
+function getURL()
+{
+	return getScheme().'://'.$_SERVER['SERVER_ADDR'].":".$_SERVER['SERVER_PORT'].str_replace("/index.php", "", $_SERVER['REQUEST_URI']);
+}
+
+
+
+
 	//!	@fn array getAllTiddlers()
 	//!	@brief get all tiddlers in nested array, removing ones the user do not have read privilege
 	function getAllTiddlers($user_remove="", $search="")
