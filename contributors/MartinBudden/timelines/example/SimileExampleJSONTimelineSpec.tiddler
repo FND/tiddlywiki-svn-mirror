@@ -1,13 +1,13 @@
 <div title="SimileExampleJSONTimelineSpec" modifier="Martin Budden">
 <pre>
-|timelineHeight:|150|
-|bubbleWidth:|300|
-|bubbleHeight:|200|
+|timelineHeight:|300|
+|bubbleWidth:|320|
+|bubbleHeight:|220|
 
 |band0.width:|100%|
 |band0.intervalUnit:|DECADE|
 |band0.intervalPixels:|200|
-|band0.date:|1920|
+|band0.date:|1900|
 |band0.eventSourceType:|JSON|
 |band0.eventSourceParams:|http://simile.mit.edu/timeline/examples/cubism/cubism.js|
 </pre>
