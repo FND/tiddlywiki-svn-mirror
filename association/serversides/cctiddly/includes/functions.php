@@ -46,8 +46,12 @@ function getScheme()
 }
 function getURL()
 {
-	//return "http://wiki.osmosoft.com:80/alpha/";
-	return getScheme().'://'.$_SERVER['SERVER_NAME'].str_replace("/index.php", "", $_SERVER['REQUEST_URI']);
+	$out = getScheme().'://'.$_SERVER['SERVER_NAME'].str_replace("?", "", str_replace("/index.php", "", $_SERVER['REQUEST_URI']));
+	// remove the last slash
+//	if (substr($out,strlen($out)-1, strlen($out)) == "/")
+//	$out = substr($out,0,strlen($out)-1);
+	
+	return $out; 
 }
 
 

@@ -134,7 +134,7 @@ config.macros.ccLoginStatus = {
 				frm.appendChild(btn);	
 
 	        } else {
-				var str = wikify(&quot;[[Please Login	]]&quot;, wrapper);
+				var str = wikify(&quot;[[Please Login]]&quot;, wrapper);
 				
 	        }
 	        

@@ -69,10 +69,6 @@ config.macros.ccCreateWorkspace = {
 		createTiddlyElement(step,&quot;h4&quot;, null, null,  &quot;Anonymous Users Can :  &quot;);
 	//	var anC = createTiddlyCheckbox(null, &quot;Create Tiddlers&quot;, 0);
 		
-		
-		
-		
-		
 		 var anC = createTiddlyElement(null,&quot;input&quot;, &quot;anC&quot;,&quot;anC&quot;);
 	     anC.setAttribute(&quot;type&quot;,&quot;checkbox&quot;);
 	     step.appendChild(anC);
@@ -97,9 +93,7 @@ config.macros.ccCreateWorkspace = {
 	     step.appendChild(anD);
 		 createTiddlyText(step, "Delete Tiddlers");
 		createTiddlyElement(step,&quot;br&quot;);
-		
-		
-	
+			
 //		anC.id='anC';
 //		frm.appendChild(anC);
 //		createTiddlyElement(step,&quot;br&quot;);
@@ -175,54 +169,12 @@ config.macros.ccCreateWorkspace = {
 }
 
 
- 	config.macros.ccListWorkspaces = {
- 	        handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
- 	                // When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
- 	                <?php
- 	                $result = db_workspace_selectAllPublic();
- 	                while ($row = db_fetch_assoc($result))
- 	                {
- 	                        echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['name']."&quot;);\n";
- 	                        if( $tiddlyCfg['use_mod_rewrite']==1 ) {
- 	                                echo "item.href= url+'".$row['name']."';\n";
- 	                        }else{
- 	                                echo "item.href= url+'?workspace=".$row['name']."';\n";
- 	                        }
- 	                        echo "createTiddlyElement(place,&quot;br&quot;);";
- 	                }
- 	                ?>
- 	                createTiddlyText(place, "\n Total Number of workspaces : <?php echo  db_num_rows($result)-1;?>");
- 	        }
- 	}
-
-
-
- 	config.macros.ccListMyWorkspaces = {
- 	        handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
- 	                // When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
- 	                <?php
- 	                $result =  db_workspace_selectOwnedBy($user['username']);
- 	                while ($row = db_fetch_assoc($result))
- 	                {
- 	                        echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['workspace_name']."&quot;);\n";
- 	                        if( $tiddlyCfg['use_mod_rewrite']==1 ) {
- 	                                echo "item.href= url+'".$row['workspace_name']."';\n";
- 	                        }else{
- 	                                echo "item.href= url+'?workspace=".$row['workspace_name']."';\n";
- 	                        }
- 	                        echo "createTiddlyElement(place,&quot;br&quot;);";
- 	                }
- 	                ?>
- 	                createTiddlyText(place, "\n Your workspaces : <?php echo  db_num_rows($result);?>");
- 	        }
- 	}
-
 
 config.macros.ccEditWorkspace = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
 		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
 		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
-		frm.onsubmit = this.createWorkspaceOnSubmit;
+		frm.onsubmit = this.editWorkspaceOnSubmit;
 		createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Edit Workspace Permissions :  &quot;);
 		var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
 		var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
@@ -247,8 +199,82 @@ config.macros.ccEditWorkspace = {
 		 btn.value = &quot;edit workspace permissions&quot;
 		createTiddlyElement(frm,&quot;br&quot;);
 		createTiddlyElement(frm,&quot;br&quot;);
+			},
+			
+	editWorkspaceOnSubmit: function() {
+			var trueStr = "A";
+			var falseStr = "D";
+			// build up string with permissions values
+			var anon=(this.anR.checked?trueStr:falseStr);
+			anon+=(this.anC.checked?trueStr:falseStr);
+			anon+=(this.anU.checked?trueStr:falseStr);
+			anon+=(this.anD.checked?trueStr:falseStr);
+			displayMessage(anon);
+			doHttp('POST', url+'handle/update_workspace.php', &quot;ccCreateWorkspace=&quot; + encodeURIComponent(this.ccWorkspaceName.value)+&quot;&amp;ccAnonPerm=&quot;+encodeURIComponent(anon),null,null,null, config.macros.ccEditWorkspace.editWorkspaceCallback,params);
+			return false;
+		},
+		
+		editWorkspaceCallback: function(status,params,responseText,uri,xhr) {
+		//	displayMessage(xhr.status);
+		
+		displayMessage('lalalal');
+		 if (xhr.status == 200) {
+				displayMessage(responseText);	
 			}
+
+		}
+		
+		
+		
 }
+
+
+
+config.macros.ccListWorkspaces = {
+        handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+                // When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+                <?php
+                $result = db_workspace_selectAllPublic();
+                while ($row = db_fetch_assoc($result))
+                {
+                        echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['name']."&quot;);\n";
+                        if( $tiddlyCfg['use_mod_rewrite']==1 ) {
+                                echo "item.href= url+'".$row['name']."';\n";
+                        }else{
+                                echo "item.href= url+'?workspace=".$row['name']."';\n";
+                        }
+                        echo "createTiddlyElement(place,&quot;br&quot;);";
+                }
+                ?>
+                createTiddlyText(place, "\n Total Number of workspaces : <?php echo  db_num_rows($result)-1;?>");
+        }
+}
+
+
+
+config.macros.ccListMyWorkspaces = {
+        handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+                // When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+                <?php
+                $result =  db_workspace_selectOwnedBy($user['username']);
+                while ($row = db_fetch_assoc($result))
+                {
+                        echo "var item = createTiddlyElement(place, 'A', null, null,  &quot;".$row['workspace_name']."&quot;);\n";
+                        if( $tiddlyCfg['use_mod_rewrite']==1 ) {
+                                echo "item.href= url+'".$row['workspace_name']."';\n";
+                        }else{
+                                echo "item.href= url+'?workspace=".$row['workspace_name']."';\n";
+                        }
+                        echo "createTiddlyElement(place,&quot;br&quot;);";
+                }
+                ?>
+                createTiddlyText(place, "\n Your workspaces : <?php echo  db_num_rows($result);?>");
+        }
+}
+
+
+
+
 //}}}
 </pre>
 </div>
