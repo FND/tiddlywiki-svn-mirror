@@ -46,8 +46,10 @@ function getScheme()
 }
 function getURL()
 {
-	return getScheme().'://'.$_SERVER['SERVER_ADDR'].":".$_SERVER['SERVER_PORT'].str_replace("/index.php", "", $_SERVER['REQUEST_URI']);
+	//return "http://wiki.osmosoft.com:80/alpha/";
+	return getScheme().'://'.$_SERVER['SERVER_NAME'].str_replace("/index.php", "", $_SERVER['REQUEST_URI']);
 }
+
 
 
 
