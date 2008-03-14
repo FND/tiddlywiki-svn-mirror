@@ -54,22 +54,22 @@ version.extensions.TTReportViewPlugin = {installed:true};
 		var orderField =  fieldPrefix + orderString.split(",")[0];
 		var order =  orderString.split(",")[1];				
 		var expectedParams = ['DisplayFields','OrderBy'];
+	
+		//interpret and store the filter values.	
 		var filters = [];
 		for(var p in params) {
 			var name = params[p].name;
 			var value = params[p].value;
-			
-			//interpret and store the filter values.				
 			if((name && name != 'undefined') &!expectedParams.contains(name)) {
-				var testResult = true;
+				var match = true;
 				if(value.substring(0,1) == "!") {
-					testResult = false;
+					match = false;
 					var str = value.substring(1);
 				}
 				else {
 					var str = value;	
 				}
-				filters.push({'field':fieldPrefix + name, 'value':str, 'testResult':testResult});		
+				filters.push({'field':fieldPrefix + name, 'value':str, 'match':match});		
 			}
 		}
 					
@@ -79,34 +79,44 @@ version.extensions.TTReportViewPlugin = {installed:true};
 		var toDisplay = [];		
 		var toExclude = [];
 	
-		// first get all the tiddlers we might wnat to include.
+		// first get all the tiddlers we might want to include.
 		for(var t=0; t<taskTiddlers.length; t++) {
+			var consider = true;
 			for(var f=0; f<filters.length; f++) {
-				if(filters[f].testResult == true) {
-					if(store.getValue(taskTiddlers[t], filters[f].field).toLowerCase() == filters[f].value)
-						toConsider.push(taskTiddlers[t]);
+				if(filters[f].match == true) {
+					if(store.getValue(taskTiddlers[t], filters[f].field).toLowerCase() != filters[f].value.toLowerCase()){
+						consider = false;
+						break;
+					}
 				}
 			}
+			if(consider)
+				toConsider.push(taskTiddlers[t]);
 		}
-		this.log('toConsider :' + toConsider.length);
-	
-		// now find which of our tiddlers we need to exclude
+		this.log("toConsider: " + toConsider.length );
+		
+		/*
+			TODO refine toConsider by using AND rather than OR for mutliple filter options.
+		*/
+
+		// now find which of our selected tiddlers we need to exclude
 		for(var d=0; d<toConsider.length; d++) {
 			for(var f=0; f<filters.length; f++) {
-				if(filters[f].testResult == false) {
-					if(store.getValue(toConsider[d], filters[f].field).toLowerCase() == filters[f].value.toLowerCase())
-						toExclude.push(toConsider[d]);						
+				if(filters[f].match == false) {
+					if(store.getValue(toConsider[d], filters[f].field).toLowerCase() == filters[f].value.toLowerCase()) {
+						toExclude.push(toConsider[d]);
+						this.log("Excluding " + toConsider[d].title);
+					}	
 				}
 			}
 		}
-		this.log('toExclude :' + toExclude.length);
-
+		this.log("toExclude: " + toExclude.length );
+		
 		// remove the excluded tiddlers.
 		for (var i=0; i < toConsider.length; i++) {
-			if(toConsider.contains(toExclude[i]) === false)
+			if(toExclude.contains(toConsider[i]) === false)
 				toDisplay.push(toConsider[i]);
 		}
-		this.log('toDisplay :' + toDisplay.length);
 
 		// Build a template dynamically to include the specified fields.
 		var template = "|";
@@ -119,17 +129,9 @@ version.extensions.TTReportViewPlugin = {installed:true};
 		}
 		
 		// Output the results.
-		// var out = "";
 		for(var d=0; d<toDisplay.length; d++) {
 			new Wikifier(template,formatter,null,toDisplay[d]).subWikify(place);
-			// out += wikifyStatic(template,null,toDisplay[d],formatter);
-
 		}		
-		// this.log(out);
-		// wikify(out,place);
-		
 	};
-
-
 } //# end of 'install only once'
 //}}}

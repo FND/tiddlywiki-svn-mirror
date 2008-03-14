@@ -39,3 +39,5 @@ tiddler: TiddlyWiki.tiddler
 tiddler: UserDefinitions.tiddler
 tiddler: UserDetailsTemplate.tiddler
 tiddler: UserSetupWizard.tiddler
+
+tiddler: TTViewTest.tiddler
