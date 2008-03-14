@@ -2,7 +2,13 @@
 
 require_once "common.php";
 session_start();
-
+function getScheme() {
+    $scheme = 'http';
+    if (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
+        $scheme .= 's';
+    }
+    return $scheme;
+}
 function getOpenIDURL() {
     // Render a default page if we got a submission without an openid
     // value.
