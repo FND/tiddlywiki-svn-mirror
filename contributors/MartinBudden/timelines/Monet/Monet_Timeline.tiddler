@@ -1,6 +1,5 @@
-<div title="Monet Timeline" modifier="Martin Budden">
+<div title="Monet Timeline" modifier="Martin Budden" tags="timeline">
 <pre>
-
-&lt;&lt;SimileTimeline MonetTimelineSpec&gt;&gt;
+<<SimileTimeline MonetTimelineSpec>>
 </pre>
 </div>

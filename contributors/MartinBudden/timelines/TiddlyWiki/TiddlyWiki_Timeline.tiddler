@@ -1,6 +1,5 @@
-<div title="TiddlyWiki Timeline" modifier="Martin Budden">
+<div title="TiddlyWiki Timeline" modifier="Martin Budden" tags="timeline">
 <pre>
-
-&lt;&lt;SimileTimeline TiddlyWikiTimelineSpec&gt;&gt;
+<<SimileTimeline TiddlyWikiTimelineSpec>>
 </pre>
 </div>

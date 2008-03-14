@@ -1,6 +1,6 @@
-<div title="Cubism Timeline" modifier="Martin Budden">
+<div title="Cubism Timeline" modifier="Martin Budden" tags="timeline">
 <pre>
 
-&lt;&lt;SimileTimeline CubismTimelineSpec&gt;&gt;
+<<SimileTimeline CubismTimelineSpec>>
 </pre>
 </div>
