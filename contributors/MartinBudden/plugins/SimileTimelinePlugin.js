@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Source:''|http://www.martinswiki.com/#SimileTimelineBundlePlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelinePlugin.js |
-|''Version:''|0.1.5|
+|''Version:''|0.1.6|
 |''Date:''|Mar 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -118,6 +118,19 @@ Timeline.DefaultEventSource.Event.prototype.fillInfoBubble = function(elmt,theme
 	elmt.appendChild(divWiki);
 };
 */
+
+Timeline.loadTiddlerJSON = function(title,fn)
+{
+	var tiddler = store.fetchTiddler(title);
+	try {
+		var uri = '';
+		var j = eval('(' + tiddler.text + ')');
+		fn(j,uri);
+	} catch(ex) {
+		console.log(ex);
+		return exceptionText(ex);
+	}
+};
 
 Timeline.loadTiddlers = function(data,fn)
 {
@@ -378,7 +391,7 @@ config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,
 		ev = eventSources[i];
 		if(ev.type=='timer') {
 			config.macros.SimileTimeline.tickTitle = tiddler.title;//!!! temporary kludge, only support one timer
-			config.macros.SimileTimeline.timerId = setTimeout("config.macros.SimileTimeline.tick()",1000);
+			config.macros.SimileTimeline.timerId = setTimeout('config.macros.SimileTimeline.tick()',1000);
 		}
 		data.type = ev.type;
 		data.params = ev.params;
@@ -387,6 +400,9 @@ config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,
 			case 'XML':
 		  		//#Timeline.loadXML("example1.xml", function(xml,url) { ev.source.loadXML(xml,url); });
   				Timeline.loadXMLRemote(data.params,function(xml,url) { if(ev.source) ev.source.loadXML(xml,url); });
+				break;
+			case 'tiddlerJSON':
+		  		Timeline.loadTiddlerJSON(data.params,function(data,url) { if(ev.source) ev.source.loadJSON(data,url); });
 				break;
 			case 'JSON':
 		  		Timeline.loadJSONRemote(data.params,function(data,url) { if(ev.source) ev.source.loadJSON(data,url); });
