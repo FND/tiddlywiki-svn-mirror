@@ -123,9 +123,12 @@ version.extensions.TTReportViewPlugin = {installed:true};
 		}
 		
 		// Output the results.
+		var out = "";
 		for(var d=0; d<toDisplay.length; d++) {
-			new Wikifier(template,formatter,null,toDisplay[d]).subWikify(place);
+			// new Wikifier(template,formatter,null,toDisplay[d]).subWikify(place);
+			out += wikifyStatic(template,null,toDisplay[d],formatter);
 		}		
+		wikify(place,out);
 		
 	};
 } //# end of 'install only once'
