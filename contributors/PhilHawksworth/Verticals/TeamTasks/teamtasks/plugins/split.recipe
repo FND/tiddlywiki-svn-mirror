@@ -3,3 +3,5 @@ tiddler: NewUserWizardPlugin.js
 tiddler: TaggedTemplateTweak.js
 tiddler: TaskViewBuilderPlugin.js
 tiddler: ValueSwitcherPlugin.js
+tiddler: TableSortingPlugin.js
+tiddler: TTReportViewPlugin.js
