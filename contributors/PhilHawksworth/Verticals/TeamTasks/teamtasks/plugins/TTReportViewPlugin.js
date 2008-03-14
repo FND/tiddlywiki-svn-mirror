@@ -47,7 +47,7 @@ version.extensions.TTReportViewPlugin = {installed:true};
 				
 		//gather all of the parameters.
 		var params = paramString.parseParams("anon",null,true,false,false);
-		var fieldString = getParam(params,"DisplayFields",'title,'+fieldPrefix+'status');
+		var fieldString = getParam(params,"DisplayFields",'title');
 		var displayFields = fieldString.split(",");
 		var orderString = getParam(params,"OrderBy",'title,asc');
 		var orderField =  fieldPrefix + orderString.split(",")[0];
