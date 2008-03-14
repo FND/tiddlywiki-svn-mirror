@@ -93,11 +93,6 @@ version.extensions.TTReportViewPlugin = {installed:true};
 			if(consider)
 				toConsider.push(taskTiddlers[t]);
 		}
-		this.log("toConsider: " + toConsider.length );
-		
-		/*
-			TODO refine toConsider by using AND rather than OR for mutliple filter options.
-		*/
 
 		// now find which of our selected tiddlers we need to exclude
 		for(var d=0; d<toConsider.length; d++) {
@@ -110,7 +105,6 @@ version.extensions.TTReportViewPlugin = {installed:true};
 				}
 			}
 		}
-		this.log("toExclude: " + toExclude.length );
 		
 		// remove the excluded tiddlers.
 		for (var i=0; i < toConsider.length; i++) {
@@ -132,6 +126,7 @@ version.extensions.TTReportViewPlugin = {installed:true};
 		for(var d=0; d<toDisplay.length; d++) {
 			new Wikifier(template,formatter,null,toDisplay[d]).subWikify(place);
 		}		
+		
 	};
 } //# end of 'install only once'
 //}}}
