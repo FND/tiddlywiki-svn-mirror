@@ -153,9 +153,14 @@
 				return TRUE;
 			}
 		}
-		if ($un != '' and $pw != '')
-		{	$data['username'] = $un;
+				
+		if ($un != '' && $pw != '')
+		{
+			debug('we made it ');
+				$data['username'] = $un;
 			$data['password'] = sha1($pw);
+			var_dump($data);
+
 			$results = db_record_select('user', $data);			// get array of results		
 			debug('Number of user s: '.count($results));
 			if (count($results) > 0 )                   //  if the array has 1 or more acounts 

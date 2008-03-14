@@ -683,7 +683,7 @@ $db_var['error']['query'] = " query: ";*/
 	// CHANGED BY SIMONMCMANUS TO ALLOW MULTIPLE WHERE CLAUSES TO BE PASSED
 	
 		$sql_start = "SELECT * FROM ".$table." WHERE ";
-	
+
 		while( (list($k,$v) = each($data)) )
 		{
 		$sql = '';
