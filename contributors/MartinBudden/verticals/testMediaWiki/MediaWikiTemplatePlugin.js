@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.0.10|
+|''Version:''|0.0.11|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -44,7 +44,7 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1))
 
 fnLog = function(text)
 {
-//	console.log(text.substr(0,80));
+//#	console.log(text.substr(0,80));
 };
 
 MediaWikiTemplate = function()
@@ -121,6 +121,7 @@ fnLog('ret getTemplateContent:'+text);
 MediaWikiTemplate.prototype.substituteParameters = function(text,params)
 {
 fnLog('substituteParameters:'+text);
+//#console.log(params);
 	var t = '';
 	var pi = 0;
 	var bp = MediaWikiTemplate.findTBP(text,pi);
@@ -133,7 +134,9 @@ fnLog('substituteParameters:'+text);
 		if(d!=-1) {
 			var def = name.substr(d+1);
 			name = name.substr(0,d);
+//#console.log('name:'+name);
 		}
+		//params is [undefined,"param1=aaa"]
 		var val = params[name];
 		if(val===undefined) {
 			//# use default
@@ -145,6 +148,8 @@ fnLog('substituteParameters:'+text);
 		} else {
 			val = this.substituteParameters(val,params);
 		}
+//#console.log('val:'+val);
+//#console.log('s:'+text.substring(pi,bp.start));
 		t += text.substring(pi,bp.start) + this._transcludeTemplates(val);
 		pi = bp.end+3;
 		bp = MediaWikiTemplate.findTBP(text,pi);
@@ -167,6 +172,8 @@ fnLog('expandTemplateContent:'+templateName);
 	this.stack.push(templateName);
 
 	var text = MediaWikiTemplate.getTemplateContent(templateName);
+//#console.log('tcontent:'+text);
+//#console.log(params);
 	text = this.substituteParameters(text,params);
 fnLog('ret expandTemplateContent'+text);
 	return text;
@@ -193,17 +200,39 @@ MediaWikiTemplate.prototype._expandVariable = function(text)
 	return ret;
 };
 
-MediaWikiTemplate.prototype._expandParserFunction = function(fn,params)
+MediaWikiTemplate.prototype._expandParserFunction = function(text)
 {
-fnLog('_expandParserFunction:'+fn);
-//#console.log(params);
-	var ret = '';
+fnLog('_expandParserFunction:'+text);
+	var fnRegExp = /\s*(#?[a-z]+):/mg;
+	fnRegExp.lastIndex = 0;
+	var match = fnRegExp.exec(text);
+	if(!match) {
+		return false;
+	}
+//#console.log(match);
+	//# it's a parser function
+	var fn = match[1];
+//#console.log('fn:'+fn);
+
+	var ret = false;
+	var len = fn.length;
 	switch(fn.toLowerCase()) {
 	case '#if':
-		var p = params[1];
-		if(p) p = p.trim();
-		ret = p=='' ? params[3] : params[2];
-		if(!ret) ret = '';
+		var e = MediaWikiTemplate.findRawDelimiter('|',text,0);
+		var p = text.substring(len+1,e).trim();
+//#console.log('p:'+p+':');
+		var lhs = text.substr(e+1);
+		e = MediaWikiTemplate.findRawDelimiter('|',lhs,0);
+		if(e==-1) {
+			ret = lhs.trim();
+		} else {
+			var rhs = lhs.substr(e+1);
+			lhs = lhs.substr(0,e);
+//#console.log('lhs:'+lhs+':');
+//#console.log('rhs:'+rhs+':');
+			ret = p=='' ? rhs.trim() : lhs.trim();
+		}
+//#console.log('ret:'+ret);
 		break;
 	default:
 		break;
@@ -232,31 +261,24 @@ fnLog('_splitTemplateNTag:'+ntag);
 MediaWikiTemplate.prototype._expandTemplateNTag = function(ntag)
 {
 fnLog('_expandTemplateNTag:'+ntag);
-	var v = this._expandVariable(ntag);
-	if(v!==false) {
-		return v;
+	var ret = this._expandVariable(ntag);
+	if(ret!==false) {
+		return ret;
+	}
+	ret = this._expandParserFunction(ntag);
+	if(ret!==false) {
+		return ret;
 	}
 	var pd = this._splitTemplateNTag(ntag);
 	var templateName = pd[0];
-//#console.log('tn'+templateName);
+//#console.log('tn:'+templateName);
+//#console.log(pd);
 	var s = 1;
-	var fnRegExp = /\s*(#?[a-z]+):/mg;
-	fnRegExp.lastIndex = 0;
-	var match = fnRegExp.exec(templateName);
-	if(match) {
-//#console.log('fn');
-//#console.log(match);
-		//# it's a parser function
-		var fn = match[1];
-		s = MediaWikiTemplate.findRawDelimiter('|',ntag,match.index);
-		pd[0] = ntag.substr(s+1);
-//#console.log('params:'+pd[0]);
-		s = 0;
-	}
 
-	var params = [];
+	var params = {};
 	var n = 1;
 //#console.log('len:'+pd.length);
+//#console.log(pd);
 	for(var i = s;i<pd.length;i++) {
 		var t = pd[i];
 //#console.log('i:'+i);
@@ -266,12 +288,13 @@ fnLog('_expandTemplateNTag:'+ntag);
 			var pnRegExp = /[A-Za-z]+[A-Za-z0-9]*=/mg;
 			pnRegExp.lastIndex = 0;
 			match = pnRegExp.exec(t);
-			if(match)
+//#console.log(match);
+			if(!match)
 				p = -1;
 		}
 		if(p==-1) {
 			//# numbered parameter
-			params[n] = t;
+			params[String(n)] = t;
 //#console.log('params['+n+']:'+params[n]);
 			n++;
 		} else if(p!=0) {//p==0 sets null parameter
@@ -282,7 +305,13 @@ fnLog('_expandTemplateNTag:'+ntag);
 //#console.log('paramsN['+name+']:'+params[name]);
 		}
 	}
-	var ret = fn ? this._expandParserFunction(fn,params) : this.expandTemplateContent(templateName.trim(),params);
+	//var ret = fn ? this._Function(fn,params) : this.expandTemplateContent(templateName.trim(),params);
+	
+	ret = this.expandTemplateContent(templateName.trim(),params);
+	var eret = this._expandParserFunction(ret);
+	if(eret!==false) {
+		ret = eret;;
+	}
 fnLog('ret _expandTemplateNTag:'+ret);
 	return ret;
 };
@@ -307,7 +336,7 @@ fnLog('_transcludeTemplates:'+text);
 		this.stack = [];
 		this.error = false;
 	}
-fnLog('ret:'+text);
+fnLog('_transcludeTemplates ret:'+text);
 	return text;
 };
 
@@ -323,7 +352,7 @@ MediaWikiTemplate.prototype.transcludeTemplates = function(text,tiddler)
 
 MediaWikiTemplate.findRawDelimiter = function(delimiter,text,start)
 {
-fnLog('findRawDelimiter:'+text.substr(start,50));
+//#fnLog('findRawDelimiter:'+text.substr(start,50));
 	var e = text.indexOf(delimiter,start);
 	if(e==-1)
 		return -1;
@@ -372,7 +401,7 @@ In this example, {{{{TEx1}} }} results in Template:Hello world!, as the Hello wo
 MediaWikiTemplate.findDBP = function(text,start)
 // findDoubleBracePair
 {
-fnLog('findDBP:'+start+' t:'+text);
+//#fnLog('findDBP:'+start+' t:'+text);
 	var ret = {start:-1,end:-1};
 	var s = text.indexOf('{{',start);
 	if(s==-1)
@@ -466,7 +495,7 @@ fnLog('findDBP:'+start+' t:'+text);
 MediaWikiTemplate.findTBP = function(text,start)
 // findTripleBracePair
 {
-fnLog('findTBP:'+start+' t:'+text);
+//#fnLog('findTBP:'+start+' t:'+text);
 	var ret = {start:-1,end:-1};
 	var s = text.indexOf('{{{',start);
 	if(s==-1)
@@ -543,7 +572,7 @@ fnLog('findTBP:'+start+' t:'+text);
 
 MediaWikiTemplate.findTableBracePair = function(text,start)
 {
-fnLog('findTableBracePair:'+start+' t:'+text);
+//#fnLog('findTableBracePair:'+start+' t:'+text);
 	var ret = {start:-1,end:-1};
 	var s = text.indexOf('{|',start);
 	if(s==-1)
@@ -570,8 +599,9 @@ fnLog('findTableBracePair:'+start+' t:'+text);
 
 MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 {
-console.log('wikifyTable');
-console.log(w);
+//#console.log('wikifyTable');
+//#console.log(w);
+//#console.log(w.source);
 	function lineEnd(w) {
 		var r = w.source.indexOf('\n',w.nextMatch);
 		while(r!=-1) {
