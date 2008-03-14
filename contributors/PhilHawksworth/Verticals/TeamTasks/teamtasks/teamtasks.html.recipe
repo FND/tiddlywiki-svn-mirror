@@ -1,7 +1,5 @@
 recipe: ../../../../../core/tiddlywiki.html.recipe
 
-tiddler: ../../../../JonathanLister/components/ListTemplateMacro.js
-
 recipe: shadows/split.recipe
 recipe: plugins/split.recipe
 recipe: content/split.recipe
