@@ -6,7 +6,7 @@ recipe: shadows/split.recipe
 recipe: plugins/split.recipe
 recipe: content/split.recipe
 
-recipe: ../roadmap/tasks2.0/split.recipe
+recipe: ../roadmap/tasks/split.recipe
 
 
 
