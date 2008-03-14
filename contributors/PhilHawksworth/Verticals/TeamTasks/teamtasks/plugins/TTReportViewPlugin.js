@@ -18,14 +18,13 @@ Create a view of the task list showing default values.
 
 Create a view of the task list showing specified fields in a given order and filtering the results.
 {{{
-<<TTReportView DisplayFields:"field1,field2,field3" OrderBy:"field1,asc" fieldName:"filterValue" fieldName:"!filterValue">>
+<<TTReportView DisplayFields:"field1,field2,field3" OrderBy:"field1,[asc|desc]" fieldName:"filterValue" fieldName:"!filterValue">>
 }}}
 
 for example
 {{{
 <<TTReportView DisplayFields:"TaskName,AssignedTo,TargetDate" OrderBy:"TargetDate,asc" Status:"!closed" Project:"BigProject">>	
 }}}
-
 
 
 ***/
@@ -50,7 +49,7 @@ version.extensions.TTReportViewPlugin = {installed:true};
 		var params = paramString.parseParams("anon",null,true,false,false);
 		var fieldString = getParam(params,"DisplayFields",'title,'+fieldPrefix+'status');
 		var displayFields = fieldString.split(",");
-		var orderString = getParam(params,"OrderBy",null);
+		var orderString = getParam(params,"OrderBy",'title,asc');
 		var orderField =  fieldPrefix + orderString.split(",")[0];
 		var order =  orderString.split(",")[1];				
 		var expectedParams = ['DisplayFields','OrderBy'];
@@ -112,24 +111,36 @@ version.extensions.TTReportViewPlugin = {installed:true};
 				toDisplay.push(toConsider[i]);
 		}
 
-		// Build a template dynamically to include the specified fields.
-		var template = "|";
+		// Build a sortable table of the results.
+		var tbl = createTiddlyElement(place,'table',null,'sortable');
+		var thead = createTiddlyElement(tbl,'thead');
+		var theadr = createTiddlyElement(thead,'tr');
 		for(var f=0; f<displayFields.length; f++) {
-			if(TiddlyWiki.isStandardField(displayFields[f]))
-				var fieldName = displayFields[f];
-			else
-				var fieldName = fieldPrefix + displayFields[f];
-			template += "<<view "+ fieldName +">> |";
+			//specifiy the sorting column if required.
+			var c = null;
+			if(fieldPrefix + displayFields[f].toLowerCase() == orderField.toLowerCase()) {
+				var c = "autosort";
+				if(order != 'asc') c += " reverse";
+			}
+			createTiddlyElement(theadr,'td',null,c,displayFields[f]);
 		}
-		
-		// Output the results.
-		var out = "";
+		var tbody = createTiddlyElement(tbl,'tbody');
 		for(var d=0; d<toDisplay.length; d++) {
-			// new Wikifier(template,formatter,null,toDisplay[d]).subWikify(place);
-			out += wikifyStatic(template,null,toDisplay[d],formatter);
+			var tr = createTiddlyElement(tbody,'tr');
+			for(var f=0; f<displayFields.length; f++) {
+				var df = displayFields[f].toLowerCase();
+				if(TiddlyWiki.isStandardField(df))
+					var fieldName = df;
+				else
+					var fieldName = fieldPrefix + df;	
+				var td  = createTiddlyElement(tr,'td',null,null,null);
+				var v = store.getValue(toDisplay[d], fieldName);
+				if(fieldName == 'title')
+					createTiddlyLink(td,v,true,null,false,false);
+				else
+					createTiddlyText(td,v);
+			}
 		}		
-		wikify(place,out);
-		
 	};
 } //# end of 'install only once'
 //}}}
