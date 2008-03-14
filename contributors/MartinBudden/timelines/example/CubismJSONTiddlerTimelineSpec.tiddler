@@ -1,0 +1,14 @@
+<div title="CubismJSONTiddlerTimelineSpec" modifier="Martin Budden" tags="timelinespec">
+<pre>
+|timelineHeight:|300|
+|bubbleWidth:|320|
+|bubbleHeight:|220|
+
+|band0.width:|100%|
+|band0.intervalUnit:|DECADE|
+|band0.intervalPixels:|200|
+|band0.date:|1900|
+|band0.eventSourceType:|tiddlerJSON|
+|band0.eventSourceParams:|CubismJSON|
+</pre>
+</div>
