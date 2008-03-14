@@ -1,4 +1,4 @@
-<div title="Default user on tasks" modifier="PhilHawksworth" created="200710231304" modified="200711091631" tags="task" versiondefinitions="v0.4" server.host="http://osmosoft.servehttp.com/cc/osworld/" scopedefinitions="TeamTasksDevelopment" server.page.revision="200710231305" server.type="file" prioritydefinitions="Medium" statusdefinitions="Pending" changecount="4" userdefinitions="PhilHawksworth">
+<div title="Default user on tasks" modifier="PhilHawksworth" created="200710231304" modified="200711091631" tags="task" server.host="http://osmosoft.servehttp.com/cc/osworld/" tt_user="PhilHawksworth" tt_priority="Medium" tt_version="v0.4" tt_scope="TeamTasksDevelopment" server.page.revision="200710231305" tt_tasks_metadata_format_version="0.4" server.type="file" changecount="4" tt_status="Pending">
 <pre>Support the option of setting the User assignment on new TaskTiddlers.
 Grab the value of {{{ <<option txtUserName>> }}}</pre>
 </div>

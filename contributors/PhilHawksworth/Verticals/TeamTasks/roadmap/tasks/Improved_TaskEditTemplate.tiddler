@@ -1,3 +1,3 @@
-<div title="Improved TaskEditTemplate" modifier="PhilH" created="200803061105" tags="task" versiondefinitions="v0.4" scopedefinitions="TeamTasksDevelopment" prioritydefinitions="Low" statusdefinitions="Pending" changecount="6" userdefinitions="PhilHawksworth">
+<div title="Improved TaskEditTemplate" modifier="PhilH" created="200803061105" tags="task" tt_user="PhilHawksworth" tt_priority="Low" tt_version="v0.4" tt_scope="TeamTasksDevelopment" tt_tasks_metadata_format_version="0.4" changecount="6" tt_status="Pending">
 <pre>Improve the TaskEditTemplate so that the meta data controls are visible</pre>
 </div>
