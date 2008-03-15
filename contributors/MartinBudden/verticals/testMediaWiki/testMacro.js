@@ -25,8 +25,6 @@ config.macros.testMacro.test = function(title,params)
 	displayMessage("Testing");
 	//tpTest('Dummy','','{{#if: {{{built|}}} |\n!     colspan="2" {{!}} Built\n{{!}} colspan="2" {{!}} {{{built}}}\n}}');
 	//tpTest('Dummy','','{{Infobox Airport}}');
-	//displayMessage("Testing complete");
-	//return;
 	config.macros.testMacro.testRawPipes(title,params);
 	config.macros.testMacro.testDoubleBraces(title,params);
 	config.macros.testMacro.testTripleBraces(title,params);
@@ -131,6 +129,18 @@ config.macros.testMacro.testRawPipes = function(title,params)
 	rpTest('[[Semimajor axis|Avg. distance from Sun]]',0,-1);
 	rpTest('aa[[Semimajor axis|Avg. distance from Sun]]bb',0,-1);
 	rpTest('aa[[Semimajor axis|Avg. distance from Sun]]bb',2,-1);
+	rpTest('\n! colspan="2" {{!}} Elevation&nbsp;[[Above mean sea level|AMSL]]\n{{!}} colspan="2" {{!}} {{#if:\n| 56 [[metre|m]] / 184 [[foot (unit of length)|ft]]\n| 184 [[foot (unit of length)|ft]] / 56 [[metre|m]] }}\n',0,-1);
+	rpTest('{{!}} {{|}}',0,-1);
+	rpTest('! colspan="2" {{!}} Elevation&nbsp;[[Above mean sea level|AMSL]]\n{{!}} colspan="2" {{!}} {{#if:\n| 56 [[metre|m]] / 184 [[foot (unit of length)|ft]]\n| 184 [[foot (unit of length)|ft]] / 56 [[metre|m]] }}\n',0,-1);
+	rpTest('Elevation&nbsp;[[Above mean sea level|AMSL]]\n{{!}} colspan="2" {{!}} {{#if:\n| 56 [[metre|m]] / 184 [[foot (unit of length)|ft]]\n| 184 [[foot (unit of length)|ft]] / 56 [[metre|m]] }}\n',0,-1);
+	rpTest('Elevation&nbsp;[[Above mean sea level|AMSL]]\n{{!}} colspan="2" {{!}} {{#if:\n| 56 }}\n',0,-1);
+	rpTest('E[[Above mean sea level|AMSL]]\n{{!}} colspan="2" {{!}} {{#if:\n| 56 }}\n',0,-1);
+	rpTest('{{!}} colspan="2" {{!}} {{#if:\n| 56 }}\n',0,-1);
+	rpTest('{{!}}  {{!}} {{#if:\n| 56 }}\n',0,-1);
+	rpTest('{{!}} {{|}}',0,-1);
+	rpTest('E[[Above mean sea level|AMSL]]\n {{#if:\n| 56 }}\n',0,-1);
+	rpTest('[[Above mean sea level|AMSL]] {{#if:| 56 }}\n',0,-1);
+	rpTest('{{#if:\n| 56 [[metre|m]] / 184 [[foot (unit of length)|ft]]\n| 184 [[foot (unit of length)|ft]] / 56 [[metre|m]] }}\n',0,-1);
 };
 
 config.macros.testMacro.testDoubleBraces = function(title,params)
@@ -213,13 +223,13 @@ config.macros.testMacro.testTripleBraces = function(title,params)
 
 config.macros.testMacro.testTableBraces = function(title,params)
 {
-	taTest('{|a|}',0,0,3);
-	taTest('{||}',0,0,2);
-	taTest('a{|n|}c',0,1,4);
+	taTest('{|a\n|}',0,0,4);
+	taTest('{|\n|}',0,0,3);
+	taTest('a{|b\n|}c',0,1,5);
 	taTest('abcd',0,-1,-1);
 
-	taTest('a{|nm{|xy|}z|}c',0,1,12);
-	taTest('a{|nm{|xy|}z|}c',3,5,9);
+	taTest('a{|nm{|xy\n|}z\n|}c',0,1,14);
+	taTest('a{|nm{|xy\n|}z\n|}c',3,5,10);
 };
 
 config.macros.testMacro.testVariables = function(title,params)
