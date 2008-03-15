@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.0.12|
+|''Version:''|0.0.13|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -121,7 +121,7 @@ fnLog('ret getTemplateContent:'+text);
 
 MediaWikiTemplate.prototype.substituteParameters = function(text,params)
 {
-fnLog('substituteParameters:'+text);
+//#fnLog('substituteParameters:'+text);
 //#console.log(params);
 	var t = '';
 	var pi = 0;
@@ -156,7 +156,7 @@ fnLog('substituteParameters:'+text);
 		bp = MediaWikiTemplate.findTBP(text,pi);
 	}
 	t += text.substring(pi);
-fnLog('ret substituteParameters:'+t);
+//#fnLog('ret substituteParameters:'+t);
 	return t;
 };
 
@@ -203,42 +203,44 @@ MediaWikiTemplate.prototype._expandVariable = function(text)
 
 MediaWikiTemplate.prototype._expandParserFunction = function(text)
 {
-fnLog('_expandParserFunction:'+text);
 	var fnRegExp = /\s*(#?[a-z]+):/mg;
 	fnRegExp.lastIndex = 0;
 	var match = fnRegExp.exec(text);
 	if(!match) {
 		return false;
 	}
+//#console.log('_expandParserFunction:'+text);
 //#console.log(match);
 	//# it's a parser function
 	var fn = match[1];
 //#console.log('fn:'+fn);
 
 	var ret = false;
-	var len = fn.length;
+	var len = match[0].length;
 	switch(fn.toLowerCase()) {
 	case '#if':
 		var e = MediaWikiTemplate.findRawDelimiter('|',text,0);
-		var p = text.substring(len+1,e).trim();
+		var p = text.substring(len,e).trim();
+//#console.log('e:'+e);
 //#console.log('p:'+p+':');
 		var lhs = text.substr(e+1);
+//#console.log('lhs0:'+lhs+':');
 		e = MediaWikiTemplate.findRawDelimiter('|',lhs,0);
-//#console.log('e:'+e);
+//#console.log('e2:'+e);
 		if(e==-1) {
-			ret = p=='' ? '' : lhs.trim();
+			ret = p=='' ? '' : lhs;
 		} else {
 			var rhs = lhs.substr(e+1);
 			lhs = lhs.substr(0,e);
 //#console.log('lhs:'+lhs+':');
 //#console.log('rhs:'+rhs+':');
-			ret = p=='' ? rhs.trim() : lhs.trim();
+			ret = p=='' ? rhs : lhs;
 		}
-//#console.log('ret:'+ret);
 		break;
 	default:
 		break;
 	}
+//#console.log('_expandParserFunction ret:'+ret);
 	return ret;
 };
 
@@ -262,7 +264,7 @@ fnLog('_splitTemplateNTag:'+ntag);
 
 MediaWikiTemplate.prototype._expandTemplateNTag = function(ntag)
 {
-fnLog('_expandTemplateNTag:'+ntag);
+//#fnLog('_expandTemplateNTag:'+ntag);
 	var ret = this._expandVariable(ntag);
 	if(ret!==false) {
 		return ret;
@@ -287,7 +289,7 @@ fnLog('_expandTemplateNTag:'+ntag);
 //#console.log('t:'+t);
 		var p = MediaWikiTemplate.findRawDelimiter('=',t,0);
 		if(p!=-1) {
-			var pnRegExp = /\s*([A-Za-z]+[A-Za-z0-9]*)\s*=/mg;
+			var pnRegExp = /\s*([A-Za-z0-9\-]*)\s*=/mg;
 			pnRegExp.lastIndex = 0;
 			match = pnRegExp.exec(t);
 //#console.log(match);
@@ -302,30 +304,30 @@ fnLog('_expandTemplateNTag:'+ntag);
 			params[String(n)] = t;
 //#console.log('params['+n+']:'+params[n]);
 			n++;
-		} else if(p!=0) {//p==0 sets null parameter
+		} else if(name!='0') {//0 sets null parameter
 			//# named parameter
 			name = this._transcludeTemplates(name);
 			var val = t.substr(p+1).trim();// trim named parameter values
 			if(val) {
 				params[name] = val;
-console.log('paramsN['+name+']:'+params[name]);
+//#console.log('paramsN['+name+']:'+params[name]);
 			}
 		}
 	}
 	//var ret = fn ? this._Function(fn,params) : this.expandTemplateContent(templateName.trim(),params);
 	
 	ret = this.expandTemplateContent(templateName.trim(),params);
-	var eret = this._expandParserFunction(ret);
+	/*var eret = this._expandParserFunction(ret);
 	if(eret!==false) {
 		ret = eret;;
-	}
+	}*/
 fnLog('ret _expandTemplateNTag:'+ret);
 	return ret;
 };
 
 MediaWikiTemplate.prototype._transcludeTemplates = function(text)
 {
-fnLog('_transcludeTemplates:'+text);
+//#fnLog('_transcludeTemplates:'+text);
 	if(!text)
 		return text;
 	var c = MediaWikiTemplate.findDBP(text,0);
@@ -343,7 +345,7 @@ fnLog('_transcludeTemplates:'+text);
 		this.stack = [];
 		this.error = false;
 	}
-fnLog('_transcludeTemplates ret:'+text);
+//#fnLog('_transcludeTemplates ret:'+text);
 	return text;
 };
 
@@ -359,37 +361,39 @@ MediaWikiTemplate.prototype.transcludeTemplates = function(text,tiddler)
 
 MediaWikiTemplate.findRawDelimiter = function(delimiter,text,start)
 {
+//# {{!}} {{|}}
 //#fnLog('findRawDelimiter:'+text.substr(start,50));
-	var e = text.indexOf(delimiter,start);
-	if(e==-1)
+	var d = text.indexOf(delimiter,start);
+	if(d==-1)
 		return -1;
 	var b = {start:-1,end:-1};
 	var bs = text.indexOf('[[',start);
 	var bi = text.indexOf('{{',start);
-	if((bi==-1 || bi > e) && (bs==-1 || bs >e))
-		return e;
+	if((bi==-1 || bi > d) && (bs==-1 || bs >d))
+		return d;
 	var s1 = -1;
-	if(bs!=-1 && bs <e) {
+	if(bs!=-1 && bs <d) {
 		var be = text.indexOf(']]',bs);
 		if(be!=-1) {
 			b.start = bs;
 			b.end = be;
 		}
 	}
-//#console.log('frd('+e+','+bs+','+be+')');
-	if(b.end!=-1 && e>b.start && e<=b.end)
+//#console.log('frd('+d+','+bs+','+be+')');
+	if(b.start!=-1 && d>b.start)
 		s1 = b.end+2;
 	var db = MediaWikiTemplate.findDBP(text,start);
-	if(db.end!=-1 && e>db.start && e<=db.end) {
+//#console.log('frd('+d+','+db.start+','+db.end+')');
+	if(db.end!=-1 && d>db.start) {
 		if(db.end+2>s1)
 			s1 = db.end+2;
 	}
 	var tb = MediaWikiTemplate.findTBP(text,start);
-	if(tb.end!=-1 && e>tb.start && e<=tb.end) {
+	if(tb.end!=-1 && d>tb.start) {
 		if(tb.end+3>s1)
 			s1 = tb.end+3;
 	}
-	return s1==-1 ? e : MediaWikiTemplate.findRawDelimiter(delimiter,text,s1);
+	return s1==-1 ? d : MediaWikiTemplate.findRawDelimiter(delimiter,text,s1);
 };
 
 /*
