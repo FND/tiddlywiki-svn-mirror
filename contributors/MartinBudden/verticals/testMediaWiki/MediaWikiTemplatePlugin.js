@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.0.11|
+|''Version:''|0.0.12|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -115,6 +115,7 @@ fnLog('getTemplateContent:'+name);
 		}
 	}
 fnLog('ret getTemplateContent:'+text);
+//#console.log(text);
 	return text;
 };
 
@@ -223,8 +224,9 @@ fnLog('_expandParserFunction:'+text);
 //#console.log('p:'+p+':');
 		var lhs = text.substr(e+1);
 		e = MediaWikiTemplate.findRawDelimiter('|',lhs,0);
+//#console.log('e:'+e);
 		if(e==-1) {
-			ret = lhs.trim();
+			ret = p=='' ? '' : lhs.trim();
 		} else {
 			var rhs = lhs.substr(e+1);
 			lhs = lhs.substr(0,e);
@@ -285,12 +287,15 @@ fnLog('_expandTemplateNTag:'+ntag);
 //#console.log('t:'+t);
 		var p = MediaWikiTemplate.findRawDelimiter('=',t,0);
 		if(p!=-1) {
-			var pnRegExp = /[A-Za-z]+[A-Za-z0-9]*=/mg;
+			var pnRegExp = /\s*([A-Za-z]+[A-Za-z0-9]*)\s*=/mg;
 			pnRegExp.lastIndex = 0;
 			match = pnRegExp.exec(t);
 //#console.log(match);
-			if(!match)
+			if(match) {
+				var name = match[1];
+			} else {
 				p = -1;
+			}
 		}
 		if(p==-1) {
 			//# numbered parameter
@@ -299,10 +304,12 @@ fnLog('_expandTemplateNTag:'+ntag);
 			n++;
 		} else if(p!=0) {//p==0 sets null parameter
 			//# named parameter
-			var name = t.substr(0,p).trim();
 			name = this._transcludeTemplates(name);
-			params[name] = t.substr(p+1).trim();// trim named parameter values
-//#console.log('paramsN['+name+']:'+params[name]);
+			var val = t.substr(p+1).trim();// trim named parameter values
+			if(val) {
+				params[name] = val;
+console.log('paramsN['+name+']:'+params[name]);
+			}
 		}
 	}
 	//var ret = fn ? this._Function(fn,params) : this.expandTemplateContent(templateName.trim(),params);
