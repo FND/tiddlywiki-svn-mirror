@@ -1,0 +1,5 @@
+<div title="testMediaWikiSpan" wikiformat="mediawiki">
+<pre>{| class="infobox bordered vcard"
+! colspan="4" | <span class="fn">Brussels Airport</span><br/>Luchthaven Zaventem<br/><span style="font-size:120%;"></span>
+|}</pre>
+</div>

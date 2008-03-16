@@ -1,0 +1,24 @@
+<div title="testMediaWikiTableRowSpan" wikiformat="mediawiki">
+<pre>
+{|
+! colspan="4" | Brussels Airport
+|- class="note" style="text-align:left;"
+! colspan="2" | Airport type
+| colspan="2" | Public
+|- style="background:#4682B4; color:white; font-size:120%;"
+! colspan="4" | Runways
+|- style="background:red"
+! rowspan="2" style="width:20%" | Direction
+! colspan="2" style="width:40%" | Length
+! rowspan="2" style="width:40%" | Surface
+|- style="background:red;"
+! style="width:20%" | m
+! style="width:20%" | ft
+|- style="text-align:center;"
+| 02/20
+| 2,987
+| 9,800 
+| [[Asphalt]]
+|}
+</pre>
+</div>

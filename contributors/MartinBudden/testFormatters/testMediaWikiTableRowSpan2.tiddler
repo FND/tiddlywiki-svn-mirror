@@ -1,0 +1,14 @@
+<div title="testMediaWikiTableRowSpan" wikiformat="mediawiki">
+<pre>
+{|
+! colspan="4" | Runways
+|-
+| rowspan="2" | Direction
+| colspan="2" | Length
+| rowspan="2" | Surface
+|-
+| m
+| ft
+|}
+</pre>
+</div>
