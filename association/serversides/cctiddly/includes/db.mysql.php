@@ -670,13 +670,14 @@ $db_var['error']['query'] = " query: ";*/
 	function db_record_select($table,$data,$keyPosition=0)
 	{
 		//$data = formatArray4SQL($data);			//require to check data???
-		
+	//	var_dump($data);
 		$i=0;
 		while( $i<$keyPosition )
 		{
 			next($data);
 			$i++;
 		}
+		
 
 	//	$sql = "SELECT * FROM ".$table." WHERE `".db_format4SQL(key($data))."`='".db_format4SQL(current($data))."'";
 	//	$result = db_query($sql);	
@@ -686,15 +687,15 @@ $db_var['error']['query'] = " query: ";*/
 
 		while( (list($k,$v) = each($data)) )
 		{
-		$sql = '';
 			if ($v != '')  // make sure we dont search on emtpy values
 				$sql .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."' and ";
 		}
 		$sql= $sql_start.substr($sql,0,(strlen($sql)-4));		//remove last "and"
-if($sql == $sql_start)
-{
-	$sql = str_replace("WHERE", "", $sql);
-}
+
+		if($sql == $sql_start)
+		{
+			$sql = str_replace("WHERE", "", $sql);
+		}
 		$result = db_query($sql);
 
 	// END OF SIMONMCMANUS /////

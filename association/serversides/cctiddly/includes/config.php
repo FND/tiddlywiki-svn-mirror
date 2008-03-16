@@ -9,7 +9,7 @@
 	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
 	$tiddlyCfg['db']['pass'] = "";		//login password
-	$tiddlyCfg['db']['name'] = "cctiddly_public";		//db name
+	$tiddlyCfg['db']['name'] = "cct_rel";		//db name
 
 	
 	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
@@ -313,6 +313,8 @@ $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCf
 $tiddlyCfg['privilege']['admin']['systemConfig'] = "AAAA";
 $tiddlyCfg['privilege']['user']['systemConfig'] = "AAAA";
 //The following privilege are for blog
+
+$tiddlyCfg['privilege']['anonymous']['style'] = "ADDD";
 $tiddlyCfg['privilege']['anonymous']['comments'] = "AADD";		//allow comments to be post anonymously
 ////////////////////////////////////////////////////////////////////////set default values////////////////////////////////////////////////////.
 
