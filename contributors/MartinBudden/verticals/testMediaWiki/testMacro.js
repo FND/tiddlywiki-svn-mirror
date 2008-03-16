@@ -3,7 +3,7 @@
 |''Description:''|macro to use for general testing|
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/verticals\testGeneral/testMacro.js |
-|''Version:''|0.0.3|
+|''Version:''|0.0.4|
 |''Date:''|July 31, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -12,6 +12,15 @@
 ***/
 
 /*{{{*/
+
+testLog = function(text)
+{
+	if(window.console) {
+		console.log(text);
+	} else {
+		displayMessage(text);
+	}
+};
 
 config.macros.testMacro = {
 	label: "test macro",
@@ -23,6 +32,7 @@ config.macros.testMacro.test = function(title,params)
 {
 	clearMessage();
 	displayMessage("Testing");
+	config.options.chkMediaWikiDisplayEmptyTemplateLinks = true;
 	//tpTest('Dummy','','{{#if: {{{built|}}} |\n!     colspan="2" {{!}} Built\n{{!}} colspan="2" {{!}} {{{built}}}\n}}');
 	//tpTest('Dummy','','{{Infobox Airport}}');
 	config.macros.testMacro.testRawPipes(title,params);
@@ -39,8 +49,8 @@ config.macros.testMacro.test = function(title,params)
 
 tpTest = function(templateName,content,tag,expected)
 {
-//console.log('content:'+content);
-console.log('tpTest:'+tag);
+//testLog('content:'+content);
+testLog('tpTest:'+tag);
 	var tiddler = store.fetchTiddler('Test');
 	var namespace = 'Template:';
 	var mwt = new MediaWikiTemplate();
@@ -48,71 +58,71 @@ console.log('tpTest:'+tag);
 	template.text = content;
 	store.addTiddler(template);
 	text = mwt.transcludeTemplates(tag,tiddler);
-	console.log('transcluded:'+text);
+	testLog('transcluded:'+text);
 	if(expected && text!=expected) {
 		displayMessage('Error:'+tag);
 	}
-	console.log('RET:'+text);
-	console.log('');
+	testLog('RET:'+text);
+	testLog('');
 };
 
 tp2Test = function(tag,expected)
 {
-//console.log('content:'+content);
-console.log('tp2Tsest:'+tag);
+//testLog('content:'+content);
+testLog('tp2Tsest:'+tag);
 	var tiddler = store.fetchTiddler('Test');
 	var mwt = new MediaWikiTemplate();
 	text = mwt.transcludeTemplates(tag,tiddler);
 	if(expected && text!=expected) {
 		displayMessage('Error:'+tag);
 	}
-	console.log('RET:'+text);
-	console.log('');
+	testLog('RET:'+text);
+	testLog('');
 };
 
 dbrTest = function(text,start,es,ee)
 {
-//console.log('content:'+content);
-console.log('dprTest:'+text+'    ('+es+','+ee+')');
+//testLog('content:'+content);
+testLog('dprTest:'+text+'    ('+es+','+ee+')');
 	var ret = MediaWikiTemplate.findDBP(text,start);
 	if((es && ret.start!=es)||(ee && ret.end!=ee)) {
 		displayMessage('Error:'+'('+es+','+ee+') '+text);
 	}
-	console.log('RET:'+ret.start+','+ret.end);
-	console.log('');
+	testLog('RET:'+ret.start+','+ret.end);
+	testLog('');
 };
 
 tbrTest = function(text,start,es,ee)
 {
-console.log('tbrTest:'+text+'    ('+es+','+ee+')');
+testLog('tbrTest:'+text+'    ('+es+','+ee+')');
 	var ret = MediaWikiTemplate.findTBP(text,start);
 	if((es && ret.start!=es)||(ee && ret.end!=ee)) {
 		displayMessage('Error:'+'('+es+','+ee+') '+text);
 	}
-	console.log('RET:'+ret.start+','+ret.end);
-	console.log('');
+	testLog('RET:'+ret.start+','+ret.end);
+	testLog('');
 };
 
 taTest = function(text,start,es,ee)
 {
-console.log('taTest:'+text+'    ('+es+','+ee+')');
+testLog('taTest:'+text+'    ('+es+','+ee+')');
 	var ret = MediaWikiTemplate.findTableBracePair(text,start);
 	if((es && ret.start!=es)||(ee && ret.end!=ee)) {
 		displayMessage('Error:'+'('+es+','+ee+') '+text);
 	}
-	console.log('RET:'+ret.start+','+ret.end);
-	console.log('');
+	testLog('RET:'+ret.start+','+ret.end);
+	testLog('');
 };
 
 rpTest = function(text,start,expected)
 {
-console.log('rpTest:'+text+'    ('+expected+')');
+testLog('rpTest:'+text+'    ('+expected+')');
 	var ret = MediaWikiTemplate.findRawDelimiter('|',text,start);
 	if(expected && ret!=expected) {
 		displayMessage('ErrorT:'+text);
 	}
-	console.log('RET:'+ret);
-	console.log('');
+	testLog('RET:'+ret);
+	testLog('');
 };
 
 config.macros.testMacro.testRawPipes = function(title,params)

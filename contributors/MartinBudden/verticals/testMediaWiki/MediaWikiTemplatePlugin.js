@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.0.13|
+|''Version:''|0.0.14|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -44,7 +44,7 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1))
 
 fnLog = function(text)
 {
-//#	console.log(text.substr(0,80));
+//#	if(window.console) console.log(text.substr(0,80)); else displayMessage(text.substr(0,80));
 };
 
 MediaWikiTemplate = function()
@@ -130,12 +130,18 @@ MediaWikiTemplate.prototype.substituteParameters = function(text,params)
 //#console.log('bps:'+bp.start);
 		var name = text.substring(bp.start+3,bp.end);
 		var d = MediaWikiTemplate.findRawDelimiter('|',name,0);
-//#console.log('name:'+name);
 //#console.log(d);
 		if(d!=-1) {
 			var def = name.substr(d+1);
 			name = name.substr(0,d);
 //#console.log('name:'+name);
+			var np = MediaWikiTemplate.findDBP(name,0);
+			while(np.start!=-1) {
+				var nx = this._expandTemplateNTag(this.substituteParameters(name.substring(np.start+2,np.end),params));
+				name = name.substr(0,np.start) + nx + name.substr(np.end+2);
+				np = MediaWikiTemplate.findDBP(name,0);
+//#console.log('name2	:'+name);
+			}
 		}
 		//params is [undefined,"param1=aaa"]
 		var val = params[name];
@@ -196,7 +202,7 @@ MediaWikiTemplate.prototype._expandVariable = function(text)
 		ret  = this.tiddler.fields['server.revision'];
 		break;
 	default:
-		return ret;
+		break;
 	}
 	return ret;
 };
@@ -209,14 +215,13 @@ MediaWikiTemplate.prototype._expandParserFunction = function(text)
 	if(!match) {
 		return false;
 	}
+	//# it's a parser function
 //#console.log('_expandParserFunction:'+text);
 //#console.log(match);
-	//# it's a parser function
-	var fn = match[1];
-//#console.log('fn:'+fn);
-
 	var ret = false;
 	var len = match[0].length;
+	var fn = match[1];
+//#console.log('fn:'+fn);
 	switch(fn.toLowerCase()) {
 	case '#if':
 		var e = MediaWikiTemplate.findRawDelimiter('|',text,0);
@@ -314,13 +319,11 @@ MediaWikiTemplate.prototype._expandTemplateNTag = function(ntag)
 			}
 		}
 	}
-	//var ret = fn ? this._Function(fn,params) : this.expandTemplateContent(templateName.trim(),params);
-	
 	ret = this.expandTemplateContent(templateName.trim(),params);
-	/*var eret = this._expandParserFunction(ret);
-	if(eret!==false) {
-		ret = eret;;
-	}*/
+	//#var eret = this._expandParserFunction(ret);
+	//#if(eret!==false) {
+	//#	ret = eret;;
+	//#}
 fnLog('ret _expandTemplateNTag:'+ret);
 	return ret;
 };
@@ -710,7 +713,7 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 			while(w.source.substr(w.nextMatch,1)==' ') {
 				w.nextMatch++;
 			}
-			subWikifyText(cell,w,w.source.substring(w.nextMatch,i))
+			subWikifyText(cell,w,w.source.substring(w.nextMatch,i));
 			w.nextMatch = i+1;
 			//w.subWikifyTerm(cell,/(\n)/mg);
 		} else if(x.substr(0,1)=='|') {
@@ -747,7 +750,7 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 			while(w.source.substr(w.nextMatch,1)==' ') {
 				w.nextMatch++;
 			}
-			subWikifyText(cell,w,w.source.substring(w.nextMatch,i))
+			subWikifyText(cell,w,w.source.substring(w.nextMatch,i));
 			w.nextMatch = i+1;
 			//w.subWikifyTerm(cell,/(\n)/mg);
 		}
@@ -759,4 +762,66 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 };
 
 } //# end of 'install only once'
+/*
+{|
+! colspan="4" | Brussels Airport
+|- class="note" style="text-align:left;"
+! colspan="2" | Airport type
+| colspan="2" | Public
+|- style="background:#4682B4; color:white; font-size:120%;"
+! colspan="4" | Runways
+|- style="background:red"
+! rowspan="2" style="width:20%" | Direction
+! colspan="2" style="width:40%" | Length
+! rowspan="2" style="width:40%" | Surface
+|- style="background:red;"
+! style="width:20%" | m
+! style="width:20%" | ft
+|- style="text-align:center;"
+| 02/20
+| 2,987
+| 9,800 
+| [[Asphalt]]
+|}
+
+{|
+! colspan="4" | Runways
+|-
+! rowspan="2" | Direction
+! colspan="2" | Length
+! rowspan="2" | Surface
+|-
+! m
+! ft
+|-
+| 02/20
+| 2,987
+| 9,800 
+| Asphalt
+|}
+
+<table>
+<tr>
+<th colspan="4">Runways</th>
+</tr>
+
+<tr>
+<th rowspan="2">Direction</th>
+<th colspan="2">Length</th>
+<th rowspan="2">Surface</th>
+</tr>
+
+<tr>
+<th>m</th>
+<th>ft</th>
+</tr>
+
+<tr>
+<td>02/20</td>
+<td>2,987</td>
+<td>9,800</td>
+<td>Asphalt</td>
+</tr>
+</table>
+*/
 //}}}

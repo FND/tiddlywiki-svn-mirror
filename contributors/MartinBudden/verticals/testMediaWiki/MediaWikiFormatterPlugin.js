@@ -344,8 +344,9 @@ config.mediawiki.formatters = [
 		if(pair.start==w.matchStart) {
 			w.nextMatch = w.matchStart;
 			var table = createTiddlyElement2(w.output,'table');
+			var tbody = createTiddlyElement2(table,'tbody');// needed for IE
 			var mwt = new MediaWikiTemplate();
-			mwt.wikifyTable(table,w,pair);
+			mwt.wikifyTable(tbody,w,pair);
 		}
 	}
 },
@@ -691,7 +692,7 @@ config.mediawiki.formatters = [
 
 {
 	name: "mediaWikiCharacterFormat",
-	match: "'{2,5}|(?:<[usbi]>)",
+	match: "'{2,5}|(?:<[usbip]>)",
 	handler: function(w)
 	{
 		switch(w.matchText) {
@@ -716,6 +717,9 @@ config.mediawiki.formatters = [
 			break;
 		case '<i>':
 			w.subWikifyTerm(createTiddlyElement(w.output,'i'),/(<\/i>|(?=\n))/mg);
+			break;
+		case '<p>':
+			w.subWikifyTerm(createTiddlyElement(w.output,'p'),/(<\/p>|(?=\n))/mg);
 			break;
 		}
 	}
@@ -937,11 +941,16 @@ config.mediawiki.formatters = [
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			//# deal with variables by name here
-			if(lookaheadMatch[1]=='NOTOC') {
+			switch(lookaheadMatch[1]) {
+			case 'NOTOC':
 				//# do nothing
-			} else if(config.options.chkDisplayMediaWikiMagicWords) {
-				//# just output the text of any variables that are not understood
-				w.outputText(w.output,w.matchStart,w.nextMatch);
+				break;
+			default:
+				if(config.options.chkDisplayMediaWikiMagicWords) {
+					//# just output the text of any variables that are not understood
+					w.outputText(w.output,w.matchStart,w.nextMatch);
+				}
+				break;
 			}
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
@@ -1051,22 +1060,30 @@ config.mediawiki.formatters = [
 
 {
 	name: 'mediaWikiHtmlTag',
-	match: "<[a-zA-Z]{2,}(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?>",
+	match: "<[a-zA-Z]{2,}(?:.*?)>",
+	//match: "<[a-zA-Z]{2,}(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?>",
 	lookaheadRegExp: /<([a-zA-Z]{2,})((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
 	{
+//#console.log('tag:'+w.source.substr(w.matchStart,50));
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+//#console.log(lookaheadMatch);
 			var e =createTiddlyElement2(w.output,lookaheadMatch[1]);
 			if(lookaheadMatch[2]) {
+//#console.log('params:'+lookaheadMatch[2]);
+				w.nextMatch = w.matchStart + lookaheadMatch[0].length;
+//#console.log('xxx:'+w.source.substr(w.nextMatch,50));
 				MediaWikiFormatter.setAttributesFromParams(e,lookaheadMatch[2]);
 			}
 			if(lookaheadMatch[3]) {
 				//# empty tag
 				w.nextMatch = this.lookaheadRegExp.lastIndex;
 			} else {
+//#console.log('term:'+lookaheadMatch[1]);
 				w.subWikify(e,'</'+lookaheadMatch[1]+'>');
+//#console.log(e);
 			}
 		}
 	}

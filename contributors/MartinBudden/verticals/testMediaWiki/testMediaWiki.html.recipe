@@ -7,14 +7,17 @@ tiddler: Test.tiddler
 tiddler: testMacro.js
 tiddler: Table.tiddler
 tiddler: TableEmpty.tiddler
-tiddler: TestInfobox.tiddler
+#tiddler: TestInfobox.tiddler
 tiddler: MediaWikiTemplatePlugin.js
 tiddler: MediaWikiFormatterPlugin.js
 tiddler: DownloadThisTiddlyWiki.tiddler
 tiddler: ../../testformatters/testMediaWikiBasic.tiddler
 tiddler: ../../testformatters/testMediaWikiFormat.tiddler
+tiddler: ../../testformatters/testMediaWikiSpan.tiddler
 tiddler: ../../testformatters/testMediaWikiTable4.tiddler
 tiddler: ../../testformatters/testMediaWikiTableNested.tiddler
+tiddler: ../../testformatters/testMediaWikiTableRowSpan.tiddler
+tiddler: ../../testformatters/testMediaWikiTableRowSpan2.tiddler
 tiddler: ../../testformatters/testMediaWikiTemplateFunctions.tiddler
 recipe: shadows/split.recipe
 tiddler: ../tiddlypedia/StyleSheet.tiddler
@@ -34,16 +37,16 @@ tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
 tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
 tiddler: ../../styles/wikipediaStyle.js
 tiddler: ../../shadows/ViewTemplateGetPutRevisions.tiddler
-tiddler: ../../tiddlers/Configuration.tiddler
-tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
+#tiddler: ../../tiddlers/Configuration.tiddler
+#tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../feeds/MetaWikimediaHelpFeed.tiddler
 tiddler: ../../feeds/MetaWikimediaDemoTemplateFeed.tiddler
 recipe: ../../test/templates/split.recipe
-tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js tags="systemConfig excludeLists excludeSearch"
+#tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js tags="systemConfig excludeLists excludeSearch"
 tiddler: ../SolarSystem/templates/Template_Planet_Infobox_Mercury.tiddler
-tiddler: ../SolarSystem/templates/Template_Infobox_Planet_Abridged.tiddler
-#tiddler: ../MediaWikiContent/airports/templates/Template_Infobox_Airport.tiddler
+#tiddler: ../SolarSystem/templates/Template_Infobox_Planet_Abridged.tiddler
+tiddler: ../MediaWikiContent/airports/templates/Template_Infobox_Airport.tiddler
 tiddler: ../MediaWikiContent/templates/Template_!.tiddler
-tiddler: Template_Infobox_Airport_Abridged.tiddler
+#tiddler: Template_Infobox_Airport_3.tiddler
+tiddler: Brussels_Airport_Infobox.tiddler
 tiddler: Template_TestFunctions.tiddler
-
