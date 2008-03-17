@@ -1,8 +1,6 @@
 <?php 
-
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
-
 
 if ($_POST['saveTo'] == 'workspace')
 {
@@ -44,7 +42,8 @@ $fh = fopen($myFile, 'w') or die("can't open file");
 if(fwrite($fh, $_POST['ccHTML']))
 {
 	echo 'File Created </br>';
-	echo 'click here to view it '.str_replace("..", "", $myFile);
+	$uploaded_file = str_replace('/handle/upload.php', '', getURL()).str_replace("..", "", $myFile); 
+	echo "click here to view it <a href='".$uploaded_file."'>".$uploaded_file."</a>";
 }
 fclose($fh);	
 
