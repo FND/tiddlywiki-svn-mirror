@@ -33,17 +33,17 @@ NOTE: FOR NOW, THIS PLUGIN ALSO OVERRIDES THE RSS SAVING AND PRODVIDES A MACRO C
 if(!version.extensions.ListTemplateMacro) {
 version.extensions.ListTemplateMacro = {installed:true};
 
-config.exampleFormatters = [];
+config.templateFormatters = [];
 
 for(var i=0;i<config.formatters.length;i++) {
 	if(config.formatters[i].name=='macro') {
-		config.exampleFormatters.push(config.formatters[i]);
+		config.templateFormatters.push(config.formatters[i]);
 		break;
 	}	
 }
-config.parsers.exampleFormatter = new Formatter(config.exampleFormatters);
-config.parsers.exampleFormatter.format = 'example';
-config.parsers.exampleFormatter.formatTag = 'ExampleFormat';
+config.parsers.templateFormatter = new Formatter(config.templateFormatters);
+config.parsers.templateFormatter.format = 'template';
+config.parsers.templateFormatter.formatTag = 'TemplateFormat';
 
 config.macros.ListTemplate = {
 	defaultTemplate: "<<view text>>"
@@ -88,7 +88,7 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 	var html = "";
 	var d = document.createElement("div");
 	for(i=0; i<tiddlers.length; i++) {
-		html += wikifyStatic(template,null,tiddlers[i],'example');
+		html += wikifyStatic(template,null,tiddlers[i],'template');
 	}
 	d.innerHTML = html;
 	if(raw) {
