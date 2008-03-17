@@ -260,7 +260,7 @@ $tiddlyCfg['pref']['utf8'] = 0;
 
 //TODO :  This value should be pulled from the database and assigned. We need to finalise how groups are going to work.
 
-$tiddlyCfg['group']['admin'] = array("simon");
+$tiddlyCfg['group']['admin'] = array("admin");
 
 /*
 	various config on privileges
@@ -314,7 +314,7 @@ $tiddlyCfg['privilege']['admin']['systemConfig'] = "AAAA";
 $tiddlyCfg['privilege']['user']['systemConfig'] = "AAAA";
 //The following privilege are for blog
 
-$tiddlyCfg['privilege']['anonymous']['style'] = "ADDD";
+$tiddlyCfg['privilege']['anonymous']['private'] = "DDDD";
 $tiddlyCfg['privilege']['anonymous']['comments'] = "AADD";		//allow comments to be post anonymously
 ////////////////////////////////////////////////////////////////////////set default values////////////////////////////////////////////////////.
 

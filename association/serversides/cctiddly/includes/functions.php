@@ -46,7 +46,9 @@ function getScheme()
 }
 function getURL()
 {
-	$out = getScheme().'://'.$_SERVER['SERVER_NAME'].str_replace("?", "", str_replace("/index.php", "", $_SERVER['REQUEST_URI']));
+	global $tiddlyCfg;
+	
+	$out = getScheme().'://'.$_SERVER['SERVER_NAME'].str_replace($tiddlyCfg['workspace_name'], '', str_replace("?", "", str_replace("/index.php", "", $_SERVER['REQUEST_URI'])));
 	// remove the last slash
 //	if (substr($out,strlen($out)-1, strlen($out)) == "/")
 //	$out = substr($out,0,strlen($out)-1);

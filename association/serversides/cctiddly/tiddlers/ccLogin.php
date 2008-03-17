@@ -169,8 +169,9 @@ config.macros.ccLoginStatus = {
 		  		var frm = createTiddlyElement(n,&quot;form&quot;,null);
 	   			frm.action = "";
 	    		frm.method = "get";
-	            //frm.onsubmit = config.macros.ccLogin.logoutOnSubmit;
-        wrapper.appendChild(frm);	
+	 			// TODO need to decide which method we are going to be using for login, form get, or on submit
+	            frm.onsubmit = config.macros.ccLogin.logoutOnSubmit;
+        		wrapper.appendChild(frm);	
         
         
 	            var logout = createTiddlyElement(null,&quot;input&quot;, logout, logout);
