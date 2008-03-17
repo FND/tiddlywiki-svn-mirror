@@ -1,10 +1,57 @@
 <?php 
 
-
-
-$max_file_size = 233300000;
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
+
+
+if ($_POST['saveTo'] == 'workspace')
+{
+	if  ($_POST['workspaceName'] !== "")
+	{
+		$folder = "/workspace/".$_POST['workspaceName'];
+	}else
+	{
+		$folder = "/workspace/default";
+	}
+}
+elseif ($_POST['saveTo'] == 'user')
+{
+ 	$folder = "/user/".$_POST['ccUsername'];
+}
+else
+{
+	echo "Please specify where you wish to save this file";
+}
+
+
+if (!$_POST['ccHTMLname'])
+{
+	echo "Please specify a file name";
+	exit;
+}
+ $folder = "../uploads".$folder."/";
+$file = $_POST['ccHTMLname'].".html";
+
+if(!file_exists($folder))
+{
+	echo 'making folder ';
+	mkdir($folder, 0777, true);
+
+}
+ $myFile = $folder.$file;
+$fh = fopen($myFile, 'w') or die("can't open file");
+
+if(fwrite($fh, $_POST['ccHTML']))
+{
+	echo 'File Created </br>';
+	echo 'click here to view it '.str_replace("..", "", $myFile);
+}
+fclose($fh);	
+
+
+exit;
+
+
 function check_vals()
 {
 	global $upload_dirs, $err;
@@ -26,6 +73,7 @@ function check_vals()
   		$err .= "Empty file"; return 0; 
   	}
 	return 1;
+
 }
 $err = ""; $status = 0;
 if (isset($_FILES["userfile"])) 
@@ -36,26 +84,24 @@ if (isset($_FILES["userfile"]))
   
   if (($_FILES["userfile"]["type"] == "image/gif") || ($_FILES["userfile"]["type"] == "image/jpeg")|| ($_FILES["userfile"]["type"] == "image/pjpeg"))
    {
-  $upload_dir = 'uploads/images';   
-
+  		$upload_dir = 'uploads/images/';   
    } 
    else
    {
       $upload_dir = 'uploads/other';
-
    }
    
 
   
   
-    if (filesize($_FILES["userfile"]["tmp_name"]) > $max_file_size)
+    if (filesize($_FILES["userfile"]["tmp_name"]) > $tiddlyCfg['max_file_size'])
  	{
-		$err .= "Maximum file size limit: $max_file_size bytes";
+		$err .= "Maximum file size limit: ".$tiddlyCfg['max_file_size']." bytes";
     }
 	else 
     {
-  // if (move_uploaded_file($_FILES["userfile"]["tmp_name"], $upload_dirs[$_POST["path"]]["dir"].$_FILES["userfile"]["name"])) 
-      if (move_uploaded_file($_FILES["userfile"]["tmp_name"], "/Applications/xampp/xamppfiles/htdocs/cctw5/".$upload_dir.$_FILES["userfile"]["name"])) 
+  //if (move_uploaded_file($_FILES["userfile"]["tmp_name"], $upload_dirs[$_POST["path"]]["dir"].$_FILES["userfile"]["name"])) 
+      if (move_uploaded_file($_FILES["userfile"]["tmp_name"], "/Applications/xampp/xamppfiles/htdocs/a/rel/".$upload_dir.$_FILES["userfile"]["name"])) 
       {
       	$status = 1;
 	   }
@@ -91,4 +137,4 @@ else
 //	  header( 'Location:'.$url ) ;  
 }
 
-?>
+?>	

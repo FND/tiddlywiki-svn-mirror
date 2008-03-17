@@ -40,6 +40,13 @@
 	$tiddlyCfg['default_anonymous_perm'] = "AUUU";
 	$tiddlyCfg['default_user_perm'] = "AADD";
 	
+	
+	
+	// upload values 
+	$tiddlyCfg['max_file_size'] = 233300000;
+	
+	
+	
 	$tiddlyCfg['rss_group'] = "";
 	$tiddlyCfg['markup_group'] = "";
 	//$tiddlyCfg['pref']['twFile'] = "tiddlywiki";
