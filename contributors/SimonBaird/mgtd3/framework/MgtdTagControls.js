@@ -238,13 +238,19 @@ setStylesheet(["",
 "#realmSelector .button.off {margin:0 0.5em;padding:0 1em;border:2px solid #aaa;background:#eee;color:#333;}", // actually reversed, ie off is "on"
 "#realmSelector .button.on {margin:0 0.5em;padding:0 1em;border:2px solid #999;background:#999;color:#ccc;}", // actually reversed, ie off is "on"
 
-// temporary
+// TODO put into styles instead of here?
+// actions
 ".viewer .Next.button.on {border-color:#55c;background:#cfa;color:#4a4;}",
 ".viewer .WaitingFor.button.on {border-color:#b84;background:#fdb;color:#b84;}",
 ".viewer .Future.button.on {border-color:#48b;background:#bdf;color:#48b;}",
 
+// projects
 ".viewer .Active.button.on {border-color:#55c;background:#cfa;color:#4a4;}",
 ".viewer .SomedayMaybe.button.on {border-color:#48b;background:#bdf;color:#48b;}",
+
+// ticklers
+".viewer .Enabled.button.on {border-color:#55c;background:#cfa;color:#4a4;}",
+".viewer .Disabled.button.on {border-color:#b84;background:#fdb;color:#b84;}",
 
 ".viewer .Starred.button {padding:0;font-size:170%;}",
 ".viewer .Starred.button.on {border-color:#fff;background:#fff;color:#f80;}",

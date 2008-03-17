@@ -59,7 +59,10 @@
 <div macro='gradient vert [[ColorPalette::PrimaryMid]] [[ColorPalette::PrimaryDark]]'>
 	<div class='mtoolbar'>
 	<div style="float:right" id='sidebarSwitcher' macro="multiToggleTag title:MgtdSettings tag:Sidebar refresh:page"><span class="label">MENU</span></div>
-	<div id='arealmSelector' macro="groupOfSingleToggleTags tag:Realm title:MgtdSettings refresh:page"><span class="label">REALM</span></div>
+	<div>
+	<span class="label">REALM</span><span id='arealmSelector' macro="groupOfSingleToggleTags tag:Realm title:MgtdSettings refresh:page"></span>
+	<span id='newButtons' refresh='content' tiddler='NewButtons'></span>
+	</div>
 	</div>
 </div>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
@@ -124,7 +127,15 @@ html>body .header2 {background-image:url(http://simonbaird.com/images/monkeygtd/
 .mtoolbar .button.off {background-color:[[ColorPalette::TertiaryMid]]!important; color:black; font-weight:normal;border-color:[[ColorPalette::PrimaryDark]];}
 .mtoolbar .button.on {background-color:[[ColorPalette::TertiaryLight]]; color:black; border-color:[[ColorPalette::PrimaryDark]];} 
 
-.mtoolbar .label { font-size:80%; color:white; padding:0.5em;}
+#newButtons { padding-left:3em; }
+#newButtons br { display:none; }
+#newButtons .button { background-color:transparent; color:white; border-color:transparent; }
+
+
+
+
+.mtoolbar .label { font-size:80%; color:[[ColorPalette::PrimaryLight]]; padding:0.5em;}
+
 
 #displayArea {
 	margin: 1em 15.7em 0em 1em; /* use the freed up space */
@@ -153,7 +164,6 @@ html>body .header2 {background-image:url(http://simonbaird.com/images/monkeygtd/
 #sidebar .menu h2
 {
 	color:[[ColorPalette::PrimaryDark]];
-	background-color:[[ColorPalette::TertiaryLight]];
 	margin:0;
 	padding:0;
 	margin-top:0.25em;
@@ -217,11 +227,15 @@ html>body .header2 {background-image:url(http://simonbaird.com/images/monkeygtd/
 
 .mgtdList h2 {
 	border-style:none!important;
-	font-size:120%;
+	font-size:100%;
 	margin:0; padding:0;
 	margin-top:0.7em;
 	margin-left:-0.2em;
 	color:#444;
+}
+
+.mgtdList h2 .button {
+	border-style:none!important;
 }
 
 .mgtdList {
@@ -269,7 +283,6 @@ body {
 .postityellow h3,
 .postityellow h4
 {
-	background-color:#ffa;
 	border-style:none;
 }
 
@@ -279,6 +292,12 @@ body {
 
 #sidebar .mgtdList .innerList .tiddlyLink {
 	font-size:120%;
+}
+
+.innerList h3 {
+    font-size:80%;
+    margin:0; padding:0;
+    
 }
 
 /* for user styles */

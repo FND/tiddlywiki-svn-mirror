@@ -234,9 +234,11 @@ merge(Array.prototype,{
 		}).join("\n");
 	},
 
-	renderGrouped: function(listRenderMethod,headingRenderMethod,noneHeading,renderOptions,groupCountOnly) {
+	renderGrouped: function(listRenderMethod,headingRenderMethod,noneHeading,renderOptions,groupCountOnly,nbTags) {
 		// do I ever use renderOptions??
 		// this lost some elegance when I shoehorned the groupCountOnly part in. todo refactor
+		// then lost some more with the nbTags addition...
+		// might need some reworking
 		var result = "";
 		this.each(function(g) {
 			var groupName = g[0];
@@ -247,16 +249,23 @@ merge(Array.prototype,{
 				showCount = groupItems.length > 0 ? " ("+groupItems.length+")" : "";
 
 			var makeHeading = (groupCountOnly&&groupCountOnly!="") ? "" : "!!";
+			var newButtonMarkup = "";
+
+			// this sucks
+			if (nbTags && nbTags != '') {
+				newButtonMarkup = " "+config.macros.mgtdList.getNewButton(nbTags + " [["+groupName+"]]");
+			}
+
 			if (groupName == "__NONE__") {
-				result = result + makeHeading + "[[("+(noneHeading?noneHeading:"No "+headingRenderMethod)+")]]"+showCount+"\n";
+				result = result + makeHeading + "[[("+(noneHeading?noneHeading:"No "+headingRenderMethod)+")]]"+showCount+newButtonMarkup+"\n";
 			}
 			else {
 				var gTiddler = store.getTiddler(groupName);
 				if (gTiddler) {
-					result = result + makeHeading+gTiddler.render(headingRenderMethod)+showCount+"\n";
+					result = result + makeHeading+gTiddler.render(headingRenderMethod)+showCount+newButtonMarkup+"\n";
 				}
 				else {
-					result = result + makeHeading+"[["+groupName+"]]"+showCount+"\n";
+					result = result + makeHeading+"[["+groupName+"]]"+showCount+newButtonMarkup+"\n";
 				}
 			}
 			if (!groupCountOnly || groupCountOnly == "")

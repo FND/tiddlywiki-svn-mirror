@@ -9,7 +9,8 @@ config.mGTD.specialTags = [
 		"Area",
 		"Realm",
 		"Context",
-		"View"
+		"View",
+        "Tickler"
 ]
 config.mGTD.tagsToIndex = [
 		"Project",
@@ -17,6 +18,7 @@ config.mGTD.tagsToIndex = [
 		"Realm",
 		"Context",
 		"ActionStatus",
+		"TicklerStatus",
 		"ProjectStatus",
 		"GTDComponent", // ??
 		"Sidebar"

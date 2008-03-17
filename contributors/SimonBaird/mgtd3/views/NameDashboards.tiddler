@@ -223,8 +223,8 @@
 	where:tiddler.getByIndex('Project').length==0
 "></div>
 
-!Active Projects With No Next Actions
-<div macro="mgtdList startTag:Project title:'You must assign a next action to these projects'
+!Active Projects With No Next Action
+<div macro="mgtdList startTag:Project title:'You must assign a next action to these projects (or make them into Someday/Maybe)'
 	tags:'!Complete && !Someday/Maybe' view:Project mode:global
 	where:!tiddler.hasNextAction()
 "></div>

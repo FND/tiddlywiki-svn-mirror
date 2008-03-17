@@ -29,6 +29,12 @@ merge(config.macros,{
 			}
 		},
 
+		getNewButton: function(tags,extraTags) {
+			if (typeof tags != 'string')
+				tags = String.encodeTiddlyLinkList(tags);
+			return '<<newSavedTiddler label:+ tag:"'+tags+'">>'; // newSavedTiddler wants tags in one param?
+		},
+
 		handler: function (place,macroName,params,wikifier,paramString,tiddler) {
 			var pp = paramString.parseParams("tags",null,true);
 
@@ -80,7 +86,8 @@ merge(config.macros,{
 			var gSortBy = getParam(pp,"gSort","title");
 
 			// new button
-			var newButton = getParam(pp,"newButton","");
+			var newButton = getParam(pp,"newButton",""); // not using 
+			var newButtonTags = getParam(pp,"newButtonTags","");
 
 			if (!startTag)
 				if (tagMode != "global")
@@ -108,6 +115,9 @@ merge(config.macros,{
 			listRefreshContainer.setAttribute("ignoreRealm",ignoreRealm);
 			listRefreshContainer.setAttribute("leftoverTitle",leftoverTitle);
 			listRefreshContainer.setAttribute("newButton",newButton);
+			listRefreshContainer.setAttribute("newButtonTags",newButtonTags);
+			if (tiddler)
+				listRefreshContainer.setAttribute("tiddlerTitle",tiddler.title);
 
 			this.refresh(listRefreshContainer);
 		},
@@ -132,6 +142,8 @@ merge(config.macros,{
 			var ignoreRealm = place.getAttribute("ignoreRealm");
 			var leftoverTitle = place.getAttribute("leftoverTitle");
 			var newButton = place.getAttribute("newButton");
+			var newButtonTags = place.getAttribute("newButtonTags");
+			var tiddlerTitle = place.getAttribute("tiddlerTitle");
 
 			var wikifyThis = "";
 
@@ -140,13 +152,27 @@ merge(config.macros,{
             if (title != "")
 			    wikifyThis += "!"+title
 
+			// old
+			/*
 			if (newButton != "") {
 				var newButtonParams = newButton.readBracketedList();
 				var newButtonTiddler = newButtonParams[0];
 				newButtonParams.shift();
 				var newButtonArgs = newButtonParams.map(function(a){return "[["+a+"]]";}).join(" "); //a better way to create bracketed list?
+																									// fyi it's this: String.encodeTiddlyLinkList
 				// put the realm in here... not sure if it's a good idea
 				wikifyThis += " <<tiddler "+newButtonTiddler+" with:[["+config.macros.mgtdList.getRealm()+"]] "+newButtonArgs+">>";
+			}
+			*/
+			// new
+			var nbTags;
+			if (newButtonTags != '') {
+				nbTags = [
+						newButtonTags,                                  // the tags specified in the macro params
+						'[['+config.macros.mgtdList.getRealm()+']]',    // the realm. always want a realm
+						(tagMode=='global'?'':'[['+tiddlerTitle+']]')   // if not global, then the add tiddler we're in, new here style
+					].join(' ');
+				wikifyThis += this.getNewButton(nbTags);
 			}
 
             if (title != "" || newButton != "")
@@ -181,7 +207,7 @@ merge(config.macros,{
 				theList = theList.groupByTag(groupBy,sortBy,gSortBy);
 				if (gTagExpr != "") theList = theList.filterGroupsByTagExpr(gTagExpr);
 				if (gWhereExpr != "") theList = theList.filterGroupsByEval(gWhereExpr);
-				wikifyThis += theList.renderGrouped(viewType,gViewType,leftoverTitle,null,groupCountOnly);
+				wikifyThis += theList.renderGrouped(viewType,gViewType,leftoverTitle,null,groupCountOnly,nbTags);
 			}
 			else {
 				theList = theList.tiddlerSort(sortBy);

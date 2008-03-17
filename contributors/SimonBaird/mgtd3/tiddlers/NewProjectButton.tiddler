@@ -1,4 +1,0 @@
-/%
-$1: Area
-$2: ProjectStatus
-%/<<newTiddler title:'New Project' label:+ tag:Project [[$1]] [[$2]]>>

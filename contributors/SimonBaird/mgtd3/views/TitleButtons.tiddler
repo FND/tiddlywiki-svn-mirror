@@ -23,9 +23,21 @@ Realm:<span macro="multiSelectTag Realm"></span>
 [[MonkeyGTDTheme##Subtitle]]
 <!--}}}-->
 
+!Tickler
+<!--{{{-->
+<span class='title' macro='view title'></span> (Tickler)
+<span macro="toggleTag Actioned . -"></span>
+<span macro="multiToggleTag TicklerStatus longVersion:on"></span>
+<span macro="singleToggleTag tag:Starred"></span>
+<br/>
+Project:<span macro="multiSelectTag Project allowNone:on"></span>
+Realm:<span macro="multiSelectTag Realm"></span>
+[[MonkeyGTDTheme##Subtitle]]
+<!--}}}-->
+
 !View
 <!--{{{-->
-<span class='title' macro='view title'></span>
+<span class='title' macro='view title'></span><span macro="help"></span>
 <!--}}}-->
 
 !Context
