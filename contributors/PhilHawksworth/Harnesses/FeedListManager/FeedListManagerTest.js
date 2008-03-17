@@ -3,10 +3,10 @@
 |''Description:''|A test harness for the FeedListManagerPLugin|
 |''Author:''|PhilHawksworth|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/Harnesses/FeedListManagerTest.js |
-|''Version:''|0.0.1|
+|''Version:''|0.1|
 |''Date:''|Mar 03, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.3|
 ***/
 
