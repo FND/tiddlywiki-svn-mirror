@@ -3,10 +3,10 @@
 |''Description:''|Manage a list of uris to be called in a round-robin stlye|
 |''Author:''|PhilHawksworth|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js |
-|''Version:''|0.0.1|
+|''Version:''|0.1|
 |''Date:''|Mar 03, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.3|
 
 
@@ -73,6 +73,7 @@ function FeedListManager(){
 	this.uris = [];
 	this.currentPosition = 0;
 	this.lastIncrement = null;
+	this.updating = false;
 };
 
 
@@ -87,12 +88,14 @@ FeedListManager.log = function(x)
 
 
 // Add a uri to the list of those managed (no dupes).
-FeedListManager.prototype.add = function(uri) {
+// uri : the uri,
+// type : uri | opml
+FeedListManager.prototype.add = function(uri, type) {
 	var exists = this.registered(uri);
 	if(exists != null)
 		return;
-	var uriObj = {'uri':uri, 'callCount':0, 'lastCall':null};
-	this.uris.pushUnique(uriObj);
+	var uriObj = {'uri':uri, 'type':type, 'callCount':0, 'lastCall':null};
+	this.uris.push(uriObj);
 };
 
 
@@ -101,6 +104,42 @@ FeedListManager.prototype.remove = function(uri) {
 	var pos = this.registered(uri);
 	if(pos != null)
 		this.uris.splice(pos,1);
+};
+
+
+// Add a uri to the list of those managed (no dupes).
+FeedListManager.prototype.populate = function() {
+	
+	//flag that the update is happening.
+	this.updating = true;
+	
+	//get and call the opml links.
+	var opmllinks = [];
+	for(var u=0; u<this.uris.length; u++) {
+		if(this.uris[u].type == 'opml') {
+			//opmllinks.push(this.uris[u]);
+			var params = {};
+			params.platform = platform;
+			params.tiddlerTitle = tiddlerTitle;
+			doHttp("POST",this.uris[u].uri,null,null,null,null,this.examineopml);
+		}	
+	}
+	
+	//flag that the update is complete.
+
+};
+
+
+//examine an opml file to gather the feed links within.
+FeedListManager.prototype.examineopml = function(status,params,responseText,url,xhr) {
+			
+	if(xhr.status != 200)
+		return;
+	
+	FeedListManager.log(responseText);
+	
+	//add each uri found.
+	//flag that the update is complete.
 };
 
 
@@ -133,14 +172,17 @@ FeedListManager.prototype.get = function(i) {
 
 // Get the next uri from the list of those managed.
 FeedListManager.prototype.next = function() {
-	var uri = this.get(this.currentPosition);	
+	var uri = this.get(this.currentPosition);
 	this.currentPosition++;
 	if(this.currentPosition >= this.uris.length)
 		this.currentPosition = 0;
 	var now = new Date();
 	now = now.convertToYYYYMMDDHHMMSSMMM();
 	this.lastIncrement = now;
-	return uri;
+	if(uri.type != 'uri')
+		this.next();
+	else
+		return uri;
 };
 
 
@@ -149,7 +191,7 @@ FeedListManager.prototype.logCall = function(uri) {
 	var p = this.registered(uri);
 	if(p == null)
 		return;
-	u = this.uris[p];
+	var u = this.uris[p];
 	var now = new Date();
 	now = now.convertToYYYYMMDDHHMMSSMMM();
 	this.lastIncrement = now;
@@ -160,15 +202,19 @@ FeedListManager.prototype.logCall = function(uri) {
 
 // Output usgae stats for the list of uris currently managed. (as wikitext)
 FeedListManager.prototype.stats = function(uri) {
-	if(uri)
-		var uris = this.uris[uri];
+	if(uri) {
+		var p = this.registered(uri);
+		if(p == null)
+			return;
+		var uris = [this.uris[p]];
+	}
 	else
 		var uris = this.uris;
-
-	console.log(uris);
-
 	var stats = null;
 	for(var u=0; u<uris.length; u++) {
+		/*
+			TODO Make the stats output to a tiddler rather than to the console.
+		*/
 		FeedListManager.log(uris[u].uri +", called "+ uris[u].callCount + " times, last called at " + uris[u].lastCall);
 	}
 };
@@ -179,6 +225,7 @@ FeedListManager.prototype.purge = function() {
 	this.uris = [];
 	this.currentPosition = 0;
 };
+
 
 } //# end of 'install only once'
 //}}}
