@@ -26,9 +26,11 @@ function JSSerializeDOM(rootElem,outputElem) {
 
 function JSSerializeScript(place) {
 	var scripts = document.documentElement.getElementsByTagName("script");
+	var output = "";
 	for (var i=0;i<scripts.length;i++) {
-		createTiddlyText(place,scripts[i].textContent);
+		output += scripts[i].textContent;
 	}
+	createTiddlyText(place,output);
 }
 
 config.macros.JSSerialize = {};
@@ -43,6 +45,7 @@ config.macros.JSSerialize.handler = function(place,macroName,params) {
 	}
 };
 
+// NB: This doesn't give the right result if someone has added shadow tiddlers
 config.macros.ShadowSerialize = {};
 
 config.macros.ShadowSerialize.handler = function(place,macroName,params) {
