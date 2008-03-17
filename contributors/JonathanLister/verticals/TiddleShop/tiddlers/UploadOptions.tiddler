@@ -1,0 +1,26 @@
+<div title="UploadOptions" modifier="YourName" created="200803121739">
+<pre>UploadPlugin uses the following sequence for finding parameters :
+#''macro'' parameters
+#''Options'' saved in cookies
+#''Plugin'' default values
+!Options used by UploadPlugin
+| Option | Value | Default |
+|Upload Username: |<<option txtUploadUserName>>| |
+|Upload Password: |<<option pasUploadPassword>>| |
+|Url of the UploadService script: |<<option txtUploadStoreUrl urlInput>>| store.php |
+|Relative Directory where to store the file: |<<option txtUploadDir urlInput>>| . (the script directory) |
+|Filename of the uploaded file: |<<option txtUploadFilename urlInput>>| index.html |
+|Directory to backup file on webserver^^(1)^^: |<<option txtUploadBackupDir urlInput>>| //null// (none/no backup) |
+|Log in UploadLog |<<option chkUploadLog>> Trace Upload| true |
+|Maximum of lines in UploadLog |<<option txtUploadLogMaxLine>>| 10 |
+
+^^(1)^^No backup if Backup Directory is empty, the previous file will be overwritten. Use a '.' to backup in the script directory.
+
+<<upload>> with these options.
+
+!Upload Macro parameters
+{{{
+<<upload [storeUrl [toFilename [backupDir [uploadDir [username]]]]]>>
+ Optional positional parameters can be passed to overwrite UploadOptions. 
+}}}</pre>
+</div>

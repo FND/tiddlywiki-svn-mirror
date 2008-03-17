@@ -3,7 +3,7 @@
 |''Description:''|Renders a set of tiddler through a template|
 |''Author:''|JonathanLister (based on ListRelatedPlugin by JeremyRuston)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/components/ListTemplateMacro.js |
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Date:''|Jan 21, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -22,7 +22,7 @@ Usage example:
 Parameters can be:
 filter - a tiddler filter
 data - the part of a tiddler to use in the subTemplate
-raw - if set to "true", renders the template in place in the page (NB: only works as expected if set at the top-level)
+raw - if set to "true", renders the template as text, which is suitable for output to a file (NB: only works as expected if set at the top-level); if 'raw' is false, outputs html to the page
 
 NOTE: FOR NOW, THIS PLUGIN ALSO OVERRIDES THE RSS SAVING AND PRODVIDES A MACRO CALLED TIDDLYTEMPLATING TO SAVE AN EXTERNAL FILE
 
@@ -33,9 +33,22 @@ NOTE: FOR NOW, THIS PLUGIN ALSO OVERRIDES THE RSS SAVING AND PRODVIDES A MACRO C
 if(!version.extensions.ListTemplateMacro) {
 version.extensions.ListTemplateMacro = {installed:true};
 
+config.exampleFormatters = [];
+
+for(var i=0;i<config.formatters.length;i++) {
+	if(config.formatters[i].name=='macro') {
+		config.exampleFormatters.push(config.formatters[i]);
+		break;
+	}	
+}
+config.parsers.exampleFormatter = new Formatter(config.exampleFormatters);
+config.parsers.exampleFormatter.format = 'example';
+config.parsers.exampleFormatter.formatTag = 'ExampleFormat';
+
 config.macros.ListTemplate = {
 	defaultTemplate: "<<view text>>"
 };
+
 
 config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
@@ -75,29 +88,15 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 	var html = "";
 	var d = document.createElement("div");
 	for(i=0; i<tiddlers.length; i++) {
-		// NOTE: Saq suggested using WikifyStatic here, which returns html and then I could output it batch later
-		// new Wikifier(template,formatter,null,tiddlers[i]).subWikify(place);
-		html += wikifyStatic(template,null,tiddlers[i]);
+		html += wikifyStatic(template,null,tiddlers[i],'example');
 	}
 	d.innerHTML = html;
-	// console.log(d.textContent);
 	if(raw) {
-		var e = document.createElement("div");
-		wikify(d.textContent,e);
-		// console.log(e.textContent);
-		place.innerHTML = e.textContent;
+		place.textContent = d.textContent;
 	} else {
-		wikify(d.textContent,place);
+		// TO-DO: Fill this in!
+		// wikify(d.textContent,place);
 	}
-	// console.log(place.innerHTML);
-	// html = "<html>" + html + "</html>";
-	// createTiddlyText(place,html);
-	// console.log(html);
-	// wikify(html,place);
-	// place.innerHTML += d.innerHTML;
-	// console.log(d.textContent);
-	// console.log(place.innerHTML);
-	// console.log("--------");
 };
 
 } //# end of 'install only once'
@@ -149,7 +148,7 @@ usage: <<TiddlyTemplating path template>>
 ***/
 config.macros.TiddlyTemplating = {};
 
-config.macros.TiddlyTemplating.handler = function(place,macroName,params) {
+config.macros.TiddlyTemplating.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	config.messages.fileSaved = "file successfully saved";
 	config.messages.fileFailed = "file save failed";
 	var saveName = params[0];
@@ -168,9 +167,9 @@ config.macros.TiddlyTemplating.handler = function(place,macroName,params) {
 	else
 		savePath = localPath + "." + saveName;
 	var e = document.createElement("div");
-	var paramString = 'template:"'+template+'"';
+	var paramString = 'raw:"true" template:"'+template+'"';
 	displayMessage("generating...");
-	config.macros.ListTemplate.handler(e,"ListTemplate",null,null,paramString,null);
+	config.macros.ListTemplate.handler(e,"ListTemplate",null,null,paramString,tiddler);
 	displayMessage("saving...");
 	var fileSave = saveFile(savePath,convertUnicodeToUTF8(e.textContent));
 	if(fileSave) {

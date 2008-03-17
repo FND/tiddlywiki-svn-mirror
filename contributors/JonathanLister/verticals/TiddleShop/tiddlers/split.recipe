@@ -25,6 +25,7 @@ tiddler: Header.tiddler
 tiddler: Homepage.tiddler
 tiddler: InstantBookmarklets.tiddler
 tiddler: JSSerializeTest.tiddler
+tiddler: JSSerializeTest2.tiddler
 tiddler: JSSerializeTester.tiddler
 tiddler: MainMenu.tiddler
 tiddler: PageTemplate.tiddler
@@ -43,5 +44,8 @@ tiddler: StyleSheet.tiddler
 tiddler: StyleSheetLayout.tiddler
 tiddler: TestPost1.tiddler
 tiddler: ThumbnailTemplate.tiddler
+tiddler: TiddlyWikiSaveTest.tiddler
+tiddler: TiddlyWikiTemplate.tiddler
 tiddler: Tomorrow.tiddler
+tiddler: UploadOptions.tiddler
 tiddler: ViewTemplate.tiddler

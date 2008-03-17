@@ -10,6 +10,10 @@ config.macros.saveButton.handler = function(place,macroName,params,wikifier,para
 	// turn it into the right template name
 	var template = title.replace(/^Preview/,"");
 	template = template.replace(/([^\d]+)(\d+)/,"$1Template$2");
-	ttParams = [this.defaultPath,template];
-	createTiddlyButton(place, this.label, null, function() {config.macros.TiddlyTemplating.handler(null,null,ttParams);});
+	// ttParams = [this.defaultPath,template];
+	ttParams = ["blog.html",template];
+	// for online:
+	createTiddlyButton(place, this.label, null, function() {config.macros.uploadText.handler(null,null,ttParams);});
+	// for offline:
+	// createTiddlyButton(place, this.label, null, function() {config.macros.TiddlyTemplating.handler(null,null,ttParams);});
 };

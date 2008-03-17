@@ -1,5 +1,5 @@
 var recursionCount = 0;
-function JSSerialize(rootElem,outputElem) {
+function JSSerializeDOM(rootElem,outputElem) {
 	var s = "";
 	// console.log("trying...");
 	// console.log(rootElem);
@@ -24,25 +24,62 @@ function JSSerialize(rootElem,outputElem) {
 	}
 }
 
+function JSSerializeScript(place) {
+	var scripts = document.documentElement.getElementsByTagName("script");
+	for (var i=0;i<scripts.length;i++) {
+		createTiddlyText(place,scripts[i].textContent);
+	}
+}
+
 config.macros.JSSerialize = {};
 
-config.macros.JSSerialize.handler = function(place) {
-	JSSerialize(window,place);
+config.macros.JSSerialize.handler = function(place,macroName,params) {
+	if(params[0]) {
+		if(params[0] == "DOM")
+			JSSerializeDOM(window,place);
+		else if(params[0] == "script")
+			JSSerializeScript(place);
+		else return false;
+	}
 };
+
+config.macros.ShadowSerialize = {};
+
+config.macros.ShadowSerialize.handler = function(place,macroName,params) {
+	var saver = new TW21Saver();
+	var output = "";
+	for(var i in config.shadowTiddlers) {
+		var tiddler = new Tiddler(i);
+		tiddler.text = config.shadowTiddlers[i];
+		output += saver.externalizeTiddler(store,tiddler);
+	}
+	createTiddlyText(place,output);
+};
+
 
 /***
 !Usage:
-<<FileSaving fileName macro>>
+<<FileSaving fileName 'macroName [param1 [...]]'>>
 
-where "handler" is the macro you want to run to create the output
+where "macroName" is the macro you want to run to create the output
 ***/
-config.macros.FileSaving = {};
+config.macros.FileSaving = {
+	syntaxError: "Error in FileSaving macro. Usage: <<FileSaving fileName 'macroName [param1 [...]]'>>"
+};
 
 config.macros.FileSaving.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	config.messages.fileSaved = "file successfully saved";
 	config.messages.fileFailed = "file save failed";
 	var saveName = params[0];
-	var macro = params[1];
+	if(params[1]) {
+		var macroParams = params[1].split(" ");
+		var macro = macroParams[0];
+		macroParams = macroParams.splice(1,p.length);
+		var macroParamString = macroParams.join(" ");
+	} else {
+		displayMessage(this.syntaxError);
+		return false;
+	}
 	var localPath = getLocalPath(document.location.toString());
 	var savePath;
 	if((p = localPath.lastIndexOf("/")) != -1)
@@ -53,7 +90,8 @@ config.macros.FileSaving.handler = function(place,macroName,params,wikifier,para
 		savePath = localPath + "." + saveName;
 	var e = document.createElement("div");
 	createTiddlyText(place,"generating...");
-	config.macros[macro].handler(e,"FileSaving",null,paramString,null);
+	
+	config.macros[macro].handler(e,macro,macroParams,wikifier,macroParamString,tiddler);
 	createTiddlyText(place,"saving...");
 	var fileSave = saveFile(savePath,convertUnicodeToUTF8(e.textContent));
 	if(fileSave) {

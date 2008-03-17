@@ -23,6 +23,15 @@ Functional journey:
 
 ***/
 
+config.options.chkSinglePageMode = "true";
+
+// defaulted upload settings, working with iwab account
+config.options.txtUploadUserName = "iwab";
+config.options.pasUploadPassword = "janjan";
+config.options.txtUploadStoreUrl = "http://tiddlyhome.bidix.info/iwantablog/store.php";
+config.options.txtUploadFilename = "blog.html";
+
+// extension to ListRelated relationships
 merge(config.relationships,{
 	none: {
 		text: "a null relationship to hack the plugin to allow listing of any tiddlers",
