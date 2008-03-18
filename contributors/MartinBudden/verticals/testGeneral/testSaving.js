@@ -189,4 +189,54 @@ function saveMain(localPath)
 	}
 }
 
+//<!--@@prehead@@-->
+config.macros.ListTemplate = {defaultTemplate: "<!--@@<<view text>>-->"};
+config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	params = paramString.parseParams("anon",null,true,false,false);
+	var filter = getParam(params,"filter","");
+	var template = getParam(params,"template",null);
+	template = template ? store.getTiddlerText(template,this.defaultTemplate) : this.defaultTemplate;
+	//var list = getParam(params,"list","");
+	var data = getParam(params,"data","");
+	var raw = getParam(params,"raw",false);
+	var tiddlers = [];
+	/* METHOD4 - 24/1/08 - using these calls:
+		<<ListTemplate filter:"[tag[docs]]" template:"RssItemTemplate">>
+		<<ListTemplate data:"tags" template:"RssItemCategoryTemplate">>
+		<<view text>> (for the tags)
+		This method for passing data through to subTemplates works by creating "pseudo-tiddlers"
+		(Tiddler objects not in the store) that each carry a part of the data array we want iterating through.
+		We do this to keep the unit of data as the tiddler.
+	*/
+	if(filter) {
+		tiddlers = store.filterTiddlers(filter);
+	} else if(data) {
+		switch(data) {
+		case "tags":
+			// creates a new tiddler for each tag and has that tag as its tags
+			for(var i=0;i<tiddler.tags.length;i++) {
+				var t = new Tiddler(tiddler.title);
+				t.tags = new Array(tiddler.tags[i]);
+				tiddlers.push(t);
+			}
+			break;
+		default:
+			tiddlers.push(tiddler);
+			break;
+		}
+	} else {
+		// no data provided, so inherit
+		tiddlers.push(tiddler);
+	}
+	var text = "";
+	for(i=0; i<tiddlers.length; i++) {
+		text += wikifyStatic(template,null,tiddlers[i],'template');
+	}
+	var d = document.createElement("div");
+	d.innerHTML = text;
+	if(raw)
+		place.textContent = d.textContent;
+};
+
 /*}}}*/
