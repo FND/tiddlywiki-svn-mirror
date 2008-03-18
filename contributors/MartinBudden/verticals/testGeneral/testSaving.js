@@ -29,27 +29,34 @@ config.templateFormatters = [
 				invokeMacro(w.output,lookaheadMatch[2],lookaheadMatch[3],w,w.tiddler);
 				return;
 			}
-			var text = null;
+			var text = '';
 			switch(lookaheadMatch[1]) {
 			case 'version':
-				var textTemplate = 'var version = {title: "TiddlyWiki", major: %0, minor: %1, revision: %2, date: new Date("%3"), extensions: {}};';
-				text = textTemplate.format([version.major,version.minor,version.revision,version.date.formatString("mmm DD, YYYY")]);
+				//# drop through
+			case 'js':
+				var e = document.getElementById(lookaheadMatch[1]+"Area");
+				text = e.textContent;
+				text = text.replace(/^\s*\/\/<!\[CDATA\[\s*|\s*\/\/\]\]>\s*$/g,"");
 				break;
 			case 'title':
 				text = getPageTitle();
 				break;
 			case 'shadow':
-				text = ShadowSerialize();
+				var saver = new TW21Saver();
+				for(var i=0;i<config.shadowsLoaded.length;i++) {
+					var tiddler = new Tiddler(config.shadowsLoaded[i]);
+					tiddler.created = tiddler.modified = version.date;
+					tiddler.text = config.shadowTiddlers[config.shadowsLoaded[i]];
+					text += saver.externalizeTiddler(store,tiddler) + "\n";
+				}
+				//console.log('shadows:'+text);
 				break;
-			case 'tiddler':
+			/*case 'tiddler':
 				if(!w.tiddler.isTagged("empty"))
 					text = convertUnicodeToUTF8(store.allTiddlersAsHtml());
 				break;
-			case 'js':
-				text = document.getElementById("jsArea").textContent;
-				text = text.replace(/^\s*\/\/<!\[CDATA\[\s*|\s*\/\/\]\]>\s*$/g,"");
-				break;
 			case 'prehead':
+				var = s = "Markup"+{prehead:"PreHead",posthead:"PostHead",prebody:"PreBody",postscript:"PostBody"}[lookaheadMatch[1]];
 				text = store.getRecursiveTiddlerText("MarkupPreHead","");
 				break;
 			case 'posthead':
@@ -61,6 +68,7 @@ config.templateFormatters = [
 			case 'postscript':
 				text = store.getRecursiveTiddlerText("MarkupPostBody","");
 				break;
+			*/
 			}
 			if(text) {
 				createTiddlyText(w.output,text+"\n");
@@ -74,7 +82,7 @@ config.parsers.templateFormatter = new Formatter(config.templateFormatters);
 config.parsers.templateFormatter.format = 'template';
 config.parsers.templateFormatter.formatTag = 'TemplateFormat';
 
-populateTemplate = function(template,format,tags)
+expandTemplate = function(template,format,tags)
 {
 	var tiddler = new Tiddler("temp");
 	if(tags)
@@ -82,36 +90,34 @@ populateTemplate = function(template,format,tags)
 	return wikifyStatic(store.getTiddlerText(template),null,tiddler,format ? format : 'template').htmlDecode();
 };
 
-ScriptSerialize = function()
-{
-	return document.getElementById("jsArea").textContent;
-};
+//# from Config.js
+config.shadowsLoaded = [];
 
-ShadowSerialize = function()
+//# from main.js
+function loadShadowTiddlers()
 {
-	var shadows = ["MarkupPreHead","ColorPalette","StyleSheetColors","StyleSheetLayout","StyleSheetLocale","StyleSheetPrint","PageTemplate","ViewTemplate","EditTemplate","GettingStarted","OptionsPanel","ImportTiddlers"];
-	var saver = new TW21Saver();
-	var ret = "";
-	for(var i=0;i<shadows.length;i++) {
-		var tiddler = new Tiddler(shadows[i]);
-		tiddler.created = version.date;
-		tiddler.modified = version.date;
-		tiddler.text = config.shadowTiddlers[shadows[i]];
-		ret += saver.externalizeTiddler(store,tiddler) + "\n";
-	}
-	return ret;
-};
-
-function generateRss()
-{
-	return populateTemplate("RssTemplate");
+	var shadows = new TiddlyWiki();
+	shadows.loadFromDiv("shadowArea","shadows",true);
+	shadows.forEachTiddler(function(title,tiddler){config.shadowTiddlers[title] = tiddler.text;config.shadowsLoaded.push(title);});
+	delete shadows;
 }
 
+function loadOriginal(localPath)
+{
+	if(config.options.chkGenerateAnRssFeed)
+		return config.browser.isGecko ? expandTemplate("TiddlyWikiTemplate") : loadFile(localPath);
+	else
+		return loadFile(localPath);
+}
+
+//# from Saving.js
+// Save this tiddlywiki with the pending changes
 function saveChanges(onlyIfDirty,tiddlers)
 {
 	if(onlyIfDirty && !store.isDirty())
 		return;
 	clearMessage();
+	var t1,t0 = new Date();
 	//# Get the URL of the document
 	var originalPath = document.location.toString();
 	//# Check we were loaded from a file URL
@@ -122,71 +128,31 @@ function saveChanges(onlyIfDirty,tiddlers)
 		return;
 	}
 	var localPath = getLocalPath(originalPath);
-	saveBackup(localPath);
+	//# Load the original file
+	var original = loadOriginal(localPath);
+	if(original == null) {
+		alert(config.messages.cantSaveError);
+		if(store.tiddlerExists(config.messages.saveInstructions))
+			story.displayTiddler(null,config.messages.saveInstructions);
+		return;
+	}
+	// Locate the storeArea div's
+	var posDiv = locateStoreArea(original);
+	if(!posDiv) {
+		alert(config.messages.invalidFileError.format([localPath]));
+		return;
+	}
+	saveBackup(localPath,original);
 	saveRss(localPath);
-	saveEmpty(localPath);
-	saveMain(localPath);
+	saveEmpty(localPath,original,posDiv);
+	saveMain(localPath,original,posDiv);
+	if(config.options.chkDisplayInstrumentation)
+		displayMessage("saveChanges " + (t1-t0) + " ms");
 }
 
-function saveBackup(localPath)
+function generateRss()
 {
-	if(config.options.chkSaveBackups) {
-		var backupPath = getBackupPath(localPath);
-		var backup;
-		if(config.browser.isIE) {
-			backup = ieCopyFile(backupPath,localPath)
-		} else {
-			var original = loadFile(localPath);
-			if(original == null) {
-				alert(config.messages.cantSaveError);
-				if(store.tiddlerExists(config.messages.saveInstructions))
-					story.displayTiddler(null,config.messages.saveInstructions);
-				return;
-			}
-			backup = saveFile(backupPath,original);
-		}
-		if(backup)
-			displayMessage(config.messages.backupSaved,"file://" + backupPath);
-		else
-			alert(config.messages.backupFailed);
-	}
-}
-
-function saveEmpty(localPath)
-{
-	if(config.options.chkSaveEmptyTemplate) {
-		var emptyPath,p;
-		if((p = localPath.lastIndexOf("/")) != -1)
-			emptyPath = localPath.substr(0,p) + "/";
-		else if((p = localPath.lastIndexOf("\\")) != -1)
-			emptyPath = localPath.substr(0,p) + "\\";
-		else
-			emptyPath = localPath + ".";
-		emptyPath += "empty.html";
-		var empty = populateTemplate("TiddlyWikiTemplate",null,"empty");
-		if(saveFile(emptyPath,empty))
-			displayMessage(config.messages.emptySaved,"file://" + emptyPath);
-		else
-			alert(config.messages.emptyFailed);
-	}
-}
-
-function saveMain(localPath)
-{
-	var save;
-	try {
-		var revised = populateTemplate("TiddlyWikiTemplate");
-		revised = updateLanguageAttribute(revised);
-		var save = saveFile(localPath,revised);
-	} catch (ex) {
-		showException(ex);
-	}	
-	if(save) {
-		displayMessage(config.messages.mainSaved,"file://" + localPath);
-		store.setDirty(false);
-	} else {
-		alert(config.messages.mainFailed);
-	}
+	return expandTemplate("RssTemplate");
 }
 
 //<!--@@prehead@@-->
@@ -201,14 +167,13 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 	var data = getParam(params,"data","");
 	var raw = getParam(params,"raw",false);
 	var tiddlers = [];
-	/* METHOD4 - 24/1/08 - using these calls:
-		<<ListTemplate filter:"[tag[docs]]" template:"RssItemTemplate">>
-		<<ListTemplate data:"tags" template:"RssItemCategoryTemplate">>
-		<<view text>> (for the tags)
-		This method for passing data through to subTemplates works by creating "pseudo-tiddlers"
-		(Tiddler objects not in the store) that each carry a part of the data array we want iterating through.
-		We do this to keep the unit of data as the tiddler.
-	*/
+	// METHOD4 - 24/1/08 - using these calls:
+	//	<<ListTemplate filter:"[tag[docs]]" template:"RssItemTemplate">>
+	//	<<ListTemplate data:"tags" template:"RssItemCategoryTemplate">>
+	//	<<view text>> (for the tags)
+	//	This method for passing data through to subTemplates works by creating "pseudo-tiddlers"
+	//	(Tiddler objects not in the store) that each carry a part of the data array we want iterating through.
+	//	We do this to keep the unit of data as the tiddler.
 	if(filter) {
 		tiddlers = store.filterTiddlers(filter);
 	} else if(data) {
@@ -239,4 +204,100 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 		place.textContent = d.textContent;
 };
 
+/*function saveChanges(onlyIfDirty,tiddlers)
+{
+	if(onlyIfDirty && !store.isDirty())
+		return;
+	clearMessage();
+	var t1,t0 = new Date();
+	//# Get the URL of the document
+	var originalPath = document.location.toString();
+	//# Check we were loaded from a file URL
+	if(originalPath.substr(0,5) != "file:") {
+		alert(config.messages.notFileUrlError);
+		if(store.tiddlerExists(config.messages.saveInstructions))
+			story.displayTiddler(null,config.messages.saveInstructions);
+		return;
+	}
+	var localPath = getLocalPath(originalPath);
+	saveBackup(localPath);
+	saveRss(localPath);
+	saveEmpty(localPath);
+	saveMain(localPath);
+	if(config.options.chkDisplayInstrumentation)
+		displayMessage("saveChanges " + (t1-t0) + " ms");
+}
+
+function saveBackup(localPath)
+{
+	if(config.options.chkSaveBackups) {
+		var backupPath = getBackupPath(localPath);
+		if(config.browser.isIE) {
+			var backup = ieCopyFile(backupPath,localPath)
+		} else {
+			var original = loadFile(localPath);
+			if(original == null) {
+				alert(config.messages.cantSaveError);
+				if(store.tiddlerExists(config.messages.saveInstructions))
+					story.displayTiddler(null,config.messages.saveInstructions);
+				return;
+			}
+			backup = saveFile(backupPath,original);
+		}
+		if(backup)
+			displayMessage(config.messages.backupSaved,"file://" + backupPath);
+		else
+			alert(config.messages.backupFailed);
+	}
+}
+
+function saveEmpty(localPath)
+{
+	if(config.options.chkSaveEmptyTemplate) {
+		var emptyPath,p;
+		if((p = localPath.lastIndexOf("/")) != -1)
+			emptyPath = localPath.substr(0,p) + "/";
+		else if((p = localPath.lastIndexOf("\\")) != -1)
+			emptyPath = localPath.substr(0,p) + "\\";
+		else
+			emptyPath = localPath + ".";
+		emptyPath += "empty.html";
+		var empty = expandTemplate("TiddlyWikiTemplate",null,"empty");
+		if(saveFile(emptyPath,empty))
+			displayMessage(config.messages.emptySaved,"file://" + emptyPath);
+		else
+			alert(config.messages.emptyFailed);
+	}
+}
+
+function saveMain(localPath)
+{
+	try {
+		var revised = expandTemplate("TiddlyWikiTemplate");
+		revised = updateLanguageAttribute(revised);
+		var save = saveFile(localPath,revised);
+	} catch (ex) {
+		showException(ex);
+	}	
+	if(save) {
+		displayMessage(config.messages.mainSaved,"file://" + localPath);
+		store.setDirty(false);
+	} else {
+		alert(config.messages.mainFailed);
+	}
+}
+
+function saveRss(localPath)
+{
+	//# Save Rss
+	if(config.options.chkGenerateAnRssFeed) {
+		var rssPath = localPath.substr(0,localPath.lastIndexOf(".")) + ".xml";
+		if(saveFile(rssPath,convertUnicodeToUTF8(generateRss())))
+			displayMessage(config.messages.rssSaved,"file://" + rssPath);
+		else
+			alert(config.messages.rssFailed);
+	}
+}
+
+*/
 /*}}}*/
