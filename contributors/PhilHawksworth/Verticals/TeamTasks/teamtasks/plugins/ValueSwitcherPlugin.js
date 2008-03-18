@@ -47,8 +47,22 @@ if(!version.extensions.ValueSwitcher)
 		},
 		
 		getDefValues: function(src) {
-			var text = store.getTiddlerText(src);
-			return (text.split('\n'));	
+			var text = store.getTiddlerText(src).split('\n');
+			var output = [];
+			for(var t=0; t<text.length; t++) {
+				var blob = wikifyStatic(text[t],null,tiddler,null);				
+				var linktitle = /tiddlylink="[^"]*"/mg;
+				var titles = blob.match(linktitle);
+				if(titles) {
+					for(var n=0; n<titles.length; n++) {
+						output.push(titles[n].replace(/tiddlylink="([^"]*)"/,'$1'));
+					}
+				}
+				else {
+					output.push(text[t]);
+				}
+			}
+			return (output);	
 		},
 		
 		setDropDownMetaData: function(e) {
