@@ -1,0 +1,13 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+title: title.txt
+recipe: shadows/split.recipe
+tiddler: Home.tiddler
+tiddler: settings.js
+tiddler: testSaving.js
+tiddler: ../../mystyle/PageTemplateNoShadow.tiddler
+tiddler: ../../mystyle/StyleSheet.tiddler
+tiddler: ../../mystyle/StyleSheetMB.tiddler
+tiddler: ../../tiddlers/TiddlyWikiTemplate.tiddler
+tiddler: ../../tiddlers/RssTemplate.tiddler
+tiddler: ../../../JonathanLister/verticals/TiddlyTemplating/tiddlers/RssItemTemplate.tiddler
+tiddler: ../../../JonathanLister/verticals/TiddlyTemplating/tiddlers/RssItemCategoryTemplate.tiddler
