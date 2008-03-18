@@ -1,0 +1,17 @@
+<div title="RssTemplate" created="200801221609"tags="template">
+<pre><?xml version="1.0"?>
+<rss version="2.0">
+<channel>
+<title><!--@@<<tiddler SiteTitle>>@@--></title>
+<link><!--@@<<tiddler SiteURL>>@@--></link>
+<description><!--@@<<tiddler SiteSubtitle>>@@--></description>
+<language>en-us</language>
+<copyright>Copyright <!--@@<<today "ddd, DD MMM YYYY 0hh:0hh:0ss TZD">>@@--> <!--@@<<message config.options.txtUserName>>@@--></copyright>
+<pubDate><!--@@<<today "ddd, DD MMM YYYY 0hh:0hh:0ss TZD">>@@--></pubDate>
+<lastBuildDate><!--@@<<today "ddd, DD MMM YYYY 0hh:0hh:0ss TZD">>@@--></lastBuildDate>
+<docs>http://blogs.law.harvard.edu/tech/rss</docs>
+<generator>TiddlyWiki <!--@@<<message version.major>>@@-->.<!--@@<<message version.minor>>@@-->.<!--@@<<message version.revision>>@@--></generator>
+<!--@@<<ListTemplate filter:"[tag[docs]]" template:"RssItemTemplate">>@@-->
+</channel>
+</rss></pre>
+</div>
