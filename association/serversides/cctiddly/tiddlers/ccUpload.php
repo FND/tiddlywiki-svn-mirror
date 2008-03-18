@@ -20,9 +20,10 @@ config.macros.ccUpload = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
 		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
 		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
-	//	frm.enctype="multipart/form-data";
-		frm.action ="handle/upload.php";
-		frm.method ="POST";
+		frm.enctype="multipart/form-data";
+	frm.action="handle/upload.php";
+	frm.method = "POST";
+		 
 			var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
 createTiddlyElement(body, "h1", null, null, "Create HTML file: ");
 			//form content
@@ -50,9 +51,9 @@ createTiddlyElement(body, "h1", null, null, "Create HTML file: ");
 			createTiddlyElement(step, 'br');
 			
 
-	//	var file = createTiddlyElement(step,&quot;input&quot;,&quot;ccfile&quot;, &quot;ccfile&quot;);				
-	//	file.type = "file";
-	//	file.name="userfile";
+		var file = createTiddlyElement(step,&quot;input&quot;,&quot;ccfile&quot;, &quot;ccfile&quot;);				
+		file.type = "file";
+		file.name="userfile";
 		
 		var workspaceName = createTiddlyElement(step,&quot;input&quot;,&quot;workspaceName&quot;, &quot;workspaceName&quot;);				
 		workspaceName.name = 'workspaceName';
