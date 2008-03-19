@@ -4,9 +4,7 @@ recipe: shadows/split.recipe
 tiddler: Home.tiddler
 tiddler: settings.js
 tiddler: testSaving.js
-tiddler: ../../mystyle/PageTemplateNoShadow.tiddler
-tiddler: ../../mystyle/StyleSheet.tiddler
-tiddler: ../../mystyle/StyleSheetMB.tiddler
+#tiddler: FastSavePlugin.js
 tiddler: ../../tiddlers/TiddlyWikiTemplate.tiddler
 tiddler: ../../tiddlers/RssTemplate.tiddler
 tiddler: ../../../JonathanLister/verticals/TiddlyTemplating/tiddlers/RssItemTemplate.tiddler

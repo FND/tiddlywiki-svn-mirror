@@ -1,7 +1,7 @@
 /***
 |''Name:''|settings|
 |''Description:''|set preferences|
-|''~CoreVersion:''|2.1.0|
+|''~CoreVersion:''|2.3.0|
 ***/
 
 /*{{{*/
@@ -14,7 +14,7 @@ config.options.txtMaxEditRows = 20;
 
 config.options.chkDisableWikiLinks = true;
 
-config.displayStartupTime = true;
+config.displayInstrumentation = true;
 //#config.options.chkSinglePageMode = false;
 //#config.options.chkTopOfPageMode = false;
 /*}}}*/
