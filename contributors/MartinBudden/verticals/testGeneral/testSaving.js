@@ -1,74 +1,74 @@
 /***
 |''Name:''|testSaving|
-|''Description:''|macro to use for general testing|
+|''Description:''|tests saving using templates|
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
-|''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/verticals\testGeneral/testMacro.js |
-|''Version:''|0.0.2|
-|''Date:''|July 31, 2006|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/verticals/testGeneral/testSaving.js |
+|''Version:''|0.0.3|
+|''Date:''|Mar 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
-|''~CoreVersion:''|2.2|
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
+|''~CoreVersion:''|2.3.0|
 
 ***/
 
-/*{{{*/
+//{{{
+//if(!version.extensions.testSaving) {
+//version.extensions.testSaving = {installed:true};
 config.templateFormatters = [
 {
-//<!--@@prehead@@-->
 	name: "templateElement",
-	match: "<!--@@",
-	//lookaheadRegExp: /<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>/mg,
-	lookaheadRegExp: /<!--@@([a-z]*)@@-->\n|<!--@@<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>@@-->/mg,
+	match: '<!--(?:<<|@@)',
+	//lookaheadRegExp:   /<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>/mg,
+	lookaheadRegExp: /<!--<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>-->|<!--@@([a-z]*)@@-->\n/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+console.log(lookaheadMatch);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
-			if(!lookaheadMatch[1]) {
-				invokeMacro(w.output,lookaheadMatch[2],lookaheadMatch[3],w,w.tiddler);
+			if(lookaheadMatch[1]) {
+				invokeMacro(w.output,lookaheadMatch[1],lookaheadMatch[2],w,w.tiddler);
 				return;
 			}
+			var match = lookaheadMatch[3];
 			var text = '';
-			switch(lookaheadMatch[1]) {
+			switch(match) {
 			case 'version':
 				//# drop through
 			case 'js':
-				var e = document.getElementById(lookaheadMatch[1]+"Area");
-				text = e.textContent;
-				text = text.replace(/^\s*\/\/<!\[CDATA\[\s*|\s*\/\/\]\]>\s*$/g,"");
+				text = document.getElementById(match+"Area").innerHTML.replace(/^\s*\/\/<!\[CDATA\[\s*|\s*\/\/\]\]>\s*$/g,"");
 				break;
 			case 'title':
 				text = getPageTitle();
 				break;
 			case 'shadow':
 				var saver = new TW21Saver();
-				for(var i=0;i<config.shadowsLoaded.length;i++) {
-					var tiddler = new Tiddler(config.shadowsLoaded[i]);
+				var shadows = new TiddlyWiki();
+				shadows.loadFromDiv("shadowArea","shadows",true);
+				shadows.forEachTiddler(function(title,tiddler) {
 					tiddler.created = tiddler.modified = version.date;
-					tiddler.text = config.shadowTiddlers[config.shadowsLoaded[i]];
 					text += saver.externalizeTiddler(store,tiddler) + "\n";
-				}
-				//console.log('shadows:'+text);
+				});
+				delete shadows;
 				break;
-			/*case 'tiddler':
+			case 'tiddler':
 				if(!w.tiddler.isTagged("empty"))
 					text = convertUnicodeToUTF8(store.allTiddlersAsHtml());
 				break;
 			case 'prehead':
-				var = s = "Markup"+{prehead:"PreHead",posthead:"PostHead",prebody:"PreBody",postscript:"PostBody"}[lookaheadMatch[1]];
-				text = store.getRecursiveTiddlerText("MarkupPreHead","");
+				//var = s = "Markup"+{prehead:"PreHead",posthead:"PostHead",prebody:"PreBody",postscript:"PostBody"}[lookaheadMatch[1]];
+				text = store.getRecursiveTiddlerText("MarkupPreHead");
 				break;
 			case 'posthead':
-				text = store.getRecursiveTiddlerText("MarkupPostHead","");
+				text = store.getRecursiveTiddlerText("MarkupPostHead");
 				break;
 			case 'prebody':
-				text = store.getRecursiveTiddlerText("MarkupPreBody","");
+				text = store.getRecursiveTiddlerText("MarkupPreBody");
 				break;
 			case 'postscript':
-				text = store.getRecursiveTiddlerText("MarkupPostBody","");
+				text = store.getRecursiveTiddlerText("MarkupPostBody");
 				break;
-			*/
 			}
 			if(text) {
 				createTiddlyText(w.output,text+"\n");
@@ -90,82 +90,19 @@ expandTemplate = function(template,format,tags)
 	return wikifyStatic(store.getTiddlerText(template),null,tiddler,format ? format : 'template').htmlDecode();
 };
 
-//# from Config.js
-config.shadowsLoaded = [];
-
-//# from main.js
-function loadShadowTiddlers()
-{
-	var shadows = new TiddlyWiki();
-	shadows.loadFromDiv("shadowArea","shadows",true);
-	shadows.forEachTiddler(function(title,tiddler){config.shadowTiddlers[title] = tiddler.text;config.shadowsLoaded.push(title);});
-	delete shadows;
-}
-
-function loadOriginal(localPath)
-{
-	if(config.options.chkGenerateAnRssFeed)
-		return config.browser.isGecko ? expandTemplate("TiddlyWikiTemplate") : loadFile(localPath);
-	else
-		return loadFile(localPath);
-}
-
-//# from Saving.js
-// Save this tiddlywiki with the pending changes
-function saveChanges(onlyIfDirty,tiddlers)
-{
-	if(onlyIfDirty && !store.isDirty())
-		return;
-	clearMessage();
-	var t1,t0 = new Date();
-	//# Get the URL of the document
-	var originalPath = document.location.toString();
-	//# Check we were loaded from a file URL
-	if(originalPath.substr(0,5) != "file:") {
-		alert(config.messages.notFileUrlError);
-		if(store.tiddlerExists(config.messages.saveInstructions))
-			story.displayTiddler(null,config.messages.saveInstructions);
-		return;
-	}
-	var localPath = getLocalPath(originalPath);
-	//# Load the original file
-	var original = loadOriginal(localPath);
-	if(original == null) {
-		alert(config.messages.cantSaveError);
-		if(store.tiddlerExists(config.messages.saveInstructions))
-			story.displayTiddler(null,config.messages.saveInstructions);
-		return;
-	}
-	// Locate the storeArea div's
-	var posDiv = locateStoreArea(original);
-	if(!posDiv) {
-		alert(config.messages.invalidFileError.format([localPath]));
-		return;
-	}
-	saveBackup(localPath,original);
-	saveRss(localPath);
-	saveEmpty(localPath,original,posDiv);
-	saveMain(localPath,original,posDiv);
-	if(config.options.chkDisplayInstrumentation)
-		displayMessage("saveChanges " + (t1-t0) + " ms");
-}
-
 function generateRss()
 {
 	return expandTemplate("RssTemplate");
 }
-
-//<!--@@prehead@@-->
-config.macros.ListTemplate = {defaultTemplate: "<!--@@<<view text>>-->"};
+config.macros.ListTemplate = {};
 config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	params = paramString.parseParams("anon",null,true,false,false);
 	var filter = getParam(params,"filter","");
 	var template = getParam(params,"template",null);
-	template = template ? store.getTiddlerText(template,this.defaultTemplate) : this.defaultTemplate;
+	template = template ? store.getTiddlerText(template) : "<!--<<view text>>-->";
 	//var list = getParam(params,"list","");
 	var data = getParam(params,"data","");
-	var raw = getParam(params,"raw",false);
 	var tiddlers = [];
 	// METHOD4 - 24/1/08 - using these calls:
 	//	<<ListTemplate filter:"[tag[docs]]" template:"RssItemTemplate">>
@@ -182,7 +119,7 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 			// creates a new tiddler for each tag and has that tag as its tags
 			for(var i=0;i<tiddler.tags.length;i++) {
 				var t = new Tiddler(tiddler.title);
-				t.tags = new Array(tiddler.tags[i]);
+				t.tags = [tiddler.tags[i]];
 				tiddlers.push(t);
 			}
 			break;
@@ -198,13 +135,10 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 	for(i=0; i<tiddlers.length; i++) {
 		text += wikifyStatic(template,null,tiddlers[i],'template');
 	}
-	var d = document.createElement("div");
-	d.innerHTML = text;
-	if(raw)
-		place.textContent = d.textContent;
+	place.innerHTML = text;
 };
 
-/*function saveChanges(onlyIfDirty,tiddlers)
+function saveChanges(onlyIfDirty,tiddlers)
 {
 	if(onlyIfDirty && !store.isDirty())
 		return;
@@ -299,5 +233,5 @@ function saveRss(localPath)
 	}
 }
 
-*/
-/*}}}*/
+//} //# end of 'install only once'
+//}}}
