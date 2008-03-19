@@ -46,13 +46,9 @@ function getScheme()
 }
 function getURL()
 {
-	global $tiddlyCfg;
-	
-	$out = getScheme().'://'.$_SERVER['SERVER_NAME'].str_replace($tiddlyCfg['workspace_name'], '', str_replace("?", "", str_replace("/index.php", "", $_SERVER['REQUEST_URI'])));
-	// remove the last slash
-//	if (substr($out,strlen($out)-1, strlen($out)) == "/")
-//	$out = substr($out,0,strlen($out)-1);
-	
+	if ($_SERVER['SERVER_PORT'] != '80')
+		$port = ":".$_SERVER['SERVER_PORT'];
+	$out = getScheme().'://'.$_SERVER['SERVER_NAME'].$port.dirname($_SERVER['SCRIPT_NAME'])."/";
 	return $out; 
 }
 

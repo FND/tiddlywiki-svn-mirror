@@ -12,11 +12,113 @@
 |''Browser:''| Firefox |
 ***/
 //{{{
+	
+var iFrameLoad = function(){
+	var uploadIframe =  document.getElementById('uploadIframe');
+	var statusArea = document.getElementById("uploadStatus");
+	document.getElementById("ccfile").value = ""; 
+	statusArea.innerHTML = uploadIframe.contentDocument.body.innerHTML;
+} 
+
+var submitIframe = function(){
+	var statusArea = document.getElementById("uploadStatus");
+	statusArea.innerHTML = "Uploading your file, please wait ";	
+	return true;
+};
 
 var url = "<?php echo getURL();?>";
 var workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 
+
+
 config.macros.ccUpload = {
+	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+	
+	
+		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
+		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
+		frm.action="handle/upload.php"; 
+		frm.id = "ccUpload";
+		frm.enctype="multipart/form-data";
+		frm.method = "POST";	
+		frm.target = "uploadIframe";
+	
+		var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
+		createTiddlyElement(body, "br");
+		createTiddlyElement(body, "h1", null, null, "Upload File");
+		createTiddlyElement(body, "br");
+		//form content
+		var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
+createTiddlyElement(step, "div", "uploadStatus", "uploadStatus", "Your Stats");
+			var username = createTiddlyElement(step,&quot;input&quot;,&quot;ccUsername&quot;, &quot;ccUsername&quot;);				
+		username.name= 'ccUsername';
+		username.type="HIDDEN";
+		username.value= config.options.txtUserName;		
+			createTiddlyElement(step, 'br');
+
+			createTiddlyElement(step, "div", "shortStatus", "shortStatus",  "Upload your file below ");
+			
+createTiddlyElement(step, "hr");
+		var file = createTiddlyElement(step,&quot;input&quot;,&quot;ccfile&quot;, &quot;ccfile&quot;);				
+		file.type = "file";
+		file.name="userfile";
+		
+		var workspaceName = createTiddlyElement(step,&quot;input&quot;,&quot;workspaceName&quot;, &quot;workspaceName&quot;);				
+		workspaceName.name = 'workspaceName';
+		workspaceName.type="HIDDEN";
+		workspaceName.value = workspace;
+		createTiddlyElement(step, 'br');
+		createTiddlyElement(step, 'br');
+		createTiddlyText(step, "Create the file in :");
+		
+		
+		createTiddlyElement(step,&quot;br&quot;);
+		var RDuser = createTiddlyElement(step,&quot;input&quot;,&quot;user&quot;, &quot;user&quot;)				;
+		RDuser.type = "radio";
+		RDuser.name="saveTo";
+		
+		RDuser.value="user";
+		createTiddlyText(step, "My User Area ("+url+workspace+"uploads/users/"+config.options.txtUserName+")");
+		
+		createTiddlyElement(step,&quot;br&quot;);
+		var RDworkspace = createTiddlyElement(step,&quot;input&quot;,&quot;workspace&quot;, &quot;workspace&quot;);		
+		RDworkspace.type = "radio";
+		RDworkspace.name="saveTo";
+		RDworkspace.value="workspace";
+		RDworkspace.checked="1";
+		
+	
+		if (workspace =="")
+		workspace_url = "default";
+		createTiddlyText(step, "Workspace Area  ("+url+workspace+"uploads/workspace/"+workspace_url+")");
+		createTiddlyElement(step,&quot;br&quot;);
+			
+		createTiddlyElement(frm,&quot;br&quot;);
+		var btn = createTiddlyElement(frm,"input",null, 'button');
+//		btn.onclick=submitIframe;
+		btn.setAttribute("type","submit");
+		btn.value = 'Upload File';
+	   		frm.appendChild(btn);	
+	
+		// Create the iframe
+		var iframe = document.createElement("iframe");
+		iframe.style.display = "none";
+		iframe.id='uploadIframe';
+		iframe.name='uploadIframe';
+		frm.appendChild(iframe);
+		iframe.onload = iFrameLoad;
+
+	
+		createTiddlyElement(frm, &quot;br&quot;);
+			createTiddlyElement(frm, &quot;br&quot;);
+
+	}
+
+
+	
+}
+
+config.macros.ccCreate = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
 		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
 		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
@@ -25,7 +127,7 @@ config.macros.ccUpload = {
 	frm.method = "POST";
 		 
 			var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
-createTiddlyElement(body, "h1", null, null, "Create HTML file: ");
+createTiddlyElement(body, "h1", null, null, "Create HTML file ");
 			//form content
 			var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
 		
@@ -49,17 +151,13 @@ createTiddlyElement(body, "h1", null, null, "Create HTML file: ");
 		username.type="HIDDEN";
 		username.value= config.options.txtUserName;		
 			createTiddlyElement(step, 'br');
-			
-
-		var file = createTiddlyElement(step,&quot;input&quot;,&quot;ccfile&quot;, &quot;ccfile&quot;);				
-		file.type = "file";
-		file.name="userfile";
+	
 		
 		var workspaceName = createTiddlyElement(step,&quot;input&quot;,&quot;workspaceName&quot;, &quot;workspaceName&quot;);				
 		workspaceName.name = 'workspaceName';
 		workspaceName.type="HIDDEN";
 		workspaceName.value = workspace;
-		
+
 		createTiddlyText(step, "Create the file in :");
 		
 		
@@ -90,7 +188,14 @@ createTiddlyElement(body, "h1", null, null, "Create HTML file: ");
 
 	}
 }
+
+
+
+
+
 //}}}
+
+
 </pre>
 </div>
 	

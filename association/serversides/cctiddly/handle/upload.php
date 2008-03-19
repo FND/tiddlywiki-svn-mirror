@@ -1,5 +1,10 @@
 <?php 
 
+
+$cct_base = "../";
+include_once($cct_base."includes/header.php");
+
+
 function check_vals()
 {
 	global $upload_dirs, $err;
@@ -26,9 +31,6 @@ function check_vals()
 
 
 
-$cct_base = "../";
-include_once($cct_base."includes/header.php");
-
 if ($_POST['saveTo'] == 'workspace')
 {
 	if  ($_POST['workspaceName'] !== "")
@@ -45,14 +47,17 @@ elseif ($_POST['saveTo'] == 'user')
 }
 else
 {
-	echo "Please specify where you wish to save this file";
+	echo "<p>Please specify where you wish to save this file</p>";
 }
 
 
-if (!$_POST['ccHTMLname'])
+if (!$_POST['ccHTMLname'] || !$_POST['ccHTML'])
 {
-	echo "Please specify a file name";
-	exit;
+	if ($_POST['ccHTMLname'] || $_POST['ccHTML'])
+	{
+		echo "Please specify a file name or provide HTML";
+		exit;
+	}
 }
 $folder = "".$folder."/";
 $file = $_POST['ccHTMLname'].".html";
@@ -60,7 +65,7 @@ $file = $_POST['ccHTMLname'].".html";
 if(!file_exists($folder))
 {
 	echo 'making folder ';
-	mkdir($folder, 0777, true);
+	mkdir($folder, 0700, true);
 }
 
 $myFile = $folder.$file;
@@ -83,12 +88,20 @@ if (isset($_FILES["userfile"]))
 	{
 		if (($_FILES["userfile"]["type"] == "image/gif") || ($_FILES["userfile"]["type"] == "image/jpeg")|| ($_FILES["userfile"]["type"] == "image/pjpeg"))
 		{
-			$upload_dir = $folder.'images/';   
-		} 
-		else
-		{
-			$upload_dir = $folder.'other/';
+			$file_type = 'image';
 		}
+		else if(($_FILES["userfile"]["type"] == "text/plain")||($_FILES["userfile"]["type"] == "text/xml")||($_FILES["userfile"]["type"] == "text/html"))
+		{
+			$file_type = 'text';
+		}else
+		{
+			echo '<b>File Type not supported</b>';
+			exit;
+		}
+		
+		
+		$upload_dir = $folder;
+	
 		if (filesize($_FILES["userfile"]["tmp_name"]) > $tiddlyCfg['max_file_size'])
 		{
 			$err .= "Maximum file size limit: ".$tiddlyCfg['max_file_size']." bytes";
@@ -107,7 +120,7 @@ if (isset($_FILES["userfile"]))
 	}
 }
 
-echo '<br /><br />';
+echo "<h1>".$file_type."</h1>";
 
 if (!$status) 
 {
@@ -116,23 +129,22 @@ if (!$status)
 }
 else 
 {
-	$output =  $_SERVER['SERVER_NAME']."/"	.$upload_dir."/".$_FILES["userfile"]["name"]."&quot; was successfully uploaded.</h4>";
-	$url= 'http://'.$_SERVER['SERVER_NAME']."/".$upload_dir."/".$_FILES["userfile"]["name"];
-  
-	if($upload_dir == 'uploads/images' )  
+	
+	
+ 	$url = dirname(getURL()).'/uploads/'.$upload_dir.$_FILES["userfile"]["name"];
+	
+	if($file_type == 'image')  
 	{
-		$output .= "<img src='http://".$_SERVER['SERVER_NAME'].'/upload/'.$upload_dirs[$_POST["path"]]["dir"].$_FILES["userfile"]["name"]."' /><p>";
+		$output .= "<img src='".$url."' height=100/><p>";
 		$output .= ' You can include this image into a tiddlywiki using the code below : ';
 		$output .= '[img['.$url.'][EmbeddedImages]]';
 	}
-
-  
-	if($upload_dir == 'uploads/other')  
-	{
-		$output .= ' <br />You can view the uploaded file at the url  below : <br /> ';
-		$output .= "<a href=".$url." target=new_window>".$url."</a>";
+	else
+	{		
+		$output .= "<a href='".$url."'/>".$url."</a>";	
 	}
-	echo $output;
+
+echo $output;
 }
 
 ?>	

@@ -45,8 +45,6 @@
 	// upload values 
 	$tiddlyCfg['max_file_size'] = 233300000;
 	
-	
-	
 	$tiddlyCfg['rss_group'] = "";
 	$tiddlyCfg['markup_group'] = "";
 	//$tiddlyCfg['pref']['twFile'] = "tiddlywiki";
