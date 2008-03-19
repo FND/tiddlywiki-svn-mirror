@@ -1,4 +1,4 @@
-<div title="Create Task/Story template for Scrum" modifier="PhilH" created="200803101236" modified="200803101248" tags="task scrum" tt_user="PhilHawksworth" tt_priority="Medium" tt_version="v0.5" tt_scope="TeamTasksDevelopment" tt_tasks_metadata_format_version="0.4" changecount="8" tt_status="Pending">
+<div title="Create Task/Story template for Scrum" modifier="PhilH" created="200803101236" modified="200803101248" tags="task scrum" tt_user="PhilHawksworth" tt_priority="Medium" tt_version="0.5" tt_scope="TeamTasksDevelopment" tt_tasks_metadata_format_version="0.4" changecount="8" tt_status="Pending">
 <pre>Template should include UI to capture required metadata for Scrum.
 *Story name
 *Story description

@@ -1,3 +1,3 @@
-<div title="Make TaskListViews refresh dynamically" modifier="PhilH" created="200803101250" tags="task" tt_user="PhilHawksworth" tt_priority="High" tt_version="v0.4" tt_scope="TeamTasksBugs" tt_tasks_metadata_format_version="0.4" changecount="7" tt_status="Pending">
+<div title="Make TaskListViews refresh dynamically" modifier="PhilHawksworth" created="200803101250" tags="task" tt_user="PhilHawksworth" tt_priority="High" tt_version="0.5" tt_scope="TeamTasksBugs" tt_tasks_metadata_format_version="0.4" changecount="7" tt_status="Pending">
 <pre>The list doesn't yet update when tasks are CRUDed</pre>
 </div>

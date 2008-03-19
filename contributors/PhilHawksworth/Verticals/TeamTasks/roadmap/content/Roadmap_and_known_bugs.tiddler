@@ -5,9 +5,10 @@ If you have any comments or suggestions, or if you would like to report a bug, y
 
 I do listen to all the feedback and have tried to log here the planned development work to address your comments.
 !!Planned development for the next release
-<<TaskViewBuilder ScopeDefinitions=TeamTasksDevelopment VersionDefinitions=v0.4>>
+<<TTReportView DisplayFields:"Title,Version,Priority,Status" OrderBy:"Priority,asc" scope:"TeamTasksDevelopment" version:"0.4">>
 !!Planned development for a future release
-<<TaskViewBuilder ScopeDefinitions=TeamTasksDevelopment !VersionDefinitions=v0.4>>
+<<TTReportView DisplayFields:"Title,Version,Priority,Status" OrderBy:"Version,asc" scope:"TeamTasksDevelopment" version:"!0.4">>
 !!Known bugs
-<<TaskViewBuilder ScopeDefinitions=TeamTasksBugs>></pre>
+<<TTReportView DisplayFields:"Title,Version,Priority,Status" OrderBy:"Priority,asc" scope:"TeamTasksBugs">>
+</pre>
 </div>

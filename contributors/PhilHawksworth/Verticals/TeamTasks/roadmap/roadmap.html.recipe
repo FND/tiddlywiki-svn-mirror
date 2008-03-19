@@ -3,4 +3,5 @@ recipe: ../teamtasks/teamtasks.html.recipe
 recipe: content/split.recipe
 recipe: shadows/split.recipe
 recipe: tasks/split.recipe
-recipe: TaskDefinitions/split.recipe
+recipe: taskDefinitions/split.recipe
+#recipe: reportViews/split.recipe
