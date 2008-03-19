@@ -1,8 +1,8 @@
-<div title="RssItemTemplate" modifier="YourName" created="200801221853" modified="200801221916" tags="template">
+<div title="RssItemTemplate" modifier="JonathanLister" created="200801220000" tags="template">
 <pre><item>
-	<title><<view title>></title>
-	<description><<view text>></description>
-    <!--<<ListTemplate data:"tags" template:"RssItemCategoryTemplate">>-->
-	<link><<permalink>></link>
-	<pubDate><<view modified date>></pubDate>
+	<title><!--<<view title>>--></title>
+	<description><!--<<view text>>--></description>
+	<!--<<ListTemplate template:"RssItemCategoryTemplate" data:"tags">>-->
+	<link><!--<<permalink>>--></link>
+	<pubDate><!--<<view modified date>>--></pubDate>
 </item></pre></div>

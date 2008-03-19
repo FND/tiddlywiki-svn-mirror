@@ -1,17 +1,17 @@
-<div title="RssTemplate" modifier="YourName" created="200801221609" modified="200801221855" tags="template">
+<div title="RssTemplate" modifier="JonathanLister" created="200801220000" tags="template">
 <pre><?xml version="1.0"?>
 <rss version="2.0">
 <channel>
-<title><<tiddler SiteTitle>></title>
-<link><<tiddler SiteURL>></link>
-<description><<tiddler SiteSubtitle>></description>
+<title><!--<<tiddler SiteTitle>>--></title>
+<link><!--<<tiddler SiteURL>>--></link>
+<description><!--<<tiddler SiteSubtitle>>--></description>
 <language>en-us</language>
-<copyright>Copyright <<today "ddd, DD MMM YYYY 0hh:0hh:0ss TZD">> <<message config.options.txtUserName>></copyright>
-<pubDate><<today "ddd, DD MMM YYYY 0hh:0hh:0ss TZD">></pubDate>
-<lastBuildDate><<today "ddd, DD MMM YYYY 0hh:0hh:0ss TZD">></lastBuildDate>
+<copyright>Copyright <!--<<today "ddd, DD MMM YYYY 0hh:0hh:0ss TZD">>--> <!--<<message config.options.txtUserName>>--></copyright>
+<pubDate><!--<<today "ddd, DD MMM YYYY 0hh:0hh:0ss TZD">>--></pubDate>
+<lastBuildDate><!--<<today "ddd, DD MMM YYYY 0hh:0hh:0ss TZD">>--></lastBuildDate>
 <docs>http://blogs.law.harvard.edu/tech/rss</docs>
-<generator>TiddlyWiki <<message version.major>>.<<message version.minor>>.<<message version.revision>></generator>
-<!--<<ListTemplate filter:"[tag[docs]]" template:"RssItemTemplate">>-->
+<generator>TiddlyWiki <!--<<message version.major>>-->.<!--<<message version.minor>>-->.<!--<<message version.revision>>--></generator>
+<!--<<ListTemplate template:"RssItemTemplate" filter:"[tag[docs]]">>-->
 </channel>
 </rss></pre>
 </div>
