@@ -1,0 +1,11 @@
+title: tiddlyChatterPublishing
+modifier: JayFresh
+created: 200710041506
+modified: 200710161832
+tags: systemConfig TiddlyChatterPackage
+server.host: file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/TiddlyChatter/examples/tiddlychatter0-5.html
+server.filter: [tag[public collab]]
+server.page.revision: 200710041509
+server.type: file
+changecount: 2
+server.workspace: 

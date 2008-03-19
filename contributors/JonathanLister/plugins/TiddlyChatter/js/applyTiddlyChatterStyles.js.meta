@@ -1,0 +1,10 @@
+title: applyTiddlyChatterStyles
+modifier: Jon Lister
+created: 200710161454
+modified: 200710161511
+tags: systemConfig TiddlyChatterPackage
+server.host: http://tiddlychatter.tiddlyspot.com/index.xml
+server.filter: [tag[public]]
+server.type: RSS
+changecount: 5
+server.workspace: 
