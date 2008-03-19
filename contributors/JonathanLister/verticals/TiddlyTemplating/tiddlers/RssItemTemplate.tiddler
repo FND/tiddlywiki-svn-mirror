@@ -2,7 +2,7 @@
 <pre><item>
 	<title><<view title>></title>
 	<description><<view text>></description>
-    <<ListTemplate data:"tags" template:"RssItemCategoryTemplate">>
+    <!--<<ListTemplate data:"tags" template:"RssItemCategoryTemplate">>-->
 	<link><<permalink>></link>
 	<pubDate><<view modified date>></pubDate>
 </item></pre></div>

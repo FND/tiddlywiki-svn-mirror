@@ -24,6 +24,7 @@ Functional journey:
 ***/
 
 config.options.chkSinglePageMode = "true";
+// config.options.chkSinglePageMode = "true";
 
 // defaulted upload settings, working with iwab account
 config.options.txtUploadUserName = "iwab";
