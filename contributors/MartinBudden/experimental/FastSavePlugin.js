@@ -3,7 +3,7 @@
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Description:''|Plug to speed up saving by avoiding loading tiddlywiki before saving|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/FastSavePlugin.js |
-|''Version:''|0.0.3|
+|''Version:''|0.0.4|
 |''Date:''|Mar 19, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -28,7 +28,7 @@ config.templateFormatters = [
 {
 	name: 'templateElement',
 	match: '<!--(?:<<|@@)',
-	lookaheadRegExp: /<!--<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>-->|<!--@@([a-z]*)@@-->\n/mg,
+	lookaheadRegExp: /<!--<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>-->|<!--@@([a-z]*)@@-->/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
@@ -39,13 +39,19 @@ config.templateFormatters = [
 				invokeMacro(w.output,lookaheadMatch[1],lookaheadMatch[2],w,w.tiddler);
 				return;
 			}
+			if(w.source.substr(w.nextMatch,1)=='\n')
+				w.nextMatch++;
 			var match = lookaheadMatch[3];
 			var text = '';
 			switch(match) {
 			case 'version':
-				//# drop through
 			case 'js':
 				text = document.getElementById(match+'Area').innerHTML.replace(/^\s*\/\/<!\[CDATA\[\s*|\s*\/\/\]\]>\s*$/g,'');
+				break;
+			case 'copyright':
+				var e = document.getElementsByName('copyright');
+				if(e)
+					text = e[0].content;
 				break;
 			case 'shadow':
 				var saver = new TW21Saver();
@@ -58,8 +64,12 @@ config.templateFormatters = [
 				delete shadows;
 				break;
 			}
-			if(text)
-				createTiddlyText(w.output,text+'\n');
+			if(text) {
+				createTiddlyText(w.output,text);
+			} else {
+				if(w.source.substr(w.nextMatch,1)=='\n')
+					w.nextMatch++;
+			}
 		}
 	}
 }
@@ -80,6 +90,7 @@ function loadOriginal(localPath)
 // Save this tiddlywiki with the pending changes
 function saveChanges(onlyIfDirty,tiddlers)
 {
+console.log('ss');
 	if(onlyIfDirty && !store.isDirty())
 		return;
 	clearMessage();
