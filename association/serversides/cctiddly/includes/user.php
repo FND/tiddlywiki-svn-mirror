@@ -213,7 +213,8 @@
 	}
 	
 	function user_logout($errorMsg = null)
-	{	
+	{	global $user;
+		$user['username'] = 'invalid';
 		$data['session_token']= cookie_get('sessionToken');
 		db_record_delete('login_session',$data);
 		cookie_set('sessionToken', 'invalid');
@@ -301,6 +302,28 @@
 		
 		return $privilege;
 	}
+	
+	
+	// @brief - confirms if a users had admin rights over a workspace - returns true or false. 
+	// @param $user - the username that you want to confirm their admin status over a workspace. 
+	// @param $workspace - specifies which workspace you wish to check for admin permissions against. 
+	function user_isAdmin($user, $workspace)
+	{
+		global $tiddlyCfg;
+			$data['workspace_name'] = $workspace;
+	
+		$data['username'] = $user;
+		
+		$results = db_record_select($tiddlyCfg['table']['admin'], $data);			// get array of results		
+
+		if (count($results) > 0 )                   //  if the user is an admin. 
+		{
+			return true;
+		}
+		return false;
+		
+	}
+	
 	
 	//!	@fn string user_mergePrivilege($p1,$p2)
 	//!	@brief merge two privileges  i.e. "A"

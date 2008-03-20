@@ -12,7 +12,7 @@
 |''Browser:''| Firefox |
 ***/
 //{{{
-	
+
 var iFrameLoad = function(){
 	var uploadIframe =  document.getElementById('uploadIframe');
 	var statusArea = document.getElementById("uploadStatus");
@@ -34,6 +34,11 @@ var workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 config.macros.ccUpload = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
 	
+			if (workspacePermission.upload != 1)
+			{
+				createTiddlyElement(place,&quot;div&quot;, null, "annotation",  &quot;You do not have permissions to create a workspace. &quot;);
+				return null;
+			}
 	
 		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
 		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
@@ -49,7 +54,7 @@ config.macros.ccUpload = {
 		createTiddlyElement(body, "br");
 		//form content
 		var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
-createTiddlyElement(step, "div", "uploadStatus", "uploadStatus", "Your Stats");
+createTiddlyElement(step, "div", "uploadStatus", "uploadStatus", "Upload your file below ");
 			var username = createTiddlyElement(step,&quot;input&quot;,&quot;ccUsername&quot;, &quot;ccUsername&quot;);				
 		username.name= 'ccUsername';
 		username.type="HIDDEN";
@@ -69,29 +74,33 @@ createTiddlyElement(step, "hr");
 		workspaceName.value = workspace;
 		createTiddlyElement(step, 'br');
 		createTiddlyElement(step, 'br');
-		createTiddlyText(step, "Create the file in :");
 		
+			var saveTo = createTiddlyElement(step, 'input','saveTo', 'saveTo', "workspace");				
+			saveTo.type ="HIDDEN";
+			saveTo.name = 'saveTo';
+			saveTo.value ='workspace';
+			
+			
+	//	createTiddlyText(step, "Create the file in :");	
+//		createTiddlyElement(step,&quot;br&quot;);
+//		var RDuser = createTiddlyElement(step,&quot;input&quot;,&quot;user&quot;, &quot;user&quot;)				;
+//		RDuser.type = "radio";
+//		RDuser.name="saveTo";
 		
-		createTiddlyElement(step,&quot;br&quot;);
-		var RDuser = createTiddlyElement(step,&quot;input&quot;,&quot;user&quot;, &quot;user&quot;)				;
-		RDuser.type = "radio";
-		RDuser.name="saveTo";
-		
-		RDuser.value="user";
-		createTiddlyText(step, "My User Area ("+url+workspace+"uploads/users/"+config.options.txtUserName+")");
-		
-		createTiddlyElement(step,&quot;br&quot;);
-		var RDworkspace = createTiddlyElement(step,&quot;input&quot;,&quot;workspace&quot;, &quot;workspace&quot;);		
-		RDworkspace.type = "radio";
-		RDworkspace.name="saveTo";
-		RDworkspace.value="workspace";
-		RDworkspace.checked="1";
-		
-	
-		if (workspace =="")
-		workspace_url = "default";
-		createTiddlyText(step, "Workspace Area  ("+url+workspace+"uploads/workspace/"+workspace_url+")");
-		createTiddlyElement(step,&quot;br&quot;);
+//		RDuser.value="user";
+//		createTiddlyText(step, "My User Area ("+url+workspace+"uploads/users/"+config.options.txtUserName+")");
+//		
+//		createTiddlyElement(step,&quot;br&quot;);
+//		var RDworkspace = createTiddlyElement(step,&quot;input&quot;,&quot;workspace&quot;, &quot;workspace&quot;);		
+//		RDworkspace.type = "radio";
+//		RDworkspace.name="saveTo";
+//		RDworkspace.value="workspace";
+//		RDworkspace.checked="1";
+			
+//		if (workspace =="")
+//		workspace_url = "default";
+//		createTiddlyText(step, "Workspace Area  ("+url+workspace+"uploads/workspace/"+workspace_url+")");
+//		createTiddlyElement(step,&quot;br&quot;);
 			
 		createTiddlyElement(frm,&quot;br&quot;);
 		var btn = createTiddlyElement(frm,"input",null, 'button');

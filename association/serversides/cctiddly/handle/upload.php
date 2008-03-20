@@ -1,32 +1,45 @@
 <?php 
 
-
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
+if(!user_session_validate())
+{
+	sendHeader("403");
+	echo '<b>You do not appear to be logged in</b>';
+	exit;	
+}
+
+if (!user_isAdmin($user['username'], $tiddlyCfg['workspace_name']))
+{
+	sendHeader("401");
+	echo '<b> You do not have permissions to upload files, please contact your system administrator.</b>';
+	exit;
+}
 
 function check_vals()
 {
 	global $upload_dirs, $err;
 	if (!ini_get("file_uploads")) 
 	{
+			sendHeader("405");
 		$err .= "HTTP file uploading is blocked in php configuration file (php.ini). Please, contact to server administrator."; return 0; 
 	}
 	$pos = strpos(ini_get("disable_functions"), "move_uploaded_file");
 	if ($pos !== false) 
 	{
+			sendHeader("405");
 	$err .= "PHP function move_uploaded_file is blocked in php configuration file (php.ini). Please, contact to server administrator."; return 0; 
 	}
 
   	if (!isset($_FILES["userfile"])) 
   	{
-  		$err .= "Empty file"; return 0;
+  		$err .= "No file recieved, please check it was "; return 0;
   	}
   	elseif (!is_uploaded_file($_FILES['userfile']['tmp_name'])) {
   		$err .= "Empty file"; return 0; 
   	}
 	return 1;
-
 }
 
 
@@ -55,31 +68,32 @@ if (!$_POST['ccHTMLname'] || !$_POST['ccHTML'])
 {
 	if ($_POST['ccHTMLname'] || $_POST['ccHTML'])
 	{
+		sendHeader("402");
 		echo "Please specify a file name or provide HTML";
 		exit;
 	}
 }
-$folder = "".$folder."/";
+
+$local_root = $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']));
+$remote_root = dirname(getURL());
+$folder = "/uploads".$folder;
 $file = $_POST['ccHTMLname'].".html";
 
-if(!file_exists($folder))
+if(!file_exists($local_root.$folder))
 {
-	echo 'making folder ';
-	mkdir($folder, 0700, true);
+	mkdir($local_root.$folder, 0700, true);
 }
 
-$myFile = $folder.$file;
+$myFile = $local_root.$folder.$file;
 $fh = fopen($myFile, 'w') or die("can't open file");
 
 if(fwrite($fh, $_POST['ccHTML']))
 {
-	echo 'File Created </br>';
+	sendHeader("201");
 	$uploaded_file = str_replace('/handle/upload.php', '', getURL()).str_replace("..", "", $myFile); 
 	echo "click here to view it <a href='".$uploaded_file."'>".$uploaded_file."</a>";
 }
 fclose($fh);	
-
-
 
 $err = ""; $status = 0;
 if (isset($_FILES["userfile"])) 
@@ -99,20 +113,25 @@ if (isset($_FILES["userfile"]))
 			exit;
 		}
 		
-		
 		$upload_dir = $folder;
 	
 		if (filesize($_FILES["userfile"]["tmp_name"]) > $tiddlyCfg['max_file_size'])
 		{
+			sendHeader("400");
 			$err .= "Maximum file size limit: ".$tiddlyCfg['max_file_size']." bytes";
 		}
 		else 
 		{
 			$from =  $_FILES["userfile"]["tmp_name"];
-			$to = "/Applications/xampp/xamppfiles/htdocs/rel/uploads".$upload_dir.$_FILES["userfile"]["name"];
+			$to = $local_root.$folder."/".$_FILES["userfile"]["name"];
+			if(file_exists($to))
+			{
+				echo '<b>file already exists.  Please try again with a different file name.</b>';
+				exit;
+			}
+			
 			if (move_uploaded_file($from, $to))
 			{
-		//		$chmod_result = chmod ($to, 0700);
 				$status = 1;
 			}
 			else $err .= "There are some errors!";
@@ -120,30 +139,23 @@ if (isset($_FILES["userfile"]))
 	}
 }
 
-echo "<h1>".$file_type."</h1>";
-
 if (!$status) 
 {
 	if (strlen($err) > 0)
-		echo "<h4>$err</h4>";
+	echo "<h4>$err</h4>";
 }
 else 
 {
-	
-	
- 	$url = dirname(getURL()).'/uploads/'.$upload_dir.$_FILES["userfile"]["name"];
-	
+ 	$url = $remote_root.$folder."/".$_FILES["userfile"]["name"];	
 	if($file_type == 'image')  
 	{
-		$output .= "<img src='".$url."' height=100/><p>";
-		$output .= ' You can include this image into a tiddlywiki using the code below : ';
-		$output .= '[img['.$url.'][EmbeddedImages]]';
+		$output .= '<h2>Image Uploaded</h2> You can include this image into a tiddlywiki using the code below : <p>';
+		$output .= "<img src='".$url."' height=100 col=1/><form name='tiddlyCode' id='tiddlyCode'><textarea name='code ' id='code' onclick='document.tiddlyCode.code.focus();document.tiddlyCode.code.select();' cols=90>[img[".$url."][EmbeddedImages]]</textarea>";
 	}
 	else
 	{		
 		$output .= "<a href='".$url."'/>".$url."</a>";	
 	}
-
 echo $output;
 }
 

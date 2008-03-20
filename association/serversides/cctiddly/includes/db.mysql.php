@@ -687,7 +687,8 @@ $db_var['error']['query'] = " query: ";*/
 
 		while( (list($k,$v) = each($data)) )
 		{
-			if ($v != '')  // make sure we dont search on emtpy values
+			debug($k.$v);
+			if (($v != '') || ($k=='workspace_name'))  // make sure we dont search on emtpy values unless its 
 				$sql .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."' and ";
 		}
 		$sql= $sql_start.substr($sql,0,(strlen($sql)-4));		//remove last "and"

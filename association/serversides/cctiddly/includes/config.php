@@ -32,8 +32,8 @@
 	//workspace default values
 	$tiddlyCfg['twLanguage'] = "en";	//predefine language
 	$tiddlyCfg['keep_revision'] = 1;
-	$tiddlyCfg['require_login'] = 0; //mins
-	$tiddlyCfg['session_expire'] = 2000; //mins
+	$tiddlyCfg['require_login'] = 0; 
+	$tiddlyCfg['session_expire'] = 8000; 
 	$tiddlyCfg['tag_tiddler_with_modifier'] = 0;
 	$tiddlyCfg['char_set'] = "utf8";
 	$tiddlyCfg['hashseed'] = "aigijgij";
@@ -43,7 +43,7 @@
 	
 	
 	// upload values 
-	$tiddlyCfg['max_file_size'] = 233300000;
+	$tiddlyCfg['max_file_size'] = 9933300000;
 	
 	$tiddlyCfg['rss_group'] = "";
 	$tiddlyCfg['markup_group'] = "";

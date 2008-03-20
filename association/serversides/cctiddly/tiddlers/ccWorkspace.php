@@ -20,7 +20,12 @@ var url = "<?php echo getURL();?>";
 	
 if ($workspace_create == "A" &&  $tiddlyCfg['allow_workspace_creation'] ==1)
 {
-echo "workspacePermission.create = 1;";
+echo "workspacePermission.create = 1;\n";
+}
+
+if (user_isAdmin($user['username'], $tiddlyCfg['workspace_name']))
+{
+	echo "workspacePermission.upload = 1;";
 }
 
 
@@ -222,14 +227,8 @@ config.macros.ccEditWorkspace = {
 				displayMessage(responseText);	
 			}
 
-		}
-		
-		
-		
+		}		
 }
-
-
-
 config.macros.ccListWorkspaces = {
         handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
                 // When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
