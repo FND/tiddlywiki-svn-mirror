@@ -3,7 +3,7 @@
 *[[Define some users|DefineUsers]]
 *[[Define some projects or tasks|DefineScopes]]
 *[[Start creating Tasks|CreatingTasks]]
-*[[Build some task views|CreatingTaskListViews]]
+*[[Build some task views|CreatingTaskReportViews]]
 and then may wish to make further customisations by editing the [[TaskDefinition|TaskDefinitions]] tiddlers
 
 [[More information|About TeamTasks]] about what components go into TeamTasks. </pre>

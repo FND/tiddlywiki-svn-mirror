@@ -47,8 +47,8 @@ version.extensions.TTReportViewPlugin = {installed:true};
 				
 		//gather all of the parameters.
 		var params = paramString.parseParams("anon",null,true,false,false);
-		var fieldString = getParam(params,"DisplayFields",'title');
-		var displayFields = fieldString.split(",");
+		var fieldsString = getParam(params,"DisplayFields",'title');
+		var displayFields = fieldsString.split(",");
 		var orderString = getParam(params,"OrderBy",'title,asc');
 		var orderField =  fieldPrefix + orderString.split(",")[0];
 		var order =  orderString.split(",")[1];				
@@ -92,6 +92,7 @@ version.extensions.TTReportViewPlugin = {installed:true};
 			if(consider)
 				toConsider.push(taskTiddlers[t]);
 		}
+		
 
 		// now find which of our selected tiddlers we need to exclude
 		for(var d=0; d<toConsider.length; d++) {

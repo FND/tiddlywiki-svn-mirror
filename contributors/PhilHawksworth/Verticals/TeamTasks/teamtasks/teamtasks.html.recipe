@@ -4,7 +4,7 @@ recipe: shadows/split.recipe
 recipe: plugins/split.recipe
 recipe: content/split.recipe
 
-recipe: ../roadmap/tasks/split.recipe
+recipe: ../basicviews/split.recipe
 
 
 
