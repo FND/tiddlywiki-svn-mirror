@@ -1,4 +1,4 @@
 <div title="PreviewBlog1" modifier="JonLister" created="200803061235" modified="200803061237" changecount="2">
 <pre><<tiddler PreviewBar>>
-<<IframeTiddler tiddler:Blog1>></pre>
+<<HTMLTemplatePreview BlogTemplate1>></pre>
 </div>

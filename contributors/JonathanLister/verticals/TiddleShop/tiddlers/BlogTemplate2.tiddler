@@ -64,7 +64,7 @@ Nick Webb. All Rights Reserved." />
 <hr />
 <div id="content">
 	<div id="primary">
-	<<ListTemplate filter:"[tag[BlogPost]]" template:"BlogPostTemplate2">>
+	<!--<<ListTemplate filter:"[tag[BlogPost]]" template:"BlogPostTemplate2">>-->
 	</div>
 		<div id="secondary">
 

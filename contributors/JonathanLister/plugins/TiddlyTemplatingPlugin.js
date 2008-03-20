@@ -32,6 +32,7 @@ Usage:
 Parameters can be:
 filter - a tiddler filter
 data - the part of a tiddler to use in the subTemplate
+raw - if set to true in a top-level template, renders the output as text suitable for saving to a file; otherwise, outputs as HTML into place
 
 |''Name:''|TiddlyTemplatingMacro|
 |''Description:''|Renders a template and saves the output to a local file|
@@ -96,12 +97,13 @@ expandTemplate = function(template,filter,data,tiddler)
 		// no data provided, so inherit
 		tiddlers.push(tiddler ? tiddler : new Tiddler(tempTiddlerName));
 	}
-	console.log(tiddlers);
 	var output = "";
 	for(i=0; i<tiddlers.length; i++) {
 		output += wikifyStatic(template,null,tiddlers[i],'template').htmlDecode();
+		//displayMessage(">>>>>>>>>>>");
+		//displayMessage(output);
+		//displayMessage("<<<<<<<<");
 	}
-	console.log(output);
 	return output;	
 };
 
@@ -113,7 +115,21 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 	var filter = getParam(params,"filter",null);
 	var template = getParam(params,"template",null);
 	var data = getParam(params,"data",null);
-	createTiddlyText(place,expandTemplate(template,filter,data,tiddler));
+	var raw = getParam(params,"raw",null);
+	if(raw=="true")
+		createTiddlyText(place,expandTemplate(template,filter,data,tiddler));
+	else {
+		//displayMessage("---before expand---");
+		var output = expandTemplate(template,filter,data,tiddler);
+		//displayMessage("---after expand---");
+		//displayMessage("---innerHTML before---");
+		//displayMessage(place.innerHTML);
+		//displayMessage("---going to add this output---");
+		//displayMessage(output);
+		place.innerHTML += output;
+		//displayMessage("---innerHTML with output---");
+		//displayMessage(place.innerHTML);
+	}
 };
 
 config.templateFormatters = [
@@ -136,9 +152,9 @@ config.templateFormatters = [
 			var text = '';
 			switch(lookaheadMatch[1]) {
 			case 'version':
-				displayMessage('v1');
+				//displayMessage('v1');
 				var e = document.getElementById(lookaheadMatch[1]+"Area");
-				displayMessage('v2');
+				//displayMessage('v2');
 				text = e.innerHTML;
 				text = text.replace(/^\s*\/\/<!\[CDATA\[\s*|\s*\/\/\]\]>\s*$/g,"");
 				break;
@@ -151,11 +167,11 @@ config.templateFormatters = [
 				text = getPageTitle();
 				break;
 			case 'shadow':
-				displayMessage("shadow");
+				//displayMessage("shadow");
 				var saver = new TW21Saver();
 				for(var i in config.shadowTiddlers) {
 					var tiddler = new Tiddler(i);
-					displayMessage("shadow:"+tiddler.title);
+					//displayMessage("shadow:"+tiddler.title);
 					tiddler.created = tiddler.modified = version.date;
 					tiddler.text = config.shadowTiddlers[i];
 					text += saver.externalizeTiddler(store,tiddler) + "\n";

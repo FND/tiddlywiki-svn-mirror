@@ -21,7 +21,7 @@ config.macros.uploadText.handler = function(place,macroName,params) {
 			toFilename = this.defaultFilename;
 		if (!template) 
 			template = this.defaultTemplate;
-		config.macros.uploadText.upload(template, null, toFilename); 
+		config.macros.uploadText.upload(template, null, toFilename);
 		return false;
 };
 
@@ -39,9 +39,7 @@ config.macros.uploadText.upload = function(template, storeUrl, toFilename, uploa
 	password = (password ? password :config.options.pasUploadPassword);
 	
 	// create string to save
-	var e = document.createElement("div");
-	var paramString = 'template:"'+template+'"';
-	config.macros.ListTemplate.handler(e,"ListTemplate",null,null,paramString,null);
+	var toSave = expandTemplate(template);	
 
 	var uploadParams = Array(storeUrl,toFilename,uploadDir,backupDir,username,password,template);
 	var callback = function(status,params,responseText,url,xhr) {
@@ -67,5 +65,5 @@ config.macros.uploadText.upload = function(template, storeUrl, toFilename, uploa
 			displayMessage("HTTP Error " + xhr.status + " in accessing " + url);
 		}
 	};
-	return bidix.upload.httpUpload(uploadParams,convertUnicodeToUTF8(e.textContent),callback,uploadParams);
+	return bidix.upload.httpUpload(uploadParams,convertUnicodeToUTF8(toSave),callback,uploadParams);
 };
