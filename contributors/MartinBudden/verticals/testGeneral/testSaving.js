@@ -3,7 +3,7 @@
 |''Description:''|tests saving using templates|
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/verticals/testGeneral/testSaving.js |
-|''Version:''|0.0.3|
+|''Version:''|0.0.4|
 |''Date:''|Mar 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -25,7 +25,6 @@ config.templateFormatters = [
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-console.log(lookaheadMatch);
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			if(lookaheadMatch[1]) {
 				invokeMacro(w.output,lookaheadMatch[1],lookaheadMatch[2],w,w.tiddler);
@@ -82,35 +81,18 @@ config.parsers.templateFormatter = new Formatter(config.templateFormatters);
 config.parsers.templateFormatter.format = 'template';
 config.parsers.templateFormatter.formatTag = 'TemplateFormat';
 
-expandTemplate = function(template,format,tags)
+expandTemplate2 = function(template,filter,data,tiddler)
 {
-	var tiddler = new Tiddler("temp");
-	if(tags)
-		tiddler.tags = (typeof tags == "string") ? tags.readBracketedList() : tags;
-	return wikifyStatic(store.getTiddlerText(template),null,tiddler,format ? format : 'template').htmlDecode();
-};
-
-function generateRss()
-{
-	return expandTemplate("RssTemplate");
-}
-config.macros.ListTemplate = {};
-config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-{
-	params = paramString.parseParams("anon",null,true,false,false);
-	var filter = getParam(params,"filter","");
-	var template = getParam(params,"template",null);
-	template = template ? store.getTiddlerText(template) : "<!--<<view text>>-->";
-	//var list = getParam(params,"list","");
-	var data = getParam(params,"data","");
+	var tempTiddlerName = "temp";
+	var defaultTemplate = "<<view text>>";
+	template = template ? store.getTiddlerText(template,defaultTemplate) : defaultTemplate;
 	var tiddlers = [];
 	// METHOD4 - 24/1/08 - using these calls:
-	//	<<ListTemplate filter:"[tag[docs]]" template:"RssItemTemplate">>
-	//	<<ListTemplate data:"tags" template:"RssItemCategoryTemplate">>
-	//	<<view text>> (for the tags)
-	//	This method for passing data through to subTemplates works by creating "pseudo-tiddlers"
-	//	(Tiddler objects not in the store) that each carry a part of the data array we want iterating through.
-	//	We do this to keep the unit of data as the tiddler.
+	// <<ListTemplate filter:"[tag[docs]]" template:"RssItemTemplate">>
+	// <<ListTemplate data:"tags" template:"RssItemCategoryTemplate">>
+	// <<view text>> (for the tags)
+	// This method for passing data through to subTemplates works by creating "pseudo-tiddlers" (Tiddler objects not in the store) that each carry a part of the data array we want iterating through. We do this to keep the unit of data as the tiddler.
+	
 	if(filter) {
 		tiddlers = store.filterTiddlers(filter);
 	} else if(data) {
@@ -119,7 +101,7 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 			// creates a new tiddler for each tag and has that tag as its tags
 			for(var i=0;i<tiddler.tags.length;i++) {
 				var t = new Tiddler(tiddler.title);
-				t.tags = [tiddler.tags[i]];
+				t.tags = new Array(tiddler.tags[i]);
 				tiddlers.push(t);
 			}
 			break;
@@ -129,13 +111,45 @@ config.macros.ListTemplate.handler = function(place,macroName,params,wikifier,pa
 		}
 	} else {
 		// no data provided, so inherit
-		tiddlers.push(tiddler);
+		tiddlers.push(tiddler ? tiddler : new Tiddler(tempTiddlerName));
 	}
-	var text = "";
+	var output = "";
 	for(i=0; i<tiddlers.length; i++) {
-		text += wikifyStatic(template,null,tiddlers[i],'template');
+		output += wikifyStatic(template,null,tiddlers[i],'template').htmlDecode();
 	}
-	place.innerHTML = text;
+	return output;	
+};
+
+config.macros.listTemplate = {};
+config.macros.listTemplate.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+console.log('ll:'+paramString);
+console.log(params);
+	p = paramString.parseParams("anon",null,true,false,false);
+console.log(params);
+	var template = getParam(p,"template",null);
+console.log('t1:'+template);
+	if(!template)
+		template =params[0];
+console.log('t2:'+template);
+	var filter = getParam(p,"filter",null);
+	var data = getParam(p,"data",null);
+	createTiddlyText(place,expandTemplate2(template,filter,data,tiddler));
+};
+
+config.macros.permalink = {};
+config.macros.permalink.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	var t = encodeURIComponent(String.encodeTiddlyLink(tiddler.title));
+	createTiddlyText(place,window.location+"#"+t);
+};
+
+expandTemplate = function(template,format,tags)
+{
+	var tiddler = new Tiddler("temp");
+	if(tags)
+		tiddler.tags = (typeof tags == "string") ? tags.readBracketedList() : tags;
+	return wikifyStatic(store.getTiddlerText(template),null,tiddler,format ? format : 'template').htmlDecode();
 };
 
 function saveChanges(onlyIfDirty,tiddlers)
@@ -232,6 +246,34 @@ function saveRss(localPath)
 			alert(config.messages.rssFailed);
 	}
 }
+
+function generateRss()
+{
+	return expandTemplate("RssTemplate");
+}
+
+/*
+config.templateFormatters = [
+{
+	name: 'templateElement',
+	match: '<!--<<',
+	lookaheadRegExp: /<!--<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>-->/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+			invokeMacro(w.output,lookaheadMatch[1],lookaheadMatch[2],w,w.tiddler);
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
+		}
+	}
+}
+];
+
+config.parsers.templateFormatter = new Formatter(config.templateFormatters);
+config.parsers.templateFormatter.format = 'template';
+config.parsers.templateFormatter.formatTag = 'TemplateFormat';
+*/
 
 //} //# end of 'install only once'
 //}}}
