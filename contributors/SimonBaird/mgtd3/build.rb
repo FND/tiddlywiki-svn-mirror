@@ -23,10 +23,10 @@ required = [
 	['Enabled',        'TicklerStatus', "order:1\nbutton:on\nbuttonLong:enabled\n"],
 	['Disabled',       'TicklerStatus', "order:2\nbutton:off\nbuttonLong:disabled\n"],
 
-	['Do Work',       'Sidebar', "order:1\nbutton:Work\n"                     ],
-	['Process Inbox', 'Sidebar', "order:2\nbutton:Inbox\n"                  ],
+	['Do Work',       'Sidebar', "order:1\nbutton:Do Work\n"                     ],
+	['Process Inbox', 'Sidebar', "order:2\nbutton:Process Inbox\n"                  ],
 	['Review',        'Sidebar', "order:3\nbutton:Review\n"                   ],
-	['Collect Items', 'Sidebar', "order:4\nbutton:Collect\n"                  ],
+	#['Collect Items', 'Sidebar', "order:4\nbutton:Collect\n"                  ],
 	['Config',        'Sidebar', "order:998\nbutton:Conf\nbuttonClass:tiny\n" ],
 	['TW',            'Sidebar', "order:999\nbutton:TW\nbuttonClass:tiny\n"   ],
 

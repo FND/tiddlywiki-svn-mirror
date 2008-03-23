@@ -5,26 +5,28 @@
 
 <div macro="mgtdList title:'Next Actions' startTag:Action tags:'Next && !Done' view:ActionProj mode:global
 	where:tiddler.hasActiveProject()
-	newButton:'NewActionButton Next [[]]'
+	newButtonTags:'Action Next'
 	"></div>
 
 <div macro="mgtdList title:'Waiting Actions' startTag:Action tags:'[(Waiting For)] && !Done' view:ActionProj  mode:global
 	where:tiddler.hasActiveProject()
-	newButton:'NewActionButton [[Waiting For]] [[]]'
+	newButtonTags:'Action [(Waiting For)]'
 	"></div>
 
 </td><td>
 
 <div macro="mgtdList title:'Future Actions' startTag:Action tags:'Future && !Done' view:ActionProj mode:global
 	where:tiddler.hasActiveProject()
-	newButton:'NewActionButton Future'
+	newButtonTags:'Action Future'
 	"></div>
 
 <div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
+	newButtonTags:'Action Next Done'
 	"></div>
 
 </td><td>
 <div macro="mgtdList title:'Active Projects' startTag:Project tags:'!Complete && !Someday/Maybe' view:ProjectBare mode:global
+	newButtonTags:'Project Active'
 	"></div>
 </td>
 </tr></table>
@@ -34,27 +36,27 @@
 <!--{{{-->
 <table class="threecol"><tr><td>
 
-<div macro="mgtdList title:'Next Actions' startTag:Action tags:'Next && !Done' view:ActionProj mode:global
+<div macro="mgtdList title:'Next Actions' startTag:Action tags:'Next && !Done' view:Action mode:global
 	group:Project
 	gView:plain
 	where:tiddler.hasActiveProject()
-	newButton:'NewActionButton Next [[]]'
+	newButtonTags:'Action Next'
 	"></div>
 
-<div macro="mgtdList title:'Waiting Actions' startTag:Action tags:'[(Waiting For)] && !Done' view:ActionProj mode:global
+<div macro="mgtdList title:'Waiting Actions' startTag:Action tags:'[(Waiting For)] && !Done' view:Action mode:global
 	group:Project
 	gView:plain
 	where:tiddler.hasActiveProject()
-	newButton:'NewActionButton [[Waiting For]] [[]]'
+	newButton:'Action [(Waiting For)]'
 	"></div>
 
 </td><td>
 
-<div macro="mgtdList title:'Future Actions' startTag:Action tags:'Future && !Done' view:ActionProj mode:global
+<div macro="mgtdList title:'Future Actions' startTag:Action tags:'Future && !Done' view:Action mode:global
 	group:Project
 	gView:plain
 	where:tiddler.hasActiveProject()
-	newButton:'NewActionButton Future [[]]'
+	newButtonTags:'Action Future'
 	"></div>
 
 
@@ -63,6 +65,7 @@
 <div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
 	group:Project
 	gView:plain
+	newButtonTags:'Action Next Done'
 	where:tiddler.hasActiveProject()
 	"></div>
 
@@ -77,14 +80,14 @@
 	group:Context
 	gView:Context
 	where:tiddler.hasActiveProject()
-	newButton:'NewActionButton Next [[]]'
+	newButtonTags:'Action Next'
 	"></div>
 
 <div macro="mgtdList title:'Waiting Actions' startTag:Action tags:'[(Waiting For)] && !Done' view:ActionProj mode:global
 	group:Context
 	gView:Context
 	where:tiddler.hasActiveProject()
-	newButton:'NewActionButton [[Waiting For]] [[]]'
+	newButtonTags:'Action [(Waiting For)]'
 	"></div>
 
 </td><td>
@@ -93,15 +96,17 @@
 	group:Context
 	gView:Context
 	where:tiddler.hasActiveProject()
-	newButton:'NewActionButton Future [[]]'
+	newButtonTags:'Action Future'
 	"></div>
 
 <div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
+	newButtonTags:'Action Next Done'
 	"></div>
 
 </td><td>
 
 <div macro="mgtdList title:'Active Projects' startTag:Project tags:'!Complete && !Someday/Maybe' view:ProjectBare mode:global
+	newButtonTags:'Project Active'
 	"></div>
 
 </td></tr></table>
@@ -111,6 +116,7 @@
 <!--{{{-->
 <div macro="mgtdList startTag:Action tags:'Next && !Done' view:ActionProj mode:global
 	where:tiddler.hasActiveProject()
+	newButtonTags:'Action Next'
 	"></div>
 <!--}}}-->
 
@@ -118,30 +124,32 @@
 <!--{{{-->
 <div macro="mgtdList startTag:Action tags:'Next && !Done' view:ActionProj mode:global
 	group:Context
+	newButtonTags:'Action Next'
 	where:tiddler.hasActiveProject()
 	"></div>
 <!--}}}-->
 
 !Next Actions by Project
 <!--{{{-->
-<div macro="mgtdList startTag:Action tags:'Next && !Done' view:ActionProj mode:global
+<div macro="mgtdList startTag:Action tags:'Next && !Done' view:Action mode:global
 	group:Project
 	gView:plain
+	newButtonTags:'Action Next'
 	where:tiddler.hasActiveProject()
 	"></div>
 <!--}}}-->
 
-!Projects
+!Projects Dashboard
 <table class="threecol"><tr><td>
 
 <div macro="mgtdList title:'Active Projects' startTag:Project tags:'Active && !Complete' view:Project mode:global
-	newButton:'NewProjectButton Active'
+	newButtonTags:'Project Active'
 	"></div>
 
 </td><td>
 
 <div macro="mgtdList title:'Someday/Maybe Projects' startTag:Project tags:'Someday/Maybe && !Complete' view:Project mode:global
-	newButton:'NewProjectButton Someday/Maybe'
+	newButtonTags:'Project Someday/Maybe'
 	"></div>
 
 </td><td>
@@ -153,17 +161,48 @@
 
 <!--}}}-->
 
+!Projects Dashboard by Area
+<table class="threecol"><tr><td>
+
+<div macro="mgtdList title:'Active Projects' startTag:Project tags:'Active && !Complete' view:Project mode:global
+	group:Area
+	gView:plain
+	newButtonTags:'Project Active'
+	"></div>
+
+</td><td>
+
+<div macro="mgtdList title:'Someday/Maybe Projects' startTag:Project tags:'Someday/Maybe && !Complete' view:Project mode:global
+	group:Area
+	gView:plain
+	newButtonTags:'Project Someday/Maybe'
+	"></div>
+
+</td><td>
+
+<div macro="mgtdList title:'Completed Projects' startTag:Project tags:'Complete' view:Project mode:global
+	group:Area
+	gView:plain
+	newButtonTags:'Project Active Complete'
+	"></div>
+
+</td></tr></table>
+
+<!--}}}-->
+
 !Next and Waiting Actions
 <!--{{{-->
 <table class="twocol"><tr><td>
 
 <div macro="mgtdList startTag:Action title:'Next' tags:'Next && !Done' view:ActionProj mode:global
+	newButtonTags:'Action Next'
 	where:tiddler.hasActiveProject()
 	"></div>
 
 </td><td>
 
 <div macro="mgtdList startTag:Action title:'Waiting' tags:'[(Waiting For)] && !Done' view:ActionProj mode:global
+	newButtonTags:'Action [(Waiting For)]'
 	where:tiddler.hasActiveProject()
 	"></div>
 
@@ -176,6 +215,7 @@
 <div macro="mgtdList startTag:Action title:'Next' tags:'Next && !Done' view:ActionProj mode:global
 	group:Context
 	gView:Context
+	newButtonTags:'Action Next'
 	where:tiddler.hasActiveProject()
 	"></div>
 
@@ -184,6 +224,7 @@
 <div macro="mgtdList startTag:Action title:'Waiting' tags:'[(Waiting For)] && !Done' view:ActionProj mode:global
 	group:Context
 	gView:Context
+	newButtonTags:'Action [(Waiting For)]'
 	where:tiddler.hasActiveProject()
 	"></div>
 
@@ -192,39 +233,58 @@
 !Next and Waiting Actions by Project
 <table class="twocol"><tr><td>
 
-<div macro="mgtdList startTag:Action title:'Next' tags:'Next && !Done' view:ActionProj mode:global
+<div macro="mgtdList startTag:Action title:'Next' tags:'Next && !Done' view:Action mode:global
 	group:Project
 	gView:plain
+	newButtonTags:'Action Next'
 	where:tiddler.hasActiveProject()
 	"></div>
 
 </td><td>
 
-<div macro="mgtdList startTag:Action title:'Waiting' tags:'[(Waiting For)] && !Done' view:ActionProj mode:global
+<div macro="mgtdList startTag:Action title:'Waiting' tags:'[(Waiting For)] && !Done' view:Action mode:global
 	group:Project
 	gView:plain
 	where:tiddler.hasActiveProject()
+	newButtonTags:'Action [(Waiting For)]'
 	"></div>
 
 </td></tr></table>
 
 !Done Actions
 <div macro="mgtdList startTag:Action title:'Done' tags:'Done' view:DoneAction mode:global
-  group:day gView:DoneAction
-"></div>
+	group:day
+	gView:DoneAction
+	newButtonTags:'Action Next Done'
+	"></div>
 
 !(No Context)
 <div macro="mgtdList startTag:Action title:'You should give these actions a context' tags:'!Done' view:DoneAction mode:global
 	where:tiddler.getByIndex('Context').length==0
-"></div>
+	"></div>
 
 !(No Project)
 <div macro="mgtdList startTag:Action title:'Actions with no project' tags:'!Done' view:DoneAction mode:global
 	where:tiddler.getByIndex('Project').length==0
-"></div>
+	"></div>
 
 !Active Projects With No Next Action
 <div macro="mgtdList startTag:Project title:'You must assign a next action to these projects (or make them into Someday/Maybe)'
 	tags:'!Complete && !Someday/Maybe' view:Project mode:global
 	where:!tiddler.hasNextAction()
-"></div>
+	"></div>
+
+!Quick Add
+<div macro="processInbox"></div>
+
+!About Quick Add
+Enter projects and actions here. Click 'create these items' to create them
+Example usage:
+{{{
+Paint House
+.Buy ladder and brushes|@Errand
+.Choose colours|@Home|W
+}}}
+By default actions are next actions. 
+Specify W or F to make them future or Waiting For. You can create multiple projects and project-less actions.
+(TODO: expand on this help.) 

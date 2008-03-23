@@ -182,7 +182,16 @@ merge(config.macros,{
 
 			var checkForContent = wikifyThis;
 
-			var theList = fastTagged(startTag);
+			var theList = [];
+			if (startTag && startTag != 'undefined'/* this sucks */) {
+				theList = fastTagged(startTag);
+			}
+			else {
+				// why so hard to get an array of all tiddlers?
+				store.forEachTiddler(function(t_title,t_tiddler) { theList.push(t_tiddler); });
+			}
+
+
 			if (tagExpr != "") theList = theList.filterByTagExpr(tagExpr);
 			if (whereExpr != "") theList = theList.filterByEval(whereExpr);
 

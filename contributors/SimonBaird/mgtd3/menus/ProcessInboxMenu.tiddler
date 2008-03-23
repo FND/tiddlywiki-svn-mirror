@@ -1,7 +1,14 @@
 !Process Inbox
-* [[Quick Add]]
-* <<newTiddler title:'New Next Action' label:'new next action' tag: Action Next>>
-* <<newTiddler title:'New Waiting For Action' label:'new waiting for action' tag: Action 'Waiting For'>>
-* <<newTiddler title:'New Future Action' label:'new future for action' tag: Action Future>>
-* <<newTiddler title:'New Active Project' label:'new project' tag: Project Active>>
-* <<newTiddler title:'New Someday/Maybe Project' label:'new someday/maybe project' tag: Project Someday/Maybe>>
+* [[Quick Add]]<br>(Add many projects and actions quickly)
+
+*<<newSavedTiddler label:'new next action' tag:{{'Action Next [['+config.macros.mgtdList.getRealm()+']]'}}>>
+*<<newSavedTiddler label:'new waiting action' tag:{{'Action [(Waiting For)] [['+config.macros.mgtdList.getRealm()+']]'}}>>
+*<<newSavedTiddler label:'new future action' tag:{{'Action Future [['+config.macros.mgtdList.getRealm()+']]'}}>>
+
+*<<newSavedTiddler label:'new active project' tag:{{'Project Active [['+config.macros.mgtdList.getRealm()+']]'}}>>
+*<<newSavedTiddler label:'new someday project' tag:{{'Project Someday/Maybe [['+config.macros.mgtdList.getRealm()+']]'}}>>
+
+*<<newSavedTiddler label:'new tickler' tag:{{'Tickler Enabled [['+config.macros.mgtdList.getRealm()+']]'}}>>
+
+!!Recent
+<<mgtdList mode:global tags:'Project || Action' view:plain sort:-modified >>

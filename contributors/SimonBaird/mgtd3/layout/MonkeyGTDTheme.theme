@@ -91,9 +91,11 @@
 <div id='monkeygtdsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('Process Inbox')">
 	<div class='menu' refresh='content' tiddler='ProcessInboxMenu'></div>
 </div>
+<!---
 <div id='monkeygtdsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('Collect Items')">
 	<div class='menu' refresh='content' tiddler='CollectItemsMenu'></div>
 </div>
+--->
 <div id='monkeygtdsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('Config')">
 	<div class='menu' refresh='content' tiddler='ConfigMenu'></div>
 </div>
@@ -298,6 +300,30 @@ body {
     font-size:80%;
     margin:0; padding:0;
     
+}
+
+#newButtons .sliderPanel {
+	background-color:[[ColorPalette::TertiaryMid]];
+	margin-top:4px;
+	padding:1em;
+	border-top:2px solid #444;
+	border-bottom:2px solid #444;
+}
+
+#newButtons .sliderPanel br {
+	display:inline;
+}
+
+#newButtons .sliderPanel .button {
+	font-weight:bold;
+	color:black
+	border:1px solid black;
+	background-color:#666;
+}
+
+.piBox {
+	width:95%;
+	height:8em;
 }
 
 /* for user styles */
