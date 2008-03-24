@@ -1,7 +1,7 @@
 /***
 |Name:|LessBackupsPlugin|
 |Description:|Intelligently limit the number of backup files you create|
-|Version:|3.0 ($Rev: 2320 $)|
+|Version:|3.0.1 ($Rev: 2320 $)|
 |Date:|$Date: 2007-06-18 22:37:46 +1000 (Mon, 18 Jun 2007) $|
 |Source:|http://mptw.tiddlyspot.com/#LessBackupsPlugin|
 |Author:|Simon Baird|
@@ -13,25 +13,32 @@ You end up with just backup one per year, per month, per weekday, per hour, minu
 Works in IE and Firefox only.  Algorithm by Daniel Baird. IE specific code by by Saq Imtiaz.
 ***/
 //{{{
+
+var MINS  = 60 * 1000;
+var HOURS = 60 * MINS;
+var DAYS  = 24 * HOURS;
+
+if (!config.lessBackups) {
+	config.lessBackups = {
+		// comment out the ones you don't want or set config.lessBackups.modes in your 'tweaks' plugin
+		modes: [
+			["YYYY",  365*DAYS], // one per year for ever
+			["MMM",   31*DAYS],  // one per month
+			["ddd",   7*DAYS],   // one per weekday
+			//["d0DD",  1*DAYS],   // one per day of month
+			["h0hh",  24*HOURS], // one per hour
+			["m0mm",  1*HOURS],  // one per minute
+			["s0ss",  1*MINS],   // one per second
+			["latest",0]         // always keep last version. (leave this).
+		]
+	};
+}
+
 window.getSpecialBackupPath = function(backupPath) {
 
-	var MINS  = 60 * 1000;
-	var HOURS = 60 * MINS;
-	var DAYS  = 24 * HOURS;
-
-	// comment out the ones you don't want
-	var modes = [
-		["YYYY",  365*DAYS], // one per year for ever
-		["MMM",   31*DAYS],  // one per month
-		["ddd",   7*DAYS],   // one per weekday
-		//["d0DD",  1*DAYS],   // one per day of month
-		["h0hh",  24*HOURS], // one per hour
-		["m0mm",  1*HOURS],  // one per minute
-		["s0ss",  1*MINS],   // one per second
-		["latest",0]         // always keep last version. (leave this).
-	];
-
 	var now = new Date();
+
+	var modes = config.lessBackups.modes;
 
 	for (var i=0;i<modes.length;i++) {
 
