@@ -1,15 +1,17 @@
 /***
 |''Name''|FirefoxPrivilegesPlugin|
 |''Description''|Create a backstage tab to manage Firefox url privileges|
-|''Author''|Xavier Vergés (xverges @ gmail . com)|
-|''Version''|1.0|
-|''Date''|2008-03-23|
+|''Author''|Xavier Vergés (xverges at gmail dot com)|
+|''Version''|1.0.1|
+|''Date''|2008-03-24|
 |''Status''|@@beta@@|
 |''Source''|tbd|
-|''CodeRepository''|tbd|
+|''CodeRepository''|http://trac.tiddlywiki.org/browser/Trunk/contributors/XavierVerges/plugins/FirefoxPrivilegesPlugin.js|
 |''License''|BSD tbd|
-|''CoreVersion''|tbd Requires backstage + array.prototype stuff|
+|''CoreVersion''|2.2.4 (maybe 2.2+?)|
 |''Feedback''|http://groups.google.com/group/TiddlyWiki|
+|''BookmarkletReady''|http://icanhaz.com/firefoxprivileges|
+|''Browser''|Mozilla. Tested under Firefox 2.0.0.12|
 |''Documentation''|tbw|
 /%
 !Description
@@ -52,7 +54,10 @@ merge(config.macros.firefoxPrivileges ,{
 			{name: 'Denied', field: 'denied', title: "Denied", type: 'StringList'},
 			{name: 'Handle', field: 'handle', title: "Handle", type: 'String'}
 			],
-		rowClasses: []
+		rowClasses: [
+			{className: 'lowlight', field: 'thisUrl'},
+			{className: 'error', field: 'warning'}
+			]
 		}
 	});
 
@@ -110,12 +115,19 @@ config.macros.firefoxPrivileges.secondWizardStep = function(wizard, chkXPConnect
 		if (chkBrowserRead) {
 			urlRights.push("UniversalBrowserRead");
 		}
-		needsReload = this.setUrlPrivilege(false, document.location.toString(), urlRights);
+		var thisUrl = document.location.toString();
+		needsReload = this.setUrlPrivilege(false, thisUrl, urlRights);
 		var privs = this.getPrivilegedUrls(false);
 		var listItems = [];
-
 		for (var handle in privs) {
 			if (privs.hasOwnProperty(handle)) {
+				if ((privs[handle].url === "file://") ||
+					(privs[handle].url.indexOf(" ") != -1))
+				{
+					privs[handle].warning = true;
+				} else if (privs[handle].url === thisUrl) {
+					privs[handle].thisUrl = true;
+				}
 				listItems.push(privs[handle]);
 			}
 		}
