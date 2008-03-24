@@ -2,8 +2,8 @@
 |''Name''|FirefoxPrivilegesPlugin|
 |''Description''|Create a backstage tab to manage Firefox url privileges|
 |''Author''|Xavier Vergés (xverges at gmail dot com)|
-|''Version''|1.0.1|
-|''Date''|2008-03-24|
+|''Version''|1.0.1 ($Rev$)|
+|''Date''|$Date$|
 |''Status''|@@beta@@|
 |''Source''|tbd|
 |''CodeRepository''|http://trac.tiddlywiki.org/browser/Trunk/contributors/XavierVerges/plugins/FirefoxPrivilegesPlugin.js|
@@ -23,9 +23,11 @@
 %/
 !To Do
 * Avoid non lingo.js-able hardcoded strings
-* Allow to delete privileged urls (specially file: !!!)
-* Allow to manage privileges for arbitrary urls
-* Bookmarkleteable version, getting the script from a trusted source
+** Create a Catalan and/or Spanish FirefoxPrivilegesPluginLingoXX.js to 
+* Have three pages
+** //Learn about the risks//
+** // Grant privileges//
+** //List (and optionally reset) privileges//
 !Code
 ***/
 //{{{
@@ -52,7 +54,8 @@ merge(config.macros.firefoxPrivileges ,{
 			{name: 'Url', field: 'url', title: "Url", type: 'Link'},
 			{name: 'Granted', field: 'granted', title: "Granted", type: 'StringList'},
 			{name: 'Denied', field: 'denied', title: "Denied", type: 'StringList'},
-			{name: 'Handle', field: 'handle', title: "Handle", type: 'String'}
+			{name: 'Handle', field: 'handle', title: "Handle", type: 'String'},
+            {name: 'Notes', field: 'notes', title: "Notes", type: 'String'}
 			],
 		rowClasses: [
 			{className: 'lowlight', field: 'thisUrl'},
@@ -71,6 +74,7 @@ merge(config.tasks,{
 */
 config.backstageTasks.pushUnique("firefoxPrivileges");
 
+config.macros.firefoxPrivileges.privAccessCapabilities = "UniversalXPConnect CapabilityPreferencesAccess";
 config.macros.firefoxPrivileges.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	var wizard = new Wizard();
@@ -106,7 +110,7 @@ config.macros.firefoxPrivileges.secondWizardStep = function(wizard, chkXPConnect
 
 	var html = [];
 	try {
-		netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect CapabilityPreferencesAccess");
+		netscape.security.PrivilegeManager.enablePrivilege(this.privAccessCapabilities);
 
 		var urlRights = [];
 		if (chkXPConnect) {
@@ -121,20 +125,20 @@ config.macros.firefoxPrivileges.secondWizardStep = function(wizard, chkXPConnect
 		var listItems = [];
 		for (var handle in privs) {
 			if (privs.hasOwnProperty(handle)) {
-				if ((privs[handle].url === "file://") ||
-					(privs[handle].url.indexOf(" ") != -1))
+				priv = privs[handle];
+				if ((priv.url === "file://") ||
+					(priv.url.indexOf(" ") != -1))
 				{
-					privs[handle].warning = true;
-				} else if (privs[handle].url === thisUrl) {
-					privs[handle].thisUrl = true;
+					priv.warning = true;
+					priv.notes = (priv.url === "file://")? "This is dangerous" : "This has no effect";
+				} else if (priv.url === thisUrl) {
+					priv.thisUrl = true;
+                    priv.notes = "This document's url";
 				}
-				listItems.push(privs[handle]);
+				listItems.push(priv);
 			}
 		}
 		var listView = ListView.create(listWrapper, listItems, this.listViewTemplate);
-
-		//var userJs = this.getUserJs(false);
-		//html.push("user.js : " + userJs.path);
 	} catch (ex) {
 		listWrapper.innerHTML = "Error: " + ex;
 	}
@@ -152,7 +156,7 @@ config.macros.firefoxPrivileges.setUrlPrivilege = function(reqAccess, url, right
 		return handle;
 	}
 	if (reqAccess) {
-		netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect CapabilityPreferencesAccess");
+		netscape.security.PrivilegeManager.enablePrivilege(this.privAccessCapabilities);
 	}
 	var isUpdate = true;
 	var urlHandle = "";
@@ -213,7 +217,7 @@ config.macros.firefoxPrivileges.setUrlPrivilege = function(reqAccess, url, right
 		setOrClearPref(grantedStr , granted);
 		setOrClearPref(idStr, url);
 	}
-	var prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
+	var prefService = this.getPrefsService();
 	prefService.savePrefFile(null);
 
 	return !isUpdate;
@@ -237,7 +241,7 @@ config.macros.firefoxPrivileges.getPrivilegedUrls = function(reqAccess)
 	}
 	var privileged = {};
 	if (reqAccess) {
-		netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect CapabilityPreferencesAccess");
+		netscape.security.PrivilegeManager.enablePrivilege(this.privAccessCapabilities);
 	}
 	var prefs = this.getPrefsBranch(); 
 	var capsEntries = prefs.getChildList("", { value: 0 }); 
@@ -256,22 +260,14 @@ config.macros.firefoxPrivileges.getPrivilegedUrls = function(reqAccess)
 	}
 	return privileged;
 };
+config.macros.firefoxPrivileges.getPrefsService = function()
+{
+	return Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
+};
 config.macros.firefoxPrivileges.getPrefsBranch = function()
 {
-	var capsBase = "capability.principal.codebase.";
-	var prefsService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService); 
-	return prefsService.getBranch(capsBase); 
-};
-config.macros.firefoxPrivileges.getUserJs = function(reqAccess)
-{
-	if (reqAccess) {
-		netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-	}
-	var profileDir = Components.classes["@mozilla.org/file/directory_service;1"].getService( Components.interfaces.nsIProperties).get("ProfD", Components.interfaces.nsIFile).path;
-	var sep = profileDir.lastIndexOf("\\") != -1? "\\" : "/";
-	var filePath=profileDir + sep + "user.js";
-	return {path: filePath, 
-		contents: mozillaLoadFile(filePath)};
+	var prefsService = this.getPrefsService();
+	return prefsService.getBranch("capability.principal.codebase."); 
 };
 } // endif(window.Components)
 //}}}
