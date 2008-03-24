@@ -81,7 +81,7 @@ config.taggly = {
 	setTagglyOpt: function(title,opt,value) {
 		if (!store.tiddlerExists(title))
 			// create it silently
-			store.saveTiddler(title,title,config.views.editor.defaultText.format([title]),config.options.txtUserName,new Date(),null);
+			store.saveTiddler(title,title,config.views.editor.defaultText.format([title]),config.options.txtUserName,new Date(),"");
 		// if value is default then remove it to save space
 		return store.setValue(title,
 			this.config.valuePrefix+opt,
@@ -402,13 +402,18 @@ config.taggly = {
 				// do some refresh magic to make it keep the list fresh - thanks Saq
 				refreshContainer.setAttribute("refresh","macro");
 				refreshContainer.setAttribute("macroName",macroName);
+				if (params[0])
+					refreshContainer.setAttribute("title",params[0]);
+				else {
         			refreshContainer.setAttribute("title",tiddler.title);
+				}
 				this.refresh(refreshContainer);
 			},
 
 			refresh: function(place) {
 				var title = place.getAttribute("title");
 				removeChildren(place);
+				addClass(place,"tagglyTagging");
 				if (store.getTaggedTiddlers(title).length > 0) {
 					var lingo = config.taggly.lingo;
 					config.taggly.createListControl(place,title,"hideState");

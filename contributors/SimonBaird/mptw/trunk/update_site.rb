@@ -1,6 +1,8 @@
 
 require 'r4tw'
 
+require 'build'
+
 make_tw {
   puts "downloading..."
   source_file            'http://mptw.tiddlyspot.com/'
