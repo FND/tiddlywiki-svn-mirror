@@ -1,7 +1,7 @@
 /***
 |Name:|InstantTimestampPlugin|
 |Description:|A handy way to insert timestamps in your tiddler content|
-|Version:|1.0.9 ($Rev: 3646 $)|
+|Version:|1.0.10 ($Rev: 3646 $)|
 |Date:|$Date: 2008-02-27 02:34:38 +1000 (Wed, 27 Feb 2008) $|
 |Source:|http://mptw.tiddlyspot.com/#InstantTimestampPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
@@ -66,7 +66,7 @@ config.InstantTimestamp = {
 }; 
 
 TiddlyWiki.prototype.saveTiddler_mptw_instanttimestamp = TiddlyWiki.prototype.saveTiddler;
-TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields) {
+TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created) {
 
 	tags = (typeof(tags) == "string") ? tags.readBracketedList() : tags;
 	var conf = config.InstantTimestamp;
@@ -74,13 +74,14 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 	if ( !tags.containsAny(conf.excludeTags) && !conf.excludeTiddlers.contains(newTitle) ) {
 
 		var now = new Date();
-		var trans = config.InstantTimestamp.translations;
+		var trans = conf.translations;
 		for (var i=0;i<trans.length;i++) {
 			newBody = newBody.replace(trans[i][0], eval(trans[i][1]));
 		}
 	}
 
-	return this.saveTiddler_mptw_instanttimestamp(title,newTitle,newBody,modifier,modified,tags,fields);
+	// TODO: use apply() instead of naming all args?
+	return this.saveTiddler_mptw_instanttimestamp(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created);
 }
 
 // you can override these in StyleSheet 
