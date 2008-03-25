@@ -2,6 +2,6 @@
 <pre><<tiddler Header>>
 
 
-{{previewbar{
+{{topbar{
 Nice! Check out your blog! Now you can either <<saveButton>> or go back to the [[blog gallery|Frontpage]]}}}</pre>
 </div>

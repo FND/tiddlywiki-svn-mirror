@@ -1,16 +1,25 @@
 <div title="StyleSheet" modifier="YourName" created="200803061235" modified="200803131636" changecount="40">
-<pre>
-/* #sidebar {display:none;} */
+<pre>#sidebar {display:none;}
+div.header {display:none;}
 #displayArea {margin-left:0em; margin-right:0em;}
 .listRelatedTiddler {display:inline;}
 
-.previewbar {
-   background-image: url('images/previewbar.jpg');
-  background-repeat: repeat-x;
+.topbar {
+   background-image: url('http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/TiddleShop/images/topbar.jpg');
+   background-repeat: repeat-x;
+   font-size: 2.5em;
+   line-height: 1em;
+   padding-top: 1.5em;
+   width: 100%;
+}
+
+.bottombar {
+   background-image: url('http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/TiddleShop/images/bottombar.jpg');
+   background-repeat: repeat-x;
    font-size: 3em;
    line-height: 2.8em;
    width: 100%;
-   padding-left: 2.5em;
+}
 
-}</pre>
+</pre>
 </div>

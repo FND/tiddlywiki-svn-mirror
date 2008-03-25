@@ -1,27 +1,14 @@
-<div title="Frontpage" modifier="YourName" created="200803131537" modified="200803131605" changecount="35">
+<div title="Frontpage" modifier="NickWeb" created="200803131537" modified="200803131605" changecount="35">
 <pre><<tiddler Header>>
 
-[img(100%,100%)[images/topbar.jpg]]
+{{topbar{
+''To start with choose a blog...''}}}
 
+<<tiddler BlogGallery>>
 
-<html>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</html>''@@font-size(2.5em):To start with choose a blog...@@''
-
-
-<html>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</html><<tiddler BlogGallery>>
-
-
-
-<html>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</html><<tiddler BlogGallery>>
-
-
-
-<html>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</html><<tiddler BlogGallery>>
-
-<html>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</html>''@@font-size(1.5em):[[How do I make my own template?|mytemplate]]@@''
-
-<html>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</html>''@@font-size(1.5em):[[Blog-o-matic (drag & drop template maker)|blogomatic]]@@''
-
-
-
-[img(100%,100%)[images/bottombar.jpg]]</pre>
+/% @@font-size(1.5em):[[How do I make my own template?|mytemplate]]@@''
+@@font-size(1.5em):[[Blog-o-matic (drag & drop template maker)|blogomatic]]@@''
+%/
+{{bottombar{
+&nbsp;}}}</pre>
 </div>
