@@ -70,7 +70,7 @@ If you got one of the following error message, that may mean your database do no
 	$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
 	
 	$tiddlyCfg['users_required_in_db']=0; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db
-	
+	$tiddlyCfg['can_create_account'] = 1;
 	
 	
 	

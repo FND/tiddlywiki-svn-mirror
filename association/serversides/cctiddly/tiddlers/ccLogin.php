@@ -135,15 +135,98 @@ config.macros.ccLoginStatus = {
 
 	        } else {
 				var str = wikify(&quot;[[Please Login]]&quot;, wrapper);
-				
-	        }
+		    }
 	        
-	        }
-	        
-	        
-
-
+		}
 }
+
+config.macros.ccRegister = {
+	handler: function(place,macroName,params,wikifier,paramString,tiddler) 
+	{
+		var registerDiv = createTiddlyElement(place,&quot;div&quot;,null,&quot;loginDiv&quot;,null);
+        this.refresh(loginDiv);
+    },	    
+	refresh: function(place, errorMsg) 
+	{
+		  var loginDivRef = document.getElementById (&quot;LoginDiv&quot;);
+	     removeChildren(loginDivRef);
+        var wrapper = createTiddlyElement(place,&quot;div&quot;);
+
+if (errorMsg == '201')
+{
+	displayMessage('hding');
+	return false;
+}
+		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
+		frm.onsubmit = this.registerOnSubmit;
+		createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Register for an Account  &quot;);
+		var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
+		var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
+	
+		createTiddlyText(step, 'username  : ');
+		var username = createTiddlyElement(step,&quot;input&quot;,&quot;username&quot;, &quot;username&quot;);			
+		createTiddlyElement(step, "br");
+		createTiddlyText(step, 'password : ');
+		var password1 = createTiddlyElement(step,&quot;input&quot;,&quot;password1&quot;, &quot;password1&quot;);
+		password1.type="password";
+		createTiddlyElement(step, "br");
+		createTiddlyText(step, 'password confirmation : ');
+		var password2 = createTiddlyElement(step,&quot;input&quot;,&quot;password2&quot;, &quot;password2&quot;);
+		password2.type="password";
+	
+		createTiddlyElement(frm, "br");
+		var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt,"button", "button");
+		 btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
+		 btn.value = &quot;register account &quot;
+
+		createTiddlyElement(frm, "br");
+	},
+	
+	registerOnSubmit: function() {
+	
+		if(this.username.value == '')
+		{
+			this.username.style.border = 'solid 1px #f00';
+			displayMessage('no username entered');
+			return false;
+		}
+		if(this.password1.value == '')
+		{
+			displayMessage('please enter password in the first field');
+			this.password1.style.border = 'solid 1px #f00';
+			displayMessage('no username entered');
+			return false;
+		}
+		if(this.password2.value == '')
+		{
+			this.password2.style.border = 'solid 1px #f00';
+			displayMessage('please enter second password in the first field');
+			return false;
+		}
+		if(this.password1.value != this.password2.value )
+		{			
+			this.password2.style.border = 'solid 1px #f00';
+			this.password1.style.border = 'solid 1px #f00';
+			displayMessage('Your passwords do not match.');
+			return false;
+		}
+		doHttp('POST', url+'handle/register.php', &quot;username=&quot; + encodeURIComponent(this.username.value)+ &quot;&amp;password=&quot;+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null, config.macros.ccRegister.registerCallback,null);
+		return false;
+	},
+	
+	
+	registerCallback: function(status,params,responseText,uri,xhr) {
+		if(xhr.status == '201')
+		{
+			displayMessage("USER CREATED");
+			        this.refresh(loginDiv, '201');
+		}
+	
+
+	}
+}
+	
+	
 	config.macros.ccLogin = {
 		
 	    handler: function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -271,7 +354,7 @@ config.macros.ccLoginStatus = {
 			btn.value = &quot;Login&quot;
 			frm.appendChild(btn);
 			createTiddlyText(frm, " or ");
-			createTiddlyLink(frm, 'Create an Account ',  'Register');
+			createTiddlyLink(frm, 'Register',  'Register');
 
 	<?php
 }
