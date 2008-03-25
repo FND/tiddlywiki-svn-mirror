@@ -32,11 +32,11 @@ function check_vals()
 	$err .= "PHP function move_uploaded_file is blocked in php configuration file (php.ini). Please, contact to server administrator."; return 0; 
 	}
 
-  	if (!isset($_FILES["userfile"])) 
+  	if (!isset($_FILES["userFile"])) 
   	{
   		$err .= "No file recieved, please check it was "; return 0;
   	}
-  	elseif (!is_uploaded_file($_FILES['userfile']['tmp_name'])) {
+  	elseif (!is_uploaded_file($_FILES['userFile']['tmp_name'])) {
   		$err .= "Empty file"; return 0; 
   	}
 	return 1;
@@ -56,7 +56,7 @@ if ($_POST['saveTo'] == 'workspace')
 }
 elseif ($_POST['saveTo'] == 'user')
 {
- 	$folder = "/user/".$_POST['ccUsername'];
+ 	$folder = "/user/".$_POST['username'];
 }
 else
 {
@@ -96,15 +96,15 @@ if(fwrite($fh, $_POST['ccHTML']))
 fclose($fh);	
 
 $err = ""; $status = 0;
-if (isset($_FILES["userfile"])) 
+if (isset($_FILES["userFile"])) 
 {
 	if (check_vals()) 
 	{
-		if (($_FILES["userfile"]["type"] == "image/gif") || ($_FILES["userfile"]["type"] == "image/jpeg")|| ($_FILES["userfile"]["type"] == "image/pjpeg"))
+		if (($_FILES["userFile"]["type"] == "image/gif") || ($_FILES["userFile"]["type"] == "image/jpeg")|| ($_FILES["userFile"]["type"] == "image/pjpeg"))
 		{
 			$file_type = 'image';
 		}
-		else if(($_FILES["userfile"]["type"] == "text/plain")||($_FILES["userfile"]["type"] == "text/xml")||($_FILES["userfile"]["type"] == "text/html"))
+		else if(($_FILES["userFile"]["type"] == "text/plain")||($_FILES["userFile"]["type"] == "text/xml")||($_FILES["userFile"]["type"] == "text/html"))
 		{
 			$file_type = 'text';
 		}else
@@ -113,17 +113,17 @@ if (isset($_FILES["userfile"]))
 			exit;
 		}
 		
-		$upload_dir = $folder;
+		$upload_dir = $folder;a
 	
-		if (filesize($_FILES["userfile"]["tmp_name"]) > $tiddlyCfg['max_file_size'])
+		if (filesize($_FILES["userFile"]["tmp_name"]) > $tiddlyCfg['max_file_size'])
 		{
 			sendHeader("400");
 			$err .= "Maximum file size limit: ".$tiddlyCfg['max_file_size']." bytes";
 		}
 		else 
 		{
-			$from =  $_FILES["userfile"]["tmp_name"];
-			$to = $local_root.$folder."/".$_FILES["userfile"]["name"];
+			$from =  $_FILES["userFile"]["tmp_name"];
+			$to = $local_root.$folder."/".$_FILES["userFile"]["name"];
 			if(file_exists($to))
 			{
 				echo '<b>file already exists.  Please try again with a different file name.</b>';
@@ -146,7 +146,7 @@ if (!$status)
 }
 else 
 {
- 	$url = $remote_root.$folder."/".$_FILES["userfile"]["name"];	
+ 	$url = $remote_root.$folder."/".$_FILES["userFile"]["name"];	
 	if($file_type == 'image')  
 	{
 		$output .= '<h2>Image Uploaded</h2> You can include this image into a tiddlywiki using the code below : <p>';
