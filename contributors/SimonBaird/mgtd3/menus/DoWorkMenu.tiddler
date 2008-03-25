@@ -9,7 +9,7 @@
 * [[Next and Waiting Actions|Next and Waiting Actions by Project]]
 * [[Action Dashboard|Action Dashboard by Project]]
 </slider>
-<slider+ Flat>
+<slider Flat>
 * [[Next Actions]]
 * [[Next and Waiting Actions]]
 * [[Action Dashboard]]

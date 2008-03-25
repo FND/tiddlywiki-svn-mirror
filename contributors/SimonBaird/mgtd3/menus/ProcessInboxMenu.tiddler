@@ -10,5 +10,11 @@
 
 *<<newSavedTiddler label:'new tickler' tag:{{'Tickler Enabled [['+config.macros.mgtdList.getRealm()+']]'}}>>
 
+{{smaller{
+*<<newSavedTiddler label:'new context' tag:{{'Context [['+config.macros.mgtdList.getRealm()+']]'}}>>
+*<<newSavedTiddler label:'new area' tag:{{'Area [['+config.macros.mgtdList.getRealm()+']]'}}>>
+*<<newSavedTiddler label:'new realm' tag:{{'Realm [['+config.macros.mgtdList.getRealm()+']]'}}>>
+}}}
+
 !!Recent
 <<mgtdList mode:global tags:'Project || Action' view:plain sort:-modified >>

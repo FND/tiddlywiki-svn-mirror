@@ -19,6 +19,10 @@ Realm:<span macro="multiSelectTag Realm"></span>
 <br/>
 Context:<span macro="multiSelectTag Context allowNone:on"></span>
 Project:<span macro="multiSelectTag Project allowNone:on"></span>
+<span macro="showWhen tiddler.getByIndex('Project').length == 0">
+	<!-- only show area if there's no project --->
+	Area:<span macro="multiSelectTag Area allowNone:on"></span>
+</span>
 Realm:<span macro="multiSelectTag Realm"></span>
 [[MonkeyGTDTheme##Subtitle]]
 <!--}}}-->
@@ -45,3 +49,12 @@ Realm:<span macro="multiSelectTag Realm"></span>
 <span class='title' macro='view title'></span> (Context)
 <!--}}}-->
 
+!Area
+<!--{{{-->
+<span class='title' macro='view title'></span> (Area)
+<!--}}}-->
+
+!Realm
+<!--{{{-->
+<span class='title' macro='view title'></span> (Realm)
+<!--}}}-->

@@ -43,3 +43,17 @@
 
 </td></tr></table>
 <!--}}}-->
+
+!Area
+<!--{{{-->
+<table class="threecol"><tr><td>
+<div macro="mgtdList title:'Active Projects' tags:'Project && !Complete && !Someday/Maybe' view:Project newButtonTags:'Project Active' "></div>
+</td><td>
+<div macro="mgtdList title:'Someday/Maybe Projects' tags:'Project && !Complete && Someday/Maybe' view:Project newButtonTags:'Project Someday/Maybe' "></div>
+</td><td>
+<div macro="mgtdList title:'Completed Projects' tags:'Project && Complete' view:Project newButtonTags:'Project Someday/Maybe' "></div>
+</td>
+</tr></table>
+<!--}}}-->
+
+

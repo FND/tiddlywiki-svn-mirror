@@ -326,6 +326,8 @@ body {
 	height:8em;
 }
 
+.smaller { font-size: 70%; }
+
 /* for user styles */
 [[StyleSheet]]
 

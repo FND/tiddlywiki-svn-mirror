@@ -127,6 +127,20 @@ config.indexedTags = {
 			return false;
 		},
 
+		getAreasForAction: function() {
+			// we will go to some trouble to permit actions in multiple areas
+			// either explicitly or via their project...
+			// also permit multiple projects......
+			// explicit:
+			var result = [];
+			result = result.concat(this.getByIndex("Area"));
+			// implicit (via project/s):
+			var projs = this.getByIndex("Project");
+			for (var i=0;i<projs.length;i++)
+				result = result.concat(store.fetchTiddler(projs[i]).getByIndex("Area"));
+			return result;
+		},
+
 		hasNextAction: function() {
 			var children = fastTagged(this.title).filterByTagExpr('Action && !Done && (Next || [(Waiting For)])');
 			return children.length > 0;
