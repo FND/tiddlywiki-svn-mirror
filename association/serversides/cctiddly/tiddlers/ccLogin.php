@@ -270,6 +270,8 @@ config.macros.ccLoginStatus = {
 			btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
 			btn.value = &quot;Login&quot;
 			frm.appendChild(btn);
+			createTiddlyText(frm, " or ");
+			createTiddlyLink(frm, 'Create an Account ',  'Register');
 
 	<?php
 }

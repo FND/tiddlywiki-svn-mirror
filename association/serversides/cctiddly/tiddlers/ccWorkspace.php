@@ -123,7 +123,10 @@ config.macros.ccCreateWorkspace = {
 		var btn = createTiddlyElement(null,&quot;input&quot;,this.prompt,&quot;button&quot;);
 		btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
 		btn.value = &quot;Create workspace&quot;
-	    step.appendChild(btn);
+	    frm.appendChild(btn);
+		createTiddlyElement(frm,&quot;br&quot;);
+		createTiddlyElement(frm,&quot;br&quot;);
+		
 
 	},
 	createWorkspaceOnSubmit: function() {
@@ -134,14 +137,9 @@ config.macros.ccCreateWorkspace = {
 		anon+=(this.anC.checked?trueStr:falseStr);
 		anon+=(this.anU.checked?trueStr:falseStr);
 		anon+=(this.anD.checked?trueStr:falseStr);
-		//var user=(this.usC.checked?trueStr:falseStr);
-		//user+=(this.usR.checked?trueStr:falseStr);
-		//user+=(this.usU.checked?trueStr:falseStr);
-		//user+=(this.usD.checked?trueStr:falseStr);
 		var params = {}; 
 		params.url = url+this.ccWorkspaceName.value;
 		var loginResp = doHttp('POST', url+this.ccWorkspaceName.value, &quot;ccCreateWorkspace=&quot; + encodeURIComponent(this.ccWorkspaceName.value)+&quot;&amp;ccAnonPerm=&quot;+encodeURIComponent(anon),null,null,null, config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
-
 		return false; 
 
 	},
@@ -162,21 +160,21 @@ config.macros.ccCreateWorkspace = {
 
 }
 
-
-
 config.macros.ccEditWorkspace = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+		
+		if (workspacePermission.create != 1)
+		{
+			createTiddlyElement(place,&quot;div&quot;, null, "annotation",  &quot;You do not have permissions to edit this workspaces permission. &quot;);
+			return null;
+		}
 		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
 		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
 		frm.onsubmit = this.editWorkspaceOnSubmit;
 		createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Edit Workspace Permissions :  &quot;);
 		var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
 		var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
-		
-
 		createTiddlyElement(step,&quot;h4&quot;, null, null,  &quot;Anonymous Users Can :  &quot;);
-		
-		
 		var anC = createTiddlyCheckbox(step, &quot;Create Tiddlers&quot;, workspacePermission.anonC);
 		anC.id='anC';
 		createTiddlyElement(step,&quot;br&quot;);
@@ -189,34 +187,32 @@ config.macros.ccEditWorkspace = {
 		var anD = createTiddlyCheckbox(step, &quot;Delete Tiddlers&quot;, workspacePermission.anonD);
 		anD.id = 'anD';
 		createTiddlyElement(step,&quot;br&quot;);
-		
 		createTiddlyElement(frm,&quot;br&quot;);
 		var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt,"button", "button");
 		 btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
 		 btn.value = &quot;edit workspace permissions&quot;
 		createTiddlyElement(frm,&quot;br&quot;);
 		createTiddlyElement(frm,&quot;br&quot;);
-			},
-			
-	editWorkspaceOnSubmit: function() {
-			var trueStr = "A";
-			var falseStr = "D";
-			// build up string with permissions values
-			var anon=(this.anR.checked?trueStr:falseStr);
-			anon+=(this.anC.checked?trueStr:falseStr);
-			anon+=(this.anU.checked?trueStr:falseStr);
-			anon+=(this.anD.checked?trueStr:falseStr);
-			doHttp('POST', url+'handle/update_workspace.php', &quot;ccCreateWorkspace=&quot; + encodeURIComponent(workspace)+&quot;&amp;ccAnonPerm=&quot;+encodeURIComponent(anon),null,null,null, config.macros.ccEditWorkspace.editWorkspaceCallback,params);
-			return false;
-		},
+	},
 		
-		editWorkspaceCallback: function(status,params,responseText,uri,xhr) {
-			displayMessage('lalalal');
-			if (xhr.status == 200) {
-				displayMessage(responseText);	
-			}
-			return false;
-		}		
+	editWorkspaceOnSubmit: function() {
+		var trueStr = "A";
+		var falseStr = "D";
+		// build up string with permissions values
+		var anon=(this.anR.checked?trueStr:falseStr);
+		anon+=(this.anC.checked?trueStr:falseStr);
+		anon+=(this.anU.checked?trueStr:falseStr);
+		anon+=(this.anD.checked?trueStr:falseStr);
+		doHttp('POST', url+'handle/update_workspace.php', &quot;ccCreateWorkspace=&quot; + encodeURIComponent(workspace)+&quot;&amp;ccAnonPerm=&quot;+encodeURIComponent(anon),null,null,null, config.macros.ccEditWorkspace.editWorkspaceCallback,params);
+		return false;
+	},
+
+	editWorkspaceCallback: function(status,params,responseText,uri,xhr) {
+		if (xhr.status == 200) {
+			displayMessage(responseText);	
+		}
+		return false;
+	}		
 }
 config.macros.ccListWorkspaces = {
         handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
