@@ -4,10 +4,10 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#LocalAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/LocalAdaptorPlugin.js |
-|''Version:''|0.5.5|
+|''Version:''|0.5.6|
 |''Date:''|Jun 13, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.2.0|
 
 path/TiddlyFile.html
@@ -28,8 +28,8 @@ function LocalAdaptor()
 }
 
 LocalAdaptor.serverType = 'local';
-LocalAdaptor.errorInFunctionMessage = "Error in function LocalAdaptor.%0: %1";
-LocalAdaptor.revisionSavedMessage = "Revision %0 saved";
+LocalAdaptor.errorInFunctionMessage = 'Error in function LocalAdaptor.%0: %1';
+LocalAdaptor.revisionSavedMessage = 'Revision %0 saved';
 LocalAdaptor.baseRevision = 1000;
 LocalAdaptor.contentDirectory = 'content';
 LocalAdaptor.revisionsDirectory = 'revisions';
@@ -73,15 +73,14 @@ LocalAdaptor.getPath = function(localPath,folder)
 
 LocalAdaptor.contentPath = function()
 {
-//#displayMessage('contentPath");
-//#displayMessage("path:"+document.location.toString());
+//#displayMessage('contentPath:'+document.location.toString());
 	var file = getLocalPath(document.location.toString());
 	return LocalAdaptor.getPath(file,LocalAdaptor.contentDirectory);
 };
 
 LocalAdaptor.revisionPath = function()
 {
-//#displayMessage("revisionPath");
+//#displayMessage('revisionPath');
 	var file = getLocalPath(document.location.toString());
 	var slash = file.lastIndexOf('\\') == -1 ? '/' : '\\';
 	return LocalAdaptor.getPath(file,LocalAdaptor.contentDirectory + slash + LocalAdaptor.revisionsDirectory);
@@ -105,10 +104,10 @@ LocalAdaptor.minHostName = function(host)
 
 LocalAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
-//#displayMessage("openHost:"+host);
+//#displayMessage('openHost:'+host);
 	this.host = LocalAdaptor.fullHostName(host);
 	context = this.setContext(context,userParams,callback);
-//#displayMessage("host:"+this.host);
+//#displayMessage('host:'+this.host);
 	if(context.callback) {
 		context.status = true;
 		window.setTimeout(function() {callback(context,userParams);},0);
@@ -118,7 +117,7 @@ LocalAdaptor.prototype.openHost = function(host,context,userParams,callback)
 
 LocalAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
-//#displayMessage("openWorkspace:"+workspace);
+//#displayMessage('openWorkspace:'+workspace);
 	this.workspace = workspace;
 	context = this.setContext(context,userParams,callback);
 	if(context.callback) {
@@ -131,9 +130,9 @@ LocalAdaptor.prototype.openWorkspace = function(workspace,context,userParams,cal
 LocalAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
-//#displayMessage("getWorkspaceList");
+//#displayMessage('getWorkspaceList');
 	var list = [];
-	list.push({title:"Main",name:"Main"});
+	list.push({title:'Main',name:'Main'});
 	context.workspaces = list;
 	if(context.callback) {
 		context.status = true;
@@ -144,32 +143,22 @@ LocalAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 
 LocalAdaptor.prototype.dirList = function(path)
 {
-	var r = this.mozillaDirList(path);
-	if(!r)
-		r = this.ieDirList(path);
-	if(!r)
-		r = this.javaDirList(path);
-	return r;
-};
-
-LocalAdaptor.prototype.ieDirList = function(path)
-{
-	return null;
-};
-
-LocalAdaptor.prototype.javaDirList = function(path)
-{
-	return null;
+//#displayMessage('dirList:'+path);
+	if(window.netscape)
+		return this.mozillaDirList(path);
+	if(config.browser.isIE)
+		return this.ieDirList(path);
+	return this.javaDirList(path);
 };
 
 LocalAdaptor.prototype.mozillaDirList = function(path)
 {
-//#displayMessage("mozillaDirList:"+path);
-	netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-	var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+//#displayMessage('mozillaDirList:'+path);
+	var list = [];
+	netscape.security.PrivilegeManager.enablePrivilege('UniversalXPConnect');
+	var file = Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);
 	file.initWithPath(path);
 	// file is the given directory (nsIFile)
-	var list = [];
 	var entries = file.directoryEntries;
 	while(entries.hasMoreElements()) {
 		var entry = entries.getNext();
@@ -179,6 +168,36 @@ LocalAdaptor.prototype.mozillaDirList = function(path)
 		}
 	}
 	return list;
+};
+
+LocalAdaptor.prototype.ieDirList = function(path)
+{
+//#displayMessage('ieDirList:'+path);
+	var list = [];
+	path = path.replace(/\//g,'\\');
+	//# IE uses ActiveX to read filesystem info
+	var fso = new ActiveXObject('Scripting.FileSystemObject');
+	if(!fso.FolderExists(path))
+		return list;
+	var dir = fso.GetFolder(path);
+	//#for(var f=new Enumerator(dir.SubFolders); !f.atEnd(); f.moveNext()) {
+	for(var f=new Enumerator(dir.Files); !f.atEnd(); f.moveNext()) {
+		var entry = f.item();
+		if(!fso.FolderExists(entry.path)) {
+			list.push({name:entry.name,modified:entry.DateLastModified,size:entry.size});
+			//# modified:new Date(entry.DateLastModified).formatString('YYYY.0MM.0DD 0hh:0mm:0ss').
+			//# path:entry.path,
+			//# isFolder:fso.FolderExists(entry.path),
+			//# url:'file:///'+entry.path.replace(/\\/g,'/')
+		}
+	}
+	return list;
+};
+
+LocalAdaptor.prototype.javaDirList = function(path)
+{
+//#displayMessage('javaDirList:'+path);
+	return null;
 };
 
 LocalAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
@@ -219,13 +238,13 @@ LocalAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,use
 //#displayMessage('LocalAdaptor.getTiddlerRevisionList');
 	context = this.setContext(context,userParams,callback);
 	var path = LocalAdaptor.revisionPath();
-//#displayMessage("revisionPath:"+path);
+//#displayMessage('revisionPath:'+path);
 	var entries = this.dirList(path);
 	if(entries) {
 		var list = [];
 		for(var i=0; i<entries.length; i++) {
 			var name = entries[i].name;
-//#displayMessage("name:"+name);
+//#displayMessage('name:'+name);
 			// need to match name with
 			//dirlist/<title>.<nnnn>.tiddler
 			var matchRegExp = /(.*?)\.([0-9]*)\.([0-9]*)\.tiddler/;
@@ -233,7 +252,7 @@ LocalAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,use
 			var match = matchRegExp.exec(name);
 			if(match) {
 				if(match[1]==title) {
-//#displayMessage("name:"+name);
+//#displayMessage('name:'+name);
 					var tiddler = new Tiddler(title);
 					tiddler.modified = Date.convertFromYYYYMMDDHHMM(match[2]);
 					//#tiddler.modified = new Date();
@@ -282,7 +301,7 @@ LocalAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 		context.title = title;
 
 	if(context.revision) {
-//#displayMessage("cr:"+context.revision);
+//#displayMessage('cr:'+context.revision);
 		var path = LocalAdaptor.revisionPath();
 		var uriTemplate = '%0%1.%2.%3';
 	} else {
@@ -304,7 +323,7 @@ LocalAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 		t1 = new Date();
 		displayMessage('Tiddler file:"'+title+'" loaded in ' + (t1-t0) + ' ms');
 	}
-//#displayMessage("data:"+data);
+//#displayMessage('data:'+data);
 	if(data) {
 		var tiddlerRegExp = /<div([^>]*)>(?:\s*)(<pre>)?([^<]*?)</mg;
 		tiddlerRegExp.lastIndex = 0;
@@ -323,11 +342,11 @@ LocalAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 		}
 	} else {
 		data = loadFile(uri + '.js');
-//#displayMessage("data2:"+data);
+//#displayMessage('data2:'+data);
 		context.tiddler.text = data;
 		meta = loadFile(uri + '.js.meta');
 		if(meta) {
-//#displayMessage("meta:"+meta);
+//#displayMessage('meta:'+meta);
 			context.status = true;
 			var ft = '';
 			var fieldRegExp = /([^:]*):(?:\s*)(.*?)$/mg;
@@ -337,11 +356,11 @@ LocalAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 				ft += match[1] + ':"' + match[2] + '" ';
 				match = fieldRegExp.exec(meta);
 			}
-//#displayMessage("ft:"+ft);
+//#displayMessage('ft:'+ft);
 			fields = ft.decodeHashMap();
 		} else {
-			//alert("cannot load tiddler");
-			displayMessage("cannot load tiddler");
+			//alert('cannot load tiddler');
+			displayMessage('cannot load tiddler');
 		}
 	}
 	for(var i in fields) {
@@ -440,3 +459,4 @@ LocalAdaptor.prototype.close = function() {return true;};
 config.adaptors[LocalAdaptor.serverType] = LocalAdaptor;
 } //# end of 'install only once'
 //}}}
+
