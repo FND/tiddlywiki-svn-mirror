@@ -118,8 +118,8 @@ config.macros.ccCreate = {
 		var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
 
 		createTiddlyText(step, 'Filename : ');
-		var htmlfile = createTiddlyElement(step,&quot;input&quot;,&quot;ccHTMLname&quot;, &quot;ccHMLname&quot;);				
-		htmlfile.name = 'ccHTMLname';
+		var htmlfile = createTiddlyElement(step,&quot;input&quot;,&quot;ccHTMLName&quot;, &quot;ccHMLname&quot;);				
+		htmlfile.name = 'ccHTMLName';
 		createTiddlyElement(step, 'br');
 
 		createTiddlyElement(step, 'br');

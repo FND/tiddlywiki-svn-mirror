@@ -64,9 +64,9 @@ else
 }
 
 
-if (!$_POST['ccHTMLname'] || !$_POST['ccHTML'])
+if (!$_POST['ccHTMLName'] || !$_POST['ccHTML'])
 {
-	if ($_POST['ccHTMLname'] || $_POST['ccHTML'])
+	if ($_POST['ccHTMLName'] || $_POST['ccHTML'])
 	{
 		sendHeader("402");
 		echo "Please specify a file name or provide HTML";
@@ -77,7 +77,7 @@ if (!$_POST['ccHTMLname'] || !$_POST['ccHTML'])
 $local_root = $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']));
 $remote_root = dirname(getURL());
 $folder = "/uploads".$folder;
-$file = $_POST['ccHTMLname'].".html";
+$file = $_POST['ccHTMLName'].".html";
 
 if(!file_exists($local_root.$folder))
 {

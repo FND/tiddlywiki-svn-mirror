@@ -29,7 +29,17 @@ if (user_isAdmin($user['username'], $tiddlyCfg['workspace_name']))
 }
 
 
+$anonPerm  = stringToPerm($tiddlyCfg['default_anonymous_perm']);
+
+
 ?>
+
+
+workspacePermission.anonC = <?php echo permToBinary($anonPerm['create']); ?> ;
+workspacePermission.anonR = <?php echo permToBinary($anonPerm['read']); ?>; 
+workspacePermission.anonU = <?php echo permToBinary($anonPerm['update']); ?>;
+workspacePermission.anonD = <?php echo permToBinary($anonPerm['delete']); ?>; 
+
 
 config.backstageTasks.push(&quot;create&quot;);
 merge(config.tasks,{
@@ -76,12 +86,15 @@ config.macros.ccCreateWorkspace = {
 		
 		 var anC = createTiddlyElement(null,&quot;input&quot;, &quot;anC&quot;,&quot;anC&quot;);
 	     anC.setAttribute(&quot;type&quot;,&quot;checkbox&quot;);
-	     step.appendChild(anC);
+		if (workspacePermission.anonC==1)
+			anC.setAttribute(&quot;checked&quot;,&quot;checked&quot;);    
+	 step.appendChild(anC);
 		 createTiddlyText(step, "Create Tiddlers");
 		 createTiddlyElement(step,&quot;br&quot;);
 		 
 		  var anR = createTiddlyElement(null,&quot;input&quot;, &quot;anR&quot;,&quot;anR&quot;);
 	     anR.setAttribute(&quot;type&quot;,&quot;checkbox&quot;);
+	if (workspacePermission.anonR  == 1)
 		anR.setAttribute(&quot;checked&quot;,&quot;checked&quot;);
 	    step.appendChild(anR);
 		 createTiddlyText(step, "Read Tiddlers");
@@ -89,27 +102,21 @@ config.macros.ccCreateWorkspace = {
 		 
 		  var anU = createTiddlyElement(null,&quot;input&quot;, &quot;anU&quot;,&quot;anU&quot;);
 	     anU.setAttribute(&quot;type&quot;,&quot;checkbox&quot;);
+		if (workspacePermission.anonU  == 1)
+			anU.setAttribute(&quot;checked&quot;,&quot;checked&quot;);
 	     step.appendChild(anU);
 		 createTiddlyText(step, "Update Tiddlers");
 	createTiddlyElement(step,&quot;br&quot;);
 		 
 		  var anD = createTiddlyElement(null,&quot;input&quot;, &quot;anD&quot;,&quot;anD&quot;);
 	     anD.setAttribute(&quot;type&quot;,&quot;checkbox&quot;);
+		if (workspacePermission.anonD  == 1)
+			anD.setAttribute(&quot;checked&quot;,&quot;checked&quot;);
 	     step.appendChild(anD);
 		 createTiddlyText(step, "Delete Tiddlers");
 		createTiddlyElement(step,&quot;br&quot;);
 			
-//		anC.id='anC';
-//		frm.appendChild(anC);
-//		createTiddlyElement(step,&quot;br&quot;);
-//	var  anR = createTiddlyCheckbox(step, &quot;Read Tiddler&quot;, 1);
-	//	anR.id = 'anR';
-	//	createTiddlyElement(step,&quot;br&quot;);
-	//	var anU = createTiddlyCheckbox(step, &quot;Updates Tiddlers &quot;, 0);
-	//	anU.id = 'anU';
-	//	createTiddlyElement(step,&quot;br&quot;);
-	//	var anD = createTiddlyCheckbox(step, &quot;Delete Tiddlers&quot;, 0);
-	//	anD.id = 'anD';
+
 		createTiddlyElement(step,&quot;br&quot;);
 		createTiddlyElement(frm,&quot;br&quot;);
 		
@@ -118,24 +125,6 @@ config.macros.ccCreateWorkspace = {
 		btn.value = &quot;Create workspace&quot;
 	    step.appendChild(btn);
 
-	 	//createTiddlyElement(frm,&quot;br&quot;);
-		//createTiddlyElement(frm,&quot;br&quot;);
-		//createTiddlyElement(step,&quot;h2&quot;, null, null,  &quot;Registered Users  Can:  &quot;);
-		//var usC = createTiddlyCheckbox(frm, &quot;Create Tiddlers&quot;, 1);
-		//usC.id = 'usC';
-		//createTiddlyElement(frm,&quot;br&quot;);
-		//var usR = createTiddlyCheckbox(frm, &quot;Read Tiddler&quot;, 1);
-		//usR.id = 'usR';
-		//createTiddlyElement(frm,&quot;br&quot;);
-		//var usU = createTiddlyCheckbox(frm, &quot;Updates Tiddlers &quot;, 1);
-		//usU.id = 'usU';
-		//createTiddlyElement(frm,&quot;br&quot;);
-		//var usD = createTiddlyCheckbox(frm, &quot;Delete Tiddlers&quot;, 1);
-		//usD.id='usD';
-		//createTiddlyElement(frm,&quot;br&quot;);
-		//createTiddlyElement(frm,&quot;hr&quot;);
-		//createTiddlyText(frm,&quot;As the Workspace owner you will have all the above permissions&quot;);
-		//createTiddlyElement(frm,&quot;br&quot;);
 	},
 	createWorkspaceOnSubmit: function() {
 		var trueStr = "A";
@@ -183,18 +172,21 @@ config.macros.ccEditWorkspace = {
 		createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Edit Workspace Permissions :  &quot;);
 		var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
 		var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
-	
+		
+
 		createTiddlyElement(step,&quot;h4&quot;, null, null,  &quot;Anonymous Users Can :  &quot;);
-		var anC = createTiddlyCheckbox(step, &quot;Create Tiddlers&quot;, 0);
+		
+		
+		var anC = createTiddlyCheckbox(step, &quot;Create Tiddlers&quot;, workspacePermission.anonC);
 		anC.id='anC';
 		createTiddlyElement(step,&quot;br&quot;);
-		var  anR = createTiddlyCheckbox(step, &quot;Read Tiddler&quot;, 1);
+		var  anR = createTiddlyCheckbox(step, &quot;Read Tiddler&quot;, workspacePermission.anonR);
 		anR.id = 'anR';
 		createTiddlyElement(step,&quot;br&quot;);
-		var anU = createTiddlyCheckbox(step, &quot;Updates Tiddlers &quot;, 0);
+		var anU = createTiddlyCheckbox(step, &quot;Update Tiddlers &quot;, workspacePermission.anonU);
 		anU.id = 'anU';
 		createTiddlyElement(step,&quot;br&quot;);
-		var anD = createTiddlyCheckbox(step, &quot;Delete Tiddlers&quot;, 0);
+		var anD = createTiddlyCheckbox(step, &quot;Delete Tiddlers&quot;, workspacePermission.anonD);
 		anD.id = 'anD';
 		createTiddlyElement(step,&quot;br&quot;);
 		
@@ -214,19 +206,16 @@ config.macros.ccEditWorkspace = {
 			anon+=(this.anC.checked?trueStr:falseStr);
 			anon+=(this.anU.checked?trueStr:falseStr);
 			anon+=(this.anD.checked?trueStr:falseStr);
-			displayMessage(anon);
-			doHttp('POST', url+'handle/update_workspace.php', &quot;ccCreateWorkspace=&quot; + encodeURIComponent(this.ccWorkspaceName.value)+&quot;&amp;ccAnonPerm=&quot;+encodeURIComponent(anon),null,null,null, config.macros.ccEditWorkspace.editWorkspaceCallback,params);
+			doHttp('POST', url+'handle/update_workspace.php', &quot;ccCreateWorkspace=&quot; + encodeURIComponent(workspace)+&quot;&amp;ccAnonPerm=&quot;+encodeURIComponent(anon),null,null,null, config.macros.ccEditWorkspace.editWorkspaceCallback,params);
 			return false;
 		},
 		
 		editWorkspaceCallback: function(status,params,responseText,uri,xhr) {
-		//	displayMessage(xhr.status);
-		
-		displayMessage('lalalal');
-		 if (xhr.status == 200) {
+			displayMessage('lalalal');
+			if (xhr.status == 200) {
 				displayMessage(responseText);	
 			}
-
+			return false;
 		}		
 }
 config.macros.ccListWorkspaces = {

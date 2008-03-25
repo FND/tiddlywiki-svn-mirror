@@ -76,13 +76,7 @@ $workspace_settings_count= count($workspace_settings);
 // display open id bits if it is enabled. 
 if ($tiddlyCfg['pref']['openid_enabled'] ==1)
 {
-		require_once "includes/openid/common.php";
-		
-	
+		require_once "includes/openid/common.php";	
 }
-
-
-
-
 
 ?>

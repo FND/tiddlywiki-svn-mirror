@@ -9,6 +9,31 @@
 
 //////////////////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////////////////
 
+function stringToPerm($string)
+{
+ 	$out['read'] = substr($string, 0, 1);
+	$out['create'] = substr($string, 1, 1);
+	$out['update'] = substr($string, 2, 1);
+	$out['delete'] = substr($string, 3, 1);
+	return $out; 
+}
+
+
+
+function permToBinary($string)
+{
+	if($string == "A")
+		return 1;
+	else
+	return 0;
+		
+		
+	if ($string == "D")
+		return "D";
+		if ($string == "U")
+			return "U";
+}
+
 
     function arrayToJson($data, $entityname) {
 	    $out = "{";
