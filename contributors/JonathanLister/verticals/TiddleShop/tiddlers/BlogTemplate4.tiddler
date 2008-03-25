@@ -35,7 +35,7 @@
 </ul>	
 </div><!--/header wrap --><div id="body_wrap">
  <div id="home-leftcol">
-		<!--<<ListTemplate filter:"[tag[BlogPost]]" template:"BlogPostTemplate4">>-->
+		<!--<<listTemplate filter:"[tag[BlogPost]]" template:"BlogPostTemplate4">>-->
 <p class="pagenav"> Pages (13): <strong>[1] <a href="http://www.ndesign-studio.com/page/2/">2</a>  <a href="http://www.ndesign-studio.com/page/3/">3</a>  <a href="http://www.ndesign-studio.com/page/4/">4</a> <a href="http://www.ndesign-studio.com/page/2/">&raquo;</a> ... <a href="http://www.ndesign-studio.com/page/13/">Last &raquo;</a></strong></p>
 
 	  </div><!--/leftcol -->

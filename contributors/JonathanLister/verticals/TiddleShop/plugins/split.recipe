@@ -1,4 +1,6 @@
 tiddler: ImageSizePlugin.js
+tiddler: ../../../plugins/ListTemplatePlugin.js
+tiddler: ../../../plugins/TemplateFormatterPlugin.js
 tiddler: ../../../plugins/TiddlyTemplatingPlugin.js
 tiddler: ../../../plugins/IframeTiddlerMacro.js
 tiddler: ../../../../BidiX/plugins/PasswordOptionPlugin.js

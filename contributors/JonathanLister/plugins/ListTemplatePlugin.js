@@ -1,10 +1,10 @@
 /***
-|''Name:''|ListTemplatePlugin|
-|''Description:''|Renders a set of tiddlers through a template|
-|''Author:''|JonathanLister (based on ListRelatedPlugin by JeremyRuston)|
+|''Name:''|ListTemplatePlugin |
+|''Description:''|Renders a set of tiddlers through a template |
+|''Author:''|JonathanLister (based on ListRelatedPlugin by JeremyRuston) |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/ListTemplatePlugin.js |
-|''Version:''|0.0.3|
-|''Date:''|Jan 21, 2008|
+|''Version:''|0.0.4|
+|''Date:''|25/3/08|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.3|
@@ -28,11 +28,20 @@ data - the part of a tiddler to use in the subTemplate
 raw - if set to true in a top-level template, renders the output as text suitable for saving to a file; otherwise, outputs as HTML into place
 
 If a parameter does not have a qualifier, it is assumed to be the template name
+
+|''Name:''|PermalinkMacro |
+|''Description:''|Creates a permalink to the tiddler |
+
+Usage:
+{{{
+<<permalink>>
+}}}
 ***/
 
 //{{{
 if(!version.extensions.ListTemplatePlugin) {
 version.extensions.ListTemplatePlugin = {installed:true};
+
 expandTemplate = function(template,filter,data,tiddler)
 {
 	//	<<ListTemplate filter:"[tag[docs]]" template:"RssItemTemplate">>

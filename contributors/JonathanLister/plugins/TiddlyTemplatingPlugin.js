@@ -1,20 +1,11 @@
 /***
-|''Name:''|TiddlyTemplatingPlugin |
-|''Description:''| |
-|''Author:''|JonathanLister |
-|''CodeRepository:''| |
-|''Version:''|1 |
-|''Date:''| |
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
-|''~CoreVersion:''|2.3|
 
-|''Name:''|TiddlyTemplatingMacro|
-|''Description:''|Renders a template and saves the output to a local file|
+|''Name:''|TiddlyTemplatingMacro |
+|''Description:''|Renders a template and saves the output to a local file |
 |''Author:''|JonathanLister|
-|''CodeRepository:''| |
-|''Version:''|1 |
-|''Date:''| |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/TiddlyTemplatingMacro.js |
+|''Version:''|2 |
+|''Date:''|25/3/08 |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.3|
@@ -24,101 +15,12 @@ Usage:
 <<TiddlyTemplating path template>>
 }}}
 
-
-|''Name:''|PermalinkMacro |
-|''Description:''|Creates a permalink to the tiddler |
-
-Usage:
-{{{
-<<permalink>>
-}}}
-
 ***/
 
 //{{{
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.TiddlyTemplating) {
 version.extensions.TiddlyTemplating = {installed:true};
-// NOTE: FOR NOW, THIS PLUGIN ALSO OVERRIDES THE RSS SAVING AND PRODVIDES A MACRO CALLED TIDDLYTEMPLATING TO SAVE AN EXTERNAL FILE
-
-config.templateFormatters = [
-{
-	//<!--@@prehead@@-->
-	name: "templateElement",
-	match: "<!--",
-	//lookaheadRegExp: /<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>/mg,
-	lookaheadRegExp: /<!--@@([a-z]*)@@-->\n|<!--<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>-->/mg,
-	handler: function(w)
-	{
-		this.lookaheadRegExp.lastIndex = w.matchStart;
-		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
-			w.nextMatch = this.lookaheadRegExp.lastIndex;
-			if(!lookaheadMatch[1]) {
-				invokeMacro(w.output,lookaheadMatch[2],lookaheadMatch[3],w,w.tiddler);
-				return;
-			}
-			var text = '';
-			switch(lookaheadMatch[1]) {
-			case 'version':
-				//displayMessage('v1');
-				var e = document.getElementById(lookaheadMatch[1]+"Area");
-				//displayMessage('v2');
-				text = e.innerHTML;
-				text = text.replace(/^\s*\/\/<!\[CDATA\[\s*|\s*\/\/\]\]>\s*$/g,"");
-				break;
-			case 'js':
-				var e = document.getElementById(lookaheadMatch[1]+"Area");
-				text = e.innerHTML;
-				text = text.replace(/^\s*\/\/<!\[CDATA\[\s*|\s*\/\/\]\]>\s*$/g,"");
-				break;
-			case 'title':
-				text = getPageTitle();
-				break;
-			case 'shadow':
-				//displayMessage("shadow");
-				var saver = new TW21Saver();
-				for(var i in config.shadowTiddlers) {
-					var tiddler = new Tiddler(i);
-					//displayMessage("shadow:"+tiddler.title);
-					tiddler.created = tiddler.modified = version.date;
-					tiddler.text = config.shadowTiddlers[i];
-					text += saver.externalizeTiddler(store,tiddler) + "\n";
-				}
-				break;
-			/*case 'tiddler':
-				if(!w.tiddler.isTagged("empty"))
-					text = convertUnicodeToUTF8(store.allTiddlersAsHtml());
-				break;
-			case 'prehead':
-				var = s = "Markup"+{prehead:"PreHead",posthead:"PostHead",prebody:"PreBody",postscript:"PostBody"}[lookaheadMatch[1]];
-				text = store.getRecursiveTiddlerText("MarkupPreHead","");
-				break;
-			case 'posthead':
-				text = store.getRecursiveTiddlerText("MarkupPostHead","");
-				break;
-			case 'prebody':
-				text = store.getRecursiveTiddlerText("MarkupPreBody","");
-				break;
-			case 'postscript':
-				text = store.getRecursiveTiddlerText("MarkupPostBody","");
-				break;
-			*/
-			}
-			if(text) {
-				createTiddlyText(w.output,text+"\n");
-			}
-		} else {
-			// normal HTML comment
-			createTiddlyText(w.output,w.matchText);
-		}
-	}
-}
-];
-
-config.parsers.templateFormatter = new Formatter(config.templateFormatters);
-config.parsers.templateFormatter.format = 'template';
-config.parsers.templateFormatter.formatTag = 'TemplateFormat';
 
 config.macros.TiddlyTemplating = {};
 
