@@ -4,7 +4,7 @@
 |''Description:''|Wikispaces Formatter|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/WikispacesFormatterPlugin.js |
-|''Version:''|0.0.6|
+|''Version:''|0.0.7|
 |''Date:''|Nov 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -69,7 +69,7 @@ config.wikispacesFormatters = [
 
 {
 	name: 'wikispacesTable',
-	match: '^\\|\\|(?:[^\\n]*)\\|\\|$',
+	match: '^\\|\\|(?:(?:.|\n)*)\\|\\|$',
 	lookaheadRegExp: /^\|\|((?:.|\n)*)\|\|$/mg,
 	rowTermRegExp: /(\|\|$\n?)/mg,
 	cellRegExp: /(?:\|\|((?:.|\n)*)\|\|)/mg,
