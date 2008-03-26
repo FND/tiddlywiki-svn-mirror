@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+<channel>
+<title>My TiddlyWiki</title>
+<link>http://www.tiddlywiki.com/</link>
+<description>a reusable non-linear personal web notebook</description>
+<language>en-us</language>
+<copyright>Copyright 2008 AUser</copyright>
+<pubDate>Wed, 12 Mar 2008 13:14:52 GMT</pubDate>
+<lastBuildDate>Wed, 12 Mar 2008 13:14:52 GMT</lastBuildDate>
+<docs>http://blogs.law.harvard.edu/tech/rss</docs>
+<generator>TiddlyWiki 2.3.0</generator>
+<item>
+<title>StyleSheet</title>
+<description>&lt;pre&gt;/* Live Palette Plugin styles */ 
+table.LivePaletteDisplay { border-style:none; margin:none; }
+table.LivePaletteDisplay td { border-style:none; }
+table.LivePaletteDisplay input { padding: 2px 0.4em; }
+&lt;/pre&gt;</description>
+<link>http://www.tiddlywiki.com/#StyleSheet</link>
+<pubDate>Wed, 12 Mar 2008 13:14:52 GMT</pubDate>
+</item>
+<item>
+<title>DefaultTiddlers</title>
+<description>&lt;a tiddlylink=&quot;LiveColorPalette&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://www.tiddlywiki.com/#LiveColorPalette&quot; href=&quot;http://www.tiddlywiki.com/#LiveColorPalette&quot; class=&quot;externalLink&quot;&gt;LiveColorPalette&lt;/a&gt;</description>
+<link>http://www.tiddlywiki.com/#DefaultTiddlers</link>
+<pubDate>Wed, 23 Jan 2008 00:00:00 GMT</pubDate>
+</item>
+<item>
+<title>LiveColorPalette</title>
+<description>&lt;table class=&quot;LivePaletteDisplay&quot;&gt;&lt;tr&gt;&lt;td&gt;Background&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(255, 255, 255); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Foreground&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(0, 0, 0); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PrimaryPale&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(136, 204, 255); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PrimaryLight&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(17, 136, 255); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PrimaryMid&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(0, 68, 187); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PrimaryDark&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(0, 17, 68); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;SecondaryPale&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(255, 255, 204); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;SecondaryLight&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(255, 238, 136); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;SecondaryMid&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(221, 187, 68); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;SecondaryDark&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(136, 68, 17); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;TertiaryPale&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(238, 238, 238); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;TertiaryLight&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(204, 204, 204); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;TertiaryMid&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(153, 153, 153); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;TertiaryDark&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(102, 102, 102); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Error&lt;/td&gt;&lt;td&gt;&lt;input style=&quot;border-style: solid; border-color: rgb(255, 136, 136); border-width: 1px 1px 1px 2em;&quot; type=&quot;type&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</description>
+<link>http://www.tiddlywiki.com/#LiveColorPalette</link>
+<pubDate>Wed, 23 Jan 2008 00:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

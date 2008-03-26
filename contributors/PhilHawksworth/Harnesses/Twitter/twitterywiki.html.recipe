@@ -1,0 +1,13 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+
+tiddler: settings.js
+
+tiddler: TwitterHelperPlugin.js
+tiddler: TwitterAdaptor.js
+
+tiddler: ../../Plugins/ConsolePlugin.js
+
+recipe: content/split.recipe
+
+tiddler: ../../Themes/SimpleOffWhiteTheme.tiddler
+

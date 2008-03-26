@@ -1,0 +1,9 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+
+tiddler: settings.js
+
+tiddler: ../../Adapters/TwitterAdapter.js
+
+tiddler: ../../Themes/SimpleOffWhiteTheme.tiddler
+
+

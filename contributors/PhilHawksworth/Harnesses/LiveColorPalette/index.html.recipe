@@ -1,0 +1,9 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+
+tiddler: ../../Plugins/LiveColorPalettePlugin.js
+tiddler: LiveColorPalette.tiddler
+tiddler: DefaultTiddlers.tiddler
+
+
+
+
