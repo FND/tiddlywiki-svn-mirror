@@ -144,17 +144,16 @@ config.macros.ccRegister = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler) 
 	{
 		var registerDiv = createTiddlyElement(place,&quot;div&quot;,null,&quot;loginDiv&quot;,null);
-        this.refresh(loginDiv);
+        this.refresh(registerDiv);
     },	    
 	refresh: function(place, errorMsg) 
 	{
-		  var loginDivRef = document.getElementById (&quot;LoginDiv&quot;);
+		  var loginDivRef = document.getElementById(&quot;LoginDiv&quot;);
 	     removeChildren(loginDivRef);
         var wrapper = createTiddlyElement(place,&quot;div&quot;);
 
 if (errorMsg == '201')
 {
-	displayMessage('hding');
 	return false;
 }
 		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
@@ -218,6 +217,7 @@ if (errorMsg == '201')
 	registerCallback: function(status,params,responseText,uri,xhr) {
 		if(xhr.status == '201')
 		{
+				  var loginDiv = document.getElementById (&quot;LoginDiv&quot;);
 			displayMessage("USER CREATED");
 			        this.refresh(loginDiv, '201');
 		}

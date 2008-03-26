@@ -18,9 +18,11 @@ var url = "<?php echo getURL();?>";
 	
 		<?php
 	
+	
+
 if ($workspace_create == "A" &&  $tiddlyCfg['allow_workspace_creation'] ==1)
 {
-echo "workspacePermission.create = 1;\n";
+	echo "workspacePermission.create = 1;\n";
 }
 
 if (user_isAdmin($user['username'], $tiddlyCfg['workspace_name']))

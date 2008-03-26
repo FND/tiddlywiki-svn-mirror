@@ -105,6 +105,8 @@ function workspace_create($workspace, $anonPerm="ADDD")
 	
 	// ASSIGN THE WORKSPACE OWNERSHIP : 
 	$owner['username'] = cookie_get('txtUserName');
+	
+	
 	$owner['workspace_name']=$workspace;
 	db_record_insert($tiddlyCfg['table']['admin'],$owner);
 	

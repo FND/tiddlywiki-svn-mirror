@@ -73,8 +73,6 @@ If you got one of the following error message, that may mean your database do no
 	$tiddlyCfg['can_create_account'] = 1;
 	
 	
-	
-	
 /////////////////////////////////////////////////////////url dependent config////////////////////////////////////////////////////.
 	debug("log breaker (situated below debug function)------------------------------------------------");
 	debug("QUERY_STRING: ".$_SERVER['QUERY_STRING']);

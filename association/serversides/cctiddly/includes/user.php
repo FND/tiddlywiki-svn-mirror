@@ -312,8 +312,13 @@
 		global $tiddlyCfg;
 			$data['workspace_name'] = $workspace;
 	
-		$data['username'] = $user;
+		if ($tiddlyCfg['pref']['openid_enabled'] ==1)
+		{
+			$user = str_replace("http:", "http://", $user);
+		//	debug("".$user);
+		}
 		
+			$data['username'] = $user;
 		$results = db_record_select($tiddlyCfg['table']['admin'], $data);			// get array of results		
 
 		if (count($results) > 0 )                   //  if the user is an admin. 

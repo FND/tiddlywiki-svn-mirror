@@ -13,6 +13,7 @@ if(!user_session_validate())
 if (!user_isAdmin($user['username'], $tiddlyCfg['workspace_name']))
 {
 	sendHeader("401");
+	echo $tiddlyCfg['workspace_name'];
 	echo '<b> You do not have permissions to upload files, please contact your system administrator.</b>';
 	exit;
 }
@@ -113,7 +114,7 @@ if (isset($_FILES["userFile"]))
 			exit;
 		}
 		
-		$upload_dir = $folder;a
+		$upload_dir = $folder;
 	
 		if (filesize($_FILES["userFile"]["tmp_name"]) > $tiddlyCfg['max_file_size'])
 		{
