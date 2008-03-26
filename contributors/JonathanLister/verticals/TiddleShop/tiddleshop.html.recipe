@@ -1,8 +1,8 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: plugins/split.recipe
 recipe: tiddlers/split.recipe
-tiddler: ../../plugins/ListTemplatePlugin.js
 tiddler: ../../plugins/IframeTiddlerMacro.js
+tiddler: ../../plugins/TemplatePlugin.js
 tiddler: ../../plugins/TiddlyTemplatingPlugin.js
 tiddler: ../../../BidiX/plugins/PasswordOptionPlugin.js
 tiddler: ../../../BidiX/plugins/UploadPlugin.js

@@ -11,7 +11,7 @@
 <lastBuildDate><!--<<today "ddd, DD MMM YYYY 0hh:0hh:0ss TZD">>--></lastBuildDate>
 <docs>http://blogs.law.harvard.edu/tech/rss</docs>
 <generator>TiddlyWiki <!--<<message version.major>>-->.<!--<<message version.minor>>-->.<!--<<message version.revision>>--></generator>
-<!--<<listTemplate RssItemTemplate filter:"[tag[docs]]">>-->
+<!--<<templateTiddlers RssItemTemplate filter:"[tag[docs]]">>-->
 </channel>
 </rss></pre>
 </div>
