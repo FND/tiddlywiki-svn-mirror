@@ -25,7 +25,6 @@ Parameters can be:
 template - the name of the template
 filter - a tiddler filter
 data - the part of a tiddler to use in the subTemplate
-raw - if set to true in a top-level template, renders the output as text suitable for saving to a file; otherwise, outputs as HTML into place
 
 If a parameter does not have a qualifier, it is assumed to be the template name
 
@@ -76,9 +75,6 @@ expandTemplate = function(template,filter,data,tiddler)
 	var output = "";
 	for(i=0; i<tiddlers.length; i++) {
 		output += wikifyStatic(template,null,tiddlers[i],'template').htmlDecode();
-		//displayMessage(">>>>>>>>>>>");
-		//displayMessage(output);
-		//displayMessage("<<<<<<<<");
 	}
 	return output;	
 };
@@ -89,24 +85,11 @@ config.macros.listTemplate.handler = function(place,macroName,params,wikifier,pa
 	p = paramString.parseParams("anon",null,true,false,false);
 	var template = getParam(p,"template",null);
 	if(!template)
-		template =params[0];
+		template = params[0];
 	var filter = getParam(p,"filter",null);
 	var data = getParam(p,"data",null);
-	var raw = getParam(p,"raw",null);
-	if(raw=="true")
-		createTiddlyText(place,expandTemplate(template,filter,data,tiddler));
-	else {
-		//displayMessage("---before expand---");
-		var output = expandTemplate(template,filter,data,tiddler);
-		//displayMessage("---after expand---");
-		//displayMessage("---innerHTML before---");
-		//displayMessage(place.innerHTML);
-		//displayMessage("---going to add this output---");
-		//displayMessage(output);
-		place.innerHTML += output;
-		//displayMessage("---innerHTML with output---");
-		//displayMessage(place.innerHTML);
-	}
+	var output = expandTemplate(template,filter,data,tiddler);
+	place.innerHTML += output.htmlEncode();
 };
 
 config.macros.permalink = {};

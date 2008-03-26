@@ -3,7 +3,8 @@ recipe: tiddlers/split.recipe
 recipe: js/split.recipe
 tiddler: ../../plugins/ListTemplatePlugin.js
 tiddler: ../../plugins/TiddlyTemplatingPlugin.js
-tiddler: ../../../MartinBudden/experimental/TemplateFormatterPlugin.js tags+="TiddlyTemplating"
 tiddler: ../../templates/RssItemCategoryTemplate.tiddler
 tiddler: ../../templates/RssItemTemplate.tiddler
 tiddler: ../../templates/RssTemplate.tiddler
+tiddler: ../../../EricShulman/plugins/TaggedTemplateTweak.js
+tiddler: ../../../MartinBudden/experimental/TemplateFormatterPlugin.js tags+="TiddlyTemplating"

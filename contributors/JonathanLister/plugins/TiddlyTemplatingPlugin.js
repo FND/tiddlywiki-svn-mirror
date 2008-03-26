@@ -43,51 +43,16 @@ config.macros.TiddlyTemplating.handler = function(place,macroName,params,wikifie
 		savePath = localPath.substr(0,p) + "\\" + saveName;
 	else
 		savePath = localPath + "." + saveName;
-	//var e = document.createElement("div");
-	//var paramString = 'raw:"true" template:"'+template+'"';
 	displayMessage("generating...");
-	var content = expandTemplate("TiddlyWikiTemplate");
-	// config.macros.ListTemplate.handler(e,"ListTemplate",null,null,paramString,tiddler);
+	var content = expandTemplate(template);
 	displayMessage("saving...");
-	//displayMessage(e.innerText);
-	//displayMessage(e.textContent);
 	var fileSave = saveFile(savePath,convertUnicodeToUTF8(content));
 	if(fileSave) {
 		displayMessage("saved... click here to load","file://"+savePath);
-		// would rather use displayMessage, but doesn't work when opening tiddler
-		// displayMessage(config.messages.fileSaved,"file://" + savePath);
-	}
-	else
+	} else {
 		alert(config.messages.fileFailed,"file://"+savePath);
+	}
 };
 
 } //# end of 'install only once'
-//}}}
-
-/***
-Experimental override of saveRSS using templating
-***/
-/* var saveRssOld = saveRss;
-function saveRss(localPath)
-{
-	if (!config.macros.ListTemplate) {
-		saveRssOld(localPath);
-		return;
-	}
-	//# Save Rss
-	if(config.options.chkGenerateAnRssFeed) {
-		var rssPath = localPath.substr(0,localPath.lastIndexOf(".")) + ".xml";
-		// START hack
-		var e = document.createElement("div");
-		var paramString = 'template:"RssTemplate"';
-		config.macros.ListTemplate.handler(e,"ListTemplate",null,null,paramString);
-		var rssSave = saveFile(rssPath,convertUnicodeToUTF8(e.textContent));
-		// END hack
-		// OLD var rssSave = saveFile(rssPath,convertUnicodeToUTF8(generateRss()));
-		if(rssSave)
-			displayMessage(config.messages.rssSaved,"file://" + rssPath);
-		else
-			alert(config.messages.rssFailed);
-	}
-} */
 //}}}
