@@ -1,3 +1,12 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: plugins/split.recipe
 recipe: tiddlers/split.recipe
+tiddler: ../../plugins/ListTemplatePlugin.js
+tiddler: ../../plugins/TiddlyTemplatingPlugin.js
+tiddler: ../../plugins/IframeTiddlerMacro.js
+tiddler: ../../../BidiX/plugins/PasswordOptionPlugin.js
+tiddler: ../../../BidiX/plugins/UploadPlugin.js
+tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js
+tiddler: ../../../EricShulman/plugins/TaggedTemplateTweak.js
+tiddler: ../../../JeremyRuston/plugins/ListRelatedPlugin.js
+tiddler: ../../../MartinBudden/experimental/TemplateFormatterPlugin.js

@@ -1,13 +1,4 @@
 tiddler: ImageSizePlugin.js
-tiddler: ../../../plugins/ListTemplatePlugin.js
-tiddler: ../../../plugins/TemplateFormatterPlugin.js
-tiddler: ../../../plugins/TiddlyTemplatingPlugin.js
-tiddler: ../../../plugins/IframeTiddlerMacro.js
-tiddler: ../../../../BidiX/plugins/PasswordOptionPlugin.js
-tiddler: ../../../../BidiX/plugins/UploadPlugin.js
-tiddler: ../../../../JeremyRuston/plugins/ListRelatedPlugin.js
-tiddler: ../../../../EricShulman/plugins/SinglePageModePlugin.js
-tiddler: ../../../../EricShulman/plugins/TaggedTemplateTweak.js
 tiddler: FileSavePlugin.js
 tiddler: JSSerializePlugin.js
 tiddler: SaveButtonMacro.js
