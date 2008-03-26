@@ -1,9 +1,9 @@
-<div title="ImportTiddlersPluginInfo" modifier="ELSDesignStudios" created="200801090740" modified="200801090742" tags="plugininfo" creator="ELSDesignStudios">
+<div title="ImportTiddlersPluginInfo" modifier="ELSDesignStudios" created="200801090740" modified="200803260737" tags="plugininfo" creator="ELSDesignStudios" changecount="2">
 <pre>/***
 |Name|ImportTiddlersPluginInfo|
 |Source|http://www.TiddlyTools.com/#ImportTiddlersPlugin|
 |Documentation|http://www.TiddlyTools.com/#ImportTiddlersPluginInfo|
-|Version|3.6.0|
+|Version|3.8.0|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -61,6 +61,8 @@ Note: You can prevent the ImportedTiddlers report from being generated for any g
 &lt;&lt;&lt;
 !!!!!Revisions
 &lt;&lt;&lt;
+2008.03.26 [3.8.0] added support for selecting pre-defined systemServer URLs
+2008.03.25 [3.7.0] added support for setting 'server' fields on imported tiddlers (for later synchronizing of changes)
 2008.01.03 [3.6.0] in loadRemoteFile(), use lower-level doHttp() instead of loadRemoteFile() in order to support username/password access to remote server
 2007.10.30 [3.5.6] update [[ImportTiddlers]] shadow tiddler definition to include &quot;inline&quot; link, so the plugin control panel is displayed instead of the standard core interface.
 2007.06.27 [3.5.5] added missing 'fields' params to saveTiddler() calls.  Fixes problem where importing tiddlers would lose the custom fields.  Also, moved functions for backward-compatibility with TW2.1.x to separate [[ImportTiddlersPluginPatch2.1.x]] tiddler, reducing the size of //this// plugin tiddler by a significant amount.

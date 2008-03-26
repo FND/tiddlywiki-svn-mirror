@@ -2,7 +2,7 @@
 |Name|ImportTiddlersPlugin|
 |Source|http://www.TiddlyTools.com/#ImportTiddlersPlugin|
 |Documentation|http://www.TiddlyTools.com/#ImportTiddlersPluginInfo|
-|Version|3.6.0|
+|Version|3.8.0|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements <br>and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -12,7 +12,11 @@
 |Description|interactive controls for import/export with filtering.|
 This plugin lets you selectively combine tiddlers from any two TiddlyWiki documents.  An interactive control panel lets you pick a document to import from, and then select which tiddlers to import, with prompting for skip, rename, merge or replace actions when importing tiddlers that match existing titles.  Automatically add tags to imported tiddlers so they are easy to find later on.  Generates a detailed report of import 'history' in ImportedTiddlers.
 !!!!!Documentation
->see [[ImportTiddlersPluginInfo]]
+<<<
+see [[ImportTiddlersPluginInfo]] for details
+
+<<importTiddlers inline>>
+<<<
 !!!!!Configuration
 <<<
 __password-protected server settings //(optional, if needed)//:__
@@ -28,8 +32,8 @@ __password-protected server settings //(optional, if needed)//:__
 <<<
 !!!!!Revisions
 <<<
-2008.01.03 [3.6.0] in loadRemoteFile(), use lower-level doHttp() instead of loadRemoteFile() in order to support username/password access to remote server
-2007.10.30 [3.5.6] update [[ImportTiddlers]] shadow tiddler definition to include "inline" link, so the plugin control panel is displayed instead of the standard core interface.
+2008.03.26 [3.8.0] added support for selecting pre-defined systemServer URLs
+2008.03.25 [3.7.0] added support for setting 'server' fields on imported tiddlers (for later synchronizing of changes)
 |please see [[ImportTiddlersPluginInfo]] for additional revision details|
 2005.07.20 [1.0.0] Initial Release
 <<<
@@ -38,7 +42,7 @@ __password-protected server settings //(optional, if needed)//:__
 // // ''MACRO DEFINITION''
 //{{{
 // Version
-version.extensions.importTiddlers = {major: 3, minor: 6, revision: 0, date: new Date(2008,1,3)};
+version.extensions.importTiddlers = {major: 3, minor: 8, revision: 0, date: new Date(2008,3,25)};
 
 // IE needs explicit global scoping for functions/vars called from browser events
 window.onClickImportButton=onClickImportButton;
@@ -60,8 +64,9 @@ merge(config.macros.importTiddlers,{
 	countMsg: "%0 tiddlers selected for import",
 	importedMsg: "Imported %0 of %1 tiddlers from %2",
 	loadText: "please load a document...",
-	closeText: "close",	// text for close button when remote file is loaded
-	doneText: "done",	// text for close button when remote file is not loaded
+	closeText: "close",	// text for close button when file is loaded
+	doneText: "done",	// text for close button when file is not loaded
+	local: true,		// default to import from local file
 	src: "",		// path/filename or URL of document to import (retrieved from SiteUrl tiddler)
 	proxy: "",		// URL for remote proxy script (retrieved from SiteProxy tiddler)
 	useProxy: false,	// use specific proxy script in front of remote URL
@@ -71,6 +76,7 @@ merge(config.macros.importTiddlers,{
 	listsize: 8,		// # of lines to show in imported tiddler list
 	importTags: true,	// include tags from remote source document when importing a tiddler
 	keepTags: true,		// retain existing tags when replacing a tiddler
+	sync: false,		// add 'server' fields to imported tiddlers (for sync function)
 	index: 0,		// current processing index in import list
 	sort: ""		// sort order for imported tiddler listbox
 });
@@ -178,31 +184,35 @@ config.macros.importTiddlers.html = '\
 <table><tr><td align=left>\
 	import from\
 	<input type="radio" class="rad" name="importFrom" id="importFromFile" value="file" CHECKED\
-		onClick="document.getElementById(\'importLocalPanel\').style.display=this.checked?\'block\':\'none\';\
-			document.getElementById(\'importHTTPPanel\').style.display=!this.checked?\'block\':\'none\'"> local file\
+		onClick="config.macros.importTiddlers.local=true;\
+			document.getElementById(\'importLocalPanel\').style.display=\'block\';\
+			document.getElementById(\'importHTTPPanel\').style.display=\'none\'"> local file\
 	<input type="radio" class="rad" name="importFrom" id="importFromWeb"  value="http"\
-		onClick="document.getElementById(\'importLocalPanel\').style.display=!this.checked?\'block\':\'none\';\
-			document.getElementById(\'importHTTPPanel\').style.display=this.checked?\'block\':\'none\'"> web server\
+		onClick="config.macros.importTiddlers.local=false;\
+			document.getElementById(\'importLocalPanel\').style.display=\'none\';\
+			document.getElementById(\'importHTTPPanel\').style.display=\'block\'"> web server\
 </td><td align=right>\
 	<input type=checkbox class="chk" id="chkImportReport" checked\
-		onClick="config.options[\'chkImportReport\']=this.checked;"> create a report\
+		onClick="config.options[\'chkImportReport\']=this.checked;"> create report\
 </td></tr></table>\
 <!-- import from local file  -->\
-<div id="importLocalPanel" style="display:block;margin-bottom:5px;margin-top:5px;padding-top:3px;border-top:1px solid #999">\
-local document path/filename:<br>\
+<div id="importLocalPanel" style="display:block;margin-bottom:2px;margin-top:5px;padding-top:3px;border-top:1px solid #999">\
+enter source path/filename<br>\
 <input type="file" id="fileImportSource" size=57 style="width:100%"\
 	onKeyUp="config.macros.importTiddlers.src=this.value"\
-	onChange="config.macros.importTiddlers.src=this.value;">\
+	onChange="config.macros.importTiddlers.src=this.value;document.getElementById(\'importLoad\').onclick()">\
 </div><!--panel-->\
 \
 <!-- import from http server -->\
-<div id="importHTTPPanel" style="display:none;margin-bottom:5px;margin-top:5px;padding-top:3px;border-top:1px solid #999">\
+<div id="importHTTPPanel" style="display:none;margin-bottom:2px;margin-top:5px;padding-top:3px;border-top:1px solid #999">\
 <table><tr><td align=left>\
-	remote document URL:<br>\
+	enter source URL or <a href="javascript:;" id="importSelectFeed"\
+		onclick="onClickImportButton(this,event)" title="select a pre-defined \'systemServer\' URL">\
+		select a server</a><br>\
 </td><td align=right>\
 	<input type="checkbox" class="chk" id="importUseProxy"\
 		onClick="config.macros.importTiddlers.useProxy=this.checked;\
-			document.getElementById(\'importSiteProxy\').style.display=this.checked?\'block\':\'none\'"> use a proxy script\
+			document.getElementById(\'importSiteProxy\').style.display=this.checked?\'block\':\'none\'"> use a proxy\
 </td></tr></table>\
 <input type="text" id="importSiteProxy" style="display:none;margin-bottom:1px" onfocus="this.select()" value="SiteProxy"\
 	onKeyUp="config.macros.importTiddlers.proxy=this.value"\
@@ -214,29 +224,29 @@ local document path/filename:<br>\
 \
 <table><tr><td align=left>\
 	select:\
-	<a href="JavaScript:;" id="importSelectAll"\
+	<a href="javascript:;" id="importSelectAll"\
 		onclick="onClickImportButton(this)" title="select all tiddlers">\
 		&nbsp;all&nbsp;</a>\
-	<a href="JavaScript:;" id="importSelectNew"\
+	<a href="javascript:;" id="importSelectNew"\
 		onclick="onClickImportButton(this)" title="select tiddlers not already in destination document">\
 		&nbsp;added&nbsp;</a> \
-	<a href="JavaScript:;" id="importSelectChanges"\
+	<a href="javascript:;" id="importSelectChanges"\
 		onclick="onClickImportButton(this)" title="select tiddlers that have been updated in source document">\
 		&nbsp;changes&nbsp;</a> \
-	<a href="JavaScript:;" id="importSelectDifferences"\
+	<a href="javascript:;" id="importSelectDifferences"\
 		onclick="onClickImportButton(this)" title="select tiddlers that have been added or are different from existing tiddlers">\
 		&nbsp;differences&nbsp;</a> \
-	<a href="JavaScript:;" id="importToggleFilter"\
+	<!--<a href="javascript:;" id="importToggleFilter"\
 		onclick="onClickImportButton(this)" title="show/hide selection filter">\
-		&nbsp;filter&nbsp;</a> \
+		&nbsp;filter&nbsp;</a>--> \
 </td><td align=right>\
-	<a href="JavaScript:;" id="importListSmaller"\
+	<a href="javascript:;" id="importListSmaller"\
 		onclick="onClickImportButton(this)" title="reduce list size">\
 		&nbsp;&#150;&nbsp;</a>\
-	<a href="JavaScript:;" id="importListLarger"\
+	<a href="javascript:;" id="importListLarger"\
 		onclick="onClickImportButton(this)" title="increase list size">\
 		&nbsp;+&nbsp;</a>\
-	<a href="JavaScript:;" id="importListMaximize"\
+	<a href="javascript:;" id="importListMaximize"\
 		onclick="onClickImportButton(this)" title="maximize/restore list size">\
 		&nbsp;=&nbsp;</a>\
 </td></tr></table>\
@@ -244,6 +254,10 @@ local document path/filename:<br>\
 	onchange="setTimeout(\'refreshImportList(\'+this.selectedIndex+\')\',1)">\
 	<!-- NOTE: delay refresh so list is updated AFTER onchange event is handled -->\
 </select>\
+<div style="margin-bottom:2px;padding-bottom:2px;border-bottom:1px solid #999">\
+<input type=checkbox class="chk" id="chkSync" \
+	onClick="config.macros.importTiddlers.sync=this.checked;">link tiddlers to source document (for synchronizing later)\
+</div>\
 <input type=checkbox class="chk" id="chkAddTags" checked\
 	onClick="config.macros.importTiddlers.addTags=this.checked;">add new tags &nbsp;\
 <input type=checkbox class="chk" id="chkImportTags" checked\
@@ -251,7 +265,7 @@ local document path/filename:<br>\
 <input type=checkbox class="chk" id="chkKeepTags" checked\
 	onClick="config.macros.importTiddlers.keepTags=this.checked;">keep existing tags<br>\
 <input type=text id="txtNewTags" size=15 onKeyUp="config.macros.importTiddlers.newTags=this.value" autocomplete=off>\
-<div align=center>\
+<div align=center style="margin-top:2px">\
 	<input type=button id="importLoad" class="importButton" style="width:32%" value="load"\
 		title="load listbox with tiddlers from source document"\
 		onclick="onClickImportButton(this)">\
@@ -262,7 +276,7 @@ local document path/filename:<br>\
 		title="clear listbox or hide control panel"\
 		onclick="onClickImportButton(this)">\
 </div>\
-<div id="importCollisionPanel">\
+<div id="importCollisionPanel" style="text-align:left">\
 	tiddler already exists:\
 	<input type=text id="importNewTitle" size=15 autocomplete=off">\
 	<div align=center>\
@@ -285,7 +299,7 @@ local document path/filename:<br>\
 
 // // Control interactions
 //{{{
-function onClickImportButton(which)
+function onClickImportButton(which,event)
 {
 	// DEBUG alert(which.id);
 	var theList		  = document.getElementById('importList');
@@ -314,6 +328,32 @@ function onClickImportButton(which)
 					config.macros.importTiddlers.inbound=tiddlers;
 					window.refreshImportList(0);
 				});
+			break;
+		case 'importSelectFeed':	// select a pre-defined systemServer feed URL
+			var p=Popup.create(which); if (!p) return;
+			var tids=store.getTaggedTiddlers('systemServer');
+			if (!tids.length)
+				createTiddlyText(createTiddlyElement(p,'li'),'no pre-defined server feeds');
+			for (var t=0; t<tids.length; t++) {
+				var u=store.getTiddlerSlice(tids[t].title,"URL");
+				var d=store.getTiddlerSlice(tids[t].title,"Description");
+				if (!d||!d.length) d=store.getTiddlerSlice(tids[t].title,"description");
+				if (!d||!d.length) d=u;
+				createTiddlyButton(createTiddlyElement(p,'li'),tids[t].title,d,
+					function(){
+						var u=this.getAttribute('url');
+						document.getElementById('importSourceURL').value=u;
+						config.macros.importTiddlers.src=u;
+						document.getElementById('importLoad').onclick();
+					},
+					null,null,null,{url:u});
+			}
+			Popup.show(p,false);
+			event.cancelBubble = true;
+			if (event.stopPropagation) event.stopPropagation();
+			return(false);
+			// create popup with feed list
+			// onselect, insert feed URL into input field.
 			break;
 		case 'importSelectAll':		// select all tiddler list items (i.e., not headings)
 			importReport();		// if an import was in progress, generate a report
@@ -605,6 +645,13 @@ function importTiddlers(startIndex)
 		inbound.set(null,null,null,null,newTags.trim());
 		// set the status to 'added' (if not already set by the 'ask the user' UI)
 		inbound.status=(inbound.status=="")?'added':inbound.status;
+		// set sync fields
+		if (config.macros.importTiddlers.sync) {
+			if (!inbound.fields) inbound.fields={}; // for TW2.1.x backward-compatibility
+			inbound.fields["server.page.revision"]=inbound.modified.convertToYYYYMMDDHHMM();
+			inbound.fields["server.type"]="file";
+			inbound.fields["server.host"]=(config.macros.importTiddlers.local?"file://":"")+config.macros.importTiddlers.src;
+		}
 		// do the import!
 		store.suspendNotifications();
 		store.saveTiddler(inbound.title, inbound.title, inbound.text, inbound.modifier, inbound.modified, inbound.tags, inbound.fields, true, inbound.created);
