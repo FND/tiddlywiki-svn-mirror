@@ -3,7 +3,7 @@
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Description:''|Plug to demonstrate template formatter|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/experimental/TemplateFormatterPlugin.js |
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|Mar 19, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -14,11 +14,11 @@ Provides a formatter that can be used to expand templates
 
 !!Usage
 Then include this plugin and tag it systemConfig in the normal way. Templates can include:
-
+{{{
 <!--<<macroname macroparameters>>--> : macro that is expanded into the template
 <!--comment--> : comment that is included in the output
 <!--@@comment@@-->> : comment that is not included in the output (can be used to document the template itself)
-
+}}}
 
 ***/
 
