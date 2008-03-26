@@ -1,7 +1,7 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 
-tiddler: ../../Plugins/SimpleMojoPlugin.js
-tiddler: ../../Plugins/SpeedGeekingPlugin.js
+tiddler: ../../plugins/SimpleMojoPlugin.js
+tiddler: ../../plugins/SpeedGeekingPlugin.js
 
 tiddler: SpeedGeek.tiddler
 tiddler: geek.tiddler
