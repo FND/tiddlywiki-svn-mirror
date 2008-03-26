@@ -1,8 +1,8 @@
 <div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200709131152" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709131152" server.type="file">
-<pre>|scope |&lt;&lt;ValueSwitcher dropdown ScopeDefinitions&gt;&gt; |
-|priority |&lt;&lt;ValueSwitcher dropdown PriorityDefinitions&gt;&gt; |
-|assigned to |&lt;&lt;ValueSwitcher dropdown UserDefinitions&gt;&gt; |
-|status |&lt;&lt;ValueSwitcher dropdown StatusDefinitions&gt;&gt; |
-
+<pre>
+|scope |<<ValueSwitcher type:"dropdown" valuesSource:"ScopeDefinitions">> |
+|priority |<<ValueSwitcher type:"dropdown" valuesSource:"PriorityDefinitions">> |
+|assigned to |<<ValueSwitcher type:"dropdown" valuesSource:"UserDefinitions">> |
+|status |<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions">> |
 </pre>
 </div>

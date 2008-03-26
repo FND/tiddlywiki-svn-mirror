@@ -80,21 +80,26 @@ function FeedListManager(){
 // logging function, for debug
 FeedListManager.log = function(x)
 {
-	if(window.console)
-		console.log(x);
-	else
+	if(window.console) {
+		console.log(x);	
 		displayMessage(x);
+	}
 };
 
 
 // Add a uri to the list of those managed (no dupes).
 // uri : the uri,
-// type : uri | opml
-FeedListManager.prototype.add = function(uri, type) {
+// [name] : friendly name. (defaults to 'anon')
+// [type] : uri | opml (defaults to 'uri')
+FeedListManager.prototype.add = function(uri, name, type) {
 	var exists = this.registered(uri);
 	if(exists != null)
 		return;
-	var uriObj = {'uri':uri, 'type':type, 'callCount':0, 'lastCall':null};
+	if(!type)
+		type = 'uri';
+	if(!name)
+		name = 'anon';
+	var uriObj = {'name':name, 'uri':uri, 'type':type, 'callCount':0, 'lastCall':null};
 	this.uris.push(uriObj);
 };
 
@@ -117,26 +122,29 @@ FeedListManager.prototype.populate = function() {
 	var opmllinks = [];
 	for(var u=0; u<this.uris.length; u++) {
 		if(this.uris[u].type == 'opml') {
-			//opmllinks.push(this.uris[u]);
-			var params = {};
-			params.platform = platform;
-			params.tiddlerTitle = tiddlerTitle;
-			doHttp("POST",this.uris[u].uri,null,null,null,null,this.examineopml);
+			// var params = {};
+			// 	params.platform = platform;
+			// 	sparams.tiddlerTitle = tiddlerTitle;
+			doHttp("GET",this.uris[u].uri,null,null,null,null,this.examineopml);
 		}	
 	}
-	
 	//flag that the update is complete.
-
 };
 
 
 //examine an opml file to gather the feed links within.
 FeedListManager.prototype.examineopml = function(status,params,responseText,url,xhr) {
-			
-	if(xhr.status != 200)
+	if(xhr.status != 200) {
+		FeedListManager.log("Unable to get OPML");
 		return;
+	}
 	
-	FeedListManager.log(responseText);
+	FeedListManager.log(xhr);
+	
+	/*
+		TODO Complete population from OPML
+	*/
+	parseOPML(responseText);
 	
 	//add each uri found.
 	//flag that the update is complete.
@@ -215,7 +223,7 @@ FeedListManager.prototype.stats = function(uri) {
 		/*
 			TODO Make the stats output to a tiddler rather than to the console.
 		*/
-		FeedListManager.log(uris[u].uri +", called "+ uris[u].callCount + " times, last called at " + uris[u].lastCall);
+		FeedListManager.log(uris[u].uri + ", ("+ uris[u].type +"),  called "+ uris[u].callCount + " times, last called at " + uris[u].lastCall);
 	}
 };
 
@@ -224,6 +232,27 @@ FeedListManager.prototype.stats = function(uri) {
 FeedListManager.prototype.purge = function() {
 	this.uris = [];
 	this.currentPosition = 0;
+};
+
+
+
+/*
+	TODO Abstract the OPML parser into a seperate plugin.
+*/
+function getXML(opml) {
+	if(window.ActiveXObject) {
+		var doc = new ActiveXObject("Microsoft.XMLDOM");
+		doc.async="false";
+		doc.loadXML(opml);
+	}
+	else {
+		var parser=  new DOMParser();
+		var doc = parser.parseFromString(opml,"text/xml");	
+	}
+
+
+	FeedListManager.log(opml);
+
 };
 
 

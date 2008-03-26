@@ -43,7 +43,7 @@ version.extensions.TTReportViewPlugin = {installed:true};
 	
 	config.macros.TTReportView.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 				
-		fieldPrefix = "tt_";		
+		var fieldPrefix = "tt_";		
 				
 		//gather all of the parameters.
 		var params = paramString.parseParams("anon",null,true,false,false);
@@ -100,7 +100,6 @@ version.extensions.TTReportViewPlugin = {installed:true};
 				if(filters[f].match == false) {
 					if(store.getValue(toConsider[d], filters[f].field).toLowerCase() == filters[f].value.toLowerCase()) {
 						toExclude.push(toConsider[d]);
-						this.log("Excluding " + toConsider[d].title);
 					}	
 				}
 			}

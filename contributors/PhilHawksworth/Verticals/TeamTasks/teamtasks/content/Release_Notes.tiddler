@@ -1,5 +1,20 @@
 <div title="Release Notes" modifier="PhilHawksworth" created="200710241224" modified="200710241439" tags="help" changecount="23">
-<pre>!Version 0.3
+<pre>!Version 0.4
+!!!Comments
+*The macro for producing task list views has been replaced with the TTReportViewPlugin which uses named prameters and outputs sortable table views of your data.
+*Task metadata is now stored on the task tiddlers in a much more friendly way. All TeamTasks fields on a tiddler are of the form {{{tt_fieldName='value'}}}
+*For those wishing to upgrade their previous tasks to make use of the new structure, there is a Task Migration Tool to ease the pain.
+*There is now [[documentation to assist in upgrading TeamTasks|Migrating to the latest version]]
+!!!Comprehensive Plugin List
+|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
+|NewUserWizardPlugin|by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#NewUserWizardPlugin |
+|TableSortingPlugin |by SaqImtiaz |http://tw.lewcid.org/#TableSortingPlugin |
+|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
+|TTReportViewPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TTReportViewPlugin |
+|TTMigrateTasks0304Plugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin |
+|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
+
+!Version 0.3
 !!!Comments
 *Lots more documentation and help is evolving
 *Introduction of UserSetupWizard which speeds up the setting up of users and automates some associated tasks.

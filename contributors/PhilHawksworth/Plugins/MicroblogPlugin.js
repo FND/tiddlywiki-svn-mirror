@@ -99,6 +99,9 @@ version.extensions.MicroblogPlugin = {installed:true};
 			case 'refreshButton':
 				this.refreshBtn(place);
 				break;
+			case 'reflect':
+				var template = params[5] ? params[5] : null;
+				this.reflect(place, platform, template);
 			default:
 				log('ERROR. '+ action+ ' is not a valid parameter for the Microblog plugin.');
 				break;
@@ -357,8 +360,9 @@ version.extensions.MicroblogPlugin = {installed:true};
 		// Render the tiddlers if they were created.
 		//var notDrawn = params.place.childNodes;
 		if(params.makeTiddlers) {
-			var paramString = 'filter:"[tag['+ params.platform+ ']]" template:' + params.template;
-			config.macros.ListTemplate.handler(params.place,null,null,null,paramString,null);
+			var filter = 'filter:"[tag['+ params.platform+ ']]" template:' + params.template;
+			// config.macros.ListTemplate.handler(params.place,null,null,null,paramString,null);
+			config.macros.Microblog.renderTemplate(params.place,filter);
 		}
 		
 		/*
@@ -375,6 +379,15 @@ version.extensions.MicroblogPlugin = {installed:true};
 		else {
 			microblogs[params.platform].timer = null;
 		}
+	};
+	
+	config.macros.Microblog.reflect = function(place, platform, template) {
+		var filter = 'filter:"[tag['+ platform+ ']]" template:' + template;
+		config.macros.Microblog.renderTemplate(place,filter);
+	};
+	
+	config.macros.Microblog.renderTemplate = function(place, filter) {
+		config.macros.ListTemplate.handler(place,null,null,null,filter,null);
 	};
 	
 	//refresh this display

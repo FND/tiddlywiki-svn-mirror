@@ -2,7 +2,7 @@
 <pre>You can create your own custom views of the tasks using the ~TeamTask Report View Plugin (TTReportViewPlugin).
 
 
-The general form form for calling the plugin is like this:
+The general form for calling the plugin is like this:
 {{{
 <<TTReportView>>
 }}}
