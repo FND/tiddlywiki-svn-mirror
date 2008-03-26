@@ -34,7 +34,7 @@
 
 	if(!isset($workspace)) {
 		$workspace= "";
-		debug("workspace was not set s");
+		debug("workspace was not set");
 		//exit("workspace not exist");
 	}
 

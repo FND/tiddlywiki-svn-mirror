@@ -21,11 +21,25 @@
 	// TODO : REMOVE verified = 1
 	function user_create($username="", $group="", $verified=-1, $id="", $password="", $reqHash = 0)
 	{
+		global $tiddlyCfg;
 		$user = array();
 		$user['id'] = (strlen($id)>0?(int)$id:"");		//if empty, leave it as empty. otherwise make it as int
-		//get username from cookie if nothing is passed
-		$user['username'] = preg_replace("![/,\\\\,?,*]!","",(strcmp($username,"")==0?user_getUsername():$username));		//no slashes, star and question mark in username
-		$user['verified'] = (($verified==-1)?user_session_validate():$verified);
+	
+		if ($tiddlyCfg['deligate_session_management'] ==1)
+		{
+			if(user_session_validate())
+			{
+				user_set_session('MY USERNAME', "MY PASSWORD");
+			}
+		}else
+		{
+			//get username from cookie if nothing is passed
+			$user['username'] = preg_replace("![/,\\\\,?,*]!","",(strcmp($username,"")==0?user_getUsername():$username));	
+			//no slashes, star and question mark in username
+			$user['verified'] = (($verified==-1)?user_session_validate():$verified);
+		}
+	
+	
 		//NOTE: group is always in array
 		//FORMAT: $user['group'] = array("group1", "group2");
 		$user['group'] = (strcmp($group,"")==0?user_getGroup($user['username'],$user['verified']):$group);
@@ -38,33 +52,28 @@
 
 
 
-	function user_ldap_login($un, $pw)
-	{
-		global $tiddlyCfg;
-		$admin='cn='.$un.',ou=staff,dc=osmosoft,dc=com'; // TODO - check with andrew which of these bits can change.
-		$ds=ldap_connect($tiddlyCfg['pref']['ldap_server']);  // make LDAP C
-		if ($ds) 
-		{	
-			$r=ldap_bind($ds, $admin, $pw);// bind with appropriate dn to give access
-			if(!$r)                // if the username/pass is not accepted then return false 
-				return FALSE;
-			ldap_close($ds); 
-			return TRUE; 
-		} else {
-			return FALSE;
-		}
-	}
-	
+
 	
 	
 	
 	function user_session_validate()
 	{
 		//global $user;
+		global $tiddlyCfg;
 		
 	//	return TRUE;
 		db_connect_new();
 		$pw = cookie_get('sessionToken');
+		
+		
+			if ($tiddlyCfg['deligate_session_management'] ==1)
+			{
+	 			if(@file_get_contents("http://uvoke.itoolabs.com/sys/uvokechecksess.wcgp?s=".$_REQUEST['sess']))
+				{
+					return true;
+				}
+			}
+
 		if ($pw && $pw !== "invalid")
 		{
 			$data_session['session_token'] = $pw;
@@ -135,7 +144,28 @@
 	}		
 
 	
-	///////////////////////////////////////////////////////////////validate and login (set cookie)//////////////////////////////////////////////////
+	
+	
+	function user_ldap_login($un, $pw)
+	{
+		global $tiddlyCfg;
+		$admin='cn='.$un.',ou=staff,dc=osmosoft,dc=com'; // TODO - check with andrew which of these bits can change.
+		$ds=ldap_connect($tiddlyCfg['pref']['ldap_server']);  // make LDAP C
+		if ($ds) 
+		{	
+			$r=ldap_bind($ds, $admin, $pw);// bind with appropriate dn to give access
+			if(!$r)                // if the username/pass is not accepted then return false 
+				return FALSE;
+			ldap_close($ds); 
+			return TRUE; 
+		} else {
+			return FALSE;
+		}
+	}
+	
+	
+	
+		///////////////////////////////////////////////////////////////validate and login (set cookie)//////////////////////////////////////////////////
 	//!	@fn bool user_validate($un)
 	//!	@brief check username and password f
 	//!	@param $un username override
@@ -153,6 +183,8 @@
 				return TRUE;
 			}
 		}		
+
+		
 		if ($un != '' && $pw != '')
 		{
 			$data['username'] = $un;
