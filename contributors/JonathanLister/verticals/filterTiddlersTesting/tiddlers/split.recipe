@@ -24,5 +24,10 @@ tiddler: Test_Case_8.tiddler
 tiddler: Test_Case_9.tiddler
 tiddler: Test_Case_10.tiddler
 tiddler: Test_Case_11.tiddler
+tiddler: Test_Case_12_-_global_sort.tiddler
+tiddler: Test_Case_13_-_accumulator_sort.tiddler
+tiddler: Test_Case_14_-_global_limit.tiddler
+tiddler: Test_Case_15_-_accumulator_limit.tiddler
+tiddler: Test_Case_16_-_universal_add.tiddler
 tiddler: Welcome.tiddler
 tiddler: test_cases.tiddler

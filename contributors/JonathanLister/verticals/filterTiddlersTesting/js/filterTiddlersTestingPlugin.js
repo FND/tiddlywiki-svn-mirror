@@ -37,41 +37,57 @@ filterTiddlersTesting.getTestCases = function() {
 	var testCaseTiddlers = store.getTaggedTiddlers(filterTiddlersTesting.testCaseTag);
 	for (var i=0; i<testCaseTiddlers.length; i++) {
 		var tcSlices = store.calcAllSlices(testCaseTiddlers[i].title);
+		var tcSliceName = testCaseTiddlers[i].title;
 		var tcSliceTest = tcSlices[filterTiddlersTesting.testCaseTestLabel];
 		var tcSliceExpected = tcSlices[filterTiddlersTesting.testCaseExpectedLabel];
-		testCases.push({test:tcSliceTest,expected:tcSliceExpected});
+		testCases.push({name:tcSliceName,test:tcSliceTest,expected:tcSliceExpected});
 	}
 	return testCases;
 };
 
-filterTiddlersTesting.defineTest = function() {
+filterTiddlersTesting.defineTest = function(place) {
 	return function(testCase) {
-		var filteredTiddlers = store.filterTiddlers(testCase.test);
 		var testResults = [];
+		var expectedTiddlers = [];
+		var filteredTiddlers = store.filterTiddlers(testCase.test);
 		for (var i=0; i<filteredTiddlers.length; i++) {
 			testResults.push(filteredTiddlers[i].title);
 		}
-		var expectedTiddlers = testCase.expected.readBracketedList();
+		// special case for wildcard filter
+		if(testCase.test=="*") {
+			store.forEachTiddler(function(title,tiddler){
+				expectedTiddlers.pushUnique(tiddler.title);
+			});
+		} else {
+			expectedTiddlers = testCase.expected.readBracketedList();
+		}
 		// if you're going to extend this to collect debug information, now's the time to do it
 		if(testResults.toString() == expectedTiddlers.toString())
 			return true;
-		else
+		else {
+			console.log(testResults.toString());
+			console.log("not equal to");
+			console.log(expectedTiddlers.toString());
 			return false;
+		}
 	}
 };
 
 filterTiddlersTesting.run = function(place) {
-	var test = filterTiddlersTesting.defineTest();
+	var test = filterTiddlersTesting.defineTest(place);
 	var testCases = filterTiddlersTesting.getTestCases(filterTiddlersTesting.testCaseTag);
 	var testResults = [];
 	for(var i=0; i<testCases.length; i++) {
 		var testResult = test(testCases[i]);
+		testResults.push(testCases[i].name);
 		testResults.push(testCases[i].test);
 		testResults.push(testResult.toString());
 	}
-	for(i=0; i<testResults.length; i=i+2) {
-		wikify(testResults[i]+": ''"+testResults[i+1]+"''\n",place);
+	var output = "";
+	for(i=0; i<testResults.length; i=i+3) {
+		output += "|"+testResults[i]+": |"+testResults[i+1]+" |"+" ''"+testResults[i+2]+"'' |\n";
 	}
+	wikify(output,place);
 }
 
 config.macros.filterTiddlersTesting = {};
