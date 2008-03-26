@@ -6,7 +6,7 @@ tiddler: settings.js
 tiddler: testSaving.js
 #tiddler: ../../experimental/FastSavePlugin.js
 tiddler: ../../tiddlers/TiddlyWikiTemplate.tiddler
-tiddler: ../../../JonathanLister/plugins/ListTemplatePlugin.js
-tiddler: ../../../JonathanLister/verticals/TiddlyTemplating/tiddlers/RssTemplate.tiddler
-tiddler: ../../../JonathanLister/verticals/TiddlyTemplating/tiddlers/RssItemTemplate.tiddler
-tiddler: ../../../JonathanLister/verticals/TiddlyTemplating/tiddlers/RssItemCategoryTemplate.tiddler
+tiddler: ../../../JonathanLister/plugins/TemplatePlugin.js
+tiddler: ../../../JonathanLister/templates/RssTemplate.tiddler
+tiddler: ../../../JonathanLister/templates/RssItemTemplate.tiddler
+tiddler: ../../../JonathanLister/templates/RssItemCategoryTemplate.tiddler
