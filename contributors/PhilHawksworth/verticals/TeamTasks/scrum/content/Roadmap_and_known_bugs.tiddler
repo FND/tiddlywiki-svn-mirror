@@ -1,0 +1,14 @@
+<div title="Roadmap and known bugs" modifier="PhilHawksworth" created="200711091627" modified="200803101347" changecount="21">
+<pre>My thanks go out to all of the people who kindly send feedback about TeamTasks in the hope that it will improve.
+
+If you have any comments or suggestions, or if you would like to report a bug, you can email me at ''ph [at] osmosoft [dot] com'' or place a comment in the Tiddlywiki development group at http://groups.google.com/group/TiddlyWikiDev/
+
+I do listen to all the feedback and have tried to log here the planned development work to address your comments.
+!!Planned development for the next release
+<<TTReportView DisplayFields:"Title,Version,Priority,Status" OrderBy:"Priority,asc" scope:"TeamTasksDevelopment" version:"0.4">>
+!!Planned development for a future release
+<<TTReportView DisplayFields:"Title,Version,Priority,Status" OrderBy:"Version,asc" scope:"TeamTasksDevelopment" version:"!0.4">>
+!!Known bugs
+<<TTReportView DisplayFields:"Title,Version,Priority,Status" OrderBy:"Priority,asc" scope:"TeamTasksBugs">>
+</pre>
+</div>
