@@ -16,6 +16,7 @@ $user['verified'] = user_session_validate();
 
 if ($user['verified'])
 {
+
 $workspace_permissions = $tiddlyCfg['default_user_perm'];
 	
 } else {

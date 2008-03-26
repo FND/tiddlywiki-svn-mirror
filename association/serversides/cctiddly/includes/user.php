@@ -27,10 +27,18 @@
 	
 		if ($tiddlyCfg['deligate_session_management'] ==1)
 		{
-			if(user_session_validate())
-			{
-				user_set_session('MY USERNAME', "MY PASSWORD");
-			}
+			$req_url = "http://uvoke.itoolabs.com/sys/uvokechecksess.wcgp?s=".$_REQUEST['sess'];
+				if($a = @file_get_contents($req_url))
+				{
+					if ($a != "")
+					{
+						user_set_session($a, "MY PASSWORD");
+						$user['username'] = $a;	
+			//no slashes, star and question mark in username
+			$user['verified'] = 1;
+					}
+				}
+				
 		}else
 		{
 			//get username from cookie if nothing is passed
@@ -60,22 +68,29 @@
 	{
 		//global $user;
 		global $tiddlyCfg;
-		
-	//	return TRUE;
 		db_connect_new();
 		$pw = cookie_get('sessionToken');
-		
-		
-			if ($tiddlyCfg['deligate_session_management'] ==1)
+	
+		if ($tiddlyCfg['deligate_session_management'] ==1)
 			{
-	 			if(@file_get_contents("http://uvoke.itoolabs.com/sys/uvokechecksess.wcgp?s=".$_REQUEST['sess']))
+				$req_url = "http://uvoke.itoolabs.com/sys/uvokechecksess.wcgp?s=".$_REQUEST['sess'];
+				if($a = @file_get_contents($req_url))
 				{
-					return true;
-				}
+					if ($a != "")
+					{
+						return true;
+					}
+				}				
 			}
 
+	
+		
+		
 		if ($pw && $pw !== "invalid")
 		{
+		
+		
+		
 			$data_session['session_token'] = $pw;
 			$results = db_record_select('login_session', $data_session);			// get array of results		
 
