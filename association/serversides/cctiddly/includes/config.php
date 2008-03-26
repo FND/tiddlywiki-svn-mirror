@@ -41,7 +41,7 @@
 	$tiddlyCfg['default_user_perm'] = "AADD";
 	
 //////////////////////// ::::: ADVANCED ::::: /////////////////////////
-	$tiddlyCfg['deligate_session_management'] = 1; 	
+	$tiddlyCfg['deligate_session_management'] = 0; 	
 	
 	// upload values 
 	$tiddlyCfg['max_file_size'] = 9933300000;
