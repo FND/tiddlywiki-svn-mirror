@@ -4,7 +4,7 @@
 |''Version:''|1.0.0|
 |''Date:''|Nov 21, 2007|
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/Plugins/SimpleMojoPlugin.js |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/SimpleMojoPlugin.js |
 |''Version:''|0.1|
 |''License:''|[[BSD open source license]]|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |

@@ -3,7 +3,7 @@
 |''Description:''|Add extra view to the view macro for raw HTML||
 |''Version:''|0.0.1|
 |''Date:''|Mar 2, 2008|
-|''Source:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/Plugins/RawViewMacroPlugin|
+|''Source:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/RawViewMacroPlugin|
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
 |''License:''|[[BSD open source license]]|
 |''~CoreVersion:''|2.1.0|

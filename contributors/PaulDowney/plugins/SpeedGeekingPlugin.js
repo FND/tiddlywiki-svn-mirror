@@ -2,7 +2,7 @@
 |''Name:''|SpeedGeekingPlugin|
 |''Description:''|Shuffle, pair-up, and ring numbers found in contact tiddlers|
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/Plugins/SpeedGeekingPlugin.js |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/SpeedGeekingPlugin.js |
 |''Version:''|1.0.0|
 |''License:''|[[BSD open source license]]|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
