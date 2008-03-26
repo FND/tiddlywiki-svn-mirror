@@ -67,7 +67,7 @@
 	
 		<div id="content">
 
-					<!--<<listTemplate filter:"[tag[BlogPost]]" template:"BlogPostTemplate3">>-->
+					<!--<<templateTiddlers filter:"[tag[BlogPost]]" template:"BlogPostTemplate3">>-->
 			
 				
 		</div>

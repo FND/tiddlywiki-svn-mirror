@@ -90,7 +90,7 @@ urchinTracker();
 	<div id="bloque">
 		
 		<div id="noticias">
-	<!--<<listTemplate filter:"[tag[BlogPost]]" template:"BlogPostTemplate1">>-->
+	<!--<<templateTiddlers filter:"[tag[BlogPost]]" template:"BlogPostTemplate1">>-->
 						
 					
 		
