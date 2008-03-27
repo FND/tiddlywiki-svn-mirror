@@ -190,14 +190,14 @@ config.macros.ccEditWorkspace = {
 		createTiddlyElement(step,'h4', null, null,  'Anonymous Users Can :  ');
 		
 
-		var anC = createTiddlyCheckbox(step, null, "");
+		var anC = createTiddlyCheckbox(step, null, workspacePermission.anonC);
 		anC.id='anC';
 		anC.setAttribute("class","checkInput");
 		var anC_label = createTiddlyElement(step, "label", null, "checkLabel", "Create Tiddlers");
 	 	anC_label.setAttribute("for","anC");
 		createTiddlyElement(step,'br');
 		
-		var  anR = createTiddlyCheckbox(step, null);
+		var  anR = createTiddlyCheckbox(step, null ,workspacePermission.anonR);
 		anR.id = 'anR';
 		anR.setAttribute("class","checkInput");
 		var anR_label = createTiddlyElement(step, "label", null, "checkLabel", "Read Tiddlers");
@@ -205,7 +205,7 @@ config.macros.ccEditWorkspace = {
 
 		createTiddlyElement(step,'br');
 		
-		var anU = createTiddlyCheckbox(step, null);
+		var anU = createTiddlyCheckbox(step, null, workspacePermission.anonU);
 		anU.id = 'anU';
 		anU.setAttribute("class","checkInput");
 		var anU_label = createTiddlyElement(step, "label", null, "checkLabel", "Update Tiddlers");
@@ -213,7 +213,7 @@ config.macros.ccEditWorkspace = {
 	
 		createTiddlyElement(step,'br');
 		
-		var anD = createTiddlyCheckbox(step, null);
+		var anD = createTiddlyCheckbox(step, null, workspacePermission.anonD);
 		anD.id = 'anD';
 		anD.setAttribute("class","checkInput");
 		var anD_label = createTiddlyElement(step, "label", null, "checkLabel", "Delete Tiddlers");
