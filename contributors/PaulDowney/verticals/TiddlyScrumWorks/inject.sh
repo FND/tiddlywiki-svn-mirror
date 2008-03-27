@@ -7,11 +7,17 @@ s="$1" ;  shift
 t="$1" ;  shift
 
 {
-    echo "/div id=.storeArea"
+    echo "/^<div title=.UserDefinitions"
+    echo ".,/^<\/div/d"
+    echo "/^<div title=.UserDefinitions"
+    echo ".,/^<\/div/d"
+
+    echo "/^<div id=.storeArea"
     for i in "$*"
     do
 	echo ".r $i"
     done
+
     echo "w $t"
     echo "q"
 } | ed "$s" > /dev/null

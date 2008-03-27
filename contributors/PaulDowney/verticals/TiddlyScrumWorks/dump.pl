@@ -87,7 +87,7 @@ sub tiddler(\%)
     my(%a) = %{(shift)};
 
     $a{'creator'} ||= "ScrumWorks";
-    $a{'created'} ||= _datetime(localtime());
+    $a{'created'} ||= _datetime();
 
     print "<div";
 
@@ -115,6 +115,7 @@ sub _wikiword
 sub _datetime
 {
     my ($time) = @_;
+    $time = $time / 1000;
     my ($seconds, $minutes, $hours, $day_of_month, $month, $year, $wday, $yday, $isdst) = localtime($time);
     return sprintf("%04d%02d%02d%02d%02d%02d", $year+1900, $month+1, $day_of_month, $hours, $minutes, $seconds);
 }
