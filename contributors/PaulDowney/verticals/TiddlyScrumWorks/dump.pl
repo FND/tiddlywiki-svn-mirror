@@ -3,68 +3,109 @@
 #
 #  dump ScrumWorks hashed database as TeamTask tiddlers
 #
-
-use Data::Dumper;
-
 use strict;
 use t;
 
-my $html;
+{
+    # Sprint
+    #print _datetime('1186959600000');
+    ##'fromdate' => '1165881600000',
+    #'active' => 'TRUE',
+    #'name' => 'Investigation Tasks',
+    #'todate' => '1166140799999',
+    #'hidden' => 'FALSE',
+    #'goals' => 'Investigate and report back',
+    #'team' => '910090509012772975',
+    #'productid' => '896644279488973830'
 
-if ($html) {
-print <<EOF;
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<body>
-<div id='storeArea'>
-EOF
-}
+    table('backlogitem', q(
+	    'title' => $row->{'title'},
+	    'content' => $row->{'description'},
+	    'tt_status' => $row->{'active'} eq "TRUE" ? "Active":"Done",
+	    'tt_story' => _story('backlogitem'),
+	    'tt_rank' => $row->{'rank'},
+	    'tt_estimate' => $row->{'estimate'},
+	    'tt_product' => _product($row->{'product'}),
+	    'tt_donedate' => _datetime($row->{'donedate'}),
+	    'tt_release' => _release($row->{'releaseid'}),
+	    'tt_sprint' => _sprint($row->{'sprint'}),
+	    'tags' => 'task story'
+    ));
 
-#
-#  impediments ..
-#
-my $table = $t::db->{'table'}->{'impediment'};
-foreach my $i (keys %{$table->{'row'}}) {
-    my $row = $table->{'row'}->{$i};
-    tiddler({ 
-	    'title'=> $row->{'summary'},
+    table('task', q(
+	    'title' => $row->{'title'},
+	    'content' => $row->{'description'},
+	    'tt_status' => $row->{'status'},
+	    'tt_story' => _story($row->{'backlogitem'}),
+	    'tt_user' => _user($row->{'pointperson'}),
+	    'tt_rank' => $row->{'rank'},
+	    'tt_estimate' => $row->{'estimate'},
+	    'tags' => 'task item'
+    ));
+
+    table('impediment', q(
+	    'title' => $row->{'summary'},
 	    'content' => $row->{'detail'},
-	    'user' => $row->{'teammember'},
-	    'tags' => 'task'
-    });
+	    'tt_user' => _user($row->{'teammember'}),
+	    'tt_donedate' => _datetime($row->{'resolutiondate'}),
+	    'tt_team' => _team($row->{'team'}),
+	    'tt_product' => _product($row->{'product'}),
+	    'tags' => 'task impediment'
+    ));
+
 }
 
-if ($html) {
-print "</div>\n</body></html>";
-}
+sub _user { _wikiword(@_) }
+sub _story { _wikiword(lookup('backlogitem', shift, 'title')); }
+sub _product { _wikiword(lookup('product', shift, 'name')); }
+sub _team { _wikiword(lookup('team', shift, 'name')); }
+sub _release{ _wikiword(lookup('release', shift, 'name')); }
+sub _sprint{ _wikiword(lookup('sprint', shift, 'name')); }
 
+sub table
+{
+    my ($table, $x) = @_;
+    my $table = $t::db->{'table'}->{$table};
+    foreach my $i (keys %{$table->{'row'}}) {
+	my $row = $table->{'row'}->{$i};
+	tiddler({eval $x});
+    }
+}
 
 sub tiddler(\%)
 {
     my(%a) = %{(shift)};
 
-    my $title = escape($a{'title'} || '');
-    my $modifier = $a{'modifier'} || 'ScrumWorks';
-    my $created = $a{'created'} || "200803201030";
-    my $modified = $a{'modified'} || "200803201030";
-    my $tt_user = user($a{'tt_user'} || $modifier);
-    my $tt_priority = $a{'tt_priority'} || 1;
-    my $tt_status = $a{'tt_status'} || 'Done';
-    my $tt_scope = $a{'tt_scope'} || '';
-    my $tt_task = $a{'tt_task'} || '';
-    my $tags = $a{'tt_tags'} || 'task';
-    my $content = escape($a{'content'} || '');
+    $a{'created'} ||= "200803201030";
 
-    print "<div title='$title' modifier='$modifier' created='$created' modified='$modified' changecount='1' tt_user='$tt_user' tt_priority='$tt_priority' tt_scope='$tt_scope' tt_tasks_metadata_format_version='0.4' tt_status='$tt_status' tags='$tags'>\n"
-	. "<pre>$content</pre>\n"
-    . "</div>\n";
+    print "<div";
+
+    foreach my $key (keys %a) {
+	next if ($key =~ /content/);
+	print " $key='" . escape($a{$key}) . "'";
+    }
+
+    print ">\n<pre>" . escape($a{'content'}) . "</pre>\n</div>\n";
 }
 
-sub user 
+sub lookup
 {
-	my ($u) = @_;
-	$u =~ s/\s//g;
-	return $u;
+    my ($table, $id, $item) = @_;
+    $t::db->{'table'}{$table}{'row'}{$id}{$item};
+}
+
+sub _wikiword
+{
+    my ($u) = @_;
+    $u =~ s/\s//g;
+    return $u;
+}
+
+sub _datetime
+{
+    my ($time) = @_;
+    my ($seconds, $minutes, $hours, $day_of_month, $month, $year, $wday, $yday, $isdst) = localtime($time);
+    return sprintf("%04d%02d%02d%02d%02d%02d", $year+1900, $month+1, $day_of_month, $hours, $minutes, $seconds);
 }
 
 sub escape 
@@ -75,7 +116,9 @@ sub escape
     $text =~ s/>/&gt;/go;
     $text =~ s/'/&apos;/go;
     $text =~ s/"/&quot;/go;
+    $text =~ s/\\u0009/\t/go;
     $text =~ s/\\u000a/\n/go;
     $text =~ s/\\u000d//go;
+
     return $text;
 }
