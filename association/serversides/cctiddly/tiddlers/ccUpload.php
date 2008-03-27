@@ -119,9 +119,11 @@ config.macros.ccCreate = {
 		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
 		frm.action="handle/upload.php";
 		frm.method = "POST";
-
+		createTiddlyElement(frm, "br");
 		var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
+		createTiddlyElement(frm, "br");
 		createTiddlyElement(body, "h1", null, null, "Create HTML file ");
+			createTiddlyElement(body, "br");
 		//form content
 		var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
 

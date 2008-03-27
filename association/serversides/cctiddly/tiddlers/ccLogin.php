@@ -15,9 +15,9 @@
 
 	//{{{
 
-	config.backstageTasks.push(&quot;login&quot;);
+	config.backstageTasks.push("login");
 	merge(config.tasks,{
-	    login: {text: &quot;login&quot;, tooltip: &quot;Login to your TiddlyWiki&quot;, content: '&lt;&lt;ccLogin&gt;&gt;'}
+	    login: {text: "login", tooltip: "Login to your TiddlyWiki", content: '&lt;&lt;ccLogin&gt;&gt;'}
 	});
 	
 	
@@ -78,11 +78,11 @@
 	
 	function findToken(cookieStash) {
 	    var output = {};
-	    var cookies =cookieStash.split(&quot;\n&quot;);
+	    var cookies =cookieStash.split("\n");
 	    for(var c=0; c&lt; cookies.length ; c++) {
-	        var cl = cookies[c].split(&quot;;&quot;);
+	        var cl = cookies[c].split(";");
 	        for(var e=0; e&lt;cl.length; e++) {
-	            var p = cl[e].indexOf(&quot;=&quot;);
+	            var p = cl[e].indexOf("=");
 	            if(p != -1) {
 	                var name = cl[e].substr(0,p).trim();
 	                var value = cl[e].substr(p+1).trim();       
@@ -101,40 +101,40 @@
 config.macros.ccLoginStatus = {
 	    handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 
-        var loginDiv = createTiddlyElement(place,&quot;div&quot;,null,&quot;loginDiv&quot;,null);
+        var loginDiv = createTiddlyElement(place,"div",null,"loginDiv",null);
 	        this.refresh(loginDiv);
 	    },
 	    
 	    	   refresh: function(place, errorMsg) {
-	      var loginDivRef = document.getElementById (&quot;LoginDiv&quot;);
+	      var loginDivRef = document.getElementById ("LoginDiv");
 	     removeChildren(loginDivRef);
-         var wrapper = createTiddlyElement(place,&quot;div&quot;);
+         var wrapper = createTiddlyElement(place,"div");
 	        var cookieValues = findToken(document.cookie);
 
 	        if ( cookieValues.sessionToken && cookieValues.sessionToken!== 'invalid' && cookieValues.txtUserName) {
-  				createTiddlyElement(wrapper,&quot;br&quot;);
+  				createTiddlyElement(wrapper,"br");
 				var name = decodeURIComponent(decodeURIComponent(cookieValues.txtUserName));
 				
-				var frm = createTiddlyElement(n,&quot;form&quot;,null);
+				var frm = createTiddlyElement(n,"form",null);
 				frm.action = "";
 				frm.method = "get";
 				 //frm.onsubmit = config.macros.ccLogin.logoutOnSubmit;
 				wrapper.appendChild(frm);	
               	var str = wikify("You are logged in as :  " + name , frm);
 			  
-				var logout = createTiddlyElement(null,&quot;input&quot;, logout, logout);
-				logout.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
-				logout.value = &quot;1&quot;;   
-				logout.name = &quot;logout&quot;;   
+				var logout = createTiddlyElement(null,"input", logout, logout);
+				logout.setAttribute("type","hidden");
+				logout.value = "1";   
+				logout.name = "logout";   
 				frm.appendChild(logout);	
 
-				var btn = createTiddlyElement(null,&quot;input&quot;, null);
-				btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
-				btn.value = &quot;Logout&quot;;   
+				var btn = createTiddlyElement(null,"input", null);
+				btn.setAttribute("type","submit");
+				btn.value = "Logout";   
 				frm.appendChild(btn);	
 
 	        } else {
-				var str = wikify(&quot;[[Please Login]]&quot;, wrapper);
+				var str = wikify("[[Please Login]]", wrapper);
 		    }
 	        
 		}
@@ -143,41 +143,48 @@ config.macros.ccLoginStatus = {
 config.macros.ccRegister = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler) 
 	{
-		var registerDiv = createTiddlyElement(place,&quot;div&quot;,null,&quot;loginDiv&quot;,null);
+		var registerDiv = createTiddlyElement(place,"div",null,"loginDiv",null);
         this.refresh(registerDiv);
     },	    
 	refresh: function(place, errorMsg) 
 	{
-		  var loginDivRef = document.getElementById(&quot;LoginDiv&quot;);
+		  var loginDivRef = document.getElementById("LoginDiv");
 	     removeChildren(loginDivRef);
-        var wrapper = createTiddlyElement(place,&quot;div&quot;);
+        var wrapper = createTiddlyElement(place,"div");
 
 if (errorMsg == '201')
 {
 	return false;
 }
-		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
+		var frm = createTiddlyElement(place,"form",null,"wizard");
 		frm.onsubmit = this.registerOnSubmit;
-		createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Register for an Account  &quot;);
-		var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
-		var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
-	
-		createTiddlyText(step, 'username  : ');
-		var username = createTiddlyElement(step,&quot;input&quot;,&quot;username&quot;, &quot;username&quot;);			
+		createTiddlyElement(frm, "br");
+		createTiddlyElement(frm,"h1", null, null,  "Register for an Account  ");
+		createTiddlyElement(frm, "br");
+		var body = createTiddlyElement(frm,"div",null, "wizardBody");
+		var step = createTiddlyElement(body,"div",null, "wizardStep");
 		createTiddlyElement(step, "br");
-		createTiddlyText(step, 'password : ');
-		var password1 = createTiddlyElement(step,&quot;input&quot;,&quot;password1&quot;, &quot;password1&quot;);
+		var user_label = createTiddlyElement(step, "label", null, "label", "Username");
+	 	user_label.setAttribute("for","username");
+		var username = createTiddlyElement(step, "input", "username" , "input", "username");			
+		createTiddlyElement(step, "br");
+		var pw1_label = createTiddlyElement(step, "label", null, "label", "Password");
+	 	pw1_label.setAttribute("for","password1");
+		var password1 = createTiddlyElement(step,"input", "password1","input", "password1");
 		password1.type="password";
 		createTiddlyElement(step, "br");
-		createTiddlyText(step, 'password confirmation : ');
-		var password2 = createTiddlyElement(step,&quot;input&quot;,&quot;password2&quot;, &quot;password2&quot;);
+		
+		var pw2_label = createTiddlyElement(step, "label", null, "label", "Password Confirmation");
+	 	pw2_label.setAttribute("for","password2");
+		var password2 = createTiddlyElement(step,"input", "password2", "input", "password2");
 		password2.type="password";
-	
+			createTiddlyElement(step, "br");
 		createTiddlyElement(frm, "br");
-		var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt,"button", "button");
-		 btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
-		 btn.value = &quot;register account &quot;
+		var btn = createTiddlyElement(frm,"input",this.prompt,"button", "button");
+		 btn.setAttribute("type","submit");
+		 btn.value = "register account "
 
+		createTiddlyElement(frm, "br");
 		createTiddlyElement(frm, "br");
 	},
 	
@@ -189,6 +196,15 @@ if (errorMsg == '201')
 			displayMessage('no username entered');
 			return false;
 		}
+		
+		if(this.username.value != '')
+		{
+			this.username.style.border = 'solid 0px #f00';
+			displayMessage('no username entered');
+		
+		}
+		
+		
 		if(this.password1.value == '')
 		{
 			displayMessage('please enter password in the first field');
@@ -209,7 +225,7 @@ if (errorMsg == '201')
 			displayMessage('Your passwords do not match.');
 			return false;
 		}
-		doHttp('POST', url+'handle/register.php', &quot;username=&quot; + encodeURIComponent(this.username.value)+ &quot;&amp;password=&quot;+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null, config.macros.ccRegister.registerCallback,null);
+		doHttp('POST', url+'handle/register.php', "username=" + encodeURIComponent(this.username.value)+ "&amp;password="+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null, config.macros.ccRegister.registerCallback,null);
 		return false;
 	},
 	
@@ -217,7 +233,7 @@ if (errorMsg == '201')
 	registerCallback: function(status,params,responseText,uri,xhr) {
 		if(xhr.status == '201')
 		{
-				  var loginDiv = document.getElementById (&quot;LoginDiv&quot;);
+				  var loginDiv = document.getElementById ("LoginDiv");
 			displayMessage("USER CREATED");
 			        this.refresh(loginDiv, '201');
 		}
@@ -230,26 +246,26 @@ if (errorMsg == '201')
 	config.macros.ccLogin = {
 		
 	    handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-	       // var img = createTiddlyElement(place,&quot;img&quot;);
+	       // var img = createTiddlyElement(place,"img");
 	       // img.src = 'http://www.cot.org.uk/designforliving/companies/logos/bt.jpg ';
-	        var loginDiv = createTiddlyElement(place,&quot;div&quot;,null,&quot;loginDiv&quot;,null);
+	        var loginDiv = createTiddlyElement(place,"div",null,"loginDiv",null);
 	        this.refresh(loginDiv);
 	    },
 
 	    refresh: function(place, errorMsg) {
-	        var loginDivRef = document.getElementById (&quot;LoginDiv&quot;);
+	        var loginDivRef = document.getElementById ("LoginDiv");
 	        removeChildren(loginDivRef);
-	        var wrapper = createTiddlyElement(place,&quot;div&quot;);
+	        var wrapper = createTiddlyElement(place,"div");
 	        var cookieValues = findToken(document.cookie);
 
 	        if ( cookieValues.sessionToken &amp;&amp;  cookieValues.sessionToken!== 'invalid' &amp;&amp; cookieValues.txtUserName) {
 	            // user is logged in
-	            var msg = createTiddlyElement(wrapper,&quot;div&quot;);
-	            wikify(&quot;You are logged in as &quot; + decodeURIComponent(decodeURIComponent(cookieValues.txtUserName)), msg);
+	            var msg = createTiddlyElement(wrapper,"div");
+	            wikify("You are logged in as " + decodeURIComponent(decodeURIComponent(cookieValues.txtUserName)), msg);
 	          
 	          
 	          
-		  		var frm = createTiddlyElement(n,&quot;form&quot;,null);
+		  		var frm = createTiddlyElement(n,"form",null);
 	   			frm.action = "";
 	    		frm.method = "get";
 	 			// TODO need to decide which method we are going to be using for login, form get, or on submit
@@ -257,43 +273,40 @@ if (errorMsg == '201')
         		wrapper.appendChild(frm);	
         
         
-	            var logout = createTiddlyElement(null,&quot;input&quot;, logout, logout);
-	           logout.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
-	            logout.value = &quot;1&quot;;   
-	            logout.name = &quot;logout&quot;;   
+	            var logout = createTiddlyElement(null,"input", logout, logout);
+	           logout.setAttribute("type","hidden");
+	            logout.value = "1";   
+	            logout.name = "logout";   
 	            frm.appendChild(logout);	
 	    
 	    
 	    
-	            var btn = createTiddlyElement(null,&quot;input&quot;, null);
-	           btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
-	            btn.value = &quot;Logout&quot;;   
+	            var btn = createTiddlyElement(null,"input", null);
+	           btn.setAttribute("type","submit");
+	            btn.value = "Logout";   
 	            frm.appendChild(btn);	
 	            
 	            
 	        } else {
 	            //user not logged in.
 	            
-	            var frm = createTiddlyElement(wrapper,&quot;form&quot;,null, "wizard");
+	            var frm = createTiddlyElement(wrapper,"form",null, "wizard");
 	            frm.onsubmit = this.loginOnSubmit;
-	 			           var body = createTiddlyElement(frm,&quot;h1&quot;,null,null, "");
+				createTiddlyElement(frm, "br");
+				createTiddlyElement(frm,"h1", null, null,  "Please Login");
+				createTiddlyElement(frm, "br");
 	          
-	            createTiddlyElement(frm,&quot;br&quot;);
-	            createTiddlyElement(frm,&quot;br&quot;);
-	            var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
-	            var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
+	            var body = createTiddlyElement(frm,"div",null, "wizardBody");
+	            var step = createTiddlyElement(body,"div",null, "wizardStep");
 				
-	 //createTiddlyElement(frm,&quot;h1&quot;, null, null,  &quot;Login is Required&quot;);
+	 //createTiddlyElement(frm,"h1", null, null,  "Login is Required");
 	            if (errorMsg!= null)
 	            {  
-	                createTiddlyElement(step,&quot;span&quot;, null, null, errorMsg);
-	          		createTiddlyElement(step,&quot;br&quot;);
+	                createTiddlyElement(step,"span", null, null, errorMsg);
+	          		createTiddlyElement(step,"br");
 	          	}
 
-	        
-	   
-			
-			var oidfrm = createTiddlyElement(step,&quot;form&quot;,null, null);
+			var oidfrm = createTiddlyElement(step,"form",null, null);
 			oidfrm.method = 'get';
 			oidfrm.action='includes/openid/try_auth.php';
 		
@@ -304,54 +317,56 @@ if (errorMsg == '201')
 		
 		?>
 		      
-				createTiddlyElement(oidfrm,&quot;br&quot;);
-				         createTiddlyText(oidfrm,&quot;You can get an openID from &quot;);
+				createTiddlyElement(oidfrm,"br");
+				         createTiddlyText(oidfrm,"You can get an openID from ");
 				
 				var link = createExternalLink(oidfrm, 'http://myopenid.com');
 				link.textContent=  'http://myopenid.com';
 
-				  		createTiddlyElement(oidfrm,&quot;br&quot;);
-					createTiddlyElement(oidfrm,&quot;br&quot;);
+				  		createTiddlyElement(oidfrm,"br");
+					createTiddlyElement(oidfrm,"br");
 			createTiddlyText(oidfrm, 'OpenID:');
 			
-			var oidaction = createTiddlyElement(null,&quot;input&quot;,null);
-			oidaction.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
-			oidaction.setAttribute(&quot;value&quot;,&quot;verify&quot;);
+			var oidaction = createTiddlyElement(null,"input",null);
+			oidaction.setAttribute("type","hidden");
+			oidaction.setAttribute("value","verify");
 			oidfrm.appendChild(oidaction);
 			
-			var oidid = createTiddlyElement(null,&quot;input&quot;,null);
-			oidid.setAttribute(&quot;type&quot;,&quot;text&quot;);
-			oidid.setAttribute(&quot;name&quot;,&quot;openid_identifier&quot;);
+			var oidid = createTiddlyElement(null,"input",null);
+			oidid.setAttribute("type","text");
+			oidid.setAttribute("name","openid_identifier");
 			oidfrm.appendChild(oidid);
 			
-			var oidsub = createTiddlyElement(null,&quot;input&quot;,null);
-			oidsub.setAttribute(&quot;type&quot;,&quot;submit&quot;);
-			oidsub.setAttribute(&quot;value&quot;,&quot;Verify&quot;);
+			var oidsub = createTiddlyElement(null,"input",null);
+			oidsub.setAttribute("type","submit");
+			oidsub.setAttribute("value","Verify");
 			oidfrm.appendChild(oidsub);
 			
 	<?php 
 }else { 
 	?>
-	
-	
-        createTiddlyText(step, &quot;username/password should get you in.&quot;);	
-					createTiddlyElement(step,&quot;br&quot;);
-	  createTiddlyText(step,&quot;Username: &quot;);
-        var txtuser = createTiddlyElement(step,&quot;input&quot;,&quot;cctuser&quot;, &quot;cctuser&quot;)
+	    createTiddlyText(step, "username/password should get you in.");	
+		createTiddlyElement(step,"br");
+		createTiddlyElement(step,"br");	
+		var user_label = createTiddlyElement(step, "label", null, "label", "Username");
+	 	user_label.setAttribute("for","cctuser");
+        var txtuser = createTiddlyElement(step,"input","cctuser", "input")
         if (cookieValues.txtUserName !=null) {
             txtuser.value =cookieValues.txtUserName ;
         }
-        createTiddlyElement(step,&quot;br&quot;);
-        createTiddlyText(step,&quot;Password : &quot;);
+        createTiddlyElement(step,"br");
+		var pass_label = createTiddlyElement(step, "label", null, "label", "Password");
+	 	pass_label.setAttribute("for","cctpass");
     
-   var txtpass =   createTiddlyElement(null, &quot;input&quot;, &quot;cctpass&quot;, &quot;cctpass&quot;, null, {&quot;type&quot;:&quot;password&quot;});
-    //  var txtpass = createTiddlyElement(step,&quot;input&quot;, &quot;cctpass&quot;,&quot;cctpass&quot;);
-     txtpass.setAttribute(&quot;type&quot;,&quot;password&quot;);
+   var txtpass =  createTiddlyElement(null, "input", "cctpass", "input", null, {"type":"password"});
+    //  var txtpass = createTiddlyElement(step,"input", "cctpass","cctpass");
+     txtpass.setAttribute("type","password");
 	     step.appendChild(txtpass);
-			createTiddlyElement(frm,&quot;br&quot;);
-			var btn = createTiddlyElement(null,&quot;input&quot;,this.prompt, "button");
-			btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
-			btn.value = &quot;Login&quot;
+			createTiddlyElement(step,"br");
+			createTiddlyElement(frm,"br");
+			var btn = createTiddlyElement(null,"input",this.prompt, "button");
+			btn.setAttribute("type","submit");
+			btn.value = "Login"
 			frm.appendChild(btn);
 			createTiddlyText(frm, " or ");
 			createTiddlyLink(frm, 'Register',  'Register');
@@ -360,24 +375,24 @@ if (errorMsg == '201')
 }
 	?>
 			
-			createTiddlyElement(frm,&quot;br&quot;);
-			createTiddlyElement(frm,&quot;br&quot;);
+			createTiddlyElement(frm,"br");
+			createTiddlyElement(frm,"br");
 			}
 	     },
 
 	    killLoginCookie: function() {
 	        var c = 'sessionToken=invalid';
-	        c+= &quot;; expires=Fri, 1 Jan 1811 12:00:00 UTC; path=/&quot;;
+	        c+= "; expires=Fri, 1 Jan 1811 12:00:00 UTC; path=/";
 	        document.cookie = c;
 	        },
 
 	    logoutOnSubmit: function() {
-	        var loginDivRef = findRelated(this,&quot;loginDiv&quot;,&quot;className&quot;,&quot;parentNode&quot;);
+	        var loginDivRef = findRelated(this,"loginDiv","className","parentNode");
 	        removeChildren(loginDivRef);
 		     
-	        document.cookie = &quot;sessionToken=invalid;   expires=15/02/2009 00:00:00&quot;;
+	        document.cookie = "sessionToken=invalid;   expires=15/02/2009 00:00:00";
 	        //config.macros.ccLogin.refresh(loginDivRef);
-	        doHttp('POST', url+'msghandle.php', &quot;logout=1&quot;);
+	        doHttp('POST', url+'msghandle.php', "logout=1");
 	        		window.location = window.location;      
 	return false;
 	    },
@@ -393,7 +408,7 @@ if (errorMsg == '201')
 	        var pass = document.getElementById('cctpass').value;
 	        var params = {}; 
 	        params.origin = this;
-	        var loginResp = doHttp('POST', url+'/msghandle.php', &quot;cctuser=&quot; + encodeURIComponent(user)+&quot;&amp;cctpass=&quot;+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
+	        var loginResp = doHttp('POST', url+'/msghandle.php', "cctuser=" + encodeURIComponent(user)+"&amp;cctpass="+encodeURIComponent(pass),null,null,null, config.macros.ccLogin.loginCallback,params);
 	    
 	       return false;
 	    },
@@ -403,7 +418,7 @@ if (errorMsg == '201')
 	         // displayMessage('CONECTION was ok ');
 	        }
 	     var cookie;
-	     cookie = xhr.getResponseHeader(&quot;Set-Cookie&quot;);
+	     cookie = xhr.getResponseHeader("Set-Cookie");
 	   
 	        var cookieValues = findToken(cookie);
 	        
@@ -414,7 +429,7 @@ if (errorMsg == '201')
 				if (xhr.responseText != "")
 					displayMessage(xhr.responseText);
 	
-				var loginDivRef = findRelated( params.origin,&quot;loginDiv&quot;,&quot;className&quot;,&quot;parentNode&quot;);
+				var loginDivRef = findRelated( params.origin,"loginDiv","className","parentNode");
 		        removeChildren(loginDivRef);
 				config.macros.ccLogin.refresh(loginDivRef, 'Login Failed ');
 					
@@ -425,13 +440,13 @@ if (errorMsg == '201')
 
 	       saveCookie: function(cookieValues) {
 	        // Save the session token in cookie.
-	        var c = 'sessionToken' + &quot;=&quot; + cookieValues.sessionToken;
-	        c+= &quot;; expires=Fri, 1 Jan 2811 12:00:00 UTC; path=&quot;;
+	        var c = 'sessionToken' + "=" + cookieValues.sessionToken;
+	        c+= "; expires=Fri, 1 Jan 2811 12:00:00 UTC; path=";
 	        document.cookie = c;
 	        // Save the txtUserName in the normal tiddlywiki format
 	       if (cookieValues.txtUserName !=null) {
 	             config.options.txtUserName = cookieValues.txtUserName;
-	            saveOptionCookie(&quot;txtUserName&quot;);
+	            saveOptionCookie("txtUserName");
 	        }
 	   }
 	}
