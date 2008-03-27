@@ -57,18 +57,10 @@ config.macros.ccUpload = {
 		username.value= config.options.txtUserName;		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		createTiddlyText(step, 'Path : ');
-		var path = createTiddlyElement(step,&quot;input&quot;,&quot;ccPath&quot;, &quot;ccPath&quot;);				
-		path.name = 'ccPath';
-		createTiddlyElement(step, 'br');
+//		createTiddlyText(step, 'Path : ');
+//		var path = createTiddlyElement(step,&quot;input&quot;,&quot;ccPath&quot;, &quot;ccPath&quot;);				
+//		path.name = 'ccPath';
+
 		createTiddlyElement(step, "br");
 		createTiddlyElement(step, "div", "shortStatus", "shortStatus",  "Upload your file below ");
 		createTiddlyElement(step, "hr");
@@ -138,10 +130,9 @@ config.macros.ccCreate = {
 		htmlfile.name = 'ccHTMLName';
 		createTiddlyElement(step, 'br');
 		
-		createTiddlyText(step, 'Path : ');
-		var path = createTiddlyElement(step,&quot;input&quot;,&quot;ccPath&quot;, &quot;ccPath&quot;);				
-		path.name = 'ccPath';
-		createTiddlyElement(step, 'br');
+	//	createTiddlyText(step, 'Path : ');
+	//	var path = createTiddlyElement(step,&quot;input&quot;,&quot;ccPath&quot;, &quot;ccPath&quot;);				
+	//	path.name = 'ccPath';
 		
 
 		createTiddlyElement(step, 'br');

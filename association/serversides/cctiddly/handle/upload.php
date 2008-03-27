@@ -1,5 +1,6 @@
 <?php 
 
+
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
@@ -81,7 +82,8 @@ else
 
 $local_root = $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']));
 $remote_root = dirname(getURL());
-$folder = str_replace("../", "","/uploads".$folder.'/'.$_POST['ccPath']."/");
+$path = ltrim(rtrim($_POST['ccPath'], "/"), "/");
+$folder = str_replace("../", "","/uploads".$folder.'/'.$path."/");
 makeFolder($local_root.$folder);
 
 
