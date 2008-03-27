@@ -2,21 +2,31 @@
 
 #
 #  dump ScrumWorks hashed database as TeamTask tiddlers
+#  issues:
+#   - need to use cook, rather than insert hack
+#   - datetime from posgress needs fixing
+#   - need to add sprints
+#   - need to add team
 #
 use strict;
 use t;
 
 {
-    # Sprint
-    #print _datetime('1186959600000');
-    ##'fromdate' => '1165881600000',
-    #'active' => 'TRUE',
-    #'name' => 'Investigation Tasks',
-    #'todate' => '1166140799999',
-    #'hidden' => 'FALSE',
-    #'goals' => 'Investigate and report back',
-    #'team' => '910090509012772975',
-    #'productid' => '896644279488973830'
+    table('teammember', q(
+	    'title' => _user($row->{'firstname'} . $row->{'lastname'}),
+	    'tags' => 'user'
+    ));
+
+    {
+	my $content = "PhilHawksworth\nScrumWorks\n";
+	my $table = "teammember";
+	my $table = $t::db->{'table'}->{$table};
+	foreach my $i (keys %{$table->{'row'}}) {
+	    my $row = $table->{'row'}->{$i};
+	    $content = $content . _user($row->{'firstname'} . $row->{'lastname'}) . "\n";
+	}
+	tiddler({'title' => 'UserDefinitions', 'content' => $content, 'tags' => 'TaskDefinitions'});
+    }
 
     table('backlogitem', q(
 	    'title' => $row->{'title'},
@@ -76,7 +86,8 @@ sub tiddler(\%)
 {
     my(%a) = %{(shift)};
 
-    $a{'created'} ||= "200803201030";
+    $a{'creator'} ||= "ScrumWorks";
+    $a{'created'} ||= _datetime(localtime());
 
     print "<div";
 
@@ -97,7 +108,7 @@ sub lookup
 sub _wikiword
 {
     my ($u) = @_;
-    $u =~ s/\s//g;
+    $u =~ s/[^\w\d]//g;
     return $u;
 }
 
