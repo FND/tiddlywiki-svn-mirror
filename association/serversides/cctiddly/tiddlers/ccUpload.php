@@ -56,6 +56,19 @@ config.macros.ccUpload = {
 		username.type="HIDDEN";
 		username.value= config.options.txtUserName;		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		createTiddlyText(step, 'Path : ');
+		var path = createTiddlyElement(step,&quot;input&quot;,&quot;ccPath&quot;, &quot;ccPath&quot;);				
+		path.name = 'ccPath';
+		createTiddlyElement(step, 'br');
 		createTiddlyElement(step, "br");
 		createTiddlyElement(step, "div", "shortStatus", "shortStatus",  "Upload your file below ");
 		createTiddlyElement(step, "hr");
@@ -112,7 +125,6 @@ config.macros.ccCreate = {
 
 		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
 		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
-		frm.enctype="multipart/form-data";
 		frm.action="handle/upload.php";
 		frm.method = "POST";
 
@@ -125,6 +137,12 @@ config.macros.ccCreate = {
 		var htmlfile = createTiddlyElement(step,&quot;input&quot;,&quot;ccHTMLName&quot;, &quot;ccHMLname&quot;);				
 		htmlfile.name = 'ccHTMLName';
 		createTiddlyElement(step, 'br');
+		
+		createTiddlyText(step, 'Path : ');
+		var path = createTiddlyElement(step,&quot;input&quot;,&quot;ccPath&quot;, &quot;ccPath&quot;);				
+		path.name = 'ccPath';
+		createTiddlyElement(step, 'br');
+		
 
 		createTiddlyElement(step, 'br');
 

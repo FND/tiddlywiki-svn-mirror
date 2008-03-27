@@ -3,6 +3,9 @@
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
+
+
+
 if(!user_session_validate())
 {
 	sendHeader("403");
@@ -16,6 +19,16 @@ if (!user_isAdmin($user['username'], $_POST['workspaceName']))
 	echo '<b> You do not have permissions to upload files, please contact your system administrator.</b>';
 	exit;
 }
+
+
+function makeFolder($path)
+{
+	if(!file_exists($path))
+	{
+		mkdir($path, 0700, true);
+	}
+}
+
 
 function check_vals()
 {
@@ -64,38 +77,65 @@ else
 }
 
 
-if (!$_POST['ccHTMLName'] || !$_POST['ccHTML'])
+
+
+$local_root = $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']));
+$remote_root = dirname(getURL());
+$folder = str_replace("../", "","/uploads".$folder.'/'.$_POST['ccPath']."/");
+makeFolder($local_root.$folder);
+
+
+
+
+
+if ($_POST['ccHTMLName'] || $_POST['ccHTML'])
 {
-	if ($_POST['ccHTMLName'] || $_POST['ccHTML'])
+	if (!$_POST['ccHTMLName'] || !$_POST['ccHTML'])
 	{
 		sendHeader("402");
 		echo "Please specify a file name or provide HTML";
 		exit;
 	}
+	
+	
+	$ext = end(explode(".", $_POST['ccHTMLName']));
+	$ext =  strtolower($ext);
+
+
+	$allowed_ext = array("txt", "html", "rss", "xml", "js");
+
+	if (in_array($ext, $allowed_ext))
+	{
+		$file = $_POST['ccHTMLName'];
+	}else
+	{
+		echo "You are not allowed to crate files of that type.";
+		exit;
+	}
+	
+	
+	 $myFile = $local_root.$folder.$file;
+	$fh = fopen($myFile, 'w') or die("can't open file");
+
+	if(fwrite($fh, $_POST['ccHTML']))
+	{
+		sendHeader("201");
+		$url = $remote_root.$folder.$_POST['ccHTMLName'];
+		echo "click here to view it <a href='".$url."'>".$url."</a>";
+		exit;
+	}
+	fclose($fh);	
+
+	
+	
 }
 
-$local_root = $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']));
-$remote_root = dirname(getURL());
-$folder = "/uploads".$folder;
-$file = $_POST['ccHTMLName'].".html";
 
-if(!file_exists($local_root.$folder))
-{
-	mkdir($local_root.$folder, 0700, true);
-}
 
-$myFile = $local_root.'/'.$folder.$file;
-$fh = fopen($myFile, 'w') or die("can't open file");
 
-if(fwrite($fh, $_POST['ccHTML']))
-{
-	sendHeader("201");
-	$uploaded_file = str_replace('/handle/upload.php', '', getURL()).str_replace("..", "", $myFile); 
-	echo "click here to view it <a href='".$uploaded_file."'>".$uploaded_file."</a>";
-}
-fclose($fh);	
+$err = ""; 
+$status = 0;
 
-$err = ""; $status = 0;
 if (isset($_FILES["userFile"])) 
 {
 	if (check_vals()) 
@@ -146,9 +186,10 @@ if (!$status)
 }
 else 
 {
- 	$url = $remote_root.$folder."/".$_FILES["userFile"]["name"];	
+	$url = $remote_root.$folder.$_FILES["userFile"]["name"];
 	if($file_type == 'image')  
 	{
+	
 		$output .= '<h2>Image Uploaded</h2> ';
 		$output .= "<a href='".$url."'><img src='".$url."' height=100 /></a><p>You can include this image into a tiddlywiki using the code below : </p><form name='tiddlyCode' ><input type=text name='code' id='code' onclick='this.focus();this.select();' cols=90 rows=1 value='[img[".$url."][EmbeddedImages]]' /></form>";
 	}
