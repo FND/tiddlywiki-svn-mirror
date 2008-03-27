@@ -5,6 +5,5 @@
 |release target |<<ValueSwitcher type:"dropdown" valuesSource:"VersionDefinitions">> |
 |assigned to |<<ValueSwitcher type:"dropdown" valuesSource:"UserDefinitions">> |
 |status |<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions">> |
-|test freetext |<<ValueSwitcher type:"freetext" metaDataName:"testMetaData">> |
 </pre>
 </div>

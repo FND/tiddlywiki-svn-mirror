@@ -1,12 +1,12 @@
 /***
 |''Name:''|ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
-|''Version:''|0.1|
+|''Version:''|0.2|
 |''Date:''|25 Sept, 2007|
 |''Source:''|http://www.hawksworx.com/playground/TeamTasks/#ValueTogglerPlugin|
 |''Author:''|PhilHawksworth (phawksworth (at) gmail (dot) com)|
 |''License:''|[[BSD open source license]]|
-|''CoreVersion:''|2.2|
+|''CoreVersion:''|2.3|
 ***/
 
 //{{{
@@ -15,13 +15,10 @@ if(!version.extensions.ValueSwitcher)
 {
 	version.extensions.ValueSwitcher = {installed:true};
 	config.macros.ValueSwitcher = {
-	
-		
-		
+
 		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-		
+
 			var fieldPrefix = "tt_";
-			
 			var taskTiddler = story.findContainingTiddler(place);
 			if(!(taskTiddler && taskTiddler != 'undefined')) {
 				return;
@@ -58,24 +55,22 @@ if(!version.extensions.ValueSwitcher)
 				}	
 				var fieldName = fieldPrefix + metaDataName.toLowerCase();
 				var text = store.getValue(tiddler,fieldName);
-				
-				createTiddlyElement(place,"input",null,null,text,{"type":"input", "ttname":fieldName, "onclick":config.macros.ValueSwitcher.changeFreetext});
+				if(text == undefined) text = "";	
+				var i = createTiddlyElement(place,"input",null,null,null,{"value":text, "type":"input", "ttname":fieldName});
+				i.onblur = config.macros.ValueSwitcher.changeFreetext;
 			}
-			
+
 			/*
 				TODO: Build in deadline support
 			*/
-			//build a date control
-			// else if(ctrlType == 'date'){
-			// 	
-			// }
 		},
 
+
+		//Get definition values for populating UI from definition tiddlers.
 		getDefValues: function(src) {
 			var text = store.getTiddlerText(src).split('\n');
 			var output = [];
 			for(var t=0; t<text.length; t++) {
-
 				//support calling the old TaskViewBuilder macro to list the tasks here too.
 				var blob = wikifyStatic(text[t],null,tiddler,null);				
 				var linktitle = /tiddlylink="[^"]*"/mg;
@@ -91,12 +86,14 @@ if(!version.extensions.ValueSwitcher)
 			}
 			return (output);	
 		},
-		
-		setDropDownMetaData: function(e) {
+
+
+		// Ensure that changes to a dropdown field are stored as an extended field.
+		setDropDownMetaData: function(ev) {
+			var e = ev ? ev : window.event;
 			var taskTiddler = story.findContainingTiddler(this);
-			if(taskTiddler && taskTiddler != 'undefined') {
-				var id = taskTiddler.id;
-				var title = id.substr(7);
+			if(taskTiddler && taskTiddler != undefined) {
+				var title = taskTiddler.getAttribute('tiddler');
 				var tiddler =  store.getTiddler(title);
 				var option = this[this.selectedIndex].value.split('::');
 				var extField = option[0];
@@ -105,9 +102,21 @@ if(!version.extensions.ValueSwitcher)
 				story.saveTiddler(title);
 			}
 		},
-		
-		changeFreetext: function() {
-			alert("change");
+
+
+		// Ensure that changes to a free text field are stored as an extended field.
+		changeFreetext: function(ev) {
+			var e = ev ? ev : window.event;
+			var ttField = this.getAttribute('ttname');
+			var value = this.value;
+			if(ttField) {
+				var t = story.findContainingTiddler(this);
+				var title = t.getAttribute('tiddler');
+				var tiddler =  store.getTiddler(title);
+				store.setValue(tiddler,ttField,value);
+				story.saveTiddler(tiddler);
+			}
+			return false;
 		}
 	};
 }

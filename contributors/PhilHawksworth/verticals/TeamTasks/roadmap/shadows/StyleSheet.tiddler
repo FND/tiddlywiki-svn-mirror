@@ -55,7 +55,8 @@ div.tiddler div.task div.taskControls {float:right; border-left:solid 1px #aaa; 
 div.tiddler div.task div.taskControls div.toolbar a { display:block; padding:0.5em 1em; text-align:right; background-color:#ccd; border-style:none; font-size:1.2em; color:#fff; text-align:left; border-bottom:solid 1px #aaa; margin:0;}
 div.tiddler div.task div.taskControls div.toolbar a:hover {background-color:#bbc; }
 div.tiddler div.task div.taskControls div.metacontrols { padding:1em; }
-div.tiddler div.task div.taskControls div.metacontrols select {width: 150px; border:solid 1px #aaa; font-size:0.9em; padding:0.2em;}
+div.tiddler div.task div.taskControls div.metacontrols select,
+div.tiddler div.task div.taskControls div.metacontrols input {width: 150px; border:solid 1px #aaa; font-size:0.9em; padding:0.2em;}
 div.tiddler div.task div.taskControls div.metacontrols table {border-style:none; margin:0;}
 div.tiddler div.task div.taskControls div.metacontrols table tr {border-style:none;}
 div.tiddler div.task div.taskControls div.metacontrols table td {border-style:none;}
