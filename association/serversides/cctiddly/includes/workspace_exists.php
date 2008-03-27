@@ -33,7 +33,8 @@ $login = "<div tiddler='Please Login' tags=''> &lt;&lt;ccLogin&gt;&gt;</div>	";
 	
 	
 if ($workspace_settings_count < 1)
-{   // workspace does not exist
+{   
+	// workspace does not exist
 	echo $cut_down_view;
 	echo $create_workspace;
 	echo $login;

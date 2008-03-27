@@ -1,4 +1,5 @@
 <?php 
+
 debug('create4 workspace ');
 include_once($cct_base."includes/header.php");
 include_once($cct_base."includes/tiddler.php");
@@ -28,22 +29,22 @@ function workspace_create_new($anonPerm="AUUU",$hash=null)
 	$data1['fields'] = "changecount='1'";
 	db_record_insert($tiddlyCfg['table']['main'],$data1);
 		
-	
-	
-	
-	
-	
-	
-	@mkdir($tiddlyCfg['pref']['upload_dir'].$workspace ,  0777);
-	@mkdir($tiddlyCfg['pref']['upload_dir'].$workspace.'/images' ,  0777);
-	@mkdir($tiddlyCfg['pref']['upload_dir'].$workspace.'/thumbs' ,  0777);
 	header('HTTP/1.0 201 Created');
 }
 
 function workspace_create($workspace, $anonPerm="ADDD")
 {
 	global $tiddlyCfg;
+	
+	if(!user_session_validate())
+	{
+		sendHeader("403");
+		echo '<b>You do not appear to be logged in</b>';
+		exit;	
+	}
+
 	debug("workspace_create: ".$workspace);
+	
 	if(!ctype_alnum($workspace))
 	{
 		header('HTTP/1.0 400 Bad Request');
@@ -111,9 +112,6 @@ function workspace_create($workspace, $anonPerm="ADDD")
 	db_record_insert($tiddlyCfg['table']['admin'],$owner);
 	
 	
-	@mkdir($tiddlyCfg['pref']['upload_dir'].$workspace ,  0777);
-	@mkdir($tiddlyCfg['pref']['upload_dir'].$workspace.'/images' ,  0777);
-	@mkdir($tiddlyCfg['pref']['upload_dir'].$workspace.'/thumbs' ,  0777);
 	header('HTTP/1.0 201 Created');
 	return true;
 }

@@ -42,6 +42,7 @@
 	
 //////////////////////// ::::: ADVANCED ::::: /////////////////////////
 	$tiddlyCfg['deligate_session_management'] = 0; 	
+	$tiddlyCfg['on_the_fly_workspace_creation'] = 1;
 	
 	// upload values 
 	$tiddlyCfg['max_file_size'] = 9933300000;

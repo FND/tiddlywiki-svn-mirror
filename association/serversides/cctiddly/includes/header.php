@@ -37,6 +37,8 @@
 		debug("workspace was not set");
 		//exit("workspace not exist");
 	}
+	
+
 
 //////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////
 	//?standalone=1, used for making the script standalone form like a regular tiddlywiki
@@ -151,4 +153,5 @@
 		$db_var['settings']['defaultStop'] = $stop;
 		$db_var['settings']['handleError'] = $handle;
 	}*/
+
 ?>
