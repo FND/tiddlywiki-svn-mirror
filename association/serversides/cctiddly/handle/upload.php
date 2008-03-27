@@ -6,14 +6,13 @@ include_once($cct_base."includes/header.php");
 if(!user_session_validate())
 {
 	sendHeader("403");
-	echo '<b>You do not appear to be logged in</b>';
+	echo '<b>You do not appear to be logged in. You may need to refresh the page to recieve the login prompt.</b>';
 	exit;	
 }
 
-if (!user_isAdmin($user['username'], $tiddlyCfg['workspace_name']))
+if (!user_isAdmin($user['username'], $_POST['workspaceName']))
 {
 	sendHeader("401");
-	echo $tiddlyCfg['workspace_name'];
 	echo '<b> You do not have permissions to upload files, please contact your system administrator.</b>';
 	exit;
 }
@@ -85,7 +84,7 @@ if(!file_exists($local_root.$folder))
 	mkdir($local_root.$folder, 0700, true);
 }
 
-$myFile = $local_root.$folder.$file;
+$myFile = $local_root.'/'.$folder.$file;
 $fh = fopen($myFile, 'w') or die("can't open file");
 
 if(fwrite($fh, $_POST['ccHTML']))
@@ -150,8 +149,8 @@ else
  	$url = $remote_root.$folder."/".$_FILES["userFile"]["name"];	
 	if($file_type == 'image')  
 	{
-		$output .= '<h2>Image Uploaded</h2> You can include this image into a tiddlywiki using the code below : <p>';
-		$output .= "<img src='".$url."' height=100 col=1/><form name='tiddlyCode' id='tiddlyCode'><textarea name='code ' id='code' onclick='document.tiddlyCode.code.focus();document.tiddlyCode.code.select();' cols=90>[img[".$url."][EmbeddedImages]]</textarea>";
+		$output .= '<h2>Image Uploaded</h2> ';
+		$output .= "<a href='".$url."'><img src='".$url."' height=100 /></a><p>You can include this image into a tiddlywiki using the code below : </p><form name='tiddlyCode' ><input type=text name='code' id='code' onclick='this.focus();this.select();' cols=90 rows=1 value='[img[".$url."][EmbeddedImages]]' /></form>";
 	}
 	else
 	{		

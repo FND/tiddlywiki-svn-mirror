@@ -20,14 +20,12 @@ var iFrameLoad = function(){
 	statusArea.innerHTML = uploadIframe.contentDocument.body.innerHTML;
 } 
 
-var submitIframe = function(){
-	var statusArea = document.getElementById("uploadStatus");
-	statusArea.innerHTML = "Uploading your file, please wait ";	
-	return true;
-};
 
 var url = "<?php echo getURL();?>";
 var workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
+
+
+	        
 
 config.macros.ccUpload = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
@@ -57,10 +55,9 @@ config.macros.ccUpload = {
 		username.name= 'username';
 		username.type="HIDDEN";
 		username.value= config.options.txtUserName;		
-		createTiddlyElement(step, 'br');
-
+		
+		createTiddlyElement(step, "br");
 		createTiddlyElement(step, "div", "shortStatus", "shortStatus",  "Upload your file below ");
-
 		createTiddlyElement(step, "hr");
 		var file = createTiddlyElement(step,&quot;input&quot;,&quot;ccfile&quot;, &quot;ccfile&quot;);				
 		file.type = "file";
@@ -71,8 +68,7 @@ config.macros.ccUpload = {
 		workspaceName.type="HIDDEN";
 		workspaceName.value = workspace;
 		createTiddlyElement(step, 'br');
-		createTiddlyElement(step, 'br');
-
+		
 		var saveTo = createTiddlyElement(step, 'input','saveTo', 'saveTo', "workspace");				
 		saveTo.type ="HIDDEN";
 		saveTo.name = 'saveTo';
@@ -81,6 +77,7 @@ config.macros.ccUpload = {
 		createTiddlyElement(frm,&quot;br&quot;);
 		var btn = createTiddlyElement(frm,"input",null, 'button');
 		btn.setAttribute("type","submit");
+		btn.setAttribute("onClick", "config.macros.ccUpload.submitiframe()");
 		btn.value = 'Upload File';
 		frm.appendChild(btn);	
 
@@ -94,7 +91,14 @@ config.macros.ccUpload = {
 		
 		createTiddlyElement(frm, &quot;br&quot;);
 		createTiddlyElement(frm, &quot;br&quot;);
-	}
+	},
+
+	
+	submitiframe : function(){
+		var statusArea = document.getElementById("uploadStatus");
+		statusArea.innerHTML = "uploading...  &lt;img src=loading.gif /&gt; ";	
+		return true;
+	}	
 }
 
 config.macros.ccCreate = {
