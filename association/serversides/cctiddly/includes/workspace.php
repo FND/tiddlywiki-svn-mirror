@@ -1,7 +1,7 @@
 <?php 
 
-debug('create4 workspace ');
 include_once($cct_base."includes/header.php");
+include_once($cct_base."includes/user.php");
 include_once($cct_base."includes/tiddler.php");
 
 function workspace_create_new($anonPerm="AUUU",$hash=null)
@@ -35,14 +35,12 @@ function workspace_create_new($anonPerm="AUUU",$hash=null)
 function workspace_create($workspace, $anonPerm="ADDD")
 {
 	global $tiddlyCfg;
-	
 	if(!user_session_validate())
 	{
 		sendHeader("403");
 		echo '<b>You do not appear to be logged in</b>';
 		exit;	
 	}
-
 	debug("workspace_create: ".$workspace);
 	
 	if(!ctype_alnum($workspace))
@@ -56,7 +54,7 @@ function workspace_create($workspace, $anonPerm="ADDD")
 		header('HTTP/1.0 403  Forbidden');
 		exit("Thie ability to create workspaces on this server is currently disabled. Please contant your system administrator.");
 	}
-
+debug('1');
 	$data['name'] = $workspace;
 	$data['twLanguage'] = 'en';
 	$data['keep_revision'] = 1;
@@ -71,8 +69,8 @@ function workspace_create($workspace, $anonPerm="ADDD")
 	$data['default_user_perm'] = 'AAAA';
 	$data['rss_group'] = '';
 	$data['markup_group'] = '';
-	db_record_insert('workspace',$data);  
-	
+	db_record_insert($tiddlyCfg['table']['workspace'],$data);  
+debug("2");
 	$data1['workspace_name'] = $workspace;
 	$data1['body'] = $workspace;
 	$data1['title'] = 'SiteTitle';

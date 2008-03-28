@@ -42,7 +42,7 @@
 	
 //////////////////////// ::::: ADVANCED ::::: /////////////////////////
 	$tiddlyCfg['deligate_session_management'] = 0; 	
-	$tiddlyCfg['on_the_fly_workspace_creation'] = 1;
+	$tiddlyCfg['on_the_fly_workspace_creation'] = 0;
 	
 	// upload values 
 	$tiddlyCfg['max_file_size'] = 9933300000;
@@ -137,7 +137,7 @@ If you got one of the following error message, that may mean your database do no
 	
 	//return array form, empty array means workspace not exist
 	$workspace_settings = db_workspace_selectSettings();
-	
+debug(sizeof($workspace_settings));
 	//if no instance found, check if instance name is empty string
 	if( sizeof($workspace_settings)==0 )
 	{//exit($tiddlyCfg['instance_name']);
@@ -150,10 +150,12 @@ If you got one of the following error message, that may mean your database do no
 		}else{	//if not empty, check if installation can be done
 			if( $tiddlyCfg['allow_workspace_creation']>0 )
 			{//if allow workspace creation
+		
 				if ($_POST)
 				{
 					include($cct_base."includes/workspace.php");
-					workspace_create($tiddlyCfg['workspace_name'], $_POST['ccAnonPerm']);
+
+					workspace_create($_POST['ccCreateWorkspace'], $_POST['ccAnonPerm']);
 				}
 				
 				if( $tiddlyCfg['allow_workspace_creation']==2 )	//if =2, only allow user to create workspace

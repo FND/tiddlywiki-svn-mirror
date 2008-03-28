@@ -72,25 +72,19 @@
 		$pw = cookie_get('sessionToken');
 	
 		if ($tiddlyCfg['deligate_session_management'] ==1)
+		{
+			$req_url = "http://uvoke.itoolabs.com/sys/uvokechecksess.wcgp?s=".$_REQUEST['sess'];
+			if($a = @file_get_contents($req_url))
 			{
-				$req_url = "http://uvoke.itoolabs.com/sys/uvokechecksess.wcgp?s=".$_REQUEST['sess'];
-				if($a = @file_get_contents($req_url))
+				if ($a != "")
 				{
-					if ($a != "")
-					{
-						return true;
-					}
-				}				
-			}
+					return true;
+				}
+			}				
+		}
 
-	
-		
-		
 		if ($pw && $pw !== "invalid")
 		{
-		
-		
-		
 			$data_session['session_token'] = $pw;
 			$results = db_record_select('login_session', $data_session);			// get array of results		
 
@@ -116,8 +110,8 @@
 				return FALSE;		
 			}
 		}
-				// no session key or its invalid
-				return FALSE;
+		// no session key or its invalid
+		return FALSE;
 	}
 	
 	
