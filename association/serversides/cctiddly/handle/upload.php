@@ -13,10 +13,13 @@ if(!user_session_validate())
 	echo '<b>You do not appear to be logged in. You may need to refresh the page to recieve the login prompt.</b>';
 	exit;	
 }
+echo $_POST['username'];
+echo $_POST['saveTo'];
 
 if (!user_isAdmin($user['username'], $_POST['workspaceName']))
 {
 	sendHeader("401");
+
 	echo '<b> You do not have permissions to upload files, please contact your system administrator.</b>';
 	exit;
 }

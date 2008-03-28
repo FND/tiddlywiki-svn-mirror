@@ -41,12 +41,12 @@ function workspace_create($workspace, $anonPerm="ADDD")
 		echo '<b>You do not appear to be logged in</b>';
 		exit;	
 	}
-	debug("workspace_create: ".$workspace);
 	
-	if(!ctype_alnum($workspace))
+	
+	if(eregi('[^a-zA-Z0-9.]', $workspace))
 	{
 		header('HTTP/1.0 400 Bad Request');
-		exit("Workspace name can only include numbers and letters.");
+		exit("Workspace name can only include numbers, letters and full stops.");
 	}
 	
 	if ($tiddlyCfg['create_workspace']!==1)

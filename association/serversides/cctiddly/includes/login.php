@@ -10,7 +10,7 @@ if($tiddlyCfg['on_the_fly_workspace_creation'] ==1 )
 		include_once($cct_base."includes/workspace.php");
 		if ($workspace_settings_count < 1)
 		{
-			workspace_create($workspace);
+			workspace_create($tiddlyCfg['workspace_name']);
 			$workspace_settings = db_workspace_selectSettings();
 			$workspace_settings_count = count($workspace_settings);
 		}

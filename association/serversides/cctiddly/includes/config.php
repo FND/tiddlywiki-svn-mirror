@@ -6,10 +6,10 @@
 */
 //////////////////////////////////////////////////////// default configurations ////////////////////////////////////////////////////////
 	$tiddlyCfg['db']['type'] = "mysql";		//sql type
-	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
+	$tiddlyCfg['db']['host'] = "db";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
-	$tiddlyCfg['db']['pass'] = "";		//login password
-	$tiddlyCfg['db']['name'] = "cctiddly_public";		//db name
+	$tiddlyCfg['db']['pass'] = "0p3ns0urc3";		//login password
+	$tiddlyCfg['db']['name'] = "cctiddly_uVoke";		//db name
 
 	
 	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
@@ -41,8 +41,8 @@
 	$tiddlyCfg['default_user_perm'] = "AADD";
 	
 //////////////////////// ::::: ADVANCED ::::: /////////////////////////
-	$tiddlyCfg['deligate_session_management'] = 0; 	
-	$tiddlyCfg['on_the_fly_workspace_creation'] = 0;
+	$tiddlyCfg['deligate_session_management'] = 1; 	
+	$tiddlyCfg['on_the_fly_workspace_creation'] = 1;
 	
 	// upload values 
 	$tiddlyCfg['max_file_size'] = 9933300000;
@@ -74,7 +74,7 @@ If you got one of the following error message, that may mean your database do no
 	$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
 	
 	$tiddlyCfg['users_required_in_db']=0; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db
-	$tiddlyCfg['can_create_account'] = 1;
+	$tiddlyCfg['can_create_account'] = 0;
 	
 	
 /////////////////////////////////////////////////////////url dependent config////////////////////////////////////////////////////.
@@ -137,7 +137,7 @@ If you got one of the following error message, that may mean your database do no
 	
 	//return array form, empty array means workspace not exist
 	$workspace_settings = db_workspace_selectSettings();
-debug(sizeof($workspace_settings));
+	
 	//if no instance found, check if instance name is empty string
 	if( sizeof($workspace_settings)==0 )
 	{//exit($tiddlyCfg['instance_name']);
@@ -150,12 +150,10 @@ debug(sizeof($workspace_settings));
 		}else{	//if not empty, check if installation can be done
 			if( $tiddlyCfg['allow_workspace_creation']>0 )
 			{//if allow workspace creation
-		
 				if ($_POST)
 				{
 					include($cct_base."includes/workspace.php");
-
-					workspace_create($_POST['ccCreateWorkspace'], $_POST['ccAnonPerm']);
+					workspace_create($tiddlyCfg['workspace_name'], $_POST['ccAnonPerm']);
 				}
 				
 				if( $tiddlyCfg['allow_workspace_creation']==2 )	//if =2, only allow user to create workspace
