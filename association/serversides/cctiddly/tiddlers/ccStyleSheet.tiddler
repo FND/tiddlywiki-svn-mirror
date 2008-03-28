@@ -1,0 +1,79 @@
+<div tiddler="StyleSheet" modifier="username" modified="200803281053" created="200803271305" tags="" changecount="105" >
+
+/*{{{*/
+
+.input {
+display: block;
+font-size:0.9em;
+width: 250px;
+float: left;
+margin-bottom: 10px;
+border:solid 1px #B3B3B3;
+padding:4px;
+}
+ 
+
+label{
+font-size:0.9em;
+
+color:#292929;
+}
+.label {
+text-align: right;
+width: 75px;
+padding-top:1px;
+padding-right: 5px;
+display: block;
+width: 150px;
+float: left;
+margin-bottom: 10px;
+}
+
+
+
+.checkContainer {
+text-align: right;
+width: 75px;
+padding-right: 5px;
+display: block;
+width: 150px;
+float: left;
+margin-bottom: 10px;
+}
+
+
+.wizard{
+background-color:#E1E7F8;
+border:solid 1px #9399AB;
+}
+
+.checkInput{
+border:solid 1px #B3B3B3;
+color: #5B5C56;
+		background-color: #FFFFFF;
+		border:none;
+}
+
+.wizardStep{
+
+border:solid 1px #9399AB;
+}
+
+.wizardFooter{
+background-color:#E1E7F8;
+}
+
+
+.checkLabel {
+text-align: left;
+display: block;
+float:left;
+}
+
+br {
+clear: left;
+}
+
+/*}}}*/
+
+</div>
