@@ -1,5 +1,5 @@
 |Name|MptwRounded|
-|Description|Mptw Theme with the default TiddlyWiki PageLayout|
+|Description|Mptw Theme with some rounded corners (Firefox only)|
 |ViewTemplate|MptwTheme##ViewTemplate|
 |EditTemplate|MptwTheme##EditTemplate|
 |PageTemplate|MptwTheme##PageTemplate|
