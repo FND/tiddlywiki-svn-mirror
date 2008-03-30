@@ -1,8 +1,8 @@
 /***
 |''Name:''|UploadTiddlerPlugin|
 |''Description:''|Upload a tiddler and Update a remote TiddlyWiki |
-|''Version:''|1.1.0|
-|''Date:''|2008 03 05|
+|''Version:''|1.1.1|
+|''Date:''|2008 03 29|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadTiddlerPlugin|
 |''Usage:''|Uses {{{<<uploadOptions>>}}}<br>with those UploadTiddler Options : <br>chkUploadTiddler: <<option chkUploadTiddler>><br>txtUploadTiddlerStoreUrl: <<option txtUploadTiddlerStoreUrl>>|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
@@ -11,8 +11,8 @@
 ***/
 //{{{
 version.extensions.UploadTiddlerPlugin = {
-	major: 1, minor: 1, revision: 0, 
-	date: new Date("2008 03 05"),
+	major: 1, minor: 1, revision: 1, 
+	date: new Date("2008 03 29"),
 	source: 'http://tiddlywiki.bidix.info/#UploadTiddlerPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
 	coreVersion: '2.3.0'
@@ -22,9 +22,9 @@ if (!window.bidix) window.bidix = {}; // bidix namespace
 bidix.debugMode = false;
 bidix.uploadTiddler = {
 	messages: {
-		aboutToSaveTiddler: "About to save tiddler '%0'...",
+		aboutToSaveTiddler: "About to update tiddler '%0'...",
 		storeTiddlerNotFound: "Script store tiddler '%0' not found",
-		tiddlerSaved: "Tiddler '%0' saved in '%1'"
+		tiddlerSaved: "Tiddler '%0' updated in '%1'"
 	},
 	upload: function(title,tiddler,oldTitle) {
 		var callback = function(status,params,responseText,url,xhr) {

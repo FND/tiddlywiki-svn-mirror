@@ -21,7 +21,7 @@ No change needed under
 
 /***
  * storeTiddler.php - upload a tiddler to a TiddlyWiki file in this directory
- * version: 1.1.0 - 2008/03/05 - BidiX@BidiX.info
+ * version: 1.2.0 - 2008/03/23 - BidiX@BidiX.info
  * 
  * tiddler is POST as <FORM> with :
  *	FORM = 
@@ -44,6 +44,8 @@ No change needed under
  *		Display a form for 
  *
  * Revision history
+ * V1.2.0 - 2008-03-23
+ * Exclusive lock to serialize rewrite of file  
  * V1.1.0 - 2008/03/05
  * Delete tiddler with oldTitle
  * V1.0.0 - 2008/02/24
@@ -76,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	</head>
 	<body>
 		<p>
-		<p>storeTiddler.php V 1.1.0
+		<p>storeTiddler.php V 1.2.0
 		<p>BidiX@BidiX.info
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
@@ -251,27 +253,19 @@ exit;
  * parse and print a TiddlyWiki file
  */
 
-Function readTiddlyWiki($file) {
-	
-	if (file_exists($file)) {
-		$tw = file_get_contents ($file);
-		if (preg_match ("/(.*?<div id=\"storeArea\">.*?)(<div.*)/ms", $tw,$matches)) {
-			$head = $matches[1];
-			$h = $matches[2];
-			$tiddlers = array();
-			while (preg_match ("/(.*?)(<div title=\"(.*?)\".*?<\/div>)(.*)/ms", $h,$matches)) {
-				$h=$matches[4];
-				$tiddlers[$matches[3]] = $matches[2];
-			}
-			$tail = ltrim($h);
+Function readTiddlyWiki($tw) {	
+	if (preg_match ("/(.*?<div id=\"storeArea\">.*?)(<div.*)/ms", $tw,$matches)) {
+		$head = $matches[1];
+		$h = $matches[2];
+		$tiddlers = array();
+		while (preg_match ("/(.*?)(<div title=\"(.*?)\".*?<\/div>)(.*)/ms", $h,$matches)) {
+			$h=$matches[4];
+			$tiddlers[$matches[3]] = $matches[2];
 		}
-		else {
-			echo("The file '$file' isn't a valid TiddlyWiki");
-			toExit();
-		}
+		$tail = ltrim($h);
 	}
 	else {
-		echo ("File '$file' doesn't exist");
+		echo("The file '$file' isn't a valid TiddlyWiki");
 		toExit();
 	}
 	return array($head, $tiddlers ,$tail);
@@ -363,33 +357,51 @@ if (file_exists($destfile) && ($options['backupDir'])) {
 
 
 if (file_exists($destfile)) {
-	list($head,$tiddlers,$tail) = readTiddlyWiki($destfile);
-	$title = $_POST['title'];
-	$oldTitle = $_POST['oldTitle'];
-	if ($oldTitle && ($title != $oldTitle)) {
-		unset($tiddlers[$oldTitle]);
-	}
-	$tiddlers[$title] = stripslashes($_POST['tiddler']);
-	$content = writeTiddlyWiki($head,$tiddlers,$tail);
-	$f = fopen($destfile,'w');
-	fwrite($f, $content );
-	fclose($f);	
+	$f = fopen($destfile,'r+');
+	if (flock($f, LOCK_EX)) { 
+		while (!feof($f)) {
+		    $contents .= fread($f, 8192);
+		}
+		list($head,$tiddlers,$tail) = readTiddlyWiki($contents);
+		$title = $_POST['title'];
+		$oldTitle = $_POST['oldTitle'];
+		if ($oldTitle && ($title != $oldTitle)) {
+			unset($tiddlers[$oldTitle]);
+		}
+		$tiddlers[$title] = stripslashes($_POST['tiddler']);
+		$contents = writeTiddlyWiki($head,$tiddlers,$tail);
+		if (!rewind($f)) {
+			echo("rewind error");
+			toExit();
+		} 
+		if (!ftruncate($f, 0)) {
+			echo("ftruncate error");
+			toExit();
+		};
+		if (!fwrite($f, $contents)) {
+			echo("fwrite error");
+			toExit();			
+		}
+		fclose($f);	// fclose also unlock the file
+		if($DEBUG) {
+			echo "Debug mode \n\n";
+		}
+		if (!$backupError) {
+			echo "0 - Tiddler successfully updated in " .$destfile. "\n";
+		} else {
+			echo "BackupError : $backupError - Tiddler successfully updated in " .$destfile. "\n";
+		}
+		echo("destfile:$destfile \n");
+		if (($backupFilename) && (!$backupError)) {
+			echo "backupfile:$backupFilename\n";
+		}
+		$mtime = filemtime($destfile);
+		echo("mtime:$mtime");
 	
-	if($DEBUG) {
-		echo "Debug mode \n\n";
 	}
-	if (!$backupError) {
-		echo "0 - Tiddler successfully updated in " .$destfile. "\n";
-	} else {
-		echo "BackupError : $backupError - Tiddler successfully updated in " .$destfile. "\n";
+	else {
+		echo "Error : '" . $filename . "' couldn't be locked - File NOT updated !\n";
 	}
-	echo("destfile:$destfile \n");
-	if (($backupFilename) && (!$backupError)) {
-		echo "backupfile:$backupFilename\n";
-	}
-	$mtime = filemtime($destfile);
-	echo("mtime:$mtime");
-	
 }
 else {
 	echo "Error : '" . $filename . "' doesn't exist - File NOT updated !\n";
