@@ -333,6 +333,11 @@ body {
 	height:12em;
 }
 
+.dateBox { font-weight:bold; font-size:120%; margin:0.1em; }
+
+/* for DateChooser */
+[[DateChooserStyles]]
+
 /* for user styles */
 [[StyleSheet]]
 

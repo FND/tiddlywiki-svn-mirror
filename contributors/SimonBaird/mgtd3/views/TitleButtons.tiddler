@@ -37,6 +37,8 @@ Realm:<span macro="multiSelectTag Realm"></span>
 Project:<span macro="multiSelectTag Project allowNone:on"></span>
 Realm:<span macro="multiSelectTag Realm"></span>
 [[MonkeyGTDTheme##Subtitle]]
+<br/>
+Tickler date:<span macro="dateChooser"></span>
 <!--}}}-->
 
 !View
