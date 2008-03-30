@@ -20,8 +20,9 @@
 	newButtonTags:'Action Future'
 	"></div>
 
-<div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
+<div class="scroll10" macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
 	newButtonTags:'Action Next Done'
+	sort:modified
 	"></div>
 
 </td><td>
@@ -62,9 +63,10 @@
 
 </td><td>
 
-<div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
+<div class="scroll10" macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
 	group:Project
 	gView:plain
+	sort:modified
 	newButtonTags:'Action Next Done'
 	where:tiddler.hasActiveProject()
 	"></div>
@@ -99,8 +101,9 @@
 	newButtonTags:'Action Future'
 	"></div>
 
-<div macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
+<div class="scroll10" macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
 	newButtonTags:'Action Next Done'
+	sort:modified
 	"></div>
 
 </td><td>

@@ -328,6 +328,11 @@ body {
 
 .smaller { font-size: 70%; }
 
+.scroll10 .innerList {
+	overflow:auto;
+	height:12em;
+}
+
 /* for user styles */
 [[StyleSheet]]
 
