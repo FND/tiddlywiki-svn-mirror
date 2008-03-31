@@ -3,19 +3,18 @@
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Description:''|Plug to speed up saving by avoiding loading tiddlywiki before saving|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/FastSavePlugin.js |
-|''Version:''|0.0.5|
+|''Version:''|0.0.6|
 |''Date:''|Mar 19, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.3.0|
 
 !!Description
-// Uses a template file to generate the empty TiddlyWiki content, thus avoiding the need to load the TiddlyWiki before saving it
+Uses a template file to generate the empty TiddlyWiki content, thus avoiding the need to load the TiddlyWiki before saving it
 
 !!Usage
-// Include the TiddlyWikiTemplate tiddler in your TiddlyWiki
-// Then include this plugin and tag it systemConfig in the normal way.
-
+Include the TiddlyWikiTemplate tiddler in your TiddlyWiki
+Then include this plugin and tag it systemConfig in the normal way.
 
 ***/
 
@@ -79,7 +78,6 @@ config.parsers.templateFormatter = new Formatter(config.templateFormatters);
 config.parsers.templateFormatter.format = 'template';
 config.parsers.templateFormatter.formatTag = 'TemplateFormat';
 
-//# from Saving.js
 function loadOriginal(localPath)
 {
 	var tiddler = new Tiddler('temp');
