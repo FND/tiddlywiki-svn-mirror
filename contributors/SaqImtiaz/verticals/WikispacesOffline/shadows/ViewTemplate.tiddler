@@ -1,4 +1,4 @@
-<div title="ViewTemplate" modifier="SaqImtiaz" created="200802260834" modified="200802261350" tags="excludeSearch excludeLists" changecount="9">
+<div title="ViewTemplate" modifier="SaqImtiaz" created="200802260834" modified="200802261350" tags="excludeSearch excludeLists">
 <pre><!--{{{-->
 <div class='title' macro='view title'></div>
 <div class='toolbar' macro='toolbar +editTiddler'></div>

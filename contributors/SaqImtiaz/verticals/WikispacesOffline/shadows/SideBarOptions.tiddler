@@ -1,4 +1,4 @@
-<div title="SideBarOptions" modifier="SaqImtiaz" created="200802260804" modified="200803030956" tags="excludeLists excludeSearch" changecount="22">
+<div title="SideBarOptions" modifier="SaqImtiaz" created="200802260804" modified="200803030956" tags="excludeLists excludeSearch">
 <pre>!!!Actions
 <<newTiddler label:'New Page' prompt:'New Page'>>
 {{search{<<search search>>}}}
