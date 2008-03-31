@@ -81,6 +81,7 @@ demo = [
 
 ]
 
+
 # TODO put into r4tw
 class Tiddler
   def get_sections
@@ -104,6 +105,7 @@ make_tw {
   add_tiddlers_from_dir  "views"
 
   add_tiddlers_from_dir  "tiddlers"
+
 
   # generate some content
   content = ""
@@ -136,6 +138,15 @@ make_tw {
 
   # load the demo and write a demo file
   demo.each { |t| add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2]||'') }
+
+  #############
+  # load additional demo from the demo_tw. thanks Michael Slay for donating this project for the demo
+  demo_tw = make_tw { source_file 'demo/nicedemo.html' }
+  add_tiddler demo_tw.get_tiddler("CustCheck Server Install")
+  demo_tw.tiddlers_with_tag("CustCheck Server Install").each {|t| add_tiddler t}
+  #
+  #######################
+
   to_file                "upload/demo3.html"
 }
 

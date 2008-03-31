@@ -1,6 +1,9 @@
 !Project
 <!--{{{-->
 <table class="twocol"><tr><td>
+
+[[TagDashboards##Ticklers Requiring Action]]
+
 <div macro="mgtdList title:'Next Actions' tags:'Action && Next && !Done' view:Action
 	group:Context
 	gView:Context
@@ -20,6 +23,8 @@
 	gView:Context
 	newButtonTags:'Action Future'
 	"></div>
+
+[[TagDashboards##Upcoming Ticklers]]
 
 <div macro="mgtdList title:'Done Actions' tags:'Action && Done' view:DoneAction
 	newButtonTags:'Action Done Next'
@@ -56,4 +61,16 @@
 </tr></table>
 <!--}}}-->
 
+
+!Ticklers Requiring Action
+<div macro="mgtdList title:'Ticklers Requiring Action' tags:'Tickler && Enabled && !Actioned' view:Tickler newButtonTags:'Tickler Enabled'
+	where:'tiddler.fields.mgtd_date && ((new Date()).convertToYYYYMMDDHHMM() >= tiddler.fields.mgtd_date ) '
+	sortBy='ticklerDate'
+	"></div>
+
+!Upcoming Ticklers 
+<div macro="mgtdList title:'Upcoming Ticklers' tags:'Tickler && Enabled && !Actioned' view:Tickler newButtonTags:'Tickler Enabled'
+	where:'tiddler.fields.mgtd_date && ((new Date()).convertToYYYYMMDDHHMM() < tiddler.fields.mgtd_date ) '
+	sortBy='-ticklerDate'
+	"></div>
 

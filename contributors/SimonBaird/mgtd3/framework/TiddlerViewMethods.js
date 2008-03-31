@@ -30,6 +30,27 @@ merge(Tiddler.prototype,{
 		]
 	);},
 
+	render_Tickler: function() { return this.renderUtil(
+		'{{tickler{'+
+		'<<toggleTag Actioned [[%0]] ->>'+
+		'<<multiToggleTag tag:TicklerStatus title:[[%0]]>>'+
+		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
+		' &nbsp;[[%0]] - <<dateChooser [[%0]]>> }}}',
+		[
+			this.title
+		]
+	);},
+	render_DisabledTickler: function() { return this.renderUtil(
+		'{{tickler{'+
+		'<<multiToggleTag tag:TicklerStatus title:[[%0]]>>'+
+		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
+		' &nbsp;[[%0]] - <<dateChooser [[%0]]>> }}}',
+		[
+			this.title
+		]
+	);},
+
+
 	render_Project: function() { return this.renderUtil(
 		'{{project{'+
 		'<<toggleTag Complete [[%0]] ->>'+

@@ -15,6 +15,7 @@
 * [[Action Dashboard]]
 * [[Done Actions]]
 </slider>
+[[Tickler Dashboard]]
 <slider+ Contexts>
 <<mgtdList startTag:Action tags:'Next && !Done' groupCountOnly:yes group:Context gView:Context where:tiddler.hasActiveProject()>>
 </slider>

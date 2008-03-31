@@ -62,6 +62,7 @@
 	<div>
 	<span class="label">REALM</span><span id='arealmSelector' macro="groupOfSingleToggleTags tag:Realm title:MgtdSettings refresh:page"></span>
 	<span id='newButtons' refresh='content' tiddler='NewButtons'></span>
+	<span id='ticklerAlert' refresh='content' tiddler='TicklerAlert' force="true"></span>
 	</div>
 	</div>
 </div>
@@ -249,11 +250,15 @@ html>body .header2 {background-image:url(http://simonbaird.com/images/monkeygtd/
 	padding:0.5em 1em 0em 1em;
 }
 
-.mgtdList .action .tiddlyLinkExisting {
+.mgtdList .action .tiddlyLinkExisting,
+.mgtdList .tickler .tiddlyLinkExisting
+{
 	font-weight: normal ! important;
 }
 
-.mgtdList .action .tiddlyLink {
+.mgtdList .action .tiddlyLink,
+.mgtdList .tickler .tiddlyLink
+{
 	font-weight: normal ! important;
 }
 
@@ -333,7 +338,18 @@ body {
 	height:12em;
 }
 
-.dateBox { font-weight:bold; font-size:120%; margin:0.1em; }
+.dateBox {
+	/* TODO make prettier */
+	font-weight:medium; font-size:120%; margin:0.1em; background-color:#ffd;
+	border:2px solid [[ColorPalette::TertiaryMid]];
+	background-color:[[ColorPalette::TertiaryPale]];
+	text-align:center;
+	width:7em;
+}
+.mgtdList .dateBox { font-weight:medium; font-size:100%; }
+
+#ticklerAlert .tiddlyLink { color:white; }
+#ticklerAlert { padding-left:2em; }
 
 /* for DateChooser */
 [[DateChooserStyles]]

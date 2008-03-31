@@ -3,6 +3,8 @@
 <!--{{{-->
 <table class="threecol"><tr><td>
 
+[[NameDashBoards##Ticklers Requiring Action]]
+
 <div macro="mgtdList title:'Next Actions' startTag:Action tags:'Next && !Done' view:ActionProj mode:global
 	where:tiddler.hasActiveProject()
 	newButtonTags:'Action Next'
@@ -36,6 +38,8 @@
 !Action Dashboard by Project
 <!--{{{-->
 <table class="threecol"><tr><td>
+
+[[NameDashboards##Ticklers Requiring Action]]
 
 <div macro="mgtdList title:'Next Actions' startTag:Action tags:'Next && !Done' view:Action mode:global
 	group:Project
@@ -77,6 +81,8 @@
 !Action Dashboard by Context
 <!--{{{-->
 <table class="threecol"><tr><td>
+
+[[NameDashboards##Ticklers Requiring Action]]
 
 <div macro="mgtdList title:'Next Actions' startTag:Action tags:'Next && !Done' view:ActionProj mode:global
 	group:Context
@@ -125,6 +131,7 @@
 
 !Next Actions by Context
 <!--{{{-->
+
 <div macro="mgtdList startTag:Action tags:'Next && !Done' view:ActionProj mode:global
 	group:Context
 	newButtonTags:'Action Next'
@@ -134,6 +141,7 @@
 
 !Next Actions by Project
 <!--{{{-->
+
 <div macro="mgtdList startTag:Action tags:'Next && !Done' view:Action mode:global
 	group:Project
 	gView:plain
@@ -291,3 +299,26 @@ Paint House
 By default actions are next actions. 
 Specify W or F to make them future or Waiting For. You can create multiple projects and project-less actions.
 (TODO: expand on this help.) 
+
+!Tickler Dashboard
+<!--{{{-->
+<table class="threecol">
+<tr><td>
+[[NameDashboards##Ticklers Requiring Action]]
+<div macro="mgtdList title:'Upcoming Ticklers' startTag:Tickler tags:'Enabled && !Actioned' view:Tickler mode:global newButtonTags:'Tickler Enabled'
+	where:'!tiddler.fields.mgtd_date || ((new Date()).convertToYYYYMMDDHHMM() < tiddler.fields.mgtd_date )'
+	sortBy='-ticklerDate'
+	"></div>
+</td><td>
+<div macro="mgtdList title:'Actioned Ticklers' startTag:Tickler tags:'Enabled && Actioned' view:Tickler mode:global newButtonTags:'Tickler Enabled Actioned' "></div>
+</td><td>
+<div macro="mgtdList title:'Disabled Ticklers' startTag:Tickler tags:'Disabled' view:DisabledTickler mode:global newButtonTags:'Tickler Disabled' "></div>
+</td></tr></table>
+<!--}}}-->
+
+!Ticklers Requiring Action
+<div macro="mgtdList title:'Ticklers Requiring Action' startTag:Tickler tags:'Enabled && !Actioned' view:Tickler mode:global newButtonTags:'Tickler Enabled'
+	where:'tiddler.fields.mgtd_date && ((new Date()).convertToYYYYMMDDHHMM() >= tiddler.fields.mgtd_date ) '
+	sortBy='ticklerDate'
+	"></div>
+
