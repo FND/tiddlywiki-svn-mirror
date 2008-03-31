@@ -3,7 +3,7 @@
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Description:''|Plug to speed up saving by avoiding loading tiddlywiki before saving|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/FastSavePlugin.js |
-|''Version:''|0.0.6|
+|''Version:''|0.0.7|
 |''Date:''|Mar 19, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -38,8 +38,6 @@ config.templateFormatters = [
 				invokeMacro(w.output,lookaheadMatch[1],lookaheadMatch[2],w,w.tiddler);
 				return;
 			}
-			if(w.source.substr(w.nextMatch,1)=='\n')
-				w.nextMatch++;
 			var match = lookaheadMatch[3];
 			var text = '';
 			switch(match) {
@@ -61,6 +59,10 @@ config.templateFormatters = [
 					text += saver.externalizeTiddler(store,tiddler) + '\n';
 				});
 				delete shadows;
+				//# drop through
+			default:
+				if(w.source.substr(w.nextMatch,1)=='\n')
+					w.nextMatch++;
 				break;
 			}
 			if(text) {
