@@ -1,0 +1,31 @@
+<div title="PageTemplate" modifier="SaqImtiaz" created="200803030914" tags="excludeLists excludeSearch" changecount="1">
+<pre><div id="stickybod">
+	<div id="headerWrap">
+		<div id="header">
+			<div id="headerTitle" refresh='content' tiddler='SiteTitle'></div>
+		</div>
+	</div>
+	<div id="mainWrap">
+		<div id="main">
+			<div id='menu'>
+				<div id='mysidebar'>
+					<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+				<!--	<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabsWrapper'></div> -->
+				</div>
+				<div id='menucontent' refresh='content' tiddler='space.menu'></div>
+			</div>			
+			<div id='mydisplayArea'>
+				<div id='messageArea'></div>
+				<div id='tiddlerDisplay'></div>
+			</div>
+		</div>
+		<br class='clear-float'/>
+	</div>
+	<div id="push"></div>
+</div>
+<div id="stickyfoot">
+	<div id="footer"  refresh='content' force='true' tiddler='License'>
+	</div>
+</div>	
+<!--}}}--></pre>
+</div>

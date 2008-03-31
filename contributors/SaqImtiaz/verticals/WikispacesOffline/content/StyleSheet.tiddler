@@ -1,0 +1,194 @@
+<div title="StyleSheet" modifier="SaqImtiaz" created="200803030914" tags="excludeLists excludeSearch" changecount="3">
+<pre>html, * {
+	margin:0pt;
+	padding:0pt;
+}
+
+body {
+	background:#F0EFEE;
+	color:#000000;
+	font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+}
+
+html, body, #contentWrapper {
+	height: 100%;
+}
+
+body #contentWrapper {
+	display:block;
+}
+
+#stickybod{
+	min-height: 100%;
+	background:#F0EFEE;
+	height: auto !important;
+	height: 100%;
+	margin: 0 0 -54px 0; 
+}
+
+#headerWrap{
+	background:#F0EFEE;
+	height:54px;
+	width:100%;
+}
+
+#header{
+	background:transparent;
+	display:block;
+	height:54px;
+	margin:0pt;
+	width:75em;
+}
+
+#headerTitle {
+	color:#000;
+	font-family:Arial;
+	font-size:2em;
+	font-weight:bold;
+	line-height:1.8em;
+	padding:5px 0px 0px 15px;
+}
+
+#mainWrap{
+	background:#F0EFEE;
+	width:100%;
+	position:relative;
+}
+
+#main{
+	display: block;
+	position:relative;
+}
+
+#stickyfoot{
+	background:#F0EFEE;
+	height:54px;
+	width:100%;
+}
+
+#stickyfoot, #push {
+	height: 54px; 
+}
+
+#footer{
+	background:transparent;
+	display:block;
+	height:54px;
+	margin:0pt auto;
+	width:75em;
+	line-height:54px;
+	text-align:center;
+	font-weight: bold;
+	color: [[ColorPalette::TertiaryDark]];
+}
+
+#mydisplayArea{
+	float:left;
+	width: 75em;/*testing*/
+	padding-top:1.5em;
+}
+
+#menu{
+	float:left;
+	margin:0pt;
+	width:180px; /*testing*/
+	padding-top:1.5em;
+	padding-bottom: 1em;
+}
+
+#mysidebar {
+	position:relative;
+}
+
+br.clear-float{
+	clear:both;
+	height:0px;
+	overflow:hidden;
+}
+
+#tiddlerDisplay{
+	margin-left:1.5em;
+}
+/* */
+
+#menucontent, #mysidebar{
+	background:#F0EFEE;
+	padding:0 10px;
+	line-height:1.4em;
+	font-size:1.1em;
+}
+
+
+#menucontent {
+	padding-top:1em;
+}
+
+.tiddler{
+	background:#F0EFEE;
+	margin-bottom:0;
+	padding:0;
+}
+
+.viewer {
+	padding:10px;
+	margin-bottom:10px;
+	background:#fff;
+	border:1px solid [[ColorPalette::TertiaryLight]];
+}
+
+#mysidebar #sidebarOptions a, #menu #menucontent a {
+	display:inline;
+	border:none;
+	color:#04b;
+	font-weight:normal;
+}
+
+#mysidebar #sidebarOptions a:hover, #menu #menucontent a:hover{
+	background:transparent;
+	text-decoration:underline;
+	border:none;
+}
+
+#mysidebar #sidebarOptions .search .button {display:none;}
+
+.title {
+	float:left;
+	margin-bottom:10px;
+}
+
+.toolbar {
+	float:left;
+	font-size:1em;
+	line-height:1.6em;
+	margin-left:1em;
+}
+
+.toolbar a, .selected .toolbar a{
+	background:#fff;
+	color:#444;
+	border:1px solid #ccc;
+	margin: 0.2em;
+}
+
+.editor input {border:1px solid [[ColorPalette::TertiaryMid]];}
+.editor textarea {border:1px solid [[ColorPalette::TertiaryMid]];}
+
+/*}}}*/
+.viewer {margin-bottom:1.5em;}
+
+.quickedit .title{display:none;}
+
+.quickedit {background:#eee; padding:10px; border:1px solid #ccc;}
+
+.toolbar {margin-bottom:1em;}
+
+.quickeditpreviewhidden {display:none;}
+
+.openEditTiddler {background:#fff;}
+
+.openEditTiddler {border:1px solid red;}
+
+.qe_preview .toolbar {display:none;}
+
+.editLabel {font-size:90%; padding-top:0.5em;}</pre>
+</div>

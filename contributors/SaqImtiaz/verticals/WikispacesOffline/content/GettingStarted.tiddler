@@ -1,0 +1,34 @@
+<div title="GettingStarted" modifier="SaqImtiaz" created="200803030928" modified="200803040558" changecount="7">
+<pre>This file that allows you to work offline on your Wikispaces space. It uses [[TiddlyWiki]] to allow you to store and edit all your content in one file. Your individual pages are referred to as 'tiddlers'.
+
+You can import content from your space, after which you will be able to synchronize any changes back to it. Changes on the online version can be downloaded to update the local copy. Similarly, pages edited offline can be uploaded back to the online version. In other words, you can have access to your content wherever you want even without internet access, and can edit it safely knowing you can merge those changes with the online version later.
+
+!!!Notes on saving
+''Important:'' If you see dialog boxes asking your permission for the local file operations, allow these for saving to work properly. You can select the Remember this decision option to avoid seeing the dialogs in future. Don't use the browser's //File > Save As//... function. Your changes are saved automatically.
+
+If you are using Opera or Safari as your browser, you will need to follow [[these instructions|TiddlySaver]] to enable saving.
+
+Please note that this offline copy does not keep a history for your individual changes. However, on each save an entire copy of this file is saved as a backup.
+
+!!!Getting Started: Import your content from Wikispaces:
+Click the 'import' button below to bring up the import interface. Enter the address for your Wikispaces space in the following screen (set the server type to wikispaces), you will be presented with a list of pages. Import a subset of pages, or import them all. 
+
+For the sake of convenience, a space has been added as a pre-configured 'feed'. To import from it, just choose it from the 'feed' dropdown in the import screen.
+
+Click this button to import: <<backstage importTask>>
+
+!!!Synchronize
+Once you have edit some of your page locally, you can synchronize them back to the server.
+Click this button to bring up the 'sync' interface: <<backstage sync>>
+
+You might also want to try editing a page on the server, and then going to the 'sync' screen. It will show that the remote page has been updated and will allow you to download the newer version.
+
+
+----
+!!!Future features:
+* Details of other future features and open issues can be found here: http://mixins.projects.unamesa.org/Prototype+v2
+* It is possible to ship the ~TiddlyWiki pre-configured to synchronize with a specified Wikispaces space. So you could offer a 'download local copy' option for each space, that would generate and serve a ~TiddlyWiki configured to synchronize with that space
+* retrieve the tags associated with each page. Currently we do not have access to this data.
+
+Hopefully a little further down the road in the integration process, we will be able to demonstrate some of the exciting things you can do with your Wikispaces content in ~TiddlyWiki, using plugins.</pre>
+</div>

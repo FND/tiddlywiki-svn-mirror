@@ -1,0 +1,15 @@
+tiddler: AnchorsPlugin.js
+tiddler: CryptoFunctionsPlugin.js
+tiddler: DeprecatedFunctionsPlugin.js
+tiddler: DisableWikiLinksPlugin.js
+tiddler: QuickEditPlugin.js
+tiddler: RefreshExternalTheme.js
+tiddler: SavedLocalConfigSettings.js
+tiddler: SinglePageModePlugin.js
+tiddler: SparklinePlugin.js
+tiddler: WikispaceAdaptor.js
+tiddler: WikispacesAlwaysSyncTiddlersPlugin.js
+tiddler: WikispacesBackstageTasksTweaks.js
+tiddler: WikispacesFormatter.js
+tiddler: WikispacesSanitizeTitlePlugin.js
+tiddler: WikispacesStyleSearchPlugin.js

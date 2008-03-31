@@ -1,0 +1,21 @@
+<div title="TiddlySaver" modifier="SaqImtiaz" created="200712031349" tags="excludeLists excludeSearch">
+<pre>The TiddlySaver Java applet allows TiddlyWiki from a {{{file://}}} URL to save changes Safari, Opera and other browsers.
+
+It is a small file named [["TiddlySaver.jar"|TiddlySaver.jar]] that must be placed in the same directory as your TiddlyWiki file. Before you can use it, you need to give it the necessary privileges by editting your {{{.java.policy}}} file.
+
+For Windows, the file will be at {{{C:\Documents and Settings\your-user-name\.java.policy}}}. Add the following lines (substituting the directory of your TiddlyWiki file as appropriate):
+{{{
+grant codeBase "file:${user.home}/My Documents/tiddlywiki-folder/*" {
+  permission java.io.FilePermission "${user.home}${/}My Documents${/}tiddlywiki-folder${/}*", "read,write";
+};
+}}}
+On Mac OS X, the file is found at {{{/Users/your-user-name/.java.policy}}}:
+{{{
+grant codeBase "file:${user.home}/Documents/tiddlywiki-folder/*" {
+  permission java.io.FilePermission "${user.home}${/}Documents${/}tiddlywiki-folder${/}*", "read,write";
+};
+}}}
+It can be tricky creating files whose name starts with a period, so you can use this [[pre-built .java.policy file|.java.policy]]. The same file is suitable for Macs too, just edit it and delete the "My " bit, leaving just "Documents". Make sure you save it in the right place for each operating system!
+
+Note that there is currently [[a bug|http://trac.tiddlywiki.org/ticket/172]] that prevents TiddlySaver from working if you have specified a backup directory in AdvancedOptions.</pre>
+</div>
