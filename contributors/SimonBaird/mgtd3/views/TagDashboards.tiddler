@@ -70,7 +70,7 @@
 
 !Upcoming Ticklers 
 <div macro="mgtdList title:'Upcoming Ticklers' tags:'Tickler && Enabled && !Actioned' view:Tickler newButtonTags:'Tickler Enabled'
-	where:'tiddler.fields.mgtd_date && ((new Date()).convertToYYYYMMDDHHMM() < tiddler.fields.mgtd_date ) '
+	where:'!tiddler.fields.mgtd_date || ((new Date()).convertToYYYYMMDDHHMM() < tiddler.fields.mgtd_date ) '
 	sortBy='-ticklerDate'
 	"></div>
 
