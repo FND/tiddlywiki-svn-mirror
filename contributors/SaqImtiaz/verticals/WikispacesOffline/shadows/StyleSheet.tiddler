@@ -1,5 +1,6 @@
 <div title="StyleSheet" modifier="SaqImtiaz" created="200803030914" tags="excludeLists excludeSearch">
-<pre>html, * {
+<pre>/*{{{*/
+html, * {
 	margin:0pt;
 	padding:0pt;
 }
@@ -21,9 +22,16 @@ body #contentWrapper {
 #stickybod{
 	min-height: 100%;
 	background:#F0EFEE;
+	height: 100%;
+	height: auto !important;
+	margin: 0 0 -54px 0; 
+}
+
+* html #stickybod{
+	min-height: 100%;
+	background:#F0EFEE;
 	height: auto !important;
 	height: 100%;
-	margin: 0 0 -54px 0; 
 }
 
 #headerWrap{
@@ -37,7 +45,7 @@ body #contentWrapper {
 	display:block;
 	height:54px;
 	margin:0pt;
-	width:75em;
+	max-width:75em;
 }
 
 #headerTitle {
@@ -51,13 +59,10 @@ body #contentWrapper {
 
 #mainWrap{
 	background:#F0EFEE;
-	width:100%;
-	position:relative;
 }
 
 #main{
 	display: block;
-	position:relative;
 }
 
 #stickyfoot{
@@ -75,7 +80,7 @@ body #contentWrapper {
 	display:block;
 	height:54px;
 	margin:0pt auto;
-	width:75em;
+	max-width:75em;
 	line-height:54px;
 	text-align:center;
 	font-weight: bold;
@@ -83,15 +88,15 @@ body #contentWrapper {
 }
 
 #mydisplayArea{
-	float:left;
-	width: 75em;/*testing*/
-	padding-top:1.5em;
+    margin-left:180px;
+    padding-top:1.5em;
 }
 
 #menu{
-	float:left;
+    position:absolute;
+    left:0;
 	margin:0pt;
-	width:180px; /*testing*/
+	width:180px;
 	padding-top:1.5em;
 	padding-bottom: 1em;
 }
@@ -108,8 +113,8 @@ br.clear-float{
 
 #tiddlerDisplay{
 	margin-left:1.5em;
+    max-width:75em;
 }
-/* */
 
 #menucontent, #mysidebar{
 	background:#F0EFEE;
@@ -117,7 +122,6 @@ br.clear-float{
 	line-height:1.4em;
 	font-size:1.1em;
 }
-
 
 #menucontent {
 	padding-top:1em;
@@ -149,7 +153,9 @@ br.clear-float{
 	border:none;
 }
 
-#mysidebar #sidebarOptions .search .button {display:none;}
+#mysidebar #sidebarOptions .search .button {
+    display:none;
+}
 
 .title {
 	float:left;
@@ -170,25 +176,52 @@ br.clear-float{
 	margin: 0.2em;
 }
 
-.editor input {border:1px solid [[ColorPalette::TertiaryMid]];}
-.editor textarea {border:1px solid [[ColorPalette::TertiaryMid]];}
+.editor input {
+    border:1px solid [[ColorPalette::TertiaryMid]];
+}
 
-/*}}}*/
-.viewer {margin-bottom:1.5em;}
+.editor textarea {
+    border:1px solid [[ColorPalette::TertiaryMid]];
+    padding:0.5em;
+}
 
-.quickedit .title{display:none;}
+.viewer {
+    margin-bottom:1.5em;
+}
 
-.quickedit {background:#eee; padding:10px; border:1px solid #ccc;}
+.quickedit .title{
+    display:none;
+}
 
-.toolbar {margin-bottom:1em;}
+.quickedit {
+    background:#eee;
+    padding:10px;
+    border:1px solid #ccc;
+}
 
-.quickeditpreviewhidden {display:none;}
+.toolbar {
+    margin-bottom:1em;
+}
 
-.openEditTiddler {background:#fff;}
+.quickeditpreviewhidden {
+    display:none;
+}
 
-.openEditTiddler {border:1px solid red;}
+.openEditTiddler {
+    background:#fff;
+}
 
-.qe_preview .toolbar {display:none;}
+.openEditTiddler {
+    border:1px solid red;
+}
 
-.editLabel {font-size:90%; padding-top:0.5em;}</pre>
+.qe_preview .toolbar {
+    display:none;
+}
+
+.editLabel {
+    font-size:90%;
+    padding-top:0.5em;
+}
+/*}}}*/</pre>
 </div>
