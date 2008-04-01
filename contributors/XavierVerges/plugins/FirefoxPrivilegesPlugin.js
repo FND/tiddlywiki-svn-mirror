@@ -58,7 +58,7 @@ merge(config.macros.firefoxPrivileges ,{
 	step2Html: "<input type='hidden' name='markList'></input>",
 	listViewTemplate: {
 		columns: [
-			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
+			{name: 'Selected', field: 'Selected', rowName: 'url', type: 'Selector'},
 			{name: 'Url', field: 'url', title: "Url", type: 'Link'},
 			{name: 'Granted', field: 'granted', title: "Granted", type: 'StringList'},
 			{name: 'Denied', field: 'denied', title: "Denied", type: 'StringList'},
@@ -186,10 +186,27 @@ config.macros.firefoxPrivileges.viewStepProcess = function(wizard, extraParams)
 		}
 		listWrapper.innerHTML = "";
 		var listView = ListView.create(listWrapper, listItems, this.listViewTemplate);
+		wizard.setValue("listView",listView);
+		createTiddlyButton(listWrapper, "Reset selected privileges", "", config.macros.firefoxPrivileges.resetSelectedPrivileges);
 	} catch (ex) {
 		listWrapper.innerHTML = "Error: " + ex;
 	}
 	return {};
+};
+config.macros.firefoxPrivileges.resetSelectedPrivileges = function(ev)
+{
+	var wizard = new Wizard(this);
+	var listView = wizard.getValue("listView");
+	var urls = ListView.getSelectedRows(listView);
+	if(urls.length == 0) {
+		alert(config.messages.nothingSelected);
+	} else {
+		netscape.security.PrivilegeManager.enablePrivilege(config.macros.firefoxPrivileges.privAccessCapabilities);
+		for (var ii=0; ii<urls.length; ii++) {
+			config.macros.firefoxPrivileges.setUrlPrivilege(false, urls[ii], [], true);
+		}
+		config.macros.firefoxPrivileges.step(wizard, 2, {reqAcccess: false});
+	}
 };
 config.macros.firefoxPrivileges.setUrlPrivilege = function(reqAccess, url, rights, reset)
 {
@@ -239,8 +256,8 @@ config.macros.firefoxPrivileges.setUrlPrivilege = function(reqAccess, url, right
 	var grantedStr = urlHandle + ".granted";
 	function clearPref(str) {
 		if (prefs.prefHasUserValue(str)) {
-			prefs.clearUserValue(str);
-		}		
+			prefs.clearUserPref(str);
+		}
 	}
 	function setOrClearPref(str, val) {
 		if (val.length) {
@@ -255,9 +272,7 @@ config.macros.firefoxPrivileges.setUrlPrivilege = function(reqAccess, url, right
 		}
 	}
 	if (!denied.length && !granted.length) {
-		clearPref(idStr);
-		clearPref(deniedStr);
-		clearPref(grantedStr);
+		prefs.deleteBranch(urlHandle + ".");
 	} else {
 		setOrClearPref(idStr, url);
 		setOrClearPref(deniedStr, denied);
