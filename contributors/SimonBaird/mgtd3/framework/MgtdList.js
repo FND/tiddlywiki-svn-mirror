@@ -17,14 +17,24 @@ merge(config.macros,{
 		getActiveRealms: function() {
 			return store.fetchTiddler("MgtdSettings").getByIndex("Realm");
 		},
+		
+		getRealm: function(tiddlerTitle) {
 
-		getRealm: function() {
-			// decide which one to use if multiple realms are active
-			// use a slice to get the realm priority and choose the highest one
+			// if we're in a project inherit the realm from the project
+			var inTiddler = store.fetchTiddler(tiddlerTitle);
+			if (inTiddler && inTiddler.tags.contains('Project')) {
+				// get the realm from the project
+				return inTiddler.getByIndex('Realm');
+			}	
+
+			// otherwise use the active realm 
 			var active = config.macros.mgtdList.getActiveRealms();
+
 			if (active.length == 1) {
 				return active[0];
 			}
+
+			// if there's more than one active realm use a slice to get the realm priority and choose the highest one
 			else {
 				// TODO, make this prettier
 				var toBeat = "zzzzzzz";
@@ -163,24 +173,11 @@ merge(config.macros,{
             if (title != "")
 			    wikifyThis += "!"+title
 
-			// old
-			/*
-			if (newButton != "") {
-				var newButtonParams = newButton.readBracketedList();
-				var newButtonTiddler = newButtonParams[0];
-				newButtonParams.shift();
-				var newButtonArgs = newButtonParams.map(function(a){return "[["+a+"]]";}).join(" "); //a better way to create bracketed list?
-																									// fyi it's this: String.encodeTiddlyLinkList
-				// put the realm in here... not sure if it's a good idea
-				wikifyThis += " <<tiddler "+newButtonTiddler+" with:[["+config.macros.mgtdList.getRealm()+"]] "+newButtonArgs+">>";
-			}
-			*/
-			// new
 			var nbTags;
 			if (newButtonTags != '') {
 				nbTags = [
 						newButtonTags,                                  // the tags specified in the macro params
-						'[['+config.macros.mgtdList.getRealm()+']]',    // the realm. always want a realm
+						'[['+config.macros.mgtdList.getRealm(tiddlerTitle)+']]',    // the realm. always want a realm
 						(tagMode=='global'?'':'[['+tiddlerTitle+']]')   // if not global, then the add tiddler we're in, new here style
 					].join(' ');
 				wikifyThis += this.getNewButton(nbTags);

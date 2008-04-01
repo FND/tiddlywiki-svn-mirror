@@ -10,7 +10,8 @@ config.mGTD.specialTags = [
 		"Realm",
 		"Context",
 		"View",
-        "Tickler"
+        "Tickler",
+		"Reference"
 ]
 config.mGTD.tagsToIndex = [
 		"Project",

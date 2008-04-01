@@ -1,6 +1,6 @@
 !Project
 <!--{{{-->
-<table class="twocol"><tr><td>
+<table class="threecol"><tr><td>
 
 [[TagDashboards##Ticklers Requiring Action]]
 
@@ -25,6 +25,10 @@
 	"></div>
 
 [[TagDashboards##Upcoming Ticklers]]
+
+</td><td>
+
+<div macro="mgtdList title:'Reference Items' tags:'Reference' view:plain newButtonTags:'Reference' "></div>
 
 <div macro="mgtdList title:'Done Actions' tags:'Action && Done' view:DoneAction
 	newButtonTags:'Action Done Next'
@@ -69,8 +73,11 @@
 	"></div>
 
 !Upcoming Ticklers 
+<!--- not actually a tag. included by other sections --->
 <div macro="mgtdList title:'Upcoming Ticklers' tags:'Tickler && Enabled && !Actioned' view:Tickler newButtonTags:'Tickler Enabled'
 	where:'!tiddler.fields.mgtd_date || ((new Date()).convertToYYYYMMDDHHMM() < tiddler.fields.mgtd_date ) '
 	sortBy='-ticklerDate'
 	"></div>
 
+!Reference
+<div class="tagglyTagging" macro="tagglyTagging"></div><!--- this makes me very happy :) --->

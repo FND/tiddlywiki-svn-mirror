@@ -322,3 +322,25 @@ Specify W or F to make them future or Waiting For. You can create multiple proje
 	sortBy='ticklerDate'
 	"></div>
 
+
+!Reference Items
+<!--{{{-->
+<table class="twocol"><tr><td>
+<div macro="mgtdList title:'Reference Items For Active Project' tag:Reference startTag:Reference view:plain mode:global
+	group:Project
+	gView:bold
+	newButtonTags:'Reference'
+	where:tiddler.hasActiveProject()
+	"></div>
+
+</td><td>
+<div macro="mgtdList title:'Other Reference Items' tag:Reference startTag:Reference view:plain mode:global
+	group:Project
+	gView:bold
+	newButtonTags:'Reference'
+	where:!tiddler.hasActiveProject()
+	"></div>
+
+</td></tr></table>
+
+<!--}}}-->

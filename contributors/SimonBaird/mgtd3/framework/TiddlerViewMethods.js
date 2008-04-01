@@ -129,12 +129,19 @@ merge(Tiddler.prototype,{
 	);},
 
 	render_plain: function() { return this.renderUtil(
-		'[[%0]]',
+		'{{plain{[[%0]]}}}',
+		[
+			this.title
+		]
+	);},
+
+	// TODO. this seems stupid
+	render_bold: function() { return this.renderUtil(
+		"[[%0]]",
 		[
 			this.title
 		]
 	);}
-
 
 
 });

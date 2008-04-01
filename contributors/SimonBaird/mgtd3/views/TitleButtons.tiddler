@@ -60,3 +60,15 @@ Tickler date:<span macro="dateChooser"></span>
 <!--{{{-->
 <span class='title' macro='view title'></span> (Realm)
 <!--}}}-->
+
+!Reference
+<!--{{{-->
+<span class='title' macro='view title'></span> (Reference) <br/>
+Project:<span macro="multiSelectTag Project allowNone:on"></span>
+<span macro="showWhen tiddler.getByIndex('Project').length == 0">
+	<!-- only show area if there's no project --->
+	Area:<span macro="multiSelectTag Area allowNone:on"></span>
+</span>
+Realm:<span macro="multiSelectTag Realm"></span><br/>
+<div style="border-bottom:1px solid [[ColorPalette::TertiaryLight]]">Double click or click "edit" to edit. Use "new here" to make sub item.</div><!--- TODO should be a class --->
+<!--}}}-->

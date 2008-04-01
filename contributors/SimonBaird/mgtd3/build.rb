@@ -73,9 +73,9 @@ demo = [
   ['Drill holes and hung up curtain rail', "Action Future Personal [[Hang up bedroom curtains]] @Home"],
   ['Place curtain pins and hung up curtains', "Action Future Personal [[Hang up bedroom curtains]] @Home"],
   
-  ['Go to theater with Sue', "Project Recreation Personal Active"],
-  ['Ring Sue: decide play and dates', "Action Next Personal [[Go to theater with Sue]] @Call"],
-  ['Ring ticket office and book places', "Action Future Personal [[Go to theater with Sue]] @Call"],
+  ['Go to theatre with Sue', "Project Recreation Personal Active"],
+  ['Ring Sue: decide play and dates', "Action Next Personal [[Go to theatre with Sue]] @Call"],
+  ['Ring ticket office and book places', "Action Future Personal [[Go to theatre with Sue]] @Call"],
   
 	['A project-less task',   "Action Next Personal"],
 
@@ -138,6 +138,17 @@ make_tw {
 
   # load the demo and write a demo file
   demo.each { |t| add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2]||'') }
+
+  # throw in a tickler and some reference
+  add_tiddler_from_scratch('tiddler' => 'Theatre Program', 'tags' => "[[Go to theatre with Sue]] Reference Personal", 'text' => '''
+Riverway Arts Centre
+http://riverway.townsville.qld.gov.au/arts/program
+Townsville Civic Theatre
+http://previous.townsville.qld.gov.au/theatre/TheatreSeason.asp
+  ''')
+
+  add_tiddler_from_scratch('tiddler' => 'Okay to donate blood again', 'tags' => "Tickler Personal", 'text' => '', 'mgtd_date' => '200806140200' )
+
 
   #############
   # load additional demo from the demo_tw. thanks Michael Slay for donating this project for the demo

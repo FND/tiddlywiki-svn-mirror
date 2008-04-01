@@ -11,9 +11,15 @@
 	[[MptwTheme##ViewTemplateToolbar]]
 	<div class='titleContainer viewer'>[[TitleButtonsSelector]]</div>
 	[[MonkeyGTDTheme##Panel]]
-	<div macro="showWhen tiddler.text != ''">
-		<div class='viewer'>Notes:</div>
-		<div class='viewer postityellow' macro='view text wikified'></div>
+	<div macro="showWhenTagged Reference">
+		<!--- just make it look like a normal tiddler --->
+		<div class='viewer' macro='view text wikified'></div>
+	</div>
+	<div macro="hideWhenTagged Reference">
+		<div macro="showWhen tiddler.text != ''">
+			<div class='viewer'>Notes:</div>
+			<div class='viewer postityellow' macro='view text wikified'></div>
+		</div>
 	</div>
 	<div class='viewer'>[[DashboardSelector]]</div>
 </div>
@@ -250,13 +256,19 @@ html>body .header2 {background-image:url(http://simonbaird.com/images/monkeygtd/
 	padding:0.5em 1em 0em 1em;
 }
 
+.mgtdList .plain { padding-left:1em; }
+
+/* TODO why not just make it all of them... */
 .mgtdList .action .tiddlyLinkExisting,
+.mgtdList .plain .tiddlyLinkExisting,
 .mgtdList .tickler .tiddlyLinkExisting
 {
 	font-weight: normal ! important;
 }
 
+/* TODO why not just make it all of them... */
 .mgtdList .action .tiddlyLink,
+.mgtdList .plain .tiddlyLink,
 .mgtdList .tickler .tiddlyLink
 {
 	font-weight: normal ! important;
