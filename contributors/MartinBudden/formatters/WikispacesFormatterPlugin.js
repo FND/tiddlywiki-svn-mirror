@@ -4,7 +4,7 @@
 |''Description:''|Wikispaces Formatter|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/WikispacesFormatterPlugin.js |
-|''Version:''|0.0.7|
+|''Version:''|0.0.8|
 |''Date:''|Nov 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -54,6 +54,29 @@ wikispacesFormatter.processLink = function(link)
 		link = link.substring(pos+1);
 	}
 	return wikispacesFormatter.baseUri(space) + '/' + link.replace(/\s/g,'+');
+};
+
+wikispacesFormatter.setAttributesFromParams = function(e,p)
+{
+	var re = /\s*(.*?)=(?:(?:"(.*?)")|(?:'(.*?)')|((?:\w|%|#)*))/mg;
+	var match = re.exec(p);
+	while(match) {
+		var s = match[1].unDash();
+		if(s == 'bgcolor') {
+			s = 'backgroundColor';
+		}
+		try {
+			if(match[2]) {
+				e.setAttribute(s,match[2]);
+			} else if(match[3]) {
+				e.setAttribute(s,match[3]);
+			} else {
+				e.setAttribute(s,match[4]);
+			}
+		}
+		catch(ex) {}
+		match = re.exec(p);
+	}
 };
 
 config.wikispacesFormatters = [
@@ -417,6 +440,31 @@ config.wikispacesFormatters = [
 	}
 },
 */
+
+
+{
+	name: 'wikispacesSpan',
+	match: '<span[^>]*>',
+	lookaheadRegExp: /<span((?:\s+(?:.*?)=["']?(?:.*?)['"]?)*?)?\s*(\/)?>/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+			var e = createTiddlyElement(w.output,'span');
+			if(lookaheadMatch[1]) {
+				wikispacesFormatter.setAttributesFromParams(e,lookaheadMatch[1]);
+			}
+			if(lookaheadMatch[2]) {
+				//# empty tag
+				w.nextMatch = this.lookaheadRegExp.lastIndex;
+			} else {
+				w.subWikify(e,'</span>');
+			}
+		}
+	}
+},
+
 {
 	name: 'wikispacesLineBreak',
 	match: '\\n|<br ?/?>',

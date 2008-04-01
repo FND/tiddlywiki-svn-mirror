@@ -1,0 +1,16 @@
+<div title="testWikispacesFormatAdvanced" modifier="MartinBudden" created="200804010000" tags="test" wikiformat="wikispaces">
+<pre>
+= Advanced Formatting =
+
+<span style="color: red">red text</span>
+
+<span style="font-size: 200%">big text</span>
+
+<span style="font-size: 200%"><span style="color: red">big red text</span></span>
+
+<span style="font-family:Times">times font</span>
+
+<span style="font-family: serif; text-align: left; display: block">advanced</span>
+
+</pre>
+</div>
