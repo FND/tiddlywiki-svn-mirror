@@ -2,10 +2,10 @@
 |''Name''|FirefoxPrivilegesPlugin|
 |''Description''|Create a backstage tab to manage Firefox url privileges|
 |''Author''|Xavier Vergés (xverges at gmail dot com)|
-|''Version''|1.0.3 ($Rev$)|
+|''Version''|1.0.4 ($Rev$)|
 |''Date''|$Date$|
 |''Status''|@@beta@@|
-|''Source''|tbd|
+|''Source''|http://firefoxprivileges.tiddlyspot.com/|
 |''CodeRepository''|http://trac.tiddlywiki.org/browser/Trunk/contributors/XavierVerges/plugins/FirefoxPrivilegesPlugin.js|
 |''License''|BSD tbd|
 |''CoreVersion''|2.2.4 (maybe 2.2+?)|
