@@ -2,7 +2,7 @@
 |''Name''|FirefoxPrivilegesPlugin|
 |''Description''|Create a backstage tab to manage Firefox url privileges|
 |''Author''|Xavier Vergés (xverges at gmail dot com)|
-|''Version''|1.0.2 ($Rev$)|
+|''Version''|1.0.3 ($Rev$)|
 |''Date''|$Date$|
 |''Status''|@@beta@@|
 |''Source''|tbd|
@@ -23,11 +23,7 @@
 %/
 !To Do
 * Avoid non lingo.js-able hardcoded strings
-** Create a Catalan and/or Spanish FirefoxPrivilegesPluginLingoXX.js to 
-* Have three pages
-** --//Learn about the risks//--
-** // Grant privileges//
-** --//List (and optionally reset) privileges//--
+** Create a Catalan and/or Spanish FirefoxPrivilegesPluginLingoXX.js
 !Code
 ***/
 //{{{
@@ -41,11 +37,11 @@ config.macros.firefoxPrivileges = {};
 merge(config.macros.firefoxPrivileges ,{
 	wizardTitle: "Manage Firefox Privileges",
 	learnStepTitle: "1. Learn about the risks of giving privileges to file: urls",
-	learnStepHtml: "<p>Firefox can be configured to grant the same security privileges to every html document loaded from disk (those <i>file:</i> urls), or to grant different privileges on a per file basis. Local TiddyWikis need some high security privileges in order to let you save changes to disk, or to import tiddlers from remote servers. Unfortunately, these same privileges can potentially be used by the bad guys to launch programs, get files from your disk and upload them somewhere, access your browsing history...</p><p>While it is more convenient to let Firefox give all your local files the same security privileges, and I'm not aware of any malware attack that tries to take advantage of privileged <i>file:</i> urls, an ounce of prevention is worth a pound of cure.</p><p>You can learn more blah bah...</p><p>This wizard will help you to grant the required privileges to your local TiddlyWiki, and warn you if you have enabled a dangerous default</p>",
+	learnStepHtml: "<p>Firefox can be configured to grant the same security privileges to every html document loaded from disk (those <i>file:</i> urls), or to grant different privileges on a per file basis. Local TiddyWikis need some high security privileges in order to let you save changes to disk, or to import tiddlers from remote servers. Unfortunately, these same privileges can potentially be used by the bad guys to launch programs, get files from your disk and upload them somewhere, access your browsing history...</p><p>While it is more convenient to let Firefox give all your local files the same security privileges, and I'm not aware of any malware attack that tries to take advantage of privileged <i>file:</i> urls, an ounce of prevention is worth a pound of cure.</p><p>You can learn more about this by reading <a href='http://www.mozilla.org/projects/security/components/per-file.html' class='externalLink'>Per-File Permissions</a> and and <a href='http://www.mozilla.org/projects/security/components/signed-scripts.html#privs-list' class='externalLink'>JavaScript Security: Signed Script</a> in mozilla.org.</p><p>This wizard will help you to grant the required privileges to your local TiddlyWiki, and warn you if you have enabled a dangerous default</p>",
 	learnStepButton: "1. Learn about the risks",
 	learnStepButtonTooltip: "Learn why 'Remember this' is an unsafe choice in security prompts",
 	grantStepTitle: "2. Grant privileges to individual documents",
-	grantStepHtml: "Asking for temporary privieges to list permanent privileges...",
+	grantStepHtml: "Url: <input type='text' size=80 name='txtUrl'><br/><br/><input type='checkbox' checked='true' name='chkUniversalXPConnect'>Grant rights required to save to disk (Run or install software on your machine - UniversalXPConnect)</input><br/><input type='checkbox' checked='true' name='chkUniversalBrowserRead'>Grant rights required to import tiddlers from servers or access TiddlySpot (Read and upload local files - UniversalBrowserRead)</input><br/><input type='checkbox' name='chkUniversalBrowserWrite'>Modify any open window - UniversalBrowserWrite</input><br/><input type='checkbox' name='chkUniversalFileRead'>Read and upload local files - UniversalFileRead</input><br/><input type='checkbox' name='chkCapabilityPreferencesAccess'>By-pass core security settings - CapabilityPreferencesAccess</input><br/><input type='checkbox' name='chkUniversalPreferencesRead'>Read program settings - UniversalPreferencesRead</input><br/><input type='checkbox' name='chkUniversalPreferencesWrite'>Modify program settings - UniversalPreferencesWrite</input><br/><input type='button' class='button' name='btnGrant' value='Set privileges'/>",
 	grantStepButton: "2. Grant privileges",
 	grantStepButtonTooltip: "Grant privileges to this or other docs",
 	viewStepTitle: "3. Granted privileges",
@@ -82,29 +78,32 @@ merge(config.tasks,{
 */
 config.backstageTasks.pushUnique("firefoxPrivileges");
 
-config.macros.firefoxPrivileges.privAccessCapabilities = "UniversalXPConnect CapabilityPreferencesAccess";
-config.macros.firefoxPrivileges.stepNames = ["learn", "grant", "view"];
-config.macros.firefoxPrivileges.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+(function(){
+
+var plugin = config.macros.firefoxPrivileges;
+plugin.privAccessCapabilities = "UniversalXPConnect CapabilityPreferencesAccess";
+plugin.stepNames = ["learn", "grant", "view"];
+
+plugin.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	var wizard = new Wizard();
-	wizard.createWizard(place,this.wizardTitle);
-	this.step(wizard, 0);
+	wizard.createWizard(place,plugin.wizardTitle);
+	plugin.step(wizard, 0);
 };
-config.macros.firefoxPrivileges.buttons = (function(){
-	var that = config.macros.firefoxPrivileges;
+plugin.buttons = (function(){
 	var _buttons = [];
-	for (var ii=0; ii<that.stepNames.length; ii++) {
-		var name = that.stepNames[ii];
+	for (var ii=0; ii<plugin.stepNames.length; ii++) {
+		var name = plugin.stepNames[ii];
 		var onclick = (function() {
 			var index = ii;
 			var handler = function(e) {
-				that.step(new Wizard(resolveTarget(e)), index);
+				plugin.step(new Wizard(resolveTarget(e)), index);
 				return false;
 			};
 			return handler;
 		})();
-		_buttons.push({caption: that[name+"StepButton"], 
-					   tooltip: that[name+"StepButtonTooltip"],
+		_buttons.push({caption: plugin[name+"StepButton"], 
+					   tooltip: plugin[name+"StepButtonTooltip"],
 					   onClick: onclick});
 	}
 	var getButtons = function(index) {
@@ -118,42 +117,22 @@ config.macros.firefoxPrivileges.buttons = (function(){
 	};
 	return getButtons;
 })();
-
-config.macros.firefoxPrivileges.step = function(wizard, stepIndex, extraParams)
+plugin.step = function(wizard, stepIndex, extraParams)
 {
-	var name = this.stepNames[stepIndex];
+	var name = plugin.stepNames[stepIndex];
 	var stepResult = {};
-	wizard.addStep(this[name+"StepTitle"],this[name+"StepHtml"]);
-	wizard.setButtons(this.buttons(stepIndex));
-	if (this[name+"StepProcess"]) {
-		stepResult = this[name+"StepProcess"](wizard, extraParams);
+	wizard.addStep(plugin[name+"StepTitle"],plugin[name+"StepHtml"]);
+	wizard.setButtons(plugin.buttons(stepIndex));
+	if (plugin[name+"StepProcess"]) {
+		plugin[name+"StepProcess"](wizard, extraParams);
 	}
-	var buttonIndex = typeof(stepResult.buttonIndex)!=="undefined"? stepResult.buttonIndex : stepIndex;
-	wizard.setButtons(this.buttons(buttonIndex), 
-	                  stepResult.status);
 };
-config.macros.firefoxPrivileges.grantStepProcess = function(wizard)
+plugin.grantStepProcess = function(wizard)
 {
-	var viewStepExtraParams = {reqAcccess: false};
-	netscape.security.PrivilegeManager.enablePrivilege(this.privAccessCapabilities);
-
-	var urlRights = [];
-	//if (chkXPConnect) {
-		urlRights.push("UniversalXPConnect");
-	//}
-	//if (chkBrowserRead) {
-		urlRights.push("UniversalBrowserRead");
-	//}
-	var thisUrl = document.location.toString();
-	needsReload = this.setUrlPrivilege(false, thisUrl, urlRights);
-	if (needsReload) {
-		viewStepExtraParams.status = "Reload to take effect";
-	}
-	this.step(wizard, 2, viewStepExtraParams);
-	return {buttonIndex: 2,
-	        status: needsReload? "Reload to take effect":null};
+	wizard.getElement("btnGrant").onclick = plugin.btnSetPrivileges;
+	wizard.getElement("txtUrl").value = document.location.toString();
 };
-config.macros.firefoxPrivileges.viewStepProcess = function(wizard, extraParams)
+plugin.viewStepProcess = function(wizard, extraParams)
 {
 	var markList = wizard.getElement("markList");
 	var listWrapper = document.createElement("div");
@@ -163,11 +142,11 @@ config.macros.firefoxPrivileges.viewStepProcess = function(wizard, extraParams)
 	var html = [];
 	try {
 		if (!extraParams || extraParams.reqAcccess) {
-			netscape.security.PrivilegeManager.enablePrivilege(this.privAccessCapabilities);
+			netscape.security.PrivilegeManager.enablePrivilege(plugin.privAccessCapabilities);
 		}
 
 		var thisUrl = document.location.toString();
-		var privs = this.getPrivilegedUrls(false);
+		var privs = plugin.getPrivilegedUrls(false);
 		var listItems = [];
 		for (var handle in privs) {
 			if (privs.hasOwnProperty(handle)) {
@@ -179,21 +158,57 @@ config.macros.firefoxPrivileges.viewStepProcess = function(wizard, extraParams)
 					priv.notes = (priv.url === "file://")? "This is dangerous" : "This has no effect";
 				} else if (priv.url === thisUrl) {
 					priv.thisUrl = true;
-                    priv.notes = "This document's url";
+					priv.notes = "This document's url";
 				}
 				listItems.push(priv);
 			}
 		}
+		var sortFunc = function(a,b) {
+			if(a.url > b.url) return 1;
+			if(a.url < b.url) return -1;
+			return 0;
+		};
+		listItems.sort(sortFunc);
 		listWrapper.innerHTML = "";
-		var listView = ListView.create(listWrapper, listItems, this.listViewTemplate);
+		var listView = ListView.create(listWrapper, listItems, plugin.listViewTemplate);
 		wizard.setValue("listView",listView);
-		createTiddlyButton(listWrapper, "Reset selected privileges", "", config.macros.firefoxPrivileges.resetSelectedPrivileges);
+		createTiddlyButton(listWrapper, "Reset selected privileges", "", plugin.btnResetPrivileges);
 	} catch (ex) {
 		listWrapper.innerHTML = "Error: " + ex;
 	}
-	return {};
 };
-config.macros.firefoxPrivileges.resetSelectedPrivileges = function(ev)
+plugin.btnSetPrivileges = function(ev)
+{
+	var wizard = new Wizard(this);
+	var checkboxes = wizard.bodyElem.getElementsByTagName("input");
+	var grant = [];
+	var deny = [];
+	for(var t=0; t<checkboxes.length; t++) {
+		var cb = checkboxes[t];
+		if(cb.getAttribute("type") == "checkbox") {
+			var priv = cb.name.substring(3);
+			if (cb.checked) {
+				grant.push(priv);
+			} else {
+				deny.push(priv);
+			}
+		}
+	}
+	var url = wizard.getElement("txtUrl").value;
+	if (!url) {
+		alert("The url is required");
+	} else {
+		var viewStepExtraParams = {reqAcccess: false};
+		netscape.security.PrivilegeManager.enablePrivilege(config.macros.firefoxPrivileges.privAccessCapabilities);
+		var needsReload = plugin.setUrlPrivilege(false, url, grant, deny);
+		if (needsReload) {
+			viewStepExtraParams.status = "Reload to take effect";
+		}
+		plugin.step(wizard, 2, viewStepExtraParams);
+	}
+	return false;
+};
+plugin.btnResetPrivileges = function(ev)
 {
 	var wizard = new Wizard(this);
 	var listView = wizard.getValue("listView");
@@ -203,12 +218,13 @@ config.macros.firefoxPrivileges.resetSelectedPrivileges = function(ev)
 	} else {
 		netscape.security.PrivilegeManager.enablePrivilege(config.macros.firefoxPrivileges.privAccessCapabilities);
 		for (var ii=0; ii<urls.length; ii++) {
-			config.macros.firefoxPrivileges.setUrlPrivilege(false, urls[ii], [], true);
+			plugin.setUrlPrivilege(false, urls[ii], [], true);
 		}
-		config.macros.firefoxPrivileges.step(wizard, 2, {reqAcccess: false});
+		plugin.step(wizard, 2, {reqAcccess: false});
 	}
+	return fase;
 };
-config.macros.firefoxPrivileges.setUrlPrivilege = function(reqAccess, url, rights, reset)
+plugin.setUrlPrivilege = function(reqAccess, url, rights, reset)
 {
 	function getFreeHandle(dict, prefix) {
 		var handle = prefix;
@@ -220,11 +236,11 @@ config.macros.firefoxPrivileges.setUrlPrivilege = function(reqAccess, url, right
 		return handle;
 	}
 	if (reqAccess) {
-		netscape.security.PrivilegeManager.enablePrivilege(this.privAccessCapabilities);
+		netscape.security.PrivilegeManager.enablePrivilege(plugin.privAccessCapabilities);
 	}
 	var isUpdate = true;
 	var urlHandle = "";
-	var urls = this.getPrivilegedUrls(false);
+	var urls = plugin.getPrivilegedUrls(false);
 	for (var handle in urls) {
 		if (urls[handle].url === url) {
 			urlHandle = handle;
@@ -250,7 +266,7 @@ config.macros.firefoxPrivileges.setUrlPrivilege = function(reqAccess, url, right
 		denied.remove(rights[ii]);
 		granted.pushUnique(rights[ii]);
 	}
-	var prefs = this.getPrefsBranch();
+	var prefs = plugin.getPrefsBranch();
 	var idStr = urlHandle + ".id";
 	var deniedStr = urlHandle + ".denied";
 	var grantedStr = urlHandle + ".granted";
@@ -279,12 +295,12 @@ config.macros.firefoxPrivileges.setUrlPrivilege = function(reqAccess, url, right
 		setOrClearPref(grantedStr , granted);
 		setOrClearPref(idStr, url);
 	}
-	var prefService = this.getPrefsService();
+	var prefService = plugin.getPrefsService();
 	prefService.savePrefFile(null);
 
 	return !isUpdate;
 };
-config.macros.firefoxPrivileges.getPrivilegedUrls = function(reqAccess)
+plugin.getPrivilegedUrls = function(reqAccess)
 {
 	function Privileged(url, granted, denied, handle) {
 		this.url = url;
@@ -303,9 +319,9 @@ config.macros.firefoxPrivileges.getPrivilegedUrls = function(reqAccess)
 	}
 	var privileged = {};
 	if (reqAccess) {
-		netscape.security.PrivilegeManager.enablePrivilege(this.privAccessCapabilities);
+		netscape.security.PrivilegeManager.enablePrivilege(plugin.privAccessCapabilities);
 	}
-	var prefs = this.getPrefsBranch(); 
+	var prefs = plugin.getPrefsBranch(); 
 	var capsEntries = prefs.getChildList("", { value: 0 }); 
 
 	for (var ii=0; ii < capsEntries.length; ii++) 
@@ -322,15 +338,16 @@ config.macros.firefoxPrivileges.getPrivilegedUrls = function(reqAccess)
 	}
 	return privileged;
 };
-config.macros.firefoxPrivileges.getPrefsService = function()
+plugin.getPrefsService = function()
 {
 	return Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
 };
-config.macros.firefoxPrivileges.getPrefsBranch = function()
+plugin.getPrefsBranch = function()
 {
-	var prefsService = this.getPrefsService();
+	var prefsService = plugin.getPrefsService();
 	return prefsService.getBranch("capability.principal.codebase."); 
 };
+})();	// scope hiding
 
 } // endif(window.Components)
 //}}}
