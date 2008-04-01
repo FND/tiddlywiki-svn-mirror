@@ -2,7 +2,7 @@
 |''Name''|FirefoxPrivilegesPlugin|
 |''Description''|Create a backstage tab to manage Firefox url privileges|
 |''Author''|Xavier Vergés (xverges at gmail dot com)|
-|''Version''|1.0.1 ($Rev$)|
+|''Version''|1.0.2 ($Rev$)|
 |''Date''|$Date$|
 |''Status''|@@beta@@|
 |''Source''|tbd|
@@ -25,9 +25,9 @@
 * Avoid non lingo.js-able hardcoded strings
 ** Create a Catalan and/or Spanish FirefoxPrivilegesPluginLingoXX.js to 
 * Have three pages
-** //Learn about the risks//
+** --//Learn about the risks//--
 ** // Grant privileges//
-** //List (and optionally reset) privileges//
+** --//List (and optionally reset) privileges//--
 !Code
 ***/
 //{{{
@@ -40,10 +40,18 @@ config.macros.firefoxPrivileges = {};
 */
 merge(config.macros.firefoxPrivileges ,{
 	wizardTitle: "Manage Firefox Privileges",
-	step1Title: "Firefox, privileges and file: urls",
-	step1Info: "<p>Firefox can be configured to grant the same security privileges to every html document loaded from disk (those <i>file:</i> urls), or to grant different privileges on a per file basis. Local TiddyWikis need some high security privileges in order to let you save changes to disk, or to import tiddlers from remote servers. Unfortunately, these same privileges can potentially be used by the bad guys to launch programs, get files from your disk and upload them somewhere, access your browsing history...</p><p>While it is more convenient to let Firefox give all your local files the same security privileges, and I'm not aware of any malware attack that tries to take advantage of privileged <i>file:</i> urls, an ounce of prevention is worth a pound of cure.</p><p>You can learn more blah bah...</p><p>This wizard will help you to grant the required privileges to your local TiddlyWiki, and warn you if you have enabled a dangerous default</p>",
-	step1ButtonLabel: "Check privileges",
-	step1ButtonTooltip: "List the domains and urls that have special security privileges",
+	learnStepTitle: "1. Learn about the risks of giving privileges to file: urls",
+	learnStepHtml: "<p>Firefox can be configured to grant the same security privileges to every html document loaded from disk (those <i>file:</i> urls), or to grant different privileges on a per file basis. Local TiddyWikis need some high security privileges in order to let you save changes to disk, or to import tiddlers from remote servers. Unfortunately, these same privileges can potentially be used by the bad guys to launch programs, get files from your disk and upload them somewhere, access your browsing history...</p><p>While it is more convenient to let Firefox give all your local files the same security privileges, and I'm not aware of any malware attack that tries to take advantage of privileged <i>file:</i> urls, an ounce of prevention is worth a pound of cure.</p><p>You can learn more blah bah...</p><p>This wizard will help you to grant the required privileges to your local TiddlyWiki, and warn you if you have enabled a dangerous default</p>",
+	learnStepButton: "1. Learn about the risks",
+	learnStepButtonTooltip: "Learn why 'Remember this' is an unsafe choice in security prompts",
+	grantStepTitle: "2. Grant privileges to individual documents",
+	grantStepHtml: "Asking for temporary privieges to list permanent privileges...",
+	grantStepButton: "2. Grant privileges",
+	grantStepButtonTooltip: "Grant privileges to this or other docs",
+	viewStepTitle: "3. Granted privileges",
+	viewStepHtml: "<input type='hidden' name='markList'></input>",
+	viewStepButton: "3. List granted privileges",
+	viewStepButtonTooltip: "List granted privileges, and optionally reset them",
 	allowSaveLabel: "Grant rights required to save to disk (Run or install software on your machine - UniversalXPConnect)",
 	allowImportLabel: "Grant rights required to import tiddlers from servers or access TiddlySpot (Read and upload local files - UniversalBrowserRead)",
 	step2Title: "Privileged urls",
@@ -65,7 +73,7 @@ merge(config.macros.firefoxPrivileges ,{
 	});
 
 merge(config.tasks,{
-	firefoxPrivileges: {text: "security", tooltip: "Work with url privileges", content: '<<firefoxPrivileges>>'}
+	firefoxPrivileges: {text: "security", tooltip: "Work with Firefox url privileges", content: '<<firefoxPrivileges>>'}
 });
 /*
 //}}}
@@ -75,52 +83,90 @@ merge(config.tasks,{
 config.backstageTasks.pushUnique("firefoxPrivileges");
 
 config.macros.firefoxPrivileges.privAccessCapabilities = "UniversalXPConnect CapabilityPreferencesAccess";
+config.macros.firefoxPrivileges.stepNames = ["learn", "grant", "view"];
 config.macros.firefoxPrivileges.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	var wizard = new Wizard();
 	wizard.createWizard(place,this.wizardTitle);
-	this.firstWizardStep(wizard);
+	this.step(wizard, 0);
 };
-config.macros.firefoxPrivileges.firstWizardStep = function(wizard)
+config.macros.firefoxPrivileges.buttons = (function(){
+	var that = config.macros.firefoxPrivileges;
+	var _buttons = [];
+	for (var ii=0; ii<that.stepNames.length; ii++) {
+		var name = that.stepNames[ii];
+		var onclick = (function() {
+			var index = ii;
+			var handler = function(e) {
+				that.step(new Wizard(resolveTarget(e)), index);
+				return false;
+			};
+			return handler;
+		})();
+		_buttons.push({caption: that[name+"StepButton"], 
+					   tooltip: that[name+"StepButtonTooltip"],
+					   onClick: onclick});
+	}
+	var getButtons = function(index) {
+		var buttons = [];
+		for (var ii= 0; ii<_buttons.length; ii++) {
+			if (ii != index) {
+				buttons.push(_buttons[ii]);
+			}
+		}
+		return buttons;
+	};
+	return getButtons;
+})();
+
+config.macros.firefoxPrivileges.step = function(wizard, stepIndex, extraParams)
 {
-	var step1Html = this.step1Info 
-		+ "<input type='checkbox' checked='true' name='chkUniversalXPConnect'>" 
-		+ this.allowSaveLabel 
-		+ "</input><br/><input type='checkbox' checked='true' name='chkUniversalBrowserRead'>"
-		+ this.allowImportLabel + "</input>";
-	wizard.addStep(this.step1Title,step1Html);
-	wizard.setButtons([{caption: this.step1ButtonLabel, tooltip: this.step1ButtonTooltip, onClick: this.onSetPrivileges}]);
+	var name = this.stepNames[stepIndex];
+	var stepResult = {};
+	wizard.addStep(this[name+"StepTitle"],this[name+"StepHtml"]);
+	wizard.setButtons(this.buttons(stepIndex));
+	if (this[name+"StepProcess"]) {
+		stepResult = this[name+"StepProcess"](wizard, extraParams);
+	}
+	var buttonIndex = typeof(stepResult.buttonIndex)!=="undefined"? stepResult.buttonIndex : stepIndex;
+	wizard.setButtons(this.buttons(buttonIndex), 
+	                  stepResult.status);
 };
-config.macros.firefoxPrivileges.onSetPrivileges= function(e)
+config.macros.firefoxPrivileges.grantStepProcess = function(wizard)
 {
-	var wizard = new Wizard(this);
-	var chkXPConnect = wizard.getElement("chkUniversalXPConnect").checked;
-	var chkBrowserRead = wizard.getElement("chkUniversalBrowserRead").checked;
-	config.macros.firefoxPrivileges.secondWizardStep(wizard, chkXPConnect, chkBrowserRead);
-	return false;
+	var viewStepExtraParams = {reqAcccess: false};
+	netscape.security.PrivilegeManager.enablePrivilege(this.privAccessCapabilities);
+
+	var urlRights = [];
+	//if (chkXPConnect) {
+		urlRights.push("UniversalXPConnect");
+	//}
+	//if (chkBrowserRead) {
+		urlRights.push("UniversalBrowserRead");
+	//}
+	var thisUrl = document.location.toString();
+	needsReload = this.setUrlPrivilege(false, thisUrl, urlRights);
+	if (needsReload) {
+		viewStepExtraParams.status = "Reload to take effect";
+	}
+	this.step(wizard, 2, viewStepExtraParams);
+	return {buttonIndex: 2,
+	        status: needsReload? "Reload to take effect":null};
 };
-config.macros.firefoxPrivileges.secondWizardStep = function(wizard, chkXPConnect, chkBrowserRead)
+config.macros.firefoxPrivileges.viewStepProcess = function(wizard, extraParams)
 {
-	wizard.addStep(this.step2Title, this.step2Html);
 	var markList = wizard.getElement("markList");
 	var listWrapper = document.createElement("div");
 	markList.parentNode.insertBefore(listWrapper,markList);
-
-	var needsReload = false;
+	listWrapper.innerHTML = "Asking for temporary privieges to list permanent privileges...";
 
 	var html = [];
 	try {
-		netscape.security.PrivilegeManager.enablePrivilege(this.privAccessCapabilities);
+		if (!extraParams || extraParams.reqAcccess) {
+			netscape.security.PrivilegeManager.enablePrivilege(this.privAccessCapabilities);
+		}
 
-		var urlRights = [];
-		if (chkXPConnect) {
-			urlRights.push("UniversalXPConnect");
-		}
-		if (chkBrowserRead) {
-			urlRights.push("UniversalBrowserRead");
-		}
 		var thisUrl = document.location.toString();
-		needsReload = this.setUrlPrivilege(false, thisUrl, urlRights);
 		var privs = this.getPrivilegedUrls(false);
 		var listItems = [];
 		for (var handle in privs) {
@@ -138,11 +184,12 @@ config.macros.firefoxPrivileges.secondWizardStep = function(wizard, chkXPConnect
 				listItems.push(priv);
 			}
 		}
+		listWrapper.innerHTML = "";
 		var listView = ListView.create(listWrapper, listItems, this.listViewTemplate);
 	} catch (ex) {
 		listWrapper.innerHTML = "Error: " + ex;
 	}
-	wizard.setButtons([], needsReload? "Reload to take effect" : null);
+	return {};
 };
 config.macros.firefoxPrivileges.setUrlPrivilege = function(reqAccess, url, rights, reset)
 {
@@ -269,5 +316,6 @@ config.macros.firefoxPrivileges.getPrefsBranch = function()
 	var prefsService = this.getPrefsService();
 	return prefsService.getBranch("capability.principal.codebase."); 
 };
+
 } // endif(window.Components)
 //}}}
