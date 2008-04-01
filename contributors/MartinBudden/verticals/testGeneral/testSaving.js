@@ -3,7 +3,7 @@
 |''Description:''|tests saving using templates|
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/verticals/testGeneral/testSaving.js |
-|''Version:''|0.0.7|
+|''Version:''|0.0.8|
 |''Date:''|Mar 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -12,13 +12,13 @@
 ***/
 
 //{{{
-//if(!version.extensions.testSaving) {
-//version.extensions.testSaving = {installed:true};
+if(!version.extensions.testSaving) {
+version.extensions.testSaving = {installed:true};
 config.templateFormatters = [
 {
 	name: "templateElement",
 	match: '<!--(?:<<|@@)',
-	lookaheadRegExp: /<!--<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>-->|<!--@@([a-z]*)@@-->/mg,
+	lookaheadRegExp: /<!--<<([^>\s]+)(?:\s*)((?:[^>]|(?:>(?!>)))*)>>-->|<!--@@([^@]*)@@-->/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
@@ -75,12 +75,13 @@ config.templateFormatters = [
 				var s = {prehead:'PreHead',posthead:'PostHead',prebody:'PreBody',postscript:'PostBody'};
 				text = store.getRecursiveTiddlerText('Markup'+s[match]);
 				break;
+			default:
+				if(w.source.substr(w.nextMatch,1)=='\n')
+					w.nextMatch++;
+				break;
 			}
 			if(text) {
 				createTiddlyText(w.output,text);
-			} else {
-				if(w.source.substr(w.nextMatch,1)=='\n')
-					w.nextMatch++;
 			}
 		}
 	}
@@ -200,5 +201,5 @@ function generateRss()
 	return wikifyTemplate("RssTemplate");
 }
 
-//} //# end of 'install only once'
+} //# end of 'install only once'
 //}}}
