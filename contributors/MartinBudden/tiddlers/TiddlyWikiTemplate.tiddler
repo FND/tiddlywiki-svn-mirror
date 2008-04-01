@@ -3,11 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <script id="versionArea" type="text/javascript">
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 //<![CDATA[
 <!--@@version@@-->
 //]]>
 </script>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="copyright" content="
 &lt;!--@@copyright@@--&gt;
 " />
