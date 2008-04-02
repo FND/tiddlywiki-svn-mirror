@@ -2,8 +2,8 @@
 |''Name''|FirefoxPrivilegesPlugin|
 |''Description''|Create a backstage tab to manage Firefox url privileges|
 |''Author''|Xavier Vergés (xverges at gmail dot com)|
-|''Version''|1.0.6 ($Rev$)|
-|''Date''|$Date: 2008-04-02$|
+|''Version''|1.0.7 ($Rev$)|
+|''Date''|$Date:$|
 |''Status''|@@beta@@|
 |''Source''|http://firefoxprivileges.tiddlyspot.com/|
 |''CodeRepository''|http://trac.tiddlywiki.org/browser/Trunk/contributors/XavierVerges/plugins/FirefoxPrivilegesPlugin.js|
@@ -37,7 +37,7 @@ config.macros.firefoxPrivileges = {};
 merge(config.macros.firefoxPrivileges ,{
 	wizardTitle: "Manage Firefox Privileges",
 	learnStepTitle: "1. Learn about the risks of giving privileges to file: urls",
-	learnStepHtml: "<p>Firefox can be configured to grant the same security privileges to every html document loaded from disk (those <i>file:</i> urls), or to grant different privileges on a per file basis. Local TiddyWikis need some high security privileges in order to let you save changes to disk, or to import tiddlers from remote servers. Unfortunately, these same privileges can potentially be used by the bad guys to launch programs, get files from your disk and upload them somewhere, access your browsing history...</p><p>While it is more convenient to let Firefox give all your local files the same security privileges, and I'm not aware of any malware attack that tries to take advantage of privileged <i>file:</i> urls, an ounce of prevention is worth a pound of cure.</p><p>You can learn more about this by reading <a href='http://www.mozilla.org/projects/security/components/per-file.html' class='externalLink'>Per-File Permissions</a> and and <a href='http://www.mozilla.org/projects/security/components/signed-scripts.html#privs-list' class='externalLink'>JavaScript Security: Signed Script</a> in mozilla.org.</p><p>This wizard will help you to grant the required privileges to your local TiddlyWiki, and warn you if you have enabled a dangerous default</p>",
+	learnStepHtml: "<p>Firefox can be configured to grant the same security privileges to every html document loaded from disk (those <i>file:</i> urls), or to grant different privileges on a per file basis. Local TiddyWikis need some high security privileges in order to let you save changes to disk, or to import tiddlers from remote servers. Unfortunately, these same privileges can potentially be used by the bad guys to launch programs, get files from your disk and upload them somewhere, access your browsing history...</p><p>While it is more convenient to let Firefox give all your local files the same security privileges, and I'm not aware of any malware attack that tries to take advantage of privileged <i>file:</i> urls, an ounce of prevention is worth a pound of cure.</p><p>You can learn more about this by reading <a href='http://www.mozilla.org/projects/security/components/per-file.html' class='externalLink'>Per-File Permissions</a> and <a href='http://www.mozilla.org/projects/security/components/signed-scripts.html#privs-list' class='externalLink'>JavaScript Security: Signed Script</a> at mozilla.org.</p><p>This wizard will help you to grant the required privileges to your local TiddlyWiki, and warn you if you have enabled a dangerous default</p>",
 	learnStepButton: "1. Learn about the risks",
 	learnStepButtonTooltip: "Learn why 'Remember this' is an unsafe choice in security prompts",
 	grantStepTitle: "2. Grant privileges to individual documents",
@@ -48,10 +48,9 @@ merge(config.macros.firefoxPrivileges ,{
 	viewStepHtml: "<input type='hidden' name='markList'></input>",
 	viewStepButton: "3. List granted privileges",
 	viewStepButtonTooltip: "List granted privileges, and optionally reset them",
+	viewStepEmptyMsg: "Asking for temporary privileges to list permanent privileges...",
 	allowSaveLabel: "Grant rights required to save to disk (Run or install software on your machine - UniversalXPConnect)",
 	allowImportLabel: "Grant rights required to import tiddlers from servers or access TiddlySpot (Read and upload local files - UniversalBrowserRead)",
-	step2Title: "Privileged urls",
-	step2Html: "<input type='hidden' name='markList'></input>",
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'url', type: 'Selector'},
@@ -62,7 +61,7 @@ merge(config.macros.firefoxPrivileges ,{
             {name: 'Notes', field: 'notes', title: "Notes", type: 'String'}
 			],
 		rowClasses: [
-			{className: 'lowlight', field: 'thisUrl'},
+			{className: 'lowlight', field: 'highlight'},
 			{className: 'error', field: 'warning'}
 			]
 		}
@@ -83,6 +82,7 @@ config.backstageTasks.pushUnique("firefoxPrivileges");
 var plugin = config.macros.firefoxPrivileges;
 plugin.privAccessCapabilities = "UniversalXPConnect CapabilityPreferencesAccess";
 plugin.stepNames = ["learn", "grant", "view"];
+plugin.lastUrl = document.location.toString();
 
 plugin.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
@@ -130,14 +130,14 @@ plugin.step = function(wizard, stepIndex, extraParams)
 plugin.grantStepProcess = function(wizard)
 {
 	wizard.getElement("btnGrant").onclick = plugin.btnSetPrivileges;
-	wizard.getElement("txtUrl").value = document.location.toString();
+	wizard.getElement("txtUrl").value = plugin.lastUrl;
 };
 plugin.viewStepProcess = function(wizard, extraParams)
 {
 	var markList = wizard.getElement("markList");
 	var listWrapper = document.createElement("div");
 	markList.parentNode.insertBefore(listWrapper,markList);
-	listWrapper.innerHTML = "Asking for temporary privieges to list permanent privileges...";
+	listWrapper.innerHTML = plugin.viewStepEmptyMsg;
 
 	var html = [];
 	try {
@@ -156,10 +156,11 @@ plugin.viewStepProcess = function(wizard, extraParams)
 				{
 					priv.warning = true;
 					priv.notes = (priv.url === "file://")? "This is dangerous" : "This has no effect";
-				} else if (priv.url === thisUrl) {
-					priv.thisUrl = true;
-					priv.notes = "This document's url";
-				}
+				} else if ((priv.url === thisUrl) || 
+				           (priv.url === plugin.lastUrl)) {
+					priv.highlight = true;
+					priv.notes = (priv.url === thisUrl)? "This document's url" : "The url you just updated";
+				} 
 				listItems.push(priv);
 			}
 		}
@@ -192,6 +193,7 @@ plugin.btnSetPrivileges = function(ev)
 	if (!url) {
 		alert("The url is required");
 	} else {
+		plugin.lastUrl = url;
 		var viewStepExtraParams = {reqAcccess: false};
 		var gotPrivileges = false;
 		try {
@@ -224,7 +226,7 @@ plugin.btnResetPrivileges = function(ev)
 		}
 		plugin.step(wizard, 2, {reqAcccess: false});
 	}
-	return fase;
+	return false;
 };
 plugin.setUrlPrivilege = function(reqAccess, url, rights, reset)
 {
