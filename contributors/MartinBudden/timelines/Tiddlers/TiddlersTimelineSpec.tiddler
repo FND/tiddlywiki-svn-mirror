@@ -1,6 +1,8 @@
 <div title="TiddlersTimelineSpec" modifier="Martin Budden" tags="timelinespec">
 <pre>
 |timelineHeight:|400|
+|bubbleWidth:|350|
+|bubbleHeight:|200|
 
 |band0.width:|80%|
 |band0.intervalUnit:|MONTH|
@@ -17,6 +19,5 @@
 |band2.intervalPixels:|25|
 |band2.showEventText:|false|
 |band2.eventSourceType:|tiddlerFields|
-
 </pre>
 </div>
