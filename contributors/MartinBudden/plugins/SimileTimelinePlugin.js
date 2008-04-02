@@ -1,13 +1,13 @@
 /***
 |''Name:''|SimileTimelinePlugin|
-|''Description:''|Plugin to support Simile Timelines, see http://simile.mit.edu/SimileTimeline/ |
+|''Description:''|Plugin to support Simile Timelines, see http://simile.mit.edu/timeline/ |
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Source:''|http://www.martinswiki.com/#SimileTimelineBundlePlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelinePlugin.js |
-|''Version:''|0.1.6|
+|''Version:''|0.1.7|
 |''Date:''|Mar 4, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.2|
 
 Note that to use this pluing you also need:
@@ -53,7 +53,7 @@ Timeline.GregorianDateLabeller.prototype.labelPrecise = function(date)
 	var dt = Timeline.DateTime.removeTimeZoneOffset(date,this._timeZone);
 	var template = "mmm DD, YYYY";
 	return dt.formatString(template);
-	//return dt.toUTCString();
+	//#return dt.toUTCString();
 };
 
 Timeline.GregorianDateLabeller.labelIntervalWeek = function(date)
@@ -72,6 +72,11 @@ Timeline.GregorianDateLabeller.labelIntervalFunctions['en'] = function(date,inte
 	} else {
 		return this.defaultLabelInterval(date,intervalUnit);
 	}
+};
+
+Timeline.DefaultEventSource.Event.prototype.fillDescription = function(e)
+{
+        e.innerHTML = wikifyStatic(this._description,null,new Tiddler("temp"));
 };
 /*
 Timeline.DefaultEventSource.Event.prototype.fillInfoBubble = function(elmt,theme,labeller)
@@ -127,7 +132,6 @@ Timeline.loadTiddlerJSON = function(title,fn)
 		var j = eval('(' + tiddler.text + ')');
 		fn(j,uri);
 	} catch(ex) {
-		console.log(ex);
 		return exceptionText(ex);
 	}
 };
@@ -217,7 +221,6 @@ Timeline.loadXMLRemote = function(uri,f) {
 			try {
 				f(xml,uri);
 			} catch(ex) {
-				console.log(ex);
 				return exceptionText(ex);
 			}
 		} else {
@@ -247,7 +250,6 @@ Timeline.loadJSONRemote = function(uri,f) {
 			try {
 				f(data,uri);
 			} catch(ex) {
-				console.log(ex);
 				return exceptionText(ex);
 			}
 		} else {
@@ -263,7 +265,6 @@ Timeline.loadJSONFile = function(filePath,f) {
 		var data = eval('(' + json + ')');
 		f(data, filePath);
 	} catch(ex) {
-		console.log(ex);
 		return exceptionText(ex);
 	}
 };
@@ -321,6 +322,7 @@ config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,
 	var eventSource = new Timeline.DefaultEventSource();
 	var theme = Timeline.ClassicTheme.create();
 
+	//# default bubble size is w:250, h:125
 	var bWidth = store.getTiddlerSlice(spec,'bubbleWidth');
 	if(bWidth)
 		theme.event.bubble.width = bWidth;
