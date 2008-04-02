@@ -289,16 +289,18 @@
 <div macro="processInbox"></div>
 
 !About Quick Add
+<p>
 Enter projects and actions here. Click 'create these items' to create them
-Example usage:
-{{{
+Example usage:<br/><pre>
 Paint House
 .Buy ladder and brushes|@Errand
 .Choose colours|@Home|W
-}}}
+</pre>
 By default actions are next actions. 
 Specify W or F to make them future or Waiting For. You can create multiple projects and project-less actions.
+<br/>
 (TODO: expand on this help.) 
+</p>
 
 !Tickler Dashboard
 <!--{{{-->
@@ -344,3 +346,31 @@ Specify W or F to make them future or Waiting For. You can create multiple proje
 </td></tr></table>
 
 <!--}}}-->
+
+!Starred Items
+<table class="threecol"><tr><td>
+
+<div macro="mgtdList title:'Starred Actions' startTag:Starred tags:'Action' view:ActionProj mode:global
+	group:ActionStatus
+	gView:bold
+	newButtonTags:'Starred Action'
+	"></div>
+
+</td><td>
+
+<div macro="mgtdList title:'Starred Projects' startTag:Starred tags:Project view:Project mode:global
+	group:ProjectStatus
+	gView:bold
+	newButtonTags:'Starred Action'
+	"></div>
+
+</td><td>
+
+<div macro="mgtdList title:'Other Starred Items' startTag:Starred tags:'!Project && !Action' view:Project mode:global
+	group:GTDComponent
+	gView:bold
+	newButtonTags:'Starred'
+	"></div>
+
+</td></tr></table>
+

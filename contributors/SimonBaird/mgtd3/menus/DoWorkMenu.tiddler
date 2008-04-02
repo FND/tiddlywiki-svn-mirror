@@ -17,6 +17,7 @@
 </slider>
 [[Tickler Dashboard]]
 [[Reference Items]]
+[[Starred Items]]
 <slider+ Contexts>
 <<mgtdList startTag:Action tags:'Next && !Done' groupCountOnly:yes group:Context gView:Context where:tiddler.hasActiveProject()>>
 </slider>

@@ -67,8 +67,8 @@
 	<div style="float:right" id='sidebarSwitcher' macro="multiToggleTag title:MgtdSettings tag:Sidebar refresh:page"><span class="label">MENU</span></div>
 	<div>
 	<span class="label">REALM</span><span id='arealmSelector' macro="groupOfSingleToggleTags tag:Realm title:MgtdSettings refresh:page"></span>
-	<span id='newButtons' refresh='content' tiddler='NewButtons'></span>
 	<span id='ticklerAlert' refresh='content' tiddler='TicklerAlert' force="true"></span>
+	<span id='newButtons' refresh='content' tiddler='NewButtons'></span>
 	</div>
 	</div>
 </div>
@@ -360,8 +360,10 @@ body {
 }
 .mgtdList .dateBox { font-weight:medium; font-size:100%; }
 
-#ticklerAlert .tiddlyLink { color:white; }
-#ticklerAlert { padding-left:2em; }
+#ticklerAlert br { display:none; }
+
+.ticklerAlert { padding-left:3em; }
+.ticklerAlert .tiddlyLink { color:white; }
 
 /* for DateChooser */
 [[DateChooserStyles]]

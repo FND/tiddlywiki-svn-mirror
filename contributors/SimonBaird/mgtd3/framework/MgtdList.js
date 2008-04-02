@@ -8,7 +8,7 @@ merge(config.macros,{
 								filterByEval('tiddler.fields.mgtd_date <= (new Date()).convertToYYYYMMDDHHMM()');
 			if (theList.length > 0) {
 				var blinker = createTiddlyElement(place,'blink');
-				wikify('[[*ticklers*|Ticklers Requiring Action]]',blinker,null,tiddler);
+				wikify('{{ticklerAlert{[[*ticklers*|Ticklers Requiring Action]]}}}',blinker,null,tiddler);
 			}
 		}
 	},
