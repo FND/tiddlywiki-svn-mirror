@@ -2,6 +2,7 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: shadows/split.recipe
 recipe: plugins/split.recipe
 recipe: feeds/split.recipe
+recipe: actions/split.recipe
 recipe: help/split.recipe
 recipe: content/split.recipe
 tiddler: ../../adaptors/WikispacesAdaptor.js
