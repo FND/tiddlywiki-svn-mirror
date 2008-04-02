@@ -6,10 +6,10 @@
 */
 //////////////////////////////////////////////////////// default configurations ////////////////////////////////////////////////////////
 	$tiddlyCfg['db']['type'] = "mysql";		//sql type
-	$tiddlyCfg['db']['host'] = "db";		//sql host
+	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
-	$tiddlyCfg['db']['pass'] = "0p3ns0urc3";		//login password
-	$tiddlyCfg['db']['name'] = "cctiddly_uVoke";		//db name
+	$tiddlyCfg['db']['pass'] = "";		//login password
+	$tiddlyCfg['db']['name'] = "cctiddly_public";		//db name
 
 	
 	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
@@ -41,8 +41,8 @@
 	$tiddlyCfg['default_user_perm'] = "AADD";
 	
 //////////////////////// ::::: ADVANCED ::::: /////////////////////////
-	$tiddlyCfg['deligate_session_management'] = 1; 	
-	$tiddlyCfg['on_the_fly_workspace_creation'] = 1;
+	$tiddlyCfg['deligate_session_management'] = 0; 	
+	$tiddlyCfg['on_the_fly_workspace_creation'] = 0;
 	
 	// upload values 
 	$tiddlyCfg['max_file_size'] = 9933300000;

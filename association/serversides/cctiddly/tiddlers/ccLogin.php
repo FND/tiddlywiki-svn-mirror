@@ -450,7 +450,36 @@ if (errorMsg == '201')
 	        }
 	   }
 	}
+	
+	
+
+
+function restart()
+{
+	var tiddlers = store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));
+	  story.displayTiddlers(null,tiddlers);
+    
+		
+    invokeParamifier(params,"onstart");
+    if(story.isEmpty()) {
+ 
+ var tiddlers = "";
+ 	        if ( cookieValues.sessionToken && cookieValues.sessionToken!== 'invalid' && cookieValues.txtUserName) {
+        tiddlers = store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));
+}
+ 
+       if(tiddlers.length < 0)
+        {
+                   tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));
+        }
+    }
+    window.scrollTo(0,0);
+
+}
+
+
 	//}}}
+
 
 </pre>
 </div>
