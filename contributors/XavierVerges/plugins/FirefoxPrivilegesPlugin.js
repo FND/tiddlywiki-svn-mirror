@@ -2,8 +2,8 @@
 |''Name''|FirefoxPrivilegesPlugin|
 |''Description''|Create a backstage tab to manage Firefox url privileges|
 |''Author''|Xavier Vergés (xverges at gmail dot com)|
-|''Version''|1.0.4 ($Rev$)|
-|''Date''|$Date$|
+|''Version''|1.0.6 ($Rev$)|
+|''Date''|$Date: 2008-04-02$|
 |''Status''|@@beta@@|
 |''Source''|http://firefoxprivileges.tiddlyspot.com/|
 |''CodeRepository''|http://trac.tiddlywiki.org/browser/Trunk/contributors/XavierVerges/plugins/FirefoxPrivilegesPlugin.js|
@@ -11,7 +11,7 @@
 |''CoreVersion''|2.2.4 (maybe 2.2+?)|
 |''Feedback''|http://groups.google.com/group/TiddlyWiki|
 |''BookmarkletReady''|http://icanhaz.com/firefoxprivileges|
-|''Browser''|Mozilla. Tested under Firefox 2.0.0.12|
+|''Browser''|Mozilla. Tested under Firefox 2.0.0.12 and Firefox 3.0b4|
 |''Documentation''|http://firefoxprivileges.tiddlyspot.com/#HowTo|
 /%
 !Description
@@ -182,16 +182,10 @@ plugin.btnSetPrivileges = function(ev)
 	var wizard = new Wizard(this);
 	var checkboxes = wizard.bodyElem.getElementsByTagName("input");
 	var grant = [];
-	var deny = [];
 	for(var t=0; t<checkboxes.length; t++) {
 		var cb = checkboxes[t];
-		if(cb.getAttribute("type") == "checkbox") {
-			var priv = cb.name.substring(3);
-			if (cb.checked) {
-				grant.push(priv);
-			} else {
-				deny.push(priv);
-			}
+		if((cb.getAttribute("type") == "checkbox")&&cb.checked) {
+			grant.push(cb.name.substring(3));
 		}
 	}
 	var url = wizard.getElement("txtUrl").value;
@@ -205,7 +199,7 @@ plugin.btnSetPrivileges = function(ev)
 			gotPrivileges = true;
 		} catch(ex) {}
 		if (gotPrivileges) {
-			var needsReload = plugin.setUrlPrivilege(false, url, grant, deny);
+			var needsReload = plugin.setUrlPrivilege(false, url, grant, false);
 			if (needsReload) {
 				viewStepExtraParams.status = "Reload to take effect";
 			}
