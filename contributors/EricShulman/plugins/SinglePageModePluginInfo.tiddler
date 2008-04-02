@@ -1,9 +1,9 @@
-<div title="SinglePageModePluginInfo" modifier="ELSDesignStudios" created="200512271815" modified="200803011602" tags="plugininfo" creator="ELSDesignStudios">
+<div title="SinglePageModePluginInfo" modifier="ELSDesignStudios" created="200512271815" modified="200804021412" tags="plugininfo" creator="ELSDesignStudios" changecount="1">
 <pre>/***
 |Name|SinglePageModePluginInfo|
 |Source|http://www.TiddlyTools.com/#SinglePageModePlugin|
 |Documentation|http://www.TiddlyTools.com/#SinglePageModePluginInfo|
-|Version|2.6.0|
+|Version|2.9.0|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -18,18 +18,31 @@ When the plugin is enabled, only one tiddler will be displayed at a time and the
 &lt;&lt;&lt;
 !!!!!Configuration
 &lt;&lt;&lt;
-When installed, this plugin automatically adds checkboxes in the AdvancedOptions tiddler so you can enable/disable the plugin behavior.  For convenience, these checkboxes are also included here:
+When installed, this plugin automatically adds checkboxes in the AdvancedOptions tiddler so you can enable/disable the plugin behavior.  However, if you have customized your AdvancedOptions, you may need to //manually add these checkboxes to your customized tiddler.//  For convenience, these checkboxes are also included here:
+
 &lt;&lt;option chkSinglePageMode&gt;&gt; Display one tiddler at a time
-&lt;&lt;option chkSinglePagePermalink&gt;&gt; Automatically permalink current tiddler
-&lt;&lt;option chkSinglePageAutoScroll&gt;&gt; Automatically scroll tiddler into view (if needed)
+&gt;&lt;&lt;option chkSinglePageKeepFoldedTiddlers&gt;&gt; Don't auto-close folded tiddlers
+&gt;&lt;&lt;option chkSinglePagePermalink&gt;&gt; Automatically permalink current tiddler
 &lt;&lt;option chkTopOfPageMode&gt;&gt; Always open tiddlers at the top of the page
 &lt;&lt;option chkBottomOfPageMode&gt;&gt; Always open tiddlers at the bottom of the page
-//Note: if both 'top' and 'bottom' settings are selected, &quot;top of page&quot; will be used.  Also, in Apple's Safari browser, automatically setting the permalink causes an error and is disabled.//
+&lt;&lt;option chkSinglePageAutoScroll&gt;&gt; Automatically scroll tiddler into view (if needed)
 
-When installed, this plugin automatically adds checkboxes in the ''shadow'' AdvancedOptions tiddler so you can enable/disable this behavior.  However, if you have customized your AdvancedOptions, you may need to ''manually add these checkboxes to your customized tiddler.''
+Notes:
+* {{block{
+The &quot;display one tiddler at a time&quot; option can also be //temporarily// set/reset by including a 'paramifier' in the document URL: {{{#SPM:true}}} or {{{#SPM:false}}}. You can also use {{{SPM:expression}}}, where 'expression' is any javascript statement that evaluates to true or false.  This allows you to create hard-coded links in other documents that can selectively enable/disable the use of this option based on various programmatic conditions, such as the current username. For example, using
+&amp;nbsp;&amp;nbsp;&amp;nbsp;{{{#SPM:config.options.txtUserName!=&quot;SomeName&quot;}}}
+enables 'one tiddler at a time' display for all users //other than// &quot;~SomeName&quot;)}}}
+* If more than one display mode is selected, 'one at a time' display takes precedence over both 'top' and 'bottom' settings, and if 'one at a time' setting is not used, 'top of page' takes precedence over 'bottom of page'.
+* When using Apple's Safari browser, automatically setting the permalink causes an error and is disabled.
 &lt;&lt;&lt;
 !!!!!Revisions
 &lt;&lt;&lt;
+2008.04.02 [2.9.0] in displayTiddler(), when single-page mode is in use and a tiddler is being edited, ask for permission to save-and-close that tiddler, instead of just leaving it open.
+2008.03.29 [2.8.3] in displayTiddler(), get title from tiddler object (if needed).  Fixes errors caused when calling function passes a tiddler *object* instead of a tiddler *title*
+2008.03.14 [2.8.2] in displayTiddler(), if editing specified tiddler, just move it to top/bottom of story *without* re-rendering (prevents discard of partial edits).
+2008.03.06 [2.8.1] in paramifier handler, start 'checkURL' timer if chkSinglePageMode is enabled
+2008.03.06 [2.8.0] added option, {{{config.options.chkSinglePageKeepFoldedTiddlers}}}, so folded tiddlers won't be closed when using single-page mode.  Also, in checkURL(), if hash is a ''permaview'' (e.g., &quot;#foo bar baz&quot;), then display multiple tiddlers rather than attempting to display &quot;foo bar baz&quot; as a single tiddler
+2008.03.05 [2.7.0] added support for &quot;SPM:&quot; URL paramifier
 2008.03.01 [2.6.0] in hijack of displayTiddler(), added 'title' argument to closeAllTiddlers() so that target tiddler isn't closed-and-reopened if it was already displayed.  Also, added config.options.chkSinglePageAutoScrolloption to bypass automatic 'scroll into view' logic (note: core still does it's own ensureVisible() handling)
 2007.12.22 [2.5.3] in checkLastURL(), use decodeURIComponent() instead of decodeURI so that tiddler titles with commas (and/or other punctuation) are correctly handled.
 2007.10.26 [2.5.2] documentation cleanup
