@@ -12,7 +12,7 @@
 |''Feedback''|http://groups.google.com/group/TiddlyWiki|
 |''BookmarkletReady''|http://icanhaz.com/firefoxprivileges|
 |''Browser''|Mozilla. Tested under Firefox 2.0.0.12|
-|''Documentation''|tbw|
+|''Documentation''|http://firefoxprivileges.tiddlyspot.com/#HowTo|
 /%
 !Description
 !Notes
@@ -199,12 +199,20 @@ plugin.btnSetPrivileges = function(ev)
 		alert("The url is required");
 	} else {
 		var viewStepExtraParams = {reqAcccess: false};
-		netscape.security.PrivilegeManager.enablePrivilege(config.macros.firefoxPrivileges.privAccessCapabilities);
-		var needsReload = plugin.setUrlPrivilege(false, url, grant, deny);
-		if (needsReload) {
-			viewStepExtraParams.status = "Reload to take effect";
+		var gotPrivileges = false;
+		try {
+			netscape.security.PrivilegeManager.enablePrivilege(config.macros.firefoxPrivileges.privAccessCapabilities);
+			gotPrivileges = true;
+		} catch(ex) {}
+		if (gotPrivileges) {
+			var needsReload = plugin.setUrlPrivilege(false, url, grant, deny);
+			if (needsReload) {
+				viewStepExtraParams.status = "Reload to take effect";
+			}
+			plugin.step(wizard, 2, viewStepExtraParams);
+		} else {
+			alert("Not enough privileges. Maybe you are trying this from a tiddlywiki loaded from a server?");
 		}
-		plugin.step(wizard, 2, viewStepExtraParams);
 	}
 	return false;
 };
