@@ -37,19 +37,6 @@ Story.prototype.displayTiddler = function(srcElement,title,template,animate,slow
 			story.closeTiddler(tid);
 	});
 	
-	/*
-	if (template == 2) {	
-		//switch to Edit mode : don't manage
-		if (title == 'New Tiddler') {
-			// JL - New Tiddler so close existing tiddler
-			if (this.currentTiddler) this.closeTiddler(this.currentTiddler);
-		}
-		// JL - otherwise existing code - need to look at this with relation to duplicate records in history.
-		story.old_history_displayTiddler(null,title,template,animate,slowly);
-		return; 
-	}
-	if (this.currentTiddler) this.closeTiddler(this.currentTiddler);
-	*/
 	if (this.historyCurrentPos == this.tiddlerHistory.length -1) {
 		// bottom of stack
     	this.tiddlerHistory.push(((typeof title === "string") ? title : title.title));
