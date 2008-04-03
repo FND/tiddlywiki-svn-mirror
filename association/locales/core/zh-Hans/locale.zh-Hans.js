@@ -5,10 +5,10 @@
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hans/locale.zh-Hans.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''Version:''|2.3.0|
-|''Date:''|Jan 19, 2008|
+|''Date:''|Apr 2, 2008|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|''~CoreVersion:''|2.2.0|
+|''~CoreVersion:''|2.3.0|
 ***/
 
 //{{{
@@ -19,6 +19,7 @@
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
 config.locale = 'zh-Hans'; // W3C language tag
+config.options.txtFileSystemCharSet = 'GBK';
 
 if (config.options.txtUserName == 'YourName' || !config.options.txtUserName) // do not translate this line, but do translate the next line
 	merge(config.options,{txtUserName: "YourName"});
@@ -421,7 +422,8 @@ merge(config.shadowTiddlers,{
 	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal " YYYY年0MM月0DD日" "日志">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  "偏好设置 »" "变更 TiddlyWiki 选项">>',
 	SideBarTabs: '<<tabs txtMainTab "最近更新" "依更新日期排序" TabTimeline "全部" "所有文章" TabAll "分类" "所有标签" TabTags "更多" "其他" TabMore>>',
 	StyleSheet: '[[StyleSheetLocale]]',
-	TabMore: '<<tabs txtMoreTab "未完成" "内容空白的文章" TabMoreMissing "未引用" "未被引用的文章" TabMoreOrphans "默认文章" "默认的影子文章" TabMoreShadowed>>'});
+	TabMore: '<<tabs txtMoreTab "未完成" "内容空白的文章" TabMoreMissing "未引用" "未被引用的文章" TabMoreOrphans "默认文章" "默认的影子文章" TabMoreShadowed>>',
+	ToolbarCommands: "|~ViewToolbar|closeTiddler closeOthers +editTiddler > fields syncing permalink references jump|\n|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|"});
 
 merge(config.annotations,{
 	AdvancedOptions: "此默认文章可以存取一些进阶选项。",
@@ -434,7 +436,7 @@ merge(config.annotations,{
 	MarkupPreHead: "此文章的内容将加至 TiddlyWiki 文件的 <head> 段落的起始",
 	MarkupPostHead: "此文章的内容将加至 TiddlyWiki 文件的 <head> 段落的最后",
 	MarkupPreBody: "此文章的内容将加至 TiddlyWiki 文件的 <body> 段落的起始",
-	MarkupPostBody: "此文章的内容将加至 TiddlyWiki 文件的 <body> 段落的最后，于 script 区块之前",
+	MarkupPostBody: "此文章的内容将加至 TiddlyWiki 文件的 <body> 段落的最后，于 script 区块之后",
 	OptionsPanel: "此默认文章的内容，为于屏幕右侧副菜单中的选项面板里的内容",
 	PageTemplate: "此默认文章里的 HTML template 决定的 ~TiddlyWiki 主要的版面配置",
 	PluginManager: "此默认文章提供存取插件管理员",
@@ -443,9 +445,9 @@ merge(config.annotations,{
 	SiteSubtitle: "此默认文章的内容为页面的副标题",
 	SiteTitle: "此默认文章的内容为页面的主标题",
 	SiteUrl: "此默认文章的内容须设定为文件发布时的完整网址",
-	StyleSheetColors: "此默认文章内含的 CSS 规则，为相关的页面元素的配色。''勿修改此文''，請於 StyleSheet 中作增修。",
+	StyleSheetColors: "此默认文章内含的 CSS 规则，为相关的页面元素的配色。''勿修改此文''，请于 StyleSheet 中作增修",
 	StyleSheet: "此默认文章内容可包含 CSS 规则",
-	StyleSheetLayout: "此默认文章内含的 CSS 规则，为相关的页面元素的版面配置。''勿修改此文''，請於 StyleSheet 中作增修。",
+	StyleSheetLayout: "此默认文章内含的 CSS 规则，为相关的页面元素的版面配置。''勿修改此文''，请于 StyleSheet 中作增修",
 	StyleSheetLocale: "此默认文章内含的 CSS 规则，可依翻译语系做适当调整",
 	StyleSheetPrint: "此默认文章内含的 CSS 规则，用于列印时的样式",
 	TabAll: "此默认文章的内容，为于屏幕右侧的“全部”页签的内容",
@@ -455,6 +457,7 @@ merge(config.annotations,{
 	TabMoreShadowed: "此默认文章的内容，为于屏幕右侧的“默认文章”页签的内容",
 	TabTags: "此默认文章的内容，为于屏幕右侧的“分类”页签的内容",
 	TabTimeline: "此默认文章的内容，为于屏幕右侧的“最近更新”页签的内容",
+	ToolbarCommands: "此默认文章的内容，为显示于文章工具列之命令",
 	ViewTemplate: "此默认文章里的 HTML template 决定文章显示的样子"
 	});
 //}}}

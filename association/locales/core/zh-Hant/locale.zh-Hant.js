@@ -5,10 +5,10 @@
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hant/locale.zh-Hant.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''Version:''|2.3.0|
-|''Date:''|Jan 19, 2008|
+|''Date:''|Apr 2, 2008|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|''~CoreVersion:''|2.2.0|
+|''~CoreVersion:''|2.3.0|
 ***/
 
 //{{{
@@ -19,7 +19,7 @@
 // Strings in "double quotes" should be translated; strings in 'single quotes' should be left alone
 
 config.locale = 'zh-Hant'; // W3C language tag
-//#config.options.txtFileSystemCharSet = 'BIG5';
+config.options.txtFileSystemCharSet = 'BIG5';
 
 if (config.options.txtUserName == 'YourName' || !config.options.txtUserName) // do not translate this line, but do translate the next line
 	merge(config.options,{txtUserName: "YourName"});
@@ -96,33 +96,32 @@ merge(config.messages.messageClose,{
 	text: "關閉",
 	tooltip: "關閉此訊息"});
 
-config.messages.backstage = {
-	open: {text: "控制台", tooltip: "開啟控制台執行編寫工作"},
-	close: {text: "關閉", tooltip: "關閉控制台"},
-	prompt: "控制台：",
-	decal: {
-		edit: {text: "編輯", tooltip: "編輯 '%0'"}
-	}
-};
+merge(config.messages,{
+	backstage: {
+		open: {text: "控制台", tooltip: "開啟控制台執行編寫工作"},
+		close: {text: "關閉", tooltip: "關閉控制台"},
+		prompt: "控制台：",
+		decal: {
+			edit: {text: "編輯", tooltip: "編輯 '%0'"}
+		}}});
 
-config.messages.listView = {
-	tiddlerTooltip: "檢視全文",
-	previewUnavailable: "(無法預覽)"
-};
+merge(config.messages,{
+	listView: {
+		tiddlerTooltip: "檢視全文",
+		previewUnavailable: "(無法預覽)"}});
 
-config.messages.dates.months = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
-config.messages.dates.days = ["星期日", "星期一","星期二", "星期三", "星期四", "星期五", "星期六"];
-// config.messages.dates.shortMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-config.messages.dates.shortMonths = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
-// config.messages.dates.shortDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-config.messages.dates.shortDays = ["日", "一","二", "三", "四", "五", "六"];
-// suffixes for dates, eg "1st","2nd","3rd"..."30th","31st"
-config.messages.dates.daySuffixes = ["st","nd","rd","th","th","th","th","th","th","th",
+merge(config.messages,{
+	dates: {
+	months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+	days: ["星期日", "星期一","星期二", "星期三", "星期四", "星期五", "星期六"],
+	shortMonths: ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"],
+	shortDays: ["日", "一","二", "三", "四", "五", "六"],
+	daySuffixes: ["st","nd","rd","th","th","th","th","th","th","th",
 		"th","th","th","th","th","th","th","th","th","th",
 		"st","nd","rd","th","th","th","th","th","th","th",
-		"st"];
-config.messages.dates.am = "上午";
-config.messages.dates.pm = "下午";
+		"st"],
+	am: "上午",
+	pm: "下午"}});
 
 merge(config.messages.tiddlerPopup,{ 
 	});
@@ -425,7 +424,8 @@ merge(config.shadowTiddlers,{
 	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal " YYYY年0MM月0DD日" "日誌">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  "偏好設定 »" "變更 TiddlyWiki 選項">>',
 	SideBarTabs: '<<tabs txtMainTab "最近更新" "依更新日期排序" TabTimeline "全部" "所有文章" TabAll "分類" "所有標籤" TabTags "更多" "其他" TabMore>>',
 	StyleSheet: '[[StyleSheetLocale]]',
-	TabMore: '<<tabs txtMoreTab "未完成" "內容空白的文章" TabMoreMissing "未引用" "未被引用的文章" TabMoreOrphans "預設文章" "已預設內容的隱藏文章" TabMoreShadowed>>'});
+	TabMore: '<<tabs txtMoreTab "未完成" "內容空白的文章" TabMoreMissing "未引用" "未被引用的文章" TabMoreOrphans "預設文章" "已預設內容的隱藏文章" TabMoreShadowed>>',
+	ToolbarCommands: "|~ViewToolbar|closeTiddler closeOthers +editTiddler > fields syncing permalink references jump|\n|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|"});
 
 merge(config.annotations,{
 	AdvancedOptions: "此預設文章可以存取一些進階選項。",
@@ -438,7 +438,7 @@ merge(config.annotations,{
 	MarkupPreHead: "此文章的內容將加至 TiddlyWiki 文件的 <head> 段落的起始",
 	MarkupPostHead: "此文章的內容將加至 TiddlyWiki 文件的 <head> 段落的最後",
 	MarkupPreBody: "此文章的內容將加至 TiddlyWiki 文件的 <body> 段落的起始",
-	MarkupPostBody: "此文章的內容將加至 TiddlyWiki 文件的 <body> 段落的最後，於 script 區塊之前",
+	MarkupPostBody: "此文章的內容將加至 TiddlyWiki 文件的 <body> 段落的最後，於 script 區塊之後",
 	OptionsPanel: "此預設文章的內容，為於螢幕右側副選單中的選項面板裡的內容",
 	PageTemplate: "此預設文章裡的 HTML template 決定的 ~TiddlyWiki 主要的版面配置",
 	PluginManager: "此預設文章提供存取套件管理員",
@@ -447,9 +447,9 @@ merge(config.annotations,{
 	SiteSubtitle: "此預設文章的內容為頁面的副標題",
 	SiteTitle: "此預設文章的內容為頁面的主標題",
 	SiteUrl: "此預設文章的內容須設定為文件發佈時的完整網址",
-	StyleSheetColors: "此預設文章內含的 CSS 規則，為相關的頁面元素的配色。''勿修改此文''，請於 StyleSheet 中作增修。",
+	StyleSheetColors: "此預設文章內含的 CSS 規則，為相關的頁面元素的配色。''勿修改此文''，請於 StyleSheet 中作增修",
 	StyleSheet: "此預設文章內容可包含 CSS 規則",
-	StyleSheetLayout: "此預設文章內含的 CSS 規則，為相關的頁面元素的版面配置。''勿修改此文''，請於 StyleSheet 中作增修。",
+	StyleSheetLayout: "此預設文章內含的 CSS 規則，為相關的頁面元素的版面配置。''勿修改此文''，請於 StyleSheet 中作增修",
 	StyleSheetLocale: "此預設文章內含的 CSS 規則，可依翻譯語系做適當調整",
 	StyleSheetPrint: "此預設文章內含的 CSS 規則，用於列印時的樣式",
 	TabAll: "此預設文章的內容，為於螢幕右側副選單中的「全部」頁籤的內容",
@@ -459,6 +459,7 @@ merge(config.annotations,{
 	TabMoreShadowed: "此預設文章的內容，為於螢幕右側副選單中的「預設文章」頁籤的內容",
 	TabTags: "此預設文章的內容，為於螢幕右側副選單中的「分類」頁籤的內容",
 	TabTimeline: "此預設文章的內容，為於螢幕右側副選單中的「最近更新」頁籤的內容",
+	ToolbarCommands: "此預設文章的內容，為顯示於文章工具列之命令",
 	ViewTemplate: "此預設文章裡的 HTML template 決定文章顯示的樣子"
 	});
 //}}}
