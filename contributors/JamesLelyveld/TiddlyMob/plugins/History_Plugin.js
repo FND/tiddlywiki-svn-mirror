@@ -7,18 +7,49 @@ Story.prototype.maxPos = 11;
 Story.prototype.old_history_displayTiddler = Story.prototype.displayTiddler;
 Story.prototype.displayTiddler = function(srcElement,title,template,animate,slowly)
 {
-	if (template == 2) {
+
+	// change text of menu button 
+	if (title != '[object Object]'){
+		document.getElementById('uNoteMenu').innerHTML = title;
+	}
+	
+	// enforce single page mode - Code section amended from SinglePagePlugin by Eric Shulman
+	story.forEachTiddler(function(tid,elem) {
+			// skip current tiddler.
+			if (tid == title) {
+				return;
+			}
+			// if a tiddler is being edited, ask before closing
+			if (elem.getAttribute("dirty")=="true") {
+				// ask for permission
+				var msg="'"+tid+"' is currently being edited. Do you want to save the changes\n\n";
+				msg+="Press Ok to save and close this tiddler\nor press Cancel to abandon changes";
+				if (confirm(msg)){
+					story.saveTiddler(tid);
+					// as title of new tiddler may have changed need to ensure it's closed on save
+					story.forEachTiddler(function(tid2,elem2) {
+						if(tid2 != title){
+							story.closeTiddler(tid2);
+						}
+						});
+				}
+			}
+			story.closeTiddler(tid);
+	});
+	
+	/*
+	if (template == 2) {	
 		//switch to Edit mode : don't manage
 		if (title == 'New Tiddler') {
 			// JL - New Tiddler so close existing tiddler
 			if (this.currentTiddler) this.closeTiddler(this.currentTiddler);
 		}
-		// JL - otherwise existing code
+		// JL - otherwise existing code - need to look at this with relation to duplicate records in history.
 		story.old_history_displayTiddler(null,title,template,animate,slowly);
 		return; 
 	}
 	if (this.currentTiddler) this.closeTiddler(this.currentTiddler);
-
+	*/
 	if (this.historyCurrentPos == this.tiddlerHistory.length -1) {
 		// bottom of stack
     	this.tiddlerHistory.push(((typeof title === "string") ? title : title.title));
@@ -77,7 +108,7 @@ var popup = Popup.create(this);
 }
 config.macros.history.handler = function(place,macroName,params)
 {
-	createTiddlyButton(place, 'history', 'history', config.macros.history.action);
+	createTiddlyButton(place, 'history', 'history', config.macros.history.action, 'button hist');
 }
 
 config.macros.history.onClick = function(ev)
@@ -96,7 +127,7 @@ config.macros.back.action = function() {
 			story.historyCurrentPos = story.historyCurrentPos -2;
 			story.displayTiddler(null,story.tiddlerHistory[story.historyCurrentPos+1]);
 		} else {
-			//if (story.currentTiddler) story.old_history_displayTiddler(null,story.currentTiddler);
+			if (story.currentTiddler) story.old_history_displayTiddler(null,story.currentTiddler);
 			};
 	return false;
 }
@@ -112,7 +143,7 @@ config.macros.forward.action = function() {
 			//story.historyCurrentPos = story.historyCurrentPos;
 			story.displayTiddler(null,story.tiddlerHistory[story.historyCurrentPos+1]);
 		} else {
-			//if (story.currentTiddler) story.old_history_displayTiddler(null,story.currentTiddler);
+			if (story.currentTiddler) story.old_history_displayTiddler(null,story.currentTiddler);
 		}
 	return false;
 }
@@ -120,6 +151,4 @@ config.macros.forward.handler = function(place,macroName,params)
 {
 	createTiddlyButton(place, '>', 'forward', config.macros.forward.action, "ibutton");
 }
-
-
 //}}}
