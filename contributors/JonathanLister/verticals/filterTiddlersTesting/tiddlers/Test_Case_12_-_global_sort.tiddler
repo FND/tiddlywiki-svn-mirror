@@ -1,0 +1,4 @@
+<div title="Test Case 12 - global sort" modifier="JonLister" created="200803261440" modified="200803261446" changecount="2" tags="testcase">
+<pre>|test:|[tag[singletag]] [sort[modified]]|
+|expected:|1WordTag1WordTitle 1WordTag1 [[1WordTagMultiWord Title]]|</pre>
+</div>

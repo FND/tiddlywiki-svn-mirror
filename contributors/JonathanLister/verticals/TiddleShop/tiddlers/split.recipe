@@ -4,14 +4,17 @@ tiddler: BlogPostTemplate1.tiddler
 tiddler: BlogPostTemplate2.tiddler
 tiddler: BlogPostTemplate3.tiddler
 tiddler: BlogPostTemplate4.tiddler
+tiddler: BlogPostTemplate5.tiddler
 tiddler: BlogTemplate1.tiddler
 tiddler: BlogTemplate2.tiddler
 tiddler: BlogTemplate3.tiddler
 tiddler: BlogTemplate4.tiddler
+tiddler: BlogTemplate5.tiddler
 tiddler: BlogThumbnail1.tiddler
 tiddler: BlogThumbnail2.tiddler
 tiddler: BlogThumbnail3.tiddler
 tiddler: BlogThumbnail4.tiddler
+tiddler: BlogThumbnail5.tiddler
 tiddler: BlogThumbnailEditTemplate.tiddler
 tiddler: Choose_template.tiddler
 tiddler: ColorPalette.tiddler
@@ -31,6 +34,7 @@ tiddler: PreviewBlog1.tiddler
 tiddler: PreviewBlog2.tiddler
 tiddler: PreviewBlog3.tiddler
 tiddler: PreviewBlog4.tiddler
+tiddler: PreviewBlog5.tiddler
 tiddler: save.tiddler
 tiddler: SaveList.tiddler
 tiddler: SideBarOptions.tiddler

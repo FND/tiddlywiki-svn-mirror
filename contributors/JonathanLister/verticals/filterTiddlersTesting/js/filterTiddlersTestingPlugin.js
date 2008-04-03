@@ -65,9 +65,6 @@ filterTiddlersTesting.defineTest = function(place) {
 		if(testResults.toString() == expectedTiddlers.toString())
 			return true;
 		else {
-			console.log(testResults.toString());
-			console.log("not equal to");
-			console.log(expectedTiddlers.toString());
 			return false;
 		}
 	}
@@ -81,7 +78,7 @@ filterTiddlersTesting.run = function(place) {
 		var testResult = test(testCases[i]);
 		testResults.push(testCases[i].name);
 		testResults.push(testCases[i].test);
-		testResults.push(testResult.toString());
+		testResults.push(testResult ? "pass" : "fail");
 	}
 	var output = "";
 	for(i=0; i<testResults.length; i=i+3) {

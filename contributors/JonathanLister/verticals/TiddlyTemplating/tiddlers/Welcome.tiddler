@@ -4,7 +4,7 @@
 This [[TiddlyWiki|http://en.wikipedia.org/wiki/TiddlyWiki]] is a demo of ~TiddlyTemplating. The table below describes the examples. NB: You have to download this file and run locally to save files (see after the table for further info).
 
 | ''Example'' | Tiddler to open | Description | Templates used |
-|Creating RSS |[[ListTemplate Test]] |Shows a RSS feed created using templates |RssTemplate, RssItemTemplate, RssItemCategoryTemplate |
+|Creating RSS |[[templateTiddlers Test]] |Shows a RSS feed created using templates |RssTemplate, RssItemTemplate, RssItemCategoryTemplate |
 |Saving RSS |n/a (see below) |The standard save for RSS has been overridden to work through the templates. (Caveat: because there is no [tag[!excludeLists]] filter syntax yet, this is using [tag[docs]] just to pop a couple of tiddlers into the output.) |//as above// |
 |Saving HTML files |[[HtmlSave Test]] |Creates a mockup of a blog homepage using tiddlers tagged with "post". (See the result at: http://tinyurl.com/23fqu7) |HtmlPageTemplate, HtmlPagePostTemplate |
 

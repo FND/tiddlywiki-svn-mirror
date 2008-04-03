@@ -1,0 +1,4 @@
+<div title="Test Case 15 - accumulator limit" modifier="JonLister" created="200803261440" modified="200803261446" changecount="2" tags="testcase">
+<pre>|test:|[tag[singletag]sort[modified]limit[2]] MultiWordTag2|
+|expected:|1WordTag1WordTitle 1WordTag1 MultiWordTag2|</pre>
+</div>

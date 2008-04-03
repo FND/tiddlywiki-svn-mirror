@@ -1,0 +1,4 @@
+<div title="TspotControls" modifier="TiddlyTemplating" created="200712040000">
+<pre>| tiddlyspot password:|<<option pasUploadPassword>>|
+| site management:|<<upload http://tiddlytemplating.tiddlyspot.com/store.cgi index.html . .  tiddlytemplating>>//(requires tiddlyspot password)//<br>[[control panel|http://tiddlytemplating.tiddlyspot.com/controlpanel]], [[download (go offline)|http://tiddlytemplating.tiddlyspot.com/download]]|
+| links:|[[tiddlyspot.com|http://tiddlyspot.com/]], [[FAQs|http://faq.tiddlyspot.com/]], [[announcements|http://announce.tiddlyspot.com/]], [[blog|http://tiddlyspot.com/blog/]], email [[support|mailto:support@tiddlyspot.com]] & [[feedback|mailto:feedback@tiddlyspot.com]], [[donate|http://tiddlyspot.com/?page=donate]]|</pre></div>
