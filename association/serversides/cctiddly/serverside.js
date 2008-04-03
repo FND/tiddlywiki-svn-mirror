@@ -167,7 +167,7 @@ serverside.fn.genericCallback = function(status,params,responseText,uri,xhr) {
 	
 	if(xhr.status == 401)
 	{
-		story.displayTiddler(null,'Please Login', 1);
+		story.displayTiddler(null,'Login', 1);
 	}			
 	
 	result = xhr.responseText.split("\n");

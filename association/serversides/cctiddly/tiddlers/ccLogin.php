@@ -1,4 +1,8 @@
-
+<div title="AnonDefaultTiddlers" modifier="ccTiddly">
+<pre>
+[[Login]] [[GettingStarted]]
+</pre>
+</div>
 <div title="ccLogin" modifier="ccTiddly"  tags="systemConfig excludeLists excludeSearch" >
 <pre>	
 /***
@@ -134,7 +138,7 @@ config.macros.ccLoginStatus = {
 				frm.appendChild(btn);	
 
 	        } else {
-				var str = wikify("[[Please Login]]", wrapper);
+				var str = wikify("[[Login]]", wrapper);
 		    }
 	        
 		}
@@ -159,87 +163,200 @@ if (errorMsg == '201')
 		var frm = createTiddlyElement(place,"form",null,"wizard");
 		frm.onsubmit = this.registerOnSubmit;
 		createTiddlyElement(frm, "br");
-		createTiddlyElement(frm,"h1", null, null,  "Register for an Account  ");
+		createTiddlyElement(frm,"h1", null, null,  "Register");
+		createTiddlyElement(frm,"h2", null, null,  "Sign up for a free ccTiddly account");
 		createTiddlyElement(frm, "br");
 		var body = createTiddlyElement(frm,"div",null, "wizardBody");
 		var step = createTiddlyElement(body,"div",null, "wizardStep");
 		createTiddlyElement(step, "br");
+
 		var user_label = createTiddlyElement(step, "label", null, "label", "Username");
 	 	user_label.setAttribute("for","username");
 		var username = createTiddlyElement(step, "input", "username" , "input", "username");			
+		username.setAttribute("onkeyup","config.macros.ccRegister.usernameKeyPress()");
+			username.setAttribute("tabindex","1");
+		createTiddlyElement(step, "span", 'username_error', 'inlineError', '')
 		createTiddlyElement(step, "br");
+		
+		
+		
+		var mail_label = createTiddlyElement(step, "label", null, "label", "E-Mail Address");
+	 	mail_label.setAttribute("for","username");
+		var mail = createTiddlyElement(step, "input", "mail" , "input", "mail");		
+		mail.setAttribute("onKeyUp","config.macros.ccRegister.mailKeyUp(this.value)");
+					mail.setAttribute("tabindex","2");
+		createTiddlyElement(step, "span", 'mail_error', 'inlineError', '')	
+		createTiddlyElement(step, "br");
+		
+		
+		
 		var pw1_label = createTiddlyElement(step, "label", null, "label", "Password");
 	 	pw1_label.setAttribute("for","password1");
 		var password1 = createTiddlyElement(step,"input", "password1","input", "password1");
 		password1.type="password";
+		createTiddlyElement(step, "span", 'pass1_error', 'inlineError', '')
 		createTiddlyElement(step, "br");
 		
 		var pw2_label = createTiddlyElement(step, "label", null, "label", "Password Confirmation");
 	 	pw2_label.setAttribute("for","password2");
 		var password2 = createTiddlyElement(step,"input", "password2", "input", "password2");
 		password2.type="password";
+		
+		createTiddlyElement(step, "span", 'pass2_error', 'inlineError', '')
 			createTiddlyElement(step, "br");
 		createTiddlyElement(frm, "br");
-		var btn = createTiddlyElement(frm,"input",this.prompt,"button", "button");
+		
+		var a = 	createTiddlyElement(step, "div", null, "submit")
+		var btn = createTiddlyElement(a,"input",this.prompt,"button", "button");
 		 btn.setAttribute("type","submit");
-		 btn.value = "register account "
-
-		createTiddlyElement(frm, "br");
-		createTiddlyElement(frm, "br");
+		btn.setAttribute("value","Register Account"); 
+		btn.setAttribute("id","registerAccountSubmit");
+		createTiddlyElement(a, "span", "submitStatus", null, "")
 	},
 	
-	registerOnSubmit: function() {
 	
+	emailValid : function(str) {
+		if((str.indexOf(".") > 0) && (str.indexOf("@") > 0))
+		{	
+			return true;
+		}else
+		{
+			return false;
+		}
+	}, 
+	
+	registerOnSubmit: function() {
+
+		
 		if(this.username.value == '')
 		{
-			this.username.style.border = 'solid 1px #f00';
-			displayMessage('no username entered');
+			document.getElementById('username_error').innerHTML = 'Please enter a username';
+			this.username.setAttribute("class", "inputError");
 			return false;
+		}else
+		{
+			document.getElementById('username_error').innerHTML = 'Please enter a username';
+			this.username.setAttribute("class", "input");
 		}
 		
 		if(this.username.value != '')
 		{
-			this.username.style.border = 'solid 0px #f00';
 			displayMessage('no username entered');
 		
+		}
+		if(config.macros.ccRegister.emailValid(this.mail.value))
+		{
+			var a = document.getElementById('mail_error');
+			a.innerHTML="email ok";
+			a.setAttribute("class","inlineOk");
+		}else
+		{
+			var a = document.getElementById('mail_error');
+			a.innerHTML = 'not a valid email address ';
+			a.setAttribute("class","inlineError");
+			return false;
 		}
 		
 		
 		if(this.password1.value == '')
 		{
-			displayMessage('please enter password in the first field');
-			this.password1.style.border = 'solid 1px #f00';
-			displayMessage('no username entered');
+			document.getElementById('pass1_error').innerHTML = 'Please enter a password';
+			this.password1.setAttribute("class", "inputError");
 			return false;
+		}else
+		{
+				document.getElementById('pass1_error').innerHTML = '';
+				this.password1.setAttribute("class", "input");
 		}
 		if(this.password2.value == '')
 		{
-			this.password2.style.border = 'solid 1px #f00';
-			displayMessage('please enter second password in the first field');
+			document.getElementById('pass2_error').innerHTML = 'Please enter a password';
+			this.password2.setAttribute("class", "inputError");
 			return false;
+		}else
+		{
+			document.getElementById('pass2_error').innerHTML = '';
+			this.password2.setAttribute("class", "input");
 		}
 		if(this.password1.value != this.password2.value )
 		{			
-			this.password2.style.border = 'solid 1px #f00';
-			this.password1.style.border = 'solid 1px #f00';
-			displayMessage('Your passwords do not match.');
+
+			this.password1.setAttribute("class", "inputError");
+			document.getElementById('pass2_error').innerHTML = 'Please ensure both passwords match';
+			this.password2.setAttribute("class", "inputError");
 			return false;
 		}
+		
+		
+		var submit = document.getElementById('registerAccountSubmit');
+		submit.disabled =true;
+		submit.setAttribute("class","buttonDisabled");
+		document.getElementById('submitStatus').innerHTML = 'Please wait, your account is being created.';
+		
+		
+
 		doHttp('POST', url+'handle/register.php', "username=" + encodeURIComponent(this.username.value)+ "&amp;password="+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null, config.macros.ccRegister.registerCallback,null);
-		return false;
+				return false;
 	},
 	
 	
 	registerCallback: function(status,params,responseText,uri,xhr) {
 		if(xhr.status == '201')
 		{
-				  var loginDiv = document.getElementById ("LoginDiv");
-			displayMessage("USER CREATED");
-			        this.refresh(loginDiv, '201');
+				  var loginDiv = document.getElementById("LoginDiv");
+				document.getElementById('submitStatus').innerHTML = 'Your account has been created ';
+				document.getElementById('username').value = '';
+				document.getElementById('mail').value = '';
+				document.getElementById('password1').value = '';
+				document.getElementById('password2').value = '';
+				
+				document.getElementById('username_error').innerHTML = '';
+				document.getElementById('mail_error').innerHTML = '';
+				document.getElementById('pass1_error').innerHTML = ''; 
+				document.getElementById('pass2_error').innerHTML = ''; 
+				var but = 	document.getElementById('registerAccountSubmit');
+				but.disabled = false;
+				but.setAttribute("class","button");
+				document.getElementById('registerAccountSubmit').class = button;
 		}
+	},
 	
+	
+	mailKeyUp: function(mail) {
+		if(config.macros.ccRegister.emailValid(mail))
+		{
+						var a = document.getElementById('mail_error');
+						var field = document.getElementById('mail');
+						a.innerHTML = 'The email address is valid ';
+						a.setAttribute("class","inlineOk");
+						field.setAttribute("class", "input");
+		}
+	},
+	
+	
+	usernameKeyPress: function() {
 
-	}
+		doHttp('POST', url+'handle/register.php', "username="+document.getElementById("username").value+"&amp;free=1",null,null,null, config.macros.ccRegister.usernameCallback,null);
+		return false;
+	},
+	
+	usernameCallback: function(status,params,responseText,uri,xhr) {
+			if(responseText > 0)
+			{
+				var error = document.getElementById('username_error');
+				var field = document.getElementById('username');
+				error.innerHTML = 'The username has already been taken. ';
+				error.setAttribute("class","inlineError");
+				field.setAttribute("class", "inputError");
+			}else
+			{
+				var a = document.getElementById('username_error');
+				var field = document.getElementById('username');
+				a.innerHTML = 'The username is available ';
+				a.setAttribute("class","inlineOk");
+				field.setAttribute("class", "input");
+			}
+	}	
 }
 	
 	
@@ -292,10 +409,11 @@ if (errorMsg == '201')
 	            
 	            var frm = createTiddlyElement(wrapper,"form",null, "wizard");
 	            frm.onsubmit = this.loginOnSubmit;
-				createTiddlyElement(frm, "br");
+createTiddlyElement(frm, "br");
 				createTiddlyElement(frm,"h1", null, null,  "Please Login");
-				createTiddlyElement(frm, "br");
-	          
+
+	          	    createTiddlyElement(frm, "h2", null, null,  "Sign in to ccTiddly");	
+createTiddlyElement(frm, "br");
 	            var body = createTiddlyElement(frm,"div",null, "wizardBody");
 	            var step = createTiddlyElement(body,"div",null, "wizardStep");
 				
@@ -305,7 +423,7 @@ if (errorMsg == '201')
 	                createTiddlyElement(step,"span", null, null, errorMsg);
 	          		createTiddlyElement(step,"br");
 	          	}
-
+	          		createTiddlyElement(step,"br");
 			var oidfrm = createTiddlyElement(step,"form",null, null);
 			oidfrm.method = 'get';
 			oidfrm.action='includes/openid/try_auth.php';
@@ -345,9 +463,6 @@ if (errorMsg == '201')
 	<?php 
 }else { 
 	?>
-	    createTiddlyText(step, "username/password should get you in.");	
-		createTiddlyElement(step,"br");
-		createTiddlyElement(step,"br");	
 		var user_label = createTiddlyElement(step, "label", null, "label", "Username");
 	 	user_label.setAttribute("for","cctuser");
         var txtuser = createTiddlyElement(step,"input","cctuser", "input")
@@ -363,12 +478,18 @@ if (errorMsg == '201')
      txtpass.setAttribute("type","password");
 	     step.appendChild(txtpass);
 			createTiddlyElement(step,"br");
-			createTiddlyElement(frm,"br");
+		
+		
+			var submitSpan = createTiddlyElement(step, "div");
+			submitSpan.setAttribute("class","submit");
+		
 			var btn = createTiddlyElement(null,"input",this.prompt, "button");
 			btn.setAttribute("type","submit");
 			btn.value = "Login"
-			frm.appendChild(btn);
-			createTiddlyText(frm, " or ");
+				
+			submitSpan.appendChild(btn);
+			createTiddlyElement(frm, 'br');
+			createTiddlyText(frm, 'or ');
 			createTiddlyLink(frm, 'Register',  'Register');
 
 	<?php
@@ -399,7 +520,7 @@ if (errorMsg == '201')
 
 
 	    logoutCallback: function(status,params,responseText,uri,xhr) {
-	   
+	   displayMessage(status);
 	 //return true;
 	    },
 
@@ -488,7 +609,7 @@ function restart()
 &lt;&lt;ccLoginStatus&gt;&gt;
 </pre>
 </div>
-<div title="Please Login" modifier="ccTiddly">
+<div title="Login" modifier="ccTiddly">
 <pre>
 &lt;&lt;ccLogin&gt;&gt;
 </pre>

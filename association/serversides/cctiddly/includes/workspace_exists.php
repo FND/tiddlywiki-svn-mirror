@@ -16,7 +16,7 @@ $logged_in_view = "<div tiddler='ViewTemplate' tags=''>&lt;!--{{{--&gt;\n&lt;div
 
 if (!$user['verified'])
 {
-	$default_tiddlers = '[[Please Login]]';
+	$default_tiddlers = '[[Login]]';
 	echo "<div  tiddler='DefaultTiddlers' tags=''>".$default_tiddlers."[[GettingStarted]]</div>";
 }
 
@@ -29,7 +29,7 @@ $create_workspace = "<div tiddler='SiteTitle' tags=''>Error 404 - Workspace does
 <div  tiddler='DefaultTiddlers' tags=''>".$default_tiddlers."[[CreateWorkspace]][[GettingStarted]]</div>";
 
 
-$login = "<div tiddler='Please Login' tags=''> &lt;&lt;ccLogin&gt;&gt;</div>	";
+$login = "<div tiddler='Login' tags=''> &lt;&lt;ccLogin&gt;&gt;</div>	";
 	
 	
 if ($workspace_settings_count < 1)

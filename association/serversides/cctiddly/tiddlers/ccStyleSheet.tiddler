@@ -8,9 +8,27 @@ font-size:0.9em;
 width: 250px;
 float: left;
 margin-bottom: 10px;
-border:solid 1px #B3B3B3;
+/* border:solid 1px #B3B3B3; */
 padding:4px;
 }
+
+.inputError {
+display: block;
+font-size:0.9em;
+width: 250px;
+float: left;
+border :solid 1px #f00;
+margin-bottom: 10px;
+/* border:solid 1px #B3B3B3; */
+padding:4px;
+}
+
+
+.submit {
+padding-left:150px;
+align:right;
+}
+
  
 
 label{
@@ -31,6 +49,8 @@ margin-bottom: 10px;
 
 
 
+
+
 .checkContainer {
 text-align: right;
 width: 75px;
@@ -43,15 +63,15 @@ margin-bottom: 10px;
 
 
 .wizard{
-background-color:#E1E7F8;
+/*background-color:#E1E7F8;*/
 border:solid 1px #9399AB;
 }
 
 .checkInput{
 border:solid 1px #B3B3B3;
-color: #5B5C56;
+/*color: #5B5C56;
 		background-color: #FFFFFF;
-		border:none;
+		border:none;*/
 }
 
 .wizardStep{
@@ -60,7 +80,7 @@ border:solid 1px #9399AB;
 }
 
 .wizardFooter{
-background-color:#E1E7F8;
+/*background-color:#E1E7F8;*/
 }
 
 .backButton
@@ -68,6 +88,13 @@ background-color:#E1E7F8;
 background-color:green;
 }
 
+
+.inlineError{
+color:red;
+}
+.inlineOk{
+color:green;
+}
 
 .checkLabel {
 text-align: left;
@@ -78,6 +105,28 @@ float:left;
 br {
 clear: left;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*}}}*/
 
