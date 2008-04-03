@@ -8,9 +8,21 @@ font-size:0.9em;
 width: 250px;
 float: left;
 margin-bottom: 10px;
-/* border:solid 1px #B3B3B3; */
+ border:solid 1px #B3B3B3; 
 padding:4px;
 }
+
+
+.wizard .button {
+padding : 4px 14px 4px 14px;
+font-weight:bold;
+color:#292929;
+border:solid 1px #292929; 
+font-size:0.9em;
+margin-top:6px;
+
+}
+
 
 .inputError {
 display: block;
@@ -33,13 +45,13 @@ align:right;
 
 label{
 font-size:0.9em;
-
+font-face:arial;
 color:#292929;
 }
 .label {
 text-align: right;
 width: 75px;
-padding-top:1px;
+padding-top:2px;
 padding-right: 5px;
 display: block;
 width: 150px;
@@ -53,18 +65,20 @@ margin-bottom: 10px;
 
 .checkContainer {
 text-align: right;
-width: 75px;
-padding-right: 5px;
+
+padding-right: 2px;
 display: block;
-width: 150px;
+width: 170px;
 float: left;
-margin-bottom: 10px;
+margin-bottom:5px;
 }
 
 
 .wizard{
 /*background-color:#E1E7F8;*/
 border:solid 1px #9399AB;
+margin:10px;
+padding:10px;
 }
 
 .checkInput{
@@ -91,9 +105,15 @@ background-color:green;
 
 .inlineError{
 color:red;
+padding-left:10px;
+padding-top:8px;
+font-size:0.9em;
 }
 .inlineOk{
 color:green;
+padding-left:10px;
+padding-top:8px;
+font-size:0.9em;
 }
 
 .checkLabel {
@@ -106,9 +126,39 @@ br {
 clear: left;
 }
 
+.checkTitle {
+
+font-size:0.9em;
+font-weight:bold;
+}
 
 
 
+
+
+
+/*BELOW THIS POINT WILLBE SPLIT OFF INTO A THEME*/
+
+.wizard{
+background-color:#E1E7F8;
+border:solid 1px #9399AB;
+}
+
+.checkInput{
+border:solid 1px #B3B3B3;
+color: #5B5C56;
+		background-color: #FFFFFF;
+		border:none;
+}
+
+.wizardStep{
+
+border:solid 1px #9399AB;
+}
+
+.wizardFooter{
+background-color:#E1E7F8;
+}
 
 
 

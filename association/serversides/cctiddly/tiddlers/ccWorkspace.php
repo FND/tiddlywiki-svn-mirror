@@ -64,18 +64,16 @@ config.macros.ccCreateWorkspace = {
 		}
 		var frm = createTiddlyElement(place,'form',null,"wizard");
 		frm.onsubmit = this.createWorkspaceOnSubmit;
-		createTiddlyElement(frm,'br');
-		createTiddlyElement(frm,'h1', null, null,  'Create new workspace ');
-		createTiddlyElement(frm,'br');
-		createTiddlyText(frm, "You can get your own TiddlyWiki workspace by filling in the form below.");
-		createTiddlyElement(frm,'br');
+	
+		createTiddlyElement(frm,'h1', null, null,  'Create Workspace ');
+		createTiddlyElement(frm, 'h2', null, null,  "Get your own TiddlyWiki workspace below");
 		createTiddlyElement(frm,'br');
 		
 		var body = createTiddlyElement(frm,'div',null, "wizardBody");
 		
 		//form content
 		var step = createTiddlyElement(body,'div',null, "wizardStep");
-				createTiddlyElement(step, "br");
+	//			createTiddlyElement(step, "br");
 		//form workspace name/url
 		var url_label = createTiddlyElement(step, "label", null, "label", url);
 	 	url_label.setAttribute("for","ccWorkspaceName");
@@ -86,7 +84,7 @@ config.macros.ccCreateWorkspace = {
 		createTiddlyElement(step,'br');
 
 		//privilege form
-		createTiddlyElement(step,'h4', null, null,  'Anonymous Users Can :  ');
+		anonTitle = createTiddlyElement(step,'div', null, "checkTitle",  'Anonymous Users Can');
 	//	var anC = createTiddlyCheckbox(null, 'Create Tiddlers', 0);
 		var span = createTiddlyElement(step, 'span', null, "checkContainer")
 		 var anC = createTiddlyElement(null,'input', 'anC','checkInput');
@@ -129,19 +127,12 @@ config.macros.ccCreateWorkspace = {
 		createTiddlyElement(step,'br');
 		
 		
-	
-			
-
-		createTiddlyElement(step,'br');
-		createTiddlyElement(frm,'br');
 		
+		var a = 	createTiddlyElement(step, "div", null, "submit")
 		var btn = createTiddlyElement(null,'input',this.prompt,'button');
 		btn.setAttribute('type','submit');
 		btn.value = 'Create Workspace'
-	    frm.appendChild(btn);
-		createTiddlyElement(frm,'br');
-		createTiddlyElement(frm,'br');
-		
+	    a.appendChild(btn);
 
 	},
 	createWorkspaceOnSubmit: function() {
@@ -191,7 +182,7 @@ config.macros.ccEditWorkspace = {
 		createTiddlyElement(frm, "br");
 		var body = createTiddlyElement(frm,'div',null, "wizardBody");
 		var step = createTiddlyElement(body,'div',null, "wizardStep");
-		createTiddlyElement(step,'h4', null, null,  'Anonymous Users Can :  ');
+		createTiddlyElement(step,'h5	', null, null,  'Anonymous Users Can :  ');
 		
 		var span = createTiddlyElement(step, 'span', null, "checkContainer")
 		var anC = createTiddlyCheckbox(span, null, workspacePermission.anonC);

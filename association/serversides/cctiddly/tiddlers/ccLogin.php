@@ -162,14 +162,12 @@ if (errorMsg == '201')
 }
 		var frm = createTiddlyElement(place,"form",null,"wizard");
 		frm.onsubmit = this.registerOnSubmit;
-		createTiddlyElement(frm, "br");
 		createTiddlyElement(frm,"h1", null, null,  "Register");
-		createTiddlyElement(frm,"h2", null, null,  "Sign up for a free ccTiddly account");
+		createTiddlyElement(frm,"h2", null, null,  "Sign up for an account");
 		createTiddlyElement(frm, "br");
 		var body = createTiddlyElement(frm,"div",null, "wizardBody");
 		var step = createTiddlyElement(body,"div",null, "wizardStep");
-		createTiddlyElement(step, "br");
-
+		
 		var user_label = createTiddlyElement(step, "label", null, "label", "Username");
 	 	user_label.setAttribute("for","username");
 		var username = createTiddlyElement(step, "input", "username" , "input", "username");			
@@ -204,8 +202,7 @@ if (errorMsg == '201')
 		
 		createTiddlyElement(step, "span", 'pass2_error', 'inlineError', '')
 			createTiddlyElement(step, "br");
-		createTiddlyElement(frm, "br");
-		
+
 		var a = 	createTiddlyElement(step, "div", null, "submit")
 		var btn = createTiddlyElement(a,"input",this.prompt,"button", "button");
 		 btn.setAttribute("type","submit");
@@ -409,8 +406,8 @@ if (errorMsg == '201')
 	            
 	            var frm = createTiddlyElement(wrapper,"form",null, "wizard");
 	            frm.onsubmit = this.loginOnSubmit;
-createTiddlyElement(frm, "br");
-				createTiddlyElement(frm,"h1", null, null,  "Please Login");
+
+				createTiddlyElement(frm,"h1", null, null,  "Login");
 
 	          	    createTiddlyElement(frm, "h2", null, null,  "Sign in to ccTiddly");	
 createTiddlyElement(frm, "br");
@@ -496,7 +493,6 @@ createTiddlyElement(frm, "br");
 }
 	?>
 			
-			createTiddlyElement(frm,"br");
 			createTiddlyElement(frm,"br");
 			}
 	     },
@@ -584,15 +580,13 @@ function restart()
     invokeParamifier(params,"onstart");
     if(story.isEmpty()) {
  
- var tiddlers = "";
- 	        if ( cookieValues.sessionToken && cookieValues.sessionToken!== 'invalid' && cookieValues.txtUserName) {
-        tiddlers = store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));
-}
- 
-       if(tiddlers.length < 0)
-        {
-                   tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));
-        }
+ 		var tiddlers = "";
+  		tiddlers = store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));
+       displayMessage('ss');
+ if ( cookieValues.sessionToken && cookieValues.sessionToken!== 'invalid' && cookieValues.txtUserName) {
+displayMessage("simon"); 			
+tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));
+		}
     }
     window.scrollTo(0,0);
 

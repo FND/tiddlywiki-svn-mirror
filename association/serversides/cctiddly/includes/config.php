@@ -9,7 +9,7 @@
 	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
 	$tiddlyCfg['db']['pass'] = "";		//login password
-	$tiddlyCfg['db']['name'] = "cctiddly_public";		//db name
+	$tiddlyCfg['db']['name'] = "cct_rel";		//db name
 
 	
 	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
@@ -43,6 +43,7 @@
 //////////////////////// ::::: ADVANCED ::::: /////////////////////////
 	$tiddlyCfg['deligate_session_management'] = 0; 	
 	$tiddlyCfg['on_the_fly_workspace_creation'] = 0;
+
 	
 	// upload values 
 	$tiddlyCfg['max_file_size'] = 9933300000;

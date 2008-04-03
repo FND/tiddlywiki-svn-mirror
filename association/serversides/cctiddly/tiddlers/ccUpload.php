@@ -32,43 +32,47 @@ config.macros.ccUpload = {
 	
 		if (workspacePermission.upload != 1)
 		{
-			createTiddlyElement(place,&quot;div&quot;, null, "annotation",  &quot;You do not have permissions to create a file on this server. &quot;);
+			createTiddlyElement(place,'div', null, "annotation",  'You do not have permissions to create a file on this server. ');
 			return null;
 		}
 
 		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
-		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
+		var frm = createTiddlyElement(place,'form',null,"wizard");
 		frm.action="handle/upload.php"; 
 		frm.id = "ccUpload";
 		frm.enctype="multipart/form-data";
 		frm.method = "POST";	
 		frm.target = "uploadIframe";
 
-		var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
-		createTiddlyElement(body, "br");
+		var body = createTiddlyElement(frm,'div',null, "wizardBody");
 		createTiddlyElement(body, "h1", null, null, "Upload File");
+		createTiddlyElement(body, "h2", null, null, "Upload Files to your workspace");
 		createTiddlyElement(body, "br");
 		//form content
-		var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
-		createTiddlyElement(step, "div", "uploadStatus", "uploadStatus", "Upload your file below ");
-		var username = createTiddlyElement(step,&quot;input&quot;,&quot;username&quot;, &quot;username&quot;);				
+		var step = createTiddlyElement(body,'div',null, "wizardStep");
+		
+		
+		var username = createTiddlyElement(step,'input','username', 'username');				
 		username.name= 'username';
 		username.type="HIDDEN";
 		username.value= config.options.txtUserName;		
 		
 		
 //		createTiddlyText(step, 'Path : ');
-//		var path = createTiddlyElement(step,&quot;input&quot;,&quot;ccPath&quot;, &quot;ccPath&quot;);				
+//		var path = createTiddlyElement(step,'input','ccPath', 'ccPath');				
 //		path.name = 'ccPath';
 
-		createTiddlyElement(step, "br");
-		createTiddlyElement(step, "div", "shortStatus", "shortStatus",  "Upload your file below ");
-		createTiddlyElement(step, "hr");
-		var file = createTiddlyElement(step,&quot;input&quot;,&quot;ccfile&quot;, &quot;ccfile&quot;);				
+		var label = createTiddlyElement(step, "label", null, "label", "Upload your file ");
+		label.setAttribute("for","ccfile");
+		
+			
+			//	var uploadSpan = createTiddlyElement(step, "span", "", "input"); 
+					
+		var file = createTiddlyElement(step,'input','ccfile', 'input');				
 		file.type = "file";
 		file.name="userFile";
 
-		var workspaceName = createTiddlyElement(step,&quot;input&quot;,&quot;workspaceName&quot;, &quot;workspaceName&quot;);				
+		var workspaceName = createTiddlyElement(step,'input','workspaceName', 'workspaceName');				
 		workspaceName.name = 'workspaceName';
 		workspaceName.type="HIDDEN";
 		workspaceName.value = workspace;
@@ -79,12 +83,16 @@ config.macros.ccUpload = {
 		saveTo.name = 'saveTo';
 		saveTo.value ='workspace';
 
-		createTiddlyElement(frm,&quot;br&quot;);
+		
+		var submitDiv = createTiddlyElement(step,"div",null, 'submit');
+
+
+
 		var btn = createTiddlyElement(frm,"input",null, 'button');
 		btn.setAttribute("type","submit");
 		btn.setAttribute("onClick", "config.macros.ccUpload.submitiframe()");
 		btn.value = 'Upload File';
-		frm.appendChild(btn);	
+		submitDiv.appendChild(btn);	
 
 		// Create the iframe
 		var iframe = document.createElement("iframe");
@@ -93,9 +101,6 @@ config.macros.ccUpload = {
 		iframe.name='uploadIframe';
 		frm.appendChild(iframe);
 		iframe.onload = iFrameLoad;
-		
-		createTiddlyElement(frm, &quot;br&quot;);
-		createTiddlyElement(frm, &quot;br&quot;);
 	},
 
 	
@@ -111,29 +116,29 @@ config.macros.ccCreate = {
 	
 		if (workspacePermission.upload != 1)
 		{
-		createTiddlyElement(place,&quot;div&quot;, null, "annotation",  &quot;You do not have permissions to create a new file on this server. &quot;);
+		createTiddlyElement(place,'div', null, "annotation",  'You do not have permissions to create a new file on this server. ');
 		return null;
 		}
 
 		// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
-		var frm = createTiddlyElement(place,&quot;form&quot;,null,"wizard");
+		var frm = createTiddlyElement(place,'form',null,"wizard");
 		frm.action="handle/upload.php";
 		frm.method = "POST";
 		createTiddlyElement(frm, "br");
-		var body = createTiddlyElement(frm,&quot;div&quot;,null, "wizardBody");
+		var body = createTiddlyElement(frm,'div',null, "wizardBody");
 		createTiddlyElement(frm, "br");
 		createTiddlyElement(body, "h1", null, null, "Create HTML file ");
 			createTiddlyElement(body, "br");
 		//form content
-		var step = createTiddlyElement(body,&quot;div&quot;,null, "wizardStep");
+		var step = createTiddlyElement(body,'div',null, "wizardStep");
 
 		createTiddlyText(step, 'Filename : ');
-		var htmlfile = createTiddlyElement(step,&quot;input&quot;,&quot;ccHTMLName&quot;, &quot;ccHMLname&quot;);				
+		var htmlfile = createTiddlyElement(step,'input','ccHTMLName', 'ccHMLname');				
 		htmlfile.name = 'ccHTMLName';
 		createTiddlyElement(step, 'br');
 		
 	//	createTiddlyText(step, 'Path : ');
-	//	var path = createTiddlyElement(step,&quot;input&quot;,&quot;ccPath&quot;, &quot;ccPath&quot;);				
+	//	var path = createTiddlyElement(step,'input','ccPath', 'ccPath');				
 	//	path.name = 'ccPath';
 		
 
@@ -141,21 +146,21 @@ config.macros.ccCreate = {
 
 		createTiddlyText(step, "add your HTML code to the textbox below :");
 		createTiddlyElement(step, 'br');
-		var htmlbox = createTiddlyElement(step,&quot;textarea&quot;,&quot;ccHTML&quot;, &quot;ccHML&quot;);				
+		var htmlbox = createTiddlyElement(step,'textarea','ccHTML', 'ccHML');				
 		htmlbox.name= 'ccHTML';
 		htmlbox.rows = '20';
 		htmlbox.cols = '100';
 
 		createTiddlyElement(step, 'br');
 
-		var username = createTiddlyElement(step,&quot;input&quot;,&quot;username&quot;, &quot;username&quot;);				
+		var username = createTiddlyElement(step,'input','username', 'username');				
 		username.name= 'username';
 		username.type="HIDDEN";
 		username.value= config.options.txtUserName;		
 		createTiddlyElement(step, 'br');
 
 
-		var workspaceName = createTiddlyElement(step,&quot;input&quot;,&quot;workspaceName&quot;, &quot;workspaceName&quot;);				
+		var workspaceName = createTiddlyElement(step,'input','workspaceName', 'workspaceName');				
 		workspaceName.name = 'workspaceName';
 		workspaceName.type="HIDDEN";
 		workspaceName.value = workspace;
@@ -163,30 +168,30 @@ config.macros.ccCreate = {
 		createTiddlyText(step, "Create the file in :");
 
 
-		createTiddlyElement(step,&quot;br&quot;);
-		var RDuser = createTiddlyElement(step,&quot;input&quot;,&quot;user&quot;, &quot;user&quot;);
+		createTiddlyElement(step,'br');
+		var RDuser = createTiddlyElement(step,'input','user', 'user');
 		RDuser.type = "radio";
 		RDuser.name="saveTo";
 
 		RDuser.value="user";
 		createTiddlyText(step, "My User Area");
 
-		createTiddlyElement(step,&quot;br&quot;);
-		var RDworkspace = createTiddlyElement(step,&quot;input&quot;,&quot;workspace&quot;, &quot;workspace&quot;);		
+		createTiddlyElement(step,'br');
+		var RDworkspace = createTiddlyElement(step,'input','workspace', 'workspace');		
 		RDworkspace.type = "radio";
 		RDworkspace.name="saveTo";
 		RDworkspace.value="workspace";
 		RDworkspace.checked="1";
 
 		createTiddlyText(step, "Workspace Area ");
-		createTiddlyElement(step,&quot;br&quot;);
+		createTiddlyElement(step,'br');
 
-		createTiddlyElement(frm,&quot;br&quot;);
-		var btn = createTiddlyElement(frm,&quot;input&quot;,this.prompt, 'button');
-		btn.setAttribute(&quot;type&quot;,&quot;submit&quot;);
-		btn.value = &quot;Create File &quot;;
-		createTiddlyElement(frm, &quot;br&quot;);
-		createTiddlyElement(frm, &quot;br&quot;);
+		createTiddlyElement(frm,'br');
+		var btn = createTiddlyElement(frm,'input',this.prompt, 'button');
+		btn.setAttribute('type','submit');
+		btn.value = 'Create File ';
+		createTiddlyElement(frm, 'br');
+		createTiddlyElement(frm, 'br');
 
 	}
 }
