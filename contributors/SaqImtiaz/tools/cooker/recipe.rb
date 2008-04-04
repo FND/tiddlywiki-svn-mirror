@@ -15,7 +15,6 @@ class Recipe
 		@ingredients = Array.new
 		@addons = Hash.new
 		@dirname = File.dirname(filename)
-		puts filename
 		open(filename) do |file|
 			file.each_line { |line| genIngredient(@dirname, line, isTemplate) }
 		end
@@ -24,17 +23,25 @@ class Recipe
 	def cook
 		puts "Creating file: " + outfilename
 		if(@ingredients.length > 0)
+			if @@externalcore
+				addonarray = @addons.fetch("postbody", Array.new).push "<script src=\"#{@@externalcore}\" type=\"text/javascript\">"
+				@addons.store("postbody", addonarray)
+				puts "Creating file: " + @@externalcore
+				File.open(@@externalcore, File::CREAT|File::TRUNC|File::RDWR, 0644) do |corefile|
+					corefile << @addons.fetch("externalscript")
+					end	
+				end					
 			File.open(outfilename, File::CREAT|File::TRUNC|File::RDWR, 0644) do |out|
 				@ingredients.each do |ingredient|
 					if(ingredient.type == "list")
 						if(@addons.has_key?(ingredient.filename))
 							@addons.fetch(ingredient.filename).each{ |ingredient| writeToDish(out, ingredient) }
-						end
+						end	
 					else
 						writeToDish(out, ingredient)
 					end
-				end
-			end
+				end			
+			end		
 		end
 		@addons.fetch("copy", Array.new).each { |ingredient| copyFile(ingredient) }
 	end
@@ -46,6 +53,14 @@ class Recipe
 	def Recipe.quiet=(quiet)
 		@@quiet = quiet
 	end
+
+	def Recipe.externalcore
+		@@externalcore
+	end	
+	
+	def Recipe.externalcore=(externalcore)
+		@@externalcore = externalcore
+	end	
 
 protected
 	def outdir
@@ -64,7 +79,7 @@ protected
 		@addons
 	end
 
-	def genIngredient(dirname, line, isTemplate)
+	def genIngredient(dirname, line, isTemplate=false)
 		if(isTemplate)
 			if(line =~ /<!--@@.*@@-->/)
 				@ingredients << Ingredient.new(line.strip.slice(6..-6), "list")
@@ -99,17 +114,15 @@ protected
 			elsif(line =~ /\:/)
 				c = line.index(':')
 				key = line[0, c].strip
+				if @@externalcore && key == 'js'
+					key = 'externalscript'
+				end
 				value = line[(c + 1)...line.length].strip
 				c = value.index(' ')
 				if(c != nil)
 					attributes = value[(c + 1)...value.length].strip
 					value = value[0, c].strip
 				end
-				#unless value =~ /^https?/
-				#	file = File.join(dirname, value)
-				#else
-				#	file = value
-				#end
 				file = value =~ /^https?/ ? value : File.join(dirname,value)
 				addAddOns(key, file, attributes)
 				loadSubrecipe(file + ".deps",false) if File.exists?(file + ".deps")
@@ -141,8 +154,10 @@ protected
 	end
 
 	def writeToDish(outfile, ingredient)
-		if(ingredient.type != "tline" && !@@quiet)
-			puts "Writing: " + ingredient.filename
+		if (! ingredient.is_a? String)
+			if(ingredient.type != "tline" && !@@quiet)
+				puts "Writing: " + ingredient.filename
+			end
 		end
 		outfile << ingredient
 	end

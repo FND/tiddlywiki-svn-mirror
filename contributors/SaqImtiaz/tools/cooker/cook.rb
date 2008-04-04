@@ -22,6 +22,7 @@ class Optparse
 		options.quiet = false
 		options.stripcomments = false
 		options.compress = false
+		options.externalcore = false
 
 		opts = OptionParser.new do |opts|
 			opts.banner = "Cook #{version}\n"
@@ -56,6 +57,10 @@ class Optparse
 			opts.on("-k", "--keepallcomments", "Keep all javascript comments") do |keepallcomments|
 				options.keepallcomments = keepallcomments
 			end
+			
+			opts.on("-e", "--externalcore [EXTERNALCORE]", "Place TiddlyWiki core javascript code in external file") do |externalcore|
+				options.externalcore = externalcore || "tiddlywiki.js"
+			end			
 
 			options.help = opts
 			opts.on_tail("-h", "--help", "Show this message") do
@@ -108,6 +113,7 @@ Recipe.quiet = options.quiet
 Ingredient.stripcomments = options.stripcomments
 Ingredient.compress = options.compress
 Ingredient.keepallcomments = options.keepallcomments
+Recipe.externalcore = options.externalcore
 
 ARGV.each do |file|
 	recipe = Recipe.new(file, options.dest)
