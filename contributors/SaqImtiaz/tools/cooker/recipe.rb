@@ -15,6 +15,7 @@ class Recipe
 		@ingredients = Array.new
 		@addons = Hash.new
 		@dirname = File.dirname(filename)
+		puts filename
 		open(filename) do |file|
 			file.each_line { |line| genIngredient(@dirname, line, isTemplate) }
 		end
@@ -84,9 +85,17 @@ protected
 			if(line =~ /@.*@/)
 				@ingredients << Ingredient.new(line.strip.slice(1..-2), "list")
 			elsif(line =~ /template\:/)
-				loadSubrecipe(File.join(dirname, line.sub(/template\:/, "").strip),true)
+				value = line.sub(/template\:/, "").strip
+				path = value =~ /^https?/ ? "" : dirname
+				loadSubrecipe(File.join(path, value),true)
 			elsif(line =~ /recipe\:/)
-				loadSubrecipe(File.join(dirname, line.sub(/recipe\:/, "").strip),false)
+				value = line.sub(/recipe\:/, "").strip
+				unless value =~ /^https?/
+					loadSubrecipe(File.join(dirname, value),false)
+				else
+					loadSubrecipe(value,false)
+				end
+				
 			elsif(line =~ /\:/)
 				c = line.index(':')
 				key = line[0, c].strip
@@ -96,12 +105,12 @@ protected
 					attributes = value[(c + 1)...value.length].strip
 					value = value[0, c].strip
 				end
-				unless value =~ /^https?/
-					file = File.join(dirname, value)
-				else
-					file = value
-				end
-
+				#unless value =~ /^https?/
+				#	file = File.join(dirname, value)
+				#else
+				#	file = value
+				#end
+				file = value =~ /^https?/ ? value : File.join(dirname,value)
 				addAddOns(key, file, attributes)
 				loadSubrecipe(file + ".deps",false) if File.exists?(file + ".deps")
 			else
