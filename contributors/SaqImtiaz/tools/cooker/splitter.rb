@@ -5,6 +5,8 @@
 
 require 'tiddler'
 require 'iconv'
+require 'open-uri'
+require 'net/http'
 
 class Splitter
 	def initialize(filename, outdir=nil, charset="ISO-8859-1")
@@ -54,7 +56,7 @@ class Splitter
 		feedsrecipe = ""
 		themesrecipe = ""
 		tagsrecipe = ""
-		File.open(@filename) do |file|
+		open(@filename) do |file|
 			start = false
 			line = file.gets
 			begin
@@ -182,5 +184,35 @@ private
 			out << tiddler.to_div("tiddler",false)
 		end
 		recipe << "tiddler: #{tiddlerFilename}\n"
+	end
+end
+
+def extractTiddlers(filename,titles)
+	out = Array.new
+	found = Array.new
+	open(filename) do |file|
+		start = false
+		line = file.gets
+		begin
+			line = file.gets
+		end while(line && line !~ /<div id="storeArea">/)
+		line = line.sub(/.*<div id="storeArea">/, "").strip
+		begin
+			if(line =~ /<div ti.*/)
+				tiddler = Tiddler.new
+				line = tiddler.read_div(file,line)
+				if titles.include?(tiddler.title)
+					out.push(tiddler)
+					found.push(tiddler.title)
+				end
+			else
+				line = file.gets
+			end
+		end while(line && line !~ /<!--STORE-AREA-END-->/ && line !~ /<!--POST-BODY-START-->/ && line !~ /<div id="shadowArea">/)
+	end
+	if out.length == titles.length
+		return out
+	else
+		STDERR.puts("Tiddlers #{(titles-found).to_s} not found in #{filename}")
 	end
 end

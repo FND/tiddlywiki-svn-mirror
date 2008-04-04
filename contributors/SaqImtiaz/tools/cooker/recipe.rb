@@ -5,6 +5,8 @@
 
 require 'ingredient'
 require "ftools"
+require 'net/http'
+require 'uri'
 
 class Recipe
 	def initialize(filename, outdir=nil, isTemplate=false)
@@ -12,8 +14,9 @@ class Recipe
 		@outdir = outdir ||= ""
 		@ingredients = Array.new
 		@addons = Hash.new
-		File.open(filename) do |file|
-			file.each_line { |line| genIngredient(File.dirname(filename), line, isTemplate) }
+		@dirname = File.dirname(filename)
+		open(filename) do |file|
+			file.each_line { |line| genIngredient(@dirname, line, isTemplate) }
 		end
 	end
 
@@ -93,7 +96,12 @@ protected
 					attributes = value[(c + 1)...value.length].strip
 					value = value[0, c].strip
 				end
-				file = File.join(dirname, value)
+				unless value =~ /^https?/
+					file = File.join(dirname, value)
+				else
+					file = value
+				end
+
 				addAddOns(key, file, attributes)
 				loadSubrecipe(file + ".deps",false) if File.exists?(file + ".deps")
 			else
@@ -134,6 +142,20 @@ protected
 		if(!@@quiet)
 			puts "Copying: " + ingredient.filename
 		end
-		File.copy(ingredient.filename, File.join(outdir, File.basename(ingredient.filename)))
+		if ingredient.filename =~ /^https?/
+			downloadFile(ingredient.filename)
+		else
+			File.copy(ingredient.filename, File.join(outdir, File.basename(ingredient.filename)))
+		end
+	end
+	
+	def downloadFile(url)
+		uri = URI.parse(url)
+		Net::HTTP.start(uri.host) { |http|
+			resp = http.get(uri.path)
+			open(File.join(outdir, File.basename(url)), "wb") { |file|
+				file.write(resp.body)
+			}
+		}
 	end
 end

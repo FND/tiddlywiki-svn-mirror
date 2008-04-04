@@ -5,7 +5,7 @@
 
 require 'cgi'
 require 'tempfile'
-
+require 'splitter'
 require 'tiddler'
 
 class String
@@ -64,6 +64,10 @@ class Ingredient
 		elsif(subtype[0] == "tiddler")
 			if(@filename =~ /\.tiddler/)
 				return to_s_retiddle(subtype[0])
+			elsif(@filename =~/\.html/)
+				out = ''
+				extractTiddlers(@filename,URI.parse(@filename).fragment.split("%20")).each{|x| out << x.to_div }
+				return out
 			else
 				return to_s_tiddler
 			end
@@ -116,7 +120,7 @@ protected
 	end
 
 	def to_s_line(subtype)
-		File.open(@filename) do |infile|
+		open(@filename) do |infile|
 			out = ""
 			infile.each_line do |line|
 				if(@@keepallcomments)

@@ -75,8 +75,24 @@ if(ARGV.empty?)
 	exit
 end
 
+def remoteFileExists?(url)
+  url = URI.parse(url)
+  Net::HTTP.start(url.host, url.port) do |http|
+    return http.head(url.request_uri).code == "200"
+  end
+end
+
+def fileExists?(file)
+	if file =~ /^https?/
+		r = remoteFileExists?(file)	
+	else
+		r = File.exist?(file)	
+	end
+	r
+end
+
 ARGV.each do |file|
-	if(!File.exist?(file))
+	if(!fileExists?(file))
 		STDERR.puts("ERROR - File '#{file}' does not exist.")
 		exit
 	end
