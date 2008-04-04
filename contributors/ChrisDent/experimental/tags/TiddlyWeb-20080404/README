@@ -1,0 +1,40 @@
+
+See also: http://tiddlywiki.org/wiki/Dev:TiddlyWeb
+
+TiddlyWeb, aka mo'ass, is a reference implementation of an ideal
+server side implementation for TiddlyWiki. It provides a tested,
+documented, and clear implementation of several facets that make
+up a good server side:
+
+* transparent system and code suitable for porting to other
+  languages (where use specific optimzations will hopefully occur)
+* an abstract model for authentication and authorization
+* an implementation of workspaces, recipes and bags as described
+  elsewhere
+* clean REST-style web-based and -friendly API
+* test driven description and development
+
+This system is not designed to be highly performant nor scalable
+in its first several iterations.
+
+REQUIREMENTS:
+
+* Python 2.4 or 2.5
+* selector: http://lukearno.com/projects/selector/
+* simplejson: http://undefined.org/python/#simplejson
+
+Both selector and simplejson can be installed with easy_install.
+
+See also:
+
+NOTES: For some comments on the implementation.
+TODO: For tasks that need to be done.
+RUN: To run this installation in place with some sample data.
+TESTING: Information about the tests located in the test directory.
+
+If you have questions or contributions to make to this work, 
+please post the TiddlyWikiDev group at google groups:
+
+  http://groups.google.com/group/TiddlyWikiDev
+
+or contact Chris Dent <cdent@peermore.com>.
