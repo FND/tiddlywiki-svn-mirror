@@ -2,7 +2,7 @@
 |''Name''|FirefoxPrivilegesPlugin|
 |''Description''|Create a backstage tab to manage Firefox url privileges|
 |''Author''|Xavier Vergés (xverges at gmail dot com)|
-|''Version''|1.0.8 ($Rev$)|
+|''Version''|1.0.9 ($Rev$)|
 |''Date''|$Date$|
 |''Status''|@@beta@@|
 |''Source''|http://firefoxprivileges.tiddlyspot.com/|
@@ -21,6 +21,9 @@
 !!v1.0 (2008-03-23)
 * First public version
 %/
+!Usage
+The wizard can be opened from the backstage or using the macro {{{<<firefoxPrivileges>>}}}
+The step to show when opening the wizard can be set with the {{{txtPrivWizardDefaultStep}}} option: <<option txtPrivWizardDefaultStep>>
 !To Do
 * Avoid non lingo.js-able hardcoded strings
 ** Create a Catalan and/or Spanish FirefoxPrivilegesPluginLingoXX.js
@@ -65,8 +68,10 @@ merge(config.macros.firefoxPrivileges ,{
 			{className: 'error', field: 'warning'}
 			]
 		}
-	});
-
+});
+merge(config.optionsDesc,{
+	txtPrivWizardDefaultStep: "Step to show when opening the 'Manage Firefox Privileges' wizard"
+});
 merge(config.tasks,{
 	firefoxPrivileges: {text: "security", tooltip: "Work with Firefox url privileges", content: '<<firefoxPrivileges>>'}
 });
@@ -76,6 +81,7 @@ merge(config.tasks,{
 //{{{
 */
 config.backstageTasks.pushUnique("firefoxPrivileges");
+config.options.txtPrivWizardDefaultStep = "1";
 
 (function(){
 
@@ -88,7 +94,9 @@ plugin.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	var wizard = new Wizard();
 	wizard.createWizard(place,plugin.wizardTitle);
-	plugin.step(wizard, 0);
+	var step = parseInt(config.options.txtPrivWizardDefaultStep);
+	step = (isNaN(step)||(step<=0)||(step>3))? 0 : step-1;
+	plugin.step(wizard, step);
 };
 plugin.buttons = (function(){
 	var _buttons = [];
