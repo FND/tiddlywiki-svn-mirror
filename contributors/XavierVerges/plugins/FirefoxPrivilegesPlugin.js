@@ -2,8 +2,8 @@
 |''Name''|FirefoxPrivilegesPlugin|
 |''Description''|Create a backstage tab to manage Firefox url privileges|
 |''Author''|Xavier Vergés (xverges at gmail dot com)|
-|''Version''|1.0.7 ($Rev$)|
-|''Date''|$Date:$|
+|''Version''|1.0.8 ($Rev$)|
+|''Date''|$Date$|
 |''Status''|@@beta@@|
 |''Source''|http://firefoxprivileges.tiddlyspot.com/|
 |''CodeRepository''|http://trac.tiddlywiki.org/browser/Trunk/contributors/XavierVerges/plugins/FirefoxPrivilegesPlugin.js|
@@ -37,7 +37,7 @@ config.macros.firefoxPrivileges = {};
 merge(config.macros.firefoxPrivileges ,{
 	wizardTitle: "Manage Firefox Privileges",
 	learnStepTitle: "1. Learn about the risks of giving privileges to file: urls",
-	learnStepHtml: "<p>Firefox can be configured to grant the same security privileges to every html document loaded from disk (those <i>file:</i> urls), or to grant different privileges on a per file basis. Local TiddyWikis need some high security privileges in order to let you save changes to disk, or to import tiddlers from remote servers. Unfortunately, these same privileges can potentially be used by the bad guys to launch programs, get files from your disk and upload them somewhere, access your browsing history...</p><p>While it is more convenient to let Firefox give all your local files the same security privileges, and I'm not aware of any malware attack that tries to take advantage of privileged <i>file:</i> urls, an ounce of prevention is worth a pound of cure.</p><p>You can learn more about this by reading <a href='http://www.mozilla.org/projects/security/components/per-file.html' class='externalLink'>Per-File Permissions</a> and <a href='http://www.mozilla.org/projects/security/components/signed-scripts.html#privs-list' class='externalLink'>JavaScript Security: Signed Script</a> at mozilla.org.</p><p>This wizard will help you to grant the required privileges to your local TiddlyWiki, and warn you if you have enabled a dangerous default</p>",
+	learnStepHtml: "<h3>Local files</h3><p>Firefox can be configured to grant the same security privileges to every html document loaded from disk (those <i>file:</i> urls), or to grant different privileges on a per file basis. Local TiddyWikis need some high security privileges in order to let you save changes to disk, or to import tiddlers from remote servers. Unfortunately, these same privileges can potentially be used by the bad guys to launch programs, get files from your disk and upload them somewhere, access your browsing history...</p><p>While it is more convenient to let Firefox give all your local files the same security privileges, and I'm not aware of any malware attack that tries to take advantage of privileged <i>file:</i> urls, an ounce of prevention is worth a pound of cure.</p><p>You can learn more about this by reading <a href='http://www.mozilla.org/projects/security/components/per-file.html' class='externalLink'>Per-File Permissions</a> and <a href='http://www.mozilla.org/projects/security/components/signed-scripts.html#privs-list' class='externalLink'>JavaScript Security: Signed Script</a> at mozilla.org.</p><h3>Remote files</h3><p>When a remote document (<i>http:</i> urls) requests especial privileges, Firefox <ul><li>checks the value of <code>signed.applets.codebase_principal_support</code>, a preference that can be configured from the page that is loaded when you type <code>about:config</code> in the address bar</li><li>if the previous value is set to false, Firefox denies silently the request</li><li>if the previous value is set to true, Firefox looks for the document's domain in the list of privileges urls that can be configured from this wizard, and, if not there, asks the user to grant the privilege</li></ul><p>Note that, in this case, and unlike when dealing with local files, Firefox will only take into account the document's domain instead of performing an exact match of the url.</p><p>Take a look at <a href='http://messfromabove.tiddlyspot.com' class='externalLink'>http://messfromabove.tiddlyspot.com</a> to learn more about the nice and nasty possibilities that this setting provides.</p><h3>This Wizard</h3><p>This wizard will help you to grant the required privileges to your TiddlyWikis, local or remote, and warn you if you have enabled a dangerous default. To do so, Firefox will probably prompt you to grant it some special privileges in order to list and modify the list of privileged urls.</p>",
 	learnStepButton: "1. Learn about the risks",
 	learnStepButtonTooltip: "Learn why 'Remember this' is an unsafe choice in security prompts",
 	grantStepTitle: "2. Grant privileges to individual documents",
@@ -54,7 +54,7 @@ merge(config.macros.firefoxPrivileges ,{
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'url', type: 'Selector'},
-			{name: 'Url', field: 'url', title: "Url", type: 'Link'},
+			{name: 'Url', field: 'url', title: "Url", type: 'LongLink'},
 			{name: 'Granted', field: 'granted', title: "Granted", type: 'StringList'},
 			{name: 'Denied', field: 'denied', title: "Denied", type: 'StringList'},
 			{name: 'Handle', field: 'handle', title: "Handle", type: 'String'},
@@ -109,7 +109,7 @@ plugin.buttons = (function(){
 	var getButtons = function(index) {
 		var buttons = [];
 		for (var ii= 0; ii<_buttons.length; ii++) {
-			if (ii != index) {
+			if (ii !== index) {
 				buttons.push(_buttons[ii]);
 			}
 		}
@@ -150,9 +150,9 @@ plugin.viewStepProcess = function(wizard, extraParams)
 		var listItems = [];
 		for (var handle in privs) {
 			if (privs.hasOwnProperty(handle)) {
-				priv = privs[handle];
+				var priv = privs[handle];
 				if ((priv.url === "file://") ||
-					(priv.url.indexOf(" ") != -1))
+					(priv.url.indexOf(" ") !== -1))
 				{
 					priv.warning = true;
 					priv.notes = (priv.url === "file://")? "This is dangerous" : "This has no effect";
@@ -165,14 +165,15 @@ plugin.viewStepProcess = function(wizard, extraParams)
 			}
 		}
 		var sortFunc = function(a,b) {
-			if(a.url > b.url) return 1;
-			if(a.url < b.url) return -1;
+			if(a.url > b.url) {return 1;}
+			if(a.url < b.url) {return -1;}
 			return 0;
 		};
 		listItems.sort(sortFunc);
 		listWrapper.innerHTML = "";
 		var listView = ListView.create(listWrapper, listItems, plugin.listViewTemplate);
 		wizard.setValue("listView",listView);
+
 		createTiddlyButton(listWrapper, "Reset selected privileges", "", plugin.btnResetPrivileges);
 	} catch (ex) {
 		listWrapper.innerHTML = "Error: " + ex;
@@ -185,7 +186,7 @@ plugin.btnSetPrivileges = function(ev)
 	var grant = [];
 	for(var t=0; t<checkboxes.length; t++) {
 		var cb = checkboxes[t];
-		if((cb.getAttribute("type") == "checkbox")&&cb.checked) {
+		if((cb.getAttribute("type") === "checkbox")&&cb.checked) {
 			grant.push(cb.name.substring(3));
 		}
 	}
@@ -217,7 +218,7 @@ plugin.btnResetPrivileges = function(ev)
 	var wizard = new Wizard(this);
 	var listView = wizard.getValue("listView");
 	var urls = ListView.getSelectedRows(listView);
-	if(urls.length == 0) {
+	if(urls.length === 0) {
 		alert(config.messages.nothingSelected);
 	} else {
 		netscape.security.PrivilegeManager.enablePrivilege(config.macros.firefoxPrivileges.privAccessCapabilities);
@@ -255,14 +256,14 @@ plugin.setUrlPrivilege = function(reqAccess, url, rights, reset)
 	var granted = [];
 	if (urlHandle) {
 		if (!reset) {
-			displayMessage("Updating privileges for " + url);
+			displayMessage("Updating privileges for " + url, url);
 			denied = urls[urlHandle].denied.slice();
 			granted = urls[urlHandle].granted.slice();
 		} else {
-			displayMessage("Reseting privileges for " + url);
+			displayMessage("Reseting privileges for " + url, url);
 		}
 	} else {
-		displayMessage("Setting privileges for " + url);
+		displayMessage("Setting privileges for " + url, url);
 		urlHandle = getFreeHandle(urls, "FirefoxPrivilegesPlugin");
 		isUpdate = false;
 	}
@@ -331,7 +332,7 @@ plugin.getPrivilegedUrls = function(reqAccess)
 	for (var ii=0; ii < capsEntries.length; ii++) 
 	{ 
 		var matches = capsEntries[ii].match(/([^\.]*)[\.]id/); 
-		if (matches && (2 == matches.length)) 
+		if (matches && (2 === matches.length)) 
 		{ 
 			var handle = matches[1];
 			var url = prefs.prefHasUserValue(capsEntries[ii])? prefs.getCharPref(capsEntries[ii]) : "Error getting " + capsEntries[ii]; 
@@ -351,6 +352,27 @@ plugin.getPrefsBranch = function()
 	var prefsService = plugin.getPrefsService();
 	return prefsService.getBranch("capability.principal.codebase."); 
 };
+
+
+ListView.columnTypes.LongLink = {
+	createHeader: ListView.columnTypes.String.createHeader,
+	createItem: function(place,listObject,field,columnTemplate,col,row)
+		{
+			var v = listObject[field];
+			var c = columnTemplate.text;
+			if(v != undefined) {
+				var link = createExternalLink(place,v);
+				if(!c) {
+					c = v.replace(/#|\.|\/|(\%..)|\?|\&/g, config.browser.isIE? "$&<wbr>": "$&&#8203;");
+					link.innerHTML = c;
+				} else {
+					createTiddlyText(link, c);
+				}
+			}
+		}
+};
+
+
 })();	// scope hiding
 
 } // endif(window.Components)
