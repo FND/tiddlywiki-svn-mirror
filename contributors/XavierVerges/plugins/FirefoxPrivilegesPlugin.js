@@ -2,7 +2,7 @@
 |''Name''|FirefoxPrivilegesPlugin|
 |''Description''|Create a backstage tab to manage Firefox url privileges|
 |''Author''|Xavier Vergés (xverges at gmail dot com)|
-|''Version''|1.0.9 ($Rev$)|
+|''Version''|1.1.0 ($Rev$)|
 |''Date''|$Date$|
 |''Status''|@@beta@@|
 |''Source''|http://firefoxprivileges.tiddlyspot.com/|
@@ -24,36 +24,32 @@
 !Usage
 The wizard can be opened from the backstage or using the macro {{{<<firefoxPrivileges>>}}}
 The step to show when opening the wizard can be set with the {{{txtPrivWizardDefaultStep}}} option: <<option txtPrivWizardDefaultStep>>
-!To Do
-* Avoid non lingo.js-able hardcoded strings
-** Create a Catalan and/or Spanish FirefoxPrivilegesPluginLingoXX.js
 !Code
 ***/
 //{{{
 if(window.Components) {
 config.macros.firefoxPrivileges = {};
+config.macros.firefoxPrivileges.lingo = {};
 /*
 //}}}
 !!! Strings to translate
 //{{{
 */
-merge(config.macros.firefoxPrivileges ,{
+merge(config.macros.firefoxPrivileges.lingo ,{
 	wizardTitle: "Manage Firefox Privileges",
 	learnStepTitle: "1. Learn about the risks of giving privileges to file: urls",
-	learnStepHtml: "<h3>Local files</h3><p>Firefox can be configured to grant the same security privileges to every html document loaded from disk (those <i>file:</i> urls), or to grant different privileges on a per file basis. Local TiddyWikis need some high security privileges in order to let you save changes to disk, or to import tiddlers from remote servers. Unfortunately, these same privileges can potentially be used by the bad guys to launch programs, get files from your disk and upload them somewhere, access your browsing history...</p><p>While it is more convenient to let Firefox give all your local files the same security privileges, and I'm not aware of any malware attack that tries to take advantage of privileged <i>file:</i> urls, an ounce of prevention is worth a pound of cure.</p><p>You can learn more about this by reading <a href='http://www.mozilla.org/projects/security/components/per-file.html' class='externalLink'>Per-File Permissions</a> and <a href='http://www.mozilla.org/projects/security/components/signed-scripts.html#privs-list' class='externalLink'>JavaScript Security: Signed Script</a> at mozilla.org.</p><h3>Remote files</h3><p>When a remote document (<i>http:</i> urls) requests especial privileges, Firefox <ul><li>checks the value of <code>signed.applets.codebase_principal_support</code>, a preference that can be configured from the page that is loaded when you type <code>about:config</code> in the address bar</li><li>if the previous value is set to false, Firefox denies silently the request</li><li>if the previous value is set to true, Firefox looks for the document's domain in the list of privileges urls that can be configured from this wizard, and, if not there, asks the user to grant the privilege</li></ul><p>Note that, in this case, and unlike when dealing with local files, Firefox will only take into account the document's domain instead of performing an exact match of the url.</p><p>Take a look at <a href='http://messfromabove.tiddlyspot.com' class='externalLink'>http://messfromabove.tiddlyspot.com</a> to learn more about the nice and nasty possibilities that this setting provides.</p><h3>This Wizard</h3><p>This wizard will help you to grant the required privileges to your TiddlyWikis, local or remote, and warn you if you have enabled a dangerous default. To do so, Firefox will probably prompt you to grant it some special privileges in order to list and modify the list of privileged urls.</p>",
+	learnStepHtml: "<h3>Local files</h3><p>Firefox can be configured to grant the same security privileges to every html document loaded from disk (those <i>file:</i> urls), or to grant different privileges on a per file basis. Local TiddyWikis need some high security privileges in order to let you save changes to disk, or to import tiddlers from remote servers. Unfortunately, these same privileges can potentially be used by the bad guys to launch programs, get files from your disk and upload them somewhere, access your browsing history...</p><p>While it is more convenient to let Firefox give all your local files the same security privileges, and I'm not aware of any malware attack that tries to take advantage of privileged <i>file:</i> urls, an ounce of prevention is worth a pound of cure.</p><p>You can learn more about this by reading <a href='http://www.mozilla.org/projects/security/components/per-file.html' class='externalLink'>Per-File Permissions</a> and <a href='http://www.mozilla.org/projects/security/components/signed-scripts.html#privs-list' class='externalLink'>JavaScript Security: Signed Script</a> at mozilla.org.</p><h3>Remote files</h3><p>When a remote document (<i>http:</i> urls) requests especial privileges, Firefox <ul><li>checks the value of <code>signed.applets.codebase_principal_support</code>, a preference that can be configured from the page that is loaded when you type <code>about:config</code> in the address bar</li><li>if the previous value is set to false, Firefox denies silently the request</li><li>if the previous value is set to true, Firefox looks for the document's domain in the list of privileges urls that can be configured from this wizard, and, if not there, asks the user to grant the privilege</li></ul><p>Note that, in this case, and unlike when dealing with local files, Firefox will only take into account the document's domain instead of performing an exact match of the url.</p><p>Take a look at <a href='http://messfromabove.tiddlyspot.com' class='externalLink'>http://messfromabove.tiddlyspot.com</a> to learn more about the nice and nasty possibilities that this setting provides.</p><h3>This Wizard</h3><p>This wizard will help you to grant the required privileges to your TiddlyWikis, local or remote, and warn you if you have enabled a dangerous default. To do so, Firefox will probably prompt you to grant it some special privileges in order to list and modify the list of privileged urls.</p><p>Please note that changing the privileges for an url may not have effect until you reload it in the browser.</p><input type='hidden' name='mark'></input>",
 	learnStepButton: "1. Learn about the risks",
 	learnStepButtonTooltip: "Learn why 'Remember this' is an unsafe choice in security prompts",
-	grantStepTitle: "2. Grant privileges to individual documents",
+	grantStepTitle: "2. Grant privileges to individual local documents or remote domains",
 	grantStepHtml: "Url: <input type='text' size=80 name='txtUrl'><br/><br/><input type='checkbox' checked='true' name='chkUniversalXPConnect'>Grant rights required to save to disk (Run or install software on your machine - UniversalXPConnect)</input><br/><input type='checkbox' checked='true' name='chkUniversalBrowserRead'>Grant rights required to import tiddlers from servers or access TiddlySpot (Read and upload local files - UniversalBrowserRead)</input><br/><input type='checkbox' name='chkUniversalBrowserWrite'>Modify any open window - UniversalBrowserWrite</input><br/><input type='checkbox' name='chkUniversalFileRead'>Read and upload local files - UniversalFileRead</input><br/><input type='checkbox' name='chkCapabilityPreferencesAccess'>By-pass core security settings - CapabilityPreferencesAccess</input><br/><input type='checkbox' name='chkUniversalPreferencesRead'>Read program settings - UniversalPreferencesRead</input><br/><input type='checkbox' name='chkUniversalPreferencesWrite'>Modify program settings - UniversalPreferencesWrite</input><br/><input type='button' class='button' name='btnGrant' value='Set privileges'/>",
-	grantStepButton: "2. Grant privileges",
-	grantStepButtonTooltip: "Grant privileges to this or other docs",
+	grantStepButton: "2. Set privileges",
+	grantStepButtonTooltip: "Manage privileges for this or other docs",
 	viewStepTitle: "3. Granted privileges",
-	viewStepHtml: "<input type='hidden' name='markList'></input>",
-	viewStepButton: "3. List granted privileges",
+	viewStepHtml: "<input type='hidden' name='mark'></input>",
+	viewStepButton: "3. View privileges",
 	viewStepButtonTooltip: "List granted privileges, and optionally reset them",
 	viewStepEmptyMsg: "Asking for temporary privileges to list permanent privileges...",
-	allowSaveLabel: "Grant rights required to save to disk (Run or install software on your machine - UniversalXPConnect)",
-	allowImportLabel: "Grant rights required to import tiddlers from servers or access TiddlySpot (Read and upload local files - UniversalBrowserRead)",
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'url', type: 'Selector'},
@@ -67,7 +63,17 @@ merge(config.macros.firefoxPrivileges ,{
 			{className: 'lowlight', field: 'highlight'},
 			{className: 'error', field: 'warning'}
 			]
-		}
+		},
+	listResetButton: "Reset the privileges of the selected urls",
+	noteDangerous: "This is dangerous",
+	noteNoEffect: "This has no effect",
+	noteThisUrl: "This document's url",
+	noteTheUrlYouUpdated: "The url you just updated",
+	errNoUrl: "The url is required",
+	errNotAuthorized: "Not enough privileges. Maybe you are trying this from a tiddlywiki loaded from a server?",
+	msgUpdating: "Updating privileges for %0",
+	msgSetting: "Setting privileges for %0",
+	msgResetting: "Resetting privileges for %0"
 });
 merge(config.optionsDesc,{
 	txtPrivWizardDefaultStep: "Step to show when opening the 'Manage Firefox Privileges' wizard"
@@ -86,6 +92,7 @@ config.options.txtPrivWizardDefaultStep = "1";
 (function(){
 
 var plugin = config.macros.firefoxPrivileges;
+var lingo = plugin.lingo;
 plugin.privAccessCapabilities = "UniversalXPConnect CapabilityPreferencesAccess";
 plugin.stepNames = ["learn", "grant", "view"];
 plugin.lastUrl = document.location.toString();
@@ -93,32 +100,33 @@ plugin.lastUrl = document.location.toString();
 plugin.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	var wizard = new Wizard();
-	wizard.createWizard(place,plugin.wizardTitle);
+	wizard.createWizard(place,lingo.wizardTitle);
 	var step = parseInt(config.options.txtPrivWizardDefaultStep);
 	step = (isNaN(step)||(step<=0)||(step>3))? 0 : step-1;
 	plugin.step(wizard, step);
 };
 plugin.buttons = (function(){
-	var _buttons = [];
+	var onclick = {};
 	for (var ii=0; ii<plugin.stepNames.length; ii++) {
-		var name = plugin.stepNames[ii];
-		var onclick = (function() {
-			var index = ii;
-			var handler = function(e) {
-				plugin.step(new Wizard(resolveTarget(e)), index);
-				return false;
-			};
-			return handler;
-		})();
-		_buttons.push({caption: plugin[name+"StepButton"], 
-					   tooltip: plugin[name+"StepButtonTooltip"],
-					   onClick: onclick});
+		onclick[plugin.stepNames[ii]] = 
+			(function() {
+				var index = ii;
+				var handler = function(e) {
+					plugin.step(new Wizard(resolveTarget(e)), index);
+					return false;
+				};
+				return handler;})();
 	}
 	var getButtons = function(index) {
 		var buttons = [];
-		for (var ii= 0; ii<_buttons.length; ii++) {
+		for (var ii= 0; ii<plugin.stepNames.length; ii++) {
 			if (ii !== index) {
-				buttons.push(_buttons[ii]);
+				var name = plugin.stepNames[ii];
+				buttons.push({
+					onClick: onclick[name],
+					caption: lingo[name+"StepButton"],
+					tooltip: lingo[name+"StepButtonTooltip"]
+				});
 			}
 		}
 		return buttons;
@@ -129,12 +137,24 @@ plugin.step = function(wizard, stepIndex, extraParams)
 {
 	var name = plugin.stepNames[stepIndex];
 	var stepResult = {};
-	wizard.addStep(plugin[name+"StepTitle"],plugin[name+"StepHtml"]);
+	wizard.addStep(lingo[name+"StepTitle"],lingo[name+"StepHtml"]);
 	wizard.setButtons(plugin.buttons(stepIndex));
 	if (plugin[name+"StepProcess"]) {
 		plugin[name+"StepProcess"](wizard, extraParams);
 	}
 };
+plugin.getMarkedDiv = function(wizard)
+{
+	var mark = wizard.getElement("mark");
+	var div = document.createElement("div");
+	mark.parentNode.insertBefore(div,mark);
+	return div;
+};
+plugin.learnStepProcess = function(wizard)
+{
+	var src = config.optionsDesc.txtPrivWizardDefaultStep + ": <<option txtPrivWizardDefaultStep>>";
+	wikify(src, plugin.getMarkedDiv(wizard));
+}
 plugin.grantStepProcess = function(wizard)
 {
 	wizard.getElement("btnGrant").onclick = plugin.btnSetPrivileges;
@@ -142,10 +162,8 @@ plugin.grantStepProcess = function(wizard)
 };
 plugin.viewStepProcess = function(wizard, extraParams)
 {
-	var markList = wizard.getElement("markList");
-	var listWrapper = document.createElement("div");
-	markList.parentNode.insertBefore(listWrapper,markList);
-	listWrapper.innerHTML = plugin.viewStepEmptyMsg;
+	var listWrapper = plugin.getMarkedDiv(wizard);
+	listWrapper.innerHTML = lingo.viewStepEmptyMsg;
 
 	var html = [];
 	try {
@@ -160,14 +178,13 @@ plugin.viewStepProcess = function(wizard, extraParams)
 			if (privs.hasOwnProperty(handle)) {
 				var priv = privs[handle];
 				if ((priv.url === "file://") ||
-					(priv.url.indexOf(" ") !== -1))
-				{
+					(priv.url.indexOf(" ") !== -1)) {
 					priv.warning = true;
-					priv.notes = (priv.url === "file://")? "This is dangerous" : "This has no effect";
+					priv.notes = (priv.url === "file://")? lingo.noteDangerous:lingo.noteNoEffect;
 				} else if ((priv.url === thisUrl) || 
 				           (priv.url === plugin.lastUrl)) {
 					priv.highlight = true;
-					priv.notes = (priv.url === thisUrl)? "This document's url" : "The url you just updated";
+					priv.notes = (priv.url === thisUrl)? lingo.noteThisUrl:lingo.noteTheUrlYouUpdated;
 				} 
 				listItems.push(priv);
 			}
@@ -179,10 +196,10 @@ plugin.viewStepProcess = function(wizard, extraParams)
 		};
 		listItems.sort(sortFunc);
 		listWrapper.innerHTML = "";
-		var listView = ListView.create(listWrapper, listItems, plugin.listViewTemplate);
+		var listView = ListView.create(listWrapper, listItems, lingo.listViewTemplate);
 		wizard.setValue("listView",listView);
 
-		createTiddlyButton(listWrapper, "Reset selected privileges", "", plugin.btnResetPrivileges);
+		createTiddlyButton(listWrapper, lingo.listResetButton, "", plugin.btnResetPrivileges);
 	} catch (ex) {
 		listWrapper.innerHTML = "Error: " + ex;
 	}
@@ -200,7 +217,7 @@ plugin.btnSetPrivileges = function(ev)
 	}
 	var url = wizard.getElement("txtUrl").value;
 	if (!url) {
-		alert("The url is required");
+		alert(lingo.errNoUrl);
 	} else {
 		plugin.lastUrl = url;
 		var viewStepExtraParams = {reqAcccess: false};
@@ -210,13 +227,10 @@ plugin.btnSetPrivileges = function(ev)
 			gotPrivileges = true;
 		} catch(ex) {}
 		if (gotPrivileges) {
-			var needsReload = plugin.setUrlPrivilege(false, url, grant, false);
-			if (needsReload) {
-				viewStepExtraParams.status = "Reload to take effect";
-			}
+			plugin.setUrlPrivilege(false, url, grant, false);
 			plugin.step(wizard, 2, viewStepExtraParams);
 		} else {
-			alert("Not enough privileges. Maybe you are trying this from a tiddlywiki loaded from a server?");
+			alert(lingo.errNotAuthorized);
 		}
 	}
 	return false;
@@ -264,14 +278,14 @@ plugin.setUrlPrivilege = function(reqAccess, url, rights, reset)
 	var granted = [];
 	if (urlHandle) {
 		if (!reset) {
-			displayMessage("Updating privileges for " + url, url);
+			displayMessage(lingo.msgUpdating.format([url]), url);
 			denied = urls[urlHandle].denied.slice();
 			granted = urls[urlHandle].granted.slice();
 		} else {
-			displayMessage("Reseting privileges for " + url, url);
+			displayMessage(lingo.msgResetting.format([url]), url);
 		}
 	} else {
-		displayMessage("Setting privileges for " + url, url);
+		displayMessage(lingo.msgSetting.format([url]), url);
 		urlHandle = getFreeHandle(urls, "FirefoxPrivilegesPlugin");
 		isUpdate = false;
 	}
@@ -360,8 +374,24 @@ plugin.getPrefsBranch = function()
 	var prefsService = plugin.getPrefsService();
 	return prefsService.getBranch("capability.principal.codebase."); 
 };
-
-
+/*
+//}}}
+!!! Bookmarklet interface
+//{{{
+*/
+plugin.onload = function()
+{
+	var b=backstage;
+	var bt=createTiddlyButton(b.toolbar, "security"+glyph("downTriangle"), "", b.onClickTab,"backstageTab");
+	var fp="firefoxPrivileges";
+	bt.setAttribute("task",fp);
+	b.switchTab(fp);
+};
+/*
+//}}}
+!!! ListView tweak for long urls. http://trac.tiddlywiki.org/ticket/570
+//{{{
+*/
 ListView.columnTypes.LongLink = {
 	createHeader: ListView.columnTypes.String.createHeader,
 	createItem: function(place,listObject,field,columnTemplate,col,row)
