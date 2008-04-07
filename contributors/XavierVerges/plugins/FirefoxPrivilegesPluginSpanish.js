@@ -2,16 +2,17 @@
 |''Name''|FirefoxPrivilegesPluginSpanish|
 |''Description''|FirefoxPrivilegesPlugin, en castellano |
 |''Author''|Xavier Vergés (xverges at gmail dot com)|
-|''Version''|0.0.1 ($Rev: 4265 $)|
-|''Date''|$Date: 2008-04-05 18:32:31 +0200 (sÃ¡b, 05 abr 2008) $|
+|''Version''|0.0.2 ($Rev: 4266 $)|
+|''Date''|$Date: 2008-04-06 09:04:49 +0200 (dom, 06 abr 2008) $|
 |''Source''|http://firefoxprivileges.tiddlyspot.com/|
 |''CodeRepository''|http://trac.tiddlywiki.org/browser/Trunk/contributors/XavierVerges/plugins/FirefoxPrivilegesPluginSpanish.js|
 |''License''|BSD tbd|
 |''CoreVersion''|2.2.4 (maybe 2.2+?)|
 |''Documentation''|http://firefoxprivileges.tiddlyspot.com/#HowTo|
-***/
 !Notas
 No es una versión utilizable: tiene lo mínimo para verificar que el FirefoxPrivilegesPlugin puede ser traducido. Se agradecen colaboraciones para rellenarlo de verdad :-)
+!Código
+***/
 //{{{
 if(window.Components) {
 merge(config.macros.firefoxPrivileges.lingo ,{

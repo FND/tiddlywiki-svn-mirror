@@ -2,7 +2,7 @@
 |''Name''|FirefoxPrivilegesPlugin|
 |''Description''|Create a backstage tab to manage Firefox url privileges|
 |''Author''|Xavier Vergés (xverges at gmail dot com)|
-|''Version''|1.1.0 ($Rev$)|
+|''Version''|1.1.1 ($Rev$)|
 |''Date''|$Date$|
 |''Status''|@@beta@@|
 |''Source''|http://firefoxprivileges.tiddlyspot.com/|
@@ -87,7 +87,9 @@ merge(config.tasks,{
 //{{{
 */
 config.backstageTasks.pushUnique("firefoxPrivileges");
-config.options.txtPrivWizardDefaultStep = "1";
+if (typeof(config.options.txtPrivWizardDefaultStep) === "undefined"){
+	config.options.txtPrivWizardDefaultStep = "1";
+}
 
 (function(){
 
