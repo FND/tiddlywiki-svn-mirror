@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # ginsu.rb
 
-# Copyright (c) UnaMesa Association 2004-2007
+# Copyright (c) UnaMesa Association 2004-2008
 # License: Creative Commons Attribution ShareAlike 3.0 License http://creativecommons.org/licenses/by-sa/3.0/
 
 require 'splitter'
@@ -76,10 +76,10 @@ if(ARGV.empty?)
 end
 
 def remoteFileExists?(url)
-  url = URI.parse(url)
-  Net::HTTP.start(url.host, url.port) do |http|
-    return http.head(url.request_uri).code == "200"
-  end
+	url = URI.parse(url)
+	Net::HTTP.start(url.host, url.port) do |http|
+		return http.head(url.request_uri).code == "200"
+	end
 end
 
 def fileExists?(file)

@@ -1,6 +1,6 @@
 # tiddler.rb
 
-# Copyright (c) UnaMesa Association 2004-2007
+# Copyright (c) UnaMesa Association 2004-2008
 # License: Creative Commons Attribution ShareAlike 3.0 License http://creativecommons.org/licenses/by-sa/3.0/
 
 require 'cgi'
@@ -66,7 +66,7 @@ class Tiddler
 	def load(filename)
 		# read in a tiddler from a .js and a .js.meta pair of files
 		begin #use begin rescue block since there may not be a .meta file if the attributes are obtained from the .recipe file
-			open(filename+".meta") do |infile|
+			open(filename + ".meta") do |infile|
 				infile.each_line do |line|
 					c = line.index(':')
 					if(c != nil)

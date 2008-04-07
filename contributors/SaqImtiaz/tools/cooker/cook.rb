@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # cook.rb
 
-# Copyright (c) UnaMesa Association 2004-2007
+# Copyright (c) UnaMesa Association 2004-2008
 # License: Creative Commons Attribution ShareAlike 3.0 License http://creativecommons.org/licenses/by-sa/3.0/
 
 require 'recipe'
@@ -21,8 +21,7 @@ class Optparse
 		options.format = ""
 		options.quiet = false
 		options.stripcomments = false
-		options.compress = false
-		options.externalcore = false
+		options.compress = ""
 
 		opts = OptionParser.new do |opts|
 			opts.banner = "Cook #{version}\n"
@@ -50,17 +49,18 @@ class Optparse
 				options.stripcomments = stripcomments
 			end
 
-			opts.on("-c", "--[no-]compress", "Compress javascript") do |compress|
+			opts.on("-c", "--compress Compress", "Compress javascript") do |compress|
+				# three options available
+				# F - compress each .js file individually using rhino
+				# R - compress .js files as a single block
+				# P - compress .js files as a single block using packr (not yet available)
+				# P and R may be combined, eg -C PR
 				options.compress = compress
 			end
 			
 			opts.on("-k", "--keepallcomments", "Keep all javascript comments") do |keepallcomments|
 				options.keepallcomments = keepallcomments
 			end
-			
-			opts.on("-e", "--externalcore [EXTERNALCORE]", "Place TiddlyWiki core javascript code in external file") do |externalcore|
-				options.externalcore = externalcore || "tiddlywiki.js"
-			end			
 
 			options.help = opts
 			opts.on_tail("-h", "--help", "Show this message") do
@@ -111,9 +111,8 @@ end
 Tiddler.format = options.format
 Recipe.quiet = options.quiet
 Ingredient.stripcomments = options.stripcomments
-Ingredient.compress = options.compress
+Ingredient.compress = options.compress.strip
 Ingredient.keepallcomments = options.keepallcomments
-Recipe.externalcore = options.externalcore
 
 ARGV.each do |file|
 	recipe = Recipe.new(file, options.dest)

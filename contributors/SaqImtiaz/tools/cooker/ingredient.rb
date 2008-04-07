@@ -1,12 +1,13 @@
 # ingredient.rb
 
-# Copyright (c) UnaMesa Association 2004-2007
+# Copyright (c) UnaMesa Association 2004-2008
 # License: Creative Commons Attribution ShareAlike 3.0 License http://creativecommons.org/licenses/by-sa/3.0/
 
 require 'cgi'
 require 'tempfile'
-require 'splitter'
+
 require 'tiddler'
+require 'splitter'
 
 class String
 	def to_file(file_name) #:nodoc:
@@ -66,7 +67,10 @@ class Ingredient
 				return to_s_retiddle(subtype[0])
 			elsif(@filename =~/\.html/)
 				out = ''
-				extractTiddlers(@filename,URI.parse(@filename).fragment.split("%20")).each{|x| out << x.to_div }
+				tiddlers = Splitter.extractTiddlers(@filename,URI.parse(@filename).fragment.split("%20"))
+				tiddlers.each do |tiddler|
+					out << tiddler.to_div
+				end
 				return out
 			else
 				return to_s_tiddler
@@ -131,14 +135,15 @@ protected
 					out << line unless(line.strip =~ /^\/\/#/)
 				end
 			end
-			if(@@compress && subtype == "js" && @filename !~ /\/Lingo/&& @filename !~ /\/locale/)
-				out = rhino(out)
+			if(@@compress=="F" && subtype == "js" && @filename !~ /\/Lingo/&& @filename !~ /\/locale/)
+				out = Ingredient.rhino(out)
 			end
 			return out
 		end
 	end
 
-	def rhino(input)
+public
+	def Ingredient.rhino(input)
 		inputfile = "tmp.rhino_in-#{Process.pid}"
 		input.to_file(inputfile)
 		outputfile = "tmp.rhino_out-#{Process.pid}"
@@ -154,4 +159,7 @@ protected
 		return compressed
 	end
 
+	def Ingredient.packr(input)
+		return input
+	end
 end
