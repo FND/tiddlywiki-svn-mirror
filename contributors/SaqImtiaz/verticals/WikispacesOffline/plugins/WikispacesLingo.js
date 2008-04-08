@@ -359,7 +359,7 @@ merge(config.commands.editTiddler,{
 	readOnlyTooltip: "View the source of this page"});
 
 merge(config.commands.saveTiddler,{
-	text: "done",
+	text: "save",
 	tooltip: "Save changes to this page"});
 
 merge(config.commands.cancelTiddler,{

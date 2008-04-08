@@ -105,6 +105,7 @@ Story.prototype.previewTiddler = function(title)
 		viewer.innerHTML = this.getTemplateForTiddler(title,template,t);
 		applyHtmlMacros(viewer,b);
 		removeToolbars(viewer);
+		window.scrollTo(0,ensureVisible(tiddlerElem));
 		forceReflow();
 	}
 };
