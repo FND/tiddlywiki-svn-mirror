@@ -9,8 +9,11 @@
 |''~CoreVersion:''|2.2|
 
 Create hCalendar abbr:
-<<dtstart [storeName|'YYYYMMDDHHMM'] [dateFormatString]>>
-<<dtend [storeName|'YYYYMMDDHHMM'] [dateFormatSting]>>
+&lt;&lt;dtstart [storeName|'YYYYMMDDHHMM'] [dateFormatString]&gt;&gt;
+&lt;&lt;dtend [storeName|'YYYYMMDDHHMM'] [dateFormatSting]&gt;&gt;
+
+Options:
+&lt;&lt;option timeFormat&gt;&gt;
 
 ***/
 
