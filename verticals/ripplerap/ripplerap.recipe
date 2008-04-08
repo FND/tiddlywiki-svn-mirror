@@ -1,10 +1,10 @@
 recipe: ../../core/tiddlywiki.html.recipe
 
 tiddler: ../../contributors/JonathanLister/adaptors/RSSAdaptor.js
-tiddler: ../../contributors/JonathanLister/components/JS2JSON.js
-tiddler: ../../contributors/JonathanLister/components/xhrTimeoutPlugin.js
+tiddler: ../../contributors/JonathanLister/plugins/JS2JSON.js
+tiddler: ../../contributors/JonathanLister/plugins/xhrTimeoutPlugin.js
+tiddler: ../../contributors/JonathanLister/plugins/TemplatePlugin.js
 tiddler: ../../contributors/JonathanLister/verticals/RippleTweet/js/RippleTechMacro.js
-tiddler: ../../contributors/JonathanLister/components/ListTemplateMacro.js
 tiddler: ../../contributors/SaqImtiaz/plugins/WebDavLib.js
 tiddler: ../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
 tiddler: ../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
