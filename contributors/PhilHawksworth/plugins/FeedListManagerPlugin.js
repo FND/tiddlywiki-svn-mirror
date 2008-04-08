@@ -4,8 +4,8 @@
 |''Author:''|PhilHawksworth|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js |
 |''Dependencies:''| TextToXMLDOMPlugin|
-|''Version:''|0.1|
-|''Date:''|Mar 03, 2008|
+|''Version:''|0.2|
+|''Date:''|April 08, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.3|
