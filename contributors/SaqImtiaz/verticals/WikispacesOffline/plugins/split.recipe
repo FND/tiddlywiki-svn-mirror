@@ -1,6 +1,6 @@
 tiddler: WikispacesLingo.js
 tiddler: AnchorsPlugin.js
-tiddler: QuickEditPlugin.js
+tiddler: InlineEditPlugin.js
 tiddler: RefreshExternalTheme.js
 tiddler: SavedLocalConfigSettings.js
 tiddler: SinglePageModePlugin.js

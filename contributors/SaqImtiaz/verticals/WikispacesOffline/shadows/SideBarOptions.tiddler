@@ -1,9 +1,9 @@
 <div title="SideBarOptions" modifier="SaqImtiaz" created="200802260804" modified="200803030956" tags="excludeLists excludeSearch">
 <pre>!!!Actions
 <<newTiddler label:'New Page' prompt:'New Page'>>
-{{search{<<search search>>}}}
 [[Recent Changes]]
 [[Manage]]
+{{search{<<search search>>}}}
 <<backstage importTask>>
 <<backstage sync>></pre>
 </div>
