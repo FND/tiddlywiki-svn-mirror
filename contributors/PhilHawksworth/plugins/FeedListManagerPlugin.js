@@ -3,7 +3,7 @@
 |''Description:''|Manage a list of uris to be called in a round-robin stlye|
 |''Author:''|PhilHawksworth|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js |
-|''Dependencies:''| TextToXMLDOMPlugin|
+|''Dependencies:''| [[TextToXMLDOMPlugin|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js ]]|
 |''Version:''|0.2|
 |''Date:''|April 08, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
