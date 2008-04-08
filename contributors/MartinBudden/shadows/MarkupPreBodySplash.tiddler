@@ -1,0 +1,49 @@
+<div title="MarkupPreBody" modifier="MartinBudden" tags="excludeLists excludeSearch">
+
+<div id="SplashScreen">
+
+<div class="header" style="overflow: hidden; position: relative; z-index: 0;">
+<div class="headerShadow">
+<span class="siteTitle" tiddler="SiteTitle" refresh="content">Test</span>
+<span class="siteSubtitle" tiddler="SiteSubtitle" refresh="content">general testing</span>
+</div>
+<div class="headerForeground">
+<span class="siteTitle" tiddler="SiteTitle" refresh="content">Test</span>
+<span class="siteSubtitle" tiddler="SiteSubtitle" refresh="content">general testing</span>
+</div>
+</div>
+</div>
+<div id="mainMenu" tiddler="MainMenu" refresh="content">
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="Home - YourName, Tue Apr 8 11:36:55 2008" refresh="link" tiddlylink="Home">Home</a>
+</div>
+
+<div id="ssidebar">
+<div id="ssidebarTabs" tiddler="SideBarTabs" force="true" refresh="content"></div>
+</div>
+
+<div id="sdisplayArea">
+<div id="smessageArea" style="display: none;"></div>
+
+<div id="stiddlerDisplay">
+
+<div id="stiddlerHome" class="tiddler" refresh="tiddler" tags="" tiddler="Home" template="ViewTemplate" dirty="false">
+<div class="toolbar" macro="toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump"></div>
+<div class="title">Home</div>
+<div class="subtitle">subtitle</div>
+<div class="viewer" >This is some text in the Home tiddler</div>
+</div>
+
+<div id="stiddlerHome2" class="tiddler" refresh="tiddler" tags="" tiddler="Home" template="ViewTemplate" dirty="false">
+<div class="toolbar" macro="toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump"></div>
+<div class="title">Home2</div>
+<div class="subtitle">subtitle</div>
+<div class="viewer" >This is some text in the Home tiddler2</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+
+</div>
