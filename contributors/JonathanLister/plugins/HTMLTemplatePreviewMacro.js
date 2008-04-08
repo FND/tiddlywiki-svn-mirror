@@ -1,8 +1,8 @@
 /***
 |''Name:''|HTMLTemplatePreviewMacro |
-|''Description:'' |adds an iframe in place and renders a template into the iframe |
+|''Description:'' |adds an IFrame in place and renders a template into the IFrame |
 |Author: |JonLister |
-|Dependencies: |Iframe |
+|Dependencies: |IFrame |
 |''Version:''|0.2|
 |''Date:''|25/3/08|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -27,9 +27,9 @@ config.macros.HTMLTemplatePreview.handler = function(place,macroName,params,wiki
 	else {
 		displayMessage(this.syntaxError);
 	}
-	var html = expandTemplate(template,null,null,tiddler);
+	var html = expandTemplate(template);
 	html = html.replace(/'/g,"\"");
-	var ifr = new Iframe(place,"iFrameElem");
+	var ifr = new IFrame(place,"IFrameElem");
 
 	var htmlHead = html.substring(0,html.indexOf("</head>"));
 	var htmlBody = html.substring(html.indexOf("<body"),html.indexOf("</body>"));
@@ -37,8 +37,8 @@ config.macros.HTMLTemplatePreview.handler = function(place,macroName,params,wiki
 		ifr.doc.open();
 		// NOTE: Windows incorrectly renders the page if you don't include the DOCTYPE tag; e.g. in one case, the omission of this tag caused the content to be aligned left instead of center:
 		// <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-		// NOTE: Windows won't let you modify the innerHTML property of the iFrame head
-		// NOTE: Windows crashes if you write to the iframe more than once
+		// NOTE: Windows won't let you modify the innerHTML property of the IFrame head
+		// NOTE: Windows crashes if you write to the IFrame more than once
 		// NOTE: Windows doesn't run external scripts, which causes errors if scripts in the page refer to externally defined objects
 		// TO-DO: sort this out, maybe by removing any external script calls. Worth looking into
 		// NOTE: Firefox runs all scripts, so any calls in those scripts to document.write cancel this one

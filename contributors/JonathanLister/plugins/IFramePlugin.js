@@ -64,7 +64,6 @@ IFrame.prototype.modify = function(html)
 		htmlBody += "</body>";
 		this.doc.write(htmlHead+htmlBody+"</html>");
 		this.doc.close();
-		displayMessage(this.doc.documentElement.innerHTML);
 	} else {
 		htmlHead = htmlHead.substring(htmlHead.indexOf("<head"));
 		htmlHead = htmlHead.replace(/<head[^>]*?>/,"");

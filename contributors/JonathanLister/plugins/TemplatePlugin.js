@@ -73,7 +73,10 @@ config.macros.templateTiddlers.handler = function(place,macroName,params,wikifie
 		tiddlers.push(tiddler ? tiddler : new Tiddler("temp"));
 	}
 	var output = expandTemplate(template,tiddlers);
-	place.innerHTML += output.htmlEncode();
+	console.log(output);
+	// place.innerHTML += output.htmlEncode();
+	// NOTE: the above was used in the TiddlyTemplating demo, which now needs a test function creating
+	place.innerHTML += output;
 };
 
 //	<<templateTags RssItemCategoryTemplate tags:"tags" ">>
