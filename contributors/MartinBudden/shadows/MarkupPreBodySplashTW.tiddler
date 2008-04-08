@@ -1,0 +1,155 @@
+<div title="MarkupPreBody" modifier="MartinBudden" tags="excludeLists excludeSearch">
+<pre><div id="splashScreen">
+
+<div class="header" style="overflow: hidden; position: relative; z-index: 0;">
+<div class="headerShadow">
+<span class="siteTitle" tiddler="SiteTitle" refresh="content">TiddlyWiki</span>
+<span class="siteSubtitle" tiddler="SiteSubtitle" refresh="content">a reusable non-linear personal web notebook</span>
+</div>
+<div class="headerForeground">
+<span class="siteTitle" tiddler="SiteTitle" refresh="content">TiddlyWiki</span>
+<span class="siteSubtitle" tiddler="SiteSubtitle" refresh="content">a reusable non-linear personal web notebook<blink> LOADING...</blink></span>
+</div>
+</div>
+</div>
+<div id="mainMenu" tiddler="MainMenu" refresh="content">
+</div>
+
+<div id="ssidebar">
+<div id="ssidebarTabs" tiddler="SideBarTabs" force="true" refresh="content"></div>
+</div>
+
+<div id="sdisplayArea">
+<div id="smessageArea" style="display: none;"></div>
+
+<div id="stiddlerDisplay">
+
+<div id="stiddlerHelloThere" class="tiddler" refresh="tiddler" tags="" tiddler="Home" template="ViewTemplate" dirty="false">
+<div class="toolbar" macro="toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump"></div>
+<div class="title">HelloThere</div>
+<div class="subtitle">
+<span macro="view modifier link">
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="JeremyRuston - JeremyRuston, Tue Jun 5 14:19:00 2007" refresh="link" tiddlylink="JeremyRuston">JeremyRuston</a>
+</span>
+,
+<span macro="view modified date "YYYY-mmm-DD 0hh:0mm"">2007-May-16 14:26</span>
+(
+<span macro="message views.wikified.createdPrompt">created</span>
+<span macro="view created date">20 September 2005</span>
+)
+</div>
+<div class="viewer" macro="view text wikified">
+Welcome to
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="TiddlyWiki - JeremyRuston, Fri Aug 3 12:26:00 2007" refresh="link" tiddlylink="TiddlyWiki">TiddlyWiki</a>
+, a
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="Raves - JeremyRuston, Fri Nov 3 13:53:00 2006" refresh="link" tiddlylink="Raves">popular</a>
+free
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="MicroContent - JeremyRuston, Fri Aug 12 01:19:00 2005" refresh="link" tiddlylink="MicroContent">MicroContent</a>
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="WikiWikiWeb - JeremyRuston, Thu Feb 23 10:46:00 2006" refresh="link" tiddlylink="WikiWikiWeb">WikiWikiWeb</a>
+created by
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="JeremyRuston - JeremyRuston, Tue Jun 5 14:19:00 2007" refresh="link" tiddlylink="JeremyRuston">JeremyRuston</a>
+and a busy
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="Community - JeremyRuston, Fri Aug 24 15:58:00 2007" refresh="link" tiddlylink="Community">Community</a>
+of independent developers. It's written in HTML, CSS and
+<a class="tiddlyLink tiddlyLinkNonExisting" href="javascript:;" title="The tiddler 'JavaScript' doesn't yet exist" refresh="link" tiddlylink="JavaScript">JavaScript</a>
+to run on any modern browser without needing any
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="ServerSide - JeremyRuston, Mon Aug 13 13:55:00 2007" refresh="link" tiddlylink="ServerSide">ServerSide</a>
+logic. It allows anyone to create personal
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="SelfContained - JeremyRuston, Tue Oct 18 01:05:00 2005" refresh="link" tiddlylink="SelfContained">SelfContained</a>
+hypertext documents that can be posted to a
+<a class="tiddlyLink tiddlyLinkNonExisting" href="javascript:;" title="The tiddler 'WebServer' doesn't yet exist" refresh="link" tiddlylink="WebServer">WebServer</a>
+, sent by email or kept on a USB thumb drive to make a
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="WikiOnAStick - JeremyRuston, Fri Aug 12 01:17:00 2005" refresh="link" tiddlylink="WikiOnAStick">WikiOnAStick</a>
+. Because it doesn't need to be installed and configured it makes a great
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="GuerillaWiki - JeremyRuston, Wed Mar 22 16:36:00 2006" refresh="link" tiddlylink="GuerillaWiki">GuerillaWiki</a>
+. This is revision
+<span>2.3.0</span>
+of
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="TiddlyWiki - JeremyRuston, Fri Aug 3 12:26:00 2007" refresh="link" tiddlylink="TiddlyWiki">TiddlyWiki</a>
+(see
+<a class="externalLink" href="http://trac.tiddlywiki.org/wiki/History" title="External link to http://trac.tiddlywiki.org/wiki/History" target="_blank">recent changes</a>
+), and is published under an
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="OpenSourceLicense - JeremyRuston, Fri Sep 29 16:41:00 2006" refresh="link" tiddlylink="OpenSourceLicense">OpenSourceLicense</a>
+.
+<br/>
+<br/>
+Note that from version 2.3, the advice for
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="HowToUpgrade - JeremyRuston, Tue Dec 4 21:57:00 2007" refresh="link" tiddlylink="HowToUpgrade">HowToUpgrade</a>
+to new versions has changed.
+</div>
+</div>
+
+<div id="stiddlerGettingStarted" class="tiddler" refresh="tiddler" tags="" tiddler="Home" template="ViewTemplate" dirty="false">
+<div class="toolbar" macro="toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump"></div>
+<div class="title">GettingStarted</div>
+<div class="subtitle">
+<span macro="view modifier link">
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="JeremyRuston - JeremyRuston, Tue Jun 5 14:19:00 2007" refresh="link" tiddlylink="JeremyRuston">JeremyRuston</a>
+</span>
+,
+<span macro="view modified date "YYYY-mmm-DD 0hh:0mm"">2007-Nov-27 00:00</span>
+(
+<span macro="message views.wikified.createdPrompt">created</span>
+<span macro="view created date">18 August 2005</span>
+)
+</div>
+<div class="viewer" macro="view text wikified">
+The easiest way to learn about
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="TiddlyWiki - JeremyRuston, Fri Aug 3 12:26:00 2007" refresh="link" tiddlylink="TiddlyWiki">TiddlyWiki</a>
+is to use it! Try clicking on various links and see what happens - you cannot damage tiddlywiki.com or your browser. (Use the
+<a class="button" href="javascript:;" title="Close all displayed tiddlers (except any that are being edited)">close all</a>
+button over on the right to clear all the displayed tiddlers and start again).
+<br/>
+<br/>
+There is an extensive
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="Community - JeremyRuston, Fri Aug 24 15:58:00 2007" refresh="link" tiddlylink="Community">Community</a>
+<a class="externalLink" href="http://www.tiddlywiki.org/" title="External link to http://www.tiddlywiki.org/" target="_blank">documentation wiki</a>
+, including an invaluable
+<a class="externalLink" href="http://www.tiddlywiki.org/wiki/TiddlyWiki_FAQ" title="External link to http://www.tiddlywiki.org/wiki/TiddlyWiki_FAQ" target="_blank">FAQ</a>
+. Other useful guides include:
+<br/>
+<ul>
+<li>
+Dave Gifford's
+<a class="externalLink" href="http://www.giffmex.org/twfortherestofus.html" title="External link to http://www.giffmex.org/twfortherestofus.html" target="_blank">TiddlyWiki for the Rest of Us</a>
+and his
+<a class="externalLink" href="http://www.giffmex.org/blog/?p=23" title="External link to http://www.giffmex.org/blog/?p=23" target="_blank">slideshow introduction</a>
+</li>
+<li>
+Morris Gray's
+<a class="externalLink" href="http://tiddlyspot.com/twhelp/" title="External link to http://tiddlyspot.com/twhelp/" target="_blank">TW Help - TiddlyWiki help file for beginners</a>
+</li>
+<li>
+Dmitri Popov's
+<a class="externalLink" href="http://nothickmanuals.info/doku.php/cheatsheets" title="External link to http://nothickmanuals.info/doku.php/cheatsheets" target="_blank">TiddlyWiki quick reference card</a>
+</li>
+<li>
+Screencasts from
+<a class="externalLink" href="http://faculty.massasoit.mass.edu/jventola/videocasts/tidhelp2/tidhelp2.html" title="External link to http://faculty.massasoit.mass.edu/jventola/videocasts/tidhelp2/tidhelp2.html" target="_blank">JimVentola</a>
+and
+<a class="externalLink" href="http://max.limpag.com/2006/09/07/using-a-tiddlywiki-a-video-guide/" title="External link to http://max.limpag.com/2006/09/07/using-a-tiddlywiki-a-video-guide/" target="_blank">LeonKilat</a>
+.
+</li>
+</ul>
+When you're ready to create your own
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="TiddlyWiki - JeremyRuston, Fri Aug 3 12:26:00 2007" refresh="link" tiddlylink="TiddlyWiki">TiddlyWiki</a>
+on your computer, follow the instructions in
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="DownloadSoftware - JeremyRuston, Mon Mar 31 15:23:00 2008" refresh="link" tiddlylink="DownloadSoftware">DownloadSoftware</a>
+and
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="SaveChanges - JeremyRuston, Wed Feb 14 11:22:00 2007" refresh="link" tiddlylink="SaveChanges">SaveChanges</a>
+. There is also a free hosted service at
+<a class="externalLink" href="http://tiddlyspot.com/" title="External link to http://tiddlyspot.com/" target="_blank">http://tiddlyspot.com/</a>
+that makes it easier to share your
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="TiddlyWiki - JeremyRuston, Fri Aug 3 12:26:00 2007" refresh="link" tiddlylink="TiddlyWiki">TiddlyWiki</a>
+with others (for more demanding applications there are several other
+<a class="tiddlyLink tiddlyLinkExisting" href="javascript:;" title="ServerSide - JeremyRuston, Mon Aug 13 13:55:00 2007" refresh="link" tiddlylink="ServerSide">ServerSide</a>
+solutions available).
+</div></div>
+
+</div>
+
+</div>
+</div>
+
+</pre>
+</div>

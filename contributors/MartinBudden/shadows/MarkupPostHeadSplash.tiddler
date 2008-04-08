@@ -1,0 +1,136 @@
+<div title="MarkupPostHead" modifier="MartinBudden" tags="excludeLists excludeSearch">
+<pre><style type="text/css">
+#contentWrapper {display:none;} #splashScreen {display:block;}
+</style>
+<style type="text/css">
+body {background:#fff; color:#000;}
+
+.title {color:#841;}
+.subtitle {color:#666;}
+
+a {color:#04b;}
+a:hover {background-color:#04b; color:#fff;}
+a img {border:0;}
+
+h1,h2,h3,h4,h5,h6 {color:#841; background:transparent;}
+h1 {border-bottom:2px solid #ccc;}
+h2,h3 {border-bottom:1px solid #ccc;}
+
+.button {color:#014; border:1px solid #fff;}
+.button:hover {color:#014; background:#fe8; border-color:#db4;}
+.button:active {color:#fff; background:#db4; border:1px solid #841;}
+
+.header {background:#04b;}
+.headerShadow {color:#000;}
+.headerShadow a {font-weight:normal; color:#000;}
+.headerForeground {color:#fff;}
+.headerForeground a {font-weight:normal; color:#8cf;}
+
+.tabSelected {color:#014;
+	background:#eee;
+	border-left:1px solid #ccc;
+	border-top:1px solid #ccc;
+	border-right:1px solid #ccc;
+}
+.tabUnselected {color:#fff; background:#999;}
+.tabContents {color:#014; background:#eee; border:1px solid #ccc;}
+.tabContents .button {border:0;}
+
+#sidebar {}
+#sidebarOptions input {border:1px solid #04b;}
+#sidebarOptions .sliderPanel {background:#8cf;}
+#sidebarOptions .sliderPanel a {border:none;color:#04b;}
+#sidebarOptions .sliderPanel a:hover {color:#fff; background:#04b;}
+#sidebarOptions .sliderPanel a:active {color:#04b; background:#fff;}
+
+.wizard {background:#8cf; border:1px solid #04b;}
+.wizard h1 {color:#014; border:none;}
+.wizard h2 {color:#000; border:none;}
+.wizardStep {background:#fff; color:#000;
+	border:1px solid #04b;}
+.wizardStep.wizardStepDone {background:#ccc;}
+.wizardFooter {background:#8cf;}
+.wizardFooter .status {background:#014; color:#fff;}
+.wizard .button {color:#000; background:#fe8; border: 1px solid;
+	border-color:#ffc #841 #841 #ffc;}
+.wizard .button:hover {color:#000; background:#fff;}
+.wizard .button:active {color:#fff; background:#000; border: 1px solid;
+	border-color:#014 #8cf #8cf #014;}
+
+#messageArea {border:1px solid #db4; background:#fe8; color:#000;}
+#messageArea .button {color:#04b; background:#ffc; border:none;}
+
+.popupTiddler {background:#eee; border:2px solid #999;}
+
+.popup {background:#eee; color:#666; border-left:1px solid #999; border-top:1px solid #999; border-right:2px solid #666; border-bottom:2px solid #666;}
+.popup hr {color:#014; background:#014; border-bottom:1px;}
+.popup li.disabled {color:#999;}
+.popup li a, .popup li a:visited {color:#000; border: none;}
+.popup li a:hover {background:#fe8; color:#000; border: none;}
+.popup li a:active {background:#ffc; color:#000; border: none;}
+.popupHighlight {background:#fff; color:#000;}
+.listBreak div {border-bottom:1px solid #666;}
+
+.tiddler .defaultCommand {font-weight:bold;}
+
+.shadow .title {color:#666;}
+
+
+.toolbar {color:#04b;}
+.toolbar a {color:#ccc;}
+.selected .toolbar a {color:#999;}
+.selected .toolbar a:hover {color:#000;}
+
+.tagging, .tagged {border:1px solid #eee; background-color:#eee;}
+.selected .tagging, .selected .tagged {background-color:#ccc; border:1px solid #999;}
+.tagging .listTitle, .tagged .listTitle {color:#014;}
+.tagging .button, .tagged .button {border:none;}
+
+.footer {color:#ccc;}
+.selected .footer {color:#999;}
+
+.sparkline {background:#8cf; border:0;}
+.sparktick {background:#014;}
+
+.error, .errorButton {color:#000; background:#f88;}
+.warning {color:#000; background:#ffc;}
+.lowlight {background:#ccc;}
+
+.zoomer {background:none; color:#999; border:3px solid #999;}
+
+.imageLink, #displayArea .imageLink {background:transparent;}
+
+.annotation {background:#fe8; color:#000; border:2px solid #db4;}
+
+.viewer .listTitle {list-style-type:none; margin-left:-2em;}
+.viewer .button {border:1px solid #db4;}
+.viewer blockquote {border-left:3px solid #666;}
+
+.viewer table, table.twtable {border:2px solid #666;}
+.viewer th, .viewer thead td, .twtable th, .twtable thead td {background:#db4; border:1px solid #666; color:#fff;}
+.viewer td, .viewer tr, .twtable td, .twtable tr {border:1px solid #666;}
+
+.viewer pre {border:1px solid #fe8; background:#ffc;}
+.viewer code {color:#841;}
+.viewer hr {border:0; border-top:dashed 1px #666; color:#666;}
+
+.highlight, .marked {background:#fe8;}
+
+.editor input {border:1px solid #04b;}
+.editor textarea {border:1px solid #04b; width:100%;}
+.editorFooter {color:#999;}
+
+#backstageArea {background:#000; color:#999;}
+#backstageArea a {background:#000; color:#fff; border:none;}
+#backstageArea a:hover {background:#fe8; color:#000; }
+#backstageArea a.backstageSelTab {background:#fff; color:#000;}
+#backstageButton a {background:none; color:#fff; border:none;}
+#backstageButton a:hover {background:#000; color:#fff; border:none;}
+#backstagePanel {background:#fff; border-color: #fff #666 #666 #666;}
+.backstagePanelFooter .button {border:none; color:#fff;}
+.backstagePanelFooter .button:hover {color:#000;}
+#backstageCloak {background:#000; opacity:0.6; filter:'alpha(opacity:60)';}
+</style>
+
+</pre>
+</div>

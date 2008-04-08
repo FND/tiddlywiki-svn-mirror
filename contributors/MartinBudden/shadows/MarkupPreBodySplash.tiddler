@@ -1,6 +1,5 @@
 <div title="MarkupPreBody" modifier="MartinBudden" tags="excludeLists excludeSearch">
-
-<div id="SplashScreen">
+<pre><div id="splashScreen">
 
 <div class="header" style="overflow: hidden; position: relative; z-index: 0;">
 <div class="headerShadow">
@@ -9,7 +8,7 @@
 </div>
 <div class="headerForeground">
 <span class="siteTitle" tiddler="SiteTitle" refresh="content">Test</span>
-<span class="siteSubtitle" tiddler="SiteSubtitle" refresh="content">general testing</span>
+<span class="siteSubtitle" tiddler="SiteSubtitle" refresh="content">general testing<blink> loading...</blink></span>
 </div>
 </div>
 </div>
@@ -45,5 +44,5 @@
 </div>
 </div>
 
-
+</pre>
 </div>
