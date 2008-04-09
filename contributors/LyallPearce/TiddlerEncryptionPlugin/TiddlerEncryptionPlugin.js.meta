@@ -2,7 +2,7 @@ title: TiddlerEncryptionPlugin
 Created by: LyallPearce
 Created: 200707281731
 License: Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/
-Version: 1.10.0
+Version: 1.10.1
 CoreVersion: 2.3.0
 Source: http://svn.tiddlywiki.org/Trunk/contributors/LyallPearce or http://www.RemotelyHelpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html
 Description: Encrypt/Decrypt Tiddlers with a Password key by simply tagging tiddlers.

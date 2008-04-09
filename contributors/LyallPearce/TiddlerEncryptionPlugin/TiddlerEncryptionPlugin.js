@@ -3,7 +3,7 @@
 |Author|Lyall Pearce|
 |Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
 |License|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|Version|1.10.0|
+|Version|1.10.1|
 |~CoreVersion|2.3.0|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
@@ -24,39 +24,43 @@
 ** If you don't display a tiddler, you won't decrypt it.
 ** Tiddlers will re-encrypt automatically on save.
 ** Decryption of Tiddlers does not make your TiddlyWiki 'dirty' - you will not be asked to save if you leave the page.
-* Errors are reported either by displaying the shadow tiddler DecryptionFailed or displaying the encrypted tiddler contents. This is configurable in AdvancedOptions
+* Errors are reported either by displaying the shadow tiddler DecryptionFailed or displaying the encrypted tiddler contents.
 ** Empty passwords, on save, will result in the tiddler being saved unencrypted - this should only occur with new tiddlers or with tiddlers who have had their 'prompt' tag changed.
 ** Encrypted tiddlers know if they are decrypted successfully - failure to decrypt a tiddler will ''not'' lose your data.
-** Editing of an encrypted (that has not been unencrypted) tiddler will result in loss of that tiddler as the SHA1 checksums will no longer match, upon decryption. To this end, it is best that you do not check the option in AdvancedOptions
+** Editing of an encrypted (that has not been unencrypted) tiddler will result in loss of that tiddler as the SHA1 checksums will no longer match, upon decryption. To this end, it is best that you do not check the option.
 ** To change the password on a Tiddler, change the Encrypt('prompt') tag to a new prompt value, after decrypting the tiddler.
 ** You can edit the tags of an encrypted tiddler, so long as you do not edit the text.
 ** To change the password for all tiddlers of a particular prompt, use the {{{<<EncryptionChangePassword ["button text" ["tooltip text" ["prompt string" ["accessKey"]]]]>>}}} macro.
 ** To decrypt all tiddlers of a particular "prompt string", use the {{{<<EncryptionDecryptAll ["button text" ["tooltip text" ["prompt string" ["accessKey"]]]]>>}}} macro - this will make tiddlers encrypted with "prompt string" searchable - or prompt for all 'prompt strings', if none is supplied.
 <<<
+!!!!!Configuration
+<<<
+Useful Buttons: 
+<<EncryptionChangePassword>> - Change passwords of encrypted tiddlers.
+<<EncryptionDecryptAll>> - Decrypt ALL tiddlers - enables searching contents of encrypted tiddlers.
+<<option chkEncryptShowEncrypted>> Show encrypted tiddler contents on decrypt failure
+<<option chkExcludeEncryptedFromSearch>> - If set, Encrypted Tiddlers are excluded from searching by tagging with excludeSearch. If Clear, excludeSearch is not added and it is also removed from existing Encrypted Tiddlers only if it is the last Tag. Searching of Encrypted Tiddlers is only meaningful for the Title and Tags.
+<<option chkExcludeEncryptedFromLists>> - If set, Encrypted Tiddlers are excluded from lists by tagging with excludeLists. If Clear, excludeLists is not added and it is also removed from existing Encrypted Tiddlers only if it is the last Tag. Preventing encrypted tiddlers from appearing in lists effectively hides them.
+<<option chkCachePasswords>> - If unchecked, do not cache passwords. This means you will be prompted for the password every time you display an encrypted tiddler (not forgetting that once they are displayed, they stay decrypted until the next save).
+<<<
 !!!!!Revision History
 <<<
-* 1.10.0 - As well as excludeSearch, also put excludeLists tag on encrypted tiddlers, if requested - discard previous history.
+* 1.10.1 - Added configuration section to be compatible with http://tiddlytools.com/#AdvancedOptions plugin as well as making configuration of the plugin easier. Removed automatic inclusion into the AdvancedOptions page. 
 <<<
 !!!!!Additional work
-<<<
-<<<
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 10, revision: 0, date: new Date(2008,02,28)};
+version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 10, revision: 1, date: new Date(2008,04,09)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
 
 // Setup option for using shadow tiddlers for display of errors or simply show the 'encrypted tiddler'
 if(config.options.chkEncryptShowEncrypted == undefined) config.options.chkEncryptShowEncrypted = false;
-if(config.optionsDesc.chkEncryptShowEncrypted == undefined) config.optionsDesc.chkEncryptShowEncrypted = "TiddlerEncryptionPlugin\nShow encrypted tiddler contents on decrypt failure.\n<<EncryptionChangePassword>> - Change passwords of encrypted tiddlers\n<<EncryptionDecryptAll>> - Decrypt ALL tiddlers - enables searching.";
 if(config.options.chkExcludeEncryptedFromSearch == undefined) config.options.chkExcludeEncryptedFromSearch = false;
-if(config.optionsDesc.chkExcludeEncryptedFromSearch == undefined) config.optionsDesc.chkExcludeEncryptedFromSearch = "TiddlerEncryptionPlugin\nIf set, Encrypted Tiddlers are excluded from searching by tagging with excludeSearch. If Clear, excludeSearch is not added and it is also removed from existing Encrypted Tiddlers only if it is the last Tag. Searching of Encrypted Tiddlers is only meaningful for the Title and Tags.";
 if(config.options.chkExcludeEncryptedFromLists == undefined) config.options.chkExcludeEncryptedFromLists = false;
-if(config.optionsDesc.chkExcludeEncryptedFromLists == undefined) config.optionsDesc.chkExcludeEncryptedFromLists = "TiddlerEncryptionPlugin\nIf set, Encrypted Tiddlers are excluded from lists by tagging with excludeLists. If Clear, excludeLists is not added and it is also removed from existing Encrypted Tiddlers only if it is the last Tag. Preventing encrypted tiddlers from appearing in lists effectively hides them.";
 if(config.options.chkCachePasswords == undefined) config.options.chkCachePasswords = true;
-if(config.optionsDesc.chkCachePasswords == undefined) config.optionsDesc.chkCachePasswords = "TiddlerEncryptionPlugin\nIf unchecked, do not cache passwords. This means you will be prompted for the password every time you display an encrypted tiddler (not forgetting that once they are displayed, they stay decrypted until the next save).";
 
 config.shadowTiddlers.DecryptionFailed = "Decryption of an encrypted tiddler failed.";
 
