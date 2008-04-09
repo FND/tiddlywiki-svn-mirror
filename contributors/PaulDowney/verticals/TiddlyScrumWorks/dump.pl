@@ -12,46 +12,45 @@ use strict;
 use t;
 
 {
+    taskDefinitions('product');
+    taskDefinitions('release');
+    taskDefinitions('team');
+    taskDefinitions('sprint');
+
     table('teammember', q(
 	    'title' => _user($row->{'firstname'} . $row->{'lastname'}),
 	    'tags' => 'user'
     ));
 
-    {
-	my $content = "PhilHawksworth\nScrumWorks\n";
-	my $table = "teammember";
-	my $table = $t::db->{'table'}->{$table};
-	foreach my $i (keys %{$table->{'row'}}) {
-	    my $row = $table->{'row'}->{$i};
-	    $content = $content . _user($row->{'firstname'} . $row->{'lastname'}) . "\n";
-	}
-	tiddler({'title' => 'UserDefinitions', 'content' => $content, 'tags' => 'TaskDefinitions'});
-    }
-
     table('backlogitem', q(
 	    'title' => $row->{'title'},
 	    'content' => $row->{'description'},
-	    'tt_status' => $row->{'active'} eq "TRUE" ? "Active":"Done",
 	    'tt_story' => _story('backlogitem'),
+	    'tt_status' => _status($row->{'active'}),
 	    'tt_rank' => $row->{'rank'},
 	    'tt_estimate' => $row->{'estimate'},
 	    'tt_product' => _product($row->{'product'}),
 	    'tt_donedate' => _datetime($row->{'donedate'}),
 	    'tt_release' => _release($row->{'releaseid'}),
 	    'tt_sprint' => _sprint($row->{'sprint'}),
+	    'tt_team' => _team(_sprint($row->{'sprint'}, 'team')),
 	    'tags' => 'task story'
     ));
 
+    if (0) {
     table('task', q(
 	    'title' => $row->{'title'},
 	    'content' => $row->{'description'},
-	    'tt_status' => $row->{'status'},
+	    'tt_status' => _status($row->{'active'}),
 	    'tt_story' => _story($row->{'backlogitem'}),
 	    'tt_user' => _user($row->{'pointperson'}),
 	    'tt_rank' => $row->{'rank'},
 	    'tt_estimate' => $row->{'estimate'},
+
+	    'tt_product' => _product($row->{'product'}),
 	    'tags' => 'task item'
     ));
+    }
 
     table('impediment', q(
 	    'title' => $row->{'summary'},
@@ -65,12 +64,14 @@ use t;
 
 }
 
-sub _user { _wikiword(@_) }
-sub _story { _wikiword(lookup('backlogitem', shift, 'title')); }
-sub _product { _wikiword(lookup('product', shift, 'name')); }
-sub _team { _wikiword(lookup('team', shift, 'name')); }
-sub _release{ _wikiword(lookup('release', shift, 'name')); }
-sub _sprint{ _wikiword(lookup('sprint', shift, 'name')); }
+sub _user { wikiword(@_) }
+sub _story { wikiword(lookup('backlogitem', shift, shift || 'title')); }
+sub _product { wikiword(lookup('product', shift, shift || 'name')); }
+sub _team { wikiword(lookup('team', shift, shift || 'name')); }
+sub _release { wikiword(lookup('release', shift, shift || 'name')); }
+sub _sprint{ wikiword(lookup('sprint', shift, shift || 'name')); }
+sub _status { shift eq 'TRUE' ? "Active" : "Done"; }
+
 
 sub table
 {
@@ -80,6 +81,30 @@ sub table
 	my $row = $table->{'row'}->{$i};
 	tiddler({eval $x});
     }
+}
+
+sub taskDefinitions()
+{
+	my ($table, $item, $name, $title) = @_;
+	$name ||= 'name';
+
+	my $t = $t::db->{'table'}->{$table};
+        my $content = '';
+	foreach my $i (keys %{$t->{'row'}}) {
+	    my $row = $t->{'row'}->{$i};
+	    if ($row->{$name}) {
+		$content = $content . $row->{$name} . "\n";
+	    }
+        }
+
+	$item = ucfirst($item);
+	$title ||= "${item}Definitions";
+
+	tiddler({
+	    'title' => $title,
+	    'content' => $content,
+	    'tags' => 'TaskDefinitions'
+	});
 }
 
 sub tiddler(\%)
@@ -105,7 +130,7 @@ sub lookup
     $t::db->{'table'}{$table}{'row'}{$id}{$item};
 }
 
-sub _wikiword
+sub wikiword
 {
     my ($u) = @_;
     $u =~ s/[^\w\d]//g;
