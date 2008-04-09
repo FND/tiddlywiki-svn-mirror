@@ -382,12 +382,12 @@ version.extensions.MicroblogPlugin = {installed:true};
 	};
 	
 	config.macros.Microblog.reflect = function(place, platform, template) {
-		var filter = 'filter:"[tag['+ platform+ ']]" template:' + template;
+		var paramString = 'filter:"[tag['+ platform+ ']]" template:' + template;
 		config.macros.Microblog.renderTemplate(place,filter);
 	};
 	
-	config.macros.Microblog.renderTemplate = function(place, filter) {
-		config.macros.ListTemplate.handler(place,null,null,null,filter,null);
+	config.macros.Microblog.renderTemplate = function(place, paramString) {
+		config.macros.templateTiddlers.handler(place,null,null,null,paramString,null);
 	};
 	
 	//refresh this display
