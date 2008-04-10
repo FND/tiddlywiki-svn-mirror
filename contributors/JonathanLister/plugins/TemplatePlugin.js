@@ -1,8 +1,8 @@
 /***
-|''Name:''|templateTiddlersPlugin |
-|''Description:''|Renders a set of tiddlers through a template |
-|''Author:''|JonathanLister (based on ListRelatedPlugin by JeremyRuston) |
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/templateTiddlersPlugin.js |
+|''Name:''|TemplatePlugin |
+|''Description:''|Collection of functions to support rendering of tiddlers through HTML templates |
+|''Author:''|JonathanLister |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/TemplatePlugin.js |
 |''Version:''|0.0.4|
 |''Date:''|25/3/08|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -10,10 +10,7 @@
 |''~CoreVersion:''|2.3|
 
 The templateTiddlers macro finds a set of tiddlers and renders them once each through a template. The template can contain additional
-calls to the macro to allow for e.g. looping inside a template (think RSS items).
-
-It needs to be able to support recursion, so that sub-templates make sense. The content is passed in either through a filter for tiddlers,
-a tag to get tiddlers, or a space-separated list. We'll support more as we go along, but this is what we need for RSS.
+calls to the macro to allow for e.g. looping inside a template (think RSS items). It needs to be able to support recursion, so that sub-templates make sense.
 
 Usage:
 {{{
@@ -27,6 +24,17 @@ filter - a tiddler filter
 data - the part of a tiddler to use in the subTemplate
 
 If a parameter does not have a qualifier, it is assumed to be the template name
+
+|''Name:''|templateTagsMacro |
+|''Description:''|Renders a tiddler's tags through a template |
+
+Usage:
+{{{
+<<templateTags template:RssItemCategoryTemplate>>
+<<templateTiddlers RssTemplate>> // template qualification is optional
+}}}
+
+The templateTags macro renders a tiddler's tags through a template in an analagous way to how templateTiddlers renders a set of tiddlers. Future development might offer support for other data items other than tags, but this is what is needed for RSS, the use-case driving the development.
 
 |''Name:''|PermalinkMacro |
 |''Description:''|Creates a permalink to the tiddler |
@@ -79,14 +87,9 @@ config.macros.templateTiddlers.handler = function(place,macroName,params,wikifie
 	place.innerHTML += output;
 };
 
-//	<<templateTags RssItemCategoryTemplate tags:"tags" ">>
-//	<<view text>> (for the tags)
-
 config.macros.templateTags = {};
 config.macros.templateTags.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-	//	This method for passing data through to sub-templates works by creating "pseudo-tiddlers" (Tiddler objects not in the store)
-	//  that each carry a part of the data array we want iterating through. We do this to keep the unit of data as the tiddler.
 	p = paramString.parseParams("anon",null,true,false,false);
 	var template = getParam(p,"template",null);
 	var tiddlers = [];
