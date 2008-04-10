@@ -4,7 +4,7 @@ recipe: tiddlers/split.recipe
 tiddler: ../../plugins/HTMLTemplatePreviewMacro.js
 tiddler: ../../plugins/IFramePlugin.js
 tiddler: ../../plugins/TemplatePlugin.js
-tiddler: ../../plugins/TiddlyTemplatingPlugin.js
+tiddler: ../../plugins/TiddlyTemplatingMacro.js
 tiddler: ../../../BidiX/plugins/PasswordOptionPlugin.js
 tiddler: ../../../BidiX/plugins/UploadPlugin.js
 tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js
