@@ -25,3 +25,7 @@ config.mGTD.tagsToIndex = [
 		"Sidebar"
 ];
 
+config.mgtdVersion = "3.0 alpha r__REV__";
+
+config.macros.mgtdVersion={handler:function(place){wikify(config.mgtdVersion,place);}};
+

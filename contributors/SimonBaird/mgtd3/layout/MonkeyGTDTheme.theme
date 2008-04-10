@@ -60,7 +60,7 @@
 !PageTemplate
 <!--{{{-->
 <div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'>
-	<div class='header2'>MonkeyGTD <span style="font-size:75%;font-weight:normal;">3.0</span></div>
+	<div class='header2'>MonkeyGTD <span style="font-size:75%;font-weight:normal;" macro="mgtdVersion"></span></div>
 </div>
 <div macro='gradient vert [[ColorPalette::PrimaryMid]] [[ColorPalette::PrimaryDark]]'>
 	<div class='mtoolbar'>

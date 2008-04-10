@@ -309,7 +309,7 @@ Specify W or F to make them future or Waiting For. You can create multiple proje
 [[NameDashboards##Ticklers Requiring Action]]
 <div macro="mgtdList title:'Upcoming Ticklers' startTag:Tickler tags:'Enabled && !Actioned' view:Tickler mode:global newButtonTags:'Tickler Enabled'
 	where:'!tiddler.fields.mgtd_date || ((new Date()).convertToYYYYMMDDHHMM() < tiddler.fields.mgtd_date )'
-	sortBy='-ticklerDate'
+	sort:'tickleDate'
 	"></div>
 </td><td>
 <div macro="mgtdList title:'Actioned Ticklers' startTag:Tickler tags:'Enabled && Actioned' view:Tickler mode:global newButtonTags:'Tickler Enabled Actioned' "></div>
@@ -321,7 +321,7 @@ Specify W or F to make them future or Waiting For. You can create multiple proje
 !Ticklers Requiring Action
 <div macro="mgtdList title:'Ticklers Requiring Action' startTag:Tickler tags:'Enabled && !Actioned' view:Tickler mode:global newButtonTags:'Tickler Enabled'
 	where:'tiddler.fields.mgtd_date && ((new Date()).convertToYYYYMMDDHHMM() >= tiddler.fields.mgtd_date ) '
-	sortBy='ticklerDate'
+	sort:'tickleDate'
 	"></div>
 
 

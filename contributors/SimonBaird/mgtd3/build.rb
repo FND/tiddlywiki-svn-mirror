@@ -3,11 +3,6 @@
 require 'r4tw'
 
 
-def get_rev
-  `svnversion .`.split(':').last
-end
-
-
 
 required = [
 	['MgtdSettings', "[[Do Work]] Work Personal" ],
@@ -133,7 +128,8 @@ make_tw {
   end
   add_tiddler_from_scratch ({'tiddler' => 'TitleButtonsSelector', 'text' => content });
 
-  #get_tiddler('MonkeyGTDVersion').text.sub!(/\$timestamp\$/,get_rev)
+  # use secret timestamp format for version number. note, can't do two releases in same ten minute period
+  get_tiddler('MgtdConf').fields['text'].sub!(/__REV__/,Time.now.strftime('%m%d%H%M')[1..-2])
 
   # add required tiddlers and write upgrade file.
   required.each { |t| add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2]||'') }
