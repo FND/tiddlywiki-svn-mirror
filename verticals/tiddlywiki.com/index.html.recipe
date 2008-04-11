@@ -1,5 +1,4 @@
 recipe: ../../core/tiddlywiki.html.recipe
-title: html/title.txt
 recipe: tiddlers/split.recipe
 recipe: images.recipe
 copy: attachments/firstversion.html
