@@ -3,7 +3,7 @@
 |Author|Lyall Pearce|
 |Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
 |License|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|Version|1.10.1|
+|Version|1.10.2|
 |~CoreVersion|2.3.0|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
