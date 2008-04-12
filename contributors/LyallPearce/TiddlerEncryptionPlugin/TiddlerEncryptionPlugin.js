@@ -45,13 +45,13 @@ Useful Buttons:
 <<<
 !!!!!Revision History
 <<<
-* 1.10.1 - Added configuration section to be compatible with http://tiddlytools.com/#AdvancedOptions plugin as well as making configuration of the plugin easier. Removed automatic inclusion into the AdvancedOptions page. 
+* 1.10.2 - Added configuration section to be compatible with http://tiddlytools.com/#AdvancedOptionsPlugin plugin as well as making configuration of the plugin easier. Removed automatic inclusion into the AdvancedOptions page. 
 <<<
 !!!!!Additional work
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 10, revision: 1, date: new Date(2008,04,09)};
+version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 10, revision: 2, date: new Date(2008,04,12)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
