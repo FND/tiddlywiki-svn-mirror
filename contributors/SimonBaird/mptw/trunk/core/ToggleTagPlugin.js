@@ -1,7 +1,7 @@
 /***
 |Name:|ToggleTagPlugin|
 |Description:|Makes a checkbox which toggles a tag in a tiddler|
-|Version:|3.0.1 ($Rev$)|
+|Version:|3.1.0 ($Rev$)|
 |Date:|$Date$|
 |Source:|http://mptw.tiddlyspot.com/#ToggleTagPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
@@ -12,6 +12,7 @@
 * TiddlerName - the tiddler to toggle the tag in, default value the current tiddler
 * LabelText - the text (gets wikified) to put next to the check box, default value is '{{{[[TagName]]}}}' or '{{{[[TagName]] [[TiddlerName]]}}}'
 (If a parameter is '.' then the default will be used)
+* TouchMod flag - if non empty then touch the tiddlers mod date. Note, can set config.toggleTagAlwaysTouchModDate to always touch mod date
 !!Examples
 |Code|Description|Example|h
 |{{{<<toggleTag>>}}}|Toggles the default tag (checked) in this tiddler|<<toggleTag>>|
@@ -29,6 +30,8 @@
 ***/
 //{{{
 
+if (config.toggleTagAlwaysTouchModDate == undefined) config.toggleTagAlwaysTouchModDate = false;
+
 merge(config.macros,{
 
 	toggleTag: {
@@ -40,9 +43,10 @@ merge(config.macros,{
 		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 			var tag   = (params[0] && params[0] != '.') ? params[0] : "checked";
 			var title = (params[1] && params[1] != '.') ? params[1] : tiddler.title;
-			var label = (params[2] && params[2] != '.') ? params[2] : defaultLabel;
 			var defaultLabel = (title == tiddler.title ? this.shortLabel : this.longLabel);
-			label = (label == '-' ? '' : label);
+			var label = (params[2] && params[2] != '.') ? params[2] : defaultLabel;
+			var touchMod = (params[3] && params[3] != '.') ? params[3] : "";
+			label = (label == '-' ? '' : label); // dash means no label
 			var theTiddler = (title == tiddler.title ? tiddler : store.getTiddler(title));
 			var cb = createTiddlyCheckbox(place, label.format([tag,title]), theTiddler && theTiddler.isTagged(tag), function(e) {
 				if (!store.tiddlerExists(title)) {
@@ -53,6 +57,8 @@ merge(config.macros,{
 					else 
 						return false;
 				}
+				if ((touchMod != "" || config.toggleTagAlwaysTouchModDate) && theTiddler)
+						theTiddler.modified = new Date();
 				store.setTiddlerTag(title,this.checked,tag);
 				return true;
 			});
