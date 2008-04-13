@@ -87,7 +87,10 @@
 	<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
 </div>
 <div id='twsidebar' macro="hideWhen store.fetchTiddler('MgtdSettings').tags.contains('TW')">
-	<div id='sidebarOptions' refresh='content' tiddler='CommonMenu'></div>
+	<div id='sidebarOptions'>
+		<span macro="showWhen store.tiddlerExists('TspotSidebar')||store.isShadowTiddler('TspotSidebar')"><span refresh='content' tiddler='TspotSidebar'></span></span>
+		<span refresh='content' tiddler='CommonMenu'></span>
+	</div>
 </div>
 <div id='monkeygtdsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('Do Work')">
 	<div class="menu" refresh='content' tiddler='DoWorkMenu'></div>
