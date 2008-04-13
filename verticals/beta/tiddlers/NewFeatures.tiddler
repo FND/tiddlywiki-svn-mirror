@@ -1,8 +1,8 @@
 <div title="NewFeatures" modifier="JeremyRuston" created="200704141410" modified="200804131835" changecount="15">
-<pre>TiddlyWiki has been improved in several areas for release 2.4. Here are some of the highlights; see the full [[change history at tiddlywiki.org|http://trac.tiddlywiki.org/tiddlywiki/wiki/History] for more details.
+<pre>TiddlyWiki has been improved in several areas for release 2.4. Here are some of the highlights; see the full [[change history at tiddlywiki.org|http://trac.tiddlywiki.org/tiddlywiki/wiki/History]] for more details.
 
 !!!Automated Core Upgrades
-A new backstage button to automatically upgrade to the latest official version of the TiddlyWiki core code. (There's a special [[fake upgrade|http://www.tiddlywiki.com/beta/upgrade.html]] so that you can test the feature)
+A new backstage button to automatically upgrade to the latest official version of the TiddlyWiki core code. (There's a special [[fake upgrade|http://www.tiddlywiki.com/beta/upgrade.html]] to this beta so that you can test the feature)
 
 !!!Saving in Safari and Opera
 The TiddlySaver java applet is now signed by a proper certificate, finally making it as easy to SaveChanges on Safari and Opera as it has always been in FireFox
