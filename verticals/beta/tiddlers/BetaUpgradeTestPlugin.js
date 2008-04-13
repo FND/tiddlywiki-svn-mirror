@@ -11,6 +11,6 @@ This plugin overrides the upgrade source location to enable testing of the new u
 ***/
 //{{{
 
-config.macros.upgrade.source = "http://www.tiddlywiki.com/beta/empty.html";
+config.macros.upgrade.source = "http://www.tiddlywiki.com/beta/upgrade.html";
 
 //}}}
