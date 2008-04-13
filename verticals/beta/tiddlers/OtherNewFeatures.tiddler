@@ -4,14 +4,14 @@
 There's a slew of significant usability enhancements including:
 * Popup previews of tiddler contents in the plugin manager, sync manager, and ImportTiddlers
 * 'More' command to simplify tiddler toolbars
-* &quot;Yellow note&quot; annotations to indicate the purpose of special tiddlers such as shadow tiddlers
-* New {{{&lt;&lt;options&gt;&gt;}}} macro to allow access to the complete set of available configuration options
-* New &quot;size&quot; and &quot;execution time&quot; columns in the plugin manager
+* "Yellow note" annotations to indicate the purpose of special tiddlers such as shadow tiddlers
+* New {{{<<options>>}}} macro to allow access to the complete set of available configuration options
+* New "size" and "execution time" columns in the plugin manager
 * Improved NewTiddler and NewJournal macros that can accept custom fields
 * Embolden tags in the tag listing that are also defined as tiddlers
 !!! Performance
 * New DomScrubbing feature to deal with memory leaks 
-* Revised storage format using {{{&lt;PRE&gt;}}} tags to permit whitespace and new lines to be preserved without requiring escaping
+* Revised storage format using {{{<PRE>}}} tags to permit whitespace and new lines to be preserved without requiring escaping
 * Greatly enhanced animation engine that performs better on slower hardware
 !!! Hackability
 As usual, several of the new features are intended to make life easier for plugin writers and other TiddlyWiki hackers:
@@ -20,7 +20,7 @@ As usual, several of the new features are intended to make life easier for plugi
 * Rearranged shadow tiddlers into their own, unencoded store area
 * Refactored {{{saveChanges()}}} to make it easier to add new save mechanisms
 * Added paramifier for overriding current read-only state (eg, http://www.tiddlywiki.com/beta/#readOnly:no)
-* ...and by popular request, we've started to reformat the TiddlyWiki source code to use the more conventional K&amp;R layout standard
+* ...and by popular request, we've started to reformat the TiddlyWiki source code to use the more conventional K&R layout standard
 !!! Internationalisation
 TiddlyWiki benefits from an extensive set of [[translations|http://trac.tiddlywiki.org/wiki/Translations]]. There are several enhancements in this release to make it easier to maintain translations.</pre>
 </div>

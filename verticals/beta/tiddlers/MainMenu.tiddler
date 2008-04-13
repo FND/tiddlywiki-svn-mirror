@@ -1,7 +1,10 @@
-<div title="MainMenu" modifier="JeremyRuston" created="200511221621" modified="200704171425" tags="systemTiddlers" changecount="5">
+<div title="MainMenu" modifier="JeremyRuston" created="200511221621" modified="200804131749" tags="systemTiddlers" changecount="16">
 <pre>HelloThere
-ServerConnectivity
-BackstageArea
-OtherNewFeatures
-DownloadSoftware</pre>
+TiddlyWiki
+NewFeatures
+[[Credits]]
+DownloadSoftware
+
+{{annotation{
+This is beta code -- don't use it for important data}}}</pre>
 </div>
