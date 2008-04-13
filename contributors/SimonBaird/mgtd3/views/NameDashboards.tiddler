@@ -24,7 +24,7 @@
 
 <div class="scroll10" macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
 	newButtonTags:'Action Next Done'
-	sort:modified
+	sort:-modified
 	"></div>
 
 </td><td>
@@ -70,7 +70,7 @@
 <div class="scroll10" macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
 	group:Project
 	gView:plain
-	sort:modified
+	sort:-modified
 	newButtonTags:'Action Next Done'
 	where:tiddler.hasActiveProject()
 	"></div>
@@ -109,7 +109,7 @@
 
 <div class="scroll10" macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
 	newButtonTags:'Action Next Done'
-	sort:modified
+	sort:-modified
 	"></div>
 
 </td><td>
@@ -267,6 +267,7 @@
 	group:day
 	gView:DoneAction
 	newButtonTags:'Action Next Done'
+	sort:-modified
 	"></div>
 
 !(No Context)

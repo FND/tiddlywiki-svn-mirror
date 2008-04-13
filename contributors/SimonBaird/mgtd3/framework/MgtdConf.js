@@ -29,3 +29,5 @@ config.mgtdVersion = "3.0 alpha r__REV__";
 
 config.macros.mgtdVersion={handler:function(place){wikify(config.mgtdVersion,place);}};
 
+config.toggleTagAlwaysTouchModDate = true; // see ToggleTagPlugin
+

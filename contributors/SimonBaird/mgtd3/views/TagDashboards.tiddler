@@ -32,6 +32,7 @@
 
 <div macro="mgtdList title:'Done Actions' tags:'Action && Done' view:DoneAction
 	newButtonTags:'Action Done Next'
+	sort:-modified
 	"></div>
 
 </td></tr></table>

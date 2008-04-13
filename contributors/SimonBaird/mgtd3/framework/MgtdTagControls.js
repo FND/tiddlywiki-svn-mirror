@@ -1,5 +1,6 @@
 
 // requires MgtdIndexedTags for the fastTagged and getByIndex methods
+// TODO make these usable without MgtdIndexedTags if it doesn't exist
 
 merge(Tiddler.prototype,{
 
@@ -14,10 +15,15 @@ merge(Tiddler.prototype,{
 			store.setTiddlerTag(this.title,true,tag);
 		else 
 			store.setTiddlerTag(this.title,false,"blah"); // just so there's at least one notify
+
+		// touch the modified date
+		this.modified = new Date();
 	},
 
 	toggleTag: function(tag) {
 		store.setTiddlerTag(this.title,!this.hasTag(tag),tag);
+		// touch the modified date
+		this.modified = new Date();
 	},
 
 	hasTag: function(tag) {

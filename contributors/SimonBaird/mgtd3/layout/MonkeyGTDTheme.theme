@@ -186,21 +186,23 @@ html>body .header2 {background-image:url(http://simonbaird.com/images/monkeygtd/
 }
 
 
-.viewer table {
+.viewer table.twocol,
+.viewer table.threecol {
 	border-style:none ! important;
 	border-collapse:no-collapse;
 	width:100%;
 	padding:0; margin:0;
 }
 
-.viewer table td {
+.viewer table.twocol td,
+.viewer table.threecol td {
 	border-style:none ! important;
-	width:50%;
 	vertical-align:top;
 	padding-right:1em;
 }
 
-.viewer table tr {
+.viewer table.twocol tr,
+.viewer table.threecol tr {
 	border-style:none ! important;
 }
 
