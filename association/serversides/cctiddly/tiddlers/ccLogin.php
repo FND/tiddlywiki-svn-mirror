@@ -420,8 +420,7 @@ createTiddlyElement(frm, "br");
 	                createTiddlyElement(step,"span", null, null, errorMsg);
 	          		createTiddlyElement(step,"br");
 	          	}
-	          		createTiddlyElement(step,"br");
-			var oidfrm = createTiddlyElement(step,"form",null, null);
+	  		var oidfrm = createTiddlyElement(step,"form",null, null);
 			oidfrm.method = 'get';
 			oidfrm.action='includes/openid/try_auth.php';
 		
@@ -484,16 +483,19 @@ createTiddlyElement(frm, "br");
 			btn.setAttribute("type","submit");
 			btn.value = "Login"
 				
+			
 			submitSpan.appendChild(btn);
-			createTiddlyElement(frm, 'br');
-			createTiddlyText(frm, 'or ');
-			createTiddlyLink(frm, 'Register',  'Register');
-
+			
+			
+			createTiddlyElement(submitSpan, "p");
+			createTiddlyText(submitSpan, ' Alternatively you can : ');
+					
+			createTiddlyElement(submitSpan, "br");
+			createTiddlyLink(createTiddlyElement(submitSpan,"li",null,null), 'Register',  'Register');
+			createTiddlyLink(createTiddlyElement(submitSpan,"li",null,null), 'Forgotten Details',  'Password');	
 	<?php
 }
 	?>
-			
-			createTiddlyElement(frm,"br");
 			}
 	     },
 
