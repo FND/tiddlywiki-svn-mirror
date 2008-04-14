@@ -50,12 +50,12 @@
 			return "<script type=\"text/javascript\">\n".$tmp."\n</script>";
 		}
 		//include tw
-		$r = '<script type="text/javascript" src="'.$tw.'"></script>';
-		
+		$r = "<script type='text/javascript' >".file_get_contents($tw)."</script>";
 		//include language file
 		if( strcmp($tiddlyCfg['twLanguage'],"en") != 0 )
 		{
-			$r .= "\n".'<script type="text/javascript" src="./plugins/'.$tiddlyCfg['twLanguage'].'.js"></script>';
+			// Updated to include the TiddlyWiki file on the server 	
+			$r .= "<script type='text/javascript' >".file_get_contents("./plugins/".$tiddlyCfg['twLanguage'].".js")."</script>";  
 		}
 		return $r."\n";
 	}
@@ -72,16 +72,11 @@
 		global $user;
 		//compulsory
 		print "\n<script type=\"text/javascript\">\n";
-		
-		//find server name and root path
-	//	$url = $_SERVER['PHP_SELF'];
-
 		//in cct online mode
 		if( !$standalone )
 		{
 			debug("workspace name IS : ".$tiddlyCfg['workspace_name']);
 			debug("print ".$tiddlyCfg['workspace_name']);
-			
 			//remove workspace from query_string
 			$_SERVER['QUERY_STRING'] = preg_replace("!workspace=([^&]*&|.*$)!","",$_SERVER['QUERY_STRING']);
 ?>
@@ -158,33 +153,22 @@ cctPlugin = {
 };
 
 window.cct_tweak = function(){
-
 	//add new option to options panel
-	// OLD config.shadowTiddlers.OptionsPanel = "<<ssUploadStoreArea>>\n<<ssUploadRSS>>\n<<option chkAutoSave>> "+cctPlugin.lingo.autoUpload+"\n<<option chkRegExpSearch>>"+config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+26);
 	config.shadowTiddlers.OptionsPanel = config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+39);
-	
-	
 	//change SideBarOption panel to add login panel
-		config.shadowTiddlers.SideBarOptions =  "<<search>><<slider 'chkLoginStatus' 'LoginStatus' '  Login Status »' 'Login to make changes'>>" + config.shadowTiddlers.SideBarOptions.replace('<<search>>', '') ;
-
-	
-		config.shadowTiddlers.ViewTemplate = config.shadowTiddlers.ViewTemplate.replace(/references jump/,'references revisions jump');
+	config.shadowTiddlers.SideBarOptions =  "<<search>><<slider 'chkLoginStatus' 'LoginStatus' '  Login Status »' 'Login to make changes'>>" + config.shadowTiddlers.SideBarOptions.replace('<<search>>', '') ;
+	config.shadowTiddlers.ViewTemplate = config.shadowTiddlers.ViewTemplate.replace(/references jump/,'references revisions jump');
 	//change saveChange label to upload
-
-
-
 <?php
 		}
 		//exist in standalone mode
 ?>
-
 	//force [[link|url]] to open in [- = current window, + = new window]
 	window.createExternalLink_cct = window.createExternalLink;
 	window.createExternalLink = function (place,url)
 	{
 		//save previous config
 		var tmp = config.options.chkOpenInNewWindow;
-		
 		//change chkOpenInNewWindow
 		if( url.substring(0,1) == "\-" ){
 			config.options.chkOpenInNewWindow = false;
@@ -195,38 +179,27 @@ window.cct_tweak = function(){
 				url = url.substring(1,url.length);
 			}
 		}
-			
-		var theLink = window.createExternalLink_cct(place,url);
-		
+		var theLink = window.createExternalLink_cct(place,url);	
 		//restore chkOpenInNewWindow
 		config.options.chkOpenInNewWindow = tmp;
 		return(theLink);
-	}
-	
+	}	
 	// time (in minutes, from now) for password to stay in cookie [0= default i.e. year 2038]
 	//config.macros.option.passwordTime = <?php print $tiddlyCfg['session_expire'];?>;
-	
-	
-	
-	
 <?php
 	///////////////////////////////CC: user variable defined in header and $user['verified'] can be used directly to check user validation
 	//$usr = user_getUsername();
 	//$usr_val = user_session_validate();
 	//$usr = $usr_val?$usr:$ccT_msg['loginpanel']['anoymous'];
 	$usr = $user['verified']?$user['username']:$ccT_msg['loginpanel']['anoymous'];
-?>
-	
+?>	
 };
-
 <?php
 		print "//]]>\n";
 		print "</script>\n";
-
 		if( !$standalone )		//online version only
 		{
-			//print '<script type="text/javascript" src="cctplugins.js"></script>'."\n";
-			print '<script type="text/javascript" src="serverside.js"></script>'."\n";
+			print "<script type='text/javascript' >\n".file_get_contents('serverside.js')."</script>\n";
 		}
 		return '';
 	}

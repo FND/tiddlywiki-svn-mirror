@@ -127,8 +127,6 @@ CREATE TABLE `tiddler` (
 -- 
 
 INSERT INTO `tiddler` (`id`, `workspace_name`, `title`, `body`, `fields`, `tags`, `modifier`, `creator`, `modified`, `created`, `revision`) VALUES 
-(4, '', 'SiteTitle', 'Welcome', 'changecount="1"', '', 'simon', 'simon', '200712281713', '200712281712', 2),
-(5, '', 'SiteSubtitle', 'to ccTiddly', 'changecount="1"', '', 'simon', 'simon', '200712281713', '200712281713', 1),
 (6, '', 'GettingStarted', '!!  Here are your workspaces :\\n\\n&lt;&lt;ccListMyWorkspaces&gt;&gt;\\n\\n!!or create a new one here : \\n\\n&lt;&lt;ccCreateWorkspace&gt;&gt;\\n\\n', '', '', 'http://simonmcmanus.myopenid.com/', 'simon', '200802151654', '200712281715', 11),
 (40, '', 'SiteTitle', 'ccTiddly', 'changecount=''1''', '', 'ccTiddly', 'ccTiddly', '200802151311', '200802151311', 0),
 (41, '', 'Osmosoft', 'http://osmosoft.com/ More info about osmosoft can be found here ', 'changecount=''1''', '', 'ccTiddly', 'ccTiddly', '200802151311', '200802151311', 0),
