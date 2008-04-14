@@ -8,3 +8,4 @@ tiddler: WikispacesAlwaysSyncTiddlersPlugin.js
 tiddler: WikispacesBackstageTasksTweaks.js
 tiddler: WikispacesSanitizeTitlePlugin.js
 tiddler: WikispacesStyleSearchPlugin.js
+tiddler: markupHelperPlugin.js
