@@ -1,0 +1,3 @@
+recipe: ../../../../core/tests/html/test.recipe
+
+jsspec: ../jsspec/LiveColorPalettePlugin.jsspec.js
