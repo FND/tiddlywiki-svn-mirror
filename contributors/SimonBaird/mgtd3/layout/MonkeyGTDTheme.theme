@@ -361,7 +361,7 @@ body {
 	border:2px solid [[ColorPalette::TertiaryMid]];
 	background-color:[[ColorPalette::TertiaryPale]];
 	text-align:center;
-	width:7em;
+	width:8em;
 }
 .mgtdList .dateBox { font-weight:medium; font-size:100%; }
 

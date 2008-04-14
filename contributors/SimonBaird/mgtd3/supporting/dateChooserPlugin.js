@@ -11,10 +11,11 @@ if (DatePicker){
                 if (params[0])
                     useTiddler = store.fetchTiddler(params[0]);
     
-                var dateFormat = 'DD MMM, YYYY'; // TODO, make configurable
                 var curVal = useTiddler.fields['mgtd_date']|| undefined;
                 var startDate = curVal? Date.convertFromYYYYMMDDHHMM(curVal) : new Date();    
                 var dateBox = createTiddlyElement(place,'input',null,'dateBox');            
+
+                var dateFormat = 'ddd, DD-mmm-YY'; // TODO, make configurable
                 dateBox.value = startDate.formatString(dateFormat);
     
                 var callback = function(el,objDate){
