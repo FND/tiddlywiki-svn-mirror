@@ -5,7 +5,7 @@
 .input {
 display: block;
 font-size:0.9em;
-width: 120px;
+width: 150px;
 float: left;
 margin-bottom: 4px;
  border:solid 1px #B3B3B3; 
@@ -27,15 +27,16 @@ margin-top:1px;
 .inputError {
 display: block;
 font-size:0.9em;
+width: 150px;
 float: left;
-border :solid 1px #B3B3B3;
-margin-bottom: 10px;
+margin-bottom: 4px;
+ border:solid 1px #B3B3B3; 
 padding:4px;
 }
 
 
 .submit {
-padding-left:150px;
+padding-left:122px;
 align:right;
 }
 
@@ -51,7 +52,7 @@ text-align: right;
 padding-top:2px;
 padding-right: 5px;
 display: block;
-width: 100px;
+width: 120px;
 float: left;
 margin-bottom: 10px;
 }

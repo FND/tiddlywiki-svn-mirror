@@ -144,7 +144,7 @@ config.macros.ccLoginStatus = {
 			logout.name = "logout";   
 			frm.appendChild(logout);	
 
-			var btn = createTiddlyElement(null,"input", null);
+			var btn = createTiddlyElement(null,"input", null, "button");
 			btn.setAttribute("type","submit");
 			btn.value = "Logout";   
 			frm.appendChild(btn);	
@@ -189,7 +189,7 @@ if ($tiddlyCfg['can_create_account'] != 1)
 		return false;
 	}
 	var frm = createTiddlyElement(place,"form",null,"wizard");
-	frm.onsubmit = this.registerOnSubmit;
+	frm.setAttribute("onsubmit", this.registerOnSubmit);
 	createTiddlyElement(frm,"h1", null, null,  "Register");
 	createTiddlyElement(frm,"h2", null, null,  "Sign up for an account");
 	createTiddlyElement(frm, "br");
@@ -426,9 +426,10 @@ logout.name = "logout";
 frm.appendChild(logout);	
 
 			createTiddlyElement(frm,"br");
-			var btn = createTiddlyElement(null,"input", null, "button");
+			var btn = createTiddlyElement(null,"input", "button", "button");
 			btn.setAttribute("type","submit");
 			btn.value = "Logout";   
+
 			frm.appendChild(btn);	
 			
 			
@@ -582,7 +583,6 @@ return false;
 		cookie = xhr.getResponseHeader("Set-Cookie");
 	  	var cookieValues = findToken(cookie);
 		config.macros.ccLogin.saveCookie(cookieValues);
-		displayMessage(xhr.status);
 		if(xhr.status != 401) {
 			window.location.reload();
 		} else {
@@ -629,7 +629,7 @@ function restart()
 
 </pre>
 </div>
-<div title="LoginStatus" modifier="ccTiddly" >
+<div title="LoginStatus" modifier="ccTiddly" tags="simple">
 <pre>
 &lt;&lt;ccLoginStatus&gt;&gt;
 </pre>

@@ -293,3 +293,6 @@ config.macros.ccListMyWorkspaces = {
 //}}}
 </pre>
 </div>
+<div title="CreateWorkspace" tags="simple">
+<pre>&lt;&lt;ccCreateWorkspace&gt;&gt;</pre>
+</div>

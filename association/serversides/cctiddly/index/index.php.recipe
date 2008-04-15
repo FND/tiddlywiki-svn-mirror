@@ -8,7 +8,6 @@ posthead: posthead.phpp
 prebody: prebody.php
 shadow: ../../../../../Tags/core/REL-2.3.0_Final/tiddlers/ColorPalette.tiddler
 shadow: ../../../../../Tags/core/REL-2.3.0_Final/tiddlers/EditTemplate.tiddler
-shadow: ../tiddlers/createworkspace.tiddler
 shadow: ../includes/workspace_exists.php
 shadow: ../tiddlers/register.tiddler
 shadow: shadow.php
