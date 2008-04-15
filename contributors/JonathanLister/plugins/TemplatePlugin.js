@@ -52,7 +52,8 @@ version.extensions.templateTiddlersPlugin = {installed:true};
 expandTemplate = function(template,tiddlers)
 {
 	var defaultTemplate = "<<view text>>";
-	template = template ? store.getTiddlerText(template,defaultTemplate) : defaultTemplate;
+	var t = template;
+	template = template ? store.getTiddlerText(template,template) : defaultTemplate;
 	if(!tiddlers) {
 		// no tiddlers provided, so create a temporary tiddler
 		tiddlers = [];
@@ -61,7 +62,11 @@ expandTemplate = function(template,tiddlers)
 	var output = "";
 	for(var i=0; i<tiddlers.length; i++) {
 		output += wikifyStatic(template,null,tiddlers[i],'template').htmlDecode();
+		// wikifyStatic returns html; htmlDecode is used so that nesting of templates doesn't cause encoded characters to be wikified
 	}
+	console.log("result of 1 expand template call, with "+t);
+	console.log(output);
+	console.log("-----end of result----");
 	return output;
 };
 
@@ -81,10 +86,12 @@ config.macros.templateTiddlers.handler = function(place,macroName,params,wikifie
 		tiddlers.push(tiddler ? tiddler : new Tiddler("temp"));
 	}
 	var output = expandTemplate(template,tiddlers);
-	console.log(output);
-	// place.innerHTML += output.htmlEncode();
-	// NOTE: the above was used in the TiddlyTemplating demo, which now needs a test function creating
-	place.innerHTML += output;
+	// NOTE: the line below is contentious - should the .htmlEncode() be used?
+	// if you don't use it, it seems that output is not always added in a format suitable for innerHTML
+	// this is only an apparent problem when templateTiddlers is nested inside other templates (at two levels deep!)
+	// this requires tests writing to iron this out once and for all
+	// ALSO: HTMLPreviewTemplate uses the output of expandTemplate directly, but hasn't hit this problem yet (possibly because the nesting only goes one level deep on templates tested so far)
+	place.innerHTML += output.htmlEncode();
 };
 
 config.macros.templateTags = {};
@@ -101,7 +108,7 @@ config.macros.templateTags.handler = function(place,macroName,params,wikifier,pa
 		tiddlers.push(t);
 	}
 	var output = expandTemplate(template,tiddlers);
-	place.innerHTML += output.htmlEncode();
+	place.innerHTML += output;
 };
 
 config.macros.permalink = {};

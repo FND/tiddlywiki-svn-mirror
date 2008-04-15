@@ -1,0 +1,6 @@
+recipe: ../../../../core/tests/html/testContributors.recipe
+
+postjs: ../../plugins/TemplatePlugin.js
+postjs: ../../../MartinBudden/experimental/TemplateFormatterPlugin.js
+jsspec: ../jsspec/TemplatePlugin.jsspec.js
+tiddlers: ../../verticals/TiddlyTemplating/tidders/split.recipe
