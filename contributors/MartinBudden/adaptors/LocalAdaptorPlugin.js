@@ -99,7 +99,7 @@ LocalAdaptor.fullHostName = function(host)
 
 LocalAdaptor.minHostName = function(host)
 {
-	return host ? host.replace(/\\/,'/').host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
+	return host ? host.replace(/\\/,'/').host.replace(/^http:\/\//,'').replace(/\/$/,'') : ''; //'
 };
 
 LocalAdaptor.prototype.openHost = function(host,context,userParams,callback)
