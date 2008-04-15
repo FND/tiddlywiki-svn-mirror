@@ -30,21 +30,27 @@ var thingUri = things[0].getAttribute("uri");
 if(!version.extensions.TextToXMLDOMPlugin) {
 version.extensions.TextToXMLDOMPlugin = {installed:true};
 
-function getXML(opml) {
-	if(window.ActiveXObject) {
+
+function getXML(str) {
+	if(!str)
+		return null;
+	var errorMsg;
+	try {
 		var doc = new ActiveXObject("Microsoft.XMLDOM");
 		doc.async="false";
-		doc.loadXML(opml);
+		doc.loadXML(str);
 	}
-	else {
-		var parser=  new DOMParser();
-		var doc = parser.parseFromString(opml,"text/xml");	
+	catch(e) {
+		try {
+			var parser=  new DOMParser();
+			var doc = parser.parseFromString(str,"text/xml");
+		}
+		catch(e) {
+			return e.message;
+		}
 	}
-	if(doc){
-		return doc;
-	}
-	else
-		return null;	
+	
+	return doc;	
 };
 
 
