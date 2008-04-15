@@ -25,6 +25,12 @@ merge(config.tasks,{
 	login: {text: "login", tooltip: "Login to your TiddlyWiki", content: '&lt;&lt;ccLogin&gt;&gt;'}
 });
 
+
+function isLoggedIn()
+{
+	return true;
+}
+
 config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){};
 var  loginState = null;
 var  registerState = null;
@@ -544,7 +550,7 @@ return false;
 	
 	loginCheckResp: function(){
 
-		if (loginState =='fail')
+		if (lalala =='fail')
 		{
 		 return false; 
 		}
@@ -605,22 +611,16 @@ return false;
    }
 }
 
-
-
-
 function restart()
 {
 	var tiddlers = "";
-	var tiddlers = store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));
+ 	tiddlers = store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));
+	var cookieValues = findToken(document.cookie);
+	if ( cookieValues.sessionToken && cookieValues.sessionToken!== 'invalid' && cookieValues.txtUserName) {
+		tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));
+	}
 	story.displayTiddlers(null,tiddlers);	
 	invokeParamifier(params,"onstart");
-
-	displayMessage(cookieValues.sessionToken);
-		if ( cookieValues.sessionToken && cookieValues.sessionToken!== 'invalid' && cookieValues.txtUserName) {
-			displayMessage("simon"); 			
-			tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));
-		}
-
 	window.scrollTo(0,0);
 }
 

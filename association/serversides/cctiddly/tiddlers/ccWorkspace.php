@@ -59,7 +59,7 @@ config.macros.ccCreateWorkspace = {
 		
 		if (workspacePermission.create != 1)
 		{
-			createTiddlyElement(place,'div', null, "annotation",  'You do not have permissions to create a workspace. ');
+			createTiddlyElement(place,'div', null, "annotation",  'You do not have permissions to create a workspace.  You may need to log in.');
 			return null;
 		}
 		var frm = createTiddlyElement(place,'form',null,"wizard");
