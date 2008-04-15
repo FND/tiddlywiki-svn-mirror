@@ -1,3 +1,4 @@
 recipe: ../../../../core/tests/html/testContributors.recipe
 
+postjs: ../../plugins/LiveColorPalettePlugin.js
 jsspec: ../jsspec/LiveColorPalettePlugin.jsspec.js
