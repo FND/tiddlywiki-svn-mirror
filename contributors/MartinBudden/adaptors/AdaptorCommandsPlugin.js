@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js |
-|''Version:''|0.5.4|
+|''Version:''|0.5.5|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -227,7 +227,7 @@ config.commands.revisions.getTiddlerRevisionCallback = function(context,userPara
 
 config.commands.saveTiddlerAndPut = {};
 merge(config.commands.saveTiddlerAndPut,{
-	text: "saveAndPut",
+	text: "done",
 	tooltip: "Save this tiddler and upload",
 	hideReadOnly: true,
 	done: "Tiddler uploaded"
