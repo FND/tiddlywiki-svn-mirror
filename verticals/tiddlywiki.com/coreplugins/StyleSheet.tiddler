@@ -1,0 +1,21 @@
+<div title="StyleSheet" modifier="FND" created="200804160000" tags="excludeLists">
+<pre>
+/*{{{*/
+#displayArea {
+  margin-left: 18em;
+}
+
+#mainMenu {
+  width: 14em;
+  overflow: hidden;
+  text-align: left;
+}
+
+#mainMenu ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+/*}}}*/
+</pre>
+</div>

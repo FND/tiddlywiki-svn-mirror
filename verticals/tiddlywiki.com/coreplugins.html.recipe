@@ -1,0 +1,5 @@
+recipe: ../../core/tiddlywiki.html.recipe
+recipe: coreplugins/split.recipe
+tiddler: ../../association/plugins/DeprecatedFunctionsPlugin/DeprecatedFunctionsPlugin.js
+tiddler: ../../association/plugins/LegacyStrikeThroughPlugin/LegacyStrikeThroughPlugin.js
+tiddler: ../../association/plugins/SparklinePlugin/SparklinePlugin.js
