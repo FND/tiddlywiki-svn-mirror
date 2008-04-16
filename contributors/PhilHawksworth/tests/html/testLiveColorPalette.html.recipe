@@ -1,4 +1,4 @@
 recipe: ../../../../core/tests/html/testContributors.recipe
 
 postjs: ../../plugins/LiveColorPalettePlugin.js
-jsspec: ../jsspec/LiveColorPalettePlugin.jsspec.js
+jsspecsrc=<script src="../jsspec/LiveColorPalettePlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>

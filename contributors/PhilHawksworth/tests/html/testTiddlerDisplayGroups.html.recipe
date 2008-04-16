@@ -1,0 +1,4 @@
+recipe: ../../../../core/tests/html/testContributors.recipe
+
+jsspecsrc=<script src="../../plugins/TiddlerDisplayGroupsPlugin.js" type="text/javascript" charset="utf-8"></script>
+jsspecsrc=<script src="../jsspec/TiddlerDisplayGroupsPlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>
