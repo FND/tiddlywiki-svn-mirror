@@ -1,0 +1,4 @@
+recipe: ../../../../core/tests/html/testContributors.recipe
+
+postjs: ../../plugins/EvalMacro.js
+jsspecsrc=<script src="../jsspec/EvalMacro.jsspec.js" type="text/javascript" charset="utf-8"></script>
