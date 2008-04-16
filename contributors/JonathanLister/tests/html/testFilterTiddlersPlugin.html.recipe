@@ -1,0 +1,4 @@
+recipe: ../../../../core/tests/html/testContributors.recipe
+recipe: ../../verticals/filterTiddlersTesting/tiddlers/split.recipe
+jsspec: ../jsspec/filterTiddlersPlugin.jsspec.js
+postjs: ../../plugins/filterTiddlersPlugin.js
