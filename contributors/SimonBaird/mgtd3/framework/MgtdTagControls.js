@@ -6,18 +6,24 @@ merge(Tiddler.prototype,{
 
 	setTagFromGroup: function(tagGroup,tag) {
 		var tagList = fastTagged(tagGroup);
-		for (var i=0;i<tagList.length;i++) {
-			// trying to speed this up by not using setTiddlerTag
-			this.tags.remove(tagList[i].title);
-		}
-		// now use it. triggers notify
+
+		// it goes slow if you don't do this
+		store.suspendNotifications();
+
+		// remove all the tags in the group
+		for (var i=0;i<tagList.length;i++)
+			store.setTiddlerTag(this.title,false,tagList[i].title);
+
+		// add the one selected
 		if (tag)
 			store.setTiddlerTag(this.title,true,tag);
-		else 
-			store.setTiddlerTag(this.title,false,"blah"); // just so there's at least one notify
 
-		// touch the modified date
+		// touch the modified date so we can sort usefully
 		this.modified = new Date();
+
+		// resume notification and notify
+		store.resumeNotifications();
+		store.notify(this.title,true);
 	},
 
 	toggleTag: function(tag) {
