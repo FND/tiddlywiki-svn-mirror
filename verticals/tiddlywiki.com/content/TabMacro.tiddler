@@ -1,0 +1,8 @@
+<div title="TabMacro" modifier="JeremyRuston" created="200510261911" tags="macros">
+<pre>This is an example of a tab:
+
+<<tabs txtFavourite
+One "First tab" HelloThere
+Two "Second tab" ThankYou
+>></pre>
+</div>

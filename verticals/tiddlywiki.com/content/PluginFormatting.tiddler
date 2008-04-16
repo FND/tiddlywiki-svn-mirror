@@ -1,0 +1,36 @@
+<div title="PluginFormatting" modifier="JeremyRuston" created="200511051635" modified="200609221307" tags="formatting">
+<pre>To make plugins, stylesheets and templates easier to read, you can use special alternative formatting for monospaced blocks.
+
+In JavaScript code:
+{{{
+//{{{
+var id = document.getElementById("mainMenu");
+//}}}
+}}}
+In HTML templates:
+{{{
+<!--{{{-->
+<div id="MainMenu">
+</div>
+<!--}}}-->
+}}}
+In CSS stylesheets
+{{{
+/*{{{*/
+div {color: #ff0000;}
+/*}}}*/
+}}}
+It will be displayed as:
+//{{{
+var id = document.getElementById("mainMenu");
+//}}}
+
+<!--{{{-->
+<div id="MainMenu">
+</div>
+<!--}}}-->
+
+/*{{{*/
+div {color: #ff0000;}
+/*}}}*/</pre>
+</div>

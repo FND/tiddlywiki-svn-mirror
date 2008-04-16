@@ -1,0 +1,33 @@
+<div title="HelloWorldMacro" modifier="SimonBaird" created="200510261917" modified="200601111354" tags="features examples">
+<pre>/***
+|Name|HelloWorldMacro|
+|Created by|SimonBaird|
+|Location|http://simonbaird.com/mptw/#HelloWorldMacro|
+|Version|1.1|
+|Requires|~TW2.x|
+!Description
+It's a Hello World TiddlyWiki macros.
+
+!History
+* 11-Jan-06, version 1.1, updated for ~TW2.0
+
+!Examples
+|!Source|!Output|h
+|{{{<<helloWorld dude>>}}}|<<helloWorld dude>>|
+|{{{<<helloWorld 'to everyone'>>}}}|<<helloWorld 'to everyone'>>|
+(You can use (single or double) quotes or double square brackets for params with spaces)
+
+!Notes
+This is intended to help you get started with customising your TW. To make the macro work you have to give this tiddler a tag of systemConfig then save and reload. To learn more about customising Tiddlywiki? Look at other people's plugins or... click View, Source in your browser and start reading. :)
+
+!Code
+***/
+//{{{
+config.macros.helloWorld = {};
+config.macros.helloWorld.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
+	var who = params.length > 0 ? params[0] : "world";
+	 wikify("Hello //" + who + "// from the '" + macroName + "' macro in tiddler [[" + tiddler.title + "]].", place);
+}
+
+//}}}</pre>
+</div>

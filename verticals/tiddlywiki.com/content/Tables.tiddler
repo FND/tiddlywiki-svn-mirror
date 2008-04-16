@@ -1,0 +1,14 @@
+<div title="Tables" modifier="JeremyRuston" created="200509211926" modified="200602231537" tags="formatting">
+<pre>*sample:
+|!th1111111111|!th2222222222|
+|>| colspan |
+| rowspan |left|
+|~| right|
+|bgcolor(#a0ffa0):colored| center |
+|caption|c
+*another sample: see PeriodicTable.
+For advanced effects, you can control the CSS style of a table by adding a row like this:
+{{{
+|cssClass|k
+}}}</pre>
+</div>

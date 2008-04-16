@@ -1,0 +1,7 @@
+<div title="Tiddler" modifier="JeremyRuston" created="200604181551" modified="200604181556" tags="terminology">
+<pre>A 'tiddler' is the name given to a unit of MicroContent in TiddlyWiki.
+
+Tiddlers are pervasive in TiddlyWiki. The MainMenu is defined by a tiddler, plugins are delivered in tiddlers, there are special StyleSheet tiddlers, and so on.
+
+Other systems have analogous concepts with more prosaic names: like "items", "entries", "entities". Even though "tiddler" is undoubtedly a SillyName it at least has the virtue of being confusingly distinctive rather than confusingly generic.</pre>
+</div>

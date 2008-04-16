@@ -1,0 +1,5 @@
+<div title="HelloThere" modifier="JeremyRuston" created="200509202010" modified="200705161326" tags="welcome">
+<pre>Welcome to TiddlyWiki, a [[popular|Raves]] free MicroContent WikiWikiWeb created by JeremyRuston and a busy [[Community]] of independent developers. It's written in HTML, CSS and JavaScript to run on any modern browser without needing any ServerSide logic. It allows anyone to create personal SelfContained hypertext documents that can be posted to a WebServer, sent by email or kept on a USB thumb drive to make a WikiOnAStick. Because it doesn't need to be installed and configured it makes a great GuerillaWiki. This is revision <<version>> of TiddlyWiki (see [[recent changes|http://trac.tiddlywiki.org/wiki/History]]), and is published under an OpenSourceLicense.
+
+Note that from version 2.3, the advice for HowToUpgrade to new versions has changed.</pre>
+</div>

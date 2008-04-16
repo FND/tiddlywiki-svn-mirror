@@ -1,0 +1,17 @@
+<div title="GradientMacro" modifier="JeremyRuston" created="200509280036" tags="macros">
+<pre><<gradient horiz #bbbbbb #eeeeee #ffffff>>The new GradientMacro allows simple horizontal and vertical coloured gradients. They are constructed from coloured HTML elements, and don't require any images to work.>>
+The GradientMacro is an ExtendedMacro that processes the text after it up until the next '>>' sequence. It looks like this:
+{{{
+<<gradient vert #ffffff #ffdddd #ff8888>>gradient fill>>
+}}}
+The first parameter can be ''vert'' or ''horiz'' to indicate the direction of the gradient. The following parameters are two or more colours (CSS RGB(r,g,b) format is also acceptable). The GradientMacro constructs a smooth linear gradient between each of the colours in turn.
+
+| <<gradient vert #ffffff #ffdddd #ff8888>>No images were harmed in the making of this gradient fill>> | <<gradient vert #ffffff #ddffdd #88ff88>>No images were harmed in the making of this gradient fill>> | <<gradient vert #ffffff #ddddff #8888ff>>No images were harmed in the making of this gradient fill>> |
+
+Inline CSS definitions can be added to gradient filles like this:
+
+<<gradient vert #000000 #660000 #aa2222>>color:#ffffff;font-size:12pt;Darkness>>
+{{{
+<<gradient vert #000000 #660000 #aa2222>>color:#ffffff;font-size:12pt;Darkness>>
+}}}</pre>
+</div>

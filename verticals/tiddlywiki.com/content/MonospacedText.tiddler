@@ -1,0 +1,24 @@
+<div title="MonospacedText" modifier="JeremyRuston" created="200509171808" tags="formatting">
+<pre>{{{Monospaced text}}} is supported - edit this tiddler to see the syntax.
+
+You can also have monospaced blocks (useful for source code):
+
+{{{
+var posTop = findPosY(e);
+var posBot = posTop + e.offsetHeight;
+var winTop = findScrollY();
+var winHeight = findWindowHeight();
+var winBot = winTop + winHeight;
+if(posTop < winTop)
+return(posTop);
+else if(posBot > winBot)
+{
+if(e.offsetHeight < winHeight)
+return(posTop - (winHeight - e.offsetHeight));
+else
+return(posTop);
+}
+else
+return(winTop);
+}}}</pre>
+</div>

@@ -1,9 +1,0 @@
-<div title="ToolbarMacro" modifier="JeremyRuston" created="200512081447" modified="200512081554" tags="macros">
-<pre>The ToolbarMacro is used in the TiddlerTemplateMechanism to define the toolbar that appears when the mouse is hovered over a tiddler. It looks like this:
-{{{
-&lt;&lt;toolbar closeTiddler -editTiddler +jump&gt;&gt;
-}}}
-The arguments to the ToolbarMacro is a list of command names, as discussed in the CommandMechanism. The available commands are tagged &lt;&lt;tag commands&gt;&gt;.
-
-You can precede a command name with a &quot;+&quot; to specify a default command that is automatically chosen when a tiddler is double-clicked, or the ctrl-Enter key combination pressed. Similarly, precede it with &quot;-&quot; to specify a command to be chosen when the Escape key is pressed.</pre>
-</div>

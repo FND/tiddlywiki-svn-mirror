@@ -1,5 +1,0 @@
-<div title="PermaView" modifier="JeremyRuston" created="200504132301" modified="200604071140" tags="features">
-<pre>I think this feature from the SecondVersion of TiddlyWiki is quite original. It's a button in the right-hand sidebar that sets the browser address bar to a URL embodying all the currently open tiddlers in the order that they are currently shown. To use it, arrange the open tiddlers that you want, click the permaview button, copy the URL from the browser address bar, and then paste it into an email, web page or whatever.
-
-On some browsers, PermaView can be unreliable if any of the tiddler titles include characters that have special meanings in URLs (like &quot;+&quot; and &quot;\&quot;) or are outside the basic ANSI character set.</pre>
-</div>

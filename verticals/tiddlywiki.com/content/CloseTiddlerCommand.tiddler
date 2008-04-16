@@ -1,0 +1,6 @@
+<div title="CloseTiddlerCommand" modifier="JeremyRuston" created="200512081553" modified="200512081602" tags="commands">
+<pre>Closes the current tiddler, regardless of whether it is being editted. It is used with the ToolbarMacro like this:
+{{{
+<<toolbar closeTiddler>>
+}}}</pre>
+</div>

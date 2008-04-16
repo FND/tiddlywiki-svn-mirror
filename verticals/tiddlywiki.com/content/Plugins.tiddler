@@ -1,0 +1,9 @@
+<div title="Plugins" modifier="JeremyRuston" created="200512170953" modified="200711270000" tags="community concepts">
+<pre>TiddlyWiki can be extended by InstallingPlugins that implement new [[Macros]], [[Themes]], [[Tweaks]] or other features. The easiest way of InstallingPlugins is to use ImportTiddlers. Like other features that need to modify TiddlyWiki files, it only works when TiddlyWiki is loaded from a {{{file://}}} URL.
+
+DaveGifford oversees an extensive catalogue of available plugins at [[TiddlyVault|http://tiddlyvault.tiddlyspot.com/]].
+
+Some of the leading plugin sites from independent developers are here tagged as <<tag systemServer>> which also makes them available in ImportTiddlers.
+
+ChrisKlimas has written [[The Macrocodex|http://gimcrackd.com/etc/src/codex/]], some superb documentation on writing plugins and macros for TiddlyWiki.</pre>
+</div>

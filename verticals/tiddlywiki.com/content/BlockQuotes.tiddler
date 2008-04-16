@@ -1,0 +1,19 @@
+<div title="BlockQuotes" modifier="JeremyRuston" created="200509200116" modified="200609291350" tags="formatting">
+<pre>To make quoted bits of text stand out, you can use BlockQuotes within your [[tiddler]]s, like this:
+
+JeremyRuston said:
+<<<
+A TiddlyWiki is like a blog because it's divided up into neat little chunks, but it encourages you to read it by hyperlinking rather than sequentially: if you like, a non-linear blog analogue that binds the individual microcontent items into a cohesive whole.
+<<<
+
+Like BulletPoints and NumberedBulletPoints, you can have multiple levels of BlockQuotes. Just edit this tiddler to see how it's done.
+
+>level 1
+>level 1
+>>level 2
+>>level 2
+>>>level 3
+>>>level 3
+>>level 2
+>level 1</pre>
+</div>

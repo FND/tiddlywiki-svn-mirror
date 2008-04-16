@@ -1,0 +1,19 @@
+<div title="CustomCssClass" modifier="JeremyRuston" created="200603311517" tags="formatting">
+<pre>You can wrap any text in an HTML {{{<span>}}} or {{{<div>}}} with a specified CSS class. This allows custom CSS styling in a nice, modular way. By placing a rule in your StyleSheet tiddler like {{{.wrappingClass{color: #666; background: #bbb} }}} you can markup a	piece of text in the tiddler using this code:
+
+{{{
+{{wrappingClass{Text that is now accentuated}}}
+}}}
+
+{{wrappingClass{Text that is now accentuated}}}
+
+By default, the text is placed in a {{{<span>}}}. To use a {{{<div>}}} instead, insert a line break before the text:
+
+{{{
+{{wrappingClass{
+Text that is now accentuated}}}
+}}}
+
+{{wrappingClass{
+Text that is now accentuated}}}</pre>
+</div>

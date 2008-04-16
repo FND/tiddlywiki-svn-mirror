@@ -1,0 +1,17 @@
+<div title="TaggingMacro" modifier="JeremyRuston" created="200512051653" modified="200610051059" tags="macros">
+<pre>The TaggingMacro produces a list of links to tiddlers that carry the specified tag. If no tag is specified, it looks for tiddlers tagged with the name of the current tiddler. It looks like this:
+{{{
+<<tagging>>
+<<tagging TiddlerTitle>>
+<<tagging sep:[[, ]]>>
+}}}
+In HTML, the list is formatted like so:
+{{{
+<ul>
+<li class="listTitle">List title label</li>
+<li><a class="tiddlyLink ..." href="javascript:;" onclick="..."
+	   refresh="link" tiddlyLink="ExampleOne">ExampleOne</a></li>
+</ul>
+}}}
+The optional {{{sep}}} parameter specifies a string of characters to be inserted as a separator between each {{{<li>}}} element. In conjunction with the CSS {{{ul li {display: none;} }}} this allows the tagging list to be formatted as a nicely formatted inline list.</pre>
+</div>

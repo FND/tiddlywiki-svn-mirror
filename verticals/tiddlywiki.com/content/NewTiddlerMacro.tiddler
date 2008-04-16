@@ -1,0 +1,26 @@
+<div title="NewTiddlerMacro" modifier="JeremyRuston" created="200608191318" modified="200608191712" tags="macros">
+<pre>The {{{<<newTiddler>>}}} macro displays a button that can be clicked to create a new tiddler. By default, the new tiddler is opened in edit mode or you can specify a custom template.
+
+The available parameters are:
+
+|!Parameter |!Description |
+|label |The text of the button |
+|prompt |The tooltip for the button |
+|accessKey |The access key to trigger the button (specify a single letter; different browsers require a different modifier key like Alt- or Control-) |
+|focus |Which of the edittable fields to default the focus to (eg, "title", "text", "tags") |
+|template |The template to use to display the new tiddler (defaults to EditTemplate) |
+|text |The default text for the new tiddler |
+|title |The default title for the new tiddler |
+|tag |A single tag to be applied to the new tiddler (repeat this parameter to specify multiple tags) |
+
+For example: <<newTiddler label:"try this" accessKey:1 focus:tags text:"hello there!" tag:greeting tag:"an example">> (can also be triggered with Alt-1)
+{{{
+<<newTiddler label:"try this" accessKey:1 focus:tags text:"hello there!" tag:greeting tag:"an example">>
+}}}
+
+You can only prime the initial values of fields that map to a text input box in the specified template (for instance, if you specify the standard ViewTemplate as the template you won't be able to prime any fields). For example, this doesn't work as you might expect:
+{{{
+<<newTiddler template:ViewTemplate text:"To be or not to be">>
+}}}
+<<newTiddler template:ViewTemplate text:"To be or not to be">></pre>
+</div>

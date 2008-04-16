@@ -1,6 +1,0 @@
-<div title="JumpCommand" modifier="JeremyRuston" created="200512081600" modified="200512081601" tags="commands">
-<pre>Offers a popup menu to jump directly to any of the currently open tiddlers. It is used with the ToolbarMacro like this:
-{{{
-&lt;&lt;toolbar jump&gt;&gt;
-}}}</pre>
-</div>

@@ -1,0 +1,5 @@
+<div title="ExampleSystemConfig" modifier="JeremyRuston" created="200508181349" tags="examples">
+<pre>config.animFast = 0.12; // Speed for animations (lower == slower)
+config.animSlow = 0.01; // Speed for EasterEgg animations
+config.views.wikified.toolbarEdit.text = "Edit away, it won't get saved";</pre>
+</div>

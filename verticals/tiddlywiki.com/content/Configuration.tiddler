@@ -1,0 +1,12 @@
+<div title="Configuration" modifier="MartinBudden" created="200606010000" tags="includeNew">
+<pre>PageTemplate
+|>|>|SiteTitle - SiteSubtitle|
+|MainMenu|DefaultTiddlers<<br>><<br>><<br>><<br>>ViewTemplate<<br>><<br>>EditTemplate|SideBarOptions|
+|~|~|OptionsPanel|
+|~|~|AdvancedOptions|
+|~|~|<<tiddler Configuration.SideBarTabs>>|
+
+''StyleSheet:'' StyleSheetColors - StyleSheetLayout - StyleSheetPrint
+
+SiteUrl</pre>
+</div>

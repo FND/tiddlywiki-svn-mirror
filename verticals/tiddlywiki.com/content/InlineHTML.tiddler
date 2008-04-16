@@ -1,0 +1,19 @@
+<div title="InlineHTML" modifier="JeremyRuston" created="200509270055" modified="200609291401">
+<pre>TiddlyWiki lets you write ordinary HTML by enclosing it in {{{<html>}}} and {{{</html>}}}:
+
+<html>
+<a href="javascript:;" onclick="onClickTiddlerLink(event);" tiddlyLink="TiddlyWiki" style="background-color: yellow;">Link to wikiwords from HTML</a>
+</html>
+
+The source for the above is:
+
+{{{
+<html>
+<div style="background-color: yellow;">
+<a href="javascript:;" onclick="onClickTiddlerLink(event);" tiddlyLink="Macros">Link to wikiwords from HTML</a>
+</div>
+</html>
+}}}
+
+HTML can enable some exotic new features (like [[embedding GMail and Outlook|http://groups.google.com/group/TiddlyWiki/browse_thread/thread/d363303aff5868d0/056269d8409d121f?lnk=st&q=embedding+gmail&rnum=1#056269d8409d121f]] in a TiddlyWiki). However it doesn't work for some JavaScript code libraries; see CustomMarkup for another way to include custom HTML in your TiddlyWiki.</pre>
+</div>

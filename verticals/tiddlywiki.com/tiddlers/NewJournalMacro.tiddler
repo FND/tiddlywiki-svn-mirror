@@ -1,5 +1,0 @@
-<div title="NewJournalMacro" modifier="JeremyRuston" created="200608191355" modified="200608191715" tags="macros">
-<pre>The {{{&lt;&lt;newJournal&gt;&gt;}}} macro creates a new tiddler with it's title set to the current date, and the cursor in the body text area ready to type.
-
-This macro is identical to the NewTiddlerMacro except that the &quot;title&quot; parameter is treated as a DateFormatString so that you can specify your own date format.</pre>
-</div>

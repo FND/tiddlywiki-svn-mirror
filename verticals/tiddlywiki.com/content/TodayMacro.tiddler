@@ -1,0 +1,14 @@
+<div title="TodayMacro" modifier="JeremyRuston" created="200510302315" tags="macros">
+<pre>The {{{<<today>>}}} macro inserts the current date and time into a tiddler. It's updated each time the tiddler is redisplayed.
+
+It can optionally take a DateFormatString to determine the way that the date is displayed:
+
+{{{
+<<today>>
+<<today>>
+}}}
+
+Results in:
+<<today>>
+<<today>></pre>
+</div>

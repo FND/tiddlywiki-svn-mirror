@@ -1,0 +1,10 @@
+<div title="DownloadSoftware" modifier="JeremyRuston" created="200505230013" modified="200803311423" tags="instructions">
+<pre>Because TiddlyWiki is a single HTML file, you've actually already downloaded the entire software just by viewing this site. If you want to be able to SaveChanges, you can save your own blank TiddlyWiki to your local drive by right clicking on [[this link to empty.html|empty.html]] and selecting 'Save link as...' or 'Save target as...'. You can choose where to save the file, and what to call it (but make sure that it's saved in HTML format and with an HTML extension).
+
+@@There can be confusing and subtle differences between different browsers. Some points to watch:@@
+* If you're using [[Safari]] or [[Opera]] you will also need to download the [[TiddlySaver.jar|TiddlySaver.jar]] applet to the same folder 
+* If you're using Windows XP Service Pack 2 or Windows Vista, check for known ServicePack2Problems and VistaIssues
+* Do ''not'' use the File/Save command in your browser to save TiddlyWiki, because of SaveUnpredictabilities.
+* Make sure that you're saving in HTML (or "page source" format), not one of the new-fangled archive formats
+If you're already using TiddlyWiki, see HowToUpgrade. If you want to save a complete copy of this site, including all the instructions and other text, you can use this [[this link|index.html]].</pre>
+</div>
