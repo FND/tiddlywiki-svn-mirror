@@ -1,14 +1,17 @@
 /***
-|''Name:''|LegacyStrikeThroughPlugin|
-|''Description:''|Support for legacy (pre 2.1) strike through formatting|
-|''Version:''|1.0.2|
-|''Date:''|Jul 21, 2006|
-|''Source:''|http://www.tiddlywiki.com/#LegacyStrikeThroughPlugin|
-|''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
-|''License:''|[[BSD open source license]]|
-|''CoreVersion:''|2.1.0|
+|''Name''|LegacyStrikeThroughPlugin|
+|''Description''|Provides support for legacy (pre-v2.1) strikethrough formatting|
+|''Author''|MartinBudden (mjbudden (at) gmail (dot) com)|
+|''Version''|1.0.3|
+|''Date''|2008-04-07|
+|''Status''|stable|
+|''Source''|http://www.tiddlywiki.com/#LegacyStrikeThroughPlugin |
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MyDirectory/plugins/LegacyStrikeThroughPlugin.js |
+|''License''|[[BSD open source license]]|
+|''~CoreVersion''|2.1.0|
+|''Keywords''|legacySupport|
+!Code
 ***/
-
 //{{{
 // Ensure that the LegacyStrikeThrough Plugin is only installed once.
 if(!version.extensions.LegacyStrikeThroughPlugin) {
