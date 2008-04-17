@@ -1,6 +1,8 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 #recipe: ../tiddlywikibasic.html.recipe
-title: title.txt
+style: ../../../../core/shadows/StyleSheetLayout.tiddler
+shadow: ../../shadows/StyleSheetLayoutSplash.tiddler
+tiddler: ../../experimental/SplashScreenPlugin.js
 recipe: shadows/split.recipe
 tiddler: ../../shadows/DefaultTiddlersHome.tiddler
 tiddler: settings.js
@@ -39,7 +41,7 @@ tiddler: ../../formatters/TWikiFormatterPlugin.js
 tiddler: ../../formatters/SnipSnapFormatterPlugin.js
 tiddler: ../../formatters/TextileFormatterPlugin.js
 tiddler: ../../formatters/WikispacesFormatterPlugin.js
-tiddler: ../../plugins/AsyncStartupPlugin.js
+#tiddler: ../../plugins/AsyncStartupPlugin.js
 tiddler: ../../plugins/DisableWikiLinksPlugin.js
 tiddler: ../../plugins/DisableStrikeThroughPlugin.js
 tiddler: ../../plugins/EncryptionCommandsPlugin.js
