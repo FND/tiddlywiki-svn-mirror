@@ -1,0 +1,6 @@
+<div title="StyleSheetLayout">
+<pre>/*{{{*/
+#contentWrapper {display:block;}
+#splashScreen {display:none;}
+/*}}}*/</pre>
+</div>
