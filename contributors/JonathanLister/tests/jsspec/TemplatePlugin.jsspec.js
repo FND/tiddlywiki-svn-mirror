@@ -1,5 +1,4 @@
 // <![CDATA[
-
 	
 describe('expandTemplate', {
 	
@@ -8,7 +7,6 @@ describe('expandTemplate', {
 		loadShadowTiddlers();
 		store.loadFromDiv("storeArea","store",true);
 		formatter = new Formatter(config.formatters);
-		console.log(store);
 	},
 
 	'it should return input string if no macro calls of the form <!--<<macro>>--> are found': function() {

@@ -1,0 +1,5 @@
+recipe: ../../../../core/tests/html/testContributors.recipe
+
+postjs: ../../plugins/HTMLTemplatePreviewMacro.js
+jsspecsrc=<script type="text/javascript" src="../../../../core/tests/js/tiddlywiki.js"></script>
+jsspecsrc=<script type="text/javascript" src="../jsspec/HTMLTemplatePreviewMacro.jsspec.js"></script>

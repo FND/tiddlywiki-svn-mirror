@@ -1,5 +1,5 @@
 // <![CDATA[
-describe('filterTiddlers', {
+describe('filterTiddlers()', {
 
 	before_each: function(){
 		store = new TiddlyWiki();

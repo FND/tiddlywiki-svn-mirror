@@ -47,7 +47,7 @@ config.macros.HTMLTemplatePreview.handler = function(place,macroName,params,wiki
 		ifr.doc.write(htmlHead+htmlBody+"</html>");
 		ifr.doc.close();
 	} else {
-		htmlHead = html.substring(html.indexOf("<head"));
+		htmlHead = htmlHead.substring(html.indexOf("<head"));
 		htmlHead = htmlHead.replace(/<head[^>]*?>/,"");
 		ifr.doc.documentElement.getElementsByTagName("head")[0].innerHTML = htmlHead;
 		htmlBody = htmlBody.replace(/<body[^>]*?>/,"");
