@@ -78,7 +78,7 @@ version.extensions.SplashScreenPlugin.setup = function()
 	text += "</style>\n";
 	text += "<!--}}}-->\n\n";
 	var tiddler = store.createTiddler("MarkupPostHead");
-	tiddler.set(tiddler.title,text,config.options.txtUserName);
+	tiddler.set(tiddler.title,text,config.options.txtUserName,null,"excludeLists excludeSearch");
 
 	//# convert the DefaultTiddlers into HTML and put them in the MarkupPreBody tiddler
 	var sitetitle = store.getTiddlerText("SiteTitle");
@@ -118,7 +118,7 @@ version.extensions.SplashScreenPlugin.setup = function()
 	splash += "<!--}}}-->\n\n";
 
 	tiddler = store.createTiddler("MarkupPreBody");
-	tiddler.set(tiddler.title,splash,config.options.txtUserName);
+	tiddler.set(tiddler.title,splash,config.options.txtUserName,null,"excludeLists excludeSearch");
 
 	store.setDirty(true);
 };
