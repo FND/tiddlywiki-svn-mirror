@@ -1,28 +1,24 @@
 /***
 |''Name:''|SplashScreenPlugin|
-|''Description:''|Provides a splash screen that consists of the default tiddlers while TiddlyWiki is loading|
+|''Description:''|Provides a splash screen that consists of the rendered default tiddlers|
 |''Author:''|Martin Budden|
-|''Source:''|http://www.MyWebSite.com/#SplashScreenPlugin |
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SplashScreenPlugin.js |
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Date:''|April 17, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
-|''~CoreVersion:''|2.3|
+|''~CoreVersion:''|2.4|
 
 To make this example into a real TiddlyWiki plugin, you need to:
 
-# Globally search and replace example with the name of your macro
-# Update the header text above with your description, name etc
 # Do the actions indicated by the !!TODO comments, namely:
-## Write the code for the plugin
 ## Write the documentation for the plugin
 
 !!Description
 Provides a splash screen that consists of the default tiddlers while TiddlyWiki is loading
 
 !!Usage
-//!!TODO describe how to use the plugin - how a user should include it in their TiddlyWiki, parameters to the plugin etc
+!!TODO describe how to use the plugin - how a user should include it in their TiddlyWiki, parameters to the plugin etc
 
 ***/
 
@@ -31,12 +27,14 @@ Provides a splash screen that consists of the default tiddlers while TiddlyWiki 
 if(!version.extensions.SplashScreenPlugin) {
 version.extensions.SplashScreenPlugin = {installed:true};
 
-config.macros.splashScreen = {};
-config.macros.splashScreen.init = function()
-//version.extensions.SplashScreenPlugin.setup = function()
+//config.macros.splashScreen = {};
+//config.macros.splashScreen.init = function()
+version.extensions.SplashScreenPlugin.setup = function()
 {
 	if(store.tiddlerExists("MarkupPostHead"))
 		return;
+
+	//# put the splash screen display and color styles in the MarkupPostHead tiddler
 	var text = "<!--{{{-->\n\n";
 	text += "<style type=\"text/css\">\n";
 	text += "#contentWrapper {display:none;}\n";
@@ -52,6 +50,10 @@ config.macros.splashScreen.init = function()
 	text += ".headerForeground a {font-weight:normal; color:#8cf;}\n";
 	text += ".shadow .title {color:#666;}\n";
 */
+	text += "body {background:"+store.getTiddlerSlice("ColorPalette","Background")+"; color:"+store.getTiddlerSlice("ColorPalette","Foreground")+";}\n";
+	text += "a {color:"+store.getTiddlerSlice("ColorPalette","PrimaryMid")+";}";
+	text += "a:hover {background-color:"+store.getTiddlerSlice("ColorPalette","PrimaryMid")+"; color:"+store.getTiddlerSlice("ColorPalette","Background")+";}";
+
 	text += ".title {color:"+store.getTiddlerSlice("ColorPalette","SecondaryDark")+";}\n";
 	text += ".subtitle {color:"+store.getTiddlerSlice("ColorPalette","TertiaryDark")+";}\n";
 	text += ".header {background:"+store.getTiddlerSlice("ColorPalette","PrimaryMid")+";}\n";
@@ -66,6 +68,7 @@ config.macros.splashScreen.init = function()
 	var tiddler = store.createTiddler("MarkupPostHead");
 	tiddler.set(tiddler.title,text,config.options.txtUserName);
 
+	//# convert the DefaultTiddlers into HTML and put them in the MarkupPreBody tiddler
 	var sitetitle = store.getTiddlerText("SiteTitle");
 	var sitesubtitle = store.getTiddlerText("SiteSubtitle");
 	var pt = store.getTiddlerText("PageTemplate");
@@ -85,7 +88,7 @@ config.macros.splashScreen.init = function()
 		tiddlerElem.setAttribute("tiddler",title);
 		tiddlerElem.setAttribute("template",template);
 		var t = story.getTemplateForTiddler(title,template,tiddler);
-		t = t.replace(/<div class=['"]toolbar[^<]*<\/div>\n/mg,"");
+		t = t.replace(/<div class=['"]toolbar[^<]*<\/div>/mg,"<div class=\"toolbar\"><br /></div>");
 		console.log(t);
 		t = t.replace(/<div class=['"]tagging['"][^>]*><\/div>\n/mg,"");
 		t = t.replace(/<div class=['"]tagged['"][^>]*><\/div>\n/mg,"");
@@ -108,10 +111,14 @@ config.macros.splashScreen.init = function()
 	tiddler.set(tiddler.title,splash,config.options.txtUserName);
 
 	store.setDirty(true);
-	saveChanges();
 };
 
-//version.extensions.SplashScreenPlugin.setup();
+version.extensions.SplashScreenPlugin.saveChanges = saveChanges
+function saveChanges()
+{
+	version.extensions.SplashScreenPlugin.setup();
+	version.extensions.SplashScreenPlugin.saveChanges();
+}
 
 } //# end of 'install only once'
 //}}}
