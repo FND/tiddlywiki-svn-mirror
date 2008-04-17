@@ -1,0 +1,6 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+style: ../../../../core/shadows/StyleSheetLayout.tiddler
+shadow: ../../shadows/StyleSheetLayoutSplash.tiddler
+tiddler: ../../shadows/DefaultTiddlersHome.tiddler
+tiddler: ../../experimental/SplashScreenPlugin.js
+tiddler: Home.tiddler
