@@ -8,12 +8,15 @@
 |''Date:''|25/3/08 |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
-|''~CoreVersion:''|2.3|
+|''~CoreVersion:''|2.3 |
 
 Usage:
 {{{
 <<TiddlyTemplating path template>>
 }}}
+
+Description:
+Provides a button labelled "Publish" that triggers the templating and saving processes
 
 ***/
 
@@ -26,10 +29,16 @@ config.macros.TiddlyTemplating = {};
 
 config.macros.TiddlyTemplating.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
+	var button = createTiddlyButton(place,"publish","publish",config.macros.TiddlyTemplating.publish);
+	button.params = params;
+};
+
+config.macros.TiddlyTemplating.publish = function(e)
+{
 	config.messages.fileSaved = "file successfully saved";
 	config.messages.fileFailed = "file save failed";
-	var saveName = params[0];
-	var template = params[1];
+	var saveName = this.params[0];
+	var template = this.params[1];
 	if (!template) {
 		// Change to use a default template when one exists, maybe to backup the whole TW?
 		displayMessage("TiddlyTemplating: usage <<TiddlyTemplating filename template>>");

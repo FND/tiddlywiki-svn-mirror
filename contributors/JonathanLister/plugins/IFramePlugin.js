@@ -1,12 +1,19 @@
 /***
-!IFrame library
-
-|''Name:'' |IFrame |
-|''Summary:'' |Provides cross-browser methods for working with iframes |
+|''Name:''|IFramePlugin |
+|''Description:'' |Provides cross-browser methods for working with iframes | |
 |''Author:'' |JonLister |
+|''Status:'' |Experimental |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/IFramePlugin.js |
+|''Version:''|1 |
+|''Date:''|10/4/08 |
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.3 |
 
 !Usage:
+{{{
 var ifr = new IFrame(parentElem);
+}}}
 
 where "parentElem" is an optional DOM element to add the iframe as a child to; parentElem defaults to document.body.
 
@@ -104,4 +111,33 @@ IFrame.prototype.modify = function(html)
 	this.style.height = ifr.doc.body.offsetHeight+"px";
 };
 
+IFrame.localizeLinks = function(html,baseURL) {
+	if(!baseURL)  {
+		baseURL = document.location.toString();
+		if((p = baseURL.lastIndexOf("/")) != -1)
+			baseURL = baseURL.substr(0,p) + "/";
+		else if((p = baseURL.lastIndexOf("\\")) != -1)
+			baseURL = baseURL.substr(0,p) + "\\";
+	}
+	// have a go at fixing relative links
+	var linkRegex = new RegExp("(href|src|action)(=['\"])(?!http:\/\/)(\/)*","img");
+	html = html.replace(linkRegex,function(match,m1,m2,m3) {
+	  if(!m3)
+		 m3 = "/";
+	  return m1+m2+baseURL+m3;
+	});
+	var importRegex = new RegExp("(@import ['\"])(\/)*","img");
+	// supplement this with support for @import "/blah"
+	html = html.replace(importRegex,function(match,m1,m2) {
+	  if(!m2)
+		 m2 = "/";
+	  return m1+baseURL+m2;
+	});
+	var baseRegex = new RegExp("<head[^>]*?>","img");
+	// add a BASE tag to the HEAD to help with relative linking - perhaps not necessary...
+	html = html.replace(baseRegex,function(match) {
+	  return match+"<"+"base href=\""+baseURL+"\" />";
+	});
+	return html;
+}
 //}}}

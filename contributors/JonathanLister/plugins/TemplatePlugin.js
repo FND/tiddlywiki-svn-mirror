@@ -3,8 +3,8 @@
 |''Description:''|Collection of functions to support rendering of tiddlers through HTML templates |
 |''Author:''|JonathanLister |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/TemplatePlugin.js |
-|''Version:''|0.0.4|
-|''Date:''|25/3/08|
+|''Version:''|0.0.4 |
+|''Date:''|25/3/08 |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.3|
@@ -64,9 +64,6 @@ expandTemplate = function(template,tiddlers)
 		output += wikifyStatic(template,null,tiddlers[i],'template').htmlDecode();
 		// wikifyStatic returns html; htmlDecode is used so that nesting of templates doesn't cause encoded characters to be wikified
 	}
-	console.log("result of 1 expand template call, with "+t);
-	console.log(output);
-	console.log("-----end of result----");
 	return output;
 };
 
