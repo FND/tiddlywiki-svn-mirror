@@ -1,21 +1,14 @@
 <div title="Styles HorizontalMainMenu" modifier="MartinBudden" tags="styles excludeLists excludeSearch">
-<pre>/***
-To use, add {{{[[Styles HorizontalMainMenu]]}}} to your StyleSheet tiddler.
-See http://www.w3schools.com/css/css_colors.asp for a color chart.
-***/
-/*{{{*/
+<pre>
 #mainMenu {position:relative;left:auto;width:auto;text-align:left;line-height:normal;padding 0em 1em 0em 1em;font-size:normal;}
 #mainMenu br {display:none;}
 #mainMenu {background:#336699;}
 #mainMenu {padding:2px;}
 #mainMenu .button, #mainMenu .tiddlyLink {padding-left:1em;padding-right:0em;color:white;font-size:115%;}
 
-/*#displayArea {margin:1em 15.7em 0em 1em;}*/
 #displayArea {
-/* background-color:#eef;*/
 	margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:1em;
 	padding-top:.1em;padding-bottom:.1em;
 }
-/*}}}*/
 </pre>
 </div>
