@@ -6,7 +6,7 @@
 |''Date''|2008-04-07|
 |''Status''|stable|
 |''Source''|http://www.tiddlywiki.com/#LegacyStrikeThroughPlugin |
-|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MyDirectory/plugins/LegacyStrikeThroughPlugin.js |
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/plugins/LegacyStrikeThroughPlugin/LegacyStrikeThroughPlugin.js |
 |''License''|[[BSD open source license]]|
 |''~CoreVersion''|2.1.0|
 |''Keywords''|legacySupport|

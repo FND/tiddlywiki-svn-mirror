@@ -4,10 +4,10 @@
 |''Version''|1.0.0|
 |''Status''|stable|
 |''Source''|http://www.tiddlywiki.com/plugins.html#DeprecatedFunctionsPlugin|
-|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MyDirectory/plugins/DeprecatedFunctionsPlugin.js |
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/plugins/DeprecatedFunctionsPlugin/DeprecatedFunctionsPlugin.js |
 |''License''|[[BSD open source license]]|
 |''~CoreVersion''|2.3.0|
-|''Feedback''|[[TiddlyWiki community|http://groups.google.com/group/TiddlyWiki]]|
+|''Feedback''|[[TiddlyWiki community|http://groups.google.com/group/TiddlyWiki]] |
 |''Keywords''|legacySupport|
 !Code
 ***/
