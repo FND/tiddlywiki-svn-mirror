@@ -3,7 +3,7 @@
 |''Description:''|Provides a splash screen that consists of the rendered default tiddlers|
 |''Author:''|Martin Budden|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SplashScreenPlugin.js |
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|April 17, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -50,18 +50,30 @@ version.extensions.SplashScreenPlugin.setup = function()
 	text += ".headerForeground a {font-weight:normal; color:#8cf;}\n";
 	text += ".shadow .title {color:#666;}\n";
 */
-	text += "body {background:"+store.getTiddlerSlice("ColorPalette","Background")+"; color:"+store.getTiddlerSlice("ColorPalette","Foreground")+";}\n";
-	text += "a {color:"+store.getTiddlerSlice("ColorPalette","PrimaryMid")+";}";
-	text += "a:hover {background-color:"+store.getTiddlerSlice("ColorPalette","PrimaryMid")+"; color:"+store.getTiddlerSlice("ColorPalette","Background")+";}";
+	var cp = "ColorPalette";
+	text += "body {background:"+store.getTiddlerSlice(cp,"Background")+"; color:"+store.getTiddlerSlice(cp,"Foreground")+";}\n";
+	text += "a {color:"+store.getTiddlerSlice(cp,"PrimaryMid")+";}";
+	text += "a:hover {background-color:"+store.getTiddlerSlice(cp,"PrimaryMid")+"; color:"+store.getTiddlerSlice(cp,"Background")+";}";
 
-	text += ".title {color:"+store.getTiddlerSlice("ColorPalette","SecondaryDark")+";}\n";
-	text += ".subtitle {color:"+store.getTiddlerSlice("ColorPalette","TertiaryDark")+";}\n";
-	text += ".header {background:"+store.getTiddlerSlice("ColorPalette","PrimaryMid")+";}\n";
-	text += ".headerShadow {color:"+store.getTiddlerSlice("ColorPalette","Foreground")+";}\n";
-	text += ".headerShadow a {font-weight:normal; color:"+store.getTiddlerSlice("ColorPalette","Foreground")+";}\n";
-	text += ".headerForeground {color:"+store.getTiddlerSlice("ColorPalette","Background")+";}\n";
-	text += ".headerForeground a {font-weight:normal; color:"+store.getTiddlerSlice("ColorPalette","PrimaryPale")+";}\n";
-	text += ".shadow .title {color:"+store.getTiddlerSlice("ColorPalette","TertiaryDark")+";}\n";
+	text += ".title {color:"+store.getTiddlerSlice(cp,"SecondaryDark")+";}\n";
+	text += ".subtitle {color:"+store.getTiddlerSlice(cp,"TertiaryDark")+";}\n";
+	text += ".header {background:"+store.getTiddlerSlice(cp,"PrimaryMid")+";}\n";
+	text += ".headerShadow {color:"+store.getTiddlerSlice(cp,"Foreground")+";}\n";
+	text += ".headerShadow a {font-weight:normal; color:"+store.getTiddlerSlice(cp,"Foreground")+";}\n";
+	text += ".headerForeground {color:"+store.getTiddlerSlice(cp,"Background")+";}\n";
+	text += ".headerForeground a {font-weight:normal; color:"+store.getTiddlerSlice(cp,"PrimaryPale")+";}\n";
+	text += ".shadow .title {color:"+store.getTiddlerSlice(cp,"TertiaryDark")+";}\n";
+	text += ".viewer table, table.twtable {border:2px solid "+store.getTiddlerSlice(cp,"TertiaryDark")+";}";
+	text += ".viewer th, .viewer thead td, .twtable th, .twtable thead td {background:"+store.getTiddlerSlice(cp,"SecondaryMid")+"; border:1px solid "+store.getTiddlerSlice(cp,"TertiaryDark")+"; color:"+store.getTiddlerSlice(cp,"Background")+";}";
+	text += ".viewer td, .viewer tr, .twtable td, .twtable tr {border:1px solid "+store.getTiddlerSlice(cp,"TertiaryDark")+";}";
+
+	console.log(store.getTiddlerText("StyleSheet"));
+	var tiddlers = store.filterTiddlers(store.getTiddlerText("StyleSheet"));
+	//#console.log(tiddlers);
+	for(var i=0;i<tiddlers.length;i++) {
+		//#console.log(tiddlers[i].text);
+		text += tiddlers[i].text;
+	}
 
 	text += "</style>\n";
 	text += "<!--}}}-->\n\n";
@@ -76,8 +88,8 @@ version.extensions.SplashScreenPlugin.setup = function()
 	pt = pt.replace(/<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'><\/span>/mg,"<span class=\"siteSubtitle\">"+sitesubtitle+"</span>");
 	pt = pt.replace(/<!--\{\{\{-->/mg,"").replace(/<!--\}\}\}-->/mg,"");
 	text = "";
-	var tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));
-	for(var i=0;i<tiddlers.length;i++) {
+	tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));
+	for(i=0;i<tiddlers.length;i++) {
 		tiddler = tiddlers[i];
 		var title = tiddler.title;
 		var tiddlerElem = createTiddlyElement(null,"div","tempId"+tiddler.title,"tiddler");
@@ -89,10 +101,8 @@ version.extensions.SplashScreenPlugin.setup = function()
 		tiddlerElem.setAttribute("template",template);
 		var t = story.getTemplateForTiddler(title,template,tiddler);
 		t = t.replace(/<div class=['"]toolbar[^<]*<\/div>/mg,"<div class=\"toolbar\"><br /></div>");
-		console.log(t);
 		t = t.replace(/<div class=['"]tagging['"][^>]*><\/div>\n/mg,"");
 		t = t.replace(/<div class=['"]tagged['"][^>]*><\/div>\n/mg,"");
-		console.log(t);
 		tiddlerElem.innerHTML = t;
 		applyHtmlMacros(tiddlerElem,tiddler);
 		text += tiddlerElem.innerHTML;
@@ -113,7 +123,7 @@ version.extensions.SplashScreenPlugin.setup = function()
 	store.setDirty(true);
 };
 
-version.extensions.SplashScreenPlugin.saveChanges = saveChanges
+version.extensions.SplashScreenPlugin.saveChanges = saveChanges;
 function saveChanges()
 {
 	version.extensions.SplashScreenPlugin.setup();
