@@ -111,32 +111,32 @@ IFrame.prototype.modify = function(html)
 	this.style.height = this.doc.body.offsetHeight+"px";
 };
 
-IFrame.localizeLinks = function(html,baseURL) {
-	if(!baseURL)  {
-		baseURL = document.location.toString();
-		if((p = baseURL.lastIndexOf("/")) != -1)
-			baseURL = baseURL.substr(0,p) + "/";
-		else if((p = baseURL.lastIndexOf("\\")) != -1)
-			baseURL = baseURL.substr(0,p) + "\\";
-	}
+IFrame.localizeLinks = function(html,baseURI) {
+	if(!baseURI)
+		baseURI = document.location.toString();
+	// ensure baseURI always has a trailing slash
+	var baseURISeparator;
+	var p;
+	if((p = baseURI.lastIndexOf("/"))!=-1) // Unix local path
+		baseURISeparator = "/";
+	else if((p = baseURI.lastIndexOf("\\"))!=-1) // Windows local path
+		baseURISeparator = "\\";
+
+	baseURI = baseURI.substr(0,p) + baseURISeparator;
 	// have a go at fixing relative links
 	var linkRegex = new RegExp("(href|src|action)(=['\"])(?!http:\/\/)(\/)*","img");
-	html = html.replace(linkRegex,function(match,m1,m2,m3) {
-	  if(!m3)
-		 m3 = "/";
-	  return m1+m2+baseURL+m3;
+	html = html.replace(linkRegex,function(match,m1,m2) {
+	  return m1+m2+baseURI;
 	});
 	var importRegex = new RegExp("(@import ['\"])(\/)*","img");
 	// supplement this with support for @import "/blah"
-	html = html.replace(importRegex,function(match,m1,m2) {
-	  if(!m2)
-		 m2 = "/";
-	  return m1+baseURL+m2;
+	html = html.replace(importRegex,function(match,m1) {
+	  return m1+baseURI;
 	});
 	var baseRegex = new RegExp("<head[^>]*?>","img");
 	// add a BASE tag to the HEAD to help with relative linking - perhaps not necessary...
 	html = html.replace(baseRegex,function(match) {
-	  return match+"<"+"base href=\""+baseURL+"\" />";
+	  return match+"<"+"base href=\""+baseURI+"\" />";
 	});
 	return html;
 }
