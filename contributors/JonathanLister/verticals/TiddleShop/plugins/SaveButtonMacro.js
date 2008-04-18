@@ -1,3 +1,21 @@
+/***
+|''Name:''|SaveButtonMacro |
+|''Description:'' |IWantABlog-specific save button for publishing blog |
+|''Author:'' |JonLister |
+|''Dependencies:'' |TemplatePlugin |
+|''Version:''|1 |
+|''Date:''|25/3/08 |
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.3 |
+
+!Usage:
+{{{
+<<saveButton>>
+}}}
+
+***/
+
 config.macros.saveButton = {
 	label: "save",
 	defaultPath: "/blog/index.html"

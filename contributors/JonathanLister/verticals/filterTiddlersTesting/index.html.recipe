@@ -1,4 +1,5 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 tiddler: ../../plugins/filterTiddlersTestingPlugin.js
+tiddler: ../../plugins/filterTiddlersPlugin.js
 recipe: tiddlers/split.recipe
 recipe: js/split.recipe

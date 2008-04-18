@@ -28,6 +28,7 @@ config.macros.HTMLTemplatePreview.handler = function(place,macroName,params,wiki
 		var template = params[0];
 	else {
 		displayMessage(this.syntaxError);
+		return false;
 	}
 	var html = expandTemplate(template);
 	html = IFrame.localizeLinks(html);

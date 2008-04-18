@@ -1,8 +1,24 @@
 /***
-Meant to work with BidiX's UploadPlugin and is based on JayFresh's TiddlyTemplating file saving macro
+|''Name:''|UploadTextMacro |
+|''Description:'' |Allows you to upload text strings as files to TiddlyHome |
+|''Author:'' |JonLister (based heavily on Bidix's UploadToFileMacro) |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/TiddleShop/plugins/UploadTextMacro.js |
+|''Dependencies:'' |TemplatePlugin, UploadPlugin |
+|''Version:''|1 |
+|''Date:''|25/3/08 |
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.3 |
 
 !Usage:
-<<>>
+{{{
+<<uploadText filename template>>
+}}}
+
+Parameters:
+filename - the name of the file to be saved on the server
+template - the name of the tiddler containing the template to be used
+
 ***/
 
 config.macros.uploadText = {

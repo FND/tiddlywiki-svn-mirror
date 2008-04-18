@@ -2,5 +2,5 @@ tiddler: ImageSizePlugin.js
 tiddler: FileSavePlugin.js
 tiddler: JSSerializePlugin.js
 tiddler: SaveButtonMacro.js
-tiddler: TiddleShopPlugins.js
-tiddler: UploadTextPlugin.js
+tiddler: TiddleShopConfigPlugin.js
+tiddler: UploadTextMacro.js
