@@ -1,6 +1,6 @@
 /***
 |''Name''|EvalMacro|
-|''Version''|0.95|
+|''Version''|0.96|
 |''Status''|stable|
 |''Author''|FND|
 |''Source''|[[FND's DevPad|http://devpad.tiddlyspot.com/#EvalMacro]]|
@@ -41,6 +41,8 @@
 * initial release
 !!v0.95 (2007-12-23)
 * introduced script mode
+!!v0.96 (2008-04-18)
+* bugfix regarding type conversion
 !Code
 ***/
 //{{{
