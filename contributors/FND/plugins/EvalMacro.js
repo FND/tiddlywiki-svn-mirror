@@ -51,6 +51,6 @@ config.macros.eval.handler = function(place, macroName, params, wikifier, paramS
 	if(params[1] == "scriptMode")
 		eval(params[0]);
 	else
-		wikify(params[0], place);
+		wikify(params[0].toString(), place);
 }
 //}}}
