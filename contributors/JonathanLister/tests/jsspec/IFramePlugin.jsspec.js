@@ -41,8 +41,26 @@ describe('IFrame : constructor', {
 
 describe('IFrame : modify()', {
 
-	'it should ': function() {
+	before_each: function() {
+		html = "<html><head><title>test html</title></head><body><p>hello</p></body></html>";
+		htmlHead = "<title>test html</title>";
+		htmlBody = "<p>hello</p>";
+	},
+
+	'it should set the html of the <head> element of the iframe as the innerHTML of the <head> of the input': function() {
+		var expected = htmlHead;
+		var ifr = new IFrame();
+		ifr.modify(html);
+		var actual = ifr.doc.documentElement.firstChild.innerHTML;
+		value_of(actual).should_be(expected);
+	},
 	
+	'it should set the html of the <body> element of the iframe as the innerHTML of the <head> of the input': function() {
+		var expected = htmlBody;
+		var ifr = new IFrame();
+		ifr.modify(html);
+		var actual = ifr.doc.documentElement.childNodes[1].innerHTML;
+		value_of(actual).should_be(expected);
 	}
 });
 

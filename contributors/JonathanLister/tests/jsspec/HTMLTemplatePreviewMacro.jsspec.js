@@ -10,11 +10,11 @@ describe('HTMLTemplatePreview : handler()', {
 
 	'it should return false if no template parameter is provided': function() {
 		params = [];
-		var actual = config.macros.HTMLTemplatePreview.handler(place,null,params);
-		value_of(actual).should_be_false();
 		displayMessage = function() {
 			return;
 		};
+		var actual = config.macros.HTMLTemplatePreview.handler(place,null,params);
+		value_of(actual).should_be_false();
 	},
 	
 	'it should not call expandTemplate if no template parameter is provided': function() {
@@ -27,7 +27,7 @@ describe('HTMLTemplatePreview : handler()', {
 			return;
 		};
 		params = [];
-		var actual = config.macros.HTMLTemplatePreview.handler(place,null,params);
+		config.macros.HTMLTemplatePreview.handler(place,null,params);
 		value_of(called).should_be(false);
 	},
 
@@ -37,9 +37,19 @@ describe('HTMLTemplatePreview : handler()', {
 			called = true;
 			return html;
 		};
-		var actual = config.macros.HTMLTemplatePreview.handler(place,null,params);
+		config.macros.HTMLTemplatePreview.handler(place,null,params);
 		value_of(called).should_be(true);
-	}	
+	},
+	
+	'it should call the IFrame.localizeLinks function': function() {
+		var called = false;
+		IFrame.localizeLinks = function(html) {
+			called = true;
+			return html;
+		};
+		config.macros.HTMLTemplatePreview.handler(place,null,params);
+		value_of(called).should_be(true);
+	}
 });
 
 // ]]>

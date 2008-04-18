@@ -57,6 +57,5 @@ config.macros.HTMLTemplatePreview.handler = function(place,macroName,params,wiki
 		ifr.doc.documentElement.getElementsByTagName("body")[0].innerHTML = htmlBody;
 	}
 	ifr.style.width = "100%";
-	ifr.style.height = "800px";
-	//ifr.doc.body.offsetHeight+"px";
+	ifr.style.height = ifr.doc.body.offsetHeight+"px";
 };

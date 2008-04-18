@@ -12,7 +12,7 @@
 
 !Usage:
 {{{
-var ifr = new IFrame(parentElem);
+var ifr = new IFrame(parentElem,name);
 }}}
 
 where "parentElem" is an optional DOM element to add the iframe as a child to; parentElem defaults to document.body.
@@ -108,7 +108,7 @@ IFrame.prototype.modify = function(html)
 		this.doc.documentElement.getElementsByTagName("body")[0].innerHTML = htmlBody;
 	}
 	this.style.width = "100%";
-	this.style.height = ifr.doc.body.offsetHeight+"px";
+	this.style.height = this.doc.body.offsetHeight+"px";
 };
 
 IFrame.localizeLinks = function(html,baseURL) {
