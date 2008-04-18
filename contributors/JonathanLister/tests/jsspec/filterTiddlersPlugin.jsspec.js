@@ -168,6 +168,6 @@ describe('filterTiddlers()', {
 			expected.push(title);
 		});
 		value_of(actual).should_be(expected);
-	},
+	}
 });
 // ]]>
