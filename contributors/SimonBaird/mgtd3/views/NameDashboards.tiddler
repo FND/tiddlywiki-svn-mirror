@@ -43,14 +43,14 @@
 
 <div macro="mgtdList title:'Next Actions' startTag:Action tags:'Next && !Done' view:Action mode:global
 	group:Project
-	gView:plain
+	gView:bold
 	where:tiddler.hasActiveProject()
 	newButtonTags:'Action Next'
 	"></div>
 
 <div macro="mgtdList title:'Waiting Actions' startTag:Action tags:'[(Waiting For)] && !Done' view:Action mode:global
 	group:Project
-	gView:plain
+	gView:bold
 	where:tiddler.hasActiveProject()
 	newButton:'Action [(Waiting For)]'
 	"></div>
@@ -59,7 +59,7 @@
 
 <div macro="mgtdList title:'Future Actions' startTag:Action tags:'Future && !Done' view:Action mode:global
 	group:Project
-	gView:plain
+	gView:bold
 	where:tiddler.hasActiveProject()
 	newButtonTags:'Action Future'
 	"></div>
@@ -69,7 +69,7 @@
 
 <div class="scroll10" macro="mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
 	group:Project
-	gView:plain
+	gView:bold
 	sort:-modified
 	newButtonTags:'Action Next Done'
 	where:tiddler.hasActiveProject()
@@ -144,7 +144,7 @@
 
 <div macro="mgtdList startTag:Action tags:'Next && !Done' view:Action mode:global
 	group:Project
-	gView:plain
+	gView:bold
 	newButtonTags:'Action Next'
 	where:tiddler.hasActiveProject()
 	"></div>
@@ -177,7 +177,7 @@
 
 <div macro="mgtdList title:'Active Projects' startTag:Project tags:'Active && !Complete' view:Project mode:global
 	group:Area
-	gView:plain
+	gView:bold
 	newButtonTags:'Project Active'
 	"></div>
 
@@ -185,7 +185,7 @@
 
 <div macro="mgtdList title:'Someday/Maybe Projects' startTag:Project tags:'Someday/Maybe && !Complete' view:Project mode:global
 	group:Area
-	gView:plain
+	gView:bold
 	newButtonTags:'Project Someday/Maybe'
 	"></div>
 
@@ -193,7 +193,7 @@
 
 <div macro="mgtdList title:'Completed Projects' startTag:Project tags:'Complete' view:Project mode:global
 	group:Area
-	gView:plain
+	gView:bold
 	newButtonTags:'Project Active Complete'
 	"></div>
 
@@ -246,7 +246,7 @@
 
 <div macro="mgtdList startTag:Action title:'Next' tags:'Next && !Done' view:Action mode:global
 	group:Project
-	gView:plain
+	gView:bold
 	newButtonTags:'Action Next'
 	where:tiddler.hasActiveProject()
 	"></div>
@@ -255,7 +255,7 @@
 
 <div macro="mgtdList startTag:Action title:'Waiting' tags:'[(Waiting For)] && !Done' view:Action mode:global
 	group:Project
-	gView:plain
+	gView:bold
 	where:tiddler.hasActiveProject()
 	newButtonTags:'Action [(Waiting For)]'
 	"></div>
@@ -299,8 +299,28 @@ Paint House
 </pre>
 By default actions are next actions. 
 Specify W or F to make them future or Waiting For. You can create multiple projects and project-less actions.
+<p>
 <br/>
-(TODO: expand on this help.) 
+You can also specify area for projects. Order dosn't matter, as there can only be one uniquely named tiddler. The following is valid:<br/><pre>
+Paint House|Home Maintenance|Personal
+.Buy ladder and brushes|@Errand
+.Choose colours|W|@Home</pre>
+<br/>
+To specify multiple projects and tasks, along with project-less actions, the below is an example of one way create two projects with tasks, and then a stand alone action.<br/>
+<pre>
+Clean up yard|Personal|Home Maintenance
+.Pick up sticks|@Weekend
+.Bag all the sticks|@Weekend
+Check out latest SAN offerings|Research|Work
+.Read up on all major vendors offerings|@Reading
+.Call Doug for opinion|@Call
+.Check budget|@Work|F
+
+.Call Tara about tickets
+</pre>
+If you want to add an action to an already existing project, you can specify the project name to do so:
+<pre>
+.Pick up lumber at Home Depot|Build toolshed|@Errand
 </p>
 
 !Tickler Dashboard
@@ -374,4 +394,5 @@ Specify W or F to make them future or Waiting For. You can create multiple proje
 	"></div>
 
 </td></tr></table>
+
 

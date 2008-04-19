@@ -8,19 +8,6 @@ merge(config.macros,{
 				'F': 'Future'
 			};
 
-			// TODO move this help elsewhere...
-			/*
-			wikify(
-				"Enter projects and actions here. Click 'create these items' to create them\n"+
-				"Example usage:\n{{{\nPaint House|Home Maintenance\n"+
-				".Buy ladder and brushes|Errands\n"+
-				".Choose colours|Home|W\n"+
-				"\n}}}\n"+
-				"By default actions are next actions. "+
-				"Specify W or F to make them future or Waiting For. You can create multiple projects.\n\n"
-			,place);
-			*/
-
 			wikify("Quick add projects and actions (See [[About Quick Add]] for more info):\n",place);
 			var pi = createTiddlyElement(place,"textarea",null,"piBox");
 			
@@ -125,5 +112,6 @@ merge(config.macros,{
 		}
 	}
 });
+
 
 

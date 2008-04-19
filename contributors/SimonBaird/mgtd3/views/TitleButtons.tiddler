@@ -1,6 +1,6 @@
 !Project
 <!--{{{-->
-<span class='title' macro='view title'></span> (Project)
+<span class='title' macro='view title'></span> (Project)<span macro="help Project"></span>
 <span macro="toggleTag Complete . -"></span>
 <span macro="multiToggleTag ProjectStatus longVersion:on"></span>
 <span macro="singleToggleTag tag:Starred"></span>
@@ -14,7 +14,7 @@ Realm:<span macro="multiSelectTag Realm"></span>
 <!--{{{-->
 <span class='title' macro='view title'></span>
 <span macro="eval '[[[P]|'+tiddler.getByIndex('Project')+']]'"></span>
-(Action)
+(Action)<span macro="help Action"></span>
 <span macro="toggleTag Done . -"></span>
 <span macro="multiToggleTag ActionStatus longVersion:on"></span>
 <span macro="singleToggleTag tag:Starred"></span>
@@ -31,7 +31,7 @@ Realm:<span macro="multiSelectTag Realm"></span>
 
 !Tickler
 <!--{{{-->
-<span class='title' macro='view title'></span> (Tickler)
+<span class='title' macro='view title'></span> (Tickler)<span macro="help Tickler"></span>
 <span macro="toggleTag Actioned . -"></span>
 <span macro="multiToggleTag TicklerStatus longVersion:on"></span>
 <span macro="singleToggleTag tag:Starred"></span>
@@ -41,6 +41,10 @@ Realm:<span macro="multiSelectTag Realm"></span>
 [[MonkeyGTDTheme##Subtitle]]
 <br/>
 Tickler date:<span macro="dateChooser"></span>
+<span macro="addDay"></span>
+<span macro="addWeek"></span>
+<span macro="addMonth"></span>
+<span macro="addYear"></span>
 <!--}}}-->
 
 !View
@@ -50,24 +54,24 @@ Tickler date:<span macro="dateChooser"></span>
 
 !Context
 <!--{{{-->
-<span class='title' macro='view title'></span> (Context)
+<span class='title' macro='view title'></span> (Context)<span macro="help Context"></span>
 <span macro="singleToggleTag tag:Starred"></span>
 <!--}}}-->
 
 !Area
 <!--{{{-->
-<span class='title' macro='view title'></span> (Area)
+<span class='title' macro='view title'></span> (Area)<span macro="help Area"></span>
 <span macro="singleToggleTag tag:Starred"></span>
 <!--}}}-->
 
 !Realm
 <!--{{{-->
-<span class='title' macro='view title'></span> (Realm)
+<span class='title' macro='view title'></span> (Realm)<span macro="help Realm"></span>
 <!--}}}-->
 
 !Reference
 <!--{{{-->
-<span class='title' macro='view title'></span> (Reference)
+<span class='title' macro='view title'></span> (Reference)<span macro="help Reference"></span>
 <span macro="singleToggleTag tag:Starred"></span>
 <br/>
 Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[[P]|'+tiddler.getByIndex('Project')+']]'"></span>

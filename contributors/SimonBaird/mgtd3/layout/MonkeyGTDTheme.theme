@@ -370,6 +370,13 @@ body {
 .ticklerAlert { padding-left:3em; }
 .ticklerAlert .tiddlyLink { color:white; }
 
+/* give a little more space for menu */
+#sidebar { width: 19em; /* instead of 16em */ }
+#displayArea { margin-right:18.7em; /* instead of 15.7em */ }
+#sidebarTabs .tabContents { width:18em; /* instead of 15em */ }
+
+#messageArea .help { width:40em; font-size:90%; }
+
 /* for DateChooser */
 [[DateChooserStyles]]
 

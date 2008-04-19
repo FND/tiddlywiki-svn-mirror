@@ -1,7 +1,87 @@
+/%
+This is the contents of the help you get when you click the question mark button
+%/
+
+!Project
+No help yet for Project
+
+!Action
+No help yet for Action
+
+!Tickler
+No help yet for Tickler
+
+!View
+No help yet for View
+
+!Context
+No help yet for Context
+
+!Area
+No help yet for Area
+
+!Realm
+No help yet for Realm
+
+!Reference
+No help yet for Reference
+
+
+
 !Action Dashboard
-This Dashboard is the place where you can get an overview of your next actions
-* test
-* asdfa
-asdfasdfa
-dd
-asdfasdf
+This Dashboard is the place where you can get an overview of your next actions.  
+
+!Action Dashboard by Project
+This Dashboard is the place where you can get an overview of your next actions organised by Project. Note that when doing work you shouldn't be really be using this view. You should be focussed on context rather than project.
+
+!Action Dashboard by Context
+This Dashboard is the place where you can get an overview of your next actions organised by Context. This might be too cluttered if you have a lot of actions.  If you know you are in a particular context consider just clicking the context to focus on that context.
+
+!Next Actions
+No help yet for Next Actions
+
+!Next Actions by Context
+No help yet for Next Actions by Context
+
+!Next Actions by Project
+No help yet for Next Actions by Project
+
+!Projects Dashboard
+No help yet for Projects Dashboard
+
+!Projects Dashboard by Area
+No help yet for Projects Dashboard by Area
+
+!Next and Waiting Actions
+No help yet for Next and Waiting Actions
+
+!Next and Waiting Actions by Context
+No help yet for Next and Waiting Actions by Context
+
+!Next and Waiting Actions by Project
+No help yet for Next and Waiting Actions by Project
+
+!Done Actions
+No help yet for Done Actions
+
+!Active Projects With No Next Action
+No help yet for Active Projects With No Next Action
+
+!Quick Add
+No help yet for Quick Add
+
+!About Quick Add
+No help yet for About Quick Add
+
+!Tickler Dashboard
+No help yet for Tickler Dashboard
+
+!Ticklers Requiring Action
+No help yet for Ticklers Requiring Action
+
+!Reference Items
+No help yet for Reference Items
+
+!Starred Items
+No help yet for Starred Items
+
