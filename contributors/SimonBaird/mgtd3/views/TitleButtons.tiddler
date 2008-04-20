@@ -1,4 +1,4 @@
-!Project
+Project
 <!--{{{-->
 <span class='title' macro='view title'></span> (Project)<span macro="help Project"></span>
 <span macro="toggleTag Complete . -"></span>
@@ -27,6 +27,12 @@ Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="ev
 </span>
 Realm:<span macro="multiSelectTag Realm"></span>
 [[MonkeyGTDTheme##Subtitle]]
+<br/>
+<span macro="showWhen tiddler.tags.containsAny(['Waiting For','Future']) && !tiddler.tags.contains('Done')">
+<!-- only show delegate for waiting and future actions -->
+Delegated to/waiting on:<span macro="multiSelectTag Contact allowNone:on"></span>
+<span macro="eval '[[>'+'>|'+tiddler.getByIndex('Contact')+']]'"></span> 
+</span>
 <!--}}}-->
 
 !Tickler
@@ -82,3 +88,10 @@ Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="ev
 Realm:<span macro="multiSelectTag Realm"></span><br/>
 <div style="border-bottom:1px solid [[ColorPalette::TertiaryLight]]">Double click or click "edit" to edit. Use "new here" to make sub item.</div><!--- TODO should be a class --->
 <!--}}}-->
+
+!Contact
+<!--{{{-->
+<span class='title' macro='view title'></span> (Contact)<span macro="help Contact"></span>
+[[MonkeyGTDTheme##Subtitle]]
+<!--}}}-->
+

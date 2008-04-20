@@ -62,6 +62,13 @@ initial = [
 
 demo = [
 
+  ['Bert',           "Contact"],
+  ['Ernie',          "Contact"],
+  ['Big Bird',       "Contact"],
+  ['Fozzie',         "Contact"],
+  ['Miss Piggy',     "Contact"],
+  ['Kermit',         "Contact"],
+
 	['Mow Lawn',              "Project [[Home Maintenance]] Personal Active"],
 	['Get some mower fuel',   "Action Next Personal [[Mow Lawn]] @Errand"],
 	['Pick up palm branches', "Action Next Personal [[Mow Lawn]] @Weekend"],

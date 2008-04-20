@@ -11,7 +11,8 @@ config.mGTD.specialTags = [
 		"Context",
 		"View",
         "Tickler",
-		"Reference"
+		"Reference",
+		"Contact"
 ]
 config.mGTD.tagsToIndex = [
 		"Project",
@@ -21,8 +22,9 @@ config.mGTD.tagsToIndex = [
 		"ActionStatus",
 		"TicklerStatus",
 		"ProjectStatus",
-		"GTDComponent", // ??
-		"Sidebar"
+		"GTDComponent",
+		"Sidebar",
+		"Contact"
 ];
 
 config.mgtdVersion = "3.0 alpha r__REV__";

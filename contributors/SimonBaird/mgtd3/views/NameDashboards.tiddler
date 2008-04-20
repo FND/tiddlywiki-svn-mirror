@@ -395,4 +395,32 @@ If you want to add an action to an already existing project, you can specify the
 
 </td></tr></table>
 
+!Delegated Tasks Dashboard
+<table class="threecol"><tr><td>
 
+<div macro="mgtdList title:'Delegated/Waiting For' startTag:Action tags:'[(Waiting For)] && !Done' view:ActionProj mode:global
+	where:tiddler.getByIndex('Contact').length>0
+	group:Contact
+	gView:bold
+	newButtonTags:'[(Waiting For)]'
+	"></div>
+
+</td><td>
+
+<div macro="mgtdList title:'Future (to be delegated)' startTag:Action tags:'Future && !Done' view:ActionProj mode:global
+	where:tiddler.getByIndex('Contact').length>0
+	group:Contact
+	gView:bold
+	newButtonTags:'Future'
+	"></div>
+
+</td><td>
+
+<div macro="mgtdList title:'Done' startTag:Action tags:'Done' view:DoneAction mode:global
+	where:tiddler.getByIndex('Contact').length>0
+	group:Contact
+	gView:bold
+	newButtonTags:'Future'
+	"></div>
+
+</td></tr></table>

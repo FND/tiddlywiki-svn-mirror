@@ -10,9 +10,13 @@
 	newButtonTags:'Action Next'
 	"></div>
 
-<div macro="mgtdList title:'Waiting Actions' tags:'Action && [(Waiting For)] && !Done' view:Action
+<!-- was this:
 	group:Context
 	gView:Context
+-->
+<div macro="mgtdList title:'Waiting Actions by Person' tags:'Action && [(Waiting For)] && !Done' view:Action
+	group:Contact
+	gView:bold
 	newButtonTags:'Action [(Waiting For)]'
 	"></div>
 
@@ -81,4 +85,20 @@
 	"></div>
 
 !Reference
-<div class="tagglyTagging" macro="tagglyTagging"></div><!--- this makes me very happy :) --->
+<div class="tagglyTagging" macro="tagglyTagging"></div><!--- this makes me happy  --->
+
+!Contact
+<table class="twocol"><tr><td>
+
+<div macro="mgtdList title:'Actions delegated' tags:'!Next && !Done' view:ActionProj
+	group:ActionStatus
+	gView:bold
+	newButtonTags:'[(Waiting For)]'
+	"></div>
+
+</td><td>
+<div macro="mgtdList title:'Actions Done' tags:'Done' view:DoneAction
+	newButtonTags:Done
+	"></div>
+
+</td></tr></table>
