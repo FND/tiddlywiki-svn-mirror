@@ -1,4 +1,4 @@
-Project
+!Project
 <!--{{{-->
 <span class='title' macro='view title'></span> (Project)<span macro="help Project"></span>
 <span macro="toggleTag Complete . -"></span>
