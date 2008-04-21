@@ -12,6 +12,7 @@ These recipes are used to build the content of www.tiddlywiki.com/beta and an em
 For 2.4 these need to be cooked and the resultant TiddlyWikis copied onto the server as follows:
 
 index.2.4.0.B2.html => http://www.tiddlywiki.com/beta/index.html
-index.2.4.0.B2.html => http://www.tiddlywiki.com/upgrade/index.html
+empty.2.4.0.B2.html => http://www.tiddlywiki.com/beta/empty.html
+empty.2.4.0.B2.html => http://www.tiddlywiki.com/upgrade/index.html
 
 Because 2.4.0 is the first version of TiddlyWiki to have an upgrade mechanism it is fine to copy the beta empty file to http://www.tiddlywiki.com/upgrade/index.html. Beta release after 2.4.0 need to copy this empty file to http://www.tiddlywiki.com/beta/upgrade/index.html
