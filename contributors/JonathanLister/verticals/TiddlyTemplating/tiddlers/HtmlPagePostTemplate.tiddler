@@ -1,10 +1,10 @@
 <div title="HtmlPagePostTemplate" modifier="YourName" created="200801221609" modified="200801221855" tags="template">
 <pre><div class="entrada">
-				<h2 id="post-97"><a href="http://jaybyjayfresh.com/2008/01/15/the-day-the-internet-died/" rel="bookmark" title="Permanent Link to The day the Internet&nbsp;died&#8230;"><<view title>></a></h2>
-				<small><<view modified>> | In <a href="http://wordpress.com/tag/cartoons/" title="View all posts in cartoons" rel="category tag">cartoons</a> | <a href="http://jaybyjayfresh.com/2008/01/15/the-day-the-internet-died/#comments" title="Comment on The day the Internet&nbsp;died&#8230;">1 Comment</a>  | <a href="http://jaybyjayfresh.com/wp-admin/post.php?action=edit&amp;post=97" title="Edit post">Edit this post</a><br />Tags: <a href="http://wordpress.com/tag/internet/" rel="tag">internet</a><br /></small>
+				<h2 id="post-97"><a href="http://jaybyjayfresh.com/2008/01/15/the-day-the-internet-died/" rel="bookmark" title="Permanent Link to The day the Internet&nbsp;died&#8230;"><!--<<view title>>--></a></h2>
+				<small><!--<<view modified>>--> | In <a href="http://wordpress.com/tag/cartoons/" title="View all posts in cartoons" rel="category tag">cartoons</a> | <a href="http://jaybyjayfresh.com/2008/01/15/the-day-the-internet-died/#comments" title="Comment on The day the Internet&nbsp;died&#8230;">1 Comment</a>  | <a href="http://jaybyjayfresh.com/wp-admin/post.php?action=edit&amp;post=97" title="Edit post">Edit this post</a><br />Tags: <a href="http://wordpress.com/tag/internet/" rel="tag">internet</a><br /></small>
 
 						
-			<div class='snap_preview'><p><<view text>></p>
+			<div class='snap_preview'><p><!--<<view text>>--></p>
 </div>							
 				<div class="feedback"></div>
 

@@ -1,3 +1,3 @@
 <div title="HtmlSave Test" modifier="YourName" created="200801221841" modified="200801280000" changecount="3">
-<pre><<TiddlyTemplating blogpage.html HtmlPageTemplate>></pre>
+<pre><<TiddlyTemplating HtmlPageTemplate fileName:blogpage.html>></pre>
 </div>

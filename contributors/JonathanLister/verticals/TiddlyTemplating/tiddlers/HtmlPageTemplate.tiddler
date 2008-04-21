@@ -120,7 +120,7 @@ urchinTracker();
 		<div id="noticias">
 		
 				
-			<<ListTemplate filter:[tag[post]] template:HtmlPagePostTemplate>>
+			<!--<<templateTiddlers filter:[tag[post]] template:HtmlPagePostTemplate>>-->
 					
 		
 		<a href="http://jaybyjayfresh.com/page/2/">Next Page &raquo;</a>		</div>
