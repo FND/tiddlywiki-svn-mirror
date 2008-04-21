@@ -19,22 +19,47 @@ if (is_dir($dir)) {
 				echo "</div>\n";
     		}else if ($ext == "tiddler")
 			{		
-					$tiddler_name = str_replace('.tiddler', '', $file);
 					include_once($cct_base."ccPlugins/".$file);
 			}
     	}
         closedir($dh);
     }
 }
-include_once($cct_base."tiddlers/ccTiddly_debug_time.php");
+
+
+///////  START DEBUG TIDDLER 
+
+recordTime_float("before print tiddly");
+if( sizeof($tiddlers)>0 )
+{
+	foreach( $tiddlers as $t )
+	{
+		tiddler_outputDIV($t);
+	}
+}
+recordTime_float("after print tiddly");
+
+//print time tiddly in debug mode
+if( $tiddlyCfg['developing']>0 )
+{
+	recordTime_float("end of script");
+	//$time[] = microtime_float("end of script");
+
+	print "<div tiddler=\"ccTiddly_debug_time\" modified=\"000000000000\" modifier=\"ccTiddly\" created=\"000000000000\" temp.ccTrevision=\"1\" tags=\"debug\">";
+	for( $i=1; $i<sizeof($time); $i++ )
+	{
+		print $time[$i]["name"]." = ".(round($time[$i]["time"]-$time[0]["time"],3))."s\\n";
+	}
+	print "</div>";
+}
+
+
+
+///// END DEBUG TIDDLER
 
 ?>
 <div title="CreateWorkspace" tags="simple">
 <pre>&lt;&lt;ccCreateWorkspace&gt;&gt;</pre>
-</div>
-
-<div title="CreateWorkspace">
-<pre><<ccCreateWorkspace>></pre>
 </div>
 
 <div title="AnonDefaultTiddlers" modifier="ccTiddly">
@@ -42,7 +67,6 @@ include_once($cct_base."tiddlers/ccTiddly_debug_time.php");
 [[Login]] [[GettingStarted]]
 </pre>
 </div>
-
 
 <div title="LoginStatus" modifier="ccTiddly" tags="simple">
 <pre>
@@ -60,4 +84,8 @@ If you've forgotten your username and / or password, please contact the administ
 
 simon@osmosoft.com
 </pre>
+</div>
+
+<div title="Register">
+<pre><<ccRegister>></pre>
 </div>

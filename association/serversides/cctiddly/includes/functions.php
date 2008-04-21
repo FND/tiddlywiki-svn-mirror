@@ -75,7 +75,7 @@ function getURL()
 //	echo $uri["path"];
 	if ($_SERVER['SERVER_PORT'] != '80')
 		$port = ":".$_SERVER['SERVER_PORT'];
-	$out = getScheme().'://'.$_SERVER['SERVER_NAME'].$port.dirname($_SERVER['SCRIPT_NAME'])."/";
+	$out = getScheme().'://'.$_SERVER['SERVER_NAME'].$port.dirname($_SERVER['SCRIPT_NAME'])."";
 	return $out; 
 }
 
