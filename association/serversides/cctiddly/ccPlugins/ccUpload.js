@@ -16,9 +16,9 @@ var iFrameLoad=function(){
 	var statusArea=document.getElementById("uploadStatus");
 	document.getElementById("ccfile").value=""; 
 	statusArea.innerHTML=uploadIframe.contentDocument.body.innerHTML;
-} 
+};
 
-config.macros.ccUpload={
+config.macros.ccUpload={};
 config.macros.ccUpload.handler=function(place,macroName,params,wikifier,paramString,tiddler,errorMsg){
 	if (workspacePermission.upload!=1){
 		createTiddlyElement(place,'div',null,"annotation",'You do not have permissions to create a file on this server. ');
