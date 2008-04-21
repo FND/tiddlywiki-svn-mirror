@@ -108,6 +108,7 @@ IFrame.prototype.modify = function(html)
 		this.doc.documentElement.getElementsByTagName("body")[0].innerHTML = htmlBody;
 	}
 	this.style.width = "100%";
+	// BUG: this height setting sometimes causes perculiar very tall iframes; no idea why yet
 	this.style.height = this.doc.body.offsetHeight+"px";
 };
 

@@ -49,7 +49,7 @@ Usage:
 if(!version.extensions.templateTiddlersPlugin) {
 version.extensions.templateTiddlersPlugin = {installed:true};
 
-expandTemplate = function(template,tiddlers)
+expandTemplate = function(template,tiddlers,wikitext)
 {
 	var defaultTemplate = "<<view text>>";
 	var t = template;
@@ -60,8 +60,10 @@ expandTemplate = function(template,tiddlers)
 		tiddlers.push(new Tiddler("temp"));
 	}
 	var output = "";
+	// decide whether to parse as wikitext or simple template
+	var format = wikitext ? null : 'template';
 	for(var i=0; i<tiddlers.length; i++) {
-		output += wikifyStatic(template,null,tiddlers[i],'template').htmlDecode();
+		output += wikifyStatic(template,null,tiddlers[i],format).htmlDecode();
 		// wikifyStatic returns html; htmlDecode is used so that nesting of templates doesn't cause encoded characters to be wikified
 	}
 	return output;
@@ -75,6 +77,7 @@ config.macros.templateTiddlers.handler = function(place,macroName,params,wikifie
 	if(!template)
 		template = getParam(p,"anon",null);
 	var filter = getParam(p,"filter",null);
+	var wikitext = getParam(p,"wikitext",null);
 	var tiddlers = [];
 	if(filter) {
 		tiddlers = store.filterTiddlers(filter);
@@ -82,7 +85,7 @@ config.macros.templateTiddlers.handler = function(place,macroName,params,wikifie
 		// no filter provided, so inherit or create temp tiddler
 		tiddlers.push(tiddler ? tiddler : new Tiddler("temp"));
 	}
-	var output = expandTemplate(template,tiddlers);
+	var output = expandTemplate(template,tiddlers,wikitext);
 	// NOTE: the line below is contentious - should the .htmlEncode() be used?
 	// if you don't use it, it seems that output is not always added in a format suitable for innerHTML
 	// this is only an apparent problem when templateTiddlers is nested inside other templates (at two levels deep!)

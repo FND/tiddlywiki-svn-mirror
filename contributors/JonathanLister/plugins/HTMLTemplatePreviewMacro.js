@@ -33,29 +33,5 @@ config.macros.HTMLTemplatePreview.handler = function(place,macroName,params,wiki
 	var html = expandTemplate(template);
 	html = IFrame.localizeLinks(html);
 	var ifr = new IFrame(place,"IFrameElem");
-
-	var htmlHead = html.substring(0,html.indexOf("</head>"));
-	var htmlBody = html.substring(html.indexOf("<body"),html.indexOf("</body>"));
-	if(config.browser.isIE) {
-		ifr.doc.open();
-		// NOTE: Windows incorrectly renders the page if you don't include the DOCTYPE tag; e.g. in one case, the omission of this tag caused the content to be aligned left instead of center:
-		// <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-		// NOTE: Windows won't let you modify the innerHTML property of the IFrame head
-		// NOTE: Windows crashes if you write to the IFrame more than once
-		// NOTE: Windows doesn't run external scripts, which causes errors if scripts in the page refer to externally defined objects
-		// TO-DO: sort this out, maybe by removing any external script calls. Worth looking into
-		// NOTE: Firefox runs all scripts, so any calls in those scripts to document.write cancel this one
-		htmlHead += "</head>";
-		htmlBody += "</body>";
-		ifr.doc.write(htmlHead+htmlBody+"</html>");
-		ifr.doc.close();
-	} else {
-		htmlHead = htmlHead.substring(html.indexOf("<head"));
-		htmlHead = htmlHead.replace(/<head[^>]*?>/,"");
-		ifr.doc.documentElement.getElementsByTagName("head")[0].innerHTML = htmlHead;
-		htmlBody = htmlBody.replace(/<body[^>]*?>/,"");
-		ifr.doc.documentElement.getElementsByTagName("body")[0].innerHTML = htmlBody;
-	}
-	ifr.style.width = "100%";
-	ifr.style.height = ifr.doc.body.offsetHeight+"px";
+	ifr.modify(html);
 };

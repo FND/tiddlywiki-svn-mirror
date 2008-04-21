@@ -30,8 +30,9 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
 	var limitResults = function(limit) {
 		// if the accumulator is empty, limit the results array
 		var arrayToSplice = accumulator.length==0 ? results : accumulator;
-		if(arrayToSplice.length>limit)
-			arrayToSplice.splice(limit);
+		if(arrayToSplice.length>limit) {
+			arrayToSplice.splice(limit,arrayToSplice.length-limit);
+		}
 	};
 	if(filter) {
 		var tiddler;
@@ -39,6 +40,7 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
 		var re_inner = /([ \w-]+)\[([^\]]+)]/mg;
 		var match = re.exec(filter);
 		while(match) {
+			console.log(match);
 			if(match[1] || match[3]) {
 				var title = match[1] ? match[1] : match[3];
 				if(title=="*") {
