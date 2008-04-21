@@ -11,7 +11,6 @@ describe('Macros: list macro', {
 	before_each : function() {
 		__main();
 	},
-	
 
 	'registerOnSubmit. Should return false due to username being null' : function() { 
 		config.macros.ccRegister.username= {};   

@@ -9,21 +9,19 @@
 |''~CoreVersion:''|2.2.0|
 ***/
 //{{{
-	
-version.extensions.LoadRemoteFileThroughProxy = {
-major: 1, minor: 1, revision: 0, 
-date: new Date("mar 17, 2007"), 
-source: "http://tiddlywiki.bidix.info/#LoadRemoteFileThroughProxy"};
+version.extensions.LoadRemoteFileThroughProxy={
+major:1,minor:1,revision: 0, 
+date:new Date("mar 17, 2007"), 
+source:"http://tiddlywiki.bidix.info/#LoadRemoteFileThroughProxy"};
 
-if (!window.bidix) window.bidix = {}; // bidix namespace
-if (!bidix.core) bidix.core = {};
+if(!window.bidix)window.bidix={}; // bidix namespace
+if(!bidix.core)bidix.core={};
 
-bidix.core.loadRemoteFile = loadRemoteFile;
-loadRemoteFile = function(url,callback,params){
-	if ((document.location.toString().substr(0,4) == "http") && (url.substr(0,4) == "http")){ 
-		url = store.getTiddlerText("SiteProxy", "/proxy/") + url;
+bidix.core.loadRemoteFile=loadRemoteFile;
+loadRemoteFile=function(url,callback,params){
+	if((document.location.toString().substr(0,4)=="http")&&(url.substr(0,4)=="http")){ 
+		url=store.getTiddlerText("SiteProxy","/proxy/")+url;
 	}
 	return bidix.core.loadRemoteFile(url,callback,params);
 }
-
 //}}}
