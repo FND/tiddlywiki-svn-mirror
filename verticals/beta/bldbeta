@@ -3,6 +3,6 @@ DEFAULT_RELEASE=2.4.0.B2
 RELEASE=${1:-$DEFAULT_RELEASE}
 DEST=$PWD
 RECIPE=$PWD/index.$RELEASE.html.recipe
-ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST $2 $3 $4 $5
+ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q $2 $3 $4 $5
 RECIPE=$PWD/empty.$RELEASE.html.recipe
-ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST $2 $3 $4 $5
+ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q $2 $3 $4 $5
