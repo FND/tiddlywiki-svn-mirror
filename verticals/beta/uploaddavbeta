@@ -13,7 +13,7 @@ USER="releasemanager"
 # Usage:
 #  upload username[:password] source target
 function upload() {
-	curl -u \"$1\" -T \"$2\" \"$3\"
+	curl -u "$1" -T "$2" "$3"
 }
 
 # prompt for password
