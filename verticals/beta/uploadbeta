@@ -1,9 +1,52 @@
 #!/bin/bash
 #  uploadbeta release
-DEFAULT_RELEASE=2.4.0.B2
+
+DEFAULT_RELEASE="2.4.0.B2"
 RELEASE=${1:-$DEFAULT_RELEASE}
-scp index.$RELEASE.html http://tiddlywiki.com:./temp/index.html
-scp empty.$RELEASE.html http://tiddlywiki.com:./temp/empty.html
-ssh http://tiddlywiki.com "sudo mv ./temp/index.html XXX/beta/index.html"
-ssh http://tiddlywiki.com "sudo cp ./temp/empty.html XXX/beta/empty.html"
-ssh http://tiddlywiki.com "sudo mv ./temp/empty.html XXX/upgrade/index.html"
+
+# cook
+echo
+echo "cooking release files ($RELEASE)"
+echo
+ck index.$RELEASE -q
+ck empty.$RELEASE -q
+
+# rename
+echo
+echo "renaming files"
+echo
+mv index.$RELEASE.html index.html
+mv empty.$RELEASE.html empty.html
+
+# upload files to temporary folder
+echo
+echo "uploading files"
+echo
+FILES="index.html empty.html"
+#FILES="index.html empty.html TiddlySaver.jar"
+scp $FILES tiddlywiki.com:./tmp/
+
+# transfer files to their respective folders
+echo
+echo "transferring files"
+echo
+COMMANDS="ssh tiddlywiki.com"
+COMMANDS="$COMMANDS sudo mv ./tmp/index.html /var/www/www.tiddlywiki.com/htdocs/beta/index.html;"
+COMMANDS="$COMMANDS sudo cp ./tmp/empty.html /var/www/www.tiddlywiki.com/htdocs/beta/empty.html;"
+COMMANDS="$COMMANDS sudo mv ./tmp/empty.html /var/www/www.tiddlywiki.com/htdocs/upgrade/index.html;"
+#COMMANDS="$COMMANDS sudo cp ./tmp/TiddlySaver.html /var/www/www.tiddlywiki.com/htdocs/beta/TiddlySaver.html;"
+#COMMANDS="$COMMANDS sudo mv ./tmp/TiddlySaver.html /var/www/www.tiddlywiki.com/htdocs/upgrade/TiddlySaver.html;"
+$COMMANDS
+
+# cleanup
+echo
+echo "cleaning up (removing cooked files)"
+echo
+rm index.html
+rm empty.html
+rm TiddlySaver.jar
+
+# complete
+echo
+echo "done"
+echo
