@@ -3,7 +3,7 @@ prehead: ../../core/html/rss.link.html
 title: html/title.txt
 recipe: shadows/split.recipe
 recipe: content/split.recipe
-tiddler: ../tiddlywiki.com/tiddlers/TiddlySaver.tiddler
+tiddler: ../tiddlywiki.com/content/TiddlySaver.tiddler
 tiddler: plugins/SharedRecordsAdaptorPlugin.js
 # tiddler: plugins/ImportSharedRecordsMetaDataPlugin.js
 # tiddler: plugins/SyncMetaDataTiddlers.js
