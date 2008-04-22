@@ -11,6 +11,14 @@ DIR="/var/www/www.tiddlywiki.com/htdocs"
 OWNER="www-data:www-data"
 PERM="664"
 
+# setPermissions()
+# Usage:
+#  setPermissions file
+function setPermissions() {
+	COMMANDS="$COMMANDS sudo chown $OWNER $1;"
+	COMMANDS="$COMMANDS sudo chmod $PERM $1;"
+}
+
 # upload files to temporary folder
 echo
 echo "uploading files"
@@ -24,20 +32,15 @@ echo "transferring files"
 echo
 COMMANDS="ssh $HOST"
 COMMANDS="$COMMANDS sudo mv ./tmp/index.$RELEASE.html $DIR/beta/index.html;"
-COMMANDS="$COMMANDS sudo chown $OWNER $DIR/beta/index.html;"
-COMMANDS="$COMMANDS sudo chmod $PERM $DIR/beta/index.html;"
+setPermissions "$DIR/beta/index.html"
 COMMANDS="$COMMANDS sudo cp ./tmp/empty.$RELEASE.html $DIR/beta/empty.html;"
-COMMANDS="$COMMANDS sudo chown $OWNER $DIR/beta/empty.html;"
-COMMANDS="$COMMANDS sudo chmod $PERM $DIR/beta/empty.html;"
+setPermissions "$DIR/beta/empty.html"
 COMMANDS="$COMMANDS sudo mv ./tmp/empty.$RELEASE.html $DIR/upgrade/index.html;"
-COMMANDS="$COMMANDS sudo chown $OWNER $DIR/upgrade/index.html;"
-COMMANDS="$COMMANDS sudo chmod $PERM $DIR/upgrade/index.html;"
+setPermissions "$DIR/upgrade/index.html"
 #COMMANDS="$COMMANDS sudo cp ./tmp/TiddlySaver.html $DIR/beta/TiddlySaver.jar;"
-#COMMANDS="$COMMANDS sudo chown $OWNER $DIR/beta/TiddlySaver.jar;"
-#COMMANDS="$COMMANDS sudo chmod $PERM $DIR/beta/TiddlySaver.jar;"
+#setPermissions "$DIR/beta/TiddlySaver.jar"
 #COMMANDS="$COMMANDS sudo mv ./tmp/TiddlySaver.html $DIR/upgrade/TiddlySaver.jar;"
-#COMMANDS="$COMMANDS sudo chown $OWNER $DIR/upgrade/TiddlySaver.jar;"
-#COMMANDS="$COMMANDS sudo chmod $PERM $DIR/upgrade/TiddlySaver.jar;"
+#setPermissions "$DIR/upgrade/TiddlySaver.jar"
 $COMMANDS
 
 # cleanup
