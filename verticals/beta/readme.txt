@@ -16,5 +16,6 @@ empty.2.4.0.B2.html => http://www.tiddlywiki.com/beta/empty.html
 empty.2.4.0.B2.html => http://www.tiddlywiki.com/upgrade/index.html
 
 The script "uploadbeta" can be used to upload the index and empty html files onto the tiddlywiki.com server (you will be prompted for your username and password twice).
+Alternatively, the script "uploaddavbeta" can be used, which only requires a single password prompt.
 
 Because 2.4.0 is the first version of TiddlyWiki to have an upgrade mechanism it is fine to copy the beta empty file to http://www.tiddlywiki.com/upgrade/index.html. Beta releases after 2.4.0 need to copy this empty file to http://www.tiddlywiki.com/beta/upgrade/index.html
