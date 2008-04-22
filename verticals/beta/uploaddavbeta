@@ -28,9 +28,9 @@ LOGIN="$USER:$PASS"
 echo "uploading index.$RELEASE.html to $HOST/beta/index.html"
 upload "$LOGIN" "index.$RELEASE.html" "$HOST/beta/index.html"
 echo "uploading empty.$RELEASE.html to $HOST/beta/empty.html"
-upload "$LOGIN" "empty.$RELEASE.html" "beta/empty.html"
+upload "$LOGIN" "empty.$RELEASE.html" "$HOST/beta/empty.html"
 echo "uploading empty.$RELEASE.html to $HOST/upgrade/index.html"
-upload "$LOGIN" "empty.$RELEASE.html" "upgrade/index.html"
+upload "$LOGIN" "empty.$RELEASE.html" "$HOST/upgrade/index.html"
 
 # cleanup
 if [ "$2" = "true" ]; then
