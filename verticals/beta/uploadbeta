@@ -8,13 +8,15 @@ DEFAULT_RELEASE="2.4.0.B2"
 RELEASE=${1:-$DEFAULT_RELEASE}
 HOST="tiddlywiki.com"
 DIR="/var/www/www.tiddlywiki.com/htdocs"
+OWNER="www-data:www-data"
+PERM="664"
 
 # upload files to temporary folder
 echo
 echo "uploading files"
 echo
 FILES="index.$RELEASE.html empty.$RELEASE.html"
-scp "$FILES" "$HOST:./tmp/"
+scp $FILES "$HOST:./tmp/"
 
 # transfer files to their respective folders
 echo
@@ -22,10 +24,20 @@ echo "transferring files"
 echo
 COMMANDS="ssh $HOST"
 COMMANDS="$COMMANDS sudo mv ./tmp/index.$RELEASE.html $DIR/beta/index.html;"
+COMMANDS="$COMMANDS sudo chown $OWNER $DIR/beta/index.html;"
+COMMANDS="$COMMANDS sudo chmod $PERM $DIR/beta/index.html;"
 COMMANDS="$COMMANDS sudo cp ./tmp/empty.$RELEASE.html $DIR/beta/empty.html;"
+COMMANDS="$COMMANDS sudo chown $OWNER $DIR/beta/empty.html;"
+COMMANDS="$COMMANDS sudo chmod $PERM $DIR/beta/empty.html;"
 COMMANDS="$COMMANDS sudo mv ./tmp/empty.$RELEASE.html $DIR/upgrade/index.html;"
-#COMMANDS="$COMMANDS sudo cp ./tmp/TiddlySaver.html $DIR/beta/TiddlySaver.html;"
-#COMMANDS="$COMMANDS sudo mv ./tmp/TiddlySaver.html $DIR/upgrade/TiddlySaver.html;"
+COMMANDS="$COMMANDS sudo chown $OWNER $DIR/upgrade/index.html;"
+COMMANDS="$COMMANDS sudo chmod $PERM $DIR/upgrade/index.html;"
+#COMMANDS="$COMMANDS sudo cp ./tmp/TiddlySaver.html $DIR/beta/TiddlySaver.jar;"
+#COMMANDS="$COMMANDS sudo chown $OWNER $DIR/beta/TiddlySaver.jar;"
+#COMMANDS="$COMMANDS sudo chmod $PERM $DIR/beta/TiddlySaver.jar;"
+#COMMANDS="$COMMANDS sudo mv ./tmp/TiddlySaver.html $DIR/upgrade/TiddlySaver.jar;"
+#COMMANDS="$COMMANDS sudo chown $OWNER $DIR/upgrade/TiddlySaver.jar;"
+#COMMANDS="$COMMANDS sudo chmod $PERM $DIR/upgrade/TiddlySaver.jar;"
 $COMMANDS
 
 # cleanup
