@@ -68,7 +68,7 @@ describe('Macros: list macro', {
 	'Displays register screen' : function() { 
 	//	var c = new config.macros.ccAbout.sub();
 		value_of(wikifyStatic('<<ccRegister>>')).should_be("a");
-	},
+	}
 	
 });
 // ]]>

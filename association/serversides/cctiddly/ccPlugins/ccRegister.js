@@ -1,4 +1,4 @@
-config.macros.ccRegister ={};
+	config.macros.ccRegister ={};
 config.macros.ccRegister.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	var registerDiv = createTiddlyElement(place,"div",null,"loginDiv",null);
 	this.refresh(registerDiv);
@@ -71,7 +71,7 @@ config.macros.ccRegister.emailValid=function(str){
 }; 
 
 config.macros.ccRegister.registerOnSubmit=function(){
-	if(this.username.value===''){
+	if(this.username.value==''){
 		document.getElementById('username_error').innerHTML='Please enter a username';
 		this.username.setAttribute("class","inputError");
 		return false;
