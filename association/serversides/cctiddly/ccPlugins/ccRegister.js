@@ -25,15 +25,21 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 
 	var user_label = createTiddlyElement(step,"label",null,"label","Username");
 	user_label.setAttribute("for","username");
-	var username = createTiddlyElement(step,"input","username","input","username");			
+	
+	
+	
+	
+	var username = createTiddlyElement(step,"input","username");			
 	username.setAttribute("onkeyup","config.macros.ccRegister.usernameKeyPress()");
 	username.setAttribute("tabindex","1");
-	createTiddlyElement(step,"span",'username_error','inlineError','');
+	
+	
+	createTiddlyElement(step,"span",'username_error','inlineError',null);
 	createTiddlyElement(step,"br");
 	
 	var mail_label = createTiddlyElement(step,"label",null,"label","E-Mail Address");
 	mail_label.setAttribute("for","username");
-	var mail = createTiddlyElement(step,"input","mail" ,"input","mail");		
+	var mail = createTiddlyElement(step,"input","mail" ,"input");		
 	mail.setAttribute("onKeyUp","config.macros.ccRegister.mailKeyUp(this.value)");
 	mail.setAttribute("tabindex","2");
 	createTiddlyElement(step,"span",'mail_error','inlineError','');
@@ -41,24 +47,30 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 	
 	var pw1_label = createTiddlyElement(step,"label",null,"label","Password");
 	pw1_label.setAttribute("for","password1");
-	var password1 = createTiddlyElement(step,"input","password1","input","password1");
-	password1.type="password";
-	createTiddlyElement(step,"span",'pass1_error','inlineError','');
+	var password1 = createTiddlyElement(null,"input","password1","input");
+	password1.setAttribute("type","password");
+	step.appendChild(password1);
+	
+	createTiddlyElement(step,"span",'mail_error','inlineError','');
+	
+	createTiddlyElement(step,"span",'pass1_error','inlineError');
 	createTiddlyElement(step,"br");
 	
 	var pw2_label = createTiddlyElement(step,"label",null,"label","Password Confirmation");
 	pw2_label.setAttribute("for","password2");
-	var password2 = createTiddlyElement(step,"input","password2","input","password2");
-	password2.type="password";
+	var password2 = createTiddlyElement(null,"input","password2","input");
+	password2.setAttribute("type","password");
+	step.appendChild(password2);
 	
-	createTiddlyElement(step,"span",'pass2_error','inlineError','');
+	createTiddlyElement(step,"span",'pass2_error','inlineError');
 	createTiddlyElement(step,"br");
 
 	var a = createTiddlyElement(step,"div",null,"submit");
-	var btn = createTiddlyElement(a,"input",this.prompt,"button","button");
+	var btn = createTiddlyElement(null,"input",this.prompt,"button");
 	btn.setAttribute("type","submit");
 	btn.setAttribute("value","Register Account"); 
 	btn.setAttribute("id","registerAccountSubmit");
+	a.appendChild(btn);
 	createTiddlyElement(a,"span","submitStatus",null,"");
 };
 

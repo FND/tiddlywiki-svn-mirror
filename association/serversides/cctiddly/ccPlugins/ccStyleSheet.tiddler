@@ -1,6 +1,5 @@
-<div tiddler="ccStyleSheet">
-/*{{{*/
-
+<div title="StyleSheet">
+<pre>/*{{{*/
 .input {
 	display: block;
 	font-size:0.9em;
@@ -123,4 +122,5 @@ border:solid 1px #9399AB;
 background-color:#E1E7F8;
 }
 /*}}}*/
+</pre>
 </div>
