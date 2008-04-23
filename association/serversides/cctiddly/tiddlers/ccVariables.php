@@ -3,13 +3,13 @@
 /*{{{*/
 
 
-var ccTiddlyVersion = '<?php echo $tiddlyCfg['version'];?>';
+window.ccTiddlyVersion = '<?php echo $tiddlyCfg['version'];?>';
 
 // PERMISSIONS 
 
-var workspacePermission= {};
-var url = "<?php echo getURL();?>";
-var workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
+window.workspacePermission= {};
+window.url = "<?php echo getURL();?>";
+window.workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 
 
 <?php
@@ -55,10 +55,10 @@ if ($workspace_create == "D")
 // PHP TO JAVASCRIPT VARIABLE ASSIGNMENT --- 
 
 
-var workspace_delete = "<?php echo $workspace_delete;?>";
-var workspace_udate = "<?php $workspace_udate;?>";
-var can_create_account = "<?php echo $tiddlyCfg['can_create_account'];?>";
-var openid_enabled = "<?php echo $tiddlyCfg['pref']['openid_enabled']; ?>";
+window.workspace_delete = "<?php echo $workspace_delete;?>";
+window.workspace_udate = "<?php $workspace_udate;?>";
+window.can_create_account = "<?php echo $tiddlyCfg['can_create_account'];?>";
+window.openid_enabled = "<?php echo $tiddlyCfg['pref']['openid_enabled']; ?>";
 
 
 

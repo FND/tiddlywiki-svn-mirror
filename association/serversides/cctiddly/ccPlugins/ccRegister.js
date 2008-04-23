@@ -1,4 +1,16 @@
-	config.macros.ccRegister ={};
+/***
+|''Name:''|ccAbout|
+|''Description:''|Allows you to find out about your ccTiddly installation|
+|''Version:''|2.1.5|
+|''Date:''|Nov 27, 2007|
+|''Source:''||
+|''Author:''|SimonMcManus|
+|''License:''|[[BSD open source license]]|
+|''~CoreVersion:''|2.3.0|
+|''Browser:''| Firefox |
+***/
+
+config.macros.ccRegister ={};
 config.macros.ccRegister.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	var registerDiv = createTiddlyElement(place,"div",null,"loginDiv",null);
 	this.refresh(registerDiv);

@@ -15,7 +15,7 @@ config.backstageTasks.push('create');
 merge(config.tasks,{create: {text: 'create', tooltip: 'Create new workspace', content:'&lt;&lt;ccCreateWorkspace&gt;&gt;'}});
 
 config.macros.ccCreateWorkspace = {}
-config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
+config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
 	// When we server this tiddler it need to know the URL of the server to post back to
 	//this value is currently set in index.php, should be index.php?action=createWorkspace to prepare for modulation
 	//form heading
@@ -106,7 +106,6 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function() {
 	params.url = url+this.ccWorkspaceName.value;
 	var loginResp = doHttp('POST',url+this.ccWorkspaceName.value,'ccCreateWorkspace=' + encodeURIComponent(this.ccWorkspaceName.value)+'&amp;ccAnonPerm='+encodeURIComponent(anon),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
 	return false; 
-
 };
 config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params,responseText,uri,xhr) {
 	//displayMessage(xhr.status);
@@ -204,44 +203,4 @@ config.macros.ccEditWorkspace.editWorkspaceCallback = function(status,params,res
 	return false;
 };
 
-/*
-/// THESE FUNCTIONS HAVE BEEN DISABLED BECAUSE THE PHP NEEDS TO BE BROKEN AWAY FROM THE JAVASCRIPT. 
-
-config.macros.ccListWorkspaces = {};
-config.macros.ccListWorkspaces.handler = function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
-	// When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
-	<?php
-	$result = db_workspace_selectAllPublic();
-	while ($row = db_fetch_assoc($result))
-	{
-	  echo "var item = createTiddlyElement(place, 'A', null, null,  '".$row['name']."');\n";
-	  if( $tiddlyCfg['use_mod_rewrite']==1 ) {
-	          echo "item.href= url+'".$row['name']."';\n";
-	  }else{
-	          echo "item.href= url+'?workspace=".$row['name']."';\n";
-	  }
-	  echo "createTiddlyElement(place,'br');";
-	}
-	?>
-	createTiddlyText(place, "\n Total Number of workspaces : <?php echo  db_num_rows($result)-1;?>");
-};
-config.macros.ccListMyWorkspaces = {};
-config.macros.ccListMyWorkspaces.handler: = function(place,macroName,params,wikifier,paramString,tiddler, errorMsg) {
-        // When we server this tiddler it need to know the URL of the server to post back to, this value is currently set in index.php
-        <?php
-        $result =  db_workspace_selectOwnedBy($user['username']);
-        while ($row = db_fetch_assoc($result))
-        {
-                echo "var item = createTiddlyElement(place, 'A', null, null,  '".$row['workspace_name']."');\n";
-                if( $tiddlyCfg['use_mod_rewrite']==1 ) {
-                        echo "item.href= url+'".$row['workspace_name']."';\n";
-                }else{
-                        echo "item.href= url+'?workspace=".$row['workspace_name']."';\n";
-                }
-                echo "createTiddlyElement(place,'br');";
-        }
-        ?>
-        createTiddlyText(place, "\n Your workspaces : <?php echo  db_num_rows($result);?>");
-};
-*/
 //}}}

@@ -1,4 +1,4 @@
-<?php
+<?php 
 include_once($cct_base."tiddlers/ccVariables.php");
 
 
@@ -14,9 +14,9 @@ if (is_dir($dir)) {
 			if ($ext == "js")
 			{
 				$tiddler_name = str_replace('.js', '', $file);
-				echo "<div tiddler='".$tiddler_name."' modifier='ccTiddly'  modified='200804211142' created='200804211142' tags='systemConfig excludeLists excludeSearch'>\n";
+				echo "<div title=\"".$tiddler_name."\" modifier=\"ccTiddly\" tags=\"systemConfig excludeLists excludeSearch\">\n<pre>";
             	include_once($cct_base."ccPlugins/".$file);
-				echo "</div>\n";
+				echo "</pre>\n</div>\n";
     		}else if ($ext == "tiddler")
 			{		
 					include_once($cct_base."ccPlugins/".$file);

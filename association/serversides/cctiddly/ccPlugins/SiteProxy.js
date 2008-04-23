@@ -1,1 +1,1 @@
-<pre>handle/proxy.php?feed=</pre>
+handle/proxy.php?feed=
