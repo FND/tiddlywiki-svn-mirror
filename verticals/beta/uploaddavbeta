@@ -31,6 +31,8 @@ echo "uploading empty.$RELEASE.html to $HOST/beta/empty.html"
 upload "$LOGIN" "empty.$RELEASE.html" "$HOST/beta/empty.html"
 echo "uploading empty.$RELEASE.html to $HOST/upgrade/index.html"
 upload "$LOGIN" "empty.$RELEASE.html" "$HOST/upgrade/index.html"
+echo "uploading TiddlySaver.jar to $HOST/beta/TiddlySaver.jar"
+upload "$LOGIN" "TiddlySaver.jar" "$HOST/beta/TiddlySaver.jar"
 
 # cleanup
 if [ "$2" = "true" ]; then
