@@ -4,11 +4,11 @@
 |''Source:''|http://tiddlywiki-zh.googlecode.com/svn/trunk/|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hant/locale.zh-Hant.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
-|''Version:''|2.3.0|
-|''Date:''|Apr 2, 2008|
+|''Version:''|2.4.0|
+|''Date:''|Apr 24, 2008|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|''~CoreVersion:''|2.3.0|
+|''~CoreVersion:''|2.4.0|
 ***/
 
 //{{{
@@ -29,6 +29,7 @@ merge(config.tasks,{
 	sync: {text: "同步", tooltip: "將你的資料內容與外部伺服器與檔案同步", content: '<<sync>>'},
 	importTask: {text: "導入", tooltip: "自其他檔案或伺服器導入文章或套件", content: '<<importTiddlers>>'},
 	tweak: {text: "選項", tooltip: "改變此 TiddlyWiki 的顯示與行為的設定", content: '<<options>>'},
+	upgrade: {text: "更新", tooltip: "更新 TiddlyWiki 核心程式", content: '<<upgrade>>'},
 	plugins: {text: "套件管理", tooltip: "管理已安裝的套件", content: '<<plugins>>'}
 });
 
@@ -90,7 +91,8 @@ merge(config.messages,{
 	wrongSaveFormat: "無法使用格式 '%0' 儲存，請使用標准格式存放",
 	invalidFieldName: "無效的欄位名稱：%0",
 	fieldCannotBeChanged: "無法變更欄位：'%0'",
-	loadingMissingTiddler: "正從伺服器 '%1' 的：\n\n工作區 '%3' 中的 '%2' 擷取文章 '%0'"});
+	loadingMissingTiddler: "正從伺服器 '%1' 的：\n\n工作區 '%3' 中的 '%2' 擷取文章 '%0'",
+	upgradeDone: "已更新至 %0 版\n\n點擊 '確定' 重新載入更新後的 TiddlyWiki"});
 
 merge(config.messages.messageClose,{
 	text: "關閉",
@@ -309,6 +311,33 @@ merge(config.macros.importTiddlers,{
 			]}
 	});
 
+merge(config.macros.upgrade,{
+	wizardTitle: "更新 TiddlyWiki 核心程式",
+	step1Title: "更新或修補此 TiddlyWiki 至最新版本",
+	step1Html: "您將更新至最新版本的 TiddlyWiki 核心程式 (自 <a href='%0' class='externalLink' target='_blank'>%1</a>)。 在更新過程中，您的資料將被保留。<br><br>請注意：更新核心可能不相容於其他套件。若對更新的檔案有問題，詳見 <a href='http://www.tiddlywiki.org/wiki/CoreUpgrades' class='externalLink' target='_blank'>http://www.tiddlywiki.org/wiki/CoreUpgrades</a>",
+	errorNotSaved: "執行更新之前，請先儲存變更",
+	step2Title: "確認更新步驟",
+	step2Html_downgrade: "您的 TiddlyWiki 將自 %1 版降級至 %0版。<br><br>不建議降級至較舊的版本。",
+	step2Html_restore: "此 TiddlyWiki 核心已是最新版 (%0)。<br><br>您可以繼續更新作業以確認核心程式未曾毀損。",
+	step2Html_upgrade: "您的 TiddlyWiki 将自 %1 版更新至 %0 版",
+	upgradeLabel: "更新",
+	upgradePrompt: "準備更新作業",
+	statusPreparingBackup: "準備備份中",
+	statusSavingBackup: "備份檔案",
+	errorSavingBackup: "備份檔案時發生問題",
+	statusLoadingCore: "核心程式載入中",
+	errorLoadingCore: "載入核心程式時，發生錯誤",
+	errorCoreFormat: "新版核心程式發生錯誤",
+	statusSavingCore: "正在儲存新版核心程式",
+	statusReloadingCore: "新版核心程式載入中",
+	startLabel: "開始",
+	startPrompt: "開始更新作業",
+	cancelLabel: "取消",
+	cancelPrompt: "取消更新作業",
+	step3Title: "已取消更新作業",
+	step3Html: "您已取消更新作業"
+	});
+
 merge(config.macros.sync,{
 	listViewTemplate: {
 		columns: [
@@ -421,7 +450,7 @@ merge(config.shadowTiddlers,{
 	SiteTitle: "我的 TiddlyWiki",
 	SiteSubtitle: "一個可重複使用的個人網頁式筆記本",
 	SiteUrl: 'http://www.tiddlywiki.com/',
-	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal " YYYY年0MM月0DD日" "日誌">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  "偏好設定 »" "變更 TiddlyWiki 選項">>',
+	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal " YYYY年0MM月0DD日" "日誌">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "偏好設定 \u00bb" "變更 TiddlyWiki 選項">>',
 	SideBarTabs: '<<tabs txtMainTab "最近更新" "依更新日期排序" TabTimeline "全部" "所有文章" TabAll "分類" "所有標籤" TabTags "更多" "其他" TabMore>>',
 	StyleSheet: '[[StyleSheetLocale]]',
 	TabMore: '<<tabs txtMoreTab "未完成" "內容空白的文章" TabMoreMissing "未引用" "未被引用的文章" TabMoreOrphans "預設文章" "已預設內容的隱藏文章" TabMoreShadowed>>',
