@@ -29,7 +29,7 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 	
 	
 	
-	var username = createTiddlyElement(step,"input","username");			
+	var username = createTiddlyElement(step,"input","username","input");			
 	username.setAttribute("onkeyup","config.macros.ccRegister.usernameKeyPress()");
 	username.setAttribute("tabindex","1");
 	
