@@ -4,7 +4,7 @@
 #  uploadbeta [release] [cleanup]
 
 # default values
-DEFAULT_RELEASE="2.4.0.B2"
+DEFAULT_RELEASE="2.4.0.B3"
 RELEASE=${1:-$DEFAULT_RELEASE}
 HOST="tiddlywiki.com"
 DIR="/var/www/www.tiddlywiki.com/htdocs"
