@@ -5,6 +5,6 @@ recipe: plugins/split.recipe
 recipe: feeds/split.recipe
 recipe: content/split.recipe
 recipe: shadows/split.recipe
-#recipe: images.recipe
-#copy: attachments/firstversion.html
-#copy: attachments/secondversion.html
+recipe: images.recipe
+copy: attachments/firstversion.html
+copy: attachments/secondversion.html
