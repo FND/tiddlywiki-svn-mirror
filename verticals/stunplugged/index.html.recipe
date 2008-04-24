@@ -21,7 +21,7 @@ tiddler: tiddlers/UnravelFireFoxPermissions.tiddler
 tiddler: tiddlers/ViewTemplate.tiddler
 tiddler: tiddlers/Styles_HorizontalMainMenu.tiddler
 tiddler: tiddlers/SocialtextServer.tiddler
-tiddler: ../tiddlywiki.com/tiddlers/TiddlySaver.tiddler
+tiddler: ../tiddlywiki.com/content/TiddlySaver.tiddler
 # tiddler: ../../contributors/EricShulman/plugins/SinglePageModePlugin.js
 tiddler: plugins/SocialtextLocaleOverrides.js
 tiddler: plugins/SocialtextTweaksPlugin.js
