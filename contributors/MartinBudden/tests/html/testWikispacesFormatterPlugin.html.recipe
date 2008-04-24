@@ -1,0 +1,6 @@
+recipe: ../../../../core/tests/html/testContributorsMin.recipe
+
+jsspecsrc=<script type="text/javascript" src="../../../../core/js/Version.js"></script>
+jsspecsrc=<script type="text/javascript" src="../../../../core/tests/js/tiddlywiki.js"></script>
+jsspecsrc=<script type="text/javascript" src="../../formatters/WikispacesFormatterPlugin.js"></script>
+jsspecsrc=<script type="text/javascript" src="../jsspec/WikispacesFormatterPlugin.jsspec.js"></script>

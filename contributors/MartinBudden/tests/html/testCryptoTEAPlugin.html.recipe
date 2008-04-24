@@ -1,0 +1,5 @@
+recipe: ../../../../core/tests/html/testContributorsMin.recipe
+
+jsspecsrc=<script type="text/javascript" src="../../../../core/js/Version.js"></script>
+jsspecsrc=<script type="text/javascript" src="../../plugins/CryptoTEAPlugin.js"></script>
+jsspecsrc=<script type="text/javascript" src="../jsspec/CryptoTEAPlugin.jsspec.js"></script>
