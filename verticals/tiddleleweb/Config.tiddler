@@ -1,5 +1,0 @@
-<div title="Config">
-<pre>|Admin feed url|<<option txtPollAdminFeed>>|
-|Poll for updates and queue items|<<option chkDoPolling>>|
-|~UserName|<<option txtUserName>>|</pre>
-</div>
