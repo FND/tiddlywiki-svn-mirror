@@ -65,6 +65,28 @@ function findToken(cookieStash){
 }
 
 
+
+function cookieString(str){
+	var cookies = str.split(";");
+	var output = {};
+	for(var c=0; c < cookies.length; c++){
+		var p = cookies[c].indexOf("=");
+		if(p != -1) {
+			var name = cookies[c].substr(0,p).trim();
+			var value = cookies[c].substr(p+1).trim();
+			if (name=='txtUserName'){
+				output.txtUserName=value;
+			}
+			if (name=='sessionToken'){
+				output.sessionToken=value;
+			}
+		}
+	}
+	return output;
+}
+
+
+
 function isLoggedIn(){
 	var cookieValues=findToken(document.cookie);
 	if (cookieValues.sessionToken && cookieValues.sessionToken!=='invalid' && cookieValues.txtUserName){
@@ -73,39 +95,6 @@ function isLoggedIn(){
 		return false;
 	}
 }
-
-config.macros.ccLoginStatus={};
-config.macros.ccLoginStatus.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	var loginDiv=createTiddlyElement(place,"div",null,"loginDiv",null);
-	this.refresh(loginDiv);
-};
-	
-config.macros.ccLoginStatus.refresh=function(place,errorMsg){
-	var loginDivRef=document.getElementById ("LoginDiv");
-	removeChildren(loginDivRef);
-	var wrapper=createTiddlyElement(place,"div");
-	if (isLoggedIn()){
-		createTiddlyElement(wrapper,"br");
-		var name=decodeURIComponent(decodeURIComponent(cookieValues.txtUserName));
-		var frm=createTiddlyElement(n,"form",null);
-		frm.action="";
-		frm.method="get";
-		//frm.onsubmit=config.macros.ccLogin.logoutOnSubmit;
-		wrapper.appendChild(frm);	
-		var str=wikify("You are viewing the workspace "+workspace +" and  are logged in as :  " + name ,frm);
-		var logout=createTiddlyElement(null,"input",logout,logout);
-		logout.setAttribute("type","hidden");
-		logout.value="1";   
-		logout.name="logout";   
-		frm.appendChild(logout);	
-		var btn=createTiddlyElement(null,"input",null,"button");
-		btn.setAttribute("type","submit");
-		btn.value="Logout";   
-		frm.appendChild(btn);	
-	}else{
-		wikify("[[Login]]",wrapper);
-	}
-};
 
 config.macros.ccLogin={};
 config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramString,tiddler){
@@ -264,9 +253,7 @@ config.macros.ccLogin.loginOnSubmit=function(){
 config.macros.ccLogin.loginCallback=function(status,params,responseText,uri,xhr){
 	var cookie;
 	cookie=xhr.getResponseHeader("Set-Cookie");
-	console.log(cookie);
 	var cookieValues=findToken(cookie);
-	console.log(cookieValues);
 	config.macros.ccLogin.saveCookie(cookieValues);
 	if(xhr.status!==401){
 		window.location.reload();

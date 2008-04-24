@@ -26,13 +26,10 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 	var user_label = createTiddlyElement(step,"label",null,"label","Username");
 	user_label.setAttribute("for","username");
 	
-	
-	
-	
-	var username = createTiddlyElement(step,"input","username","input");			
-	username.setAttribute("onkeyup","config.macros.ccRegister.usernameKeyPress()");
+	var username = createTiddlyElement(null,"input","username","input");			
+	username.setAttribute("onKeyUp","alert('vv');");
 	username.setAttribute("tabindex","1");
-	
+	step.appendChild(username);
 	
 	createTiddlyElement(step,"span",'username_error','inlineError',null);
 	createTiddlyElement(step,"br");
@@ -176,6 +173,7 @@ config.macros.ccRegister.mailKeyUp=function(mail){
 };
 
 config.macros.ccRegister.usernameKeyPress=function(){
+alert('ddd');
 	doHttp('POST',url+'handle/register.php',"username="+document.getElementById("username").value+"&amp;free=1",null,null,null,config.macros.ccRegister.usernameCallback,null);
 	return false;
 };
