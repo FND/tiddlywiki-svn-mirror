@@ -1,0 +1,6 @@
+recipe: ../../../../core/tests/html/testContributorsMin.recipe
+
+jsspecsrc=<script type="text/javascript" src="../../../../core/js/Version.js"></script>
+jsspecsrc=<script type="text/javascript" src="../../../../core/js/Crypto.js"></script>
+jsspecsrc=<script type="text/javascript" src="../../plugins/SHA-1UnwoundPlugin.js"></script>
+jsspecsrc=<script type="text/javascript" src="../jsspec/SHA-1UnwoundPlugin.jsspec.js"></script>
