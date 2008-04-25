@@ -8,6 +8,8 @@
 Area:<span macro="multiSelectTag Area allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Area')+']]'"></span>
 Realm:<span macro="multiSelectTag Realm"></span>
 [[MonkeyGTDTheme##Subtitle]]
+<br>
+<span macro="deleteAllTagged 'delete project' '' 'delete'"></span>
 <!--}}}-->
 
 !Action

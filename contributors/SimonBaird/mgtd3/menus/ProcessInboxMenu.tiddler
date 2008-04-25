@@ -1,4 +1,3 @@
-!Process Inbox
 * [[Quick Add]]<br>(Add many projects and actions quickly)
 
 *<<newSavedTiddler label:'new next action' tag:{{'Action Next [['+config.macros.mgtdList.getRealm()+']]'}}>>
@@ -16,6 +15,5 @@
 *<<newSavedTiddler label:'new area' tag:{{'Area [['+config.macros.mgtdList.getRealm()+']]'}}>>
 *<<newSavedTiddler label:'new realm' tag:{{'Realm [['+config.macros.mgtdList.getRealm()+']]'}}>>
 }}}
-
 !!Recent
 <<mgtdList mode:global tags:'Project || Action' view:plain sort:-modified >>

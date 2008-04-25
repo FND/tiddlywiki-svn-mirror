@@ -165,7 +165,7 @@
 
 </td><td>
 
-<div macro="mgtdList title:'Completed Projects' startTag:Project tags:'Complete' view:Project mode:global
+<div macro="mgtdList title:'Completed Projects' startTag:Project tags:'Complete' view:ProjectComplete mode:global
 	"></div>
 
 </td></tr></table>
@@ -266,6 +266,7 @@
 <div macro="mgtdList startTag:Action title:'Done' tags:'Done' view:DoneAction mode:global
 	group:day
 	gView:DoneAction
+	gSort:-title
 	newButtonTags:'Action Next Done'
 	sort:-modified
 	"></div>
@@ -424,3 +425,4 @@ If you want to add an action to an already existing project, you can specify the
 	"></div>
 
 </td></tr></table>
+

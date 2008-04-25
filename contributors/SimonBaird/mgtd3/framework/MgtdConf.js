@@ -33,3 +33,5 @@ config.macros.mgtdVersion={handler:function(place){wikify(config.mgtdVersion,pla
 
 config.toggleTagAlwaysTouchModDate = true; // see ToggleTagPlugin
 
+
+

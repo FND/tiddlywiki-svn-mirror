@@ -67,14 +67,22 @@ merge(Tiddler.prototype,{
 
 	render_ProjectBare: function() { return this.renderUtil(
 		'{{project{'+
-		//'<<multiSelectTag tag:Project title:[[%0]]>>'+
-		//'<<multiCheckboxTag tag:ActionStatus title:[[%0]]>>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
 		'&nbsp;[[%0]] }}}',
 		[
 			this.title
 		]
 	);},
+
+	render_ProjectComplete: function() { return this.renderUtil(
+		'{{project{'+
+		'<<toggleTag Complete [[%0]] ->>'+
+		'&nbsp;[[%0]] }}}',
+		[
+			this.title
+		]
+	);},
+
 
 	render_ActionProj: function() {
 

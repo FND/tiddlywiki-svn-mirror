@@ -6,6 +6,7 @@ merge(Array.prototype,{
 			func(this[i]);
 	},
 
+	// TODO, there is a map in the core now. Is it same as this or different?
 	map: function(func) {
 		var result = [];
 		this.each(function(item) {
@@ -94,6 +95,10 @@ merge(Tiddler.prototype,{
 
 	matchesTagExpr: function(tagExpr) {
 		return this.matchesEvalExpr(tagExpr.parseTagExpr());
+	},
+
+	olderThanDays: function(days) {
+		return this.modified.getTime() < (new Date()).getTime() - days*1000*60*60*24;
 	}
 
 });
@@ -280,7 +285,12 @@ merge(Array.prototype,{
 
 	tiddlerSort: function(sortBy) {
 		return this.sort(function(a,b) { return a.sorterUtil(b,sortBy); });
+	},
+
+	toTitleList: function() {
+		return this.map(function(t){return t.title;});
 	}
+
 
 });
 

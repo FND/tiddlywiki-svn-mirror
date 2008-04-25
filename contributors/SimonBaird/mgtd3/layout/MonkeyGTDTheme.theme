@@ -60,11 +60,11 @@
 !PageTemplate
 <!--{{{-->
 <div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'>
+	<div style="float:right" id='searchBox' macro="search Search..."></div>
 	<div class='header2'>MonkeyGTD <span style="font-size:75%;font-weight:normal;" macro="mgtdVersion"></span></div>
 </div>
 <div macro='gradient vert [[ColorPalette::PrimaryMid]] [[ColorPalette::PrimaryDark]]'>
 	<div class='mtoolbar'>
-	<div style="float:right" id='sidebarSwitcher' macro="multiToggleTag title:MgtdSettings tag:Sidebar refresh:page"><span class="label">MENU</span></div>
 	<div>
 	<span class="label">REALM</span><span id='arealmSelector' macro="groupOfSingleToggleTags tag:Realm title:MgtdSettings refresh:page"></span>
 	<span id='ticklerAlert' refresh='content' tiddler='TicklerAlert' force="true"></span>
@@ -73,7 +73,14 @@
 	</div>
 </div>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
-<div id='sidebar'>[[MonkeyGTDTheme##SidebarMenus]]</div>
+<div id='sidebar'>
+	<div id='sidebarOptions'>
+		<span macro="saveChanges"></span>
+		<span macro="closeAll"></span>
+		<span macro="showWhen store.tiddlerExists('TspotSidebar')||store.isShadowTiddler('TspotSidebar')"><span refresh='content' tiddler='TspotSidebar'></span></span>
+	</div>
+	<div id='sidebarTabs' refresh='content' force='true' tiddler='MGTDSidebar'></div>
+</div>
 <div id='displayArea'>
 	<div id='messageArea'></div>
 	<div id='tiddlerDisplay'></div>
@@ -82,6 +89,7 @@
 
 !SidebarMenus
 <!--{{{-->
+<!--- not using --->
 <div id='twsidebar' macro="showWhen store.fetchTiddler('MgtdSettings').tags.contains('TW')">
 	<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
 	<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
@@ -348,7 +356,7 @@ body {
 	height:8em;
 }
 
-.smaller { font-size: 70%; }
+.smaller { font-size: 85%; }
 
 .scroll10 .innerList {
 	overflow:auto;
@@ -376,6 +384,27 @@ body {
 #sidebarTabs .tabContents { width:18em; /* instead of 15em */ }
 
 #messageArea .help { width:40em; font-size:90%; }
+
+#searchBox {
+	position:absolute;
+	top: 2px;
+	right: 7em;
+	z-index:200;
+	/* make room for backstage link? */
+}
+#searchBox .button {
+	display:none;
+}
+
+.tabContents .button {
+	display:block;
+}
+.tabContents .li .button {
+	display:inline; /* hack to make for quickopentags in tabTags look right... */
+}
+.tabContents li .button {
+	display:inline; /* hack to make for quickopentags in tabTags look right... */
+}
 
 /* for DateChooser */
 [[DateChooserStyles]]

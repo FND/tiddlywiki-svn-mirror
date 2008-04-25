@@ -1,0 +1,14 @@
+!!Actions
+Done actions older than 30 days.  <<deleteAllTagged 'Delete Old Actions' 'Action' '' 'Done' 'tiddler.olderThanDays(30)'>>
+<<mgtdList title:'Done actions older than 30 days' startTag:Action tags:'Done' view:DoneAction mode:global
+	mode:global sort:-modified
+	startTag:Action tags:'Done' view:DoneAction
+	where:'tiddler.olderThanDays(30)'
+	>>
+!!Projects
+Completed projects older than 30 days. (Delete individually).
+<<mgtdList title:'Completed projects older than 30 days'
+	mode:global sort:-modified
+	startTag:Project tags:'Complete' view:ProjectComplete
+	where:'tiddler.olderThanDays(30)'
+	>>

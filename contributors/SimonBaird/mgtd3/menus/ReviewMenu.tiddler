@@ -1,9 +1,9 @@
-!Review
 * [[Projects Dashboard]]
 * [[Projects Dashboard by Area]]
 * [[Action Dashboard by Project]]
 * [[Active Projects With No Next Action]]
 * [[Delegated Tasks Dashboard]]
+* [[Cleanup]]
 <slider+ Areas>
 <<mgtdList startTag:Project tags:'Active && !Complete' groupCountOnly:yes group:Area gView:plain>>
 </slider>
