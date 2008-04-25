@@ -26,18 +26,33 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 	var user_label = createTiddlyElement(step,"label",null,"label","Username");
 	user_label.setAttribute("for","username");
 	
-	var username = createTiddlyElement(null,"input","username","input");			
-	username.setAttribute("onKeyUp","alert('vv');");
-	username.setAttribute("tabindex","1");
-	step.appendChild(username);
+	var username = createTiddlyElement(step,"input","username","input");			
+
+	//username.attachEvent("onkeyup", "function() { alert('foo'); }",false); 
+	//username.onkeyup ="function() { alert('foo'); }"; 
+	//username.setAttribute("onkeyup","alert('vv');");
+	//username.onclick= "alert('bb');";
+	//username.attachEvent("onkeyup", "alert('foo');"); 
+	//username.addEventListener('onclick', "alert('ss');", false);
+
+	username.onkeydown=config.macros.ccRegister.usernameKeyPress;
+
 	
+	username.setAttribute("tabindex","1");
+
+		
 	createTiddlyElement(step,"span",'username_error','inlineError',null);
 	createTiddlyElement(step,"br");
 	
 	var mail_label = createTiddlyElement(step,"label",null,"label","E-Mail Address");
 	mail_label.setAttribute("for","username");
-	var mail = createTiddlyElement(step,"input","mail" ,"input");		
-	mail.setAttribute("onKeyUp","config.macros.ccRegister.mailKeyUp(this.value)");
+	var mail = createTiddlyElement(null,"input","mail" ,"input");		
+	mail.onkeydown=config.macros.ccRegister.mailKeyUp;
+	step.appendChild(mail);
+	
+	
+	
+	//nfig.macros.ccRegister.mailKeyUp;
 	mail.setAttribute("tabindex","2");
 	createTiddlyElement(step,"span",'mail_error','inlineError','');
 	createTiddlyElement(step,"br");
@@ -122,7 +137,7 @@ config.macros.ccRegister.registerOnSubmit=function(){
 		this.password1.setAttribute("class","inputError");
 		document.getElementById('pass2_error').innerHTML='Please ensure both passwords match';
 		this.password2.setAttribute("class","inputError");
-		return false;
+		return false;z
 	}
 	var submit=document.getElementById('registerAccountSubmit');
 	submit.disabled=true;
@@ -151,7 +166,7 @@ config.macros.ccRegister.registerCallback=function(status,params,responseText,ur
 		document.getElementById('password2').value='';
 		document.getElementById('username_error').innerHTML='';
 		document.getElementById('mail_error').innerHTML='';
-		document.getElementById('pass1_error').innerHTML=''; 
+		document.getElementById('pass1_error').innerHTML=''; 	
 		document.getElementById('pass2_error').innerHTML=''; 
 		var but=document.getElementById('registerAccountSubmit');
 		but.disabled=false;
@@ -173,7 +188,6 @@ config.macros.ccRegister.mailKeyUp=function(mail){
 };
 
 config.macros.ccRegister.usernameKeyPress=function(){
-alert('ddd');
 	doHttp('POST',url+'handle/register.php',"username="+document.getElementById("username").value+"&amp;free=1",null,null,null,config.macros.ccRegister.usernameCallback,null);
 	return false;
 };
