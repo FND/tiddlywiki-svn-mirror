@@ -1,5 +1,5 @@
 // <![CDATA[
-describe('Crypto: hexSha1Str()', {
+describe('SHA-1Unwound: hexSha1Str()', {
 
 	'SHA-1 hash of empty string should be correct': function() {
 		var actual = Crypto.hexSha1Str("").toLowerCase();
