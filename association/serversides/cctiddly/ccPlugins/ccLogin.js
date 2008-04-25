@@ -12,7 +12,7 @@
 
 //{{{
 config.backstageTasks.push("login");
-merge(config.tasks,{login:{text: "login",tooltip: "Login to your TiddlyWiki",content: '&lt;&lt;ccLogin&gt;&gt;'}});
+merge(config.tasks,{login:{text: "login",tooltip: "Login to your TiddlyWiki",content: '<<ccLogin>>'}});
 
 config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){};
 var loginState=null;
@@ -47,7 +47,7 @@ function findToken(cookieStash){
 	var cookies=cookieStash.split('path=/');
 	for(var c=0; c < cookies.length ; c++){
 		var cl =cookies[c].split(";");
-		for(var e=0; e &lt; cl.length; e++){ 
+		for(var e=0; e < cl.length; e++){ 
 			var p=cl[e].indexOf("=");
 			if(p!=-1){
 				var name=cl[e].substr(0,p).trim();

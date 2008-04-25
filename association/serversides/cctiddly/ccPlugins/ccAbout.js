@@ -10,7 +10,7 @@
 |''Browser:''| Firefox |
 ***/
 /*{{{*/
-config.backstageTasks.push(&quot;about&quot;);
+config.backstageTasks.push("about");
 // remove the save button from backstage
 if(config.backstageTasks[0]=='save')
 	config.backstageTasks.shift();

@@ -3,60 +3,46 @@
 function __main() {
 	store = new TiddlyWiki();
 	loadShadowTiddlers();
-	formatter = new Formatter(config.formatters);
+	formatter = new Formatter(config.formatters);	
 }
-
-__title = {
-	all: "All tiddlers in alphabetical order",
-	missing: "Tiddlers that have links to them but are not defined",
-	orphans: "Tiddlers that are not linked to from any other tiddlers",
-	shadowed: "Tiddlers shadowed with default contents",
-}
-
-describe('Macros: version macro', {
-	before_each : function() {
-		__main();
-	},
-
-	'version macro should expand to the version string' : function() { 
-		version.major = "123";
-		version.minor = "456";
-		version.revision = "789";
-		version.beta = "123456789";
-		value_of(wikifyStatic("<<version>>")).should_be("<span>123.456.789 (beta 123456789)</span>");
-	},
-});
-
-describe('Macros: today macro', {
-	before_each : function() {
-		__main();
-	},
-
-	'today macro should return a date shaped string' : function() { 
-		value_of(wikifyStatic("<<today>>")).should_match(/^<span>[A-Z][a-z]+\s[A-Z][a-z]+\s[0-9]{2}\s([0-9]){2}:[0-9]{2}:[0-9]{2} 2[0-9]{3}<\/span>$/);
-	},
-
-});
 
 describe('Macros: list macro', {
+	
 	before_each : function() {
 		__main();
 	},
 
-	'list all by default expands to the listTitle and an empty list' : function() { 
-		value_of(wikifyStatic("<<list>>")).should_be('<ul><li class="listTitle">' + __title.all + '</li></ul>');
+	'Displays register screen' : function() { 
+		window.can_create_account="1";
+		value_of(wikifyStatic('<<ccRegister>>')).should_not_match(/errortext/);
 	},
-	'list missing by default expands to the listTitle and an empty list' : function() { 
-		value_of(wikifyStatic("<<list missing>>")).should_be('<ul><li class="listTitle">' + __title.missing + '</li></ul>');
+	'Displays register screen with error because can_create_account is not defined. ' : function() { 
+		value_of(wikifyStatic('<<ccRegister>>')).should_not_match(/errortext/);
 	},
-	'list orphans by default expands to the listTitle and an empty list' : function() { 
-		value_of(wikifyStatic("<<list orphans>>")).should_be('<ul><li class="listTitle">' + __title.orphans + '</li></ul>');
+	'ccLoginStatus should not return error' : function() { 
+		value_of(wikifyStatic('<<ccLoginStatus>>')).should_not_match(/errortext/);
 	},
-	'list shadowed by default expands to the listTitle and a list of builtin shadowed tiddlers' : function() { 
-		var pattern = new RegExp('^<ul><li class="listTitle">' + __title.shadowed + '</li><li>.*<\/li><\/ul>');
-		value_of(wikifyStatic("<<list shadowed>>")).should_match(pattern);
+	'ccLogin should not return error' : function() { 
+				window.openid_enabled="1";
+		value_of(wikifyStatic('<<ccLogin>>')).should_not_match(/errortext/);
 	},
-
+	'ccRegister should not return error' : function() { 
+		value_of(wikifyStatic('<<ccRegister>>')).should_not_match(/errortext/);
+	},
+	'ccUpload should not return error' : function() { 
+		window.workspacePermission="1";
+		value_of(wikifyStatic('<<ccUpload>>')).should_not_match(/errortext/);
+	},
+	'ccWorkspace should not return error' : function() { 
+		value_of(wikifyStatic('<<ccCreateWorkspace>>')).should_not_match(/errortext/);
+	},
+	
+	'isLoggedIn is a function' : function() { 
+		value_of(typeof isLoggedIn).should_be("function");
+	},
+	'findToken is a function' : function() { 
+		value_of(typeof findToken).should_be("function");
+	},
+	
 });
-
 // ]]>
