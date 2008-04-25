@@ -5,7 +5,7 @@
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hans/locale.zh-Hans.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''Version:''|2.4.0|
-|''Date:''|Apr 24, 2008|
+|''Date:''|Apr 25, 2008|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.4.0|
@@ -37,6 +37,7 @@ merge(config.optionsDesc,{
 	txtUserName: "编辑文章所使用之作者署名",
 	chkRegExpSearch: "启用正则式查找",
 	chkCaseSensitiveSearch: "查找时，区分大小写",
+	chkIncrementalSearch: "隨打即找搜尋",
 	chkAnimate: "使用动画显示",
 	chkSaveBackups: "保存变更前，保留备份文件",
 	chkAutoSave: "自动保存变更",
@@ -313,6 +314,7 @@ merge(config.macros.upgrade,{
 	wizardTitle: "更新 TiddlyWiki 核心程序",
 	step1Title: "更新或修补此 TiddlyWiki 至最新版本",
 	step1Html: "您将更新至最新版本的 TiddlyWiki 核心程序 (自 <a href='%0' class='externalLink' target='_blank'>%1</a>)。 在更新过程中，您的资料将被保留。<br><br>请注意：更新核心可能不相容于其他套件。若对更新的档案有问题，详见 <a href='http://www.tiddlywiki.org/wiki/CoreUpgrades' class='externalLink' target='_blank'>http://www.tiddlywiki.org/wiki/CoreUpgrades</a>",
+	errorCantUpgrade: "j无法更新此 TiddlyWiki. 您只能自本机端的 TiddlyWiki 文件执行更新程序",
 	errorNotSaved: "执行更新之前，请先保存变更",
 	step2Title: "确认更新步骤",
 	step2Html_downgrade: "您的 TiddlyWiki 将自 %1 版降级至 %0版<br><br>不建议降级至较旧的版本。",
