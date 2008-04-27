@@ -146,6 +146,7 @@ make_tw {
   add_tiddler(get_tiddler('MptwBlue').copy_to('ColorPalette'))
   initial.each { |t| add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2]||'') }
   get_tiddler('MgtdSettings').add_tags(['Work', 'Personal', 'AlertsIgnoreRealm', 'MultipleContexts']) # default both realms on..
+  get_tiddler('MgtdSettings').fields['ticklerdateformat'] = 'ddd, DD-mmm-YY'; # set default tickler date format. gotcha: use lowercase only for fields please.
   to_file          "upload/empty3.html"
 
   # load the demo and write a demo file

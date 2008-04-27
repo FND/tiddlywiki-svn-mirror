@@ -273,7 +273,7 @@
 
 !(No Context)
 <div macro="mgtdList startTag:Action title:'You should give these actions a context' tags:'!Done' view:DoneAction mode:global
-	where:tiddler.getByIndex('Context').length==0
+	where:tiddler.getByIndex('Context').length==0&&tiddler.hasActiveProject()
 	"></div>
 
 !(No Project)

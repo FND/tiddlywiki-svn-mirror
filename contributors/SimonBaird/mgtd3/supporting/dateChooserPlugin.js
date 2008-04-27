@@ -18,7 +18,7 @@ if (DatePicker){
                 var startDate = curVal ? Date.convertFromYYYYMMDDHHMM(curVal) : new Date();    
                 var dateBox = createTiddlyElement(place,'input',null,'dateBox');            
 
-                var dateFormat = 'ddd, DD-mmm-YY'; // TODO, make configurable
+                var dateFormat = config.mGTD.getOptTxt('ticklerdateformat') || 'ddd, DD-mmm-YY';
                 dateBox.value = startDate.formatString(dateFormat);
     
                 var callback = function(el,objDate){
