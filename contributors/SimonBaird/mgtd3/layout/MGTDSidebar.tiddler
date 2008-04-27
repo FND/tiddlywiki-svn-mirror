@@ -1,6 +1,6 @@
 <<tabs txtMGTDMain
 	"Work" "Do Work" DoWorkMenu
-	"Process" "Process Inbox" ProcessInboxMenu
 	"Review" "Review" ReviewMenu
+	"Process" "Process Inbox" ProcessInboxMenu
 	"More..." "More..." MGTDMoreTab
 	>>

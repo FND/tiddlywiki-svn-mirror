@@ -5,7 +5,6 @@ require 'r4tw'
 
 
 required = [
-	['MgtdSettings', "[[Do Work]] Work Personal" ],
 
   ['Action', 'GTDComponent'],
   ['Project', 'GTDComponent'],
@@ -25,13 +24,6 @@ required = [
 
 	['Enabled',        'TicklerStatus', "order:1\nbutton:on\nbuttonLong:enabled\n"],
 	['Disabled',       'TicklerStatus', "order:2\nbutton:off\nbuttonLong:disabled\n"],
-
-	['Do Work',       'Sidebar', "order:1\nbutton:Do Work\n"                     ],
-	['Process Inbox', 'Sidebar', "order:2\nbutton:Process Inbox\n"                  ],
-	['Review',        'Sidebar', "order:3\nbutton:Review\n"                   ],
-	#['Collect Items', 'Sidebar', "order:4\nbutton:Collect\n"                  ],
-	['Config',        'Sidebar', "order:998\nbutton:Conf\nbuttonClass:tiny\n" ],
-	['TW',            'Sidebar', "order:999\nbutton:TW\nbuttonClass:tiny\n"   ],
 
 ]
 
@@ -138,6 +130,14 @@ make_tw {
   # use secret timestamp format for version number. note, can't do two releases in same ten minute period
   get_tiddler('MgtdConf').fields['text'].sub!(/__REV__/,Time.now.strftime('%m%d%H%M')[1..-2])
 
+  %w[systemConfig systemTheme].each do |tag|
+    tiddlers_with_tag(tag).each{ |t| t.add_tags(['excludeSearch','excludeLists']) }
+  end
+
+  # actually everything in upgrade should be exclude search...
+  # what about excludeLists? perhaps not since you might want to find things
+  tiddlers.each{ |t| t.add_tag('excludeSearch') }
+
   # add required tiddlers and write upgrade file.
   required.each { |t| add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2]||'') }
   store_to_file          "upload/upgrade3.html"
@@ -145,6 +145,7 @@ make_tw {
   # add some intial useful contexts realms and areas and write an empty file.
   add_tiddler(get_tiddler('MptwBlue').copy_to('ColorPalette'))
   initial.each { |t| add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2]||'') }
+  get_tiddler('MgtdSettings').add_tags(['Work', 'Personal', 'AlertsIgnoreRealm', 'MultipleContexts']) # default both realms on..
   to_file          "upload/empty3.html"
 
   # load the demo and write a demo file

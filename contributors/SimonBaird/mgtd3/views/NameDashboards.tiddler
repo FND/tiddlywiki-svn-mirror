@@ -344,6 +344,7 @@ If you want to add an action to an already existing project, you can specify the
 <div macro="mgtdList title:'Ticklers Requiring Action' startTag:Tickler tags:'Enabled && !Actioned' view:Tickler mode:global newButtonTags:'Tickler Enabled'
 	where:'tiddler.fields.mgtd_date && ((new Date()).convertToYYYYMMDDHHMM() >= tiddler.fields.mgtd_date ) '
 	sort:'tickleDate'
+	ignoreRealm:{{config.mGTD.getOptChk('AlertsIgnoreRealm')?'yes':''}}
 	"></div>
 
 

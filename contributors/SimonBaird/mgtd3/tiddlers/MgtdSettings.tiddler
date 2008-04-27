@@ -1,0 +1,7 @@
+
+!!Options
+Show tickler alerts regardless of realm settings.
+<<toggleTag [[AlertsIgnoreRealm]] MgtdSettings>>
+
+Actions can have multiple contexts. 
+<<toggleTag [[MultipleContexts]] MgtdSettings>>

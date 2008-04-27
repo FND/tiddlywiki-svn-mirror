@@ -1,7 +1,7 @@
-<<tabs txtMGTDMain
+<<tabs txtMGTDMore
 	"Timeline" "Timeline" TabTimeline
 	"All" "All Tiddlers" TabAll
 	"Tags" "Tags" TabTags
-	"Config" "Configuration Options" ConfigMenu
+	"MGTD" "Configuration Options" ConfigMenu
 	"TW" "TiddlyWiki SideBar" SideBarOptions
 	>>

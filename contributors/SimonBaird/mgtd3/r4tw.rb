@@ -386,6 +386,7 @@ class Tiddler
   
   # Adds a tag
   def add_tag(new_tag)
+    @fields['tags'] ||= ''
     @fields['tags'] = @fields['tags'].
       readBrackettedList.
       push(new_tag).

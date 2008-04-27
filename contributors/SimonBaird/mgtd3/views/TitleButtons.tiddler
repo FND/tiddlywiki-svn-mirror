@@ -2,7 +2,9 @@
 <!--{{{-->
 <span class='title' macro='view title'></span> (Project)<span macro="help Project"></span>
 <span macro="toggleTag Complete . -"></span>
-<span macro="multiToggleTag ProjectStatus longVersion:on"></span>
+<span macro="hideWhenTagged Complete">
+ <span macro="multiToggleTag ProjectStatus longVersion:on"></span>
+</span>
 <span macro="singleToggleTag tag:Starred"></span>
 <br/>
 Area:<span macro="multiSelectTag Area allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Area')+']]'"></span>
@@ -18,10 +20,17 @@ Realm:<span macro="multiSelectTag Realm"></span>
 <span macro="eval '[[[P]|'+tiddler.getByIndex('Project')+']]'"></span>
 (Action)<span macro="help Action"></span>
 <span macro="toggleTag Done . -"></span>
-<span macro="multiToggleTag ActionStatus longVersion:on"></span>
+<span macro="hideWhenTagged Done">
+ <span macro="multiToggleTag ActionStatus longVersion:on"></span>
+</span>
 <span macro="singleToggleTag tag:Starred"></span>
 <br/>
+<span macro="showWhen config.mGTD.getOptChk('MultipleContexts')">
+Context:<span macro="groupOfSingleToggleTags Context useCheckbox:yes"></span><br/>
+</span>
+<span macro="else">
 Context:<span macro="multiSelectTag Context allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Context')+']]'"></span>
+</span>
 Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Project')+']]'"></span>
 <span macro="showWhen tiddler.getByIndex('Project').length == 0">
 	<!-- only show area if there's no project --->
@@ -41,7 +50,9 @@ Delegated to/waiting on:<span macro="multiSelectTag Contact allowNone:on"></span
 <!--{{{-->
 <span class='title' macro='view title'></span> (Tickler)<span macro="help Tickler"></span>
 <span macro="toggleTag Actioned . -"></span>
-<span macro="multiToggleTag TicklerStatus longVersion:on"></span>
+<span macro="hideWhenTagged Actioned">
+ <span macro="multiToggleTag TicklerStatus longVersion:on"></span>
+</span>
 <span macro="singleToggleTag tag:Starred"></span>
 <br/>
 Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[[P]|'+tiddler.getByIndex('Project')+']]'"></span>

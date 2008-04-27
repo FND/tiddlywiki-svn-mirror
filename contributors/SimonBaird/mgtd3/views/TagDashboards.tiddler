@@ -65,7 +65,7 @@
 </td><td>
 <div macro="mgtdList title:'Someday/Maybe Projects' tags:'Project && !Complete && Someday/Maybe' view:Project newButtonTags:'Project Someday/Maybe' "></div>
 </td><td>
-<div macro="mgtdList title:'Completed Projects' tags:'Project && Complete' view:Project newButtonTags:'Project Someday/Maybe' "></div>
+<div macro="mgtdList title:'Completed Projects' tags:'Project && Complete' view:ProjectComplete newButtonTags:'Project Someday/Maybe' "></div>
 </td>
 </tr></table>
 <!--}}}-->

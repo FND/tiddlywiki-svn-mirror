@@ -87,6 +87,8 @@ merge(config.macros,{
 		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 
 			var pp = paramString.parseParams("tag",null,true);
+
+			var useCheckbox = getParam(pp,"useCheckbox","");
 			
 			if (!tiddler)
 				tiddler = store.getTiddler(getParam(pp,"title"));
@@ -106,15 +108,25 @@ merge(config.macros,{
 
 				var label = store.getTiddlerSlice(t.title,"button");
 				var autoClass = "button " + t.title.replace(/[\/ ]/g,'') 
-				if (!label) label = t.title;
-				var cl = createTiddlyButton(place, label, t.title, function(e) {
-						actOnTiddler.toggleTag(t.title);
-						if (refresh == "page")
-							refreshPageTemplate();
-						return false;
-					},
-					autoClass + " " + (actOnTiddler.getByIndex(tag).contains(t.title) ? "on" : "off")
-					);
+
+				if (!label)
+					label = t.title;
+
+				if (useCheckbox == "yes") {
+					// checkbox style toggle tags
+					wikify("<<toggleTag [["+t.title+"]] [["+tiddler.title+"]] ->>[["+label+"]]&nbsp;" ,place,null,tiddler);
+				}
+				else {
+					// button style toggle tags
+					var cl = createTiddlyButton(place, label, t.title, function(e) {
+							actOnTiddler.toggleTag(t.title);
+							if (refresh == "page")
+								refreshPageTemplate();
+							return false;
+						},
+						autoClass + " " + (actOnTiddler.getByIndex(tag).contains(t.title) ? "on" : "off")
+						);
+			 	}
 			 });
 		}
 		

@@ -379,9 +379,9 @@ body {
 .ticklerAlert .tiddlyLink { color:white; }
 
 /* give a little more space for menu */
-#sidebar { width: 19em; /* instead of 16em */ }
-#displayArea { margin-right:18.7em; /* instead of 15.7em */ }
-#sidebarTabs .tabContents { width:18em; /* instead of 15em */ }
+#sidebar { width: 21em; /* instead of 16em */ }
+#displayArea { margin-right:20.7em; /* instead of 15.7em */ }
+#sidebarTabs .tabContents { width:20em; /* instead of 15em */ }
 
 #messageArea .help { width:40em; font-size:90%; }
 
@@ -404,6 +404,10 @@ body {
 }
 .tabContents li .button {
 	display:inline; /* hack to make for quickopentags in tabTags look right... */
+}
+
+.txtMGTDMain .tab {
+	font-size:120%;
 }
 
 /* for DateChooser */

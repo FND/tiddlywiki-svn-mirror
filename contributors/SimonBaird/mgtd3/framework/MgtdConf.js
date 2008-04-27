@@ -35,3 +35,9 @@ config.toggleTagAlwaysTouchModDate = true; // see ToggleTagPlugin
 
 
 
+config.shadowTiddlers.SiteTitle = 'MonkeyGTD';
+config.shadowTiddlers.SiteSubtitle = 'a getting things done system powered by tiddlywiki';
+
+config.mGTD.getOptChk = function(setting) { return store.fetchTiddler('MgtdSettings').tags.contains(setting); }
+config.mGTD.getOptTxt = function(setting) { return store.fetchTiddler('MgtdSettings').fields[setting]; }
+
