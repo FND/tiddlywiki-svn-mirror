@@ -113,6 +113,8 @@ merge(config.macros,{
 			var newButton = getParam(pp,"newButton",""); // not using 
 			var newButtonTags = getParam(pp,"newButtonTags","");
 
+			newButtonTags = newButtonTags.replace(/\[\(/g," [[").replace(/\)\]/g,"]] "); // change [(..)] to [[..]]
+
 			if (!startTag)
 				if (tagMode != "global")
 					startTag = tiddler.title;
@@ -183,8 +185,37 @@ merge(config.macros,{
 						'[['+config.macros.mgtdList.getRealm(tiddlerTitle)+']]',    // the realm. always want a realm
 						(tagMode=='global'?'':'[['+tiddlerTitle+']]')   // if not global, then the add tiddler we're in, new here style
 					].join(' ');
-				wikifyThis += this.getNewButton(nbTags);
+
+
+				var nbList = nbTags.readBracketedList();
+
+				var nbExtra = nbTags;
+
+				// also we want an area. another hack. darn you subprojects.. :)
+				if (nbList.contains('Project') && !nbList.containsAny(fastTagged('Area').toTitleList())) {
+					var foo = store.fetchTiddler(tiddlerTitle).getByIndex('Area');
+					if (foo.length > 0) {
+						nbExtra += ' [[' + foo[0] + ']]';
+					}
+				}
+
+				if (nbList.contains('Project') && !nbList.containsAny(fastTagged('ProjectStatus').toTitleList())) {
+					// stupid hack for subprojects list in project dashboards
+ 					// don't want to create a project with no status
+					// this is the hack:
+					nbExtra += ' Active';
+				}
+
+				// same hack thing for actions
+				if (nbList.contains('Action') && !nbList.containsAny(fastTagged('ActionStatus').toTitleList())) {
+					nbExtra += ' Next';
+				}
+
+				wikifyThis += this.getNewButton(nbExtra);
+				// but still use nbTags later on in group headings...
+
 			}
+
 
             if (title != "" || newButton != "")
 			    wikifyThis += "\n";

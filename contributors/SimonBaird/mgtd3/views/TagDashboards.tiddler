@@ -22,15 +22,26 @@
 
 </td><td>
 
+<div macro="mgtdList title:'Active Subprojects' tags:'Project && !Complete' view:Project
+	group:ProjectStatus
+	gView:bold
+	newButtonTags:'Project'
+	"></div>
+
+<div macro="mgtdList title:'Completed Subprojects' tags:'Project && Complete' view:ProjectComplete
+	newButtonTags:'Project Active Complete'
+	"></div>
+
 <div macro="mgtdList title:'Future Actions' tags:'Action && Future && !Done' view:Action
 	group:Context
 	gView:Context
 	newButtonTags:'Action Future'
 	"></div>
 
-[[TagDashboards##Upcoming Ticklers]]
 
 </td><td>
+
+[[TagDashboards##Upcoming Ticklers]]
 
 <div macro="mgtdList title:'Reference Items' tags:'Reference' view:plain newButtonTags:'Reference' "></div>
 
@@ -85,20 +96,36 @@
 	"></div>
 
 !Reference
-<div class="tagglyTagging" macro="tagglyTagging"></div><!--- this makes me happy  --->
+<div class="tagglyTagging" macro="tagglyTagging"></div><!--- this makes me happy :) --->
 
 !Contact
 <table class="twocol"><tr><td>
 
-<div macro="mgtdList title:'Actions delegated' tags:'!Next && !Done' view:ActionProj
-	group:ActionStatus
-	gView:bold
-	newButtonTags:'[(Waiting For)]'
+<div macro="mgtdList title:'Delegated Actions' tags:'Action && !Done && [(Waiting For)]' view:ActionProj
+	newButtonTags:'Action [(Waiting For)]'
 	"></div>
 
+<div macro="mgtdList title:'Associated Actions' tags:'Action && !Done && ![(Waiting For)]' view:ActionProj
+	group:ActionStatus
+	gView:bold
+	newButtonTags:'Action'
+	"></div>
+
+
 </td><td>
-<div macro="mgtdList title:'Actions Done' tags:'Done' view:DoneAction
+<div macro="mgtdList title:'Associated Projects' tags:'Project && !Complete' view:Project
+	group:ProjectStatus
+	gView:bold
+	newButtonTags:'Project'
+	"></div>
+
+<div macro="mgtdList title:'Actions Done' tags:'Action && Done' view:DoneAction
 	newButtonTags:Done
 	"></div>
+
+<div macro="mgtdList title:'Completed Projects' tags:'Project && Complete' view:ProjectComplete
+	newButtonTags:'Project'
+	"></div>
+
 
 </td></tr></table>

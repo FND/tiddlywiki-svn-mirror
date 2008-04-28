@@ -281,6 +281,12 @@
 	where:tiddler.getByIndex('Project').length==0
 	"></div>
 
+!(No Area)
+<div macro="mgtdList startTag:Project title:'Projects with no area' tags:'!Complete' view:Project mode:global
+	where:tiddler.getByIndex('Area').length==0
+	"></div>
+
+
 !Active Projects With No Next Action
 <div macro="mgtdList startTag:Project title:'You must assign a next action to these projects (or make them into Someday/Maybe)'
 	tags:'!Complete && !Someday/Maybe' view:Project mode:global
@@ -426,4 +432,14 @@ If you want to add an action to an already existing project, you can specify the
 	"></div>
 
 </td></tr></table>
+
+!Subprojects
+<p>This isn't very good but it might be of some use. It's the best attempt we have at showing a list of subprojects. </p>
+<div macro="mgtdList title:'Subprojects' startTag:Project tags:'Project && !Complete' view:Project mode:global
+	where:tiddler.getByIndex('Project').length>0
+	group:Project
+	gView:ProjectBare
+	newButtonTags:'Project Active'
+	leftoverTitle:'(Projects that aren't subprojects)
+	"></div>
 

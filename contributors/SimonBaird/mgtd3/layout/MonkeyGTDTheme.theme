@@ -147,10 +147,27 @@ html>body .header2 {background-image:url(http://simonbaird.com/images/monkeygtd/
 .mtoolbar .button.off {background-color:[[ColorPalette::TertiaryMid]]!important; color:black; font-weight:normal;border-color:[[ColorPalette::PrimaryDark]];}
 .mtoolbar .button.on {background-color:[[ColorPalette::TertiaryLight]]; color:black; border-color:[[ColorPalette::PrimaryDark]];} 
 
+.mtoolbar .button {
+	-moz-border-radius-topleft: 0.5em;
+	-moz-border-radius-topright: 0.5em;
+}
+
 #newButtons { padding-left:3em; }
 #newButtons br { display:none; }
 #newButtons .button { background-color:transparent; color:white; border-color:transparent; }
 
+.txtMGTDMain .tabContents {
+	font-size:120%;
+}
+
+.txtMGTDMore .tabContents {
+	font-size:90%;
+}
+
+.tabContents .sliderButton {
+	font-size:120%;
+	background-color:[[ColorPalette::TertiaryLight]];
+}
 
 
 
@@ -268,6 +285,19 @@ html>body .header2 {background-image:url(http://simonbaird.com/images/monkeygtd/
 .mgtdList .innerList {
 	padding:0.5em 1em 0em 1em;
 }
+
+.tabContents .sliderPanel {
+	margin-left:2em;
+}
+.txtMGTDMain .mgtdList .innerList {
+	font-size:80%;
+	padding-left:0em;
+}
+
+.tabContents li {
+	margin-left:2em;
+}
+
 
 .mgtdList .plain { padding-left:1em; }
 

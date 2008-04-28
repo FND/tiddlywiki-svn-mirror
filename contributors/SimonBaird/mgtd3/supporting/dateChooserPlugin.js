@@ -18,7 +18,13 @@ if (DatePicker){
                 var startDate = curVal ? Date.convertFromYYYYMMDDHHMM(curVal) : new Date();    
                 var dateBox = createTiddlyElement(place,'input',null,'dateBox');            
 
-                var dateFormat = config.mGTD.getOptTxt('ticklerdateformat') || 'ddd, DD-mmm-YY';
+                var dateFormat = config.mGTD.getOptTxt('ticklerdateformat');
+				var defaultDateFormat = 'ddd, DD-mmm-YY';
+				if (!dateFormat) {
+					// makes it nicer for upgraders who don't have a format set
+					dateFormat = defaultDateFormat;
+					config.mGTD.setOptTxt('ticklerdateformat', defaultDateFormat);
+				}
                 dateBox.value = startDate.formatString(dateFormat);
     
                 var callback = function(el,objDate){

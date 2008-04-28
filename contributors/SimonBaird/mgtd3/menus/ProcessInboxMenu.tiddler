@@ -1,19 +1,13 @@
-* [[Quick Add]]<br>(Add many projects and actions quickly)
-
-*<<newSavedTiddler label:'new next action' tag:{{'Action Next [['+config.macros.mgtdList.getRealm()+']]'}}>>
-*<<newSavedTiddler label:'new waiting action' tag:{{'Action [(Waiting For)] [['+config.macros.mgtdList.getRealm()+']]'}}>>
-*<<newSavedTiddler label:'new future action' tag:{{'Action Future [['+config.macros.mgtdList.getRealm()+']]'}}>>
-
-*<<newSavedTiddler label:'new active project' tag:{{'Project Active [['+config.macros.mgtdList.getRealm()+']]'}}>>
-*<<newSavedTiddler label:'new someday project' tag:{{'Project Someday/Maybe [['+config.macros.mgtdList.getRealm()+']]'}}>>
-
-*<<newSavedTiddler label:'new tickler' tag:{{'Tickler Enabled [['+config.macros.mgtdList.getRealm()+']]'}}>>
-
-{{smaller{
-*<<newSavedTiddler label:'new contact' tag:{{'Contact [['+config.macros.mgtdList.getRealm()+']]'}}>>
-*<<newSavedTiddler label:'new context' tag:{{'Context [['+config.macros.mgtdList.getRealm()+']]'}}>>
-*<<newSavedTiddler label:'new area' tag:{{'Area [['+config.macros.mgtdList.getRealm()+']]'}}>>
-*<<newSavedTiddler label:'new realm' tag:{{'Realm [['+config.macros.mgtdList.getRealm()+']]'}}>>
-}}}
+[[Quick Add]]
+''<<newSavedTiddler label:'new next action' tag:{{'Action Next [['+config.macros.mgtdList.getRealm()+']]'}}>>/%/%
+%/<<newSavedTiddler label:'new waiting action' tag:{{'Action [(Waiting For)] [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
+%/<<newSavedTiddler label:'new future action' tag:{{'Action Future [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
+%/<<newSavedTiddler label:'new active project' tag:{{'Project Active [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
+%/<<newSavedTiddler label:'new someday project' tag:{{'Project Someday/Maybe [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
+%/<<newSavedTiddler label:'new tickler' tag:{{'Tickler Enabled [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
+%/<<newSavedTiddler label:'new contact' tag:{{'Contact [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
+%/<<newSavedTiddler label:'new context' tag:{{'Context [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
+%/<<newSavedTiddler label:'new area' tag:{{'Area [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
+%/<<newSavedTiddler label:'new realm' tag:{{'Realm [['+config.macros.mgtdList.getRealm()+']]'}}>>''
 !!Recent
 <<mgtdList mode:global tags:'Project || Action' view:plain sort:-modified >>

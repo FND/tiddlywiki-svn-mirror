@@ -7,17 +7,19 @@
 </span>
 <span macro="singleToggleTag tag:Starred"></span>
 <br/>
-Area:<span macro="multiSelectTag Area allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Area')+']]'"></span>
+Area:<span macro="multiSelectTag Area allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Area')[0]+']]'"></span>
 Realm:<span macro="multiSelectTag Realm"></span>
 [[MonkeyGTDTheme##Subtitle]]
-<br>
+<br/>
+Subproject of:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Project')[0]+']]'"></span><br/>
+Associated contact:<span macro="multiSelectTag Contact allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Contact')[0]+']]'"></span> 
 <span macro="deleteAllTagged 'delete project' '' 'delete'"></span>
 <!--}}}-->
 
 !Action
 <!--{{{-->
 <span class='title' macro='view title'></span>
-<span macro="eval '[[[P]|'+tiddler.getByIndex('Project')+']]'"></span>
+<span macro="eval '[[[P]|'+tiddler.getByIndex('Project')[0]+']]'"></span>
 (Action)<span macro="help Action"></span>
 <span macro="toggleTag Done . -"></span>
 <span macro="hideWhenTagged Done">
@@ -29,9 +31,9 @@ Realm:<span macro="multiSelectTag Realm"></span>
 Context:<span macro="groupOfSingleToggleTags Context useCheckbox:yes"></span><br/>
 </span>
 <span macro="else">
-Context:<span macro="multiSelectTag Context allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Context')+']]'"></span>
+Context:<span macro="multiSelectTag Context allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Context')[0]+']]'"></span>
 </span>
-Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Project')+']]'"></span>
+Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Project')[0]+']]'"></span>
 <span macro="showWhen tiddler.getByIndex('Project').length == 0">
 	<!-- only show area if there's no project --->
 	Area:<span macro="multiSelectTag Area allowNone:on"></span>
@@ -39,10 +41,14 @@ Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="ev
 Realm:<span macro="multiSelectTag Realm"></span>
 [[MonkeyGTDTheme##Subtitle]]
 <br/>
-<span macro="showWhen tiddler.tags.containsAny(['Waiting For','Future']) && !tiddler.tags.contains('Done')">
-<!-- only show delegate for waiting and future actions -->
-Delegated to/waiting on:<span macro="multiSelectTag Contact allowNone:on"></span>
-<span macro="eval '[[>'+'>|'+tiddler.getByIndex('Contact')+']]'"></span> 
+<span macro="showWhen tiddler.tags.contains('Waiting For') && !tiddler.tags.contains('Done')">
+	<!-- different label for waiting -->
+	Delegated to/waiting on:
+</span><span macro="else">
+	Associated contact:
+</span>
+<span macro="multiSelectTag Contact allowNone:on"></span>
+<span macro="eval '[[>'+'>|'+tiddler.getByIndex('Contact')[0]+']]'"></span> 
 </span>
 <!--}}}-->
 
@@ -55,7 +61,7 @@ Delegated to/waiting on:<span macro="multiSelectTag Contact allowNone:on"></span
 </span>
 <span macro="singleToggleTag tag:Starred"></span>
 <br/>
-Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[[P]|'+tiddler.getByIndex('Project')+']]'"></span>
+Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[[P]|'+tiddler.getByIndex('Project')[0]+']]'"></span>
 Realm:<span macro="multiSelectTag Realm"></span>
 [[MonkeyGTDTheme##Subtitle]]
 <br/>
@@ -93,7 +99,7 @@ Tickler date:<span macro="dateChooser"></span>
 <span class='title' macro='view title'></span> (Reference)<span macro="help Reference"></span>
 <span macro="singleToggleTag tag:Starred"></span>
 <br/>
-Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[[P]|'+tiddler.getByIndex('Project')+']]'"></span>
+Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[[P]|'+tiddler.getByIndex('Project')[0]+']]'"></span>
 <span macro="showWhen tiddler.getByIndex('Project').length == 0">
 	<!-- only show area if there's no project --->
 	Area:<span macro="multiSelectTag Area allowNone:on"></span>
