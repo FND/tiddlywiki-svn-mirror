@@ -30,5 +30,4 @@ config.macros.ccAbout.handler=function(place,macroName,params,wikifier,paramStri
 	var link=createExternalLink(place,'http://tiddlywiki.org/wiki/CcTiddly');
 	link.textContent='http://tiddlywiki.org/wiki/CcTiddly';
 };
-
 /*}}}}*/
