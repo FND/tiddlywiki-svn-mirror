@@ -119,13 +119,19 @@
 	newButtonTags:'Project'
 	"></div>
 
-<div macro="mgtdList title:'Actions Done' tags:'Action && Done' view:DoneAction
+<div macro="mgtdList title:'Associated Ticklers' tags:'Tickler && !Actioned && Enabled' view:Tickler
+	newButtonTags:'Tickler Enabled'
+	sort:'-ticklerDate'
+	"></div>
+
+<div macro="mgtdList title:'Done Actions' tags:'Action && Done' view:DoneAction
 	newButtonTags:Done
 	"></div>
 
 <div macro="mgtdList title:'Completed Projects' tags:'Project && Complete' view:ProjectComplete
 	newButtonTags:'Project'
 	"></div>
+
 
 
 </td></tr></table>

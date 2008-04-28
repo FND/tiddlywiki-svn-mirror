@@ -70,6 +70,9 @@ Tickler date:<span macro="dateChooser"></span>
 <span macro="addWeek"></span>
 <span macro="addMonth"></span>
 <span macro="addYear"></span>
+<br/>
+Associated contact:<span macro="multiSelectTag Contact allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Contact')[0]+']]'"></span>
+<br/>
 <!--}}}-->
 
 !View
