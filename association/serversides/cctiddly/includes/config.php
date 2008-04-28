@@ -97,14 +97,15 @@ If you got one of the following error message, that may mean your database do no
 	debug('REDIRECT_URL: '.$_SERVER['REDIRECT_URL']);
 
 	//install new workspace??
-	if (isset($_SERVER['REDIRECT_URL']) )
-	{
-		if (stristr($_SERVER['REDIRECT_URL'], 'msghandle.php')) {
-			include('./msghandle.php');
-			exit;	
-		}
-		$redirect_url = $_SERVER['REDIRECT_URL'];
-	}	
+	
+//	if (isset($_SERVER['REDIRECT_URL']))
+//	{
+//		if (stristr($_SERVER['REDIRECT_URL'], 'msghandle.php')) {
+//			include('./msghandle.php');
+//			exit;	
+//		}
+//		$redirect_url = $_SERVER['REDIRECT_URL'];
+//	}	
 
 	$tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder'].'/uploads/';  // location of the file upload directory - assumes is it under the root folder 
 	$file_location  =  $tiddlyCfg['pref']['upload_dir'].str_replace('/'.$tiddlyCfg['pref']['folder'].'/', '', $redirect_url);   // create url to file 

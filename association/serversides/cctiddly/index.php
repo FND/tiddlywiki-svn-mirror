@@ -399,7 +399,7 @@ noscript {display:none;}
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
 <?php
-include_once($cct_base."tiddlers/include.php");
+include_once($cct_base."includes/include.php");
 ?>
 
 <?php /*print cct_print_form($standalone);/*cct*/ ?>

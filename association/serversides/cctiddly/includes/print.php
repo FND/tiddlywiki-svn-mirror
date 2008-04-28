@@ -95,7 +95,7 @@ var serverside={
 		revisionList: "/handle/revisionlist.php?<?php print queryString()?>",
 		revisionDisplay: "/handle/revisiondisplay.php?<?php print queryString()?>",
 		createWorkspace: "/handle/createworkspace.php?<?php print queryString()?>",
-		login: "/msghandle.php?<?php print queryString()?>"
+		login: "/handle/login.php?<?php print queryString()?>"
 	},
 	handle_msg:{		//message sent to server for action, used for posting message to server. null = not used
 		rss: "action=rss",
