@@ -150,7 +150,7 @@ CREATE TABLE `tiddler_revisions` (
   `tags` varchar(255) NOT NULL default '',
   `tiddler_id` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
 
 -- 
 -- Dumping data for table `tiddler_revisions`
@@ -224,7 +224,7 @@ CREATE TABLE `workspace_view` (
   `workspace` varchar(255) NOT NULL,
   `time` datetime NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=82 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=82 ;
 
 -- 
 -- Dumping data for table `workspace_view`
