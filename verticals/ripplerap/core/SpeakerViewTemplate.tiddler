@@ -1,0 +1,14 @@
+<div title="SpeakerViewTemplate" modifier="PaulDowney" created="200712031004" changecount="1">
+<pre><!--{{{-->
+<div class="VanillaView Speaker">
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
+<div class='title' macro='view title'></div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<span class="vcard">
+<div class='viewer' macro='view text wikified'></div>
+</span>
+<div class='tagClear'></div> 
+</div>
+<!--}}}--></pre>
+</div>

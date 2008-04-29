@@ -1,0 +1,11 @@
+<div title="TrackViewTemplate" tags="excludeLists excludeSearch">
+<pre><!--{{{-->
+<div class='session'>
+	<div class='toolbar' macro='toolbar closeTiddler editTiddler'></div>
+	<div class="title" macro="view title"></div>
+	<div class="label">Session tag</div><div class="track editor" macro="view rr_session_tag"></div>
+	<div class="label">Tags</div><div class="track editor" macro="view tags"></div>
+	<div class="label"></div><div style="display:none" macro="view text"></div>
+</div>
+<!--}}}--></pre>
+</div>

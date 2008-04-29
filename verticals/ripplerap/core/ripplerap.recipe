@@ -1,0 +1,76 @@
+recipe: ../../../core/tiddlywiki.html.recipe
+
+tiddler: ../../../contributors/JonathanLister/adaptors/RSSAdaptor.js
+tiddler: ../../../contributors/JonathanLister/plugins/JS2JSON.js
+tiddler: ../../../contributors/JonathanLister/plugins/xhrTimeoutPlugin.js
+tiddler: ../../../contributors/JonathanLister/plugins/TemplatePlugin.js
+tiddler: ../../../contributors/JonathanLister/verticals/RippleTweet/js/RippleTechMacro.js
+tiddler: ../../../contributors/SaqImtiaz/plugins/WebDavLib.js
+tiddler: ../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
+tiddler: ../../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
+tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
+tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js
+tiddler: ../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
+tiddler: ../../../contributors/PhilHawksworth/plugins/MicroblogPlugin.js
+tiddler: ../../../contributors/PhilHawksworth/plugins/ConditionalDisplayPlugin.js
+tiddler: ../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
+tiddler: ../../../contributors/PaulDowney/plugins/TiddlifyList.js
+tiddler: ../..//../contributors/PaulDowney/plugins/RawViewMacroPlugin.js
+
+
+tiddler: ColorPalette.tiddler
+tiddler: EditTemplate.tiddler
+tiddler: MainMenu.tiddler
+tiddler: BackstageMod.tiddler
+tiddler: DefaultTiddlers.tiddler
+tiddler: PageTemplate.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteUrl.tiddler
+tiddler: StyleSheet.tiddler
+tiddler: ViewTemplate.tiddler
+tiddler: SessionViewTemplate.tiddler
+tiddler: SessionEditTemplate.tiddler
+tiddler: TrackEditTemplate.tiddler
+tiddler: TrackText.tiddler
+tiddler: AgendaMenu.tiddler
+tiddler: DiscoveredNotesEditTemplate.tiddler
+tiddler: DiscoveredNotesViewTemplate.tiddler
+tiddler: SpeakerViewTemplate.tiddler
+tiddler: CommitteeViewTemplate.tiddler
+
+tiddler: CamelCase.tiddler
+tiddler: Double_square_brackets.tiddler
+tiddler: FAQs.tiddler
+tiddler: Formatting_TiddlyWikis.tiddler
+tiddler: HeaderControls.tiddler
+tiddler: Help.tiddler
+tiddler: How_sharing_works.tiddler
+tiddler: NoteEditTemplate.tiddler
+tiddler: NoteViewTemplate.tiddler
+tiddler: REST.tiddler
+tiddler: Safari_and_Opera_configuration.tiddler
+tiddler: SampleDiscoveredNotes.tiddler
+tiddler: Setup_Instructions.tiddler
+tiddler: Share_notes.tiddler
+tiddler: TiddlySaver.tiddler
+tiddler: TiddlyWiki.tiddler
+tiddler: AgendaItemsTemplate.tiddler
+
+tiddler: speaker.tiddler
+tiddler: committee.tiddler
+tiddler: chair.tiddler
+
+tiddler: Tweets.tiddler
+tiddler: TwitterPost.tiddler
+tiddler: TwitterLogin.tiddler
+tiddler: TwitterStream.tiddler
+tiddler: TwitterItemsTemplate.tiddler
+tiddler: BlogItemsTemplate.tiddler
+tiddler: BlogTalkTweets.tiddler
+tiddler: Blogs.tiddler
+
+tiddler: FlickrItemsTemplate.tiddler
+tiddler: Flickr.tiddler
+
+copy: img/ripplerap_logo.png

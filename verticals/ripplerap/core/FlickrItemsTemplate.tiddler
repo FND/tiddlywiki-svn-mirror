@@ -1,0 +1,3 @@
+<div title="FlickrItemsTemplate" modifier="PaulDowney" created="200711280945">
+<pre>{{blog_item{<<view text raw>>}}}</pre>
+</div>

@@ -1,0 +1,13 @@
+<div title="SessionEditTemplate" tags="excludeLists excludeSearch">
+<pre><!--{{{-->
+<div class='session_edit'>
+	<div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
+	<div class="label">Session title</div><div class="title editor" macro="edit title"></div>
+	<div class="label">Speaker (one or more names, separated by commas)</div><div class="speaker editor" macro="edit rr_session_speaker"></div>
+	<div class="label">Start time (YYYYMMDDHHMM)</div><div class="start editor" macro="edit rr_session_starttime"></div>
+	<div class="label">End time (YYYYMMDDHHMM)</div><div class="end editor" macro="edit rr_session_endtime"></div>
+	<div class="label">Tags (include "session" and a track tag)</div><div class="track editor" macro="edit tags"></div>
+	<div class="label">Synopsis</div><div class='synopsis editor' macro='edit text'></div>
+</div>
+<!--}}}--></pre>
+</div>

@@ -1,0 +1,5 @@
+recipe: ../../core/ripplerap.recipe
+
+recipe: session/split.recipe
+
+tiddler: settings.js
