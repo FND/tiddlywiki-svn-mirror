@@ -62,6 +62,10 @@ Realm:<span macro="multiSelectTag Realm"></span>
 <span macro="singleToggleTag tag:Starred"></span>
 <br/>
 Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[[P]|'+tiddler.getByIndex('Project')[0]+']]'"></span>
+<span macro="showWhen tiddler.getByIndex('Project').length == 0">
+	<!-- only show area if there's no project --->
+	Area:<span macro="multiSelectTag Area allowNone:on"></span>
+</span>
 Realm:<span macro="multiSelectTag Realm"></span>
 [[MonkeyGTDTheme##Subtitle]]
 <br/>

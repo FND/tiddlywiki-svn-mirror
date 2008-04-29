@@ -440,6 +440,17 @@ body {
 	font-size:120%;
 }
 
+.projLink .tiddlyLinkExisting, .projLink {
+	font-weight:normal;
+	color:[[ColorPalette::TertiaryDark]];
+}
+
+.projLinkFull .tiddlyLinkExisting, .projLinkFull {
+	font-weight:normal;
+	color:[[ColorPalette::TertiaryDark]];
+	font-size:90%;
+}
+
 /* for DateChooser */
 [[DateChooserStyles]]
 

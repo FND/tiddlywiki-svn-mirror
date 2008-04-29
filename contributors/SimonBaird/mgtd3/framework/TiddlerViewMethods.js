@@ -92,7 +92,12 @@ merge(Tiddler.prototype,{
 		var pLink = "";
 		this.getByIndex("Project").each(function(p){
 			// shows just the P
-			pLink += " [/%%/[[P|"+p+"]]]";
+			if (config.mGTD.getOptChk('FullProjInActionLists')) {
+				pLink += "{{projLinkFull{[/%%/[["+p+"]]]}}}";
+			}
+			else {
+				pLink += "{{projLink{[/%%/[[P|"+p+"]]]}}}";
+			}
 			// shows entire project
 			//pLink += " [/%%/[["+p+"]]]";
 		});
@@ -102,7 +107,7 @@ merge(Tiddler.prototype,{
 		'<<toggleTag Done [[%0]] ->>'+
 		'<<multiToggleTag tag:ActionStatus title:[[%0]]>>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
-		' &nbsp;[[%0]] %1}}}',
+		' &nbsp;[[%0]]}}} %1',
 		[
 			this.title,
 			pLink
