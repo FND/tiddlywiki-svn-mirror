@@ -103,8 +103,9 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function() {
 	anon+=(this.anU.checked?trueStr:falseStr);
 	anon+=(this.anD.checked?trueStr:falseStr);
 	var params = {}; 
-	params.url = url+this.ccWorkspaceName.value;
-	var loginResp = doHttp('POST',url+this.ccWorkspaceName.value,'ccCreateWorkspace=' + encodeURIComponent(this.ccWorkspaceName.value)+'&amp;ccAnonPerm='+encodeURIComponent(anon),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
+	params.url = url+'/'+this.ccWorkspaceName.value;
+
+	var loginResp = doHttp('POST',url+'/'+this.ccWorkspaceName.value,'ccCreateWorkspace=' + encodeURIComponent(this.ccWorkspaceName.value)+'&amp;ccAnonPerm='+encodeURIComponent(anon),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
 	return false; 
 };
 config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params,responseText,uri,xhr) {

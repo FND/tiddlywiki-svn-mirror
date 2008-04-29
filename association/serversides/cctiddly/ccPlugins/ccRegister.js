@@ -46,13 +46,13 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 	
 	var mail_label = createTiddlyElement(step,"label",null,"label","E-Mail Address");
 	mail_label.setAttribute("for","username");
-	var mail = createTiddlyElement(null,"input","mail" ,"input");		
+	var mail=createTiddlyElement(null,"input","mail" ,"input");		
 	mail.onkeydown=config.macros.ccRegister.mailKeyUp;
 	step.appendChild(mail);
 	
 	
 	
-	//nfig.macros.ccRegister.mailKeyUp;
+	//sconfig.macros.ccRegister.mailKeyUp;
 	mail.setAttribute("tabindex","2");
 	createTiddlyElement(step,"span",'mail_error','inlineError','');
 	createTiddlyElement(step,"br");
@@ -93,6 +93,20 @@ config.macros.ccRegister.emailValid=function(str){
 		return false;
 	}
 }; 
+
+
+
+config.macros.ccRegister.mailKeyUp=function(mail){
+alert(mail.value);
+	if(config.macros.ccRegister.emailValid(mail)){
+		var a=document.getElementById('mail_error');
+		var field=document.getElementById('mail');
+		a.innerHTML='The email address is valid ';
+		a.setAttribute("class","inlineOk");
+		field.setAttribute("class","input");
+	}
+};
+
 
 config.macros.ccRegister.registerOnSubmit=function(){
 	if(this.username.value==''){
@@ -177,15 +191,6 @@ config.macros.ccRegister.registerCallback=function(status,params,responseText,ur
 	}
 };
 
-config.macros.ccRegister.mailKeyUp=function(mail){
-	if(config.macros.ccRegister.emailValid(mail)){
-		var a=document.getElementById('mail_error');
-		var field=document.getElementById('mail');
-		a.innerHTML='The email address is valid ';
-		a.setAttribute("class","inlineOk");
-		field.setAttribute("class","input");
-	}
-};
 
 config.macros.ccRegister.usernameKeyPress=function(){
 	doHttp('POST',url+'handle/register.php',"username="+document.getElementById("username").value+"&amp;free=1",null,null,null,config.macros.ccRegister.usernameCallback,null);
