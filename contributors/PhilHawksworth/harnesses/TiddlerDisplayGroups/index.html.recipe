@@ -3,7 +3,6 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 
 # Settings
 tiddler: settings.js
-# js: SetupGroups.js
 
 # Plugin
 tiddler: ../../plugins/TiddlerDisplayGroupsPlugin.js
@@ -17,4 +16,8 @@ tiddler: session1_my_notes.tiddler
 tiddler: session1_notes_from_A.tiddler
 tiddler: session1_notes_from_B.tiddler
 tiddler: session1_notes_from_C.tiddler
-
+tiddler: session2.tiddler
+tiddler: session2_my_notes.tiddler
+tiddler: session2_notes_from_A.tiddler
+tiddler: session2_notes_from_B.tiddler
+tiddler: session2_notes_from_C.tiddler
