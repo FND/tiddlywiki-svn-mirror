@@ -37,7 +37,7 @@ function feedListManagerTest_addFeed() {
 	TestHarnessOutput(flm);
 	
 	TestHarnessOutput("adding url...");
-	flm.add("http://www.2.com", null, 'url');
+	flm.add("http://www.2.com", null, 'rss');
 	TestHarnessOutput("url count:" + flm.count());
 	TestHarnessOutput(flm);
 	
@@ -47,9 +47,11 @@ function feedListManagerTest_addFeed() {
 	TestHarnessOutput(flm);
 	
 	TestHarnessOutput("attempting to add an opml uri...");
-	flm.add('http://localhost/hack/google-reader-subscriptions.xml','uberlist','opml');
+	flm.add('http://hack.localhost/google-reader-subscriptions.xml','uberlist','opml');
 	TestHarnessOutput("url count:" + flm.count());
 	TestHarnessOutput(flm);
+	
+	TestHarnessOutput(flm.count());
 };
 
 
@@ -66,15 +68,10 @@ function feedListManagerTest_removeFeed() {
 };
 
 
-function feedListManagerTest_populate() {
-	flm.populate("http://www.2.com");
-};
-
-
 feedListManagerTest_init();
 feedListManagerTest_addFeed();
-feedListManagerTest_removeFeed();
-feedListManagerTest_populate();
+// feedListManagerTest_removeFeed();
+
 
 
 //}}}

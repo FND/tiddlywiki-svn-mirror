@@ -1,0 +1,9 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+
+tiddler: settings.js
+
+tiddler: FireEaglePlugin.js
+
+tiddler: DefaultTiddlers.tiddler
+tiddler: MainMenu.tiddler
+

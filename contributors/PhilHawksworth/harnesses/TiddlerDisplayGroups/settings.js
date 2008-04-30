@@ -3,6 +3,7 @@
 config.options.chkAutoSave = true;
 config.options.chkAnimate = true;
 config.options.chkSaveBackups = false;
+config.options.txtTheme = "RippleRapSkin";
 
 // Initialise the session display groupings
 var test_group = new TiddlerDisplayGroup();

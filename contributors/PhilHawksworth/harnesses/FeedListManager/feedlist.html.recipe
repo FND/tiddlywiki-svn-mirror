@@ -3,12 +3,10 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 tiddler: settings.js
 
 tiddler: ../../plugins/FeedListManagerPlugin.js
+tiddler: ../../plugins/TextToXMLDOMPlugin.js
+
 
 tiddler: FeedListManagerTest.js
 tiddler: DefaultTiddlers.tiddler
 tiddler: MainMenu.tiddler
 tiddler: TestOutput.tiddler
-
-
-
-
