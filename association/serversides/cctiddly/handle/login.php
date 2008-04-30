@@ -9,10 +9,12 @@ if( isset($_REQUEST['cctuser']) && isset($_REQUEST['cctpass']) )		//set cookie f
 	//	$user = user_create();
 }
 
-
-
-if (isset($_POST['logout']) || isset($_REQUEST['logoout']))
+if (isset($_POST['logout']) || isset($_REQUEST['logout']))
+{
 	user_logout('You have logged out.');
+}
+
+
 	
 	
 ?>

@@ -25,32 +25,27 @@ if (user_isAdmin($user['username'], $tiddlyCfg['workspace_name']))
 
 $anonPerm  = stringToPerm($tiddlyCfg['default_anonymous_perm']);
 
-?>	
 
+?>
+window.loggedIn = "<? echo $user['verified'];?>";
+displayMessage(window.loggedIn);
 workspacePermission.anonC = <?php echo permToBinary($anonPerm['create']); ?> ;
 workspacePermission.anonR = <?php echo permToBinary($anonPerm['read']); ?>; 
 workspacePermission.anonU = <?php echo permToBinary($anonPerm['update']); ?>;
 workspacePermission.anonD = <?php echo permToBinary($anonPerm['delete']); ?>;
-
-
 <?php 
-
 if ($workspace_create == "D")
 {
-	// REMOVE "new tiddler" and "new Journal link"
-	// SHOW LOGIN TIDDLER
+// REMOVE "new tiddler" and "new Journal link"
+// SHOW LOGIN TIDDLER
 ?>
-	// hide new journal
-	config.macros.newJournal.handler=function(place,macroName,params,wikifier,paramString,tiddler){};
-
-	// hide new tiddler 
-	config.macros.newTiddler.handler = function(place,macroName,params,wikifier,paramString,tiddler){};
+// hide new journal
+config.macros.newJournal.handler=function(place,macroName,params,wikifier,paramString,tiddler){};
+// hide new tiddler 
+config.macros.newTiddler.handler = function(place,macroName,params,wikifier,paramString,tiddler){};
 <?php
 } 
 ?>
-
-
-
 
 // PHP TO JAVASCRIPT VARIABLE ASSIGNMENT --- 
 

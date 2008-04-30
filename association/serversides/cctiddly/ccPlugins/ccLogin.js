@@ -64,8 +64,6 @@ function findToken(cookieStash){
 	return output;
 }
 
-
-
 function cookieString(str){
 	var cookies = str.split(";");
 	var output = {};
@@ -82,14 +80,12 @@ function cookieString(str){
 			}
 		}
 	}
+	displayMessage("?"+loggedIn);
 	return output;
 }
 
-
-
 function isLoggedIn(){
-	var cookieValues=findToken(document.cookie);
-	if (cookieValues.sessionToken && cookieValues.sessionToken!=='invalid' && cookieValues.txtUserName){
+	if(window.loggedIn == '1'){
 		return true;
 	}else{
 		return false;
@@ -129,6 +125,7 @@ config.macros.ccLogin.refresh=function(place,errorMsg){
 		var btn=createTiddlyElement(null,"input","button","button");
 		btn.setAttribute("type","submit");
 		btn.setAttribute("value","Logout");   
+		btn.onclick=config.macros.ccLogin.logoutOnSubmit;
 		frm.appendChild(btn);			
 	}else{
 		//user not logged in.	
@@ -215,9 +212,15 @@ config.macros.killLoginCookie=function(){
 };
 
 config.macros.ccLogin.logoutOnSubmit=function(){
+
 	var loginDivRef=findRelated(this,"loginDiv","className","parentNode");
 	removeChildren(loginDivRef);
+
 	document.cookie="sessionToken=invalid;   expires=15/02/2009 00:00:00";
+		displayMessage(document.cookie);
+		document.cookie = '';
+		config.macros.killLoginCookie();
+		displayMessage('you should be logged out'+document.cookie);
 	//config.macros.ccLogin.refresh(loginDivRef);
 	doHttp('POST',url+'msghandle.php',"logout=1");
 	window.location=window.location;      
@@ -245,15 +248,21 @@ config.macros.ccLogin.loginOnSubmit=function(){
 	var params={}; 
 	loginState ='';
 	params.origin=this; 
-	setTimeout(config.macros.ccLogin.loginCheckResp,3000);
+	//setTimeout(config.macros.ccLogin.loginCheckResp,3000);
 	var loginResp=doHttp('POST',url+'/handle/login.php',"cctuser=" + encodeURIComponent(user)+"&amp;cctpass="+Crypto.hexSha1Str(pass).toLowerCase(),null,null,null,config.macros.ccLogin.loginCallback,params);
+displayMessage('d');
 	return false;
 };
 
 config.macros.ccLogin.loginCallback=function(status,params,responseText,uri,xhr){
-	var cookie;
-	cookie=xhr.getResponseHeader("Set-Cookie");
-	var cookieValues=findToken(cookie);
+alert('a');
+//	var cookie;
+//	cookie=xhr.getResponseHeader("Set-Cookie");
+//	displayMessage(cookie);
+	alert('login has been postsed');
+	displayMessage(document.cookie);
+	var cookieValues=findToken(document.cookie);
+	alert(cookieValues);
 	config.macros.ccLogin.saveCookie(cookieValues);
 	if(xhr.status!==401){
 		window.location.reload();
@@ -271,6 +280,7 @@ config.macros.ccLogin.loginCallback=function(status,params,responseText,uri,xhr)
 
 config.macros.ccLogin.saveCookie=function(cookieValues){
 	// Save the session token in cookie.
+	displayMessage("try..."+cookieValues.sessionToken);
 	var c='sessionToken'+"="+cookieValues.sessionToken;
 
 	c+="; expires=Fri, 1 Jan 2811 12:00:00 UTC; path=";

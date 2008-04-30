@@ -17,14 +17,11 @@ if($tiddlyCfg['on_the_fly_workspace_creation'] ==1 )
 	}
 }
 
-
 if ($_POST['logout'] || $_REQUEST['logout'])
 {
 	user_logout('You have logged out.');
 	header("Location: ".str_replace("index.php", "", $_SERVER['PHP_SELF']));
 }
-
-
 
 ///////////////////////////////CC: user variable defined in header and $user['verified'] can be used directly to check user validation
  // check to see if user is logged in or not and then assign permissions accordingly. 
@@ -44,8 +41,6 @@ if ($workspace_permissions == "")
 {
 	$workspace_permissions = "DDDD";
 }
-
-
 
 //////////////
 //  Can this use an existing function ?!?!?!

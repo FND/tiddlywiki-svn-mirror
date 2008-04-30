@@ -26,33 +26,25 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 	var user_label = createTiddlyElement(step,"label",null,"label","Username");
 	user_label.setAttribute("for","username");
 	
-	var username = createTiddlyElement(step,"input","username","input");			
-
-	//username.attachEvent("onkeyup", "function() { alert('foo'); }",false); 
-	//username.onkeyup ="function() { alert('foo'); }"; 
-	//username.setAttribute("onkeyup","alert('vv');");
-	//username.onclick= "alert('bb');";
-	//username.attachEvent("onkeyup", "alert('foo');"); 
-	//username.addEventListener('onclick', "alert('ss');", false);
-
-	username.onkeydown=config.macros.ccRegister.usernameKeyPress;
-
 	
+	var username=createTiddlyElement(null,"input","username" ,"input");		
+	username.onkeyup=function() {
+		config.macros.ccRegister.usernameKeyPress(this.value);
+	};
+	step.appendChild(username);
+
 	username.setAttribute("tabindex","1");
 
-		
 	createTiddlyElement(step,"span",'username_error','inlineError',null);
-	createTiddlyElement(step,"br");
-	
+	createTiddlyElement(step,"br");	
 	var mail_label = createTiddlyElement(step,"label",null,"label","E-Mail Address");
-	mail_label.setAttribute("for","username");
+	mail_label.setAttribute("for","username");	
 	var mail=createTiddlyElement(null,"input","mail" ,"input");		
-	mail.onkeydown=config.macros.ccRegister.mailKeyUp;
+	mail.onkeyup=function() {
+		config.macros.ccRegister.mailKeyUp(this.value);
+	};
 	step.appendChild(mail);
-	
-	
-	
-	//sconfig.macros.ccRegister.mailKeyUp;
+
 	mail.setAttribute("tabindex","2");
 	createTiddlyElement(step,"span",'mail_error','inlineError','');
 	createTiddlyElement(step,"br");
@@ -97,12 +89,12 @@ config.macros.ccRegister.emailValid=function(str){
 
 
 config.macros.ccRegister.mailKeyUp=function(mail){
-alert(mail.value);
 	if(config.macros.ccRegister.emailValid(mail)){
 		var a=document.getElementById('mail_error');
 		var field=document.getElementById('mail');
 		a.innerHTML='The email address is valid ';
 		a.setAttribute("class","inlineOk");
+		a.setAttribute("className", "inlineOk");
 		field.setAttribute("class","input");
 	}
 };
@@ -159,7 +151,7 @@ config.macros.ccRegister.registerOnSubmit=function(){
 	document.getElementById('submitStatus').innerHTML='Please wait, your account is being created.';
 	
 	setTimeout(config.macros.ccRegister.registerCheckResp,3000);
-	doHttp('POST',url+'handle/register.php',"username=" + encodeURIComponent(this.username.value)+ "&amp;password="+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null,config.macros.ccRegister.registerCallback,null);
+	doHttp('POST',url+'/handle/register.php',"username=" + encodeURIComponent(this.username.value)+ "&amp;password="+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null,config.macros.ccRegister.registerCallback,null);
 	return false;
 };
 
@@ -193,7 +185,7 @@ config.macros.ccRegister.registerCallback=function(status,params,responseText,ur
 
 
 config.macros.ccRegister.usernameKeyPress=function(){
-	doHttp('POST',url+'handle/register.php',"username="+document.getElementById("username").value+"&amp;free=1",null,null,null,config.macros.ccRegister.usernameCallback,null);
+	doHttp('POST',url+'/handle/register.php',"username="+document.getElementById("username").value+"&amp;free=1",null,null,null,config.macros.ccRegister.usernameCallback,null);
 	return false;
 };
 
@@ -204,11 +196,15 @@ config.macros.ccRegister.usernameCallback=function(status,params,responseText,ur
 		field=document.getElementById('username');
 		error.innerHTML='The username has already been taken. ';
 		error.setAttribute("class","inlineError");
+		// For IE 
+		error.setAttribute("className", "inlineError");
 		field.setAttribute("class","inputError");
 	}else{
 		var a = document.getElementById('username_error');
 		field = document.getElementById('username');
 		a.innerHTML='The username is available ';
+		// For IE
+		a.setAttribute("className", "inlineOk");
 		a.setAttribute("class","inlineOk");
 		field.setAttribute("class","input");
 	}
