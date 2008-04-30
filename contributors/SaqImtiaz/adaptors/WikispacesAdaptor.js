@@ -2,9 +2,9 @@
 |''Name:''|WikispacesAdaptorPlugin|
 |''Description:''|Adaptor for Wikispaces.com|
 |''Author:''| Saq Imtiaz|
-|''Version:''|0.2|
+|''Version:''|0.2.1|
 |''Status:''|Not for release - in development|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.2.0|
 
 ***/
@@ -34,6 +34,7 @@ WikispacesAdaptor.prototype.setContext = function(context,userParams,callback)
 	context.adaptor = this;
 	if(!context.host)
 		context.host = this.host;
+	context.host = WikispacesAdaptor.fullHostName(context.host);
 	if(!context.workspace)
 		context.workspace = this.workspace;
 	return context;
@@ -46,10 +47,10 @@ WikispacesAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentT
 
 WikispacesAdaptor.doHttpPROPFIND = function(uri,callback,params,headers,data,username,password)
 {
-   data = '<?xml version="1.0" encoding="utf-8" ?>' +
-   '<D:propfind xmlns:D="DAV:">' +
-   '<D:allprop/>' +
-   '</D:propfind>';
+	data = '<?xml version="1.0" encoding="utf-8" ?>' +
+		'<D:propfind xmlns:D="DAV:">' +
+		'<D:allprop/>' +
+		'</D:propfind>';
 
 	headers = {'Depth':'1'};
 	return doHttp('PROPFIND',uri,data,'text/xml',null,null,callback,params,headers);
@@ -139,7 +140,7 @@ WikispacesAdaptor.prototype.getTiddlerList = function(context,userParams,callbac
 	context = this.setContext(context,userParams,callback);
 	var uriTemplate = '%0space/dav/pages';
 	var uri = uriTemplate.format([context.host,context.workspace]);
-	var req = WikispacesAdaptor.doHttpPROPFIND(uri,WikispacesAdaptor.getTiddlerListCallback,context); 
+	var req = WikispacesAdaptor.doHttpPROPFIND(uri,WikispacesAdaptor.getTiddlerListCallback,context);
 	return typeof req == 'string' ? req : true;
 };
 
@@ -161,8 +162,7 @@ WikispacesAdaptor.getTiddlerListCallback = function(status,context,responseText,
 				var exp = new RegExp("<(\\w*?):"+prop+".*?>(.*?)<\\/\\1:"+prop+">");
 				return exp.exec(subject)[2];
 			}
-			
-			for(var k=0; k<responses.length; k++){
+			for(var k=0; k<responses.length; k++) {
 				if(parseProp('getcontenttype',responses[k])=='httpd/unix-directory')
 					continue;
 				var href = parseProp('href',responses[k]);
@@ -174,9 +174,8 @@ WikispacesAdaptor.getTiddlerListCallback = function(status,context,responseText,
 				tiddler.modified = new Date(parseProp('getlastmodified',responses[k]));
 				tiddler.modifier = parseProp('author',responses[k]);
 				tiddler.fields['server.page.revision'] = tiddler.modified.convertToYYYYMMDDHHMM();
-				list.push(tiddler);	
+				list.push(tiddler);
 			}
-	
 		} catch (ex) {
 			context.statusText = exceptionText(ex,WikispacesAdaptor.serverParsingErrorMessage);
 			if(context.callback)
@@ -205,23 +204,15 @@ WikispacesAdaptor.prototype.getTiddler = function(title,context,userParams,callb
 {
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
-	return this.getTiddlerInternal(context,userParams,callback);
-};
-
-// @internal
-WikispacesAdaptor.prototype.getTiddlerInternal = function(context,userParams,callback)
-{
-	context = this.setContext(context,userParams,callback);
 
 	uriTemplate = '%0space/dav/pages/%1';
-
 	uri = uriTemplate.format([context.host,WikispacesAdaptor.normalizedTitle(context.title)]);
 	context.tiddler = new Tiddler(context.title);
 	context.tiddler.fields.wikiformat = 'wikispaces';
 	context.tiddler.fields['server.type'] = WikispacesAdaptor.serverType;
 	context.tiddler.fields['server.host'] = WikispacesAdaptor.minHostName(context.host);
 	context.tiddler.fields['server.workspace'] = context.workspace;
-	
+
 	var req = WikispacesAdaptor.doHttpGET(uri,WikispacesAdaptor.getTiddlerCallback,context);
 	return typeof req == 'string' ? req : true;
 };
@@ -246,12 +237,11 @@ WikispacesAdaptor.getTiddlerCallback = function(status,context,responseText,uri,
 			context.callback(context,context.userParams);
 		return;
 	}
-	
+
 	uriTemplate = '%0space/dav/pages/%1';
 
 	uri = uriTemplate.format([context.host,WikispacesAdaptor.normalizedTitle(context.tiddler.title)]);
 	var req = WikispacesAdaptor.doHttpPROPFIND(uri,WikispacesAdaptor.getTiddlerCallback2,context);
-
 };
 
 WikispacesAdaptor.getTiddlerCallback2 = function(status,context,responseText,uri,xhr)
@@ -259,17 +249,14 @@ WikispacesAdaptor.getTiddlerCallback2 = function(status,context,responseText,uri
 	if(status) {
 		context.status = true;
 		try {
-			
-			function parseProp(prop,subject){
+			function parseProp(prop,subject) {
 				var exp = new RegExp("<(\\w*?):"+prop+".*?>(.*?)<\\/\\1:"+prop+">");
 				return exp.exec(subject)[2];
 			}
-
 			context.tiddler.created = Date.fromISOString(parseProp('creationdate',responseText));
 			context.tiddler.modified = new Date(parseProp('getlastmodified',responseText));
 			context.tiddler.modifier = parseProp('author',responseText);
-			context.tiddler.fields['server.page.revision'] = tiddler.modified.convertToYYYYMMDDHHMM();		
-			
+			context.tiddler.fields['server.page.revision'] = context.tiddler.modified.convertToYYYYMMDDHHMM();
 		} catch (ex) {
 			context.statusText = exceptionText(ex,WikispacesAdaptor.serverParsingErrorMessage);
 			if(context.callback)
@@ -290,7 +277,7 @@ WikispacesAdaptor.prototype.putTiddler = function(tiddler,context,userParams,cal
 	context.title = tiddler.title;
 	context.tiddler = tiddler;
 	var uriTemplate = '%0space/dav/pages/%1';
-	var host = this && this.host ? this.host : WikispacesAdaptor.fullHostName(tiddler.fields['server.host']);
+	var host = context.host || WikispacesAdaptor.fullHostName(tiddler.fields['server.host']);
 	var uri = uriTemplate.format([host,tiddler.title]);
 	var req = WikispacesAdaptor.doHttpPUT(uri,WikispacesAdaptor.putTiddlerCallback,context,{"X-Http-Method": "PUT"},tiddler.text,WikispacesAdaptor.mimeType);
 	return typeof req == 'string' ? req : true;
@@ -311,17 +298,17 @@ WikispacesAdaptor.putTiddlerCallback = function(status,context,responseText,uri,
 
 WikispacesAdaptor.putTiddlerCallback2 = function(status,context,responseText,uri,xhr)
 {
-	if(status){
+	if(status) {
 		context.status = true;
-		try{
+		try {
 			var revision = responseText.match(/<(\w*?):getlastmodified.*?>(.*?)<\/\1:getlastmodified>/)[2];
 			context.tiddler.fields['server.page.revision'] = revision;
 		}
-		catch(ex){
+		catch(ex) {
 			context.statusText = exceptionText(ex,WikispacesAdaptor.serverParsingErrorMessage);
 			if(context.callback)
 				context.callback(context,context.userParams);
-			return;			
+			return;
 		}
 	}
 	else{
