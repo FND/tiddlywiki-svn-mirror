@@ -107,30 +107,12 @@ config.macros.ccLogin.refresh=function(place,errorMsg){
 	if (isLoggedIn()){
 		// user is logged in
 		var msg=createTiddlyElement(wrapper,"div");
-		wikify("You are viewing the workspace "+workspace +" and you are logged in as "+decodeURIComponent(decodeURIComponent(cookieValues.txtUserName)),msg);
-		frm=createTiddlyElement(n,"form",null);
-		frm.action="";
-		frm.method="get";
-		// TODO need to decide which method we are going to be using for login, form get, or on submit
-		frm.onsubmit=config.macros.ccLogin.logoutOnSubmit;
-		wrapper.appendChild(frm);		
-		var logout=createTiddlyElement(null,"input",logout,logout);
-		logout.setAttribute("type","hidden");
-		logout.value="1";   
-		logout.name="logout";   
-		frm.appendChild(logout);	
-
-		createTiddlyElement(frm,"br");
-		var btn=createTiddlyElement(null,"input","button","button");
-		btn.setAttribute("type","submit");
-		btn.setAttribute("value","Logout");   
-		btn.onclick=config.macros.ccLogin.logoutOnSubmit;
-		frm.appendChild(btn);			
+		// display the logout button
+		config.macros.ccLoginStatus.handler(msg);		
 	}else{
 		//user not logged in.	
 		frm=createTiddlyElement(wrapper,"form",null,"wizard");
 		frm.onsubmit=this.loginOnSubmit;
-
 		createTiddlyElement(frm,"h1",null,null,"Login");
 		createTiddlyElement(frm,"h2",null,null,"Login to ccTiddly");	
 		createTiddlyElement(frm,"br");
