@@ -241,7 +241,7 @@ config.macros.ccLogin.loginOnSubmit=function(){
 	var pass=document.getElementById('cctpass').value;
 	var but1=document.getElementById('loginButton');
 	but1.disabled=true;
-	but1.setAttribute("class","buttonDisabled");s
+	but1.setAttribute("class","buttonDisabled");
 	var params={}; 
 	loginState ='';
 	params.origin=this; 
