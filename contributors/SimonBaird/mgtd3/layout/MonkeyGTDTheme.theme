@@ -451,6 +451,31 @@ body {
 	font-size:90%;
 }
 
+/* ============= new div based columns ================= */
+.col {
+  float: left;
+  vertical-align:top;
+}
+/* IE not doing these right :( */
+/* .cols3>br, .col>br { display:none; } */
+
+/* so try this instead. it's annoying and will mean you have trouble 
+with brs in non-mgtdlist content. .normal might help */
+.cols2 br, .cols3 br  { display:none; }
+.mgtdList br, .normal { display:block!important; }
+.col .mgtdList { margin-bottom:1.5em; } /* since we're no longer seeing the brs... */
+
+.cols3 .col {
+  width: 33%;
+}
+.cols2 .col {
+  width: 50%;
+}
+.clear {
+  clear: left;
+}
+/* ============= */
+
 /* for DateChooser */
 [[DateChooserStyles]]
 

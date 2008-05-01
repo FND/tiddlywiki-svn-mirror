@@ -337,19 +337,19 @@ If you want to add an action to an already existing project, you can specify the
 <table class="threecol">
 <tr><td>
 [[NameDashboards##Ticklers Requiring Action]]
-<div macro="mgtdList title:'Upcoming Ticklers' startTag:Tickler tags:'Enabled && !Actioned' view:Tickler mode:global newButtonTags:'Tickler Enabled'
+<div macro="mgtdList title:'Upcoming Ticklers' startTag:Tickler tags:'Enabled && !Actioned' view:Tickler mode:global newButtonTags:'Tickler Enabled Once'
 	where:'!tiddler.fields.mgtd_date || ((new Date()).convertToYYYYMMDDHHMM() < tiddler.fields.mgtd_date )'
 	sort:'tickleDate'
 	"></div>
 </td><td>
-<div macro="mgtdList title:'Actioned Ticklers' startTag:Tickler tags:'Enabled && Actioned' view:Tickler mode:global newButtonTags:'Tickler Enabled Actioned' "></div>
+<div macro="mgtdList title:'Actioned Ticklers' startTag:Tickler tags:'Enabled && Actioned' view:Tickler mode:global newButtonTags:'Tickler Enabled Actioned Once' "></div>
 </td><td>
 <div macro="mgtdList title:'Disabled Ticklers' startTag:Tickler tags:'Disabled' view:DisabledTickler mode:global newButtonTags:'Tickler Disabled' "></div>
 </td></tr></table>
 <!--}}}-->
 
 !Ticklers Requiring Action
-<div macro="mgtdList title:'Ticklers Requiring Action' startTag:Tickler tags:'Enabled && !Actioned' view:Tickler mode:global newButtonTags:'Tickler Enabled'
+<div macro="mgtdList title:'Ticklers Requiring Action' startTag:Tickler tags:'Enabled && !Actioned' view:Tickler mode:global newButtonTags:'Tickler Enabled Once'
 	where:'tiddler.fields.mgtd_date && ((new Date()).convertToYYYYMMDDHHMM() >= tiddler.fields.mgtd_date ) '
 	sort:'tickleDate'
 	ignoreRealm:{{config.mGTD.getOptChk('AlertsIgnoreRealm')?'yes':''}}
@@ -381,10 +381,14 @@ If you want to add an action to an already existing project, you can specify the
 !Starred Items
 <table class="threecol"><tr><td>
 
-<div macro="mgtdList title:'Starred Actions' startTag:Starred tags:'Action' view:ActionProj mode:global
+<div macro="mgtdList title:'Starred Actions' startTag:Starred tags:'Action && !Done' view:ActionProj mode:global
 	group:ActionStatus
 	gView:bold
 	newButtonTags:'Starred Action'
+	"></div>
+
+<div macro="mgtdList title:'Starred Done Actions' startTag:Starred tags:'Done' view:DoneAction mode:global
+	newButtonTags:'Starred Action Done'
 	"></div>
 
 </td><td>
@@ -397,7 +401,7 @@ If you want to add an action to an already existing project, you can specify the
 
 </td><td>
 
-<div macro="mgtdList title:'Other Starred Items' startTag:Starred tags:'!Project && !Action' view:Project mode:global
+<div macro="mgtdList title:'Other Starred Items' startTag:Starred tags:'!Project && !Action' view:star mode:global
 	group:GTDComponent
 	gView:bold
 	newButtonTags:'Starred'

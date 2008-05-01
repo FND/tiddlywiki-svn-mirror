@@ -30,15 +30,28 @@ merge(Tiddler.prototype,{
 		]
 	);},
 
-	render_Tickler: function() { return this.renderUtil(
+	render_Tickler: function() {
+        var repeatType = this.getByIndex('TicklerRepeatType');
+        var doneControl = "";
+        if (repeatType.length == 0 || repeatType.contains('Once')) {
+            // show normal done checkbox
+            doneControl = '<<toggleTag Actioned [[%0]] ->>';
+        }
+        else if (repeatType.contains('Daily'))   { doneControl = '<<addDay [[%0]]>>' }
+        else if (repeatType.contains('Weekly'))  { doneControl = '<<addWeek [[%0]]>>' }
+        else if (repeatType.contains('Monthly')) { doneControl = '<<addMonth [[%0]]>>' }
+        else if (repeatType.contains('Yearly'))  { doneControl = '<<addYear [[%0]]>>' }
+
+        return this.renderUtil(
 		'{{tickler{'+
-		'<<toggleTag Actioned [[%0]] ->>'+
+        '%1'+  
 		'<<multiToggleTag tag:TicklerStatus title:[[%0]]>>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
 		'<<dateChooser [[%0]]>>'+
 		'&nbsp;[[%0]]}}}',
 		[
-			this.title
+			this.title,
+            doneControl.format([this.title])
 		]
 	);},
 	render_DisabledTickler: function() { return this.renderUtil(
@@ -77,6 +90,7 @@ merge(Tiddler.prototype,{
 	render_ProjectComplete: function() { return this.renderUtil(
 		'{{project{'+
 		'<<toggleTag Complete [[%0]] ->>'+
+		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
 		'&nbsp;[[%0]] }}}',
 		[
 			this.title
@@ -117,6 +131,7 @@ merge(Tiddler.prototype,{
 	render_DoneAction: function() { return this.renderUtil(
 		'{{action{'+
 		'<<toggleTag Done [[%0]] ->>'+
+		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
 		' [[%0]] }}}',
 		[
 			this.title

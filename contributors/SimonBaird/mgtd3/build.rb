@@ -12,6 +12,7 @@ required = [
   ['Context', 'GTDComponent'],
   ['Tickler', 'GTDComponent'],
   ['Reference', 'GTDComponent'],
+  ['Contact', 'GTDComponent'],
 
  	['Starred',       ''],
 
@@ -24,6 +25,12 @@ required = [
 
 	['Enabled',        'TicklerStatus', "order:1\nbutton:on\nbuttonLong:enabled\n"],
 	['Disabled',       'TicklerStatus', "order:2\nbutton:off\nbuttonLong:disabled\n"],
+
+  ['Once',        'TicklerRepeatType', "order:1\nbutton:none\nbuttonLong:one time\n"],
+  ['Daily',       'TicklerRepeatType', "order:1\nbutton:none\nbuttonLong:daily\n"],
+  ['Weekly',      'TicklerRepeatType', "order:2\nbutton:week\nbuttonLong:weekly\n"],
+  ['Monthly',     'TicklerRepeatType', "order:3\nbutton:month\nbuttonLong:monthly\n"],
+  ['Yearly',      'TicklerRepeatType', "order:4\nbutton:year\nbuttonLong:yearly\n"],
 
 ]
 
@@ -107,6 +114,8 @@ make_tw {
   add_tiddlers_from_dir  "views"
 
   add_tiddlers_from_dir  "tiddlers"
+  
+  add_tiddlers_from_dir  "globalviews"
 
 
   # generate some content

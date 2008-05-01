@@ -55,11 +55,18 @@ Realm:<span macro="multiSelectTag Realm"></span>
 !Tickler
 <!--{{{-->
 <span class='title' macro='view title'></span> (Tickler)<span macro="help Tickler"></span>
-<span macro="toggleTag Actioned . -"></span>
+<span macro="showWhen tiddler.tags.contains('Once') || tiddler.getByIndex('TicklerRepeatType').length==0"><span macro="toggleTag Actioned . -"></span></span>
+<span macro="showWhenTagged 'Daily'"   ><span macro="addDay"></span></span>
+<span macro="showWhenTagged 'Weekly'"  ><span macro="addWeek"></span></span>
+<span macro="showWhenTagged 'Monthly'" ><span macro="addMonth"></span></span>
+<span macro="showWhenTagged 'Yearly'"  ><span macro="addYear"></span></span>
+<span macro="singleToggleTag tag:Starred"></span>
 <span macro="hideWhenTagged Actioned">
  <span macro="multiToggleTag TicklerStatus longVersion:on"></span>
 </span>
-<span macro="singleToggleTag tag:Starred"></span>
+<span macro="hideWhenTagged Actioned">
+ <span macro="multiToggleTag TicklerRepeatType longVersion:on"></span>
+</span>
 <br/>
 Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[[P]|'+tiddler.getByIndex('Project')[0]+']]'"></span>
 <span macro="showWhen tiddler.getByIndex('Project').length == 0">
@@ -118,6 +125,7 @@ Realm:<span macro="multiSelectTag Realm"></span><br/>
 !Contact
 <!--{{{-->
 <span class='title' macro='view title'></span> (Contact)<span macro="help Contact"></span>
+<span macro="singleToggleTag tag:Starred"></span>
 [[MonkeyGTDTheme##Subtitle]]
 <!--}}}-->
 
