@@ -80,7 +80,6 @@ function cookieString(str){
 			}
 		}
 	}
-	displayMessage("?"+loggedIn);
 	return output;
 }
 
@@ -217,10 +216,8 @@ config.macros.ccLogin.logoutOnSubmit=function(){
 	removeChildren(loginDivRef);
 
 	document.cookie="sessionToken=invalid;   expires=15/02/2009 00:00:00";
-		displayMessage(document.cookie);
-		document.cookie = '';
-		config.macros.killLoginCookie();
-		displayMessage('you should be logged out'+document.cookie);
+	document.cookie = '';
+	config.macros.killLoginCookie();
 	//config.macros.ccLogin.refresh(loginDivRef);
 	doHttp('POST',url+'msghandle.php',"logout=1");
 	window.location=window.location;      
@@ -228,7 +225,7 @@ config.macros.ccLogin.logoutOnSubmit=function(){
 };
 
 config.macros.ccLogin.logoutCallback=function(status,params,responseText,uri,xhr){
-	displayMessage(status);
+//	displayMessage(status);
 	//return true;
 };
 	
@@ -244,25 +241,20 @@ config.macros.ccLogin.loginOnSubmit=function(){
 	var pass=document.getElementById('cctpass').value;
 	var but1=document.getElementById('loginButton');
 	but1.disabled=true;
-	but1.setAttribute("class","buttonDisabled");
+	but1.setAttribute("class","buttonDisabled");s
 	var params={}; 
 	loginState ='';
 	params.origin=this; 
 	//setTimeout(config.macros.ccLogin.loginCheckResp,3000);
 	var loginResp=doHttp('POST',url+'/handle/login.php',"cctuser=" + encodeURIComponent(user)+"&amp;cctpass="+Crypto.hexSha1Str(pass).toLowerCase(),null,null,null,config.macros.ccLogin.loginCallback,params);
-displayMessage('d');
 	return false;
 };
 
 config.macros.ccLogin.loginCallback=function(status,params,responseText,uri,xhr){
-alert('a');
 //	var cookie;
 //	cookie=xhr.getResponseHeader("Set-Cookie");
 //	displayMessage(cookie);
-	alert('login has been postsed');
-	displayMessage(document.cookie);
 	var cookieValues=findToken(document.cookie);
-	alert(cookieValues);
 	config.macros.ccLogin.saveCookie(cookieValues);
 	if(xhr.status!==401){
 		window.location.reload();
@@ -280,7 +272,6 @@ alert('a');
 
 config.macros.ccLogin.saveCookie=function(cookieValues){
 	// Save the session token in cookie.
-	displayMessage("try..."+cookieValues.sessionToken);
 	var c='sessionToken'+"="+cookieValues.sessionToken;
 
 	c+="; expires=Fri, 1 Jan 2811 12:00:00 UTC; path=";
