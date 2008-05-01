@@ -12,7 +12,7 @@
 
 //{{{
 config.backstageTasks.push("login");
-merge(config.tasks,{login:{text: "login",tooltip: "Login to your TiddlyWiki",content: '<<ccLogin>>'}});
+merge(config.tasks,{login:{text: "login",tooltip: "Login to your TiddlyWiki",content: '&lt;&lt;ccLogin&gt;&gt;'}});
 
 config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){};
 var loginState=null;
@@ -154,7 +154,7 @@ config.macros.ccLogin.refresh=function(place,errorMsg){
 			var user_label=createTiddlyElement(step,"label",null,"label","Username");
 			user_label.setAttribute("for","cctuser");
 			var txtuser=createTiddlyElement(step,"input","cctuser","input");
-			if (cookieValues.txtUserName!==null){
+			if (cookieValues.txtUserName!==undefined){
 				txtuser.value=cookieValues.txtUserName ;
 			}
 			createTiddlyElement(step,"br");
@@ -235,10 +235,8 @@ config.macros.ccLogin.loginOnSubmit=function(){
 
 config.macros.ccLogin.loginCallback=function(status,params,responseText,uri,xhr){
 //	var cookie;
-	displayMessage(xhr.responseText);
 	var cookieValues=findToken(document.cookie);
 	config.macros.ccLogin.saveCookie(cookieValues);
-
 	if(xhr.status!==401){
 		window.location.reload();
 	} else{

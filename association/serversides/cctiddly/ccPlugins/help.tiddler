@@ -13,6 +13,10 @@
 
 !!! Predefined ccTiddly Tags 
 
+simple - displays the tiddler without showing the date editor and tags. 
+
+private - Only you will be able to read the tiddlers tagged private.
+
 
 !!! ccTiddly Tiddlers  
 
