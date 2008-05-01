@@ -1,0 +1,9 @@
+recipe: ../../core/tiddlywiki.html.recipe
+recipe: plugins/split.recipe
+recipe: feeds/split.recipe
+recipe: content/split.recipe
+recipe: shadows/split.recipe
+tiddler: ../../contributors/MartinBudden/shadows/ViewTemplateRevisions.tiddler
+tiddler: ../../contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js
+tiddler: ../../contributors/MartinBudden/adaptors/LocalAdaptorPlugin.js
+tiddler: ../../contributors/MartinBudden/adaptors/LocalAdaptorSettings.js
