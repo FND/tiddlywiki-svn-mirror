@@ -154,9 +154,8 @@ cctPlugin = {
 
 window.cct_tweak = function(){
 	//add new option to options panel
-	config.shadowTiddlers.OptionsPanel = config.shadowTiddlers.OptionsPanel.substring(config.shadowTiddlers.OptionsPanel.search(/<<option chkRegExpSearch>>/)+39);
-	//change SideBarOption panel to add login panel
-	config.shadowTiddlers.SideBarOptions =  "<<search>><<slider 'chkLoginStatus' 'LoginStatus' '  Login Status »' 'Login to make changes'>>" + config.shadowTiddlers.SideBarOptions.replace('<<search>>', '') ;
+		config.shadowTiddlers.OptionsPanel = "[[Help]]<br />[[Upload]]";
+	config.shadowTiddlers.SideBarOptions =  "<<search>>" + config.shadowTiddlers.SideBarOptions.replace('<<search>>', '')+"<<slider 'chkLoginStatus' 'LoginStatus' '  Login Status »' 'Login to make changes'>>" ;
 	config.shadowTiddlers.ViewTemplate = config.shadowTiddlers.ViewTemplate.replace(/references jump/,'references revisions jump');
 	//change saveChange label to upload
 <?php
@@ -197,7 +196,7 @@ window.cct_tweak = function(){
 <?php
 		print "//]]>\n";
 		print "</script>\n";
-		if( !$standalone )		//online version only
+		if( !$standalone)		//online version only
 		{
 			print "<script type='text/javascript' >\n".file_get_contents('serverside.js')."</script>\n";
 		}

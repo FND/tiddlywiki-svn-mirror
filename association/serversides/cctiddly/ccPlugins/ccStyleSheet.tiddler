@@ -1,4 +1,4 @@
-<div title="ccStyleSheet">
+<div title="ccStyleSheet" tags="ccTiddly excludeSearch excludeLists">
 <pre>/*{{{*/
 .input {
 	display: block;

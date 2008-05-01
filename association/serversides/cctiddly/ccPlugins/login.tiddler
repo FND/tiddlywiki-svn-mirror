@@ -1,4 +1,4 @@
-<div title="Login" modifier="ccTiddly">
+<div title="Login" modifier="ccTiddly" tags="ccTiddly excludeSearch excludeLists">
 <pre>
 &lt;&lt;ccLogin&gt;&gt;
 </pre>

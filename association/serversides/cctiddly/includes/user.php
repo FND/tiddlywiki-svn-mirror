@@ -225,6 +225,7 @@
 		{
 			user_set_session($un, $pw);	
 			debug('LOGIN -user validated so session should have been set return true ');
+			echo 'login ok';
 			return TRUE;
 		}
 		else

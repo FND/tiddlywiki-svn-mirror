@@ -11,7 +11,7 @@ if (is_dir($dir)) {
 			if ($ext == "js")
 			{
 				$tiddler_name = str_replace('.js', '', $file);
-				echo "<div title=\"".$tiddler_name."\" modifier=\"ccTiddly\" tags=\"systemConfig excludeLists excludeSearch\">\n<pre>";
+				echo "<div title=\"".$tiddler_name."\" modifier=\"ccTiddly\" tags=\"systemConfig excludeLists excludeSearch ccTiddly\">\n<pre>";
             	include_once($cct_base."ccPlugins/".$file);
 				echo "</pre>\n</div>\n";
     		}else if ($ext == "tiddler")

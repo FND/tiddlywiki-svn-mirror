@@ -93,7 +93,6 @@ function isLoggedIn(){
 
 config.macros.ccLogin={};
 config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	var img=createTiddlyElement(place,"img");
 	var loginDiv=createTiddlyElement(place,"div",null,"loginDiv",null);
 	this.refresh(loginDiv);
 };
@@ -213,13 +212,13 @@ config.macros.ccLogin.logoutCallback=function(status,params,responseText,uri,xhr
 	
 config.macros.ccLogin.loginCheckResp=function(){
 		alert("Your Login has timed out. ");
-			var but1=document.getElementById('loginButton');
+		var but1=document.getElementById('loginButton');
 		but1.disabled=false;
 		but1.setAttribute("class","button");		
 };
 
 config.macros.ccLogin.loginOnSubmit=function(){
-	var user=document.getElementById('cctuser').value;
+	var user1=document.getElementById('cctuser').value;
 	var pass=document.getElementById('cctpass').value;
 	var but1=document.getElementById('loginButton');
 	but1.disabled=true;
@@ -228,16 +227,18 @@ config.macros.ccLogin.loginOnSubmit=function(){
 	loginState ='';
 	params.origin=this; 
 	//setTimeout(config.macros.ccLogin.loginCheckResp,3000);
-	var loginResp=doHttp('POST',url+'/handle/login.php',"cctuser=" + encodeURIComponent(user)+"&amp;cctpass="+Crypto.hexSha1Str(pass).toLowerCase(),null,null,null,config.macros.ccLogin.loginCallback,params);
+
+	var loginResp=doHttp('POST',url+'/handle/login.php',"cctuser=" + encodeURIComponent(user1)+"&amp;cctpass="+Crypto.hexSha1Str(pass).toLowerCase(),null,null,null,config.macros.ccLogin.loginCallback,params);
 	return false;
 };
 
+
 config.macros.ccLogin.loginCallback=function(status,params,responseText,uri,xhr){
 //	var cookie;
-//	cookie=xhr.getResponseHeader("Set-Cookie");
-//	displayMessage(cookie);
+	displayMessage(xhr.responseText);
 	var cookieValues=findToken(document.cookie);
 	config.macros.ccLogin.saveCookie(cookieValues);
+
 	if(xhr.status!==401){
 		window.location.reload();
 	} else{

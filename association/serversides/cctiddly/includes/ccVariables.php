@@ -1,4 +1,4 @@
-<div title="ccVariables" modifier="ccTiddly" tags="systemConfig">
+<div title="ccVariables" modifier="ccTiddly" tags="systemConfig ccTiddly excludeSearch excludeLists">
 <pre>
 /*{{{*/
 
@@ -28,7 +28,6 @@ $anonPerm  = stringToPerm($tiddlyCfg['default_anonymous_perm']);
 
 ?>
 window.loggedIn = "<? echo $user['verified'];?>";
-displayMessage(window.loggedIn);
 workspacePermission.anonC = <?php echo permToBinary($anonPerm['create']); ?> ;
 workspacePermission.anonR = <?php echo permToBinary($anonPerm['read']); ?>; 
 workspacePermission.anonU = <?php echo permToBinary($anonPerm['update']); ?>;

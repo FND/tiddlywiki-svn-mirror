@@ -43,6 +43,12 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 	workspaceName.value = workspace;
 	workspaceName.size = 15;
 	workspaceName.name = 'ccWorkspaceName';
+	workspaceName.onkeyup=function() {
+		config.macros.ccRegister.workspaceNameKeyPress(this.value);
+	};
+	step.appendChild(workspaceName);
+	createTiddlyElement(step,"span",'workspaceName_error','inlineError',null);
+
 	createTiddlyElement(step,'br');
 
 	//privilege form
@@ -88,11 +94,13 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 	anD_label.setAttribute("for","anD");
 	createTiddlyElement(step,'br');
 
-	var a=createTiddlyElement(step, "div", null, "submit")
+	var a=createTiddlyElement(step, "div", "createWorkspaceButton", "submit")
 	var btn=createTiddlyElement(null,'input',this.prompt,'button');
 	btn.setAttribute('type','submit');
 	btn.value="Create Workspace";
 	a.appendChild(btn);
+	createTiddlyElement(a,"span",'workspaceStatus','',null);
+	
 };
 config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function() {
 	var trueStr = "A";
@@ -104,6 +112,15 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function() {
 	anon+=(this.anD.checked?trueStr:falseStr);
 	var params = {}; 
 	params.url = url+'/'+this.ccWorkspaceName.value;
+	
+	// disable create workspace button 
+	var submit=document.getElementById('createWorkspaceButton');
+	submit.disabled=true;
+	submit.setAttribute("class","buttonDisabled");
+	document.getElementById('workspaceStatus').innerHTML='Please wait, your workspace is being created.';
+	
+	
+	
 
 	var loginResp = doHttp('POST',url+'/'+this.ccWorkspaceName.value,'ccCreateWorkspace=' + encodeURIComponent(this.ccWorkspaceName.value)+'&amp;ccAnonPerm='+encodeURIComponent(anon),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
 	return false; 
@@ -114,13 +131,32 @@ config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params
 		window.location = params.url;
 		//displayMessage('workspace crated');				
 	} else if (xhr.status == 200) {
-		displayMessage("Workspace name is already in use."+responseText);
+		displayMessage("Workspace name is already in use.");
 	} else if (xhr.status == 403) {
 		displayMessage("Permission denied,the ability to create new workspaces may have been disabled by you systems administrator.");	
 	} else {
 		displayMessage(responseText);	
 	}
+};
 
+config.macros.ccRegister.workspaceNameKeyPress=function(str){
+
+	doHttp('POST',url+'/handle/lookupWorkspaceName.php',"ccWorkspaceLookup="+str+"&amp;free=1",null,null,null,config.macros.ccRegister.workspaceNameCallback,null);
+	return false;
+};
+
+config.macros.ccRegister.workspaceNameCallback=function(status,params,responseText,uri,xhr){
+	var field = "";
+	if(responseText>0){{
+		workspaceName_space=document.getElementById('workspaceName_error');
+		workspaceName_space.innerHTML='Workspace name has already been taken';
+		workspaceName_space.setAttribute("class","inlineError");
+	}
+	}else{
+		workspaceName_space=document.getElementById('workspaceName_error');
+		workspaceName_space.innerHTML="Workspace name is available";
+		workspaceName_space.setAttribute("class","inlineOk");
+	}
 };
 
 
