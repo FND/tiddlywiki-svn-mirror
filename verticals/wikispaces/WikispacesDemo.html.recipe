@@ -3,7 +3,7 @@ recipe: shadows/split.recipe
 recipe: plugins/split.recipe
 recipe: content/split.recipe
 recipe: feeds/split.recipe
-tiddler: plugins/split.recipe
+recipe: plugins/split.recipe
 tiddler: ../../contributors/SaqImtiaz/adaptors/WikispacesAdaptor.js
 tiddler: ../../contributors/MartinBudden/formatters/WikispacesFormatterPlugin.js
 tiddler: ../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
