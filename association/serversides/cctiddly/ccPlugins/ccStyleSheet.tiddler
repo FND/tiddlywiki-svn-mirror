@@ -35,6 +35,7 @@
 	color:red;
 }
 
+
 .inlineOk{
 	color:green;
 }

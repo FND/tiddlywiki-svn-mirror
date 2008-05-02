@@ -395,6 +395,7 @@ noscript {display:none;}
 }
 /*}}}*/</pre>
 </div>
+include_once($cct_base."ccPlugins/shadowTiddlers.tiddler");
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">

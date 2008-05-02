@@ -312,6 +312,8 @@ $db_var['error']['query'] = " query: ";*/
 		global $ccT_msg;
 		//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
 		$q= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE workspace_name='".$tiddlyCfg['workspace_name']."'";
+		if($tiddlyCfg['skin'])
+			$q.= " or workspace_name='".$tiddlyCfg['skin']."'";
 		debug("db_tiddlers_mainSelectAll: ".$q);
 		$result = mysql_query($q)
 			or die($ccT_msg['db']['word_error'].mysql_error());

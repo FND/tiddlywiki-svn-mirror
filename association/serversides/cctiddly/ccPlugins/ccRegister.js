@@ -53,6 +53,7 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 	pw1_label.setAttribute("for","password1");
 	var password1 = createTiddlyElement(null,"input","password1","input");
 	password1.setAttribute("type","password");
+	password1.setAttribute("tabindex","3");
 	step.appendChild(password1);
 	
 	createTiddlyElement(step,"span",'mail_error','inlineError','');
@@ -64,6 +65,7 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 	pw2_label.setAttribute("for","password2");
 	var password2 = createTiddlyElement(null,"input","password2","input");
 	password2.setAttribute("type","password");
+	password2.setAttribute("tabindex","4");
 	step.appendChild(password2);
 	
 	createTiddlyElement(step,"span",'pass2_error','inlineError');
@@ -101,6 +103,7 @@ config.macros.ccRegister.mailKeyUp=function(mail){
 
 
 config.macros.ccRegister.registerOnSubmit=function(){
+	alert('s');
 	if(this.username.value==''){
 		document.getElementById('username_error').innerHTML='Please enter a username';
 		this.username.setAttribute("class","inputError");
@@ -149,9 +152,10 @@ config.macros.ccRegister.registerOnSubmit=function(){
 	submit.disabled=true;
 	submit.setAttribute("class","buttonDisabled");
 	document.getElementById('submitStatus').innerHTML='Please wait, your account is being created.';
-	
+	alert('a');
 	setTimeout(config.macros.ccRegister.registerCheckResp,3000);
-	doHttp('POST',url+'/handle/register.php',"username=" + encodeURIComponent(this.username.value)+ "&amp;password="+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null,config.macros.ccRegister.registerCallback,null);
+	displayMessage(this.username.value);
+//	doHttp('POST',url+'/handle/register.php',"username=" + encodeURIComponent(this.username.value)+ "&amp;password="+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null,config.macros.ccRegister.registerCallback,null);
 	return false;
 };
 

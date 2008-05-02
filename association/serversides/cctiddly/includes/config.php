@@ -24,7 +24,7 @@
 	$tiddlyCfg['table']['admin'] = "admin_of_workspace";	//admin of workspace	admin of a particular workspace
 	$tiddlyCfg['table']['session'] = "login_session";	//login session		used to create login string
 	$tiddlyCfg['table']['workspace_view'] = 'workspace_view'; // used to record each viewing of a workspace
-	
+	$tiddlyCfg['table']['workspace_skin'] = 'none'; // allows a workspace to be included when viewing every other workspace on the instance. Set to ='none' if you do not want to use skins
 	//cct core settings, do not affect by DB settings
 	$tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 
 	$tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
