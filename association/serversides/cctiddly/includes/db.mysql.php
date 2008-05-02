@@ -314,6 +314,8 @@ $db_var['error']['query'] = " query: ";*/
 		$q= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE workspace_name='".$tiddlyCfg['workspace_name']."'";
 		if($tiddlyCfg['skin'])
 			$q.= " or workspace_name='".$tiddlyCfg['skin']."'";
+		if($tiddlyCfg['table']['workspace_skin'] !== 'none')
+			$q.= " or workspace_name='".$tiddlyCfg['table']['workspace_skin']."'";
 		debug("db_tiddlers_mainSelectAll: ".$q);
 		$result = mysql_query($q)
 			or die($ccT_msg['db']['word_error'].mysql_error());

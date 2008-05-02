@@ -21,6 +21,7 @@ bidix.core.loadRemoteFile=loadRemoteFile;
 loadRemoteFile=function(url,callback,params){
 	if((document.location.toString().substr(0,4)=="http")&&(url.substr(0,4)=="http")){ 
 		url=store.getTiddlerText("SiteProxy","/proxy/")+url;
+		alert(url);
 	}
 	return bidix.core.loadRemoteFile(url,callback,params);
 }
