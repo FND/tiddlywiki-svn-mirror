@@ -173,17 +173,24 @@ SOAPClient._onLoadWsdl = function(url, method, parameters, async, callback, req,
 	SOAPClient_cacheWsdl[url] = wsdl;	// save a copy in cache
 	return SOAPClient._sendSoapRequest(url, method, parameters, async, callback, wsdl, token);
 };
-SOAPClient._buildSoapRequest = function(method, parameters, ns)
+SOAPClient._buildSoapRequest = function(method, parameters, ns, token)
 {
-	return "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+	var req = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
 	"<soap:Envelope " +
 	"xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
 	"xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" " +
-	"xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-	"<soap:Body>" +
-	"<" + method + " xmlns=\"" + ns + "\">" +
+	"xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
+	"<soap:Body>\n" +
+	"<" + method;
+	if(ns) {
+	 	req += " xmlns=\"" + ns + "\"";
+	} else if(token && token.attribs) {
+		req += " "+ token.attribs;
+	}
+	req += ">\n" +
 	parameters.toXml() +
-	"</" + method + "></soap:Body></soap:Envelope>";
+	"\n</" + method + ">\n</soap:Body>\n</soap:Envelope>\n";
+	return req;
 };
 SOAPClient._sendSoapRequest = function(url, method, parameters, async, callback, wsdl, token)
 {
@@ -194,7 +201,7 @@ SOAPClient._sendSoapRequest = function(url, method, parameters, async, callback,
 	var ns = (wsdl.documentElement.attributes["targetNamespace"] + "" == "undefined") ? wsdl.documentElement.attributes.getNamedItem("targetNamespace").nodeValue : wsdl.documentElement.attributes["targetNamespace"].value;
 //console.log('ns:'+ns);
 	// build SOAP request
-	var sr = SOAPClient._buildSoapRequest(method, parameters, ns);
+	var sr = SOAPClient._buildSoapRequest(method, parameters, ns, token);
 	// send request
 	var xmlHttp = SOAPClient._getXmlHttp();
 	if (SOAPClient.userName && SOAPClient.password){
