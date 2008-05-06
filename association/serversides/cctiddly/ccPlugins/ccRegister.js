@@ -152,8 +152,10 @@ config.macros.ccRegister.registerOnSubmit=function(){
 	submit.setAttribute("class","buttonDisabled");
 	document.getElementById('submitStatus').innerHTML='Please wait, your account is being created.';
 	setTimeout(config.macros.ccRegister.registerCheckResp,3000);
-	displayMessage(this.username.value);
-	doHttp('POST',url+'/handle/register.php',"username=" + encodeURIComponent(this.username.value)+ "&amp;password="+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null,config.macros.ccRegister.registerCallback,null);
+ 	var params = {};
+	params.user = this.username.value;
+	params.pass = this.password1.value;
+	doHttp('POST',url+'/handle/register.php',"username=" + encodeURIComponent(this.username.value)+ "&amp;password="+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null,config.macros.ccRegister.registerCallback,params);
 	return false;
 };
 
@@ -165,21 +167,28 @@ config.macros.ccRegister.registerCheckResp=function(){
 
 config.macros.ccRegister.registerCallback=function(status,params,responseText,uri,xhr){
 	if(xhr.status=='201'){
-		registerState="ok";
-		var loginDiv=document.getElementById("LoginDiv");
-		document.getElementById('submitStatus').innerHTML='Your account has been created ';
-		document.getElementById('username').value='';
-		document.getElementById('mail').value='';
-		document.getElementById('password1').value='';
-		document.getElementById('password2').value='';
-		document.getElementById('username_error').innerHTML='';
-		document.getElementById('mail_error').innerHTML='';
-		document.getElementById('pass1_error').innerHTML=''; 	
-		document.getElementById('pass2_error').innerHTML=''; 
-		var but=document.getElementById('registerAccountSubmit');
-		but.disabled=false;
-		but.setAttribute("class","button");
-		document.getElementById('registerAccountSubmit').setAttribute('class','button');
+		var autoLoginAfterRegistration = 1;
+		if (autoLoginAfterRegistration == 1){
+
+			displayMessage(params.pass);
+			
+		}else{
+			registerState="ok";
+			var loginDiv=document.getElementById("LoginDiv");
+			document.getElementById('submitStatus').innerHTML='Your account has been created ';
+			document.getElementById('username').value='';
+			document.getElementById('mail').value='';
+			document.getElementById('password1').value='';
+			document.getElementById('password2').value='';
+			document.getElementById('username_error').innerHTML='';
+			document.getElementById('mail_error').innerHTML='';
+			document.getElementById('pass1_error').innerHTML=''; 	
+			document.getElementById('pass2_error').innerHTML=''; 
+			var but=document.getElementById('registerAccountSubmit');
+			but.disabled=false;
+			but.setAttribute("class","button");
+			document.getElementById('registerAccountSubmit').setAttribute('class','button');
+		}
 	}else{
 		registerState ="Fail";
 	}
