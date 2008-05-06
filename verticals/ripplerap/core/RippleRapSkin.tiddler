@@ -10,117 +10,179 @@
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.0|
 |''~PageTemplate:''|##PageTemplate|
-|''~taskViewTemplate:''|##taskViewTemplate|
-|''~taskEditTemplate:''|##taskEditTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~EditTemplate:''|##EditTemplate|
+|''~SessionViewTemplate:''|##SessionViewTemplate|
+|''~SessionEditTemplate:''|##SessionEditTemplate|
+|''~NoteViewTemplate:''|##NoteViewTemplate|
+|''~NoteEditTemplate:''|##NoteEditTemplate|
+|''~DiscoveredNotesViewTemplate:''|##DiscoveredNotesViewTemplate|
+|''~DiscoveredNotesEditTemplate:''|##DiscoveredNotesEditTemplate|
 |''~StyleSheet:''|##StyleSheet|
+
 
 ***/
 
 !PageTemplate
 <!--{{{-->
-<div class='header'>
-	<div class='headerShadow'>
-		<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
-		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
-	</div>
-	<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='messageArea'></div>
+<div class='header' >
+<div class='headerShadow'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
 </div>
+<div class='headerForeground'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div class='headerControls' refresh='content' tiddler='HeaderControls'></div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+</div>
+
 <div id='agendaMenu' refresh='content' force='true' tiddler='AgendaMenu'></div>
 <div id='displayArea'>
-<div id='messageArea'></div>
 <div id='tiddlerDisplay'></div>
 </div>
 <!--}}}-->
 
 
-!taskViewTemplate
+!ViewTemplate
 <!--{{{-->
+<div class="VanillaView">
 <div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
 <div class='title' macro='view title'></div>
-<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<!-- <div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>-->
 <div class='tagging' macro='tagging'></div>
 <div class='tagged' macro='tags'></div>
-<div class='task'>
-	<table>
-	<tr>
-		<td class='taskbody'><div class='viewer' macro='view text wikified'></div><p class="label">Dependencies</p><div class='dependencies dropbin'></div></td>
-		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
-	</tr>
-	</table>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div> 
 </div>
-<div class='tagClear'></div>
 <!--}}}-->
 
-!taskEditTemplate
+
+!EditTemplate
 <!--{{{-->
-<div class="editor">
+<div class="VanillaEdit">
 <div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'></div>
-<div class='title edit' macro='edit title'></div>
-<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<div class='tagging' macro='tagging'></div>
-<div class='tagged edit' macro='tags'></div>
-<div class='task'>
-	<table>
-	<tr>
-		<td class='taskbody'><div class='viewer edit' macro='edit text wikified'></div><p class="label">Dependencies</p><div class='dependencies dropbin'></div></td>
-		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
-	</tr>
-	</table>
-</div>
-<div class='tagClear'></div>
+<div class='title' macro='view title'></div> 
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
 </div>
 <!--}}}-->
+
+
+!SessionViewTemplate
+<!--{{{-->
+<div class='session'>
+	<div class='toolbar' macro='toolbar closeTiddler editTiddler'></div>
+	<div class="title" macro="view title"></div>
+	<span class="time"><span macro="dtstart rr_session_starttime '0hh:0mm'"></span>-<span macro="dtend rr_session_endtime '0hh:0mm'"></span></span>
+	<div class="speaker" macro="TiddlifyList rr_session_speaker"></div>
+	<div class="noteOptions" macro="MakeNotesControl create"></div>
+	<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+
+!SessionEditTemplate
+<!--{{{-->
+<div class='session_edit'>
+	<div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
+	<div class="label">Session title</div><div class="title editor" macro="edit title"></div>
+	<div class="label">Speaker (one or more names, separated by commas)</div><div class="speaker editor" macro="edit rr_session_speaker"></div>
+	<div class="label">Start time (YYYYMMDDHHMM)</div><div class="start editor" macro="edit rr_session_starttime"></div>
+	<div class="label">End time (YYYYMMDDHHMM)</div><div class="end editor" macro="edit rr_session_endtime"></div>
+	<div class="label">Tags (include "session" and a track tag)</div><div class="track editor" macro="edit tags"></div>
+	<div class="label">Synopsis</div><div class='synopsis editor' macro='edit text'></div>
+</div>
+<!--}}}-->
+
+
+!NoteViewTemplate
+<!--{{{-->
+<div class='myNotes'>
+	<div class='toolbar' macro='toolbar closeTiddler +editTiddler'></div>
+	<div class="noteOptions" macro="MakeNotesControl sharing"></div>
+	<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+
+!NoteEditTemplate
+<!--{{{-->
+<div class='myNotes'>
+	<div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
+	<div class='editor' macro='edit text'></div>
+	<div class="editor tags" macro="edit tags"></div>
+</div>
+<!--}}}-->
+
+
+!DiscoveredNotesViewTemplate
+<!--{{{-->
+<div class='discoveredNotes'>
+	<div class='toolbar' macro='toolbar closeTiddler +editTiddler'></div>
+	<div class='title'>notes from <span macro='view modifier'></span></div>
+	<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+
+!DiscoveredNotesEditTemplate
+<!--{{{-->
+<div class='discoveredNotes'>
+	<div class='toolbar' macro='toolbar +cancelTiddler'></div>
+	<div class='editor' macro='edit text'></div>
+</div>
+<!--}}}-->
+
 
 
 !StyleSheet
 /*{{{*/
-body { color:[[TeamTasksColors::Darkest]];}
-a:hover {color:[[ColorPalette::PrimaryPale]]; background-color:[[TeamTasksColors::LinkHover]];}
-	
-/* Page Framework */
-body {background-color:[[TeamTasksColors::Background]]; border-top:3px solid [[TeamTasksColors::Accent]]; }
+/* page framework */
+#agendaMenu { position: static;	float: left; width: auto; }
 #displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
-#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 20px 0 0 0; padding:0; border-style:none;}
-#tiddlerDisplay { margin:0 10px 20px 0; padding:0;  border:none;}
-#sidebar {display:none;}
-#messageArea { position:inherit;  margin:0 20px 1em 10px; padding:6px; border-style:none; }
+#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0;}
+#tiddlerDisplay { margin:0 1em 2em 1em;}
 
 /* Header */
-div.header,
-div.headerShadow { margin:0; padding:0; top:auto; position:relative;}
-div.header {height:7em; background-color:[[TeamTasksColors::Background]]; position:relative; border-top:solid 1px [[TeamTasksColors::TiddlerBackground]];}
-div.headerShadow {position:absolute; left:20px; top:1em; height:auto;}
-div.headerShadow span.siteTitle {color::[[TeamTasksColors::Darkest]]; font-size:3em; line-height:1em; letter-spacing:-2px;}
-div.headerShadow span.siteSubtitle {color:[[TeamTasksColors::Dark]]; white-space:nowrap; font-size:1em;}
-div.header #topMenu { display:block; position:absolute; bottom:0; width:100%; line-height:1.2em; background-color:#f00;}
-
-/* Backstage */
+div.header { background-color:#000; height:96px; position:relative; clear:left;}
 #backstageArea,
-#backstageToolbar { background-color:[[TeamTasksColors::Shade]]; padding-top:0;}
-#backstageToolbar a.backstageTab { background-color:[[TeamTasksColors::Shade]]; color:[[TeamTasksColors::Dark]]; font-weight:normal;line-height:1.5em; }
-#backstageToolbar a.backstageTab:hover { background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];  }
-
-/* Popup */
-#popup {background-color:[[TeamTasksColors::Darkest]]; border:1px solid [[TeamTasksColors::Shade]]; border-bottom:2px solid [[TeamTasksColors::Shade]];}
-#popup li a { color:[[TeamTasksColors::Accent]];}
-#popup li a:hover {background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];}
-#popup li.listBreak div{ border-bottom:solid 1px [[TeamTasksColors::Darker]];}
-
-/* Top Menu*/
-/*#topMenu a.button { border-style:none; background-color:[[TeamTasksColors::Background]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Accent]];  }
-#topMenu a.button:hover,
-#mainMenu a:hover  { border-style:none; background-color:[[TeamTasksColors::Darkest]]; color:[[TeamTasksColors::Accent]];}
-#topMenu a.button:active,
-#mainMenu a:active  { border-style:none; background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::Background]];}*/
-
+#backstageToolbar {background-color:#000;}
+#backstageToolbar a{background-color:#000;}
+div.headerShadow,
+div.headerForeground { padding:1px; }
+div.headerShadow {color:#fff; height:80px;}
+div.headerForeground {display:none; }
+span.siteTitle {top:2px;}
+span.siteSubtitle {bottom:25px; left:245px; font-size:1em; position:absolute; width:200px;}
+div.headerControls { position:absolute; bottom:20px; right:10px; color:[[ColorPalette::SecondaryDark]]; font-size:1.2em;}
+div.headerControls input.txtOptionInput { font-size:0.9em; padding: 0.2em; background-color:#222; border:solid 1px #666; color:#eee; margin-right:2em;}
+div.headerControls a.button {border-style:none; background-color:#000; color:[[ColorPalette::SecondaryDark]]; margin-right:0.5em;} 
 
 /* Primary Nav Buttons */
-#mainMenu { display:block; position:absolute; bottom:0; width:100%; margin:0; background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding:0; line-height:1em; text-align:left;}
+#mainMenu { display:block; position:relative; width:100%; margin:0; background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding:0; line-height:1em; text-align:left;}
+
 #mainMenu a.button { border-style:none; border-right:solid 1px #999; float:left;}
 #mainMenu a,
-#mainMenu a.tiddlyLink { border-right:solid 1px #999; font-size:1em; margin:0; color:#333; padding:0.2em 1em; line-height:1.6em; } 
+#mainMenu a.tiddlyLink { border-right:solid 1px #999; font-size:1em; margin:0; color:#333; padding:0.3em 1em; line-height:1.8em; } 
 #mainMenu a:hover,
 #mainMenu a.tiddlyLink:hover { background-color:#aaa;}
+#mainMenu span.search {position:absolute; right:3px;}
+#mainMenu span.search a { border-style:none;}
+#mainMenu span.search .txtOptionInput {padding:1px 4px; font-size:1em;}
+
+
+
+/* Buttons */
+span.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; display:block; padding:0; margin:0 0 0 0;}
+span.chunkyButton a.button,
+span.chunkyButton a:active.button { white-space:nowrap; font-weight:bold; color:#fff; background-color:[[ColorPalette::SecondaryDark]]; text-align:center; padding:0.4em 2em; margin:0; border-style:none;  border-top:solid 1px [[ColorPalette::SecondaryBrightest]]; display:block;}
+span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBright]]; border-style:none; color:#fff;  border-top:solid 1px [[ColorPalette::SecondaryBrightest]];}
+.small {width:20em;}
 
 /* Agenda */
 #agendaMenu { width:260px; float:left; padding:0; margin-top:2.2em; background-color:#f6f6f6; }
@@ -131,53 +193,115 @@ div.header #topMenu { display:block; position:absolute; bottom:0; width:100%; li
 #agendaMenu div.tabset a.tabSelected:hover {background-color:#888; color:#000;border-style:none; border-top-style:none; border-bottom:solid 1px #555; border-left:solid 1px #555;}
 #agendaMenu div.tabContents { border-style:none; margin:0; padding:0; clear:left;}
 
-
-/* MainMenu */
-
-/*#mainMenu { position: static; float: left; width: auto; margin: 20px 0 10px 20px;padding:0;}
-#mainMenu a { margin:1px 0; border-style:none; background-color:[[TeamTasksColors::Shade]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Darkest]];  }
-#mainMenu > a {display:block; font-size:0.94em; text-align:left; margin:0 0 1px 0;}
-#mainMenu > div > a {display:block; font-size:0.9em; text-align:right; margin:0 0 1px 0; background-color:[[TeamTasksColors::LightShade]];}
-#mainMenu span.search { padding:6px 6px 6px 0px; margin-bottom:10px; display:block; background-color:[[TeamTasksColors::Darkest]]; }
-#mainMenu span.search .searchField { padding:2px 6px; border:solid 1px [[TeamTasksColors::DarkShade]]; border-top-color:[[TeamTasksColors::Dark]];  border-bottom-color:[[TeamTasksColors::TiddlerBackground]]; background-color:[[TeamTasksColors::Background]]; }
-#mainMenu span.search a.searchButton { color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::Darkest]];}
-#mainMenu span.search a.searchButton:hover { color:[[TeamTasksColors::TiddlerBackground]]; }
+/*#agendaMenu div.tabset { margin:1em; padding:0; float:left; overflow:none;}
+#agendaMenu div.tabset a.tab { padding:2px 4px; margin:0; line-height:1.7em; background-color:#ddd; color:#333; font-weight:bold; font-size:0.9em; margin-right:1px; border-style:none; }
+#agendaMenu div.tabset a.tab:hover { background-color:#ccc; color:#000; }
+#agendaMenu div.tabset a.tabSelected,
+#agendaMenu div.tabset a.tabSelected:hover {background-color:#bbb; color:#000;border-style:none; }
 */
-/* MetaData section */
-#mainMenu div.meta { text-align:left; width:14em; padding:0 1em; font-size:0.9em; line-height:1.1em;}
-#mainMenu div.meta a {display: block; color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:0 0 0.2em 0; padding:0;}
-#mainMenu div.meta a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];}
 
-/* Vanilla Tiddlers */
-.tiddler { background-color:[[TeamTasksColors::TiddlerBackground]]; margin:0 1em 2em 1em; padding:0 0 1em 0; border-bottom:1px solid[[TeamTasksColors::DarkShade]]; 	}
-.tiddler div.toolbar { margin:0; padding:0; height:2em;}
-.tiddler div.toolbar a.button:first-child {  border-left:1px solid [[TeamTasksColors::LightShade]];}
-.tiddler div.toolbar a.button { display:none; background-color:[[TeamTasksColors::TiddlerBackground]]; padding:4px 1em 4px 1em; border-style:none; border-left:1px solid [[TeamTasksColors::LightShade]]; border-bottom:1px solid [[TeamTasksColors::LightShade]];  border-top:3px solid [[TeamTasksColors::Background]]; line-height:2.3em;}
-.tiddler div.toolbar a.button:hover { background-color:[[TeamTasksColors::LightestShade]]; border-bottom-color:[[TeamTasksColors::DarkShade]]; color:[[TeamTasksColors::Darkest]];}
-.tiddler div.toolbar a.button:active { background-color:[[TeamTasksColors::Accent]]; border-bottom-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];}
-.tiddler div.title { color:[[TeamTasksColors::Accent]]; margin:4px 20px 3px 20px;}
-.tiddler div.subtitle,
-.tiddler div.tagged,
-.tiddler div.tagging { float:none; border-style:none; background-color:[[TeamTasksColors::TiddlerBackground]]; margin:3px 20px 0 20px; padding:0; font:italic 0.95em/1em "Lucida Sans","Lucida Grande",Verdana,"Bitstream Vera Sans",Arial,sans-serif; color:[[TeamTasksColors::DarkShade]];}
-.tiddler div.tagged ul,
-.tiddler div.tagging ul {margin:0; padding:0;}
-.tiddler div.tagged li,
-.tiddler div.tagging li {display:inline; margin:0 0.4em 0 0; color:[[TeamTasksColors::DarkShade]]; }
-.tiddler div.tagged li.listTitle,
-.tiddler div.tagging li.listTitle {margin:0 0.1em 0 0; }
-.tiddler div.tagged a.button,
-.tiddler div.tagging a.button {padding:0;}
-.tiddler div.subtitle a,
-.tiddler div.tagged a,
-.tiddler div.tagging a {color:[[TeamTasksColors::DarkestShade]]; font-weight:normal; white-space:nowrap;}
-.tiddler div.subtitle a:hover,
-.tiddler div.tagged a:hover,
-.tiddler div.tagging a:hover {color:[[ColorPalette::PrimaryPale]]; background-color:[[TeamTasksColors::LinkHover]];}
-.tiddler div.viewer { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
+#agendaMenu { border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
+#agendaMenu div.listRelatedTiddler { display: inline-block; ; /* IE bugfix: give layout (hasLayout = true) */ }
+#agendaMenu div.listRelatedTiddler { display: block; /* restore proper behavior (see IE bugfix above) */  }
+#agendaMenu div.listRelatedTiddler { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px #fff; border-left:solid 10px #ccc; position:relative;}	
+
+#agendaMenu div.listRelatedTiddler span.time {	font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; position:absolute; top:8px; left:8px;}
+#agendaMenu div.listRelatedTiddler span.title a { color:#444; display:block; font-weight:bold;	text-decoration:none; margin-left:5em; font-size:12px; }
+#agendaMenu div.listRelatedTiddler span.speaker { color:#666; display:block; margin:0.2em 0 0 5em; }
+#agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler { text-align:right; }
+#agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler a { color:#55c; font-size:0.9em; line-height:1.4em; text-decoration:none; }
+#agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler a.tiddlyLink:hover,
+#agendaMenu div.listRelatedTiddler span.title a:hover { color:#000; text-decoration:underline;	background-color:#f0f0f0; }
+/*#agendaMenu div.inProgress { border-left:solid 10px #933; background-color:#fff; }*/
+/*#agendaMenu div.inProgress a.tiddlyLink:hover { background-color:#fff;	}*/
+
+div.tiddler {padding:0; margin:0;}
+
+/* Vanilla tiddlers */
+div.tiddler div.VanillaView,
+div.tiddler div.VanillaEdit {margin:30px 0 0 0; font-size:1.3em; }
+div.layoutTable {margin-bottom:0.5em;}
+div.layoutTable table, div.layoutTable table tr, div.layoutTable table td {margin:0; border-style:none;}
+input.txtOptionInput { font-size:1.2em; padding: 0.4em; border-top:solid 1px #999; border-right:solid 1px #ccc; border-bottom:solid 1px #ccc;  border-left:solid 1px #999; background-color:#f6f6f6;}
+div.tiddler sup {font-size:0.7em;}
+div.tiddler pre {font-size:0.em;}
+
+/* Session and Notes tiddlers */
+div.session .toolbar,
+div.session_edit .toolbar,
+div.myNotes .toolbar,
+div.discoveredNotes .toolbar { text-align:right; padding:0.2em 0;}
+
+div.session .viewer,
+div.myNotes .viewer,
+div.discoveredNotes .viewer { padding:10px;}
+
+div.session .toolbar a, 
+div.session_edit .toolbar a, 
+div.myNotes .toolbar a,
+div.discoveredNotes .toolbar a {border-style: none; color:#333;}
+div.session .toolbar a:hover, 
+div.session_edit .toolbar a:hover, 
+div.myNotes .toolbar a:hover,
+div.discoveredNotes .toolbar a:hover {border-style: none; color:#fff; background-color:#333;}
+
+div.session {margin:30px 0 0 0; position:relative;}
+div.session,
+div.session_edit { background-color:#999; border:solid 2px #333; border-bottom-width:1px; border-right-width:1px; margin:3em 0 0 0; }
+div.session .toolbar,
+div.session_edit .toolbar {background-color:#aaa; }
+div.session .title { margin:0.2em 0 0 10px; font-size:1.5em; font-weight:bold; color:#000;}
+div.session .time {margin:0 0.2em 0 10px; font-size:1.2em; font-weight:bold; color:#ddd; display:inline;}
+div.session .speaker {margin:0.2em 0 0 0; font-size:1.2em; font-weight:bold; color:#333;display:inline;}
+div.session .viewer {margin:0; font-size:1em; color:#222; padding:0.5em 5px 0.5em 10px;}
+
+div.session_edit 
+div.session_edit .editor .fieldsetFix {margin:0; padding:0.5em;}
+div.session_edit .label {margin:1em 0 0.2em 10px;font-size::0.8em; font-weight:normal; color:#fff;}
+div.session_edit input {font-size:1em; font-weight:normal; color:#000; padding:2px; margin:0 1em; width:auto; border:solid 1px #555}
+div.session_edit .fieldsetFix {margin:0; padding:0.5em;}
+div.session_edit textarea { border:solid 1px #555; border-top-color:#444; border-bottom-color:#fff; background-color:#fff;}
+
+/*div.session .editor * {margin:0; padding:0.5em;}*/
+
+div.myNotes { background-color:#ddd; border:solid 1px #333; border-top-style:none;  border-left-width:2px; margin:0;}
+div.myNotes .toolbar {background-color:#eee; }
+div.myNotes .editor {width:90%;}
+
+div.myNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
+div.myNotes .editor .fieldsetFix textarea { border:solid 1px #555; border-top-color:#444; border-bottom-color:#fff; background-color:#fff;overflow:auto;}
+div.myNotes .tags {display:none;}
+
+div.discoveredNotes { background-color:#ddd; border:solid 1px #333; border-left-width:2px; border-top-style:none; margin:0;}
+div.discoveredNotes .toolbar {background-color:#eee;border-left:solid 40px #ccc;}
+div.discoveredNotes .title,
+div.discoveredNotes .viewer, 
+div.discoveredNotes .editor {border-left:solid 40px #bbb;}
+div.discoveredNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
+div.discoveredNotes .editor .fieldsetFix textarea { border:solid 1px #bbb; border-top-color:#aaa; border-bottom-color:#fff; background-color:#eee; }
+div.discoveredNotes .title { margin:0; padding:0.5em 10px 0 10px; font-size:1.2em; font-weight:bold; color:#666; }
+
+div.noteOptions { position:absolute; top:2em; right:8px;}
+div.noteOptions a.button,
+div.noteOptions a:active.button {color:#eee; background-color:#666; border-style:none; border-top:1px solid #bbb; }
+div.noteOptions a.button:hover {color:#fff; background-color:#444; border-style:none; border-top:1px solid #ddd;}
 
 
-.viewer pre {background-color:[[TeamTasksColors::CodeBackground]]; color:[[TeamTasksColors::CodeColor]]; border-style:none;];}
-.selected div.toolbar a.button { display:inline;}
+
+
+span.description {font-size:0.8em; color:#555; font-weight:normal; display:block;}
+
+.subtleTabs div.tabset { height:1.4em;}
+.subtleTabs div.tabset a.tab {border-style:none;  background-color:transparent; color:#999; padding:0.2em 0.6em 0.1em 0.6em;}
+.subtleTabs div.tabset a.tabSelected {border:solid 1px #ccc; border-bottom:solid 3px #fff; background-color:#fff; color:#777;}
+.subtleTabs div.tabset a.tabUnselected:hover {color:#444;}
+.subtleTabs div.tabContents {background-color:transparent; border-style:none; border-top:solid 1px #ccc;}
+
+#messageArea { position: fixed; background-color: #000000; border-color: #CCCCCC; color: #CCCCCC;}
+#messageArea a {color:#CCCCCC;}
+#messageArea a.button {background-color:#000000; color:#CCCCCC;}
+
+.Speaker img { float: right; }
 
 
 /*}}}*/</pre>

@@ -2,12 +2,13 @@
 recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 
 # Settings
-# tiddler: settings.js
-# title=RippleRap core
+tiddler: settings.js
+tiddler: SiteUrl.tiddler
+title=RippleRap core
 
 # Theme
-# tiddler: RippleRapSkin.tiddler
-# tiddler: RippleRapColors.tiddler
+tiddler: RippleRapSkin.tiddler
+tiddler: RippleRapColors.tiddler
 
 # Plugins
 # tiddler: ../../../contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js
@@ -15,8 +16,13 @@ recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 # tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 
 # RippleRap UI structure
-# tiddler: SiteTitle.tiddler
-# tiddler: SiteSubtitle.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: MainMenu.tiddler
+
+# Other content
+tiddler: TiddlyWiki.tiddler
+
 
 
 
@@ -43,26 +49,16 @@ tiddler: ../../../contributors/PaulDowney/plugins/TiddlifyList.js
 tiddler: ../../../contributors/PaulDowney/plugins/RawViewMacroPlugin.js
 
 
-tiddler: ColorPalette.tiddler
-tiddler: EditTemplate.tiddler
-tiddler: MainMenu.tiddler
-tiddler: BackstageMod.tiddler
-tiddler: DefaultTiddlers.tiddler
-tiddler: PageTemplate.tiddler
-tiddler: SiteSubtitle.tiddler
-tiddler: SiteTitle.tiddler
-tiddler: SiteUrl.tiddler
-tiddler: StyleSheet.tiddler
-tiddler: ViewTemplate.tiddler
-tiddler: SessionViewTemplate.tiddler
-tiddler: SessionEditTemplate.tiddler
 tiddler: TrackEditTemplate.tiddler
-tiddler: TrackText.tiddler
-tiddler: AgendaMenu.tiddler
-tiddler: DiscoveredNotesEditTemplate.tiddler
-tiddler: DiscoveredNotesViewTemplate.tiddler
 tiddler: SpeakerViewTemplate.tiddler
 tiddler: CommitteeViewTemplate.tiddler
+
+
+tiddler: DefaultTiddlers.tiddler
+
+tiddler: BackstageMod.tiddler
+tiddler: TrackText.tiddler
+tiddler: AgendaMenu.tiddler
 
 tiddler: CamelCase.tiddler
 tiddler: Double_square_brackets.tiddler
@@ -71,31 +67,41 @@ tiddler: Formatting_TiddlyWikis.tiddler
 tiddler: HeaderControls.tiddler
 tiddler: Help.tiddler
 tiddler: How_sharing_works.tiddler
-tiddler: NoteEditTemplate.tiddler
-tiddler: NoteViewTemplate.tiddler
-tiddler: REST.tiddler
+
 tiddler: Safari_and_Opera_configuration.tiddler
 tiddler: SampleDiscoveredNotes.tiddler
 tiddler: Setup_Instructions.tiddler
 tiddler: Share_notes.tiddler
-tiddler: TiddlySaver.tiddler
-tiddler: TiddlyWiki.tiddler
-tiddler: AgendaItemsTemplate.tiddler
 
+tiddler: AgendaItemsTemplate.tiddler
 tiddler: speaker.tiddler
 tiddler: committee.tiddler
 tiddler: chair.tiddler
 
-tiddler: Tweets.tiddler
-tiddler: TwitterPost.tiddler
-tiddler: TwitterLogin.tiddler
-tiddler: TwitterStream.tiddler
-tiddler: TwitterItemsTemplate.tiddler
-tiddler: BlogItemsTemplate.tiddler
-tiddler: BlogTalkTweets.tiddler
-tiddler: Blogs.tiddler
 
-tiddler: FlickrItemsTemplate.tiddler
-tiddler: Flickr.tiddler
 
-copy: img/ripplerap_logo.png
+
+# tiddler: BlogItemsTemplate.tiddler
+# tiddler: BlogTalkTweets.tiddler
+# tiddler: Blogs.tiddler
+# tiddler: REST.tiddler
+# tiddler: Tweets.tiddler
+# tiddler: TwitterPost.tiddler
+# tiddler: TwitterLogin.tiddler
+# tiddler: TwitterStream.tiddler
+# tiddler: TwitterItemsTemplate.tiddler
+# tiddler: FlickrItemsTemplate.tiddler
+# tiddler: Flickr.tiddler
+
+# tiddler: PageTemplate.tiddler
+# tiddler: ViewTemplate.tiddler
+# tiddler: EditTemplate.tiddler
+# tiddler: SessionViewTemplate.tiddler
+# tiddler: SessionEditTemplate.tiddler
+# tiddler: NoteEditTemplate.tiddler
+# tiddler: NoteViewTemplate.tiddler
+# tiddler: DiscoveredNotesEditTemplate.tiddler
+# tiddler: DiscoveredNotesViewTemplate.tiddler
+# tiddler: StyleSheet.tiddler
+# tiddler: ColorPalette.tiddler
+
