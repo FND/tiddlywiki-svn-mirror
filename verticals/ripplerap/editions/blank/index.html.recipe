@@ -1,4 +1,4 @@
-recipe: ../../core/ripplerap.recipe
+recipe: ../../core/ripplerap.html.recipe
 
 recipe: session/split.recipe
 
