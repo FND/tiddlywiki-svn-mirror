@@ -67,7 +67,9 @@ LocalAdaptor.getPath = function(localPath,folder)
 	}
 	if(!folder || folder == '')
 		folder = '.';
-	var path = localPath.substr(0,dirPathPos) + slash + folder + slash;
+	var path = folder + slash;
+	if(folder.charAt(0)!=slash)
+		path = localPath.substr(0,dirPathPos) + slash + path;
 	return path;
 };
 
