@@ -21,7 +21,7 @@ No change needed under
 
 /***
  * storeTiddler.php - upload a tiddler to a TiddlyWiki file in this directory
- * version: 1.2.0 - 2008/03/23 - BidiX@BidiX.info
+ * version: 1.2.1 - 2008-05-06 - BidiX@BidiX.info
  * 
  * tiddler is POST as <FORM> with :
  *	FORM = 
@@ -44,6 +44,8 @@ No change needed under
  *		Display a form for 
  *
  * Revision history
+ * V1.2.1 - 2008-05-06
+ * bug correction : Filename is always 'index.html'. The fileName variable isn't used to initialize tiddlyWiki filename. 
  * V1.2.0 - 2008-03-23
  * Exclusive lock to serialize rewrite of file  
  * V1.1.0 - 2008/03/05
@@ -306,8 +308,8 @@ if (($AUTHENTICATE_USER)
 }
 
 
-if ($options['filename'])
-	$filename = $options['filename'];
+if ($options['fileName'])
+	$filename = $options['fileName'];
 
 
 // make uploadDir
