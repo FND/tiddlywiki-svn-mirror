@@ -1,0 +1,7 @@
+<<mgtdList startTag:Action title:'Done' tags:'Done' view:DoneAction mode:global
+	group:day
+	gView:DoneAction
+	gSort:-title
+	newButtonTags:'Action Next Done'
+	sort:-modified
+	>>

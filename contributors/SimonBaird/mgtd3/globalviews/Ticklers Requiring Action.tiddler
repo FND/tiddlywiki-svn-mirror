@@ -1,0 +1,11 @@
+<<mgtdList
+	title:'Ticklers Requiring Action'
+	startTag:Tickler
+	tags:'Enabled && !Actioned'
+	view:Tickler
+	mode:global
+	newButtonTags:'Tickler Enabled Once'
+	where:'tiddler.fields.mgtd_date && ((new Date()).convertToYYYYMMDDHHMM() >= tiddler.fields.mgtd_date )'
+	sort:'tickleDate'
+	ignoreRealm:{{config.mGTD.getOptChk('AlertsIgnoreRealm')?'yes':''}}
+>>

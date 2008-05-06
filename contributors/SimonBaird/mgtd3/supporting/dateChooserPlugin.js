@@ -15,7 +15,8 @@ if (DatePicker){
                     useTiddler = store.fetchTiddler(params[0]);
     
                 var curVal = useTiddler.fields['mgtd_date'] || undefined;
-                var startDate = curVal ? Date.convertFromYYYYMMDDHHMM(curVal) : new Date();    
+                var startDate = curVal ? Date.convertFromYYYYMMDDHHMM(curVal) : null;
+
                 var dateBox = createTiddlyElement(place,'input',null,'dateBox');            
 
                 var dateFormat = config.mGTD.getOptTxt('ticklerdateformat');
@@ -25,7 +26,7 @@ if (DatePicker){
 					dateFormat = defaultDateFormat;
 					config.mGTD.setOptTxt('ticklerdateformat', defaultDateFormat);
 				}
-                dateBox.value = startDate.formatString(dateFormat);
+                dateBox.value = startDate ? startDate.formatString(dateFormat) : '(set date)';
     
                 var callback = function(el,objDate){
                     el.value = objDate.formatString(dateFormat);

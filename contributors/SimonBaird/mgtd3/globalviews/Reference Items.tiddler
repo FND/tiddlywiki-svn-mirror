@@ -1,0 +1,30 @@
+
+{{cols2{
+
+{{col{
+
+<<mgtdList title:'Reference Items For Active Project' tag:Reference startTag:Reference view:plain mode:global
+	group:Project
+	gView:bold
+	newButtonTags:'Reference'
+	where:tiddler.hasActiveProject()
+	>>
+
+}}}
+
+{{col{
+
+<<mgtdList title:'Other Reference Items' tag:Reference startTag:Reference view:plain mode:global
+	group:Project
+	gView:bold
+	newButtonTags:'Reference'
+	where:!tiddler.hasActiveProject()
+	>>
+
+}}}
+
+{{clear{
+}}}
+
+}}}
+

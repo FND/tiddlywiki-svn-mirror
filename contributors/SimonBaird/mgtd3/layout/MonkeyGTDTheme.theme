@@ -11,11 +11,11 @@
 	[[MptwTheme##ViewTemplateToolbar]]
 	<div class='titleContainer viewer'>[[TitleButtonsSelector]]</div>
 	[[MonkeyGTDTheme##Panel]]
-	<div macro="showWhenTagged Reference">
+	<div macro="showWhenTaggedAny Reference View">
 		<!--- just make it look like a normal tiddler --->
 		<div class='viewer' macro='view text wikified'></div>
 	</div>
-	<div macro="hideWhenTagged Reference">
+	<div macro="else">
 		<div macro="showWhen tiddler.text != ''">
 			<div class='viewer'>Notes:</div>
 			<div class='viewer postityellow' macro='view text wikified'></div>
@@ -64,6 +64,7 @@
 	<div class='header2'>MonkeyGTD <span style="font-size:75%;font-weight:normal;" macro="mgtdVersion"></span></div>
 </div>
 <div macro='gradient vert [[ColorPalette::PrimaryMid]] [[ColorPalette::PrimaryDark]]'>
+	<div style="float:right" id="toggleSideBar"><span macro="toggleSideBar"></span></div>
 	<div class='mtoolbar'>
 	<div>
 	<span class="label">REALM</span><span id='arealmSelector' macro="groupOfSingleToggleTags tag:Realm title:MgtdSettings refresh:page"></span>
@@ -476,8 +477,15 @@ with brs in non-mgtdlist content. .normal might help */
 }
 /* ============= */
 
-/* for DateChooser */
-[[DateChooserStyles]]
+#toggleSideBar {
+	margin-top:0.5em;
+	margin-right:0.5em;
+}
+.button.HideSideBarButton {
+	color:[[ColorPalette::PrimaryPale]];
+	border-style:none;
+	font-weight:bold;
+}
 
 /* for user styles */
 [[StyleSheet]]

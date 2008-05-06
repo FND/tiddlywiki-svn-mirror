@@ -23,9 +23,6 @@ required = [
 	['Active',        'ProjectStatus', "order:1\nbutton:a\nbuttonLong:active\n"],
 	['Someday/Maybe', 'ProjectStatus', "order:2\nbutton:s/m\nbuttonLong:someday/maybe\n"],
 
-	['Enabled',        'TicklerStatus', "order:1\nbutton:on\nbuttonLong:enabled\n"],
-	['Disabled',       'TicklerStatus', "order:2\nbutton:off\nbuttonLong:disabled\n"],
-
   ['Once',        'TicklerRepeatType', "order:1\nbutton:none\nbuttonLong:one time\n"],
   ['Daily',       'TicklerRepeatType', "order:1\nbutton:none\nbuttonLong:daily\n"],
   ['Weekly',      'TicklerRepeatType', "order:2\nbutton:week\nbuttonLong:weekly\n"],
@@ -115,15 +112,27 @@ make_tw {
 
   add_tiddlers_from_dir  "tiddlers"
   
-  add_tiddlers_from_dir  "globalviews"
+  # was going to package these as shadows but then 
+  # won't be able to add the View tag
+  # can we work around that?
+  add_tiddlers_from_dir("globalviews").each do |t|
+    # should return a list of tiddlers but looks like it returns filenames...
+    # lets work around that because we're lazy
+    get_tiddler(File.basename(t,'.tiddler')).add_tag('View')
+  end
 
 
   # generate some content
   content = ""
-  get_tiddler('NameDashboards').get_sections.each do |s|
-    content += "<div macro=\"showWhenTitleIs '#{s}'\">[[NameDashboards###{s}]]</div>\n"
-	  add_tiddler_from_scratch('tiddler' => s, 'tags' => 'View', 'text' => '')
-  end
+
+  ## not doing this anymore. instead see globalviews dir. each thing is in a separate tiddler
+  ## but I need to tag them with "View"
+
+  #get_tiddler('NameDashboards').get_sections.each do |s|
+  #  content += "<div macro=\"showWhenTitleIs '#{s}'\">[[NameDashboards###{s}]]</div>\n"
+	#  add_tiddler_from_scratch('tiddler' => s, 'tags' => 'View', 'text' => '')
+  #end
+
   get_tiddler('TagDashboards').get_sections.each do |s|
     content += "<div macro=\"showWhenTagged '#{s}'\">[[TagDashboards###{s}]]</div>\n"
   end
@@ -149,14 +158,14 @@ make_tw {
 
   # add required tiddlers and write upgrade file.
   required.each { |t| add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2]||'') }
-  store_to_file          "upload/upgrade3.html"
+  store_to_file          "upload/upgrade3.html" unless ARGV[0] == 'fast'
 
   # add some intial useful contexts realms and areas and write an empty file.
   add_tiddler(get_tiddler('MptwBlue').copy_to('ColorPalette'))
   initial.each { |t| add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2]||'') }
   get_tiddler('MgtdSettings').add_tags(['Work', 'Personal', 'AlertsIgnoreRealm', 'MultipleContexts']) # default both realms on..
   get_tiddler('MgtdSettings').fields['ticklerdateformat'] = 'ddd, DD-mmm-YY'; # set default tickler date format. gotcha: use lowercase only for fields please.
-  to_file          "upload/empty3.html"
+  to_file          "upload/empty3.html" unless ARGV[0] == 'fast'
 
   # load the demo and write a demo file
   demo.each { |t| add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2]||'') }

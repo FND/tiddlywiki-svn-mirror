@@ -1,0 +1,8 @@
+This isn't very good but it might be of some use. It's the best attempt we have at showing a list of subprojects.
+<<mgtdList title:'Subprojects' startTag:Project tags:'Project && !Complete' view:Project mode:global
+	where:tiddler.getByIndex('Project').length>0
+	group:Project
+	gView:ProjectBare
+	newButtonTags:'Project Active'
+	leftoverTitle:'(Projects that aren't subprojects)
+	>>

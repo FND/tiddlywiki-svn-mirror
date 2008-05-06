@@ -1,0 +1,4 @@
+<<mgtdList startTag:Project title:'You must assign a next action to these projects (or make them into Someday/Maybe)'
+	tags:'!Complete && !Someday/Maybe' view:Project mode:global
+	where:!tiddler.hasNextAction()
+	>>
