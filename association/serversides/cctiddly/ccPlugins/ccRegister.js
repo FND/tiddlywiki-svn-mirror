@@ -32,9 +32,7 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 		config.macros.ccRegister.usernameKeyPress(this.value);
 	};
 	step.appendChild(username);
-
 	username.setAttribute("tabindex","1");
-
 	createTiddlyElement(step,"span",'username_error','inlineError',null);
 	createTiddlyElement(step,"br");	
 	var mail_label = createTiddlyElement(step,"label",null,"label","E-Mail Address");
@@ -74,7 +72,9 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 	var a = createTiddlyElement(step,"div",null,"submit");
 	var btn = createTiddlyElement(null,"input",this.prompt,"button");
 	btn.setAttribute("type","submit");
-	btn.setAttribute("value","Register Account"); 
+	btn.setAttribute("value","Register Account");	 
+	btn.setAttribute("tabindex","5");
+	
 	btn.setAttribute("id","registerAccountSubmit");
 	a.appendChild(btn);
 	createTiddlyElement(a,"span","submitStatus",null,"");
@@ -87,8 +87,6 @@ config.macros.ccRegister.emailValid=function(str){
 		return false;
 	}
 }; 
-
-
 
 config.macros.ccRegister.mailKeyUp=function(mail){
 	if(config.macros.ccRegister.emailValid(mail)){
@@ -152,10 +150,8 @@ config.macros.ccRegister.registerOnSubmit=function(){
 	submit.setAttribute("class","buttonDisabled");
 	document.getElementById('submitStatus').innerHTML='Please wait, your account is being created.';
 	setTimeout(config.macros.ccRegister.registerCheckResp,3000);
- 	var params = {};
-	params.user = this.username.value;
-	params.pass = this.password1.value;
-	doHttp('POST',url+'/handle/register.php',"username=" + encodeURIComponent(this.username.value)+ "&amp;password="+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null,config.macros.ccRegister.registerCallback,params);
+	displayMessage(this.username.value);
+	doHttp('POST',url+'/handle/register.php',"username=" + encodeURIComponent(this.username.value)+ "&amp;password="+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null,config.macros.ccRegister.registerCallback,null);
 	return false;
 };
 
@@ -167,28 +163,21 @@ config.macros.ccRegister.registerCheckResp=function(){
 
 config.macros.ccRegister.registerCallback=function(status,params,responseText,uri,xhr){
 	if(xhr.status=='201'){
-		var autoLoginAfterRegistration = 1;
-		if (autoLoginAfterRegistration == 1){
-
-			displayMessage(params.pass);
-			
-		}else{
-			registerState="ok";
-			var loginDiv=document.getElementById("LoginDiv");
-			document.getElementById('submitStatus').innerHTML='Your account has been created ';
-			document.getElementById('username').value='';
-			document.getElementById('mail').value='';
-			document.getElementById('password1').value='';
-			document.getElementById('password2').value='';
-			document.getElementById('username_error').innerHTML='';
-			document.getElementById('mail_error').innerHTML='';
-			document.getElementById('pass1_error').innerHTML=''; 	
-			document.getElementById('pass2_error').innerHTML=''; 
-			var but=document.getElementById('registerAccountSubmit');
-			but.disabled=false;
-			but.setAttribute("class","button");
-			document.getElementById('registerAccountSubmit').setAttribute('class','button');
-		}
+		registerState="ok";
+		var loginDiv=document.getElementById("LoginDiv");
+		document.getElementById('submitStatus').innerHTML='Your account has been created ';
+		document.getElementById('username').value='';
+		document.getElementById('mail').value='';
+		document.getElementById('password1').value='';
+		document.getElementById('password2').value='';
+		document.getElementById('username_error').innerHTML='';
+		document.getElementById('mail_error').innerHTML='';
+		document.getElementById('pass1_error').innerHTML=''; 	
+		document.getElementById('pass2_error').innerHTML=''; 
+		var but=document.getElementById('registerAccountSubmit');
+		but.disabled=false;
+		but.setAttribute("class","button");
+		document.getElementById('registerAccountSubmit').setAttribute('class','button');
 	}else{
 		registerState ="Fail";
 	}
