@@ -16,7 +16,7 @@ config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 		var frm=createTiddlyElement(n,"form",null);
 		frm.action="";
 		frm.method="post";
-		//frm.onsubmit=config.macros.ccLogin.logoutOnSubmit;
+		frm.onsubmit=config.macros.ccLogin.logoutOnSubmit;
 		wrapper.appendChild(frm);	
 		var str=wikify("You are viewing the workspace "+workspace +" and  are logged in as: "+decodeURIComponent(name),frm);
 		var logout=createTiddlyElement(null,"input",logout,logout);

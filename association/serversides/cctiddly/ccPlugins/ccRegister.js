@@ -16,7 +16,7 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 		return false;
 	}
 	var frm=createTiddlyElement(place,"form",null,"wizard");
-	frm.setAttribute("onsubmit",this.registerOnSubmit);
+	frm.onsubmit= config.macros.ccRegister.registerOnSubmit;
 	createTiddlyElement(frm,"h1",null,null,"Register");
 	createTiddlyElement(frm,"h2",null,null,"Sign up for an account");
 	createTiddlyElement(frm,"br");
@@ -146,7 +146,7 @@ config.macros.ccRegister.registerOnSubmit=function(){
 		this.password1.setAttribute("class","inputError");
 		document.getElementById('pass2_error').innerHTML='Please ensure both passwords match';
 		this.password2.setAttribute("class","inputError");
-		return false;z
+		return false;
 	}
 	var submit=document.getElementById('registerAccountSubmit');
 	submit.disabled=true;
@@ -155,7 +155,8 @@ config.macros.ccRegister.registerOnSubmit=function(){
 	alert('a');
 	setTimeout(config.macros.ccRegister.registerCheckResp,3000);
 	displayMessage(this.username.value);
-//	doHttp('POST',url+'/handle/register.php',"username=" + encodeURIComponent(this.username.value)+ "&amp;password="+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null,config.macros.ccRegister.registerCallback,null);
+	doHttp('POST',url+'/handle/register.php',"username=" + encodeURIComponent(this.username.value)+ "&amp;password="+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null,config.macros.ccRegister.registerCallback,null);
+	alert('posted');
 	return false;
 };
 
