@@ -103,7 +103,6 @@ config.macros.ccRegister.mailKeyUp=function(mail){
 
 
 config.macros.ccRegister.registerOnSubmit=function(){
-	alert('s');
 	if(this.username.value==''){
 		document.getElementById('username_error').innerHTML='Please enter a username';
 		this.username.setAttribute("class","inputError");
@@ -152,11 +151,9 @@ config.macros.ccRegister.registerOnSubmit=function(){
 	submit.disabled=true;
 	submit.setAttribute("class","buttonDisabled");
 	document.getElementById('submitStatus').innerHTML='Please wait, your account is being created.';
-	alert('a');
 	setTimeout(config.macros.ccRegister.registerCheckResp,3000);
 	displayMessage(this.username.value);
 	doHttp('POST',url+'/handle/register.php',"username=" + encodeURIComponent(this.username.value)+ "&amp;password="+Crypto.hexSha1Str(this.password1.value).toLowerCase(),null,null,null,config.macros.ccRegister.registerCallback,null);
-	alert('posted');
 	return false;
 };
 

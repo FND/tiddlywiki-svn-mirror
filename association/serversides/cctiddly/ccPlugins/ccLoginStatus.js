@@ -11,23 +11,17 @@ config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 	if (isLoggedIn()){
 		createTiddlyElement(wrapper,"br");
 		name = cookieString(document.cookie).txtUserName;
-//		var name=decodeURIComponent(decodeURIComponent(cookieValues.txtUserName));
-
-		var frm=createTiddlyElement(n,"form",null);
-		frm.action="";
-		frm.method="post";
-		frm.onsubmit=config.macros.ccLogin.logoutOnSubmit;
-		wrapper.appendChild(frm);	
-		var str=wikify("You are viewing the workspace "+workspace +" and  are logged in as: "+decodeURIComponent(name),frm);
-		var logout=createTiddlyElement(null,"input",logout,logout);
-		logout.setAttribute("type","hidden");
-		logout.value="1";   
-		logout.name="logout";   
-		frm.appendChild(logout);	
+		var str=wikify("You are viewing the workspace "+workspace +" and  are logged in as: "+decodeURIComponent(name),wrapper);
 		var btn=createTiddlyElement(null,"input",null,"button");
-		btn.setAttribute("type","submit");
+		btn.setAttribute("type", "button");
+		btn.onclick=function() {
+		window.location = window.location+"?&logout=1"
+		};
+		
+		
+	//	btn.setAttribute("type","submit");
 		btn.value="Logout";   
-		frm.appendChild(btn);	
+		wrapper.appendChild(btn);	
 	}else{
 		wikify("[[Login]]",wrapper);
 	}
