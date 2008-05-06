@@ -3,7 +3,7 @@
 
 merge(Tiddler.prototype,{
 
-	sort_tickleDate: function() { alert(this.fields['mgtd_date']);return this.fields['mgtd_date']; }, // todo 
+	sort_tickleDate: function() { return this.fields['mgtd_date']; }, // todo 
 
 	sort_orderSlice: function() {
 		var orderSlice = store.getTiddlerSlice(this.title,"order");
