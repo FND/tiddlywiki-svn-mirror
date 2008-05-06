@@ -5,6 +5,9 @@ config.options.chkAnimate = true;
 config.options.chkSaveBackups = false;
 config.options.txtTheme = "RippleRapSkin";
 
+
+
+
 // Setup the session notes display groupings.
 var session_notes_groups = new TiddlerDisplayGroup();
 var session_notes_pattern = [

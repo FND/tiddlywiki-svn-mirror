@@ -19,17 +19,13 @@
 !PageTemplate
 <!--{{{-->
 <div class='header'>
-<div class='headerShadow'>
-<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
-<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+	<div class='headerShadow'>
+		<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+	</div>
+	<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 </div>
-<div id='topMenu' refresh='content' tiddler='TopMenu'></div>
-</div>
-<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
-<div id='sidebar'>
-<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
-<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
-</div>
+<div id='agendaMenu' refresh='content' force='true' tiddler='AgendaMenu'></div>
 <div id='displayArea'>
 <div id='messageArea'></div>
 <div id='tiddlerDisplay'></div>
@@ -91,12 +87,12 @@ body {background-color:[[TeamTasksColors::Background]]; border-top:3px solid [[T
 
 /* Header */
 div.header,
-div.headerShadow { margin:0; padding:0; top:auto;}
-div.header {height:5em; background-color:[[TeamTasksColors::Background]]; position:relative; border-top:solid 1px [[TeamTasksColors::TiddlerBackground]];}
-div.headerShadow {position:absolute; left:20px; bottom:0; height:auto;}
+div.headerShadow { margin:0; padding:0; top:auto; position:relative;}
+div.header {height:7em; background-color:[[TeamTasksColors::Background]]; position:relative; border-top:solid 1px [[TeamTasksColors::TiddlerBackground]];}
+div.headerShadow {position:absolute; left:20px; top:1em; height:auto;}
 div.headerShadow span.siteTitle {color::[[TeamTasksColors::Darkest]]; font-size:3em; line-height:1em; letter-spacing:-2px;}
 div.headerShadow span.siteSubtitle {color:[[TeamTasksColors::Dark]]; white-space:nowrap; font-size:1em;}
-div.header #topMenu { position:absolute; right:20px; bottom:0;}
+div.header #topMenu { display:block; position:absolute; bottom:0; width:100%; line-height:1.2em; background-color:#f00;}
 
 /* Backstage */
 #backstageArea,
@@ -111,14 +107,34 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 #popup li.listBreak div{ border-bottom:solid 1px [[TeamTasksColors::Darker]];}
 
 /* Top Menu*/
-#topMenu a.button { border-style:none; background-color:[[TeamTasksColors::Background]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Accent]];  }
+/*#topMenu a.button { border-style:none; background-color:[[TeamTasksColors::Background]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Accent]];  }
 #topMenu a.button:hover,
 #mainMenu a:hover  { border-style:none; background-color:[[TeamTasksColors::Darkest]]; color:[[TeamTasksColors::Accent]];}
 #topMenu a.button:active,
-#mainMenu a:active  { border-style:none; background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::Background]];}
+#mainMenu a:active  { border-style:none; background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::Background]];}*/
+
+
+/* Primary Nav Buttons */
+#mainMenu { display:block; position:absolute; bottom:0; width:100%; margin:0; background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding:0; line-height:1em; text-align:left;}
+#mainMenu a.button { border-style:none; border-right:solid 1px #999; float:left;}
+#mainMenu a,
+#mainMenu a.tiddlyLink { border-right:solid 1px #999; font-size:1em; margin:0; color:#333; padding:0.2em 1em; line-height:1.6em; } 
+#mainMenu a:hover,
+#mainMenu a.tiddlyLink:hover { background-color:#aaa;}
+
+/* Agenda */
+#agendaMenu { width:260px; float:left; padding:0; margin-top:2.2em; background-color:#f6f6f6; }
+#agendaMenu div.tabset { width:100%; overflow:none; display:block; margin:0; padding:0 0 1em 0; background-color:#f9f9f9;}
+#agendaMenu div.tabset a.tab { display:block; padding:2px 4px; margin:2px; line-height:1.7em; background-color:#ccc; color:#333; font-weight:bold; font-size:0.9em; margin-right:1px;  border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;  }
+#agendaMenu div.tabset a.tab:hover { background-color:#aaa; color:#000; border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;}
+#agendaMenu div.tabset a.tabSelected,
+#agendaMenu div.tabset a.tabSelected:hover {background-color:#888; color:#000;border-style:none; border-top-style:none; border-bottom:solid 1px #555; border-left:solid 1px #555;}
+#agendaMenu div.tabContents { border-style:none; margin:0; padding:0; clear:left;}
+
 
 /* MainMenu */
-#mainMenu { position: static; float: left; width: auto; margin: 20px 0 10px 20px;padding:0;}
+
+/*#mainMenu { position: static; float: left; width: auto; margin: 20px 0 10px 20px;padding:0;}
 #mainMenu a { margin:1px 0; border-style:none; background-color:[[TeamTasksColors::Shade]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Darkest]];  }
 #mainMenu > a {display:block; font-size:0.94em; text-align:left; margin:0 0 1px 0;}
 #mainMenu > div > a {display:block; font-size:0.9em; text-align:right; margin:0 0 1px 0; background-color:[[TeamTasksColors::LightShade]];}
@@ -126,7 +142,7 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 #mainMenu span.search .searchField { padding:2px 6px; border:solid 1px [[TeamTasksColors::DarkShade]]; border-top-color:[[TeamTasksColors::Dark]];  border-bottom-color:[[TeamTasksColors::TiddlerBackground]]; background-color:[[TeamTasksColors::Background]]; }
 #mainMenu span.search a.searchButton { color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::Darkest]];}
 #mainMenu span.search a.searchButton:hover { color:[[TeamTasksColors::TiddlerBackground]]; }
-
+*/
 /* MetaData section */
 #mainMenu div.meta { text-align:left; width:14em; padding:0 1em; font-size:0.9em; line-height:1.1em;}
 #mainMenu div.meta a {display: block; color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:0 0 0.2em 0; padding:0;}
@@ -163,37 +179,6 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 .viewer pre {background-color:[[TeamTasksColors::CodeBackground]]; color:[[TeamTasksColors::CodeColor]]; border-style:none;];}
 .selected div.toolbar a.button { display:inline;}
 
-/* Task Tiddlers */
-.tiddler div.task { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
-.tiddler div.task table { width:100%; margin:0; padding:0; }
-.tiddler div.task table * { vertical-align:top; }
-.tiddler div.task table td.taskbody { width:100%; }
-.tiddler div.task table td.taskControls { width:auto; }
-.tiddler div.task div.viewer { display:block; padding:1em; margin:10px 0; border:solid 1px [[TeamTasksColors::TaskBorder]]; border-bottom-width:2px; background-color:[[TeamTasksColors::TaskBackground]]; font:italic 1.1em/1.5em "Lucida Sans","Lucida Grande",Verdana,"Bitstream Vera Sans",Arial,sans-serif; }
-.tiddler div.task div.taskControls { float:right; white-space:nowrap; margin:0 0 0 10px;}
-.tiddler div.task div.taskControls table { border-style:none; margin: 10px 0;}
-.tiddler div.task div.taskControls table tr { border-style:none;}
-.tiddler div.task div.taskControls table tr td { border-style:none;}
-.tiddler div.task div.taskControls select {width: 150px; border:solid 1px [[TeamTasksColors::Shade]]; font-size:0.9em; padding:0.2em;}
-.tiddler div.task div.dependencies { padding:1em; background-color:[[TeamTasksColors::LightestShade]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
-.tiddler div.task .label {font-size:0.9em; color:[[TeamTasksColors::DarkestShade]]; margin-bottom:0.4em;}
-
-/* tiddler Edit mode  */
-.tiddler .edit { padding:4px; background-color:[[TeamTasksColors::TiddlerBackground]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
-.tiddler .edit * { background-color:[[TeamTasksColors::TiddlerBackground]]; border-style:none; }
-.tiddler div.editor div.title { color:[[TeamTasksColors::Dark]]; margin:10px 20px 10px 20px;}
-.tiddler div.editor div.viewer {  padding: none; background-color:[[TeamTasksColors::TiddlerBackground]];}
-
-/* New User Wizard */ 
-#createTeamTaskUserForm { background-color:#f0f0f0; padding:1em; border:solid 1px #ccc;}
-#createTeamTaskUserForm label { margin-bottom:10px; display:block; clear:left; font-size:0.9em;}
-#createTeamTaskUserForm label input {float:left; border:1px solid #ddd; border-top:1px solid #999; padding:2px 4px; font-size:1em; width:30em;}
-
-/* TT Report Views */
-table.sortable { margin:0.5em 0; border-style:none; }
-table.sortable tr {border-left-width:0; border-right-width:0;}
-table.sortable * td {border-top:solid 1px [[TeamTasksColors::LightShade]]; border-bottom:solid 1px [[TeamTasksColors::LightShade]]; border-left-width:0; border-right-width:0;}
-table.sortable thead tr td { background-color: [[TeamTasksColors::LightestShade]]; color:[[TeamTasksColors::Darkest]];}
 
 /*}}}*/</pre>
 </div>
