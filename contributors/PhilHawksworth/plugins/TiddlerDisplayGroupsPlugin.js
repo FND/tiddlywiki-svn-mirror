@@ -13,10 +13,28 @@
 if(!version.extensions.TiddlerDisplayGroupsPlugin) {
 version.extensions.TiddlerDisplayGroupsPlugin = {installed:true};
 	
+var TiddlerDisplayGroups = [];
+	
 function TiddlerDisplayGroup() {
 	this.groupField = null;
 	this.bunches = [];
 	this.pattern = null;
+	TiddlerDisplayGroups.push(this);
+};
+
+
+// Get the TiddlerDisplayGroups object which this tiddler is managed by.
+function getTiddlerDisplayGroup(tiddler) {
+	var groupObj = null;
+	store.forEachField(tiddler,function(t,f,v){
+		for (var g=0; g < TiddlerDisplayGroups.length; g++) {
+			if(TiddlerDisplayGroups[g].getGroupField() == f) {
+				groupObj = TiddlerDisplayGroups[g];
+				break;
+			}
+		};
+	},true);
+	return groupObj;
 };
 
 
@@ -278,23 +296,24 @@ version.extensions.TiddlerDisplayGroupsPlugin.closeTiddler = story.closeTiddler;
 //replace the displayTiddler function.
 Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle) {	
 
-	var bunching_id = store.getValue(tiddler,'rr_session_id');
-	if(!bunching_id) {
-		//just display the tiddler as normal.
+	var group_object = getTiddlerDisplayGroup(tiddler);
+	if(!group_object) {
 		version.extensions.TiddlerDisplayGroupsPlugin.displayTiddler.apply(this, arguments);
 		return;
 	}
+
+	var bunching_id = store.getValue(tiddler, group_object.getGroupField());
 		
 	// Find or create bunch
-	var b = test_group.findBunch(bunching_id);
+	var b = group_object.findBunch(bunching_id);
 	if(!b) 
-		b = test_group.createBunch(bunching_id);
+		b = group_object.createBunch(bunching_id);
 	
 	var animSrc = srcElement;
 
 	// Set the correct display location in the bunch.
-	var s = test_group.getTiddlerDisplayPosition(tiddler);
-	var srcElement = story.getTiddler(test_group.getTiddlerDisplayPosition(tiddler));
+	var s = group_object.getTiddlerDisplayPosition(tiddler);
+	var srcElement = story.getTiddler(group_object.getTiddlerDisplayPosition(tiddler));
 			
 	// Add an animation souce argument to the (readonly) arguments array
 	var newArgs = [];
@@ -307,10 +326,10 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,un
 	version.extensions.TiddlerDisplayGroupsPlugin.displayTiddler.apply(this, newArgs);
 		
 	//file tiddler
-	test_group.fileTiddler(tiddler);
+	group_object.fileTiddler(tiddler);
 	
 	//find and display required tiddlers.
-	var dTiddlers = test_group.findRequiredTiddlers(tiddler);
+	var dTiddlers = group_object.findRequiredTiddlers(tiddler);
 	if(dTiddlers) {
 		for (var t=0; t < dTiddlers.length; t++) {
 			tiddler = dTiddlers[t];
@@ -326,9 +345,15 @@ Story.prototype.closeTiddler = function(title,animate,unused){
 	
 	//close the tiddler.
 	version.extensions.TiddlerDisplayGroupsPlugin.closeTiddler.apply(this, arguments);	
-
+	
+	//Get the group display object that manages this tiddler.
+	var tiddler = store.getTiddler(title);
+	var group_object = getTiddlerDisplayGroup(tiddler);
+	if(!group_object) 
+		return;
+	
 	// find required-by tiddlers.
-	var requiredby = test_group.findRequiredByTiddlers(title);
+	var requiredby = group_object.findRequiredByTiddlers(title);
 	if(requiredby) {
 		for (var r=0; r < requiredby.length; r++) {
 			title = requiredby[r].title;
@@ -339,7 +364,7 @@ Story.prototype.closeTiddler = function(title,animate,unused){
 	//remove it from the bunch.
 	var bunching_id = store.getValue(title,'rr_session_id');
 	if(bunching_id) {
-		var b = test_group.findBunch(bunching_id);	
+		var b = group_object.findBunch(bunching_id);	
 		b.removeTiddler(title);
 	}
 };
