@@ -1,0 +1,199 @@
+<div title="RippleRapSkin" modifier="PhilHawksworth" created="200805061019" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|RippleRapSkin |
+|''Description:''|The basic RippleRap theme |
+|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/core/RippleRapSkin.tiddler |
+|''Version:''|0.1|
+|''Date:''|April 5th, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~taskViewTemplate:''|##taskViewTemplate|
+|''~taskEditTemplate:''|##taskEditTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div class='header'>
+<div class='headerShadow'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div id='topMenu' refresh='content' tiddler='TopMenu'></div>
+</div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+
+!taskViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
+<div class='title' macro='view title'></div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div class='task'>
+	<table>
+	<tr>
+		<td class='taskbody'><div class='viewer' macro='view text wikified'></div><p class="label">Dependencies</p><div class='dependencies dropbin'></div></td>
+		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
+	</tr>
+	</table>
+</div>
+<div class='tagClear'></div>
+<!--}}}-->
+
+!taskEditTemplate
+<!--{{{-->
+<div class="editor">
+<div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'></div>
+<div class='title edit' macro='edit title'></div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged edit' macro='tags'></div>
+<div class='task'>
+	<table>
+	<tr>
+		<td class='taskbody'><div class='viewer edit' macro='edit text wikified'></div><p class="label">Dependencies</p><div class='dependencies dropbin'></div></td>
+		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
+	</tr>
+	</table>
+</div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
+
+
+!StyleSheet
+/*{{{*/
+body { color:[[TeamTasksColors::Darkest]];}
+a:hover {color:[[ColorPalette::PrimaryPale]]; background-color:[[TeamTasksColors::LinkHover]];}
+	
+/* Page Framework */
+body {background-color:[[TeamTasksColors::Background]]; border-top:3px solid [[TeamTasksColors::Accent]]; }
+#displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
+#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 20px 0 0 0; padding:0; border-style:none;}
+#tiddlerDisplay { margin:0 10px 20px 0; padding:0;  border:none;}
+#sidebar {display:none;}
+#messageArea { position:inherit;  margin:0 20px 1em 10px; padding:6px; border-style:none; }
+
+/* Header */
+div.header,
+div.headerShadow { margin:0; padding:0; top:auto;}
+div.header {height:5em; background-color:[[TeamTasksColors::Background]]; position:relative; border-top:solid 1px [[TeamTasksColors::TiddlerBackground]];}
+div.headerShadow {position:absolute; left:20px; bottom:0; height:auto;}
+div.headerShadow span.siteTitle {color::[[TeamTasksColors::Darkest]]; font-size:3em; line-height:1em; letter-spacing:-2px;}
+div.headerShadow span.siteSubtitle {color:[[TeamTasksColors::Dark]]; white-space:nowrap; font-size:1em;}
+div.header #topMenu { position:absolute; right:20px; bottom:0;}
+
+/* Backstage */
+#backstageArea,
+#backstageToolbar { background-color:[[TeamTasksColors::Shade]]; padding-top:0;}
+#backstageToolbar a.backstageTab { background-color:[[TeamTasksColors::Shade]]; color:[[TeamTasksColors::Dark]]; font-weight:normal;line-height:1.5em; }
+#backstageToolbar a.backstageTab:hover { background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];  }
+
+/* Popup */
+#popup {background-color:[[TeamTasksColors::Darkest]]; border:1px solid [[TeamTasksColors::Shade]]; border-bottom:2px solid [[TeamTasksColors::Shade]];}
+#popup li a { color:[[TeamTasksColors::Accent]];}
+#popup li a:hover {background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];}
+#popup li.listBreak div{ border-bottom:solid 1px [[TeamTasksColors::Darker]];}
+
+/* Top Menu*/
+#topMenu a.button { border-style:none; background-color:[[TeamTasksColors::Background]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Accent]];  }
+#topMenu a.button:hover,
+#mainMenu a:hover  { border-style:none; background-color:[[TeamTasksColors::Darkest]]; color:[[TeamTasksColors::Accent]];}
+#topMenu a.button:active,
+#mainMenu a:active  { border-style:none; background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::Background]];}
+
+/* MainMenu */
+#mainMenu { position: static; float: left; width: auto; margin: 20px 0 10px 20px;padding:0;}
+#mainMenu a { margin:1px 0; border-style:none; background-color:[[TeamTasksColors::Shade]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Darkest]];  }
+#mainMenu > a {display:block; font-size:0.94em; text-align:left; margin:0 0 1px 0;}
+#mainMenu > div > a {display:block; font-size:0.9em; text-align:right; margin:0 0 1px 0; background-color:[[TeamTasksColors::LightShade]];}
+#mainMenu span.search { padding:6px 6px 6px 0px; margin-bottom:10px; display:block; background-color:[[TeamTasksColors::Darkest]]; }
+#mainMenu span.search .searchField { padding:2px 6px; border:solid 1px [[TeamTasksColors::DarkShade]]; border-top-color:[[TeamTasksColors::Dark]];  border-bottom-color:[[TeamTasksColors::TiddlerBackground]]; background-color:[[TeamTasksColors::Background]]; }
+#mainMenu span.search a.searchButton { color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::Darkest]];}
+#mainMenu span.search a.searchButton:hover { color:[[TeamTasksColors::TiddlerBackground]]; }
+
+/* MetaData section */
+#mainMenu div.meta { text-align:left; width:14em; padding:0 1em; font-size:0.9em; line-height:1.1em;}
+#mainMenu div.meta a {display: block; color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:0 0 0.2em 0; padding:0;}
+#mainMenu div.meta a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];}
+
+/* Vanilla Tiddlers */
+.tiddler { background-color:[[TeamTasksColors::TiddlerBackground]]; margin:0 1em 2em 1em; padding:0 0 1em 0; border-bottom:1px solid[[TeamTasksColors::DarkShade]]; 	}
+.tiddler div.toolbar { margin:0; padding:0; height:2em;}
+.tiddler div.toolbar a.button:first-child {  border-left:1px solid [[TeamTasksColors::LightShade]];}
+.tiddler div.toolbar a.button { display:none; background-color:[[TeamTasksColors::TiddlerBackground]]; padding:4px 1em 4px 1em; border-style:none; border-left:1px solid [[TeamTasksColors::LightShade]]; border-bottom:1px solid [[TeamTasksColors::LightShade]];  border-top:3px solid [[TeamTasksColors::Background]]; line-height:2.3em;}
+.tiddler div.toolbar a.button:hover { background-color:[[TeamTasksColors::LightestShade]]; border-bottom-color:[[TeamTasksColors::DarkShade]]; color:[[TeamTasksColors::Darkest]];}
+.tiddler div.toolbar a.button:active { background-color:[[TeamTasksColors::Accent]]; border-bottom-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];}
+.tiddler div.title { color:[[TeamTasksColors::Accent]]; margin:4px 20px 3px 20px;}
+.tiddler div.subtitle,
+.tiddler div.tagged,
+.tiddler div.tagging { float:none; border-style:none; background-color:[[TeamTasksColors::TiddlerBackground]]; margin:3px 20px 0 20px; padding:0; font:italic 0.95em/1em "Lucida Sans","Lucida Grande",Verdana,"Bitstream Vera Sans",Arial,sans-serif; color:[[TeamTasksColors::DarkShade]];}
+.tiddler div.tagged ul,
+.tiddler div.tagging ul {margin:0; padding:0;}
+.tiddler div.tagged li,
+.tiddler div.tagging li {display:inline; margin:0 0.4em 0 0; color:[[TeamTasksColors::DarkShade]]; }
+.tiddler div.tagged li.listTitle,
+.tiddler div.tagging li.listTitle {margin:0 0.1em 0 0; }
+.tiddler div.tagged a.button,
+.tiddler div.tagging a.button {padding:0;}
+.tiddler div.subtitle a,
+.tiddler div.tagged a,
+.tiddler div.tagging a {color:[[TeamTasksColors::DarkestShade]]; font-weight:normal; white-space:nowrap;}
+.tiddler div.subtitle a:hover,
+.tiddler div.tagged a:hover,
+.tiddler div.tagging a:hover {color:[[ColorPalette::PrimaryPale]]; background-color:[[TeamTasksColors::LinkHover]];}
+.tiddler div.viewer { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
+
+
+.viewer pre {background-color:[[TeamTasksColors::CodeBackground]]; color:[[TeamTasksColors::CodeColor]]; border-style:none;];}
+.selected div.toolbar a.button { display:inline;}
+
+/* Task Tiddlers */
+.tiddler div.task { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
+.tiddler div.task table { width:100%; margin:0; padding:0; }
+.tiddler div.task table * { vertical-align:top; }
+.tiddler div.task table td.taskbody { width:100%; }
+.tiddler div.task table td.taskControls { width:auto; }
+.tiddler div.task div.viewer { display:block; padding:1em; margin:10px 0; border:solid 1px [[TeamTasksColors::TaskBorder]]; border-bottom-width:2px; background-color:[[TeamTasksColors::TaskBackground]]; font:italic 1.1em/1.5em "Lucida Sans","Lucida Grande",Verdana,"Bitstream Vera Sans",Arial,sans-serif; }
+.tiddler div.task div.taskControls { float:right; white-space:nowrap; margin:0 0 0 10px;}
+.tiddler div.task div.taskControls table { border-style:none; margin: 10px 0;}
+.tiddler div.task div.taskControls table tr { border-style:none;}
+.tiddler div.task div.taskControls table tr td { border-style:none;}
+.tiddler div.task div.taskControls select {width: 150px; border:solid 1px [[TeamTasksColors::Shade]]; font-size:0.9em; padding:0.2em;}
+.tiddler div.task div.dependencies { padding:1em; background-color:[[TeamTasksColors::LightestShade]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
+.tiddler div.task .label {font-size:0.9em; color:[[TeamTasksColors::DarkestShade]]; margin-bottom:0.4em;}
+
+/* tiddler Edit mode  */
+.tiddler .edit { padding:4px; background-color:[[TeamTasksColors::TiddlerBackground]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
+.tiddler .edit * { background-color:[[TeamTasksColors::TiddlerBackground]]; border-style:none; }
+.tiddler div.editor div.title { color:[[TeamTasksColors::Dark]]; margin:10px 20px 10px 20px;}
+.tiddler div.editor div.viewer {  padding: none; background-color:[[TeamTasksColors::TiddlerBackground]];}
+
+/* New User Wizard */ 
+#createTeamTaskUserForm { background-color:#f0f0f0; padding:1em; border:solid 1px #ccc;}
+#createTeamTaskUserForm label { margin-bottom:10px; display:block; clear:left; font-size:0.9em;}
+#createTeamTaskUserForm label input {float:left; border:1px solid #ddd; border-top:1px solid #999; padding:2px 4px; font-size:1em; width:30em;}
+
+/* TT Report Views */
+table.sortable { margin:0.5em 0; border-style:none; }
+table.sortable tr {border-left-width:0; border-right-width:0;}
+table.sortable * td {border-top:solid 1px [[TeamTasksColors::LightShade]]; border-bottom:solid 1px [[TeamTasksColors::LightShade]]; border-left-width:0; border-right-width:0;}
+table.sortable thead tr td { background-color: [[TeamTasksColors::LightestShade]]; color:[[TeamTasksColors::Darkest]];}
+
+/*}}}*/</pre>
+</div>

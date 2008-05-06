@@ -3,6 +3,7 @@ recipe: ../../../core/tiddlywiki.html.recipe
 
 # Settings
 tiddler: settings.js
+title=RippleRap core
 
 # Theme
 tiddler: RippleRapSkin.tiddler
@@ -12,7 +13,6 @@ tiddler: RippleRapColors.tiddler
 tiddler: ../../../contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
 tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
-
 
 
 # RippleRap UI structure

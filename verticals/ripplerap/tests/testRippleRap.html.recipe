@@ -1,0 +1,9 @@
+# Core testing framework.
+recipe: ../../../core/tests/html/test.recipe
+
+# Output page title.
+title=Test of all RippleRap components
+
+# Plugin tests.
+# jsspecsrc: ../../../contributors/PhilHawksworth/tests/jsspec/FeedListManagerPlugin.jsspec.js
+
