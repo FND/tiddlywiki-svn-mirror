@@ -1,10 +1,22 @@
 <div title="NewFeatures" modifier="JeremyRuston" created="200704141410" modified="200805070954">
-<pre>TiddlyWiki has been improved in several other areas for release 2.4. Here are some of the highlights; see the full [[release note at tiddlywiki.org|http://trac.tiddlywiki.org/wiki/History#Revision2.4.0]] for more details.
+<pre>TiddlyWiki has been improved in several areas for release 2.4. Here are some of the highlights; see the full [[release note at tiddlywiki.org|http://trac.tiddlywiki.org/wiki/History#Revision2.4.0]] for more details.
 !!! Usability
-There's a slew of significant usability enhancements including:
+There's several significant usability enhancements including:
+* Hassle free saving in [[Safari]] and [[Opera]] using the newly-signed TiddlySaver Java applet
+* Automated core code upgrades (see HowToUpgrade)
+* Friendlier ToolbarCustomisation
+* Improvements to the ImportTiddlers user interface
+* Added warning before closing a dirty tiddler
+* Enhanced GradientMacro
+* Enhanced tag chooser to allow selection of multiple tags by control-clicking on them
 !!! Performance
+* Speeded up SHA-1 hash function
 !!! Hackability
 As usual, several of the new features are intended to make life easier for plugin writers and other TiddlyWiki hackers:
-!!! Internationalisation
+* Several enhancements to the {{{<<view>>}}} macro
+* Support for nested popups
+* Improved SafeMode that now protects the shadow tiddlers
+* Added support for temporary tiddlers via the {{{doNotSave()}}} method on the {{{Tiddler}}} object
+* Added W3C locale specifier
 TiddlyWiki benefits from an extensive set of [[translations|http://trac.tiddlywiki.org/wiki/Translations]]. There are several enhancements in this release to make it easier to maintain translations.</pre>
 </div>
