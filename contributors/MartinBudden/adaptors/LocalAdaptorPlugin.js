@@ -388,10 +388,16 @@ LocalAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback
 	if(!revision)
 		revision = LocalAdaptor.baseRevision;
 	++revision;
-	tiddler.fields['server.page.revision'] = String(revision);
+	if(LocalAdaptor.revisionsDirectory)
+		tiddler.fields['server.page.revision'] = String(revision);
+	else
+		delete tiddler.fields['server.page.revision'];
+		
+	tiddler.clearChangeCount();
 	context.tiddler = tiddler;
 	// save the tiddler as a revision
-	this.saveTiddlerAsDiv(context,true);
+	if(LocalAdaptor.revisionsDirectory)
+		this.saveTiddlerAsDiv(context,true);
 	context = this.saveTiddlerAsDiv(context);
 	if(context.callback)
 		window.setTimeout(function() {callback(context,userParams);},0);
