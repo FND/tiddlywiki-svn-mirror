@@ -1,4 +1,4 @@
-<div title="TiddlyWikiAdaptations" modifier="JeremyRuston" created="200512181828" modified="200805070903" tags="adaptations">
+<div title="TiddlyWikiAdaptations" modifier="JeremyRuston" created="200512181828" modified="200805071031" tags="adaptations">
 <pre>Before TiddlyWiki supported [[Plugins]], several independent developers created their own extended adaptations to support new features. These can be considered forks of the original core code, and won't necessarily be based on the latest version. For that reason, the trend more recently has been for developers to release new features as [[Plugins]] that can be readily mixed and matched and upgraded to the latest version.
 
 Here's a list of known adaptations - note that many of these are quite old, and the links may be dead:
@@ -11,9 +11,9 @@ Here's a list of known adaptations - note that many of these are quite old, and 
 * MasakiYatsu's LesserWiki at http://lesserwiki.org/
 * MichaelBridgen's StickyWiki at http://www.squaremobius.net/~mikeb/Darcs/sticky-wiki/
 * DavidHarper's BloTid, at http://www.spacecoastweb.net/BloTid/Tiddly/
-* JacquesTurbé's TidliPo, in French at http://avm.free.fr/tidlipo.html
+* JacquesTurbÃ©'s TidliPo, in French at http://avm.free.fr/tidlipo.html
 * JoeRaii's pytw at http://www.cs.utexas.edu/~joeraii/pytw/ and his Siglet at http://www.cs.utexas.edu/~joeraii/siglet/
-* JároliJózsef's MagyarTiddlyWiki at http://innen.hu/MagyarTiddlyWiki in Hungarian
+* JÃ¡roliJÃ³zsef's MagyarTiddlyWiki at http://innen.hu/MagyarTiddlyWiki in Hungarian
 * Yoshimov's EncryptedTiddlyWiki, at http://wiki.yoshimov.com/?page=EncryptedTiddlyWiki
 * TiagoDionizio's TsWiki using Tcl and SQLite, at http://mega.ist.utl.pt/~tngd/wiki/
 * TimMorgan's ZiddlyWiki based on Zope, at http://ziddlywiki.org/
@@ -38,6 +38,7 @@ Here's a list of known adaptations - note that many of these are quite old, and 
 * There's also KevemBuangga's TiddlyWikiClone at http://www.kevembuangga.com/hwk/hailiwiki.htm
 * Also inspired by TiddlyWiki, Dr MichaelRees' [[DotWikIE|http://comet.it.bond.edu.au/dotsoft/Pages/dotwikiehome.aspx]],
 * And AndreNho's StickWiki at http://stickwiki.sourceforge.net/
+* [[MessageVault|http://www.kokogiak.com/gedankengang/2007/03/introducing-message-vault.html]] is a personal password store built on some TiddlyWiki technology
 
 There's also some TiddlyWikiTools that extend TiddlyWiki.</pre>
 </div>
