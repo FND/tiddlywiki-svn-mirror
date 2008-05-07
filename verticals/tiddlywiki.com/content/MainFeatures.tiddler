@@ -1,7 +1,8 @@
-<div title="MainFeatures" modifier="JeremyRuston" created="200509262356" modified="200710181320" tags="features" changecount="2">
+<div title="MainFeatures" modifier="JeremyRuston" created="200509262356" modified="200805070909" tags="features">
 <pre>Out of the box, TiddlyWiki offers:
 * Works with all major desktop [[browsers]] on Windows, Macintosh and Linux and many mobile browsers such as the Apple iPhone and the Nokia 770/N800
 ** You can SaveChanges with FireFox, [[Opera]], InternetExplorer for Windows, [[Safari]], and [[Camino]]
+** BidiX has created an adaptation of the TiddlyWiki user interface [[specially for the iPhone|http://www.apple.com/webapps/productivity/itwatiddlywikiforiphone.html]]
 * The BackstageArea for handy access to authoring tools including [[importing|ImportTiddlers]] and [[synchronisation|http://www.tiddlywiki.org/wiki/Dev:Server_Adaptor_Mechanism]] of tiddlers with external files and servers
 * Full text formatting including MonospacedText, ExtendedFormatting, NonWikiWordLinks, WikiWordEscape, PrettyLinks, SubHeadings, BulletPoints, NumberedBulletPoints, [[Tables]], BlockQuotes, HorizontalRules and the ability to use a CustomCssClass and  InlineHTML
 * [img[brixhamharbour.jpg][EmbeddedImages]]...EmbeddedImages

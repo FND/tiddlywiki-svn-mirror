@@ -1,4 +1,4 @@
-<div title="HowToUpgrade" modifier="JeremyRuston" created="200508181412" modified="200712042157" tags="instructions" changecount="1">
+<div title="HowToUpgrade" modifier="JeremyRuston" created="200508181412" modified="200712042157" tags="instructions">
 <pre>The core TiddlyWiki code is regularly updated with bug fixes and new features. If you're using an earlier revision of TiddlyWiki, here's the simple way to upgrade to the latest version:
 * Download a fresh, empty version of TiddlyWiki by right-clicking on [[this link|http://www.tiddlywiki.com/empty.html]], selecting 'Save target' or 'Save link' and saving it in a convenient location as (say) "mynewtiddlywiki.html"
 * Open the new TiddlyWiki file in your browser
