@@ -58,7 +58,7 @@ br {
 .label {
 	padding-top:2px;
 	padding-right: 5px;
-	width: 120px;
+	width: 190px;
 	margin-bottom: 10px;
 }
 
