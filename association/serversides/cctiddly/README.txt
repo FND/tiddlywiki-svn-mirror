@@ -1,6 +1,4 @@
-Welcome to ccTiddly 1.5
-
-
+Welcome to ccTiddly 1.6
 
 The has some new features including : 
 
@@ -45,3 +43,7 @@ each has a password of password. If you wish to change the passwords you will ne
 The admin user is the owner of the root workspace.
 
 
+
+Configuring Uploading 
+
+1 .. Create a folder in your root directory called uploads 

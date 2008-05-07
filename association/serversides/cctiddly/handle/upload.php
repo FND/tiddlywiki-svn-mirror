@@ -5,16 +5,13 @@ $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
 
-
-
 if(!user_session_validate())
 {
 	sendHeader("403");
 	echo '<b>You do not appear to be logged in. You may need to refresh the page to recieve the login prompt.</b>';
 	exit;	
 }
-echo $_POST['username'];
-echo $_POST['saveTo'];
+
 
 if (!user_isAdmin($user['username'], $_POST['workspaceName']))
 {
@@ -32,7 +29,6 @@ function makeFolder($path)
 		mkdir($path, 0700, true);
 	}
 }
-
 
 function check_vals()
 {
@@ -179,7 +175,7 @@ if (isset($_FILES["userFile"]))
 			{
 				$status = 1;
 			}
-			else $err .= "There are some errors!";
+			else $err .= "There were some errors!";
 		}
 	}
 }

@@ -27,7 +27,7 @@ config.macros.ccUpload.handler=function(place,macroName,params,wikifier,paramStr
 
 	// When we server this tiddler it need to know the URL of the server to post back to,this value is currently set in index.php
 	var frm=createTiddlyElement(place,'form',null,"wizard");
-	frm.action="handle/upload.php"; 
+	frm.action=window.url+"/handle/upload.php"; ; 
 	frm.id="ccUpload";
 	frm.enctype="multipart/form-data";
 	frm.method="POST";	
@@ -75,16 +75,20 @@ config.macros.ccUpload.handler=function(place,macroName,params,wikifier,paramStr
 	iframe.id='uploadIframe';
 	iframe.name='uploadIframe';
 	frm.appendChild(iframe);
+	createTiddlyElement(step,"div",'uploadStatus');
+
 	iframe.onload=iFrameLoad;
 };
 
 config.macros.ccUpload.submitiframe=function(){
+
 	var statusArea=document.getElementById("uploadStatus");
 	statusArea.innerHTML="uploading...  &lt;img src=loading.gif /&gt; ";	
 	return true;
 };
-
+ 
 config.macros.ccCreate={};
+
 config.macros.ccCreate.handler=function(place,macroName,params,wikifier,paramString,tiddler,errorMsg){
 	if (workspacePermission.upload !=1){
 		createTiddlyElement(place,'div',null,"annotation",'You do not have permissions to create a new file on this server. ');
@@ -92,7 +96,9 @@ return null;
 	}
 	// When we server this tiddler it need to know the URL of the server to post back to,this value is currently set in index.php
 	var frm=createTiddlyElement(place,'form',null,"wizard");
-	frm.action="handle/upload.php";
+
+displayMessage(url);
+	frm.action="hdfdandle/upload.php";
 	frm.method="POST";
 	createTiddlyElement(frm,"br");
 	var body=createTiddlyElement(frm,'div',null,"wizardBody");
