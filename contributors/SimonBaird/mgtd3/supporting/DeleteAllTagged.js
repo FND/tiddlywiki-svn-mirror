@@ -36,11 +36,13 @@ config.macros.deleteAllTagged = {
 				if (confirm( "Found these tiddlers:\n'"
 						+ collected.join( "', '" ) + "'\n\n\n"
 						+ "Are you sure you want to delete these?" )) {
+					store.suspendNotifications();
 					for ( var i=0;i<collected.length;i++ ) {
 						store.removeTiddler( collected[i] );
 						story.closeTiddler( collected[i], true );
 						displayMessage( "Deleted '"+collected[i]+"'" );
 					}
+					store.resumeNotifications();
 				}
 			}
 			if (deleteMe) {

@@ -160,6 +160,11 @@ make_tw {
   required.each { |t| add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2]||'') }
   store_to_file          "upload/upgrade3.html" unless ARGV[0] == 'fast'
 
+  # add a MgtdUserConf tiddler
+  add_tiddler_from_scratch('tiddler'=>'MgtdUserConf','tags'=>'systemConfig','text'=>"// won't be overwritten by updates\n\n // eg:\n\n//// config.options.txtTheme = 'MonkeyGTDPrint3x5';")
+
+  # todo, also don't overwrite user settings...
+
   # add some intial useful contexts realms and areas and write an empty file.
   add_tiddler(get_tiddler('MptwBlue').copy_to('ColorPalette'))
   initial.each { |t| add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2]||'') }

@@ -85,14 +85,14 @@
 !Ticklers Requiring Action
 <div macro="mgtdList title:'Ticklers Requiring Action' tags:'Tickler && Enabled && !Actioned' view:Tickler newButtonTags:'Tickler Enabled Once'
 	where:'tiddler.fields.mgtd_date && ((new Date()).convertToYYYYMMDDHHMM() >= tiddler.fields.mgtd_date ) '
-	sortBy='ticklerDate'
+	sortBy:tickleDate
 	"></div>
 
 !Upcoming Ticklers 
 <!--- not actually a tag. included by other sections --->
 <div macro="mgtdList title:'Upcoming Ticklers' tags:'Tickler && Enabled && !Actioned' view:Tickler newButtonTags:'Tickler Enabled Once'
 	where:'!tiddler.fields.mgtd_date || ((new Date()).convertToYYYYMMDDHHMM() < tiddler.fields.mgtd_date ) '
-	sortBy='-ticklerDate'
+	sortBy:tickleDate
 	"></div>
 
 !Reference
@@ -121,7 +121,7 @@
 
 <div macro="mgtdList title:'Associated Ticklers' tags:'Tickler && !Actioned && Enabled' view:Tickler
 	newButtonTags:'Tickler Enabled Once'
-	sort:'-ticklerDate'
+	sort:tickleDate
 	"></div>
 
 <div macro="mgtdList title:'Done Actions' tags:'Action && Done' view:DoneAction
