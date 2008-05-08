@@ -1,4 +1,0 @@
-<div title="Clean up after field removal" modifier="PhilHawksworth" created="200711091519" modified="200803061103" tags="task" tt_user="PhilHawksworth" tt_priority="Low" tt_version="0.5" tt_scope="TeamTasksDevelopment" tt_tasks_metadata_format_version="0.4" changecount="10" tt_status="Pending">
-<pre>If a field is removed from the TaskTiddlerControls, the corresponding extended field
-should be removed from the task tiddlers</pre>
-</div>

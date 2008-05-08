@@ -1,6 +1,0 @@
-<div title="Build Story / task summary views with status highlight " modifier="PhilH" created="200803101244" modified="200803101248" tags="task scrum" tt_user="PhilHawksworth" tt_priority="Medium" tt_version="0.5" tt_scope="TeamTasksDevelopment" tt_tasks_metadata_format_version="0.4" changecount="9" tt_status="Pending">
-<pre>Replicate the wall & note cards view used in scrum
-as discussed with @kerryb, @psd and @bb42.
-Delineate the status bands. 
-Order by priority</pre>
-</div>

@@ -1,7 +1,0 @@
-<div title="MainMenu" modifier="PhilHawksworth" created="200708051914" modified="200711091617" changecount="19">
-<pre>{{search{<<search>>}}}[[Getting Started with TeamTasks]][[Release Notes]][[Migrating to the latest version]][[Roadmap and known bugs]]<<slider chkSliderOptionsPanel UserDefinitions "Users »" "A list of users">><<slider chkSliderOptionsPanel TaskViews "Task views »" "A selection of task views">><<slider chkSliderOptionsPanel TaskDefinitions "Task definitions »" "The definitions that drive the task management">>
-{{meta{
-	<<tiddler TeamTasksMetaData>>
-}}}
-</pre>
-</div>
