@@ -14,7 +14,7 @@ if(config.backstageTasks.indexOf("sync")!=-1)
 if(config.backstageTasks.indexOf("importTask")!=-1)
 	config.backstageTasks.splice(config.backstageTasks.indexOf("importTask"),1);
 
-showBackstage = true;
+//#showBackstage = true;
 
 config.views.editor.defaultText = '';
 config.options.chkAnimate = false;
