@@ -1,0 +1,18 @@
+# TeamTasks core
+recipe: $TW_ROOT/contributors/PhilHawksworth/verticals/TeamTasks/core/teamtasks.html.recipe
+
+# Settings
+tiddler: settings.js
+
+# Theme
+tiddler: TeamTasksColors.tiddler
+
+# TeamTasks UI Elements
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
+
+# Sample tasks
+recipe: $TW_ROOT/contributors/PhilHawksworth/verticals/TeamTasks/exampleContent/split.recipe
+
+# Sample views
+recipe: $TW_ROOT/contributors/PhilHawksworth/verticals/TeamTasks/basicViews/split.recipe
