@@ -92,10 +92,6 @@ function getURL()
 		
 		//get all data from db
 		db_connect();
-		//$tiddlers = tiddler_selectAll();
-		//$tiddlers = db_tiddlers_selectAll($tiddlyCfg['table']['main'],$tiddlyCfg['pref']['workspace']);
-		
-		
 		if ($search != "")
 		{
 			$tiddlers = db_tiddlers_mainSearchAll($search);
@@ -106,8 +102,6 @@ function getURL()
 		}
 		
 		
-		//	$tiddlers = db_tiddlers_mainSelectAll();
-		
 		//fetch tiddlers and output ones that the user has read privilege
 		$return_tiddlers = array();
 		while( $t = db_fetch_assoc($tiddlers) )
@@ -116,12 +110,36 @@ function getURL()
 			//move tiddlers to another array
 			if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
 			{
-				//tiddler_outputDIV($t);
 				$return_tiddlers[$t['title']] = $t;
 			}
 		}
 		return $return_tiddlers;		//tiddlers would be in the form array("<title>"=>array("title"=>"<title>", .....
 	}
+	
+	
+	//!	@fn array getAllTiddlers()
+	//!	@brief get all tiddlers in nested array, removing ones the user do not have read privilege
+	function getSkinTiddlers($skin="")
+	{
+		global $tiddlyCfg;
+		global $user;
+		$tiddlers = db_tiddlers_mainSelectSkin($skin);
+		//fetch tiddlers and output ones that the user has read privilege
+		$return_tiddlers = array();
+		while( $t = db_fetch_assoc($tiddlers) )
+		{
+			//obtain privilege from tag
+			//move tiddlers to another array
+			if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
+			{
+				$return_tiddlers[$t['title']] = $t;
+			}
+		}
+		return $return_tiddlers;		//tiddlers would be in the form array("<title>"=>array("title"=>"<title>", .....
+	}
+	
+	
+	
 
 	//!	@fn bool getAllVersionTiddly($title)
 	//!	@brief print all version of a particular tiddler, remove ones the user don't have read privilege.

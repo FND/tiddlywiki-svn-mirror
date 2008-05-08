@@ -312,16 +312,38 @@ $db_var['error']['query'] = " query: ";*/
 		global $ccT_msg;
 		//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
 		$q= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE workspace_name='".$tiddlyCfg['workspace_name']."'";
-		if($_REQUEST['skin'])
-			$q.= " or workspace_name='".$_REQUEST['skin']."'";
-		if($tiddlyCfg['table']['workspace_skin'] !== 'none')
-			$q.= " or workspace_name='".$tiddlyCfg['table']['workspace_skin']."'";
-		debug("db_tiddlers_mainSelectAll: ".$q);
 		$result = mysql_query($q)
 			or die($ccT_msg['db']['word_error'].mysql_error());
-
 		return $result;
 	}
+	
+	function db_tiddlers_mainSelectSkin($skin)
+	{
+		//$data = formatArray4SQL($data);			//require to check data???
+		global $tiddlyCfg;
+		global $ccT_msg;
+		if($skin || $tiddlyCfg['table']['workspace_skin'])
+		{
+			//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
+			$q= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE ";
+			if($skin)
+				$q.= "  workspace_name='".$skin."'";
+			if($tiddlyCfg['table']['workspace_skin'] !== 'none')
+			{
+				if($skin)
+					$q .=" or ";
+				$q.= " workspace_name='".$tiddlyCfg['table']['workspace_skin']."'";
+			}
+			debug("db_tiddlers_mainSelectAll: ".$q);
+			$result = mysql_query($q) or die($ccT_msg['db']['word_error'].mysql_error());
+			return $result;
+		}else
+		{
+			return false;
+		}
+	}
+	
+	
 
 	//!	@fn array db_tiddlers_mainSelect4RSS()
 	//!	@brief select query for RSS

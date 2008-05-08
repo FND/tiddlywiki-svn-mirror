@@ -39,17 +39,21 @@ if( isset($_GET['title']) )
 {
 	$tiddlers = getAllVersionTiddly($title);
 	$t = array();
-	foreach( $tiddlers as $tid )
+	foreach( $tiddlers as $tid) 
 	{
 		$tid['title'] .= " revision ".$tid['revision'];
 		$t[] = $tid;
 	}
 	$tiddlers = $t;
-}elseif( isset($_GET['tags']) )
-{
+}elseif( isset($_GET['tags']) ){
 	$tiddlers = getTiddlersWithTags($yesTags, $noTags);
 }else{
 	$tiddlers = getAllTiddlers();
+	if($_REQUEST['skin'])
+	{
+		$skin_tiddlers = getSkinTiddlers($_REQUEST['skin']);
+		$tiddlers = array_merge($skin_tiddlers, $tiddlers);
+	}
 }
 recordTime_float("get all tiddlers");
 	
