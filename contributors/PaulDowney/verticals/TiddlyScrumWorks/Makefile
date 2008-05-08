@@ -4,7 +4,7 @@ DUMP=backups/scrumworks.script
 index.html:	TeamTasksScrum.html tiddlers.html inject.sh
 	inject.sh TeamTasksScrum.html $@ tiddlers.html 
 
-TeamTasksScrum.html:	TeamTasksScrum.html.recipe 
+TeamTasksScrum.html:	TeamTasksScrum.html.recipe content/TaskTiddlerControls.tiddler
 	cook TeamTasksScrum
 	rm -f TiddlySaver.jar
 

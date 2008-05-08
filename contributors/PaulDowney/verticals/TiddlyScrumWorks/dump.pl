@@ -97,7 +97,7 @@ sub taskDefinitions()
 	    }
         }
 
-	$item = ucfirst($item);
+	$item ||= ucfirst($table);
 	$title ||= "${item}Definitions";
 
 	tiddler({

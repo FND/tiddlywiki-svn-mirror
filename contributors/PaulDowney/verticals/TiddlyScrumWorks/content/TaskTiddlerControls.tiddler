@@ -1,0 +1,8 @@
+<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200711091528" changecount="3">
+<pre>
+|scope |<<ValueSwitcher type:"dropdown" valuesSource:"ScopeDefinitions">> |
+|sprint |<<ValueSwitcher type:"dropdown" valuesSource:"SprintDefinitions">> |
+|product |<<ValueSwitcher type:"dropdown" valuesSource:"ProductDefinitions">> |
+|status |<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions">> |
+</pre>
+</div>
