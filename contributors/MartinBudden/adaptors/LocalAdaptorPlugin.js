@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#LocalAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/LocalAdaptorPlugin.js |
-|''Version:''|0.5.6|
+|''Version:''|0.5.7|
 |''Date:''|Jun 13, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -160,7 +160,7 @@ LocalAdaptor.prototype.mozillaDirList = function(path)
 	netscape.security.PrivilegeManager.enablePrivilege('UniversalXPConnect');
 	var file = Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);
 	file.initWithPath(path);
-	// file is the given directory (nsIFile)
+	//# file is the given directory (nsIFile)
 	var entries = file.directoryEntries;
 	while(entries.hasMoreElements()) {
 		var entry = entries.getNext();
@@ -246,15 +246,13 @@ LocalAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,use
 		var list = [];
 		for(var i=0; i<entries.length; i++) {
 			var name = entries[i].name;
-//#displayMessage('name:'+name);
-			// need to match name with
-			//dirlist/<title>.<nnnn>.tiddler
+			//# need to match name with
+			//# dirlist/<title>.<nnnn>.tiddler
 			var matchRegExp = /(.*?)\.([0-9]*)\.([0-9]*)\.tiddler/;
 			matchRegExp.lastIndex = 0;
 			var match = matchRegExp.exec(name);
 			if(match) {
 				if(match[1]==title) {
-//#displayMessage('name:'+name);
 					var tiddler = new Tiddler(title);
 					tiddler.modified = Date.convertFromYYYYMMDDHHMM(match[2]);
 					//#tiddler.modified = new Date();
@@ -325,30 +323,28 @@ LocalAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 		t1 = new Date();
 		displayMessage('Tiddler file:"'+title+'" loaded in ' + (t1-t0) + ' ms');
 	}
-//#displayMessage('data:'+data);
 	if(data) {
 		var tiddlerRegExp = /<div([^>]*)>(?:\s*)(<pre>)?([^<]*?)</mg;
 		tiddlerRegExp.lastIndex = 0;
 		match = tiddlerRegExp.exec(data);
 		if(match) {
-			ft = match[1].replace(/\=\"/mg,':"');
+			ft = match[1].replace(/\=\"/mg,':"'); //'
 			fields = ft.decodeHashMap();
 			var text = match[3] ? match[3] : '';
 			if(match[2]) {
-				text = text.unescapeLineBreaks().htmlDecode();
+				//# pre format
+				text = text.replace(/\r/mg,'');
 			} else {
-				text = text.replace(/\r/mg,'').htmlDecode();
+				text = text.unescapeLineBreaks().htmlDecode();
 			}
 			context.tiddler.text = text;
 			context.status = true;
 		}
 	} else {
 		data = loadFile(uri + '.js');
-//#displayMessage('data2:'+data);
 		context.tiddler.text = data;
 		meta = loadFile(uri + '.js.meta');
 		if(meta) {
-//#displayMessage('meta:'+meta);
 			context.status = true;
 			var ft = '';
 			var fieldRegExp = /([^:]*):(?:\s*)(.*?)$/mg;
@@ -358,10 +354,9 @@ LocalAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 				ft += match[1] + ':"' + match[2] + '" ';
 				match = fieldRegExp.exec(meta);
 			}
-//#displayMessage('ft:'+ft);
 			fields = ft.decodeHashMap();
 		} else {
-			//alert('cannot load tiddler');
+			//#alert('cannot load tiddler');
 			displayMessage('cannot load tiddler');
 		}
 	}
@@ -384,9 +379,7 @@ LocalAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback
 //#displayMessage('LocalAdaptor.putTiddler:' + tiddler.title);
 	context = this.setContext(context,userParams,callback);
 	context.title = tiddler.title;
-	var revision = tiddler.fields['server.page.revision'];
-	if(!revision)
-		revision = LocalAdaptor.baseRevision;
+	var revision = tiddler.fields['server.page.revision'] || LocalAdaptor.baseRevision;
 	++revision;
 	if(LocalAdaptor.revisionsDirectory)
 		tiddler.fields['server.page.revision'] = String(revision);
@@ -395,10 +388,30 @@ LocalAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback
 		
 	tiddler.clearChangeCount();
 	context.tiddler = tiddler;
-	// save the tiddler as a revision
-	if(LocalAdaptor.revisionsDirectory)
-		this.saveTiddlerAsDiv(context,true);
+	//# save the tiddler as a revision
+	//#if(LocalAdaptor.revisionsDirectory)
+	//#	this.saveTiddlerAsDiv(context,true);
 	context = this.saveTiddlerAsDiv(context);
+	if(context.callback)
+		window.setTimeout(function() {callback(context,userParams);},0);
+	return context.status;
+};
+
+LocalAdaptor.prototype.putTiddlerRevision = function(tiddler,context,userParams,callback)
+{
+//#clearMessage();
+//#displayMessage('LocalAdaptor.putTiddler:' + tiddler.title);
+	if(!LocalAdaptor.revisionsDirectory)
+		return;
+	context = this.setContext(context,userParams,callback);
+	context.title = tiddler.title;
+	if(!tiddler.fields['server.page.revision'])
+		tiddler.fields['server.page.revision'] = String(LocalAdaptor.baseRevision);
+		
+	tiddler.clearChangeCount();
+	context.tiddler = tiddler;
+	// save the tiddler as a revision
+	this.saveTiddlerAsDiv(context,true);
 	if(context.callback)
 		window.setTimeout(function() {callback(context,userParams);},0);
 	return context.status;
@@ -407,18 +420,38 @@ LocalAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback
 LocalAdaptor.prototype.saveTiddlerAsDiv = function(context,isRevision)
 {
 //#displayMessage('LocalAdaptor.saveTiddlerAsDiv:'+context.tiddler.title);
+	var tiddler = context.tiddler;
 	if(isRevision) {
+		if(!LocalAdaptor.revisionsDirectory)
+			return;
 		var path = LocalAdaptor.revisionPath();
 		var uriTemplate = '%0%1.%2.%3.tiddler';
-		var revision = context.tiddler.fields['server.page.revision'];
-		var modified = context.tiddler.modified.convertToYYYYMMDDHHMM();
+		var revision = tiddler.fields['server.page.revision'];
+		var modified = tiddler.modified.convertToYYYYMMDDHHMM();
 	} else {
 		path = LocalAdaptor.contentPath();
 		uriTemplate = '%0%1.tiddler';
 	}
-	var uri = uriTemplate.format([path,context.tiddler.title,modified,revision]);
+	var uri = uriTemplate.format([path,tiddler.title,modified,revision]);
 //#displayMessage('uri:'+uri);
-	context.status = saveFile(uri,store.getSaver().externalizeTiddler(store,context.tiddler));
+	var extendedAttributes = "";
+	store.forEachField(tiddler,
+		function(tiddler,fieldName,value) {
+			if(typeof value != "string")
+				value = "";
+			if(!fieldName.match(/^temp\./))
+				extendedAttributes += ' %0="%1"'.format([fieldName,value.escapeLineBreaks().htmlEncode()]);
+		},true);
+	var created = tiddler.created;
+	var modified = tiddler.modified;
+	var attributes = tiddler.modifier ? ' modifier="' + tiddler.modifier.htmlEncode() + '"' : "";
+	attributes += (created == version.date) ? "" :' created="' + created.convertToYYYYMMDDHHMM() + '"';
+	attributes += (modified == created) ? "" : ' modified="' + modified.convertToYYYYMMDDHHMM() +'"';
+	var tags = tiddler.getTags();
+	if(tags)
+		attributes += ' tags="' + tags.htmlEncode() + '"';
+	var div = ('<div title="%0"%1%2>%3</div>').format([tiddler.title.htmlEncode(),attributes,extendedAttributes,"\n<pre>" + tiddler.text + "</pre>\n"]);
+	context.status = saveFile(uri,div);
 	if(context.status) {
 		if(isRevision) {
 			displayMessage(LocalAdaptor.revisionSavedMessage.format([revision]));
