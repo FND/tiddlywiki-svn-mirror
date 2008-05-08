@@ -312,8 +312,8 @@ $db_var['error']['query'] = " query: ";*/
 		global $ccT_msg;
 		//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
 		$q= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE workspace_name='".$tiddlyCfg['workspace_name']."'";
-		if($tiddlyCfg['skin'])
-			$q.= " or workspace_name='".$tiddlyCfg['skin']."'";
+		if($_REQUEST['skin'])
+			$q.= " or workspace_name='".$_REQUEST['skin']."'";
 		if($tiddlyCfg['table']['workspace_skin'] !== 'none')
 			$q.= " or workspace_name='".$tiddlyCfg['table']['workspace_skin']."'";
 		debug("db_tiddlers_mainSelectAll: ".$q);

@@ -24,8 +24,6 @@ loadRemoteFile=function(url,callback,params){
 		url=urlStart+"/"+store.getTiddlerText("SiteProxy","/proxy")+url;
 	}
 	var a = bidix.core.loadRemoteFile(url,callback,params);
-	displayMessage("aaa");
-	displayMessage(a.responseText);
 	return a;
 }
 //}}}
