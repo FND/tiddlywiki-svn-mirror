@@ -1,0 +1,9 @@
+<div title="AllTasksByPriority" modifier="PhilHawksworth" created="200708211502" modified="200709171205" tags="view" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709171205" server.type="file">
+<pre>This is a list of all of the tasks ordered by priority
+!!!High Priority
+<<TaskViewBuilder PriorityDefinitions_High >>
+!!!Medium Priority
+<<TaskViewBuilder PriorityDefinitions_Medium>>
+!!!Low Priority
+<<TaskViewBuilder PriorityDefinitions_Low>></pre>
+</div>

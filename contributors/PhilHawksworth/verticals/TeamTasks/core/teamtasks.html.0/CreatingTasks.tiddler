@@ -1,0 +1,5 @@
+<div title="CreatingTasks" modifier="PhilHawksworth" created="200710221506" modified="200710241431" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.type="file" changecount="4">
+<pre>Creating a task is easy. Any tiddler that you tag with the word 'task' will become a task tiddler. When you exit edit mode of a task tiddler, you will see that it is presented as a task and has controls on it to allow you to set some of your [[pre-defined|TaskDefinitions]] values on it.
+
+Alternatively, you can create a new task by clicking the <<newTiddler label:"new task" title:NewTask tag:task text:"Type some text and then press DONE to view the task controls">> button in the control bar towards the top of the screen.  </pre>
+</div>

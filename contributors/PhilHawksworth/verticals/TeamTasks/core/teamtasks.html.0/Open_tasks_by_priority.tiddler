@@ -1,0 +1,8 @@
+<div title="Open tasks by priority" modifier="PhilHawksworth" created="200709241635" modified="200710241216" tags="TaskListView" changecount="11">
+<pre>!!!High Priority
+<<TaskViewBuilder PriorityDefinitions=High !StatusDefinitions=Complete>>
+!!!Medium Priority
+<<TaskViewBuilder PriorityDefinitions=Medium !StatusDefinitions=Complete>>
+!!!Low Priority
+<<TaskViewBuilder PriorityDefinitions=Low !StatusDefinitions=Complete>></pre>
+</div>

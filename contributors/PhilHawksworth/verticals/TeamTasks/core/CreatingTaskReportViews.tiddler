@@ -1,0 +1,45 @@
+<div title="CreatingTaskReportViews" modifier="PhilHawksworth" created="200710221513" changecount="1">
+<pre>You can create your own custom views of the tasks using the ~TeamTask Report View Plugin (TTReportViewPlugin).
+
+
+The general form for calling the plugin is like this:
+{{{
+<<TTReportView>>
+}}}
+
+
+You can also specify which fields to display in your report like this:
+{{{
+<<TTReportView DisplayFields:"fieldName,fieldName,fieldName">>
+}}}
+for example:
+{{{
+<<TTReportView DisplayFields:"Title,Priority,Status">>
+}}}
+
+
+In addition, you can choose to order your results by a given field like this:
+{{{
+<<TTReportView OrderBy:"fieldName,[asc|desc]">>
+}}}
+for example:
+{{{
+<<TTReportView DisplayFields:"Title,Priority,Status" OrderBy:"Status,asc">>
+}}}
+
+
+You can also specify field values to include and exclude tasks and create filtered reports:
+{{{
+<<TTReportView FieldName:"value">>
+}}}
+{{{
+<<TTReportView FieldName:"!value">>
+}}}
+
+for example:
+{{{
+<<TTReportView DisplayFields:"Title,Priority,Status" OrderBy:"Status,asc" Priority:"high" Status:"!closed">>
+}}}
+
+</pre>
+</div>

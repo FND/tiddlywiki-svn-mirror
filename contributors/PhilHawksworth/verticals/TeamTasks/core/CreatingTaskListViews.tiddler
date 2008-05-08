@@ -1,0 +1,23 @@
+<div title="CreatingTaskListViews" modifier="PhilHawksworth" created="200710221513" changecount="1">
+<pre>You can create your own custom views of the tasks using the TaskViewBuilderPlugin.
+
+
+The general form form for calling the plugin is like this:
+{{{
+&lt;&lt;TaskViewBuilder DefinitionTiddler=Value&gt;&gt;
+}}}
+For example:
+{{{
+&lt;&lt;TaskViewBuilder StatusDefinitions=Pending&gt;&gt;
+}}}
+
+The TaskViewBuilderPlugin also supports mulitple arguments, so you can be more specific. 
+For example:
+{{{
+&lt;&lt;TaskViewBuilder StatusDefinitions=Pending UserDefinitions=PhilHawksworth&gt;&gt;
+}}}
+and can also exclude tasks with a given argument using this syntax:
+{{{
+&lt;&lt;TaskViewBuilder PriorityDefinitions=High !StatusDefinitions=Complete&gt;&gt;
+}}}</pre>
+</div>

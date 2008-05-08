@@ -1,0 +1,3 @@
+<div title="ControlsContainer" modifier="PhilHawksworth" created="200708241058" modified="200710221512" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709181301" server.type="file" changecount="8">
+<pre><<fullscreen>><<search>><<newTiddler label:"new task" title:NewTask tag:task text:"Type some text and then press DONE to view the task controls" >><<newTiddler>><<closeAll>><<permaview>><<slider chkSliderOptionsPanel Listings "Listings »" "View the full tiddler listings">></pre>
+</div>

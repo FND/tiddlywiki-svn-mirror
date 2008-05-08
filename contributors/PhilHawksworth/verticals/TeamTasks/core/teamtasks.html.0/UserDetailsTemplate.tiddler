@@ -1,0 +1,16 @@
+<div title="UserDetailsTemplate" modifier="PhilHawksworth" created="200710221551" modified="200710241443" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.type="file" changecount="11">
+<pre><html>
+<form id="createTeamTaskUserForm" action='return false;'>
+	<h3>Create a new user</h2>
+	<label>First name * <input type='text' name='fname' mandatory='true'  /></label><br />
+	<label>Last name * <input type='text' name='lname' mandatory='true'  /></label><br />
+	<label>Company <input type='text' name='company' /></label><br />
+	<label>Email * <input type='text' name='email' mandatory='true' /></label><br />
+	<label>Mobile <input type='text' name='mobile'  /></label><br />
+	<label>URL <input type='text' name='url' /></label><br />
+	<label>Photos <input type='text' name='photos' /></label><br />
+	<label>Twitter <input type='text' name='twitter' /></label><br />
+<label>( * required )</label>
+</form>
+</html></pre>
+</div>
