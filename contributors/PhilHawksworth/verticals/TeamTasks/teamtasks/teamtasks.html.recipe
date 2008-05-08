@@ -1,10 +1,26 @@
+# Core Tiddlywiki
 recipe: ../../../../../core/tiddlywiki.html.recipe
+
+# Settings
+tiddler: settings.js
+
+# Theme
+tiddler: TeamTasksSkin.tiddler
+tiddler: TeamTasksColors.tiddler
+
+# Plugins
+
+# Basic report views
+recipe: ../basicviews/split.recipe
 
 recipe: shadows/split.recipe
 recipe: plugins/split.recipe
 recipe: content/split.recipe
 
-recipe: ../basicviews/split.recipe
+
+
+
+
 
 
 

@@ -34,9 +34,10 @@ tiddler: StatusDefinitions.tiddler
 tiddler: TaskDefinitions.tiddler
 tiddler: TaskListView.tiddler
 tiddler: TaskTiddlerControls.tiddler
-tiddler: TaskViewTemplate.tiddler
+#tiddler: TaskViewTemplate.tiddler
 tiddler: TaskViews.tiddler
 tiddler: TeamTasks.tiddler
+tiddler: TeamTasksMetaData.tiddler
 tiddler: TiddlyWiki.tiddler
 tiddler: UserDefinitions.tiddler
 tiddler: UserDetailsTemplate.tiddler

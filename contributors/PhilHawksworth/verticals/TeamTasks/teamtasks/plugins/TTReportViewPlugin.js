@@ -13,7 +13,7 @@
 
 Create a view of the task list showing default values.
 {{{
-<<TTReportViewPlugin >>
+<<TTReportView>>
 }}}
 
 Create a view of the task list showing specified fields in a given order and filtering the results.

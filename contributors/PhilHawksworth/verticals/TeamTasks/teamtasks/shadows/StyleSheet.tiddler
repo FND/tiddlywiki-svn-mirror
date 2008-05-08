@@ -45,7 +45,7 @@ a.tiddlyLink:hover { background-color:#ccd; color:#000; }
 
 div.tiddler div.viewer { padding:1em 0 3em 0; border-bottom:solid 1px #ccc;}
 h1,h2,h3,h4 { border-style:none; }
-div.tiddler div.viewer &gt; img {width:100%;}
+div.tiddler div.viewer > img {width:100%;}
 
 
 div.tiddler div.task { border:solid 1px #aaa; background-color:#f2f2f2; position:relative; overflow:auto; clear:both; zoom:1;}

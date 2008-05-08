@@ -50,7 +50,7 @@ This feature was developed by Eric L Shulman / ELS Design Studios
 ***/
 //{{{
 version.extensions.taggedTemplate= {major: 1, minor: 1, revision: 0, date: new Date(2007,6,18)};
-Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
+Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler;
 Story.prototype.chooseTemplateForTiddler = function(title,template)
 {
 	// get default template from core
@@ -66,8 +66,9 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 		// try capitalized tag (to match WikiWord template titles)
 		var cap=tag.substr(0,1).toUpperCase()+tag.substr(1);
 		if (store.tiddlerExists(cap+template)) { template=cap+template; break; }
+		// Check for a template in the current theme tiddler.
+		if (store.getTiddlerText(config.options.txtTheme+"##"+tag+template)) { template=config.options.txtTheme+"##"+tag+template; break; }
 	}
-
 	return template;
-}
+};
 //}}}
