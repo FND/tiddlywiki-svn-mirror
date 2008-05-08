@@ -2,7 +2,7 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 #recipe: ../tiddlywikibasic.html.recipe
 style: ../../../../core/shadows/StyleSheetLayout.tiddler
 shadow: ../../shadows/StyleSheetLayoutSplash.tiddler
-tiddler: ../../experimental/SplashScreenPlugin.js
+tiddler: ../../plugins/SplashScreenPlugin.js
 recipe: shadows/split.recipe
 tiddler: ../../shadows/DefaultTiddlersHome.tiddler
 tiddler: settings.js
