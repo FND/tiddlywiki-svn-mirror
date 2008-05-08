@@ -1,9 +1,11 @@
 recipe: ../teamtasks/teamtasks.html.recipe
 
-recipe: definitions/split.recipe
+recipe: TaskDefinitions/split.recipe
 recipe: reportViews/split.recipe
+recipe: shadows/split.recipe
 recipe: content/split.recipe
 
+recipe: stories/split.recipe
 
 
 

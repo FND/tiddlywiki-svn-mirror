@@ -1,0 +1,58 @@
+# Core Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# Settings
+tiddler: settings.js
+
+# Theme
+tiddler: TeamTasksSkin.tiddler
+tiddler: TeamTasksColors.tiddler
+
+# Plugins
+recipe: plugins/split.recipe
+tiddler: $TW_ROOT/contributors/EricShulman/plugins/TaggedTemplateTweak.js
+
+# TeamTasks UI Elements
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: DefaultTiddlers.tiddler
+tiddler: TopMenu.tiddler
+tiddler: MainMenu.tiddler
+tiddler: Listings.tiddler 
+tiddler: TaskTiddlerControls.tiddler
+tiddler: TeamTasksMetaData.tiddler
+tiddler: TaskDefinitions.tiddler
+tiddler: TaskViews.tiddler
+
+# Content and documentation
+tiddler: About_TeamTasks.tiddler
+tiddler: Getting_Started_With_TeamTasks.tiddler
+tiddler: TeamTasks.tiddler
+tiddler: Release_Notes.tiddler
+tiddler: TiddlyWiki.tiddler
+tiddler: Migrating_to_the_latest_version.tiddler
+tiddler: DefineUsers.tiddler
+tiddler: DefineScopes.tiddler
+tiddler: CreatingTaskReportViews.tiddler
+tiddler: CreatingTasks.tiddler
+tiddler: PhilHawksworth.tiddler
+tiddler: UserSetupWizard.tiddler
+
+# Starter definitions
+tiddler: UserDefinitions.tiddler
+tiddler: PriorityDefinitions.tiddler
+tiddler: ScopeDefinitions.tiddler
+tiddler: StatusDefinitions.tiddler
+
+# Basic report views
+recipe: ../basicviews/split.recipe
+
+
+
+
+
+
+
+
+
+

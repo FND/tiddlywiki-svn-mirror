@@ -1,4 +1,4 @@
 tiddler: DefaultTiddlers.tiddler
-tiddler: StyleSheet.tiddler
-tiddler: MainMenu.tiddler
-
+# tiddler: MainMenu.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler

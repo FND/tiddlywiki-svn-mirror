@@ -1,10 +1,11 @@
 <div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200711091528" changecount="3">
 <pre>
-|scope |<<ValueSwitcher type:"dropdown" valuesSource:"ScopeDefinitions">> |
-|priority |<<ValueSwitcher type:"dropdown" valuesSource:"PriorityDefinitions">> |
-|release target |<<ValueSwitcher type:"dropdown" valuesSource:"VersionDefinitions">> |
-|assigned to |<<ValueSwitcher type:"dropdown" valuesSource:"UserDefinitions">> |
-|status |<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions">> |
-|test freetext |<<ValueSwitcher type:"freetext" metaDataName:"testMetaData">> |
+|User |<<ValueSwitcher type:"dropdown" valuesSource:"UserDefinitions">> |
+|Team |<<ValueSwitcher type:"dropdown" valuesSource:"TeamDefinitions">> |
+|Sprint |<<ValueSwitcher type:"dropdown" valuesSource:"SprintDefinitions">> |
+|Release |<<ValueSwitcher type:"dropdown" valuesSource:"ReleaseDefinitions">> |
+|Product |<<ValueSwitcher type:"dropdown" valuesSource:"ProductDefinitions">> |
+|Status |<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions">> |
 </pre>
 </div>
+
