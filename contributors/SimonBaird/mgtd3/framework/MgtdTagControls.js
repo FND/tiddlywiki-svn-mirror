@@ -4,6 +4,15 @@
 
 merge(Tiddler.prototype,{
 
+
+	addTag: function(tag) {
+		store.setTiddlerTag(this.title,true,tag);
+	},
+
+	removeTag: function(tag) {
+		store.setTiddlerTag(this.title,false,tag);
+	},
+
 	setTagFromGroup: function(tagGroup,tag) {
 		var tagList = fastTagged(tagGroup);
 
@@ -12,11 +21,11 @@ merge(Tiddler.prototype,{
 
 		// remove all the tags in the group
 		for (var i=0;i<tagList.length;i++)
-			store.setTiddlerTag(this.title,false,tagList[i].title);
+			this.removeTag(tagList[i].title);
 
 		// add the one selected
 		if (tag)
-			store.setTiddlerTag(this.title,true,tag);
+			this.addTag(tag);
 
 		// touch the modified date so we can sort usefully
 		this.modified = new Date();
@@ -249,6 +258,51 @@ merge(config.macros,{
 
 			wikify(output,place,null,tiddler);
 
+		}
+	},
+
+	// these don't really belong here but never mind..
+	convertToFromTickler: {
+		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+			if (tiddler.tags.contains('Tickler')) {
+
+				createTiddlyButton(place, "make action", "make this tickler into a next action", function(e) {
+						tiddler.removeTag("Tickler");                      
+						tiddler.addTag("Action");                      
+						tiddler.removeTag("Done");                     
+						tiddler.setTagFromGroup("ActionStatus","Next"); 
+						return false;
+					});
+
+				createTiddlyButton(place, "make project", "make this tickler into an active project", function(e) {
+						tiddler.removeTag("Tickler");                      
+						tiddler.addTag("Project");                       
+						tiddler.removeTag("Complete");                   
+						tiddler.setTagFromGroup("ProjectStatus",'Active');
+						return false;
+					});
+			}
+			if (tiddler.tags.containsAny(['Action','Project'])) {
+				createTiddlyButton(place, "make tickler", "make this item into a tickler", function(e) {
+						tiddler.addTag("Tickler");                          
+						tiddler.removeTag("Action");
+						tiddler.removeTag("Project");
+						return false;
+					});
+			}
+		}
+	},
+
+	linkToParent: {
+		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+			var label = params[1] ? params[1] : '>>';
+			var useTiddler = params[2] ? store.fetchTiddler(params[2]) : tiddler;
+			var links = useTiddler.getByIndex(params[0]);
+			var output = "";
+			for (var i=0;i<links.length;i++)
+				output += ( (i==0?'':' ') + "[[%1|%0]]".format([links[i], label == 'title' ? '['+links[i]+']' : label]) );
+			if (output != "")
+				wikify(output,place,null,useTiddler);
 		}
 	}
 

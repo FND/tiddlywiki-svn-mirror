@@ -14,7 +14,7 @@
 
 {{col{
 
-<<mgtdList title:'Actioned Ticklers' startTag:Tickler tags:'Actioned' view:Tickler mode:global newButtonTags:'Tickler Actioned Once' >>
+<<mgtdList title:'Old Ticklers' startTag:Tickler tags:'Actioned' view:Tickler mode:global newButtonTags:'Tickler Actioned Once' >>
 
 }}}
 

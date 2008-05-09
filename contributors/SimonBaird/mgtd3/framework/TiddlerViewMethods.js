@@ -45,7 +45,6 @@ merge(Tiddler.prototype,{
         return this.renderUtil(
 		'{{tickler{'+
         '%1'+  
-		'<<multiToggleTag tag:TicklerStatus title:[[%0]]>>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
 		'<<dateChooser [[%0]]>>'+
 		'&nbsp;[[%0]]}}}',
@@ -56,7 +55,6 @@ merge(Tiddler.prototype,{
 	);},
 	render_DisabledTickler: function() { return this.renderUtil(
 		'{{tickler{'+
-		'<<multiToggleTag tag:TicklerStatus title:[[%0]]>>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
 		' &nbsp;[[%0]] - <<dateChooser [[%0]]>> }}}',
 		[
@@ -104,19 +102,14 @@ merge(Tiddler.prototype,{
 		// an action in more than one project
 		// but just in case....
 		var pLink = "";
-		this.getByIndex("Project").each(function(p){
-			// shows just the P
-			if (config.mGTD.getOptChk('FullProjInActionLists')) {
-				pLink += "{{projLinkFull{[/%%/[["+p+"]]]}}}";
-			}
-			else {
-				pLink += "{{projLink{[/%%/[[P|"+p+"]]]}}}";
-			}
-			// shows entire project
-			//pLink += " [/%%/[["+p+"]]]";
-		});
+		if (config.mGTD.getOptChk('FullProjInActionLists')) {
+			pLink += "{{projLinkFull{<<linkToParent Project 'title' '%0'>>}}}".format([this.title]);
+		}
+		else {
+			pLink += "{{projLink{<<linkToParent Project '[P]' '%0'>>}}}".format([this.title]);
+		}
 
-       		return this.renderUtil(
+		return this.renderUtil(
 		'{{action{'+
 		'<<toggleTag Done [[%0]] ->>'+
 		'<<multiToggleTag tag:ActionStatus title:[[%0]]>>'+

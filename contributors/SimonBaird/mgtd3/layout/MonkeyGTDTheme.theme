@@ -124,16 +124,10 @@
 /*{{{*/
 @media print {
 
-#sidebar, .mtoolbar, .header2, #backstageArea, #backstageButton,
-#searchBox,
-.subtitle,.button {display: none !important;}
-#contentWrapper .chkOptionInput {border:0; width:0.25cm;}
-.titleContainer {text-align:center; border-bottom: 1px dotted #000;}
-#displayArea {margin: 0;}
-
 .cols3 .col {width: 100%; float:none;}
 .cols2 .col {width: 100%; float:none;}
 
+.titleContainer {text-align:center;}
 
 /* LAYOUT ELEMENTS
 ========================================================== */
@@ -616,9 +610,22 @@ with brs in non-mgtdlist content. .normal might help */
 	margin-right:0.5em;
 }
 .button.HideSideBarButton {
-	color:[[ColorPalette::PrimaryPale]];
+	color:[[ColorPalette::PrimaryLight]];
 	border-style:none;
 	font-weight:bold;
+	font-size:80%;
+	padding:0em 1em;
+	background-color:[[ColorPalette::PrimaryMid]];
+	-moz-border-radius: 0.5em;
+}
+
+/* applicable for any printing. (moved from the 3x5 section) */
+@media print {
+	#sidebar, .mtoolbar, .header2, #toggleSideBar, #backstageArea,
+	#backstageButton, #searchBox, .subtitle, .button {display: none !important;}
+	#displayArea {margin: 0;}
+	#contentWrapper .chkOptionInput {border:0; width:0.25cm;}
+	.titleContainer {border-bottom: 1px dotted #000;}
 }
 
 /* for user styles */

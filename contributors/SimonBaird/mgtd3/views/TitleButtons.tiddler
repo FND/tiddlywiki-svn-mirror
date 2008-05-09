@@ -1,25 +1,29 @@
 !Project
 <!--{{{-->
-<span class='title' macro='view title'></span> (Project)<span macro="help Project"></span>
+<span class='title' macro='view title'></span>
+<span macro="linkToParent Area '[A]'"></span>
+<span macro="linkToParent Project '[P]'"></span>
+(Project)<span macro="help Project"></span>
 <span macro="toggleTag Complete . -"></span>
 <span macro="hideWhenTagged Complete">
  <span macro="multiToggleTag ProjectStatus longVersion:on"></span>
 </span>
 <span macro="singleToggleTag tag:Starred"></span>
 <br/>
-Area:<span macro="multiSelectTag Area allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Area')[0]+']]'"></span>
+Area:<span macro="multiSelectTag Area allowNone:on"></span><span macro="linkToParent Area"></span>
 Realm:<span macro="multiSelectTag Realm"></span>
 [[MonkeyGTDTheme##Subtitle]]
 <br/>
-Subproject of:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Project')[0]+']]'"></span><br/>
-Associated contact:<span macro="multiSelectTag Contact allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Contact')[0]+']]'"></span> 
-<span macro="deleteAllTagged 'delete project' '' 'delete'"></span>
+Subproject of:<span macro="multiSelectTag Project allowNone:on"></span><span macro="linkToParent Project"></span><br/>
+Associated contact:<span macro="multiSelectTag Contact allowNone:on"></span><span macro="linkToParent Contact"></span></span> 
+<span macro="deleteAllTagged 'delete project' '' 'delete'"></span><br/>
+<span macro="convertToFromTickler"></span>
 <!--}}}-->
 
 !Action
 <!--{{{-->
 <span class='title' macro='view title'></span>
-<span macro="eval '[[[P]|'+tiddler.getByIndex('Project')[0]+']]'"></span>
+<span macro="linkToParent Project '[P]'"></span>
 (Action)<span macro="help Action"></span>
 <span macro="toggleTag Done . -"></span>
 <span macro="hideWhenTagged Done">
@@ -31,9 +35,9 @@ Associated contact:<span macro="multiSelectTag Contact allowNone:on"></span><spa
 Context:<span macro="groupOfSingleToggleTags Context useCheckbox:yes"></span><br/>
 </span>
 <span macro="else">
-Context:<span macro="multiSelectTag Context allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Context')[0]+']]'"></span>
+Context:<span macro="multiSelectTag Context allowNone:on"></span><span macro="linkToParent Context"></span>
 </span>
-Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Project')[0]+']]'"></span>
+Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="linkToParent Project"></span>
 <span macro="showWhen tiddler.getByIndex('Project').length == 0">
 	<!-- only show area if there's no project --->
 	Area:<span macro="multiSelectTag Area allowNone:on"></span>
@@ -48,13 +52,16 @@ Realm:<span macro="multiSelectTag Realm"></span>
 	Associated contact:
 </span>
 <span macro="multiSelectTag Contact allowNone:on"></span>
-<span macro="eval '[[>'+'>|'+tiddler.getByIndex('Contact')[0]+']]'"></span> 
+<span macro="linkToParent Contact"></span> <br/>
+<span macro="convertToFromTickler"></span>
 </span>
 <!--}}}-->
 
 !Tickler
 <!--{{{-->
-<span class='title' macro='view title'></span> (Tickler)<span macro="help Tickler"></span>
+<span class='title' macro='view title'></span>
+<span macro="linkToParent Project '[P]'"></span>
+(Tickler)<span macro="help Tickler"></span>
 <span macro="showWhen tiddler.tags.contains('Once') || tiddler.getByIndex('TicklerRepeatType').length==0"><span macro="toggleTag Actioned . -"></span></span>
 <span macro="showWhenTagged 'Daily'"   ><span macro="addDay"></span></span>
 <span macro="showWhenTagged 'Weekly'"  ><span macro="addWeek"></span></span>
@@ -68,7 +75,7 @@ Realm:<span macro="multiSelectTag Realm"></span>
  <span macro="multiToggleTag TicklerRepeatType longVersion:on"></span>
 </span>
 <br/>
-Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[[P]|'+tiddler.getByIndex('Project')[0]+']]'"></span>
+Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="linkToParent Project"></span>
 <span macro="showWhen tiddler.getByIndex('Project').length == 0">
 	<!-- only show area if there's no project --->
 	Area:<span macro="multiSelectTag Area allowNone:on"></span>
@@ -82,8 +89,9 @@ Tickler date:<span macro="dateChooser"></span>
 <span macro="addMonth"></span>
 <span macro="addYear"></span>
 <br/>
-Associated contact:<span macro="multiSelectTag Contact allowNone:on"></span><span macro="eval '[[>'+'>|'+tiddler.getByIndex('Contact')[0]+']]'"></span>
+Associated contact:<span macro="multiSelectTag Contact allowNone:on"></span><span macro="linkToParent Contact"></span>
 <br/>
+<span macro="convertToFromTickler"></span>
 <!--}}}-->
 
 !View
@@ -110,10 +118,12 @@ Associated contact:<span macro="multiSelectTag Contact allowNone:on"></span><spa
 
 !Reference
 <!--{{{-->
-<span class='title' macro='view title'></span> (Reference)<span macro="help Reference"></span>
+<span class='title' macro='view title'></span>
+<span macro="linkToParent Project '[P]'"></span>
+(Reference)<span macro="help Reference"></span>
 <span macro="singleToggleTag tag:Starred"></span>
 <br/>
-Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="eval '[[[P]|'+tiddler.getByIndex('Project')[0]+']]'"></span>
+Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="linkToParent Project"></span>
 <span macro="showWhen tiddler.getByIndex('Project').length == 0">
 	<!-- only show area if there's no project --->
 	Area:<span macro="multiSelectTag Area allowNone:on"></span>

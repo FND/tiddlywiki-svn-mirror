@@ -1,6 +1,11 @@
 
+require 'pathname'
+Dir.chdir Pathname.new(File.dirname(__FILE__)).realpath
+
 #$LOAD_PATH.unshift("../r4tw") 
 require 'r4tw'
+
+
 
 
 
@@ -158,7 +163,15 @@ make_tw {
 
   # add required tiddlers and write upgrade file.
   required.each { |t| add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2]||'') }
+
+  # remove MptwUserConfig from upgrade file
+  temp = get_tiddler('MptwUserConfigPlugin')
+  remove_tiddler('MptwUserConfigPlugin')
+
   store_to_file          "upload/upgrade3.html" unless ARGV[0] == 'fast'
+
+  # put it back again
+  add_tiddler(temp)
 
   # add a MgtdUserConf tiddler
   add_tiddler_from_scratch('tiddler'=>'MgtdUserConf','tags'=>'systemConfig','text'=>"// won't be overwritten by updates\n\n // eg:\n\n//// config.options.txtTheme = 'MonkeyGTDPrint3x5';")

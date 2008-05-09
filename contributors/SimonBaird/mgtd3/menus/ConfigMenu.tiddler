@@ -1,2 +1,4 @@
 <<tiddler 'MgtdSettings'>>
+!!Theme
+(Currently <<eval {{config.options.txtTheme}}>>)
 <<selectTheme>>
