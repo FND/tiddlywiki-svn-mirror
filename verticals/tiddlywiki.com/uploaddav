@@ -1,0 +1,46 @@
+#!/bin/bash
+#
+# Usage:
+#  uploadbeta [release] [cleanup]
+
+# default values
+DEFAULT_RELEASE="2.4.0"
+RELEASE=${1:-$DEFAULT_RELEASE}
+HOST="webdav.tiddlywiki.com"
+USER="releasemanager"
+
+# upload()
+# Usage:
+#  upload username[:password] source target
+function upload() {
+	curl -u "$1" -T "$2" "$3"
+}
+
+# prompt for password
+echo -n "Password: "
+stty -echo
+read PASS
+stty echo
+echo
+LOGIN="$USER:$PASS"
+
+# transfer files
+echo "uploading index.$RELEASE.html to $HOST/index.html"
+upload "$LOGIN" "index.$RELEASE.html" "$HOST/index.html"
+echo "uploading empty.$RELEASE.html to $HOST/empty.html"
+upload "$LOGIN" "empty.$RELEASE.html" "$HOST/empty.html"
+echo "uploading empty.$RELEASE.html to $HOST/upgrade/index.html"
+upload "$LOGIN" "empty.$RELEASE.html" "$HOST/upgrade/index.html"
+echo "uploading TiddlySaver.jar to $HOST/TiddlySaver.jar"
+upload "$LOGIN" "TiddlySaver.jar" "$HOST/TiddlySaver.jar"
+
+# cleanup
+if [ "$2" = "true" ]; then
+	echo "cleaning up (removing cooked files)"
+	echo "removing index.$RELEASE.html"
+	rm "index.$RELEASE.html"
+	echo "removing empty.$RELEASE.html"
+	rm "empty.$RELEASE.html"
+	echo "removing TiddlySaver.jar"
+	rm "TiddlySaver.jar"
+fi
