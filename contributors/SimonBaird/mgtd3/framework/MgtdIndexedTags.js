@@ -109,6 +109,14 @@ config.indexedTags = {
 			return config.indexedTags.indexes[this.title][tag];
 		},
 
+		hasParent: function(tag) {
+			return this.getByIndex(tag).length > 0
+		},
+
+		hasNoParent: function(tag) {
+			return !this.hasParent(tag);
+		},
+
 		hasActiveProject: function() {
 			var projs = this.getByIndex("Project");
 
@@ -144,6 +152,15 @@ config.indexedTags = {
 		hasNextAction: function() {
 			var children = fastTagged(this.title).filterByTagExpr('Action && !Done && (Next || [(Waiting For)])');
 			return children.length > 0;
+		},
+
+		hasSubProject: function() {
+			var children = fastTagged(this.title).filterByTagExpr('Project && !Complete && Active');
+			return children.length > 0;
+		},
+
+		hasNextActionOrSubProject: function() {
+			return (this.hasSubProject() || this.hasNextAction());
 		}
 	},
 

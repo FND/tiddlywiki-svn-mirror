@@ -102,11 +102,18 @@ merge(Tiddler.prototype,{
 		// an action in more than one project
 		// but just in case....
 		var pLink = "";
-		if (config.mGTD.getOptChk('FullProjInActionLists')) {
-			pLink += "{{projLinkFull{<<linkToParent Project 'title' '%0'>>}}}".format([this.title]);
+		if (config.mGTD.getOptChk('FullProjectInActionLists')) {
+			pLink += "{{projLinkFull{<<linkToParent Project [[title]] [[%0]]>>}}}".format([this.title]);
 		}
 		else {
-			pLink += "{{projLink{<<linkToParent Project '[P]' '%0'>>}}}".format([this.title]);
+			pLink += "{{projLink{<<linkToParent Project '[P]' [[%0]]>>}}}".format([this.title]);
+		}
+
+		if (config.mGTD.getOptChk('FullContactInActionLists')) {
+			pLink += "{{projLinkFull{<<linkToParent Contact [[title]] [[%0]]>>}}}".format([this.title]);
+		}
+		else {
+			pLink += "{{projLink{<<linkToParent Contact '[C]' [[%0]]>>}}}".format([this.title]);
 		}
 
 		return this.renderUtil(

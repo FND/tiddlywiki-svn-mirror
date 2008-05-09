@@ -23,7 +23,7 @@
 
 {{col{
 
-<<mgtdList title:'Completed Projects' startTag:Project tags:'Complete' view:Project mode:global
+<<mgtdList title:'Completed Projects' startTag:Project tags:'Complete' view:ProjectComplete mode:global
 	group:Area
 	gView:bold
 	newButtonTags:'Project Active Complete'

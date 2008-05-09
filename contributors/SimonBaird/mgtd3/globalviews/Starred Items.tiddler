@@ -17,10 +17,14 @@
 
 {{col{
 
-<<mgtdList title:'Starred Projects' startTag:Starred tags:Project view:Project mode:global
+<<mgtdList title:'Starred Projects' startTag:Starred tags:'Project && !Complete' view:Project mode:global
 	group:ProjectStatus
 	gView:bold
-	newButtonTags:'Starred Action'
+	newButtonTags:'Starred Project'
+	>>
+
+<<mgtdList title:'Completed Projects' startTag:Starred tags:'Project && Complete' view:ProjectComplete mode:global
+	newButtonTags:'Starred Project Complete'
 	>>
 
 }}}
