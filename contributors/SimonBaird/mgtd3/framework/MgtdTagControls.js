@@ -284,9 +284,9 @@ merge(config.macros,{
 			}
 			if (tiddler.tags.containsAny(['Action','Project'])) {
 				createTiddlyButton(place, "make tickler", "make this item into a tickler", function(e) {
-						tiddler.addTag("Tickler");                          
 						tiddler.removeTag("Action");
 						tiddler.removeTag("Project");
+						tiddler.addTag("Tickler");                          
 						return false;
 					});
 			}
