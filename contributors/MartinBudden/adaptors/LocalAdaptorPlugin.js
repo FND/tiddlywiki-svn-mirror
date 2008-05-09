@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#LocalAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/LocalAdaptorPlugin.js |
-|''Version:''|0.5.7|
+|''Version:''|0.6.0|
 |''Date:''|Jun 13, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -32,7 +32,19 @@ LocalAdaptor.errorInFunctionMessage = 'Error in function LocalAdaptor.%0: %1';
 LocalAdaptor.revisionSavedMessage = 'Revision %0 saved';
 LocalAdaptor.baseRevision = 1000;
 LocalAdaptor.contentDirectory = 'content';
-LocalAdaptor.revisionsDirectory = 'revisions';
+LocalAdaptor.revisionsDirectory = '_revisions';
+
+LocalAdaptor.toFileFormat = function(s)
+{
+	//# file format is utf8, unless browser is IE
+	return config.browser.isIE ? manualConvertUnicodeToUTF8(s) : unescape(encodeURIComponent(s)); // convert to utf8	
+};
+
+LocalAdaptor.fromFileFormat = function(s)
+{
+	//# convert into unicode from file (which is in UTF8)
+	return decodeURIComponent(escape(s));
+};
 
 LocalAdaptor.prototype.setContext = function(context,userParams,callback)
 {
@@ -333,6 +345,7 @@ LocalAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 			var text = match[3] ? match[3] : '';
 			if(match[2]) {
 				//# pre format
+				text = LocalAdaptor.fromFileFormat(text);
 				text = text.replace(/\r/mg,'');
 			} else {
 				text = text.unescapeLineBreaks().htmlDecode();
@@ -450,7 +463,8 @@ LocalAdaptor.prototype.saveTiddlerAsDiv = function(context,isRevision)
 	var tags = tiddler.getTags();
 	if(tags)
 		attributes += ' tags="' + tags.htmlEncode() + '"';
-	var div = ('<div title="%0"%1%2>%3</div>').format([tiddler.title.htmlEncode(),attributes,extendedAttributes,"\n<pre>" + tiddler.text + "</pre>\n"]);
+	var text = LocalAdaptor.toFileFormat(tiddler.text);
+	var div = ('<div title="%0"%1%2>%3</div>').format([tiddler.title.htmlEncode(),attributes,extendedAttributes,"\n<pre>" + text + "</pre>\n"]);
 	context.status = saveFile(uri,div);
 	if(context.status) {
 		if(isRevision) {
