@@ -1,3 +1,3 @@
-<div title="SafeMode" modifier="JeremyRuston" created="200603311525" tags="features">
-<pre>SafeMode can be selected by putting {{{#start:safe}}} (see StartupParameters) on the end of a TiddlyWiki URL. It stops TiddlyWiki from executing any [[Plugins]] or reading/writing cookies. It can be useful for tracking down problems caused by rogue [[Plugins]].</pre>
+<div title="SafeMode" modifier="JeremyRuston" created="200805090954" tags="features">
+<pre>SafeMode can be selected by putting {{{#start:safe}}} (see StartupParameters) on the end of a TiddlyWiki URL. It stops TiddlyWiki from executing any [[Plugins]], modifying shadow tiddlers, or reading/writing cookies. It can be useful for tracking down problems caused by rogue [[Plugins]].</pre>
 </div>

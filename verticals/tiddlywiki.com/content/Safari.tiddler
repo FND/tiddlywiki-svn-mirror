@@ -1,11 +1,6 @@
-<div title="Safari" modifier="JeremyRuston" created="200511082101" modified="200609291545" tags="issues browsers">
+<div title="Safari" modifier="JeremyRuston" created="200511082101" modified="200805090954" tags="issues browsers">
 <pre>Safari can SaveChanges using the TiddlySaver Java applet.
 
 There are still some issues with Safari:
-* The SiteTitle and SiteSubtitle don't get properly set in the browser window title bar
-* PermaLinks with Unicode characters in them (like [[this one|http://avm.free.fr/tidlipo.html#AdaptationFran%C3%A7aise]]) don't work properly
-* There's a strange display bug that can leave behind phantom tiddlers after editing (the workaround is to SaveChanges and then use 'refresh' in Safari to reload the page)
-* InterfaceOptions (like your UserName) are not 'sticky' across sessions, related to the way that cookies are handled by Safari for files loaded from 'file://' URLs.
-* Searching doesn't always get triggered correctly after typing in the search box
-* Vertically collapsed columns in HtmlTables do not work correctly</pre>
+* PermaLinks with Unicode characters in them (like [[this one|http://avm.free.fr/tidlipo.html#AdaptationFran%C3%A7aise]]) don't work properly</pre>
 </div>

@@ -4,7 +4,7 @@
 There's several significant usability enhancements including:
 * Hassle free saving in [[Safari]] and [[Opera]] using the newly-signed TiddlySaver Java applet
 * Automated core code upgrades (see HowToUpgrade)
-* Friendlier ToolbarCustomisation
+* Friendlier customisation of ToolbarCommands
 * Improvements to the ImportTiddlers user interface
 * Added warning before closing a dirty tiddler
 * Enhanced GradientMacro
