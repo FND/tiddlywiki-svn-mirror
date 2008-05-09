@@ -2,8 +2,8 @@
 <pre>TiddlyWiki has been improved in several areas for release 2.4. Here are some of the highlights; see the full [[release note at tiddlywiki.org|http://trac.tiddlywiki.org/wiki/History#Revision2.4.0]] for more details.
 !!! Usability
 There's several significant usability enhancements including:
-* Hassle free saving in [[Safari]] and [[Opera]] using the newly-signed TiddlySaver Java applet
-* Automated core code upgrades (see HowToUpgrade)
+* Much easier saving in [[Safari]] and [[Opera]] using the newly-signed TiddlySaver Java applet
+* Automated TiddlyWiki core code upgrades (see HowToUpgrade) that we can use for future releases
 * Friendlier customisation of ToolbarCommands
 * Improvements to the ImportTiddlers user interface
 * Added warning before closing a dirty tiddler
