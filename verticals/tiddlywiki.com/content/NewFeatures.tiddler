@@ -18,5 +18,6 @@ As usual, several of the new features are intended to make life easier for plugi
 * Improved SafeMode that now protects the shadow tiddlers
 * Added support for temporary tiddlers via the {{{doNotSave()}}} method on the {{{Tiddler}}} object
 * Added W3C locale specifier
+* Several new CSS classes for easier restyling (eg the "tabsetWrapper" class for tabs)
 TiddlyWiki benefits from an extensive set of [[translations|http://trac.tiddlywiki.org/wiki/Translations]]. There are several enhancements in this release to make it easier to maintain translations.</pre>
 </div>
