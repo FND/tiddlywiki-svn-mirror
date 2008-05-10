@@ -1,0 +1,5 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+tiddler: ../../plugins/ProcessingjsPlugin.js
+
+recipe: content/split.recipe
+recipe: examples/split.recipe
