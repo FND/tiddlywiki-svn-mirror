@@ -5,7 +5,7 @@
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hant/locale.zh-Hant.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''Version:''|2.4.0|
-|''Date:''|Apr 25, 2008|
+|''Date:''|May 10, 2008|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.4.0|
@@ -44,7 +44,7 @@ merge(config.optionsDesc,{
 	chkGenerateAnRssFeed: "儲存變更時，也儲存 RSS feed",
 	chkSaveEmptyTemplate: "儲存變更時，也儲存空白範本",
 	chkOpenInNewWindow: "於新視窗開啟連結",
-	chkToggleLinks: "點擊已開啟文章將其關閉",
+	chkToggleLinks: "點擊已開啟文章連結時，將其關閉",
 	chkHttpReadOnly: "非本機瀏覽文件時，隱藏編輯功能",
 	chkForceMinorUpdate: "修改文章時，不變更作者名稱與日期時間",
 	chkConfirmDelete: "刪除文章前須確認",
@@ -278,6 +278,7 @@ merge(config.macros.importTiddlers,{
 	openError: "讀取來源文件時發生錯誤",
 	statusOpenHost: "正與伺服器建立連線",
 	statusGetWorkspaceList: "正在取得可用之文章清單",
+	errorGettingTiddlerList: "取得文章清單時發生錯誤，請點選「取消」後重試。",
 	step2Title: "步驟二：選擇工作區",
 	step2Html: "輸入工作區名稱：<input type='text' size=50 name='txtWorkspace'><br>...或選擇工作區：<select name='selWorkspace'><option value=''>選取...</option></select>",
 	cancelLabel: "取消",
@@ -447,7 +448,7 @@ merge(config.commands.fields,{
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "GettingStarted",
 	GettingStarted: "使用此 TiddlyWiki 的空白範本之前，請先修改以下預設文章：\n* SiteTitle 及 SiteSubtitle：網站的標題和副標題，顯示於頁面上方<br />（在儲存變更後，將顯示於瀏覽器視窗的標題列）。\n* MainMenu：主選單（通常在頁面左側）。\n* DefaultTiddlers：內含一些文章的標題，可於載入TiddlyWiki 後的預設開啟。\n請輸入您的大名，作為所建立/ 編輯的文章署名：<<option txtUserName>>",
-	MainMenu: "[[使用說明|GettingStarted]]\n\n\n^^~TiddlyWiki 版本：<<version>>\n© 2007 [[UnaMesa|http://www.unamesa.org/]]^^",
+	MainMenu: "[[使用說明|GettingStarted]]\n\n\n^^~TiddlyWiki 版本：<<version>>\n© 2008 [[UnaMesa|http://www.unamesa.org/]]^^",
 	OptionsPanel: "這些設定將暫存於瀏覽器\n請簽名<<option txtUserName>>\n (範例：WikiWord)\n\n <<option chkSaveBackups>> 儲存備份\n <<option chkAutoSave>> 自動儲存\n <<option chkRegExpSearch>> 正規式搜尋\n <<option chkCaseSensitiveSearch>> 區分大小寫搜尋\n <<option chkAnimate>> 使用動畫顯示\n----\n [[進階選項|AdvancedOptions]]",
 	SiteTitle: "我的 TiddlyWiki",
 	SiteSubtitle: "一個可重複使用的個人網頁式筆記本",

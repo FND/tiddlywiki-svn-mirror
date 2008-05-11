@@ -5,7 +5,7 @@
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hans/locale.zh-Hans.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''Version:''|2.4.0|
-|''Date:''|Apr 25, 2008|
+|''Date:''|May 10, 2008|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.4.0|
@@ -37,14 +37,14 @@ merge(config.optionsDesc,{
 	txtUserName: "编辑文章所使用之作者署名",
 	chkRegExpSearch: "启用正则式查找",
 	chkCaseSensitiveSearch: "查找时，区分大小写",
-	chkIncrementalSearch: "隨打即找搜尋",
+	chkIncrementalSearch: "随打即找搜寻",
 	chkAnimate: "使用动画显示",
 	chkSaveBackups: "保存变更前，保留备份文件",
 	chkAutoSave: "自动保存变更",
 	chkGenerateAnRssFeed: "保存变更时，也保存 RSS feed",
 	chkSaveEmptyTemplate: "保存变更时，也保存空白模版",
 	chkOpenInNewWindow: "于新窗口开启链接",
-	chkToggleLinks: "点击已开启文章将其关闭",
+	chkToggleLinks: "点击已开启文章炼结时，将其关闭",
 	chkHttpReadOnly: "非本机浏览文件时，隐藏编辑功能",
 	chkForceMinorUpdate: "修改文章时，不变更作者名称与日期时间",
 	chkConfirmDelete: "删除文章前须确认",
@@ -277,6 +277,7 @@ merge(config.macros.importTiddlers,{
 	openError: "读取来源文件时发生错误",
 	statusOpenHost: "正与服务器建立连线",
 	statusGetWorkspaceList: "正在取得可用之文章清单",
+	errorGettingTiddlerList: "取得文章清单时发生错误，请点选“取消”后重试。",
 	step2Title: "步骤二：选择工作区",
 	step2Html: "输入工作区名称：<input type='text' size=50 name='txtWorkspace'><br>...或选择工作区：<select name='selWorkspace'><option value=''>选取...</option></select>",
 	cancelLabel: "取消",
@@ -444,7 +445,7 @@ merge(config.commands.fields,{
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "GettingStarted",
 	GettingStarted: "使用此 TiddlyWiki 的空白模版之前，请先修改以下默认文章：\n* SiteTitle 及 SiteSubtitle：网站的标题和副标题，显示于页面上方<br />（在保存变更后，将显示于浏览器视窗的标题列）。\n* MainMenu：主菜单（通常在页面左侧）。\n* DefaultTiddlers：包含一些文章的标题，可于进入TiddlyWiki 后开启。\n请输入您的大名，作为所创建/ 编辑文章的署名：<<option txtUserName>>",
-	MainMenu: "[[使用说明|GettingStarted]]\n\n\n^^~TiddlyWiki 版本：<<version>>\n© 2007 [[UnaMesa|http://www.unamesa.org/]]^^",
+	MainMenu: "[[使用说明|GettingStarted]]\n\n\n^^~TiddlyWiki 版本：<<version>>\n© 2008 [[UnaMesa|http://www.unamesa.org/]]^^",
 	OptionsPanel: "这些设置将缓存于浏览器\n请签名<<option txtUserName>>\n(范例：WikiWord)\n\n<<option chkSaveBackups>> 保存备份\n<<option chkAutoSave>> 自动保存\n<<option chkRegExpSearch>> 正则式搜索\n<<option chkCaseSensitiveSearch>> 区分大小写搜索\n<<option chkAnimate>> 使用动画显示\n----\n[[进阶选项|AdvancedOptions]]",
 	SiteTitle: "我的 TiddlyWiki",
 	SiteSubtitle: "一个可重复使用的个人网页式笔记本",
