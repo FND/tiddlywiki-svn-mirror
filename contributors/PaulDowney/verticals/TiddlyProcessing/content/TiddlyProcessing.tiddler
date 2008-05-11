@@ -1,3 +1,4 @@
 <div title="TiddlyProcessing" modifier="PaulDowney" created="200805102324" changecount="1">
-<pre>TiddlyProcessing is a TiddlyWiki containing [[John Ressig|http://ejohn.org]]'s [[Processing.js|http://ejohn.org/apps/processing.js/]] [[basic examples|BasicExample]]. </pre>
+<pre>TiddlyProcessing is a TiddlyWiki containing [[John Ressig|http://ejohn.org]]'s [[Processing.js|http://ejohn.org/apps/processing.js/]] [[basic examples|BasicExample]]. Most of the examples work, with the notable exception of those involving images.
+[[Download|./download.php]] this file and reopen it in Firefox to edit the examples and save your work.</pre>
 </div>
