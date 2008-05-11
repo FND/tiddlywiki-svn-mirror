@@ -1,8 +1,8 @@
-<div title="Distance2D" modifier="PaulDowney" created="200805102316" tags="Processing BasicExample Example" changecount="1">
-<pre>
+<div title="Distance2D" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
+<pre>Move the mouse across the image to obscure and reveal the matrix. Measures the distance from the mouse to each square and sets the size proportionally.
+
 <<Processing '
-// All Examples Written by Casey Reas and Ben Fry
-// unless otherwise stated.
+
 float max_distance;
 
 void setup() {
@@ -20,10 +20,12 @@ void draw()
     for(int j = 0; j <= width; j += 20) {
       float size = dist(mouseX, mouseY, i, j);
       size = size/max_distance * 66;
+      //opera.postError(i, j, size);
       ellipse(i, j, size, size);
     }
   }
 }
+
 '>>
-</pre>
-</div>
+
+Taken from [[basic/distance2d.html|http://ejohn.org/apps/processing.js/examples/basic/distance2d.html]]</pre></div>

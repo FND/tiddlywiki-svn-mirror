@@ -1,8 +1,8 @@
-<div title="Mouse1D" modifier="PaulDowney" created="200805102316" tags="Processing BasicExample Example" changecount="1">
-<pre><<Processing '
+<div title="Mouse1D" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
+<pre>Move the mouse left and right to shift the balance. The "mouseX" variable is used to control both the size and color of the rectangles.
 
-// All Examples Written by Casey Reas and Ben Fry
-// unless otherwise stated.
+<<Processing '
+
 int gx = 15;
 int gy = 35;
 float leftColor = 0.0;
@@ -46,5 +46,6 @@ void update(int x)
   }
 }
 
-'>></pre>
-</div>
+'>>
+
+Taken from [[basic/mouse1d.html|http://ejohn.org/apps/processing.js/examples/basic/mouse1d.html]]</pre></div>

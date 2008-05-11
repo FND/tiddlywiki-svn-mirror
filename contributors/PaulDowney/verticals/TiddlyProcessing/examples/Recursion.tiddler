@@ -1,8 +1,8 @@
-<div title="Recursion" modifier="PaulDowney" created="200805102327" modified="200805102328" tags="Processing BasicExample Example" changecount="3">
-<pre><<Processing '
+<div title="Recursion" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
+<pre>A demonstration of recursion, which means functions call themselves. Notice how the drawCircle() function calls itself at the end of its block. It continues to do this until the variable "level" is equal to 1.
 
-// All Examples Written by Casey Reas and Ben Fry
-// unless otherwise stated.
+<<Processing '
+
 void setup() 
 {
   size(200, 200);
@@ -28,5 +28,6 @@ void drawCircle(int x, int radius, int level)
   }
 }
 
-'>></pre>
-</div>
+'>>
+
+Taken from [[basic/recursion.html|http://ejohn.org/apps/processing.js/examples/basic/recursion.html]]</pre></div>
