@@ -194,6 +194,10 @@ SlidyAdaptor.slidyToTiddlers = function(slidy,useRawDescription)
 		var regex_class = new RegExp("class=['|\"]([\\w ]+)['|\"]","mg");
 		var regex_meta = "<meta ((?:type|content)='[^']*'(?: *))+ \/>";
 		var regex_meta_inner = new RegExp("(\\w*)='(.*?)'","mg");
+		var meta_names = [
+			"copyright",
+			"font-size-adjustment"
+		];
 		var regex_slide = "";
 		// convert slide div's to tiddlers
 		var div_match = slidy.match(regex_div);
@@ -205,7 +209,7 @@ SlidyAdaptor.slidyToTiddlers = function(slidy,useRawDescription)
 				var classes = inner_match[1].split(" ");
 				for(var j=0;j<classes.length;j++) {
 					if(classes[j]=="slide") {
-						var t = SlidyAdaptor.divToTiddler(div);
+						var t = SlidyAdaptor.slideDivToTiddler(div);
 						tiddlers.push(t);
 					}
 				}
@@ -215,43 +219,23 @@ SlidyAdaptor.slidyToTiddlers = function(slidy,useRawDescription)
 		// convert meta tags to tiddlers
 		var meta_match = slidy.match(regex_meta);
 		length = meta_match ? meta_match.length : 0;
-		for(var i=0;i<length;i++) {
+		for(i=0;i<length;i++) {
 			var meta = meta_match[i];
 			var matches = {};
 			while(match = regex_meta_inner.exec(meta)) {
 				matches[match[1]] = match[2];
 			}
-			for(var j=1;j<matches.length;j++) {
-				switch(matches[i]) {
-					matches
-				}
+			if(matches.name && meta_names.contains(matches.name)) {
+				var t = new Tiddler(matches.name);
+				t.text = matches.content ? matches.content : "";
 			}
-			var meta_attribs = {};
-			for(var j=1;j<inner_match.length;j++) {
-				meta_attribs[inner_match[j]] = 
-			}
-			switch(inner_match[1]) {
-				case "name":
-				case "type":
-				case "font-size-adjustment"
-			}
-			
-			
-			var classes = inner_match[1].split(" ");
-			for(var j=0;j<classes.length;j++) {
-				if(classes[j]=="slide") {
-					var t = SlidyAdaptor.divToTiddler(div);
-					tiddlers.push(t);
-				}
-			}
-			regex_class.lastIndex = 0;
 		}
 		
 	}
 	return tiddlers;
 };
 
-SlidyAdaptor.divToTiddler = function(div) {
+SlidyAdaptor.slideDivToTiddler = function(div) {
 	var h1_regex = new RegExp("<h1>([\\S| ]*)<\/h1>","g");
 	var match = h1_regex.exec(div);
 	if(match) {
