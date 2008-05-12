@@ -1,7 +1,7 @@
-<div title="MainMenu" modifier="JonLister" created="200801221853" modified="200805071442" changecount="2">
+<div title="MainMenu" modifier="JayFresh" created="200801221853" modified="200805120903" changecount="5">
 <pre>[[Welcome]]
 [[Content]]
 [[Templates]]
 [[Preview]]
-<<TiddlyTemplating pagetemplate fileName:jonathanlister.html>></pre>
+<<TiddlyTemplating pagetemplate fileName:"Slidy/slidytest.html">></pre>
 </div>

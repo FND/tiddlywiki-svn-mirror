@@ -55,7 +55,9 @@ config.macros.uploadText.upload = function(template, storeUrl, toFilename, uploa
 	password = (password ? password :config.options.pasUploadPassword);
 	
 	// create string to save
-	var toSave = expandTemplate(template);	
+	var toSave = expandTemplate(template);
+	console.log(toSave);
+	console.log(convertUnicodeToUTF8(toSave));	
 
 	var uploadParams = Array(storeUrl,toFilename,uploadDir,backupDir,username,password,template);
 	var callback = function(status,params,responseText,url,xhr) {

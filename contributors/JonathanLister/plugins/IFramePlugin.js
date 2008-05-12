@@ -41,9 +41,11 @@ IFrames are handled differently by different browsers. Problems that this librar
 ** <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 * IE won't let you modify the innerHTML property of the iFrame head
 * IE crashes if you write to the iframe more than once
-* IE doesn't run external scripts, which causes errors if scripts in the page refer to externally defined objects
-** TO-DO: sort this out, maybe by removing any external script calls. Worth looking into
-* Firefox runs all scripts, so any calls in those scripts to document.write cancel this one
+* Not sure about these, they are speculative:
+** IE doesn't run external scripts, which causes errors if scripts in the page refer to externally defined objects
+*** TO-DO: sort this out, maybe by removing any external script calls. Worth looking into
+** Firefox runs all scripts, so any calls in those scripts to document.write occur after this page has been created, which ends up writing over this one
+** Firefox doesn't write to the head reliably
 
 ***/
 
@@ -85,28 +87,28 @@ IFrame.prototype.modify = function(html)
 	// check for the existence of the doc element
 	if(!this.doc)
 		return false;
-	// htmlHead includes any <!DOCTYPE> tag so that IE can utilize it - it is removed if the browser is not IE
-	var htmlHead = html.substring(0,html.indexOf("</head>"));
-	var htmlBody = html.substring(html.indexOf("<body"),html.indexOf("</body>"));
+	// htmlHead includes any <!DOCTYPE> tag
+	var docType = html.substring(0,html.indexOf("<html"));
+	var htmlHead = html.substring(html.indexOf("<head"),html.indexOf("</head>")+7);
+	var htmlBody = html.substring(html.indexOf("<body"),html.indexOf("</body>")+7);
+	// if no head or body tags provided, assume this is all body code
 	if(!htmlHead)
-		htmlHead = "<head>";
+		htmlHead = "<head></head>";
 	if(!htmlBody)
-		htmlBody = "<body>"+html;
-	if(config.browser.isIE) {
-		this.doc.open();
-		htmlHead += "</head>";
-		htmlBody += "</body>";
-		this.doc.write(htmlHead+htmlBody+"</html>");
-		this.doc.close();
-	} else {
-		htmlHead = htmlHead.substring(htmlHead.indexOf("<head"));
-		htmlHead = htmlHead.replace(/<head[^>]*?>/,"");
-                // BUG: any attributes on the head element e.g. xmlns get lost
-		this.doc.documentElement.getElementsByTagName("head")[0].innerHTML = htmlHead;
-		htmlBody = htmlBody.replace(/<body[^>]*?>/,"");
-                // BUG: any attributes on the body element e.g. onload get lost
-		this.doc.documentElement.getElementsByTagName("body")[0].innerHTML = htmlBody;
-	}
+		htmlBody = "<body>"+html+"</body>";
+	this.doc.open();
+	//console.log("docType: ",docType);
+	//console.log("htmlHead: ",htmlHead);
+	//console.log("<body></body></html>");
+	//this.doc.write(docType+htmlHead+"<body>hello</body></html>");
+	this.doc.write(docType+"<html>"+htmlHead+"<body>hello</body>"+"</html>");
+	this.doc.close();
+	// take the <body ...> tag off the front of htmlBody
+	htmlBody = htmlBody.replace(/<body[^>]*?>/,"");
+	// BUG: any attributes on the body element e.g. onload get lost
+	//console.log(this.doc.documentElement.innerHTML);
+	//this.doc.documentElement.childNodes[1].innerHTML = htmlBody;
+
 	this.style.width = "100%";
 	// BUG: this height setting sometimes causes perculiar very tall iframes; no idea why yet
 	this.style.height = this.doc.body.offsetHeight+"px";

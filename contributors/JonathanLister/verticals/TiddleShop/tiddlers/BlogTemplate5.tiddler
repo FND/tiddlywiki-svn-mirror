@@ -26,8 +26,8 @@
 <body>
 
 <div class="shadow">
-  <div class="navcontainer">
-  <script src="http://navigate.intra.bt.com/topbar.js" type="text/javascript"></script>
+  <div class="navcontainer"><div id="topbar"></div>
+  <script src="./js/topbar.js" type="text/javascript"></script>
   <noscript><a href="http://homepage.intra.bt.com/home/globalnavlinks.htm" title="Access global navigation links">Access global navigation links</a></noscript>
 
   

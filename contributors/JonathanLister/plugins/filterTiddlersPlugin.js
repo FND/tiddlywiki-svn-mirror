@@ -40,7 +40,6 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
 		var re_inner = /([ \w-]+)\[([^\]]+)]/mg;
 		var match = re.exec(filter);
 		while(match) {
-			console.log(match);
 			if(match[1] || match[3]) {
 				var title = match[1] ? match[1] : match[3];
 				if(title=="*") {

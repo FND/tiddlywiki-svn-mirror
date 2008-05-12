@@ -61,7 +61,7 @@ RSSAdaptor.prototype.openHost = function(host,context,userParams,callback)
 
 RSSAdaptor.loadRssCallback = function(status,context,responseText,url,xhr)
 {
-//#console.log("loadRssCallback:"+status);
+//#displayMessage("loadRssCallback:"+status);
 	context.status = status;
 	if(!status) {
 		context.statusText = "Error reading RSS file:" + context.host;// + xhr.statusText;
@@ -113,7 +113,7 @@ RSSAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callb
 //# title: tiddler.title, modified: tiddler.modified, modifier: tiddler.modifier, text: tiddler.text, tags: tiddler.tags, size: tiddler.text
 RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 {
-//#console.log("RSS getTiddlerList");
+//#displayMessage("RSS getTiddlerList");
 	context = this.setContext(context,userParams,callback);
 //#displayMessage("h:"+context.host);
 	if(!context.filter)
@@ -131,7 +131,7 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 
 RSSAdaptor.getTiddlerListComplete = function(context,userParams)
 {
-//#console.log("RSS getTiddlerListComplete");
+//#displayMessage("RSS getTiddlerListComplete");
 	context.status = true;
 	if(context.callback)
 		window.setTimeout(function() {context.callback(context,userParams);},10);
@@ -197,6 +197,7 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 	var regex_guid = /<guid>(.|\n)*?<\/guid>/mg;
 	var regex_wiki = /<tw:wikitext>(.|\n)*?<\/tw:wikitext>/mg;
 	var regex_desc = /<description>(.|\n)*?<\/description>/mg;
+	var regex_content = /<content:encoded>(.|\n)*?<\/content:encoded>/mg;
 	var regex_category = /<category>(.|\n)*?<\/category>/mg;
 	var regex_link = /<link>(\S|\n)*?<\/link>/mg;
 	var regex_pubDate = /<pubDate>(.|\n)*?<\/pubDate>/mg;
@@ -205,6 +206,7 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 	var item_match = rss.match(regex_item);
 	var length = item_match ? item_match.length : 0;
 	for(var i=0;i<length;i++) {
+		//console.log(i);
 		// create a new Tiddler in context.tiddlers with the finished item object
 		// grab a title
 		var item = {};
@@ -233,25 +235,42 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 		var wikitext = item_match[i].match(regex_wiki);
 		if(wikitext) {
 			item.text = wikitext[0].replace(/^<tw:wikitext>|<\/tw:wikitext>$/mg,"");
-			item.text = item.text.htmlDecode();
-			t.text = item.text;
 		} else {
 			// use the description as the tiddler text
 			var desc = item_match[i].match(regex_desc);
 			if(desc) {
 				item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
-			} else {
-				item.text = "empty, something seriously wrong with this item";
 			}
-			t.text = useRawDescription ? item.text.renderHtmlText() : "<html>" + item.text.renderHtmlText() + "</html>";
+			if(item.text == "") {
+				// if description is blank, replace with <content:encoded> as the tiddler text if it exists
+				//#displayMessage("replacing with content_encoded!");
+				var content = item_match[i].match(regex_content);
+				if(content) {
+					item.text = content[0].replace(/^<content:encoded>|<\/content:encoded>$/mg,"");
+				}
+			}
 		}
+		// now decode and process the text if it exists
+		if(item.text) {
+			//#displayMessage("content exists");
+			item.text = item.text.htmlDecode();
+			//#displayMessage("content htmlDecode-d");
+			//#console.log("in item text");
+			item.text = useRawDescription ? item.text.renderHtmlText() : "<html>" + item.text.renderHtmlText() + "</html>";
+			//#displayMessage("content rendered or not");
+		} else {
+			//#displayMessage("content doesn't exist");
+			item.text = "empty content, something wrong with this item";
+		}
+		//#displayMessage("finished processing");
+		t.text = item.text;
 
 		// grab the categories
 		var category = item_match[i].match(regex_category);
 		if(category) {
 			item.categories = [];
 			for(var j=0;j<category.length;j++) {
-				item.categories[j] = category[j].replace(/^<category>|<\/category>$/mg,"");
+				item.categories[j] = category[j].replace(/^<category>|<\/category>$/mg,"").renderHtmlText();
 			}
 			t.tags = item.categories;
 		}
@@ -298,7 +317,7 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 		}
 		
 		tiddlers.push(t);
-		}
+	}
 	return tiddlers;
 };
 
@@ -309,12 +328,20 @@ config.adaptors[RSSAdaptor.serverType] = RSSAdaptor;
 // this method has two passes at the string - the first to convert it to html and the second
 // to selectively catch the ASCII-encoded characters without losing the rest of the html
 String.prototype.renderHtmlText = function() {
-	var text = this;
-	var regex_cdata = /<!\[CDATA\[((?:.| )*?)\]\]>/mg;
-	regex_cdata.lastIndex = 0;
-	var match = regex_cdata.exec(this);
+	//displayMessage("in renderHtmlText");
+	var text = this.toString();
+	var regex_cdata = /<!\[CDATA\[((?:.|\n)*?)\]\]>/mg;
+	//console.log(regex_cdata.lastIndex);
+	//regex_cdata.lastIndex = 0;
+	//console.log(text);
+	var match = regex_cdata.exec(text);
 	if(match) {
 		text = match[1];
+		//console.log("match: ",match);
+		//displayMessage("removed cdata!");
+		//console.log(text);
+	} else {
+		//#console.log("no cdata to remove");
 	}
 	var e = createTiddlyElement(document.body,"div");
 	e.innerHTML = text;
@@ -325,6 +352,7 @@ String.prototype.renderHtmlText = function() {
 		return getPlainText(ee);
 	});
 	removeNode(e);
+	//displayMessage("leaving renderHtmlText");
 	return text;
 };
 
