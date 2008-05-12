@@ -1,0 +1,9 @@
+<div title="imagetemplate" modifier="YourName" created="200804271947" modified="200804302311" tags="template">
+<pre><div class="wrap1">
+	<div class="wrap2">
+		<div class="wrap3">
+			<a href="<!--<<view link>>-->" title="<!--<<view title>>-->" target="_blank"><img src="<!--<<view text>>-->" /></a>
+		</div>
+	</div>
+</div></pre>
+</div>

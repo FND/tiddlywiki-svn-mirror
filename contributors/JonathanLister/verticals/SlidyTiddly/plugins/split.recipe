@@ -1,0 +1,12 @@
+tiddler: ../../../plugins/HTMLTemplatePreviewMacro.js
+tiddler: ../../../plugins/IFramePlugin.js
+tiddler: ../../../plugins/TemplatePlugin.js
+tiddler: ../../../plugins/TiddlyTemplatingMacro.js
+tiddler: ../../../plugins/filterTiddlersPlugin.js
+tiddler: ../../../../EricShulman/plugins/TaggedTemplateTweak.js
+tiddler: ../../../../MartinBudden/experimental/TemplateFormatterPlugin.js
+tiddler: AutoRefreshPlugin.js
+tiddler: ContentCreatorPlugin.js
+tiddler: FieldsEditorPlugin.js
+tiddler: FilterChooserPlugin.js
+tiddler: TemplateChooserPlugin.js

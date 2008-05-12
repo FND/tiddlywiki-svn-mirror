@@ -1,0 +1,29 @@
+<div title="pagetemplate" modifier="JonLister" created="200804171634" modified="200805071441" tags="template" changecount="1">
+<pre><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Jonathan Lister</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="lightbox.css" type="text/css" media="screen" />
+<script type="text/javascript" language="JavaScript" src="javascript/Animator.js"></script>
+<script type="text/javascript" language="JavaScript" src="javascript/Dom.js"></script>
+<script type="text/javascript" language="JavaScript" src="javascript/Morpher.js"></script>
+<script type="text/javascript" language="JavaScript" src="javascript/Slider.js"></script>
+<script type="text/javascript" language="JavaScript" src="javascript/Strings.js"></script>
+<script type="text/javascript" language="JavaScript" src="javascript/animate.js"></script>
+<!-- lightbox javascript -->
+<script type="text/javascript" src="javascript/prototype.js"></script>
+<script type="text/javascript" src="javascript/scriptaculous.js?load=effects,builder"></script>
+<script type="text/javascript" src="javascript/lightbox.js"></script>
+
+</head>
+
+<body>
+	<div id="wrap">
+		<!--<<templateTiddlers itemtemplate filter:"[tag[content]sort[modified]]">>-->
+	</div>
+	<script type="text/javascript" language="JavaScript" src="javascript/onpageload.js"></script>
+</body>
+</html></pre>
+</div>
