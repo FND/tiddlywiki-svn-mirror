@@ -1,9 +1,9 @@
 <div title="ViewTemplate" tags="excludeLists excludeSearch">
-<pre>&lt;!--{{{--&gt;
-&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references revisions jump'&gt;&lt;/div&gt;
-&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
-&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
-&lt;div class='toolbar' macro='toolbar -closeTiddler closeOthers +editTiddler'&gt;&lt;/div&gt;
-&lt;!--}}}--&gt;</pre>
+<pre><!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references revisions jump'></div>
+<div class='title' macro='view title'></div>
+<div class='tagging' macro='tagging'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='toolbar' macro='toolbar -closeTiddler closeOthers +editTiddler'></div>
+<!--}}}--></pre>
 </div>
