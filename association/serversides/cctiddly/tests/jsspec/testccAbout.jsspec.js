@@ -15,7 +15,7 @@ describe('Macros: list macro', {
 
 	'list shadowed by default expands to the listTitle and a list of builtin shadowed tiddlers' : function() { 
 	//	var c = new config.macros.ccAbout.sub();
-		value_of(wikifyStatic('<<ccAbout1>>')).should_be("a");
+		value_of(wikifyStatic('<<ccAbout>>')).should_be("a");
 	},
 
 });
