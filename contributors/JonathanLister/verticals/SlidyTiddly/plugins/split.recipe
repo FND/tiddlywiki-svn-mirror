@@ -9,4 +9,5 @@ tiddler: AutoRefreshPlugin.js
 tiddler: ContentCreatorPlugin.js
 tiddler: FieldsEditorPlugin.js
 tiddler: FilterChooserPlugin.js
+tiddler: SlidyAdaptorPlugin.js
 tiddler: TemplateChooserPlugin.js
