@@ -217,9 +217,9 @@ SlidyAdaptor.slidyToTiddlers = function(slidy,useRawDescription)
 		length = meta_match ? meta_match.length : 0;
 		for(var i=0;i<length;i++) {
 			var meta = meta_match[i];
-			var matches = [];
+			var matches = {};
 			while(match = regex_meta_inner.exec(meta)) {
-				matches.push(match);
+				matches[match[1]] = match[2];
 			}
 			for(var j=1;j<matches.length;j++) {
 				switch(matches[i]) {
