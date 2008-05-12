@@ -193,6 +193,7 @@ SlidyAdaptor.slidyToTiddlers = function(slidy,useRawDescription)
 		var regex_div = /<div([^>]*)>(.|\n)*?<\/div>/mg;
 		var regex_class = new RegExp("class=['|\"]([\\w ]+)['|\"]","mg");
 		var regex_meta = "<meta ((?:type|content)='[^']*'(?: *))+ \/>";
+		var regex_meta_inner = new RegExp("(\\w*)='(.*?)'","mg");
 		var regex_slide = "";
 		// convert slide div's to tiddlers
 		var div_match = slidy.match(regex_div);
@@ -213,17 +214,34 @@ SlidyAdaptor.slidyToTiddlers = function(slidy,useRawDescription)
 		}
 		// convert meta tags to tiddlers
 		var meta_match = slidy.match(regex_meta);
-		var length = div_match ? div_match.length : 0;
+		length = meta_match ? meta_match.length : 0;
 		for(var i=0;i<length;i++) {
-			var div = div_match[i];
-			var inner_match = regex_class.exec(div);
-			if(inner_match) {
-				var classes = inner_match[1].split(" ");
-				for(var j=0;j<classes.length;j++) {
-					if(classes[j]=="slide") {
-						var t = SlidyAdaptor.divToTiddler(div);
-						tiddlers.push(t);
-					}
+			var meta = meta_match[i];
+			var matches = [];
+			while(match = regex_meta_inner.exec(meta)) {
+				matches.push(match);
+			}
+			for(var j=1;j<matches.length;j++) {
+				switch(matches[i]) {
+					matches
+				}
+			}
+			var meta_attribs = {};
+			for(var j=1;j<inner_match.length;j++) {
+				meta_attribs[inner_match[j]] = 
+			}
+			switch(inner_match[1]) {
+				case "name":
+				case "type":
+				case "font-size-adjustment"
+			}
+			
+			
+			var classes = inner_match[1].split(" ");
+			for(var j=0;j<classes.length;j++) {
+				if(classes[j]=="slide") {
+					var t = SlidyAdaptor.divToTiddler(div);
+					tiddlers.push(t);
 				}
 			}
 			regex_class.lastIndex = 0;
