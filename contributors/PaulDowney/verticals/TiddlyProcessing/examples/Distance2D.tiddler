@@ -1,7 +1,7 @@
 <div title="Distance2D" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Move the mouse across the image to obscure and reveal the matrix. Measures the distance from the mouse to each square and sets the size proportionally.
 
-<<Processing '
+<<Processing 
 
 float max_distance;
 
@@ -26,6 +26,6 @@ void draw()
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/distance2d.html|http://ejohn.org/apps/processing.js/examples/basic/distance2d.html]]</pre></div>

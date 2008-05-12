@@ -1,7 +1,7 @@
 <div title="WaveGradient" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>by Ira Greenberg. Generate a gradient along a sin() wave.
 
-<<Processing '
+<<Processing 
 
 size(50, 50);
 background(200,200,200);
@@ -31,6 +31,6 @@ for (int i =- 75; i < height+75; i++){
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/wavegradient.html|http://ejohn.org/apps/processing.js/examples/basic/wavegradient.html]]</pre></div>

@@ -1,7 +1,7 @@
 <div title="Pointillism" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>by Daniel Shiffman. Mouse horizontal location controls size of dots. Creates a simple pointillist effect using ellipses colored according to pixels in an image.
 
-<<Processing '
+<<Processing 
 
 PImage a;
 
@@ -24,6 +24,6 @@ void draw()
   ellipse(x, y, pointillize, pointillize);
 }
 
-'>>
+>>
 
 Taken from [[basic/pointillism.html|http://ejohn.org/apps/processing.js/examples/basic/pointillism.html]]</pre></div>

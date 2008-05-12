@@ -1,7 +1,7 @@
 <div title="Reading" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>An image is recreated from its individual component colors. The many colors of the image are created through modulating the red, green, and blue values. This is an exageration of an LCD display.
 
-<<Processing '
+<<Processing 
 
 size(200, 200);
 noStroke();
@@ -37,6 +37,6 @@ for(int i = 0; i < c.width*c.height; i += 1)
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/reading.html|http://ejohn.org/apps/processing.js/examples/basic/reading.html]]</pre></div>

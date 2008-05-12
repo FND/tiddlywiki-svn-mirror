@@ -1,7 +1,7 @@
 <div title="Scale" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>by Denis Grutze. Paramenters for the scale() function are values specified as decimal percentages. For example, the method call scale(2.0) will increase the dimension of the shape by 200 percent. Objects always scale from the origin.
 
-<<Processing '
+<<Processing 
 
 float a = 0.0;
 float s = 0.0;
@@ -32,6 +32,6 @@ void draw()
   rect(0, 0, 50, 50);       
 }
 
-'>>
+>>
 
 Taken from [[basic/scale.html|http://ejohn.org/apps/processing.js/examples/basic/scale.html]]</pre></div>

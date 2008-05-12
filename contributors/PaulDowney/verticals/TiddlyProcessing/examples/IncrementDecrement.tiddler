@@ -1,7 +1,7 @@
 <div title="IncrementDecrement" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Writing "a++" is equivalent to "a = a + 1". Writing "a--" is equivalent to "a = a - 1".
 
-<<Processing '
+<<Processing 
 
 int a;
 int b;
@@ -43,6 +43,6 @@ void draw()
   line(b, height/2+1, b, height);
 }
 
-'>>
+>>
 
 Taken from [[basic/incrementdecrement.html|http://ejohn.org/apps/processing.js/examples/basic/incrementdecrement.html]]</pre></div>

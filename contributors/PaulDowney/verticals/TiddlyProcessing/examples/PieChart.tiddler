@@ -1,7 +1,7 @@
 <div title="PieChart" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>By Ira Greenberg Uses the arc() function to generate a pie chart from the data stored in an array.
 
-<<Processing '
+<<Processing 
 
 size(200, 200);
 background(100);
@@ -18,6 +18,6 @@ for (int i=0; i<angs.length; i++){
   lastAng += radians(angs[i]);  
 }
 
-'>>
+>>
 
 Taken from [[basic/piechart.html|http://ejohn.org/apps/processing.js/examples/basic/piechart.html]]</pre></div>

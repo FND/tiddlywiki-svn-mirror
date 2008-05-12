@@ -1,7 +1,7 @@
 <div title="Noise1D" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Using 1D Perlin Noise to assign location.
 
-<<Processing '
+<<Processing 
 
 float xoff = 0.0;
 float xincrement = 0.01; 
@@ -22,7 +22,7 @@ void draw()
   
   //float n = random(0,width);  // Try this line instead of noise
   
-  // Get a noise value based on xoff and scale it according to the window\'s width
+  // Get a noise value based on xoff and scale it according to the window's width
   float n = noise(xoff)*width;
   
   // With each cycle, increment xoff
@@ -33,6 +33,6 @@ void draw()
   ellipse(n,height/2,16,16);
 }
 
-'>>
+>>
 
 Taken from [[basic/noise1d.html|http://ejohn.org/apps/processing.js/examples/basic/noise1d.html]]</pre></div>

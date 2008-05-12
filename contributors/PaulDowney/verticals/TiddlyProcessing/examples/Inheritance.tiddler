@@ -1,7 +1,7 @@
 <div title="Inheritance" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>A class can be defined using another class as a foundation. In object-oriented programming terminology, one class can inherit fi elds and methods from another. An object that inherits from another is called a subclass, and the object it inherits from is called a superclass. A subclass extends the superclass.
 
-<<Processing '
+<<Processing 
 
 SpinSpots spots;
 SpinArm arm;
@@ -73,6 +73,6 @@ class SpinSpots extends Spin
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/inheritance.html|http://ejohn.org/apps/processing.js/examples/basic/inheritance.html]]</pre></div>

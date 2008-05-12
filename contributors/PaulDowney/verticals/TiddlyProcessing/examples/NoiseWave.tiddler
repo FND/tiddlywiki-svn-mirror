@@ -1,7 +1,7 @@
 <div title="NoiseWave" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>by Daniel Shiffman. Using Perlin Noise to generate a wave-like pattern.
 
-<<Processing '
+<<Processing 
 
 int xspacing = 8;   // How far apart should each horizontal location be spaced
 int w;              // Width of entire wave
@@ -30,7 +30,7 @@ void calcWave() {
   float dy = 0.01f;
   float amplitude = 100.0f;
 
-  // Increment y (\'time\')
+  // Increment y ('time')
   yoff += dy;
 
   //float xoff = 0.0;  // Option #1
@@ -56,6 +56,6 @@ void renderWave() {
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/noisewave.html|http://ejohn.org/apps/processing.js/examples/basic/noisewave.html]]</pre></div>

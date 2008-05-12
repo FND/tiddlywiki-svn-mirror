@@ -1,7 +1,7 @@
 <div title="KeyboardFunctions" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Modified from code by Martin. Original 'Color Typewriter' concept by John Maeda. Click on the window to give it focus and press the letter keys to type colors. The keyboard function keyPressed() is called whenever a key is pressed. keyReleased() is another keyboard function that is called when a key is released.
 
-<<Processing '
+<<Processing 
 
 int max_height = 20;
 int min_height = 10;
@@ -48,17 +48,17 @@ void draw()
 
 void keyPressed()
 {
-  // if the key is between \'A\'(65) and \'z\'(122)
-  if( key >= \'A\' && key <= \'z\') {
+  // if the key is between 'A'(65) and 'z'(122)
+  if( key >= 'A' && key <= 'z') {
     int keyIndex;
-    if(key <= \'Z\') {
-      keyIndex = key-\'A\';
+    if(key <= 'Z') {
+      keyIndex = key-'A';
       letter_height = max_height;
-      fill(colors[key-\'A\']);
+      fill(colors[key-'A']);
     } else {
-      keyIndex = key-\'a\';
+      keyIndex = key-'a';
       letter_height = min_height;
-      fill(colors[key-\'a\']);
+      fill(colors[key-'a']);
     }
   } else {
     fill(0);
@@ -82,6 +82,6 @@ void keyPressed()
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/keyboardfunctions.html|http://ejohn.org/apps/processing.js/examples/basic/keyboardfunctions.html]]</pre></div>

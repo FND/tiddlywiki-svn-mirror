@@ -1,7 +1,7 @@
 <div title="Easing" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Move the mouse across the screen and the symbol will follow. Between drawing each frame of the animation, the program calculates the difference between the position of the symbol and the cursor. If the distance is larger than 1 pixel, the symbol moves half of the distance from its current position toward the cursor.
 
-<<Processing '
+<<Processing 
 
 float x;
 float y;
@@ -34,6 +34,6 @@ void draw()
   ellipse(x, y, 33, 33);
 }
 
-'>>
+>>
 
 Taken from [[basic/easing.html|http://ejohn.org/apps/processing.js/examples/basic/easing.html]]</pre></div>

@@ -1,7 +1,7 @@
-<div title="Alphamask" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
+<div title="Alphamask" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example BrokenExample">
 <pre>Loads a "mask" for an image to specify the transparency in different parts of the image. The two images are blended together using the mask() method of PImage. Created 29 April 2003.
 
-<<Processing '
+<<Processing 
 
 PImage img;
 PImage maskImg;
@@ -21,6 +21,6 @@ void draw()
   image(img, mouseX-50, mouseY-50);
 }
 
-'>>
+>>
 
 Taken from [[basic/alphamask.html|http://ejohn.org/apps/processing.js/examples/basic/alphamask.html]]</pre></div>

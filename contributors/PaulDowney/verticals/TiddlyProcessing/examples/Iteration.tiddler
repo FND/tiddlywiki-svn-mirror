@@ -1,7 +1,7 @@
 <div title="Iteration" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Iteration with a "for" structure constructs repetitive forms.
 
-<<Processing '
+<<Processing 
 
 int k;
 int xpos1 = 100; 
@@ -43,6 +43,6 @@ for(int i=0; i < num-1; i++) {
   k+=10;
 }
 
-'>>
+>>
 
 Taken from [[basic/iteration.html|http://ejohn.org/apps/processing.js/examples/basic/iteration.html]]</pre></div>

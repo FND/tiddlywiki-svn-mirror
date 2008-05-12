@@ -1,7 +1,7 @@
 <div title="Functions" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>The draw_target() function makes it easy to draw many distinct targets. Each call to draw_target() specifies the position, size, and number of rings for each target.
 
-<<Processing '
+<<Processing 
 
 void setup() 
 {
@@ -29,6 +29,6 @@ void draw_target(int xloc, int yloc, int size, int num)
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/functions.html|http://ejohn.org/apps/processing.js/examples/basic/functions.html]]</pre></div>

@@ -1,7 +1,7 @@
 <div title="SineWave" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>by Daniel Shiffman. Render a simple sine wave.
 
-<<Processing '
+<<Processing 
 
 int xspacing = 8;   // How far apart should each horizontal location be spaced
 int w;              // Width of entire wave
@@ -30,7 +30,7 @@ void draw() {
 }
 
 void calcWave() {
-  // Increment theta (try different values for \'angular velocity\' here
+  // Increment theta (try different values for 'angular velocity' here
   theta += 0.02;
 
   // For every x value, calculate a y value with sine function
@@ -51,6 +51,6 @@ void renderWave() {
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/sinewave.html|http://ejohn.org/apps/processing.js/examples/basic/sinewave.html]]</pre></div>

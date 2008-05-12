@@ -1,7 +1,7 @@
 <div title="Variables" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Variables are used for storing values. In this example, changing the values of variables 'a' and 'b' significantly change the composition.
 
-<<Processing '
+<<Processing 
 
 size(200, 200);
 background(0);
@@ -20,6 +20,6 @@ line(b, e, b, g);
 line(b, e, d, c);
 line(a, e, d-e, c);
 
-'>>
+>>
 
 Taken from [[basic/variables.html|http://ejohn.org/apps/processing.js/examples/basic/variables.html]]</pre></div>

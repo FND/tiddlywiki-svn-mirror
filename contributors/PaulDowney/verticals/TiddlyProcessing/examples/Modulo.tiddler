@@ -1,7 +1,7 @@
 <div title="Modulo" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>The modulo operator (%) returns the remainder of a number divided by another. As in this example, it is often used to keep numerical values within a set range. Created 12 January 2003.
 
-<<Processing '
+<<Processing 
 
 int num = 20;
 float c;
@@ -26,6 +26,6 @@ void draw()
   } 
 }
 
-'>>
+>>
 
 Taken from [[basic/modulo.html|http://ejohn.org/apps/processing.js/examples/basic/modulo.html]]</pre></div>

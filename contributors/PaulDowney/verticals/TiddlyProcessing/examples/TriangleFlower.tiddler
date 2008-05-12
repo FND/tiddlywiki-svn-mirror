@@ -1,7 +1,7 @@
 <div title="TriangleFlower" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>By Ira Greenberg Using rotate() and triangle() functions generate a pretty flower. Uncomment the line // rotate(rot+=radians(spin)); in the triBlur() function for a nice variation.
 
-<<Processing '
+<<Processing 
 
 Point[]p = new Point[3];
 float shift = 1.0;
@@ -37,6 +37,6 @@ void triBlur(){
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/triangleflower.html|http://ejohn.org/apps/processing.js/examples/basic/triangleflower.html]]</pre></div>

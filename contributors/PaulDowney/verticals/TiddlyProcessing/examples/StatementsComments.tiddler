@@ -1,7 +1,7 @@
 <div title="StatementsComments" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Statements are the elements that make up programs. The ";" (semi-colon) symbol is used to end statements. It is called the "statement terminator." Comments are used for making notes to help people better understand programs. A comment begins with two forward slashes ("//").
 
-<<Processing '
+<<Processing 
 
 // The size function is a statement that tells the computer 
 // how large to make the window.
@@ -14,6 +14,6 @@ size(200, 200);
 // which color to make the background of the window 
 background(102);
 
-'>>
+>>
 
 Taken from [[basic/statementscomments.html|http://ejohn.org/apps/processing.js/examples/basic/statementscomments.html]]</pre></div>

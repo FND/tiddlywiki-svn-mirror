@@ -1,7 +1,7 @@
 <div title="Keyboard" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Click on the image to give it focus and press the letter keys to create forms in time and space. Each key has a unique identifying number called it's ASCII value. These numbers can be used to position shapes in space.
 
-<<Processing '
+<<Processing 
 
 int numChars = 26;
 color[] colors = new color[numChars];
@@ -22,11 +22,11 @@ void setup()
 void draw()
 { 
   if(keyPressed) {
-    if(key >= \'A\' && key <= \'z\') {
-      if(key <= \'Z\') {
-        keyIndex = key-\'A\';
+    if(key >= 'A' && key <= 'z') {
+      if(key <= 'Z') {
+        keyIndex = key-'A';
       } else {
-        keyIndex = key-\'a\';
+        keyIndex = key-'a';
       }
       fill(millis()%255);
       float beginRect = rectWidth/2 + keyIndex*keyScale-rectWidth/2;
@@ -35,6 +35,6 @@ void draw()
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/keyboard.html|http://ejohn.org/apps/processing.js/examples/basic/keyboard.html]]</pre></div>

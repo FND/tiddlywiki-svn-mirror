@@ -1,13 +1,13 @@
 <div title="Conditionals1" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Conditions are like questions. They allow a program to decide to take one action if the answer to a question is true or to do another action if the answer to the question is false. The questions asked within a program are always logical or relational statements. For example, if the variable 'i' is equal to zero then draw a line.
 
-<<Processing '
+<<Processing 
 
 size(200, 200);
 background(0);
 
 for(int i=10; i<width; i+=10) {
-  // If \'i\' divides by 20 with no remainder draw the first line
+  // If 'i' divides by 20 with no remainder draw the first line
   // else draw the second line
   if(i%20 == 0) {
     stroke(153);
@@ -18,6 +18,6 @@ for(int i=10; i<width; i+=10) {
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/conditionals1.html|http://ejohn.org/apps/processing.js/examples/basic/conditionals1.html]]</pre></div>

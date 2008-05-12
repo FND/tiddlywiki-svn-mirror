@@ -1,7 +1,7 @@
 <div title="EmbeddedLinks" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Click on the left button to open a different URL in the same window (Only works online). Click on the right button to open a URL in a new browser window. Created 21 June 2003.
 
-<<Processing '
+<<Processing 
 
 boolean overLeftButton = false;
 boolean overRightButton = false;
@@ -66,6 +66,6 @@ void checkButtons() {
 
 }
 
-'>>
+>>
 
 Taken from [[basic/embeddedlinks.html|http://ejohn.org/apps/processing.js/examples/basic/embeddedlinks.html]]</pre></div>

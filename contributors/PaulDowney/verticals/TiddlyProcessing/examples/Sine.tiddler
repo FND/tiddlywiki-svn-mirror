@@ -1,7 +1,7 @@
 <div title="Sine" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Smoothly scaling size with the sin() function.
 
-<<Processing '
+<<Processing 
 
 float spin = 0.0; 
 float diameter = 84.0; 
@@ -43,6 +43,6 @@ void draw()
   if (angle > TWO_PI) { angle = 0; }
 }
 
-'>>
+>>
 
 Taken from [[basic/sine.html|http://ejohn.org/apps/processing.js/examples/basic/sine.html]]</pre></div>

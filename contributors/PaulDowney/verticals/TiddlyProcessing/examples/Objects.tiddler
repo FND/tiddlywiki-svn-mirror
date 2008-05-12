@@ -1,7 +1,7 @@
 <div title="Objects" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>by hbarragan Move the cursor across the image to change the speed and positions of the geometry. The class MRect defines a group of lines.
 
-<<Processing '
+<<Processing 
 
 MRect r1, r2, r3, r4;
  
@@ -67,6 +67,6 @@ class MRect
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/objects.html|http://ejohn.org/apps/processing.js/examples/basic/objects.html]]</pre></div>

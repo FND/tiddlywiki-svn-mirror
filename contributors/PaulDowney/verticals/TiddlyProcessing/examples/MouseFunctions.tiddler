@@ -1,7 +1,7 @@
 <div title="MouseFunctions" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Click on the box and drag it across the screen.
 
-<<Processing '
+<<Processing 
 
 float bx;
 float by;
@@ -65,6 +65,6 @@ void mouseReleased() {
   locked = false;
 }
 
-'>>
+>>
 
 Taken from [[basic/mousefunctions.html|http://ejohn.org/apps/processing.js/examples/basic/mousefunctions.html]]</pre></div>

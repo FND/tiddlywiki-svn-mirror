@@ -1,7 +1,7 @@
 <div title="Words" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>The text() function is used for writing words to the screen.
 
-<<Processing '
+<<Processing 
 
 size(200, 200);
 background(102);
@@ -27,6 +27,6 @@ text("san", x, 130);
 fill(255);
 text("shi", x, 165);
 
-'>>
+>>
 
 Taken from [[basic/words.html|http://ejohn.org/apps/processing.js/examples/basic/words.html]]</pre></div>

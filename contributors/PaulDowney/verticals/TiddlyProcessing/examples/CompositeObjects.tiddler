@@ -1,7 +1,7 @@
 <div title="CompositeObjects" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>An object can include several other objects. Creating such composite objects is a good way to use the principles of modularity and build higher levels of abstraction within a program.
 
-<<Processing '
+<<Processing 
 
 EggRing er1, er2;
 
@@ -101,6 +101,6 @@ class Ring {
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/compositeobjects.html|http://ejohn.org/apps/processing.js/examples/basic/compositeobjects.html]]</pre></div>

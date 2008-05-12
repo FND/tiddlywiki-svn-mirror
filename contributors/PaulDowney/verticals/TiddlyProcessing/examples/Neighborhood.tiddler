@@ -1,7 +1,7 @@
 <div title="Neighborhood" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>By Ira Greenberg Draw a neighborhood of houses using Door, Window, Roof and House classes. Good example of class composition, with component Door, Window, Roof class references encapsulated within House class. This arrangement allows House class to handle placement and sizing of its components, while still allowing user customization of the individual components.
 
-<<Processing '
+<<Processing 
 
 void setup(){
   size(200, 200);
@@ -292,6 +292,6 @@ class House{
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/neighborhood.html|http://ejohn.org/apps/processing.js/examples/basic/neighborhood.html]]</pre></div>

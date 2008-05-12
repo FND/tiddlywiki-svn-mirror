@@ -1,7 +1,7 @@
 <div title="MouseSignals" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Move and click the mouse to generate signals. The top row is the signal from "mouseX", the middle row is the signal from "mouseY", and the bottom row is the signal from "mousePressed".
 
-<<Processing '
+<<Processing 
 
 int[] xvals;
 int[] yvals;
@@ -49,6 +49,6 @@ void draw()
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/mousesignals.html|http://ejohn.org/apps/processing.js/examples/basic/mousesignals.html]]</pre></div>

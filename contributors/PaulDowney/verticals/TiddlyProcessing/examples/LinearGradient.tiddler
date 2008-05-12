@@ -1,7 +1,7 @@
 <div title="LinearGradient" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>by Ira Greenberg. Using the convenient red(), green() and blue() component functions, generate some linear gradients.
 
-<<Processing '
+<<Processing 
 
 // constants
 int Y_AXIS = 1;
@@ -67,6 +67,6 @@ void setGradient(int x, int y, float w, float h, color c1, color c2, int axis ){
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/lineargradient.html|http://ejohn.org/apps/processing.js/examples/basic/lineargradient.html]]</pre></div>

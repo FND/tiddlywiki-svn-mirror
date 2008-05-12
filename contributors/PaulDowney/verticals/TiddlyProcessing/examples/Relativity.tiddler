@@ -1,7 +1,7 @@
 <div title="Relativity" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Each color is perceived in relation to other colors. The top and bottom bars each contain the same component colors, but a different display order causes individual colors to appear differently.
 
-<<Processing '
+<<Processing 
 
 color a, b, c, d, e;
 
@@ -32,6 +32,6 @@ void drawBand(color v, color w, color x, color y, color z, int ypos, int barWidt
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/relativity.html|http://ejohn.org/apps/processing.js/examples/basic/relativity.html]]</pre></div>

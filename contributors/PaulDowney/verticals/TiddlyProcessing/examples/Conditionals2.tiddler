@@ -1,13 +1,13 @@
 <div title="Conditionals2" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>We extend the language of conditionals by adding the keyword "else". This allows conditionals to ask two or more sequential questions, each with a different action.
 
-<<Processing '
+<<Processing 
 
 size(200, 200);
 background(0);
 
 for(int i=2; i<width-2; i+=2) {
-  // If \'i\' divides by 20 with no remainder 
+  // If 'i' divides by 20 with no remainder 
   // draw the first line else draw the second line
   if(i%20 == 0) {
     stroke(255);
@@ -21,6 +21,6 @@ for(int i=2; i<width-2; i+=2) {
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/conditionals2.html|http://ejohn.org/apps/processing.js/examples/basic/conditionals2.html]]</pre></div>

@@ -1,10 +1,10 @@
 <div title="Noise3D" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Using 3D noise to create simple animated texture. Here, the third dimension ('z') is treated as time.
 
-<<Processing '
+<<Processing 
 
 float increment = 0.01;
-// The noise function\'s 3rd argument, a global variable that increments once per cycle
+// The noise function's 3rd argument, a global variable that increments once per cycle
 float zoff = 0.0;  
 // We will increment zoff differently than xoff and yoff
 float zincrement = 0.02; 
@@ -48,6 +48,6 @@ void draw() {
   
 }
 
-'>>
+>>
 
 Taken from [[basic/noise3d.html|http://ejohn.org/apps/processing.js/examples/basic/noise3d.html]]</pre></div>

@@ -1,7 +1,7 @@
 <div title="Graphing2DEquation" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>by Daniel Shiffman. Graphics the following equation: sin(n*cos(r) + 5*theta) where n is a function of horizontal mouse location.
 
-<<Processing '
+<<Processing 
 
 void setup() {
   size(50,50);
@@ -34,6 +34,6 @@ void draw() {
   updatePixels();
 }
 
-'>>
+>>
 
 Taken from [[basic/graphing2dequation.html|http://ejohn.org/apps/processing.js/examples/basic/graphing2dequation.html]]</pre></div>

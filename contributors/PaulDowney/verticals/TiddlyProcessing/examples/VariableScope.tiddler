@@ -1,7 +1,7 @@
 <div title="VariableScope" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Variables may either have a global or local "scope". For example, variables declared within either the setup() or loop() functions may be only used in these functions. Global variables, variables declared outside of setup() and loop(), may be used anywhere within the program. If a local variable is declared with the same name as a global variable, the program will use the local variable to make its calculations within the current scope. Variables may be localized within classes, functions, and iterative statements.
 
-<<Processing '
+<<Processing 
 
 int a = 20;  // Create a global variable "a"
 
@@ -51,6 +51,6 @@ void drawYetAnotherLine()
   line(a+2, 0, a+2, height);
 }
 
-'>>
+>>
 
 Taken from [[basic/variablescope.html|http://ejohn.org/apps/processing.js/examples/basic/variablescope.html]]</pre></div>

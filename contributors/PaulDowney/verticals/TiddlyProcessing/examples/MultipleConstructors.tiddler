@@ -1,7 +1,7 @@
 <div title="MultipleConstructors" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>A class can have multiple constructors that assign the fields in different ways. Sometimes it's beneficial to specify every aspect of an object’s data by assigning parameters to the fields, but other times it might be appropriate to define only one or a few.
 
-<<Processing '
+<<Processing 
 
 Spot sp1, sp2;
 void setup() 
@@ -42,6 +42,6 @@ class Spot {
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/multipleconstructors.html|http://ejohn.org/apps/processing.js/examples/basic/multipleconstructors.html]]</pre></div>

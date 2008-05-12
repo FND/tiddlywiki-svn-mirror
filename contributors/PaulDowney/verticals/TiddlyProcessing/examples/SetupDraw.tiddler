@@ -1,7 +1,7 @@
 <div title="SetupDraw" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>The draw() function creates a structure in which to write programs that change with time.
 
-<<Processing '
+<<Processing 
 
 // The statements in the setup() function 
 // execute once when the program begins
@@ -26,6 +26,6 @@ void draw()
   line(0, y, width, y);  
 }
 
-'>>
+>>
 
 Taken from [[basic/setupdraw.html|http://ejohn.org/apps/processing.js/examples/basic/setupdraw.html]]</pre></div>

@@ -1,7 +1,7 @@
 <div title="BackgroundImage" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>This example presents the fastest way to load a background image into Processing. To load an image as the background, it must be the same width and height as the program.
 
-<<Processing '
+<<Processing 
 
 PImage bg;
 int a; 
@@ -26,6 +26,6 @@ void draw()
   line(0, a-6, width, a-32);
 }
 
-'>>
+>>
 
 Taken from [[basic/backgroundimage.html|http://ejohn.org/apps/processing.js/examples/basic/backgroundimage.html]]</pre></div>

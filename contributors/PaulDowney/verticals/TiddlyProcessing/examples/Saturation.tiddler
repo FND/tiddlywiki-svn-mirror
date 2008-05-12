@@ -1,7 +1,7 @@
 <div title="Saturation" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Saturation is the strength or purity of the color and represents the amount of gray in proportion to the hue. A "saturated" color is pure and an "unsaturated" color has a large percentage of gray. Move the cursor vertically over each bar to alter its saturation.
 
-<<Processing '
+<<Processing 
 
 int barWidth = 5;
 int[] saturation;
@@ -27,6 +27,6 @@ void draw()
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/saturation.html|http://ejohn.org/apps/processing.js/examples/basic/saturation.html]]</pre></div>

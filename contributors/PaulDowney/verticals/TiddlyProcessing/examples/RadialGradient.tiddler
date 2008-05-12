@@ -1,7 +1,7 @@
 <div title="RadialGradient" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>by Ira Greenberg. Using the convenient red(), green() and blue() component functions, generate an array of radial gradients.
 
-<<Processing '
+<<Processing 
 
 void setup(){
   size(50, 50);
@@ -53,6 +53,6 @@ void createGradient (float x, float y, float radius, color c1, color c2){
   ellipse(x, y, radius*2, radius*2);
 }
 
-'>>
+>>
 
 Taken from [[basic/radialgradient.html|http://ejohn.org/apps/processing.js/examples/basic/radialgradient.html]]</pre></div>

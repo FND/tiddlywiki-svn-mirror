@@ -1,7 +1,7 @@
 <div title="WidthHeight" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>The 'width' and 'height' variables contain the width and height of the display window as defined in the size() function.
 
-<<Processing '
+<<Processing 
 
 size(200, 200);
 background(127);
@@ -13,6 +13,6 @@ for(int i=0; i<height; i+=20) {
   rect(i, 0, 10, height);
 }
 
-'>>
+>>
 
 Taken from [[basic/widthheight.html|http://ejohn.org/apps/processing.js/examples/basic/widthheight.html]]</pre></div>

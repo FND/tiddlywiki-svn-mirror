@@ -1,7 +1,7 @@
 <div title="Brightness" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>by Rusty Robison. Brightness is the relative lightness or darkness of a color. Move the cursor vertically over each bar to alter its brightness.
 
-<<Processing '
+<<Processing 
 
 int barWidth = 5;
 int[] brightness;
@@ -27,6 +27,6 @@ void draw()
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/brightness.html|http://ejohn.org/apps/processing.js/examples/basic/brightness.html]]</pre></div>

@@ -1,7 +1,7 @@
 <div title="Translate" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>The translate() function allows objects to be moved to any location within the window. The first parameter sets the x-axis offset and the second parameter sets the y-axis offset.
 
-<<Processing '
+<<Processing 
 
 float x, y;
 float s = 40.0;
@@ -36,6 +36,6 @@ void draw()
   rect(-s/2, -s/2, s, s);
 }
 
-'>>
+>>
 
 Taken from [[basic/translate.html|http://ejohn.org/apps/processing.js/examples/basic/translate.html]]</pre></div>

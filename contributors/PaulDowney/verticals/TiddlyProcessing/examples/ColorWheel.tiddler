@@ -1,7 +1,7 @@
 <div title="ColorWheel" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>by Ira Greenberg. The primaries are red, yellow, and blue. The secondaries are green, purple, and orange. The tertiaries are  yellow-orange, red-orange, red-purple, blue-purple, blue-green, and yellow-green. Create a shade or tint of the subtractive color wheel using SHADE or TINT parameters.
 
-<<Processing '
+<<Processing 
 
 int segs = 12;
 int steps = 6;
@@ -68,6 +68,6 @@ void createWheel(int x, int y, int valueShift){
   } 
 }
 
-'>>
+>>
 
 Taken from [[basic/colorwheel.html|http://ejohn.org/apps/processing.js/examples/basic/colorwheel.html]]</pre></div>

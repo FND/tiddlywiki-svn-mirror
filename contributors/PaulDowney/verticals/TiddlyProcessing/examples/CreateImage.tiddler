@@ -1,7 +1,7 @@
 <div title="CreateImage" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>The createImage() function provides a fresh buffer of pixels to play with. This example creates an image gradient.
 
-<<Processing '
+<<Processing 
 
 PImage img;
 
@@ -21,6 +21,6 @@ void draw()
   image(img, mouseX-60, mouseY-60);
 }
 
-'>>
+>>
 
 Taken from [[basic/createimage.html|http://ejohn.org/apps/processing.js/examples/basic/createimage.html]]</pre></div>

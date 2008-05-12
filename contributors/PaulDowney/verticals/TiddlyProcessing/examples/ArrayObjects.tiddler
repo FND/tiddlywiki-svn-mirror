@@ -1,7 +1,7 @@
 <div title="ArrayObjects" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>Demonstrates the syntax for creating an array of custom objects.
 
-<<Processing '
+<<Processing 
 
 int unit = 40;
 int num;
@@ -70,6 +70,6 @@ class Module {
   }
 }
 
-'>>
+>>
 
 Taken from [[basic/arrayobjects.html|http://ejohn.org/apps/processing.js/examples/basic/arrayobjects.html]]</pre></div>

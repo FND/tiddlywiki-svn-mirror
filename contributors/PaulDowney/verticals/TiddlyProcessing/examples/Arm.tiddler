@@ -1,7 +1,7 @@
 <div title="Arm" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>The angle of each segment is controlled with the mouseX and mouseY position. The transformations applied to the first segment are also applied to the second segment because they are inside the same pushMatrix() and popMatrix() group.
 
-<<Processing '
+<<Processing 
 
 float x = 50;
 float y = 100;
@@ -34,6 +34,6 @@ void segment(float x, float y, float a) {
   line(0, 0, segLength, 0);
 }
 
-'>>
+>>
 
 Taken from [[basic/arm.html|http://ejohn.org/apps/processing.js/examples/basic/arm.html]]</pre></div>

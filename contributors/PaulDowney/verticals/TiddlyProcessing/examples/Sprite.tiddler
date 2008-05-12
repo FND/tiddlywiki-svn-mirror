@@ -1,7 +1,7 @@
 <div title="Sprite" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>by <a href="http://www.presstube.com">James Patterson</a>. Demonstrates loading and displaying a transparent GIF image. Created 27 January 2003.
 
-<<Processing '
+<<Processing 
 
 PImage teddy;
 
@@ -38,6 +38,6 @@ void draw()
   image(teddy, xpos, ypos);
 }
 
-'>>
+>>
 
 Taken from [[basic/sprite.html|http://ejohn.org/apps/processing.js/examples/basic/sprite.html]]</pre></div>

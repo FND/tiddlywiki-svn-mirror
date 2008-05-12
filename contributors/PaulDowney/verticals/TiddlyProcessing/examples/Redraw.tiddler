@@ -1,7 +1,7 @@
 <div title="Redraw" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>The redraw() function makes draw() execute once. In this example, draw() is executed once every time the mouse is clicked.
 
-<<Processing '
+<<Processing 
 
 // The statements in the setup() function 
 // execute once when the program begins
@@ -31,6 +31,6 @@ void mousePressed()
   redraw();
 }
 
-'>>
+>>
 
 Taken from [[basic/redraw.html|http://ejohn.org/apps/processing.js/examples/basic/redraw.html]]</pre></div>

@@ -1,7 +1,7 @@
 <div title="Loop" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>The loop() function causes draw() to execute continuously. If noLoop is called in setup() the draw() is only executed once. In this example click the mouse to execute loop(), which will cause the draw() the execute continuously.
 
-<<Processing '
+<<Processing 
 
 // The statements in the setup() function 
 // execute once when the program begins
@@ -34,6 +34,6 @@ void mousePressed()
   loop();
 }
 
-'>>
+>>
 
 Taken from [[basic/loop.html|http://ejohn.org/apps/processing.js/examples/basic/loop.html]]</pre></div>

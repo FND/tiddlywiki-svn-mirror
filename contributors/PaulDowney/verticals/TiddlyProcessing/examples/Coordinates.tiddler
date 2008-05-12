@@ -1,7 +1,7 @@
 <div title="Coordinates" modifier="PaulDowney" created="200805102327" tags="Processing BasicExample Example">
 <pre>All shapes drawn to the screen have a position that is specified as a coordinate. All coordinates are measured as the distance from the origin in units of pixels. The origin [0, 0] is the coordinate is in the upper left of the window and the coordinate in the lower right is [width-1, height-1].
 
-<<Processing '
+<<Processing 
 
 // Sets the screen to be 200, 200, so the width of the window is 200 pixels
 // and the height of the window is 200 pixels
@@ -36,6 +36,6 @@ line(0, 73, width, 73);
 // and the second two are the width and height
 rect(110, 55, 40, 36);
 
-'>>
+>>
 
 Taken from [[basic/coordinates.html|http://ejohn.org/apps/processing.js/examples/basic/coordinates.html]]</pre></div>
