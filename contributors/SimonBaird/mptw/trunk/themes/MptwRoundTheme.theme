@@ -3,7 +3,7 @@
 |ViewTemplate|MptwTheme##ViewTemplate|
 |EditTemplate|MptwTheme##EditTemplate|
 |PageTemplate|MptwTheme##PageTemplate|
-|StyleSheet|MptwRoundTheme##StyleSheet|
+|StyleSheet|##StyleSheet|
 
 !StyleSheet
 /*{{{*/

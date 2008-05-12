@@ -2,14 +2,8 @@
 |Description|Mptw Theme with a reduced header to increase useful space|
 |ViewTemplate|MptwTheme##ViewTemplate|
 |EditTemplate|MptwTheme##EditTemplate|
-|PageTemplate|MptwTrimTheme##PageTemplate|
-|StyleSheet|MptwTrimTheme##StyleSheet|
-
-!StyleSheet
-/*{{{*/
-[[MptwTheme##StyleSheet]]
-/*}}}*/
-
+|StyleSheet|MptwTheme##StyleSheet|
+|PageTemplate|##PageTemplate|
 
 !PageTemplate
 <!--{{{-->
@@ -30,3 +24,4 @@
 	<div id='messageArea'></div>
 	<div id='tiddlerDisplay'></div>
 </div>
+

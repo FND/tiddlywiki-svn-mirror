@@ -10,13 +10,19 @@
 ***/
 //{{{
 var originalReadOnly = readOnly;
-config.options.chkHttpReadOnly = false; // means web visitors can experiment with your site by clicking edit
-readOnly = false;						// needed because the above doesn't work any more post 2.1 (??)
-config.options.chkInsertTabs = true;    // tab inserts a tab when editing a tiddler
-config.views.wikified.defaultText = ""; // don't need message when a tiddler doesn't exist
-config.views.editor.defaultText = "";   // don't need message when creating a new tiddler 
 
-config.mptwVersion = "2.3.7";
+config.options.chkHttpReadOnly = false; 		// means web visitors can experiment with your site by clicking edit
+readOnly = false;								// needed because the above doesn't work any more post 2.1 (??)
+
+config.options.chkInsertTabs = true;    		// tab inserts a tab when editing a tiddler
+config.views.wikified.defaultText = "";			// don't need message when a tiddler doesn't exist
+config.views.editor.defaultText = "";			// don't need message when creating a new tiddler 
+
+config.options.chkAutoSave = true;				// do autosave
+config.options.chkSaveBackups = true;			// do save backups
+config.options.txtBackupFolder = 'twbackup';	// put backups in a backups folder
+
+config.mptwVersion = "2.4.0";
 
 config.macros.mptwVersion={handler:function(place){wikify(config.mptwVersion,place);}};
 

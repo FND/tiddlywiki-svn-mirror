@@ -41,13 +41,14 @@ merge(config.macros,{
 		longLabel: "[[%0]] [[%1]]",
 
 		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+			var tiddlerTitle = tiddler ? tiddler.title : '';
 			var tag   = (params[0] && params[0] != '.') ? params[0] : "checked";
-			var title = (params[1] && params[1] != '.') ? params[1] : tiddler.title;
-			var defaultLabel = (title == tiddler.title ? this.shortLabel : this.longLabel);
+			var title = (params[1] && params[1] != '.') ? params[1] : tiddlerTitle;
+			var defaultLabel = (title == tiddlerTitle ? this.shortLabel : this.longLabel);
 			var label = (params[2] && params[2] != '.') ? params[2] : defaultLabel;
 			var touchMod = (params[3] && params[3] != '.') ? params[3] : "";
 			label = (label == '-' ? '' : label); // dash means no label
-			var theTiddler = (title == tiddler.title ? tiddler : store.getTiddler(title));
+			var theTiddler = (title == tiddlerTitle ? tiddler : store.getTiddler(title));
 			var cb = createTiddlyCheckbox(place, label.format([tag,title]), theTiddler && theTiddler.isTagged(tag), function(e) {
 				if (!store.tiddlerExists(title)) {
 					if (config.macros.toggleTag.createIfRequired) {

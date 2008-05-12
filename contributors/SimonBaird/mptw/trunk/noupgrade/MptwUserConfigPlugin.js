@@ -9,12 +9,11 @@ See http://www.tiddlywiki.org/wiki/Configuration_Options for other options you c
 //config.mptwJournalFormat = 'Journal MM/0DD/YY';
 
 // example: set the theme you want to start with
-// config.options.txtTheme = 'MptwRoundTheme';
+//config.options.txtTheme = 'MptwRoundTheme';
 
-// example: switch on autosave, backups and set a backup folder
+// example: switch off autosave, switch on backups and set a backup folder
 //config.options.chkSaveBackups = true;
-//config.options.chkAutoSave = true;
-//config.options.txtBackupFolder = 'twbackup';
-
+//config.options.chkAutoSave = false;
+//config.options.txtBackupFolder = 'backups';
 
 //}}}

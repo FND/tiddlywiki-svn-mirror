@@ -1,9 +1,9 @@
 |Name|MptwTheme|
 |Description|Mptw Theme including custom PageLayout|
-|PageTemplate|MptwTheme##PageTemplate|
-|ViewTemplate|MptwTheme##ViewTemplate|
-|EditTemplate|MptwTheme##EditTemplate|
-|StyleSheet|MptwTheme##StyleSheet|
+|PageTemplate|##PageTemplate|
+|ViewTemplate|##ViewTemplate|
+|EditTemplate|##EditTemplate|
+|StyleSheet|##StyleSheet|
 
 http://mptw.tiddlyspot.com/#MptwTheme ($Rev: 1829 $)
 
@@ -85,7 +85,6 @@ http://mptw.tiddlyspot.com/#MptwTheme ($Rev: 1829 $)
 <div class="title" macro="view title"></div>
 <div class="editLabel">Title</div><div class="editor" macro="edit title"></div>
 <div macro='annotations'></div>
-<div macro="showWhenExists EditPanelTemplate">[[EditPanelTemplate]]</div>
 <div class="editLabel">Content</div><div class="editor" macro="edit text"></div>
 <div class="editLabel">Tags</div><div class="editor" macro="edit tags"></div>
 <div class="editorFooter"><span macro="message views.editor.tagPrompt"></span><span macro="tagChooser"></span></div>
