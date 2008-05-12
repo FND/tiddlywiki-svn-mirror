@@ -13,6 +13,7 @@ shadow: shadow.php
 shadow: ../../../../../Tags/core/REL-2.4.0_Final/shadows/OptionsPanel.tiddler
 shadow: ../../../../../Tags/core/REL-2.4.0_Final/shadows/PageTemplate.tiddler
 shadow: ../../../../../Tags/core/REL-2.4.0_Final/shadows/StyleSheetColors.tiddler
+shadow: ../../../../../Tags/core/REL-2.4.0_Final/shadows/StyleSheetLayout.tiddler
 shadow: ../../../../../Tags/core/REL-2.4.0_Final/shadows/StyleSheetLocale.tiddler
 shadow: ../../../../../Tags/core/REL-2.4.0_Final/shadows/StyleSheetPrint.tiddler
 posttiddlers: posttiddlers.php
