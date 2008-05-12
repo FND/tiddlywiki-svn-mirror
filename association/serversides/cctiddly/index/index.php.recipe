@@ -8,6 +8,7 @@ posthead: posthead.php
 prebody: prebody.php
 shadow: ../../../../../Tags/core/REL-2.4.0_Final/shadows/ColorPalette.tiddler
 shadow: ../../../../../Tags/core/REL-2.4.0_Final/shadows/EditTemplate.tiddler
+shadow: ../../../../../Tags/core/REL-2.4.0_Final/shadows/ViewTemplate.tiddler
 shadow: ../includes/workspaceExists.php
 shadow: shadow.php
 shadow: ../../../../../Tags/core/REL-2.4.0_Final/shadows/OptionsPanel.tiddler
