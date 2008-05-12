@@ -16,4 +16,4 @@ RewriteRule ([^/]*)/?$ index.php?workspace=$1&%{QUERY_STRING}	[L]
 #note: GET variable are defined from '?' thus when variables are defined twice, the later one applies
 #RewriteRule ([^/]*)/?(.*)$ index.php?workspace=$1&a=$2
 #RewriteRule (\?.) index.php?workspace=$1 [L]
-#RewriteRule (.*) index.php?req_uri=%{REQUEST_URI}&req_filename=%{REQUEST_FILENAME}&script=%{SCRIPT_FILENAME}&q=%{QUERY_STRING} [L]
+#RewriteRule (.*) index.php?req_uri=%{REQUEST_URI}&req_filename=%{REQUEST_FILENAME}&script=%{SCRIPT_FILENAME}&q=%{QUERY_STRINGRY_STRING} [L]
