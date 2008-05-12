@@ -19,11 +19,11 @@
             src="chrome://tiddlysnip/locale/tiddlysnip.properties"/>
     </stringbundleset>
 
-    <script type="application/x-javascript" src="prefs.js"/>
-    <script type="application/x-javascript" src="categories.js"/>
-    <script type="application/x-javascript" src="tiddlySnip.js"/>
-    <script type="application/x-javascript" src="upload.js"/>
-    <script type="application/x-javascript" src="tiddler.js"/>
+	<script type="application/x-javascript" src="chrome://tiddlysnip/content/prefs.js"/>
+	<script type="application/x-javascript" src="chrome://tiddlysnip/content/categories.js"/>
+	<script type="application/x-javascript" src="chrome://tiddlysnip/content/tiddlySnip.js"/>
+	<script type="application/x-javascript" src="chrome://tiddlysnip/content/upload.js"/>
+	<script type="application/x-javascript" src="chrome://tiddlysnip/content/tiddler.js"/>
 
     <vbox flex="1">
 	<tabbox>
@@ -256,7 +256,7 @@
 		</tabpanel>
 		<tabpanel id="categoriespanel">
 		    <vbox>
-			<html:b><caption label="&snippetcategories.label;" /></html:b>
+			<caption label="&snippetcategories.label;" />
 			<tree id="categoriesTree" flex="1" seltype="single" hidecolumnpicker="true"
 			    rows="7">
 			    <treecols>
@@ -313,4 +313,5 @@
 	<button label="&cancel.label;" onclick="cancelAndExit();"/>
     </vbox>
 </window>
+
 

@@ -139,10 +139,9 @@ function mtslogin()
     var w = window;
     w.loggedin = false;
     var u = pref.getCharPref("tiddlysnip.mtsphpfile");
-    //var u = "http://test.tiddlythemes.com/8/index.php";//php file location
-    var url = u.substr(0,u.lastIndexOf("/"))+"/MTS/Source/Login.php?action=login&get_user=saq&get_pass=1313&";
+    var url = u.substr(0,u.lastIndexOf("/"))+"/MTS/Source/Login.php?action=login&get_user="+getUploadUser('mts')+"&get_pass="+getUploadPassword('mts')+"&";
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function ()
+    xmlHttp.onreadystatechange = function (aEvt)
     {
     if (xmlHttp.readyState == 4)
         {
@@ -155,7 +154,6 @@ function mtslogin()
                 if (w.tiddlerList !=null)
                     {document.getElementById("tiddlerSaveButton").disabled = false;}
                }
-                //alert("logged in");//logged in, enable save? tiddler listing?
             else
                 {alert(getStr(mtsUploadFailed)+xmlHttp.responseText);}
             }
@@ -176,7 +174,6 @@ function mtsLogout()
     if (!pref.getBoolPref("tiddlysnip.mtslogout"))
         return false;
     var u = pref.getCharPref("tiddlysnip.mtsphpfile");
-    //var u = "http://test.tiddlythemes.com/8/index.php";//php file location
     var url = u.substr(0,u.lastIndexOf("/"))+"/MTS/Source/Login.php?action=logout";
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function ()
@@ -210,7 +207,6 @@ function mtsGetTiddlerList()
     var w = window;
     w.tiddlerList = null;
     var u = pref.getCharPref("tiddlysnip.mtsphpfile");
-    //var u = "http://test.tiddlythemes.com/8/index.php";//php file location
     var url = u.substr(0,u.lastIndexOf("/"))+"/MTS/Modules/TiddlySnip/tiddlysnip.php?action=index&file="+(pref.getCharPref("tiddlysnip.mtshtmlfile").split("/")).pop();
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function ()
@@ -222,7 +218,7 @@ function mtsGetTiddlerList()
             eval(xmlHttp.responseText);
             if (data.success)
                {
-                w.tiddlerList = data.tiddlerList.split(",");
+                w.tiddlerList = unescape(data.tiddlerList).split(",");
                 w.storeType = data.storeType;
                 if (w.loggedin == true)
                     {document.getElementById("tiddlerSaveButton").disabled = false;}
