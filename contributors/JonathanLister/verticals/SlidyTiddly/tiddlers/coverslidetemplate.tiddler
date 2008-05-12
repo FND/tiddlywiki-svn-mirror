@@ -1,0 +1,22 @@
+<div title="coverslidetemplate" modifier="JayFresh" created="200805120906" modified="200805120908" tags="template" changecount="2">
+<pre><div class="slide cover title">
+  <!-- hidden style graphics to ensure they are saved with other content -->
+  <img class="hidden" src="../Slidy/bullet.png" alt="" />
+  <img class="hidden" src="../Slidy/fold.gif" alt="" />
+  <img class="hidden" src="../Slidy/unfold.gif" alt="" />
+  <img class="hidden" src="../Slidy/fold-dim.gif" alt="" />
+  <img class="hidden" src="../Slidy/nofold-dim.gif" alt="" />
+
+  <img class="hidden" src="../Slidy/unfold-dim.gif" alt="" />
+  <img class="hidden" src="../Slidy/bullet-fold.gif" alt="" />
+  <img class="hidden" src="../Slidy/bullet-unfold.gif" alt="" />
+  <img class="hidden" src="../Slidy/bullet-fold-dim.gif" alt="" />
+  <img class="hidden" src="../Slidy/bullet-nofold-dim.gif" alt="" />
+  <img class="hidden" src="../Slidy/bullet-unfold-dim.gif" alt="" />
+
+<img src="keys.jpg" alt=
+"Cover page images (keys)" class="cover" /><br clear="all" />
+<h1><!--<<view title>>--></h1>
+<!--<<view text wikified>>-->
+</div></pre>
+</div>
