@@ -4,10 +4,12 @@
 |''Date:''|May 9, 2008|
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/ProcessingPlugin.js|
-|''Version:''|0.1|
+|''Version:''|0.2|
 |''License:''|[[MIT license]]|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.2|
+
+With contributions from Simon Baird.
 
 ***/
 
@@ -22,7 +24,20 @@ config.macros.Processing = {
 	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
 		var id = "processingcanvas"+this.counter;
 		var canvas = createTiddlyElement(place,"canvas",id);
-		var code = params[0]; // TBD: grab code from tiddler .. Hmm ..
+		
+		// inlined code
+		var code = paramString;
+
+		// quick and dirty grab of code from a named tiddler
+		if (store.tiddlerExists(params[0])) {
+			code = store.getTiddlerText(params[0]);
+		}
+
+		// allows use as a view macro
+		if (paramString == '') {
+			code = tiddler.text;
+		}
+
 		Processing(canvas,code);
 	}
 };
