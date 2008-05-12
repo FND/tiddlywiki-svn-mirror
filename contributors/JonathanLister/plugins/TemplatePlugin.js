@@ -14,14 +14,14 @@ calls to the macro to allow for e.g. looping inside a template (think RSS items)
 
 Usage:
 {{{
-<<templateTiddlers template:RssTemplate filter:"[tag[!excludeLists]]">>
+<<templateTiddlers template:RssTemplate filter:"[tag[!excludeLists]]" [wikitext:true]>>
 <<templateTiddlers RssTemplate filter:"[tag[!excludeLists]]">> // template qualification is optional
 }}}
 
 Parameters can be:
 template - the name of the template
 filter - a tiddler filter
-data - the part of a tiddler to use in the subTemplate
+wikitext - if true, renders the target tiddler's text as wikitext instead of using the special template formatter
 
 If a parameter does not have a qualifier, it is assumed to be the template name
 

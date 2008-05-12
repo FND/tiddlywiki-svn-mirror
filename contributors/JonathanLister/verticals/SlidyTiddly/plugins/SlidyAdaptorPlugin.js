@@ -192,8 +192,8 @@ SlidyAdaptor.slidyToTiddlers = function(slidy,useRawDescription)
 		slidy = slidy.replace(/\r+/mg,"");
 		var regex_div = /<div([^>]*)>(.|\n)*?<\/div>/mg;
 		var regex_class = new RegExp("class=['|\"]([\\w ]+)['|\"]","mg");
-		var regex_meta = "<meta ((?:type|content)='[^']*'(?: *))+ \/>";
-		var regex_meta_inner = new RegExp("(\\w*)='(.*?)'","mg");
+		var regex_meta = /<meta ((?:name|content) *= *[\"][^\"]*[\"](?: *))+ \/>/mg;
+		var regex_meta_inner = new RegExp("(\\w*) *= *['|\"](.*?)['|\"]","mg");
 		var meta_names = [
 			"copyright",
 			"font-size-adjustment"
@@ -218,6 +218,7 @@ SlidyAdaptor.slidyToTiddlers = function(slidy,useRawDescription)
 		}
 		// convert meta tags to tiddlers
 		var meta_match = slidy.match(regex_meta);
+		console.log(meta_match);
 		length = meta_match ? meta_match.length : 0;
 		for(i=0;i<length;i++) {
 			var meta = meta_match[i];
@@ -226,8 +227,11 @@ SlidyAdaptor.slidyToTiddlers = function(slidy,useRawDescription)
 				matches[match[1]] = match[2];
 			}
 			if(matches.name && meta_names.contains(matches.name)) {
-				var t = new Tiddler(matches.name);
+				t = new Tiddler(matches.name);
 				t.text = matches.content ? matches.content : "";
+				console.log(t);
+				tiddlers.push(t);
+				console.log(tiddlers);
 			}
 		}
 		

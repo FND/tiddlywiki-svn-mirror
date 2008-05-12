@@ -12,7 +12,7 @@
 
 Usage:
 {{{
-<<TiddlyTemplating template|template:tiddlerName [filter:filterString] [wikitext:true] [fileName:fileName]>>
+<<TiddlyTemplating template|template:tiddlerName [filter:filterString] [wikitext:true] [filename:filename]>>
 }}}
 
 Description:
@@ -31,7 +31,7 @@ config.macros.TiddlyTemplating = {
 
 config.macros.TiddlyTemplating.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-	var button = createTiddlyButton(place,"publish","publish",config.macros.TiddlyTemplating.templateAndPublish);
+	var button = createTiddlyButton(place,"Publish","Publish",config.macros.TiddlyTemplating.templateAndPublish);
 	button.params = params;
 	button.paramString = paramString;
 };
@@ -42,10 +42,10 @@ config.macros.TiddlyTemplating.templateAndPublish = function(e)
 	var template = config.macros.TiddlyTemplating.getTemplate(p);
 	var tiddlers = config.macros.TiddlyTemplating.getTiddlers(p);
 	var wikitext = getParam(p,"wikitext",null);
-	var fileName = getParam(p,"fileName",null);
+	var filename = getParam(p,"filename",null);
 	displayMessage("generating...");
 	var content = expandTemplate(template,tiddlers,wikitext);
-	config.macros.TiddlyTemplating.save(fileName,content);
+	config.macros.TiddlyTemplating.save(filename,content);
 };
 
 config.macros.TiddlyTemplating.getTemplate = function(p)
@@ -71,23 +71,23 @@ config.macros.TiddlyTemplating.getTiddlers = function(p)
 
 config.macros.TiddlyTemplating.getFileName = function(p)
 {
-	var fileName = getParam(p,"fileName",null);
-	if(!fileName)
-		fileName = this.defaultFileName;
+	var filename = getParam(p,"filename");
+	if(!filename)
+		filename = this.defaultFileName;
 };
 
-config.macros.TiddlyTemplating.save = function(fileName,content)
+config.macros.TiddlyTemplating.save = function(filename,content)
 {
 	config.messages.fileSaved = "file successfully saved";
 	config.messages.fileFailed = "file save failed";
 	var localPath = getLocalPath(document.location.toString());
 	var savePath;
 	if((p = localPath.lastIndexOf("/")) != -1)
-		savePath = localPath.substr(0,p) + "/" + fileName;
+		savePath = localPath.substr(0,p) + "/" + filename;
 	else if((p = localPath.lastIndexOf("\\")) != -1)
-		savePath = localPath.substr(0,p) + "\\" + fileName;
+		savePath = localPath.substr(0,p) + "\\" + filename;
 	else
-		savePath = localPath + "." + fileName;
+		savePath = localPath + "." + filename;
 	displayMessage("saving...");
 	var fileSave = saveFile(savePath,convertUnicodeToUTF8(content));
 	if(fileSave) {
