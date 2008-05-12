@@ -1,4 +1,32 @@
-	config.macros.ccRegister ={};
+/***
+|''Name''|ccRegister|
+|''Description''|Allows users to Register for a user account. If the user is logged in there are informed of their username This Macro will later be added to ccLogin Status|
+|''Author''|[[Simon McManus|http://simonmcmanus.com]] |
+|''Version''|1.0.1|
+|''Date''|12/05/2008|
+|''Status''|@@alpha@@|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccRegister.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccRegister.js|
+|''License''|BSD|
+|''Requires''|ccLogin, ccLoginStatus|
+|''Feedback''|http://groups.google.com/group/ccTiddly|
+|''Keywords''|ccTiddly ccRegister|
+
+!Description
+
+Show the current user their login status. 
+
+!Usage
+{{{
+<<ccRegister>>
+}}}
+
+!Code
+
+***/
+//{{{
+	
+config.macros.ccRegister ={};
 config.macros.ccRegister.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	var registerDiv = createTiddlyElement(place,"div",null,"loginDiv",null);
 	this.refresh(registerDiv);
@@ -209,3 +237,4 @@ config.macros.ccRegister.usernameCallback=function(status,params,responseText,ur
 		field.setAttribute("class","input");
 	}
 };
+//}}}

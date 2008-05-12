@@ -1,15 +1,30 @@
 /***
-|''Name:''|ccLogin|
-|''Description:''|Login Plugin for ccTiddly|
-|''Version:''|2.1.5|
-|''Date:''|Nov 27, 2007|
-|''Source:''||
-|''Author:''|SimonMcManus|
-|''License:''|[[BSD open source license]]|
-|''~CoreVersion:''|2.1.6|
-|''Browser:''| Firefox |
-***/
+|''Name''|ccLogin|
+|''Description''|Allows users to login to ccTiddly, In future, this will include the ccRegister and  ccLoginStatus Status Macro|
+|''Author''|[[Simon McManus|http://simonmcmanus.com]] |
+|''Version''|1.0.1|
+|''Date''|12/05/2008|
+|''Status''|@@alpha@@|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccLogin.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccLogin.js|
+|''License''|BSD|
+|''Requires''|ccRegister, ccLogin|
+|''Overrides''|restart|
+|''Feedback''|http://groups.google.com/group/ccTiddly|
+|''Keywords''|ccTiddly ccLogin|
 
+!Description
+
+To display a login prompt for your user simple type the following text into a tiddler function tiddler :
+
+!Usage
+{{{
+<<ccLogin>>
+}}}
+
+!Code
+
+***/
 //{{{
 config.backstageTasks.push("login");
 merge(config.tasks,{login:{text: "login",tooltip: "Login to your TiddlyWiki",content: '&lt;&lt;ccLogin&gt;&gt;'}});
@@ -274,4 +289,6 @@ function restart(){
 	invokeParamifier(params,"onstart");
 	window.scrollTo(0,0);
 }
+
+
 //}}}

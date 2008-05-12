@@ -9,7 +9,7 @@
 	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
 	$tiddlyCfg['db']['pass'] = "";		//login password
-	$tiddlyCfg['db']['name'] = "cctiddly_public";		//db name
+	$tiddlyCfg['db']['name'] = "cctiddly_16";		//db name
 
 	
 	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
@@ -23,7 +23,7 @@
 	$tiddlyCfg['table']['admin'] = "admin_of_workspace";	//admin of workspace	admin of a particular workspace
 	$tiddlyCfg['table']['session'] = "login_session";	//login session		used to create login string
 	$tiddlyCfg['table']['workspace_view'] = 'workspace_view'; // used to record each viewing of a workspace
-		$tiddlyCfg['table']['workspace_skin'] = 'none'; // allows a workspace to be included when viewing every other workspace on the instance. Set to ='none' if you do not want to use skins
+	$tiddlyCfg['table']['workspace_skin'] = 'none'; // allows a workspace to be included when viewing every other workspace on the instance. Set to ='none' if you do not want to use skins
 
 	
 	//cct core settings, do not affect by DB settings

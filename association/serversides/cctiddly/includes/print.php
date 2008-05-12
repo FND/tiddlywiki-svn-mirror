@@ -89,11 +89,11 @@ var serverside={
 	queryString:"<?php echo queryString();?>",
 	handle:{		//path of file for handling request, can be used to put in GET variable
 		rss: "/handle/rss.php?<?php print queryString()?>",
-		uploadStoreArea: "/handle/uploadstorearea.php?<?php print queryString()?>",		//for uploading the whole storearea
+		uploadStoreArea: "/handle/uploadStoreArea.php?<?php print queryString()?>",		//for uploading the whole storearea
 		saveTiddler: "/handle/save.php?<?php print queryString()?>",
 		removeTiddler: "/handle/delete.php?<?php print queryString()?>",
-		revisionList: "/handle/revisionlist.php?<?php print queryString()?>",
-		revisionDisplay: "/handle/revisiondisplay.php?<?php print queryString()?>",
+		revisionList: "/handle/revisionList.php?<?php print queryString()?>",
+		revisionDisplay: "/handle/revisionDisplay.php?<?php print queryString()?>",
 		createWorkspace: "/handle/createworkspace.php?<?php print queryString()?>",
 		login: "/handle/login.php?<?php print queryString()?>"
 	},

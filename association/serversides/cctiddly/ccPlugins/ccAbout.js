@@ -1,15 +1,25 @@
 /***
-|''Name:''|ccAbout|
-|''Description:''|Allows you to find out about your ccTiddly installation|
-|''Version:''|2.1.5|
-|''Date:''|Nov 27, 2007|
-|''Source:''||
-|''Author:''|SimonMcManus|
-|''License:''|[[BSD open source license]]|
-|''~CoreVersion:''|2.3.0|
-|''Browser:''| Firefox |
+|''Name''|ccAbout|
+|''Description''|The ccAbout macro lets you find the current version number in ccTiddly|
+|''Author''|Simon McManus|
+|''Contributors''|Simon McManus|
+|''Version''|2.3|
+|''Date''|12/05/08|
+|''Status''|@@alpha@@;|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccAbout.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccAbout.js|
+|''License''|BSD|
+|''Feedback''|http://groups.google.com/group/ccTiddly|
+|''Keywords''|ccTiddly ccAbout|
+
+
+!Usage
+{{{
+<<ccAbout>>
+}}}
+
 ***/
-/*{{{*/
+//{{{
 config.backstageTasks.push("about");
 // remove the save button from backstage
 if(config.backstageTasks[0]=='save')
@@ -30,4 +40,4 @@ config.macros.ccAbout.handler=function(place,macroName,params,wikifier,paramStri
 	var link=createExternalLink(place,'http://tiddlywiki.org/wiki/CcTiddly');
 	link.textContent='http://tiddlywiki.org/wiki/CcTiddly';
 };
-/*}}}}*/
+//}}}

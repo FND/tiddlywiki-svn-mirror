@@ -36,14 +36,6 @@
 	
 //////////////////////////////////////////////////////////start of code//////////////////////////////////////////////////////////////
 
-	//get user and privilege and set variables
-	/*if( strlen($username)==0 && strlen($password)==0 )
-	{
-		$user = user_create();		//get username password from cookie
-	}else{
-		$user = user_create($username,"",0,"",$password,1);
-	}*/
-	
 	//get tiddler with certain title to obtain its tiddler_id
 	$tiddler = db_tiddlers_mainSelectTitle($title);
 	if( $tiddler === FALSE ) {//not found
@@ -76,5 +68,4 @@
 		}
 	}
 	sendHeader(204,$ccT_msg['error']['revision_not_found'],"",1);
-	//returnResult("014");	//error if not found
 ?>

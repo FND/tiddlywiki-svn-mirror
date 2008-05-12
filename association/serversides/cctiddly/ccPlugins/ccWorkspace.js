@@ -1,13 +1,26 @@
 /***
-|''Name:''|ccCreateWorkspace|
-|''Description:''|Allows users to create workspaces in ccTiddly|
-|''Version:''|2.1.5|
-|''Date:''|Nov 27, 2007|
-|''Source:''||
-|''Author:''|SimonMcManus|
-|''License:''|[[BSD open source license]]|
-|''~CoreVersion:''|2.1.6|
-|''Browser:''| Firefox |
+|''Name''|ccWorkspace|
+|''Description''|Allows users to create Workspaces|
+|''Author''|[[Simon McManus | http://simonmcmanus.com]]
+|''Version''|1.0.1|
+|''Date''|12/05/08|
+|''Status''|@@alpha@@|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccWorkspace.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccWorkspace.js|
+|''License''|BSD|
+|''Feedback''|http://groups.google.com/group/ccTiddly|
+|''Keywords''|ccTiddly, ccWorkspace|
+
+!Description
+
+Allows users to create their own workspace. 
+
+!Usage
+{{{
+<<ccCreateWorkspace>>
+}}}
+
+!Code
 ***/
 //{{{
 
@@ -229,7 +242,7 @@ config.macros.ccEditWorkspace.editWorkspaceOnSubmit = function() {
 	anon+=(this.anC.checked?trueStr:falseStr);
 	anon+=(this.anU.checked?trueStr:falseStr);
 	anon+=(this.anD.checked?trueStr:falseStr);
-	doHttp('POST',url+'handle/update_workspace.php','ccCreateWorkspace=' + encodeURIComponent(workspace)+'&amp;ccAnonPerm='+encodeURIComponent(anon),null,null,null,config.macros.ccEditWorkspace.editWorkspaceCallback,params);
+	doHttp('POST',url+'handle/updateWorkspace.php','ccCreateWorkspace=' + encodeURIComponent(workspace)+'&amp;ccAnonPerm='+encodeURIComponent(anon),null,null,null,config.macros.ccEditWorkspace.editWorkspaceCallback,params);
 	return false;
 };
 

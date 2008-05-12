@@ -50,13 +50,6 @@ window.saveChanges = function ()
 	}*/
 }
 
-//////////////////////////////////////////////////Reload config file
-/***
-!!!Reload config file
-uncomment it to enable
-require variables defined by this time
-***/
-//window.loadOptionsCookie();
 
 ///////////////////////////////////////////////////////////////////above is cctplugins.js stuff/////////////////////////////////////////
 /***
@@ -99,31 +92,6 @@ if( serverside.debug == 1 )
 //}}}
 
 
-/***
-''read privilege''
-***/
-//{{{
-/*try {
-	netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-} catch (e) {
-	alert("Permission UniversalBrowserRead denied.");
-}*/
-//}}}
-
-/***
-''TW2.1 check''
-***/
-//{{{
-/*function isTW21(){
-	if( version.major==2 && version.minor==1 )
-		return true;
-	return false;
-}*/
-//}}}
-
-/***
-''no cache''
-***/
 //{{{
 serverside.fn.no_cache = function() {return "time"+new String((new Date()).getTime())};
 //}}}
@@ -542,7 +510,7 @@ function displayTiddlerRevision(title, revision, src, updateTimeline) {
 	
 	//send to server
 	doHttp('POST'
-		,serverside.url + '/handle/revisiondisplay.php?' + serverside.queryString
+		,serverside.url + '/handle/revisionDisplay.php?' + serverside.queryString
 			+ '&workspace=' + serverside.workspace
 			+ '&title=' + encodeURIComponent(title.htmlDecode())
 			+ '&revision=' + encodeURIComponent(revision)

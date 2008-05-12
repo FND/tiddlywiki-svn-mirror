@@ -47,3 +47,7 @@ The admin user is the owner of the root workspace.
 Configuring Uploading 
 
 1 .. Create a folder in your root directory called uploads 
+
+2 .. Ensure the folder is owned by the same user that apache is running under. 
+
+3 .. Ensure that the folder can be written by its owner. 

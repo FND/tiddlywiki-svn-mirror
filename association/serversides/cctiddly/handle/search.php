@@ -2,6 +2,8 @@
 
 //This server side search has been implemented so the search functionality still exists when the entire Tiddlywiki content is not downloaded.
 
+//  This code is not currently  being used by the core
+
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 

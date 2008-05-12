@@ -91,8 +91,6 @@ debug("2");
 	$data1['title'] = 'GettingStarted';
 	db_record_insert($tiddlyCfg['table']['main'], $data1);
 	
-	
-	
 	$data1['body'] = 'Provided by [[Osmosoft]] using TiddlyWiki - The Wiki with a silly name';
 	$data1['title'] = 'SiteSubtitle';
 	$data1['creator'] = 'ccTiddly';

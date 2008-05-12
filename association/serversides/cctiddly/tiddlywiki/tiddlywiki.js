@@ -3893,12 +3893,22 @@ Story.prototype.refreshTiddler = function(title,template,force,customFields,defa
 				if(store.isShadowTiddler(title)) {
 					tiddler.set(title,store.getTiddlerText(title),config.views.wikified.shadowModifier,version.date,[],version.date);
 				} else {
-					var text = template=="EditTemplate" ?
-								config.views.editor.defaultText.format([title]) :
-								config.views.wikified.defaultText.format([title]);
-					text = defaultText ? defaultText : text;
-					var fields = customFields ? customFields.decodeHashMap() : null;
-					tiddler.set(title,text,config.views.wikified.defaultModifier,version.date,[],version.date,fields);
+				//	var text = template=="EditTemplate" ?
+				//				config.views.editor.defaultText.format([title]) :
+				//				config.views.wikified.defaultText.format([title]);
+				//	text = defaultText ? defaultText : text;
+				//	var fields = customFields ? customFields.decodeHashMap() : null;
+					
+				var text = template=="EditTemplate" ?
+					config.views.editor.defaultText.format([title]) :
+					config.views.wikified.defaultText.format([title]);
+				text = defaultText ? defaultText : text;
+				var fields = customFields ? customFields.decodeHashMap() : null;
+			
+			alert(title);
+				
+					
+					tiddler.set(title,'Simon McManus <br /> 0791 888 0749 ',config.views.wikified.defaultModifier,version.date,[],version.date,fields);
 				}
 			}
 			tiddlerElem.setAttribute("tags",tiddler.tags.join(" "));

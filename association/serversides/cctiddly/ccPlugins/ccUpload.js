@@ -1,13 +1,27 @@
 /***
-|''Name:''|ccUpload|
-|''Description:''|Allows users to upload files in ccTiddly|
-|''Version:''|2.1.5|
-|''Date:''|Nov 27,2007|
-|''Source:''||
-|''Author:''|SimonMcManus|
-|''License:''|[[BSD open source license]]|
-|''~CoreVersion:''|2.1.6|
-|''Browser:''| Firefox |
+|''Name''|ccUpload|
+|''Description''|Allows users to upload files onto a ccTiddly server|
+|''Author''|[[Simon McManus | http://simonmcmanus.com]]|
+|''Version''|1.0.1|
+|''Date''|12/05/2008|
+|''Status''|@@alpha@@|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccUpload.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccUpload.js|
+|''License''|BSD|
+|''Feedback''|http://groups.google.com/group/ccTiddly|
+|''Documentation''|<...>|
+|''Keywords''|ccTiddly, ccUpload|
+
+!Description
+
+Allows users to upload files to a ccTiddly serevr. 
+
+!Usage
+{{{
+<<ccUpload>>
+}}}
+
+!Code
 ***/
 //{{{
 
