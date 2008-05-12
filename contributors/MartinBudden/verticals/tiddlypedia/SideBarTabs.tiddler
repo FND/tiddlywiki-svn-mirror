@@ -1,3 +1,3 @@
 <div title="SideBarTabs" tags="excludeLists excludeSearch">
-<pre>&lt;&lt;tabs txtMainTab "Articles" "All articles" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore&gt;&gt;</pre>
+<pre><<tabs txtMainTab "Articles" "All articles" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>></pre>
 </div>
