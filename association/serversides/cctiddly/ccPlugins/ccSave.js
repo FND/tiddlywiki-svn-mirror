@@ -9,5 +9,10 @@
 
 ***/
 //{{{
-	
+
+// GENERAL ccTiddly Bits 
+
+config.backstageTasks.remove("upgrade");
+config.backstageTasks.remove("save");
+
 //}}}

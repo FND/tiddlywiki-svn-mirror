@@ -21,9 +21,7 @@
 ***/
 //{{{
 config.backstageTasks.push("about");
-// remove the save button from backstage
-if(config.backstageTasks[0]=='save')
-	config.backstageTasks.shift();
+
 		
 merge(config.tasks,{about:{text: "about",tooltip: "Find out more about ccTiddly ",content: '&lt;&lt;ccAbout&gt;&gt;'}});
 
@@ -31,7 +29,7 @@ config.macros.ccAbout={};
 config.macros.ccAbout.handler=function(place,macroName,params,wikifier,paramString,tiddler,errorMsg){
 	createTiddlyElement(place,"h1","","","About ccTiddly");
 	createTiddlyElement(place,"br");
-	var str="You are running ccTiddly ";
+	var str="You are running ccTiddly " + window.ccTiddlyVersion;
 	createTiddlyText(place,str);
 	createTiddlyElement(place,"br");
 	createTiddlyElement(place,"br");
