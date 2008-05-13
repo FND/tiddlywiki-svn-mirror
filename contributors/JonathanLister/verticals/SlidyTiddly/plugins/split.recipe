@@ -7,7 +7,9 @@ tiddler: ../../../../EricShulman/plugins/TaggedTemplateTweak.js
 tiddler: ../../../../MartinBudden/experimental/TemplateFormatterPlugin.js
 tiddler: AutoRefreshPlugin.js
 tiddler: ContentCreatorPlugin.js
+tiddler: DomDragLib.js
 tiddler: FieldsEditorPlugin.js
 tiddler: FilterChooserPlugin.js
+tiddler: ListOrderingPlugin.js
 tiddler: SlidyAdaptorPlugin.js
 tiddler: TemplateChooserPlugin.js

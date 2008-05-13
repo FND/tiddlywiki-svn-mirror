@@ -28,11 +28,9 @@ src="w3c-logo-blue.gif" /></a></object></div>
 <img src="w3c-logo-slanted.jpg" alt="slanted W3C logo" />
 </div>
 <!-- START AUTO-GENERATION OF SLIDES-->
-<!--<<templateTiddlers template:"coverslidetemplate" filter:"[tag[coverslide]]">>-->
-<!--<<templateTiddlers template:"slidetemplate" filter:"[tag[slide]sort[order]]">>-->
-<!-- templateTiddlers template:slidetemplate filter:"{{store.getTiddlerText(foo)}}" -->
+<!--<<templateTiddlers template:"coverslidetemplate" filter:"[tag[cover]]">>-->
+<!--<<templateTiddlers template:slidetemplate filter:{{var s=store.getTiddlerText('SlidyContents'); var t=store.getTaggedTiddlers("cover")[0].title; var regex=new RegExp("\\[\\["+t+"\\]\\]\\n","mg"); s.replace(regex,"");}}>>-->
 <!-- END AUTO-GENERATION OF SLIDES-->
-
 
 
 <div class="handout">

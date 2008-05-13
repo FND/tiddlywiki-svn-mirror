@@ -1,7 +1,6 @@
 <div title="Content" modifier="JonLister" created="200805071428" changecount="1">
 <pre><<autoRefresh>>
-|Headline content |<<tagging content>> |<<newTiddler label:"Add" title:"Give me a title" tag:content text:"Type some text here and then press DONE." >> |
-|Subitems |<<tagging subitem>> |<<newTiddler label:"Add" title:"Give me a title" tag:subitem text:"Type some text here and then press DONE." >> |
-|Images |<<tagging image>> |<<newTiddler label:"Add" title:"Give me a title" tag:image text:"Type some text here and then press DONE." >> |
-|Gallery images |<<tagging gallery>> |<<newTiddler label:"Add" title:"Give me a title" tag:gallery text:"Type some text here and then press DONE." >> |</pre>
+|Slides |<<tagging slide>> |<<newTiddler label:"Add" title:"Give me a title" tag:"slide" text:"Type some text here and then press DONE." >> |
+|Meta |<<tagging meta>> ||
+|Stylesheet |<<tagging stylesheet>> ||</pre>
 </div>

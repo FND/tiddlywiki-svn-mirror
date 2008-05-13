@@ -190,51 +190,70 @@ SlidyAdaptor.slidyToTiddlers = function(slidy,useRawDescription)
 	var tiddlers = [];
 	if(slidy) {
 		slidy = slidy.replace(/\r+/mg,"");
-		var regex_div = /<div([^>]*)>(.|\n)*?<\/div>/mg;
-		var regex_class = new RegExp("class=['|\"]([\\w ]+)['|\"]","mg");
-		var regex_meta = /<meta ((?:name|content) *= *[\"][^\"]*[\"](?: *))+ \/>/mg;
-		var regex_meta_inner = new RegExp("(\\w*) *= *['|\"](.*?)['|\"]","mg");
+		
+		// convert slide div's to tiddlers
+		var e = createTiddlyElement(null,"div");
+		e.innerHTML = slidy;
+		var divs = e.getElementsByTagName("div");
+		var div;
+		for(var i=0;i<divs.length;i++) {
+			div = divs[i];
+			if(div.className.indexOf("slide")!=-1) {
+				var title = div.getElementsByTagName("h1")[0];
+				title = title.textContent || title.innerText; // FF | IE
+				var text = div.innerHTML.substring(div.innerHTML.indexOf("</h1>")+5);
+				var t = new Tiddler(title);
+				t.text = text;
+				t.tags = ["slide"];
+				if(div.className.indexOf("cover")!=-1) {
+					t.tags.push("cover");
+				}
+				tiddlers.push(t);
+			}
+		}
+		
+		// add contents tiddler
+		t = new Tiddler("SlidyContents");
+		text = [];
+		for(i=0;i<tiddlers.length;i++) {
+			 text.push("[["+tiddlers[i].title+"]]");
+		}
+		t.text = text.join("\n");
+		tiddlers.push(t);
+		
+		// convert meta tags to tiddlers
+		var metas = e.getElementsByTagName("meta");
 		var meta_names = [
 			"copyright",
 			"font-size-adjustment"
 		];
-		var regex_slide = "";
-		// convert slide div's to tiddlers
-		var div_match = slidy.match(regex_div);
-		var length = div_match ? div_match.length : 0;
-		for(var i=0;i<length;i++) {
-			var div = div_match[i];
-			var inner_match = regex_class.exec(div);
-			if(inner_match) {
-				var classes = inner_match[1].split(" ");
-				for(var j=0;j<classes.length;j++) {
-					if(classes[j]=="slide") {
-						var t = SlidyAdaptor.slideDivToTiddler(div);
-						tiddlers.push(t);
-					}
-				}
-			}
-			regex_class.lastIndex = 0;
-		}
-		// convert meta tags to tiddlers
-		var meta_match = slidy.match(regex_meta);
-		console.log(meta_match);
-		length = meta_match ? meta_match.length : 0;
-		for(i=0;i<length;i++) {
-			var meta = meta_match[i];
-			var matches = {};
-			while(match = regex_meta_inner.exec(meta)) {
-				matches[match[1]] = match[2];
-			}
-			if(matches.name && meta_names.contains(matches.name)) {
-				t = new Tiddler(matches.name);
-				t.text = matches.content ? matches.content : "";
-				console.log(t);
+		var meta;
+		for(i=0;i<metas.length;i++) {
+			meta = metas[i];
+			if(meta_names.contains(meta.getAttribute("name"))) {
+				t = new Tiddler(meta.getAttribute("name"));
+				text = meta["content"];
+				t.text = text ? text : "";
+				t.tags = ["meta"];
 				tiddlers.push(t);
-				console.log(tiddlers);
 			}
 		}
 		
+		// convert link tags to tiddlers
+		var links = e.getElementsByTagName("link");
+		var link_rel = "stylesheet";
+		var link_not_href = "slidy.css";
+		var link;
+		for(i=0;i<links.length;i++) {
+			link = links[i];
+			if(link.getAttribute("rel")==link_rel && link.getAttribute("href")!=link_not_href) {
+				t = new Tiddler(link_rel);
+				text = link.getAttribute("href");
+				t.text = text ? text : "";
+				t.tags = ["stylesheet"];
+				tiddlers.push(t);
+			}
+		}
 	}
 	return tiddlers;
 };
