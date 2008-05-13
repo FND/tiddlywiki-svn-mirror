@@ -7,21 +7,29 @@
     <!-- conference description -->
     <description>The Web 2.0 Conference focuses on emerging business and technology developments that utilize the Web as a platform and defines how the Web will drive business in the future. Now that the Web has become a robust platform with countless innovations driving its ongoing development, widespread disruptions in traditional business models are well underway. But within the chaos of disruption lies the seeds of opportunity. We'll focus on the startups and financiers tending those seeds, of course - including the second annual Launch Pad. But we'll also highlight how the incumbents are also taking advantage of disruption, or, at the very least, how they are responding to it so as to protect their market positions.</description>
 
-    <!-- we'd like to have access to a friendly ID for the session -->
-    <session id="20">
+    <!-- suggest a short, friendly unique ID for the session, given the titles often change .. -->
+    <session> id="16074-20">
+
+      <!-- session title, currently used as the Tiddler title, but liable to change, not be unique -->
       <title>Breakfast (hosted by ThinkFree)</title>
+
+      <!-- turned into "orginal content taken from Confabb.com" link in the session details -->
       <link>http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessions/20/details</link>
 
       <!-- becomes the tiddler content -->
       <description></description>
+
+      <!-- TiddlyWiki format dates and times, used to order items on the page -->
       <starttime>20061107073019</starttime>
       <endtime>20061107083019</endtime>
 
       <!-- if the track is empty, we assume that's a "global" event across all tracks: "Lunch" etc -->
       <track></track>
 
+      <!-- currently not used -->
       <guid>http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessions/20/details</guid>
     </session>
+
 
     <session id="21">
       <title> The Next Internet Infrastructure</title>
@@ -36,17 +44,22 @@
 
       <guid>http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessions/21/details</guid>
 
+	<!-- speakers for a session -->
 	<speaker>
-          <!-- we use the speaker name used as the Tiddler title - so should be consistant, and unique -->
+          <!--speaker name is used as the Tiddler title - so should be unique and used consistantly -->
 	  <title>Mr. Jeff Barr</title>
+
+	  <!-- could fetch speaker bio, etc from here, or include it inline, in this file? -->
 	  <link>http://staging.confabb.com/users/profile/jeffbarr</link>
 	</speaker>
+
 	<speaker>
 	  <title>Mr. Marc Canter</title>
 	  <link>http://staging.confabb.com/users/profile/marccanter</link>
 	</speaker>
 	<speaker>
 	  <title>Chad Dickerson</title>
+	  <!-- do we have a bio if the speaker isn't a member of confabb? -->
 	</speaker>
 	<speaker>
 	  <title>Jonathan Hare</title>
