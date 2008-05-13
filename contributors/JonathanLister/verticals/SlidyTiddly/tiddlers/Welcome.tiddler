@@ -1,8 +1,8 @@
 <div title="Welcome" modifier="JonLister" created="200804271900" modified="200805071442" changecount="2">
 <pre>Hi! You can use this tool to import and edit existing Slidy presentations.
 
-Slidy is a tool built by the W3C to easily create a HTML presentation. With ~TiddlySlidy, this becomes even easier.
+Slidy is a tool built by the [[W3C|http://www.w3.org]] to easily create a HTML presentation. With ~TiddlySlidy, this becomes even easier.
 
-Example Slidy presentation you can import from the W3C site:
+Example Slidy presentation you can import from the ~W3C site:
 http://www.w3.org/Talks/Tools/Slidy/</pre>
 </div>
