@@ -149,20 +149,38 @@ fnLog('login');
 	//#context = this.setContext(context,userParams,callback);
 	var host = MediaWikiAdaptor.fullHostName(context.host);
 	var uriTemplate = '%0api.php?action=login&format=json&lgname=%1&lgpassword=%2';
-	var uri = uriTemplate.format([host,config.options.txtMediaWikiUsername,config.options.txtMediaWikiPassword]);
+	//var uriTemplate = '%0api.php?action=query&format=json&prop=info|revisions&intoken=edit&titles=Main%20Page';
+	var uri = uriTemplate.format([host,escape(config.options.txtMediaWikiUsername),escape(config.options.txtMediaWikiPassword)]);
 fnLog('uri:'+uri);
 
 	var req = MediaWikiAdaptor.doHttpPOST(uri,MediaWikiAdaptor.loginCallback,context);
+	//var req = MediaWikiAdaptor.doHttpGET(uri,MediaWikiAdaptor.loginCallback,context);
 fnLog('req:'+req);
 	return typeof req == 'string' ? req : true;
 };
+
+//#{
+//# "query": {
+//# 	"pages" : { 
+//#			"5982813": {
+//#				"pageid":5982813,
+//#				"ns":0,
+//#				"title":"MainPage",
+//#				"touched":"2008-05-07T05:22:48Z",
+//#				"lastrevid":64058732,
+//#				"counter":0,
+//#				"length":22,
+//#				"redirect":"",
+//#				"new":"",
+//#				"edittoken":"19f47e1ab9dc35ebc065e9cdf4a49516+\\",
+//#				"revisions":[{"revid":64058732,"user":"Ilingod","timestamp":"2006-07-16T03:06:46Z","comment":"Redirecting to [[Main Page]]"}]}
+//#}
+//#}}
 
 //{"login":{"result":"Success","lguserid":11,"lgusername":"MartinBudden","lgtoken":"9fa40aeb51e083cf4dc0d0f4909c01e3"}}
 MediaWikiAdaptor.loginCallback = function(status,context,responseText,uri,xhr)
 {
 fnLog('loginCallback:'+status);
-//console.log(responseText);
-console.log(xhr);
 	if(status) {
 		try {
 			eval('var info=' + responseText);
@@ -173,14 +191,17 @@ console.log(xhr);
 			return;
 		}
 		context.status = true;
-		console.log(info);
 		context.token = info.login.lgtoken;
+		//var page = MediaWikiAdaptor.anyChild(info.query.pages);
+		//context.token = page.edittoken;
+		if(context.complete)
+			context.complete(context,context.userParams);
 	} else {
 		context.status = false;
 		context.statusText = xhr.statusText;
+		if(context.callback)
+			context.callback(context,context.userParams);
 	}
-	if(context.complete)
-		context.complete(context,context.userParams);
 };
 
 
@@ -548,6 +569,8 @@ MediaWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callba
 //#	}
 //#}
 
+
+
 //# Override this to do postprocessing on tiddler after it is retrieved from the server
 MediaWikiAdaptor.prototype.getTiddlerPostProcess = function(context)
 {
@@ -723,7 +746,7 @@ MediaWikiAdaptor.getTiddlerRevisionListCallback = function(status,context,respon
 //#  <edit result="Success" pageid="12" title="Talk:Main Page" oldrevid="465" newrevid="471" />
 //#</api>
 
-/*MediaWikiAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
+MediaWikiAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
 fnLog('putTiddler:'+tiddler.title);
 	context = this.setContext(context,userParams,callback);
@@ -733,8 +756,9 @@ fnLog('putTiddler:'+tiddler.title);
 	return context.token ?
 		context.complete(context,context.userParams) :
 		this.login(context);
-};*/
+};
 
+/*
 MediaWikiAdaptor.putTiddlerComplete = function(context,userParams)
 {
 fnLog('putTiddlerComplete');
@@ -747,6 +771,7 @@ console.log('uri:'+uri);
 console.log(req);
 	return typeof req == 'string' ? req : true;
 };
+*/
 
 MediaWikiAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
