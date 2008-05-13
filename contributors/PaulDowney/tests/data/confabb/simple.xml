@@ -45,18 +45,16 @@
       <guid>http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessions/21/details</guid>
 
 	<!-- speakers for a session -->
+          <!-- The speaker name is used as the Tiddler title, and a refernce, so should be unique and used consistantly -->
 	<speaker>
-          <!--speaker name is used as the Tiddler title - so should be unique and used consistantly -->
-	  <title>Mr. Jeff Barr</title>
-
-	  <!-- could fetch speaker bio, etc from here, or include it inline, in this file? -->
-	  <link>http://staging.confabb.com/users/profile/jeffbarr</link>
-	</speaker>
-
-	<speaker>
+	  <!-- is "Mr." required, sounds a little too formal? -->
 	  <title>Mr. Marc Canter</title>
-	  <link>http://staging.confabb.com/users/profile/marccanter</link>
 	</speaker>
+
+	<speaker>
+	  <title>Mr. Jeff Barr</title>
+	</speaker>
+
 	<speaker>
 	  <title>Chad Dickerson</title>
 	  <!-- do we have a bio if the speaker isn't a member of confabb? -->
@@ -65,6 +63,22 @@
 	  <title>Jonathan Hare</title>
 	</speaker>
     </session>
+
+	<!-- suggested speaker info, indexed by "<title>" -->
+	<!-- suggest following hcard for element names-->
+	<hcard>
+	  <fn>Mr. Marc Canter</fn>
+	  <url>http://staging.confabb.com/users/profile/marccanter</url>
+		<bio>My name is Marc.  If you're here reading this cause you want to rate or rank me, good luck.<br/><br/>I've been doin g this for years, so if you sense a bit of tainted- ness or my years of sitting on panels and being impatient - its because I like to do unstructured, unconferences nowadays - not sit on goofy panels.<br/><br/>But anyway - I started a company called MacroMind which becamseMacromedia - and now I am the CEO of Broadband Mechanics.  We make a social network/blogging platform called PeopleAggregator.net.		</bio>
+		
+		<title>CEO</title>
+		<employer>Broadband Mechanics</employer>
+		<url>http://peopleaggregator.net</url>
+		<blog>http://marc.blogs.it">http://marc.blogs.it</blog>
+		<feed>http://blog.broadbandmechanics.com/feed/</feed>
+	</hcard>
+
+
 
 </conference>
 <!-- </tiddler> -->
