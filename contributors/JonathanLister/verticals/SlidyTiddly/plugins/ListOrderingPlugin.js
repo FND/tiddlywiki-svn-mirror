@@ -49,14 +49,14 @@ ListOrdering = {
 
 config.macros.reorderTiddlerList = {
 	handler : function(place,macroName,params,wikifier,paramString,tiddler){
-		if(params && params[0]) {
-			createTiddlyElement(place,"span");
-			span.setAttribute("refresh","tiddler");
+		if(params) {
+			var span = createTiddlyElement(place,"span");
+			span.setAttribute("refresh","content");
 			span.setAttribute("tiddler",params[0]);
-			var list = store.getTiddlerText(params[0]).split('\n');
-			ListOrdering.init(place,list,function(newlist){config.macros.reorderTiddlerList.cb(newlist,params[0]);});
-		} else {
-			return;
+			if(store.getTiddlerText(params[0])) {
+				var list = store.getTiddlerText(params[0]).split('\n');
+				ListOrdering.init(span,list,function(newlist){config.macros.reorderTiddlerList.cb(newlist,params[0]);});
+			}
 		}
 	},
 	
