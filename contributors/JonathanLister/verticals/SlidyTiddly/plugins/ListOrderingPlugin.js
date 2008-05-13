@@ -49,11 +49,14 @@ ListOrdering = {
 
 config.macros.reorderTiddlerList = {
 	handler : function(place,macroName,params,wikifier,paramString,tiddler){
-		if(params && store.getTiddlerText(params[0])) {
+		if(params && params[0]) {
+			createTiddlyElement(place,"span");
+			span.setAttribute("refresh","tiddler");
+			span.setAttribute("tiddler",params[0]);
 			var list = store.getTiddlerText(params[0]).split('\n');
 			ListOrdering.init(place,list,function(newlist){config.macros.reorderTiddlerList.cb(newlist,params[0]);});
 		} else {
-			wikify("There is nothing in this tiddler!",place);
+			return;
 		}
 	},
 	
