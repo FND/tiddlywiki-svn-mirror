@@ -8,12 +8,12 @@
 <title>HTML Slidy</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="copyright" content=
-"Copyright © 2005 W3C (MIT, ERCIM, Keio)" />
+"Copyright © 2006 Dave Raggett" />
 <meta name="font-size-adjustment" content=
-"-2" />
+"1" />
 <link rel="stylesheet" href="slidy.css" type="text/css"
 media="screen, projection, print" />
-<link rel="stylesheet" href="w3c-blue.css" type="text/css" media="screen, projection, print" />
+<link rel="stylesheet" href="notebook.css" type="text/css" media="screen, projection, print" />
 <script src="slidy.js" charset="utf-8" type="text/javascript">
 </script>
 </head>
@@ -46,249 +46,518 @@ src="w3c-logo-blue.gif" /></a></object></div>
 
 <img src="keys.jpg" alt=
 "Cover page images (keys)" class="cover" /><br clear="all" />
-<h1>HTML Slidy: Slide Shows in XHTML</h1>
+<h1>Web of Applications</h1>
 
-
-<p><a href="http://www.w3.org/People/Raggett/">Dave Raggett</a>,
-&lt;<a href="mailto:dsr@w3.org">dsr@w3.org</a>&gt;<br>
-<br>
-<br>
-<br>
-<br><em>Hit the space bar for next slide</em></p>
+<p><a href="http://www.w3.org/People/Raggett/">Dave Raggett</a>
+&lt;<a href="mailto:dsr@w3.org">dsr@w3.org</a>&gt;</p>
+</div>
+<img src="sky.jpg" class="cover" alt="wispy clouds in a blue sky">
+<h2>Google, Mountain View<br>
+1st February 2006</h2>
 
 </div>
 <div class="slide">
-<h1>What you need to do</h1>
-
-
-<ul>
-<li>Each presentation is a single XHTML file</li>
-
-<li>Each slide is enclosed in <em>&lt;div class="slide"&gt; ...
-&lt;/div&gt;</em>
+<h1>Outline of today's talk</h1>
 
 <ul>
-<li>The div element will be created automatically for h1
-elements that are direct children of the body element.</li>
+<li>The Ubiquitous Web</li>
+<li>Speech Enabling Web Pages</li>
+<li>Web Presentations</li>
+<li>Web Meetings</li>
+<li>Business Opportunities</li>
+<li>Concluding Remarks</li>
 </ul>
-
-</li>
-
-<li>Use regular markup within each slide</li>
-
-<li>The document head includes two links:
-<ul>
-<li>The slide show style sheet:
-<a href="http://www.w3.org/Talks/Tools/Slidy/slidy.css">http://www.w3.org/Talks/Tools/Slidy/slidy.css</a></li>
-
-<li>The slide show script: <a href="http://www.w3.org/Talks/Tools/Slidy/slidy.js">http://www.w3.org/Talks/Tools/Slidy/slidy.js</a></li>
-
-<li>Or you can link to the compressed version of the script which is about
-one seventh the size, see <a href="http://www.w3.org/Talks/Tools/Slidy/slidy.js.gz">http://www.w3.org/Talks/Tools/Slidy/slidy.js.gz</a></li>
-<li>If you are using XHTML, remember to use &lt;/script&gt; and
-&lt;/style&gt; as per <a href="http://www.w3.org/TR/xhtml1/#C_3">Appendix C.3</a></li>
-</ul>
-</li>
-</ul>
-
-<pre>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
-&lt;html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"&gt; 
-&lt;head&gt; 
-  &lt;title&gt;Slide Shows in XHTML&lt;/title&gt; 
-  &lt;meta name="copyright" 
-   content="Copyright &amp;#169; 2005 your copyright notice" /&gt; 
-  &lt;link rel="stylesheet" type="text/css" media="screen, projection, print" 
-   href="http://www.w3.org/Talks/Tools/Slidy/slidy.css" /&gt; 
-  &lt;script src="http://www.w3.org/Talks/Tools/Slidy/slidy.js" 
-   charset="utf-8" type="text/javascript"&gt;&lt;/script&gt; 
-  &lt;style type="text/css"&gt; 
-    &lt;!-- your custom style rules --&gt; 
-  &lt;/style&gt; 
-&lt;/head&gt;
-&lt;body&gt;
-   ... your slides marked up in XHTML ...
-&lt;/body&gt;
-&lt;/html&gt;
-</pre>
 </div><div class="slide">
-<h1>Slide Shows in XHTML</h1>
+<h1>The Ubiquitous Web</h1>
 
-
-<ul>
-<li>You can now create accessible slide shows with ease</li>
-
-<li>Works across browsers and is operated like PowerPoint
-
-<ul>
-<li>Advance to next slide with mouse click or space bar</li>
-
-<li>Move forward/backward between slides with Cursor Left,
-Cursor Right, <strong>Pg Up</strong> and <strong>Pg Dn</strong>
-keys</li>
-
-<li><strong>Home</strong> key for first slide, <strong>End</strong>
- key for last slide</li>
-
-<li>The "<strong>C</strong>" key for an automatically generated
-table of contents (or click on "contents" on the toolbar)</li>
-
-<li>Function <strong>F11</strong> to go full screen and back</li>
-
-<li>The "<strong>F</strong>" key toggles the display of the footer</li>
-
-<li>The "<strong>A</strong>" key toggles display of current vs all slides
-
-<ul>
-<li>Use the "A" key when you want to view or print all slides</li>
-
-<li>Try it now to see how to include notes for handouts (this is
-explained in the notes following this slide)</li>
-</ul>
-</li>
-
-<li>Font sizes automatically adapt to browser window size
-
-<ul>
-<li>use <strong>S</strong> and <strong>B</strong> keys for
-manual control (or &lt; and &gt;, or the <strong>-</strong> and
-<strong>+</strong> keys on the number pad</li>
-<li>See also the <a href="#%2813%29">use of the meta element for
-adjusting the default Slidy behavior</a></li>
-</ul>
-</li>
-
-<li>Switching off JavaScript reveals all slides</li>
-</ul>
-</li>
-
-<li><em>Now move to next slide to see how it works</em></li>
-</ul>
-
-<p class="copyright"><a rel="Copyright" href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright" shape="rect">Copyright</a> © 2005-2006 <a href="/"><acronym title="World Wide Web Consortium">W3C</acronym></a> <sup>®</sup>
-(<a href="http://www.csail.mit.edu/"><acronym title="Massachusetts Institute of Technology">MIT</acronym></a>, <a href="http://www.ercim.org/"><acronym title="European Research Consortium for Informatics and Mathematics">ERCIM</acronym></a>,
-<a href="http://www.keio.ac.jp/">Keio</a>), All Rights
-Reserved.</p>
-</div><div class="slide">
-<h1>To get the W3C Blue Style</h1>
-
-
-<p>The head element should include the following link to the style
-sheet:</p>
-
-<pre>&lt;link rel="stylesheet" type="text/css" media="screen, projection, print"
- href="http://www.w3.org/Talks/Tools/Slidy/w3c-blue.css" /&gt; 
-</pre>
-
-<p>The body element's content should start with the following
-markup:</p>
-
-<pre>&lt;div class="background"&gt; 
-  &lt;img id="head-icon" alt="graphic with four colored squares"
-    src="http://www.w3.org/Talks/Tools/Slidy/icon-blue.png" /&gt; 
-  &lt;object id="head-logo" title="W3C logo" type="image/svg+xml"
-    data="http://www.w3.org/Talks/Tools/Slidy/w3c-logo-blue.svg"&gt;&lt;img
-   src="http://www.w3.org/Talks/Tools/Slidy/w3c-logo-blue.gif" 
-   alt="W3C logo" id="head-logo-fallback" /&gt;&lt;/object&gt;
-&lt;/div&gt; 
-</pre>
-
-<p>This adds the logos on the top left and right corners of the
-slide.</p>
-
-<p>You are of course welcome to create your own slide designs.
-You can provide different styles and backgrounds for
-different slides (more details later).</p>
-
-<p>Use the <em>meta element</em> with <em>name="copyright"</em>
-for use in the slide show footer:</p>
-
-<pre>&lt;meta name="copyright" 
-content="Copyright &amp;#169; 2005 W3C (MIT, ERCIM, Keio)" /&gt; 
-</pre>
-</div><div class="slide">
-<h1>To use it off-line</h1>
-
-
-<ul>
-<li>You can download <a href="slidy.zip">slidy.zip</a> and unzip
-it to create a Slidy directory on your machine</li>
-
-<li>If you have cvs access to the W3C site you can check out the Slidy
-directory</li>
-
-<li>Remember to periodically check for updates</li>
-
-<li>You then have two choices:
+<div class="extract">
+<p><strong>Ubiquitous</strong>. [adj]</p>
 
 <ol>
-<li>Use relative URIs depending on your local setup to access the
-appropriate files. Use the same directory structure as on the W3C
-server, ie, ".../2005/Talks/...".</li>
+<li>(seemingly) present<br>
+everywhere simultaneously.</li>
+<li>often encountered<br>
+[Latin ubique everywhere]</li>
+</ol>
+<p><em>Oxford English Dictionary</em></p>
+</div>
+</div><div class="slide">
+<h1>Ubiquitous Computing</h1>
 
-<li>Run a Web server on your machine so that the directory above
-can be accessed via <code>http://localhost/Talks/Tools/Slidy</code>
-and use the URIs of the form "/Talks/Tools/Slidy/slidy.css",
-"/Talks/Tools/Slidy/slidy.js".</li>
-</ol></li>
+<div class="extract">
+<p>Ubiquitous computing represents a powerful shift in
+computation, where people live, work, and play in a
+seamlessly interweaving computing environment.
+Ubiquitous computing postulates a world where people
+are surrounded by computing devices and a computing
+infrastructure that supports us in everything we do.</p>
 
-<li>In both cases you can then publish your files on the W3C server
-unchanged.</li>
+<p><em>Mark Weiser, The Computer of the 21st Century,
+    Scientific American, Sept 1991.</em></p>
+</div>
+</div><div class="slide">
+<h1>Ubiquitous Web</h1>
 
-<li><strong>NOTE</strong> Internet Explorer on Windows XP now disables
-scripting for web pages loaded directly from the local file system,
-a work around is to use another browser, e.g. Firefox or Opera</li>
+<div class="extract">
+<p>The Ubiquitous Web seeks to broaden the capabilities of
+browsers to enable new kinds of web applications, particularly
+those involving coordination with other devices. Some examples
+include connecting a camera phone to a nearby printer, using a
+cell phone to give a business presentation with a wireless
+projector, and viewing your mailbox while listening to your
+messages.</p>
+</div>
+</div><div class="slide">
+<h1>W3C Ubiquitous Web Workshop</h1>
 
-<li>Please feel free to create your own designs, and help us to build
-a gallery of Slidy styles.</li>
 
-<li>Here is a <a href="template.html">variant</a>
-on the W3C Blue style.</li>
+<p>Tokyo, March 2006, driven by widespread interest
+in Web Applications and the potential to go further.</p>
 
-<li>My <a href="/2006/02/woa/">Google TechTalk</a> (1st Feb 2006)
-uses a notebook themed style</li>
+<ul>
+<li>To explore the vision of the Web as a distributed
+applications platform that works across a wide range of
+devices in areas such as offices, home networks, mobile,
+automotive, aviation, etc. with the potential for
+increasing the range and reducing the cost of developing
+and deploying such applications.</li>
+
+<li>To explain how current W3C work fits into this vision,
+e.g. work on Web Application API's, Delivery Context
+Interfaces, Device Descriptions, Multimodal Architecture,
+etc.</li>
+
+<li>To identify and prioritize additional areas which
+would benefit from standardization, in particular, the
+integration of sessions and device coordination into web
+applications, as a means to enable the benefits described
+in the <a href="http://www.w3.org/2005/10/ubiweb-workshop-cfp.html">Call
+for Participation</a>.</li>
 </ul>
 </div><div class="slide">
-<h1>Generate a Title Page</h1>
+<h1>Current Work</h1>
 
 
-<p>If you want a separate title page with the W3C blue style, the
-first slide should be as follows:</p>
+<ul>
+<li>Web APIs Working Group aims to standardize established
+Web scripting interfaces e.g. Window object and XMLHTTPRequest</li>
+<li>Delivery Context Interfaces (DCI) model user preferences,
+device capabilities and environmental conditions as a hierarchy
+of DOM nodes
+  <ul>
+  <li>This is intended to enable applications to dynamically adapt
+  to the context, and to provide access to a wide range of
+  services</li>
+  <li>We have the framework and now the challenge is to work
+  together to build this out</li>
+  </ul>
+</li>
+<li>Multimodal Architecture and Interfaces describes a way to
+loosely couple user interface components to interaction managers
+via DOM events</li>
+<li>The IETF Widex Working Group is developing protocols for
+exchanging DOM events and DOM updates between applications
+and remote user interfaces</li>
+</ul>
+</div><div class="slide">
+<h1>IETF Widex Working Group</h1>
 
-<pre>&lt;div class="slide cover"&gt; 
- &lt;img src="http://www.w3.org/Talks/Tools/Slidy/keys.jpg" 
-  alt="Cover page images (keys)" class="cover" /&gt; 
- &lt;br clear="all" /&gt;            
- &lt;h1&gt;HTML Slidy: Slide Shows in XHTML&lt;/h1&gt; 
- &lt;p&gt;&lt;a href="http://www.w3.org/People/Raggett/"&gt;Dave Raggett,&lt;/a&gt; 
- &lt;a href="mailto:dsr@w3.org"&gt;dsr@w3.org&lt;/a&gt;&lt;/p&gt; 
-&lt;/div&gt; 
+
+<p>Developing a protocol for remote user interfaces based
+upon the Model-View-Controller paradigm, where the UI is
+expressed in terms of an XML DOM and the protocol is
+independent of the markup language.</p>
+<!--
+<p><img src="widex.gif" alt="diagram of server and renderer"
+style="text-align:center" /></p>
+-->
+<pre style="border: medium none ; margin-left: 10%; font-size: 60%;">+-----------------------------+            +---------------+
+|       Widex Server          |            | Widex Renderer|
+| +-------+    .............. |            | +-----------+ |
+| |       |    .            .---------------&gt;|           | |
+| |       |    .    View    . |  Updates   | |           | |
+| |       |    .  (Virtual) .&lt;---------------|           | |
+| |       |    .............. |            | |   View    | |
+| | Model |                   |            | |           | |
+| |       |    +------------+ |            | |           | |
+| |       |    |            |&lt;---------------| (XML DOM) | |
+| |       |    | Controller | |   Events   | |           | |
+| |       |    |            |---------------&gt;|           | |
+| +-------+    +------------+ |            | +-----------+ |
++-----------------------------+            +---------------+
 </pre>
 
-<p>The <a href="http://www.w3.org/Talks/Tools/Slidy/w3c-blue.css">w3c-blue.css</a> 
-style sheet looks for the classes "slide" and "cover" on div
-and img elements using the CSS selector <em>div.slide.cover</em></p>
+<p class="smaller">See draft-ietf-widex-requirements-00.txt,
+V.&nbsp;Stirbu (Nokia) and D.&nbsp;Raggett (W3C/Canon),
+January 12th, 2006</p>
 
-<p>This technique can be used to assign your slides to different
-classes with a different appearence for each such class.</p>
+<p class="smaller">Note: at the request of OMA and several W3C
+members, W3C has started work on a solution for streaming updates
+for SVG documents that will also work with other XML languages.
+Streaming introduces timing related requirements, and the W3C
+and IETF groups will coordinate their work on this.</p>
+</div><div class="slide">
+<h1>What's missing or can be improved upon?</h1>
 
-<p>Slidy also allows you to use different background markup for
-different slides, based upon shared class names, as in "foo" below.
-Backgrounds without additional class names are always shown except
-when the slide isn't transparent. You may need to tweak your
-custom style sheet.</p>
+<ul>
+<li>Managing resources within temporary or persistent
+sessions
+<ul>
+<li>work arounds exist using cookies and embedding session
+information within URIs, but a more flexible framework is
+needed especially for resources and bindings that last
+beyond individual Web pages</li>
+</ul>
+</li>
+<li>Extending device capabilities via network resources
+<ul>
+<li>e.g. printers, projectors, speech synthesis and recognition,
+natural language translation, geographic location, etc.</li>
+<li>need a way to discover such resources and bind them into
+the current session</li>
+</ul>
+</li>
+<li>Support for applications involving multiple devices
+<ul>
+<li>with the means to pass events between devices</li>
+</ul></li>
+<li>URIs for naming devces, services and sessions
+<ul>
+<li>enabling the use of rich metadata (the Semantic
+Web) for resource discovery, acting across different kinds of
+networks, and leveraging the distributed nature of the Web</li>
+</ul>
+</li>
+</ul>
+</div><div class="slide">
+<h1>Exposing Device Coordination to the Web</h1>
 
-<pre>&lt;div class="background foo"&gt;
-   ... background content ...
-&lt;div&gt;
 
-...
+<ul>
+<li>Registering what services a device provides
+<ul>
+<li>How to describe services</li>
+</ul>
+</li>
+<li>Discovering what services are available
+<ul>
+<li>Could be local or remote</li>
+<li>May be physically nearby, but on different networks</li>
 
-&lt;div class="slide foo"&gt;
-   ... slide content ...
-&lt;div&gt;
+</ul>
+</li>
+<li>Binding to a service</li>
+<li>Using a service</li>
+<li>Relinquishing a service</li>
+<li>How to expose existing device coordination frameworks
+to Web applications?
+<ul>
+<li>UPnP, WSD, Jini, Salutation, ...</li>
+</ul>
+</li>
+</ul>
+</div><div class="slide">
+<h1>The DOM and Distributed Services</h1>
+
+
+<ul>
+<li>Web application identifies need for a service
+<ul>
+<li>e.g. speech synthesis and recognition</li>
+
+</ul>
+</li>
+<li>It discovers and binds the service</li>
+<li>This exposes the service to the local DOM but hides
+the details of how it is implemented
+<ul>
+<li>Local interface can be described in IDL
+and exploited via markup or scripting</li>
+</ul>
+</li>
+<li>For a remote speech engine, the local interface acts
+as a proxy for the speech engine</li>
+<li>The implementation could make use of Web Services,
+or other protocols</li>
+</ul>
+</div><div class="slide">
+<h1>Options for adding speech capabilities</h1>
+
+<ul>
+<li>Handling speech modality in the network
+  <ul>
+  <li>Loose coupling of modality interfaces
+    <ul>
+    <li>e.g. XHTML locally with VoiceXML in the network,
+    with CCXML for high level flow control</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>Handling speech modality in the browser
+  <ul>
+  <li>Embedded vs networked speech
+    <ul>
+    <li>latency, quality, vocabulary, network, battery, etc.</li>
+    </ul>
+  </li>
+  <li>Plugin vs local speech proxy</li>
+  <li>Standard scripting interface?</li>
+  </ul>
+</li>
+</ul>
+</div><div class="slide">
+<h1>Latency</h1>
+
+<ul>
+<li>Simple commands with visual actions
+  <ul>
+  <li>up, down, select, . . .
+    <ul>
+    <li>Feels slow if delay is much greater than 100mS</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>Dialogue turn hand over
+  <ul>
+  <li>When user stops talking (or pauses)</li>
+  <li>When application stops talking (or pauses)</li>
+  </ul>
+</li>
+<li>Seizing the turn (aka <em>barge-in</em>)
+  <ul>
+  <li>User or application talks over the other party</li>
+  </ul>
+</li>
+<li>Network delays are not as bad as they seem</li>
+</ul>
+</div><div class="slide">
+<h1>Using AJAX to add speech</h1>
+
+<ul>
+<li>AJAX = JavaScript access to HTTP
+  <ul>
+  <li>XMLHttp request object</li>
+  <li>Supported by most modern Web browsers</li>
+  </ul>
+</li>
+<li>Local HTTP server handles device audio
+<ul>
+<li>ALSA on Linux, and winmm.dll on Windows</li>
+<li>Open source speech codec for compression</li>
+</ul>
+</li>
+<li>Remote HTTP server provides speech services
+  <ul>
+  <li>ASR with audio in HTTP request,
+  and EMMA in HTTP response</li>
+  <li>TTS with text or SSML in HTTP request,
+  and audio in HTTP response</li>
+  </ul>
+</li>
+</ul>
+</div><div class="slide">
+<h1>HTTP for Speech Services</h1>
+
+<ul>
+<li>Speech Synthesis
+  <ul>
+  <li>http://localhost:8888/say?text="good afternoon"</li>
+  <li>http://localhost:8888/say?uri=&lt;ssml file&gt;</li>
+  </ul>
+</li>
+<li>Speech recognition
+  <ul>
+  <li>http://localhost:8888/hear?uri=&lt;srgs file&gt;</li>
+  <li>Additional parameters for
+    <ul>
+    <li>Listening on multiple grammars</li>
+    <li>Single result vs sequence of results</li>
+    <li>Time out parameters</li>
+    </ul>
+  </li>
+  <li>Additional command for pre-loading grammars</li>
+  </ul>
+</li>
+</ul>
+</div><div class="slide">
+<h1>Application to ordering Pizza</h1>
+
+
+<p style="margin-top: 6em;">You get to choose number, type, size
+ and extra toppings!</p>
+
+<p style="margin-top: 4em;">
+<img src="pepperoni.gif" alt="pepperoni pizza" width="23%">
+<img src="founders.gif" alt="founders pizza" width="23%">
+<img src="chickenvegy.gif" alt="chicken pizza" width="23%">
+<img src="works.gif" alt="all the works pizza" width="23%">
+</p>
+</div><div class="slide">
+<h1>SRGS + SISR → EMMA</h1>
+
+<ul>
+<li>Use W3C Recommendations for speech
+grammars and semantic interpretation</li>
+</ul>
+<pre>   &lt;rule id="order"&gt;
+      &lt;tag&gt;var index=0; out.pizza = new Array();&lt;/tag&gt;
+      &lt;item repeat="0-1"&gt;&lt;ruleref uri="#start"/&gt;&lt;/item&gt;
+      &lt;item&gt;
+        &lt;ruleref uri="#pizza"/&gt;
+        &lt;tag&gt;out.pizza[index]=$pizza; index+=1;&lt;/tag&gt;
+      &lt;/item&gt;
+      &lt;item repeat="0-"&gt;
+         &lt;item&gt;&lt;token&gt;and&lt;/token&gt;&lt;/item&gt;
+         &lt;item&gt;
+           &lt;ruleref uri="#pizza"/&gt;
+           &lt;tag&gt;out.pizza[index]=$pizza; index+=1;&lt;/tag&gt;
+         &lt;/item&gt;
+      &lt;/item&gt;
+      &lt;item repeat="0-1"&gt;&lt;ruleref uri="#stop"/&gt;&lt;/item&gt;
+   &lt;/rule&gt;
 </pre>
+</div><div class="slide">
+<h1>Pizza Grammar</h1>
+
+<p style="color: blue; text-align: center; margin-top: 2em;">I would like
+four small cheese pizzas with olives and peppers</p>
+<pre>[&lt;start&gt;] [&lt;number&gt;] [&lt;size&gt;] &lt;type&gt; (pizza | pizzas) [with &lt;extras&gt;] [&lt;stop&gt;]
+
+&lt;start&gt; ::= I want | I would like | I'll have | I'd like | I'd love | Give me
+&lt;stop&gt; :: thanks | please | if you please
+&lt;number&gt; ::= a | one | two | ... | nine
+&lt;size&gt; ::= small | medium | large
+&lt;type&gt; ::= cheese | pepperoni | sausage
+&lt;extras&gt; ::= &lt;topping&gt; [[and] &lt;topping&gt;]*
+&lt;topping&gt; ::= mushroom | olives | onions | peppers | tomatoes
+
+&lt;emma:interpretation&gt;
+  &lt;pizza&gt;
+     &lt;size&gt;small&lt;/size&gt;
+     &lt;number&gt;4&lt;/number&gt;
+     &lt;type&gt;cheese&lt;/type&gt;
+     &lt;topping&gt;olives&lt;/topping&gt;
+     &lt;topping&gt;peppers&lt;/topping&gt;
+  &lt;/pizza&gt;
+&lt;/emma:interpretation&gt;
+</pre>
+</div><div class="slide">
+<h1>Application to Ordering Pizza</h1>
+
+<ul>
+<li>Implemented in XHTML+CSS+JavaScript</li>
+<li>Supports compound utterances
+<ul>
+<li>Faster than filling out forms via GUI</li>
+<li>But requires flexible dialogue to work around
+inevitable misunderstandings</li>
+</ul>
+</li>
+<li>DIY solution for describing behavior
+<ul>
+<li>Combination of scripting and markup</li>
+<li>Markup interpreted via JavaScript</li>
+<li>Can be made to work across browsers</li>
+<li>Experimentation before standardization</li>
+</ul>
+</li>
+</ul>
+</div><div class="slide">
+<h1>Modeling Behavior</h1>
+
+<ul>
+<li>Scripted handlers for XHTML events, e.g.
+onload, onmouseover, onfocus, onchange</li>
+<li>Asynchronous callbacks for HTTP responses
+<ul>
+<li>Used to handle results of speech recognition</li>
+<li>Initiated via calls to XMLHTTP request</li>
+</ul>
+</li>
+<li>Asynchronous timers (setTimeout)</li>
+<li>Use of custom markup
+<ul>
+<li>Application state, dialogue goals and history</li>
+<li>Event driven state transition rules</li>
+</ul>
+</li>
+<li>Behavior can be modelled at a higher level server-side</li>
+</ul>
+</div><div class="slide">
+<h1>Logging</h1>
+
+<ul>
+<li>Usability is based upon real world experience
+<ul>
+<li>That means you need to collect lots of data</li>
+</ul>
+</li>
+<li>Log dialogues and audio for later analysis
+  <ul>
+  <li>Speech server log's ASR, TTS requests</li>
+  <li>AJAX used for logging dialogue state
+    <ul>
+    <li>Including changes via visual modality</li>
+    </ul>
+  </li>
+  <li>Application assigned session identifier
+    <ul>
+    <li>Used to associate log entries for same session</li>
+    <li>Must be sent as part of all server requests</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+</ul>
+</div><div class="slide">
+<h1>Remarks</h1>
+
+<ul>
+<li>Complex utterances are more natural but require
+a more flexible approach for effective dialogues</li>
+<li>Exposing speech to Web pages via JavaScript offers
+flexibility for rolling your own solutions whilst
+remaining inter-operable across browsers</li>
+<li>Open questions include
+<ul>
+<li>Whether to access speech via a plugin, or via
+AJAX and a locally installed HTTP server?</li>
+<li>Whether to pass audio within HTTP or to use a
+concurrent RTP-based stream?</li>
+</ul>
+</li>
+<li>There is an opportunity for a standard speech object
+that abstracts away from embedded vs networked speech</li>
+</ul>
+</div><div class="slide">
+<h1>Web Presentations</h1>
+
+<ul>
+<li>Web-based alternative to PowerPoint
+<ul>
+<li>No more need for large email attachments
+<ul>
+<li>Just include the link to your slides</li>
+</ul>
+</li>
+<li>Create and update your slides in your web browser</li>
+</ul>
+</li>
+<li><a href="http://www.w3.org/Talks/Tools/Slidy/">HTML Slidy</a>
+uses XHTML, CSS and JavaScript
+<ul>
+<li>Each slide marked up in a div element with class="slide"</li>
+<li>Font size automatically adapts to window size</li>
+<li>Incremental revealing of slide contents</li>
+<li>Different backgrounds for different slides</li>
+<li>Outline lists for extra details</li>
+<li>Automatically created table of contents</li>
+<li>Slidy style sheets and script available as Open Source</li>
+</ul>
+</li>
+</ul>
 </div><div class="slide">
 <h1>Incremental display of slide contents</h1>
 
@@ -311,25 +580,33 @@ instance:</p>
   &lt;li&gt;Second bullet point&lt;/li&gt; 
   &lt;li&gt;Third bullet point&lt;/li&gt; 
 &lt;/ul&gt; 
- 
-&lt;p class="incremental"&gt;which is marked up as follows:&lt;/p&gt; 
- 
-&lt;pre class="incremental"&gt; 
- ... 
-&lt;/pre&gt; 
 </pre>
 
-<div class="footnote">
-<p>An element is incrementally revealed if its parent element has
-class="incremental" or if itself has that attribute. Text nodes are
-not elements and are revealed when their parent element is revealed.
-You can use class="incremental" on any element except for &lt;br /&gt;.
-Use class="non-incremental" to override the effect of setting the
-parent element's class to incremental.</p>
+<p class="small">You can also set class="incremental" or
+"non-incremental" on individual elements (except for
+&lt;br /&gt;)</p>
+</div><div class="slide">
+<h1>Incremental display of layered images</h1>
 
-<p>Note: you will see a red asterisk on the left of the toolbar
-when there is still something more to reveal.</p>
-</div>
+
+<p>These can be marked up using CSS relative positioning, e.g.</p>
+
+<pre>&lt;div class="incremental" 
+ style="margin-left: 10em; position: relative"&gt; 
+  &lt;img src="face1.gif" alt="face" 
+   style="position: static; vertical-align: bottom"/&gt; 
+  &lt;img src="face2.gif" alt="eyes" 
+    style="position: absolute; left: 0; top: 0" /&gt; 
+  &lt;img src="face3.gif" alt="nose" 
+    style="position: absolute; left: 0; top: 0" /&gt; 
+  &lt;img src="face4.gif" alt="mouth" 
+    style="position: absolute; left: 0; top: 0" /&gt; 
+&lt;/div&gt; 
+</pre>
+
+<div class="incremental" style="margin-left: 35%; position: relative;"><img src="face1.gif" alt="face" style="position: static; vertical-align: bottom;">
+<img src="face2.gif" alt="eyes" style="position: absolute; left: 0pt; top: 0pt;"> <img src="face3.gif" alt="nose" style="position: absolute; left: 0pt; top: 0pt;">
+<img src="face4.gif" alt="mouth" style="position: absolute; left: 0pt; top: 0pt;"></div>
 </div><div class="slide">
 <h1>Create outline lists with hidden content</h1>
 
@@ -362,252 +639,7 @@ outline list items unless you have specified class="expand".</li>
 <li>Such pre-expanded items can be collapsed by clicking on them.</li>
 </ul>
 </li>
-<li>Note expand/collapse icon highlighting requires browser
-support for :hover which isn't supported by IE6.
-
-<ul>
-<li>Microsoft says it will be supported by IE7 along with 
-many fixes for other CSS woes in IE6.</li>
 </ul>
-</li>
-</ul>
-
-<pre>&lt;ol class='outline'&gt;
-  &lt;!-- topic 1 starts collapsed --&gt;
-  &lt;li&gt;Topic 1
-    &lt;ol&gt;
-        &lt;li&gt;subtopic a&lt;/li&gt;
-        &lt;li&gt;subtopic b&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;!-- topic 2 starts expanded --&gt;
-  &lt;li class="expand"&gt;Topic 2
-    &lt;ol&gt;
-        &lt;li&gt;subtopic c&lt;/li&gt;
-        &lt;li&gt;subtopic d&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-</pre>
-</div><div class="slide">
-<h1>Make your images scale with the browser window size</h1>
-
-
-<p>For adaptive layout, use percentage widths on images, together
-with CSS positioning:</p>
-
-<ul>
-<li>CSS positioning is simpler and more reliable than using
-tables</li>
-</ul>
-
-<pre>&lt;div class="slide"&gt; 
-  &lt;h1&gt;Analysts - "Open standards programming will become 
-  mainstream, focused around VoiceXML"&lt;/h1&gt; 
-  &lt;!-- use CSS positioning and scaling for adaptive layout --&gt; 
-  &lt;img src="trends.png" width="50%" style="float:left" 
-   alt="projected growth of VoiceXML" /&gt; 
-
-  &lt;blockquote style="float:right;width: 35%"&gt; 
-    VoiceXML will dominate the voice environment, due to its 
-    flexibility and eventual multimodal capabilities 
-  &lt;/blockquote&gt;&lt;br clear="all" /&gt; 
- 
-  &lt;p style="text-align:center"&gt;Source Data Monitor, March 
-  2004&lt;/p&gt; 
-&lt;/div&gt; 
-</pre>
-
-<p>To work around a CSS rendering bug in IE relating
-to margins, you can set display:inline on floated elements.</p>
-</div><div class="slide">
-<h1>Incremental display of layered images</h1>
-
-
-<p>These can be marked up using CSS relative positioning, e.g.</p>
-
-<pre>&lt;div class="incremental" 
- style="margin-left: 4em; position: relative"&gt; 
-  &lt;img src="face1.gif" alt="face" 
-   style="position: static; vertical-align: bottom"/&gt; 
-  &lt;img src="face2.gif" alt="eyes" 
-    style="position: absolute; left: 0; top: 0" /&gt; 
-  &lt;img src="face3.gif" alt="nose" 
-    style="position: absolute; left: 0; top: 0" /&gt; 
-  &lt;img src="face4.gif" alt="mouth" 
-    style="position: absolute; left: 0; top: 0" /&gt; 
-&lt;/div&gt; 
-</pre>
-
-<p style="font-size: smaller;">You should also use transparent GIF
-images to avoid the IE/Win bug for alpha channel in PNG. A fix is
-expected in IE 7. A <a href="http://www.skyzyx.com/scripts/sleight.php">work around</a> is
-available on skyzyx.com. My thanks to <a href="http://www.webstandards.org/act/acid2/">ACID2</a> for the
-graphics.</p>
-
-<div class="incremental" style="margin-left: 4em; position: relative;"><img src="face1.gif" alt="face" style="position: static; vertical-align: bottom;">
-<img src="face2.gif" alt="eyes" style="position: absolute; left: 0pt; top: 0pt;"> <img src="face3.gif" alt="nose" style="position: absolute; left: 0pt; top: 0pt;">
-<img src="face4.gif" alt="mouth" style="position: absolute; left: 0pt; top: 0pt;"></div>
-</div><div class="slide">
-<h1>Include SVG Content</h1>
-
-
-<p>Inclusion of SVG content can be done using the object element,
-for example:</p>
-
-<div style="text-align: center;"><object data="example.svg" type="image/svg+xml" title="Indian Office logo" height="10%" width="50%"><img src="example.png" alt="Indian Office logo" width="50%"></object></div>
-
-<p>has been achieved by:</p>
-
-<pre>&lt;object data="example.svg" type="image/svg+xml" 
-  width="50%" height="10%" title="Indian Office logo"&gt; 
-    &lt;img src="example.png" width="50%" 
-          alt="Indian Office logo" /&gt; 
-&lt;/object&gt; 
-</pre>
-
-<p>This ensures that the enclosed png is displayed when the browser
-has no plugin installed or can't display SVG directly. Providing
-such a fall back is very important! Don't forget the alt text for
-people who can't see the image.</p>
-
-<p>However, there are caveats, see the next slide!</p>
-</div><div class="slide">
-<h1>Caveats with SVG+object</h1>
-
-
-<p>Adobe has recently withdrawn support for its SVG Viewer, so you are
-recommended to consider <a href="http://wiki.svg.org/Viewer_Implementations">alternatives</a>.
-If you still using the Adobe SVG viewer you should be aware of bugs
-when using the it with IE, Namely:</p>
-
-<ul>
-<li>Recent patches to Internet Explorer mean that the Adobe SVG Viewer
-version 3.03 no longer works with IE6. You are therefore recommended
-to uninstall version 3.03 and instead install <a href="http://www.adobe.com/svg/viewer/install/beta.html">Adobe SVG Viewer
-6.0 preview</a> if this is available to to you.</li>
-
-<li>IE6 makes a <em>copy</em> of the SVG file on the local disc
-when displaying it; but doesn't pass the original URI to the plugin</li>
-
-<li>As a result relative references from within the SVG to external
-resources (scripts, CSS, images, other SVG) will break.</li>
-
-<li>The work around is to use absolute references within your SVG.</li>
-
-<li>This problem doesn't effect Mozilla/Firefox. I don't know if
-this was fixed for IE7.</li>
-
-<li>On Windows, the Adobe SVG plugin doesn't respect the CSS z-index
-property, and if used on backgrounds will always show through other
-content</li>
-</ul>
-
-<p>Recent versions of Firefox include native support for SVG, but there
-is a bug with Firefox in which the wrong SVG image will sometimes be
-shown when the page is reloaded. This is due to be fixed in Firefox 3.0.</p>
-
-<p>Some browsers (e.g. Opera 8) only support SVG Tiny, which doesn't
-support external style sheets or style elements within SVG. The work
-around is to set the properties via style attributes on the
-corresponding elements. In principle, browsers should honor the
-version attribute and fall back to the alternative within the object
-element if they don't support the version used by a given SVG file.</p>
-
-<p><em>Are there any tools for downgrading SVG to SVG Tiny?</em></p>
-</div><div class="slide">
-<h1>Additional Remarks</h1>
-
-
-<ul>
-<li>Slides are auto-numbered on the slide show footer</li>
-
-<li>You can link into the <a href="#%282%29">middle</a> of a slide
-show:
-
-<ul>
-<li>It works out which slide you want and hides the rest</li>
-
-<li>You can even link between slides in the same slide show</li>
-
-<li>Individual sides can be addressed with the syntax #(<em>slide
-number</em>),<br>
-e.g. slide 3 of this presentation is: <a href="#%283%29">http://www.w3.org/Talks/Tools/Slidy#(3)</a>
-<ul>
-<li>Previous versions of Slidy used square brackets, which will
-also work.</li>
-</ul></li>
-<li>Note that the browser's back/forward buttons may not work as
-you might expect due to browser problems.</li>
-</ul>
-</li>
-
-<li>Adding "title" to the list of classes for div elements that serve
-as title pages will render the corresponding entry in the table of
-contents in bold italic text (press "C" now for an example)</li>
-
-<li>If your slides have more content than normal, use a <em>meta
-element</em> to request a smaller font
-
-<ul>
-<li>the following requests fonts to be one step smaller than
-the Slidy default for the current window width, and positive
-integers will make the fonts correspondingly larger</li>
-</ul>
-
-<pre>&lt;meta name="font-size-adjustment" content="-1" /&gt; 
-</pre>
-
-<ul>
-<li>Slidy uses JavaScript to dynamically set the font size on the
-body element, but it is okay to specify relative font changes on
-other elements within your own style sheet.</li>
-</ul>
-</li>
-
-<li>You are encouraged to ensure your markup is valid. <a href="http://www.w3.org/People/Raggett/tidy/">HTML Tidy</a> can be used
-to find and correct common markup problems</li>
-
-<li>The slide show script and style sheet can be used freely under
-W3C's <a href="http://www.w3.org/Consortium/Legal/copyright-software">software
-licensing</a> and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document
-use</a> policies</li>
-<li>At <a href="http://xtech06.usefulinc.com/">XTech2006</a>
-I gave this <a href="http://www.w3.org/2006/05/Slidy-XTech/">presentation</a>
-on Slidy
-(<a href="http://www.w3.org/2006/05/Slidy-XTech/slidy-xtech06-dsr.pdf">Paper</a>).</li>
-</ul>
-</div><div class="slide">
-<h1>Localization</h1>
-
-
-<p>Slidy now includes support for localization</p>
-
-<ul>
-<li>The tool bar is localized according to the language of the presentation</li>
-<li>This is taken from the xml:lang or lang attributes on the html element</li>
-<li>The <a href="http://www.w3.org/Talks/Tools/Slidy/help.html">help file</a> is
-selected based upon your browser's language preferences</li>
-<li>As of 17th March 2006, the languages supported are: English, Spanish and
-Dutch</li>
-<li>If you would like to contribute localizations for other languages, please
-get in touch with Dave Raggett &lt;dsr@w3.org&gt;</li>
-<li>The following illustrates what was used for Spanish</li>
-</ul>
-<pre>// for each language there is an associative array
-var strings_es = {
-  "slide":"pág.",
-  "help?":"Ayuda",
-  "contents?":"Índice",
-  "table of contents":"tabla de contenidos",
-  "Table of Contents":"Tabla de Contenidos",
-  "restart presentation":"Reiniciar presentación",
-  "restart?":"Inicio"
-   };
-strings_es[helpText] =
-    "Utilice el ratón, barra espaciadora, teclas Izda/Dhca, " +
-    "o Re pág y Av pág. Use S y B para cambiar el tamaño de fuente.";
-</pre>
 </div><div class="slide">
 <h1>Future Plans</h1>
 
@@ -616,7 +648,7 @@ strings_es[helpText] =
 hide and reveal content in the spirit of outline lists. Further
 work is anticipated on the following:</p>
 
-<ul>
+<ul class="incremental">
 <li>Collecting a gallery of good looking slide themes
 <ul>
 <li>Opportunities for graphics designers!</li>
@@ -625,67 +657,131 @@ work is anticipated on the following:</p>
 <li>Getting SVG Tiny to work on IE without need for SVG plugin
 <ul>
 <li>Using scripts to dynamically convert SVG Tiny to VML</li>
+<li>Or via conversion to Macromedia Flash</li>
 </ul>
 </li>
-<li>Alpha version of wysiwyg slide editor (see <a href="editor/editor-screenshot1.png">screenshot</a>)
-<ul>
-<li>Using contentEditable when available, otherwise
-falling back to textarea and plain text conventions</li>
-<li>Using XMLHttpRequest to dynamically reflect changes to server</li>
+<li>Tweaks for working with IE7 when that becomes available</li>
+<li>Richer styling for incrementally revealed content</li>
 </ul>
-</li>
-<li>Mechanism for remotely driving Slidy as part of distributed meetings
-<ul>
-<li>Using XMLHttpRequest to listen for navigation commands</li>
-<li>Using VoIP for accompanying audio and teleconferencing</li>
-<li>Synchronizing recorded spoken presentation with currently viewed slide</li>
-</ul>
-</li>
-<li>Filters from PowerPoint and Open Office
-<ul>
-<li>and export to PDF via <a href="http://www.princexml.com/">PrinceXML</a></li>
-</ul>
-</li>
-</ul>
-
-<p>If you have comments, suggestions for improvements, or would
-like to volunteer your help with further work on Slidy,
-please contact <a href="http://www.w3.org/People/Raggett/">Dave Raggett</a> &lt;<a href="mailto:dsr@w3.org">dsr@w3.org</a>&gt;</p>
 </div><div class="slide">
-<h1>Acknowledgements</h1>
+<h1>Web Meetings</h1>
 
+<ul class="incremental">
+<li>Presenter driven slide presentations</li>
+<li>VoIP for delivering presentations, posing questions,
+and general teleconferencing
+<ul>
+<li>Speech provided by browser extension/plugin or locally
+installed proxy controlled via XMLHttpRequest with
+RTP audio stream and iLBC codec</li>
+<li>HTTP used to control server-side VoIP resources</li>
+<li>Highly scalable to support many simultaneous meetings</li>
+</ul>
+</li>
+<li>Shared minute taking
+<ul>
+<li>Anyone can take minutes, and everyone can see them
+as they are being typed, enabling instant corrections
+<ul>
+<li>Based upon AJAX and contentEditable/designMode</li>
+</ul>
+</li>
+</ul></li>
+<li>Text-based meeting related functions
+<ul>
+<li>Precedent: W3C's <a href="http://www.w3.org/2001/12/zakim-irc-bot">Zakim IRC
+Teleconference Agent</a></li>
+<li>Tracks who's present, who wants to speak, and on what
+subject, keeping people to time, agenda topics, actions,
+resolutions, etc.</li>
+</ul></li>
+<!--
+<li>Use frames for different meeting components
+<ul>
+<li>Slides, Agenda, Minutes, Meeting management, Chat, etc.</li>
+<li>Dynamically hide and resize frames as needed</li>
+</ul>
+</li>
+-->
+</ul>
+</div><div class="slide">
+<h1>Web Chat and Presence</h1>
+
+
+<p>Despite its current momentum, Jabber may not be the
+long term solution, and we are likely to see solutions
+that are more closely integrated with the Web. An example
+of this approach is provided by <a href="http://meebo.com/">meebo</a></p>
+<ul>
+<li>AJAX makes it practical to support live chat sessions
+and presence information within web pages
+<ul>
+<li>Users can be identified via a cookie, or via a user name
+and password obtained using a secure connection (https)</li>
+<li>The AJAX-based protocol can in principle, use the same XML
+schemas as defined for Jabber (XMPP RFCs)</li>
+<li>The tricky bits are the security policies and mechanisms
+<ul>
+<li>Who gets to see when I am online?</li>
+<li>Can bad-guys spam my chat room?</li>
+</ul>
+</li>
+</ul></li>
+<li>AJAX itself introduces some security considerations
+<ul>
+<li>You are restricted to same domain as the page that
+loaded the script</li>
+<li><a href="http://www.cgisecurity.com/lib/XmlHTTPRequest.shtml">Referrer
+spoofing and a lot more</a> (Amit Klein, September 2005)
+<ul>
+<li>hacks using tabs in places of spaces in HTTP request</li>
+</ul></li>
+</ul></li>
+</ul>
+</div><div class="slide">
+<h1>Business Opportunities</h1>
 
 <ul>
-<li>My thanks to everyone who sent in bug reports and feature
-requests</li>
-<li>Opera Software for implementing CSS @media projection and
-promoting the idea of using the Web for presentations with
-<a href="http://www.opera.com/support/tutorials/operashow/">Opera
-Show</a></li>
-<li><a href="http://tantek.com/">Tantek Çelik</a> for his
-pioneering work on applying JavaScript for slide presentations on
-other browsers</li>
-<li>Eric Meyer for taking this further with the excellent <a href="http://www.meyerweb.com/eric/tools/s5/s5-intro.html">S5</a></li>
-<li>W3C's <a href="http://dev.w3.org/cvsweb/slidemaker/">slidemaker
-tool</a>, which uses a perl script to split an html file up into
-one file per slide with navigation buttons</li>
-<li>Early versions of <a href="http://www.w3.org/People/Raggett/tidy/">HTML
-Tidy</a> which supported a means to create presentations via splitting
-html files on h2 elements</li>
-<li>Many sites with advice on JavaScript work arounds for browser
-variations</li>
-<li>Microsoft for pioneering contentEditable and XMLHTTP which
-both provide tremendous opportunities for Web applications</li>
-<li>Microsoft Office which provided the impetus for creating
-Slidy as a Web-based alternative to the ubiquitous use of PowerPoint</li>
+<li>Consumer facing meeting services
+  <ul>
+  <li>Free and supported by ads</li>
+  <li>Ads chosen to match context
+    <ul>
+    <li>from website and slide presentations</li>
+    <li>word spotting for text and voice chat</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>Enterprise facing meeting services
+  <ul>
+  <li>These are charged as appropriate</li>
+  <li>Hosted services for least effort</li>
+  <li>Software licensing for local installation</li>
+  <li>Third party consultancy support
+    <ul>
+    <li>Fostering an ecosystem for customization and support</li>
+    <li>Mashups with other Web-based services</li>
+    </ul>
+  </li>
+  </ul>
+</li>
 </ul>
+</div><div class="slide">
+<h1>Concluding Remarks</h1>
 
-<p class="smaller"><strong>Note</strong> that while Slidy and
-S5 were developed independently, both support the use of the
-class values "slide" and "handout" for div elements. Slidy doesn't
-support the "layout" class featured in S5 and Opera Show, but
-instead provides a more flexible alternative with the "background"
-class, which enables different backgrounds on different slides.</p>
+<ol>
+<li>Ubiquitous Web</li>
+<li>Speech Enabling Web Pages</li>
+<li>Web Presentations</li>
+<li>Web Meetings</li>
+<li>Business Opportunities</li>
+<li>Concluding Remarks</li>
+</ol>
+
+<p class="small">n.b. the handwriting font used in this presentation
+(<a href="TSCu_Comic.ttf">TSCu_Comic.ttf</a>) is available free under
+the Gnu GPL and was created by Thukaram Gopalrao.</p>
 </div>
 <!-- END AUTO-GENERATION OF SLIDES-->
 

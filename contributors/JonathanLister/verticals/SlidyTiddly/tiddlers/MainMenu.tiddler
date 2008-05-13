@@ -1,7 +1,8 @@
 <div title="MainMenu" modifier="JayFresh" created="200801221853" modified="200805120903" changecount="5">
 <pre>[[Welcome]]
+<<TiddlyTemplating pagetemplate filename:"Slidy/slidytest.html">>
+
 [[Content]]
 [[Templates]]
-[[Preview]]
-<<TiddlyTemplating pagetemplate filename:"Slidy/slidytest.html">></pre>
+</pre>
 </div>
