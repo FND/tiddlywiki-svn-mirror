@@ -42,7 +42,7 @@ config.macros.TiddlyTemplating.templateAndPublish = function(e)
 	var template = config.macros.TiddlyTemplating.getTemplate(p);
 	var tiddlers = config.macros.TiddlyTemplating.getTiddlers(p);
 	var wikitext = getParam(p,"wikitext",null);
-	var filename = getParam(p,"filename",null);
+	var filename = getParam(p,"filename",config.macros.TiddlyTemplating.defaultFileName);
 	displayMessage("generating...");
 	var content = expandTemplate(template,tiddlers,wikitext);
 	config.macros.TiddlyTemplating.save(filename,content);
