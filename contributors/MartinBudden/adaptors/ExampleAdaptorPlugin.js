@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ExampleAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ExampleAdaptorPlugin.js|
-|''Version:''|0.5.3|
+|''Version:''|0.5.4|
 |''Status:''|Not for release - this is a template for creating new adaptors|
 |''Date:''|Mar 11, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
@@ -26,6 +26,11 @@ To make this example into a real TiddlyWiki adaptor, you need to:
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.ExampleAdaptorPlugin) {
 version.extensions.ExampleAdaptorPlugin = {installed:true};
+
+fnLog = function(text)
+{
+	if(window.console) console.log(text.substr(0,80)); else displayMessage(text.substr(0,80));
+};
 
 function ExampleAdaptor()
 {
