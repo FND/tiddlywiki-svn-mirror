@@ -48,11 +48,11 @@
           <!-- The speaker name is used as the Tiddler title, and a refernce, so should be unique and used consistantly -->
 	<speaker>
 	  <!-- is "Mr." required, sounds a little too formal - drop the honorific-prefix? -->
-	  <title>Mr. Marc Canter</title>
+	  <title>Marc Canter</title>
 	</speaker>
 
 	<speaker>
-	  <title>Mr. Jeff Barr</title>
+	  <title>Jeff Barr</title>
 	</speaker>
 
 	<speaker>
@@ -64,8 +64,8 @@
 	</speaker>
     </session>
 
-	<!-- suggested speaker info, indexed by "<title>" -->
-	<!-- suggest following hcard for element names-->
+	<!-- suggested speaker info, indexed by "<fn>"? -->
+	<!-- attempt at following hcard for element names-->
 	<vcard>
 	    <!-- required - hcard familiar name -->
 	    <fn>Marc Canter</fn>
