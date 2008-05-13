@@ -1,5 +1,4 @@
-recipe: ../tiddlywikiseo.html.recipe
-title: title.txt
+recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: shadows/split.recipe
 recipe: templates/split.recipe
 recipe: content/split.recipe
