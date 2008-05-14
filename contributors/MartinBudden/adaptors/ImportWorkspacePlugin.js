@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
-|''Version:''|0.0.6|
+|''Version:''|0.0.7|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -95,7 +95,7 @@ config.macros.importWorkspace.onClick = function(e)
 	var customFields = this.getAttribute('customFields');
 //#displayMessage("cf:"+customFields)
 	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
-	config.macros.importWorkspace.getTiddlers(this.createContext(fields));
+	config.macros.importWorkspace.getTiddlers(config.macros.importWorkspace.createContext(fields));
 };
 
 config.macros.importWorkspace.getTiddlersForAllFeeds = function()
@@ -113,7 +113,7 @@ config.macros.importWorkspace.getTiddlersForFeed = function(feed)
 	fields['server.host'] = store.getTiddlerSlice(feed,'URL');
 	fields['server.workspace'] = store.getTiddlerSlice(feed,'Workspace');
 	var filter = store.getTiddlerSlice(feed,'TiddlerFilter');
-	config.macros.importWorkspace.getTiddlers(this.createContext(fields,filter));
+	config.macros.importWorkspace.getTiddlers(config.macros.importWorkspace.createContext(fields,filter));
 };
 
 config.macros.importWorkspace.createContext = function(fields,filter)
@@ -140,22 +140,12 @@ config.macros.importWorkspace.createContext = function(fields,filter)
 config.macros.importWorkspace.getTiddlers = function(context)
 {
 	if(context) {
-		context.adaptor.openHost(context.host,context,null,config.macros.importWorkspace.openHostCallback);
+		context.adaptor.openHost(context.host,context);
+		context.adaptor.openWorkspace(context.workspace,context);
+		context.adaptor.getTiddlerList(context);
 		return true;
 	}
 	return false;
-};
-
-config.macros.importWorkspace.openHostCallback = function(context,userParams)
-{
-	displayMessage(config.messages.hostOpened.format([context.host]));
-	context.adaptor.openWorkspace(context.workspace,context,userParams,config.macros.importWorkspace.openWorkspaceCallback);
-};
-
-config.macros.importWorkspace.openWorkspaceCallback = function(context,userParams)
-{
-	//# displayMessage(config.messages.workspaceOpened.format([context.workspace]));
-	context.adaptor.getTiddlerList(context,userParams,config.macros.importWorkspace.getTiddlerListCallback);
 };
 
 config.macros.importWorkspace.getTiddlerListCallback = function(context,userParams)
