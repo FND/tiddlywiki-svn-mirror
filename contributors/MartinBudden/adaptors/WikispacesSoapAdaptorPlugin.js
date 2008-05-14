@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#WikispacesSoapAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js |
-|''Version:''|0.0.7|
+|''Version:''|0.0.8|
 |''Date:''|Feb 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -127,7 +127,10 @@ fnLog('login:'+context.host);
 
 WikispacesSoapAdaptor.loginCallback = function(r,x,context)//status,context,responseText,url,xhr)
 {
-fnLog('loginCallback');
+	var status = r instanceof Error ? false : true;
+fnLog('loginCallback:'+status);
+console.log(r);
+console.log(x);
 	if(r instanceof Error) {
 		context.status = false;
 		context.statusText = "Error at login";
@@ -166,7 +169,7 @@ fnLog('openWorkspace:'+workspace);
 
 WikispacesSoapAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
-//#console.log('getWorkspaceList');
+fnLog('getWorkspaceList');
 	context = this.setContext(context,userParams,callback);
 	var workspace = userParams.getValue("feedWorkspace");//!! kludge until core fixed
 	var list = [];
@@ -178,7 +181,7 @@ WikispacesSoapAdaptor.prototype.getWorkspaceList = function(context,userParams,c
 
 WikispacesSoapAdaptor.getWorkspaceListComplete = function(context,userParams)
 {
-//#console.log('getWorkspaceListComplete');
+fnLog('getWorkspaceListComplete');
 //# http://www.wikispaces.com/space/api?wsdl
 	var uri = WikispacesSoapAdaptor.SoapUri(context,'%0space/api');
 //#console.log('uri:'+uri);
@@ -191,11 +194,14 @@ WikispacesSoapAdaptor.getWorkspaceListComplete = function(context,userParams)
 
 WikispacesSoapAdaptor.getWorkspaceListCallback = function(r,x,context)//(status,context,responseText,uri,xhr)
 {
-//#console.log('getWorkspaceListCallback');
 	var status = r instanceof Error ? false : true;
+fnLog('getWorkspaceListCallback:'+status);
 	context.status = false;
 	function gev(p,i,n) {
-		return p[i].getElementsByTagName(n)[0].childNodes[0].nodeValue;
+		try {
+			return p[i].getElementsByTagName(n)[0].childNodes[0].nodeValue;
+		} catch(ex) {
+		}
 	}
 	if(status) {
 		try {
