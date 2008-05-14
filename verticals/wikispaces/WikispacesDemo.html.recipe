@@ -2,8 +2,11 @@ recipe: ../../core/tiddlywiki.html.recipe
 recipe: shadows/split.recipe
 recipe: plugins/split.recipe
 recipe: content/split.recipe
-recipe: feeds/split.recipe
+tiddler: feeds/WikispacesTwTestFeed.tiddler
 recipe: plugins/split.recipe
-tiddler: ../../contributors/SaqImtiaz/adaptors/WikispacesAdaptor.js
+#tiddler: ../../contributors/SaqImtiaz/adaptors/WikispacesAdaptor.js
+tiddler: ../../contributors/MartinBudden/adaptors/soapclient.js
+tiddler: ../../contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js
 tiddler: ../../contributors/MartinBudden/formatters/WikispacesFormatterPlugin.js
 tiddler: ../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
+tiddler: ../../contributors/MartinBudden/plugins/ImportWikispacesMessagesPlugin.js
