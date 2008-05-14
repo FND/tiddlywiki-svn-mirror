@@ -7,7 +7,7 @@
 |''Version:''|0.0.9|
 |''Date:''|Feb 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.3.0|
 
 
@@ -127,20 +127,20 @@ fnLog('login:'+context.host);
 
 WikispacesSoapAdaptor.loginCallback = function(r,x,context)//status,context,responseText,url,xhr)
 {
-	var status = r instanceof Error ? false : true;
+	context.status = r instanceof Error ? false : true;
 fnLog('loginCallback:'+status);
 console.log(r);
 console.log(x);
-	if(r instanceof Error) {
-		context.status = false;
-		context.statusText = "Error at login";
-	} else {
-		context.status = true;
+	if(context.status) {
 		context.sessionToken = r;
 		context.adaptor.sessionToken = r;
+		if(context.complete)
+			context.complete(context,context.userParams);
+	} else {
+		context.statusText = "Error at login";
+		if(context.callback)
+			context.callback(context,context.userParams);
 	}
-	if(context.complete)
-		context.complete(context,context.userParams);
 };
 
 WikispacesSoapAdaptor.prototype.openHost = function(host,context,userParams,callback)
@@ -160,11 +160,53 @@ WikispacesSoapAdaptor.prototype.openWorkspace = function(workspace,context,userP
 fnLog('openWorkspace:'+workspace);
 	this.workspace = workspace;
 	context = this.setContext(context,userParams,callback);
-	if(context.callback) {
-		context.status = true;
-		window.setTimeout(function() {callback(context,userParams);},0);
-	}
+	context.workspace = workspace;
+	return this.complete(context,WikispacesSoapAdaptor.openWorkspaceComplete);
+};
+
+WikispacesSoapAdaptor.openWorkspaceComplete = function(context,userParams)
+{
+fnLog('opentWorkspaceComplete');
+//# http://www.wikispaces.com/space/api?wsdl
+	var uri = WikispacesSoapAdaptor.SoapUri(context,'%0space/api');
+//#console.log('uri:'+uri);
+	var pl = new SOAPClientParameters();
+	pl.add('session',context.sessionToken);
+	pl.add('name',context.workspace);
+	SOAPClient.invoke(uri,'getSpace',pl,true,WikispacesSoapAdaptor.openWorkspaceCallback,context);
 	return true;
+};
+
+WikispacesSoapAdaptor.openWorkspaceCallback = function(r,x,context)//(status,context,responseText,uri,xhr)
+{
+	var status = r instanceof Error ? false : true;
+fnLog('openWorkspaceCallback:'+status);
+	context.status = false;
+	function gev(p,i,n) {
+		try {
+			return p[i].getElementsByTagName(n)[0].childNodes[0].nodeValue;
+		} catch(ex) {
+		}
+		return null;
+	}
+	if(status) {
+		try {
+			var p = x.getElementsByTagName('space');
+			context.workspaceId = gev(p,0,'id');
+			context.adaptor.workspaceId = context.workspaceId;
+//#console.log("workspaceId:"+context.workspaceId);
+		} catch (ex) {
+			context.statusText = exceptionText(ex,WikispacesSoapAdaptor.serverParsingErrorMessage);
+			if(context.callback)
+				context.callback(context,context.userParams);
+			return;
+		}
+		context.status = true;
+	} else {
+		context.statusText = WikispacesSoapAdaptor.errorInFunctionMessage.format(['openWorkspaceCallback']);
+	}
+	if(context.callback)
+		context.callback(context,context.userParams);
 };
 
 WikispacesSoapAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
@@ -202,6 +244,7 @@ fnLog('getWorkspaceListCallback:'+status);
 			return p[i].getElementsByTagName(n)[0].childNodes[0].nodeValue;
 		} catch(ex) {
 		}
+		return null;
 	}
 	if(status) {
 		try {
@@ -218,7 +261,6 @@ fnLog('getWorkspaceListCallback:'+status);
 		context.status = true;
 	} else {
 		context.statusText = WikispacesSoapAdaptor.errorInFunctionMessage.format(['getWorkspaceListCallback']);
-		//context.statusText = xhr.statusText;
 	}
 	if(context.callback)
 		context.callback(context,context.userParams);
@@ -386,6 +428,7 @@ WikispacesSoapAdaptor.getTiddlerCallback = function(r,x,context)//(status,contex
 			return p[i].getElementsByTagName(n)[0].childNodes[0].nodeValue;
 		} catch(ex) {
 		}
+		return null;
 	}
 	if(status) {
 		try {
@@ -564,7 +607,7 @@ fnLog('getTopicListComplete');
 WikispacesSoapAdaptor.getTopicListCallback = function(r,x,context)//(status,context,responseText,uri,xhr)
 {
 	var status = r instanceof Error ? false : true;
-//#fnLog('getTopicListCallback:'+status);
+fnLog('getTopicListCallback:'+status);
 	context.status = false;
 	context.statusText = WikispacesSoapAdaptor.errorInFunctionMessage.format(['getTopicListCallback']);
 	function gev(p,i,n) {

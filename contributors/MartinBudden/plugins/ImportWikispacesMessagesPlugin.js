@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ImportWikispacesMessagesPlugin.js |
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|May 13, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -90,9 +90,18 @@ config.macros.importWikispacesMessages.createContext = function(fields,filter)
 config.macros.importWikispacesMessages.getTopicList = function(title,context)
 {
 	if(context) {
+		context.title = title;
 		context.adaptor.openHost(context.host,context);
-		context.adaptor.openWorkspace(context.workspace,context);
-		context.adaptor.getTopicList(title,context,null,config.macros.importWikispacesMessages.getTopicListCallback);
+		context.adaptor.openWorkspace(context.workspace,context,null,config.macros.importWikispacesMessages.openWorkspaceCallback);
+		return true;
+	}
+	return false;
+};
+
+config.macros.importWikispacesMessages.openWorkspaceCallback = function(context,userParams)
+{
+	if(context.status) {
+		context.adaptor.getTopicList(context.title,context,null,config.macros.importWikispacesMessages.getTopicListCallback);
 		return true;
 	}
 	return false;
@@ -100,7 +109,7 @@ config.macros.importWikispacesMessages.getTopicList = function(title,context)
 
 config.macros.importWikispacesMessages.getTopicListCallback = function(context,userParams)
 {
-	//#console.log("config.macros.importWorkspace.getTopicListCallback:"+context.status);
+	//#console.log("config.macros.importWikispacesMessages.getTopicListCallback:"+context.status);
 	if(context.status) {
 		var tiddlers = context.topics;
 		for(var i=0; i<tiddlers.length; i++) {
@@ -115,7 +124,7 @@ config.macros.importWikispacesMessages.getTopicListCallback = function(context,u
 
 config.macros.importWikispacesMessages.getMessageListCallback = function(context,userParams)
 {
-	//#console.log("config.macros.importWorkspace.getMessageListCallback:"+context.status);
+	//#console.log("config.macros.importWikispacesMessages.getMessageListCallback:"+context.status);
 	if(context.status) {
 		var tiddlers = context.messages;
 		for(var i=0; i<tiddlers.length; i++) {
