@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
-|''Version:''|0.0.5|
+|''Version:''|0.0.6|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -95,7 +95,7 @@ config.macros.importWorkspace.onClick = function(e)
 	var customFields = this.getAttribute('customFields');
 //#displayMessage("cf:"+customFields)
 	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
-	config.macros.importWorkspace.getTiddlers(fields);
+	config.macros.importWorkspace.getTiddlers(this.createContext(fields));
 };
 
 config.macros.importWorkspace.getTiddlersForAllFeeds = function()
@@ -113,20 +113,11 @@ config.macros.importWorkspace.getTiddlersForFeed = function(feed)
 	fields['server.host'] = store.getTiddlerSlice(feed,'URL');
 	fields['server.workspace'] = store.getTiddlerSlice(feed,'Workspace');
 	var filter = store.getTiddlerSlice(feed,'TiddlerFilter');
-	config.macros.importWorkspace.getTiddlers(fields,filter);
+	config.macros.importWorkspace.getTiddlers(this.createContext(fields,filter));
 };
 
-config.macros.importWorkspace.getTiddlers = function(fields,filter)
+config.macros.importWorkspace.createContext = function(fields,filter)
 {
-	/*if(!fields['server.type']) {
-		var tiddlers = store.getTaggedTiddlers('systemServer');
-		var title = tiddlers[0].title;
-		fields = {};
-		fields['server.type'] = store.getTiddlerSlice(title,'Type');
-		fields['server.host'] = store.getTiddlerSlice(title,'URL');
-		fields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
-		context.filter = store.getTiddlerSlice(title,'TiddlerFilter');
-	}*/
 	var serverType = fields['server.type'];
 	if(!serverType)
 		serverType = fields['wikiformat'];
@@ -141,9 +132,18 @@ config.macros.importWorkspace.getTiddlers = function(fields,filter)
 		context.workspace = fields['server.workspace'];
 		context.filter = filter;
 		context.adaptor = adaptor;
-		adaptor.openHost(context.host,context,null,config.macros.importWorkspace.openHostCallback);
+		return context;
 	}
-	return true;
+	return false;
+};
+
+config.macros.importWorkspace.getTiddlers = function(context)
+{
+	if(context) {
+		context.adaptor.openHost(context.host,context,null,config.macros.importWorkspace.openHostCallback);
+		return true;
+	}
+	return false;
 };
 
 config.macros.importWorkspace.openHostCallback = function(context,userParams)
