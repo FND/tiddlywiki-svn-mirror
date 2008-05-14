@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
-|''Version:''|0.0.7|
+|''Version:''|0.0.8|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -141,8 +141,18 @@ config.macros.importWorkspace.getTiddlers = function(context)
 {
 	if(context) {
 		context.adaptor.openHost(context.host,context);
-		context.adaptor.openWorkspace(context.workspace,context);
-		context.adaptor.getTiddlerList(context);
+		context.adaptor.getWorkspaceList(context,null,config.macros.importWorkspace.getWorkspaceListCallback);
+		//context.adaptor.openWorkspace(context.workspace,context);
+		//context.adaptor.getTiddlerList(context);
+		return true;
+	}
+	return false;
+};
+
+config.macros.importWorkspace.getWorkspaceListCallback = function(context,userParams)
+{
+	if(context.status) {
+		context.adaptor.getTiddlerList(context,null,config.macros.importWorkspace.getTiddlerListCallback);
 		return true;
 	}
 	return false;
