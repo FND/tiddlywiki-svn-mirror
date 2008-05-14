@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#WikispacesSoapAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js |
-|''Version:''|0.0.8|
+|''Version:''|0.0.9|
 |''Date:''|Feb 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -31,7 +31,7 @@ version.extensions.WikispacesSoapAdaptorPlugin = {installed:true};
 
 fnLog = function(text)
 {
-//	if(window.console) console.log(text.substr(0,80)); else displayMessage(text.substr(0,80));
+	if(window.console) console.log(text.substr(0,80)); else displayMessage(text.substr(0,80));
 };
 
 function WikispacesSoapAdaptor()
@@ -171,7 +171,7 @@ WikispacesSoapAdaptor.prototype.getWorkspaceList = function(context,userParams,c
 {
 fnLog('getWorkspaceList');
 	context = this.setContext(context,userParams,callback);
-	var workspace = userParams.getValue("feedWorkspace");//!! kludge until core fixed
+	var workspace = userParams ? userParams.getValue("feedWorkspace") : context.workspace;//!! kludge until core fixed
 	var list = [];
 	list.push({title:workspace,name:workspace});
 	context.workspace = workspace;
@@ -226,17 +226,17 @@ fnLog('getWorkspaceListCallback:'+status);
 
 WikispacesSoapAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
-//#console.log('getTiddlerList');
+fnLog('getTiddlerList');
 	context = this.setContext(context,userParams,callback);
 	return this.complete(context,WikispacesSoapAdaptor.getTiddlerListComplete);
 };
 
 WikispacesSoapAdaptor.getTiddlerListComplete = function(context,userParams)
 {
-//#console.log('getTiddlerListComplete');
+fnLog('getTiddlerListComplete');
 // http://www.wikispaces.com/page/api?wsdl
 	var uri = WikispacesSoapAdaptor.SoapUri(context,'%0page/api');
-//#console.log('uri:'+uri);
+fnLog('uri:'+uri);
 	var pl = new SOAPClientParameters();
 	pl.add('session',context.sessionToken);
 	pl.add('spaceId',context.workspaceId);
@@ -247,6 +247,9 @@ WikispacesSoapAdaptor.getTiddlerListComplete = function(context,userParams)
 WikispacesSoapAdaptor.getTiddlerListCallback = function(r,x,context)//(status,context,responseText,uri,xhr)
 {
 	var status = r instanceof Error ? false : true;
+fnLog('getTiddlerListCallback:'+status);
+console.log(r);
+console.log(x);
 	context.status = false;
 	context.statusText = WikispacesSoapAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	function gev(p,i,n) {
