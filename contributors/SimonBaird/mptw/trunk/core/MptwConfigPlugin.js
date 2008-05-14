@@ -18,11 +18,12 @@ config.options.chkInsertTabs = true;    		// tab inserts a tab when editing a ti
 config.views.wikified.defaultText = "";			// don't need message when a tiddler doesn't exist
 config.views.editor.defaultText = "";			// don't need message when creating a new tiddler 
 
-config.options.chkAutoSave = true;				// do autosave
 config.options.chkSaveBackups = true;			// do save backups
 config.options.txtBackupFolder = 'twbackup';	// put backups in a backups folder
 
-config.mptwVersion = "2.4.0";
+config.options.chkAutoSave = (window.location.protocol == "file:"); // do autosave if we're in local file
+
+config.mptwVersion = "2.4.1";
 
 config.macros.mptwVersion={handler:function(place){wikify(config.mptwVersion,place);}};
 
