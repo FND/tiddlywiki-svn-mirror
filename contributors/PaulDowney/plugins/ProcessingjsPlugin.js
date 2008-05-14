@@ -14,7 +14,6 @@ With contributions from Simon Baird.
 ***/
 
 //{{{
-
 // Ensure Plugin is only installed once.
 if(!version.extensions.Processingjs) {
 version.extensions.Processingjs = {installed:true};
@@ -24,7 +23,7 @@ config.macros.Processing = {
 	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
 		var id = "processingcanvas"+this.counter;
 		var canvas = createTiddlyElement(place,"canvas",id);
-		
+
 		// inlined code
 		var code = paramString;
 
@@ -33,14 +32,29 @@ config.macros.Processing = {
 			code = store.getTiddlerText(params[0]);
 		}
 
-		// allows use as a view macro
-		if (paramString == '') {
+		// or with no params, grab code from this tiddler
+		if (paramString.trim() == '') {
 			code = tiddler.text;
 		}
+
+		createTiddlyElement(place,"br");
+		var restartBtn = createTiddlyButton(place,"restart","restart",function() {
+				story.refreshTiddler(tiddler.title,null,true);
+				return false;
+			},
+			'processingRestart' // it's a class so you can style the button
+		);
 
 		Processing(canvas,code);
 	}
 };
+
+// requires 2.4
+merge(config.macros.view.views,{
+	processing: function(value,place,params,wikifier,paramString,tiddler) {
+		wikify("<<Processing\n"+value+"\n>>",place,highlightHack,tiddler);
+	}
+});
 
 /*
  *  inlined copy of Processing.js
