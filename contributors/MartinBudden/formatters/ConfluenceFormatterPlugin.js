@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ConfluenceFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/ConfluenceFormatterPlugin.js |
-|''Version:''|0.1.3|
+|''Version:''|0.1.4|
 |''Date:''|Dec 8, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -209,11 +209,11 @@ config.confluenceFormatters = [
 			var cell = createTiddlyElement(e,'td');
 			w.subWikifyTerm(cell,this.cellTermRegExp);
 			if(cellMatch[1]) {
-				// End of row
+				//# End of row
 				w.nextMatch = this.cellRegExp.lastIndex;
 				return true;
 			} else {
-				// Cell
+				//# Cell
 				w.nextMatch--;
 			}
 			this.cellRegExp.lastIndex = w.nextMatch;
@@ -238,7 +238,7 @@ config.confluenceFormatters = [
 		while(lookaheadMatch && lookaheadMatch.index == w.nextMatch) {
 			var style = lookaheadMatch[3] ? 'square' : null;
 			listType = lookaheadMatch[1] ? 'ol' : 'ul';
-			listLevel = lookaheadMatch[0].length;
+			listLevel = lookaheadMatch[0].length - 1;
 			w.nextMatch += listLevel;
 			if(listLevel > currLevel){
 				for(var i=currLevel; i<listLevel; i++) {
@@ -319,7 +319,7 @@ config.confluenceFormatters = [
 //#"This is a link (optional title)":http://www.textism.com
 	name: 'confluenceExternalLink',
 	match: '(?:".*?" ?):?[a-z]{2,8}:',
-	lookaheadRegExp: /(?:\"(.*?)(?:\((.*?)\))?\" ?):?(.*?)(?=\s|$)/mg,
+	lookaheadRegExp: /(?:\"(.*?)(?:\((.*?)\))?\" ?):?(.*?)(?=\s|$)/mg, //"
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
@@ -445,11 +445,11 @@ config.confluenceFormatters = [
 	handler: config.formatterHelpers.enclosedTextHelper
 },
 {
-	name: 'confluenceParagraph',
+	name: 'confluenceBreak',
 	match: '\\n{2,}',
 	handler: function(w)
 	{
-		createTiddlyElement(w.output,'p');
+		createTiddlyElement(w.output,'br');
 	}
 },
 {
@@ -522,7 +522,7 @@ config.confluenceFormatters = [
 {
 	name: 'confluenceHtmlTag',
 	match: "<(?:[a-zA-Z]{2,}|a)(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?>",
-	lookaheadRegExp: /<([a-zA-Z]+)((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*(\/)?>(?:\n?)/mg,
+	lookaheadRegExp: /<([a-zA-Z]+)((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*(\/)?>(?:\n?)/mg, //'
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
