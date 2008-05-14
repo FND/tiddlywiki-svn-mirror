@@ -4,6 +4,7 @@ tiddler: HomeWikispaces.tiddler
 tiddler: settings.js
 tiddler: shadows/SiteTitleWikispaces.tiddler
 tiddler: shadows/SiteSubtitle.tiddler
+tiddler: shadows/SideBarOptionsImport.tiddler
 tiddler: ../../shadows/MainMenuHome.tiddler
 tiddler: ../../shadows/DefaultTiddlersHome.tiddler
 tiddler: ../../shadows/EditTemplateFields.tiddler
@@ -17,8 +18,10 @@ tiddler: ../../tiddlers/Configuration.tiddler
 tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
+tiddler: ../../adaptors/ImportWorkspacePlugin.js
 tiddler: ../../adaptors/WikispacesSoapAdaptorPlugin.js
 tiddler: ../../adaptors/soapclient.js
 tiddler: ../../formatters/WikispacesFormatterPlugin.js
 tiddler: ../../feeds/WikispacesTwTestFeed.tiddler
 tiddler: ../../testFormatters/testWikispacesFormat.tiddler
+tiddler: ../../plugins/ImportWikispacesMessagesPlugin.js
