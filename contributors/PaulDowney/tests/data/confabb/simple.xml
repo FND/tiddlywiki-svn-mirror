@@ -23,6 +23,9 @@
       <starttime>20061107073019</starttime>
       <endtime>20061107083019</endtime>
 
+      <!-- The confabb agenda is split across days, would be nice to see them, as for  -->
+      <day>Day 1</day>
+
       <!-- if the track is empty, we assume that's a "global" event across all tracks: "Lunch" etc -->
       <track></track>
 
@@ -40,38 +43,13 @@
       <starttime>20061107083002</starttime>
       <endtime>20061107094502</endtime>
 
-      <!-- assuming the track is text "Workshops", "" -->
+      <!-- The confabb agenda is split across days, would be nice to see them, as for  -->
+      <day>Day 1</day>
+
       <track>Workshops</track>
 
-      <!-- might be an idea to make this <trackid>:
-
-	  <trackid>track-22</trackid>
-
-	 and have a list of tracks at the bottom, e.g.: 
-
-	    <track id="track-22">
-		<title>Workshops</title>
-		<description>Workshops and Tutorial sessions, blah, blah</description>
-	    </track>
-      --> 
-
       <!-- The location is currently missing, but would be useful! -->
-      <location>Workshops</location>
-
-      <!-- might be an idea to make this <locationid>:
-
-	  <trackid>location-93</trackid>
-
-	 and have a list of locations at the bottom, e.g.: 
-
-	    <track id="location-93">
-		<title>Grand Ballroom</title>
-		<description>Across the carpark, and up the stairs.</description>
-		.. possibly other vcard address info here ..
-	    </track>
-
-      --> 
-
+      <location>Grand Ballroom</location>
 
       <guid>http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessions/21/details</guid>
 
@@ -125,6 +103,25 @@
 
 	    <linkedin>http://www.linkedin.com/in/marccanter</linkedin>
 	</vcard>
+
+
+      <!-- 
+
+	a suggestion for the future is to evolve /session/speaker, /session/track, /sesssion/location, /session/day
+	  to be /session/speakerid, /session/trackid, /session/locationid etc and
+          index info for each at the bottom, eg.
+
+		<session>
+		    ...
+		    <trackid>track22</trackid>
+		</session
+
+		<track id="track22">
+		    <title>Workshops</title>
+		    <description>Workshops and Tutorial sessions, blah, blah</description>
+		</track>
+      --> 
+
 
 </conference>
 <!-- </tiddler> -->
