@@ -119,6 +119,8 @@ config.macros.importWikispacesMessages.getTopicListCallback = function(context,u
 			story.refreshTiddler(tiddler.title,1,true);
 			context.adaptor.getMessageList(tiddler.fields['server.topic_id'],context,null,config.macros.importWikispacesMessages.getMessageListCallback);
 		}
+	} else {
+		displayMessage(context.statusText);
 	}
 };
 
