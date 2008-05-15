@@ -155,6 +155,7 @@ config.macros.importWorkspace.openWorkspaceCallback = function(context,userParam
 		context.adaptor.getTiddlerList(context,null,config.macros.importWorkspace.getTiddlerListCallback);
 		return true;
 	}
+	displayMessage(context.statusText);
 	return false;
 };
 
