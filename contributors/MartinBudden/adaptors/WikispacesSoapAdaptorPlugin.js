@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#WikispacesSoapAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js |
-|''Version:''|0.0.9|
+|''Version:''|0.0.10|
 |''Date:''|Feb 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -45,6 +45,8 @@ WikispacesSoapAdaptor.mimeType = 'text/plain';
 WikispacesSoapAdaptor.serverType = 'wikispaces'; // MUST BE LOWER CASE
 WikispacesSoapAdaptor.serverParsingErrorMessage = "Error parsing result from server";
 WikispacesSoapAdaptor.errorInFunctionMessage = "Error in function WikispacesSoapAdaptor.%0";
+WikispacesSoapAdaptor.tiddlerNotFoundMessage= "Tiddler %0 not found";
+
 WikispacesSoapAdaptor.soapTemplate = '<?xml version=\"1.0\" encoding="utf-8"?>' +
 	'<soap:Envelope ' +
 	'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
@@ -129,8 +131,6 @@ WikispacesSoapAdaptor.loginCallback = function(r,x,context)//status,context,resp
 {
 	context.status = r instanceof Error ? false : true;
 fnLog('loginCallback:'+status);
-console.log(r);
-console.log(x);
 	if(context.status) {
 		context.sessionToken = r;
 		context.adaptor.sessionToken = r;
@@ -435,7 +435,7 @@ WikispacesSoapAdaptor.getTiddlerCallback = function(r,x,context)//(status,contex
 			var p = x.getElementsByTagName('page');
 			var i = 0;
 			var tiddler = context.tiddler;
-			tiddler.tags = '';
+			tiddler.tags = ['page'];
 			tiddler.text = gev(p,i,'content');
 			tiddler.modified = WikispacesSoapAdaptor.dateFromTimestamp(gev(p,i,'date_created'));
 			tiddler.fields['server.modifier.id'] = gev(p,i,'user_created');
@@ -443,8 +443,8 @@ WikispacesSoapAdaptor.getTiddlerCallback = function(r,x,context)//(status,contex
 			tiddler.fields['server.page.revision'] = gev(p,i,'versionId');
 			tiddler.fields['server.workspace'] = context.workspace;
 			tiddler.fields['server.workspaceid'] = gev(p,i,'spaceId');
-			tiddler.fields.wikiformat = 'wikispaces';
-			tiddler.fields['server.host'] = WikispacesSoapAdaptor.minHostName(context.host);
+			//tiddler.fields.wikiformat = 'wikispaces';
+			//tiddler.fields['server.host'] = WikispacesSoapAdaptor.minHostName(context.host);
 //#fnLog("fields");
 //#fnLog(tiddler.fields);
 			context.tiddler = tiddler;
@@ -513,6 +513,7 @@ WikispacesSoapAdaptor.getTiddlerRevisionListCallback = function(r,x,context)//(s
 				tiddler.fields['server.workspace'] = context.workspace;
 				tiddler.fields['server.workspaceid'] = gev(p,i,'spaceId');
 				tiddler.fields.wikiformat = 'wikispaces';
+				tiddler.fields['server.type'] = WikispacesSoapAdaptor.serverType;
 				tiddler.fields['server.host'] = WikispacesSoapAdaptor.minHostName(context.host);
 				list.push(tiddler);
 			}
@@ -582,13 +583,19 @@ WikispacesSoapAdaptor.prototype.close = function()
 
 WikispacesSoapAdaptor.prototype.getTopicList = function(title,context,userParams,callback)
 {
-fnLog('getTopicList');
+fnLog('getTopicList:'+title);
 	context = this.setContext(context,userParams,callback);
 	var tiddler = store.getTiddler(title);
-	context.pageId = tiddler.fields['server.page.id'];
-	context.parentTitle = title;
-
-	return this.complete(context,WikispacesSoapAdaptor.getTopicListComplete);
+	if(tiddler) {
+		context.pageId = tiddler.fields['server.page.id'];
+		context.parentTitle = title;
+		return this.complete(context,WikispacesSoapAdaptor.getTopicListComplete);
+	} else {
+		context.status = false;
+		context.statusText = WikispacesSoapAdaptor.tiddlerNotFoundMessage.format([title]);
+		if(context.callback)
+			context.callback(context,context.userParams);
+	}
 };
 
 WikispacesSoapAdaptor.getTopicListComplete = function(context,userParams)
@@ -618,18 +625,24 @@ fnLog('getTopicListCallback:'+status);
 			var list = [];
 			var p = x.getElementsByTagName('message');
 			for(var i = 0;i<p.length;i++) {
-				var title = '_topic:' + String(gev(p,i,'id')) + ' parent:' + context.parentTitle+' Subject:' + gev(p,i,'subject');
+				var id = String(gev(p,i,'id'));
+				var subject = gev(p,i,'subject');
+				var title = '_topic:' + id + ' parent:' + context.parentTitle+' Subject:' + subject;
 				//var title = gev(p,i,'subject');
 				if(title.indexOf('._')!=0 && !store.isShadowTiddler(title)) {
 					var tiddler = new Tiddler(title);
 					tiddler.text = gev(p,i,'body');
+					tiddler.fields['server.id'] = id;
+					tiddler.fields['server.subject'] = subject;
 					tiddler.fields['server.page_id'] = gev(p,i,'page_id');
 					tiddler.fields['server.topic_id'] = gev(p,i,'topic_id');
 					tiddler.fields['server.responses'] = gev(p,i,'responses');
 					tiddler.modified = WikispacesSoapAdaptor.dateFromTimestamp(gev(p,i,'date_created'));
 					tiddler.fields['server.modifier.id'] = gev(p,i,'user_created');
 					tiddler.fields.wikiformat = 'wikispaces';
+					tiddler.fields['server.type'] = WikispacesSoapAdaptor.serverType;
 					tiddler.fields['server.host'] = WikispacesSoapAdaptor.minHostName(context.host);
+					tiddler.tags = ["topic"];
 					list.push(tiddler);
 				}
 			}
@@ -682,20 +695,30 @@ fnLog('getMessageListCallback:'+status);
 			var list = [];
 			var p = x.getElementsByTagName('message');
 			for(var i = 0;i<p.length;i++) {
-				var title = '_message:' + String(gev(p,i,'id')) + ' Subject:' + gev(p,i,'subject');
+				var id = String(gev(p,i,'id'));
+				var subject = gev(p,i,'subject');
+				var title = '_message:' + id + ' parent:' + context.parentTitle+' Subject:' + subject;
+				//var title = '_message:' + String(gev(p,i,'id')) + ' Subject:' + gev(p,i,'subject');
 				fnLog("msg:"+title);
 				//var title = gev(p,i,'subject');
 				if(title.indexOf('._')!=0 && !store.isShadowTiddler(title)) {
-					var tiddler = new Tiddler(title);
-					tiddler.text = gev(p,i,'body');
-					tiddler.fields['server.page_id'] = gev(p,i,'page_id');
-					tiddler.fields['server.topic_id'] = gev(p,i,'topic_id');
-					tiddler.fields['server.responses'] = gev(p,i,'responses');
-					tiddler.modified = WikispacesSoapAdaptor.dateFromTimestamp(gev(p,i,'date_created'));
-					tiddler.fields['server.modifier.id'] = gev(p,i,'user_created');
-					tiddler.fields.wikiformat = 'wikispaces';
-					tiddler.fields['server.host'] = WikispacesSoapAdaptor.minHostName(context.host);
-					list.push(tiddler);
+					var responses = gev(p,i,'responses');
+					if(responses==0) {// if responses is non-zero then this is a topic
+						var tiddler = new Tiddler(title);
+						tiddler.text = gev(p,i,'body');
+						tiddler.fields['server.id'] = id;
+						tiddler.fields['server.subject'] = subject;
+						tiddler.fields['server.page_id'] = gev(p,i,'page_id');
+						tiddler.fields['server.topic_id'] = gev(p,i,'topic_id');
+						tiddler.fields['server.responses'] = responses;;
+						tiddler.modified = WikispacesSoapAdaptor.dateFromTimestamp(gev(p,i,'date_created'));
+						tiddler.fields['server.modifier.id'] = gev(p,i,'user_created');
+						tiddler.fields.wikiformat = 'wikispaces';
+						tiddler.fields['server.type'] = WikispacesSoapAdaptor.serverType;
+						tiddler.fields['server.host'] = WikispacesSoapAdaptor.minHostName(context.host);
+						tiddler.tags = ["message"];
+						list.push(tiddler);
+					}
 				}
 			}
 		} catch (ex) {
