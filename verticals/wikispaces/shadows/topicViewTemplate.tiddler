@@ -1,0 +1,7 @@
+<div title="topicViewTemplate" tags="excludeLists excludeSearch">
+<pre><!--{{{-->
+<div class="title" macro="view 'server.subject'"></div>
+<div class="subtitle"><span macro="viewTiddlerFields"></span></div>
+<div class="tagged" macro="tags"></div>
+<!--}}}--></pre>
+</div>
