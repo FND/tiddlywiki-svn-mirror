@@ -2,18 +2,24 @@
 !Metadata:
 |''Name:''|ArchivedTimeline|
 |''Description:''|Timeline archived monthly.|
-|''Version:''|0.6.3|
-|''Date:''|Jan 14, 2007|
+|''Version:''|0.7.0|
+|''Date:''|Aug 25, 2007|
 |''Source:''|http://sourceforge.net/project/showfiles.php?group_id=150646|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License]]|
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''~CoreVersion:''|2.0.11|
 |''Browser:''|Firefox 1.5+; InternetExplorer 6.0|
 
-!Syntax/Examples:
-|{{{<<timeline [modified | created] [maxentries]>>}}}|
+!Syntax:
+{{{<<timeline [modified|created [maxentries [dateFormate]]]>>}}}
+!Examples:
+{{{<<timeline>>}}}
+{{{<<timeline created 10>>}}}
+{{{<<timeline modified 10 "MMM DD, YYYY">>}}}
+
 !Revision History:
 |''Version''|''Date''|''Note''|
+|0.7.0|Aug 25, 2007|Accept a date format parameter|
 |0.6.3|Jan 14, 2007|Cleaned codes, Removed config.macros.timeline.slider and config.macros.timeline.onClickSlider|
 |0.6.2|Dec 10, 2006|Add monthFormat to display month format for Chinese|
 |0.6.1|Aug 12, 2006|A great effect on config.macros.timeline.slider for Firefox, thanks Bob McElrath|
@@ -33,8 +39,8 @@
 !Code section:
 ***/
 //{{{
-version.extensions.archivedTimeline = {major: 0, minor: 6, revision: 3,
-	date: new Date("Jan 14, 2007"),
+version.extensions.archivedTimeline = {major: 0, minor: 7, revision: 0,
+	date: new Date("Aug 26, 2007"),
 	name: "ArchivedTimeline",
 	type: "Macro",
 	author: "BramChen",
@@ -57,6 +63,7 @@ config.macros.timeline.handler = function(place,macroName,params) {
 	var lastMonth = ""; var lastDay = ""; var theText = "----\n"; var i = 0;
 	var last = (params[1])?params[1]:config.options.txtTimelineMaxentries;
 		last = (isNaN(last)||last<1) ? 0:tiddlers.length-Math.min(tiddlers.length,parseInt(last));
+	var dateFormat = params[2] ? params[2] : this.dateFormat;
 	var cookie; var archives;
 	for (var t=tiddlers.length-1; t>=last; t--) {
 		var tiddler = tiddlers[t];
@@ -76,7 +83,7 @@ config.macros.timeline.handler = function(place,macroName,params) {
 			}
 		}
 		if(theDay != lastDay){
-			theText +=  tiddler[field].formatString(this.dateFormat) + '\n';
+			theText +=  tiddler[field].formatString(dateFormat) + '\n';
 			lastDay = theDay; 
 		}
 		theText += '* [[' + tiddler.title + ']]\n';

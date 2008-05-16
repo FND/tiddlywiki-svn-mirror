@@ -1,7 +1,10 @@
-//''Breaks the Timeline tab into "Tiddlers" and "Comments".''//
-//Makes sense with the CommentPlugin.//
-
-{{{
+/***
+|''Name:''|CommentTabPlugin|
+|''Source:''|[[TiddlyWiki-zh|http://tiddlywiki-zh.googlecode.com/svn/trunk/contributors/BramChen/locales/plugins/]]|
+|''Requires:''|[[CommentPlugin|http://sourceforge.net/project/showfiles.php?group_id=150646]]|
+|''Descriptions:''|Breaks the Timeline tab into "Tiddlers" and "Comments".|
+***/
+//{{{
 function in_array(item, arr){for(var i=0;i<arr.length;i++)if(item==arr[i])return true};
 function get_parent(tiddler){while(tiddler && in_array(config.CommentPlugin.CPlingo.comments, tiddler.tags)) tiddler=store.fetchTiddler(tiddler.tags[0]);return tiddler};
 config.options.txtTimelineTab = 'timelineTab'; // huh?
@@ -37,4 +40,4 @@ config.macros.tiddlerComments = {
 			}
 	}
 };
-}}}
+//}}}
