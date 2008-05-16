@@ -287,11 +287,32 @@ merge(config.macros,{
 						tiddler.removeTag("Action");
 						tiddler.removeTag("Project");
 						tiddler.addTag("Tickler");                          
+						tiddler.addTag("Once");                          
 						return false;
 					});
 			}
 		}
 	},
+
+	convertActionToSubProj: {
+		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+			if (tiddler.tags.contains('Action')) {
+
+				createTiddlyButton(place, "make subj project", "make this action into a sub project", function(e) {
+						tiddler.removeTag("Action");                      
+						tiddler.removeTag("Next");                     
+						tiddler.removeTag("Future");                     
+						tiddler.removeTag("Waiting For");                     
+						tiddler.removeTag("Done");                     
+						tiddler.addTag("Project");                      
+						tiddler.addTag("Active");                      
+						return false;
+					});
+
+			}
+		}
+	},
+
 
 	linkToParent: {
 		handler: function(place,macroName,params,wikifier,paramString,tiddler) {

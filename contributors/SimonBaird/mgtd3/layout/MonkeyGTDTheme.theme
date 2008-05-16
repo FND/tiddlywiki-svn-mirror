@@ -433,7 +433,8 @@ html>body .header2 {background-image:url(http://simonbaird.com/images/monkeygtd/
 /* TODO why not just make it all of them... */
 .mgtdList .action .tiddlyLinkExisting,
 .mgtdList .plain .tiddlyLinkExisting,
-.mgtdList .tickler .tiddlyLinkExisting
+.mgtdList .tickler .tiddlyLinkExisting,
+.mgtdList .project .tiddlyLinkExisting
 {
 	font-weight: normal ! important;
 }
@@ -441,7 +442,8 @@ html>body .header2 {background-image:url(http://simonbaird.com/images/monkeygtd/
 /* TODO why not just make it all of them... */
 .mgtdList .action .tiddlyLink,
 .mgtdList .plain .tiddlyLink,
-.mgtdList .tickler .tiddlyLink
+.mgtdList .tickler .tiddlyLink,
+.mgtdList .project .tiddlyLink
 {
 	font-weight: normal ! important;
 }
@@ -525,8 +527,8 @@ body {
 .dateBox {
 	/* TODO make prettier */
 	font-weight:medium; font-size:120%; margin:0.1em; background-color:#ffd;
-	border:2px solid [[ColorPalette::TertiaryMid]];
-	background-color:[[ColorPalette::TertiaryPale]];
+	border:1px solid #ccc;
+	background-color:#fff;
 	text-align:center;
 	width:8em;
 }
@@ -627,6 +629,82 @@ with brs in non-mgtdlist content. .normal might help */
 	#contentWrapper .chkOptionInput {border:0; width:0.25cm;}
 	.titleContainer {border-bottom: 1px dotted #000;}
 }
+
+
+.controls {
+	margin: auto;
+	margin:0; padding:0;
+}
+.controls tr, .controls td, .controls {
+	border-style:none!important;
+	border-collapse:no-collapse;
+}
+
+.controls {
+	clear:right;
+	background-color:#f0f0f0;
+	border:1px solid #ccc!important; 
+	padding:0.5em;
+	/* margin-top:1em; */
+	padding-bottom:0.5em;
+}
+
+.toolbar .button {
+	border-style:none!important;
+}
+
+.controls .subtitle {
+	margin-left:0;
+	padding-left:0;
+}
+
+.controls .button {
+	background-color:#fff;
+}
+
+.controls .label {
+	color:#888; font-size:90%;
+}
+
+.controls .floatleft {
+	padding-right:1em;
+	float:left;
+}
+
+.controls .floatright {
+	padding-left:1em;
+	float:right;
+}
+
+
+.controls .clearleft { clear:left; }
+.controls .clearright { clear:right; }
+.controls .clearboth { clear:both; }
+
+.controls .button.on {
+	background-color:#555; border-style:none!important;
+}
+
+.controls .button.Starred.off,
+.controls .button.Starred.on
+{ background-color:#f0f0f0; border-style:none!important;}
+
+.unboldLinks .tiddlyLink {
+	font-weight:normal;
+}
+
+.smaller select { font-size:90%; }
+
+.buttonsLikeLinks .button {
+	border-style:none!important;
+	background:transparent;
+	color:#008;
+}
+
+.buttonsLikeLinks .button:hover {
+	text-decoration:underline;
+}
+
 
 /* for user styles */
 [[StyleSheet]]
