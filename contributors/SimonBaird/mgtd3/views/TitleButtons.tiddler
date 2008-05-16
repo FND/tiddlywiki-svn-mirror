@@ -122,6 +122,7 @@
 <!--{{{-->
 <span class='title' macro='view title'></span> (Area)<span macro="help Area"></span>
 <span macro="singleToggleTag tag:Starred"></span>
+<span class="label">Realm:</span><span macro="multiSelectTag Realm allowNone:on"></span>
 <!--}}}-->
 
 !Realm

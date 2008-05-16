@@ -43,6 +43,31 @@ merge(Tiddler.prototype,{
 
 	hasTag: function(tag) {
 		return this.tags.contains(tag);
+	},
+
+	getParent: function(tag) {
+		return this.getByIndex(tag);
+	},
+
+	realmMismatchWithParent: function(tag) {
+		var myRealm = this.getParent('Realm')[0];
+
+		if (!myRealm)
+			return true; // no realm, should be fixed..
+
+		var myParent = this.getParent(tag)[0];
+		if (!myParent)
+			return false; // nothing to be mismatched with
+
+		var parentTiddler = store.fetchTiddler(this.getParent(tag)[0]);
+		if (!parentTiddler)
+			return true; // doubt it would ever happen but...
+
+		parentRealm = parentTiddler.getParent('Realm')[0]; // we assume one realm only...
+		if (!parentRealm)
+			return true;
+
+		return parentRealm != myRealm;
 	}
 
 });

@@ -5,7 +5,8 @@ merge(config.macros,{
 			var shortHand = {
 				'W': 'Waiting For',
 				'N': 'Next',
-				'F': 'Future'
+				'F': 'Future',
+				'S': 'Starred'
 			};
 
 			wikify("Quick add projects and actions (See [[About Quick Add]] for more info):\n",place);

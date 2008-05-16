@@ -36,9 +36,11 @@ merge(config.macros,{
 			if (active.length == 1) {
 				return active[0];
 			}
-
-			// if there's more than one active realm use a slice to get the realm priority and choose the highest one
+			else if (active.length == 0) {
+				return fastTagged('Realm')[0]; // whatever...
+			}
 			else {
+				// if there's more than one active realm use a slice to get the realm priority and choose the highest one
 				// TODO, make this prettier
 				var toBeat = "zzzzzzz";
 				var soFar = active[0];
