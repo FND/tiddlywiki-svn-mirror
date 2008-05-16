@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ImportWikispacesMessagesPlugin.js |
-|''Version:''|0.0.3|
+|''Version:''|0.0.4|
 |''Date:''|May 13, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -136,6 +136,33 @@ config.macros.importWikispacesMessages.getMessageListCallback = function(context
 			story.refreshTiddler(tiddler.title,1,true);
 		}
 	}
+};
+//# getDiscussion command definition
+config.commands.getDiscussion = {};
+merge(config.commands.getDiscussion,{
+	text: "getdiscussion",
+	tooltip:"Get discussion for this tiddler",
+	hideReadOnly: true,
+	done: "Discussion downloaded"
+	});
+
+config.commands.getDiscussion.isEnabled = function(tiddler)
+{
+	return isAdaptorFunctionSupported('getTopicList',tiddler.fields);
+};
+
+config.commands.getDiscussion.handler = function(event,src,title)
+{
+displayMessage("config.commands.getTiddler.handler:"+title);
+	var tiddler = store.fetchTiddler(title);
+	if(tiddler) {
+		var fields = tiddler.fields;
+	} else {
+		fields = String(document.getElementById(story.idPrefix + title).getAttribute("tiddlyFields"));
+		fields = fields ? fields.decodeHashMap() : null;
+	}
+	config.macros.importWikispacesMessages.getTopicList(title,config.macros.importWikispacesMessages.createContext(fields));
+	return true;
 };
 
 } //# end of 'install only once'
