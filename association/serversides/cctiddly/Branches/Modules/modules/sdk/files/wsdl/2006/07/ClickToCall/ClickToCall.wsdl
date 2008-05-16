@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<wsdl:definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:sdk="http://sdk.bt.com/2006/07/ClickToCall" xmlns:tns="http://sdk.bt.com/2006/07/ClickToCall" targetNamespace="http://sdk.bt.com/2006/07/ClickToCall"><!--
+               (C) British Telecommunications plc, 2007, All Rights Reserved
+               generated: 2008-03-19-->
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://sdk.bt.com/2006/07/ClickToCall">
+         <xs:element name="clickToCall">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="clickToCallResponse">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="clickToCallRequest">
+      <wsdl:part name="parameters" element="sdk:clickToCall"/>
+   </wsdl:message>
+   <wsdl:message name="clickToCallResponse">
+      <wsdl:part name="parameters" element="sdk:clickToCallResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="ClickToCallInterface">
+      <wsdl:operation name="clickToCall">
+         <wsdl:input name="clickToCallRequest" message="tns:clickToCallRequest"/>
+         <wsdl:output name="clickToCallResponse" message="tns:clickToCallResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="ClickToCallSoapBinding" type="tns:ClickToCallInterface">
+      <wsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="clickToCall">
+         <wsoap:operation soapAction="http://sdk.bt.com/2006/07/ClickToCall#clickToCall"/>
+         <wsdl:input name="clickToCallRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="clickToCallResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="ClickToCallService">
+      <wsdl:port name="ClickToCallEndpoint" binding="tns:ClickToCallSoapBinding">
+         <wsoap:address location="http://localhost/endpoint/ClickToCall/2006/07"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

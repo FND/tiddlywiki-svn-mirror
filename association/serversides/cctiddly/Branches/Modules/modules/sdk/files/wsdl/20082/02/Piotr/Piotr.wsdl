@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+
+<wsdl:definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:sdk="http://sdk.bt.com/2008/02/Piotr" xmlns:tns="http://sdk.bt.com/2008/02/Piotr" targetNamespace="http://sdk.bt.com/2008/02/Piotr"><!--
+               (C) British Telecommunications plc, 2007, All Rights Reserved
+               generated: 2008-03-19-->
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://sdk.bt.com/2008/02/Piotr">
+         <xs:complexType name="BaseResult">
+            <xs:sequence>
+               <xs:element name="errorCode" type="xs:int"/>
+               <xs:element name="errorMessage" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="piotr">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="extAccountId" type="xs:string"/>
+                  <xs:element name="callerNum" type="xs:string"/>
+                  <xs:element name="calleeName" type="xs:string"/>
+                  <xs:element name="calleeNum" type="xs:string"/>
+                  <xs:element name="calleeContactId" type="xs:int"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="piotrResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="baseResult" type="sdk:BaseResult"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="piotrRequest">
+      <wsdl:part name="parameters" element="sdk:piotr"/>
+   </wsdl:message>
+   <wsdl:message name="piotrResponse">
+      <wsdl:part name="parameters" element="sdk:piotrResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="PiotrInterface">
+      <wsdl:operation name="piotr">
+         <wsdl:input name="piotrRequest" message="tns:piotrRequest"/>
+         <wsdl:output name="piotrResponse" message="tns:piotrResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="PiotrSoapBinding" type="tns:PiotrInterface">
+      <wsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="piotr">
+         <wsoap:operation soapAction="http://sdk.bt.com/2008/02/Piotr#piotr"/>
+         <wsdl:input name="piotrRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="piotrResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="PiotrService">
+      <wsdl:port name="PiotrEndpoint" binding="tns:PiotrSoapBinding">
+         <wsoap:address location="http://localhost/endpoint/Piotr/2008/02"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

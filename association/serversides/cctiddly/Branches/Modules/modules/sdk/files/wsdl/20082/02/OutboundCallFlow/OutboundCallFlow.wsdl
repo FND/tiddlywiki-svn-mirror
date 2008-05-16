@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+
+<wsdl:definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:sdk="http://sdk.bt.com/2008/02/OutboundCallFlow" xmlns:tns="http://sdk.bt.com/2008/02/OutboundCallFlow" targetNamespace="http://sdk.bt.com/2008/02/OutboundCallFlow"><!--
+               (C) British Telecommunications plc, 2007, All Rights Reserved
+               generated: 2008-03-19-->
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://sdk.bt.com/2008/02/OutboundCallFlow">
+         <xs:complexType name="BaseResult">
+            <xs:sequence>
+               <xs:element name="errorCode" type="xs:int"/>
+               <xs:element name="errorMessage" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="clickToCall">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="extAccountId" type="xs:string"/>
+                  <xs:element name="callerNum" type="xs:string"/>
+                  <xs:element name="calleeName" type="xs:string"/>
+                  <xs:element name="calleeNum" type="xs:string"/>
+                  <xs:element name="calleeContactId" type="xs:int"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="clickToCallResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="baseResult" type="sdk:BaseResult"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="clickToCallRequest">
+      <wsdl:part name="parameters" element="sdk:clickToCall"/>
+   </wsdl:message>
+   <wsdl:message name="clickToCallResponse">
+      <wsdl:part name="parameters" element="sdk:clickToCallResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="OutboundCallFlowInterface">
+      <wsdl:operation name="clickToCall">
+         <wsdl:input name="clickToCallRequest" message="tns:clickToCallRequest"/>
+         <wsdl:output name="clickToCallResponse" message="tns:clickToCallResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="OutboundCallFlowSoapBinding" type="tns:OutboundCallFlowInterface">
+      <wsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="clickToCall">
+         <wsoap:operation soapAction="http://sdk.bt.com/2008/02/OutboundCallFlow#clickToCall"/>
+         <wsdl:input name="clickToCallRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="clickToCallResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="OutboundCallFlowService">
+      <wsdl:port name="OutboundCallFlowEndpoint" binding="tns:OutboundCallFlowSoapBinding">
+         <wsoap:address location="http://localhost/endpoint/OutboundCallFlow/2008/02"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

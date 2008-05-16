@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://northropl/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             targetNamespace="http://northropl/" name="WarehouseService">
+    <types>
+        <xs:schema xmlns:tns="http://northropl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://northropl/">
+
+<xs:element name="getPrice" type="tns:getPrice"></xs:element>
+
+<xs:element name="getPriceResponse" type="tns:getPriceResponse"></xs:element>
+
+<xs:complexType name="getPrice">
+<xs:sequence>
+<xs:element name="description" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getPriceResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+    </types>
+    <message name="getPrice">
+        <part name="parameters" element="tns:getPrice"/>
+    </message>
+    <message name="getPriceResponse">
+        <part name="parameters" element="tns:getPriceResponse"/>
+    </message>
+    <portType name="WarehouseInterface">
+        <operation name="getPrice">
+            <input message="tns:getPrice"/>
+            <output message="tns:getPriceResponse"/>
+        </operation>
+    </portType>
+    <binding name="WarehousePortBinding" type="tns:WarehouseInterface">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <operation name="getPrice">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="WarehouseService">
+        <port name="WarehousePort" binding="tns:WarehousePortBinding">
+            <soap:address location="http://127.0.0.1:8082/WebServices/warehouse"/>
+        </port>
+    </service>
+</definitions>

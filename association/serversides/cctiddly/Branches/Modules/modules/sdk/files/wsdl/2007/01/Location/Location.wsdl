@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://sdk.bt.com/2007/01/Location" xmlns:sdk="http://sdk.bt.com/2007/01/Location" targetNamespace="http://sdk.bt.com/2007/01/Location"><!--
+               (C) British Telecommunications plc, 2007, All Rights Reserved
+               generated: 2008-04-14+01:00-->
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://sdk.bt.com/2007/01/Location">
+         <xs:complexType name="GeoLocation">
+            <xs:sequence>
+               <xs:element name="accuracy" type="xs:int"/>
+               <xs:element name="altitude" type="xs:double"/>
+               <xs:element name="latitude" type="xs:double"/>
+               <xs:element name="longitude" type="xs:double"/>
+               <xs:element name="timeStamp" type="xs:dateTime"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getGeoLocation">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="deviceId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getGeoLocationResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="geoLocation" type="sdk:GeoLocation"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="pinGeoLocation">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="deviceId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="pinGeoLocationResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="setGeoLocation">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="deviceId" type="xs:string"/>
+                  <xs:element name="altitude" type="xs:double"/>
+                  <xs:element name="latitude" type="xs:double"/>
+                  <xs:element name="longitude" type="xs:double"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="setGeoLocationResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="clearGeoLocation">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="deviceId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="clearGeoLocationResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="getGeoLocationRequest">
+      <wsdl:part name="parameters" element="sdk:getGeoLocation"/>
+   </wsdl:message>
+   <wsdl:message name="getGeoLocationResponse">
+      <wsdl:part name="parameters" element="sdk:getGeoLocationResponse"/>
+   </wsdl:message>
+   <wsdl:message name="pinGeoLocationRequest">
+      <wsdl:part name="parameters" element="sdk:pinGeoLocation"/>
+   </wsdl:message>
+   <wsdl:message name="pinGeoLocationResponse">
+      <wsdl:part name="parameters" element="sdk:pinGeoLocationResponse"/>
+   </wsdl:message>
+   <wsdl:message name="setGeoLocationRequest">
+      <wsdl:part name="parameters" element="sdk:setGeoLocation"/>
+   </wsdl:message>
+   <wsdl:message name="setGeoLocationResponse">
+      <wsdl:part name="parameters" element="sdk:setGeoLocationResponse"/>
+   </wsdl:message>
+   <wsdl:message name="clearGeoLocationRequest">
+      <wsdl:part name="parameters" element="sdk:clearGeoLocation"/>
+   </wsdl:message>
+   <wsdl:message name="clearGeoLocationResponse">
+      <wsdl:part name="parameters" element="sdk:clearGeoLocationResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="LocationInterface">
+      <wsdl:operation name="getGeoLocation">
+         <wsdl:input name="getGeoLocationRequest" message="tns:getGeoLocationRequest"/>
+         <wsdl:output name="getGeoLocationResponse" message="tns:getGeoLocationResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="pinGeoLocation">
+         <wsdl:input name="pinGeoLocationRequest" message="tns:pinGeoLocationRequest"/>
+         <wsdl:output name="pinGeoLocationResponse" message="tns:pinGeoLocationResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="setGeoLocation">
+         <wsdl:input name="setGeoLocationRequest" message="tns:setGeoLocationRequest"/>
+         <wsdl:output name="setGeoLocationResponse" message="tns:setGeoLocationResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="clearGeoLocation">
+         <wsdl:input name="clearGeoLocationRequest" message="tns:clearGeoLocationRequest"/>
+         <wsdl:output name="clearGeoLocationResponse" message="tns:clearGeoLocationResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="LocationSoapBinding" type="tns:LocationInterface">
+      <wsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="getGeoLocation">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Location#getGeoLocation"/>
+         <wsdl:input name="getGeoLocationRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getGeoLocationResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="pinGeoLocation">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Location#pinGeoLocation"/>
+         <wsdl:input name="pinGeoLocationRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="pinGeoLocationResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="setGeoLocation">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Location#setGeoLocation"/>
+         <wsdl:input name="setGeoLocationRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="setGeoLocationResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="clearGeoLocation">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Location#clearGeoLocation"/>
+         <wsdl:input name="clearGeoLocationRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="clearGeoLocationResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="LocationService">
+      <wsdl:port name="LocationEndpoint" binding="tns:LocationSoapBinding">
+         <wsoap:address location="http://localhost/endpoint/Location/2007/01"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

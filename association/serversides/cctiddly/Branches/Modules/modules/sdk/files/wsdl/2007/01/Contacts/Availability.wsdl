@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://sdk.bt.com/2007/01/Contacts/Availability" xmlns:sdk="http://sdk.bt.com/2007/01/Contacts/Availability" targetNamespace="http://sdk.bt.com/2007/01/Contacts/Availability"><!--
+               (C) British Telecommunications plc, 2007, All Rights Reserved
+               generated: 2008-04-14+01:00-->
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://sdk.bt.com/2007/01/Contacts/Availability">
+         <xs:simpleType name="AvailabilityMode">
+            <xs:restriction base="xs:string">
+               <xs:enumeration value="Available"/>
+               <xs:enumeration value="Unavailable"/>
+               <xs:enumeration value="Chat"/>
+               <xs:enumeration value="Away"/>
+               <xs:enumeration value="ExtendedAway"/>
+               <xs:enumeration value="DoNotDisturb"/>
+               <xs:enumeration value="Invisible"/>
+            </xs:restriction>
+         </xs:simpleType>
+         <xs:complexType name="UserNames">
+            <xs:sequence>
+               <xs:element name="userName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="GroupNames">
+            <xs:sequence>
+               <xs:element name="groupName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="Availability">
+            <xs:sequence>
+               <xs:element name="userName" type="xs:string"/>
+               <xs:element name="availabilityMode" type="sdk:AvailabilityMode"/>
+               <xs:element name="statusText" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="Availabilities">
+            <xs:sequence>
+               <xs:element name="availability" type="sdk:Availability" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getDirectedAvailability">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userNames" type="sdk:UserNames"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getDirectedAvailabilityResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="availabilities" type="sdk:Availabilities"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getGroupAvailability">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="groupNames" type="sdk:GroupNames"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getGroupAvailabilityResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="availabilities" type="sdk:Availabilities"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getAvailability">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getAvailabilityResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="availabilities" type="sdk:Availabilities"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="setDirectedAvailability">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userNames" type="sdk:UserNames"/>
+                  <xs:element name="availability" type="sdk:Availability"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="setDirectedAvailabilityResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="availability" type="sdk:Availability"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="setGroupAvailability">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="groupNames" type="sdk:GroupNames"/>
+                  <xs:element name="availability" type="sdk:Availability"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="setGroupAvailabilityResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="availability" type="sdk:Availability"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="setAvailability">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="availability" type="sdk:Availability"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="setAvailabilityResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="availability" type="sdk:Availability"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="getDirectedAvailabilityRequest">
+      <wsdl:part name="parameters" element="sdk:getDirectedAvailability"/>
+   </wsdl:message>
+   <wsdl:message name="getDirectedAvailabilityResponse">
+      <wsdl:part name="parameters" element="sdk:getDirectedAvailabilityResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getGroupAvailabilityRequest">
+      <wsdl:part name="parameters" element="sdk:getGroupAvailability"/>
+   </wsdl:message>
+   <wsdl:message name="getGroupAvailabilityResponse">
+      <wsdl:part name="parameters" element="sdk:getGroupAvailabilityResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getAvailabilityRequest">
+      <wsdl:part name="parameters" element="sdk:getAvailability"/>
+   </wsdl:message>
+   <wsdl:message name="getAvailabilityResponse">
+      <wsdl:part name="parameters" element="sdk:getAvailabilityResponse"/>
+   </wsdl:message>
+   <wsdl:message name="setDirectedAvailabilityRequest">
+      <wsdl:part name="parameters" element="sdk:setDirectedAvailability"/>
+   </wsdl:message>
+   <wsdl:message name="setDirectedAvailabilityResponse">
+      <wsdl:part name="parameters" element="sdk:setDirectedAvailabilityResponse"/>
+   </wsdl:message>
+   <wsdl:message name="setGroupAvailabilityRequest">
+      <wsdl:part name="parameters" element="sdk:setGroupAvailability"/>
+   </wsdl:message>
+   <wsdl:message name="setGroupAvailabilityResponse">
+      <wsdl:part name="parameters" element="sdk:setGroupAvailabilityResponse"/>
+   </wsdl:message>
+   <wsdl:message name="setAvailabilityRequest">
+      <wsdl:part name="parameters" element="sdk:setAvailability"/>
+   </wsdl:message>
+   <wsdl:message name="setAvailabilityResponse">
+      <wsdl:part name="parameters" element="sdk:setAvailabilityResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="ContactsAvailabilityInterface">
+      <wsdl:operation name="getDirectedAvailability">
+         <wsdl:input name="getDirectedAvailabilityRequest" message="tns:getDirectedAvailabilityRequest"/>
+         <wsdl:output name="getDirectedAvailabilityResponse" message="tns:getDirectedAvailabilityResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getGroupAvailability">
+         <wsdl:input name="getGroupAvailabilityRequest" message="tns:getGroupAvailabilityRequest"/>
+         <wsdl:output name="getGroupAvailabilityResponse" message="tns:getGroupAvailabilityResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getAvailability">
+         <wsdl:input name="getAvailabilityRequest" message="tns:getAvailabilityRequest"/>
+         <wsdl:output name="getAvailabilityResponse" message="tns:getAvailabilityResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="setDirectedAvailability">
+         <wsdl:input name="setDirectedAvailabilityRequest" message="tns:setDirectedAvailabilityRequest"/>
+         <wsdl:output name="setDirectedAvailabilityResponse" message="tns:setDirectedAvailabilityResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="setGroupAvailability">
+         <wsdl:input name="setGroupAvailabilityRequest" message="tns:setGroupAvailabilityRequest"/>
+         <wsdl:output name="setGroupAvailabilityResponse" message="tns:setGroupAvailabilityResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="setAvailability">
+         <wsdl:input name="setAvailabilityRequest" message="tns:setAvailabilityRequest"/>
+         <wsdl:output name="setAvailabilityResponse" message="tns:setAvailabilityResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="ContactsAvailabilitySoapBinding" type="tns:ContactsAvailabilityInterface">
+      <wsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="getDirectedAvailability">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Availability#getDirectedAvailability"/>
+         <wsdl:input name="getDirectedAvailabilityRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getDirectedAvailabilityResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getGroupAvailability">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Availability#getGroupAvailability"/>
+         <wsdl:input name="getGroupAvailabilityRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getGroupAvailabilityResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getAvailability">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Availability#getAvailability"/>
+         <wsdl:input name="getAvailabilityRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getAvailabilityResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="setDirectedAvailability">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Availability#setDirectedAvailability"/>
+         <wsdl:input name="setDirectedAvailabilityRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="setDirectedAvailabilityResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="setGroupAvailability">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Availability#setGroupAvailability"/>
+         <wsdl:input name="setGroupAvailabilityRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="setGroupAvailabilityResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="setAvailability">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Availability#setAvailability"/>
+         <wsdl:input name="setAvailabilityRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="setAvailabilityResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="ContactsAvailabilityService">
+      <wsdl:port name="ContactsAvailabilityEndpoint" binding="tns:ContactsAvailabilitySoapBinding">
+         <wsoap:address location="http://localhost/endpoint/Contacts/Availability/2007/01"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

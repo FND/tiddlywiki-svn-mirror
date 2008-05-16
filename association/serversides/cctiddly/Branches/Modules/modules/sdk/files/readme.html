@@ -1,0 +1,402 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!--
+
+Copyright (c) 2008, British Telecommunications plc
+
+All rights reserved.
+
+Redistribution, copy, create derivative works, distribute, issue, perform,
+assisting performance, broadcast, adapt, possess, display, make, sell, offer
+to sell and import in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer. * Redistributions in binary
+form must reproduce the above copyright notice, this list of conditions and
+the following disclaimer in the documentation and/or other materials provided
+with the distribution. * Neither the name of the British Telecommunications
+plc nor the names of its contributors may be used to endorse or promote
+products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY OR SATISFACTORY QUALITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+-->
+<!-- saved from url=(0027)http://web21c.bt.com/forums -->
+<HTML lang=en xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>Web21C SDK - PHP Readme</TITLE>
+<META http-equiv=Content-Type content=text/html; charset=utf-8>
+<META content="BT, Web21C, SDK, API, portal, developer centre" name=KEYWORDS>
+<META content="BT's Web21C SDK developer PHP SDK" name=DESCRIPTION>
+<SCRIPT src="img/Web21C SDK Forums_files/prototype.js"
+type=text/javascript></SCRIPT>
+
+<LINK media=screen href="img/Web21C SDK Forums_files/main.css" type=text/css
+rel=stylesheet><!--link href="/stylesheets/colours.css" rel="stylesheet" type="text/css" media="screen"/--><LINK
+title="All forums" href="http://web21c.bt.com/forums.rss"
+type=application/rss+xml rel=alternate>
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR>
+<style type="text/css">
+<!--
+.style12 {font-size: small}
+.style13 {font-family: "Courier New", Courier, monospace}
+.style2 {	font-size: xx-large;
+	font-weight: bold;
+}
+.style3 {	font-size: large;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.style7 {	font-size: large;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+}
+-->
+</style>
+</HEAD>
+<BODY>
+<DIV id=center>
+<DIV id=globalnav>
+  <DIV id=btGlobe></DIV>
+</DIV>
+<DIV id=headerSearchHelp style="DISPLAY: none">
+<H2>Search Help</H2>
+<P>Search for a phrase: use <STRONG>""</STRONG>, eg. <EM>"Inbound SMS"</EM></P>
+<P>Search for all words: use <STRONG>AND</STRONG>, eg. <EM>Inbound AND
+SMS</EM></P>
+<P>Search for at least one of the words: use <STRONG>OR</STRONG>, eg.
+<EM>Inbound OR SMS</EM></P>
+<P>Search without the words: use <STRONG>NOT</STRONG>, eg. <EM>Inbound NOT
+SMS</EM></P>
+<P>Search must contain: use <STRONG>+</STRONG>, e.g. <EM>Inbound +SMS</EM></P>
+<P class=closeLink><A
+onclick="Effect.toggle(&quot;headerSearchHelp&quot;,'blind',{duration:0.5});; return false;"
+href="http://web21c.bt.com/forums#">close</A></P></DIV>
+<DIV id=top><IMG height=1 alt="" src="img/Web21C SDK Forums_files/spacer.gif"
+width=1></DIV>
+<DIV id=mainContent>
+<DIV id=heading><A href="http://web21c.bt.com/"><IMG height=37
+alt="Web21C SDK: do less achieve more"
+src="img/Web21C SDK Forums_files/web21c_sdk.gif" width=364 border=0></A> <a id=btLink href="http://www.bt.com/"><img id=btImg alt=BT.com
+src="img/Web21C SDK Forums_files/bt_logo.jpg"></a></DIV>
+<DIV id=mainNavBar>
+  <p >&nbsp;</p>
+  </DIV>
+<DIV class=fullWidth><DIV id=feedLinks>
+  <p>	<span class="style2">PHP Web21C SDK </span></p>
+  <DIV id=div>
+    <p ><strong><span class="style3">Quick Start User guide </span></strong></p>
+    <div id="current-content">
+      <div id="post-23">
+        <div>
+          <div>
+            <p ><strong>Requirements : </strong></p>
+            <ul>
+              <LI>PHP 5.2
+              <LI>OpenSSL and SOAP PHP extensions </LI>
+            </ul>
+            <p ><strong>1 .. </strong>Upload the Web21C SDK folder to your web server. </p>
+            <p ><strong>2 ..</strong> Before you can use the SDK you will need to register your   application, this can be done at the URL: <a href="https://sdk.bt.com/Default.aspx?TabId=127">https://web21c.bt.com/registered_applications/new</a></p>
+            <p >Note : In order to run the certificate generation tool   you will need to be running version 6 or above of Java Runtime Environment   (JRE) which can be downloaded from <a href="http://java.sun.com/javase/downloads/index.jsp">http://java.sun.com/javase/downloads/index.jsp</a>&nbsp; (you will receive an error when attempting   to run the tool if you require this upgrade).</p>
+            <p > <em>Option 1 ..</em> Provide a name for your application (used in config.php)</p>
+            <p ><em>Option 2 ..</em> Provide you user id and password for the web21c.bt.com site and any proxy details you may require to connect to the internet. </p>
+            <p ><em>Option 3 .. </em>You should choose <span class="style13">PEM (PKCS#8)</span> for the certificate file type. (<a href="http://simonmcmanus.wordpress.com/2007/07/23/phpweb21c-certificate-generation-using-the-wizard/">for more info see this post</a>) </p>
+            <p ><strong>3 ..</strong> When you use the tool 3 files will be generated   on your desktop. if you generate the files for a production application then Sandbox should be replaced by Prodution:</p>
+            <ul>
+              <li class="style13"> YOURAPPLICATIONNAME_Sandbox_PrivateKey.pem</li>
+              <li class="style13">YOURAPPLICATIONNAME_Sandbox_PublicKey.pem</li>
+              <li class="style13">YOURAPPLICATIONNAME_Sandbox_SignedCert.pem</li>
+            </ul>
+            <p > Of these files two should then be placed in the keys folder:</p>
+            <ul>
+              <li class="style13">YOURAPPLICATIONNAME_Sandbox_PrivateKey.pem</li>
+              <li class="style13">YOURAPPLICATIONNAME_Sandbox_SignedCert.pem</li>
+            </ul>
+            <p ><strong>4 ..</strong> Open the<span class="style13"> config.php</span> file which can be found in the folder PHPWeb21C and ensure that the application name is the   same as the one specified when generating your certificate. </p>
+ 		<p ><strong>5 ..</strong>&nbsp;Your keys are in clear text, so protect them - we have included a .htaccess file  in the keys directory which will protect the certs from remote access if you are running on apache.<br/>
+			<i>(Optional)</i><br/>
+			(linux/unix/mac only) For added security you may want to filesystem protect your keys directory with:
+				<br/><code>chmod 0700 keys</code><br/>
+				<code>chmod 0400 keys/<i>applicaitonName</i>_<i>environment</i>_PrivateKey.pem</code><br/>
+			On windows you can use directory permissions on the folder properties.
+		</p>
+		<p ><strong>6 ..</strong>&nbsp;You should now be able to run   the examples below. You will need to change the variables passed in the url.</p>
+            <p >enjoy. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="style7">Files, Folders and their uses...</p>
+    <h2 >/examples/cmds/</h2>
+	<p><b>NOTE: when using these samples with real phone numbers make sure to use the full country code and prepend tel: (e.g. tel:447779...)</b></p>
+    <hr />
+    <h4 >SendSMS.php</h4>
+    <p ><a href="examples/cmds/sendSMS.php?to=TONUMBER&amp;from=FROMNAME&amp;text=TEXTMESSAGE">/examples/cmds/sendSMS.php?to=TONUMBER&amp;from=FROMNAME&amp;text=TEXTMESSAGE</a></p>
+    <form name="form1" method="get" action="examples/cmds/sendSMS.php">
+
+        <div align="left">
+          <table width="60%" border="0" cellpadding="3" cellspacing="3">
+              <tr>
+                <td width="200" valign="top"><div align="right"><strong>to : </strong></div></td>
+                <td><label>
+                  <input name="to" type="text" id="to">
+                </label></td>
+              </tr>
+              <tr>
+                <td width="200" valign="top"><div align="right"><strong>from : </strong></div></td>
+                <td><label>
+                  <input name="from" type="text" id="from">
+                </label></td>
+              </tr>
+              <tr>
+                <td width="200" valign="top"><div align="right"><strong>text : </strong></div></td>
+                <td><label>
+                  <textarea name="text" id="text"></textarea>
+                </label></td>
+              </tr>
+              <tr>
+                <td width="200"><label></label></td>
+                <td><div align="center">
+                  <input name="sendSMS" type="submit" id="sendSMS" value="sendSMS">
+                </div></td>
+              </tr>
+                  </table>
+        </div>
+        <div align="center"></div>
+        <div align="center"></div>
+    </form>
+
+	<hr />
+    <h4 >getRecievedMessages.php</h4>
+    <p style="color:red"><b>Note: </b>to use this example you must have an inbound number/keyword allocated to your certificate.</p>
+    <p>This Example retrieves messages sent to your inbound keyword.</p>
+	<form name="form1" method="get" action="examples/cmds/getRecievedMessages.php">
+        <div align="left">
+          <table width="60%" border="0" cellpadding="3" cellspacing="3">
+              <tr>
+                <td width="200" valign="top"><div align="right"><strong>keyword : </strong></div></td>
+                <td><label>
+                  <input name="keyword" type="text">
+                </label></td>
+              </tr>
+              <tr>
+                <td width="200"><label></label></td>
+                <td><div align="center">
+                  <input name="getRecievedMessages" type="submit" id="getRecievedMessages" value="getRecievedMessages">
+                </div></td>
+              </tr>
+                  </table>
+        </div>
+        <div align="center"></div>
+    </form>
+
+<hr />
+	<h4 >addUser.php	</h4>
+	<p ><a href="examples/cmds/addUser.php?mail=EMAILADDRESSTOADD">/examples/cmds/addUser.php?mail=EMAILADDRESSTOADD </a></p>
+	<form name="form2" method="get" action="examples/cmds/addUser.php">
+
+        <div align="left">
+          <table width="60%" border="0" cellpadding="3" cellspacing="3">
+              <tr>
+                <td width="200"><div align="right"><strong>mail :                </strong></div></td>
+                <td><strong>
+                  <input name="mail" type="text" id="mail">
+                </strong></td>
+              </tr>
+              <tr>
+                <td width="200"><div align="center"></div></td>
+                <td><input name="addUser" type="submit" id="addUser" value="addUser"></td>
+              </tr>
+                  </table>
+        </div>
+	</form>
+    <p >&nbsp;</p>
+    <p ><strong>you will then be emailed a password. </strong></p>
+
+	<p >&nbsp;</p>
+    <hr />
+    <h4 >makeCall.php</h4>
+    <p ><span class="style12"><a href="examples/cmds/makeCall.php?tel=1234&amp;tel1=1234">examples/cmds/makeCall.php?tel=1234&amp;tel1=1234</a></span></p>
+    <form name="form3" method="get" action="examples/cmds/makeCall.php">
+
+        <div align="left">
+          <table width="60%" border="0" cellpadding="3" cellspacing="3">
+              <tr>
+                <td width="200" valign="top"><div align="right"><strong>tel : </strong></div></td>
+                <td><label>
+                  <input name="tel" type="text" id="tel">
+                </label></td>
+              </tr>
+              <tr>
+                <td width="200" valign="top"><div align="right"><strong>tel1 : </strong></div></td>
+                <td><label>
+                  <input name="tel1" type="text" id="tel1">
+                </label></td>
+              </tr>
+              <tr>
+                <td width="200"><label>
+                    <div align="center"></div>
+                  </label></td>
+                <td><input name="makeCall" type="submit" id="makeCall" value="makeCall"></td>
+              </tr>
+                  </table>
+        </div>
+        <div align="left"></div></form>
+    <hr />
+    <h4 >makeConfCall.php</h4>
+    <p ><a href="examples/cmds/makeConfCall.php?tel1=1234&amp;tel2=1234&amp;tel3=1234">/examples/cmds/makeConfCall.php?tel1=1234&amp;tel2=1234&amp;tel3=1234</a></p>
+    <form name="form3" method="get" action="examples/cmds/makeConfCall.php">
+      <div align="left"></div><div align="left">
+      <table width="60%" border="0" cellpadding="3" cellspacing="3">
+        <tr>
+          <td width="200" valign="top"><div align="right"><strong>tel1 : </strong></div></td>
+          <td><label>
+            <input name="tel1" type="text" id="tel12">
+          </label></td>
+        </tr>
+        <tr>
+          <td width="200" valign="top"><div align="right"><strong>tel2 : </strong></div></td>
+          <td><label>
+            <input name="tel2" type="text" id="tel2">
+          </label></td>
+        </tr>
+        <tr>
+          <td width="200"><div align="right">
+              <div align="right"><strong><strong> </strong></div>
+            <strong>
+              <label>
+              <div align="right">tel3 :</div>
+              </label>
+              </strong>
+              <label></label></td>
+          <td><input name="tel3" type="text" id="tel3"></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div align="center">
+              <input name="makeCall2" type="submit" id="makeCall2" value="makeConfCall">
+          </div></td>
+        </tr>
+      </table>
+    </div></form>
+	<!-- Call Flow Provisioning - upload sample wav file for use in makeCallFlowCall -->
+	<hr/>
+	<h4>Call Flow Provisioning</h4>
+	<p>This example shows how to upload wav files to be used in a Call Flow<br/>
+		Pressing "Upload" will send the two specified wav files to the server which will make them available for use in the Call Flow <em>call</em> example</p>
+	<form name="formCF" method="get" action="examples/cmds/uploadCallFlowWavs.php">
+      <div align="left"></div><div align="left">
+	  <ul>
+		<li><a href="examples/resources/press1.wav">examples/resources/press1.wav</a></li>
+		<li><a href="examples/resources/woo.wav">examples/resources/woo.wav</a></li>
+		<li><a href="examples/resources/inboundcallflow.xml">examples/resources/inboundcallflow.xml</a></li>
+	  </ul>
+      <table width="60%" border="0" cellpadding="3" cellspacing="3">
+        <tr>
+          <td colspan="2"><div align="center">
+			<input name="uploadWavs" type="submit" value="Upload">
+          </div></td>
+        </tr>
+      </table>
+    </div></form>
+	<!-- Call Flow Provisioning - upload sample wav file for use in makeCallFlowCall -->
+	<hr/>
+	<h4>Call Flow Call</h4>
+	<p style="color:red"><b>Note:</b> Wav files in above example must already have been uploaded for <em>your</em> application</p>
+	<p>This example shows how to construct and initiate an outbound Call Flow<br/>
+		Below is a sample Call Flow XML. This xml describes a call flow which requests the user press 1 or 2. If pressing 1 an additional sound will play.</p>
+	<pre>
+&lt;?xml version='1.0' encoding='UTF-8'?&gt;
+&lt;callflow xmlns='http://sdk.bt.com/callflow/2007/04' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://sdk.bt.com/callflow/2007/04 callflow.xsd'&gt;
+	&lt;call id='start' target='$tel' next='press1' /&gt;
+	&lt;prompt id='press1' audio='press1'&gt;
+		&lt;input pattern='1' next='woo'/&gt;
+		&lt;input pattern='2' next='hangup'/&gt;
+	&lt;/prompt&gt;
+	&lt;announcement id='woo' audio='woo'/&gt;
+	&lt;hangup id='hangup'/&gt;
+&lt;/callflow&gt;
+	</pre>
+	<form name="formCF" method="get" action="examples/cmds/outboundCallFlow.php">
+      <div align="left"></div><div align="left">
+      <table width="60%" border="0" cellpadding="3" cellspacing="3">
+        <tr>
+          <td width="200" valign="top"><div align="right"><strong>tel : </strong></div></td>
+          <td><label>
+            <input name="tel" type="text">
+          </label></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div align="center">
+              <input name="callflow" type="submit" value="Start Call Flow">
+          </div></td>
+        </tr>
+      </table>
+    </div></form>
+
+	<hr/>
+	<h4>Mapping Inbound CallFlow</h4>
+	<p style="color:red"><b>Note:</b> Wav files and inbound Call Flow XML in above provisioning example must already have been uploaded for <em>your</em> application</p>
+	<p>This example shows how to map an inbound callflow file to a previously provisioned number<br/>
+		Below is a sample Call Flow XML. This xml describes a call flow which answers a call and requests the user press 1 or 2. If pressing 1 an additional sound will play.</p>
+	<pre>
+&lt;?xml version='1.0' encoding='UTF-8'?&gt;
+&lt;callflow xmlns='http://sdk.bt.com/callflow/2007/04' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://sdk.bt.com/callflow/2007/04 callflow.xsd'&gt;
+	&lt;call id='start' target='$tel' next='press1' /&gt;
+	&lt;prompt id='press1' audio='press1'&gt;
+		&lt;input pattern='1' next='woo'/&gt;
+		&lt;input pattern='2' next='hangup'/&gt;
+	&lt;/prompt&gt;
+	&lt;announcement id='woo' audio='woo'/&gt;
+	&lt;hangup id='hangup'/&gt;
+&lt;/callflow&gt;
+	</pre>
+	<form name="formCFInbound" method="get" action="examples/cmds/inboundCallFlow.php">
+      <div align="left"></div><div align="left">
+      <table width="60%" border="0" cellpadding="3" cellspacing="3">
+        <tr>
+          <td width="200" valign="top"><div align="right"><strong>Your provisioned number : </strong></div></td>
+          <td><label>
+            <input name="tel" type="text">
+          </label></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div align="center">
+              <input name="callflow" type="submit" value="Add Mapping Call Flow">
+          </div></td>
+        </tr>
+      </table>
+    </div></form>
+
+    <h2 >/lib/</h2>
+    <p >This folder contains all the include files required to make this package work. </p>
+    <h2 >/config.php</h2>
+    <p > Stores all the configuration variables required to run the PHPWeb21C package. </p>
+    <h2>/readme.html </h2>
+    <p > This file </p>
+	<h2> Notes</h2>
+    <p > - EventURL for for Conference and Third Party Call are now provided.<br/>
+	- CallFlowProvisioning Service Added<br/>
+	- OutboundCallFlow Service Added<br/>
+	- InboundCallFlow Service Added<br/>
+	</p>
+    <p class="style3">Further Assistance </p>
+    <p >If you require further assistance you can ask the SDK team on the forum</p>
+    <p ><a href="http://web21c.bt.com">web21c.bt.com</a>Community &gt; Forum </p>
+    <p >If you have previously written scripts using the old version (&lt; 3.0.1) of the PHP SDK you will need to modify the two include lines at the top of each page becuase some of the library files have been moved. Examples can be found in the examples directory. </p>
+    </div>
+  <blockquote>&nbsp;</blockquote>
+</div>
+</div>
+</div>
+<div id=bottom><img height=1 alt="" src="img/Web21C SDK Forums_files/spacer.gif"
+width=1></div></div></body></html>
+
+
+

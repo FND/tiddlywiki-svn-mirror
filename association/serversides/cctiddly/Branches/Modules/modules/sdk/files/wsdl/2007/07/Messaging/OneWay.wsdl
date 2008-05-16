@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://sdk.bt.com/2007/07/Messaging/OneWay" xmlns:sdk="http://sdk.bt.com/2007/07/Messaging/OneWay" targetNamespace="http://sdk.bt.com/2007/07/Messaging/OneWay"><!--
+               (C) British Telecommunications plc, 2007, All Rights Reserved
+               generated: 2008-04-14+01:00-->
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://sdk.bt.com/2007/07/Messaging/OneWay">
+         <xs:simpleType name="MessageStatus">
+            <xs:restriction base="xs:string">
+               <xs:enumeration value="Initial"/>
+               <xs:enumeration value="Sent"/>
+               <xs:enumeration value="Delivered"/>
+               <xs:enumeration value="Failed"/>
+               <xs:enumeration value="Blocked"/>
+               <xs:enumeration value="Retrying"/>
+            </xs:restriction>
+         </xs:simpleType>
+         <xs:complexType name="Uris">
+            <xs:sequence>
+               <xs:element name="uri" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="MessageDeliveryStatuses">
+            <xs:sequence>
+               <xs:element name="messageDeliveryStatus" type="sdk:MessageDeliveryStatus" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="MessageDeliveryStatus">
+            <xs:sequence>
+               <xs:element name="destinationUri" type="xs:anyURI"/>
+               <xs:element name="messageStatus" type="sdk:MessageStatus"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getMessageDeliveryStatuses">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="messageId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getMessageDeliveryStatusesResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="messageDeliveryStatuses" type="sdk:MessageDeliveryStatuses"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="sendMessage">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="recipientUris" type="sdk:Uris"/>
+                  <xs:element name="from" type="xs:string"/>
+                  <xs:element name="messageText" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="sendMessageResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="messageId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="sendMessageWithEventing">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="recipientUris" type="sdk:Uris"/>
+                  <xs:element name="from" type="xs:string"/>
+                  <xs:element name="messageText" type="xs:string"/>
+                  <xs:element name="url" type="xs:anyURI"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="sendMessageWithEventingResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="messageId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="getMessageDeliveryStatusesRequest">
+      <wsdl:part name="parameters" element="sdk:getMessageDeliveryStatuses"/>
+   </wsdl:message>
+   <wsdl:message name="getMessageDeliveryStatusesResponse">
+      <wsdl:part name="parameters" element="sdk:getMessageDeliveryStatusesResponse"/>
+   </wsdl:message>
+   <wsdl:message name="sendMessageRequest">
+      <wsdl:part name="parameters" element="sdk:sendMessage"/>
+   </wsdl:message>
+   <wsdl:message name="sendMessageResponse">
+      <wsdl:part name="parameters" element="sdk:sendMessageResponse"/>
+   </wsdl:message>
+   <wsdl:message name="sendMessageWithEventingRequest">
+      <wsdl:part name="parameters" element="sdk:sendMessageWithEventing"/>
+   </wsdl:message>
+   <wsdl:message name="sendMessageWithEventingResponse">
+      <wsdl:part name="parameters" element="sdk:sendMessageWithEventingResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="MessagingOneWayInterface">
+      <wsdl:operation name="getMessageDeliveryStatuses">
+         <wsdl:input name="getMessageDeliveryStatusesRequest" message="tns:getMessageDeliveryStatusesRequest"/>
+         <wsdl:output name="getMessageDeliveryStatusesResponse" message="tns:getMessageDeliveryStatusesResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="sendMessage">
+         <wsdl:input name="sendMessageRequest" message="tns:sendMessageRequest"/>
+         <wsdl:output name="sendMessageResponse" message="tns:sendMessageResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="sendMessageWithEventing">
+         <wsdl:input name="sendMessageWithEventingRequest" message="tns:sendMessageWithEventingRequest"/>
+         <wsdl:output name="sendMessageWithEventingResponse" message="tns:sendMessageWithEventingResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="MessagingOneWaySoapBinding" type="tns:MessagingOneWayInterface">
+      <wsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="getMessageDeliveryStatuses">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/07/Messaging/OneWay#getMessageDeliveryStatuses"/>
+         <wsdl:input name="getMessageDeliveryStatusesRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getMessageDeliveryStatusesResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="sendMessage">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/07/Messaging/OneWay#sendMessage"/>
+         <wsdl:input name="sendMessageRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="sendMessageResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="sendMessageWithEventing">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/07/Messaging/OneWay#sendMessageWithEventing"/>
+         <wsdl:input name="sendMessageWithEventingRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="sendMessageWithEventingResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="MessagingOneWayService">
+      <wsdl:port name="MessagingOneWayEndpoint" binding="tns:MessagingOneWaySoapBinding">
+         <wsoap:address location="http://localhost/endpoint/Messaging/OneWay/2007/07"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

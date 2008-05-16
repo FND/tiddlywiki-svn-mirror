@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://sdk.bt.com/2007/10/Session/ThirdPartyCall" xmlns:sdk="http://sdk.bt.com/2007/10/Session/ThirdPartyCall" targetNamespace="http://sdk.bt.com/2007/10/Session/ThirdPartyCall"><!--
+               (C) British Telecommunications plc, 2007, All Rights Reserved
+               generated: 2008-04-14+01:00-->
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://sdk.bt.com/2007/10/Session/ThirdPartyCall">
+         <xs:simpleType name="CallStatus">
+            <xs:restriction base="xs:string">
+               <xs:enumeration value="CallInitial"/>
+               <xs:enumeration value="CallConnected"/>
+               <xs:enumeration value="CallTerminated"/>
+            </xs:restriction>
+         </xs:simpleType>
+         <xs:simpleType name="CallTerminationCause">
+            <xs:restriction base="xs:string">
+               <xs:enumeration value="CallingPartyUnavailable"/>
+               <xs:enumeration value="CalledPartyUnavailable"/>
+               <xs:enumeration value="CallingPartyHungUp"/>
+               <xs:enumeration value="CalledPartyHungUp"/>
+               <xs:enumeration value="CallTerminatedByController"/>
+               <xs:enumeration value="CallNotTerminated"/>
+            </xs:restriction>
+         </xs:simpleType>
+         <xs:complexType name="CallInformation">
+            <xs:sequence>
+               <xs:element name="callStatus" type="sdk:CallStatus"/>
+               <xs:element name="startTime" type="xs:dateTime" minOccurs="0"/>
+               <xs:element name="duration" type="xs:int"/>
+               <xs:element name="callTerminationCause" type="sdk:CallTerminationCause"/>
+               <xs:element name="callConnected" type="xs:boolean"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="endCall">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="callId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="endCallResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getCallInformation">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="callId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getCallInformationResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="callInformation" type="sdk:CallInformation"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="makeCall">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="callingParty" type="xs:anyURI"/>
+                  <xs:element name="calledParty" type="xs:anyURI"/>
+                  <xs:element name="dialTimeoutSec" type="xs:int" minOccurs="0" nillable="true"/>
+                  <xs:element name="announcementType" type="xs:int"/>
+                  <xs:element name="eventUrl" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="makeCallResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="callId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="endCallRequest">
+      <wsdl:part name="parameters" element="sdk:endCall"/>
+   </wsdl:message>
+   <wsdl:message name="endCallResponse">
+      <wsdl:part name="parameters" element="sdk:endCallResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getCallInformationRequest">
+      <wsdl:part name="parameters" element="sdk:getCallInformation"/>
+   </wsdl:message>
+   <wsdl:message name="getCallInformationResponse">
+      <wsdl:part name="parameters" element="sdk:getCallInformationResponse"/>
+   </wsdl:message>
+   <wsdl:message name="makeCallRequest">
+      <wsdl:part name="parameters" element="sdk:makeCall"/>
+   </wsdl:message>
+   <wsdl:message name="makeCallResponse">
+      <wsdl:part name="parameters" element="sdk:makeCallResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="SessionThirdPartyCallInterface">
+      <wsdl:operation name="endCall">
+         <wsdl:input name="endCallRequest" message="tns:endCallRequest"/>
+         <wsdl:output name="endCallResponse" message="tns:endCallResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getCallInformation">
+         <wsdl:input name="getCallInformationRequest" message="tns:getCallInformationRequest"/>
+         <wsdl:output name="getCallInformationResponse" message="tns:getCallInformationResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="makeCall">
+         <wsdl:input name="makeCallRequest" message="tns:makeCallRequest"/>
+         <wsdl:output name="makeCallResponse" message="tns:makeCallResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="SessionThirdPartyCallSoapBinding" type="tns:SessionThirdPartyCallInterface">
+      <wsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="endCall">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/10/Session/ThirdPartyCall#endCall"/>
+         <wsdl:input name="endCallRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="endCallResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCallInformation">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/10/Session/ThirdPartyCall#getCallInformation"/>
+         <wsdl:input name="getCallInformationRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getCallInformationResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="makeCall">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/10/Session/ThirdPartyCall#makeCall"/>
+         <wsdl:input name="makeCallRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="makeCallResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="SessionThirdPartyCallService">
+      <wsdl:port name="SessionThirdPartyCallEndpoint" binding="tns:SessionThirdPartyCallSoapBinding">
+         <wsoap:address location="http://localhost/endpoint/Session/ThirdPartyCall/2007/10"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

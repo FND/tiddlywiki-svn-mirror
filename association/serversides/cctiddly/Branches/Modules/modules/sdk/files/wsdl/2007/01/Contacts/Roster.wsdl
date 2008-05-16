@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://sdk.bt.com/2007/01/Contacts/Roster" xmlns:sdk="http://sdk.bt.com/2007/01/Contacts/Roster" targetNamespace="http://sdk.bt.com/2007/01/Contacts/Roster"><!--
+               (C) British Telecommunications plc, 2007, All Rights Reserved
+               generated: 2008-04-14+01:00-->
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://sdk.bt.com/2007/01/Contacts/Roster">
+         <xs:complexType name="GroupNames">
+            <xs:sequence>
+               <xs:element name="groupName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="RosterInvites">
+            <xs:sequence>
+               <xs:element name="rosterInvite" type="sdk:RosterInvite" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="RosterInvite">
+            <xs:sequence>
+               <xs:element name="buddyName" type="xs:string"/>
+               <xs:element name="timeStamp" type="xs:dateTime"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="RosterEntries">
+            <xs:sequence>
+               <xs:element name="rosterEntry" type="sdk:RosterEntry" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="RosterEntry">
+            <xs:sequence>
+               <xs:element name="userName" type="xs:string"/>
+               <xs:element name="nickName" type="xs:string"/>
+               <xs:element name="groupNames" type="sdk:GroupNames"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="acceptInvite">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="acceptInviteResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="addBuddyToGroup">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+                  <xs:element name="groupName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="addBuddyToGroupResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="createGroup">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="groupName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="createGroupResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="changeGroupAssignment">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+                  <xs:element name="fromGroupName" type="xs:string"/>
+                  <xs:element name="toGroupName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="changeGroupAssignmentResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeGroup">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="groupName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeGroupResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="renameGroup">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="fromGroupName" type="xs:string"/>
+                  <xs:element name="toGroupName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="renameGroupResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getGroups">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getGroupsResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="groupNames" type="sdk:GroupNames"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="declineInvite">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="declineInviteResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getPendingInvites">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getPendingInvitesResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="rosterInvites" type="sdk:RosterInvites"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getRosterEntries">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getRosterEntriesResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="rosterEntries" type="sdk:RosterEntries"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="inviteContact">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="inviteContactResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeContact">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeContactResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="setNickname">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="nickName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="setNicknameResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeBuddyFromGroup">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+                  <xs:element name="groupName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeBuddyFromGroupResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="acceptInviteRequest">
+      <wsdl:part name="parameters" element="sdk:acceptInvite"/>
+   </wsdl:message>
+   <wsdl:message name="acceptInviteResponse">
+      <wsdl:part name="parameters" element="sdk:acceptInviteResponse"/>
+   </wsdl:message>
+   <wsdl:message name="addBuddyToGroupRequest">
+      <wsdl:part name="parameters" element="sdk:addBuddyToGroup"/>
+   </wsdl:message>
+   <wsdl:message name="addBuddyToGroupResponse">
+      <wsdl:part name="parameters" element="sdk:addBuddyToGroupResponse"/>
+   </wsdl:message>
+   <wsdl:message name="createGroupRequest">
+      <wsdl:part name="parameters" element="sdk:createGroup"/>
+   </wsdl:message>
+   <wsdl:message name="createGroupResponse">
+      <wsdl:part name="parameters" element="sdk:createGroupResponse"/>
+   </wsdl:message>
+   <wsdl:message name="changeGroupAssignmentRequest">
+      <wsdl:part name="parameters" element="sdk:changeGroupAssignment"/>
+   </wsdl:message>
+   <wsdl:message name="changeGroupAssignmentResponse">
+      <wsdl:part name="parameters" element="sdk:changeGroupAssignmentResponse"/>
+   </wsdl:message>
+   <wsdl:message name="removeGroupRequest">
+      <wsdl:part name="parameters" element="sdk:removeGroup"/>
+   </wsdl:message>
+   <wsdl:message name="removeGroupResponse">
+      <wsdl:part name="parameters" element="sdk:removeGroupResponse"/>
+   </wsdl:message>
+   <wsdl:message name="renameGroupRequest">
+      <wsdl:part name="parameters" element="sdk:renameGroup"/>
+   </wsdl:message>
+   <wsdl:message name="renameGroupResponse">
+      <wsdl:part name="parameters" element="sdk:renameGroupResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getGroupsRequest">
+      <wsdl:part name="parameters" element="sdk:getGroups"/>
+   </wsdl:message>
+   <wsdl:message name="getGroupsResponse">
+      <wsdl:part name="parameters" element="sdk:getGroupsResponse"/>
+   </wsdl:message>
+   <wsdl:message name="declineInviteRequest">
+      <wsdl:part name="parameters" element="sdk:declineInvite"/>
+   </wsdl:message>
+   <wsdl:message name="declineInviteResponse">
+      <wsdl:part name="parameters" element="sdk:declineInviteResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getPendingInvitesRequest">
+      <wsdl:part name="parameters" element="sdk:getPendingInvites"/>
+   </wsdl:message>
+   <wsdl:message name="getPendingInvitesResponse">
+      <wsdl:part name="parameters" element="sdk:getPendingInvitesResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getRosterEntriesRequest">
+      <wsdl:part name="parameters" element="sdk:getRosterEntries"/>
+   </wsdl:message>
+   <wsdl:message name="getRosterEntriesResponse">
+      <wsdl:part name="parameters" element="sdk:getRosterEntriesResponse"/>
+   </wsdl:message>
+   <wsdl:message name="inviteContactRequest">
+      <wsdl:part name="parameters" element="sdk:inviteContact"/>
+   </wsdl:message>
+   <wsdl:message name="inviteContactResponse">
+      <wsdl:part name="parameters" element="sdk:inviteContactResponse"/>
+   </wsdl:message>
+   <wsdl:message name="removeContactRequest">
+      <wsdl:part name="parameters" element="sdk:removeContact"/>
+   </wsdl:message>
+   <wsdl:message name="removeContactResponse">
+      <wsdl:part name="parameters" element="sdk:removeContactResponse"/>
+   </wsdl:message>
+   <wsdl:message name="setNicknameRequest">
+      <wsdl:part name="parameters" element="sdk:setNickname"/>
+   </wsdl:message>
+   <wsdl:message name="setNicknameResponse">
+      <wsdl:part name="parameters" element="sdk:setNicknameResponse"/>
+   </wsdl:message>
+   <wsdl:message name="removeBuddyFromGroupRequest">
+      <wsdl:part name="parameters" element="sdk:removeBuddyFromGroup"/>
+   </wsdl:message>
+   <wsdl:message name="removeBuddyFromGroupResponse">
+      <wsdl:part name="parameters" element="sdk:removeBuddyFromGroupResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="ContactsRosterInterface">
+      <wsdl:operation name="acceptInvite">
+         <wsdl:input name="acceptInviteRequest" message="tns:acceptInviteRequest"/>
+         <wsdl:output name="acceptInviteResponse" message="tns:acceptInviteResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="addBuddyToGroup">
+         <wsdl:input name="addBuddyToGroupRequest" message="tns:addBuddyToGroupRequest"/>
+         <wsdl:output name="addBuddyToGroupResponse" message="tns:addBuddyToGroupResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="createGroup">
+         <wsdl:input name="createGroupRequest" message="tns:createGroupRequest"/>
+         <wsdl:output name="createGroupResponse" message="tns:createGroupResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="changeGroupAssignment">
+         <wsdl:input name="changeGroupAssignmentRequest" message="tns:changeGroupAssignmentRequest"/>
+         <wsdl:output name="changeGroupAssignmentResponse" message="tns:changeGroupAssignmentResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="removeGroup">
+         <wsdl:input name="removeGroupRequest" message="tns:removeGroupRequest"/>
+         <wsdl:output name="removeGroupResponse" message="tns:removeGroupResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="renameGroup">
+         <wsdl:input name="renameGroupRequest" message="tns:renameGroupRequest"/>
+         <wsdl:output name="renameGroupResponse" message="tns:renameGroupResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getGroups">
+         <wsdl:input name="getGroupsRequest" message="tns:getGroupsRequest"/>
+         <wsdl:output name="getGroupsResponse" message="tns:getGroupsResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="declineInvite">
+         <wsdl:input name="declineInviteRequest" message="tns:declineInviteRequest"/>
+         <wsdl:output name="declineInviteResponse" message="tns:declineInviteResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getPendingInvites">
+         <wsdl:input name="getPendingInvitesRequest" message="tns:getPendingInvitesRequest"/>
+         <wsdl:output name="getPendingInvitesResponse" message="tns:getPendingInvitesResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getRosterEntries">
+         <wsdl:input name="getRosterEntriesRequest" message="tns:getRosterEntriesRequest"/>
+         <wsdl:output name="getRosterEntriesResponse" message="tns:getRosterEntriesResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="inviteContact">
+         <wsdl:input name="inviteContactRequest" message="tns:inviteContactRequest"/>
+         <wsdl:output name="inviteContactResponse" message="tns:inviteContactResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="removeContact">
+         <wsdl:input name="removeContactRequest" message="tns:removeContactRequest"/>
+         <wsdl:output name="removeContactResponse" message="tns:removeContactResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="setNickname">
+         <wsdl:input name="setNicknameRequest" message="tns:setNicknameRequest"/>
+         <wsdl:output name="setNicknameResponse" message="tns:setNicknameResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="removeBuddyFromGroup">
+         <wsdl:input name="removeBuddyFromGroupRequest" message="tns:removeBuddyFromGroupRequest"/>
+         <wsdl:output name="removeBuddyFromGroupResponse" message="tns:removeBuddyFromGroupResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="ContactsRosterSoapBinding" type="tns:ContactsRosterInterface">
+      <wsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="acceptInvite">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Roster#acceptInvite"/>
+         <wsdl:input name="acceptInviteRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="acceptInviteResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="addBuddyToGroup">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Roster#addBuddyToGroup"/>
+         <wsdl:input name="addBuddyToGroupRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="addBuddyToGroupResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="createGroup">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Roster#createGroup"/>
+         <wsdl:input name="createGroupRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="createGroupResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="changeGroupAssignment">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Roster#changeGroupAssignment"/>
+         <wsdl:input name="changeGroupAssignmentRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="changeGroupAssignmentResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="removeGroup">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Roster#removeGroup"/>
+         <wsdl:input name="removeGroupRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="removeGroupResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="renameGroup">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Roster#renameGroup"/>
+         <wsdl:input name="renameGroupRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="renameGroupResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getGroups">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Roster#getGroups"/>
+         <wsdl:input name="getGroupsRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getGroupsResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="declineInvite">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Roster#declineInvite"/>
+         <wsdl:input name="declineInviteRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="declineInviteResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getPendingInvites">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Roster#getPendingInvites"/>
+         <wsdl:input name="getPendingInvitesRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getPendingInvitesResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getRosterEntries">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Roster#getRosterEntries"/>
+         <wsdl:input name="getRosterEntriesRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getRosterEntriesResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="inviteContact">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Roster#inviteContact"/>
+         <wsdl:input name="inviteContactRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="inviteContactResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="removeContact">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Roster#removeContact"/>
+         <wsdl:input name="removeContactRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="removeContactResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="setNickname">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Roster#setNickname"/>
+         <wsdl:input name="setNicknameRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="setNicknameResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="removeBuddyFromGroup">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Contacts/Roster#removeBuddyFromGroup"/>
+         <wsdl:input name="removeBuddyFromGroupRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="removeBuddyFromGroupResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="ContactsRosterService">
+      <wsdl:port name="ContactsRosterEndpoint" binding="tns:ContactsRosterSoapBinding">
+         <wsoap:address location="http://localhost/endpoint/Contacts/Roster/2007/01"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://sdk.bt.com/2007/04/InboundCallFlow" xmlns:sdk="http://sdk.bt.com/2007/04/InboundCallFlow" targetNamespace="http://sdk.bt.com/2007/04/InboundCallFlow"><!--
+               (C) British Telecommunications plc, 2007, All Rights Reserved
+               generated: 2008-04-14+01:00-->
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://sdk.bt.com/2007/04/InboundCallFlow">
+         <xs:complexType name="InboundCallMappings">
+            <xs:sequence>
+               <xs:element name="inboundCallMapping" type="sdk:InboundCallMapping" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="InboundCallMapping">
+            <xs:sequence>
+               <xs:element name="destinationUri" type="xs:anyURI"/>
+               <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="addInboundCallMapping">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="destinationUri" type="xs:anyURI"/>
+                  <xs:element name="name" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="addInboundCallMappingResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="listInboundCallMappings">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="listInboundCallMappingsResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="inboundCallMappings" type="sdk:InboundCallMappings"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeInboundCallMapping">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="destinationUri" type="xs:anyURI"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeInboundCallMappingResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getCallFlowInformations">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="destinationUri" type="xs:anyURI"/>
+                  <xs:element name="timeWindowMins" type="xs:int"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getCallFlowInformationsResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="callFlowInfo" type="xs:anyType"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="addInboundCallMappingRequest">
+      <wsdl:part name="parameters" element="sdk:addInboundCallMapping"/>
+   </wsdl:message>
+   <wsdl:message name="addInboundCallMappingResponse">
+      <wsdl:part name="parameters" element="sdk:addInboundCallMappingResponse"/>
+   </wsdl:message>
+   <wsdl:message name="listInboundCallMappingsRequest">
+      <wsdl:part name="parameters" element="sdk:listInboundCallMappings"/>
+   </wsdl:message>
+   <wsdl:message name="listInboundCallMappingsResponse">
+      <wsdl:part name="parameters" element="sdk:listInboundCallMappingsResponse"/>
+   </wsdl:message>
+   <wsdl:message name="removeInboundCallMappingRequest">
+      <wsdl:part name="parameters" element="sdk:removeInboundCallMapping"/>
+   </wsdl:message>
+   <wsdl:message name="removeInboundCallMappingResponse">
+      <wsdl:part name="parameters" element="sdk:removeInboundCallMappingResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getCallFlowInformationsRequest">
+      <wsdl:part name="parameters" element="sdk:getCallFlowInformations"/>
+   </wsdl:message>
+   <wsdl:message name="getCallFlowInformationsResponse">
+      <wsdl:part name="parameters" element="sdk:getCallFlowInformationsResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="InboundCallFlowInterface">
+      <wsdl:operation name="addInboundCallMapping">
+         <wsdl:input name="addInboundCallMappingRequest" message="tns:addInboundCallMappingRequest"/>
+         <wsdl:output name="addInboundCallMappingResponse" message="tns:addInboundCallMappingResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="listInboundCallMappings">
+         <wsdl:input name="listInboundCallMappingsRequest" message="tns:listInboundCallMappingsRequest"/>
+         <wsdl:output name="listInboundCallMappingsResponse" message="tns:listInboundCallMappingsResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="removeInboundCallMapping">
+         <wsdl:input name="removeInboundCallMappingRequest" message="tns:removeInboundCallMappingRequest"/>
+         <wsdl:output name="removeInboundCallMappingResponse" message="tns:removeInboundCallMappingResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getCallFlowInformations">
+         <wsdl:input name="getCallFlowInformationsRequest" message="tns:getCallFlowInformationsRequest"/>
+         <wsdl:output name="getCallFlowInformationsResponse" message="tns:getCallFlowInformationsResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="InboundCallFlowSoapBinding" type="tns:InboundCallFlowInterface">
+      <wsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="addInboundCallMapping">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/04/InboundCallFlow#addInboundCallMapping"/>
+         <wsdl:input name="addInboundCallMappingRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="addInboundCallMappingResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="listInboundCallMappings">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/04/InboundCallFlow#listInboundCallMappings"/>
+         <wsdl:input name="listInboundCallMappingsRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="listInboundCallMappingsResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="removeInboundCallMapping">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/04/InboundCallFlow#removeInboundCallMapping"/>
+         <wsdl:input name="removeInboundCallMappingRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="removeInboundCallMappingResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCallFlowInformations">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/04/InboundCallFlow#getCallFlowInformations"/>
+         <wsdl:input name="getCallFlowInformationsRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getCallFlowInformationsResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="InboundCallFlowService">
+      <wsdl:port name="InboundCallFlowEndpoint" binding="tns:InboundCallFlowSoapBinding">
+         <wsoap:address location="http://localhost/endpoint/InboundCallFlow/2007/04"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

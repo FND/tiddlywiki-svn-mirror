@@ -1,0 +1,66 @@
+The BT Web21C PHP SDK 
+---------------------
+
+    The BT Web21C PHP SDK provides a simple interface to invoke
+    BT's publicly exposed common capabilities from PHP 5.1 or later:
+
+    - OneWaySMS allows an application to send 
+      Short Message Service (SMS) text messages.
+
+    - InboundSMS allows an application to send and receive
+      Short Message Service (SMS) text messages in a conversation.
+
+    - ThirdPartyCall allows an application to simply create and 
+      control voice calls between two parties.
+
+    - Conferencing allows an application to create and control
+      voice calls between two or more parties.
+
+    - Authentication enables an application to create and
+      maintain users, user attributes and groups.
+
+    - CallFlow allows rapid development of voice-enabled software
+      applications and services.
+
+GETTING STARTED
+---------------
+	Upload this folder to your web server and open the readme.html file.
+    The best way to get started using the SDK is to take a look at the
+    sample applications in the examples directory - these are explained in the
+	readme.html file.  
+
+APPLICATION REGISTRATION
+------------------------
+
+    Before you can use the BT Web21C SDK you need to register your application
+    and install a couple of certificate files in the keys directory:
+
+
+DEPENDENCIES
+------------
+
+    The client depends upon PHP's SoapClient and openssl, both are standard extensions from 5.0:
+	http://uk.php.net/soap
+	http://uk2.php.net/openssl
+
+    and upon the OpenSSO xmlseclibs.php module (bundled), 
+    which depends also depends upon PHP 5.1 or later:
+
+	https://opensso.dev.java.net/source/browse/opensso/lightbulb/php/direct/
+
+LICENSE
+-------
+
+    The use of the BT Web21C SDK and service is covered by the enclosed End User License Agreement 
+    (EULA), see LICENSE.  Unless explictly stated otherwise, the source code is released under 
+    the same terms as PHP itself.
+
+GETTING HELP
+------------
+
+    If you have any questions, recommendations, cool applications
+    or patches, please tell us:
+
+	http://web21c.bt.com
+
+--

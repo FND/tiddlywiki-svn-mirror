@@ -1,0 +1,37 @@
+BT SDK END-USER LICENCE AGREEMENT
+
+BT plc and its Licensor's grant to you the non-exclusive right to use this Software Developer Kit ("SDK") solely for the purpose of exploiting certain imbedded capabilities. The SDK is in "Use" on a computer when it is loaded into temporary memory (RAM) or installed onto permanent memory (such as hard-disk, CD-ROM, or other storage device).
+
+You are not allowed to copy (except for a single backup) or assign or transfer your rights in this SDK. BT reserves for itself the exclusive right to modify or improve the SDK. In this regard BT may from time to time provide new releases and updates to the SDK, at BT's sole and absolute discretion. Updates and new releases can be found on the BT website at www.sdk.bt.com
+
+All rights not expressly licensed herein are reserved exclusively for BT and its Licensor's. 
+
+The SDK is provided to you 'as-is'. BT and its Licensor's have taken all reasonable care to ensure this SDK functions correctly and contains no errors, viruses or defects but do not warrant that this is the case. Neither BT nor its Licensor's shall be liable or responsible for the code written for the purpose of exploiting this SDK or the imbedded capabilities. Neither BT nor its Licensor's shall be liable or responsible in any way for the poor performance, unavailability or malfunction of any of the capabilities exposed through this SDK. 
+
+By downloading, installing or using this SDK you accept all risks and acknowledge that neither BT nor its Licensor's can be held responsible for the installation download or operation of this SDK or the capabilities on your computer or in your product. Neither BT nor its Licensor's are responsible for the operating system or application software through which this SDK operates. 
+
+This SDK comes with an automated certification and validation process built into the download. This helps BT achieve a level of security and helps you to receive suitable updates as and when available. By downloading and installing this SDK you give BT permission to install these certificates on your computer. 
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW in no event will BT or its Licensor's be liable for any loss or damage whatsoever (including, without limitation, damages for loss of business profit, business interruption, loss of business information, or any other pecuniary loss) arising out of the use, or inability to use, this SDK, even if BT has been advised of the possibility of such losses or damages. Because some jurisdictions do not allow the exclusion or limitation of liability for consequential or incidental damages, the above limitation may not apply to you. 
+
+You are advised to ensure that you take regular precaution to protect your computer from virus infection and to make back-up copies of your data and applications before commencing installation of this SDK. 
+
+BT allows (so far as it can and is able to do so) the Customer, while the Customer is Authorised, Access solely for the Purposes.
+
+In relation to Access, the Customer shall:
+
+* ensure each individual user has a unique user identification and password known only to such user;
+
+* ensure no viruses or malicious code (as the expressions are generally understood in the computing industry) are introduced to and that there is no corruption of BT Systems or BT Information; 
+
+* not have or permit Access other than for the Purposes agreed in the EULA; 
+
+* take all reasonable steps to prevent unauthorised Access;
+
+* notify BT immediately of any unauthorized usage; enabling BT to disable the access rights to systems and information.
+
+* The Customer shall inform BT Security immediately upon its becoming aware of any actual or suspected unauthorised Access or misuse of BT Systems or BT Information or breach of any of the Customer's obligations under this Condition.
+
+* The Customer consents to BT's gathering information relating to Access. This information may be collected, retained, and analysed to identify potential security risks and may include, but is not limited to, trace files, statistics, network addresses, and the actual data or screens accessed or transferred.
+
+--

@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://sdk.bt.com/2007/01/WhiteLabelAuthentication" xmlns:sdk="http://sdk.bt.com/2007/01/WhiteLabelAuthentication" targetNamespace="http://sdk.bt.com/2007/01/WhiteLabelAuthentication"><!--
+               (C) British Telecommunications plc, 2007, All Rights Reserved
+               generated: 2008-04-14+01:00-->
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://sdk.bt.com/2007/01/WhiteLabelAuthentication">
+         <xs:complexType name="UserAttributes">
+            <xs:sequence>
+               <xs:element name="userAttribute" type="sdk:UserAttribute" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="UserAttribute">
+            <xs:sequence>
+               <xs:element name="attributeName" type="xs:string"/>
+               <xs:element name="attributeValue" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="AttributeNames">
+            <xs:sequence>
+               <xs:element name="attributeName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="UserNames">
+            <xs:sequence>
+               <xs:element name="userName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="User">
+            <xs:sequence>
+               <xs:element name="userName" type="xs:string"/>
+               <xs:element name="groups" type="sdk:GroupNames"/>
+               <xs:element name="userAttributes" type="sdk:UserAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="GroupNames">
+            <xs:sequence>
+               <xs:element name="groupName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="login">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+                  <xs:element name="password" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="samlAssertion" type="xs:anyType"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="addUser">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="addUserResponse">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getUser">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getUserResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="user" type="sdk:User"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getAllUsers">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getAllUsersResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userNames" type="sdk:UserNames"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="changeUserPassword">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+                  <xs:element name="oldPassword" type="xs:string"/>
+                  <xs:element name="newPassword" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="changeUserPasswordResponse">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeUser">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeUserResponse">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="addUserAttributes">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+                  <xs:element name="userAttributes" type="sdk:UserAttributes"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="addUserAttributesResponse">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeUserAttributes">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+                  <xs:element name="attributeNames" type="sdk:AttributeNames"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeUserAttributesResponse">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="updateUserAttribute">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+                  <xs:element name="attributeName" type="xs:string"/>
+                  <xs:element name="attributeValue" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="updateUserAttributeResponse">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getGroups">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getGroupsResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="groupNames" type="sdk:GroupNames"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="addGroup">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="groupName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="addGroupResponse">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="updateGroup">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="oldGroupName" type="xs:string"/>
+                  <xs:element name="newGroupName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="updateGroupResponse">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeGroup">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="groupName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeGroupResponse">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="addUsersToGroup">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="groupName" type="xs:string"/>
+                  <xs:element name="userNames" type="sdk:UserNames"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="addUsersToGroupResponse">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeUsersFromGroup">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="groupName" type="xs:string"/>
+                  <xs:element name="userNames" type="sdk:UserNames"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="removeUsersFromGroupResponse">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getUsersInGroup">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="groupName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getUsersInGroupResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userNames" type="sdk:UserNames"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="resetUserPassword">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="userName" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="resetUserPasswordResponse">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="loginRequest">
+      <wsdl:part name="parameters" element="sdk:login"/>
+   </wsdl:message>
+   <wsdl:message name="loginResponse">
+      <wsdl:part name="parameters" element="sdk:loginResponse"/>
+   </wsdl:message>
+   <wsdl:message name="addUserRequest">
+      <wsdl:part name="parameters" element="sdk:addUser"/>
+   </wsdl:message>
+   <wsdl:message name="addUserResponse">
+      <wsdl:part name="parameters" element="sdk:addUserResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getUserRequest">
+      <wsdl:part name="parameters" element="sdk:getUser"/>
+   </wsdl:message>
+   <wsdl:message name="getUserResponse">
+      <wsdl:part name="parameters" element="sdk:getUserResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getAllUsersRequest">
+      <wsdl:part name="parameters" element="sdk:getAllUsers"/>
+   </wsdl:message>
+   <wsdl:message name="getAllUsersResponse">
+      <wsdl:part name="parameters" element="sdk:getAllUsersResponse"/>
+   </wsdl:message>
+   <wsdl:message name="changeUserPasswordRequest">
+      <wsdl:part name="parameters" element="sdk:changeUserPassword"/>
+   </wsdl:message>
+   <wsdl:message name="changeUserPasswordResponse">
+      <wsdl:part name="parameters" element="sdk:changeUserPasswordResponse"/>
+   </wsdl:message>
+   <wsdl:message name="removeUserRequest">
+      <wsdl:part name="parameters" element="sdk:removeUser"/>
+   </wsdl:message>
+   <wsdl:message name="removeUserResponse">
+      <wsdl:part name="parameters" element="sdk:removeUserResponse"/>
+   </wsdl:message>
+   <wsdl:message name="addUserAttributesRequest">
+      <wsdl:part name="parameters" element="sdk:addUserAttributes"/>
+   </wsdl:message>
+   <wsdl:message name="addUserAttributesResponse">
+      <wsdl:part name="parameters" element="sdk:addUserAttributesResponse"/>
+   </wsdl:message>
+   <wsdl:message name="removeUserAttributesRequest">
+      <wsdl:part name="parameters" element="sdk:removeUserAttributes"/>
+   </wsdl:message>
+   <wsdl:message name="removeUserAttributesResponse">
+      <wsdl:part name="parameters" element="sdk:removeUserAttributesResponse"/>
+   </wsdl:message>
+   <wsdl:message name="updateUserAttributeRequest">
+      <wsdl:part name="parameters" element="sdk:updateUserAttribute"/>
+   </wsdl:message>
+   <wsdl:message name="updateUserAttributeResponse">
+      <wsdl:part name="parameters" element="sdk:updateUserAttributeResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getGroupsRequest">
+      <wsdl:part name="parameters" element="sdk:getGroups"/>
+   </wsdl:message>
+   <wsdl:message name="getGroupsResponse">
+      <wsdl:part name="parameters" element="sdk:getGroupsResponse"/>
+   </wsdl:message>
+   <wsdl:message name="addGroupRequest">
+      <wsdl:part name="parameters" element="sdk:addGroup"/>
+   </wsdl:message>
+   <wsdl:message name="addGroupResponse">
+      <wsdl:part name="parameters" element="sdk:addGroupResponse"/>
+   </wsdl:message>
+   <wsdl:message name="updateGroupRequest">
+      <wsdl:part name="parameters" element="sdk:updateGroup"/>
+   </wsdl:message>
+   <wsdl:message name="updateGroupResponse">
+      <wsdl:part name="parameters" element="sdk:updateGroupResponse"/>
+   </wsdl:message>
+   <wsdl:message name="removeGroupRequest">
+      <wsdl:part name="parameters" element="sdk:removeGroup"/>
+   </wsdl:message>
+   <wsdl:message name="removeGroupResponse">
+      <wsdl:part name="parameters" element="sdk:removeGroupResponse"/>
+   </wsdl:message>
+   <wsdl:message name="addUsersToGroupRequest">
+      <wsdl:part name="parameters" element="sdk:addUsersToGroup"/>
+   </wsdl:message>
+   <wsdl:message name="addUsersToGroupResponse">
+      <wsdl:part name="parameters" element="sdk:addUsersToGroupResponse"/>
+   </wsdl:message>
+   <wsdl:message name="removeUsersFromGroupRequest">
+      <wsdl:part name="parameters" element="sdk:removeUsersFromGroup"/>
+   </wsdl:message>
+   <wsdl:message name="removeUsersFromGroupResponse">
+      <wsdl:part name="parameters" element="sdk:removeUsersFromGroupResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getUsersInGroupRequest">
+      <wsdl:part name="parameters" element="sdk:getUsersInGroup"/>
+   </wsdl:message>
+   <wsdl:message name="getUsersInGroupResponse">
+      <wsdl:part name="parameters" element="sdk:getUsersInGroupResponse"/>
+   </wsdl:message>
+   <wsdl:message name="resetUserPasswordRequest">
+      <wsdl:part name="parameters" element="sdk:resetUserPassword"/>
+   </wsdl:message>
+   <wsdl:message name="resetUserPasswordResponse">
+      <wsdl:part name="parameters" element="sdk:resetUserPasswordResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="WhiteLabelAuthenticationInterface">
+      <wsdl:operation name="login">
+         <wsdl:input name="loginRequest" message="tns:loginRequest"/>
+         <wsdl:output name="loginResponse" message="tns:loginResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="addUser">
+         <wsdl:input name="addUserRequest" message="tns:addUserRequest"/>
+         <wsdl:output name="addUserResponse" message="tns:addUserResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getUser">
+         <wsdl:input name="getUserRequest" message="tns:getUserRequest"/>
+         <wsdl:output name="getUserResponse" message="tns:getUserResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getAllUsers">
+         <wsdl:input name="getAllUsersRequest" message="tns:getAllUsersRequest"/>
+         <wsdl:output name="getAllUsersResponse" message="tns:getAllUsersResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="changeUserPassword">
+         <wsdl:input name="changeUserPasswordRequest" message="tns:changeUserPasswordRequest"/>
+         <wsdl:output name="changeUserPasswordResponse" message="tns:changeUserPasswordResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="removeUser">
+         <wsdl:input name="removeUserRequest" message="tns:removeUserRequest"/>
+         <wsdl:output name="removeUserResponse" message="tns:removeUserResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="addUserAttributes">
+         <wsdl:input name="addUserAttributesRequest" message="tns:addUserAttributesRequest"/>
+         <wsdl:output name="addUserAttributesResponse" message="tns:addUserAttributesResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="removeUserAttributes">
+         <wsdl:input name="removeUserAttributesRequest" message="tns:removeUserAttributesRequest"/>
+         <wsdl:output name="removeUserAttributesResponse" message="tns:removeUserAttributesResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="updateUserAttribute">
+         <wsdl:input name="updateUserAttributeRequest" message="tns:updateUserAttributeRequest"/>
+         <wsdl:output name="updateUserAttributeResponse" message="tns:updateUserAttributeResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getGroups">
+         <wsdl:input name="getGroupsRequest" message="tns:getGroupsRequest"/>
+         <wsdl:output name="getGroupsResponse" message="tns:getGroupsResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="addGroup">
+         <wsdl:input name="addGroupRequest" message="tns:addGroupRequest"/>
+         <wsdl:output name="addGroupResponse" message="tns:addGroupResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="updateGroup">
+         <wsdl:input name="updateGroupRequest" message="tns:updateGroupRequest"/>
+         <wsdl:output name="updateGroupResponse" message="tns:updateGroupResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="removeGroup">
+         <wsdl:input name="removeGroupRequest" message="tns:removeGroupRequest"/>
+         <wsdl:output name="removeGroupResponse" message="tns:removeGroupResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="addUsersToGroup">
+         <wsdl:input name="addUsersToGroupRequest" message="tns:addUsersToGroupRequest"/>
+         <wsdl:output name="addUsersToGroupResponse" message="tns:addUsersToGroupResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="removeUsersFromGroup">
+         <wsdl:input name="removeUsersFromGroupRequest" message="tns:removeUsersFromGroupRequest"/>
+         <wsdl:output name="removeUsersFromGroupResponse" message="tns:removeUsersFromGroupResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getUsersInGroup">
+         <wsdl:input name="getUsersInGroupRequest" message="tns:getUsersInGroupRequest"/>
+         <wsdl:output name="getUsersInGroupResponse" message="tns:getUsersInGroupResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="resetUserPassword">
+         <wsdl:input name="resetUserPasswordRequest" message="tns:resetUserPasswordRequest"/>
+         <wsdl:output name="resetUserPasswordResponse" message="tns:resetUserPasswordResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="WhiteLabelAuthenticationSoapBinding" type="tns:WhiteLabelAuthenticationInterface">
+      <wsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="login">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#login"/>
+         <wsdl:input name="loginRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="loginResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="addUser">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#addUser"/>
+         <wsdl:input name="addUserRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="addUserResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getUser">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#getUser"/>
+         <wsdl:input name="getUserRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getUserResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getAllUsers">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#getAllUsers"/>
+         <wsdl:input name="getAllUsersRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getAllUsersResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="changeUserPassword">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#changeUserPassword"/>
+         <wsdl:input name="changeUserPasswordRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="changeUserPasswordResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="removeUser">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#removeUser"/>
+         <wsdl:input name="removeUserRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="removeUserResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="addUserAttributes">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#addUserAttributes"/>
+         <wsdl:input name="addUserAttributesRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="addUserAttributesResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="removeUserAttributes">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#removeUserAttributes"/>
+         <wsdl:input name="removeUserAttributesRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="removeUserAttributesResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="updateUserAttribute">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#updateUserAttribute"/>
+         <wsdl:input name="updateUserAttributeRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="updateUserAttributeResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getGroups">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#getGroups"/>
+         <wsdl:input name="getGroupsRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getGroupsResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="addGroup">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#addGroup"/>
+         <wsdl:input name="addGroupRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="addGroupResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="updateGroup">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#updateGroup"/>
+         <wsdl:input name="updateGroupRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="updateGroupResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="removeGroup">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#removeGroup"/>
+         <wsdl:input name="removeGroupRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="removeGroupResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="addUsersToGroup">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#addUsersToGroup"/>
+         <wsdl:input name="addUsersToGroupRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="addUsersToGroupResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="removeUsersFromGroup">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#removeUsersFromGroup"/>
+         <wsdl:input name="removeUsersFromGroupRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="removeUsersFromGroupResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getUsersInGroup">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#getUsersInGroup"/>
+         <wsdl:input name="getUsersInGroupRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getUsersInGroupResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="resetUserPassword">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/WhiteLabelAuthentication#resetUserPassword"/>
+         <wsdl:input name="resetUserPasswordRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="resetUserPasswordResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="WhiteLabelAuthenticationService">
+      <wsdl:port name="WhiteLabelAuthenticationEndpoint" binding="tns:WhiteLabelAuthenticationSoapBinding">
+         <wsoap:address location="http://localhost/endpoint/WhiteLabelAuthentication/2007/01"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

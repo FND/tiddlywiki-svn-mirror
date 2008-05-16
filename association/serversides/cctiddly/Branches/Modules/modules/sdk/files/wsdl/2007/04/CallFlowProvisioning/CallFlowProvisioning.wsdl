@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://sdk.bt.com/2007/04/CallFlowProvisioning" xmlns:sdk="http://sdk.bt.com/2007/04/CallFlowProvisioning" targetNamespace="http://sdk.bt.com/2007/04/CallFlowProvisioning"><!--
+               (C) British Telecommunications plc, 2007, All Rights Reserved
+               generated: 2008-04-14+01:00-->
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://sdk.bt.com/2007/04/CallFlowProvisioning">
+         <xs:complexType name="FileInfos">
+            <xs:sequence>
+               <xs:element name="fileInfo" type="sdk:FileInfo" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="FileInfo">
+            <xs:sequence>
+               <xs:element name="name" type="xs:string"/>
+               <xs:element name="lastUpdateTime" type="xs:dateTime"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="putFile">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="name" type="xs:string"/>
+                  <xs:element name="fileContent" type="xs:base64Binary"/>
+                  <xs:element name="overwrite" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="putFileResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="listFiles">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="listFilesResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="fileInfos" type="sdk:FileInfos"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="deleteFile">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="name" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="deleteFileResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="generateSpeech">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="name" type="xs:string"/>
+                  <xs:element name="text" type="xs:string"/>
+                  <xs:element name="voice" type="xs:string"/>
+                  <xs:element name="overwrite" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="generateSpeechResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getFile">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="name" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getFileResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="fileContent" type="xs:base64Binary"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="putFileRequest">
+      <wsdl:part name="parameters" element="sdk:putFile"/>
+   </wsdl:message>
+   <wsdl:message name="putFileResponse">
+      <wsdl:part name="parameters" element="sdk:putFileResponse"/>
+   </wsdl:message>
+   <wsdl:message name="listFilesRequest">
+      <wsdl:part name="parameters" element="sdk:listFiles"/>
+   </wsdl:message>
+   <wsdl:message name="listFilesResponse">
+      <wsdl:part name="parameters" element="sdk:listFilesResponse"/>
+   </wsdl:message>
+   <wsdl:message name="deleteFileRequest">
+      <wsdl:part name="parameters" element="sdk:deleteFile"/>
+   </wsdl:message>
+   <wsdl:message name="deleteFileResponse">
+      <wsdl:part name="parameters" element="sdk:deleteFileResponse"/>
+   </wsdl:message>
+   <wsdl:message name="generateSpeechRequest">
+      <wsdl:part name="parameters" element="sdk:generateSpeech"/>
+   </wsdl:message>
+   <wsdl:message name="generateSpeechResponse">
+      <wsdl:part name="parameters" element="sdk:generateSpeechResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getFileRequest">
+      <wsdl:part name="parameters" element="sdk:getFile"/>
+   </wsdl:message>
+   <wsdl:message name="getFileResponse">
+      <wsdl:part name="parameters" element="sdk:getFileResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="CallFlowProvisioningInterface">
+      <wsdl:operation name="putFile">
+         <wsdl:input name="putFileRequest" message="tns:putFileRequest"/>
+         <wsdl:output name="putFileResponse" message="tns:putFileResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="listFiles">
+         <wsdl:input name="listFilesRequest" message="tns:listFilesRequest"/>
+         <wsdl:output name="listFilesResponse" message="tns:listFilesResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="deleteFile">
+         <wsdl:input name="deleteFileRequest" message="tns:deleteFileRequest"/>
+         <wsdl:output name="deleteFileResponse" message="tns:deleteFileResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="generateSpeech">
+         <wsdl:input name="generateSpeechRequest" message="tns:generateSpeechRequest"/>
+         <wsdl:output name="generateSpeechResponse" message="tns:generateSpeechResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getFile">
+         <wsdl:input name="getFileRequest" message="tns:getFileRequest"/>
+         <wsdl:output name="getFileResponse" message="tns:getFileResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="CallFlowProvisioningSoapBinding" type="tns:CallFlowProvisioningInterface">
+      <wsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="putFile">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/04/CallFlowProvisioning#putFile"/>
+         <wsdl:input name="putFileRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="putFileResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="listFiles">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/04/CallFlowProvisioning#listFiles"/>
+         <wsdl:input name="listFilesRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="listFilesResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="deleteFile">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/04/CallFlowProvisioning#deleteFile"/>
+         <wsdl:input name="deleteFileRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="deleteFileResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="generateSpeech">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/04/CallFlowProvisioning#generateSpeech"/>
+         <wsdl:input name="generateSpeechRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="generateSpeechResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getFile">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/04/CallFlowProvisioning#getFile"/>
+         <wsdl:input name="getFileRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getFileResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="CallFlowProvisioningService">
+      <wsdl:port name="CallFlowProvisioningEndpoint" binding="tns:CallFlowProvisioningSoapBinding">
+         <wsoap:address location="http://localhost/endpoint/CallFlowProvisioning/2007/04"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

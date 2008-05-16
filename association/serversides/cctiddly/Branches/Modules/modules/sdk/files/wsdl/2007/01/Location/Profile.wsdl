@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://sdk.bt.com/2007/01/Location/Profile" xmlns:sdk="http://sdk.bt.com/2007/01/Location/Profile" targetNamespace="http://sdk.bt.com/2007/01/Location/Profile"><!--
+               (C) British Telecommunications plc, 2007, All Rights Reserved
+               generated: 2008-04-14+01:00-->
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://sdk.bt.com/2007/01/Location/Profile">
+         <xs:element name="isDeviceRegistered">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="deviceId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="isDeviceRegisteredResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="registered" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="requestDeviceRegistration">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="deviceId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="requestDeviceRegistrationResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="unregisterDevice">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="deviceId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="unregisterDeviceResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="isDeviceRegisteredRequest">
+      <wsdl:part name="parameters" element="sdk:isDeviceRegistered"/>
+   </wsdl:message>
+   <wsdl:message name="isDeviceRegisteredResponse">
+      <wsdl:part name="parameters" element="sdk:isDeviceRegisteredResponse"/>
+   </wsdl:message>
+   <wsdl:message name="requestDeviceRegistrationRequest">
+      <wsdl:part name="parameters" element="sdk:requestDeviceRegistration"/>
+   </wsdl:message>
+   <wsdl:message name="requestDeviceRegistrationResponse">
+      <wsdl:part name="parameters" element="sdk:requestDeviceRegistrationResponse"/>
+   </wsdl:message>
+   <wsdl:message name="unregisterDeviceRequest">
+      <wsdl:part name="parameters" element="sdk:unregisterDevice"/>
+   </wsdl:message>
+   <wsdl:message name="unregisterDeviceResponse">
+      <wsdl:part name="parameters" element="sdk:unregisterDeviceResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="LocationProfileInterface">
+      <wsdl:operation name="isDeviceRegistered">
+         <wsdl:input name="isDeviceRegisteredRequest" message="tns:isDeviceRegisteredRequest"/>
+         <wsdl:output name="isDeviceRegisteredResponse" message="tns:isDeviceRegisteredResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="requestDeviceRegistration">
+         <wsdl:input name="requestDeviceRegistrationRequest" message="tns:requestDeviceRegistrationRequest"/>
+         <wsdl:output name="requestDeviceRegistrationResponse" message="tns:requestDeviceRegistrationResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="unregisterDevice">
+         <wsdl:input name="unregisterDeviceRequest" message="tns:unregisterDeviceRequest"/>
+         <wsdl:output name="unregisterDeviceResponse" message="tns:unregisterDeviceResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="LocationProfileSoapBinding" type="tns:LocationProfileInterface">
+      <wsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="isDeviceRegistered">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Location/Profile#isDeviceRegistered"/>
+         <wsdl:input name="isDeviceRegisteredRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="isDeviceRegisteredResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="requestDeviceRegistration">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Location/Profile#requestDeviceRegistration"/>
+         <wsdl:input name="requestDeviceRegistrationRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="requestDeviceRegistrationResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="unregisterDevice">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Location/Profile#unregisterDevice"/>
+         <wsdl:input name="unregisterDeviceRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="unregisterDeviceResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="LocationProfileService">
+      <wsdl:port name="LocationProfileEndpoint" binding="tns:LocationProfileSoapBinding">
+         <wsoap:address location="http://localhost/endpoint/Location/Profile/2007/01"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

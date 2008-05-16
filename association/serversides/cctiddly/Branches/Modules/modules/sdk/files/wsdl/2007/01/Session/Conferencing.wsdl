@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://sdk.bt.com/2007/01/Session/Conferencing" xmlns:sdk="http://sdk.bt.com/2007/01/Session/Conferencing" targetNamespace="http://sdk.bt.com/2007/01/Session/Conferencing"><!--
+               (C) British Telecommunications plc, 2007, All Rights Reserved
+               generated: 2008-04-14+01:00-->
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://sdk.bt.com/2007/01/Session/Conferencing">
+         <xs:simpleType name="ConferenceStatus">
+            <xs:restriction base="xs:string">
+               <xs:enumeration value="Initial"/>
+               <xs:enumeration value="Active"/>
+               <xs:enumeration value="Terminated"/>
+            </xs:restriction>
+         </xs:simpleType>
+         <xs:simpleType name="ParticipantStatus">
+            <xs:restriction base="xs:string">
+               <xs:enumeration value="Invited"/>
+               <xs:enumeration value="Connected"/>
+               <xs:enumeration value="Disconnected"/>
+            </xs:restriction>
+         </xs:simpleType>
+         <xs:complexType name="ConferenceInfo">
+            <xs:sequence>
+               <xs:element name="conferenceStatus" type="sdk:ConferenceStatus"/>
+               <xs:element name="startTime" type="xs:dateTime" minOccurs="0"/>
+               <xs:element name="duration" type="xs:int"/>
+               <xs:element name="numberOfParticipants" type="xs:int"/>
+               <xs:element name="conferenceId" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="ParticipantInfo">
+            <xs:sequence>
+               <xs:element name="participantId" type="xs:string"/>
+               <xs:element name="startTime" type="xs:dateTime" minOccurs="0"/>
+               <xs:element name="participantStatus" type="sdk:ParticipantStatus"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="ParticipantInfos">
+            <xs:sequence>
+               <xs:element name="participantInfo" type="sdk:ParticipantInfo" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="createConference">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="createConferenceResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="conferenceId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="disconnectParticipant">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="participantId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="disconnectParticipantResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="endConference">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="conferenceId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="endConferenceResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getConferenceInfo">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="conferenceId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getConferenceInfoResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="conferenceInfo" type="sdk:ConferenceInfo"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getParticipantInfo">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="participantId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getParticipantInfoResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="participantInfo" type="sdk:ParticipantInfo"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getParticipants">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="conferenceId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getParticipantsResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="participantInfos" type="sdk:ParticipantInfos"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="inviteParticipant">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="conferenceId" type="xs:string"/>
+                  <xs:element name="participantUri" type="xs:anyURI"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="inviteParticipantResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="participantId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="createConferenceRequest">
+      <wsdl:part name="parameters" element="sdk:createConference"/>
+   </wsdl:message>
+   <wsdl:message name="createConferenceResponse">
+      <wsdl:part name="parameters" element="sdk:createConferenceResponse"/>
+   </wsdl:message>
+   <wsdl:message name="disconnectParticipantRequest">
+      <wsdl:part name="parameters" element="sdk:disconnectParticipant"/>
+   </wsdl:message>
+   <wsdl:message name="disconnectParticipantResponse">
+      <wsdl:part name="parameters" element="sdk:disconnectParticipantResponse"/>
+   </wsdl:message>
+   <wsdl:message name="endConferenceRequest">
+      <wsdl:part name="parameters" element="sdk:endConference"/>
+   </wsdl:message>
+   <wsdl:message name="endConferenceResponse">
+      <wsdl:part name="parameters" element="sdk:endConferenceResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getConferenceInfoRequest">
+      <wsdl:part name="parameters" element="sdk:getConferenceInfo"/>
+   </wsdl:message>
+   <wsdl:message name="getConferenceInfoResponse">
+      <wsdl:part name="parameters" element="sdk:getConferenceInfoResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getParticipantInfoRequest">
+      <wsdl:part name="parameters" element="sdk:getParticipantInfo"/>
+   </wsdl:message>
+   <wsdl:message name="getParticipantInfoResponse">
+      <wsdl:part name="parameters" element="sdk:getParticipantInfoResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getParticipantsRequest">
+      <wsdl:part name="parameters" element="sdk:getParticipants"/>
+   </wsdl:message>
+   <wsdl:message name="getParticipantsResponse">
+      <wsdl:part name="parameters" element="sdk:getParticipantsResponse"/>
+   </wsdl:message>
+   <wsdl:message name="inviteParticipantRequest">
+      <wsdl:part name="parameters" element="sdk:inviteParticipant"/>
+   </wsdl:message>
+   <wsdl:message name="inviteParticipantResponse">
+      <wsdl:part name="parameters" element="sdk:inviteParticipantResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="SessionConferencingInterface">
+      <wsdl:operation name="createConference">
+         <wsdl:input name="createConferenceRequest" message="tns:createConferenceRequest"/>
+         <wsdl:output name="createConferenceResponse" message="tns:createConferenceResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="disconnectParticipant">
+         <wsdl:input name="disconnectParticipantRequest" message="tns:disconnectParticipantRequest"/>
+         <wsdl:output name="disconnectParticipantResponse" message="tns:disconnectParticipantResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="endConference">
+         <wsdl:input name="endConferenceRequest" message="tns:endConferenceRequest"/>
+         <wsdl:output name="endConferenceResponse" message="tns:endConferenceResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getConferenceInfo">
+         <wsdl:input name="getConferenceInfoRequest" message="tns:getConferenceInfoRequest"/>
+         <wsdl:output name="getConferenceInfoResponse" message="tns:getConferenceInfoResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getParticipantInfo">
+         <wsdl:input name="getParticipantInfoRequest" message="tns:getParticipantInfoRequest"/>
+         <wsdl:output name="getParticipantInfoResponse" message="tns:getParticipantInfoResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getParticipants">
+         <wsdl:input name="getParticipantsRequest" message="tns:getParticipantsRequest"/>
+         <wsdl:output name="getParticipantsResponse" message="tns:getParticipantsResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="inviteParticipant">
+         <wsdl:input name="inviteParticipantRequest" message="tns:inviteParticipantRequest"/>
+         <wsdl:output name="inviteParticipantResponse" message="tns:inviteParticipantResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="SessionConferencingSoapBinding" type="tns:SessionConferencingInterface">
+      <wsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="createConference">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Session/Conferencing#createConference"/>
+         <wsdl:input name="createConferenceRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="createConferenceResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="disconnectParticipant">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Session/Conferencing#disconnectParticipant"/>
+         <wsdl:input name="disconnectParticipantRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="disconnectParticipantResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="endConference">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Session/Conferencing#endConference"/>
+         <wsdl:input name="endConferenceRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="endConferenceResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getConferenceInfo">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Session/Conferencing#getConferenceInfo"/>
+         <wsdl:input name="getConferenceInfoRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getConferenceInfoResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getParticipantInfo">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Session/Conferencing#getParticipantInfo"/>
+         <wsdl:input name="getParticipantInfoRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getParticipantInfoResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getParticipants">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Session/Conferencing#getParticipants"/>
+         <wsdl:input name="getParticipantsRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getParticipantsResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="inviteParticipant">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/01/Session/Conferencing#inviteParticipant"/>
+         <wsdl:input name="inviteParticipantRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="inviteParticipantResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="SessionConferencingService">
+      <wsdl:port name="SessionConferencingEndpoint" binding="tns:SessionConferencingSoapBinding">
+         <wsoap:address location="http://localhost/endpoint/Session/Conferencing/2007/01"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

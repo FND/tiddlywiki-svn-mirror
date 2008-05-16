@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://sdk.bt.com/2007/04/OutboundCallFlow" xmlns:sdk="http://sdk.bt.com/2007/04/OutboundCallFlow" targetNamespace="http://sdk.bt.com/2007/04/OutboundCallFlow"><!--
+               (C) British Telecommunications plc, 2007, All Rights Reserved
+               generated: 2008-04-14+01:00-->
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://sdk.bt.com/2007/04/OutboundCallFlow">
+         <xs:element name="startCallFlow">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="callFlow" type="xs:anyType"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="startCallFlowResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="callId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="stopCallFlow">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="callId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="stopCallFlowResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="status" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getCallFlowInformation">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="callId" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getCallFlowInformationResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="callFlowInfo" type="xs:anyType"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="startCallFlowRequest">
+      <wsdl:part name="parameters" element="sdk:startCallFlow"/>
+   </wsdl:message>
+   <wsdl:message name="startCallFlowResponse">
+      <wsdl:part name="parameters" element="sdk:startCallFlowResponse"/>
+   </wsdl:message>
+   <wsdl:message name="stopCallFlowRequest">
+      <wsdl:part name="parameters" element="sdk:stopCallFlow"/>
+   </wsdl:message>
+   <wsdl:message name="stopCallFlowResponse">
+      <wsdl:part name="parameters" element="sdk:stopCallFlowResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getCallFlowInformationRequest">
+      <wsdl:part name="parameters" element="sdk:getCallFlowInformation"/>
+   </wsdl:message>
+   <wsdl:message name="getCallFlowInformationResponse">
+      <wsdl:part name="parameters" element="sdk:getCallFlowInformationResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="OutboundCallFlowInterface">
+      <wsdl:operation name="startCallFlow">
+         <wsdl:input name="startCallFlowRequest" message="tns:startCallFlowRequest"/>
+         <wsdl:output name="startCallFlowResponse" message="tns:startCallFlowResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="stopCallFlow">
+         <wsdl:input name="stopCallFlowRequest" message="tns:stopCallFlowRequest"/>
+         <wsdl:output name="stopCallFlowResponse" message="tns:stopCallFlowResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getCallFlowInformation">
+         <wsdl:input name="getCallFlowInformationRequest" message="tns:getCallFlowInformationRequest"/>
+         <wsdl:output name="getCallFlowInformationResponse" message="tns:getCallFlowInformationResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="OutboundCallFlowSoapBinding" type="tns:OutboundCallFlowInterface">
+      <wsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="startCallFlow">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/04/OutboundCallFlow#startCallFlow"/>
+         <wsdl:input name="startCallFlowRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="startCallFlowResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="stopCallFlow">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/04/OutboundCallFlow#stopCallFlow"/>
+         <wsdl:input name="stopCallFlowRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="stopCallFlowResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCallFlowInformation">
+         <wsoap:operation soapAction="http://sdk.bt.com/2007/04/OutboundCallFlow#getCallFlowInformation"/>
+         <wsdl:input name="getCallFlowInformationRequest">
+            <wsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getCallFlowInformationResponse">
+            <wsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="OutboundCallFlowService">
+      <wsdl:port name="OutboundCallFlowEndpoint" binding="tns:OutboundCallFlowSoapBinding">
+         <wsoap:address location="http://localhost/endpoint/OutboundCallFlow/2007/04"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>
