@@ -5,11 +5,9 @@ class dbq {
 		$conn = mysql_connect($host, $user, $pass)
 			or die(mysql_error())
 			or die("Could not connect: " . mysql_error());
-		//echo "connected to MySQL server " . $conn . "\n"; // DEBUG'd
 		$db = mysql_select_db($db, $conn)
 			or die(mysql_error())
 			or die("Could not connect to " . $db . " " . mysql_error());
-		//echo "connected to database " . $db . "\n"; // DEBUG'd
 		return $db;
 	}
 
