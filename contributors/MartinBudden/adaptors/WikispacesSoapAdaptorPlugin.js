@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#WikispacesSoapAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js |
-|''Version:''|0.0.10|
+|''Version:''|0.0.11|
 |''Date:''|Feb 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -166,7 +166,7 @@ fnLog('openWorkspace:'+workspace);
 
 WikispacesSoapAdaptor.openWorkspaceComplete = function(context,userParams)
 {
-fnLog('opentWorkspaceComplete');
+fnLog('openWorkspaceComplete');
 //# http://www.wikispaces.com/space/api?wsdl
 	var uri = WikispacesSoapAdaptor.SoapUri(context,'%0space/api');
 //#console.log('uri:'+uri);
@@ -290,8 +290,6 @@ WikispacesSoapAdaptor.getTiddlerListCallback = function(r,x,context)//(status,co
 {
 	var status = r instanceof Error ? false : true;
 fnLog('getTiddlerListCallback:'+status);
-console.log(r);
-console.log(x);
 	context.status = false;
 	context.statusText = WikispacesSoapAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	function gev(p,i,n) {
@@ -310,14 +308,15 @@ console.log(x);
 					//tiddler.modifier = gev();
 					/*
 					// seems like Wikispaces have changed what is returned, so this does not work anymore
-					tiddler.tags = '';
 					tiddler.text = gev(p,i,'content');
+					*/
+					tiddler.tags = '';
 					tiddler.modified = WikispacesSoapAdaptor.dateFromTimestamp(gev(p,i,'date_created'));
 					tiddler.fields['server.modifier.id'] = gev(p,i,'user_created');
 					tiddler.fields['server.page.id'] = gev(p,i,'id');
 					tiddler.fields['server.page.revision'] = gev(p,i,'versionId');
 					tiddler.fields['server.workspace'] = context.workspace;
-					tiddler.fields['server.workspaceid'] = gev(p,i,'spaceId');*/
+					tiddler.fields['server.workspaceid'] = gev(p,i,'spaceId');
 					tiddler.fields.wikiformat = 'wikispaces';
 					tiddler.fields['server.host'] = WikispacesSoapAdaptor.minHostName(context.host);
 					list.push(tiddler);
@@ -346,7 +345,6 @@ WikispacesSoapAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	var info = {};
 	var host = this && this.host ? this.host : WikispacesSoapAdaptor.fullHostName(tiddler.fields['server.host']);
 	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
-// !!TODO set the uriTemplate
 	uriTemplate = '%0%1%2';
 	info.uri = uriTemplate.format([host,workspace,tiddler.title]);
 	return info;
@@ -536,7 +534,7 @@ WikispacesSoapAdaptor.getTiddlerRevisionListCallback = function(r,x,context)//(s
 
 WikispacesSoapAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
-//#console.log('putTiddler:'+tiddler.title);
+fnLog('putTiddler:'+tiddler.title);
 	context = this.setContext(context,userParams,callback);
 	context.title = tiddler.title;
 	context.tiddler = tiddler;
