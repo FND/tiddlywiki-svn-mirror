@@ -4,10 +4,10 @@
 
 //  This code is not currently  being used by the core
 
-$cct_base = "../";
+$cct_base = "../../../../../";
 include_once($cct_base."includes/header.php");
-require_once($cct_base.'sdk/web21c.php');
-require_once($cct_base.'sdk/config.php');
+require_once('../../web21c.php');
+require_once('../../config.php');
 
 
 $yesTags = array('notifyUser');
