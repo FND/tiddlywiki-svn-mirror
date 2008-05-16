@@ -8,22 +8,19 @@ class Module {
       private $phpEvents;
       private $tiddlers;
 	  private $msgHandler;
-      
+	      
       public function __construct($author, $version, $website) {
       		global $Modules;
           $this->author = $author;
           $this->version = $version;
           $this->website = $website;
-      
           $this->plugins = array();
           $this->phpEvents = array();
 		  $this->tiddlers = array();
 		  $this->msgHandler = array();
 		  array_push($Modules,$this);
-          /*$this->events = array();*/
       }
-      
- 
+    
  // Specified relative to the module folder, these javascripts will be directly included at the end of the whole wiki // 
       public function addPlugin($script) {
 	          array_push($this->plugins, $script);
@@ -34,9 +31,9 @@ class Module {
       }
       
       public function addEvent($eventname, $fileInclude) {
-  	    if ( !isset($this->phpEvents[$eventname]))
-	             $this->phpEvents[$eventname] = array();
-				array_push($this->phpEvents[$eventname], $fileInclude); 
+		if ( !isset($this->phpEvents[$eventname]))
+			$this->phpEvents[$eventname] = array();
+		array_push($this->phpEvents[$eventname], $fileInclude); 
       }
       
       public function run() {
