@@ -1,6 +1,6 @@
 /***
 |''Name''|MacroDocumentationMacro|
-|''Description''|<...>|
+|''Description''|provides a macro to render built-in macro documentation|
 |''Author''|FND|
 |''Version''|0.1|
 |''Status''|@@experimental@@|
@@ -8,7 +8,6 @@
 |''CodeRepository''|<...>|
 |''License''|<...>|
 |''CoreVersion''|<...>|
-|''Documentation''|<...>|
 |''Keywords''|<...>|
 !Description
 <...>
@@ -44,12 +43,11 @@ config.macros.macroDoc.generateDoc = function(doc) {
 		+ "!!Usage\n{{{\n" + doc.usage + "\n}}}\n";
 	if(doc.params) {
 		output += "!!!Parameters\n"
-			+ "|!Name/Index|!Description|!Type|!Optional|!Default Value|h\n";
+			+ "|!Name/Index|!Description|!Optional|!Default Value|h\n";
 		for(var i = 0; i < doc.params.length; i++) {
 			var p = doc.params[i];
 			output += p.named ? "|" + p.name : "|" + (i + 1)
 				+ "|" + p.desc
-				+ "|" + p.type
 				+ "|" + (p.optional ? "yes" : "no")
 				+ "|" + (p.defaultValue ? p.defaultValue : "N/A")
 				+ "|\n";
@@ -62,13 +60,12 @@ config.macros.macroDoc.generateDoc = function(doc) {
 };
 
 config.macros.macroDoc.doc = {
-	desc: "automatically renders built-in macro documentation",
+	desc: "renders built-in macro documentation",
 	usage: "<<macroDoc [macroName]>>",
 	params: [
 		{
 			named: false,
 			desc: "name of the macro to document",
-			type: "string",
 			optional: true,
 			defaultValue: null
 		}
