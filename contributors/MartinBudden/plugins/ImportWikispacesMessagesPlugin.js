@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ImportWikispacesMessagesPlugin.js |
-|''Version:''|0.0.4|
+|''Version:''|0.0.5|
 |''Date:''|May 13, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -21,8 +21,11 @@ version.extensions.ImportWikispacesMessagesPlugin = {installed:true};
 config.macros.importWikispacesMessages = {};
 merge(config.macros.importWikispacesMessages,{
 	label: "import messages",
-	prompt: "Import all messages in workspace",
-	done: "Tiddlers imported"});
+	prompt: "Import messages",
+	done: "Tiddlers imported",
+	noitems: "No discussion items for:%0",
+	retrieved: "Disscussion items for:%0 retrieved"
+	});
 
 
 config.macros.importWikispacesMessages.handler = function(place,macroName,params,wikifier,paramString,tiddler)
@@ -109,12 +112,14 @@ config.macros.importWikispacesMessages.openWorkspaceCallback = function(context,
 
 config.macros.importWikispacesMessages.getTopicListCallback = function(context,userParams)
 {
-	//#console.log("config.macros.importWikispacesMessages.getTopicListCallback:"+context.status);
 	if(context.status) {
 		var tiddlers = context.topics;
+		if(tiddlers.length==0) {
+			displayMessage(config.macros.importWikispacesMessages.noitems.format([context.title]));
+			return;
+		}
 		for(var i=0; i<tiddlers.length; i++) {
 			tiddler = tiddlers[i];
-		//#console.log("topic:"+tiddler.title);
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 			story.refreshTiddler(tiddler.title,1,true);
 			context.adaptor.getMessageList(tiddler.fields['server.topic_id'],context,null,config.macros.importWikispacesMessages.getMessageListCallback);
@@ -126,24 +131,27 @@ config.macros.importWikispacesMessages.getTopicListCallback = function(context,u
 
 config.macros.importWikispacesMessages.getMessageListCallback = function(context,userParams)
 {
-	//#console.log("config.macros.importWikispacesMessages.getMessageListCallback:"+context.status);
 	if(context.status) {
 		var tiddlers = context.messages;
 		for(var i=0; i<tiddlers.length; i++) {
 			tiddler = tiddlers[i];
-		//#console.log("message:"+tiddler.title);
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 			story.refreshTiddler(tiddler.title,1,true);
 		}
+		//#displayMessage(config.macros.importWikispacesMessages.retrieved.format([context.title]));
+	} else {
+		displayMessage(context.statusText);
 	}
 };
+
 //# getDiscussion command definition
 config.commands.getDiscussion = {};
 merge(config.commands.getDiscussion,{
 	text: "getdiscussion",
 	tooltip:"Get discussion for this tiddler",
 	hideReadOnly: true,
-	done: "Discussion downloaded"
+	done: "Discussion downloaded",
+	gettingItems: "Getting discussion items for:%0"
 	});
 
 config.commands.getDiscussion.isEnabled = function(tiddler)
@@ -153,7 +161,7 @@ config.commands.getDiscussion.isEnabled = function(tiddler)
 
 config.commands.getDiscussion.handler = function(event,src,title)
 {
-displayMessage("config.commands.getTiddler.handler:"+title);
+	displayMessage(config.commands.getDiscussion.gettingItems.format([title]));
 	var tiddler = store.fetchTiddler(title);
 	if(tiddler) {
 		var fields = tiddler.fields;
