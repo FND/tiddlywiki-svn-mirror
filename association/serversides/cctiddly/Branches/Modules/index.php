@@ -3,6 +3,9 @@
 <!-- This is generated from the TiddlyWiki core. -->
 
 <?php
+
+include("includes/moduleLoader.php");
+
 //timing
 function recordTime_float($name="unnamed")
 {
@@ -33,7 +36,7 @@ if( strcmp($cctAction,"RSS")==0 )
 	include_once($cct_base."handle/rss.php");
 	exit;
 }
-
+x
 //check if getting revision
 if( isset($_GET['title']) )
 {
@@ -57,9 +60,28 @@ recordTime_float("get all tiddlers");
 $data1['username'] = $user['username'];
 $data1['workspace'] = $workspace;
 
+
 $data1['time'] = date( 'Y-m-d H:i:s', mktime());
 db_record_insert($tiddlyCfg['table']['workspace_view'],$data1);
 ?>
+
+<?php
+// MODULES - beforeLoad
+//$ccModules['beforeLoad'] = array('a', 'b', 'c');
+//foreach($ccModules['beforeLoad'] as $key => $value)
+//{
+//echo $key;
+//echo $value;
+//}
+// MODULES - beforeLoad end 
+?>
+
+
+
+
+
+
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -578,6 +600,7 @@ noscript {display:none;}
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
 <?php
+include_once($cct_base."modules/sdk/files/examples/cmds/getRecievedMessages.php");
 include_once($cct_base."includes/include.php");
 ?>
 

@@ -2,7 +2,7 @@
 include_once($cct_base."includes/ccVariables.php");
 
 $dir = $cct_base."ccPlugins/";
-
+echo 'aaaaaaaaaaaaaaad';
 // Open a known directory, and proceed to read its contents
 if (is_dir($dir)) {
     if ($dh = opendir($dir)) {
@@ -22,6 +22,26 @@ if (is_dir($dir)) {
         closedir($dh);
     }
 }
+echo 'loading plugins'
+
+echo "toshsdd";
+
+foreach ($modulesLoader->plugins as plugin)
+echo 0;
+	if(is_file("../Modules/sdk/".plugin)){
+	echo 1;
+		$ext = substr($plugin, strrpos($plugin, '.') + 1); 
+		if ($ext == "js")
+		{
+			$tiddler_name = str_replace('.js', '', $plugin);
+			echo "<div title=\"".$tiddler_name."\" modifier=\"ccTiddly\" tags=\"systemConfig excludeLists excludeSearch ccTiddly\">\n<pre>";
+        	include_once("../Modules/sdk/".$file);
+			echo "</pre>\n</div>\n";
+		}else if ($ext == "tiddler")
+		{		
+			include_once("../Modules/sdk/".$file);
+		}		
+	}
 
 ///////  START DEBUG TIDDLER 
 
