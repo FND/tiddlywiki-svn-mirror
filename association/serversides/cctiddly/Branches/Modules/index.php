@@ -597,9 +597,8 @@ foreach ($modulesLoader->plugins as $plugin)
 		include_once("Modules/".$plugin);	
 }
 
-echo 'asdasdasdasd';
-print_r($modulesLoader->events);
-foreach ($modulesLoader->events[0] as $event)
+
+foreach ($modulesLoader->events['loadStoreArea'] as $event)
 {
 	if(is_file("Modules/".$event))
 		include_once("Modules/".$event);	

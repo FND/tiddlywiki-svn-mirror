@@ -34,14 +34,9 @@ class Module {
       }
       
       public function addEvent($eventname, $fileInclude) {
-		        //  array_push($this->phpEvents, $fileInclude);
-   
-      if ( !isset($this->phpEvents[$eventname]))
-             $this->phpEvents[$eventname] = array();
-		//	print_r('saq');
-		//	print_r($this->phpEvents[$eventname]);
-			array_push($this->phpEvents[$eventname], $fileInclude); 
-		//	print_r($this->phpEvents);  
+  	    if ( !isset($this->phpEvents[$eventname]))
+	             $this->phpEvents[$eventname] = array();
+				array_push($this->phpEvents[$eventname], $fileInclude); 
       }
       
       public function run() {
@@ -50,10 +45,12 @@ class Module {
 		foreach ($this->plugins as $plugin) {
               $modulesLoader->addPlugin($plugin);
         }
-          foreach ($this->phpEvents as $event) {
-              $modulesLoader->addEvent($event);
+          foreach ($this->phpEvents as $eventnames=>$eventArray) {
+				//print_r($eventnames);
+			foreach ($eventArray as $event)
+              $modulesLoader->addEvent($eventnames,$event);
          }
-	   foreach ($this->phpEvents as $event) {
+	   foreach ($this->tiddlers as $event) {
               $modulesLoader->addTiddler($event);
        }
       }

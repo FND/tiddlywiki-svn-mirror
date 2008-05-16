@@ -18,8 +18,10 @@ class ModulesLoader {
 		array_push($this->plugins,$plugin);
 	}
 	
-	public function addEvent($event){
-		array_push($this->events,$event);
+	public function addEvent($eventname,$event){
+		if ( !isset($this->events[$eventname]))
+             $this->events[$eventname] = array();
+			array_push($this->events[$eventname], $event); 
 	}
 	
 	public function addTiddler($tiddler){
@@ -30,8 +32,6 @@ class ModulesLoader {
 		array_push($this->msgHandlers,$msgHandler);
 	}
 	
-	//
-	
 	public function readModules(){
 		$dir = "modules/";
 		include("modules.php");
@@ -41,13 +41,12 @@ class ModulesLoader {
 		       while (($file = readdir($dh)) !== false) {
 					if( is_dir($dir.$file))
 					{
-						//echo $dir.$file."/index.php";
-							// check for index.php and remove the ..
-							$modulePath = $dir.$file."/index.php";
-							if (is_file($modulePath) && $file!=='..')
-							{
-								include($modulePath);
-							}
+						// check for index.php and remove the ..
+						$modulePath = $dir.$file."/index.php";
+						if (is_file($modulePath) && $file!=='..')
+						{
+							include($modulePath);
+						}
 					}
 		    	}
 		        closedir($dh);
@@ -63,10 +62,10 @@ class ModulesLoader {
 		}		
 	}
 }
+
 global $modulesLoader;
 $modulesLoader = new ModulesLoader();
 $modulesLoader->readModules();
 //this needs to make sure plugins and events are loaded by ccT
 $modulesLoader->runModules();
-
 ?>
