@@ -8,7 +8,7 @@
     <description>The Web 2.0 Conference focuses on emerging business and technology developments that utilize the Web as a platform and defines how the Web will drive business in the future. Now that the Web has become a robust platform with countless innovations driving its ongoing development, widespread disruptions in traditional business models are well underway. But within the chaos of disruption lies the seeds of opportunity. We'll focus on the startups and financiers tending those seeds, of course - including the second annual Launch Pad. But we'll also highlight how the incumbents are also taking advantage of disruption, or, at the very least, how they are responding to it so as to protect their market positions.</description>
 
     <!-- suggest a short, friendly unique ID for the session, given the titles often change .. -->
-    <session> id="16074-20">
+    <session id="16074-20">
 
       <!-- session title, currently used as the Tiddler title, but liable to change, not be unique -->
       <title>Breakfast (hosted by ThinkFree)</title>

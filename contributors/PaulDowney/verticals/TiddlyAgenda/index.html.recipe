@@ -4,9 +4,9 @@ tiddler: ../../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
 tiddler: ../../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
 tiddler: ../../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
 
-tiddler: ../../../../verticals/ripplerap/plugins/TaggedTemplateTweak.js
-tiddler: ../../../../verticals/ripplerap/plugins/ToggleElementPlugin.js
-tiddler: ../../../../verticals/ripplerap/plugins/MakeNotesControlPlugin.js
+tiddler: ../../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
+#tiddler: ../../../../verticals/ripplerap/plugins/ToggleElementPlugin.js
+#tiddler: ../../../../verticals/ripplerap/plugins/MakeNotesControlPlugin.js
 
 tiddler: ColorPalette.tiddler
 tiddler: StyleSheet.tiddler
