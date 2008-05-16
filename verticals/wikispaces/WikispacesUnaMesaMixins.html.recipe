@@ -18,5 +18,6 @@ tiddler: ../../contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js
 tiddler: ../../contributors/MartinBudden/formatters/WikispacesFormatterPlugin.js
 tiddler: ../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
 tiddler: ../../contributors/MartinBudden/plugins/ImportWikispacesMessagesPlugin.js
+tiddler: ../../contributors/MartinBudden/plugins/QuickSyncPlugin.js
 tiddler: ../../contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
 tiddler: ../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
