@@ -34,7 +34,7 @@ version.extensions.QuickSyncPlugin = {installed:true};
 
 config.macros.quicksync = {};
 
-merge(config.macros.permaview,{
+merge(config.macros.quicksync,{
 	label: "quicksync",
 	prompt: "Sync tiddlers that have been changed locally or on server, but not both"});
 
@@ -71,11 +71,11 @@ config.macros.quicksync.onClick = function(e)
 	var customFields = this.getAttribute('customFields');
 //#displayMessage("cf:"+customFields)
 	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
-	var context = config.macros.quicksync.createContext(fields,filter);
-	config.macros.importWorkspace.getTiddlers(context);
+	var context = config.macros.quicksync.createContext(fields);
+	config.macros.quicksync.getTiddlers(context);
 	return false;
 };
-config.macros.quicksync.createContext = function(fields,filter)
+config.macros.quicksync.createContext = function(fields)
 {
 	var serverType = fields['server.type'];
 	if(!serverType)
@@ -89,7 +89,6 @@ config.macros.quicksync.createContext = function(fields,filter)
 		var context = {};
 		context.host = fields['server.host'];
 		context.workspace = fields['server.workspace'];
-		context.filter = filter;
 		context.adaptor = adaptor;
 		return context;
 	}
@@ -98,11 +97,10 @@ config.macros.quicksync.createContext = function(fields,filter)
 
 config.macros.quicksync.getTiddlers = function(context)
 {
+console.log('quicksync.getTiddlers');
 	if(context) {
 		context.adaptor.openHost(context.host,context);
-		//context.adaptor.getWorkspaceList(context,null,config.macros.importWorkspace.getWorkspaceListCallback);
 		context.adaptor.openWorkspace(context.workspace,context,null,config.macros.quicksync.openWorkspaceCallback);
-		//context.adaptor.getTiddlerList(context);
 		return true;
 	}
 	return false;
@@ -110,6 +108,7 @@ config.macros.quicksync.getTiddlers = function(context)
 
 config.macros.quicksync.openWorkspaceCallback = function(context,userParams)
 {
+console.log('quicksync.openWorkspaceCallback:'+context.status);
 	if(context.status) {
 		context.adaptor.getTiddlerList(context,null,config.macros.quicksync.getTiddlerListCallback);
 		return true;
@@ -120,30 +119,36 @@ config.macros.quicksync.openWorkspaceCallback = function(context,userParams)
 
 config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 {
-// now 
-//#displayMessage("config.macros.quicksync.getTiddlerListCallback:"+context.status);
+console.log('quicksync.getTiddlerListCallback:'+context.status);
 	if(context.status) {
 		var tiddlers = context.tiddlers;
 		var getList = [];
 		var putList = [];
 		store.forEachTiddler(function(title,tiddler) {
 			var f = tiddlers.findByField("title",title);
-			if(f !== null) {
+			if(f !== null && tiddler.fields['server.type']) {
 				// tiddler is on server, so add to getList if not changed locally
 				//console.log("uu:"+si.title+" r1:"+tiddlers[f].fields['server.page.revision'] +" r2:"+ si.tiddler.fields['server.page.revision']);
 				if(tiddlers[f].fields['server.page.revision'] > tiddler.fields['server.page.revision']) {
 					// changed on server
-					if(!tiddler.isTouched)
+					if(!tiddler.isTouched())
 						getList.push(tiddler.title);
+				} else if(tiddlers[f].fields['server.page.revision'] < tiddler.fields['server.page.revision']) {
+					// changed on server
+					if(tiddler.isTouched())
+						putList.push(tiddler);
 				}
 			} else {
 				// tiddler not on server, so add to putList if it has been changed
-				if(tiddler.isTouched)
+				if(tiddler.fields['server.type'] && tiddler.isTouched()) {
+					console.log("pl0:"+title);
+					console.log("pl1:"+tiddler.title);
 					putList.push(tiddler);
+				}
 			}
 		});
 		for(i=0; i<putList.length; i++) {
-			context.adaptor.putTiddler(getList[i],null,null,config.macros.quicksync.putTiddlerCallback);
+			context.adaptor.putTiddler(putList[i],null,null,config.macros.quicksync.putTiddlerCallback);
 		}
 
 		// now add all tiddlers that only exist on server to getList
