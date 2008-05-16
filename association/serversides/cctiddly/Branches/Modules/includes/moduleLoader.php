@@ -1,43 +1,32 @@
 <?php
-
-echo 'loaded';
-
-
 class ModulesLoader {
 	public $events;
 	public $plugins;
 	public $tidddlers;
 	public $msgHandlers;
 	
-
 	public function __construct(){
 		$this->events = array();
 		$this->plugins = array();
 		$this->tidddlers = array();
 		$this->msgHandlers = array();
 	}	
-	
-	
 	//  These functions populate arrays with module data
 	// !! ccT needs to make sure these arrays are processed
 	
 	public function addPlugin($plugin){
-		print_r($plugin);
 		array_push($this->plugins,$plugin);
 	}
 	
 	public function addEvent($event){
-		print_r($event);
-		array_push($this->event,$event);
+		array_push($this->events,$event);
 	}
 	
 	public function addTiddler($tiddler){
-		print_r($tiddler);
 		array_push($this->tiddlers,$tiddler);
 	}
 	
 	public function addHandler($msgHandler){
-		print_r($msgHandler);
 		array_push($this->msgHandlers,$msgHandler);
 	}
 	
@@ -58,8 +47,6 @@ class ModulesLoader {
 							if (is_file($modulePath) && $file!=='..')
 							{
 								include($modulePath);
-								echo "module exists";
-
 							}
 					}
 		    	}
@@ -75,19 +62,11 @@ class ModulesLoader {
 			$module->run();
 		}		
 	}
-	
-	
 }
-
 global $modulesLoader;
-
 $modulesLoader = new ModulesLoader();
-
 $modulesLoader->readModules();
-
 //this needs to make sure plugins and events are loaded by ccT
 $modulesLoader->runModules();
-
-
 
 ?>

@@ -36,7 +36,6 @@ if( strcmp($cctAction,"RSS")==0 )
 	include_once($cct_base."handle/rss.php");
 	exit;
 }
-x
 //check if getting revision
 if( isset($_GET['title']) )
 {
@@ -65,16 +64,6 @@ $data1['time'] = date( 'Y-m-d H:i:s', mktime());
 db_record_insert($tiddlyCfg['table']['workspace_view'],$data1);
 ?>
 
-<?php
-// MODULES - beforeLoad
-//$ccModules['beforeLoad'] = array('a', 'b', 'c');
-//foreach($ccModules['beforeLoad'] as $key => $value)
-//{
-//echo $key;
-//echo $value;
-//}
-// MODULES - beforeLoad end 
-?>
 
 
 
@@ -600,8 +589,26 @@ noscript {display:none;}
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
 <?php
-include_once($cct_base."modules/sdk/files/examples/cmds/getRecievedMessages.php");
+
+
+foreach ($modulesLoader->plugins as $plugin)
+{
+	if(is_file("Modules/".$plugin))
+		include_once("Modules/".$plugin);	
+}
+
+echo 'asdasdasdasd';
+print_r($modulesLoader->events);
+foreach ($modulesLoader->events[0] as $event)
+{
+	if(is_file("Modules/".$event))
+		include_once("Modules/".$event);	
+}
+	
+
 include_once($cct_base."includes/include.php");
+
+
 ?>
 
 <?php /*print cct_print_form($standalone);/*cct*/ ?>
