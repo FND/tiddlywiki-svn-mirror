@@ -1,0 +1,3 @@
+recipe: ../../../core/tiddlywiki.html.recipe
+tiddler: CoreMacroDocumentation.js tags="systemConfig"
+tiddler: ../../../contributors/FND/plugins/MacroDocumentationMacro.js tags="systemConfig"
