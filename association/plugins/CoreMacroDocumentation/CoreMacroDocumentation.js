@@ -27,7 +27,7 @@ config.macros.gradient.doc = {
 		{
 			desc: "direction ({{{vert}}} or {{{horiz}}})",
 			optional: true,
-			defaultValue: "horiz"
+			defaultValue: "{{{horiz}}}"
 		}, {
 			desc: "starting color",
 			optional: false
@@ -101,13 +101,13 @@ config.macros.timeline.doc = {
 	usage: "<<timeline [date] [length] [format]>>",
 	params: [
 		{
-			desc: "date to sort by (\"modified\" or \"created\")",
+			desc: "date to sort by ({{{modified}}} or {{{created}}})",
 			optional: true,
-			defaultValue: "modified"
+			defaultValue: "{{{modified}}}"
 		}, {
-			desc: "maximum length (amount of tiddlers to show)",
+			desc: "maximum length (amount of tiddlers to show; {{{0}}} for unlimited)",
 			optional: true,
-			defaultValue: "0 (all)"
+			defaultValue: "{{{0}}}"
 		}, {
 			desc: "[[date format|http://www.tiddlywiki.org/wiki/Timestamps]] to use",
 			optional: true,

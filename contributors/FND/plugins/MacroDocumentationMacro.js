@@ -40,7 +40,7 @@ config.macros.macroDoc.handler = function(place, macroName, params, wikifier, pa
 config.macros.macroDoc.generateDoc = function(doc) {
 	output = "!!" + "[macroName]" + "\n" // DEBUG: how to retrieve macro name without introducing additional doc property?
 		+ "<<<\n"
-		+ "!!!Description\n" + doc.desc + "\n" // DEBUG: missing Notes section!?
+		+ "!!!Description\n" + doc.desc + "\n" // DEBUG: add property/section for additional notes!?
 		+ "!!!Usage\n{{{\n" + doc.usage + "\n}}}\n";
 	if(doc.params) {
 		output += "!!!!Parameters\n"
