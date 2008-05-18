@@ -19,6 +19,44 @@
 !Code
 ***/
 //{{{
+config.macros.gradient.doc = {
+	desc: "generates linear gradients (constructed from HTML elements, i.e. no images required)",
+	usage: "<<gradient [direction] startColor [transitionColor(s)] endColor [snap:startColor endColor] [>>fill]>>",
+	params: [
+		{
+			desc: "direction ({{{vert}}} or {{{horiz}}})",
+			optional: true,
+			defaultValue: "horiz"
+		}, {
+			desc: "starting color",
+			optional: false
+		}, {
+			desc: "additional colors for transition (space-separated)", // DEBUG: clarify
+			optional: true
+		}, {
+			desc: "ending color",
+			optional: false
+		}, {
+			named: true,
+			name: "snap",
+			desc: "extended gradient (space-separated list of additional colors)", // DEBUG: clarify
+			optional: true
+		}, {
+			named: true,
+			name: ">>",
+			desc: "contents (can be preceded by inline-CSS)", // DEBUG: clarify
+			optional: true
+		}
+	],
+	examples: [
+		"<<gradient horiz #f00 #00f >>horizontal gradient>>",
+		"<<gradient vert #f00 #00f >>vertical gradient>>",
+		"<<gradient vert #f00 #0f0 #00f >>transitional gradient>>",
+		"<<gradient vert #f00 #00f snap:#0f0 #ff0 >>extended gradient>>",
+		"<<gradient horiz #f00 #00f >>padding:0.2em;color:#fff;custom-styled contents>>"
+	]
+}
+
 config.macros.tabs.doc = {
 	desc: "creates a pane to display one of several tiddlers alternately, using a tabbed interface",
 	usage: "<<tabs cookieName label1 tooltip1 tiddler1 label2 tooltip2 tiddler2 [label3 ...]>>",
@@ -62,17 +100,14 @@ config.macros.timeline.doc = {
 	usage: "<<timeline [date] [length] [format]>>",
 	params: [
 		{
-			name: 0,
 			desc: "date to sort by (\"modified\" or \"created\")",
 			optional: true,
 			defaultValue: "modified"
 		}, {
-			name: 1,
 			desc: "maximum length (amount of tiddlers to show)",
 			optional: true,
 			defaultValue: "0 (all)"
 		}, {
-			name: 2,
 			desc: "[[date format|http://www.tiddlywiki.org/wiki/Timestamps]] to use",
 			optional: true,
 			defaultValue: "default timeline date format (\"DD MMM YYYY\")"
@@ -89,7 +124,6 @@ config.macros.today.doc = {
 	usage: "<<today [dateFormat]>>",
 	params: [
 		{
-			name: 0,
 			desc: "[[date format|http://www.tiddlywiki.org/wiki/Timestamps]] to use",
 			optional: true,
 			defaultValue: "default locale format"
