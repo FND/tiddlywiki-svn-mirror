@@ -38,11 +38,12 @@ config.macros.macroDoc.handler = function(place, macroName, params, wikifier, pa
 };
 
 config.macros.macroDoc.generateDoc = function(doc) {
-	output = "; " + "[macroName]" + "\n" // DEBUG: how to retrieve macro name?; use heading?
-		+ "!!Description\n" + doc.desc + "\n"
-		+ "!!Usage\n{{{\n" + doc.usage + "\n}}}\n";
+	output = "!!" + "[macroName]" + "\n" // DEBUG: how to retrieve macro name without introducing additional doc property?
+		+ "<<<\n"
+		+ "!!!Description\n" + doc.desc + "\n" // DEBUG: missing Notes section!?
+		+ "!!!Usage\n{{{\n" + doc.usage + "\n}}}\n";
 	if(doc.params) {
-		output += "!!!Parameters\n"
+		output += "!!!!Parameters\n"
 			+ "|!Name/Index|!Description|!Optional|!Default Value|h\n";
 		for(var i = 0; i < doc.params.length; i++) {
 			var p = doc.params[i];
@@ -56,6 +57,7 @@ config.macros.macroDoc.generateDoc = function(doc) {
 	if(doc.examples) {
 		// DEBUG: to do
 	}
+	output += "<<<\n"
 	return output;
 };
 

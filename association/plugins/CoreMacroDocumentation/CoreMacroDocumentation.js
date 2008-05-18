@@ -16,6 +16,7 @@
 |''Feedback''|<...>|
 |''Documentation''|<...>|
 |''Keywords''|<...>|
+<<macroDoc>>
 !Code
 ***/
 //{{{
