@@ -21,7 +21,7 @@
 //{{{
 config.macros.gradient.doc = {
 	desc: "generates linear gradients (constructed from HTML elements, i.e. no images required)",
-	usage: "<<gradient [direction] startColor [transitionColor(s)] endColor [snap:startColor endColor] [>>fill]>>",
+	usage: "<<gradient [direction] startColor [transitionColor(s)] endColor [snap:startColor [transitionColor(s)] endColor] [>>fill]>>",
 	params: [
 		{
 			desc: "direction ({{{vert}}} or {{{horiz}}})",

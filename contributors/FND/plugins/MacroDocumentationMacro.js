@@ -46,7 +46,7 @@ config.macros.macroDoc.generateDoc = function(doc) {
 			+ "|!Name/Index|!Description|!Optional|!Default Value|h\n";
 		for(var i = 0; i < doc.params.length; i++) {
 			var p = doc.params[i];
-			output += p.named ? "|" + p.name : "|" + (i + 1)
+			output += (p.named ? "|" + p.name : "|" + (i + 1))
 				+ "|" + p.desc
 				+ "|" + (p.optional ? "yes" : "no")
 				+ "|" + (p.defaultValue ? p.defaultValue : "N/A")
