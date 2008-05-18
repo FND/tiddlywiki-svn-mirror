@@ -1,0 +1,16 @@
+<slider Section1>
+* fake link 1
+* fake link 2
+* fake link 3
+</slider>
+<slider Section2>
+* fake link 4
+* fake link 5
+* fake link 6
+</slider>
+<slider Section3>
+* fake link 7
+* fake link 8
+* fake link 9
+</slider>
+<<accordion>>

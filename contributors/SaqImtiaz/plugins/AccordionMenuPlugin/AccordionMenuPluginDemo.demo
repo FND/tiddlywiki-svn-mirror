@@ -1,0 +1,85 @@
+@@display:none;clear:both;@@
+
+''Creating a navigation menu using the AccordionMenuPlugin is as simple as:''
+# writing a two level unordered list using ~TiddlyWiki syntax
+# and placing {{{<<accordion>>}}} on the line after it.
+Example:
+{{{
+* Section 1
+** [[Link1]]
+** [[Link2]]
+** [[Link3]]
+*Section 2
+** [[Link4]]
+** [[Link5]]
+** [[Link6]]
+*Section 3
+**[[Link7]]
+**[[Link8]]
+**[[Link9]]
+<<accordion>>
+}}}
+gives:
+
+* Section 1
+** [[Link1]]
+** [[Link2]]
+** [[Link3]]
+*Section 2
+** [[Link4]]
+** [[Link5]]
+** [[Link6]]
+*Section 3
+**[[Link7]]
+**[[Link8]]
+**[[Link9]]
+<<accordion>>
+
+''The AccordionMenuPlugin was written with navigation menu's in mind but can be put to other uses as well. ''
+By wrapping the content in a DIV, you can have multi-line content as well. Example:
+{{{
+* [[section1]]
+**{{myclass{
+Praesent posuere sodales tortor. Mauris ut erat non lacus semper porta. Mauris enim. 
+Phasellus tempor, metus ut dapibus lobortis, leo magna ornare metus, et pellentesque neque massa eget turpis.
+Proin nec tellus. Donec aliquet.
+Nullam sed leo bibendum justo rutrum rhoncus.}}}
+* section2
+**{{myclass{
+Donec rhoncus sem eget urna.
+Aenean tempor dolor vitae nisi.
+Donec leo urna, placerat porttitor, auctor ut, volutpat a, purus,
+Etiam eu sapien id nulla malesuada scelerisque.
+Maecenas rhoncus, nibh ut aliquam consequat, mi odio luctus sem, eu lobortis dolor neque nec lectus. }}}
+* section3
+**{{myclass{
+Donec rhoncus sem eget urna.
+Aenean tempor dolor vitae nisi.
+Donec leo urna, placerat porttitor, auctor ut, volutpat a, purus,
+Etiam eu sapien id nulla malesuada scelerisque.
+Maecenas rhoncus, nibh ut aliquam consequat, mi odio luctus sem, eu lobortis dolor neque nec lectus. }}}
+}}}
+
+gives you:
+
+* [[section1]]
+**{{myclass{
+Praesent posuere sodales tortor. Mauris ut erat non lacus semper porta. Mauris enim. 
+Phasellus tempor, metus ut dapibus lobortis, leo magna ornare metus, et pellentesque neque massa eget turpis.
+Proin nec tellus. Donec aliquet.
+Nullam sed leo bibendum justo rutrum rhoncus.}}}
+* section2
+**{{myclass{
+Donec rhoncus sem eget urna.
+Aenean tempor dolor vitae nisi.
+Donec leo urna, placerat porttitor, auctor ut, volutpat a, purus,
+Etiam eu sapien id nulla malesuada scelerisque.
+Maecenas rhoncus, nibh ut aliquam consequat, mi odio luctus sem, eu lobortis dolor neque nec lectus. }}}
+* section3
+**{{myclass{
+Donec rhoncus sem eget urna.
+Aenean tempor dolor vitae nisi.
+Donec leo urna, placerat porttitor, auctor ut, volutpat a, purus,
+Etiam eu sapien id nulla malesuada scelerisque.
+Maecenas rhoncus, nibh ut aliquam consequat, mi odio luctus sem, eu lobortis dolor neque nec lectus. }}}
+<<accordion>>

@@ -1,0 +1,1 @@
+A user can add notes to each slide/tiddler and not have to edit a tiddler or have a separate tiddler open for his notes. The notes are saved in a separate tiddler that is named after the slide tiddler with suffix of "-Notes" and is tagged "Notes". However, the notes can be viewed and edited from within the original slide, minimizing confusion and the learning curve.

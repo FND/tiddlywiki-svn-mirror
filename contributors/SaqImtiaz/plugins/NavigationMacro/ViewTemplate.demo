@@ -1,0 +1,10 @@
+<!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
+<div class='title' macro='view title'></div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='viewer' macro='navigation tiddlers:[[NavigationDemo1 NavigationDemo2 NavigationDemo3 NavigationDemo4 NavigationDemo5]]'></div>
+<div class='tagClear'></div>
+<!--}}}-->

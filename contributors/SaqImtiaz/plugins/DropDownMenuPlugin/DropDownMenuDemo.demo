@@ -1,0 +1,53 @@
+''horizontal:''
+{{{
+* menu #1
+** [[item #1-1]]
+** [[item #1-2]]
+** [[item #1-3]]
+* menu #2
+** [[item #2-1]]
+** [[item #2-2]]
+** [[menu #2-3]]
+* menu #3
+** [[item #2-1]]
+** [[item #2-2]]
+** [[menu #2-3]]
+<<dropMenu>>
+}}}
+* menu #1
+** [[item #1-1]]
+** [[item #1-2]]
+** [[item #1-3]]
+* menu #2
+** [[item #2-1]]
+** [[item #2-2]]
+** [[menu #2-3]]
+* menu #3
+** [[item #2-1]]
+** [[item #2-2]]
+** [[menu #2-3]]
+<<dropMenu>>
+
+''vertical:''
+{{{
+* menu #1
+** [[item #1-1]]
+** [[item #1-2]]
+** [[item #1-3]]
+* menu #2
+** [[item #2-1]]
+** [[item #2-2]]
+** [[menu #2-3]]
+<<dropMenu vertical>>
+}}}
+
+* menu #1
+** [[item #1-1]]
+** [[item #1-2]]
+** [[item #1-3]]
+* menu #2
+** [[item #2-1]]
+** [[item #2-2]]
+** [[menu #2-3]]
+<<dropMenu vertical>>
+

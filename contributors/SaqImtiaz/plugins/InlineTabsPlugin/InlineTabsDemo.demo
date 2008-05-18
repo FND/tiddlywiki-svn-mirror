@@ -1,0 +1,54 @@
+{{{
+<tabs mytabs>
+<tab tab1>
+This is my first tab
+</tab>
+<tab tab2>
+This is my second tab
+</tab>
+<tab tab3>
+This is my third tab
+with more than one line
+</tab>
+<tab tab4>
+</tab>
+</tabs>
+}}}
+
+<tabs mytabs>
+<tab tab1>
+This is my first tab
+</tab>
+<tab tab2>
+This is my second tab
+</tab>
+<tab tab3>
+This is my third tab
+with more than one line
+</tab>
+<tab tab4>
+</tab>
+</tabs>
+
+Note: you can space out the tabs to make editing easier, the linebreaks between tabs will be ignored:
+{{{
+<tabs mytabs>
+
+<tab tab1>
+This is my first tab
+</tab>
+
+<tab tab2>
+This is my second tab
+</tab>
+
+<tab tab3>
+This is my third tab
+with more than one line
+</tab>
+
+<tab tab4>
+</tab>
+
+</tabs>
+}}}
