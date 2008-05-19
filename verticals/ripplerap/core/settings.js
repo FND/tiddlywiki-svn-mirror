@@ -10,11 +10,8 @@ config.options.chkRipplerapShare = true;
 config.options.chkRipplerapEnjoy= true;
 config.options.chkRipplerapConferenceName= "";
 
-// settings moved into the AgendaFeed
-    //config.options.chkRipplerapConferenceURI= "";
-    //config.options.chkRipplerapConferenceURIType= "";
-
-config.options.txtTheme = "RippleRapSkin";
+// load Agenda on startup
+config.options.chkImportWorkspaceOnStartup = true;
 
 // Setup the session notes display groupings.
 var session_notes_groups = new TiddlerDisplayGroup();

@@ -34,9 +34,9 @@ if ((0 != strlen($baseURI)) && (0 != strlen($type)) && (0 != strlen($conferenceN
 	header('Content-Disposition: attachment; filename="'.$filename.'.html"');
 	$text = file_get_contents('ripplerap.html');
 
-	$text = preg_replace("/^(config.options.chkRipplerapConferenceURI= \&quot;)(\&quot;;)/m", "$1".$baseURI."$2", $text);
-	$text = preg_replace("/^(config.options.chkRipplerapConferenceURIType= \&quot;)(\&quot;;)/m", "$1".$type."$2", $text);
 	$text = preg_replace("/^(config.options.chkRipplerapConferenceName= \&quot;)(\&quot;;)/m", "$1".$conferenceName."$2", $text);
+	$text = preg_replace("/RippleRapAgendaFeedType/m", $type, $text);
+	$text = preg_replace("/http:\/\/localhost\/RippleRapAgendaFeedURL/m", $baseURI, $text);
 	header('Content-length: '.strlen($text));
 	echo($text);
 	exit(0);

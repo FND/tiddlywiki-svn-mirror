@@ -27,6 +27,7 @@ tiddler: ../../../contributors/PaulDowney/plugins/RawViewMacroPlugin.js
 
 # Adaptors to read an Agenda
 tiddler: AgendaFeed.tiddler
+tiddler: ../../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js
 tiddler: ../../../contributors/PaulDowney/adaptors/ConfabbAgendaAdaptorPlugin.js
 
@@ -74,8 +75,8 @@ tiddler: speaker.tiddler
 tiddler: committee.tiddler
 tiddler: chair.tiddler
 
-
-
+tiddler: SessionViewTemplate.tiddler
+tiddler: SessionEditTemplate.tiddler
 
 # tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js
 # tiddler: ../../../contributors/PhilHawksworth/plugins/MicroblogPlugin.js
@@ -98,8 +99,6 @@ tiddler: chair.tiddler
 # tiddler: PageTemplate.tiddler
 # tiddler: ViewTemplate.tiddler
 # tiddler: EditTemplate.tiddler
-# tiddler: SessionViewTemplate.tiddler
-# tiddler: SessionEditTemplate.tiddler
 # tiddler: NoteEditTemplate.tiddler
 # tiddler: NoteViewTemplate.tiddler
 # tiddler: DiscoveredNotesEditTemplate.tiddler

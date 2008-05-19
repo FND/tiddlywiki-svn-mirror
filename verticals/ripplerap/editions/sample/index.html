@@ -1533,37 +1533,27 @@ This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler
 ***/
 //{{{
 version.extensions.taggedTemplate= {major: 1, minor: 2, revision: 0, date: new Date(2008,4,1)};
-Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler;
+Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
 Story.prototype.chooseTemplateForTiddler = function(title,template)
 {
 	// get default template from core
 	var template=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
-	
+
 	// if the tiddler to be rendered doesn't exist yet, just return core result
 	var tiddler=store.getTiddler(title); if (!tiddler) return template;
 
 	// look for template whose prefix matches a tag on this tiddler
 	for (i=0; i&lt;tiddler.tags.length; i++) {
-				
 		var t=tiddler.tags[i]+template; // add tag prefix
 		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
-
-		// add support for templates in systemThemes
-		var skin = config.options.txtTheme;
-		if(skin &amp;&amp; store.tiddlerExists(skin)) {
-			tag = tiddler.tags[i];
-			s = template.replace('##','##'+tag.substr(0,1).toLowerCase()+tag.substr(1)); //lowercase tag
-			S = template.replace('##','##'+tag.substr(0,1).toUpperCase()+tag.substr(1)); //uppercase tag
-		}
-
-		if (store.tiddlerExists(t)) { template=t; console.log(&quot;t: &quot; + template); break; }
-		if (store.tiddlerExists(c)) { template=c; console.log(&quot;c: &quot; + template); break; }
-		if (store.getTiddlerText(s)) { template=s; console.log(&quot;s: &quot; + template); break; }
-		if (store.getTiddlerText(S)) { template=s; console.log(&quot;s: &quot; + template); break; }
+		var s=config.options.txtTheme+&quot;##&quot;; // systemTheme section prefix
+		if (store.tiddlerExists(t)) { template=t; break; }
+		if (store.tiddlerExists(c)) { template=c; break; }
+		if (store.getTiddlerText(s+t)) { template=s+t; break; }
+		if (store.getTiddlerText(s+c)) { template=s+c; break; }
 	}
-	
 	return template;
-};
+}
 //}}}</pre>
 </div>
 <div title="BackstageTiddlersPlugin" modifier="JeremyRuston" created="200802280000" tags="systemConfig excludeLists excludeSearch">
@@ -2073,6 +2063,336 @@ config.macros.view.views.raw = function(value,place,params,wikifier,paramString,
 
 //}}}</pre>
 </div>
+<div title="TextToXMLDOMPlugin" modifier="PhilHawksworth" created="200804081806" tags="systemConfig excludeLists excludeSearch">
+<pre>/***
+|''Name:''|TextToXMLDOMPlugin|
+|''Description:''|Convert a chunk of text into XML DOM for traversing using standard XML DOM methods|
+|''Author:''|PhilHawksworth |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/TestToXMLDOMPlugin.js |
+|''Version:''|0.2|
+|''Date:''|April 8, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.3|
+
+
+''Usage examples:''
+{{{
+// Create an XMLDOM object from some text 
+var xml = getXML(text);
+
+// Use standars XML DOM methods to parse the object. For example:
+// Get all of the 'thing' tag elements.
+var things = xml.getElementsByTagName(&quot;thing&quot;);
+
+// Get the uri attribute of the first 'thing' element.
+var thingUri = things[0].getAttribute(&quot;uri&quot;);
+}}}
+
+
+***/
+
+//{{{
+if(!version.extensions.TextToXMLDOMPlugin) {
+version.extensions.TextToXMLDOMPlugin = {installed:true};
+
+
+function getXML(str) {
+	if(!str)
+		return null;
+	var errorMsg;
+	try {
+		var doc = new ActiveXObject(&quot;Microsoft.XMLDOM&quot;);
+		doc.async=&quot;false&quot;;
+		doc.loadXML(str);
+	}
+	catch(e) {
+		try {
+			var parser=  new DOMParser();
+			var doc = parser.parseFromString(str,&quot;text/xml&quot;);
+		}
+		catch(e) {
+			return e.message;
+		}
+	}
+	
+	return doc;	
+};
+
+
+} //# end of 'install only once'
+//}}}</pre>
+</div>
+<div title="ConfabbAgendaAdaptorPlugin" modifier="PaulDowney" created="200805110000" tags="systemConfig excludeLists excludeSearch">
+<pre>/***
+|''Name:''|ConfabbAgendaAdaptorPlugin|
+|''Description:''|Load RippleRap Agenda from a Confabb.com URI|
+|''Author:''|Paul Downey (psd (at) osmosoft (dot) com)|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/adaptors/ConfabbAgendaAdaptorPlugin.js|
+|''Version:''|0.1|
+|''Date:''|May 11, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''~CoreVersion:''|2.4.0|
+*/
+
+//{{{
+if(!version.extensions.ConfabbAgendaAdaptorPlugin) {
+version.extensions.ConfabbAgendaAdaptorPlugin = {installed:true};
+
+function ConfabbAgendaAdaptor()
+{
+	this.host = null;
+	this.store = null;
+	return this;
+}
+
+ConfabbAgendaAdaptor.serverType = 'confabbagenda';
+ConfabbAgendaAdaptor.serverParsingErrorMessage = &quot;Error parsing result from server&quot;;
+ConfabbAgendaAdaptor.errorInFunctionMessage = &quot;Error in function ConfabbAgendaAdaptor.%0&quot;;
+ConfabbAgendaAdaptor.emptyFeed = &quot;No Confabb Agenda Items Found&quot;;
+
+String.prototype.makeId = function() {
+	return this.replace(/[^A-Za-z0-9]+/g, &quot;-&quot;);
+}
+
+Node.prototype.getFirstElementValue = function (tag, def) {
+	var e = this.getElementsByTagName(tag);
+	if (e &amp;&amp; e.length &amp;&amp; e[0].textContent)
+	    return e[0].textContent
+	return def;
+}
+
+/*
+ *  takes a Confabb Agenda, returns list of tiddlers
+ */
+ConfabbAgendaAdaptor.parseAgenda = function(text)
+{
+	var tiddlers = [];
+
+	/* 
+	 *  parse XML
+	 */
+	var r = getXML(text);
+	if (!r) 
+		return tiddlers;
+
+	/* 
+	 *  build track tiddlers
+	 */
+	var tracks = {};
+	var t = r.getElementsByTagName('track');
+	for(var i=0;i&lt;t.length;i++) {
+		var name = t[i].textContent;
+		if (!name.length) name = &quot;DefaultTrack&quot;;
+		tracks[name.makeId()] = name;
+	}
+
+	for(var trackid in tracks) {
+		var tiddler = new Tiddler();
+		tiddler.assign(tracks[trackid],'&lt;&lt;AgendaTrackSessions&gt;&gt;',undefined,undefined,['track'],undefined,{rr_session_tag: trackid});
+		tiddlers.push(tiddler);
+	}
+
+	/* 
+	 *  build session tiddlers
+	 */
+	var t = r.getElementsByTagName('session');
+	for(var i=0;i&lt;t.length;i++) {
+		var node = t[i];
+		var id = node.getAttribute('id');
+		var content = node.getFirstElementValue(&quot;description&quot;,&quot;&quot;);
+		var tiddler = new Tiddler();
+
+		/* list of speakers */
+		var s = node.getElementsByTagName(&quot;speaker&quot;);
+		var speakers = [];
+		for(var j=0;j&lt;s.length;j++) {
+		   speakers.push(s[j].getFirstElementValue(&quot;title&quot;));
+		}
+
+		tiddler.assign(id,content,undefined,undefined,['session'],undefined,{
+			rr_session_title: node.getFirstElementValue(&quot;title&quot;,&quot;&quot;),
+			rr_session_starttime: node.getFirstElementValue(&quot;starttime&quot;,&quot;&quot;),
+			rr_session_endtime: node.getFirstElementValue(&quot;endtime&quot;,&quot;&quot;),
+			rr_session_link: node.getFirstElementValue(&quot;link&quot;,&quot;&quot;),
+			rr_session_location: node.getFirstElementValue(&quot;location&quot;,&quot;&quot;),
+			rr_session_day: node.getFirstElementValue(&quot;day&quot;,&quot;&quot;),
+			rr_session_speakers: speakers.join(&quot;, &quot;)
+		});
+		tiddlers.push(tiddler);
+	}
+
+	return tiddlers;
+};
+
+
+ConfabbAgendaAdaptor.prototype.setContext = function(context,userParams,callback)
+{
+	if(!context) context = {};
+	context.userParams = userParams;
+	if(callback) context.callback = callback;
+	context.adaptor = this;
+	if(!context.host)
+		context.host = this.host;
+	context.host = ConfabbAgendaAdaptor.fullHostName(context.host);
+	if(!context.workspace)
+		context.workspace = this.workspace;
+	return context;
+};
+
+ConfabbAgendaAdaptor.fullHostName = function(host)
+{
+	if(!host)
+		return '';
+	if(!host.match(/:\/\//))
+		host = 'http://' + host;
+	return host;
+};
+
+ConfabbAgendaAdaptor.minHostName = function(host)
+{
+	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
+};
+
+// Open the specified host
+ConfabbAgendaAdaptor.prototype.openHost = function(host,context,userParams,callback)
+{
+	this.host = host;
+	context = this.setContext(context,userParams,callback);
+	context.status = true;
+	if(callback)
+		window.setTimeout(function() {context.callback(context,userParams);},10);
+	return true;
+};
+
+ConfabbAgendaAdaptor.loadTiddlyWikiCallback = function(status,context,responseText,url,xhr)
+{
+	context.status = status;
+	if(!status) {
+		context.statusText = &quot;Error reading agenda file&quot;;
+	} else {
+		context.adaptor.store = new TiddlyWiki();
+		var tiddlers = ConfabbAgendaAdaptor.parseAgenda(responseText);
+		if(!tiddlers.length)
+			context.statusText = config.messages.invalidFileError.format([url]);
+		for(var i=0;i&lt;tiddlers.length;i++) {
+			console.log(tiddlers[i].title);
+			context.adaptor.store.addTiddler(tiddlers[i]);
+		}
+	}
+	if (context.complete)
+	    context.complete(context,context.userParams);
+};
+
+// Get the list of workspaces on a given server
+ConfabbAgendaAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
+{
+	context = this.setContext(context,userParams,callback);
+	context.workspaces = [{title:&quot;(default)&quot;}];
+	context.status = true;
+	if(callback)
+		window.setTimeout(function() {callback(context,userParams);},10);
+	return true;
+};
+
+// Open the specified workspace
+ConfabbAgendaAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
+{
+	this.workspace = workspace;
+	context = this.setContext(context,userParams,callback);
+	context.status = true;
+	if(callback)
+		window.setTimeout(function() {callback(context,userParams);},10);
+	return true;
+};
+
+// Gets the list of tiddlers within a given workspace
+ConfabbAgendaAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
+{
+	context = this.setContext(context,userParams,callback);
+	if(!context.filter)
+		context.filter = filter;
+	context.complete = ConfabbAgendaAdaptor.getTiddlerListComplete;
+	if(this.store) {
+		var ret = context.complete(context,context.userParams);
+	} else {
+		ret = loadRemoteFile(context.host,ConfabbAgendaAdaptor.loadTiddlyWikiCallback,context);
+		if(typeof ret != &quot;string&quot;)
+			ret = true;
+	}
+	return ret;
+};
+
+ConfabbAgendaAdaptor.getTiddlerListComplete = function(context,userParams)
+{
+	if(context.status) {
+		if(context.filter) {
+			context.tiddlers = context.adaptor.store.filterTiddlers(context.filter);
+		} else {
+			context.tiddlers = [];
+			context.adaptor.store.forEachTiddler(function(title,tiddler) {context.tiddlers.push(tiddler);});
+		}
+		for(var i=0; i&lt;context.tiddlers.length; i++) {
+			context.tiddlers[i].fields['server.type'] = ConfabbAgendaAdaptor.serverType;
+			context.tiddlers[i].fields['server.host'] = ConfabbAgendaAdaptor.minHostName(context.host);
+			context.tiddlers[i].fields['server.page.revision'] = context.tiddlers[i].modified.convertToYYYYMMDDHHMM();
+		}
+		context.status = true;
+	}
+	if(context.callback) {
+		window.setTimeout(function() {context.callback(context,userParams);},10);
+	}
+	return true;
+};
+
+ConfabbAgendaAdaptor.prototype.generateTiddlerInfo = function(tiddler)
+{
+	var info = {};
+	info.uri = tiddler.fields['server.host'] + &quot;#&quot; + tiddler.title;
+	return info;
+};
+
+// Retrieve a tiddler from a given workspace on a given server
+ConfabbAgendaAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
+{
+	context = this.setContext(context,userParams,callback);
+	context.title = title;
+	context.complete = ConfabbAgendaAdaptor.getTiddlerComplete;
+	return context.adaptor.store ?
+		context.complete(context,context.userParams) :
+		alert(context.host); //loadRemoteFile(context.host,ConfabbAgendaAdaptor.loadTiddlyWikiCallback,context);
+};
+
+ConfabbAgendaAdaptor.getTiddlerComplete = function(context,userParams)
+{
+	var t = context.adaptor.store.fetchTiddler(context.title);
+	t.fields['server.type'] = ConfabbAgendaAdaptor.serverType;
+	t.fields['server.host'] = ConfabbAgendaAdaptor.minHostName(context.host);
+	t.fields['server.page.revision'] = t.modified.convertToYYYYMMDDHHMM();
+	context.tiddler = t;
+	context.status = true;
+	if(context.allowSynchronous) {
+		context.isSynchronous = true;
+		context.callback(context,userParams);
+	} else {
+		window.setTimeout(function() {context.callback(context,userParams);},10);
+	}
+	return true;
+};
+
+ConfabbAgendaAdaptor.prototype.close = function()
+{
+	delete this.store;
+	this.store = null;
+};
+
+
+config.adaptors[ConfabbAgendaAdaptor.serverType] = ConfabbAgendaAdaptor;
+
+} //# end of 'install only once'
+//}}}</pre>
+</div>
 <div title="MainMenu" tags="excludeLists excludeSearch" force="true" refresh="macro">
 <pre>[[Welcome]][[Share notes]][[Speakers|speaker]][[Help]][[FAQs]]{{search{&lt;&lt;search&gt;&gt;}}}</pre>
 </div>
@@ -2338,7 +2658,7 @@ You can find out more about how ~RippleRap works in the FAQs</pre>
 <div title="chair" modifier="PaulDowney" created="200711261027" modified="200711261230" changecount="i">
 <pre></pre>
 </div>
-<div title="settings" created="200805195214">
+<div title="settings" created="200805190341">
 <pre>//{{{
 
 config.options.txtMainTab = &quot;AgendaDay1&quot;;
@@ -3067,13 +3387,13 @@ merge(config.macros.sync,{
 	hasChanged: "Changed while unplugged",
 	hasNotChanged: "Unchanged while unplugged",
 	syncStatusList: {
-		none: {text: "...", color: "transparent"},
-		changedServer: {text: "Changed on server", color: '#80ff80'},
-		changedLocally: {text: "Changed while unplugged", color: '#80ff80'},
-		changedBoth: {text: "Changed while unplugged and on server", color: '#ff8080'},
-		notFound: {text: "Not found on server", color: '#ffff80'},
-		putToServer: {text: "Saved update on server", color: '#ff80ff'},
-		gotFromServer: {text: "Retrieved update from server", color: '#80ffff'}
+		none: {text: "...", color: "transparent", display:null},
+		changedServer: {text: "Changed on server", color: '#8080ff', display:null},
+		changedLocally: {text: "Changed while unplugged", color: '#80ff80', display:null},
+		changedBoth: {text: "Changed while unplugged and on server", color: '#ff8080', display:null},
+		notFound: {text: "Not found on server", color: '#ffff80', display:null},
+		putToServer: {text: "Saved update on server", color: '#ff80ff', display:null},
+		gotFromServer: {text: "Retrieved update from server", color: '#80ffff', display:null}
 		}
 	});
 
@@ -4722,10 +5042,9 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 config.macros.tagChooser.onClick = function(ev)
 {
 	var e = ev ? ev : window.event;
-	if(e.metaKey || e.ctrlKey) stopEvent(e); //# keep popup open on CTRL-click
 	var lingo = config.views.editor.tagChooser;
 	var popup = Popup.create(this);
-	var tags = store.getTags();
+	var tags = store.getTags("excludeLists");
 	if(tags.length == 0)
 		createTiddlyText(createTiddlyElement(popup,"li"),lingo.popupNone);
 	for(var t=0; t<tags.length; t++) {
@@ -4742,6 +5061,7 @@ config.macros.tagChooser.onClick = function(ev)
 config.macros.tagChooser.onTagClick = function(ev)
 {
 	var e = ev ? ev : window.event;
+	if(e.metaKey || e.ctrlKey) stopEvent(e); //# keep popup open on CTRL-click
 	var tag = this.getAttribute("tag");
 	var title = this.getAttribute("tiddler");
 	if(!readOnly)
@@ -6317,7 +6637,7 @@ Story.prototype.displayTiddlers = function(srcElement,titles,template,animate,un
 		this.displayTiddler(srcElement,titles[t],template,animate,unused,customFields);
 };
 
-Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,animationSrc)
+Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle)
 {
 	var title = (tiddler instanceof Tiddler)? tiddler.title : tiddler;
 	var tiddlerElem = this.getTiddler(title);
@@ -6330,9 +6650,6 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,un
 		var place = this.getContainer();
 		var before = this.positionTiddler(srcElement);
 		tiddlerElem = this.createTiddler(place,before,title,template,customFields);
-	}
-	if(animationSrc && typeof animationSrc !== "string") {
-		srcElement = animationSrc;
 	}
 	if(srcElement && typeof srcElement !== "string") {
 		if(config.options.chkAnimate && (animate == undefined || animate == true) && anim && typeof Zoomer == "function" && typeof Scroller == "function")
@@ -7520,14 +7837,19 @@ config.macros.sync.handler = function(place,macroName,params,wikifier,paramStrin
 		this.startSync(place);
 };
 
+config.macros.sync.cancelSync = function()
+{
+	currSync = null;
+};
+
 config.macros.sync.startSync = function(place)
 {
 	if(currSync)
 		config.macros.sync.cancelSync();
 	currSync = {};
 	currSync.syncList = this.getSyncableTiddlers();
-	this.createSyncTasks();
-	this.preProcessSyncableTiddlers();
+	currSync.syncTasks = this.createSyncTasks(currSync.syncList);
+	this.preProcessSyncableTiddlers(currSync.syncList);
 	var wizard = new Wizard();
 	currSync.wizard = wizard;
 	wizard.createWizard(place,this.wizardTitle);
@@ -7536,10 +7858,8 @@ config.macros.sync.startSync = function(place)
 	var listWrapper = document.createElement("div");
 	markList.parentNode.insertBefore(listWrapper,markList);
 	currSync.listView = ListView.create(listWrapper,currSync.syncList,this.listViewTemplate);
-	this.processSyncableTiddlers();
-	wizard.setButtons([
-			{caption: this.syncLabel, tooltip: this.syncPrompt, onClick: this.doSync}
-		]);
+	this.processSyncableTiddlers(currSync.syncList);
+	wizard.setButtons([{caption: this.syncLabel, tooltip: this.syncPrompt, onClick: this.doSync}]);
 };
 
 config.macros.sync.getSyncableTiddlers = function()
@@ -7549,56 +7869,59 @@ config.macros.sync.getSyncableTiddlers = function()
 		var syncItem = {};
 		syncItem.serverType = tiddler.getServerType();
 		syncItem.serverHost = tiddler.fields['server.host'];
-		syncItem.serverWorkspace = tiddler.fields['server.workspace'];
-		syncItem.tiddler = tiddler;
-		syncItem.title = tiddler.title;
-		syncItem.isTouched = tiddler.isTouched();
-		syncItem.selected = syncItem.isTouched;
-		syncItem.syncStatus = config.macros.sync.syncStatusList[syncItem.isTouched ? "changedLocally" : "none"];
-		syncItem.status = syncItem.syncStatus.text;
-		if(syncItem.serverType && syncItem.serverHost)
+		if(syncItem.serverType && syncItem.serverHost) {
+			syncItem.serverWorkspace = tiddler.fields['server.workspace'];
+			syncItem.tiddler = tiddler;
+			syncItem.title = tiddler.title;
+			syncItem.isTouched = tiddler.isTouched();
+			syncItem.selected = syncItem.isTouched;
+			syncItem.syncStatus = config.macros.sync.syncStatusList[syncItem.isTouched ? "changedLocally" : "none"];
+			syncItem.status = syncItem.syncStatus.text;
 			list.push(syncItem);
+		}
 		});
 	list.sort(function(a,b) {return a.title < b.title ? -1 : (a.title == b.title ? 0 : +1);});
 	return list;
 };
 
-config.macros.sync.preProcessSyncableTiddlers = function()
+config.macros.sync.preProcessSyncableTiddlers = function(syncList)
 {
-	for(var t=0; t<currSync.syncList.length; t++) {
-		si = currSync.syncList[t];
-		var ti = si.syncTask.syncMachine.generateTiddlerInfo(si.tiddler);
-		si.serverUrl = ti.uri;
+	for(var i=0; i<syncList.length; i++) {
+		si = syncList[i];
+		si.serverUrl = si.syncTask.syncMachine.generateTiddlerInfo(si.tiddler).uri;
+
 	}
 };
 
-config.macros.sync.processSyncableTiddlers = function()
+config.macros.sync.processSyncableTiddlers = function(syncList)
 {
-	for(var t=0; t<currSync.syncList.length; t++) {
-		si = currSync.syncList[t];
+	for(var i=0; i<syncList.length; i++) {
+		si = syncList[i];
 		si.rowElement.style.backgroundColor = si.syncStatus.color;
+		si.rowElement.style.display = si.syncStatus.display;
 	}
 };
 
-config.macros.sync.createSyncTasks = function()
+config.macros.sync.createSyncTasks = function(syncList)
 {
-	currSync.syncTasks = [];
-	for(var t=0; t<currSync.syncList.length; t++) {
-		var si = currSync.syncList[t];
+	syncTasks = [];
+	for(var i=0; i<syncList.length; i++) {
+		var si = syncList[i];
 		var r = null;
-		for(var st=0; st<currSync.syncTasks.length; st++) {
-			var cst = currSync.syncTasks[st];
+		for(var j=0; j<syncTasks.length; j++) {
+			var cst = syncTasks[j];
 			if(si.serverType == cst.serverType && si.serverHost == cst.serverHost && si.serverWorkspace == cst.serverWorkspace)
 				r = cst;
 		}
-		if(r == null) {
-			si.syncTask = this.createSyncTask(si);
-			currSync.syncTasks.push(si.syncTask);
-		} else {
+		if(r) {
 			si.syncTask = r;
 			r.syncItems.push(si);
+		} else {
+			si.syncTask = this.createSyncTask(si);
+			syncTasks.push(si.syncTask);
 		}
 	}
+	return syncTasks;
 };
 
 config.macros.sync.createSyncTask = function(syncItem)
@@ -7655,8 +7978,10 @@ config.macros.sync.createSyncTask = function(syncItem)
 			if(syncItem !== null) {
 				syncItem = st.syncItems[syncItem];
 				store.resetTiddler(title);
-				syncItem.syncStatus = config.macros.sync.syncStatusList.putToServer;
-				config.macros.sync.updateSyncStatus(syncItem);
+				if(context.status) {
+					syncItem.syncStatus = config.macros.sync.syncStatusList.putToServer;
+					config.macros.sync.updateSyncStatus(syncItem);
+				}
 			}
 		}
 	});
@@ -7670,43 +7995,34 @@ config.macros.sync.updateSyncStatus = function(syncItem)
 	removeChildren(e);
 	createTiddlyText(e,syncItem.syncStatus.text);
 	syncItem.rowElement.style.backgroundColor = syncItem.syncStatus.color;
+	syncItem.rowElement.style.display = syncItem.syncStatus.display;
 };
 
 config.macros.sync.doSync = function(e)
 {
 	var rowNames = ListView.getSelectedRows(currSync.listView);
-	for(var t=0; t<currSync.syncList.length; t++) {
-		var si = currSync.syncList[t];
+	var sl = config.macros.sync.syncStatusList;
+	for(var i=0; i<currSync.syncList.length; i++) {
+		var si = currSync.syncList[i];
 		if(rowNames.indexOf(si.title) != -1) {
-			config.macros.sync.doSyncItem(si);
+			var r = true;
+			switch(si.syncStatus) {
+			case sl.changedServer:
+				r = si.syncTask.syncMachine.go("getTiddler",si.title);
+				break;
+			case sl.notFound:
+			case sl.changedLocally:
+			case sl.changedBoth:
+				r = si.syncTask.syncMachine.go("putTiddler",si.tiddler);
+				break;
+			default:
+				break;
+			}
+			if(!r)
+				displayMessage("Error in doSync: " + r);
 		}
 	}
 	return false;
-};
-
-config.macros.sync.doSyncItem = function(syncItem)
-{
-	var r = true;
-	var sl = config.macros.sync.syncStatusList;
-	switch(syncItem.syncStatus) {
-		case sl.changedServer:
-			r = syncItem.syncTask.syncMachine.go("getTiddler",syncItem.title);
-			break;
-		case sl.notFound:
-		case sl.changedLocally:
-		case sl.changedBoth:
-			r = syncItem.syncTask.syncMachine.go("putTiddler",syncItem.tiddler);
-			break;
-		default:
-			break;
-	}
-	if(r !== true)
-		displayMessage("Error in doSyncItem: " + r);
-};
-
-config.macros.sync.cancelSync = function()
-{
-	currSync = null;
 };
 
 function SyncMachine(serverType,steps)
@@ -8167,15 +8483,12 @@ config.macros.option.genericCreate = function(place,type,opt,className,desc)
 		c.setAttribute("type",typeInfo.typeValue);
 	c[typeInfo.eventName] = typeInfo.onChange;
 	c.setAttribute("option",opt);
-	if(className)
-		c.className = className;
-	else
-		c.className = typeInfo.className;
+	c.className = className || typeInfo.className;
 	if(config.optionsDesc[opt])
 		c.setAttribute("title",config.optionsDesc[opt]);
 	place.appendChild(c);
 	if(desc != "no")
-		createTiddlyText(place,config.optionsDesc[opt] ? config.optionsDesc[opt] : opt);
+		createTiddlyText(place,config.optionsDesc[opt] || opt);
 	c[typeInfo.valueField] = config.options[opt];
 	return c;
 };
@@ -8221,10 +8534,10 @@ config.macros.option.propagateOption = function(opt,valueField,value,elementType
 		var optNode = nodes[t].getAttribute("option");
 		if(opt == optNode)
 			nodes[t][valueField] = value;
-		}
+	}
 };
 
-config.macros.option.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+config.macros.option.handler = function(place,macroName,params,wikifier,paramString)
 {
 	params = paramString.parseParams("anon",null,true,false,false);
 	var opt = (params[1] && params[1].name == "anon") ? params[1].value : getParam(params,"name",null);
@@ -8236,7 +8549,7 @@ config.macros.option.handler = function(place,macroName,params,wikifier,paramStr
 		h.create(place,type,opt,className,desc);
 };
 
-config.macros.options.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+config.macros.options.handler = function(place,macroName,params,wikifier,paramString)
 {
 	params = paramString.parseParams("anon",null,true,false,false);
 	var showUnknown = getParam(params,"showUnknown","no");
@@ -9131,12 +9444,12 @@ function createTiddlyButton(parent,text,tooltip,action,className,id,accessKey,at
 		btn.setAttribute("title",tooltip);
 	if(text)
 		btn.appendChild(document.createTextNode(text));
-	btn.className = className ? className : "button";
+	btn.className = className || "button";
 	if(id)
 		btn.id = id;
 	if(attribs) {
-		for(var n in attribs) {
-			btn.setAttribute(n,attribs[n]);
+		for(var i in attribs) {
+			btn.setAttribute(i,attribs[i]);
 		}
 	}
 	if(parent)
@@ -9291,10 +9604,8 @@ function onClickTag(ev)
 // Event handler for 'open all' on a tiddler popup
 function onClickTagOpenAll(ev)
 {
-	var e = ev ? ev : window.event;
-	var tag = this.getAttribute("tag");
-	var tagged = store.getTaggedTiddlers(tag);
-	story.displayTiddlers(this,tagged);
+	var tiddlers = store.getTaggedTiddlers(this.getAttribute("tag"));
+	story.displayTiddlers(this,tiddlers);
 	return false;
 }
 
@@ -9367,7 +9678,7 @@ function merge(dst,src,preserveExisting)
 // Returns a string containing the description of an exception, optionally prepended by a message
 function exceptionText(e,message)
 {
-	var s = e.description ? e.description : e.toString();
+	var s = e.description || e.toString();
 	return message ? "%0:\n%1".format([message,s]) : s;
 }
 
@@ -9397,7 +9708,6 @@ function glyph(name)
 		return "";
 	return g.codes[name][b];
 }
-
 
 //-
 //- Animation engine
@@ -9591,11 +9901,11 @@ var Popup = {
 	stack: [] // Array of objects with members root: and popup:
 	};
 
-Popup.create = function(root,elem,theClass)
+Popup.create = function(root,elem,className)
 {
 	var stackPosition = this.find(root,"popup");
 	Popup.remove(stackPosition+1);
-	var popup = createTiddlyElement(document.body,elem ? elem : "ol","popup",theClass ? theClass : "popup");
+	var popup = createTiddlyElement(document.body,elem || "ol","popup",className || "popup");
 	popup.stackPosition = stackPosition;
 	Popup.stack.push({root: root, popup: popup});
 	return popup;
@@ -9757,7 +10067,7 @@ var ListView = {};
 // Create a listview
 ListView.create = function(place,listObject,listTemplate,callback,className)
 {
-	var table = createTiddlyElement(place,"table",null,className ? className : "listView twtable");
+	var table = createTiddlyElement(place,"table",null,className || "listView twtable");
 	var thead = createTiddlyElement(table,"thead");
 	var r = createTiddlyElement(thead,"tr");
 	for(var t=0; t<listTemplate.columns.length; t++) {
@@ -9905,7 +10215,7 @@ ListView.columnTypes.Link = {
 			var v = listObject[field];
 			var c = columnTemplate.text;
 			if(v != undefined)
-				createTiddlyText(createExternalLink(place,v),c ? c : v);
+				createTiddlyText(createExternalLink(place,v),c || v);
 		}
 };
 
@@ -10112,19 +10422,6 @@ Array.prototype.map = function(fn,thisObj)
 	}
 	return a;
 };}
-
-// Compare two objects (and the values of their properties) to see if they match.
-// Returns true | false.
-function objectsMatch (obj1, obj2) {
-	var match = true;
-	for(var p in obj1){
-		if(typeof obj1[p] == 'object' && typeof obj2[p] == 'object');
-			match = objectsMatch(obj1[p], obj2[p]);
-		if(obj1[p] !== obj2[p] || match == false)
-			return false;
-	}
-	return true;
-}
 
 // Get characters from the right end of a string
 String.prototype.right = function(n)
@@ -10806,9 +11103,8 @@ function removeClass(e,className)
 
 function hasClass(e,className)
 {
-	if(e.className) {
-		if(e.className.split(" ").indexOf(className) != -1)
-			return true;
+	if(e.className && e.className.split(" ").indexOf(className) != -1) {
+		return true;
 	}
 	return false;
 }
@@ -10816,8 +11112,8 @@ function hasClass(e,className)
 // Find the closest relative with a given property value (property defaults to tagName, relative defaults to parentNode)
 function findRelated(e,value,name,relative)
 {
-	name = name ? name : "tagName";
-	relative = relative ? relative : "parentNode";
+	name = name || "tagName";
+	relative = relative || "parentNode";
 	if(name == "className") {
 		while(e && !hasClass(e,value)) {
 			e = e[relative];
@@ -10886,25 +11182,25 @@ function ensureVisible(e)
 // Get the current width of the display window
 function findWindowWidth()
 {
-	return window.innerWidth ? window.innerWidth : document.documentElement.clientWidth;
+	return window.innerWidth || document.documentElement.clientWidth;
 }
 
 // Get the current height of the display window
 function findWindowHeight()
 {
-	return window.innerHeight ? window.innerHeight : document.documentElement.clientHeight;
+	return window.innerHeight || document.documentElement.clientHeight;
 }
 
 // Get the current horizontal page scroll position
 function findScrollX()
 {
-	return window.scrollX ? window.scrollX : document.documentElement.scrollLeft;
+	return window.scrollX || document.documentElement.scrollLeft;
 }
 
 // Get the current vertical page scroll position
 function findScrollY()
 {
-	return window.scrollY ? window.scrollY : document.documentElement.scrollTop;
+	return window.scrollY || document.documentElement.scrollTop;
 }
 
 function findPosX(obj)
@@ -10930,7 +11226,7 @@ function findPosY(obj)
 // Blur a particular element
 function blurElement(e)
 {
-	if(e != null && e.focus && e.blur) {
+	if(e && e.focus && e.blur) {
 		e.focus();
 		e.blur();
 	}
@@ -11071,29 +11367,6 @@ function isDescendant(e,ancestor)
 	}
 	return false;
 }
-
-// Returns an array of elements which have a given class name.
-// This is only added where the browser doesn't have native support.
-if(!document.getElementsByClassName) {
-Document.prototype.getElementsByClassName = function(c) {
-	var elements = [];
-	var els = this.getElementsByTagName('*');
-	var elsLen = els.length;
-	var pattern = new RegExp("(^|\\s)"+ c +"(\\s|$)");
-	for (i = 0, j = 0; i < elsLen; i++) {
-		if (pattern.test(els[i].className)) {
-			elements[j] = els[i];
-			j++;
-		}
-	}
-	return elements;
-};
-Element.prototype.getElementsByClassName = document.getElementsByClassName;
-}
-
-
-
-
 
 //--
 //-- LoaderBase and SaverBase
