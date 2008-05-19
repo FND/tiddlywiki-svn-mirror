@@ -151,11 +151,18 @@ If you got one of the following error message, that may mean your database do no
 	
 		if( strlen($tiddlyCfg['workspace_name'])==0 )
 		{//do install
+			
+		
+			
 			include_once($cct_base."includes/workspace.php");
 			workspace_create_new();
 		}else{	//if not empty, check if installation can be done
 			if( $tiddlyCfg['allow_workspace_creation']>0 )
 			{//if allow workspace creation
+				
+					$error404 = true;
+					
+					
 				if ($_POST)
 				{
 					include($cct_base."includes/workspace.php");

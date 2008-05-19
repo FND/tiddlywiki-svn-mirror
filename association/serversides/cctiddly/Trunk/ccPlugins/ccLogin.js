@@ -282,9 +282,10 @@ config.macros.ccLogin.saveCookie=function(cookieValues){
 };
 
 
-function restart(){
+window.restart = function (){
 	var tiddlers="";
  	tiddlers=store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));
+document.body.appendChild(document.createTextNode("The flag is " + isLoggedIn()));
 	if (isLoggedIn()){
 		tiddlers=store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));
 	}
