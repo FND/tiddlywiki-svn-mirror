@@ -12,7 +12,7 @@ tiddler: SiteTitle.tiddler
 tiddler: SiteSubtitle.tiddler
 
 # Plugins
-#recipe: plugins/split.recipe
+tiddler: plugins/RippleRapPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
 tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
