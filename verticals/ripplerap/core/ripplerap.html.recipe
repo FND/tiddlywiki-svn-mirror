@@ -4,72 +4,64 @@ recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 # Settings
 tiddler: settings.js
 tiddler: SiteUrl.tiddler
-title=RippleRap core
 
 # Theme
 tiddler: RippleRapSkin.tiddler
 tiddler: RippleRapColors.tiddler
-
-# Plugins
-# tiddler: ../../../contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js
-# tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
-# tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
-
-# RippleRap UI structure
 tiddler: SiteTitle.tiddler
 tiddler: SiteSubtitle.tiddler
+
+# Plugins
+#recipe: plugins/split.recipe
+tiddler: ../../../contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js
+tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
+tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
+tiddler: ../../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
+tiddler: ../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
+tiddler: ../../../verticals/archived/ripplerap/plugins/AgendaTrack.js
+tiddler: ../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
+tiddler: ../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
+tiddler: ../../../contributors/PaulDowney/plugins/TiddlifyList.js
+tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
+tiddler: ../../../contributors/PaulDowney/plugins/RawViewMacroPlugin.js
+
+
+# RippleRap UI structure
 tiddler: MainMenu.tiddler
+tiddler: HeaderControls.tiddler
+tiddler: DefaultTiddlers.tiddler
+tiddler: BackstageMod.tiddler
 
 # Other content
+tiddler: Formatting_TiddlyWikis.tiddler
+tiddler: CamelCase.tiddler
+tiddler: Double_square_brackets.tiddler
 tiddler: TiddlyWiki.tiddler
-
+tiddler: FAQs.tiddler
 
 
 
 ##### REFACTORED - Above ######
 
-tiddler: ../../../contributors/JonathanLister/adaptors/RSSAdaptor.js
-tiddler: ../../../contributors/JonathanLister/plugins/JS2JSON.js
-tiddler: ../../../contributors/JonathanLister/plugins/xhrTimeoutPlugin.js
-tiddler: ../../../contributors/JonathanLister/plugins/TemplatePlugin.js
-tiddler: ../../../contributors/JonathanLister/verticals/RippleTweet/js/RippleTechMacro.js
-tiddler: ../../../contributors/SaqImtiaz/plugins/WebDavLib.js
-tiddler: ../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
-tiddler: ../../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
-tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
-tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js
-tiddler: ../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
-tiddler: ../../../contributors/PhilHawksworth/plugins/MicroblogPlugin.js
-tiddler: ../../../contributors/PhilHawksworth/plugins/ConditionalDisplayPlugin.js
-tiddler: ../../../verticals/archived/ripplerap/plugins/MakeNotesControlPlugin.js
-tiddler: ../../../verticals/archived/ripplerap/plugins/RssSynchronizerPlugin.js
-tiddler: ../../../verticals/archived/ripplerap/plugins/AgendaTrack.js
-tiddler: ../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
-tiddler: ../../../contributors/PaulDowney/plugins/TiddlifyList.js
-tiddler: ../../../contributors/PaulDowney/plugins/RawViewMacroPlugin.js
+# tiddler: ../../../contributors/JonathanLister/adaptors/RSSAdaptor.js
+# tiddler: ../../../contributors/JonathanLister/plugins/JS2JSON.js
+# tiddler: ../../../contributors/JonathanLister/plugins/xhrTimeoutPlugin.js
+# tiddler: ../../../contributors/JonathanLister/plugins/TemplatePlugin.js
+# tiddler: ../../../contributors/SaqImtiaz/plugins/WebDavLib.js
+# tiddler: ../../../verticals/archived/ripplerap/plugins/MakeNotesControlPlugin.js
+# tiddler: ../../../verticals/archived/ripplerap/plugins/RssSynchronizerPlugin.js
 
-
-tiddler: TrackEditTemplate.tiddler
-tiddler: SpeakerViewTemplate.tiddler
+# tiddler: TrackEditTemplate.tiddler
 tiddler: CommitteeViewTemplate.tiddler
 
-
-tiddler: DefaultTiddlers.tiddler
-
-tiddler: BackstageMod.tiddler
 tiddler: TrackText.tiddler
 tiddler: AgendaMenu.tiddler
 
-tiddler: CamelCase.tiddler
-tiddler: Double_square_brackets.tiddler
-tiddler: FAQs.tiddler
-tiddler: Formatting_TiddlyWikis.tiddler
-tiddler: HeaderControls.tiddler
 tiddler: Help.tiddler
 tiddler: How_sharing_works.tiddler
 
 tiddler: Safari_and_Opera_configuration.tiddler
-tiddler: SampleDiscoveredNotes.tiddler
+
 tiddler: Setup_Instructions.tiddler
 tiddler: Share_notes.tiddler
 
@@ -80,6 +72,11 @@ tiddler: chair.tiddler
 
 
 
+
+# tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayDependenciesPlugin.js
+# tiddler: ../../../contributors/PhilHawksworth/plugins/MicroblogPlugin.js
+# tiddler: ../../../contributors/JonathanLister/verticals/RippleTweet/js/RippleTechMacro.js
+# tiddler: ../../../contributors/PhilHawksworth/plugins/ConditionalDisplayPlugin.js
 
 # tiddler: BlogItemsTemplate.tiddler
 # tiddler: BlogTalkTweets.tiddler
@@ -92,6 +89,7 @@ tiddler: chair.tiddler
 # tiddler: TwitterItemsTemplate.tiddler
 # tiddler: FlickrItemsTemplate.tiddler
 # tiddler: Flickr.tiddler
+# tiddler: SampleDiscoveredNotes.tiddler
 
 # tiddler: PageTemplate.tiddler
 # tiddler: ViewTemplate.tiddler
@@ -104,4 +102,4 @@ tiddler: chair.tiddler
 # tiddler: DiscoveredNotesViewTemplate.tiddler
 # tiddler: StyleSheet.tiddler
 # tiddler: ColorPalette.tiddler
-
+# tiddler: SpeakerViewTemplate.tiddler

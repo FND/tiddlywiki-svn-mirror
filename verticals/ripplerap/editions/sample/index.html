@@ -3,7 +3,7 @@
 <head>
 <script id="versionArea" type="text/javascript">
 //<![CDATA[
-var version = {title: "TiddlyWiki", major: 2, minor: 4, revision: 0, beta: 3, date: new Date("Apr 24, 2008"), extensions: {}};
+var version = {title: "TiddlyWiki", major: 2, minor: 4, revision: 0, date: new Date("May 9, 2008"), extensions: {}};
 //]]>
 </script>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -523,7 +523,7 @@ session_notes_groups.setGroupField('rr_session_id');
 </div>
 <div title="RippleRapSkin" modifier="PhilHawksworth" created="200805061019" tags="systemTheme excludeSearch">
 <pre>/***
-|''Name:''|RippleRapSkin |
+|''Name:''|RippleRapSkin|
 |''Description:''|The basic RippleRap theme |
 |''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/core/RippleRapSkin.tiddler |
@@ -535,12 +535,10 @@ session_notes_groups.setGroupField('rr_session_id');
 |''~PageTemplate:''|##PageTemplate|
 |''~ViewTemplate:''|##ViewTemplate|
 |''~EditTemplate:''|##EditTemplate|
-|''~SessionViewTemplate:''|##SessionViewTemplate|
-|''~SessionEditTemplate:''|##SessionEditTemplate|
-|''~NoteViewTemplate:''|##NoteViewTemplate|
-|''~NoteEditTemplate:''|##NoteEditTemplate|
-|''~DiscoveredNotesViewTemplate:''|##DiscoveredNotesViewTemplate|
-|''~DiscoveredNotesEditTemplate:''|##DiscoveredNotesEditTemplate|
+|''~sessionViewTemplate:''|##sessionViewTemplate|
+|''~sessionEditTemplate:''|##sessionEditTemplate|
+|''~discovered_notesViewTemplate:''|##discovered_notesViewTemplate|
+|''~TrackViewTemplate:''|##TrackViewTemplate|	
 |''~StyleSheet:''|##StyleSheet|
 
 ***/
@@ -560,7 +558,6 @@ session_notes_groups.setGroupField('rr_session_id');
 &lt;div class='headerControls' refresh='content' tiddler='HeaderControls'&gt;&lt;/div&gt;
 &lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
 &lt;/div&gt;
-
 &lt;div id='agendaMenu' refresh='content' force='true' tiddler='AgendaMenu'&gt;&lt;/div&gt;
 &lt;div id='displayArea'&gt;
 &lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
@@ -595,10 +592,10 @@ session_notes_groups.setGroupField('rr_session_id');
 &lt;!--}}}--&gt;
 
 
-!SessionViewTemplate
+!sessionViewTemplate
 &lt;!--{{{--&gt;
 &lt;div class='session'&gt;
-	&lt;div class='toolbar' macro='toolbar closeTiddler editTiddler'&gt;&lt;/div&gt;
+	&lt;div class='toolbar' macro='toolbar closeTiddler +editTiddler'&gt;&lt;/div&gt;
 	&lt;div class=&quot;title&quot; macro=&quot;view title&quot;&gt;&lt;/div&gt;
 	&lt;span class=&quot;time&quot;&gt;&lt;span macro=&quot;dtstart rr_session_starttime '0hh:0mm'&quot;&gt;&lt;/span&gt;-&lt;span macro=&quot;dtend rr_session_endtime '0hh:0mm'&quot;&gt;&lt;/span&gt;&lt;/span&gt;
 	&lt;div class=&quot;speaker&quot; macro=&quot;TiddlifyList rr_session_speaker&quot;&gt;&lt;/div&gt;
@@ -608,7 +605,7 @@ session_notes_groups.setGroupField('rr_session_id');
 &lt;!--}}}--&gt;
 
 
-!SessionEditTemplate
+!sessionEditTemplate
 &lt;!--{{{--&gt;
 &lt;div class='session_edit'&gt;
 	&lt;div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'&gt;&lt;/div&gt;
@@ -642,21 +639,39 @@ session_notes_groups.setGroupField('rr_session_id');
 &lt;!--}}}--&gt;
 
 
-!DiscoveredNotesViewTemplate
+!discovered_notesViewTemplate
 &lt;!--{{{--&gt;
 &lt;div class='discoveredNotes'&gt;
-	&lt;div class='toolbar' macro='toolbar closeTiddler +editTiddler'&gt;&lt;/div&gt;
+	&lt;div class='toolbar' macro='toolbar closeTiddler'&gt;&lt;/div&gt;
 	&lt;div class='title'&gt;notes from &lt;span macro='view modifier'&gt;&lt;/span&gt;&lt;/div&gt;
 	&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;!--}}}--&gt;
 
 
-!DiscoveredNotesEditTemplate
+!SpeakerViewTemplate
 &lt;!--{{{--&gt;
-&lt;div class='discoveredNotes'&gt;
-	&lt;div class='toolbar' macro='toolbar +cancelTiddler'&gt;&lt;/div&gt;
-	&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;
+&lt;div class=&quot;VanillaView Speaker&quot;&gt;
+&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump'&gt;&lt;/div&gt;
+&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
+&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
+&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
+&lt;span class=&quot;vcard&quot;&gt;
+&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
+&lt;/span&gt;
+&lt;div class='tagClear'&gt;&lt;/div&gt; 
+&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+
+!TrackViewTemplate
+&lt;!--{{{--&gt;
+&lt;div class='session'&gt;
+	&lt;div class='toolbar' macro='toolbar closeTiddler editTiddler'&gt;&lt;/div&gt;
+	&lt;div class=&quot;title&quot; macro=&quot;view title&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;label&quot;&gt;Session tag&lt;/div&gt;&lt;div class=&quot;track editor&quot; macro=&quot;view rr_session_tag&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;label&quot;&gt;Tags&lt;/div&gt;&lt;div class=&quot;track editor&quot; macro=&quot;view tags&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;label&quot;&gt;&lt;/div&gt;&lt;div style=&quot;display:none&quot; macro=&quot;view text&quot;&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;!--}}}--&gt;
 
@@ -668,7 +683,7 @@ session_notes_groups.setGroupField('rr_session_id');
 #agendaMenu { position: static;	float: left; width: auto; }
 #displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
 #displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0;}
-#tiddlerDisplay { margin:0 1em 2em 1em;}
+#tiddlerDisplay { margin:0 1em 2em 1em;  	}
 
 /* Header */
 div.header { background-color:#000; height:96px; position:relative; clear:left;}
@@ -851,6 +866,12 @@ TertiaryLight: #ccc
 TertiaryMid: #999
 TertiaryDark: #666
 Error: #f88</pre>
+</div>
+<div title="SiteTitle" tags="excludeLists excludeSearch">
+<pre>~RippleRap</pre>
+</div>
+<div title="SiteSubtitle" tags="excludeLists excludeSearch">
+<pre>the social conferencing tool</pre>
 </div>
 <div title="FeedListManagerPlugin" modifier="PhilHawksowrth" created="200803040000" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
@@ -1512,1001 +1533,229 @@ This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler
 ***/
 //{{{
 version.extensions.taggedTemplate= {major: 1, minor: 2, revision: 0, date: new Date(2008,4,1)};
-Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
+Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler;
 Story.prototype.chooseTemplateForTiddler = function(title,template)
 {
 	// get default template from core
 	var template=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
-
+	
 	// if the tiddler to be rendered doesn't exist yet, just return core result
 	var tiddler=store.getTiddler(title); if (!tiddler) return template;
 
 	// look for template whose prefix matches a tag on this tiddler
 	for (i=0; i&lt;tiddler.tags.length; i++) {
+				
 		var t=tiddler.tags[i]+template; // add tag prefix
 		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
-		var s=config.options.txtTheme+&quot;##&quot;; // systemTheme section prefix
-		if (store.tiddlerExists(t)) { template=t; break; }
-		if (store.tiddlerExists(c)) { template=c; break; }
-		if (store.getTiddlerText(s+t)) { template=s+t; break; }
-		if (store.getTiddlerText(s+c)) { template=s+c; break; }
+
+		// add support for templates in systemThemes
+		var skin = config.options.txtTheme;
+		if(skin &amp;&amp; store.tiddlerExists(skin)) {
+			tag = tiddler.tags[i];
+			s = template.replace('##','##'+tag.substr(0,1).toLowerCase()+tag.substr(1)); //lowercase tag
+			S = template.replace('##','##'+tag.substr(0,1).toUpperCase()+tag.substr(1)); //uppercase tag
+		}
+
+		if (store.tiddlerExists(t)) { template=t; console.log(&quot;t: &quot; + template); break; }
+		if (store.tiddlerExists(c)) { template=c; console.log(&quot;c: &quot; + template); break; }
+		if (store.getTiddlerText(s)) { template=s; console.log(&quot;s: &quot; + template); break; }
+		if (store.getTiddlerText(S)) { template=s; console.log(&quot;s: &quot; + template); break; }
 	}
+	
 	return template;
-}
+};
 //}}}</pre>
 </div>
-<div title="SiteTitle" tags="excludeLists excludeSearch">
-<pre>~RippleRap</pre>
-</div>
-<div title="SiteSubtitle" tags="excludeLists excludeSearch">
-<pre>the social conferencing tool</pre>
-</div>
-<div title="MainMenu" tags="excludeLists excludeSearch" force="true" refresh="macro">
-<pre>[[Welcome]][[Share notes]][[Speakers|speaker]][[Help]][[FAQs]]{{search{&lt;&lt;search&gt;&gt;}}}</pre>
-</div>
-<div title="Formatting TiddlyWikis" modifier="PhilWhitehouse" created="200711261224" changecount="1">
-<pre>TiddlyWiki supports all kinds of formatting options:
-*You can create ''Bold'' text by enclosing it in pairs of single quotes:
-{{{
-''bold text''
-}}}
-
-*You can create ==Strikethrough== text by enclosing it in pairs of hyphens:
-{{{
---strikethrough text--
-}}}
-
-*You can __Underline__ text by enclosing it in pairs of underscores:
-{{{
-__underlined text__
-}}}
-
-*You can create //Italic// text by enclosing it in pairs of forward slashes:
-{{{
-//italic text//
-}}}
-
-*You can create ^^superscript^^ text by enclosing it in pairs of carets:
-{{{
-^^superscript text^^
-}}}
-
-*You can create ~~subscript~~ text by enclosing it in pairs of tildes:
-{{{
-~~subscript text~~
-}}}
-
-*You can @@highlight text@@ by enclosing it in pairs of at-signs.
-{{{
-@@highlighted text@@
-}}}
-
-*You can also change many other CSS attributes by adding arguments to the highlight command. For example, you can change the text color to @@color:red;red@@ or give it a background-color of @@background-color:#0000FF;color:white;blue@@.
-{{{
-@@CSS attributes separated by semicolons;text@@
-}}}
-
-You can find out more about CSS from the excellent [[w3schools tutorial|http://w3schools.com/css/default.asp]].
-
-*Finally, you can add new CSS classes to the Tiddlywiki so that you can style a number of items with the same CSS formatting. Simply add the new class to the StyleSheet [[ShadowTiddler|ShadowTiddlers]], such as:
-{{{
-.moveover{
-margin-left:120px;
-}
-}}}
-Then, when you want to use that CSS class, use the following formatting:
-{{{
-{{classname{text to be formatted}}}
-}}}
-{{moveover{So, for example, this paragraph has been formatted using the moveover CSS class.}}}</pre>
-</div>
-<div title="CamelCase" modifier="PhilWhitehouse" created="200711051317">
-<pre>CamelCase describes a word containing an upper case letter. The first word in this paragraph is written in camel case. If you write a word in camel case in a TiddlyWiki, it creates a link. Click on the link, and you'll find an empty tiddler ready to populate with content. It's a quick way of writing linked content. The other way of creating links is by using [[Double square brackets]].</pre>
-</div>
-<div title="Double square brackets" modifier="PhilWhitehouse" created="200711051319">
-<pre>If you write words or sentences in TiddlyWiki that are surrounded by [[Double square brackets]], TiddlyWiki turns it into a link. If you double click this paragraph, you'll see how this has worked.
-
-Once you've created the link, and then clicked 'done' to close the tiddler, you can click on the link, and you'll find an empty tiddler ready to populate with content. It's a quick way of writing linked content. The other way of creating links is by using CamelCase.</pre>
-</div>
-<div title="TiddlyWiki" modifier="PhilHawksworth" created="200711051137" modified="200711291949" changecount="10">
-<pre>~RippleRap is based on the hugely popular TiddlyWiki product; an entire wiki product packaged into a single html file! TiddlyWiki is free, open source, and already has a loyal community of developers and enthusiasts helping to develop it and support new users. There are over 400+ plugins which can be used to configure ~TiddlyWiki in a multitude of ways. It can be used as a task management tool, a de-centralised collaboration tool, a platform for writing and de-bugging software, simply for organising notes or in many other ways.
-
-The entire TiddlyWiki is made up of microcontent called tiddlers, including all the content and the code required to make it function. You're reading a tiddler right now - try double clicking on this text to send it into edit mode. If you have a working knowledge of javascript or css, you can immediately get under the hood, configuring it in any way you like! If you have questions, the TiddlyWiki community is incredibly helpful - there's a [[developer's group|http://groups.google.com/group/TiddlyWikiDev]] and a [[user's group|http://groups.google.com/group/TiddlyWiki]] on Google Groups.
-
-~RippleRap was created by [[Osmosoft|http://www.osmosoft.com]], a small company owned by British Telecom. Osmosoft is run by the original creator of TiddlyWiki, Jeremy Ruston. You can find out more by looking in our [[FAQs]], or alternatively, if you're online, here are some relevant links:
-
-Official ~TiddlyWiki website: http://www.tiddlywiki.com
-~TiddlyWiki community: http://groups.google.com/group/TiddlyWiki
-~TiddlyWiki developer community: http://groups.google.com/group/TiddlyWikiDev
-Osmosoft website: http://www.osmosoft.com
-~RippleRap: http://www.ripplerap.com</pre>
-</div>
-<div title="RSSAdaptor" modifier="Jon Lister" created="200709020000" modified="200710160000" tags="systemConfig excludeLists excludeSearch">
+<div title="BackstageTiddlersPlugin" modifier="JeremyRuston" created="200802280000" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
-|''Name:''|RSSAdaptor|
-|''Description:''|Adaptor for talking to RSS 2.0 files|
-|''Author''|Jon Lister|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/adaptors/RSSAdaptor.js |
-|''Version:''|0.1.7|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
-|''~CoreVersion:''|2.2.6|
-***/
-
-//{{{
-if(!version.extensions.RSSAdaptor) {
-version.extensions.RSSAdaptor = {installed:true};
-
-function RSSAdaptor()
-{
-	this.host = null;
-	this.workspace = null;
-	return this;
-}
-
-RSSAdaptor.NotLoadedError = &quot;RSS file has not been loaded&quot;;
-RSSAdaptor.serverType = 'rss';
-
-RSSAdaptor.prototype.setContext = function(context,userParams,callback)
-{
-	if(!context) context = {};
-	context.userParams = userParams;
-	if(callback) context.callback = callback;
-	context.adaptor = this;
-	if(!context.host)
-		context.host = this.host;
-	context.host = RSSAdaptor.fullHostName(context.host);
-	if(!context.workspace)
-		context.workspace = this.workspace;
-	return context;
-};
-
-RSSAdaptor.fullHostName = function(host)
-{
-	if(!host)
-		return '';
-	if(!host.match(/:\/\//))
-		host = 'http://' + host;
-	//if(host.substr(-1) != '/')
-	//	host = host + '/';
-	return host;
-};
-
-RSSAdaptor.prototype.openHost = function(host,context,userParams,callback)
-{
-	this.host = RSSAdaptor.fullHostName(host);
-	context = this.setContext(context,userParams,callback);
-	context.status = true;
-	if(callback)
-		window.setTimeout(function() {callback(context,userParams);},10);
-	return true;
-};
-
-RSSAdaptor.loadRssCallback = function(status,context,responseText,url,xhr)
-{
-	context.status = status;
-	if(!status) {
-		context.statusText = &quot;Error reading RSS file:&quot; + context.host;// + xhr.statusText;
-	} else {
-		try {
-			context.tiddlers = RSSAdaptor.rssToTiddlers(responseText,context.rssUseRawDescription);
-			/*if(context.filter) {
-				var tw = new TiddlyWiki();
-				tw.tiddlers = tiddlers;
-				tiddlers = tw.filterTiddlers(filter);
-			}*/
-		} catch (ex) {
-			displayMessage(&quot;Error parsing RSS:&quot;+context.host);
-		}
-	}
-	context.complete(context,context.userParams);
-};
-
-// Gets the list of workspaces on a given server
-RSSAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
-{
-	context = this.setContext(context,userParams,callback);
-	context.workspaces = [{title:&quot;(default)&quot;}];
-	context.status = true;
-	if(callback)
-		window.setTimeout(function() {callback(context,userParams);},10);
-	return true;
-};
-
-// Open the specified workspace
-RSSAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
-{
-	this.workspace = workspace;
-	context = this.setContext(context,userParams,callback);
-	context.status = true;
-	if(callback)
-		window.setTimeout(function() {callback(context,userParams);},10);
-	return true;
-};
-
-// Gets the list of tiddlers within a given workspace
-RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter,username,password)
-{
-	context = this.setContext(context,userParams,callback);
-	if(!context.filter)
-		context.filter = filter;
-	context.complete = RSSAdaptor.getTiddlerListComplete;
-	if(context.tiddlers) {
-		var ret = context.complete(context,context.userParams);
-	} else {
-		ret = loadRemoteFile(context.host,RSSAdaptor.loadRssCallback,context);
-		// config.macros.Console.log(&quot;loading &quot;+ context.host +&quot; with the credentials: &quot;+username+&quot;:&quot;+password);
-		// ret = doHttp(&quot;POST&quot;,context.host,null,null,username,password,RSSAdaptor.loadRssCallbackk,context,null);	
-		if(typeof ret != &quot;string&quot;)
-			ret = true;
-	}
-	return ret;
-};
-
-RSSAdaptor.getTiddlerListComplete = function(context,userParams)
-{
-	context.status = true;
-	if(context.callback)
-		window.setTimeout(function() {context.callback(context,userParams);},10);
-	return true;
-};
-
-RSSAdaptor.prototype.generateTiddlerInfo = function(tiddler)
-{
-	var info = {};
-	info.uri = tiddler.fields['server.host'] + &quot;#&quot; + tiddler.title;
-	return info;
-};
-
-RSSAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
-{
-	context = this.setContext(context,userParams,callback);
-	context.title = title;
-	context.complete = RSSAdaptor.getTiddlerComplete;
-	return context.tiddlers ? 
-		context.complete(context,context.userParams) :
-		loadRemoteFile(context.host,RSSAdaptor.loadRssCallback,context);
-};
-
-RSSAdaptor.getTiddlerComplete = function(context,userParams)
-{
-	for(var i=0; i&lt;context.tiddlers.length; i++) {
-		if(context.tiddlers[i].title == context.title) {
-			context.tiddler = context.tiddlers[i];
-			break;
-		}
-	}
-	if(context.tiddler) {
-		context.status = true;
-	} else {
-		context.status = false;
-		context.statusText = &quot;error retrieving tiddler: &quot; + title;
-		return context.statusText;
-	}
-	if(context.allowSynchronous) {
-		context.isSynchronous = true;
-		context.callback(context,userParams);
-	} else {
-		window.setTimeout(function() {context.callback(context,userParams);},10);
-	}
-	return true;
-};
-
-RSSAdaptor.prototype.close = function()
-{
-};
-
-RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
-{
-	var tiddlers = [];
-	rss = rss.replace(/\r+/mg,&quot;&quot;);
-	// regex_item matches on the items 
-	var regex_item = /&lt;item&gt;(.|\n)*?&lt;\/item&gt;/mg;
-	// regex_title matches for the titles
-	var regex_title = /&lt;title&gt;(.|\n)*?&lt;\/title&gt;/mg;
-	var regex_guid = /&lt;guid&gt;(.|\n)*?&lt;\/guid&gt;/mg;
-	var regex_wiki = /&lt;tw:wikitext&gt;(.|\n)*?&lt;\/tw:wikitext&gt;/mg;
-	var regex_desc = /&lt;description&gt;(.|\n)*?&lt;\/description&gt;/mg;
-	var regex_category = /&lt;category&gt;(.|\n)*?&lt;\/category&gt;/mg;
-	var regex_link = /&lt;link&gt;(\S|\n)*?&lt;\/link&gt;/mg;
-	var regex_pubDate = /&lt;pubDate&gt;(.|\n)*?&lt;\/pubDate&gt;/mg;
-	var regex_author = /&lt;author&gt;(.|\n)*?&lt;\/author&gt;/mg;
-	var regex_source = /&lt;source([^&gt;]*)&gt;([^&lt;]*)&lt;\/source&gt;/m;
-	var item_match = rss.match(regex_item);
-	var length = item_match ? item_match.length : 0;
-	for(var i=0;i&lt;length;i++) {
-		// create a new Tiddler in context.tiddlers with the finished item object
-		// grab a title
-		var item = {};
-		var title = item_match[i].match(regex_title);
-		if(title) {
-			item.title = title[0].replace(/^&lt;title&gt;|&lt;\/title&gt;$/mg,&quot;&quot;);
-		} else {
-			// something went wrong grabbing the title, grab the guid instead
-			title = item_match[i].match(regex_guid);
-			// TEMP FIX FOR DEMO 21/11/07
-			if(title) {
-				item.title = title[0].replace(/^&lt;guid&gt;|&lt;\/guid&gt;$/mg,&quot;&quot;);
-			} else {
-				item.title = new Date();
-				displayMessage(&quot;problem with getting title AND guid: &quot; + item_match[i]);
-			}
-		}
-		// This line makes sure any html-encoding in the title is reversed
-		item.title = item.title.htmlDecode();
-		// There is a problem with the title, which is that it is not formatted, so characters like &amp;apos; are not converted at render time
-		// renderHtmlText() extends String and sorts out the problem
-		item.title = item.title.renderHtmlText();
-		var t = new Tiddler(item.title);
-
-		// grab original wikitext if it is there as an extended field
-		var wikitext = item_match[i].match(regex_wiki);
-		if(wikitext) {
-			item.text = wikitext[0].replace(/^&lt;tw:wikitext&gt;|&lt;\/tw:wikitext&gt;$/mg,&quot;&quot;);
-			item.text = item.text.htmlDecode();
-			t.text = item.text;
-		} else {
-			// use the description as the tiddler text
-			var desc = item_match[i].match(regex_desc);
-			if(desc) {
-				item.text = desc[0].replace(/^&lt;description&gt;|&lt;\/description&gt;$/mg,&quot;&quot;);
-			} else {
-				item.text = &quot;empty, something seriously wrong with this item&quot;;
-			}
-			t.text = useRawDescription ? item.text.renderHtmlText() : &quot;&lt;html&gt;&quot; + item.text.renderHtmlText() + &quot;&lt;/html&gt;&quot;;
-		}
-
-		// grab the categories
-		var category = item_match[i].match(regex_category);
-		if(category) {
-			item.categories = [];
-			for(var j=0;j&lt;category.length;j++) {
-				item.categories[j] = category[j].replace(/^&lt;category&gt;|&lt;\/category&gt;$/mg,&quot;&quot;);
-			}
-			t.tags = item.categories;
-		}
-
-		// grab the link and put it in a custom field (assumes this is sensible)
-		// regex_link assumes you can never have whitespace in a link
-		var link = item_match[i].match(regex_link);
-		if(link) {
-			item.link = link[0].replace(/^&lt;link&gt;|&lt;\/link&gt;$/mg,&quot;&quot;);
-		} else {
-			item.link = &quot;#&quot;;
-		}
-		t.fields[&quot;linktooriginal&quot;] = item.link;
-
-		// grab date created
-		var pubDate = item_match[i].match(regex_pubDate);
-		if(pubDate) {
-			pubDate = pubDate[0].replace(/^&lt;pubDate&gt;|&lt;\/pubDate&gt;$/mg,&quot;&quot;);
-			item.pubDate = new Date(pubDate);
-		} else {
-			item.pubDate = new Date();
-		}
-		t.created = item.pubDate;
-
-		// grab author
-		var author = item_match[i].match(regex_author);
-		if(author) {
-			author = author[0].replace(/^&lt;author&gt;|&lt;\/author&gt;$/mg,&quot;&quot;);
-			item.author = author;
-		} else {
-			item.author = &quot;anonymous&quot;;
-		}
-		t.modifier = item.author;
-		
-		// grab source url and name
-		source = item_match[i].match(regex_source);
-		if (source) {
-			source_url = source[1].replace(/ url=&quot;|&quot;$/mg,&quot;&quot;);
-			source_name = source[2];
-			t.fields.source_url = source_url;
-			t.fields.source_name = source_name;
-		} else {
-			// No source field is ok
-		}
-		
-		tiddlers.push(t);
-		}
-	return tiddlers;
-};
-
-config.adaptors[RSSAdaptor.serverType] = RSSAdaptor;
-
-// renderHtmlText puts a string through the browser render process and then extracts the text
-// useful to turn HTML entities into literals such as &amp;apos; to '
-// this method has two passes at the string - the first to convert it to html and the second
-// to selectively catch the ASCII-encoded characters without losing the rest of the html
-String.prototype.renderHtmlText = function() {
-	var text = this;
-	var regex_cdata = /&lt;!\[CDATA\[((?:.| )*?)\]\]&gt;/mg;
-	regex_cdata.lastIndex = 0;
-	var match = regex_cdata.exec(this);
-	if(match) {
-		text = match[1];
-	}
-	var e = createTiddlyElement(document.body,&quot;div&quot;);
-	e.innerHTML = text;
-	text = getPlainText(e);
-	text = text.replace(/&amp;#[\w]+?;/g,function(word) {
-		var ee = createTiddlyElement(e,&quot;div&quot;);
-		ee.innerHTML = word;
-		return getPlainText(ee);
-	});
-	removeNode(e);
-	return text;
-};
-
-} //# end of 'install only once'
-//}}}</pre>
-</div>
-<div title="JS2JSON" modifier="Jon Lister" created="200709020000" modified="200710160000" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-    json.js
-    2008-02-14
-
-    Public Domain
-
-    No warranty expressed or implied. Use at your own risk.
-
-    This file has been superceded by http://www.JSON.org/json2.js
-
-    See http://www.JSON.org/js.html
-
-    This file adds these methods to JavaScript:
-
-        array.toJSONString(whitelist)
-        boolean.toJSONString()
-        date.toJSONString()
-        number.toJSONString()
-        object.toJSONString(whitelist)
-        string.toJSONString()
-            These methods produce a JSON text from a JavaScript value.
-            It must not contain any cyclical references. Illegal values
-            will be excluded.
-
-            The default conversion for dates is to an ISO string. You can
-            add a toJSONString method to any date object to get a different
-            representation.
-
-            The object and array methods can take an optional whitelist
-            argument. A whitelist is an array of strings. If it is provided,
-            keys in objects not found in the whitelist are excluded.
-
-        string.parseJSON(filter)
-            This method parses a JSON text to produce an object or
-            array. It can throw a SyntaxError exception.
-
-            The optional filter parameter is a function which can filter and
-            transform the results. It receives each of the keys and values, and
-            its return value is used instead of the original value. If it
-            returns what it received, then structure is not modified. If it
-            returns undefined then the member is deleted.
-
-            Example:
-
-            // Parse the text. If a key contains the string 'date' then
-            // convert the value to a date.
-
-            myData = text.parseJSON(function (key, value) {
-                return key.indexOf('date') &gt;= 0 ? new Date(value) : value;
-            });
-
-    It is expected that these methods will formally become part of the
-    JavaScript Programming Language in the Fourth Edition of the
-    ECMAScript standard in 2008.
-
-    This file will break programs with improper for..in loops. See
-    http://yuiblog.com/blog/2006/09/26/for-in-intrigue/
-
-    This is a reference implementation. You are free to copy, modify, or
-    redistribute.
-
-    Use your own copy. It is extremely unwise to load untrusted third party
-    code into your pages.
-***/
-
-/*jslint evil: true */
-
-/*members &quot;\b&quot;, &quot;\t&quot;, &quot;\n&quot;, &quot;\f&quot;, &quot;\r&quot;, &quot;\&quot;&quot;, &quot;\\&quot;, apply, charCodeAt,
-    floor, getUTCDate, getUTCFullYear, getUTCHours, getUTCMinutes,
-    getUTCMonth, getUTCSeconds, hasOwnProperty, join, length, parseJSON,
-    prototype, push, replace, test, toJSONString, toString
-*/
-
-// Augment the basic prototypes if they have not already been augmented.
-
-if (!Object.prototype.toJSONString) {
-
-    Array.prototype.toJSONString = function (w) {
-        var a = [],     // The array holding the partial texts.
-            i,          // Loop counter.
-            l = this.length,
-            v;          // The value to be stringified.
-
-// For each value in this array...
-
-        for (i = 0; i &lt; l; i += 1) {
-            v = this[i];
-            switch (typeof v) {
-            case 'object':
-
-// Serialize a JavaScript object value. Treat objects thats lack the
-// toJSONString method as null. Due to a specification error in ECMAScript,
-// typeof null is 'object', so watch out for that case.
-
-                if (v !== null) {
-                    a.push(ObjectToJSONString(v,w));
-                } else {
-                    a.push('null');
-                }
-                break;
-
-            case 'string':
-            case 'number':
-            case 'boolean':
-                a.push(v.toJSONString());
-                break;
-            default:
-                a.push('null');
-            }
-        }
-
-// Join all of the member texts together and wrap them in brackets.
-
-        return '[' + a.join(',') + ']';
-    };
-
-
-    Boolean.prototype.toJSONString = function () {
-        return String(this);
-    };
-
-
-    Date.prototype.toJSONString = function () {
-
-// Eventually, this method will be based on the date.toISOString method.
-
-        function f(n) {
-
-// Format integers to have at least two digits.
-
-            return n &lt; 10 ? '0' + n : n;
-        }
-
-        return '&quot;' + this.getUTCFullYear()   + '-' +
-                   f(this.getUTCMonth() + 1) + '-' +
-                   f(this.getUTCDate())      + 'T' +
-                   f(this.getUTCHours())     + ':' +
-                   f(this.getUTCMinutes())   + ':' +
-                   f(this.getUTCSeconds())   + 'Z&quot;';
-    };
-
-
-    Number.prototype.toJSONString = function () {
-
-// JSON numbers must be finite. Encode non-finite numbers as null.
-
-        return isFinite(this) ? String(this) : 'null';
-    };
-
-
-    function ObjectToJSONString(o,w) {
-        var a = [],     // The array holding the partial texts.
-            k,          // The current key.
-            i,          // The loop counter.
-            v;          // The current value.
-
-// If a whitelist (array of keys) is provided, use it assemble the components
-// of the object.
-
-        if (w) {
-            for (i = 0; i &lt; w.length; i += 1) {
-                k = w[i];
-                if (typeof k === 'string') {
-                    v = o[k];
-                    switch (typeof v) {
-                    case 'object':
-
-// Serialize a JavaScript object value. Ignore objects that lack the
-// toJSONString method. Due to a specification error in ECMAScript,
-// typeof null is 'object', so watch out for that case.
-
-                        if (v) {
-                            if (v !== null) {
-                                a.push(k.toJSONString() + ':' +
-                                       ObjectToJSONString(v,w));
-                            }
-                        } else {
-                            a.push(k.toJSONString() + ':null');
-                        }
-                        break;
-
-                    case 'string':
-                    case 'number':
-                    case 'boolean':
-                        a.push(k.toJSONString() + ':' + v.toJSONString());
-
-// Values without a JSON representation are ignored.
-
-                    }
-                }
-            }
-        } else {
-
-// Iterate through all of the keys in the object, ignoring the proto chain
-// and keys that are not strings.
-
-            for (k in o) {
-                if (typeof k === 'string' &amp;&amp;
-                        Object.prototype.hasOwnProperty.apply(o, [k])) {
-                    v = o[k];
-                    switch (typeof v) {
-                    case 'object':
-
-// Serialize a JavaScript object value. Ignore objects that lack the
-// toJSONString method. Due to a specification error in ECMAScript,
-// typeof null is 'object', so watch out for that case.
-
-                        if (v) {
-                            if (v !== null) {
-                                a.push(k.toJSONString() + ':' +
-                                       ObjectToJSONString(v));
-                            }
-                        } else {
-                            a.push(k.toJSONString() + ':null');
-                        }
-                        break;
-
-                    case 'string':
-                    case 'number':
-                    case 'boolean':
-                        a.push(k.toJSONString() + ':' + v.toJSONString());
-
-// Values without a JSON representation are ignored.
-
-                    }
-                }
-            }
-        }
-
-// Join all of the member texts together and wrap them in braces.
-
-        return '{' + a.join(',') + '}';
-    };
-}</pre>
-</div>
-<div title="xhrTimeoutPlugin" modifier="Jon Lister" created="200709020000" modified="200710160000" tags="systemConfig excludeLists excludeSearch">
-<pre>// Overrides core doHttp function to allow timeout parameter
-var defaultXhrTimeout = 5000;
-function doHttp(type,url,data,contentType,username,password,callback,params,headers,timeout)
-{
-	var x = getXMLHttpRequest();
-	if(!x)
-		return &quot;Can't create XMLHttpRequest object&quot;;
-	x.onreadystatechange = function() {
-		try {
-			var status = x.status;
-		} catch(ex) {
-			status = false;
-		}
-		if (x.readyState == 4)
-			clearTimeout(requestTimer);
-		if (x.readyState == 4 &amp;&amp; callback &amp;&amp; (status !== undefined)) {
-			if([0, httpStatus.OK, httpStatus.ContentCreated, httpStatus.NoContent, httpStatus.MultiStatus].contains(status))
-				callback(true,params,x.responseText,url,x);
-			else
-				callback(false,params,null,url,x);
-			x.onreadystatechange = function(){};
-			x = null;
-		}
-	};
-	if(window.Components &amp;&amp; window.netscape &amp;&amp; window.netscape.security &amp;&amp; document.location.protocol.indexOf(&quot;http&quot;) == -1)
-		window.netscape.security.PrivilegeManager.enablePrivilege(&quot;UniversalBrowserRead&quot;);
-	try {
-		url = url + (url.indexOf(&quot;?&quot;) &lt; 0 ? &quot;?&quot; : &quot;&amp;&quot;) + &quot;nocache=&quot; + Math.random();
-		x.open(type,url,true,username,password);
-		if(data)
-			x.setRequestHeader(&quot;Content-Type&quot;, contentType ? contentType : &quot;application/x-www-form-urlencoded&quot;);
-		if(x.overrideMimeType)
-			x.setRequestHeader(&quot;Connection&quot;, &quot;close&quot;);
-		if(headers) {
-			for(var n in headers)
-				x.setRequestHeader(n,headers[n]);
-		}
-		x.setRequestHeader(&quot;X-Requested-With&quot;, &quot;TiddlyWiki &quot; + version.major + &quot;.&quot; + version.minor + &quot;.&quot; + version.revision + (version.beta ? &quot; (beta &quot; + version.beta + &quot;)&quot; : &quot;&quot;));
-		x.send(data);
-		var requestTimer = setTimeout(function() {
-			x.abort();
-			// Handle timeout situation, e.g. Retry or inform user.
-			return &quot;timeout&quot;;
-		}, (timeout ? timeout : defaultXhrTimeout));
-	} catch(ex) {
-		return exceptionText(ex);
-	}
-	return x;
-}</pre>
-</div>
-<div title="TemplatePlugin" modifier="JonLister" created="200801221840" modified="200801221918" tags="systemConfig TiddlyTemplatingPackage">
-<pre>/***
-|''Name:''|TemplatePlugin |
-|''Description:''|Collection of functions to support rendering of tiddlers through HTML templates |
-|''Author:''|JonathanLister |
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/TemplatePlugin.js |
-|''Version:''|0.0.4 |
-|''Date:''|25/3/08 |
+|''Name:''|BackstageTiddlersPlugin|
+|''Description:''|Adds a backstage panel allowing easy access to all tiddlers|
+|''Author:''|JeremyRuston|
+|''Source:''|http://www.osmosoft.com/#BackstageTiddlersPlugin |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js |
+|''Version:''|0.0.1|
+|''Date:''|Feb 28, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.3|
 
-The templateTiddlers macro finds a set of tiddlers and renders them once each through a template. The template can contain additional
-calls to the macro to allow for e.g. looping inside a template (think RSS items). It needs to be able to support recursion, so that sub-templates make sense.
-
-Usage:
-{{{
-&lt;&lt;templateTiddlers template:RssTemplate filter:&quot;[tag[!excludeLists]]&quot;&gt;&gt;
-&lt;&lt;templateTiddlers RssTemplate filter:&quot;[tag[!excludeLists]]&quot;&gt;&gt; // template qualification is optional
-}}}
-
-Parameters can be:
-template - the name of the template
-filter - a tiddler filter
-data - the part of a tiddler to use in the subTemplate
-
-If a parameter does not have a qualifier, it is assumed to be the template name
-
-|''Name:''|templateTagsMacro |
-|''Description:''|Renders a tiddler's tags through a template |
-
-Usage:
-{{{
-&lt;&lt;templateTags template:RssItemCategoryTemplate&gt;&gt;
-&lt;&lt;templateTiddlers RssTemplate&gt;&gt; // template qualification is optional
-}}}
-
-The templateTags macro renders a tiddler's tags through a template in an analagous way to how templateTiddlers renders a set of tiddlers. Future development might offer support for other data items other than tags, but this is what is needed for RSS, the use-case driving the development.
-
-|''Name:''|PermalinkMacro |
-|''Description:''|Creates a permalink to the tiddler |
-
-Usage:
-{{{
-&lt;&lt;permalink&gt;&gt;
-}}}
 ***/
 
 //{{{
-if(!version.extensions.templateTiddlersPlugin) {
-version.extensions.templateTiddlersPlugin = {installed:true};
+if(!version.extensions.BackstageTiddlersPlugin) {
 
-expandTemplate = function(template,tiddlers,wikitext)
-{
-	var defaultTemplate = &quot;&lt;&lt;view text&gt;&gt;&quot;;
-	var t = template;
-	template = template ? store.getTiddlerText(template,template) : defaultTemplate;
-	if(!tiddlers) {
-		// no tiddlers provided, so create a temporary tiddler
-		tiddlers = [];
-		tiddlers.push(new Tiddler(&quot;temp&quot;));
-	}
-	var output = &quot;&quot;;
-	// decide whether to parse as wikitext or simple template
-	var format = wikitext ? null : 'template';
-	for(var i=0; i&lt;tiddlers.length; i++) {
-		output += wikifyStatic(template,null,tiddlers[i],format).htmlDecode();
-		// wikifyStatic returns html; htmlDecode is used so that nesting of templates doesn't cause encoded characters to be wikified
-	}
-	return output;
-};
+version.extensions.BackstageTiddlersPlugin = {installed:true};
 
-config.macros.templateTiddlers = {};
-config.macros.templateTiddlers.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-{
-	p = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
-	var template = getParam(p,&quot;template&quot;,null);
-	if(!template)
-		template = getParam(p,&quot;anon&quot;,null);
-	var filter = getParam(p,&quot;filter&quot;,null);
-	var wikitext = getParam(p,&quot;wikitext&quot;,null);
-	var tiddlers = [];
-	if(filter) {
-		tiddlers = store.filterTiddlers(filter);
-	} else {
-		// no filter provided, so inherit or create temp tiddler
-		tiddlers.push(tiddler ? tiddler : new Tiddler(&quot;temp&quot;));
-	}
-	var output = expandTemplate(template,tiddlers,wikitext);
-	// NOTE: the line below is contentious - should the .htmlEncode() be used?
-	// if you don't use it, it seems that output is not always added in a format suitable for innerHTML
-	// this is only an apparent problem when templateTiddlers is nested inside other templates (at two levels deep!)
-	// this requires tests writing to iron this out once and for all
-	// ALSO: HTMLPreviewTemplate uses the output of expandTemplate directly, but hasn't hit this problem yet (possibly because the nesting only goes one level deep on templates tested so far)
-	place.innerHTML += output.htmlEncode();
-};
-
-config.macros.templateTags = {};
-config.macros.templateTags.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-{
-	p = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
-	var template = getParam(p,&quot;template&quot;,null);
-	var tiddlers = [];
-	if(!template)
-		template = getParam(p,&quot;anon&quot;,null);
-	for(var i=0;i&lt;tiddler.tags.length;i++) {
-		var t = new Tiddler(tiddler.title);
-		t.tags = [tiddler.tags[i]];
-		tiddlers.push(t);
-	}
-	var output = expandTemplate(template,tiddlers);
-	place.innerHTML += output;
-};
-
-config.macros.permalink = {};
-config.macros.permalink.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-{
-	var t = encodeURIComponent(String.encodeTiddlyLink(tiddler.title));
-	createTiddlyText(place,window.location+&quot;#&quot;+t);
-};
+config.tasks.tiddlers = {
+	text: &quot;tiddlers&quot;,
+	tooltip: &quot;Access the raw tiddlers&quot;,
+	content: &quot;&lt;&lt;tabs txtMainTab 'Timeline' 'Timeline' TabTimeline 'All' 'All tiddlers' TabAll 'Tags' 'All tags' TabTags 'More' 'More lists' TabMore&gt;&gt;&quot;};
+config.backstageTasks.push(&quot;tiddlers&quot;);
 
 } //# end of 'install only once'
 //}}}</pre>
 </div>
-<div title="RippleTechMicroblog" modifier="Jon Lister" created="200709020000" modified="200710160000" tags="systemConfig excludeLists excludeSearch">
-<pre>// Requires config.macros.Microblog
-config.macros.RippleTech = {};
-
-config.macros.RippleTech.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-
-		var platform = params[0];
-		config.macros.Microblog.settings(platform);
-
-		var uri = microblogs[platform].ListenURI;
-				var count = params[2];
-		var avatars = params[3] =='avatars' ? true : false;
-		var makeTiddlers = params[4] =='makeTiddlers' ? true : false;
-		var template = params[5];
-		var context = {
-				host:uri,
-				place:place,
-				platform:platform,
-				count:count,
-				avatars:avatars,
-				makeTiddlers:makeTiddlers,
-				rssUseRawDescription:true,
-				template:template
-				};
-					
-		var adaptor = new RSSAdaptor();
-		wikify(&quot;{{loadingIndicator{\n\nloading...}}}&quot;,place);
-		var ret = adaptor.openHost(context.host,context,params,config.macros.RippleTech.onOpenHost);
-		if (typeof(ret) == &quot;string&quot;) {
-			displayMessage(&quot;problem opening host: &quot; + ret);
-			return false;
-		}
-		else if (ret) {
-			return true;
-		}
-};
-			
-config.macros.RippleTech.onOpenHost = function(context,params) {
-
-		var ret = context.adaptor.getTiddlerList(context,params,config.macros.RippleTech.convertItemsToJSON);
-	if (typeof(ret) == &quot;string&quot;) {
-		displayMessage(&quot;problem opening tiddlers: &quot; + ret);
-		return false;
-	}
-	else if (ret) {
-		return true;
-	}
-};
-
-config.macros.RippleTech.convertItemsToJSON = function(context,params) {
-// Requirement: convert Tiddlers to the minimal twitter format needed:
-// [{created_at:modified,text:text,user:{name:modifier}},...]
-		var items = context.tiddlers;
-		var JSONarray = [];
-	for (var i in items) {
-		var item = items[i];
-		if (item instanceof Tiddler) {
-			var itemObject = {};
-			itemObject.url = item.fields.linktooriginal;
-			itemObject.id = &quot;post from &quot;+itemObject.url;
-			itemObject.created_at = item.created.formatString(&quot;ddd, DD MMM YYYY 0hh:0hh:0ss TZD&quot;);
-			itemObject.text = item.text;
-			itemObject.user = {};
-			// this isn't really the name, but the first field that gets displayed by the Microblog listenHandler
-			itemObject.user.name = item.title;
-			if(item.modifier == &quot;anonymous&quot; &amp;&amp; item.fields.source_name)
-				// itemObject.user.name += &quot; by &lt;a href=&quot;+item.fields.linktooriginal+&quot;&gt;&quot;+item.fields.source_name+&quot;&lt;/a&gt;&quot;;
-				itemObject.user.name += &quot; by &quot;+item.fields.source_name;
-			else if(item.modifier)
-				// itemObject.user.name += &quot; by &lt;a href=&quot;+item.fields.linktooriginal+&quot;&gt;&quot;+item.modifier+&quot;&lt;/a&gt;&quot;;
-				itemObject.user.name += &quot; by &quot;+item.modifier;
-			else
-				itemObject.user.name += &quot; by anonymous&quot;;
-			JSONarray.push(itemObject);
-		}
-	}
-	var JSONstring = JSONarray.toJSONString();
-		config.macros.Microblog.listenHandler(true,context,JSONstring,context.host,null,context.template);
-};</pre>
-</div>
-<div title="WebDavLib" modifier="SaqImtiaz" created="200711230000" tags="systemConfig excludeLists excludeSearch">
+<div title="MicroformatPlugin" modifier="PaulDowney" created="200712030000" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
-|''Name:''|WebDavLib|
-|''Description:''|WebDav utility functions|
-|''Author:''|Saq Imtiaz ( lewcid@gmail.com )|
-|''Version:''|0.1.1|
-|''Date:''|23/11/2007|
-|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''~CoreVersion:''|2.2.3|
+|''Name:''|MicroformatPlugin|
+|''Description:''|Assist constructing Microformats in a TiddlyWiki|
+|''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/MicroformatPlugin.js |
+|''Version:''|0.1|
+|''License:''|[[BSD open source license]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''~CoreVersion:''|2.2|
+
+Create hCalendar abbr:
+&amp;lt;&amp;lt;dtstart [storeName|'YYYYMMDDHHMM'] [dateFormatString]&amp;gt;&amp;gt;
+&amp;lt;&amp;lt;dtend [storeName|'YYYYMMDDHHMM'] [dateFormatSting]&amp;gt;&amp;gt;
+
+Options:
+&amp;lt;&amp;lt;option timeFormat&amp;gt;&amp;gt;
 
 ***/
-// /%
-//!BEGIN-PLUGIN-CODE
-if (!window.DAV){
-DAV = {
-	run : function(type,u,data,cb,params,headers,contentType,username,password){
-		var callback = function(status,params,responseText,url,xhr) {
-			url = url.indexOf(&quot;nocache=&quot;) &lt; 0 ? url : url.substring(0,url.indexOf(&quot;nocache=&quot;)-1);
-			if(params.length){
-				params.shift().apply(this,[status,params,responseText,url,xhr]);
+
+//{{{
+if(!version.extensions.Microformat) {
+version.extensions.Microformat = {installed:true};
+
+	config.options.timeFormat = &quot;0hh:0mm&quot;;
+	
+	config.macros.dtstart = {};
+	config.macros.dtstart.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+		Microformat_abbr(place,macroName,params,wikifier,paramString,tiddler);
+	}
+
+	config.macros.dtend = {};
+	config.macros.dtend.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+		Microformat_abbr(place,macroName,params,wikifier,paramString,tiddler);
+	}
+
+	Microformat_abbr = function(place,macroName,params,wikifier,paramString,tiddler) {
+
+		className = macroName;
+		format = config.options.timeFormat;
+
+		// date is in TiddlyWiki YYYYMMMDDHHMM format
+		if(params[0]) {
+		    if(params[0].match(/^\d/)) {
+			value = params[0];
+		    }else{
+			value = store.getValue(tiddler,params[0]);
+		    }
+		}
+
+		// formatDateString
+		if(params[1]) {
+			format = params[1];
+		}
+
+		d = Date.convertFromYYYYMMDDHHMM(value);
+		var text = d.formatString(format);
+
+		// microformats is ISO YYYY-MM-DDTHH:MM:SS format
+
+		var iso = value.substr(0,4) + &quot;-&quot; + value.substr(4,2) + &quot;-&quot; + value.substr(6,2) 
+			+ &quot;T&quot; + value.substr(8,2) + &quot;:&quot; + value.substr(10,2) + &quot;:00&quot;;
+
+		var e = createTiddlyElement(place,'abbr',null,null);
+		e.setAttribute('title',iso);
+		e.setAttribute('class',className);
+		createTiddlyText(e,text);
+	};
+
+} //# end of 'install only once'
+//}}}</pre>
+</div>
+<div title="AgendaTrackPlugin" modifier="PaulDowney" created="200802261000" tags="systemConfig excludeLists excludeSearch">
+<pre>/***
+|''Name:''|AgendaTrackPlugin|
+|''Description:''|Helpers for RippleRap Agenda Track Items|
+|''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/AgendaTrackPlugin.js |
+|''Version:''|0.1|
+|''License:''|[[BSD open source license]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''~CoreVersion:''|2.2|
+
+List related sessions for a track:
+&lt;&lt;agendaTrackSessions&gt;&gt;
+
+List tracks as tabs:
+&lt;&lt;agendaTrackTabs&gt;&gt;
+
+***/
+
+//{{{
+if(!version.extensions.AgendaTrack) {
+version.extensions.AgendaTrack = {installed:true};
+
+	config.macros.AgendaTrackTabs = {};
+	config.macros.AgendaTrackTabs.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+
+		var text = '&lt;&lt;tabs txtMainTab ';
+		var tracks = store.filterTiddlers(&quot;[tag[track]]&quot;);
+		for (var i=0;i&lt;tracks.length;i++) {
+			s = ' &quot;' + tracks[i].title + '&quot;';
+			text = text  + s + s + s;
+		}
+			
+		text = text + '&gt;&gt;';
+
+		wikify(text,place);
+	};
+
+	config.macros.AgendaTrackSessions= {};
+	config.macros.AgendaTrackSessions.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+
+		var track = store.getValue(tiddler,'rr_session_tag');
+		var text = &quot;&lt;&lt;listRelated tag:&quot; + track 
+			+ &quot; filter:[tag[&quot; + track + &quot;]][sort[+rr_session_starttime]]&quot;
+			+ &quot; hrel:raps template:AgendaItemsTemplate&quot;
+			+ &quot; subtemplate:AgendaSubItemsTemplate&gt;&gt;&quot;;
+
+		wikify(text,place);
+	};
+
+	config.macros.Speaker= {};
+	config.macros.Speaker.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+		var co = store.getValue(tiddler,'speaker_co');
+		var text = &quot;[img[&quot;+ store.getValue(tiddler,'speaker_img') + &quot;]]&quot;
+			+ &quot;&lt;html&gt;&lt;a class='fn url' href='&quot; + store.getValue(tiddler,'speaker_uri') + &quot;'&gt;&quot; 
+			    +  tiddler.title 
+			    + &quot;&lt;/a&gt;&lt;/html&gt;&quot; 
+			+ &quot; &quot; + (co?co:&quot;&quot;);
+		wikify(text,place);
+	};
+
+	config.macros.SpeakerSession= {};
+	config.macros.SpeakerSession.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+
+		var tagged = store.getTaggedTiddlers(&quot;session&quot;);
+
+		// search for sessions where speaker list contains speaker
+		// TBD: there must be a better way of doing this!
+		var sess = [];
+		for(var t=0; t&lt;tagged.length; t++) {
+		    var speakers = store.getValue(tagged[t],'rr_session_speaker');
+		    if (speakers) {
+			var slist = speakers.split(/\s*,\s*/);
+			for(var s=0; s&lt;slist.length; s++) {
+			    if (slist[s].trim() == tiddler.title) {
+				sess.push(tagged[t].title);
+			    }
 			}
-		};	
-		params = params||[];
-		params.unshift(cb);		
-		var r = doHttp.apply(this,[type,u,data,contentType,username,password,callback,params,headers]);
-		if (typeof r == &quot;string&quot;)
-			alert(r);
-		return r;
-	},
-	
-	get : function(url,cb,params){
-		return DAV.run(&quot;GET&quot;,url,null,cb,params,null);
-	},
+		    }
+		}
 
-	put : function(url,cb,params,data,contentType,username,password) {
-		return DAV.run(&quot;PUT&quot;,url,data,cb,params,null,contentType,username,password);
-	},
+		var text = (sess.length ? &quot;*[[&quot; + sess.join(&quot;]]\n*[[&quot;) + &quot;]]&quot; : &quot;&quot;)
+			+ &quot;\n&lt;html&gt;&lt;i&gt;Taken from: &lt;a href='&quot; + store.getValue(tiddler,'speaker_bio', '') + &quot;'&gt;&quot;
+			+ store.getValue(tiddler,'speaker_bio', '') + &quot;&lt;/a&gt;&lt;/i&gt;&lt;/html&gt;&quot;;
+		wikify(text,place);
+	};
 
-	move : function(url,cb,params,destination,contentType,username,password) {
-		return DAV.run(&quot;MOVE&quot;,url,null,cb,params,{&quot;Destination&quot;:destination,&quot;Overwrite&quot;:&quot;T&quot;},contentType,username,password);
-	}, 
-
-	copy : function(url,cb,params,destination) {
-		return DAV.run(&quot;COPY&quot;,url,null,cb,params,{&quot;Destination&quot;:destination,&quot;Overwrite&quot;:&quot;T&quot;,&quot;Depth&quot;:0});
-	},
-	
-	propfind : function(url,cb,params,prop,depth){	// !!!
-		var xml = '&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;' +
-			'&lt;D:propfind xmlns:D=&quot;DAV:&quot;&gt;' +
-			'&lt;D:prop&gt;'+
-			'&lt;D:'+prop+'/&gt;'+
-			'&lt;/D:prop&gt;'+
-			'&lt;/D:propfind&gt;';
-		return DAV.run(&quot;PROPFIND&quot;,url,xml,cb,params,{&quot;Content-type&quot;:&quot;text/xml&quot;,&quot;Depth&quot;:depth?depth:0});
-	},
-	
-	makeDir : function(url,cb,params){
-		return DAV.run(&quot;MKCOL&quot;,url,null,cb,params,null);
-	},
-
-	options : function(url,cb,params){
-		return DAV.run(&quot;OPTIONS&quot;,url,null,cb,params,null);
-	},
-	
-	safeput : function(url,cb,params,data,contentType,username,password){
-		firstcb = function(status,p,responseText,u,xhr){
-			if(status)
-				DAV.move(u,cb,p,u.replace(&quot;-davsavingtemp&quot;,&quot;&quot;),contentType,username,password);
-			else
-				cb.apply(firstcb,arguments);
-		};
-		return DAV.put(url+&quot;-davsavingtemp&quot;,firstcb,params,data,contentType,username,password);
-	}	
-};
-}</pre>
+} //# end of 'install only once'
+//}}}</pre>
 </div>
 <div title="ListRelatedPlugin" modifier="JeremyRuston" created="200802190000" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
@@ -2630,31 +1879,100 @@ config.macros.listRelated.handler = function(place,macroName,params,wikifier,par
 } //# end of 'install only once'
 //}}}</pre>
 </div>
-<div title="BackstageTiddlersPlugin" modifier="JeremyRuston" created="200802280000" tags="systemConfig excludeLists excludeSearch">
+<div title="LinkMakerPlugin" modifier="PhilHawksowrth" created="200712030000" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
-|''Name:''|BackstageTiddlersPlugin|
-|''Description:''|Adds a backstage panel allowing easy access to all tiddlers|
-|''Author:''|JeremyRuston|
-|''Source:''|http://www.osmosoft.com/#BackstageTiddlersPlugin |
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js |
-|''Version:''|0.0.1|
-|''Date:''|Feb 28, 2008|
+|''Name:''|LinkMakerPlugin|
+|''Description:''|Create a link from a Template, accessing a tiddlers properties|
+|''Author:''|PhilHawksworth|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/LinkMakerPlugin.js |
+|''Version:''|0.0.2|
+|''Date:''|Feb 29, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.3|
+
+
+Usage:
+
+&lt;&lt;LinkMaker type:'text|image|img' display:'tiddler field|image path' linkto:'href|TiddlerTitle' [classname:'classname'] &gt;&gt;
 
 ***/
 
 //{{{
-if(!version.extensions.BackstageTiddlersPlugin) {
+if(!version.extensions.LinkMakerPlugin) {
+version.extensions.LinkMakerPlugin = {installed:true};
+	
+	config.macros.LinkMaker = {};
+	config.macros.LinkMaker.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+		
+		params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
+		var linktype = getParam(params,&quot;type&quot;,'text');
+		var linkto = store.getValue(tiddler,getParam(params,&quot;linkto&quot;,&quot;&quot;));
+		// var title = getParam(params,&quot;title&quot;,&quot;&quot;);
+		// var alt = getParam(params,&quot;alt&quot;,&quot;&quot;);
+		var display =  store.getValue(tiddler,getParam(params,&quot;display&quot;,&quot;&quot;));
+		var classname = getParam(params,&quot;classname&quot;,null);
+		var dateformat = getParam(params,'dateformat',null);
 
-version.extensions.BackstageTiddlersPlugin = {installed:true};
+		if(dateformat) {
+			var handler = config.macros.view.views['date'];
+			var fakeParams = [null,null,dateformat];
+		}
+		
+		if(linktype == 'image' || linktype ==  'img') {
+			var a = createTiddlyElement(place,'a',null,classname);
+			a.setAttribute('href',linkto);
+			var i = createTiddlyElement(a,'img');
+			i.setAttribute('src',display);
+		}
+		else if (config.formatterHelpers.isExternalLink(linkto)) {
+			var a = createTiddlyElement(place,'a',null,classname,null);
+			if (handler)
+				handler(display,a,fakeParams);
+			else 
+				createTiddlyText(a,display);
+			a.setAttribute('href',linkto);
+		}
+		else {			
+			var e = createTiddlyLink(place,linkto,false,classname);
+			if (handler)
+				handler(display,e,fakeParams);
+			else 
+				createTiddlyText(e,display);
+		}
+	};
 
-config.tasks.tiddlers = {
-	text: &quot;tiddlers&quot;,
-	tooltip: &quot;Access the raw tiddlers&quot;,
-	content: &quot;&lt;&lt;tabs txtMainTab 'Timeline' 'Timeline' TabTimeline 'All' 'All tiddlers' TabAll 'Tags' 'All tags' TabTags 'More' 'More lists' TabMore&gt;&gt;&quot;};
-config.backstageTasks.push(&quot;tiddlers&quot;);
+} //# end of 'install only once'
+//}}}</pre>
+</div>
+<div title="TiddlifyListPlugin" modifier="PaulDowney" created="200802261000" tags="systemConfig excludeLists excludeSearch">
+<pre>/***
+|''Name:''|TiddlifyListPlugin|
+|''Description:''|Assist constructing TiddlifyLists in a TiddlyWiki|
+|''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/TiddlifyListPlugin.js |
+|''Version:''|0.1|
+|''License:''|[[BSD open source license]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''~CoreVersion:''|2.2|
+
+turns a comma-separated list into a series of links to tiddlers
+&lt;&lt;tiddlyfyList storeName&gt;&gt;
+
+***/
+
+//{{{
+if(!version.extensions.TiddlifyList) {
+version.extensions.TiddlifyList = {installed:true};
+
+	config.macros.TiddlifyList= {};
+	config.macros.TiddlifyList.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+
+		var value = store.getValue(tiddler,params[0]);
+		var tokens = value.split(/\s*,\s*/);
+		var text = &quot;[[&quot; + tokens.join(&quot;]], [[&quot;) + &quot;]]&quot;;
+		wikify(text,place);
+	};
 
 } //# end of 'install only once'
 //}}}</pre>
@@ -2729,870 +2047,6 @@ config.macros.browser.handler = function(place,macroName,params,wikifier,paramSt
 } //# end of 'install only once'
 //}}}</pre>
 </div>
-<div title="LinkMakerPlugin" modifier="PhilHawksowrth" created="200712030000" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|LinkMakerPlugin|
-|''Description:''|Create a link from a Template, accessing a tiddlers properties|
-|''Author:''|PhilHawksworth|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/LinkMakerPlugin.js |
-|''Version:''|0.0.2|
-|''Date:''|Feb 29, 2008|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
-|''~CoreVersion:''|2.3|
-
-
-Usage:
-
-&lt;&lt;LinkMaker type:'text|image|img' display:'tiddler field|image path' linkto:'href|TiddlerTitle' [classname:'classname'] &gt;&gt;
-
-***/
-
-//{{{
-if(!version.extensions.LinkMakerPlugin) {
-version.extensions.LinkMakerPlugin = {installed:true};
-	
-	config.macros.LinkMaker = {};
-	config.macros.LinkMaker.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-		
-		params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
-		var linktype = getParam(params,&quot;type&quot;,'text');
-		var linkto = store.getValue(tiddler,getParam(params,&quot;linkto&quot;,&quot;&quot;));
-		// var title = getParam(params,&quot;title&quot;,&quot;&quot;);
-		// var alt = getParam(params,&quot;alt&quot;,&quot;&quot;);
-		var display =  store.getValue(tiddler,getParam(params,&quot;display&quot;,&quot;&quot;));
-		var classname = getParam(params,&quot;classname&quot;,null);
-		var dateformat = getParam(params,'dateformat',null);
-
-		if(dateformat) {
-			var handler = config.macros.view.views['date'];
-			var fakeParams = [null,null,dateformat];
-		}
-		
-		if(linktype == 'image' || linktype ==  'img') {
-			var a = createTiddlyElement(place,'a',null,classname);
-			a.setAttribute('href',linkto);
-			var i = createTiddlyElement(a,'img');
-			i.setAttribute('src',display);
-		}
-		else if (config.formatterHelpers.isExternalLink(linkto)) {
-			var a = createTiddlyElement(place,'a',null,classname,null);
-			if (handler)
-				handler(display,a,fakeParams);
-			else 
-				createTiddlyText(a,display);
-			a.setAttribute('href',linkto);
-		}
-		else {			
-			var e = createTiddlyLink(place,linkto,false,classname);
-			if (handler)
-				handler(display,e,fakeParams);
-			else 
-				createTiddlyText(e,display);
-		}
-	};
-
-} //# end of 'install only once'
-//}}}</pre>
-</div>
-<div title="ConditionalDisplayPlugin" modifier="PhilHawksowrth" created="200801023000" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|ConditionalDisplayPlugin|
-|''Description:''|Display the contents of different tiddlers depending on the value of a given variable |
-|''Author:''|PhilHawksworth|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/ConditionalDisplayPlugin.js |
-|''Version:''|0.0.1|
-|''Date:''|Feb 28, 2008|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
-|''~CoreVersion:''|2.3|
-
-
-Usage:
-&lt;&lt;conditionalDisplay testSubject testValue ifTrueDisplayThisTiddler ifFalseDisplayThisTiddler&gt;&gt;
-
-***/
-
-//{{{
-if(!version.extensions.ConditionalDisplayPlugin) {
-version.extensions.ConditionalDisplayPlugin = {installed:true};
-	
-config.macros.conditionalDisplay = {};
-config.macros.conditionalDisplay.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	if(params.length &lt; 3) {
-		return;
-	}
-	
-	var testSubject = params[0];
-	var testValue = params[1];
-	var ifTrueDisplay = params[2];
-	var ifFalseDisplay = params[3];
-	
-	var ps = [];
-	if(testSubject &amp;&amp; eval(testSubject) == testValue ) {
-		ps.push(ifTrueDisplay);
-		config.macros.tiddler.handler(place,'tiddler',ps,wikifier,ps.join(','),tiddler);
-	}
-	else {
-		ps.push(ifFalseDisplay);
-		config.macros.tiddler.handler(place,'tiddler',ps,wikifier,ps.join(','),tiddler);
-	}
-};
-} //# end of 'install only once'
-//}}}</pre>
-</div>
-<div title="MakeNotesControlPlugin" modifier="PhilHawksworth" created="200711300000" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|MakeNotesControlPlugin|
-|''Description:''|RippleRap control for creating a new note|
-|''Author:''|Osmosoft|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/MakeNotesControlPlugin.js |
-|''Version:''|0.0.2|
-|''Date:''|Nov 30, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
-|''~CoreVersion:''|2.2.6|
-
-***/
-
-//{{{
-if(!version.extensions.MakeNotesControlPlugin) {
-version.extensions.MakeNotesControlPlugin = {installed:true};
-
-	config.macros.MakeNotesControl = {};
-	config.macros.MakeNotesControl.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-		if(params[0] == &quot;create&quot;) createTiddlyButton(place,&quot;make notes&quot;,&quot;Make notes on this session&quot;,config.macros.MakeNotesControl.onClick);
-		//else if(params[0] == &quot;sharethis&quot;) createTiddlyCheckbox(place,'private',false,config.macros.MakeNotesControl.togglePrivate);
-		else if(params[0] == &quot;sharing&quot;) {
-			var cb = createTiddlyCheckbox(place,null,config.options.chkRipplerapShare,config.macros.MakeNotesControl.globalSharing);
-			cb.setAttribute(&quot;option&quot;,&quot;chkRipplerapShare&quot;);
-		}
-	};
-
-	config.macros.MakeNotesControl.onClick = function(ev) {
-		var e = ev ? ev : window.event;
-		var target = resolveTarget(e);
-		var after =  story.findContainingTiddler(target);
-		var sessionTitle = after.id.substr(7);
-		var title = sessionTitle + &quot; from &quot; + config.options.txtUserName;
-		var template = &quot;NoteEditTemplate&quot;;
-		if(!store.tiddlerExists(title))
-			var text = &quot;Your notes... &quot;;
-		else
-			var text = store.getTiddler(title).text;
-		story.displayTiddler(after,title,template,false,null,null);
-		story.getTiddlerField(title,&quot;text&quot;).value = text.format([title]);
-		story.setTiddlerTag(title,config.macros.TiddlerDisplayDependencies.myNoteTag,+1);
-		story.setTiddlerTag(title,config.macros.TiddlerDisplayDependencies.sharingTag,+1);
-		return false;
-	};
-	
-	
-	/*
-	config.macros.MakeNotesControl.togglePrivate = function(ev) {
-		var e = ev ? ev : window.event;
-		var target = resolveTarget(e);
-	};
-	*/
-	
-	config.macros.MakeNotesControl.globalSharing = function(ev) {
-		var e = ev ? ev : window.event;
-		var target = resolveTarget(e);
-		config.options.chkRipplerapShare = target.checked;
-		var opt = &quot;chkRipplerapShare&quot;;
-		var optType = opt.substr(0,3);
-		var handler = config.macros.option.types[optType];
-		if (handler.elementType &amp;&amp; handler.valueField)
-			config.macros.option.propagateOption(opt,handler.valueField,this[handler.valueField],handler.elementType);		
-		if(rssSynchronizer &amp;&amp; config.options.chkRipplerapShare)
-			rssSynchronizer.makeRequest();
-		return true;
-	};
-
-
-	/*
-	Ripplerap account creation helpers
-	*/
-	config.macros.ripplerapAccountButton = {};
-	config.macros.ripplerapAccountButton.eventName = &quot;BlogTalk&quot;;
-	config.macros.ripplerapAccountButton.serverBaseURL = &quot;https://www.ripplerap.com/BlogTalk/&quot;;
-	config.macros.ripplerapAccountButton.userNameNotSet = &quot;Please choose another username.&quot;;
-	config.macros.ripplerapAccountButton.contactingServerMessage = &quot;Contacting the server...&quot;;
-	
-	config.macros.ripplerapAccountButton.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-		var buttonType = {
-				signup : {
-					btnLabel : &quot;Set up my RippleRap account for %0&quot;,
-					btnAction : config.macros.ripplerapAccountButton.onSignup
-				},
-				signin : {
-					btnLabel : &quot;Sign in to my RippleRap account for %0&quot;,
-					btnAction : config.macros.ripplerapAccountButton.onSignin
-				}
-			};
-		var btnCase = createTiddlyElement(place,'span','ripplerapAccountButton','chunkyButton');
-		createTiddlyButton(btnCase,buttonType[params[0]].btnLabel.format([config.macros.ripplerapAccountButton.eventName]),null,buttonType[params[0]].btnAction);
-		var msg = createTiddlyElement(place,'span','ripplerapAccountMessage');
-		config.macros.ripplerapAccountButton.clearfeedback();
-	};
-
-	config.macros.ripplerapAccountButton.onSignup = function(ev) {
-		if(config.options.txtUserName=='YourName' || config.options.txtUserName=='') {
-			config.macros.ripplerapAccountButton.showFeedback(config.macros.ripplerapAccountButton.userNameNotSet);
-			return false;
-		}
-		
-		config.options.txtRipplerapAccountPassword = document.getElementById('rr_account_password').value;
-		saveOptionCookie('txtRipplerapAccountPassword');
-		
-		config.macros.ripplerapAccountButton.showFeedback(config.macros.ripplerapAccountButton.contactingServerMessage);
-		var url = config.macros.ripplerapAccountButton.serverBaseURL + &quot;reg/&quot;;
-		var params = {};
-		params.username = config.options.txtUserName;
-		params.purpose = 'signup';
-		var data = &quot;username=&quot; + params.username + &quot;&amp;password=&quot; + config.options.txtRipplerapAccountPassword;
-		doHttp(&quot;POST&quot;,url,data,null,config.options.txtRippleRapUser,config.options.txtRippleRapPass,config.macros.ripplerapAccountButton.accountRequestCallback,params);
-		return false;
-	};
-
-/*	
-	config.macros.ripplerapAccountButton.onSignin = function(ev) {
-		config.macros.ripplerapAccountButton.clearfeedback();
-		//attempt to put a file.
-		var payload = 'test post for signin.';
-		var un = config.options.txtUserName; 
-		var pw = config.options.txtRipplerapAccountPassword;
-		var uri = &quot;http://&quot; + config.macros.ripplerapAccountButton.serverBaseURL + 'users/' + un + '/signup.txt';
-		var callback = config.macros.ripplerapAccountButton.accountRequestCallback;
-		context = [];
-		context.purpose = 'signin';
-		displayMessage(&quot;signing in.. &quot; + uri);
-		DAV.safeput(uri,callback,context,payload,null,un,pw);	
-		return false;
-	};
-*/
-
-
-	config.macros.ripplerapAccountButton.accountRequestCallback = function(status,params,responseText,url,xhr) {
-	
-		var responseTypes = {
-			400 : {
-				signupMessage: &quot;Please check the username that you provided. It cannot contain any special characters or spaces.&quot;,
-				signinMessage: &quot;Signin. http 400&quot; 
-			},
-			409 : {
-				signupMessage: &quot;The &quot; + config.options.txtUserName + &quot; account is ready to use.&quot;,
-				signinMessage: &quot;This username already exists. Either sign in to that account or choose another username.&quot;
-			},
-			200 : {
-				signupMessage: &quot;The &quot; + config.options.txtUserName + &quot; account is ready to use.&quot;,
-				signinMessage: &quot;Thanks for signing in. You can now share yor notes with others.&quot;
-			},
-			0 : {
-				signupMessage: &quot;There was a problem reaching the server to create your account. You can still save your changes locally.&quot;,
-				signinMessage: &quot;There was a problem reaching the server to sign in. Your work will continue to be saved locally .&quot;
-			}
-		};
-		
-		try {
-			var xhrStatus = xhr.status;
-			if(!responseTypes[xhrStatus])
-				xhrStatus = 0;
-		} catch(ex) {
-			xhrStatus = 0;
-		}	
-		
-		config.macros.ripplerapAccountButton.showFeedback(responseTypes[xhrStatus].signupMessage);		
-								
-		if(xhrStatus != 0) {
-			
-			log(&quot;flag as ready to use - init polling.&quot;);
-			
-			config.options['chkRipplerapReadyToUse'+config.options.txtUserName] = true;
-			saveOptionCookie('chkRipplerapReadyToUse'+config.options.txtUserName);	
-			if(status &amp;&amp; rssSynchronizer &amp;&amp; config.options.chkRipplerapShare) {
-				rssSynchronizer.makeRequest();
-			}
-		}
-	};
-
-	config.macros.ripplerapAccountButton.showFeedback = function(str) {
-		var msg = document.getElementById('ripplerapAccountMessage');
-		removeChildren(msg);
-		document.createElement(&quot;div&quot;);
-		msg.appendChild(document.createTextNode(str));
-		msg.style.display = &quot;block&quot;;
-	};
-	config.macros.ripplerapAccountButton.clearfeedback = function() {
-		var msg = document.getElementById('ripplerapAccountMessage');
-		if(msg)
-			msg.style.display = &quot;none&quot;;
-	};
-	
-	
-	config.macros.ripplerapAccountPassword = {};
-	config.macros.ripplerapAccountPassword.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-		var p = createTiddlyElement(place,'input','rr_account_password','txtOptionInput',null,{'type':'password'});
-		p.setAttribute('option','txtRipplerapAccountPassword');
-		p.value = config.options.txtRipplerapAccountPassword;
-	};
-	
-}
-
-//}}}</pre>
-</div>
-<div title="rssSynchronizerPlugin" modifier="MartinBudden" created="200711270000" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|RssSynchronizerPlugin|
-|''Description:''|Synchronizes TiddlyWikis with RSS feeds|
-|''Author:''|Osmosoft|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/RssSynchronizerPlugin.js |
-|''Version:''|0.0.16|
-|''Date:''|Nov 27, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
-|''~CoreVersion:''|2.2.6|
-
-!!Description
-
-This plugin uses the RSSAdaptor and WebDavLib to periodically:
-# download tiddlers from the specified download feed
-# upload user notes to the speficied upload feed
-
-The feeds are standard TiddlyWiki feeds (that is tiddlers tagged &quot;systemServer) that are additionally tagged with &quot;ripplerap&quot;
-and either &quot;notes&quot; &quot;upload&quot; or &quot;updates&quot;. &quot;notes&quot; specifies the root uri of where from which other are downloaded. &quot;upload&quot; speficies
-the uri where the user's notes are uploaded. &quot;updates&quot; specifies the uri of the conference agenda, this feed is used to make any
-last minute changes to the conference agenda.
-
-!!Usage
-
-Set up the &quot;note&quot;, &quot;upload&quot; and &quot;updates&quot; feeds.
-
-Requires the RSS Adaptor: http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/adaptors/RSSAdaptor.js
-Requires WebDavLib: http://svn.tiddlywiki.org/Trunk/contributors/SaqImtiaz/plugins/WebDavLib.js
-
-If required, set config.options.txtRippleRapInterval (in seconds). Default is 60 seconds.
-
-***/
-
-//{{{
-if(!version.extensions.RssSynchronizerPlugin) {
-version.extensions.RssSynchronizerPlugin = {installed:true};
-
-if(!config.options.txtRippleRapInterval)
-	{config.options.txtRippleRapInterval = 60;}
-
-config.optionsDesc.txtRippleRapInterval = &quot;~RippleRap synchronization interval (in seconds)&quot;;
-
-merge(config.messages,{
-	polling:&quot;Polling server...&quot;,
-	updateCheck:&quot;Checking for new notes&quot;,
-	xhrTimeout:&quot;No web connection available - trying again shortly&quot;,
-	xhrFirebugError:&quot;Problem with sending the XMLHttpRequest (if you are using Firebug, turn off network monitoring&quot;,
-	xhrError:&quot;Problem with sending the XMLHttpRequest&quot;,
-	updateComplete:&quot;Download complete!&quot;,
-	noUpdate:&quot;No new notes&quot;
-});
-	
-function RssSynchronizer() 
-{
-	this.sessionDownload = {titles:[],syncIndex:0,getMostRecent:true,mostRecentTitle:'latest',requestPending:false};
-
-	this.userUpload = {requestPending:false};
-	this.userUpload.time = new Date();
-	this.userUpload.time.setFullYear(2000); // to force first time put
-
-	this.updates = {};
-
-	this.timerID = null;
-
-	this.nextIsGet = true;
-	this.discoveredNoteTag = config.macros.TiddlerDisplayDependencies.discoveredNoteTag;
-	this.myNoteTag = config.macros.TiddlerDisplayDependencies.myNoteTag;
-	this.sessionTag = config.macros.TiddlerDisplayDependencies.sessionTag;
-	
-	this.sharedTag = 'shared';
-}
-
-RssSynchronizer.userNameNotSet = &quot;You have not set your username&quot;;
-
-// logging function, for debug
-RssSynchronizer.log = function(x)
-{
-	if(!config.options.chkDisplayStartupTime)// reuse this flag for now
-		return;
-	if(window.console)
-		console.log(x);
-	else
-		displayMessage(x);
-};
-
-RssSynchronizer.prototype.init = function()
-{
-	var me = this;
-	store.forEachTiddler(function(title,t) {
-		if(t.isTagged('session') &amp;&amp; t.fields.rr_session_starttime) {
-			var s = title.replace(/[^\w]/g,'_');
-			me.sessionDownload.titles.push(s);
-		}
-		if(t.isTagged('systemServer') &amp;&amp; t.isTagged('ripplerap')) {
-			if(t.isTagged('notes')) {
-				var type = store.getTiddlerSlice(t.title,'Type');
-				var uri = store.getTiddlerSlice(t.title,'URL');
-				if(uri &amp;&amp; type=='rss') {
-					if(uri.substr(uri.length-1) != '/')
-						uri = uri + '/';
-					me.sessionDownload.rootUri = uri;
-				}
-			} else if(t.isTagged('upload')) {
-				type = store.getTiddlerSlice(t.title,'Type');
-				uri = store.getTiddlerSlice(t.title,'URL');
-				if(uri &amp;&amp; type=='rss') {
-					if(uri.substr(uri.length-1) != '/')
-						uri = uri + '/';
-					me.userUpload.rootUri = uri;
-				}
-			} else if(t.isTagged('updates')) {
-				type = store.getTiddlerSlice(t.title,'Type');
-				uri = store.getTiddlerSlice(t.title,'URL');
-				if(uri &amp;&amp; type=='rss') {
-					me.updates.uri = uri;
-				}
-			}
-		}
-	});
-	if(config.options.chkRipplerapShare) {
-		this.makeRequest();
-	}
-};
-
-RssSynchronizer.prototype.getInterval = function()
-{
-	var t = config.options.txtRippleRapInterval ? parseInt(config.options.txtRippleRapInterval)*1000 : 60000;
-	if(isNaN(t))
-		t = 60000;
-	return t;
-};
-
-// If no sync requests are outstanding then queue a sync request on a timer.
-// Alternates between upload and download requests.
-RssSynchronizer.prototype.makeRequest = function()
-{
-	if(!config.options.chkRipplerapShare)
-		return;
-	if(this.userUpload.requestPending) {
-RssSynchronizer.log(&quot;put request is pending&quot;);
-		return;
-	}
-	if(this.sessionDownload.requestPending) {
-RssSynchronizer.log(&quot;get request is pending&quot;);
-		return;
-	}
-RssSynchronizer.log(this.nextIsGet ? &quot;makeRequest:get&quot; : &quot;makeRequest:put&quot;);
-	this.nextIsGet = !this.nextIsGet;
-	var me = this;
-	if(this.nextIsGet) {
-		this.userUpload.requestPending = true;
-		window.setTimeout(function() {me.doPut.call(me);},this.getInterval());
-	} else {
-		this.sessionDownload.requestPending = true;
-		window.setTimeout(function() {me.doGet.call(me);},this.getInterval());
-	}
-};
-
-RssSynchronizer.prototype.doSync = function()
-{
-	this.doGet();
-	this.doPut();
-};
-
-RssSynchronizer.prototype.doGet = function()
-{
-	if(this.sessionDownload.getMostRecent) {
-		this.sessionDownload.getMostRecent = false;
-		var sessionTitle = this.sessionDownload.mostRecentTitle;
-		var uri = this.sessionDownload.rootUri + sessionTitle + '.xml';
-	} else {
-		this.sessionDownload.getMostRecent = true;
-		if(this.sessionDownload.syncIndex==-1) {
-			uri = this.updates.uri;
-		}else {
-			sessionTitle = this.sessionDownload.titles[this.sessionDownload.syncIndex];
-			uri = this.sessionDownload.rootUri + sessionTitle + '.xml';
-		}
-		this.sessionDownload.syncIndex++;
-		if(this.sessionDownload.syncIndex&gt;=this.sessionDownload.titles.length)
-			this.sessionDownload.syncIndex = this.updates.uri ? -1 : 0; // set to -1 for the updates uri, if it exists
-	}
-	
-	var ret = this.getNotesTiddlersFromRss(uri);
-	if(typeof ret == &quot;string&quot;) {
-		if(ret == &quot;timeout&quot;) {
-			displayMessage(config.messages.xhrTimeout);
-		} else if (window.console) {
-			displayMessage(config.messages.xhrFirebugError);
-		} else
-			displayMessage(config.messages.xhrError);
-	} else {
-		displayMessage(config.messages.updateCheck);
-	}
-};
-
-RssSynchronizer.prototype.getNotesTiddlersFromRss = function(uri)
-{
-RssSynchronizer.log(&quot;getNotesTiddlersFromRss:&quot;+uri);
-	var adaptor = new RSSAdaptor();
-	var context = {synchronizer:this,host:uri,adaptor:adaptor,rssUseRawDescription:true};
-	clearMessage();
-	displayMessage(config.messages.polling);
-	var ret = adaptor.getTiddlerList(context,null,RssSynchronizer.getNotesTiddlerListCallback);
-RssSynchronizer.log(&quot;getTiddlerList:&quot;+ret);
-	return ret;
-};
-
-RssSynchronizer.getNotesTiddlerListCallback = function(context,userParams)
-{
-RssSynchronizer.log(&quot;getNotesTiddlerListCallback:&quot;+context.status);
-	//context.synchronizer.sessionDownload.requestPending = false;
-	var tiddlers = context.tiddlers;
-	var length = tiddlers ? tiddlers.length : 0;
-	
-	// log(&quot;Downloaded:&quot; + length);
-	
-	var me = context.synchronizer;
-	store.suspendNotifications();
-	var newContent = false;
-	for(var i=0; i&lt;length; i++) {
-		tiddler = tiddlers[i];
-		var t = store.fetchTiddler(tiddler.title);
-		if(!t || tiddler.modifier!=config.options.txtUserName) {
-			if(tiddler.modifier!=config.options.txtUserName) {
-				tiddler.tags.pushUnique(me.discoveredNoteTag);
-				tiddler.tags.remove(me.myNoteTag);
-				tiddler.tags.remove(me.sharedTag);
-			}
-			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-			// JRL: I don't this should be neccessary and I think the OR logic above is flawed
-			if(!t)
-				newContent = true;
-		}
-	}
-	if(newContent) {
-		displayMessage(config.messages.updateComplete);
-		window.setTimeout(&quot;clearMessage()&quot;,2000);
-	}
-	else {
-		displayMessage(config.messages.noUpdate);
-		window.setTimeout(&quot;clearMessage()&quot;,2000);
-	}
-	store.resumeNotifications();
-	refreshDisplay();
-	me.sessionDownload.requestPending = false;
-	me.makeRequest.call(me);
-};
-
-
-
-// If the user has written any notes since the last put, then put them
-RssSynchronizer.prototype.doPut = function()
-{
-RssSynchronizer.log(&quot;doPut&quot;);
-	if(config.options.txtUserName=='YourName') {
-		this.userUpload.requestPending = false;
-		displayMessage(RssSynchronizer.userNameNotSet);
-		return false;
-	}
-	var putRequired = false;
-	var tiddlers = [];
-	var me = this;
-	store.forEachTiddler(function(title,t) {
-		if(t.isTagged(me.myNoteTag) &amp;&amp; t.isTagged(me.sharedTag)) {
-			tiddlers.push(t);
-			if(t.modified &gt; me.userUpload.time)
-				putRequired = true;
-		}
-	});
-	if(putRequired) {
-RssSynchronizer.log(&quot;putRequired&quot;);
-		uri = this.userUpload.rootUri + config.options.txtUserName+ '/index.xml';
-		this.putTiddlersToRss(uri,tiddlers);
-	} else {
-RssSynchronizer.log(&quot;putNotRequired&quot;);
-		this.userUpload.requestPending = false;
-		this.makeRequest();
-	}
-	return putRequired;
-};
-
-RssSynchronizer.prototype.putTiddlersToRss = function(uri,tiddlers)
-{
-RssSynchronizer.log(&quot;putTiddlersToRss:&quot;+uri);
-	this.userUpload.startTime = new Date();
-	var rss = RssSynchronizer.generateRss(tiddlers);
-	
-	var callback = function(status,params,responseText,uri,xhr) {
-RssSynchronizer.log(&quot;putTiddlersToRssCallback:&quot;+status);
-		var context = params[0];
-		var me = context.synchronizer;
-		me.userUpload.requestPending = false;
-		if(status) {
-			// PUT is successful, reset the time
-			me.userUpload.time = me.userUpload.startTime;
-			//displayMessage(&quot;successfully PUT&quot;);
-			//Collection.clear();
-		} else {
-			// displayMessage(&quot;PUT failed&quot;);
-			// PUT failed, deal with it here
-			// leave item in queue and take no action?
-		}
-		me.makeRequest.call(me);
-	};
-
-	var context = {};
-	context.synchronizer = this;
-	DAV.safeput(uri,callback,[context],rss,null,config.options.txtUserName,config.options.txtRipplerapAccountPassword);
-};
-
-RssSynchronizer.generateRss = function(tiddlers)
-{
-	var s = [];
-	var d = new Date();
-	var u = store.getTiddlerText('SiteUrl');
-	s.push('&lt;' + '?xml version=&quot;1.0&quot;?' + '&gt;');
-	s.push('&lt;rss version=&quot;2.0&quot;&gt;');
-	s.push('&lt;channel&gt;');
-	s.push('&lt;title' + '&gt;' + wikifyPlain('SiteTitle').htmlEncode() + '&lt;/title' + '&gt;');
-	if(u)
-		s.push('&lt;link&gt;' + u.htmlEncode() + '&lt;/link&gt;');
-	s.push('&lt;description&gt;' + wikifyPlain('SiteSubtitle').htmlEncode() + '&lt;/description&gt;');
-	s.push('&lt;language&gt;en-us&lt;/language&gt;');
-	s.push('&lt;copyright&gt;Copyright ' + d.getFullYear() + ' ' + config.options.txtUserName.htmlEncode() + '&lt;/copyright&gt;');
-	s.push('&lt;pubDate&gt;' + d.toGMTString() + '&lt;/pubDate&gt;');
-	s.push('&lt;lastBuildDate&gt;' + d.toGMTString() + '&lt;/lastBuildDate&gt;');
-	s.push('&lt;docs&gt;http://blogs.law.harvard.edu/tech/rss&lt;/docs&gt;');
-	s.push('&lt;generator&gt;TiddlyWiki ' + version.major + '.' + version.minor + '.' + version.revision + ' (RSS Synchronizer)&lt;/generator&gt;');
-	for (var i=0;i&lt;tiddlers.length;i++) {
-		var t = tiddlers[i];
-		s.push('&lt;item&gt;');
-		s.push('&lt;title' + '&gt;' + t.title.htmlEncode() + '&lt;/title' + '&gt;');
-		s.push('&lt;description&gt;' + t.text.htmlEncode() + '&lt;/description&gt;');
-		for(var j=0; j&lt;t.tags.length; j++)
-			s.push('&lt;category&gt;' + t.tags[j] + '&lt;/category&gt;');
-		s.push('&lt;link&gt;' + uri + '#' + encodeURIComponent(String.encodeTiddlyLink(t.title)) + '&lt;/link&gt;');
-		s.push('&lt;pubDate&gt;' + t.modified.toGMTString() + '&lt;/pubDate&gt;');
-		s.push('&lt;author&gt;' + t.modifier + '&lt;/author&gt;');
-		s.push('&lt;/item&gt;');
-		/*var item = t.toRssItem(u);
-		if(t.modifier)
-			item += '\n&lt;author&gt;' + t.modifier + '&lt;/author&gt;\n';
-		item += '&lt;tw:wikitext&gt;\n' + t.text..htmlEncode() + '\n&lt;/tw:wikitext&gt;';
-		s.push('&lt;item&gt;\n' + item + '\n&lt;/item&gt;');*/
-	}
-	s.push('&lt;/channel&gt;');
-	s.push('&lt;/rss&gt;');
-	return s.join('\n');
-};
-
-rssSynchronizer = new RssSynchronizer();
-rssSynchronizer.init();
-	
-} //# end of 'install only once'
-//}}}</pre>
-</div>
-<div title="AgendaTrackPlugin" modifier="PaulDowney" created="200802261000" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|AgendaTrackPlugin|
-|''Description:''|Helpers for RippleRap Agenda Track Items|
-|''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/AgendaTrackPlugin.js |
-|''Version:''|0.1|
-|''License:''|[[BSD open source license]]|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''~CoreVersion:''|2.2|
-
-List related sessions for a track:
-&lt;&lt;agendaTrackSessions&gt;&gt;
-
-List tracks as tabs:
-&lt;&lt;agendaTrackTabs&gt;&gt;
-
-***/
-
-//{{{
-if(!version.extensions.AgendaTrack) {
-version.extensions.AgendaTrack = {installed:true};
-
-	config.macros.AgendaTrackTabs = {};
-	config.macros.AgendaTrackTabs.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-
-		var text = '&lt;&lt;tabs txtMainTab ';
-		var tracks = store.filterTiddlers(&quot;[tag[track]]&quot;);
-		for (var i=0;i&lt;tracks.length;i++) {
-			s = ' &quot;' + tracks[i].title + '&quot;';
-			text = text  + s + s + s;
-		}
-			
-		text = text + '&gt;&gt;';
-
-		wikify(text,place);
-	};
-
-	config.macros.AgendaTrackSessions= {};
-	config.macros.AgendaTrackSessions.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-
-		var track = store.getValue(tiddler,'rr_session_tag');
-		var text = &quot;&lt;&lt;listRelated tag:&quot; + track 
-			+ &quot; filter:[tag[&quot; + track + &quot;]][sort[+rr_session_starttime]]&quot;
-			+ &quot; hrel:raps template:AgendaItemsTemplate&quot;
-			+ &quot; subtemplate:AgendaSubItemsTemplate&gt;&gt;&quot;;
-
-		wikify(text,place);
-	};
-
-	config.macros.Speaker= {};
-	config.macros.Speaker.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-		var co = store.getValue(tiddler,'speaker_co');
-		var text = &quot;[img[&quot;+ store.getValue(tiddler,'speaker_img') + &quot;]]&quot;
-			+ &quot;&lt;html&gt;&lt;a class='fn url' href='&quot; + store.getValue(tiddler,'speaker_uri') + &quot;'&gt;&quot; 
-			    +  tiddler.title 
-			    + &quot;&lt;/a&gt;&lt;/html&gt;&quot; 
-			+ &quot; &quot; + (co?co:&quot;&quot;);
-		wikify(text,place);
-	};
-
-	config.macros.SpeakerSession= {};
-	config.macros.SpeakerSession.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-
-		var tagged = store.getTaggedTiddlers(&quot;session&quot;);
-
-		// search for sessions where speaker list contains speaker
-		// TBD: there must be a better way of doing this!
-		var sess = [];
-		for(var t=0; t&lt;tagged.length; t++) {
-		    var speakers = store.getValue(tagged[t],'rr_session_speaker');
-		    if (speakers) {
-			var slist = speakers.split(/\s*,\s*/);
-			for(var s=0; s&lt;slist.length; s++) {
-			    if (slist[s].trim() == tiddler.title) {
-				sess.push(tagged[t].title);
-			    }
-			}
-		    }
-		}
-
-		var text = (sess.length ? &quot;*[[&quot; + sess.join(&quot;]]\n*[[&quot;) + &quot;]]&quot; : &quot;&quot;)
-			+ &quot;\n&lt;html&gt;&lt;i&gt;Taken from: &lt;a href='&quot; + store.getValue(tiddler,'speaker_bio', '') + &quot;'&gt;&quot;
-			+ store.getValue(tiddler,'speaker_bio', '') + &quot;&lt;/a&gt;&lt;/i&gt;&lt;/html&gt;&quot;;
-		wikify(text,place);
-	};
-
-} //# end of 'install only once'
-//}}}</pre>
-</div>
-<div title="MicroformatPlugin" modifier="PaulDowney" created="200712030000" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|MicroformatPlugin|
-|''Description:''|Assist constructing Microformats in a TiddlyWiki|
-|''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/MicroformatPlugin.js |
-|''Version:''|0.1|
-|''License:''|[[BSD open source license]]|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''~CoreVersion:''|2.2|
-
-Create hCalendar abbr:
-&amp;lt;&amp;lt;dtstart [storeName|'YYYYMMDDHHMM'] [dateFormatString]&amp;gt;&amp;gt;
-&amp;lt;&amp;lt;dtend [storeName|'YYYYMMDDHHMM'] [dateFormatSting]&amp;gt;&amp;gt;
-
-Options:
-&amp;lt;&amp;lt;option timeFormat&amp;gt;&amp;gt;
-
-***/
-
-//{{{
-if(!version.extensions.Microformat) {
-version.extensions.Microformat = {installed:true};
-
-	config.options.timeFormat = &quot;0hh:0mm&quot;;
-	
-	config.macros.dtstart = {};
-	config.macros.dtstart.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-		Microformat_abbr(place,macroName,params,wikifier,paramString,tiddler);
-	}
-
-	config.macros.dtend = {};
-	config.macros.dtend.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-		Microformat_abbr(place,macroName,params,wikifier,paramString,tiddler);
-	}
-
-	Microformat_abbr = function(place,macroName,params,wikifier,paramString,tiddler) {
-
-		className = macroName;
-		format = config.options.timeFormat;
-
-		// date is in TiddlyWiki YYYYMMMDDHHMM format
-		if(params[0]) {
-		    if(params[0].match(/^\d/)) {
-			value = params[0];
-		    }else{
-			value = store.getValue(tiddler,params[0]);
-		    }
-		}
-
-		// formatDateString
-		if(params[1]) {
-			format = params[1];
-		}
-
-		d = Date.convertFromYYYYMMDDHHMM(value);
-		var text = d.formatString(format);
-
-		// microformats is ISO YYYY-MM-DDTHH:MM:SS format
-
-		var iso = value.substr(0,4) + &quot;-&quot; + value.substr(4,2) + &quot;-&quot; + value.substr(6,2) 
-			+ &quot;T&quot; + value.substr(8,2) + &quot;:&quot; + value.substr(10,2) + &quot;:00&quot;;
-
-		var e = createTiddlyElement(place,'abbr',null,null);
-		e.setAttribute('title',iso);
-		e.setAttribute('class',className);
-		createTiddlyText(e,text);
-	};
-
-} //# end of 'install only once'
-//}}}</pre>
-</div>
-<div title="TiddlifyListPlugin" modifier="PaulDowney" created="200802261000" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|TiddlifyListPlugin|
-|''Description:''|Assist constructing TiddlifyLists in a TiddlyWiki|
-|''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/TiddlifyListPlugin.js |
-|''Version:''|0.1|
-|''License:''|[[BSD open source license]]|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''~CoreVersion:''|2.2|
-
-turns a comma-separated list into a series of links to tiddlers
-&lt;&lt;tiddlyfyList storeName&gt;&gt;
-
-***/
-
-//{{{
-if(!version.extensions.TiddlifyList) {
-version.extensions.TiddlifyList = {installed:true};
-
-	config.macros.TiddlifyList= {};
-	config.macros.TiddlifyList.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-
-		var value = store.getValue(tiddler,params[0]);
-		var tokens = value.split(/\s*,\s*/);
-		var text = &quot;[[&quot; + tokens.join(&quot;]], [[&quot;) + &quot;]]&quot;;
-		wikify(text,place);
-	};
-
-} //# end of 'install only once'
-//}}}</pre>
-</div>
 <div title="RawViewMacroPlugin" modifier="PaulDowney" created="200712030000" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |''Name:''|RawViewMacroPlugin|
@@ -3619,44 +2073,11 @@ config.macros.view.views.raw = function(value,place,params,wikifier,paramString,
 
 //}}}</pre>
 </div>
-<div title="TrackEditTemplate" tags="excludeLists excludeSearch">
-<pre>&lt;!--{{{--&gt;
-&lt;div class='session_edit'&gt;
-	&lt;div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'&gt;&lt;/div&gt;
-	&lt;div class=&quot;label&quot;&gt;Track title&lt;/div&gt;&lt;div class=&quot;title editor&quot; macro=&quot;edit title&quot;&gt;&lt;/div&gt;
-	&lt;div class=&quot;label&quot;&gt;Session tag&lt;/div&gt;&lt;div class=&quot;track editor&quot; macro=&quot;edit rr_session_tag&quot;&gt;&lt;/div&gt;
-	&lt;div class=&quot;label&quot;&gt;Tags (include &quot;track&quot;)&lt;/div&gt;&lt;div class=&quot;track editor&quot; macro=&quot;edit tags&quot;&gt;&lt;/div&gt;
-	&lt;div class=&quot;label&quot;&gt;&lt;/div&gt;&lt;div style=&quot;display:none&quot; macro=&quot;edit text&quot;&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;!--}}}--&gt;</pre>
+<div title="MainMenu" tags="excludeLists excludeSearch" force="true" refresh="macro">
+<pre>[[Welcome]][[Share notes]][[Speakers|speaker]][[Help]][[FAQs]]{{search{&lt;&lt;search&gt;&gt;}}}</pre>
 </div>
-<div title="SpeakerViewTemplate" modifier="PaulDowney" created="200712031004" changecount="1">
-<pre>&lt;!--{{{--&gt;
-&lt;div class=&quot;VanillaView Speaker&quot;&gt;
-&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump'&gt;&lt;/div&gt;
-&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
-&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
-&lt;span class=&quot;vcard&quot;&gt;
-&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
-&lt;/span&gt;
-&lt;div class='tagClear'&gt;&lt;/div&gt; 
-&lt;/div&gt;
-&lt;!--}}}--&gt;</pre>
-</div>
-<div title="CommitteeViewTemplate" modifier="PaulDowney" created="200712031004" changecount="1">
-<pre>&lt;!--{{{--&gt;
-&lt;div class=&quot;VanillaView Speaker&quot;&gt;
-&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump'&gt;&lt;/div&gt;
-&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
-&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
-&lt;span class=&quot;vcard&quot;&gt;
-&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
-&lt;/span&gt;
-&lt;div class='tagClear'&gt;&lt;/div&gt; 
-&lt;/div&gt;
-&lt;!--}}}--&gt;</pre>
+<div title="HeaderControls" modifier="PhilHawksworth" created="200712040945" changecount="1">
+<pre>sharing &lt;&lt;MakeNotesControl sharing&gt;&gt;</pre>
 </div>
 <div title="DefaultTiddlers" tags="excludeLists excludeSearch">
 <pre>
@@ -3673,11 +2094,82 @@ backstage.init = function() {
 };
 //}}}</pre>
 </div>
-<div title="TrackText" tags="excludeLists excludeSearch">
-<pre>&lt;&lt;AgendaTrackSessions&gt;&gt;</pre>
+<div title="Formatting TiddlyWikis" modifier="PhilWhitehouse" created="200711261224" changecount="1">
+<pre>TiddlyWiki supports all kinds of formatting options:
+*You can create ''Bold'' text by enclosing it in pairs of single quotes:
+{{{
+''bold text''
+}}}
+
+*You can create ==Strikethrough== text by enclosing it in pairs of hyphens:
+{{{
+--strikethrough text--
+}}}
+
+*You can __Underline__ text by enclosing it in pairs of underscores:
+{{{
+__underlined text__
+}}}
+
+*You can create //Italic// text by enclosing it in pairs of forward slashes:
+{{{
+//italic text//
+}}}
+
+*You can create ^^superscript^^ text by enclosing it in pairs of carets:
+{{{
+^^superscript text^^
+}}}
+
+*You can create ~~subscript~~ text by enclosing it in pairs of tildes:
+{{{
+~~subscript text~~
+}}}
+
+*You can @@highlight text@@ by enclosing it in pairs of at-signs.
+{{{
+@@highlighted text@@
+}}}
+
+*You can also change many other CSS attributes by adding arguments to the highlight command. For example, you can change the text color to @@color:red;red@@ or give it a background-color of @@background-color:#0000FF;color:white;blue@@.
+{{{
+@@CSS attributes separated by semicolons;text@@
+}}}
+
+You can find out more about CSS from the excellent [[w3schools tutorial|http://w3schools.com/css/default.asp]].
+
+*Finally, you can add new CSS classes to the Tiddlywiki so that you can style a number of items with the same CSS formatting. Simply add the new class to the StyleSheet [[ShadowTiddler|ShadowTiddlers]], such as:
+{{{
+.moveover{
+margin-left:120px;
+}
+}}}
+Then, when you want to use that CSS class, use the following formatting:
+{{{
+{{classname{text to be formatted}}}
+}}}
+{{moveover{So, for example, this paragraph has been formatted using the moveover CSS class.}}}</pre>
 </div>
-<div title="AgendaMenu" modifier="PaulDowney" modified="200711280946" changecount="1">
-<pre>&lt;&lt;AgendaTrackTabs&gt;&gt;</pre>
+<div title="CamelCase" modifier="PhilWhitehouse" created="200711051317">
+<pre>CamelCase describes a word containing an upper case letter. The first word in this paragraph is written in camel case. If you write a word in camel case in a TiddlyWiki, it creates a link. Click on the link, and you'll find an empty tiddler ready to populate with content. It's a quick way of writing linked content. The other way of creating links is by using [[Double square brackets]].</pre>
+</div>
+<div title="Double square brackets" modifier="PhilWhitehouse" created="200711051319">
+<pre>If you write words or sentences in TiddlyWiki that are surrounded by [[Double square brackets]], TiddlyWiki turns it into a link. If you double click this paragraph, you'll see how this has worked.
+
+Once you've created the link, and then clicked 'done' to close the tiddler, you can click on the link, and you'll find an empty tiddler ready to populate with content. It's a quick way of writing linked content. The other way of creating links is by using CamelCase.</pre>
+</div>
+<div title="TiddlyWiki" modifier="PhilHawksworth" created="200711051137" modified="200711291949" changecount="10">
+<pre>~RippleRap is based on the hugely popular TiddlyWiki product; an entire wiki product packaged into a single html file! TiddlyWiki is free, open source, and already has a loyal community of developers and enthusiasts helping to develop it and support new users. There are over 400+ plugins which can be used to configure ~TiddlyWiki in a multitude of ways. It can be used as a task management tool, a de-centralised collaboration tool, a platform for writing and de-bugging software, simply for organising notes or in many other ways.
+
+The entire TiddlyWiki is made up of microcontent called tiddlers, including all the content and the code required to make it function. You're reading a tiddler right now - try double clicking on this text to send it into edit mode. If you have a working knowledge of javascript or css, you can immediately get under the hood, configuring it in any way you like! If you have questions, the TiddlyWiki community is incredibly helpful - there's a [[developer's group|http://groups.google.com/group/TiddlyWikiDev]] and a [[user's group|http://groups.google.com/group/TiddlyWiki]] on Google Groups.
+
+~RippleRap was created by [[Osmosoft|http://www.osmosoft.com]], a small company owned by British Telecom. Osmosoft is run by the original creator of TiddlyWiki, Jeremy Ruston. You can find out more by looking in our [[FAQs]], or alternatively, if you're online, here are some relevant links:
+
+Official ~TiddlyWiki website: http://www.tiddlywiki.com
+~TiddlyWiki community: http://groups.google.com/group/TiddlyWiki
+~TiddlyWiki developer community: http://groups.google.com/group/TiddlyWikiDev
+Osmosoft website: http://www.osmosoft.com
+~RippleRap: http://www.ripplerap.com</pre>
 </div>
 <div title="FAQs" modifier="PhilHawksworth" created="200711261026" modified="200711291951" changecount="6">
 <pre>''Who created ~RippleRap?''
@@ -3686,7 +2178,7 @@ A company called [[Osmosoft|http://www.osmosoft.com]] created ~RippleRap. Osmoso
 
 ''What's the relationship between BT and Osmosoft?''
 
-If you're attending the conference, you might have seen that BT and Osmosoft are sharing a stand. We're very friendly, so come and say hi! Osmosoft was bought by BT in May 2007, and our remit is to support BT in understanding and adopting open source solutions in a sensible, responsible fashion. BT decided that the best way to go about doing this was to hire people who already had experience of running a successful open source project, and they therefore hired Jeremy Ruston (through the acquisition of his company, Osmosoft) because of his experience creating and running the open source ~TiddlyWiki project.
+Osmosoft was bought by BT in May 2007, and our remit is to support BT in understanding and adopting open source solutions in a sensible, responsible fashion. BT decided that the best way to go about doing this was to hire people who already had experience of running a successful open source project, and they therefore hired Jeremy Ruston (through the acquisition of his company, Osmosoft) because of his experience creating and running the open source ~TiddlyWiki project.
 
 ''What's ~RippleRap based on?''
 
@@ -3718,21 +2210,28 @@ More information is available on the Osmosoft website at [[http://www.osmosoft.c
 
 And if you have any more questions while you're at the conference, you can call us using the [[SDK tool|Mojo]] embedded into ~RippleRap, which will set up a free call with an Osmosoftonian. Or just drop into the stall and we'll help you out!</pre>
 </div>
-<div title="HeaderControls" modifier="PhilHawksworth" created="200712040945" changecount="1">
-<pre>sharing &lt;&lt;MakeNotesControl sharing&gt;&gt;</pre>
+<div title="CommitteeViewTemplate" modifier="PaulDowney" created="200712031004" changecount="1">
+<pre>&lt;!--{{{--&gt;
+&lt;div class=&quot;VanillaView Speaker&quot;&gt;
+&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump'&gt;&lt;/div&gt;
+&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
+&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
+&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
+&lt;span class=&quot;vcard&quot;&gt;
+&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
+&lt;/span&gt;
+&lt;div class='tagClear'&gt;&lt;/div&gt; 
+&lt;/div&gt;
+&lt;!--}}}--&gt;</pre>
 </div>
-<div title="Help" modifier="PhilWhitehouse" created="200711261027" modified="200711261230" changecount="7">
-<pre>
-{{layoutTable{
-|''Your international mobile number'' | |
-|&lt;&lt;option txtMojoTelno&gt;&gt; |{{chunkyButton{&lt;&lt;mojoBatphone&gt;&gt;}}}|
-|&gt;|^^powered by [[Mojo]]^^|
-}}}To get help from a member of the team, just enter your phone number in the box above, click 'enter' and, if it's not engaged, the Bat Phone on our stall at Le Web will ring. When we pick up the phone, the call will then be connected with your phone by [[BT's Web21C SDK|http://web21c.bt.com]]. (BT will not charge you for this incoming call, but your mobile phone operator might, especially if you are roaming.)
-
-Alternatively, there are a couple more ways to get help:
-*You can and visit the BT / Osmosoft stall at Le Web - we'll be happy to help.
-*We've tried to anticipate the main problems people will have; see if yours is addressed below.
-!!Common problems
+<div title="TrackText" tags="excludeLists excludeSearch">
+<pre>&lt;&lt;AgendaTrackSessions&gt;&gt;</pre>
+</div>
+<div title="AgendaMenu" modifier="PaulDowney" modified="200711280946" changecount="1">
+<pre>&lt;&lt;AgendaTrackTabs&gt;&gt;</pre>
+</div>
+<div title="Help" modifier="PhilHawksworth" created="200711261027" modified="200711261230">
+<pre>!!Common problems
 
 ''I'm having trouble saving!''
 
@@ -3802,9 +2301,6 @@ TiddlySaver.jar&quot;
 
 Note that there is currently [[a bug|http://trac.tiddlywiki.org/ticket/172]] that prevents TiddlySaver from working if you have specified a backup directory in AdvancedOptions.</pre>
 </div>
-<div title="SampleDiscoveredNotes" modifier="PhilHawksworth" created="200711271540" tags="DiscoveredNotes" changecount="1">
-<pre>a sample discovered note</pre>
-</div>
 <div title="Setup_Instructions" modifier="PhilHawksworth" created="200711291946" modified="200712101826" changecount="18">
 <pre>1. Copy the ~RippleRap file to your desktop and open it in your browser from there. &lt;&lt;browser is Gecko&gt;&gt;
 ''Note:'' If you see dialog boxes asking your permission for the local file operations, allow these for ~RippleRap to work properly. You can select the //Remember this decision// option to avoid seeing the dialogs in future.
@@ -3842,7 +2338,7 @@ You can find out more about how ~RippleRap works in the FAQs</pre>
 <div title="chair" modifier="PaulDowney" created="200711261027" modified="200711261230" changecount="i">
 <pre></pre>
 </div>
-<div title="settings" created="200805063745">
+<div title="settings" created="200805195214">
 <pre>//{{{
 
 config.options.txtMainTab = &quot;AgendaDay1&quot;;
@@ -3852,6 +2348,7 @@ config.options.chkSaveBackups = false;
 
 config.options.txtTheme = &quot;RippleRapSkin&quot;;
 
+
 // Setup the session notes display groupings.
 var session_notes_groups = new TiddlerDisplayGroup();
 var session_notes_pattern = [
@@ -3860,6 +2357,9 @@ var session_notes_pattern = [
 	{label:'notes', tag:'discovered_notes', count:0, require:'header', openAt:'bottom'}];
 session_notes_groups.setPattern(session_notes_pattern); 
 session_notes_groups.setGroupField('rr_session_id');
+
+// go go!
+config.macros.RippleRap.init();
 
 //}}}</pre>
 </div>
@@ -3965,6 +2465,9 @@ session_notes_groups.setGroupField('rr_session_id');
 <pre>
 	Session 6 notes from PhilWhitehouse</pre>
 </div>
+<div title="DefaultTiddlers" tags="excludeLists excludeSearch">
+<pre></pre>
+</div>
 </div>
 <!--POST-STOREAREA-->
 <!--POST-BODY-START-->
@@ -4046,19 +2549,6 @@ config.options = {
 	};
 config.optionsDesc = {};
 
-// List of notification functions to be called when certain tiddlers are changed or deleted
-config.notifyTiddlers = [
-	{name: "StyleSheetLayout", notify: refreshStyles},
-	{name: "StyleSheetColors", notify: refreshStyles},
-	{name: "StyleSheet", notify: refreshStyles},
-	{name: "StyleSheetPrint", notify: refreshStyles},
-	{name: "PageTemplate", notify: refreshPageTemplate},
-	{name: "SiteTitle", notify: refreshPageTitle},
-	{name: "SiteSubtitle", notify: refreshPageTitle},
-	{name: "ColorPalette", notify: refreshColorPalette},
-	{name: null, notify: refreshDisplay}
-];
-
 // Default tiddler templates
 var DEFAULT_VIEW_TEMPLATE = 1;
 var DEFAULT_EDIT_TEMPLATE = 2;
@@ -4067,7 +2557,7 @@ config.tiddlerTemplates = {
 	2: "EditTemplate"
 };
 
-// More messages (rather a legacy layout that shouldn't really be like this)
+// More messages (rather a legacy layout that should not really be like this)
 config.views = {
 	wikified: {
 		tag: {}
@@ -4886,8 +3376,10 @@ function getPluginInfo(tiddler)
 // Check that a particular plugin is valid for execution
 function isPluginExecutable(plugin)
 {
-	if(plugin.tiddler.isTagged("systemConfigForce"))
-		return verifyTail(plugin,true,config.messages.pluginForced);
+	if(plugin.tiddler.isTagged("systemConfigForce")) {
+		plugin.log.push(config.messages.pluginForced);
+		return true;
+	}
 	if(plugin["CoreVersion"]) {
 		var coreVersion = plugin["CoreVersion"].split(".");
 		var w = parseInt(coreVersion[0]) - version.major;
@@ -4895,23 +3387,21 @@ function isPluginExecutable(plugin)
 			w = parseInt(coreVersion[1]) - version.minor;
 		if(w == 0 && coreVersion[2])
 			w = parseInt(coreVersion[2]) - version.revision;
-		if(w > 0)
-			return verifyTail(plugin,false,config.messages.pluginVersionError);
+		if(w > 0) {
+			plugin.log.push(config.messages.pluginVersionError);
+			return false;
 		}
+	}
 	return true;
 }
 
 function isPluginEnabled(plugin)
 {
-	if(plugin.tiddler.isTagged("systemConfigDisable"))
-		return verifyTail(plugin,false,config.messages.pluginDisabled);
+	if(plugin.tiddler.isTagged("systemConfigDisable")) {
+		plugin.log.push(config.messages.pluginDisabled);
+		return false;
+	}
 	return true;
-}
-
-function verifyTail(plugin,result,message)
-{
-	plugin.log.push(message);
-	return result;
 }
 
 function invokeMacro(place,macro,params,wikifier,tiddler)
@@ -4989,8 +3479,7 @@ config.paramifiers.searchRegExp = {
 
 config.paramifiers.tag = {
 	onstart: function(v) {
-		var tagged = store.getTaggedTiddlers(v,"title");
-		story.displayTiddlers(null,tagged,null,false,null);
+		story.displayTiddlers(null,store.getTaggedTiddlers(v,"title"),null,false,null);
 	}
 };
 
@@ -5667,9 +4156,12 @@ function getParser(tiddler,format)
 
 function wikify(source,output,highlightRegExp,tiddler)
 {
-	if(source && source != "") {
+	if(source) {
 		var wikifier = new Wikifier(source,getParser(tiddler),highlightRegExp,tiddler);
+		var t0 = new Date();
 		wikifier.subWikify(output);
+		if(tiddler && config.options.chkDisplayInstrumentation)
+			displayMessage("wikify:" +tiddler.title+ " in " + (new Date()-t0) + " ms");
 	}
 }
 
@@ -5711,7 +4203,7 @@ function wikifyPlainText(text,limit,tiddler)
 
 function highlightify(source,output,highlightRegExp,tiddler)
 {
-	if(source && source != "") {
+	if(source) {
 		var wikifier = new Wikifier(source,formatter,highlightRegExp,tiddler);
 		wikifier.outputText(output,0,source.length);
 	}
@@ -6345,7 +4837,7 @@ config.macros.newTiddler.onClickNewTiddler = function()
 	return false;
 };
 
-config.macros.newTiddler.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+config.macros.newTiddler.handler = function(place,macroName,params,wikifier,paramString)
 {
 	if(!readOnly) {
 		params = paramString.parseParams("anon",null,true,false,false);
@@ -6355,7 +4847,7 @@ config.macros.newTiddler.handler = function(place,macroName,params,wikifier,para
 	}
 };
 
-config.macros.newJournal.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+config.macros.newJournal.handler = function(place,macroName,params,wikifier,paramString)
 {
 	if(!readOnly) {
 		params = paramString.parseParams("anon",null,true,false,false);
@@ -6524,13 +5016,13 @@ config.macros.toolbar.createCommand = function(place,commandName,tiddler,classNa
 			var tooltip = command.getTooltip ? command.getTooltip(tiddler) : this.getCommandTooltip(command,tiddler);
 			var cmd;
 			switch(command.type) {
-				case "popup":
-					cmd = this.onClickPopup;
-					break;
-				case "command":
-				default:
-					cmd = this.onClickCommand;
-					break;
+			case "popup":
+				cmd = this.onClickPopup;
+				break;
+			case "command":
+			default:
+				cmd = this.onClickCommand;
+				break;
 			}
 			var btn = createTiddlyButton(null,text,tooltip,cmd);
 			btn.setAttribute("commandName",commandName);
@@ -6611,28 +5103,28 @@ config.macros.toolbar.handler = function(place,macroName,params,wikifier,paramSt
 	for(var t=0; t<params.length; t++) {
 		var c = params[t];
 		switch(c) {
-			case '>':
-				var btn = createTiddlyButton(place,this.moreLabel,this.morePrompt,config.macros.toolbar.onClickMore);
-				addClass(btn,"moreCommand");
-				var e = createTiddlyElement(place,"span",null,"moreCommand");
-				e.style.display = "none";
-				place = e;
+		case '>':
+			var btn = createTiddlyButton(place,this.moreLabel,this.morePrompt,config.macros.toolbar.onClickMore);
+			addClass(btn,"moreCommand");
+			var e = createTiddlyElement(place,"span",null,"moreCommand");
+			e.style.display = "none";
+			place = e;
+			break;
+		default:
+			var className = "";
+			switch(c.substr(0,1)) {
+			case "+":
+				className = "defaultCommand";
+				c = c.substr(1);
 				break;
-			default:
-				var className = "";
-				switch(c.substr(0,1)) {
-					case "+":
-						className = "defaultCommand";
-						c = c.substr(1);
-						break;
-					case "-":
-						className = "cancelCommand";
-						c = c.substr(1);
-						break;
-				}
-				if(c in config.commands)
-					this.createCommand(place,c,tiddler,className);
+			case "-":
+				className = "cancelCommand";
+				c = c.substr(1);
 				break;
+			}
+			if(c in config.commands)
+				this.createCommand(place,c,tiddler,className);
+			break;
 		}
 	}
 };
@@ -6785,12 +5277,12 @@ config.commands.syncing.onChooseServer = function(e)
 	var serverType = this.getAttribute("server.type");
 	if(serverType) {
 		store.addTiddlerFields(tiddler,{
-			'server.type': serverType,
-			'server.host': this.getAttribute("server.host"),
-			'server.workspace': this.getAttribute("server.workspace")
+			"server.type": serverType,
+			"server.host": this.getAttribute("server.host"),
+			"server.workspace": this.getAttribute("server.workspace")
 			});
 	} else {
-		store.setValue(tiddler,'server',null);
+		store.setValue(tiddler,"server",null);
 	}
 	return false;
 };
@@ -6910,19 +5402,19 @@ Tiddler.prototype.set = function(title,text,modifier,modified,tags,created,field
 // Change the text and other attributes of a tiddler without triggered a tiddler.changed() call
 Tiddler.prototype.assign = function(title,text,modifier,modified,tags,created,fields)
 {
-	if(title != undefined)
+	if(title)
 		this.title = title;
-	if(text != undefined)
+	if(text)
 		this.text = text;
-	if(modifier != undefined)
+	if(modifier)
 		this.modifier = modifier;
-	if(modified != undefined)
+	if(modified)
 		this.modified = modified;
-	if(created != undefined)
+	if(created)
 		this.created = created;
-	if(fields != undefined)
+	if(fields)
 		this.fields = fields;
-	if(tags != undefined)
+	if(tags)
 		this.tags = (typeof tags == "string") ? tags.readBracketedList() : tags;
 	else if(this.tags == undefined)
 		this.tags = [];
@@ -7016,7 +5508,7 @@ Tiddler.prototype.generateFingerprint = function()
 Tiddler.prototype.getServerType = function()
 {
 	var serverType = null;
-	if(this.fields && this.fields['server.type'])
+	if(this.fields['server.type'])
 		serverType = this.fields['server.type'];
 	if(!serverType)
 		serverType = this.fields['wikiformat'];
@@ -7622,6 +6114,7 @@ TiddlyWiki.prototype.sortTiddlers = function(tiddlers,field)
 		tiddlers.sort(function(a,b) {return a.fields[field] < b.fields[field] ? -asc : (a.fields[field] == b.fields[field] ? 0 : +asc);});
 	return tiddlers;
 };
+
 // Returns true if path is a valid field name (path),
 // i.e. a sequence of identifiers, separated by '.'
 TiddlyWiki.isValidFieldName = function(name)
@@ -8409,17 +6902,15 @@ var backstage = {
 		this.button.style.display = "block";
 		var t = cmb.open.text + " " + glyph("bentArrowLeft");
 		this.showButton = createTiddlyButton(this.button,t,cmb.open.tooltip,
-						function (e) {backstage.show(); return false;},null,"backstageShow");
+						function(e) {backstage.show(); return false;},null,"backstageShow");
 		t = glyph("bentArrowRight") + " " + cmb.close.text;
 		this.hideButton = createTiddlyButton(this.button,t,cmb.close.tooltip,
-						function (e) {backstage.hide(); return false;},null,"backstageHide");
+						function(e) {backstage.hide(); return false;},null,"backstageHide");
 		this.cloak = document.getElementById("backstageCloak");
 		this.panel = document.getElementById("backstagePanel");
 		this.panelFooter = createTiddlyElement(this.panel,"div",null,"backstagePanelFooter");
 		this.panelBody = createTiddlyElement(this.panel,"div",null,"backstagePanelBody");
-		this.cloak.onmousedown = function(e) {
-			backstage.switchTab(null);
-		};
+		this.cloak.onmousedown = function(e) {backstage.switchTab(null);};
 		createTiddlyText(this.toolbar,cmb.prompt);
 		for(t=0; t<config.backstageTasks.length; t++) {
 			var taskName = config.backstageTasks[t];
@@ -8445,9 +6936,7 @@ var backstage = {
 		this.area.style.display = "block";
 		if(anim && config.options.chkAnimate) {
 			backstage.toolbar.style.left = findWindowWidth() + "px";
-			var p = [
-				{style: "left", start: findWindowWidth(), end: 0, template: "%0px"}
-			];
+			var p = [{style: "left", start: findWindowWidth(), end: 0, template: "%0px"}];
 			anim.startAnimating(new Morpher(backstage.toolbar,config.animDuration,p));
 		} else {
 			backstage.area.style.left = "0px";
@@ -8465,9 +6954,7 @@ var backstage = {
 		} else {
 			backstage.toolbar.style.left = "0px";
 			if(anim && config.options.chkAnimate) {
-				var p = [
-					{style: "left", start: 0, end: findWindowWidth(), template: "%0px"}
-				];
+				var p = [{style: "left", start: 0, end: findWindowWidth(), template: "%0px"}];
 				var c = function(element,properties) {backstage.area.style.display = "none";};
 				anim.startAnimating(new Morpher(backstage.toolbar,config.animDuration,p,c));
 			} else {
@@ -8539,9 +7026,7 @@ var backstage = {
 		backstage.panel.style.display = "block";
 		if(anim && config.options.chkAnimate) {
 			backstage.panel.style.top = (-backstage.panel.offsetHeight) + "px";
-			var p = [
-				{style: "top", start: -backstage.panel.offsetHeight, end: 0, template: "%0px"}
-			];
+			var p = [{style: "top", start: -backstage.panel.offsetHeight, end: 0, template: "%0px"}];
 			anim.startAnimating(new Morpher(backstage.panel,config.animDuration,p),new Scroller(backstage.panel,false));
 		} else {
 			backstage.panel.style.top = "0px";
@@ -8568,7 +7053,7 @@ var backstage = {
 
 config.macros.backstage = {};
 
-config.macros.backstage.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+config.macros.backstage.handler = function(place,macroName,params)
 {
 	var backstageTask = config.tasks[params[0]];
 	if(backstageTask)
@@ -8913,7 +7398,7 @@ config.macros.importTiddlers.onGetTiddler = function(context,wizard)
 //-- Upgrade macro
 //--
 
-config.macros.upgrade.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+config.macros.upgrade.handler = function(place)
 {
 	var w = new Wizard();
 	w.createWizard(place,this.wizardTitle);
@@ -8977,7 +7462,7 @@ config.macros.upgrade.onLoadCore = function(status,params,responseText,url,xhr)
 		w.setButtons([],me.statusReloadingCore);
 		var backupPath = w.getValue("backupPath");
 		var newLoc = document.location.toString() + '?time=' + new Date().convertToYYYYMMDDHHMM()  + '#upgrade:[[' + encodeURI(backupPath) + ']]';
-		window.setTimeout(function () {window.location = newLoc;},10)
+		window.setTimeout(function () {window.location = newLoc;},10);
 	};
 	var step2 = [me.step2Html_downgrade,me.step2Html_restore,me.step2Html_upgrade][compareVersions(version,newVer) + 1];
 	w.addStep(me.step2Title,step2.format([formatVersion(newVer),formatVersion(version)]));
@@ -8991,7 +7476,7 @@ config.macros.upgrade.onCancel = function(e)
 	w.addStep(me.step3Title,me.step3Html);
 	w.setButtons([]);
 	return false;
-}
+};
 
 config.macros.upgrade.extractVersion = function(upgradeFile)
 {
@@ -9298,7 +7783,7 @@ SyncMachine.prototype.putTiddler = function(tiddler,nextStep)
 //-- Manager UI for groups of tiddlers
 //--
 
-config.macros.plugins.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+config.macros.plugins.handler = function(place,macroName,params,wikifier,paramString)
 {
 	var wizard = new Wizard();
 	wizard.createWizard(place,this.wizardTitle);
@@ -9376,7 +7861,7 @@ config.macros.plugins.doDelete = function(e)
 		alert(config.messages.nothingSelected);
 	} else {
 		if(confirm(config.macros.plugins.confirmDeleteText.format([rowNames.join(", ")]))) {
-			for(t=0; t<rowNames.length; t++) {
+			for(var t=0; t<rowNames.length; t++) {
 				store.removeTiddler(rowNames[t]);
 				story.closeTiddler(rowNames[t],true);
 			}
@@ -9431,6 +7916,18 @@ function clearMessage()
 //--
 //-- Refresh mechanism
 //--
+
+config.notifyTiddlers = [
+	{name: "StyleSheetLayout", notify: refreshStyles},
+	{name: "StyleSheetColors", notify: refreshStyles},
+	{name: "StyleSheet", notify: refreshStyles},
+	{name: "StyleSheetPrint", notify: refreshStyles},
+	{name: "PageTemplate", notify: refreshPageTemplate},
+	{name: "SiteTitle", notify: refreshPageTitle},
+	{name: "SiteSubtitle", notify: refreshPageTitle},
+	{name: "ColorPalette", notify: refreshColorPalette},
+	{name: null, notify: refreshDisplay}
+];
 
 config.refreshers = {
 	link: function(e,changeList)
@@ -9651,7 +8148,7 @@ function saveOptionCookie(name)
 
 function encodeCookie(s)
 {
-	return escape(manualConvertUnicodeToUTF8(s));
+	return escape(convertUnicodeToHtmlEntities(s));
 }
 
 function decodeCookie(s)
@@ -9837,7 +8334,7 @@ function updateMarkupBlock(s,blockName,tiddlerName)
 	return s.replaceChunk(
 			"<!--%0-START-->".format([blockName]),
 			"<!--%0-END-->".format([blockName]),
-			"\n" + convertUnicodeToUTF8(store.getRecursiveTiddlerText(tiddlerName,"")) + "\n");
+			"\n" + convertUnicodeToFileFormat(store.getRecursiveTiddlerText(tiddlerName,"")) + "\n");
 }
 
 function updateOriginal(original,posDiv)
@@ -9849,9 +8346,9 @@ function updateOriginal(original,posDiv)
 		return null;
 	}
 	var revised = original.substr(0,posDiv[0] + startSaveArea.length) + "\n" +
-				convertUnicodeToUTF8(store.allTiddlersAsHtml()) + "\n" +
+				convertUnicodeToFileFormat(store.allTiddlersAsHtml()) + "\n" +
 				original.substr(posDiv[1]);
-	var newSiteTitle = convertUnicodeToUTF8(getPageTitle()).htmlEncode();
+	var newSiteTitle = convertUnicodeToFileFormat(getPageTitle()).htmlEncode();
 	revised = revised.replaceChunk("<title"+">","</title"+">"," " + newSiteTitle + " ");
 	revised = updateLanguageAttribute(revised);
 	revised = updateMarkupBlock(revised,"PRE-HEAD","MarkupPreHead");
@@ -9915,7 +8412,7 @@ function saveChanges(onlyIfDirty,tiddlers)
 		saveBackup(localPath,original);
 	if(config.options.chkSaveEmptyTemplate)
 		saveEmpty(localPath,original,posDiv);
-	if(config.options.chkGenerateAnRssFeed)
+	if(config.options.chkGenerateAnRssFeed && saveRss instanceof Function)
 		saveRss(localPath);
 	if(config.options.chkDisplayInstrumentation)
 		displayMessage("saveChanges " + (new Date()-t0) + " ms");
@@ -9968,15 +8465,6 @@ function saveEmpty(localPath,original,posDiv)
 		alert(config.messages.emptyFailed);
 }
 
-function saveRss(localPath)
-{
-	var rssPath = localPath.substr(0,localPath.lastIndexOf(".")) + ".xml";
-	if(saveFile(rssPath,convertUnicodeToUTF8(generateRss())))
-		displayMessage(config.messages.rssSaved,"file://" + rssPath);
-	else
-		alert(config.messages.rssFailed);
-}
-
 function getLocalPath(origPath)
 {
 	var originalPath = convertUriToUTF8(origPath,config.options.txtFileSystemCharSet);
@@ -10020,8 +8508,21 @@ function getBackupPath(localPath,title,extension)
 	backupPath = backupPath.substr(0,backupPath.lastIndexOf(".")) + ".";
 	if(title)
 		backupPath += title.replace(/[\\\/\*\?\":<> ]/g,"_") + ".";
-	backupPath += (new Date()).convertToYYYYMMDDHHMMSSMMM() + "." + (extension ? extension : "html");
+	backupPath += (new Date()).convertToYYYYMMDDHHMMSSMMM() + "." + (extension || "html");
 	return backupPath;
+}
+
+//--
+//-- RSS Saving
+//--
+
+function saveRss(localPath)
+{
+	var rssPath = localPath.substr(0,localPath.lastIndexOf(".")) + ".xml";
+	if(saveFile(rssPath,convertUnicodeToFileFormat(generateRss())))
+		displayMessage(config.messages.rssSaved,"file://" + rssPath);
+	else
+		alert(config.messages.rssFailed);
 }
 
 function generateRss()
@@ -10056,14 +8557,13 @@ function generateRss()
 	return s.join("\n");
 }
 
-
 //--
 //-- Filesystem code
 //--
 
 function convertUTF8ToUnicode(u)
 {
-	return window.netscape == undefined ? manualConvertUTF8ToUnicode(u) : mozConvertUTF8ToUnicode(u);
+	return config.browser.isOpera || !window.netscape ? manualConvertUTF8ToUnicode(u) : mozConvertUTF8ToUnicode(u);
 }
 
 function manualConvertUTF8ToUnicode(utf)
@@ -10102,21 +8602,29 @@ function mozConvertUTF8ToUnicode(u)
 	} // fallback
 	var s = converter.ConvertToUnicode(u);
 	var fin = converter.Finish();
-	return (fin.length > 0) ? s+fin : s;
+	return fin.length > 0 ? s+fin : s;
+}
+
+function convertUnicodeToFileFormat(u)
+{
+	return config.browser.isOpera || !window.netscape ? convertUnicodeToHtmlEntities(u) : mozConvertUnicodeToUTF8(u);
+}
+
+function convertUnicodeToHtmlEntities(s)
+{
+	var re = /[^\u0000-\u007F]/g;
+	return s.replace(re,function($0) {return "&#" + $0.charCodeAt(0).toString() + ";";});
+
 }
 
 function convertUnicodeToUTF8(s)
 {
-	if(window.netscape == undefined)
-		return manualConvertUnicodeToUTF8(s);
-	else
-		return mozConvertUnicodeToUTF8(s);
+	return config.browser.isOpera || !window.netscape ? manualConvertUnicodeToUTF8(s) : mozConvertUTF8ToUnicode(s);
 }
 
 function manualConvertUnicodeToUTF8(s)
 {
-	var re = /[^\u0000-\u007F]/g ;
-	return s.replace(re,function($0) {return "&#" + $0.charCodeAt(0).toString() + ";";});
+	return unescape(encodeURIComponent(s));
 }
 
 function mozConvertUnicodeToUTF8(s)
@@ -10295,9 +8803,7 @@ function javaUrlToFilename(url)
 	if(url.indexOf(f) == 0)
 		return url.substring(f.length);
 	var i = url.indexOf(":");
-	if(i > 0)
-		return url.substring(i-1);
-	return url;
+	return i > 0 ? url.substring(i-1) : url;
 }
 
 function javaSaveFile(filePath,content)
@@ -10989,7 +9495,7 @@ Morpher.prototype.tick = function()
 	for(var t=0; t<this.properties.length; t++) {
 		var p = this.properties[t];
 		if(p.start !== undefined && p.end !== undefined) {
-			var template = p.template ? p.template : "%0";
+			var template = p.template || "%0";
 			switch(p.format) {
 				case undefined:
 				case "style":
@@ -11033,11 +9539,9 @@ function Zoomer(text,startElement,targetElement,unused)
 //-- Scroller animation
 //--
 
-function Scroller(targetElement,unused)
+function Scroller(targetElement)
 {
-	var p = [
-		{style: '-tw-vertScroll', start: findScrollY(), end: ensureVisible(targetElement)}
-	];
+	var p = [{style: '-tw-vertScroll', start: findScrollY(), end: ensureVisible(targetElement)}];
 	return new Morpher(targetElement,config.animDuration,p);
 }
 
@@ -11068,12 +9572,12 @@ function Slider(element,opening,unused,deleteMode)
 		p.push({style: 'opacity', start: 1, end: 0, template: '%0'});
 		p.push({style: 'filter', start: 100, end: 0, template: 'alpha(opacity:%0)'});
 		switch(deleteMode) {
-			case "all":
-				c = function(element,properties) {removeNode(element);};
-				break;
-			case "children":
-				c = function(element,properties) {removeChildren(element);};
-				break;
+		case "all":
+			c = function(element,properties) {removeNode(element);};
+			break;
+		case "children":
+			c = function(element,properties) {removeChildren(element);};
+			break;
 		}
 	}
 	return new Morpher(element,config.animDuration,p,c);
@@ -12012,7 +10516,6 @@ Date.convertFromYYYYMMDDHHMM = function(d)
 			parseInt(mm,10),0,0));
 };
 
-
 //--
 //-- Crypto functions and associated conversion routines
 //--
@@ -12568,6 +11071,29 @@ function isDescendant(e,ancestor)
 	}
 	return false;
 }
+
+// Returns an array of elements which have a given class name.
+// This is only added where the browser doesn't have native support.
+if(!document.getElementsByClassName) {
+Document.prototype.getElementsByClassName = function(c) {
+	var elements = [];
+	var els = this.getElementsByTagName('*');
+	var elsLen = els.length;
+	var pattern = new RegExp("(^|\\s)"+ c +"(\\s|$)");
+	for (i = 0, j = 0; i < elsLen; i++) {
+		if (pattern.test(els[i].className)) {
+			elements[j] = els[i];
+			j++;
+		}
+	}
+	return elements;
+};
+Element.prototype.getElementsByClassName = document.getElementsByClassName;
+}
+
+
+
+
 
 //--
 //-- LoaderBase and SaverBase

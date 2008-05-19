@@ -1,15 +1,5 @@
-<div title="Help" modifier="PhilWhitehouse" created="200711261027" modified="200711261230" changecount="7">
-<pre>
-{{layoutTable{
-|''Your international mobile number'' | |
-|<<option txtMojoTelno>> |{{chunkyButton{<<mojoBatphone>>}}}|
-|>|^^powered by [[Mojo]]^^|
-}}}To get help from a member of the team, just enter your phone number in the box above, click 'enter' and, if it's not engaged, the Bat Phone on our stall at Le Web will ring. When we pick up the phone, the call will then be connected with your phone by [[BT's Web21C SDK|http://web21c.bt.com]]. (BT will not charge you for this incoming call, but your mobile phone operator might, especially if you are roaming.)
-
-Alternatively, there are a couple more ways to get help:
-*You can and visit the BT / Osmosoft stall at Le Web - we'll be happy to help.
-*We've tried to anticipate the main problems people will have; see if yours is addressed below.
-!!Common problems
+<div title="Help" modifier="PhilHawksworth" created="200711261027" modified="200711261230">
+<pre>!!Common problems
 
 ''I'm having trouble saving!''
 

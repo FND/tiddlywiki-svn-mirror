@@ -21,9 +21,10 @@ var version = {title: "TiddlyWiki", major: 2, minor: 4, revision: 0, beta: 3, da
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
 </style>
 
-<link rel="stylesheet" type="text/css" href="../../../tools/JSSpec/JSSpec.css" />
-<script type="text/javascript" src="../../../tools/JSSpec/diff_match_patch.js"></script>
-<script type="text/javascript" src="../../../tools/JSSpec/JSSpec.js"></script>
+
+<link rel="stylesheet" type="text/css" href="$TW_ROOT/tools/JSSpec/JSSpec.css" />
+<<script type="text/javascript" src="$TW_ROOT/tools/JSSpec/diff_match_patch.js"></script>
+<<script type="text/javascript" src="$TW_ROOT/tools/JSSpec/JSSpec.js"></script>
 
 </head>
 
@@ -994,6 +995,7 @@ merge(config.macros.importTiddlers,{
 	cancelPrompt: "Cancel this import",
 	statusOpenWorkspace: "Opening the workspace",
 	statusGetTiddlerList: "Getting the list of available tiddlers",
+	errorGettingTiddlerList: "Error getting list of tiddlers, click Cancel to try again",
 	step3Title: "Step 3: Choose the tiddlers to import",
 	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>Keep these tiddlers linked to this server so that you can synchronise subsequent changes</input><br><input type='checkbox' name='chkSave'>Save the details of this server in a 'systemServer' tiddler called:</input> <input type='text' size=25 name='txtSaveTiddler'>",
 	importLabel: "import",
@@ -5178,7 +5180,7 @@ config.macros.importTiddlers.onOpen = function(e)
 	var wizard = new Wizard(this);
 	var fileInput = wizard.getElement("txtPath");
 	var url = fileInput.value;
-	var serverType = wizard.getElement("selTypes").value;
+	var serverType = wizard.getElement("selTypes").value || config.defaultAdaptor;
 	var adaptor = new config.adaptors[serverType];
 	wizard.setValue("adaptor",adaptor);
 	wizard.setValue("serverType",serverType);
@@ -5277,8 +5279,10 @@ config.macros.importTiddlers.onOpenWorkspace = function(context,wizard)
 
 config.macros.importTiddlers.onGetTiddlerList = function(context,wizard)
 {
-	if(context.status !== true)
-		displayMessage("Error in importTiddlers.onGetTiddlerList: " + context.statusText);
+	if(context.status !== true) {
+		wizard.setButtons([{caption: config.macros.importTiddlers.cancelLabel, tooltip: config.macros.importTiddlers.cancelPrompt, onClick: config.macros.importTiddlers.onCancel}],config.macros.importTiddlers.errorGettingTiddlerList);
+		return;
+	}
 	// Extract data for the listview
 	var listedTiddlers = [];
 	if(context.tiddlers) {
@@ -6888,7 +6892,7 @@ FileAdaptor.loadTiddlyWikiCallback = function(status,context,responseText,url,xh
 {
 	context.status = status;
 	if(!status) {
-		context.statusText = "Error reading file: " + xhr.statusText;
+		context.statusText = "Error reading file";
 	} else {
 		context.adaptor.store = new TiddlyWiki();
 		if(!context.adaptor.store.importTiddlyWiki(responseText))
@@ -6938,18 +6942,20 @@ FileAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filt
 
 FileAdaptor.getTiddlerListComplete = function(context,userParams)
 {
-	if(context.filter) {
-		context.tiddlers = context.adaptor.store.filterTiddlers(context.filter);
-	} else {
-		context.tiddlers = [];
-		context.adaptor.store.forEachTiddler(function(title,tiddler) {context.tiddlers.push(tiddler);});
+	if(context.status) {
+		if(context.filter) {
+			context.tiddlers = context.adaptor.store.filterTiddlers(context.filter);
+		} else {
+			context.tiddlers = [];
+			context.adaptor.store.forEachTiddler(function(title,tiddler) {context.tiddlers.push(tiddler);});
+		}
+		for(var i=0; i<context.tiddlers.length; i++) {
+			context.tiddlers[i].fields['server.type'] = FileAdaptor.serverType;
+			context.tiddlers[i].fields['server.host'] = FileAdaptor.minHostName(context.host);
+			context.tiddlers[i].fields['server.page.revision'] = context.tiddlers[i].modified.convertToYYYYMMDDHHMM();
+		}
+		context.status = true;
 	}
-	for(var i=0; i<context.tiddlers.length; i++) {
-		context.tiddlers[i].fields['server.type'] = FileAdaptor.serverType;
-		context.tiddlers[i].fields['server.host'] = FileAdaptor.minHostName(context.host);
-		context.tiddlers[i].fields['server.page.revision'] = context.tiddlers[i].modified.convertToYYYYMMDDHHMM();
-	}
-	context.status = true;
 	if(context.callback) {
 		window.setTimeout(function() {context.callback(context,userParams);},10);
 	}
@@ -9200,12 +9206,407 @@ TW21Saver.prototype.externalizeTiddler = function(store,tiddler)
 	}
 };
 
-//]]>
+/***
+|''Name:''|FeedListManagerPlugin|
+|''Description:''|Manage a list of uris to be called in a round-robin stlye|
+|''Author:''|PhilHawksworth|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js |
+|''Dependencies:''| [[TextToXMLDOMPlugin|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js ]]|
+|''Version:''|0.2|
+|''Date:''|April 08, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.3|
+
+
+''Usage examples:''
+
+Create a new feed list manager.
+{{{
+var feeds = new FeedListManager();
+}}}
+
+Add a uri to an existing feed list manager.
+{{{
+feeds.add(uri, [name], [type]);
+}}}
+
+Remove a uri from an existing feed list manager.
+{{{
+feeds.remove(uri);
+}}}
+
+Get a uri from an given position in an existing feed list manager.
+{{{
+uri = feeds.get(i);
+}}}
+
+Get the next uri in the queue of an existing feed list manager.
+{{{
+uri = feeds.next();
+}}}
+
+Discover the number of registered uris in an existing feed list manager.
+{{{
+i = feeds.count();
+}}}
+
+Discover if a given uri is registered in an existing feed list manager, and at what position.
+{{{
+i = feeds.registered(uri);
+}}}
+
+Repopulate the uri list in an existing feed list manager.
+{{{
+feeds.populate();
+}}}
+
+Clear out the list of registered uris.
+{{{
+feeds.purge();
+}}}
+
+Output some usage stats about the registered usage stats
+{{{
+feeds.stats([uri]);
+}}}
+
+
+***/
+
+//{{{
+if(!version.extensions.FeedListManagerPlugin) {
+version.extensions.FeedListManagerPlugin = {installed:true};
+		
+function FeedListManager(){
+	this.uris = [];
+	this.currentPosition = 0;
+	this.lastIncrement = null;
+	this.updating = false;
+	this.requests = [];
+};
+
+
+// logging function, for debug
+FeedListManager.log = function(x)
+{
+	if(window.console) {
+		console.log(x);	
+		displayMessage(x);
+	}
+};
+
+
+// Add a uri to the list of those managed (no dupes).
+// uri : the uri,
+// [name] : friendly name. (defaults to 'anon')
+// [type] : rss | opml (defaults to 'rss')
+FeedListManager.prototype.add = function(uri, name, type) {
+	var exists = this.registered(uri);
+	if(exists != null)
+		return;
+	if(!type)
+		type = 'rss';
+	if(!name)
+		name = 'anon';
+	var uriObj = {'name':name, 'uri':uri, 'type':type, 'callCount':0, 'lastCall':null};
+	this.uris.push(uriObj);
+	if(type == 'opml'|'include')
+		this.populate();
+};
+
+
+// Remove a uri from the list of those currently managed.
+FeedListManager.prototype.remove = function(uri) {
+	var pos = this.registered(uri);
+	if(pos != null)
+		this.uris.splice(pos,1);
+};
+
+
+// Add a uri to the list of those managed (no dupes).
+FeedListManager.prototype.populate = function() {
+	var feedList = this;
+	for(var u=0; u<feedList.uris.length; u++) {
+		if(feedList.uris[u].type == 'opml') {
+			feedList.updating = true;
+			var params = {'feedList': feedList};
+			var req = doHttp("GET",feedList.uris[u].uri,null,null,null,null,feedList.examineopml,params);
+			feedList.requests.push(req);
+		}	
+	}
+};
+
+
+//examine an opml file to gather the feed links within.
+FeedListManager.prototype.examineopml = function(status,params,responseText,url,xhr) {
+
+	var feedList = params.feedList;
+
+	// Remove the record of this request for tracking purposes.
+	var pos = feedList.requests.indexOf(xhr);
+	if(pos != -1)
+		feedList.requests.splice(pos,1);
+
+	// Stop if there is not a suitable response.
+	if(xhr.status != 200) {
+		FeedListManager.log("Unable to get OPML");
+		return;
+	}
+
+	// transform the response into XMLDOM for parsing.
+	var xml = getXML(responseText);
+	var outlines = xml.getElementsByTagName("outline");
+
+	// Add any rss links found to the manager.
+	var xmlUrl, type, attr, xmlUrl, title = null;
+	for (var i=0; i < outlines.length; i++) {
+		type = outlines[i].getAttribute("type") || null;
+		xmlUrl = outlines[i].getAttribute("xmlUrl") || null;
+		title = outlines[i].getAttribute("title") || null;		
+		if(type && xmlUrl)
+			feedList.add(xmlUrl, title, type);
+	};
+
+	//flag if all updates are complete.
+	if(feedList.requests.length == 0)
+		feedList.updating = false;
+};
+
+
+// Return the number of uris currently managed.
+FeedListManager.prototype.count = function() {
+	return this.uris.length;
+};
+
+
+// Determine if this uri is currently managed.
+// returns its postion in the array if found, or null if not.
+FeedListManager.prototype.registered = function(uri) {
+	for(var u=0; u<this.uris.length; u++) {
+		if(this.uris[u].uri == uri)
+			return u;
+	}
+	return null;
+};
+
+
+// Get the uri at a given postion in the list of those managed.
+FeedListManager.prototype.get = function(i) {
+	var u = this.uris[i];
+	var uri = null;
+	if(u != null)
+		uri = u.uri;
+	return uri;
+};
+
+
+// Get the next uri from the list of those managed.
+FeedListManager.prototype.next = function() {
+	var uri = this.get(this.currentPosition);
+	this.currentPosition++;
+	if(this.currentPosition >= this.uris.length)
+		this.currentPosition = 0;
+	var now = new Date();
+	now = now.convertToYYYYMMDDHHMMSSMMM();
+	this.lastIncrement = now;
+	if(uri.type != 'rss')
+		this.next();
+	else
+		return uri;
+};
+
+
+// Make a note of a call to a given uri
+FeedListManager.prototype.logCall = function(uri) {
+	var p = this.registered(uri);
+	if(p == null)
+		return;
+	var u = this.uris[p];
+	var now = new Date();
+	now = now.convertToYYYYMMDDHHMMSSMMM();
+	this.lastIncrement = now;
+	u.lastCall = now;
+	u.callCount++;
+};
+
+
+// Output usgae stats for the list of uris currently managed. (as wikitext)
+FeedListManager.prototype.stats = function(uri) {
+	if(uri) {
+		var p = this.registered(uri);
+		if(p == null)
+			return;
+		var uris = [this.uris[p]];
+	}
+	else
+		var uris = this.uris;
+	var stats = null;
+	for(var u=0; u<uris.length; u++) {
+		/*
+			TODO Make the stats output to a tiddler rather than to the console.
+		*/
+		FeedListManager.log(uris[u].name + ", " + uris[u].uri + ", ("+ uris[u].type +"),  called "+ uris[u].callCount + " times, last called at " + uris[u].lastCall);
+	}
+};
+
+
+// Purge the list of uris currently managed.
+FeedListManager.prototype.purge = function() {
+	this.uris = [];
+	this.currentPosition = 0;
+};
+
+
+} //# end of 'install only once'
+//}}}//]]>
 </script>
 <!--POST-SCRIPT-START-->
 <!--POST-SCRIPT-END-->
 <script type="text/javascript">
+tests_mock = {
+	frame:  {},
+
+	/*
+ 	 *  replace named global functions with a mock version
+	 *  - mock can access original function, and store context in tests_mock.frame[funcName]
+	 */
+	before: function(funcName,mocker)
+	{
+		var frame = {};
+		frame.called = 0;
+		frame.savedFunc = eval(funcName); 
+		if (typeof frame.savedFunc != "function") 
+			throw(funcName +" is not a function: " + (typeof frame.savedFunc));
+
+		var mockFunction = function() { 
+			tests_mock.frame[funcName].called++; 
+			if (mocker)
+			    return mocker.apply(this, arguments);
+		}
+		eval(funcName + "=mockFunction");
+
+		this.frame[funcName] = frame;
+	},
+
+	/*
+	 *  restore named global function
+	 *  - return frame object, which includes a count of calls
+	 */
+	after: function(funcName) 
+	{
+		frame = this.frame[funcName];
+		eval(funcName + '=frame.savedFunc');
+		return frame;
+	},
+
+	/*
+	 *  save values of named global variables
+	 */
+	save: function(varName)
+	{
+		var frame = {};
+		frame.restore = true;
+		frame.savedValue = eval(varName); 
+		if (typeof frame.savedValue == "function") 
+			throw(varName +" is a function: " + (typeof frame.savedValue));
+
+		this.frame[varName] = frame;
+	},
+
+	/*
+	 *  restore any named global variables
+	 */
+	restore: function() 
+	{
+		var varName;
+		for(varName in this.frame) {
+			frame = this.frame[varName];
+			if (frame.restore){
+			    eval(varName+'=frame.savedValue');
+			    frame.restore = false;
+			}
+		}
+	}
+};
+// <![CDATA[
+describe('New FeedListManager creation', {
+	'Creating a new FeedListManager should yield an object' : function() {
+		var flm = new FeedListManager();
+		var t = typeof flm;
+		value_of(t).should_be('object');
+	},
+	'A new FeedListManager should include uris': function() {
+		var flm = new FeedListManager();
+		value_of(flm).should_include("uris");
+	},
+	'A new FeedListManager should include a currentPosition of 0': function() {
+		var flm = new FeedListManager();
+		value_of(flm.currentPosition == 0).should_be_true();
+	},
+	'A new FeedListManager should include a lastIncrement of null': function() {
+		var flm = new FeedListManager();
+		value_of(flm.lastIncrement == null).should_be_true();
+	},
+	'A new FeedListManager should include an updating property of false': function() {
+		var flm = new FeedListManager();
+		value_of(flm.updating == false).should_be_true();
+	},
+	'A new FeedListManager should include an empty requests array': function() {
+		var flm = new FeedListManager();
+		value_of(flm.requests).should_be_empty();
+	},
+	'A new FeedListManager should have a count function' : function() {
+		var flm = new FeedListManager();
+		var t = typeof flm.count;
+		value_of(t).should_be('function');
+	},
+	'A new FeedListManager should have a uri count of 0': function() {
+		var flm = new FeedListManager();
+		var c = flm.count();
+		value_of(c).should_be(0);
+	}
+	
+});
+
+
+describe('Information about a FeedListManager', {
+	'Count provides the number of URIs managed': function() {
+		var flm = new FeedListManager();
+		flm.add("http://www.uri.com", 'sample uri', "rss");
+		var l1 = flm.count();
+		value_of(l1).should_be(1);
+	}
+});
+
+
+describe('Manipulating a FeedListManager', {
+	'Adding a URI to a feedlist should increase its count by 1': function() {
+		var flm = new FeedListManager();
+		var l1 = flm.count();
+		flm.add("http://www.uri.com", 'sample uri', "rss");
+		var l2 = flm.count();
+		value_of(l2-l1).should_be(1);
+	},
+	'Removing a URI from a feedlist should decrease its count by 1': function() {
+		var flm = new FeedListManager();
+		flm.add("http://www.uri.com", 'sample uri', "rss");
+		var l1 = flm.count();
+		flm.remove("http://www.uri.com");
+		var l2 = flm.count();
+		value_of(l1-l2).should_be(1);
+	},
+	'purge() empties a FeedListManager': function() {
+		var flm = new FeedListManager();
+		flm.add("http://www.uri.com", 'sample uri', "rss");
+		flm.purge();
+		var l = flm.count();
+		value_of(l).should_be(0);
+	}
+});
+
+
+// ]]>
 </script>
-<script type="text/javascript" src="../js/mock.js"></script>
 </body>
 </html>

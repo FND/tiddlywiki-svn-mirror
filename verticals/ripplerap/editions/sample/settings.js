@@ -7,6 +7,7 @@ config.options.chkSaveBackups = false;
 
 config.options.txtTheme = "RippleRapSkin";
 
+
 // Setup the session notes display groupings.
 var session_notes_groups = new TiddlerDisplayGroup();
 var session_notes_pattern = [
@@ -15,5 +16,8 @@ var session_notes_pattern = [
 	{label:'notes', tag:'discovered_notes', count:0, require:'header', openAt:'bottom'}];
 session_notes_groups.setPattern(session_notes_pattern); 
 session_notes_groups.setGroupField('rr_session_id');
+
+// go go!
+config.macros.RippleRap.init();
 
 //}}}

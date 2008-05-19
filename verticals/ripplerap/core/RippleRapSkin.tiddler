@@ -1,6 +1,6 @@
 <div title="RippleRapSkin" modifier="PhilHawksworth" created="200805061019" tags="systemTheme excludeSearch">
 <pre>/***
-|''Name:''|RippleRapSkin |
+|''Name:''|RippleRapSkin|
 |''Description:''|The basic RippleRap theme |
 |''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/core/RippleRapSkin.tiddler |
@@ -12,14 +12,11 @@
 |''~PageTemplate:''|##PageTemplate|
 |''~ViewTemplate:''|##ViewTemplate|
 |''~EditTemplate:''|##EditTemplate|
-|''~SessionViewTemplate:''|##SessionViewTemplate|
-|''~SessionEditTemplate:''|##SessionEditTemplate|
-|''~NoteViewTemplate:''|##NoteViewTemplate|
-|''~NoteEditTemplate:''|##NoteEditTemplate|
-|''~DiscoveredNotesViewTemplate:''|##DiscoveredNotesViewTemplate|
-|''~DiscoveredNotesEditTemplate:''|##DiscoveredNotesEditTemplate|
+|''~sessionViewTemplate:''|##sessionViewTemplate|
+|''~sessionEditTemplate:''|##sessionEditTemplate|
+|''~discovered_notesViewTemplate:''|##discovered_notesViewTemplate|
+|''~TrackViewTemplate:''|##TrackViewTemplate|	
 |''~StyleSheet:''|##StyleSheet|
-
 
 ***/
 
@@ -38,7 +35,6 @@
 <div class='headerControls' refresh='content' tiddler='HeaderControls'></div>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 </div>
-
 <div id='agendaMenu' refresh='content' force='true' tiddler='AgendaMenu'></div>
 <div id='displayArea'>
 <div id='tiddlerDisplay'></div>
@@ -73,10 +69,10 @@
 <!--}}}-->
 
 
-!SessionViewTemplate
+!sessionViewTemplate
 <!--{{{-->
 <div class='session'>
-	<div class='toolbar' macro='toolbar closeTiddler editTiddler'></div>
+	<div class='toolbar' macro='toolbar closeTiddler +editTiddler'></div>
 	<div class="title" macro="view title"></div>
 	<span class="time"><span macro="dtstart rr_session_starttime '0hh:0mm'"></span>-<span macro="dtend rr_session_endtime '0hh:0mm'"></span></span>
 	<div class="speaker" macro="TiddlifyList rr_session_speaker"></div>
@@ -86,7 +82,7 @@
 <!--}}}-->
 
 
-!SessionEditTemplate
+!sessionEditTemplate
 <!--{{{-->
 <div class='session_edit'>
 	<div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
@@ -120,21 +116,39 @@
 <!--}}}-->
 
 
-!DiscoveredNotesViewTemplate
+!discovered_notesViewTemplate
 <!--{{{-->
 <div class='discoveredNotes'>
-	<div class='toolbar' macro='toolbar closeTiddler +editTiddler'></div>
+	<div class='toolbar' macro='toolbar closeTiddler'></div>
 	<div class='title'>notes from <span macro='view modifier'></span></div>
 	<div class='viewer' macro='view text wikified'></div>
 </div>
 <!--}}}-->
 
 
-!DiscoveredNotesEditTemplate
+!SpeakerViewTemplate
 <!--{{{-->
-<div class='discoveredNotes'>
-	<div class='toolbar' macro='toolbar +cancelTiddler'></div>
-	<div class='editor' macro='edit text'></div>
+<div class="VanillaView Speaker">
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
+<div class='title' macro='view title'></div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<span class="vcard">
+<div class='viewer' macro='view text wikified'></div>
+</span>
+<div class='tagClear'></div> 
+</div>
+<!--}}}-->
+
+
+!TrackViewTemplate
+<!--{{{-->
+<div class='session'>
+	<div class='toolbar' macro='toolbar closeTiddler editTiddler'></div>
+	<div class="title" macro="view title"></div>
+	<div class="label">Session tag</div><div class="track editor" macro="view rr_session_tag"></div>
+	<div class="label">Tags</div><div class="track editor" macro="view tags"></div>
+	<div class="label"></div><div style="display:none" macro="view text"></div>
 </div>
 <!--}}}-->
 
@@ -146,7 +160,7 @@
 #agendaMenu { position: static;	float: left; width: auto; }
 #displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
 #displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0;}
-#tiddlerDisplay { margin:0 1em 2em 1em;}
+#tiddlerDisplay { margin:0 1em 2em 1em;  	}
 
 /* Header */
 div.header { background-color:#000; height:96px; position:relative; clear:left;}
