@@ -42,10 +42,8 @@ class dbq {
 	*/
 	function query($q) {
 		$r = mysql_query($q);
-		if(!$r) { // failure
-			return false;
-		} elseif($r === true) { // success
-			return mysql_affected_rows();
+		if(is_bool($r)) { // success or failure
+			return $r ? mysql_affected_rows() : false;
 		} else { // data retrieval
 			$rows = array();
 			while($row = mysql_fetch_object($r)) {

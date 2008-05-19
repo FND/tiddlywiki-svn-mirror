@@ -173,8 +173,8 @@ function addPlugin($tiddler) {
 		available => true,
 		title => $tiddler->title,
 		text => $tiddler->text,
-		created => $tiddler->created, // DEBUG: use MySQL-compatible timestamp
-		modified => $tiddler->modified, // DEBUG: use MySQL-compatible timestamp
+		created => convertTiddlyTime($tiddler->created),
+		modified => convertTiddlyTime($tiddler->modified),
 		modifier => $tiddler->modifier,
 		updated => date("Y-m-d H:i:s"),
 		documentation => $tiddler->documentation, // DEBUG: to do
@@ -194,8 +194,8 @@ function updatePlugin($tiddler, $pluginID) {
 		available => true,
 		title => $tiddler->title,
 		text => $tiddler->text,
-		created => $tiddler->created, // DEBUG: use MySQL-compatible timestamp
-		modified => $tiddler->modified, // DEBUG: use MySQL-compatible timestamp
+		created => convertTiddlyTime($tiddler->created),
+		modified => convertTiddlyTime($tiddler->modified),
 		modifier => $tiddler->modifier,
 		updated => date("Y-m-d H:i:s"),
 		documentation => $tiddler->documentation // DEBUG: to do
@@ -219,6 +219,16 @@ function pluginExists($repoID, $pluginName) {
 /*
 ** helper functions
 */
+
+//  convert TiddlyWiki timestamps to ISO 8601 format
+function convertTiddlyTime($timestamp) {
+		if(strlen($timestamp) == 0) {
+			return null;
+		} else {
+			$timestamp = strtotime($timestamp);
+			return date("Y-m-d H:i:s", $timestamp); 
+		}
+}
 
 function addLog($text) {
 	global $log;
