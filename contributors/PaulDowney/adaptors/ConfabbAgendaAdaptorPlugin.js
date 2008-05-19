@@ -176,7 +176,6 @@ ConfabbAgendaAdaptor.loadTiddlyWikiCallback = function(status,context,responseTe
 		if(!tiddlers.length)
 			context.statusText = config.messages.invalidFileError.format([url]);
 		for(var i=0;i<tiddlers.length;i++) {
-			console.log(tiddlers[i].title);
 			context.adaptor.store.addTiddler(tiddlers[i]);
 		}
 	}
