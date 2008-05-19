@@ -29,9 +29,9 @@ config.macros.macroDoc.handler = function(place, macroName, params, wikifier, pa
 	if(params[0]) {
 		output += this.generateDoc(config.macros[params[0]].doc);
 	} else {
-		for each(var macro in config.macros) {
-			if(macro.doc)
-				output += this.generateDoc(macro.doc);
+		for(var macro in config.macros) {
+			if(config.macros[macro].doc)
+				output += this.generateDoc(config.macros[macro].doc);
 		}
 	}
 	wikify(output, place);
