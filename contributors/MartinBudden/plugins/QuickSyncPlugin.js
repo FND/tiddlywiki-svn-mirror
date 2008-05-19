@@ -1,23 +1,20 @@
 /***
 |''Name:''|QuickSyncPlugin|
-|''Description:''||
-|''Author:''|Get tiddlers that have been changed on server but not locally and put tiddlers that have been changed locally but not on server|
+|''Description:''|Get tiddlers that have been changed on server but not locally and put tiddlers that have been changed locally but not on server|
+|''Author:''|Martin Budden|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MyDirectory/plugins/QuickSyncPlugin.js |
-|''Version:''|0.0.2|
+|''Version:''|0.0.4|
 |''Date:''|Jan 25, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.3.0|
 
-
-# Do the actions indicated by the !!TODO comments, namely:
-## Write the documentation for the plugin
-
 !!Description
-!!TODO write a brief description of the plugin here
+The QuickSyncPlugin synchronizes all tiddlers that have been changed either on the server or locally (but not changed on both).
+It makes no attempt to deal with conflicted tiddlers, tiddlers that have been changed both on the server and locally.
 
 !!Usage
-!!TODO describe how to use the plugin - how a user should include it in their TiddlyWiki, parameters to the plugin etc
+To use, add <<quicksync>> to the SideBarOptions shadow tiddler.
 
 ***/
 
@@ -155,6 +152,7 @@ config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 config.macros.quicksync.putTiddlerCallback = function(context,userParams)
 {
 	if(context.status) {
+		store.resetTiddler(context.tiddler.title);
 		displayMessage(config.macros.quicksync.tiddlerUploaded.format([context.tiddler.title]));
 	} else {
 		displayMessage(context.statusText);
