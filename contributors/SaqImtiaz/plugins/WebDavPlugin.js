@@ -299,7 +299,7 @@ DavSaver.prototype.save = function(onlyIfDirty,tiddlers){
 window.saveChanges = function(onlyIfDirty,tiddlers)
 {	
 	var c = config.DavSaver;
-	if (document.location.protocol.toString() == "http:"){
+	if ((document.location.protocol.toString() == "http:") || (document.location.protocol.toString() == "https:")){
 		var saver = c.saver = new DavSaver();
 		saver.save(onlyIfDirty,tiddlers);		
 	}
