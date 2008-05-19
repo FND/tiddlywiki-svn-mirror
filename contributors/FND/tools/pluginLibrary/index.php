@@ -7,15 +7,22 @@ $debugMode = true;
 $t0 = time();
 $log = array();
 
+// establish database connection
+$dbq = new dbq();
+$dbq->connect();
+
 // start processing
 echo "<pre>"; // DEBUG
 processRepositories();
 echo "</pre>"; // DEBUG
 
+// close database connection
+$dbq->disconnect();
+
 // output debugging info
 $t1 = time();
 echo "Runtime: " . ($t1 - $t0) . " seconds\n"; // DEBUG
-print_r($log); // DEBUG
+debug($log); // DEBUG: write to file?
 
 
 /*
@@ -25,21 +32,20 @@ print_r($log); // DEBUG
 function processRepositories() {
 	global $currentRepository;
 	$repositories = getRepositories();
-	//print_r($repositories); // DEBUG
 	foreach($repositories as $repo) {
 		// DEBUG: set all of this repo's plugins availability to false
-		$contents = file_get_contents($repo["URI"]); // DEBUG: missing error handling?
+		$contents = file_get_contents($repo->URI); // DEBUG: missing error handling?
 		// set current repository
 		$currentRepository = new stdClass;
-		$currentRepository->URI = $repo["URI"];
-		$currentRepository->ID = $repo["ID"];
+		$currentRepository->URI = $repo->URI;
+		$currentRepository->ID = $repo->ID;
 		// document type handling
-		if($repo["type"] == "TiddlyWiki") // TidldyWiki document
+		if($repo->type == "TiddlyWiki") // TidldyWiki document
 			processTiddlyWiki($contents);
-		elseif($repo["type"] == "SVN") // Subversion directory
-			echo $repo["type"] . "\n"; // DEBUG: to be implemented
-		elseif($repo["type"] == "file") // JavaScript file
-			echo $repo["type"] . "\n"; // DEBUG: to be implemented
+		elseif($repo->type == "SVN") // Subversion directory
+			echo $repo->type . "\n"; // DEBUG: to be implemented
+		elseif($repo->type == "file") // JavaScript file
+			echo $repo->type . "\n"; // DEBUG: to be implemented
 		else
 			addLog("ERROR: failed to process repository " . $repo->url);
 		$currentRepository = null; // DEBUG: obsolete?
@@ -47,10 +53,9 @@ function processRepositories() {
 }
 
 function getRepositories() {
-	$sql = new dbq();
-	$sql->connectToDB();
-	$repositories = $sql->queryDB("SELECT * FROM repositories");
-	//print_r($repositories); // DEBUG
+	global $dbq;
+	$repositories = $dbq->query("SELECT * FROM repositories");
+	debug($repositories, "repositories");
 	return $repositories;
 }
 
@@ -192,16 +197,12 @@ function addPlugin($tiddler) {
 		0,
 		"NULL"
 	);
-	$sql = new dbq();
-	$sql->connectToDB();
-	$out = $sql->insertDB($query);
-	echo "\n\n\n\n"; // DEBUG
-	print_r($out); // DEBUG
-	echo "\n\n\n\n"; // DEBUG
+	$out = $dbq->insertDB($query);
+	debug($out, "added plugin to database");
 }
 
 function updatePlugin($tiddler, $pluginID) {
-	global $currentRepository;
+	global $dbq, $currentRepository;
 	echo "updating plugin " . $tiddler->title; // DEBUG
 	$query = "UPDATE pluginLibrary.plugins SET "
 		. "repository_ID = '%s',"
@@ -226,22 +227,16 @@ function updatePlugin($tiddler, $pluginID) {
 		$tiddler->documentation, // DEBUG: to do
 		$pluginID
 	);
-	$sql = new dbq();
-	$sql->connectToDB();
-	$out = $sql->insertDB($query);
-	echo "\n\n\n\n"; // DEBUG
-	print_r($out); // DEBUG
-	echo "\n\n\n\n"; // DEBUG
+	$out = $dbq->insert($query);
+	debug($out, "updated plugin");
 }
 
 function pluginExists($repoID, $pluginName) {
-	$sql = new dbq();
-	$sql->connectToDB();
-	echo $repoID . "\n" . $pluginName . "\n\n";
-	$results = $sql->queryDB("SELECT * FROM plugins
+	global $dbq;
+	$results = $dbq->query("SELECT * FROM plugins
 		WHERE repository_ID = '$repoID' AND title = '$pluginName'");
 	if(sizeof($results) > 0)
-		return $results[0]["ID"];
+		return $results[0]->ID;
 	else
 		return false;
 }
