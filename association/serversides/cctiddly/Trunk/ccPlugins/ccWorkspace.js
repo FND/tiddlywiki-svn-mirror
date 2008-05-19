@@ -144,7 +144,7 @@ config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params
 		window.location = params.url;
 		//displayMessage('workspace crated');				
 	} else if (xhr.status == 200) {
-		displayMessage("Workspace name is already in use.");
+		displayMessage(responseText+"Workspace name is already in use.");
 	} else if (xhr.status == 403) {
 		displayMessage("Permission denied,the ability to create new workspaces may have been disabled by you systems administrator.");	
 	} else {

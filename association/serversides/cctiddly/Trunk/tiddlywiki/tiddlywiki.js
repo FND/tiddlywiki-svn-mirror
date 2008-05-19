@@ -8723,5 +8723,4 @@ TW21Saver.prototype.externalizeTiddler = function(store,tiddler)
 		throw exceptionText(ex,config.messages.tiddlerSaveError.format([tiddler.title]));
 	}
 };
-
 //]]>

@@ -4210,6 +4210,8 @@ Story.prototype.switchTheme = function(theme)
 	}
 };
 
+config.options.txtTheme = 'simpleTheme';
+
 Story.prototype.getTiddler = function(title)
 {
 	return document.getElementById(this.tiddlerId(title));

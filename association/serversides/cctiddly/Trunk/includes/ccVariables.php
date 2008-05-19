@@ -12,7 +12,20 @@ window.url = "<?php echo getURL();?>";
 window.workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 
 
+
+
+
+	
+config.options.txtTheme = 'simpleTheme';
+
+var titleTiddler = store.getTiddler('SiteTitle');
+titleTiddler.text = '404 - Workspace does not exists';
+var subTitleTiddler = store.getTiddler('SiteSubtitle');
+subTitleTiddler.text = '';
+
+
 <?php
+
 if ($workspace_create == "A" &&  $tiddlyCfg['allow_workspace_creation'] ==1)
 {
 	echo "workspacePermission.create = 1;\n";
@@ -32,6 +45,9 @@ workspacePermission.anonC = <?php echo permToBinary($anonPerm['create']); ?> ;
 workspacePermission.anonR = <?php echo permToBinary($anonPerm['read']); ?>; 
 workspacePermission.anonU = <?php echo permToBinary($anonPerm['update']); ?>;
 workspacePermission.anonD = <?php echo permToBinary($anonPerm['delete']); ?>;
+
+
+
 <?php 
 if ($workspace_create == "D")
 {

@@ -26,6 +26,8 @@ To display a login prompt for your user simple type the following text into a ti
 
 ***/
 //{{{
+	
+	
 config.backstageTasks.push("login");
 merge(config.tasks,{login:{text: "login",tooltip: "Login to your TiddlyWiki",content: '&lt;&lt;ccLogin&gt;&gt;'}});
 
@@ -279,6 +281,7 @@ config.macros.ccLogin.saveCookie=function(cookieValues){
 	}
 };
 
+
 function restart(){
 	var tiddlers="";
  	tiddlers=store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));
@@ -289,6 +292,4 @@ function restart(){
 	invokeParamifier(params,"onstart");
 	window.scrollTo(0,0);
 }
-
-
 //}}}

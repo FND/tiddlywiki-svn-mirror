@@ -11,6 +11,19 @@
 	$tiddlyCfg['db']['pass'] = "";		//login password
 	$tiddlyCfg['db']['name'] = "ct16";		//db name
 
+
+	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
+	$tiddlyCfg['pref']['ldap_enabled'] = 0;	
+
+	$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
+
+	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
+	//$tiddlyCfg['pref']['workspace_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the workspace name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
+	$tiddlyCfg['developing']=0;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
+	$tiddlyCfg['mysql_debug']=0;	 // if set to 1 will output every sql query into the logfile 
+	
+	$tiddlyCfg['users_required_in_db']=0; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db
+	$tiddlyCfg['can_create_account'] = 1;
 	
 	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
 	$tiddlyCfg['table']['suffix'] = "";					//suffix			suffix of file					suffix of table name
@@ -66,19 +79,7 @@ If you got one of the following error message, that may mean your database do no
 		Error Query: SET NAMES 'utf8'
 */
 	$tiddlyCfg['pref']['utf8'] = 0;	
-	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
-	$tiddlyCfg['pref']['ldap_enabled'] = 0;	
 
-	$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
-
-	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
-	//$tiddlyCfg['pref']['workspace_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the workspace name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
-	$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
-	$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
-	
-	$tiddlyCfg['users_required_in_db']=0; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db
-	$tiddlyCfg['can_create_account'] = 1;
-	
 	
 /////////////////////////////////////////////////////////url dependent config////////////////////////////////////////////////////.
 	debug("log breaker (situated below debug function)------------------------------------------------");
@@ -146,6 +147,8 @@ If you got one of the following error message, that may mean your database do no
 	{//exit($tiddlyCfg['instance_name']);
 		//if instance name is empty string, do install as this is the base ccT
 		//the first install is always possible
+		
+	
 		if( strlen($tiddlyCfg['workspace_name'])==0 )
 		{//do install
 			include_once($cct_base."includes/workspace.php");
@@ -176,58 +179,6 @@ If you got one of the following error message, that may mean your database do no
 	
 	
 	
-//$link = db_connectDB();
-
-//db_selectDB($tiddlyCfg['db']['name']);
-
-// create the workspace if it does not already exist.
-//$array['name'] = $workspace; 
-//$tiddlyCfg['pref']['workspace_settings'] = db_record_select('workspace', $array);
-
-
-// If the workspace name was empty or the workspace name provided does not exist. 
-// TODO : WHAT IF ITS THE HOME workspace : 
-	//let empty workspace name as its own workspace i.e. allowing the creation of a workspace named ""
-//debug( count($tiddlyCfg['pref']['workspace_settings']) );
-/*if (!isset($_POST['cctuser']) && count($tiddlyCfg['pref']['workspace_settings']) < 1  )
-{	
-	if ($_POST)
-	{
-		include($cct_base."includes/workspace.php");
-		workspace_create($_POST['ccCreateWorkspace'], $_POST['ccAnonPerm']);
-	}
-	else
-	{
-		header("HTTP/1.0 404 Not Found"); 
-	}
-}*/
-
-
-
-// the workspace does not exist yet. 
-/*if (count($tiddlyCfg['pref']['workspace_settings']) < 1)
-{
- 	// let show the form to create an workspace
- 	// we need to set the settings manually as there is not record in the database
- 	$tiddlyCfg['pref']['twFile'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
-	$tiddlyCfg['twLanguage'] = 'en'; // choose between different version of TW, or adaptation
-	$tiddlyCfg['keep_revision'] = 0; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
-	$tiddlyCfg['require_login'] = 0;	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]		$tiddlyCfg['tag_tiddler_with_modifier'] ='';		//append modifier name as tag		
-}
-else
-{
-	// the workspace exists so lets get
-	//  GET THE SETTINGS FROM THE DATABASE 
-	$tiddlyCfg['pref']['twFile'] = 'tiddlywiki';//$settings[0]['tiddlywiki_type']; // choose between different version of TW, or adaptation
-	$tiddlyCfg['twLanguage'] = $tiddlyCfg['pref']['workspace_settings'][0]['twLanguage']; // choose between different version of TW, or adaptation
-	$tiddlyCfg['keep_revision'] = $tiddlyCfg['pref']['workspace_settings'][0]['keep_revision']; // 0 = no versions stored, 1 = all versions stored.  The version number is always updated
-	$tiddlyCfg['require_login'] = $tiddlyCfg['pref']['workspace_settings'][0]['require_login'];	//require login to access the page. A blank page with login box would appear for anonymous users if enabled [0=disable; 1=enable]
-	// uncommenting the below line will let the session timeout be specified per workspace
-	//$tiddlyCfg['session_expire'] = $tiddlyCfg['pref']['workspace_settings'][0]['cookie_expire'];
-	$tiddlyCfg['tag_tiddler_with_modifier'] =$tiddlyCfg['pref']['workspace_settings'][0]['tag_tiddler_with_modifier'];		//append modifier name as tag
-}
-
-*/
 $tiddlyCfg['pref']['lock_title'] = array("LoginPanel");		//lock certain tiddler's title such that it can't be changed even with admin
 $tiddlyCfg['pref']['uploadPluginIgnoreTitle'] = array("ccTiddly_debug_time", "UploadLog","UploadPlugin","UploadOptions");		//this specify what tiddler should uploadplugin ignore. It is recommended to put in uploadPlugin itself and the upload log. CaSe-SeNsItIvE
 $tiddlyCfg['pref']['forceAnonymous'] = 1;		//if enabled, anonymous users will take "anonymous" as username
