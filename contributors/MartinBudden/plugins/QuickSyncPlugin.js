@@ -1,29 +1,23 @@
 /***
 |''Name:''|QuickSyncPlugin|
-|''Description:''|My Description|
-|''Author:''|Martin Budden|
+|''Description:''||
+|''Author:''|Get tiddlers that have been changed on server but not locally and put tiddlers that have been changed locally but not on server|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MyDirectory/plugins/QuickSyncPlugin.js |
-|''Version:''|0.0.1|
-|''Status:''|Not for release - this is a template for creating new plugins|
+|''Version:''|0.0.2|
 |''Date:''|Jan 25, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
-|''~CoreVersion:''|2.3|
+|''~CoreVersion:''|2.3.0|
 
-To make this example into a real TiddlyWiki plugin, you need to:
 
-# Globally search and replace ExamplePlugin with the name of your plugin
-# Globally search and replace example with the name of your macro
-# Update the header text above with your description, name etc
 # Do the actions indicated by the !!TODO comments, namely:
-## Write the code for the plugin
 ## Write the documentation for the plugin
 
 !!Description
-//!!TODO write a brief description of the plugin here
+!!TODO write a brief description of the plugin here
 
 !!Usage
-//!!TODO describe how to use the plugin - how a user should include it in their TiddlyWiki, parameters to the plugin etc
+!!TODO describe how to use the plugin - how a user should include it in their TiddlyWiki, parameters to the plugin etc
 
 ***/
 
@@ -36,7 +30,10 @@ config.macros.quicksync = {};
 
 merge(config.macros.quicksync,{
 	label: "quicksync",
-	prompt: "Sync tiddlers that have been changed locally or on server, but not both"});
+	prompt: "Sync tiddlers that have been changed locally or on server, but not both",
+	tiddlerUploaded: "Tiddler: \"%0\" uploaded",
+	tiddlerImported: "Tiddler: \"%0\" imported"
+	});
 
 config.macros.quicksync.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
@@ -60,7 +57,6 @@ config.macros.quicksync.handler = function(place,macroName,params,wikifier,param
 		}
 	}
 	customFields = String.encodeHashMap(customFields);
-	//#displayMessage("cf:"+customFields)
 	var label = getParam(params,'label',this.label);
 	var btn = createTiddlyButton(place,label,this.prompt,this.onClick);
 	btn.setAttribute('customFields',customFields);
@@ -69,12 +65,12 @@ config.macros.quicksync.handler = function(place,macroName,params,wikifier,param
 config.macros.quicksync.onClick = function(e)
 {
 	var customFields = this.getAttribute('customFields');
-//#displayMessage("cf:"+customFields)
 	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
 	var context = config.macros.quicksync.createContext(fields);
 	config.macros.quicksync.getTiddlers(context);
 	return false;
 };
+
 config.macros.quicksync.createContext = function(fields)
 {
 	var serverType = fields['server.type'];
@@ -97,7 +93,6 @@ config.macros.quicksync.createContext = function(fields)
 
 config.macros.quicksync.getTiddlers = function(context)
 {
-console.log('quicksync.getTiddlers');
 	if(context) {
 		context.adaptor.openHost(context.host,context);
 		context.adaptor.openWorkspace(context.workspace,context,null,config.macros.quicksync.openWorkspaceCallback);
@@ -108,7 +103,6 @@ console.log('quicksync.getTiddlers');
 
 config.macros.quicksync.openWorkspaceCallback = function(context,userParams)
 {
-console.log('quicksync.openWorkspaceCallback:'+context.status);
 	if(context.status) {
 		context.adaptor.getTiddlerList(context,null,config.macros.quicksync.getTiddlerListCallback);
 		return true;
@@ -119,7 +113,6 @@ console.log('quicksync.openWorkspaceCallback:'+context.status);
 
 config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 {
-console.log('quicksync.getTiddlerListCallback:'+context.status);
 	if(context.status) {
 		var tiddlers = context.tiddlers;
 		var getList = [];
@@ -127,32 +120,25 @@ console.log('quicksync.getTiddlerListCallback:'+context.status);
 		store.forEachTiddler(function(title,tiddler) {
 			var f = tiddlers.findByField("title",title);
 			if(f !== null && tiddler.fields['server.type']) {
-				// tiddler is on server, so add to getList if not changed locally
-				//console.log("uu:"+si.title+" r1:"+tiddlers[f].fields['server.page.revision'] +" r2:"+ si.tiddler.fields['server.page.revision']);
 				if(tiddlers[f].fields['server.page.revision'] > tiddler.fields['server.page.revision']) {
-					// changed on server
 					if(!tiddler.isTouched())
-						getList.push(tiddler.title);
-				} else if(tiddlers[f].fields['server.page.revision'] < tiddler.fields['server.page.revision']) {
-					// changed on server
+						getList.push(tiddler.title); // tiddler changed on server and not changed locally
+				} else if(tiddlers[f].fields['server.page.revision'] == tiddler.fields['server.page.revision']) {
 					if(tiddler.isTouched())
-						putList.push(tiddler);
+						putList.push(tiddler); // tiddler changed locally and not changed on server
 				}
 			} else {
 				// tiddler not on server, so add to putList if it has been changed
 				if(tiddler.fields['server.type'] && tiddler.isTouched()) {
-					console.log("pl0:"+title);
-					console.log("pl1:"+tiddler.title);
 					putList.push(tiddler);
 				}
 			}
 		});
-		for(i=0; i<putList.length; i++) {
+		for(var i=0; i<putList.length; i++) {
 			context.adaptor.putTiddler(putList[i],null,null,config.macros.quicksync.putTiddlerCallback);
 		}
-
 		// now add all tiddlers that only exist on server to getList
-		for(var i=0; i<tiddlers.length; i++) {
+		for(i=0; i<tiddlers.length; i++) {
 			title = tiddlers[i].title;
 			var t = store.fetchTiddler(title);
 			if(!t) {
@@ -168,24 +154,24 @@ console.log('quicksync.getTiddlerListCallback:'+context.status);
 
 config.macros.quicksync.putTiddlerCallback = function(context,userParams)
 {
-console.log("config.macros.quicksync.putTiddlerCallback:"+context.status+" t:"+context.tiddler.title);
-};
-
-config.macros.quicksync.getTiddlerCallback = function(context,userParams)
-{
-console.log("config.macros.quicksync.getTiddlerCallback:"+context.status+" t:"+context.tiddler.title);
 	if(context.status) {
-		var tiddler = context.tiddler;
-		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-		story.refreshTiddler(tiddler.title,1,true);
-		//# displayMessage(config.messages.tiddlerImported.format([tiddler.title]));
+		displayMessage(config.macros.quicksync.tiddlerUploaded.format([context.tiddler.title]));
 	} else {
 		displayMessage(context.statusText);
 	}
 };
 
-
-
+config.macros.quicksync.getTiddlerCallback = function(context,userParams)
+{
+	if(context.status) {
+		var tiddler = context.tiddler;
+		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+		story.refreshTiddler(tiddler.title,1,true);
+		displayMessage(config.macros.quicksync.tiddlerImported.format([context.tiddler.title]));
+	} else {
+		displayMessage(context.statusText);
+	}
+};
 
 } //# end of 'install only once'
 //}}}
