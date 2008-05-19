@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#WikispacesSoapAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js |
-|''Version:''|0.0.12|
+|''Version:''|0.0.13|
 |''Date:''|Feb 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -714,6 +714,7 @@ fnLog('getMessageListCallback:'+status);
 						tiddler.fields.wikiformat = 'wikispaces';
 						tiddler.fields['server.type'] = WikispacesSoapAdaptor.serverType;
 						tiddler.fields['server.host'] = WikispacesSoapAdaptor.minHostName(context.host);
+						tiddler.fields['server.message_index'] = String(i);
 						tiddler.tags = ["message"];
 						list.push(tiddler);
 					}
