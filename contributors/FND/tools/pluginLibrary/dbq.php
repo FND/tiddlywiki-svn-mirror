@@ -6,6 +6,13 @@ class dbq {
 	private $pass = "";
 	private $db = "pluginLibrary";
 
+	/**
+	* establish database connection
+	* @param string $host host location
+	* @param string $user username
+	* @param string $pass password
+	* @param string $db database name
+	*/
 	function connect($host = null, $user = null, $pass = null, $db = null) {
 		setDefault($host, $this->host);
 		setDefault($user, $this->user);
@@ -22,59 +29,104 @@ class dbq {
 		return $db;
 	}
 
+	/**
+	* close database connection
+	*/
 	function disconnect() {
 		mysql_close();
 	}
 
-	function insertRecord($table, $data) {
-		if(strlen($data[0]) == 0) { // skip primary key
-			array_shift($data);
-		}
-		$keys = array_keys($data);
-		for($i = 0; $i < sizeof($key); $i++) {
-			$data[$key[$i]] = $this->escapeQuery($data[$key[$i]]);
-		}
-		$q = "INSERT INTO " . $table . " (`" . implode("`,`", $key)
-			. "`) VALUES ('" . implode("','", $data) . "')";
-		debug($q);
-		$r = db_query($q);
-		return $r;
-	}
-
+	/**
+	* execute database query
+	* @param string $q query string
+	*/
 	function query($q) {
 		$r = mysql_query($q);
-		if(!$r) {
+		if(!$r) { // failure
 			return false;
+		} elseif($r === true) { // success
+			return mysql_affected_rows();
+		} else { // data retrieval
+			$rows = array();
+			while($row = mysql_fetch_object($r)) {
+				array_push($rows, $row);
+			}
+			return $rows;
 		}
-		$rows = array();
-		while($row = mysql_fetch_object($r)) {
-			debug($row, "individual query result");
-			array_push($rows, $row);
-		}
-		debug($rows, "query results");
-		return $rows;
 	}
 
-	function escapeQuery($str) {
+	/**
+	* add record to database
+	* @param string $table table name
+	* @param array $data key-value pairs to be inserted
+	*/
+	function insertRecord($table, $data) {
+		if(is_null($data[0])) { // skip primary key
+			array_shift($data);
+		}
+		foreach($data as $k => $v) {
+			$data[$k] = $this->escapeQuery($v);
+		}
+		$q = "INSERT INTO " . $table . " (`" . implode("`,`", array_keys($data))
+			. "`) VALUES ('" . implode("','", $data) . "')";
+		debug($q, "inserting record");
+		return $this->query($q);
+	}
+
+	/**
+	* update records in database
+	* @param string $table table name
+	* @param array $selectors key-value pairs to serve as selectors (WHERE condition; joined by "AND")
+	* @param array $data key-value pairs to update record with
+	* @param integer $limit max. number of records to update (0 for no limit)
+	*/
+	function updateRecords($table, $selectors, $data, $limit = 0) {
+		if(is_null($data[0])) { // skip primary key
+			array_shift($data);
+		}
+		$q = "UPDATE " . $table . " SET ";
+		while(list($k, $v) = each($data)) {
+			$q .= "`" . $this->escapeQuery($k) . "` = '" . $this->escapeQuery($v) . "',";
+		}
+		$q = substr($q, 0, strlen($q) - 1); // remove trailing comma
+		$q .= " WHERE ";
+		while(list($k, $v) = each($selectors)) {
+			$q .= "`" . $this->escapeQuery($k) . "` = '" . $this->escapeQuery($v) . "' AND ";
+		}
+		$q = substr($q, 0, strlen($q) - 4); // remove trailing "and"
+		if($limit > 0) {
+			$q .= "LIMIT " . $limit;
+		}
+		debug($q, "updating records");
+		return $this->query($q);
+	}
+
+	/**
+	* retrieve records from database
+	* @param string $table table name
+	* @param array $fields fields to retrieve
+	* @param array $selectors key-value pairs to serve as selectors (WHERE condition; joined by "AND")
+	*/
+	function retrieveRecords($table, $fields, $selectors) {
+		$q = "SELECT " . $fields . " FROM " . $table . " WHERE ";
+		while(list($k, $v) = each($selectors)) {
+			$q .= "`" . $this->escapeQuery($k) . "` = '" . $this->escapeQuery($v) . "' AND ";
+		}
+		$q = substr($q, 0, strlen($q) - 4); // remove trailing "and"
+		debug($q, "retrieving records");
+		return $this->query($q);
+	}
+
+	/**
+	* escape query string where necessary
+	* @param string $q query string
+	*/
+	function escapeQuery($q) {
 		if(get_magic_quotes_gpc()) {
-			return $str;
+			return $q;
 		} else {
-			return addslashes($str);
+			return addslashes($q);
 		}
-	}
-
-	/* DEBUG: obsolete functions */
-
-	function insert($query) {
-		$result = mysql_query($query)
-			or die("SQL Error: " . $query . " " . mysql_error());
-		return $result;
-	}
-
-	function updateFieldValue($table, $field, $value, $selector, $match) { // DEBUG: unused
-		$result = mysql_query("UPDATE $table SET $field = '$value' WHERE $selector = $match")
-			or die("SQL Error: " . mysql_error());
-		return $result;
 	}
 }
 ?>

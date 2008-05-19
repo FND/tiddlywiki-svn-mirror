@@ -132,7 +132,7 @@ function processPluginTiddlers($xml, $oldStoreFormat = false) {
 		if(!$source || $source && !(strpos($source, $currentRepository->URI) === false)) // DEBUG: www handling (e.g. http://foo.bar = http://www.foo.bar)
 			storePlugin($t);
 		else
-			addLog("skipped tiddler " . $t->title . " in repository #" . $currentRepository->ID);
+			addLog("skipped tiddler " . $t->title . " in repository " . $currentRepository->name);
 	}
 }
 
@@ -166,77 +166,52 @@ function storePlugin($tiddler) {
 }
 
 function addPlugin($tiddler) {
-	global $currentRepository;
-	echo "adding plugin " . $tiddler->title . "\n"; // DEBUG
-	$query = "INSERT INTO pluginLibrary.plugins ("
-		. "ID,"
-		. "repository_ID,"
-		. "available,"
-		. "title,"
-		. "text,"
-		. "created,"
-		. "modified,"
-		. "modifier,"
-		. "updated,"
-		. "documentation,"
-		. "views,"
-		. "annotation"
-		. ") "
-		. "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
-	$query = sprintf($query,
-		"NULL", // auto-increment
-		$currentRepository->ID,
-		1,
-		$tiddler->title,
-		$tiddler->text,
-		$tiddler->created, // DEBUG: date format conversion
-		$tiddler->modified, // DEBUG: date format conversion
-		$tiddler->modifier,
-		date("Y-m-d H:i:s"), // DEBUG: to do
-		$tiddler->documentation, // DEBUG: to do
-		0,
-		"NULL"
+	global $dbq, $currentRepository;
+	$data = array(
+		ID => null,
+		repository_ID => $currentRepository->ID,
+		available => true,
+		title => $tiddler->title,
+		text => $tiddler->text,
+		created => $tiddler->created, // DEBUG: use MySQL-compatible timestamp
+		modified => $tiddler->modified, // DEBUG: use MySQL-compatible timestamp
+		modifier => $tiddler->modifier,
+		updated => date("Y-m-d H:i:s"),
+		documentation => $tiddler->documentation, // DEBUG: to do
+		views => 0,
+		annotation => null
 	);
-	$out = $dbq->insertDB($query);
-	debug($out, "added plugin to database");
+	return $dbq->insertRecord("plugins", $data);
 }
 
 function updatePlugin($tiddler, $pluginID) {
 	global $dbq, $currentRepository;
-	echo "updating plugin " . $tiddler->title; // DEBUG
-	$query = "UPDATE pluginLibrary.plugins SET "
-		. "repository_ID = '%s',"
-		. "available = '%s',"
-		. "title = '%s',"
-		. "text = '%s',"
-		. "created = '%s',"
-		. "modified = '%s',"
-		. "modifier = '%s',"
-		. "updated = '%s',"
-		. "documentation = '%s'"
-		. "WHERE plugins.ID = '%s' LIMIT 1";
-	$query = sprintf($query,
-		$currentRepository->ID,
-		1,
-		$tiddler->title,
-		$tiddler->text,
-		$tiddler->created, // DEBUG: date format conversion
-		$tiddler->modified, // DEBUG: date format conversion
-		$tiddler->modifier,
-		date("Y-m-d H:i:s"), // DEBUG: to do
-		$tiddler->documentation, // DEBUG: to do
-		$pluginID
+	$selectors = array(
+		ID => $pluginID
 	);
-	$out = $dbq->insert($query);
-	debug($out, "updated plugin");
+	$data = array(
+		repository_ID => $currentRepository->ID,
+		available => true,
+		title => $tiddler->title,
+		text => $tiddler->text,
+		created => $tiddler->created, // DEBUG: use MySQL-compatible timestamp
+		modified => $tiddler->modified, // DEBUG: use MySQL-compatible timestamp
+		modifier => $tiddler->modifier,
+		updated => date("Y-m-d H:i:s"),
+		documentation => $tiddler->documentation // DEBUG: to do
+	);
+	return $dbq->updateRecords("plugins", $selectors, $data, 1);
 }
 
 function pluginExists($repoID, $pluginName) {
 	global $dbq;
-	$results = $dbq->query("SELECT * FROM plugins
-		WHERE repository_ID = '$repoID' AND title = '$pluginName'");
-	if(sizeof($results) > 0)
-		return $results[0]->ID;
+	$selectors = array(
+		repository_ID => $repoID,
+		title => $pluginName
+	);
+	$r = $dbq->retrieveRecords("plugins", "*", $selectors);
+	if(sizeof($r) > 0)
+		return $r[0]->ID;
 	else
 		return false;
 }
