@@ -78,9 +78,9 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 		var tiddler = new Tiddler();
 
 		var id = node.getAttribute('id');
-		var day = node.getFirstElementValue("day","");
-		var track = node.getFirstElementValue("track","");
-		var location = node.getFirstElementValue("location","");
+		var day = node.getFirstElementValue("day","Every Day");
+		var track = node.getFirstElementValue("track","Global Track");
+		var location = node.getFirstElementValue("location","Global Location");
 		var content = node.getFirstElementValue("description","");
 
 		var tags = ['session'];
