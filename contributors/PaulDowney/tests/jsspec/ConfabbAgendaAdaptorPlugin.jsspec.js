@@ -109,7 +109,7 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 		value_of(__tiddlers[0].text).should_be('<<AgendaTrackSessions>>');
 	},
 	'track tiddler should have the field rr_session_tag set to the track id': function() {
-		value_of(__tiddlers[0].fields.rr_session_tag).should_be('Workshops-Tutorials');
+		value_of(__tiddlers[0].fields.rr_session_tag).should_be('WorkshopsTutorials');
 	},
 	'second tiddler should have the title set from the session id': function() {
 		value_of(__tiddlers[1].title).should_be('session-99');
@@ -138,6 +138,9 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 	'session tiddler should have the field rr_session_speakers set from <speaker> list': function() {
 		value_of(__tiddlers[1].fields.rr_session_speakers).should_be('May Bore, John Doe');
 	},
+	'session tiddler should have the tags "session" and the track tag': function() {
+		value_of(__tiddlers[1].tags).should_be(['session','WorkshopsTutorials','GrandBallroom','Day1']);
+	}
 
 });
 
@@ -175,7 +178,7 @@ describe('ConfabbAgendaAdaptorPlugin parsing simplest document', {
 		value_of(__tiddlers[0].text).should_be('<<AgendaTrackSessions>>');
 	},
 	'track tiddler should have the field rr_session_tag set to the track id': function() {
-		value_of(__tiddlers[0].fields.rr_session_tag).should_be('Workshops-Tutorials');
+		value_of(__tiddlers[0].fields.rr_session_tag).should_be('WorkshopsTutorials');
 	},
 	'second tiddler should have the title set from the session id': function() {
 		value_of(__tiddlers[1].title).should_be('session-99');
@@ -191,6 +194,12 @@ describe('ConfabbAgendaAdaptorPlugin parsing simplest document', {
 	},
 	'session tiddler should have the field rr_session_location set from <location>': function() {
 		value_of(__tiddlers[1].fields.rr_session_location).should_be('Grand Ballroom');
+	},
+	'session tiddler should have the field rr_session_track set from <track>': function() {
+		value_of(__tiddlers[1].fields.rr_session_track).should_be('Workshops / Tutorials');
+	},
+	'session tiddler should have the field rr_session_day set from <day>': function() {
+		value_of(__tiddlers[1].fields.rr_session_day).should_be('Day 1');
 	},
 	'session tiddler should have the field rr_session_link set from <link>': function() {
 		value_of(__tiddlers[1].fields.rr_session_link).should_be('http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessions/20/details');

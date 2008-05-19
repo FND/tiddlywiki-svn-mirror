@@ -28,7 +28,7 @@ ConfabbAgendaAdaptor.errorInFunctionMessage = "Error in function ConfabbAgendaAd
 ConfabbAgendaAdaptor.emptyFeed = "No Confabb Agenda Items Found";
 
 String.prototype.makeId = function() {
-	return this.replace(/[^A-Za-z0-9]+/g, "-");
+	return this.replace(/[^A-Za-z0-9]+/g, "");
 }
 
 Node.prototype.getFirstElementValue = function (tag, def) {
@@ -86,12 +86,24 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 		   speakers.push(s[j].getFirstElementValue("title"));
 		}
 
-		tiddler.assign(id,content,undefined,undefined,['session'],undefined,{
+
+		var day = node.getFirstElementValue("day","");
+		var track = node.getFirstElementValue("track","");
+		var location = node.getFirstElementValue("location","");
+
+		var tags = ['session'];
+		tags.push(track.makeId());
+		tags.push(location.makeId());
+		tags.push(day.makeId());
+
+		tiddler.assign(id,content,undefined,undefined,tags,undefined,{
 			rr_session_title: node.getFirstElementValue("title",""),
 			rr_session_starttime: node.getFirstElementValue("starttime",""),
 			rr_session_endtime: node.getFirstElementValue("endtime",""),
 			rr_session_link: node.getFirstElementValue("link",""),
-			rr_session_location: node.getFirstElementValue("location",""),
+			rr_session_day: day,
+			rr_session_location: location,
+			rr_session_track: track,
 			rr_session_day: node.getFirstElementValue("day",""),
 			rr_session_speakers: speakers.join(", ")
 		});
