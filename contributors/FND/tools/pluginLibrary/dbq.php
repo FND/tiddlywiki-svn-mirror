@@ -8,10 +8,10 @@ class dbq {
 
 	/**
 	* establish database connection
-	* @param string $host host location
-	* @param string $user username
-	* @param string $pass password
-	* @param string $db database name
+	* @param string [$host] host location
+	* @param string [$user] username
+	* @param string [$pass] password
+	* @param string [$db] database name
 	*/
 	function connect($host = null, $user = null, $pass = null, $db = null) {
 		setDefault($host, $this->host);
@@ -39,10 +39,13 @@ class dbq {
 	/**
 	* execute database query
 	* @param string $q query string
+	* @param boolean [$isInsert] query is insert operation
 	*/
-	function query($q) {
+	function query($q, $isInsert = false) {
 		$r = mysql_query($q);
-		if(is_bool($r)) { // success or failure
+		if($isInsert) // insert operation
+			return mysql_insert_id();
+		elseif(is_bool($r)) { // success or failure
 			return $r ? mysql_affected_rows() : false;
 		} else { // data retrieval
 			$rows = array();
@@ -65,10 +68,10 @@ class dbq {
 		foreach($data as $k => $v) {
 			$data[$k] = $this->escapeQuery($v);
 		}
-		$q = "INSERT INTO " . $table . " (`" . implode("`,`", array_keys($data))
-			. "`) VALUES ('" . implode("','", $data) . "')";
+		$q = "INSERT INTO " . $table . " (`" . implode("`, `", array_keys($data))
+			. "`) VALUES ('" . implode("', '", $data) . "')";
 		debug($q, "inserting record");
-		return $this->query($q);
+		return $this->query($q, true);
 	}
 
 	/**
@@ -76,7 +79,7 @@ class dbq {
 	* @param string $table table name
 	* @param array $selectors key-value pairs to serve as selectors (WHERE condition; joined by "AND")
 	* @param array $data key-value pairs to update record with
-	* @param integer $limit max. number of records to update (0 for no limit)
+	* @param integer [$limit] max. number of records to update (0 for no limit)
 	*/
 	function updateRecords($table, $selectors, $data, $limit = 0) {
 		if(is_null($data[0])) { // skip primary key
@@ -123,8 +126,9 @@ class dbq {
 		if(get_magic_quotes_gpc()) {
 			return $q;
 		} else {
-			return addslashes($q);
+			return mysql_real_escape_string($q);
 		}
 	}
 }
+
 ?>
