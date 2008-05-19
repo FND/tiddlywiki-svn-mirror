@@ -3,6 +3,7 @@
 require "dbq.php";
 
 // initialize debugging variables
+$debugMode = true;
 $t0 = time();
 $log = array();
 
@@ -246,13 +247,39 @@ function pluginExists($repoID, $pluginName) {
 }
 
 /*
-** debugging
+** helper functions
 */
 
 function addLog($text) {
 	global $log;
 	$timestamp = date("Y-m-d H:i:s");
 	array_push($log, $timestamp . " " . $text);
+}
+
+function setDefault(&$var, $defaultValue) {
+	if(!isset($var)) {
+		$var = $defaultValue;
+	}
+}
+
+function debug($var, $msg = null) {
+	global $debugMode;
+	if($debugMode) {
+		echo "<pre>";
+		if(isset($msg)) {
+			echo "***** " . $msg . " *****\n";
+		}
+		if(is_string($var) || is_int($var) || is_float($var)) {
+			echo $var . "\n";
+		} elseif(is_bool($var)) {
+			echo ($var ? "True" : "False") . "\n";
+		} elseif(is_null($var)) {
+			echo "NULL\n";
+		} else {
+			print_r($var);
+		}
+		echo "</pre>";
+	}
 }
 
 ?>
