@@ -25,6 +25,10 @@ tiddler: ../../../contributors/PaulDowney/plugins/TiddlifyList.js
 tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/RawViewMacroPlugin.js
 
+# Adaptors to read an Agenda
+tiddler: AgendaFeed.tiddler
+tiddler: ../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js
+tiddler: ../../../contributors/PaulDowney/adaptors/ConfabbAgendaAdaptorPlugin.js
 
 # RippleRap UI structure
 tiddler: MainMenu.tiddler

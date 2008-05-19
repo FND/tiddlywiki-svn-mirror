@@ -5,6 +5,16 @@ config.options.chkAnimate = true;
 config.options.chkSaveBackups = false;
 config.options.txtTheme = "RippleRapSkin";
 
+// RippleRap Specific 
+config.options.chkRipplerapShare = true;
+config.options.chkRipplerapEnjoy= true;
+config.options.chkRipplerapConferenceName= "";
+
+// settings moved into the AgendaFeed
+    //config.options.chkRipplerapConferenceURI= "";
+    //config.options.chkRipplerapConferenceURIType= "";
+
+config.options.txtTheme = "RippleRapSkin";
 
 // Setup the session notes display groupings.
 var session_notes_groups = new TiddlerDisplayGroup();
