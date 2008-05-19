@@ -139,80 +139,10 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 		value_of(__tiddlers[1].fields.rr_session_speakers).should_be('May Bore, John Doe');
 	},
 	'session tiddler should have the tags "session" and the track tag': function() {
-		value_of(__tiddlers[1].tags).should_be(['session','WorkshopsTutorials','GrandBallroom','Day1']);
+		value_of(__tiddlers[1].tags).should_be(['session','WorkshopsTutorials','GrandBallroom','Day1','MayBore','JohnDoe']);
 	}
 
 });
 
-describe('ConfabbAgendaAdaptorPlugin parsing simplest document', {
-
-        before_each : function() {
-		__doc = '<?xml version="1.0" encoding="UTF-8"?>'
-		    +'<conference>'
-		    +'    <session id="session-99">'
-		    +'      <title>The First Session</title>'
-		    +'      <link>http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessions/20/details</link>'
-		    +'      <description>The First Session Description.</description>'
-		    +'      <starttime>20061107073019</starttime>'
-		    +'      <endtime>20061107083019</endtime>'
-		    +'      <track>Workshops / Tutorials</track>'
-		    +'      <location>Grand Ballroom</location>'
-		    +'      <speaker><title>May Bore</title></speaker>'
-		    +'    </session>'
-		    +'</conference>';
-		__tiddlers = ConfabbAgendaAdaptor.parseAgenda(__doc);
-        },
-	'should result in two tiddlers' : function() {
-		value_of(__tiddlers.length).should_be(2);
-	},
-
-	'first tiddler should have the title "Workshops / Tutorials"' : function() {
-		value_of(__tiddlers[0].title).should_be('Workshops / Tutorials');
-	},
-	'track tiddler should be tagged "track"' : function() {
-		value_of(typeof __tiddlers[0].tags).should_be('object');
-		value_of(__tiddlers[0].tags).should_be(['track']);
-	},
-	// TBD: wonder if this macro shouldn't be moved to the view template?
-	'track tiddler content should be "<<AgendaTrackSessions>>"' : function() {
-		value_of(__tiddlers[0].text).should_be('<<AgendaTrackSessions>>');
-	},
-	'track tiddler should have the field rr_session_tag set to the track id': function() {
-		value_of(__tiddlers[0].fields.rr_session_tag).should_be('WorkshopsTutorials');
-	},
-	'second tiddler should have the title set from the session id': function() {
-		value_of(__tiddlers[1].title).should_be('session-99');
-	},
-	'session tiddler should have the field rr_session_title set from <title>': function() {
-		value_of(__tiddlers[1].fields.rr_session_title).should_be('The First Session');
-	},
-	'session tiddler should have the field rr_session_starttime set from <starttime>': function() {
-		value_of(__tiddlers[1].fields.rr_session_starttime).should_be('20061107073019');
-	},
-	'session tiddler should have the field rr_session_endtime set from <endtime>': function() {
-		value_of(__tiddlers[1].fields.rr_session_endtime).should_be('20061107083019');
-	},
-	'session tiddler should have the field rr_session_location set from <location>': function() {
-		value_of(__tiddlers[1].fields.rr_session_location).should_be('Grand Ballroom');
-	},
-	'session tiddler should have the field rr_session_track set from <track>': function() {
-		value_of(__tiddlers[1].fields.rr_session_track).should_be('Workshops / Tutorials');
-	},
-	'session tiddler should have the field rr_session_day set from <day>': function() {
-		value_of(__tiddlers[1].fields.rr_session_day).should_be('Day 1');
-	},
-	'session tiddler should have the field rr_session_link set from <link>': function() {
-		value_of(__tiddlers[1].fields.rr_session_link).should_be('http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessions/20/details');
-	},
-	'session tiddler should have the field rr_session_day set from <day>': function() {
-		value_of(__tiddlers[1].fields.rr_session_day).should_be('');
-	},
-	'session tiddler should have the content set from <description>': function() {
-		value_of(__tiddlers[1].text).should_be('The First Session Description.');
-	},
-	'session tiddler should have the field rr_session_speakers set from <speaker> list': function() {
-		value_of(__tiddlers[1].fields.rr_session_speakers).should_be('May Bore');
-	}
-});
 
 // ]]>

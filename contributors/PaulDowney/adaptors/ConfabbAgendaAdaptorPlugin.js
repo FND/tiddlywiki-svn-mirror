@@ -75,26 +75,27 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 	var t = r.getElementsByTagName('session');
 	for(var i=0;i<t.length;i++) {
 		var node = t[i];
-		var id = node.getAttribute('id');
-		var content = node.getFirstElementValue("description","");
 		var tiddler = new Tiddler();
 
-		/* list of speakers */
-		var s = node.getElementsByTagName("speaker");
-		var speakers = [];
-		for(var j=0;j<s.length;j++) {
-		   speakers.push(s[j].getFirstElementValue("title"));
-		}
-
-
+		var id = node.getAttribute('id');
 		var day = node.getFirstElementValue("day","");
 		var track = node.getFirstElementValue("track","");
 		var location = node.getFirstElementValue("location","");
+		var content = node.getFirstElementValue("description","");
 
 		var tags = ['session'];
 		tags.push(track.makeId());
 		tags.push(location.makeId());
 		tags.push(day.makeId());
+
+		/* list of speakers */
+		var s = node.getElementsByTagName("speaker");
+		var speakers = [];
+		for(var j=0;j<s.length;j++) {
+		       var speaker = s[j].getFirstElementValue("title");
+		       speakers.push(speaker);
+		       tags.push(speaker.makeId());
+		}
 
 		tiddler.assign(id,content,undefined,undefined,tags,undefined,{
 			rr_session_title: node.getFirstElementValue("title",""),
