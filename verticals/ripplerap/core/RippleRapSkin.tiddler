@@ -76,7 +76,7 @@
 	<div class="title" macro="view rr_session_title"></div>
 	<span class="time"><span macro="dtstart rr_session_starttime '0hh:0mm'"></span>-<span macro="dtend rr_session_endtime '0hh:0mm'"></span></span>
 	<div class="speaker" macro="TiddlifyList rr_session_speakers"></div>
-	<div class="noteOptions" macro="MakeNotesControl create"></div>
+	<div class="noteOptions" macro="RippleRap option:makeNote"></div>
 	<div class='viewer' macro='view text wikified'></div>
 </div>
 <!--}}}-->
@@ -156,6 +156,9 @@
 
 !StyleSheet
 /*{{{*/
+	
+abbr { border-bottom-style:none; }	
+	
 /* page framework */
 #agendaMenu { position: static;	float: left; width: auto; }
 #displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
