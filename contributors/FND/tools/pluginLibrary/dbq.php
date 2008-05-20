@@ -45,9 +45,9 @@ class dbq {
 		$r = mysql_query($q);
 		if($isInsert) // insert operation
 			return mysql_insert_id();
-		elseif(is_bool($r)) { // success or failure
+		elseif(is_bool($r)) { // update operation or failure
 			return $r ? mysql_affected_rows() : false;
-		} else { // data retrieval
+		} else { // retrieval operation
 			$rows = array();
 			while($row = mysql_fetch_object($r)) {
 				array_push($rows, $row);
