@@ -62,9 +62,6 @@ class dbq {
 	* @param array $data key-value pairs to be inserted
 	*/
 	function insertRecord($table, $data) {
-		if(is_null($data[0])) { // skip primary key
-			array_shift($data);
-		}
 		foreach($data as $k => $v) {
 			$data[$k] = $this->escapeQuery($v);
 		}
@@ -77,26 +74,25 @@ class dbq {
 	/**
 	* update records in database
 	* @param string $table table name
-	* @param array $selectors key-value pairs to serve as selectors (WHERE condition; joined by "AND")
 	* @param array $data key-value pairs to update record with
+	* @param array [$selectors] key-value pairs to serve as selectors (WHERE condition; joined by "AND")
 	* @param integer [$limit] max. number of records to update (0 for no limit)
 	*/
-	function updateRecords($table, $selectors, $data, $limit = 0) {
-		if(is_null($data[0])) { // skip primary key
-			array_shift($data);
-		}
+	function updateRecords($table, $data, $selectors = null, $limit = 0) {
 		$q = "UPDATE " . $table . " SET ";
 		while(list($k, $v) = each($data)) {
-			$q .= "`" . $this->escapeQuery($k) . "` = '" . $this->escapeQuery($v) . "',";
+			$q .= "`" . $this->escapeQuery($k) . "` = '" . $this->escapeQuery($v) . "', ";
 		}
-		$q = substr($q, 0, strlen($q) - 1); // remove trailing comma
-		$q .= " WHERE ";
-		while(list($k, $v) = each($selectors)) {
-			$q .= "`" . $this->escapeQuery($k) . "` = '" . $this->escapeQuery($v) . "' AND ";
-		}
-		$q = substr($q, 0, strlen($q) - 4); // remove trailing "and"
-		if($limit > 0) {
-			$q .= "LIMIT " . $limit;
+		$q = substr($q, 0, strlen($q) - 2); // remove trailing comma
+		if(isset($selectors)) {
+			$q .= " WHERE ";
+			while(list($k, $v) = each($selectors)) {
+				$q .= "`" . $this->escapeQuery($k) . "` = '" . $this->escapeQuery($v) . "' AND ";
+			}
+			$q = substr($q, 0, strlen($q) - 5); // remove trailing "and"
+			if($limit > 0) {
+				$q .= " LIMIT " . $limit;
+			}
 		}
 		debug($q, "updating records");
 		return $this->query($q);
@@ -106,14 +102,17 @@ class dbq {
 	* retrieve records from database
 	* @param string $table table name
 	* @param array $fields fields to retrieve
-	* @param array $selectors key-value pairs to serve as selectors (WHERE condition; joined by "AND")
+	* @param array [$selectors] key-value pairs to serve as selectors (WHERE condition; joined by "AND")
 	*/
-	function retrieveRecords($table, $fields, $selectors) {
-		$q = "SELECT " . $fields . " FROM " . $table . " WHERE ";
-		while(list($k, $v) = each($selectors)) {
-			$q .= "`" . $this->escapeQuery($k) . "` = '" . $this->escapeQuery($v) . "' AND ";
+	function retrieveRecords($table, $fields, $selectors = null) {
+		$q = "SELECT " . implode("`, `", $fields) . " FROM " . $table;
+		if(isset($selectors)) {
+			$q .= " WHERE ";
+			while(list($k, $v) = each($selectors)) {
+				$q .= "`" . $this->escapeQuery($k) . "` = '" . $this->escapeQuery($v) . "' AND ";
+			}
+			$q = substr($q, 0, strlen($q) - 4); // remove trailing "and"
 		}
-		$q = substr($q, 0, strlen($q) - 4); // remove trailing "and"
 		debug($q, "retrieving records");
 		return $this->query($q);
 	}

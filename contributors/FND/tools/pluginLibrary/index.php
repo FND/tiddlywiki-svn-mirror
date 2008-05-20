@@ -32,15 +32,18 @@ debug($log); // DEBUG: write to file?
 function processRepositories() {
 	global $currentRepository;
 	$repositories = getRepositories();
+	$currentRepository = new stdClass;
 	foreach($repositories as $repo) {
-		// DEBUG: set all of this repo's plugins availability to false
-		$contents = file_get_contents($repo->URI); // DEBUG: missing error handling?
 		// set current repository
-		$currentRepository = new stdClass;
-		$currentRepository->URI = $repo->URI;
 		$currentRepository->ID = $repo->ID;
+		$currentRepository->URI = $repo->URI;
+		$currentRepository->name = $repo->name;
+		// initialize plugins' availability
+		initPluginAvailability();
+		// load contents
+		$contents = file_get_contents($repo->URI); // DEBUG: missing error handling?
 		// document type handling
-		if($repo->type == "TiddlyWiki") // TidldyWiki document
+		if($repo->type == "TiddlyWiki") // TiddlyWiki document
 			processTiddlyWiki($contents);
 		elseif($repo->type == "SVN") // Subversion directory
 			echo $repo->type . "\n"; // DEBUG: to be implemented
@@ -48,15 +51,22 @@ function processRepositories() {
 			echo $repo->type . "\n"; // DEBUG: to be implemented
 		else
 			addLog("ERROR: failed to process repository " . $repo->url);
-		$currentRepository = null; // DEBUG: obsolete?
 	}
 }
 
 function getRepositories() {
 	global $dbq;
-	$repositories = $dbq->query("SELECT * FROM repositories");
+	$repositories = $dbq->retrieveRecords("repositories", array("*"));
 	debug($repositories, "repositories");
 	return $repositories;
+}
+
+function initPluginAvailability() {
+	global $dbq;
+	$data = array(
+		available => false
+	);
+	$dbq->updateRecords("plugins", $data);
 }
 
 /*
@@ -67,10 +77,11 @@ function processTiddlyWiki($str) {
 	$str = str_replace("xmlns=", "ns=", $str); // workaround for default-namespace bug
 	$xml = @new SimpleXMLElement($str); // DEBUG: errors for HTML entities (CDATA issue!?); suppressing errors hacky?!
 	$version = getVersion($xml);
-	if(floatval($version[0] . "." . $version[1]) < 2.2)
+	if(floatval($version[0] . "." . $version[1]) < 2.2) {
 		processPluginTiddlers($xml, true);
-	else
+	} else {
 		processPluginTiddlers($xml, false);
+	}
 }
 
 function getVersion($xml) {
@@ -79,10 +90,11 @@ function getVersion($xml) {
 	$major = intval($matches[1]);
 	$minor = intval($matches[2]);
 	$revision = intval($matches[3]);
-	if($major + $minor + $revision > 0) // DEBUG: dirty hack?
+	if($major + $minor + $revision > 0) { // DEBUG: dirty hack?
 		return array($major, $minor, $revision);
-	else
+	} else {
 		return null;
+	}
 }
 
 function processPluginTiddlers($xml, $oldStoreFormat = false) {
@@ -120,19 +132,23 @@ function processPluginTiddlers($xml, $oldStoreFormat = false) {
 			}
 		}
 		// retrieve tiddler text -- DEBUG: strip leading and trailing whitespace?
-		if(!$oldStoreFormat) // v2.2+
+		if(!$oldStoreFormat) { // v2.2+
 			$t->text = strval($tiddler->pre);
-		else
+		} else {
 			$t->text = strval($tiddler);
+		}
 		// retrieve slices
 		$t->slices = getSlices($t->text);
-		if(isset($t->slices->name))
+		if(isset($t->slices->name)) {
 			$t->title = $t->slices->name;
+		}
 		$source = $t->slices->source;
-		if(!$source || $source && !(strpos($source, $currentRepository->URI) === false)) // DEBUG: www handling (e.g. http://foo.bar = http://www.foo.bar)
+		// retrieve plugins only from original source
+		if(!$source || $source && !(strpos($source, $currentRepository->URI) === false)) { // DEBUG: www handling (e.g. http://foo.bar = http://www.foo.bar)
 			storePlugin($t);
-		else
+		} else {
 			addLog("skipped tiddler " . $t->title . " in repository " . $currentRepository->name);
+		}
 	}
 }
 
@@ -159,10 +175,11 @@ function getSlices($text) {
 function storePlugin($tiddler) {
 	global $currentRepository;
 	$pluginID = pluginExists($currentRepository->ID, $tiddler->title);
-	if($pluginID)
+	if($pluginID) {
 		updatePlugin($tiddler, $pluginID);
-	else
+	} else {
 		addPlugin($tiddler);
+	}
 }
 
 function addPlugin($tiddler) {
@@ -181,6 +198,7 @@ function addPlugin($tiddler) {
 		views => 0,
 		annotation => null
 	);
+	addLog("added plugin " . $tiddler->title . " from repository " . $currentRepository->name);
 	return $dbq->insertRecord("plugins", $data);
 }
 
@@ -200,7 +218,8 @@ function updatePlugin($tiddler, $pluginID) {
 		updated => date("Y-m-d H:i:s"),
 		documentation => $tiddler->documentation // DEBUG: to do
 	);
-	return $dbq->updateRecords("plugins", $selectors, $data, 1);
+	addLog("updated plugin " . $tiddler->title . " in repository " . $currentRepository->name);
+	return $dbq->updateRecords("plugins", $data, $selectors, 1);
 }
 
 function pluginExists($repoID, $pluginName) {
@@ -209,11 +228,12 @@ function pluginExists($repoID, $pluginName) {
 		repository_ID => $repoID,
 		title => $pluginName
 	);
-	$r = $dbq->retrieveRecords("plugins", "*", $selectors);
-	if(sizeof($r) > 0)
+	$r = $dbq->retrieveRecords("plugins", array("*"), $selectors);
+	if(sizeof($r) > 0) {
 		return $r[0]->ID;
-	else
+	} else {
 		return false;
+	}
 }
 
 /*
@@ -230,18 +250,21 @@ function convertTiddlyTime($timestamp) {
 		}
 }
 
+// add log message
 function addLog($text) {
 	global $log;
 	$timestamp = date("Y-m-d H:i:s");
 	array_push($log, $timestamp . " " . $text);
 }
 
+// set default value if necessary
 function setDefault(&$var, $defaultValue) {
 	if(!isset($var)) {
 		$var = $defaultValue;
 	}
 }
 
+// generate debugging output
 function debug($var, $msg = null) {
 	global $debugMode;
 	if($debugMode) {
