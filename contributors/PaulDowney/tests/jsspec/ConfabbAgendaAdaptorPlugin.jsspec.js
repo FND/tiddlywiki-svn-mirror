@@ -82,7 +82,7 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 		    +'      <title>The First Session</title>'
 		    +'      <link>http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessions/20/details</link>'
 		    +'      <description>The First Session Description.</description>'
-		    +'      <day>Day 1</day>'
+		    +'      <day>1</day>'
 		    +'      <starttime>20061107073019</starttime>'
 		    +'      <endtime>20061107083019</endtime>'
 		    +'      <track>Workshops / Tutorials</track>'
@@ -97,8 +97,8 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 		value_of(__tiddlers.length).should_be(2);
 	},
 
-	'first tiddler should have the title "Workshops / Tutorials"' : function() {
-		value_of(__tiddlers[0].title).should_be('Workshops / Tutorials');
+	'first tiddler should have the title "Day1"' : function() {
+		value_of(__tiddlers[0].title).should_be('Day1');
 	},
 	'track tiddler should be tagged "track"' : function() {
 		value_of(typeof __tiddlers[0].tags).should_be('object');
@@ -109,7 +109,7 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 		value_of(__tiddlers[0].text).should_be('<<AgendaTrackSessions>>');
 	},
 	'track tiddler should have the field rr_session_tag set to the track id': function() {
-		value_of(__tiddlers[0].fields.rr_session_tag).should_be('WorkshopsTutorials');
+		value_of(__tiddlers[0].fields.rr_session_tag).should_be('Day1');
 	},
 	'second tiddler should have the title set from the session id': function() {
 		value_of(__tiddlers[1].title).should_be('session-99');
@@ -130,7 +130,7 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 		value_of(__tiddlers[1].fields.rr_session_link).should_be('http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessions/20/details');
 	},
 	'session tiddler should have the field rr_session_day set from <day>': function() {
-		value_of(__tiddlers[1].fields.rr_session_day).should_be('Day 1');
+		value_of(__tiddlers[1].fields.rr_session_day).should_be('Day1');
 	},
 	'session tiddler should have the content set from <description>': function() {
 		value_of(__tiddlers[1].text).should_be('The First Session Description.');

@@ -53,19 +53,18 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 		return tiddlers;
 
 	/* 
-	 *  build track tiddlers
+	 *  build Agenda column title tiddlers
 	 */
-	var tracks = {};
-	var t = r.getElementsByTagName('track');
+	var days = {};
+	var t = r.getElementsByTagName('day');
 	for(var i=0;i<t.length;i++) {
 		var name = t[i].textContent;
-		if (!name.length) name = "DefaultTrack";
-		tracks[name.makeId()] = name;
+		days["Day"+name.makeId()] = name;
 	}
 
-	for(var trackid in tracks) {
+	for(var day in days) {
 		var tiddler = new Tiddler();
-		tiddler.assign(tracks[trackid],'<<AgendaTrackSessions>>',undefined,undefined,['track'],undefined,{rr_session_tag: trackid});
+		tiddler.assign(day,'<<AgendaTrackSessions>>',undefined,undefined,['track'],undefined,{rr_session_tag: day});
 		tiddlers.push(tiddler);
 	}
 
@@ -78,7 +77,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 		var tiddler = new Tiddler();
 
 		var id = node.getAttribute('id');
-		var day = node.getFirstElementValue("day","Every Day");
+		var day = "Day" + node.getFirstElementValue("day","ly");
 		var track = node.getFirstElementValue("track","Global Track");
 		var location = node.getFirstElementValue("location","Global Location");
 		var content = node.getFirstElementValue("description","");
@@ -105,7 +104,6 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 			rr_session_day: day,
 			rr_session_location: location,
 			rr_session_track: track,
-			rr_session_day: node.getFirstElementValue("day",""),
 			rr_session_speakers: speakers.join(", ")
 		});
 		tiddlers.push(tiddler);
