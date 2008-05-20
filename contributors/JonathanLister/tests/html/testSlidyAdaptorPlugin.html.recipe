@@ -1,0 +1,5 @@
+recipe: ../../../../core/tests/html/testContributors.recipe
+
+postjs: ../../verticals/SlidyTiddly/plugins/SlidyAdaptorPlugin.js
+jsspecsrc=<script type="text/javascript" src="../../../../core/tests/js/tiddlywiki.js"></script>
+jsspecsrc=<script type="text/javascript" src="../jsspec/SlidyAdaptorPlugin.jsspec.js"></script>
