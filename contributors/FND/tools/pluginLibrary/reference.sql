@@ -4,8 +4,8 @@ CREATE TABLE pluginLibrary.repositories (
 	type TEXT NOT NULL ,
 	name TEXT NOT NULL ,
 	contact TEXT NOT NULL ,
-	added DATE NOT NULL ,
-	updated DATE NOT NULL ,
+	added DATETIME NOT NULL ,
+	updated DATETIME NOT NULL ,
 	skipped INT NOT NULL DEFAULT '0',
 	disabled BOOL NOT NULL ,
 	PRIMARY KEY ( ID )
@@ -17,10 +17,10 @@ CREATE TABLE pluginLibrary.plugins (
 	available BOOL NOT NULL ,
 	title TEXT NOT NULL ,
 	text TEXT NOT NULL ,
-	created DATE NULL ,
-	modified DATE NULL ,
+	created DATETIME NULL ,
+	modified DATETIME NULL ,
 	modifier TEXT NULL ,
-	updated DATE NOT NULL ,
+	updated DATETIME NOT NULL ,
 	documentation TEXT NULL ,
 	views INT NOT NULL DEFAULT '0',
 	annotation TEXT NULL ,
@@ -59,7 +59,7 @@ CREATE TABLE pluginLibrary.ratings (
 	ID INT NOT NULL AUTO_INCREMENT ,
 	plugin_ID INT NOT NULL ,
 	IP_address TEXT NOT NULL ,
-	timestamp DATE NOT NULL ,
+	timestamp DATETIME NOT NULL ,
 	value INT NULL ,
 	PRIMARY KEY ( ID )
 ) ENGINE = MYISAM;
@@ -69,7 +69,7 @@ CREATE TABLE pluginLibrary.comments (
 	plugin_ID INT NOT NULL ,
 	author TEXT NOT NULL ,
 	IP_address TEXT NOT NULL ,
-	timestamp DATE NOT NULL ,
+	timestamp DATETIME NOT NULL ,
 	text INT NULL ,
 	PRIMARY KEY ( ID )
 ) ENGINE = MYISAM;
@@ -120,6 +120,29 @@ VALUES (
 	'SimonBaird@gmail.com',
 	'2008-05-10',
 	'2008-05-10',
+	'',
+	'0'
+);
+
+INSERT INTO pluginLibrary.repositories (
+	ID ,
+	URI ,
+	type ,
+	name ,
+	contact ,
+	added ,
+	updated ,
+	skipped ,
+	disabled
+)
+VALUES (
+	NULL ,
+	'http://localhost/pluginLibrary/dummyTiddlyWiki.html',
+	'TiddlyWiki',
+	'Core Plugins (dummy)',
+	'MartinBudden@gmail.com',
+	'2008-05-20',
+	'2008-05-20',
 	'',
 	'0'
 );

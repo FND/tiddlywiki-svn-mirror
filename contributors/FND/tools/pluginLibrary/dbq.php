@@ -67,7 +67,6 @@ class dbq {
 		}
 		$q = "INSERT INTO " . $table . " (`" . implode("`, `", array_keys($data))
 			. "`) VALUES ('" . implode("', '", $data) . "')";
-		debug($q, "inserting record");
 		return $this->query($q, true);
 	}
 
@@ -94,7 +93,6 @@ class dbq {
 				$q .= " LIMIT " . $limit;
 			}
 		}
-		debug($q, "updating records");
 		return $this->query($q);
 	}
 
@@ -113,7 +111,6 @@ class dbq {
 			}
 			$q = substr($q, 0, strlen($q) - 4); // remove trailing "and"
 		}
-		debug($q, "retrieving records");
 		return $this->query($q);
 	}
 

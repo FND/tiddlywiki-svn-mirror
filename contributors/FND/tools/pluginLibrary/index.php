@@ -57,7 +57,6 @@ function processRepositories() {
 function getRepositories() {
 	global $dbq;
 	$repositories = $dbq->retrieveRecords("repositories", array("*"));
-	debug($repositories, "repositories");
 	return $repositories;
 }
 
@@ -139,8 +138,8 @@ function processPluginTiddlers($xml, $oldStoreFormat = false) {
 		}
 		// retrieve slices
 		$t->slices = getSlices($t->text);
-		if(isset($t->slices->name)) {
-			$t->title = $t->slices->name;
+		if(isset($t->slices->Name)) {
+			$t->title = $t->slices->Name;
 		}
 		$source = $t->slices->source;
 		// retrieve plugins only from original source
@@ -160,9 +159,9 @@ function getSlices($text) {
 	if($m) {
 		for($i = 0; $i < count($m); $i++) {
 			if($matches[1][$i]) // colon notation
-				$slices->{strtolower($matches[1][$i])} = $matches[2][$i];
+				$slices->{$matches[1][$i]} = $matches[2][$i];
 			else // table notation
-				$slices->{strtolower($matches[3][$i])} = $matches[4][$i];
+				$slices->{$matches[3][$i]} = $matches[4][$i];
 		}
 	}
 	return $slices;
