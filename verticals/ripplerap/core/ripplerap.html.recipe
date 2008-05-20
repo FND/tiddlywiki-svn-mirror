@@ -17,7 +17,6 @@ tiddler: AgendaSubItemsTemplate.tiddler
 tiddler: plugins/RippleRapPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
-tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 tiddler: ../../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/AgendaTrack.js
@@ -26,6 +25,8 @@ tiddler: ../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/TiddlifyList.js
 tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/RawViewMacroPlugin.js
+tiddler: plugins/TaggedTemplateTweak.js
+#tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 
 # Adaptors to read an Agenda
 tiddler: AgendaFeed.tiddler

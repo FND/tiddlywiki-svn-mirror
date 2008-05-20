@@ -43,5 +43,13 @@ config.macros.RippleRap.setSharingPreferences = function(){
 
 };
 
+// make a note. Possibly for sharing.
+config.macros.RippleRap.makeNote = function(){
+
+	
+
+};
+
+
 }
 //}}}

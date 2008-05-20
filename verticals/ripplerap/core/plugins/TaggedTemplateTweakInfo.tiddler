@@ -1,0 +1,45 @@
+<div title="TaggedTemplateTweakInfo" modifier="ELSDesignStudios" created="200801090247" modified="200804011416" tags="plugininfo" changecount="2">
+<pre>/***
+|Name|TaggedTemplateTweakInfo|
+|Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
+|Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
+|Version|1.2.0|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|documentation|
+|Requires||
+|Overrides||
+|Description|Documentation for TaggedTemplateTweak|
+The core function, &quot;story.chooseTemplateForTiddler(title,template)&quot; is essentially a &quot;pass-thru&quot; that returns the same template it was given, and is provided by the core so that plugins can customize the template selection logic to select alternative templates, based on whatever programmatic criteria is appropriate.  This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler is marked with a specific tag value, it can be viewed and/or edited using alternatives to the standard tiddler templates.'' 
+!!!!!Usage
+&lt;&lt;&lt;
+Each alternative template is associated with a specific tiddler tag value by using that tag value as a prefix added to the standard TiddlyWiki template titles, [[ViewTemplate]] and [[EditTemplate]].  For example, any tiddlers that are tagged with ''&lt;&lt;tag media&gt;&gt;'' will look for alternative templates named [[mediaViewTemplate]] and [[mediaEditTemplate]].
+
+To use templates that have proper WikiWord tiddler titles (e.g., [[MediaViewTemplate]] and [[MediaEditTemplate]]), the plugin will also attempt to use a capitalized form of the tag value (e.g., ''Media'') as a prefix.  //This capitalization is for comparison purposes only and will not alter the actual tag values that are stored in the tiddler.//
+
+To use templates contained as //sections// within a systemTheme definition, the plugin also tries prepending the currently selected theme (specified by {{{config.options.txtTheme}}}) plus the 'section separator' (##) to the template name (e.g. ''[[SomeTheme##MediaViewTemplate]]'').
+
+If no matching alternative template can be found by using //any// of the tiddler's tags (either &quot;as-is&quot; or capitalized, with or without a section prefix), the tiddler defaults to using the appropriate standard [[ViewTemplate]] or [[EditTemplate]] definition.
+
+''To add your own custom templates:''
+&gt;First, decide upon a suitable tag keyword to uniquely identify your custom templates and create custom view and/or edit templates using that keyword as a prefix (e.g., &quot;KeywordViewTemplate&quot; and &quot;KeywordEditTemplate&quot;).  Then, simply create a tiddler and tag it with your chosen keyword... that's it!  As long as the tiddler is tagged with your keyword, it will be displayed using the corresponding alternative templates.  If you remove the tag or rename/delete the alternative templates, the tiddler will revert to using the standard viewing and editing templates.
+&lt;&lt;&lt;
+!!!!!Examples
+&lt;&lt;&lt;
+|Sample tiddler| tag | view template | edit template |
+|[[MediaSample - QuickTime]]| &lt;&lt;tag media&gt;&gt; | [[MediaViewTemplate]] | [[MediaEditTemplate]] |
+|[[MediaSample - Windows]]| &lt;&lt;tag media&gt;&gt; | [[MediaViewTemplate]] | [[MediaEditTemplate]] |
+|[[CDSample]]| &lt;&lt;tag CD&gt;&gt; | [[CDViewTemplate]] | [[CDEditTemplate]] |
+|&lt;&lt;newTiddler label:&quot;create new task...&quot; title:SampleTask tag:task text:&quot;Type some text and then press DONE to view the task controls&quot;&gt;&gt; | &lt;&lt;tag task&gt;&gt; | [[TaskViewTemplate]] | [[EditTemplate]] |
+
+//(note: if these samples are not present in your document, please visit// http://www.TiddlyTools.com/ //to view these sample tiddlers on-line)//
+&lt;&lt;&lt;
+!!!!!Revisions
+&lt;&lt;&lt;
+2008.04.01 [1.2.0] added support for using systemTheme section-based template definitions (requested by Phil Hawksworth)
+2008.01.22 [*.*.*] plugin size reduction - documentation moved to [[TaggedTemplateTweakInfo]]
+2007.06.23 [1.1.0] re-written to use automatic 'tag prefix' search instead of hard coded check for each tag.  Allows new custom tags to be used without requiring code changes to this plugin.
+2007.06.11 [1.0.0] initial release
+&lt;&lt;&lt;</pre>
+</div>
