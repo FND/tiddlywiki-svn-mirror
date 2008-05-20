@@ -32,7 +32,7 @@
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
 </div>
-<div class='headerControls' refresh='content' tiddler='HeaderControls'></div>
+<div class='headerControls' macro="RippleRap option:'showSharingPrefs'"></div>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 </div>
 <div id='agendaMenu' refresh='content' force='true' tiddler='AgendaMenu'></div>
@@ -72,7 +72,7 @@
 !sessionViewTemplate
 <!--{{{-->
 <div class='session'>
-	<div class='toolbar' macro='toolbar closeTiddler +editTiddler fields''></div>
+	<div class='toolbar' macro='toolbar closeTiddler +editTiddler fields'></div>
 	<div class="title" macro="view rr_session_title"></div>
 	<span class="time"><span macro="dtstart rr_session_starttime '0hh:0mm'"></span>-<span macro="dtend rr_session_endtime '0hh:0mm'"></span></span>
 	<div class="speaker" macro="TiddlifyList rr_session_speakers"></div>

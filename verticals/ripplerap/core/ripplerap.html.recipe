@@ -37,7 +37,6 @@ tiddler: ../../../contributors/PaulDowney/adaptors/ConfabbAgendaAdaptorPlugin.js
 
 # RippleRap UI structure
 tiddler: MainMenu.tiddler
-tiddler: HeaderControls.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: BackstageMod.tiddler
 
@@ -47,6 +46,7 @@ tiddler: CamelCase.tiddler
 tiddler: Double_square_brackets.tiddler
 tiddler: TiddlyWiki.tiddler
 tiddler: FAQs.tiddler
+tiddler: Sharing_settings.tiddler
 
 
 
@@ -94,6 +94,7 @@ tiddler: chair.tiddler
 # tiddler: FlickrItemsTemplate.tiddler
 # tiddler: Flickr.tiddler
 # tiddler: SampleDiscoveredNotes.tiddler
+# tiddler: HeaderControls.tiddler
 
 # tiddler: PageTemplate.tiddler
 # tiddler: ViewTemplate.tiddler

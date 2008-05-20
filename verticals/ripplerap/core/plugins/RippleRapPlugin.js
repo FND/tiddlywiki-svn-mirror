@@ -36,13 +36,14 @@ config.macros.RippleRap.handler = function(place,macroName,params,wikifier,param
 	var params = paramString.parseParams("anon",null,true,false,false);
 	var option = getParam(params,"option",null);
 	switch(option) { 
-	   case "makeNote" : 
-	      this.makeNoteButton(place);
-	      break; 
-	   case "setSharingPrefs" : 
-	      break; 
-	   default : 
-	      break;
+		case "makeNote" : 
+			this.makeNoteButton(place);
+			break; 
+		case "showSharingPrefs" :
+			this.displaySharingPreferences(place);
+			break; 
+		default: 
+			break;
 	} 
 };
 
@@ -72,6 +73,14 @@ config.macros.RippleRap.setSharingPreferences = function(){
 
 	
 
+};
+
+
+// provide a global checkbox to enable disable sharing of notes
+config.macros.RippleRap.displaySharingPreferences = function(place){
+	var title = 'Sharing settings';
+	var className = 'shared';
+	createTiddlyLink(place,title,true,className);	
 };
 
 
