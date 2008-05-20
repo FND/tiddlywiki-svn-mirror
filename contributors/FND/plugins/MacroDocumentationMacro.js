@@ -31,14 +31,14 @@ config.macros.macroDoc.handler = function(place, macroName, params, wikifier, pa
 	} else {
 		for(var macro in config.macros) {
 			if(config.macros[macro].doc)
-				output += this.generateDoc(config.macros[macro].doc);
+				output += this.generateDoc(config.macros[macro].doc, macro.capitalize());
 		}
 	}
 	wikify(output, place);
 };
 
-config.macros.macroDoc.generateDoc = function(doc) {
-	output = "!!" + "[macroName]" + "\n" // DEBUG: how to retrieve macro name without introducing additional doc property?
+config.macros.macroDoc.generateDoc = function(doc, name) {
+	output = "!!" + name + "\n"
 		+ "<<<\n"
 		+ "!!!Description\n" + doc.desc + "\n" // DEBUG: add property/section for additional notes!?
 		+ "!!!Usage\n{{{\n" + doc.usage + "\n}}}\n";
@@ -75,5 +75,11 @@ config.macros.macroDoc.doc = {
 	examples: [
 		"<<macroDoc 'macroDoc'>>"
 	]
+};
+
+String.prototype.capitalize = function() {
+	return this.replace(/^\w/, function(s) {
+		return s.charAt(0).toUpperCase() + s.substr(1);
+	});
 };
 //}}}
