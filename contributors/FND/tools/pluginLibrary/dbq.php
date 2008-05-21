@@ -1,5 +1,7 @@
 <?php
 
+require_once "../utils.php";
+
 class dbq {
 	private $host = "localhost";
 	private $user = "root"; 
@@ -31,9 +33,14 @@ class dbq {
 
 	/**
 	* close database connection
+	* @param resource [$link] MySQL connection
 	*/
-	function disconnect() {
-		mysql_close();
+	function disconnect($link = null) {
+		if(isset($link)) {
+			return mysql_close($link);
+		} else {
+			return mysql_close();
+		}
 	}
 
 	/**
