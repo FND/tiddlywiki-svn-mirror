@@ -95,7 +95,7 @@ config.macros.importWorkspace.onClick = function(e)
 	var customFields = this.getAttribute('customFields');
 //#displayMessage("cf:"+customFields)
 	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
-	config.macros.importWorkspace.getTiddlers(config.macros.importWorkspace.createContext(fields));
+	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields));
 };
 
 config.macros.importWorkspace.getTiddlersForAllFeeds = function()
@@ -113,7 +113,16 @@ config.macros.importWorkspace.getTiddlersForFeed = function(feed)
 	fields['server.host'] = store.getTiddlerSlice(feed,'URL');
 	fields['server.workspace'] = store.getTiddlerSlice(feed,'Workspace');
 	var filter = store.getTiddlerSlice(feed,'TiddlerFilter');
-	config.macros.importWorkspace.getTiddlers(config.macros.importWorkspace.createContext(fields,filter));
+	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter));
+};
+
+config.macros.importWorkspace.getTiddlers = function(uri,type,workspace,filter)
+{
+	var fields = {};
+	fields['server.host'] = uri;
+	fields['server.type'] = type;
+	fields['server.workspace'] = workspace;
+	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter));
 };
 
 config.macros.importWorkspace.createContext = function(fields,filter)
@@ -137,7 +146,7 @@ config.macros.importWorkspace.createContext = function(fields,filter)
 	return false;
 };
 
-config.macros.importWorkspace.getTiddlers = function(context)
+config.macros.importWorkspace.getTiddlersForContext = function(context)
 {
 	if(context) {
 		context.adaptor.openHost(context.host,context);
