@@ -3,6 +3,7 @@ recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 
 # Settings
 tiddler: settings.js
+tiddler: Edition.js
 tiddler: SiteUrl.tiddler
 
 # Theme
