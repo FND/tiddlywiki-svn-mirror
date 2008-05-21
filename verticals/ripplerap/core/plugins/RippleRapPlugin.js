@@ -20,8 +20,6 @@ config.macros.RippleRap = {};
 // Initialise the application.
 config.macros.RippleRap.init = function(){
 
-	console.log("Starting ripplerap");
-
 	// Render local tiddler in the RippleRap UI as required.
 	var agendauri, agendatype;
 
@@ -42,6 +40,7 @@ config.macros.RippleRap.init = function(){
 	config.macros.RippleRap.initFeedListMangager();
 };
 
+
 config.macros.RippleRap.initFeedListMangager = function() {
 	config.macros.RippleRap.feedListManager = new FeedListManager();
 	// Add the uris to the feedListManager
@@ -49,6 +48,10 @@ config.macros.RippleRap.initFeedListMangager = function() {
 	config.macros.RippleRap.feedListManager.add(baseuri+'/notes',null,'opml');
 };
 
+
+/*
+	TODO call this from the timer.
+*/
 // get the notes for the next feed returned by the feedlist manager
 config.macros.RippleRap.getNotes = function(feedlistManager) {
 	var openHostCallback = function(context,userParams) {
@@ -74,6 +77,7 @@ config.macros.RippleRap.getNotes = function(feedlistManager) {
 	adaptor.openHost(uri,context,userParams,openHostCallback);	
 };
 
+
 config.macros.RippleRap.getTiddlerListCallback = function(context,userParams) {
 	var tiddlers = context.tiddlers;
 	for(var i=0;i<tiddlers.length;i++) {
@@ -82,6 +86,7 @@ config.macros.RippleRap.getTiddlerListCallback = function(context,userParams) {
 		story.refreshTiddler(tiddler.title,1,true);		
 	}
 };
+
 
 config.macros.RippleRap.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var params = paramString.parseParams("anon",null,true,false,false);
@@ -104,13 +109,31 @@ config.macros.RippleRap.makeNoteButton = function(place){
 	createTiddlyButton(place,"make notes","Make notes on this session",this.makeNoteButtonClick);
 };
 
+
 // make a note. Possibly for sharing.
 config.macros.RippleRap.makeNoteButtonClick = function(ev){
 	var e = ev ? ev : window.event;
 	var target = resolveTarget(e);
-	alert("Let's make some notes");
+	var sessionTiddler = story.findContainingTiddler(target);
+	var title = sessionTiddler.getAttribute('tiddler') +"."+ config.options.txtUserName;
 
+	// Create a new notes tiddler if required.
+	if(!store.tiddlerExists(title)) {
+		var text = "you notes here";
+		var modifier = config.options.txtUserName;
+		var modified = '';
+		var created = '';
+		var tags = ['notes'];
+		var fields = null;
+		store.saveTiddler(title,title,text,modifier,modified,tags,fields,true,created);
+	}
+	// display the notes tiddler in edit mode.
+	var template = "NoteEditTemplate";
+	story.displayTiddler(sessionTiddler,title,template,false,null,null);
+	
+	
 };
+
 
 // Display discovered noted in the agenda UI
 config.macros.RippleRap.displayNotesLinks = function(){
@@ -118,6 +141,7 @@ config.macros.RippleRap.displayNotesLinks = function(){
 
 
 };
+
 
 // provide a global checkbox to enable disable sharing of notes
 config.macros.RippleRap.setSharingPreferences = function(){
@@ -133,9 +157,6 @@ config.macros.RippleRap.displaySharingPreferences = function(place){
 	var className = 'shared';
 	createTiddlyLink(place,title,true,className);	
 };
-
-
-
 
 }
 //}}}

@@ -18,6 +18,6 @@ session_notes_groups.setPattern(session_notes_pattern);
 session_notes_groups.setGroupField('rr_session_id');
 
 // go go!
-config.macros.RippleRap.init();
+// config.macros.RippleRap.init();
 
 //}}}
