@@ -16,3 +16,7 @@ Enter the date format for ticklers.
 Tickler date format:<<mgtdEditField ticklerdateformat MgtdSettings>>
 (see [[Date Formats|http://tiddlywiki.org/wiki/Date_Formats]]) 
 
+Enter the date format for 'new journal'.
+Tickler date format:<<mgtdEditField newjournaldateformat MgtdSettings>>
+(see [[Date Formats|http://tiddlywiki.org/wiki/Date_Formats]]) 
+

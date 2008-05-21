@@ -8,7 +8,7 @@
 !ViewTemplate
 <!--{{{-->
 <div macro="showWhen tiddler.tags.containsAny(config.mGTD.specialTags)">
-	[[MptwTheme##ViewTemplateToolbar]]
+	[[MonkeyGTDTheme##ViewTemplateToolbar]]
 	<div class='titleContainer viewer'>[[TitleButtonsSelector]]</div>
 	[[MonkeyGTDTheme##Panel]]
 	<div macro="showWhenTaggedAny Reference View">
@@ -29,12 +29,30 @@
 </div>
 <!--}}}-->
 
+!ViewTemplateToolbar
+<!--{{{-->
+<!-- it's identical to Mptw at present except add Reference tag to new journal and new tiddler. will probably tweak it more later. -->
+<div class='toolbar'>
+	<span macro="showWhenTagged systemConfig">
+		<span macro="toggleTag systemConfigDisable . '[[disable|systemConfigDisable]]'"></span>
+	</span>
+	<span macro="showWhenTagged systemTheme"><span macro="applyTheme"></span></span>
+	<span macro="showWhenTagged systemPalette"><span macro="applyPalette"></span></span>
+	<span macro="showWhen tiddler.tags.contains('css') || tiddler.title == 'StyleSheet'"><span macro="refreshAll"></span></span>
+	<span style="padding:1em;"></span>
+	<span macro='toolbar closeTiddler closeOthers +editTiddler deleteTiddler > fields syncing permalink references jump'></span>
+	<span macro='newHere label:"new here" tag:Reference'></span>
+	<span macro='newJournalHere {{config.mGTD.getOptTxt("newjournaldateformat")?config.mGTD.getOptTxt("newjournaldateformat"):"DD-mmm-YY 0hh:0mm"}} tag:Reference'></span>
+</div>
+<!--}}}-->
+
 !Panel
 <!--{{{-->
 <!--- nothing as yet? --->
 <!--}}}-->
 
 !Dashboard
+<!-- check if is this obsolete now then delete it. I think it is. ??? -->
 <!--{{{-->
 <div macro="showWhenTagged Project" class="viewer"          >[[Dashboards##Project]]</div>
 <div macro="showWhenTagged Area" class="viewer"             >[[Dashboards##Area]]</div>
