@@ -23,9 +23,19 @@ config.macros.RippleRap.init = function(){
 	console.log("Starting ripplerap");
 
 	// Render local tiddler in the RippleRap UI as required.
+	var agendauri, agendatype;
+
+	switch (config.options.txtRipplerapType) {
+	case 'confabb':
+		agendauri = config.options.txtRipplerapConferenceURI;
+		agendauri += ((agendauri.slice(-1)!='/')?"/":"") + "sessionlist";
+		agendatype = "confabbagenda";
+		break;
+	default:
+		break;
+	}
 	
-	// Get agenda updates and update UI.
-	config.macros.importWorkspace.getTiddlersForFeed("AgendaFeed");
+	config.macros.importWorkspace.getTiddlers(agendauri, agendatype);
 	
 	// Display appropriate tab in agenda view.
 	

@@ -29,7 +29,6 @@ tiddler: plugins/TaggedTemplateTweak.js
 #tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 
 # Adaptors to read an Agenda
-tiddler: AgendaFeed.tiddler
 tiddler: AgendaMenu.tiddler
 tiddler: ../../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js

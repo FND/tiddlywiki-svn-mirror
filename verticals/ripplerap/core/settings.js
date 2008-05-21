@@ -8,7 +8,15 @@ config.options.txtTheme = "RippleRapSkin";
 // RippleRap Specific 
 config.options.chkRipplerapShare = true;
 config.options.chkRipplerapEnjoy= true;
-config.options.chkRipplerapConferenceName= "";
+
+// RippleRap type, "confabb", "none", etc
+config.options.txtRipplerapType = "";
+
+// RippleRap Conference Name
+config.options.txtRipplerapConferenceName = "";
+
+// RippleRap Conference Base URI
+config.options.txtRipplerapConferenceURI = "";
 
 // Setup the session notes display groupings.
 var session_notes_groups = new TiddlerDisplayGroup();
