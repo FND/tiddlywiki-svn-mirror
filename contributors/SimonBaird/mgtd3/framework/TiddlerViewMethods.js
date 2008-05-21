@@ -53,15 +53,6 @@ merge(Tiddler.prototype,{
             doneControl.format([this.title])
 		]
 	);},
-	render_DisabledTickler: function() { return this.renderUtil(
-		'{{tickler{'+
-		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
-		' &nbsp;[[%0]] - <<dateChooser [[%0]]>> }}}',
-		[
-			this.title
-		]
-	);},
-
 
 	render_Project: function() { return this.renderUtil(
 		'{{project{'+
@@ -70,11 +61,35 @@ merge(Tiddler.prototype,{
 		//'<<multiSelectTag tag:Project title:[[%0]]>>'+
 		//'<<multiCheckboxTag tag:ActionStatus title:[[%0]]>>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
-		' &nbsp;[[%0]] }}}',
+		' &nbsp;[[%0]] }}}'+
+		"{{projLink{<<linkToParent Project '[P]' [[%0]]>>}}}"+
+		"{{projLink{<<linkToParent Contact '[C]' [[%0]]>>}}}"+
+		"",
 		[
 			this.title
 		]
 	);},
+
+	render_ProjectArea: function() {
+		var aLink = "";
+	    return this.renderUtil(
+		'{{project{'+
+		'<<toggleTag Complete [[%0]] ->>'+
+		'<<multiToggleTag tag:ProjectStatus title:[[%0]]>>'+
+		//'<<multiSelectTag tag:Project title:[[%0]]>>'+
+		//'<<multiCheckboxTag tag:ActionStatus title:[[%0]]>>'+
+		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
+		' &nbsp;[[%0]] }}} %1'+
+		"{{projLink{<<linkToParent Area    '[A]' [[%0]]>>}}}"+
+		"{{projLink{<<linkToParent Project '[P]' [[%0]]>>}}}"+
+		"{{projLink{<<linkToParent Contact '[C]' [[%0]]>>}}}"+
+		"",
+		[
+			this.title,
+			aLink
+		]
+	);},
+
 
 	render_ProjectBare: function() { return this.renderUtil(
 		'{{project{'+

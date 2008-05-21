@@ -1,6 +1,6 @@
 !Project
 <!--{{{-->
-<div class="projectcontrols controls">
+<div class="projectcontrols controls controlstint">
  <div style="float:right;" class="smaller">
   <span class="label">Realm:</span><span macro="multiSelectTag Realm allowNone:on"></span>
   Project<span macro="help Project"></span>
@@ -29,7 +29,7 @@
 
 !Action
 <!--{{{-->
-<div class="actioncontrols controls">
+<div class="actioncontrols controls controlstint">
  <div style="float:right;" class="smaller">
   <span class="label">Realm:</span><span macro="multiSelectTag Realm allowNone:on"></span>
   Action<span macro="help Action"></span>
@@ -65,7 +65,7 @@
 
 !Tickler
 <!--{{{-->
-<div class="ticklercontrols controls">
+<div class="ticklercontrols controls controlstint">
  <div style="float:right;" class="smaller">
   <span class="label">Realm:</span><span macro="multiSelectTag Realm allowNone:on"></span>
   Tickler<span macro="help Tickler"></span>
@@ -109,47 +109,88 @@
 
 !View
 <!--{{{-->
-<span class='title' macro='view title'></span><span macro="help"></span>
+<div class="viewcontrols controls">
+ <div>
+  <span class='title' macro='view title'></span><span macro="help"></span>
+ </div>
+</div>
 <!--}}}-->
 
 !Context
 <!--{{{-->
-<span class='title' macro='view title'></span> (Context)<span macro="help Context"></span>
-<span macro="singleToggleTag tag:Starred"></span>
+<div class="contextcontrols controls">
+ <div style="float:right;" class="smaller">
+  Context<span macro="help Context"></span>
+ </div>
+ <div>
+  <span class='title' macro='view title'></span>
+  <span macro="singleToggleTag tag:Starred"></span>
+ </div>
+</div>
 <!--}}}-->
 
 !Area
 <!--{{{-->
-<span class='title' macro='view title'></span> (Area)<span macro="help Area"></span>
-<span macro="singleToggleTag tag:Starred"></span>
-<span class="label">Realm:</span><span macro="multiSelectTag Realm allowNone:on"></span>
+<div class="areacontrols controls">
+ <div style="float:right;" class="smaller">
+  <span class="label">Realm:</span><span macro="multiSelectTag Realm allowNone:on"></span>
+  Area<span macro="help Area"></span>
+ </div>
+ <div>
+  <span class='title' macro='view title'></span>
+  <span macro="singleToggleTag tag:Starred"></span>
+ </div>
+</div>
 <!--}}}-->
 
 !Realm
 <!--{{{-->
-<span class='title' macro='view title'></span> (Realm)<span macro="help Realm allowNone:on"></span>
+<div class="realmcontrols controls">
+ <div style="float:right;" class="smaller">
+  Realm<span macro="help Realm"></span>
+ </div>
+ <div>
+  <span class='title' macro='view title'></span>
+ </div>
+</div>
 <!--}}}-->
 
 !Reference
 <!--{{{-->
-<span class='title' macro='view title'></span>
-<span macro="linkToParent Project '[P]'"></span>
-(Reference)<span macro="help Reference"></span>
-<span macro="singleToggleTag tag:Starred"></span>
-<br/>
-Project:<span macro="multiSelectTag Project allowNone:on"></span><span macro="linkToParent Project"></span>
-<span macro="showWhen tiddler.getByIndex('Project').length == 0">
-	<!-- only show area if there's no project --->
-	Area:<span macro="multiSelectTag Area allowNone:on"></span>
-</span>
-Realm:<span macro="multiSelectTag Realm allowNone:on"></span><br/>
-<div style="border-bottom:1px solid [[ColorPalette::TertiaryLight]]">Double click or click "edit" to edit. Use "new here" to make sub item.</div><!--- TODO should be a class --->
+<div class="referencecontrols controls controlstint">
+ <div style="float:right;" class="smaller">
+  <span class="label">Realm:</span><span macro="multiSelectTag Realm allowNone:on"></span>
+  Reference<span macro="help Reference"></span>
+ </div>
+ <div>
+  <span class='title' macro='view title'></span>
+  <span macro="linkToParent Project '[P]'"></span>
+  <span macro="singleToggleTag tag:Starred"></span>
+  [[MonkeyGTDTheme##Subtitle]]
+ </div>
+ <div>
+  <div class="floatleft"><span class="label">Project:</span><br><span macro="multiSelectTag Project allowNone:on"></span><span macro="linkToParent Project"></span></div>
+  <div macro="hideWhen tiddler.hasParent('Project')" class="floatleft"><span class="label">Area:</span><br><span macro="multiSelectTag Area allowNone:on"></span><span macro="linkToParent Area"></span></div>
+ </div>
+ <div class="clearboth"></div>
+ <div style="padding-top:1em;">
+  Double click or click "edit" to edit. Use "new here" to make sub item.
+ </div>
+</div>
 <!--}}}-->
 
 !Contact
 <!--{{{-->
-<span class='title' macro='view title'></span> (Contact)<span macro="help Contact"></span>
-<span macro="singleToggleTag tag:Starred"></span>
-[[MonkeyGTDTheme##Subtitle]]
+<div class="contactcontrols controls">
+ <div style="float:right;" class="smaller">
+  <span class="label">Realm:</span><span macro="multiSelectTag Realm allowNone:on"></span>
+  Contact<span macro="help Contact"></span>
+ </div>
+ <div>
+  <span class='title' macro='view title'></span>
+  <span macro="singleToggleTag tag:Starred"></span>
+  [[MonkeyGTDTheme##Subtitle]]
+ </div>
+</div>
 <!--}}}-->
 

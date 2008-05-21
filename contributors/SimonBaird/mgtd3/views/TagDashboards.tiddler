@@ -1,137 +1,202 @@
+
 !Project
 <!--{{{-->
-<table class="threecol"><tr><td>
+<div class="cols3">
 
-[[TagDashboards##Ticklers Requiring Action]]
+<div class="col">
 
-<div macro="mgtdList title:'Next Actions' tags:'Action && Next && !Done' view:Action
-	group:Context
-	gView:Context
-	newButtonTags:'Action Next'
-	"></div>
+	[[TagDashboards##Ticklers Requiring Action]]
 
-<!-- was this:
-	group:Context
-	gView:Context
--->
-<div macro="mgtdList title:'Waiting Actions by Person' tags:'Action && [(Waiting For)] && !Done' view:Action
-	group:Contact
-	gView:bold
-	newButtonTags:'Action [(Waiting For)]'
-	"></div>
+	<div macro="mgtdList title:'Next Actions' tags:'Action && Next && !Done' view:Action
+		ignoreRealm:yes
+		group:Context
+		gView:Context
+		newButtonTags:'Action Next'
+		"></div>
 
-</td><td>
+	<!-- was this:
+		group:Context
+		gView:Context
+	-->
+	<div macro="mgtdList title:'Waiting Actions by Person' tags:'Action && [(Waiting For)] && !Done' view:Action
+		ignoreRealm:yes
+		group:Contact
+		gView:bold
+		newButtonTags:'Action [(Waiting For)]'
+		"></div>
 
-<div macro="mgtdList title:'Active Subprojects' tags:'Project && !Complete' view:Project
-	group:ProjectStatus
-	gView:bold
-	newButtonTags:'Project'
-	"></div>
+</div>
+<div class="col">
 
-<div macro="mgtdList title:'Completed Subprojects' tags:'Project && Complete' view:ProjectComplete
-	newButtonTags:'Project Active Complete'
-	"></div>
+	<div macro="mgtdList title:'Active Subprojects' tags:'Project && !Complete' view:Project
+		ignoreRealm:yes
+		group:ProjectStatus
+		gView:bold
+		newButtonTags:'Project'
+		"></div>
 
-<div macro="mgtdList title:'Future Actions' tags:'Action && Future && !Done' view:Action
-	group:Context
-	gView:Context
-	newButtonTags:'Action Future'
-	"></div>
+	<div macro="mgtdList title:'Completed Subprojects' tags:'Project && Complete' view:ProjectComplete
+		ignoreRealm:yes
+		newButtonTags:'Project Active Complete'
+		"></div>
+
+	<div macro="mgtdList title:'Future Actions' tags:'Action && Future && !Done' view:Action
+		ignoreRealm:yes
+		group:Context
+		gView:Context
+		newButtonTags:'Action Future'
+		"></div>
 
 
-</td><td>
+</div>
+<div class="col">
 
-[[TagDashboards##Upcoming Ticklers]]
+	[[TagDashboards##Upcoming Ticklers]]
 
-<div macro="mgtdList title:'Reference Items' tags:'Reference' view:plain newButtonTags:'Reference' "></div>
+	<div macro="mgtdList title:'Reference Items' tags:'Reference' view:plain newButtonTags:'Reference' 
+		ignoreRealm:yes
+		"></div>
 
-<div macro="mgtdList title:'Done Actions' tags:'Action && Done' view:DoneAction
-	newButtonTags:'Action Done Next'
-	sort:-modified
-	"></div>
+	<div macro="mgtdList title:'Done Actions' tags:'Action && Done' view:DoneAction
+		ignoreRealm:yes
+		newButtonTags:'Action Done Next'
+		sort:-modified
+		"></div>
 
-</td></tr></table>
+</div>
+
+<div class="clear"></div>
+</div>
 <!--}}}-->
 
 
 !Context
 <!--{{{-->
-<table class="twocol"><tr><td>
-<div macro="mgtdList title:'Next' tags:'Action && Next && !Done' view:ActionProj
-	where:tiddler.hasActiveProject()
-	"></div>
+<div class="cols2">
 
-</td><td>
-<div macro="mgtdList title:'Waiting' tags:'Action && [(Waiting For)] && !Done' view:ActionProj
-	where:tiddler.hasActiveProject()
-	"></div>
+<div class="col">
 
-</td></tr></table>
+	<div macro="mgtdList title:'Next' tags:'Action && Next && !Done' view:ActionProj
+		where:tiddler.hasActiveProject()
+		"></div>
+
+</div>
+<div class="col">
+
+	<div macro="mgtdList title:'Waiting' tags:'Action && [(Waiting For)] && !Done' view:ActionProj
+		where:tiddler.hasActiveProject()
+		"></div>
+
+</div>
+
+<div class="clear"></div>
+</div>
 <!--}}}-->
+
+
+!Contact
+<!--{{{-->
+<div class="cols2">
+
+<div class="col">
+
+	<div macro="mgtdList title:'Delegated Actions' tags:'Action && !Done && [(Waiting For)]' view:ActionProj
+		ignoreRealm:yes
+		newButtonTags:'Action [(Waiting For)]'
+		"></div>
+
+	<div macro="mgtdList title:'Associated Actions' tags:'Action && !Done && ![(Waiting For)]' view:ActionProj
+		ignoreRealm:yes
+		group:ActionStatus
+		gView:bold
+		newButtonTags:'Action'
+		"></div>
+
+
+</div>
+<div class="col">
+
+	<div macro="mgtdList title:'Associated Projects' tags:'Project && !Complete' view:Project
+		ignoreRealm:yes
+		group:ProjectStatus
+		gView:bold
+		newButtonTags:'Project'
+		"></div>
+
+	<div macro="mgtdList title:'Associated Ticklers' tags:'Tickler && !Actioned' view:Tickler
+		ignoreRealm:yes
+		newButtonTags:'Tickler Once'
+		sort:tickleDate
+		"></div>
+
+	<div macro="mgtdList title:'Done Actions' tags:'Action && Done' view:DoneAction
+		ignoreRealm:yes
+		newButtonTags:Done
+		"></div>
+
+	<div macro="mgtdList title:'Completed Projects' tags:'Project && Complete' view:ProjectComplete
+		ignoreRealm:yes
+		newButtonTags:'Project'
+		"></div>
+
+</div>
+
+<div class="clear"></div>
+</div>
+<!--}}}-->
+
 
 !Area
 <!--{{{-->
-<table class="threecol"><tr><td>
-<div macro="mgtdList title:'Active Projects' tags:'Project && !Complete && !Someday/Maybe' view:Project newButtonTags:'Project Active' "></div>
-</td><td>
-<div macro="mgtdList title:'Someday/Maybe Projects' tags:'Project && !Complete && Someday/Maybe' view:Project newButtonTags:'Project Someday/Maybe' "></div>
-</td><td>
-<div macro="mgtdList title:'Completed Projects' tags:'Project && Complete' view:ProjectComplete newButtonTags:'Project Someday/Maybe' "></div>
-</td>
-</tr></table>
+<div class="cols3">
+
+<div class="col">
+	<div macro="mgtdList title:'Active Projects' tags:'Project && !Complete && !Someday/Maybe' view:Project newButtonTags:'Project Active'
+		ignoreRealm:yes
+		"></div>
+</div>
+<div class="col">
+	<div macro="mgtdList title:'Someday/Maybe Projects' tags:'Project && !Complete && Someday/Maybe' view:Project newButtonTags:'Project Someday/Maybe'
+		ignoreRealm:yes
+		"></div>
+</div>
+<div class="col">
+	<div macro="mgtdList title:'Completed Projects' tags:'Project && Complete' view:ProjectComplete newButtonTags:'Project Someday/Maybe' 
+		ignoreRealm:yes
+		"></div>
+</div>
+
+<div class="clear"></div>
+</div>
+<!--}}}-->
+
+
+!Reference
+<!--{{{-->
+<div class="tagglyTagging" macro="tagglyTagging"></div><!--- this makes me happy :) --->
 <!--}}}-->
 
 
 !Ticklers Requiring Action
-<div macro="mgtdList title:'Ticklers Requiring Action' tags:'Tickler && Enabled && !Actioned' view:Tickler newButtonTags:'Tickler Enabled Once'
+<!--{{{-->
+<!--- included by other sections --->
+<div macro="mgtdList title:'Ticklers Requiring Action' tags:'Tickler && !Actioned' view:Tickler newButtonTags:'Tickler Once'
+	ignoreRealm:yes
 	where:'tiddler.fields.mgtd_date && ((new Date()).convertToYYYYMMDDHHMM() >= tiddler.fields.mgtd_date ) '
-	sortBy:tickleDate
-	"></div>
-
-!Upcoming Ticklers 
-<!--- not actually a tag. included by other sections --->
-<div macro="mgtdList title:'Upcoming Ticklers' tags:'Tickler && Enabled && !Actioned' view:Tickler newButtonTags:'Tickler Enabled Once'
-	where:'!tiddler.fields.mgtd_date || ((new Date()).convertToYYYYMMDDHHMM() < tiddler.fields.mgtd_date ) '
-	sortBy:tickleDate
-	"></div>
-
-!Reference
-<div class="tagglyTagging" macro="tagglyTagging"></div><!--- this makes me happy :) --->
-
-!Contact
-<table class="twocol"><tr><td>
-
-<div macro="mgtdList title:'Delegated Actions' tags:'Action && !Done && [(Waiting For)]' view:ActionProj
-	newButtonTags:'Action [(Waiting For)]'
-	"></div>
-
-<div macro="mgtdList title:'Associated Actions' tags:'Action && !Done && ![(Waiting For)]' view:ActionProj
-	group:ActionStatus
-	gView:bold
-	newButtonTags:'Action'
-	"></div>
-
-
-</td><td>
-<div macro="mgtdList title:'Associated Projects' tags:'Project && !Complete' view:Project
-	group:ProjectStatus
-	gView:bold
-	newButtonTags:'Project'
-	"></div>
-
-<div macro="mgtdList title:'Associated Ticklers' tags:'Tickler && !Actioned && Enabled' view:Tickler
-	newButtonTags:'Tickler Enabled Once'
 	sort:tickleDate
 	"></div>
+<!--}}}-->
 
-<div macro="mgtdList title:'Done Actions' tags:'Action && Done' view:DoneAction
-	newButtonTags:Done
+
+!Upcoming Ticklers 
+<!--{{{-->
+<!--- included by other sections --->
+<div macro="mgtdList title:'Upcoming Ticklers' tags:'Tickler && !Actioned' view:Tickler newButtonTags:'Tickler Once'
+	ignoreRealm:yes
+	where:'!tiddler.fields.mgtd_date || ((new Date()).convertToYYYYMMDDHHMM() < tiddler.fields.mgtd_date ) '
+	sort:tickleDate
 	"></div>
-
-<div macro="mgtdList title:'Completed Projects' tags:'Project && Complete' view:ProjectComplete
-	newButtonTags:'Project'
-	"></div>
+<!--}}}-->
 
 
 
-</td></tr></table>

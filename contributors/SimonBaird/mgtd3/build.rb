@@ -49,15 +49,15 @@ initial = [
 	['Training',       'Area Work'],
 	['Customer Relations',       'Area Work'],
 
- 	['@Weekend',       'Context'],
-	['@Call',          'Context'],
-	['@Home',          'Context'],
-	['@Office',        'Context'],
-	['@Errand',        'Context'],
-	['@Email',         'Context'],
-	['@Offline',       'Context'],
-	['@Low Energy',    'Context'],
-	['@Reading',       'Context'],
+ 	['Weekend',       'Context'],
+	['Call',          'Context'],
+	['Home',          'Context'],
+	['Office',        'Context'],
+	['Errand',        'Context'],
+	['Email',         'Context'],
+	['Offline',       'Context'],
+	['Low Energy',    'Context'],
+	['Reading',       'Context'],
 
 ]
 
@@ -71,22 +71,22 @@ demo = [
   ['Kermit',         "Contact"],
 
 	['Mow Lawn',              "Project [[Home Maintenance]] Personal Active"],
-	['Get some mower fuel',   "Action Next Personal [[Mow Lawn]] @Errand"],
-	['Pick up palm branches', "Action Next Personal [[Mow Lawn]] @Weekend"],
-	['Mow the lawn already',  "Action Future Personal [[Mow Lawn]] @Weekend"],
+	['Get some mower fuel',   "Action Next Personal [[Mow Lawn]] Errand"],
+	['Pick up palm branches', "Action Next Personal [[Mow Lawn]] Weekend"],
+	['Mow the lawn already',  "Action Future Personal [[Mow Lawn]] Weekend"],
 
 	['Buy snowboard',                          "Project Recreation Personal Someday/Maybe"],
-	['Look in phone book for local ski shops', "Action Next Personal [[Buy snowboard]] @Home"],
-	['Ask Ben for recommendations',            "Action Next Personal [[Buy snowboard]] @Call"],
+	['Look in phone book for local ski shops', "Action Next Personal [[Buy snowboard]] Home"],
+	['Ask Ben for recommendations',            "Action Next Personal [[Buy snowboard]] Call"],
 
   ['Hang up bedroom curtains', "Project [[Home Maintenance]] Personal Active"],
-  ['Buy curtain rail and screws', "Action Next Personal [[Hang up bedroom curtains]] @Errand"],
-  ['Drill holes and hung up curtain rail', "Action Future Personal [[Hang up bedroom curtains]] @Home"],
-  ['Place curtain pins and hung up curtains', "Action Future Personal [[Hang up bedroom curtains]] @Home"],
+  ['Buy curtain rail and screws', "Action Next Personal [[Hang up bedroom curtains]] Errand"],
+  ['Drill holes and hung up curtain rail', "Action Future Personal [[Hang up bedroom curtains]] Home"],
+  ['Place curtain pins and hung up curtains', "Action Future Personal [[Hang up bedroom curtains]] Home"],
   
   ['Go to theatre with Sue', "Project Recreation Personal Active"],
-  ['Ring Sue: decide play and dates', "Action Next Personal [[Go to theatre with Sue]] @Call"],
-  ['Ring ticket office and book places', "Action Future Personal [[Go to theatre with Sue]] @Call"],
+  ['Ring Sue: decide play and dates', "Action Next Personal [[Go to theatre with Sue]] Call"],
+  ['Ring ticket office and book places', "Action Future Personal [[Go to theatre with Sue]] Call"],
   
 	['A project-less task',   "Action Next Personal"],
 

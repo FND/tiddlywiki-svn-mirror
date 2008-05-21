@@ -8,6 +8,11 @@ merge(Tiddler.prototype,{
 	sort_orderSlice: function() {
 		var orderSlice = store.getTiddlerSlice(this.title,"order");
 		return orderSlice ? orderSlice : this.title; // so if there's no slice we get sorting by title
+	},
+
+	sort_prioritySlice: function() {
+		var orderSlice = store.getTiddlerSlice(this.title,"priority");
+		return orderSlice ? orderSlice : this.title; // so if there's no slice we get sorting by title
 	}
 
 });

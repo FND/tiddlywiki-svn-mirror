@@ -430,6 +430,11 @@ html>body .header2 {background-image:url(http://simonbaird.com/images/monkeygtd/
 
 .mgtdList .plain { padding-left:1em; }
 
+#sidebar .mgtdList .plain { padding-left:0em; }
+#sidebar .tabContents .sliderPanel { margin-left:1em; }
+#sidebar .sliderPanel .mgtdList .plain { padding-left:0em; }
+#sidebar .mgtdList .noneHeading .tiddlyLink { font-weight:normal!important; }
+
 /* TODO why not just make it all of them... */
 .mgtdList .action .tiddlyLinkExisting,
 .mgtdList .plain .tiddlyLinkExisting,
@@ -542,7 +547,7 @@ body {
 /* give a little more space for menu */
 #sidebar { width: 21em; /* instead of 16em */ }
 #displayArea { margin-right:20.7em; /* instead of 15.7em */ }
-#sidebarTabs .tabContents { width:20em; /* instead of 15em */ }
+#sidebarTabs .tabContents { width:94%; /*16.5em;  instead of 15em */ } /* this seems silly */
 
 #messageArea .help { width:40em; font-size:90%; }
 
@@ -623,11 +628,20 @@ with brs in non-mgtdlist content. .normal might help */
 
 /* applicable for any printing. (moved from the 3x5 section) */
 @media print {
+
+	.viewer .tiddlyLink,
+	.mgtdList .tiddlyLink,
+	.tiddlyLink
+	  { color:black ! important; }
+
 	#sidebar, .mtoolbar, .header2, #toggleSideBar, #backstageArea,
-	#backstageButton, #searchBox, .subtitle, .button {display: none !important;}
+	#backstageButton, #searchBox, .subtitle, .button
+	  {display: none !important;}
+
 	#displayArea {margin: 0;}
 	#contentWrapper .chkOptionInput {border:0; width:0.25cm;}
 	.titleContainer {border-bottom: 1px dotted #000;}
+
 }
 
 
@@ -642,11 +656,14 @@ with brs in non-mgtdlist content. .normal might help */
 
 .controls {
 	clear:right;
+	padding:0.5em;
+	margin-top:1em;
+	padding-bottom:0.5em;
+}
+
+.controlstint {
 	background-color:#f0f0f0;
 	border:1px solid #ccc!important; 
-	padding:0.5em;
-	/* margin-top:1em; */
-	padding-bottom:0.5em;
 }
 
 .toolbar .button {
@@ -685,8 +702,8 @@ with brs in non-mgtdlist content. .normal might help */
 	background-color:#555; border-style:none!important;
 }
 
-.controls .button.Starred.off,
-.controls .button.Starred.on
+.controlstint .button.Starred.off,
+.controlstint .button.Starred.on
 { background-color:#f0f0f0; border-style:none!important;}
 
 .unboldLinks .tiddlyLink {

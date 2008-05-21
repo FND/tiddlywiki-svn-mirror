@@ -51,3 +51,6 @@ window.wikify = function(source,output,highlightRegExp,tiddler)
 	coreWikify.apply(this,arguments);
 }
 
+readOnly = false;
+showBackstage = true;
+

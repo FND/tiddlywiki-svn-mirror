@@ -20,6 +20,14 @@ merge(config.macros,{
 		getActiveRealms: function() {
 			return store.fetchTiddler("MgtdSettings").getByIndex("Realm");
 		},
+
+		noActiveRealmMessage: function() {
+			// this doesn't work like it ought to?????
+			if (this.getActiveRealms().length == 0) {
+				//clearMessage();
+				displayMessage("Error: No active realms. Please activate at least one realm."); 
+			}
+		},
 		
 		getRealm: function(tiddlerTitle) {
 
@@ -37,7 +45,8 @@ merge(config.macros,{
 				return active[0];
 			}
 			else if (active.length == 0) {
-				return fastTagged('Realm')[0]; // whatever...
+				var fudge = fastTagged('Realm')[0].title;	 // this is a little bit random but they should be seeing the warning by now and fixing it
+				return fudge;
 			}
 			else {
 				// if there's more than one active realm use a slice to get the realm priority and choose the highest one
@@ -62,6 +71,9 @@ merge(config.macros,{
 		},
 
 		handler: function (place,macroName,params,wikifier,paramString,tiddler) {
+
+			this.noActiveRealmMessage();
+
 			var pp = paramString.parseParams("tags",null,true);
 
 			// title of the list

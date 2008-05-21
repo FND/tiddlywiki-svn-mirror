@@ -108,7 +108,11 @@ merge(Tiddler.prototype,{
 merge(Tiddler.prototype,{
 
 	render: function(method,renderOptions) {
-		return this["render_"+method](renderOptions);
+		var renderMethod = "render_"+method;
+		if (this[renderMethod])
+			return this["render_"+method](renderOptions);
+		else
+			return "*** cant render "+renderMethod+" ***";
 	},
 
 	renderUtil: function(formatString,formatValues) {
@@ -262,7 +266,7 @@ merge(Array.prototype,{
 			}
 
 			if (groupName == "__NONE__") {
-				result = result + makeHeading + "[[("+(noneHeading?noneHeading:"No "+headingRenderMethod)+")]]"+showCount+newButtonMarkup+"\n";
+				result = result + makeHeading + "{{noneHeading{[[("+(noneHeading?noneHeading:"No "+headingRenderMethod)+")]]}}}"+showCount+"\n";
 			}
 			else {
 				var gTiddler = store.getTiddler(groupName);

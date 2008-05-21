@@ -355,8 +355,8 @@ merge(config.macros,{
 });
 
 setStylesheet(["",
-".button.off {font-weight:bold;border-color:#eee;background:#fff;color:#ccc;margin:0px;font-size:110%}",
-".button.on {font-weight:bold;border-color:#444;background:#888;color:#fff;margin:0px;font-size:110%}",
+".button.off {font-weight:bold;border-color:#eee;background:#fff;color:#ccc;margin:0px;font-size:100%}",
+".button.on {font-weight:bold;border-color:#444;background:#888;color:#fff;margin:0px;font-size:100%}",
 ".button.tiny { font-size:75%; }",
 // TODO move this css elsewhere
 "#realmSelector .button.off {margin:0 0.5em;padding:0 1em;border:2px solid #aaa;background:#eee;color:#333;}", // actually reversed, ie off is "on"
@@ -376,7 +376,7 @@ setStylesheet(["",
 ".viewer .Enabled.button.on {border-color:#55c;background:#cfa;color:#4a4;}",
 ".viewer .Disabled.button.on {border-color:#b84;background:#fdb;color:#b84;}",
 
-".viewer .Starred.button {padding:0;font-size:170%;}",
+".viewer .Starred.button {padding:0;font-size:100%;}",
 ".viewer .Starred.button.on {border-color:#fff;background:#fff;color:#f80;}",
 ".viewer .Starred.button.off {border-color:#fff;background:#fff;color:#ddd;}",
 

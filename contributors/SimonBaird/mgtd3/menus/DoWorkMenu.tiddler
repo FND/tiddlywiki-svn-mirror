@@ -1,17 +1,15 @@
-/%<slider+ Grouped by Context>
-%/[[Next Actions|Next Actions by Context]]
+[[Next Actions|Next Actions by Context]]
 [[Starred Next Actions|Starred Next Actions]]
 [[Next and Waiting Actions|Next and Waiting Actions by Context]]
 [[Action Dashboard|Action Dashboard by Context]]
-/%</slider>
-%/[[Starred Items]]
+[[Starred Items]]
 [[Tickler Dashboard]]
 [[Delegated Tasks Dashboard]]
 [[Reference Items]]
 [[Done Actions]]
 
 <slider+ Contexts>
-<<mgtdList startTag:Action tags:'Next && !Done' groupCountOnly:yes group:Context gView:Context where:tiddler.hasActiveProject()>>
+<<mgtdList startTag:Action tags:'Next && !Done' groupCountOnly:yes group:Context gView:plain where:tiddler.hasActiveProject()>>
 </slider>
 <slider Grouped by Project>
 [[Next Actions|Next Actions by Project]]
