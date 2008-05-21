@@ -24,14 +24,13 @@ config.macros.RippleRap.init = function(){
 	// Render local tiddler in the RippleRap UI as required.
 	
 	// Get agenda updates and update UI.
+	config.macros.importWorkspace.getTiddlersForFeed("AgendaFeed");
 	
 	// Display appropriate tab in agenda view.
 	
 };
 
 
-
-config.macros.RippleRap = {};
 config.macros.RippleRap.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var params = paramString.parseParams("anon",null,true,false,false);
 	var option = getParam(params,"option",null);
