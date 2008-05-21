@@ -127,6 +127,9 @@ merge(config.macros,{
 			var newButton = getParam(pp,"newButton",""); // not using 
 			var newButtonTags = getParam(pp,"newButtonTags","");
 
+			// don't show empty list
+			var dontShowEmpty = getParam(pp,"dontShowEmpty","");
+
 			newButtonTags = newButtonTags.replace(/\[\(/g," [[").replace(/\)\]/g,"]] "); // change [(..)] to [[..]]
 
 			if (!startTag)
@@ -158,6 +161,7 @@ merge(config.macros,{
 			listRefreshContainer.setAttribute("newButtonTags",newButtonTags);
 			if (tiddler)
 				listRefreshContainer.setAttribute("tiddlerTitle",tiddler.title);
+			listRefreshContainer.setAttribute("dontShowEmpty",dontShowEmpty);
 
 			this.refresh(listRefreshContainer);
 		},
@@ -184,6 +188,7 @@ merge(config.macros,{
 			var newButton = place.getAttribute("newButton");
 			var newButtonTags = place.getAttribute("newButtonTags");
 			var tiddlerTitle = place.getAttribute("tiddlerTitle");
+			var dontShowEmpty = place.getAttribute("dontShowEmpty");
 
 			var wikifyThis = "";
 
@@ -279,15 +284,19 @@ merge(config.macros,{
 				wikifyThis += theList.render(viewType);
 			}
 
-			if (wikifyThis == checkForContent)
+			var emptyList = false;
+			if (wikifyThis == checkForContent) {
+				emptyList = true;
 				wikifyThis += "{{none{none}}}";
+			}
 
 			wikifyThis += "}}}\n";
 			wikifyThis += "}}}\n";
 
-			wikify(wikifyThis,place,null,tiddler);
+			if (!(dontShowEmpty == "yes" && emptyList))
+				wikify(wikifyThis,place,null,tiddler);
 
-			forceReflow();
+			forceReflow(); // fixes rendering issues. (but probably doubles up rendering time??)
 
 		}
 	}

@@ -38,6 +38,7 @@
 	<div macro="mgtdList title:'Completed Subprojects' tags:'Project && Complete' view:ProjectComplete
 		ignoreRealm:yes
 		newButtonTags:'Project Active Complete'
+		dontShowEmpty:yes
 		"></div>
 
 	<div macro="mgtdList title:'Future Actions' tags:'Action && Future && !Done' view:Action
@@ -60,6 +61,7 @@
 	<div macro="mgtdList title:'Done Actions' tags:'Action && Done' view:DoneAction
 		ignoreRealm:yes
 		newButtonTags:'Action Done Next'
+		dontShowEmpty:yes
 		sort:-modified
 		"></div>
 
@@ -182,6 +184,7 @@
 <!--- included by other sections --->
 <div macro="mgtdList title:'Ticklers Requiring Action' tags:'Tickler && !Actioned' view:Tickler newButtonTags:'Tickler Once'
 	ignoreRealm:yes
+	dontShowEmpty:yes
 	where:'tiddler.fields.mgtd_date && ((new Date()).convertToYYYYMMDDHHMM() >= tiddler.fields.mgtd_date ) '
 	sort:tickleDate
 	"></div>
