@@ -7,7 +7,7 @@ merge(config.macros,{
 			if (!config.mGTD.getOptChk('AlertsIgnoreRealm'))
 				realmFilter = ' && tiddler.tags.containsAny(config.macros.mgtdList.getActiveRealms())';
 			var theList = fastTagged('Tickler').
-						filterByTagExpr('Enabled && !Actioned').
+						filterByTagExpr('!Actioned').
 								filterByEval('tiddler.fields.mgtd_date <= (new Date()).convertToYYYYMMDDHHMM()'+realmFilter);
 			if (theList.length > 0) {
 				var blinker = createTiddlyElement(place,'blink');

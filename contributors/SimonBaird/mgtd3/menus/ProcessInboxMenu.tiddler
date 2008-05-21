@@ -4,7 +4,7 @@
 %/<<newSavedTiddler label:'new future action' tag:{{'Action Future [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
 %/<<newSavedTiddler label:'new active project' tag:{{'Project Active [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
 %/<<newSavedTiddler label:'new someday project' tag:{{'Project Someday/Maybe [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
-%/<<newSavedTiddler label:'new tickler' tag:{{'Tickler Once Enabled [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
+%/<<newSavedTiddler label:'new tickler' tag:{{'Tickler Once [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
 %/<<newSavedTiddler label:'new contact' tag:{{'Contact [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
 %/<<newSavedTiddler label:'new context' tag:{{'Context [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
 %/<<newSavedTiddler label:'new area' tag:{{'Area [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
