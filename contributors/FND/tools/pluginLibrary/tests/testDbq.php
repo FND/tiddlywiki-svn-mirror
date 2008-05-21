@@ -2,6 +2,15 @@
 
 require_once "../dbq.php";
 
+/*
+** Note:
+** The general structure of unit tests consists of three parts:
+** 1. setup
+** 2. action
+** 3. assertion
+** In rare cases (e.g. when handling errors and exceptions), steps 2 and 3 may be swapped.
+*/
+
 class testDatabaseConnection extends UnitTestCase {
 
 	// return TRUE for successful connection

@@ -35,23 +35,28 @@ function processRepositories() {
 	$repositories = getRepositories();
 	$currentRepository = new stdClass;
 	foreach($repositories as $repo) {
-		// set current repository
-		$currentRepository->ID = $repo->ID;
-		$currentRepository->URI = $repo->URI;
-		$currentRepository->name = $repo->name;
-		// initialize plugins' availability
-		initPluginAvailability();
-		// load contents
-		$contents = file_get_contents($repo->URI); // DEBUG: missing error handling?
-		// document type handling
-		if($repo->type == "TiddlyWiki") // TiddlyWiki document
-			processTiddlyWiki($contents);
-		elseif($repo->type == "SVN") // Subversion directory
-			echo $repo->type . "\n"; // DEBUG: to be implemented
-		elseif($repo->type == "file") // JavaScript file
-			echo $repo->type . "\n"; // DEBUG: to be implemented
-		else
-			addLog("ERROR: failed to process repository " . $repo->url);
+		if($repo->disabled) {
+			addLog("skipped disabled repository " . $repo->name);
+		} else {
+			addLog("processing repository " . $repo->name);
+			// set current repository
+			$currentRepository->ID = $repo->ID;
+			$currentRepository->URI = $repo->URI;
+			$currentRepository->name = $repo->name;
+			// initialize plugins' availability
+			initPluginAvailability();
+			// load contents
+			$contents = file_get_contents($repo->URI); // DEBUG: missing error handling?
+			// document type handling
+			if($repo->type == "TiddlyWiki") // TiddlyWiki document
+				processTiddlyWiki($contents);
+			elseif($repo->type == "SVN") // Subversion directory
+				echo $repo->type . "\n"; // DEBUG: to be implemented
+			elseif($repo->type == "file") // JavaScript file
+				echo $repo->type . "\n"; // DEBUG: to be implemented
+			else
+				addLog("ERROR: failed to process repository " . $repo->url);
+		}
 	}
 }
 
@@ -97,7 +102,7 @@ function getVersion($xml) {
 	}
 }
 
-function processPluginTiddlers($xml, $oldStoreFormat = false) {
+function processPluginTiddlers($xml, $oldStoreFormat = false) { // DEBUG: split into separate functions
 	global $currentRepository;
 	// DEBUG: use of strval() for SimpleXML value retrieval hacky!?
 	$filter = "//div[@id='storeArea']/div[contains(@tags, 'systemConfig')]";
@@ -131,7 +136,7 @@ function processPluginTiddlers($xml, $oldStoreFormat = false) {
 					break;
 			}
 		}
-		// retrieve tiddler text -- DEBUG: strip leading and trailing whitespace?
+		// retrieve tiddler text -- DEBUG: strip leading and trailing whitespaces (esp. line feeds)?
 		if(!$oldStoreFormat) { // v2.2+
 			$t->text = strval($tiddler->pre);
 		} else {
@@ -145,6 +150,14 @@ function processPluginTiddlers($xml, $oldStoreFormat = false) {
 		$source = $t->slices->source;
 		// retrieve plugins only from original source
 		if(!$source || $source && !(strpos($source, $currentRepository->URI) === false)) { // DEBUG: www handling (e.g. http://foo.bar = http://www.foo.bar)
+			// check blacklist
+			if(pluginBlacklisted($t->title, $currentRepository->ID)) {
+				addLog("skipped blacklisted plugin " . $t->title . " in repository " . $currentRepository->name);
+			}
+			// retrieve documentation sections
+			preg_match("/(?:\/\*\*\*)(.*)(?:\*\*\*\/)/s", $t->text, $matches); // DEBUG: extraction pattern to simplistic?
+			$t->documentation = $matches[1];
+			// store plugin
 			storePlugin($t);
 		} else {
 			addLog("skipped tiddler " . $t->title . " in repository " . $currentRepository->name);
@@ -174,7 +187,7 @@ function getSlices($text) {
 
 function storePlugin($tiddler) {
 	global $currentRepository;
-	$pluginID = pluginExists($currentRepository->ID, $tiddler->title);
+	$pluginID = pluginExists($tiddler->title, $currentRepository->ID);
 	if($pluginID) {
 		updatePlugin($tiddler, $pluginID);
 	} else {
@@ -222,11 +235,11 @@ function updatePlugin($tiddler, $pluginID) {
 	return $dbq->updateRecords("plugins", $data, $selectors, 1);
 }
 
-function pluginExists($repoID, $pluginName) {
+function pluginExists($name, $repoID) {
 	global $dbq;
 	$selectors = array(
 		repository_ID => $repoID,
-		title => $pluginName
+		title => $name
 	);
 	$r = $dbq->retrieveRecords("plugins", array("*"), $selectors);
 	if(sizeof($r) > 0) {
@@ -234,6 +247,11 @@ function pluginExists($repoID, $pluginName) {
 	} else {
 		return false;
 	}
+}
+
+function pluginBlacklisted($name, $repoID) {
+	global $dbq;
+	return false; // DEBUG: to do
 }
 
 ?>
