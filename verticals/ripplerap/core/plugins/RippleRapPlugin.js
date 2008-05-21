@@ -119,17 +119,19 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 
 	// Create a new notes tiddler if required.
 	if(!store.tiddlerExists(title)) {
-		var text = "you notes here";
+		var text = "";
 		var modifier = config.options.txtUserName;
-		var modified = '';
-		var created = '';
+		var modified = null;
+		var created = null;
 		var tags = ['notes'];
 		var fields = null;
 		store.saveTiddler(title,title,text,modifier,modified,tags,fields,true,created);
 	}
 	// display the notes tiddler in edit mode.
-	var template = "NoteEditTemplate";
-	story.displayTiddler(sessionTiddler,title,template,false,null,null);
+	var template = "notesViewTemplate";
+	// srcElement,tiddler,template,animate,unused,customFields,toggle
+	// story.displayTiddler(null,'Help');
+	story.displayTiddler(sessionTiddler,title,null,true,null,null,target);
 	
 	
 };

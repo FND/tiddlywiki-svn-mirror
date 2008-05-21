@@ -14,6 +14,8 @@
 |''~EditTemplate:''|##EditTemplate|
 |''~sessionViewTemplate:''|##sessionViewTemplate|
 |''~sessionEditTemplate:''|##sessionEditTemplate|
+|''~notesViewTemplate:''|##notesViewTemplate|
+|''~notesEditTemplate:''|##notesEditTemplate|
 |''~discovered_notesViewTemplate:''|##discovered_notesViewTemplate|
 |''~TrackViewTemplate:''|##TrackViewTemplate|	
 |''~StyleSheet:''|##StyleSheet|
@@ -96,7 +98,7 @@
 <!--}}}-->
 
 
-!NoteViewTemplate
+!notesViewTemplate
 <!--{{{-->
 <div class='myNotes'>
 	<div class='toolbar' macro='toolbar closeTiddler +editTiddler'></div>
@@ -106,7 +108,7 @@
 <!--}}}-->
 
 
-!NoteEditTemplate
+!notesEditTemplate
 <!--{{{-->
 <div class='myNotes'>
 	<div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
