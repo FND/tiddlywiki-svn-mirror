@@ -159,7 +159,7 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 		value_of(__tiddlers[2].title).should_be('May Bore');
 	},
 	'speaker should have the content set to the SpeakerSession macro': function() {
-		value_of(__tiddlers[2].text).should_be('<<SpeakerSessions>>');
+		value_of(__tiddlers[2].text).should_be('');
 	},
 
 	'third tiddler should have the title set from the first speaker': function() {

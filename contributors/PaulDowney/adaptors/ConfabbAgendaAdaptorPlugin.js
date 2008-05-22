@@ -120,9 +120,11 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 		speakers[name] = name;
 	}
 
+	var speaker_text = '';
+
 	for(var speaker in speakers) {
 		var tiddler = new Tiddler();
-		tiddler.assign(speaker,'<<SpeakerSessions>>',undefined,undefined,['speaker'],undefined,{speaker_bio: speakers[speaker]});
+		tiddler.assign(speaker,speaker_text,undefined,undefined,['speaker'],undefined,{speaker_bio: speakers[speaker]});
 		tiddlers.push(tiddler);
 	}
 
