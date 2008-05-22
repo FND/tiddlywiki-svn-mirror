@@ -610,6 +610,11 @@ body {
   float: left;
   vertical-align:top;
 }
+
+.cols3, .cols2 {
+	overflow: auto; /* conain floats. tnx FND */
+}
+
 /* IE not doing these right :( */
 /* .cols3>br, .col>br { display:none; } */
 
@@ -623,7 +628,7 @@ with brs in non-mgtdlist content. .normal might help */
   width: 33%;
 }
 .cols2 .col {
-  width: 50%;
+  width: 49%; /* 50% makes IE put them under each other */
 }
 .clear {
   clear: left;

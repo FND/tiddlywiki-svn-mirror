@@ -1,7 +1,7 @@
 <<mgtdList
 	title:'Ticklers Requiring Action'
 	startTag:Tickler
-	tags:'Enabled && !Actioned'
+	tags:'!Actioned'
 	view:Tickler
 	mode:global
 	newButtonTags:'Tickler Enabled Once'

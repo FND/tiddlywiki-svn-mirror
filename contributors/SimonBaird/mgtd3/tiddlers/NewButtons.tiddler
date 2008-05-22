@@ -1,6 +1,6 @@
 <<newSavedTiddler title:'New Action' label:'+ action' tag:{{'Action Next [['+config.macros.mgtdList.getRealm()+']]'}}>>
 <<newSavedTiddler title:'New Project' label:'+ project' tag:{{'Project Active [['+config.macros.mgtdList.getRealm()+']]'}}>>
-<<newSavedTiddler title:'New Tickler' label:'+ tickler' tag:{{'Tickler Once Enabled [['+config.macros.mgtdList.getRealm()+']]'}}>>
+<<newSavedTiddler title:'New Tickler' label:'+ tickler' tag:{{'Tickler Once [['+config.macros.mgtdList.getRealm()+']]'}}>>
 <slider quick add>
 <<processInbox>>
 </slider>
