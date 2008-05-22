@@ -124,15 +124,13 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 		var modified = null;
 		var created = null;
 		var tags = ['notes'];
-		var fields = null;
+		var fields = {};
+		// fields.rr_session_id = sessionTiddler.getAttribute('tiddler');
 		store.saveTiddler(title,title,text,modifier,modified,tags,fields,true,created);
 	}
 	// display the notes tiddler in edit mode.
-	var template = "notesViewTemplate";
-	// srcElement,tiddler,template,animate,unused,customFields,toggle
-	// story.displayTiddler(null,'Help');
-	story.displayTiddler(sessionTiddler,title,null,true,null,null,target);
-	
+	var template = DEFAULT_EDIT_TEMPLATE;
+	story.displayTiddler(sessionTiddler,title,template,false,null,null,target);
 	
 };
 

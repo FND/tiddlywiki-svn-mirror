@@ -16,6 +16,7 @@
 |''~sessionEditTemplate:''|##sessionEditTemplate|
 |''~notesViewTemplate:''|##notesViewTemplate|
 |''~notesEditTemplate:''|##notesEditTemplate|
+|''~speakerViewTemplate:''|##speakerViewTemplate|
 |''~discovered_notesViewTemplate:''|##discovered_notesViewTemplate|
 |''~TrackViewTemplate:''|##TrackViewTemplate|	
 |''~StyleSheet:''|##StyleSheet|
@@ -128,7 +129,7 @@
 <!--}}}-->
 
 
-!SpeakerViewTemplate
+!speakerViewTemplate
 <!--{{{-->
 <div class="VanillaView Speaker">
 <div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
@@ -138,6 +139,7 @@
 <span class="vcard">
 <div class='viewer' macro='view text wikified'></div>
 </span>
+<div class='viewer' macro='SpeakerSessions'></div>
 <div class='tagClear'></div> 
 </div>
 <!--}}}-->
