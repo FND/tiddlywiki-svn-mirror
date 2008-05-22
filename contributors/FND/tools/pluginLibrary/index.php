@@ -25,7 +25,6 @@ $t1 = time();
 echo "Runtime: " . ($t1 - $t0) . " seconds\n"; // DEBUG
 debug($log); // DEBUG: write to file?
 
-
 /*
 ** repository handling
 */
@@ -72,6 +71,7 @@ function initPluginAvailability() {
 		available => false
 	);
 	$dbq->updateRecords("plugins", $data);
+	// DEBUG: tags, fields and metaslices need to be purged
 }
 
 /*
@@ -155,7 +155,7 @@ function processPluginTiddlers($xml, $oldStoreFormat = false) { // DEBUG: split 
 				addLog("skipped blacklisted plugin " . $t->title . " in repository " . $currentRepository->name);
 			}
 			// retrieve documentation sections
-			preg_match("/(?:\/\*\*\*)(.*)(?:\*\*\*\/)/s", $t->text, $matches); // DEBUG: extraction pattern to simplistic?
+			preg_match("/(?:\/\*\*\*)(.*)(?:\*\*\*\/)/s", $t->text, $matches); // DEBUG: extraction pattern too simplistic?
 			$t->documentation = $matches[1];
 			// store plugin
 			storePlugin($t);
@@ -212,7 +212,9 @@ function addPlugin($tiddler) {
 		annotation => null
 	);
 	addLog("added plugin " . $tiddler->title . " from repository " . $currentRepository->name);
-	return $dbq->insertRecord("plugins", $data);
+	$pluginID = $dbq->insertRecord("plugins", $data);
+	// DEBUG: process tags, fields and metaslices
+	return $pluginID;
 }
 
 function updatePlugin($tiddler, $pluginID) {
@@ -232,7 +234,8 @@ function updatePlugin($tiddler, $pluginID) {
 		documentation => $tiddler->documentation // DEBUG: to do
 	);
 	addLog("updated plugin " . $tiddler->title . " in repository " . $currentRepository->name);
-	return $dbq->updateRecords("plugins", $data, $selectors, 1);
+	$dbq->updateRecords("plugins", $data, $selectors, 1);
+	// DEBUG: process tags, fields and metaslices
 }
 
 function pluginExists($name, $repoID) {
