@@ -121,6 +121,9 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 	'second tiddler should have the title set from the session id': function() {
 		value_of(__tiddlers[1].title).should_be('session-99');
 	},
+	'session tiddler should have the field "rr_session_id" set to the session id': function() {
+		value_of(__tiddlers[1].fields.rr_session_id).should_be('session-99');
+	},
 	'session tiddler should have the field rr_session_title set from <title>': function() {
 		value_of(__tiddlers[1].fields.rr_session_title).should_be('The First Session');
 	},

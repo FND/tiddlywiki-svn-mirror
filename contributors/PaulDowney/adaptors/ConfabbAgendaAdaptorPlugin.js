@@ -98,6 +98,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 
 		tiddler.assign(id,content,undefined,undefined,tags,undefined,{
 			rr_session_title: node.getFirstElementValue("title",""),
+			rr_session_id: id,
 			rr_session_starttime: node.getFirstElementValue("starttime",""),
 			rr_session_endtime: node.getFirstElementValue("endtime",""),
 			rr_session_link: node.getFirstElementValue("link",""),
