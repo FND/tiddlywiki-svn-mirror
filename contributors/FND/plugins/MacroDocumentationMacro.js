@@ -50,7 +50,7 @@ config.macros.macroDoc.generateDoc = function(doc, name) {
 			output += (p.named ? "|" + p.name : "|" + (i + 1))
 				+ "|" + p.desc
 				+ "|" + (p.optional ? "yes" : "no")
-				+ "|" + (p.defaultValue ? p.defaultValue : "N/A")
+				+ "|" + (p.defaultValue || "N/A")
 				+ "|\n";
 		}
 	}
