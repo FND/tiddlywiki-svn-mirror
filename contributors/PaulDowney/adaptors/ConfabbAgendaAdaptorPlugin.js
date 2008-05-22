@@ -109,6 +109,23 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 		tiddlers.push(tiddler);
 	}
 
+	/* 
+	 *  build Speaker tiddlers
+	 */
+	var speakers = {};
+	var t = r.getElementsByTagName('speaker');
+	for(var i=0;i<t.length;i++) {
+		var name = t[i].getFirstElementValue("title","speaker");
+		speakers[name] = name;
+	}
+
+	for(var speaker in speakers) {
+		var tiddler = new Tiddler();
+		tiddler.assign(speaker,'<<SpeakerSessions>>',undefined,undefined,['speaker'],undefined,{speaker_bio: speakers[speaker]});
+		tiddlers.push(tiddler);
+	}
+
+
 	return tiddlers;
 };
 

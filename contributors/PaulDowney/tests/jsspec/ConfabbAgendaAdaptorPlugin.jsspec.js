@@ -94,9 +94,12 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 		__tiddlers = ConfabbAgendaAdaptor.parseAgenda(__doc);
         },
 	'should result in two tiddlers' : function() {
-		value_of(__tiddlers.length).should_be(2);
+		value_of(__tiddlers.length).should_be(4);
 	},
 
+	/*
+	 *  track
+	 */
 	'first tiddler should have the title "Day1"' : function() {
 		value_of(__tiddlers[0].title).should_be('Day1');
 	},
@@ -111,6 +114,10 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 	'track tiddler should have the field rr_session_tag set to the track id': function() {
 		value_of(__tiddlers[0].fields.rr_session_tag).should_be('Day1');
 	},
+
+	/*
+	 *  session
+	 */
 	'second tiddler should have the title set from the session id': function() {
 		value_of(__tiddlers[1].title).should_be('session-99');
 	},
@@ -140,7 +147,21 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 	},
 	'session tiddler should have the tags "session" and the track tag': function() {
 		value_of(__tiddlers[1].tags).should_be(['session','WorkshopsTutorials','GrandBallroom','Day1','MayBore','JohnDoe']);
-	}
+	},
+
+	/*
+	 *  speaker
+	 */
+	'third tiddler should have the title set from the first speaker': function() {
+		value_of(__tiddlers[2].title).should_be('May Bore');
+	},
+	'speaker should have the content set to the SpeakerSession macro': function() {
+		value_of(__tiddlers[2].text).should_be('<<SpeakerSessions>>');
+	},
+
+	'third tiddler should have the title set from the first speaker': function() {
+		value_of(__tiddlers[3].title).should_be('John Doe');
+	},
 
 });
 
