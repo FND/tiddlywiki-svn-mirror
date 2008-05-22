@@ -612,7 +612,7 @@ body {
 }
 
 .cols3, .cols2 {
-	overflow: auto; /* conain floats. tnx FND */
+	overflow: auto; /* contains floats. tnx FND */
 }
 
 /* IE not doing these right :( */

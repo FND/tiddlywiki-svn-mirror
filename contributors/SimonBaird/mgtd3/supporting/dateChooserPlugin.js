@@ -45,6 +45,10 @@ if (DatePicker){
                 if (params[0]) useTiddler = store.fetchTiddler(params[0]);
                 var curVal = useTiddler.fields['mgtd_date'] || undefined;
                 var curDate = curVal ? Date.convertFromYYYYMMDDHHMM(curVal) : new Date();    
+				// ensure ticklers activate at midnight on their day since new Date() has minutes
+				curDate.setHours(0);
+				curDate.setMinutes(0);
+				curDate.setSeconds(0); 
 				// call the suitable date method. happens to match the macroname. see MgtdDateUtils. sorry for confusing code.
 				curDate[macroName](1);
 				createTiddlyButton(place,config.macros.addDay.label[macroName],"add a "+config.macros.addDay.tooltip[macroName],function() {
