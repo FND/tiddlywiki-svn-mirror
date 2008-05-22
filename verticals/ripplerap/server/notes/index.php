@@ -1,21 +1,15 @@
 <?php
 /*
- *  produce an edition of RippleRap from a set of parameters:
+ *  store / list notes feeds
  *
- *  http://ripplerap.com/edition?baseURI={baseURI}&type=confabb&conferenceName={conferenceName}
+ *  http://ripplerap.com/test/{blah-blah}/notes
  *
- *  Where:
+ *  POST:
+ *      feed  - the notes XML
+ *      username - the TiddlyWiki author's name
  *
- *  - baseURI is the confabb base URI for a conference, url encoded
- *    e.g. http%3A%2F%2Fconfabb.com%2Fconferences%2F16074-web-2-0-conference-2006
- *
- *  - type indicates the format of the data at the baseURI
- *    e.g. "confabb"
- *
- *  - conferenceName is the friendly dispayed title for the conference
- *    e.g. "The Big BackYard Seminar 2008"
- *
- *  requires a "blank" ripplerap.html file
+ *  GET: 
+ *      returns OPML list of stored notes
  */
 
 $feedtext = $_POST['feed'];
@@ -35,6 +29,7 @@ if (0 != strlen($feedtext)) {
 	file_put_contents("./$username.xml", $feedtext);
 }
 
+    header('Content-type: text/xml;charset=UTF-8');
     print '<opml version="1.0">
     <head>
         <title>Conference notes</title>
