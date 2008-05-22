@@ -39,7 +39,7 @@ CREATE TABLE pluginLibrary.tags (
 	PRIMARY KEY ( ID )
 ) ENGINE = MYISAM;
 
-CREATE TABLE pluginLibrary.fields (
+CREATE TABLE pluginLibrary.tiddlerFields (
 	ID INT NOT NULL AUTO_INCREMENT ,
 	plugin_ID INT NOT NULL ,
 	name TEXT NOT NULL ,

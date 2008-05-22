@@ -14,6 +14,7 @@ class dbq {
 	* @param string [$user] username
 	* @param string [$pass] password
 	* @param string [$db] database name
+	* @return resource database link
 	*/
 	function connect($host = null, $user = null, $pass = null, $db = null) {
 		setDefault($host, $this->host);
@@ -34,6 +35,7 @@ class dbq {
 	/**
 	* close database connection
 	* @param resource [$link] MySQL connection
+	* @return boolean success or failure
 	*/
 	function disconnect($link = null) {
 		if(isset($link)) {
@@ -47,6 +49,7 @@ class dbq {
 	* execute database query
 	* @param string $q query string
 	* @param boolean [$isInsert] query is insert operation
+	* @return variable FALSE on failure; ID for insert operation; number of affected rows for update operation, results array for retrieval operation
 	*/
 	function query($q, $isInsert = false) {
 		$r = mysql_query($q);
@@ -67,6 +70,7 @@ class dbq {
 	* add record to database
 	* @param string $table table name
 	* @param array $data key-value pairs to be inserted
+	* @return variable FALSE on failure; ID on success
 	*/
 	function insertRecord($table, $data) {
 		foreach($data as $k => $v) {
@@ -83,6 +87,7 @@ class dbq {
 	* @param array $data key-value pairs to update record with
 	* @param array [$selectors] key-value pairs to serve as selectors (WHERE condition; joined by "AND")
 	* @param integer [$limit] max. number of records to update (0 for no limit)
+	* @return variable FALSE on failure; number of affected rows on success
 	*/
 	function updateRecords($table, $data, $selectors = null, $limit = 0) {
 		$q = "UPDATE " . $table . " SET ";
@@ -108,6 +113,7 @@ class dbq {
 	* @param string $table table name
 	* @param array $fields fields to retrieve
 	* @param array [$selectors] key-value pairs to serve as selectors (WHERE condition; joined by "AND")
+	* @return variable FALSE on failure, results array on success
 	*/
 	function retrieveRecords($table, $fields, $selectors = null) {
 		$q = "SELECT " . implode("`, `", $fields) . " FROM " . $table;
@@ -124,6 +130,7 @@ class dbq {
 	/**
 	* escape query string where necessary
 	* @param string $q query string
+	* @return string escaped query string
 	*/
 	function escapeQuery($q) {
 		if(get_magic_quotes_gpc()) {

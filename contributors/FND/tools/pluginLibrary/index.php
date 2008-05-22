@@ -214,8 +214,8 @@ function addPlugin($tiddler) {
 		annotation => null
 	);
 	$pluginID = $dbq->insertRecord("plugins", $data);
-	// insert fields
-	insertFields($tiddler->fields, $pluginID, false);
+	// insert tiddler fields
+	insertTiddlerFields($tiddler->fields, $pluginID, false);
 	// DEBUG: process tags, fields and metaslices
 	return $pluginID;
 }
@@ -240,7 +240,7 @@ function updatePlugin($tiddler, $pluginID) {
 	);
 	$dbq->updateRecords("plugins", $data, $selectors, 1);
 	// re-insert fields
-	insertFields($tiddler->fields, $pluginID, true);
+	insertTiddlerFields($tiddler->fields, $pluginID, true);
 	// DEBUG: process tags, fields and metaslices
 }
 
@@ -259,12 +259,13 @@ function pluginExists($name, $repoID) {
 }
 
 /**
-* add (or re-insert) a plugin's fields to the database
+* add (or re-insert) a plugin's tiddler fields to the database
 * @param array $fields key-value pairs for field name and value
 * @param integer $pluginID ID of the respective plugin
 * @param boolean [$isUpdate] plugin existed before // DEBUG: currently unused
+* @return null
 */
-function insertFields($fields, $pluginID, $isUpdate = false) {
+function insertTiddlerFields($fields, $pluginID, $isUpdate = false) {
 	global $dbq;
 	while(list($k, $v) = each($fields)) { // DEBUG: why is this an associative array now - supposed to be an object!?
 		$data = array(
@@ -273,7 +274,7 @@ function insertFields($fields, $pluginID, $isUpdate = false) {
 			name => $k,
 			value => $v
 		);
-		$dbq->insertRecord("fields", $data); // DEBUG: auto-increments ID - bad when updating!
+		$dbq->insertRecord("tiddlerFields", $data); // DEBUG: auto-increments ID - bad when updating!
 	}
 }
 
