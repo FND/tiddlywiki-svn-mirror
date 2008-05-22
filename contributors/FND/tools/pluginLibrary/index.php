@@ -197,6 +197,8 @@ function storePlugin($tiddler) {
 
 function addPlugin($tiddler) {
 	global $dbq, $currentRepository;
+	addLog("adding plugin " . $tiddler->title . " from repository " . $currentRepository->name);
+	// insert plugin
 	$data = array(
 		ID => null,
 		repository_ID => $currentRepository->ID,
@@ -211,14 +213,17 @@ function addPlugin($tiddler) {
 		views => 0,
 		annotation => null
 	);
-	addLog("added plugin " . $tiddler->title . " from repository " . $currentRepository->name);
 	$pluginID = $dbq->insertRecord("plugins", $data);
+	// insert fields
+	insertFields($tiddler->fields, $pluginID, false);
 	// DEBUG: process tags, fields and metaslices
 	return $pluginID;
 }
 
 function updatePlugin($tiddler, $pluginID) {
 	global $dbq, $currentRepository;
+	addLog("updating plugin " . $tiddler->title . " in repository " . $currentRepository->name);
+	// update plugin
 	$selectors = array(
 		ID => $pluginID
 	);
@@ -233,8 +238,9 @@ function updatePlugin($tiddler, $pluginID) {
 		updated => date("Y-m-d H:i:s"),
 		documentation => $tiddler->documentation // DEBUG: to do
 	);
-	addLog("updated plugin " . $tiddler->title . " in repository " . $currentRepository->name);
 	$dbq->updateRecords("plugins", $data, $selectors, 1);
+	// re-insert fields
+	insertFields($tiddler->fields, $pluginID, true);
 	// DEBUG: process tags, fields and metaslices
 }
 
@@ -249,6 +255,25 @@ function pluginExists($name, $repoID) {
 		return $r[0]->ID;
 	} else {
 		return false;
+	}
+}
+
+/**
+* add (or re-insert) a plugin's fields to the database
+* @param array $fields key-value pairs for field name and value
+* @param integer $pluginID ID of the respective plugin
+* @param boolean [$isUpdate] plugin existed before // DEBUG: currently unused
+*/
+function insertFields($fields, $pluginID, $isUpdate = false) {
+	global $dbq;
+	while(list($k, $v) = each($fields)) { // DEBUG: why is this an associative array now - supposed to be an object!?
+		$data = array(
+			ID => null,
+			plugin_ID => $pluginID,
+			name => $k,
+			value => $v
+		);
+		$dbq->insertRecord("fields", $data); // DEBUG: auto-increments ID - bad when updating!
 	}
 }
 
