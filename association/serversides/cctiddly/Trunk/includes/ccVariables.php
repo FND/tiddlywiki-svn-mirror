@@ -34,7 +34,7 @@ if (user_isAdmin($user['username'], $tiddlyCfg['workspace_name']))
 $anonPerm  = stringToPerm($tiddlyCfg['default_anonymous_perm']);
 
 ?>
-window.loggedIn = "<? echo $user['verified'];?>";
+window.loggedIn = "<?php echo $user['verified'];?>";
 workspacePermission.anonC = <?php echo permToBinary($anonPerm['create']); ?> ;
 workspacePermission.anonR = <?php echo permToBinary($anonPerm['read']); ?>; 
 workspacePermission.anonU = <?php echo permToBinary($anonPerm['update']); ?>;

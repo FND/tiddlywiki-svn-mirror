@@ -103,16 +103,16 @@ if ($_POST['ccHTMLName'] || $_POST['ccHTML'])
 	$ext =  strtolower($ext);
 
 
-	$allowed_ext = array("txt", "html", "rss", "xml", "js");
 
-	if (in_array($ext, $allowed_ext))
-	{
+
+//	if (in_array($ext, $allowed_ext))
+//	{
 		$file = $_POST['ccHTMLName'];
-	}else
-	{
-		echo "You are not allowed to crate files of that type.";
-		exit;
-	}
+//	}else
+//	{
+//		echo "You are not allowed to crate files of that type.";
+//		exit;
+//	}
 	
 	
 	 $myFile = $local_root.$folder.$file;
@@ -137,6 +137,7 @@ if ($_POST['ccHTMLName'] || $_POST['ccHTML'])
 $err = ""; 
 $status = 0;
 
+
 if (isset($_FILES["userFile"])) 
 {
 	if (check_vals()) 
@@ -145,7 +146,7 @@ if (isset($_FILES["userFile"]))
 		{
 			$file_type = 'image';
 		}
-		else if(($_FILES["userFile"]["type"] == "text/plain")||($_FILES["userFile"]["type"] == "text/xml")||($_FILES["userFile"]["type"] == "text/html"))
+		else if(in_array($_FILES["userFile"]["type"], $tiddlyCfg['upload_allow_extensions']))
 		{
 			$file_type = 'text';
 		}else

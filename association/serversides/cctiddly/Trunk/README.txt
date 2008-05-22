@@ -43,7 +43,6 @@ each has a password of password. If you wish to change the passwords you will ne
 The admin user is the owner of the root workspace.
 
 
-
 Configuring Uploading 
 
 1 .. Create a folder in your root directory called uploads 
@@ -51,3 +50,17 @@ Configuring Uploading
 2 .. Ensure the folder is owned by the same user that apache is running under. 
 
 3 .. Ensure that the folder can be written by its owner. 
+
+
+
+ERROR - Workspace name already exists when attempting to create a new workspace
+
+If you cannot create new workspaces you should ensure that you have a .htaccess file in place.
+
+Information about enabling mod-rewrite can be found at : http://simonmcmanus.com/2007/10/22/enable-and-use-mod-rewrite/
+
+If there is not already a .htaccess file in your cctiddly directory then you will need to create the file manually and copy the text from the following URL : 
+
+http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/.htaccess
+
+Alternatively you could disable the use of mod-rewrite in includes/config.php file. 

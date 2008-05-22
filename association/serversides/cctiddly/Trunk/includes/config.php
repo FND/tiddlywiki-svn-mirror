@@ -9,7 +9,7 @@
 	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
 	$tiddlyCfg['db']['pass'] = "";		//login password
-	$tiddlyCfg['db']['name'] = "ct16";		//db name
+	$tiddlyCfg['db']['name'] = "cct16";		//db name
 
 
 	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
@@ -23,7 +23,15 @@
 	$tiddlyCfg['mysql_debug']=0;	 // if set to 1 will output every sql query into the logfile 
 	
 	$tiddlyCfg['users_required_in_db']=0; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db
-	$tiddlyCfg['can_create_account'] = 1;
+	$tiddlyCfg['can_create_account'] = 1; // users are allowed to register for an account 
+	
+	
+	// upload values 
+	$tiddlyCfg['upload_allow_extensions'] = array("text/plain", "text/xml", "text/html", "application/msword", "application/mspowerpoint", "	application/excel", "application/x-visio", "application/pdf");
+	$tiddlyCfg['max_file_size'] = 9933300000;
+	
+	//	 list of different file types can be found at : http://www.webmaster-toolkit.com/mime-types.shtml
+	$tiddlyCfg['upload_allowed_file_extensions'] = array("txt", "html", "rss", "xml", "js", "ppt", "doc", "xls", "csv", "vsd","pdf");  //  if file uploading is enabled this are the file types which will be allowed. 
 	
 	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
 	$tiddlyCfg['table']['suffix'] = "";					//suffix			suffix of file					suffix of table name
@@ -59,9 +67,7 @@
 	$tiddlyCfg['deligate_session_management'] = 0; 	
 	$tiddlyCfg['on_the_fly_workspace_creation'] = 0;
 
-	
-	// upload values 
-	$tiddlyCfg['max_file_size'] = 9933300000;
+
 	
 	$tiddlyCfg['rss_group'] = "";
 	$tiddlyCfg['markup_group'] = "";
