@@ -78,11 +78,6 @@ version.extensions.AgendaTrack = {installed:true};
 		}
 
 		var text = sess.length ? "*" + sess.join("\n*") + "" : "";
-
-		var bio = store.getValue(tiddler,'speaker_bio', '');
-		if (bio) {
-			text = text + "\n//Taken from: "+ bio + "//";
-		}
 		wikify(text,place);
 	};
 
