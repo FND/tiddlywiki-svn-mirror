@@ -29,6 +29,10 @@ debug($log); // DEBUG: write to file?
 ** repository handling
 */
 
+/**
+* process repositories
+* @return null
+*/
 function processRepositories() {
 	global $currentRepository;
 	$repositories = getRepositories();
@@ -43,7 +47,7 @@ function processRepositories() {
 			$currentRepository->URI = $repo->URI;
 			$currentRepository->name = $repo->name;
 			// initialize plugins' availability
-			initPluginAvailability();
+			initPluginAvailability($repo->ID);
 			// load contents
 			$contents = file_get_contents($repo->URI); // DEBUG: missing error handling?
 			// document type handling
@@ -59,18 +63,29 @@ function processRepositories() {
 	}
 }
 
+/**
+* retrieve repositories
+* @return array results
+*/
 function getRepositories() {
 	global $dbq;
-	$repositories = $dbq->retrieveRecords("repositories", array("*"));
-	return $repositories;
+	return $dbq->retrieveRecords("repositories", array("*"));
 }
 
-function initPluginAvailability() {
+/**
+* initialize plugin availability
+* @param integer $repoID ID of the respective repository
+* @return null
+*/
+function initPluginAvailability($repoID) {
 	global $dbq;
 	$data = array(
 		available => false
 	);
-	$dbq->updateRecords("plugins", $data);
+	$selectors = array(
+		repository_ID => $repoID
+	);
+	$dbq->updateRecords("plugins", $data, $selectors);
 	// DEBUG: tags, fields and metaslices need to be purged
 }
 
@@ -78,6 +93,11 @@ function initPluginAvailability() {
 ** tiddler retrieval
 */
 
+/**
+* process TiddlyWiki document
+* @param object $xml SimpleXML object
+* @return null
+*/
 function processTiddlyWiki($str) {
 	$str = str_replace("xmlns=", "ns=", $str); // workaround for default-namespace bug
 	$xml = @new SimpleXMLElement($str); // DEBUG: errors for HTML entities (CDATA issue!?); suppressing errors hacky?!
@@ -89,6 +109,11 @@ function processTiddlyWiki($str) {
 	}
 }
 
+/**
+* get version number from a TiddlyWiki document
+* @param object $xml SimpleXML object
+* @return object
+*/
 function getVersion($xml) {
 	$version = $xml->xpath("/html/head/script");
 	preg_match("/major: (\d), minor: (\d), revision: (\d)/", $version[0], $matches);
@@ -102,6 +127,12 @@ function getVersion($xml) {
 	}
 }
 
+/**
+* process plugin tiddlers within a TiddlyWiki document
+* @param object $xml SimpleXML object
+* @param boolean [$oldStoreFormat] use pre-v2.2 TiddlyWiki store format
+* @return null
+*/
 function processPluginTiddlers($xml, $oldStoreFormat = false) { // DEBUG: split into separate functions
 	global $currentRepository;
 	// DEBUG: use of strval() for SimpleXML value retrieval hacky!?
@@ -165,6 +196,11 @@ function processPluginTiddlers($xml, $oldStoreFormat = false) { // DEBUG: split 
 	}
 }
 
+/**
+* retrieve plugin meta-slices
+* @param string $text tiddler text
+* @return object
+*/
 function getSlices($text) {
 	$pattern = "/(?:[\'\/]*~?([\.\w]+)[\'\/]*\:[\'\/]*\s*(.*?)\s*$)|(?:\|[\'\/]*~?([\.\w]+)\:?[\'\/]*\|\s*(.*?)\s*\|)/m"; // RegEx origin: TiddlyWiki core
 	$slices = new stdClass;
@@ -185,6 +221,11 @@ function getSlices($text) {
 ** tiddler integration
 */
 
+/**
+* store a plugin in the database (insert or update)
+* @param object $tiddler tiddler object
+* @return null
+*/
 function storePlugin($tiddler) {
 	global $currentRepository;
 	$pluginID = pluginExists($tiddler->title, $currentRepository->ID);
@@ -195,6 +236,11 @@ function storePlugin($tiddler) {
 	}
 }
 
+/**
+* add a plugin to the database
+* @param object $tiddler tiddler object
+* @return integer plugin ID
+*/
 function addPlugin($tiddler) {
 	global $dbq, $currentRepository;
 	addLog("adding plugin " . $tiddler->title . " from repository " . $currentRepository->name);
@@ -220,6 +266,12 @@ function addPlugin($tiddler) {
 	return $pluginID;
 }
 
+/**
+* update a plugin in the database
+* @param object $tiddler tiddler object
+* @param integer $pluginID ID of the respective plugin
+* @return null
+*/
 function updatePlugin($tiddler, $pluginID) {
 	global $dbq, $currentRepository;
 	addLog("updating plugin " . $tiddler->title . " in repository " . $currentRepository->name);
@@ -244,20 +296,6 @@ function updatePlugin($tiddler, $pluginID) {
 	// DEBUG: process tags, fields and metaslices
 }
 
-function pluginExists($name, $repoID) {
-	global $dbq;
-	$selectors = array(
-		repository_ID => $repoID,
-		title => $name
-	);
-	$r = $dbq->retrieveRecords("plugins", array("*"), $selectors);
-	if(sizeof($r) > 0) {
-		return $r[0]->ID;
-	} else {
-		return false;
-	}
-}
-
 /**
 * add (or re-insert) a plugin's tiddler fields to the database
 * @param array $fields key-value pairs for field name and value
@@ -278,9 +316,35 @@ function insertTiddlerFields($fields, $pluginID, $isUpdate = false) {
 	}
 }
 
+/**
+* check whether a plugin is blacklisted
+* @param string $name name of the respective plugin
+* @param integer $repoID ID of the respective repository
+* @return boolean
+*/
 function pluginBlacklisted($name, $repoID) {
 	global $dbq;
 	return false; // DEBUG: to do
+}
+
+/**
+* check whether a plugin exists in the database
+* @param string $name name of the respective plugin
+* @param integer $repoID ID of the respective repository
+* @return variable FALSE on failure; plugin ID on success
+*/
+function pluginExists($name, $repoID) {
+	global $dbq;
+	$selectors = array(
+		repository_ID => $repoID,
+		title => $name
+	);
+	$r = $dbq->retrieveRecords("plugins", array("*"), $selectors);
+	if(sizeof($r) > 0) {
+		return $r[0]->ID;
+	} else {
+		return false;
+	}
 }
 
 ?>
