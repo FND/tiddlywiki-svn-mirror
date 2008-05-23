@@ -89,7 +89,7 @@ function initPluginFlags($repoID) {
 
 /**
 * process TiddlyWiki document
-* @param object $xml SimpleXML object
+* @param string $str document contents
 * @param object $repo current repository
 * @return null
 */
@@ -97,16 +97,22 @@ function processTiddlyWiki($str, $repo) {
 	$str = str_replace("xmlns=", "ns=", $str); // workaround for default-namespace bug
 	$xml = @new SimpleXMLElement($str); // DEBUG: errors for HTML entities (CDATA issue!?); suppressing errors hacky?!
 	$version = getVersion($xml);
-	if(floatval($version[0] . "." . $version[1]) < 2.2) {
-		processPluginTiddlers($xml, $repo, true);
-	} else {
-		processPluginTiddlers($xml, $repo, false);
+	// extract plugins
+	$filter = "//div[@id='storeArea']/div[contains(@tags, 'systemConfig')]";
+	$tiddlers = $xml->xpath($filter);
+	// process plugins
+	foreach($tiddlers as $tiddler) {
+		if(floatval($version[0] . "." . $version[1]) < 2.2) {
+			processPlugin($tiddler, $repo, true);
+		} else {
+			processPlugin($tiddler, $repo, false);
+		}
 	}
 }
 
 /**
 * get version number from a TiddlyWiki document
-* @param object $xml SimpleXML object
+* @param object $xml document contents
 * @return object
 */
 function getVersion($xml) {
@@ -123,71 +129,67 @@ function getVersion($xml) {
 }
 
 /**
-* process plugin tiddlers within a TiddlyWiki document
-* @param object $xml SimpleXML object
+* process plugin tiddler
+* @param object $tiddler tiddler object (SimpleXML object)
 * @param object $repo current repository
 * @param boolean [$oldStoreFormat] use pre-v2.2 TiddlyWiki store format
 * @return null
 */
-function processPluginTiddlers($xml, $repo, $oldStoreFormat = false) { // DEBUG: split into separate functions
+function processPlugin($tiddler, $repo, $oldStoreFormat = false) { // DEBUG: split into separate functions
 	// DEBUG: use of strval() for SimpleXML value retrieval hacky!?
-	$filter = "//div[@id='storeArea']/div[contains(@tags, 'systemConfig')]";
-	$tiddlers = $xml->xpath($filter);
-	foreach($tiddlers as $tiddler) {
-		// initialize tiddler object -- DEBUG: correct? required?
-		$t = new stdClass;
-		// set repository
-		$t->repository = $repo->ID;
-		// retrieve tiddler fields
-		$t->fields = new stdClass;
-		foreach($tiddler->attributes() as $field) {
-			switch($field->getName()) {
-				case "title":
-					$t->title = strval($field);
-					break;
-				case "tags":
-					$t->tags = strval($field);
-					break;
-				case "created":
-					$t->created = strval($field);
-					break;
-				case "modified":
-					$t->modified = strval($field);
-					break;
-				case "modifier":
-					$t->modifier = strval($field);
-					break;
-				default: // extended fields
-					$t->fields->{$field->getName()} = strval($field);
-					break;
-			}
+	// initialize tiddler object -- DEBUG: correct? required?
+	$t = new stdClass;
+	// set repository
+	$t->repository = $repo->ID;
+	// retrieve tiddler fields
+	$t->fields = new stdClass;
+	foreach($tiddler->attributes() as $field) {
+		switch($field->getName()) {
+			case "title":
+				$t->title = strval($field);
+				break;
+			case "tags":
+				$t->tags = strval($field);
+				break;
+			case "created":
+				$t->created = strval($field);
+				break;
+			case "modified":
+				$t->modified = strval($field);
+				break;
+			case "modifier":
+				$t->modifier = strval($field);
+				break;
+			default: // extended fields
+				$t->fields->{$field->getName()} = strval($field);
+				break;
 		}
-		// retrieve tiddler text -- DEBUG: strip leading and trailing whitespaces (esp. line feeds)?
-		if(!$oldStoreFormat) { // v2.2+
-			$t->text = strval($tiddler->pre);
-		} else {
-			$t->text = strval($tiddler);
+	}
+	// retrieve tiddler text -- DEBUG: strip leading and trailing whitespaces (esp. line feeds)?
+	if(!$oldStoreFormat) { // v2.2+
+		$t->text = strval($tiddler->pre);
+	} else {
+		$t->text = strval($tiddler);
+	}
+	// retrieve slices
+	$t->slices = getSlices($t->text);
+	if(isset($t->slices->Name)) {
+		$t->title = $t->slices->Name;
+	}
+	$source = $t->slices->source;
+	// retrieve plugins only from original source
+	if(!$source || $source && !(strpos($source, $repo->URI) === false)) { // DEBUG: www handling (e.g. http://foo.bar = http://www.foo.bar)
+		// check blacklist
+		if(pluginBlacklisted($t->title, $t->repository)) {
+			addLog("skipped blacklisted plugin " . $t->title . " in repository " . $repo->name);
 		}
-		// retrieve slices
-		$t->slices = getSlices($t->text);
-		if(isset($t->slices->Name)) {
-			$t->title = $t->slices->Name;
-		}
-		$source = $t->slices->source;
-		// retrieve plugins only from original source
-		if(!$source || $source && !(strpos($source, $repo->URI) === false)) { // DEBUG: www handling (e.g. http://foo.bar = http://www.foo.bar)
-			// check blacklist
-			if(pluginBlacklisted($t->title, $t->repository)) {
-				addLog("skipped blacklisted plugin " . $t->title . " in repository " . $repo->name);
-			}
-			// retrieve documentation sections
-			preg_match("/(?:\/\*\*\*)(.*)(?:\*\*\*\/)/s", $t->text, $matches); // DEBUG: extraction pattern too simplistic?
-			$t->documentation = $matches[1];
-			// store plugin
-			storePlugin($t, $repo);
-		} else {
-			addLog("skipped tiddler " . $t->title . " in repository " . $repo->name);
-		}
+		// retrieve documentation sections
+		preg_match("/(?:\/\*\*\*)(.*)(?:\*\*\*\/)/s", $t->text, $matches); // DEBUG: extraction pattern too simplistic?
+		$t->documentation = $matches[1];
+		// store plugin
+		storePlugin($t, $repo);
+	} else {
+		addLog("skipped tiddler " . $t->title . " in repository " . $repo->name);
 	}
 }
 
