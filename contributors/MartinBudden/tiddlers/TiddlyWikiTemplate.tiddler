@@ -17,7 +17,7 @@
 <title>
 <!--@@title@@-->
 </title>
-<style type="text/css">
+<style id="styleArea" type="text/css">
 #saveTest {display:none;}
 #messageArea {display:none;}
 #copyright {display:none;}
