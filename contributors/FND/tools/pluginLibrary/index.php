@@ -34,25 +34,19 @@ debug($log); // DEBUG: write to file?
 * @return null
 */
 function processRepositories() {
-	global $currentRepository;
 	$repositories = getRepositories();
-	$currentRepository = new stdClass;
 	foreach($repositories as $repo) {
 		if($repo->disabled) {
 			addLog("skipped disabled repository " . $repo->name);
 		} else {
 			addLog("processing repository " . $repo->name);
-			// set current repository
-			$currentRepository->ID = $repo->ID;
-			$currentRepository->URI = $repo->URI;
-			$currentRepository->name = $repo->name;
 			// initialize plugins' availability
-			initPluginAvailability($repo->ID);
-			// load contents
+			initPluginFlags($repo->ID);
+			// load repository contents
 			$contents = file_get_contents($repo->URI); // DEBUG: missing error handling?
 			// document type handling
 			if($repo->type == "TiddlyWiki") // TiddlyWiki document
-				processTiddlyWiki($contents);
+				processTiddlyWiki($contents, $repo);
 			elseif($repo->type == "SVN") // Subversion directory
 				echo $repo->type . "\n"; // DEBUG: to be implemented
 			elseif($repo->type == "file") // JavaScript file
@@ -73,11 +67,11 @@ function getRepositories() {
 }
 
 /**
-* initialize plugin availability
+* initialize plugin availability flags
 * @param integer $repoID ID of the respective repository
 * @return null
 */
-function initPluginAvailability($repoID) {
+function initPluginFlags($repoID) {
 	global $dbq;
 	$data = array(
 		available => false
@@ -96,16 +90,17 @@ function initPluginAvailability($repoID) {
 /**
 * process TiddlyWiki document
 * @param object $xml SimpleXML object
+* @param object $repo current repository
 * @return null
 */
-function processTiddlyWiki($str) {
+function processTiddlyWiki($str, $repo) {
 	$str = str_replace("xmlns=", "ns=", $str); // workaround for default-namespace bug
 	$xml = @new SimpleXMLElement($str); // DEBUG: errors for HTML entities (CDATA issue!?); suppressing errors hacky?!
 	$version = getVersion($xml);
 	if(floatval($version[0] . "." . $version[1]) < 2.2) {
-		processPluginTiddlers($xml, true);
+		processPluginTiddlers($xml, $repo, true);
 	} else {
-		processPluginTiddlers($xml, false);
+		processPluginTiddlers($xml, $repo, false);
 	}
 }
 
@@ -130,21 +125,21 @@ function getVersion($xml) {
 /**
 * process plugin tiddlers within a TiddlyWiki document
 * @param object $xml SimpleXML object
+* @param object $repo current repository
 * @param boolean [$oldStoreFormat] use pre-v2.2 TiddlyWiki store format
 * @return null
 */
-function processPluginTiddlers($xml, $oldStoreFormat = false) { // DEBUG: split into separate functions
-	global $currentRepository;
+function processPluginTiddlers($xml, $repo, $oldStoreFormat = false) { // DEBUG: split into separate functions
 	// DEBUG: use of strval() for SimpleXML value retrieval hacky!?
 	$filter = "//div[@id='storeArea']/div[contains(@tags, 'systemConfig')]";
 	$tiddlers = $xml->xpath($filter);
 	foreach($tiddlers as $tiddler) {
 		// initialize tiddler object -- DEBUG: correct? required?
 		$t = new stdClass;
-		$t->fields = new stdClass;
 		// set repository
-		$t->repository = $currentRepository->URI;
+		$t->repository = $repo->ID;
 		// retrieve tiddler fields
+		$t->fields = new stdClass;
 		foreach($tiddler->attributes() as $field) {
 			switch($field->getName()) {
 				case "title":
@@ -180,18 +175,18 @@ function processPluginTiddlers($xml, $oldStoreFormat = false) { // DEBUG: split 
 		}
 		$source = $t->slices->source;
 		// retrieve plugins only from original source
-		if(!$source || $source && !(strpos($source, $currentRepository->URI) === false)) { // DEBUG: www handling (e.g. http://foo.bar = http://www.foo.bar)
+		if(!$source || $source && !(strpos($source, $repo->URI) === false)) { // DEBUG: www handling (e.g. http://foo.bar = http://www.foo.bar)
 			// check blacklist
-			if(pluginBlacklisted($t->title, $currentRepository->ID)) {
-				addLog("skipped blacklisted plugin " . $t->title . " in repository " . $currentRepository->name);
+			if(pluginBlacklisted($t->title, $t->repository)) {
+				addLog("skipped blacklisted plugin " . $t->title . " in repository " . $repo->name);
 			}
 			// retrieve documentation sections
 			preg_match("/(?:\/\*\*\*)(.*)(?:\*\*\*\/)/s", $t->text, $matches); // DEBUG: extraction pattern too simplistic?
 			$t->documentation = $matches[1];
 			// store plugin
-			storePlugin($t);
+			storePlugin($t, $repo);
 		} else {
-			addLog("skipped tiddler " . $t->title . " in repository " . $currentRepository->name);
+			addLog("skipped tiddler " . $t->title . " in repository " . $repo->name);
 		}
 	}
 }
@@ -224,30 +219,31 @@ function getSlices($text) {
 /**
 * store a plugin in the database (insert or update)
 * @param object $tiddler tiddler object
+* @param object $repo current repository
 * @return null
 */
-function storePlugin($tiddler) {
-	global $currentRepository;
-	$pluginID = pluginExists($tiddler->title, $currentRepository->ID);
+function storePlugin($tiddler, $repo) {
+	$pluginID = pluginExists($tiddler->title, $repo->ID);
 	if($pluginID) {
-		updatePlugin($tiddler, $pluginID);
+		updatePlugin($tiddler, $pluginID, $repo);
 	} else {
-		addPlugin($tiddler);
+		addPlugin($tiddler, $repo);
 	}
 }
 
 /**
 * add a plugin to the database
 * @param object $tiddler tiddler object
+* @param object $repo current repository
 * @return integer plugin ID
 */
-function addPlugin($tiddler) {
-	global $dbq, $currentRepository;
-	addLog("adding plugin " . $tiddler->title . " from repository " . $currentRepository->name);
+function addPlugin($tiddler, $repo) {
+	global $dbq;
+	addLog("adding plugin " . $tiddler->title . " from repository " . $repo->name);
 	// insert plugin
 	$data = array(
 		ID => null,
-		repository_ID => $currentRepository->ID,
+		repository_ID => $repo->ID,
 		available => true,
 		title => $tiddler->title,
 		text => $tiddler->text,
@@ -270,17 +266,18 @@ function addPlugin($tiddler) {
 * update a plugin in the database
 * @param object $tiddler tiddler object
 * @param integer $pluginID ID of the respective plugin
+* @param object $repo current repository
 * @return null
 */
-function updatePlugin($tiddler, $pluginID) {
-	global $dbq, $currentRepository;
-	addLog("updating plugin " . $tiddler->title . " in repository " . $currentRepository->name);
+function updatePlugin($tiddler, $pluginID, $repo) {
+	global $dbq;
+	addLog("updating plugin " . $tiddler->title . " in repository " . $repo->name);
 	// update plugin
 	$selectors = array(
 		ID => $pluginID
 	);
 	$data = array(
-		repository_ID => $currentRepository->ID,
+		repository_ID => $repo->ID,
 		available => true,
 		title => $tiddler->title,
 		text => $tiddler->text,
