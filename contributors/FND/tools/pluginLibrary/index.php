@@ -89,13 +89,13 @@ function initPluginFlags($repoID) {
 
 /**
 * process TiddlyWiki document
-* @param string $str document contents
+* @param string $contents document contents
 * @param object $repo current repository
 * @return null
 */
-function processTiddlyWiki($str, $repo) {
-	$str = str_replace("xmlns=", "ns=", $str); // workaround for default-namespace bug
-	$xml = @new SimpleXMLElement($str); // DEBUG: errors for HTML entities (CDATA issue!?); suppressing errors hacky?!
+function processTiddlyWiki($contents, $repo) {
+	$str = str_replace("xmlns=", "ns=", $contents); // workaround for default-namespace bug
+	$xml = @new SimpleXMLElement($contents); // DEBUG: errors for HTML entities (CDATA issue!?); suppressing errors hacky?!
 	$version = getVersion($xml);
 	// extract plugins
 	$filter = "//div[@id='storeArea']/div[contains(@tags, 'systemConfig')]";
@@ -112,7 +112,7 @@ function processTiddlyWiki($str, $repo) {
 
 /**
 * get version number from a TiddlyWiki document
-* @param object $xml document contents
+* @param object $xml document contents (SimpleXML object)
 * @return object
 */
 function getVersion($xml) {
@@ -137,59 +137,60 @@ function getVersion($xml) {
 */
 function processPlugin($tiddler, $repo, $oldStoreFormat = false) { // DEBUG: split into separate functions
 	// DEBUG: use of strval() for SimpleXML value retrieval hacky!?
-	// initialize tiddler object -- DEBUG: correct? required?
-	$t = new stdClass;
+	// initialize plugin object
+	$p = new stdClass;
 	// set repository
-	$t->repository = $repo->ID;
+	$p->repository = $repo->ID;
 	// retrieve tiddler fields
-	$t->fields = new stdClass;
+	$p->fields = new stdClass;
 	foreach($tiddler->attributes() as $field) {
 		switch($field->getName()) {
 			case "title":
-				$t->title = strval($field);
+				$p->title = strval($field);
 				break;
 			case "tags":
-				$t->tags = strval($field);
+				$p->tags = strval($field);
 				break;
 			case "created":
-				$t->created = strval($field);
+				$p->created = strval($field);
 				break;
 			case "modified":
-				$t->modified = strval($field);
+				$p->modified = strval($field);
 				break;
 			case "modifier":
-				$t->modifier = strval($field);
+				$p->modifier = strval($field);
 				break;
 			default: // extended fields
-				$t->fields->{$field->getName()} = strval($field);
+				$p->fields->{$field->getName()} = strval($field);
 				break;
 		}
 	}
 	// retrieve tiddler text -- DEBUG: strip leading and trailing whitespaces (esp. line feeds)?
 	if(!$oldStoreFormat) { // v2.2+
-		$t->text = strval($tiddler->pre);
+		$p->text = strval($tiddler->pre);
 	} else {
-		$t->text = strval($tiddler);
+		$p->text = strval($tiddler);
 	}
 	// retrieve slices
-	$t->slices = getSlices($t->text);
-	if(isset($t->slices->Name)) {
-		$t->title = $t->slices->Name;
+	$p->slices = getSlices($p->text);
+	if(isset($p->slices->Name)) {
+		$p->title = $p->slices->Name;
 	}
-	$source = $t->slices->source;
+	$source = $p->slices->Source;
 	// retrieve plugins only from original source
-	if(!$source || $source && !(strpos($source, $repo->URI) === false)) { // DEBUG: www handling (e.g. http://foo.bar = http://www.foo.bar)
+	if(!$source || $source && !(strpos($source, $repo->URI) === false)) { // DEBUG: www handling (e.g. http://foo.bar = http://www.foo.bar)?
 		// check blacklist
-		if(pluginBlacklisted($t->title, $t->repository)) {
-			addLog("skipped blacklisted plugin " . $t->title . " in repository " . $repo->name);
+		if(pluginBlacklisted($p->title, $p->repository)) {
+			addLog("skipped blacklisted plugin " . $p->title . " in repository " . $repo->name);
+		} else {
+			// retrieve documentation sections
+			preg_match("/(?:\/\*\*\*)(.*)(?:\*\*\*\/)/s", $p->text, $matches); // DEBUG: extraction pattern too simplistic?
+			$p->documentation = $matches[1];
+			// store plugin
+			storePlugin($p, $repo);
 		}
-		// retrieve documentation sections
-		preg_match("/(?:\/\*\*\*)(.*)(?:\*\*\*\/)/s", $t->text, $matches); // DEBUG: extraction pattern too simplistic?
-		$t->documentation = $matches[1];
-		// store plugin
-		storePlugin($t, $repo);
 	} else {
-		addLog("skipped tiddler " . $t->title . " in repository " . $repo->name);
+		addLog("skipped tiddler " . $p->title . " in repository " . $repo->name);
 	}
 }
 
