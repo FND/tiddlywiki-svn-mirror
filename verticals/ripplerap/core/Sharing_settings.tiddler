@@ -1,6 +1,10 @@
 <div title="Sharing settings" modifier="PhilHawksworth" created="200805201626" modified="200805201626">
 <pre>
-	Configure the sharing / enjoying settings.
+You can share your notes with other ~RippleRap users and see notes that they share right here in ~RippleRap.
+
+<<option chkRipplerapShare>> Share your session notes with other ~RippleRap users.
+<<option chkRipplerapEnjoy>> Enjoy session notes shared by other ~RippleRap users.
+
 </pre>
 </div>
 
