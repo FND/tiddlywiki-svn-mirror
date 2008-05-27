@@ -1,0 +1,17 @@
+<div title="ColorPalette" modifier="Jon Lister">
+<pre>Background: #fff
+Foreground: #000
+PrimaryPale: #D4634C
+PrimaryLight: #D4634C
+PrimaryMid: #331044
+PrimaryDark: #331044
+SecondaryPale: #ffc
+SecondaryLight: #fe8
+SecondaryMid: #db4
+SecondaryDark: #841
+TertiaryPale: #eee
+TertiaryLight: #ccc
+TertiaryMid: #999
+TertiaryDark: #666
+Error: #f88</pre>
+</div>
