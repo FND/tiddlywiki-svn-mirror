@@ -48,10 +48,10 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 			S = template.replace('##','##'+tag.substr(0,1).toUpperCase()+tag.substr(1)); //uppercase tag
 		}
 
-		if (store.tiddlerExists(t)) { template=t; console.log("t: " + template); break; }
-		if (store.tiddlerExists(c)) { template=c; console.log("c: " + template); break; }
-		if (store.getTiddlerText(s)) { template=s; console.log("s: " + template); break; }
-		if (store.getTiddlerText(S)) { template=s; console.log("s: " + template); break; }
+		if (store.tiddlerExists(t)) { template=t; break; }
+		if (store.tiddlerExists(c)) { template=c; break; }
+		if (store.getTiddlerText(s)) { template=s; break; }
+		if (store.getTiddlerText(S)) { template=s; break; }
 	}
 	
 	return template;
