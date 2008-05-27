@@ -3,7 +3,7 @@
 |''Description:''|Czech Translation of TiddlyWiki|
 |''Author of translation:''|PetrChlebek (pchlebek (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/cs/locale.cs.js |
-|''Version:''|0.3.6|
+|''Version:''|0.3.7|
 |''Date:''|Jul 6, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -27,7 +27,8 @@ merge(config.tasks,{
 	sync: {text: "Synch", tooltip: "Synchronizuj změny s jinými TiddlyWiki soubory a servery", content: '<<sync>>'},
 	importTask: {text: "Import", tooltip: "Importuj příspěvky a pluginy z jiných TiddlyWiki souborů a pluginů", content: '<<importTiddlers>>'},
 	tweak: {text: "Uprav", tooltip: "Uprav vzhled a chování TiddlyWiki", content: '<<options>>'},
-	plugins: {text: "Pluginy", tooltip: "Proveď instalaci pluginů", content: '<<plugins>>'}
+	upgrade: {text: "Upgrade", tooltip: "Aktualizace TW kódu", content: '<<upgrade>>'},
+     plugins: {text: "Pluginy", tooltip: "Proveď instalaci pluginů", content: '<<plugins>>'}
 });
 
 // Options that can be set in the options panel and/or cookies
@@ -208,7 +209,7 @@ merge(config.macros.newJournal,{
 	accessKey: "J"});
 
 merge(config.macros.options,{
-	wizardTitle: "Pokročilá nastavení",
+	wizardTitle: "Tweak - pokročilá nastavení",
 	step1Title: "Tato nastavení jsou uložena v cookies vašeho prohlížeče",
 	step1Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='false' name='chkUnknown'>Ukaž skrytá nastavení</input>",
 	unknownDescription: "//(neznámý)//",
@@ -258,7 +259,7 @@ merge(config.macros.toolbar,{
 	});
 
 merge(config.macros.refreshDisplay,{
-	label: "Aktualizace",
+	label: "Obnovit",
 	prompt: "Aktualizuj původní zobrazení"
 	});
 
@@ -305,6 +306,34 @@ merge(config.macros.importTiddlers,{
 			]}
 	});
 
+merge(config.macros.upgrade,{
+	wizardTitle: "Upgrade TiddlyWiki kód",
+	step1Title: "Update or oprav TiddlyWiki podle poslední verze",
+	step1Html: "Poslední verze je používána. (z <a href='%0' class='externalLink' target='_blank'>%1</a>). Obsah je chráněn před upgrade.<br>Pamatuj, že může dojít ke kolizi nové verze a starších pluginů. V případě problémů se podívej na: <a href='http://www.tiddlywiki.org/wiki/CoreUpgrades' class='externalLink' target='_blank'>http://www.tiddlywiki.org/wiki/CoreUpgrades</a>",
+	errorCantUpgrade: "Nelze provést upgrade. Musíš použít sobor na lokálním počítači",
+	errorNotSaved: "Před upgrade musíš uložit změny",
+	step2Title: "Detaily upgrade",
+	step2Html_downgrade: "Jdeš do nižší verze TiddlyWiki %0 from %1.<br><br>Nedoporučuje se",
+	step2Html_restore: "TiddlyWiki již pravděpodobně užívá poslední verzi (%0).<br><br>Zkus to příště - pozor na poškození souboru",
+	step2Html_upgrade: "Máž hotov upgrade TiddlyWiki %0 z %1",
+	upgradeLabel: "Upgrade",
+	upgradePrompt: "Příprava na upgrade",
+	statusPreparingBackup: "Příprava zálohy",
+	statusSavingBackup: "Uložení zálohy",
+	errorSavingBackup: "Problém při ukládání zálohy",
+	statusLoadingCore: "Nahrávání kódu",
+	errorLoadingCore: "Chyba při nahrávání kódu",
+	errorCoreFormat: "Chyba v novém kódu",
+	statusSavingCore: "Nový kód uložen",
+	statusReloadingCore: "Nový kód přehrán",
+	startLabel: "Start",
+	startPrompt: "Start upgrade",
+	cancelLabel: "Zruš",
+	cancelPrompt: "Zruš upgrade",
+	step3Title: "Upgrade zrušen",
+	step3Html: "Upgrade již byl zrušen"
+	});
+
 merge(config.macros.sync,{
 	listViewTemplate: {
 		columns: [
@@ -341,7 +370,7 @@ merge(config.macros.sync,{
 
 merge(config.commands.closeTiddler,{
 	text: "Zavřít",
-	tooltip: "Zavři pžíspěvek"});
+	tooltip: "Zavři příspěvek"});
 
 merge(config.commands.closeOthers,{
 	text: "Zavřít ostatní",
@@ -420,21 +449,6 @@ merge(config.shadowTiddlers,{
 	SideBarTabs: '<<tabs txtMainTab "Čas" "Čas" TabTimeline "Vše" "Všechny příspěvky" TabAll "Tagy" "Všechny tagy" TabTags "Více" "Další seznam" TabMore>>',
 	TabMore: '<<tabs txtMoreTab "Nepropojené" "Nepropojené příspěvky" TabMoreMissing "Osamocené" "Osamocené příspěvky" TabMoreOrphans "Systém" "Systémové příspěvky" TabMoreShadowed>>',
 	ToolbarCommands: "|~ViewToolbar|closeTiddler closeOthers +editTiddler > fields syncing permalink references jump|\n|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|"});
-
-// ---
-merge(config.shadowTiddlers,{
-	DefaultTiddlers: "GettingStarted",
-	MainMenu: "GettingStarted\n\n\n^^~TiddlyWiki verze <<version>>\n© 2007 [[UnaMesa|http://www.unamesa.org/]]^^",
-	TranslatedGettingStarted: "Při startu TiddlyWiki musíš upravit tyto příspěvky:\n* SiteTitle & SiteSubtitle: Titul a podtitul webu, který je v záhlaví (po uložení se objeví v modrém pruhu)\n* MainMenu: Navigace (zpravidla vlevo)\n* DefaultTiddlers: Příspěvky, které jsou vidět při otevření stránky\nVlož také své jméno pro podpis příspěvků: <<option txtUserName>>",
-	SiteTitle: "Moje TiddlyWiki",
-	SiteSubtitle: "nelineární osobní publikační zápisník",
-	SiteUrl: "http://www.tiddlywiki.com/",
-	OptionsPanel: "Výchozí rozhraní je defaultně určeno z TiddlyWiki\n\nTvé jméno pro podpis. Zapiš jej jako WikiWord (VašeJméno)\n<<option txtUserName>>\n\n<<option chkSaveBackups>> Uložit zálohu\n<<option chkAutoSave>> Automatické uložení\n<<option chkRegExpSearch>> Vyhledání\n<<option chkCaseSensitiveSearch>> Upřesnění vyhledávání\n<<option chkAnimate>> Možnost animace\n\n----\nTaké ukaž [[TranslatedAdvancedOptions|AdvancedOptions]]",
-	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "Nastavení »" "Změna nastavení TiddlyWiki">>',
-	SideBarTabs: '<<tabs txtMainTab "Čas" "Čas" TabTimeline "Vše" "Všechny příspěvky" TabAll "Tagy" "Všechny tagy" TabTags "Více" "Další seznam" TabMore>>',
-	TabMore: '<<tabs txtMoreTab "Nepropojené" "Nepropojené příspěvky" TabMoreMissing "Osamocené" "Osamocené příspěvky" TabMoreOrphans "Systém" "Systémové příspěvky" TabMoreShadowed>>'});
-
-
 
 merge(config.annotations,{
 	AdvancedOptions: "Systémový příspěvek pro přístup k dalšímu nastavení",
