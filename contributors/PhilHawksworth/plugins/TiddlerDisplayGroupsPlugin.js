@@ -303,28 +303,22 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,un
 	}
 
 	var bunching_id = store.getValue(tiddler, group_object.getGroupField());
-		
+
 	// Find or create bunch
 	var b = group_object.findBunch(bunching_id);
 	if(!b) 
 		b = group_object.createBunch(bunching_id);
-	
+
 	var animSrc = srcElement;
 
 	// Set the correct display location in the bunch.
 	var s = group_object.getTiddlerDisplayPosition(tiddler);
+	var src = srcElement;
 	var srcElement = story.getTiddler(group_object.getTiddlerDisplayPosition(tiddler));
-			
-	// Add an animation souce argument to the (readonly) arguments array
-	var newArgs = [];
-	for (var a=0; a < arguments.length; a++) {
-		newArgs.push(arguments[a]);
-	};
-	newArgs.push(animSrc);
-	
+
 	// Display.
-	version.extensions.TiddlerDisplayGroupsPlugin.displayTiddler.apply(this, newArgs);
-		
+	version.extensions.TiddlerDisplayGroupsPlugin.displayTiddler.apply(this,[src,tiddler,template,animate,unused,customFields,toggle,animSrc]);
+
 	//file tiddler
 	group_object.fileTiddler(tiddler);
 	
@@ -333,8 +327,7 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,un
 	if(dTiddlers) {
 		for (var t=0; t < dTiddlers.length; t++) {
 			tiddler = dTiddlers[t];
-			animate = false;
-			story.displayTiddler.apply(this, arguments);
+			story.displayTiddler.apply(this, [null,tiddler,null,false,unused,customFields,false,animSrc]);
 		};		
 	}
 };
@@ -344,7 +337,7 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,un
 Story.prototype.closeTiddler = function(title,animate,unused){
 	
 	//close the tiddler.
-	version.extensions.TiddlerDisplayGroupsPlugin.closeTiddler.apply(this, arguments);	
+	version.extensions.TiddlerDisplayGroupsPlugin.closeTiddler.apply(this,arguments);
 	
 	//Get the group display object that manages this tiddler.
 	var tiddler = store.getTiddler(title);
@@ -358,7 +351,7 @@ Story.prototype.closeTiddler = function(title,animate,unused){
 		for (var r=0; r < requiredby.length; r++) {
 			title = requiredby[r].title;
 			story.closeTiddler.apply(this, arguments);
-		};		
+		};
 	}
 
 	//remove it from the bunch.
@@ -369,6 +362,6 @@ Story.prototype.closeTiddler = function(title,animate,unused){
 	}
 };
 
- 
+
 } //# end of 'install only once'
 //}}}
