@@ -22,6 +22,7 @@ CREATE TABLE pluginLibrary.plugins (
 	modifier TEXT NULL ,
 	updated DATETIME NOT NULL ,
 	documentation TEXT NULL ,
+	code TEXT NULL ,
 	views INT NOT NULL DEFAULT '0',
 	annotation TEXT NULL ,
 	PRIMARY KEY ( ID )

@@ -137,7 +137,7 @@ function getVersion($xml) {
 */
 function processPlugin($tiddler, $repo, $oldStoreFormat = false) { // DEBUG: split into separate functions
 	// DEBUG: use of strval() for SimpleXML value retrieval hacky!?
-	// initialize plugin object
+	// initialize plugin object -- DEBUG: document object structure
 	$p = new stdClass;
 	// set repository
 	$p->repository = $repo->ID;
@@ -184,8 +184,15 @@ function processPlugin($tiddler, $repo, $oldStoreFormat = false) { // DEBUG: spl
 			addLog("skipped blacklisted plugin " . $p->title . " in repository " . $repo->name);
 		} else {
 			// retrieve documentation sections
-			preg_match("/(?:\/\*\*\*)(.*)(?:\*\*\*\/)/s", $p->text, $matches); // DEBUG: extraction pattern too simplistic?
-			$p->documentation = $matches[1];
+			preg_match("/\/\*\*\*\n(.*)\n\*\*\*\//s", $p->text, $matches); // DEBUG: pattern too simplistic?
+			$p->documentation = $matches[1]; // /*** metadata ***/
+			// retrieve code
+			preg_match("/\/\/\{\{\{\n(.*)\n\/\/\}\}\}|\/\/\/%\n(.*)\n\/\/%\//s", $p->text, $matches); // DEBUG: pattern too simplistic?
+			if(isset($matches[2])) {
+				$p->code = $matches[2]; // //{{{ code //}}}
+			} else {
+				$p->code = $matches[1]; // /% code %/
+			}
 			// store plugin
 			storePlugin($p, $repo);
 		}
@@ -259,7 +266,7 @@ function addPlugin($tiddler, $repo) {
 		annotation => null
 	);
 	$pluginID = $dbq->insertRecord("plugins", $data);
-	// insert tiddler fields
+	// insert fields
 	insertTiddlerFields($tiddler->fields, $pluginID, false);
 	// DEBUG: process tags, fields and metaslices
 	return $pluginID;
