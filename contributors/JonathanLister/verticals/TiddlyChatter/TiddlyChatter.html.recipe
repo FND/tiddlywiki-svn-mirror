@@ -1,3 +1,4 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
+tiddler: ../../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 recipe: plugins/split.recipe
 recipe: tiddlers/split.recipe
