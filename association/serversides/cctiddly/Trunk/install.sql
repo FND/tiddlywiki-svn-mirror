@@ -209,7 +209,7 @@ CREATE TABLE `workspace` (
 -- 
 
 INSERT INTO `workspace` (`name`, `twLanguage`, `keep_revision`, `require_login`, `session_expire`, `tag_tiddler_with_modifier`, `char_set`, `hashseed`, `status`, `tiddlywiki_type`, `default_anonymous_perm`, `default_user_perm`, `rss_group`, `markup_group`) VALUES 
-('', 'en', 1, 0, 2000, 0, 'utf8', '118229952', '', 'tiddlywiki', 'AUUU', 'AAAA', '', '');
+('', 'en', 1, 0, 0, 0, 'utf8', '118229952', '', 'tiddlywiki', 'AUUU', 'AAAA', '', '');
 
 
 -- --------------------------------------------------------

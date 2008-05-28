@@ -118,6 +118,7 @@
 	function user_set_session($un, $pw)
 	{
 		global $tiddlyCfg;
+error_log("expire is ".$tiddlyCfg['session_expire']);
 		
 		if ($tiddlyCfg['users_required_in_db']==1)
 		{
@@ -134,11 +135,16 @@
 			}     
 		}
 		
+		
 		debug('Setting the Session '.$tiddlyCfg['session_expire']);
 		$insert_data['user_id'] = $un;
 		debug('session is be set : username is : '.$un);
 		$expire =time()+$tiddlyCfg['session_expire'];
-		$insert_data['expire'] = epochToTiddlyTime($expire); // add expire time to data array for insert		
+		// create a date far in the future if session timeout is set to 0
+		$a = time();
+		$total = $a+$tiddlyCfg['session_expire'];	
+		debug("total : ".$total);
+		$insert_data['expire'] = epochToTiddlyTime($total); // add expire time to data array for insert		
 		$insert_data['ip'] = $_SERVER['REMOTE_ADDR'];  // get the ip address
 		$insert_data['session_token'] = sha1($un.$_SERVER['REMOTE_ADDR'].$expire); // colect data together and sh1 it so that we have a unique indentifier 
 		if ($tiddlyCfg['pref']['delete_other_sessions_on_login']) {
@@ -148,13 +154,8 @@
 		cookie_set('txtUserName', $un);
  		cookie_set('sessionToken', $insert_data['session_token']);
 		db_record_insert('login_session',$insert_data);
-
-
 	}		
 
-	
-	
-	
 	function user_ldap_login($un, $pw)
 	{
 		global $tiddlyCfg;

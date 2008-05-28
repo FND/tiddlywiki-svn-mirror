@@ -55,7 +55,7 @@ Configuring Uploading
 
 ERROR - Workspace name already exists when attempting to create a new workspace
 
-If you cannot create new workspaces you should ensure that you have a .htaccess file in place.
+If you cannot create new workspaces you should ensure that you have a .htaccess file in place in the ccTiddly root folder.
 
 Information about enabling mod-rewrite can be found at : http://simonmcmanus.com/2007/10/22/enable-and-use-mod-rewrite/
 

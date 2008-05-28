@@ -2,6 +2,12 @@
 
 $workspace_settings_count= count($workspace_settings);
 
+if ($workspace_settings_count < 1)
+{   
+	// workspace does not exist\
+	// this variable is later used in includes/ccVariables.php
+	$error404 = true;		
+}
 
 if($tiddlyCfg['on_the_fly_workspace_creation'] ==1 )
 {

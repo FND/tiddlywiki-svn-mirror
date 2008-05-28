@@ -1,38 +1,32 @@
 <?php
-/**
-	@file
-		
-	@brief This holds and sort out configuration files and default configurations
+/**		
+	@ brief This holds and sort out configuration files and default configurations
 */
-//////////////////////////////////////////////////////// default configurations ////////////////////////////////////////////////////////
+
+// Initial Database Setup 
 	$tiddlyCfg['db']['type'] = "mysql";		//sql type
 	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 	$tiddlyCfg['db']['login'] = "root";		//login name
 	$tiddlyCfg['db']['pass'] = "";		//login password
 	$tiddlyCfg['db']['name'] = "cct16";		//db name
 
-
-	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
-	$tiddlyCfg['pref']['ldap_enabled'] = 0;	
-
-	$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
-
-	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
-	//$tiddlyCfg['pref']['workspace_pos'] = 2;  // set to 1 if runningning in the root dir, specifies the position in the URL where the workspace name is provided.  eg www.osmosoft.com/1/2/3/4/5/6/7/8/9/
+// Debugging Information 
 	$tiddlyCfg['developing']=0;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
 	$tiddlyCfg['mysql_debug']=0;	 // if set to 1 will output every sql query into the logfile 
-	
+
+// User Managment Information 
+	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
+	$tiddlyCfg['pref']['ldap_enabled'] = 0;	
+	$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
+	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
 	$tiddlyCfg['users_required_in_db']=0; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db
 	$tiddlyCfg['can_create_account'] = 1; // users are allowed to register for an account 
-	
-	
-	// upload values 
+		
+// Upload Values 
 	$tiddlyCfg['upload_allow_extensions'] = array("text/plain", "text/xml", "text/html", "application/msword", "application/mspowerpoint", "	application/excel", "application/x-visio", "application/pdf");
 	$tiddlyCfg['max_file_size'] = 9933300000;
 	
-	//	 list of different file types can be found at : http://www.webmaster-toolkit.com/mime-types.shtml
-	$tiddlyCfg['upload_allowed_file_extensions'] = array("txt", "html", "rss", "xml", "js", "ppt", "doc", "xls", "csv", "vsd","pdf");  //  if file uploading is enabled this are the file types which will be allowed. 
-	
+// Specify the name of each tables used by ccTiddly	
 	$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
 	$tiddlyCfg['table']['suffix'] = "";					//suffix			suffix of file					suffix of table name
 	$tiddlyCfg['table']['main'] = "tiddler";			//name			name of file for storing tiddlers		name of table for storing tiddlers
@@ -46,17 +40,16 @@
 	$tiddlyCfg['table']['workspace_view'] = 'workspace_view'; // used to record each viewing of a workspace
 	$tiddlyCfg['table']['workspace_skin'] = 'none'; // allows a workspace to be included when viewing every other workspace on the instance. Set to ='none' if you do not want to use skins
 
-	
-	//cct core settings, do not affect by DB settings
+//ccT core settings, do not affect by DB settings
 	$tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 
 	$tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
 	$tiddlyCfg['use_mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
 	
-	//workspace default values
+//Workspace Default Values
 	$tiddlyCfg['twLanguage'] = "en";	//predefine language
 	$tiddlyCfg['keep_revision'] = 1;
 	$tiddlyCfg['require_login'] = 0; 
-	$tiddlyCfg['session_expire'] = 800000; 
+	$tiddlyCfg['session_expire'] = 10;  // in minutes - If set to 0 will not expire
 	$tiddlyCfg['tag_tiddler_with_modifier'] = 0;
 	$tiddlyCfg['char_set'] = "utf8";
 	$tiddlyCfg['hashseed'] = "aigijgij";
@@ -67,12 +60,8 @@
 	$tiddlyCfg['deligate_session_management'] = 0; 	
 	$tiddlyCfg['on_the_fly_workspace_creation'] = 0;
 
-
-	
 	$tiddlyCfg['rss_group'] = "";
 	$tiddlyCfg['markup_group'] = "";
-	//$tiddlyCfg['pref']['twFile'] = "tiddlywiki";
-	//$tiddlyCfg['tiddlywiki_type'] = $tiddlyCfg['pref']['twFile'];
 	$tiddlyCfg['tiddlywiki_type'] = "tiddlywiki";
 	$tiddlyCfg['status'] = "";
 	
@@ -123,10 +112,7 @@ If you got one of the following error message, that may mean your database do no
 		readfile($file_location);
 		exit;
 	}
-	else
-	{
-		//	echo 'file not found';
-	} 
+	
 /////////////////////////////////////////////////////////config dependent include////////////////////////////////////////////////////.
 	//include_once($cct_base."includes/url.php");
 	include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");
@@ -150,25 +136,15 @@ If you got one of the following error message, that may mean your database do no
 	
 	//if no instance found, check if instance name is empty string
 	if( sizeof($workspace_settings)==0 )
-	{//exit($tiddlyCfg['instance_name']);
-		//if instance name is empty string, do install as this is the base ccT
-		//the first install is always possible
-		
-	
+	{
 		if( strlen($tiddlyCfg['workspace_name'])==0 )
 		{//do install
-			
-		
-			
 			include_once($cct_base."includes/workspace.php");
 			workspace_create_new();
 		}else{	//if not empty, check if installation can be done
 			if( $tiddlyCfg['allow_workspace_creation']>0 )
 			{//if allow workspace creation
 				
-					$error404 = true;
-					
-					
 				if ($_POST)
 				{
 					include($cct_base."includes/workspace.php");
@@ -189,8 +165,6 @@ If you got one of the following error message, that may mean your database do no
 	//exit("2");
 	//append config from db to tiddlyCfg
 	$tiddlyCfg = array_merge($tiddlyCfg, $workspace_settings);
-	
-	
 	
 $tiddlyCfg['pref']['lock_title'] = array("LoginPanel");		//lock certain tiddler's title such that it can't be changed even with admin
 $tiddlyCfg['pref']['uploadPluginIgnoreTitle'] = array("ccTiddly_debug_time", "UploadLog","UploadPlugin","UploadOptions");		//this specify what tiddler should uploadplugin ignore. It is recommended to put in uploadPlugin itself and the upload log. CaSe-SeNsItIvE
@@ -230,7 +204,6 @@ $tiddlyCfg['pref']['utf8'] = 0;
 		anonymous (include all users without username password pair)
 		user (users with username and password pair)
 */
-
 
 //TODO :  This value should be pulled from the database and assigned. We need to finalise how groups are going to work.
 
@@ -302,4 +275,7 @@ $tiddlyCfg['table']['privilege'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['tab
 $tiddlyCfg['tiddlywiki_type'] = $cct_base."tiddlywiki/".$tiddlyCfg['tiddlywiki_type'].".js"; // plain TW file, $cct_base defined in config.php
 
 $tiddlyCfg['version']="1.6";	
+
+$tiddlyCfg['session_expire'] = $tiddlyCfg['session_expire'] * 60;  // Converts minutes to seconds to be added to an epoch value 
+$tiddlyCfg['session_expire'] = ($tiddlyCfg['session_expire']==0)?9999999:$tiddlyCfg['session_expire'];
 ?>
