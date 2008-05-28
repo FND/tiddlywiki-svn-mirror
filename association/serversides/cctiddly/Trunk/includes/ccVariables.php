@@ -48,9 +48,9 @@ window.loggedIn ="1";
 <?php
 }
 else{
-	?>
-	config.options.txtTheme = 'simpleTheme';	
-	<?php
+?>
+config.options.txtTheme = 'simpleTheme';	
+<?php
 }
 ?>
 	
