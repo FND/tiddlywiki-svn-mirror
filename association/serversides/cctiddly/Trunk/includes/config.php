@@ -50,7 +50,7 @@
 	$tiddlyCfg['twLanguage'] = "en";	//predefine language
 	$tiddlyCfg['keep_revision'] = 1;
 	$tiddlyCfg['require_login'] = 0; 
-	$tiddlyCfg['session_expire'] = 10;  // in minutes - If set to 0 will not expire
+
 	$tiddlyCfg['tag_tiddler_with_modifier'] = 0;
 	$tiddlyCfg['char_set'] = "utf8";
 	$tiddlyCfg['hashseed'] = "aigijgij";
@@ -171,6 +171,7 @@ $tiddlyCfg['pref']['lock_title'] = array("LoginPanel");		//lock certain tiddler'
 $tiddlyCfg['pref']['uploadPluginIgnoreTitle'] = array("ccTiddly_debug_time", "UploadLog","UploadPlugin","UploadOptions");		//this specify what tiddler should uploadplugin ignore. It is recommended to put in uploadPlugin itself and the upload log. CaSe-SeNsItIvE
 $tiddlyCfg['pref']['forceAnonymous'] = 1;		//if enabled, anonymous users will take "anonymous" as username
 $tiddlyCfg['pref']['hashSeed'] = "145tgwg45wg4";		//used to increase security for hashing passwords. Put in a random string withing the double quotes.
+$tiddlyCfg['session_expire']=120;// in minutes - If set to 0 will not expire
 /*
 	This specify whether utf8 is required [1 = enable, 0 =disable]
 	If you got one of the following error message, that may mean your database do not support utf8
@@ -276,7 +277,7 @@ $tiddlyCfg['table']['privilege'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['tab
 $tiddlyCfg['tiddlywiki_type'] = $cct_base."tiddlywiki/".$tiddlyCfg['tiddlywiki_type'].".js"; // plain TW file, $cct_base defined in config.php
 
 $tiddlyCfg['version']="1.6";	
-
+$tiddlyCfg['session_expire'] = ($tiddlyCfg['session_expire']==0?9999999:$tiddlyCfg['session_expire']);
 $tiddlyCfg['session_expire'] = $tiddlyCfg['session_expire'] * 60;  // Converts minutes to seconds to be added to an epoch value 
-$tiddlyCfg['session_expire'] = ($tiddlyCfg['session_expire']==0)?9999999:$tiddlyCfg['session_expire'];
+
 ?>
