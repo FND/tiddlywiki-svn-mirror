@@ -2,3 +2,7 @@ title: TCDashboardPlugin
 modifier: JonLister
 created: 200805271613
 tags: systemConfig
+server.bag: Base
+server.host: http://peermore.com:8001
+server.type: tiddlyweb
+server.workspace: 

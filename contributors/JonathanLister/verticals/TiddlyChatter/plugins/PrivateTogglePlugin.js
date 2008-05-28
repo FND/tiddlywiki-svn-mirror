@@ -1,3 +1,8 @@
+//{{{
+//# Ensure that the plugin is only installed once.
+if(!version.extensions.PrivateTogglePlugin) {
+version.extensions.PrivateTogglePlugin = {installed:true};
+
 config.macros.privateToggle = {
 	caption:"Private",
 	checked:false,
@@ -27,3 +32,5 @@ config.macros.privateToggle.toggle = function(status,tag) {
 	}
 	store.setTiddlerTag(tiddler.title,status,tag);
 };
+
+} //# end of 'install only once'

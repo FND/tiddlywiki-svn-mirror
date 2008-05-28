@@ -1,4 +1,8 @@
-title: PrivatePlugin
+title: PrivateTogglePlugin
 modifier: JonLister
 created: 200805281535
 tags: systemConfig
+server.bag: Base
+server.host: http://peermore.com:8001
+server.type: tiddlyweb
+server.workspace: 

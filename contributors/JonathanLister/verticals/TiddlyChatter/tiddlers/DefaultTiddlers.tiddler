@@ -1,4 +1,4 @@
-<div title="DefaultTiddlers" modifier="Jon Lister">
+<div title="DefaultTiddlers" modifier="Jon Lister" server.bag="Base" server.host="http://peermore.com:8001" server.type="tiddlyweb" server.workspace="">
 <pre>[[Welcome]]
 [[Dash]]</pre>
 </div>

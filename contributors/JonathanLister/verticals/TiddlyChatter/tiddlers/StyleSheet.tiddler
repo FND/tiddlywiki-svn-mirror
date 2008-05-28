@@ -1,4 +1,4 @@
-<div title="StyleSheet" modifier="Jon Lister">
+<div title="StyleSheet" modifier="Jon Lister" server.bag="Base" server.host="http://peermore.com:8001" server.type="tiddlyweb" server.workspace="">
 <pre>/*{{{*/
 
 #channelBox {background:#BBBB33;}

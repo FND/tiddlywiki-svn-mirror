@@ -1,4 +1,4 @@
-<div title="publicViewTemplate" modifier="Jon Lister">
+<div title="publicViewTemplate" modifier="Jon Lister" server.bag="Base" server.host="http://peermore.com:8001" server.type="tiddlyweb" server.workspace="">
 <pre><!--{{{-->
 <div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
 <div class='title' macro='view title'></div>
