@@ -1,0 +1,8 @@
+title: TCFeedsPlugin
+modifier: JonLister
+created: 200805282054
+tags: systemConfig excludeLists excludeSearch
+server.bag: Base
+server.host: http://peermore.com:8001
+server.type: tiddlyweb
+server.workspace: 

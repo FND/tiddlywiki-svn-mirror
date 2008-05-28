@@ -42,18 +42,20 @@ TiddlyWiki.prototype.orig_saveTiddler = TiddlyWiki.prototype.saveTiddler;       
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created)
 {
     var tiddler = this.fetchTiddler(title);
-
     tiddler = store.orig_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,false,created);
-
-    var adaptor = new config.adaptors['tiddlyweb'];
-
-    // put the tiddler and deal with callback
-    context = {};
-    tiddler.fields = fields;
-    context.tiddler = tiddler;
-    context.workspace = fields['server.workspace'];
-    req = adaptor.putTiddler(tiddler, context, {}, TiddlyWebAutoSave.putCallback);
-    return req ? tiddler : false;
+	if(config.options.chkAutoSave) {
+		var adaptor = new config.adaptors['tiddlyweb'];
+	
+		// put the tiddler and deal with callback
+		context = {};
+		tiddler.fields = fields;
+		context.tiddler = tiddler;
+		context.workspace = fields['server.workspace'];
+		req = adaptor.putTiddler(tiddler, context, {}, TiddlyWebAutoSave.putCallback);
+		return req ? tiddler : false;
+	} else {
+		return tiddler;
+	}
 };
 
 } //# end of 'install only once'

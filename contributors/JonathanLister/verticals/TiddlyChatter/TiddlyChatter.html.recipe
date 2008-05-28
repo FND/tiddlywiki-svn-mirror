@@ -1,5 +1,6 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 tiddler: ../../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
+tiddler: ../../../../contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js
 tiddler: ../../plugins/filterTiddlersPlugin.js
 recipe: plugins/split.recipe
 recipe: tiddlers/split.recipe

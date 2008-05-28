@@ -1,0 +1,3 @@
+<div title="SideBarOptions" modifier="Jon Lister" server.bag="Base" server.host="http://peermore.com:8001" server.type="tiddlyweb" server.workspace="">
+<pre><<search>><<closeAll>><<permaview>><<newTiddler title:"New tiddler" fields:"server.bag:Base server.host:'http://peermore.com:8001' server.type:tiddlyweb server.workspace:">><<newJournal "DD MMM YYYY" "journal">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Change TiddlyWiki advanced options">></pre>
+</div>
