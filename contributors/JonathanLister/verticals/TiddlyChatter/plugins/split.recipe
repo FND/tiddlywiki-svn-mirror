@@ -1,6 +1,7 @@
 tiddler: NotesPlugin.js
 tiddler: PrivateTogglePlugin.js
-tiddler: TCFeedsPlugin.js
 tiddler: TCDashboardPlugin.js
+tiddler: TCGetterPlugin.js
 tiddler: TiddlyWebAdaptorPlugin.js
 tiddler: TiddlyWebAutoSavePlugin.js
+tiddler: TiddlyWebBagTiddlersPlugin.js

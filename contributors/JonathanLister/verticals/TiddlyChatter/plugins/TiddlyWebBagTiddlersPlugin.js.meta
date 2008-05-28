@@ -1,0 +1,9 @@
+title: TiddlyWebBagTiddlersPlugin
+modifier: ChrisDent
+created: 200804020000
+modified: 200804020000
+tags: systemConfig excludeLists excludeSearch
+server.bag: Base
+server.host: http://peermore.com:8001
+server.type: tiddlyweb
+server.workspace: 

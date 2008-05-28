@@ -1,7 +1,6 @@
 <div title="TiddlyChatterFeeds" modifier="Jon Lister" server.bag="Base" server.host="http://peermore.com:8001" server.type="tiddlyweb" server.workspace="">
-<pre>|Feed1:|http://peermore.com:8801/bags/Base |
-|Feed2:|http://peermore.com:8801/bags/Wendy |
-|Feed3:|http://peermore.com:8801/bags/Jeremy |
-
+<pre>|Feed1:|http://peermore.com:8001/bags/Wanda|
+|Feed2:|http://peermore.com:8001/bags/Jeremy|
+|Feed3:|http://peermore.com:8001/bags/Chris|
 <<TCFeeds>></pre>
 </div>
