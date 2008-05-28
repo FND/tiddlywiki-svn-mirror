@@ -7,11 +7,18 @@ window.workspacePermission= {};
 window.url = "<?php echo getURL();?>";
 window.workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 
+
+
 <?php
+if($theme == "simple")
+{
+	?>
+	
+	<?php
+}
 if($error404 == true)
 {
 ?>
-	config.options.txtTheme = 'simpleTheme';	
 	var titleTiddler = store.createTiddler('SiteTitle');
 	titleTiddler.text = '404 - Workspace does not exists';
 	var subTitleTiddler = store.createTiddler('SiteSubtitle');
@@ -33,8 +40,20 @@ if (user_isAdmin($user['username'], $tiddlyCfg['workspace_name']))
 
 $anonPerm  = stringToPerm($tiddlyCfg['default_anonymous_perm']);
 
+
+if ($user['verified'])
+{
 ?>
-window.loggedIn = "<?php echo $user['verified'];?>";
+window.loggedIn ="1";
+<?php
+}
+else{
+	?>
+	config.options.txtTheme = 'simpleTheme';	
+	<?php
+}
+?>
+	
 workspacePermission.anonC = <?php echo permToBinary($anonPerm['create']); ?> ;
 workspacePermission.anonR = <?php echo permToBinary($anonPerm['read']); ?>; 
 workspacePermission.anonU = <?php echo permToBinary($anonPerm['update']); ?>;

@@ -1,9 +1,10 @@
 Welcome to ccTiddly 1.6
 
-The has some new features including : 
 
-1 .. self service workspaces 
-2 .. Database user management
+For the most up to date file and to see known issues with the latest releases please see the URL : 
+
+http://www.tiddlywiki.org/wiki/CcTiddly/Releases
+
 
 
 we have taken out some features from the original ccTiddly version to get this version released.  If you cant find a particular feature please ask for help on the ccTiddly google groups. 
@@ -51,16 +52,3 @@ Configuring Uploading
 
 3 .. Ensure that the folder can be written by its owner. 
 
-
-
-ERROR - Workspace name already exists when attempting to create a new workspace
-
-If you cannot create new workspaces you should ensure that you have a .htaccess file in place in the ccTiddly root folder.
-
-Information about enabling mod-rewrite can be found at : http://simonmcmanus.com/2007/10/22/enable-and-use-mod-rewrite/
-
-If there is not already a .htaccess file in your cctiddly directory then you will need to create the file manually and copy the text from the following URL : 
-
-http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/.htaccess
-
-Alternatively you could disable the use of mod-rewrite in includes/config.php file. 

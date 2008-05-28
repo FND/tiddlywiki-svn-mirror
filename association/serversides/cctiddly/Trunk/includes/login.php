@@ -7,6 +7,7 @@ if ($workspace_settings_count < 1)
 	// workspace does not exist\
 	// this variable is later used in includes/ccVariables.php
 	$error404 = true;		
+	$theme = "simple";
 }
 
 if($tiddlyCfg['on_the_fly_workspace_creation'] ==1 )
@@ -40,6 +41,7 @@ if ($user['verified'])
 $workspace_permissions = $tiddlyCfg['default_user_perm'];
 	
 } else {
+
 	$workspace_permissions = $tiddlyCfg['default_anonymous_perm'];
 }
 
