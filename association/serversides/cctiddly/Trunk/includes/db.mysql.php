@@ -638,6 +638,7 @@ $db_var['error']['query'] = " query: ";*/
 		
 			$q = "INSERT INTO ".$table." (`".implode("`,`",$key)."`) VALUES ('".implode("','",$data)."')";
 			debug($q);
+			error_log($q);
 			$r = db_query($q);
 		
 		return $r;
@@ -659,7 +660,9 @@ $db_var['error']['query'] = " query: ";*/
 			next($data);
 			$i++;
 		}
-		return db_query("DELETE FROM ".$table." WHERE `".db_format4SQL(key($data))."` ".$operator." '".db_format4SQL(current($data))."'");
+		$q = "DELETE FROM ".$table." WHERE `".db_format4SQL(key($data))."` ".$operator." '".db_format4SQL(current($data))."'";
+		error_log($q);
+		return db_query($q);
 	}
 	
 	//!	@fn resource db_record_update($table,$data)
@@ -683,6 +686,7 @@ $db_var['error']['query'] = " query: ";*/
 		}
 		$sql=substr($sql,0,(strlen($sql)-1));		//remove last ","
 		$sql .= " WHERE `".db_format4SQL(key($odata))."` = '".db_format4SQL(current($odata))."'";
+		error_log($sql);
 		db_query($sql);
 		return db_affected_rows();
 	}

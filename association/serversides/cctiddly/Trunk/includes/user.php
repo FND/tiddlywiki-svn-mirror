@@ -61,7 +61,13 @@
 
 
 
-	
+	function user_reset_session($un,$pw)
+	{
+		global $tiddlyCfg;
+		$odata['session_token']= $pw;
+		$ndata['expire']=epochToTiddlyTime(time()+$tiddlyCfg['session_expire']);
+		db_record_update('login_session',$odata,$ndata);
+	}
 	
 	
 	function user_session_validate()
@@ -93,6 +99,8 @@
 				//$user['verified'] = 1;	
 				if($results[0]['expire'] > epochToTiddlyTime(time())) 
 				{
+					if($tiddlyCfg['pref']['renew_session_on_each_request']==1)
+						user_reset_session($un, $pw);
 					return TRUE;
 				}
 				else 
