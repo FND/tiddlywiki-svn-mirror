@@ -75,7 +75,7 @@
 !sessionViewTemplate
 <!--{{{-->
 <div class='session'>
-	<div class='toolbar' macro='toolbar closeTiddler +editTiddler fields'></div>
+	<div class='toolbar' macro='toolbar closeTiddler'></div>
 	<div class="title" macro="view rr_session_title"></div>
 	<span class="time"><span macro="dtstart rr_session_starttime '0hh:0mm'"></span>-<span macro="dtend rr_session_endtime '0hh:0mm'"></span></span>
 	<div class="speaker" macro="TiddlifyList rr_session_speakers"></div>
@@ -103,7 +103,6 @@
 <!--{{{-->
 <div class='myNotes'>
 	<div class='toolbar' macro='toolbar closeTiddler +editTiddler'></div>
-	<div class="noteOptions" macro="MakeNotesControl sharing"></div>
 	<div class='viewer' macro='view text wikified'></div>
 </div>
 <!--}}}-->
@@ -112,9 +111,10 @@
 !notesEditTemplate
 <!--{{{-->
 <div class='myNotes'>
-	<div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
+	<div class='toolbar'></div>
 	<div class='editor' macro='edit text'></div>
-	<div class="editor tags" macro="edit tags"></div>
+	<div class='editor tags' macro='edit tags'></div>
+	<div class='buttonbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
 </div>
 <!--}}}-->
 
@@ -274,7 +274,7 @@ div.session_edit .toolbar {background-color:#aaa; }
 div.session .title { margin:0.2em 0 0 10px; font-size:1.5em; font-weight:bold; color:#000;}
 div.session .time {margin:0 0.2em 0 10px; font-size:1.2em; font-weight:bold; color:#ddd; display:inline;}
 div.session .speaker {margin:0.2em 0 0 0; font-size:1.2em; font-weight:bold; color:#333;display:inline;}
-div.session .viewer {margin:0; font-size:1em; color:#222; padding:0.5em 5px 0.5em 10px;}
+div.session .viewer {margin:0 8em 0 0; font-size:1em; color:#222; padding:0.5em 5px 0.5em 10px;}
 
 div.session_edit 
 div.session_edit .editor .fieldsetFix {margin:0; padding:0.5em;}
@@ -292,6 +292,9 @@ div.myNotes .editor {width:90%;}
 div.myNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
 div.myNotes .editor .fieldsetFix textarea { border:solid 1px #555; border-top-color:#444; border-bottom-color:#fff; background-color:#fff;overflow:auto;}
 div.myNotes .tags {display:none;}
+div.myNotes div.buttonbar { padding: 0 0.5em 1em 0.5em; }
+div.myNotes div.buttonbar a.button { border-style:none; border-top:1px solid #fff; border-bottom:1px solid #666; margin-right:2px; background-color:#999; color:#fff;}
+div.myNotes div.buttonbar a.button:hover { border-style:none; border-top:1px solid #fff; border-bottom:1px solid [[RippleRapColors::AccentDark]]; background-color:[[RippleRapColors::Accent]]; color:#fff;}
 
 div.discoveredNotes { background-color:#ddd; border:solid 1px #333; border-left-width:2px; border-top-style:none; margin:0;}
 div.discoveredNotes .toolbar {background-color:#eee;border-left:solid 40px #ccc;}
@@ -302,10 +305,10 @@ div.discoveredNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
 div.discoveredNotes .editor .fieldsetFix textarea { border:solid 1px #bbb; border-top-color:#aaa; border-bottom-color:#fff; background-color:#eee; }
 div.discoveredNotes .title { margin:0; padding:0.5em 10px 0 10px; font-size:1.2em; font-weight:bold; color:#666; }
 
-div.noteOptions { position:absolute; top:2em; right:8px;}
+div.noteOptions { position:absolute; bottom:1em; right:8px;}
 div.noteOptions a.button,
-div.noteOptions a:active.button {color:#eee; background-color:#666; border-style:none; border-top:1px solid #bbb; }
-div.noteOptions a.button:hover {color:#fff; background-color:#444; border-style:none; border-top:1px solid #ddd;}
+div.noteOptions a:active.button {color:#fff; background-color:#777; border-style:none; border-top:1px solid #fff; border-bottom:1px solid #666; }
+div.noteOptions a.button:hover { border-style:none; border-top:1px solid #fff; border-bottom:1px solid [[RippleRapColors::AccentDark]]; background-color:[[RippleRapColors::Accent]]; color:#fff;}
 
 
 
@@ -323,6 +326,8 @@ span.description {font-size:0.8em; color:#555; font-weight:normal; display:block
 #messageArea a.button {background-color:#000000; color:#CCCCCC;}
 
 .Speaker img { float: right; }
+
+
 
 
 /*}}}*/</pre>

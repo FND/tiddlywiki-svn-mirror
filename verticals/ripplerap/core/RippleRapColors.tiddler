@@ -1,5 +1,8 @@
 <div title="RippleRapColors" modifier="PhilHawksworth" created="200803280000" modified="200803280000">
 <pre>
+Accent:#BA005F
+AccentDark:#850055
+
 Background: #fff
 Foreground: #000
 PrimaryPale: #8cf
