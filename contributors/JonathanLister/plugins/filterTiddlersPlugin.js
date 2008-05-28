@@ -36,8 +36,8 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
 	};
 	if(filter) {
 		var tiddler;
-		var re = /([^ \[\]]+)|(?:\[((?:[ \w-]+\[[^\]]+\])+)\])|(?:\[\[([^\]]+)\]\])/mg;
-		var re_inner = /([ \w-]+)\[([^\]]+)]/mg;
+		var re = /([^ \[\]]+)|(?:\[((?:[ \w-+!]+\[[^\]]+\])+)\])|(?:\[\[([^\]]+)\]\])/mg;
+		var re_inner = /([ \w-+!]+)\[([^\]]+)]/mg;
 		var match = re.exec(filter);
 		while(match) {
 			if(match[1] || match[3]) {
@@ -67,6 +67,12 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
 					case "+tag":
 						this.forEachTiddler(function(title,tiddler) {
 							if(tiddler.isTagged(match_inner[2]))
+								accModifier(accumulator,tiddler);
+						});
+						break;
+					case "!tag":
+						this.forEachTiddler(function(title,tiddler) {
+							if(!tiddler.isTagged(match_inner[2]))
 								accModifier(accumulator,tiddler);
 						});
 						break;
