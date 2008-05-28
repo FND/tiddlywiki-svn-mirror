@@ -1,6 +1,7 @@
 config.macros.TCDashboard = {
 	noteTag:"notes",
-	sharingTag:"public",
+	sharingTag:"public", // not used
+	privateTag:"private",
 	listTemplate:{
 		columns:[
 			{
@@ -61,7 +62,7 @@ config.macros.TCDashboard.handler = function(place,macroName,params,wikifier,par
 	var tiddlers = store.filterTiddlers(filter);
 	for(var i=0;i<tiddlers.length;i++) {
 		var t = tiddlers[i];
-		if(t.isTagged(this.sharingTag)) {
+		if(!t.isTagged(this.privateTag)) {
 			if(!t.isTagged(this.noteTag)) {
 				// it's parent content
 				contentAndNotes.push({content:t,notes:[]});

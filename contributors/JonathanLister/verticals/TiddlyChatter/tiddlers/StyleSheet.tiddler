@@ -1,0 +1,34 @@
+<div title="StyleSheet" modifier="Jon Lister">
+<pre>/*{{{*/
+
+#channelBox {background:#BBBB33;}
+#newChannelBox {background:#33BBBB;}
+#subscriptionBox {background:#CCCC22;}
+#newSubscriptionBox {background:#22CCCC;}
+.privateToggle, .unread {
+   background-color: #EEEEEE;
+   border: 1px solid #EEEEEE;
+   float: right;
+   margin: 0.5em;
+   font-size: 0.9em;
+   padding: 0.25em;
+}
+.selected .privateToggle, .selected .unread {
+   background-color: #CCCCCC;
+   border: 1px solid #999999;
+}
+.privateToggle .button, .unread .button {
+   border: medium none;
+}
+.privateToggle ul {
+   list-style-image: none;
+   list-style-position: outside;
+   list-style-type: none;
+   margin: 0.25em;
+   padding: 0pt;
+}
+tr.tiddlyChatterIncomingRowUnread {
+	background-color: #C44;
+}
+/*}}}*/</pre>
+</div>

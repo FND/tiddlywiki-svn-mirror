@@ -1,0 +1,14 @@
+<div title="publicViewTemplate" modifier="Jon Lister">
+<pre><!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
+<div class='title' macro='view title'></div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<!--<div class='tagging' macro='tagging'></div>-->
+<!--<div class='tagged' macro='tags'></div>-->
+<div class='publishing' macro='publishing'></div>
+<div class='unread' macro='unread'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='viewer' macro='notes tags:"notes public"'></div>
+<div class='tagClear'></div>
+<!--}}}--></pre>
+</div>

@@ -4,5 +4,6 @@ tiddler: DefaultTiddlers.tiddler
 tiddler: publicViewTemplate.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
+tiddler: StyleSheet.tiddler
 tiddler: ViewTemplate.tiddler
 tiddler: Welcome.tiddler
