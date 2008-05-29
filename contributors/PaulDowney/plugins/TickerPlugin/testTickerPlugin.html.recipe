@@ -1,0 +1,9 @@
+title=TickerPlugin Tests
+recipe: ../../../../core/tests/html/testContributors.recipe
+
+tiddler: TickerPlugin.js
+#jsspecsrc=<script src="TickerPlugin.js" type="text/javascript" charset="utf-8"></script>
+
+jsspecsrc=<script src="../../../../core/tests/js/tiddlywiki.js" type="text/javascript"  charset="utf-8"></script>
+jsspecsrc=<script src="../../../../core/tests/js/mock.js" type="text/javascript"  charset="utf-8"></script>
+jsspecsrc=<script src="TickerPlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>
