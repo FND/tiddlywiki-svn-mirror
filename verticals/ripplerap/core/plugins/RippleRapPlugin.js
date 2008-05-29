@@ -21,21 +21,28 @@ config.macros.RippleRap = {};
 config.macros.RippleRap.init = function(){
 
 	// Render local tiddler in the RippleRap UI as required.
-	var agendauri, agendatype;
+	// TBD: move this config into "feed" tiddlers
+	var agendauri, agendaadaptor;
+	var notesuri, notesadaptor;
+
+	var uri = config.options.txtRipplerapConferenceURI;
+	uri += ((uri.slice(-1)!='/')?"/":"");
 
 	switch (config.options.txtRipplerapType) {
 	case 'confabb':
-		agendauri = config.options.txtRipplerapConferenceURI;
-		agendauri += ((agendauri.slice(-1)!='/')?"/":"") + "sessionlist";
-		agendatype = "confabbagenda";
+		agendauri = uri + "sessionlist";
+		agendaadaptor = "confabbagenda";
+
+		notesuri = uri + "notes/shared";
+		notesadaptor = "confabbnotes";
 		break;
 	default:
 		break;
 	}
 	
-	config.macros.importWorkspace.getTiddlers(agendauri, agendatype);
-	
-	// Display appropriate tab in agenda view.
+	config.macros.importWorkspace.getTiddlers(agendauri, agendaadaptor);
+	config.macros.SharedNotes.adaptor = notesadaptor;
+	config.macros.SharedNotes.uri = notesuri;
 	
 	config.macros.RippleRap.initFeedListMangager();
 };
