@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#LocalAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/LocalAdaptorPlugin.js |
-|''Version:''|0.6.0|
+|''Version:''|0.6.1|
 |''Date:''|Jun 13, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -104,6 +104,7 @@ LocalAdaptor.fullHostName = function(host)
 {
 	if(!host)
 		return '';
+	host = host.trim();
 	if(!host.match(/:\/\//))
 		host = 'file://' + host;
 	if(host.substr(host.length-1) != '/')

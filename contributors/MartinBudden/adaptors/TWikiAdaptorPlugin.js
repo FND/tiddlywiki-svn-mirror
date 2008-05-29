@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#TWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/TWikiAdaptorPlugin.js |
-|''Version:''|0.6.1|
+|''Version:''|0.6.2|
 |''Date:''|Aug 16, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -73,6 +73,7 @@ TWikiAdaptor.fullHostName = function(host)
 //#displayMessage("fullHostName:"+host);
 	if(!host)
 		return '';
+	host = host.trim();
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
 	if(!host.match(/\/bin/) && !host.match(/\/cgi-bin/))
