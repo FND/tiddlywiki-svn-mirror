@@ -18,16 +18,14 @@ version.extensions.SharedNotesPlugin = {installed:true};
 
 config.macros.SharedNotes = {
 
-	noteTag: "notes",
-	sharedTag: "shared",
+	tag: "notes",
 	busy: false,
 	messages: {
 		userNameNotSet: 'to share notes you should set your [[Username]]'
 	},
-	starttime: 0,
+	thistime: 0,
 	lasttime: 0,
 	serialize: GenerateRss.serialize,
-	uri: '',
 	adaptor: '',
 
 	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
@@ -47,35 +45,40 @@ config.macros.SharedNotes = {
 			return;
 		}
 		if(me.busy) {
-console.log("busy!");
 			return;
 		}
 		me.busy = true;
-		var now = Date();
+		me.thistime = Date();
+		if (!me.doPut()) {
+			me.busy = false;
+		}
+		return;
+	},
+
+	doPut: function() {
+		var me = config.macros.SharedNotes;
 		var tiddlers = me.getSharedNoteTiddlers();
 		if (!tiddlers) {
-console.log("no tiddlers!");
-			me.busy = false;
-			return;
+			return false;
 		}
 
-console.log("putting!");
-		var callback = function(status,params,responseText,uri,xhr) {
-			var me = params[0];
+		var callback = function(status,me,responseText,uri,xhr) {
 			me.busy = false;
 			if(status) {
-				me.lasttime = me.starttime;
+				me.lasttime = me.thistime;
 			}
 		};
-		var rss = me.serialize(tiddlers);
 		var adaptor = config.adaptors[me.adaptor];
-		if (adaptor) {
-		    if (!config.adaptors[me.adaptor].putRss(rss,callback,me,uri)) {
-		    }
+		if (!adaptor) {
+			return false;
 		}
-console.log("clearing busy!");
-		me.busy = false;
-		return;
+
+		var rss = me.serialize(tiddlers);
+		if (!adaptor.putRss(rss,callback,me)) {
+console.log("putRss failed");
+			return false;
+		}
+		return true;
 	},
 
 	getSharedNoteTiddlers: function() {
@@ -83,7 +86,7 @@ console.log("clearing busy!");
 		var putRequired = false;
 		var tiddlers = [];
 		store.forEachTiddler(function(title,t) {
-			if(t.isTagged(me.noteTag) && t.isTagged(me.sharedTag)) {
+			if(t.isTagged(me.tag)) {
 				tiddlers.push(t);
 				if(t.modified > me.lasttime) {
 					putRequired = true;

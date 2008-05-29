@@ -30,12 +30,12 @@ ConfabbNotesAdaptor.serverType = 'confabbnotes';
 /*
  *  Save an RSS feed
  */
-ConfabbNotesAdaptor.prototype.putRss = function(text,callback,params,uri)
+ConfabbNotesAdaptor.putRss = function(text,callback,params)
 {
-console.log("ConfabbNotesAdaptor.putRss");
 	var body = encodeURIComponent('username') + '=' + encodeURIComponent(config.options.txtUserName)
 			+ '&' + encodeURIComponent('feed') + '=' + encodeURIComponent(text);
-	return doHttp('POST',uri,body,null,null,null,callback,params);
+console.log('POST',ConfabbNotesAdaptor.uri,body.length,null,null,null,callback,params);
+	return doHttp('POST',this.uri,body,null,null,null,callback,params);
 };
 
 config.adaptors[ConfabbNotesAdaptor.serverType] = ConfabbNotesAdaptor;
