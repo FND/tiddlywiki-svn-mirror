@@ -39,7 +39,7 @@ function getTiddlerDisplayGroup(tiddler) {
 
 
 TiddlerDisplayGroup.prototype.createBunch = function(common_id) {
-	var b = new Bunch(common_id);
+	var b = new Bunch(common_id, this.pattern);
 	this.bunches.push(b);
 	return b;
 };
@@ -177,8 +177,6 @@ TiddlerDisplayGroup.prototype.getTiddlerDisplayPosition = function(tiddlerTitle)
 };
 
 
-
-
 // get any tiddlers that must be displayed along with this one
 TiddlerDisplayGroup.prototype.findRequiredTiddlers = function(tiddlerTitle) {
 	var sectionDetails = this.templateSectionDetails(tiddlerTitle);
@@ -232,9 +230,10 @@ TiddlerDisplayGroup.prototype.findRequiredByTiddlers = function(tiddlerTitle) {
 
 
 // Bunch constructor.
-function Bunch(id) {
+function Bunch(id, template) {
 	this.id = id;
 	this.tiddlers = [];
+	this.template = template;
 };
 
 
@@ -290,6 +289,21 @@ Bunch.prototype.getTiddlersInSection = function(sectionLabel) {
 
 
 
+Bunch.prototype.getLastTiddlerInBunch = function() {
+	var tiddlers = null;
+	for (var s = this.template.length-1; s >= 0; s--){
+		tiddlers = this.getTiddlersInSection(this.template[s].label);
+		if(tiddlers && tiddlers.length > 0) {
+			// console.log("tiddlers from section: ", this.template[s].label, tiddlers);
+			// console.log(tiddlers[tiddlers.length-1].title);
+			return tiddlers[tiddlers.length-1].title;	
+		}
+	};
+	return null;
+};
+
+
+
 //store the existing displayTiddler and closeTiddler functions for use later.
 version.extensions.TiddlerDisplayGroupsPlugin.displayTiddler = story.displayTiddler;
 version.extensions.TiddlerDisplayGroupsPlugin.closeTiddler = story.closeTiddler;
@@ -297,9 +311,30 @@ version.extensions.TiddlerDisplayGroupsPlugin.closeTiddler = story.closeTiddler;
 //replace the displayTiddler function.
 Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle) {	
 
+	// if the tiddler is being opened from a link in a tiddler display group we should display it after the group.
+	if(srcElement)
+		var isTiddlylink = hasClass(srcElement, 'tiddlyLink');
+	if(isTiddlylink) {		
+		var containingTiddler = story.findContainingTiddler(srcElement);
+		if(containingTiddler) {
+			var parentGroup = getTiddlerDisplayGroup(containingTiddler.getAttribute('tiddler'));
+			if(parentGroup) {
+				var bunching_id = store.getValue(containingTiddler.getAttribute('tiddler'), parentGroup.getGroupField());
+				var b = parentGroup.findBunch(bunching_id);
+				var openafterbunch = b.getLastTiddlerInBunch();
+			}
+		}		
+	}
+
+
+	// Only If the tiddler being opened belongs in a group should we do our magic.
 	var group_object = getTiddlerDisplayGroup(tiddler);
 	if(!group_object) {
-		version.extensions.TiddlerDisplayGroupsPlugin.displayTiddler.apply(this, arguments);
+		if(openafterbunch != null) {
+			animSrc = srcElement;
+			srcElement = story.getTiddler(openafterbunch);
+		}
+		version.extensions.TiddlerDisplayGroupsPlugin.displayTiddler.apply(this, [srcElement,tiddler,template,animate,unused,customFields,toggle,animSrc]);
 		return;
 	}
 
