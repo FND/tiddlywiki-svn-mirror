@@ -15,12 +15,12 @@ CREATE TABLE pluginLibrary.plugins (
 	ID INT NOT NULL AUTO_INCREMENT ,
 	repository_ID INT NOT NULL ,
 	available BOOL NOT NULL ,
-	title TEXT NOT NULL ,
-	text TEXT NOT NULL ,
+	name TEXT NOT NULL ,
 	created DATETIME NULL ,
 	modified DATETIME NULL ,
 	modifier TEXT NULL ,
 	updated DATETIME NOT NULL ,
+	text TEXT NOT NULL ,
 	documentation TEXT NULL ,
 	code TEXT NULL ,
 	views INT NOT NULL DEFAULT '0',
@@ -28,32 +28,26 @@ CREATE TABLE pluginLibrary.plugins (
 	PRIMARY KEY ( ID )
 ) ENGINE = MYISAM;
 
- CREATE TABLE pluginLibrary.pluginTags (
-	plugin_ID INT NOT NULL ,
-	tag_ID INT NOT NULL
-) ENGINE = MYISAM;
-
 CREATE TABLE pluginLibrary.tags (
-	ID INT NOT NULL AUTO_INCREMENT ,
-	name TEXT NOT NULL ,
-	`user-generated` BOOL NOT NULL ,
-	PRIMARY KEY ( ID )
+	plugin_ID INT NOT NULL ,
+	name TEXT NOT NULL
 ) ENGINE = MYISAM;
 
 CREATE TABLE pluginLibrary.tiddlerFields (
-	ID INT NOT NULL AUTO_INCREMENT ,
 	plugin_ID INT NOT NULL ,
 	name TEXT NOT NULL ,
-	value TEXT NOT NULL ,
-	PRIMARY KEY ( ID )
+	value TEXT NOT NULL
 ) ENGINE = MYISAM;
 
 CREATE TABLE pluginLibrary.metaslices (
-	ID INT NOT NULL AUTO_INCREMENT ,
 	plugin_ID INT NOT NULL ,
 	name TEXT NOT NULL ,
-	value TEXT NOT NULL ,
-	PRIMARY KEY ( ID )
+	value TEXT NOT NULL
+) ENGINE = MYISAM;
+
+CREATE TABLE pluginLibrary.userTags (
+	plugin_ID INT NOT NULL ,
+	name TEXT NOT NULL
 ) ENGINE = MYISAM;
 
 CREATE TABLE pluginLibrary.ratings (

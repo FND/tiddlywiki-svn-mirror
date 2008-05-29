@@ -1,0 +1,31 @@
+                            +---------------+
++---------------+           | plugins       |           +---------------+
+| tags          |           +---------------+           | userTags      |
++---------------+     +-----| $ID           |-----+     +---------------+
+| plugin_ID     |-----+  +--| repository_ID |     +-----| plugin_ID     |
+| name          |     |  |  | available     |     |     | name          |
++---------------+     |  |  | name          |     |     +---------------+
+                      |  |  | created       |     |
++---------------+     |  |  | modified      |     |     +---------------+
+| tiddlerFields |     |  |  | modifier      |     |     | ratings       |
++---------------+     |  |  | updated       |     |     +---------------+
+| plugin_ID     |-----+  |  | text          |     |     | $ID           |
+| name          |     |  |  | documentation |     +-----| plugin_ID     |
+| value         |     |  |  | code          |     |     | IP_address    |
++---------------+     |  |  | views         |     |     | timestamp     |
+                      |  |  | annotation    |     |     | value         |
++---------------+     |  |  +---------------+     |     +---------------+
+| metaslices    |     |  |                        |
++---------------+     |  |  +---------------+     |     +---------------+
+| plugin_ID     |-----+  |  | repositories  |     |     | comments      |
+| name          |        |  +---------------+     |     +---------------+
+| value         |        +--| $ID           |     |     | $ID           |
++---------------+           | URI           |     +-----| plugin_ID     |
+                            | type          |           | IP_address    |
+                            | name          |           | timestamp     |
+                            | contact       |           | author        |
+                            | added         |           | text          |
+                            | updated       |           +---------------+
+                            | skipped       |
+                            | disabled      |
+                            +---------------+

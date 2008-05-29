@@ -191,7 +191,7 @@ function processPlugin($tiddler, $repo, $oldStoreFormat = false) { // DEBUG: spl
 			if(isset($matches[2])) {
 				$p->code = $matches[2]; // //{{{ code //}}}
 			} else {
-				$p->code = $matches[1]; // /% code %/
+				$p->code = $matches[1]; // ///% code //%/
 			}
 			// store plugin
 			storePlugin($p, $repo);
