@@ -161,6 +161,7 @@
 /*{{{*/
 	
 abbr { border-bottom-style:none; }	
+h1,h2,h3,h4,h5 { color:[[RippleRapColors::Accent]];}
 	
 /* page framework */
 #agendaMenu { position: static;	float: left; width: auto; }
