@@ -1,0 +1,18 @@
+<div title="simpleTheme" modifier="Simon McManus"  tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|simpleTheme|
+
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+
+!StyleSheet
+
+#mainMenu {display:none}
+#sidebarOptions{display:none}
+#sidebarTabs {display:none}
+
+/*}}}*/
+
+</pre>
+</div>
