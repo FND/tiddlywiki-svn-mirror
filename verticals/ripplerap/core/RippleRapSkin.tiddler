@@ -75,7 +75,7 @@
 !sessionViewTemplate
 <!--{{{-->
 <div class='session'>
-	<div class='toolbar' macro='toolbar closeTiddler'></div>
+	<div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
 	<div class="title" macro="view rr_session_title"></div>
 	<span class="time"><span macro="dtstart rr_session_starttime '0hh:0mm'"></span>-<span macro="dtend rr_session_endtime '0hh:0mm'"></span></span>
 	<div class="speaker" macro="TiddlifyList rr_session_speakers"></div>
@@ -170,26 +170,24 @@ abbr { border-bottom-style:none; }
 #tiddlerDisplay { margin:0 1em 2em 1em;  	}
 
 /* Header */
-div.header { background-color:#000; height:96px; position:relative; clear:left;}
+div.header { background-color:[[RippleRapColors::Darkest]]; height:96px; position:relative; clear:left;}
 #backstageArea,
-#backstageToolbar {background-color:#000;}
-#backstageToolbar a{background-color:#000;}
+#backstageToolbar {background-color:[[RippleRapColors::Darkest]];}
+#backstageToolbar a{background-color:[[RippleRapColors::Darkest]];}
 div.headerShadow,
 div.headerForeground { padding:1px; }
-div.headerShadow {color:#fff; height:80px;}
+div.headerShadow {color:[[RippleRapColors::Brightest]]; height:80px;}
 div.headerForeground {display:none; }
 span.siteTitle {top:2px;}
 span.siteSubtitle {bottom:25px; left:245px; font-size:1em; position:absolute; width:200px;}
 div.headerControls { position:absolute; bottom:20px; right:10px; color:[[ColorPalette::SecondaryDark]]; font-size:1.2em;}
-div.headerControls input.txtOptionInput { font-size:0.9em; padding: 0.2em; background-color:#222; border:solid 1px #666; color:#eee; margin-right:2em;}
-div.headerControls a.button {border-style:none; background-color:#000; color:[[ColorPalette::SecondaryDark]]; margin-right:0.5em;} 
 
 /* Primary Nav Buttons */
-#mainMenu { display:block; position:relative; width:100%; margin:0; background-color:#ccc; border-top:solid 1px #eee; border-bottom:solid 1px #999; padding:0; line-height:1em; text-align:left;}
+#mainMenu { display:block; position:relative; width:100%; margin:0; background-color:[[RippleRapColors::Bright]]; border-top:solid 1px [[RippleRapColors::Brighter]]; border-bottom:solid 1px [[RippleRapColors::Shadow]]; padding:0; line-height:1em; text-align:left;}
 
-#mainMenu a.button { border-style:none; border-right:solid 1px #999; float:left;}
+#mainMenu a.button { border-style:none; border-right:solid 1px [[RippleRapColors::Shadow]]; float:left;}
 #mainMenu a,
-#mainMenu a.tiddlyLink { border-right:solid 1px #999; font-size:1em; margin:0; color:#333; padding:0.3em 1em; line-height:1.8em; } 
+#mainMenu a.tiddlyLink { border-right:solid 1px [[RippleRapColors::Shadow]]; font-size:1em; margin:0; color:#333; padding:0.3em 1em; line-height:1.8em; } 
 #mainMenu a:hover,
 #mainMenu a.tiddlyLink:hover { background-color:#aaa;}
 #mainMenu span.search {position:absolute; right:3px;}
@@ -201,30 +199,30 @@ div.headerControls a.button {border-style:none; background-color:#000; color:[[C
 /* Buttons */
 span.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; display:block; padding:0; margin:0 0 0 0;}
 span.chunkyButton a.button,
-span.chunkyButton a:active.button { white-space:nowrap; font-weight:bold; color:#fff; background-color:[[ColorPalette::SecondaryDark]]; text-align:center; padding:0.4em 2em; margin:0; border-style:none;  border-top:solid 1px [[ColorPalette::SecondaryBrightest]]; display:block;}
-span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBright]]; border-style:none; color:#fff;  border-top:solid 1px [[ColorPalette::SecondaryBrightest]];}
+span.chunkyButton a:active.button { white-space:nowrap; font-weight:bold; color:[[RippleRapColors::Brightest]]; background-color:[[ColorPalette::SecondaryDark]]; text-align:center; padding:0.4em 2em; margin:0; border-style:none;  border-top:solid 1px [[ColorPalette::SecondaryBrightest]]; display:block;}
+span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBright]]; border-style:none; color:[[RippleRapColors::Brightest]];  border-top:solid 1px [[ColorPalette::SecondaryBrightest]];}
 .small {width:20em;}
 
 /* Agenda */
 #agendaMenu { width:260px; float:left; padding:0; margin-top:2.2em; background-color:#f6f6f6; }
 #agendaMenu div.tabset { width:100%; overflow:none; display:block; margin:0; padding:0 0 1em 0; background-color:#f9f9f9;}
 #agendaMenu div.tabset a.tab { display:block; padding:2px 4px; margin:2px; line-height:1.7em; background-color:#ccc; color:#333; font-weight:bold; font-size:0.9em; margin-right:1px;  border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;  }
-#agendaMenu div.tabset a.tab:hover { background-color:#aaa; color:#000; border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;}
+#agendaMenu div.tabset a.tab:hover { background-color:#aaa; color:[[RippleRapColors::Darkest]]; border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;}
 #agendaMenu div.tabset a.tabSelected,
-#agendaMenu div.tabset a.tabSelected:hover {background-color:#888; color:#000;border-style:none; border-top-style:none; border-bottom:solid 1px #555; border-left:solid 1px #555;}
+#agendaMenu div.tabset a.tabSelected:hover {background-color:#888; color:[[RippleRapColors::Darkest]];border-style:none; border-top-style:none; border-bottom:solid 1px [[RippleRapColors::Dark]]; border-left:solid 1px [[RippleRapColors::Dark]];}
 #agendaMenu div.tabContents { border-style:none; margin:0; padding:0; clear:left;}
 
 /*#agendaMenu div.tabset { margin:1em; padding:0; float:left; overflow:none;}
 #agendaMenu div.tabset a.tab { padding:2px 4px; margin:0; line-height:1.7em; background-color:#ddd; color:#333; font-weight:bold; font-size:0.9em; margin-right:1px; border-style:none; }
-#agendaMenu div.tabset a.tab:hover { background-color:#ccc; color:#000; }
+#agendaMenu div.tabset a.tab:hover { background-color:#ccc; color:[[RippleRapColors::Darkest]]; }
 #agendaMenu div.tabset a.tabSelected,
-#agendaMenu div.tabset a.tabSelected:hover {background-color:#bbb; color:#000;border-style:none; }
+#agendaMenu div.tabset a.tabSelected:hover {background-color:#bbb; color:[[RippleRapColors::Darkest]];border-style:none; }
 */
 
-#agendaMenu { border-right:solid 1px #999; border-bottom:solid 1px #999; background-color:#f0f0f0; font-family:arial; font-size:12px; }
+#agendaMenu { border-right:solid 1px [[RippleRapColors::Shadow]]; border-bottom:solid 1px [[RippleRapColors::Shadow]]; background-color:#f0f0f0; font-family:arial; font-size:12px; }
 #agendaMenu div.listRelatedTiddler { display: inline-block; ; /* IE bugfix: give layout (hasLayout = true) */ }
 #agendaMenu div.listRelatedTiddler { display: block; /* restore proper behavior (see IE bugfix above) */  }
-#agendaMenu div.listRelatedTiddler { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px #fff; border-left:solid 10px #ccc; position:relative;}	
+#agendaMenu div.listRelatedTiddler { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px [[RippleRapColors::Brightest]]; border-left:solid 10px #ccc; position:relative;}	
 
 #agendaMenu div.listRelatedTiddler span.time {	font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; position:absolute; top:8px; left:8px;}
 #agendaMenu div.listRelatedTiddler span.title a { color:#444; display:block; font-weight:bold;	text-decoration:none; margin-left:5em; font-size:12px; }
@@ -232,9 +230,9 @@ span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBri
 #agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler { text-align:right; }
 #agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler a { color:#55c; font-size:0.9em; line-height:1.4em; text-decoration:none; }
 #agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler a.tiddlyLink:hover,
-#agendaMenu div.listRelatedTiddler span.title a:hover { color:#000; text-decoration:underline;	background-color:#f0f0f0; }
-/*#agendaMenu div.inProgress { border-left:solid 10px #933; background-color:#fff; }*/
-/*#agendaMenu div.inProgress a.tiddlyLink:hover { background-color:#fff;	}*/
+#agendaMenu div.listRelatedTiddler span.title a:hover { color:[[RippleRapColors::Darkest]]; text-decoration:underline;	background-color:#f0f0f0; }
+/*#agendaMenu div.inProgress { border-left:solid 10px #933; background-color:[[RippleRapColors::Brightest]]; }*/
+/*#agendaMenu div.inProgress a.tiddlyLink:hover { background-color:[[RippleRapColors::Brightest]];	}*/
 
 div.tiddler {padding:0; margin:0;}
 
@@ -243,9 +241,10 @@ div.tiddler div.VanillaView,
 div.tiddler div.VanillaEdit {margin:30px 0 0 0; font-size:1.3em; }
 div.layoutTable {margin-bottom:0.5em;}
 div.layoutTable table, div.layoutTable table tr, div.layoutTable table td {margin:0; border-style:none;}
-input.txtOptionInput { font-size:1.2em; padding: 0.4em; border-top:solid 1px #999; border-right:solid 1px #ccc; border-bottom:solid 1px #ccc;  border-left:solid 1px #999; background-color:#f6f6f6;}
+input.txtOptionInput { font-size:1.2em; padding: 0.4em; border-top:solid 1px [[RippleRapColors::Shadow]]; border-right:solid 1px #ccc; border-bottom:solid 1px #ccc;  border-left:solid 1px [[RippleRapColors::Shadow]]; background-color:#f6f6f6;}
 div.tiddler sup {font-size:0.7em;}
 div.tiddler pre {font-size:0.em;}
+div.tiddler div.VanillaView div.title { color:[[RippleRapColors::Accent]]; }
 
 /* Session and Notes tiddlers */
 div.session .toolbar,
@@ -264,24 +263,24 @@ div.discoveredNotes .toolbar a {border-style: none; color:#333;}
 div.session .toolbar a:hover, 
 div.session_edit .toolbar a:hover, 
 div.myNotes .toolbar a:hover,
-div.discoveredNotes .toolbar a:hover {border-style: none; color:#fff; background-color:#333;}
+div.discoveredNotes .toolbar a:hover {border-style: none; color:[[RippleRapColors::Brightest]]; background-color:#333;}
 
 div.session {margin:30px 0 0 0; position:relative;}
 div.session,
-div.session_edit { background-color:#999; border:solid 2px #333; border-bottom-width:1px; border-right-width:1px; margin:3em 0 0 0; }
+div.session_edit { background-color:[[RippleRapColors::Shadow]]; border:solid 2px #333; border-bottom-width:1px; border-right-width:1px; margin:3em 0 0 0; }
 div.session .toolbar,
 div.session_edit .toolbar {background-color:#aaa; }
-div.session .title { margin:0.2em 0 0 10px; font-size:1.5em; font-weight:bold; color:#000;}
+div.session .title { margin:0.2em 0 0 10px; font-size:1.5em; font-weight:bold; color:[[RippleRapColors::Darkest]];}
 div.session .time {margin:0 0.2em 0 10px; font-size:1.2em; font-weight:bold; color:#ddd; display:inline;}
 div.session .speaker {margin:0.2em 0 0 0; font-size:1.2em; font-weight:bold; color:#333;display:inline;}
 div.session .viewer {margin:0 8em 0 0; font-size:1em; color:#222; padding:0.5em 5px 0.5em 10px;}
 
 div.session_edit 
 div.session_edit .editor .fieldsetFix {margin:0; padding:0.5em;}
-div.session_edit .label {margin:1em 0 0.2em 10px;font-size::0.8em; font-weight:normal; color:#fff;}
-div.session_edit input {font-size:1em; font-weight:normal; color:#000; padding:2px; margin:0 1em; width:auto; border:solid 1px #555}
+div.session_edit .label {margin:1em 0 0.2em 10px;font-size::0.8em; font-weight:normal; color:[[RippleRapColors::Brightest]];}
+div.session_edit input {font-size:1em; font-weight:normal; color:[[RippleRapColors::Darkest]]; padding:2px; margin:0 1em; width:auto; border:solid 1px [[RippleRapColors::Dark]]}
 div.session_edit .fieldsetFix {margin:0; padding:0.5em;}
-div.session_edit textarea { border:solid 1px #555; border-top-color:#444; border-bottom-color:#fff; background-color:#fff;}
+div.session_edit textarea { border:solid 1px [[RippleRapColors::Dark]]; border-top-color:#444; border-bottom-color:[[RippleRapColors::Brightest]]; background-color:[[RippleRapColors::Brightest]];}
 
 /*div.session .editor * {margin:0; padding:0.5em;}*/
 
@@ -290,11 +289,11 @@ div.myNotes .toolbar {background-color:#eee; }
 div.myNotes .editor {width:90%;}
 
 div.myNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
-div.myNotes .editor .fieldsetFix textarea { border:solid 1px #555; border-top-color:#444; border-bottom-color:#fff; background-color:#fff;overflow:auto;}
+div.myNotes .editor .fieldsetFix textarea { border:solid 1px [[RippleRapColors::Dark]]; border-top-color:#444; border-bottom-color:[[RippleRapColors::Brightest]]; background-color:[[RippleRapColors::Brightest]];overflow:auto;}
 div.myNotes .tags {display:none;}
 div.myNotes div.buttonbar { padding: 0 0.5em 1em 0.5em; }
-div.myNotes div.buttonbar a.button { border-style:none; border-top:1px solid #fff; border-bottom:1px solid #666; margin-right:2px; background-color:#999; color:#fff;}
-div.myNotes div.buttonbar a.button:hover { border-style:none; border-top:1px solid #fff; border-bottom:1px solid [[RippleRapColors::AccentDark]]; background-color:[[RippleRapColors::Accent]]; color:#fff;}
+div.myNotes div.buttonbar a.button { border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid #666; margin-right:2px; background-color:[[RippleRapColors::Shadow]]; color:[[RippleRapColors::Brightest]];}
+div.myNotes div.buttonbar a.button:hover { border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid [[RippleRapColors::AccentDark]]; background-color:[[RippleRapColors::Accent]]; color:[[RippleRapColors::Brightest]];}
 
 div.discoveredNotes { background-color:#ddd; border:solid 1px #333; border-left-width:2px; border-top-style:none; margin:0;}
 div.discoveredNotes .toolbar {background-color:#eee;border-left:solid 40px #ccc;}
@@ -302,28 +301,28 @@ div.discoveredNotes .title,
 div.discoveredNotes .viewer, 
 div.discoveredNotes .editor {border-left:solid 40px #bbb;}
 div.discoveredNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
-div.discoveredNotes .editor .fieldsetFix textarea { border:solid 1px #bbb; border-top-color:#aaa; border-bottom-color:#fff; background-color:#eee; }
+div.discoveredNotes .editor .fieldsetFix textarea { border:solid 1px #bbb; border-top-color:#aaa; border-bottom-color:[[RippleRapColors::Brightest]]; background-color:#eee; }
 div.discoveredNotes .title { margin:0; padding:0.5em 10px 0 10px; font-size:1.2em; font-weight:bold; color:#666; }
 
 div.noteOptions { position:absolute; bottom:1em; right:8px;}
 div.noteOptions a.button,
-div.noteOptions a:active.button {color:#fff; background-color:#777; border-style:none; border-top:1px solid #fff; border-bottom:1px solid #666; }
-div.noteOptions a.button:hover { border-style:none; border-top:1px solid #fff; border-bottom:1px solid [[RippleRapColors::AccentDark]]; background-color:[[RippleRapColors::Accent]]; color:#fff;}
+div.noteOptions a:active.button {color:[[RippleRapColors::Brightest]]; background-color:#777; border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid #666; }
+div.noteOptions a.button:hover { border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid [[RippleRapColors::AccentDark]]; background-color:[[RippleRapColors::Accent]]; color:[[RippleRapColors::Brightest]];}
 
 
 
 
-span.description {font-size:0.8em; color:#555; font-weight:normal; display:block;}
+span.description {font-size:0.8em; color:[[RippleRapColors::Dark]]; font-weight:normal; display:block;}
 
 .subtleTabs div.tabset { height:1.4em;}
-.subtleTabs div.tabset a.tab {border-style:none;  background-color:transparent; color:#999; padding:0.2em 0.6em 0.1em 0.6em;}
-.subtleTabs div.tabset a.tabSelected {border:solid 1px #ccc; border-bottom:solid 3px #fff; background-color:#fff; color:#777;}
+.subtleTabs div.tabset a.tab {border-style:none;  background-color:transparent; color:[[RippleRapColors::Shadow]]; padding:0.2em 0.6em 0.1em 0.6em;}
+.subtleTabs div.tabset a.tabSelected {border:solid 1px #ccc; border-bottom:solid 3px [[RippleRapColors::Brightest]]; background-color:[[RippleRapColors::Brightest]]; color:#777;}
 .subtleTabs div.tabset a.tabUnselected:hover {color:#444;}
 .subtleTabs div.tabContents {background-color:transparent; border-style:none; border-top:solid 1px #ccc;}
 
-#messageArea { position: fixed; background-color: #000000; border-color: #CCCCCC; color: #CCCCCC;}
+#messageArea { position: fixed; background-color: [[RippleRapColors::Darkest]]000; border-color: #CCCCCC; color: #CCCCCC;}
 #messageArea a {color:#CCCCCC;}
-#messageArea a.button {background-color:#000000; color:#CCCCCC;}
+#messageArea a.button {background-color:[[RippleRapColors::Darkest]]000; color:#CCCCCC;}
 
 .Speaker img { float: right; }
 

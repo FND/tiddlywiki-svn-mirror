@@ -3,7 +3,17 @@
 Accent:#BA005F
 AccentDark:#850055
 
-Background: #fff
+Brightest:#fff
+Brighter:#eee
+Bright:#ddd
+
+Shadow:#999
+
+Dark:#555
+Darker:#222
+Darkest:#000
+
+/*Background: #fff
 Foreground: #000
 PrimaryPale: #8cf
 PrimaryLight: #18f
@@ -11,10 +21,10 @@ PrimaryMid: #04b
 PrimaryDark: #014
 SecondaryPale: #ffc
 SecondaryLight: #fe8
-SecondaryMid: #fdb
+SecondaryMid: #fdb*/
 
 /* Magenta */
-SecondaryBrightest: #FD85AF
+/*SecondaryBrightest: #FD85AF
 SecondaryBright: #d71f85
 SecondaryDark: #BA005F
 SecondaryDarkest:#850055
@@ -23,6 +33,6 @@ TertiaryPale: #eee
 TertiaryLight: #ccc
 TertiaryMid: #999
 TertiaryDark: #666
-Error: #f88
+Error: #f88*/
 </pre>
 </div>
