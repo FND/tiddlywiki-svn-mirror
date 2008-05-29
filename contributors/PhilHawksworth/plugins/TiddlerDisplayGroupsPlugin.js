@@ -81,7 +81,8 @@ TiddlerDisplayGroup.prototype.fileTiddler = function(tiddlerTitle) {
 	if(!b)
 		b = this.createBunch(common_id);
 	var details = this.templateSectionDetails(tiddlerTitle);
-	b.addTiddler(tiddlerTitle, details.label, details.openAt);
+	if(details)
+		b.addTiddler(tiddlerTitle, details.label, details.openAt);
 	return b;
 };
 
