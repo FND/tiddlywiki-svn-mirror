@@ -1,0 +1,5 @@
+<div title="Today" tags="ticker" ticker_interval="1">
+<pre>
+<<today>>
+</pre>
+</div>

@@ -1,0 +1,5 @@
+# build demo TiddlyWiki
+recipe: ../../../../core/tiddlywiki.html.recipe
+tiddler: TickerPlugin.js
+tiddler: DefaultTiddlers.tiddler
+tiddler: Today.tiddler
