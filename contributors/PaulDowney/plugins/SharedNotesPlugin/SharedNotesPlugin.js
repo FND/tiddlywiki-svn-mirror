@@ -24,12 +24,14 @@ config.macros.SharedNotes = {
 	messages: {
 		userNameNotSet: 'to share notes you should set your [[Username]]'
 	},
-	lastupload: 0,
+	starttime: 0,
+	lasttime: 0,
 	serialize: GenerateRss.serialize,
 	uri: '',
 	adaptor: '',
 
 	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
+		var me = config.macros.SharedNotes;
 	        var button = createTiddlyButton(place,'PUT NOTES','Click here to put your shared notes',this.putNotes);
 		me.putNotes();
 	},
@@ -40,21 +42,24 @@ config.macros.SharedNotes = {
 			return;
 		}
 		if(config.options.txtUserName=='YourName') {
-			this.userUpload.requestPending = false;
+			clearMessage();
 			displayMessage(me.messages.userNameNotSet);
-			return false;
-		}
-		if(me.busy) {
 			return;
 		}
+		if(me.busy) {
+console.log("busy!");
+			return;
+		}
+		me.busy = true;
 		var now = Date();
 		var tiddlers = me.getSharedNoteTiddlers();
 		if (!tiddlers) {
+console.log("no tiddlers!");
+			me.busy = false;
 			return;
 		}
 
-		var rss = me.serialize(tiddlers);
-		me.putFeed(rss);
+console.log("putting!");
 		var callback = function(status,params,responseText,uri,xhr) {
 			var me = params[0];
 			me.busy = false;
@@ -62,7 +67,15 @@ config.macros.SharedNotes = {
 				me.lasttime = me.starttime;
 			}
 		};
-		config.adaptors[me.adaptor].putNotes(rss,callback,me);
+		var rss = me.serialize(tiddlers);
+		var adaptor = config.adaptors[me.adaptor];
+		if (adaptor) {
+		    if (!config.adaptors[me.adaptor].putRss(rss,callback,me,uri)) {
+		    }
+		}
+console.log("clearing busy!");
+		me.busy = false;
+		return;
 	},
 
 	getSharedNoteTiddlers: function() {
@@ -72,12 +85,14 @@ config.macros.SharedNotes = {
 		store.forEachTiddler(function(title,t) {
 			if(t.isTagged(me.noteTag) && t.isTagged(me.sharedTag)) {
 				tiddlers.push(t);
-				if(t.modified > me.lastupload)
+				if(t.modified > me.lasttime) {
 					putRequired = true;
+				}
 			}
 		});
-		if (!putRequired)
+		if (!putRequired) {
 			return null;
+		}
 		return tiddlers;
 	}
 };
