@@ -55,7 +55,8 @@ TiddlyWebBagTiddlers.getTiddlersCallback = function(status, context, responseTex
             titles.push(tiddlers[i]['title']);
         }
     } else {
-        alert('weird no status');
+        alert('weird no status in getTiddlersCallback for '+uri);
+        return false;
     }
     context.uri = uri;
     context.tiddlers = tiddlers;
@@ -79,8 +80,10 @@ TiddlyWebBagTiddlers.getTiddlerCallback = function(status, context, responseText
             alert('error ' + ex);
         }
     } else {
-        alert('weird no status');
+        alert('weird no status in getTiddlerCallback for '+uri);
+        return false;
     }
+	console.log(tiddler);
     context.uri = uri;
     context.tiddler = tiddler;
     context.callback(context);

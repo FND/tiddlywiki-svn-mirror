@@ -4,16 +4,19 @@ if(!version.extensions.TCGetterPlugin) {
 version.extensions.TCGetterPlugin = {installed:true};
 
 config.optionsDesc.txtTCInterval = "~TiddlyChatter polling interval (in seconds)";
+config.optionsDesc.chkTCCheckForUpdates = "check for new ~TiddlyChatter content";
 
 function TCGetter() {
-	this.defaultInterval = 3000;
+	this.defaultInterval = 5;
 	this.requestPending = false;
 	this.listTiddler = "TiddlyChatterFeeds";
 	this.feedtype = "tiddlyweb";
 	this.host = "http://peermore.com:8001";
 	this.feeds = {};
-	this.debug = true; // change to false to turn off debugging
 }
+
+TCGetter.counter = 0;
+TCGetter.debug = true; // switch to false to turn off debugging
 
 // logging function, for debug
 TCGetter.log = function(x)
@@ -28,18 +31,21 @@ TCGetter.log = function(x)
 };
 
 TCGetter.prototype.init = function() {
+	if(!config.options.txtTCInterval)
+		config.options.txtTCInterval = this.defaultInterval;
+	if(!config.options.chkTCCheckForUpdates)
+		config.options.chkTCCheckForUpdates = false;
 	this.feeds = new FeedListManager();
 	var list = store.calcAllSlices(this.listTiddler);
 	for(var i in list) {
 		this.feeds.add(list[i],null,'rss'); // can't use tiddlyweb as feedtype because of bug in FeedListManager
 	}
-	displayMessage("polling in "+this.getInterval());
 	this.makeRequest();
 }
 
 TCGetter.prototype.getInterval = function()
 {
-	var t = config.options.txtTCInterval ? parseInt(config.options.txtTCInterval)*1000 : this.defaultInterval;
+	var t = config.options.txtTCInterval ? parseInt(config.options.txtTCInterval)*1000 : this.defaultInterval*1000;
 	if(isNaN(t))
 		t = this.defaultInterval;
 	return t;
@@ -48,19 +54,21 @@ TCGetter.prototype.getInterval = function()
 // If no sync requests are outstanding then queue a sync request on a timer.
 TCGetter.prototype.makeRequest = function()
 {
-	if(this.requestPending) {
-		TCGetter.log("get request is pending");
-		return;
+	if(config.options.chkTCCheckForUpdates) {
+		if(this.requestPending) {
+			TCGetter.log("get request is pending");
+			return;
+		}
+		TCGetter.log("polling in "+this.getInterval());
+		var me = this;
+		window.setTimeout(function() { me.doGetTiddlerList.call(me);},this.getInterval());
 	}
-	var me = this;
-	window.setTimeout(function() {me.doGetTiddlerList.call(me);},this.getInterval());
 };
 
 TCGetter.prototype.doGetTiddlerList = function()
 {
 	uri = this.feeds.next();
 	uri += "/tiddlers";
-	displayMessage("doing get with "+uri);
 	
 	var context = {
 		getter:this,
@@ -90,23 +98,22 @@ TCGetter.getTiddlers = function(context) {
 		var t = new Tiddler();
 		for(var i=0;i<titles.length;i++) {
 			title = titles[i];
-			var uri = context.uri + "/" + title;
-			context.uri = uri;
-			if(i==titles.length-1) {
-				context.lastTiddler = true;
-			}
+			var prevUri = context.uri;
+			context.uri += "/" + title;
 			context.callback = TCGetter.getTiddlers.callback;
-			TiddlyWebAdaptor.doHttpGET(uri,
+			TiddlyWebAdaptor.doHttpGET(context.uri,
 				TiddlyWebBagTiddlers.getTiddlerCallback,
 				context,
 				{'accept':'application/json'}
 			);
+			context.uri = prevUri;
 		}
 	}
 };
 
 TCGetter.getTiddlers.callback = function(context) {
 	var t = context.tiddler;
+	var tiddlers = context.tiddlers;
 	if(!store.tiddlerExists(t.title)) {
 		if(t) {
 			var fields = {
@@ -118,12 +125,16 @@ TCGetter.getTiddlers.callback = function(context) {
 			var modified = Date.convertFromYYYYMMDDHHMM(t.modified);
 			var created = Date.convertFromYYYYMMDDHHMM(t.created);
 			store.saveTiddler(t.title,t.title,t.text,t.modifier,modified,t.tags,fields,false,created);
-			displayMessage("saved "+t.title);
+			TCGetter.log("saved "+t.title+" from "+context.uri);
 		}
 	}
-	if(context.lastTiddler) {
+
+	if(TCGetter.counter==tiddlers.length-1) {
 		var tc = context.getter;
+		TCGetter.counter=0;
 		tc.makeRequest();
+	} else {
+		TCGetter.counter++;
 	}
 }
 
