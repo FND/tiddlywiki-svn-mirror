@@ -6,8 +6,8 @@ config.options.chkSaveBackups = false;
 config.options.txtTheme = "RippleRapSkin";
 
 // RippleRap Specific 
-config.options.chkRipplerapShare = true;
-config.options.chkRipplerapEnjoy= true;
+config.options.chkRippleRapShare = true;
+config.options.chkRippleRapEnjoy= true;
 
 // RippleRap Edition Specific settings are in Edition.js
 

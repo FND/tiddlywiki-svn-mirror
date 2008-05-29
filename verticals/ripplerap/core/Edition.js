@@ -1,12 +1,12 @@
 //{{{
 
 // RippleRap type, "confabb", "none", etc
-config.options.txtRipplerapType = "";
+config.options.txtRippleRapType = "";
 
 // RippleRap Conference Name
-config.options.txtRipplerapConferenceName = "";
+config.options.txtRippleRapConferenceName = "";
 
 // RippleRap Conference URI
-config.options.txtRipplerapConferenceURI = "";
+config.options.txtRippleRapConferenceURI = "";
 
 //}}}

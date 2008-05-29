@@ -25,10 +25,10 @@ config.macros.RippleRap.init = function(){
 	var agendauri, agendaadaptor;
 	var notesuri, notesadaptor;
 
-	var uri = config.options.txtRipplerapConferenceURI;
+	var uri = config.options.txtRippleRapConferenceURI;
 	uri += ((uri.slice(-1)!='/')?"/":"");
 
-	switch (config.options.txtRipplerapType) {
+	switch (config.options.txtRippleRapType) {
 	case 'confabb':
 		agendauri = uri + "sessionlist";
 		agendaadaptor = "confabbagenda";

@@ -1,10 +1,10 @@
 {{
 // RippleRap type, "confabb", "none", etc
-config.options.txtRipplerapType = "confabb";
+config.options.txtRippleRapType = "confabb";
 
 // RippleRap Conference Name
-config.options.txtRipplerapConferenceName = "Web 2.0 Conference";
+config.options.txtRippleRapConferenceName = "Web 2.0 Conference";
 
 // RippleRap Conference Base URI
-config.options.txtRipplerapConferenceURI = "file:///Projects/TiddlyWiki/Trunk/verticals/ripplerap/editions/confabb-16074";
+config.options.txtRippleRapConferenceURI = "file:///Projects/TiddlyWiki/Trunk/verticals/ripplerap/editions/confabb-16074";
 }}

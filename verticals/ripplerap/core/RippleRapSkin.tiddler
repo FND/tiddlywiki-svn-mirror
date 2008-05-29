@@ -208,9 +208,15 @@ span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBri
 .small {width:20em;}
 
 /* Agenda */
+/*#agendaMenu { width:260px; float:left; padding:0; margin-top:3em; background-color:#f6f6f6; z-index:999;}
+#agendaMenu div.tabset { width:100%; overflow:none; display:block; margin:0; padding:0 0 1em 0; background-color:#f9f9f9;}
+#agendaMenu div.tabset a.tab { display:block; padding:2px 4px; margin:2px; line-height:1.7em; background-color:#ccc; color:#333; font-weight:bold; font-size:0.9em; margin-right:1px;  border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;  }*/
+
 #agendaMenu { width:260px; float:left; padding:0; margin-top:3em; background-color:#f6f6f6; z-index:999;}
 #agendaMenu div.tabset { width:100%; overflow:none; display:block; margin:0; padding:0 0 1em 0; background-color:#f9f9f9;}
+
 #agendaMenu div.tabset a.tab { display:block; padding:2px 4px; margin:2px; line-height:1.7em; background-color:#ccc; color:#333; font-weight:bold; font-size:0.9em; margin-right:1px;  border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;  }
+
 #agendaMenu div.tabset a.tab:hover { background-color:#aaa; color:[[RippleRapColors::Darkest]]; border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;}
 #agendaMenu div.tabset a.tabSelected,
 #agendaMenu div.tabset a.tabSelected:hover {background-color:#888; color:[[RippleRapColors::Darkest]];border-style:none; border-top-style:none; border-bottom:solid 1px [[RippleRapColors::Dark]]; border-left:solid 1px [[RippleRapColors::Dark]];}
