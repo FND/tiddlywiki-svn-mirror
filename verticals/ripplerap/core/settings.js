@@ -20,4 +20,9 @@ var session_notes_pattern = [
 session_notes_groups.setPattern(session_notes_pattern); 
 session_notes_groups.setGroupField('rr_session_id');
 
+// Label the message area close button differently
+merge(config.messages.messageClose,{
+	text: "clear",
+	tooltip: "clear this message area"});
+
 //}}}
