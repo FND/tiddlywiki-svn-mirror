@@ -3,7 +3,7 @@
 |''Description:''|A thin TiddlyWiki wrapper around Matteo Casati's JavaScript 'SOAP Client' library|
 |''Author:''|Martin Budden|
 |''Source:''|http://www.codeplex.com/JavaScriptSoapClient location of original library|
-|''Version:''|0.1.0|
+|''Version:''|0.1.1|
 |''Date:''|Dec 21, 2007|
 |''License:''|[[GNU General Public License (GPL) v2|see http://www.codeplex.com/JavaScriptSoapClient/license]] |
 |''~CoreVersion:''|2.3.0|
@@ -24,6 +24,11 @@ ii) setting "UniversalBrowserRead" privileges where required, so functions can b
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.SOAPClient) {
 version.extensions.SOAPClient = {installed:true};
+
+fnLog = function(text)
+{
+//	if(window.console) console.log(text.substr(0,80)); else displayMessage(text.substr(0,80));
+};
 
 function SOAPClientParameters()
 {
@@ -134,6 +139,7 @@ SOAPClient.password = null;
 
 SOAPClient.invoke = function(url, method, parameters, async, callback, token)
 {
+//fnLog("SOAPClient.invoke:"+url);
 	if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
 		window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
 	if(async)
