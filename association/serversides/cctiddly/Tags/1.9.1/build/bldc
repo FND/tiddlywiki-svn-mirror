@@ -1,0 +1,3 @@
+#!/bin/bash
+cp index.php ../
+cp tiddlywiki.js ../tiddlywiki
