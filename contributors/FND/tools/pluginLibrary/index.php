@@ -137,8 +137,24 @@ function getVersion($xml) {
 */
 function processPlugin($tiddler, $repo, $oldStoreFormat = false) { // DEBUG: split into separate functions
 	// DEBUG: use of strval() for SimpleXML value retrieval hacky!?
-	// initialize plugin object -- DEBUG: document object structure
+	// initialize plugin object
 	$p = new stdClass;
+	/* tiddler object structure -- DEBUG: create tiddler class?
+	tiddler
+		->repository
+		->title			// Note: corresponds to Name slice
+		->tags
+		->created
+		->modified
+		->modifier
+		->fields
+			->[...]
+		->text
+		->slices
+			->[...]
+		->documentation
+		->code
+	*/
 	// set repository
 	$p->repository = $repo->ID;
 	// retrieve tiddler fields
@@ -261,7 +277,8 @@ function addPlugin($tiddler, $repo) {
 		modified => convertTiddlyTime($tiddler->modified),
 		modifier => $tiddler->modifier,
 		updated => date("Y-m-d H:i:s"),
-		documentation => $tiddler->documentation, // DEBUG: to do
+		documentation => $tiddler->documentation,
+		documentation => $tiddler->code,
 		views => 0,
 		annotation => null
 	);
@@ -295,7 +312,8 @@ function updatePlugin($tiddler, $pluginID, $repo) {
 		modified => convertTiddlyTime($tiddler->modified),
 		modifier => $tiddler->modifier,
 		updated => date("Y-m-d H:i:s"),
-		documentation => $tiddler->documentation // DEBUG: to do
+		documentation => $tiddler->documentation,
+		documentation => $tiddler->code
 	);
 	$dbq->updateRecords("plugins", $data, $selectors, 1);
 	// re-insert fields
