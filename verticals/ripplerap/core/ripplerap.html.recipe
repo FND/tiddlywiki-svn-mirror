@@ -37,9 +37,9 @@ tiddler: ../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js
 tiddler: ../../../contributors/PaulDowney/adaptors/ConfabbAgendaAdaptorPlugin.js
 
 # Sharing Notes
-#tiddler: ../../../contributors/PaulDowney/plugins/SharedNotesPlugin/SharedNotesPlugin.js
-#tiddler: ../../../contributors/PaulDowney/plugins/GenerateRssPlugin.js
-#tiddler: ../../../contributors/PaulDowney/adaptors/ConfabbNotesAdaptorPlugin.js
+tiddler: ../../../contributors/PaulDowney/plugins/SharedNotesPlugin/SharedNotesPlugin.js
+tiddler: ../../../contributors/PaulDowney/plugins/GenerateRssPlugin.js
+tiddler: ../../../contributors/PaulDowney/adaptors/ConfabbNotesAdaptorPlugin.js
 
 # Enjoying Notes
 tiddler: ../../../contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js
