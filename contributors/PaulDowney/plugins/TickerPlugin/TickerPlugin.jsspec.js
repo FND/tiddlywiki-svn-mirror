@@ -20,7 +20,10 @@ describe('TickerPlugin Initialisation', {
 		value_of(config.options.txtTickerInterval).should_be(60);
 	},
 	'config.optionsDesc.txtTickerInterval text' : function() {
-		value_of(config.optionsDesc.txtTickerInterval).should_be("~Ticker interval (in seconds)");
+		value_of(config.optionsDesc.txtTickerInterval).should_match(/in seconds/);
+	},
+	'config.macros.Ticker is enabled by default' : function() {
+		value_of(config.macros.Ticker.enabled).should_be(true);
 	}
 });
 
@@ -58,17 +61,18 @@ describe('TickerPlugin getInterval', {
 	}
 });
 
-describe('TickerPlugin action', {
+describe('TickerPlugin checkTiddler', {
 
         before_each : function() {
 		__main();
 		store.create
-		//tests_mock.before('story.refreshTiddler');
+		tests_mock.before('config.macros.Ticker.invokeTiddler');
+		tiddler = store.createTiddler("tickerTest");
         },
-	'config.macros.Ticker.action is a function' : function() {
-		value_of(typeof config.macros.Ticker.action).should_be("function");
+        after_each : function() {
+		tests_mock.after('config.macros.Ticker.invokeTiddler');
 	},
-	'config.macros.Ticker.action with ' : function() {
-		value_of(typeof config.macros.Ticker.action).should_be("function");
+	'config.macros.Ticker.checkTiddler is a function' : function() {
+		value_of(typeof config.macros.Ticker.checkTiddler).should_be("function");
 	},
 });
