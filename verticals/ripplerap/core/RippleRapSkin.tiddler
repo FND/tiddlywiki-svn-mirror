@@ -208,22 +208,19 @@ span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBri
 .small {width:20em;}
 
 /* Agenda */
-/*#agendaMenu { width:260px; float:left; padding:0; margin-top:3em; background-color:#f6f6f6; z-index:999;}
-#agendaMenu div.tabset { width:100%; overflow:none; display:block; margin:0; padding:0 0 1em 0; background-color:#f9f9f9;}
-#agendaMenu div.tabset a.tab { display:block; padding:2px 4px; margin:2px; line-height:1.7em; background-color:#ccc; color:#333; font-weight:bold; font-size:0.9em; margin-right:1px;  border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;  }*/
+/*#agendaMenu div.tabset a.tab { display:block; padding:4px 6px; margin-right:1px; line-height:1.7em; background-color:#ccc; color:#333; font-weight:bold; font-size:0.9em; margin-right:1px;  border-style:none; }*/
+#agendaMenu { width:260px; float:left; padding:0; margin-top:4em; background-color:#f6f6f6;}
+#agendaMenu div.tabset { width:100%; overflow:none; display:block; margin:0; padding:0 0 0.8em 0; background-color:[[RippleRapColors::Brightest]]; text-align:right;}
 
-#agendaMenu { width:260px; float:left; padding:0; margin-top:3em; background-color:#f6f6f6; z-index:999;}
-#agendaMenu div.tabset { width:100%; overflow:none; display:block; margin:0; padding:0 0 1em 0; background-color:#f9f9f9;}
 
-#agendaMenu div.tabset a.tab { display:block; padding:2px 4px; margin:2px; line-height:1.7em; background-color:#ccc; color:#333; font-weight:bold; font-size:0.9em; margin-right:1px;  border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;  }
-
-#agendaMenu div.tabset a.tab:hover { background-color:#aaa; color:[[RippleRapColors::Darkest]]; border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;}
+#agendaMenu div.tabset a.tab { padding:4px 6px; background-color:#ccc; color:#333; font-weight:bold; font-size:1em; margin-left:1px; }
+#agendaMenu div.tabset a.tab:hover { background-color:#aaa; color:[[RippleRapColors::Darkest]];}
 #agendaMenu div.tabset a.tabSelected,
-#agendaMenu div.tabset a.tabSelected:hover {background-color:#888; color:[[RippleRapColors::Darkest]];border-style:none; border-top-style:none; border-bottom:solid 1px [[RippleRapColors::Dark]]; border-left:solid 1px [[RippleRapColors::Dark]];}
-#agendaMenu div.tabContents { border-style:none; margin:0; padding:0; clear:left;}
+#agendaMenu div.tabset a.tabSelected:hover {background-color:[[RippleRapColors::Brighter]]; color:[[RippleRapColors::Darkest]]; border-style:none;}
+#agendaMenu div.tabContents { border-style:none; border-right:solid 1px [[RippleRapColors::Shadow]]; margin:0; padding:0; clear:left;}
 
 
-#agendaMenu { border-right:solid 1px [[RippleRapColors::Shadow]]; border-bottom:solid 1px [[RippleRapColors::Shadow]]; background-color:#f0f0f0; font-family:arial; font-size:12px; }
+#agendaMenu {  border-bottom:solid 1px [[RippleRapColors::Shadow]]; background-color:#f0f0f0; font-family:arial; font-size:12px; }
 #agendaMenu div.listRelatedTiddler { display: inline-block; ; /* IE bugfix: give layout (hasLayout = true) */ }
 #agendaMenu div.listRelatedTiddler { display: block; /* restore proper behavior (see IE bugfix above) */  }
 #agendaMenu div.listRelatedTiddler { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px [[RippleRapColors::Brightest]]; border-left:solid 10px #ccc; position:relative;}	
