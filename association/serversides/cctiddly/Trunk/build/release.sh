@@ -14,6 +14,9 @@ select i in $OPTIONS; do
 		svn copy http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/ http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Tags/$1 -m 'first attempt at automating ccTiddly $1 release'
 		svn export http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/ $1
 		zip -r $1.zip $1
+##  Upload File to a server 
+## Post a message to the google groups and blogs.
+
         exit 1
     elif [ "$i" = "n" ]; then
         echo "You have cancelled the release of ccTiddly $1"
