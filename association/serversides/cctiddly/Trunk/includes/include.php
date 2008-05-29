@@ -16,7 +16,7 @@ if (is_dir($dir)) {
 				echo "</pre>\n</div>\n";
     		}else if ($ext == "tiddler")
 			{		
-					include_once($cct_base."ccPlugins/".$file);
+					htmlentities(include_once($cct_base."ccPlugins/".$file));
 			}
     	}
         closedir($dh);
