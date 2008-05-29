@@ -28,12 +28,32 @@ TiddlyWebAutoSave.putCallback = function(context, userParams)
 {
     tiddler = context.tiddler;
     if (context.status) {
-        displayMessage('Saved ' + tiddler.title);
+        displayMessage('Saved ' + tiddler.title + ' to '+context.uri);
         tiddler.clearChangeCount();
     } else {
         displayMessage('Error Saving ' + tiddler.title + ' ' + context.statusText);
         tiddler.incChangeCount();
     }
+};
+
+TiddlyWebAutoSave.put = function(tiddler,fields) {
+	if(config.options.chkAutoSave) {
+		var adaptor = new config.adaptors['tiddlyweb'];
+	
+		// put the tiddler and deal with callback
+		context = {};
+		if(config.options.txtUserName) {
+			// bad hack to help with ease of demoing multiple workbooks at once
+			fields['server.bag']=config.options.txtUserName;
+		}
+		tiddler.fields = fields;
+		context.tiddler = tiddler;
+		context.workspace = fields['server.workspace'];
+		req = adaptor.putTiddler(tiddler, context, {}, TiddlyWebAutoSave.putCallback);
+		return req ? tiddler : false;
+	} else {
+		return tiddler;
+	}
 };
 
 // override save and write content to net immediately when done
@@ -43,18 +63,12 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 {
     var tiddler = this.fetchTiddler(title);
     tiddler = store.orig_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,false,created);
-	if(config.options.chkAutoSave) {
-		var adaptor = new config.adaptors['tiddlyweb'];
-	
-		// put the tiddler and deal with callback
-		context = {};
-		tiddler.fields = fields;
-		context.tiddler = tiddler;
-		context.workspace = fields['server.workspace'];
-		req = adaptor.putTiddler(tiddler, context, {}, TiddlyWebAutoSave.putCallback);
-		return req ? tiddler : false;
-	} else {
-		return tiddler;
+	if(tiddler.modifier==config.options.txtUserName) {
+		if(config.options.chkTCCheckForUpdates) {
+			TCQueue.add(function() { TiddlyWebAutoSave.put(tiddler,fields); });
+		} else {
+			TiddlyWebAutoSave.put(tiddler,fields);
+		}
 	}
 };
 

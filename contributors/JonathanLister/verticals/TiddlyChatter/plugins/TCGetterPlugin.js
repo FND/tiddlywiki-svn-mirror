@@ -1,5 +1,29 @@
 //{{{
 //# Ensure that the plugin is only installed once.
+
+function TCQueue() {}
+
+TCQueue.queue = [];
+
+TCQueue.isEmpty = function() {
+	return TCQueue.queue.length==0;
+};
+
+TCQueue.next = function() {
+	if(TCQueue.queue.length!==0) {
+		console.log(TCQueue.queue);
+		return TCQueue.queue.pop();
+	} else {
+		return false;
+	}
+};
+
+TCQueue.add = function(callback) {
+	console.log("adding to queue");
+	TCQueue.queue.push(callback);
+};
+
+
 if(!version.extensions.TCGetterPlugin) {
 version.extensions.TCGetterPlugin = {installed:true};
 
@@ -61,7 +85,12 @@ TCGetter.prototype.makeRequest = function()
 		}
 		TCGetter.log("polling in "+this.getInterval());
 		var me = this;
-		window.setTimeout(function() { me.doGetTiddlerList.call(me);},this.getInterval());
+		if(TCQueue.isEmpty()) { // last minute hacking
+			window.setTimeout(function() { me.doGetTiddlerList.call(me);},this.getInterval());
+		} else {
+			window.setTimeout( function() { TCQueue.next()(); },this.getInterval());
+			window.setTimeout(function() { me.doGetTiddlerList.call(me);},this.getInterval()*2);
+		}
 	}
 };
 

@@ -323,7 +323,7 @@ TiddlyWebAdaptor.prototype.putTiddler = function(tiddler,context,userParams,call
 	} else {
             return 'no bag or recipe available for tiddler, set recipe';
         }
-            
+        context.uri = uri;
         payload = {
             title: tiddler.title,
             text: tiddler.text,

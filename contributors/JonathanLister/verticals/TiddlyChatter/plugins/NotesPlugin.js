@@ -41,13 +41,15 @@ config.macros.notes={
 			// if notesBox has been double-clicked, notesBox is this
 			notesBox = this;
 		}
+		// HACK so you can change usernames in-flight - reload suffix
+		suffix = "Notes"+config.options.txtUserName;
 		var noteCount = notesBox.getAttribute("noteCount");
 		var textarea = document.getElementById("notesTextArea"+noteCount+title);
 		if(textarea.getAttribute("oldText")!=textarea.value){
 			var suffix = box.getAttribute("suffix");
 			var t = store.getTiddler(title+"-"+suffix+noteCount);
 			// this line changed to split the tags attribute
-			store.saveTiddler(title+"-"+suffix+noteCount,title+"-"+suffix+noteCount,textarea.value,config.options.txtUserName,new Date(),t?t.tags:box.getAttribute("tags").split(" "),t?t.fields:{});
+			store.saveTiddler(title+"-"+suffix+noteCount,title+"-"+suffix+noteCount,textarea.value,config.options.txtUserName,new Date(),t?t.tags:box.getAttribute("tags").split(" "),t?t.fields:box.getAttribute("customFields").decodeHashMap());
 		}
 		story.refreshTiddler(title,1,true);
 		return false;
@@ -122,17 +124,22 @@ config.macros.notes={
 		// when we create the Notes box, we use tags as its tags attribute
 		var tags_string = getParam(params,"tags",this.tags);
 		var tags = tags_string.split(" ");
-		for (var i=0;i<tiddler.tags.length;i++) {
+		for(var i=0;i<tiddler.tags.length;i++) {
 			if (!tags.contains(tiddler.tags[i])) {
 				tags_string += " " + tiddler.tags[i].toString();
 			}
 		}
+		var fields_string = "";
+		for(var i in tiddler.fields) {
+			fields_string += i+":'"+tiddler.fields[i]+"' ";
+		}
+		console.log(fields_string);
 		var suffix = getParam(params,"suffix",this.suffix);
 		// Get the notes tiddlers for this tiddler, count them, make the count an attribute on the box
 		var notes_tiddlers = store.getTaggedTiddlers("notes");
 		var notes = [];
 		var notesCount = 0;
-		for (var i=0;i<notes_tiddlers.length;i++) {
+		for(i=0;i<notes_tiddlers.length;i++) {
 			if (notes_tiddlers[i].title != tiddler.title && notes_tiddlers[i].title.indexOf(tiddler.title) != -1) {
 				notes.push(notes_tiddlers[i]);
 				notesCount++;
@@ -142,7 +149,7 @@ config.macros.notes={
 		notes.sort(function(a,b){
 			return a.modified > b.modified ? -1 : (a.modified == b.modified ? 0 : 1);
 		});
-		var box = createTiddlyElement(place,"div","notesContainer"+tiddler.title,"TiddlerNotes",null,{"source":tiddler.title,params:paramString,heading:heading,tags:tags_string,suffix:suffix,notesCount:notesCount});
+		var box = createTiddlyElement(place,"div","notesContainer"+tiddler.title,"TiddlerNotes",null,{"source":tiddler.title,params:paramString,heading:heading,tags:tags_string,suffix:suffix,notesCount:notesCount,customFields:fields_string});
 		// if there aren't any notes, show "No notes"
 		// if there are notes, show "Notes (latest by xxx)"
 		// if you added the notes, show "Notes (latest by you)"
