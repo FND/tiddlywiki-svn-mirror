@@ -22,8 +22,7 @@ config.macros.RippleRap.init = function(){
 
 	// Render local tiddler in the RippleRap UI as required.
 	// TBD: move this config into "feed" tiddlers
-	var agendauri, agendaadaptor;
-	var notesuri, notesadaptor;
+	var agendauri, agendaadaptor, notesuri;
 
 	var uri = config.options.txtRippleRapConferenceURI;
 	uri += ((uri.slice(-1)!='/')?"/":"");
@@ -33,17 +32,20 @@ config.macros.RippleRap.init = function(){
 		agendauri = uri + "sessionlist";
 		agendaadaptor = "confabbagenda";
 
-		notesuri = uri + "notes/shared";
-		notesadaptor = "confabbnotes";
+		notesuri = config.options.txtRippleRapNotesURI;
+		if (!notesuri) {
+			notesuri = uri + "notes/shared";
+		}
+		ConfabbNotesAdaptor.uri = notesuri;
+		config.macros.SharedNotes.adaptor = "confabbnotes";
 		break;
 	default:
 		break;
 	}
 	
+	// fetch Agenda - TBD move to a Ticker macro
 	config.macros.importWorkspace.getTiddlers(agendauri, agendaadaptor);
-	config.macros.SharedNotes.adaptor = notesadaptor;
-	config.macros.SharedNotes.uri = notesuri;
-	
+
 	config.macros.RippleRap.initFeedListMangager();
 };
 
