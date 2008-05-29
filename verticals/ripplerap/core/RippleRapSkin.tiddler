@@ -25,7 +25,6 @@
 
 !PageTemplate
 <!--{{{-->
-<div id='messageArea'></div>
 <div class='header' >
 <div class='headerShadow'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
@@ -35,8 +34,8 @@
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
 </div>
-<div class='headerControls' macro="RippleRap option:'showSharingPrefs'"></div>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='messageBar'><span id='messageArea'></span></div>
 </div>
 <div id='agendaMenu' refresh='content' force='true' tiddler='AgendaMenu'></div>
 <div id='displayArea'>
@@ -166,35 +165,40 @@ abbr { border-bottom-style:none; }
 /* page framework */
 #agendaMenu { position: static;	float: left; width: auto; }
 #displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
-#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 1em 1em 0;}
-#tiddlerDisplay { margin:0 1em 2em 1em;  	}
+#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 2em 0;}
+#tiddlerDisplay { margin:0 1em 2em 1em; }
 
 /* Header */
-div.header { background-color:[[RippleRapColors::Darkest]]; height:96px; position:relative; clear:left;}
+div.header { background-color:[[RippleRapColors::Dark]]; height:70px; position:relative; clear:left;}
 #backstageArea,
 #backstageToolbar {background-color:[[RippleRapColors::Darkest]];}
-#backstageToolbar a{background-color:[[RippleRapColors::Darkest]];}
+#backstageToolbar a {background-color:[[RippleRapColors::Darkest]];}
 div.headerShadow,
 div.headerForeground { padding:1px; }
-div.headerShadow {color:[[RippleRapColors::Brightest]]; height:80px;}
+div.headerShadow {color:[[RippleRapColors::Brightest]]; height:60px;}
 div.headerForeground {display:none; }
 span.siteTitle {top:2px;}
 span.siteSubtitle {bottom:25px; left:245px; font-size:1em; position:absolute; width:200px;}
 div.headerControls { position:absolute; bottom:20px; right:10px; color:[[ColorPalette::SecondaryDark]]; font-size:1.2em;}
 
 /* Primary Nav Buttons */
-#mainMenu { display:block; position:relative; width:100%; margin:0; background-color:[[RippleRapColors::Bright]]; border-top:solid 1px [[RippleRapColors::Brighter]]; border-bottom:solid 1px [[RippleRapColors::Shadow]]; padding:0; line-height:1em; text-align:left;}
-
-#mainMenu a.button { border-style:none; border-right:solid 1px [[RippleRapColors::Shadow]]; float:left;}
+#mainMenu { display:block; position:relative; width:100%; margin:0; background-color:[[RippleRapColors::Darker]]; border-bottom:solid 3px [[RippleRapColors::Mid]]; padding:0; line-height:1.4em; text-align:left;}
+#mainMenu a.button { border-style:none; float:left;}
 #mainMenu a,
-#mainMenu a.tiddlyLink { border-right:solid 1px [[RippleRapColors::Shadow]]; font-size:1em; margin:0; color:#333; padding:0.3em 1em; line-height:1.8em; } 
+#mainMenu a.tiddlyLink,
+#mainMenu a.searchButton { font-size:1.1em; margin:0; color:[[RippleRapColors::Brightish]]; padding:0.3em 1em; line-height:1.8em; } 
 #mainMenu a:hover,
-#mainMenu a.tiddlyLink:hover { background-color:#aaa;}
-#mainMenu span.search {position:absolute; right:3px;}
-#mainMenu span.search a { border-style:none;}
-#mainMenu span.search .txtOptionInput {padding:1px 4px; font-size:1em;}
+#mainMenu a.tiddlyLink:hover { background-color:[[RippleRapColors::Darkest]]; color:[[RippleRapColors::Brightest]];}
+#mainMenu span.search { position:absolute; right:0px; top:0px; padding:0; margin:0 }
+#mainMenu span.search .txtOptionInput { margin:3px; padding:0px 4px 2px 4px; font-size:0.95em; border-style:none; border-top:2px solid [[RippleRapColors::Bright]];}
 
-
+/* message bar */
+#messageBar { display:block; position:relative; width:100%; margin:0; background-color:[[RippleRapColors::Brighter]]; height:1.6em; font-size:11px; }
+#messageArea > div { float:right; padding:1px 0; font-weight:bold; color:[[RippleRapColors::Darkish]]; }
+#messageBar #messageArea { position:absolute; top:0; right:0; padding:0; margin:0; line-height:1.3em; border-style:none; background-color:transparent;  }
+#messageArea a { color:[[RippleRapColors:Dark]]; text-decoration:none; }
+#messageArea a.button {background-color:[[RippleRapColors::Mid]]; color:[[RippleRapColors:Bright]]; display:inline;  margin:0 0 0 1em; padding:2px 4px;}
+#messageArea a.button:hover {background-color:[[RippleRapColors::Accent]]; color:[[RippleRapColors:Brightest]];}
 
 /* Buttons */
 span.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; display:block; padding:0; margin:0 0 0 0;}
@@ -204,7 +208,7 @@ span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBri
 .small {width:20em;}
 
 /* Agenda */
-#agendaMenu { width:260px; float:left; padding:0; margin-top:2.2em; background-color:#f6f6f6; }
+#agendaMenu { width:260px; float:left; padding:0; margin-top:3em; background-color:#f6f6f6; z-index:999;}
 #agendaMenu div.tabset { width:100%; overflow:none; display:block; margin:0; padding:0 0 1em 0; background-color:#f9f9f9;}
 #agendaMenu div.tabset a.tab { display:block; padding:2px 4px; margin:2px; line-height:1.7em; background-color:#ccc; color:#333; font-weight:bold; font-size:0.9em; margin-right:1px;  border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;  }
 #agendaMenu div.tabset a.tab:hover { background-color:#aaa; color:[[RippleRapColors::Darkest]]; border-top-style:none; border-bottom:solid 1px #777; border-left:solid 1px #777;}
@@ -212,12 +216,6 @@ span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBri
 #agendaMenu div.tabset a.tabSelected:hover {background-color:#888; color:[[RippleRapColors::Darkest]];border-style:none; border-top-style:none; border-bottom:solid 1px [[RippleRapColors::Dark]]; border-left:solid 1px [[RippleRapColors::Dark]];}
 #agendaMenu div.tabContents { border-style:none; margin:0; padding:0; clear:left;}
 
-/*#agendaMenu div.tabset { margin:1em; padding:0; float:left; overflow:none;}
-#agendaMenu div.tabset a.tab { padding:2px 4px; margin:0; line-height:1.7em; background-color:#ddd; color:#333; font-weight:bold; font-size:0.9em; margin-right:1px; border-style:none; }
-#agendaMenu div.tabset a.tab:hover { background-color:#ccc; color:[[RippleRapColors::Darkest]]; }
-#agendaMenu div.tabset a.tabSelected,
-#agendaMenu div.tabset a.tabSelected:hover {background-color:#bbb; color:[[RippleRapColors::Darkest]];border-style:none; }
-*/
 
 #agendaMenu { border-right:solid 1px [[RippleRapColors::Shadow]]; border-bottom:solid 1px [[RippleRapColors::Shadow]]; background-color:#f0f0f0; font-family:arial; font-size:12px; }
 #agendaMenu div.listRelatedTiddler { display: inline-block; ; /* IE bugfix: give layout (hasLayout = true) */ }
@@ -251,11 +249,9 @@ div.session .toolbar,
 div.session_edit .toolbar,
 div.myNotes .toolbar,
 div.discoveredNotes .toolbar { text-align:right; padding:0.2em 0;}
-
 div.session .viewer,
 div.myNotes .viewer,
 div.discoveredNotes .viewer { padding:10px;}
-
 div.session .toolbar a, 
 div.session_edit .toolbar a, 
 div.myNotes .toolbar a,
@@ -271,7 +267,7 @@ div.session_edit { background-color:[[RippleRapColors::Shadow]]; border:solid 2p
 div.session .toolbar,
 div.session_edit .toolbar {background-color:#aaa; }
 div.session .title { margin:0.2em 0 0 10px; font-size:1.5em; font-weight:bold; color:[[RippleRapColors::Darkest]];}
-div.session .time {margin:0 0.2em 0 10px; font-size:1.2em; font-weight:bold; color:#ddd; display:inline;}
+div.session .time {margin:0 0.2em 0 10px; font-size:1.2em; font-weight:bold; color:[[RippleRapColors::Brightest]]; display:inline;}
 div.session .speaker {margin:0.2em 0 0 0; font-size:1.2em; font-weight:bold; color:#333;display:inline;}
 div.session .viewer {margin:0 8em 0 0; font-size:1em; color:#222; padding:0.5em 5px 0.5em 10px;}
 
@@ -289,7 +285,7 @@ div.myNotes .toolbar {background-color:#eee; }
 div.myNotes .editor {width:90%;}
 
 div.myNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
-div.myNotes .editor .fieldsetFix textarea { border:solid 1px [[RippleRapColors::Dark]]; border-top-color:#444; border-bottom-color:[[RippleRapColors::Brightest]]; background-color:[[RippleRapColors::Brightest]];overflow:auto;}
+div.myNotes .editor .fieldsetFix textarea { border:solid 1px [[RippleRapColors::Dark]]; border-top-color:#444; border-bottom-color:[[RippleRapColors::Brightest]]; background-color:[[RippleRapColors::Brightest]];overflow:auto;  padding:10px;}
 div.myNotes .tags {display:none;}
 div.myNotes div.buttonbar { padding: 0 0.5em 1em 0.5em; }
 div.myNotes div.buttonbar a.button { border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid #666; margin-right:2px; background-color:[[RippleRapColors::Shadow]]; color:[[RippleRapColors::Brightest]];}
@@ -320,9 +316,7 @@ span.description {font-size:0.8em; color:[[RippleRapColors::Dark]]; font-weight:
 .subtleTabs div.tabset a.tabUnselected:hover {color:#444;}
 .subtleTabs div.tabContents {background-color:transparent; border-style:none; border-top:solid 1px #ccc;}
 
-#messageArea { position: fixed; background-color: [[RippleRapColors::Darkest]]000; border-color: #CCCCCC; color: #CCCCCC;}
-#messageArea a {color:#CCCCCC;}
-#messageArea a.button {background-color:[[RippleRapColors::Darkest]]000; color:#CCCCCC;}
+
 
 .Speaker img { float: right; }
 

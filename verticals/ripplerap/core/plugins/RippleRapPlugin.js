@@ -164,14 +164,8 @@ config.macros.RippleRap.setSharingPreferences = function(){
 
 // provide a global checkbox to enable disable sharing of notes
 config.macros.RippleRap.displaySharingPreferences = function(place){
-	var title = 'Sharing settings';
-	if(config.options.chkRipplerapShare == true) {
-		var className = 'shared';		
-	}
-	// console.log(config.options.chkRipplerapShare);
-	
-	var className = 'not_shared';
-	createTiddlyLink(place,title,true,className);	
+
+
 };
 
 

@@ -6,12 +6,18 @@ AccentDark:#850055
 Brightest:#fff
 Brighter:#eee
 Bright:#ddd
+Brightish:#ccc
 
 Shadow:#999
 
-Dark:#555
+Mid:#bbb
+
+Darkish:#555
+Dark:#333
 Darker:#222
 Darkest:#000
+
+Transparent:transparent
 
 /*Background: #fff
 Foreground: #000
