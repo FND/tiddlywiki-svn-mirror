@@ -2,7 +2,7 @@
 |''Name:''|RippleRapPLugin |
 |''Description:''|Provide a RippleRap functionality |
 |''Author:''|PhilHawksworth|
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|Mon May 19 14:47:44 BST 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -116,6 +116,17 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 	var target = resolveTarget(e);
 	var sessionTiddler = story.findContainingTiddler(target);
 	var title = sessionTiddler.getAttribute('tiddler') +"."+ config.options.txtUserName;
+	
+	// If the notes tiddler is already displayed show it in edit mode.
+	var t = story.getTiddler(title);
+	if(t) {
+		applied_template = t.getAttribute("template");
+		if(applied_template.substr('View'))
+			template = DEFAULT_EDIT_TEMPLATE;
+		var fields = t.getAttribute("tiddlyFields");
+		story.displayTiddler(null,title,template,false,null,fields);
+		return;
+	}
 
 	// Create a new notes tiddler if required.
 	if(!store.tiddlerExists(title)) {
@@ -125,13 +136,13 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 		var created = null;
 		var tags = ['notes'];
 		var fields = {};
-		// fields.rr_session_id = sessionTiddler.getAttribute('tiddler');
+		fields.rr_session_id = sessionTiddler.getAttribute('tiddler');
 		store.saveTiddler(title,title,text,modifier,modified,tags,fields,true,created);
 	}
 	// display the notes tiddler in edit mode.
 	var template = DEFAULT_EDIT_TEMPLATE;
 	story.displayTiddler(sessionTiddler,title,template,false,null,null,target);
-	
+
 };
 
 
@@ -154,9 +165,17 @@ config.macros.RippleRap.setSharingPreferences = function(){
 // provide a global checkbox to enable disable sharing of notes
 config.macros.RippleRap.displaySharingPreferences = function(place){
 	var title = 'Sharing settings';
-	var className = 'shared';
+	if(config.options.chkRipplerapShare == true) {
+		var className = 'shared';		
+	}
+	// console.log(config.options.chkRipplerapShare);
+	
+	var className = 'not_shared';
 	createTiddlyLink(place,title,true,className);	
 };
+
+
+
 
 }
 //}}}
