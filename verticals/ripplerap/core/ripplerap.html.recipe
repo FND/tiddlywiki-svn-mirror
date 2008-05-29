@@ -16,11 +16,8 @@ tiddler: AgendaSubItemsTemplate.tiddler
 
 # Plugins
 tiddler: plugins/RippleRapPlugin.js
-tiddler: ../../../contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
 tiddler: ../../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
-tiddler: ../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
-tiddler: ../../../contributors/PaulDowney/plugins/AgendaTrack.js
 tiddler: ../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/TiddlifyList.js
@@ -29,11 +26,24 @@ tiddler: ../../../contributors/PaulDowney/plugins/RawViewMacroPlugin.js
 tiddler: plugins/TaggedTemplateTweak.js
 #tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 
-# Adaptors to read an Agenda
+# Agenda Tracks
+tiddler: ../../../contributors/PaulDowney/plugins/AgendaTrack.js
+tiddler: ../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
+
+# Agenda Adaptor
 tiddler: AgendaMenu.tiddler
 tiddler: ../../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js
 tiddler: ../../../contributors/PaulDowney/adaptors/ConfabbAgendaAdaptorPlugin.js
+
+# Sharing Notes
+#tiddler: ../../../contributors/PaulDowney/plugins/SharedNotesPlugin/SharedNotesPlugin.js
+#tiddler: ../../../contributors/PaulDowney/plugins/GenerateRssPlugin.js
+#tiddler: ../../../contributors/PaulDowney/adaptors/ConfabbNotesAdaptorPlugin.js
+
+# Enjoying Notes
+tiddler: ../../../contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js
+tiddler: ../../../contributors/JonathanLister/adaptors/RSSAdaptor.js
 
 # RippleRap UI structure
 tiddler: MainMenu.tiddler
@@ -47,8 +57,6 @@ tiddler: Double_square_brackets.tiddler
 tiddler: TiddlyWiki.tiddler
 tiddler: FAQs.tiddler
 tiddler: Sharing_settings.tiddler
-
-
 
 ##### REFACTORED - Above ######
 
