@@ -50,7 +50,8 @@ config.macros.RippleRap.putNotes = function() {
 };
 
 config.macros.RippleRap.getNotes = function() {
-	var uri = config.macros.RippleRap.feedListManager.next();
+	//var uri = config.macros.RippleRap.feedListManager.next();
+	var uri = "http://staging.confabb.com/conferences/16074/notes/feed/psd";
 	if (uri) {
 		config.macros.importWorkspace.getTiddlers(uri, "rss");
 	}
