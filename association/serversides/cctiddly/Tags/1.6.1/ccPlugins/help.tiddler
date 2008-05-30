@@ -1,8 +1,0 @@
-<div title="Help" modifier="ccTiddly"  modified="200805281432" created="200712281715" tags="ccTiddly excludeSearch excludeLists">
-<pre>
-* works but outputs closing bracket 
-<<today>>
-* removes casing so macro does not exist
-<<newTiddler>>
-</pre>
-</div>
