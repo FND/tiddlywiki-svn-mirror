@@ -73,7 +73,7 @@ function getURL()
 {
 //	$uri = parse_url($_SERVER['HTTP_REFERER']);
 //	echo $uri["path"];
-	if ($_SERVER['SERVER_PORT'] != '80' || $_SERVER['SERVER_PORT'] != '443')
+	if ($_SERVER['SERVER_PORT'] != '80' && $_SERVER['SERVER_PORT'] != '443')
 		$port = ":".$_SERVER['SERVER_PORT'];
 	$out = getScheme().'://'.$_SERVER['SERVER_NAME'].$port.dirname($_SERVER['SCRIPT_NAME'])."";
 	return $out; 

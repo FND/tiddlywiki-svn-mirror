@@ -244,16 +244,12 @@ config.macros.ccLogin.loginOnSubmit=function(){
 	loginState ='';
 	params.origin=this; 
 	//setTimeout(config.macros.ccLogin.loginCheckResp,3000);
-displayMessage("reached A ");
-displayMessage(url+'/handle/login.php');
 	var loginResp=doHttp('POST',url+'/handle/login.php',"cctuser=" + encodeURIComponent(user1)+"&amp;cctpass="+Crypto.hexSha1Str(pass).toLowerCase(),null,null,null,config.macros.ccLogin.loginCallback,params);
 	return false;
 };
 
 
 config.macros.ccLogin.loginCallback=function(status,params,responseText,uri,xhr){
-//	var cookie;
-	displayMessage("reached B");
 	var cookieValues=findToken(document.cookie);
 	config.macros.ccLogin.saveCookie(cookieValues);
 	if(xhr.status!==401){
