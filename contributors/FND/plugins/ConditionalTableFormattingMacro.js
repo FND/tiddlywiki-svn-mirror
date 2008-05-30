@@ -53,7 +53,8 @@ config.macros.conditionalTableFormatting.handler = function(place, macroName, pa
 	var table = place.getElementsByTagName("table")[0];
 	var cells = table.getElementsByTagName("td");
 	for(var i = 0; i < cells.length; i++) {
-		if(cells[i].innerHTML === match) { // DEBUG: using .textContent did not work on IE
+		var text = cells[i].innerText || cells[i].textContent;
+		if(text === match) {
 			addClass((target === "row") ? cells[i].parentNode : cells[i], className);
 		}
 	}
