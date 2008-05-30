@@ -15,50 +15,31 @@ if(!version.extensions.RippleRapPlugin) {
 version.extensions.RippleRapPlugin = {installed:true};
 
 config.macros.RippleRap = {};
+config.macros.RippleRap.agenda = {};
 
 // Initialise the application.
 config.macros.RippleRap.init = function(){
 
 	config.macros.RippleRap.feedListManager = new FeedListManager();
 
-	// Render local tiddler in the RippleRap UI as required.
-	// TBD: move this config into "feed" tiddlers
-	var agendauri, agendaadaptor, notesuri;
-
-	var uri = config.options.txtRippleRapConferenceURI;
-	uri += ((uri.slice(-1)!='/')?"/":"");
+	var baseUri = config.options.txtRippleRapConferenceURI;
+	baseUri += ((baseUri.slice(-1)!='/')?"/":"");
 
 	switch (config.options.txtRippleRapType) {
 	case 'confabb':
-		// agenda
-		agendaadaptor = "confabbagenda";
-		agendauri = config.options.txtRippleRapAgendaURI;
-		if (!agendauri) {
-			agendauri = uri + "sessionlist";
-		}
-
-		// shared notes
-		config.macros.SharedNotes.adaptor = "confabbnotes";
-		notesuri = config.options.txtRippleRapSharedNotesURI;
-		if (!notesuri) {
-			notesuri = uri + "notes/shared";
-		}
-		ConfabbNotesAdaptor.uri = notesuri;
-
-		// enjoyed notes
-		notesuri = config.options.txtRippleRapEnjoyedNotesURI;
-		if (!notesuri) {
-			notesuri = uri + "notes/opml";
-		}
-		config.macros.RippleRap.feedListManager.add(notesuri,'confabb notes','opml');
+		config.macros.RippleRapConfabb.install(baseUri);
 		break;
 	default:
 		break;
 	}
 	
 	// TBD move these to a Ticker macro
-	config.macros.importWorkspace.getTiddlers(agendauri, agendaadaptor);
-	config.macros.importWorkspace.getTiddlers(config.macros.RippleRap.feedListManager.next(), "rss");
+	config.macros.importWorkspace.getTiddlers(config.macros.RippleRap.agenda.uri, config.macros.RippleRap.agenda.adaptor);
+
+	var uri = config.macros.RippleRap.feedListManager.next();
+	if (uri) {
+		config.macros.importWorkspace.getTiddlers(uri, "rss");
+	}
 };
 
 
@@ -118,32 +99,6 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 	story.displayTiddler(sessionTiddler,title,template,false,null,null,target);
 
 };
-
-
-// Display discovered noted in the agenda UI
-config.macros.RippleRap.displayNotesLinks = function(){
-
-
-
-};
-
-
-// provide a global checkbox to enable disable sharing of notes
-config.macros.RippleRap.setSharingPreferences = function(){
-
-	
-
-};
-
-
-// provide a global checkbox to enable disable sharing of notes
-config.macros.RippleRap.displaySharingPreferences = function(place){
-
-
-};
-
-
-
 
 }
 //}}}
