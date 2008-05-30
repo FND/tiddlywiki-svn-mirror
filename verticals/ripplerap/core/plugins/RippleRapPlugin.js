@@ -20,26 +20,65 @@ config.macros.RippleRap.agenda = {};
 // Initialise the application.
 config.macros.RippleRap.init = function(){
 
-	config.macros.RippleRap.feedListManager = new FeedListManager();
+	var me = config.macros.RippleRap;
+	me.feedListManager = new FeedListManager();
 
 	var baseUri = config.options.txtRippleRapConferenceURI;
 	baseUri += ((baseUri.slice(-1)!='/')?"/":"");
 
 	switch (config.options.txtRippleRapType) {
 	case 'confabb':
-		config.macros.RippleRapConfabb.install(baseUri);
+		config.macros.RippleRapConfabb.install(me, baseUri);
 		break;
 	default:
 		break;
 	}
 	
-	// TBD move these to a Ticker macro
-	config.macros.importWorkspace.getTiddlers(config.macros.RippleRap.agenda.uri, config.macros.RippleRap.agenda.adaptor);
+	me.getAgenda();
+	me.getNotes();
+};
 
+/*
+ *  actions
+ */
+config.macros.RippleRap.getAgenda = function() {
+	config.macros.importWorkspace.getTiddlers(config.macros.RippleRap.agenda.uri, config.macros.RippleRap.agenda.adaptor);
+};
+
+config.macros.RippleRap.putNotes = function() {
+                config.macros.SharedNotes.putNotes();
+};
+
+config.macros.RippleRap.getNotes = function() {
 	var uri = config.macros.RippleRap.feedListManager.next();
 	if (uri) {
 		config.macros.importWorkspace.getTiddlers(uri, "rss");
 	}
+};
+
+
+/*
+ *  action buttons
+ */
+config.macros.RefreshAgenda = {};
+config.macros.RefreshAgenda.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+                var me = config.macros.RippleRap;
+                var button = createTiddlyButton(place,'GET AGENDA','Click here to download the Agenda',me.getAgenda);
+                me.getAgenda();
+};
+
+config.macros.ShareNotes = {};
+config.macros.ShareNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+                var me = config.macros.RippleRap;
+                var button = createTiddlyButton(place,'PUT NOTES','Click here to share your notes',me.putNotes);
+                me.putNotes();
+};
+
+config.macros.EnjoyNotes = {};
+config.macros.EnjoyNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+                var me = config.macros.RippleRap;
+                var button = createTiddlyButton(place,'GET NOTES','Click here to enjoy other people\'s notes',me.getNotes);
+                me.getNotes();
 };
 
 

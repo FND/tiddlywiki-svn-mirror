@@ -15,33 +15,33 @@ if(!version.extensions.RippleRapConfabbPlugin) {
 version.extensions.RippleRapConfabbPlugin = {installed:true};
 
 config.macros.RippleRapConfabb = {
-	install: function(uri) {
-		this.installAgenda(uri);
-		this.installSharedNotes(uri);
-		this.installEnjoyedNotes(uri);
+	install: function(me, uri) {
+		this.installAgenda(me, uri);
+		this.installSharedNotes(me, uri);
+		this.installEnjoyedNotes(me, uri);
 	},
-	installAgenda: function(uri) {
+	installAgenda: function(me, uri) {
 		var agendauri = config.options.txtRippleRapAgendaURI;
 		if (!agendauri) {
 			agendauri = uri + "sessionlist";
 		}
-		config.macros.RippleRap.agenda.adaptor = "confabbagenda";
-		config.macros.RippleRap.agenda.uri = agendauri;
+		me.agenda.adaptor = "confabbagenda";
+		me.agenda.uri = agendauri;
 	},
-	installSharedNotes: function(uri) {
+	installSharedNotes: function(me, uri) {
 		var notesuri = config.options.txtRippleRapSharedNotesURI;
 		if (!notesuri) {
 			notesuri = uri + "notes/shared";
 		}
-		config.macros.SharedNotes.adaptor = "confabbnotes";
+		me.adaptor = "confabbnotes";
 		ConfabbNotesAdaptor.uri = notesuri;
 	},
-	installEnjoyedNotes: function(uri) {
+	installEnjoyedNotes: function(me, uri) {
 		var notesuri = config.options.txtRippleRapEnjoyedNotesURI;
 		if (!notesuri) {
 			notesuri = uri + "notes/opml";
 		}
-		config.macros.RippleRap.feedListManager.add(notesuri,'confabb notes','opml');
+		me.feedListManager.add(notesuri,'confabb notes','opml');
 	}
 };
 
