@@ -54,6 +54,7 @@ tiddler: ../../../contributors/JonathanLister/adaptors/RSSAdaptor.js
 tiddler: MainMenu.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: BackstageMod.tiddler
+tiddler: UserName.tiddler
 
 # Other content
 tiddler: Formatting_TiddlyWikis.tiddler

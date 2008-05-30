@@ -4,6 +4,8 @@ You can share your notes with other ~RippleRap users and see notes that they sha
 
 <<option chkRippleRapShare>> Share your session notes with other ~RippleRap users.
 <<option chkRippleRapEnjoy>> Enjoy session notes shared by other ~RippleRap users.
+!!! Your username
+<<tiddler UserName>>
 
 </pre>
 </div>
