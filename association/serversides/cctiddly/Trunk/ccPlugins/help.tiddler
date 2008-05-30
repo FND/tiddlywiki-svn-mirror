@@ -2,12 +2,29 @@
 <pre>
 
 !ccTiddly Macros 
-{{{<<ccAbout>>}}}
+!!!{{{<<ccAbout>>}}}
+
+Provides links to help with ccTiddly. 
+
 !!!{{{<<ccUpload>>}}}
+
+If enabled on the server users can upload files to the ccTiddly server
+
 !!!{{{<<ccLogin>>}}}
+
+Displays the login box if the users is not logged in, if the user is logged in they are shown a logout button
+
 !!!{{{<<ccLoginStatus>>}}}
+
+As with {{{<<ccLogin>>}}} except this displays a link to the login tiddler so can be used where space is tight. 
+
 !!!{{{<<ccCreateWorkspace>>}}}
+
+Allows users with permission to create a workspace and define its permissions
+
 !!!{{{<<ccVersion>>}}}
+
+Allows users to confirm which version of ccTiddly they are using. 
 
 !TiddlyWiki Macros
 !!!{{{<<today>>}}}
@@ -252,7 +269,7 @@ A block
 of preformatted text
 }}}
 
-== Links
+!!! Links
 [[explicitlink]]
 
 [[link|explicitlinkTitle]]
@@ -261,7 +278,7 @@ http://www.wikicreole.org
 
 [[http://www.wikicreole.org|Wiki Creole Site]]
 
-== Misc
+!!! Misc
 
 A horizontal rule follows
 ----
