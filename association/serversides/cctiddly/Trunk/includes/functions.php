@@ -73,160 +73,156 @@ function getURL()
 {
 //	$uri = parse_url($_SERVER['HTTP_REFERER']);
 //	echo $uri["path"];
-	if ($_SERVER['SERVER_PORT'] != '80')
+	if ($_SERVER['SERVER_PORT'] != '80' || $_SERVER['SERVER_PORT'] != '443')
 		$port = ":".$_SERVER['SERVER_PORT'];
 	$out = getScheme().'://'.$_SERVER['SERVER_NAME'].$port.dirname($_SERVER['SCRIPT_NAME'])."";
 	return $out; 
 }
 
-
-
-
-
-	//!	@fn array getAllTiddlers()
-	//!	@brief get all tiddlers in nested array, removing ones the user do not have read privilege
-	function getAllTiddlers($user_remove="", $search="")
+//!	@fn array getAllTiddlers()
+//!	@brief get all tiddlers in nested array, removing ones the user do not have read privilege
+function getAllTiddlers($user_remove="", $search="")
+{
+	global $tiddlyCfg;
+	global $user;
+	
+	//get all data from db
+	db_connect();
+	if ($search != "")
 	{
-		global $tiddlyCfg;
-		global $user;
-		
-		//get all data from db
-		db_connect();
-		if ($search != "")
-		{
-			$tiddlers = db_tiddlers_mainSearchAll($search);
-		}
-		else
-		{
-			$tiddlers = db_tiddlers_mainSelectAll();
-		}
-		
-		
-		//fetch tiddlers and output ones that the user has read privilege
-		$return_tiddlers = array();
-		while( $t = db_fetch_assoc($tiddlers) )
-		{
-			//obtain privilege from tag
-			//move tiddlers to another array
-			if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
-			{
-				$return_tiddlers[$t['title']] = $t;
-			}
-		}
-		return $return_tiddlers;		//tiddlers would be in the form array("<title>"=>array("title"=>"<title>", .....
+		$tiddlers = db_tiddlers_mainSearchAll($search);
+	}
+	else
+	{
+		$tiddlers = db_tiddlers_mainSelectAll();
 	}
 	
 	
-	//!	@fn array getAllTiddlers()
-	//!	@brief get all tiddlers in nested array, removing ones the user do not have read privilege
-	function getSkinTiddlers($skin="")
+	//fetch tiddlers and output ones that the user has read privilege
+	$return_tiddlers = array();
+	while( $t = db_fetch_assoc($tiddlers) )
 	{
-		global $tiddlyCfg;
-		global $user;
-		$tiddlers = db_tiddlers_mainSelectSkin($skin);
-		//fetch tiddlers and output ones that the user has read privilege
-		$return_tiddlers = array();
-		while( $t = db_fetch_assoc($tiddlers) )
+		//obtain privilege from tag
+		//move tiddlers to another array
+		if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
 		{
-			//obtain privilege from tag
-			//move tiddlers to another array
-			if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
-			{
-				$return_tiddlers[$t['title']] = $t;
-			}
+			$return_tiddlers[$t['title']] = $t;
 		}
-		return $return_tiddlers;		//tiddlers would be in the form array("<title>"=>array("title"=>"<title>", .....
 	}
-	
-	
-	
+	return $return_tiddlers;		//tiddlers would be in the form array("<title>"=>array("title"=>"<title>", .....
+}
 
-	//!	@fn bool getAllVersionTiddly($title)
-	//!	@brief print all version of a particular tiddler, remove ones the user don't have read privilege.
-	//!	@param $title title of required tiddler
-	function getAllVersionTiddly($title)
+
+//!	@fn array getAllTiddlers()
+//!	@brief get all tiddlers in nested array, removing ones the user do not have read privilege
+function getSkinTiddlers($skin="")
+{
+	global $tiddlyCfg;
+	global $user;
+	$tiddlers = db_tiddlers_mainSelectSkin($skin);
+	//fetch tiddlers and output ones that the user has read privilege
+	$return_tiddlers = array();
+	while( $t = db_fetch_assoc($tiddlers) )
 	{
-		global $tiddlyCfg;
-		
-		//get current tiddler id
-
-		$tiddler_id = tiddler_selectTitle($title);
-		debug('getAllVersionTiddly - get current tiddler ok ');
-		//return empty array if not found
-		if( sizeof($tiddler_id)==0 )
+		//obtain privilege from tag
+		//move tiddlers to another array
+		if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
 		{
-			return array();
+			$return_tiddlers[$t['title']] = $t;
 		}
-		
-		debug('get tiddlers from the revisions table.');
-		$tiddlers = tiddler_selectBackupID($tiddler_id['id']);
+	}
+	return $return_tiddlers;		//tiddlers would be in the form array("<title>"=>array("title"=>"<title>", .....
+}
 
-		$user = user_create();
-		
-		if( sizeof($tiddlers)>0 )
-		{
-			$return_tiddlers = array();
-			foreach( $tiddlers as $t )
-			{
-				//obtain privilege from tag
-				//move tiddlers to another array
-				if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
-				{
-					//tiddler_outputDIV($t);
-					//$t['title'] .= " version ".$t['version'];
-					//$return_tiddlers[$t['title']] = $t;
-					$return_tiddlers[] = $t;
-				}
-			}
-			return $return_tiddlers;		//tiddlers would be in the form array("<title>"=>array("title"=>"<title>", .....
-		}
+
+
+
+//!	@fn bool getAllVersionTiddly($title)
+//!	@brief print all version of a particular tiddler, remove ones the user don't have read privilege.
+//!	@param $title title of required tiddler
+function getAllVersionTiddly($title)
+{
+	global $tiddlyCfg;
+	
+	//get current tiddler id
+
+	$tiddler_id = tiddler_selectTitle($title);
+	debug('getAllVersionTiddly - get current tiddler ok ');
+	//return empty array if not found
+	if( sizeof($tiddler_id)==0 )
+	{
 		return array();
 	}
+	
+	debug('get tiddlers from the revisions table.');
+	$tiddlers = tiddler_selectBackupID($tiddler_id['id']);
 
-	//!	@fn getTiddlersWithTags($yesTags,$noTags)
-	//!	@brief get tiddlers with and without certain tags
-	//!	@param $yesTags tag array, display tiddlers with this tag
-	//!	@param $noTags tag array, not display tiddlers with this tag
-	function getTiddlersWithTags($yesTags,$noTags)
+	$user = user_create();
+	
+	if( sizeof($tiddlers)>0 )
 	{
-		global $tiddlyCfg;
-		//get all data from db
-		$tiddlers = tiddler_selectAll();
-		
-		//check permission and print
-		if( strlen($user)==0 )
+		$return_tiddlers = array();
+		foreach( $tiddlers as $t )
 		{
-			$user = user_create();
-		}
-		if( sizeof($tiddlers)>0 )
-		{
-			$return_tiddlers = array();
-			foreach( $tiddlers as $t )
+			//obtain privilege from tag
+			//move tiddlers to another array
+			if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
 			{
-				//obtain privilege from tag
-				//move tiddlers to another array
-				if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
+				//tiddler_outputDIV($t);
+				//$t['title'] .= " version ".$t['version'];
+				//$return_tiddlers[$t['title']] = $t;
+				$return_tiddlers[] = $t;
+			}
+		}
+		return $return_tiddlers;		//tiddlers would be in the form array("<title>"=>array("title"=>"<title>", .....
+	}
+	return array();
+}
+
+//!	@fn getTiddlersWithTags($yesTags,$noTags)
+//!	@brief get tiddlers with and without certain tags
+//!	@param $yesTags tag array, display tiddlers with this tag
+//!	@param $noTags tag array, not display tiddlers with this tag
+function getTiddlersWithTags($yesTags,$noTags)
+{
+	global $tiddlyCfg;
+	//get all data from db
+	$tiddlers = tiddler_selectAll();
+	
+	//check permission and print
+	if( strlen($user)==0 )
+	{
+		$user = user_create();
+	}
+	if( sizeof($tiddlers)>0 )
+	{
+		$return_tiddlers = array();
+		foreach( $tiddlers as $t )
+		{
+			//obtain privilege from tag
+			//move tiddlers to another array
+			if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
+			{
+				//check for tags
+				$tag = tiddler_breakTag($t['tags']);
+				$tmp = array_merge($tag,$noTags);
+				
+				if( sizeof($tmp) == sizeof(array_flip(array_flip($tmp))) )		//if no $noTags, continue
 				{
-					//check for tags
-					$tag = tiddler_breakTag($t['tags']);
-					$tmp = array_merge($tag,$noTags);
-					
-					if( sizeof($tmp) == sizeof(array_flip(array_flip($tmp))) )		//if no $noTags, continue
+					$tmp = array_merge($tag,$yesTags);
+					//if no yesTags, assume only want to remove some tag thus all but $noTags are returned
+					//if $yesTags exist, display only if $yesTags is in tiddler
+					if( sizeof($yesTags)==0 || sizeof($tmp) != sizeof(array_flip(array_flip($tmp))) )
 					{
-						$tmp = array_merge($tag,$yesTags);
-						//if no yesTags, assume only want to remove some tag thus all but $noTags are returned
-						//if $yesTags exist, display only if $yesTags is in tiddler
-						if( sizeof($yesTags)==0 || sizeof($tmp) != sizeof(array_flip(array_flip($tmp))) )
-						{
-							$return_tiddlers[$t['title']] = $t;
-						}
+						$return_tiddlers[$t['title']] = $t;
 					}
 				}
 			}
-			return $return_tiddlers;		//tiddlers would be in the form array("<title>"=>array("title"=>"<title>", .....
 		}
-		return array();
+		return $return_tiddlers;		//tiddlers would be in the form array("<title>"=>array("title"=>"<title>", .....
 	}
+	return array();
+}
 ///////////////////////////////////////////////////////////////get tiddlers/////////////////////////////////////////
 	
 	//!	@fn bool saveTiddly($otitle, $title, $body, $modifier="YourName", $tags="")
