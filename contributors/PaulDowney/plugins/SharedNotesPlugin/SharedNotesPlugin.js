@@ -21,7 +21,7 @@ config.macros.SharedNotes = {
 	tag: "notes",
 	busy: false,
 	messages: {
-		userNameNotSet: 'to share notes you should set your [[Username]]'
+		userNameNotSet: 'to share notes you should set your UserName'
 	},
 	thistime: 0,
 	lasttime: 0,
