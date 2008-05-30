@@ -74,6 +74,9 @@ TiddlerDisplayGroup.prototype.findBunch = function(common_id) {
 // assign a tiddler to the correct bunch depending on the value of a common property.
 // return the bunch.
 TiddlerDisplayGroup.prototype.fileTiddler = function(tiddlerTitle) {
+	
+	console.log("File tiddler", tiddler);
+	
 	var t = store.getTiddler(tiddlerTitle);
 	var groupField = this.getGroupField();
 	var common_id = store.getValue(t, groupField);
@@ -311,6 +314,8 @@ version.extensions.TiddlerDisplayGroupsPlugin.closeTiddler = story.closeTiddler;
 //replace the displayTiddler function.
 Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle) {	
 
+	var animSrc = srcElement;
+
 	// if the tiddler is being opened from a link in a tiddler display group we should display it after the group.
 	if(srcElement)
 		var isTiddlylink = hasClass(srcElement, 'tiddlyLink');
@@ -326,7 +331,6 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,un
 		}		
 	}
 
-
 	// Only If the tiddler being opened belongs in a group should we do our magic.
 	var group_object = getTiddlerDisplayGroup(tiddler);
 	if(!group_object) {
@@ -338,22 +342,16 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,un
 		return;
 	}
 
-	var bunching_id = store.getValue(tiddler, group_object.getGroupField());
-
 	// Find or create bunch
+	var bunching_id = store.getValue(tiddler, group_object.getGroupField());
 	var b = group_object.findBunch(bunching_id);
 	if(!b) 
 		b = group_object.createBunch(bunching_id);
 
-	var animSrc = srcElement;
-
-	// Set the correct display location in the bunch.
-	var s = group_object.getTiddlerDisplayPosition(tiddler);
-	var src = srcElement;
 	var srcElement = story.getTiddler(group_object.getTiddlerDisplayPosition(tiddler));
 
 	// Display.
-	version.extensions.TiddlerDisplayGroupsPlugin.displayTiddler.apply(this,[src,tiddler,template,animate,unused,customFields,toggle,animSrc]);
+	version.extensions.TiddlerDisplayGroupsPlugin.displayTiddler.apply(this,[srcElement,tiddler,template,animate,unused,customFields,toggle,animSrc]);
 
 	//file tiddler
 	group_object.fileTiddler(tiddler);
