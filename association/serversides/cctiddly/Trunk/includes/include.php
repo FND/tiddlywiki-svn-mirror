@@ -16,7 +16,33 @@ if (is_dir($dir)) {
 				echo "</pre>\n</div>\n";
     		}else if ($ext == "tiddler")
 			{		
-					htmlentities(include_once($cct_base."ccPlugins/".$file));
+			 	$tiddler = file_get_contents($cct_base."ccPlugins/".$file);
+			// now we have to pull out the tiddler content and encode it. 
+				if ($pos1 = stripos($tiddler, "<pre>"))
+				{
+					// find the first pre tag and remove everything before it. 
+					$top = substr($tiddler,  0, $pos1+5);
+					$content = substr($tiddler,  $pos1+5); 
+
+					// get the last </pre> tag
+					$pos2 = strrpos($content, "</pre>");
+					$bottom = substr($content,  $pos2); 
+					$content = substr($content,0,$pos2);
+				}else
+				{
+					// look for first closing tag
+					$pos1 = stripos($tiddler, ">");
+					$top = substr($tiddler,  0, $pos1+1);
+					$content = substr($tiddler,  $pos1+1); 
+					// look for the final closing div tag
+					$pos2 = strrpos($content, "</div>");
+					$bottom = substr($content,  $pos2); 
+					$content = substr($content,0,$pos2);
+				}
+
+				echo "\n\r".$top;
+				echo htmlspecialchars($content);
+				echo $bottom;	
 			}
     	}
         closedir($dh);

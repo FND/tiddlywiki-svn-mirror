@@ -1,5 +1,5 @@
 <div title="Upload" modifier="ccTiddly"  tags="ccTiddly excludeSearch excludeLists simple">
 <pre>
-&lt;&lt;ccUpload&gt;&gt;
+<<ccUpload>>
 </pre>
 </div>
