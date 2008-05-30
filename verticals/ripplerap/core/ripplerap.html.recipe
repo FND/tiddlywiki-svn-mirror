@@ -1,6 +1,10 @@
 # Core
 recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 
+# Development helpers - remove before releaseing.
+tiddler: __dev_helper.tiddler
+
+
 # Settings
 tiddler: settings.js
 tiddler: Edition.js
@@ -19,6 +23,7 @@ tiddler: plugins/RippleRapPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
 tiddler: ../../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
 tiddler: ../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
+# tiddler: ../../../contributors/PhilHawksworth/plugins/ListRelatedPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/TiddlifyList.js
 tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
