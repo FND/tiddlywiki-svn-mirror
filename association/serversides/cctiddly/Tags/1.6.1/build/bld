@@ -1,0 +1,4 @@
+#!/bin/bash
+./ckx ../index/index.php
+./ckx ../tiddlywiki/tiddlywiki.js
+./bldc
