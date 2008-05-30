@@ -197,8 +197,10 @@ FeedListManager.prototype.get = function(i) {
 FeedListManager.prototype.next = function() {
 	var uri = this.get(this.currentPosition);
 	this.currentPosition++;
-	if(this.currentPosition >= this.uris.length)
+	if(this.currentPosition >= this.uris.length){
 		this.currentPosition = 0;
+		this.populate();
+	}
 	var now = new Date();
 	now = now.convertToYYYYMMDDHHMMSSMMM();
 	this.lastIncrement = now;
