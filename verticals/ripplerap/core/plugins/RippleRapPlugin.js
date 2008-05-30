@@ -16,9 +16,10 @@ version.extensions.RippleRapPlugin = {installed:true};
 
 config.macros.RippleRap = {};
 
-
 // Initialise the application.
 config.macros.RippleRap.init = function(){
+
+	config.macros.RippleRap.feedListManager = new FeedListManager();
 
 	// Render local tiddler in the RippleRap UI as required.
 	// TBD: move this config into "feed" tiddlers
@@ -29,71 +30,35 @@ config.macros.RippleRap.init = function(){
 
 	switch (config.options.txtRippleRapType) {
 	case 'confabb':
-		agendauri = uri + "sessionlist";
+		// agenda
 		agendaadaptor = "confabbagenda";
+		agendauri = config.options.txtRippleRapAgendaURI;
+		if (!agendauri) {
+			agendauri = uri + "sessionlist";
+		}
 
-		notesuri = config.options.txtRippleRapNotesURI;
+		// shared notes
+		config.macros.SharedNotes.adaptor = "confabbnotes";
+		notesuri = config.options.txtRippleRapSharedNotesURI;
 		if (!notesuri) {
 			notesuri = uri + "notes/shared";
 		}
 		ConfabbNotesAdaptor.uri = notesuri;
-		config.macros.SharedNotes.adaptor = "confabbnotes";
+
+		// enjoyed notes
+		notesuri = config.options.txtRippleRapEnjoyedNotesURI;
+		if (!notesuri) {
+			notesuri = uri + "notes/opml";
+		}
+		config.macros.RippleRap.feedListManager.add(notesuri,'confabb notes','opml');
 		break;
 	default:
 		break;
 	}
 	
-	// fetch Agenda - TBD move to a Ticker macro
+	// TBD move these to a Ticker macro
 	config.macros.importWorkspace.getTiddlers(agendauri, agendaadaptor);
-
-	config.macros.RippleRap.initFeedListMangager();
-};
-
-
-config.macros.RippleRap.initFeedListMangager = function() {
-	config.macros.RippleRap.feedListManager = new FeedListManager();
-	// Add the uris to the feedListManager
-	var baseuri = config.options.txtRippleRapBaseUri;
-	config.macros.RippleRap.feedListManager.add(baseuri+'/notes',null,'opml');
-};
-
-
-/*
-	TODO call this from the timer.
-*/
-// get the notes for the next feed returned by the feedlist manager
-config.macros.RippleRap.getNotes = function(feedlistManager) {
-	var openHostCallback = function(context,userParams) {
-		if(context.status) {
-			context.adaptor.openWorkspace(null,context,userParams,openWorkspaceCallback);
-			return true;
-		}
-		displayMessage(context.statusText);
-		return false;
-	};
-	var openWorkspaceCallback = function(context,userParams) {
-		if(context.status) {
-			context.adaptor.getTiddlerList(context,null,config.macros.RippleRap.getTiddlerListCallback);
-			return true;
-		}
-		displayMessage(context.statusText);
-		return false;
-	};
-	uri = feedlistManager.next();
-	var adapator = new ConfabbNotesAdaptor();
-	var context = {};
-	var userParams = {};
-	adaptor.openHost(uri,context,userParams,openHostCallback);	
-};
-
-
-config.macros.RippleRap.getTiddlerListCallback = function(context,userParams) {
-	var tiddlers = context.tiddlers;
-	for(var i=0;i<tiddlers.length;i++) {
-		var tiddler = tiddlers[i];
-		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-		story.refreshTiddler(tiddler.title,1,true);		
-	}
+	config.macros.importWorkspace.getTiddlers(config.macros.RippleRap.feedListManager.next(), "rss");
 };
 
 
