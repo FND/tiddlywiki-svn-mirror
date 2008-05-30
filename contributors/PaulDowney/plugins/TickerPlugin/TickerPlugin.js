@@ -8,6 +8,8 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.2|
 
+depends upon YYYYMMDDHHMMSSMMMPlugin.js
+
 ticker tiddlers are:
 * tagged "ticker"
 
@@ -96,25 +98,6 @@ config.macros.Ticker = {
 	    }
 	}
 };
-
-// missing from the core 
-if (!Date.convertFromYYYYMMDDHHMMSSMMM){
-	// Static method to create a date from a UTC YYYYMMDDHHMM format string
-	Date.convertFromYYYYMMDDHHMMSSMMM = function(d)
-	{
-		var hh = d.substr(8,2) || "00";
-		var mm = d.substr(10,2) || "00";
-		var ss = d.substr(12,2) || "00";
-		var mmm = d.substr(12,2) || "000";
-		return new Date(Date.UTC(parseInt(d.substr(0,4),10),
-				parseInt(d.substr(4,2),10)-1,
-				parseInt(d.substr(6,2),10),
-				parseInt(hh,10),
-				parseInt(mm,10),
-				parseInt(ss,10),
-				parseInt(mmm,10)));
-	};
-}
 
 } //# end of 'install only once'
 //}}}

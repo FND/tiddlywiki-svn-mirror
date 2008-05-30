@@ -76,3 +76,5 @@ describe('TickerPlugin checkTiddler', {
 		value_of(typeof config.macros.Ticker.checkTiddler).should_be("function");
 	},
 });
+
+// ]]>

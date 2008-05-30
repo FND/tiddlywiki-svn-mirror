@@ -1,9 +1,8 @@
-title=TickerPlugin Tests
+title=YYYYMMDDHHMMSSMMMPlugin Tests
 recipe: ../../../../core/tests/html/testContributors.recipe
 
-tiddler: TickerPlugin.js
-tiddler: ../YYYYMMDDHHMMSSMMMPlugin/YYYYMMDDHHMMSSMMMPlugin.js
+tiddler: YYYYMMDDHHMMSSMMMPlugin.js
 
 jsspecsrc=<script src="../../../../core/tests/js/tiddlywiki.js" type="text/javascript"  charset="utf-8"></script>
 jsspecsrc=<script src="../../../../core/tests/js/mock.js" type="text/javascript"  charset="utf-8"></script>
-jsspecsrc=<script src="TickerPlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>
+jsspecsrc=<script src="YYYYMMDDHHMMSSMMMPlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>
