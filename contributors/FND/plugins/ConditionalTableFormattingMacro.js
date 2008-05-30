@@ -30,15 +30,16 @@
 The first table within the respective container (usually a tiddler) is used.
 In order to target a different table, a CSS class wrapper can be used:
 {{{
-{{conditionalFormatting{
-|foo|bar|baz|
- }}} /% DEBUG: hack to avoid closing monospaced block %/
+ {{conditionalFormatting{
+ |foo|bar|baz|
+ }}}
 }}}
 !Revision History
 !!v0.1 (2008-05-30)
 * initial release
 !To Do
-* add option to target column
+* add option to target respective column
+* add option for RegEx matching
 !Code
 ***/
 //{{{
