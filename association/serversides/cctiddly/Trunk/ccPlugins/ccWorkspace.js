@@ -37,12 +37,12 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 		createTiddlyElement(place,'div', null, "annotation",  'You do not have permissions to create a workspace.  You may need to log in.');
 		return null;
 	}
+	
 	var frm = createTiddlyElement(place,'form',null,"wizard");
 	frm.onsubmit = this.createWorkspaceOnSubmit;
 
-	createTiddlyElement(frm,'h1', null, null,  'Create Workspace ');
+	createTiddlyElement(frm,'h1',null,null,"Create Workspace");
 	createTiddlyElement(frm, 'h2', null, null,  "Get your own TiddlyWiki workspace below");
-	createTiddlyElement(frm,'br');
 
 	var body = createTiddlyElement(frm,'div',null, "wizardBody");
 
@@ -90,6 +90,9 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 	var span = createTiddlyElement(step, 'span', null, "checkContainer")
 	var anU = createTiddlyElement(null,'input', 'anU','checkInput');
 	anU.setAttribute('type','checkbox');
+	
+	anU.setAttribute('value','1');
+	
 	if (workspacePermission.anonU  == 1)
 	anU.setAttribute('checked','checked');
 	span.appendChild(anU);

@@ -65,7 +65,18 @@
 	{
 		global $tiddlyCfg;
 		$odata['session_token']= $pw;
-		$ndata['expire']=epochToTiddlyTime(time()+$tiddlyCfg['session_expire']);
+		error_log("ex:".$tiddlyCfg['session_expire']);
+		if($tiddlyCfg['session_expire'])
+		{
+			error_log('is empty');
+			$add = $tiddlyCfg['session_expire'];
+		}
+		else
+		{
+			error_log('is not empty - add thre ehours');
+			$add = 180 * 60; // add three hours
+		}
+		$ndata['expire']=epochToTiddlyTime(time()+$add);
 		db_record_update('login_session',$odata,$ndata);
 	}
 	
@@ -92,11 +103,16 @@
 		if ($pw && $pw !== "invalid")
 		{
 			$data_session['session_token'] = $pw;
+			error_log($data_session['session_token']);
 			$results = db_record_select('login_session', $data_session);			// get array of results		
-
+			error_log("count : ".count($results));
+		error_log($results[0]['expire']);
+		//	return true;
 			if (count($results) > 0 )                   //  if the array has 1  session
 			{
 				//$user['verified'] = 1;	
+		//		error_log('aa'.$results[0]['expire']);
+		//		error_log("bb".epochToTiddlyTime(time()));
 				if($results[0]['expire'] > epochToTiddlyTime(time())) 
 				{
 					if($tiddlyCfg['pref']['renew_session_on_each_request']==1)
@@ -114,7 +130,7 @@
 			}
 			else
 			{ 
-				user_logout('Session Does not exist');
+				user_logout(' 	');
 				return FALSE;		
 			}
 		}

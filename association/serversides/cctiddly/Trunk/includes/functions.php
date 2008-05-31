@@ -71,11 +71,19 @@ function getScheme()
 }
 function getURL()
 {
-//	$uri = parse_url($_SERVER['HTTP_REFERER']);
-//	echo $uri["path"];
-	if ($_SERVER['SERVER_PORT'] != '80' && $_SERVER['SERVER_PORT'] != '443')
-		$port = ":".$_SERVER['SERVER_PORT'];
-	$out = getScheme().'://'.$_SERVER['SERVER_NAME'].$port.dirname($_SERVER['SCRIPT_NAME'])."";
+//	$uri = parse_url($_SERVER['HTTP_HOST']);
+	
+//	print_r($_SERVER);
+//	return 'dd'.$_SERVER['HT'];
+	
+//	if (($_SERVER['SERVER_PORT'] != '80') && ($_SERVER['SERVER_PORT'] != '443'))
+//	{
+//	 	if(!$_SERVER['SERVER_PORT'])
+//			return $port = ":ssssssssss";
+//		else		
+//			return $port = $_SERVER['SERVER_PORT'];	
+//	}	
+	$out = getScheme().'://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME'])."";
 	return $out; 
 }
 

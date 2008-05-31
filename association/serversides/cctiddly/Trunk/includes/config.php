@@ -5,10 +5,10 @@
 
 // Initial Database Setup 
 	$tiddlyCfg['db']['type'] = "mysql";		//sql type
-	$tiddlyCfg['db']['host'] = "SERVER";		//sql host
-	$tiddlyCfg['db']['login'] = "USERNAME";		//login name
-	$tiddlyCfg['db']['pass'] = "PASSWORD";		//login password
-	$tiddlyCfg['db']['name'] = "DATABASE";		//db name
+	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
+	$tiddlyCfg['db']['login'] = "root";		//login name
+	$tiddlyCfg['db']['pass'] = "";		//login password
+	$tiddlyCfg['db']['name'] = "cctiddly161";		//db name
 
 // Debugging Information 
 	$tiddlyCfg['developing']=0;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
