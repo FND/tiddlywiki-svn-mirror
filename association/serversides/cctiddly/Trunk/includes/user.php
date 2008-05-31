@@ -65,17 +65,10 @@
 	{
 		global $tiddlyCfg;
 		$odata['session_token']= $pw;
-		error_log("ex:".$tiddlyCfg['session_expire']);
 		if($tiddlyCfg['session_expire'])
-		{
-			error_log('is empty');
 			$add = $tiddlyCfg['session_expire'];
-		}
 		else
-		{
-			error_log('is not empty - add thre ehours');
-			$add = 180 * 60; // add three hours
-		}
+			$add = 180 * 60; // #HACK - add three hours if we do not know what the session timeout is 
 		$ndata['expire']=epochToTiddlyTime(time()+$add);
 		db_record_update('login_session',$odata,$ndata);
 	}
@@ -103,17 +96,12 @@
 		if ($pw && $pw !== "invalid")
 		{
 			$data_session['session_token'] = $pw;
-			error_log($data_session['session_token']);
 			$results = db_record_select('login_session', $data_session);			// get array of results		
-			error_log("count : ".count($results));
-		error_log($results[0]['expire']);
-		//	return true;
+			//	return true;
 			if (count($results) > 0 )                   //  if the array has 1  session
 			{
 				//$user['verified'] = 1;	
-		//		error_log('aa'.$results[0]['expire']);
-		//		error_log("bb".epochToTiddlyTime(time()));
-				if($results[0]['expire'] > epochToTiddlyTime(time())) 
+					if($results[0]['expire'] > epochToTiddlyTime(time())) 
 				{
 					if($tiddlyCfg['pref']['renew_session_on_each_request']==1)
 						user_reset_session($un, $pw);
@@ -142,7 +130,6 @@
 	function user_set_session($un, $pw)
 	{
 		global $tiddlyCfg;
-error_log("expire is ".$tiddlyCfg['session_expire']);
 		
 		if ($tiddlyCfg['users_required_in_db']==1)
 		{

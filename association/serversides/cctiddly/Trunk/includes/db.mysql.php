@@ -686,7 +686,6 @@ $db_var['error']['query'] = " query: ";*/
 		$sql=substr($sql,0,(strlen($sql)-1));		//remove last ","
 		$sql .= " WHERE `".db_format4SQL(key($odata))."` = '".db_format4SQL(current($odata))."'";
 		debug($sql);
-		error_log($sql);
 		db_query($sql);
 		return db_affected_rows();
 	}
