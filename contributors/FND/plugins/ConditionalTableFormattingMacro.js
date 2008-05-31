@@ -19,18 +19,18 @@
 <<<
 |foo|bar|baz|
 <<conditionalTableFormatting "bar" "annotation">>
-{{conditionalFormatting{
+<<<
+<<<
 |1|2|3|
 |lorem|ipsum|dolor|
 |foo|bar|baz|
 <<conditionalTableFormatting "lorem" "annotation" "row">>
-}}}
 <<<
 !Notes
 The first table within the respective container (usually a tiddler) is used.
 In order to target a different table, a CSS class wrapper can be used:
 {{{
- {{conditionalFormatting{
+ {{dummyClass{
  |foo|bar|baz|
  }}}
 }}}
@@ -38,6 +38,8 @@ In order to target a different table, a CSS class wrapper can be used:
 !!v0.1 (2008-05-30)
 * initial release
 !To Do
+* allow for multiple cases in a single macro call
+* option for combining matching conditions (boolean operators?)
 * add option to target respective column
 * add option for RegEx matching
 !Code
