@@ -84,10 +84,16 @@ config.macros.tabs.doc = {
 			desc: "name of tiddler #2",
 			optional: true
 		}, {
-			desc: "label for tab #3",
+			desc: "...",
 			optional: true
 		}, {
-			desc: "...",
+			desc: "label for tab #//n//",
+			optional: true
+		}, {
+			desc: "tooltip for tab #//n//",
+			optional: true
+		}, {
+			desc: "name of tiddler #//n//",
 			optional: true
 		}
 	],
