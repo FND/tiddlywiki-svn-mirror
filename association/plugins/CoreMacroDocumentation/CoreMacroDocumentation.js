@@ -87,6 +87,12 @@ config.macros.tabs.doc = {
 			desc: "...",
 			optional: true
 		}, {
+			desc: "...",
+			optional: true
+		}, {
+			desc: "...",
+			optional: true
+		}, {
 			desc: "label for tab #//n//",
 			optional: true
 		}, {
