@@ -18,7 +18,7 @@ Create a view of the task list showing default values.
 
 Create a view of the task list showing specified fields in a given order and filtering the results.
 {{{
-<<TTReportView DisplayFields:"field1,field2,field3" OrderBy:"field1,[asc|desc]" fieldName:"filterValue" fieldName:"!filterValue" recent:"items">>
+<<TTReportView DisplayFields:"field1,field2,field3" OrderBy:"field1,[asc|desc]" fieldName:"filterValue" fieldName:"!filterValue">>
 }}}
 
 for example
@@ -52,7 +52,6 @@ version.extensions.TTReportViewPlugin = {installed:true};
 		var orderString = getParam(params,"OrderBy",'title,asc');
 		var orderField =  fieldPrefix + orderString.split(",")[0];
 		var order =  orderString.split(",")[1];				
-		var recentItems = getParam(params,"recent");
 		var expectedParams = ['DisplayFields','OrderBy'];
 	
 		//interpret and store the filter values.	
@@ -69,9 +68,7 @@ version.extensions.TTReportViewPlugin = {installed:true};
 				else {
 					var str = value;	
 				}
-				if(name != "recent") { // exclude "recent" parameter
-					filters.push({'field':fieldPrefix + name, 'value':str, 'match':match});
-				}
+				filters.push({'field':fieldPrefix + name, 'value':str, 'match':match});		
 			}
 		}
 					
@@ -80,15 +77,7 @@ version.extensions.TTReportViewPlugin = {installed:true};
 		var toConsider = [];
 		var toDisplay = [];		
 		var toExclude = [];
-
-		// limit to recently modified tiddlers
-		if(recentItems) {
-			taskTiddlers.sort(function(a, b){
-				return a.modified - b.modified;
-			});
-			taskTiddlers = taskTiddlers.slice(0, recentItems);
-		}
-
+	
 		// first get all the tiddlers we might want to include.
 		for(var t=0; t<taskTiddlers.length; t++) {
 			var consider = true;
