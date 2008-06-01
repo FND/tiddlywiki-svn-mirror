@@ -18,6 +18,7 @@
 !!v0.1 (2008-05-12)
 * initial proof-of-concept implementation
 !To Do
+* WikiWord handling (escape WikiWords in headings)
 * l10n support (e.g. parameters table's column headings)
 !Code
 ***/
