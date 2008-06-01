@@ -1,0 +1,50 @@
+<div title="tiddlywikiMarkupRules" modifier="SaqImtiaz" created="200712031349" tags="excludeLists excludeSearch">
+<pre>!bold
+type: text
+label: <b>B</b>
+tooltip: bold text
+prefix: ''
+suffix: ''
+
+!italics
+type: text
+label: <em>I</em>
+tooltip: italic text
+prefix: //
+suffix: //
+
+!underline
+type: text
+label: <u>U</u>
+tooltip: underlined text
+prefix: __
+suffix: __
+
+!strikethrough
+type: text
+label: <strike>S</strike>
+tooltip: strikethrough
+prefix: --
+suffix: --
+
+!quote
+type: text
+label: &ldquo; &rdquo; 
+tooltip: quoted text
+prefix: >
+
+!code
+type: text
+label: &equiv
+tooltip: monospaced text
+prefix: {{{
+suffix: }}}
+
+!horizontal rule
+type: text
+label: &mdash;
+tooltip: horizontal rule
+prefix: ----
+</pre>
+</div>
+
