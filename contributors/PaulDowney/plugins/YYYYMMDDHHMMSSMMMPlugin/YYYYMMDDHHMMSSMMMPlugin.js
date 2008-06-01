@@ -11,23 +11,30 @@
 ***/
 
 //{{{
-if (!Date.convertFromYYYYMMDDHHMMSSMMM){
 	// Static method to create a date from a UTC YYYYMMDDHHMMSSMMM format string
 	Date.convertFromYYYYMMDDHHMMSSMMM = function(d)
 	{
-		d = d.replace(/[^0-9]/, ""); 
-		var hh = d.substr(8,2) || "00";
-		var mm = d.substr(10,2) || "00";
-		var ss = d.substr(12,2) || "00";
-		var mmm = d.substr(12,2) || "000";
+		d = d?d.replace(/[^0-9]/g, ""):""; 
 		return new Date(Date.UTC(parseInt(d.substr(0,4),10),
 				parseInt(d.substr(4,2),10)-1,
 				parseInt(d.substr(6,2),10),
-				parseInt(hh,10),
-				parseInt(mm,10),
-				parseInt(ss,10),
-				parseInt(mmm,10)));
+				parseInt(d.substr(8,2)||"00",10),
+				parseInt(d.substr(10,2)||"00",10),
+				parseInt(d.substr(12,2)||"00",10),
+				parseInt(d.substr(14,3)||"000",10)));
 	};
 
-} 
+	// Fix existing core function
+	Date.convertFromYYYYMMDDHHMM = function(d)
+	{
+		d = d?d.replace(/[^0-9]/g, ""):""; 
+		return Date.convertFromYYYYMMDDHHMMSSMMM(d.substr(0,12));
+	};
+
+	// Convert a date to UTC YYYYMMDD.HHMMSSMMM string format
+	Date.prototype.convertToYYYYMMDDHHMMSSMMM = function()
+	{
+		return this.getUTCFullYear() + String.zeroPad(this.getUTCMonth()+1,2) + String.zeroPad(this.getUTCDate(),2) + "." + String.zeroPad(this.getUTCHours(),2) + String.zeroPad(this.getUTCMinutes(),2) + String.zeroPad(this.getUTCSeconds(),2) + String.zeroPad(this.getUTCMilliseconds(),3);
+	};
+
 //}}}
