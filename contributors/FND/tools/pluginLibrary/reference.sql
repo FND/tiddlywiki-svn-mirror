@@ -45,6 +45,11 @@ CREATE TABLE pluginLibrary.metaslices (
 	value TEXT NOT NULL
 ) ENGINE = MYISAM;
 
+CREATE TABLE pluginLibrary.keywords (
+	plugin_ID INT NOT NULL ,
+	name TEXT NOT NULL
+) ENGINE = MYISAM;
+
 CREATE TABLE pluginLibrary.userTags (
 	plugin_ID INT NOT NULL ,
 	name TEXT NOT NULL

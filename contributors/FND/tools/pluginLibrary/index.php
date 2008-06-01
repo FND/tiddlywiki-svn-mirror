@@ -94,7 +94,7 @@ function initPluginFlags($repoID) {
 * @return null
 */
 function processTiddlyWiki($contents, $repo) {
-	$str = str_replace("xmlns=", "ns=", $contents); // workaround for default-namespace bug
+	$contents = str_replace("xmlns=", "ns=", $contents); // workaround for default-namespace bug
 	$xml = @new SimpleXMLElement($contents); // DEBUG: errors for HTML entities (CDATA issue!?); suppressing errors hacky?!
 	$version = getVersion($xml);
 	// extract plugins
@@ -223,16 +223,17 @@ function processPlugin($tiddler, $repo, $oldStoreFormat = false) { // DEBUG: spl
 * @return object
 */
 function getSlices($text) {
-	$pattern = "/(?:[\'\/]*~?([\.\w]+)[\'\/]*\:[\'\/]*\s*(.*?)\s*$)|(?:\|[\'\/]*~?([\.\w]+)\:?[\'\/]*\|\s*(.*?)\s*\|)/m"; // RegEx origin: TiddlyWiki core
+	$pattern = "/(?:([\'\/]{0,2})~?([\.\w]+)\:\1\s*([^\|\n]+)\s*$)|(?:\|([\'\/]{0,2})~?([\.\w]+)\:?\\4\|\s*([^\|\n]+)\s*\|$)/m"; // RegEx origin: TiddlyWiki core -- DEBUG: not picking up colon notation!?
 	$slices = new stdClass;
 	preg_match_all($pattern, $text, $matches);
 	$m = $matches[0];
 	if($m) {
+		debug($matches, "matches"); // DEBUG
 		for($i = 0; $i < count($m); $i++) {
 			if($matches[1][$i]) // colon notation
-				$slices->{$matches[1][$i]} = $matches[2][$i];
+				$slices->{$matches[1][$i]} = $matches[2][$i]; // DEBUG: wrong!?
 			else // table notation
-				$slices->{$matches[3][$i]} = $matches[4][$i];
+				$slices->{$matches[5][$i]} = $matches[6][$i];
 		}
 	}
 	return $slices;

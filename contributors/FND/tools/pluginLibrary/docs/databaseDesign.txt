@@ -18,14 +18,14 @@
      | metaslices    |     |  |                        |
      +---------------+     |  |  +---------------+     |     +---------------+
      | plugin_ID     |-----+  |  | repositories  |     |     | comments      |
-     | name          |        |  +---------------+     |     +---------------+
-     | value         |        +--| $ID           |     |     | $ID           |
-     +---------------+           | URI           |     +-----| plugin_ID     |
-                                 | type          |           | IP_address    |
-                                 | name          |           | timestamp     |
-                                 | contact       |           | author        |
-                                 | added         |           | text          |
-                                 | updated       |           +---------------+
-                                 | skipped       |
-                                 | disabled      |
+     | name          |     |  |  +---------------+     |     +---------------+
+     | value         |     |  +--| $ID           |     |     | $ID           |
+     +---------------+     |     | URI           |     +-----| plugin_ID     |
+                           |     | type          |           | IP_address    |
+     +---------------+     |     | name          |           | timestamp     |
+     | keywords      |     |     | contact       |           | author        |
+     +---------------+     |     | added         |           | text          |
+     | plugin_ID     |-----+     | updated       |           +---------------+
+     | name          |           | skipped       |
+     +---------------+           | disabled      |
                                  +---------------+
