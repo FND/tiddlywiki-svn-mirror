@@ -27,7 +27,7 @@ config.macros.macroDoc = {};
 config.macros.macroDoc.handler = function(place, macroName, params, wikifier, paramString, tiddler) {
 	var output = "!Macro Documentation\n";
 	if(params[0]) {
-		output += this.generateDoc(config.macros[params[0]].doc);
+		output += this.generateDoc(config.macros[params[0]].doc, params[0].capitalize());
 	} else {
 		for(var macro in config.macros) {
 			if(config.macros[macro].doc)
