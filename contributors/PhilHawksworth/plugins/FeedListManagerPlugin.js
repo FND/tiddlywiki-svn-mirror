@@ -227,6 +227,9 @@ FeedListManager.prototype.next = function() {
 		}
 		uri = feedlist.getUriObj(feedlist.currentPosition);
 	}
+	feedlist.currentPosition++;
+	if(feedlist.currentPosition >= feedlist.uris.length)
+		feedlist.currentPosition = 0;
 	feedlist.lastIncrement = new Date().convertToYYYYMMDDHHMMSSMMM();
 	return uri.uri;
 };
