@@ -185,7 +185,8 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 			var t = store.fetchTiddler(tiddler.title);
 			if(!t) {
 				//# only get the tiddlers that are not available locally
-				context.adaptor.getTiddler(tiddler.title,null,null,config.macros.importWorkspace.getTiddlerCallback);
+				var c = context && context.userCallback ? {userCallback:context.userCallback} : null;
+				context.adaptor.getTiddler(tiddler.title,c,null,config.macros.importWorkspace.getTiddlerCallback);
 			}
 		}
 	}
