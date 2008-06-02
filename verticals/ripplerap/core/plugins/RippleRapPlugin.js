@@ -61,6 +61,10 @@ config.macros.RippleRap.getNotes = function() {
 
 };
 
+config.macros.RippleRap.populateNotes = function() {
+ 	var uri = config.macros.RippleRap.feedListManager.populate();
+};
+
 
 /*
  *  action buttons
@@ -83,6 +87,13 @@ config.macros.EnjoyNotes = {};
 config.macros.EnjoyNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
                 var me = config.macros.RippleRap;
                 var button = createTiddlyButton(place,'GET NOTES','Click here to enjoy other people\'s notes',me.getNotes);
+                //me.getNotes();
+};
+
+config.macros.PopulateNotes = {};
+config.macros.PopulateNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+                var me = config.macros.RippleRap;
+                var button = createTiddlyButton(place,'POPULATE NOTES','Click here to find other people\'s notes',me.populateNotes);
                 //me.getNotes();
 };
 

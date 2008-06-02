@@ -1,3 +1,7 @@
 <div title="dev helper" modifier="PhilHawksworth" created="200805301239" modified="200805301239">
-<pre><<RefreshAgenda>><<ShareNotes>><<EnjoyNotes>></pre>
+<pre><<RefreshAgenda>>
+<<PopulateNotes>>
+<<EnjoyNotes>>
+<<ShareNotes>>
+</pre>
 </div>
