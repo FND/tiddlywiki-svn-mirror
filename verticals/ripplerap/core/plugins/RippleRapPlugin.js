@@ -34,6 +34,8 @@ config.macros.RippleRap.init = function(){
 		break;
 	}
 	
+	me.feedListManager.populate();
+	
 	//me.getAgenda();
 	//me.getNotes();
 };
@@ -46,15 +48,17 @@ config.macros.RippleRap.getAgenda = function() {
 };
 
 config.macros.RippleRap.putNotes = function() {
-                config.macros.SharedNotes.putNotes();
+	config.macros.SharedNotes.putNotes();
 };
 
 config.macros.RippleRap.getNotes = function() {
-	//var uri = config.macros.RippleRap.feedListManager.next();
-	var uri = "http://staging.confabb.com/conferences/16074/notes/feed/psd";
+ 	var uri = config.macros.RippleRap.feedListManager.next();
+	// var uri = "http://staging.confabb.com/conferences/16074/notes/feed/psd";
+	console.log("GET notes from : ", uri);
 	if (uri) {
-		config.macros.importWorkspace.getTiddlers(uri, "rss", config.macros.SharedNotes.tagNoteAdaptorCallback);
+		config.macros.importWorkspace.getTiddlers(uri, "rss", null, null, config.macros.SharedNotes.tagNoteAdaptorCallback);
 	}
+
 };
 
 
@@ -116,7 +120,7 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 	// If the notes tiddler is already displayed show it in edit mode.
 	var t = story.getTiddler(title);
 	if(t) {
-		applied_template = t.getAttribute("template");
+		var applied_template = t.getAttribute("template");
 		if(applied_template.substr('View'))
 			template = DEFAULT_EDIT_TEMPLATE;
 		var fields = t.getAttribute("tiddlyFields");
@@ -140,6 +144,31 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 	story.displayTiddler(sessionTiddler,title,template,false,null,null,target);
 
 };
+
+// Overwrite
+// Return an array of tiddlers matching a search regular expression
+// TiddlyWiki.prototype.search = function(searchRegExp,sortField,excludeTag,match)
+// {
+// 	
+// 	console.log("SEARCHING! ");
+// 	
+// 	var candidates = this.reverseLookup("tags",excludeTag,!!match);
+// 	var results = [];
+// 	for(var t=0; t<candidates.length; t++) {
+// 		
+// 		if(candidates[t].rr_session_title)
+// 			console.log(candidates[t].rr_session_title);
+// 		
+// 		if((candidates[t].title.search(searchRegExp) != -1) || (candidates[t].text.search(searchRegExp) != -1))
+// 			results.push(candidates[t]);
+// 	}
+// 	if(!sortField)
+// 		sortField = "title";
+// 	results.sort(function(a,b) {return a[sortField] < b[sortField] ? -1 : (a[sortField] == b[sortField] ? 0 : +1);});
+// 	return results;
+// };
+
+
 
 }
 //}}}
