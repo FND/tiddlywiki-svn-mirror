@@ -147,28 +147,20 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 
 };
 
-// Overwrite
+// Overwrite the search plugins.
 // Return an array of tiddlers matching a search regular expression
-// TiddlyWiki.prototype.search = function(searchRegExp,sortField,excludeTag,match)
-// {
-// 	
-// 	console.log("SEARCHING! ");
-// 	
-// 	var candidates = this.reverseLookup("tags",excludeTag,!!match);
-// 	var results = [];
-// 	for(var t=0; t<candidates.length; t++) {
-// 		
-// 		if(candidates[t].rr_session_title)
-// 			console.log(candidates[t].rr_session_title);
-// 		
-// 		if((candidates[t].title.search(searchRegExp) != -1) || (candidates[t].text.search(searchRegExp) != -1))
-// 			results.push(candidates[t]);
-// 	}
-// 	if(!sortField)
-// 		sortField = "title";
-// 	results.sort(function(a,b) {return a[sortField] < b[sortField] ? -1 : (a[sortField] == b[sortField] ? 0 : +1);});
-// 	return results;
-// };
+TiddlyWiki.prototype.search = function(searchRegExp,sortField,excludeTag,match) {
+	var candidates = this.reverseLookup("tags",excludeTag,!!match);
+	var results = [];
+	for(var t=0; t<candidates.length; t++) {
+		if((candidates[t].title.search(searchRegExp) != -1) || (candidates[t].text.search(searchRegExp) != -1) || (candidates[t].fields['rr_session_title'] && candidates[t].fields['rr_session_title'].search(searchRegExp) != -1))
+			results.push(candidates[t]);
+	}
+	if(!sortField)
+		sortField = "title";
+	results.sort(function(a,b) {return a[sortField] < b[sortField] ? -1 : (a[sortField] == b[sortField] ? 0 : +1);});
+	return results;
+};
 
 
 
