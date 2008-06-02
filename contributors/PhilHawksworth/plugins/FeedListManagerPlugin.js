@@ -194,7 +194,6 @@ FeedListManager.prototype.getUriObj = function(i) {
 	if(i>=this.uris.length)
 		return null;
 	var uri = this.uris[i];
-	FeedListManager.log("uri at position " +i + " : " + uri);		
 	return uri;
 };
 
@@ -210,7 +209,6 @@ FeedListManager.prototype.get = function(i) {
 FeedListManager.prototype.next = function() {	
 			
 	if(this.busy) {
-		FeedListManager.log("Too busy to give you the next uri. try again in a bit");
 		return null;
 	}
 			
