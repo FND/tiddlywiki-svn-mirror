@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ConfluenceAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ConfluenceAdaptorPlugin.js|
-|''Version:''|0.5.1|
+|''Version:''|0.5.2|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -75,6 +75,7 @@ ConfluenceAdaptor.fullHostName = function(host)
 //#displayMessage("fullHostName:"+host);
 	if(!host)
 		return '';
+	host = host.trim();
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
 	if(host.substr(host.length-1) != '/')
