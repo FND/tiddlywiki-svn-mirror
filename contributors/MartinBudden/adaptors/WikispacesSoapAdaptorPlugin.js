@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#WikispacesSoapAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js |
-|''Version:''|0.0.14|
+|''Version:''|0.1.0|
 |''Date:''|Feb 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -391,9 +391,9 @@ fnLog('getTiddler:'+title);
 
 WikispacesSoapAdaptor.getTiddlerComplete = function(context,userParams)
 {
-//#fnLog('getTiddlerComplete:'+context.tiddler.title);
+fnLog('getTiddlerComplete:'+context.tiddler.title);
 	var uri = WikispacesSoapAdaptor.SoapUri(context,'%0page/api');
-//#fnLog('uri:'+uri);
+fnLog('uri:'+uri);
 	var pl = new SOAPClientParameters();
 	pl.add('session',context.sessionToken);
 	pl.add('spaceId',context.workspaceId);
@@ -404,9 +404,9 @@ WikispacesSoapAdaptor.getTiddlerComplete = function(context,userParams)
 
 WikispacesSoapAdaptor.getTiddlerRevisionComplete = function(context,userParams)
 {
-//#fnLog('getTiddlerRevisionComplete:'+context.tiddler.title);
+fnLog('getTiddlerRevisionComplete:'+context.tiddler.title);
 	var uri = WikispacesSoapAdaptor.SoapUri(context,'%0page/api');
-//#fnLog('uri:'+uri);
+fnLog('uri:'+uri);
 	var pl = new SOAPClientParameters();
 	pl.add('session',context.sessionToken);
 	pl.add('spaceId',context.workspaceId);
@@ -418,7 +418,8 @@ WikispacesSoapAdaptor.getTiddlerRevisionComplete = function(context,userParams)
 
 WikispacesSoapAdaptor.getTiddlerCallback = function(r,x,context)//(status,context,responseText,uri,xhr)
 {
-//#fnLog('getTiddlerCallback:'+context.tiddler.title);
+fnLog('getTiddlerCallback:'+context.tiddler.title);
+//#console.log(x);
 	var status = r instanceof Error ? false : true;
 	context.status = false;
 	context.statusText = WikispacesSoapAdaptor.errorInFunctionMessage.format(['getTiddlerCallback']);
@@ -432,10 +433,17 @@ WikispacesSoapAdaptor.getTiddlerCallback = function(r,x,context)//(status,contex
 	if(status) {
 		try {
 			var p = x.getElementsByTagName('page');
-			var i = 0;
+			//#console.log("page");
+			//#console.log(p[0].getElementsByTagName('content')[0].childNodes);
+			//#console.log(p[0].getElementsByTagName('content')[0].childNodes.length);
 			var tiddler = context.tiddler;
 			tiddler.tags = ['page'];
-			tiddler.text = gev(p,i,'content');
+			tiddler.text = "";
+			var contentNodes = p[0].getElementsByTagName('content')[0].childNodes;
+			for(var i=0;i<contentNodes.length;i++) {
+				tiddler.text += contentNodes[i].nodeValue;
+			}
+			i = 0;
 			tiddler.modified = WikispacesSoapAdaptor.dateFromTimestamp(gev(p,i,'date_created'));
 			tiddler.fields['server.modifier.id'] = gev(p,i,'user_created');
 			tiddler.fields['server.page.id'] = gev(p,i,'id');
