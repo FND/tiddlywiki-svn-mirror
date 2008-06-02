@@ -4,3 +4,4 @@ tiddler: TickerPlugin.js
 tiddler: ../YYYYMMDDHHMMSSMMMPlugin/YYYYMMDDHHMMSSMMMPlugin.js
 tiddler: DefaultTiddlers.tiddler
 tiddler: Today.tiddler
+tiddler: DisplayMessage.tiddler

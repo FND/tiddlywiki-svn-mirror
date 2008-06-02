@@ -1,4 +1,4 @@
-<div title="Today" tags="ticker" ticker_interval="3">
+<div title="Today" tags="ticker" ticker_interval="2">
 <pre>
 <<today>>
 </pre>

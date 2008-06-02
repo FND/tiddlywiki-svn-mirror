@@ -1,6 +1,6 @@
 /***
 |''Name:''|TickerPlugin|
-|''Description:''|Periodically Refresh Tiddlers tagged with 'ticker'|
+|''Description:''|Periodically Refresh Tiddlers tagged with 'ticker', evaluating those tagged with 'javaScript'|
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/TickerPlugin.js |
 |''Version:''|0.1|
@@ -10,25 +10,31 @@
 
 depends upon YYYYMMDDHHMMSSMMMPlugin.js or core fixes to Date functions
 
-ticker tiddlers are:
-* tagged "ticker"
-
 ***/
 
 //{{{
-if(!version.extensions.TickerPlugin) {
+if(!version.extensions.TickerPlugin){
 version.extensions.TickerPlugin = {installed:true};
 
 config.options.txtTickerInterval = 60;
-config.optionsDesc.txtTickerInterval = "~Ticker interval in seconds";
+config.optionsDesc.txtTickerInterval = "Ticker interval in seconds";
+
+config.options.chkTickerEval = true;
+config.optionsDesc.chkTickerEval = "Ticker enable evaluation of JavaScript tiddlers";
+            
+config.options.chkTickerRefresh = true;
+config.optionsDesc.chkTickerRefresh = "Ticker enable refreshing of tiddlers";
             
 config.macros.Ticker = {
 
 	hiddenPlace: null,	// element to wikify closed tiddlers
-	tag : "ticker",		// tag for finding tiddlers to refresh
+	tag : {
+		ticker: "ticker",		// tag for finding tiddlers to refresh
+		eval: "javaScript"		// tag for refreshed tiddlers to evaluate
+	},
 	enabled: true,		// disabling will still tick, but won't invoke tiddlers
 	disabled: false,	// setting will stop the ticking, forever!
-	min_interval: 1,	// minimum interval between ticks in seconds
+	minInterval: 1,		// minimum interval between ticks in seconds
 
 	init: function() {
 		this.tick();
@@ -39,7 +45,7 @@ config.macros.Ticker = {
 		if(me.disabled){
 			return;
 		}
-		var tiddlers = store.getTaggedTiddlers(me.tag);
+		var tiddlers = store.getTaggedTiddlers(me.tag.ticker);
 		var interval = config.macros.Ticker.getInterval();
 
 		for(var i=0;i<tiddlers.length;i++){
@@ -48,8 +54,8 @@ config.macros.Ticker = {
 				interval = remaining;
 			}
 		}
-		if (interval <= 0) {
-			interval = me.getInterval(me.min_interval);
+		if(interval <= 0) {
+			interval = me.getInterval(me.minInterval);
 		}
 		window.setTimeout(arguments.callee, interval);
 	},
@@ -70,16 +76,16 @@ config.macros.Ticker = {
 		var interval = me.getInterval(tiddler.fields.ticker_interval);
 		var lastcalled;
 
-		if (isNaN(tiddler.fields.ticker_count)){
+		if(isNaN(tiddler.fields.ticker_count)){
 			tiddler.fields.ticker_count = 0;
 		}
-		if (!isNaN(tiddler.fields.ticker_lastcalled)){
+		if(!isNaN(tiddler.fields.ticker_lastcalled)){
 			lastcalled = Number(Date.convertFromYYYYMMDDHHMMSSMMM(tiddler.fields.ticker_lastcalled));
 		}
-		if (isNaN(lastcalled)){
+		if(isNaN(lastcalled)){
 			lastcalled = 0;
 		}
-		if (Number(now) >= (lastcalled+interval)){
+		if(Number(now) >= (lastcalled+interval)){
 			me.invokeTiddler(tiddler);
 			tiddler.fields.ticker_lastcalled = now.convertToYYYYMMDDHHMMSSMMM();
 			tiddler.fields.ticker_count++;
@@ -89,14 +95,19 @@ config.macros.Ticker = {
 	},
 
 	invokeTiddler: function(tiddler) {
-		if (tiddler.isTagged('javascript')) {
-			eval(tiddler.text);
-			return;
+		var me = config.macros.Ticker;
+		if(config.options.chkTickerEval){
+			if(tiddler.isTagged(me.tag.eval)) {
+				eval(tiddler.text);
+				return;
+			}
 		}
-		var s = story.refreshTiddler(tiddler.title,null,true);
-		if (!story.refreshTiddler(tiddler.title,null,true)) {
-			var me = config.macros.Ticker;
-			wikify(tiddler.text,null,null,null);
+		if(config.options.chkTickerRefresh){
+			var s = story.refreshTiddler(tiddler.title,null,true);
+			if(!story.refreshTiddler(tiddler.title,null,true)){
+				var me = config.macros.Ticker;
+				wikify(tiddler.text,null,null,null);
+			}
 		}
 	}
 };
