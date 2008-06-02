@@ -34,8 +34,8 @@ config.macros.RippleRap.init = function(){
 		break;
 	}
 	
-	me.getAgenda();
-	me.getNotes();
+	//me.getAgenda();
+	//me.getNotes();
 };
 
 /*
@@ -53,7 +53,7 @@ config.macros.RippleRap.getNotes = function() {
 	//var uri = config.macros.RippleRap.feedListManager.next();
 	var uri = "http://staging.confabb.com/conferences/16074/notes/feed/psd";
 	if (uri) {
-		config.macros.importWorkspace.getTiddlers(uri, "rss");
+		config.macros.importWorkspace.getTiddlers(uri, "rss", config.macros.SharedNotes.tagNoteAdaptorCallback);
 	}
 };
 
@@ -65,22 +65,23 @@ config.macros.RefreshAgenda = {};
 config.macros.RefreshAgenda.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
                 var me = config.macros.RippleRap;
                 var button = createTiddlyButton(place,'GET AGENDA','Click here to download the Agenda',me.getAgenda);
-                me.getAgenda();
+                //me.getAgenda();
 };
 
 config.macros.ShareNotes = {};
 config.macros.ShareNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
                 var me = config.macros.RippleRap;
                 var button = createTiddlyButton(place,'PUT NOTES','Click here to share your notes',me.putNotes);
-                me.putNotes();
+                //me.putNotes();
 };
 
 config.macros.EnjoyNotes = {};
 config.macros.EnjoyNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
                 var me = config.macros.RippleRap;
                 var button = createTiddlyButton(place,'GET NOTES','Click here to enjoy other people\'s notes',me.getNotes);
-                me.getNotes();
+                //me.getNotes();
 };
+
 
 
 config.macros.RippleRap.handler = function(place,macroName,params,wikifier,paramString,tiddler) {

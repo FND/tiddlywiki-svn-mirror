@@ -31,9 +31,9 @@ config.macros.RippleRapConfabb = {
 	installSharedNotes: function(me, uri) {
 		var notesuri = config.options.txtRippleRapSharedNotesURI;
 		if (!notesuri) {
-			notesuri = uri + "notes/shared";
+			notesuri = uri + "notes/save";
 		}
-		me.adaptor = "confabbnotes";
+		config.macros.SharedNotes.adaptor = "confabbnotes";
 		ConfabbNotesAdaptor.uri = notesuri;
 	},
 	installEnjoyedNotes: function(me, uri) {
@@ -41,7 +41,7 @@ config.macros.RippleRapConfabb = {
 		if (!notesuri) {
 			notesuri = uri + "notes/opml";
 		}
-    //me.feedListManager.add(notesuri,'confabb notes','opml');
+		//me.feedListManager.add(notesuri,'confabb notes','opml');
 	}
 };
 
