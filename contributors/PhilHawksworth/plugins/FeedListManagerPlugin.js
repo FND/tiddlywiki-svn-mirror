@@ -190,16 +190,20 @@ FeedListManager.prototype.registered = function(uri) {
 
 
 // Get the uri at a given postion in the list of those managed.
-FeedListManager.prototype.get = function(i) {
-	var u = this.uris[i];
-	var uri = null;
-	if(u != null)
-		uri = u.uri;
-		
-	FeedListManager.log("uri at position " +i + " : " + uri);
-		
+FeedListManager.prototype.getUriObj = function(i) {
+	if(i>=this.uris.length)
+		return null;
+	var uri = this.uris[i];
+	FeedListManager.log("uri at position " +i + " : " + uri);		
 	return uri;
 };
+
+FeedListManager.prototype.get = function(i) {
+	if(i>=this.uris.length)
+		return null;
+	return this.getUriObj().uri;
+};
+
 
 
 // Get the next uri from the list of those managed.
@@ -211,23 +215,26 @@ FeedListManager.prototype.next = function() {
 	}
 			
 	var feedlist = this;
+	if(feedlist.uris.length==0)
+		return null;
 	var thisPosition = feedlist.currentPosition;
-	feedlist.currentPosition++;
-	if(feedlist.currentPosition > feedlist.uris.length)
-		feedlist.currentPosition = 0;
-	var uri = feedlist.get(thisPosition);	
-	while(uri.type!='rss') {
+	var uri = feedlist.getUriObj(thisPosition);	
+	
+	console.log("Getting next. position: ", thisPosition, uri);
+	
+	while(uri && uri.type!='rss') {
 		feedlist.currentPosition++;
-		if(feedlist.currentPosition > feedlist.uris.length)
+		if(feedlist.currentPosition >= feedlist.uris.length)
 			feedlist.currentPosition = 0;
 		if(feedlist.currentPosition==thisPosition) {
 			// there are no rss feeds
 			return null;
 		}
-		uri = feedlist.get(thisPosition);	
+		uri = feedlist.getUriObj(feedlist.currentPosition);
+		console.log("Getting next2. position: ", feedlist.currentPosition, uri);	
 	}
 	feedlist.lastIncrement = new Date().convertToYYYYMMDDHHMMSSMMM();
-	return uri;
+	return uri.uri;
 };
 
 
