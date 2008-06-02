@@ -74,7 +74,7 @@ function FeedListManager(){
 	this.uris = [];
 	this.currentPosition = 0;
 	this.lastIncrement = null;
-	this.updating = false;
+	this.busy = false;
 	this.requests = [];
 };
 
@@ -94,6 +94,9 @@ FeedListManager.log = function(x)
 // [name] : friendly name. (defaults to 'anon')
 // [type] : rss | opml (defaults to 'rss')
 FeedListManager.prototype.add = function(uri, name, type) {
+
+	FeedListManager.log("Adding: ", uri);
+
 	var exists = this.registered(uri);
 	if(exists != null)
 		return;
@@ -103,8 +106,9 @@ FeedListManager.prototype.add = function(uri, name, type) {
 		name = 'anon';
 	var uriObj = {'name':name, 'uri':uri, 'type':type, 'callCount':0, 'lastCall':null};
 	this.uris.push(uriObj);
-	if(type == 'opml'|'include')
-		this.populate();
+	// if(type == 'opml'|'include') {
+	// 	this.populate();
+	// }
 };
 
 
@@ -120,11 +124,12 @@ FeedListManager.prototype.remove = function(uri) {
 FeedListManager.prototype.populate = function() {
 	var feedList = this;
 	for(var u=0; u<feedList.uris.length; u++) {
-		if(feedList.uris[u].type == 'opml') {
-			feedList.updating = true;
+		resource = feedList.uris[u];
+		if(resource.type == 'opml') {
+			feedList.busy = true;
 			var params = {'feedList': feedList};
-			var req = doHttp("GET",feedList.uris[u].uri,null,null,null,null,feedList.examineopml,params);
-			feedList.requests.push(req);
+			var req = doHttp("GET",resource.uri,null,null,null,null,feedList.examineopml,params,null,true);
+			feedList.requests.push(resource.uri);
 		}	
 	}
 };
@@ -134,9 +139,9 @@ FeedListManager.prototype.populate = function() {
 FeedListManager.prototype.examineopml = function(status,params,responseText,url,xhr) {
 
 	var feedList = params.feedList;
-
+	
 	// Remove the record of this request for tracking purposes.
-	var pos = feedList.requests.indexOf(xhr);
+	var pos = feedList.requests.indexOf(url);
 	if(pos != -1)
 		feedList.requests.splice(pos,1);
 
@@ -155,14 +160,14 @@ FeedListManager.prototype.examineopml = function(status,params,responseText,url,
 	for (var i=0; i < outlines.length; i++) {
 		type = outlines[i].getAttribute("type") || null;
 		xmlUrl = outlines[i].getAttribute("xmlUrl") || null;
-		title = outlines[i].getAttribute("title") || null;		
+		title = outlines[i].getAttribute("title") || null;	
 		if(type && xmlUrl)
 			feedList.add(xmlUrl, title, type);
 	};
 
 	//flag if all updates are complete.
-	if(feedList.requests.length == 0)
-		feedList.updating = false;
+	if(feedList.requests.length < 1)
+		feedList.busy = false;
 };
 
 
@@ -194,18 +199,24 @@ FeedListManager.prototype.get = function(i) {
 
 
 // Get the next uri from the list of those managed.
-FeedListManager.prototype.next = function() {
-	var uri = this.get(this.currentPosition);
-	this.currentPosition++;
-	if(this.currentPosition >= this.uris.length){
-		this.currentPosition = 0;
-		this.populate();
+FeedListManager.prototype.next = function() {	
+		
+	if(this.busy) {
+		FeedListManager.log("To busy to give you the next uri. try again in a bit");
+		return null;
+	}
+			
+	var feedlist = this;
+	var uri = feedlist.get(feedlist.currentPosition);
+	feedlist.currentPosition++;
+	if(feedlist.currentPosition > feedlist.uris.length){
+		feedlist.currentPosition = 0;
 	}
 	var now = new Date();
 	now = now.convertToYYYYMMDDHHMMSSMMM();
-	this.lastIncrement = now;
+	feedlist.lastIncrement = now;
 	if(uri.type != 'rss')
-		this.next();
+		feedlist.next();
 	else
 		return uri;
 };
