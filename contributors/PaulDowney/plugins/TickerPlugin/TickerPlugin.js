@@ -89,6 +89,10 @@ config.macros.Ticker = {
 	},
 
 	invokeTiddler: function(tiddler) {
+		if (tiddler.isTagged('javascript)')) {
+			eval(tiddler.text);
+			return;
+		}
 		var s = story.refreshTiddler(tiddler.title,null,true);
 		if (!story.refreshTiddler(tiddler.title,null,true)) {
 			var me = config.macros.Ticker;
