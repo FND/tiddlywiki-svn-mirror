@@ -89,7 +89,7 @@ config.macros.Ticker = {
 	},
 
 	invokeTiddler: function(tiddler) {
-		if (tiddler.isTagged('javascript)')) {
+		if (tiddler.isTagged('javascript')) {
 			eval(tiddler.text);
 			return;
 		}
