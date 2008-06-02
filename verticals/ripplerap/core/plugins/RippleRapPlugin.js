@@ -35,9 +35,6 @@ config.macros.RippleRap.init = function(){
 	}
 	
 	me.feedListManager.populate();
-	
-	//me.getAgenda();
-	//me.getNotes();
 };
 
 /*
@@ -71,28 +68,24 @@ config.macros.RefreshAgenda = {};
 config.macros.RefreshAgenda.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
                 var me = config.macros.RippleRap;
                 var button = createTiddlyButton(place,'GET AGENDA','Click here to download the Agenda',me.getAgenda);
-                //me.getAgenda();
 };
 
 config.macros.ShareNotes = {};
 config.macros.ShareNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
                 var me = config.macros.RippleRap;
                 var button = createTiddlyButton(place,'PUT NOTES','Click here to share your notes',me.putNotes);
-                //me.putNotes();
 };
 
 config.macros.EnjoyNotes = {};
 config.macros.EnjoyNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
                 var me = config.macros.RippleRap;
                 var button = createTiddlyButton(place,'GET NOTES','Click here to enjoy other people\'s notes',me.getNotes);
-                //me.getNotes();
 };
 
 config.macros.PopulateNotes = {};
 config.macros.PopulateNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
                 var me = config.macros.RippleRap;
                 var button = createTiddlyButton(place,'POPULATE NOTES','Click here to find other people\'s notes',me.populateNotes);
-                //me.getNotes();
 };
 
 

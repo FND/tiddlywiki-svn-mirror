@@ -51,6 +51,14 @@ tiddler: ../../../contributors/PaulDowney/adaptors/ConfabbNotesAdaptorPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js
 tiddler: ../../../contributors/JonathanLister/adaptors/RSSAdaptor.js
 
+# Ticker timer
+tiddler: ../../../contributors/PaulDowney/plugins/TickerPlugin/TickerPlugin.js
+tiddler: ../../../contributors/PaulDowney/plugins/YYYYMMDDHHMMSSMMMPlugin/YYYYMMDDHHMMSSMMMPlugin.js
+tiddler: TickerGetAgenda.tiddler
+tiddler: TickerGetNotes.tiddler
+tiddler: TickerPopulateNotes.tiddler
+tiddler: TickerPutNotes.tiddler
+
 # RippleRap UI structure
 tiddler: MainMenu.tiddler
 tiddler: DefaultTiddlers.tiddler
