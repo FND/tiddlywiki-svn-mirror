@@ -50,6 +50,7 @@ In order to target a different table, a CSS class wrapper can be used:
 * significant changes to accommodate multiple cases per macro call
 !To Do
 * documentation
+* option for limiting conditions to specific columns
 * option for combining matching conditions (boolean operators?)
 * add option to target respective column
 * add option for RegEx matching
