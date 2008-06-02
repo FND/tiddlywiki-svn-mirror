@@ -75,8 +75,6 @@ TiddlerDisplayGroup.prototype.findBunch = function(common_id) {
 // return the bunch.
 TiddlerDisplayGroup.prototype.fileTiddler = function(tiddlerTitle) {
 	
-	console.log("File tiddler", tiddler);
-	
 	var t = store.getTiddler(tiddlerTitle);
 	var groupField = this.getGroupField();
 	var common_id = store.getValue(t, groupField);
@@ -245,7 +243,10 @@ Bunch.prototype.addTiddler = function(tiddlerTitle, sectionLabel, placement) {
 	if(this.isPresent(tiddlerTitle))
 		return;
 	var t = {'title':tiddlerTitle, 'section':sectionLabel};
-	this.tiddlers.push(t);
+	if(placement && placement == 'top')
+		this.tiddlers.push(t);
+	else
+		this.tiddlers.unshift(t);		
 };
 
 
@@ -315,6 +316,7 @@ version.extensions.TiddlerDisplayGroupsPlugin.closeTiddler = story.closeTiddler;
 Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle) {	
 
 	var animSrc = srcElement;
+	var animate = false;
 
 	// if the tiddler is being opened from a link in a tiddler display group we should display it after the group.
 	if(srcElement)
