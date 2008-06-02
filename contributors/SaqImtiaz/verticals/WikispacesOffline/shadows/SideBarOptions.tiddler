@@ -4,6 +4,6 @@
 [[Recent Changes]]
 [[Manage]]
 {{search{<<search search>>}}}
-<<backstage importTask>>
-<<backstage sync>></pre>
+<<saveChanges 'save local copy'>>
+<<quicksync>></pre>
 </div>
