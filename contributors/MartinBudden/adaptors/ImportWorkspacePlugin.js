@@ -116,13 +116,13 @@ config.macros.importWorkspace.getTiddlersForFeed = function(feed)
 	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter));
 };
 
-config.macros.importWorkspace.getTiddlers = function(uri,type,workspace,filter,callback)
+config.macros.importWorkspace.getTiddlers = function(uri,type,workspace,filter,userCallback)
 {
 	var fields = {};
 	fields['server.host'] = uri;
 	fields['server.type'] = type;
 	fields['server.workspace'] = workspace;
-	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter,callback));
+	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter,userCallback));
 };
 
 config.macros.importWorkspace.createContext = function(fields,filter,callback)
@@ -140,7 +140,7 @@ config.macros.importWorkspace.createContext = function(fields,filter,callback)
 		context.host = fields['server.host'];
 		context.workspace = fields['server.workspace'];
 		context.filter = filter;
-		context.callback = callback;
+		context.userCallback = userCallback;
 		context.adaptor = adaptor;
 		return context;
 	}
@@ -202,8 +202,8 @@ config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
 	} else {
 		displayMessage(context.statusText);
 	}
-	if(context.callback)
-		context.callback(context,userParams);
+	if(context.userCallback)
+		context.userCallback(context,userParams);
 };
 
 } //# end of 'install only once'
