@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://martinswiki.com/#CryptoTEAPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/CryptoTEAPlugin.js |
-|''Version:''|0.1.7|
+|''Version:''|0.1.8|
 |''Date:''|May 7, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -200,7 +200,7 @@ Crypto.TEA.encrypt = function(plaintext,passphrase)
 {
 	if(plaintext.length == 0)
 		return('');// nothing to encrypt
-	var v = Crypto.strToBe32s(plaintext);
+	var v = Crypto.strToBe32s(encodeURIComponent(plaintext));
 	Crypto.TEA.encipher(v,Crypto.passphraseToKey(passphrase));
 	return Crypto.be32sToStr(v);
 };
@@ -228,7 +228,7 @@ Crypto.TEA.decrypt = function(ciphertext,passphrase)
 		//# strip trailing null chars resulting from filling 4-char blocks
 		plaintext = plaintext.slice(0,plaintext.search(/\0/));
 	}
-	return plaintext;
+	return decodeURIComponent(plaintext);
 };
 
 } // end of 'install only once'
