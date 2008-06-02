@@ -41,7 +41,7 @@ config.macros.RippleRapConfabb = {
 		if (!notesuri) {
 			notesuri = uri + "notes/opml";
 		}
-		//me.feedListManager.add(notesuri,'confabb notes','opml');
+		me.feedListManager.add(notesuri,'confabb notes','opml');
 	}
 };
 
