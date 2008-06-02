@@ -6,10 +6,17 @@
 |''Version:''|0.1|
 |''License:''|[[BSD open source license]]|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''~CoreVersion:''|2.2|
+|''~CoreVersion:''|2.4|
 
-depends upon YYYYMMDDHHMMSSMMMPlugin.js or core fixes to Date functions
+!!!Dependencies
+This code epends upon a number of bug fixes to the Date routines supplied in the [[YYYYMMDDHHMMSSMMMPlugin]] 
 
+!!!Options
+|<<option txtTickerInterval>>|<<message config.optionsDesc.txtTickerInterval>>|
+|<<option chkTickerEval>>|<<message config.optionsDesc.chkTickerEval>>|
+|<<option chkTickerRefresh>>|<<message config.optionsDesc.chkTickerRefresh>>|
+
+!!!Source Code
 ***/
 
 //{{{
@@ -96,6 +103,10 @@ config.macros.Ticker = {
 
 	invokeTiddler: function(tiddler) {
 		var me = config.macros.Ticker;
+		var s = story.getTiddler(tiddler.title);
+		if(s && "EditTemplate" == s.getAttribute("template")){
+			return;
+		}
 		if(config.options.chkTickerEval){
 			if(tiddler.isTagged(me.tag.eval)) {
 				eval(tiddler.text);
@@ -103,7 +114,6 @@ config.macros.Ticker = {
 			}
 		}
 		if(config.options.chkTickerRefresh){
-			var s = story.refreshTiddler(tiddler.title,null,true);
 			if(!story.refreshTiddler(tiddler.title,null,true)){
 				var me = config.macros.Ticker;
 				wikify(tiddler.text,null,null,null);
