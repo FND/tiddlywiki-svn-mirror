@@ -219,9 +219,6 @@ FeedListManager.prototype.next = function() {
 		return null;
 	var thisPosition = feedlist.currentPosition;
 	var uri = feedlist.getUriObj(thisPosition);	
-	
-	console.log("Getting next. position: ", thisPosition, uri);
-	
 	while(uri && uri.type!='rss') {
 		feedlist.currentPosition++;
 		if(feedlist.currentPosition >= feedlist.uris.length)
@@ -231,7 +228,6 @@ FeedListManager.prototype.next = function() {
 			return null;
 		}
 		uri = feedlist.getUriObj(feedlist.currentPosition);
-		console.log("Getting next2. position: ", feedlist.currentPosition, uri);	
 	}
 	feedlist.lastIncrement = new Date().convertToYYYYMMDDHHMMSSMMM();
 	return uri.uri;
