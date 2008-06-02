@@ -115,8 +115,8 @@ console.log("putRss failed");
 		if(tiddler.modifier != config.options.txtUserName){
 			tiddler.tags.remove(me.tag.note);
 			tiddler.tags.pushUnique(me.tag.discovered);
-			tiddler.fields.rr_session_id = tiddler.title.replace(/ from.*$/,"");
 		}
+		tiddler.fields.rr_session_id = tiddler.title.replace(/ from.*$/,"");
 	}
 
 };
