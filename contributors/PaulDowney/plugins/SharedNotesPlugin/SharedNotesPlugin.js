@@ -18,7 +18,10 @@ version.extensions.SharedNotesPlugin = {installed:true};
 
 config.macros.SharedNotes = {
 
-	tag: "notes",
+	tag: { 
+		note: "notes",
+		discovered: "discovered_notes",
+	},
 	busy: false,
 	messages: {
 		userNameNotSet: 'to share notes you should set your UserName'
@@ -35,8 +38,10 @@ config.macros.SharedNotes = {
 	},
 
 	putNotes: function() {
+console.log("putNotes: SharedNotes");
 		var me = config.macros.SharedNotes;
 		if(!config.options.chkRippleRapShare) {
+console.log("putNotes: not sharing");
 			return;
 		}
 		if(config.options.txtUserName=='YourName') {
@@ -45,6 +50,7 @@ config.macros.SharedNotes = {
 			return;
 		}
 		if(me.busy) {
+console.log("putNotes: busy");
 			return;
 		}
 		me.busy = true;
@@ -58,7 +64,9 @@ config.macros.SharedNotes = {
 	doPut: function() {
 		var me = config.macros.SharedNotes;
 		var tiddlers = me.getSharedNoteTiddlers();
+console.log("putNotes: doPut");
 		if (!tiddlers) {
+console.log("putNotes: no notes to put");
 			return false;
 		}
 
@@ -67,9 +75,11 @@ config.macros.SharedNotes = {
 			if(status) {
 				me.lasttime = me.thistime;
 			}
+displayMessage("notes put callback");
 		};
 		var adaptor = config.adaptors[me.adaptor];
 		if (!adaptor) {
+displayMessage("notes no adaptor");
 			return false;
 		}
 
@@ -86,7 +96,7 @@ console.log("putRss failed");
 		var putRequired = false;
 		var tiddlers = [];
 		store.forEachTiddler(function(title,t) {
-			if(t.isTagged(me.tag)) {
+			if(t.isTagged(me.tag.note)) {
 				tiddlers.push(t);
 				if(t.modified > me.lasttime) {
 					putRequired = true;
@@ -97,7 +107,17 @@ console.log("putRss failed");
 			return null;
 		}
 		return tiddlers;
+	},
+
+	tagNoteAdaptorCallback: function(context,userParams) {
+		var me = config.macros.SharedNotes;
+		var tiddler = context.tiddler;
+		if(tiddler.modifier != config.options.txtUserName){
+			tiddler.tags.remove(me.tag.note);
+			tiddler.tags.pushUnique(me.tag.discovered);
+		}
 	}
+
 };
 
 } //# end of 'install only once'

@@ -35,7 +35,7 @@ ConfabbNotesAdaptor.putRss = function(text,callback,params)
 	var body = encodeURIComponent('username') + '=' + encodeURIComponent(config.options.txtUserName)
 			+ '&' + encodeURIComponent('feed') + '=' + encodeURIComponent(text);
 console.log('POST',ConfabbNotesAdaptor.uri,body.length,null,null,null,callback,params);
-	return doHttp('POST',this.uri,body,null,null,null,callback,params);
+	return doHttp('POST',this.uri,body,null,null,null,callback,params,{},true);
 };
 
 config.adaptors[ConfabbNotesAdaptor.serverType] = ConfabbNotesAdaptor;
