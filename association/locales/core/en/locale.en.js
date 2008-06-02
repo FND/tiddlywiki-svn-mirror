@@ -4,11 +4,11 @@
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Source:''|www.example.com |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
-|''Version:''|0.3.6|
+|''Version:''|0.3.7|
 |''Date:''|Jul 6, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
-|''~CoreVersion:''|2.2|
+|''~CoreVersion:''|2.4|
 ***/
 
 //{{{
@@ -28,6 +28,7 @@ merge(config.tasks,{
 	sync: {text: "sync", tooltip: "Synchronise changes with other TiddlyWiki files and servers", content: '<<sync>>'},
 	importTask: {text: "import", tooltip: "Import tiddlers and plugins from other TiddlyWiki files and servers", content: '<<importTiddlers>>'},
 	tweak: {text: "tweak", tooltip: "Tweak the appearance and behaviour of TiddlyWiki", content: '<<options>>'},
+	upgrade: {text: "upgrade", tooltip: "Upgrade TiddlyWiki core code", content: '<<upgrade>>'},
 	plugins: {text: "plugins", tooltip: "Manage installed plugins", content: '<<plugins>>'}
 });
 
@@ -36,6 +37,7 @@ merge(config.optionsDesc,{
 	txtUserName: "Username for signing your edits",
 	chkRegExpSearch: "Enable regular expressions for searches",
 	chkCaseSensitiveSearch: "Case-sensitive searching",
+	chkIncrementalSearch: "Incremental key-by-key searching",
 	chkAnimate: "Enable animations",
 	chkSaveBackups: "Keep backup file when saving changes",
 	chkAutoSave: "Automatically save changes",
@@ -89,7 +91,8 @@ merge(config.messages,{
 	wrongSaveFormat: "Cannot save with storage format '%0'. Using standard format for save.",
 	invalidFieldName: "Invalid field name %0",
 	fieldCannotBeChanged: "Field '%0' cannot be changed",
-	loadingMissingTiddler: "Attempting to retrieve the tiddler '%0' from the '%1' server at:\n\n'%2' in the workspace '%3'"});
+	loadingMissingTiddler: "Attempting to retrieve the tiddler '%0' from the '%1' server at:\n\n'%2' in the workspace '%3'",
+	upgradeDone: "The upgrade to version %0 is now complete\n\nClick 'OK' to reload the newly upgraded TiddlyWiki"});
 
 merge(config.messages.messageClose,{
 	text: "close",
@@ -220,7 +223,7 @@ merge(config.macros.options,{
 			{name: 'Name', field: 'name', title: "Name", type: 'String'}
 			],
 		rowClasses: [
-			{className: 'lowlight', field: 'lowlight'} 
+			{className: 'lowlight', field: 'lowlight'}
 			]}
 	});
 
@@ -279,6 +282,7 @@ merge(config.macros.importTiddlers,{
 	cancelPrompt: "Cancel this import",
 	statusOpenWorkspace: "Opening the workspace",
 	statusGetTiddlerList: "Getting the list of available tiddlers",
+	errorGettingTiddlerList: "Error getting list of tiddlers, click Cancel to try again",
 	step3Title: "Step 3: Choose the tiddlers to import",
 	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>Keep these tiddlers linked to this server so that you can synchronise subsequent changes</input><br><input type='checkbox' name='chkSave'>Save the details of this server in a 'systemServer' tiddler called:</input> <input type='text' size=25 name='txtSaveTiddler'>",
 	importLabel: "import",
@@ -306,6 +310,34 @@ merge(config.macros.importTiddlers,{
 			]}
 	});
 
+merge(config.macros.upgrade,{
+	wizardTitle: "Upgrade TiddlyWiki core code",
+	step1Title: "Update or repair this TiddlyWiki to the latest release",
+	step1Html: "You are about to upgrade to the latest release of the TiddlyWiki core code (from <a href='%0' class='externalLink' target='_blank'>%1</a>). Your content will be preserved across the upgrade.<br><br>Note that core upgrades have been known to interfere with older plugins. If you run into problems with the upgraded file, see <a href='http://www.tiddlywiki.org/wiki/CoreUpgrades' class='externalLink' target='_blank'>http://www.tiddlywiki.org/wiki/CoreUpgrades</a>",
+	errorCantUpgrade: "Unable to upgrade this TiddlyWiki. You can only perform upgrades on TiddlyWiki files stored locally",
+	errorNotSaved: "You must save changes before you can perform an upgrade",
+	step2Title: "Confirm the upgrade details",
+	step2Html_downgrade: "You are about to downgrade to TiddlyWiki version %0 from %1.<br><br>Downgrading to an earlier version of the core code is not recommended",
+	step2Html_restore: "This TiddlyWiki appears to be already using the latest version of the core code (%0).<br><br>You can continue to upgrade anyway to ensure that the core code hasn't been corrupted or damaged",
+	step2Html_upgrade: "You are about to upgrade to TiddlyWiki version %0 from %1",
+	upgradeLabel: "upgrade",
+	upgradePrompt: "Prepare for the upgrade process",
+	statusPreparingBackup: "Preparing backup",
+	statusSavingBackup: "Saving backup file",
+	errorSavingBackup: "There was a problem saving the backup file",
+	statusLoadingCore: "Loading core code",
+	errorLoadingCore: "Error loading the core code",
+	errorCoreFormat: "Error with the new core code",
+	statusSavingCore: "Saving the new core code",
+	statusReloadingCore: "Reloading the new core code",
+	startLabel: "start",
+	startPrompt: "Start the upgrade process",
+	cancelLabel: "cancel",
+	cancelPrompt: "Cancel the upgrade process",
+	step3Title: "Upgrade cancelled",
+	step3Html: "You have cancelled the upgrade process"
+	});
+
 merge(config.macros.sync,{
 	listViewTemplate: {
 		columns: [
@@ -330,13 +362,13 @@ merge(config.macros.sync,{
 	hasChanged: "Changed while unplugged",
 	hasNotChanged: "Unchanged while unplugged",
 	syncStatusList: {
-		none: {text: "...", color: "none"},
-		changedServer: {text: "Changed on server", color: '#80ff80'},
-		changedLocally: {text: "Changed while unplugged", color: '#80ff80'},
-		changedBoth: {text: "Changed while unplugged and on server", color: '#ff8080'},
-		notFound: {text: "Not found on server", color: '#ffff80'},
-		putToServer: {text: "Saved update on server", color: '#ff80ff'},
-		gotFromServer: {text: "Retrieved update from server", color: '#80ffff'}
+		none: {text: "...", color: "transparent", display:null},
+		changedServer: {text: "Changed on server", color: '#8080ff', display:null},
+		changedLocally: {text: "Changed while unplugged", color: '#80ff80', display:null},
+		changedBoth: {text: "Changed while unplugged and on server", color: '#ff8080', display:null},
+		notFound: {text: "Not found on server", color: '#ffff80', display:null},
+		putToServer: {text: "Saved update on server", color: '#ff80ff', display:null},
+		gotFromServer: {text: "Retrieved update from server", color: '#80ffff', display:null}
 		}
 	});
 
@@ -415,9 +447,10 @@ merge(config.shadowTiddlers,{
 	SiteSubtitle: "a reusable non-linear personal web notebook",
 	SiteUrl: "http://www.tiddlywiki.com/",
 	OptionsPanel: "These Interface Options for customising TiddlyWiki are saved in your browser\n\nYour username for signing your edits. Write it as a WikiWord (eg JoeBloggs)\n<<option txtUserName>>\n\n<<option chkSaveBackups>> Save backups\n<<option chkAutoSave>> Auto save\n<<option chkRegExpSearch>> Regexp search\n<<option chkCaseSensitiveSearch>> Case sensitive search\n<<option chkAnimate>> Enable animations\n\n----\nAlso see [[TranslatedAdvancedOptions|AdvancedOptions]]",
-	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Change TiddlyWiki advanced options">>',
+	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY" "journal">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options \u00bb" "Change TiddlyWiki advanced options">>',
 	SideBarTabs: '<<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>',
-	TabMore: '<<tabs txtMoreTab "Missing" "Missing tiddlers" TabMoreMissing "Orphans" "Orphaned tiddlers" TabMoreOrphans "Shadowed" "Shadowed tiddlers" TabMoreShadowed>>'});
+	TabMore: '<<tabs txtMoreTab "Missing" "Missing tiddlers" TabMoreMissing "Orphans" "Orphaned tiddlers" TabMoreOrphans "Shadowed" "Shadowed tiddlers" TabMoreShadowed>>'
+	});
 
 merge(config.annotations,{
 	AdvancedOptions: "This shadow tiddler provides access to several advanced options",
@@ -430,7 +463,7 @@ merge(config.annotations,{
 	MarkupPreHead: "This tiddler is inserted at the top of the <head> section of the TiddlyWiki HTML file",
 	MarkupPostHead: "This tiddler is inserted at the bottom of the <head> section of the TiddlyWiki HTML file",
 	MarkupPreBody: "This tiddler is inserted at the top of the <body> section of the TiddlyWiki HTML file",
-	MarkupPostBody: "This tiddler is inserted at the end of the <body> section of the TiddlyWiki HTML file immediately before the script block",
+	MarkupPostBody: "This tiddler is inserted at the end of the <body> section of the TiddlyWiki HTML file immediately after the script block",
 	OptionsPanel: "This shadow tiddler is used as the contents of the options panel slider in the right-hand sidebar",
 	PageTemplate: "The HTML template in this shadow tiddler determines the overall ~TiddlyWiki layout",
 	PluginManager: "This shadow tiddler provides access to the plugin manager",
@@ -439,9 +472,9 @@ merge(config.annotations,{
 	SiteSubtitle: "This shadow tiddler is used as the second part of the page title",
 	SiteTitle: "This shadow tiddler is used as the first part of the page title",
 	SiteUrl: "This shadow tiddler should be set to the full target URL for publication",
-	StyleSheetColours: "This shadow tiddler contains CSS definitions related to the color of page elements",
+	StyleSheetColors: "This shadow tiddler contains CSS definitions related to the color of page elements. ''DO NOT EDIT THIS TIDDLER'', instead make your changes in the StyleSheet shadow tiddler",
 	StyleSheet: "This tiddler can contain custom CSS definitions",
-	StyleSheetLayout: "This shadow tiddler contains CSS definitions related to the layout of page elements",
+	StyleSheetLayout: "This shadow tiddler contains CSS definitions related to the layout of page elements. ''DO NOT EDIT THIS TIDDLER'', instead make your changes in the StyleSheet shadow tiddler",
 	StyleSheetLocale: "This shadow tiddler contains CSS definitions related to the translation locale",
 	StyleSheetPrint: "This shadow tiddler contains CSS definitions for printing",
 	TabAll: "This shadow tiddler contains the contents of the 'All' tab in the right-hand sidebar",
@@ -451,6 +484,7 @@ merge(config.annotations,{
 	TabMoreShadowed: "This shadow tiddler contains the contents of the 'Shadowed' tab in the right-hand sidebar",
 	TabTags: "This shadow tiddler contains the contents of the 'Tags' tab in the right-hand sidebar",
 	TabTimeline: "This shadow tiddler contains the contents of the 'Timeline' tab in the right-hand sidebar",
+	ToolbarCommands: "This shadow tiddler determines which commands are shown in tiddler toolbars",
 	ViewTemplate: "The HTML template in this shadow tiddler determines how tiddlers look"
 	});
 
