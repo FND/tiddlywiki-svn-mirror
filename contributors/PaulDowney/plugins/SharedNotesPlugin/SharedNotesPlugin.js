@@ -75,11 +75,11 @@ console.log("putNotes: no notes to put");
 			if(status) {
 				me.lasttime = me.thistime;
 			}
-displayMessage("notes put callback");
+console.log("notes put callback");
 		};
 		var adaptor = config.adaptors[me.adaptor];
 		if (!adaptor) {
-displayMessage("notes no adaptor");
+console.log("notes no adaptor");
 			return false;
 		}
 
@@ -115,6 +115,7 @@ console.log("putRss failed");
 		if(tiddler.modifier != config.options.txtUserName){
 			tiddler.tags.remove(me.tag.note);
 			tiddler.tags.pushUnique(me.tag.discovered);
+			tiddler.fields.rr_session_id = tiddler.title.replace(/ from.*$/,"");
 		}
 	}
 
