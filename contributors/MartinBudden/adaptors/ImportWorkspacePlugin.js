@@ -135,7 +135,7 @@ config.macros.importWorkspace.createContext = function(fields,filter,userCallbac
 		serverType = fields['wikiformat'];
 	if(!serverType)
 		return false;
-	var adaptor = new config.adaptors[serverType];
+	var adaptor = new config.adaptors[serverType]();
 	if(!adaptor)
 		return false;
 	if(adaptor) {
