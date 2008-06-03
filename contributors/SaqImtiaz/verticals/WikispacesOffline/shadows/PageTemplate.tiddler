@@ -12,6 +12,7 @@
 					<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
 				<!--	<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabsWrapper'></div> -->
 				</div>
+				<h3 id='navheader'>Navigation</h3>
 				<div id='menucontent' refresh='content' tiddler='space.menu'></div>
 			</div>			
 			<div id='mydisplayArea'>

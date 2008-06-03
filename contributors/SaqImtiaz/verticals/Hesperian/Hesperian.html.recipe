@@ -4,3 +4,6 @@ tiddler: tiddlywikiMarkupRules.tiddler
 tiddler: DisabledVillageChildrenFeed.tiddler
 tiddler: settings.js
 tiddler: License.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: RunOnce.js
+tiddler: ImportAndSync.js

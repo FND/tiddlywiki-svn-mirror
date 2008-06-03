@@ -4,6 +4,6 @@
 [[Recent Changes]]
 [[Manage]]
 {{search{<<search search>>}}}
-<<saveChanges 'save local copy'>>
-<<quicksync>></pre>
+''<<saveChanges "save local copy">>''
+''<<importAndSync>>''</pre>
 </div>
