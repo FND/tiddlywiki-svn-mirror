@@ -32,6 +32,7 @@ tiddler: ../../../contributors/PaulDowney/plugins/RawViewMacroPlugin.js
 tiddler: plugins/TaggedTemplateTweak.js
 #tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 tiddler: ../../../contributors/PaulDowney/plugins/SingleMessagePlugin/SingleMessagePlugin.js
+tiddler: ../../../contributors/PaulDowney/plugins/LogMessagePlugin/LogMessagePlugin.js
 
 # Agenda Tracks
 tiddler: ../../../contributors/PaulDowney/plugins/AgendaTrack.js
