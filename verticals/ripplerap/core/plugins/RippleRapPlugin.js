@@ -165,6 +165,19 @@ TiddlyWiki.prototype.search = function(searchRegExp,sortField,excludeTag,match) 
 };
 
 
+// Hijack the close tiddler function to ensure that we put notes on a save.
+version.extensions.RippleRapPlugin.saveTiddler = story.saveTiddler;
+Story.prototype.saveTiddler = function(title,animate,unused){
+
+	//save the tiddler.
+	version.extensions.RippleRapPlugin.saveTiddler.apply(this,arguments);
+
+	//If this was a note tiddler, trigger the upload.
+	var t = store.getTiddler(title);
+	if(t && t.isTagged('notes'))
+		config.macros.RippleRap.putNotes();
+};
+
 
 }
 //}}}
