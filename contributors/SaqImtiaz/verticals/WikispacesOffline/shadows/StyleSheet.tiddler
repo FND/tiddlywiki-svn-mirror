@@ -133,6 +133,11 @@ br.clear-float{
 	padding-top:0em;
 }
 
+#menucontent ul{
+margin-bottom:1em;
+margin-left:0.7em;
+}
+
 .tiddler{
 	background:#F0EFEE;
 	margin-bottom:0;
@@ -189,6 +194,7 @@ br.clear-float{
 .editor textarea {
     border:1px solid [[ColorPalette::TertiaryMid]];
     padding:0.5em;
+    width:98%;
 }
 
 .viewer {

@@ -166,7 +166,7 @@ config.macros.quicksync.getTiddlerCallback = function(context,userParams)
 	if(context.status) {
 		var tiddler = context.tiddler;
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-		story.refreshTiddler(tiddler.title,1,true);
+		//story.refreshTiddler(tiddler.title,1,true);
 		displayMessage(config.macros.quicksync.tiddlerImported.format([context.tiddler.title]));
 	} else {
 		displayMessage(context.statusText);

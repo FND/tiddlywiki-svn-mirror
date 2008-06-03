@@ -28,7 +28,7 @@ prefix: >
 
 !monospaced
 type: text
-label: &equiv
+label: mono
 tooltip: monospaced text
 prefix: {{
 suffix: }}
