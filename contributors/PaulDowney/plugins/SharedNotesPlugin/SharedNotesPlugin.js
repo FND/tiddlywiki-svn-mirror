@@ -20,7 +20,7 @@ config.macros.SharedNotes = {
 
 	tag: { 
 		note: "notes",
-		discovered: "discovered_notes",
+		discovered: "discovered_notes"
 	},
 	busy: false,
 	messages: {
@@ -38,10 +38,8 @@ config.macros.SharedNotes = {
 	},
 
 	putNotes: function() {
-console.log("putNotes: SharedNotes");
 		var me = config.macros.SharedNotes;
 		if(!config.options.chkRippleRapShare) {
-console.log("putNotes: not sharing");
 			return;
 		}
 		if(config.options.txtUserName=='YourName') {
@@ -50,7 +48,6 @@ console.log("putNotes: not sharing");
 			return;
 		}
 		if(me.busy) {
-console.log("putNotes: busy");
 			return;
 		}
 		me.busy = true;
@@ -64,9 +61,7 @@ console.log("putNotes: busy");
 	doPut: function() {
 		var me = config.macros.SharedNotes;
 		var tiddlers = me.getSharedNoteTiddlers();
-console.log("putNotes: doPut");
 		if (!tiddlers) {
-console.log("putNotes: no notes to put");
 			return false;
 		}
 
@@ -75,17 +70,14 @@ console.log("putNotes: no notes to put");
 			if(status) {
 				me.lasttime = me.thistime;
 			}
-console.log("notes put callback");
 		};
 		var adaptor = config.adaptors[me.adaptor];
 		if (!adaptor) {
-console.log("notes no adaptor");
 			return false;
 		}
 
 		var rss = me.serialize(tiddlers);
 		if (!adaptor.putRss(rss,callback,me)) {
-console.log("putRss failed");
 			return false;
 		}
 		return true;
