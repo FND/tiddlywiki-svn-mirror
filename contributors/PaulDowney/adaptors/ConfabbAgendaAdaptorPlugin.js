@@ -44,6 +44,8 @@ getFirstElementValue = function (node, tag, def) {
 ConfabbAgendaAdaptor.parseAgenda = function(text)
 {
 	var tiddlers = [];
+	
+	log("ConfabbAgendaAdaptor.parseAgenda");
 
 	/* 
 	 *  parse XML
