@@ -1,0 +1,5 @@
+# build demo TiddlyWiki
+recipe: ../../../../core/tiddlywiki.html.recipe
+tiddler: LogMessagePlugin.js
+tiddler: DefaultTiddlers.tiddler
+tiddler: LogMessage.tiddler

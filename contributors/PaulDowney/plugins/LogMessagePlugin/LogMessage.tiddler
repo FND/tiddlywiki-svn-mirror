@@ -1,0 +1,5 @@
+<div title="LogMessage" tags="ticker" ticker_interval="2">
+<pre>
+<<LogMessage "hello">>
+</pre>
+</div>
