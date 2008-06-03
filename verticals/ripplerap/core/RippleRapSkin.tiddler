@@ -192,12 +192,13 @@ div.headerControls { position:absolute; bottom:20px; right:10px; color:[[ColorPa
 #mainMenu span.search .txtOptionInput { margin:3px; padding:0px 4px 2px 4px; font-size:0.95em; border-style:none; border-top:2px solid [[RippleRapColors::Bright]];}
 
 /* message bar */
-#messageBar { display:block; position:relative; width:100%; margin:0; background-color:[[RippleRapColors::Brighter]]; height:1.6em; font-size:11px; }
-#messageArea > div { float:right; padding:1px 0; font-weight:bold; color:[[RippleRapColors::Darkish]]; }
-#messageBar #messageArea { position:absolute; top:0; right:0; padding:0; margin:0; line-height:1.3em; border-style:none; background-color:transparent;  }
+#messageBar {display:block; position:relative; width:100%; margin:0; background-color:[[RippleRapColors::Brighter]]; height:1.6em; font-size:11px; }
+#messageArea { border:solid 1px red; position:absolute; top:0; right:0; padding:0; margin:0; border-style:none; background-color:transparent;} 
+#messageArea div { margin-right:5em; padding:3px 0 0 0;}
+#messageArea div.messageToolbar { position:absolute; top:0; right:0; padding:0; margin:0;}
 #messageArea a { color:[[RippleRapColors::Dark]]; text-decoration:none; }
 #messageArea a:hover { color:[[RippleRapColors::Secondary]]; text-decoration:none; }
-#messageArea .button {background-color:[[RippleRapColors::Mid]]; color:[[RippleRapColors::Dark]]; display:inline;  margin:0 0 0 1em; padding:3px 6px;}
+#messageArea .button { float:right; background-color:[[RippleRapColors::Mid]]; color:[[RippleRapColors::Dark]]; margin:0 0 0 1em; padding:3px 6px; }
 #messageArea .button:hover {background-color:[[RippleRapColors::Accent]]; color:[[RippleRapColors::Brightest]];}
 
 /* Buttons */
