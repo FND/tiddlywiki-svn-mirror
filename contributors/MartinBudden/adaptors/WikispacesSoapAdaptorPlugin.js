@@ -118,12 +118,29 @@ WikispacesSoapAdaptor.prototype.complete = function(context,fn)
 WikispacesSoapAdaptor.prototype.login = function(context)
 {
 fnLog('login:'+context.host);
-// http://www.wikispaces.com/site/api?wsdl
+	if(config.options.txtWikispacesUsername && config.options.txtWikispacesPassword) {
+		context.username = config.options.txtWikispacesUsername;
+		context.password = config.options.txtWikispacesPassword;
+		WikispacesSoapAdaptor.loginPromptCallback(context);
+	} else if(context.loginPromptFn) {
+		context.loginPromptCallback = WikispacesSoapAdaptor.loginPromptCallback;
+		context.loginPromptFn(context);
+	} else {
+		return false;
+	}
+	return true;
+};
+
+WikispacesSoapAdaptor.loginPromptCallback = function(context)
+{
+fnLog('loginPromptCallback');
 	var uri = WikispacesSoapAdaptor.SoapUri(context,'%0site/api');
 //#fnLog('uri:'+uri);
 	var pl = new SOAPClientParameters();
-	pl.add('username',config.options.txtWikispacesUsername);
-	pl.add('password',config.options.txtWikispacesPassword);
+	config.options.txtWikispacesUsername = context.username;
+	config.options.txtWikispacesPassword = context.password;
+	pl.add('username',context.username);
+	pl.add('password',context.password);
 	SOAPClient.invoke(uri,'login',pl,true,WikispacesSoapAdaptor.loginCallback,context);
 	return true;
 };
