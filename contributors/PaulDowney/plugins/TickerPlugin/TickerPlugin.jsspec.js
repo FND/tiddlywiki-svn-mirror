@@ -16,14 +16,17 @@ describe('TickerPlugin Initialisation', {
 	'plugin is present' : function() {
 		value_of(version.extensions.TickerPlugin.installed).should_be(true);
 	},
+	'config.options.txtTickerMinInterval defaults to one second' : function() {
+		value_of(config.options.txtTickerMinInterval).should_be(1);
+	},
 	'config.options.txtTickerInterval defaults to one minute' : function() {
 		value_of(config.options.txtTickerInterval).should_be(60);
 	},
 	'config.optionsDesc.txtTickerInterval text' : function() {
 		value_of(config.optionsDesc.txtTickerInterval).should_match(/in seconds/);
 	},
-	'config.macros.Ticker is enabled by default' : function() {
-		value_of(config.macros.Ticker.enabled).should_be(true);
+	'config.macros.Ticker is not disabled by default' : function() {
+		value_of(config.macros.Ticker.disabled).should_be(false);
 	}
 });
 
