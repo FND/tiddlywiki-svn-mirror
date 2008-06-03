@@ -35,7 +35,10 @@ config.macros.importWorkspace = {};
 merge(config.macros.importWorkspace,{
 	label: "import workspace",
 	prompt: "Import tiddlers in workspace",
-	done: "Tiddlers imported"});
+	done: "Tiddlers imported",
+	usernamePrompt: "Username",
+	passwordPrompt: "Password"
+	});
 
 
 config.macros.importWorkspace.init = function()
@@ -147,13 +150,23 @@ config.macros.importWorkspace.createContext = function(fields,filter,userCallbac
 	return false;
 };
 
+config.macros.importWorkspace.loginPromptFn = function(context)
+{
+//#console.log("loginPromptFn");
+	context.username = prompt(config.macros.importWorkspace.usernamePrompt,'');
+	context.password = prompt(config.macros.importWorkspace.passwordPrompt,'');
+	if(context.loginPromptCallback) {
+		context.loginPromptCallback(context);
+	}
+};
+
 config.macros.importWorkspace.getTiddlersForContext = function(context)
 {
+//#console.log("getTiddlersForContext");
 	if(context) {
+		context.loginPromptFn = config.macros.importWorkspace.loginPromptFn;
 		context.adaptor.openHost(context.host,context);
-		//context.adaptor.getWorkspaceList(context,null,config.macros.importWorkspace.getWorkspaceListCallback);
 		context.adaptor.openWorkspace(context.workspace,context,null,config.macros.importWorkspace.openWorkspaceCallback);
-		//context.adaptor.getTiddlerList(context);
 		return true;
 	}
 	return false;
@@ -171,7 +184,7 @@ config.macros.importWorkspace.openWorkspaceCallback = function(context,userParam
 
 config.macros.importWorkspace.getTiddlerListCallback = function(context,userParams)
 {
-//#displayMessage("config.macros.importWorkspace.getTiddlerListCallback:"+context.status);
+//#console.log("config.macros.importWorkspace.getTiddlerListCallback:"+context.status);
 	if(context.status) {
 		var tiddlers = context.tiddlers;
 		var sortField = 'modified';
@@ -194,7 +207,7 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 
 config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
 {
-//#displayMessage("config.macros.importWorkspace.getTiddlerCallback:"+context.status+" t:"+context.tiddler.title);
+//#console.log("config.macros.importWorkspace.getTiddlerCallback:"+context.status+" t:"+context.tiddler.title);
 	if(context.status) {
 		var tiddler = context.tiddler;
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
