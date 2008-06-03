@@ -31,8 +31,8 @@ String.prototype.makeId = function() {
 	return this.replace(/[^A-Za-z0-9]+/g, "");
 }
 
-Node.prototype.getFirstElementValue = function (tag, def) {
-	var e = this.getElementsByTagName(tag);
+getFirstElementValue = function (node, tag, def) {
+	var e = node.getElementsByTagName(tag);
 	if (e && e.length && e[0].textContent)
 	    return e[0].textContent
 	return def;
@@ -77,10 +77,10 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 		var tiddler = new Tiddler();
 
 		var id = node.getAttribute('id');
-		var day = "Day" + node.getFirstElementValue("day","ly");
-		var track = node.getFirstElementValue("track","Global Track");
-		var location = node.getFirstElementValue("location","Global Location");
-		var content = node.getFirstElementValue("description","");
+		var day = "Day" + getFirstElementValue(node, "day","ly");
+		var track = getFirstElementValue(node, "track","Global Track");
+		var location = getFirstElementValue(node, "location","Global Location");
+		var content = getFirstElementValue(node, "description","");
 
 		var tags = ['session'];
 		tags.push(track.makeId());
@@ -91,17 +91,17 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 		var s = node.getElementsByTagName("speaker");
 		var speakers = [];
 		for(var j=0;j<s.length;j++) {
-		       var speaker = s[j].getFirstElementValue("title");
+		       var speaker = getFirstElementValue(s[j],"title");
 		       speakers.push(speaker);
 		       tags.push(speaker.makeId());
 		}
 
 		tiddler.assign(id,content,undefined,undefined,tags,undefined,{
-			rr_session_title: node.getFirstElementValue("title",""),
+			rr_session_title: getFirstElementValue(node,"title",""),
 			rr_session_id: id,
-			rr_session_starttime: node.getFirstElementValue("starttime",""),
-			rr_session_endtime: node.getFirstElementValue("endtime",""),
-			rr_session_link: node.getFirstElementValue("link",""),
+			rr_session_starttime: getFirstElementValue(node,"starttime",""),
+			rr_session_endtime: getFirstElementValue(node,"endtime",""),
+			rr_session_link: getFirstElementValue(node,"link",""),
 			rr_session_day: day,
 			rr_session_location: location,
 			rr_session_track: track,
@@ -116,7 +116,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 	var speakers = {};
 	var t = r.getElementsByTagName('speaker');
 	for(var i=0;i<t.length;i++) {
-		var name = t[i].getFirstElementValue("title","speaker");
+		var name = getFirstElementValue(t[i],"title","speaker");
 		speakers[name] = name;
 	}
 

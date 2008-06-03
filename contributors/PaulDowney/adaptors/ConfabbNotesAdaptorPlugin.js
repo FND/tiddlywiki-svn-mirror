@@ -9,7 +9,7 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''~CoreVersion:''|2.4.0|
 
-a minimal Adaptor to put a set of notes serialized as RSS/Atom on Confabb.com
+Minimal Adaptor to put a set of notes serialized as RSS/Atom on Confabb.com
 
 ***/
 
