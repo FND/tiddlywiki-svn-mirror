@@ -14,6 +14,8 @@
 if(!version.extensions.RippleRapPlugin) {
 version.extensions.RippleRapPlugin = {installed:true};
 
+config.options.chkTickerEval = true;
+
 config.macros.RippleRap = {};
 config.macros.RippleRap.agenda = {};
 

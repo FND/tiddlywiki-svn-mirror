@@ -1,3 +1,3 @@
-<div title="TickerGetAgenda" modifier="PaulDowney" created="200711261027" tags="ticker javascript excludeLists excludeSearch" ticker_interval="600">
+<div title="TickerGetAgenda" modifier="PaulDowney" created="200711261027" tags="ticker javaScript excludeLists excludeSearch" ticker_interval="600">
 <pre>config.macros.RippleRap.getAgenda();</pre>
 </div>
