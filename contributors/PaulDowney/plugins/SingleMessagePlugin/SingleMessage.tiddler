@@ -1,0 +1,5 @@
+<div title="SingleMessage" tags="ticker" ticker_interval="2">
+<pre>
+<<SingleMessage "hello">>
+</pre>
+</div>

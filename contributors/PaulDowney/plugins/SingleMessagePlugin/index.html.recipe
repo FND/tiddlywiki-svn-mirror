@@ -1,0 +1,5 @@
+# build demo TiddlyWiki
+recipe: ../../../../core/tiddlywiki.html.recipe
+tiddler: SingleMessagePlugin.js
+tiddler: DefaultTiddlers.tiddler
+tiddler: SingleMessage.tiddler
