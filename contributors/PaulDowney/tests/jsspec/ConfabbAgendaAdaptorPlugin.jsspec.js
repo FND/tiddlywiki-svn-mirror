@@ -93,7 +93,7 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 		    +'</conference>';
 		__tiddlers = ConfabbAgendaAdaptor.parseAgenda(__doc);
         },
-	'should result in two tiddlers' : function() {
+	'should result in tiddlers' : function() {
 		value_of(__tiddlers.length).should_be(4);
 	},
 
@@ -168,5 +168,111 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 
 });
 
+describe('ConfabbAgendaAdaptorPlugin parsing les blogs', {
+
+        before_each : function() {
+		__doc = '<?xml version="1.0" encoding="UTF-8"?>'
++'<conference>'
++'  <title>Les Blogs 2 Sessions</title>'
++'  <link>http://staging.confabb.com/conferences/16574-les-blogs-2/sessions</link>'
++'  <description>Sessions for Les Blogs 2</description>'
++'  <session id="16574-672">'
++'    <title>Naked Conversations</title>'
++'    <link>http://staging.confabb.com/conferences/16574-les-blogs-2/sessions/672/details</link>'
++'    <description>A discussion about blogs and "naked conversations" and how blogs are overtaking the mainstream media as influencers.</description>'
++'    <starttime>20051205094508</starttime>'
++'    <endtime>20051205103008</endtime>'
++'    <day>1</day>'
++'    <track>Corporate World</track>'
++'    <location></location>'
++'    <guid>http://staging.confabb.com/conferences/16574-les-blogs-2/sessions/672/details</guid>'
++'    <speaker>'
++'      <title>Robert Scoble</title>'
++'    </speaker>'
++'    <speaker>'
++'      <title>Shel Israel</title>'
++'    </speaker>'
++'  </session>'
++'  <session id="16574-318">'
++'    <title>Investing 2.0 : The Good, The Bad and The Ugly</title>'
++'    <link>http://staging.confabb.com/conferences/16574-les-blogs-2/sessions/318/details</link>'
++'    <description>Social Media and more broadly, Web 2.0, have seen a flurry of activity over the past 18 months: startups creation, VC financing, mergers and acquisitions, established players jumping in the fray,... This panel, made up of key witnesses of the Web 2.0 phenomena, will take a retrospective, and sarcastic, look at key trends in this "frothy" market, and where it might go from there.'
++''
++'    * David Hornik, August Capital, USA'
++'    * Tristan Nitot, Mozilla Europe, France'
++'    * Jeff Clavier, Softtech VC, USA</description>'
++'    <starttime>20051205160044</starttime>'
++'    <endtime>20051205170044</endtime>'
++'    <day>1</day>'
++'    <track></track>'
++'    <location></location>'
++'    <guid>http://staging.confabb.com/conferences/16574-les-blogs-2/sessions/318/details</guid>'
++'    <speaker>'
++'      <title>David Hornik</title>'
++'    </speaker>'
++'    <speaker>'
++'      <title>Tristan Nitot</title>'
++'    </speaker>'
++'    <speaker>'
++'      <title>Jeff Clavier</title>'
++'    </speaker>'
++'  </session>'
++'  <session id="16574-489">'
++'    <title>Tracking/Listening to the Online World</title>'
++'    <link>http://staging.confabb.com/conferences/16574-les-blogs-2/sessions/489/details</link>'
++'    <description>No one can afford to be blind and deaf in this new online world. Our panelists will discuss the current state of the art for tracking what is happening in the blogosphere, giving tips and advice on how to keep up with the rapid changes in technology. '
++''
++'Moderated by Guillaume du Gardier '
++'* Mark Rogers, CEO, Market Sentinel, UK '
++'* Salim Ismail, CEO, PubSub, USA '
++'* David Sifry, CEO, Technorati, USA '
++'* Yann Motte, VP Product Management, Yahoo! Europe, U.K. '
++'* Mark Fletcher, Founder, Bloglines, USA</description>'
++'    <starttime>20051206144522</starttime>'
++'    <endtime>20051206154522</endtime>'
++'    <day>2</day>'
++'    <track></track>'
++'    <location></location>'
++'    <guid>http://staging.confabb.com/conferences/16574-les-blogs-2/sessions/489/details</guid>'
++'    <speaker user-id="7">'
++'      <title> Salim Ismail</title>'
++'      <link>http://staging.confabb.com/users/profile/salim</link>'
++'    </speaker>'
++'    <speaker>'
++'      <title>Mark Rogers</title>'
++'    </speaker>'
++'    <speaker>'
++'      <title>David Sifry</title>'
++'    </speaker>'
++'    <speaker>'
++'      <title>Yann Motte</title>'
++'    </speaker>'
++'    <speaker>'
++'      <title>Mark Fletcher</title>'
++'    </speaker>'
++'  </session>'
++'  <vcard user-id="7">'
++'    <fn>Salim Ismail</fn>'
++'    <profile>http://staging.confabb.com/users/profile/salim</profile>'
++'    <url>http://confabb.com</url>'
++'    <bio>Salim Ismail is a successful angel investor and entrepreneur, and is a frequent speaker on internet technologies, private equity, entrepreneurship and Salim blogs at www.salimismail.com.'
++''
++'Salim currently runs the Yahoo! Brickhouse, Yahoo\'s internal \'ideas factory\' and its answer to the tiny, nimble shops that have nipped at its heels in recent years.'
++'</bio>'
++'    <photo>/user/photo/7/SI_head_shot.JPG</photo>'
++'    <job-title>Chairman</job-title>'
++'    <employer>Confabb</employer>'
++'    <blog>http://salimismail.com</blog>'
++'  </vcard>'
++'</conference>'
+	},
+
+	'should result in tiddlers' : function() {
+		value_of(__tiddlers.length).should_be(4);
+	},
+
+});
+
 
 // ]]>
+

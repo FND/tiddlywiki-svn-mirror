@@ -32,16 +32,11 @@ String.prototype.makeId = function() {
 };
 
 getFirstElementValue = function (node, tag, def) {
-	var e = node.getElementsByTagName(tag);
-	if (e && e.length && e[0].textContent)
-	    return e[0].textContent;
-	return def;
-};
-
-getFirstElementValue = function (node, tag, def) {
-	var e = node.getElementsByTagName(tag);
-	if (e && e.length && e[0].textContent)
-	    return e[0].textContent;
+	if (node){
+		var e = node.getElementsByTagName(tag);
+		if (e && e.length && e[0].textContent)
+		    return e[0].textContent;
+	}
 	return def;
 };
 
@@ -123,8 +118,8 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 	 *  build Speaker tiddlers
 	 */
 	speakers = {};
-	var len = r.getElementsByTagName('speaker').length;
-	for(i=0;i<len;i++) {
+	var t = r.getElementsByTagName('speaker');
+	for(i=0;i<t.length;i++) {
 		var name = getFirstElementValue(t[i],"title","speaker");
 		speakers[name] = name;
 	}
