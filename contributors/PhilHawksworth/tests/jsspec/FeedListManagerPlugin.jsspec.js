@@ -17,9 +17,9 @@ describe('New FeedListManager creation', {
 		var flm = new FeedListManager();
 		value_of(flm.lastIncrement == null).should_be_true();
 	},
-	'A new FeedListManager should include an updating property of false': function() {
+	'A new FeedListManager should include an busy property of false': function() {
 		var flm = new FeedListManager();
-		value_of(flm.updating == false).should_be_true();
+		value_of(flm.busy == false).should_be_true();
 	},
 	'A new FeedListManager should include an empty requests array': function() {
 		var flm = new FeedListManager();
@@ -72,6 +72,40 @@ describe('Manipulating a FeedListManager', {
 		var l = flm.count();
 		value_of(l).should_be(0);
 	}
+});
+
+describe('FeedListManagerPlugin : querying', {
+
+	before_each: function(){
+		flm = new FeedListManager();
+		flm.add("http://www.uri1.com", 'sample uri 1', "rss");
+		flm.add("http://www.uri2.com", 'sample uri 2', "rss");
+		flm.add("http://www.uri3.com", 'sample uri 3', "rss");
+	},
+
+	'getUriObjByName() returns null if the named item is not found' : function() {
+		var uri = flm.getUriObjByName('dudd name');
+		value_of(uri).should_be_null();
+	},
+
+	'getUriObjByName() returns the correct uri object from the list' : function() {
+		var u = flm.getUriObjByName('sample uri 2');
+		value_of(u.uri).should_be("http://www.uri2.com");
+	},
+
+	'Prioritise(name) does nothing if if the named item is not found  ' : function() {
+		var u = flm.prioritise('dudd name');
+		var firstItemName = flm.uris[0].name;
+		value_of(firstItemName).should_be('sample uri 1');
+	},
+
+	'Prioritise(name) send the named uri object to the start of the list  ' : function() {
+		var u = flm.prioritise('sample uri 2');
+		var firstItemName = flm.uris[0].name;
+		value_of(firstItemName).should_be('sample uri 2');
+	}
+
+
 });
 
 
