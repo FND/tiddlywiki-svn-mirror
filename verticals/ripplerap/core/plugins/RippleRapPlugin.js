@@ -36,7 +36,8 @@ config.macros.RippleRap.init = function(){
 		break;
 	}
 	
-	me.feedListManager.populate();
+	//Populate the feedlistmanager and prioritise the active user's feed for first retrieval.
+	me.feedListManager.populate(me.feedListManager.prioritise, config.options.txtUserName);
 };
 
 /*
@@ -56,9 +57,9 @@ config.macros.RippleRap.getNotes = function() {
 	log("config.macros.RippleRap.getNotes");
  	var uri = config.macros.RippleRap.feedListManager.next();
 	if (uri) {
+		log("getting notes from " + uri);
 		config.macros.importWorkspace.getTiddlers(uri, "rss", null, null, config.macros.SharedNotes.tagNoteAdaptorCallback);
 	}
-
 };
 
 config.macros.RippleRap.populateNotes = function() {
