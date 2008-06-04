@@ -2,30 +2,33 @@
      +---------------+           | plugins       |           +---------------+
      | tags          |           +---------------+           | userTags      |
      +---------------+     +-----| $ID           |-----+     +---------------+
-     | plugin_ID     |-----+  +--| repository_ID |     +-----| plugin_ID     |
-     | name          |     |  |  | available     |     |     | name          |
+     | $plugin_ID    |-----+  +--| repository_ID |     +-----| $plugin_ID    |
+     | $name         |     |  |  | available     |     |     | $name         |
      +---------------+     |  |  | name          |     |     +---------------+
                            |  |  | created       |     |
      +---------------+     |  |  | modified      |     |     +---------------+
      | tiddlerFields |     |  |  | modifier      |     |     | ratings       |
      +---------------+     |  |  | updated       |     |     +---------------+
-     | plugin_ID     |-----+  |  | text          |     |     | $ID           |
-     | name          |     |  |  | documentation |     +-----| plugin_ID     |
+     | $plugin_ID    |-----+  |  | text          |     |     | $ID           |
+     | $name         |     |  |  | documentation |     +-----| plugin_ID     |
      | value         |     |  |  | code          |     |     | IP_address    |
      +---------------+     |  |  | views         |     |     | timestamp     |
                            |  |  | annotation    |     |     | value         |
      +---------------+     |  |  +---------------+     |     +---------------+
      | metaslices    |     |  |                        |
      +---------------+     |  |  +---------------+     |     +---------------+
-     | plugin_ID     |-----+  |  | repositories  |     |     | comments      |
-     | name          |     |  |  +---------------+     |     +---------------+
+     | $plugin_ID    |-----+  |  | repositories  |     |     | comments      |
+     | $name         |     |  |  +---------------+     |     +---------------+
      | value         |     |  +--| $ID           |     |     | $ID           |
      +---------------+     |     | URI           |     +-----| plugin_ID     |
                            |     | type          |           | IP_address    |
      +---------------+     |     | name          |           | timestamp     |
      | keywords      |     |     | contact       |           | author        |
      +---------------+     |     | added         |           | text          |
-     | plugin_ID     |-----+     | updated       |           +---------------+
-     | name          |           | skipped       |
+     | $plugin_ID    |-----+     | updated       |           +---------------+
+     | $name         |           | skipped       |
      +---------------+           | disabled      |
                                  +---------------+
+
+Legend:
+$    primary key

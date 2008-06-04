@@ -30,29 +30,34 @@ CREATE TABLE pluginLibrary.plugins (
 
 CREATE TABLE pluginLibrary.tags (
 	plugin_ID INT NOT NULL ,
-	name TEXT NOT NULL
+	name TEXT NOT NULL,
+	PRIMARY KEY ( plugin_ID, name )
 ) ENGINE = MYISAM;
 
 CREATE TABLE pluginLibrary.tiddlerFields (
 	plugin_ID INT NOT NULL ,
 	name TEXT NOT NULL ,
-	value TEXT NOT NULL
+	value TEXT NOT NULL,
+	PRIMARY KEY ( plugin_ID, name )
 ) ENGINE = MYISAM;
 
 CREATE TABLE pluginLibrary.metaslices (
 	plugin_ID INT NOT NULL ,
 	name TEXT NOT NULL ,
-	value TEXT NOT NULL
+	value TEXT NOT NULL,
+	PRIMARY KEY ( plugin_ID, name )
 ) ENGINE = MYISAM;
 
 CREATE TABLE pluginLibrary.keywords (
 	plugin_ID INT NOT NULL ,
-	name TEXT NOT NULL
+	name TEXT NOT NULL,
+	PRIMARY KEY ( plugin_ID, name )
 ) ENGINE = MYISAM;
 
 CREATE TABLE pluginLibrary.userTags (
 	plugin_ID INT NOT NULL ,
-	name TEXT NOT NULL
+	name TEXT NOT NULL,
+	PRIMARY KEY ( plugin_ID, name )
 ) ENGINE = MYISAM;
 
 CREATE TABLE pluginLibrary.ratings (
