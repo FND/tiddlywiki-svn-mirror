@@ -323,7 +323,7 @@ $db_var['error']['query'] = " query: ";*/
 		global $tiddlyCfg;
 		global $ccT_msg;
 			//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
-			$q= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE ";
+			$start= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE ";
 			
 			if($tiddlyCfg['table']['workspace_skin'] !== 'none' && !$skin)
 			{
@@ -333,9 +333,10 @@ $db_var['error']['query'] = " query: ";*/
 			{
 				$q.= "  workspace_name='".$skin."'";
 			}
-					//if($tiddlyCfg['table']['workspace_skin'] !== 'none')
-					//	$q .=" or ";
-			error_log(">>>>>>>>>>>: ".$q);
+			if (!$q)
+				return false;
+			$q = $start.$q;
+			error_log($q);
 			$result = mysql_query($q) or die($ccT_msg['db']['word_error'].mysql_error());
 			return $result;
 	}

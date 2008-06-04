@@ -130,13 +130,16 @@ function getSkinTiddlers($skin="")
 	$tiddlers = db_tiddlers_mainSelectSkin($skin);
 	//fetch tiddlers and output ones that the user has read privilege
 	$return_tiddlers = array();
-	while( $t = db_fetch_assoc($tiddlers) )
+	if ($tiddlers)
 	{
-		//obtain privilege from tag
-		//move tiddlers to another array
-		if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
+		while( $t = db_fetch_assoc($tiddlers) )
 		{
-			$return_tiddlers[$t['title']] = $t;
+			//obtain privilege from tag
+			//move tiddlers to another array
+			if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) )
+			{
+				$return_tiddlers[$t['title']] = $t;
+			}
 		}
 	}
 	return $return_tiddlers;		//tiddlers would be in the form array("<title>"=>array("title"=>"<title>", .....
