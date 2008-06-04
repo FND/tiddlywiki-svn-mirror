@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js |
-|''Version:''|0.5.6|
+|''Version:''|0.5.7|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -31,7 +31,7 @@ function getServerType(fields)
 
 function invokeAdaptor(fnName,param1,param2,context,userParams,callback,fields)
 {
-//#displayMessage("invokeAdaptor:"+fnName);
+//#console.log("invokeAdaptor:"+fnName);
 	var serverType = getServerType(fields);
 	if(!serverType)
 		return null;
@@ -42,10 +42,12 @@ function invokeAdaptor(fnName,param1,param2,context,userParams,callback,fields)
 		return false;
 	adaptor.openHost(fields['server.host']);
 	adaptor.openWorkspace(fields['server.workspace']);
+	var ret = false;
 	if(param1)
-		var ret = param2 ? adaptor[fnName](param1,param2,context,userParams,callback) : adaptor[fnName](param1,context,userParams,callback);
+		ret = param2 ? adaptor[fnName](param1,param2,context,userParams,callback) : adaptor[fnName](param1,context,userParams,callback);
 	else
 		ret = adaptor[fnName](context,userParams,callback);
+	
 	//adaptor.close();
 	//delete adaptor;
 	return ret;
@@ -58,6 +60,8 @@ function isAdaptorFunctionSupported(fnName,fields)
 //#displayMessage("isAdaptorFunctionSupported:"+fnName);
 	var serverType = getServerType(fields);
 	if(!serverType || !config.adaptors[serverType])
+		return false;
+	if(!fields['server.host'])
 		return false;
 	var fn = config.adaptors[serverType].prototype[fnName];
 	return fn ? true : false;
@@ -121,7 +125,7 @@ config.commands.putTiddler.isEnabled = function(tiddler)
 
 config.commands.putTiddler.handler = function(event,src,title)
 {
-//#displayMessage("config.commands.putTiddler.handler:"+title);
+//#console.log("config.commands.putTiddler.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
 		return false;
@@ -130,7 +134,7 @@ config.commands.putTiddler.handler = function(event,src,title)
 
 config.commands.putTiddler.callback = function(context,userParams)
 {
-//#displayMessage("config.commands.putTiddler.callback:"+context.tiddler.title);
+//#console.log("config.commands.putTiddler.callback:"+context.tiddler.title);
 	if(context.status) {
 		store.fetchTiddler(context.title).clearChangeCount();
 		displayMessage(config.commands.putTiddler.done);
