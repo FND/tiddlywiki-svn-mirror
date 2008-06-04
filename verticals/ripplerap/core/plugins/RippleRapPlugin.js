@@ -39,7 +39,7 @@ config.macros.RippleRap.init = function(){
 	}
 	
 	//Populate the feedlistmanager and prioritise the active user's feed for first retrieval.
-	me.feedListManager.populate(me.feedListManager.prioritise, config.options.txtUserName);
+	me.feedListManager.populate(me.feedListManager.prioritise, config.options.txtSharedNotesUserName);
 };
 
 /*
@@ -76,7 +76,7 @@ config.macros.RippleRap.populateNotes = function() {
 config.macros.RefreshAgenda = {};
 config.macros.RefreshAgenda.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
                 var me = config.macros.RippleRap;
-                var button = createTiddlyButton(place,'GET AGENDA','Click here to download the Agenda',me.getAgenda);
+                var button = createTiddlyButton(place,'Download the conference agenda','Click here to download the Agenda',me.getAgenda);
 };
 
 config.macros.ShareNotes = {};
