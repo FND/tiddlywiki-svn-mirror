@@ -1,5 +1,7 @@
 <div title="LogMessage" tags="ticker" ticker_interval="2">
 <pre>
 <<LogMessage "hello">>
+<<LogMessage "hello" "folks">>
+<<LogMessage "hello" "folks"  {{ new Date(); }}>>
 </pre>
 </div>

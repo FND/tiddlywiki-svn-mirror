@@ -14,7 +14,7 @@ Options:
 ***/
 
 //{{{
-if(!version.extensions.LogMessage) {
+if(!version.extensions.LogMessage){
 version.extensions.LogMessage = {installed:true};
 
 	config.options.chkLogMessageEnabled = true;
@@ -24,28 +24,27 @@ version.extensions.LogMessage = {installed:true};
 	
 	config.macros.LogMessage = { 
 
-		log: function(message){
-			if (!config.options.chkLogMessageEnabled) {
+		log: function(){
+			if (!config.options.chkLogMessageEnabled){
 				return;
 			}
-			if (console) {
-				console.log(message);
+			if (console){
+				console.log(arguments);
 				return;
 			}
+			var message = arguments.join(",");
 			if (config.options.chkLogMessageWindow){
 				var me = config.macros.LogMessage;
-				me.logWindow(message);
-				return;
+				me.logWindow(messages);
 			}
 			displayMessage(message);
 		},
 
 		logWindow: function(message){
 			var me = config.macros.LogMessage;
-			if (!me.window_ || me.window_.closed) {
-				var win = window.open("", null, "width=400,height=200," +
-						  "scrollbars=yes,resizable=yes,status=no," +
-						  "location=no,menubar=no,toolbar=no");
+			if (!me.window_ || me.window_.closed){
+				var win = window.open("", null, "width=400,height=200,scrollbars=yes,"+
+					"resizable=yes,status=no,location=no,menubar=no,toolbar=no");
 				if (!win) 
 					return;
 				var doc = win.document;
@@ -60,7 +59,7 @@ version.extensions.LogMessage = {installed:true};
 
 		handler: function(place,macroName,params,wikifier,paramString,tiddler){
 			var me = config.macros.LogMessage;
-			me.log(params.join(","));
+			me.log(params);
 		}
 	};
 
