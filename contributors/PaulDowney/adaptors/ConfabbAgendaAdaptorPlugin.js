@@ -193,9 +193,9 @@ ConfabbAgendaAdaptor.prototype.openHost = function(host,context,userParams,callb
 
 ConfabbAgendaAdaptor.loadTiddlyWikiCallback = function(status,context,responseText,url,xhr)
 {
-//#console.log('loadTiddlyWikiCallback:'+status);
-//#console.log(responseText);
-//#console.log(xhr.responseXML);
+	log('loadTiddlyWikiCallback:',status,xhr);
+	//log(responseText);
+	//log(xhr.responseXML);
 	context.status = status;
 	if(!status) {
 		context.statusText = "Error reading agenda file";
