@@ -23,8 +23,8 @@ config.macros.SharedNotes = {
 		discovered: "discovered_notes"
 	},
 	busy: false,
-	messages: {
-		userNameNotSet: 'to share notes you should set your UserName'
+	help: {
+		missingUserName: 'SharedNotesUserName'
 	},
 	thistime: 0,
 	lasttime: 0,
@@ -42,9 +42,10 @@ config.macros.SharedNotes = {
 		if(!config.options.chkRippleRapShare) {
 			return;
 		}
-		if(config.options.txtUserName=='YourName') {
-			clearMessage();
-			displayMessage(me.messages.userNameNotSet);
+		if(config.options.txtSharedNotesUserName=='YourName') {
+			if (me.help.missingUsername){
+				story.displayTiddler("top",me.help.missingUserName);
+			}
 			return;
 		}
 		if(me.busy) {
@@ -76,7 +77,7 @@ config.macros.SharedNotes = {
 			return false;
 		}
 
-		var rss = me.serialize(tiddlers);
+		var rss = me.serialize(tiddlers,{});
 		if (!adaptor.putRss(rss,callback,me)) {
 			return false;
 		}
@@ -101,10 +102,25 @@ config.macros.SharedNotes = {
 		return tiddlers;
 	},
 
+	getNotes: function(uri,UserName) {
+		log("getNotes:",uri,UserName);
+                config.macros.importWorkspace.getTiddlers(uri,"rss",null,null,config.macros.SharedNotes.tagNoteAdaptorCallback,UserName);
+	},
+
 	tagNoteAdaptorCallback: function(context,userParams) {
+		log("tagNoteAdaptorCallback",context,userParams);
+
 		var me = config.macros.SharedNotes;
 		var tiddler = context.tiddler;
-		if(tiddler.modifier != config.options.txtUserName){
+
+		log("context.userParams:", userParams);
+
+		if (context.userParams) {
+			tiddler.modifier = context.userParams;
+		}
+
+		displayMessage("importing notes from " + tiddler.modifier);
+		if(tiddler.modifier != config.options.txtSharedNotesUserName){
 			tiddler.tags.remove(me.tag.note);
 			tiddler.tags.pushUnique(me.tag.discovered);
 		}

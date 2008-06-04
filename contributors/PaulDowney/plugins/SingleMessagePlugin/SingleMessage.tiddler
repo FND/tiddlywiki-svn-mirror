@@ -1,5 +1,8 @@
 <div title="SingleMessage" tags="ticker" ticker_interval="2">
 <pre>
 <<SingleMessage "hello">>
+<<SingleMessage {{new Date()}}>>
+<<SingleMessage "goodbye">>
+<<SingleMessage {{new Date()}}>>
 </pre>
 </div>
