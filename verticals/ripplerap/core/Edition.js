@@ -9,4 +9,7 @@ config.options.txtRippleRapConferenceName = "";
 // RippleRap Conference URI
 config.options.txtRippleRapConferenceURI = "";
 
+// SharedNotes UserName
+config.options.txtSharedNotesUserName = "";
+
 //}}}

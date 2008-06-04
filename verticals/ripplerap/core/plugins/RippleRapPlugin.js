@@ -57,10 +57,10 @@ config.macros.RippleRap.putNotes = function() {
 
 config.macros.RippleRap.getNotes = function() {
 	log("config.macros.RippleRap.getNotes");
- 	var uri = config.macros.RippleRap.feedListManager.next();
-	if (uri) {
-		log("getting notes from " + uri);
-		config.macros.importWorkspace.getTiddlers(uri, "rss", null, null, config.macros.SharedNotes.tagNoteAdaptorCallback);
+ 	var feed = config.macros.RippleRap.feedListManager.nextUriObj();
+	if (feed) {
+		log("getting notes from:", feed.uri, feed.name);
+		config.macros.SharedNotes.getNotes(feed.uri,feed.name);
 	}
 };
 
