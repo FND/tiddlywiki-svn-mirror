@@ -43,6 +43,7 @@ tiddler: AgendaMenu.tiddler
 tiddler: ../../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js
 tiddler: ../../../contributors/PaulDowney/adaptors/ConfabbAgendaAdaptorPlugin.js
+tiddler: ../../../contributors/PaulDowney/adaptors/LoginToConfabb.tiddler
 
 # Sharing Notes
 tiddler: ../../../contributors/PaulDowney/plugins/SharedNotesPlugin/SharedNotesPlugin.js

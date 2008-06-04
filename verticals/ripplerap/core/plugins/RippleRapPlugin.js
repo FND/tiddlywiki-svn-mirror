@@ -16,6 +16,8 @@ version.extensions.RippleRapPlugin = {installed:true};
 
 config.options.chkTickerEval = true;
 
+config.messages.workspaceTiddlers = "";
+
 config.macros.RippleRap = {};
 config.macros.RippleRap.agenda = {};
 
