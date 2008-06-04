@@ -128,7 +128,7 @@ config.macros.importWorkspace.getTiddlers = function(uri,type,workspace,filter,u
 	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter,userCallback,userParams));
 };
 
-config.macros.importWorkspace.createContext = function(fields,filter,userCallback)
+config.macros.importWorkspace.createContext = function(fields,filter,userCallback,userParams)
 {
 	var serverType = fields['server.type'];
 	if(!serverType)
