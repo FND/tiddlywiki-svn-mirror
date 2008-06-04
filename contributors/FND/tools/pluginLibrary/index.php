@@ -13,9 +13,7 @@ $dbq = new dbq();
 $dbq->connect();
 
 // start processing
-echo "<pre>"; // DEBUG
 processRepositories();
-echo "</pre>"; // DEBUG
 
 // close database connection -- DEBUG: not required?
 $dbq->disconnect();
@@ -67,20 +65,33 @@ function getRepositories() {
 }
 
 /**
-* initialize plugin availability flags
+* initialize a repository's plugins' availability flags
 * @param integer $repoID ID of the respective repository
 * @return null
 */
-function initPluginFlags($repoID) {
+function initPluginFlags($repoID) { // DEBUG: rename?
 	global $dbq;
-	$data = array(
-		available => false
-	);
 	$selectors = array(
 		repository_ID => $repoID
 	);
+	// flag plugins as unavailabile
+	$data = array(
+		available => false
+	);
 	$dbq->updateRecords("plugins", $data, $selectors);
-	// DEBUG: tags, fields and metaslices need to be purged
+	// retrieve repository's plugins
+	$plugins = $dbq->retrieveRecords("plugins", array("ID"), $selectors);
+	// purge auxiliary tables
+	foreach($plugins as $plugin) {
+		$selectors = array(
+			repository_ID => $repoID,
+			plugin_ID => $plugin->ID
+		);
+		$dbq->removeRecords("tags", $selectors);
+		$dbq->removeRecords("tiddlerFields", $selectors);
+		$dbq->removeRecords("metaslices", $selectors);
+		$dbq->removeRecords("keywords", $selectors);
+	}
 }
 
 /*
@@ -270,7 +281,7 @@ function addPlugin($tiddler, $repo) {
 		ID => null,
 		repository_ID => $repo->ID,
 		available => true,
-		title => $tiddler->title,
+		name => $tiddler->title,
 		text => $tiddler->text,
 		created => convertTiddlyTime($tiddler->created),
 		modified => convertTiddlyTime($tiddler->modified),
@@ -331,12 +342,11 @@ function insertTiddlerFields($fields, $pluginID, $isUpdate = false) {
 	global $dbq;
 	while(list($k, $v) = each($fields)) { // DEBUG: why is this an associative array now - supposed to be an object!?
 		$data = array(
-			ID => null,
 			plugin_ID => $pluginID,
 			name => $k,
 			value => $v
 		);
-		$dbq->insertRecord("tiddlerFields", $data); // DEBUG: auto-increments ID - bad when updating!
+		$dbq->insertRecord("tiddlerFields", $data);
 	}
 }
 

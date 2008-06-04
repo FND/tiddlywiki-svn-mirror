@@ -98,7 +98,7 @@ VALUES (
 	'2008-05-10',
 	'2008-05-10',
 	'',
-	'0'
+	'1'
 );
 
 INSERT INTO pluginLibrary.repositories (
@@ -121,7 +121,7 @@ VALUES (
 	'2008-05-10',
 	'2008-05-10',
 	'',
-	'0'
+	'1'
 );
 
 INSERT INTO pluginLibrary.repositories (

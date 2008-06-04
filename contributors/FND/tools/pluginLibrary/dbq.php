@@ -53,8 +53,9 @@ class dbq {
 	*/
 	function query($q, $isInsert = false) {
 		$r = mysql_query($q);
-		if($isInsert) // insert operation
+		if($isInsert) { // insert operation
 			return mysql_insert_id();
+		}
 		elseif(is_bool($r)) { // update or delete operation, or failure
 			return $r ? mysql_affected_rows() : false;
 		} else { // retrieval operation
@@ -88,6 +89,7 @@ class dbq {
 	* @param array [$selectors] key-value pairs to serve as selectors (WHERE condition; joined by "AND")
 	* @param integer [$limit] max. number of records to update (0 for no limit)
 	* @return variable FALSE on failure; number of affected rows on success
+	* @todo use $comparisonOperator and $joinOperator; cf. removeRecords()
 	*/
 	function updateRecords($table, $data, $selectors = null, $limit = 0) {
 		$q = "UPDATE `" . $table . "` SET ";
@@ -111,17 +113,19 @@ class dbq {
 	/**
 	* remove records from database
 	* @param string $table table name
-	* @param array $selectors key-value pairs to serve as selectors (WHERE condition; joined by "AND")
-	* @param string [$operator] operator to use for all selectors
+	* @param array $selectors key-value pairs to serve as selectors (WHERE condition)
+	* @param string [$comparisonOperator] operator for all selectors
+	* @param string [$joinOperator] operator for joining conditions
 	* @param integer [$limit] max. number of records to remove (0 for no limit)
 	* @return variable FALSE on failure; number of affected rows on success
 	*/
-	function removeRecords($table, $selectors, $operator = "=", $limit = 0) {
+	function removeRecords($table, $selectors, $comparisonOperator = "=", $joinOperator = "AND", $limit = 0) {
 		$q = "DELETE FROM `" . $table . "` WHERE ";
 		while(list($k, $v) = each($selectors)) {
-			$q .= "`" . $this->escapeQuery($k) . "` " . $operator . " '" . $this->escapeQuery($v) . "' AND ";
+			$q .= "`" . $this->escapeQuery($k) . "` " . $comparisonOperator . " '"
+				. $this->escapeQuery($v) . "' " . $joinOperator . " ";
 		}
-		$q = substr($q, 0, strlen($q) - 5); // remove trailing "AND"
+		$q = substr($q, 0, strlen($q) - (strlen($joinOperator) + 2)); // remove trailing join operator
 		if($limit > 0) {
 			$q .= " LIMIT " . $limit;
 		}
@@ -135,6 +139,7 @@ class dbq {
 	* @param array [$selectors] key-value pairs to serve as selectors (WHERE condition; joined by "AND")
 	* @param integer [$limit] max. number of records to remove (0 for no limit)
 	* @return variable FALSE on failure, results array on success
+	* @todo use $comparisonOperator and $joinOperator; cf. removeRecords()
 	*/
 	function retrieveRecords($table, $fields, $selectors = null, $limit = 0) {
 		$q = "SELECT " . implode("`, `", $fields) . " FROM `" . $table . "`";
