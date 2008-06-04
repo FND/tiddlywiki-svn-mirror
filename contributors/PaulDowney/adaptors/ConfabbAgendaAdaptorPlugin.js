@@ -146,6 +146,11 @@ ConfabbAgendaAdaptor.notLoggedIn = function()
 	story.displayTiddler("top","LoginToConfabb");
 };
 
+ConfabbAgendaAdaptor.isLoggedIn = function()
+{
+	story.closeTiddler("LoginToConfabb");
+};
+
 ConfabbAgendaAdaptor.prototype.setContext = function(context,userParams,callback)
 {
 	if(!context) context = {};
@@ -213,6 +218,7 @@ ConfabbAgendaAdaptor.loadTiddlyWikiCallback = function(status,context,responseTe
 			for(var i=0;i<tiddlers.length;i++) {
 				context.adaptor.store.addTiddler(tiddlers[i]);		
 			}
+			ConfabbAgendaAdaptor.isLoggedIn();
 		} else {
 			context.status = false;
 			context.statusText = "Not logged in to Confabb";
