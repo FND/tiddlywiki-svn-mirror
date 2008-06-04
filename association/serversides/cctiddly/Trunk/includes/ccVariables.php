@@ -36,6 +36,9 @@ if (user_isAdmin($user['username'], $tiddlyCfg['workspace_name']))
 {
 	echo "workspacePermission.upload = 1;";
 	echo "workspacePermission.owner = 1;";
+} else if ($tiddlyCfg['only_workspace_admin_can_upload'] != 1)
+{
+	echo "workspacePermission.upload = 1;";
 }
 
 $anonPerm  = stringToPerm($tiddlyCfg['default_anonymous_perm']);

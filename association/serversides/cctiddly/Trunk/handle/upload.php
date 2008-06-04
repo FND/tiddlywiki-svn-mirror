@@ -1,9 +1,7 @@
 <?php 
 
-
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
-
 
 if(!user_session_validate())
 {
@@ -12,15 +10,15 @@ if(!user_session_validate())
 	exit;	
 }
 
-
 if (!user_isAdmin($user['username'], $_POST['workspaceName']))
 {
-	sendHeader("401");
-
-	echo '<b> You do not have permissions to upload files, please contact your system administrator.</b>';
-	exit;
+	if ($tiddlyCfg['only_workspace_admin_can_upload']==1)
+	{
+		sendHeader("401");
+		echo '<b> You do not have permissions to upload files,  Only workspace owners can upload files. You could try creating your own workspace.</b>';
+		exit;
+	}
 }
-
 
 function makeFolder($path)
 {
@@ -54,8 +52,6 @@ function check_vals()
   	}
 	return 1;
 }
-
-
 
 if ($_POST['saveTo'] == 'workspace')
 {

@@ -46,11 +46,10 @@ if( isset($_GET['title']) )
 	$tiddlers = getTiddlersWithTags($yesTags, $noTags);
 }else{
 	$tiddlers = getAllTiddlers();
-	if($_REQUEST['skin']) 
-	{
-		$skin_tiddlers = getSkinTiddlers($_REQUEST['skin']); 
-		$tiddlers = array_merge($skin_tiddlers, $tiddlers); 
-	}
+
+	$skin_tiddlers = getSkinTiddlers($_REQUEST['skin']); 
+	$tiddlers = array_merge($skin_tiddlers, $tiddlers); 
+	
 }
 recordTime_float("get all tiddlers");
 	
