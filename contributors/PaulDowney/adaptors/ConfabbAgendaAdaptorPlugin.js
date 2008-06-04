@@ -36,7 +36,14 @@ getFirstElementValue = function (node, tag, def) {
 	if (e && e.length && e[0].textContent)
 	    return e[0].textContent
 	return def;
-}
+};
+
+getFirstElementValue = function (node, tag, def) {
+	var e = node.getElementsByTagName(tag);
+	if (e && e.length && e[0].textContent)
+	    return e[0].textContent
+	return def;
+};
 
 /*
  *  takes a Confabb Agenda, returns list of tiddlers
@@ -186,17 +193,25 @@ ConfabbAgendaAdaptor.prototype.openHost = function(host,context,userParams,callb
 
 ConfabbAgendaAdaptor.loadTiddlyWikiCallback = function(status,context,responseText,url,xhr)
 {
+//#console.log('loadTiddlyWikiCallback:'+status);
+//#console.log(responseText);
+//#console.log(xhr.responseXML);
 	context.status = status;
 	if(!status) {
 		context.statusText = "Error reading agenda file";
 	} else {
-		//# Load the content into a TiddlyWiki() object
-		context.adaptor.store = new TiddlyWiki();
-		var tiddlers = ConfabbAgendaAdaptor.parseAgenda(responseText);
-		if(!tiddlers.length)
-			context.statusText = config.messages.invalidFileError.format([url]);
-		for(var i=0;i<tiddlers.length;i++) {
-			context.adaptor.store.addTiddler(tiddlers[i]);
+		if(xhr.responseXML) {
+			//# Load the content into a TiddlyWiki() object
+			context.adaptor.store = new TiddlyWiki();
+			var tiddlers = ConfabbAgendaAdaptor.parseAgenda(responseText);
+			if(!tiddlers.length)
+				context.statusText = config.messages.invalidFileError.format([url]);
+			for(var i=0;i<tiddlers.length;i++) {
+				context.adaptor.store.addTiddler(tiddlers[i]);		
+			}
+		} else {
+			context.status = false;
+			context.statusText = "Not logged in to Confabb";
 		}
 	}
 	if (context.complete)
