@@ -200,7 +200,17 @@ FeedListManager.prototype.getUriObj = function(i) {
 FeedListManager.prototype.get = function(i) {
 	if(i>=this.uris.length)
 		return null;
-	return this.getUriObj().uri;
+	return this.getUriObj(i).uri;
+};
+
+// Get the uri at by it's name.
+FeedListManager.prototype.getUriObjByName = function(name) {
+	uriObjs = this.uris;
+	for (var ob=0; ob < uriObjs.length; ob++) {
+		if(uriObjs[ob].name == name)
+			return uriObjs[ob];
+	};
+	return null;
 };
 
 
@@ -246,6 +256,19 @@ FeedListManager.prototype.logCall = function(uri) {
 	this.lastIncrement = now;
 	u.lastCall = now;
 	u.callCount++;
+};
+
+
+// Promote all given items to the start of the array
+FeedListManager.prototype.prioritise = function(name) {
+	var uriObj;
+	for(var u=0; u<this.uris.length; u++) {
+		if(this.uris[u].name == name) {
+			uriObj = this.uris[u];
+			this.uris.splice(u,1);
+			this.uris.unshift(uriObj);
+		}
+	}
 };
 
 
