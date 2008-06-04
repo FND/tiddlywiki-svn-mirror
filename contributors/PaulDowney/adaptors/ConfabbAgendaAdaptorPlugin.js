@@ -29,19 +29,19 @@ ConfabbAgendaAdaptor.emptyFeed = "No Confabb Agenda Items Found";
 
 String.prototype.makeId = function() {
 	return this.replace(/[^A-Za-z0-9]+/g, "");
-}
+};
 
 getFirstElementValue = function (node, tag, def) {
 	var e = node.getElementsByTagName(tag);
 	if (e && e.length && e[0].textContent)
-	    return e[0].textContent
+	    return e[0].textContent;
 	return def;
 };
 
 getFirstElementValue = function (node, tag, def) {
 	var e = node.getElementsByTagName(tag);
 	if (e && e.length && e[0].textContent)
-	    return e[0].textContent
+	    return e[0].textContent;
 	return def;
 };
 
@@ -71,19 +71,19 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 		days["Day"+name.makeId()] = name;
 	}
 
-	for(var day in days) {
+	for(var d in days) {
 		var tiddler = new Tiddler();
-		tiddler.assign(day,'<<AgendaTrackSessions>>',undefined,undefined,['track'],undefined,{rr_session_tag: day});
+		tiddler.assign(d,'<<AgendaTrackSessions>>',undefined,undefined,['track'],undefined,{rr_session_tag: d});
 		tiddlers.push(tiddler);
 	}
 
 	/* 
 	 *  build session tiddlers
 	 */
-	var t = r.getElementsByTagName('session');
-	for(var i=0;i<t.length;i++) {
+	t = r.getElementsByTagName('session');
+	for(i=0;i<t.length;i++) {
 		var node = t[i];
-		var tiddler = new Tiddler();
+		tiddler = new Tiddler();
 
 		var id = node.getAttribute('id');
 		var day = "Day" + getFirstElementValue(node, "day","ly");
@@ -122,9 +122,9 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 	/* 
 	 *  build Speaker tiddlers
 	 */
-	var speakers = {};
-	var t = r.getElementsByTagName('speaker');
-	for(var i=0;i<t.length;i++) {
+	speakers = {};
+	var len = r.getElementsByTagName('speaker').length;
+	for(i=0;i<len;i++) {
 		var name = getFirstElementValue(t[i],"title","speaker");
 		speakers[name] = name;
 	}
@@ -141,6 +141,10 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 	return tiddlers;
 };
 
+ConfabAgenedaAdaptor.notLoggedIn = function()
+{
+	story.displayTiddler("top","LoginToConfab");
+};
 
 ConfabbAgendaAdaptor.prototype.setContext = function(context,userParams,callback)
 {
@@ -212,6 +216,7 @@ ConfabbAgendaAdaptor.loadTiddlyWikiCallback = function(status,context,responseTe
 		} else {
 			context.status = false;
 			context.statusText = "Not logged in to Confabb";
+			ConfabAgenedaAdaptor.notLoggedIn();
 		}
 	}
 	if (context.complete)
