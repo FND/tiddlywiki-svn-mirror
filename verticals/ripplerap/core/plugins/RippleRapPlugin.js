@@ -25,6 +25,7 @@ config.macros.RippleRap.agenda = {};
 config.macros.RippleRap.init = function(){
 
 	var me = config.macros.RippleRap;
+	me.labelEdition();
 	me.feedListManager = new FeedListManager();
 
 	var baseUri = config.options.txtRippleRapConferenceURI;
@@ -155,6 +156,13 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 	story.displayTiddler(sessionTiddler,title,template,false,null,null,target);
 
 };
+
+
+// Label the RippleRap edition to reflect the conference and user details.
+config.macros.RippleRap.labelEdition = function() {
+	log("SiteTitle: " + config.options.txtRippleRapConferenceName  + ", subtitle: notes by " + config.options.txtSharedNotesUserName);
+};
+
 
 // Overwrite the search plugins.
 // Return an array of tiddlers matching a search regular expression
