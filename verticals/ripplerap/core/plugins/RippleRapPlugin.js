@@ -43,14 +43,17 @@ config.macros.RippleRap.init = function(){
  *  actions
  */
 config.macros.RippleRap.getAgenda = function() {
+	log("config.macros.RippleRap.getAgenda");
 	config.macros.importWorkspace.getTiddlers(config.macros.RippleRap.agenda.uri, config.macros.RippleRap.agenda.adaptor);
 };
 
 config.macros.RippleRap.putNotes = function() {
+	log("config.macros.RippleRap.putNotes");
 	config.macros.SharedNotes.putNotes();
 };
 
 config.macros.RippleRap.getNotes = function() {
+	log("config.macros.RippleRap.getNotes");
  	var uri = config.macros.RippleRap.feedListManager.next();
 	if (uri) {
 		config.macros.importWorkspace.getTiddlers(uri, "rss", null, null, config.macros.SharedNotes.tagNoteAdaptorCallback);
@@ -59,6 +62,7 @@ config.macros.RippleRap.getNotes = function() {
 };
 
 config.macros.RippleRap.populateNotes = function() {
+	log("config.macros.RippleRap.populateNotes");
  	var uri = config.macros.RippleRap.feedListManager.populate();
 };
 
