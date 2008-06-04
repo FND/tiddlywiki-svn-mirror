@@ -1,12 +1,14 @@
 recipe: ../../core/tiddlywiki.html.recipe
+tiddler: home.tiddler
 recipe: shadows/split.recipe
 tiddler: shadows/SideBarOptionsUnaMesaMixins.tiddler
-#tiddler: ../../contributors/MartinBudden/shadows/ViewTemplateFields.tiddler
+tiddler: ../../contributors/MartinBudden/shadows/ViewTemplateGetPutRevisionsFields.tiddler
 tiddler: ../../contributors/MartinBudden/mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../contributors/MartinBudden/mystyle/StyleSheetHorizontalMainMenu.tiddler
 #recipe: ../../contributors/SaqImtiaz/verticals/WikispacesOffline/shadows/split.recipe
 #tiddler: ../../contributors/SaqImtiaz/verticals/WikispacesOffline/shadows/StyleSheet.tiddler
 #recipe: ../../contributors/SaqImtiaz/verticals/WikispacesOffline/actions/split.recipe
+tiddler: ../../contributors/SaqImtiaz/verticals/Hesperian/DisabledVillageChildren/DisabledVillageChildrenFeed.tiddler
 recipe: plugins/split.recipe
 recipe: content/split.recipe
 tiddler: feeds/WikispacesUnaMesaMixinsFeed.tiddler
