@@ -81,15 +81,15 @@ function FeedListManager(){
 
 
 // logging function, for debug
-FeedListManager.log = function(x)
-{
-	if(window.console) {
-		console.log(x);	
-	}
-	else {
-		displayMessage(x);		
-	}
-};
+// FeedListManager.log = function(x)
+// {
+// 	if(window.console) {
+// 		console.log(x);	
+// 	}
+// 	else {
+// 		displayMessage(x);		
+// 	}
+// };
 
 
 // Add a uri to the list of those managed (no dupes).
@@ -100,7 +100,7 @@ FeedListManager.prototype.add = function(uri, name, type) {
 
 	var exists = this.registered(uri);
 	if(exists != null) {
-		FeedListManager.log(uri + " already exisit on the manager");
+		log(uri + " already exisit on the manager");
 		return;		
 	}
 	if(!type)
@@ -124,13 +124,16 @@ FeedListManager.prototype.remove = function(uri) {
 
 
 // Add a uri to the list of those managed (no dupes).
-FeedListManager.prototype.populate = function() {
+FeedListManager.prototype.populate = function(callback,callbackParams) {
 	for(var u=0; u<this.uris.length; u++) {
 		resource = this.uris[u];
 		if(resource.type == 'opml') {
 			this.busy = true;
 			this.requests.push(resource.uri);
-			var params = {'feedList': this};
+			var params = {};
+			params.feedList = this;
+			if(callback) params.callback = callback;
+			if(callbackParams) params.callbackParams = callbackParams;
 			var req = doHttp("GET",resource.uri,null,null,null,null,FeedListManager.examineopml,params,null,true);
 		}	
 	}
@@ -148,7 +151,7 @@ FeedListManager.examineopml = function(status,params,responseText,url,xhr) {
 
 	// Stop if there is not a suitable response.
 	if(xhr.status != 200) {
-		FeedListManager.log("Unable to get OPML");
+		log("Unable to get OPML");
 		return;
 	}
 
@@ -169,6 +172,11 @@ FeedListManager.examineopml = function(status,params,responseText,url,xhr) {
 	//flag if all updates are complete.
 	if(feedList.requests.length < 1)
 		feedList.busy = false;
+		
+	if(params.callback && params.callbackParams) {
+		window.setTimeout(function() { feedList[params.callback(params.callbackParams)]; }, 10);				
+	}
+
 };
 
 
@@ -221,7 +229,6 @@ FeedListManager.prototype.next = function() {
 	if(this.busy) {
 		return null;
 	}
-			
 	var feedlist = this;
 	if(feedlist.uris.length==0)
 		return null;
@@ -245,6 +252,35 @@ FeedListManager.prototype.next = function() {
 };
 
 
+// Get the next uri from the list of those managed.
+FeedListManager.prototype.nextUriObj = function() {	
+			
+	if(this.busy) {
+		return null;
+	}
+	var feedlist = this;
+	if(feedlist.uris.length==0)
+		return null;
+	var thisPosition = feedlist.currentPosition;
+	var uri = feedlist.getUriObj(thisPosition);	
+	while(uri && uri.type!='rss') {
+		feedlist.currentPosition++;
+		if(feedlist.currentPosition >= feedlist.uris.length)
+			feedlist.currentPosition = 0;
+		if(feedlist.currentPosition==thisPosition) {
+			// there are no rss feeds
+			return null;
+		}
+		uri = feedlist.getUriObj(feedlist.currentPosition);
+	}
+	feedlist.currentPosition++;
+	if(feedlist.currentPosition >= feedlist.uris.length)
+		feedlist.currentPosition = 0;
+	feedlist.lastIncrement = new Date().convertToYYYYMMDDHHMMSSMMM();
+	return uri;
+};
+
+
 // Make a note of a call to a given uri
 FeedListManager.prototype.logCall = function(uri) {
 	var p = this.registered(uri);
@@ -261,14 +297,16 @@ FeedListManager.prototype.logCall = function(uri) {
 
 // Promote all given items to the start of the array
 FeedListManager.prototype.prioritise = function(name) {
+	feedList = this.feedList;
 	var uriObj;
-	for(var u=0; u<this.uris.length; u++) {
-		if(this.uris[u].name == name) {
-			uriObj = this.uris[u];
-			this.uris.splice(u,1);
-			this.uris.unshift(uriObj);
+	for(var u=0; u<feedList.uris.length; u++) {
+		if(feedList.uris[u].name.toLowerCase() == name.toLowerCase()) {
+			uriObj = feedList.uris[u];
+			feedList.uris.splice(u,1);
+			feedList.uris.unshift(uriObj);
 		}
 	}
+	log("Prioritised to the head of the queue: ", feedList.uris[0]);
 };
 
 
