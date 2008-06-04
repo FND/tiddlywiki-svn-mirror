@@ -153,6 +153,7 @@ config.macros.importWorkspace.createContext = function(fields,filter,userCallbac
 config.macros.importWorkspace.loginPromptFn = function(context)
 {
 //#console.log("loginPromptFn");
+//#console.log(context);
 	context.username = prompt(config.macros.importWorkspace.usernamePrompt,'');
 	context.password = prompt(config.macros.importWorkspace.passwordPrompt,'');
 	if(context.loginPromptCallback) {
@@ -192,7 +193,8 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 		var length = tiddlers.length;
 		if(userParams && userParams.maxCount && length > userParams.maxCount)
 			length = userParams.maxCount;
-		displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length]));
+		if(config.messages.workspaceTiddlers)
+			displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length]));
 		for(var i=0; i<length; i++) {
 			tiddler = tiddlers[i];
 			var t = store.fetchTiddler(tiddler.title);
