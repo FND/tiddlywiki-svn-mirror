@@ -49,13 +49,13 @@ class dbq {
 	* execute database query
 	* @param string $q query string
 	* @param boolean [$isInsert] query is insert operation
-	* @return variable FALSE on failure; ID for insert operation; number of affected rows for update operation, results array for retrieval operation
+	* @return variable FALSE on failure; ID for insert operation; number of affected rows for update and remove operations, results array for retrieval operation
 	*/
 	function query($q, $isInsert = false) {
 		$r = mysql_query($q);
 		if($isInsert) // insert operation
 			return mysql_insert_id();
-		elseif(is_bool($r)) { // update operation or failure
+		elseif(is_bool($r)) { // update or delete operation, or failure
 			return $r ? mysql_affected_rows() : false;
 		} else { // retrieval operation
 			$rows = array();
@@ -76,7 +76,7 @@ class dbq {
 		foreach($data as $k => $v) {
 			$data[$k] = $this->escapeQuery($v);
 		}
-		$q = "INSERT INTO " . $table . " (`" . implode("`, `", array_keys($data))
+		$q = "INSERT INTO `" . $table . "` (`" . implode("`, `", array_keys($data))
 			. "`) VALUES ('" . implode("', '", $data) . "')";
 		return $this->query($q, true);
 	}
@@ -90,7 +90,7 @@ class dbq {
 	* @return variable FALSE on failure; number of affected rows on success
 	*/
 	function updateRecords($table, $data, $selectors = null, $limit = 0) {
-		$q = "UPDATE " . $table . " SET ";
+		$q = "UPDATE `" . $table . "` SET ";
 		while(list($k, $v) = each($data)) {
 			$q .= "`" . $this->escapeQuery($k) . "` = '" . $this->escapeQuery($v) . "', ";
 		}
@@ -100,10 +100,30 @@ class dbq {
 			while(list($k, $v) = each($selectors)) {
 				$q .= "`" . $this->escapeQuery($k) . "` = '" . $this->escapeQuery($v) . "' AND ";
 			}
-			$q = substr($q, 0, strlen($q) - 5); // remove trailing "and"
+			$q = substr($q, 0, strlen($q) - 5); // remove trailing "AND"
 			if($limit > 0) {
 				$q .= " LIMIT " . $limit;
 			}
+		}
+		return $this->query($q);
+	}
+
+	/**
+	* remove records from database
+	* @param string $table table name
+	* @param array $selectors key-value pairs to serve as selectors (WHERE condition; joined by "AND")
+	* @param string [$operator] operator to use for all selectors
+	* @param integer [$limit] max. number of records to remove (0 for no limit)
+	* @return variable FALSE on failure; number of affected rows on success
+	*/
+	function removeRecords($table, $selectors, $operator = "=", $limit = 0) {
+		$q = "DELETE FROM `" . $table . "` WHERE ";
+		while(list($k, $v) = each($selectors)) {
+			$q .= "`" . $this->escapeQuery($k) . "` " . $operator . " '" . $this->escapeQuery($v) . "' AND ";
+		}
+		$q = substr($q, 0, strlen($q) - 5); // remove trailing "AND"
+		if($limit > 0) {
+			$q .= " LIMIT " . $limit;
 		}
 		return $this->query($q);
 	}
@@ -113,16 +133,20 @@ class dbq {
 	* @param string $table table name
 	* @param array $fields fields to retrieve
 	* @param array [$selectors] key-value pairs to serve as selectors (WHERE condition; joined by "AND")
+	* @param integer [$limit] max. number of records to remove (0 for no limit)
 	* @return variable FALSE on failure, results array on success
 	*/
-	function retrieveRecords($table, $fields, $selectors = null) {
-		$q = "SELECT " . implode("`, `", $fields) . " FROM " . $table;
+	function retrieveRecords($table, $fields, $selectors = null, $limit = 0) {
+		$q = "SELECT " . implode("`, `", $fields) . " FROM `" . $table . "`";
 		if(isset($selectors)) {
 			$q .= " WHERE ";
 			while(list($k, $v) = each($selectors)) {
 				$q .= "`" . $this->escapeQuery($k) . "` = '" . $this->escapeQuery($v) . "' AND ";
 			}
-			$q = substr($q, 0, strlen($q) - 4); // remove trailing "and"
+			$q = substr($q, 0, strlen($q) - 4); // remove trailing "AND"
+		}
+		if($limit > 0) {
+			$q .= " LIMIT " . $limit;
 		}
 		return $this->query($q);
 	}

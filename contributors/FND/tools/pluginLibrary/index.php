@@ -223,7 +223,7 @@ function processPlugin($tiddler, $repo, $oldStoreFormat = false) { // DEBUG: spl
 * @return object
 */
 function getSlices($text) {
-	$pattern = "/(?:(^[\'\/]{0,2})~?([\.\w]+)\:\\1\s*([^\|\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\\4\|\s*([^\|\n]+)\s*\|$)/m"; // RegEx origin: TiddlyWiki core, including ticket 672 (http://trac.tiddlywiki.org/ticket/672) -- DEBUG: not picking up colon notation!?
+	$pattern = "/(?:(^[\'\/]{0,2})~?([\.\w]+)\:\\1\s*([^\|\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\\4\|\s*([^\|\n]+)\s*\|$)/m"; // RegEx origin: TiddlyWiki core, including ticket 672 (http://trac.tiddlywiki.org/ticket/672)
 	$slices = new stdClass;
 	preg_match_all($pattern, $text, $matches);
 	if($matches[0]) {
