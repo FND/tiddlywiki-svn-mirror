@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
-|''Version:''|0.0.9|
+|''Version:''|0.0.10|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -119,13 +119,13 @@ config.macros.importWorkspace.getTiddlersForFeed = function(feed)
 	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter));
 };
 
-config.macros.importWorkspace.getTiddlers = function(uri,type,workspace,filter,userCallback)
+config.macros.importWorkspace.getTiddlers = function(uri,type,workspace,filter,userCallback,userParams)
 {
 	var fields = {};
 	fields['server.host'] = uri;
 	fields['server.type'] = type;
 	fields['server.workspace'] = workspace;
-	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter,userCallback));
+	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter,userCallback,userParams));
 };
 
 config.macros.importWorkspace.createContext = function(fields,filter,userCallback)
@@ -144,6 +144,7 @@ config.macros.importWorkspace.createContext = function(fields,filter,userCallbac
 		context.workspace = fields['server.workspace'];
 		context.filter = filter;
 		context.userCallback = userCallback;
+		context.userParams = userParams;
 		context.adaptor = adaptor;
 		return context;
 	}
