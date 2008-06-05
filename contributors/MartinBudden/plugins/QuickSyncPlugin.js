@@ -3,7 +3,7 @@
 |''Description:''|Get tiddlers that have been changed on server but not locally and put tiddlers that have been changed locally but not on server|
 |''Author:''|Martin Budden|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MyDirectory/plugins/QuickSyncPlugin.js |
-|''Version:''|0.0.4|
+|''Version:''|0.0.5|
 |''Date:''|Jan 25, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -118,7 +118,9 @@ config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 			var f = tiddlers.findByField("title",title);
 			if(f !== null && tiddler.fields['server.type']) {
 				if(tiddlers[f].fields['server.page.revision'] > tiddler.fields['server.page.revision']) {
-					if(!tiddler.isTouched())
+					if(tiddler.isTouched())
+						backstage.switchTab('sync');
+					else
 						getList.push(tiddler.title); // tiddler changed on server and not changed locally
 				} else if(tiddlers[f].fields['server.page.revision'] == tiddler.fields['server.page.revision']) {
 					if(tiddler.isTouched())
@@ -164,7 +166,7 @@ config.macros.quicksync.getTiddlerCallback = function(context,userParams)
 	if(context.status) {
 		var tiddler = context.tiddler;
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-		story.refreshTiddler(tiddler.title,1,true);
+		//#story.refreshTiddler(tiddler.title,1,true);
 		displayMessage(config.macros.quicksync.tiddlerImported.format([context.tiddler.title]));
 	} else {
 		displayMessage(context.statusText);
