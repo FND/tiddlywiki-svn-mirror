@@ -48,6 +48,7 @@ GenerateRss.serialize = function(tiddlers,options)
 
 	for (var i=0;i<tiddlers.length;i++) {
 		var t = tiddlers[i];
+		var modifier = options.modifier || t.modifier;
 		s.push('<item>');
 		s.push('<title' + '>' + t.title.htmlEncode() + '</title' + '>');
 		s.push('<description>' + t.text.htmlEncode() + '</description>');
@@ -55,7 +56,7 @@ GenerateRss.serialize = function(tiddlers,options)
 			s.push('<category>' + t.tags[j] + '</category>');
 		s.push('<link>' + uri + '#' + encodeURIComponent(String.encodeTiddlyLink(t.title)) + '</link>');
 		s.push('<pubDate>' + t.modified.toGMTString() + '</pubDate>');
-		s.push('<author>' + t.modifier + '</author>');
+		s.push('<author>' + modifier + '</author>');
 		s.push('<wikitext>\n' + t.text.htmlEncode() + '\n</wikitext>');
 		s.push('</item>');
 	}

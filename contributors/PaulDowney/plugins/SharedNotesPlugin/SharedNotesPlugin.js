@@ -77,7 +77,7 @@ config.macros.SharedNotes = {
 			return false;
 		}
 
-		var rss = me.serialize(tiddlers,{});
+		var rss = me.serialize(tiddlers,{modifier:config.options.txtSharedNotesUserName});
 		if (!adaptor.putRss(rss,callback,me)) {
 			return false;
 		}
@@ -102,9 +102,9 @@ config.macros.SharedNotes = {
 		return tiddlers;
 	},
 
-	getNotes: function(uri,UserName) {
-		log("getNotes:",uri,UserName);
-                config.macros.importWorkspace.getTiddlers(uri,"rss",null,null,config.macros.SharedNotes.tagNoteAdaptorCallback,UserName);
+	getNotes: function(uri,userName) {
+		log("getNotes:",uri,userName);
+                config.macros.importWorkspace.getTiddlers(uri,"rss",null,null,config.macros.SharedNotes.tagNoteAdaptorCallback,userName);
 	},
 
 	tagNoteAdaptorCallback: function(context,userParams) {
