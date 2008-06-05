@@ -49,7 +49,7 @@ class dbq {
 	* execute database query
 	* @param string $q query string
 	* @param boolean [$isInsert] query is insert operation
-	* @return variable FALSE on failure; ID for insert operation; number of affected rows for update and remove operations, results array for retrieval operation
+	* @return mixed FALSE on failure; ID for insert operation; number of affected rows for update and remove operations, results array for retrieval operation
 	*/
 	function query($q, $isInsert = false) {
 		$r = mysql_query($q);
@@ -71,7 +71,7 @@ class dbq {
 	* add record to database
 	* @param string $table table name
 	* @param array $data key-value pairs to be inserted
-	* @return variable FALSE on failure; ID on success
+	* @return mixed FALSE on failure; ID on success
 	*/
 	function insertRecord($table, $data) {
 		foreach($data as $k => $v) {
@@ -88,7 +88,7 @@ class dbq {
 	* @param array $data key-value pairs to update record with
 	* @param array [$selectors] key-value pairs to serve as selectors (WHERE condition; joined by "AND")
 	* @param integer [$limit] max. number of records to update (0 for no limit)
-	* @return variable FALSE on failure; number of affected rows on success
+	* @return mixed FALSE on failure; number of affected rows on success
 	* @todo use $comparisonOperator and $joinOperator; cf. removeRecords()
 	*/
 	function updateRecords($table, $data, $selectors = null, $limit = 0) {
@@ -117,7 +117,7 @@ class dbq {
 	* @param string [$comparisonOperator] operator for all selectors
 	* @param string [$joinOperator] operator for joining conditions
 	* @param integer [$limit] max. number of records to remove (0 for no limit)
-	* @return variable FALSE on failure; number of affected rows on success
+	* @return mixed FALSE on failure; number of affected rows on success
 	*/
 	function removeRecords($table, $selectors, $comparisonOperator = "=", $joinOperator = "AND", $limit = 0) {
 		$q = "DELETE FROM `" . $table . "` WHERE ";
@@ -138,7 +138,7 @@ class dbq {
 	* @param array $fields fields to retrieve
 	* @param array [$selectors] key-value pairs to serve as selectors (WHERE condition; joined by "AND")
 	* @param integer [$limit] max. number of records to remove (0 for no limit)
-	* @return variable FALSE on failure, results array on success
+	* @return mixed FALSE on failure, results array on success
 	* @todo use $comparisonOperator and $joinOperator; cf. removeRecords()
 	*/
 	function retrieveRecords($table, $fields, $selectors = null, $limit = 0) {

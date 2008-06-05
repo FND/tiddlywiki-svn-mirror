@@ -365,7 +365,7 @@ function pluginBlacklisted($name, $repoID) {
 * check whether a plugin exists in the database
 * @param string $name name of the respective plugin
 * @param integer $repoID ID of the respective repository
-* @return variable FALSE on failure; plugin ID on success
+* @return mixed FALSE on failure; plugin ID on success
 */
 function pluginExists($name, $repoID) {
 	global $dbq;
