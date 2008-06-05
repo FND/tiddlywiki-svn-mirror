@@ -195,8 +195,8 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 	// regex_title matches for the titles
 	var regex_title = /<title>(.|\n)*?<\/title>/mg;
 	var regex_guid = /<guid>(.|\n)*?<\/guid>/mg;
-	var regex_wiki = /<tw:wikitext>(.|\n)*?<\/tw:wikitext>/mg;
 	var regex_desc = /<description>(.|\n)*?<\/description>/mg;
+	var regex_wiki = /<wikitext>(.|\n)*?<\/wikitext>/mg;
 	var regex_content = /<content:encoded>(.|\n)*?<\/content:encoded>/mg;
 	var regex_category = /<category>(.|\n)*?<\/category>/mg;
 	var regex_link = /<link>(\S|\n)*?<\/link>/mg;
@@ -234,7 +234,8 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 		// grab original wikitext if it is there as an extended field
 		var wikitext = item_match[i].match(regex_wiki);
 		if(wikitext) {
-			item.text = wikitext[0].replace(/^<tw:wikitext>|<\/tw:wikitext>$/mg,"");
+			item.text = wikitext[0].replace(/^<wikitext>|<\/wikitext>$/mg,"");
+			useRawDescription = true;
 		} else {
 			// use the description as the tiddler text
 			var desc = item_match[i].match(regex_desc);
@@ -252,14 +253,10 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 		}
 		// now decode and process the text if it exists
 		if(item.text) {
-			//#displayMessage("content exists");
 			item.text = item.text.htmlDecode();
-			//#displayMessage("content htmlDecode-d");
-			//#console.log("in item text");
-			item.text = useRawDescription ? item.text.renderHtmlText() : "<html>" + item.text.renderHtmlText() + "</html>";
-			//#displayMessage("content rendered or not");
+			//item.text = useRawDescription ? item.text.renderHtmlText() : "<html>" + item.text.renderHtmlText() + "</html>";
+			item.text = useRawDescription ? item.text : "<html>" + item.text.renderHtmlText() + "</html>";
 		} else {
-			//#displayMessage("content doesn't exist");
 			item.text = "empty content, something wrong with this item";
 		}
 		//#displayMessage("finished processing");
@@ -331,15 +328,9 @@ String.prototype.renderHtmlText = function() {
 	//displayMessage("in renderHtmlText");
 	var text = this.toString();
 	var regex_cdata = /<!\[CDATA\[((?:.|\n)*?)\]\]>/mg;
-	//console.log(regex_cdata.lastIndex);
-	//regex_cdata.lastIndex = 0;
-	//console.log(text);
 	var match = regex_cdata.exec(text);
 	if(match) {
 		text = match[1];
-		//console.log("match: ",match);
-		//displayMessage("removed cdata!");
-		//console.log(text);
 	} else {
 		//#console.log("no cdata to remove");
 	}
@@ -352,7 +343,6 @@ String.prototype.renderHtmlText = function() {
 		return getPlainText(ee);
 	});
 	removeNode(e);
-	//displayMessage("leaving renderHtmlText");
 	return text;
 };
 
