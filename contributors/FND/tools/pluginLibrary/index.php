@@ -153,16 +153,15 @@ function processPlugin($tiddler, $repo, $oldStoreFormat = false) { // DEBUG: spl
 	/* tiddler object structure -- DEBUG: create tiddler class?
 	tiddler
 		->repository
-		->title			// Note: corresponds to Name slice
-		->tags
+		->title				// N.B.: corresponds to Name slice (if available)
+		->tags				// array
 		->created
 		->modified
 		->modifier
-		->fields
-			->[...]
+		->fields			// key-value pairs
 		->text
-		->slices
-			->[...]
+		->slices			// key-value pairs
+		->keywords			// array
 		->documentation
 		->code
 	*/
@@ -176,7 +175,7 @@ function processPlugin($tiddler, $repo, $oldStoreFormat = false) { // DEBUG: spl
 				$p->title = strval($field);
 				break;
 			case "tags":
-				$p->tags = strval($field);
+				$p->tags = readBracketedList(strval($field));
 				break;
 			case "created":
 				$p->created = strval($field);
@@ -200,9 +199,11 @@ function processPlugin($tiddler, $repo, $oldStoreFormat = false) { // DEBUG: spl
 	}
 	// retrieve slices
 	$p->slices = getSlices($p->text);
+	// set title to Name slice
 	if(isset($p->slices->Name)) {
 		$p->title = $p->slices->Name;
 	}
+	// set plugin source
 	$source = $p->slices->Source;
 	// retrieve plugins only from original source
 	if(!$source || $source && !(strpos($source, $repo->URI) === false)) { // DEBUG: www handling (e.g. http://foo.bar = http://www.foo.bar)?
@@ -210,6 +211,8 @@ function processPlugin($tiddler, $repo, $oldStoreFormat = false) { // DEBUG: spl
 		if(pluginBlacklisted($p->title, $p->repository)) {
 			addLog("skipped blacklisted plugin " . $p->title . " in repository " . $repo->name);
 		} else {
+			// retrieve keywords
+			$p->keywords = readBracketedList($p->slices->Keywords);
 			// retrieve documentation sections
 			preg_match("/\/\*\*\*\n(.*)\n\*\*\*\//s", $p->text, $matches); // DEBUG: pattern too simplistic?
 			$p->documentation = $matches[1]; // /*** metadata ***/
@@ -293,9 +296,9 @@ function addPlugin($tiddler, $repo) {
 		annotation => null
 	);
 	$pluginID = $dbq->insertRecord("plugins", $data);
-	// insert fields
-	insertTiddlerFields($tiddler->fields, $pluginID, false);
-	// DEBUG: process tags, fields and metaslices
+	// populate auxiliary tables
+	populateAuxiliaryTables($tiddler, $pluginID);
+	// return new plugin's ID
 	return $pluginID;
 }
 
@@ -326,19 +329,30 @@ function updatePlugin($tiddler, $pluginID, $repo) {
 		documentation => $tiddler->code
 	);
 	$dbq->updateRecords("plugins", $data, $selectors, 1);
-	// re-insert fields
-	insertTiddlerFields($tiddler->fields, $pluginID, true);
-	// DEBUG: process tags, fields and metaslices
+	// re-populate auxiliary tables
+	populateAuxiliaryTables($tiddler, $pluginID);
 }
 
 /**
-* add (or re-insert) a plugin's tiddler fields to the database
-* @param array $fields key-value pairs for field name and value
+* populate auxiliary tables (tiddler fields, tags, metaslices, keywords)
+* @param object $tiddler tiddler object
 * @param integer $pluginID ID of the respective plugin
-* @param boolean [$isUpdate] plugin existed before // DEBUG: currently unused
 * @return null
 */
-function insertTiddlerFields($fields, $pluginID, $isUpdate = false) {
+function populateAuxiliaryTables($tiddler, $pluginID) {
+	insertTiddlerFields($tiddler->fields, $pluginID);
+	insertTags($tiddler->tags, $pluginID);
+	insertMetaSlices($tiddler->slices, $pluginID);
+	insertKeywords($tiddler->keywords, $pluginID);
+}
+
+/**
+* add a plugin's tiddler fields to the database
+* @param array $fields key-value pairs for field name and value
+* @param integer $pluginID ID of the respective plugin
+* @return null
+*/
+function insertTiddlerFields($fields, $pluginID) {
 	global $dbq;
 	while(list($k, $v) = each($fields)) { // DEBUG: why is this an associative array now - supposed to be an object!?
 		$data = array(
@@ -347,6 +361,59 @@ function insertTiddlerFields($fields, $pluginID, $isUpdate = false) {
 			value => $v
 		);
 		$dbq->insertRecord("tiddlerFields", $data);
+	}
+}
+
+/**
+* add a plugin's slices to the database
+* @param array $slices key-value pairs for slice name and value
+* @param integer $pluginID ID of the respective plugin
+* @return null
+*/
+function insertMetaSlices($slices, $pluginID) {
+	global $dbq;
+	debug($slices, "slices");
+	while(list($k, $v) = each($slices)) { // DEBUG: why is this an associative array now - supposed to be an object!?
+		$data = array(
+			plugin_ID => $pluginID,
+			name => $k,
+			value => $v
+		);
+		$dbq->insertRecord("metaslices", $data);
+	}
+}
+
+/**
+* add a plugin's tags to the database
+* @param array $tags tag names
+* @param integer $pluginID ID of the respective plugin
+* @return null
+*/
+function insertTags($tags, $pluginID) {
+	global $dbq;
+	foreach($tags as $tag) {
+		$data = array(
+			plugin_ID => $pluginID,
+			name => $tag
+		);
+		$dbq->insertRecord("tags", $data);
+	}
+}
+
+/**
+* add a plugin's keywords to the database
+* @param array $keywords keywords
+* @param integer $pluginID ID of the respective plugin
+* @return null
+*/
+function insertKeywords($keywords, $pluginID) {
+	global $dbq;
+	foreach($keywords as $keyword) {
+		$data = array(
+			plugin_ID => $pluginID,
+			name => $keyword
+		);
+		$dbq->insertRecord("keywords", $data);
 	}
 }
 
