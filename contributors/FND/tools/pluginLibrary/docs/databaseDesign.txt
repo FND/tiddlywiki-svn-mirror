@@ -1,17 +1,17 @@
                                  +---------------+
      +---------------+           | plugins       |           +---------------+
-     | tags          |           +---------------+           | userTags      |
+     | tiddlerFields |           +---------------+           | userTags      |
      +---------------+     +-----| $ID           |-----+     +---------------+
      | $plugin_ID    |-----+  +--| repository_ID |     +-----| $plugin_ID    |
      | $name         |     |  |  | available     |     |     | $name         |
-     +---------------+     |  |  | name          |     |     +---------------+
-                           |  |  | created       |     |
-     +---------------+     |  |  | modified      |     |     +---------------+
-     | tiddlerFields |     |  |  | modifier      |     |     | ratings       |
-     +---------------+     |  |  | updated       |     |     +---------------+
-     | $plugin_ID    |-----+  |  | text          |     |     | $ID           |
-     | $name         |     |  |  | documentation |     +-----| plugin_ID     |
-     | value         |     |  |  | code          |     |     | IP_address    |
+     | value         |        |  | name          |     |     +---------------+
+     +---------------+     |  |  | created       |     |
+                           |  |  | modified      |     |     +---------------+
+     +---------------+     |  |  | modifier      |     |     | ratings       |
+     | tags          |     |  |  | updated       |     |     +---------------+
+     +---------------+     |  |  | text          |     |     | $ID           |
+     | $plugin_ID    |-----+  |  | documentation |     +-----| plugin_ID     |
+     | $name         |     |  |  | code          |     |     | IP_address    |
      +---------------+     |  |  | views         |     |     | timestamp     |
                            |  |  | annotation    |     |     | value         |
      +---------------+     |  |  +---------------+     |     +---------------+
