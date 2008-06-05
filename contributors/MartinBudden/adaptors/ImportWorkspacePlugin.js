@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
-|''Version:''|0.0.12|
+|''Version:''|0.0.13|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -26,6 +26,7 @@ if(config.options.chkImportWorkspaceOnStartup == undefined)
 
 config.messages.hostOpened = "Host '%0' opened";
 config.messages.workspaceOpened = "Workspace '%0' opened";
+config.messages.nothingToImport = "Nothing to import";
 config.messages.workspaceTiddlers = "%0 tiddlers on host, importing...";
 config.messages.tiddlerImported = "Tiddler: \"%0\" imported";
 config.messages.importComplete = "Import complete";
@@ -199,21 +200,22 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 //#console.log("config.macros.importWorkspace.getTiddlerListCallback:"+context.status);
 	if(context.status) {
 		var tiddlers = context.tiddlers;
-		var sortField = 'modified';
-		tiddlers.sort(function(a,b) {return a[sortField] < b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
 		var length = tiddlers.length;
-		if(userParams && userParams.maxCount && length > userParams.maxCount)
+		if(userParams && userParams.maxCount && length > userParams.maxCount) {
 			length = userParams.maxCount;
-		if(config.messages.workspaceTiddlers)
-			displayMessage(config.messages.workspaceTiddlers.format([tiddlers.length]));
+			var sortField = 'modified';
+			tiddlers.sort(function(a,b) {return a[sortField] < b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
+		}
 		context.adaptor.getTiddlerLength = 0;
 		for(var i=0; i<length; i++) {
-			if(!store.fetchTiddler(tiddlers[i].title) {
+			if(!store.fetchTiddler(tiddlers[i].title)) {
 				//# count the tiddlers to be imported
 				++context.adaptor.getTiddlerLength;
 			}
 		}
-		for(var i=0; i<length; i++) {
+		if(config.messages.workspaceTiddlers)
+			displayMessage(context.adaptor.getTiddlerLength ? config.messages.workspaceTiddlers.format([tiddlers.length]) : config.messages.nothingToImport);
+		for(i=0; i<length; i++) {
 			tiddler = tiddlers[i];
 			var t = store.fetchTiddler(tiddler.title);
 			if(!t) {
@@ -233,16 +235,18 @@ config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
 	if(context.status) {
 		var tiddler = context.tiddler;
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-		//story.refreshTiddler(tiddler.title,1,true);
-		//# displayMessage(config.messages.tiddlerImported.format([tiddler.title]));
+		//#story.refreshTiddler(tiddler.title,1,true);
+		//#displayMessage(config.messages.tiddlerImported.format([tiddler.title]));
 	} else {
 		displayMessage(context.statusText);
 	}
 	--context.adaptor.getTiddlerLength;
 	if(context.adaptor.getTiddlerLength==0) {
 		// have completed import of all tiddlers requested
-		if(config.messages.importComplete)
+		if(config.messages.importComplete) {
+			clearMessage();
 			displayMessage(config.messages.importComplete.format([tiddlers.length]));
+		}
 	}
 	if(context.userCallback)
 		context.userCallback(context,context.userCallbackParams);
