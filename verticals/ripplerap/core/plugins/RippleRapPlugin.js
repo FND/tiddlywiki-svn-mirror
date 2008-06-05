@@ -149,6 +149,9 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 		var tags = ['notes'];
 		var fields = {};
 		fields.rr_session_id = sessionTiddler.getAttribute('tiddler');
+		
+		log("about to create notes tiddler. Modifier:" + modifier);
+		
 		store.saveTiddler(title,title,text,modifier,modified,tags,fields,true,created);
 	}
 	// display the notes tiddler in edit mode.
@@ -184,13 +187,19 @@ TiddlyWiki.prototype.search = function(searchRegExp,sortField,excludeTag,match) 
 version.extensions.RippleRapPlugin.saveTiddler = story.saveTiddler;
 Story.prototype.saveTiddler = function(title,animate,unused){
 
+	//If this was a note tiddler, trigger the upload.
+	var t = store.getTiddler(title);
+	if(t && t.isTagged('notes')) {
+		config.macros.RippleRap.putNotes();
+		if(config.options.txtSharedNotesUserName)
+			modifier = config.options.txtSharedNotesUserName;
+	}
+	
+	log("Saving note tiddler. Modifier: " + modifier);
+	
 	//save the tiddler.
 	version.extensions.RippleRapPlugin.saveTiddler.apply(this,arguments);
 
-	//If this was a note tiddler, trigger the upload.
-	var t = store.getTiddler(title);
-	if(t && t.isTagged('notes'))
-		config.macros.RippleRap.putNotes();
 };
 
 
