@@ -49,10 +49,8 @@ tiddler: ../../../contributors/PaulDowney/adaptors/LoginToConfabb.tiddler
 tiddler: ../../../contributors/PaulDowney/plugins/SharedNotesPlugin/SharedNotesPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/GenerateRssPlugin.js
 tiddler: ../../../contributors/PaulDowney/adaptors/ConfabbNotesAdaptorPlugin.js
-
-# Enjoying Notes
 tiddler: ../../../contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js
-tiddler: ../../../contributors/JonathanLister/adaptors/RSSAdaptor.js
+tiddler: ../../../contributors/PaulDowney/adaptors/RSSAdaptor.js
 
 # Ticker timer
 tiddler: ../../../contributors/PaulDowney/plugins/TickerPlugin/TickerPlugin.js
