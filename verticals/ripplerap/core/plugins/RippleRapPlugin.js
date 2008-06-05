@@ -184,23 +184,46 @@ TiddlyWiki.prototype.search = function(searchRegExp,sortField,excludeTag,match) 
 
 
 // Hijack the close tiddler function to ensure that we put notes on a save.
-version.extensions.RippleRapPlugin.saveTiddler = story.saveTiddler;
-Story.prototype.saveTiddler = function(title,animate,unused){
+// version.extensions.RippleRapPlugin.saveTiddler = story.saveTiddler;
+// Story.prototype.saveTiddler = function(title,animate,unused){
+// 
+// 	version.extensions.RippleRapPlugin.saveTiddler.apply(this,arguments);
+// 	
+// 		
+// 	//If this was a note tiddler, trigger the upload.
+// 	var t = store.getTiddler(title);
+// 	if(t && t.isTagged('notes')) {
+// 		if(config.options.txtSharedNotesUserName) 
+// 			t.modifier = config.options.txtSharedNotesUserName;
+// 		// config.macros.RippleRap.putNotes();	
+// 	}	
+// 	//save the tiddler.
+// 	
+// 	if(t && t.isTagged('notes')) {
+// 		config.macros.RippleRap.putNotes();
+// 	}
+// 	log("Saving note tiddler. Modifier: " + t.modifier);	
+// };
 
+version.extensions.RippleRapPlugin.saveTiddler = store.saveTiddler;
+store.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created) {
+	
 	//If this was a note tiddler, trigger the upload.
 	var t = store.getTiddler(title);
 	if(t && t.isTagged('notes')) {
-		config.macros.RippleRap.putNotes();
-		if(config.options.txtSharedNotesUserName)
+		if(config.options.txtSharedNotesUserName) 
 			modifier = config.options.txtSharedNotesUserName;
-	}
-	
-	log("Saving note tiddler. Modifier: " + modifier);
-	
+	}	
 	//save the tiddler.
 	version.extensions.RippleRapPlugin.saveTiddler.apply(this,arguments);
-
+	
+	if(t && t.isTagged('notes')) {
+		config.macros.RippleRap.putNotes();
+	}
 };
+
+
+
 
 
 }
