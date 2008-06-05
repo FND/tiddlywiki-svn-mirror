@@ -128,7 +128,7 @@ function processTiddlyWiki($contents, $repo) {
 */
 function getVersion($xml) {
 	$version = $xml->xpath("/html/head/script");
-	preg_match("/major: (\d), minor: (\d), revision: (\d)/", $version[0], $matches);
+	preg_match("/major: (\d), minor: (\d), revision: (\d)/s", $version[0], $matches);
 	$major = intval($matches[1]);
 	$minor = intval($matches[2]);
 	$revision = intval($matches[3]);
@@ -234,7 +234,7 @@ function processPlugin($tiddler, $repo, $oldStoreFormat = false) { // DEBUG: spl
 * @return object
 */
 function getSlices($text) {
-	$pattern = "/(?:(^[\'\/]{0,2})~?([\.\w]+)\:\\1\s*([^\|\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\\4\|\s*([^\|\n]+)\s*\|$)/m"; // RegEx origin: TiddlyWiki core, including ticket 672 (http://trac.tiddlywiki.org/ticket/672)
+	$pattern = "/(?:(^[\'\/]{0,2})~?([\.\w]+)\:\\1\s*([^\|\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\\4\|\s*([^\|\n]+)\s*\|$)/sm"; // RegEx origin: TiddlyWiki core, including ticket 672 (http://trac.tiddlywiki.org/ticket/672)
 	$slices = new stdClass;
 	preg_match_all($pattern, $text, $matches);
 	if($matches[0]) {
