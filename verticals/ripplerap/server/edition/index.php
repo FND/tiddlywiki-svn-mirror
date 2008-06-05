@@ -32,7 +32,7 @@ if ((0 != strlen($conferenceURI)) && (0 != strlen($type)) && (0 != strlen($confe
 	$text = file_get_contents('ripplerap.html');
 
 	$text = preg_replace("/^(txtUserName\s*:\s*\&quot;)YourName(\&quot;;)/m", "$1".$username."$2", $text);
-	$text = preg_replace("/^(config.options.txtSharedNotesUserName\s*=\s*\&quot;)(\&quot;;)/m", "$1".$username."$2", $text);
+	$text = preg_replace("/^(config.options.txtSharedNotesUserName\s*=\s*\&quot;)YourName(\&quot;;)/m", "$1".$username."$2", $text);
 	$text = preg_replace("/^(config.options.txtRippleRapConferenceName\s*=\s*\&quot;)(\&quot;;)/m", "$1".$conferenceName."$2", $text);
 	$text = preg_replace("/^(config.options.txtRippleRapConferenceURI\s*=\s*\&quot;)(\&quot;;)/m", "$1".$conferenceURI."$2", $text);
 	$text = preg_replace("/^(config.options.txtRippleRapType\s*=\s*\&quot;)(\&quot;;)/m", "$1".$type."$2", $text);

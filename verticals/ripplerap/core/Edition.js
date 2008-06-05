@@ -10,6 +10,6 @@ config.options.txtRippleRapConferenceName = "";
 config.options.txtRippleRapConferenceURI = "";
 
 // SharedNotes UserName
-config.options.txtSharedNotesUserName = "";
+config.options.txtSharedNotesUserName = "YourName";
 
 //}}}
