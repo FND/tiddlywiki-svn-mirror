@@ -51,7 +51,8 @@ GenerateRss.serialize = function(tiddlers,options)
 		var modifier = options.modifier || t.modifier;
 		s.push('<item>');
 		s.push('<title' + '>' + t.title.htmlEncode() + '</title' + '>');
-		s.push('<description>' + t.text.htmlEncode() + '</description>');
+		var desc = wikifyStatic(t.text);
+		s.push('<description>' + desc.htmlEncode() + '</description>');
 		for(var j=0; j<t.tags.length; j++)
 			s.push('<category>' + t.tags[j] + '</category>');
 		s.push('<link>' + uri + '#' + encodeURIComponent(String.encodeTiddlyLink(t.title)) + '</link>');
