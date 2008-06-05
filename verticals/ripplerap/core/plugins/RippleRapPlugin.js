@@ -127,7 +127,7 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 	var e = ev ? ev : window.event;
 	var target = resolveTarget(e);
 	var sessionTiddler = story.findContainingTiddler(target);
-	var title = sessionTiddler.getAttribute('tiddler') +" from "+ config.options.txtUserName;
+	var title = sessionTiddler.getAttribute('tiddler') +" from "+ config.options.txtSharedNotesUserName;
 	
 	// If the notes tiddler is already displayed show it in edit mode.
 	var t = story.getTiddler(title);
@@ -143,7 +143,7 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 	// Create a new notes tiddler if required.
 	if(!store.tiddlerExists(title)) {
 		var text = "";
-		var modifier = config.options.txtUserName;
+		var modifier = config.options.txtSharedNotesUserName;
 		var modified = null;
 		var created = null;
 		var tags = ['notes'];
