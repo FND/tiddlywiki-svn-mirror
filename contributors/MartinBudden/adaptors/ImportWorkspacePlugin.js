@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
-|''Version:''|0.0.10|
+|''Version:''|0.0.11|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -119,16 +119,16 @@ config.macros.importWorkspace.getTiddlersForFeed = function(feed)
 	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter));
 };
 
-config.macros.importWorkspace.getTiddlers = function(uri,type,workspace,filter,userCallback,userParams)
+config.macros.importWorkspace.getTiddlers = function(uri,type,workspace,filter,userCallback,userCallbackParams)
 {
 	var fields = {};
 	fields['server.host'] = uri;
 	fields['server.type'] = type;
 	fields['server.workspace'] = workspace;
-	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter,userCallback,userParams));
+	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter,userCallback,userCallbackParams));
 };
 
-config.macros.importWorkspace.createContext = function(fields,filter,userCallback,userParams)
+config.macros.importWorkspace.createContext = function(fields,filter,userCallback,userCallbackParams)
 {
 	var serverType = fields['server.type'];
 	if(!serverType)
@@ -144,7 +144,7 @@ config.macros.importWorkspace.createContext = function(fields,filter,userCallbac
 		context.workspace = fields['server.workspace'];
 		context.filter = filter;
 		context.userCallback = userCallback;
-		context.userParams = userParams;
+		context.userCallbackParams = userCallbackParams;
 		context.adaptor = adaptor;
 		return context;
 	}
@@ -168,7 +168,7 @@ config.macros.importWorkspace.getTiddlersForContext = function(context)
 	if(context) {
 		context.loginPromptFn = config.macros.importWorkspace.loginPromptFn;
 		context.adaptor.openHost(context.host,context);
-		context.adaptor.openWorkspace(context.workspace,context,null,config.macros.importWorkspace.openWorkspaceCallback);
+		context.adaptor.openWorkspace(context.workspace,context,context.userParams,config.macros.importWorkspace.openWorkspaceCallback);
 		return true;
 	}
 	return false;
@@ -177,7 +177,7 @@ config.macros.importWorkspace.getTiddlersForContext = function(context)
 config.macros.importWorkspace.openWorkspaceCallback = function(context,userParams)
 {
 	if(context.status) {
-		context.adaptor.getTiddlerList(context,null,config.macros.importWorkspace.getTiddlerListCallback);
+		context.adaptor.getTiddlerList(context,userParams,config.macros.importWorkspace.getTiddlerListCallback);
 		return true;
 	}
 	displayMessage(context.statusText);
@@ -201,7 +201,9 @@ config.macros.importWorkspace.getTiddlerListCallback = function(context,userPara
 			var t = store.fetchTiddler(tiddler.title);
 			if(!t) {
 				//# only get the tiddlers that are not available locally
-				var c = context && context.userCallback ? {userCallback:context.userCallback} : null;
+				var c = null;
+				if(context && context.userCallback)
+					c = {userCallback:context.userCallback,userCallbackParams:context.userCallbackParams};
 				context.adaptor.getTiddler(tiddler.title,c,null,config.macros.importWorkspace.getTiddlerCallback);
 			}
 		}
@@ -220,7 +222,7 @@ config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
 		displayMessage(context.statusText);
 	}
 	if(context.userCallback)
-		context.userCallback(context,userParams);
+		context.userCallback(context,context.userCallbackParams);
 };
 
 } //# end of 'install only once'
