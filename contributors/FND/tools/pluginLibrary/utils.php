@@ -10,6 +10,24 @@ function convertTiddlyTime($timestamp) {
 		}
 }
 
+// convert a string of items (space-separated or [[bracketed]]) to an array
+function readBracketedList($str, $unique = true) {
+	$pattern = "/(?:\[\[)(.+)(?:\]\])|(\S+)/s";
+	preg_match_all($pattern, $str, $matches);
+	$arr = array();
+	for($i = 0; $i < count($matches[0]); $i++) {
+		if($matches[1][$i]) { // bracketed item
+			array_push($arr, $matches[1][$i]);
+		} else {
+			array_push($arr, $matches[2][$i]);
+		}
+	}
+	if($unique) {
+		$arr = array_unique($arr);
+	}
+	return $arr;
+};
+
 // add log message
 function addLog($text) {
 	global $log;
