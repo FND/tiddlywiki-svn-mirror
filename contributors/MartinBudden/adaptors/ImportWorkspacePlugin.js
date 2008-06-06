@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
-|''Version:''|0.0.13|
+|''Version:''|0.0.14|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -234,7 +234,9 @@ config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
 //#console.log("config.macros.importWorkspace.getTiddlerCallback:"+context.status+" t:"+context.tiddler.title);
 	if(context.status) {
 		var tiddler = context.tiddler;
+		store.suspendNotifications();
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+		store.resumeNotifications();
 		//#story.refreshTiddler(tiddler.title,1,true);
 		//#displayMessage(config.messages.tiddlerImported.format([tiddler.title]));
 	} else {
@@ -244,6 +246,8 @@ config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
 	if(context.adaptor.getTiddlerLength==0) {
 		// have completed import of all tiddlers requested
 		if(config.messages.importComplete) {
+			store.notifyAll();
+			//#console.log('all imported');
 			clearMessage();
 			displayMessage(config.messages.importComplete.format([tiddlers.length]));
 		}
