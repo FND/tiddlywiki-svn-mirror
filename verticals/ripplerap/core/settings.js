@@ -9,6 +9,10 @@ config.options.txtTheme = "RippleRapSkin";
 config.options.chkRippleRapShare = true;
 config.options.chkRippleRapEnjoy= true;
 
+// Ticker config
+config.options.chkTickerEval = false;
+config.options.chkTickerRefresh = false;
+
 // RippleRap Edition Specific settings are in Edition.js
 
 // Setup the session notes display groupings.
