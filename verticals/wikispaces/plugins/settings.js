@@ -27,4 +27,21 @@ var wikispacesTopicPattern = [
 wikispacesTopicGroup.setPattern(wikispacesTopicPattern); 
 wikispacesTopicGroup.setGroupField('server.topic_id');
 
+getTopicList = function(context,userParams)
+{
+	return config.macros.importWikispacesMessages.getTopicList(context.tiddler.title,context);
+};
+
+config.macros.importWorkspace.onClick = function(e)
+{
+	clearMessage();
+displayMessage("Starting import...");
+	var customFields = this.getAttribute('customFields');
+	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
+	var userCallback = fields['server.workspace'] == 'tw-test' ? getTopicList : null;
+	var userCallbackParams = null;
+	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,null,userCallback,userCallbackParams));
+};
+
+
 /*}}}*/
