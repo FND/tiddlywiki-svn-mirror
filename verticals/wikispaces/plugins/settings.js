@@ -29,7 +29,11 @@ wikispacesTopicGroup.setGroupField('server.topic_id');
 
 getTopicList = function(context,userParams)
 {
-	return config.macros.importWikispacesMessages.getTopicList(context.tiddler.title,context);
+	context.title = context.tiddler.title;
+displayMessage("Getting topics for "+context.title);
+	context.adaptor.getTopicList(context.title,context,null,config.macros.importWikispacesMessages.getTopicListCallback);
+	return true;
+	//return config.macros.importWikispacesMessages.getTopicList(context.tiddler.title,context);
 };
 
 config.macros.importWorkspace.onClick = function(e)
