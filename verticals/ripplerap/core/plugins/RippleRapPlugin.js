@@ -163,7 +163,11 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 
 // Label the RippleRap edition to reflect the conference and user details.
 config.macros.RippleRap.labelEdition = function() {
-	log("SiteTitle: " + config.options.txtRippleRapConferenceName  + ", subtitle: notes by " + config.options.txtSharedNotesUserName);
+	var st = store.getTiddler('SiteTitle');
+	var sst = store.getTiddler('SiteSubtitle');
+	st.text = config.options.txtRippleRapConferenceName;
+	sst.text = "notes by " + config.options.txtSharedNotesUserName;
+	refreshPageTemplate();
 };
 
 
@@ -183,28 +187,7 @@ TiddlyWiki.prototype.search = function(searchRegExp,sortField,excludeTag,match) 
 };
 
 
-// Hijack the close tiddler function to ensure that we put notes on a save.
-// version.extensions.RippleRapPlugin.saveTiddler = story.saveTiddler;
-// Story.prototype.saveTiddler = function(title,animate,unused){
-// 
-// 	version.extensions.RippleRapPlugin.saveTiddler.apply(this,arguments);
-// 	
-// 		
-// 	//If this was a note tiddler, trigger the upload.
-// 	var t = store.getTiddler(title);
-// 	if(t && t.isTagged('notes')) {
-// 		if(config.options.txtSharedNotesUserName) 
-// 			t.modifier = config.options.txtSharedNotesUserName;
-// 		// config.macros.RippleRap.putNotes();	
-// 	}	
-// 	//save the tiddler.
-// 	
-// 	if(t && t.isTagged('notes')) {
-// 		config.macros.RippleRap.putNotes();
-// 	}
-// 	log("Saving note tiddler. Modifier: " + t.modifier);	
-// };
-
+// Hijack the save tiddler function to ensure that we put notes on a save.
 version.extensions.RippleRapPlugin.saveTiddler = store.saveTiddler;
 store.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created) {
 	
