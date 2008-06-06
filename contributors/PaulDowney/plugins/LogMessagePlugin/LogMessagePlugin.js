@@ -28,7 +28,7 @@ version.extensions.LogMessage = {installed:true};
 			if (!config.options.chkLogMessageEnabled){
 				return;
 			}
-			if (console){
+			if (window.console){
 				console.log(arguments);
 				return;
 			}
