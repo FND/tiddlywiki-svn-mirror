@@ -98,6 +98,15 @@ config.macros.PopulateNotes.handler = function(place,macroName,params,wikifier,p
                 var button = createTiddlyButton(place,'POPULATE NOTES','Click here to find other people\'s notes',me.populateNotes);
 };
 
+config.macros.SuspendNotifications = {};
+config.macros.SuspendNotifications.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+                var button = createTiddlyButton(place,'SUSPEND NOTIFCATIONS','Click here to send TiddlyWiki to sleep',story.suspendNotifications);
+};
+
+config.macros.ResumeNotifications = {};
+config.macros.ResumeNotifications.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+                var button = createTiddlyButton(place,'RESUME NOTIFCATIONS','Click here to wake TiddlyWiki',story.resumeNotifications);
+};
 
 
 config.macros.RippleRap.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
