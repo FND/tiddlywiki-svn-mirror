@@ -10,6 +10,8 @@
 
 Options:
 |<<option chkLogMessageEnabled>>|<<message config.optionsDesc.chkLogMessageEnabled>>|
+|<<option chkLogMessageConsole>>|<<message config.optionsDesc.chkLogMessageConsole>>|
+|<<option chkLogMessageWindow>>|<<message config.optionsDesc.chkLogMessageWindow>>|
 
 ***/
 
@@ -19,6 +21,8 @@ version.extensions.LogMessage = {installed:true};
 
 	config.options.chkLogMessageEnabled = true;
 	config.optionsDesc.chkLogMessageEnabled = "logging of messages enabled";
+	config.options.chkLogMessageConsole = true;
+	config.optionsDesc.chkLogMessageConsole = "log messages to the console, when available";
 	config.options.chkLogMessageWindow = false;
 	config.optionsDesc.chkLogMessageWindow = "log messages to an external window";
 	
@@ -28,14 +32,17 @@ version.extensions.LogMessage = {installed:true};
 			if (!config.options.chkLogMessageEnabled){
 				return;
 			}
-			if (window.console){
-				console.log(arguments);
-				return;
+			if (config.options.chkLogMessageConsole){
+				if (window.console){
+					console.log(arguments);
+					return;
+				}
 			}
-			var message = arguments.join(",");
+			var message = (function(a){var x=[]; for(var i=0; i<a.length; i++)
+				x.push(a[i]); return x.join(', ');})(arguments);
 			if (config.options.chkLogMessageWindow){
 				var me = config.macros.LogMessage;
-				me.logWindow(messages);
+				me.logWindow(message);
 			}
 			displayMessage(message);
 		},
