@@ -1,3 +1,27 @@
 <div title="Welcome" modifier="YourName" created="200801221853" modified="200801221916">
-<pre>Hi!</pre>
+<pre>Hi!
+
+Here's what's happening:
+#You send your update to Twitter ending with 'L:location' (your phone - CHECK)
+#TiddlyCity collects your update from Twitter and turns it into a tiddler (from Twitter, using JSON)
+#...it looks up your location from the BT phonebook to get an address (from Dapper, using JSON)
+#...a new venue tiddler is created if you haven't mentioned it before (TW internal)
+#...your venues are displayed on a Yahoo! map with the updates alongside (YSimpleMapsAPI plugin)
+
+And for working with your friends;
+#Your updates are posted as an RSS feed
+#Your friends can add your feed to their TiddlyCity and it will add your updates to their map
+#Alternatively, you could check their Twitter feed...
+
+Inputs:
+#Your Twitter ID
+
+References:
+#Yahoo! Simple Maps API - http://developer.yahoo.com/maps/simple/V1/
+#BT Phonebook Dapp in JSON - http://www.dapper.net/transform.php?dappName=BTPhonebooksearch&transformer=JSON&v_location=london&v_name=QUERY_STRING
+#Twitter timeline (most recent 20) in JSON - http://twitter.com/statuses/user_timeline/jayfresh.xml?since_id=LAST_KNOWN_TWEET_ID
+
+Running headless:
+#var twitter = new TwitterTimeline();
+#twitter.getUpdates('jayfresh',TiddlyCity.TweetToTiddler);</pre>
 </div>
