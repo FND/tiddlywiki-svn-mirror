@@ -6,7 +6,6 @@ require_once "utils.php";
 // initialize debugging variables
 $debugMode = true;
 $t0 = time();
-$log = array();
 
 // establish database connection
 $dbq = new dbq();
@@ -20,7 +19,7 @@ $dbq->disconnect();
 
 // output debugging info
 $t1 = time();
-echo "Runtime: " . ($t1 - $t0) . " seconds\n"; // DEBUG
+addLog("Runtime: " . ($t1 - $t0) . " seconds");
 debug($log); // DEBUG: write to file?
 
 /*

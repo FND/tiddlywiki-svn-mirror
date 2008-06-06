@@ -31,6 +31,9 @@ function readBracketedList($str, $unique = true) {
 // add log message
 function addLog($text) {
 	global $log;
+	if(!isset($log)) {
+		$log = array();
+	}
 	$timestamp = date("Y-m-d H:i:s");
 	array_push($log, $timestamp . " " . $text);
 }
