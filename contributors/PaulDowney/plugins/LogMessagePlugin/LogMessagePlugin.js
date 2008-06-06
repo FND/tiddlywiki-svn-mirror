@@ -19,12 +19,14 @@ Options:
 if(!version.extensions.LogMessage){
 version.extensions.LogMessage = {installed:true};
 
-	config.options.chkLogMessageEnabled = true;
+	config.options.chkLogMessageEnabled = false;
 	config.optionsDesc.chkLogMessageEnabled = "logging of messages enabled";
-	config.options.chkLogMessageConsole = true;
+	config.options.chkLogMessageConsole = false;
 	config.optionsDesc.chkLogMessageConsole = "log messages to the console, when available";
 	config.options.chkLogMessageWindow = false;
 	config.optionsDesc.chkLogMessageWindow = "log messages to an external window";
+	config.options.chkLogMessageDisplayMessage = false;
+	config.optionsDesc.chkLogMessageDisplayMessage = "log messages using displayMessage";
 	
 	config.macros.LogMessage = { 
 
@@ -44,7 +46,9 @@ version.extensions.LogMessage = {installed:true};
 				var me = config.macros.LogMessage;
 				me.logWindow(message);
 			}
-			displayMessage(message);
+			if (config.options.chkLogMessageDisplayMessage){
+				displayMessage(message);
+			}
 		},
 
 		logWindow: function(message){
