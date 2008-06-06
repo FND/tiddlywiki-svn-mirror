@@ -46,8 +46,7 @@ getFirstElementValue = function (node, tag, def) {
 ConfabbAgendaAdaptor.parseAgenda = function(text)
 {
 	var tiddlers = [];
-	
-	log("ConfabbAgendaAdaptor.parseAgenda");
+	log("parsing the Confabb Agenda");
 
 	/* 
 	 *  parse XML
@@ -121,17 +120,33 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 	var t = r.getElementsByTagName('speaker');
 	for(i=0;i<t.length;i++) {
 		var name = getFirstElementValue(t[i],"title","speaker");
-		speakers[name] = name;
+		name = name.trim();
+		speakers[name] = {name:name};
 	}
 
-	var speaker_text = '';
+	/*
+	 *  add speaker tiddlers for vcards
+	 */
+	t = r.getElementsByTagName('vcard');
+	for(i=0;i<t.length;i++) {
+		var node = t[i];
+		var name = getFirstElementValue(node,"fn","vcard");
+		name = name.trim();
+		speakers[name] = {
+			bio: getFirstElementValue(node,"bio",""),
+			text: ''
+		};
+	}
 
-	for(var speaker in speakers) {
+	/*
+	 *  create speaker tiddlers
+	 */
+	for(var name in speakers) {
 		var tiddler = new Tiddler();
-		tiddler.assign(speaker,speaker_text,undefined,undefined,['speaker'],undefined,{speaker_bio: speakers[speaker]});
+		speaker = speakers[name];
+		tiddler.assign(name,speaker.text,undefined,undefined,['speaker'],undefined,{});
 		tiddlers.push(tiddler);
 	}
-
 
 	return tiddlers;
 };
@@ -174,17 +189,6 @@ ConfabbAgendaAdaptor.minHostName = function(host)
 	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
 };
 
-// Open the specified host
-//#   host - url of host (eg, "http://www.tiddlywiki.com/" or "www.tiddlywiki.com")
-//#   context is itself passed on as a parameter to the callback function
-//#   userParams - user settable object object that is passed on unchanged to the callback function
-//#   callback - optional function to be called on completion
-//# Return value is true if the request was successfully issued, false if this connector doesn't support openHost(),
-//#   or an error description string if there was a problem
-//# The callback parameters are callback(context)
-//#   context.status - true if OK, string if error
-//#   context.adaptor - reference to this adaptor object
-//#   userParams - parameters as originally passed into the openHost function
 ConfabbAgendaAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
 	this.host = host;
@@ -197,9 +201,6 @@ ConfabbAgendaAdaptor.prototype.openHost = function(host,context,userParams,callb
 
 ConfabbAgendaAdaptor.loadTiddlyWikiCallback = function(status,context,responseText,url,xhr)
 {
-	log('loadTiddlyWikiCallback:',status,xhr);
-	//log(responseText);
-	//log(xhr.responseXML);
 	context.status = status;
 	if(!status) {
 		context.statusText = "Error reading agenda file";
@@ -224,17 +225,6 @@ ConfabbAgendaAdaptor.loadTiddlyWikiCallback = function(status,context,responseTe
 	    context.complete(context,context.userParams);
 };
 
-// Get the list of workspaces on a given server
-//#   context - passed on as a parameter to the callback function
-//#   userParams - user settable object object that is passed on unchanged to the callback function
-//#   callback - function to be called on completion
-//# Return value is true if the request was successfully issued, false if this connector doesn't support getWorkspaceList(),
-//#   or an error description string if there was a problem
-//# The callback parameters are callback(context,userParams)
-//#   context.status - true if OK, false if error
-//#   context.statusText - error message if there was an error
-//#   context.adaptor - reference to this adaptor object
-//#   userParams - parameters as originally passed into the getWorkspaceList function
 ConfabbAgendaAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
@@ -245,18 +235,6 @@ ConfabbAgendaAdaptor.prototype.getWorkspaceList = function(context,userParams,ca
 	return true;
 };
 
-// Open the specified workspace
-//#   workspace - name of workspace to open
-//#   context - passed on as a parameter to the callback function
-//#   userParams - user settable object object that is passed on unchanged to the callback function
-//#   callback - function to be called on completion
-//# Return value is true if the request was successfully issued
-//#   or an error description string if there was a problem
-//# The callback parameters are callback(context,userParams)
-//#   context.status - true if OK, false if error
-//#   context.statusText - error message if there was an error
-//#   context.adaptor - reference to this adaptor object
-//#   userParams - parameters as originally passed into the openWorkspace function
 ConfabbAgendaAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
 	this.workspace = workspace;
@@ -267,19 +245,6 @@ ConfabbAgendaAdaptor.prototype.openWorkspace = function(workspace,context,userPa
 	return true;
 };
 
-// Gets the list of tiddlers within a given workspace
-//#   context - passed on as a parameter to the callback function
-//#   userParams - user settable object object that is passed on unchanged to the callback function
-//#   callback - function to be called on completion
-//#   filter - filter expression
-//# Return value is true if the request was successfully issued,
-//#   or an error description string if there was a problem
-//# The callback parameters are callback(context,userParams)
-//#   context.status - true if OK, false if error
-//#   context.statusText - error message if there was an error
-//#   context.adaptor - reference to this adaptor object
-//#   context.tiddlers - array of tiddler objects
-//#   userParams - parameters as originally passed into the getTiddlerList function
 ConfabbAgendaAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 {
 	context = this.setContext(context,userParams,callback);
@@ -325,19 +290,6 @@ ConfabbAgendaAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	return info;
 };
 
-// Retrieve a tiddler from a given workspace on a given server
-//#   title - title of the tiddler to get
-//#   context - passed on as a parameter to the callback function
-//#   userParams - user settable object object that is passed on unchanged to the callback function
-//#   callback - function to be called on completion
-//# Return value is true if the request was successfully issued,
-//#   or an error description string if there was a problem
-//# The callback parameters are callback(context,userParams)
-//#   context.status - true if OK, false if error
-//#   context.statusText - error message if there was an error
-//#   context.adaptor - reference to this adaptor object
-//#   context.tiddler - the retrieved tiddler, or null if it cannot be found
-//#   userParams - parameters as originally passed into the getTiddler function
 ConfabbAgendaAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
@@ -370,7 +322,6 @@ ConfabbAgendaAdaptor.prototype.close = function()
 	delete this.store;
 	this.store = null;
 };
-
 
 config.adaptors[ConfabbAgendaAdaptor.serverType] = ConfabbAgendaAdaptor;
 
