@@ -46,6 +46,7 @@ getFirstElementValue = function (node, tag, def) {
 ConfabbAgendaAdaptor.parseAgenda = function(text)
 {
 	var tiddlers = [];
+	speakers = {};
 	log("parsing the Confabb Agenda");
 
 	/* 
@@ -91,12 +92,14 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 		tags.push(day.makeId());
 
 		/* list of speakers */
+		var sessionSpeakers = [];
 		var s = node.getElementsByTagName("speaker");
-		var speakers = [];
 		for(var j=0;j<s.length;j++) {
-		       var speaker = getFirstElementValue(s[j],"title");
-		       speakers.push(speaker);
-		       tags.push(speaker.makeId());
+			var name = getFirstElementValue(s[j],"title");
+			name = name.trim();
+			speakers[name] = {name: name};
+			sessionSpeakers.push(name);
+			tags.push(name.makeId());
 		}
 
 		tiddler.assign(id,content,undefined,undefined,tags,undefined,{
@@ -108,24 +111,13 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 			rr_session_day: day,
 			rr_session_location: location,
 			rr_session_track: track,
-			rr_session_speakers: speakers.join(", ")
+			rr_session_speakers: sessionSpeakers.join(", ")
 		});
 		tiddlers.push(tiddler);
 	}
 
-	/* 
-	 *  build Speaker tiddlers
-	 */
-	speakers = {};
-	var t = r.getElementsByTagName('speaker');
-	for(i=0;i<t.length;i++) {
-		var name = getFirstElementValue(t[i],"title","speaker");
-		name = name.trim();
-		speakers[name] = {name:name};
-	}
-
 	/*
-	 *  add speaker tiddlers for vcards
+	 *  speaker tiddlers for vcards
 	 */
 	t = r.getElementsByTagName('vcard');
 	for(i=0;i<t.length;i++) {
@@ -202,6 +194,7 @@ ConfabbAgendaAdaptor.prototype.openHost = function(host,context,userParams,callb
 ConfabbAgendaAdaptor.loadTiddlyWikiCallback = function(status,context,responseText,url,xhr)
 {
 	context.status = status;
+	context.count = 0;
 	if(!status) {
 		context.statusText = "Error reading agenda file";
 	} else {
@@ -209,8 +202,9 @@ ConfabbAgendaAdaptor.loadTiddlyWikiCallback = function(status,context,responseTe
 			//# Load the content into a TiddlyWiki() object
 			context.adaptor.store = new TiddlyWiki();
 			var tiddlers = ConfabbAgendaAdaptor.parseAgenda(responseText);
-			if(!tiddlers.length)
+			if(!tiddlers.length){
 				context.statusText = config.messages.invalidFileError.format([url]);
+			}
 			for(var i=0;i<tiddlers.length;i++) {
 				context.adaptor.store.addTiddler(tiddlers[i]);		
 			}
