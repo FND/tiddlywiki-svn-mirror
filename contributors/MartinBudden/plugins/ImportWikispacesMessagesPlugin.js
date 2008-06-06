@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ImportWikispacesMessagesPlugin.js |
-|''Version:''|0.0.5|
+|''Version:''|0.0.6|
 |''Date:''|May 13, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -92,6 +92,8 @@ config.macros.importWikispacesMessages.createContext = function(fields,filter)
 
 config.macros.importWikispacesMessages.getTopicList = function(title,context)
 {
+//#console.log("config.macros.importWikispacesMessages.getTopicList:"+title);
+//#console.log(context);
 	if(context) {
 		context.title = title;
 		context.adaptor.openHost(context.host,context);
@@ -112,6 +114,7 @@ config.macros.importWikispacesMessages.openWorkspaceCallback = function(context,
 
 config.macros.importWikispacesMessages.getTopicListCallback = function(context,userParams)
 {
+//#console.log("config.macros.importWikispacesMessages.getTopicListCallback:"+context.status);
 	if(context.status) {
 		var tiddlers = context.topics;
 		if(tiddlers.length==0) {
@@ -120,8 +123,9 @@ config.macros.importWikispacesMessages.getTopicListCallback = function(context,u
 		}
 		for(var i=0; i<tiddlers.length; i++) {
 			tiddler = tiddlers[i];
+			//#console.log("topic:"+tiddler.title);
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-			story.refreshTiddler(tiddler.title,1,true);
+			//#story.refreshTiddler(tiddler.title,1,true);
 			context.adaptor.getMessageList(tiddler.fields['server.topic_id'],context,null,config.macros.importWikispacesMessages.getMessageListCallback);
 		}
 	} else {
@@ -131,12 +135,14 @@ config.macros.importWikispacesMessages.getTopicListCallback = function(context,u
 
 config.macros.importWikispacesMessages.getMessageListCallback = function(context,userParams)
 {
+//#console.log("config.macros.importWikispacesMessages.getMessageListCallback:"+context.status);
 	if(context.status) {
 		var tiddlers = context.messages;
 		for(var i=0; i<tiddlers.length; i++) {
 			tiddler = tiddlers[i];
+			//#console.log("message:"+tiddler.title);
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-			story.refreshTiddler(tiddler.title,1,true);
+			//#story.refreshTiddler(tiddler.title,1,true);
 		}
 		//#displayMessage(config.macros.importWikispacesMessages.retrieved.format([context.title]));
 	} else {
