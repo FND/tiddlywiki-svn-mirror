@@ -30,7 +30,7 @@ config.optionsDesc.txtTickerMinInterval = "Ticker minimum interval in seconds";
 config.options.txtTickerInterval = 60;
 config.optionsDesc.txtTickerInterval = "Ticker maximum interval in seconds";
 config.options.chkTickerEval = true;
-config.optionsDesc.chkTickerEval = "Ticker evaluates tiddlers tagged with 'javaScript'";
+config.optionsDesc.chkTickerEval = "Ticker evaluates tiddlers tagged with javaScript";
 config.options.chkTickerRefresh = true;
 config.optionsDesc.chkTickerRefresh = "Ticker refreshes visible tiddlers";
 config.options.chkTickerWikify = true;
@@ -120,9 +120,9 @@ config.macros.Ticker = {
 			if(story.refreshTiddler(tiddler.title,null,true)){
 				return;
 			}
-		}
-		if(config.options.chkTickerWikify){
-			wikify(tiddler.text,null,null,null);
+			if(config.options.chkTickerWikify){
+				wikify(tiddler.text,null,null,null);
+			}
 		}
 	}
 };
