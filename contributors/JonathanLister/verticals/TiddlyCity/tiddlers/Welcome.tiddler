@@ -2,9 +2,10 @@
 <pre>Hi!
 
 Here's what's happening:
-#You send your update to Twitter ending with 'L:location' (your phone - CHECK)
+#You send your update to Twitter ending with 'L:location' (your phone)
 #TiddlyCity collects your update from Twitter and turns it into a tiddler (from Twitter, using JSON)
 #...it looks up your location from the BT phonebook to get an address (from Dapper, using JSON)
+##...or uses Google local search, perhaps in preference (still working on this)
 #...a new venue tiddler is created if you haven't mentioned it before (TW internal)
 #...your venues are displayed on a Yahoo! map with the updates alongside (YSimpleMapsAPI plugin)
 
@@ -20,8 +21,21 @@ References:
 #Yahoo! Simple Maps API - http://developer.yahoo.com/maps/simple/V1/
 #BT Phonebook Dapp in JSON - http://www.dapper.net/transform.php?dappName=BTPhonebooksearch&transformer=JSON&v_location=london&v_name=QUERY_STRING
 #Twitter timeline (most recent 20) in JSON - http://twitter.com/statuses/user_timeline/jayfresh.xml?since_id=LAST_KNOWN_TWEET_ID
+#Google local search in REST - http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q=Wenlock%20Arms%20N1%20London
 
 Running headless:
-#var twitter = new TwitterTimeline();
-#twitter.getUpdates('jayfresh',TiddlyCity.TweetToTiddler);</pre>
+{{{
+var twitter = new TwitterTimeline();
+twitter.getUpdates('jayfresh',TiddlyCity.TweetToTiddler);
+var query = params[0];
+// note: at this point, need to add something to make the query suitable for the phonebook... or replace the phonebook with something more flexible!
+// aha! Google REST local search - see in references, above
+var dapper = new Dapper({
+	dappName:'BTPhonebooksearch',
+	transformer:'JSON',
+	v_location:'london',
+	v_name:query
+});
+dapper.get(TiddlyCity.LocationToTiddler);
+}}}</pre>
 </div>

@@ -8,19 +8,6 @@
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.3|
 
-!Pseudo-code:
-{{{
-Twitter.Search:
-every 15 mins
-	GET "http://terraminds.com/twitter/json?query="+query+"&last_id="+index
-	set lastTweetIndex to the ID of the most recent tweet
-
-Twitter.SearchCallback:
-for each tweet
-	if tweet matches / [lL]:([^$])+/
-		save tiddler with title of tweet_id and text of tweet
-}}}
-
 ***/
 
 //{{{
@@ -43,12 +30,10 @@ TwitterTimeline.prototype.getUpdates = function(user,callback) {
 };
 
 TwitterTimeline.prototype.getUpdatesCallback = function(status,callback,responseText,url,xhr) {
-	console.log(responseText);
-	console.log(xhr);
 	if(!status) {
 	 	displayMessage("error in getUpdates: " + xhr.statusText);
 	} else {
-		var tweets = eval(responseText);
+		var tweets = eval("("+responseText+")");
 		this.lastIndex = tweets[0].id;
 		callback(tweets);
 	}

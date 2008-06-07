@@ -1,4 +1,5 @@
 #tiddler: ../../../plugins/DabbleDBPlugin.js
 #tiddler: ../../../plugins/TerramindsSearchPlugin.js
+tiddler: DapperPlugin.js
 tiddler: TiddlyCityPlugin.js
 tiddler: TwitterTimelinePlugin.js
