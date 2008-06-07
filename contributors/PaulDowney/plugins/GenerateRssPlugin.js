@@ -58,7 +58,7 @@ GenerateRss.serialize = function(tiddlers,options)
 		s.push('<link>' + uri + '#' + encodeURIComponent(String.encodeTiddlyLink(t.title)) + '</link>');
 		s.push('<pubDate>' + t.modified.toGMTString() + '</pubDate>');
 		s.push('<author>' + modifier + '</author>');
-		s.push('<wikitext>\n' + t.text.htmlEncode() + '\n</wikitext>');
+		s.push('<wikitext>' + t.text.htmlEncode() + '</wikitext>');
 		s.push('</item>');
 	}
 
