@@ -676,4 +676,17 @@ function getTiddlersWithTags($yesTags,$noTags)
 		}
 		return TRUE;
 	}
+
+	function debugSQL($str, $break=1)
+	{
+		global $tiddlyCfg;
+		global $standalone;
+		if( $tiddlyCfg['mysql_debug']==1 && $standalone!=1 )
+		{
+			//print $str;
+			error_log($str, 0);
+	
+		}
+		return TRUE;
+	}
 ?>

@@ -12,16 +12,28 @@
 
 // Debugging Information 
 	$tiddlyCfg['developing']=0;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
-	$tiddlyCfg['mysql_debug']=0;	 // if set to 1 will output every sql query into the logfile 
+	$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
 
 // User Managment Information 
-	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
-	$tiddlyCfg['pref']['ldap_enabled'] = 0;	
-	$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid end not fully implented yet. 
-	$tiddlyCfg['pref']['renew_session_on_each_request']  = 1; // if enabled will renew users session time on each save request
 	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
+	$tiddlyCfg['pref']['renew_session_on_each_request']  = 1; // if enabled will renew users session time on each save request
 	$tiddlyCfg['users_required_in_db']=0; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db
 	$tiddlyCfg['can_create_account'] = 1; // users are allowed to register for an account 
+	
+	//LDAP
+	$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
+	$tiddlyCfg['pref']['ldap_enabled'] = 0;
+	$tiddlyCfg['pref']['ldap_username']	= "";
+	$tiddlyCfg['pref']['ldap_password'] = "";
+	$tiddlyCfg['pref']['ldap_connection_string'] = "";
+
+	// OpenID
+	$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid not fully implented yet. 
+	
+	//Deligated Session Managment 
+	// 
+	$tiddlyCfg['pref']['deligate_session_url'] = "http://uvoke.com/sys/uvokechecksess.wcgp?s=";
+	$tiddlyCfg['deligate_session_management'] = 0; 	
 		
 // Upload Values 
 	$tiddlyCfg['upload_allow_extensions'] = array("text/plain", "text/xml", "text/html", "application/msword", "application/mspowerpoint", "	application/excel", "application/x-visio", "application/pdf");
@@ -59,7 +71,7 @@
 	$tiddlyCfg['default_user_perm'] = "AADD";
 	
 //////////////////////// ::::: ADVANCED ::::: /////////////////////////
-	$tiddlyCfg['deligate_session_management'] = 0; 	
+
 	$tiddlyCfg['on_the_fly_workspace_creation'] = 0;
 
 	$tiddlyCfg['rss_group'] = "";

@@ -27,7 +27,7 @@
 	
 		if ($tiddlyCfg['deligate_session_management'] ==1)
 		{
-			$req_url = "http://uvoke.com/sys/uvokechecksess.wcgp?s=".$_REQUEST['sess'];
+			$req_url = $tiddlyCfg['pref']['deligate_session_url'].$_REQUEST['sess'];
 				if($a = @file_get_contents($req_url))
 				{
 					if ($a != "")
@@ -83,7 +83,7 @@
 	
 		if ($tiddlyCfg['deligate_session_management'] ==1)
 		{
-			$req_url = "http://uvoke.com/sys/uvokechecksess.wcgp?s=".$_REQUEST['sess'];
+			$req_url = $tiddlyCfg['pref']['deligate_session_url'].$_REQUEST['sess'];
 			if($a = @file_get_contents($req_url))
 			{
 				if ($a != "")

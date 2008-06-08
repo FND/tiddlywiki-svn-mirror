@@ -135,7 +135,15 @@ serverside.fn.genericCallback = function(status,params,responseText,uri,xhr) {
 	
 	if(xhr.status == 401)
 	{
-		story.displayTiddler(null,'Login', 1);
+		var a = document.getElementById('backstageCloak');
+		a.style.display = "block";	
+		a.style.opacity = "0.9"; 
+		a.style.height=window.innerHeight + window.scrollMaxY+"px";
+		var b = document.getElementById('backstage');
+		b.style.position="absolute";	
+		b.style.margin=window.pageYOffset+"px 0px 0px 0px";
+		b.innerHTML = '<div width=50%><br /><br /><br /><br /><centre><form class=wizard><h2></h2><div class=wizardBody><div class=wizardStep  align=center><h1>**WARNING**</h1><h1>Your Changes were NOT saved</h1>you must take steps in order to save your changes <br /><br /> Please click <a href="" target=_new>new Window Login</a> to renew your login and then <b onclick=document.getElementById("backstageCloak").style.display="none";document.getElementById("backstage").style.display="none";>click HERE to close this warning </b> and copy your changes accross.  </div></div></form></centre></div><br /><br />';
+//story.displayTiddler(null,'Login', 1);
 	}			
 	
 	result = xhr.responseText.split("\n");

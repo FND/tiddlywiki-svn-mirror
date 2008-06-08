@@ -256,4 +256,137 @@ config.macros.ccEditWorkspace.editWorkspaceCallback = function(status,params,res
 	return false;
 };
 
+
+
+config.macros.ccAdmin = {}
+config.macros.ccAdmin.handler =  function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
+	var w = new Wizard();
+	w.createWizard(place,"Manage Admins");
+	var frm = createTiddlyElement(null,'form',null,null);
+	frm.onsubmit = this.addAdminSubmit;
+
+	var step = createTiddlyElement(frm,'div',null, "null");
+
+	createTiddlyElement(step, 'h2', null, null,  "Create New Admin ");
+
+	var workspace_label = createTiddlyElement(step, "label", null, "label", "Workspace");
+	workspace_label.setAttribute("for","workspaceName");
+	var workspaceName = createTiddlyElement(step,'input','workspaceName', 'input')				
+	workspaceName.value = workspace;
+	workspaceName.size = 15;
+	workspaceName.name = 'workspaceName';
+	createTiddlyElement(step,'br');
+
+	var username_label = createTiddlyElement(step, "label", null, "label", 'Username  ');
+	username_label.setAttribute("for","adminUsername");
+	var adminUsername = createTiddlyElement(step,'input','adminUsername', 'input');				
+	adminUsername.name = 'adminUsername';
+	createTiddlyElement(step,'br');
+
+	
+	w.addStep("Step Number 1",frm.innerHTML);
+	w.setButtons([{caption: 'Add User', tooltip: 'Add User', onClick: this.addAdminSubmit}]);
+}
+
+
+config.macros.ccAdmin.addAdminSubmit = function(e) {
+		var me = config.macros.ccAdmin;
+		var w = new Wizard(this);
+	//	displayMessage(w.formElem.adminUsername.value);
+	doHttp('POST',url+'/handle/workspaceAdmin.php','username='+w.formElem.adminUsername.value+'&workspace_name='+w.formElem.workspaceName.value,null,null,null,config.macros.ccAdmin.addAdminCallback,params);
+return false; 
+};
+
+
+
+config.macros.ccAdmin.listFilesCallback = function(status,params,responseText,uri,xhr) {
+	createTiddlyElement(params.place,'hr');
+	createTiddlyElement(params.place,'br');
+	createTiddlyElement(params.place, 'h2', null, null,  "Existing Files ");
+		var a = eval( "[" +responseText+ "]" );
+		for(var e=0; e < a.length; e++){  
+			var link=createExternalLink(params.place,url+'/uploads/workspace/'+workspace+'/'+a[e]);
+			link.textContent=a[e];
+			createTiddlyElement(params.place, "br");
+		}
+}
+
+config.macros.ccAdmin.listALlCallback = function(status,params,responseText,uri,xhr) {
+	createTiddlyElement(params.place,'hr');
+	createTiddlyElement(params.place,'br');
+	createTiddlyElement(params.place, 'h2', null, null,  "Existing Admins ");
+	
+	var a = eval(responseText);
+		//var a = eval( "" +responseText+ "" );
+		for(var e=0; e < a.length; e++){ 		
+			createTiddlyElement(params.place, 'b', null, null,  a[e].username);
+			createTiddlyElement(params.place, 'i', null, null,  ' last visited '+a[e].lastVisit);
+			var link=createExternalLink(params.place,url+'/handle/WorkspaceAdmin.php?action=DELETEADMIN&username='+a[e]+'&workspace_name='+workspace);
+			link.textContent='(x)';
+			createTiddlyElement(params.place, "br");
+		
+		}
+}
+
+
+
+config.macros.ccAdmin.addAdminCallback = function(status,params,responseText,uri,xhr) {
+//displayMessage(xhr.status);
+if(xhr.status)
+{
+	displayMessage('You do not have permission to add new admin users to the specified workspace.');
+}
+displayMessage(responseText);
+};
+
+
+
+
+config.macros.ccAdmin1= {}
+config.macros.ccAdmin1.handler =  function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
+	
+	var frm = createTiddlyElement(place,'form',null,"wizard");
+	frm.onsubmit = this.addAdminSubmit;
+
+	createTiddlyElement(frm,'h1',null,null,"Admin Area");
+	createTiddlyElement(frm, 'h2', null, null,  "Sort out your permissions below");
+
+	var body = createTiddlyElement(frm,'div',null, "wizardBody");
+
+	//form content
+	var step = createTiddlyElement(body,'div',null, "wizardStep");
+	//createTiddlyElement(step, "br");
+	//form workspace name/url
+	createTiddlyElement(step, 'h2', null, null,  "Create New Admin ");
+
+	var workspace_label = createTiddlyElement(step, "label", null, "label", "Workspace");
+	workspace_label.setAttribute("for","workspaceName");
+	var workspaceName = createTiddlyElement(step,'input','workspaceName', 'input')				
+	workspaceName.value = workspace;
+	workspaceName.size = 15;
+	workspaceName.name = 'workspaceName';
+	createTiddlyElement(step,'br');
+		
+	var username_label = createTiddlyElement(step, "label", null, "label", 'Username  ');
+	username_label.setAttribute("for","adminUsername");
+	var adminUsername = createTiddlyElement(step,'input','adminUsername', 'input');				
+	adminUsername.name = 'adminUsername';
+
+	
+	createTiddlyElement(step,'br');
+	var btn = createTiddlyElement(step,'input',this.prompt,"button","button");
+	 btn.setAttribute('type','submit');
+	 btn.value = 'Add User as Admin to Workspace';
+	
+	
+	
+	params = {};
+	params.place = step;
+		doHttp('POST',url+'/handle/workspaceAdmin.php','action=LISTALL&workspace_name='+workspace,null,null,null,config.macros.ccAdmin.listALlCallback,params);
+	doHttp('POST',url+'/handle/listFiles.php','workspace_name='+workspace,null,null,null,config.macros.ccAdmin.listFilesCallback,params);
+
+	
+}
+
+
 //}}}
