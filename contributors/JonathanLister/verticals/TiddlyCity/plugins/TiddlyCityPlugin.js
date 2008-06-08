@@ -25,7 +25,7 @@ TiddlyCity.TweetToTiddler = function(tweets) {
 			var text = tweet.text.slice(0,match.index);
 			var location = tweet.text.slice(match.index+match.length);
 			var modifier = tweet.user.screen_name;
-			var modified = tweet.created_at;
+			var modified = new Date(tweet.created_at);
 			var tags = ["tweet"];
 			var body = "tweet: "+text+"\nfrom: "+location+"\nby: ''"+modifier+"''\nat: "+modified;
 			store.saveTiddler(tweet.id.toString(),tweet.id.toString(),body,modifier,modified,tags);
