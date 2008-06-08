@@ -1,5 +1,5 @@
 
-{{cols3{
+{{cols2{
 
 {{col{
 
@@ -19,10 +19,7 @@
 	newButtonTags:'Project Someday/Maybe'
 	>>
 
-}}}
-
-{{col{
-
+{{scroll10{
 <<mgtdList title:'Completed Projects' startTag:Project tags:'Complete' view:ProjectComplete mode:global
 	group:Area
 	gView:bold
@@ -30,5 +27,8 @@
 	>>
 
 }}}
+
+}}}
+
 
 }}}

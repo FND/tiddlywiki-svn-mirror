@@ -1,5 +1,5 @@
 
-{{cols3{
+{{cols2{
 
 {{col{
 
@@ -51,19 +51,6 @@
 >>
 
 }}}
-
-}}}
-
-{{col{
-
-<<mgtdList
-	title:'Active Projects'
-	startTag:Project
-	tags:'!Complete && !Someday/Maybe'
-	view:ProjectBare
-	mode:global
-	newButtonTags:'Project Active'
->>
 
 }}}
 

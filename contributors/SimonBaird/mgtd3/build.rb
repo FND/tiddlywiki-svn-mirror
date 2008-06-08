@@ -164,14 +164,21 @@ make_tw {
   # add required tiddlers and write upgrade file.
   required.each { |t| add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2]||'') }
 
-  # remove MptwUserConfig from upgrade file
-  temp = get_tiddler('MptwUserConfigPlugin')
+  # some we don't want in upgrade file... FIXME
+  temp1 = get_tiddler('MptwUserConfigPlugin')
+  temp2 = get_tiddler('ColorPalette')
+  temp3 = get_tiddler('DefaultTiddlers')
+
   remove_tiddler('MptwUserConfigPlugin')
+  remove_tiddler('ColorPalette')
+  remove_tiddler('DefaultTiddlers')
 
   store_to_file          "upload/upgrade3.html" unless ARGV[0] == 'fast'
 
   # put it back again
-  add_tiddler(temp)
+  add_tiddler(temp1)
+  add_tiddler(temp2)
+  add_tiddler(temp3)
 
   # add a MgtdUserConf tiddler
   add_tiddler_from_scratch('tiddler'=>'MgtdUserConf','tags'=>'systemConfig','text'=>"// won't be overwritten by updates\n\n // eg:\n\n//// config.options.txtTheme = 'MonkeyGTDPrint3x5';")

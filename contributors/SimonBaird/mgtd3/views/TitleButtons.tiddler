@@ -3,7 +3,7 @@
 <div class="projectcontrols controls controlstint">
  <div style="float:right;" class="smaller">
   <span class="label">Realm:</span><span macro="multiSelectTag Realm allowNone:on"></span>
-  Project<span macro="help Project"></span>
+  <span macro="tag Project"></span><span macro="help Project"></span>
  </div>
  <div>
   <span macro="toggleTag Complete . -"></span>
@@ -32,7 +32,7 @@
 <div class="actioncontrols controls controlstint">
  <div style="float:right;" class="smaller">
   <span class="label">Realm:</span><span macro="multiSelectTag Realm allowNone:on"></span>
-  Action<span macro="help Action"></span>
+  <span macro="tag Action"></span><span macro="help Action"></span>
  </div>
  <div>
   <span macro="toggleTag Done . -"></span>
@@ -68,7 +68,7 @@
 <div class="ticklercontrols controls controlstint">
  <div style="float:right;" class="smaller">
   <span class="label">Realm:</span><span macro="multiSelectTag Realm allowNone:on"></span>
-  Tickler<span macro="help Tickler"></span>
+  <span macro="tag Tickler"></span><span macro="help Tickler"></span>
  </div>
  <div>
   <span macro="showWhen tiddler.tags.contains('Once') || !tiddler.hasParent('TicklerRepeatType')">
@@ -120,7 +120,7 @@
 <!--{{{-->
 <div class="contextcontrols controls">
  <div style="float:right;" class="smaller">
-  Context<span macro="help Context"></span>
+  <span macro="tag Context"></span><span macro="help Context"></span>
  </div>
  <div>
   <span class='title' macro='view title'></span>
@@ -134,7 +134,7 @@
 <div class="areacontrols controls">
  <div style="float:right;" class="smaller">
   <span class="label">Realm:</span><span macro="multiSelectTag Realm allowNone:on"></span>
-  Area<span macro="help Area"></span>
+  <span macro="tag Area"></span><span macro="help Area"></span>
  </div>
  <div>
   <span class='title' macro='view title'></span>
@@ -147,7 +147,7 @@
 <!--{{{-->
 <div class="realmcontrols controls">
  <div style="float:right;" class="smaller">
-  Realm<span macro="help Realm"></span>
+  <span macro="tag Realm"></span><span macro="help Realm"></span>
  </div>
  <div>
   <span class='title' macro='view title'></span>
@@ -160,7 +160,7 @@
 <div class="referencecontrols controls controlstint">
  <div style="float:right;" class="smaller">
   <span class="label">Realm:</span><span macro="multiSelectTag Realm allowNone:on"></span>
-  Reference<span macro="help Reference"></span>
+  <span macro="tag Reference"></span><span macro="help Reference"></span>
  </div>
  <div>
   <span class='title' macro='view title'></span>
@@ -184,7 +184,7 @@
 <div class="contactcontrols controls">
  <div style="float:right;" class="smaller">
   <span class="label">Realm:</span><span macro="multiSelectTag Realm allowNone:on"></span>
-  Contact<span macro="help Contact"></span>
+  <span macro="tag Contact"></span><span macro="help Contact"></span>
  </div>
  <div>
   <span class='title' macro='view title'></span>

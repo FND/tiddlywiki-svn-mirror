@@ -1,5 +1,5 @@
 
-{{cols3{
+{{cols2{
 
 {{col{
 
@@ -31,19 +31,13 @@
 	>>
 
 {{scroll10{
+
 <<mgtdList title:'Done Actions' startTag:Action tags:'Done' view:DoneAction mode:global
 	newButtonTags:'Action Next Done'
 	sort:-modified
 >>
-}}}
 
 }}}
-
-{{col{
-
-<<mgtdList title:'Active Projects' startTag:Project tags:'!Complete && !Someday/Maybe' view:ProjectBare mode:global
-	newButtonTags:'Project Active'
-	>>
 
 }}}
 

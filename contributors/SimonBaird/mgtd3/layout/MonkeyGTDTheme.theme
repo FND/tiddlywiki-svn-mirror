@@ -665,6 +665,8 @@ with brs in non-mgtdlist content. .normal might help */
 	#contentWrapper .chkOptionInput {border:0; width:0.25cm;}
 	.titleContainer {border-bottom: 1px dotted #000;}
 
+	.scroll10 .innerList { height:auto; overflow:visible; }
+
 }
 
 

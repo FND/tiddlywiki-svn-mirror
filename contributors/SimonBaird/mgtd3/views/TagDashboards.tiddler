@@ -78,14 +78,21 @@
 <div class="col">
 
 	<div macro="mgtdList title:'Next' tags:'Action && Next && !Done' view:ActionProj
-		where:tiddler.hasActiveProject()
+		newButtonTags:'Action'
+		where:tiddler.hasActiveProject()||!tiddler.hasParent('Project')
 		"></div>
 
 </div>
 <div class="col">
 
 	<div macro="mgtdList title:'Waiting' tags:'Action && [(Waiting For)] && !Done' view:ActionProj
-		where:tiddler.hasActiveProject()
+		newButtonTags:'Action'
+		where:tiddler.hasActiveProject()||!tiddler.hasParent('Project')
+		"></div>
+
+	<div macro="mgtdList title:'Future' tags:'Action && Future && !Done' view:ActionProj
+		newButtonTags:'Future'
+		where:tiddler.hasActiveProject()||!tiddler.hasParent('Project')
 		"></div>
 
 </div>

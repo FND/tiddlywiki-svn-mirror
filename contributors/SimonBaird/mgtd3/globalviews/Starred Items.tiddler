@@ -1,5 +1,5 @@
 
-{{cols3{
+{{cols2{
 
 {{col{
 
@@ -27,10 +27,6 @@
 	newButtonTags:'Starred Project Complete'
 	>>
 
-}}}
-
-{{col{
-
 <<mgtdList title:'Other Starred Items' startTag:Starred tags:'!Project && !Action' view:star mode:global
 	group:GTDComponent
 	gView:bold
@@ -38,5 +34,6 @@
 	>>
 
 }}}
+
 
 }}}

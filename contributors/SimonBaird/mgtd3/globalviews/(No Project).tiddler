@@ -1,4 +1,4 @@
 <<mgtdList startTag:Action title:'Actions with no project' tags:'!Done' view:DoneAction mode:global
-	where:tiddler.getByIndex('Project').length==0
+	where:tiddler.hasNoParent('Project')
 	>>
 

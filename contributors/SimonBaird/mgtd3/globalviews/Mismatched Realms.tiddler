@@ -1,5 +1,5 @@
 Fix these manually. These have either no realm or a different realm to their parent.
-{{cols3{
+{{cols2{
 
 {{col{
 
@@ -29,10 +29,6 @@ Fix these manually. These have either no realm or a different realm to their par
 	gView:bold
 	>>
 
-
-}}}
-
-{{col{
 
 <<mgtdList
 	title:'Subproject/parent project mismatch'
