@@ -7,5 +7,9 @@ Here's what's happening...
 #...it uses Google local search to get an address
 #Your tweets are displayed on a Yahoo! map
 
-<<TiddlyCity>></pre>
+<<TiddlyCity>>
+
+Things I'm thinking about...
+#Using GeoNames.org to power the location lookup (previously it's looked like the API has been down)
+#Creating a KML file and saving to your googlepages account and providing you with a My Maps entry</pre>
 </div>
