@@ -9,12 +9,27 @@
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.2.6|
 
+depends on the GenerateRssPlugin and RSSAdaptor plugins
+
+!!!Options
+|<<option txtSharedNotesUserName>>|<<message config.optionsDesc.txtSharedNotesUserName>>|
+|<<option chkSharedNotesPutEnabled>>|<<message config.optionsDesc.txtSharedNotesPutEnabled>>|
+|<<option chkSharedNotesGetEnabled>>|<<message config.optionsDesc.txtSharedNotesGetEnabled>>|
+
+!!!Source Code
 ***/
 
 //{{{
 //# Ensure that the plugin is only installed once.
-if(!version.extensions.SharedNotesPlugin) {
+if(!version.extensions.SharedNotesPlugin){
 version.extensions.SharedNotesPlugin = {installed:true};
+
+config.options.txtSharedNotesUserName = "YourName";
+config.optionsDesc.txtSharedNotesUserName = "UserName used on the server for shared notes";
+config.options.chkSharedNotesPutEnabled = true;
+config.optionsDesc.chkSharedNotesPutEnabled = "send shared note tiddlers to a server enabled";
+config.options.chkSharedNotesGetEnabled = true;
+config.optionsDesc.chkSharedNotesGetEnabled = "get other people's SharedNotes";
 
 config.macros.SharedNotes = {
 
@@ -23,6 +38,11 @@ config.macros.SharedNotes = {
 		discovered: "discovered_notes"
 	},
 	busy: false,
+	messages: {
+		savingNotes: "saving notes on the server ..",
+		savingFailed: "unable to save notes on the server",
+		savedOK: "notes saved on the server"
+	},
 	help: {
 		missingUserName: 'SharedNotesUserName'
 	},
@@ -31,83 +51,89 @@ config.macros.SharedNotes = {
 	serialize: GenerateRss.serialize,
 	adaptor: '',
 
-	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
+	putNotes: function(){
 		var me = config.macros.SharedNotes;
-	        var button = createTiddlyButton(place,'PUT NOTES','Click here to put your shared notes',this.putNotes);
-		me.putNotes();
-	},
-
-	putNotes: function() {
-		var me = config.macros.SharedNotes;
-		if(!config.options.chkRippleRapShare) {
+		if(!config.options.chkSharedNotesPutEnabled){
 			return;
 		}
-		if(config.options.txtSharedNotesUserName=='YourName') {
+		if(config.options.txtSharedNotesUserName=='YourName'){
 			if (me.help.missingUsername){
 				story.displayTiddler("top",me.help.missingUserName);
 			}
 			return;
 		}
-		if(me.busy) {
+		if(me.busy){
+			log("putNotes: busy");
 			return;
 		}
 		me.busy = true;
 		me.thistime = Date();
-		if (!me.doPut()) {
+		if (!me.putNotesCall()){
 			me.busy = false;
+			return;
 		}
 		return;
 	},
 
-	doPut: function() {
+	putNotesCall: function(){
+		log("putNotesCall");
 		var me = config.macros.SharedNotes;
 		var tiddlers = me.getSharedNoteTiddlers();
-		if (!tiddlers) {
+		if (!tiddlers){
+			log("putNotesCall: no tiddlers to put");
 			return false;
 		}
-
-		var callback = function(status,me,responseText,uri,xhr) {
-			me.busy = false;
-			if(status) {
-				me.lasttime = me.thistime;
-			}
-		};
 		var adaptor = config.adaptors[me.adaptor];
-		if (!adaptor) {
+		if (!adaptor){
+			log("putNotesCall: no adaptor for putting notes");
 			return false;
 		}
-
+		var callback = function(status,params,responseText,uri,xhr){
+			me.busy = false;
+			if(!status){
+				displayMessage(me.messages.savedFailed);
+				return;
+			} 
+			displayMessage(me.messages.savedOK);
+			me.lasttime = me.thistime;
+		};
 		var rss = me.serialize(tiddlers,{modifier:config.options.txtSharedNotesUserName});
-		if (!adaptor.putRss(rss,callback,me)) {
+		if (!adaptor.putRss(rss,callback,me)){
 			return false;
 		}
+		displayMessage(me.messages.savingNotes);
 		return true;
 	},
 
-	getSharedNoteTiddlers: function() {
+	getSharedNoteTiddlers: function(){
 		var me = config.macros.SharedNotes;
 		var putRequired = false;
 		var tiddlers = [];
-		store.forEachTiddler(function(title,t) {
-			if(t.isTagged(me.tag.note)) {
+		store.forEachTiddler(function(title,t){
+			if(t.isTagged(me.tag.note)){
 				tiddlers.push(t);
-				if(t.modified > me.lasttime) {
+				if(t.modified > me.lasttime){
 					putRequired = true;
 				}
 			}
 		});
-		if (!putRequired) {
+		if (!putRequired){
+			log("no tiddlers to put");
 			return null;
 		}
+		log("tiddlers to put: " + tiddlers.length);
 		return tiddlers;
 	},
 
-	getNotes: function(uri,userName) {
+	getNotes: function(uri,userName){
+		if(!config.options.chkSharedNotesGetEnabled){
+			return;
+		}
 		log("getNotes:",uri,userName);
                 config.macros.importWorkspace.getTiddlers(uri,"rss",null,null,config.macros.SharedNotes.tagNoteAdaptorCallback,userName);
 	},
 
-	tagNoteAdaptorCallback: function(context,userParams) {
+	tagNoteAdaptorCallback: function(context,userParams){
 		log("tagNoteAdaptorCallback",context,userParams);
 
 		var me = config.macros.SharedNotes;
@@ -115,7 +141,7 @@ config.macros.SharedNotes = {
 
 		log("context.userParams:", userParams);
 
-		if (context.userParams) {
+		if (context.userParams){
 			tiddler.modifier = context.userParams;
 		}
 
@@ -127,6 +153,18 @@ config.macros.SharedNotes = {
 		tiddler.fields.rr_session_id = tiddler.title.replace(/ from.*$/,"");
 	}
 
+};
+
+config.macros.SharedNotes.PutNotesButton.handler = function (place,macroName,params,wikifier,paramString,tiddler){
+	var me = config.macros.SharedNotes;
+	var button = createTiddlyButton(place,'PUT NOTES','Click here to put your shared notes',this.putNotes);
+	me.putNotes();
+};
+
+config.macros.SharedNotes.GetNotesButton.handler = function (place,macroName,params,wikifier,paramString,tiddler){
+	var me = config.macros.SharedNotes;
+	var button = createTiddlyButton(place,'GET NOTES','Click here to get your shared notes',this.putNotes);
+	me.putNotes();
 };
 
 } //# end of 'install only once'
