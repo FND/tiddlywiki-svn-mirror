@@ -16,21 +16,47 @@ if(!user_session_validate())
 	exit;	
 }
 
+if ($a =="LISTWORKSPACES")
+{
+	$data['workspace_name']=$w;
+	
+	
+	$result = db_workspace_selectOwnedBy(user_getUsername());  
+$out = "";
+while ($r = db_fetch_assoc($result))
+	{
+		$out .= "'".$r['workspace_name']."', ";
+	}
+	echo substr_replace($out ,"",-2)." ";	
+ 	exit;
+}
+
+
+
 if (!user_isAdmin(user_getUsername(), $w))
 {
+
+	echo user_getUsername();
 //	sendHeader("401");
-	echo '<b> You are not an Admin of this workspace.   Only workspace admins can add new admins to a workspace.</b>';
+	echo '<b> You are not an Admin rights on this workspace.</b>';
 	exit;
 }
 
 if($a == "DELETEADMIN")
 {
-	$data['username'] = $_REQUEST['username'];
-	$data['workspace_name'] =  $_REQUEST['workspaceName']; 
-	$r = db_record_delete($tiddlyCfg['table']['admin'],$data);
+
+	$users = explode( ",", $u);
+	foreach($users as $user)
+	{
+		if ($user)
+		{
+			$data['username'] = $user;
+			$data['workspace_name'] =  $w; 
+			$r = db_record_delete($tiddlyCfg['table']['admin'],$data);	
+		}	
+	}	
 	exit;
 }
-
 
 
 
@@ -39,14 +65,14 @@ if ($a =="LISTALL")
 {
 	$data['workspace_name']=$w;
  	$r = db_record_select($tiddlyCfg['table']['admin'], $data);	
- 	$out = "[{";	
+ 	$out = "[";	
     $count = 0;
 	foreach ($r as $k=>$v)
 	{
 	//	$out .="'".$count++."':'".$v[workspace_name]."',";
 	//	$out .="'".$v[username]."',";
 	
-		$out .="'username':'".$v[username]."',";
+		$out .="{'username':'".$v[username]."',";
 		$data1['username']=$v[username];
 		$data1['workspace']=$w;
 	 	$r1 = db_record_select($tiddlyCfg['table']['workspace_view'], $data1, null ,"order by id limit 1");	
