@@ -150,7 +150,7 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 			template = DEFAULT_EDIT_TEMPLATE;
 		var fields = t.getAttribute("tiddlyFields");
 		story.displayTiddler(null,title,template,false,null,fields);
-		return;
+		return false;
 	}
 
 	// Create a new notes tiddler if required.
@@ -167,7 +167,7 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 	// display the notes tiddler in edit mode.
 	var template = DEFAULT_EDIT_TEMPLATE;
 	story.displayTiddler(sessionTiddler,title,template,false,null,null,target);
-
+	return false;
 };
 
 
