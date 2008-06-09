@@ -200,13 +200,9 @@ ConfabbAgendaAdaptor.loadTiddlyWikiCallback = function(status,context,responseTe
 	if(!status) {
 		context.statusText = "Error reading agenda file";
 	} else {
-		if(xhr.responseXML) {
-			//# Load the content into a TiddlyWiki() object
+		var tiddlers = ConfabbAgendaAdaptor.parseAgenda(responseText);
+		if(tiddlers.length){
 			context.adaptor.store = new TiddlyWiki();
-			var tiddlers = ConfabbAgendaAdaptor.parseAgenda(responseText);
-			if(!tiddlers.length){
-				context.statusText = config.messages.invalidFileError.format([url]);
-			}
 			for(var i=0;i<tiddlers.length;i++) {
 				context.adaptor.store.addTiddler(tiddlers[i]);		
 			}
