@@ -1,38 +1,11 @@
-<div title="Welcome" modifier="YourName" created="200801221853" modified="200801221916">
+<div title="Welcome" modifier="JonathanLister" created="200806051200" modified="200806051200">
 <pre>Hi!
 
-Here's what's happening:
-#You send your update to Twitter ending with 'L:location' (your phone)
-#TiddlyCity collects your update from Twitter and turns it into a tiddler (from Twitter, using JSON)
-#...it looks up your location from the BT phonebook to get an address (from Dapper, using JSON)
-##...or uses Google local search, perhaps in preference (still working on this)
-#...a new venue tiddler is created if you haven't mentioned it before (TW internal)
-#...your venues are displayed on a Yahoo! map with the updates alongside (YSimpleMapsAPI plugin)
+Here's what's happening...
+#You send your update to Twitter ending with 'L:location' (from your phone)
+#TiddlyCity collects your update from Twitter and turns it into a tiddler
+#...it uses Google local search to get an address
+#Your tweets are displayed on a Yahoo! map
 
-And for working with your friends;
-#Your updates are posted as an RSS feed
-#Your friends can add your feed to their TiddlyCity and it will add your updates to their map
-#Alternatively, you could check their Twitter feed...
-
-Inputs:
-#Your Twitter ID
-
-References:
-#Yahoo! Simple Maps API - http://developer.yahoo.com/maps/simple/V1/
-#Twitter timeline (most recent 20) in JSON - http://twitter.com/statuses/user_timeline/jayfresh.xml?since_id=LAST_KNOWN_TWEET_ID
-#Google local search in REST - http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q=Wenlock%20Arms%20N1%20London
-
-Running headless:
-{{{
-// get the Twitter updates and the geodata for them
-var twitter = new TwitterTimeline();
-twitter.getUpdates('jayfresh',TiddlyCity.TweetToTiddler);
-// display the updates on a map
-var ylocal = new YahooMapsSimpleAPI();
-var tiddlers = store.getTaggedTiddlers('tweet');
-for (var i=0;i<tiddlers.length;i++) {
-	ylocal.addElement(tiddlers[i].fields);
-}
-ylocal.displayMap();
-}}}</pre>
+<<TiddlyCity>></pre>
 </div>

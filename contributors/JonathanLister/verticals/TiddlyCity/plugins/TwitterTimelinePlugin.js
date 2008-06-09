@@ -25,6 +25,7 @@ TwitterTimeline.prototype.getUpdates = function(user,callback) {
 	}
 	var index = this.lastIndex;
 	var uri = this.uri.format([user,index]);
+	displayMessage("downloading tweets");
 	loadRemoteFile(uri,this.getUpdatesCallback,callback);
 	return true;
 };
@@ -33,7 +34,9 @@ TwitterTimeline.prototype.getUpdatesCallback = function(status,callback,response
 	if(!status) {
 	 	displayMessage("error in getUpdates: " + xhr.statusText);
 	} else {
+		clearMessage();
 		var tweets = eval("("+responseText+")");
+		console.log(tweets);
 		this.lastIndex = tweets[0].id;
 		callback(tweets);
 	}
