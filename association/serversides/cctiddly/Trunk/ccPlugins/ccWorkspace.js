@@ -407,7 +407,7 @@ merge(config.macros.ccAdmin,{
 	listAdminTemplate: {
 	columns: [	
 	{name: 'Selected', field: 'Selected', rowName: 'name', type: 'Selector'},
-	{name: 'Name', field: 'name', title: "Name", type: 'String'},
+	{name: 'Name', field: 'name', title: "Username", type: 'String'},
 	{name: 'Last Visit', field: 'lastVisit', title: "Last Login", type: 'String'}
 	],
 	rowClasses: [
