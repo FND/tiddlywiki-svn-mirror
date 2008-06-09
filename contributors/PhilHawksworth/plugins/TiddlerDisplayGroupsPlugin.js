@@ -244,9 +244,9 @@ Bunch.prototype.addTiddler = function(tiddlerTitle, sectionLabel, placement) {
 		return;
 	var t = {'title':tiddlerTitle, 'section':sectionLabel};
 	if(placement && placement == 'top')
-		this.tiddlers.push(t);
-	else
 		this.tiddlers.unshift(t);		
+	else
+		this.tiddlers.push(t);
 };
 
 
@@ -296,10 +296,10 @@ Bunch.prototype.getTiddlersInSection = function(sectionLabel) {
 Bunch.prototype.getLastTiddlerInBunch = function() {
 	var tiddlers = null;
 	for (var s = this.template.length-1; s >= 0; s--){
-		tiddlers = this.getTiddlersInSection(this.template[s].label);
+		tiddlers = this.getTiddlersInSection(this.template[s].label);		
 		if(tiddlers && tiddlers.length > 0) {
-			// console.log("tiddlers from section: ", this.template[s].label, tiddlers);
-			// console.log(tiddlers[tiddlers.length-1].title);
+			// alert("tiddlers from section: " + this.template[s].label + ":"+ tiddlers.length);
+			// alert(tiddlers[tiddlers.length-1].title);
 			return tiddlers[tiddlers.length-1].title;	
 		}
 	};
