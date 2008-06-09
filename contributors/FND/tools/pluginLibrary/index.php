@@ -31,6 +31,7 @@ debug($log); // DEBUG: write to file?
 * @return null
 */
 function processRepositories() {
+	global $dbq;
 	$repositories = getRepositories();
 	foreach($repositories as $repo) {
 		if($repo->disabled) {
@@ -41,13 +42,8 @@ function processRepositories() {
 			$contents = getPageContents($repo->URI);
 			if($contents === false) {
 				// increase repository's skipped counter in database
-				$selectors = array(
-					ID => $repo->ID
-				);
-				$data = array(
-					skipped => skipped + 1 // increment counter -- DEBUG: untested!
-				);
-				$dbq->updateRecords("repositories", $data, $selectors);
+				$dbq->query("UPDATE `repositories` SET `skipped` = skipped + 1 WHERE `ID` = '"
+					. $repo->ID . "'"); // DEBUG: use of query() hacky; can't use updateRecords() due to automatic quoting
 				// log event
 				addLog("skipped repository " . $repo->name . ": unavailable");
 			} else {

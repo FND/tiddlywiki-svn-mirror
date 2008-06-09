@@ -19,14 +19,14 @@ node.TBD		{ shape: rect; } # DEBUG
 --> [ repository disabled ]
 
 [ repository disabled ] { class: decision; }
-	-- Y --> [ skip repository ] { class: edge; }
+	-- Y --> [ skip repository ]
 [ repository disabled ]
-	-- N --> [ repository not found (404) ]
+	-- N --> [ repository available ]
 
-[ repository not found (404) ] { class: decision; }
-	-- Y --> [ skip repository ] { class: edge; }
-[ repository not found (404) ]
-	-- N --> [ initialize repository's plugins ] { class: action; }
+[ repository available ] { class: decision; }
+	-- N --> [ skip repository ]
+[ repository available ]
+	-- Y --> [ initialize repository's plugins ] { class: action; }
 
 --> [ remove repository's entries \n from auxiliary tables ] { class: action; }
 --> [ load repository contents ] { class: action; }
@@ -67,7 +67,10 @@ node.TBD		{ shape: rect; } # DEBUG
 
 [ plugin exists in database ] { class: decision; }
 	-- Y --> [ update plugin in database ] { class: action; }
---> [ populate auxiliary tables ] { class: action; }
+--> [ populate auxiliary tables \n (tiddlerFields, tags, metaslices, keywords) ] { class: action; }
 [ plugin exists in database ]
 	-- N --> [ add plugin to database ] { class: action; }
---> [ populate auxiliary tables ]
+--> [ populate auxiliary tables \n (tiddlerFields, tags, metaslices, keywords) ]
+
+[ skip repository ] { class: edge; }
+--> [ increase repository's skipped counter ] { class: action; }
