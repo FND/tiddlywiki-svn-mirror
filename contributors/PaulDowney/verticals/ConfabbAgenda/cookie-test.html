@@ -2,16 +2,63 @@
 	<head>
 <script id="versionArea" type="text/javascript">
 
-	var url = "http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessionlist";
+function getSessionId() {
 
-	var callback = function(status,text){
-		var t = document.getElementById('t');
-		t.value = text;
+	var callback = function(status,x){
+		var c = document.getElementById('cookie');
+		text = x.getResponseHeader('set-cookie');
+		c.value = text;
 	};
 
-	doHttpGet(url,callback);
+	var url = "http://staging.confabb.com/login";
+	var cookie = document.getElementById('cookie');
+	doHttp('GET',url,null,cookie,callback);
+	return false;
+}
 
-function doHttpGet(url,callback)
+function doLogin() {
+
+	document.getElementById('agenda').value = "";
+
+	var callback = function(status,x){
+		var c = document.getElementById('cookie');
+		text = x.getResponseHeader('set-cookie');
+		c.value = text;
+		var agenda = document.getElementById('agenda');
+		agenda.value = x.responseText;
+	};
+
+	data = "login=" + document.getElementById('login').value + "&password=" + document.getElementById('password').value + "&commit=Log+In";
+
+	//alert(data); return false;
+
+	var url = "http://staging.confabb.com/login";
+	var cookie = document.getElementById('cookie').value;
+
+	var cookie = null;
+	//var cookie = document.getElementById('cookie');
+
+	doHttp('POST',url,data,cookie,callback);
+	return false;
+}
+
+function getAgenda() {
+
+	document.getElementById('agenda').value = "";
+
+	var callback = function(status,x){
+		var agenda = document.getElementById('agenda');
+		agenda.value = x.responseText;
+	};
+
+	var url = "http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessionlist";
+	var cookie = document.getElementById('cookie').value;
+	doHttp('GET',url,null,cookie,callback);
+	return false;
+}
+
+
+function doHttp(m,url,data,cookie,callback)
 {
 	var x = getXMLHttpRequest();
 	x.onreadystatechange = function() {
@@ -21,15 +68,21 @@ function doHttpGet(url,callback)
 			status = false;
 		}
 		if(x.readyState == 4 && callback && (status !== undefined)) {
-			callback(status,x.responseText);
+			if (window.console){
+				console.log(x);
+			}
+			callback(status,x);
 			x.onreadystatechange = function(){};
 			x = null;
 		}
 	};
-	 if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
+	if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
 		window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-	x.open('GET',url,true);
-	x.send(null);
+	x.open(m,url,true);
+	x.setRequestHeader('Content-type','Content-Type: application/x-www-form-urlencoded');
+	if (cookie)
+		x.setRequestHeader('cookie',cookie);
+	x.send(data);
 }
 
 function getXMLHttpRequest()
@@ -50,8 +103,33 @@ function getXMLHttpRequest()
 </script>
 	</head>
 	<body>
+
+	<h2>Get Cookie:</h2>
+	<p>
 	<form>
-		<textarea id='t' cols='80' rows='25'/>
+		<input name="commit" type="button" value="Login Page" onclick="getSessionId()"/>
 	</form>
+
+	<h2>Login:</h2>
+	<p>
+	<form>
+		<label>Cookie: </label><textarea id='cookie' cols='120' rows='2'></textarea> <br/>
+		<label for="login_login">User Name: </label> <input id="login" name="login" size="40" type="text" value="psd"/> <br/>
+		<label for="login_password">Password: </label> <input id="password" name="password" size="40" type="text" value="myCONFABB1"/> <br/>
+		<input type="button" value="Log In" onclick="doLogin()"/>
+	</form>
+	</p>
+
+	<h2>Get Agenda:</h2>
+	<p>
+	<form>
+		<input type="button" value="submit" onclick="getAgenda()"></input>
+	</form>
+	</p>
+
+	<h2>Agenda:</h2>
+	<p>
+		Output: <textarea id='agenda' cols='80' rows='25'></textarea><br/>
+	</p>
 	</body>
 </htm>
