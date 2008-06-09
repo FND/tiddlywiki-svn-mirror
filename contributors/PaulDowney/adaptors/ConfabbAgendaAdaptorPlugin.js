@@ -145,6 +145,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 
 ConfabbAgendaAdaptor.notLoggedIn = function()
 {
+	displayMessage("not logged into Confabb");
 	story.displayTiddler("top","LoginToConfabb");
 };
 
