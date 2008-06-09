@@ -271,8 +271,8 @@ config.macros.ccAdmin.refresh= function(w){
 	params.e = this;
 	doHttp('POST',url+'/handle/workspaceAdmin.php','action=LISTALL&workspace_name='+workspace,null,null,null,config.macros.ccAdmin.listAllCallback,params);
 	w.setButtons([
-		{caption: 'Delete Users', tooltip: 'Delete User', onClick: function(w){ config.macros.ccAdmin.delAdminSubmit(null, params) } }, 
-		{caption: 'Add User', tooltip: 'Add User', onClick: function(w){ config.macros.ccAdmin.addAdminDisplay(null, params) } }]);
+		{caption: 'Delete Users', tooltip: 'Delete User', onClick: function(w){ config.macros.ccAdmin.delAdminSubmit(null, params; return false) } }, 
+		{caption: 'Add User', tooltip: 'Add User', onClick: function(w){ config.macros.ccAdmin.addAdminDisplay(null, params); return false } }]);
 	
 };
 
@@ -288,17 +288,9 @@ config.macros.ccAdmin.delAdminSubmit = function(e, params) {
 return false; 
 };
 
-
-
-
 config.macros.ccAdmin.addAdminDisplay = function(e, params) {
 	
-	
-	
-	
 	doHttp('POST',url+'/handle/workspaceAdmin.php','action=LISTWORKSPACES',null,null,null,config.macros.ccAdmin.listWorkspaces,params);
-	
-	
 };
 
 config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,xhr) {
@@ -396,9 +388,6 @@ config.macros.ccAdmin.listAllCallback = function(status,params,responseText,uri,
 	//params.w.setValue("listAdminView",listAdminView);
 	params.w.setValue("listView",listView);
 	
-	
-	
-		
 };
 
 

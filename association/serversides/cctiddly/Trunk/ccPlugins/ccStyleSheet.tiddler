@@ -128,7 +128,6 @@ label{
 
 .wizard{
 	background-color:#E1E7F8;
-	border:solid 1px #9399AB;
 }
 
 .checkInput{
@@ -145,6 +144,13 @@ label{
 .wizardFooter{
 	background-color:#E1E7F8;
 }
+
+
+// SMM STYLE 
+
+
+
+
 */
 
 /*}}}*/
