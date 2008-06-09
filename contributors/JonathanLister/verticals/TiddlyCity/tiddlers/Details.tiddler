@@ -1,0 +1,34 @@
+<div title="Details" modifier="JonLister" created="200806091306" modified="200806091306">
+<pre>Here's what's meant to happen:
+#You send your update to Twitter ending with 'L:location' (from your phone)
+#TiddlyCity collects your update from Twitter and turns it into a tiddler (TwitterTimelinePlugin)
+#...it uses Google local search to get an address (GoogleLocalSearchPlugin)
+#Your tweets are displayed on a Yahoo! map (YahooSimpleMapsAPI plugin)
+
+And for working with your friends;
+#Your updates are posted as an RSS feed
+#Your friends can add your feed to their TiddlyCity and it will add your updates to their map
+#Alternatively, you could check their Twitter feed...
+
+Inputs:
+#Your Twitter ID
+
+References:
+#Yahoo! Simple Maps API - http://developer.yahoo.com/maps/simple/V1/
+#Twitter timeline (most recent 20) in JSON - http://twitter.com/statuses/user_timeline/jayfresh.xml?since_id=LAST_KNOWN_TWEET_ID
+#Google local search in REST - http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q=Wenlock%20Arms%20N1%20London
+
+Running headless:
+{{{
+// get the Twitter updates and the geodata for them
+var twitter = new TwitterTimeline();
+twitter.getUpdates('jayfresh',TiddlyCity.TweetToTiddler);
+// display the updates on a map
+var ylocal = new YahooMapsSimpleAPI();
+var tiddlers = store.getTaggedTiddlers('tweet');
+for (var i=0;i<tiddlers.length;i++) {
+	ylocal.addElement(tiddlers[i]);
+}
+ylocal.displayMap();
+}}}</pre>
+</div>
