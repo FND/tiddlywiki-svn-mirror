@@ -2,10 +2,11 @@
 <pre>
 You can share your notes with other ~RippleRap users and see notes that they share right here in ~RippleRap.
 
-<<option chkRippleRapShare>> Share your session notes with other ~RippleRap users.
-<<option chkRippleRapEnjoy>> Enjoy session notes shared by other ~RippleRap users.
-!!! Your username
-<<tiddler UserName>>
+<<option config.options.chkSharedNotesPutEnabled>> Share your session notes with other ~RippleRap users.
+<<option config.options.chkSharedNotesGetEnabled>> Enjoy session notes shared by other ~RippleRap users.
+
+!!! Your server username
+<<tiddler txtSharedNotesUserName>>
 
 </pre>
 </div>

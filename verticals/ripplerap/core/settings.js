@@ -5,13 +5,19 @@ config.options.chkAnimate = true;
 config.options.chkSaveBackups = false;
 config.options.txtTheme = "RippleRapSkin";
 
-// RippleRap Specific 
-config.options.chkRippleRapShare = true;
-config.options.chkRippleRapEnjoy= true;
+// SharedNotes Plugin
+config.options.chkSharedNotesPutEnabled = true;
+config.options.chkSharedNotesGetEnabled = true;
 
 // Ticker config
 config.options.chkTickerEval = true;
 config.options.chkTickerRefresh = true;
+
+// Logging
+config.options.chkLogMessageEnabled = true;
+config.options.chkLogMessageConsole = true;
+config.options.chkLogMessageWindow = true;
+config.options.chkLogMessageDisplayMessage = false;
 
 // RippleRap Edition Specific settings are in Edition.js
 
