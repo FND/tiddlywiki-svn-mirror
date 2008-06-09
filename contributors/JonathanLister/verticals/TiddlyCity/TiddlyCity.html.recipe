@@ -1,4 +1,4 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: tiddlers/split.recipe
 recipe: plugins/split.recipe
-tiddler: ../../plugins/IFramePlugin.js
+#tiddler: ../../plugins/IFramePlugin.js

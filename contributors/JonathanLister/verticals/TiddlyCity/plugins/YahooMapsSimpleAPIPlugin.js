@@ -46,15 +46,15 @@ YahooMapsSimpleAPI.prototype.addElement = function(tiddler) {
 	// item.streetAddress, item.city, item.country (these are all in the fields)
 	var item = {};
 	item.title = store.getTiddlerSlice(tiddler.title,"from");
-	item.link = "http://www.google.com/?q="+encodeURIComponent(store.getTiddlerSlice(tiddler.title,"from"));
+	item.link = "http://www.google.com/search?q="+encodeURIComponent(store.getTiddlerSlice(tiddler.title,"from"));
 	item.desc = store.getTiddlerSlice(tiddler.title,"tweet");
 	item.fields = tiddler.fields;
 	item.person = store.getTiddlerSlice(tiddler.title,"by");
 	this.items.push(item);
 };
 
-// I don't really like this way of displaying the map, would rather edit the iframe directly...
-// YahooMapsSimpleAPI.prototype.displayMap needs to be fixed, although the IFrame library isn't solid yet (9th June)
+// alternatively, could display using an iframe...
+// although the IFrame library isn't solid yet (9th June)
 YahooMapsSimpleAPI.prototype.displayMapUsingForm = function(place) {
 	var url = this.makeURL();
 	var data = this.makeDataString();
@@ -88,33 +88,7 @@ YahooMapsSimpleAPI.prototype.displayMapUsingForm = function(place) {
 	submit.setAttribute('value','View on Y! Maps');
 	form.appendChild(submit);
 	
-	var ifr = new IFrame(place,'ResultsIFrame');
 	form.submit();
-	console.log(ifr);
-	ifr.style.width = "100%";
-	ifr.style.height = "800px";
-};
-
-YahooMapsSimpleAPI.prototype.displayMap = function(place) {
-	var ifr = new IFrame(place);
-	console.log(ifr);
-	var url = this.makeURL();
-	console.log(url);
-	var data = this.makeDataString();
-	console.log(data);
-	var context = {};
-	context.ifr = ifr;
-	doHttp("POST",url,data,null,null,null,YahooMapsSimpleAPI.displayMapCallback,context,null,true);
-};
-
-YahooMapsSimpleAPI.displayMapCallback = function(status,context,responseText,url,xhr) {
-	var ifr = context.ifr;
-	console.log(responseText);
-	//ifr.modify(responseText);
-	ifr.doc.documentElement.innerHTML = responseText;
-	ifr.style.width = "100%";
-	ifr.style.height = "600px";
-	//ifr.style.height = ifr.f....
 };
 
 YahooMapsSimpleAPI.prototype.makeGeoRss = function() {
@@ -126,7 +100,7 @@ YahooMapsSimpleAPI.prototype.makeGeoRss = function() {
 		xml += "<rss version = '2.0'>\n";
 		xml += "<channel xmlns:" + namespace +"='"+this.base+"'>\n";
 		xml += "<title>Your DIY City Guide updates</title>\n";
-		xml += "<link>http://www.tiddlywiki.com/</link>\n";
+		xml += "<link><![CDATA[http://www.tiddlywiki.com]]></link>\n";
 		xml += "<description>Locations that you selected to view</description>\n";
 		var item = {};
 		var fields = {};
@@ -137,7 +111,7 @@ YahooMapsSimpleAPI.prototype.makeGeoRss = function() {
 			iconURL = fields.iconUrl;
 			xml += "<item>\n";
 			xml += "<title>" + item.title.htmlEncode() + "</title>\n";
-			xml += "<link>" + item.link.htmlEncode() + "</link>\n";
+			xml += "<link>" + "<![CDATA[" + encodeURIComponent(item.link).htmlEncode() + "]]>" + "</link>\n";
 			xml += "<description>" + item.desc.htmlEncode() + "</description>\n";
 			// xml += "<" + namespace +":Address>" + fields.streetAddress.htmlEncode() + "</" +namespace + ":Address>\n";
 			// xml += "<" + namespace + ":CityState>" + fields.city.htmlEncode() + "</" + namespace + ":CityState>\n";
