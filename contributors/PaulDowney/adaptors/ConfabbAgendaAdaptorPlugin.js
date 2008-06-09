@@ -56,7 +56,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 	if (!r) 
 		return tiddlers;
 
-	if (!getFirstElement(r,"conference",null)){
+	if (!getFirstElementValue(r,"conference",null)){
 		log("document is missing the conference element");
 		return tiddlers;
 	}
