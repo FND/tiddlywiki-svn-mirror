@@ -155,12 +155,14 @@ config.macros.SharedNotes = {
 
 };
 
+config.macros.SharedNotes.PutNotesButton = {};
 config.macros.SharedNotes.PutNotesButton.handler = function (place,macroName,params,wikifier,paramString,tiddler){
 	var me = config.macros.SharedNotes;
 	var button = createTiddlyButton(place,'PUT NOTES','Click here to put your shared notes',this.putNotes);
 	me.putNotes();
 };
 
+config.macros.SharedNotes.GetNotesButton = {};
 config.macros.SharedNotes.GetNotesButton.handler = function (place,macroName,params,wikifier,paramString,tiddler){
 	var me = config.macros.SharedNotes;
 	var button = createTiddlyButton(place,'GET NOTES','Click here to get your shared notes',this.putNotes);
