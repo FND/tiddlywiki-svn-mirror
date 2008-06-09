@@ -49,11 +49,13 @@ config.macros.RippleRap.init = function(){
 config.macros.RippleRap.getAgenda = function() {
 	log("config.macros.RippleRap.getAgenda");
 	config.macros.importWorkspace.getTiddlers(config.macros.RippleRap.agenda.uri, config.macros.RippleRap.agenda.adaptor);
+	return false;
 };
 
 config.macros.RippleRap.putNotes = function() {
 	log("config.macros.RippleRap.putNotes");
 	config.macros.SharedNotes.putNotes();
+	return false;
 };
 
 config.macros.RippleRap.getNotes = function() {
@@ -63,11 +65,13 @@ config.macros.RippleRap.getNotes = function() {
 		log("getting notes from:", feed.uri, feed.name);
 		config.macros.SharedNotes.getNotes(feed.uri,feed.name);
 	}
+	return false;
 };
 
 config.macros.RippleRap.populateNotes = function() {
 	log("config.macros.RippleRap.populateNotes");
  	var uri = config.macros.RippleRap.feedListManager.populate();
+	return false;
 };
 
 
@@ -115,7 +119,7 @@ config.macros.RippleRap.handler = function(place,macroName,params,wikifier,param
 	switch(option) { 
 		case "makeNote" : 
 			this.makeNoteButton(place);
-			break; 
+			return false;
 		case "showSharingPrefs" :
 			this.displaySharingPreferences(place);
 			break; 
@@ -158,9 +162,6 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 		var tags = ['notes'];
 		var fields = {};
 		fields.rr_session_id = sessionTiddler.getAttribute('tiddler');
-		
-		log("about to create notes tiddler. Modifier:" + modifier);
-		
 		store.saveTiddler(title,title,text,modifier,modified,tags,fields,true,created);
 	}
 	// display the notes tiddler in edit mode.
