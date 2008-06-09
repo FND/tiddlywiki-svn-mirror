@@ -327,7 +327,7 @@ function updatePlugin($tiddler, $pluginID, $repo) {
 	$data = array(
 		repository_ID => $repo->ID,
 		available => true,
-		title => $tiddler->title,
+		name => $tiddler->title,
 		text => $tiddler->text,
 		created => convertTiddlyTime($tiddler->created),
 		modified => convertTiddlyTime($tiddler->modified),
@@ -380,7 +380,6 @@ function insertTiddlerFields($fields, $pluginID) {
 */
 function insertMetaSlices($slices, $pluginID) {
 	global $dbq;
-	debug($slices, "slices");
 	while(list($k, $v) = each($slices)) { // DEBUG: why is this an associative array now - supposed to be an object!?
 		$data = array(
 			plugin_ID => $pluginID,
@@ -446,7 +445,7 @@ function pluginExists($name, $repoID) {
 	global $dbq;
 	$selectors = array(
 		repository_ID => $repoID,
-		title => $name
+		name => $name
 	);
 	$r = $dbq->retrieveRecords("plugins", array("*"), $selectors);
 	if(sizeof($r) > 0) {
