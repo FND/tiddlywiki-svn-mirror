@@ -1,0 +1,57 @@
+<html>
+	<head>
+<script id="versionArea" type="text/javascript">
+
+	var url = "http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessionlist";
+
+	var callback = function(status,text){
+		var t = document.getElementById('t');
+		t.value = text;
+	};
+
+	doHttpGet(url,callback);
+
+function doHttpGet(url,callback)
+{
+	var x = getXMLHttpRequest();
+	x.onreadystatechange = function() {
+		try {
+			var status = x.status;
+		} catch(ex) {
+			status = false;
+		}
+		if(x.readyState == 4 && callback && (status !== undefined)) {
+			callback(status,x.responseText);
+			x.onreadystatechange = function(){};
+			x = null;
+		}
+	};
+	 if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
+		window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+	x.open('GET',url,true);
+	x.send(null);
+}
+
+function getXMLHttpRequest()
+{
+	try {
+		var x = new XMLHttpRequest(); // Modern
+	} catch(ex) {
+		try {
+			x = new ActiveXObject("Msxml2.XMLHTTP"); // IE 6
+		} catch (ex2) {
+			return null;
+		}
+	}
+	return x;
+}
+
+
+</script>
+	</head>
+	<body>
+	<form>
+		<textarea id='t' cols='80' rows='25'/>
+	</form>
+	</body>
+</htm>
