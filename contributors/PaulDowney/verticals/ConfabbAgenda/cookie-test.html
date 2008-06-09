@@ -36,6 +36,7 @@ function doLogin() {
 	var cookie = document.getElementById('cookie').value;
 
 	var cookie = null;
+	//no need to set the cookie
 	//var cookie = document.getElementById('cookie');
 
 	doHttp('POST',url,data,cookie,callback);
@@ -115,7 +116,7 @@ function getXMLHttpRequest()
 	<form>
 		<label>Cookie: </label><textarea id='cookie' cols='120' rows='2'></textarea> <br/>
 		<label for="login_login">User Name: </label> <input id="login" name="login" size="40" type="text" value="psd"/> <br/>
-		<label for="login_password">Password: </label> <input id="password" name="password" size="40" type="text" value="myCONFABB1"/> <br/>
+		<label for="login_password">Password: </label> <input id="password" name="password" size="40" type="password" value=""/> <br/>
 		<input type="button" value="Log In" onclick="doLogin()"/>
 	</form>
 	</p>
