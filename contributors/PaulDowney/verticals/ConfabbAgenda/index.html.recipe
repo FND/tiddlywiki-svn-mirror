@@ -1,0 +1,16 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+
+# automatically run an adaptor
+tiddler: ../../../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
+
+# predefined feeds for trying import 
+tiddler: web20.tiddler
+
+# adaptor to read a ConfabbAgenda
+tiddler: ../../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js
+tiddler: ../../../../contributors/PaulDowney/plugins/LogMessagePlugin/LogMessagePlugin.js
+
+#tiddler: ../../../../contributors/PaulDowney/adaptors/Confabb/ConfabbAgendaAdaptorPlugin.js
+tiddler: ../../../../contributors/PaulDowney/adaptors/ConfabbAgendaAdaptorPlugin.js
+
+tiddler: settings.js
