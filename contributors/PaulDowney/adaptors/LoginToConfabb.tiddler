@@ -1,6 +1,12 @@
 <div title="LoginToConfabb" tags="">
 <pre>
-To get the Agenda for this conference, you need to [[Login to Confabb|http://staging.confabb.com/login]] and then <<RefreshAgenda>>
+To get the Agenda and make notes at this conference, you need to login to [[Confabb|http://confabb.com]] first:
+
+{{layoutTable{
+|''UserName'' |''Password''|
+|<<option txtSharedNotesUserName>> |<<option pasSharedNotesPassword>> |
+|>|<<ConfabbLogin>>|
+}}}
 </pre>
 </div>
 
