@@ -33,6 +33,7 @@ tiddler: plugins/TaggedTemplateTweak.js
 #tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 tiddler: ../../../contributors/PaulDowney/plugins/SingleMessagePlugin/SingleMessagePlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/LogMessagePlugin/LogMessagePlugin.js
+tiddler: ../../../contributors/BidiX/plugins/PasswordOptionPlugin.js
 
 # Agenda Tracks
 tiddler: ../../../contributors/PaulDowney/plugins/AgendaTrack.js
@@ -44,6 +45,7 @@ tiddler: ../../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js
 tiddler: ../../../contributors/PaulDowney/adaptors/ConfabbAgendaAdaptorPlugin.js
 tiddler: ../../../contributors/PaulDowney/adaptors/LoginToConfabb.tiddler
+tiddler: ../../../contributors/PaulDowney/adaptors/ConfabbLoginPlugin.js
 
 # Sharing Notes
 tiddler: ../../../contributors/PaulDowney/plugins/SharedNotesPlugin/SharedNotesPlugin.js
