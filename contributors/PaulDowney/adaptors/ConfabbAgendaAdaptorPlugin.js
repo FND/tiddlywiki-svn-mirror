@@ -56,6 +56,11 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 	if (!r) 
 		return tiddlers;
 
+	if (!getFirstElement(r,"conference",null)){
+		log("document is missing the conference element");
+		return tiddlers;
+	}
+
 	/* 
 	 *  build Agenda column title tiddlers
 	 */
@@ -63,13 +68,19 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 	var t = r.getElementsByTagName('day');
 	for(var i=0;i<t.length;i++) {
 		var name = t[i].textContent;
-		days["Day"+name.makeId()] = name;
+		if (name && name != undefined){
+			days["Day"+name.makeId()] = name;
+		}
 	}
 
 	for(var d in days) {
 		var tiddler = new Tiddler();
 		tiddler.assign(d,'<<AgendaTrackSessions>>',undefined,undefined,['track'],undefined,{rr_session_tag: d});
 		tiddlers.push(tiddler);
+	}
+
+	if(!tiddlers){
+		return tiddlers;
 	}
 
 	/* 
