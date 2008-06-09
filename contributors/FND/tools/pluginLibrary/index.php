@@ -37,7 +37,7 @@ function processRepositories() {
 			addLog("skipped disabled repository " . $repo->name);
 		} else {
 			addLog("processing repository " . $repo->name);
-			// initialize plugins' availability
+			// initialize plugins -- DEBUG: missing 404 handling!
 			initPluginFlags($repo->ID);
 			// load repository contents
 			$contents = file_get_contents($repo->URI); // DEBUG: missing error handling?
@@ -73,7 +73,7 @@ function initPluginFlags($repoID) { // DEBUG: rename?
 	$selectors = array(
 		repository_ID => $repoID
 	);
-	// flag plugins as unavailabile
+	// flag plugins as unavailable
 	$data = array(
 		available => false
 	);
@@ -196,9 +196,9 @@ function processPlugin($tiddler, $repo, $oldStoreFormat = false) { // DEBUG: spl
 	} else {
 		$p->text = strval($tiddler);
 	}
-	// retrieve slices
+	// retrieve metaslices
 	$p->slices = getSlices($p->text);
-	// set title to Name slice
+	// set tiddler title to Name slice
 	if(isset($p->slices->Name)) {
 		$p->title = $p->slices->Name;
 	}
