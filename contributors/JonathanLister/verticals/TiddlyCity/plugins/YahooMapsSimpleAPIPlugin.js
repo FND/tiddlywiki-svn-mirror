@@ -43,11 +43,12 @@ YahooMapsSimpleAPI.prototype.addElement = function(tiddler) {
 	// item.title (don't know what to use for this), item.link (missing at the moment), item.desc (missing at the moment, but will be the body of the popup so should be the text of the review)
 	// item.streetAddress, item.city, item.country (these are all in the fields)
 	var item = {};
-	item.title = ""; // fix
-	item.link = ""; // fix
-	item.desc = ""; // fix
+	item.title = store.getTiddlerSlice(tiddler.title,"location");
+	item.link = "http://www.google.com/?q="+encodeURIComponent(store.getTiddlerSlice(tiddler.title,"location"));
+	item.desc = store.getTiddlerSlice(tiddler.title,"tweet");
 	item.fields = tiddler.fields;
-	this.items.push(item);
+	//this.items.push(item);
+	console.log(item);
 };
 
 YahooMapsSimpleAPI.prototype.displayMap = function() {
