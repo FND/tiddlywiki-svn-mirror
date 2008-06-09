@@ -37,19 +37,32 @@ function processRepositories() {
 			addLog("skipped disabled repository " . $repo->name);
 		} else {
 			addLog("processing repository " . $repo->name);
-			// initialize plugins -- DEBUG: missing 404 handling!
-			initPluginFlags($repo->ID);
 			// load repository contents
-			$contents = file_get_contents($repo->URI); // DEBUG: missing error handling?
-			// document type handling
-			if($repo->type == "TiddlyWiki") // TiddlyWiki document
-				processTiddlyWiki($contents, $repo);
-			elseif($repo->type == "SVN") // Subversion directory
-				echo $repo->type . "\n"; // DEBUG: to be implemented
-			elseif($repo->type == "file") // JavaScript file
-				echo $repo->type . "\n"; // DEBUG: to be implemented
-			else
-				addLog("ERROR: failed to process repository " . $repo->url);
+			$contents = getPageContents($repo->URI);
+			if($contents === false) {
+				// increase repository's skipped counter in database
+				$selectors = array(
+					ID => $repo->ID
+				);
+				$data = array(
+					skipped => skipped + 1 // increment counter -- DEBUG: untested!
+				);
+				$dbq->updateRecords("repositories", $data, $selectors);
+				// log event
+				addLog("skipped repository " . $repo->name . ": unavailable");
+			} else {
+				// initialize plugins
+				initPluginFlags($repo->ID);
+				// document type handling
+				if($repo->type == "TiddlyWiki") // TiddlyWiki document
+					processTiddlyWiki($contents, $repo);
+				elseif($repo->type == "SVN") // Subversion directory
+					echo $repo->type . "\n"; // DEBUG: to be implemented
+				elseif($repo->type == "file") // JavaScript file
+					echo $repo->type . "\n"; // DEBUG: to be implemented
+				else
+					addLog("ERROR: failed to process repository " . $repo->url);
+			}
 		}
 	}
 }

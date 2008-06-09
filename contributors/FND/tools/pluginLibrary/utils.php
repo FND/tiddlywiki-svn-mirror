@@ -26,7 +26,22 @@ function readBracketedList($str, $unique = true) {
 		$arr = array_unique($arr);
 	}
 	return $arr;
-};
+}
+
+// retrieve URL (including HTTP response handling)
+function getPageContents($URL) {
+	global $http_response_header;
+	// retrieve URL
+	$contents = @file_get_contents($URL); // N.B.: requires fopen wrappers
+	// retrieve HTTP status code
+	list($version, $statusCode, $msg) = explode(" ", $http_response_header[0], 3);
+	// check HTTP status code
+	if($statusCode == 200) { // DEBUG: too limited (e.g. 301/302)?
+		return $contents;
+	} else {
+		return false;
+	}
+}
 
 // add log message
 function addLog($text) {
