@@ -160,6 +160,7 @@ config.macros.SharedNotes.PutNotesButton.handler = function (place,macroName,par
 	var me = config.macros.SharedNotes;
 	var button = createTiddlyButton(place,'PUT NOTES','Click here to put your shared notes',this.putNotes);
 	me.putNotes();
+	return false;
 };
 
 config.macros.SharedNotes.GetNotesButton = {};
@@ -167,6 +168,7 @@ config.macros.SharedNotes.GetNotesButton.handler = function (place,macroName,par
 	var me = config.macros.SharedNotes;
 	var button = createTiddlyButton(place,'GET NOTES','Click here to get your shared notes',this.putNotes);
 	me.putNotes();
+	return false;
 };
 
 } //# end of 'install only once'
