@@ -209,7 +209,7 @@ span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBri
 .small {width:20em;}
 
 /* Agenda */
-#agendaMenu { width:260px; float:left; padding:0; margin-top:4.1em; background-color:#f6f6f6;}
+#agendaMenu { clear:left; width:260px; float:left; padding:0; margin-top:4.1em; background-color:#f6f6f6;}
 #agendaMenu div.tabset { width:100%; overflow:none; display:block; margin:0; padding:0 0 0.8em 0; background-color:[[RippleRapColors::Brightest]]; text-align:center;}
 #agendaMenu div.tabset a.tab { padding:4px 6px; background-color:#ccc; color:#333; font-weight:bold; font-size:11px; margin-left:1px; }
 #agendaMenu div.tabset a.tab:hover { background-color:[[RippleRapColors::Accent]]; color:[[RippleRapColors::Brightest]];}
@@ -218,11 +218,12 @@ span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBri
 #agendaMenu div.tabContents { border-style:none; border-right:solid 1px [[RippleRapColors::Shadow]]; margin:0; padding:0; clear:left;}
 
 #agendaMenu {  border-bottom:solid 1px [[RippleRapColors::Shadow]]; background-color:#f0f0f0; font-family:arial; font-size:12px; }
-#agendaMenu div.listRelatedTiddler { overflow: auto; /* contain floats */ display: inline-block; ; /* IE bugfix: give layout (hasLayout = true) */ }
+#agendaMenu div.listRelatedTiddler { display: inline-block; ; /* IE bugfix: give layout (hasLayout = true) */ }
 #agendaMenu div.listRelatedTiddler { display: block; /* restore proper behavior (see IE bugfix above) */  }
 #agendaMenu div.listRelatedTiddler { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px [[RippleRapColors::Brightest]]; border-left:solid 10px #ccc; position:relative;}	
-#agendaMenu div.listRelatedTiddler span.time { float: left; width: 6em; font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; }
-#agendaMenu div.listRelatedTiddler span.title a { overflow: hidden; /* block formatting context */ color:#444; display:block; font-weight:bold; text-decoration:none; margin-left:1em; font-size:12px; }
+#agendaMenu div.listRelatedTiddler span.time {	font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; position:absolute; top:8px; left:8px;}
+#agendaMenu div.listRelatedTiddler span.title a { color:#444; display:block; font-weight:bold;	text-decoration:none; margin-left:5em; font-size:12px; }
+
 
 
 #agendaMenu div.listRelatedTiddler span.speaker { color:#666; display:block; margin:0.2em 0 0 5em; }
