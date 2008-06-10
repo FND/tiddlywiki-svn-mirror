@@ -6,11 +6,11 @@
 }
 
 div.headerShadow {
-	left: 160px;
+	padding-left: 160px;
 }
 
 div.headerForeground {
-	left: 161px;
+	padding-left: 161px;
 }
 
 .TiddlyCityWrap {
