@@ -191,6 +191,7 @@ div.headerControls { position:absolute; bottom:20px; right:10px; color:[[ColorPa
 #mainMenu span.search { position:absolute; right:0px; top:0px; padding:0; margin:0; }
 #mainMenu span.search .txtOptionInput { margin:3px; padding:0px 4px 2px 4px; font-size:0.95em; border-style:none; border-top:2px solid [[RippleRapColors::Bright]];}
 
+
 /* message bar */
 #messageBar {display:block; position:relative; width:100%; margin:0; background-color:[[RippleRapColors::Brighter]]; height:1.6em; font-size:11px; }
 #messageArea { border:solid 1px red; position:absolute; top:0; right:0; padding:0; margin:0; border-style:none; background-color:transparent;} 
@@ -241,7 +242,7 @@ div.tiddler div.VanillaView,
 div.tiddler div.VanillaEdit {margin:30px 0 0 0; font-size:1.3em; }
 div.layoutTable {margin-bottom:0.5em;}
 div.layoutTable table, div.layoutTable table tr, div.layoutTable table td {margin:0; border-style:none;}
-input.txtOptionInput { font-size:1.2em; padding: 0.4em; border-top:solid 1px [[RippleRapColors::Shadow]]; border-right:solid 1px #ccc; border-bottom:solid 1px #ccc;  border-left:solid 1px [[RippleRapColors::Shadow]]; background-color:#f6f6f6;}
+input.txtOptionInput, input.pasOptionInput { font-size:1.2em; padding: 0.4em; border-top:solid 1px [[RippleRapColors::Shadow]]; border-right:solid 1px #ccc; border-bottom:solid 1px #ccc;  border-left:solid 1px [[RippleRapColors::Shadow]]; background-color:#f6f6f6;}
 div.tiddler sup {font-size:0.7em;}
 div.tiddler pre {font-size:0.em;}
 div.tiddler div.VanillaView div.title { color:[[RippleRapColors::Accent]]; }
@@ -308,6 +309,12 @@ div.noteOptions a:active.button {color:[[RippleRapColors::Brightest]]; backgroun
 div.noteOptions a.button:hover { border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid [[RippleRapColors::AccentDark]]; background-color:[[RippleRapColors::Accent]]; color:[[RippleRapColors::Brightest]];}
 
 
+/* Buttons */
+span.chunkyButton { border:solid 1px [[RippleRapColors::AccentDarker]]; display:block; padding:0; margin:0 0 0 0;}
+span.chunkyButton a.button,
+span.chunkyButton a:active.button { white-space:nowrap; font-weight:bold; color:[[RippleRapColors::Brightest]]; background-color:[[RippleRapColors::AccentDark]]; text-align:center; padding:0.4em 2em; margin:0; border-style:none;  border-top:solid 1px [[RippleRapColors::AccentLight]]; display:block;}
+span.chunkyButton a.button:hover { background-color:[[RippleRapColors::Accent]]; border-style:none; color:[[RippleRapColors::Brightest]];  border-top:solid 1px [[RippleRapColors::AccentLight]];}
+.small {width:20em;}
 
 
 span.description {font-size:0.8em; color:[[RippleRapColors::Dark]]; font-weight:normal; display:block;}
