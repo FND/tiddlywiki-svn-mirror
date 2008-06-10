@@ -17,7 +17,7 @@ version.extensions.BackstageSidebarPlugin = {installed:true};
 config.tasks.sidebar = {
 	text: "sidebar",
 	tooltip: "sidebar options",
-	content: "<<tiddler SideBarOptions>>"
+	content: "<<tiddler SideBarOptions>><<tiddler SideBarTabs>>"
 };
 config.backstageTasks.push("sidebar");
 
@@ -38,10 +38,6 @@ config.macros.BackstageSidebarPlugin.init = function() {
 
 #sidebar {
 	display:none;
-}
-
-#displayArea {
-	margin-right:0px;
 }
 
 !(end of Stylesheet)
