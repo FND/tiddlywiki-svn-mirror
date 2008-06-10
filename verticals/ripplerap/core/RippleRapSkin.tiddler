@@ -301,7 +301,7 @@ div.discoveredNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
 div.discoveredNotes .editor .fieldsetFix textarea { border:solid 1px #bbb; border-top-color:#aaa; border-bottom-color:[[RippleRapColors::Brightest]]; background-color:#eee; }
 div.discoveredNotes .title { margin:0; padding:0.5em 10px 0 10px; font-size:1.2em; font-weight:bold; color:#666; }
 
-div.noteOptions { position:absolute; bottom:1em; right:8px;}
+div.noteOptions { position:absolute; top:2em; right:8px;}
 div.noteOptions a.button,
 div.noteOptions a:active.button {color:[[RippleRapColors::Brightest]]; background-color:#777; border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid #666; }
 div.noteOptions a.button:hover { border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid [[RippleRapColors::AccentDark]]; background-color:[[RippleRapColors::Accent]]; color:[[RippleRapColors::Brightest]];}
