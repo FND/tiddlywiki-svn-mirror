@@ -267,7 +267,7 @@ describe('ConfabbAgendaAdaptorPlugin parsing Les Blogs Agenda', {
 +'    <employer>Confabb</employer>'
 +'    <blog>http://salimismail.com</blog>'
 +'  </vcard>'
-+'</conference>'
++'</conference>';
 		__tiddlers = ConfabbAgendaAdaptor.parseAgenda(__doc);
 	},
 	after_each : function() {
@@ -277,7 +277,7 @@ describe('ConfabbAgendaAdaptorPlugin parsing Les Blogs Agenda', {
 	'should result in tiddlers' : function() {
 		log("tiddlers:",__tiddlers);
 		value_of(__tiddlers.length).should_be(15);
-	},
+	}
 
 });
 

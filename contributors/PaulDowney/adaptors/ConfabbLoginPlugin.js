@@ -33,7 +33,6 @@ log(text);
 		};
 		var username = config.options.txtSharedNotesUserName;
 		var password = config.options.pasSharedNotesPassword;
-		config.macros.ConfabbLogin.callback = config.macros.RippleRap.getAgenda;
 
 		var url = "http://staging.confabb.com/login";
 		data = "login=" + username + "&password=" + password + "&commit=Log+In";

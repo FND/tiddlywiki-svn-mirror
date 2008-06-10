@@ -27,6 +27,7 @@ config.macros.RippleRapConfabb = {
 		}
 		me.agenda.adaptor = "confabbagenda";
 		me.agenda.uri = agendauri;
+                config.macros.ConfabbLogin.callback = config.macros.RippleRap.getAgenda;
 	},
 	installSharedNotes: function(me, uri) {
 		var notesuri = config.options.txtRippleRapSharedNotesURI;
