@@ -10,9 +10,11 @@
 ***/
 //{{{
 var originalReadOnly = readOnly;
+var originalShowBackstage = showBackstage;
 
 config.options.chkHttpReadOnly = false; 		// means web visitors can experiment with your site by clicking edit
 readOnly = false;								// needed because the above doesn't work any more post 2.1 (??)
+showBackstage = true;							// show backstage for same reason
 
 config.options.chkInsertTabs = true;    		// tab inserts a tab when editing a tiddler
 config.views.wikified.defaultText = "";			// don't need message when a tiddler doesn't exist
@@ -23,7 +25,7 @@ config.options.txtBackupFolder = 'twbackup';	// put backups in a backups folder
 
 config.options.chkAutoSave = (window.location.protocol == "file:"); // do autosave if we're in local file
 
-config.mptwVersion = "2.4.1";
+config.mptwVersion = "2.4.3";
 
 config.macros.mptwVersion={handler:function(place){wikify(config.mptwVersion,place);}};
 

@@ -68,6 +68,7 @@ config.InstantTimestamp = {
 TiddlyWiki.prototype.saveTiddler_mptw_instanttimestamp = TiddlyWiki.prototype.saveTiddler;
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created) {
 
+	tags = tags ? tags : []; // just in case tags is null
 	tags = (typeof(tags) == "string") ? tags.readBracketedList() : tags;
 	var conf = config.InstantTimestamp;
 
@@ -85,7 +86,7 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 }
 
 // you can override these in StyleSheet 
-setStylesheet(".ts,.ds { background-color:#ddd; font-style:italic; }","instantTimestampStyles");
+setStylesheet(".ts,.ds { font-style:italic; }","instantTimestampStyles");
 
 //}}}
 
