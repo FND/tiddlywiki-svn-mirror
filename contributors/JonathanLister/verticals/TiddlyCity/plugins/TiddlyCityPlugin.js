@@ -102,12 +102,13 @@ config.macros.TiddlyCity.handler = function(place) {
 	if(!config.options.txtTwitterUsername) {
 		config.options.txtTwitterUsername = "enter your username";
 	}
-	wikify("Twitter username: <<option txtTwitterUsername>>\n",place);
-	createTiddlyButton(place,"Click to download your tweets","Click to download your tweets",TiddlyCity.downloadTweets);
-	wikify("\n",place);
-	createTiddlyButton(place,"Click to display tweets on a Yahoo! map in a new window","Click to display tweets on a Yahoo! map in a new window",TiddlyCity.displayTweets);
-	wikify("\n",place);
-	createTiddlyButton(place,"Click to save a KML file for use on Google maps...","Click to save a KML file for use on Google maps",TiddlyCity.saveKML);
+	var wrap = createTiddlyElement(place,"div",null,"TiddlyCityWrap");
+	wikify("Twitter username: <<option txtTwitterUsername>>\n",wrap);
+	createTiddlyButton(wrap,"Click to download your tweets","Click to download your tweets",TiddlyCity.downloadTweets);
+	wikify("\n",wrap);
+	createTiddlyButton(wrap,"Click to display tweets on a Yahoo! map in a new window","Click to display tweets on a Yahoo! map in a new window",TiddlyCity.displayTweets);
+	wikify("\n",wrap);
+	createTiddlyButton(wrap,"Click to save a KML file for use on Google maps...","Click to save a KML file for use on Google maps",TiddlyCity.saveKML);
 };
 
 } //# end of 'install only once'

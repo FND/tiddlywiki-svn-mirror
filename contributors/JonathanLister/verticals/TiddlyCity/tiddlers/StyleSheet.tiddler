@@ -1,0 +1,23 @@
+<div title="StyleSheet" modifier="JonathanLister" created="200806101457" modified="200806101457">
+<pre>div.header {
+	background-image: url(iPhoto.jpg);
+	background-repeat: no-repeat;
+	background-color: black;
+}
+
+div.headerShadow {
+	left: 160px;
+}
+
+div.headerForeground {
+	left: 161px;
+}
+
+.TiddlyCityWrap {
+	background-color: #ffcc33;
+}
+
+body {
+	color: rgb(68,68,68);
+}</pre>
+</div>
