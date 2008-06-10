@@ -4,14 +4,25 @@
 #TiddlyCity collects your update from Twitter and turns it into a tiddler (TwitterTimelinePlugin)
 #...it uses Google local search to get an address (GoogleLocalSearchPlugin)
 #Your tweets are displayed on a Yahoo! map (YahooSimpleMapsAPI plugin)
+#You can export a KML file for putting online and importing into e.g. Google MyMaps (TiddlyTemplatingPlugin)
 
 And for working with your friends;
-#Your updates are posted as an RSS feed
-#Your friends can add your feed to their TiddlyCity and it will add your updates to their map
-#Alternatively, you could check their Twitter feed...
+#You can download tweets from as many Twitter id's as you like...
+
+Things I'm thinking about...
+#Adding an interface to edit location strings in a tweet and refresh the location information
+**...implies we'd want a visualization for the fields so you can see the stored location info
+#Add an interface to delete/ignore tweets
+#Visualizing tweets
+#Using GeoNames.org to power the location lookup (previously it's looked like the API has been down)
+#Auto-saving the KML file to your Google pages account
+#Creating a generic visualization for XMLHttpRequests that makes the application less "quiet" when up/downloads are going on
+
+!Dev
 
 Inputs:
 #Your Twitter ID
+#Your city (not done)
 
 References:
 #Yahoo! Simple Maps API - http://developer.yahoo.com/maps/simple/V1/
@@ -30,5 +41,6 @@ for (var i=0;i<tiddlers.length;i++) {
 	ylocal.addElement(tiddlers[i]);
 }
 ylocal.displayMap();
+TiddlyCity.saveKML();
 }}}</pre>
 </div>
