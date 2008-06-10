@@ -37,7 +37,7 @@ log(text);
 
 		var url = "http://staging.confabb.com/login";
 		data = "login=" + username + "&password=" + password + "&commit=Log+In";
-		doHttp('POST',url,data,null,null,null,callback,null,{},true)
+		doHttp('POST',url,data,null,null,null,callback,null,{},true);
 		return false;
 	},
 
