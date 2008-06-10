@@ -59,7 +59,7 @@ YahooMapsSimpleAPI.prototype.displayMapUsingForm = function(place) {
 	var data = this.makeDataString();
 	//append the form at the end.
 	var form = document.createElement('form');
-	form.style.visibility = "hidden";
+	form.style.display = "none";
 	place.appendChild(form);
 	form.setAttribute('name','YahooMapsRequestForm');
 	form.setAttribute('action',url);
