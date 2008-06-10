@@ -10,9 +10,10 @@ tiddler: web20.tiddler
 tiddler: ../../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js
 tiddler: ../../../../contributors/PaulDowney/plugins/LogMessagePlugin/LogMessagePlugin.js
 
-tiddler: ../../../../contributors/PaulDowney/adaptors/ConfabbAgendaAdaptorPlugin.js
-tiddler: ../../../../contributors/PaulDowney/adaptors/LoginToConfabb.tiddler
-tiddler: ../../../../contributors/PaulDowney/adaptors/ConfabbLoginPlugin.js
+tiddler: ../../../../contributors/PaulDowney/adaptors/Confabb/ConfabbAgendaAdaptorPlugin.js
+tiddler: ../../../../contributors/PaulDowney/adaptors/Confabb/LoginToConfabb.tiddler
+tiddler: ../../../../contributors/PaulDowney/adaptors/Confabb/ConfabbLoginPlugin.js
+
 tiddler: ../../../../contributors/BidiX/plugins/PasswordOptionPlugin.js
 
 tiddler: settings.js
