@@ -49,7 +49,6 @@ YahooMapsSimpleAPI.prototype.addElement = function(tiddler) {
 	item.link = "http://www.google.com/search?q="+encodeURIComponent(store.getTiddlerSlice(tiddler.title,"from"));
 	item.desc = store.getTiddlerSlice(tiddler.title,"tweet");
 	item.fields = tiddler.fields;
-	item.person = store.getTiddlerSlice(tiddler.title,"by");
 	this.items.push(item);
 };
 
@@ -100,7 +99,7 @@ YahooMapsSimpleAPI.prototype.makeGeoRss = function() {
 		xml += "<rss version = '2.0'>\n";
 		xml += "<channel xmlns:" + namespace +"='"+this.base+"'>\n";
 		xml += "<title>Your DIY City Guide updates</title>\n";
-		xml += "<link><![CDATA[http://www.tiddlywiki.com]]></link>\n";
+		xml += "<link><![CDATA["+"http://www.tiddlywiki.com".htmlEncode()+"]]></link>\n";
 		xml += "<description>Locations that you selected to view</description>\n";
 		var item = {};
 		var fields = {};
@@ -108,12 +107,12 @@ YahooMapsSimpleAPI.prototype.makeGeoRss = function() {
 		for(var i=0;i<items.length;i++) {
 			item = items[i];
 			fields = item.fields;
-			iconURL = fields.iconUrl;
+			iconURL = fields.iconurl;
 			xml += "<item>\n";
 			xml += "<title>" + item.title.htmlEncode() + "</title>\n";
 			xml += "<link>" + "<![CDATA[" + encodeURIComponent(item.link).htmlEncode() + "]]>" + "</link>\n";
 			xml += "<description>" + item.desc.htmlEncode() + "</description>\n";
-			// xml += "<" + namespace +":Address>" + fields.streetAddress.htmlEncode() + "</" +namespace + ":Address>\n";
+			// xml += "<" + namespace +":Address>" + fields.streetaddress.htmlEncode() + "</" +namespace + ":Address>\n";
 			// xml += "<" + namespace + ":CityState>" + fields.city.htmlEncode() + "</" + namespace + ":CityState>\n";
 			// xml += "<" + namespace + ":Country>" + fields.country.htmlEncode() + "</" + namespace + ":Country>\n";
 			xml += "<geo:lat>" + fields.lat.htmlEncode() + "</geo:lat>\n";

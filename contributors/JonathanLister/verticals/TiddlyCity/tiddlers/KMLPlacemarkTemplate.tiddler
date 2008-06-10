@@ -1,0 +1,17 @@
+<div title="KMLPlacemarkTemplate" modifier="JonathanLister" created="200806101223" modified="200806101223">
+<pre><Placemark>
+	<Style>
+		<IconStyle>
+			<Icon>
+				<href><!--<<view iconUrl>>--></href>
+			</Icon>
+		</IconStyle>
+	</Style>
+	<name><!--<<slice from>>--></name>
+	<description><!--<<slice tweet>>--> <![CDATA[<a href="http://www.google.com/search?q=<!--<<slice from>>-->"><!--<<slice from>>--></a>]]></description>
+	<Point>
+		<coordinates><!--<<view lng>>-->,<!--<<view lat>>-->,0</coordinates>
+	</Point>
+</Placemark>
+</pre>
+</div>

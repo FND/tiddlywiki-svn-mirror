@@ -1,4 +1,7 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: tiddlers/split.recipe
 recipe: plugins/split.recipe
+tiddler: ../../plugins/TemplatePlugin.js
+tiddler: ../../plugins/TiddlyTemplatingMacro.js
+tiddler: ../../../MartinBudden/experimental/TemplateFormatterPlugin.js
 #tiddler: ../../plugins/IFramePlugin.js

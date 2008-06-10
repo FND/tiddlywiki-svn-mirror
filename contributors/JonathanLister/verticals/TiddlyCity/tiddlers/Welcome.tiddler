@@ -6,10 +6,11 @@ Here's what's happening...
 #TiddlyCity collects your update from Twitter and turns it into a tiddler
 #...it uses Google local search to get an address
 #Your tweets are displayed on a Yahoo! map
+#A KML file is saved that you can upload for use with Google Maps and Google Earth
 
 <<TiddlyCity>>
 
 Things I'm thinking about...
 #Using GeoNames.org to power the location lookup (previously it's looked like the API has been down)
-#Creating a KML file and saving to your googlepages account and providing you with a My Maps entry</pre>
+#Auto-saving the KML file to your Google pages account</pre>
 </div>

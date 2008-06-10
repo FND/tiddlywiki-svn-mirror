@@ -28,7 +28,7 @@ TiddlyCity.TweetToTiddler = function(tweets) {
 			var location = match[1];
 			var context = {};
 			context.fields = {};
-			context.fields.iconUrl = tweet.user.profile_image_url;
+			context.fields.iconurl = tweet.user.profile_image_url;
 			var l = new GoogleLocalSearch(location,context);
 			context.title = tweet.id.toString();
 			context.text = tweet.text.slice(0,match.index);
@@ -56,13 +56,17 @@ TiddlyCity.LocationToTiddler = function(locations,context) {
 	if(!context.fields) {
 		context.fields = {};
 	}
-	context.fields.streetAddress = location.streetAddress;
+	context.fields.streetaddress = location.streetAddress;
 	context.fields.city = location.city;
 	context.fields.country = location.country;
 	context.fields.lat = location.lat;
 	context.fields.lng = location.lng;
 	console.log(context);
 	TiddlyCity.saveTiddlerFromContext(context);
+};
+
+TiddlyCity.saveKML = function() {
+	TiddlyTemplating.templateAndPublish('somekml.kml','KMLTemplate');
 };
 
 TiddlyCity.downloadTweets = function() {
@@ -100,7 +104,10 @@ config.macros.TiddlyCity.handler = function(place) {
 	}
 	wikify("Twitter username: <<option txtTwitterUsername>>\n",place);
 	createTiddlyButton(place,"Click to download your tweets","Click to download your tweets",TiddlyCity.downloadTweets);
-	createTiddlyButton(place,"Click to display tweets on a map in a new window","Click to display tweets on a map in a new window",TiddlyCity.displayTweets);
+	wikify("\n",place);
+	createTiddlyButton(place,"Click to display tweets on a Yahoo! map in a new window","Click to display tweets on a Yahoo! map in a new window",TiddlyCity.displayTweets);
+	wikify("\n",place);
+	createTiddlyButton(place,"Click to save a KML file for use on Google maps...","Click to save a KML file for use on Google maps",TiddlyCity.saveKML);
 };
 
 } //# end of 'install only once'

@@ -1,5 +1,7 @@
 tiddler: DefaultTiddlers.tiddler
 tiddler: Details.tiddler
+tiddler: KMLTemplate.tiddler
+tiddler: KMLPlacemarkTemplate.tiddler
 tiddler: MainMenu.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler

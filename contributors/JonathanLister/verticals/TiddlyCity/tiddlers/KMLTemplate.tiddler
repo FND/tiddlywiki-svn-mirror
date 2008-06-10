@@ -1,0 +1,10 @@
+<div title="KMLTemplate" modifier="JonathanLister" created="200806101223" modified="200806101223">
+<pre><?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+	<Document>
+  		<name>Your DIY City Guide updates</name>
+  		<description>Locations that you selected to view</description>
+		<!--<<templateTiddlers template:"KMLPlacemarkTemplate" filter:"[tag[tweet]]">>-->
+	</Document>
+</kml></pre>
+</div>
