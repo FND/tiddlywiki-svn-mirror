@@ -27,11 +27,7 @@ config.macros.ConfabbLogin = {
 	login: function(){
 		var callback = function(status,params,text,url,xhr){
 			var me = config.macros.ConfabbLogin;
-			if(status){
-				displayMessage('logged in' + status);
-			} else {
-				displayMessage('not logged in' + status);
-			}
+			log(text);
 			config.macros.RippleRap.getAgenda();
 			if (me.callback){
 				me.callback();
@@ -42,7 +38,7 @@ config.macros.ConfabbLogin = {
 
 		var url = "http://staging.confabb.com/login";
 		data = "login=" + username + "&password=" + password + "&commit=Log+In";
-		doHttp('POST',url,data,'application/x-www-form-urlencoded',null,null,callback,null,{},true)
+		doHttp('POST',url,data,null,null,null,callback,null,{},true)
 		return false;
 	},
 
