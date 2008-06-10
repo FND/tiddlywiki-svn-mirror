@@ -48,6 +48,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 	var tiddlers = [];
 	speakers = {};
 	log("parsing the Confabb Agenda");
+	log(text);
 
 	/* 
 	 *  parse XML
@@ -257,7 +258,8 @@ ConfabbAgendaAdaptor.prototype.getTiddlerList = function(context,userParams,call
 	if(this.store) {
 		var ret = context.complete(context,context.userParams);
 	} else {
-		ret = loadRemoteFile(context.host,ConfabbAgendaAdaptor.loadTiddlyWikiCallback,context);
+		var header = {'Cookie':config.options.txtConfabbSessionCookie};
+		ret = doHttp('GET',context.host,null,null,null,null,ConfabbAgendaAdaptor.loadTiddlyWikiCallback,context,header,true);
 		if(typeof ret != "string")
 			ret = true;
 	}

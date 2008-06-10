@@ -22,19 +22,18 @@ version.extensions.ConfabbLoginPlugin = {installed:true};
  */
 config.macros.ConfabbLogin = {
 
-	callback: null,
-
 	login: function(){
 		var callback = function(status,params,text,url,xhr){
+log(text);
+			config.options.txtConfabbSessionCookie = xhr.getResponseHeader('set-cookie');
 			var me = config.macros.ConfabbLogin;
-			log(text);
-			config.macros.RippleRap.getAgenda();
 			if (me.callback){
 				me.callback();
 			}
 		};
 		var username = config.options.txtSharedNotesUserName;
 		var password = config.options.pasSharedNotesPassword;
+		config.macros.ConfabbLogin.callback = config.macros.RippleRap.getAgenda;
 
 		var url = "http://staging.confabb.com/login";
 		data = "login=" + username + "&password=" + password + "&commit=Log+In";
