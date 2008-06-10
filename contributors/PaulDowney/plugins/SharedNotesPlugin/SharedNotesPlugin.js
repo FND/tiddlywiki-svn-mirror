@@ -118,7 +118,7 @@ config.macros.SharedNotes = {
 			}
 		});
 		if (!putRequired){
-			log("no tiddlers modified since last put ", t.lasttime);
+			log("no tiddlers modified since last put ", me.lasttime);
 			return null;
 		}
 		log("tiddlers to put: " + tiddlers.length);
