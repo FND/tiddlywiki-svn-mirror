@@ -31,12 +31,12 @@ config.macros.TiddlyTemplating = {
 
 config.macros.TiddlyTemplating.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-	var button = createTiddlyButton(place,"Publish","Publish",config.macros.TiddlyTemplating.templateAndPublish);
+	var button = createTiddlyButton(place,"Publish","Publish",config.macros.TiddlyTemplating.onclick);
 	button.params = params;
 	button.paramString = paramString;
 };
 
-config.macros.TiddlyTemplating.templateAndPublish = function(e)
+config.macros.TiddlyTemplating.onclick = function(e)
 {
 	var p = this.paramString.parseParams("anon",null,true,false,false);
 	var template = config.macros.TiddlyTemplating.getTemplate(p);
@@ -44,7 +44,12 @@ config.macros.TiddlyTemplating.templateAndPublish = function(e)
 	var wikitext = getParam(p,"wikitext",null);
 	var filename = getParam(p,"filename",config.macros.TiddlyTemplating.defaultFileName);
 	displayMessage("generating...");
-	var content = expandTemplate(template,tiddlers,wikitext);
+	config.macros.TiddlyTemplating.templateAndPublish(filename,template,tiddlers,wikitext);
+};
+
+config.macros.TiddlyTemplating.templateAndPublish = function(filename,template,tiddlers,isWikitext)
+{
+	var content = expandTemplate(template,tiddlers,isWikitext);
 	config.macros.TiddlyTemplating.save(filename,content);
 };
 
