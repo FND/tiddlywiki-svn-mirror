@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.5.11|
+|''Version:''|0.5.12|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -520,7 +520,7 @@ MediaWikiAdaptor.prototype.getTiddlerRevision = function(title,revision,context,
 {
 	context = this.setContext(context,userParams,callback);
 	context.revision = revision;
-	return this.getTiddlerInternal(title,context,userParams,callback);
+	return this.getTiddler(title,context,userParams,callback);
 };
 
 MediaWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
