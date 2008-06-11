@@ -59,8 +59,8 @@ TiddlyCity.LocationToTiddler = function(locations,context) {
 	context.fields.streetaddress = location.streetAddress;
 	context.fields.city = location.city;
 	context.fields.country = location.country;
-	context.fields.lat = location.lat;
-	context.fields.lng = location.lng;
+	context.fields.geo_lat = location.lat;
+	context.fields.geo_lng = location.lng;
 	console.log(context);
 	TiddlyCity.saveTiddlerFromContext(context);
 };

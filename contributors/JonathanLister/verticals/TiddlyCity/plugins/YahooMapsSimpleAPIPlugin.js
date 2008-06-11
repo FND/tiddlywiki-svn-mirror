@@ -115,8 +115,8 @@ YahooMapsSimpleAPI.prototype.makeGeoRss = function() {
 			// xml += "<" + namespace +":Address>" + fields.streetaddress.htmlEncode() + "</" +namespace + ":Address>\n";
 			// xml += "<" + namespace + ":CityState>" + fields.city.htmlEncode() + "</" + namespace + ":CityState>\n";
 			// xml += "<" + namespace + ":Country>" + fields.country.htmlEncode() + "</" + namespace + ":Country>\n";
-			xml += "<geo:lat>" + fields.lat.htmlEncode() + "</geo:lat>\n";
-			xml += "<geo:long>" + fields.lng.htmlEncode() + "</geo:long>\n";
+			xml += "<geo:lat>" + fields.geo_lat.htmlEncode() + "</geo:lat>\n";
+			xml += "<geo:long>" + fields.geo_lng.htmlEncode() + "</geo:long>\n";
 			xml += "<" + namespace +":BaseIcon>" + iconURL + "</" + namespace + ":BaseIcon>\n";
 			xml += "</item>\n";
 		}

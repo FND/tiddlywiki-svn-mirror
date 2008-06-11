@@ -10,7 +10,7 @@
 	<name><!--<<slice from>>--></name>
 	<description><!--<<slice tweet>>--> <![CDATA[<a href="http://www.google.com/search?q=<!--<<slice from>>-->"><!--<<slice from>>--></a>]]></description>
 	<Point>
-		<coordinates><!--<<view lng>>-->,<!--<<view lat>>-->,0</coordinates>
+		<coordinates><!--<<view geo_lng>>-->,<!--<<view geo_lat>>-->,0</coordinates>
 	</Point>
 </Placemark>
 </pre>
