@@ -22,6 +22,8 @@
 if(!version.extensions.synchrotronPlugin) {
 version.extensions.synchrotronPlugin = {installed:true};
 
+config.defaultCustomFields['server.type'] = 'synchrotron';
+
 repo = null;
 checkout = null;
 function ensureCheckout()
@@ -103,5 +105,18 @@ console.log("new saving");
     store.addTiddler(tiddler);
 	saveChangesOld(onlyIfDirty,tiddlers);
 }
+
+Dvcs.Repository.prototype.fileRevisions = function(uuid)
+{
+	var result = [];
+	for (var revId in this.revisions) {
+		if (uuid in this.revisions[revId].changed) {
+			result.push(this.revisions[revId]);
+		}
+	}
+	result.sort(function (r1, r2) { return r2.timestamp - r1.timestamp; });
+	return result;
+}
+
 }//# end of 'install only once'
 //}}}
