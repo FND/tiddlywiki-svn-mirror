@@ -1,7 +1,7 @@
 # build demo TiddlyWiki
 recipe: ../../../../core/tiddlywiki.html.recipe
-tiddler: TickerPlugin.js
-tiddler: ../YYYYMMDDHHMMSSMMMPlugin/YYYYMMDDHHMMSSMMMPlugin.js
+recipe: TickerPlugin.recipe
+
 tiddler: DefaultTiddlers.tiddler
 tiddler: Today.tiddler
 tiddler: DisplayMessage.tiddler
