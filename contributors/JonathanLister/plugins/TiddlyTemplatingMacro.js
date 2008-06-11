@@ -25,9 +25,11 @@ Provides a button labelled "Publish" that triggers the templating and saving pro
 if(!version.extensions.TiddlyTemplating) {
 version.extensions.TiddlyTemplating = {installed:true};
 
-config.macros.TiddlyTemplating = {
+var TiddlyTemplating = {
 	defaultFileName:"output.txt"
 };
+
+config.macros.TiddlyTemplating = {};
 
 config.macros.TiddlyTemplating.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
@@ -39,29 +41,32 @@ config.macros.TiddlyTemplating.handler = function(place,macroName,params,wikifie
 config.macros.TiddlyTemplating.onclick = function(e)
 {
 	var p = this.paramString.parseParams("anon",null,true,false,false);
-	var template = config.macros.TiddlyTemplating.getTemplate(p);
-	var tiddlers = config.macros.TiddlyTemplating.getTiddlers(p);
+	var filename = TiddlyTemplating.getFilename(p);
+	var template = TiddlyTemplating.getTemplate(p);
+	var tiddlers = TiddlyTemplating.getTiddlers(p);
 	var wikitext = getParam(p,"wikitext",null);
-	var filename = getParam(p,"filename",config.macros.TiddlyTemplating.defaultFileName);
 	displayMessage("generating...");
-	config.macros.TiddlyTemplating.templateAndPublish(filename,template,tiddlers,wikitext);
+	TiddlyTemplating.templateAndPublish(filename,template,tiddlers,wikitext);
 };
 
-config.macros.TiddlyTemplating.templateAndPublish = function(filename,template,tiddlers,isWikitext)
+TiddlyTemplating.getFileName = function(p)
 {
-	var content = expandTemplate(template,tiddlers,isWikitext);
-	config.macros.TiddlyTemplating.save(filename,content);
+	var filename = getParam(p,"filename");
+	if(!filename) {
+		filename = this.defaultFileName;
+	}
 };
 
-config.macros.TiddlyTemplating.getTemplate = function(p)
+TiddlyTemplating.getTemplate = function(p)
 {
 	var template = getParam(p,"template",null);
-	if(!template)
+	if(!template) {
 		template = getParam(p,"anon",null);
+	}
 	return template;
 };
 
-config.macros.TiddlyTemplating.getTiddlers = function(p)
+TiddlyTemplating.getTiddlers = function(p)
 {
 	var filter = getParam(p,"filter",null);
 	var tiddlers = [];
@@ -74,25 +79,27 @@ config.macros.TiddlyTemplating.getTiddlers = function(p)
 	return tiddlers;
 };
 
-config.macros.TiddlyTemplating.getFileName = function(p)
+TiddlyTemplating.templateAndPublish = function(filename,template,tiddlers,isWikitext)
 {
-	var filename = getParam(p,"filename");
-	if(!filename)
-		filename = this.defaultFileName;
+	var content = expandTemplate(template,tiddlers,isWikitext);
+	this.save(filename,content);
 };
 
-config.macros.TiddlyTemplating.save = function(filename,content)
+TiddlyTemplating.save = function(filename,content)
 {
 	config.messages.fileSaved = "file successfully saved";
 	config.messages.fileFailed = "file save failed";
 	var localPath = getLocalPath(document.location.toString());
 	var savePath;
-	if((p = localPath.lastIndexOf("/")) != -1)
+	if((p = localPath.lastIndexOf("/")) != -1) {
 		savePath = localPath.substr(0,p) + "/" + filename;
-	else if((p = localPath.lastIndexOf("\\")) != -1)
-		savePath = localPath.substr(0,p) + "\\" + filename;
-	else
-		savePath = localPath + "." + filename;
+	} else {
+		if((p = localPath.lastIndexOf("\\")) != -1) {
+			savePath = localPath.substr(0,p) + "\\" + filename;
+		} else {
+			savePath = localPath + "." + filename;
+		}
+	}
 	displayMessage("saving...");
 	var fileSave = saveFile(savePath,convertUnicodeToUTF8(content));
 	if(fileSave) {

@@ -118,5 +118,16 @@ config.macros.permalink.handler = function(place,macroName,params,wikifier,param
 	createTiddlyText(place,window.location+"#"+t);
 };
 
+config.macros.slice = {};
+config.macros.slice.handler = function(place,marcoName,params,wikifier,paramString,tiddler) {
+	var slice = "";
+	if(params && params[0]) {
+		slice = store.getTiddlerSlice(tiddler.title,params[0]);
+		if(slice) {
+			createTiddlyText(place,slice);
+		}
+	}
+};
+
 } //# end of 'install only once'
 //}}}

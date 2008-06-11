@@ -1,12 +1,10 @@
 config.views.wikified.relatedtag = {
 	labelNoRelatedTags:"no tags",
-	labelRelatedTags:"related tags: ",
-	openAllText:config.views.wikified.tag.openAllText,
-	openAllTooltip:config.views.wikified.tag.openAllTooltip,
-	openRelatedTag:"Open related tag '%0'",
-	popupNone:config.views.wikified.tag.popupNone,
-	tooltip:config.views.wikified.tag.tooltip
+	labelRelatedTags:"related tags: "
 };
+
+config.views.wikified.tag.relatedTagsText = "Show related tags";
+config.views.wikified.tag.relatedTagsTooltip = "Show related tags";
 
 config.macros.relatedtags = {};
 config.macros.relatedtags.handler = function(place,macroName,params,wikifier,paramString,tiddler)
@@ -37,3 +35,53 @@ config.macros.relatedtags.handler = function(place,macroName,params,wikifier,par
 		}
 	}
 };
+
+// Event handler for clicking on a tiddler tag
+function onClickTag(ev)
+{
+	var e = ev ? ev : window.event;
+	var popup = Popup.create(this);
+	var tag = this.getAttribute("tag");
+	var title = this.getAttribute("tiddler");
+	if(popup && tag) {
+		var tagged = store.getTaggedTiddlers(tag);
+		var titles = [];
+		var li,r;
+		for(r=0;r<tagged.length;r++) {
+			if(tagged[r].title != title)
+				titles.push(tagged[r].title);
+		}
+		var lingo = config.views.wikified.tag;
+		if(titles.length > 0) {
+			var openAll = createTiddlyButton(createTiddlyElement(popup,"li"),lingo.openAllText.format([tag]),lingo.openAllTooltip,onClickTagOpenAll);
+			openAll.setAttribute("tag",tag);
+			createTiddlyElement(createTiddlyElement(popup,"li",null,"listBreak"),"div");
+			for(r=0; r<titles.length; r++) {
+				createTiddlyLink(createTiddlyElement(popup,"li"),titles[r],true);
+			}
+		} else {
+			createTiddlyText(createTiddlyElement(popup,"li",null,"disabled"),lingo.popupNone.format([tag]));
+		}
+		createTiddlyElement(createTiddlyElement(popup,"li",null,"listBreak"),"div");
+		var relatedTags = createTiddlyButton(createTiddlyElement(popup,"li"),lingo.relatedTagsText,lingo.relatedTagsTooltip,onClickRelatedTags);
+		relatedTags.setAttribute("tag",tag);
+		var h = createTiddlyLink(createTiddlyElement(popup,"li"),tag,false);
+		createTiddlyText(h,lingo.openTag.format([tag]));
+	}
+	Popup.show();
+	e.cancelBubble = true;
+	if(e.stopPropagation) e.stopPropagation();
+	return false;
+}
+
+// Event handler for 'Show related tags' on a tiddler popup
+function onClickRelatedTags(ev)
+{
+	var e = ev ? ev : window.event;		
+	var popup = Popup.create(this,"ol","popup");
+	wikify("<<relatedtags "+this.getAttribute("tag")+">>",popup);
+	Popup.show();
+	e.cancelBubble = true;
+	if (e.stopPropagation) e.stopPropagation();
+	return false;
+}
