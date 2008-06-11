@@ -1,0 +1,6 @@
+{{
+config.options.txtSharedNotesUserName = "YourConfabbUserName";
+config.options.txtRippleRapType = "confabb";
+config.options.txtRippleRapConferenceName = "";
+config.options.txtRippleRapConferenceURI = "";
+}}

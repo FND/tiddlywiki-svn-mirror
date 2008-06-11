@@ -1,0 +1,31 @@
+<div title="Help" modifier="PhilWhitehouse" created="200711291952"><pre>
+We've tried to anticipate the main problems people will have; see if yours is addressed below.
+
+''I'm having trouble saving!''
+
+The top tips are:
+*The Confabb Note Sharer will save and sync your changes automatically. You should never use your browser's //File > Save As...// function.
+*You may find when you run the Confabb Note Sharer for the first time, warning messages appear - don't worry, this is normal! You'll need to grant permission for the document to save changes locally, and then you're ready to go.
+*If you wish to rename or move the document, make sure it's closed before you do so (but keep the .html extension). You can then can safely re-open the document.
+*For added safety, you can create a folder called backup in the same directory as your document, and then enable the backup functionality in the [[Advanced Options|AdvancedOptions]].
+''I'm still having problems''
+
+Certain browsers (especially Internet Explorer) and operating systems (particularly Windows XP) misbehave when running this kind of document. Sadly these problems cannot be fixed by changing the document itself, but they can often be overcome with some simple browser configuration. 
+
+The Confabb Note Sharer is based on a product called TiddlyWiki. You can find out more about configuring TiddlyWiki on the [[TiddlyWiki website|http://tiddlywiki.com/#SaveChanges]].
+
+''Note sharing isn't working''
+
+Notes are synced with the server automatically and this process can take a few minutes depending on the content.
+Alternatively, it might be that the conference wi-fi is down. 
+
+''What happens if the conference wi-fi is down?''
+
+If the conference wi-fi is down, you can still take notes and save these to your hard drive. When the connection comes back up, notes will be synced automatically.
+
+''How can I format my text?''
+
+The Confabb Note Sharer is based on a product called ~TiddlyWiki, which provides a [[simple convention for formatting|Formatting TiddlyWikis]].
+</pre>
+</div>
+
