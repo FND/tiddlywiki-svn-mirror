@@ -20,7 +20,6 @@ tiddler: AgendaSubItemsTemplate.tiddler
 
 # Plugins
 tiddler: plugins/RippleRapPlugin.js
-tiddler: plugins/RippleRapConfabbPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
 tiddler: ../../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
 tiddler: ../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
@@ -43,14 +42,10 @@ tiddler: ../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
 tiddler: AgendaMenu.tiddler
 tiddler: ../../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js
-tiddler: ../../../contributors/PaulDowney/adaptors/Confabb/ConfabbAgendaAdaptorPlugin.js
-tiddler: ../../../contributors/PaulDowney/adaptors/Confabb/LoginToConfabb.tiddler
-tiddler: ../../../contributors/PaulDowney/adaptors/Confabb/ConfabbLoginPlugin.js
 
 # Sharing Notes
 tiddler: ../../../contributors/PaulDowney/plugins/SharedNotesPlugin/SharedNotesPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/GenerateRssPlugin.js
-tiddler: ../../../contributors/PaulDowney/adaptors/Confabb/ConfabbNotesAdaptorPlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js
 tiddler: ../../../contributors/PaulDowney/adaptors/RSSAdaptor.js
 
