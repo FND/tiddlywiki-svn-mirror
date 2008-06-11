@@ -64,7 +64,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 	var days = {};
 	var t = r.getElementsByTagName('day');
 	for(var i=0;i<t.length;i++) {
-		var name = t[i].textContent;
+		var name = t[i].textContent || t[i].text;
 		if (name && name != undefined){
 			days["Day"+name.makeId()] = name;
 		}

@@ -13,6 +13,9 @@ config.options.chkSharedNotesGetEnabled = true;
 config.options.chkTickerEval = true;
 config.options.chkTickerRefresh = true;
 
+// Agenda
+config.options.txtMainTab = "";
+
 // Logging
 config.options.chkLogMessageEnabled = true;
 config.options.chkLogMessageConsole = true;
