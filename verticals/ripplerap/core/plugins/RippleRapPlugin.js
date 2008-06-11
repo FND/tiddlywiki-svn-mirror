@@ -1,6 +1,6 @@
 /***
-|''Name:''|RippleRapPLugin |
-|''Description:''|Provide a RippleRap functionality |
+|''Name:''|RippleRapPlugin |
+|''Description:''|Provide RippleRap functionality |
 |''Author:''|PhilHawksworth|
 |''Version:''|0.0.3|
 |''Date:''|Mon May 19 14:47:44 BST 2008|
@@ -15,106 +15,52 @@ if(!version.extensions.RippleRapPlugin) {
 version.extensions.RippleRapPlugin = {installed:true};
 
 config.options.chkTickerEval = true;
-
 config.messages.workspaceTiddlers = "";
 
 config.macros.RippleRap = {};
 config.macros.RippleRap.agenda = {};
 
-// Initialise the application.
+/*
+ *  Initialize the application
+ */
 config.macros.RippleRap.init = function(){
 
 	var me = config.macros.RippleRap;
 	me.labelEdition();
-	me.feedListManager = new FeedListManager();
 
+	/*
+	 *  initiate the SharedNotes plugin
+	 */
+	config.macros.SharedNotes.install();
+
+	/*
+	 *  Edition specific initialisation
+	 */
 	var baseUri = config.options.txtRippleRapConferenceURI;
 	baseUri += ((baseUri.slice(-1)!='/')?"/":"");
 
-	switch (config.options.txtRippleRapType) {
-	case 'confabb':
-		config.macros.RippleRapConfabb.install(me, baseUri);
-		break;
-	default:
-		break;
-	}
-	
-	//Populate the feedlistmanager and prioritise the active user's feed for first retrieval.
-	me.feedListManager.populate(me.feedListManager.prioritise, config.options.txtSharedNotesUserName);
+	config.macros.RippleRapEdition.install(me, baseUri);
+
+	/*
+	 *  start SharedNotes plugin
+	 */
+	config.macros.SharedNotes.populateNotes();
 };
 
+
+
 /*
- *  actions
+ *  TBD - move to an Agenda plugin
  */
 config.macros.RippleRap.getAgenda = function() {
-	log("config.macros.RippleRap.getAgenda");
 	config.macros.importWorkspace.getTiddlers(config.macros.RippleRap.agenda.uri, config.macros.RippleRap.agenda.adaptor);
 	return false;
 };
 
-config.macros.RippleRap.putNotes = function() {
-	log("config.macros.RippleRap.putNotes");
-	config.macros.SharedNotes.putNotes();
-	return false;
-};
-
-config.macros.RippleRap.getNotes = function() {
-	log("config.macros.RippleRap.getNotes");
- 	var feed = config.macros.RippleRap.feedListManager.nextUriObj();
-	if (feed) {
-		log("getting notes from:", feed.uri, feed.name);
-		config.macros.SharedNotes.getNotes(feed.uri,feed.name);
-	}
-	return false;
-};
-
-config.macros.RippleRap.populateNotes = function() {
-	log("config.macros.RippleRap.populateNotes");
- 	var uri = config.macros.RippleRap.feedListManager.populate();
-	return false;
-};
-
-
-/*
- *  action buttons
- */
 config.macros.RefreshAgenda = {};
 config.macros.RefreshAgenda.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
                 var me = config.macros.RippleRap;
                 var button = createTiddlyButton(place,'Download the conference agenda','Click here to download the Agenda',me.getAgenda);
-};
-
-config.macros.ShareNotes = {};
-config.macros.ShareNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-                var me = config.macros.RippleRap;
-                var button = createTiddlyButton(place,'PUT NOTES','Click here to share your notes',me.putNotes);
-};
-
-config.macros.EnjoyNotes = {};
-config.macros.EnjoyNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-                var me = config.macros.RippleRap;
-                var button = createTiddlyButton(place,'GET NOTES','Click here to enjoy other people\'s notes',me.getNotes);
-};
-
-config.macros.PopulateNotes = {};
-config.macros.PopulateNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-                var me = config.macros.RippleRap;
-                var button = createTiddlyButton(place,'POPULATE NOTES','Click here to find other people\'s notes',me.populateNotes);
-};
-
-config.macros.SuspendNotifications = {};
-config.macros.SuspendNotifications.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-                var button = createTiddlyButton(place,'SUSPEND NOTIFCATIONS','Click here to send TiddlyWiki to sleep',story.suspendNotifications);
-};
-
-config.macros.ResumeNotifications = {};
-config.macros.ResumeNotifications.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-                var button = createTiddlyButton(place,'RESUME NOTIFCATIONS','Click here to wake TiddlyWiki',story.resumeNotifications);
-};
-
-config.macros.NotifyAll = {};
-config.macros.NotifyAll.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-                var button = createTiddlyButton(place,'NOTIFY ALL','Click here to notify all',function() {store.notifyAll();refreshDisplay();return false;});
 };
 
 
@@ -216,13 +162,9 @@ store.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,field
 	version.extensions.RippleRapPlugin.saveTiddler.apply(this,arguments);
 	
 	if(t && t.isTagged('notes')) {
-		config.macros.RippleRap.putNotes();
+		config.macros.SharedNotes.putNotes();
 	}
 };
-
-
-
-
 
 }
 //}}}

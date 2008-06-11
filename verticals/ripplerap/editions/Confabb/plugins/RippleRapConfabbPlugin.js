@@ -14,7 +14,7 @@
 if(!version.extensions.RippleRapConfabbPlugin) {
 version.extensions.RippleRapConfabbPlugin = {installed:true};
 
-config.macros.RippleRapConfabb = {
+config.macros.RippleRapEdition = {
 	install: function(me, uri) {
 		this.installAgenda(me, uri);
 		this.installSharedNotes(me, uri);
@@ -42,7 +42,7 @@ config.macros.RippleRapConfabb = {
 		if (!notesuri) {
 			notesuri = uri + "notes/opml";
 		}
-		me.feedListManager.add(notesuri,'confabb notes','opml');
+		config.macros.SharedNotes.feedListManager.add(notesuri,'confabb notes','opml');
 	}
 };
 

@@ -3,7 +3,7 @@ recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 
 # Development helpers - remove before releaseing.
 tiddler: __dev_helper.tiddler
-
+tiddler: plugins/DevHelpPlugin.js
 
 # Settings
 tiddler: settings.js
@@ -18,40 +18,40 @@ tiddler: SiteSubtitle.tiddler
 tiddler: AgendaItemsTemplate.tiddler
 tiddler: AgendaSubItemsTemplate.tiddler
 
-# Plugins
+# RippleRap specific code
 tiddler: plugins/RippleRapPlugin.js
+
 tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
 tiddler: ../../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
+
 tiddler: ../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
 # tiddler: ../../../contributors/PhilHawksworth/plugins/ListRelatedPlugin.js
+
 tiddler: ../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
-tiddler: ../../../contributors/PaulDowney/plugins/TiddlifyList.js
 tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/RawViewMacroPlugin.js
+
 tiddler: plugins/TaggedTemplateTweak.js
 #tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
+
 tiddler: ../../../contributors/PaulDowney/plugins/SingleMessagePlugin/SingleMessagePlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/LogMessagePlugin/_LogMessagePlugin.js
 tiddler: ../../../contributors/BidiX/plugins/PasswordOptionPlugin.js
 
 # Agenda Tracks
+tiddler: AgendaMenu.tiddler
 tiddler: ../../../contributors/PaulDowney/plugins/AgendaTrack.js
 tiddler: ../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
-
-# Agenda Adaptor
-tiddler: AgendaMenu.tiddler
+tiddler: ../../../contributors/PaulDowney/plugins/TiddlifyList.js
 tiddler: ../../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
 tiddler: ../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js
 
 # Sharing Notes
-tiddler: ../../../contributors/PaulDowney/plugins/SharedNotesPlugin/SharedNotesPlugin.js
-tiddler: ../../../contributors/PaulDowney/plugins/GenerateRssPlugin.js
-tiddler: ../../../contributors/PhilHawksworth/plugins/FeedListManagerPlugin.js
-tiddler: ../../../contributors/PaulDowney/adaptors/RSSAdaptor.js
+recipe: ../../../contributors/PaulDowney/plugins/SharedNotesPlugin/SharedNotesPlugin.recipe
 
-# Ticker timer
-tiddler: ../../../contributors/PaulDowney/plugins/TickerPlugin/TickerPlugin.js
-tiddler: ../../../contributors/PaulDowney/plugins/YYYYMMDDHHMMSSMMMPlugin/YYYYMMDDHHMMSSMMMPlugin.js
+# Ticker timers
+recipe: ../../../contributors/PaulDowney/plugins/TickerPlugin/TickerPlugin.recipe
+
 tiddler: TickerGetAgenda.tiddler
 tiddler: TickerGetNotes.tiddler
 tiddler: TickerPopulateNotes.tiddler
@@ -90,7 +90,6 @@ tiddler: committee.tiddler
 tiddler: chair.tiddler
 
 
-# tiddler: ../../../contributors/JonathanLister/adaptors/RSSAdaptor.js
 # tiddler: ../../../contributors/JonathanLister/plugins/JS2JSON.js
 # tiddler: ../../../contributors/JonathanLister/plugins/xhrTimeoutPlugin.js
 # tiddler: ../../../contributors/JonathanLister/plugins/TemplatePlugin.js

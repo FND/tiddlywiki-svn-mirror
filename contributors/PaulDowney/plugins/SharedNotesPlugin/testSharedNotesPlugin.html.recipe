@@ -1,9 +1,7 @@
 title=SharedNotesPlugin Tests
 recipe: ../../../../core/tests/html/testContributors.recipe
 
-tiddler: ../GenerateRssPlugin.js
-tiddler: ../LogMessagePlugin/LogMessagePlugin.js
-tiddler: SharedNotesPlugin.js
+recipe: SharedNotesPlugin.recipe
 
 jsspecsrc=<script src="../../../../core/tests/js/tiddlywiki.js" type="text/javascript"  charset="utf-8"></script>
 jsspecsrc=<script src="../../../../core/tests/js/mock.js" type="text/javascript"  charset="utf-8"></script>

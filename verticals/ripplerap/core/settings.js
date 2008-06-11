@@ -1,5 +1,7 @@
 //{{{
 
+// RippleRap Edition Specific settings are in Edition.js
+
 config.options.chkAutoSave = true;
 config.options.chkAnimate = true;
 config.options.chkSaveBackups = false;
@@ -21,8 +23,6 @@ config.options.chkLogMessageEnabled = true;
 config.options.chkLogMessageConsole = true;
 config.options.chkLogMessageWindow = false;
 config.options.chkLogMessageDisplayMessage = false;
-
-// RippleRap Edition Specific settings are in Edition.js
 
 // Setup the session notes display groupings.
 var session_notes_groups = new TiddlerDisplayGroup();
