@@ -8,7 +8,7 @@ tiddler: web20.tiddler
 
 # adaptor to read a ConfabbAgenda
 tiddler: ../../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js
-tiddler: ../../../../contributors/PaulDowney/plugins/LogMessagePlugin/LogMessagePlugin.js
+tiddler: ../../../../contributors/PaulDowney/plugins/LogMessagePlugin/_LogMessagePlugin.js
 
 tiddler: ../../../../contributors/PaulDowney/adaptors/Confabb/ConfabbAgendaAdaptorPlugin.js
 tiddler: ../../../../contributors/PaulDowney/adaptors/Confabb/LoginToConfabb.tiddler
