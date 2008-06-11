@@ -2,3 +2,5 @@
 !!Theme
 (Currently <<eval {{config.options.txtTheme}}>>)
 <<selectTheme>>
+
+^^[[modify menu|ConfigMenu]]^^

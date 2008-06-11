@@ -12,4 +12,4 @@
 !!Recent
 <<mgtdList mode:global tags:'Project || Action' view:plain sort:-modified >>
 
-^^[[ProcessInboxMenu|modify]]^^
+^^[[modify menu|ProcessInboxMenu]]^^
