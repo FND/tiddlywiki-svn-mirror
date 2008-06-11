@@ -103,10 +103,12 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 		var s = node.getElementsByTagName("speaker");
 		for(var j=0;j<s.length;j++) {
 			var name = getFirstElementValue(s[j],"title");
-			name = name.trim();
-			speakers[name] = {name: name};
-			sessionSpeakers.push(name);
-			tags.push(name.makeId());
+			if(name){
+				name = name.trim();
+				speakers[name] = {name: name};
+				sessionSpeakers.push(name);
+				tags.push(name.makeId());
+			}
 		}
 
 		tiddler.assign(id,content,undefined,undefined,tags,undefined,{
