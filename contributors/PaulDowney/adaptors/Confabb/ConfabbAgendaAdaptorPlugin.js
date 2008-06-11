@@ -34,8 +34,9 @@ String.prototype.makeId = function() {
 getFirstElementValue = function (node, tag, def) {
 	if (node){
 		var e = node.getElementsByTagName(tag);
-		if (e && e.length && e[0].textContent)
-		    return e[0].textContent;
+		if (e && e.length){
+			def = e[0].textContent || e[0].text || def;
+		}
 	}
 	return def;
 };
