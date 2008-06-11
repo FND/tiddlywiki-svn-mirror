@@ -112,6 +112,11 @@ config.macros.ResumeNotifications.handler = function(place,macroName,params,wiki
                 var button = createTiddlyButton(place,'RESUME NOTIFCATIONS','Click here to wake TiddlyWiki',story.resumeNotifications);
 };
 
+config.macros.NotifyAll = {};
+config.macros.NotifyAll.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+                var button = createTiddlyButton(place,'NOTIFY ALL','Click here to notify all',function() {store.notifyAll();refreshDisplay();return false;});
+};
+
 
 config.macros.RippleRap.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var params = paramString.parseParams("anon",null,true,false,false);
