@@ -132,6 +132,8 @@ merge(config.macros,{
 			var title = getParam(pp,"title",tiddler.title);
 			var refresh = getParam(pp,"refresh"); // stupid bit for pagetemplate hack
 
+			var includeNew = getParam(pp,"includeNew","yes"); // default on for the moment..
+
 			var actOnTiddler = store.getTiddler(title);
 
 			var getValues = fastTagged(tag).sort(function(a,b){
@@ -162,6 +164,20 @@ merge(config.macros,{
 						);
 			 	}
 			 });
+
+			 if (includeNew) {
+			 	// add a button to create...
+				createTiddlyButton(place, "+", "New "+tag+"...", function(e) {
+						var newItemTitle = config.macros.multiSelectTag.createNewItem(tag);
+						if (newItemTitle)
+							actOnTiddler.addTag(newItemTitle);
+						if (tag == "Realm")
+							refreshPageTemplate();
+						return false;
+					},
+					tag == "Realm"?"button off":"button" // the class so it looks right in the top menu
+				);
+			 }
 		}
 		
 	},
@@ -221,6 +237,8 @@ merge(config.macros,{
 
 			var allowNone = getParam(pp,"allowNone");
 
+			var includeNew = getParam(pp,"includeNew","yes"); // default on for the moment..
+
 			var title = getParam(pp,"title",tiddler.title);
 			var actOnTiddler = store.getTiddler(title);
 
@@ -228,6 +246,9 @@ merge(config.macros,{
 
 			if (allowNone)
 				selectOptions.push({name: null, caption:'-'});// TODO this doesn't work right?
+
+			if (includeNew)
+				selectOptions.push({name: '__new__', caption:'New '+tag+'...'});
 
 			var getValues = fastTagged(tag).sort(function(a,b){
 				return a.sorterUtil(b,"orderSlice");
@@ -240,10 +261,11 @@ merge(config.macros,{
 			});
 
 			var dd = createTiddlyDropDown(place, function(e) {
-					actOnTiddler.setTagFromGroup(
-						tag,
-						selectOptions[this.selectedIndex].name
-						);
+					var selectedItem = selectOptions[this.selectedIndex].name;
+					if (selectedItem == '__new__')
+						selectedItem = config.macros.multiSelectTag.createNewItem(tag);
+					if (selectedItem)
+						actOnTiddler.setTagFromGroup(tag,selectedItem);
 					if (refresh == "page")
 						refreshPageTemplate();
 					return false;
@@ -252,7 +274,24 @@ merge(config.macros,{
 				actOnTiddler.getByIndex(tag)[0]
 			);
 
+		},
+
+		// want to reuse this...
+		createNewItem: function(tag) {
+			var selectedItem = prompt("Enter name for new "+tag+":","");
+			if (selectedItem) {
+				selectedItem = config.macros.newTiddler.getName(selectedItem); // from NewMeansNewPlugin
+				var tags = [];
+				tags.push(tag); // make it into the thing you want
+				tags.push(config.macros.mgtdList.getRealm()); // make sure it's got a realm
+				if (tag == "Project")
+					tags.push("Active"); // if it's a project then make it active...
+				store.saveTiddler(selectedItem,selectedItem,"",config.options.txtUserName,new Date(),tags);
+			}
+			return selectedItem;
 		}
+
+
 	},
 
 	multiCheckboxTag: {
@@ -323,7 +362,7 @@ merge(config.macros,{
 		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 			if (tiddler.tags.contains('Action')) {
 
-				createTiddlyButton(place, "make subj project", "make this action into a sub project", function(e) {
+				createTiddlyButton(place, "make project", "make this action into a project", function(e) {
 						tiddler.removeTag("Action");                      
 						tiddler.removeTag("Next");                     
 						tiddler.removeTag("Future");                     
