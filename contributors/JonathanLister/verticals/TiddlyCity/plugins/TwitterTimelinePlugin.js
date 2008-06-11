@@ -36,7 +36,6 @@ TwitterTimeline.prototype.getUpdatesCallback = function(status,callback,response
 	} else {
 		clearMessage();
 		var tweets = eval("("+responseText+")");
-		console.log(tweets);
 		this.lastIndex = tweets[0].id;
 		callback(tweets);
 	}

@@ -1,0 +1,12 @@
+<div title="GeoRSSTemplateForYahooMapsSimpleAPIPost" modifier="JonathanLister" created="200806111058" modified="200806111058">
+<pre><?xml version="1.0" encoding="UTF-8"?>
+<rss version = '2.0'>
+	<channel xmlns:yahoo:maps='http://api.maps.yahoo.com/Maps/V1/annotatedMaps'>
+		<title>Your DIY City Guide updates</title>
+		<link><![CDATA[http://www.tiddlywiki.com]]></link>
+		<description>Locations that you selected to view</description>
+		<!--<<templateTiddlers template:'GeoRSSItemTemplateForYahooMapsSimpleAPIPost' filter:'[tag[tweet]]'>>-->
+	</channel>
+	</rss>
+</pre>
+</div>

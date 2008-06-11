@@ -3,12 +3,12 @@
 	<Style>
 		<IconStyle>
 			<Icon>
-				<href><!--<<view iconUrl>>--></href>
+				<href><![CDATA[<!--<<view iconUrl>>-->]]></href>
 			</Icon>
 		</IconStyle>
 	</Style>
 	<name><!--<<slice from>>--></name>
-	<description><!--<<slice tweet>>--> <![CDATA[<a href="http://www.google.com/search?q=<!--<<slice from>>-->"><!--<<slice from>>--></a>]]></description>
+	<description><!--<<slice tweet>>--> <![CDATA[<a href="<!--<<view url>>-->"><!--<<slice from>>--></a>]]></description>
 	<Point>
 		<coordinates><!--<<view geo_lng>>-->,<!--<<view geo_lat>>-->,0</coordinates>
 	</Point>

@@ -54,7 +54,6 @@ GoogleLocalSearch.prototype.getCallback = function(status,context,responseText,u
 		if(results.responseStatus !== 200) {
 			displayMessage("error with results from GoogleLocalSearch: "+results.responseDetails);
 		} else {
-			console.log(results);
 			results = results.responseData.results;
 			context.callback(results,context);
 		}

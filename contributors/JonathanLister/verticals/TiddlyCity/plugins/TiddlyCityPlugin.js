@@ -61,7 +61,7 @@ TiddlyCity.LocationToTiddler = function(locations,context) {
 	context.fields.country = location.country;
 	context.fields.geo_lat = location.lat;
 	context.fields.geo_lng = location.lng;
-	console.log(context);
+	context.fields.url = location.url;
 	TiddlyCity.saveTiddlerFromContext(context);
 };
 
@@ -84,11 +84,7 @@ TiddlyCity.displayTweets = function() {
 	var ylocal = new YahooMapsSimpleAPI();
 	var tiddlers = store.getTaggedTiddlers('tweet');
 	if(tiddlers.length!==0) {
-		for (var i=0;i<tiddlers.length;i++) {
-			ylocal.addElement(tiddlers[i]);
-		}
 		var place = this.parentNode;
-		//ylocal.displayMap(place);
 		ylocal.displayMapUsingForm(place);
 	} else {
 		displayMessage("no tweets to display!");

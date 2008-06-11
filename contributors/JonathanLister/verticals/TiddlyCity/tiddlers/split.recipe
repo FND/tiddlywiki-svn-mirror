@@ -1,6 +1,8 @@
 tiddler: ColorPalette.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: Details.tiddler
+tiddler: GeoRSSTemplateForYahooMapsSimpleAPIPost.tiddler
+tiddler: GeoRSSItemTemplateForYahooMapsSimpleAPIPost.tiddler
 tiddler: KMLTemplate.tiddler
 tiddler: KMLPlacemarkTemplate.tiddler
 tiddler: MainMenu.tiddler
