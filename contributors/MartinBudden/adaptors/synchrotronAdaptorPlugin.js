@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for working with synchrotron diff tool|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/synchrotronAdaptorPlugin.js |
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Date:''|Jun 11, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -29,12 +29,6 @@ synchrotronAdaptor.revisionSavedMessage = 'Revision %0 saved';
 synchrotronAdaptor.baseRevision = 1000;
 synchrotronAdaptor.contentDirectory = 'content';
 synchrotronAdaptor.revisionsDirectory = '_revisions';
-
-synchrotronAdaptor.toFileFormat = function(s)
-{
-	//# file format is utf8, unless browser is IE
-	return config.browser.isIE ? manualConvertUnicodeToUTF8(s) : unescape(encodeURIComponent(s)); // convert to utf8	
-};
 
 synchrotronAdaptor.fromFileFormat = function(s)
 {
@@ -63,6 +57,14 @@ synchrotronAdaptor.normalizedTitle = function(title)
 	if(id.charAt(0)=='_')
 		id = id.substr(1);
 	return String(id);
+};
+
+synchrotronAdaptor.dateFromTimestamp = function(timestamp)
+{
+console.log(timestamp);
+	var dt = new Date();
+//	dt = dt.setTime(timestamp);
+	return dt;
 };
 
 synchrotronAdaptor.getPath = function(localPath,folder)
@@ -190,25 +192,33 @@ synchrotronAdaptor.prototype.getTiddlerRevisionList = function(title,limit,conte
 console.log('synchrotronAdaptor.getTiddlerRevisionList');
 	context = this.setContext(context,userParams,callback);
 	var tiddler = store.getTiddler(title);
+console.log(tiddler);
+console.log('uuid:'+tiddler.fields.uuid);
 	context.revisions = [];
 	context.status = true;
 	var entries = null;
-	if(tiddler.fields.guid)
-		entries = repo.fileRevisions(tiddler.fields.guid);
-//#displayMessage('revisionPath:'+path);
+	if(tiddler.fields.uuid)
+		entries = synchrotron.repo.fileRevisions(tiddler.fields.uuid);
 	if(entries) {
+console.log('ec:'+entries.length);
 		var list = [];
 		for(var i=0; i<entries.length; i++) {
-			var body = repo.getBody(entries[i], tiddler.fields.guid);
+console.log('e:',entries[i]);
+console.log('b:',entries[i].alive[tiddler.fields.uuid]);
+			var body = synchrotron.repo.getBody(entries[i],tiddler.fields.uuid);
+			if(!body.title)
+				break;
+console.log('li:'+i);
+console.log(body.title);
+console.log(body.text);
 			title = body.title;
 			tiddler = new Tiddler(title+i);
-			tiddler.modified = entries[i].timestamp;
-			tiddler.text = body.text.join("\n");
+			tiddler.modified = synchrotronAdaptor.dateFromTimestamp(entries[i].timestamp);
+			tiddler.text = body.text.join('\n');
 			tiddler.fields['server.page.revision'] = i;
 			list.push(tiddler);
 		}
 		context.revisions = list;
-		context.status = true;
 	} else {
 		context.status = false;
 		context.statusText = synchrotronAdaptor.errorInFunctionMessage.format(['getTiddlerList']);
@@ -245,75 +255,13 @@ synchrotronAdaptor.prototype.getTiddler = function(title,context,userParams,call
 	if(title)
 		context.title = title;
 
-	if(context.revision) {
-//#displayMessage('cr:'+context.revision);
-		var path = synchrotronAdaptor.revisionPath();
-		var uriTemplate = '%0%1.%2.%3';
-	} else {
-		path = synchrotronAdaptor.contentPath();
-		uriTemplate = '%0%1';
-	}
+	//if(context.revision) {
+	//} else {
+	//}
 
-	var uri = uriTemplate.format([path,synchrotronAdaptor.normalizedTitle(title),context.modified,context.revision]);
-	//var uri = uriTemplate.format([path,title,context.modified,context.revision]);
-//#displayMessage('uri:'+uri);
 	context.tiddler = new Tiddler(title);
-	context.tiddler.fields['server.type'] = synchrotronAdaptor.serverType;
 	context.status = false;
 	context.statusText = synchrotronAdaptor.errorInFunctionMessage.format(['getTiddler',title]);
-	var fields = null;
-	var t1, t0 = new Date();
-	var data = loadFile(uri + '.tiddler');
-	if(config.options.chkDisplayInstrumentation) {
-		t1 = new Date();
-		displayMessage('Tiddler file:"'+title+'" loaded in ' + (t1-t0) + ' ms');
-	}
-	if(data) {
-		var tiddlerRegExp = /<div([^>]*)>(?:\s*)(<pre>)?([^<]*?)</mg;
-		tiddlerRegExp.lastIndex = 0;
-		match = tiddlerRegExp.exec(data);
-		if(match) {
-			ft = match[1].replace(/\=\"/mg,':"'); //'
-			fields = ft.decodeHashMap();
-			var text = match[3] ? match[3] : '';
-			if(match[2]) {
-				//# pre format
-				text = synchrotronAdaptor.fromFileFormat(text);
-				text = text.replace(/\r/mg,'');
-			} else {
-				text = text.unescapeLineBreaks().htmlDecode();
-			}
-			context.tiddler.text = text;
-			context.status = true;
-		}
-	} else {
-		data = loadFile(uri + '.js');
-		context.tiddler.text = data;
-		meta = loadFile(uri + '.js.meta');
-		if(meta) {
-			context.status = true;
-			var ft = '';
-			var fieldRegExp = /([^:]*):(?:\s*)(.*?)$/mg;
-			fieldRegExp.lastIndex = 0;
-			var match = fieldRegExp.exec(meta);
-			while(match) {
-				ft += match[1] + ':"' + match[2] + '" ';
-				match = fieldRegExp.exec(meta);
-			}
-			fields = ft.decodeHashMap();
-		} else {
-			//#alert('cannot load tiddler');
-			displayMessage('cannot load tiddler');
-		}
-	}
-	for(var i in fields) {
-		var accessor = TiddlyWiki.standardFieldAccess[i];
-		if(accessor) {
-			accessor.set(context.tiddler,fields[i]);
-		} else if(i != 'anon' && i != 'changecount') {
-			context.tiddler.fields[i] = fields[i];
-		}
-	}
 	if(context.callback)
 		window.setTimeout(function() {callback(context,userParams);},0);
 	return context.status;
@@ -325,3 +273,16 @@ config.adaptors[synchrotronAdaptor.serverType] = synchrotronAdaptor;
 } //# end of 'install only once'
 //}}}
 
+/*
+{
+revisions:{
+'f46827b5-c688-4548-860e-60c0d72cee85':{alive:{'04c07d45-a4fe-40a2-a584-c3b08bc6c2a4':"35db24a7-9db1-45d7-8df0-9139690429cc"}, dead:{}, changed:["04c07d45-a4fe-40a2-a584-c3b08bc6c2a4"], branch:null, timestamp:1213217922437, metadata:undefined, directParent:null, additionalParent:null}, 
+'6dba819e-468c-43a3-8e11-246e5d5294b7':{alive:{'04c07d45-a4fe-40a2-a584-c3b08bc6c2a4':"48c06228-8f1f-4469-8b2d-47bf8239bae9"}, dead:{}, changed:["04c07d45-a4fe-40a2-a584-c3b08bc6c2a4"], branch:null, timestamp:1213217935140, metadata:undefined, directParent:"f46827b5-c688-4548-860e-60c0d72cee85", additionalParent:null}
+},
+	bodies:{
+		'35db24a7-9db1-45d7-8df0-9139690429cc':{title:"New Tiddler", text:["aaa"]}, 
+		'48c06228-8f1f-4469-8b2d-47bf8239bae9':{title:"New Tiddler", text:["aaa", "bbb"]
+	}
+}
+}
+*/
