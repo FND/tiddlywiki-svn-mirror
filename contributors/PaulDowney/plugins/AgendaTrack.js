@@ -23,15 +23,14 @@ version.extensions.AgendaTrack = {installed:true};
 	config.macros.AgendaTrackTabs = {};
 	config.macros.AgendaTrackTabs.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 
-		var text = '<<tabs txtMainTab ';
-		var tracks = store.filterTiddlers("[tag[track]]");
+		var text = '<<tabs txtMainTab';
+		var tracks = store.getTaggedTiddlers("track");
 		for (var i=0;i<tracks.length;i++) {
 			s = ' "' + tracks[i].title + '"';
 			text = text  + s + s + s;
 		}
 			
 		text = text + '>>';
-
 		wikify(text,place);
 	};
 
