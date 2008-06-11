@@ -19,14 +19,17 @@ Options:
 if(!version.extensions.LogMessage){
 version.extensions.LogMessage = {installed:true};
 
-	config.options.chkLogMessageEnabled = false;
 	config.optionsDesc.chkLogMessageEnabled = "logging of messages enabled";
-	config.options.chkLogMessageConsole = false;
+	config.options.chkLogMessageEnabled = false;
+
 	config.optionsDesc.chkLogMessageConsole = "log messages to the console, when available";
-	config.options.chkLogMessageWindow = false;
+	config.options.chkLogMessageConsole = false;
+
 	config.optionsDesc.chkLogMessageWindow = "log messages to an external window";
-	config.options.chkLogMessageDisplayMessage = false;
+	config.options.chkLogMessageWindow = false;
+
 	config.optionsDesc.chkLogMessageDisplayMessage = "log messages using displayMessage";
+	config.options.chkLogMessageDisplayMessage = false;
 	
 	config.macros.LogMessage = { 
 

@@ -19,7 +19,7 @@ config.options.txtMainTab = "";
 // Logging
 config.options.chkLogMessageEnabled = true;
 config.options.chkLogMessageConsole = true;
-config.options.chkLogMessageWindow = true;
+config.options.chkLogMessageWindow = false;
 config.options.chkLogMessageDisplayMessage = false;
 
 // RippleRap Edition Specific settings are in Edition.js
