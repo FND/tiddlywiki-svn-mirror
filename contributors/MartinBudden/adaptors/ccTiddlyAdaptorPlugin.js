@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ccTiddlyAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ccTiddlyAdaptorPlugin.js|
-|''Version:''|0.5.2|
+|''Version:''|0.5.3|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
@@ -48,6 +48,11 @@ ccTiddlyAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentTyp
 	return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
 };
 
+ccTiddlyAdaptor.doHttpPOST = function(uri,callback,params,headers,data,contentType,username,password)
+{
+	return doHttp('POST',uri,data,contentType,username,password,callback,params,headers);
+};
+
 ccTiddlyAdaptor.prototype.setContext = function(context,userParams,callback)
 {
 	if(!context) context = {};
@@ -62,6 +67,7 @@ ccTiddlyAdaptor.fullHostName = function(host)
 //#displayMessage("fullHostName:"+host);
 	if(!host)
 		return '';
+	host = host.trim();
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
 	if(host.substr(-1) != '/')
@@ -171,16 +177,19 @@ ccTiddlyAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	return info;
 };
 
-ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
-{
-//#displayMessage('ccTiddlyAdaptor.getTiddler:' + title);
-	return this.getTiddlerRevision(title,null,context,userParams,callback);
-};
-
 ccTiddlyAdaptor.prototype.getTiddlerRevision = function(title,revision,context,userParams,callback)
 {
-	context = this.setContext(context,userParams,callback);
 //#displayMessage('ccTiddlyAdaptor.getTiddlerRevision:' + title + ' r:' + revision);
+	context = this.setContext(context,userParams,callback);
+	context.revision = revision;
+	return this.getTiddler(title,null,context,userParams,callback);
+};
+
+ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
+{
+	context = this.setContext(context,userParams,callback);
+	context.title = title;
+//#displayMessage('ccTiddlyAdaptor.getTiddler:' + title);
 	//title = encodeURIComponent(title);
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
 	context.tiddler = new Tiddler(title);
@@ -189,7 +198,7 @@ ccTiddlyAdaptor.prototype.getTiddlerRevision = function(title,revision,context,u
 	if(revision) {
 		var uriTemplate = '%0msghandle.php?action=revisionDisplay&title=%1&revision=%2';
 		var uri = uriTemplate.format([host,title,revision]);
-//#displayMessage('urir: '+uri);
+//#displayMessage('uriR: '+uri);
 		var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerCallback2,context);
 	} else {
 		// first get the revision list
@@ -285,9 +294,9 @@ ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(title,context,userPa
 	title = encodeURIComponent(title);
 //#displayMessage('getTiddlerRevisionList:'+title);
 //# http://cctiddly.sourceforge.net/msghandle.php?action=revisionList&title=About
-	var uriTemplate = '%0msghandle.php?action=revisionList&title=%1';
+	var uriTemplate = '%0handle.revisionlist.php?XXX&workspace=%1&title=%2';
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
-	var uri = uriTemplate.format([host,title]);
+	var uri = uriTemplate.format([host,workspace,title]);
 //#displayMessage('uri: '+uri);
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields['server.host'] = ccTiddlyAdaptor.minHostName(host);
@@ -328,7 +337,7 @@ ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,context,respons
 };
 
 //# placeholder, not complete
-ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,callback)
+ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
 	context.title = tiddler.title;
@@ -336,14 +345,24 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 	var title = encodeURIComponent(tiddler.title);
 //#displayMessage('putTiddler:'+title);
 	var host = this && this.host ? this.host : ccTiddlyAdaptor.fullHostName(tiddler.fields['server.host']);
-	var uriTemplate = '%0RPC2/';
+	var uriTemplate = '%0handle/save.php?XXX&workspace=%1&title=%2';
 	var uri = uriTemplate.format([host,title]);
 //#displayMessage('uri: '+uri);
 
 	context.tiddler = tiddler;
 	context.tiddler.fields['server.host'] = ccTiddlyAdaptor.minHostName(host);
 	context.tiddler.fields['server.type'] = ccTiddlyAdaptor.serverType;
-	var req =doHttp('POST',uri,payload,null,this.username,this.password,ccTiddlyAdaptor.putTiddlerCallback,tiddler.text);
+/*	doHttp('POST'
+		,serverside.url + '/handle/save.php?' + serverside.queryString + '&workspace=' + serverside.workspace
+		,'tiddler=' + encodeURIComponent(store.getSaver().externalizeTiddler(store,tiddler))
+			+ '&otitle=' + encodeURIComponent(title.htmlDecode())
+			+ ((omodified!==null)?'&omodified=' + encodeURIComponent(omodified.convertToYYYYMMDDHHMM()):"")
+			+ ((ochangecount!==null)?'&ochangecount=' + encodeURIComponent(ochangecount):"")
+		,null, null, null
+		,serverside.fn.genericCallback
+	);
+*/
+	var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.putTiddlerCallback,tiddler.text,null,payload)
 //#displayMessage("req:"+req);
 	return typeof req == 'string' ? req : true;
 };
@@ -351,6 +370,38 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,callback)
 ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
 //#displayMessage('putTiddlerCallback status:'+status);
+//#displayMessage('rt:'+responseText.substr(0,50));
+//#displayMessage('xhr:'+xhr);
+	if(status) {
+		context.status = true;
+	} else {
+		context.status = false;
+		context.statusText = xhr.statusText;
+	}
+	if(context.callback)
+		context.callback(context,context.userParams);
+};
+
+//# placeholder, not complete
+ccTiddlyAdaptor.prototype.deleteTiddler = function(title,context,userParams,callback)
+{
+	context = this.setContext(context,userParams,callback);
+	context.title = title;
+	var title = encodeURIComponent(tiddler.title);
+//#displayMessage('deleteTiddler:'+title);
+	var host = this && this.host ? this.host : ccTiddlyAdaptor.fullHostName(tiddler.fields['server.host']);
+	var uriTemplate = '%0handle/delete.php?XXX&workspace=%1&title=%2';
+	var uri = uriTemplate.format([host,workspace,title]);
+//#displayMessage('uri: '+uri);
+
+	var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.deleteTiddlerCallback,title)
+//#displayMessage("req:"+req);
+	return typeof req == 'string' ? req : true;
+};
+
+ccTiddlyAdaptor.deleteTiddlerCallback = function(status,context,responseText,uri,xhr)
+{
+//#displayMessage('deleteTiddlerCallback:'+status);
 //#displayMessage('rt:'+responseText.substr(0,50));
 //#displayMessage('xhr:'+xhr);
 	if(status) {
