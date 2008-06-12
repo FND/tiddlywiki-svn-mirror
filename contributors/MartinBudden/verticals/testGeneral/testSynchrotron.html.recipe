@@ -1,6 +1,6 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
-title: title.txt
 recipe: shadows/split.recipe
+recipe: testsync/split.recipe
 tiddler: Home.tiddler
 tiddler: settings.js
 tiddler: ../../mystyle/StyleSheet.tiddler
@@ -11,6 +11,6 @@ tiddler: ../../shadows/ViewTemplateRevisions.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../plugins/synchrotronPlugin.js
 tiddler: ../../adaptors/synchrotronAdaptorPlugin.js
-tiddler: ../../../../../synchrotron/diff.js
-tiddler: ../../../../../synchrotron/fs.js
-tiddler: ../../../../../synchrotron/graph.js
+tiddler: ../../../../../../synchrotron/diff.js
+tiddler: ../../../../../../synchrotron/fs.js
+tiddler: ../../../../../../synchrotron/graph.js
