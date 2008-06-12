@@ -1,9 +1,9 @@
 /***
-|''Name:''|synchrotronAdaptorPlugin|
+|''Name:''|SynchrotronAdaptorPlugin|
 |''Description:''|Adaptor for working with synchrotron diff tool|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/synchrotronAdaptorPlugin.js |
-|''Version:''|0.0.3|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/SynchrotronAdaptorPlugin.js |
+|''Version:''|0.0.4|
 |''Date:''|Jun 11, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -13,22 +13,23 @@
 
 //{{{
 //# Ensure that the plugin is only installed once.
-if(!version.extensions.synchrotronAdaptorPlugin) {
-version.extensions.synchrotronAdaptorPlugin = {installed:true};
+if(!version.extensions.SynchrotronAdaptorPlugin) {
+version.extensions.SynchrotronAdaptorPlugin = {installed:true};
 
-function synchrotronAdaptor()
+function SynchrotronAdaptor()
 {
 	this.host = null;
 	this.workspace = null;
 	return this;
 }
 
-synchrotronAdaptor.serverType = 'synchrotron';
-synchrotronAdaptor.errorInFunctionMessage = 'Error in function synchrotronAdaptor.%0: %1';
-synchrotronAdaptor.revisionSavedMessage = 'Revision %0 saved';
-synchrotronAdaptor.baseRevision = 1000;
+SynchrotronAdaptor.serverType = 'synchrotron';
+SynchrotronAdaptor.isLocal = true;
+SynchrotronAdaptor.errorInFunctionMessage = 'Error in function SynchrotronAdaptor.%0: %1';
+SynchrotronAdaptor.revisionSavedMessage = 'Revision %0 saved';
+SynchrotronAdaptor.baseRevision = 1000;
 
-synchrotronAdaptor.prototype.setContext = function(context,userParams,callback)
+SynchrotronAdaptor.prototype.setContext = function(context,userParams,callback)
 {
 	if(!context) context = {};
 	context.userParams = userParams;
@@ -42,7 +43,7 @@ synchrotronAdaptor.prototype.setContext = function(context,userParams,callback)
 };
 
 // Convert a page title to the normalized form used in uris
-synchrotronAdaptor.normalizedTitle = function(title)
+SynchrotronAdaptor.normalizedTitle = function(title)
 {
 	var id = title;
 	id = id.replace(/ /g,'_').replace(/%/g,'%25').replace(/\t/g,'%09').replace(/#/g,'%23').replace(/\*/g,'%2a').replace(/,/g,'%2c').replace(/\//,'%2f').replace(/:/g,'%3a').replace(/</g,'%3c').replace(/>/g,'%3e').replace(/\?/g,'%3f');
@@ -51,14 +52,14 @@ synchrotronAdaptor.normalizedTitle = function(title)
 	return String(id);
 };
 
-synchrotronAdaptor.dateFromTimestamp = function(timestamp)
+SynchrotronAdaptor.dateFromTimestamp = function(timestamp)
 {
 	var dt = new Date();
 	dt.setTime(parseInt(timestamp,10));
 	return dt;
 };
 
-synchrotronAdaptor.fullHostName = function(host)
+SynchrotronAdaptor.fullHostName = function(host)
 {
 	if(!host)
 		return '';
@@ -70,15 +71,15 @@ synchrotronAdaptor.fullHostName = function(host)
 	return host;
 };
 
-synchrotronAdaptor.minHostName = function(host)
+SynchrotronAdaptor.minHostName = function(host)
 {
 	return host ? host.replace(/\\/,'/').host.replace(/^http:\/\//,'').replace(/\/$/,'') : ''; //'
 };
 
-synchrotronAdaptor.prototype.openHost = function(host,context,userParams,callback)
+SynchrotronAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
 //#displayMessage('openHost:'+host);
-	this.host = synchrotronAdaptor.fullHostName(host);
+	this.host = SynchrotronAdaptor.fullHostName(host);
 	context = this.setContext(context,userParams,callback);
 //#displayMessage('host:'+this.host);
 	if(context.callback) {
@@ -88,7 +89,7 @@ synchrotronAdaptor.prototype.openHost = function(host,context,userParams,callbac
 	return true;
 };
 
-synchrotronAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
+SynchrotronAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
 //#displayMessage('openWorkspace:'+workspace);
 	this.workspace = workspace;
@@ -100,7 +101,7 @@ synchrotronAdaptor.prototype.openWorkspace = function(workspace,context,userPara
 	return true;
 };
 
-synchrotronAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
+SynchrotronAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
 //#displayMessage('getWorkspaceList');
@@ -114,11 +115,11 @@ synchrotronAdaptor.prototype.getWorkspaceList = function(context,userParams,call
 	return true;
 };
 
-synchrotronAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
+SynchrotronAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
-//#console.log('synchrotronAdaptor.getTiddlerList');
+//#console.log('SynchrotronAdaptor.getTiddlerList');
 	context = this.setContext(context,userParams,callback);
-	var path = synchrotronAdaptor.contentPath();
+	var path = SynchrotronAdaptor.contentPath();
 	var entries = this.dirList(path);
 	if(entries) {
 		context.status = true;
@@ -139,17 +140,17 @@ synchrotronAdaptor.prototype.getTiddlerList = function(context,userParams,callba
 		context.content = hash;
 	} else {
 		context.status = false;
-		context.statusText = synchrotronAdaptor.errorInFunctionMessage.format(['getTiddlerList']);
+		context.statusText = SynchrotronAdaptor.errorInFunctionMessage.format(['getTiddlerList']);
 	}
 	if(context.callback)
 		window.setTimeout(function() {callback(context,userParams);},0);
 	return context;
 };
 
-synchrotronAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,userParams,callback)
+SynchrotronAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,userParams,callback)
 // get a list of the revisions for a tiddler
 {
-console.log('synchrotronAdaptor.getTiddlerRevisionList');
+//#console.log('SynchrotronAdaptor.getTiddlerRevisionList');
 	context = this.setContext(context,userParams,callback);
 	var tiddler = store.getTiddler(title);
 //#console.log(tiddler);
@@ -160,23 +161,23 @@ console.log('synchrotronAdaptor.getTiddlerRevisionList');
 		entries = synchrotron.repo.fileRevisions(tiddler.fields.uuid);
 	if(entries) {
 //#console.log('ec:'+entries.length);
-console.log('uuid:'+tiddler.fields.uuid);
+//#console.log('uuid:'+tiddler.fields.uuid);
 		var uuid = tiddler.fields.uuid;
 		var list = [];
 		for(var i=0; i<entries.length; i++) {
 			var alive = entries[i].alive;
-//console.log('a:',alive);
+//#console.log('a:',alive);
 			var bodyId = entries[i].alive[uuid];
-console.log('bodyId:',bodyId);
+//#console.log('bodyId:',bodyId);
 			var body = synchrotron.repo.getBody(entries[i],uuid);
-//console.log('body:',body);
-//console.log('li:'+i);
-//console.log(body.title);
-//console.log(body.text);
+//#console.log('body:',body);
+//#console.log('li:'+i);
+//#console.log(body.title);
+//#console.log(body.text);
 			if(body.title) {
 				title = body.title;
 				tiddler = new Tiddler(title+i);
-				tiddler.modified = synchrotronAdaptor.dateFromTimestamp(entries[i].timestamp);
+				tiddler.modified = SynchrotronAdaptor.dateFromTimestamp(entries[i].timestamp);
 				tiddler.text = body.text.join('\n');
 				tiddler.fields['server.page.revision'] = i;
 				list.push(tiddler);
@@ -185,7 +186,7 @@ console.log('bodyId:',bodyId);
 		context.revisions = list;
 	} else {
 		context.status = false;
-		context.statusText = synchrotronAdaptor.errorInFunctionMessage.format(['getTiddlerList']);
+		context.statusText = SynchrotronAdaptor.errorInFunctionMessage.format(['getTiddlerList']);
 	}
 	if(context.callback) {
 		//# direct callback doesn't work, not sure why
@@ -194,27 +195,27 @@ console.log('bodyId:',bodyId);
 	}
 };
 
-synchrotronAdaptor.prototype.generateTiddlerInfo = function(tiddler)
+SynchrotronAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 {
 	var info = {};
 	var uriTemplate = '%0#%1';
-	var host = synchrotronAdaptor.fullHostName(this.host);
+	var host = SynchrotronAdaptor.fullHostName(this.host);
 	info.uri = uriTemplate.format([host,tiddler.title]);
 	return info;
 };
 
-synchrotronAdaptor.prototype.getTiddlerRevision = function(title,revision,context,userParams,callback)
+SynchrotronAdaptor.prototype.getTiddlerRevision = function(title,revision,context,userParams,callback)
 {
-//#displayMessage('synchrotronAdaptor.getTiddlerRev:' + context.modified);
+//#displayMessage('SynchrotronAdaptor.getTiddlerRev:' + context.modified);
 	context = this.setContext(context,userParams,callback);
 	if(revision)
 		context.revision = revision;
 	return this.getTiddler(title,context,userParams,callback);
 };
 
-synchrotronAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
+SynchrotronAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
-//#console.log('synchrotronAdaptor.getTiddler:',context.title,'rev:',context.revision);
+//#console.log('SynchrotronAdaptor.getTiddler:',context.title,'rev:',context.revision);
 	context = this.setContext(context,userParams,callback);
 	if(title)
 		context.title = title;
@@ -223,7 +224,7 @@ synchrotronAdaptor.prototype.getTiddler = function(title,context,userParams,call
 	var revision = parseInt(context.revision,10);
 
 	context.status = false;
-	context.statusText = synchrotronAdaptor.errorInFunctionMessage.format(['getTiddler',title]);
+	context.statusText = SynchrotronAdaptor.errorInFunctionMessage.format(['getTiddler',title]);
 
 	//if(context.revision) {
 	//} else {
@@ -238,7 +239,7 @@ synchrotronAdaptor.prototype.getTiddler = function(title,context,userParams,call
 		if(body.title) {
 			title = body.title;
 			tiddler = new Tiddler(title);
-			tiddler.modified = synchrotronAdaptor.dateFromTimestamp(entries[revision].timestamp);
+			tiddler.modified = SynchrotronAdaptor.dateFromTimestamp(entries[revision].timestamp);
 			tiddler.text = body.text.join('\n');
 			tiddler.fields.uuid = uuid;
 			context.tiddler = tiddler;
@@ -251,8 +252,8 @@ synchrotronAdaptor.prototype.getTiddler = function(title,context,userParams,call
 	return context.status;
 };
 
-synchrotronAdaptor.prototype.close = function() {return true;};
+SynchrotronAdaptor.prototype.close = function() {return true;};
 
-config.adaptors[synchrotronAdaptor.serverType] = synchrotronAdaptor;
+config.adaptors[SynchrotronAdaptor.serverType] = SynchrotronAdaptor;
 } //# end of 'install only once'
 //}}}
