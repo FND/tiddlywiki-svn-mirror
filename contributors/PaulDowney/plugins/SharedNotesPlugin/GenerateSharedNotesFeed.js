@@ -1,6 +1,6 @@
 /***
-|''Name:''|GenerateRssPlugin|
-|''Description:''|generate RSS from set of tiddlers|
+|''Name:''|GenerateSharedNotesFeedPlugin|
+|''Description:''|Generates RSS Feed from set of tiddlers|
 |''Version:''|0.0.1|
 |''Date:''|April 14, 2008|
 |''Source:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/GenerateAtomPlugin|
@@ -15,14 +15,15 @@ TBD: make a better plugin, refactor to use TiddlyTemplating, and Atom is a *much
 
 //{{{
 
-GenerateRss = {};
+config.macros.GenerateSharedNotesFeed = {};
+
 
 /*
  *  generate a RSS 2.0 feed from a list of tiddlers
  *  - orignally from RippleRap
  *  - core function saves *all* tiddlers, so this could be moved to the core?
  */
-GenerateRss.serialize = function(tiddlers,options)
+config.macros.GenerateSharedNotesFeed.serialize = function(tiddlers,options)
 {
 	var s = [];
 	var now = new Date();

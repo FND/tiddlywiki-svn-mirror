@@ -56,7 +56,7 @@ config.macros.SharedNotes = {
 	},
 	thistime: 0,
 	lasttime: 0,
-	serialize: GenerateRss.serialize,
+	serialize: config.macros.GenerateSharedNotesFeed.serialize,
 	adaptor: '',
 
 	putNotes: function(){
