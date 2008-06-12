@@ -1,5 +1,5 @@
 /***
-|''Name:''|DevHelperPlugin |
+|''Name:''|DevHelpPlugin |
 |''Description:''|Provide debug help buttons |
 |''Author:''|PaulDowney|
 |''Version:''|0.0.3|

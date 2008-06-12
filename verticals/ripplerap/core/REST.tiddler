@@ -1,7 +1,0 @@
-<div title="REST" modifier="YourName" created="200711261140" changecount="1">
-<pre>Put simply, REST gives direct access to data and services in a way that doesn't require an additional messaging layer. This is great for our customers (and the web in general), because it gives developers the flexibility to use these services in whatever way they like. Other claimed benefits include improved response times and server scalability.
-
-The alternative way of exposing these services is over a messaging service such as SOAP. This service is also available if needed.
-
-For a technical description of REST, along with a list of benefits, check out the [[Wikipedia entry|http://en.wikipedia.org/wiki/Representational_State_Transfer]].</pre>
-</div>

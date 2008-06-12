@@ -55,7 +55,6 @@ tiddler: TickerPutNotes.tiddler
 tiddler: MainMenu.tiddler
 tiddler: DefaultTiddlers.tiddler
 tiddler: BackstageMod.tiddler
-tiddler: UserName.tiddler
 
 # Other content
 tiddler: Formatting_TiddlyWikis.tiddler
@@ -71,7 +70,6 @@ tiddler: Sharing_settings.tiddler
 
 tiddler: CommitteeViewTemplate.tiddler
 
-tiddler: TrackText.tiddler
 
 tiddler: Help.tiddler
 tiddler: How_sharing_works.tiddler
@@ -85,6 +83,7 @@ tiddler: speaker.tiddler
 tiddler: committee.tiddler
 tiddler: chair.tiddler
 
+#tiddler: TrackText.tiddler
 
 # tiddler: ../../../contributors/JonathanLister/plugins/JS2JSON.js
 # tiddler: ../../../contributors/JonathanLister/plugins/xhrTimeoutPlugin.js

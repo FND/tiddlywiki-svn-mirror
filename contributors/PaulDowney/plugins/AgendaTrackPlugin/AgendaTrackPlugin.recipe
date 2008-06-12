@@ -1,0 +1,13 @@
+# theme
+tiddler: AgendaMenu.tiddler
+tiddler: AgendaItemsTemplate.tiddler
+tiddler: AgendaSubItemsTemplate.tiddler
+
+# macros and adaptor switch
+tiddler: AgendaTrackPlugin.js
+
+# dependencies
+tiddler: ../MicroformatPlugin.js
+tiddler: ../TiddlifyList.js
+tiddler: ../../../MartinBudden/adaptors/ImportWorkspacePlugin.js
+
