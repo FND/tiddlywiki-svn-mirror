@@ -3,7 +3,7 @@
 |''Description:''|incorporates Tony Garnock-Jones javascript diff code|
 |''Author:''|MartinBudden|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/synchrotronPlugin.js |
-|''Version:''|0.0.3|
+|''Version:''|0.0.4|
 |''Date:''|June 12, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -121,7 +121,7 @@ console.log('new saving');
 	saveChangesSynchrotron(onlyIfDirty,tiddlers);
 }
 
-Dvcs.Repository.prototype.fileRevisions = function(uuid)
+/*Dvcs.Repository.prototype.fileRevisions = function(uuid)
 {
 console.log('filerevs:'+uuid);
 	var result = [];
@@ -134,7 +134,7 @@ console.log('filerevs:'+uuid);
 	}
 	result.sort(function (r1, r2) { return r2.timestamp - r1.timestamp; });
 	return result;
-}
+}*/
 
 }//# end of 'install only once'
 //}}}
