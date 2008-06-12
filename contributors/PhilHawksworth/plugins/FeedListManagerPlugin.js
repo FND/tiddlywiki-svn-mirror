@@ -100,7 +100,7 @@ FeedListManager.prototype.add = function(uri, name, type) {
 
 	var exists = this.registered(uri);
 	if(exists != null) {
-		log(uri + " already exisit on the manager");
+		//log(uri + " already exisit on the manager");
 		return;		
 	}
 	if(!type)
