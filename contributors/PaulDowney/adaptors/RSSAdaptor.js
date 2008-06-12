@@ -7,6 +7,9 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.2.6|
+
+modified as a result of RippleRap testing
+
 ***/
 
 //{{{
@@ -50,7 +53,6 @@ RSSAdaptor.fullHostName = function(host)
 
 RSSAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
-//#displayMessage("openHost");
 	this.host = RSSAdaptor.fullHostName(host);
 	context = this.setContext(context,userParams,callback);
 	context.status = true;
@@ -61,7 +63,6 @@ RSSAdaptor.prototype.openHost = function(host,context,userParams,callback)
 
 RSSAdaptor.loadRssCallback = function(status,context,responseText,url,xhr)
 {
-//#displayMessage("loadRssCallback:"+status);
 	context.status = status;
 	if(!status) {
 		context.statusText = "Error reading RSS file:" + context.host;// + xhr.statusText;
@@ -113,9 +114,7 @@ RSSAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callb
 //# title: tiddler.title, modified: tiddler.modified, modifier: tiddler.modifier, text: tiddler.text, tags: tiddler.tags, size: tiddler.text
 RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 {
-//#displayMessage("RSS getTiddlerList");
 	context = this.setContext(context,userParams,callback);
-//#displayMessage("h:"+context.host);
 	if(!context.filter)
 		context.filter = filter;
 	context.complete = RSSAdaptor.getTiddlerListComplete;
@@ -131,7 +130,6 @@ RSSAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filte
 
 RSSAdaptor.getTiddlerListComplete = function(context,userParams)
 {
-//#displayMessage("RSS getTiddlerListComplete");
 	context.status = true;
 	if(context.callback)
 		window.setTimeout(function() {context.callback(context,userParams);},10);
@@ -147,7 +145,6 @@ RSSAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 
 RSSAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
-//#displayMessage("getTiddler:"+title);
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
 	context.complete = RSSAdaptor.getTiddlerComplete;
@@ -158,7 +155,6 @@ RSSAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 
 RSSAdaptor.getTiddlerComplete = function(context,userParams)
 {
-	//# Retrieve the tiddler from the this.context.tiddlers array
 	for(var i=0; i<context.tiddlers.length; i++) {
 		if(context.tiddlers[i].title == context.title) {
 			context.tiddler = context.tiddlers[i];
@@ -187,12 +183,10 @@ RSSAdaptor.prototype.close = function()
 
 RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 {
-//#displayMessage("rssToTiddlers:"+rss.substr(0,500));
 	var tiddlers = [];
 	rss = rss.replace(/\r+/mg,"");
-	// regex_item matches on the items 
+
 	var regex_item = /<item>(.|\n)*?<\/item>/mg;
-	// regex_title matches for the titles
 	var regex_title = /<title>(.|\n)*?<\/title>/mg;
 	var regex_guid = /<guid>(.|\n)*?<\/guid>/mg;
 	var regex_desc = /<description>(.|\n)*?<\/description>/mg;
@@ -205,30 +199,28 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 	var regex_source = /<source([^>]*)>([^<]*)<\/source>/m;
 	var item_match = rss.match(regex_item);
 	var length = item_match ? item_match.length : 0;
+
 	for(var i=0;i<length;i++) {
-		//console.log(i);
-		// create a new Tiddler in context.tiddlers with the finished item object
-		// grab a title
 		var item = {};
 		var title = item_match[i].match(regex_title);
 		if(title) {
 			item.title = title[0].replace(/^<title>|<\/title>$/mg,"");
 		} else {
-			// something went wrong grabbing the title, grab the guid instead
 			title = item_match[i].match(regex_guid);
-			// TEMP FIX FOR DEMO 21/11/07
+
+	/*
 			if(title) {
 				item.title = title[0].replace(/^<guid>|<\/guid>$/mg,"");
 			} else {
 				item.title = new Date();
 				displayMessage("problem with getting title AND guid: " + item_match[i]);
 			}
+	*/
 		}
-		// This line makes sure any html-encoding in the title is reversed
+
 		item.title = item.title.htmlDecode();
-		// There is a problem with the title, which is that it is not formatted, so characters like &apos; are not converted at render time
-		// renderHtmlText() extends String and sorts out the problem
 		item.title = item.title.renderHtmlText();
+
 		var t = new Tiddler(item.title);
 
 		// grab original wikitext if it is there as an extended field
@@ -324,6 +316,9 @@ config.adaptors[RSSAdaptor.serverType] = RSSAdaptor;
 // useful to turn HTML entities into literals such as &apos; to '
 // this method has two passes at the string - the first to convert it to html and the second
 // to selectively catch the ASCII-encoded characters without losing the rest of the html
+
+// this is pretty suspect - psd
+
 String.prototype.renderHtmlText = function() {
 	//displayMessage("in renderHtmlText");
 	var text = this.toString();
