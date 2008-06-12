@@ -1,0 +1,7 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+tiddler: DiffPlugin.js tags="systemConfig"
+tiddler: bmdiff.js tags="systemConfig"
+tiddler: diff3.js tags="systemConfig"
+tiddler: google-diff-match-patch.js tags="systemConfig"
+tiddler: jsdiff.js tags="systemConfig"
+
