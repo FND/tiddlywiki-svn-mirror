@@ -1,5 +1,6 @@
 <div title="_synchrotronRepository" created="200806121028" tags="excludeLists excludeSearch">
 <pre>
+//{{{
 ({
 revisions:{
 	'cbfc37e3-ae1f-4a56-b4ca-bd1c226f3083':{
@@ -77,5 +78,6 @@ revisions:{
 		'b50f410e-622f-44fc-9aea-10be741bf0fb':{title:"Test3", text:["ppp", "qqq", "rrr"]}
 	}
 })
+//}}}
 </pre>
 </div>
