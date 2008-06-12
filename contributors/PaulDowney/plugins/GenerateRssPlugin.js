@@ -40,10 +40,8 @@ GenerateRss.serialize = function(tiddlers,options)
 	}
 	s.push('<description>' + wikifyPlain('SiteSubtitle').htmlEncode() + '</description>');
 	s.push('<language>en-us</language>');
-	s.push('<copyright>Copyright ' + now.getFullYear() + ' ' + config.options.txtUserName.htmlEncode() + '</copyright>');
 	s.push('<pubDate>' + now.toGMTString() + '</pubDate>');
 	s.push('<lastBuildDate>' + now.toGMTString() + '</lastBuildDate>');
-	s.push('<docs>http://blogs.law.harvard.edu/tech/rss</docs>');
 	s.push('<generator>TiddlyWiki ' + version.major + '.' + version.minor + '.' + version.revision + ' (Notes)</generator>');
 
 	for (var i=0;i<tiddlers.length;i++) {

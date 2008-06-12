@@ -174,7 +174,7 @@ config.macros.SharedNotes = {
 			return;
 		}
 		log("getNotesByUri:",uri,userName);
-                config.macros.importWorkspace.getTiddlers(uri,"rss",null,null,config.macros.SharedNotes.tagNoteAdaptorCallback,userName);
+                config.macros.importWorkspace.getTiddlers(uri,"sharednotes",null,null,config.macros.SharedNotes.tagNoteAdaptorCallback,userName);
 	},
 
 	tagNoteAdaptorCallback: function(context,userParams){
