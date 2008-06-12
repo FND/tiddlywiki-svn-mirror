@@ -1,6 +1,6 @@
 /***
 |''Name:''|AgendaTrackPlugin|
-|''Description:''|Helpers for RippleRap Agenda Track Items|
+|''Description:''|Helpers for Agenda Track Items|
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/AgendaTrackPlugin.js |
 |''Version:''|0.1|
@@ -17,8 +17,22 @@ List tracks as tabs:
 ***/
 
 //{{{
-if(!version.extensions.AgendaTrack) {
-version.extensions.AgendaTrack = {installed:true};
+if(!version.extensions.AgendaTrackPlugin) {
+version.extensions.AgendaTrackPlugin = {installed:true};
+
+	config.macros.AgendaTrack = {};
+
+	config.macros.AgendaTrack.getAgenda = function() {
+		var me = config.macros.AgendaTrack;
+		config.macros.importWorkspace.getTiddlers(me.uri, me.adaptor);
+		return false;
+	};
+
+	config.macros.RefreshAgenda = {};
+	config.macros.RefreshAgenda.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+                var me = config.macros.AgendaTrack;
+                var button = createTiddlyButton(place,'Download the conference agenda','Click here to download the Agenda',me.getAgenda);
+	};
 
 	config.macros.AgendaTrackTabs = {};
 	config.macros.AgendaTrackTabs.handler = function(place,macroName,params,wikifier,paramString,tiddler) {

@@ -11,4 +11,6 @@ tiddler: plugins/RippleRapConfabbPlugin.js
 tiddler: plugins//ConfabbLoginPlugin.js
 
 tiddler: adaptors/ConfabbAgendaAdaptorPlugin.js
+tiddler: ../../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js
+
 tiddler: adaptors/ConfabbNotesAdaptorPlugin.js

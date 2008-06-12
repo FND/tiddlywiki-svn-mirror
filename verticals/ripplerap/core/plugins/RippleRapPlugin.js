@@ -18,7 +18,6 @@ config.options.chkTickerEval = true;
 config.messages.workspaceTiddlers = "";
 
 config.macros.RippleRap = {};
-config.macros.RippleRap.agenda = {};
 
 /*
  *  Initialize the application
@@ -45,22 +44,6 @@ config.macros.RippleRap.init = function(){
 	 *  start SharedNotes plugin
 	 */
 	config.macros.SharedNotes.populateNotes();
-};
-
-
-
-/*
- *  TBD - move to an Agenda plugin
- */
-config.macros.RippleRap.getAgenda = function() {
-	config.macros.importWorkspace.getTiddlers(config.macros.RippleRap.agenda.uri, config.macros.RippleRap.agenda.adaptor);
-	return false;
-};
-
-config.macros.RefreshAgenda = {};
-config.macros.RefreshAgenda.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-                var me = config.macros.RippleRap;
-                var button = createTiddlyButton(place,'Download the conference agenda','Click here to download the Agenda',me.getAgenda);
 };
 
 

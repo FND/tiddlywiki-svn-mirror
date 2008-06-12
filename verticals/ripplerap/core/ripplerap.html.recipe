@@ -15,8 +15,6 @@ tiddler: RippleRapSkin.tiddler
 tiddler: RippleRapColors.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteSubtitle.tiddler
-tiddler: AgendaItemsTemplate.tiddler
-tiddler: AgendaSubItemsTemplate.tiddler
 
 # RippleRap specific code
 tiddler: plugins/RippleRapPlugin.js
@@ -36,22 +34,18 @@ tiddler: plugins/TaggedTemplateTweak.js
 
 tiddler: ../../../contributors/PaulDowney/plugins/SingleMessagePlugin/SingleMessagePlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/LogMessagePlugin/_LogMessagePlugin.js
+
 tiddler: ../../../contributors/BidiX/plugins/PasswordOptionPlugin.js
 
 # Agenda Tracks
-tiddler: AgendaMenu.tiddler
-tiddler: ../../../contributors/PaulDowney/plugins/AgendaTrack.js
-tiddler: ../../../contributors/PaulDowney/plugins/MicroformatPlugin.js
-tiddler: ../../../contributors/PaulDowney/plugins/TiddlifyList.js
-tiddler: ../../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
-tiddler: ../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js
+recipe: ../../../contributors/PaulDowney/plugins/AgendaTrackPlugin/AgendaTrackPlugin.recipe
+
 
 # Sharing Notes
 recipe: ../../../contributors/PaulDowney/plugins/SharedNotesPlugin/SharedNotesPlugin.recipe
 
 # Ticker timers
 recipe: ../../../contributors/PaulDowney/plugins/TickerPlugin/TickerPlugin.recipe
-
 tiddler: TickerGetAgenda.tiddler
 tiddler: TickerGetNotes.tiddler
 tiddler: TickerPopulateNotes.tiddler
@@ -70,6 +64,8 @@ tiddler: Double_square_brackets.tiddler
 tiddler: TiddlyWiki.tiddler
 tiddler: FAQs.tiddler
 tiddler: Sharing_settings.tiddler
+
+
 
 ##### REFACTORED - Above ######
 

@@ -20,15 +20,17 @@ config.macros.RippleRapEdition = {
 		this.installSharedNotes(me, uri);
 		this.installEnjoyedNotes(me, uri);
 	},
+
 	installAgenda: function(me, uri) {
 		var agendauri = config.options.txtRippleRapAgendaURI;
 		if (!agendauri) {
 			agendauri = uri + "sessionlist";
 		}
-		me.agenda.adaptor = "confabbagenda";
-		me.agenda.uri = agendauri;
+		config.macros.AgendaTrack.adaptor = "confabbagenda";
+		config.macros.AgendaTrack.uri = agendauri;
                 config.macros.ConfabbLogin.callback = config.macros.RippleRap.getAgenda;
 	},
+
 	installSharedNotes: function(me, uri) {
 		var notesuri = config.options.txtRippleRapSharedNotesURI;
 		if (!notesuri) {
@@ -37,6 +39,7 @@ config.macros.RippleRapEdition = {
 		config.macros.SharedNotes.adaptor = "confabbnotes";
 		ConfabbNotesAdaptor.uri = notesuri;
 	},
+
 	installEnjoyedNotes: function(me, uri) {
 		var notesuri = config.options.txtRippleRapEnjoyedNotesURI;
 		if (!notesuri) {
