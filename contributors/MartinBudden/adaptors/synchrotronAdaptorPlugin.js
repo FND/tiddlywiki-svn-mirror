@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for working with synchrotron diff tool|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/SynchrotronAdaptorPlugin.js |
-|''Version:''|0.0.4|
+|''Version:''|0.0.5|
 |''Date:''|Jun 11, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -152,6 +152,7 @@ SynchrotronAdaptor.prototype.getTiddlerRevisionList = function(title,limit,conte
 {
 //#console.log('SynchrotronAdaptor.getTiddlerRevisionList');
 	context = this.setContext(context,userParams,callback);
+	context.dateFormat = 'YYYY mmm 0DD 0hh:0mm:0ss';
 	var tiddler = store.getTiddler(title);
 //#console.log(tiddler);
 	context.revisions = [];
