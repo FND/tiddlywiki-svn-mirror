@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js |
-|''Version:''|0.5.7|
+|''Version:''|0.5.8|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -17,15 +17,16 @@ if(!version.extensions.AdaptorCommandsPlugin) {
 version.extensions.AdaptorCommandsPlugin = {installed:true};
 function getServerType(fields)
 {
-//#displayMessage("getServerType");
 	if(!fields)
 		return null;
 	var serverType = fields['server.type'];
 	if(!serverType)
 		serverType = fields['wikiformat'];
-//#displayMessage("serverType:"+serverType);
 	if(!serverType)
 		serverType = config.defaultCustomFields['server.type'];
+	if(!serverType && SynchrotronAdaptor && fields.uuid)
+		serverType = SynchrotronAdaptor.serverType;
+//#console.log("serverType:",serverType);
 	return serverType;
 }
 
@@ -57,11 +58,12 @@ function invokeAdaptor(fnName,param1,param2,context,userParams,callback,fields)
 //# Used by (eg): config.commands.download.isEnabled
 function isAdaptorFunctionSupported(fnName,fields)
 {
-//#displayMessage("isAdaptorFunctionSupported:"+fnName);
+//#console.log("isAdaptorFunctionSupported:",fnName,"f:",fields);
 	var serverType = getServerType(fields);
+//#console.log("st:"+serverType);
 	if(!serverType || !config.adaptors[serverType])
 		return false;
-	if(!fields['server.host'])
+	if(!config.adaptors[serverType].isLocal && !fields['server.host'])
 		return false;
 	var fn = config.adaptors[serverType].prototype[fnName];
 	return fn ? true : false;
@@ -193,7 +195,7 @@ config.commands.revisions.isEnabled = function(tiddler)
 
 config.commands.revisions.handler = function(event,src,title)
 {
-//#displayMessage("revisions.handler:"+title);
+//#console.log("revisions.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	userParams = {};
 	userParams.tiddler = tiddler;
@@ -225,7 +227,7 @@ config.commands.revisions.callback = function(context,userParams)
 			var revision = tiddler.fields['server.page.revision'];
 			var btn = createTiddlyButton(createTiddlyElement(popup,'li'),
 					modified.formatString(userParams.dateFormat) + ' r:' + revision,
-					config.commands.revisions.revisionTooltip,
+					tiddler.text||config.commands.revisions.revisionTooltip,
 					function() {
 						config.commands.revisions.getTiddlerRevision(this.getAttribute('tiddlerTitle'),this.getAttribute('tiddlerModified'),this.getAttribute('tiddlerRevision'),this);
 						return false;
