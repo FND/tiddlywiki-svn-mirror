@@ -297,7 +297,8 @@ FeedListManager.prototype.logCall = function(uri) {
 
 // Promote all given items to the start of the array
 FeedListManager.prototype.prioritise = function(name) {
-	feedList = this.feedList;
+	//feedList = this.feedList;
+	feedList = this;
 	var uriObj;
 	for(var u=0; u<feedList.uris.length; u++) {
 		if(feedList.uris[u].name.toLowerCase() == name.toLowerCase()) {
