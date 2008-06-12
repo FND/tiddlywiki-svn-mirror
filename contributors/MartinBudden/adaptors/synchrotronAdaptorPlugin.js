@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for working with synchrotron diff tool|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/synchrotronAdaptorPlugin.js |
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|Jun 11, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -27,14 +27,6 @@ synchrotronAdaptor.serverType = 'synchrotron';
 synchrotronAdaptor.errorInFunctionMessage = 'Error in function synchrotronAdaptor.%0: %1';
 synchrotronAdaptor.revisionSavedMessage = 'Revision %0 saved';
 synchrotronAdaptor.baseRevision = 1000;
-synchrotronAdaptor.contentDirectory = 'content';
-synchrotronAdaptor.revisionsDirectory = '_revisions';
-
-synchrotronAdaptor.fromFileFormat = function(s)
-{
-	//# convert into unicode from file (which is in UTF8)
-	return decodeURIComponent(escape(s));
-};
 
 synchrotronAdaptor.prototype.setContext = function(context,userParams,callback)
 {
@@ -61,41 +53,9 @@ synchrotronAdaptor.normalizedTitle = function(title)
 
 synchrotronAdaptor.dateFromTimestamp = function(timestamp)
 {
-console.log(timestamp);
 	var dt = new Date();
-//	dt = dt.setTime(timestamp);
+	dt.setTime(parseInt(timestamp,10));
 	return dt;
-};
-
-synchrotronAdaptor.getPath = function(localPath,folder)
-{
-	var slash = '\\';
-	var dirPathPos = localPath.lastIndexOf('\\');
-	if(dirPathPos == -1) {
-		dirPathPos = localPath.lastIndexOf('/');
-		slash = '/';
-	}
-	if(!folder || folder == '')
-		folder = '.';
-	var path = folder + slash;
-	if(folder.charAt(0)!=slash)
-		path = localPath.substr(0,dirPathPos) + slash + path;
-	return path;
-};
-
-synchrotronAdaptor.contentPath = function()
-{
-//#displayMessage('contentPath:'+document.location.toString());
-	var file = getLocalPath(document.location.toString());
-	return synchrotronAdaptor.getPath(file,synchrotronAdaptor.contentDirectory);
-};
-
-synchrotronAdaptor.revisionPath = function()
-{
-//#displayMessage('revisionPath');
-	var file = getLocalPath(document.location.toString());
-	var slash = file.lastIndexOf('\\') == -1 ? '/' : '\\';
-	return synchrotronAdaptor.getPath(file,synchrotronAdaptor.contentDirectory + slash + synchrotronAdaptor.revisionsDirectory);
 };
 
 synchrotronAdaptor.fullHostName = function(host)
@@ -156,7 +116,7 @@ synchrotronAdaptor.prototype.getWorkspaceList = function(context,userParams,call
 
 synchrotronAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
-console.log('synchrotronAdaptor.getTiddlerList');
+//#console.log('synchrotronAdaptor.getTiddlerList');
 	context = this.setContext(context,userParams,callback);
 	var path = synchrotronAdaptor.contentPath();
 	var entries = this.dirList(path);
@@ -192,31 +152,35 @@ synchrotronAdaptor.prototype.getTiddlerRevisionList = function(title,limit,conte
 console.log('synchrotronAdaptor.getTiddlerRevisionList');
 	context = this.setContext(context,userParams,callback);
 	var tiddler = store.getTiddler(title);
-console.log(tiddler);
-console.log('uuid:'+tiddler.fields.uuid);
+//#console.log(tiddler);
 	context.revisions = [];
 	context.status = true;
 	var entries = null;
 	if(tiddler.fields.uuid)
 		entries = synchrotron.repo.fileRevisions(tiddler.fields.uuid);
 	if(entries) {
-console.log('ec:'+entries.length);
+//#console.log('ec:'+entries.length);
+console.log('uuid:'+tiddler.fields.uuid);
+		var uuid = tiddler.fields.uuid;
 		var list = [];
 		for(var i=0; i<entries.length; i++) {
-console.log('e:',entries[i]);
-console.log('b:',entries[i].alive[tiddler.fields.uuid]);
-			var body = synchrotron.repo.getBody(entries[i],tiddler.fields.uuid);
-			if(!body.title)
-				break;
-console.log('li:'+i);
-console.log(body.title);
-console.log(body.text);
-			title = body.title;
-			tiddler = new Tiddler(title+i);
-			tiddler.modified = synchrotronAdaptor.dateFromTimestamp(entries[i].timestamp);
-			tiddler.text = body.text.join('\n');
-			tiddler.fields['server.page.revision'] = i;
-			list.push(tiddler);
+			var alive = entries[i].alive;
+//console.log('a:',alive);
+			var bodyId = entries[i].alive[uuid];
+console.log('bodyId:',bodyId);
+			var body = synchrotron.repo.getBody(entries[i],uuid);
+//console.log('body:',body);
+//console.log('li:'+i);
+//console.log(body.title);
+//console.log(body.text);
+			if(body.title) {
+				title = body.title;
+				tiddler = new Tiddler(title+i);
+				tiddler.modified = synchrotronAdaptor.dateFromTimestamp(entries[i].timestamp);
+				tiddler.text = body.text.join('\n');
+				tiddler.fields['server.page.revision'] = i;
+				list.push(tiddler);
+			}
 		}
 		context.revisions = list;
 	} else {
@@ -250,18 +214,38 @@ synchrotronAdaptor.prototype.getTiddlerRevision = function(title,revision,contex
 
 synchrotronAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
-//#displayMessage('synchrotronAdaptor.getTiddler:' + context.title);
+//#console.log('synchrotronAdaptor.getTiddler:',context.title,'rev:',context.revision);
 	context = this.setContext(context,userParams,callback);
 	if(title)
 		context.title = title;
+	var t = store.getTiddler(title);
+	var uuid = t.fields.uuid;
+	var revision = parseInt(context.revision,10);
+
+	context.status = false;
+	context.statusText = synchrotronAdaptor.errorInFunctionMessage.format(['getTiddler',title]);
 
 	//if(context.revision) {
 	//} else {
 	//}
-
-	context.tiddler = new Tiddler(title);
-	context.status = false;
-	context.statusText = synchrotronAdaptor.errorInFunctionMessage.format(['getTiddler',title]);
+	entries = synchrotron.repo.fileRevisions(uuid);
+	if(entries) {
+		var body = synchrotron.repo.getBody(entries[revision],uuid);
+//#console.log('body:',body);
+//#console.log('li:'+i);
+//#console.log(body.title);
+//#console.log(body.text);
+		if(body.title) {
+			title = body.title;
+			tiddler = new Tiddler(title);
+			tiddler.modified = synchrotronAdaptor.dateFromTimestamp(entries[revision].timestamp);
+			tiddler.text = body.text.join('\n');
+			tiddler.fields.uuid = uuid;
+			context.tiddler = tiddler;
+			context.status = true;
+			context.statusText = "";
+		}
+	}
 	if(context.callback)
 		window.setTimeout(function() {callback(context,userParams);},0);
 	return context.status;
@@ -272,17 +256,3 @@ synchrotronAdaptor.prototype.close = function() {return true;};
 config.adaptors[synchrotronAdaptor.serverType] = synchrotronAdaptor;
 } //# end of 'install only once'
 //}}}
-
-/*
-{
-revisions:{
-'f46827b5-c688-4548-860e-60c0d72cee85':{alive:{'04c07d45-a4fe-40a2-a584-c3b08bc6c2a4':"35db24a7-9db1-45d7-8df0-9139690429cc"}, dead:{}, changed:["04c07d45-a4fe-40a2-a584-c3b08bc6c2a4"], branch:null, timestamp:1213217922437, metadata:undefined, directParent:null, additionalParent:null}, 
-'6dba819e-468c-43a3-8e11-246e5d5294b7':{alive:{'04c07d45-a4fe-40a2-a584-c3b08bc6c2a4':"48c06228-8f1f-4469-8b2d-47bf8239bae9"}, dead:{}, changed:["04c07d45-a4fe-40a2-a584-c3b08bc6c2a4"], branch:null, timestamp:1213217935140, metadata:undefined, directParent:"f46827b5-c688-4548-860e-60c0d72cee85", additionalParent:null}
-},
-	bodies:{
-		'35db24a7-9db1-45d7-8df0-9139690429cc':{title:"New Tiddler", text:["aaa"]}, 
-		'48c06228-8f1f-4469-8b2d-47bf8239bae9':{title:"New Tiddler", text:["aaa", "bbb"]
-	}
-}
-}
-*/
