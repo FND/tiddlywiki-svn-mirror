@@ -49,7 +49,8 @@ config.macros.SharedNotes = {
 		savedOK: "notes saved on the server",
 		putNotes: { button: "PUT NOTES", tip: 'Click here to post your shared notes' },
 		getNotes: { button: "GET NOTES", tip: 'Click here to download other people\'s shared notes' },
-		populateNotes: { button: "POPULATE NOTES", tip: 'Click here to find other people\'s notes' }
+		populateNotes: { button: "POPULATE NOTES", tip: 'Click here to find other people\'s notes' },
+		killMyNotes: { button: "KILL MY NOTES", tip: 'Click here to delete all your notes from the file and on the server' }
 	},
 	help: {
 		missingUserName: 'SharedNotesUserName'
@@ -195,6 +196,30 @@ config.macros.SharedNotes = {
 			tiddler.tags.pushUnique(me.tag.discovered);
 		}
 		tiddler.fields.rr_session_id = tiddler.title.replace(/ from.*$/,"");
+	},
+
+	killMyNotes: function(){
+		var me = config.macros.SharedNotes;
+		me.busy = true;
+		var callback = function(status,params,responseText,uri,xhr){
+			me.busy = false;
+			if(!status){
+				displayMessage("unable to put empty feed");
+				return;
+			} 
+			displayMessage("put empty feed");
+			me.lasttime = me.thistime;
+		};
+		var rss = me.serialize([],{});
+		var adaptor = config.adaptors[me.adaptor];
+		adaptor.putRss(rss,callback,me);
+		store.forEachTiddler(function(title,t){
+			if(t.isTagged(me.tag.note)){
+				store.deleteTiddler(t.title);
+				displayMessage("deleted "+t.title);
+			}
+		});
+		return false;
 	}
 };
 
@@ -214,6 +239,12 @@ config.macros.PopulateNotes = {};
 config.macros.PopulateNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
                 var me = config.macros.SharedNotes;
                 createTiddlyButton(place,me.messages.populateNotes.button,me.messages.populateNotes.tip,me.populateNotes);
+};
+
+config.macros.KillMyNotes = {};
+config.macros.KillMyNotes.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+                var me = config.macros.SharedNotes;
+                createTiddlyButton(place,me.messages.killMyNotes.button,me.messages.killMyNotes.tip,me.killMyNotes);
 };
 
 } //# end of 'install only once'
