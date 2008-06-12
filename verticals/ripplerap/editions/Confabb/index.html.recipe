@@ -5,9 +5,10 @@ tiddler: Welcome.tiddler
 tiddler: Help.tiddler
 tiddler: FAQs.tiddler
 tiddler: TiddlyWiki.tiddler
+tiddler: LoginToConfabb.tiddler
 
 tiddler: plugins/RippleRapConfabbPlugin.js
+tiddler: plugins//ConfabbLoginPlugin.js
+
 tiddler: adaptors/ConfabbAgendaAdaptorPlugin.js
 tiddler: adaptors/ConfabbNotesAdaptorPlugin.js
-tiddler: adaptors/LoginToConfabb.tiddler
-tiddler: adaptors//ConfabbLoginPlugin.js
