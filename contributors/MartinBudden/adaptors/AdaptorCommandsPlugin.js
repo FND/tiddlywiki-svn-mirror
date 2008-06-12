@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js |
-|''Version:''|0.5.8|
+|''Version:''|0.5.9|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -226,7 +226,7 @@ config.commands.revisions.callback = function(context,userParams)
 			var modified = tiddler.modified;
 			var revision = tiddler.fields['server.page.revision'];
 			var btn = createTiddlyButton(createTiddlyElement(popup,'li'),
-					modified.formatString(userParams.dateFormat) + ' r:' + revision,
+					modified.formatString(context.dateFormat||userParams.dateFormat) + ' r:' + revision,
 					tiddler.text||config.commands.revisions.revisionTooltip,
 					function() {
 						config.commands.revisions.getTiddlerRevision(this.getAttribute('tiddlerTitle'),this.getAttribute('tiddlerModified'),this.getAttribute('tiddlerRevision'),this);
