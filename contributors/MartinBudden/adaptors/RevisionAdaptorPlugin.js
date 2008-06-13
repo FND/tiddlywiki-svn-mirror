@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for working with a tiddler revision store|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/RevisionAdaptorPlugin.js |
-|''Version:''|0.0.6|
+|''Version:''|0.0.7|
 |''Date:''|Jun 11, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -141,13 +141,13 @@ RevisionAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,
 	context.status = true;
 	var t = store.getTiddler(title);
 	var uuid = t.fields.uuid;
-	var entries = revisionStore.fileRevisionsSorted(uuid);
+	var entries = revisionStore.fileRevisionsSorted(uuid,title);
 	if(entries) {
 //#console.log('ec:'+entries.length);
 //#console.log('uuid:'+uuid);
 		var list = [];
 		for(var i=0; i<entries.length; i++) {
-			var tiddler = revisionStore.getTiddler(entries,i,uuid);
+			var tiddler = revisionStore.getTiddler(entries,i,uuid,title);
 			if(tiddler)
 				list.push(tiddler);
 		}
@@ -194,10 +194,10 @@ RevisionAdaptor.prototype.getTiddler = function(title,context,userParams,callbac
 
 	if(context.revision) {
 		var uuid = t.fields.uuid;
-		var entries = revisionStore.fileRevisionsSorted(uuid);
+		var entries = revisionStore.fileRevisionsSorted(uuid,title);
 		if(entries) {
 			var revisionIndex = parseInt(context.revision,10);
-			var tiddler = revisionStore.getTiddler(entries,revisionIndex,uuid);
+			var tiddler = revisionStore.getTiddler(entries,revisionIndex,uuid,title);
 			if(tiddler) {
 				context.tiddler = tiddler;
 				context.status = true;
