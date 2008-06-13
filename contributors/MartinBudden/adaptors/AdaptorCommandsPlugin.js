@@ -86,7 +86,7 @@ config.commands.getTiddler.isEnabled = function(tiddler)
 
 config.commands.getTiddler.handler = function(event,src,title)
 {
-//#displayMessage("config.commands.getTiddler.handler:"+title);
+//#console.log("config.commands.getTiddler.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	if(tiddler) {
 		var fields = tiddler.fields;
@@ -99,7 +99,7 @@ config.commands.getTiddler.handler = function(event,src,title)
 
 config.commands.getTiddler.callback = function(context,userParams)
 {
-//#displayMessage("config.commands.getTiddler.callback:"+context.tiddler.title);
+//#console.log("config.commands.getTiddler.callback:"+context.tiddler.title);
 //#displayMessage("status:"+context.status);
 	if(context.status) {
 		var tiddler = context.tiddler;
@@ -244,7 +244,7 @@ config.commands.revisions.callback = function(context,userParams)
 
 config.commands.revisions.getTiddlerRevision = function(title,modified,revision)
 {
-//#displayMessage("config.commands.getTiddlerRevision:"+title+" r:"+revision);
+//#console.log("config.commands.getTiddlerRevision:"+title+" r:"+revision);
 	var tiddler = store.fetchTiddler(title);
 	var context = {};
 	context.modified = modified;
@@ -253,7 +253,7 @@ config.commands.revisions.getTiddlerRevision = function(title,modified,revision)
 
 config.commands.revisions.getTiddlerRevisionCallback = function(context,userParams)
 {
-//#displayMessage("config.commands.getTiddlerRevisionCallback:"+context.tiddler.title);
+//#console.log("config.commands.getTiddlerRevisionCallback:"+context.tiddler.title);
 	if(context.status) {
 		var tiddler = context.tiddler;
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
