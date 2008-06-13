@@ -33,7 +33,7 @@ config.macros.GenerateSharedNotesFeed.serialize = function(tiddlers,options)
 	var uri = options.uri || store.getTiddlerText('SiteUrl');
 
 	s.push('<' + '?xml version="1.0"?' + '>');
-	s.push('<rss version="2.0">');
+	s.push('<rss version="2.0" xmlns:tw="http://www.tiddlywiki.com/>');
 	s.push('<channel>');
 	s.push('<title' + '>' + 
 	wikifyPlain('SiteTitle').htmlEncode() + " - " + wikifyPlain('SiteSubTitle').htmlEncode() + '</title' + '>');
