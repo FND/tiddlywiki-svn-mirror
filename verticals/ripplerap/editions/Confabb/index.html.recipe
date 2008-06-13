@@ -1,6 +1,7 @@
 recipe: ../../core/ripplerap.html.recipe
 
 tiddler: Edition.js
+tiddler: DefaultTiddlers.tiddler
 tiddler: Welcome.tiddler
 tiddler: Help.tiddler
 tiddler: FAQs.tiddler

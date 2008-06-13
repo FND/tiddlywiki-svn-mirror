@@ -44,19 +44,23 @@ getFirstElementValue = function (node, tag, def) {
 /*
  *  takes a Confabb Agenda, returns list of tiddlers
  */
-ConfabbAgendaAdaptor.parseAgenda = function(text)
+ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 {
 	var tiddlers = [];
 	speakers = {};
 	log("parsing the Confabb Agenda");
-	log(text);
 
-	/* 
-	 *  parse XML
-	 */
-	var r = getXML(text);
-	if (!r) 
+	if (responseText.match('/<!DOCTTYPE +HTML/')) {
+		log("is HTML");
+		return [];
+	}
+
+	var r =  getXML(responseText);
+
+	if (!r){
+		log("no Agenda responseXML");
 		return tiddlers;
+	}
 
 	/* 
 	 *  build Agenda column title tiddlers
@@ -77,6 +81,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 	}
 
 	if(!tiddlers){
+		log("no Agenda Days");
 		return tiddlers;
 	}
 
@@ -150,6 +155,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(text)
 		tiddlers.push(tiddler);
 	}
 
+	log("Agenda tiddlers:", tiddlers.lenghth);
 	return tiddlers;
 };
 
