@@ -3,7 +3,7 @@
 |''Description:''|incorporates Tony Garnock-Jones javascript diff code|
 |''Author:''|MartinBudden|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/synchrotronPlugin.js |
-|''Version:''|0.0.7|
+|''Version:''|0.0.8|
 |''Date:''|June 12, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -24,7 +24,7 @@ version.extensions.synchrotronPlugin = {installed:true};
 
 //#config.defaultCustomFields['server.type'] = 'synchrotron';
 
-var synchrotron = null;
+var revisionStore = null;
 
 function Synchrotron()
 {
