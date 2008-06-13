@@ -24,8 +24,8 @@ function getServerType(fields)
 		serverType = fields['wikiformat'];
 	if(!serverType)
 		serverType = config.defaultCustomFields['server.type'];
-	if(!serverType && SynchrotronAdaptor && fields.uuid)
-		serverType = SynchrotronAdaptor.serverType;
+	if(!serverType && RevisionAdaptor && fields.uuid)
+		serverType = RevisionAdaptor.serverType;
 //#console.log("serverType:",serverType);
 	return serverType;
 }

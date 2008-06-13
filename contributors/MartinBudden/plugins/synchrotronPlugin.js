@@ -36,11 +36,18 @@ function Synchrotron()
 
 Synchrotron.repositoryTiddlerTitle = '_synchrotronRepository';
 
+Synchrotron.dateFromTimestamp = function(timestamp)
+{
+	var dt = new Date();
+	dt.setTime(parseInt(timestamp,10));
+	return dt;
+};
+
 Synchrotron.prototype.export = function()
 {
 	var repoExt = this.repo.exportRevisions();
 	var repoText = uneval(repoExt);
-	//#console.log('repoExtOnSave:'+repoText);
+	//#console.log('Synchrotron.export:'+repoText);
 	return repoText;
 };
 
@@ -50,7 +57,7 @@ Synchrotron.prototype.import = function(repoText)
 	if(repoText) {
 		var repoExt = eval(repoText);
 		this.repo.importRevisions(repoExt);
-		this.checkout = synchrotron.repo.update(null);
+		this.checkout = this.repo.update(null);
 	}
 };
 
@@ -60,7 +67,7 @@ Synchrotron.prototype.commitTiddler = function(tiddler)
 	if(!tiddler)
 		return false;
 	if(!tiddler.fields.uuid)
-		tiddler.fields.uuid = synchrotron.checkout.createFile();
+		tiddler.fields.uuid = this.checkout.createFile();
 	var id = tiddler.fields.uuid;
 	this.checkout.setProp(id,'title',tiddler.title);
 	this.checkout.setProp(id,'text',tiddler.text.split('\n'));
@@ -73,16 +80,30 @@ Synchrotron.prototype.commitTiddler = function(tiddler)
 	//var repoExt = this.repo.exportRevisions();
 	//var repoText = uneval(repoExt);
 	//#console.log('repoExt:'+repoText);
+	return true;
 };
 
-Synchrotron.prototype.getBody = function(revRecord,uuid)
+Synchrotron.prototype.getTiddler = function(revisions,i,uuid)
 {
-	return synchrotron.repo.getBody(revRecord,uuid);
+	var body = this.repo.getBody(revisions[i],uuid);
+//#console.log('body:',body);
+//#console.log('li:'+i);
+//#console.log(body.title);
+//#console.log(body.text);
+	if(!body || !body.title)
+		return null;
+	title = body.title;
+	tiddler = new Tiddler(title);
+	tiddler.modified = Synchrotron.dateFromTimestamp(revisions[i].timestamp);
+	tiddler.text = body.text.join('\n');
+	tiddler.fields['server.page.revision'] = i;
+	tiddler.fields.uuid = uuid;
+	return tiddler;
 };
 
 Synchrotron.prototype.fileRevisionsSorted = function(uuid)
 {
-//#console.log('SynchrotronAdaptor.fileRevisionsSorted:',uuid);
+//#console.log('Synchrotron.fileRevisionsSorted:',uuid);
 	if(!uuid)
 		return null;
 	var m = this.repo.fileRevisions(uuid);
@@ -115,7 +136,7 @@ config.commands.saveAndCommitTiddler.isEnabled = function(tiddler)
 config.commands.saveAndCommitTiddler.handler = function(event,src,title)
 {
 //#console.log('config.commands.saveAndCommitTiddler.handler:'+title);
-	synchrotron.commitTiddler(store.fetchTiddler(title));
+	revisionStore.commitTiddler(store.fetchTiddler(title));
 };
 
 config.commands.saveTiddler.handlerOld = config.commands.saveTiddler.handler;
@@ -127,7 +148,7 @@ config.commands.saveTiddler.handler = function(event,src,title)
 	var newTitle = story.saveTiddler(title,event.shiftKey);
 	if(newTitle)
 		story.displayTiddler(null,newTitle);
-	synchrotron.commitTiddler(store.fetchTiddler(newTitle));
+	revisionStore.commitTiddler(store.fetchTiddler(newTitle));
 	return false;
 };
 
@@ -136,8 +157,8 @@ function restart()
 {
 //#console.log('new restart');
 	restartSynchrotron();
-	synchrotron = new Synchrotron();
-	synchrotron.import(store.getTiddlerText(Synchrotron.repositoryTiddlerTitle));
+	revisionStore = new Synchrotron();
+	revisionStore.import(store.getTiddlerText(Synchrotron.repositoryTiddlerTitle));
 }
 
 saveChangesSynchrotron = saveChanges;
@@ -146,7 +167,7 @@ function saveChanges(onlyIfDirty,tiddlers)
 //#console.log('new saving');
 
 	var tiddler = new Tiddler(Synchrotron.repositoryTiddlerTitle);
-	tiddler.text = '//{{{\n' + synchrotron.export() + '\n//}}}\n';
+	tiddler.text = '//{{{\n' + revisionStore.export() + '\n//}}}\n';
 	tiddler.tags = ['excludeLists','excludeSearch'];
 	store.addTiddler(tiddler);
 	saveChangesSynchrotron(onlyIfDirty,tiddlers);
