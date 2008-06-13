@@ -1,4 +1,10 @@
 /*
+** drop existing database
+*/
+
+//DROP DATABASE `pluginLibrary`;
+
+/*
 ** create database
 */
 

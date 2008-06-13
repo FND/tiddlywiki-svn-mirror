@@ -20,7 +20,7 @@ $dbq->disconnect();
 // output debugging info
 $t1 = time();
 addLog("Runtime: " . ($t1 - $t0) . " seconds");
-debug($log); // DEBUG: write to file?
+debug($log, "Log"); // DEBUG: write to file?
 
 /*
 ** repository handling
