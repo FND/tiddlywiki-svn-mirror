@@ -1,11 +1,9 @@
-recipe: ../../../../core/tests/html/testContributors.recipe
 title=Confabb Agenda Adaptor Tests
-tiddler: ConfabbAgendaAdaptorPlugin.js
 
-tiddler: ../../plugins/LogMessagePlugin/_LogMessagePlugin.js
-tiddler: ../../../PhilHawksworth/plugins/TextToXMLDOMPlugin.js
+recipe: ../../../../../core/tests/html/testContributors2.recipe
+recipe: ConfabbAgendaAdaptorPlugin.recipe
 
-js: ../../../../core/tests/js/tiddlywiki.js
-js: ../../../../core/tests/js/mock.js
+js: ../../../../../core/tests/js/tiddlywiki.js
+js: ../../../../../core/tests/js/mock.js
 
-js: testConfabbAgendaAdaptorPlugin.jsspec.js
+jsspecsrc=<script src="testConfabbAgendaAdaptorPlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>

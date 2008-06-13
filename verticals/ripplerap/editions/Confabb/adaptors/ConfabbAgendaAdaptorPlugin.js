@@ -31,15 +31,6 @@ String.prototype.makeId = function() {
 	return this.replace(/[^A-Za-z0-9]+/g, "");
 };
 
-getFirstElementValue = function (node, tag, def) {
-	if (node){
-		var e = node.getElementsByTagName(tag);
-		if (e && e.length){
-			def = e[0].textContent || e[0].text || def;
-		}
-	}
-	return def;
-};
 
 /*
  *  takes a Confabb Agenda, returns list of tiddlers
@@ -94,10 +85,10 @@ ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 		tiddler = new Tiddler();
 
 		var id = node.getAttribute('id');
-		var day = "Day" + getFirstElementValue(node, "day","ly");
-		var track = getFirstElementValue(node, "track","Global Track");
-		var location = getFirstElementValue(node, "location","Global Location");
-		var content = getFirstElementValue(node, "description","");
+		var day = "Day" + getFirstElementByTagNameValue(node, "day","ly");
+		var track = getFirstElementByTagNameValue(node, "track","Global Track");
+		var location = getFirstElementByTagNameValue(node, "location","Global Location");
+		var content = getFirstElementByTagNameValue(node, "description","");
 
 		var tags = ['session'];
 		tags.push(track.makeId());
@@ -108,7 +99,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 		var sessionSpeakers = [];
 		var s = node.getElementsByTagName("speaker");
 		for(var j=0;j<s.length;j++) {
-			var name = getFirstElementValue(s[j],"title");
+			var name = getFirstElementByTagNameValue(s[j],"title");
 			if(name){
 				name = name.trim();
 				speakers[name] = {name: name};
@@ -118,11 +109,11 @@ ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 		}
 
 		tiddler.assign(id,content,undefined,undefined,tags,undefined,{
-			rr_session_title: getFirstElementValue(node,"title",""),
+			rr_session_title: getFirstElementByTagNameValue(node,"title",""),
 			rr_session_id: id,
-			rr_session_starttime: getFirstElementValue(node,"starttime",""),
-			rr_session_endtime: getFirstElementValue(node,"endtime",""),
-			rr_session_link: getFirstElementValue(node,"link",""),
+			rr_session_starttime: getFirstElementByTagNameValue(node,"starttime",""),
+			rr_session_endtime: getFirstElementByTagNameValue(node,"endtime",""),
+			rr_session_link: getFirstElementByTagNameValue(node,"link",""),
 			rr_session_day: day,
 			rr_session_location: location,
 			rr_session_track: track,
@@ -137,10 +128,10 @@ ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 	t = r.getElementsByTagName('vcard');
 	for(i=0;i<t.length;i++) {
 		var node = t[i];
-		var name = getFirstElementValue(node,"fn","vcard");
+		var name = getFirstElementByTagNameValue(node,"fn","vcard");
 		name = name.trim();
 		speakers[name] = {
-			bio: getFirstElementValue(node,"bio",""),
+			bio: getFirstElementByTagNameValue(node,"bio",""),
 			text: ''
 		};
 	}
