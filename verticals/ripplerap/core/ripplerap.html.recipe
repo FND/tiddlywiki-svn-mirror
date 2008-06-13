@@ -1,7 +1,7 @@
 # Core
 recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 
-# Development helpers - remove before releaseing.
+# Development helpers - remove before releasing.
 tiddler: __dev_helper.tiddler
 tiddler: plugins/DevHelpPlugin.js
 
@@ -19,23 +19,18 @@ tiddler: SiteSubtitle.tiddler
 # RippleRap specific code
 tiddler: plugins/RippleRapPlugin.js
 
+# Generic plugins
 tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
-tiddler: ../../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
-
-tiddler: ../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
-# tiddler: ../../../contributors/PhilHawksworth/plugins/ListRelatedPlugin.js
-
 tiddler: ../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
+tiddler: ../../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
+tiddler: ../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
 tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/RawViewMacroPlugin.js
-
-tiddler: plugins/TaggedTemplateTweak.js
-#tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
-
 tiddler: ../../../contributors/PaulDowney/plugins/SingleMessagePlugin/SingleMessagePlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/LogMessagePlugin/_LogMessagePlugin.js
-
 tiddler: ../../../contributors/BidiX/plugins/PasswordOptionPlugin.js
+#tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
+tiddler: plugins/TaggedTemplateTweak.js
 
 # Agenda Tracks
 recipe: ../../../contributors/PaulDowney/plugins/AgendaTrackPlugin/AgendaTrackPlugin.recipe
@@ -57,28 +52,21 @@ tiddler: DefaultTiddlers.tiddler
 tiddler: BackstageMod.tiddler
 
 # Other content
-tiddler: Formatting_TiddlyWikis.tiddler
+
 tiddler: CamelCase.tiddler
 tiddler: Double_square_brackets.tiddler
-tiddler: TiddlyWiki.tiddler
 tiddler: FAQs.tiddler
+tiddler: Formatting_TiddlyWikis.tiddler
+tiddler: Help.tiddler
+tiddler: How_sharing_works.tiddler
+tiddler: Safari_and_Opera_configuration.tiddler
 tiddler: Sharing_settings.tiddler
-
-
-
-##### REFACTORED - Above ######
+tiddler: TiddlyWiki.tiddler
 
 tiddler: CommitteeViewTemplate.tiddler
 
-
-tiddler: Help.tiddler
-tiddler: How_sharing_works.tiddler
-
-tiddler: Safari_and_Opera_configuration.tiddler
-
 tiddler: Setup_Instructions.tiddler
 tiddler: Share_notes.tiddler
-
 tiddler: speaker.tiddler
 tiddler: committee.tiddler
 tiddler: chair.tiddler
