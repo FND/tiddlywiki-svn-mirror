@@ -138,15 +138,18 @@ config.macros.SharedNotes = {
 	install: function(){
 		var me = config.macros.SharedNotes;
 		if(!me.feedListManager){
+			log('Installing feedlistmanager');
 			me.feedListManager = new FeedListManager();
 		}
 	},
 
 	populateNotes: function(){
+		log("config.macros.RippleRap.populateNotes");
 		var me = config.macros.SharedNotes;
-		if(me.feedListManager){
-			me.feedListManager.populate(me.populateNotesCallback,me);
+		if(!me.feedListManager) {
+			me.install();
 		}
+		me.feedListManager.populate(me.populateNotesCallback,me);
 		return false;
 	},
 
@@ -176,7 +179,7 @@ config.macros.SharedNotes = {
 			return;
 		}
 		log("getNotesByUri:",uri,userName);
-                config.macros.importWorkspace.getTiddlers(uri,"sharednotes",null,null,config.macros.SharedNotes.tagNoteAdaptorCallback,userName);
+		config.macros.importWorkspace.getTiddlers(uri,"sharednotes",null,null,config.macros.SharedNotes.tagNoteAdaptorCallback,userName);
 	},
 
 	tagNoteAdaptorCallback: function(context,userParams){
