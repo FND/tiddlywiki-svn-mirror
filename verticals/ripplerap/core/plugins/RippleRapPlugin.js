@@ -19,13 +19,17 @@ config.messages.workspaceTiddlers = "";
 
 config.macros.RippleRap = {};
 
+config.optionsDesc.txtRippleRapConferenceURI = "RippleRap conference base URI";
+
 /*
  *  Initialize the application
  */
 config.macros.RippleRap.init = function(){
 
-	var me = config.macros.RippleRap;
-	me.labelEdition();
+	/*
+ 	 *  assert titles
+	 */
+	config.macros.RippleRap.labelEdition();
 
 	/*
 	 *  initiate the SharedNotes plugin
@@ -38,7 +42,7 @@ config.macros.RippleRap.init = function(){
 	var baseUri = config.options.txtRippleRapConferenceURI;
 	baseUri += ((baseUri.slice(-1)!='/')?"/":"");
 
-	config.macros.RippleRapEdition.install(me, baseUri);
+	config.macros.RippleRapEdition.install(baseUri);
 
 	/*
 	 *  start SharedNotes plugin

@@ -8,7 +8,6 @@
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.2.6|
 
-originates from Jonathan Lister's generic SharedNotesAdaptor 
 
 ***/
 
@@ -56,21 +55,12 @@ SharedNotesAdaptor.rssToTiddlers = function(rss,useRawDescription)
 		} else {
 			title = item_match[i].match(regex_guid);
 
-	/*
-			if(title) {
-				item.title = title[0].replace(/^<guid>|<\/guid>$/mg,"");
-			} else {
-				item.title = new Date();
-				displayMessage("problem with getting title AND guid: " + item_match[i]);
-			}
-	*/
 		}
 
 		item.title = item.title.htmlDecode();
 
 		var t = new Tiddler(item.title);
 
-		// grab original wikitext if it is there as an extended field
 		var wikitext = item_match[i].match(regex_wiki);
 		if(wikitext) {
 			item.text = wikitext[0].replace(/^<wikitext>|<\/wikitext>$/mg,"");
@@ -82,8 +72,6 @@ SharedNotesAdaptor.rssToTiddlers = function(rss,useRawDescription)
 				item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
 			}
 			if(item.text == "") {
-				// if description is blank, replace with <content:encoded> as the tiddler text if it exists
-				//#displayMessage("replacing with content_encoded!");
 				var content = item_match[i].match(regex_content);
 				if(content) {
 					item.text = content[0].replace(/^<content:encoded>|<\/content:encoded>$/mg,"");
@@ -176,8 +164,6 @@ SharedNotesAdaptor.fullHostName = function(host)
 		return '';
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
-	//if(host.substr(-1) != '/')
-	//	host = host + '/';
 	return host;
 };
 
@@ -195,15 +181,10 @@ SharedNotesAdaptor.loadRssCallback = function(status,context,responseText,url,xh
 {
 	context.status = status;
 	if(!status) {
-		context.statusText = "Error reading RSS file:" + context.host;// + xhr.statusText;
+		context.statusText = "Error reading RSS file:" + context.host;
 	} else {
 		try {
 			context.tiddlers = SharedNotesAdaptor.rssToTiddlers(responseText,context.rssUseRawDescription);
-			/*if(context.filter) {
-				var tw = new TiddlyWiki();
-				tw.tiddlers = tiddlers;
-				tiddlers = tw.filterTiddlers(filter);
-			}*/
 		} catch (ex) {
 			displayMessage("Error parsing RSS:"+context.host);
 		}
@@ -211,9 +192,6 @@ SharedNotesAdaptor.loadRssCallback = function(status,context,responseText,url,xh
 	context.complete(context,context.userParams);
 };
 
-// Gets the list of workspaces on a given server
-//# Sets context.workspaces, which contains a single default workspace, since RSS files do not have workspaces
-//# Returns true if successful, error string if not
 SharedNotesAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
@@ -224,9 +202,6 @@ SharedNotesAdaptor.prototype.getWorkspaceList = function(context,userParams,call
 	return true;
 };
 
-// Open the specified workspace
-//# Returns true if successful, error string if not (or it should)
-//# Trivial in the case of RSS file where we don't have a workspace
 SharedNotesAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
 	this.workspace = workspace;
@@ -237,11 +212,6 @@ SharedNotesAdaptor.prototype.openWorkspace = function(workspace,context,userPara
 	return true;
 };
 
-// Gets the list of tiddlers within a given workspace
-//# Returns true if successful, error string if not
-//# Sets context.tiddlers, which is an array of tiddlers. Each tiddler corresponds to an RSS item
-//# Set these variables if possible:
-//# title: tiddler.title, modified: tiddler.modified, modifier: tiddler.modifier, text: tiddler.text, tags: tiddler.tags, size: tiddler.text
 SharedNotesAdaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 {
 	context = this.setContext(context,userParams,callback);

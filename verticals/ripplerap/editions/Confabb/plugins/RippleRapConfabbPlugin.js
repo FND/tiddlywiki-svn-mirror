@@ -15,13 +15,13 @@ if(!version.extensions.RippleRapConfabbPlugin) {
 version.extensions.RippleRapConfabbPlugin = {installed:true};
 
 config.macros.RippleRapEdition = {
-	install: function(me, uri) {
-		this.installAgenda(me, uri);
-		this.installSharedNotes(me, uri);
-		this.installEnjoyedNotes(me, uri);
+	install: function(uri) {
+		this.installAgenda(uri);
+		this.installSharedNotes(uri);
+		this.installEnjoyedNotes(uri);
 	},
 
-	installAgenda: function(me, uri) {
+	installAgenda: function(uri) {
 		var agendauri = config.options.txtRippleRapAgendaURI;
 		if (!agendauri) {
 			agendauri = uri + "sessionlist";
@@ -31,7 +31,7 @@ config.macros.RippleRapEdition = {
                 config.macros.ConfabbLogin.callback = config.macros.AgendaTrack.getAgenda;
 	},
 
-	installSharedNotes: function(me, uri) {
+	installSharedNotes: function(uri) {
 		var notesuri = config.options.txtRippleRapSharedNotesURI;
 		if (!notesuri) {
 			notesuri = uri + "notes/save";
@@ -40,7 +40,7 @@ config.macros.RippleRapEdition = {
 		ConfabbNotesAdaptor.uri = notesuri;
 	},
 
-	installEnjoyedNotes: function(me, uri) {
+	installEnjoyedNotes: function(uri) {
 		var notesuri = config.options.txtRippleRapEnjoyedNotesURI;
 		if (!notesuri) {
 			notesuri = uri + "notes/opml";

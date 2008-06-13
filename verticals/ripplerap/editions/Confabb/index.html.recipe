@@ -6,12 +6,11 @@ tiddler: Welcome.tiddler
 tiddler: Help.tiddler
 tiddler: FAQs.tiddler
 tiddler: TiddlyWiki.tiddler
-tiddler: LoginToConfabb.tiddler
 
 tiddler: plugins/RippleRapConfabbPlugin.js
-tiddler: plugins//ConfabbLoginPlugin.js
 
-tiddler: adaptors/ConfabbAgendaAdaptorPlugin.js
-tiddler: ../../../../contributors/PhilHawksworth/plugins/TextToXMLDOMPlugin.js
+tiddler: LoginToConfabb.tiddler
+tiddler: plugins/ConfabbLoginPlugin.js
 
-tiddler: adaptors/ConfabbNotesAdaptorPlugin.js
+recipe: adaptors/ConfabbAgendaAdaptorPlugin.recipe
+recipe: adaptors/ConfabbNotesAdaptorPlugin.recipe

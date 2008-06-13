@@ -35,7 +35,8 @@ config.macros.GenerateSharedNotesFeed.serialize = function(tiddlers,options)
 	s.push('<' + '?xml version="1.0"?' + '>');
 	s.push('<rss version="2.0">');
 	s.push('<channel>');
-	s.push('<title' + '>' + wikifyPlain('SiteTitle').htmlEncode() + '</title' + '>');
+	s.push('<title' + '>' + 
+	wikifyPlain('SiteTitle').htmlEncode() + " - " + wikifyPlain('SiteSubTitle').htmlEncode() + '</title' + '>');
 	if(uri) {
 		s.push('<link>' + uri.htmlEncode() + '</link>');
 	}

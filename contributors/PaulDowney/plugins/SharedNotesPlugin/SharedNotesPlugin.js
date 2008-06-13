@@ -18,6 +18,7 @@
 <<PutNotes>>
 <<GetNotes>>
 <<PopulateNotes>>
+<<KillMyNotes>>
 
 !!!Source Code
 ***/
@@ -30,10 +31,10 @@ version.extensions.SharedNotesPlugin = {installed:true};
 config.optionsDesc.txtSharedNotesUserName = "UserName used on the server for shared notes";
 config.options.txtSharedNotesUserName = "YourName";
 
-config.optionsDesc.chkSharedNotesPutEnabled = "send shared note tiddlers to a server enabled";
+config.optionsDesc.chkSharedNotesPutEnabled = "put shared note tiddlers to a server";
 config.options.chkSharedNotesPutEnabled = true;
 
-config.optionsDesc.chkSharedNotesGetEnabled = "get other people's SharedNotes";
+config.optionsDesc.chkSharedNotesGetEnabled = "get other people's shared note tiddlers";
 config.options.chkSharedNotesGetEnabled = true;
 
 config.macros.SharedNotes = {
@@ -219,6 +220,8 @@ config.macros.SharedNotes = {
 				displayMessage("deleted "+t.title);
 			}
 		});
+		store.notifyAll();
+		refreshDisplay();
 		return false;
 	}
 };

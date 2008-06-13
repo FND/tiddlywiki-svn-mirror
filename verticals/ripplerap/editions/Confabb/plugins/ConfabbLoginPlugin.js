@@ -24,7 +24,6 @@ config.macros.ConfabbLogin = {
 
 	login: function(){
 		var callback = function(status,params,text,url,xhr){
-log(text);
 			config.options.txtConfabbSessionCookie = xhr.getResponseHeader('set-cookie');
 			var me = config.macros.ConfabbLogin;
 			if (me.callback){

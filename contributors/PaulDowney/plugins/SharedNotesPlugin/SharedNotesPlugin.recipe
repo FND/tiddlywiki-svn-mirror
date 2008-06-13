@@ -2,5 +2,6 @@ tiddler: SharedNotesPlugin.js
 tiddler: SharedNotesAdaptor.js
 tiddler: GenerateSharedNotesFeed.js
 tiddler: ../../../PhilHawksworth/plugins/FeedListManagerPlugin.js
+tiddler: ../../../PhilHawksworth/plugins/TextToXMLDOMPlugin.js
 tiddler: ../../../MartinBudden/adaptors/ImportWorkspacePlugin.js
 tiddler: ../LogMessagePlugin/_LogMessagePlugin.js

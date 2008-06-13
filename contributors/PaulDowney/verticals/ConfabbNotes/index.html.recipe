@@ -1,0 +1,6 @@
+recipe: ../../../../contributors/PaulDowney/plugins/SharedNotesPlugin/index.html.recipe
+tiddler: ../../../../verticals/ripplerap/editions/Confabb/plugins/RippleRapConfabbPlugin.js
+recipe: ../../../../verticals/ripplerap/editions/Confabb/adaptors/ConfabbNotesAdaptorPlugin.recipe
+tiddler: DefaultTiddlers.tiddler
+tiddler: ConfabbNotes.js
+tiddler: settings.js
