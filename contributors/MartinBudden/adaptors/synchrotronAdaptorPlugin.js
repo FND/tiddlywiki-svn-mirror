@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for working with synchrotron diff tool|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/SynchrotronAdaptorPlugin.js |
-|''Version:''|0.0.5|
+|''Version:''|0.0.6|
 |''Date:''|Jun 11, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -157,20 +157,14 @@ SynchrotronAdaptor.prototype.getTiddlerRevisionList = function(title,limit,conte
 //#console.log(tiddler);
 	context.revisions = [];
 	context.status = true;
-	var entries = null;
-	if(tiddler.fields.uuid)
-		entries = synchrotron.repo.fileRevisions(tiddler.fields.uuid);
+	var uuid = tiddler.fields.uuid;
+	var entries = synchrotron.fileRevisionsSorted(uuid);
 	if(entries) {
 //#console.log('ec:'+entries.length);
 //#console.log('uuid:'+tiddler.fields.uuid);
-		var uuid = tiddler.fields.uuid;
 		var list = [];
 		for(var i=0; i<entries.length; i++) {
-			var alive = entries[i].alive;
-//#console.log('a:',alive);
-			var bodyId = entries[i].alive[uuid];
-//#console.log('bodyId:',bodyId);
-			var body = synchrotron.repo.getBody(entries[i],uuid);
+			var body = synchrotron.getBody(entries[i],uuid);
 //#console.log('body:',body);
 //#console.log('li:'+i);
 //#console.log(body.title);
@@ -221,32 +215,35 @@ SynchrotronAdaptor.prototype.getTiddler = function(title,context,userParams,call
 	if(title)
 		context.title = title;
 	var t = store.getTiddler(title);
-	var uuid = t.fields.uuid;
-	var revision = parseInt(context.revision,10);
 
 	context.status = false;
 	context.statusText = SynchrotronAdaptor.errorInFunctionMessage.format(['getTiddler',title]);
 
-	//if(context.revision) {
-	//} else {
-	//}
-	entries = synchrotron.repo.fileRevisions(uuid);
-	if(entries) {
-		var body = synchrotron.repo.getBody(entries[revision],uuid);
+	if(context.revision) {
+		var uuid = t.fields.uuid;
+		var revision = parseInt(context.revision,10);
+		var entries = synchrotron.fileRevisionsSorted(uuid);
+		if(entries) {
+			var body = synchrotron.getBody(entries[revision],uuid);
 //#console.log('body:',body);
 //#console.log('li:'+i);
 //#console.log(body.title);
 //#console.log(body.text);
-		if(body.title) {
-			title = body.title;
-			tiddler = new Tiddler(title);
-			tiddler.modified = SynchrotronAdaptor.dateFromTimestamp(entries[revision].timestamp);
-			tiddler.text = body.text.join('\n');
-			tiddler.fields.uuid = uuid;
-			context.tiddler = tiddler;
-			context.status = true;
-			context.statusText = "";
+			if(body.title) {
+				title = body.title;
+				tiddler = new Tiddler(title);
+				tiddler.modified = SynchrotronAdaptor.dateFromTimestamp(entries[revision].timestamp);
+				tiddler.text = body.text.join('\n');
+				tiddler.fields.uuid = uuid;
+				context.tiddler = tiddler;
+				context.status = true;
+				context.statusText = "";
+			}
 		}
+	} else {
+		context.tiddler = t;
+		context.status = true;
+		context.statusText = "";
 	}
 	if(context.callback)
 		window.setTimeout(function() {callback(context,userParams);},0);
