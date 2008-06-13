@@ -1,73 +1,75 @@
-<div title="_synchrotronRepository" created="200806121503" tags="excludeLists excludeSearch">
+<div title="_synchrotronRepository" created="200806121936" tags="excludeLists excludeSearch">
 <pre>//{{{
 ({
 revisions:{
-	'26a64189-a998-4f5d-a964-3b0943c1bfce':{
-		alive:{'fa10ee13-9263-4cb7-989d-8972cb1d33ab':"717bf082-0571-4dc4-a3ee-007140287bdc"},
+	'rev-8ec8a576':{
+		alive:{'inode-e3dca4b8':"body-33abe9d9"},
 		dead:{},
-		changed:["fa10ee13-9263-4cb7-989d-8972cb1d33ab"],
+		changed:["inode-e3dca4b8"],
 		branch:null,
-		timestamp:1213282890957,
+		timestamp:1213299384296,
 		metadata:undefined,
 		directParent:null,
 		additionalParent:null
 		},
-	'1daadd27-3cd7-4bc4-8d17-445351da926d':{
-		alive:{'fa10ee13-9263-4cb7-989d-8972cb1d33ab':"717bf082-0571-4dc4-a3ee-007140287bdc", 'febebcf6-3be8-44f1-a34b-44795db4bff6':"403e45b5-e590-4e30-8e0a-f14b2c32ef7d"},
+	'rev-c27be018':{
+		alive:{'inode-e3dca4b8':"body-33abe9d9", 'inode-78ed15c3':"body-e68f4953"},
 		dead:{},
-		changed:["febebcf6-3be8-44f1-a34b-44795db4bff6"],
+		changed:["inode-78ed15c3"],
 		branch:null,
-		timestamp:1213282900047,
+		timestamp:1213299390437,
 		metadata:undefined,
-		directParent:"26a64189-a998-4f5d-a964-3b0943c1bfce",
+		directParent:"rev-8ec8a576",
 		additionalParent:null
 		},
-	'61cb24a7-e882-432b-8904-9f59d934163f':{
-		alive:{'fa10ee13-9263-4cb7-989d-8972cb1d33ab':"717bf082-0571-4dc4-a3ee-007140287bdc", 'febebcf6-3be8-44f1-a34b-44795db4bff6':"f54705c7-d73d-481f-a26e-e49f04566234"}, 
+	'rev-5ea056ce':{
+		alive:{'inode-e3dca4b8':"body-33abe9d9", 'inode-78ed15c3':"body-825a11ef"},
 		dead:{},
-		changed:["febebcf6-3be8-44f1-a34b-44795db4bff6"],
+		changed:["inode-78ed15c3"],
 		branch:null,
-		timestamp:1213282911603,
+		timestamp:1213299396343,
 		metadata:undefined,
-		directParent:"1daadd27-3cd7-4bc4-8d17-445351da926d",
-		additionalParent:null},
-	'095765c0-bc16-4444-9c2b-ed0393a274f4':{
-		alive:{'fa10ee13-9263-4cb7-989d-8972cb1d33ab':"717bf082-0571-4dc4-a3ee-007140287bdc", 'febebcf6-3be8-44f1-a34b-44795db4bff6':"f54705c7-d73d-481f-a26e-e49f04566234", 'f211e5c4-b176-406e-a975-919721a4c2ca':"707f9027-1516-44a2-9972-da0d266a2af7"},
-		dead:{},
-		changed:["f211e5c4-b176-406e-a975-919721a4c2ca"],
-		branch:null,
-		timestamp:1213282955697,
-		metadata:undefined,
-		directParent:"61cb24a7-e882-432b-8904-9f59d934163f",
-		additionalParent:null},
-	'b51c0717-1d2d-4cad-ad43-7da628996284':{
-		alive:{'fa10ee13-9263-4cb7-989d-8972cb1d33ab':"717bf082-0571-4dc4-a3ee-007140287bdc", 'febebcf6-3be8-44f1-a34b-44795db4bff6':"f54705c7-d73d-481f-a26e-e49f04566234", 'f211e5c4-b176-406e-a975-919721a4c2ca':"212979fe-8eea-444f-92b1-851344f11668"},
-		dead:{},
-		changed:["f211e5c4-b176-406e-a975-919721a4c2ca"],
-		branch:null,
-		timestamp:1213282961970,
-		metadata:undefined,
-		directParent:"095765c0-bc16-4444-9c2b-ed0393a274f4",
+		directParent:"rev-c27be018",
 		additionalParent:null
 		},
-	'039e8929-bad2-40b2-8b9a-67f08ba61e48':{
-		alive:{'fa10ee13-9263-4cb7-989d-8972cb1d33ab':"717bf082-0571-4dc4-a3ee-007140287bdc", 'febebcf6-3be8-44f1-a34b-44795db4bff6':"f54705c7-d73d-481f-a26e-e49f04566234", 'f211e5c4-b176-406e-a975-919721a4c2ca':"e0da69d6-28f9-48c6-b005-5c3017a31e4c"},
+	'rev-ee4f4384':{
+		alive:{'inode-e3dca4b8':"body-33abe9d9", 'inode-78ed15c3':"body-825a11ef", 'inode-f77246fc':"body-dd7cacaa"},
 		dead:{},
-		changed:["f211e5c4-b176-406e-a975-919721a4c2ca"],
+		changed:["inode-f77246fc"],
 		branch:null,
-		timestamp:1213282967246,
+		timestamp:1213299403671,
 		metadata:undefined,
-		directParent:"b51c0717-1d2d-4cad-ad43-7da628996284",
+		directParent:"rev-5ea056ce",
+		additionalParent:null
+		},
+	'rev-2cad80e3':{
+		alive:{'inode-e3dca4b8':"body-33abe9d9", 'inode-78ed15c3':"body-825a11ef", 'inode-f77246fc':"body-23de9a52"},
+		dead:{},
+		changed:["inode-f77246fc"],
+		branch:null,
+		timestamp:1213299408203,
+		metadata:undefined,
+		directParent:"rev-ee4f4384",
+		additionalParent:null
+		},
+	'rev-93962332':{
+		alive:{'inode-e3dca4b8':"body-33abe9d9", 'inode-78ed15c3':"body-825a11ef", 'inode-f77246fc':"body-ed6f35bc"},
+		dead:{},
+		changed:["inode-f77246fc"],
+		branch:null,
+		timestamp:1213299412906,
+		metadata:undefined,
+		directParent:"rev-2cad80e3",
 		additionalParent:null
 		}
 	},
-bodies:{
-	'717bf082-0571-4dc4-a3ee-007140287bdc':{title:"Test1", text:["aaa"]},
-	'403e45b5-e590-4e30-8e0a-f14b2c32ef7d':{title:"Test2", text:["xxx"]},
-	'f54705c7-d73d-481f-a26e-e49f04566234':{title:"Test2", text:["xxx", "yyy"]},
-	'707f9027-1516-44a2-9972-da0d266a2af7':{title:"Test3", text:["ppp"]},
-	'212979fe-8eea-444f-92b1-851344f11668':{title:"Test3", text:["ppp", "qqq"]},
-	'e0da69d6-28f9-48c6-b005-5c3017a31e4c':{title:"Test3", text:["ppp", "qqq", "rrr"]}
+	bodies:{
+		'body-33abe9d9':{title:"Test1", text:["aaa"]},
+		'body-e68f4953':{title:"Test2", text:["xxx"]},
+		'body-825a11ef':{title:"Test2", text:["xxx", "yyy"]},
+		'body-dd7cacaa':{title:"Test3", text:["ppp"]},
+		'body-23de9a52':{title:"Test3", text:["ppp", "qqq"]},
+		'body-ed6f35bc':{title:"Test3", text:["ppp", "qqq", "rrr"]}
 	}
 })
 //}}}</pre>
