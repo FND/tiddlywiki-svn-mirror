@@ -101,17 +101,19 @@ IFrame.prototype.modify = function(html)
 	//console.log("htmlHead: ",htmlHead);
 	//console.log("<body></body></html>");
 	//this.doc.write(docType+htmlHead+"<body>hello</body></html>");
-	this.doc.write(docType+"<html>"+htmlHead+"<body>hello</body>"+"</html>");
+	this.doc.write(docType+"<html>"+htmlHead+htmlBody+"</html>");
 	this.doc.close();
+	console.log(docType+"<html>"+htmlHead+htmlBody+"</html>");
 	// take the <body ...> tag off the front of htmlBody
-	htmlBody = htmlBody.replace(/<body[^>]*?>/,"");
+	//htmlBody = htmlBody.replace(/<body[^>]*?>/,"");
 	// BUG: any attributes on the body element e.g. onload get lost
 	//console.log(this.doc.documentElement.innerHTML);
 	//this.doc.documentElement.childNodes[1].innerHTML = htmlBody;
 
 	this.style.width = "100%";
 	// BUG: this height setting sometimes causes perculiar very tall iframes; no idea why yet
-	this.style.height = this.doc.body.offsetHeight+"px";
+	//this.style.height = this.doc.body.offsetHeight+"px";
+	this.style.height = "600px"; // stop-gap till auto-height is fixed
 };
 
 IFrame.localizeLinks = function(html,baseURI) {
