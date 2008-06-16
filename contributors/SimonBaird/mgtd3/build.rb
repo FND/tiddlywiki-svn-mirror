@@ -204,7 +204,7 @@ Townsville Civic Theatre
 http://previous.townsville.qld.gov.au/theatre/TheatreSeason.asp
   ''')
 
-  add_tiddler_from_scratch('tiddler' => 'Okay to donate blood again', 'tags' => "Tickler Personal Enabled", 'text' => '', 'mgtd_date' => '200806140200' )
+  add_tiddler_from_scratch('tiddler' => 'Okay to donate blood again', 'tags' => "Tickler Personal Enabled", 'text' => '', 'mgtd_date' => '200810140200' )
 
 
   #############

@@ -73,6 +73,12 @@ DatePicker = {
 		
 		var tbody = $id('datePickerTableBody');
 		removeChildren(tbody);
+		var dowRow = createTiddlyElement(tbody,"tr",null,"datePickerDowRow");
+
+		for (var d=0;d<=7;d++) {
+			// dow headings
+			createTiddlyElement(dowRow,"td",null,null,DatePicker.days[d]);
+		}
 		
 		var days = (new Date(cy, cm+1, 0)).getDate();
 		var day = 1;
@@ -92,6 +98,10 @@ DatePicker = {
 						_class = 'todayDate';
 					else
 						_class = 'defaultDate';
+					if (t == 1 || t == 7) {
+						// weekend
+						_class += ' weekend';
+					}
 					var cell = createTiddlyElement(row,"td","datePickerDay"+d,_class,d-cd);
 					cell.onmouseover = function(e){addClass(this,'tdover');};
 					cell.onmouseout = function(e){removeClass(this,'tdover');};

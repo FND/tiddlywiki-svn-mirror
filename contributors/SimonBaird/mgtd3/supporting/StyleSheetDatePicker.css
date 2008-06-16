@@ -48,6 +48,16 @@ tr.datePickerDayRow td.defaultDate {
 	text-decoration : none;   
 }
 
+tr.datePickerDayRow td.weekend {
+	color:#797!important;
+}
+
+tr.datePickerDowRow td {
+	color:#555;
+	text-align:center;
+	font-size:80%;
+}
+
 tr.datePickerDayRow td.emptyDate {
     cursor:default; 
 }
@@ -58,10 +68,12 @@ tr.datePickerDayRow td.oldDate {
 }
 
 tr.datePickerDayRow td.highlightedDate {
-    background : #FFF;
+    background-color : #fcc;
 	font-weight : bold;
-	color : #F66;
-	border:1px solid #999;
+	border:1px solid #622;
+}
+tr.datePickerDayRow td.highlightedDate.tdover {
+	color : #000;
 }
 
 tr.datePickerDayRow td.todayDate {

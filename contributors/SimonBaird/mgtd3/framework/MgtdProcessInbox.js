@@ -28,8 +28,15 @@ merge(config.macros,{
 				var displayThese = [];
 
 				for (var i=0;i<lines.length;i++) {
-					//alert(lines[i]);
-					var fields = lines[i].split(/[|;]/);
+					alert(lines[i]);
+
+					var fields_and_text = lines[i].split(/\|\|/); // anything after || is to become tiddler content
+					
+
+					var fields = fields_and_text[0].split(/[|;]/);
+					var tiddlerText = fields_and_text[1];
+
+					alert(tiddlerText);
 
 					if (!fields[0] || fields[0].trim() == "") {
 						currentProject = "";
@@ -56,7 +63,7 @@ merge(config.macros,{
 							else
 								store.saveTiddler(
 									title,title,
-									"", // content
+									tiddlerText ? tiddlerText : "", // content
 									config.options.txtUserName,
 									new Date(),
 									fields, // tags
@@ -83,7 +90,6 @@ merge(config.macros,{
 							if (document.getElementById('piShowActions').checked)
 								displayThese.push(title);
 
-							fields.push("GTD"); // make it a GTD item
 							fields.push("Action"); // make it an action 
 							if (currentProject.trim() != "")
 								fields.push(currentProject); // make it in this project
@@ -93,7 +99,7 @@ merge(config.macros,{
 							else
 								store.saveTiddler(
 									title,title,
-									"", // content
+									tiddlerText ? tiddlerText : "", // content
 									config.options.txtUserName,
 									new Date(),
 									fields, // tags

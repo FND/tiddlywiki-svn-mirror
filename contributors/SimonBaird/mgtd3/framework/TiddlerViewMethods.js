@@ -24,6 +24,7 @@ merge(Tiddler.prototype,{
 		//'<<multiSelectTag tag:Project title:[[%0]]>>'+
 		//'<<multiCheckboxTag tag:ActionStatus title:[[%0]]>>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
+		'<<deleteTiddler [[%0]]>>'+
 		' &nbsp;[[%0]] }}}',
 		[
 			this.title
@@ -136,6 +137,7 @@ merge(Tiddler.prototype,{
 		'<<toggleTag Done [[%0]] ->>'+
 		'<<multiToggleTag tag:ActionStatus title:[[%0]]>>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
+		'<<deleteTiddler [[%0]]>>'+
 		' &nbsp;[[%0]]}}} %1',
 		[
 			this.title,
@@ -147,6 +149,7 @@ merge(Tiddler.prototype,{
 		'{{action{'+
 		'<<toggleTag Done [[%0]] ->>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
+		'<<deleteTiddler [[%0]]>>'+
 		' [[%0]] }}}',
 		[
 			this.title

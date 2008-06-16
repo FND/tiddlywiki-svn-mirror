@@ -389,6 +389,25 @@ merge(config.macros,{
 			if (output != "")
 				wikify(output,place,null,useTiddler);
 		}
+	},
+
+	// doesn't belong here since it's not a tag thing..
+	deleteTiddler: {
+		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+			var tiddlerToDelete = params[0];
+			if (store.tiddlerExists(tiddlerToDelete)) {
+				createTiddlyButton(place, '\u00d7', 'Delete tiddler '+tiddlerToDelete, function(e) {
+					var deleteIt = true;
+					if (config.options.chkConfirmDelete)
+						deleteIt = confirm(config.commands.deleteTiddler.warning.format([tiddlerToDelete]));
+					if (deleteIt) {
+						story.closeTiddler(tiddlerToDelete);
+						store.removeTiddler(tiddlerToDelete);
+					}
+					return false;
+				},'deleteTiddlerButton');
+			}
+		}
 	}
 
 });

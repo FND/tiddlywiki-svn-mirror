@@ -70,6 +70,16 @@ merge(config.macros,{
 			return '<<newSavedTiddler label:+ tag:"'+tags+'">>'; // newSavedTiddler wants tags in one param?
 		},
 
+		getNewButton: function(tags,extraTags) {
+			if (typeof tags != 'string')
+				tags = String.encodeTiddlyLinkList(tags);
+			return '<<newSavedTiddler prompt:"Enter name for new %1:" tooltip:"Create a new %1" label:"+" tag:"%0">>'.format([
+					tags, // newSavedTiddler wants tags in one param?
+					tags.readBracketedList()[0] // just show first tag in prompt and tooltip. it's the important one
+				]); 
+		},
+
+
 		handler: function (place,macroName,params,wikifier,paramString,tiddler) {
 
 			this.noActiveRealmMessage();
