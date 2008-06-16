@@ -20,6 +20,21 @@
 !Code
 ***/
 //{{{
+config.macros.allTags.doc = {
+	desc: "generates a list of all tags used in the current TiddlyWiki document",
+	usage: "<<allTags [excludeTag]>>",
+	params: [
+		{
+			desc: "exclude tags carrying the specified tag",
+			optional: true
+		}
+	],
+	examples: [
+		"<<allTags>>",
+		"<<allTags [[excludeLists]]>>"
+	]
+};
+
 config.macros.gradient.doc = {
 	desc: "generates linear gradients (constructed from HTML elements, i.e. no images required)",
 	usage: "<<gradient [direction] startColor [transitionColor(s)] endColor [snap:startColor [transitionColor(s)] endColor] [>>fill]>>",
@@ -56,9 +71,166 @@ config.macros.gradient.doc = {
 	]
 }
 
+config.macros.list.doc = {
+	desc: "generates a list of tiddlers",
+	usage: "<<list [type] [filterExpression]>>",
+	params: [
+		{
+			desc: "type of list:<br>"
+				+ "* {{{all}}}: " + config.macros.list.all.prompt + "<br>"
+				+ "* {{{missing}}}: " + config.macros.list.missing.prompt + "<br>"
+				+ "* {{{orphans}}}: " + config.macros.list.orphans.prompt + "<br>"
+				+ "* {{{shadowed}}}: " + config.macros.list.shadowed.prompt + "<br>"
+				+ "* {{{touched}}}: " + config.macros.list.touched.prompt + "<br>"
+				+ "* {{{filter}}}: custom-filtered list of tiddlers (requires additional {{{filterExpression}}} parameter)", // DEBUG: page does not exist
+			optional: true,
+			defaultValue: "{{{all}}}"
+		}, {
+			desc: "[[filter expression|http://www.tiddlywiki.org/wiki/Filter_Expressions]] to match (only used for type {{{filter}}})",
+			optional: true
+		}
+	],
+	examples: [
+		"<<list>>",
+		"<<list 'filter' '[tag[systemConfig]]'>>" // correct?
+	]
+};
+
+config.macros.slider.doc = {
+	desc: "displays the contents of another tiddler (\"transclusion\")\n"
+		+ "supports string substitution ({{{$1}}}-{{{$9}}} in the transcluded tiddler)",
+	usage: "<<slider cookie tiddler label tooltip>>",
+	params: [
+		{
+			desc: "cookie name for saving slider state (variable name, usually with {{{chk}}} prefix)",
+			optional: true
+		}, {
+			desc: "name of tiddler to embed",
+			optional: false
+		}, {
+			desc: "button label",
+			optional: false
+		}, {
+			desc: "button tooltip",
+			optional: true
+		}
+	],
+	examples: [
+		"<<slider chkTestSlider [[OptionsPanel]] 'Options' 'Open advanced options'>>"
+	]
+};
+
+config.macros.newTiddler.doc = {
+	desc: "generates a button to create a new tiddler",
+	usage: "<<newTiddler [label:label] [prompt:tooltip] [title:title] [text:text]"
+		+ "[tag:tags] [accessKey:accessKey] [focus:focus] [template:template] [fields:fields]>>",
+	params: [
+		{
+			name: "label",
+			desc: "button label",
+			optional: true,
+			defaultValue: config.macros.newTiddler.label
+		}, {
+			name: "prompt",
+			desc: "button tooltip",
+			optional: true,
+			defaultValue: config.macros.newTiddler.prompt
+		}, {
+			name: "title",
+			desc: "default tiddler title",
+			optional: true,
+			defaultValue: config.macros.newTiddler.title
+		}, {
+			name: "text",
+			desc: "default contents",
+			optional: true
+		}, {
+			name: "tag",
+			desc: "default tag (parameter can be used repeatedly to specify multiple tags)",
+			optional: true
+		}, {
+			name: "accessKey",
+			desc: "single letter to use as access key which triggers the button",
+			optional: true,
+			defaultValue: config.macros.newTiddler.accessKey
+		}, {
+			name: "focus",
+			desc: "input fields to focus by default (e.g. {{{title}}}, {{{text}}} or {{{tags}}})",
+			optional: true
+		}, {
+			name: "template",
+			desc: "template tiddler used for displaying the tiddler",
+			optional: true,
+			defaultValue: "EditTemplate"
+		}, {
+			name: "fields",
+			desc: "custom fields to be assigned to the new tiddler (format: {{{name:value;name:value;...}}})",
+			optional: true
+		}
+	],
+	examples: [
+		"<<newTiddler label:'New Tiddler' text:'Hello world.' tag:'test' "
+			+ "tag:'examples' accessKey:'1' focus:'tags'>>"
+	]
+};
+
+config.macros.newJournal.doc = {
+	desc: "generates a button to create a journal tiddler, using the current time and date as title\n"
+	+ "this macro is largely identical to the NewTiddler macro",
+	usage: "<<newJournal [dateFormat] [label:label] [prompt:tooltip] [text:text]"
+		+ "[tag:tags] [accessKey:accessKey] [focus:focus] [template:template] [fields:fields]>>",
+	params: [
+		{
+			desc: "[[date format|http://www.tiddlywiki.org/wiki/Timestamps]] to use in tiddler title",
+			optional: true,
+			defaultValue: config.macros.timeline.dateFormat
+		}
+		{
+			name: "label",
+			desc: "button label",
+			optional: true,
+			defaultValue: config.macros.newJournal.label
+		}, {
+			name: "prompt",
+			desc: "button tooltip",
+			optional: true,
+			defaultValue: config.macros.newJournal.prompt
+		}, {
+			name: "text",
+			desc: "default contents",
+			optional: true
+		}, {
+			name: "tag",
+			desc: "default tag (parameter can be used repeatedly to specify multiple tags)",
+			optional: true
+		}, {
+			name: "accessKey",
+			desc: "single letter to use as access key which triggers the button",
+			optional: true,
+			defaultValue: config.macros.newJournal.accessKey
+		}, {
+			name: "focus",
+			desc: "input fields to focus by default (e.g. {{{title}}}, {{{text}}} or {{{tags}}})",
+			optional: true
+		}, {
+			name: "template",
+			desc: "template tiddler used for displaying the tiddler",
+			optional: true,
+			defaultValue: "EditTemplate"
+		}, {
+			name: "fields",
+			desc: "custom fields to be assigned to the new tiddler (format: {{{name:value;name:value;...}}})",
+			optional: true
+		}
+	],
+	examples: [
+		"<<newJournal 'YYYY-0MM-0DD 0hh:0mm' tag:'journal'>>"
+	]
+};
+
 config.macros.tabs.doc = {
-	desc: "creates a pane to display one of several tiddlers alternately, using a tabbed interface",
-	usage: "<<tabs cookieName label1 tooltip1 tiddler1 label2 tooltip2 tiddler2 [label3 ...]>>",
+	desc: "generates a pane to display tiddlers using a tabbed interface",
+	usage: "<<tabs cookie label1 tooltip1 tiddler1 label2 tooltip2 tiddler2 [label3 ... tiddler_n]>>",
 	params: [
 		{
 			desc: "cookie name",
@@ -106,8 +278,32 @@ config.macros.tabs.doc = {
 	]
 };
 
+config.macros.tiddler.doc = {
+	desc: "displays the contents of another tiddler (\"transclusion\")\n"
+		+ "supports string substitution ({{{$1}}}-{{{$9}}} in the transcluded tiddler)",
+	usage: "<<tiddler tiddler [with: substitution1 substitution2 ... substitution9]>>",
+	params: [
+		{
+			desc: "name of tiddler to display",
+			optional: false
+		}, {
+			desc: "substitution string to insert instead of {{{$1}}}",
+			optional: true
+		}, {
+			desc: "...",
+			optional: true
+		}, {
+			desc: "substitution string to insert instead of {{{$9}}}",
+			optional: true
+		}
+	],
+	examples: [
+		"<<tiddler [[ViewTemplate]]>>"
+	]
+};
+
 config.macros.timeline.doc = {
-	desc: "creates a list of tiddlers sorted by date",
+	desc: "generates a list of tiddlers sorted by date",
 	usage: "<<timeline [date] [length] [format]>>",
 	params: [
 		{
