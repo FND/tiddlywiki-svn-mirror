@@ -1,5 +1,5 @@
 <div title="Welcome" modifier="PhilWhitehouse" created="200711291952">
-<pre><<browser is IE>>[[LoginToConfabb]]
+<pre><<browser is IE>><<tiddler LoginToConfabb>>
 >>
 Welcome to the Confabb Note Sharer! When you open this document for the first time, the agenda will be downloaded from the server automatically, followed by any notes which your fellow attendees have already shared. Add notes of your own, and these will be shared automatically. The document will check the server occasionally to see if any new notes have been added.
 
