@@ -20,6 +20,8 @@
 !To Do
 * WikiWord handling (escape WikiWords in headings)
 * l10n support (e.g. parameters table's column headings)
+* option for displaying examples' code in monospaced blocks
+* "usage" = "syntax"?
 !Code
 ***/
 //{{{
@@ -48,7 +50,7 @@ config.macros.macroDoc.generateDoc = function(doc, name) {
 			+ "|!Name/Index|!Description|!Optional|!Default Value|h\n";
 		for(var i = 0; i < doc.params.length; i++) {
 			var p = doc.params[i];
-			output += (p.name ? "|" + p.name : "|" + (i + 1))
+			output += "|" + (p.name || i + 1)
 				+ "|" + p.desc
 				+ "|" + (p.optional ? "yes" : "no")
 				+ "|" + (p.defaultValue || "N/A")
