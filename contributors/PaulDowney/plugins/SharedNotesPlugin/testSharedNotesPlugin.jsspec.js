@@ -38,6 +38,12 @@ describe('SharedNotes: Initialisation', {
 	'note tag is "notes" by default' : function() {
 		value_of(config.macros.SharedNotes.tag.note).should_be("notes");
 	}, 
+	'discovered notes tag is "discovered_notes" by default' : function() {
+		value_of(config.macros.SharedNotes.tag.discovered).should_be("discovered_notes");
+	}, 
+	'private notes tag is "private" by default' : function() {
+		value_of(config.macros.SharedNotes.tag.private).should_be("private");
+	}, 
 	'not busy by default' : function() {
 		value_of(config.macros.SharedNotes.busy).should_be(false);
 	}

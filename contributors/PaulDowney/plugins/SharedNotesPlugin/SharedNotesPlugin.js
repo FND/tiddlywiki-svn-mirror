@@ -40,8 +40,9 @@ config.options.chkSharedNotesGetEnabled = true;
 config.macros.SharedNotes = {
 
 	tag: { 
-		note: "notes",
-		discovered: "discovered_notes"
+		note: "notes",			// notes made by this user
+		private: "private",		// notes made by this user not to be shared
+		discovered: "discovered_notes"	// notes obtained from other users
 	},
 	busy: false,
 	messages: {
@@ -87,7 +88,7 @@ config.macros.SharedNotes = {
 	putNotesCall: function(){
 		log("putNotesCall");
 		var me = config.macros.SharedNotes;
-		var tiddlers = me.getSharedNoteTiddlers();
+		var tiddlers = me.listSharedNoteTiddlers();
 		if (!tiddlers){
 			log("putNotesCall: no tiddlers to put");
 			return false;
@@ -114,12 +115,12 @@ config.macros.SharedNotes = {
 		return true;
 	},
 
-	getSharedNoteTiddlers: function(){
+	listSharedNoteTiddlers: function(){
 		var me = config.macros.SharedNotes;
 		var putRequired = false;
 		var tiddlers = [];
 		store.forEachTiddler(function(title,t){
-			if(t.isTagged(me.tag.note)){
+			if((!t.isTagged(me.tag.private))&&t.isTagged(me.tag.note)){
 				tiddlers.push(t);
 				if(t.modified > me.lasttime){
 					putRequired = true;

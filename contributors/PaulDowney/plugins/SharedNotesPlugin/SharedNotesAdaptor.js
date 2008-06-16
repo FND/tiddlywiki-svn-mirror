@@ -8,8 +8,6 @@
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.2.6|
 
-depends on SharedNotesFeedPlugin for parser
-
 ***/
 
 //{{{
