@@ -41,7 +41,7 @@ config.macros.SharedNotes = {
 
 	tag: { 
 		note: "notes",			// notes made by this user
-		private: "private",		// notes made by this user not to be shared
+		privated: "private",		// notes made by this user not to be shared
 		discovered: "discovered_notes"	// notes obtained from other users
 	},
 	busy: false,
@@ -120,7 +120,7 @@ config.macros.SharedNotes = {
 		var putRequired = false;
 		var tiddlers = [];
 		store.forEachTiddler(function(title,t){
-			if((!t.isTagged(me.tag.private))&&t.isTagged(me.tag.note)){
+			if((!t.isTagged(me.tag.privated))&&t.isTagged(me.tag.note)){
 				tiddlers.push(t);
 				log("testing:",t.title,t.created,t.modified,me.lasttime);
 				if(t.modified > me.lasttime){
@@ -187,30 +187,6 @@ config.macros.SharedNotes = {
 
 	tagNoteAdaptorCallback: function(context,userParams){
 		log("tagNoteAdaptorCallback",context,userParams);
-
-		var me = config.macros.SharedNotes;
-		var tiddler = context.tiddler;
-
-		// override claimed modifier which may have been spoofed
-		log("context.userParams:", userParams);
-		if (context.userParams){
-			tiddler.modifier = context.userParams;
-		}
-
-		displayMessage("importing notes from " + tiddler.modifier);
-
-		// remove special tags from injected notes
-		tiddler.tags.remove(me.tag.systemConfig);
-		tiddler.tags.remove(me.tag.ticker);
-
-		if(tiddler.modifier != config.options.txtSharedNotesUserName){
-			tiddler.tags.remove(me.tag.note);
-			tiddler.tags.pushUnique(me.tag.discovered);
-		} else {
-			tiddler.tags.pushUnique(me.tag.note);
-			tiddler.tags.remove(me.tag.discovered);
-		}
-		tiddler.fields.rr_session_id = tiddler.title.replace(/ from.*$/,"");
 	},
 
 	killMyNotes: function(){

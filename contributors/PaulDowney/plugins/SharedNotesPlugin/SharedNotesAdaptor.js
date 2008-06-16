@@ -24,12 +24,13 @@ function SharedNotesAdaptor()
 /*
  *  parse SharedNotes RSS feed into tiddlers
  */
-SharedNotesAdaptor.parse = function(responseText)
+SharedNotesAdaptor.parse = function(responseText,modifier)
 {
+	log("parsing RSS from ",modifier);
 	var tiddlers = [];
 	var r =  getXML(responseText);
 	if (!r){
-		log("no RSS XML to parse");
+		log("no RSS XML to parse for ",modifier);
 		return tiddlers;
 	}
 
@@ -38,11 +39,17 @@ SharedNotesAdaptor.parse = function(responseText)
 		var node = t[i];
 		var title = getFirstElementByTagNameValue(node, "title","");
 		var text = getFirstElementByTagNameValue(node, "wikitext","");
-		var modifier = getFirstElementByTagNameValue(node, "author",undefined);
+		if(!modifier){
+			modifier = getFirstElementByTagNameValue(node, "author",undefined);
+		
+		}
 		var pubDate = getFirstElementByTagNameValue(node, "pubDate",undefined);
-		var fields = undefined;
 
-		var tags = [];
+		var tags = (modifier == config.options.txtSharedNotesUserName)?"notes":"discovered_notes";
+
+		// title is "{session_id} from {user}"
+		var fields = {};
+		fields.rr_session_id = title.replace(/ from.*$/,"");
 
 		var modified = new Date(pubDate);
 		var created = modified;
@@ -50,9 +57,11 @@ SharedNotesAdaptor.parse = function(responseText)
 		var tiddler = new Tiddler();
 		tiddler.assign(title,text,modifier,modified,tags,created,fields);
 		tiddlers.push(tiddler);
+		log("tiddler:",tiddler);
 	}
 	return tiddlers;
 };
+
 
 
 SharedNotesAdaptor.serverType = 'sharednotes';
@@ -100,12 +109,13 @@ SharedNotesAdaptor.prototype.openHost = function(host,context,userParams,callbac
 
 SharedNotesAdaptor.loadTiddlyWikiCallback = function(status,context,responseText,url,xhr)
 {
+	log("Context",context);
 	context.status = status;
 	context.count = 0;
 	if(!status) {
 		context.statusText = "Error getting notes file";
 	} else {
-		var tiddlers = SharedNotesAdaptor.parse(responseText);
+		var tiddlers = SharedNotesAdaptor.parse(responseText,context.userCallbackParams);
 		context.adaptor.store = new TiddlyWiki();
 		for(var i=0;i<tiddlers.length;i++) {
 			context.adaptor.store.addTiddler(tiddlers[i]);		
