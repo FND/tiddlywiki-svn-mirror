@@ -22,6 +22,8 @@ version.extensions.ConfabbLoginPlugin = {installed:true};
  */
 config.macros.ConfabbLogin = {
 
+	uri: "http://confabb.com/login",
+
 	login: function(){
 		var callback = function(status,params,text,url,xhr){
 			config.options.txtConfabbSessionCookie = xhr.getResponseHeader('set-cookie');
@@ -30,12 +32,12 @@ config.macros.ConfabbLogin = {
 				me.callback();
 			}
 		};
+		var me = config.macros.ConfabbLogin;
 		var username = config.options.txtSharedNotesUserName;
 		var password = config.options.pasSharedNotesPassword;
 
-		var url = "http://staging.confabb.com/login";
 		data = "login=" + username + "&password=" + password + "&commit=Log+In";
-		doHttp('POST',url,data,null,null,null,callback,null,{},true);
+		doHttp('POST',me.uri,data,null,null,null,callback,null,{},true);
 		return false;
 	},
 

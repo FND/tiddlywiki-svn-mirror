@@ -19,6 +19,7 @@ config.macros.RippleRapEdition = {
 		this.installAgenda(uri);
 		this.installSharedNotes(uri);
 		this.installEnjoyedNotes(uri);
+		this.installLogin(uri);
 	},
 
 	installAgenda: function(uri) {
@@ -46,6 +47,14 @@ config.macros.RippleRapEdition = {
 			notesuri = uri + "notes/opml";
 		}
 		config.macros.SharedNotes.feedListManager.add(notesuri,'confabb notes','opml');
+	},
+
+	installLogin: function(uri) {
+		if(0==uri.indexOf("http://staging")){
+			config.macros.ConfabbLogin.uri = "http://staging.confabb.com/login";
+		} else {
+			config.macros.ConfabbLogin.uri = "http://confabb.com/login";
+		}
 	}
 };
 
