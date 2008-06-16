@@ -1,0 +1,8 @@
+title=LogMessagePlugin Tests
+recipe: ../../../../core/tests/html/testContributors.recipe
+
+recipe: LogMessagePlugin.recipe
+
+jsspecsrc=<script src="../../../../core/tests/js/tiddlywiki.js" type="text/javascript"  charset="utf-8"></script>
+jsspecsrc=<script src="../../../../core/tests/js/mock.js" type="text/javascript"  charset="utf-8"></script>
+jsspecsrc=<script src="testLogMessagePlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>

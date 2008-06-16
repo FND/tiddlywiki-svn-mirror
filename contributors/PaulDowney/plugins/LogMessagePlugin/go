@@ -1,0 +1,1 @@
+cook testLogMessagePlugin && ff2 testLogMessagePlugin.html

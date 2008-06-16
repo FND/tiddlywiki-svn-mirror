@@ -16,8 +16,8 @@ Options:
 ***/
 
 //{{{
-if(!version.extensions.LogMessage){
-version.extensions.LogMessage = {installed:true};
+if(!version.extensions.LogMessagePlugin){
+version.extensions.LogMessagePlugin = {installed:true};
 
 	config.optionsDesc.chkLogMessageEnabled = "logging of messages enabled";
 	config.options.chkLogMessageEnabled = false;
