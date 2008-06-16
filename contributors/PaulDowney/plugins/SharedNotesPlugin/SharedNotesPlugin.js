@@ -77,7 +77,7 @@ config.macros.SharedNotes = {
 			return false;
 		}
 		me.busy = true;
-		me.thistime = Date();
+		me.thistime = new Date();
 		if (!me.putNotesCall()){
 			me.busy = false;
 			return false;
@@ -122,6 +122,7 @@ config.macros.SharedNotes = {
 		store.forEachTiddler(function(title,t){
 			if((!t.isTagged(me.tag.private))&&t.isTagged(me.tag.note)){
 				tiddlers.push(t);
+				log("testing:",t.title,t.created,t.modified,me.lasttime);
 				if(t.modified > me.lasttime){
 					putRequired = true;
 				}
@@ -155,6 +156,8 @@ config.macros.SharedNotes = {
 
 	populateNotesCallback: function(me){
 		me.feedListManager.prioritise(config.options.txtSharedNotesUserName);
+		me.getNotes();
+		me.getNotes();
 		me.getNotes();
 		me.getNotes();
 		me.getNotes();

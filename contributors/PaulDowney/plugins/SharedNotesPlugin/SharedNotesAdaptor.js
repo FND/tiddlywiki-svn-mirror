@@ -106,11 +106,9 @@ SharedNotesAdaptor.loadTiddlyWikiCallback = function(status,context,responseText
 		context.statusText = "Error getting notes file";
 	} else {
 		var tiddlers = SharedNotesAdaptor.parse(responseText);
-		if(tiddlers.length){
-			context.adaptor.store = new TiddlyWiki();
-			for(var i=0;i<tiddlers.length;i++) {
-				context.adaptor.store.addTiddler(tiddlers[i]);		
-			}
+		context.adaptor.store = new TiddlyWiki();
+		for(var i=0;i<tiddlers.length;i++) {
+			context.adaptor.store.addTiddler(tiddlers[i]);		
 		}
 	}
 	if (context.complete)
