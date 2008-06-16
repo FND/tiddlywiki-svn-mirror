@@ -2,18 +2,19 @@
 |''Name:''|SharedNotesAdaptor|
 |''Description:''|Adaptor to parse SharedNotes RSS 2.0 feeds|
 |''Author''|Paul Downey|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/adaptors/SharedNotesAdaptor.js |
+|''Source:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/SharedNotes|
 |''Version:''|0.1.7|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.2.6|
 
+depends on SharedNotesFeedPlugin for parser
 
 ***/
 
 //{{{
-if(!version.extensions.SharedNotesAdaptor) {
-version.extensions.SharedNotesAdaptor = {installed:true};
+if(!version.extensions.SharedNotesAdaptorPlugin) {
+version.extensions.SharedNotesAdaptorPlugin = {installed:true};
 
 function SharedNotesAdaptor()
 {
@@ -22,127 +23,44 @@ function SharedNotesAdaptor()
 	return this;
 }
 
-SharedNotesAdaptor.NotLoadedError = "RSS file has not been loaded";
-SharedNotesAdaptor.serverType = 'sharednotes';
-
 /*
- *  parse SharedNotes RSS 2.0 feed
+ *  parse SharedNotes RSS feed into tiddlers
  */
-SharedNotesAdaptor.rssToTiddlers = function(rss,useRawDescription)
+SharedNotesAdaptor.parse = function(responseText)
 {
 	var tiddlers = [];
-	rss = rss.replace(/\r+/mg,"");
+	var r =  getXML(responseText);
+	if (!r){
+		log("no RSS XML to parse");
+		return tiddlers;
+	}
 
-	var regex_item = /<item>(.|\n)*?<\/item>/mg;
-	var regex_title = /<title>(.|\n)*?<\/title>/mg;
-	var regex_guid = /<guid>(.|\n)*?<\/guid>/mg;
-	var regex_desc = /<description>(.|\n)*?<\/description>/mg;
-	var regex_wiki = /<wikitext>(.|\n)*?<\/wikitext>/mg;
-	var regex_content = /<content:encoded>(.|\n)*?<\/content:encoded>/mg;
-	var regex_category = /<category>(.|\n)*?<\/category>/mg;
-	var regex_link = /<link>(\S|\n)*?<\/link>/mg;
-	var regex_pubDate = /<pubDate>(.|\n)*?<\/pubDate>/mg;
-	var regex_author = /<author>(.|\n)*?<\/author>/mg;
-	var regex_source = /<source([^>]*)>([^<]*)<\/source>/m;
-	var item_match = rss.match(regex_item);
-	var length = item_match ? item_match.length : 0;
+	t = r.getElementsByTagName('item');
+	for(i=0;i<t.length;i++) {
+		var node = t[i];
+		var title = getFirstElementByTagNameValue(node, "title","");
+		var text = getFirstElementByTagNameValue(node, "wikitext","");
+		var modifier = getFirstElementByTagNameValue(node, "author",undefined);
+		var pubDate = getFirstElementByTagNameValue(node, "pubDate",undefined);
+		var fields = undefined;
 
-	for(var i=0;i<length;i++) {
-		var item = {};
-		var title = item_match[i].match(regex_title);
-		if(title) {
-			item.title = title[0].replace(/^<title>|<\/title>$/mg,"");
-		} else {
-			title = item_match[i].match(regex_guid);
+		var tags = [];
 
-		}
+		var modified = new Date(pubDate);
+		var created = modified;
 
-		item.title = item.title.htmlDecode();
-
-		var t = new Tiddler(item.title);
-
-		var wikitext = item_match[i].match(regex_wiki);
-		if(wikitext) {
-			item.text = wikitext[0].replace(/^<wikitext>|<\/wikitext>$/mg,"");
-			useRawDescription = true;
-		} else {
-			// use the description as the tiddler text
-			var desc = item_match[i].match(regex_desc);
-			if(desc) {
-				item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
-			}
-			if(item.text == "") {
-				var content = item_match[i].match(regex_content);
-				if(content) {
-					item.text = content[0].replace(/^<content:encoded>|<\/content:encoded>$/mg,"");
-				}
-			}
-		}
-		// now decode and process the text if it exists
-		if(item.text) {
-			item.text = item.text.htmlDecode();
-			item.text = useRawDescription ? item.text : "<html>" + item.text.renderHtmlText() + "</html>";
-		} else {
-			item.text = "";
-		}
-		t.text = item.text;
-
-		// grab the categories
-		var category = item_match[i].match(regex_category);
-		if(category) {
-			item.categories = [];
-			for(var j=0;j<category.length;j++) {
-				item.categories[j] = category[j].replace(/^<category>|<\/category>$/mg,"");
-			}
-			t.tags = item.categories;
-		}
-
-		// grab the link and put it in a custom field (assumes this is sensible)
-		// regex_link assumes you can never have whitespace in a link
-		var link = item_match[i].match(regex_link);
-		if(link) {
-			item.link = link[0].replace(/^<link>|<\/link>$/mg,"");
-		} else {
-			item.link = "#";
-		}
-		t.fields["linktooriginal"] = item.link;
-
-		// grab date created
-		var pubDate = item_match[i].match(regex_pubDate);
-		if(pubDate) {
-			pubDate = pubDate[0].replace(/^<pubDate>|<\/pubDate>$/mg,"");
-			item.pubDate = new Date(pubDate);
-		} else {
-			item.pubDate = new Date();
-		}
-		t.created = item.pubDate;
-
-		// grab author
-		var author = item_match[i].match(regex_author);
-		if(author) {
-			author = author[0].replace(/^<author>|<\/author>$/mg,"");
-			item.author = author;
-		} else {
-			item.author = "anonymous";
-		}
-		t.modifier = item.author;
-		
-		// grab source url and name
-		source = item_match[i].match(regex_source);
-		if (source) {
-			source_url = source[1].replace(/ url="|"$/mg,"");
-			source_name = source[2];
-			t.fields.source_url = source_url;
-			t.fields.source_name = source_name;
-		} else {
-			// No source field is ok
-		}
-		
-		tiddlers.push(t);
+		var tiddler = new Tiddler();
+		tiddler.assign(title,text,modifier,modified,tags,created,fields);
+		tiddlers.push(tiddler);
 	}
 	return tiddlers;
 };
 
+
+SharedNotesAdaptor.serverType = 'sharednotes';
+SharedNotesAdaptor.serverParsingErrorMessage = "Error parsing result from server";
+SharedNotesAdaptor.errorInFunctionMessage = "Error in function SharedNotesAdaptor.%0";
+SharedNotesAdaptor.emptyFeed = "";
 
 SharedNotesAdaptor.prototype.setContext = function(context,userParams,callback)
 {
@@ -167,29 +85,38 @@ SharedNotesAdaptor.fullHostName = function(host)
 	return host;
 };
 
+SharedNotesAdaptor.minHostName = function(host)
+{
+	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
+};
+
 SharedNotesAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
-	this.host = SharedNotesAdaptor.fullHostName(host);
+	this.host = host;
 	context = this.setContext(context,userParams,callback);
 	context.status = true;
 	if(callback)
-		window.setTimeout(function() {callback(context,userParams);},10);
+		window.setTimeout(function() {context.callback(context,userParams);},10);
 	return true;
 };
 
-SharedNotesAdaptor.loadRssCallback = function(status,context,responseText,url,xhr)
+SharedNotesAdaptor.loadTiddlyWikiCallback = function(status,context,responseText,url,xhr)
 {
 	context.status = status;
+	context.count = 0;
 	if(!status) {
-		context.statusText = "Error reading RSS file:" + context.host;
+		context.statusText = "Error getting notes file";
 	} else {
-		try {
-			context.tiddlers = SharedNotesAdaptor.rssToTiddlers(responseText,context.rssUseRawDescription);
-		} catch (ex) {
-			displayMessage("Error parsing RSS:"+context.host);
+		var tiddlers = SharedNotesAdaptor.parse(responseText);
+		if(tiddlers.length){
+			context.adaptor.store = new TiddlyWiki();
+			for(var i=0;i<tiddlers.length;i++) {
+				context.adaptor.store.addTiddler(tiddlers[i]);		
+			}
 		}
 	}
-	context.complete(context,context.userParams);
+	if (context.complete)
+	    context.complete(context,context.userParams);
 };
 
 SharedNotesAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
@@ -218,10 +145,10 @@ SharedNotesAdaptor.prototype.getTiddlerList = function(context,userParams,callba
 	if(!context.filter)
 		context.filter = filter;
 	context.complete = SharedNotesAdaptor.getTiddlerListComplete;
-	if(context.tiddlers) {
+	if(this.store) {
 		var ret = context.complete(context,context.userParams);
 	} else {
-		ret = loadRemoteFile(context.host,SharedNotesAdaptor.loadRssCallback,context);
+		ret = doHttp('GET',context.host,null,null,null,null,SharedNotesAdaptor.loadTiddlyWikiCallback,context,{},true);
 		if(typeof ret != "string")
 			ret = true;
 	}
@@ -230,9 +157,23 @@ SharedNotesAdaptor.prototype.getTiddlerList = function(context,userParams,callba
 
 SharedNotesAdaptor.getTiddlerListComplete = function(context,userParams)
 {
-	context.status = true;
-	if(context.callback)
+	if(context.status) {
+		if(context.filter) {
+			context.tiddlers = context.adaptor.store.filterTiddlers(context.filter);
+		} else {
+			context.tiddlers = [];
+			context.adaptor.store.forEachTiddler(function(title,tiddler) {context.tiddlers.push(tiddler);});
+		}
+		for(var i=0; i<context.tiddlers.length; i++) {
+			context.tiddlers[i].fields['server.type'] = SharedNotesAdaptor.serverType;
+			context.tiddlers[i].fields['server.host'] = SharedNotesAdaptor.minHostName(context.host);
+			context.tiddlers[i].fields['server.page.revision'] = context.tiddlers[i].modified.convertToYYYYMMDDHHMM();
+		}
+		context.status = true;
+	}
+	if(context.callback) {
 		window.setTimeout(function() {context.callback(context,userParams);},10);
+	}
 	return true;
 };
 
@@ -248,26 +189,19 @@ SharedNotesAdaptor.prototype.getTiddler = function(title,context,userParams,call
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
 	context.complete = SharedNotesAdaptor.getTiddlerComplete;
-	return context.tiddlers ? 
+	return context.adaptor.store ?
 		context.complete(context,context.userParams) :
-		loadRemoteFile(context.host,SharedNotesAdaptor.loadRssCallback,context);
+		alert(context.host); //loadRemoteFile(context.host,SharedNotesAdaptor.loadTiddlyWikiCallback,context);
 };
 
 SharedNotesAdaptor.getTiddlerComplete = function(context,userParams)
 {
-	for(var i=0; i<context.tiddlers.length; i++) {
-		if(context.tiddlers[i].title == context.title) {
-			context.tiddler = context.tiddlers[i];
-			break;
-		}
-	}
-	if(context.tiddler) {
-		context.status = true;
-	} else {
-		context.status = false;
-		context.statusText = "error retrieving tiddler: " + title;
-		return context.statusText;
-	}
+	var t = context.adaptor.store.fetchTiddler(context.title);
+	t.fields['server.type'] = SharedNotesAdaptor.serverType;
+	t.fields['server.host'] = SharedNotesAdaptor.minHostName(context.host);
+	t.fields['server.page.revision'] = t.modified.convertToYYYYMMDDHHMM();
+	context.tiddler = t;
+	context.status = true;
 	if(context.allowSynchronous) {
 		context.isSynchronous = true;
 		context.callback(context,userParams);
@@ -279,6 +213,8 @@ SharedNotesAdaptor.getTiddlerComplete = function(context,userParams)
 
 SharedNotesAdaptor.prototype.close = function()
 {
+	delete this.store;
+	this.store = null;
 };
 
 config.adaptors[SharedNotesAdaptor.serverType] = SharedNotesAdaptor;

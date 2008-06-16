@@ -1,6 +1,6 @@
 // <![CDATA[
 
-function __main() {
+function __mainConfabbAgendaAdaptor() {
 		version.extensions = {};
 		tests_mock.before('refreshDisplay');
 		tests_mock.before('saveTest', function() { tests_mock.before('store.notifyAll'); });
@@ -17,7 +17,7 @@ function __main() {
 describe('ConfabbAgendaAdaptorPlugin Adaptor Initialization', {
 
         before_each : function() {
-		__main();
+		__mainConfabbAgendaAdaptor();
         },
 
 	'Adaptor is present' : function() {
@@ -46,7 +46,7 @@ describe('ConfabbAgendaAdaptorPlugin Adaptor Initialization', {
 
 describe('ConfabbAgendaAdaptorPlugin false status', {
         before_each : function() {
-		__main();
+		__mainConfabbAgendaAdaptor();
 		__url = "http://example.com/confabb/conference";
 		__xhr = {statusText:"something is technically wrong"};
 		__context = {};

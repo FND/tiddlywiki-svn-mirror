@@ -1,16 +1,23 @@
 // <![CDATA[
 
 function __main() {
-	version.extensions.SharedNotesPlugin = undefined;
         store = new TiddlyWiki();
         loadShadowTiddlers();
+        formatter = new Formatter(config.formatters);
         store.loadFromDiv("storeArea","store",true);
         loadPlugins();
+}
+
+function __clearSharedNotesPlugin() {
+	version.extensions.SharedNotesPlugin = undefined;
+	__xml = undefined;
+	__text = undefined;
 }
 
 describe('SharedNotes: Initialisation', {
 
         before_each : function() {
+		__clearSharedNotesPlugin();
 		__main();
         },
 	'is installed' : function() {
@@ -38,6 +45,7 @@ describe('SharedNotes: Initialisation', {
 
 describe('SharedNotes: putNotes with no tiddlers', {
         before_each : function() {
+		__clearSharedNotesPlugin();
 		__main();
 		tests_mock.save('config.options.chkSharedNotesEnabled');
 		tests_mock.save('config.options.txtSharedUserName');
@@ -74,8 +82,7 @@ describe('SharedNotes: putNotes with no tiddlers', {
 		var o = tests_mock.after('config.macros.SharedNotes.putNotesCall');
 		value_of(o.called).should_be(0);
 		value_of(config.macros.SharedNotes.busy).should_be(false);
-	},
-
+	}
 });
 
 // ]]>

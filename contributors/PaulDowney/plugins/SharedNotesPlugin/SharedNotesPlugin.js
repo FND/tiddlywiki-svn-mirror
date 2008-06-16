@@ -2,7 +2,7 @@
 |''Name:''|SharedNotesPlugin|
 |''Description:''|Share Tiddlers as a RSS feed|
 |''Author:''|Osmosoft|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/plugins/SharedNotesPlugin.js |
+|''Source:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/SharedNotes|
 |''Version:''|0.0.16|
 |''Date:''|Nov 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -58,7 +58,6 @@ config.macros.SharedNotes = {
 	},
 	thistime: 0,
 	lasttime: 0,
-	serialize: config.macros.GenerateSharedNotesFeed.serialize,
 	adaptor: '',
 
 	putNotes: function(){
@@ -107,8 +106,8 @@ config.macros.SharedNotes = {
 			displayMessage(me.messages.savedOK);
 			me.lasttime = me.thistime;
 		};
-		var rss = me.serialize(tiddlers,{modifier:config.options.txtSharedNotesUserName});
-		if (!adaptor.putRss(rss,callback,me)){
+		var text = config.macros.SharedNotesFeed.serialize(tiddlers,{modifier:config.options.txtSharedNotesUserName});
+		if (!adaptor.putRss(text,callback,me)){
 			return false;
 		}
 		displayMessage(me.messages.savingNotes);
@@ -188,16 +187,24 @@ config.macros.SharedNotes = {
 		var me = config.macros.SharedNotes;
 		var tiddler = context.tiddler;
 
+		// override claimed modifier which may have been spoofed
 		log("context.userParams:", userParams);
-
 		if (context.userParams){
 			tiddler.modifier = context.userParams;
 		}
 
 		displayMessage("importing notes from " + tiddler.modifier);
+
+		// remove special tags from injected notes
+		tiddler.tags.remove(me.tag.systemConfig);
+		tiddler.tags.remove(me.tag.ticker);
+
 		if(tiddler.modifier != config.options.txtSharedNotesUserName){
 			tiddler.tags.remove(me.tag.note);
 			tiddler.tags.pushUnique(me.tag.discovered);
+		} else {
+			tiddler.tags.pushUnique(me.tag.note);
+			tiddler.tags.remove(me.tag.discovered);
 		}
 		tiddler.fields.rr_session_id = tiddler.title.replace(/ from.*$/,"");
 	},

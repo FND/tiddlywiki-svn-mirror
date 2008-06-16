@@ -7,4 +7,6 @@ jsspecsrc=<script src="../../../../core/tests/js/tiddlywiki.js" type="text/javas
 jsspecsrc=<script src="../../../../core/tests/js/mock.js" type="text/javascript"  charset="utf-8"></script>
 jsspecsrc=<script src="../../../../core/tests/js/xml.js" type="text/javascript" charset="utf-8"></script>
 
-jsspecsrc=<script src="testSharedNotesPlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>
+jsspecsrc=<script src="testSharedNotesFeed.jsspec.js" type="text/javascript" charset="utf-8"></script>
+jsspecsrc=<script src="testSharedNotesAdaptor.jsspec.js" type="text/javascript" charset="utf-8"></script>
+#jsspecsrc=<script src="testSharedNotesPlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>

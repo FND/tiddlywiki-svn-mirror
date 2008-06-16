@@ -1,0 +1,23 @@
+title=Confabb Tests
+recipe: ../../../../../core/tests/html/testContributors2.recipe
+
+recipe: ../../../../../contributors/PaulDowney/plugins/YYYYMMDDHHMMSSMMMPlugin/YYYYMMDDHHMMSSMMMPlugin.recipe
+recipe: ../../../../../contributors/PaulDowney/plugins/LogMessagePlugin/LogMessagePlugin.recipe
+recipe: ../../../../../contributors/PaulDowney/plugins/TickerPlugin/TickerPlugin.recipe
+recipe: ../../../../../contributors/PaulDowney/plugins/SharedNotesPlugin/SharedNotesPlugin.recipe
+recipe: ../adaptors/ConfabbAgendaAdaptorPlugin.recipe
+
+jsspecsrc=<script src="../../../../../core/tests/js/tiddlywiki.js" type="text/javascript"  charset="utf-8"></script>
+jsspecsrc=<script src="../../../../../core/tests/js/mock.js" type="text/javascript"  charset="utf-8"></script>
+jsspecsrc=<script src="../../../../../core/tests/js/xml.js" type="text/javascript"  charset="utf-8"></script>
+
+jsspecsrc=<script src="../../../../../contributors/PaulDowney/plugins/YYYYMMDDHHMMSSMMMPlugin/testYYYYMMDDHHMMSSMMMPlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>
+jsspecsrc=<script src="../../../../../contributors/PaulDowney/plugins/LogMessagePlugin/testLogMessagePlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>
+jsspecsrc=<script src="../../../../../contributors/PaulDowney/plugins/TickerPlugin/testTickerPlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>
+
+jsspecsrc=<script src="../../../../../contributors/PaulDowney/plugins/SharedNotesPlugin/testSharedNotesFeed.jsspec.js" type="text/javascript" charset="utf-8"></script>
+jsspecsrc=<script src="../../../../../contributors/PaulDowney/plugins/SharedNotesPlugin/testSharedNotesAdaptor.jsspec.js" type="text/javascript" charset="utf-8"></script>
+jsspecsrc=<script src="../../../../../contributors/PaulDowney/plugins/SharedNotesPlugin/testSharedNotesPlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>
+
+jsspecsrc=<script src="../adaptors/testConfabbAgendaAdaptorPlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>
+

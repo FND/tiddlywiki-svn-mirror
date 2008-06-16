@@ -4,4 +4,4 @@ recipe: TickerPlugin.recipe
 
 jsspecsrc=<script src="../../../../core/tests/js/tiddlywiki.js" type="text/javascript"  charset="utf-8"></script>
 jsspecsrc=<script src="../../../../core/tests/js/mock.js" type="text/javascript"  charset="utf-8"></script>
-jsspecsrc=<script src="TickerPlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>
+jsspecsrc=<script src="testTickerPlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>
