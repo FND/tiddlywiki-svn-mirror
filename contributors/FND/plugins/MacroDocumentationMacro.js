@@ -48,7 +48,7 @@ config.macros.macroDoc.generateDoc = function(doc, name) {
 			+ "|!Name/Index|!Description|!Optional|!Default Value|h\n";
 		for(var i = 0; i < doc.params.length; i++) {
 			var p = doc.params[i];
-			output += (p.named ? "|" + p.name : "|" + (i + 1))
+			output += (p.name ? "|" + p.name : "|" + (i + 1))
 				+ "|" + p.desc
 				+ "|" + (p.optional ? "yes" : "no")
 				+ "|" + (p.defaultValue || "N/A")
@@ -67,7 +67,6 @@ config.macros.macroDoc.doc = {
 	usage: "<<macroDoc [macroName]>>",
 	params: [
 		{
-			named: false,
 			desc: "name of the macro to document",
 			optional: true,
 			defaultValue: null

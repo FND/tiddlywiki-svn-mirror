@@ -38,12 +38,10 @@ config.macros.gradient.doc = {
 			desc: "ending color",
 			optional: false
 		}, {
-			named: true,
 			name: "snap",
 			desc: "extended gradient (space-separated list of additional colors)", // DEBUG: clarify
 			optional: true
 		}, {
-			named: true,
 			name: ">>",
 			desc: "contents (can be preceded by inline-CSS)", // DEBUG: clarify
 			optional: true
