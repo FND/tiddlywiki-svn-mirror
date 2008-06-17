@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ImportWikispacesMessagesPlugin.js |
-|''Version:''|0.0.6|
+|''Version:''|0.0.7|
 |''Date:''|May 13, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -66,10 +66,10 @@ config.macros.importWikispacesMessages.onClick = function(e)
 //#displayMessage("cf:"+customFields)
 	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
 	var title = this.getAttribute('page');
-	config.macros.importWikispacesMessages.getTopicList(title,config.macros.importWikispacesMessages.createContext(fields));
+	config.macros.importWikispacesMessages.getTopicList(title,config.macros.importWikispacesMessages.createContext(title,fields));
 };
 
-config.macros.importWikispacesMessages.createContext = function(fields,filter)
+config.macros.importWikispacesMessages.createContext = function(title,fields)
 {
 	var serverType = fields['server.type'];
 	if(!serverType)
@@ -81,6 +81,7 @@ config.macros.importWikispacesMessages.createContext = function(fields,filter)
 		return false;
 	if(adaptor) {
 		var context = {};
+		context.title = title;
 		context.host = fields['server.host'];
 		context.workspace = fields['server.workspace'];
 		context.filter = filter;
@@ -90,12 +91,11 @@ config.macros.importWikispacesMessages.createContext = function(fields,filter)
 	return false;
 };
 
-config.macros.importWikispacesMessages.getTopicList = function(title,context)
+config.macros.importWikispacesMessages.getTopicList = function(context)
 {
-//#console.log("config.macros.importWikispacesMessages.getTopicList:"+title);
-//#console.log(context);
+//#console.log("config.macros.importWikispacesMessages.getTopicList:"+context.tiddler.title);
 	if(context) {
-		context.title = title;
+		context.title = context.tiddler.title;
 		context.adaptor.openHost(context.host,context);
 		context.adaptor.openWorkspace(context.workspace,context,null,config.macros.importWikispacesMessages.openWorkspaceCallback);
 		return true;
@@ -105,6 +105,7 @@ config.macros.importWikispacesMessages.getTopicList = function(title,context)
 
 config.macros.importWikispacesMessages.openWorkspaceCallback = function(context,userParams)
 {
+//#console.log("config.macros.importWikispacesMessages.openWorkspaceCallback:"+context.status);
 	if(context.status) {
 		context.adaptor.getTopicList(context.title,context,null,config.macros.importWikispacesMessages.getTopicListCallback);
 		return true;
@@ -117,7 +118,7 @@ config.macros.importWikispacesMessages.getTopicListCallback = function(context,u
 //#console.log("config.macros.importWikispacesMessages.getTopicListCallback:"+context.status);
 	if(context.status) {
 		var tiddlers = context.topics;
-		if(tiddlers.length==0) {
+		if(!tiddlers || tiddlers.length==0) {
 			displayMessage(config.macros.importWikispacesMessages.noitems.format([context.title]));
 			return;
 		}
@@ -175,7 +176,7 @@ config.commands.getDiscussion.handler = function(event,src,title)
 		fields = String(document.getElementById(story.idPrefix + title).getAttribute("tiddlyFields"));
 		fields = fields ? fields.decodeHashMap() : null;
 	}
-	config.macros.importWikispacesMessages.getTopicList(title,config.macros.importWikispacesMessages.createContext(fields));
+	config.macros.importWikispacesMessages.getTopicList(config.macros.importWikispacesMessages.createContext(title,fields));
 	return true;
 };
 
