@@ -3,12 +3,13 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ImportWikispacesMessagesPlugin.js |
-|''Version:''|0.0.7|
+|''Version:''|0.0.8|
 |''Date:''|May 13, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.2.0|
 
+|''Import discussion with tiddlers''|<<option chkImportWikispacesDiscussion>>|
 
 ***/
 
@@ -17,6 +18,8 @@
 if(!version.extensions.ImportWikispacesMessagesPlugin) {
 version.extensions.ImportWikispacesMessagesPlugin = {installed:true};
 
+if(config.options.chkImportWikispacesDiscussion == undefined)
+	{config.options.chkImportWikispacesDiscussion = false;}
 
 config.macros.importWikispacesMessages = {};
 merge(config.macros.importWikispacesMessages,{
@@ -179,6 +182,27 @@ config.commands.getDiscussion.handler = function(event,src,title)
 	config.macros.importWikispacesMessages.getTopicList(config.macros.importWikispacesMessages.createContext(title,fields));
 	return true;
 };
+
+config.macros.importWorkspace.getTiddlersForAllFeeds = function()
+{
+	var tiddlers = store.getTaggedTiddlers('systemServer');
+	var userCallback = config.options.chkImportWikispacesDiscussion ? config.macros.importWikispacesMessages.getTopicList : null;
+	for(var i=0;i<tiddlers.length;i++) {
+		config.macros.importWorkspace.getTiddlersForFeed(tiddlers[i].title,userCallback);
+	}
+};
+
+config.macros.importWorkspace.onClick = function(e)
+{
+	clearMessage();
+//#displayMessage("Starting import...");
+	var customFields = this.getAttribute('customFields');
+//#displayMessage("cf:"+customFields)
+	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
+	var userCallback = config.options.chkImportWikispacesDiscussion ? config.macros.importWikispacesMessages.getTopicList : null;
+	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,null,userCallback));
+};
+
 
 } //# end of 'install only once'
 //}}}
