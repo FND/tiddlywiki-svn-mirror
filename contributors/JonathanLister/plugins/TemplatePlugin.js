@@ -46,8 +46,8 @@ Usage:
 ***/
 
 //{{{
-if(!version.extensions.templateTiddlersPlugin) {
-version.extensions.templateTiddlersPlugin = {installed:true};
+if(!version.extensions.templatePlugin) {
+version.extensions.templatePlugin = {installed:true};
 
 expandTemplate = function(template,tiddlers,wikitext)
 {
@@ -118,11 +118,10 @@ config.macros.permalink.handler = function(place,macroName,params,wikifier,param
 	createTiddlyText(place,window.location+"#"+t);
 };
 
-config.macros.slice = {};
-config.macros.slice.handler = function(place,marcoName,params,wikifier,paramString,tiddler) {
+config.macros.view.views.slice = function(value,place,params,wikifier,paramString,tiddler) {
 	var slice = "";
-	if(params && params[0]) {
-		slice = store.getTiddlerSlice(tiddler.title,params[0]);
+	if(params && params[2]) {
+		slice = store.getTiddlerSlice(tiddler.title,params[2]);
 		if(slice) {
 			createTiddlyText(place,slice);
 		}
