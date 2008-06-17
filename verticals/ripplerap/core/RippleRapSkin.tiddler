@@ -241,7 +241,7 @@ div.tiddler {padding:0; margin:0;}
 div.tiddler div.VanillaView,
 div.tiddler div.VanillaEdit {margin:30px 0 0 0; font-size:1.3em; }
 div.layoutTable {margin-bottom:0.5em;}
-div.layoutTable table, div.layoutTable table tr, div.layoutTable table td {margin:0; border-style:none;}
+div.layoutTable table, div.layoutTable table tr, div.layoutTable table td {margin:0; border-style:none; vertical-align:top;}
 input.txtOptionInput, input.pasOptionInput { font-size:1.2em; padding: 0.4em; border-top:solid 1px [[RippleRapColors::Shadow]]; border-right:solid 1px #ccc; border-bottom:solid 1px #ccc;  border-left:solid 1px [[RippleRapColors::Shadow]]; background-color:#f6f6f6;}
 div.tiddler sup {font-size:0.7em;}
 div.tiddler pre {font-size:0.em;}
