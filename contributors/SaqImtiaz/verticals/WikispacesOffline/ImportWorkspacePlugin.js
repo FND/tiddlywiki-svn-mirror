@@ -152,12 +152,8 @@ config.macros.importWorkspace.createContext = function(fields,filter,userCallbac
 
 config.macros.importWorkspace.loginPromptFn = function(context)
 {
-//#console.log("loginPromptFn");
-	context.username = prompt(config.macros.importWorkspace.usernamePrompt,'');
-	context.password = prompt(config.macros.importWorkspace.passwordPrompt,'');
-	if(context.loginPromptCallback) {
-		context.loginPromptCallback(context);
-	}
+	if (context.loginPromptCallback)
+		PasswordPrompt.prompt(context.loginPromptCallback,context);
 };
 
 config.macros.importWorkspace.getTiddlersForContext = function(context)
