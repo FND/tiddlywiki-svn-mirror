@@ -175,7 +175,7 @@ config.macros.importWorkspace.loginPromptFn = function(context)
 
 config.macros.importWorkspace.getTiddlersForContext = function(context)
 {
-//#console.log("getTiddlersForContext");
+//#console.log("config.macros.importWorkspace.getTiddlersForContext");
 	if(context) {
 		context.loginPromptFn = config.macros.importWorkspace.loginPromptFn;
 		context.adaptor.openHost(context.host,context);
@@ -187,6 +187,7 @@ config.macros.importWorkspace.getTiddlersForContext = function(context)
 
 config.macros.importWorkspace.openWorkspaceCallback = function(context,userParams)
 {
+//#console.log("config.macros.importWorkspace.openWorkspaceCallback:"+context.status);
 	if(context.status) {
 		context.adaptor.getTiddlerList(context,userParams,config.macros.importWorkspace.getTiddlerListCallback);
 		return true;
