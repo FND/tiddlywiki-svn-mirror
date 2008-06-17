@@ -7,18 +7,34 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
 	var results = [];
 	var accumulator = [];
 	var that = this;
-	var addToResults = function(tiddlers,tiddler) {
-		tiddlers.pushUnique(tiddler);
+	var addToResults = function(results,tiddlers) {
+		for(var i=0;i<tiddlers.length;i++) {
+			results.pushUnique(tiddlers[i]);
+		}
 	};
-	var addAllToResults = function(tiddlers) {
-		that.forEachTiddler(function(title,tiddler){
-			addToResults(tiddlers,tiddler);
-		});
+	var addAllToResults = function(results,toExclude) {
+		if(toExclude && toExclude.length) {
+			var titles = [];
+			for(var i=0;i<toExclude.length;i++) {
+				titles.push(toExclude[i].title);
+			}
+			that.forEachTiddler(function(title,tiddler) {
+				if(titles && !titles.contains(title)) {
+					results.pushUnique(tiddler);
+				}
+			});
+		} else {
+			that.forEachTiddler(function(title,tiddler) {
+				results.pushUnique(tiddler);
+			});
+		}
 	};
-	var removeFromResults = function(tiddlers,tiddler) {
-		var i = tiddlers.indexOf(tiddler);
-		if(i!=-1)
-			tiddlers.splice(i,1);
+	var removeFromResults = function(results,tiddlers) {
+		for(var i=0;i<tiddlers.length;i++) {
+			var n = results.indexOf(tiddler[i]);
+			if(n!=-1)
+				results.splice(n,1);
+		}
 	};
 	var tiddlerSort = function(field) {
 		// if the accumulator is empty, sort the results array
@@ -35,7 +51,7 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
 		}
 	};
 	if(filter) {
-		var tiddler;
+		var tiddler, tiddlers;
 		var re = /([^ \[\]]+)|(?:\[((?:[ \w-+!]+\[[^\]]+\])+)\])|(?:\[\[([^\]]+)\]\])/mg;
 		var re_inner = /([ \w-+!]+)\[([^\]]+)]/mg;
 		var match = re.exec(filter);
@@ -47,34 +63,31 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
 				} else {
 					tiddler = this.fetchTiddler(title);
 					if(tiddler) {
-						addToResults(results,tiddler);
+						addToResults(results,[tiddler]);
 					} else if(store.isShadowTiddler(title)) {
 						tiddler = new Tiddler();
 						tiddler.set(title,store.getTiddlerText(title));
-						addToResults(results,tiddler);
+						addToResults(results,[tiddler]);
 					}
 				}
 			} else if(match[2]) {
 				// loop through the nested matches of the form 'tag[word]'
 				var match_inner = re_inner.exec(match[2]);
 				while(match_inner) {
-					var accModifier = addToResults;
 					switch(match_inner[1]) {
 					// Note: all 'tag' case fall-through are intentional
 					case "-tag":
-						accModifier = removeFromResults;
+						tiddlers = this.getTaggedTiddlers(match_inner[2]);
+						removeFromResults(accumulator,tiddlers);
+						break;
 					case "tag":
 					case "+tag":
-						this.forEachTiddler(function(title,tiddler) {
-							if(tiddler.isTagged(match_inner[2]))
-								accModifier(accumulator,tiddler);
-						});
+						tiddlers = this.getTaggedTiddlers(match_inner[2]);
+						addToResults(accumulator,tiddlers);
 						break;
 					case "!tag":
-						this.forEachTiddler(function(title,tiddler) {
-							if(!tiddler.isTagged(match_inner[2]))
-								accModifier(accumulator,tiddler);
-						});
+						tiddlers = this.getTaggedTiddlers(match_inner[2]);
+						addAllToResults(accumulator,tiddlers);
 						break;
 					case "-sort":
 						// this is a syntax error
