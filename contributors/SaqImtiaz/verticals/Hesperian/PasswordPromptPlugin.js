@@ -29,6 +29,7 @@ PasswordPrompt ={
 		cb(context);
 		var box = document.getElementById('passwordpromptBox');
 		box.parentNode.removeChild(box);
+		return false;
 	},
 	
 	setStyles : function(){
