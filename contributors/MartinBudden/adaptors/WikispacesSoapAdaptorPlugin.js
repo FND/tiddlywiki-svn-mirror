@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#WikispacesSoapAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js |
-|''Version:''|0.1.3|
+|''Version:''|0.1.4|
 |''Date:''|Feb 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -167,7 +167,7 @@ WikispacesSoapAdaptor.prototype.openHost = function(host,context,userParams,call
 //#fnLog('openHost:'+host);
 	this.host = WikispacesSoapAdaptor.fullHostName(host);
 	context = this.setContext(context,userParams,callback);
-	if(context.callback) {
+	if(callback) {
 		context.status = true;
 		window.setTimeout(function() {callback(context,userParams);},0);
 	}
