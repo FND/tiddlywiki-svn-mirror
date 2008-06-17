@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
-|''Version:''|0.0.14|
+|''Version:''|0.0.15|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -64,7 +64,7 @@ config.macros.importWorkspace.init = function()
 		}
 	}
 	if(config.options.chkImportWorkspaceOnStartup)
-		config.macros.importWorkspace.getTiddlersForAllFeeds();
+		this.getTiddlersForAllFeeds();
 };
 
 config.macros.importWorkspace.getCustomFieldsFromTiddler = function(title)
@@ -120,14 +120,9 @@ config.macros.importWorkspace.getTiddlersForAllFeeds = function()
 	}
 };
 
-config.macros.importWorkspace.getTiddlersForFeed = function(feed)
+config.macros.importWorkspace.getTiddlersForFeed = function(feed,userCallback,userCallbackParams)
 {
-	var fields = {};
-	fields['server.type'] = store.getTiddlerSlice(feed,'Type');
-	fields['server.host'] = store.getTiddlerSlice(feed,'URL');
-	fields['server.workspace'] = store.getTiddlerSlice(feed,'Workspace');
-	var filter = store.getTiddlerSlice(feed,'TiddlerFilter');
-	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter));
+	config.macros.importWorkspace.getTiddlers(store.getTiddlerSlice(feed,'URL'),store.getTiddlerSlice(feed,'Type'),store.getTiddlerSlice(feed,'Workspace'),store.getTiddlerSlice(feed,'TiddlerFilter'),userCallback,userCallbackParams)
 };
 
 config.macros.importWorkspace.getTiddlers = function(uri,type,workspace,filter,userCallback,userCallbackParams)
@@ -137,6 +132,18 @@ config.macros.importWorkspace.getTiddlers = function(uri,type,workspace,filter,u
 	fields['server.type'] = type;
 	fields['server.workspace'] = workspace;
 	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter,userCallback,userCallbackParams));
+};
+
+config.macros.importWorkspace.getTiddlersForContext = function(context)
+{
+//#console.log("config.macros.importWorkspace.getTiddlersForContext");
+	if(context) {
+		context.loginPromptFn = config.macros.importWorkspace.loginPromptFn;
+		context.adaptor.openHost(context.host,context);
+		context.adaptor.openWorkspace(context.workspace,context,context.userParams,config.macros.importWorkspace.openWorkspaceCallback);
+		return true;
+	}
+	return false;
 };
 
 config.macros.importWorkspace.createContext = function(fields,filter,userCallback,userCallbackParams)
@@ -171,18 +178,6 @@ config.macros.importWorkspace.loginPromptFn = function(context)
 	if(context.loginPromptCallback) {
 		context.loginPromptCallback(context);
 	}
-};
-
-config.macros.importWorkspace.getTiddlersForContext = function(context)
-{
-//#console.log("config.macros.importWorkspace.getTiddlersForContext");
-	if(context) {
-		context.loginPromptFn = config.macros.importWorkspace.loginPromptFn;
-		context.adaptor.openHost(context.host,context);
-		context.adaptor.openWorkspace(context.workspace,context,context.userParams,config.macros.importWorkspace.openWorkspaceCallback);
-		return true;
-	}
-	return false;
 };
 
 config.macros.importWorkspace.openWorkspaceCallback = function(context,userParams)
