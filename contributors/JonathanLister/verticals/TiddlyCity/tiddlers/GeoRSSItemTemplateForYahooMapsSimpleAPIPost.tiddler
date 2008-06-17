@@ -1,8 +1,8 @@
 <div title="GeoRSSItemTemplateForYahooMapsSimpleAPIPost" modifier="JonathanLister" created="200806111101" modified="200806111101">
 <pre><item>
-	<title><!--<<slice from>>--></title>
+	<title><!--<<view text slice from>>--></title>
 	<link><![CDATA[<!--<<view url text uriencoded>>-->]]></link>
-	<description><!--<<slice tweet>>--></description>
+	<description><!--<<view text slice tweet>>--></description>
 	<geo:lat><!--<<view geo_lat>>--></geo:lat>
 	<geo:long><!--<<view geo_lng>>--></geo:long>
 	<yahoo:maps:BaseIcon><!--<<view iconurl>>--></yahoo:maps:BaseIcon>

@@ -7,8 +7,8 @@
 			</Icon>
 		</IconStyle>
 	</Style>
-	<name><!--<<slice from>>--></name>
-	<description><!--<<slice tweet>>--> <![CDATA[<a href="<!--<<view url>>-->"><!--<<slice from>>--></a>]]></description>
+	<name><!--<<view text slice from>>--></name>
+	<description><!--<<view text slice tweet>>--> <![CDATA[<a href="<!--<<view url>>-->"><!--<<view text slice from>>--></a>]]></description>
 	<Point>
 		<coordinates><!--<<view geo_lng>>-->,<!--<<view geo_lat>>-->,0</coordinates>
 	</Point>
