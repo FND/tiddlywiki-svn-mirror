@@ -3,10 +3,9 @@
 To get the Agenda and make notes at this conference, you need to login to [[Confabb|http://confabb.com]] first:
 
 {{layoutTable{
-|''UserName'' |''Password''|
+|''~UserName'' |''Password''|
 |<<option txtSharedNotesUserName>> |<<option pasSharedNotesPassword>> |
-|>|<<ConfabbLogin>>|
+|{{chunkyButton{<<ConfabbLogin>>}}}|
 }}}
 </pre>
 </div>
-
