@@ -47,6 +47,36 @@ describe('filterTiddlers()', {
 		value_of(actual).should_be(expected);
 	},
 	
+	'it should return all the tiddlers not tagged with a given tag when the filter string is of the form "[!tag[singletag]]" (single-word tag)': function() {
+		var tiddlers = store.filterTiddlers("[!tag[singletag]]");
+		var actual = [];
+		for(var i=0;i<tiddlers.length;i++) {
+			actual.push(tiddlers[i].title);
+		}
+		var expected = [];
+		store.forEachTiddler(function(title,tiddler) {
+			if(!tiddler.isTagged('singletag')) {
+				expected.push(title);
+			}
+		});
+		value_of(actual).should_be(expected);
+	},
+	
+	'it should return all the tiddlers not tagged with a given tag and tagged with a second tag when the filter string is of the form "[!tag[multi tag]]" (multi-word tag)': function() {
+		var tiddlers = store.filterTiddlers("[!tag[multi tag]]");
+		var actual = [];
+		for(var i=0;i<tiddlers.length;i++) {
+			actual.push(tiddlers[i].title);
+		}
+		var expected = [];
+		store.forEachTiddler(function(title,tiddler) {
+			if(!tiddler.isTagged('multi tag')) {
+				expected.push(title);
+			}
+		});
+		value_of(actual).should_be(expected);
+	},
+	
 	'it should not duplicate results e.g. specified (single-word) tiddler title and specified (single-word) tag': function() {
 		var tiddlers = store.filterTiddlers("1WordTag1WordTitle [tag[singletag]]");
 		var actual = [];
