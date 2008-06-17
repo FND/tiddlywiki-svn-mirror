@@ -48,6 +48,7 @@ merge(Tiddler.prototype,{
         '%1'+  
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
 		'<<dateChooser [[%0]]>>'+
+		'<<deleteTiddler [[%0]]>>'+
 		'&nbsp;[[%0]]}}}',
 		[
 			this.title,
