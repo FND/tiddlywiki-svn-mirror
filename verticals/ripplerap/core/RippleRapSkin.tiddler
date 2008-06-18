@@ -269,7 +269,7 @@ div.session,
 div.session_edit { background-color:[[RippleRapColors::Shadow]]; border:solid 2px #333; border-bottom-width:1px; border-right-width:1px; margin:3em 0 0 0; }
 div.session .toolbar,
 div.session_edit .toolbar {background-color:#aaa; }
-div.session .title { margin:0.2em 0 0 10px; font-size:1.5em; font-weight:bold; color:[[RippleRapColors::Darkest]];}
+div.session .title { margin:0.2em 8em 0 10px; font-size:1.5em; font-weight:bold; color:[[RippleRapColors::Darkest]];}
 div.session .time {margin:0 0.2em 0 10px; font-size:1.2em; font-weight:bold; color:[[RippleRapColors::Brightest]]; display:inline;}
 div.session .speaker {margin:0.2em 0 0 0; font-size:1.2em; font-weight:bold; color:#333;display:inline;}
 div.session .viewer {margin:0 8em 0 0; font-size:1em; color:#222; padding:0.5em 5px 0.5em 10px;}
