@@ -43,24 +43,30 @@ SharedNotesAdaptor.parse = function(responseText,modifier)
 		var node = t[i];
 		var title = getFirstElementByTagNameValue(node, "title","");
 		var text = getFirstElementByTagNameValue(node, "wikitext","","http://tiddlywiki.com/");
-		if(!modifier){
-			modifier = getFirstElementByTagNameValue(node, "author",undefined);
+		
+		// only create a tiddler if it will contain text
+		if(text && text.length > 0) {
+			if(!modifier){
+				modifier = getFirstElementByTagNameValue(node, "author",undefined);
+			}
+			var pubDate = getFirstElementByTagNameValue(node, "pubDate",undefined);
+
+			var tags = (modifier == config.options.txtSharedNotesUserName)?"notes":"discovered_notes";
+
+			// title is "{session_id} from {user}"
+			var fields = {};
+			fields.rr_session_id = title.replace(/ from.*$/,"");
+
+			var modified = new Date(pubDate);
+			var created = modified;
+
+			var tiddler = new Tiddler();
+			tiddler.assign(title,text,modifier,modified,tags,created,fields);
+			tiddlers.push(tiddler);
+			log("tiddler:",tiddler);
+		} else {
+			log("Skipping blank note: " + title);
 		}
-		var pubDate = getFirstElementByTagNameValue(node, "pubDate",undefined);
-
-		var tags = (modifier == config.options.txtSharedNotesUserName)?"notes":"discovered_notes";
-
-		// title is "{session_id} from {user}"
-		var fields = {};
-		fields.rr_session_id = title.replace(/ from.*$/,"");
-
-		var modified = new Date(pubDate);
-		var created = modified;
-
-		var tiddler = new Tiddler();
-		tiddler.assign(title,text,modifier,modified,tags,created,fields);
-		tiddlers.push(tiddler);
-		log("tiddler:",tiddler);
 	}
 	return tiddlers;
 };
