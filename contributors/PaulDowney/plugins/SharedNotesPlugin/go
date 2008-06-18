@@ -1,6 +1,6 @@
 #cook testSharedNotesFeed && ff2 testSharedNotesFeed.html
-cook testSharedNotesPlugin && ff2 testSharedNotesPlugin.html
-#cook testSharedNotesAdaptor && ff2 testSharedNotesAdaptor.html
+#cook testSharedNotesPlugin && ff2 testSharedNotesPlugin.html
+cook testSharedNotesAdaptor && ff2 testSharedNotesAdaptor.html
 
 #All
 #cook testSharedNotes && ff2 testSharedNotes.html

@@ -7,5 +7,5 @@ tiddler: ../../../PhilHawksworth/plugins/FeedListManagerPlugin.js
 tiddler: ../../../PhilHawksworth/plugins/TextToXMLDOMPlugin.js
 tiddler: ../../../MartinBudden/adaptors/ImportWorkspacePlugin.js
 
-tiddler: ../GetFirstElementValuePlugin/GetFirstElementValuePlugin.js
+recipe: ../GetFirstElementValuePlugin/GetFirstElementValuePlugin.recipe
 recipe: ../LogMessagePlugin/LogMessagePlugin.recipe

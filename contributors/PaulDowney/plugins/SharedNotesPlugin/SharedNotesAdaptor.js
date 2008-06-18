@@ -28,6 +28,10 @@ SharedNotesAdaptor.parse = function(responseText,modifier)
 {
 	log("parsing RSS from ",modifier);
 	var tiddlers = [];
+
+	// hack to work around patchy support for namespaces
+	responseText = responseText.replace(/tw:wikitext/g,"wikitext");
+
 	var r =  getXML(responseText);
 	if (!r){
 		log("no RSS XML to parse for ",modifier);
@@ -38,10 +42,9 @@ SharedNotesAdaptor.parse = function(responseText,modifier)
 	for(i=0;i<t.length;i++) {
 		var node = t[i];
 		var title = getFirstElementByTagNameValue(node, "title","");
-		var text = getFirstElementByTagNameValue(node, "wikitext","");
+		var text = getFirstElementByTagNameValue(node, "wikitext","","http://tiddlywiki.com/");
 		if(!modifier){
 			modifier = getFirstElementByTagNameValue(node, "author",undefined);
-		
 		}
 		var pubDate = getFirstElementByTagNameValue(node, "pubDate",undefined);
 

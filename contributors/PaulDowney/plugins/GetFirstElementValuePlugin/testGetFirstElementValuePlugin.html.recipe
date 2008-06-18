@@ -1,0 +1,11 @@
+title=GetFirstElementValuePlugin
+recipe: ../../../../core/tests/html/testContributors.recipe
+
+recipe: GetFirstElementValuePlugin.recipe
+
+# Dependencies
+tiddler: ../../../PhilHawksworth/plugins/TextToXMLDOMPlugin.js
+
+jsspecsrc=<script src="../../../../core/tests/js/tiddlywiki.js" type="text/javascript"  charset="utf-8"></script>
+
+jsspecsrc=<script src="testGetFirstElementValuePlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>

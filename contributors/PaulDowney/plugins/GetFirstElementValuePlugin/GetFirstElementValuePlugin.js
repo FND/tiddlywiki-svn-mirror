@@ -14,9 +14,13 @@
 if(!version.extensions.GetFirstElementValuePlugin) {
 version.extensions.GetFirstElementValuePlugin = {installed:true};
 
-getFirstElementByTagNameValue = function (node, tag, def) {
+getFirstElementByTagNameValue = function (node,tag,def,ns) {
         if (node){
                 var e = node.getElementsByTagName(tag);
+
+                //var e = ns?node.getElementsByTagNameNS(ns,tag)
+			//:node.getElementsByTagName(tag);
+
                 if (e && e.length){
                         def = e[0].textContent || e[0].text || def;
                 }
