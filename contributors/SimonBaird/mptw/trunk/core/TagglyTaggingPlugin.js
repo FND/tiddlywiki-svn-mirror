@@ -37,23 +37,25 @@ config.taggly = {
 		},
 
 		tooltips: {
-			title:    "Click to sort by title",
-			modified: "Click to sort by modified date",
-			created:  "Click to sort by created date",
-			show:     "Click to show tagging list",
-			hide:     "Click to hide tagging list",
-			normal:   "Click to show a normal ungrouped list",
-			group:    "Click to show list grouped by tag",
-			sitemap:  "Click to show a sitemap style list",
-			commas:   "Click to show a comma separated list",
-			numCols:  "Click to change number of columns",
-			excerpts: "Click to show excerpts",
-			descr:    "Click to show the description slice",
-			slices:    "Click to show all slices",
-			contents: "Click to show entire tiddler contents",
-			sliders:  "Click to show tiddler contents in sliders",
+			title:      "Click to sort by title",
+			modified:   "Click to sort by modified date",
+			created:    "Click to sort by created date",
+			show:       "Click to show tagging list",
+			hide:       "Click to hide tagging list",
+			normal:     "Click to show a normal ungrouped list",
+			group:      "Click to show list grouped by tag",
+			sitemap:    "Click to show a sitemap style list",
+			commas:     "Click to show a comma separated list",
+			numCols:    "Click to change number of columns",
+			excerpts:   "Click to show excerpts",
+			descr:      "Click to show the description slice",
+			slices:     "Click to show all slices",
+			contents:   "Click to show entire tiddler contents",
+			sliders:    "Click to show tiddler contents in sliders",
 			noexcerpts: "Click to show entire title only"
-		}
+		},
+
+		tooDeepMessage: "* //sitemap too deep...//"
 	},
 
 	config: {
@@ -70,7 +72,8 @@ config.taggly = {
 		valuePrefix: "taggly.",
 		excludeTags: ["excludeLists","excludeTagging"],
 		excerptSize: 50,
-		excerptMarker: "/%"+"%/"
+		excerptMarker: "/%"+"%/",
+		siteMapDepthLimit: 25
 	},
 
 	getTagglyOpt: function(title,opt) {
@@ -374,10 +377,14 @@ config.taggly = {
 			indent += "*"
 
 		var childOutput = "";
-		for (var i=0;i<list.length;i++)
-			if (list[i].title != title)
-				if (this.notHidden(list[i].title,this.config.inTiddler))
-					childOutput += this.treeTraverse(list[i].title,depth+1,sortBy,sortOrder);
+
+		if (depth > this.config.siteMapDepthLimit)
+			childOutput += indent + this.lingo.tooDeepMessage;
+		else
+			for (var i=0;i<list.length;i++)
+				if (list[i].title != title)
+					if (this.notHidden(list[i].title,this.config.inTiddler))
+						childOutput += this.treeTraverse(list[i].title,depth+1,sortBy,sortOrder);
 
 		if (depth == 0)
 			return childOutput;
