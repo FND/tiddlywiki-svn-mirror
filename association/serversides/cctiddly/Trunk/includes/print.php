@@ -191,9 +191,10 @@ window.cct_tweak = function(){
 	//$usr_val = user_session_validate();
 	//$usr = $usr_val?$usr:$ccT_msg['loginpanel']['anoymous'];
 	$usr = $user['verified']?$user['username']:$ccT_msg['loginpanel']['anoymous'];
-?>	
-};
-<?php
+if( !$standalone)	
+{
+	echo "};";
+}
 		print "//]]>\n";
 		print "</script>\n";
 		if( !$standalone)		//online version only

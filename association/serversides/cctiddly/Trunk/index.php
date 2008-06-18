@@ -17,7 +17,7 @@ function recordTime_float($name="unnamed")
 	return TRUE;
 }
 
-$time=array();
+$time=array(); 
 recordTime_float("Start");
 
 //includes
