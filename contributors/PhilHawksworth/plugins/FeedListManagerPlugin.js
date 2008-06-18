@@ -127,6 +127,9 @@ FeedListManager.prototype.remove = function(uri) {
 FeedListManager.prototype.populate = function(callback,callbackParams) {
 	for(var u=0; u<this.uris.length; u++) {
 		resource = this.uris[u];
+
+		//log("populating. trying: ", resource.uri);
+
 		if(resource.type == 'opml') {
 			this.busy = true;
 			this.requests.push(resource.uri);
@@ -307,7 +310,6 @@ FeedListManager.prototype.prioritise = function(name) {
 			feedList.uris.unshift(uriObj);
 		}
 	}
-	log("Prioritised to the head of the queue: ", feedList.uris[0]);
 };
 
 
