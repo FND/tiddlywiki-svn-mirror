@@ -69,6 +69,9 @@ config.macros.SharedNotesFeed.serializeTiddler = function(tiddler,options)
 	s.push('<author>' + modifier + '</author>');
 	s.push('<description>' + wikifyStatic(tiddler.text).htmlEncode() + '</description>');
 	s.push('<tw:wikitext>' + tiddler.text.htmlEncode() + '</tw:wikitext>');
+	if(tiddler.fields['rr_session_id']){
+		s.push('<category>' + tiddler.fields['rr_session_id'].htmlEncode() + '</category>');
+	}
 	for(var i=0; i<tiddler.tags.length; i++)
 		s.push('<category>' + tiddler.tags[i].htmlEncode() + '</category>');
 	s.push('<pubDate>' + tiddler.modified.toUTCString() + '</pubDate>');

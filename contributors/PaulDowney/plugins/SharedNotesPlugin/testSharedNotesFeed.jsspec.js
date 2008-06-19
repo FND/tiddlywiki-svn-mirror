@@ -226,5 +226,28 @@ describe('SharedNotesFeed: serialize channel tiddler categories', {
 	}
 });
 
+describe('SharedNotesFeed: serialize channel tiddler fields as categories', {
+        before_each : function() {
+		__clearSharedNotesFeedPlugin();
+		__main();
+		__title = 'notes from psd';
+		__note = 'blah blah blah and thrice blah';
+		__user = 'AssertedUser';
+		__tiddlers = [];
+		var t = new Tiddler(__title);
+		t.text = __note;
+		t.modifier = __user;
+		t.fields['rr_session_id'] = "123456:7890";
+		__tiddlers.push(t);
+		__tiddlers[0].set(null,null,null,null,"tag1");
+		__parseSharedNotes(__tiddlers);
+        },
+        'session_id field should be first category' : function() { 
+		value_of(__xml.xpath("/rss/channel/item[1]/category[1]", "string")).should_be("123456:7890");
+	},
+        'tag1 field should be a category' : function() { 
+		value_of(__xml.xpath("/rss/channel/item[1]/category[2]", "string")).should_be("tag1");
+	}
+});
 
 // ]]>
