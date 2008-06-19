@@ -85,6 +85,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 		tiddler = new Tiddler();
 
 		var session_id = node.getAttribute('id');
+		var title = session_id;
 		if(0>session_id.indexOf("confabb:session")){
 			session_id = "confabb:session="+session_id;
 		}
@@ -111,7 +112,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 			}
 		}
 
-		tiddler.assign(session_id,content,undefined,undefined,tags,undefined,{
+		tiddler.assign(title,content,undefined,undefined,tags,undefined,{
 			rr_session_title: getFirstElementByTagNameValue(node,"title",""),
 			rr_session_id: session_id,
 			rr_session_starttime: getFirstElementByTagNameValue(node,"starttime",""),
