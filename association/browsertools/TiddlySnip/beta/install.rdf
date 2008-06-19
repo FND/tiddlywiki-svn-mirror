@@ -4,7 +4,7 @@
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="{4f228d6e-0874-48f8-9270-0bf1acb574f6}"
-                   em:version="1.2 beta"
+                   em:version="1.21 beta"
                    em:name="TiddlySnip"
                    em:description="a firefox extension that lets you use your TiddlyWiki as a web scrapbook."
                    em:creator="Saq Imtiaz"

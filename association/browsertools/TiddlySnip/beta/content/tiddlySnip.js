@@ -113,8 +113,8 @@ function getText(mode)
         text = getSelectedText();
         if (pref.getBoolPref("tiddlysnip.includehtml"))
             text = "<html>" + text + "</html>";
-        else
-            text = "<nowiki>" + text + "</nowiki>";
+        //else
+        //    text = "<nowiki>" + text + "</nowiki>";
         }
     else if (mode == "Clip")
         text = getClipboardString();
