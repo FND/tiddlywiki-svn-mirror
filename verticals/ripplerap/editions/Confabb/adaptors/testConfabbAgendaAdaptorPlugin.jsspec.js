@@ -78,7 +78,7 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 		    +'    <title>The Conference Title</title>'
 		    +'    <link>http://confabb.com/conferences/foo/sessions</link>'
 		    +'    <description>The Conference Description</description>'
-		    +'    <session id="session-99">'
+		    +'    <session id="123456789">'
 		    +'      <title>The First Session</title>'
 		    +'      <link>http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessions/20/details</link>'
 		    +'      <description>The First Session Description.</description>'
@@ -122,10 +122,10 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 	 *  session
 	 */
 	'second tiddler should have the title set from the session id': function() {
-		value_of(__tiddlers[1].title).should_be('session-99');
+		value_of(__tiddlers[1].title).should_be('confabb:session=123456789');
 	},
 	'session tiddler should have the field "rr_session_id" set to the session id': function() {
-		value_of(__tiddlers[1].fields.rr_session_id).should_be('session-99');
+		value_of(__tiddlers[1].fields.rr_session_id).should_be('confabb:session=123456789');
 	},
 	'session tiddler should have the field rr_session_title set from <title>': function() {
 		value_of(__tiddlers[1].fields.rr_session_title).should_be('The First Session');

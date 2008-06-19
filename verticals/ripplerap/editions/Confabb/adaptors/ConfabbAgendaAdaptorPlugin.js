@@ -84,7 +84,10 @@ ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 		var node = t[i];
 		tiddler = new Tiddler();
 
-		var id = node.getAttribute('id');
+		var session_id = node.getAttribute('id');
+		if(0>session_id.indexOf("confabb:session")){
+			session_id = "confabb:session="+session_id;
+		}
 		var day = "Day" + getFirstElementByTagNameValue(node, "day","ly");
 		var track = getFirstElementByTagNameValue(node, "track","Global Track");
 		var location = getFirstElementByTagNameValue(node, "location","Global Location");
@@ -108,9 +111,9 @@ ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 			}
 		}
 
-		tiddler.assign(id,content,undefined,undefined,tags,undefined,{
+		tiddler.assign(session_id,content,undefined,undefined,tags,undefined,{
 			rr_session_title: getFirstElementByTagNameValue(node,"title",""),
-			rr_session_id: id,
+			rr_session_id: session_id,
 			rr_session_starttime: getFirstElementByTagNameValue(node,"starttime",""),
 			rr_session_endtime: getFirstElementByTagNameValue(node,"endtime",""),
 			rr_session_link: getFirstElementByTagNameValue(node,"link",""),
