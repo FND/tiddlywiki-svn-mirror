@@ -47,19 +47,17 @@ SharedNotesAdaptor.parse = function(responseText,modifier)
 		//skip updating this tiddler is the user is currently editting.
 		var tid = story.getTiddler(title);
 		var editMode = false;
-		
-		log("t of " + title + " ", tid);
-		
-		if(tid && tid !== undefined) {
+		if(tid) {
 			template = tid.getAttribute('template');
 			editMode = template.indexOf('Edit') != -1;
+		}	
+		if(editMode){
+			log("Move on to the next - we are editing");
+			continue;
+		}
 			
-			
-		}		
-
 		// only create a tiddler if it will contain text
-		if((text && text.length > 0) && !editMode) {
-
+		if(text && text.length > 0) {
 			if(!modifier){
 				modifier = getFirstElementByTagNameValue(node, "author",undefined);
 			}
@@ -76,7 +74,7 @@ SharedNotesAdaptor.parse = function(responseText,modifier)
 			var tiddler = new Tiddler();
 			tiddler.assign(title,text,modifier,modified,tags,created,fields);
 			tiddlers.push(tiddler);
-			log("tiddler:",tiddler);
+			log("tiddler:",tiddler );
 		} else {
 			log("Skipping blank note: " + title);
 		}
