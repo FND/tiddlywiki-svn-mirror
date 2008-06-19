@@ -25,11 +25,9 @@ config.macros.SharedNotesFeed = {};
  */
 config.macros.SharedNotesFeed.serialize = function(tiddlers,options)
 {
+log("serialize", options);
 	var me = config.macros.SharedNotesFeed;
 	var s = [];
-	if (!options){
-		options = {};
-	}
 	if(!options.now){
 		options.now = new Date();
 	}
@@ -56,13 +54,8 @@ config.macros.SharedNotesFeed.serialize = function(tiddlers,options)
 
 config.macros.SharedNotesFeed.serializeTiddler = function(tiddler,options) 
 {
-	
-	log("SERIALIZE TIDDLER : ", tiddler);
-	
-	if (!options){
-		options = {};
-	}
 	var s = [];
+	var session_prefix = options.session_prefix || "";
 	s.push('<item>');
 	s.push('<title' + '>' + tiddler.title.htmlEncode() + '</title' + '>');
 	var modifier = options.modifier || tiddler.modifier;
@@ -70,7 +63,7 @@ config.macros.SharedNotesFeed.serializeTiddler = function(tiddler,options)
 	s.push('<description>' + wikifyStatic(tiddler.text).htmlEncode() + '</description>');
 	s.push('<tw:wikitext>' + tiddler.text.htmlEncode() + '</tw:wikitext>');
 	if(tiddler.fields['rr_session_id']){
-		s.push('<category>' + tiddler.fields['rr_session_id'].htmlEncode() + '</category>');
+		s.push('<category>' + session_prefix + tiddler.fields['rr_session_id'].htmlEncode() + '</category>');
 	}
 	for(var i=0; i<tiddler.tags.length; i++)
 		s.push('<category>' + tiddler.tags[i].htmlEncode() + '</category>');

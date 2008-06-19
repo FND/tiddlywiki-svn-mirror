@@ -86,9 +86,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 
 		var session_id = node.getAttribute('id');
 		var title = session_id;
-		if(0>session_id.indexOf("confabb:session")){
-			session_id = "confabb:session="+session_id;
-		}
+
 		var day = "Day" + getFirstElementByTagNameValue(node, "day","ly");
 		var track = getFirstElementByTagNameValue(node, "track","Global Track");
 		var location = getFirstElementByTagNameValue(node, "location","Global Location");

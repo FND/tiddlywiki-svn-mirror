@@ -100,7 +100,7 @@ describe('SharedNotesFeed: serialize channel optional values', {
 		__main();
         },
         'null options value' : function() { 
-		__parseSharedNotes([]);
+		__parseSharedNotes([],{});
                 value_of(__xml.documentElement.nodeName).should_be("rss");
         },
         'channel title asserted' : function() { 
@@ -150,7 +150,7 @@ describe('SharedNotesFeed: serialize channel single tiddler', {
 		t.text = __note;
 		t.modifier = __user;
 		__tiddlers.push(t);
-		__parseSharedNotes(__tiddlers);
+		__parseSharedNotes(__tiddlers,{});
         },
         'document should have a single item element' : function() { 
 		value_of(__xml.xpath("count(/rss/channel/item)", "number")).should_be(1);
@@ -195,18 +195,18 @@ describe('SharedNotesFeed: serialize channel tiddler categories', {
         },
         'single tag should appear as single category' : function() { 
 		__tiddlers[0].set(null,null,null,null,"tag1");
-		__parseSharedNotes(__tiddlers);
+		__parseSharedNotes(__tiddlers,{});
 		value_of(__xml.xpath("/rss/channel/item[1]/category", "string")).should_be("tag1");
 	},
         'two tags should appear as category list' : function() { 
 		__tiddlers[0].set(null,null,null,null,"tag1 tag2");
-		__parseSharedNotes(__tiddlers);
+		__parseSharedNotes(__tiddlers,{});
 		value_of(__xml.xpath("/rss/channel/item[1]/category[1]", "string")).should_be("tag1");
 		value_of(__xml.xpath("/rss/channel/item[1]/category[2]", "string")).should_be("tag2");
 	},
         'tags with spaces should appear as category list' : function() { 
 		__tiddlers[0].set(null,null,null,null,"[[tag one]] [[tag two]]");
-		__parseSharedNotes(__tiddlers);
+		__parseSharedNotes(__tiddlers,{});
 		value_of(__xml.xpath("/rss/channel/item[1]/category[1]", "string")).should_be("tag one");
 		value_of(__xml.xpath("/rss/channel/item[1]/category[2]", "string")).should_be("tag two");
 	},
@@ -217,7 +217,7 @@ describe('SharedNotesFeed: serialize channel tiddler categories', {
 		__tiddlers.push(t);
 		__tiddlers[0].set(null,null,null,null,"tag1 tag2");
 		__tiddlers[1].set(null,null,null,null,"tag3 tag4");
-		__parseSharedNotes(__tiddlers);
+		__parseSharedNotes(__tiddlers,{});
 		value_of(__xml.xpath("/rss/channel/item[1]/category[1]", "string")).should_be("tag1");
 		value_of(__xml.xpath("/rss/channel/item[1]/category[2]", "string")).should_be("tag2");
 		value_of(__xml.xpath("/rss/channel/item[2]/category[1]", "string")).should_be("tag3");
@@ -240,14 +240,19 @@ describe('SharedNotesFeed: serialize channel tiddler fields as categories', {
 		t.fields['rr_session_id'] = "123456:7890";
 		__tiddlers.push(t);
 		__tiddlers[0].set(null,null,null,null,"tag1");
-		__parseSharedNotes(__tiddlers);
         },
         'session_id field should be first category' : function() { 
+		__parseSharedNotes(__tiddlers,{});
 		value_of(__xml.xpath("/rss/channel/item[1]/category[1]", "string")).should_be("123456:7890");
 	},
         'tag1 field should be a category' : function() { 
+		__parseSharedNotes(__tiddlers,{});
 		value_of(__xml.xpath("/rss/channel/item[1]/category[2]", "string")).should_be("tag1");
-	}
+	},
+        'session_id field should be first category and have session_prefix' : function() { 
+		__parseSharedNotes(__tiddlers,{session_prefix:'some:prefix='});
+		value_of(__xml.xpath("/rss/channel/item[1]/category[1]", "string")).should_be("some:prefix=123456:7890");
+	},
 });
 
 // ]]>

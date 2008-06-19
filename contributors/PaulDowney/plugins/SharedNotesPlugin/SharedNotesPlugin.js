@@ -60,6 +60,7 @@ config.macros.SharedNotes = {
 	thistime: 0,
 	lasttime: 0,
 	adaptor: '',
+	session_prefix: '',
 
 	putNotes: function(){
 		var me = config.macros.SharedNotes;
@@ -107,7 +108,9 @@ config.macros.SharedNotes = {
 			displayMessage(me.messages.savedOK);
 			me.lasttime = me.thistime;
 		};
-		var text = config.macros.SharedNotesFeed.serialize(tiddlers,{modifier:config.options.txtSharedNotesUserName});
+		var text = config.macros.SharedNotesFeed.serialize(tiddlers,
+			{modifier:config.options.txtSharedNotesUserName,
+				session_prefix:me.session_prefix});
 		if (!adaptor.putRss(text,callback,me)){
 			return false;
 		}

@@ -38,6 +38,7 @@ config.macros.RippleRapEdition = {
 			notesuri = uri + "notes/save";
 		}
 		config.macros.SharedNotes.adaptor = "confabbnotes";
+		config.macros.SharedNotes.session_prefix = "confabb:session=";
 		ConfabbNotesAdaptor.uri = notesuri;
 	},
 
