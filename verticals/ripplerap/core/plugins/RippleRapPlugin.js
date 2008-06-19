@@ -153,5 +153,22 @@ store.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,field
 	}
 };
 
+
+//#Overwrite the refresh all tiddler function.
+Story.prototype.refreshAllTiddlers = function(force) {
+	var place = this.getContainer();
+	var e = place.firstChild;
+	if(!e)
+		return;
+	this.refreshTiddler(e.getAttribute("tiddler"),force ? null : e.getAttribute("template"),true);
+	while((e = e.nextSibling) != null) {
+		var template = e.getAttribute("template");
+		if(template && template.indexOf('Edit') == -1){
+			this.refreshTiddler(e.getAttribute("tiddler"),force ? null : e.getAttribute("template"),true);			
+		}
+	}
+
+};
+
 }
 //}}}
