@@ -91,7 +91,7 @@ window.onClickTag = function(ev)
 	var tags = [];
 	if(excludeTags) {
 		tags = excludeTags.readBracketedList();
-		filter += "[";
+		filter += "[tag["+tag+"]";
 		for(var i=0;i<tags.length;i++) {
 			filter += "tag["+tags[i]+"]";
 		}
@@ -99,6 +99,7 @@ window.onClickTag = function(ev)
 	} else {
 		filter = tag;
 	}
+	console.log(filter);
 	if(popup && filter) {
 		var tagged = store[filterFunc](filter);
 		var titles = [];

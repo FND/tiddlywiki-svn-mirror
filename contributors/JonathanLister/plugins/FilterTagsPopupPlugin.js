@@ -3,14 +3,13 @@
 config.views.wikified.tag.filterTagsText = "Filter tags";
 config.views.wikified.tag.filterTagsTooltip = "Filter tags";
 config.views.wikified.tag.labelFilterTags = "Filter on tag %0";
-config.views.wikified.tag.labelFilterNoTags = "No more related tags";
+config.views.wikified.tag.labelFilterNoTags = "No tiddlers also tagged with %0";
 
 // Instead of overriding Popup.layouts.onClickTag, make use of the fact it is extendable
 Popup.extend('onClickTag', function(popup,params,handlers) {
 	var lingo = params.lingo;
 	var tag = params.tag;
-	var filter = params.filter ? params.filter : "[tag["+tag+"]]";
-	handlers.button(popup,lingo.filterTagsText,lingo.filterTagsTooltip,onClickFilterTags,{tag:tag,filter:filter});
+	handlers.button(popup,lingo.filterTagsText,lingo.filterTagsTooltip,onClickFilterTags,{tag:tag});
 });
 
 // New layout for popup to be displayed when "Filter tags" is clicked
