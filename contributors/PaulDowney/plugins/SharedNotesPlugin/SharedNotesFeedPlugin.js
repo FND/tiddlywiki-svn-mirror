@@ -56,6 +56,9 @@ config.macros.SharedNotesFeed.serialize = function(tiddlers,options)
 
 config.macros.SharedNotesFeed.serializeTiddler = function(tiddler,options) 
 {
+	
+	log("SERIALIZE TIDDLER : ", tiddler);
+	
 	if (!options){
 		options = {};
 	}

@@ -43,14 +43,22 @@ SharedNotesAdaptor.parse = function(responseText,modifier)
 		var node = t[i];
 		var title = getFirstElementByTagNameValue(node, "title","");
 		var text = getFirstElementByTagNameValue(node, "wikitext","","http://tiddlywiki.com/");
-		
+
+		//skip updating this tiddler is the user is currently editting.
+		var t = story.getTiddler(title);
+		var editMode = false;
+		if(t) {
+			template = t.getAttribute('template');
+			editMode = template.indexOf('Edit') != -1;
+		}		
+
 		// only create a tiddler if it will contain text
-		if(text && text.length > 0) {
+		if((text && text.length > 0) && !editMode) {
+
 			if(!modifier){
 				modifier = getFirstElementByTagNameValue(node, "author",undefined);
 			}
 			var pubDate = getFirstElementByTagNameValue(node, "pubDate",undefined);
-
 			var tags = (modifier == config.options.txtSharedNotesUserName)?"notes":"discovered_notes";
 
 			// title is "{session_id} from {user}"
