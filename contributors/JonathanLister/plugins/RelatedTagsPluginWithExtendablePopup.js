@@ -23,6 +23,13 @@ Popup.makeExtendable = function(label) {
 	}
 };
 
+Popup.extend = function(label,func) {
+	var layout = this.layouts[label];
+	if(layout.isExtendable) {
+		layout.extras.push(func);
+	}
+};
+
 merge(Popup.handlers, {
 	listTitles: function(popup,titles) {
 		if(titles) {
@@ -76,8 +83,22 @@ window.onClickTag = function(ev)
 	var popup = Popup.create(this);
 	var tag = this.getAttribute("tag");
 	var title = this.getAttribute("tiddler");
-	if(popup && tag) {
-		var tagged = store.getTaggedTiddlers(tag);
+	var excludeTags = this.getAttribute("excludeTags");
+	var filterFunc = excludeTags ? 'filterTiddlers' : 'getTaggedTiddlers';
+	var filter = "";
+	var tags = [];
+	if(excludeTags) {
+		tags = excludeTags.readBracketedList();
+		filter += "[";
+		for(var i=0;i<tags.length;i++) {
+			filter += "tag["+tags[i]+"]";
+		}
+		filter += "]";
+	} else {
+		filter = tag;
+	}
+	if(popup && filter) {
+		var tagged = store[filterFunc](filter);
 		var titles = [];
 		var li,r;
 		for(r=0;r<tagged.length;r++) {
@@ -110,13 +131,11 @@ Popup.handlers.text = function(popup,text) {
 };
 
 // Instead of overriding Popup.layouts.onClickTag, make use of the fact it is extendable
-Popup.layouts.onClickTag.extras.push(
-	function(popup,params,handlers) {
-		var lingo = params.lingo;
-		var tag = params.tag;
-		handlers.button(popup,lingo.relatedTagsText,lingo.relatedTagsTooltip,onClickRelatedTags,{tag:tag});
-	}
-);
+Popup.extend('onClickTag', function(popup,params,handlers) {
+	var lingo = params.lingo;
+	var tag = params.tag;
+	handlers.button(popup,lingo.relatedTagsText,lingo.relatedTagsTooltip,onClickRelatedTags,{tag:tag});
+});
 
 // New layout for popup to be displayed when "show related tags" is clicked
 Popup.layouts.onClickRelatedTags = function(popup,params,handlers) {
@@ -132,7 +151,7 @@ Popup.layouts.onClickRelatedTags = function(popup,params,handlers) {
 	}
 };
 
-// Event handler for 'Show related tags' on a tiddler popup
+// Event handler for 'Show related tags' on a tiddler tag popup
 window.onClickRelatedTags = function(ev)
 {
 	var e = ev ? ev : window.event;		
