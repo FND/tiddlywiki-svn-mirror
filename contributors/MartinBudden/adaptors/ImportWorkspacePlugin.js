@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
-|''Version:''|0.0.16|
+|''Version:''|0.0.17|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -122,7 +122,7 @@ config.macros.importWorkspace.getTiddlersForAllFeeds = function()
 
 config.macros.importWorkspace.getTiddlersForFeed = function(feed,userCallback,userCallbackParams)
 {
-	config.macros.importWorkspace.getTiddlers(store.getTiddlerSlice(feed,'URL'),store.getTiddlerSlice(feed,'Type'),store.getTiddlerSlice(feed,'Workspace'),store.getTiddlerSlice(feed,'TiddlerFilter'),userCallback,userCallbackParams)
+	config.macros.importWorkspace.getTiddlers(store.getTiddlerSlice(feed,'URL'),store.getTiddlerSlice(feed,'Type'),store.getTiddlerSlice(feed,'Workspace'),store.getTiddlerSlice(feed,'TiddlerFilter'),userCallback,userCallbackParams);
 };
 
 config.macros.importWorkspace.getTiddlers = function(uri,type,workspace,filter,userCallback,userCallbackParams)
@@ -173,10 +173,15 @@ config.macros.importWorkspace.loginPromptFn = function(context)
 {
 //#console.log("loginPromptFn");
 //#console.log(context);
-	context.username = prompt(config.macros.importWorkspace.usernamePrompt,'');
-	context.password = prompt(config.macros.importWorkspace.passwordPrompt,'');
-	if(context.loginPromptCallback) {
-		context.loginPromptCallback(context);
+	if(typeof PasswordPrompt != 'undefined') {
+		if(context.loginPromptCallback)
+			PasswordPrompt.prompt(context.loginPromptCallback,context);
+	} else {
+		context.username = prompt(config.macros.importWorkspace.usernamePrompt,'');
+		context.password = prompt(config.macros.importWorkspace.passwordPrompt,'');
+		if(context.loginPromptCallback) {
+			context.loginPromptCallback(context);
+		}
 	}
 };
 
