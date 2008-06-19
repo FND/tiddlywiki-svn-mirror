@@ -45,11 +45,16 @@ SharedNotesAdaptor.parse = function(responseText,modifier)
 		var text = getFirstElementByTagNameValue(node, "wikitext","","http://tiddlywiki.com/");
 
 		//skip updating this tiddler is the user is currently editting.
-		var t = story.getTiddler(title);
+		var tid = story.getTiddler(title);
 		var editMode = false;
-		if(t) {
-			template = t.getAttribute('template');
+		
+		log("t of " + title + " ", tid);
+		
+		if(tid && tid !== undefined) {
+			template = tid.getAttribute('template');
 			editMode = template.indexOf('Edit') != -1;
+			
+			
 		}		
 
 		// only create a tiddler if it will contain text
