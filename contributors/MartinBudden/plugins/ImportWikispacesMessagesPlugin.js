@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ImportWikispacesMessagesPlugin.js |
-|''Version:''|0.0.8|
+|''Version:''|0.0.9|
 |''Date:''|May 13, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -122,7 +122,7 @@ config.macros.importWikispacesMessages.getTopicListCallback = function(context,u
 	if(context.status) {
 		var tiddlers = context.topics;
 		if(!tiddlers || tiddlers.length==0) {
-			displayMessage(config.macros.importWikispacesMessages.noitems.format([context.title]));
+			//displayMessage(config.macros.importWikispacesMessages.noitems.format([context.title]));
 			return;
 		}
 		for(var i=0; i<tiddlers.length; i++) {
