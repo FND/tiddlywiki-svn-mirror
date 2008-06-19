@@ -1,13 +1,25 @@
-// extra properties and layout method for Popup
+// Extra properties and methods for Popup
 Popup.layouts = {};
 Popup.handlers = {};
 
 Popup.layout = function(popup,label,params)
 {
-	// can we introduce a sort of if-then-else bit to the layouts, so the layouts become genuinely extendable
-	// that way we can keep onClickTag extendable because we add to rather than override the layout
-	if(this.layouts[label] && typeof this.layouts[label] == 'function') {
-		this.layouts[label](popup,params,this.handlers);
+	var layout = this.layouts[label];
+	if(layout && typeof layout == 'function') {
+		layout(popup,params,this.handlers);
+	}
+	if(layout.isExtendable) {
+		for(var i=0;i<layout.extras.length;i++) {
+			layout.extras[i](popup,params,this.handlers);
+		}
+	}
+};
+
+Popup.makeExtendable = function(label) {
+	var layout = this.layouts[label];
+	if(layout) {
+		layout.isExtendable = true;
+		layout.extras = [];
 	}
 };
 
@@ -55,6 +67,8 @@ merge(Popup.layouts, {
 	}
 });
 
+Popup.makeExtendable('onClickTag');
+
 // Event handler for clicking on a tiddler tag
 window.onClickTag = function(ev)
 {
@@ -84,36 +98,37 @@ window.onClickTag = function(ev)
 	return false;
 };
 
-/* Extensions specific for adding 'show related tags', as if the above were in the core */
-/*
+// Extensions specific for adding 'show related tags', as if the above were in the core
+
 config.views.wikified.tag.relatedTagsText = "Show related tags";
 config.views.wikified.tag.relatedTagsTooltip = "Show related tags";
 config.views.wikified.tag.labelNoRelatedTags = "no tags";
 config.views.wikified.tag.labelRelatedTags = "related tags: ";
 
-Popup.handlers.relatedTags = function(popup,params) {
-	var lingo = params.lingo;
-	var tag = params.tag;
-	if(lingo && tag) {
-		var relatedTags = createTiddlyButton(createTiddlyElement(popup,"li"),lingo.relatedTagsText,lingo.relatedTagsTooltip,onClickRelatedTags);
-		relatedTags.setAttribute("tag",tag);
-	}
+Popup.handlers.text = function(popup,text) {
+	createTiddlyElement(popup,"li",null,null,text);
 };
 
-Popup.layouts.onClickTag = function(popup,params) {
-	var titles = params.titles;
-	var handlers = this.handlers;
-	if(popup && titles) {
-		if(titles.length > 0) {
-			handlers.openAll(popup,params);
-			handlers.separator(popup);
-			handlers.titles(popup,params);
-		} else {
-			handlers.noTitles(popup,params);
-			handlers.separator(popup,params);
+// Instead of overriding Popup.layouts.onClickTag, make use of the fact it is extendable
+Popup.layouts.onClickTag.extras.push(
+	function(popup,params,handlers) {
+		var lingo = params.lingo;
+		var tag = params.tag;
+		handlers.button(popup,lingo.relatedTagsText,lingo.relatedTagsTooltip,onClickRelatedTags,{tag:tag});
+	}
+);
+
+// New layout for popup to be displayed when "show related tags" is clicked
+Popup.layouts.onClickRelatedTags = function(popup,params,handlers) {
+	var lingo = params.lingo;
+	var tag = params.tag;
+	var relatedtags = params.relatedtags;
+	var prompt = relatedtags.length == 0 ? lingo.labelNoRelatedTags : lingo.labelRelatedTags;
+	handlers.text(popup,prompt.format([tag]));
+	for(var t=0; t<relatedtags.length; t++) {
+		if(relatedtags[t]!==tag) {
+			createTagButton(createTiddlyElement(popup,"li"),relatedtags[t],tag);
 		}
-		handlers.relatedTags(popup,params);
-		handlers.openTag(popup,params);
 	}
 };
 
@@ -133,16 +148,14 @@ window.onClickRelatedTags = function(ev)
 		}
 	}
 	var lingo = config.views.wikified.tag;
-	var prompt = relatedtags.length == 0 ? lingo.labelNoRelatedTags : lingo.labelRelatedTags;
-	createTiddlyElement(popup,"li",null,"listTitle",prompt.format([tag]));
-	for(var t=0; t<relatedtags.length; t++) {
-		if(relatedtags[t]!==tag) {
-			createTagButton(createTiddlyElement(popup,"li"),relatedtags[t],tag);
-		}
-	}
+	var params = {
+		lingo:lingo,
+		relatedtags:relatedtags,
+		tag:tag
+	};
+	Popup.layout(popup,'onClickRelatedTags',params);
 	Popup.show();
 	e.cancelBubble = true;
 	if (e.stopPropagation) e.stopPropagation();
 	return false;
 };
-*/
