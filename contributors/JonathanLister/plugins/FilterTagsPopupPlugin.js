@@ -31,7 +31,7 @@ Popup.layouts.onClickFilterTags = function(popup,params,handlers) {
 // Event handler for 'Filter tags' on a tiddler tag popup
 window.onClickFilterTags = function(ev)
 {
-	var e = ev ? ev : window.event;		
+	var e = ev ? ev : window.event;
 	var popup = Popup.create(this);
 	var relatedtags = [];
 	var tags = [];
