@@ -748,7 +748,7 @@ with brs in non-mgtdlist content. .normal might help */
 }
 
 .deleteTiddlerButton {
-	color: #a66; font-weight:bold; margin-left:0.5em; 
+	color: #a66; font-weight:bold; margin-right:0.4em; margin-left:0.1em; 
 }
 
 

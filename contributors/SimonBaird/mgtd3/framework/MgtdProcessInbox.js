@@ -28,7 +28,6 @@ merge(config.macros,{
 				var displayThese = [];
 
 				for (var i=0;i<lines.length;i++) {
-					alert(lines[i]);
 
 					var fields_and_text = lines[i].split(/\|\|/); // anything after || is to become tiddler content
 					
@@ -36,7 +35,6 @@ merge(config.macros,{
 					var fields = fields_and_text[0].split(/[|;]/);
 					var tiddlerText = fields_and_text[1];
 
-					alert(tiddlerText);
 
 					if (!fields[0] || fields[0].trim() == "") {
 						currentProject = "";
