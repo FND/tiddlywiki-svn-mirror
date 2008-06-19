@@ -116,7 +116,10 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
 	return results;
 };
 
-var filterTiddlers = function(tiddlers,filter) {
+var filterTiddlers = function(filter,tiddlers) {
+	if(!tiddlers) {
+		return store.filterTiddlers(filter);
+	}
 	var TW = new TiddlyWiki();
 	for(var i=0;i<tiddlers.length;i++) {
 		TW.addTiddler(tiddlers[i]);

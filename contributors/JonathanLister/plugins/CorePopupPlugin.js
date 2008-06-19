@@ -45,15 +45,16 @@ merge(Popup.handlers, {
 		createTiddlyText(createTiddlyElement(popup,"li",null,"disabled"),label);
 	},
 	listBreak: function(popup) {
-		createTiddlyElement(createTiddlyElement(popup,"li",null,"listBreak"),"div");
+		return createTiddlyElement(createTiddlyElement(popup,"li",null,"listBreak"),"div");
 	},
 	button: function(popup,label,tooltip,callback,attribs) {
-		var btn = createTiddlyButton(createTiddlyElement(popup,"li"),label,tooltip,callback,null,null,null,attribs);
+		return createTiddlyButton(createTiddlyElement(popup,"li"),label,tooltip,callback,null,null,null,attribs);
 	},
 	link: function(popup,title,text) {
 		if(title) {
 			var h = createTiddlyLink(createTiddlyElement(popup,"li"),title,false);
 			createTiddlyText(h,text);
+			return h;
 		}
 	}
 });
@@ -68,6 +69,7 @@ merge(Popup.layouts, {
 				handlers.button(popup,lingo.openAllText.format([tag]),lingo.openAllTooltip,onClickTagOpenAll,{tag:tag});
 				handlers.listBreak(popup);
 				handlers.listTitles(popup,titles);
+				handlers.listBreak(popup);
 			} else {
 				handlers.noTitles(popup,lingo.popupNone.format([tag]));
 				handlers.listBreak(popup);
@@ -85,23 +87,11 @@ window.onClickTag = function(ev)
 	var popup = Popup.create(this);
 	var tag = this.getAttribute("tag");
 	var title = this.getAttribute("tiddler");
-	var excludeTags = this.getAttribute("excludeTags");
-	var filterFunc = excludeTags ? 'filterTiddlers' : 'getTaggedTiddlers';
-	var filter = "";
+	var tiddlers = this.tiddlers;
 	var tags = [];
-	if(excludeTags) {
-		tags = excludeTags.readBracketedList();
-		filter += "[tag["+tag+"]";
-		for(var i=0;i<tags.length;i++) {
-			filter += "tag["+tags[i]+"]";
-		}
-		filter += "]";
-	} else {
-		filter = tag;
-	}
-	console.log(filter);
+	var filter = tiddlers ? "[tag["+tag+"]]" : tag;
 	if(popup && filter) {
-		var tagged = store[filterFunc](filter);
+		var tagged = tiddlers ? filterTiddlers(filter,tiddlers) : store.getTaggedTiddlers(filter);
 		var titles = [];
 		var li,r;
 		for(r=0;r<tagged.length;r++) {
@@ -112,7 +102,8 @@ window.onClickTag = function(ev)
 		var params = {
 			titles:titles,
 			lingo:lingo,
-			tag:tag
+			tag:tag,
+			tiddlers:tagged
 		};
 		Popup.layout(popup,'onClickTag',params);
 	}
