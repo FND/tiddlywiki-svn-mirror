@@ -1,0 +1,6 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: tiddlers/split.recipe
+recipe: plugins/split.recipe
+tiddler: ../../plugins/CorePopupPlugin.js
+tiddler: ../../plugins/RelatedTagsPopupPlugin.js
+tiddler: ../../plugins/FilterTagsPopupPlugin.js
