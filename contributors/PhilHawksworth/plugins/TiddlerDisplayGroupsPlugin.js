@@ -309,6 +309,7 @@ Bunch.prototype.getLastTiddlerInBunch = function() {
 //store the existing displayTiddler and closeTiddler functions for use later.
 version.extensions.TiddlerDisplayGroupsPlugin.displayTiddler = story.displayTiddler;
 version.extensions.TiddlerDisplayGroupsPlugin.closeTiddler = story.closeTiddler;
+version.extensions.TiddlerDisplayGroupsPlugin.closeAllTiddlers = story.closeAllTiddlers;
 
 //replace the displayTiddler function.
 Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,animSrc) {	
@@ -378,8 +379,12 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,un
 // Replace the closeTiddler function
 Story.prototype.closeTiddler = function(title,animate,unused){
 	
+	console.log("Closing " + title);
+	
 	//close the tiddler.
 	version.extensions.TiddlerDisplayGroupsPlugin.closeTiddler.apply(this,arguments);
+	
+	var me = this;
 	
 	//Get the group display object that manages this tiddler.
 	var tiddler = store.getTiddler(title);
@@ -391,7 +396,7 @@ Story.prototype.closeTiddler = function(title,animate,unused){
 		if(requiredby) {
 			for (var r=0; r < requiredby.length; r++) {
 				title = requiredby[r].title;
-				version.extensions.TiddlerDisplayGroupsPlugin.closeTiddler.apply(this,arguments);
+				version.extensions.TiddlerDisplayGroupsPlugin.closeTiddler.apply(me,arguments);
 			};
 		}
 	
@@ -403,6 +408,31 @@ Story.prototype.closeTiddler = function(title,animate,unused){
 		}
 	}
 };
+
+
+//# Close all tiddlers in the story
+Story.prototype.closeAllTiddlers = function(exclude)
+{
+	clearMessage();
+	
+	var group_object = getTiddlerDisplayGroup(exclude);
+	if(group_object) {
+		var groupField = group_object.getGroupField();
+		var common_id = store.getValue(exclude, groupField);		
+	}
+	
+	this.forEachTiddler(function(title,element) {
+		var bunchMember = false;
+		if(group_object && common_id == store.getValue(title, groupField) ) {
+			bunchMember = true;
+		}
+		if((title != exclude) && element.getAttribute("dirty") != "true" && !bunchMember) {
+			version.extensions.TiddlerDisplayGroupsPlugin.closeTiddler.apply(this,[title]);
+		}
+	});
+	window.scrollTo(0,ensureVisible(this.container));
+};
+
 
 
 } //# end of 'install only once'
