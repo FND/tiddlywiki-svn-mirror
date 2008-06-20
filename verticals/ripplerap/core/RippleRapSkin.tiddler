@@ -182,11 +182,13 @@ div.headerControls { position:absolute; bottom:20px; right:10px; color:[[ColorPa
 
 /* Primary Nav Buttons */
 #mainMenu { display:block; position:relative; width:100%; margin:0; background-color:[[RippleRapColors::Darker]]; border-bottom:solid 3px [[RippleRapColors::Mid]]; padding:0; line-height:1.4em; text-align:left;}
-#mainMenu a.button { border-style:none; float:left;}
+/*#mainMenu a.button { border-style:none; float:left;}*/
 #mainMenu a,
+#mainMenu a.button,
 #mainMenu a.tiddlyLink,
 #mainMenu a.searchButton { font-size:1.1em; margin:0; color:[[RippleRapColors::Brightish]]; padding:0.3em 1em; line-height:1.8em; } 
 #mainMenu a:hover,
+#mainMenu a.button:hover,
 #mainMenu a.tiddlyLink:hover { background-color:[[RippleRapColors::Darkest]]; color:[[RippleRapColors::Brightest]];}
 #mainMenu span.search { position:absolute; right:0px; top:0px; padding:0; margin:0; }
 #mainMenu span.search .txtOptionInput { margin:3px; padding:0px 4px 2px 4px; font-size:0.95em; border-style:none; border-top:2px solid [[RippleRapColors::Bright]];}

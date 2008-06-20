@@ -169,7 +169,6 @@ Story.prototype.refreshAllTiddlers = function(force) {
 			this.refreshTiddler(e.getAttribute("tiddler"),force ? null : e.getAttribute("template"),true);			
 		}
 	}
-
 };
 
 }
