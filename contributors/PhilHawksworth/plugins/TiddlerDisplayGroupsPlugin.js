@@ -379,8 +379,6 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,un
 // Replace the closeTiddler function
 Story.prototype.closeTiddler = function(title,animate,unused){
 	
-	console.log("Closing " + title);
-	
 	//close the tiddler.
 	version.extensions.TiddlerDisplayGroupsPlugin.closeTiddler.apply(this,arguments);
 	
