@@ -52,7 +52,7 @@ config.macros.RippleRap.init = function(){
 
 
 config.macros.RippleRap.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	var params = paramString.parseParams("anon",null,true,false,false);
+	params = paramString.parseParams("anon",null,true,false,false);
 	var option = getParam(params,"option",null);
 	switch(option) { 
 		case "makeNote" : 
@@ -64,6 +64,7 @@ config.macros.RippleRap.handler = function(place,macroName,params,wikifier,param
 		default: 
 			break;
 	} 
+	return false;
 };
 
 
@@ -79,6 +80,7 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 	var target = resolveTarget(e);
 	var sessionTiddler = story.findContainingTiddler(target);
 	var title = sessionTiddler.getAttribute('tiddler') +" from "+ config.options.txtSharedNotesUserName;
+	var fields = {};
 	
 	// If the notes tiddler is already displayed show it in edit mode.
 	var t = story.getTiddler(title);
@@ -86,7 +88,7 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 		var applied_template = t.getAttribute("template");
 		if(applied_template.substr('View'))
 			template = DEFAULT_EDIT_TEMPLATE;
-		var fields = t.getAttribute("tiddlyFields");
+		fields = t.getAttribute("tiddlyFields");
 		story.displayTiddler(null,title,template,false,null,fields);
 		return false;
 	}
@@ -98,7 +100,7 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 		var modified = null;
 		var created = null;
 		var tags = ['notes'];
-		var fields = {};
+		fields = {};
 		fields.rr_session_id = sessionTiddler.getAttribute('tiddler');
 		store.saveTiddler(title,title,text,modifier,modified,tags,fields,true,created);
 	}
@@ -161,9 +163,9 @@ Story.prototype.refreshAllTiddlers = function(force) {
 	if(!e)
 		return;
 	this.refreshTiddler(e.getAttribute("tiddler"),force ? null : e.getAttribute("template"),true);
-	while((e = e.nextSibling) != null) {
+	while((e = e.nextSibling) !== null) {
 		var template = e.getAttribute("template");
-		if(template && template.indexOf('Edit') == -1){
+		if(template && (0>template.toLower().indexOf("edit"))){
 			this.refreshTiddler(e.getAttribute("tiddler"),force ? null : e.getAttribute("template"),true);			
 		}
 	}
