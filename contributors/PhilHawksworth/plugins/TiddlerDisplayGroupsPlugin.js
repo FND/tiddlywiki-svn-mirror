@@ -12,6 +12,34 @@
 //{{{
 if(!version.extensions.TiddlerDisplayGroupsPlugin) {
 version.extensions.TiddlerDisplayGroupsPlugin = {installed:true};
+
+
+//
+// Overwrite displayTiddler until the animSrc patch is added to the core Story.js
+Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,animSrc)
+{
+	var title = (tiddler instanceof Tiddler) ? tiddler.title : tiddler;
+	var tiddlerElem = this.getTiddler(title);
+	if(tiddlerElem) {
+		if(toggle)
+			this.closeTiddler(title,true);
+		else
+			this.refreshTiddler(title,template,false,customFields);
+	} else {
+		var place = this.getContainer();
+		var before = this.positionTiddler(srcElement);
+		tiddlerElem = this.createTiddler(place,before,title,template,customFields);
+	}
+	srcElement = animSrc ? animSrc : srcElement;
+	if(srcElement && typeof srcElement !== "string") {
+		if(config.options.chkAnimate && (animate == undefined || animate == true) && anim && typeof Zoomer == "function" && typeof Scroller == "function")
+			anim.startAnimating(new Zoomer(title,srcElement,tiddlerElem),new Scroller(tiddlerElem));
+		else
+			window.scrollTo(0,ensureVisible(tiddlerElem));
+	}
+};
+
+
 	
 var TiddlerDisplayGroups = [];
 	
@@ -135,7 +163,7 @@ TiddlerDisplayGroup.prototype.getPreviousSectionDetails = function(label) {
 
 // Return the tiddler that this tiddler should be displayed after in the story.
 TiddlerDisplayGroup.prototype.getTiddlerDisplayPosition = function(tiddlerTitle) {
-	
+
 	// get section details for this tiddler
 	var sectionDetails = this.templateSectionDetails(tiddlerTitle);
 	if(!sectionDetails)
@@ -153,6 +181,8 @@ TiddlerDisplayGroup.prototype.getTiddlerDisplayPosition = function(tiddlerTitle)
 	
 	// determin top or bottom display.
 	var locationInSection = sectionDetails.openAt;
+	
+	console.log("Display at " + locationInSection, sectionDetails);
 
 	// if bottom. find last tiddler in this section of bunch
 	if(locationInSection == 'bottom') {
@@ -356,8 +386,10 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,un
 		b = group_object.createBunch(bunching_id);
 
 	var newSrcElement = story.getTiddler(group_object.getTiddlerDisplayPosition(tiddler));
-	if(newSrcElement)
+	if(newSrcElement) {		
 		srcElement = newSrcElement;
+		console.log("new srcElement:", srcElement);
+	}
 
 	// Display.
 	version.extensions.TiddlerDisplayGroupsPlugin.displayTiddler.apply(this,[srcElement,tiddler,template,animate,unused,customFields,toggle,animSrc]);
