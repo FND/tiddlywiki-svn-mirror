@@ -17,6 +17,8 @@ config.options.chkTickerRefresh = true;
 
 // Agenda
 config.options.txtMainTab = "";
+config.options.txtDisplayTimeFormat = "00hh:00mm";
+config.options.txtDisplayTimezone = "UTC";
 
 // Logging
 config.options.chkLogMessageEnabled = true;
