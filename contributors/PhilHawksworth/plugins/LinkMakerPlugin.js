@@ -51,6 +51,10 @@ version.extensions.LinkMakerPlugin = {installed:true};
 			else 
 				createTiddlyText(a,display);
 			a.setAttribute('href',linkto);
+			a.setAttribute('target',"_blank");
+			if(tooltip){
+				a.setAttribute('title', tooltip);				
+			}
 		}
 		else {			
 			var e = createTiddlyLink(place,linkto,false,classname);
@@ -58,10 +62,6 @@ version.extensions.LinkMakerPlugin = {installed:true};
 				handler(display,e,fakeParams);
 			else 
 				createTiddlyText(e,display);
-			e.setAttribute('target',"_blank");
-			if(tooltip){
-				e.setAttribute('title', tooltip);				
-			}
 		}
 	};
 
