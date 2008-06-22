@@ -31,7 +31,7 @@ version.extensions.LinkMakerPlugin = {installed:true};
 		var display =  store.getValue(tiddler,getParam(params,"display",""));
 		var classname = getParam(params,"classname",null);
 		var dateformat = getParam(params,'dateformat',null);
-		var tooltip = getParam(params,'tooltip',null);
+		var tooltip = store.getValue(tiddler,getParam(params,'tooltip',null));
 
 		if(dateformat) {
 			var handler = config.macros.view.views['date'];
