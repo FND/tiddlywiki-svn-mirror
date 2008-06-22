@@ -22,23 +22,32 @@ $conferenceURI = $_GET['conferenceURI'];
 $type = $_GET['type'];
 $conferenceName = $_GET['conferenceName'];
 $username = $_GET['username'];
+$source = 'ripplerap.html';
 
 if ((0 != strlen($conferenceURI)) && (0 != strlen($type)) && (0 != strlen($conferenceName))) {
+        // i18n unfriendly
+        $filename = preg_replace("/[^A-Za-z0-9]+/", "", $conferenceName).'.html';
 
-	// not very i18n friendly ..
-	$filename = preg_replace("/[^A-Za-z0-9]+/", "", $conferenceName);
+        // switch version if the conferenceURI is from a "staging" server
+        $prefix = (strpos($conferenceURI,'staging.')>0)?"staging-":"";
+
+        $conferenceName= $prefix.$conferenceName;
+        $source= $prefix.$source;
+        $filename= $prefix.$filename;
+
 	header('Content-type: text/html;charset=UTF-8');
-	header('Content-Disposition: attachment; filename="'.$filename.'.html"');
-	$text = file_get_contents('ripplerap.html');
+	header('Content-Disposition: attachment; filename='.$filename);
 
+	$text = file_get_contents($source);        
 	$text = preg_replace("/^(txtUserName\s*:\s*\&quot;)YourName(\&quot;;)/m", "$1".$username."$2", $text);
 	$text = preg_replace("/^(config.options.txtSharedNotesUserName\s*=\s*\&quot;)YourName(\&quot;;)/m", "$1".$username."$2", $text);
 	$text = preg_replace("/^(config.options.txtRippleRapConferenceName\s*=\s*\&quot;)(\&quot;;)/m", "$1".$conferenceName."$2", $text);
 	$text = preg_replace("/^(config.options.txtRippleRapConferenceURI\s*=\s*\&quot;)(\&quot;;)/m", "$1".$conferenceURI."$2", $text);
 	$text = preg_replace("/^(config.options.txtRippleRapType\s*=\s*\&quot;)(\&quot;;)/m", "$1".$type."$2", $text);
-	header('Content-length: '.strlen($text));
-	echo($text);
-	exit(0);
+
+        header('Content-length: '.strlen($text));
+        echo($text);
+        exit(0);
 }
 
 ?>
