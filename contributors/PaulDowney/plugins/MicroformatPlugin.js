@@ -60,7 +60,7 @@ version.extensions.Microformat = {installed:true};
 		d = Date.convertFromYYYYMMDDHHMM(value);
 
 		var text;
-		if(formatTz){
+		if(!formatTz){
 			text = d.formatString(format);
 		}else{
 			//TBD - handle alternative timezones
