@@ -190,11 +190,13 @@ SharedNotesAdaptor.getTiddlerListComplete = function(context,userParams)
 			context.tiddlers = [];
 			context.adaptor.store.forEachTiddler(function(title,tiddler) {context.tiddlers.push(tiddler);});
 		}
+		/*
 		for(var i=0; i<context.tiddlers.length; i++) {
-			context.tiddlers[i].fields['server.type'] = SharedNotesAdaptor.serverType;
-			context.tiddlers[i].fields['server.host'] = SharedNotesAdaptor.minHostName(context.host);
-			context.tiddlers[i].fields['server.page.revision'] = context.tiddlers[i].modified.convertToYYYYMMDDHHMM();
+			//#context.tiddlers[i].fields['server.type'] = SharedNotesAdaptor.serverType;
+			//#context.tiddlers[i].fields['server.host'] = SharedNotesAdaptor.minHostName(context.host);
+			//#context.tiddlers[i].fields['server.page.revision'] = context.tiddlers[i].modified.convertToYYYYMMDDHHMM();
 		}
+		*/
 		context.status = true;
 	}
 	if(context.callback) {
@@ -223,9 +225,10 @@ SharedNotesAdaptor.prototype.getTiddler = function(title,context,userParams,call
 SharedNotesAdaptor.getTiddlerComplete = function(context,userParams)
 {
 	var t = context.adaptor.store.fetchTiddler(context.title);
-	t.fields['server.type'] = SharedNotesAdaptor.serverType;
-	t.fields['server.host'] = SharedNotesAdaptor.minHostName(context.host);
-	t.fields['server.page.revision'] = t.modified.convertToYYYYMMDDHHMM();
+	//# causes new tiddlers to be got 
+	//#t.fields['server.type'] = SharedNotesAdaptor.serverType;
+	//#t.fields['server.host'] = SharedNotesAdaptor.minHostName(context.host);
+	//#t.fields['server.page.revision'] = t.modified.convertToYYYYMMDDHHMM();
 	context.tiddler = t;
 	context.status = true;
 	if(context.allowSynchronous) {
