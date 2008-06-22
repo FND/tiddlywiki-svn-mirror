@@ -13,7 +13,8 @@ Create hCalendar abbr:
 &lt;&lt;dtend [storeName|'YYYYMMDDHHMM'] [dateFormatSting]&gt;&gt;
 
 Options:
-&lt;&lt;option timeFormat&gt;&gt;
+|<<option txtDisplayTimeFormat>>|<<message config.optionsDesc.txtDisplayTimeFormat>>|
+|<<option txtDisplayTimezone>>|<<message config.optionsDesc.txtDisplayTimezone>>|
 
 ***/
 
@@ -21,7 +22,10 @@ Options:
 if(!version.extensions.Microformat) {
 version.extensions.Microformat = {installed:true};
 
-	config.options.timeFormat = "0hh:0mm";
+	config.options.txtDisplayTimeFormat = "0hh:0mm";
+	config.optionsDesc.txtDisplayTimeFormat = "format to display time fields";
+	config.options.txtDisplayTimezone = "";
+	config.optionsDesc.txtDisplayTimezone= "timezone to display time fields: UTC, etc. Blank for localtime";
 	
 	config.macros.dtstart = {};
 	config.macros.dtstart.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -36,7 +40,8 @@ version.extensions.Microformat = {installed:true};
 	Microformat_abbr = function(place,macroName,params,wikifier,paramString,tiddler) {
 
 		className = macroName;
-		format = config.options.timeFormat;
+		var format = config.options.txtDisplayTimeFormat;
+		var formatTz = config.options.txtDisplayTimezone;
 
 		// date is in TiddlyWiki YYYYMMMDDHHMM format
 		if(params[0]) {
@@ -53,10 +58,16 @@ version.extensions.Microformat = {installed:true};
 		}
 
 		d = Date.convertFromYYYYMMDDHHMM(value);
-		var text = d.formatString(format);
+
+		var text;
+		if(formatTz){
+			text = d.formatString(format);
+		}else{
+			//TBD - handle alternative timezones
+			text = d.formatUTCString(format)
+		}
 
 		// microformats is ISO YYYY-MM-DDTHH:MM:SS format
-
 		var iso = value.substr(0,4) + "-" + value.substr(4,2) + "-" + value.substr(6,2) 
 			+ "T" + value.substr(8,2) + ":" + value.substr(10,2) + ":00";
 

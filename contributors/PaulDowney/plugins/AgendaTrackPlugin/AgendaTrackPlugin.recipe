@@ -8,6 +8,8 @@ tiddler: AgendaTrackPlugin.js
 
 # dependencies
 tiddler: ../MicroformatPlugin.js
+recipe: ../FormatUTCStringPlugin/FormatUTCStringPlugin.recipe
+
 tiddler: ../TiddlifyList.js
 tiddler: ../../../MartinBudden/adaptors/ImportWorkspacePlugin.js
 
