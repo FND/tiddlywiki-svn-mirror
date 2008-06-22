@@ -182,8 +182,8 @@ TiddlerDisplayGroup.prototype.getTiddlerDisplayPosition = function(tiddlerTitle)
 	// determin top or bottom display.
 	var locationInSection = sectionDetails.openAt;
 	
-	console.log("Display at " + locationInSection, sectionDetails);
-
+	// console.log("Display at " + locationInSection, sectionDetails);
+	
 	// if bottom. find last tiddler in this section of bunch
 	if(locationInSection == 'bottom') {
 		var tiddlers = bunch.getTiddlersInSection(targetSection);
@@ -388,7 +388,7 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,un
 	var newSrcElement = story.getTiddler(group_object.getTiddlerDisplayPosition(tiddler));
 	if(newSrcElement) {		
 		srcElement = newSrcElement;
-		console.log("new srcElement:", srcElement);
+		// console.log("new srcElement:", srcElement);
 	}
 
 	// Display.
