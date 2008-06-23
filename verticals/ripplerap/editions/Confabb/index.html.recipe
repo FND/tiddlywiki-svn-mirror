@@ -6,6 +6,7 @@ tiddler: Welcome.tiddler
 tiddler: Help.tiddler
 tiddler: FAQs.tiddler
 tiddler: TiddlyWiki.tiddler
+tiddler: Sharing_settings.tiddler
 
 tiddler: plugins/RippleRapConfabbPlugin.js
 

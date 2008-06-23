@@ -1403,4 +1403,69 @@ describe('ConfabbAgendaAdaptorPlugin parsing Web 2.0 Conference Agenda', {
 	}
 });
 
+describe('ConfabbAgendaAdaptorPlugin parsing a simple vcard', {
+
+        before_each : function() {
+		__doc = '<?xml version="1.0" encoding="UTF-8"?>'
+		    +'<conference>'
+			+'  <vcard user-id="9471">'
+			+'    <fn>First Speaker</fn>'
+			+'    <profile>http://confabb.com/users/profile/firstspeaker</profile>'
+			+'    <bio>First Speaker is a good egg</bio>'
+			+'    <photo>/user/photo/9471/first_speaker.jpg</photo>'
+			+'  </vcard>'
+		    +'</conference>';
+		__tiddlers = ConfabbAgendaAdaptor.parseAgenda(__doc);
+        },
+	after_each : function() {
+		__tiddlers = undefined;
+	},
+	'should result in tiddlers' : function() {
+		value_of(__tiddlers.length).should_be(1);
+	},
+	'speaker tiddler should have the title from fn' : function() {
+		value_of(__tiddlers[0].title).should_be('First Speaker');
+	},
+	'speaker tiddler should have the title "First Speaker"' : function() {
+		value_of(__tiddlers[0].text).should_be('<html>First Speaker is a good egg</html>');
+	},
+	'speaker tiddler should have link set to the profile URI' : function() {
+		value_of(__tiddlers[0].fields.rr_speaker_link).should_be('http://confabb.com/users/profile/firstspeaker');
+	},
+	'speaker tiddler should have photo set to an absolute URI' : function() {
+		value_of(__tiddlers[0].fields.rr_speaker_photo).should_be('http://confabb.com/user/photo/9471/first_speaker.jpg');
+	}
+});
+
+describe('ConfabbAgendaAdaptorPlugin parsing a vcard', {
+
+        before_each : function() {
+		__doc = '<?xml version="1.0" encoding="UTF-8"?>'
+		    +'<conference>'
+			+'  <vcard user-id="9471">'
+			+'    <fn>First Speaker</fn>'
+			+'    <profile>http://confabb.com/users/profile/lbrenner</profile>'
+			+'    <bio>First Speaker is "Executive Producer" of Political Programming and Director of &lt;stuff&gt;' + "\n"
+			+'   somewhere doing stuff where he\'s very important!</bio>'
+			+'    <photo>/user/photo/9471/lee_brenner.tiff.jpg</photo>'
+			+'    <employer>MySpace Impact Channel</employer>'
+			+'  </vcard>'
+		    +'</conference>';
+		__tiddlers = ConfabbAgendaAdaptor.parseAgenda(__doc);
+        },
+	after_each : function() {
+		__tiddlers = undefined;
+	},
+	'should result in tiddlers' : function() {
+		value_of(__tiddlers.length).should_be(1);
+	},
+	'speaker tiddler should have the title from fn': function() {
+		value_of(__tiddlers[0].title).should_be('First Speaker');
+	},
+	'speaker tiddler text' : function() {
+		value_of(__tiddlers[0].text).should_be('<html>First Speaker is "Executive Producer" of Political Programming and Director of <stuff>'+"\n"
+			+'   somewhere doing stuff where he\'s very important!</html>');
+	}
+});
+
 // ]]>

@@ -79,7 +79,7 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 	var e = ev ? ev : window.event;
 	var target = resolveTarget(e);
 	var sessionTiddler = story.findContainingTiddler(target);
-	var title = sessionTiddler.getAttribute('tiddler') +" from "+ config.options.txtSharedNotesUserName;
+	var title = sessionTiddler.getAttribute('tiddler') +" from "+ config.options.txtSharedNotesUserName + config.options.txtPoweredBy;
 	var fields = {};
 	
 	// If the notes tiddler is already displayed show it in edit mode.

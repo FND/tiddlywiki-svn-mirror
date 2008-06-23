@@ -9,4 +9,7 @@ config.options.txtRippleRapConferenceName = "";
 // RippleRap Conference URI
 config.options.txtRippleRapConferenceURI = "";
 
+// suptitle suffix
+config.options.txtPoweredBy = "using RippleRap";
+
 //}}}

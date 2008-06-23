@@ -1,40 +1,29 @@
 <div title="FAQs" modifier="PhilWhitehouse" created="200711291952"><pre>
 ''I'm having problems getting started, can you help?''
-
 Sure, click [[here|Help]]!
 
 ''What happens if the conference wi-fi is down?''
-
 If the conference wi-fi is down, you can still take notes and save these to your hard drive. When the connection comes back up, notes will be synced automatically.
 
 ''What happens if the agenda changes in real life?''
-
 So long as the agenda is updated on the Confabb website, these changes will be pulled down to the Confabb Note Sharer the next time it is opened.
 
 ''How can I format my text?''
-
 The Confabb Note Sharer is based on a product called ~TiddlyWiki, which provides a [[simple convention for formatting|Formatting TiddlyWikis]].
 
 ''Who created the Confabb Note Sharer?''
-
 A company called [[Osmosoft|http://www.osmosoft.com]] created the Confabb Notes Sharer. It was formerly known as ~RippleRap, and you can find out more about this product at http://www.ripplerap.com.
-
 Osmosoft is a small open source innovation company owned by [[BT|http://www.bt.com]]. 
 
 ''What's the Confabb Note Sharer based on?''
-
 The Confabb Note Sharer is based on the popular open source product, TiddlyWiki. ~TiddlyWiki is a wiki packaged within a single html file, complete with all the content, the editing and saving functionality, search and tagging capabilities and much more. It can run locally from your hard drive (so it's great for taking notes or organising personal information) or on a server. It's very extensible; there are over 400 plugins developed by the ~TiddlyWiki community. Several new ~TiddlyWiki plugins have been developed and combined to create the Confabb Note Sharer.
-
 ~TiddlyWiki is a very well established and stable piece of software. However the new code that was created to support the development of the Confabb Note Sharer is relatively new and untested. It is released under a BSD licence, which means we cannot provide the software with any warranties. The full text of the BSD licence can be found on the [[Open Source Initiative web site|http://www.opensource.org/licenses/bsd-license.php]].
 
 ''How does it work?''
-
 *The sharing of notes with other delegates is done via RSS, and they're hosted on Confabb's server. Once they're downloaded onto your local document, they're stored locally.
 
 ''Can we learn more?''
-
 More information is available on the Osmosoft website at [[http://www.osmosoft.com|http://www.osmosoft.com]], the RippleRap product page at [[http://www.ripplerap.com|http://www.ripplerap.com]], and the official TiddlyWiki website at [[http://www.tiddlywiki.com|http://www.tiddlywiki.com]].
-
 And if you have any more questions while you're at the conference, just drop into the stall and we'll help you out!
 </pre>
 </div>

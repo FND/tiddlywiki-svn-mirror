@@ -75,7 +75,7 @@
 <!--{{{-->
 <div class='session'>
 	<div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
-	<div class="title" macro="view rr_session_title"></div>
+	<div class='title' macro="LinkMaker type:text display:rr_session_title linkto:rr_session_link tooltip:rr_session_toolip"></div>
 	<span class="time"><span macro="dtstart rr_session_starttime '0hh:0mm'"></span>-<span macro="dtend rr_session_endtime '0hh:0mm'"></span></span>
 	<div class="speaker" macro="TiddlifyList rr_session_speakers"></div>
 	<div class="noteOptions" macro="RippleRap option:makeNote"></div>
@@ -130,16 +130,13 @@
 
 !speakerViewTemplate
 <!--{{{-->
-<div class="VanillaView Speaker">
-<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
-<div class='title' macro='view title'></div>
-<div class='tagging' macro='tagging'></div>
-<div class='tagged' macro='tags'></div>
+<div class="Speaker">
+<div class='toolbar' macro='toolbar closeTiddler closeOthers > fields syncing permalink references jump'></div>
+<div class='title' macro="LinkMaker type:text display:title linkto:rr_speaker_link tooltip:rr_speaker_toolip"></div>
+<div class='speakingAt'><span>Speaking at: </span><span macro='SpeakerSessions'></span></span>
 <span class="vcard">
-<div class='viewer' macro='view text wikified'></div>
+<div class='viewer' macro='view bio wikified'></div>
 </span>
-<div class='viewer' macro='SpeakerSessions'></div>
-<div class='tagClear'></div> 
 </div>
 <!--}}}-->
 
@@ -248,42 +245,52 @@ input.txtOptionInput, input.pasOptionInput { font-size:1.2em; padding: 0.4em; bo
 div.tiddler sup {font-size:0.7em;}
 div.tiddler pre {font-size:0.em;}
 div.tiddler div.VanillaView div.title { color:[[RippleRapColors::Accent]]; }
+div.tiddler div.VanillaView .toolbar { font-size:0.9em;}
+div.tiddler div.VanillaView .toolbar a {border-style: none; color:#666;}
+div.tiddler div.VanillaView .toolbar a:hover {border-style: none; color:[[RippleRapColors::Brightest]]; background-color:#333;}
 
-/* Session and Notes tiddlers */
-div.session .toolbar,
-div.session_edit .toolbar,
-div.myNotes .toolbar,
-div.discoveredNotes .toolbar { text-align:right; padding:0.2em 0;}
-div.session .viewer,
-div.myNotes .viewer,
-div.discoveredNotes .viewer { padding:10px;}
-div.session .toolbar a, 
-div.session_edit .toolbar a, 
-div.myNotes .toolbar a,
-div.discoveredNotes .toolbar a {border-style: none; color:#333;}
-div.session .toolbar a:hover, 
-div.session_edit .toolbar a:hover, 
-div.myNotes .toolbar a:hover,
-div.discoveredNotes .toolbar a:hover {border-style: none; color:[[RippleRapColors::Brightest]]; background-color:#333;}
+/* Speaker tiddlers */
+div.Speaker {margin:1em 0;}
+div.Speaker .toolbar { text-align:right; padding:0.2em 0;}
+div.Speaker .toolbar a  {border-style: none; color:#666;}
+div.Speaker .toolbar a:hover {border-style: none; color:[[RippleRapColors::Brightest]]; background-color:#333;}
+div.session .title a { color:[[RippleRapColors::Accent]];}
+div.session .title a:hover{ color:[[RippleRapColors::Accent]]; background-color:transparent; text-decoration:underline;}
+div.Speaker .speakingAt {margin:0.2em 0 0 0; font-size:1.2em; font-weight:bold; color:#666;display:inline;}
+div.Speaker .viewer { padding:10px;}
 
+/* Session Tiddlers */
 div.session {margin:30px 0 0 0; position:relative;}
 div.session,
 div.session_edit { background-color:[[RippleRapColors::Shadow]]; border:solid 2px #333; border-bottom-width:1px; border-right-width:1px; margin:3em 0 0 0; }
 div.session .toolbar,
-div.session_edit .toolbar {background-color:#aaa; }
+div.session_edit .toolbar {background-color:#aaa; text-align:right; padding:0.2em 0;}
+div.session .toolbar a,
+div.session_edit .toolbar a {border-style: none; color:#333;}
+div.session .toolbar a:hover,
+div.session_edit .toolbar a:hover{border-style: none; color:[[RippleRapColors::Brightest]]; background-color:#333;}
 div.session .title { margin:0.2em 8em 0 10px; font-size:1.5em; font-weight:bold; color:[[RippleRapColors::Darkest]];}
+div.session .title a { color:[[RippleRapColors::Darkest]];}
+div.session .title a:hover{ color:[[RippleRapColors::Darkest]]; background-color:transparent; text-decoration:underline;}
+div.session .viewer { padding:10px;}
 div.session .time {margin:0 0.2em 0 10px; font-size:1.2em; font-weight:bold; color:[[RippleRapColors::Brightest]]; display:inline;}
-div.session .speaker {margin:0.2em 0 0 0; font-size:1.2em; font-weight:bold; color:#333;display:inline;}
+div.session .speaker  {margin:0.2em 0 0 0; font-size:1.2em; font-weight:bold; color:#666;display:inline;}
 div.session .viewer {margin:0 8em 0 0; font-size:1em; color:#222; padding:0.5em 5px 0.5em 10px;}
+/*div.session_edit .editor .fieldsetFix {margin:0; padding:0.5em;}*/
+/*div.session_edit .label {margin:1em 0 0.2em 10px;font-size::0.8em; font-weight:normal; color:[[RippleRapColors::Brightest]];}*/
+/*div.session_edit input {font-size:1em; font-weight:normal; color:[[RippleRapColors::Darkest]]; padding:2px; margin:0 1em; width:auto; border:solid 1px [[RippleRapColors::Dark]]}*/
+/*div.session_edit .fieldsetFix {margin:0; padding:0.5em;}*/
+/*div.session_edit textarea { border:solid 1px [[RippleRapColors::Dark]]; border-top-color:#444; border-bottom-color:[[RippleRapColors::Brightest]]; background-color:[[RippleRapColors::Brightest]];}*/
 
-div.session_edit 
-div.session_edit .editor .fieldsetFix {margin:0; padding:0.5em;}
-div.session_edit .label {margin:1em 0 0.2em 10px;font-size::0.8em; font-weight:normal; color:[[RippleRapColors::Brightest]];}
-div.session_edit input {font-size:1em; font-weight:normal; color:[[RippleRapColors::Darkest]]; padding:2px; margin:0 1em; width:auto; border:solid 1px [[RippleRapColors::Dark]]}
-div.session_edit .fieldsetFix {margin:0; padding:0.5em;}
-div.session_edit textarea { border:solid 1px [[RippleRapColors::Dark]]; border-top-color:#444; border-bottom-color:[[RippleRapColors::Brightest]]; background-color:[[RippleRapColors::Brightest]];}
-
-/*div.session .editor * {margin:0; padding:0.5em;}*/
+/* Notes Tiddlers */
+div.myNotes .toolbar,
+div.discoveredNotes .toolbar { text-align:right; padding:0.2em 0;}
+div.myNotes .viewer,
+div.discoveredNotes .viewer { padding:10px;}
+div.myNotes .toolbar a,
+div.discoveredNotes .toolbar a {border-style: none; color:#666;}
+div.myNotes .toolbar a:hover,
+div.discoveredNotes .toolbar a:hover {border-style: none; color:[[RippleRapColors::Brightest]]; background-color:#333;}
 
 div.myNotes { background-color:#ddd; border:solid 1px #333; border-top-style:none;  border-left-width:2px; margin:0;}
 div.myNotes .toolbar {background-color:#eee; }

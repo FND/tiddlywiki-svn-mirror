@@ -90,7 +90,8 @@ version.extensions.AgendaTrackPlugin = {installed:true};
 		    }
 		}
 
-		var text = sess.length ? "*" + sess.join("\n*") + "" : "";
+		// var text = sess.length ? "*" + sess.join("\n*") + "" : "";
+		var text = sess.length ? sess.join(", ") : "";
 		wikify(text,place);
 	};
 

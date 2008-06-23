@@ -3,7 +3,7 @@
 |''Description:''|Create a link from a Template, accessing a tiddlers properties|
 |''Author:''|PhilHawksworth|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/plugins/LinkMakerPlugin.js |
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|Feb 29, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -12,7 +12,7 @@
 
 Usage:
 
-<<LinkMaker type:'text|image|img' display:'tiddler field|image path' linkto:'href|TiddlerTitle' [classname:'classname'] >>
+<<LinkMaker type:'text|image|img' display:'tiddler field|image path' linkto:'href|TiddlerTitle' [classname:'classname'] [tooltip:'tooltip']>>
 
 ***/
 
@@ -26,12 +26,11 @@ version.extensions.LinkMakerPlugin = {installed:true};
 		params = paramString.parseParams("anon",null,true,false,false);
 		var linktype = getParam(params,"type",'text');
 		var linkto = store.getValue(tiddler,getParam(params,"linkto",""));
-		// var title = getParam(params,"title","");
-		// var alt = getParam(params,"alt","");
 		var display =  store.getValue(tiddler,getParam(params,"display",""));
 		var classname = getParam(params,"classname",null);
 		var dateformat = getParam(params,'dateformat',null);
-		var tooltip = store.getValue(tiddler,getParam(params,'tooltip',null));
+		var tip = getParam(params,'tooltip',null);
+		var tooltip = tip ? store.getValue(tiddler, tip) : null;
 
 		if(dateformat) {
 			var handler = config.macros.view.views['date'];

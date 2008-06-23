@@ -101,7 +101,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 		var sessionSpeakers = [];
 		var s = node.getElementsByTagName("speaker");
 		for(var j=0;j<s.length;j++) {
-			var name = getFirstElementByTagNameValue(s[j],"title");
+			name = getFirstElementByTagNameValue(s[j],"title");
 			if(name){
 				name = name.trim();
 				speakers[name] = {name: name};
@@ -116,6 +116,7 @@ ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 			rr_session_starttime: getFirstElementByTagNameValue(node,"starttime",""),
 			rr_session_endtime: getFirstElementByTagNameValue(node,"endtime",""),
 			rr_session_link: getFirstElementByTagNameValue(node,"link",""),
+			rr_session_tooltip: "click here to rate the session on Confabb.com",
 			rr_session_day: day,
 			rr_session_location: location,
 			rr_session_track: track,
@@ -129,22 +130,37 @@ ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 	 */
 	t = r.getElementsByTagName('vcard');
 	for(i=0;i<t.length;i++) {
-		var node = t[i];
-		var name = getFirstElementByTagNameValue(node,"fn","vcard");
+		node = t[i];
+		name = getFirstElementByTagNameValue(node,"fn","vcard");
 		name = name.trim();
+		var photo = getFirstElementByTagNameValue(node,"photo","");
+		if(0!==photo.indexOf('http://')){
+			photo = "http://confabb.com"+photo;
+		}
 		speakers[name] = {
+			profile: getFirstElementByTagNameValue(node,"profile",""),
 			bio: getFirstElementByTagNameValue(node,"bio",""),
-			text: ''
+			photo: photo
 		};
 	}
 
 	/*
 	 *  create speaker tiddlers
 	 */
-	for(var name in speakers) {
-		var tiddler = new Tiddler();
+	for(name in speakers) {
+		tiddler = new Tiddler();
 		speaker = speakers[name];
-		tiddler.assign(name,speaker.text,undefined,undefined,['speaker'],undefined,{});
+		text = speaker.bio;
+		if(text){
+			text = '<html>'+text+'</html>'
+		}
+
+		tiddler.assign(name,text,undefined,undefined,['speaker'],undefined,{
+			rr_speaker_link: speaker.profile,
+			rr_speaker_employer: speaker.employer,
+			rr_speaker_photo: speaker.photo,
+			rr_speaker_tooltip: 'click here to rate the speaker on Confabb.com'
+		});
 		tiddlers.push(tiddler);
 	}
 
