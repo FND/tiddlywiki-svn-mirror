@@ -3,7 +3,7 @@
 |Author|Lyall Pearce|
 |Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
 |License|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|Version|1.10.2|
+|Version|2.0.0|
 |~CoreVersion|2.3.0|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
@@ -21,11 +21,11 @@
 ** Automatic removal of excludeLists and excludeSearch tags is performed, if the above two options are set, only if these two tags are the last 2 tags for a tiddler.
 ** Encrypted tiddlers are stored as displayable hex, to keep things visibly tidy, should you display an encrypted tiddler. There is nothing worse than seeing a pile of gobbledy gook on your screen. Additionally, the encrypted data is easily cut/paste/emailed if displayed in hex form.
 * Tiddlers are decrypted on initial display, not when you load the TiddlyWiki
-** If you don't display a tiddler, you won't decrypt it.
+** If you don't display a tiddler, you won't decrypt it (unless you use the {{{<<EncryptionDecryptAll>>}}} macro)
 ** Tiddlers will re-encrypt automatically on save.
 ** Decryption of Tiddlers does not make your TiddlyWiki 'dirty' - you will not be asked to save if you leave the page.
-* Errors are reported either by displaying the shadow tiddler DecryptionFailed or displaying the encrypted tiddler contents.
-** Empty passwords, on save, will result in the tiddler being saved unencrypted - this should only occur with new tiddlers or with tiddlers who have had their 'prompt' tag changed.
+* Errors are reported via diagnostic messages.
+** Empty passwords, on save, will result in the tiddler being saved unencrypted - this should only occur with new tiddlers, decrypted tiddlers or with tiddlers who have had their 'prompt' tag changed.
 ** Encrypted tiddlers know if they are decrypted successfully - failure to decrypt a tiddler will ''not'' lose your data.
 ** Editing of an encrypted (that has not been unencrypted) tiddler will result in loss of that tiddler as the SHA1 checksums will no longer match, upon decryption. To this end, it is best that you do not check the option.
 ** To change the password on a Tiddler, change the Encrypt('prompt') tag to a new prompt value, after decrypting the tiddler.
@@ -38,31 +38,27 @@
 Useful Buttons: 
 <<EncryptionChangePassword>> - Change passwords of encrypted tiddlers.
 <<EncryptionDecryptAll>> - Decrypt ALL tiddlers - enables searching contents of encrypted tiddlers.
-<<option chkEncryptShowEncrypted>> Show encrypted tiddler contents on decrypt failure
 <<option chkExcludeEncryptedFromSearch>> - If set, Encrypted Tiddlers are excluded from searching by tagging with excludeSearch. If Clear, excludeSearch is not added and it is also removed from existing Encrypted Tiddlers only if it is the last Tag. Searching of Encrypted Tiddlers is only meaningful for the Title and Tags.
 <<option chkExcludeEncryptedFromLists>> - If set, Encrypted Tiddlers are excluded from lists by tagging with excludeLists. If Clear, excludeLists is not added and it is also removed from existing Encrypted Tiddlers only if it is the last Tag. Preventing encrypted tiddlers from appearing in lists effectively hides them.
 <<option chkCachePasswords>> - If unchecked, do not cache passwords. This means you will be prompted for the password every time you display an encrypted tiddler (not forgetting that once they are displayed, they stay decrypted until the next save).
 <<<
 !!!!!Revision History
 <<<
-* 1.10.2 - Added configuration section to be compatible with http://tiddlytools.com/#AdvancedOptionsPlugin plugin as well as making configuration of the plugin easier. Removed automatic inclusion into the AdvancedOptions page. 
+* 2.0.0 - No longer display encrypted tiddler contents, display a button which will decrypt the tiddler. Additionally, do not automatically prompt for passwords - rely on either the Decrypt or DecryptAll buttons to intitiate a prompt for passwords. This is the only change in behaviour, if you don't like this behaviour, don't upgrade from 1.10.2
 <<<
 !!!!!Additional work
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 1, minor: 10, revision: 2, date: new Date(2008,04,12)};
+version.extensions.TiddlerEncryptionPlugin = {major: 2, minor: 0, revision: 0, date: new Date(2008,6,23)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
+config.encryptionReEnterPasswords = false;
 
-// Setup option for using shadow tiddlers for display of errors or simply show the 'encrypted tiddler'
-if(config.options.chkEncryptShowEncrypted == undefined) config.options.chkEncryptShowEncrypted = false;
 if(config.options.chkExcludeEncryptedFromSearch == undefined) config.options.chkExcludeEncryptedFromSearch = false;
 if(config.options.chkExcludeEncryptedFromLists == undefined) config.options.chkExcludeEncryptedFromLists = false;
 if(config.options.chkCachePasswords == undefined) config.options.chkCachePasswords = true;
-
-config.shadowTiddlers.DecryptionFailed = "Decryption of an encrypted tiddler failed.";
 
 config.macros.EncryptionChangePassword = {};
 config.macros.EncryptionChangePassword.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -89,6 +85,20 @@ config.macros.EncryptionDecryptAll.handler = function(place,macroName,params,wik
 				       params[3]);
     if(params[2] && params[2].length > 0) {
 	theButton.setAttribute("promptString", params[2]);
+    }
+};
+
+config.macros.EncryptionDecryptThis = {};
+config.macros.EncryptionDecryptThis.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+    var theButton = createTiddlyButton(place,
+				       (params[0] && params[0].length > 0) ? params[0] : "Decrypt", 
+				       (params[1] && params[1].length > 0) ? params[1] : "Decrypt this Tiddler", 
+				       onClickEncryptionDecryptThis,
+				       null,
+				       null,
+				       params[3]);
+    if(params[2] && params[2].length > 0) {
+	theButton.setAttribute("theTiddler", params[2]);
     }
 };
 
@@ -137,12 +147,32 @@ function onClickEncryptionChangePassword() {
     return;
 };
 
+function onClickEncryptionDecryptThis() {
+    var theTiddler = this.getAttribute("theTiddler");
+    if(!theTiddler) {
+	return;
+    }
+    config.encryptionReEnterPasswords = true;
+    try {
+	theTiddler = store.getTiddler(theTiddler);
+	config.encryptionReEnterPasswords = false;
+	story.refreshAllTiddlers();
+    } catch (e) {
+	if(e == "DecryptionFailed") {
+	    displayMessage("Decryption failed");
+	    return;
+	}
+    } // catch
+    return;
+};
+
 function onClickEncryptionDecryptAll() {
     var promptString = this.getAttribute("promptString");
     if(!promptString) {
 	promptString = "";
     }
     var tagToSearchFor="Decrypt("+promptString;
+    config.encryptionReEnterPasswords = true; 
     try {
 	store.forEachTiddler(function(store,tiddler) {
 		if(tiddler && tiddler.tags) {
@@ -251,10 +281,12 @@ function CheckTiddlerForDecryption_TiddlerEncryptionPlugin(tiddler) {
 			    } else {
 				// Did not decrypt, discard the password from the cache
 				config.encryptionPasswords[passwordPrompt] = null;
+				config.encryptionReEnterPasswords = false;
 				throw "DecryptionFailed";
 			    }
 			} else {
 			    // no password supplied, dont bother trying to decrypt
+			    config.encryptionReEnterPasswords = false;
 			    throw "DecryptionFailed";
 			}
 		    } else {
@@ -276,19 +308,16 @@ store.getTiddler = function(title) {
 	    return CheckTiddlerForDecryption_TiddlerEncryptionPlugin(tiddler);
 	} catch (e) {
 	    if(e == "DecryptionFailed") {
-		if(config.options.chkEncryptShowEncrypted) {
-		    return tiddler;
-		} else {
-		    var tiddler = store.getTiddler("DecryptionFailed");
-		    if(!tiddler) {
-			tiddler = new Tiddler();
-			if(store.isShadowTiddler("DecryptionFailed")) {
-			    tiddler.set(title,store.getTiddlerText("DecryptionFailed"),config.views.wikified.shadowModifier,version.date,[],version.date);
-			} 
-		    }
-		    return tiddler;
-		}
-	    }
+		var tiddler = store.getTiddler("DecryptionFailed");
+		if(!tiddler) {
+		    tiddler = new Tiddler();
+		    tiddler.set(title,
+				"<<EncryptionDecryptThis \"Decrypt\" \"Decrypt this tiddler\" \""+title+"\">>",
+				config.views.wikified.shadowModifier,
+				version.date,[],version.date);
+		} 
+		return tiddler;
+	    } // if(e)
 	} // catch
     } // if(tiddler) {
     return null;
@@ -309,7 +338,8 @@ store.getTiddlerText = function(title,defaultText) {
 // Given a prompt, search our cache to see if we have already entered the password.
 // Can return null if the user enters nothing.
 function MyPrompt_TiddlerEncryptionPlugin(promptString,defaultValue) {
-   return prompt(promptString, defaultValue);
+    var thePassword = defaultValue;
+    return prompt(promptString, defaultValue);
 }
 
 function GetAndSetPasswordForPrompt_TiddlerEncryptionPlugin(promptString) {
@@ -320,11 +350,15 @@ function GetAndSetPasswordForPrompt_TiddlerEncryptionPlugin(promptString) {
 }
 
 function GetAndSetPasswordForPromptToDecrypt_TiddlerEncryptionPlugin(promptString) {
-    if(config.options.chkCachePasswords == true) {
-	return GetAndSetPasswordForPrompt_TiddlerEncryptionPlugin(promptString);
+    if(config.encryptionReEnterPasswords) {
+	if(config.options.chkCachePasswords == true) {
+	    return GetAndSetPasswordForPrompt_TiddlerEncryptionPlugin(promptString);
+	} else {
+	    config.encryptionPasswords[promptString] = MyPrompt_TiddlerEncryptionPlugin("Enter password for '"+promptString+"' :", "");
+	    return config.encryptionPasswords[promptString];
+	}
     } else {
-	config.encryptionPasswords[promptString] = MyPrompt_TiddlerEncryptionPlugin("Enter password for '"+promptString+"' :", "");
-	return config.encryptionPasswords[promptString];
+	return;
     }
 }
 
