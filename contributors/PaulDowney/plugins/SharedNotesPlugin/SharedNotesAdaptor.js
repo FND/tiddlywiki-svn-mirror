@@ -67,6 +67,8 @@ SharedNotesAdaptor.parse = function(responseText,modifier)
 			// title is "{session_id} from {user}"
 			var fields = {};
 			fields.rr_session_id = title.replace(/ from.*$/,"");
+			fields.rr_user_profile = "http://confabb.com/users/profile/" + modifier;
+			fields.rr_user_tooltip = "click to see the user on Confabb";
 
 			var modified = new Date(pubDate);
 			var created = modified;
