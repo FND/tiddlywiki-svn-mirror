@@ -78,7 +78,7 @@
 	<div class='title' macro="LinkMaker type:text display:rr_session_title linkto:rr_session_link tooltip:rr_session_tooltip"></div>
 	<span class="time"><span macro="dtstart rr_session_starttime '0hh:0mm'"></span>-<span macro="dtend rr_session_endtime '0hh:0mm'"></span></span>
 	<div class="speaker" macro="TiddlifyList rr_session_speakers"></div>
-	<div class="noteOptions" macro="RippleRap option:makeNote"></div>
+	<div class="noteOptions"><div macro="RippleRap option:makeNote"></div><div macro="RippleRap option:confabbReview"></div></div>
 	<div class='viewer' macro='view text wikified'></div>
 </div>
 <!--}}}-->
@@ -281,6 +281,8 @@ div.session .viewer {margin:0 8em 0 0; font-size:1em; color:#222; padding:0.5em 
 /*div.session_edit input {font-size:1em; font-weight:normal; color:[[RippleRapColors::Darkest]]; padding:2px; margin:0 1em; width:auto; border:solid 1px [[RippleRapColors::Dark]]}*/
 /*div.session_edit .fieldsetFix {margin:0; padding:0.5em;}*/
 /*div.session_edit textarea { border:solid 1px [[RippleRapColors::Dark]]; border-top-color:#444; border-bottom-color:[[RippleRapColors::Brightest]]; background-color:[[RippleRapColors::Brightest]];}*/
+div.session div.noteOptions div { text-align:right; }
+div.session div.noteOptions div a{ text-align:right; line-height:2em;}
 
 /* Notes Tiddlers */
 div.myNotes .toolbar,
