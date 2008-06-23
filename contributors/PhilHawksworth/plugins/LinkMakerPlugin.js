@@ -38,11 +38,13 @@ version.extensions.LinkMakerPlugin = {installed:true};
 		}
 		
 		if(linktype == 'image' || linktype ==  'img') {
-			var a = createTiddlyElement(place,'a',null,classname);
+			var a = createTiddlyElement(place,'a',null,null);
 			a.setAttribute('href',linkto);
+			a.setAttribute('target',"_blank");
 			var i = createTiddlyElement(a,'img');
 			i.setAttribute('src',display);
 		}
+		
 		else if (linkto && config.formatterHelpers.isExternalLink(linkto)) {
 			var a = createTiddlyElement(place,'a',null,classname,null);
 			if (handler)
