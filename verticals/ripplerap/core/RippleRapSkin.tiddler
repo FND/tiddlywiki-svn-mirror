@@ -135,7 +135,7 @@
 <div class='title' macro="LinkMaker type:text display:title linkto:rr_speaker_link tooltip:rr_speaker_tooltip"></div>
 <div class='speakingAt'><span>Speaking at: </span><span macro='SpeakerSessions'></span></span></div>
 <span class="vcard">
-<div class='viewer' macro='view bio wikified'></div>
+<div class='viewer' macro='view text wikified'></div>
 <div class='photo' macro='view photo wikified'></div>
 </span>
 </div>
