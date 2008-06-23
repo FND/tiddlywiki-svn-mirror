@@ -76,9 +76,6 @@ SharedNotesAdaptor.parse = function(responseText,modifier)
 			var tiddler = new Tiddler();
 			tiddler.assign(title,text,modifier,modified,tags,created,fields);
 			tiddlers.push(tiddler);
-			log("tiddler:",tiddler );
-		} else {
-			log("Skipping blank note: " + title);
 		}
 	}
 	return tiddlers;
