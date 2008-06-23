@@ -184,7 +184,7 @@ div.headerControls { position:absolute; bottom:20px; right:10px; color:[[ColorPa
 #mainMenu a,
 #mainMenu a.button,
 #mainMenu a.tiddlyLink,
-#mainMenu a.searchButton { font-size:1.1em; margin:0; color:[[RippleRapColors::Brightish]]; padding:0.3em 1em; line-height:1.8em; } 
+#mainMenu a.searchButton { font-size:1.1em; margin:0; color:[[RippleRapColors::Brightish]]; padding:0.3em 1em; line-height:1.7em; } 
 #mainMenu a:hover,
 #mainMenu a.button:hover,
 #mainMenu a.tiddlyLink:hover { background-color:[[RippleRapColors::Darkest]]; color:[[RippleRapColors::Brightest]];}
@@ -227,6 +227,7 @@ span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBri
 
 #agendaMenu div.listRelatedTiddler span.speaker { color:#666; display:block; margin:0.2em 0 0 5em; }
 #agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler { text-align:right; }
+/*#agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler { display:inline; margin-left:1em; text-align:right; }*/
 #agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler a { color:#55c; font-size:0.9em; line-height:1.4em; text-decoration:none; }
 #agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler a.tiddlyLink:hover,
 #agendaMenu div.listRelatedTiddler span.title a:hover { color:[[RippleRapColors::Darkest]]; text-decoration:underline;	background-color:#f0f0f0; }
@@ -287,6 +288,8 @@ div.discoveredNotes .toolbar { text-align:right; padding:0.2em 0;}
 div.myNotes .viewer,
 div.discoveredNotes .viewer { padding:10px;}
 div.myNotes .toolbar a,
+div.myNotes .toolbar a:active,
+div.discoveredNotes .toolbar a:active,
 div.discoveredNotes .toolbar a {border-style: none; color:#666;}
 div.myNotes .toolbar a:hover,
 div.discoveredNotes .toolbar a:hover {border-style: none; color:[[RippleRapColors::Brightest]]; background-color:#333;}
@@ -299,7 +302,8 @@ div.myNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
 div.myNotes .editor .fieldsetFix textarea { border:solid 1px [[RippleRapColors::Dark]]; border-top-color:#444; border-bottom-color:[[RippleRapColors::Brightest]]; background-color:[[RippleRapColors::Brightest]];overflow:auto;  padding:10px;}
 div.myNotes .tags {display:none;}
 div.myNotes div.buttonbar { padding: 0 0.5em 1em 0.5em; }
-div.myNotes div.buttonbar a.button { border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid #666; margin-right:2px; background-color:[[RippleRapColors::Shadow]]; color:[[RippleRapColors::Brightest]];}
+div.myNotes div.buttonbar a.button,
+div.myNotes div.buttonbar a.active { border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid #666; margin-right:2px; background-color:[[RippleRapColors::Shadow]]; color:[[RippleRapColors::Brightest]];}
 div.myNotes div.buttonbar a.button:hover { border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid [[RippleRapColors::AccentDark]]; background-color:[[RippleRapColors::Accent]]; color:[[RippleRapColors::Brightest]];}
 
 div.discoveredNotes { background-color:#ddd; border:solid 1px #333; border-left-width:2px; border-top-style:none; margin:0;}
