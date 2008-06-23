@@ -1,13 +1,13 @@
 <div title="Welcome" modifier="PhilWhitehouse" created="200711291952">
 <pre><<browser is IE>><<tiddler LoginToConfabb>>
 >>
-Welcome to the Confabb Note Sharer! When you open this document for the first time, the agenda will be downloaded from the server automatically, followed by any notes which your fellow attendees have already shared. Add notes of your own, and these will be shared automatically. The document will check the server occasionally to see if any new notes have been added.
+Welcome to the Confabb ~NoteShare! When you open this document for the first time, the agenda will be downloaded from the server automatically, followed by any notes which your fellow attendees have already shared. Add notes of your own, and these will be shared automatically. The document will check the server occasionally to see if any new notes have been added.
 
 To add a note, simply click on the agenda item on the left hand side, and then click on 'make note'. When you're finished, click on done, and the document will save automatically.
 
-<<browser is Gecko>>You may find when you run the Confabb Note Sharer for the first time, warning messages appear - don't worry, this is normal! You'll need to grant permission for the document to save changes locally, and then you're ready to go. You can select the //Remember this decision// option to avoid seeing the dialogs in future.
+<<browser is Gecko>>You may find when you run the Confabb ~NoteShare for the first time, warning messages appear - don't worry, this is normal! You'll need to grant permission for the document to save changes locally, and then you're ready to go. You can select the //Remember this decision// option to avoid seeing the dialogs in future.
 
->><<browser is IE>>You may find when you run the Confabb Note Sharer for the first time, warning messages appear - don't worry, this is normal! You'll need to grant permission for the document to save changes locally, and then you're ready to go.
+>><<browser is IE>>You may find when you run the Confabb ~NoteShare for the first time, warning messages appear - don't worry, this is normal! You'll need to grant permission for the document to save changes locally, and then you're ready to go.
 
 >><<browser is Opera>>''Note:'' We see you're using Opera. We need you to download one more file, and keep it in the same directory as this file, then everything will be tickety-boo. You can download this file from [[here|http://www.tiddlywiki.com/TiddlySaver.jar]].
 

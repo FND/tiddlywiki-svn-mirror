@@ -6,18 +6,18 @@ Sure, click [[here|Help]]!
 If the conference wi-fi is down, you can still take notes and save these to your hard drive. When the connection comes back up, notes will be synced automatically.
 
 ''What happens if the agenda changes in real life?''
-So long as the agenda is updated on the Confabb website, these changes will be pulled down to the Confabb NoteSharer the next time it is opened.
+So long as the agenda is updated on the Confabb website, these changes will be pulled down to the Confabb ~NoteShare the next time it is opened.
 
 ''How can I format my text?''
-The Confabb NoteSharer is based on a product called ~TiddlyWiki, which provides a [[simple convention for formatting|Formatting TiddlyWikis]].
+The Confabb ~NoteShare is based on a product called ~TiddlyWiki, which provides a [[simple convention for formatting|Formatting TiddlyWikis]].
 
-''Who created the Confabb NoteSharer?''
-A company called [[Osmosoft|http://www.osmosoft.com]] created the Confabb NotesSharer. It was formerly known as ~RippleRap, and you can find out more about this product at http://www.ripplerap.com.
+''Who created the Confabb ~NoteShare?''
+A company called [[Osmosoft|http://www.osmosoft.com]] created the Confabb NotesShare. It was formerly known as ~RippleRap, and you can find out more about this product at http://www.ripplerap.com.
 Osmosoft is a small open source innovation company owned by [[BT|http://www.bt.com]]. 
 
-''What's the Confabb NoteSharer based on?''
-The Confabb NoteSharer is based on the popular open source product, TiddlyWiki. ~TiddlyWiki is a wiki packaged within a single html file, complete with all the content, the editing and saving functionality, search and tagging capabilities and much more. It can run locally from your hard drive (so it's great for taking notes or organising personal information) or on a server. It's very extensible; there are over 400 plugins developed by the ~TiddlyWiki community. Several new ~TiddlyWiki plugins have been developed and combined to create the Confabb NoteSharer.
-~TiddlyWiki is a very well established and stable piece of software. However the new code that was created to support the development of the Confabb NoteSharer is relatively new and untested. It is released under a BSD licence, which means we cannot provide the software with any warranties. The full text of the BSD licence can be found on the [[Open Source Initiative web site|http://www.opensource.org/licenses/bsd-license.php]].
+''What's the Confabb ~NoteShare based on?''
+The Confabb ~NoteShare is based on the popular open source product, TiddlyWiki. ~TiddlyWiki is a wiki packaged within a single html file, complete with all the content, the editing and saving functionality, search and tagging capabilities and much more. It can run locally from your hard drive (so it's great for taking notes or organising personal information) or on a server. It's very extensible; there are over 400 plugins developed by the ~TiddlyWiki community. Several new ~TiddlyWiki plugins have been developed and combined to create the Confabb ~NoteShare.
+~TiddlyWiki is a very well established and stable piece of software. However the new code that was created to support the development of the Confabb ~NoteShare is relatively new and untested. It is released under a BSD licence, which means we cannot provide the software with any warranties. The full text of the BSD licence can be found on the [[Open Source Initiative web site|http://www.opensource.org/licenses/bsd-license.php]].
 
 ''How does it work?''
 *The sharing of notes with other delegates is done via RSS, and they're hosted on Confabb's server. Once they're downloaded onto your local document, they're stored locally.

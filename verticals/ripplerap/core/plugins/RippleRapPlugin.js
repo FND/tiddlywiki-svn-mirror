@@ -79,7 +79,7 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 	var e = ev ? ev : window.event;
 	var target = resolveTarget(e);
 	var sessionTiddler = story.findContainingTiddler(target);
-	var title = sessionTiddler.getAttribute('tiddler') +" from "+ config.options.txtSharedNotesUserName + config.options.txtPoweredBy;
+	var title = sessionTiddler.getAttribute('tiddler') +" from "+ config.options.txtSharedNotesUserName;
 	var fields = {};
 	
 	// If the notes tiddler is already displayed show it in edit mode.
@@ -116,7 +116,9 @@ config.macros.RippleRap.labelEdition = function() {
 	var st = store.getTiddler('SiteTitle');
 	var sst = store.getTiddler('SiteSubtitle');
 	st.text = config.options.txtRippleRapConferenceName;
-	sst.text = "notes by " + config.options.txtSharedNotesUserName;
+//# shouldn't be hard-coded
+	var suffix = config.options.txtPoweredBy || " using Confabb ~NoteShare";
+	sst.text = "notes by " + config.options.txtSharedNotesUserName + suffix;
 	refreshPageTemplate();
 };
 
