@@ -25,7 +25,7 @@ version.extensions.LinkMakerPlugin = {installed:true};
 		
 		params = paramString.parseParams("anon",null,true,false,false);
 		var linktype = getParam(params,"type",'text');
-		var linkto = store.getValue(tiddler,getParam(params,"linkto",""));
+		var linkto = store.getValue(tiddler,getParam(params,"linkto",null));
 		var display =  store.getValue(tiddler,getParam(params,"display",""));
 		var classname = getParam(params,"classname",null);
 		var dateformat = getParam(params,'dateformat',null);
@@ -43,7 +43,7 @@ version.extensions.LinkMakerPlugin = {installed:true};
 			var i = createTiddlyElement(a,'img');
 			i.setAttribute('src',display);
 		}
-		else if (config.formatterHelpers.isExternalLink(linkto)) {
+		else if (linkto && config.formatterHelpers.isExternalLink(linkto)) {
 			var a = createTiddlyElement(place,'a',null,classname,null);
 			if (handler)
 				handler(display,a,fakeParams);
@@ -55,7 +55,7 @@ version.extensions.LinkMakerPlugin = {installed:true};
 				a.setAttribute('title', tooltip);				
 			}
 		}
-		else {			
+		else if (linkto) {			
 			var e = createTiddlyLink(place,linkto,false,classname);
 			if (handler)
 				handler(display,e,fakeParams);
