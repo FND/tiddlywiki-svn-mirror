@@ -62,6 +62,9 @@ version.extensions.LinkMakerPlugin = {installed:true};
 			else 
 				createTiddlyText(e,display);
 		}
+		else {
+			createTiddlyText(place,display);
+		}
 	};
 
 } //# end of 'install only once'
