@@ -75,7 +75,7 @@
 <!--{{{-->
 <div class='session'>
 	<div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
-	<div class='title' macro="LinkMaker type:text display:rr_session_title linkto:rr_session_link tooltip:rr_session_toolip"></div>
+	<div class='title' macro="LinkMaker type:text display:rr_session_title linkto:rr_session_link tooltip:rr_session_tooltip"></div>
 	<span class="time"><span macro="dtstart rr_session_starttime '0hh:0mm'"></span>-<span macro="dtend rr_session_endtime '0hh:0mm'"></span></span>
 	<div class="speaker" macro="TiddlifyList rr_session_speakers"></div>
 	<div class="noteOptions" macro="RippleRap option:makeNote"></div>
@@ -130,12 +130,13 @@
 
 !speakerViewTemplate
 <!--{{{-->
-<div class="Speaker">
+<div class="VanillaView Speaker">
 <div class='toolbar' macro='toolbar closeTiddler closeOthers > fields syncing permalink references jump'></div>
-<div class='title' macro="LinkMaker type:text display:title linkto:rr_speaker_link tooltip:rr_speaker_toolip"></div>
-<div class='speakingAt'><span>Speaking at: </span><span macro='SpeakerSessions'></span></span>
+<div class='title' macro="LinkMaker type:text display:title linkto:rr_speaker_link tooltip:rr_speaker_tooltip"></div>
+<div class='speakingAt'><span>Speaking at: </span><span macro='SpeakerSessions'></span></span></div>
 <span class="vcard">
 <div class='viewer' macro='view bio wikified'></div>
+<div class='photo' macro='view photo wikified'></div>
 </span>
 </div>
 <!--}}}-->
@@ -224,8 +225,6 @@ span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBri
 #agendaMenu div.listRelatedTiddler span.time {	font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; position:absolute; top:8px; left:8px;}
 #agendaMenu div.listRelatedTiddler span.title a { color:#444; display:block; font-weight:bold;	text-decoration:none; margin-left:5em; font-size:12px; }
 
-
-
 #agendaMenu div.listRelatedTiddler span.speaker { color:#666; display:block; margin:0.2em 0 0 5em; }
 #agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler { text-align:right; }
 #agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler a { color:#55c; font-size:0.9em; line-height:1.4em; text-decoration:none; }
@@ -250,14 +249,14 @@ div.tiddler div.VanillaView .toolbar a {border-style: none; color:#666;}
 div.tiddler div.VanillaView .toolbar a:hover {border-style: none; color:[[RippleRapColors::Brightest]]; background-color:#333;}
 
 /* Speaker tiddlers */
-div.Speaker {margin:1em 0;}
+div.Speaker { margin:1em 0;}
 div.Speaker .toolbar { text-align:right; padding:0.2em 0;}
 div.Speaker .toolbar a  {border-style: none; color:#666;}
 div.Speaker .toolbar a:hover {border-style: none; color:[[RippleRapColors::Brightest]]; background-color:#333;}
-div.session .title a { color:[[RippleRapColors::Accent]];}
-div.session .title a:hover{ color:[[RippleRapColors::Accent]]; background-color:transparent; text-decoration:underline;}
-div.Speaker .speakingAt {margin:0.2em 0 0 0; font-size:1.2em; font-weight:bold; color:#666;display:inline;}
-div.Speaker .viewer { padding:10px;}
+div.Speaker .title a { color:[[RippleRapColors::Accent]];}
+div.Speaker .title a:hover{ color:[[RippleRapColors::Accent]]; background-color:transparent; text-decoration:underline;}
+div.Speaker .speakingAt {margin:0.2em 0 0 0; font-weight:bold; color:#666;display:inline;}
+div.Speaker .viewer { }
 
 /* Session Tiddlers */
 div.session {margin:30px 0 0 0; position:relative;}
