@@ -122,7 +122,7 @@
 <!--{{{-->
 <div class='discoveredNotes'>
 	<div class='toolbar' macro='toolbar closeTiddler'></div>
-	<div class='title'>notes from <span macro='view modifier'></span></div>
+	<div class='title'>notes from <span macro="LinkMaker type:text display:modifier linkto:rr_user_profile tooltip:rr_user_tooltip"></span></div>
 	<div class='viewer' macro='view text wikified'></div>
 </div>
 <!--}}}-->

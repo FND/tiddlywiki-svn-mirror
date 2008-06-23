@@ -21,8 +21,8 @@ config.options.txtDisplayTimeFormat = "00hh:00mm";
 config.options.txtDisplayTimezone = "UTC";
 
 // Logging
-config.options.chkLogMessageEnabled = true;
-config.options.chkLogMessageConsole = true;
+config.options.chkLogMessageEnabled = false;
+config.options.chkLogMessageConsole = false;
 config.options.chkLogMessageWindow = false;
 config.options.chkLogMessageDisplayMessage = false;
 
