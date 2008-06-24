@@ -340,8 +340,5 @@ span.description {font-size:0.8em; color:[[RippleRapColors::Dark]]; font-weight:
 .subtleTabs div.tabContents {background-color:transparent; border-style:none; border-top:solid 1px #ccc;}
 
 
-
-.Speaker img { float: right; }
-
 /*}}}*/</pre>
 </div>
