@@ -58,6 +58,9 @@ config.macros.RippleRap.handler = function(place,macroName,params,wikifier,param
 		case "makeNote" : 
 			this.makeNoteButton(place);
 			return false;
+		case "confabbReview" : 
+				this.makeReviewButton(place);
+				return false;
 		case "showSharingPrefs" :
 			this.displaySharingPreferences(place);
 			break; 
@@ -74,6 +77,23 @@ config.macros.RippleRap.makeNoteButton = function(place){
 };
 
 
+
+// Create a button for the makeNote feature
+config.macros.RippleRap.makeReviewButton = function(place){
+	var sessionTiddler = story.findContainingTiddler(place);
+	var t = store.getTiddler(sessionTiddler.getAttribute('tiddler'));
+	var uri = t.fields.rr_session_link;
+	if(uri) {
+		var a = createTiddlyElement(place,'a',null,null,null);
+		createTiddlyText(a,"review session");
+		a.setAttribute('href',uri);
+		a.setAttribute('target',"_blank");
+		a.setAttribute('title', "Write a review of this session on Confabb.com");				
+	}
+	
+};
+
+	
 // make a note. Possibly for sharing.
 config.macros.RippleRap.makeNoteButtonClick = function(ev){
 	var e = ev ? ev : window.event;
