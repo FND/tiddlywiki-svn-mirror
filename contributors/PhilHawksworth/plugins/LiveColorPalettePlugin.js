@@ -19,7 +19,7 @@ Create the UI to talk to the existing ColorPalette.
 
 Refresh the Live ColorPalette UI
 {{{
-	drawColorForm(plac);
+	drawColorForm(place);
 }}}
 
 Set a color value in the ColorPalette
@@ -43,6 +43,7 @@ version.extensions.LiveColorPalettePlugin = {installed:true};
 config.macros.LiveColorPalette = {};
 config.macros.LiveColorPalette.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	config.macros.LiveColorPalette.drawColorForm(place);
+	
 	//insert styles into StyleSheet for a simple plugin install.
 	var s = "/* Live Palette Plugin styles */ \n";
 	s += "table.LivePaletteDisplay { border-color:[[ColorPalette::Background]]; margin:none; }\n";
@@ -74,11 +75,11 @@ config.macros.LiveColorPalette.drawColorForm = function(place) {
 		var td2 = createTiddlyElement(tr,"td");
 		var hex = store.getTiddlerSlice(tiddlerTitle, s);
 		var input = createTiddlyElement(td2,'input',null,null,null,{'type':'text','onClick':config.macros.LiveColorPalette.reflectColor});
+
 		// var input = document.createElement("input");		
 		// input.setAttribute('type','text');
 		// input.setAttribute('onclick', config.macros.LiveColorPalette.reflectColor);	
 		// input.value = hex;		
-		// 
 		// td2.appendChild(input);
 		
 		createTiddlyElement(tr,"td",null,"swatch",' ');
@@ -100,8 +101,15 @@ config.macros.LiveColorPalette.reflectColor = function() {
 	// this.parentNode.nextSibling.style.backgroundColor = hex;
 };
 
-config.macros.LiveColorPalette.getColor = function(n) {
+config.macros.LiveColorPalette.getColor = function(palette, n) {
 	
+	console.log("getColor - palette: ", palette, " slice: ",n);
+	
+	var slices = store.calcAllSlices(palette);
+	console.log("Slices: ", slices);
+	
+	var hex = store.getTiddlerSlice(palette, n);
+	console.log("hex: ", hex);
 };
 
 
