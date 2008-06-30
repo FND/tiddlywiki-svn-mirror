@@ -78,7 +78,7 @@ config.macros.newTiddler.handler = function(place,macroName,params,wikifier,para
 
 // PHP TO JAVASCRIPT VARIABLE ASSIGNMENT --- 
 window.workspace_delete = "<?php echo $workspace_delete;?>";
-window.workspace_udate = "<?php $workspace_udate;?>";
+window.workspace_udate = "<?php echo $workspace_udate;?>";
 window.can_create_account = "<?php echo $tiddlyCfg['can_create_account'];?>";
 window.openid_enabled = "<?php echo $tiddlyCfg['pref']['openid_enabled']; ?>";
 
