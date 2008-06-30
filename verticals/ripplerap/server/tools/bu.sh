@@ -1,4 +1,8 @@
-uri='http://confabb.com/conferences/60420-personal-democracy-forum-2008/notes/opml'
+uri="$1"
+if [ -z "$1" ]
+then 
+	uri='http://confabb.com/conferences/51133-necc-2008/notes/opml'
+fi
 n=$(date +"%Y%m%d%H%M%S")
 for i in $(curl -s $uri | grep xmlUrl | sed -e 's/^.*xmlUrl=.//' -e 's/["].*$//')
 do

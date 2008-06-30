@@ -1,6 +1,6 @@
-grep -h '<title>' *xml | sed -e 's/<title>//' -e 's/<\/title>//' -e 's/ from / /' -e '/Personal Democracy Forum/d' > stats.out
+grep -h '<title>' *xml | grep '[0-9] from '| sed -e 's/<title>//' -e 's/<\/title>//' -e 's/ from / /' > stats.out
 
-echo "speakers":
+echo "note-takers":
 awk '{ print $2 }' stats.out | sort | uniq -c | sort -rn
 
 echo "sessions":
