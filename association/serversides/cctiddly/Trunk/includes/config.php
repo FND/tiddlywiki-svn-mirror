@@ -8,7 +8,7 @@
 	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 	$tiddlyCfg['db']['login'] = "USERNAME";		//login name
 	$tiddlyCfg['db']['pass'] = "PASSWORD";		//login password
-	$tiddlyCfg['db']['name'] = "DATABASENAME";		//db name
+	$tiddlyCfg['db']['name'] = "DATABASE";		//db name
 
 // Debugging Information 
 	$tiddlyCfg['developing']=0;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
