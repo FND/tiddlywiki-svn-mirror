@@ -1,5 +1,7 @@
 <?php
 
+header("Content-Disposition: attachment; filename=\"standalone.html\";\r\n");
+
 
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
@@ -2678,6 +2680,7 @@ config.macros.saveChanges.handler = function(place,macroName,params)
 	if(!readOnly)
 		createTiddlyButton(place,params[0] || this.label,params[1] || this.prompt,this.onClick,null,null,this.accessKey);
 };
+
 
 config.macros.saveChanges.onClick = function(e)
 {
