@@ -108,11 +108,11 @@ function isLoggedIn(){
 	}
 }
 
-config.macros.ccLogin={};
-config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	var loginDiv=createTiddlyElement(place,"div",null,"loginDiv",null);
-	this.refresh(loginDiv);
-};
+	config.macros.ccLogin={};
+	config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+		var loginDiv=createTiddlyElement(place,"div",null,"loginDiv",null);
+		this.refresh(loginDiv);
+	};
 
 config.macros.ccLogin.refresh=function(place,errorMsg){
 	var loginDivRef=document.getElementById("LoginDiv");

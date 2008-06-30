@@ -45,8 +45,6 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 	}
 	var frm=createTiddlyElement(place,"form",null,"wizard");
 	frm.onsubmit= config.macros.ccRegister.registerOnSubmit;
-	createTiddlyElement(frm,"h1",null,null,"Register");
-	createTiddlyElement(frm,"h2",null,null,"Sign up for an account");
 	createTiddlyElement(frm,"br");
 	var body=createTiddlyElement(frm,"div",null,"wizardBody");
 	var step=createTiddlyElement(body,"div",null,"wizardStep");

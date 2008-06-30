@@ -144,11 +144,6 @@ serverside.fn.genericCallback = function(status,params,responseText,uri,xhr) {
 
 	if (status != true)
 	{
-		
-		
-		
-		
-
 		window.loggedIn = false; // we should check for other cases - revisions have changed. 
 		var a = document.getElementById('backstageCloak');
 		a.style.display = "block";	
@@ -158,17 +153,27 @@ serverside.fn.genericCallback = function(status,params,responseText,uri,xhr) {
 		b.style.position="absolute";	
 		b.style.padding='40px 0px 0px 0px';
 		//b.innerHTML = wikifyStatic("<<ccLogin>>");
-		window.open(window.location,'login window')
+	//	window.open(window.location,'login window')
 		frm=createTiddlyElement(b,"form",null,"wizard");
 		var body=createTiddlyElement(frm,"div",null,"wizardBody");
 		var step=createTiddlyElement(body,"div",null,"wizardStep");
-		createTiddlyElement(step,"h1",null,null,"Changes were *NOT* saved");
-	
-		var link=createExternalLink(step, 'http://google.com', 'df');
-     	link.target = 'new window';
-
-
-
+		createTiddlyElement(step,"h1",null,null,"Your changes were *NOT* saved");
+		createTiddlyElement(step,"br");
+		createTiddlyElement(step,"br");		
+		createTiddlyText(step,"Please click the button below which will open a new window.");
+		createTiddlyElement(step,"br");
+		createTiddlyElement(step,"br");
+		createTiddlyText(step,"You will need to log into the new window and then copy your changes from this window into the new window. ");
+		createTiddlyElement(step,"br");
+		createTiddlyElement(step,"br");
+	createTiddlyButton(step,"Open a Window where I can log in and save my changes	.... ",null,function(e){ window.open (window.location,"mywindow");	 return false;});
+		createTiddlyElement(step,"br");
+		createTiddlyElement(step,"br");
+		createTiddlyButton(step,"Hide this message",null,function(e){a.style.display = "none"; b.style.display = "none";	 return false;});
+		createTiddlyElement(step,"br");
+		createTiddlyElement(step,"br");
+		createTiddlyText(step,"Sorry for any inconvenience. ");
+//	return false;
 
 	}
 	if( status )

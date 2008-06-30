@@ -6,13 +6,13 @@
 // Initial Database Setup 
 	$tiddlyCfg['db']['type'] = "mysql";		//sql type
 	$tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
-	$tiddlyCfg['db']['login'] = "root";		//login name
-	$tiddlyCfg['db']['pass'] = "";		//login password
-	$tiddlyCfg['db']['name'] = "cctiddly161";		//db name
+	$tiddlyCfg['db']['login'] = "USERNAME";		//login name
+	$tiddlyCfg['db']['pass'] = "PASSWORD";		//login password
+	$tiddlyCfg['db']['name'] = "DATABASENAME";		//db name
 
 // Debugging Information 
 	$tiddlyCfg['developing']=0;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
-	$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
+	$tiddlyCfg['mysql_debug']=0;	 // if set to 1 will output every sql query into the logfile 
 
 // User Managment Information 
 	$tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
@@ -289,7 +289,7 @@ $tiddlyCfg['table']['group'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']
 $tiddlyCfg['table']['privilege'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['privilege'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['tiddlywiki_type'] = $cct_base."tiddlywiki/".$tiddlyCfg['tiddlywiki_type'].".js"; // plain TW file, $cct_base defined in config.php
 
-$tiddlyCfg['version']="1.6.3";	
+$tiddlyCfg['version']="1.6.4";	
 $tiddlyCfg['session_expire'] = ($tiddlyCfg['session_expire']==0?9999999:$tiddlyCfg['session_expire']);
 $tiddlyCfg['session_expire'] = $tiddlyCfg['session_expire'] * 60;  // Converts minutes to seconds to be added to an epoch value 
 
