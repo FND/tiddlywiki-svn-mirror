@@ -1,0 +1,13 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+
+
+tiddler: ../../feeds/FacebookFriendsFeed.tiddler
+tiddler: ../../adaptors/FacebookFriendsAdaptorPlugin.js
+tiddler: login.tiddler
+tiddler: GettingStarted.tiddler
+
+#tiddler: ../../feeds/FacebookNewsFeed.tiddler
+#tiddler: ../../adaptors/FacebookNewsAdaptorPlugin.js
+
+tiddler: ../../mystyle/StyleSheetMB.tiddler
+tiddler: ../../../MartinBudden/adaptors/ImportWorkspacePlugin.js
