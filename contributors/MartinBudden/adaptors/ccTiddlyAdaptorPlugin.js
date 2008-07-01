@@ -301,6 +301,7 @@ ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(title,context,userPa
 {
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
+	var tiddler = store.fetchTiddler(title);
 	var encodedTitle = encodeURIComponent(title);
 fnLog('getTiddlerRevisionList:'+title);
 //# http://cctiddly.sourceforge.net/msghandle.php?action=revisionList&title=About
