@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for moving and converting data to and from ccTiddly wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ccTiddlyAdaptorPlugin.js |
-|''Version:''|0.5.8|
+|''Version:''|0.5.9|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -135,20 +135,20 @@ ccTiddlyAdaptor.prototype.getWorkspaceList = function(context,userParams,callbac
 ccTiddlyAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
-//#fnLog('getTiddlerList');
+fnLog('getTiddlerList');
 	var uriTemplate = '%0handle/tiddlerList.php?workspace=%1';
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
 	var uri = uriTemplate.format([host,context.workspace,this.username,this.password]);
-//#displayMessage('uri:'+uri);
+fnLog('uri:'+uri);
 	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerListCallback,context);
-//#displayMessage('req:'+req);
+//#fnLog('req:'+req);
 	return typeof req == 'string' ? req : true;
 };
 
 ccTiddlyAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
-//#fnLog('getTiddlerListCallback status:'+status);
-//#fnLog('rt:'+responseText.substr(0,80));
+fnLog('getTiddlerListCallback status:'+status);
+fnLog('rt:'+responseText.substr(0,80));
 //#fnLog('xhr:'+xhr);
 	context.status = false;
 	context.statusText = ccTiddlyAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
@@ -189,17 +189,17 @@ ccTiddlyAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 
 ccTiddlyAdaptor.prototype.getTiddlerRevision = function(title,revision,context,userParams,callback)
 {
-//#displayMessage('ccTiddlyAdaptor.getTiddlerRevision:' + title + ' r:' + revision);
+fnLog('ccTiddlyAdaptor.getTiddlerRevision:' + title + ' r:' + revision);
 	context = this.setContext(context,userParams,callback);
 	context.revision = revision;
-	return this.getTiddler(title,null,context,userParams,callback);
+	return this.getTiddler(title,context,userParams,callback);
 };
 
 ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
-//#fnLog('ccTiddlyAdaptor.getTiddler:' + title);
+fnLog('ccTiddlyAdaptor.getTiddler:' + title);
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
 	var workspace = context.workspace;
 	var encodedTitle = encodeURIComponent(title);
@@ -209,13 +209,13 @@ ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callbac
 	if(context.revision) {
 		var uriTemplate = '%0handle/revisionDisplay.php?workspace=%1&title=%2&revision=%3';
 		var uri = uriTemplate.format([host,workspace,encodedTitle,context.revision]);
-//#fnLog('uriR: '+uri);
+fnLog('uriR: '+uri);
 		var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerCallback2,context);
 	} else {
 		// first get the revision list
 		uriTemplate = '%0handle/revisionList.php?workspace=%1&title=%2';
-		uri = uriTemplate.format([host,encodedTitle]);
-//#fnLog('uri: '+uri);
+		uri = uriTemplate.format([host,workspace,encodedTitle]);
+fnLog('uri: '+uri);
 		req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerCallback1,context);
 	}
 //#fnLog("req:"+req);
@@ -234,8 +234,8 @@ ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callbac
 
 ccTiddlyAdaptor.getTiddlerCallback1 = function(status,context,responseText,xhr)
 {
-//#displayMessage('getTiddlerCallback1 status:'+status);
-//#displayMessage('rt:'+responseText.substr(0,50));
+fnLog('getTiddlerCallback1 status:'+status);
+fnLog('rt:'+responseText.substr(0,50));
 	context.status = false;
 	context.statusText = ccTiddlyAdaptor.errorInFunctionMessage.format(['getTiddlerCallback']);
 	if(status) {
@@ -246,9 +246,9 @@ ccTiddlyAdaptor.getTiddlerCallback1 = function(status,context,responseText,xhr)
 		var uriTemplate = '%0handle/revisionDisplay.php?workspace=%1&title=%2&revision=%3';
 		var host = ccTiddlyAdaptor.fullHostName(context.adaptor.host);
 		var uri = uriTemplate.format([host,context.tiddler.title,tiddlerRevision]);
-//#displayMessage('uri: '+uri);
+fnLog('uri: '+uri);
 		var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerCallback2,context);
-//#displayMessage("req1:"+req);
+//#fnLog("req1:"+req);
 	} else {
 		context.statusText = xhr.statusText;
 	if(context.callback)
@@ -268,9 +268,9 @@ ccTiddlyAdaptor.getTiddlerCallback1 = function(status,context,responseText,xhr)
 
 ccTiddlyAdaptor.getTiddlerCallback2 = function(status,context,responseText,xhr)
 {
-//#displayMessage('getTiddlerCallback2 status:'+status);
-//#displayMessage('rt:'+responseText.substr(0,50));
-//#displayMessage('xhr:'+xhr);
+fnLog('getTiddlerCallback2 status:'+status);
+fnLog('rt:'+responseText);
+//#fnLog('xhr:'+xhr);
 	context.status = false;
 	if(status) {
 		var x = responseText.split('\n');
