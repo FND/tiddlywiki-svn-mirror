@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for moving and converting data to and from ccTiddly wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ccTiddlyAdaptorPlugin.js |
-|''Version:''|0.5.5|
+|''Version:''|0.5.6|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -66,7 +66,7 @@ ccTiddlyAdaptor.prototype.setContext = function(context,userParams,callback)
 	if(!context.host)
 		context.host = this.host;
 	context.host = ccTiddlyAdaptor.fullHostName(context.host);
-	if(!context.workspace)
+	if(!context.workspace && this.workspace)
 		context.workspace = this.workspace;
 	return context;
 };
@@ -307,7 +307,8 @@ fnLog('getTiddlerRevisionList:'+title);
 //# http://wiki.osmosoft.com/alpha/handle/revisionlist.php?&workspace=martinstest&title=GettingStarted
 	var uriTemplate = '%0handle/revisionlist.php?workspace=%1&title=%2';
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
-	var uri = uriTemplate.format([host,context.workspace,encodedTitle]);
+	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
+	var uri = uriTemplate.format([host,workspace,encodedTitle]);
 fnLog('uri: '+uri);
 	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerRevisionListCallback,context);
 //#console.log("req:"+req);
