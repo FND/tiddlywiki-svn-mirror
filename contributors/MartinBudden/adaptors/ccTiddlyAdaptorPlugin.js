@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for moving and converting data to and from ccTiddly wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ccTiddlyAdaptorPlugin.js |
-|''Version:''|0.5.6|
+|''Version:''|0.5.7|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -296,7 +296,7 @@ ccTiddlyAdaptor.getTiddlerCallback2 = function(status,context,responseText,xhr)
 };
 
 
-ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(title,context,userParams,callback)
+ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,userParams,callback)
 // get a list of the revisions for a page
 {
 	context = this.setContext(context,userParams,callback);
@@ -319,7 +319,7 @@ ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,context,respons
 {
 fnLog('getTiddlerRevisionListCallback status:'+status);
 fnLog('rt:'+responseText.substr(0,100));
-	if(responseText.indexOf('<!DOCTYPE html')<5)
+	if(responseText.indexOf('<!DOCTYPE html')==1)
 		status = false;
 //#fnLog('xhr:'+xhr);
 	context.status = false;
