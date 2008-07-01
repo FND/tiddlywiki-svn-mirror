@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for moving and converting data to and from ccTiddly wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ccTiddlyAdaptorPlugin.js |
-|''Version:''|0.5.7|
+|''Version:''|0.5.8|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -68,6 +68,8 @@ ccTiddlyAdaptor.prototype.setContext = function(context,userParams,callback)
 	context.host = ccTiddlyAdaptor.fullHostName(context.host);
 	if(!context.workspace && this.workspace)
 		context.workspace = this.workspace;
+	if(!context.workspace)
+		context.workspace = config.defaultCustomFields['server.workspace'];
 	return context;
 };
 
@@ -95,7 +97,7 @@ ccTiddlyAdaptor.prototype.openHost = function(host,context,userParams,callback)
 //#fnLog("openHost:"+host);
 	this.host = ccTiddlyAdaptor.fullHostName(host);
 //#fnLog("host:"+this.host);
-	if(context.callback) {
+	if(callback) {
 		context.status = true;
 		window.setTimeout(function() {callback(context,userParams);},0);
 	}
@@ -107,7 +109,7 @@ ccTiddlyAdaptor.prototype.openWorkspace = function(workspace,context,userParams,
 	context = this.setContext(context,userParams,callback);
 //#fnLog("openWorkspace:"+workspace);
 	this.workspace = workspace;
-	if(context.callback) {
+	if(callback) {
 		context.status = true;
 		window.setTimeout(function() {callback(context,userParams);},0);
 	}
@@ -121,7 +123,7 @@ ccTiddlyAdaptor.prototype.getWorkspaceList = function(context,userParams,callbac
 	var list = [];
 	list.push({title:"Main",name:"Main"});
 	context.workspaces = list;
-	if(context.callback) {
+	if(callback) {
 		context.status = true;
 		window.setTimeout(function() {callback(context,userParams);},0);
 	}
@@ -134,10 +136,9 @@ ccTiddlyAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
 //#fnLog('getTiddlerList');
-	//var uriTemplate = '%0msghandle.php?action=content';
-	var uriTemplate = '%0msghandle.php?action=content&username=%1&password=%2';
+	var uriTemplate = '%0handle/tiddlerList.php?workspace=%1';
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
-	var uri = uriTemplate.format([host,this.workspace,this.username,this.password]);
+	var uri = uriTemplate.format([host,context.workspace,this.username,this.password]);
 //#displayMessage('uri:'+uri);
 	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerListCallback,context);
 //#displayMessage('req:'+req);
@@ -198,25 +199,26 @@ ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callbac
 {
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
-//#displayMessage('ccTiddlyAdaptor.getTiddler:' + title);
-	//title = encodeURIComponent(title);
+//#fnLog('ccTiddlyAdaptor.getTiddler:' + title);
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
+	var workspace = context.workspace;
+	var encodedTitle = encodeURIComponent(title);
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields['server.host'] = ccTiddlyAdaptor.minHostName(host);
 	context.tiddler.fields['server.type'] = ccTiddlyAdaptor.serverType;
-	if(revision) {
-		var uriTemplate = '%0msghandle.php?action=revisionDisplay&title=%1&revision=%2';
-		var uri = uriTemplate.format([host,title,revision]);
-//#displayMessage('uriR: '+uri);
+	if(context.revision) {
+		var uriTemplate = '%0handle/revisionDisplay.php?workspace=%1&title=%2&revision=%3';
+		var uri = uriTemplate.format([host,workspace,encodedTitle,context.revision]);
+//#fnLog('uriR: '+uri);
 		var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerCallback2,context);
 	} else {
 		// first get the revision list
-		uriTemplate = '%0handle/revisionlist.php?workspace=%1&title=%2';
-		uri = uriTemplate.format([host,title]);
-//#displayMessage('uri: '+uri);
+		uriTemplate = '%0handle/revisionList.php?workspace=%1&title=%2';
+		uri = uriTemplate.format([host,encodedTitle]);
+//#fnLog('uri: '+uri);
 		req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerCallback1,context);
 	}
-//#displayMessage("req:"+req);
+//#fnLog("req:"+req);
 	return typeof req == 'string' ? req : true;
 };
 
@@ -240,9 +242,8 @@ ccTiddlyAdaptor.getTiddlerCallback1 = function(status,context,responseText,xhr)
 		var revs = responseText.split('\n');
 		var parts = revs[0].split(' ');
 		var tiddlerRevision = parts[1];
-		//# http://cctiddly.sourceforge.net/msghandle.php?action=revisionDisplay&title=About&revision=6
 		// now get the latest revision
-		var uriTemplate = '%0msghandle.php?action=revisionDisplay&title=%1&revision=%2';
+		var uriTemplate = '%0handle/revisionDisplay.php?workspace=%1&title=%2&revision=%3';
 		var host = ccTiddlyAdaptor.fullHostName(context.adaptor.host);
 		var uri = uriTemplate.format([host,context.tiddler.title,tiddlerRevision]);
 //#displayMessage('uri: '+uri);
@@ -306,7 +307,7 @@ ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,
 fnLog('getTiddlerRevisionList:'+title);
 //# http://cctiddly.sourceforge.net/msghandle.php?action=revisionList&title=About
 //# http://wiki.osmosoft.com/alpha/handle/revisionlist.php?&workspace=martinstest&title=GettingStarted
-	var uriTemplate = '%0handle/revisionlist.php?workspace=%1&title=%2';
+	var uriTemplate = '%0handle/revisionList.php?workspace=%1&title=%2';
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
 	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
 	var uri = uriTemplate.format([host,workspace,encodedTitle]);
@@ -326,7 +327,7 @@ fnLog('rt:'+responseText.substr(0,100));
 	if(status) {
 		list = [];
 		var r =  responseText;
-		if(r != '-') {
+		if(r != '-' && r.trim() != 'revision not found') {
 			var revs = r.split('\n');
 			var list = [];
 			for(var i=0; i<revs.length; i++) {
