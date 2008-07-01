@@ -12,6 +12,9 @@ config.options.chkAutoSave = false;
 config.options.txtBackupFolder = "backup",
 config.options.txtMaxEditRows = 20;
 
+config.options.chkImportWorkspaceOnStartup = true;
+config.options.chkBackstage = true;
+
 config.options.chkDisableWikiLinks = true;
 
 config.usePreForStorage = true;
@@ -19,7 +22,7 @@ config.maxTiddlerImportCount = 10;
 
 config.defaultCustomFields = {
 	'server.type':'cctiddly',
-	'server.host':'cctiddly.sourceforge.net',
+	'server.host':'wiki.osmosoft.com/alpha',
 };
 
 config.options.chkSinglePageMode = false;
