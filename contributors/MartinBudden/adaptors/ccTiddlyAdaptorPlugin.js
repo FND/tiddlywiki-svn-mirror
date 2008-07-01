@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for moving and converting data to and from ccTiddly wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ccTiddlyAdaptorPlugin.js |
-|''Version:''|0.5.4|
+|''Version:''|0.5.5|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -30,7 +30,7 @@ version.extensions.ccTiddlyAdaptorPlugin = {installed:true};
 
 fnLog = function(text)
 {
-	if(window.console) console.log(text.substr(0,80)); else displayMessage(text.substr(0,80));
+	if(window.console) console.log(text); else displayMessage(text.substr(0,120));
 };
 
 function ccTiddlyAdaptor()
@@ -65,7 +65,7 @@ ccTiddlyAdaptor.prototype.setContext = function(context,userParams,callback)
 	context.adaptor = this;
 	if(!context.host)
 		context.host = this.host;
-	context.host = ExampleAdaptor.fullHostName(context.host);
+	context.host = ccTiddlyAdaptor.fullHostName(context.host);
 	if(!context.workspace)
 		context.workspace = this.workspace;
 	return context;
@@ -300,17 +300,15 @@ ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(title,context,userPa
 // get a list of the revisions for a page
 {
 	context = this.setContext(context,userParams,callback);
-	title = encodeURIComponent(title);
+	context.title = title;
+	var encodedTitle = encodeURIComponent(title);
 fnLog('getTiddlerRevisionList:'+title);
 //# http://cctiddly.sourceforge.net/msghandle.php?action=revisionList&title=About
 //# http://wiki.osmosoft.com/alpha/handle/revisionlist.php?&workspace=martinstest&title=GettingStarted
 	var uriTemplate = '%0handle/revisionlist.php?workspace=%1&title=%2';
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
-	var uri = uriTemplate.format([host,context.workspace,title]);
+	var uri = uriTemplate.format([host,context.workspace,encodedTitle]);
 fnLog('uri: '+uri);
-	context.tiddler = new Tiddler(title);
-	context.tiddler.fields['server.host'] = ccTiddlyAdaptor.minHostName(host);
-	context.tiddler.fields['server.type'] = ccTiddlyAdaptor.serverType;
 	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerRevisionListCallback,context);
 //#console.log("req:"+req);
 };
@@ -319,6 +317,8 @@ ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,context,respons
 {
 fnLog('getTiddlerRevisionListCallback status:'+status);
 fnLog('rt:'+responseText.substr(0,100));
+	if(responseText.indexOf('<!DOCTYPE html')<5)
+		status = false;
 //#fnLog('xhr:'+xhr);
 	context.status = false;
 	if(status) {
@@ -330,9 +330,11 @@ fnLog('rt:'+responseText.substr(0,100));
 			for(var i=0; i<revs.length; i++) {
 				var parts = revs[i].split(' ');
 				if(parts.length>1) {
-					var tiddler = new Tiddler(context.tiddler.title);
+					var tiddler = new Tiddler(context.title);
 					tiddler.modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
 					tiddler.fields['server.page.revision'] = String(parts[1]);
+					tiddler.fields['server.host'] = ccTiddlyAdaptor.minHostName(context.host);
+					tiddler.fields['server.type'] = ccTiddlyAdaptor.serverType;
 					list.push(tiddler);
 				}
 			}
