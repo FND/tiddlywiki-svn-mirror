@@ -10,7 +10,10 @@ tiddler: ../../shadows/ViewTemplateRevisions.tiddler
 
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/RevisionAdaptorPlugin.js
+tiddler: ../../plugins/TiddlerRevisionPlugin.js
 tiddler: ../../plugins/synchrotronPlugin.js
+tiddler: ../../plugins/synchrotronHandlerPlugin.js
 tiddler: ../../../../../../synchrotron/diff.js
 tiddler: ../../../../../../synchrotron/fs.js
 tiddler: ../../../../../../synchrotron/graph.js
+tiddler: ../../../../../../synchrotron/json2.js
