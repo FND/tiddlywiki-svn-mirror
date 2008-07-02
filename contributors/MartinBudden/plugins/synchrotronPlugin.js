@@ -1,9 +1,9 @@
 /***
 |''Name:''|synchrotronPlugin|
 |''Description:''|incorporates Tony Garnock-Jones javascript diff code|
-|''Author:''|MartinBudden|
+|''Author:''|MartinBudden and TonyGarnockJones|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/synchrotronPlugin.js |
-|''Version:''|0.0.9|
+|''Version:''|0.0.10|
 |''Date:''|June 12, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -18,7 +18,7 @@
 ***/
 
 //{{{
-// Ensure that the AsyncStartupPlugin is only installed once.
+// Ensure that the plugin is only installed once.
 if(!version.extensions.synchrotronPlugin) {
 version.extensions.synchrotronPlugin = {installed:true};
 
@@ -26,9 +26,10 @@ version.extensions.synchrotronPlugin = {installed:true};
 
 var revisionStore = null;
 
+Dvcs.Mergers.Defaults["tags"] = Dvcs.Mergers.simpleTextualMerger;
+
 function Synchrotron()
 {
-	Dvcs._debugMode = true;
 	this.repo = new Dvcs.Repository();
 	this.checkout = this.repo.update(null);
 	return this;
@@ -43,50 +44,86 @@ Synchrotron.dateFromTimestamp = function(timestamp)
 	return dt;
 };
 
-Synchrotron.prototype.export = function()
+Synchrotron.prototype.exportRevisions = function()
 {
 	var repoExt = this.repo.exportRevisions();
-	var repoText = uneval(repoExt);
-	//#console.log('Synchrotron.export:'+repoText);
+	//var repoText = uneval(repoExt);
+	var repoText = '('+JSON.stringify(repoExt,null,Dvcs._debugMode ? '\t' : null) +')';
+
+	console.log('Synchrotron.exportRevisions:\n'+repoText);
 	return repoText;
 };
 
-Synchrotron.prototype.import = function(repoText)
+Synchrotron.prototype.importRevisions = function(repoText)
 {
-	//#console.log('Synchrotron.import:'+repoText);
+	console.log('Synchrotron.importRevisions:\n'+repoText);
 	if(repoText) {
 		var repoExt = eval(repoText);
-		this.repo.importRevisions(repoExt);
-		this.checkout = this.repo.update(null);
+		return this.repo.importRevisions(repoExt);
 	}
+	return null;
 };
-
 Synchrotron.prototype.commitTiddler = function(tiddler)
 {
-//#console.log('commitTiddler:',tiddler);
+	var id = this.putTiddler(tiddler);
+	if(id) {
+		var newRevId = this.repo.commit(this.checkout,{committer:config.options.txtUserName});
+		console.log('commit:'+tiddler.title);
+		console.log('text:'+tiddler.text);
+		console.log('uid:'+id);
+		//#console.log('revId:'+newRevId);
+		//var repoExt = this.repo.exportRevisions();
+		//var repoText = uneval(repoExt);
+		//#console.log('repoExt:'+repoText);
+		return true;
+	}
+	return false;
+};
+
+Synchrotron.prototype.putTiddler = function(tiddler)
+{
+console.log('putTiddler:',tiddler);
 	if(!tiddler)
 		return false;
 	if(!tiddler.fields.uuid)
 		tiddler.fields.uuid = this.checkout.createFile();
 	var id = tiddler.fields.uuid;
-	this.checkout.setProp(id,'title',tiddler.title);
-	this.checkout.setProp(id,'text',tiddler.text.split('\n'));
-	// TODO: rest of fields & metadata
-	var newRevId = this.repo.commit(this.checkout);
-	//#console.log('commit:'+tiddler.title);
-	//#console.log('text:'+tiddler.text);
-	//#console.log('uid:'+id);
-	//#console.log('revId:'+newRevId);
-	//var repoExt = this.repo.exportRevisions();
-	//var repoText = uneval(repoExt);
-	//#console.log('repoExt:'+repoText);
-	return true;
+
+	var me = this;
+	function maybeStore(key,value) {
+		if (value !== me.checkout.getProp(id,key)) {
+			me.checkout.setProp(id,key,value);
+		}
+	}
+	function maybeStoreText(key,value) {
+		var oldText = me.checkout.getProp(id,key);
+		if (!oldText || value.join('\n') !== oldText.join('\n')) {
+			me.checkout.setProp(id,key,value);
+		}
+	}
+	function maybeStoreField(tiddler,fieldName,value) {
+		if (!fieldName.match(/^temp\./)) {
+			if (typeof value != 'string') {
+				value = '';
+			}
+			maybeStore('field-' + fieldName,value);
+		}
+	}
+	maybeStore('title', tiddler.title);
+	maybeStore('created', tiddler.created.convertToYYYYMMDDHHMM());
+	maybeStore('modified', tiddler.modified.convertToYYYYMMDDHHMM());
+	maybeStore('modifier', tiddler.modifier);
+	tiddler.tags.sort();
+	maybeStoreText('tags', tiddler.tags);
+	maybeStoreText('text', tiddler.text.split('\n'));
+	store.forEachField(tiddler,maybeStoreField,true);
+	return id;
 };
 
 Synchrotron.prototype.getTiddler = function(revisions,i,uuid)
 {
 	var body = this.repo.getBody(revisions[i],uuid);
-//#console.log('body:',body);
+console.log('getTiddler body:',body);
 //#console.log('li:'+i);
 //#console.log(body.title);
 //#console.log(body.text);
@@ -114,63 +151,6 @@ Synchrotron.prototype.fileRevisionsSorted = function(uuid)
 	results.sort(function(r1, r2) {return r1.timestamp - r2.timestamp;});
 	return results;
 };
-
-merge(config.commands.revisions,{
-	done: "Tiddler reverted"
-	});
-
-//# saveAndCommitTiddler command definition
-config.commands.saveAndCommitTiddler = {};
-merge(config.commands.saveAndCommitTiddler,{
-	text: "saveAndCommit",
-	tooltip: "Save and commit this tiddler",
-	hideReadOnly: true,
-	done: "Tiddler committed"
-	});
-
-config.commands.saveAndCommitTiddler.isEnabled = function(tiddler)
-{
-	return tiddler && tiddler.isTouched();
-};
-
-config.commands.saveAndCommitTiddler.handler = function(event,src,title)
-{
-//#console.log('config.commands.saveAndCommitTiddler.handler:'+title);
-	revisionStore.commitTiddler(store.fetchTiddler(title));
-};
-
-config.commands.saveTiddler.handlerOld = config.commands.saveTiddler.handler;
-config.commands.saveTiddler.handler = function(event,src,title)
-{
-//#console.log('saveTiddlerNew');
-// 
-// TODO: currently ignores change of title
-	var newTitle = story.saveTiddler(title,event.shiftKey);
-	if(newTitle)
-		story.displayTiddler(null,newTitle);
-	revisionStore.commitTiddler(store.fetchTiddler(newTitle));
-	return false;
-};
-
-restartSynchrotron = restart;
-function restart()
-{
-//#console.log('new restart');
-	restartSynchrotron();
-	revisionStore = new Synchrotron();
-	revisionStore.import(store.getTiddlerText(Synchrotron.repositoryTiddlerTitle));
-}
-
-saveChangesSynchrotron = saveChanges;
-function saveChanges(onlyIfDirty,tiddlers)
-{
-//#console.log('new saving');
-
-	var tiddler = store.createTiddler(Synchrotron.repositoryTiddlerTitle);
-	tiddler.text = '//{{{\n' + revisionStore.export() + '\n//}}}\n';
-	tiddler.tags = ['excludeLists','excludeSearch'];
-	saveChangesSynchrotron(onlyIfDirty,tiddlers);
-}
 
 }//# end of 'install only once'
 //}}}
