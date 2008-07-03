@@ -12,8 +12,8 @@ config.options.chkSharedNotesPutEnabled = false;
 config.options.chkSharedNotesGetEnabled = false;
 
 // Ticker config
-config.options.chkTickerEval = false;
-config.options.chkTickerRefresh = false;
+config.options.chkTickerEval = true;
+config.options.chkTickerRefresh = true;
 
 // Agenda
 config.options.txtMainTab = "";

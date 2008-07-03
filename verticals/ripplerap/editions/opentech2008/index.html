@@ -1144,9 +1144,9 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 config.macros.RippleRap.labelEdition = function() {
 	var st = store.getTiddler('SiteTitle');
 	var sst = store.getTiddler('SiteSubtitle');
-	st.text = config.options.txtRippleRapConferenceName;
+	st.text = &quot;~&quot; + config.options.txtRippleRapConferenceName;
 	var suffix = config.options.txtPoweredBy || &quot; using Confabb ~NoteShare&quot;;
-	sst.text = &quot;notes by &quot; + config.options.txtSharedNotesUserName + suffix;
+	sst.text = &quot;notes by ~&quot; + config.options.txtSharedNotesUserName + suffix;
 	refreshPageTemplate();
 };
 
@@ -5630,17 +5630,9 @@ config.options.txtRippleRapConferenceName = &quot;OpenTech2008&quot;;
 // config.options.txtRippleRapConferenceURI = &quot;http://tiddlywiki.localhost/verticals/ripplerap/editions/confabb-pdf/&quot;;
 config.options.txtRippleRapConferenceURI = &quot;file://localhost/Users/Phil/Projects/tiddlywiki/Trunk/verticals/ripplerap/editions/confabb-pdf/&quot;;
 
-// SharedNotes Plugin
-config.options.chkSharedNotesPutEnabled = false;
-config.options.chkSharedNotesGetEnabled = false;
-
-// Ticker config
-config.options.chkTickerEval = false;
-config.options.chkTickerRefresh = false;
-
 }}</pre>
 </div>
-<div title="settings" created="200807033251">
+<div title="settings" created="200807035338">
 <pre>//{{{
 
 // RippleRap Edition Specific settings are in Edition.js
@@ -5655,8 +5647,8 @@ config.options.chkSharedNotesPutEnabled = false;
 config.options.chkSharedNotesGetEnabled = false;
 
 // Ticker config
-config.options.chkTickerEval = false;
-config.options.chkTickerRefresh = false;
+config.options.chkTickerEval = true;
+config.options.chkTickerRefresh = true;
 
 // Agenda
 config.options.txtMainTab = &quot;&quot;;
