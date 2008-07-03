@@ -121,6 +121,7 @@
 	$ccT_msg['error']['js_file_read'] = "无法读取 core js";
 	$ccT_msg['error']['config_not_found'] = "无此设置档";
 	$ccT_msg['error']['revision_not_found'] = "无沿革纪录";
+	$ccT_msg['error']['tiddler_not_found'] = "Tiddler not found";
 	
 	//db error
 	$ccT_msg['db']['connect'] = "无法连结数据库";

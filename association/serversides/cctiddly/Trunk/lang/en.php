@@ -132,6 +132,7 @@
 	$ccT_msg['error']['revision_not_found'] = "revision not found";
 	$ccT_msg['error']['revision_error'] = "revision not found";
 	$ccT_msg['error']['workspace_not_found'] = "workspace not found";
+	$ccT_msg['error']['tiddler_not_found'] = "Tiddler not found";
 	
 	//db error
 	$ccT_msg['db']['connect'] = "Cannot connect to database";

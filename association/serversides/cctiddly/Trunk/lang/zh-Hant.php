@@ -124,6 +124,7 @@
 	$ccT_msg['error']['js_file_read'] = "無法讀取 core js";
 	$ccT_msg['error']['config_not_found'] = "無此設定檔";
 	$ccT_msg['error']['revision_not_found'] = "無沿革紀錄";
+	$ccT_msg['error']['tiddler_not_found'] = "文章不存在";
 
 	//db error
 	$ccT_msg['db']['connect'] = "無法連結資料庫";
