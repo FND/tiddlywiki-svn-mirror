@@ -5,3 +5,5 @@ tiddler: MainMenu.tiddler
 
 tiddler: OpenTech.tiddler
 tiddler: Competition.tiddler
+
+recipe: speakers/split.recipe
