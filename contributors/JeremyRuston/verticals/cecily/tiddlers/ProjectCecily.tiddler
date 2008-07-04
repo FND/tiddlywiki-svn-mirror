@@ -1,0 +1,5 @@
+<div title="ProjectCecily" modifier="JeremyRuston" created="200806112349" changecount="1">
+<pre>ProjectCecily is a user interface concept that combines the functionality of a wiki with a ZoomingUserInterface.
+
+I've been working on ProjectCecily for many years (it actually pre-dates TiddlyWiki). This latest implementation was built in pure HTML, JavaScript and CSS. The catch is that it exploits features that are currently only available in recent versions of WebKit (Safari version 3.1 and above).</pre>
+</div>

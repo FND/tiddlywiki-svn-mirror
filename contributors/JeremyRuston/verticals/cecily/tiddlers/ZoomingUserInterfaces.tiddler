@@ -1,0 +1,7 @@
+<div title="ZoomingUserInterfaces" modifier="JeremyRuston" created="200806112354" modified="200807031620" changecount="7">
+<pre>ZoomingUserInterfaces (ZUIs) feature entities of different sizes laid out on an (almost) infinite wall. Navigation is accomplished by panning and zooming a virtual camera around the wall. See [[the Wikipedia article|ZoomingUserInterface from Wikipedia]].
+
+ZUIs have been studied in industry and academia for several years (see BenBederson, JefRaskin and AzaRaskin). Although a few concepts first developed in the field have subsequently been adopted, there aren't yet any mainstream products that try to exploit the capabilities of ZUIs.
+
+There's a [[good paper at Advogato.com|http://www.advogato.org/article/788.html]] that covers some practical design issues with ZUIs.</pre>
+</div>

@@ -1,0 +1,10 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: tiddlers/split.recipe
+recipe: shadows/split.recipe
+tiddler: ../../plugins/CecilyPlugin.js
+copy: attachments/ZUI_example.png
+copy: attachments/jumps.mov
+copy: attachments/Seagully.jpg
+copy: attachments/Swampglade.jpg
+copy: attachments/Tenerife.jpg
+copy: attachments/Weyflection.jpg

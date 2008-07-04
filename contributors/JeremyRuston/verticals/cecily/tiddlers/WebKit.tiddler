@@ -1,0 +1,9 @@
+<div title="WebKit" modifier="JeremyRuston" created="200806112350" changecount="1">
+<pre>WebKit is an open source web browser begun by Apple, forked off the KHTML codebase. See http://www.webkit.org/
+
+This implementation of ProjectCecily exploits several features of recent versions of WebKit:
+* [[Canvas]]
+* [[CSSTransforms]]
+
+<html><video src="jumps.mov" autoplay playcount="999"></video></html></pre>
+</div>
