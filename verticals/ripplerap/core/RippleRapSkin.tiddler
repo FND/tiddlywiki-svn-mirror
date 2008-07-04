@@ -77,6 +77,7 @@
 	<div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
 	<div class='title' macro="LinkMaker type:text display:rr_session_title linkto:rr_session_link tooltip:rr_session_tooltip"></div>
 	<span class="time"><span macro="dtstart rr_session_starttime '0hh:0mm'"></span>-<span macro="dtend rr_session_endtime '0hh:0mm'"></span></span>
+	<div class="location" macro="view rr_session_location"></div>
 	<div class="speaker" macro="TiddlifyList rr_session_speakers"></div>
 	<div class="noteOptions"><div macro="RippleRap option:makeNote"></div><div macro="RippleRap option:confabbReview"></div></div>
 	<div class='viewer' macro='view text wikified'></div>
@@ -274,6 +275,7 @@ div.session .title a { color:[[RippleRapColors::Darkest]];}
 div.session .title a:hover{ color:[[RippleRapColors::Darkest]]; background-color:transparent; text-decoration:underline;}
 div.session .viewer { padding:10px;}
 div.session .time {margin:0 0.2em 0 10px; font-size:1.2em; font-weight:bold; color:[[RippleRapColors::Brightest]]; display:inline;}
+div.session .location {margin:0 0.2em; font-size:1.2em; font-weight:bold; color:[[RippleRapColors::Dark]]; display:inline;}
 div.session .speaker  {margin:0.2em 0 0 0; font-size:1.2em; font-weight:bold; color:#666;display:inline;}
 div.session .viewer {margin:0 8em 0 0; font-size:1em; color:#222; padding:0.5em 5px 0.5em 10px;}
 /*div.session_edit .editor .fieldsetFix {margin:0; padding:0.5em;}*/
