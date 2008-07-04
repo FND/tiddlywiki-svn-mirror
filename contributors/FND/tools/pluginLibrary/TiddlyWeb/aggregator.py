@@ -18,7 +18,6 @@ def main(args):
 		{
 			"name": "Core Plugins",
 			"URI": "http://www.tiddlywiki.com/coreplugins.html",
-			#"URI": "../coreplugins.html",
 			"type": "TiddlyWiki"
 		}, {
 			"name": "TiddlyTools",
@@ -46,6 +45,7 @@ def generateRecipe(bags):
 	recipe.set_recipe(items)
 	store = Store("text")
 	store.put(recipe)
+	# DEBUG: include custom tiddlers for UI
 
 def getPlugins(repo):
 	"""
@@ -92,10 +92,16 @@ def getPluginTiddlers(doc):
 	from BeautifulSoup import BeautifulSoup # DEBUG: move to top of module?
 	tw = BeautifulSoup(doc)
 	store = tw.find("div", id="storeArea")
-	cue = "systemConfig" # includes "systemConfigDisable" -- DEBUG: include systemTheme tiddlers?
+	tag = "systemConfig" # includes "systemConfigDisable" -- DEBUG: include systemTheme tiddlers?
+	# remove non-plugin tiddlers
 	[tiddler.extract() for tiddler in store.findAll("div", tiddler=True, tags=True) \
-		if cue not in tiddler["tags"]] # remove non-plugin tiddlers
-	return "<html><body>" + store.prettify() + "</body></html>" # DEBUG: prettify() not required here; inefficient?!
+		if tag not in tiddler["tags"]]
+	# disable plugins
+	match = re.compile(r"\bsystemConfig\b\s?")
+	for plugin in store.findAll("div", tiddler=True, tags=True):
+		plugin["tags"] = re.sub(match, " ", plugin["tags"])
+	# return pure-store format
+	return "<html><body>" + store.renderContents() + "</body></html>"
 
 # startup
 
