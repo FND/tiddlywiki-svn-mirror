@@ -135,10 +135,10 @@ config.macros.RippleRap.makeNoteButtonClick = function(ev){
 config.macros.RippleRap.labelEdition = function() {
 	var st = store.getTiddler('SiteTitle');
 	var sst = store.getTiddler('SiteSubtitle');
-	st.text = "~" + config.options.txtRippleRapConferenceName;
+	st.text = "" + config.options.txtRippleRapConferenceName;
 	//# shouldn't be hard-coded
 	var suffix = config.options.txtPoweredBy || " using Confabb ~NoteShare";
-	sst.text = "notes by ~" + config.options.txtSharedNotesUserName + suffix;
+	sst.text = "notes by " + config.options.txtSharedNotesUserName + suffix;
 	refreshPageTemplate();
 };
 
