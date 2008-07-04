@@ -17,12 +17,17 @@ def main(args):
 	repos = [
 		{
 			"name": "Core Plugins",
-			#"URI": "http://www.tiddlywiki.com/coreplugins.html", # DEBUG'd
-			"URI": "../coreplugins.html",
+			"URI": "http://www.tiddlywiki.com/coreplugins.html",
+			#"URI": "../coreplugins.html",
+			"type": "TiddlyWiki"
+		}, {
+			"name": "TiddlyTools",
+			"URI": "http://www.tiddlytools.com",
 			"type": "TiddlyWiki"
 		}
 	] # DEBUG: read list from file
 	for repo in repos:
+		print "processing " + repo["name"] + " (" + repo["URI"] + ")" # DEBUG: log
 		getPlugins(repo)
 	bags = [repo["name"] for repo in repos]
 	generateRecipe(bags)
@@ -37,8 +42,8 @@ def generateRecipe(bags):
 	"""
 	from tiddlyweb.recipe import Recipe
 	recipe = Recipe("plugins")
-	sets = [("/bags/" + bag + "/tiddlers") for bag in bags]
-	recipe.set_recipe(sets)
+	items = [([bag, ""]) for bag in bags]
+	recipe.set_recipe(items)
 	store = Store("text")
 	store.put(recipe)
 
@@ -57,9 +62,8 @@ def getPlugins(repo):
 		try:
 			doc = urlopen(repo["URI"]).read()
 		except IOError:  # DEBUG: doesn't include 404!?
-			return False
-			# DEBUG: log error
-		bagName = repo["name"]
+			return False # DEBUG: log error
+		bagName = repo["name"] # DEBUG: escape invalid path chars
 		# delete existing bag -- DEBUG: temporary hack?
 		bagPath = "store" + os.sep + "bags" + os.sep + bagName # DEBUG: hardcoded root - evil!?
 		if(os.path.exists(bagPath)):
@@ -91,7 +95,7 @@ def getPluginTiddlers(doc):
 	cue = "systemConfig" # includes "systemConfigDisable" -- DEBUG: include systemTheme tiddlers?
 	[tiddler.extract() for tiddler in store.findAll("div", tiddler=True, tags=True) \
 		if cue not in tiddler["tags"]] # remove non-plugin tiddlers
-	return "<html><body>" + store.prettify() + "</body></html>" # DEBUG: prettify() not required here, inefficient?!
+	return "<html><body>" + store.prettify() + "</body></html>" # DEBUG: prettify() not required here; inefficient?!
 
 # startup
 
