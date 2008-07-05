@@ -21,7 +21,7 @@ def main(args):
 			"type": "TiddlyWiki"
 		}, {
 			"name": "TiddlyTools",
-			"URI": "http://www.tiddlytools.com",
+			"URI": "", #"http://www.tiddlytools.com", # DEBUG'd
 			"type": "TiddlyWiki"
 		}
 	] # DEBUG: read list from file
@@ -60,7 +60,7 @@ def getPlugins(repo):
 		from tiddlyweb.bag import Bag
 		from tiddlyweb.importer import import_wiki
 		try:
-			doc = urlopen(repo["URI"]).read()
+			doc = urlopen(repo["URI"]).read() # DEBUG: caching?!
 		except IOError:  # DEBUG: doesn't include 404!?
 			return False # DEBUG: log error
 		bagName = repo["name"] # DEBUG: escape invalid path chars
@@ -73,7 +73,8 @@ def getPlugins(repo):
 		store = Store("text")
 		store.put(bag)
 		# import plugins
-		import_wiki(getPluginTiddlers(doc), repo["name"]) # DEBUG: doesn't handle legacy store format, creates a new revision per cycle
+		convertStoreFormat(doc)
+		import_wiki(getPluginTiddlers(doc), repo["name"]) # DEBUG: creates a new revision per cycle
 		return True
 	elif repo["type"] == "SVN":
 		pass # DEBUG: to be implemented
@@ -94,14 +95,25 @@ def getPluginTiddlers(doc):
 	store = tw.find("div", id="storeArea")
 	tag = "systemConfig" # includes "systemConfigDisable" -- DEBUG: include systemTheme tiddlers?
 	# remove non-plugin tiddlers
-	[tiddler.extract() for tiddler in store.findAll("div", tiddler=True, tags=True) \
-		if tag not in tiddler["tags"]]
+	[tiddler.extract() for tiddler in store.findAll("div", title=True) \
+		if (not tiddler.has_key("tags")) or (tag not in tiddler["tags"])]
 	# disable plugins
 	match = re.compile(r"\bsystemConfig\b\s?")
-	for plugin in store.findAll("div", tiddler=True, tags=True):
+	for plugin in store.findAll("div", title=True, tags=True):
 		plugin["tags"] = re.sub(match, " ", plugin["tags"])
 	# return pure-store format
-	return "<html><body>" + store.renderContents() + "</body></html>"
+	return "<html><body><div id='storeArea'>" + store.renderContents() + "</div></body></html>"
+
+def convertStoreFormat(doc):
+	"""
+	convert legacy store format (if required)
+
+	@param doc: TiddlyWiki document
+	@type  doc: str
+	@return: canonical store format
+	@rtype : str
+	"""
+	return doc # DEBUG: to do
 
 # startup
 
