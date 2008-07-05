@@ -498,919 +498,628 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="FacebookFriendsFeed" modifier="SimonMcManus" tags="systemServer excludeLists excludeSearch">
-<pre>|''Description:''|FacebookFriends feed|
-|''Type:''|facebookfriends|
-|''URL:''|http://www.facebook.com/friends.php?|
-|''Workspace:''|Main|</pre>
-</div>
-<div title="FacebookFriendsAdaptorPlugin" modifier="SimonMcManus" created="200709270000" tags="systemConfig excludeLists excludeSearch">
+<div title="ccTiddlyAdaptorPlugin" modifier="SimonMcManus" created="200709270000" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
-|''Name:''|FacebookFriendsAdaptorPlugin|
-|''Description:''|Facebook Friends Adaptor|
-|''Author:''|Simon McManus (simonmcmanus (at) bt (dot) com)|
-|''Source:''|http://www.example.com/#FacebookFriendsAdaptorPlugin |
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/adaptors/FacebookFriendsAdaptorPlugin.js |
-|''Version:''|0.0.2|
-|''Status:''|Not ready for release|
-|''Date:''|Sep 27, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|''~CoreVersion:''|2.2.0|
-
+|''Name:''|TiddlyWebAdaptorPlugin|
+|''Description:''|TiddlyWeb Adaptor based on Example Adaptor|
+|''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
+|''Source:''|n/a|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/ChrisDent/....|
+|''Version:''|0.0.1|
+|''Status:''|Under Development|
+|''Date:''|Mar 25, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
+|''License:''||
+|''~CoreVersion:''||
 ***/
 
 //{{{
-if(!version.extensions.FacebookFriendsAdaptorPlugin) {
-version.extensions.FacebookFriendsAdaptorPlugin = {installed:true};
+if(!version.extensions.TiddlyWebAdaptorPlugin) {
+version.extensions.TiddlyWebAdaptorPlugin = {installed:true};
 
-function FacebookFriendsAdaptor()
+function TiddlyWebAdaptor()
 {
-	this.host = null;
-	this.workspace = null;
-	return this;
+        this.host = null;
+        this.workspace = null;
+        return this;
 }
 
-//FacebookFriendsAdaptor.mimeType = 'text/x.';
-FacebookFriendsAdaptor.serverType = 'facebookfriends';
-FacebookFriendsAdaptor.serverParsingErrorMessage = &quot;Error parsing result from server&quot;;
-FacebookFriendsAdaptor.errorInFunctionMessage = &quot;Error in function FacebookFriendsAdaptor.%0&quot;;
+// !!TODO set the variables below
+TiddlyWebAdaptor.mimeType = 'application/json';
+TiddlyWebAdaptor.serverType = 'tiddlyweb'; // MUST BE LOWER CASE
+TiddlyWebAdaptor.serverParsingErrorMessage = &quot;Error parsing result from server&quot;;
+TiddlyWebAdaptor.errorInFunctionMessage = &quot;Error in function TiddlyWebAdaptor.%0&quot;;
 
-FacebookFriendsAdaptor.prototype.setContext = function(context,userParams,callback)
+TiddlyWebAdaptor.prototype.setContext = function(context,userParams,callback)
 {
-	if(!context) context = {};
-	context.userParams = userParams;
-	if(callback) context.callback = callback;
-	context.adaptor = this;
-	if(!context.host)
-		context.host = this.host;
-	if(!context.workspace)
-		context.workspace = this.workspace;
-	return context;
+        if(!context) context = {};
+        context.userParams = userParams;
+        if(callback) context.callback = callback;
+        context.adaptor = this;
+        if(!context.host)
+                context.host = this.host;
+        context.host = TiddlyWebAdaptor.fullHostName(context.host);
+        if(!context.workspace)
+                context.workspace = this.workspace;
+        return context;
 };
 
-FacebookFriendsAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
+TiddlyWebAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
-	return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
+        return doHttp('GET',uri,data,contentType,username,password,callback,params,headers,1);
 };
 
-FacebookFriendsAdaptor.doHttpPOST = function(uri,callback,params,headers,data,contentType,username,password)
+TiddlyWebAdaptor.doHttpPOST = function(uri,callback,params,headers,data,contentType,username,password)
 {
-	return doHttp('POST',uri,data,contentType,username,password,callback,params,headers);
+        return doHttp('POST',uri,data,contentType,username,password,callback,params,headers,1);
 };
 
-FacebookFriendsAdaptor.fullHostName = function(host)
+TiddlyWebAdaptor.doHttpPUT = function(uri,callback,params,headers,data,contentType,username,password)
 {
-	if(!host)
-		return '';
-	if(!host.match(/:\/\//))
-		host = 'http://' + host;
-	if(host.substr(-1) != '/')
-		host = host + '/';
-	return host;
+        return doHttp('PUT',uri,data,contentType,username,password,callback,params,headers,1);
 };
 
-FacebookFriendsAdaptor.minHostName = function(host)
+TiddlyWebAdaptor.fullHostName = function(host)
 {
-	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
+        if(!host)
+                return '';
+        if(!host.match(/:\/\//))
+                host = 'http://' + host;
+        if(host.substr(host.length-1) != '/')
+                host = host + '/';
+        return host;
+};
+
+TiddlyWebAdaptor.minHostName = function(host)
+{
+        return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
 };
 
 // Convert a page title to the normalized form used in uris
-FacebookFriendsAdaptor.normalizedTitle = function(title)
+TiddlyWebAdaptor.normalizedTitle = function(title)
 {
-	var n = title.toLowerCase();
-	n = n.replace(/\s/g,'_').replace(/\//g,'_').replace(/\./g,'_').replace(/:/g,'').replace(/\?/g,'');
-	if(n.charAt(0)=='_')
-		n = n.substr(1);
-	return String(n);
+        return title;
 };
 
 // Convert a date in YYYY-MM-DD hh:mm format into a JavaScript Date object
-FacebookFriendsAdaptor.dateFromEditTime = function(editTime)
+TiddlyWebAdaptor.dateFromEditTime = function(editTime)
 {
-	var dt = editTime;
-	return new Date(Date.UTC(dt.substr(0,4),dt.substr(5,2)-1,dt.substr(8,2),dt.substr(11,2),dt.substr(14,2)));
+        var dt = editTime;
+        return new Date(Date.UTC(dt.substr(0,4),dt.substr(5,2)-1,dt.substr(8,2),dt.substr(11,2),dt.substr(14,2)));
 };
 
-FacebookFriendsAdaptor.prototype.openHost = function(host,context,userParams,callback)
+TiddlyWebAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
-	this.host = FacebookFriendsAdaptor.fullHostName(host);
-	context = this.setContext(context,userParams,callback);
-	if(context.callback) {
-		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
-	}
-	return true;
+        displayMessage(&quot;openHost: &quot; + host)
+        this.host = TiddlyWebAdaptor.fullHostName(host);
+        context = this.setContext(context,userParams,callback);
+        if(context.callback) {
+                context.status = true;
+                window.setTimeout(function() {callback(context,userParams);},0);
+        }
+        return true;
 };
 
-FacebookFriendsAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
+TiddlyWebAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
 {
-	this.workspace = workspace;
-	context = this.setContext(context,userParams,callback);
-	if(context.callback) {
-		context.status = true;
-		window.setTimeout(context.callback,0,context,userParams);
-	}
-	return true;
+        displayMessage(&quot;openWorkspace: &quot; + workspace)
+        this.workspace = workspace;
+        context = this.setContext(context,userParams,callback);
+
+        if(context.callback) {
+                context.status = true;
+                window.setTimeout(function() {callback(context,userParams);},0);
+        }
+        return true;
 };
 
-FacebookFriendsAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
+TiddlyWebAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
-	context = this.setContext(context,userParams,callback);
-// !!TODO set the uriTemplate
-	var uriTemplate = '%0';
-	var uri = uriTemplate.format([context.host]);
-	var req = FacebookFriendsAdaptor.doHttpGET(uri,FacebookFriendsAdaptor.getWorkspaceListCallback,context,{'accept':'application/json'});
-	return typeof req == 'string' ? req : true;
+        displayMessage(&quot;getWorkspaceList&quot;)
+        context = this.setContext(context,userParams,callback);
+ var uriTemplate = '%0association/serversides/cctiddly/Trunk/handle/listWorkspaces.php';
+    //   var uriTemplate = '%0recipes';   
+     var uri = uriTemplate.format([context.host]);
+displayMessage(uri);
+        var req = TiddlyWebAdaptor.doHttpGET(uri,TiddlyWebAdaptor.getWorkspaceListCallback,context, {'accept':'application/json'});
+        return typeof req == 'string' ? req : true;
 };
 
-FacebookFriendsAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
+TiddlyWebAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
 {
-	context.status = false;
-	context.statusText = FacebookFriendsAdaptor.errorInFunctionMessage.format(['getWorkspaceListCallback']);
-	if(status) {
-		try {
-// !!TODO: parse the responseText here
-			var list = [];
-			var item = {
-				title:'exampleTitle',
-				name:'exampleName'
-				};
-			list.push(item);
-		} catch (ex) {
-			context.statusText = exceptionText(ex,FacebookFriendsAdaptor.serverParsingErrorMessage);
-			if(context.callback)
-				context.callback(context,context.userParams);
-			return;
-		}
-		context.workspaces = list;
-		context.status = true;
+        context.status = false;
+        context.statusText = TiddlyWebAdaptor.errorInFunctionMessage.format(['getWorkspaceListCallback']);
+        if(status) {
+                try {
+                    eval('var workspaces=' + responseText);
+                } catch (ex) {
+                        context.statusText = exceptionText(ex,TiddlyWebAdaptor.serverParsingErrorMessage);
+                        if(context.callback)
+                                context.callback(context,context.userParams);
+                        return;
+                }
+                var list = [];
+                for (var i=0; i &lt; workspaces.length; i++) {
+                    list.push({title:workspaces[i]})
+                }
+                context.workspaces = list;
+                context.status = true;
+        } else {
+                context.statusText = xhr.statusText;
+        }
+        if(context.callback)
+                context.callback(context,context.userParams);
+};
+
+TiddlyWebAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
+{
+	displayMessage(&quot;get Tiddler list&quot;);
+        context = this.setContext(context,userParams,callback);
+      // var uriTemplate = '%0recipes/%1/tiddlers';
+        var uriTemplate = '%0association/serversides/cctiddly/Trunk/handle/listTiddlers.php?workspace=%1';
+        
+
+var uri = uriTemplate.format([context.host,context.workspace]);
+        var req = TiddlyWebAdaptor.doHttpGET(uri,TiddlyWebAdaptor.getTiddlerListCallback,context, {'accept':'application/json'});
+        return typeof req == 'string' ? req : true;
+};
+
+TiddlyWebAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
+{
+        context.status = false;
+        context.statusText = TiddlyWebAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
+        if(status) {
+                try {
+                    eval('var tiddlers=' + responseText);
+                } catch (ex) {
+                        context.statusText = exceptionText(ex,TiddlyWebAdaptor.serverParsingErrorMessage);
+                        if(context.callback)
+                                context.callback(context,context.userParams);
+                        return;
+                }
+                var list = [];
+                for(var i=0; i &lt; tiddlers.length; i++) {
+	displayMessage(tiddlers[i]['title']);
+                    var tiddler = new Tiddler(tiddlers[i]['title']);
+                    tiddler.fields['server.page.revision'] = tiddlers[i]['revision'];
+                    list.push(tiddler);
+                }
+                context.tiddlers = list;
+                context.status = true;
+        } else {
+                context.statusText = xhr.statusText;
+        }
+        if(context.callback)
+                context.callback(context,context.userParams);
+};
+
+TiddlyWebAdaptor.prototype.generateTiddlerInfo = function(tiddler)
+{
+        var info = {};
+        var host = this &amp;&amp; this.host ? this.host : TiddlyWebAdaptor.fullHostName(tiddler.fields['server.host']);
+        var bag = tiddler.fields['server.bag']
+        var workspace = tiddler.fields['server.workspace']
+        var baguriTemplate = '%0bags/%1/tiddlers/%2';
+        var recipeuriTemplate = '%0recipes/%1/tiddlers/%2';
+        if (bag)
+            info.uri = baguriTemplate.format([host,bag,tiddler.title]);
+        else
+            info.uri = recipeuriTemplate.format([host,workspace,tiddler.title]);
+        return info;
+};
+
+TiddlyWebAdaptor.prototype.getTiddlerRevision = function(title,revision,context,userParams,callback)
+{
+        context = this.setContext(context,userParams,callback);
+        if(revision)
+                context.revision = revision;
+        return this.getTiddler(title,context,userParams,callback);
+};
+
+TiddlyWebAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
+{
+        context = this.setContext(context,userParams,callback);
+        if(title)
+                context.title = title;
+
+
+
+
+//      var uriTemplate = '%0recipes/%1/tiddlers/%2/revisions/%3';
+      var uriTemplate = '%0association/serversides/cctiddly/Trunk/handle/getTiddler.php?title=%2';
+
+
+     //   if(context.revision) {
+     //           var uriTemplate = '%0recipes/%1/tiddlers/%2/revisions/%3';
+     //  } else {
+     //           uriTemplate = '%0recipes/%1/tiddlers/%2';
+     //  }
+
+
+        uri = uriTemplate.format([context.host,context.workspace,TiddlyWebAdaptor.normalizedTitle(title),context.revision]);
+
+        context.tiddler = new Tiddler(title);
+        context.tiddler.fields['server.type'] = TiddlyWebAdaptor.serverType;
+        context.tiddler.fields['server.host'] = TiddlyWebAdaptor.minHostName(context.host);
+        context.tiddler.fields['server.workspace'] = context.workspace;
+        var req = TiddlyWebAdaptor.doHttpGET(uri,TiddlyWebAdaptor.getTiddlerCallback,context, {'accept':'application/json'});
+        return typeof req == 'string' ? req : true;
+};
+
+
+
+TiddlyWebAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr)
+{
+        context.status = false;
+        context.statusText = TiddlyWebAdaptor.errorInFunctionMessage.format(['getTiddlerCallback']);
+        if(status) {
+                var info=[]
+                try {
+                    eval('info=' + responseText);
+                } catch (ex) {
+                        context.statusText = exceptionText(ex,TiddlyWebAdaptor.serverParsingErrorMessage);
+                        if(context.callback)
+                                context.callback(context,context.userParams);
+                        return;
+                }
+                context.tiddler.text = info['text'];
+                context.tiddler.tags = info['tags'];
+                context.tiddler.fields['server.page.revision'] = info['revison']
+                context.tiddler.modifier = info['modifier'];
+                context.tiddler.modified = Date.convertFromYYYYMMDDHHMM(info['modified']);
+                context.tiddler.created = Date.convertFromYYYYMMDDHHMM(info['created']);
+                context.status = true;
+        } else {
+                context.statusText = xhr.statusText;
+                if(context.callback)
+                        context.callback(context,context.userParams);
+                return;
+        }
+        if(context.callback)
+                context.callback(context,context.userParams);
+};
+
+TiddlyWebAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,userParams,callback)
+{
+        context = this.setContext(context,userParams,callback);
+        var uriTemplate = '%0recipes/%1/tiddlers/%2/revisions';
+        // no support for limit
+        var uri = uriTemplate.format([context.host,context.workspace,TiddlyWebAdaptor.normalizedTitle(title)]);
+        var req = TiddlyWebAdaptor.doHttpGET(uri,TiddlyWebAdaptor.getTiddlerRevisionListCallback,context);
+        return typeof req == 'string' ? req : true;
+};
+
+TiddlyWebAdaptor.getTiddlerRevisionListCallback = function(status,context,responseText,uri,xhr)
+{
+        context.status = false;
+        if(status) {
+                try {
+                    eval('var info=' + responseText);
+                } catch (ex) {
+                        context.statusText = exceptionText(ex,TiddlyWebAdaptor.serverParsingErrorMessage);
+                        if(context.callback)
+                                context.callback(context,context.userParams);
+                        return;
+                }
+                var list = [];
+                for(var i=0; i&lt;info.length; i++) {
+                    var tiddler = new Tiddler(info[i]['title']);
+                    tiddler.modifier = info[i]['modifier'];
+                    tiddler.tags = info[i]['tags'];
+                    tiddler.fields['server.page.revision'] = info[i]['revision'];
+                    tiddler.modified = Date.convertFromYYYYMMDDHHMM(info[i]['modified']);
+                    tiddler.created = Date.convertFromYYYYMMDDHHMM(info[i]['created']);
+                    list.push(tiddler);
+                }
+                var sortField = 'server.page.revision';
+                list.sort(function(a,b) {
+                    return a.fields[sortField] &lt; b.fields[sortField]
+                      ? +1
+                      : (a.fields[sortField] == b.fields[sortField] ? 0 : -1);
+                 });
+                context.revisions = list;
+                context.status = true;
+        } else {
+                context.statusText = xhr.statusText;
+        }
+        if(context.callback)
+                context.callback(context,context.userParams);
+};
+
+TiddlyWebAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
+{
+        context = this.setContext(context,userParams,callback);
+        context.title = tiddler.title;
+        var baguriTemplate = '%0bags/%1/tiddlers/%2';
+        var recipeuriTemplate = '%0recipes/%1/tiddlers/%2';
+        var host = context.host ? context.host : TiddlyWebAdaptor.fullHostName(tiddler.fields['server.host']);
+        var bag = tiddler.fields['server.bag'];
+        var uri;
+        if (bag) {
+            uri = baguriTemplate.format([host,bag,tiddler.title]);
+        } else if (context.workspace) {
+            uri = recipeuriTemplate.format([host,context.workspace,tiddler.title]);
 	} else {
-		context.statusText = xhr.statusText;
-	}
-	if(context.callback)
-		context.callback(context,context.userParams);
+            return 'no bag or recipe available for tiddler, set recipe';
+        }
+            
+        payload = {
+            title: tiddler.title,
+            text: tiddler.text,
+            modifier: tiddler.modifier,
+            tags: tiddler.tags,
+            revision: tiddler['server.page.revision']
+        };
+        payload = JSON.stringify(payload)
+        var req = TiddlyWebAdaptor.doHttpPUT(uri,TiddlyWebAdaptor.putTiddlerCallback,context,{},payload,TiddlyWebAdaptor.mimeType);
+        return typeof req == 'string' ? req : true;
 };
 
-FacebookFriendsAdaptor.getElementsByClass = function(searchClass,node,tag)
+TiddlyWebAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
-	var classElements = new Array();
-	if (node == null)
-		node = document;
-	if (tag == null)
-		tag = '*';
-	var els = node.getElementsByTagName(tag);
-	var elsLen = els.length;
-	var pattern = new RegExp('(^|\\s)'+searchClass+'(\\s|$)');
-	for (i = 0, j = 0; i &lt; elsLen; i++) {
-		if ( pattern.test(els[i].className) ) {
-			classElements[j] = els[i];
-			j++;
-		}
-	}
-	return classElements;
+        if(status) {
+                context.status = true;
+        } else {
+                displayMessage('putTiddler xhr status is' + xhr.status);
+                displayMessage('putTiddler xhr status text is' + xhr.statusText);
+                context.status = false;
+                context.statusText = xhr.statusText;
+        }
+        if(context.callback)
+                context.callback(context,context.userParams);
 };
 
-FacebookFriendsAdaptor.doHttpPOST = function(uri,callback,params,headers,data,contentType,username,password)
+TiddlyWebAdaptor.prototype.close = function()
 {
-	return doHttp('POST',uri,data,contentType,username,password,callback,params,headers);
+        return true;
 };
 
-FacebookFriendsAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
-{
- //var email = prompt(&quot;Please enter your facebook username.&quot;, &quot;&quot;);
- //var pass =  prompt(&quot;Please enter your facebook password.&quot;, &quot;&quot;);
-var email = prompt('What is your facebook login?');
-var pass = prompt('What is your facebook password?');
-	context = this.setContext(context,userParams,callback);
-	var data = &quot;md5pass=&quot; + encodeURI(&quot;&quot;) + &quot;&amp;&quot; +
-		&quot;noerror=&quot; + encodeURI(&quot;&quot;) + &quot;&amp;&quot; +
-		&quot;email=&quot; + encodeURI(email) + &quot;&amp;&quot; +
-		&quot;pass=&quot; + encodeURI(pass) + &quot;&amp;&quot; +
-		&quot;doquicklogin=Login&quot;;
-	var uriTemplate = '%0';
-	var uri = uriTemplate.format([context.host]);
-	var req = FacebookFriendsAdaptor.doHttpPOST(uri,FacebookFriendsAdaptor.getTiddlerListCallback,context,null,data);
-	return typeof req == 'string' ? req : true;
-};
-
-FacebookFriendsAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
-{
-	context.status = false;
-	context.statusText = FacebookFriendsAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
-	if(status) {
-		try {
-//displayMessage(&quot;rt:&quot;+responseText.substr(0,100));
-			displayMessage(&quot;Got back with status: &quot; + status);
-			// Create the iframe
-			var iframe = document.createElement(&quot;iframe&quot;);
-			 iframe.style.display = &quot;none&quot;;
-			document.body.appendChild(iframe);
-			var doc = iframe.document;
-			if(iframe.contentDocument) {
-				doc = iframe.contentDocument; // For NS6
-			} else if(iframe.contentWindow) {
-				doc = iframe.contentWindow.document; // For IE5.5 and IE6
-			}
-
-			var bodyStartMarker = &quot;&lt;body&quot;;
-			var bodyEndMarker = &quot;&lt;/body&gt;&quot;;
-			var bodyStart = responseText.indexOf(bodyStartMarker);
-			var bodyEnd = responseText.indexOf(bodyEndMarker);
-		
-			if(bodyStart == -1 || bodyEnd == -1) {
-				displayMessage(&quot;No &lt;body&gt; found&quot;);
-			} else {
-				//displayMessage(&quot;Parsing &lt;body&gt;&quot;);
-				var content = &quot;&lt;&quot; + &quot;html&gt;&lt;&quot; + &quot;body&gt;&quot; + responseText.substring(bodyStart,bodyEnd + bodyEndMarker.length) + &quot;&lt;&quot; + &quot;/body&gt;&lt;&quot; + &quot;/html&gt;&quot;;
-				doc.open();
-				doc.writeln(content);
-				doc.close();
-			
-				var e = doc.getElementById(&quot;book&quot;);
-				
-				var loginStatus = hasClass(doc.body,&quot;home&quot;);	
-				//iframe.parentNode.removeChild(iframe);
-				context.adaptor.tiddlers = {};				
-				context.tiddlers = [];
-				var feed = FacebookFriendsAdaptor.getElementsByClass('friendtable',doc);
-				for (var f = 0; f &lt; feed.length; f++) {
-					// put the plain text in the title
-					var tiddler = new Tiddler(feed[f].textContent);
-					// place html into the tiddler text
-					tiddler.text = &quot;&lt;html&gt;&quot; + feed[f].innerHTML + &quot;&lt;/html&gt;&quot;;
-					tiddler.modifier = &quot;FacebookPlugin&quot;;
-					tiddler.tags = [&quot;Friend&quot;];
-					context.tiddlers.push(tiddler);
-					context.adaptor.tiddlers[tiddler.title] = tiddler;
-				}
-				displayMessage(&quot;Our login status is &quot; + loginStatus);
-			}
-
-		} catch (ex) {
-			context.statusText = exceptionText(ex,FacebookFriendsAdaptor.serverParsingErrorMessage);
-			if(context.callback)
-				context.callback(context,context.userParams);
-			return;
-		}
-		context.status = true;
-	} else {
-		context.statusText = xhr.statusText;
-	}
-	if(context.callback)
-		context.callback(context,context.userParams);
-};
-
-FacebookFriendsAdaptor.prototype.generateTiddlerInfo = function(tiddler)
-{
-	var info = {};
-	var host = this &amp;&amp; this.host ? this.host : FacebookFriendsAdaptor.fullHostName(tiddler.fields['server.host']);
-	var workspace = this &amp;&amp; this.workspace ? this.workspace : tiddler.fields['server.workspace'];
-// !!TODO set the uriTemplate
-	uriTemplate = '%0%1%2';
-	info.uri = uriTemplate.format([host,workspace,tiddler.title]);
-	return info;
-};
-
-FacebookFriendsAdaptor.prototype.getTiddler = function(title,context,userParams,callback)
-{
-	context = this.setContext(context,userParams,callback);
-	context.title = title;
-	context.tiddler = this.tiddlers[title];
-	if(context.tiddler) {
-		context.tiddler.fields['server.type'] = FacebookFriendsAdaptor.serverType;
-		context.tiddler.fields['server.host'] = this.host;
-	}
-	context.status = true;
-	if(context.allowSynchronous) {
-		context.isSynchronous = true;
-		callback(context,userParams);
-	} else {
-		window.setTimeout(function() {callback(context,userParams);},10);
-	}
-	return true;
-};
-
-FacebookFriendsAdaptor.prototype.close = function()
-{
-	return true;
-};
-
-config.adaptors[FacebookFriendsAdaptor.serverType] = FacebookFriendsAdaptor;
+config.adaptors[TiddlyWebAdaptor.serverType] = TiddlyWebAdaptor;
 } //# end of 'install only once'
-//}}}</pre>
-</div>
-<div title="login" tags="systemConfig">
-<pre>
-//{{{
 
+/***
+!JSON Code, used to serialize the data
+***/
+/*
+Copyright (c) 2005 JSON.org
 
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-config.macros.ccLogin={};	
-merge(config.macros.ccLogin,{
-	WizardTitleText:&quot;boring login box&quot;,
-	usernameRequest:&quot;Username&quot;,
-	passwordRequest:&quot;Password&quot;,
-	passwordConfirmationRequest:&quot;Please Confirm Password : &quot;,
-	emailRequest:&quot;Email Address : &quot;,
-	
-	stepLoginTitle:&quot;Please Login &quot;,
-	stepLoginIntroText:&quot;Hi, please login below..... &quot;,
-	stepRegisterTitle:&quot;Register for an account.&quot;,
-	stepRegisterIntroText:&quot;Hi, please register below.... &quot;,
-	stepDoLoginTitle:&quot;Logging you in&quot;,
-	stepDoLoginIntroText:&quot;we are currently trying to log you in.... &quot;,
-	stepForgotPasswordTitle:&quot;Password Request&quot;,
-	stepForgotPasswordIntroText:&quot;please email simon@osmosft.com&quot;,
-	buttonLogin:&quot;Login&quot;,
-	buttonLoginToolTip:&quot;click to login &quot;,	
-	buttonCancel:&quot;Cancel&quot;,
-	buttonCancelToolTip:&quot;Cancel transaction &quot;,
-	buttonRegister:&quot;Register&quot;,	
-	buttonRegisterToolTip:&quot;click to register&quot;,	
-	buttonForgottenPassword:&quot;Forgotten Password&quot;,	
-	buttonForgottenPasswordToolTip:&quot;Click to be reminded of your password&quot;,
-	
+The Software shall be used for Good, not Evil.
 
-	configAllowRegister:true,
-	configDenyRegisterMessage:&quot;Registering accounts is currently disabled. Please email me@nowhere.com if you need access.&quot;,
-	configURL:&quot;http://peermore.com:8080/challenge/cookie_form&quot;, 
-	configUsernameInputName:&quot;user&quot;,
-	configPasswordInputName:&quot;password&quot;,
-	configPasswordCookieName:&quot;cctPass&quot;
-});
-	
-config.macros.ccLogin.displayRegister=function(place, item){
-	//removeChildren(place);
-	var me = config.macros.ccLogin;
-	var wrapper = createTiddlyElement(null,&quot;div&quot;);
-	if (config.macros.ccLogin.configAllowRegister != true){
-		createTiddlyElement(wrapper,'div',null,&quot;annotation&quot;,me.configDenyRegisterMessage);
-		return null;
-	}
-	var frm=createTiddlyElement(wrapper,&quot;form&quot;,null,&quot;wizard&quot;);
-//	frm.onsubmit= config.macros.ccRegister.registerOnSubmit;
-	createTiddlyText(frm, me.stepRegisterIntroText);
-	var tb=createTiddlyElement(frm,&quot;table&quot;);
-	var tr=createTiddlyElement(tb,&quot;tr&quot;);
-	var username_label=createTiddlyElement(tr,&quot;td&quot;,null,null,me.usernameRequest);
-	username_label.style.textAlign = &quot;right&quot;;
-	var td=createTiddlyElement(tr,&quot;td&quot;);
-	var username = createTiddlyElement(null,&quot;input&quot;,&quot;username&quot; ,&quot;input&quot;);
-	username.onkeyup=function() {
-		displayMessage(&quot;ss&quot;);
-		//config.macros.ccLogin.isUsernameAvailable(item.value);
-	};
-	username.setAttribute(&quot;tabindex&quot;,&quot;1&quot;);
-	td.appendChild(username);
-	createTiddlyElement(tr,&quot;td&quot;,'username_error','inlineError',null);
-	var tr=createTiddlyElement(tb,&quot;tr&quot;);
-	var mail_label = createTiddlyElement(tr,&quot;td&quot;,null,null,me.emailRequest);
-	mail_label.style.textAlign = &quot;right&quot;;
-	var td=createTiddlyElement(tr,&quot;td&quot;);
-	var mail=createTiddlyElement(null,&quot;input&quot;,&quot;mail&quot; ,&quot;input&quot;);		
-	mail.onkeyup=function() {
-//		config.macros.ccRegister.mailKeyUp(this.value);
-	};
-	td.appendChild(mail);
-
-	mail.setAttribute(&quot;tabindex&quot;,&quot;2&quot;);
-	createTiddlyElement(tr,&quot;td&quot;,'mail_error','inlineError','');
-
-	var tr=createTiddlyElement(tb,&quot;tr&quot;);
-	var pw1_label = createTiddlyElement(tr,&quot;td&quot;,null,null,me.passwordRequest);
-	pw1_label.style.textAlign = &quot;right&quot;;
-	var td=createTiddlyElement(tr,&quot;td&quot;);
-	var password1 = createTiddlyElement(null,&quot;input&quot;,&quot;password1&quot;,&quot;input&quot;);
-	password1.setAttribute(&quot;type&quot;,&quot;password&quot;);
-
-	password1.setAttribute(&quot;tabindex&quot;,&quot;3&quot;);
-	td.appendChild(password1);
-
-//	createTiddlyElement(tr,&quot;td&quot;,'mail_error','inlineError','');
-
-	createTiddlyElement(tr,&quot;td&quot;,'pass1_error','inlineError');
-	
-	var tr=createTiddlyElement(tb,&quot;tr&quot;);
-	var pw2_label = createTiddlyElement(tr,&quot;td&quot;,null,null, me.passwordConfirmationRequest);
-	pw2_label.style.textAlign = &quot;right&quot;;
-	var td=createTiddlyElement(tr,&quot;td&quot;);
-	var password2 = createTiddlyElement(null,&quot;input&quot;,&quot;password2&quot;,&quot;input&quot;);
-	password2.setAttribute(&quot;type&quot;,&quot;password&quot;);
-	password2.setAttribute(&quot;tabindex&quot;,&quot;4&quot;);
-	td.appendChild(password2);
-
-	createTiddlyElement(tr,&quot;td&quot;,'pass2_error','inlineError');
-	createTiddlyElement(tr,&quot;td&quot;,&quot;submitStatus&quot;,null,&quot;&quot;);
-
-	var w = new Wizard(item);
-	w.addStep(config.macros.ccLogin.stepRegisterTitle, wrapper.innerHTML);
-	w.setButtons([
-		{caption: config.macros.ccLogin.buttonRegister, tooltip: config.macros.ccLogin.buttonRegisterToolTip, onClick:function() { config.macros.ccLogin.doRegister(place, this)}},
-		{caption: config.macros.ccLogin.buttonCancel, tooltip: config.macros.ccLogin.buttonCancelToolTip, onClick: function() { config.macros.ccLogin.refresh(place)}}
-	]);
-
-}
-
-config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	config.macros.ccLogin.refresh(place);
-};
-
-config.macros.ccLogin.refresh=function(place){
-	removeChildren(place);
-	var loginDiv=createTiddlyElement(null,&quot;div&quot;,null,&quot;loginDiv&quot;,null);
-	var me=config.macros.ccLogin;
-	createTiddlyText(loginDiv, &quot;&quot;+me.stepLoginIntroText);
-	var tb=createTiddlyElement(loginDiv,&quot;table&quot;);
-	tb.style.border=&quot;0px&quot;;
-	var tr=createTiddlyElement(tb,&quot;tr&quot;);
-	tr.style.border=&quot;0px&quot;;
-	var user_label=createTiddlyElement(tr,&quot;td&quot;,null,&quot;label&quot;,this.usernameRequest);
-	user_label.style.textAlign = &quot;right&quot;;
-	user_label.style.border=&quot;0px&quot;;
-	var td=createTiddlyElement(tr,&quot;td&quot;);
-	td.style.border=&quot;0px&quot;;
-	var txtuser=createTiddlyElement(td,&quot;input&quot;,this.configUsernameInputName,&quot;input&quot;);
-	//if (cookieValues.txtUserName!==undefined){
-	//txtuser.value=cookieValues.txtUserName ;
-	//}
-
-
-
-	//var tr=createTiddlyElement(tb,&quot;tr&quot;);
-	//tr.style.border=&quot;0px&quot;;
-	//var pass_label=createTiddlyElement(tr,&quot;td&quot;,null,&quot;label&quot;,this.stepRegisterTitle);
-	//pass_label.style.textAlign = &quot;right&quot;;
-	//pass_label.style.border=&quot;0px&quot;;
-	//var td=createTiddlyElement(tr,&quot;td&quot;);
-	//td.style.border=&quot;0px&quot;;
-	//var txtpass=createTiddlyElement(null,&quot;input&quot;,&quot;password&quot;,&quot;input&quot;,null,{&quot;type&quot;:&quot;checkbox&quot;});
-	//txtpass.onClick=function() {
-	//		alert('ss');
-	//		config.macros.ccRegister.mailKeyUp(this.value);
-	//}
-	//td.appendChild(txtpass);	
-
-
-
-
-	var tr=createTiddlyElement(tb,&quot;tr&quot;);
-	tr.style.border=&quot;0px&quot;;
-	var pass_label=createTiddlyElement(tr,&quot;td&quot;,null,&quot;label&quot;,this.passwordRequest);
-	pass_label.style.textAlign = &quot;right&quot;;
-	pass_label.style.border=&quot;0px&quot;;
-	var td=createTiddlyElement(tr,&quot;td&quot;);
-	td.style.border=&quot;0px&quot;;
-	var txtpass=createTiddlyElement(null,&quot;input&quot;,&quot;password&quot;,&quot;input&quot;,null,{&quot;type&quot;:&quot;password&quot;});
-	txtpass.setAttribute(&quot;type&quot;,&quot;password&quot;);
-	td.appendChild(txtpass);
-	
-	var submitSpan=createTiddlyElement(loginDiv,&quot;div&quot;);
-	submitSpan.setAttribute(&quot;class&quot;,&quot;submit&quot;);
-
-	var w = new Wizard();
-	w.createWizard(place,this.WizardTitleText);
-	w.addStep(this.stepLoginTitle,loginDiv.innerHTML);
-	 
-       w.setButtons([
-{caption: this.buttonLogin, tooltip: this.buttonLoginToolTip, onClick: function() {
-			config.macros.ccLogin.doLogin(w.formElem[&quot;user&quot;].value, w.formElem[&quot;password&quot;].value, this, place);
-		}}, 
-		{caption: this.buttonRegister, tooltip: this.buttonRegisterToolTip, onClick: function() {config.macros.ccLogin.displayRegister(place, this);}},
-		{caption: this.buttonForgottenPassword, tooltip: this.buttonForgottenPasswordToolTip, onClick: function() {
-			config.macros.ccLogin.displayForgottenPassword(this, place);
-			}
-		}
-]);
-
-};
-
-
-
-config.macros.ccLogin.doLogin=function(username, password, item, place){
-	var w = new Wizard(item);
-	var me = config.macros.ccLogin;
-
-	var urlLogin=me.configURL+&quot;?&quot;+me.configUsernameInputName+&quot;=&quot;+username+&quot;&amp;&quot;+me.configPasswordInputName+&quot;=&quot;+password;
-
-
-	doHttp('GET',me.configURL+&quot;?&quot;+me.configUsernameInputName+&quot;=&quot;+username+&quot;&amp;&quot;+me.configPasswordInputName+&quot;=&quot;+password,null,null,null,null,me.loginCallback,null);
-	var html = me.stepDoLoginIntroText+urlLogin; 
-	w.addStep(me.stepDoLoginTitle,html);
-	w.setButtons([
-		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {config.macros.ccLogin.refresh(place);}
-	}]);
-}
-
-
-config.macros.ccLogin.loginCallback=function(status,params,responseText,uri,xhr){
-
-displayMessage(responseText);
-if(xhr.status==401)
-	displayMessage(&quot;Login Failed&quot;);
-else{
-	displayMessage(xhr.status);
-	window.location=uri;
-} 
-
-};
-
-
-
-
-
-
-config.macros.ccLogin.doRegister=function(place){
-	var w = new Wizard(item);
-	var me = config.macros.ccLogin;
-	w.addStep(item.stepLoginTitle,&quot;atempting to REGISTER &quot;);
-	w.setButtons([
-		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() {me.refresh(place);}
-	}]);
-}
-
-
-config.macros.ccLogin.displayForgottenPassword=function(item, place){	
-	var w = new Wizard(item);
-	var me = config.macros.ccLogin;
-	console.log(item);
-	w.addStep(me.stepForgotPasswordTitle,me.stepForgotPasswordIntroText);
-	w.setButtons([
-		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {config.macros.ccLogin.refresh(place);}
-	}]);
-}
-
-
-
-config.macros.ccLogin.isUsernameAvailable=function(){
-	alert('s');
-	//doHttp('POST',url+'/handle/register.php',&quot;username=&quot;+document.getElementById(&quot;username&quot;).value+&quot;&amp;free=1&quot;,null,null,null,config.macros.ccLogin.isUsernameAvailabeCallback,null);
-	return false;
-};
-
-
-
-config.macros.ccLogin.isUsernameAvailabeCallback=function(status,params,responseText,uri,xhr){
-	var field = &quot;&quot;;
-	if(responseText &gt; 0){
-		var error=document.getElementById('username_error');
-		field=document.getElementById('username');
-		error.innerHTML='The username has already been taken. ';
-		error.setAttribute(&quot;class&quot;,&quot;inlineError&quot;);
-		// For IE 
-		error.setAttribute(&quot;className&quot;, &quot;inlineError&quot;);
-		field.setAttribute(&quot;class&quot;,&quot;inputError&quot;);
-	}else{
-		var a = document.getElementById('username_error');
-		field = document.getElementById('username');
-		a.innerHTML='The username is available ';
-		// For IE
-		a.setAttribute(&quot;className&quot;, &quot;inlineOk&quot;);
-		a.setAttribute(&quot;class&quot;,&quot;inlineOk&quot;);
-		field.setAttribute(&quot;class&quot;,&quot;input&quot;);
-	}
-};
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 
 /*
+    The global object JSON contains two methods.
+
+    JSON.stringify(value) takes a JavaScript value and produces a JSON text.
+    The value must not be cyclical.
+
+    JSON.parse(text) takes a JSON text and produces a JavaScript value. It will
+    throw a 'JSONError' exception if there is an error.
+*/
+var JSON = {
+    copyright: '(c)2005 JSON.org',
+    license: 'http://www.crockford.com/JSON/license.html',
+/*
+    Stringify a JavaScript value, producing a JSON text.
+*/
+    stringify: function (v) {
+        var a = [];
+
+/*
+    Emit a string.
+*/
+        function e(s) {
+            a[a.length] = s;
+        }
+
+/*
+    Convert a value.
+*/
+        function g(x) {
+            var c, i, l, v;
+
+            switch (typeof x) {
+            case 'object':
+                if (x) {
+                    if (x instanceof Array) {
+                        e('[');
+                        l = a.length;
+                        for (i = 0; i &lt; x.length; i += 1) {
+                            v = x[i];
+                            if (typeof v != 'undefined' &amp;&amp;
+                                    typeof v != 'function') {
+                                if (l &lt; a.length) {
+                                    e(',');
+                                }
+                                g(v);
+                            }
+                        }
+                        e(']');
+                        return;
+                    } else if (typeof x.toString != 'undefined') {
+                        e('{');
+                        l = a.length;
+                        for (i in x) {
+                            v = x[i];
+                            if (x.hasOwnProperty(i) &amp;&amp;
+                                    typeof v != 'undefined' &amp;&amp;
+                                    typeof v != 'function') {
+                                if (l &lt; a.length) {
+                                    e(',');
+                                }
+                                g(i);
+                                e(':');
+                                g(v);
+                            }
+                        }
+                        return e('}');
+                    }
+                }
+                e('null');
+                return;
+            case 'number':
+                e(isFinite(x) ? +x : 'null');
+                return;
+            case 'string':
+                l = x.length;
+                e('&quot;');
+                for (i = 0; i &lt; l; i += 1) {
+                    c = x.charAt(i);
+                    if (c &gt;= ' ') {
+                        if (c == '\\' || c == '&quot;') {
+                            e('\\');
+                        }
+                        e(c);
+                    } else {
+                        switch (c) {
+                            case '\b':
+                                e('\\b');
+                                break;
+                            case '\f':
+                                e('\\f');
+                                break;
+                            case '\n':
+                                e('\\n');
+                                break;
+                            case '\r':
+                                e('\\r');
+                                break;
+                            case '\t':
+                                e('\\t');
+                                break;
+                            default:
+                                c = c.charCodeAt();
+                                e('\\u00' + Math.floor(c / 16).toString(16) +
+                                    (c % 16).toString(16));
+                        }
+                    }
+                }
+                e('&quot;');
+                return;
+            case 'boolean':
+                e(String(x));
+                return;
+            default:
+                e('null');
+                return;
+            }
+        }
+        g(v);
+        return a.join('');
+    },
+/*
+    Parse a JSON text, producing a JavaScript value.
+*/
+    parse: function (text) {
+        var p = /^\s*(([,:{}\[\]])|&quot;(\\.|[^\x00-\x1f&quot;\\])*&quot;|-?\d+(\.\d*)?([eE][+-]?\d+)?|true|false|null)\s*/,
+            token,
+            operator;
+
+        function error(m, t) {
+            throw {
+                name: 'JSONError',
+                message: m,
+                text: t || operator || token
+            };
+        }
+
+        function next(b) {
+            if (b &amp;&amp; b != operator) {
+                error(&quot;Expected '&quot; + b + &quot;'&quot;);
+            }
+            if (text) {
+                var t = p.exec(text);
+                if (t) {
+                    if (t[2]) {
+                        token = null;
+                        operator = t[2];
+                    } else {
+                        operator = null;
+                        try {
+                            token = eval(t[1]);
+                        } catch (e) {
+                            error(&quot;Bad token&quot;, t[1]);
+                        }
+                    }
+                    text = text.substring(t[0].length);
+                } else {
+                    error(&quot;Unrecognized token&quot;, text);
+                }
+            } else {
+                token = operator = undefined;
+            }
+        }
 
 
-	var loginDiv=createTiddlyElement(null,&quot;div&quot;,null,&quot;loginDiv&quot;,null);
-	var txtfld=createTiddlyElement(loginDiv,&quot;input&quot;,this.configUsernameInputName,&quot;input&quot;);
-	
-var w = new Wizard();
-w.createWizard(place,&quot;title&quot;);
-console.log(txtfld);
-var step = w.addStep(this.stepLoginTitle,txtfld);
+        function val() {
+            var k, o;
+            switch (operator) {
+            case '{':
+                next('{');
+                o = {};
+                if (operator != '}') {
+                    for (;;) {
+                        if (operator || typeof token != 'string') {
+                            error(&quot;Missing key&quot;);
+                        }
+                        k = token;
+                        next();
+                        next(':');
+                        o[k] = val();
+                        if (operator != ',') {
+                            break;
+                        }
+                        next(',');
+                    }
+                }
+                next('}');
+                return o;
+            case '[':
+                next('[');
+                o = [];
+                if (operator != ']') {
+                    for (;;) {
+                        o.push(val());
+                        if (operator != ',') {
+                            break;
+                        }
+                        next(',');
+                    }
+                }
+                next(']');
+                return o;
+            default:
+                if (operator !== null) {
+                    error(&quot;Missing value&quot;);
+                }
+                k = token;
+                next();
+                return k;
+            }
+        }
+        next();
+        return val();
+    }
+};
 
-w.setButtons([
-	{caption: this.buttonLogin, tooltip: this.buttonLoginToolTip, onClick: function()
-	{
-		console.log(txtfld.value);
-		displayMessage(txtfld);
-//	 	w.setValue(&quot;username&quot;, &quot;aaa&quot;);
-//		config.macros.ccLogin.click(txtfld.value);
-//		return true;
-	}
-	
-	
-	}]);
-	return true;
-	
-*/</pre>
+//}}}</pre>
 </div>
 <div title="GettingStarted">
-<pre>&lt;&lt;ccLogin&gt;&gt;</pre>
-</div>
-<div title="StyleSheetMB" modifier="MartinBudden" tags="styles excludeLists excludeSearch">
-<pre>
-
-
-
-/*{{{*/
-
-h1 {font-size:1.5em;font-variant:small-caps;}
-h2 {font-size:1.35em;font-variant:small-caps;}
-h3 {font-size:1.25em;font-variant:small-caps;}
-h4 {font-size:1.1em;}
-h5 {font-size:1em;}
-
-/*element,padding,border,margin*/
-h1, h2, h3, h4, h5 {
-	color:#014;background:transparent;
-	padding-left:0;padding-bottom:1px;
-	margin-top:1.2em;margin-bottom:0.3em;margin-left:0em;
-}
-
-h1 {border-bottom:2px solid #ccc;}
-h2, h3 {border-bottom:1px solid #ccc;}
-h4, h5 {border-bottom:0px;margin-top:1em;margin-bottom:0em;}
-
-hr {height:0px;border:0;border-top:1px solid silver;}
-
-.headerShadow {padding:1.5em 0em .5em 1em;}
-.headerForeground {padding:1.5em 0em .5em 1em;}
-
-.header {background:darkblue;}
-/*.headerShadow {color:white;}
-.headerForeground {color:black;}*/
-
-#displayArea .tiddlyLinkExisting {text-decoration:underline;}
-
-/* Tiddler title */
-.title {color:black;border-bottom:2px solid #ddd;}
-/* Tiddler subtitle */
-.subtitle {font-size:0.9em;text-align:right;border-bottom:1px solid #ddd;}
-.toolbar {padding-top:0px;padding-bottom:0px;color:#04b;}
-/* Tiddler body */
-.tiddler {-moz-border-radius:1em;border:1px solid #ccc;margin:0.5em;background:#fff;padding:0.5em;}
-
-.tabContents {white-space:nowrap;}
-
-.viewer pre {padding:0;margin-left:0;}
-.viewer hr {border:solid 1px silver;}
-
-/*.toolbar {visibility:visible}*/
-
-.selected .toolbar {visibility:visible;color:#00f;}
-
-.toolbar .button {color:#dee;}
-.selected .toolbar .button {color:#014}
-
-.tagging, .tagged, .selected .tagging, .selected .tagged {
-	font-size:75%;padding:0.3em;background-color:#eee;
-	border-top:1px solid #ccc;border-left:1px solid #ccc;
-	border-bottom:3px solid #ccc;border-right:3px solid #ccc;
-	max-width:45%;-moz-border-radius:1em;
-}
-
-/*}}}*/</pre>
-</div>
-<div title="ImportWorkspacePlugin" modifier="Martin Budden" created="200708230000" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|ImportWorkspacePlugin|
-|''Description:''|Commands to access hosted TiddlyWiki data|
-|''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js |
-|''Version:''|0.0.17|
-|''Date:''|Aug 23, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
-|''~CoreVersion:''|2.2.0|
-
-|''Feed for import''|&lt;&lt;option txtImportFeed&gt;&gt;|
-|''Import workspace on startup''|&lt;&lt;option chkImportWorkspaceOnStartup&gt;&gt;|
-
-***/
-
-//{{{
-if(!version.extensions.ImportWorkspacePlugin) {
-version.extensions.ImportWorkspacePlugin = {installed:true};
-
-if(config.options.txtImportFeed == undefined)
-	{config.options.txtImportFeed = '';}
-if(config.options.chkImportWorkspaceOnStartup == undefined)
-	{config.options.chkImportWorkspaceOnStartup = false;}
-
-config.messages.hostOpened = &quot;Host '%0' opened&quot;;
-config.messages.workspaceOpened = &quot;Workspace '%0' opened&quot;;
-config.messages.nothingToImport = &quot;Nothing to import&quot;;
-config.messages.workspaceTiddlers = &quot;%0 tiddlers on host, importing...&quot;;
-config.messages.tiddlerImported = &quot;Tiddler: \&quot;%0\&quot; imported&quot;;
-config.messages.importComplete = &quot;Import complete&quot;;
-
-
-// import all the tiddlers from a given workspace on a given host
-config.macros.importWorkspace = {};
-merge(config.macros.importWorkspace,{
-	label: &quot;import workspace&quot;,
-	prompt: &quot;Import tiddlers in workspace&quot;,
-	done: &quot;Tiddlers imported&quot;,
-	usernamePrompt: &quot;Username&quot;,
-	passwordPrompt: &quot;Password&quot;
-	});
-
-
-config.macros.importWorkspace.init = function()
-{
-	var customFields = config.defaultCustomFields;
-	//config.macros.importWorkspace.getCustomFieldsFromTiddler(config.options.txtImportFeed);
-	if(!customFields['server.type']) {
-		var title = config.options.txtImportFeed;
-		if(title=='') {
-			var tiddlers = store.getTaggedTiddlers('systemServer');
-			if(tiddlers.length&gt;0)
-				title = tiddlers[0].title;
-		}
-		if(title) {
-			config.defaultCustomFields['server.type'] = store.getTiddlerSlice(title,'Type');
-			config.defaultCustomFields['server.host'] = store.getTiddlerSlice(title,'URL');
-			config.defaultCustomFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
-			//config.defaultCustomFields.wikiformat = store.getTiddlerSlice(title,'WikiFormat');
-		}
-	}
-	if(config.options.chkImportWorkspaceOnStartup)
-		this.getTiddlersForAllFeeds();
-};
-
-config.macros.importWorkspace.getCustomFieldsFromTiddler = function(title)
-{
-	if(!title) {
-		customFields = config.defaultCustomFields;
-		if(!customFields['server.type']) {
-			var tiddlers = store.getTaggedTiddlers('systemServer');
-			if(tiddlers.length&gt;0)
-				title = tiddlers[0].title;
-		}
-	}
-	if(title) {
-		customFields = {};
-		customFields['server.type'] = store.getTiddlerSlice(title,'Type');
-		customFields['server.host'] = store.getTiddlerSlice(title,'URL');
-		customFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
-		//config.defaultCustomFields.wikiformat = store.getTiddlerSlice(title,'WikiFormat');
-	}
-	return customFields;
-};
-
-config.macros.importWorkspace.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-{
-	params = paramString.parseParams('anon',null,false,false,false);
-	var customFields = getParam(params,'fields',false);
-	if(!customFields['server.type']) {
-		var title = getParam(params,'anon');
-		customFields = config.macros.importWorkspace.getCustomFieldsFromTiddler(title);
-	}
-	customFields = String.encodeHashMap(customFields);
-	var label = getParam(params,'label',this.label);
-	var btn = createTiddlyButton(place,label,this.prompt,this.onClick);
-	btn.setAttribute('customFields',customFields);
-};
-
-config.macros.importWorkspace.onClick = function(e)
-{
-	clearMessage();
-	var customFields = this.getAttribute('customFields');
-	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
-	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields));
-};
-
-config.macros.importWorkspace.getTiddlersForAllFeeds = function()
-{
-	var tiddlers = store.getTaggedTiddlers('systemServer');
-	for(var i=0;i&lt;tiddlers.length;i++) {
-		config.macros.importWorkspace.getTiddlersForFeed(tiddlers[i].title);
-	}
-};
-
-config.macros.importWorkspace.getTiddlersForFeed = function(feed,userCallback,userCallbackParams)
-{
-	config.macros.importWorkspace.getTiddlers(store.getTiddlerSlice(feed,'URL'),store.getTiddlerSlice(feed,'Type'),store.getTiddlerSlice(feed,'Workspace'),store.getTiddlerSlice(feed,'TiddlerFilter'),userCallback,userCallbackParams);
-};
-
-config.macros.importWorkspace.getTiddlers = function(uri,type,workspace,filter,userCallback,userCallbackParams)
-{
-	var fields = {};
-	fields['server.host'] = uri;
-	fields['server.type'] = type;
-	fields['server.workspace'] = workspace;
-	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,filter,userCallback,userCallbackParams));
-};
-
-config.macros.importWorkspace.getTiddlersForContext = function(context)
-{
-	if(context) {
-		context.loginPromptFn = config.macros.importWorkspace.loginPromptFn;
-		context.adaptor.openHost(context.host,context);
-		context.adaptor.openWorkspace(context.workspace,context,context.userParams,config.macros.importWorkspace.openWorkspaceCallback);
-		return true;
-	}
-	return false;
-};
-
-config.macros.importWorkspace.createContext = function(fields,filter,userCallback,userCallbackParams)
-{
-	var serverType = fields['server.type'];
-	if(!serverType)
-		serverType = fields['wikiformat'];
-	if(!serverType)
-		return false;
-	var adaptor = new config.adaptors[serverType]();
-	if(!adaptor)
-		return false;
-	if(adaptor) {
-		var context = {};
-		context.host = fields['server.host'];
-		context.workspace = fields['server.workspace'];
-		context.filter = filter;
-		context.userCallback = userCallback;
-		context.userCallbackParams = userCallbackParams;
-		context.adaptor = adaptor;
-		return context;
-	}
-	return false;
-};
-
-config.macros.importWorkspace.loginPromptFn = function(context)
-{
-	if(typeof PasswordPrompt != 'undefined') {
-		if(context.loginPromptCallback)
-			PasswordPrompt.prompt(context.loginPromptCallback,context);
-	} else {
-		context.username = prompt(config.macros.importWorkspace.usernamePrompt,'');
-		context.password = prompt(config.macros.importWorkspace.passwordPrompt,'');
-		if(context.loginPromptCallback) {
-			context.loginPromptCallback(context);
-		}
-	}
-};
-
-config.macros.importWorkspace.openWorkspaceCallback = function(context,userParams)
-{
-	if(context.status) {
-		context.adaptor.getTiddlerList(context,userParams,config.macros.importWorkspace.getTiddlerListCallback);
-		return true;
-	}
-	displayMessage(context.statusText);
-	return false;
-};
-
-config.macros.importWorkspace.getTiddlerListCallback = function(context,userParams)
-{
-	if(context.status) {
-		var tiddlers = context.tiddlers;
-		var length = tiddlers.length;
-		if(userParams &amp;&amp; userParams.maxCount &amp;&amp; length &gt; userParams.maxCount) {
-			length = userParams.maxCount;
-			var sortField = 'modified';
-			tiddlers.sort(function(a,b) {return a[sortField] &lt; b[sortField] ? +1 : (a[sortField] == b[sortField] ? 0 : -1);});
-		}
-		context.adaptor.getTiddlerLength = 0;
-		for(var i=0; i&lt;length; i++) {
-			if(!store.fetchTiddler(tiddlers[i].title)) {
-				++context.adaptor.getTiddlerLength;
-			}
-		}
-		if(config.messages.workspaceTiddlers)
-			displayMessage(context.adaptor.getTiddlerLength ? config.messages.workspaceTiddlers.format([tiddlers.length]) : config.messages.nothingToImport);
-		for(i=0; i&lt;length; i++) {
-			tiddler = tiddlers[i];
-			var t = store.fetchTiddler(tiddler.title);
-			if(!t) {
-				var c = null;
-				if(context &amp;&amp; context.userCallback)
-					c = {userCallback:context.userCallback,userCallbackParams:context.userCallbackParams};
-				context.adaptor.getTiddler(tiddler.title,c,null,config.macros.importWorkspace.getTiddlerCallback);
-			}
-		}
-	}
-};
-
-config.macros.importWorkspace.getTiddlerCallback = function(context,userParams)
-{
-	if(context.status) {
-		var tiddler = context.tiddler;
-		store.suspendNotifications();
-		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-		store.resumeNotifications();
-	} else {
-		displayMessage(context.statusText);
-	}
-	--context.adaptor.getTiddlerLength;
-	if(context.adaptor.getTiddlerLength==0) {
-		// have completed import of all tiddlers requested
-		store.notifyAll();
-		story.refreshAllTiddlers();
-		if(config.messages.importComplete &amp;&amp; !context.userCallback) {
-			clearMessage();
-			displayMessage(config.messages.importComplete.format([tiddlers.length]));
-		}
-	}
-	if(context.userCallback)
-		context.userCallback(context,context.userCallbackParams);
-};
-
-} //# end of 'install only once'
-//}}}</pre>
+<pre>&lt;&lt;import&gt;&gt;</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
