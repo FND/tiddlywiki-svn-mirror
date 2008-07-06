@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<conference>
+  <title>Open Tech 2008 Sessions</title>
+  <link>http://confabb.com/conferences/77260-open-tech-2008/sessions</link>
+  <description>Sessions for Open Tech 2008</description>
+  <tag></tag>
+  <session id="77260-18438">
+    <title>Rembrandt, Pr0n and Robot Monkeys: Lessons From the Present About Flesh and Technology</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18438/details</link>
+    <description>Who was Dr Von Tulp, and what can Rembrandt's painting of him tell us about human-computer interaction? How is a week without the internet like loosing a leg? Why are the heady rushes of computer games and pornography the most compelling things on the internet? We're beginning to use machines as bodily prostheses almost without noticing. Touch interfaces, motion control, virtual worlds, mobile connectivity - all give us a delicious illusion of power over the physical. We all know the man-machine stereotypes from countless Hollywood movies, but what should we geeks, tinkerers and creative technologists remember about the way our real-world bodies intersect with the imaginary spaces of computing and the internet as we shape the future of embodied interaction? All these questions - and more! - glossed over as I attempt to draw lessons from art history, robotics and interface design in to one quick presentation - and all without sounding like a mad early 90s technohippy. Hopefully.</description>
+    <starttime>20080705103000</starttime>
+    <endtime>20080705105000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Main Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18438/details</guid>
+    <speaker>
+      <title>Kim Plowright</title>
+    </speaker>
+  </session>
+  <session id="77260-18458">
+    <title>No2ID and the Open Rights Group: State of the Nation</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18458/details</link>
+    <description>Now that Tony Blair has taken time out to, among other things, learn how to use email, what does the future look like for campaigns which focus on the social impact of new technology? How far are we down the road to a database state, and how fast can we turn back? What designs do government and industry have on your internet connection, to "prevent terrorism", "save the record industry", or "save the children"? And would an opposition Government protect your bits any better?</description>
+    <starttime>20080705103000</starttime>
+    <endtime>20080705113000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Upper Hall</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18458/details</guid>
+    <speaker>
+      <title>Becky Hogge</title>
+    </speaker>
+    <speaker>
+      <title>Guy Herbert</title>
+    </speaker>
+  </session>
+  <session id="77260-18472">
+    <title>From E-Business to G-Business</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18472/details</link>
+    <description></description>
+    <starttime>20080705103000</starttime>
+    <endtime>20080705105000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18472/details</guid>
+    <speaker>
+      <title>Martin Chilcott</title>
+    </speaker>
+  </session>
+  <session id="77260-18439">
+    <title>Living with Chaos: Why Nothing is Simple in IT</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18439/details</link>
+    <description></description>
+    <starttime>20080705105000</starttime>
+    <endtime>20080705111000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Main Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18439/details</guid>
+    <speaker>
+      <title>Simon  Wardley</title>
+    </speaker>
+  </session>
+  <session id="77260-18473">
+    <title>Solar Hot Water and Open Source IT</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18473/details</link>
+    <description>A brief description of the state of solar hot water tech - the environmental benefits of deployment, and places where things could be done better with the application of some better IT.</description>
+    <starttime>20080705105000</starttime>
+    <endtime>20080705111000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18473/details</guid>
+    <speaker>
+      <title>Tim  Small</title>
+    </speaker>
+  </session>
+  <session id="77260-18440">
+    <title>What the Frog's Eye Tells the Future</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18440/details</link>
+    <description>Something about how the folks at the beginning of neuroscience, computers and cybernetics were all interconnected, and what it might mean for what's coming next. We're living in a world invented by a small group of people 60 years ago, and there's still stuff they started on to see.</description>
+    <starttime>20080705111000</starttime>
+    <endtime>20080705113000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Main Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18440/details</guid>
+    <speaker>
+      <title>Matt Webb</title>
+    </speaker>
+  </session>
+  <session id="77260-18474">
+    <title>Quick look at Edenbee</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18474/details</link>
+    <description>This talk focus on the website www.edenbee.com a community builder focused on the helping individuals reduce their carbon footprint. 
+http://www.edenbee.com</description>
+    <starttime>20080705111000</starttime>
+    <endtime>20080705113000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18474/details</guid>
+    <speaker>
+      <title>David  Hayes</title>
+    </speaker>
+  </session>
+  <session id="77260-18441">
+    <title>TiddlyWiki Tales</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18441/details</link>
+    <description>TiddlyWiki is a popular open source wiki platform that's not like other wikis: it doesn't require a server (it'll even work on a USB stick), and it doesn't even support collaboration in the ordinary wiki-way. But it does open up some interesting applications that wouldn't normally be associated with wikis, and it has attracted an inventive user community. This talk will look at some of the things that people do with TiddlyWiki. TiddlyWiki is developed by BT Osmosoft who are sponsors of OpenTech 2008. 
+http://www.tiddlywiki.com</description>
+    <starttime>20080705113000</starttime>
+    <endtime>20080705115000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Main Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18441/details</guid>
+    <speaker user-id="10001">
+      <title>Mr Jeremy Ruston</title>
+      <link>http://confabb.com/users/profile/jeremyruston</link>
+    </speaker>
+  </session>
+  <session id="77260-18459">
+    <title>Here's the UK EFF</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18459/details</link>
+    <description>The Open Rights Group (ORG) was conceived at a session titled 'Where's the UK's EFF' at OpenTech 2005. In the following six months, 1,000 individuals pledged to contribute a fiver a month to get informed, independent voices heard on digital rights issues in the corridors of Westminster, the warrens of Brussels, and in the national and international media. Three years on, the ORG community has spoken out on copyright term extension, DRM and the introduction of electronic voting in the UK. ORG has informed the debate on data protection, freedom of information, data retention and the surveillance state. Now it's time for ORG to grow. Join Danny O'Brien, who initiated the original ORG pledge, and Becky Hogge to find out about ORG's ambitious plans for the future, and about the part ORG needs you, the community that spawned ORG, to play in them.</description>
+    <starttime>20080705113000</starttime>
+    <endtime>20080705123000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Upper Hall</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18459/details</guid>
+    <speaker>
+      <title>Becky Hogge</title>
+    </speaker>
+    <speaker>
+      <title>Danny O'Brien</title>
+    </speaker>
+  </session>
+  <session id="77260-18475">
+    <title>Energy awareness</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18475/details</link>
+    <description></description>
+    <starttime>20080705113000</starttime>
+    <endtime>20080705114500</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18475/details</guid>
+    <speaker>
+      <title>Richard Woods</title>
+    </speaker>
+  </session>
+  <session id="77260-18477">
+    <title>AMEE - The World's Energy Meter</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18477/details</link>
+    <description></description>
+    <starttime>20080705114500</starttime>
+    <endtime>20080705000000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18477/details</guid>
+    <speaker>
+      <title>Gavin Starks</title>
+    </speaker>
+  </session>
+  <session id="77260-18442">
+    <title>Android and the Open Handset Alliance</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18442/details</link>
+    <description>An overview of the Android mobile operating system that Google has been developing with the Open Handset Alliance. Android is an open source project that aims to stimulate innovation in the mobile ecosystem, increase mobile usage and decrease the cost of producing mobile phones.</description>
+    <starttime>20080705115000</starttime>
+    <endtime>20080705121000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Main Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18442/details</guid>
+    <speaker>
+      <title>Michael Jennings</title>
+    </speaker>
+  </session>
+  <session id="77260-18479">
+    <title>Aerial Heat Maps</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18479/details</link>
+    <description></description>
+    <starttime>20080705120000</starttime>
+    <endtime>20080705121500</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18479/details</guid>
+    <speaker>
+      <title>Robert Wilkes</title>
+    </speaker>
+  </session>
+  <session id="77260-18443">
+    <title>Social networks and FOAF</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18443/details</link>
+    <description></description>
+    <starttime>20080705121000</starttime>
+    <endtime>20080705123000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Main Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18443/details</guid>
+    <speaker user-id="332">
+      <title> Tom Morris</title>
+      <link>http://confabb.com/users/profile/tom</link>
+    </speaker>
+  </session>
+  <session id="77260-18483">
+    <title>Welcome to WikiClimate</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18483/details</link>
+    <description>An introduction to WikiClimate, which aims to do for climate change what Wikipedia did for general knowledge, i.e. become a compendium of all climate-related information, as well as a practical forum for debate. WikiClimate is in its infancy and looking for people to get involved and take an active editorial role. 
+http://www.wikiclimate.org</description>
+    <starttime>20080705121500</starttime>
+    <endtime>20080705123000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18483/details</guid>
+    <speaker>
+      <title>James Flint</title>
+    </speaker>
+  </session>
+  <session id="77260-18444">
+    <title>Lunch</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18444/details</link>
+    <description></description>
+    <starttime>20080705123000</starttime>
+    <endtime>20080705133000</endtime>
+    <day>1</day>
+    <track></track>
+    <location></location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18444/details</guid>
+  </session>
+  <session id="77260-18445">
+    <title>Power to the people - one year on from the Power of Information Report</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18445/details</link>
+    <description>How the Power of Information Report by Tom Steinberg and Ed Mayo is making an impact inside the UK government. Letting data mashers improve public services, Sir Humphrey goes blogging, Netmums and the nanny state, and much more. Featuring Richard Allan, William Perrin, Tom Loosemore and a guest appearance by Tom Watson MP, Minister for the Cabinet Office. 
+http://powerofinformation.wordpress.com/</description>
+    <starttime>20080705133000</starttime>
+    <endtime>20080705143000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Main Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18445/details</guid>
+    <speaker>
+      <title>Richard Allan</title>
+    </speaker>
+    <speaker>
+      <title>William Perrin</title>
+    </speaker>
+    <speaker>
+      <title>Tom Loosemore</title>
+    </speaker>
+  </session>
+  <session id="77260-18460">
+    <title>Overthrowing (Local) Government Using Open Source</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18460/details</link>
+    <description>I'm one of the people trying to overthrow our local (Bristol and neighbour's) council's transport policy http://www.railwaypath.org/ I've been trying to apply OSS techniques to setting up a project -sourceforge hosted code -perl mining of council petitions -mapping -google docs for collaborative editing -pay as you go drupal hosting -pay as you go SIM card for the press contact -home printed stickers to put on buses -bulk scanning of FOI documents We're also starting to -play with funding models , looking at cafepress-like printing, paypal, etc. -look at automating mass jabber notifications of activitists for rapid response -considering using bluetooth monitoring of traffic on our footpath/cycleway to get a better use model than anyone has to date All OSS teams have certain expectations 1. you dont need to explain revision control to anyone 2. you have shared tooling 3. everyone has email and decent connectivity 4. there's no need to get press releases out within an hour of the council lying in public. 5. most developers have some interchangeable skills; there is redundancy in the team None of these hold in a community activism project. I could maybe summarise our work as 'overthrowing a government(*) on a budget'; Is this the kind of thing you are looking for?</description>
+    <starttime>20080705133000</starttime>
+    <endtime>20080705140000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Upper Hall</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18460/details</guid>
+    <speaker>
+      <title>Steve Loughran</title>
+    </speaker>
+  </session>
+  <session id="77260-18486">
+    <title>OpenID and Decentralised Social Networks</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18486/details</link>
+    <description></description>
+    <starttime>20080705133000</starttime>
+    <endtime>20080705135000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18486/details</guid>
+    <speaker>
+      <title>Simon Willison</title>
+    </speaker>
+  </session>
+  <session id="77260-18489">
+    <title>Distributed, Federated, Partial</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18489/details</link>
+    <description>What shape is the Internet becoming, despite maps of the internet from luminaries such as Tim Berners-Lee, it is a mixed picture at best. We make tools to solve the problems we see as the builders of the internet. The internet is distributed, tools like OAuth and OpenID are attempting to make it federated, but are we creating a partial solution? 
+http://gavinbell.com</description>
+    <starttime>20080705135000</starttime>
+    <endtime>20080705141000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18489/details</guid>
+    <speaker>
+      <title>Gavin  Bell</title>
+    </speaker>
+  </session>
+  <session id="77260-18461">
+    <title>Tracking Arms Dealers with Python and Bits of String</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18461/details</link>
+    <description></description>
+    <starttime>20080705140000</starttime>
+    <endtime>20080705143000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Upper Hall</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18461/details</guid>
+    <speaker>
+      <title>Alexander Harrowell</title>
+    </speaker>
+  </session>
+  <session id="77260-18490">
+    <title>The Web is Agreement</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18490/details</link>
+    <description>A rapid, highly personal, tour of the road towards Openness and Collaboration on the Web, as drawn out in the slightly mad poster "The Web is Agreement".
+http://thewebisagreement.com</description>
+    <starttime>20080705141000</starttime>
+    <endtime>20080705143000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18490/details</guid>
+    <speaker user-id="9013">
+      <title>Mr Paul Downey</title>
+      <link>http://confabb.com/users/profile/psd</link>
+    </speaker>
+  </session>
+  <session id="77260-18449">
+    <title>Planning Alerts</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18449/details</link>
+    <description>http://www.planningalerts.com/</description>
+    <starttime>20080705143000</starttime>
+    <endtime>20080705145000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Main Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18449/details</guid>
+    <speaker>
+      <title>Duncan Parkes</title>
+    </speaker>
+  </session>
+  <session id="77260-18462">
+    <title>Linux for the Non-Computer Literate</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18462/details</link>
+    <description></description>
+    <starttime>20080705143000</starttime>
+    <endtime>20080705145000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Upper Hall</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18462/details</guid>
+    <speaker>
+      <title>Joel Parthermore</title>
+    </speaker>
+  </session>
+  <session id="77260-18487">
+    <title>From Stealth Mode to Open Source in 90 days</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18487/details</link>
+    <description>A new startup does for atoms what wikipedia did for bits. More details on the day.</description>
+    <starttime>20080705143000</starttime>
+    <endtime>20080705150000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18487/details</guid>
+    <speaker>
+      <title>Tim Jackson</title>
+    </speaker>
+  </session>
+  <session id="77260-18446">
+    <title>3 Years of OpenStreetMap</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18446/details</link>
+    <description>We're nearing completion of the UK and a lot of people won't have seen or heard of us for a while, so come learn what OSM has been doing these past 3 years and enjoy the goodness of open geodata. 
+http://www.openstreetmap.org</description>
+    <starttime>20080705145000</starttime>
+    <endtime>20080705151000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Main Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18446/details</guid>
+    <speaker>
+      <title>Nick Black</title>
+    </speaker>
+  </session>
+  <session id="77260-18463">
+    <title>Aptivate: Digital Tools for the Developing World</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18463/details</link>
+    <description></description>
+    <starttime>20080705145000</starttime>
+    <endtime>20080705151000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Upper Hall</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18463/details</guid>
+    <speaker>
+      <title>Alan Jackson</title>
+    </speaker>
+  </session>
+  <session id="77260-18488">
+    <title>No Comply: or Why the Paranoid Android Approach to Security is a Bad Idea</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18488/details</link>
+    <description>Recent proposed changes to legal frameworks around the globe have led to a situation where legitimate security research is being stiffled. The DMCA and the Patriot Act in the US, have already caused some security researchers to hang up their hats. Recent legislative changes in Germany and other EU nations, have led to research and the publication of legitimate security assessment tool being effectively prohibited. Proposed changes to the UK Computer Misuse Act may make the distribution of security tools or research a criminal offence (provided they arte unopposed). This situation has been generated by fear, and doesn't affect the 'big boys'. It does affect the open source community and the security research community, and may ultimately lead to a situation where by the levels of IT security actually diminish. This talk seeks to examine the legislative changes, what caused them, what the results have been (or may be), and what can be done about it. Although proposed as a lightning presentation, it might make for an interesting discussion panel to boot. 
+http://www.clappymonkey.com</description>
+    <starttime>20080705150000</starttime>
+    <endtime>20080705153000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18488/details</guid>
+    <speaker>
+      <title>Michael Kemp</title>
+    </speaker>
+  </session>
+  <session id="77260-18464">
+    <title>Enabled by Design</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18464/details</link>
+    <description></description>
+    <starttime>20080705151000</starttime>
+    <endtime>20080705153000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Upper Hall</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18464/details</guid>
+    <speaker>
+      <title>Denise Stephens</title>
+    </speaker>
+  </session>
+  <session id="77260-18451">
+    <title>Afternoon Break</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18451/details</link>
+    <description></description>
+    <starttime>20080705153000</starttime>
+    <endtime>20080705160000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Main Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18451/details</guid>
+  </session>
+  <session id="77260-18452">
+    <title>mySociety: Putting Freedom of Information Online</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18452/details</link>
+    <description></description>
+    <starttime>20080705160000</starttime>
+    <endtime>20080705163000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Main Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18452/details</guid>
+    <speaker>
+      <title>Francis Irving</title>
+    </speaker>
+  </session>
+  <session id="77260-18465">
+    <title>Proof by Overwhelming Notation: An Introduction to What Quants Do</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18465/details</link>
+    <description>Introduction to finance, using Ruby and Open Source tools to write a basic system for managing personal investments. An emphasis on DIY investment advice; live coding; environmental ("green") investing; the politics of hedge funds (arbitrage as bad for society). Given by a practitioner, day job as a quant developer at a big, evil London investment bank.</description>
+    <starttime>20080705160000</starttime>
+    <endtime>20080705162000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Upper Hall</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18465/details</guid>
+    <speaker>
+      <title>Ben Gimpert</title>
+    </speaker>
+  </session>
+  <session id="77260-18484">
+    <title>Publishing with Microformats</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18484/details</link>
+    <description>Take the data that you are already publishing - contact details, events, reviews - and make it more portable and mashable with a simple smattering of markup. 
+http://microformats.org</description>
+    <starttime>20080705160000</starttime>
+    <endtime>20080705163000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18484/details</guid>
+    <speaker>
+      <title>Jeremy Keith</title>
+    </speaker>
+  </session>
+  <session id="77260-18466">
+    <title>Home Automation - First Steps</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18466/details</link>
+    <description></description>
+    <starttime>20080705162000</starttime>
+    <endtime>20080705164000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Upper Hall</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18466/details</guid>
+    <speaker>
+      <title>Steven Goodwin</title>
+    </speaker>
+  </session>
+  <session id="77260-18453">
+    <title>Travel Time Maps</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18453/details</link>
+    <description></description>
+    <starttime>20080705163000</starttime>
+    <endtime>20080705170000</endtime>
+    <day>1</day>
+    <track></track>
+    <location></location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18453/details</guid>
+    <speaker>
+      <title>Francis Irving</title>
+    </speaker>
+  </session>
+  <session id="77260-18485">
+    <title>Power of Information: Rewiring the London Gazette with RDFa</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18485/details</link>
+    <description></description>
+    <starttime>20080705163000</starttime>
+    <endtime>20080705170000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18485/details</guid>
+    <speaker>
+      <title>Jeni Tennison</title>
+    </speaker>
+  </session>
+  <session id="77260-18467">
+    <title>Current Cost</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18467/details</link>
+    <description>For past few weeks, I've been playing with the 'Current Cost' meter for monitoring home power consumption. (Imagine a kill-a-watt, for your whole house). It looks like this: http://flickr.com/search/?q=currentcost and also provides a serial output, so you can hook it up to a PC (or arduino, or whatever). It's cheap, easy, hackable tech for monitoring your home, spotting patterns and reducing your power consumption. I have lots of anecdotes, and some early attempts at hacking together databases and graphs. 
+http://rooreynolds.com</description>
+    <starttime>20080705164000</starttime>
+    <endtime>20080705170000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Upper Hall</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18467/details</guid>
+    <speaker>
+      <title>Roo Reynolds</title>
+    </speaker>
+  </session>
+  <session id="77260-18454">
+    <title>Living on the Edge of the Network</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18454/details</link>
+    <description></description>
+    <starttime>20080705170000</starttime>
+    <endtime>20080705173000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Main Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18454/details</guid>
+    <speaker>
+      <title>Danny O'Brien</title>
+    </speaker>
+  </session>
+  <session id="77260-18468">
+    <title>Finding Good TV on the Interwebs with RDF and REST</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18468/details</link>
+    <description></description>
+    <starttime>20080705170000</starttime>
+    <endtime>20080705173000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Upper Hall</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18468/details</guid>
+    <speaker>
+      <title>Chris Jackson</title>
+    </speaker>
+  </session>
+  <session id="77260-18480">
+    <title>Data Portability, Your Other Rights Online</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18480/details</link>
+    <description>Little is known about data portability but its gained quite a lot buzz and has some major players on-board. Well this talk is all about the practical side of data portability. For example if you look at the EULA on most online services, they lock your data and content into a container which you rarely have complete access to? This is acceptable if the user knows what there agreeing to, however the opposite is true. This and many other example will be talked about in the talk. 
+http://www.dataportability.org</description>
+    <starttime>20080705170000</starttime>
+    <endtime>20080705172000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18480/details</guid>
+    <speaker user-id="633">
+      <title> Ian Forrester</title>
+      <link>http://confabb.com/users/profile/cubicgarden</link>
+    </speaker>
+  </session>
+  <session id="77260-18481">
+    <title>Free the Data, Read the Data!</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18481/details</link>
+    <description>All Government software should come with free downloadable "readers" so that citizens can view data they have a right to - data produced with public money. As more central and local government data is held in digital form, driven by deliberate policy, public access is getting worse not better. Data in proprietary formats needs "reader" software. This is OK for Word or PDF documents but not for other kinds including crucial environmental information. I will argue that public bodies should give a deadline to software suppliers, to produce free "reader" software so that citizens can view detailed information, in digital formats, having requested it under Freedom of Information and Environmental Information laws. I will illustrate the talk with several recent case studies: road accident data, SATURN traffic modelling and forecasting (e.g. to justify and promote new road schemes), ARC GIS data, and COBA (Cost-Benefit Analysis) appraisal of transport projects. People are disempowered if they cannot even see the data that policies and decisions are based on. But are free "readers" good enough, if government should arguably use Free/Open Source Software? I'm a UKUUG member, teacher, and founder member of the BCS Open Source Specialist Group; also an experienced roads campaigner, currently having to use paid-for software to re-analyse a Local Authority's case for a controversial bypass.</description>
+    <starttime>20080705172000</starttime>
+    <endtime>20080705174000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18481/details</guid>
+    <speaker>
+      <title>Andrew Nicolson</title>
+    </speaker>
+  </session>
+  <session id="77260-18455">
+    <title>Digital Money</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18455/details</link>
+    <description></description>
+    <starttime>20080705173000</starttime>
+    <endtime>20080705180000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Main Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18455/details</guid>
+    <speaker>
+      <title>David Birch</title>
+    </speaker>
+  </session>
+  <session id="77260-18469">
+    <title>The Bastard Child of Baird and Berners Lee</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18469/details</link>
+    <description></description>
+    <starttime>20080705173000</starttime>
+    <endtime>20080705180000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Upper Hall</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18469/details</guid>
+    <speaker>
+      <title>Tom Loosemore</title>
+    </speaker>
+  </session>
+  <session id="77260-18482">
+    <title>Open Knowledge: Promises and Challenges</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18482/details</link>
+    <description>Open Knowledge is material that others are free to access, re-use and redistribute (see opendefinition.org). We are beginning to witness the potential of applications and services built using open material - from new forms of visualisation to mashups to linking datasets on the semantic web. Increasing the visibility and discoverability of open resources is crucial if we are to encourage innovative re-combination and re-use. This talk will give an overview of the Open Knowledge Foundation and some of its recent projects and activities - with a particular focus on the Comprehensive Knowledge Archive Network (CKAN). 
+http://www.okfn.org</description>
+    <starttime>20080705174000</starttime>
+    <endtime>20080705180000</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18482/details</guid>
+    <speaker>
+      <title>Jonathan Gray</title>
+    </speaker>
+  </session>
+  <session id="77260-18456">
+    <title>Evening Break</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18456/details</link>
+    <description></description>
+    <starttime>20080705180000</starttime>
+    <endtime>20080705181500</endtime>
+    <day>1</day>
+    <track></track>
+    <location></location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18456/details</guid>
+  </session>
+  <session id="77260-18457">
+    <title>Security Discussion</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18457/details</link>
+    <description>A panel discussion on hot topics in IT security, speakers will include: Ben Laurie Paul Mutton (Netcraft) Bob Blakley (Burton Group) Graeme Burnett talking about beancounter-led regulation in financial markets and how it has killed security engineering.</description>
+    <starttime>20080705181500</starttime>
+    <endtime>20080705191500</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Main Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18457/details</guid>
+    <speaker>
+      <title>Ben Laurie</title>
+    </speaker>
+  </session>
+  <session id="77260-18470">
+    <title>Intro to Hadoop</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18470/details</link>
+    <description></description>
+    <starttime>20080705181500</starttime>
+    <endtime>20080705184500</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Upper Hall</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18470/details</guid>
+    <speaker>
+      <title>Tom White</title>
+    </speaker>
+  </session>
+  <session id="77260-18471">
+    <title>Guardian.co.uk: building for the open web</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18471/details</link>
+    <description>The recently relaunched guardian.co.uk has been built ready to allow data and services to flow in and out. In this talk I'll be showing how we are remixing our own content, and how content and services are moving off our platform and onto the web, some challenges, and a little of what's coming next in our open strategy.</description>
+    <starttime>20080705181500</starttime>
+    <endtime>20080705184500</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Upper Hall</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18471/details</guid>
+    <speaker>
+      <title>Stephen Dunn</title>
+    </speaker>
+  </session>
+  <session id="77260-18476">
+    <title>Telling Social and Environmental Stories Using Online Video</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18476/details</link>
+    <description>"Telling social and environmental stories using online video" is a presentation on how online video and videoblogs can be used to tell stories of social and environmental consequence. Focusing on videoblogs such as Alive in Baghdad and Ryan is Hungry, this presentation will explore the uses of online video for citizen journalism and oral history. It will also look at how conversations around videoblogs (text comments, video comments, twitter etc) can act as drivers for social and environmental change.</description>
+    <starttime>20080705181500</starttime>
+    <endtime>20080705184500</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18476/details</guid>
+    <speaker>
+      <title>Beth Tilston</title>
+    </speaker>
+  </session>
+  <session id="77260-18478">
+    <title>We Tell Stories</title>
+    <link>http://confabb.com/conferences/77260-open-tech-2008/sessions/18478/details</link>
+    <description></description>
+    <starttime>20080705184500</starttime>
+    <endtime>20080705191500</endtime>
+    <day>1</day>
+    <track></track>
+    <location>Seminar Room</location>
+    <guid>http://confabb.com/conferences/77260-open-tech-2008/sessions/18478/details</guid>
+    <speaker>
+      <title>Adrian Hon</title>
+    </speaker>
+  </session>
+  <vcard user-id="633">
+    <fn>Ian Forrester</fn>
+    <profile>http://confabb.com/users/profile/cubicgarden</profile>
+  </vcard>
+  <vcard user-id="332">
+    <fn>Tom Morris</fn>
+    <profile>http://confabb.com/users/profile/tom</profile>
+    <blog>http://blogs.opml.org/tommorris</blog>
+    <feed>http://feeds.feedburner.com/TomMorrisOPML</feed>
+  </vcard>
+  <vcard user-id="10001">
+    <fn>Mr Jeremy Ruston</fn>
+    <profile>http://confabb.com/users/profile/jeremyruston</profile>
+    <url>http://www.tiddlywiki.com/</url>
+    <bio>Jeremy is the original creator of TiddlyWiki (http://www.tiddlywiki.com/), a popular open source personal wiki.
+
+Jeremy works as Head of Open Source Innovation for BT in London.</bio>
+    <photo>/user/photo/10001/Jeremy_at_Supernova_2007_one.jpg</photo>
+    <job-title>Head of Open Source Innovation</job-title>
+    <employer>BT</employer>
+    <blog>http://jermolene.com/</blog>
+  </vcard>
+  <vcard user-id="9013">
+    <fn>Mr Paul Downey</fn>
+    <profile>http://confabb.com/users/profile/psd</profile>
+    <url>http://blog.whatfettle.com</url>
+    <bio>Web guy</bio>
+    <photo>/user/photo/9013/a-big-icon-psd.jpg</photo>
+    <blog>http://blog.whatfettle.com</blog>
+    <feed>http://blog.whatfettle.com/feed</feed>
+    <linkedin>http://www.linkedin.com/in/pdowney</linkedin>
+  </vcard>
+</conference>
