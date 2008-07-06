@@ -121,7 +121,9 @@ class TiddlyWiki():
 
 		@return: None
 		"""
-		pass # DEBUG: to do
+		version = self.getVersion()
+		if version[0] + (version[1] / 10.0) < 2.2: # DEBUG: only works if minor < 10
+			pass # DEBUG: to do
 
 	def getVersion(self):
 		"""
@@ -130,10 +132,10 @@ class TiddlyWiki():
 		version = self.dom.html.head.script.renderContents()
 		pattern = re.compile("major: (\d), minor: (\d), revision: (\d)")
 		matches = re.search(pattern, version);
-		major = matches.groups()[0]
-		minor = matches.groups()[1]
-		revision = matches.groups()[2]
-		if(major + minor + revision > 0): # DEBUG: dirty hack?
+		major = int(matches.groups()[0])
+		minor = int(matches.groups()[1])
+		revision = int(matches.groups()[2])
+		if major + minor + revision > 0: # DEBUG: dirty hack?
 			return [major, minor, revision]
 		else:
 			return None
