@@ -73,47 +73,70 @@ def getPlugins(repo):
 		store = Store("text")
 		store.put(bag)
 		# import plugins
-		convertStoreFormat(doc)
-		import_wiki(getPluginTiddlers(doc), repo["name"]) # DEBUG: creates a new revision per cycle
+		tw = TiddlyWiki(doc)
+		tw.convertStoreFormat()
+		import_wiki(tw.getPluginTiddlers(), repo["name"]) # DEBUG: creates a new revision per cycle
 		return True
 	elif repo["type"] == "SVN":
 		pass # DEBUG: to be implemented
 	else:
 		pass # DEBUG: TBD
 
-def getPluginTiddlers(doc):
+class TiddlyWiki():
 	"""
-	retrieve plugin tiddlers from TiddlyWiki document
+	utility functions for processing TiddlyWiki documents
+	"""
+	def __init__(self, doc):
+		"""
+		@param doc: TiddlyWiki document
+		@type  doc: str
+		@return: None
+		"""
+		from BeautifulSoup import BeautifulSoup # DEBUG: move to top of module? use demandload (cf. bzr or snakeoil; http://www.pkgcore.org/trac/pkgcore/browser/snakeoil/snakeoil/demandload.py)?
+		self.doc = doc
+		self.dom = BeautifulSoup(doc) # DEBUG: rename!?
 
-	@param doc: TiddlyWiki document
-	@type  doc: str
-	@return: plugin tiddlers (pure-store format)
-	@rtype : str
-	"""
-	from BeautifulSoup import BeautifulSoup # DEBUG: move to top of module?
-	tw = BeautifulSoup(doc)
-	store = tw.find("div", id="storeArea")
-	tag = "systemConfig" # includes "systemConfigDisable" -- DEBUG: include systemTheme tiddlers?
-	# remove non-plugin tiddlers
-	[tiddler.extract() for tiddler in store.findAll("div", title=True) \
-		if (not tiddler.has_key("tags")) or (tag not in tiddler["tags"])]
-	# disable plugins
-	match = re.compile(r"\bsystemConfig\b\s?")
-	for plugin in store.findAll("div", title=True, tags=True):
-		plugin["tags"] = re.sub(match, " ", plugin["tags"])
-	# return pure-store format
-	return "<html><body><div id='storeArea'>" + store.renderContents() + "</div></body></html>"
+	def getPluginTiddlers(self): # DEBUG: universal-ize; rename to getTiddlers() and use key-value pair(s?) for matching attribute(s?)
+		"""
+		retrieve plugin tiddlers
 
-def convertStoreFormat(doc):
-	"""
-	convert legacy store format (if required)
+		@return: plugin tiddlers (pure-store format)
+		@rtype : str
+		"""
+		store = self.dom.find("div", id="storeArea")
+		tag = "systemConfig" # includes "systemConfigDisable" -- DEBUG: include systemTheme tiddlers?
+		# remove non-plugin tiddlers
+		[tiddler.extract() for tiddler in store.findAll("div", title=True) \
+			if (not tiddler.has_key("tags")) or (tag not in tiddler["tags"])]
+		# disable plugins -- DEBUG: move into separate function
+		pattern = re.compile(r"\bsystemConfig\b\s?")
+		for plugin in store.findAll("div", title=True, tags=True):
+			plugin["tags"] = re.sub(pattern, "", plugin["tags"]).strip()
+		# return pure-store format
+		return "<html><body><div id='storeArea'>" + store.renderContents() + "</div></body></html>"
 
-	@param doc: TiddlyWiki document
-	@type  doc: str
-	@return: canonical store format
-	@rtype : str
-	"""
-	return doc # DEBUG: to do
+	def convertStoreFormat(self):
+		"""
+		convert legacy to canonical store format
+
+		@return: None
+		"""
+		pass # DEBUG: to do
+
+	def getVersion(self):
+		"""
+		retrieve TiddlyWiki version number
+		"""
+		version = self.dom.html.head.script.renderContents()
+		pattern = re.compile("major: (\d), minor: (\d), revision: (\d)")
+		matches = re.search(pattern, version);
+		major = matches.groups()[0]
+		minor = matches.groups()[1]
+		revision = matches.groups()[2]
+		if(major + minor + revision > 0): # DEBUG: dirty hack?
+			return [major, minor, revision]
+		else:
+			return None
 
 # startup
 
