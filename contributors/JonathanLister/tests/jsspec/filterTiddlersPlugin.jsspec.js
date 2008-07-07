@@ -198,6 +198,24 @@ describe('filterTiddlers()', {
 			expected.push(title);
 		});
 		value_of(actual).should_be(expected);
+	},
+	'it should perform successive filters on the output of each piece of a filter expression, where pieces are delimited by "|" (no spaces between pieces)': function() {
+		var tiddlers = store.filterTiddlers("[tag[singletag]]|[[1WordTag1]]");
+		var actual = [];
+		for(var i=0;i<tiddlers.length;i++) {
+			actual.push(tiddlers[i].title);
+		}
+		var expected = ["1WordTag1"];
+		value_of(actual).should_be(expected);
+	},
+	'it should perform successive filters on the output of each piece of a filter expression, where pieces are delimited by "|" (when spaces exist between pieces)': function() {
+		var tiddlers = store.filterTiddlers("[tag[singletag]] | [[1WordTag1]]");
+		var actual = [];
+		for(var i=0;i<tiddlers.length;i++) {
+			actual.push(tiddlers[i].title);
+		}
+		var expected = ["1WordTag1"];
+		value_of(actual).should_be(expected);
 	}
 });
 // ]]>
