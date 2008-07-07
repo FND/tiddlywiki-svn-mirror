@@ -42,7 +42,7 @@
 <div class='task'>
 	<table>
 	<tr>
-		<td class='taskbody'><div class='viewer' macro='view text wikified'></div><p class="label">Dependencies</p><div class='dependencies dropbin'></div></td>
+		<td class='taskbody'><div class='viewer' macro='view text wikified'></div></td>
 		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
 	</tr>
 	</table>
@@ -61,7 +61,7 @@
 <div class='task'>
 	<table>
 	<tr>
-		<td class='taskbody'><div class='viewer edit' macro='edit text wikified'></div><p class="label">Dependencies</p><div class='dependencies dropbin'></div></td>
+		<td class='taskbody'><div class='viewer edit' macro='edit text wikified'></div></div></td>
 		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
 	</tr>
 	</table>
@@ -171,7 +171,7 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 .selected div.toolbar a.button { display:inline;}
 
 /* Task Tiddlers */
-.tiddler div.task { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
+.tiddler div.task { clear:left; margin:10px 20px; border-top:solid 0px [[TeamTasksColors::Background]];}
 .tiddler div.task table { width:100%; margin:0; padding:0; }
 .tiddler div.task table * { vertical-align:top; }
 .tiddler div.task table td.taskbody { width:100%; }
