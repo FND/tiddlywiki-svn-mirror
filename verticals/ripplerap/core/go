@@ -1,1 +1,1 @@
-cd ../editions/confabb-pdf && cook && ff2 index.html
+cd ../editions/confabb-pdf && cook && ff index.html
