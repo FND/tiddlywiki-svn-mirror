@@ -19,9 +19,9 @@ Returns an array of Tiddler() objects that match the filter expression
 ! Filter expressions
 Filter expressions are of the form:
 {{{
-filterString | filterString | ... // only one filterString is required
+filterStep | filterStep | ... // only one filterStep is required
 }}}
-where filterString is of the form:
+where filterStep is of the form:
 {{{
 [filterElements]
 }}}
