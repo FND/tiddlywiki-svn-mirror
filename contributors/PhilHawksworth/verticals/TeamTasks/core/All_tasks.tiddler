@@ -1,4 +1,0 @@
-<div title="All tasks" modifier="PhilHawksworth" created="200708212007" modified="200709241454" tags="view" changecount="1">
-<pre>This is a list of all of the tasks ordered alphanumerically
-<<TTReportView DisplayFields:"Title,Priority,Status" OrderBy:"priority,asc">> </pre>
-</div>

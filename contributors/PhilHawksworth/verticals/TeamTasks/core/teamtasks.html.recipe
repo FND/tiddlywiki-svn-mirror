@@ -11,6 +11,7 @@ tiddler: TeamTasksColors.tiddler
 # Plugins
 recipe: plugins/split.recipe
 tiddler: $TW_ROOT/contributors/EricShulman/plugins/TaggedTemplateTweak.js
+tiddler: $TW_ROOT/contributors/SaqImtiaz/plugins/TableSortingPlugin/TableSortingPlugin.js
 
 # TeamTasks UI Elements
 tiddler: SiteTitle.tiddler
@@ -25,18 +26,20 @@ tiddler: TaskDefinitions.tiddler
 tiddler: TaskViews.tiddler
 
 # Content and documentation
-tiddler: About_TeamTasks.tiddler
-tiddler: Getting_Started_With_TeamTasks.tiddler
-tiddler: TeamTasks.tiddler
-tiddler: Release_Notes.tiddler
-tiddler: TiddlyWiki.tiddler
-tiddler: Migrating_to_the_latest_version.tiddler
-tiddler: DefineUsers.tiddler
-tiddler: DefineScopes.tiddler
-tiddler: CreatingTaskReportViews.tiddler
-tiddler: CreatingTasks.tiddler
-tiddler: PhilHawksworth.tiddler
-tiddler: UserSetupWizard.tiddler
+# tiddler: AnneOther.tiddler
+# tiddler: About_TeamTasks.tiddler
+# tiddler: CreatingTaskReportViews.tiddler
+# tiddler: CreatingTasks.tiddler
+# tiddler: DefineUsers.tiddler
+# tiddler: DefineScopes.tiddler
+# tiddler: Getting_Started_With_TeamTasks.tiddler
+# tiddler: Migrating_to_the_latest_version.tiddler
+# tiddler: PhilHawksworth.tiddler
+# tiddler: Release_Notes.tiddler
+# tiddler: TeamTasks.tiddler
+# tiddler: TiddlyWiki.tiddler
+# tiddler: UserSetupWizard.tiddler
+recipe: content/split.recipe
 
 # Starter definitions
 tiddler: UserDefinitions.tiddler
