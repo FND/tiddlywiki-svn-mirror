@@ -1,6 +1,6 @@
 <div title="MainMenu" modifier="PhilHawksworth" created="200708051914" modified="200710241347>
 <pre>
-{{search{<<search>>}}}[[Listings]][[Getting Started with TeamTasks]][[Release Notes]][[Migrating to the latest version]]<<slider chkSliderOptionsPanel UserDefinitions 'Users »' 'A list of users'>><<slider chkSliderOptionsPanel TaskViews 'Task views »' 'A selection of task views'>><<slider chkSliderOptionsPanel TaskDefinitions 'Task definitions »' 'The definitions that drive the task management'>>[[modify this menu|MainMenu]][[options|OptionsPanel]][[about|About TeamTasks]][[download|index.html]]
+{{search{<<search>>}}}[[Listings]][[Getting Started with TeamTasks]][[Release Notes]][[Migrating to the latest version]]<<slider chkSliderOptionsPanel UserDefinitions 'Users »' 'A list of users'>><<slider chkSliderOptionsPanel TaskViews 'Task views »' 'A selection of task views'>><<slider chkSliderOptionsPanel Customise 'Customise »' 'Edit and fiddle and poke to create a system that works best for you'>>[[about|About TeamTasks]][[download|index.html]]
 {{meta{
 	<<tiddler TeamTasksMetaData>>
 }}}

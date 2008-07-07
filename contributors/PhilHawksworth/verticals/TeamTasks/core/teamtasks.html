@@ -564,6 +564,9 @@ for example:
 
 Alternatively, you can create a new task by clicking the &lt;&lt;newTiddler label:'new task' title:NewTask tag:task text:'Type some text and then press DONE to view the task controls'&gt;&gt; button in the control bar towards the top of the screen.</pre>
 </div>
+<div title="Customise" modifier="PhilHawksworth" created="200709241547">
+<pre>[[Modify the task control fields|TaskTiddlerControls]][[ScopeDefinitions]][[UserDefinitions]][[PriorityDefinitions]][[StatusDefinitions]][[Modify this menu|MainMenu]][[Options|OptionsPanel]]</pre>
+</div>
 <div title="DefaultReportView" modifier="PhilHawksworth" created="200803130000" changecount="2">
 <pre>&lt;&lt;TTReportView&gt;&gt;</pre>
 </div>
@@ -594,7 +597,7 @@ and then may wish to make further customisations by editing the [[TaskDefinition
 <pre>&lt;&lt;tabs txtMainTab &quot;Timeline&quot; &quot;Timeline&quot; TabTimeline &quot;A - Z&quot; &quot;All tiddlers in alphabetical order&quot; TabAll &quot;Tags&quot; &quot;All tags&quot; TabTags &quot;Missing&quot; &quot;Missing tiddlers&quot; TabMoreMissing &quot;Shadowed&quot; &quot;Shadowed tiddlers&quot; TabMoreShadowed&gt;&gt;</pre>
 </div>
 <div title="MainMenu" modifier="PhilHawksworth" created="200708051914">
-<pre>{{search{&lt;&lt;search&gt;&gt;}}}[[Listings]][[Getting Started with TeamTasks]][[Release Notes]][[Migrating to the latest version]]&lt;&lt;slider chkSliderOptionsPanel UserDefinitions 'Users »' 'A list of users'&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel TaskViews 'Task views »' 'A selection of task views'&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel TaskDefinitions 'Task definitions »' 'The definitions that drive the task management'&gt;&gt;[[modify this menu|MainMenu]][[options|OptionsPanel]][[about|About TeamTasks]][[download|index.html]]
+<pre>{{search{&lt;&lt;search&gt;&gt;}}}[[Listings]][[Getting Started with TeamTasks]][[Release Notes]][[Migrating to the latest version]]&lt;&lt;slider chkSliderOptionsPanel UserDefinitions 'Users »' 'A list of users'&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel TaskViews 'Task views »' 'A selection of task views'&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel Customise 'Customise »' 'Edit and fiddle and poke to create a system that works best for you'&gt;&gt;[[about|About TeamTasks]][[download|index.html]]
 {{meta{
 	&lt;&lt;tiddler TeamTasksMetaData&gt;&gt;
 }}}</pre>
@@ -628,9 +631,6 @@ Using the macro is simple.
 #Reload and if you wish, delete the TTMigrateTasks0304Plugin tiddler and the new tiddler you created to run the macro - you won't need them again.
 	
 	</pre>
-</div>
-<div title="New Task" modifier="YourName" created="200807071714" modified="200807071715" tags="task" changecount="3">
-<pre>Type the text for 'New Task'</pre>
 </div>
 <div title="NewUserWizardPlugin" modifier="PhilHawksworth" created="200710221620" modified="200710241440" tags="systemConfig" changecount="6">
 <pre>/***
@@ -1363,7 +1363,7 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 <div title="TaskDefinitions" modifier="PhilHawksworth" created="200709241547">
 <pre>[[ScopeDefinitions]][[UserDefinitions]][[PriorityDefinitions]][[StatusDefinitions]]</pre>
 </div>
-<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200709131152">
+<div title="TaskTiddlerControls" modifier="YourName" created="200709111402" modified="200807071744" changecount="1">
 <pre>|scope |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;ScopeDefinitions&quot;&gt;&gt; |
 |priority |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;PriorityDefinitions&quot;&gt;&gt; |
 |assigned to |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;UserDefinitions&quot;&gt;&gt; |
@@ -1544,8 +1544,9 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 #mainMenu span.search a.searchButton:hover { color:[[TeamTasksColors::TiddlerBackground]]; }
 
 /* MetaData section */
-#mainMenu div.meta { text-align:left; width:14em; padding:0 1em; font-size:0.9em; line-height:1.1em;}
-#mainMenu div.meta a {display: block; color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:0 0 0.2em 0; padding:0;}
+#mainMenu div.meta { position:relative; font-size:0.9em; line-height:1.1em;}
+#mainMenu div.meta span{ position:absolute; right:1em;}
+#mainMenu div.meta a {display: block; width:14em; color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:0 0 0.2em 0; padding:0;}
 #mainMenu div.meta a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];}
 
 /* Vanilla Tiddlers */
@@ -1576,7 +1577,7 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 .tiddler div.viewer { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
 
 
-.viewer pre {background-color:[[TeamTasksColors::CodeBackground]]; color:[[TeamTasksColors::CodeColor]]; border-style:none;];}
+.viewer pre {background-color:[[TeamTasksColors::Background]]; color:[[TeamTasksColors::Darker]]; border:solid 1px [[TeamTasksColors::DarkShade]]; padding:1em 2em;}
 .selected div.toolbar a.button { display:inline;}
 
 /* Task Tiddlers */

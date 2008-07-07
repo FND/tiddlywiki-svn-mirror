@@ -135,8 +135,9 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 #mainMenu span.search a.searchButton:hover { color:[[TeamTasksColors::TiddlerBackground]]; }
 
 /* MetaData section */
-#mainMenu div.meta { text-align:left; width:14em; padding:0 1em; font-size:0.9em; line-height:1.1em;}
-#mainMenu div.meta a {display: block; color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:0 0 0.2em 0; padding:0;}
+#mainMenu div.meta { position:relative; font-size:0.9em; line-height:1.1em;}
+#mainMenu div.meta span{ position:absolute; right:1em;}
+#mainMenu div.meta a {display: block; width:14em; color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:0 0 0.2em 0; padding:0;}
 #mainMenu div.meta a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];}
 
 /* Vanilla Tiddlers */
@@ -167,7 +168,7 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 .tiddler div.viewer { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
 
 
-.viewer pre {background-color:[[TeamTasksColors::CodeBackground]]; color:[[TeamTasksColors::CodeColor]]; border-style:none;];}
+.viewer pre {background-color:[[TeamTasksColors::Background]]; color:[[TeamTasksColors::Darker]]; border:solid 1px [[TeamTasksColors::DarkShade]]; padding:1em 2em;}
 .selected div.toolbar a.button { display:inline;}
 
 /* Task Tiddlers */
