@@ -1,11 +1,41 @@
-// Filter a list of tiddlers
-//#   filter - filter expression (eg "tiddlertitle [[multi word tiddler title]] [tag[systemConfig]]")
-//# Returns an array of Tiddler() objects that match the filter expression
-//
-// filter strings are:
-// 	filterElement [| filterElement] ...
-// where filterElement is of the form:
-// 	[[TiddlerTitle]] [tag[tagOne]] [sort[modified]] [limit[10]]
+/***
+|''Name:''|FilterTiddlersPlugin|
+|''Description:''|Filter the tiddlers in a TiddlyWiki|
+|''Author''|JonathanLister|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/FilterTiddlersPlugin.js |
+|''Version:''|0.4|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4|
+
+! Usage
+{{{
+store.filterTiddlers(filter)
+}}}
+where "filter" is a filter expression, as explained below
+
+Returns an array of Tiddler() objects that match the filter expression
+
+! Filter expressions
+Filter expressions are of the form:
+{{{
+filterString | filterString | ... // only one filterString is required
+}}}
+where filterString is of the form:
+{{{
+[filterElements]
+}}}
+where filterElements is one or more of the following:
+* [TiddlerName]
+* tag[TagName]
+* sort[SortField]
+* limit[NoOfResults]
+
+***/
+
+//{{{
+if(!version.extensions.FilterTiddlersPlugin) {
+version.extensions.FilterTiddlersPlugin = {installed:true};
 
 TiddlyWiki.prototype.filterTiddlers = function(filter) {
 	var pieces = [];
@@ -146,3 +176,6 @@ TiddlyWiki.prototype.filterTiddlers = function(filter) {
 merge(config.messages,{
 	filterSortError:"Error in tiddler filter expression: '[-sort[field]]' is invalid; use '[sort[-field]]' instead"
 });
+
+} //# end of 'install only once'
+//}}}
