@@ -84,10 +84,21 @@ body {background-color:[[TeamTasksColors::Background]]; border-top:3px solid [[T
 #sidebar {display:none;}
 #messageArea { position:inherit;  margin:0 20px 1em 10px; padding:6px; border-style:none; }
 
+/* message bar */
+#messageBar {display:block; position:relative; width:100%; margin:0; background-color:[[TeamTasksColors::LightShade]]; height:1.6em; font-size:11px;  border-top:solid 1px [[TeamTasksColors::TiddlerBackground]];}
+#messageArea { position:absolute; top:0; left:0; padding:0; margin:0; border-style:none; background-color:transparent;} 
+#messageArea div { margin-left:20px; padding:3px 0 0 0;}
+#messageArea div.messageToolbar { position:absolute; top:0; right:0; padding:0; margin:0;}
+#messageArea a { color:[[TeamTasksColors::Dark]]; text-decoration:none; }
+#messageArea a:hover { color:[[TeamTasksColors::Secondary]]; text-decoration:none; }
+#messageArea .button { float:right; background-color:[[TeamTasksColors::Shade]]; color:[[TeamTasksColors::TiddlerBackground]]; margin:0 0 0 1em; padding:3px 6px; }
+#messageArea .button:hover {background-color:[[TeamTasksColors::Dark]]; color:[[TeamTasksColors::TiddlerBackground]];}
+
+
 /* Header */
 div.header,
 div.headerShadow { margin:0; padding:0; top:auto;}
-div.header {height:5em; background-color:[[TeamTasksColors::Background]]; position:relative; border-top:solid 1px [[TeamTasksColors::TiddlerBackground]];}
+div.header {height:5em; background-color:[[TeamTasksColors::Background]]; position:relative;}
 div.headerShadow {position:absolute; left:20px; bottom:0; height:auto;}
 div.headerShadow span.siteTitle {color::[[TeamTasksColors::Darkest]]; font-size:3em; line-height:1em; letter-spacing:-2px;}
 div.headerShadow span.siteSubtitle {color:[[TeamTasksColors::Dark]]; white-space:nowrap; font-size:1em;}

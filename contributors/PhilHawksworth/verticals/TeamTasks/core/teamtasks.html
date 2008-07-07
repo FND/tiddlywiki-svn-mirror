@@ -42,9 +42,7 @@ DAMAGE.
 <link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml'/>
 <!--}}}-->
 <!--PRE-HEAD-END-->
-<title>
-//''team''tasks// - a simple extensible task management tool
-</title>
+<title> teamtasks - a simple extensible task management tool </title>
 <style id="styleArea" type="text/css">
 #saveTest {display:none;}
 #messageArea {display:none;}
@@ -55,10 +53,12 @@ DAMAGE.
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
 </style>
 <!--POST-HEAD-START-->
+
 <!--POST-HEAD-END-->
 </head>
 <body onload="main();" onunload="if(window.checkUnsavedChanges) checkUnsavedChanges(); if(window.scrubNodes) scrubNodes(document.body);">
 <!--PRE-BODY-START-->
+
 <!--PRE-BODY-END-->
 <div id="copyright">
 Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa Association
@@ -498,232 +498,139 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="settings" modifier="PhilHawksworth" created="200803251627" modified="" tags="systemConfig excludeLists excludeSearch">
-<pre>//{{{
+<div title="About TeamTasks" modifier="PhilHawksworth" created="200709171222" modified="200710241354" tags="help" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709181250" server.type="file" changecount="27">
+<pre>A quick start guide is provided in the [[Getting Started with TeamTasks]] tiddler.
 
-config.options.chkAutoSave = true;
-config.options.chkAnimate = true;
-config.options.chkSaveBackups = false;
-config.options.txtTheme = &quot;TeamTasksSkin&quot;;
+This application has been built using TiddlyWiki and requires several plugins to function.  For an up-to-date list of the plugins used, and other building blocks required to build TeamTasks, take a look at the [[Release Notes]].
 
-//}}}</pre>
+TeamTasks also require some definitions, which you can modify and add to as required:
+UserDefinitions
+PriorityDefinitions
+ScopeDefinitions
+StatusDefinitions</pre>
 </div>
-<div title="TeamTasksSkin" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch TeamTasks">
-<pre>
-/***
-|''Name:''|TeamTasksSkin |
-|''Description:''|The basic TeamTasks theme |
-|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
-|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/teamtasks/TeamTasksSkin.tiddler |
-|''Version:''|0.4|
-|''Date:''|March 28th, 2008|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
-|''~CoreVersion:''|2.4.0|
-|''~PageTemplate:''|##PageTemplate|
-|''~taskViewTemplate:''|##taskViewTemplate|
-|''~taskEditTemplate:''|##taskEditTemplate|
-|''~StyleSheet:''|##StyleSheet|
-***/
-
-!PageTemplate
-&lt;!--{{{--&gt;
-&lt;div id='messageBar'&gt;&lt;span id='messageArea'&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div class='header'&gt;
-&lt;div class='headerShadow'&gt;
-&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
-&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
-&lt;/div&gt;
-&lt;div id='topMenu' refresh='content' tiddler='TopMenu'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
-&lt;div id='displayArea'&gt;
-	&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;!--}}}--&gt;
-
-!taskViewTemplate
-&lt;!--{{{--&gt;
-&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump'&gt;&lt;/div&gt;
-&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
-&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
-&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
-&lt;div class='task'&gt;
-	&lt;table&gt;
-	&lt;tr&gt;
-		&lt;td class='taskbody'&gt;&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;&lt;p class=&quot;label&quot;&gt;Dependencies&lt;/p&gt;&lt;div class='dependencies dropbin'&gt;&lt;/div&gt;&lt;/td&gt;
-		&lt;td class='taskControls'&gt;&lt;div class='taskControls' macro='tiddler TaskTiddlerControls'&gt;&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class='tagClear'&gt;&lt;/div&gt;
-&lt;!--}}}--&gt;
-
-!taskEditTemplate
-&lt;!--{{{--&gt;
-&lt;div class=&quot;editor&quot;&gt;
-&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;
-&lt;div class='title edit' macro='edit title'&gt;&lt;/div&gt;
-&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
-&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
-&lt;div class='tagged edit' macro='tags'&gt;&lt;/div&gt;
-&lt;div class='task'&gt;
-	&lt;table&gt;
-	&lt;tr&gt;
-		&lt;td class='taskbody'&gt;&lt;div class='viewer edit' macro='edit text wikified'&gt;&lt;/div&gt;&lt;p class=&quot;label&quot;&gt;Dependencies&lt;/p&gt;&lt;div class='dependencies dropbin'&gt;&lt;/div&gt;&lt;/td&gt;
-		&lt;td class='taskControls'&gt;&lt;div class='taskControls' macro='tiddler TaskTiddlerControls'&gt;&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class='tagClear'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;!--}}}--&gt;
+<div title="AnneOther" modifier="PhilHawksworth" created="200710290946" changecount="1">
+<pre>&lt;html&gt;
+&lt;div class='vcard'&gt;
+&lt;a class='url fn n' href='undefined'&gt;&lt;span class='given-name'&gt;Anne&lt;/span&gt;&lt;span class='family-name'&gt;Other&lt;/span&gt;&lt;/a&gt;
+&lt;div class='email'&gt;&lt;span&gt;&lt;a href='mailto:anneother@nowhere.com'&gt;anneother@nowhere.com&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/html&gt;</pre>
+</div>
+<div title="CreatingTaskReportViews" modifier="PhilHawksworth" created="200710221513" changecount="1">
+<pre>You can create your own custom views of the tasks using the ~TeamTask Report View Plugin (TTReportViewPlugin).
 
 
-!StyleSheet
-/*{{{*/
-body { color:[[TeamTasksColors::Darkest]];}
-a:hover {color:[[ColorPalette::PrimaryPale]]; background-color:[[TeamTasksColors::LinkHover]];}
+The general form for calling the plugin is like this:
+{{{
+&lt;&lt;TTReportView&gt;&gt;
+}}}
+
+
+You can also specify which fields to display in your report like this:
+{{{
+&lt;&lt;TTReportView DisplayFields:&quot;fieldName,fieldName,fieldName&quot;&gt;&gt;
+}}}
+for example:
+{{{
+&lt;&lt;TTReportView DisplayFields:&quot;Title,Priority,Status&quot;&gt;&gt;
+}}}
+
+
+In addition, you can choose to order your results by a given field like this:
+{{{
+&lt;&lt;TTReportView OrderBy:&quot;fieldName,[asc|desc]&quot;&gt;&gt;
+}}}
+for example:
+{{{
+&lt;&lt;TTReportView DisplayFields:&quot;Title,Priority,Status&quot; OrderBy:&quot;Status,asc&quot;&gt;&gt;
+}}}
+
+
+You can also specify field values to include and exclude tasks and create filtered reports:
+{{{
+&lt;&lt;TTReportView FieldName:&quot;value&quot;&gt;&gt;
+}}}
+{{{
+&lt;&lt;TTReportView FieldName:&quot;!value&quot;&gt;&gt;
+}}}
+
+for example:
+{{{
+&lt;&lt;TTReportView DisplayFields:&quot;Title,Priority,Status&quot; OrderBy:&quot;Status,asc&quot; Priority:&quot;high&quot; Status:&quot;!closed&quot;&gt;&gt;
+}}}</pre>
+</div>
+<div title="CreatingTasks" modifier="PhilHawksworth" created="200710221506" modified="200710241431" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.type="file" changecount="4">
+<pre>Creating a task is easy. Any tiddler that you tag with the word 'task' will become a task tiddler. When you exit edit mode of a task tiddler, you will see that it is presented as a task and has controls on it to allow you to set some of your [[pre-defined|TaskDefinitions]] values on it.
+
+Alternatively, you can create a new task by clicking the &amp;lt;&amp;lt;newTiddler label:&amp;quot;new task&amp;quot; title:NewTask tag:task text:&amp;quot;Type some text and then press DONE to view the task controls&amp;quot;&amp;gt;&amp;gt; button in the control bar towards the top of the screen.  </pre>
+</div>
+<div title="DefaultReportView" modifier="PhilHawksworth" created="200803130000" changecount="2">
+<pre>&lt;&lt;TTReportView&gt;&gt;</pre>
+</div>
+<div title="DefaultTiddlers" modifier="PhilHawksworth" created="200709241640" modified="200710231249">
+<pre>	[[Getting Started with TeamTasks]]</pre>
+</div>
+<div title="DefineScopes" modifier="PhilHawksworth" created="200710221448" modified="200710221449" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.type="file" changecount="2">
+<pre>To make it easy to organise tasks by the appropriate projects, products or whatever sensible unit best fits your needs, you can define a set of 'Scopes' in the ScopeDefinitions tiddler. This works in the same way as [[defining users|DefineUsers]].</pre>
+</div>
+<div title="DefineUsers" modifier="PhilHawksworth" created="200710221403" modified="200710241215" tags="help" changecount="9">
+<pre>In TeamTasks, you can assign tasks to users. If you are using TeamTasks individually and don't need to have different users set up, you can easily remove this functionality to make things appear even simpler in the user interface.
+
+Defining a user is really simple. All you need to do is add user's names to the UserDefinitions tiddler.  Each name should occupy a single line in the tiddler.  All of the names in the UserDefinitions tiddler will be available for you to assign a task to.
+
+There is also a [[wizard to help you create these users|UserSetupWizard]] to help you create users quickly should you need a slightly more complex setup. The wizard will help by creating a 'Home Tiddler' for each user which hold their contact details and quick access to a default set of [[TaskListViews|TaskListView]] which they can customise.</pre>
+</div>
+<div title="Getting Started with TeamTasks" modifier="PhilHawksworth" created="200710231248" modified="200710241425" tags="help" changecount="7">
+<pre>TeamTasks is intended to support you in managing your task lists.  It can be heavily customised to be used in many different ways, but I am presuming that most users will want to do the following to get up and running quickly:
+*[[Define some users|DefineUsers]]
+*[[Define some projects or tasks|DefineScopes]]
+*[[Start creating Tasks|CreatingTasks]]
+*[[Build some task views|CreatingTaskReportViews]]
+and then may wish to make further customisations by editing the [[TaskDefinition|TaskDefinitions]] tiddlers
+
+[[More information|About TeamTasks]] about what components go into TeamTasks. </pre>
+</div>
+<div title="Listings" modifier="PhilHawksworth" created="200805081121">
+<pre>&lt;&lt;tabs txtMainTab &quot;Timeline&quot; &quot;Timeline&quot; TabTimeline &quot;A - Z&quot; &quot;All tiddlers in alphabetical order&quot; TabAll &quot;Tags&quot; &quot;All tags&quot; TabTags &quot;Missing&quot; &quot;Missing tiddlers&quot; TabMoreMissing &quot;Shadowed&quot; &quot;Shadowed tiddlers&quot; TabMoreShadowed&gt;&gt;</pre>
+</div>
+<div title="MainMenu" modifier="PhilHawksworth" created="200708051914">
+<pre>{{search{&lt;&lt;search&gt;&gt;}}}[[Listings]][[Getting Started with TeamTasks]][[Release Notes]][[Migrating to the latest version]]&lt;&lt;slider chkSliderOptionsPanel UserDefinitions 'Users Â»' 'A list of users'&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel TaskViews 'Task views Â»' 'A selection of task views'&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel TaskDefinitions 'Task definitions Â»' 'The definitions that drive the task management'&gt;&gt;[[modify this menu|MainMenu]][[options|OptionsPanel]][[about|About TeamTasks]][[download|index.html]]
+{{meta{
+	&lt;&lt;tiddler TeamTasksMetaData&gt;&gt;
+}}}</pre>
+</div>
+<div title="Migrating to the latest version" modifier="PhilHawksworth" created="200803061053" modified="200803061054" tags="help" changecount="7">
+<pre>Since TeamTasks is built using TiddlyWiki, it contains all of the application logic, the styling, the content, and all of your tasks in a single file. This means that upgrading your instance of TeamTasks might seem like a fiddly task. Don't panic. It's simple when you know how!
 	
-/* Page Framework */
-body {background-color:[[TeamTasksColors::Background]]; border-top:3px solid [[TeamTasksColors::Accent]]; }
-#displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
-#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 20px 0 0 0; padding:0; border-style:none;}
-#tiddlerDisplay { margin:0 10px 20px 0; padding:0;  border:none;}
-#sidebar {display:none;}
-#messageArea { position:inherit;  margin:0 20px 1em 10px; padding:6px; border-style:none; }
+!Downloading an empty copy of the latest ~TeamTasks version and then importing your tasks and views.
+The process of upgrading a TiddlyWiki is well documented at [[www.tiddlywiki.com/#HowToUpgrade|http://www.tiddlywiki.com/#HowToUpgrade]]. Refer to that documentation to help you upgrade, but rather then downloading a fresh version of Tiddlywiki as your starting point, you should download a fresh version of TeamTasks by right-clicking on [[this link|http://www.hawksworx.com/playground/TeamTasks/index.html]], selecting 'Save target' or 'Save link' and saving it in a convenient location. You can then import your tasks into that file.
+	
+!Perhaps you would prefer to import the updated and new plugins into your existing ~TeamTasks file.
+If this is the case, you should refer to the [[HowToUpgrade|www.tiddlywiki.com/#HowToUpgrade]] documentation as above, but rather than importing your tasks and views into a fresh teamTasks file, you should import into your exisiting TeamTasks file. You will need to import the following tiddlers from http://www.hawksworx.com/playground/TeamTasks in order to upgrade to version 0.4 of TeamTasks:
+*[[FullScreenPlugin|http://www.hawksworx.com/playground/TeamTasks/#FullScreenPlugin]]
+*[[NewUserWizardPlugin|http://www.hawksworx.com/playground/TeamTasks/#NewUserWizardPlugin]]
+*[[TableSortingPlugin|http://www.hawksworx.com/playground/TeamTasks/#TableSortingPlugin]]
+*[[TaggedTemplateTweak|http://www.hawksworx.com/playground/TeamTasks/#TaggedTemplateTweak]]
+*[[TTReportViewPlugin|http://www.hawksworx.com/playground/TeamTasks/#TTReportViewPlugin]]
+*[[TTMigrateTasks0304Plugin|http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin]]
+*[[ValueSwitcherPlugin|http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin]]
 
-/* Header */
-div.header,
-div.headerShadow { margin:0; padding:0; top:auto;}
-div.header {height:5em; background-color:[[TeamTasksColors::Background]]; position:relative; border-top:solid 1px [[TeamTasksColors::TiddlerBackground]];}
-div.headerShadow {position:absolute; left:20px; bottom:0; height:auto;}
-div.headerShadow span.siteTitle {color::[[TeamTasksColors::Darkest]]; font-size:3em; line-height:1em; letter-spacing:-2px;}
-div.headerShadow span.siteSubtitle {color:[[TeamTasksColors::Dark]]; white-space:nowrap; font-size:1em;}
-div.header #topMenu { position:absolute; right:20px; bottom:0;}
+!Incompatible task tiddlers.
+Version 0.4 employs a slightly different format for storing information on the task tiddlers to previous versions. A macro to upgrade all of your task tiddlers to adopt this new format is available in this plugin: [[TTMigrateTasks0304Plugin|http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin]]
 
-/* Backstage */
-#backstageArea,
-#backstageToolbar { background-color:[[TeamTasksColors::Shade]]; padding-top:0;}
-#backstageToolbar a.backstageTab { background-color:[[TeamTasksColors::Shade]]; color:[[TeamTasksColors::Dark]]; font-weight:normal;line-height:1.5em; }
-#backstageToolbar a.backstageTab:hover { background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];  }
-
-/* Popup */
-#popup {background-color:[[TeamTasksColors::Darkest]]; border:1px solid [[TeamTasksColors::Shade]]; border-bottom:2px solid [[TeamTasksColors::Shade]];}
-#popup li a { color:[[TeamTasksColors::Accent]];}
-#popup li a:hover {background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];}
-#popup li.listBreak div{ border-bottom:solid 1px [[TeamTasksColors::Darker]];}
-
-/* Top Menu*/
-#topMenu a.button { border-style:none; background-color:[[TeamTasksColors::Background]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Accent]];  }
-#topMenu a.button:hover,
-#mainMenu a:hover  { border-style:none; background-color:[[TeamTasksColors::Darkest]]; color:[[TeamTasksColors::Accent]];}
-#topMenu a.button:active,
-#mainMenu a:active  { border-style:none; background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::Background]];}
-
-/* MainMenu */
-#mainMenu { position: static; float: left; width: auto; margin: 20px 0 10px 20px;padding:0;}
-#mainMenu a { margin:1px 0; border-style:none; background-color:[[TeamTasksColors::Shade]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Darkest]];  }
-#mainMenu &gt; a {display:block; font-size:0.94em; text-align:left; margin:0 0 1px 0;}
-#mainMenu &gt; div &gt; a {display:block; font-size:0.9em; text-align:right; margin:0 0 1px 0; background-color:[[TeamTasksColors::LightShade]];}
-#mainMenu span.search { padding:6px 6px 6px 0px; margin-bottom:10px; display:block; background-color:[[TeamTasksColors::Darkest]]; }
-#mainMenu span.search .searchField { padding:2px 6px; border:solid 1px [[TeamTasksColors::DarkShade]]; border-top-color:[[TeamTasksColors::Dark]];  border-bottom-color:[[TeamTasksColors::TiddlerBackground]]; background-color:[[TeamTasksColors::Background]]; }
-#mainMenu span.search a.searchButton { color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::Darkest]];}
-#mainMenu span.search a.searchButton:hover { color:[[TeamTasksColors::TiddlerBackground]]; }
-
-/* MetaData section */
-#mainMenu div.meta { text-align:left; width:14em; padding:0 1em; font-size:0.9em; line-height:1.1em;}
-#mainMenu div.meta a {display: block; color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:0 0 0.2em 0; padding:0;}
-#mainMenu div.meta a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];}
-
-/* Vanilla Tiddlers */
-.tiddler { background-color:[[TeamTasksColors::TiddlerBackground]]; margin:0 1em 2em 1em; padding:0 0 1em 0; border-bottom:1px solid[[TeamTasksColors::DarkShade]]; 	}
-.tiddler div.toolbar { margin:0; padding:0; height:2em;}
-.tiddler div.toolbar a.button:first-child {  border-left:1px solid [[TeamTasksColors::LightShade]];}
-.tiddler div.toolbar a.button { display:none; background-color:[[TeamTasksColors::TiddlerBackground]]; padding:4px 1em 4px 1em; border-style:none; border-left:1px solid [[TeamTasksColors::LightShade]]; border-bottom:1px solid [[TeamTasksColors::LightShade]];  border-top:3px solid [[TeamTasksColors::Background]]; line-height:2.3em;}
-.tiddler div.toolbar a.button:hover { background-color:[[TeamTasksColors::LightestShade]]; border-bottom-color:[[TeamTasksColors::DarkShade]]; color:[[TeamTasksColors::Darkest]];}
-.tiddler div.toolbar a.button:active { background-color:[[TeamTasksColors::Accent]]; border-bottom-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];}
-.tiddler div.title { color:[[TeamTasksColors::Accent]]; margin:4px 20px 3px 20px;}
-.tiddler div.subtitle,
-.tiddler div.tagged,
-.tiddler div.tagging { float:none; border-style:none; background-color:[[TeamTasksColors::TiddlerBackground]]; margin:3px 20px 0 20px; padding:0; font:italic 0.95em/1em &quot;Lucida Sans&quot;,&quot;Lucida Grande&quot;,Verdana,&quot;Bitstream Vera Sans&quot;,Arial,sans-serif; color:[[TeamTasksColors::DarkShade]];}
-.tiddler div.tagged ul,
-.tiddler div.tagging ul {margin:0; padding:0;}
-.tiddler div.tagged li,
-.tiddler div.tagging li {display:inline; margin:0 0.4em 0 0; color:[[TeamTasksColors::DarkShade]]; }
-.tiddler div.tagged li.listTitle,
-.tiddler div.tagging li.listTitle {margin:0 0.1em 0 0; }
-.tiddler div.tagged a.button,
-.tiddler div.tagging a.button {padding:0;}
-.tiddler div.subtitle a,
-.tiddler div.tagged a,
-.tiddler div.tagging a {color:[[TeamTasksColors::DarkestShade]]; font-weight:normal; white-space:nowrap;}
-.tiddler div.subtitle a:hover,
-.tiddler div.tagged a:hover,
-.tiddler div.tagging a:hover {color:[[ColorPalette::PrimaryPale]]; background-color:[[TeamTasksColors::LinkHover]];}
-.tiddler div.viewer { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
-
-
-.viewer pre {background-color:[[TeamTasksColors::CodeBackground]]; color:[[TeamTasksColors::CodeColor]]; border-style:none;];}
-.selected div.toolbar a.button { display:inline;}
-
-/* Task Tiddlers */
-.tiddler div.task { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
-.tiddler div.task table { width:100%; margin:0; padding:0; }
-.tiddler div.task table * { vertical-align:top; }
-.tiddler div.task table td.taskbody { width:100%; }
-.tiddler div.task table td.taskControls { width:auto; }
-.tiddler div.task div.viewer { display:block; padding:1em; margin:10px 0; border:solid 1px [[TeamTasksColors::TaskBorder]]; border-bottom-width:2px; background-color:[[TeamTasksColors::TaskBackground]]; font:italic 1.1em/1.5em &quot;Lucida Sans&quot;,&quot;Lucida Grande&quot;,Verdana,&quot;Bitstream Vera Sans&quot;,Arial,sans-serif; }
-.tiddler div.task div.taskControls { float:right; white-space:nowrap; margin:0 0 0 10px;}
-.tiddler div.task div.taskControls table { border-style:none; margin: 10px 0;}
-.tiddler div.task div.taskControls table tr { border-style:none;}
-.tiddler div.task div.taskControls table tr td { border-style:none;}
-.tiddler div.task div.taskControls select {width: 150px; border:solid 1px [[TeamTasksColors::Shade]]; font-size:0.9em; padding:0.2em;}
-.tiddler div.task div.dependencies { padding:1em; background-color:[[TeamTasksColors::LightestShade]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
-.tiddler div.task .label {font-size:0.9em; color:[[TeamTasksColors::DarkestShade]]; margin-bottom:0.4em;}
-
-/* tiddler Edit mode  */
-.tiddler .edit { padding:4px; background-color:[[TeamTasksColors::TiddlerBackground]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
-.tiddler .edit * { background-color:[[TeamTasksColors::TiddlerBackground]]; border-style:none; }
-.tiddler div.editor div.title { color:[[TeamTasksColors::Dark]]; margin:10px 20px 10px 20px;}
-.tiddler div.editor div.viewer {  padding: none; background-color:[[TeamTasksColors::TiddlerBackground]];}
-
-/* New User Wizard */ 
-#createTeamTaskUserForm { background-color:#f0f0f0; padding:1em; border:solid 1px #ccc;}
-#createTeamTaskUserForm label { margin-bottom:10px; display:block; clear:left; font-size:0.9em;}
-#createTeamTaskUserForm label input {float:left; border:1px solid #ddd; border-top:1px solid #999; padding:2px 4px; font-size:1em; width:30em;}
-
-/* TT Report Views */
-table.sortable { margin:0.5em 0; border-style:none; }
-table.sortable tr {border-left-width:0; border-right-width:0;}
-table.sortable * td {border-top:solid 1px [[TeamTasksColors::LightShade]]; border-bottom:solid 1px [[TeamTasksColors::LightShade]]; border-left-width:0; border-right-width:0;}
-table.sortable thead tr td { background-color: [[TeamTasksColors::LightestShade]]; color:[[TeamTasksColors::Darkest]];}
-
-/*}}}*/</pre>
+!!!Using the macro.
+Using the macro is simple. 
+#Import the [[TTMigrateTasks0304Plugin|http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin]] as described above.
+#Save your file and reload it to make sure that the macro is available to run.
+#Create a new tiddler in your document and edit it to include a call to the migration macro like this {{{&lt;&lt;TTMigrateTasks0304&gt;&gt;}}}
+#Click {{{done}}} to finish editing your new tiddler. The macro will run, converting all of your existing tasks to the latest version.
+#Save your TeamTasks document in the usual way.
+#Reload and if you wish, delete the TTMigrateTasks0304Plugin tiddler and the new tiddler you created to run the macro - you won't need them again.
+	
+	</pre>
 </div>
-<div title="TeamTasksColors" modifier="PhilHawksworth" created="200803280000">
-<pre>
-Accent: #9BBE2E
-
-TaskBorder: #EDE6C3
-TaskBackground: #FEFFA8
-
-CodeBackground:#000
-CodeColor:#23CC07
-
-Background: #E7E7DE
-Darkest: #172322
-Darker: #2F403F
-Dark: #77776E
-LightestShade: #F3F3F3
-LightShade: #DFDFD5
-Shade: #d7d7cE
-DarkShade: #A6A59E
-DarkestShade: #757570
-TiddlerBackground: #ffffff
-
-LinkHover: transparent</pre>
+<div title="New Task" modifier="YourName" created="200807071547" modified="200807071550" tags="task" changecount="2">
+<pre>Type the text for 'New Task'   </pre>
 </div>
 <div title="NewUserWizardPlugin" modifier="PhilHawksworth" created="200710221620" modified="200710241440" tags="systemConfig" changecount="6">
 <pre>/***
@@ -846,129 +753,213 @@ if(!version.extensions.newUserWizard)
 }
 //}}}</pre>
 </div>
-<div title="ValueSwitcherPlugin" modifier="PhilHawksworth" created="200708161629" modified="200709251214" tags="systemConfig" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709191015" server.type="file" changecount="19">
+<div title="PhilHawksworth" modifier="PhilHawksworth" created="200710290942" modified="200711091615" changecount="4">
+<pre>&lt;html&gt;
+&lt;div class=&quot;vcard&quot;&gt;
+&lt;a class=&quot;url fn n&quot; href=&quot;&quot;&gt;&lt;span class=&quot;given-name&quot;&gt;Phil&lt;/span&gt;&lt;span class=&quot;family-name&quot;&gt;Hawksworth&lt;/span&gt;&lt;/a&gt;
+&lt;div class=&quot;org&quot;&gt;&lt;span class=&quot;organization-name&quot;&gt;Osmosoft&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span&gt;&lt;a href=&quot;http://www.hawksworx.com&quot;&gt;www.hawksworx.com&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;email&quot;&gt;&lt;span&gt;&lt;a href=&quot;mailto:ph@osmosoft.com&quot;&gt;ph@osmosoft.com&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;photos&quot;&gt;&lt;span&gt;&lt;a href=&quot;http://flickr/photos/philhawksworth&quot;&gt;flickr/photos/philhawksworth&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;twitter&quot;&gt;&lt;span&gt;&lt;a href=&quot;http://twitter.com/philhawksworth&quot;&gt;twitter.com/philhawksworth&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/html&gt;</pre>
+</div>
+<div title="PriorityDefinitions" modifier="PhilHawksworth" created="200708161618" modified="200710221412" tags="TaskDefinitions">
+<pre>High
+Medium
+Low</pre>
+</div>
+<div title="Release Notes" modifier="PhilHawksworth" created="200710241224" modified="200710241439" tags="help" changecount="23">
+<pre>!Version 0.4
+!!!Comments
+*The macro for producing task list views has been replaced with the TTReportViewPlugin which uses named prameters and outputs sortable table views of your data.
+*Task metadata is now stored on the task tiddlers in a much more friendly way. All TeamTasks fields on a tiddler are of the form {{{tt_fieldName='value'}}}
+*For those wishing to upgrade their previous tasks to make use of the new structure, there is a Task Migration Tool to ease the pain.
+*There is now [[documentation to assist in upgrading TeamTasks|Migrating to the latest version]]
+!!!Comprehensive Plugin List
+|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
+|NewUserWizardPlugin|by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#NewUserWizardPlugin |
+|TableSortingPlugin |by SaqImtiaz |http://tw.lewcid.org/#TableSortingPlugin |
+|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
+|TTReportViewPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TTReportViewPlugin |
+|TTMigrateTasks0304Plugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin |
+|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
+
+!Version 0.3
+!!!Comments
+*Lots more documentation and help is evolving
+*Introduction of UserSetupWizard which speeds up the setting up of users and automates some associated tasks.
+!!!Plugins
+|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
+|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
+|TaskViewBuilderPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TaskViewBuilderPlugin |
+|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
+|NewUserWizardPlugin|by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#NewUserWizardPlugin |
+!!Tiddlers providing UI styling
+PageTemplate
+StyleSheet
+ColorPalette
+ViewTemplate
+TaskViewTemplate
+!!Tiddlers providing other functionality
+ControlsContainer
+[[Listings]]
+TaskTiddlerControls
+SampleTaskListTemplate
+UserDetailsTemplate
+UserSetupWizard
+!!Tiddlers providing documentation
+[[About TeamTasks]]
+CreatingTaskListViews
+CreatingTasks
+DefineScopes
+DefineUsers
+[[Getting Started with TeamTasks]]
+[[Release Notes]]
+TaskListView
+TeamTasks
+!Version 0.2
+!!!Comments
+*Task visualisation improved
+*TaskViewBuilderPlugin syntax employs {{{ = }}} rather than {{{ _ }}}
+!!!Plugins
+|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
+|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
+|TaskViewBuilderPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TaskViewBuilderPlugin |
+|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
+!!Tiddlers providing UI styling
+PageTemplate
+StyleSheet
+ColorPalette
+ViewTemplate
+TaskViewTemplate
+!!Tiddlers providing other functionality
+ControlsContainer
+[[Listings]]
+TaskTiddlerControls
+
+!Version 0.1
+!!!Comments
+*Basic UI structure established
+*Task generation using tagging mechanism
+*Basic task list views.
+!!!Plugins
+|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
+|TaskViewBuilderPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TaskViewBuilderPlugin |
+|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
+!!Tiddlers providing UI styling
+PageTemplate
+StyleSheet
+ColorPalette
+ViewTemplate
+!!Tiddlers providing other functionality
+ControlsContainer
+[[Listings]]</pre>
+</div>
+<div title="ScopeDefinitions" modifier="PhilHawksworth" created="200709041507" modified="200710221449" tags="TaskDefinitions">
+<pre>Work
+Play</pre>
+</div>
+<div title="SiteSubtitle" modifier="PhilHawksworth" created="200708161547" modified="200710241355">
+<pre>a simple extensible task management tool</pre>
+</div>
+<div title="SiteTitle" modifier="PhilHawksworth" created="200708161546" modified="200709241632">
+<pre>//''team''tasks//</pre>
+</div>
+<div title="StatusDefinitions" modifier="PhilHawksworth" created="200708161721" modified="200710221413" tags="TaskDefinitions">
+<pre>Pending
+InProgress
+OnHold
+Complete</pre>
+</div>
+<div title="TTMigrateTasks0304Plugin" modifier="PhilHawksworth" created="200803110000" tags="systemConfig">
 <pre>/***
-|''Name:''|ValueSwitcherPlugin|
-|''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
-|''Version:''|0.2|
-|''Date:''|25 Sept, 2007|
-|''Source:''|http://www.hawksworx.com/playground/TeamTasks/#ValueTogglerPlugin|
-|''Author:''|PhilHawksworth (phawksworth (at) gmail (dot) com)|
-|''License:''|[[BSD open source license]]|
-|''CoreVersion:''|2.3|
+|''Name:''|TTMigrateTasks0304Plugin|
+|''Description:''|Migrate task tiddler from TeamTasks v0.3 to TeamTasks v0.4 format|
+|''Author:''|PhilHawksworth|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/Verticals/TeamTasks/teamtasks/plugins/TTMigrateTasks0304Plugin.js |
+|''Version:''|0.1|
+|''Date:''|Mar 13, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3|
+
+''About this tool''
+The migration tool is designed to be run once in order to update the metadata on older TeamTasks task tiddler.
+
+After running the migration tool, the TiddlyWiki document should be saved in order to retain the modified tiddlers.
+
+After going through this process, this migration tool need not be used again and the call to the macro should then be removed.
+
+''Usage:''
+Migrate all v0.3 tasks to the v0.4 format
+{{{
+&lt;&lt;TTMigrateTasks0304&gt;&gt;
+}}}
+
 ***/
 
 //{{{
-// Ensure that this Plugin is only installed once.
-if(!version.extensions.ValueSwitcher) 
-{
-	version.extensions.ValueSwitcher = {installed:true};
-	config.macros.ValueSwitcher = {
+if(!version.extensions.TTMigrateTasks0304Plugin) {
+version.extensions.TTMigrateTasks0304Plugin = {installed:true};
+	
+	config.macros.TTMigrateTasks0304 = {};
+	config.macros.TTMigrateTasks0304.converted = 0;
+	config.macros.TTMigrateTasks0304.problemTiddlers = 0;
+	config.macros.TTMigrateTasks0304.place;
+	config.macros.TTMigrateTasks0304.targetMetaVersion = 0.4;
+	
 
-		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+	config.macros.TTMigrateTasks0304.log = function(str) {
+		createTiddlyElement(config.macros.TTMigrateTasks0304.place,&quot;div&quot;,null,null,str);
+	};
 
-			var fieldPrefix = &quot;tt_&quot;;
-			var taskTiddler = story.findContainingTiddler(place);
-			if(!(taskTiddler &amp;&amp; taskTiddler != 'undefined')) {
-				return;
+
+	config.macros.TTMigrateTasks0304.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+
+		config.macros.TTMigrateTasks0304.place = place;
+		config.macros.TTMigrateTasks0304.log(&quot;Converting tasks tiddlers...&quot;);		
+
+		var taskTiddlers = store.getTaggedTiddlers(&quot;task&quot;);					
+		for(var t=0; t&lt;taskTiddlers.length; t++) {
+
+			// Find the extended fields to convert.
+			store.forEachField(taskTiddlers[t], config.macros.TTMigrateTasks0304.convert, true);
+
+			// Test the result for quality assurance.
+			var tt_meta_version = store.getValue(taskTiddlers[t],&quot;tt_tasks_metadata_format_version&quot;);
+			if(tt_meta_version == config.macros.TTMigrateTasks0304.targetMetaVersion) {
+				config.macros.TTMigrateTasks0304.log(&quot;Converted to TeamTask v&quot;+ config.macros.TTMigrateTasks0304.targetMetaVersion +&quot; task format: &quot; + taskTiddlers[t].title);
+				config.macros.TTMigrateTasks0304.converted++;
 			}
-			var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
-			var ctrlType = getParam(params,&quot;type&quot;,null);
-			var id = taskTiddler.id;
-			var title = id.substr(7);
-			var tiddler = store.getTiddler(title);
-
-			// build a drop down control
-			if(ctrlType == 'dropdown') {
-				var valueSrc = getParam(params,&quot;valuesSource&quot;, null);
-				if(!valueSrc) {
-					displayMessage(&quot;No definition tiddler defined for a TeamTasks dropdown.&quot;);
-					return;
-				}
-				var fieldName = fieldPrefix + valueSrc.toLowerCase().substr(0,valueSrc.length-11);
-				var selected = fieldName + '::' + store.getValue(tiddler,fieldName);
-				var values = this.getDefValues(valueSrc);
-				var options = [];
-				options.push({'caption': 'Please select', 'name': null});
-				for (var i=0; i &lt; values.length; i++) {
-					options.push({'caption': values[i], 'name': fieldName + '::' + values[i]});				
-				}
-				createTiddlyDropDown(place,this.setDropDownMetaData,options,selected);
+			else {
+				config.macros.TTMigrateTasks0304.log(&quot;... Error. There was a problem converting &quot; + taskTiddlers[t].title + &quot; to TeamTask v&quot;+ config.macros.TTMigrateTasks0304.targetMetaVersion +&quot; task format.&quot;);
+				config.macros.TTMigrateTasks0304.problemTiddlers++;
 			}
-			// Build a free text box.
-			else if(ctrlType == 'freetext') {
-				var metaDataName = getParam(params,&quot;metaDataName&quot;, null);
-				if(!metaDataName) {
-					displayMessage(&quot;No metaDataName defined for a TeamTasks free text box.&quot;);
-					return;
-				}	
-				var fieldName = fieldPrefix + metaDataName.toLowerCase();
-				var text = store.getValue(tiddler,fieldName);
-				if(text == undefined) text = &quot;&quot;;	
-				var i = createTiddlyElement(place,&quot;input&quot;,null,null,null,{&quot;value&quot;:text, &quot;type&quot;:&quot;input&quot;, &quot;ttname&quot;:fieldName});
-				i.onblur = config.macros.ValueSwitcher.changeFreetext;
-			}
+		}
 
-			/*
-				TODO: Build in deadline support
-			*/
-		},
+		// Brag about the success / apologise for the failure.
+		config.macros.TTMigrateTasks0304.log(config.macros.TTMigrateTasks0304.converted + &quot; task tiddlers successfully converted to TeamTask v&quot;+ config.macros.TTMigrateTasks0304.targetMetaVersion +&quot; task format.&quot;);	
+		if(config.macros.TTMigrateTasks0304.problemTiddlers != 0) {
+			config.macros.TTMigrateTasks0304.log(&quot;Uh-oh! We had a poblem converting &quot; + config.macros.TTMigrateTasks0304.problemTiddlers + &quot; naughty tiddlers.&quot;);
+		}
+		else
+			config.macros.TTMigrateTasks0304.log(&quot;No problems. Everything is tickertyboo.&quot;);
+	};
 
 
-		//Get definition values for populating UI from definition tiddlers.
-		getDefValues: function(src) {
-			var text = store.getTiddlerText(src).split('\n');
-			var output = [];
-			for(var t=0; t&lt;text.length; t++) {
-				//support calling the old TaskViewBuilder macro to list the tasks here too.
-				var blob = wikifyStatic(text[t],null,tiddler,null);				
-				var linktitle = /tiddlylink=&quot;[^&quot;]*&quot;/mg;
-				var titles = blob.match(linktitle);
-				if(titles) {
-					for(var n=0; n&lt;titles.length; n++) {
-						output.push(titles[n].replace(/tiddlylink=&quot;([^&quot;]*)&quot;/,'$1'));
-					}
-				}
-				else {
-					output.push(text[t]);
-				}
-			}
-			return (output);	
-		},
-
-
-		// Ensure that changes to a dropdown field are stored as an extended field.
-		setDropDownMetaData: function(ev) {
-			var e = ev ? ev : window.event;
-			var taskTiddler = story.findContainingTiddler(this);
-			if(taskTiddler &amp;&amp; taskTiddler != undefined) {
-				var title = taskTiddler.getAttribute('tiddler');
-				var tiddler =  store.getTiddler(title);
-				var option = this[this.selectedIndex].value.split('::');
-				var extField = option[0];
-				var extFieldVal = option[1];
-				store.setValue(tiddler,extField,extFieldVal);
-				story.saveTiddler(title);
-			}
-		},
-
-
-		// Ensure that changes to a free text field are stored as an extended field.
-		changeFreetext: function(ev) {
-			var e = ev ? ev : window.event;
-			var ttField = this.getAttribute('ttname');
-			var value = this.value;
-			if(ttField) {
-				var t = story.findContainingTiddler(this);
-				var title = t.getAttribute('tiddler');
-				var tiddler =  store.getTiddler(title);
-				store.setValue(tiddler,ttField,value);
-				story.saveTiddler(tiddler);
-			}
-			return false;
+	config.macros.TTMigrateTasks0304.convert = function(tiddler,fieldName,value){
+		// Convert the task metadatafields from the form 'fielddefinitions' to 'tt_field'
+		// and add a &quot;tt_tasks_metadata_format_version&quot; field for easier future migrations.
+		if(fieldName.substring(fieldName.length-11) == 'definitions'){
+		 	var newFieldName = &quot;tt_&quot; + fieldName.substring(0, fieldName.length-11);
+			store.setValue(tiddler,newFieldName,value);
+			store.setValue(tiddler,fieldName,null);
+			store.setValue(tiddler,&quot;tt_tasks_metadata_format_version&quot;,config.macros.TTMigrateTasks0304.targetMetaVersion);
 		}
 	};
-}
+
+} //# end of 'install only once'
 //}}}</pre>
 </div>
 <div title="TTReportViewPlugin" modifier="PhilHawksworth" created="200803110000" tags="systemConfig">
@@ -1123,147 +1114,6 @@ version.extensions.TTReportViewPlugin = {installed:true};
 } //# end of 'install only once'
 //}}}</pre>
 </div>
-<div title="TTMigrateTasks0304Plugin" modifier="PhilHawksworth" created="200803110000" tags="systemConfig">
-<pre>/***
-|''Name:''|TTMigrateTasks0304Plugin|
-|''Description:''|Migrate task tiddler from TeamTasks v0.3 to TeamTasks v0.4 format|
-|''Author:''|PhilHawksworth|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/Verticals/TeamTasks/teamtasks/plugins/TTMigrateTasks0304Plugin.js |
-|''Version:''|0.1|
-|''Date:''|Mar 13, 2008|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
-|''~CoreVersion:''|2.3|
-
-''About this tool''
-The migration tool is designed to be run once in order to update the metadata on older TeamTasks task tiddler.
-
-After running the migration tool, the TiddlyWiki document should be saved in order to retain the modified tiddlers.
-
-After going through this process, this migration tool need not be used again and the call to the macro should then be removed.
-
-''Usage:''
-Migrate all v0.3 tasks to the v0.4 format
-{{{
-&lt;&lt;TTMigrateTasks0304&gt;&gt;
-}}}
-
-***/
-
-//{{{
-if(!version.extensions.TTMigrateTasks0304Plugin) {
-version.extensions.TTMigrateTasks0304Plugin = {installed:true};
-	
-	config.macros.TTMigrateTasks0304 = {};
-	config.macros.TTMigrateTasks0304.converted = 0;
-	config.macros.TTMigrateTasks0304.problemTiddlers = 0;
-	config.macros.TTMigrateTasks0304.place;
-	config.macros.TTMigrateTasks0304.targetMetaVersion = 0.4;
-	
-
-	config.macros.TTMigrateTasks0304.log = function(str) {
-		createTiddlyElement(config.macros.TTMigrateTasks0304.place,&quot;div&quot;,null,null,str);
-	};
-
-
-	config.macros.TTMigrateTasks0304.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-
-		config.macros.TTMigrateTasks0304.place = place;
-		config.macros.TTMigrateTasks0304.log(&quot;Converting tasks tiddlers...&quot;);		
-
-		var taskTiddlers = store.getTaggedTiddlers(&quot;task&quot;);					
-		for(var t=0; t&lt;taskTiddlers.length; t++) {
-
-			// Find the extended fields to convert.
-			store.forEachField(taskTiddlers[t], config.macros.TTMigrateTasks0304.convert, true);
-
-			// Test the result for quality assurance.
-			var tt_meta_version = store.getValue(taskTiddlers[t],&quot;tt_tasks_metadata_format_version&quot;);
-			if(tt_meta_version == config.macros.TTMigrateTasks0304.targetMetaVersion) {
-				config.macros.TTMigrateTasks0304.log(&quot;Converted to TeamTask v&quot;+ config.macros.TTMigrateTasks0304.targetMetaVersion +&quot; task format: &quot; + taskTiddlers[t].title);
-				config.macros.TTMigrateTasks0304.converted++;
-			}
-			else {
-				config.macros.TTMigrateTasks0304.log(&quot;... Error. There was a problem converting &quot; + taskTiddlers[t].title + &quot; to TeamTask v&quot;+ config.macros.TTMigrateTasks0304.targetMetaVersion +&quot; task format.&quot;);
-				config.macros.TTMigrateTasks0304.problemTiddlers++;
-			}
-		}
-
-		// Brag about the success / apologise for the failure.
-		config.macros.TTMigrateTasks0304.log(config.macros.TTMigrateTasks0304.converted + &quot; task tiddlers successfully converted to TeamTask v&quot;+ config.macros.TTMigrateTasks0304.targetMetaVersion +&quot; task format.&quot;);	
-		if(config.macros.TTMigrateTasks0304.problemTiddlers != 0) {
-			config.macros.TTMigrateTasks0304.log(&quot;Uh-oh! We had a poblem converting &quot; + config.macros.TTMigrateTasks0304.problemTiddlers + &quot; naughty tiddlers.&quot;);
-		}
-		else
-			config.macros.TTMigrateTasks0304.log(&quot;No problems. Everything is tickertyboo.&quot;);
-	};
-
-
-	config.macros.TTMigrateTasks0304.convert = function(tiddler,fieldName,value){
-		// Convert the task metadatafields from the form 'fielddefinitions' to 'tt_field'
-		// and add a &quot;tt_tasks_metadata_format_version&quot; field for easier future migrations.
-		if(fieldName.substring(fieldName.length-11) == 'definitions'){
-		 	var newFieldName = &quot;tt_&quot; + fieldName.substring(0, fieldName.length-11);
-			store.setValue(tiddler,newFieldName,value);
-			store.setValue(tiddler,fieldName,null);
-			store.setValue(tiddler,&quot;tt_tasks_metadata_format_version&quot;,config.macros.TTMigrateTasks0304.targetMetaVersion);
-		}
-	};
-
-} //# end of 'install only once'
-//}}}</pre>
-</div>
-<div title="TaggedTemplateTweak" modifier="ELSDesignStudios" created="200706181748" modified="200804011417" tags="BookmarkPackage MediaPackage TaskPackage systemConfig IFramePackage" changecount="2">
-<pre>/***
-|Name|TaggedTemplateTweak|
-|Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
-|Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
-|Version|1.2.0|
-|Author|Eric Shulman - ELS Design Studios|
-|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|~CoreVersion|2.1|
-|Type|plugin|
-|Requires||
-|Overrides|Story.prototype.chooseTemplateForTiddler()|
-|Description|use alternative ViewTemplate/EditTemplate for tiddler's tagged with specific tag values|
-This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler is marked with a specific tag value, it can be viewed and/or edited using alternatives to the standard tiddler templates.'' 
-!!!!!Documentation
-&gt;see [[TaggedTemplateTweakInfo]]
-!!!!!Revisions
-&lt;&lt;&lt;
-2008.04.01 [1.2.0] added support for using systemTheme section-based template definitions (requested by Phil Hawksworth)
-2008.01.22 [*.*.*] plugin size reduction - documentation moved to [[TaggedTemplateTweakInfo]]
-2007.06.23 [1.1.0] re-written to use automatic 'tag prefix' search instead of hard coded check for each tag.  Allows new custom tags to be used without requiring code changes to this plugin.
-| please see [[TaggedTemplateTweakInfo]] for previous revision details |
-2007.06.11 [1.0.0] initial release
-&lt;&lt;&lt;
-!!!!!Code
-***/
-//{{{
-version.extensions.taggedTemplate= {major: 1, minor: 2, revision: 0, date: new Date(2008,4,1)};
-Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
-Story.prototype.chooseTemplateForTiddler = function(title,template)
-{
-	// get default template from core
-	var template=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
-
-	// if the tiddler to be rendered doesn't exist yet, just return core result
-	var tiddler=store.getTiddler(title); if (!tiddler) return template;
-
-	// look for template whose prefix matches a tag on this tiddler
-	for (i=0; i&lt;tiddler.tags.length; i++) {
-		var t=tiddler.tags[i]+template; // add tag prefix
-		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
-		var s=config.options.txtTheme+&quot;##&quot;; // systemTheme section prefix
-		if (store.tiddlerExists(t)) { template=t; break; }
-		if (store.tiddlerExists(c)) { template=c; break; }
-		if (store.getTiddlerText(s+t)) { template=s+t; break; }
-		if (store.getTiddlerText(s+c)) { template=s+c; break; }
-	}
-	return template;
-}
-//}}}</pre>
-</div>
 <div title="TableSortingPlugin" created="200806060752">
 <pre>/***
 |''Name:''|TableSortingPlugin|
@@ -1297,9 +1147,9 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 |Bloggs, Fred |$12000.00 |1353 |01.20 |6.156Mb |08/17/2003 05:43 |
 |Turvey, Kevin |$191200.00 |2342 |-33 |1b |02/05/1979 |
 |Mbogo, Arnold |$32010.12 |2755 |-21.673 |1.2Gb |09/08/1998 |
-|Shakespeare, Bill |£122000.00|3211 |6 |33.22Gb |12/11/1961 |
-|Shakespeare, Hamlet |£9000 |9005 |-8 |3Gb |01/01/2002 |
-|Fitz, Marvin |€3300.30 |5554 |+5 |4Kb |05/22/1995 |
+|Shakespeare, Bill |ï¿½122000.00|3211 |6 |33.22Gb |12/11/1961 |
+|Shakespeare, Hamlet |ï¿½9000 |9005 |-8 |3Gb |01/01/2002 |
+|Fitz, Marvin |ï¿½3300.30 |5554 |+5 |4Kb |05/22/1995 |
 
 ***/
 // /%
@@ -1334,7 +1184,7 @@ config.tableSorting = {
 		c.fn = c.sortAlpha; 
 		if(!isNaN(Date.parse(itm)))
 			c.fn = c.sortDate; 
-		else if(itm.match(/^[$|£|€|\+|\-]{0,1}\d*\.{0,1}\d+$/)) 
+		else if(itm.match(/^[$|ï¿½|ï¿½|\+|\-]{0,1}\d*\.{0,1}\d+$/)) 
 			c.fn = c.sortNumber; 
 		else if(itm.match(/^\d*\.{0,1}\d+[K|M|G]{0,1}b$/)) 
 			c.fn = c.sortFile; 
@@ -1459,262 +1309,68 @@ config.macros.autosort={
 //!END-PLUGIN-CODE
 // %/</pre>
 </div>
-<div title="SiteTitle" modifier="PhilHawksworth" created="200708161546" modified="200709241632">
-<pre>//''team''tasks//</pre>
-</div>
-<div title="SiteSubtitle" modifier="PhilHawksworth" created="200708161547" modified="200710241355">
-<pre>a simple extensible task management tool</pre>
-</div>
-<div title="DefaultTiddlers" modifier="PhilHawksworth" created="200709241640" modified="200710231249">
-<pre>
-	[[Getting Started with TeamTasks]]</pre>
-</div>
-<div title="TopMenu" modifier="PhilHawksworth" created="200803280000" changecount="1">
-<pre>&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newTiddler title:&quot;New Task&quot; label:&quot;new task&quot; tag:&quot;task&quot;&gt;&gt;&lt;&lt;saveChanges&gt;&gt;</pre>
-</div>
-<div title="MainMenu" modifier="PhilHawksworth" created="200708051914">
-<pre>
-{{search{&lt;&lt;search&gt;&gt;}}}[[Listings]][[Getting Started with TeamTasks]][[Release Notes]][[Migrating to the latest version]]&lt;&lt;slider chkSliderOptionsPanel UserDefinitions 'Users Â»' 'A list of users'&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel TaskViews 'Task views Â»' 'A selection of task views'&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel TaskDefinitions 'Task definitions Â»' 'The definitions that drive the task management'&gt;&gt;[[modify this menu|MainMenu]][[options|OptionsPanel]][[about|About TeamTasks]][[download|index.html]]
-{{meta{
-	&lt;&lt;tiddler TeamTasksMetaData&gt;&gt;
-}}}</pre>
-</div>
-<div title="Listings" modifier="PhilHawksworth" created="200805081121">
-<pre>&lt;&lt;tabs txtMainTab &quot;Timeline&quot; &quot;Timeline&quot; TabTimeline &quot;A - Z&quot; &quot;All tiddlers in alphabetical order&quot; TabAll &quot;Tags&quot; &quot;All tags&quot; TabTags &quot;Missing&quot; &quot;Missing tiddlers&quot; TabMoreMissing &quot;Shadowed&quot; &quot;Shadowed tiddlers&quot; TabMoreShadowed&gt;&gt;</pre>
-</div>
-<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200709131152">
-<pre>
-|scope |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;ScopeDefinitions&quot;&gt;&gt; |
-|priority |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;PriorityDefinitions&quot;&gt;&gt; |
-|assigned to |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;UserDefinitions&quot;&gt;&gt; |
-|status |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;StatusDefinitions&quot;&gt;&gt; |</pre>
-</div>
-<div title="TeamTasksMetaData" modifier="PhilHawksworth" created="200804019000" tags="TeamTasks help">
-<pre>[[TeamTasks version 0.4|Release Notes]]
-[[TeamTasks is a vertical edition of TiddlyWiki|TiddlyWiki]]
-[[TeamTasks is opensource software distributed under the BSD license|License]]</pre>
+<div title="TaggedTemplateTweak" modifier="ELSDesignStudios" created="200706181748" modified="200804011417" tags="BookmarkPackage MediaPackage TaskPackage systemConfig IFramePackage" changecount="2">
+<pre>/***
+|Name|TaggedTemplateTweak|
+|Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
+|Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
+|Version|1.2.0|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|plugin|
+|Requires||
+|Overrides|Story.prototype.chooseTemplateForTiddler()|
+|Description|use alternative ViewTemplate/EditTemplate for tiddler's tagged with specific tag values|
+This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler is marked with a specific tag value, it can be viewed and/or edited using alternatives to the standard tiddler templates.'' 
+!!!!!Documentation
+&gt;see [[TaggedTemplateTweakInfo]]
+!!!!!Revisions
+&lt;&lt;&lt;
+2008.04.01 [1.2.0] added support for using systemTheme section-based template definitions (requested by Phil Hawksworth)
+2008.01.22 [*.*.*] plugin size reduction - documentation moved to [[TaggedTemplateTweakInfo]]
+2007.06.23 [1.1.0] re-written to use automatic 'tag prefix' search instead of hard coded check for each tag.  Allows new custom tags to be used without requiring code changes to this plugin.
+| please see [[TaggedTemplateTweakInfo]] for previous revision details |
+2007.06.11 [1.0.0] initial release
+&lt;&lt;&lt;
+!!!!!Code
+***/
+//{{{
+version.extensions.taggedTemplate= {major: 1, minor: 2, revision: 0, date: new Date(2008,4,1)};
+Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
+Story.prototype.chooseTemplateForTiddler = function(title,template)
+{
+	// get default template from core
+	var template=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
+
+	// if the tiddler to be rendered doesn't exist yet, just return core result
+	var tiddler=store.getTiddler(title); if (!tiddler) return template;
+
+	// look for template whose prefix matches a tag on this tiddler
+	for (i=0; i&lt;tiddler.tags.length; i++) {
+		var t=tiddler.tags[i]+template; // add tag prefix
+		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
+		var s=config.options.txtTheme+&quot;##&quot;; // systemTheme section prefix
+		if (store.tiddlerExists(t)) { template=t; break; }
+		if (store.tiddlerExists(c)) { template=c; break; }
+		if (store.getTiddlerText(s+t)) { template=s+t; break; }
+		if (store.getTiddlerText(s+c)) { template=s+c; break; }
+	}
+	return template;
+}
+//}}}</pre>
 </div>
 <div title="TaskDefinitions" modifier="PhilHawksworth" created="200709241547">
 <pre>[[ScopeDefinitions]][[UserDefinitions]][[PriorityDefinitions]][[StatusDefinitions]]</pre>
 </div>
+<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200709131152">
+<pre>|scope |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;ScopeDefinitions&quot;&gt;&gt; |
+|priority |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;PriorityDefinitions&quot;&gt;&gt; |
+|assigned to |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;UserDefinitions&quot;&gt;&gt; |
+|status |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;StatusDefinitions&quot;&gt;&gt; |</pre>
+</div>
 <div title="TaskViews" modifier="PhilHawksworth" created="200709241546" modified="200805081143">
-<pre>
-[[DefaultReportView]][[(create your own task view)|CreatingTaskReportViews]]</pre>
-</div>
-<div title="AnneOther" modifier="PhilHawksworth" created="200710290946" changecount="1">
-<pre>&lt;html&gt;
-&lt;div class='vcard'&gt;
-&lt;a class='url fn n' href='undefined'&gt;&lt;span class='given-name'&gt;Anne&lt;/span&gt;&lt;span class='family-name'&gt;Other&lt;/span&gt;&lt;/a&gt;
-&lt;div class='email'&gt;&lt;span&gt;&lt;a href='mailto:anneother@nowhere.com'&gt;anneother@nowhere.com&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;/div&gt;&lt;/html&gt;</pre>
-</div>
-<div title="About TeamTasks" modifier="PhilHawksworth" created="200709171222" modified="200710241354" tags="help" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709181250" server.type="file" changecount="27">
-<pre>A quick start guide is provided in the [[Getting Started with TeamTasks]] tiddler.
-
-This application has been built using TiddlyWiki and requires several plugins to function.  For an up-to-date list of the plugins used, and other building blocks required to build TeamTasks, take a look at the [[Release Notes]].
-
-TeamTasks also require some definitions, which you can modify and add to as required:
-UserDefinitions
-PriorityDefinitions
-ScopeDefinitions
-StatusDefinitions</pre>
-</div>
-<div title="CreatingTaskReportViews" modifier="PhilHawksworth" created="200710221513" changecount="1">
-<pre>You can create your own custom views of the tasks using the ~TeamTask Report View Plugin (TTReportViewPlugin).
-
-
-The general form for calling the plugin is like this:
-{{{
-&lt;&lt;TTReportView&gt;&gt;
-}}}
-
-
-You can also specify which fields to display in your report like this:
-{{{
-&lt;&lt;TTReportView DisplayFields:&quot;fieldName,fieldName,fieldName&quot;&gt;&gt;
-}}}
-for example:
-{{{
-&lt;&lt;TTReportView DisplayFields:&quot;Title,Priority,Status&quot;&gt;&gt;
-}}}
-
-
-In addition, you can choose to order your results by a given field like this:
-{{{
-&lt;&lt;TTReportView OrderBy:&quot;fieldName,[asc|desc]&quot;&gt;&gt;
-}}}
-for example:
-{{{
-&lt;&lt;TTReportView DisplayFields:&quot;Title,Priority,Status&quot; OrderBy:&quot;Status,asc&quot;&gt;&gt;
-}}}
-
-
-You can also specify field values to include and exclude tasks and create filtered reports:
-{{{
-&lt;&lt;TTReportView FieldName:&quot;value&quot;&gt;&gt;
-}}}
-{{{
-&lt;&lt;TTReportView FieldName:&quot;!value&quot;&gt;&gt;
-}}}
-
-for example:
-{{{
-&lt;&lt;TTReportView DisplayFields:&quot;Title,Priority,Status&quot; OrderBy:&quot;Status,asc&quot; Priority:&quot;high&quot; Status:&quot;!closed&quot;&gt;&gt;
-}}}</pre>
-</div>
-<div title="CreatingTasks" modifier="PhilHawksworth" created="200710221506" modified="200710241431" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.type="file" changecount="4">
-<pre>Creating a task is easy. Any tiddler that you tag with the word 'task' will become a task tiddler. When you exit edit mode of a task tiddler, you will see that it is presented as a task and has controls on it to allow you to set some of your [[pre-defined|TaskDefinitions]] values on it.
-
-Alternatively, you can create a new task by clicking the &amp;lt;&amp;lt;newTiddler label:&amp;quot;new task&amp;quot; title:NewTask tag:task text:&amp;quot;Type some text and then press DONE to view the task controls&amp;quot;&amp;gt;&amp;gt; button in the control bar towards the top of the screen.  </pre>
-</div>
-<div title="DefineUsers" modifier="PhilHawksworth" created="200710221403" modified="200710241215" tags="help" changecount="9">
-<pre>In TeamTasks, you can assign tasks to users. If you are using TeamTasks individually and don't need to have different users set up, you can easily remove this functionality to make things appear even simpler in the user interface.
-
-Defining a user is really simple. All you need to do is add user's names to the UserDefinitions tiddler.  Each name should occupy a single line in the tiddler.  All of the names in the UserDefinitions tiddler will be available for you to assign a task to.
-
-There is also a [[wizard to help you create these users|UserSetupWizard]] to help you create users quickly should you need a slightly more complex setup. The wizard will help by creating a 'Home Tiddler' for each user which hold their contact details and quick access to a default set of [[TaskListViews|TaskListView]] which they can customise.</pre>
-</div>
-<div title="DefineScopes" modifier="PhilHawksworth" created="200710221448" modified="200710221449" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.type="file" changecount="2">
-<pre>To make it easy to organise tasks by the appropriate projects, products or whatever sensible unit best fits your needs, you can define a set of 'Scopes' in the ScopeDefinitions tiddler. This works in the same way as [[defining users|DefineUsers]].</pre>
-</div>
-<div title="Getting Started with TeamTasks" modifier="PhilHawksworth" created="200710231248" modified="200710241425" tags="help" changecount="7">
-<pre>TeamTasks is intended to support you in managing your task lists.  It can be heavily customised to be used in many different ways, but I am presuming that most users will want to do the following to get up and running quickly:
-*[[Define some users|DefineUsers]]
-*[[Define some projects or tasks|DefineScopes]]
-*[[Start creating Tasks|CreatingTasks]]
-*[[Build some task views|CreatingTaskReportViews]]
-and then may wish to make further customisations by editing the [[TaskDefinition|TaskDefinitions]] tiddlers
-
-[[More information|About TeamTasks]] about what components go into TeamTasks. </pre>
-</div>
-<div title="Migrating to the latest version" modifier="PhilHawksworth" created="200803061053" modified="200803061054" tags="help" changecount="7">
-<pre>
-Since TeamTasks is built using TiddlyWiki, it contains all of the application logic, the styling, the content, and all of your tasks in a single file. This means that upgrading your instance of TeamTasks might seem like a fiddly task. Don't panic. It's simple when you know how!
-	
-!Downloading an empty copy of the latest ~TeamTasks version and then importing your tasks and views.
-The process of upgrading a TiddlyWiki is well documented at [[www.tiddlywiki.com/#HowToUpgrade|http://www.tiddlywiki.com/#HowToUpgrade]]. Refer to that documentation to help you upgrade, but rather then downloading a fresh version of Tiddlywiki as your starting point, you should download a fresh version of TeamTasks by right-clicking on [[this link|http://www.hawksworx.com/playground/TeamTasks/index.html]], selecting 'Save target' or 'Save link' and saving it in a convenient location. You can then import your tasks into that file.
-	
-!Perhaps you would prefer to import the updated and new plugins into your existing ~TeamTasks file.
-If this is the case, you should refer to the [[HowToUpgrade|www.tiddlywiki.com/#HowToUpgrade]] documentation as above, but rather than importing your tasks and views into a fresh teamTasks file, you should import into your exisiting TeamTasks file. You will need to import the following tiddlers from http://www.hawksworx.com/playground/TeamTasks in order to upgrade to version 0.4 of TeamTasks:
-*[[FullScreenPlugin|http://www.hawksworx.com/playground/TeamTasks/#FullScreenPlugin]]
-*[[NewUserWizardPlugin|http://www.hawksworx.com/playground/TeamTasks/#NewUserWizardPlugin]]
-*[[TableSortingPlugin|http://www.hawksworx.com/playground/TeamTasks/#TableSortingPlugin]]
-*[[TaggedTemplateTweak|http://www.hawksworx.com/playground/TeamTasks/#TaggedTemplateTweak]]
-*[[TTReportViewPlugin|http://www.hawksworx.com/playground/TeamTasks/#TTReportViewPlugin]]
-*[[TTMigrateTasks0304Plugin|http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin]]
-*[[ValueSwitcherPlugin|http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin]]
-
-!Incompatible task tiddlers.
-Version 0.4 employs a slightly different format for storing information on the task tiddlers to previous versions. A macro to upgrade all of your task tiddlers to adopt this new format is available in this plugin: [[TTMigrateTasks0304Plugin|http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin]]
-
-!!!Using the macro.
-Using the macro is simple. 
-#Import the [[TTMigrateTasks0304Plugin|http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin]] as described above.
-#Save your file and reload it to make sure that the macro is available to run.
-#Create a new tiddler in your document and edit it to include a call to the migration macro like this {{{&lt;&lt;TTMigrateTasks0304&gt;&gt;}}}
-#Click {{{done}}} to finish editing your new tiddler. The macro will run, converting all of your existing tasks to the latest version.
-#Save your TeamTasks document in the usual way.
-#Reload and if you wish, delete the TTMigrateTasks0304Plugin tiddler and the new tiddler you created to run the macro - you won't need them again.
-	
-	</pre>
-</div>
-<div title="PhilHawksworth" modifier="PhilHawksworth" created="200710290942" modified="200711091615" changecount="4">
-<pre>&lt;html&gt;
-&lt;div class=&quot;vcard&quot;&gt;
-&lt;a class=&quot;url fn n&quot; href=&quot;&quot;&gt;&lt;span class=&quot;given-name&quot;&gt;Phil&lt;/span&gt;&lt;span class=&quot;family-name&quot;&gt;Hawksworth&lt;/span&gt;&lt;/a&gt;
-&lt;div class=&quot;org&quot;&gt;&lt;span class=&quot;organization-name&quot;&gt;Osmosoft&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span&gt;&lt;a href=&quot;http://www.hawksworx.com&quot;&gt;www.hawksworx.com&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div class=&quot;email&quot;&gt;&lt;span&gt;&lt;a href=&quot;mailto:ph@osmosoft.com&quot;&gt;ph@osmosoft.com&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div class=&quot;photos&quot;&gt;&lt;span&gt;&lt;a href=&quot;http://flickr/photos/philhawksworth&quot;&gt;flickr/photos/philhawksworth&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div class=&quot;twitter&quot;&gt;&lt;span&gt;&lt;a href=&quot;http://twitter.com/philhawksworth&quot;&gt;twitter.com/philhawksworth&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;/div&gt;&lt;/html&gt;</pre>
-</div>
-<div title="Release Notes" modifier="PhilHawksworth" created="200710241224" modified="200710241439" tags="help" changecount="23">
-<pre>!Version 0.4
-!!!Comments
-*The macro for producing task list views has been replaced with the TTReportViewPlugin which uses named prameters and outputs sortable table views of your data.
-*Task metadata is now stored on the task tiddlers in a much more friendly way. All TeamTasks fields on a tiddler are of the form {{{tt_fieldName='value'}}}
-*For those wishing to upgrade their previous tasks to make use of the new structure, there is a Task Migration Tool to ease the pain.
-*There is now [[documentation to assist in upgrading TeamTasks|Migrating to the latest version]]
-!!!Comprehensive Plugin List
-|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
-|NewUserWizardPlugin|by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#NewUserWizardPlugin |
-|TableSortingPlugin |by SaqImtiaz |http://tw.lewcid.org/#TableSortingPlugin |
-|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
-|TTReportViewPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TTReportViewPlugin |
-|TTMigrateTasks0304Plugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin |
-|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
-
-!Version 0.3
-!!!Comments
-*Lots more documentation and help is evolving
-*Introduction of UserSetupWizard which speeds up the setting up of users and automates some associated tasks.
-!!!Plugins
-|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
-|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
-|TaskViewBuilderPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TaskViewBuilderPlugin |
-|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
-|NewUserWizardPlugin|by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#NewUserWizardPlugin |
-!!Tiddlers providing UI styling
-PageTemplate
-StyleSheet
-ColorPalette
-ViewTemplate
-TaskViewTemplate
-!!Tiddlers providing other functionality
-ControlsContainer
-[[Listings]]
-TaskTiddlerControls
-SampleTaskListTemplate
-UserDetailsTemplate
-UserSetupWizard
-!!Tiddlers providing documentation
-[[About TeamTasks]]
-CreatingTaskListViews
-CreatingTasks
-DefineScopes
-DefineUsers
-[[Getting Started with TeamTasks]]
-[[Release Notes]]
-TaskListView
-TeamTasks
-!Version 0.2
-!!!Comments
-*Task visualisation improved
-*TaskViewBuilderPlugin syntax employs {{{ = }}} rather than {{{ _ }}}
-!!!Plugins
-|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
-|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
-|TaskViewBuilderPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TaskViewBuilderPlugin |
-|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
-!!Tiddlers providing UI styling
-PageTemplate
-StyleSheet
-ColorPalette
-ViewTemplate
-TaskViewTemplate
-!!Tiddlers providing other functionality
-ControlsContainer
-[[Listings]]
-TaskTiddlerControls
-
-!Version 0.1
-!!!Comments
-*Basic UI structure established
-*Task generation using tagging mechanism
-*Basic task list views.
-!!!Plugins
-|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
-|TaskViewBuilderPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TaskViewBuilderPlugin |
-|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
-!!Tiddlers providing UI styling
-PageTemplate
-StyleSheet
-ColorPalette
-ViewTemplate
-!!Tiddlers providing other functionality
-ControlsContainer
-[[Listings]]</pre>
+<pre>[[DefaultReportView]][[(create your own task view)|CreatingTaskReportViews]]</pre>
 </div>
 <div title="TeamTasks" modifier="PhilHawksworth" created="200710221151" changecount="2">
 <pre>The TeamTasks TiddlyWiki is an edition of TiddlyWiki which has been modified by including various plugins to provide a simple task management system.
@@ -1725,10 +1381,247 @@ Visit the main TeamTasks site at [[www.hawksworx.com/playground/TeamTasks|http:/
 
 Comments and suggestions are very welcome and should be directed to ph [at] osmosoft.com</pre>
 </div>
+<div title="TeamTasksColors" modifier="PhilHawksworth" created="200803280000">
+<pre>Accent: #9BBE2E
+
+TaskBorder: #EDE6C3
+TaskBackground: #FEFFA8
+
+CodeBackground:#000
+CodeColor:#23CC07
+
+Background: #E7E7DE
+Darkest: #172322
+Darker: #2F403F
+Dark: #77776E
+LightestShade: #F3F3F3
+LightShade: #DFDFD5
+Shade: #d7d7cE
+DarkShade: #A6A59E
+DarkestShade: #757570
+TiddlerBackground: #ffffff
+
+LinkHover: transparent</pre>
+</div>
+<div title="TeamTasksMetaData" modifier="PhilHawksworth" created="200804041800" tags="TeamTasks help">
+<pre>[[TeamTasks version 0.4|Release Notes]]
+[[TeamTasks is a vertical edition of TiddlyWiki|TiddlyWiki]]
+[[TeamTasks is opensource software distributed under the BSD license|License]]</pre>
+</div>
+<div title="TeamTasksSkin" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch TeamTasks">
+<pre>/***
+|''Name:''|TeamTasksSkin |
+|''Description:''|The basic TeamTasks theme |
+|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/teamtasks/TeamTasksSkin.tiddler |
+|''Version:''|0.4|
+|''Date:''|March 28th, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~taskViewTemplate:''|##taskViewTemplate|
+|''~taskEditTemplate:''|##taskEditTemplate|
+|''~StyleSheet:''|##StyleSheet|
+***/
+
+!PageTemplate
+&lt;!--{{{--&gt;
+&lt;div id='messageBar'&gt;&lt;span id='messageArea'&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class='header'&gt;
+&lt;div class='headerShadow'&gt;
+&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
+&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
+&lt;/div&gt;
+&lt;div id='topMenu' refresh='content' tiddler='TopMenu'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
+&lt;div id='displayArea'&gt;
+	&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+!taskViewTemplate
+&lt;!--{{{--&gt;
+&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump'&gt;&lt;/div&gt;
+&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
+&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
+&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
+&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
+&lt;div class='task'&gt;
+	&lt;table&gt;
+	&lt;tr&gt;
+		&lt;td class='taskbody'&gt;&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;&lt;p class=&quot;label&quot;&gt;Dependencies&lt;/p&gt;&lt;div class='dependencies dropbin'&gt;&lt;/div&gt;&lt;/td&gt;
+		&lt;td class='taskControls'&gt;&lt;div class='taskControls' macro='tiddler TaskTiddlerControls'&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class='tagClear'&gt;&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+!taskEditTemplate
+&lt;!--{{{--&gt;
+&lt;div class=&quot;editor&quot;&gt;
+&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;
+&lt;div class='title edit' macro='edit title'&gt;&lt;/div&gt;
+&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
+&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
+&lt;div class='tagged edit' macro='tags'&gt;&lt;/div&gt;
+&lt;div class='task'&gt;
+	&lt;table&gt;
+	&lt;tr&gt;
+		&lt;td class='taskbody'&gt;&lt;div class='viewer edit' macro='edit text wikified'&gt;&lt;/div&gt;&lt;p class=&quot;label&quot;&gt;Dependencies&lt;/p&gt;&lt;div class='dependencies dropbin'&gt;&lt;/div&gt;&lt;/td&gt;
+		&lt;td class='taskControls'&gt;&lt;div class='taskControls' macro='tiddler TaskTiddlerControls'&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class='tagClear'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+
+!StyleSheet
+/*{{{*/
+body { color:[[TeamTasksColors::Darkest]];}
+a:hover {color:[[ColorPalette::PrimaryPale]]; background-color:[[TeamTasksColors::LinkHover]];}
+	
+/* Page Framework */
+body {background-color:[[TeamTasksColors::Background]]; border-top:3px solid [[TeamTasksColors::Accent]]; }
+#displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
+#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 20px 0 0 0; padding:0; border-style:none;}
+#tiddlerDisplay { margin:0 10px 20px 0; padding:0;  border:none;}
+#sidebar {display:none;}
+#messageArea { position:inherit;  margin:0 20px 1em 10px; padding:6px; border-style:none; }
+
+/* message bar */
+#messageBar {display:block; position:relative; width:100%; margin:0; background-color:[[TeamTasksColors::LightShade]]; height:1.6em; font-size:11px;  border-top:solid 1px [[TeamTasksColors::TiddlerBackground]];}
+#messageArea { position:absolute; top:0; left:0; padding:0; margin:0; border-style:none; background-color:transparent;} 
+#messageArea div { margin-left:20px; padding:3px 0 0 0;}
+#messageArea div.messageToolbar { position:absolute; top:0; right:0; padding:0; margin:0;}
+#messageArea a { color:[[TeamTasksColors::Dark]]; text-decoration:none; }
+#messageArea a:hover { color:[[TeamTasksColors::Secondary]]; text-decoration:none; }
+#messageArea .button { float:right; background-color:[[TeamTasksColors::Shade]]; color:[[TeamTasksColors::TiddlerBackground]]; margin:0 0 0 1em; padding:3px 6px; }
+#messageArea .button:hover {background-color:[[TeamTasksColors::Dark]]; color:[[TeamTasksColors::TiddlerBackground]];}
+
+
+/* Header */
+div.header,
+div.headerShadow { margin:0; padding:0; top:auto;}
+div.header {height:5em; background-color:[[TeamTasksColors::Background]]; position:relative;}
+div.headerShadow {position:absolute; left:20px; bottom:0; height:auto;}
+div.headerShadow span.siteTitle {color::[[TeamTasksColors::Darkest]]; font-size:3em; line-height:1em; letter-spacing:-2px;}
+div.headerShadow span.siteSubtitle {color:[[TeamTasksColors::Dark]]; white-space:nowrap; font-size:1em;}
+div.header #topMenu { position:absolute; right:20px; bottom:0;}
+
+/* Backstage */
+#backstageArea,
+#backstageToolbar { background-color:[[TeamTasksColors::Shade]]; padding-top:0;}
+#backstageToolbar a.backstageTab { background-color:[[TeamTasksColors::Shade]]; color:[[TeamTasksColors::Dark]]; font-weight:normal;line-height:1.5em; }
+#backstageToolbar a.backstageTab:hover { background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];  }
+
+/* Popup */
+#popup {background-color:[[TeamTasksColors::Darkest]]; border:1px solid [[TeamTasksColors::Shade]]; border-bottom:2px solid [[TeamTasksColors::Shade]];}
+#popup li a { color:[[TeamTasksColors::Accent]];}
+#popup li a:hover {background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];}
+#popup li.listBreak div{ border-bottom:solid 1px [[TeamTasksColors::Darker]];}
+
+/* Top Menu*/
+#topMenu a.button { border-style:none; background-color:[[TeamTasksColors::Background]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Accent]];  }
+#topMenu a.button:hover,
+#mainMenu a:hover  { border-style:none; background-color:[[TeamTasksColors::Darkest]]; color:[[TeamTasksColors::Accent]];}
+#topMenu a.button:active,
+#mainMenu a:active  { border-style:none; background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::Background]];}
+
+/* MainMenu */
+#mainMenu { position: static; float: left; width: auto; margin: 20px 0 10px 20px;padding:0;}
+#mainMenu a { margin:1px 0; border-style:none; background-color:[[TeamTasksColors::Shade]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Darkest]];  }
+#mainMenu &gt; a {display:block; font-size:0.94em; text-align:left; margin:0 0 1px 0;}
+#mainMenu &gt; div &gt; a {display:block; font-size:0.9em; text-align:right; margin:0 0 1px 0; background-color:[[TeamTasksColors::LightShade]];}
+#mainMenu span.search { padding:6px 6px 6px 0px; margin-bottom:10px; display:block; background-color:[[TeamTasksColors::Darkest]]; }
+#mainMenu span.search .searchField { padding:2px 6px; border:solid 1px [[TeamTasksColors::DarkShade]]; border-top-color:[[TeamTasksColors::Dark]];  border-bottom-color:[[TeamTasksColors::TiddlerBackground]]; background-color:[[TeamTasksColors::Background]]; }
+#mainMenu span.search a.searchButton { color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::Darkest]];}
+#mainMenu span.search a.searchButton:hover { color:[[TeamTasksColors::TiddlerBackground]]; }
+
+/* MetaData section */
+#mainMenu div.meta { text-align:left; width:14em; padding:0 1em; font-size:0.9em; line-height:1.1em;}
+#mainMenu div.meta a {display: block; color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:0 0 0.2em 0; padding:0;}
+#mainMenu div.meta a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];}
+
+/* Vanilla Tiddlers */
+.tiddler { background-color:[[TeamTasksColors::TiddlerBackground]]; margin:0 1em 2em 1em; padding:0 0 1em 0; border-bottom:1px solid[[TeamTasksColors::DarkShade]]; 	}
+.tiddler div.toolbar { margin:0; padding:0; height:2em;}
+.tiddler div.toolbar a.button:first-child {  border-left:1px solid [[TeamTasksColors::LightShade]];}
+.tiddler div.toolbar a.button { display:none; background-color:[[TeamTasksColors::TiddlerBackground]]; padding:4px 1em 4px 1em; border-style:none; border-left:1px solid [[TeamTasksColors::LightShade]]; border-bottom:1px solid [[TeamTasksColors::LightShade]];  border-top:3px solid [[TeamTasksColors::Background]]; line-height:2.3em;}
+.tiddler div.toolbar a.button:hover { background-color:[[TeamTasksColors::LightestShade]]; border-bottom-color:[[TeamTasksColors::DarkShade]]; color:[[TeamTasksColors::Darkest]];}
+.tiddler div.toolbar a.button:active { background-color:[[TeamTasksColors::Accent]]; border-bottom-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];}
+.tiddler div.title { color:[[TeamTasksColors::Accent]]; margin:4px 20px 3px 20px;}
+.tiddler div.subtitle,
+.tiddler div.tagged,
+.tiddler div.tagging { float:none; border-style:none; background-color:[[TeamTasksColors::TiddlerBackground]]; margin:3px 20px 0 20px; padding:0; font:italic 0.95em/1em &quot;Lucida Sans&quot;,&quot;Lucida Grande&quot;,Verdana,&quot;Bitstream Vera Sans&quot;,Arial,sans-serif; color:[[TeamTasksColors::DarkShade]];}
+.tiddler div.tagged ul,
+.tiddler div.tagging ul {margin:0; padding:0;}
+.tiddler div.tagged li,
+.tiddler div.tagging li {display:inline; margin:0 0.4em 0 0; color:[[TeamTasksColors::DarkShade]]; }
+.tiddler div.tagged li.listTitle,
+.tiddler div.tagging li.listTitle {margin:0 0.1em 0 0; }
+.tiddler div.tagged a.button,
+.tiddler div.tagging a.button {padding:0;}
+.tiddler div.subtitle a,
+.tiddler div.tagged a,
+.tiddler div.tagging a {color:[[TeamTasksColors::DarkestShade]]; font-weight:normal; white-space:nowrap;}
+.tiddler div.subtitle a:hover,
+.tiddler div.tagged a:hover,
+.tiddler div.tagging a:hover {color:[[ColorPalette::PrimaryPale]]; background-color:[[TeamTasksColors::LinkHover]];}
+.tiddler div.viewer { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
+
+
+.viewer pre {background-color:[[TeamTasksColors::CodeBackground]]; color:[[TeamTasksColors::CodeColor]]; border-style:none;];}
+.selected div.toolbar a.button { display:inline;}
+
+/* Task Tiddlers */
+.tiddler div.task { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
+.tiddler div.task table { width:100%; margin:0; padding:0; }
+.tiddler div.task table * { vertical-align:top; }
+.tiddler div.task table td.taskbody { width:100%; }
+.tiddler div.task table td.taskControls { width:auto; }
+.tiddler div.task div.viewer { display:block; padding:1em; margin:10px 0; border:solid 1px [[TeamTasksColors::TaskBorder]]; border-bottom-width:2px; background-color:[[TeamTasksColors::TaskBackground]]; font:italic 1.1em/1.5em &quot;Lucida Sans&quot;,&quot;Lucida Grande&quot;,Verdana,&quot;Bitstream Vera Sans&quot;,Arial,sans-serif; }
+.tiddler div.task div.taskControls { float:right; white-space:nowrap; margin:0 0 0 10px;}
+.tiddler div.task div.taskControls table { border-style:none; margin: 10px 0;}
+.tiddler div.task div.taskControls table tr { border-style:none;}
+.tiddler div.task div.taskControls table tr td { border-style:none;}
+.tiddler div.task div.taskControls select {width: 150px; border:solid 1px [[TeamTasksColors::Shade]]; font-size:0.9em; padding:0.2em;}
+.tiddler div.task div.dependencies { padding:1em; background-color:[[TeamTasksColors::LightestShade]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
+.tiddler div.task .label {font-size:0.9em; color:[[TeamTasksColors::DarkestShade]]; margin-bottom:0.4em;}
+
+/* tiddler Edit mode  */
+.tiddler .edit { padding:4px; background-color:[[TeamTasksColors::TiddlerBackground]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
+.tiddler .edit * { background-color:[[TeamTasksColors::TiddlerBackground]]; border-style:none; }
+.tiddler div.editor div.title { color:[[TeamTasksColors::Dark]]; margin:10px 20px 10px 20px;}
+.tiddler div.editor div.viewer {  padding: none; background-color:[[TeamTasksColors::TiddlerBackground]];}
+
+/* New User Wizard */ 
+#createTeamTaskUserForm { background-color:#f0f0f0; padding:1em; border:solid 1px #ccc;}
+#createTeamTaskUserForm label { margin-bottom:10px; display:block; clear:left; font-size:0.9em;}
+#createTeamTaskUserForm label input {float:left; border:1px solid #ddd; border-top:1px solid #999; padding:2px 4px; font-size:1em; width:30em;}
+
+/* TT Report Views */
+table.sortable { margin:0.5em 0; border-style:none; }
+table.sortable tr {border-left-width:0; border-right-width:0;}
+table.sortable * td {border-top:solid 1px [[TeamTasksColors::LightShade]]; border-bottom:solid 1px [[TeamTasksColors::LightShade]]; border-left-width:0; border-right-width:0;}
+table.sortable thead tr td { background-color: [[TeamTasksColors::LightestShade]]; color:[[TeamTasksColors::Darkest]];}
+
+/*}}}*/</pre>
+</div>
 <div title="TiddlyWiki" modifier="PhilWhitehouse" created="200708171616" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200708171616" server.type="file">
 <pre>TiddlyWiki is a website on a stick! In one single HTML file, TiddlyWiki gives you the ability to publish and organize information in a whole manner of different ways. If you can't do what you want to, you can write plugins to change the way TiddlyWiki works. A thriving community of developers have generated huge number of plugins that turn TiddlyWiki into a number of different things, from a CD organizer to an online collaboration tool.
 
 TiddlyWiki is a piece of open source software created by Jeremy Ruston. The copyright is now owned by the not-for-profit organisation [[UnaMesa|http://www.unamesa.com]]. TiddlyWiki has always been free and open source and will remain free and open source. Edit mode.</pre>
+</div>
+<div title="TopMenu" modifier="PhilHawksworth" created="200803280000" changecount="1">
+<pre>&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newTiddler title:&quot;New Task&quot; label:&quot;new task&quot; tag:&quot;task&quot;&gt;&gt;&lt;&lt;saveChanges&gt;&gt;</pre>
+</div>
+<div title="UserDefinitions" modifier="PhilHawksworth" created="200708161718" modified="200710290945" tags="TaskDefinitions TeamTasks">
+<pre>[[PhilHawksworth]][[AnneOther]]</pre>
 </div>
 <div title="UserSetupWizard" modifier="PhilHawksworth" created="200710221541" modified="200710241440" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.type="file" changecount="5">
 <pre>This wizard will help you to quickly create a user in TeamTasks.  This is what it will do for you:
@@ -1741,27 +1634,140 @@ Please complete the form below to create a new user.
 &amp;lt;&amp;lt;tiddler UserDetailsTemplate&amp;gt;&amp;gt;
 &amp;lt;&amp;lt;newUserWizard&amp;gt;&amp;gt;</pre>
 </div>
-<div title="UserDefinitions" modifier="PhilHawksworth" created="200708161718" modified="200710290945" tags="TaskDefinitions TeamTasks">
-<pre>[[PhilHawksworth]][[AnneOther]]</pre>
+<div title="ValueSwitcherPlugin" modifier="PhilHawksworth" created="200708161629" modified="200709251214" tags="systemConfig" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709191015" server.type="file" changecount="19">
+<pre>/***
+|''Name:''|ValueSwitcherPlugin|
+|''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
+|''Version:''|0.2|
+|''Date:''|25 Sept, 2007|
+|''Source:''|http://www.hawksworx.com/playground/TeamTasks/#ValueTogglerPlugin|
+|''Author:''|PhilHawksworth (phawksworth (at) gmail (dot) com)|
+|''License:''|[[BSD open source license]]|
+|''CoreVersion:''|2.3|
+***/
+
+//{{{
+// Ensure that this Plugin is only installed once.
+if(!version.extensions.ValueSwitcher) 
+{
+	version.extensions.ValueSwitcher = {installed:true};
+	config.macros.ValueSwitcher = {
+
+		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+
+			var fieldPrefix = &quot;tt_&quot;;
+			var taskTiddler = story.findContainingTiddler(place);
+			if(!(taskTiddler &amp;&amp; taskTiddler != 'undefined')) {
+				return;
+			}
+			var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
+			var ctrlType = getParam(params,&quot;type&quot;,null);
+			var id = taskTiddler.id;
+			var title = id.substr(7);
+			var tiddler = store.getTiddler(title);
+
+			// build a drop down control
+			if(ctrlType == 'dropdown') {
+				var valueSrc = getParam(params,&quot;valuesSource&quot;, null);
+				if(!valueSrc) {
+					displayMessage(&quot;No definition tiddler defined for a TeamTasks dropdown.&quot;);
+					return;
+				}
+				var fieldName = fieldPrefix + valueSrc.toLowerCase().substr(0,valueSrc.length-11);
+				var selected = fieldName + '::' + store.getValue(tiddler,fieldName);
+				var values = this.getDefValues(valueSrc);
+				var options = [];
+				options.push({'caption': 'Please select', 'name': null});
+				for (var i=0; i &lt; values.length; i++) {
+					options.push({'caption': values[i], 'name': fieldName + '::' + values[i]});				
+				}
+				createTiddlyDropDown(place,this.setDropDownMetaData,options,selected);
+			}
+			// Build a free text box.
+			else if(ctrlType == 'freetext') {
+				var metaDataName = getParam(params,&quot;metaDataName&quot;, null);
+				if(!metaDataName) {
+					displayMessage(&quot;No metaDataName defined for a TeamTasks free text box.&quot;);
+					return;
+				}	
+				var fieldName = fieldPrefix + metaDataName.toLowerCase();
+				var text = store.getValue(tiddler,fieldName);
+				if(text == undefined) text = &quot;&quot;;	
+				var i = createTiddlyElement(place,&quot;input&quot;,null,null,null,{&quot;value&quot;:text, &quot;type&quot;:&quot;input&quot;, &quot;ttname&quot;:fieldName});
+				i.onblur = config.macros.ValueSwitcher.changeFreetext;
+			}
+
+			/*
+				TODO: Build in deadline support
+			*/
+		},
+
+
+		//Get definition values for populating UI from definition tiddlers.
+		getDefValues: function(src) {
+			var text = store.getTiddlerText(src).split('\n');
+			var output = [];
+			for(var t=0; t&lt;text.length; t++) {
+				//support calling the old TaskViewBuilder macro to list the tasks here too.
+				var blob = wikifyStatic(text[t],null,tiddler,null);				
+				var linktitle = /tiddlylink=&quot;[^&quot;]*&quot;/mg;
+				var titles = blob.match(linktitle);
+				if(titles) {
+					for(var n=0; n&lt;titles.length; n++) {
+						output.push(titles[n].replace(/tiddlylink=&quot;([^&quot;]*)&quot;/,'$1'));
+					}
+				}
+				else {
+					output.push(text[t]);
+				}
+			}
+			return (output);	
+		},
+
+
+		// Ensure that changes to a dropdown field are stored as an extended field.
+		setDropDownMetaData: function(ev) {
+			var e = ev ? ev : window.event;
+			var taskTiddler = story.findContainingTiddler(this);
+			if(taskTiddler &amp;&amp; taskTiddler != undefined) {
+				var title = taskTiddler.getAttribute('tiddler');
+				var tiddler =  store.getTiddler(title);
+				var option = this[this.selectedIndex].value.split('::');
+				var extField = option[0];
+				var extFieldVal = option[1];
+				store.setValue(tiddler,extField,extFieldVal);
+				story.saveTiddler(title);
+			}
+		},
+
+
+		// Ensure that changes to a free text field are stored as an extended field.
+		changeFreetext: function(ev) {
+			var e = ev ? ev : window.event;
+			var ttField = this.getAttribute('ttname');
+			var value = this.value;
+			if(ttField) {
+				var t = story.findContainingTiddler(this);
+				var title = t.getAttribute('tiddler');
+				var tiddler =  store.getTiddler(title);
+				store.setValue(tiddler,ttField,value);
+				story.saveTiddler(tiddler);
+			}
+			return false;
+		}
+	};
+}
+//}}}</pre>
 </div>
-<div title="PriorityDefinitions" modifier="PhilHawksworth" created="200708161618" modified="200710221412" tags="TaskDefinitions">
-<pre>High
-Medium
-Low</pre>
-</div>
-<div title="ScopeDefinitions" modifier="PhilHawksworth" created="200709041507" modified="200710221449" tags="TaskDefinitions">
-<pre>Work
-Play</pre>
-</div>
-<div title="StatusDefinitions" modifier="PhilHawksworth" created="200708161721" modified="200710221413" tags="TaskDefinitions">
-<pre>Pending
-InProgress
-OnHold
-Complete</pre>
-</div>
-<div title="DefaultReportView" modifier="PhilHawksworth" created="200803130000" created="200803130000"changecount="2">
-<pre>
-&lt;&lt;TTReportView&gt;&gt;</pre>
+<div title="settings" modifier="PhilHawksworth" created="200803251627" tags="systemConfig excludeLists excludeSearch">
+<pre>//{{{
+
+config.options.chkAutoSave = true;
+config.options.chkAnimate = true;
+config.options.chkSaveBackups = false;
+config.options.txtTheme = &quot;TeamTasksSkin&quot;;
+
+//}}}</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
@@ -10544,6 +10550,7 @@ if(useJavaSaver)
 //]]>
 </script>
 <!--POST-SCRIPT-START-->
+
 <!--POST-SCRIPT-END-->
 </body>
 </html>
