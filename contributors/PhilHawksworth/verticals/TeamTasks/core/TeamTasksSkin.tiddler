@@ -26,10 +26,6 @@
 <div id='topMenu' refresh='content' tiddler='TopMenu'></div>
 </div>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
-<div id='sidebar'>
-<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
-<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
-</div>
 <div id='displayArea'>
 <div id='messageArea'></div>
 <div id='tiddlerDisplay'></div>

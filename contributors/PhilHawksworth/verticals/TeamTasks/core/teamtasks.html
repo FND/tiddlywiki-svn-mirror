@@ -536,10 +536,6 @@ config.options.txtTheme = &quot;TeamTasksSkin&quot;;
 &lt;div id='topMenu' refresh='content' tiddler='TopMenu'&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
-&lt;div id='sidebar'&gt;
-&lt;div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'&gt;&lt;/div&gt;
-&lt;div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;div id='displayArea'&gt;
 &lt;div id='messageArea'&gt;&lt;/div&gt;
 &lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
@@ -1477,9 +1473,12 @@ config.macros.autosort={
 <div title="TopMenu" modifier="PhilHawksworth" created="200803280000" changecount="1">
 <pre>&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newTiddler title:&quot;New Task&quot; label:&quot;new task&quot; tag:&quot;task&quot;&gt;&gt;&lt;&lt;saveChanges&gt;&gt;</pre>
 </div>
-<div title="MainMenu" modifier="PhilHawksworth" created="200708051914" modified="200710241347" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709171519" server.type="file" changecount="17">
+<div title="MainMenu" modifier="PhilHawksworth" created="200708051914">
 <pre>
-{{search{&lt;&lt;search&gt;&gt;}}}[[Listings]][[Getting Started with TeamTasks]][[Release Notes]][[Migrating to the latest version]]&lt;&lt;slider chkSliderOptionsPanel UserDefinitions 'Users »' 'A list of users'&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel TaskViews 'Task views »' 'A selection of task views'&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel TaskDefinitions 'Task definitions »' 'The definitions that drive the task management'&gt;&gt;[[modify this menu|MainMenu]][[options|OptionsPanel]][[about|About TeamTasks]][[download|index.html]]</pre>
+{{search{&lt;&lt;search&gt;&gt;}}}[[Listings]][[Getting Started with TeamTasks]][[Release Notes]][[Migrating to the latest version]]&lt;&lt;slider chkSliderOptionsPanel UserDefinitions 'Users »' 'A list of users'&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel TaskViews 'Task views »' 'A selection of task views'&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel TaskDefinitions 'Task definitions »' 'The definitions that drive the task management'&gt;&gt;[[modify this menu|MainMenu]][[options|OptionsPanel]][[about|About TeamTasks]][[download|index.html]]
+{{meta{
+	&lt;&lt;tiddler TeamTasksMetaData&gt;&gt;
+}}}</pre>
 </div>
 <div title="Listings" modifier="PhilHawksworth" created="200805081121">
 <pre>&lt;&lt;tabs txtMainTab &quot;Timeline&quot; &quot;Timeline&quot; TabTimeline &quot;A - Z&quot; &quot;All tiddlers in alphabetical order&quot; TabAll &quot;Tags&quot; &quot;All tags&quot; TabTags &quot;Missing&quot; &quot;Missing tiddlers&quot; TabMoreMissing &quot;Shadowed&quot; &quot;Shadowed tiddlers&quot; TabMoreShadowed&gt;&gt;</pre>
