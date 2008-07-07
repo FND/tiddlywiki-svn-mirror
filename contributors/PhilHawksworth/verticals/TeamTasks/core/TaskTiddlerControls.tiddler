@@ -1,4 +1,4 @@
-<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200709131152" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709131152" server.type="file">
+<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200709131152">
 <pre>
 |scope |<<ValueSwitcher type:"dropdown" valuesSource:"ScopeDefinitions">> |
 |priority |<<ValueSwitcher type:"dropdown" valuesSource:"PriorityDefinitions">> |

@@ -43,7 +43,7 @@ DAMAGE.
 <!--}}}-->
 <!--PRE-HEAD-END-->
 <title>
-//''team''tasks// - a simple extensible task management tool (v0.4)
+//''team''tasks// - a simple extensible task management tool
 </title>
 <style id="styleArea" type="text/css">
 #saveTest {display:none;}
@@ -508,26 +508,27 @@ config.options.txtTheme = &quot;TeamTasksSkin&quot;;
 
 //}}}</pre>
 </div>
-<div title="TeamTasksSkin" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch">
-<pre>/***
+<div title="TeamTasksSkin" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch TeamTasks">
+<pre>
+/***
 |''Name:''|TeamTasksSkin |
 |''Description:''|The basic TeamTasks theme |
 |''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/teamtasks/TeamTasksSkin.tiddler |
-|''Version:''|0.1|
+|''Version:''|0.4|
 |''Date:''|March 28th, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
-|''~CoreVersion:''|2.3.0|
+|''~CoreVersion:''|2.4.0|
 |''~PageTemplate:''|##PageTemplate|
 |''~taskViewTemplate:''|##taskViewTemplate|
 |''~taskEditTemplate:''|##taskEditTemplate|
 |''~StyleSheet:''|##StyleSheet|
-
 ***/
 
 !PageTemplate
 &lt;!--{{{--&gt;
+&lt;div id='messageBar'&gt;&lt;span id='messageArea'&gt;&lt;/span&gt;&lt;/div&gt;
 &lt;div class='header'&gt;
 &lt;div class='headerShadow'&gt;
 &lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
@@ -537,11 +538,9 @@ config.options.txtTheme = &quot;TeamTasksSkin&quot;;
 &lt;/div&gt;
 &lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
 &lt;div id='displayArea'&gt;
-&lt;div id='messageArea'&gt;&lt;/div&gt;
-&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
+	&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;!--}}}--&gt;
-
 
 !taskViewTemplate
 &lt;!--{{{--&gt;
@@ -1460,11 +1459,11 @@ config.macros.autosort={
 //!END-PLUGIN-CODE
 // %/</pre>
 </div>
-<div title="SiteTitle" modifier="PhilHawksworth" created="200708161546" modified="200709241632" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709171647" server.type="file" changecount="1">
+<div title="SiteTitle" modifier="PhilHawksworth" created="200708161546" modified="200709241632">
 <pre>//''team''tasks//</pre>
 </div>
-<div title="SiteSubtitle" modifier="PhilHawksworth" created="200708161547" modified="200710241355" changecount="4">
-<pre>a simple extensible task management tool (v0.4)</pre>
+<div title="SiteSubtitle" modifier="PhilHawksworth" created="200708161547" modified="200710241355">
+<pre>a simple extensible task management tool</pre>
 </div>
 <div title="DefaultTiddlers" modifier="PhilHawksworth" created="200709241640" modified="200710231249">
 <pre>
@@ -1483,19 +1482,19 @@ config.macros.autosort={
 <div title="Listings" modifier="PhilHawksworth" created="200805081121">
 <pre>&lt;&lt;tabs txtMainTab &quot;Timeline&quot; &quot;Timeline&quot; TabTimeline &quot;A - Z&quot; &quot;All tiddlers in alphabetical order&quot; TabAll &quot;Tags&quot; &quot;All tags&quot; TabTags &quot;Missing&quot; &quot;Missing tiddlers&quot; TabMoreMissing &quot;Shadowed&quot; &quot;Shadowed tiddlers&quot; TabMoreShadowed&gt;&gt;</pre>
 </div>
-<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200709131152" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709131152" server.type="file">
+<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200709131152">
 <pre>
 |scope |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;ScopeDefinitions&quot;&gt;&gt; |
 |priority |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;PriorityDefinitions&quot;&gt;&gt; |
 |assigned to |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;UserDefinitions&quot;&gt;&gt; |
 |status |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;StatusDefinitions&quot;&gt;&gt; |</pre>
 </div>
-<div title="TeamTasksMetaData" modifier="PhilHawksworth" created="200804019000" tags="TeamTasks help" changecount="1">
+<div title="TeamTasksMetaData" modifier="PhilHawksworth" created="200804019000" tags="TeamTasks help">
 <pre>[[TeamTasks version 0.4|Release Notes]]
 [[TeamTasks is a vertical edition of TiddlyWiki|TiddlyWiki]]
 [[TeamTasks is opensource software distributed under the BSD license|License]]</pre>
 </div>
-<div title="TaskDefinitions" modifier="PhilHawksworth" created="200709241547" changecount="2">
+<div title="TaskDefinitions" modifier="PhilHawksworth" created="200709241547">
 <pre>[[ScopeDefinitions]][[UserDefinitions]][[PriorityDefinitions]][[StatusDefinitions]]</pre>
 </div>
 <div title="TaskViews" modifier="PhilHawksworth" created="200709241546" modified="200805081143">
@@ -1742,19 +1741,19 @@ Please complete the form below to create a new user.
 &amp;lt;&amp;lt;tiddler UserDetailsTemplate&amp;gt;&amp;gt;
 &amp;lt;&amp;lt;newUserWizard&amp;gt;&amp;gt;</pre>
 </div>
-<div title="UserDefinitions" modifier="PhilHawksworth" created="200708161718" modified="200710290945" tags="TaskDefinitions">
+<div title="UserDefinitions" modifier="PhilHawksworth" created="200708161718" modified="200710290945" tags="TaskDefinitions TeamTasks">
 <pre>[[PhilHawksworth]][[AnneOther]]</pre>
 </div>
-<div title="PriorityDefinitions" modifier="PhilHawksworth" created="200708161618" modified="200710221412" tags="TaskDefinitions" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709131809" server.type="file" changecount="2">
+<div title="PriorityDefinitions" modifier="PhilHawksworth" created="200708161618" modified="200710221412" tags="TaskDefinitions">
 <pre>High
 Medium
 Low</pre>
 </div>
-<div title="ScopeDefinitions" modifier="PhilHawksworth" created="200709041507" modified="200710221449" tags="TaskDefinitions" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709131809" server.type="file" changecount="5">
+<div title="ScopeDefinitions" modifier="PhilHawksworth" created="200709041507" modified="200710221449" tags="TaskDefinitions">
 <pre>Work
 Play</pre>
 </div>
-<div title="StatusDefinitions" modifier="PhilHawksworth" created="200708161721" modified="200710221413" tags="TaskDefinitions" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709141048" server.type="file" changecount="2">
+<div title="StatusDefinitions" modifier="PhilHawksworth" created="200708161721" modified="200710221413" tags="TaskDefinitions">
 <pre>Pending
 InProgress
 OnHold
