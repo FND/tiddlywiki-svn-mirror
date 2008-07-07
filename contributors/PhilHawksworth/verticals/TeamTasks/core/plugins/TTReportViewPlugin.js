@@ -43,7 +43,11 @@ version.extensions.TTReportViewPlugin = {installed:true};
 	
 	config.macros.TTReportView.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 				
-		var fieldPrefix = "tt_";		
+		var container = story.findContainingTiddler(place);
+		container.setAttribute('force', 'true');
+		console.log("containing element", container);
+		
+		var fieldPrefix = "tt_";
 				
 		//gather all of the parameters.
 		var params = paramString.parseParams("anon",null,true,false,false);
