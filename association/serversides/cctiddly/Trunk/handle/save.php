@@ -40,7 +40,7 @@
 		returnResult("no tiddler passed");
 	}
 	//strip all slashes first and readd them before adding to SQL
-	$ntiddler = formatParameters($_POST['tiddler']);
+	$ntiddler = formatParametersPOST($_POST['tiddler']);
 	$oldTitle = formatParameters($_POST['otitle']);
 	$oldModified = formatParameters(isset($_POST['omodified'])?$_POST['omodified']:"");
 	$oldChangecount = formatParameters(isset($_POST['ochangecount'])?$_POST['ochangecount']:"");

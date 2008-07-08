@@ -32,7 +32,8 @@ function workspace_create_new($anonPerm="AUUU",$hash=null)
 	header('HTTP/1.0 201 Created');
 }
 
-function workspace_create($workspace, $anonPerm="ADDD")
+function workspace_create($workspace, $anonPerm="ADDD", $admin="")
+
 {
 	global $tiddlyCfg;
 	if(!user_session_validate())
@@ -41,7 +42,6 @@ function workspace_create($workspace, $anonPerm="ADDD")
 		echo '<b>You do not appear to be logged in</b>';
 		exit;	
 	}
-	
 	
 	if(eregi('[^a-zA-Z0-9.]', $workspace))
 	{
@@ -54,7 +54,6 @@ function workspace_create($workspace, $anonPerm="ADDD")
 		header('HTTP/1.0 403  Forbidden');
 		exit("Thie ability to create workspaces on this server is currently disabled. Please contant your system administrator.");
 	}
-debug('1');
 	$data['name'] = $workspace;
 	$data['twLanguage'] = 'en';
 	$data['keep_revision'] = 1;
@@ -70,7 +69,6 @@ debug('1');
 	$data['rss_group'] = '';
 	$data['markup_group'] = '';
 	db_record_insert($tiddlyCfg['table']['workspace'],$data);  
-debug("2");
 	$data1['workspace_name'] = $workspace;
 	$data1['body'] = $workspace;
 	$data1['title'] = 'SiteTitle';
@@ -102,9 +100,12 @@ debug("2");
 	
 	
 	// ASSIGN THE WORKSPACE OWNERSHIP : 
-	$owner['username'] = cookie_get('txtUserName');
-	
-	
+	if ($admin == "")
+		$owner['username'] = cookie_get('txtUserName');
+	else
+		$owner['username'] = $admin;
+		
+		
 	$owner['workspace_name']=$workspace;
 	db_record_insert($tiddlyCfg['table']['admin'],$owner);
 	

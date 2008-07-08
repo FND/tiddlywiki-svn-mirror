@@ -11,7 +11,7 @@ PS3=""
 OPTIONS="y n"
 select i in $OPTIONS; do
     if [ "$i" = "y" ]; then
-		svn copy http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/ http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Tags/$1 -m 'first attempt at automating ccTiddly $1 release'
+		svn copy http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/ http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Tags/$1 -m 'Automated ccTiddly release : $1 '
 		svn export http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/ $1
 		zip -r $1.zip $1
 ##  Upload File to a server 

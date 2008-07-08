@@ -4,16 +4,32 @@ $workspace_settings_count= count($workspace_settings);
 
 
 
-if($tiddlyCfg['on_the_fly_workspace_creation'] ==1 )
+if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 {
 	if(user_session_validate())	
 	{
 		include_once($cct_base."includes/workspace.php");
 		if ($workspace_settings_count < 1)
 		{
-			workspace_create($tiddlyCfg['workspace_name']);
+			if ($tiddlyCfg['extract_admin_from_url']==1)
+			{
+				$username = $tiddlyCfg['workspace_name'];
+				// FOR uVoke
+				// this code is uVoke specific and should be moved to a module in version 1.7
+				// This if statement simply turn the setting off by default. 
+				if (12 == 12)
+				{
+					$full_workspace_name = str_replace(str_replace("index.php", "", $_SERVER['PHP_SELF']), "", $_SERVER['REQUEST_URI']);
+					$ws_name_array = explode("/", $full_workspace_name); 
+		 			$username =  $ws_name_array[1]."@".$ws_name_array[0];	
+				}
+				// END OF FOR uVoke			
+			}
+
+			workspace_create($tiddlyCfg['workspace_name'], "ADDD", $username);
 			$workspace_settings = db_workspace_selectSettings();
 			$workspace_settings_count = count($workspace_settings);
+			
 		}
 	}
 }else

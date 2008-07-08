@@ -28,15 +28,7 @@
 
 	$title = formatParametersGET($_GET['title']);
 	
-//////////////////////////////////////////////////////////start of code//////////////////////////////////////////////////////////////
-
-	//get user and privilege and set variables
-	/*if( strlen($username)==0 && strlen($password)==0 )
-	{
-		$user = user_create();		//get username password from cookie
-	}else{
-		$user = user_create($username,"",0,"",$password,1);
-	}*/
+	
 	
 	//get tiddler with certain title to obtain its tiddler_id
 	$tiddler = db_tiddlers_mainSelectTitle($title);
@@ -67,14 +59,7 @@
 	foreach($tiddler_list as $t) {
 		$output .= $t['modified']." ".$t['revision']." ".$t['modifier']."\n";
 	}
-	//print substr( $output, 0, strlen($output) - 1 );
-	/*for( $i=sizeof($tiddler_list)-1; $i>=0; $i-- ) {
-		print $tiddler_list[$i]['modified']." ".$tiddler_list[$i]['version']." ".$tiddler_list[$i]['modifier'];
-		if( $i != 0 )
-		{
-			print "\n";
-		}
-	}*/
+	
 	
 	//remove terminating "/n" using substr
 	sendHeader(200,"", substr( $output, 0, strlen($output) - 1 ),1);

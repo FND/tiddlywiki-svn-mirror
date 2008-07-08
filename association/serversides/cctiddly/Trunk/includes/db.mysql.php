@@ -709,14 +709,13 @@ $db_var['error']['query'] = " query: ";*/
 		if ($table = $tiddlyCfg['table']['main'])
 		{
 			$q = "SELECT * FROM ".$table." where workspace_name='".$tiddlyCfg['workspace_name']."'";
-			debugSQL($q);
-			$result = db_query($q);
 		}
 		else
 		{	
 			$q = "SELECT * FROM ".$table;
-			$result = db_query($q);
 		}
+		debugSQL($q);
+		$result = db_query($q);
 		if( $result === FALSE )
 		{
 			return FALSE;

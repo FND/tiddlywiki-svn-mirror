@@ -6,6 +6,35 @@ $w = $_REQUEST['workspace_name'];
 
 $folder =  $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']))."/uploads/workspace/".$w;
 
+if ($handle = opendir($folder)) {
+	echo "[";    
+	while (false !== ($file = readdir($handle))) {
+        if ($file != "." && $file != "..") {
+	$loc = $folder."/".$file;
+	$file_size = array_reduce (array (" B", " KB", " MB"), create_function ('$a,$b', 'return is_numeric($a)?($a>=1024?$a/1024:number_format($a,2).$b):$a;'), filesize ($loc));
+
+	
+			$out .= "{'username':'".$file."','lastVisit':'12121212','fileSize':'".$file_size."','downloads':'2','bandwidth':'4.6mb','cost':'£2.23'},";
+		}
+	}
+	echo substr_replace($out ,"",-1)."]";
+}
+
+
+exit;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 if ($handle = opendir($folder)) {
     while (false !== ($file = readdir($handle))) {
