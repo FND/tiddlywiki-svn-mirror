@@ -126,6 +126,7 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 
 /* MainMenu */
 #mainMenu { position: static; float: left; width:18em; padding: 20px 0 10px 20px; margin:0;}
+#mainMenu br { display:none; }
 #mainMenu a { display:block; font-size:0.94em; text-align:left; margin:0 0 1px 0; border-style:none; background-color:[[TeamTasksColors::Shade]]; padding:0.3em 1em; color:[[TeamTasksColors::Darkest]];  }
 #mainMenu div {  width:auto; }
 #mainMenu div a {display:block;  font-size:0.9em; text-align:right; margin:0 0 1px 0; background-color:[[TeamTasksColors::LightShade]];}
@@ -138,11 +139,19 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 #mainMenu span.search a.searchButton { display:inline; color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::Darkest]];}
 #mainMenu span.search a.searchButton:hover { color:[[TeamTasksColors::TiddlerBackground]]; }
 
+
 /* MetaData section */
-#mainMenu div.meta { position:relative; font-size:0.9em; line-height:1.1em;}
+/*#mainMenu div.meta { position:relative; font-size:0.9em; line-height:1.1em;}
 #mainMenu div.meta span{ position:absolute; right:1em;}
-#mainMenu div.meta a {display: block; width:14em; color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:0 0 0.2em 0; padding:0;}
+#mainMenu div.meta a {display: block; width:14em; color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:1em 0 0.2em 0; padding:0;}
 #mainMenu div.meta a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];}
+*/
+#mainMenu div.meta { font-size:0.9em; line-height:1.1em;}
+#mainMenu div.meta span { display: block; width:20em; text-align:right;}
+#mainMenu div.meta a {color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:1.4em 1em 0.2em 3em; padding:0;}
+#mainMenu div.meta a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];}
+
+
 
 /* Vanilla Tiddlers */
 .tiddler { background-color:[[TeamTasksColors::TiddlerBackground]]; margin:0 1em 2em 1em; padding:0 0 1em 0; border-bottom:1px solid[[TeamTasksColors::DarkShade]]; 	}
