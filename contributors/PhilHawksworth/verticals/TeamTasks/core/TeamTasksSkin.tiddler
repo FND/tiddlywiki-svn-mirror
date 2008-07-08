@@ -118,7 +118,7 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 #popup li.listBreak div{ border-bottom:solid 1px [[TeamTasksColors::Darker]];}
 
 /* Top Menu*/
-#topMenu a.button { border-style:none; background-color:[[TeamTasksColors::Background]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Accent]];  }
+#topMenu a.button { border-style:none; background-color:[[TeamTasksColors::Background]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Accent]]; display:block; float: right;}
 #topMenu a.button:hover,
 #mainMenu a:hover  { border-style:none; background-color:[[TeamTasksColors::Darkest]]; color:[[TeamTasksColors::Accent]];}
 #topMenu a.button:active,
