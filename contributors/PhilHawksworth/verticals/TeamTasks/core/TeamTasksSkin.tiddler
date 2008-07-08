@@ -125,13 +125,17 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 #mainMenu a:active  { border-style:none; background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::Background]];}
 
 /* MainMenu */
-#mainMenu { position: static; float: left; width: auto; margin: 20px 0 10px 20px;padding:0;}
-#mainMenu a { margin:1px 0; border-style:none; background-color:[[TeamTasksColors::Shade]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Darkest]];  }
-#mainMenu > a {display:block; font-size:0.94em; text-align:left; margin:0 0 1px 0;}
-#mainMenu > div > a {display:block; font-size:0.9em; text-align:right; margin:0 0 1px 0; background-color:[[TeamTasksColors::LightShade]];}
+#mainMenu { position: static; float: left; width:auto; padding: 20px 0 10px 20px; margin:0;}
+#mainMenu a { display:block; font-size:0.94em; text-align:left; margin:0 0 1px 0; border-style:none; background-color:[[TeamTasksColors::Shade]]; padding:0.3em 1em; color:[[TeamTasksColors::Darkest]];  }
+#mainMenu div {  width:auto; }
+#mainMenu div a {display:block;  font-size:0.9em; text-align:right; margin:0 0 1px 0; background-color:[[TeamTasksColors::LightShade]];}
+/*#mainMenu a { margin:1px 0; border-style:none; background-color:[[TeamTasksColors::Shade]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Darkest]];  }
+#mainMenu > a {display:block; clear:left; font-size:0.94em; text-align:left; margin:0 0 1px 0;}*/
+/*#mainMenu > div > a {display:block; font-size:0.9em; text-align:right; margin:0 0 1px 0; background-color:[[TeamTasksColors::LightShade]];}*/
+
 #mainMenu span.search { padding:6px 6px 6px 0px; margin-bottom:10px; display:block; background-color:[[TeamTasksColors::Darkest]]; }
 #mainMenu span.search .searchField { padding:2px 6px; border:solid 1px [[TeamTasksColors::DarkShade]]; border-top-color:[[TeamTasksColors::Dark]];  border-bottom-color:[[TeamTasksColors::TiddlerBackground]]; background-color:[[TeamTasksColors::Background]]; }
-#mainMenu span.search a.searchButton { color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::Darkest]];}
+#mainMenu span.search a.searchButton { display:inline; color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::Darkest]];}
 #mainMenu span.search a.searchButton:hover { color:[[TeamTasksColors::TiddlerBackground]]; }
 
 /* MetaData section */
@@ -166,7 +170,6 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 .tiddler div.tagged a:hover,
 .tiddler div.tagging a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];  border-bottom-color:[[TeamTasksColors::Accent]];}
 .tiddler div.viewer { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
-
 
 .viewer pre {background-color:[[TeamTasksColors::Background]]; color:[[TeamTasksColors::Darker]]; border:solid 1px [[TeamTasksColors::DarkShade]]; padding:1em 2em;}
 .selected div.toolbar a.button { display:inline;}
