@@ -17,11 +17,15 @@ def main(args):
 	repos = [
 		{
 			"name": "Core Plugins",
-			"URI": "http://www.tiddlywiki.com/coreplugins.html",
+			"URI": "../coreplugins.html", #"http://www.tiddlywiki.com/coreplugins.html", # DEBUG'd
 			"type": "TiddlyWiki"
 		}, {
 			"name": "TiddlyTools",
 			"URI": "", #"http://www.tiddlytools.com", # DEBUG'd
+			"type": "TiddlyWiki"
+		}, {
+			"name": "Martin's Wiki",
+			"URI": "", #"http://martinswiki.com", # DEBUG'd
 			"type": "TiddlyWiki"
 		}
 	] # DEBUG: read list from file
@@ -109,7 +113,7 @@ class TiddlyWiki():
 		[tiddler.extract() for tiddler in store.findAll("div", title=True) \
 			if (not tiddler.has_key("tags")) or (tag not in tiddler["tags"])]
 		# disable plugins -- DEBUG: move into separate function
-		pattern = re.compile(r"\bsystemConfig\b\s?")
+		pattern = re.compile(r"\b(systemConfig|excludeLists|excludeSearch)\b\s?")
 		for plugin in store.findAll("div", title=True, tags=True):
 			plugin["tags"] = re.sub(pattern, "", plugin["tags"]).strip()
 		# return pure-store format
