@@ -3,4 +3,10 @@
 (Currently <<eval {{config.options.txtTheme}}>>)
 <<selectTheme>>
 
-^^[[modify menu|ConfigMenu]]^^
+{{tiny{
+<slider Advanced>
+[[modify menu|ConfigMenu]]
+[[GTDComponent]]
+</slider>
+}}}
+

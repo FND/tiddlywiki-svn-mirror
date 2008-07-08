@@ -751,6 +751,10 @@ with brs in non-mgtdlist content. .normal might help */
 	color: #a66; font-weight:bold; margin-right:0.4em; margin-left:0.1em; 
 }
 
+.tiny {
+	font-size:80%;  /* lazy */
+}
+
 
 /* for user styles */
 [[StyleSheet]]

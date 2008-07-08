@@ -17,6 +17,11 @@
 [[Next and Waiting Actions|Next and Waiting Actions by Project]]
 [[Action Dashboard|Action Dashboard by Project]]
 </slider>
+<slider Grouped by Contact>
+[[Next Actions|Next Actions by Contact]]
+[[Next and Waiting Actions|Next and Waiting Actions by Contact]]
+[[Action Dashboard|Action Dashboard by Contact]]
+</slider>
 <slider Ungrouped>
 [[Next Actions]]
 [[Next and Waiting Actions]]
@@ -26,4 +31,9 @@
 <<mgtdList startTag:Context>>
 </slider>
 
-^^[[modify menu|DoWorkMenu]]^^
+{{tiny{
+<slider Advanced>
+[[modify menu|DoWorkMenu]]
+[[GTDComponent]]
+</slider>
+}}}

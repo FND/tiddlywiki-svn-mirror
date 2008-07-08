@@ -15,4 +15,10 @@
 <<mgtdList startTag:Area>>
 </slider>
 
-^^[[modify menu|ReviewMenu]]^^
+{{tiny{
+<slider Advanced>
+[[modify menu|ReviewMenu]]
+[[GTDComponent]]
+</slider>
+}}}
+

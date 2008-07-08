@@ -18,6 +18,7 @@ required = [
   ['Tickler', 'GTDComponent'],
   ['Reference', 'GTDComponent'],
   ['Contact', 'GTDComponent'],
+  ['Realm', 'GTDComponent'],
 
  	['Starred',       ''],
 

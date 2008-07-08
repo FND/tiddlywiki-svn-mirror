@@ -264,8 +264,10 @@ merge(config.macros,{
 					var selectedItem = selectOptions[this.selectedIndex].name;
 					if (selectedItem == '__new__')
 						selectedItem = config.macros.multiSelectTag.createNewItem(tag);
-					if (selectedItem)
-						actOnTiddler.setTagFromGroup(tag,selectedItem);
+
+					// if selectedItem is null this works to remove any
+					actOnTiddler.setTagFromGroup(tag,selectedItem);
+
 					if (refresh == "page")
 						refreshPageTemplate();
 					return false;
