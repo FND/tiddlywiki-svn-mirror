@@ -1,0 +1,40 @@
+<div title="Products and projects" modifier="PhilWhitehouse" created="200803261630" modified="200804301255" changecount="22">
+<pre>BT uses several open source products both for internal and external initiatives and products. 
+
+We would like to place on record our thanks and appreciation to all the people who worked on the following open source projects.
+
+{{{Note the list of products and projects and all associated text should be written by someone else - this is just holding copy for purposes of discussion. But FOSSology, FOSSBazaar, OSS Census, Nagios Network monitoring could all appear here}}}
+
+[<img[Linux logo|images/Linux-penguin-huge.png][http://www.linux.org/]] [[Linux|http://www.linux.org/]]
+ BT uses various flavours of Linux throughout the organisation, not only as a file server or database manager, but also within our [[HomeHub|http://www.homehub.bt.com/]] product. The amendments made to the code were returned to the core.
+
+
+
+
+
+
+
+[<img[Apache logo|images/apache_feather.png][http://www.apache.org/]] [[Apache|http://www.apache.org/]]
+ Apache is BT's most prominent web server.
+
+[<img[MySQL logo|images/mysql.png][http://www.mysql.com/]]
+ [[MySQL|http://www.mysql.com/]]
+ ~MySQL is used selectively throughout the organisation.
+
+
+
+[<img[Firefox logo|images/firefox_logo.png][http://www.mozilla.com/firefox/]]
+ [[Firefox|http://www.mozilla.com/firefox/]]
+ Firefox is on the list of approved browsers at BT.
+
+
+
+
+
+[<img[TiddlyWiki logo|images/tiddlywiki.png][http://www.tiddlywiki.com]] [[TiddlyWiki|http://www.tiddlywiki.com]]
+ TiddlyWiki is used within BT not only as a desktop version but also as a server-side adaptation. It also sits at the heart of BT's open source innovation team, [[Osmosoft]]. Osmosoft has also helped to develop an open source server-side implementation of TiddlyWiki, known as ccTiddly. You can find out more about this product on the [[TiddlyWiki.org website|http://tiddlywiki.org/wiki/CcTiddly]].
+
+
+
+[[Alternative software page]]</pre>
+</div>

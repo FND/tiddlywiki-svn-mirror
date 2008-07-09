@@ -1,0 +1,21 @@
+<div title="What is open source?" modifier="PhilWhitehouse" created="200803261540" modified="200804011430" changecount="22">
+<pre>"Open source" is a term used to describe software where the underlying code (called 'source code') can be read not only by a computer, but also by a programmer. This is in contrast to proprietary software, which can usually only be read by a computer. Although this might seem like a minor distinction, the implications are significant, and fundamentally change the way that companies such as BT approach software development. 
+
+Open source code is typically made available because the people who originally wrote the code are content for other people to amend and improve the code to suit their needs. Because these improvements or expansions are often themselves made available to the public, the code base as a whole has the wonderful potential of growing in quality, quantity and function.
+
+A distinction is often made between open source software and free software. Although on first impression they appear similar, there may be differences which can drive different behaviours. Free software is called free not because of cost (although it is often free of cost as well), but more importantly because it comes with certain freedoms attached; the right to make amendments, the right to build a business around it, and so on. Open source often has these attributes as well, but sometimes there are restrictions in place. Nevertheless, the two models share enough characteristics that a collective term has gained traction; "FOSS" stands for "Free and Open Source Software".
+
+An essential part of an open source project is the community which supports the code. These communities have their own organisational structures and social dynamics. An effective community is a hallmark of a successful open source project.
+
+{{{Question: can we afford to be more bullish about our stance on open source? Sun says:}}}
+
+{{{"In Sun's view, open source is the ideal development and business model for today's massively connected, Participation Age economy. The open source model offers liberties to every user and developer that encourage genuinely collaborative innovation.}}}
+
+{{{Open source software can lower customer barriers to: access, switching costs, and greater value achieved in an environment that allows for increased participation and competition. Companies gain compensation for their innovations by building on the contributions of others."}}}
+
+{{{And should we also use this space to talk about our stance on open standards? We can't match IBM's commitment, but for ease of reference they say:}}}
+
+{{{"IBM has had a long standing commitment to open standards for software interoperability. Broad implementation of these software interoperability standards and specifications can dramatically improve customers' ability to communicate data within and between their enterprises. IBM participates in many working groups at various standards organizations and frequently provides royalty-free commitments to its necessary patent claims in accordance with the IP Policies of those organizations.}}}
+
+{{{IBM is extending this leadership role to further the adoption of open specifications for software interoperability and to simplify implementation of those specifications by open source software organizations. Toward that end, IBM is offering a patent non-assert pledge to include the software specifications identified in the following list. IBM intends this pledge to include specifications for software interoperability for which it has made a royalty-free patent licensing commitment. No action is required by users of these specifications to invoke this non-assert commitment."}}}</pre>
+</div>

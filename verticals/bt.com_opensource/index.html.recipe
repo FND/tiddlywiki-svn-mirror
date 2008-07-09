@@ -1,0 +1,35 @@
+# Core Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# Settings
+tiddler: settings.js
+
+# Theme
+tiddler: BTSkin.tiddler
+tiddler: BTColors.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: SiteTitle.tiddler
+
+# Navigation
+tiddler: TopMenu.tiddler
+tiddler: DefaultTiddlers.tiddler
+tiddler: MainMenu.tiddler
+tiddler: Footer.tiddler
+
+# Content
+tiddler: AdvancedOptions.tiddler
+tiddler: Alternative_software_page.tiddler
+tiddler: BT_Open_Source_-_Open_for_Business.tiddler
+tiddler: Contributions.tiddler
+tiddler: Events.tiddler
+tiddler: Innovation.tiddler
+tiddler: Introduction.tiddler
+tiddler: Jeremy_Ruston.tiddler
+tiddler: Licencing.tiddler
+tiddler: Osmosoft.tiddler
+tiddler: People.tiddler
+tiddler: Products_and_projects.tiddler
+tiddler: TiddlyWiki.tiddler
+tiddler: What_is_open_source%3f.tiddler
+
+

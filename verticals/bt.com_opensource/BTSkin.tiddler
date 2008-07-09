@@ -1,0 +1,70 @@
+<div title="BTSkin" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch TeamTasks">
+<pre>
+/***
+|''Name:''|BTSkin |
+|''Description:''|The basic BT theme |
+|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
+|''Version:''|0.1|
+|''Date:''|July 28th, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+***/
+
+!PageTemplate
+<!--{{{-->
+<div class='header'>BT logo. search</div>
+<div id='topMenu' refresh='content' tiddler='TopMenu'></div>
+<div id='pageTitleSection'>
+	<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+	<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='displayArea'>
+	<div id='tiddlerDisplay'></div>
+</div>
+<div id='footer' refresh='content' tiddler='Footer'></div>
+<!--}}}-->
+
+
+!StyleSheet
+/*{{{*/
+body { color:#333;}
+a:hover {color:#333; background-color:[[TeamTasksColors::LinkHover]];}
+h1,h2,h3,h4,h5,h6 {color:[[TeamTasksColors::Accent]];}
+	
+/* Page Framework */
+body {background-color:#fff; }
+#displayArea { margin-right:2em;}
+
+/* Header */
+div.header {height:5em; background-color:#fff;}
+
+#pageTitleSection {display:block; width:100%; margin:2em 0; text-align:left; border-bottom:solid 1px #ccc; padding:1em 0; }
+#pageTitleSection span {color:#777; padding:0; margin:0;}
+#pageTitleSection span.siteTitle { margin-left:20px;}
+#pageTitleSection span.siteSubtitle { margin-left:0.5em;}
+
+/* Top Menu*/
+#topMenu { display:block; font-size:1.3em; height:auto; background-color:#aaa; text-align:center; }
+#topMenu a { border-style:none; font-weight:normal; background-color:transparent; color:#fff; margin:0; display:inline; padding:0 1em;}
+#topMenu a:hover { border-style:none; background-color:#fc0; color:#fff;}
+#topMenu a:active { border-style:none; background-color:#000; color:#fff;}
+
+/* MainMenu */
+#mainMenu { margin:0px 0 20px 20px; padding:0; text-align:left; }
+#mainMenu a { border-style:none; font-weight:normal; background-color:transparent; color:#000; margin:0; display:block; padding:0 1em; border-left:solid 10px #B3A5CB;}
+#mainMenu a:hover { background-color:transparent; color:#000; text-decoration:underline;}
+#mainMenu a:active { background-color:transparent; color:#000; font-weight:bold;}
+#mainMenu br { display:none;}
+
+/* Footer */
+#footer {display:block; width:100%; margin:2em 0; text-align:right; border-top:solid 1px #ccc; padding:1em 0; }
+#footer a {margin-right:1em; color:#6B4999; text-decoration:none;}
+#footer a:hover {color:#6B4999; text-decoration:underline;}
+
+
+/*}}}*/</pre>
+</div>
