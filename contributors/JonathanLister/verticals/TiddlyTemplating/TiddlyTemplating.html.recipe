@@ -4,8 +4,9 @@ recipe: js/split.recipe
 tiddler: ../../plugins/HTMLTemplatePreviewMacro.js
 tiddler: ../../plugins/IFramePlugin.js
 tiddler: ../../plugins/TemplatePlugin.js
+tiddler: ../../plugins/TemplatingMacrosPlugin.js
 tiddler: ../../plugins/TiddlyTemplatingMacro.js
-tiddler: ../../templates/CsvTemplate.tiddler
+#tiddler: ../../templates/CsvTemplate.tiddler
 tiddler: ../../templates/RssItemCategoryTemplate.tiddler
 tiddler: ../../templates/RssItemTemplate.tiddler
 tiddler: ../../templates/RssTemplate.tiddler
