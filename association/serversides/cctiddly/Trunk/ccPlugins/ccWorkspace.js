@@ -179,7 +179,6 @@ config.macros.ccRegister.workspaceNameCallback=function(status,params,responseTe
 
 config.macros.ccEditWorkspace = {};
 config.macros.ccEditWorkspace.handler = function(place,macroName,params,wikifier,paramString,tiddler,errorMsg) {
-		
 	if (workspacePermission.owner != 1)
 	{
 		createTiddlyElement(place,'div',null,"annotation", 'You do not have permissions to edit this workspaces permission. ');
@@ -192,12 +191,11 @@ config.macros.ccEditWorkspace.handler = function(place,macroName,params,wikifier
 	createTiddlyElement(frm,'h1',null,null,'Edit Workspace Permissions');
 	createTiddlyElement(frm,"br");
 	var body = createTiddlyElement(frm,'div',null,"wizardBody");
-	var step = createTiddlyElement(body,'div',null,"wizardStep");
-	createTiddlyElement(step,'h5	',null,null,'Anonymous Users Can :  ');
-	
+	var step = createTiddlyElement(body,'div',null,"wizardStep");	
+	createTiddlyElement(step,'h5',null,null,'Anonymous Users Can :  ');
 	var span = createTiddlyElement(step,'span',null,"checkContainer")
 	var anC = createTiddlyCheckbox(span,null,workspacePermission.anonC);
-	anC.id='anC';
+	anC.id='anC';	
 	anC.setAttribute("class","checkInput");
 	var anC_label = createTiddlyElement(step,"label",null,"checkLabel","Create Tiddlers");
  	anC_label.setAttribute("for","anC");
@@ -245,7 +243,7 @@ config.macros.ccEditWorkspace.editWorkspaceOnSubmit = function() {
 	anon+=(this.anC.checked?trueStr:falseStr);
 	anon+=(this.anU.checked?trueStr:falseStr);
 	anon+=(this.anD.checked?trueStr:falseStr);
-	doHttp('POST',url+'handle/updateWorkspace.php','ccCreateWorkspace=' + encodeURIComponent(workspace)+'&amp;ccAnonPerm='+encodeURIComponent(anon),null,null,null,config.macros.ccEditWorkspace.editWorkspaceCallback,params);
+	doHttp('POST',url+'/handle/updateWorkspace.php','ccCreateWorkspace=' + encodeURIComponent(workspace)+'&amp;ccAnonPerm='+encodeURIComponent(anon),null,null,null,config.macros.ccEditWorkspace.editWorkspaceCallback,params);
 	return false;
 };
 

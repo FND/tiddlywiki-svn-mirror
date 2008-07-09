@@ -39,7 +39,10 @@ config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 	if (isLoggedIn()){
 		createTiddlyElement(wrapper,"br");
 		name = cookieString(document.cookie).txtUserName;
-		var str=wikify("You are viewing the workspace "+workspace +" and  are logged in as: "+decodeURIComponent(name),wrapper);
+		if(workspace == "")
+			var str=wikify("You are viewing the default workspace and  are logged in as "+decodeURIComponent(name)+"<br /><br />",wrapper);
+		else
+			var str=wikify("You are viewing the workspace "+workspace+" and  are logged in as "+decodeURIComponent(name)+"<br /><br />",wrapper);
 		var btn=createTiddlyElement(null,"input",null,"button");
 		btn.setAttribute("type", "button");
 		btn.onclick=function() {

@@ -35,10 +35,9 @@ while ($r = db_fetch_assoc($result))
 
 if (!user_isAdmin(user_getUsername(), $w))
 {
-
-	echo user_getUsername();
-//	sendHeader("401");
-	echo '<b> You are not an Admin rights on this workspace.</b>';
+	
+	sendHeader("401");
+	echo "You do not have Admin rights on this workspace.";
 	exit;
 }
 
@@ -88,6 +87,7 @@ if ($u && $w)
 	$data['workspace_name'] = $w;
 }else
 {
+	
 	echo 'Please enter a workspace name and username.';
 	exit;
 }

@@ -40,6 +40,7 @@ config.macros.ccAdmin.addAdminDisplay = function(e, params) {
 };
 
 config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,xhr) {
+	
 	var frm = createTiddlyElement(null,'form',null,null);
 	frm.onsubmit = this.addAdminSubmit;
 	var step = createTiddlyElement(frm,'div',null, "null");
@@ -48,7 +49,9 @@ config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,x
 
 	var s = createTiddlyElement(null,"select",null,null,"a");
 	s.name = 'workspaceName';
+	
 	var workspaces = eval('[ '+responseText+' ]');
+	
 	for(var d=0; d < workspaces.length; d++){
 		var i = createTiddlyElement(s,"option",null,null,workspaces[d]);
 		i.value = workspaces[d];
@@ -95,7 +98,14 @@ config.macros.ccAdmin.listAllCallback = function(status,params,responseText,uri,
 	var me = config.macros.ccAdmin;
 	var out = "";
 	var adminUsers = [];
-
+	if(xhr.status == 401)
+	{
+		displayMessage("Permission Denied.");
+		var html ='You need to be an administrator of this workspace';
+		params.w.addStep("Permission Denied to edit workspace : "+workspace, html);
+		params.w.setButtons([]);
+		return false;
+	}
 	var a = eval(responseText);
 	for(var e=0; e < a.length; e++){ 		
 	//	createTiddlyElement(params.place, 'b', null, null,  a[e].username);
