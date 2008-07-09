@@ -11,6 +11,7 @@
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.0|
 |''~PageTemplate:''|##PageTemplate|
+|''~EditTemplate:''|##EditTemplate|
 |''~taskViewTemplate:''|##taskViewTemplate|
 |''~taskEditTemplate:''|##taskEditTemplate|
 |''~StyleSheet:''|##StyleSheet|
@@ -31,6 +32,20 @@
 	<div id='tiddlerDisplay'></div>
 </div>
 <!--}}}-->
+
+
+!EditTemplate
+<!--{{{-->
+<div class="editor">
+<div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'></div>
+<div class='title edit' macro='edit title'></div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagged edit' macro='edit tags'></div>
+<div class='viewer edit' macro='edit text wikified'></div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
+
 
 !taskViewTemplate
 <!--{{{-->
@@ -107,8 +122,8 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 
 /* Backstage */
 #backstageArea,
-#backstageToolbar { background-color:[[TeamTasksColors::Shade]]; padding-top:0;}
-#backstageToolbar a.backstageTab { background-color:[[TeamTasksColors::Shade]]; color:[[TeamTasksColors::Dark]]; font-weight:normal;line-height:1.5em; }
+#backstageToolbar { background-color:[[TeamTasksColors::TiddlerBackground]]; padding-top:0;}
+#backstageToolbar a.backstageTab { background-color:transparent; color:[[TeamTasksColors::Dark]]; font-weight:normal;line-height:1.5em; }
 #backstageToolbar a.backstageTab:hover { background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];  }
 
 /* Popup */
