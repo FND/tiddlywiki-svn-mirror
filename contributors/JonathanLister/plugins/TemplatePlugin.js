@@ -64,7 +64,6 @@ expandTemplate = function(template,tiddlers,wikitext)
 	var format = wikitext ? null : 'template';
 	for(var i=0; i<tiddlers.length; i++) {
 		output += wikifyStatic(template,null,tiddlers[i],format).htmlDecode();
-		// wikifyStatic returns html; htmlDecode is used so that nesting of templates doesn't cause encoded characters to be wikified
 	}
 	return output;
 };
@@ -86,11 +85,6 @@ config.macros.templateTiddlers.handler = function(place,macroName,params,wikifie
 		tiddlers.push(tiddler ? tiddler : new Tiddler("temp"));
 	}
 	var output = expandTemplate(template,tiddlers,wikitext);
-	// NOTE: the line below is contentious - should the .htmlEncode() be used?
-	// if you don't use it, it seems that output is not always added in a format suitable for innerHTML
-	// this is only an apparent problem when templateTiddlers is nested inside other templates (at two levels deep!)
-	// this requires tests writing to iron this out once and for all
-	// ALSO: HTMLPreviewTemplate uses the output of expandTemplate directly, but hasn't hit this problem yet (possibly because the nesting only goes one level deep on templates tested so far)
 	place.innerHTML += output.htmlEncode();
 };
 
@@ -109,23 +103,6 @@ config.macros.templateTags.handler = function(place,macroName,params,wikifier,pa
 	}
 	var output = expandTemplate(template,tiddlers);
 	place.innerHTML += output;
-};
-
-config.macros.permalink = {};
-config.macros.permalink.handler = function(place,macroName,params,wikifier,paramString,tiddler)
-{
-	var t = encodeURIComponent(String.encodeTiddlyLink(tiddler.title));
-	createTiddlyText(place,window.location+"#"+t);
-};
-
-config.macros.view.views.slice = function(value,place,params,wikifier,paramString,tiddler) {
-	var slice = "";
-	if(params && params[2]) {
-		slice = store.getTiddlerSlice(tiddler.title,params[2]);
-		if(slice) {
-			createTiddlyText(place,slice);
-		}
-	}
 };
 
 } //# end of 'install only once'
