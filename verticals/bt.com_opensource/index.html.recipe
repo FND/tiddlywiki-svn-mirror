@@ -17,11 +17,11 @@ tiddler: MainMenu.tiddler
 tiddler: Footer.tiddler
 
 # Content
-tiddler: AdvancedOptions.tiddler
 tiddler: Alternative_software_page.tiddler
 tiddler: BT_Open_Source_-_Open_for_Business.tiddler
 tiddler: Contributions.tiddler
 tiddler: Events.tiddler
+tiddler: Header.tiddler
 tiddler: Innovation.tiddler
 tiddler: Introduction.tiddler
 tiddler: Jeremy_Ruston.tiddler
