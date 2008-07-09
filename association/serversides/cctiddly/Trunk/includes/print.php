@@ -154,7 +154,7 @@ cctPlugin = {
 
 window.cct_tweak = function(){
 	//add new option to options panel
-		config.shadowTiddlers.OptionsPanel = "[[Help]]<br />[[Upload]]<br />[[Download|"+window.url+"/handle/standalone.php?workspace=<?php echo $tiddlyCfg['workspace_name']; ?>]]";
+		config.shadowTiddlers.OptionsPanel = "[[Help]]<br />[[Manage Users]]<br />[[Upload]]<br />[[Download|"+window.url+"/handle/standalone.php?workspace=<?php echo $tiddlyCfg['workspace_name']; ?>]]";
 	config.shadowTiddlers.SideBarOptions =  "<<search>>" + config.shadowTiddlers.SideBarOptions.replace('<<search>>', '')+"<<slider 'chkLoginStatus' 'LoginStatus' '  Login Status »' 'Login to make changes'>>" ;
 	config.shadowTiddlers.ViewTemplate = config.shadowTiddlers.ViewTemplate.replace(/references jump/,'references revisions jump');
 	//change saveChange label to upload

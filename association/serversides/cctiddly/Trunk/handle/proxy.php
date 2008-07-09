@@ -5,7 +5,6 @@ if(!isset($cct_base)) {
 
 include_once($cct_base."includes/header.php");
 include_once($cct_base."includes/config.php");
-print_r($tiddlyCfg['allowed_proxy_list']);
 
 $feed = $_REQUEST['feed'];
 $url = parse_url($feed);

@@ -13,8 +13,8 @@ $tiddlyCfg['db']['name'] = "new164";		//db name
 
 // Debugging Information 
 
-$tiddlyCfg['developing']=0;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
-$tiddlyCfg['mysql_debug']=0;	 // if set to 1 will output every sql query into the logfile 
+$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
+$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
 
 // User Managment Information 
 
@@ -246,7 +246,7 @@ Notes :
 */
 
 //default privileges
-$tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what should undefined (U) be treated as
+$tiddlyCfg['privilege_misc']['undefined_privilege'] = "A";		//defined what should undefined (U) be treated as
 $tiddlyCfg['privilege_misc']['default_privilege'] = "UUUU";		//default privilege for all group and tags
 
 //default privileges for certain groups, applied after default_privilege
