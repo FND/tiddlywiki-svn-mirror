@@ -13,8 +13,8 @@ $tiddlyCfg['db']['name'] = "new164";		//db name
 
 // Debugging Information 
 
-$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
-$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
+$tiddlyCfg['developing']=0;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
+$tiddlyCfg['mysql_debug']=0;	 // if set to 1 will output every sql query into the logfile 
 
 // User Managment Information 
 

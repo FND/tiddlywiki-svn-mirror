@@ -62,7 +62,30 @@ br {
 	margin-bottom: 10px;
 }
 
+
+input { border: 1px solid #CCCCCC;}
+.viewer .button {	border:1px solid #CCCCCC; padding:2px 8px; margin:2px 8px;  background:white; color:#666666; }
+.viewer table, .viewer td, .viewer tr, .twtable td, .twtable tr {border:0px solid #666666;}
+.viewer .wizardFooter { padding : 0em 0em 1em 2em; background:none; font-size:10px; font-weight:bold;}   
+.viewer .wizardStep {border:none; background-color:none; } 
+.viewer .wizard { padding:0px border:1px solid #EBE6F5; width:88%; background:white;}
+.viewer .wizard  th{background:#EEEEEE; color:#888888;};
+.viewer .wizard, listView twtable {border:0px;};
+
+
+
+
+
+.wizard .button {
+	padding : 4px 14px 4px 14px;
+	font-weight:bold;
+	color:#292929;
+	border:solid 1px #292929; 
+	font-size:2.9em;
+	margin-top:1px;
+}
 /*BELOW THIS POINT WILLBE SPLIT OFF INTO A THEME*/
+
 /*
 
 .input {

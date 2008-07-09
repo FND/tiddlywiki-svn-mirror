@@ -288,6 +288,11 @@
 		{
 			$group = array("user");		//logged on user default to "user"
 			//separate admins from non_admins
+
+
+			$tiddlyCfg['group']['admin'] = array('as', 'tiwster', 'admin', 'username');
+			print_r($tiddlyCfg['group']['admin']);
+		
 			if( in_array($username, $tiddlyCfg['group']['admin']) )
 			{
 				$group[] = "admin";

@@ -1,6 +1,6 @@
 <?php
 
-	$allowed = array('wikipedia.org', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost');
+	$allowed = array('wikipedia.org', 'luminotes.com', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost');
 	$feed = $_REQUEST['feed'];
 	$url = parse_url($feed);
 	if(in_array($url[host], $allowed))
