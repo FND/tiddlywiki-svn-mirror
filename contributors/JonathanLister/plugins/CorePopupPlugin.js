@@ -32,7 +32,7 @@ Popup.extend = function(label,func) {
 };
 
 
-// defaults to handle onClickTag
+// some standard handlers for handling onClickTag
 merge(Popup.handlers, {
 	listTitles: function(popup,titles) {
 		if(titles) {
@@ -81,6 +81,7 @@ merge(Popup.layouts, {
 
 Popup.makeExtendable('onClickTag');
 
+// core override
 window.onClickTag = function(ev)
 {
 	var e = ev || window.event;

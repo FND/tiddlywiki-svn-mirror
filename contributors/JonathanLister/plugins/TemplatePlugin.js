@@ -22,6 +22,7 @@ Parameters can be:
 template - the name of the template
 filter - a tiddler filter
 wikitext - if true, renders the target tiddler's text as wikitext instead of using the special template formatter
+raw - if true, adds the HTML to place without encoding it as text
 
 If a parameter does not have a qualifier, it is assumed to be the template name
 
@@ -33,6 +34,9 @@ Usage:
 <<templateTags template:RssItemCategoryTemplate>>
 <<templateTiddlers RssTemplate>> // template qualification is optional
 }}}
+
+Parameters can be:
+template - the name of the template
 
 The templateTags macro renders a tiddler's tags through a template in an analagous way to how templateTiddlers renders a set of tiddlers. Future development might offer support for other data items other than tags, but this is what is needed for RSS, the use-case driving the development.
 
@@ -77,6 +81,7 @@ config.macros.templateTiddlers.handler = function(place,macroName,params,wikifie
 		template = getParam(p,"anon",null);
 	var filter = getParam(p,"filter",null);
 	var wikitext = getParam(p,"wikitext",null);
+	var raw = getParam(p,"raw",false);
 	var tiddlers = [];
 	if(filter) {
 		tiddlers = store.filterTiddlers(filter);
@@ -85,7 +90,7 @@ config.macros.templateTiddlers.handler = function(place,macroName,params,wikifie
 		tiddlers.push(tiddler ? tiddler : new Tiddler("temp"));
 	}
 	var output = expandTemplate(template,tiddlers,wikitext);
-	place.innerHTML += output.htmlEncode();
+	place.innerHTML += raw ? output : output.htmlEncode();
 };
 
 config.macros.templateTags = {};
