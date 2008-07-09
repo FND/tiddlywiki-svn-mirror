@@ -34,8 +34,8 @@
 					{
 						user_set_session($a, "MY PASSWORD");
 						$user['username'] = $a;	
-			//no slashes, star and question mark in username
-			$user['verified'] = 1;
+						//no slashes, star and question mark in username
+						$user['verified'] = 1;
 					}
 				}
 				
@@ -58,9 +58,6 @@
 		return $user;
 	}
 
-
-
-
 	function user_reset_session($un,$pw)
 	{
 		global $tiddlyCfg;
@@ -72,7 +69,6 @@
 		$ndata['expire']=epochToTiddlyTime(time()+$add);
 		db_record_update('login_session',$odata,$ndata);
 	}
-	
 	
 	function user_session_validate()
 	{
@@ -183,10 +179,8 @@
 			return FALSE;
 		}
 	}
-	
-	
-	 
-		///////////////////////////////////////////////////////////////validate and login (set cookie)//////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////validate and login (set cookie)//////////////////////////////////////////////////
 	//!	@fn bool user_validate($un)
 	//!	@brief check username and password f
 	//!	@param $un username override
@@ -288,10 +282,6 @@
 		{
 			$group = array("user");		//logged on user default to "user"
 			//separate admins from non_admins
-
-
-			$tiddlyCfg['group']['admin'] = array('as', 'tiwster', 'admin', 'username');
-			print_r($tiddlyCfg['group']['admin']);
 		
 			if( in_array($username, $tiddlyCfg['group']['admin']) )
 			{

@@ -1,19 +1,25 @@
 <?php
+if(!isset($cct_base)) {
+	$cct_base= "../";
+}
 
-	$allowed = array('wikipedia.org', 'luminotes.com', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost');
-	$feed = $_REQUEST['feed'];
-	$url = parse_url($feed);
-	if(in_array($url[host], $allowed))
-	{
-		
-	}
-	else
-	{
-//		exit;
-	}
-	if($feed != '' && strpos($feed, 'http') === 0)
-	{
-		readfile($feed);
-		return;
-	}
+include_once($cct_base."includes/header.php");
+include_once($cct_base."includes/config.php");
+print_r($tiddlyCfg['allowed_proxy_list']);
+
+$feed = $_REQUEST['feed'];
+$url = parse_url($feed);
+if(in_array($url[host], $tiddlyCfg['allowed_proxy_list']))
+{
+	
+}
+else
+{
+//	exit;
+}
+if($feed != '' && strpos($feed, 'http') === 0)
+{
+	readfile($feed);
+	return;
+}
 ?>

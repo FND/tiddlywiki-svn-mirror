@@ -72,18 +72,11 @@ else
 	echo "<p>Please specify where you wish to save this file</p>";
 }
 
-
-
-
 $local_root = $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']));
 $remote_root = dirname(getURL());
 $path = ltrim(rtrim($_POST['ccPath'], "/"), "/");
 $folder = str_replace("../", "","/uploads".$folder.'/'.$path."/");
 makeFolder($local_root.$folder);
-
-
-
-
 
 if ($_POST['ccHTMLName'] || $_POST['ccHTML'])
 {
@@ -136,6 +129,7 @@ $status = 0;
 
 if (isset($_FILES["userFile"])) 
 {
+	$_FILES["userFile"]["type"];
 	if (check_vals()) 
 	{
 		if (($_FILES["userFile"]["type"] == "image/gif") || ($_FILES["userFile"]["type"] == "image/jpeg")|| ($_FILES["userFile"]["type"] == "image/pjpeg"))

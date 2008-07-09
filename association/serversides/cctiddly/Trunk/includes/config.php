@@ -41,8 +41,10 @@ $tiddlyCfg['pref']['deligate_session_url'] = "http://uvoke.com/sys/uvokecheckses
 $tiddlyCfg['deligate_session_management'] = 0; 	
 	
 // Upload Values 
-
-$tiddlyCfg['upload_allow_extensions'] = array("text/plain", "text/xml", "text/html", "application/msword", "application/mspowerpoint", "	application/excel", "application/x-visio", "application/pdf");
+	$tiddlyCfg['allowed_proxy_list'] = array('wikipedia.org', 'luminotes.com', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost');
+	
+	
+$tiddlyCfg['upload_allow_extensions'] = array("text/plain", "text/xml", "text/html", "application/msword", "application/mspowerpoint", "	application/excel", "application/x-visio", "application/pdf", "application/octet-stream");
 $tiddlyCfg['max_file_size'] = 9933300000;
 $tiddlyCfg['only_workspace_admin_can_upload'] = 0; //if enabled only the workspace owner will be able to upload files. If disabled (0) any logged in user can upload files. 
 
@@ -104,8 +106,9 @@ $tiddlyCfg['pref']['utf8'] = 0;
 debug("log breaker (situated below debug function)------------------------------------------------");
 debug("QUERY_STRING: ".$_SERVER['QUERY_STRING']);
 
-// workspace name 
-$tiddlyCfg['workspace_name'] = isset($_REQUEST['workspace'])?format4Name($_REQUEST['workspace']):"";
+$a = str_replace($_SERVER['QUERY_STRING'], "", str_replace(str_replace("index.php", "", $_SERVER['PHP_SELF']), "", $_SERVER['REQUEST_URI']));
+$tiddlyCfg['workspace_name'] = $a=="?"?$_REQUEST['workspace']:$a;
+
 debug("workspace_name : ".$tiddlyCfg['workspace_name']);
 $tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
 debug("base folder: ".$tiddlyCfg['pref']['base_folder']);

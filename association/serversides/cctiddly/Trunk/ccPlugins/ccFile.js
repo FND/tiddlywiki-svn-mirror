@@ -1,0 +1,178 @@
+
+
+//window.url = 'http://127.0.0.1/association/serversides/cctiddly/Trunk';
+//window.workspace = 'testfiles';
+
+config.macros.ccFile = {}
+merge(config.macros.ccFile,{
+	listAdminTemplate: {
+	columns: [	
+	{name: 'Selected', field: 'Selected', rowName: 'name', type: 'Selector'},
+	{name: 'Name', field: 'name', title: "Username", type: 'String'},
+	{name: 'Last Visit', field: 'lastVisit', title: "Last Login", type: 'String'},
+	{name: 'File Size', field: 'fileSize', title: "File Size", type: 'String'},
+	{name: 'Download Coun', field: 'downloads', title: "Downloads", type: 'String'},
+	{name: 'Bandwidth Used', field: 'bandwidth', title: "Badwidth Used", type: 'String'},
+	{name: 'Cost', field: 'cost', title: "Cost", type: 'String'}
+	],
+	rowClasses: [
+	{className: 'lowlight', field: 'lowlight'}
+	]}
+});
+
+
+var iFrameLoad=function(){
+	var uploadIframe= document.getElementById('uploadIframe');
+	var statusArea=document.getElementById("uploadStatus");
+	document.getElementById("ccfile").value=""; 
+	statusArea.innerHTML=uploadIframe.contentDocument.body.innerHTML;
+};
+
+config.macros.ccFile.handler=function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
+	var w = new Wizard();
+	w.createWizard(place,"File Administration");
+	config.macros.ccFile.refresh(w);
+};
+
+config.macros.ccFile.refresh=function(w){
+	params = {};
+	params.w = w;
+	params.e = this;
+	doHttp('GET',url+'/handle/listFiles.php?workspace_name='+workspace,'',null,null,null,config.macros.ccFile.listAllCallback,params);
+	w.setButtons([
+		{caption: 'Delete Files', tooltip: 'Delete Files', onClick: function(w){ 
+			config.macros.ccFile.delFileSubmit(null, params);
+			 return false;
+		}
+			 }, 
+		{caption: 'Upload File', tooltip: 'Upload File', onClick: function(w){ config.macros.ccFile.addFileDisplay(null, params); return false } }]);
+};
+
+config.macros.ccFile.delAdminSubmit=function(e, params) {
+	var listView = params.w.getValue("listView");
+	var rowNames = ListView.getSelectedRows(listView);
+	var delUsers = "";
+	for(var e=0; e < rowNames.length; e++) 
+			delUsers += rowNames[e]+",";		
+	doHttp('POST',url+'/handle/workspaceAdmin.php','action=DELETEADMIN&username='+delUsers+'&workspace_name='+workspace,null,null,null,config.macros.ccFile.addAdminCallback,params);
+	return false; 
+};
+
+config.macros.ccFile.addFileDisplay = function(e, params) {
+
+	var frm=createTiddlyElement(null,'form',null,"wizard");
+
+	if(navigator.appName=="Microsoft Internet Explorer")
+	{
+		encType = frm.getAttributeNode("enctype");
+	    encType.value = "multipart/form-data";
+	}
+	frm.setAttribute("enctype","multipart/form-data");
+	frm.setAttribute("method","POST");
+
+	frm.action=window.url+"/handle/upload.php"; 
+	frm.id="ccUpload";
+	frm.target="uploadIframe";
+	
+	var body=createTiddlyElement(frm,'div',null,"wizardBody");
+	var step=createTiddlyElement(body,'div',null,"wizardStep");
+	var username=createTiddlyElement(null,'input','username','username');				
+	username.setAttribute("name","username");
+	username.setAttribute("type","HIDDEN");
+	username.value=config.options.txtUserName;		
+	step.appendChild(username);
+	var label=createTiddlyElement(step,"label",null,"label","Upload your file ");
+	label.setAttribute("for","ccfile");
+	var file=createTiddlyElement(null,'input','ccfile','input');				
+	file.type="file";
+	file.name="userFile";
+	step.appendChild(file);
+	var workspaceName=createTiddlyElement(null,'input','workspaceName','workspaceName');				
+	workspaceName.setAttribute('name','workspaceName');
+	workspaceName.type="HIDDEN";
+	workspaceName.value=workspace;
+	step.appendChild(workspaceName);
+	createTiddlyElement(step,'br');
+
+
+	var saveTo=createTiddlyElement(null,"input","saveTo","saveTo");	
+
+	//saveTo.setAttribute("type","HIDDEN");
+	saveTo.setAttribute("name","saveTo");
+	saveTo.type="HIDDEN";
+	saveTo.value='workspace';
+	saveTo.name='saveTo';
+	step.appendChild(saveTo);
+
+
+	var submitDiv=createTiddlyElement(step,"div",null,'submit');
+	var btn=createTiddlyElement(null,"input",null,'button');
+	btn.setAttribute("type","submit");
+	btn.setAttribute("onClick","config.macros.ccUpload.submitiframe()");
+	btn.value='Upload File';
+	submitDiv.appendChild(btn);	
+
+	// Create the iframe
+	var iframe=document.createElement("iframe");
+	iframe.style.display="none";
+	iframe.id='uploadIframe';
+	iframe.name='uploadIframe';
+	iframe.onload=iFrameLoad;
+//	frm.appendChild(iframe);
+	createTiddlyElement(step,"div",'uploadStatus');
+	//var w = new Wizard(params.e);
+	params.w.addStep("sd",frm.innerHTML);
+};
+
+function addOption(selectbox,text,value )
+{
+	var optn = document.createElement("OPTION");
+	optn.text = text;
+	optn.value = value;
+	selectbox.options.add(optn);
+}
+
+config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,xhr) {
+	var me = config.macros.ccFile;
+	var out = "";
+	var adminUsers = [];
+		displayMessage('ee');
+	var a = eval(responseText);
+	for(var e=0; e < a.length; e++){ 		
+	out += a[e].username;	
+		adminUsers.push({
+			name: a[e].username,
+			lastVisit:a[e].lastVisit,
+			fileSize:a[e].fileSize,
+			downloads:a[e].downloads,
+			bandwidth:a[e].bandwidth,
+			cost:a[e].cost,
+		});
+	}
+	
+	var html ='<input type="hidden" name="markList"></input>';
+	params.w.addStep("Manage administrators for workspace : "+workspace, html);
+	var markList = params.w.getElement("markList");
+	var listWrapper = document.createElement("div");
+	markList.parentNode.insertBefore(listWrapper,markList);
+	var listView = ListView.create(listWrapper,adminUsers,config.macros.ccFile.listAdminTemplate);
+	//params.w.setValue("listAdminView",listAdminView);
+	params.w.setValue("listView",listView);
+};
+
+config.macros.ccFile.listFilesCallback = function(status,params,responseText,uri,xhr) {
+	createTiddlyElement(params.place,'hr');
+	createTiddlyElement(params.place,'br');
+	createTiddlyElement(params.place, 'h2', null, null,  "Existing Files ");
+	displayMessage('ff');
+		var a = eval( "[" +responseText+ "]" );
+		for(var e=0; e < a.length; e++){  
+			var link=createExternalLink(params.place,url+'/uploads/workspace/'+workspace+'/'+a[e]);
+			link.textContent=a[e];
+			createTiddlyElement(params.place, "br");
+		}
+}
+
+config.macros.ccFile.addAdminCallback = function(status,params,responseText,uri,xhr) {	
+	config.macros.ccFile.refresh(params.w);
+};
