@@ -1,5 +1,5 @@
 <?php 
-include_once($cct_base."includes/ccVariables.php");
+include_once($cct_base."includes/ccAssignments.php");
 
 $dir = $cct_base."ccPlugins/";
 

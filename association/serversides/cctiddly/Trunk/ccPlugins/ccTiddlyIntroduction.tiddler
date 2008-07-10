@@ -1,0 +1,28 @@
+<div title="ccTiddly Introduction" modifier="ccTiddly Introduction" tags="ccTiddly excludeSearch excludeLists ">
+<pre>
+
+!!!ccTiddly Tiddlers 
+
+[[anonDefaultTiddlers]]
+[[ccVariables]]
+
+
+
+!! Predefined ccTiddly Tags 
+
+!!!!simple
+Displays the tiddler without showing the date editor and tags. 
+
+!!!!private
+Only you will be able to read the tiddlers tagged private.
+
+!!!!excludeList
+Tiddler will not be returned listed.
+
+!!!!excludeSearch
+Tiddler will not be returned in search results. 
+
+
+
+</pre>
+</div>

@@ -112,7 +112,6 @@ function getSkinTiddlers($skin="")
 {
 	global $tiddlyCfg;
 	global $user;
-	$tiddlers = db_tiddlers_mainSelectSkin($skin);
 	//fetch tiddlers and output ones that the user has read privilege
 	$return_tiddlers = array();
 	if ($tiddlers)

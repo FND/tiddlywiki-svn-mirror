@@ -8,7 +8,7 @@
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccLogin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccLogin.js|
 |''License''|BSD|
-|''Requires''|ccRegister, ccLogin|
+|''Requires''|ccVariables|
 |''Overrides''|restart|
 |''Feedback''|http://groups.google.com/group/ccTiddly|
 |''Keywords''|ccTiddly ccLogin|
@@ -26,11 +26,14 @@ To display a login prompt for your user simple type the following text into a ti
 
 ***/
 //{{{
-	
-	
-config.backstageTasks.push("login");
-merge(config.tasks,{login:{text: "login",tooltip: "Login to your TiddlyWiki",content: '&lt;&lt;ccLogin&gt;&gt;'}});
 
+if (isLoggedIn()){
+	config.backstageTasks.push("logout");
+	merge(config.tasks,{logout:{text: "logout",tooltip: "Logout from ccTiddly",content: '&lt;&lt;ccLogin&gt;&gt;'}});
+}else{
+	config.backstageTasks.push("login");
+	merge(config.tasks,{login:{text: "login",tooltip: "Login to ccTiddly",content: '&lt;&lt;ccLogin&gt;&gt;'}});	
+}
 config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){};
 var loginState=null;
 var registerState=null;

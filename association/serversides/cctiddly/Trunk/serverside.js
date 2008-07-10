@@ -614,8 +614,8 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 	tiddler =  store.ss_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created);//save to local copy
 	//send to server
 	doHttp('POST'
-		,serverside.url + '/handle/save.php?' + serverside.queryString + '&workspace=' + serverside.workspace
-		,'tiddler=' + encodeURIComponent(store.getSaver().externalizeTiddler(store,tiddler))
+		,serverside.url + '/handle/save.php?' + serverside.queryString 
+		,'workspace=' + serverside.workspace+'&tiddler=' + encodeURIComponent(store.getSaver().externalizeTiddler(store,tiddler))
 			+ '&otitle=' + encodeURIComponent(title.htmlDecode())
 			+ ((omodified!==null)?'&omodified=' + encodeURIComponent(omodified.convertToYYYYMMDDHHMM()):"")
 			+ ((ochangecount!==null)?'&ochangecount=' + encodeURIComponent(ochangecount):"")

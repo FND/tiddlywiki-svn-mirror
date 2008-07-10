@@ -42,10 +42,12 @@ function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 		echo '<b>You do not appear to be logged in</b>';
 		exit;	
 	}
-	if(eregi('[^a-zA-Z0-9./]', $workspace))
+	if(eregi('[^a-zA-Z0-9.-/]', $workspace))
 	{
 		header('HTTP/1.0 400 Bad Request');
-		exit("Workspace name can only include numbers, letters and full stops.");
+		echo $workspace+"Workspace name can only include numbers, letters and full stops.";
+		
+		exit;
 	}
 	
 	if ($tiddlyCfg['create_workspace']!==1)
@@ -108,9 +110,9 @@ function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 	db_record_insert($tiddlyCfg['table']['admin'],$owner);
 //echo ;
 //exit;
-	header("location:".$_SERVER['REQUEST_URI']);
-exit;
 	header('HTTP/1.0 201 Created');
+
+//	header("location:".$_SERVER['REQUEST_URI']);
   	return true;
 }
 ?>

@@ -27,6 +27,8 @@ Show the current user their login status.
 //{{{
 	
 config.macros.ccLoginStatus={};
+
+
 config.macros.ccLoginStatus.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	var loginDiv=createTiddlyElement(place,"div",null,"loginDiv",null);
 	this.refresh(loginDiv);
@@ -46,7 +48,7 @@ config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 		var btn=createTiddlyElement(null,"input",null,"button");
 		btn.setAttribute("type", "button");
 		btn.onclick=function() {
-		window.location = window.location+"?&logout=1"
+		window.location = window.location+"?&logout=1&workspace="+window.workspace
 		};
 		
 	//	btn.setAttribute("type","submit");d

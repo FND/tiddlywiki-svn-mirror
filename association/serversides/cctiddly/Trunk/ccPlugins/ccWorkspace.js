@@ -27,7 +27,7 @@ Allows users to create their own workspace.
 config.backstageTasks.push('create');
 merge(config.tasks,{create: {text: 'create', tooltip: 'Create new workspace', content:'&lt;&lt;ccCreateWorkspace&gt;&gt;'}});
 
-config.macros.ccCreateWorkspace = {}
+config.macros.ccCreateWorkspace = {};
 config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
 	// When we server this tiddler it need to know the URL of the server to post back to
 	//this value is currently set in index.php, should be index.php?action=createWorkspace to prepare for modulation
@@ -52,7 +52,7 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 	//form workspace name/url
 	var url_label = createTiddlyElement(step, "label", null, "label", url);
 	url_label.setAttribute("for","ccWorkspaceName");
-	var workspaceName = createTiddlyElement(step,'input','ccWorkspaceName', 'input')				
+	var workspaceName = createTiddlyElement(step,'input','ccWorkspaceName', 'input');		
 	workspaceName.value = workspace;
 	workspaceName.size = 15;
 	workspaceName.name = 'ccWorkspaceName';
@@ -60,6 +60,7 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 		config.macros.ccRegister.workspaceNameKeyPress(this.value);
 	};
 	step.appendChild(workspaceName);
+	step.innerHTML = step.innerHTML + "<br /><table><tr><td>"+url+"</td><td><input value="+workspaceName.value+"></td></tr><tr><td ><h3>Annonymous Users Can</h3></td><td></td></tr><tr><td><input></td><td>Create Tiddlers</td></tr><tr><td><input ></td><td>Read Tiddlers</td></tr><tr><td><input ></td><td>Update Tiddlers</td></tr><tr><td><input ></td><td>Delete Tiddlers</td></tr></table>";
 	createTiddlyElement(step,"span",'workspaceName_error','inlineError',null);
 
 	createTiddlyElement(step,'br');
@@ -147,11 +148,11 @@ config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params
 		window.location = params.url;
 		//displayMessage('workspace crated');				
 	} else if (xhr.status == 200) {
-		displayMessage(responseText+"Workspace name is already in use.");
+		displayMessage("Workspace name is already in use.");
 	} else if (xhr.status == 403) {
 		displayMessage("Permission denied,the ability to create new workspaces may have been disabled by you systems administrator.");	
 	} else {
-		displayMessage(responseText);	
+		displayMessage(xhr.status);	
 	}
 };
 

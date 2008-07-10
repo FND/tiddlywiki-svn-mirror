@@ -41,7 +41,7 @@ $tiddlyCfg['pref']['deligate_session_url'] = "http://uvoke.com/sys/uvokecheckses
 $tiddlyCfg['deligate_session_management'] = 0; 	
 	
 // Upload Values 
-	$tiddlyCfg['allowed_proxy_list'] = array('wikipedia.org', 'tiddlythemes.com', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost');
+	$tiddlyCfg['allowed_proxy_list'] = array('wikipedia.org', 'tiddly-twab.com', 'tiddlythemes.com', 'tiddlytools.com', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost');
 	
 	
 $tiddlyCfg['upload_allow_extensions'] = array("text/plain", "text/xml", "text/html", "application/msword", "application/mspowerpoint", "	application/excel", "application/x-visio", "application/pdf", "application/octet-stream");
@@ -107,8 +107,18 @@ debug("log breaker (situated below debug function)------------------------------
 debug("QUERY_STRING: ".$_SERVER['QUERY_STRING']);
 
 $a = str_replace($_SERVER['QUERY_STRING'], "", str_replace(str_replace("index.php", "", $_SERVER['PHP_SELF']), "", $_SERVER['REQUEST_URI']));
-$tiddlyCfg['workspace_name'] = $a=="?"?$_REQUEST['workspace']:$a;
 
+if ($a=="?" && isset($_REQUEST['workspace']))
+	$tiddlyCfg['workspace_name'] = $_REQUEST['workspace'];
+else
+	$tiddlyCfg['workspace_name'] = $a;
+
+if ($b = stristr($tiddlyCfg['workspace_name'], "?"))
+	$tiddlyCfg['workspace_name'] = str_replace(stristr($tiddlyCfg['workspace_name'], "?"), "", $b);
+
+if ($_POST['workspace'])
+	$tiddlyCfg['workspace_name'] = $_POST['workspace'];
+	
 debug("workspace_name : ".$tiddlyCfg['workspace_name']);
 $tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
 debug("base folder: ".$tiddlyCfg['pref']['base_folder']);
@@ -270,7 +280,7 @@ $tiddlyCfg['privilege']['anonymous']['systemConfig'] = "ADDD";
 this would deny anonymous users to insert/edit/delete systemConfig tags but still allow it to run  */
 
 $tiddlyCfg['privilege']['admin']['systemConfig'] = "AAAA";
-$tiddlyCfg['privilege']['user']['systemConfig'] = "ADDD";
+$tiddlyCfg['privilege']['user']['systemConfig'] = "AAAD";
 
 $tiddlyCfg['privilege']['anonymous']['private'] = "DDDD";
 $tiddlyCfg['privilege']['anonymous']['comments'] = "AADD";		//allow comments to be post anonymously

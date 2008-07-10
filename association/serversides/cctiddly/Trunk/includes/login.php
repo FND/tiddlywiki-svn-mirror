@@ -1,4 +1,5 @@
 <?php
+
 $workspace_settings_count=count($workspace_settings);
 if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 {
@@ -26,8 +27,7 @@ if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 			$workspace_settings = db_workspace_selectSettings();
 			$workspace_settings_count = count($workspace_settings);
 
-			header("Location:http://127.0.0.1");
-
+		
 		}
 	}
 }else
@@ -45,7 +45,11 @@ if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 if ($_POST['logout'] || $_REQUEST['logout'])
 {
 	user_logout('You have logged out.');
-	header("Location: ".str_replace("index.php", "", $_SERVER['PHP_SELF']));
+	if($_REQUEST['workspace'])
+		$ws = "".$_REQUEST['workspace'];
+	elseif($_POST['workspace'])
+		$ws = "".$_REQUEST['workspace'];
+	header("Location: ".str_replace("index.php", "", $_SERVER['PHP_SELF']).$ws);
 }
 
 ///////////////////////////////CC: user variable defined in header and $user['verified'] can be used directly to check user validation

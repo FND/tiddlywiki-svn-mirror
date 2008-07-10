@@ -1,4 +1,4 @@
-<div title="ccVariables" modifier="ccTiddly" tags="systemConfig ccTiddly excludeSearch excludeLists">
+<div title="ccAssignments" modifier="ccTiddly" tags="systemConfig ccTiddly excludeSearch excludeLists">
 <pre>
 /*{{{*/
 	
