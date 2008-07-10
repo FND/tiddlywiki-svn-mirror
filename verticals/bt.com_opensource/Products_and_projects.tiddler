@@ -2,7 +2,7 @@
 <pre>BT makes extensive use of Free and Open Source Software (FOSS) in internal systems, BT products, projects and customer deliveries, and believes that FOSS will play an increasingly vital role in enabling BT to deliver innovative solutions. 
 
 With this in mind we would like to place on record our thanks and appreciation to all the people who have worked and continue to work on the following FOSS projects (by no means an exhaustive list):
-
+{{productsTable{
 |[img[Linux logo|image/linux-logo.png][http://www.linux.org/]] |[[Linux]]|[img[OpenSSL logo|image/OpenSSL_logo.png][http://www.openssl.org/]]|[[OpenSSL]]|
 |[img[GNU logo|image/GNU.png][http://www.gnu.org/]]|[[GNU Operating System]]|[img[BusyBox logo|image/busybox_logo.png][http://busybox.net/]]|[[BusyBox]]|
 |[img[Eclipse logo|image/eclipse_logo.png][http://www.eclipse.org/]]|[[Eclipse]]|[img[SER logo|image/ser_logo.png][http://www.iptel.org/ser/]]|[[SIP Express Router]]|
@@ -13,5 +13,7 @@ With this in mind we would like to place on record our thanks and appreciation t
 |[img[PuTTY logo|image/putty_logo.png][http://www.chiark.greenend.org.uk/~sgtatham/putty/]]|[[PuTTY]]|[img[ADOdb logo|image/adodb_logo.png][http://adodb.sourceforge.net/]]|[[ADOdb]]|
 |[img[Firefox logo|image/firefox-logo.png][http://www.mozilla.com/firefox/]]|[[Firefox]]|[img[Xen logo|image/xen_logo.png][http://www.xen.org/]]|[[Xen]]|
 |[img[TiddlyWiki logo|image/tw_logo.png][http://www.tiddlywiki.com]]|TiddlyWiki|[img[Wireshark logo|image/wireshark_logo.png][http://www.wireshark.org/]]|[[Wireshark]]|
-|[img[Asterisk logo|image/asterisk_logo.png][http://www.asterisk.org/]]|[[Asterisk]]|[img[Zlib logo|image/zlib_logo.png][http://www.zlib.net/]]|[[Zlib]]|</pre>
+|[img[Asterisk logo|image/asterisk_logo.png][http://www.asterisk.org/]]|[[Asterisk]]|[img[Zlib logo|image/zlib_logo.png][http://www.zlib.net/]]|[[Zlib]]|
+}}}
+</pre>
 </div>

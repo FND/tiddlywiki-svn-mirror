@@ -100,6 +100,11 @@ div.layoutTable tr {border-style:none; margin:0;}
 div.layoutTable td {border-style:none; vertical-align:top;}
 div.layoutTable td strong {clear:left; font-weight:normal; float:left; margin-top:0.4em; color:#777;}
 
+div.productsTable table {border-style:none; margin:2em 0;}
+div.productsTable tr {border-style:none; margin:0 0 1em 0;}
+div.productsTable td {border-style:none;}
+div.productsTable td a.tiddlyLink {margin:0 5em 0 1em;}
+
 
 /*}}}*/</pre>
 </div>
