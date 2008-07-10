@@ -1,15 +1,15 @@
-<div title="ServerSide" modifier="JeremyRuston" created="200508181425" modified="200805090858" tags="concepts community">
-<pre>Out of the box, TiddlyWiki doesn't have a ServerSide back end. In many applications that's a great strength because it means that you can work with TiddlyWiki without having to be connected to the Internet or, because it's SelfContained, installing any software.
+<div title="ServerSide" modifier="PhilWhitehouse" created="200508181425" modified="200807101151" tags="concepts community" changecount="3">
+<pre>Out of the box, ~TiddlyWiki doesn't have a Server Side back end. In many applications that's a great strength because it means that you can work with ~TiddlyWiki without having to be connected to the Internet or, because it's SelfContained, installing any software.
 
-In other applications, a ServerSide can be very useful, particularly if you want to edit a TiddlyWiki while it's online, or you need lots of people to be able to edit a TiddlyWiki at the same time. The development [[Community]] has come up with several ServerSide implementations that are suitable for a range of applications. The most popular and up-to-date ones that you can download and install on your own servers are:
-* [[TiddlyWeb|http://www.tiddlywiki.org/wiki/TiddlyWeb]] in Python from ChrisDent
+In other applications, a ~ServerSide can be very useful, particularly if you want to edit a ~TiddlyWiki while it's online, or you need lots of people to be able to edit a ~TiddlyWiki at the same time. The development [[Community]] has come up with several ~ServerSide implementations that are suitable for a range of applications. The most popular and up-to-date ones that you can download and install on your own servers are:
+* [[TiddlyWeb|http://www.tiddlywiki.org/wiki/TiddlyWeb]] in Python from Chris Dent
 * [[Coral|https://coral.dev.java.net/]] in Java 
-* [[ccTiddly|http://cctiddly.sourceforge.net/]] from CoolCold
-* [[PrinceTiddlyWiki|http://ptw.sourceforge.net/]] from BramChen
-* [[ZiddlyWiki|http://www.ziddlywiki.org/]] from BobMcElrath and TimMorgan
-* [[PhpTiddlyWiki|http://www.patrickcurry.com/tiddly/]] from PatrickCurry
+* [[ccTiddly|http://cctiddly.sourceforge.net/]] from Matthew So (aka ~CoolCold)
+* [[PrinceTiddlyWiki|http://ptw.sourceforge.net/]] from Bram Chen
+* [[ZiddlyWiki|http://www.ziddlywiki.org/]] from Bob ~McElrath and Tim Morgan
+* [[PhpTiddlyWiki|http://www.patrickcurry.com/tiddly/]] from Patrick Curry
 
-[[TiddlySpot|http://tiddlyspot.com]] offers a fantastic, free hosted version of TiddlyWiki with some very cool features (although at present it does not support simultaneous editing by multiple users). It's based on BidiX's remarkable [[UploadPlugin|http://tiddlywiki.bidix.info/#HowToUpload]].
+[[TiddlySpot|http://tiddlyspot.com]] offers a fantastic, free hosted version of ~TiddlyWiki with some very cool features (although at present it does not support simultaneous editing by multiple users). It's based on ~BidiX's remarkable [[UploadPlugin|http://tiddlywiki.bidix.info/#HowToUpload]].
 
-There are also some TiddlyWikiAdaptations that have taken some of the code and ideas from TiddlyWiki and diverged off to do their own thing.</pre>
+There are also some TiddlyWikiAdaptations that have taken some of the code and ideas from ~TiddlyWiki and diverged off to do their own thing.</pre>
 </div>

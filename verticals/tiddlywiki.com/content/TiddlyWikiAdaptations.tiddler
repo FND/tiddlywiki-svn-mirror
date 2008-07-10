@@ -1,44 +1,30 @@
-<div title="TiddlyWikiAdaptations" modifier="JeremyRuston" created="200512181828" modified="200805071031" tags="adaptations">
+<div title="TiddlyWikiAdaptations" modifier="PhilWhitehouse" created="200512181828" modified="200807101057" tags="adaptations" changecount="18">
 <pre>Before TiddlyWiki supported [[Plugins]], several independent developers created their own extended adaptations to support new features. These can be considered forks of the original core code, and won't necessarily be based on the latest version. For that reason, the trend more recently has been for developers to release new features as [[Plugins]] that can be readily mixed and matched and upgraded to the latest version.
 
-Here's a list of known adaptations - note that many of these are quite old, and the links may be dead:
-* TimoBenk's TiddlyTasks at http://m28s01.vlinux.de/tiddlytasks.html
-* KeithHodges' TiddlyPom at http://www.warwick.ac.uk/~tuspam/tiddlypom.html
-* RodneyGomes' RoWiki, based on PyTW, at http://rodney.gotdns.com/
-* LarsEnglund's TiddlyWikiRDF at http://larsenglund.com/TiddlyWikiRDF/
-* BramChen's PrinceTiddlyWiki at http://ptw.sourceforge.net/
-* JoshGoebel's ServerSideWiki at http://www.serversidewiki.com
-* MasakiYatsu's LesserWiki at http://lesserwiki.org/
-* MichaelBridgen's StickyWiki at http://www.squaremobius.net/~mikeb/Darcs/sticky-wiki/
-* DavidHarper's BloTid, at http://www.spacecoastweb.net/BloTid/Tiddly/
-* JacquesTurbé's TidliPo, in French at http://avm.free.fr/tidlipo.html
-* JoeRaii's pytw at http://www.cs.utexas.edu/~joeraii/pytw/ and his Siglet at http://www.cs.utexas.edu/~joeraii/siglet/
-* JároliJózsef's MagyarTiddlyWiki at http://innen.hu/MagyarTiddlyWiki in Hungarian
-* Yoshimov's EncryptedTiddlyWiki, at http://wiki.yoshimov.com/?page=EncryptedTiddlyWiki
-* TiagoDionizio's TsWiki using Tcl and SQLite, at http://mega.ist.utl.pt/~tngd/wiki/
-* TimMorgan's ZiddlyWiki based on Zope, at http://ziddlywiki.org/
-* SteveRumsby's YetAnotherTiddlyWikiAdaptation at http://www.rumsby.org/yatwa/
-* PhonoHawk's PerlTiddlyWiki at http://ccm.sherry.jp/tiddly/
-* NathanBower's GTDTiddlyWiki at http://shared.snapgrid.com/gtd_tiddlywiki.html
-* GeetDuggal's PileTiddly at http://www.geetduggal.com/PileTiddly/
-* DanPhiffer's TiddlyWikiRemote at http://phiffer.org/tiddly/
-* JonnyLeRoy's TiddlyTagWiki at http://www.digitaldimsum.co.uk/
-* JodyFoo's TagglyWiki at http://informationality.com/tagglywiki/tagglywiki.html
-* ChristianHauck's at http://www.christianhauck.net/html/14300.html
-* TonyLownds's TiddlyHacks at http://tony.lownds.com/tiddly/dev/cgi/index.cgi
-* AlanHecht's QwikiWeb at http://snipurl.com/qwikiweb
-* TimCuthbertson and MattGiuca's TiddlyWikiCSS at http://codestar.lidonet.net/misc/tiddlywikicss.html
-** PeterLazarev's further improvements at http://petka.webhop.net/#NiceTiddlyWiki
-* PatrickCurry and GabrielJeffrey's PhpTiddlyWiki at http://www.patrickcurry.com/tiddly/
-* PoulStaugaard and IvanMetalnikov's at http://poul.staugaard.dk/IeWiki.htm
-* HenrikAastedSorensen's at http://aasted.org/wiki
-* KamiWiki at http://rakusai.org/kamiwiki/
-* IsaoSonobe's OgreKitWiki which is currently offline
-
-* There's also KevemBuangga's TiddlyWikiClone at http://www.kevembuangga.com/hwk/hailiwiki.htm
-* Also inspired by TiddlyWiki, Dr MichaelRees' [[DotWikIE|http://comet.it.bond.edu.au/dotsoft/Pages/dotwikiehome.aspx]],
-* And AndreNho's StickWiki at http://stickwiki.sourceforge.net/
-* [[MessageVault|http://www.kokogiak.com/gedankengang/2007/03/introducing-message-vault.html]] is a personal password store built on some TiddlyWiki technology
-
-There's also some TiddlyWikiTools that extend TiddlyWiki.</pre>
+Here's a list of known adaptations - note that many of these are quite old, and the links may be dead (all working as at 10 July 2008):
+* Bram Chen's [[PrinceTiddlyWiki|http://ptw.sourceforge.net/]]
+* Josh Goebel's [[ServerSideWiki|http://www.serversidewiki.com]]
+* Masaki Yatsu's [[LesserWiki|http://lesserwiki.org/]]
+* David Harper's [[BloTid|http://www.spacecoastweb.net/BloTid/Tiddly/]]
+* Jacques Turbé's [[TidliPo|http://avm.free.fr/tidlipo.html]] (in French)
+* Joe Raii's [[pytw|http://www.cs.utexas.edu/~joeraii/pytw/]] and [[Siglet|http://www.cs.utexas.edu/~joeraii/siglet/]]
+* Jároli József's [[MagyarTiddlyWiki|http://innen.hu/MagyarTiddlyWiki]] (in Hungarian)
+* Yoshimov's [[EncryptedTiddlyWiki|http://wiki.yoshimov.com/?page=EncryptedTiddlyWiki]] (in Japanese)
+* Tim Morgan's [[ZiddlyWiki based on Zope|http://ziddlywiki.org/]]
+* Steve Rumsby's [[YetAnotherTiddlyWikiAdaptation|http://www.rumsby.org/yatwa/]]
+* Phono Hawk's [[PerlTiddlyWiki|http://ccm.sherry.jp/tiddly/]]
+* Nathan Bower's [[GTDTiddlyWiki|http://shared.snapgrid.com/gtd_tiddlywiki.html]] (also see GTDTiddlyWiki)
+* Dan Phiffer's [[TiddlyWikiRemote|http://phiffer.org/tiddly/]]
+* Jonny ~LeRoy's [[TiddlyTagWiki|http://www.digitaldimsum.co.uk/tiddlywiki/]]
+* Jody Foo's [[TagglyWiki|http://informationality.com/tagglywiki/tagglywiki.html]]
+* Christian Hauck's [[CompleXimple InDeed|http://www.christianhauck.net/html/14300.html]]
+* Alan Hecht's [[QwikiWeb|http://snipurl.com/qwikiweb]]
+* Tim Cuthbertson and Matt Giuca's [[TiddlyWikiCSS|http://codestar.lidonet.net/misc/tiddlywikicss.html]] (and Peter Lazarev's [[further improvements|http://petka.webhop.net/#NiceTiddlyWiki]])
+* Patrick Curry and Gabriel Jeffrey's [[PhpTiddlyWiki|http://www.patrickcurry.com/tiddly/]]
+* Henrik Aasted Sorensen's [[server side adaptation|http://aasted.org/wiki]]
+* [[KamiWiki|http://rakusai.org/kamiwiki/]]
+* Kevem Buangga's [[TiddlyWikiClone|http://www.kevembuangga.com/hwk/hailiwiki.htm]]
+* Andre Nho's [[StickWiki|http://stickwiki.sourceforge.net/]]
+* [[MessageVault|http://www.kokogiak.com/gedankengang/2007/03/introducing-message-vault.html]], a personal password store built on some ~TiddlyWiki technology
+There's also some TiddlyWikiTools that extend ~TiddlyWiki.</pre>
 </div>

@@ -1,9 +1,11 @@
-<div title="Plugins" modifier="JeremyRuston" created="200512170953" modified="200711270000" tags="community concepts">
-<pre>TiddlyWiki can be extended by InstallingPlugins that implement new [[Macros]], [[Themes]], [[Tweaks]] or other features. The easiest way of InstallingPlugins is to use ImportTiddlers. Like other features that need to modify TiddlyWiki files, it only works when TiddlyWiki is loaded from a {{{file://}}} URL.
+<div title="Plugins" modifier="PhilWhitehouse" created="200512170953" modified="200807031539" tags="community concepts plugins GettingStarted" changecount="20">
+<pre>~TiddlyWiki can be extended by installing plugins that implement a wide variety of features (including new [[Macros]], themes or tweaks). Plugins are simply tidders (written in javascript) which contain the additional functionality. So, to install a plugin, you need to import the relevant tiddler(s) into your ~TiddlyWiki file.
 
-DaveGifford oversees an extensive catalogue of available plugins at [[TiddlyVault|http://tiddlyvault.tiddlyspot.com/]].
+Community member Dave Gifford oversees an extensive catalogue of available plugins at [[TiddlyVault|http://tiddlyvault.tiddlyspot.com/]].
 
-Some of the leading plugin sites from independent developers are here tagged as <<tag systemServer>> which also makes them available in ImportTiddlers.
+When you've chosen the plugin you'd like to import, follow the directions in ImportTiddlers. 
 
-ChrisKlimas has written [[The Macrocodex|http://gimcrackd.com/etc/src/codex/]], some superb documentation on writing plugins and macros for TiddlyWiki.</pre>
+As with saving changes, this will only work when ~TiddlyWiki is opened on your local computer (as opposed to being viewed over the internet).
+
+Finally, community member Chris Klimas has written [[The Macrocodex|http://gimcrackd.com/etc/src/codex/]], some superb documentation on writing plugins and macros for ~TiddlyWiki.</pre>
 </div>

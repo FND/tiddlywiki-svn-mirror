@@ -12,6 +12,7 @@ tiddler: CloseTiddlerCommand.tiddler
 tiddler: Community.tiddler
 tiddler: Configuration.tiddler
 tiddler: Configuration.SideBarTabs.tiddler
+tiddler: ContentsSlider.tiddler
 tiddler: Contribute.tiddler
 tiddler: CustomCssClass.tiddler
 tiddler: CustomMarkup.tiddler
@@ -20,15 +21,18 @@ tiddler: Customisation.tiddler
 tiddler: DateFormatString.tiddler
 tiddler: DeleteTiddlerCommand.tiddler
 tiddler: Donations.tiddler
+tiddler: Download.tiddler
 tiddler: DownloadSoftware.tiddler
 tiddler: EasterEgg.tiddler
 tiddler: EditTiddlerCommand.tiddler
+tiddler: Editing.tiddler
 tiddler: EmbeddedImages.tiddler
 tiddler: EnableAnimations.tiddler
 tiddler: ExampleStyleSheet.tiddler
 tiddler: ExampleSystemConfig.tiddler
 tiddler: Examples.tiddler
 tiddler: ExtendedFormatting.tiddler
+tiddler: Features.tiddler
 tiddler: Feedback.tiddler
 tiddler: FireFox.tiddler
 tiddler: FireFoxKeyboardIssue.tiddler
@@ -41,6 +45,7 @@ tiddler: GreaseMonkey.tiddler
 tiddler: GuerillaWiki.tiddler
 tiddler: HelloThere.tiddler
 tiddler: HelloWorldMacro.tiddler
+tiddler: Help_and_Support.tiddler
 tiddler: HideEditingFeatures.tiddler
 tiddler: HorizontalRules.tiddler
 tiddler: HowToUpgrade.tiddler
@@ -54,9 +59,9 @@ tiddler: InternetExplorer.tiddler
 tiddler: JeremyRuston.tiddler
 tiddler: JumpCommand.tiddler
 tiddler: KeyboardShortcuts.tiddler
+tiddler: LikeThis.tiddler
 tiddler: LinkToFolders.tiddler
 tiddler: Macros.tiddler
-tiddler: MainFeatures.tiddler
 tiddler: ManuallyInstallIngPlugins.tiddler
 tiddler: MicroContent.tiddler
 tiddler: MinorChanges.tiddler
@@ -102,7 +107,6 @@ tiddler: SelfContained.tiddler
 tiddler: ServerSide.tiddler
 tiddler: ServicePack2Problems.tiddler
 tiddler: ShadowTiddlers.tiddler
-tiddler: Sparklines.tiddler
 tiddler: SpecialTags.tiddler
 tiddler: SpecialTiddlers.tiddler
 tiddler: StartupBehaviour.tiddler
@@ -137,5 +141,6 @@ tiddler: WikiWord.tiddler
 tiddler: WikiWordEscape.tiddler
 tiddler: WritingStyle.tiddler
 tiddler: browsers.tiddler
+tiddler: example.tiddler
 tiddler: systemServer.tiddler
 tiddler: translations.tiddler

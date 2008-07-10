@@ -1,4 +1,4 @@
-<div title="Configuration" modifier="MartinBudden" created="200606010000" tags="includeNew">
+<div title="Configuration" modifier="PhilWhitehouse" created="200606010000" modified="200807100910" tags="includeNew" changecount="1">
 <pre>PageTemplate
 |>|>|SiteTitle - SiteSubtitle|
 |MainMenu|DefaultTiddlers<br><br><br><br>ViewTemplate<br><br>EditTemplate|SideBarOptions|

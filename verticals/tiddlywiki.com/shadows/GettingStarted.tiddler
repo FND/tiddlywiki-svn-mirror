@@ -1,11 +1,3 @@
-<div title="GettingStarted" modifier="JeremyRuston" created="200508181410" modified="200805070926" tags="instructions">
-<pre>The easiest way to learn about TiddlyWiki is to use it! Try clicking on various links and see what happens - you cannot damage tiddlywiki.com or your browser. (Use the <<closeAll>> button over on the right to clear all the displayed tiddlers and start again).
-
-There is an extensive [[Community]] [[documentation wiki|http://www.tiddlywiki.org/]], including an invaluable [[FAQ|http://www.tiddlywiki.org/wiki/TiddlyWiki_FAQ]]. Other useful guides include:
-* Jeremy Wagstaff's [[The Power of Tiddly|http://www.loosewireblog.com/2007/11/the-power-of-ti.html]]
-* Dave Gifford's [[TiddlyWiki for the Rest of Us|http://www.giffmex.org/twfortherestofus.html]] and his [[slideshow introduction|http://www.giffmex.org/blog/?p=23]]
-* Morris Gray's [[TW Help - TiddlyWiki help file for beginners|http://tiddlyspot.com/twhelp/]]
-* Dmitri Popov's [[TiddlyWiki quick reference card|http://nothickmanuals.info/doku.php/cheatsheets]]
-* Screencasts from [[JimVentola|http://faculty.massasoit.mass.edu/jventola/videocasts/tidhelp2/tidhelp2.html]] and [[LeonKilat|http://max.limpag.com/2006/09/07/using-a-tiddlywiki-a-video-guide/]].
-When you're ready to create your own TiddlyWiki on your computer, follow the instructions in DownloadSoftware and SaveChanges. There is also a free hosted service at http://tiddlyspot.com/ that makes it easier to share your TiddlyWiki with others (for more demanding applications there are several other ServerSide solutions available).</pre>
+<div title="GettingStarted" modifier="PhilWhitehouse" created="200508181410" modified="200807101144" tags="instructions" changecount="3">
+<pre><<tiddler Download>></pre>
 </div>

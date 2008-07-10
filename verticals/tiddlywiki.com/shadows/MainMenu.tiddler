@@ -1,11 +1,9 @@
-<div title="MainMenu" modifier="JeremyRuston" created="200510302117" modified="200706051130">
+<div title="MainMenu" modifier="PhilWhitehouse" created="200510302117" modified="200807100912" changecount="11">
 <pre>HelloThere
-TiddlyWiki
-MainFeatures
-GettingStarted
+[[Features]]
+[[Download]]
 [[Customisation]]
-[[Community]]
-DownloadSoftware
+[[Help and Support]]
 [[Plugins]]
 [[RSS|RssFeed]]
 

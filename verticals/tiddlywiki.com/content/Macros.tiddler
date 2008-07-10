@@ -1,8 +1,7 @@
-<div title="Macros" modifier="JeremyRuston" created="200510302320" modified="200609291504" tags="macros">
+<div title="Macros" modifier="PhilWhitehouse" created="200510302320" modified="200807101153" tags="macros" changecount="1">
 <pre>[[Macros]] let you write tiddlers containing more exotic objects than just text. Built-in macros include:
 * NewJournalMacro and NewTiddlerMacro
 * GradientMacro
-* [[Sparklines]]
 * TabMacro
 * TaggingMacro
 * TodayMacro

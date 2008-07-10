@@ -1,4 +1,4 @@
-<div title="Safari" modifier="JeremyRuston" created="200511082101" modified="200805090954" tags="issues browsers">
+<div title="Safari" modifier="PhilWhitehouse" created="200511082101" modified="200805281003" tags="issues browsers" changecount="1">
 <pre>Safari can SaveChanges using the TiddlySaver Java applet.
 
 There are still some issues with Safari:
