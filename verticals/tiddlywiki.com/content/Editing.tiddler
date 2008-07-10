@@ -1,0 +1,11 @@
+<div title="Editing" modifier="PhilWhitehouse" created="200805221018" modified="200807101108" tags="Edit GettingStarted" changecount="17">
+<pre>~TiddlyWiki is made up of chunks of information called tiddlers. You're reading a tiddler called 'Editing' right now. 
+
+When you open an empty ~TiddlyWiki file for the first time, you'll be presented with a tiddler called GettingStarted. This contains links to tiddlers containing the basic structure of your ~TiddlyWiki; the Title, Sub-title and Main Navigation. Click on the links to access these tiddlers.
+
+You will notice that each tiddler has a command menu in it's top right corner (close, edit, and so on). You can use this to send the tiddler into edit mode, or if you prefer you can simply double click the tiddler when it's in read mode. When you're finished, click on done.
+
+If you'd like your tiddlers to be assigned to you, you can enter your name in the relevant field on the right hand side (the 'sidebar'). If you can't see this field, click on [[this link|InterfaceOptions]] to reveal it.
+
+There are two ways to make links between tiddlers. If you're linking to a tiddler which already exists, put the tiddler name in double square brackets (Double click here, and you'll see double square brackets around the word [[example]]). You can use this technique to point to (and create) a new tiddler, or alternatively just write the tiddler name by joining words starting with capital letters, LikeThis. When you save the tiddler and click on the link, you can then add content to your new tiddler.</pre>
+</div>

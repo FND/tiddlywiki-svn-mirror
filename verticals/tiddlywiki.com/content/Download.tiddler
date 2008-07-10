@@ -1,0 +1,11 @@
+<div title="Download" modifier="PhilWhitehouse" created="200805221001" modified="200807101141" tags="Download GettingStarted" changecount="29">
+<pre>To download an empty ~TiddlyWiki, right click [[here|http://www.tiddlywiki.com/empty.html]] and select "Save as" to save a copy to your computer. This is version <<version>> of ~TiddlyWiki; the release notes can be found [[here|http://trac.tiddlywiki.org/wiki/History]].
+
+Once you've downloaded your ~TiddlyWiki file, the following links will help you get started (we recommend you read the first two before doing anything important):
+
+[[Editing]]
+[[Saving|SaveChanges]]
+[[Formatting|ExtendedFormatting]]
+[[Plugins]]
+[[Help and Support]]</pre>
+</div>
