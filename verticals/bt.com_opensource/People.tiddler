@@ -1,61 +1,29 @@
 <div title="People" modifier="PhilWhitehouse" created="200803261734" modified="200804011336" changecount="29">
 <pre>The following people are involved in open source at BT. If you'd like to get in touch, please feel free to do so through the below channels:
 !!JP Rangaswami
-
-[img[JP Rangaswami|people/jp.png]]
-JP is the Managing Director of BT Design and has been an outspoken proponent of open source and open standards for many years. He is well known on the conference circuit, as well as for his popular blog, [[Confused of Calcutta|http://www.confusedofcalcutta.com]].
-
-Contact: [[jp@bt.com|mailto:jp@bt.com]]
-Blog: [[Confused of Calcutta|http://www.confusedofcalcutta.com]]
-Twitter: [[http://www.twitter.com/jobsworth|http://www.twitter.com/jobsworth]]
-
+{{layoutTable{
+|[img[JP Rangaswami|people/jp.png]]|JP is the Managing Director of BT Design and has been an outspoken proponent of open source and open standards for many years. He is well known on the conference circuit, as well as for his popular blog, [[Confused of Calcutta|http://www.confusedofcalcutta.com]]. ''Contact: [[jp@bt.com|mailto:jp@bt.com]]'' ''Blog: [[Confused of Calcutta|http://www.confusedofcalcutta.com]]'' ''Twitter: [[http://www.twitter.com/jobsworth|http://www.twitter.com/jobsworth]]''|
+}}}
 !!Jeremy Ruston
-
-[img[Jeremy Ruston|people/jeremy.png]] 
-
-Jeremy is the Head of Open Source Innovation for BT, a role which sees him leading [[Osmosoft]], BT's open source innovation lab. He is the original creator of the open source product TiddlyWiki, and continues to manage this project alongside his BT duties.
-
-Contact: [[jeremy.ruston@bt.com|mailto:jeremy.ruston@bt.com]]
-Blog: [[Treat with Jermolene|http://jermolene.wordpres.com]]
-Twitter: http://www.twitter.com/jermolene
-
+{{layoutTable{
+|[img[Jeremy Ruston|people/jeremy.png]] |Jeremy is the Head of Open Source Innovation for BT, a role which sees him leading [[Osmosoft]], BT's open source innovation lab. He is the original creator of the open source product TiddlyWiki, and continues to manage this project alongside his BT duties. ''Contact: [[jeremy.ruston@bt.com|mailto:jeremy.ruston@bt.com]]'' ''Blog: [[Treat with Jermolene|http://jermolene.wordpres.com]]'' ''Twitter: http://www.twitter.com/jermolene''|
+}}}
 !!Mark Kent
-
-[img[Mark Kent|people/mark.png]] 
-
-Mark has been a strong proponent of open source within BT for many years.
-
-Contact: [[mark.kent@bt.com|mailto:mark.kent@bt.com]]
-
+{{layoutTable{
+|[img[Mark Kent|people/mark.png]]|Mark has been a strong proponent of open source within BT for many years. ''Contact: [[mark.kent@bt.com|mailto:mark.kent@bt.com]]''|
+}}}
 !!Paul O'Brian
-
-[img[Paul O'Brian|people/paul.png]] 
-
-Paul leads BT's Open Source Special Interest Group (OSSIG).
-
-Contact: [[paul.d.obrien@bt.com|mailto:paul.d.obrien@bt.com]]
-
+{{layoutTable{
+|[img[Paul O'Brian|people/paul.png]] |Paul leads BT's Open Source Special Interest Group (OSSIG). ''Contact: [[paul.d.obrien@bt.com|mailto:paul.d.obrien@bt.com]]''|
+}}}
 !!Andrew Back
-
-[img[Andrew Back|people/andrew.png]] 
-
-Andrew has been working with Free and Open Source Software (FOSS) since 1995, and currently holds the position of Open Source Strategist within [[BT Osmosoft|Osmosoft]]. During his tenure at BT he has been responsible for driving strategy for the effective adoption of open source technology and principles across all lines of business, and the creation of BT Design's Open Source Focus Group. He is a Fellow of the Royal Society for the encouragement of the Arts, Manufactures and Commerce, and a Chartered Member of the British Computer Society.
-
-Contact: [[andrew.rf.back@bt.com|mailto:andrew.rf.back@bt.com]]
-Blog: [[Carrier Detect|http://www.carrierdetect.com]]
-Twitter: http://www.twitter.com
-
+{{layoutTable{
+|[img[Andrew Back|people/andrew.png]] |Andrew has been working with Free and Open Source Software (FOSS) since 1995, and currently holds the position of Open Source Strategist within [[BT Osmosoft|Osmosoft]]. During his tenure at BT he has been responsible for driving strategy for the effective adoption of open source technology and principles across all lines of business, and the creation of BT Design's Open Source Focus Group. He is a Fellow of the Royal Society for the encouragement of the Arts, Manufactures and Commerce, and a Chartered Member of the British Computer Society.''Contact: [[andrew.rf.back@bt.com|mailto:andrew.rf.back@bt.com]]'' ''Blog: [[Carrier Detect|http://www.carrierdetect.com]]'' ''Twitter: http://www.twitter.com''|
+}}}
 !!Phil Whitehouse
-
-[img[Phil Whitehouse|people/phil.png]]
-
-Phil holds the position of Open Source Community Advocate within [[BT Osmosoft|Osmosoft]]. He is responsible for bridging the gap between open source communities and those within BT who are interested in open source, as well as managing commitments made by [[BT Osmosoft|Osmosoft]]. He comes from an agency background, specialising in user experience design, accessibility and project management.
-
-Contact: [[phil.2.whitehouse@bt.com|mailto:phil.2.whitehouse@bt.com]]
-Blog: [[The Casablanca Weblog|http://philwhitehouse.blogspot.com]]
-Twitter: http://www.twitter.com/Casablanca
-
+{{layoutTable{
+|[img[Phil Whitehouse|people/phil.png]]|Phil holds the position of Open Source Community Advocate within [[BT Osmosoft|Osmosoft]]. He is responsible for bridging the gap between open source communities and those within BT who are interested in open source, as well as managing commitments made by [[BT Osmosoft|Osmosoft]]. He comes from an agency background, specialising in user experience design, accessibility and project management. ''Contact: [[phil.2.whitehouse@bt.com|mailto:phil.2.whitehouse@bt.com]]'' ''Blog: [[The Casablanca Weblog|http://philwhitehouse.blogspot.com]]'' ''Twitter: http://www.twitter.com/Casablanca''|
+}}}
 !!BT Osmosoft
-
 [[BT Osmosoft|Osmosoft]], the Open Source Innovation arm of BT, have a particularly transparent remit, and you can find out more about their work at the [[BT Osmosoft website|http://www.osmosoft.com]].</pre>
 </div>

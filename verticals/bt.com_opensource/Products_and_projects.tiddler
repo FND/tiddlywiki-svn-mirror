@@ -1,40 +1,17 @@
 <div title="Products and projects" modifier="PhilWhitehouse" created="200803261630" modified="200804301255" changecount="22">
-<pre>BT uses several open source products both for internal and external initiatives and products. 
+<pre>BT makes extensive use of Free and Open Source Software (FOSS) in internal systems, BT products, projects and customer deliveries, and believes that FOSS will play an increasingly vital role in enabling BT to deliver innovative solutions. 
 
-We would like to place on record our thanks and appreciation to all the people who worked on the following open source projects.
+With this in mind we would like to place on record our thanks and appreciation to all the people who have worked and continue to work on the following FOSS projects (by no means an exhaustive list):
 
-{{{Note the list of products and projects and all associated text should be written by someone else - this is just holding copy for purposes of discussion. But FOSSology, FOSSBazaar, OSS Census, Nagios Network monitoring could all appear here}}}
-
-[<img[Linux logo|images/Linux-penguin-huge.png][http://www.linux.org/]] [[Linux|http://www.linux.org/]]
- BT uses various flavours of Linux throughout the organisation, not only as a file server or database manager, but also within our [[HomeHub|http://www.homehub.bt.com/]] product. The amendments made to the code were returned to the core.
-
-
-
-
-
-
-
-[<img[Apache logo|images/apache_feather.png][http://www.apache.org/]] [[Apache|http://www.apache.org/]]
- Apache is BT's most prominent web server.
-
-[<img[MySQL logo|images/mysql.png][http://www.mysql.com/]]
- [[MySQL|http://www.mysql.com/]]
- ~MySQL is used selectively throughout the organisation.
-
-
-
-[<img[Firefox logo|images/firefox_logo.png][http://www.mozilla.com/firefox/]]
- [[Firefox|http://www.mozilla.com/firefox/]]
- Firefox is on the list of approved browsers at BT.
-
-
-
-
-
-[<img[TiddlyWiki logo|images/tiddlywiki.png][http://www.tiddlywiki.com]] [[TiddlyWiki|http://www.tiddlywiki.com]]
- TiddlyWiki is used within BT not only as a desktop version but also as a server-side adaptation. It also sits at the heart of BT's open source innovation team, [[Osmosoft]]. Osmosoft has also helped to develop an open source server-side implementation of TiddlyWiki, known as ccTiddly. You can find out more about this product on the [[TiddlyWiki.org website|http://tiddlywiki.org/wiki/CcTiddly]].
-
-
-
-[[Alternative software page]]</pre>
+|[img[Linux logo|image/linux-logo.png][http://www.linux.org/]] |[[Linux]]|[img[OpenSSL logo|image/OpenSSL_logo.png][http://www.openssl.org/]]|[[OpenSSL]]|
+|[img[GNU logo|image/GNU.png][http://www.gnu.org/]]|[[GNU Operating System]]|[img[BusyBox logo|image/busybox_logo.png][http://busybox.net/]]|[[BusyBox]]|
+|[img[Eclipse logo|image/eclipse_logo.png][http://www.eclipse.org/]]|[[Eclipse]]|[img[SER logo|image/ser_logo.png][http://www.iptel.org/ser/]]|[[SIP Express Router]]|
+|[img[Apache logo|image/apache_logo.png][http://www.apache.org/]] |[[Apache]]|[img[Samba logo|image/samba_logo.png][http://www.samba.org/]]|[[Samba]]|
+|[img[OFBiz logo|image/ofbiz_logo.png][http://ofbiz.apache.org/]]|[[OFBiz]]|[img[MySQL logo|image/mysql_logo.png][http://www.mysql.com/]]|[[MySQL]]|
+|[img[Subversion logo|image/subversion_logo.png][http://subversion.tigris.org/]]|[[Subversion]]|[img[PHP logo|image/php-logo.png][http://www.php.net/]]|[[PHP]]|
+|[img[MediaWiki logo|image/mediawiki_logo.png][http://www.mediawiki.org/]]|[[MediaWiki]]|[img[Spring logo|image/spring_logo.png][http://www.springframework.org/]]|[[Spring]]|
+|[img[PuTTY logo|image/putty_logo.png][http://www.chiark.greenend.org.uk/~sgtatham/putty/]]|[[PuTTY]]|[img[ADOdb logo|image/adodb_logo.png][http://adodb.sourceforge.net/]]|[[ADOdb]]|
+|[img[Firefox logo|image/firefox-logo.png][http://www.mozilla.com/firefox/]]|[[Firefox]]|[img[Xen logo|image/xen_logo.png][http://www.xen.org/]]|[[Xen]]|
+|[img[TiddlyWiki logo|image/tw_logo.png][http://www.tiddlywiki.com]]|TiddlyWiki|[img[Wireshark logo|image/wireshark_logo.png][http://www.wireshark.org/]]|[[Wireshark]]|
+|[img[Asterisk logo|image/asterisk_logo.png][http://www.asterisk.org/]]|[[Asterisk]]|[img[Zlib logo|image/zlib_logo.png][http://www.zlib.net/]]|[[Zlib]]|</pre>
 </div>
