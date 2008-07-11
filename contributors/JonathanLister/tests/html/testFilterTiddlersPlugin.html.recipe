@@ -1,6 +1,6 @@
 recipe: ../../../../core/tests/html/testContributors.recipe
 recipe: ../../verticals/filterTiddlersTesting/tiddlers/split.recipe
-postjs: ../../plugins/filterTiddlersPlugin.js
+postjs: ../../plugins/FilterTiddlersPlugin.js
 
 jsspecsrc=<script type="text/javascript" src="../../../../core/tests/js/tiddlywiki.js"></script>
 jsspecsrc=<script type="text/javascript" src="../jsspec/filterTiddlersPlugin.jsspec.js"></script>
