@@ -50,8 +50,6 @@ TiddlyWiki.prototype.filterTiddlers = function(filter) {
 	};
 	var findRawDelimiter = function(delimiter,text,start)
 	{
-	//# {{!}} {{|}}
-	//#fnLog('findRawDelimiter:'+text.substr(start,50));
 		var d = text.indexOf(delimiter,start);
 		if(d==-1)
 			return -1;
@@ -67,7 +65,6 @@ TiddlyWiki.prototype.filterTiddlers = function(filter) {
 				b.end = be;
 			}
 		}
-	//#console.log('frd('+d+','+bs+','+be+')');
 		if(b.start!=-1 && d>b.start)
 			s1 = b.end+2;
 		return s1==-1 ? d : findRawDelimiter(delimiter,text,s1);
