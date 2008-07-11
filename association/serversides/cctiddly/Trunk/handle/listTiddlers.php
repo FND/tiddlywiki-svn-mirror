@@ -4,24 +4,20 @@ $cct_base = "../";
 include_once($cct_base."includes/header.php");
 include_once($cct_base."includes/print.php");
 include_once($cct_base."includes/login.php");
-$tiddlyCfg['workspace_name'] = '';
+$tiddlyCfg['workspace_name'] = $_REQUEST['workspace'];
 	$tiddlers = getAllVersionTiddly($title);
 	$t = array();
 	$tiddlers = getAllTiddlers();
-	// if($_REQUEST['skin']) 
-	//{
-		$skin_tiddlers = getSkinTiddlers($_REQUEST['skin']); 
-		$tiddlers = array_merge($skin_tiddlers, $tiddlers); 
-	//}
+	$skin_tiddlers = getSkinTiddlers($_REQUEST['skin']); 
+	$tiddlers = array_merge($skin_tiddlers, $tiddlers); 
 
-	echo "[";
+	 $a = "[";
 
 	if( sizeof($tiddlers)>0 )
 	{
 		foreach( $tiddlers as $t )
 		{
 			$a .= "{'title':'".$t['title']."', 'revision':".$t['revision']."}".",";
-			
  		}
 	}
 	

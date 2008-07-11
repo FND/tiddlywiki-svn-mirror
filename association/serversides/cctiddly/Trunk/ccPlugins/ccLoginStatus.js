@@ -48,10 +48,9 @@ config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 		var btn=createTiddlyElement(null,"input",null,"button");
 		btn.setAttribute("type", "button");
 		btn.onclick=function() {
-		window.location = window.location+"?&logout=1&workspace="+window.workspace
+			window.location = window.location+"?&logout=1&workspace="+window.workspace
 		};
 		
-	//	btn.setAttribute("type","submit");d
 		btn.value="Logout";   
 		wrapper.appendChild(btn);	
 	}else{

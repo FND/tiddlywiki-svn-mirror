@@ -1,13 +1,10 @@
 <?php
 	$cct_base = "../";
 	include_once($cct_base."includes/header.php");
-
-	//return result/message
 	function returnResult($str)
 	{
 		global $ccT_msg;
 		db_close();
-
 		switch($str) {
 			case "001":		//insert
 				sendHeader(201,$ccT_msg['notice']['TiddlerSaved'],"",1);
@@ -34,19 +31,23 @@
 				sendHeader(400,$ccT_msg['warning']['save_error'].": ".$str,"",1);
 		}
 	}
-	
 //////////////////////////////////////////////////////////preformat tiddler data//////////////////////////////////////////////////////////////
 	if( !isset($_POST['tiddler']) ) {
 		returnResult("no tiddler passed");
 	}
 	//strip all slashes first and readd them before adding to SQL
 	$ntiddler = formatParametersPOST($_POST['tiddler']);
+	if ($_POST['decode'])
+		$ntiddler = urldecode($ntiddler);
 	$oldTitle = formatParameters($_POST['otitle']);
 	$oldModified = formatParameters(isset($_POST['omodified'])?$_POST['omodified']:"");
 	$oldChangecount = formatParameters(isset($_POST['ochangecount'])?$_POST['ochangecount']:"");
 	
 	//explode tiddler DIV into array
+print_r($ntiddler);
+echo "<hr />";
 	$ntiddler = tiddler_htmlToArray($ntiddler);
+print_r($ntiddler);
 	$ntiddler = tiddler_create($ntiddler[0]['title'], 
 								$ntiddler[0]['body'], 
 								$ntiddler[0]['modifier'], 
@@ -93,7 +94,6 @@
 	{
 		returnResult("020");
 	}
-	
 	//check if empty title
 	if( strlen($ntiddler['title']) == 0 )
 	{
@@ -198,6 +198,9 @@
 	//$saveResult = saveTiddly( $oldTitle, $oldModified, $ntiddler);
 	if( strcmp($save_status, "update") == 0 ) {
 						debug("ipdares2");
+						
+						echo "<br />Taken from database selection : ".$otiddler['modified'];
+						echo "<br />Taken from P~OS~T modified ".$oldModified.'<br />';
 		if( strcmp($otiddler['modified'],$oldModified)!=0 ) {		//ask to reload if modified date differs
 			returnResult("012");
 		}

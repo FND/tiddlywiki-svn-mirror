@@ -58,7 +58,8 @@ if ($_POST['logout'] || $_REQUEST['logout'])
 $user['verified'] = user_session_validate();
 
 if ($user['verified']){
-	$workspace_permissions = $tiddlyCfg['default_user_perm'];
+	$workspace_permissions = user_tiddlerPrivilegeOfUser($user);
+//	$workspace_permissions = $tiddlyCfg['default_user_perm'];
 }else{
 	$workspace_permissions = $tiddlyCfg['default_anonymous_perm'];
 }

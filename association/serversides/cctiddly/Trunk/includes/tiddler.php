@@ -127,25 +127,26 @@
 	{
 		$tiddlers=preg_grep("!<div.+tiddler=!",explode("\n",$html));		//only ones with "<div tiddler=" is accepted
 		$result = array();
+		
 		foreach($tiddlers as $tid)		//for each line of tiddler
-		{
-			$t = $tid;
+		{	
+			echo $t = $tid;
 			//first take body out
 			$r['body'] = trim(preg_replace("!(<div[^>]*>|</div>)!","",$t));
 			$t = preg_replace("!(<div |>.*</div>)!","",$t);		//take away body and begining <div tag
 		
 			//define useful regex
 			$reg_remove = "!([^=]*=\"|\")!";		//reg ex for removing something=" and "
-			
+
 			//take out the rest of the info
 			$reg = "!tiddler=\"[^\"]*\"!";
 			preg_match($reg, $t, $tmp);				//obtain string from tiddler
-			$t = preg_replace($reg, "", $t);		//remove data from div string
-			$r['title'] = trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
+		 	$t = preg_replace($reg, "", $t);		//remove data from div string
+			$r['title'] =trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
 			
 			$reg = "!modifier=\"[^\"]*\"!";
 			preg_match($reg, $t, $tmp);				//obtain string from tiddler
-			$t = preg_replace($reg, "", $t);		//remove data from div string
+		 	$t = preg_replace($reg, "", $t);		//remove data from div string
 			$r['modifier'] = trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
 			
 			$reg = "!modified=\"[^\"]*\"!";
@@ -166,7 +167,7 @@
 			$reg = "!changecount=\"[^\"]*\"!";
 			preg_match($reg, $t, $tmp);				//obtain string from tiddler
 			$t = preg_replace($reg, "", $t);		//remove data from div string
-			$r['revision'] = trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
+		 	$r['revision'] = trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
 			
 			//remove "temp." fields as they are temporary
 			$t = preg_replace("!temp[.][^\"]*=\"[^\"]*\"!", "", $t);

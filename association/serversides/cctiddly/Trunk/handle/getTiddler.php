@@ -1,10 +1,14 @@
+
+
 <?php
+
+
 	$cct_base = "../";
 	include_once($cct_base."includes/header.php");
-	
+	$tiddlyCfg['workspace_name'] = $_REQUEST['workspace'];
 	$tiddler = db_tiddlers_mainSelectTitle($title);
 //	print_r($tiddler);
-	
-	
-	
-	echo "['text:'".$tiddler['body']."','tags':'".$tiddler['tags']."', 'revision:'".$tiddler['revision']."','modifier:'".$tiddler['modifier']."','modified:'".$tiddler['modified']."','created:'".$tiddler['created']."']";
+
+	echo "{'created':'".$tiddler['created']."', 'text':'".$tiddler['body']."', 'tags':'".$tiddler['tags']."', 'modified':'".$tiddler['modified']."', 'bag':'', 'title':'METITLE', 'modifier':'".$tiddler['modifier']."',  'revision':".$tiddler['revision']."}";
+exit;
+

@@ -41,7 +41,7 @@ $tiddlyCfg['pref']['deligate_session_url'] = "http://uvoke.com/sys/uvokecheckses
 $tiddlyCfg['deligate_session_management'] = 0; 	
 	
 // Upload Values 
-	$tiddlyCfg['allowed_proxy_list'] = array('wikipedia.org', 'tiddly-twab.com', 'tiddlythemes.com', 'tiddlytools.com', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost');
+	$tiddlyCfg['allowed_proxy_list'] = array('wikipedia.org', 'google.com', 'en.wikipedia.org', 'martinswiki.com', 'tiddly-twab.com', 'tiddlythemes.com', 'tiddlytools.com', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost');
 	
 	
 $tiddlyCfg['upload_allow_extensions'] = array("text/plain", "text/xml", "text/html", "application/msword", "application/mspowerpoint", "	application/excel", "application/x-visio", "application/pdf", "application/octet-stream");
@@ -217,6 +217,8 @@ foreach($results as $result)
 	$admin_array[$i++] = $result['username'];
 	
 $tiddlyCfg['group']['admin'] = $admin_array;
+
+
 $tiddlyCfg['group']['exampleGroup'] = array('admin', 'simon');
 
 //user allow to upload rss, put in group names here like $tiddlyCfg['privilege_misc']['rss'] = array("<group1>", "<group2>");
@@ -256,7 +258,7 @@ Notes :
 */
 
 //default privileges
-$tiddlyCfg['privilege_misc']['undefined_privilege'] = "A";		//defined what should undefined (U) be treated as
+$tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what should undefined (U) be treated as
 $tiddlyCfg['privilege_misc']['default_privilege'] = "UUUU";		//default privilege for all group and tags
 
 //default privileges for certain groups, applied after default_privilege

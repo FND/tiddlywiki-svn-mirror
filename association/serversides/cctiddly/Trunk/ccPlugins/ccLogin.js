@@ -282,15 +282,22 @@ config.macros.ccLogin.saveCookie=function(cookieValues){
 	}
 };
 
-
 window.restart = function (){
-	var tiddlers="";
- 	tiddlers=store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));
-	if (isLoggedIn()){
-		tiddlers=store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));
-	}
-	story.displayTiddlers(null,tiddlers);	
-	invokeParamifier(params,"onstart");
-	window.scrollTo(0,0);
+	    var tiddlers="";
+	    if (isLoggedIn()) {        
+			var url = window.location;        
+			url = url.toString();        
+			var bits = url.split('#');        
+			if (bits.length == 1) {            
+				tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));            
+				story.displayTiddlers(null, tiddlers);
+			}
+		} else {        
+			tiddlers=store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));        
+			story.displayTiddlers(null, tiddlers);   
+		}    
+		invokeParamifier(params,"onstart");    window.scrollTo(0,0); 
 }
+
+
 //}}}

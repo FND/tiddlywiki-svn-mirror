@@ -384,6 +384,7 @@
 	//!	@param $p2 privilege 2
 	function user_mergePrivilege($p1,$p2)
 	{
+		
 		$s = strlen($p1);		//defined such that it can be used with shorter privilege string
 		for( $i=0; $i<$s; $i++ )
 		{
