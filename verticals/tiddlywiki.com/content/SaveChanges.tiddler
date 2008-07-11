@@ -1,4 +1,4 @@
-<div title="SaveChanges" modifier="PhilWhitehouse" created="200508050106" modified="200807031538" tags="features instructions Save GettingStarted" changecount="20">
+<div title="SaveChanges" modifier="PhilWhitehouse" created="200508050106" modified="200807101359" tags="features instructions save gettingstarted" changecount="23">
 <pre>Saving changes in ~TiddlyWiki requires a little configuration the first time you do it, but after that it's a breeze! Follow these guidelines and you'll be fine.
 
 First of all, it's important to save changes using ~TiddlyWiki's built in saving functionality (rather than the browser's 'Save As' function - [[here's why|SaveUnpredictabilities]]). On the version of ~TiddlyWiki that you've opened from your desktop, there's a button on the right hand side that says 'save changes' - that's the button you'll need to use.
