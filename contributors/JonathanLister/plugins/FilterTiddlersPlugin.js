@@ -38,8 +38,6 @@ if(!version.extensions.FilterTiddlersPlugin) {
 version.extensions.FilterTiddlersPlugin = {installed:true};
 
 TiddlyWiki.prototype.filterTiddlers = function(filter) {
-	var pieces = [];
-	var results = [];
 	var makeStore = function(tiddlers) {
 		if(tiddlers && tiddlers.length===0) {
 			return store;
@@ -49,6 +47,30 @@ TiddlyWiki.prototype.filterTiddlers = function(filter) {
 			TW.addTiddler(tiddlers[i]);
 		}
 		return TW;
+	};
+	var findRawDelimiter = function(delimiter,text,start)
+	{
+	//# {{!}} {{|}}
+	//#fnLog('findRawDelimiter:'+text.substr(start,50));
+		var d = text.indexOf(delimiter,start);
+		if(d==-1)
+			return -1;
+		var b = {start:-1,end:-1};
+		var bs = text.indexOf('[',start);
+		if(bs==-1 || bs >d)
+			return d;
+		var s1 = -1;
+		if(bs!=-1 && bs <d) {
+			var be = text.indexOf(']',bs);
+			if(be!=-1) {
+				b.start = bs;
+				b.end = be;
+			}
+		}
+	//#console.log('frd('+d+','+bs+','+be+')');
+		if(b.start!=-1 && d>b.start)
+			s1 = b.end+2;
+		return s1==-1 ? d : findRawDelimiter(delimiter,text,s1);
 	};
 	var filterTiddlers = function(filter,tiddlers)
 	{
@@ -163,11 +185,18 @@ TiddlyWiki.prototype.filterTiddlers = function(filter) {
 		}
 		return results;
 	};
+	var results = [];
 	if(filter) {
-		pieces = filter.split("|");
-		for(var i=0;i<pieces.length;i++) {
-			results = filterTiddlers(pieces[i],results);
+		var delimiter = "|";
+		var inc = delimiter.length;
+		var start = 0;
+		var end = findRawDelimiter(delimiter,filter,start);
+		while(end!=-1) {
+			results = filterTiddlers(filter.substr(start,end),results);
+			start = end+inc;
+			end = findRawDelimiter(delimiter,filter,start);
 		}
+		results = filterTiddlers(filter.substr(start),results);
 	}
 	return results;
 };
