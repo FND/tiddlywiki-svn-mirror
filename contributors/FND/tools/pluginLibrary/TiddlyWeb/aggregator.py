@@ -38,7 +38,7 @@ def getRepositories(filepath):
 	repos = list()
 	with open(filepath, "r") as f:
 		for line in f:
-			if line.startswith("#"): # skip commented lines -- DEBUG: skip blank lines
+			if line.strip() and not line.startswith("#"): # skip blank and commented lines
 				repo = dict()
 				components = line.split("|", 2)
 				repo["URI"] = components[0].strip()
