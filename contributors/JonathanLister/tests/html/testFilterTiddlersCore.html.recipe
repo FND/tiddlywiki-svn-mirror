@@ -1,0 +1,7 @@
+recipe: ../../../../core/tests/html/testContributors.recipe
+recipe: ../../verticals/filterTiddlersTesting/tiddlers/split.recipe
+#postjs: ../../plugins/FilterTiddlersPlugin.js
+#note: this recipe assumes that the core TiddlyWiki.js has been integrated with FilterTiddlersPlugin.js, so check that!
+
+jsspecsrc=<script type="text/javascript" src="../../../../core/tests/js/tiddlywiki.js"></script>
+jsspecsrc=<script type="text/javascript" src="../jsspec/filterTiddlersPlugin.jsspec.js"></script>
