@@ -16,19 +16,31 @@ def normalizeURL(URL):
 		URL = URL[:-1] # DEBUG: use rstrip()?
 	return URL
 
+def unescapeLineBreaks(text):
+	"""
+	unescape line breaks
+
+	@param text: original text
+	@type  text: str
+	@return: converted text
+	@rtype : str
+	"""
+	return text.replace("\\n", "\n").replace("\\b", " ").replace("\\s", "\\").replace("\r", "")
+
 class TiddlyWiki():
 	"""
 	utility functions for processing TiddlyWiki documents
 	"""
-	def __init__(self, doc):
+	def __init__(self, html):
 		"""
-		@param doc: TiddlyWiki document
-		@type  doc: str
+		@param html: TiddlyWiki document
+		@type  html: str
 		@return: None
 		"""
 		from BeautifulSoup import BeautifulSoup # DEBUG: move to top of module? use demandload (cf. bzr or snakeoil; http://www.pkgcore.org/trac/pkgcore/browser/snakeoil/snakeoil/demandload.py)?
-		self.doc = doc
-		self.dom = BeautifulSoup(doc) # DEBUG: rename!?
+		self.html = html
+		self.dom = BeautifulSoup(html) # DEBUG: rename!?
+		self.store = self.dom.find("div", id="storeArea")
 
 	def getPluginTiddlers(self, repo): # DEBUG: universal-ize; rename to getTiddlers() and use key-value pair(s?) for matching attribute(s?)
 		"""
@@ -39,7 +51,6 @@ class TiddlyWiki():
 		@return: plugin tiddlers (pure-store format)
 		@rtype : str
 		"""
-		self.store = self.dom.find("div", id="storeArea")
 		tag = "systemConfig" # includes "systemConfigDisable" -- DEBUG: include systemTheme tiddlers?
 		# remove non-plugin tiddlers
 		[tiddler.extract() for tiddler in self.store.findAll("div", title=True) \
@@ -62,7 +73,7 @@ class TiddlyWiki():
 		@return: None
 		"""
 		repo = normalizeURL(repo)
-		for plugin in self.store.findAll("div", title=True): # DEBUG: limit to direct child nodes!?
+		for plugin in self.store.findChildren("div", title=True):
 			slices = self.getSlices(plugin.pre.renderContents())
 			if slices.has_key("Source"): # N.B.: plugin accepted if Source slice not present
 				source = normalizeURL(slices["Source"])
@@ -91,11 +102,11 @@ class TiddlyWiki():
 		"""
 		retrieve TiddlyWiki version number
 
-		@return: [TBD]
-		@rtype : [TBD]
+		@return: version number (major, minor, revision)
+		@rtype : list or None
 		"""
 		version = self.dom.html.head.script.renderContents()
-		pattern = re.compile("major: (\d), minor: (\d), revision: (\d)")
+		pattern = re.compile("major: (\d+), minor: (\d+), revision: (\d+)")
 		matches = re.search(pattern, version);
 		if matches:
 			major = int(matches.groups()[0])
@@ -115,6 +126,11 @@ class TiddlyWiki():
 		@return: None
 		"""
 		version = self.getVersion()
-		if version[0] + (version[1] / 10.0) < 2.2: # DEBUG: only works if minor < 10
-			pass # DEBUG: to do
+		if version and (version[0] + (version[1] / 10.0) < 2.2): # N.B.: works because all pre-v2.2 releases are known
+			for tiddler in self.store.findChildren("div", tiddler=True):
+				# convert tiddler attribute to title attribute
+				tiddler["title"] = tiddler["tiddler"]
+				del(tiddler["tiddler"])
+				# unescape line breaks
+				tiddler.contents[0].replaceWith(unescapeLineBreaks(tiddler.contents[0])) # DEBUG: blanks contents!?
 

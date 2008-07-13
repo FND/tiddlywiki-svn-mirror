@@ -76,7 +76,7 @@ def getPlugins(repo):
 		from tiddlyweb.bag import Bag
 		from tiddlyweb.importer import import_wiki
 		try:
-			doc = urlopen(repo["URI"]).read() # DEBUG: caching, deferred processing?!
+			html = urlopen(repo["URI"]).read() # DEBUG: caching, deferred processing?!
 		except IOError:  # DEBUG: doesn't include 404!?
 			return False # DEBUG: log error
 		bagName = repo["name"] # DEBUG: escape invalid path chars
@@ -89,14 +89,14 @@ def getPlugins(repo):
 		store = Store("text")
 		store.put(bag)
 		# import plugins
-		tw = TiddlyWiki(doc)
-		tw.convertStoreFormat()
+		tw = TiddlyWiki(html)
+		tw.convertStoreFormat() # DEBUG: extract plugins first?
 		import_wiki(tw.getPluginTiddlers(repo), repo["name"]) # DEBUG: creates a new revision per cycle
 		return True
 	elif repo["type"] == "SVN":
 		pass # DEBUG: to be implemented
 	else:
-		pass # DEBUG: TBD
+1		pass # DEBUG: TBD
 
 # startup
 
