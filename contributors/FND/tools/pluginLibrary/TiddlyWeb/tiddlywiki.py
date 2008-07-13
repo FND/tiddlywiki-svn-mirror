@@ -13,7 +13,7 @@ def normalizeURL(URL):
 	"""
 	URL = URL.split("#", 1)[0]
 	if URL[-1] == "/":
-		URL = URL[:-1] # DEBUG: use rstrip()?
+		URL = URL.rstrip("/")?
 	return URL
 
 def unescapeLineBreaks(text):
@@ -39,7 +39,7 @@ class TiddlyWiki():
 		"""
 		from BeautifulSoup import BeautifulSoup # DEBUG: move to top of module? use demandload (cf. bzr or snakeoil; http://www.pkgcore.org/trac/pkgcore/browser/snakeoil/snakeoil/demandload.py)?
 		self.html = html
-		self.dom = BeautifulSoup(html) # DEBUG: rename!?
+		self.dom = BeautifulSoup(html)
 		self.store = self.dom.find("div", id="storeArea")
 
 	def getPluginTiddlers(self, repo): # DEBUG: universal-ize; rename to getTiddlers() and use key-value pair(s?) for matching attribute(s?)
@@ -132,5 +132,5 @@ class TiddlyWiki():
 				tiddler["title"] = tiddler["tiddler"]
 				del(tiddler["tiddler"])
 				# unescape line breaks
-				tiddler.contents[0].replaceWith(unescapeLineBreaks(tiddler.contents[0])) # DEBUG: blanks contents!?
+				tiddler.contents[0].replaceWith(unescapeLineBreaks(tiddler.contents[0]))
 
