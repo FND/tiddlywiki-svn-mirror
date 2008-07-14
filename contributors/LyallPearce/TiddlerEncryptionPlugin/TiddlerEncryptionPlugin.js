@@ -3,7 +3,7 @@
 |Author|Lyall Pearce|
 |Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
 |License|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|Version|3.0.0|
+|Version|3.0.1|
 |~CoreVersion|2.3.0|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
@@ -43,13 +43,14 @@ Useful Buttons:
 <<<
 !!!!!Revision History
 <<<
+* 3.0.1 - Allow Enter to be used for password entry, rather than having to press the OK button.
 * 3.0.0 - Major revamp internally to support entry of passwords using forms such that passwords are no longer visible on entry. Completely backward compatible with old encrypted tiddlers. No more using the javascript prompt() function.
 <<<
 !!!!!Additional work
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 3, minor: 0, revision: 0, date: new Date(2008,7,14)};
+version.extensions.TiddlerEncryptionPlugin = {major: 3, minor: 0, revision: 1, date: new Date(2008,7,14)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
@@ -511,7 +512,14 @@ PasswordPrompt ={
 	box.style.position = 'absolute';
 	this.center(box);
 	document.getElementById('promptDisplayField').value = context.passwordPrompt;
-	document.getElementById('passwordInputField').focus();
+	var passwordInputField = document.getElementById('passwordInputField');
+	passwordInputField.onkeyup = function(ev) {
+	    var e = ev || window.event;
+	    if(e.keyCode == 10 || e.keyCode == 13) { // Enter
+		PasswordPrompt.submit(callback, context);
+	    }
+	};
+	passwordInputField.focus();
 	document.getElementById('passwordPromptSubmitBtn').onclick = function(){PasswordPrompt.submit(callback,context);};
 	document.getElementById('passwordPromptCancelBtn').onclick = function(){PasswordPrompt.cancel(callback,context);};
     },     
