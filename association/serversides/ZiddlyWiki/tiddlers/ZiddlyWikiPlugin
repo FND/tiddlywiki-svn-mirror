@@ -261,7 +261,7 @@ config.macros.importLink = {
   handler: function(place) {
     if(zw.loggedIn || zw.anonEdit) {
       createTiddlyButton(place,this.label,this.prompt,function(){
-          displayTiddler(null, "ImportTiddlers");
+          story.displayTiddler(null, "ImportTiddlers");
       });
     }
   }
