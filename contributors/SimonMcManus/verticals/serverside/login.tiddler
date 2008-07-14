@@ -2,317 +2,114 @@
 <pre>
 //{{{
 
-
-
-config.macros.ccLogin={};	
-merge(config.macros.ccLogin,{
-	WizardTitleText:"boring login box",
+config.macros.login={};	
+merge(config.macros.login,{
+	WizardTitleText:"Please Login",
 	usernameRequest:"Username",
 	passwordRequest:"Password",
-	passwordConfirmationRequest:"Please Confirm Password : ",
-	emailRequest:"Email Address : ",
 	
-	stepLoginTitle:"Please Login ",
-	stepLoginIntroText:"Hi, please login below..... ",
-	stepRegisterTitle:"Register for an account.",
-	stepRegisterIntroText:"Hi, please register below.... ",
+	stepLoginTitle:"Please Login",
+	stepLoginIntroTextHtml:"<table border=0px><tr><td>username</td><td><input name=username id=a tabindex='1'></td></tr><tr><td>password</td><td><input type=password id='v' tabindex='2' name=password></td></tr></table>",
 	stepDoLoginTitle:"Logging you in",
 	stepDoLoginIntroText:"we are currently trying to log you in.... ",
 	stepForgotPasswordTitle:"Password Request",
-	stepForgotPasswordIntroText:"please email simon@osmosft.com",
+	stepForgotPasswordIntroText:"please email admin@admin.com",
 	buttonLogin:"Login",
 	buttonLoginToolTip:"click to login ",	
 	buttonCancel:"Cancel",
 	buttonCancelToolTip:"Cancel transaction ",
-	buttonRegister:"Register",	
-	buttonRegisterToolTip:"click to register",	
 	buttonForgottenPassword:"Forgotten Password",	
 	buttonForgottenPasswordToolTip:"Click to be reminded of your password",
-	
 
-	configAllowRegister:true,
-	configDenyRegisterMessage:"Registering accounts is currently disabled. Please email me@nowhere.com if you need access.",
 	configURL:"http://peermore.com:8080/challenge/cookie_form", 
 	configUsernameInputName:"user",
 	configPasswordInputName:"password",
 	configPasswordCookieName:"cctPass"
 });
 	
-config.macros.ccLogin.displayRegister=function(place, item){
-	//removeChildren(place);
-	var me = config.macros.ccLogin;
-	var wrapper = createTiddlyElement(null,"div");
-	if (config.macros.ccLogin.configAllowRegister != true){
-		createTiddlyElement(wrapper,'div',null,"annotation",me.configDenyRegisterMessage);
-		return null;
-	}
-	var frm=createTiddlyElement(wrapper,"form",null,"wizard");
-//	frm.onsubmit= config.macros.ccRegister.registerOnSubmit;
-	createTiddlyText(frm, me.stepRegisterIntroText);
-	var tb=createTiddlyElement(frm,"table");
-	var tr=createTiddlyElement(tb,"tr");
-	var username_label=createTiddlyElement(tr,"td",null,null,me.usernameRequest);
-	username_label.style.textAlign = "right";
-	var td=createTiddlyElement(tr,"td");
-	var username = createTiddlyElement(null,"input","username" ,"input");
-	username.onkeyup=function() {
-		displayMessage("ss");
-		//config.macros.ccLogin.isUsernameAvailable(item.value);
-	};
-	username.setAttribute("tabindex","1");
-	td.appendChild(username);
-	createTiddlyElement(tr,"td",'username_error','inlineError',null);
-	var tr=createTiddlyElement(tb,"tr");
-	var mail_label = createTiddlyElement(tr,"td",null,null,me.emailRequest);
-	mail_label.style.textAlign = "right";
-	var td=createTiddlyElement(tr,"td");
-	var mail=createTiddlyElement(null,"input","mail" ,"input");		
-	mail.onkeyup=function() {
-//		config.macros.ccRegister.mailKeyUp(this.value);
-	};
-	td.appendChild(mail);
-
-	mail.setAttribute("tabindex","2");
-	createTiddlyElement(tr,"td",'mail_error','inlineError','');
-
-	var tr=createTiddlyElement(tb,"tr");
-	var pw1_label = createTiddlyElement(tr,"td",null,null,me.passwordRequest);
-	pw1_label.style.textAlign = "right";
-	var td=createTiddlyElement(tr,"td");
-	var password1 = createTiddlyElement(null,"input","password1","input");
-	password1.setAttribute("type","password");
-
-	password1.setAttribute("tabindex","3");
-	td.appendChild(password1);
-
-//	createTiddlyElement(tr,"td",'mail_error','inlineError','');
-
-	createTiddlyElement(tr,"td",'pass1_error','inlineError');
-	
-	var tr=createTiddlyElement(tb,"tr");
-	var pw2_label = createTiddlyElement(tr,"td",null,null, me.passwordConfirmationRequest);
-	pw2_label.style.textAlign = "right";
-	var td=createTiddlyElement(tr,"td");
-	var password2 = createTiddlyElement(null,"input","password2","input");
-	password2.setAttribute("type","password");
-	password2.setAttribute("tabindex","4");
-	td.appendChild(password2);
-
-	createTiddlyElement(tr,"td",'pass2_error','inlineError');
-	createTiddlyElement(tr,"td","submitStatus",null,"");
-
-	var w = new Wizard(item);
-	w.addStep(config.macros.ccLogin.stepRegisterTitle, wrapper.innerHTML);
-	w.setButtons([
-		{caption: config.macros.ccLogin.buttonRegister, tooltip: config.macros.ccLogin.buttonRegisterToolTip, onClick:function() { config.macros.ccLogin.doRegister(place, this)}},
-		{caption: config.macros.ccLogin.buttonCancel, tooltip: config.macros.ccLogin.buttonCancelToolTip, onClick: function() { config.macros.ccLogin.refresh(place)}}
-	]);
-
-}
-
-config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	config.macros.ccLogin.refresh(place);
+config.macros.login.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	config.macros.login.refresh(place);
 };
 
-config.macros.ccLogin.refresh=function(place){
+config.macros.login.refresh=function(place){
 	removeChildren(place);
-	var loginDiv=createTiddlyElement(null,"div",null,"loginDiv",null);
-	var me=config.macros.ccLogin;
-	createTiddlyText(loginDiv, ""+me.stepLoginIntroText);
-	var tb=createTiddlyElement(loginDiv,"table");
-	tb.style.border="0px";
-	var tr=createTiddlyElement(tb,"tr");
-	tr.style.border="0px";
-	var user_label=createTiddlyElement(tr,"td",null,"label",this.usernameRequest);
-	user_label.style.textAlign = "right";
-	user_label.style.border="0px";
-	var td=createTiddlyElement(tr,"td");
-	td.style.border="0px";
-	var txtuser=createTiddlyElement(td,"input",this.configUsernameInputName,"input");
-	//if (cookieValues.txtUserName!==undefined){
-	//txtuser.value=cookieValues.txtUserName ;
-	//}
-
-
-
-	//var tr=createTiddlyElement(tb,"tr");
-	//tr.style.border="0px";
-	//var pass_label=createTiddlyElement(tr,"td",null,"label",this.stepRegisterTitle);
-	//pass_label.style.textAlign = "right";
-	//pass_label.style.border="0px";
-	//var td=createTiddlyElement(tr,"td");
-	//td.style.border="0px";
-	//var txtpass=createTiddlyElement(null,"input","password","input",null,{"type":"checkbox"});
-	//txtpass.onClick=function() {
-	//		alert('ss');
-	//		config.macros.ccRegister.mailKeyUp(this.value);
-	//}
-	//td.appendChild(txtpass);	
-
-
-
-
-	var tr=createTiddlyElement(tb,"tr");
-	tr.style.border="0px";
-	var pass_label=createTiddlyElement(tr,"td",null,"label",this.passwordRequest);
-	pass_label.style.textAlign = "right";
-	pass_label.style.border="0px";
-	var td=createTiddlyElement(tr,"td");
-	td.style.border="0px";
-	var txtpass=createTiddlyElement(null,"input","password","input",null,{"type":"password"});
-	txtpass.setAttribute("type","password");
-	td.appendChild(txtpass);
-	
-	var submitSpan=createTiddlyElement(loginDiv,"div");
-	submitSpan.setAttribute("class","submit");
-
+	setStylesheet(" input { border: 1px solid #CCCCCC;} .viewer .button {	border:1px solid #CCCCCC; padding:2px 8px; margin:2px 8px;  background:white; color:#666666; }.viewer table, .viewer td, .viewer tr, .twtable td, .twtable tr {border:0px solid #666666;}.wizardFooter { padding : 0em 0em 1em 2em; background:none; font-size:10px; font-weight:bold;}    .wizardStep {border:none; background-color:none; } .wizard { padding:0px border:1px solid #EBE6F5; width:40%; background:none;}", "bgccc");
 	var w = new Wizard();
 	w.createWizard(place,this.WizardTitleText);
-	w.addStep(this.stepLoginTitle,loginDiv.innerHTML);
-	 
-       w.setButtons([
-{caption: this.buttonLogin, tooltip: this.buttonLoginToolTip, onClick: function() {
-			config.macros.ccLogin.doLogin(w.formElem["user"].value, w.formElem["password"].value, this, place);
-		}}, 
-		{caption: this.buttonRegister, tooltip: this.buttonRegisterToolTip, onClick: function() {config.macros.ccLogin.displayRegister(place, this);}},
-		{caption: this.buttonForgottenPassword, tooltip: this.buttonForgottenPasswordToolTip, onClick: function() {
-			config.macros.ccLogin.displayForgottenPassword(this, place);
-			}
-		}
-]);
 
+	var me=config.macros.login;
+	var oldForm = w.formElem.innerHTML;
+
+	var form = w.formElem;
+	//	removeChildren(form);
+
+	var loginDiv=createTiddlyElement(null,"div",null,"loginDiv",null);
+//	loginDiv.innerHTML="<div name='background' macro='gradient vert #EBE6F5 #FFF  '>"+oldForm+me.stepLoginIntroTextHtml+w.footerElem+"</div><div class='wizardBody'></div><div name=footer class='wizardFooter'></div>";
+	
+
+//	var submitSpan=createTiddlyElement(loginDiv,"div");
+//	submitSpan.setAttribute("class","submit");
+//	var oldForm = w.formElem.innerHTML;
+//	console.log(form);
+	
+//	form.innerHTML=loginDiv.innerHTML;
+	
+	w.addStep(this.stepLoginTitle,loginDiv.innerHTML);
+	 console.log(form);              
+	//var footer = findRelated(form,"wizardFooter","className");
+	console.log(footer);
+	createTiddlyButton(w.footer,this.buttonLogin,this.buttonLoginToolTip,function() {
+		if (w.formElem["username"].value==""){
+			displayMessage("No username was entered");
+			return false;
+		}
+		if (w.formElem["password"].value==""){
+			displayMessage("No password was entered");
+			return false;
+		}
+		config.macros.login.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
+	});
+	if(config.macros.register!==undefined){		
+		createTiddlyButton(w.footElem,config.macros.register.buttonRegister,config.macros.register.buttonRegisterToolTip,function() {
+				config.macros.register.displayRegister(place, this);
+		});
+	}
+	createTiddlyButton(w.footElem,this.buttonForgottenPassword,this.buttonForgottenPasswordToolTip,function() {
+		config.macros.login.displayForgottenPassword(this, place);
+	});
 };
 
-
-
-config.macros.ccLogin.doLogin=function(username, password, item, place){
+config.macros.login.doLogin=function(username, password, item, place){
 	var w = new Wizard(item);
-	var me = config.macros.ccLogin;
-
+	var me = config.macros.login;
 	var urlLogin=me.configURL+"?"+me.configUsernameInputName+"="+username+"&"+me.configPasswordInputName+"="+password;
-
-
-	doHttp('GET',me.configURL+"?"+me.configUsernameInputName+"="+username+"&"+me.configPasswordInputName+"="+password,null,null,null,null,me.loginCallback,null);
+	doHttp('GET',urlLogin,null,null,null,null,me.loginCallback,null);
 	var html = me.stepDoLoginIntroText+urlLogin; 
 	w.addStep(me.stepDoLoginTitle,html);
 	w.setButtons([
-		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {config.macros.ccLogin.refresh(place);}
+		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {config.macros.login.refresh(place);}
 	}]);
 }
 
-
-config.macros.ccLogin.loginCallback=function(status,params,responseText,uri,xhr){
-
-displayMessage(responseText);
-if(xhr.status==401)
-	displayMessage("Login Failed");
-else{
-	displayMessage(xhr.status);
-	window.location=uri;
-} 
-
+config.macros.login.loginCallback=function(status,params,responseText,uri,xhr){
+	displayMessage(responseText);
+	if(xhr.status==401)
+		displayMessage("Login Failed");
+	else{
+		displayMessage(xhr.status);
+		window.location=uri;
+	} 
 };
 
-
-
-
-
-
-config.macros.ccLogin.doRegister=function(place){
+config.macros.login.displayForgottenPassword=function(item, place){	
 	var w = new Wizard(item);
-	var me = config.macros.ccLogin;
-	w.addStep(item.stepLoginTitle,"atempting to REGISTER ");
-	w.setButtons([
-		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() {me.refresh(place);}
-	}]);
-}
-
-
-config.macros.ccLogin.displayForgottenPassword=function(item, place){	
-	var w = new Wizard(item);
-	var me = config.macros.ccLogin;
-	console.log(item);
+	var me = config.macros.login;
 	w.addStep(me.stepForgotPasswordTitle,me.stepForgotPasswordIntroText);
 	w.setButtons([
-		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {config.macros.ccLogin.refresh(place);}
+		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {me.refresh(place);}
 	}]);
 }
-
-
-
-config.macros.ccLogin.isUsernameAvailable=function(){
-	alert('s');
-	//doHttp('POST',url+'/handle/register.php',"username="+document.getElementById("username").value+"&free=1",null,null,null,config.macros.ccLogin.isUsernameAvailabeCallback,null);
-	return false;
-};
-
-
-
-config.macros.ccLogin.isUsernameAvailabeCallback=function(status,params,responseText,uri,xhr){
-	var field = "";
-	if(responseText > 0){
-		var error=document.getElementById('username_error');
-		field=document.getElementById('username');
-		error.innerHTML='The username has already been taken. ';
-		error.setAttribute("class","inlineError");
-		// For IE 
-		error.setAttribute("className", "inlineError");
-		field.setAttribute("class","inputError");
-	}else{
-		var a = document.getElementById('username_error');
-		field = document.getElementById('username');
-		a.innerHTML='The username is available ';
-		// For IE
-		a.setAttribute("className", "inlineOk");
-		a.setAttribute("class","inlineOk");
-		field.setAttribute("class","input");
-	}
-};
-
-/*
-
-
-	var loginDiv=createTiddlyElement(null,"div",null,"loginDiv",null);
-	var txtfld=createTiddlyElement(loginDiv,"input",this.configUsernameInputName,"input");
-	
-var w = new Wizard();
-w.createWizard(place,"title");
-console.log(txtfld);
-var step = w.addStep(this.stepLoginTitle,txtfld);
-
-w.setButtons([
-	{caption: this.buttonLogin, tooltip: this.buttonLoginToolTip, onClick: function()
-	{
-		console.log(txtfld.value);
-		displayMessage(txtfld);
-//	 	w.setValue("username", "aaa");
-//		config.macros.ccLogin.click(txtfld.value);
-//		return true;
-	}
-	
-	
-	}]);
-	return true;
-	
-*/
 
 </pre>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //}}}

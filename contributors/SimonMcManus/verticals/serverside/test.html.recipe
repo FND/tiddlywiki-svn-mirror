@@ -1,4 +1,10 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 
 tiddler: ../../adaptors/ccTiddlyAdaptorPlugin.js
+tiddler: admin.tiddler
+tiddler: file.tiddler
+tiddler: register.tiddler
 tiddler: GettingStarted.tiddler
+tiddler: ../../mystyle/StyleSheetMB.tiddler
+tiddler: ../../../MartinBudden/adaptors/ImportWorkspacePlugin.js
+

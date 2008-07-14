@@ -1,0 +1,147 @@
+<div title="register" tags="systemConfig">
+<pre>
+
+config.macros.register={};	
+
+merge(config.macros.register,{
+	usernameRequest:"Username",
+	passwordRequest:"Password",
+	passwordConfirmationRequest:"Please Confirm Password : ",
+	emailRequest:"Email Address : ",
+	
+	stepRegisterTitle:"Register for an account.",
+	stepRegisterIntroText:"Hi, please register below.... ",
+	buttonCancel:"Cancel",
+	buttonCancelToolTip:"Cancel transaction ",
+	buttonRegister:"Register",	
+	buttonRegisterToolTip:"click to register",	
+
+});
+
+
+config.macros.register.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	//config.macros.login.refresh(place);
+};
+
+
+config.macros.register.displayRegister=function(place, item){
+//removeChildren(place);
+var me = config.macros.register;
+var wrapper = createTiddlyElement(null,"div");
+var frm=createTiddlyElement(wrapper,"form",null,"wizard");
+//	frm.onsubmit= config.macros.ccRegister.registerOnSubmit;
+createTiddlyText(frm, me.stepRegisterIntroText);
+var tb=createTiddlyElement(frm,"table");
+var tr=createTiddlyElement(tb,"tr");
+var username_label=createTiddlyElement(tr,"td",null,null,me.usernameRequest);
+username_label.style.textAlign = "right";
+var td=createTiddlyElement(tr,"td");
+var username = createTiddlyElement(null,"input","username" ,"input");
+username.onkeyup=function() {
+	displayMessage("ss");
+	//config.macros.login.isUsernameAvailable(item.value);
+};
+username.setAttribute("tabindex","1");
+td.appendChild(username);
+createTiddlyElement(tr,"td",'username_error','inlineError',null);
+var tr=createTiddlyElement(tb,"tr");
+var mail_label = createTiddlyElement(tr,"td",null,null,me.emailRequest);
+mail_label.style.textAlign = "right";
+var td=createTiddlyElement(tr,"td");
+var mail=createTiddlyElement(null,"input","mail" ,"input");		
+mail.onkeyup=function() {
+//		config.macros.ccRegister.mailKeyUp(this.value);
+};
+td.appendChild(mail);
+
+mail.setAttribute("tabindex","2");
+createTiddlyElement(tr,"td",'mail_error','inlineError','');
+
+var tr=createTiddlyElement(tb,"tr");
+var pw1_label = createTiddlyElement(tr,"td",null,null,me.passwordRequest);
+pw1_label.style.textAlign = "right";
+var td=createTiddlyElement(tr,"td");
+var password1 = createTiddlyElement(null,"input","password1","input");
+password1.setAttribute("type","password");
+
+password1.setAttribute("tabindex","3");
+td.appendChild(password1);
+
+//	createTiddlyElement(tr,"td",'mail_error','inlineError','');
+
+createTiddlyElement(tr,"td",'pass1_error','inlineError');
+
+var tr=createTiddlyElement(tb,"tr");
+var pw2_label = createTiddlyElement(tr,"td",null,null, me.passwordConfirmationRequest);
+pw2_label.style.textAlign = "right";
+var td=createTiddlyElement(tr,"td");
+var password2 = createTiddlyElement(null,"input","password2","input");
+password2.setAttribute("type","password");
+password2.setAttribute("tabindex","4");
+td.appendChild(password2);
+
+createTiddlyElement(tr,"td",'pass2_error','inlineError');
+createTiddlyElement(tr,"td","submitStatus",null,"");
+
+var w = new Wizard(item);
+w.addStep(config.macros.login.stepRegisterTitle, wrapper.innerHTML);
+w.setButtons([
+	{caption: me.buttonRegister, tooltip: me.buttonRegisterToolTip, onClick:function() { config.macros.register.doRegister(place, this)}},
+	{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() { config.macros.login.refresh(place)}}
+]);
+
+}
+
+
+
+
+
+
+
+config.macros.register.doRegister=function(place){
+	var w = new Wizard(item);
+	var me = config.macros.register;
+	w.addStep(item.stepLoginTitle,"atempting to REGISTER ");
+	w.setButtons([
+		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() {me.refresh(place);}
+	}]);
+}
+
+
+
+
+config.macros.register.isUsernameAvailable=function(){
+	alert('s');
+	//doHttp('POST',url+'/handle/register.php',"username="+document.getElementById("username").value+"&free=1",null,null,null,config.macros.login.isUsernameAvailabeCallback,null);
+	return false;
+};
+
+
+
+config.macros.register.isUsernameAvailabeCallback=function(status,params,responseText,uri,xhr){
+	var field = "";
+	if(responseText > 0){
+		var error=document.getElementById('username_error');
+		field=document.getElementById('username');
+		error.innerHTML='The username has already been taken. ';
+		error.setAttribute("class","inlineError");
+		// For IE 
+		error.setAttribute("className", "inlineError");
+		field.setAttribute("class","inputError");
+	}else{
+		var a = document.getElementById('username_error');
+		field = document.getElementById('username');
+		a.innerHTML='The username is available ';
+		// For IE
+		a.setAttribute("className", "inlineOk");
+		a.setAttribute("class","inlineOk");
+		field.setAttribute("class","input");
+	}
+};
+
+
+
+
+
+</pre>
+</div>
