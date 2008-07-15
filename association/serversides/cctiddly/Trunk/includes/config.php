@@ -1,7 +1,4 @@
 <?php
-/**		
-	@ brief This holds and sort out configuration files and default configurations
-*/
 
 // Initial Database Setup 
 
@@ -13,8 +10,14 @@ $tiddlyCfg['db']['name'] = "new164";		//db name
 
 // Debugging Information 
 
-$tiddlyCfg['developing']=1;		//developing mode, 0=release mode, 1=developing, -1 release mode, but can be override with parameter
-$tiddlyCfg['mysql_debug']=1;	 // if set to 1 will output every sql query into the logfile 
+$tiddlyCfg['developing']=1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
+$tiddlyCfg['debug']['mysql']=0;	 // if set to 1 will output every sql query into the logfile 
+$tiddlyCfg['debug']['login']=1;
+$tiddlyCfg['debug']['handle']=0;
+$tiddlyCfg['debug']['config']=0;
+$tiddlyCfg['debug']['params']=0;
+$tiddlyCfg['debug']['fail']=0;
+$tiddlyCfg['debug']['steps']=0;
 
 // User Managment Information 
 
@@ -103,25 +106,21 @@ $tiddlyCfg['pref']['utf8'] = 0;
 	
 /////////////////////////////////////////////////////////url dependent config////////////////////////////////////////////////////.
 
-debug("log breaker (situated below debug function)------------------------------------------------");
-debug("QUERY_STRING: ".$_SERVER['QUERY_STRING']);
+debug("------------------------------------ >> log breaker << ------------------------------------");
+debug("QUERY_STRING: ".$_SERVER['QUERY_STRING'], "params");
 
 $a = str_replace($_SERVER['QUERY_STRING'], "", str_replace(str_replace("index.php", "", $_SERVER['PHP_SELF']), "", $_SERVER['REQUEST_URI']));
-
 if ($a=="?" && isset($_REQUEST['workspace']))
 	$tiddlyCfg['workspace_name'] = $_REQUEST['workspace'];
 else
 	$tiddlyCfg['workspace_name'] = $a;
-
 if ($b = stristr($tiddlyCfg['workspace_name'], "?"))
 	$tiddlyCfg['workspace_name'] = str_replace(stristr($tiddlyCfg['workspace_name'], "?"), "", $b);
-
 if ($_POST['workspace'])
-	$tiddlyCfg['workspace_name'] = $_POST['workspace'];
-	
-debug("workspace_name : ".$tiddlyCfg['workspace_name']);
+	$tiddlyCfg['workspace_name'] = $_POST['workspace'];	
+debug("workspace_name : ".$tiddlyCfg['workspace_name'], "config");
 $tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
-debug("base folder: ".$tiddlyCfg['pref']['base_folder']);
+debug("filename : ".$_SERVER["SCRIPT_NAME"], "config");
 
 //install new workspace??
 if (isset($_SERVER['REDIRECT_URL']) )
@@ -216,7 +215,10 @@ $i = 0;
 foreach($results as $result)
 	$admin_array[$i++] = $result['username'];
 	
-$tiddlyCfg['group']['admin'] = $admin_array;
+if(is_array($admin_array))
+	$tiddlyCfg['group']['admin'] = $admin_array;
+else
+	$tiddlyCfg['group']['admin'] = array();
 
 
 $tiddlyCfg['group']['exampleGroup'] = array('admin', 'simon');

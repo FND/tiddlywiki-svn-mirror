@@ -2,7 +2,6 @@
 include_once($cct_base."includes/ccAssignments.php");
 
 $dir = $cct_base."ccPlugins/";
-
 // Open a known directory, and proceed to read its contents
 if (is_dir($dir)) {
     if ($dh = opendir($dir)) {
@@ -12,7 +11,9 @@ if (is_dir($dir)) {
 			{
 				$tiddler_name = str_replace('.js', '', $file);
 				echo "<div title=\"".$tiddler_name."\" modifier=\"ccTiddly\" tags=\"systemConfig excludeLists excludeSearch ccTiddly\">\n<pre>";
-            	include_once($cct_base."ccPlugins/".$file);
+            	//include_once($cct_base."ccPlugins/".$file);
+				$file = file_get_contents($cct_base."ccPlugins/".$file);
+				echo htmlspecialchars($file);
 				echo "</pre>\n</div>\n";
     		}else if ($ext == "tiddler")
 			{		

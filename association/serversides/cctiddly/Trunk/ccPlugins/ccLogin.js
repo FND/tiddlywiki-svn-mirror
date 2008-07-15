@@ -247,7 +247,7 @@ config.macros.ccLogin.loginOnSubmit=function(){
 	loginState ='';
 	params.origin=this; 
 	//setTimeout(config.macros.ccLogin.loginCheckResp,3000);
-	var loginResp=doHttp('POST',url+'/handle/login.php',"cctuser=" + encodeURIComponent(user1)+"&amp;cctpass="+Crypto.hexSha1Str(pass).toLowerCase(),null,null,null,config.macros.ccLogin.loginCallback,params);
+	var loginResp=doHttp('POST',url+'/handle/login.php',"cctuser=" + encodeURIComponent(user1)+"&cctpass="+Crypto.hexSha1Str(pass).toLowerCase(),null,null,null,config.macros.ccLogin.loginCallback,params);
 	return false;
 };
 

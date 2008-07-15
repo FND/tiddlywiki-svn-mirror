@@ -1,45 +1,37 @@
 <?php
-//////////////////////////////////////////////////////// description ////////////////////////////////////////////////////////
-	/**
-		@file
-		
-		@brief This file process all include files and passed in parameters
-	*/
 
 
 //////////////////////////////////////////////////////// check base variable ////////////////////////////////////////////////////////
 
 ///// here we are setting a null value to avoid notices in the error logs when it is not used. ////
 // cct_base is used to prefix calls to files, 
-	if(!isset($cct_base)) {
+	if(!isset($cct_base)) 
+	{
 		$cct_base= "";
-	//	debug("cct_base not exist");
+		debug("cct_base not exist", "params");
 	}
-
+	
 //////////////////////////////////////////////////////// include files  ////////////////////////////////////////////////////////
 	//include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");	//include in config.php
-
 	include_once($cct_base."includes/functions.php");
 	include_once($cct_base."includes/config.php");
-
+	
 	//include is used because language file is included once in config.php file
 	include($cct_base."lang/".$tiddlyCfg['twLanguage'].".php");
 	include_once($cct_base."includes/tiddler.php");
 	include_once($cct_base."includes/user.php");
 
-
-	if(!isset($ccT_msg)) {
+	if(!isset($ccT_msg)) 
+	{
 		$ccT_msg= "";
-	//	exit("ccT_msg not exist");
 	}
 
-	if(!isset($workspace)) {
+	if(!isset($workspace)) 
+	{
 		$workspace= "";
-		debug("workspace was not set");
-		//exit("workspace not exist");
+		debug("workspace was not set", "fail");
 	}
 	
-
 
 //////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////
 	//?standalone=1, used for making the script standalone form like a regular tiddlywiki
@@ -47,7 +39,7 @@
 	
 	//?action=something, used for modulation
 	$cctAction = (isset($_GET['action'])?format4Name($_GET['action']):"");
-	debug($cctAction);
+	debug("cct action is : ".$cctAction, "steps");
 	
 	//?title="tiddly title", get all version of that tiddly
 	if( isset($_GET['title']) )
@@ -76,16 +68,6 @@
 		}
 	}
 	
-	//?ajax=<number>, to enable/disable developing mode via URL [1=enable ajax]
-	/*if( isset($_GET['ajax']) )
-	{
-		if( $_GET['ajax']==1 )
-		{
-			$tiddlyCfg['pref']['ajax'] = 1;
-		}else{
-			$tiddlyCfg['pref']['ajax'] = 0;
-		}
-	}*/
 	
 	//?tags=+<tag1>-<tag2>, to only see or remove some tags
 	//	+ means to see tiddlers with this tag

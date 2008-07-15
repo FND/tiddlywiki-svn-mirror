@@ -75,8 +75,7 @@
 		//in cct online mode
 		if( !$standalone )
 		{
-			debug("workspace name IS : ".$tiddlyCfg['workspace_name']);
-			debug("print ".$tiddlyCfg['workspace_name']);
+			debug("workspace name IS : ".$tiddlyCfg['workspace_name'], "config");
 			//remove workspace from query_string
 			$_SERVER['QUERY_STRING'] = preg_replace("!workspace=([^&]*&|.*$)!","",$_SERVER['QUERY_STRING']);
 ?>

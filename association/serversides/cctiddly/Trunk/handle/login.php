@@ -2,14 +2,17 @@
 
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
-
-if( isset($_REQUEST['cctuser']) && isset($_REQUEST['cctpass']) )		//set cookie for login
+$u = (isset($_REQUEST['cctuser'])?$_REQUEST['cctuser']:$_POST['cctuser']); 
+$p = (isset($_REQUEST['cctpass'])?$_REQUEST['cctpass']:$_POST['cctpass']);
+if(isset($u) && isset($p))	
 {	
-	user_login(formatParametersPOST($_POST['cctuser']),formatParametersPOST($_POST['cctpass']));
+	debug("login request u:".$u." & p : ".$p, "login");
+	user_login(formatParametersPOST($u),formatParametersPOST($p));
 }
 
 if (isset($_POST['logout']) || isset($_REQUEST['logout']))
 {
+	debug("logout request received", "login");
 	user_logout('You have logged out.');
 }
 

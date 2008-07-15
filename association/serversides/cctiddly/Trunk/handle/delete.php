@@ -45,9 +45,6 @@
 	//check for markup
 	if( !tiddler_markupCheck($user,$title) )
 	{
-		//debug("markup check");
-		//return "020";
-		//returnResult("020");
 		sendHeader(401,$ccT_msg['warning']['not_authorized'],"",1);
 	}
 

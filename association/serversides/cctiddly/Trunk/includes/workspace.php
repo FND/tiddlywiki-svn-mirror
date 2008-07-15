@@ -7,7 +7,7 @@ include_once($cct_base."includes/tiddler.php");
 function workspace_create_new($anonPerm="AUUU",$hash=null)
 {
 	global $tiddlyCfg;
-	debug("workspace_create_new: ".$tiddlyCfg['workspace_name']);
+	debug("workspace_create_new: ".$tiddlyCfg['workspace_name'], "steps");
 	
 	if( $hash===null )
 	{

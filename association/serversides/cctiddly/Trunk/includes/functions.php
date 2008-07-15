@@ -142,14 +142,12 @@ function getAllVersionTiddly($title)
 	//get current tiddler id
 
 	$tiddler_id = tiddler_selectTitle($title);
-	debug('getAllVersionTiddly - get current tiddler ok ');
+	debug("getAllVersionTiddly - get current tiddler ok", "steps");
 	//return empty array if not found
 	if( sizeof($tiddler_id)==0 )
 	{
 		return array();
 	}
-	
-	debug('get tiddlers from the revisions table.');
 	$tiddlers = tiddler_selectBackupID($tiddler_id['id']);
 
 	$user = user_create();
@@ -231,7 +229,7 @@ function getTiddlersWithTags($yesTags,$noTags)
 	function saveTiddly($otitle, $omodified, $ntiddler, $username="", $password="", $overwrite=0)
 	{
 		global $tiddlyCfg;
-				debug('saveTiddly');
+		debug("function : saveTiddly", "steps");
 		//SCENERIO
 		//	old title NOT exist:
 		//		creating new tiddler		[INSERT]
@@ -248,7 +246,7 @@ function getTiddlersWithTags($yesTags,$noTags)
 		//lock title check
 		if( in_array($ntiddler['title'],$tiddlyCfg['pref']['lock_title']) )
 		{
-			debug("lock titles");
+			debug("Tiddler is logged : ".$ntiddler['title'], "steps");
 			return "020";
 		}
 		
@@ -272,7 +270,7 @@ function getTiddlersWithTags($yesTags,$noTags)
 		//check for markup
 		if( !tiddler_markupCheck($user,$title) )
 		{
-			debug("markup check");
+			debug("failed markup check", "steps");
 			return "020";
 		}
 		
@@ -433,7 +431,7 @@ function getTiddlersWithTags($yesTags,$noTags)
 		}
 
 		$tiddler = tiddler_selectTitle(tiddler_create($title));		//tiddler to delete
-		debug('Number ofTiddlers found matching the title'.sizeof($tiddler));
+		debug("Number ofTiddlers found matching the title".sizeof($tiddler), "steps");
 		if( sizeof($tiddler)==0 )		//check if tiddler exist
 		{
 			return "014";
@@ -603,11 +601,11 @@ function getTiddlersWithTags($yesTags,$noTags)
 	//!	@param $record_error error that goes in log, use display error if different
 	function logerror( $display_error, $stop_script=0, $record_error="" )
 	{
-		if( strlen($display_error)>0 )
+		if( strlen($display_error)>0)
 		{
 			//tiddly_alert($display_error);
 		}
-		debug( $record_error );
+		debug($record_error);
 	
 		
 		if( $stop_script == 1 )		//display error and exit
@@ -641,36 +639,35 @@ function getTiddlersWithTags($yesTags,$noTags)
 		return TRUE;
 	}
 	
+	
 	//!	@fn bool debug($str)
 	//!	@brief debug function, similar to debugV but use print instead
 	//!	@param $str string to be printed
-	//!	@param $break include linebreak [0=no line break]
-	function debug($str, $break=1)
+	//!	@param $type type of debug - see different types of debug in config.php
+	function debug($str, $type="")
 	{
 		global $tiddlyCfg;
 		global $standalone;
-		if( $tiddlyCfg['developing']==1 && $standalone!=1 )
+		if($tiddlyCfg['developing']==0) 
+			return false;
+		if($tiddlyCfg['developing']==2) 
 		{
-			//print $str;
 			error_log($str, 0);
-			if( $break>0 )
-			{
-	//			print '<br>';
-			}
+			return true;
 		}
+		if( $tiddlyCfg['developing']==1 && $standalone!=1 )
+		{	
+			if($type!=="")
+			{	
+				if ($tiddlyCfg['debug'][$type]==1)
+				{
+					error_log($type." : ".$str, 0);
+				}
+			}else
+				error_log($str, 0);
+		} 
 		return TRUE;
 	}
 
-	function debugSQL($str, $break=1)
-	{
-		global $tiddlyCfg;
-		global $standalone;
-		if( $tiddlyCfg['mysql_debug']==1 && $standalone!=1 )
-		{
-			//print $str;
-			error_log($str, 0);
-	
-		}
-		return TRUE;
-	}
+
 ?>

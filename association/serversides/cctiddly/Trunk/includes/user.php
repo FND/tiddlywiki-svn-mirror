@@ -1,13 +1,5 @@
 <?php
 
-//////////////////////////////////////////////////////// description ////////////////////////////////////////////////////////
-	/**
-		@file
-		
-		@brief This file provides functions to validate users and obtain privileges
-	*/
-//////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////
-
 //////////////////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////////////////
 
 	//!	@fn array user_create($username="", $group="", $verified=0, $id="")
@@ -79,6 +71,7 @@
 	
 		if ($tiddlyCfg['deligate_session_management'] ==1)
 		{
+			debug("delgated session managment is enabled", "login");
 			$req_url = $tiddlyCfg['pref']['deligate_session_url'].$_REQUEST['sess'];
 			if($a = @file_get_contents($req_url))
 			{
@@ -105,8 +98,7 @@
 				}
 				else 
 				{
-				  //  SESSION HAS EXPIRED 
-					debug('SESSION has expired ');	
+					debug("SESSION has expired", "fail");	
 					user_logout('Your session has expired ');
 				 	return FALSE; 
 				 	//delete the cookies and session record 
@@ -129,29 +121,31 @@
 		
 		if ($tiddlyCfg['users_required_in_db']==1)
 		{
+			debug("user is required in db", "login");
 		 	$data['username'] = $un;
 			$login_check = db_record_select($tiddlyCfg['table']['user'], $data);			// get array of results		
 		
 			if (count($login_check) > 0 ) 
 			{
+				
+				debug("user exists in the database.", "login");
 				//return true;
 			}
 			else
 			{	// user does not exists in the user database. 
+				debug("The user does not exist in the database.", "login");
 				return false;
 			}     
 		}
-		
-		
-		debug('Setting the Session '.$tiddlyCfg['session_expire']);
 		$insert_data['user_id'] = $un;
-		debug('session is be set : username is : '.$un);
 		$expire =time()+$tiddlyCfg['session_expire'];
 		// create a date far in the future if session timeout is set to 0
 		$a = time();
 		$total = $a+$tiddlyCfg['session_expire'];	
-		debug("total : ".$total);
 		$insert_data['expire'] = epochToTiddlyTime($total); // add expire time to data array for insert		
+		debug("session will expire : ".$insert_data['expire'], "login");
+	
+	
 		$insert_data['ip'] = $_SERVER['REMOTE_ADDR'];  // get the ip address
 		$insert_data['session_token'] = sha1($un.$_SERVER['REMOTE_ADDR'].$expire); // colect data together and sh1 it so that we have a unique indentifier 
 		if ($tiddlyCfg['pref']['delete_other_sessions_on_login']) {
@@ -160,7 +154,10 @@
 		}
 		cookie_set('txtUserName', $un);
  		cookie_set('sessionToken', $insert_data['session_token']);
-		db_record_insert('login_session',$insert_data);
+		$rs = db_record_insert('login_session',$insert_data);
+		if ($rs)
+			debug("session has been added to the database", "login");
+			
 	}		
 
 	function user_ldap_login($un, $pw)
@@ -188,7 +185,7 @@
 	function user_validate($un, $pw)
 	{
 		global $tiddlyCfg;
-		debug('validating the session with Username/pass:  '.$un);
+		debug("validating the session with Username/pass:  ".$un, "steps");
 			
 		// session has not been created, lets try the user/pass on our ldap server. 
 		if ($tiddlyCfg['pref']['ldap_enabled']==1)
@@ -204,7 +201,6 @@
 			$data['username'] = $un;
 			$data['password'] = $pw;
 			$results = db_record_select('user', $data);			// get array of results		
-		//	debug('Number of user s: '.count($results));
 			if (count($results) > 0 )                   //  if the array has 1 or more acounts 
 			{
 				$del_data1['expire'] = epochToTiddlyTime(time());
@@ -230,7 +226,7 @@
 		if(user_validate($un, $pw))
 		{
 			user_set_session($un, $pw);	
-			debug('LOGIN -user validated so session should have been set return true ');
+			debug("Login - User validated so session should have been set return true", "login");
 			echo 'login ok';
 			return TRUE;
 		}
@@ -265,7 +261,7 @@
 		$data['session_token']= cookie_get('sessionToken');
 		db_record_delete('login_session',$data);
 		cookie_set('sessionToken', 'invalid');
-	    debug('Logout : '.$errorMsg);
+	    debug("Logout : ".$errorMsg, "steps");
 		return TRUE;
 	}
 	
@@ -358,33 +354,26 @@
 	function user_isAdmin($user, $workspace)
 	{
 		global $tiddlyCfg;
-			$data['workspace_name'] = $workspace;
-	
+		$data['workspace_name'] = $workspace;
 		if ($tiddlyCfg['pref']['openid_enabled'] ==1)
 		{
 			$user = str_replace("http:", "http://", $user);
-		//	debug("".$user);
 		}
-		
-			$data['username'] = $user;
+		$data['username'] = $user;
 		$results = db_record_select($tiddlyCfg['table']['admin'], $data);			// get array of results		
-
 		if (count($results) > 0 )                   //  if the user is an admin. 
 		{
 			return true;
 		}
 		return false;
-		
 	}
-	
 	
 	//!	@fn string user_mergePrivilege($p1,$p2)
 	//!	@brief merge two privileges  i.e. "A"
 	//!	@param $p1 privilege 1
 	//!	@param $p2 privilege 2
 	function user_mergePrivilege($p1,$p2)
-	{
-		
+	{	
 		$s = strlen($p1);		//defined such that it can be used with shorter privilege string
 		for( $i=0; $i<$s; $i++ )
 		{
@@ -465,7 +454,7 @@
 	//!	@brief return privilege of tiddler according to the tag array/string and user privilege array
 	//!	@param $user user array
 	//!	@param $tag tag string or array
-	function user_tiddlerPrivilegeOfUser($user,$tag)
+	function user_tiddlerPrivilegeOfUser($user,$tag="")
 	{
 		global $tiddlyCfg;
 		//	var_dump($user['group']);

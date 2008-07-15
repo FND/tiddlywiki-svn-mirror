@@ -59,42 +59,47 @@ config.macros.ccFile.delAdminSubmit=function(e, params) {
 };
 
 config.macros.ccFile.addFileDisplay = function(e, params) {
-
-	var frm=createTiddlyElement(null,'form',null,"wizard");
-
-	if(navigator.appName=="Microsoft Internet Explorer")
-	{
-		encType = frm.getAttributeNode("enctype");
-	    encType.value = "multipart/form-data";
-	}
-	frm.setAttribute("enctype","multipart/form-data");
-	frm.setAttribute("method","POST");
-
-	frm.action=window.url+"/handle/upload.php"; 
-	frm.id="ccUpload";
-	frm.target="uploadIframe";
 	
-	var body=createTiddlyElement(frm,'div',null,"wizardBody");
-	var step=createTiddlyElement(body,'div',null,"wizardStep");
+	var frmWrapper=createTiddlyElement(null,'div',"frmWrapper", "frmWrapper");
+
+	var step=createTiddlyElement(frmWrapper,'form',null,"wizardStep");
+
+	var frm=createTiddlyElement(frmWrapper,'div', 'form', 'form');
+	frmWrapper.appendChild(frm);
+//	if(navigator.appName=="Microsoft Internet Explorer")
+//	{
+//		encType = frm.getAttributeNode("enctype");
+//	    encType.value = "multipart/form-data";
+//	}
+//	frm.setAttribute("enctype","multipart/form-data");
+//	frm.setAttribute("method","POST");
+//	frm.action=window.url+"/handle/upload.php"; 
+//	frm.id="ccUpload";
+//	frm.target="uploadIframe";
+	
+//	step.appendChild(frm);
+	
+//	step.appendChild(frm);
 	var username=createTiddlyElement(null,'input','username','username');				
 	username.setAttribute("name","username");
 	username.setAttribute("type","HIDDEN");
 	username.value=config.options.txtUserName;		
 	step.appendChild(username);
+	
 	var label=createTiddlyElement(step,"label",null,"label","Upload your file ");
 	label.setAttribute("for","ccfile");
 	var file=createTiddlyElement(null,'input','ccfile','input');				
 	file.type="file";
 	file.name="userFile";
 	step.appendChild(file);
+	
 	var workspaceName=createTiddlyElement(null,'input','workspaceName','workspaceName');				
-	workspaceName.setAttribute('name','workspaceName');
+	workspaceName .setAttribute('name','workspaceName');
 	workspaceName.type="HIDDEN";
 	workspaceName.value=workspace;
 	step.appendChild(workspaceName);
+	
 	createTiddlyElement(step,'br');
-
-
 	var saveTo=createTiddlyElement(null,"input","saveTo","saveTo");	
 
 	//saveTo.setAttribute("type","HIDDEN");
@@ -121,7 +126,7 @@ config.macros.ccFile.addFileDisplay = function(e, params) {
 //	frm.appendChild(iframe);
 	createTiddlyElement(step,"div",'uploadStatus');
 	//var w = new Wizard(params.e);
-	params.w.addStep("sd",frm.innerHTML);
+	params.w.addStep("sd",frmWrapper.innerHTML);
 };
 
 function addOption(selectbox,text,value )
@@ -136,7 +141,6 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 	var me = config.macros.ccFile;
 	var out = "";
 	var adminUsers = [];
-		displayMessage('ee');
 	var a = eval(responseText);
 	for(var e=0; e < a.length; e++){ 		
 	out += a[e].username;	
@@ -164,8 +168,7 @@ config.macros.ccFile.listFilesCallback = function(status,params,responseText,uri
 	createTiddlyElement(params.place,'hr');
 	createTiddlyElement(params.place,'br');
 	createTiddlyElement(params.place, 'h2', null, null,  "Existing Files ");
-	displayMessage('ff');
-		var a = eval( "[" +responseText+ "]" );
+	var a = eval( "[" +responseText+ "]" );
 		for(var e=0; e < a.length; e++){  
 			var link=createExternalLink(params.place,url+'/uploads/workspace/'+workspace+'/'+a[e]);
 			link.textContent=a[e];

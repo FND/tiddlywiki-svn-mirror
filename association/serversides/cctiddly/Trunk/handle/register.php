@@ -3,20 +3,14 @@
 
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
-debug('cccc');
-
 
 if ($tiddlyCfg['can_create_account'] !=1)
 {
 	sendHeader("403");
 	echo 'This is not allowed on this server. ';
 }
-
-
 $data['username'] = $_POST['username'];
 $data['password'] = $_POST['password'];
-
-
 
 // if the user is checking if the username is available.
 if($_POST['free'] ==1 )
@@ -25,9 +19,7 @@ if($_POST['free'] ==1 )
 	exit;
 }
 
-
 $res = db_record_insert($tiddlyCfg['table']['user'],$data);
-
 
 if ($res !=1)
 {
