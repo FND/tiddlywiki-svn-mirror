@@ -40,12 +40,15 @@ version.extensions.TTReportViewPlugin = {installed:true};
 			return;
 		}
 	};
-	
+
 	config.macros.TTReportView.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 				
 		var container = story.findContainingTiddler(place);
-		container.setAttribute('force', 'true');
 		console.log("containing element", container);
+		var wrapper = createTiddlyElement(place,"span");
+		wrapper.setAttribute('refresh','content');
+		wrapper.setAttribute('tiddler',tiddler.title);
+		wrapper.setAttribute('force', 'true');
 		
 		var fieldPrefix = "tt_";
 				
@@ -53,6 +56,9 @@ version.extensions.TTReportViewPlugin = {installed:true};
 		var params = paramString.parseParams("anon",null,true,false,false);
 		var fieldsString = getParam(params,"DisplayFields",'title');
 		var displayFields = fieldsString.split(",");
+		for(var i=0;i<displayFields.length;i++){
+			displayFields[i] = displayFields[i].trim();
+		}
 		var orderString = getParam(params,"OrderBy",'title,asc');
 		var orderField =  fieldPrefix + orderString.split(",")[0];
 		var order =  orderString.split(",")[1];				
@@ -127,7 +133,7 @@ version.extensions.TTReportViewPlugin = {installed:true};
 		}
 
 		// Build a sortable table of the results.
-		var tbl = createTiddlyElement(place,'table',null,'sortable');
+		var tbl = createTiddlyElement(wrapper,'table',null,'sortable');
 		var thead = createTiddlyElement(tbl,'thead');
 		var theadr = createTiddlyElement(thead,'tr');
 		for(var f=0; f<displayFields.length; f++) {
