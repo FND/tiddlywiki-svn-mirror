@@ -70,10 +70,22 @@ window.httpReq = function(type,url,callback,params,headers,data,contentType,user
 	x.onreadystatechange = function() {
 		//# add Safari progress indicator
 		if(x.readyState >= 3 && config.browser.isSafari && type=='GET') {
-			var totalSize = x.getResponseHeader('Content-Length');
-			var responseText = x.responseText;
-			var position = responseText ? responseText.length : 0;
-			x.updateProgressIndicator(position,totalSize);
+			var local = url.indexOf('file://')!=-1;
+			if(!local) { // haven't figured out how to make this work for local files yet - no response headers!
+				var totalSize = x.getResponseHeader('Content-Length');
+				console.log(x.getAllResponseHeaders());
+				var responseText = x.responseText;
+				var position = responseText ? responseText.length : 0;
+				x.updateProgressIndicator(position,totalSize);
+			} else {
+				clearMessage();
+				displayMessage('no support yet for local file progress indicator');
+				if(x.readyState == 4){
+					window.setTimeout(function(){
+						clearMessage();
+					},2000);
+				}
+			}
 		}
 		try {
 			var status = x.status;
