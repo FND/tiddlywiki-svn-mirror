@@ -8,6 +8,8 @@ window.url = "<?php echo getURL();?>";
 window.workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 
 
+config.defaultCustomFields = {"server.host":window.url, "server.type":"ccTiddly", "server.workspace":window.workspace};
+
 
 <?php
 if($theme == "simple")
