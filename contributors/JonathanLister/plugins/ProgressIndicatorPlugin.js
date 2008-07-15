@@ -17,7 +17,7 @@
 if(!version.extensions.ProgressIndicatorPlugin) {
 version.extensions.ProgressIndicatorPlugin = {installed:true};
 
-function httpReq(type,url,callback,params,headers,data,contentType,username,password,allowCache)
+window.httpReq = function(type,url,callback,params,headers,data,contentType,username,password,allowCache)
 {
 	//# Get an xhr object
 	var x = null;
@@ -31,6 +31,25 @@ function httpReq(type,url,callback,params,headers,data,contentType,username,pass
 	}
 	if(!x)
 		return "Can't create XMLHttpRequest object";
+	x.updateProgressIndicator = function(position,totalSize,direction) {
+		if(!direction) {
+			direction = "downloading";
+		}
+		var percentComplete = 0;
+		if(totalSize!==0) {
+			percentComplete = Math.floor((position / totalSize)*100);
+			percentComplete = percentComplete > 100 ? 100 : percentComplete;
+		}
+		clearMessage();
+		displayMessage(url);
+		displayMessage(direction+"... "+percentComplete+"%");
+		displayMessage('('+position+' of '+totalSize+' bytes)');
+		if(percentComplete=='100') {
+			window.setTimeout(function(){
+				clearMessage();
+			},2000);
+		}
+	};
 	//# Install progress indicator
 	x.onprogress = function(e) {
 		var local = url.indexOf('file://')!=-1;
@@ -45,18 +64,17 @@ function httpReq(type,url,callback,params,headers,data,contentType,username,pass
 				// do nothing
 			}
 		}
-		var percentComplete = Math.floor((position / totalSize)*100);
-		clearMessage();
-		displayMessage(url);
-		displayMessage(direction+"... "+percentComplete+"%");
-		if(percentComplete=='100') {
-			window.setTimeout(function(){
-				clearMessage();
-			},2000);
-		}
+		x.updateProgressIndicator(position,totalSize,direction);
 	};
 	//# Install callback
 	x.onreadystatechange = function() {
+		//# add Safari progress indicator
+		if(x.readyState >= 3 && config.browser.isSafari && type=='GET') {
+			var totalSize = x.getResponseHeader('Content-Length');
+			var responseText = x.responseText;
+			var position = responseText ? responseText.length : 0;
+			x.updateProgressIndicator(position,totalSize);
+		}
 		try {
 			var status = x.status;
 		} catch(ex) {
@@ -92,7 +110,7 @@ function httpReq(type,url,callback,params,headers,data,contentType,username,pass
 		return exceptionText(ex);
 	}
 	return x;
-}
+};
 
 
 } //# end of 'install only once'
