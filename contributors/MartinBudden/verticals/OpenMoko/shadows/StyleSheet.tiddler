@@ -1,0 +1,14 @@
+<div title="StyleSheet" tags="styles excludeLists excludeSearch">
+<pre>/***
+Place your custom CSS here.
+***/
+[[Styles HorizontalMainMenu]]
+[[wikipediaStyle]]
+[[wikipediaAbridged/Skins-1.5.monobook/main.css]]
+[[wikipedia.MediaWiki.Common.css]]
+/*{{{*/
+#mainMenu .tiddlyLinkExisting {text-decoration:none;font-weight:bold;}
+#mainMenu a:hover {background:transparent;}
+/*}}}*/
+</pre>
+</div>

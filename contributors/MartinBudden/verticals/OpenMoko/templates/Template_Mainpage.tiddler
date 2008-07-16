@@ -1,0 +1,9 @@
+<div title="Template:Mainpage" modifier="Glenn" created="200807161340" modified="200807130816" tags="Category:Templates" server.host="wiki.openmoko.org" server.page.revision="undefined" wikiformat="mediawiki">
+<pre>{| class="wikitable" style="background#ffffff;border-left:2px solid white;border-right:2px solid white;border-top:1px solid white; border:1px solid #c0c0c0; float:right; margin: 0 0 1em 1em; width:100%"
+
+!style="background:#FFFFff;border-left:0px solid white;border-right:0px solid white;border-top:0px solid white; border:0px solid #c0c0c0;" |
+
+ {{submenu}}
+|-
+|}<noinclude>[[Category:Templates]]</noinclude></pre>
+</div>

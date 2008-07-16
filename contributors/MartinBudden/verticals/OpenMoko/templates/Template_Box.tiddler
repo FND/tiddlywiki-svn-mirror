@@ -1,0 +1,16 @@
+<div title="Template:Box" modifier="Galadh" created="200807161340" modified="200807131008" server.host="wiki.openmoko.org" server.page.revision="undefined" wikiformat="mediawiki">
+<pre>{| class="wikitable" style="background#007AFA;border-left:1px solid white;border-right:1px solid white;border-top:0px solid white; border:1px solid #007AFA; float:right; margin: 0 0 1em 1em;"
+! style="background:#007AFA;border-left:1px solid white;border-right:5px solid white;border-top:0px solid white; border:1px solid #007AFA;" |<font color=white>GTA01 Hardware</font>
+|-
+!style="background:#FFFFff;border-left:1px solid white;border-right:1px solid white;border-top:0px solid white; border:1px solid #91C7FF;" |
+<div align=left>
+*[[Neo 1973]]
+*[[Neo 1973 hardware]]
+*[[Disassembling Neo 1973]]
+*[[Neo 1973 Phase 1]]
+*[[Getting Started with your Neo 1973|Getting started]]
+</div>
+|-
+|}<noinclude>
+</noinclude></pre>
+</div>
