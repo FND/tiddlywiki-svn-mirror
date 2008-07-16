@@ -3,13 +3,13 @@
 |''Description:''|Example Adaptor which can be used as a basis for creating a new Adaptor|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ExampleAdaptorPlugin|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ExampleAdaptorPlugin.js|
-|''Version:''|0.5.5|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ExampleAdaptorPlugin.js |
+|''Version:''|0.5.6|
 |''Status:''|Not for release - this is a template for creating new adaptors|
 |''Date:''|Mar 11, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|''~CoreVersion:''|2.2.0|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''~CoreVersion:''|2.4.1|
 
 To make this example into a real TiddlyWiki adaptor, you need to:
 
@@ -27,11 +27,6 @@ To make this example into a real TiddlyWiki adaptor, you need to:
 if(!version.extensions.ExampleAdaptorPlugin) {
 version.extensions.ExampleAdaptorPlugin = {installed:true};
 
-fnLog = function(text)
-{
-	if(window.console) console.log(text.substr(0,80)); else displayMessage(text.substr(0,80));
-};
-
 function ExampleAdaptor()
 {
 	this.host = null;
@@ -44,42 +39,6 @@ ExampleAdaptor.serverType = 'example'; // MUST BE LOWER CASE
 ExampleAdaptor.serverParsingErrorMessage = "Error parsing result from server";
 ExampleAdaptor.errorInFunctionMessage = "Error in function ExampleAdaptor.%0";
 
-ExampleAdaptor.prototype.setContext = function(context,userParams,callback)
-{
-	if(!context) context = {};
-	context.userParams = userParams;
-	if(callback) context.callback = callback;
-	context.adaptor = this;
-	if(!context.host)
-		context.host = this.host;
-	context.host = ExampleAdaptor.fullHostName(context.host);
-	if(!context.workspace)
-		context.workspace = this.workspace;
-	return context;
-};
-
-ExampleAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
-{
-	return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
-};
-
-ExampleAdaptor.fullHostName = function(host)
-{
-	if(!host)
-		return '';
-	host = host.trim();
-	if(!host.match(/:\/\//))
-		host = 'http://' + host;
-	if(host.substr(host.length-1) != '/')
-		host = host + '/';
-	return host;
-};
-
-ExampleAdaptor.minHostName = function(host)
-{
-	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
-};
-
 // Convert a page title to the normalized form used in uris
 ExampleAdaptor.normalizedTitle = function(title)
 {
@@ -90,42 +49,13 @@ ExampleAdaptor.normalizedTitle = function(title)
 	return String(n);
 };
 
-// Convert a date in YYYY-MM-DD hh:mm format into a JavaScript Date object
-ExampleAdaptor.dateFromEditTime = function(editTime)
-{
-	var dt = editTime;
-	return new Date(Date.UTC(dt.substr(0,4),dt.substr(5,2)-1,dt.substr(8,2),dt.substr(11,2),dt.substr(14,2)));
-};
-
-ExampleAdaptor.prototype.openHost = function(host,context,userParams,callback)
-{
-	this.host = ExampleAdaptor.fullHostName(host);
-	context = this.setContext(context,userParams,callback);
-	if(context.callback) {
-		context.status = true;
-		window.setTimeout(function() {callback(context,userParams);},0);
-	}
-	return true;
-};
-
-ExampleAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
-{
-	this.workspace = workspace;
-	context = this.setContext(context,userParams,callback);
-	if(context.callback) {
-		context.status = true;
-		window.setTimeout(function() {callback(context,userParams);},0);
-	}
-	return true;
-};
-
 ExampleAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
 // !!TODO set the uriTemplate
 	var uriTemplate = '%0';
 	var uri = uriTemplate.format([context.host]);
-	var req = ExampleAdaptor.doHttpGET(uri,ExampleAdaptor.getWorkspaceListCallback,context);
+	var req = httpReq('GET',uri,ExampleAdaptor.getWorkspaceListCallback,context);
 	return typeof req == 'string' ? req : true;
 };
 
@@ -163,7 +93,7 @@ ExampleAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 // !!TODO set the uriTemplate
 	var uriTemplate = '%0%1';
 	var uri = uriTemplate.format([context.host,context.workspace]);
-	var req = ExampleAdaptor.doHttpGET(uri,ExampleAdaptor.getTiddlerListCallback,context);
+	var req = httpReq('GET',uri,ExampleAdaptor.getTiddlerListCallback,context);
 	return typeof req == 'string' ? req : true;
 };
 
@@ -217,7 +147,7 @@ ExampleAdaptor.prototype.getTiddler = function(title,context,userParams,callback
 	context.tiddler.fields['server.type'] = ExampleAdaptor.serverType;
 	context.tiddler.fields['server.host'] = ExampleAdaptor.minHostName(context.host);
 	context.tiddler.fields['server.workspace'] = context.workspace;
-	var req = ExampleAdaptor.doHttpGET(uri,ExampleAdaptor.getTiddlerCallback,context);
+	var req = httpReq('GET',uri,ExampleAdaptor.getTiddlerCallback,context);
 	return typeof req == 'string' ? req : true;
 };
 
@@ -247,11 +177,6 @@ ExampleAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr
 	}
 	if(context.callback)
 		context.callback(context,context.userParams);
-};
-
-ExampleAdaptor.prototype.close = function()
-{
-	return true;
 };
 
 config.adaptors[ExampleAdaptor.serverType] = ExampleAdaptor;
