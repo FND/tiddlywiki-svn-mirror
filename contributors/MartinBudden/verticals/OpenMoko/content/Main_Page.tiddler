@@ -1,0 +1,116 @@
+<div title="Main Page" modifier="OpenMoko" created="200707231314" server.host="wiki.openmoko.org" wikiformat="mediawiki">
+<pre>==<font color=75d806>Introduction to Openmoko</font>==
+
+{{mainpage}}
+
+
+[[Image:OpenmokoFramework08.png|250px|left|Openmoko Software Stack|thumb]]
+
+[[Openmoko]]™ born as an [http://en.wikipedia.org/wiki/Open_source Open Source] project under  [[License| GPL and LGPL license]] and dedicated to delivering an open software stack on mobile platforms, shipped its first product, the Neo 1973, on July 9 2007; and then, turned the project into a start-up company with one aim: create great mobile products using the Openmoko stack: Open. Mobile. Free.
+
+The [[NeoSoftwareStack|Openmoko stack]], which includes a full [[Host-based development with Xoo and Xephyr|X server]], allows users and developers to transform mobile hardware platforms into unique products. Our licence gives developers and users freedom from the "iron to the eyeballs," freedom to cosmetically customize their device or radically remix it;  change the wallpaper or rebuild the entire house! It grants them the freedom, for example, to transform a phone into a medical device or point of sale device or the freedom to simply install their own favorite software. Beyond freeing the software on our devices we have also released our CAD files under Creative Commons. By freeing the software under GPL, we enable the community of FOSS developers to "make it new." By freeing the [http://downloads.openmoko.org/CAD/ CAD] files we give industrial designers and engineers this same opportunity.
+
+
+ 
+==<font color=75d806>Openmoko Products</font>==
+{{Bar}}
+
+[[Image:Freerunner02.gif|thumb|150px]]
+The first Openmoko product, the [[Neo1973]], sold exclusively through [http://www.openmoko.com/store.html Openmoko Online Shop]. It sold out in early February 2008. 
+
+Openmoko started selling the Neo FreeRunner (GTA02), the second generation of Neo, on July 3, 2008. Add your nickname to those interested buying the Neo FreeRunner at [[Buying_Interest_List|Buying Interest List]]. Also, look for a group to buy with at [[GroupSales]] for a discount and extra goodies.  If you've just received your FreeRunner, check out [[Getting Started with your Neo FreeRunner]] for tips.
+
+
+
+==<font color=75d806>Join Openmoko development</font>==
+
+{| class="wikitable" cellspacing="4" cellpadding="6" width=100%
+! width=50% style="background:#ff6600;border-left:5px solid white;border-right:5px solid white;border-top:0px solid white; border:1px solid #ff6600; " | <font color="white" >Developer Guides</font>
+! width=50% style="background:#ff6600;border-left:5px solid white;border-right:5px solid white;border-top:0px solid white; border:1px solid #ff6600;" |<font color="white" >Test / Emulation and share project</font>
+|-
+|valign="top" style="background:#333333;border-left:5px solid white;border-right:5px solid white;border-bottom:0px solid white; border:1px solid #cccccc; " | 
+===<font color=white>Developer </font>===
+* [[Toolchain|toolchain usage]]
+* <font color=white>VMware</font>
+* [[Python|python intro]]
+* [[Openmoko under QEMU]] 
+
+===<font color=white>System Integration and customizing a distribution</font>===
+* [[OpenEmbedded|OE-The distribution building framework]]
+* [[MokoMakefile|Building Openmoko using the MokoMakefile ]]
+* [[Opkg|Opkg]]
+===<font color=white>Low level / system development</font>===
+* <font color=white>Low-Level</font>
+* [[u-boot]]  <font color=white>-The bootloader we use, including docs to our modifications</font>
+* [[kernel]]  <font color=white>-The Linux Kernel we use, including docs to our modifications</font>
+* [[gsmd]] <font color=white> -the GSM daemon managing the GSM Modem</font>
+* [[agpsd]] <font color=white>-the AGPS (Assisted GPS) daemon</font>
+
+|valign="top" style="background:#333333;border-left:5px solid white;border-right:5px solid white;border-bottom:0px solid white; border:1px solid #cccccc; " |
+===<font color=white>Test</font>===
+*[[Test Cases]]
+<font color=white> ※</font> [[:Category: Test |  See More About Test]]
+
+===<font color=white>Emulation</font>===
+*[[Getting Openmoko working on host with Xephyr]]
+*[[Test_Openmoko Emulation with chroot image]]
+===<font color=white>Publish your project===
+*[[CommunityRepository|Publish Your Project]]
+|}
+
+==<font color=75d806>Openmoko community</font>==
+Anyone can join the Openmoko project and contribute to designing open products.  Join us and collaborate through any of the [[Development resources | project resources]], including this Openmoko Wiki. See the [[Help:Contents | wiki editing help]]page for information on making contributions to this wiki. 
+
+You can start by using the [[introduction]] page, photos, videos and Openmoko Wiki Official Index Page. As always, the usual [[FAQ | Frequently Asked Questions]] (FAQ),  [http://lists.openmoko.org/mailman/listinfo/| mailing list] pages and [[Discussion_Forums| Discussion Forums]] are helpful. 
+
+{| class="wikitable" cellspacing="4" cellpadding="6" width=100%
+! width=50% style="background:#ff6600;border-left:5px solid white;border-right:5px solid white;border-top:0px solid white; border:1px solid #ff6600; " | <font color="white" >In News</font>
+! width=50% style="background:#ff6600;border-left:5px solid white;border-right:5px solid white;border-top:0px solid white; border:1px solid #ff6600;" |<font color="white" >Community & Events</font>
+|-
+|valign="top" style="background:#333333;border-left:5px solid white;border-right:5px solid white;border-bottom:0px solid white; border:1px solid #cccccc; " | 
+==<font color=white>In News</font>==
+*[[Getting Started with your Neo FreeRunner]]
+*[[ASU Feature Plan]]
+*[[CommunityRepository|Share your project]]
+*[[GroupSales]]
+*[[Why Openmoko|Why Openmoko is best: A Comparative Look]]
+==<font color=white>Snapshot</font>==
+*<font color=white>You can always download the latest build here.</font>
+** <font color=white>For FreeRunner </font>[http://buildhost.openmoko.org/daily/freerunner/ http://buildhost.openmoko.org/daily/freerunner/]
+** <font color=white>For Neo 1973 the link is</font> [http://buildhost.openmoko.org/daily/neo1973/ http://buildhost.openmoko.org/daily/neo1973/]
+** <font color=white>Tools , like dfu-util and openocd :</font>[http://buildhost.openmoko.org/daily/tools/ http://buildhost.openmoko.org/daily/tools/]
+*<font color=white>Reviews of the daily snapshot build are [[Snapshot_review|here]] and the recommended kernel and root image from the review will always be available [http://downloads.openmoko.org/recommended/ here].</font>
+<font color=white>Note that the recommended set is not always the latest, but is the most stable, reliable, and functional.</font>
+|valign="top" style="background:#333333;border-left:5px solid white;border-right:5px solid white;border-bottom:0px solid white; border:1px solid #cccccc; " |
+
+==<font color=white> Community Update</font>==
+<font color=white>For the latest status updates, see [[Community_Updates|Community Updates]]</font>
+
+<font color=ffffff> ※</font>[[:Category:Community|  See More About Community...]]
+
+==<font color=white>Get the overview of wiki</font>==
+*<font color=white>To get the overview of Openmoko Wiki, see [[Openmoko Wiki Official Index Page]].</font>
+==<font color=white>Events</font>==
+*[[Summer of Code 2008]]
+*[[Openmoko Education/zh tw]]
+*[[Events:FOSDEM 2008]]
+*[[OpenLab]]
+
+<font color=ffffff> ※</font>[[:Category:Event|  See More About Event...]]
+
+|}
+
+
+==<font color=75d806>Getting started with Openmoko Wiki</font>==
+The Openmoko Wiki is open. Everyone can join. You'll find information including: hardware and software documentation, bug lists, community news of Openmoko and much more. Join our wiki, edit the wiki, contribute valued content, and help others. For the full picture of Openmoko Wiki, please visit the [[Openmoko Wiki Official Index Page|Openmoko Wiki Official Index Page]].  
+
+* Please read our [[Openmoko Wiki Editing Guidelines]]
+* [http://www.mediawiki.org/wiki/Help:Configuration_settings Configuration settings list]
+* [http://meta.wikimedia.org/wiki/Help:Wikitext_reference MediaWiki Wikitext Reference]
+* If you add a new page, you can reference the [[Openmoko Wiki Categories Index Page|Openmoko Wiki Categories Index Page]] to put your page on the right category.
+* [http://www.mediawiki.org/wiki/Help:FAQ MediaWiki FAQ]
+
+<font color=426fdc>※</font>[[:Category: Help |  See More About Help ]]
+
+[[Category:Information| ]]</pre>
+</div>
