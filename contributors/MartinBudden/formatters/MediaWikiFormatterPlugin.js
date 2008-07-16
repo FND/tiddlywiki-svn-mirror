@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.4.5|
+|''Version:''|0.4.6|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -544,7 +544,7 @@ config.mediawiki.formatters = [
 {
 	name: 'mediaWikiHeading',
 	match: '^={1,6}(?!=)\\n?',
-	termRegExp: /(={1,6}\n?)/mg,
+	termRegExp: /(={1,6}\n)/mg,
 	handler: function(w)
 	{
 		//#var output = w.output.nodeType==1 && w.output.nodeName=='P' ? w.output.parentNode : w.output;
@@ -553,7 +553,10 @@ config.mediawiki.formatters = [
 		//# drop anchor
 		var a = createTiddlyElement2(e,'a');
 		var t = w.tiddler ? MediaWikiFormatter.normalizedTitle(w.tiddler.title) + ':' : '';
-		var len = w.source.substr(w.nextMatch).indexOf('=');
+		var len = w.source.substr(w.nextMatch).indexOf('=\n');
+		while(w.source.substr(w.nextMatch+len-1,1)=='=') {
+			len--;
+		}
 		a.setAttribute('name',t+MediaWikiFormatter.normalizedTitle(w.source.substr(w.nextMatch,len)));
 		w.subWikifyTerm(e,this.termRegExp);
 		//#w.output = createTiddlyElement2(output,'p');
@@ -562,6 +565,7 @@ config.mediawiki.formatters = [
 
 {
 	name: 'mediaWikiTable',
+	// see http://www.mediawiki.org/wiki/Help:Tables, http://meta.wikimedia.org/wiki/Help:Table
 	match: '^\\{\\|', // ^{|
 	tableTerm: '\\n\\|\\}', // |}
 	rowStart: '\\n\\|\\-', // \n|-
@@ -869,7 +873,7 @@ config.mediawiki.formatters = [
 			src = src.trim().replace(/ /mg,'_');
 			src = src.substr(0,1).toUpperCase() + src.substring(1);
 			var palign = null;
-			var ptitle = null;
+			var ptitle = '';
 			var psrc = false;
 			var px = null;
 			var pthumb = false;
@@ -1143,63 +1147,35 @@ config.mediawiki.formatters = [
 },
 
 {
-	name: 'mediaWikiBoldItalic',
-	match: "'''''",
-	termRegExp: /('''''|(?=\n))/mg,
-	element: 'strong',
+	name: "mediaWikiCharacterFormat",
+	match: "'{2,5}|(?:<[usbi]>)",
 	handler: function(w)
 	{
-		var e = createTiddlyElement(w.output,this.element);
-		w.subWikifyTerm(createTiddlyElement(e,'em'),this.termRegExp);
+		switch(w.matchText) {
+		case "'''''":
+			var e = createTiddlyElement(w.output,'strong');
+			w.subWikifyTerm(createTiddlyElement(e,'em'),/('''''|(?=\n))/mg);
+			break;
+		case "'''":
+			w.subWikifyTerm(createTiddlyElement(w.output,'strong'),/('''|(?=\n))/mg);
+			break;
+		case "''":
+			w.subWikifyTerm(createTiddlyElement(w.output,'em'),/((?:''(?!'))|(?=\n))/mg);
+			break;
+		case '<u>':
+			w.subWikifyTerm(createTiddlyElement(w.output,'u'),/(<\/u>|(?=\n))/mg);
+			break;
+		case '<s>':
+			w.subWikifyTerm(createTiddlyElement(w.output,'del'),/(<\/s>|(?=\n))/mg);
+			break;
+		case '<b>':
+			w.subWikifyTerm(createTiddlyElement(w.output,'b'),/(<\/b>|(?=\n))/mg);
+			break;
+		case '<i>':
+			w.subWikifyTerm(createTiddlyElement(w.output,'i'),/(<\/i>|(?=\n))/mg);
+			break;
+		}
 	}
-},
-
-{
-	name: 'mediaWikiBold',
-	match: "'''",
-	termRegExp: /('''|(?=\n))/mg,
-	element: 'strong',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'mediaWikiItalic',
-	match: "''",
-	termRegExp: /((?:''(?!'))|(?=\n))/mg,
-	element: 'em',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'mediaWikiUnderline',
-	match: '<u>',
-	termRegExp: /(<\/u>|(?=\n))/mg,
-	element: 'u',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'mediaWikiStrike',
-	match: '<s>',
-	termRegExp: /(<\/s>|(?=\n))/mg,
-	element: 'strike',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'mediaWikiBoldTag',
-	match: '<b>',
-	termRegExp: /(<\/b>|(?=\n))/mg,
-	element: 'b',
-	handler: config.formatterHelpers.createElementAndWikify
-},
-
-{
-	name: 'mediaWikiItalicTag',
-	match: '<i>',
-	termRegExp: /(<\/i>|(?=\n))/mg,
-	element: 'i',
-	handler: config.formatterHelpers.createElementAndWikify
 },
 
 {
