@@ -10,7 +10,7 @@ $tiddlyCfg['db']['name'] = "new164";		//db name
 
 // Debugging Information 
 
-$tiddlyCfg['developing']=1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
+$tiddlyCfg['developing']=2;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
 $tiddlyCfg['debug']['mysql']=0;	 // if set to 1 will output every sql query into the logfile 
 $tiddlyCfg['debug']['login']=1;
 $tiddlyCfg['debug']['handle']=0;
@@ -110,7 +110,7 @@ debug("------------------------------------ >> log breaker << ------------------
 debug("QUERY_STRING: ".$_SERVER['QUERY_STRING'], "params");
 
 $a = str_replace($_SERVER['QUERY_STRING'], "", str_replace(str_replace("index.php", "", $_SERVER['PHP_SELF']), "", $_SERVER['REQUEST_URI']));
-if ($a=="?" && isset($_REQUEST['workspace']))
+if (isset($_REQUEST['workspace']))
 	$tiddlyCfg['workspace_name'] = $_REQUEST['workspace'];
 else
 	$tiddlyCfg['workspace_name'] = $a;
@@ -118,6 +118,7 @@ if ($b = stristr($tiddlyCfg['workspace_name'], "?"))
 	$tiddlyCfg['workspace_name'] = str_replace(stristr($tiddlyCfg['workspace_name'], "?"), "", $b);
 if ($_POST['workspace'])
 	$tiddlyCfg['workspace_name'] = $_POST['workspace'];	
+	
 debug("workspace_name : ".$tiddlyCfg['workspace_name'], "config");
 $tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
 debug("filename : ".$_SERVER["SCRIPT_NAME"], "config");
@@ -266,7 +267,7 @@ $tiddlyCfg['privilege_misc']['default_privilege'] = "UUUU";		//default privilege
 //default privileges for certain groups, applied after default_privilege
 //Format : $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
 $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCfg['default_anonymous_perm'];
-$tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = 'UAAA';//$tiddlyCfg['default_user_perm'];
+$tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = 'AAAA';//$tiddlyCfg['default_user_perm'];
 $tiddlyCfg['privilege_misc']['group_default_privilege']['admin'] = "AAAA";
 
 

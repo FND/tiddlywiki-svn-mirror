@@ -29,7 +29,7 @@
 		$tiddler = array();
 		$tiddler['id'] = preg_replace("![^0-9]!","",$id);		//if empty, leave it as empty. otherwise make it as int
 		//$tiddler['title'] = tiddler_bodyEncode($title);
-		$tiddler['title'] = $title;
+	 	$tiddler['title'] = $title;
 		//$tiddler['body'] = tiddler_bodyEncode($body);
 		$tiddler['body'] = $body;
 		$tiddler['modifier'] = $modifier;
@@ -129,7 +129,7 @@
 		
 		foreach($tiddlers as $tid)		//for each line of tiddler
 		{	
-			echo $t = $tid;
+			$t = $tid;
 			//first take body out
 			$r['body'] = trim(preg_replace("!(<div[^>]*>|</div>)!","",$t));
 			$t = preg_replace("!(<div |>.*</div>)!","",$t);		//take away body and begining <div tag
@@ -141,7 +141,7 @@
 			$reg = "!tiddler=\"[^\"]*\"!";
 			preg_match($reg, $t, $tmp);				//obtain string from tiddler
 		 	$t = preg_replace($reg, "", $t);		//remove data from div string
-			$r['title'] =trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
+			$r['tiddler'] =trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
 			
 			$reg = "!modifier=\"[^\"]*\"!";
 			preg_match($reg, $t, $tmp);				//obtain string from tiddler

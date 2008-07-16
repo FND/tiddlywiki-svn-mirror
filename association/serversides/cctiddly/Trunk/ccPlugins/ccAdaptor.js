@@ -308,9 +308,11 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 	var host = context.host ? context.host : ccTiddlyAdaptor.fullHostName(tiddler.fields['server.host']);
 	var uri;
 	uri = recipeuriTemplate.format([host,context.workspace,tiddler.title]);
+	if (tiddler.fields['server.page.revision'] == undefined)
+		tiddler.fields['server.page.revision'] = 0;
 	var newRevision = tiddler.fields['server.page.revision']+1;
-	var t=encodeURIComponent("<div tiddler='"+tiddler.title+"' modifier='username' created='200807141716' modified='200907121218' tags='' changecount='"+newRevision+"'>kiboshaad</div>");
-	var payload="workspace="+encodeURIComponent(context.workspace)+"&tiddler="+t+"&otitle="+encodeURIComponent(tiddler.title)+"&omodified="+tiddler.fields['omodified']+"&ochangecount="+tiddler.fields['server.page.revision'];
+	var t=encodeURIComponent('<div tiddler="'+tiddler.title+'" modifier="username" created="200807141716" modified="200907121218" tags="" changecount="'+newRevision+'">'+tiddler.text+'</div>');
+	var payload="workspace="+encodeURIComponent(context.workspace)+"&tiddler="+t+"&ntitle="+encodeURIComponent(tiddler.title)+"&otitle="+encodeURIComponent(tiddler.title)+"&omodified="+tiddler.fields['omodified']+"&ochangecount="+tiddler.fields['server.page.revision'];
 	var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
 	return typeof req == 'string' ? req : true;
 };
@@ -580,3 +582,8 @@ var JSON = {
         return val();
     }
 };
+
+
+
+
+

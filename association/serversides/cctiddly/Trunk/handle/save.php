@@ -49,7 +49,8 @@ $oldChangecount = formatParameters(isset($_POST['ochangecount'])?$_POST['ochange
 //explode tiddler DIV into array
 
 $ntiddler = tiddler_htmlToArray($ntiddler);
-$ntiddler = tiddler_create($ntiddler[0]['title'], 
+//echo "AAASASASAS:".$ntiddler[0]['title'];
+$ntiddler = tiddler_create($ntiddler[0]['tiddler'], 
 							$ntiddler[0]['body'], 
 							$ntiddler[0]['modifier'], 
 							$ntiddler[0]['modified'], 
@@ -96,6 +97,7 @@ if( !tiddler_markupCheck($user,$title) )
 	returnResult("020");
 }
 //check if empty title
+//echo "TITLE : ".$ntiddler['title'];
 if( strlen($ntiddler['title']) == 0 )
 {
 	returnResult("013");

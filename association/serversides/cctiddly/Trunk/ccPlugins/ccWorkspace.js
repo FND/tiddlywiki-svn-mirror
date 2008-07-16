@@ -27,6 +27,16 @@ Allows users to create their own workspace.
 config.backstageTasks.push('create');
 merge(config.tasks,{create: {text: 'create', tooltip: 'Create new workspace', content:'&lt;&lt;ccCreateWorkspace&gt;&gt;'}});
 
+
+
+
+config.macros.ccCreateWorkspace2 = {};
+config.macros.ccCreateWorkspace2.handler =  function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
+}	
+	
+	
+	
+	
 config.macros.ccCreateWorkspace = {};
 config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
 	// When we server this tiddler it need to know the URL of the server to post back to
@@ -60,7 +70,7 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 		config.macros.ccRegister.workspaceNameKeyPress(this.value);
 	};
 	step.appendChild(workspaceName);
-	step.innerHTML = step.innerHTML + "<br /><table><tr><td>"+url+"</td><td><input value="+workspaceName.value+"></td></tr><tr><td ><h3>Annonymous Users Can</h3></td><td></td></tr><tr><td><input></td><td>Create Tiddlers</td></tr><tr><td><input ></td><td>Read Tiddlers</td></tr><tr><td><input ></td><td>Update Tiddlers</td></tr><tr><td><input ></td><td>Delete Tiddlers</td></tr></table>";
+	step.innerHTML = step.innerHTML + "<br /><table border=05><tr><td>"+url+"</td><td><input value="+workspaceName.value+"></td></tr><tr border=0><td  border=0><h3>Annonymous Users Can</h3></td><td></td></tr><tr><td  align='right'><input align='right' name='anonCreate' type='checkbox'></td><td>Create Tiddlers</td></tr><tr><td  align='right'><input name='anonRead' type='checkbox' checked=true></td><td>Read Tiddlers</td></tr><tr><td align='right'><input name='anonUpdate' type='checkbox'></td><td>Update Tiddlers</td></tr><tr><td  align='right'><input name='anonDelete' type='checkbox'></td><td>Delete Tiddlers</td></tr></table>";
 	createTiddlyElement(step,"span",'workspaceName_error','inlineError',null);
 
 	createTiddlyElement(step,'br');
@@ -139,7 +149,7 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function() {
 	
 	
 
-	var loginResp = doHttp('POST',url+'/'+this.ccWorkspaceName.value,'ccCreateWorkspace=' + encodeURIComponent(this.ccWorkspaceName.value)+'&amp;ccAnonPerm='+encodeURIComponent(anon),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
+	var loginResp = doHttp('POST',url+'/'+this.ccWorkspaceName.value,'ccCreateWorkspace=' + encodeURIComponent(this.ccWorkspaceName.value)+'&ccAnonPerm='+encodeURIComponent(anon),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
 	return false; 
 };
 config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params,responseText,uri,xhr) {
