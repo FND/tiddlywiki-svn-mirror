@@ -29,10 +29,9 @@ version.extensions.ExampleAdaptorPlugin = {installed:true};
 
 function ExampleAdaptor()
 {
-	this.host = null;
-	this.workspace = null;
-	return this;
 }
+
+ExampleAdaptor.prototype = new AdaptorBase();
 
 // !!TODO set the variables below
 ExampleAdaptor.serverType = 'example'; // MUST BE LOWER CASE
