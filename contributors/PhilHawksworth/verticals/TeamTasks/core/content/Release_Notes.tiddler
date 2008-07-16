@@ -5,13 +5,14 @@
 *Task metadata is now stored on the task tiddlers in a much more friendly way. All TeamTasks fields on a tiddler are of the form {{{tt_fieldName='value'}}}
 *For those wishing to upgrade their previous tasks to make use of the new structure, there is a [[Task Migration Tool|TTMigrateTasks0304Plugin]] to ease the pain.
 *There is now [[documentation to assist in upgrading TeamTasks|Migrating to the latest version]]
+*Task Reports now refresh automatically as Tasks are updated.
+*The new theme is defined by just two tiddlers: TeamTasksSkin and TeamTasksColors
 !!!Comprehensive Plugin List
-|NewUserWizardPlugin|by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#NewUserWizardPlugin |
 |TableSortingPlugin |by SaqImtiaz |http://tw.lewcid.org/#TableSortingPlugin |
 |TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
-|TTReportViewPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TTReportViewPlugin |
-|TTMigrateTasks0304Plugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin |
-|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
+|TTReportViewPlugin |by PhilHawksworth |http://www.getteamtasks.com/teamtasks.html#TTReportViewPlugin |
+|TTMigrateTasks0304Plugin |by PhilHawksworth |http://www.getteamtasks.com/teamtasks.html#TTMigrateTasks0304Plugin |
+|ValueSwitcherPlugin |by PhilHawksworth |http://www.getteamtasks.com/teamtasks.html#ValueSwitcherPlugin |
 
 !Version 0.3
 !!!Comments

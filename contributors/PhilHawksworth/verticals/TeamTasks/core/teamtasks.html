@@ -3,7 +3,7 @@
 <head>
 <script id="versionArea" type="text/javascript">
 //<![CDATA[
-var version = {title: "TiddlyWiki", major: 2, minor: 4, revision: 0, date: new Date("May 9, 2008"), extensions: {}};
+var version = {title: "TiddlyWiki", major: 2, minor: 4, revision: 1, beta: 1, date: new Date("Jun 11, 2008"), extensions: {}};
 //]]>
 </script>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -521,6 +521,7 @@ config.options.txtTheme = &quot;TeamTasksSkin&quot;;
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.0|
 |''~PageTemplate:''|##PageTemplate|
+|''~EditTemplate:''|##EditTemplate|
 |''~taskViewTemplate:''|##taskViewTemplate|
 |''~taskEditTemplate:''|##taskEditTemplate|
 |''~StyleSheet:''|##StyleSheet|
@@ -541,6 +542,20 @@ config.options.txtTheme = &quot;TeamTasksSkin&quot;;
 	&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;!--}}}--&gt;
+
+
+!EditTemplate
+&lt;!--{{{--&gt;
+&lt;div class=&quot;editor&quot;&gt;
+&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;
+&lt;div class='title edit' macro='edit title'&gt;&lt;/div&gt;
+&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
+&lt;div class='tagged edit' macro='edit tags'&gt;&lt;/div&gt;
+&lt;div class='viewer edit' macro='edit text wikified'&gt;&lt;/div&gt;
+&lt;div class='tagClear'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;
+
 
 !taskViewTemplate
 &lt;!--{{{--&gt;
@@ -617,8 +632,8 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 
 /* Backstage */
 #backstageArea,
-#backstageToolbar { background-color:[[TeamTasksColors::Shade]]; padding-top:0;}
-#backstageToolbar a.backstageTab { background-color:[[TeamTasksColors::Shade]]; color:[[TeamTasksColors::Dark]]; font-weight:normal;line-height:1.5em; }
+#backstageToolbar { background-color:[[TeamTasksColors::TiddlerBackground]]; padding-top:0;}
+#backstageToolbar a.backstageTab { background-color:transparent; color:[[TeamTasksColors::Dark]]; font-weight:normal;line-height:1.5em; }
 #backstageToolbar a.backstageTab:hover { background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];  }
 
 /* Popup */
@@ -628,35 +643,38 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 #popup li.listBreak div{ border-bottom:solid 1px [[TeamTasksColors::Darker]];}
 
 /* Top Menu*/
-#topMenu a.button { border-style:none; background-color:[[TeamTasksColors::Background]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Accent]];  }
+#topMenu a.button { border-style:none; background-color:[[TeamTasksColors::Background]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Accent]]; display:block; float: right;}
 #topMenu a.button:hover,
 #mainMenu a:hover  { border-style:none; background-color:[[TeamTasksColors::Darkest]]; color:[[TeamTasksColors::Accent]];}
 #topMenu a.button:active,
 #mainMenu a:active  { border-style:none; background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::Background]];}
 
 /* MainMenu */
-#mainMenu { position: static; float: left; width: auto; margin: 20px 0 10px 20px;padding:0;}
-#mainMenu a { margin:1px 0; border-style:none; background-color:[[TeamTasksColors::Shade]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Darkest]];  }
-#mainMenu &gt; a {display:block; font-size:0.94em; text-align:left; margin:0 0 1px 0;}
-#mainMenu &gt; div &gt; a {display:block; font-size:0.9em; text-align:right; margin:0 0 1px 0; background-color:[[TeamTasksColors::LightShade]];}
-#mainMenu span.search { padding:6px 6px 6px 0px; margin-bottom:10px; display:block; background-color:[[TeamTasksColors::Darkest]]; }
+#mainMenu { position: static; float: left; width:18em; padding: 20px 0 10px 20px; margin:0;}
+#mainMenu br { display:none; }
+#mainMenu a { display:block; font-size:0.94em; text-align:left; margin:0 0 1px 0; border-style:none; background-color:[[TeamTasksColors::Shade]]; padding:0.3em 1em; color:[[TeamTasksColors::Darkest]];  }
+#mainMenu div {  width:auto; }
+#mainMenu div a {display:block;  font-size:0.9em; text-align:right; margin:0 0 1px 0; background-color:[[TeamTasksColors::LightShade]];}
+#mainMenu span.search { padding:6px 6px 6px 0px; margin-bottom:10px; display:block; background-color:[[TeamTasksColors::Darkest]]; text-align:left;}
 #mainMenu span.search .searchField { padding:2px 6px; border:solid 1px [[TeamTasksColors::DarkShade]]; border-top-color:[[TeamTasksColors::Dark]];  border-bottom-color:[[TeamTasksColors::TiddlerBackground]]; background-color:[[TeamTasksColors::Background]]; }
-#mainMenu span.search a.searchButton { color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::Darkest]];}
+#mainMenu span.search a.searchButton { display:inline; color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::Darkest]];}
 #mainMenu span.search a.searchButton:hover { color:[[TeamTasksColors::TiddlerBackground]]; }
 
 /* MetaData section */
-#mainMenu div.meta { position:relative; font-size:0.9em; line-height:1.1em;}
-#mainMenu div.meta span{ position:absolute; right:1em;}
-#mainMenu div.meta a {display: block; width:14em; color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:0 0 0.2em 0; padding:0;}
+#mainMenu div.meta { font-size:0.9em; line-height:1.1em;}
+#mainMenu div.meta span { display: block; width:20em; text-align:right;}
+#mainMenu div.meta a {color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:1.4em 1em 0.2em 3em; padding:0;}
 #mainMenu div.meta a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];}
 
 /* Vanilla Tiddlers */
 .tiddler { background-color:[[TeamTasksColors::TiddlerBackground]]; margin:0 1em 2em 1em; padding:0 0 1em 0; border-bottom:1px solid[[TeamTasksColors::DarkShade]]; 	}
-.tiddler div.toolbar { margin:0; padding:0; height:2em;}
+
+.tiddler div.toolbar { margin:0; padding:0; height:2em; visibility:hidden;}
 .tiddler div.toolbar a.button:first-child {  border-left:1px solid [[TeamTasksColors::LightShade]];}
-.tiddler div.toolbar a.button { display:none; background-color:[[TeamTasksColors::TiddlerBackground]]; padding:4px 1em 4px 1em; border-style:none; border-left:1px solid [[TeamTasksColors::LightShade]]; border-bottom:1px solid [[TeamTasksColors::LightShade]];  border-top:3px solid [[TeamTasksColors::Background]]; line-height:2.3em;}
+.tiddler div.toolbar a.button { background-color:[[TeamTasksColors::TiddlerBackground]]; padding:4px 1em 4px 1em; border-style:none; border-left:1px solid [[TeamTasksColors::LightShade]]; border-bottom:1px solid [[TeamTasksColors::LightShade]];  border-top:3px solid [[TeamTasksColors::Background]]; line-height:2.3em;}
 .tiddler div.toolbar a.button:hover { background-color:[[TeamTasksColors::LightestShade]]; border-bottom-color:[[TeamTasksColors::DarkShade]]; color:[[TeamTasksColors::Darkest]];}
 .tiddler div.toolbar a.button:active { background-color:[[TeamTasksColors::Accent]]; border-bottom-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];}
+
 .tiddler div.title { color:[[TeamTasksColors::Accent]]; margin:4px 20px 3px 20px;}
 .tiddler div.subtitle,
 .tiddler div.tagged,
@@ -677,9 +695,8 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 .tiddler div.tagging a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];  border-bottom-color:[[TeamTasksColors::Accent]];}
 .tiddler div.viewer { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
 
-
 .viewer pre {background-color:[[TeamTasksColors::Background]]; color:[[TeamTasksColors::Darker]]; border:solid 1px [[TeamTasksColors::DarkShade]]; padding:1em 2em;}
-.selected div.toolbar a.button { display:inline;}
+.selected div.toolbar { visibility:visible;}
 
 /* Task Tiddlers */
 .tiddler div.task { clear:left; margin:10px 20px; border-top:solid 0px [[TeamTasksColors::Background]];}
@@ -859,7 +876,7 @@ if(!version.extensions.newUserWizard)
 }
 //}}}</pre>
 </div>
-<div title="ValueSwitcherPlugin" modifier="PhilHawksworth" created="200708161629" modified="200709251214" tags="systemConfig" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709191015" server.type="file" changecount="19">
+<div title="ValueSwitcherPlugin" modifier="PhilHawksworth" created="200708161629" modified="200709251214" tags="systemConfig">
 <pre>/***
 |''Name:''|ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -1005,7 +1022,7 @@ Create a view of the task list showing default values.
 
 Create a view of the task list showing specified fields in a given order and filtering the results.
 {{{
-&lt;&lt;TTReportView DisplayFields:&quot;field1,field2,field3&quot; OrderBy:&quot;field1,[asc|desc]&quot; fieldName:&quot;filterValue&quot; fieldName:&quot;!filterValue&quot;&gt;&gt;
+&lt;&lt;TTReportView DisplayFields:&quot;field1,field2,field3&quot; OrderBy:&quot;field1,[asc|desc]&quot; fieldName:&quot;filterValue&quot; fieldName:&quot;!filterValue&quot; recent:&quot;items&quot;&gt;&gt;
 }}}
 
 for example
@@ -1027,12 +1044,14 @@ version.extensions.TTReportViewPlugin = {installed:true};
 			return;
 		}
 	};
-	
+
 	config.macros.TTReportView.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 				
 		var container = story.findContainingTiddler(place);
-		container.setAttribute('force', 'true');
-		console.log(&quot;containing element&quot;, container);
+		var wrapper = createTiddlyElement(place,&quot;span&quot;);
+		wrapper.setAttribute('refresh','content');
+		wrapper.setAttribute('tiddler',tiddler.title);
+		wrapper.setAttribute('force', 'true');
 		
 		var fieldPrefix = &quot;tt_&quot;;
 				
@@ -1040,9 +1059,13 @@ version.extensions.TTReportViewPlugin = {installed:true};
 		var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
 		var fieldsString = getParam(params,&quot;DisplayFields&quot;,'title');
 		var displayFields = fieldsString.split(&quot;,&quot;);
+		for(var i=0;i&lt;displayFields.length;i++){
+			displayFields[i] = displayFields[i].trim();
+		}
 		var orderString = getParam(params,&quot;OrderBy&quot;,'title,asc');
 		var orderField =  fieldPrefix + orderString.split(&quot;,&quot;)[0];
 		var order =  orderString.split(&quot;,&quot;)[1];				
+		var recentItems = getParam(params,&quot;recent&quot;);
 		var expectedParams = ['DisplayFields','OrderBy'];
 	
 		//interpret and store the filter values.	
@@ -1059,7 +1082,9 @@ version.extensions.TTReportViewPlugin = {installed:true};
 				else {
 					var str = value;	
 				}
-				filters.push({'field':fieldPrefix + name, 'value':str, 'match':match});		
+				if(name != &quot;recent&quot;) { // exclude &quot;recent&quot; parameter
+					filters.push({'field':fieldPrefix + name, 'value':str, 'match':match});
+				}
 			}
 		}
 					
@@ -1068,7 +1093,15 @@ version.extensions.TTReportViewPlugin = {installed:true};
 		var toConsider = [];
 		var toDisplay = [];		
 		var toExclude = [];
-	
+
+		// limit to recently modified tiddlers
+		if(recentItems) {
+			taskTiddlers.sort(function(a,b) {
+				return b.modified - a.modified;
+			});
+			taskTiddlers = taskTiddlers.slice(0, recentItems);
+		}
+
 		// first get all the tiddlers we might want to include.
 		for(var t=0; t&lt;taskTiddlers.length; t++) {
 			var consider = true;
@@ -1103,7 +1136,7 @@ version.extensions.TTReportViewPlugin = {installed:true};
 		}
 
 		// Build a sortable table of the results.
-		var tbl = createTiddlyElement(place,'table',null,'sortable');
+		var tbl = createTiddlyElement(wrapper,'table',null,'sortable');
 		var thead = createTiddlyElement(tbl,'thead');
 		var theadr = createTiddlyElement(thead,'tr');
 		for(var f=0; f&lt;displayFields.length; f++) {
@@ -1226,7 +1259,7 @@ version.extensions.TTMigrateTasks0304Plugin = {installed:true};
 } //# end of 'install only once'
 //}}}</pre>
 </div>
-<div title="TaggedTemplateTweak" modifier="ELSDesignStudios" created="200706181748" modified="200804011417" tags="BookmarkPackage MediaPackage TaskPackage systemConfig IFramePackage" changecount="2">
+<div title="TaggedTemplateTweak" modifier="ELSDesignStudios" created="200804010000" tags="systemConfig">
 <pre>/***
 |Name|TaggedTemplateTweak|
 |Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
@@ -1277,7 +1310,7 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 }
 //}}}</pre>
 </div>
-<div title="TableSortingPlugin" created="200806060752">
+<div title="TableSortingPlugin" modifier="SaqImtiaz" created="200806181748" modified="200804011417" tags="systemConfig">
 <pre>/***
 |''Name:''|TableSortingPlugin|
 |''Description:''|Dynamically sort tables by clicking on column headers|
@@ -1487,7 +1520,16 @@ config.macros.autosort={
 </div>
 <div title="MainMenu" modifier="PhilHawksworth" created="200708051914">
 <pre>
-{{search{&lt;&lt;search&gt;&gt;}}}[[Listings]][[Getting Started with TeamTasks]][[Release Notes]][[Migrating to the latest version]]&lt;&lt;slider chkSliderOptionsPanel UserDefinitions 'Users »' 'A list of users'&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel TaskViews 'Task views »' 'A selection of task views'&gt;&gt;&lt;&lt;slider chkSliderOptionsPanel Customise 'Customise »' 'Edit and fiddle and poke to create a system that works best for you'&gt;&gt;[[about|About TeamTasks]][[download|index.html]]
+{{search{&lt;&lt;search&gt;&gt;}}}
+[[Listings]]
+[[Getting Started with TeamTasks]]
+[[Release Notes]]
+[[Migrating to the latest version]]
+&lt;&lt;slider chkSliderOptionsPanel UserDefinitions 'Users »' 'A list of users'&gt;&gt;
+&lt;&lt;slider chkSliderOptionsPanel TaskViews 'Task views »' 'A selection of task views'&gt;&gt;
+&lt;&lt;slider chkSliderOptionsPanel Customise 'Customise »' 'Edit and fiddle and poke to create a system that works best for you'&gt;&gt;
+[[about|About TeamTasks]]
+[[download|index.html]]
 {{meta{
 	&lt;&lt;tiddler TeamTasksMetaData&gt;&gt;
 }}}</pre>
@@ -1503,16 +1545,23 @@ config.macros.autosort={
 |status |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;StatusDefinitions&quot;&gt;&gt; |</pre>
 </div>
 <div title="TeamTasksMetaData" modifier="PhilHawksworth" created="200804019000" tags="TeamTasks help">
-<pre>[[TeamTasks version 0.4|Release Notes]]
+<pre>
+[[Get your own copy of TeamTasks at getteamtasks.com|http://getteamtasks.com]]
 [[TeamTasks is a vertical edition of TiddlyWiki|TiddlyWiki]]
-[[TeamTasks is opensource software distributed under the BSD license|License]]</pre>
+[[TeamTasks is opensource software distributed under the BSD license|License]]
+[[TeamTasks version 0.4|Release Notes]]</pre>
 </div>
 <div title="TaskDefinitions" modifier="PhilHawksworth" created="200709241547">
-<pre>[[ScopeDefinitions]][[UserDefinitions]][[PriorityDefinitions]][[StatusDefinitions]]</pre>
+<pre>
+ScopeDefinitions
+UserDefinitions
+PriorityDefinitions
+StatusDefinitions</pre>
 </div>
 <div title="TaskViews" modifier="PhilHawksworth" created="200709241546" modified="200805081143">
 <pre>
-[[DefaultReportView]][[(create your own task view)|CreatingTaskReportViews]]</pre>
+DefaultReportView
+[[(create your own task view)|CreatingTaskReportViews]]</pre>
 </div>
 <div title="AnneOther" modifier="PhilHawksworth" created="200710290946" changecount="1">
 <pre>&lt;html&gt;
@@ -1586,9 +1635,7 @@ Alternatively, you can create a new task by clicking the &lt;&lt;newTiddler labe
 <div title="DefineUsers" modifier="PhilHawksworth" created="200710221403" modified="200710241215" tags="help" changecount="9">
 <pre>In TeamTasks, you can assign tasks to users. If you are using TeamTasks individually and don't need to have different users set up, you can easily remove this functionality to make things appear even simpler in the user interface.
 
-Defining a user is really simple. All you need to do is add user's names to the UserDefinitions tiddler.  Each name should occupy a single line in the tiddler.  All of the names in the UserDefinitions tiddler will be available for you to assign a task to.
-
-There is also a [[wizard to help you create these users|UserSetupWizard]] to help you create users quickly should you need a slightly more complex setup. The wizard will help by creating a 'Home Tiddler' for each user which hold their contact details and quick access to a default set of [[TaskListViews|TaskListView]] which they can customise.</pre>
+Defining a user is really simple. All you need to do is add user's names to the UserDefinitions tiddler.  Each name should occupy a single line in the tiddler.  All of the names in the UserDefinitions tiddler will be available for you to assign a task to.</pre>
 </div>
 <div title="DefineScopes" modifier="PhilHawksworth" created="200710221448" modified="200710221449" tags="help">
 <pre>To make it easy to organise tasks by the appropriate projects, products or whatever sensible unit best fits your needs, you can define a set of 'Scopes' in the ScopeDefinitions tiddler. This works in the same way as [[defining users|DefineUsers]].</pre>
@@ -1652,13 +1699,14 @@ Using the macro is simple.
 *Task metadata is now stored on the task tiddlers in a much more friendly way. All TeamTasks fields on a tiddler are of the form {{{tt_fieldName='value'}}}
 *For those wishing to upgrade their previous tasks to make use of the new structure, there is a [[Task Migration Tool|TTMigrateTasks0304Plugin]] to ease the pain.
 *There is now [[documentation to assist in upgrading TeamTasks|Migrating to the latest version]]
+*Task Reports now refresh automatically as Tasks are updated.
+*The new theme is defined by just two tiddlers: TeamTasksSkin and TeamTasksColors
 !!!Comprehensive Plugin List
-|NewUserWizardPlugin|by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#NewUserWizardPlugin |
 |TableSortingPlugin |by SaqImtiaz |http://tw.lewcid.org/#TableSortingPlugin |
 |TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
-|TTReportViewPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TTReportViewPlugin |
-|TTMigrateTasks0304Plugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin |
-|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
+|TTReportViewPlugin |by PhilHawksworth |http://www.getteamtasks.com/teamtasks.html#TTReportViewPlugin |
+|TTMigrateTasks0304Plugin |by PhilHawksworth |http://www.getteamtasks.com/teamtasks.html#TTMigrateTasks0304Plugin |
+|ValueSwitcherPlugin |by PhilHawksworth |http://www.getteamtasks.com/teamtasks.html#ValueSwitcherPlugin |
 
 !Version 0.3
 !!!Comments
@@ -1745,27 +1793,20 @@ Comments and suggestions are very welcome and should be directed to ph [at] osmo
 
 TiddlyWiki is a piece of open source software created by Jeremy Ruston. The copyright is now owned by the not-for-profit organisation [[UnaMesa|http://www.unamesa.com]]. TiddlyWiki has always been free and open source and will remain free and open source. Edit mode.</pre>
 </div>
-<div title="UserSetupWizard" modifier="PhilHawksworth" created="200710221541" modified="200710241440" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.type="file" changecount="5">
-<pre>This wizard will help you to quickly create a user in TeamTasks.  This is what it will do for you:
-#Add your new user to the UserDefinitions tiddler so that you will be able to assign them tasks
-#Create a 'home tiddler' for the user that contains 
-**their contact details in hCard format. (you can change what contact details are required by editting UserDetailsTemplate)
-**a sample list of 'task list views' to help get them started. (you can change the sample list by editting SampleTaskListTemplate)
-Please complete the form below to create a new user.
-
-&amp;lt;&amp;lt;tiddler UserDetailsTemplate&amp;gt;&amp;gt;
-&amp;lt;&amp;lt;newUserWizard&amp;gt;&amp;gt;</pre>
-</div>
 <div title="UserDefinitions" modifier="PhilHawksworth" created="200708161718" modified="200710290945" tags="TaskDefinitions TeamTasks">
-<pre>[[PhilHawksworth]][[AnneOther]]</pre>
+<pre>
+PhilHawksworth
+AnneOther</pre>
 </div>
 <div title="PriorityDefinitions" modifier="PhilHawksworth" created="200708161618" modified="200710221412" tags="TaskDefinitions">
-<pre>High
+<pre>
+High
 Medium
 Low</pre>
 </div>
 <div title="ScopeDefinitions" modifier="PhilHawksworth" created="200709041507" modified="200710221449" tags="TaskDefinitions">
-<pre>Work
+<pre>
+Work
 Play</pre>
 </div>
 <div title="StatusDefinitions" modifier="PhilHawksworth" created="200708161721" modified="200710221413" tags="TaskDefinitions">
@@ -2790,7 +2831,7 @@ config.paramifiers.searchRegExp = {
 
 config.paramifiers.tag = {
 	onstart: function(v) {
-		story.displayTiddlers(null,store.getTaggedTiddlers(v,"title"),null,false,null);
+		story.displayTiddlers(null,store.filterTiddlers("[tag["+v+"]]"),null,false,null);
 	}
 };
 
@@ -2830,6 +2871,22 @@ config.paramifiers.theme = {
 config.paramifiers.upgrade = {
 	onstart: function(v) {
 		upgradeFrom(v);
+	}
+};
+
+config.paramifiers.recent= {
+	onstart: function(v) {
+		var titles=[];
+		var tiddlers=store.getTiddlers("modified","excludeLists").reverse();
+		for(var i=0; i<v && i<tiddlers.length; i++)
+			titles.push(tiddlers[i].title);
+		story.displayTiddlers(null,titles); 
+	}
+};
+
+config.paramifiers.filter = {
+	onstart: function(v) {
+		story.displayTiddlers(null,store.filterTiddlers(v),null,false);
 	}
 };
 
@@ -4714,17 +4771,17 @@ Tiddler.prototype.set = function(title,text,modifier,modified,tags,created,field
 // Change the text and other attributes of a tiddler without triggered a tiddler.changed() call
 Tiddler.prototype.assign = function(title,text,modifier,modified,tags,created,fields)
 {
-	if(title)
+	if(title != undefined)
 		this.title = title;
-	if(text)
+	if(text != undefined)
 		this.text = text;
-	if(modifier)
+	if(modifier != undefined)
 		this.modifier = modifier;
-	if(modified)
+	if(modified != undefined)
 		this.modified = modified;
-	if(created)
+	if(created != undefined)
 		this.created = created;
-	if(fields)
+	if(fields != undefined)
 		this.fields = fields;
 	if(tags != undefined)
 		this.tags = (typeof tags == "string") ? tags.readBracketedList() : tags;
@@ -4997,7 +5054,7 @@ TiddlyWiki.prototype.getTiddlerText = function(title,defaultText)
 	return null;
 };
 
-TiddlyWiki.prototype.slicesRE = /(?:^([\'\/]{0,2})~?([\.\w]+)\:\1\s*([^\|\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|\s*([^\|\n]+)\s*\|$)/gm;
+TiddlyWiki.prototype.slicesRE = /(?:^([\'\/]{0,2})~?([\.\w]+)\:\1\s*([^\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|\s*([^\|\n]+)\s*\|$)/gm;
 
 // @internal
 TiddlyWiki.prototype.calcAllSlices = function(title)
@@ -5610,6 +5667,16 @@ function Story(containerId,idPrefix)
 	};
 }
 
+Story.prototype.getTiddler = function(title)
+{
+	return document.getElementById(this.tiddlerId(title));
+};
+
+Story.prototype.getContainer = function()
+{
+	return document.getElementById(this.containerId());
+};
+
 Story.prototype.forEachTiddler = function(fn)
 {
 	var place = this.getContainer();
@@ -5630,7 +5697,7 @@ Story.prototype.displayTiddlers = function(srcElement,titles,template,animate,un
 		this.displayTiddler(srcElement,titles[t],template,animate,unused,customFields);
 };
 
-Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,animSrc)
+Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,animationSrc)
 {
 	var title = (tiddler instanceof Tiddler) ? tiddler.title : tiddler;
 	var tiddlerElem = this.getTiddler(title);
@@ -5644,7 +5711,9 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,un
 		var before = this.positionTiddler(srcElement);
 		tiddlerElem = this.createTiddler(place,before,title,template,customFields);
 	}
-	srcElement = animSrc ? animSrc : srcElement;
+	if(animationSrc && typeof animationSrc !== "string") {
+		srcElement = animationSrc;
+	}
 	if(srcElement && typeof srcElement !== "string") {
 		if(config.options.chkAnimate && (animate == undefined || animate == true) && anim && typeof Zoomer == "function" && typeof Scroller == "function")
 			anim.startAnimating(new Zoomer(title,srcElement,tiddlerElem),new Scroller(tiddlerElem));
@@ -5815,13 +5884,14 @@ Story.prototype.addCustomFields = function(place,customFields)
 
 Story.prototype.refreshAllTiddlers = function(force)
 {
-	var place = this.getContainer();
-	var e = place.firstChild;
-	if(!e)
-		return;
-	this.refreshTiddler(e.getAttribute("tiddler"),force ? null : e.getAttribute("template"),true);
-	while((e = e.nextSibling) != null)
-		this.refreshTiddler(e.getAttribute("tiddler"),force ? null : e.getAttribute("template"),true);
+	var e = this.getContainer().firstChild;
+	while(e) {
+		var template = e.getAttribute("template");
+		if(template && template.toLowerCase().indexOf("edit")==-1) {
+			this.refreshTiddler(e.getAttribute("tiddler"),force ? null : template,true);
+		}
+		e = e.nextSibling;
+	}
 };
 
 Story.prototype.onTiddlerMouseOver = function(e)
@@ -6176,16 +6246,6 @@ Story.prototype.switchTheme = function(theme)
 	}
 };
 
-Story.prototype.getTiddler = function(title)
-{
-	return document.getElementById(this.tiddlerId(title));
-};
-
-Story.prototype.getContainer = function()
-{
-	return document.getElementById(this.containerId());
-};
-
 //--
 //-- Backstage
 //--
@@ -6345,8 +6405,10 @@ var backstage = {
 	},
 
 	hidePanel: function() {
-		backstage.currTabName = null;
+		if(backstage.currTabElem)
+			removeClass(backstage.currTabElem,"backstageSelTab");
 		backstage.currTabElem = null;
+		backstage.currTabName = null;
 		if(anim && config.options.chkAnimate) {
 			var p = [
 				{style: "top", start: 0, end: -(backstage.panel.offsetHeight), template: "%0px"},
@@ -6909,7 +6971,6 @@ config.macros.sync.preProcessSyncableTiddlers = function(syncList)
 	for(var i=0; i<syncList.length; i++) {
 		var si = syncList[i];
 		si.serverUrl = si.syncTask.syncMachine.generateTiddlerInfo(si.tiddler).uri;
-
 	}
 };
 
@@ -6963,8 +7024,8 @@ config.macros.sync.createSyncTask = function(syncItem)
 		},
 		onGetTiddlerList: function(context) {
 			var tiddlers = context.tiddlers;
-			for(var t=0; t<st.syncItems.length; t++) {
-				var si = st.syncItems[t];
+			for(var i=0; i<st.syncItems.length; i++) {
+				var si = st.syncItems[i];
 				var f = tiddlers.findByField("title",si.title);
 				if(f !== null) {
 					if(tiddlers[f].fields['server.page.revision'] > si.tiddler.fields['server.page.revision']) {
@@ -7290,7 +7351,7 @@ config.refreshers = {
 		var force = e.getAttribute("force");
 		if(force != null || changeList == null || changeList.indexOf(title) != -1) {
 			removeChildren(e);
-			wikify(store.getTiddlerText(title,title),e,null,store.fetchTiddler(title));
+			wikify(store.getTiddlerText(title,""),e,null,store.fetchTiddler(title));
 			return true;
 		} else
 			return false;
@@ -8022,21 +8083,19 @@ function ieCreatePath(path)
 
 	var pos = path.lastIndexOf("\\");
 	if(pos!=-1)
-		path = path.substring(0, pos+1);
+		path = path.substring(0,pos+1);
 
-	var scan = [];
-	scan.push(path);
-	var i = 0;
-	do {
-		var parent = fso.GetParentFolderName(scan[i++]);
-		if(fso.FolderExists(parent))
-			break;
+	var scan = [path];
+	var parent = fso.GetParentFolderName(path);
+	while(parent && !fso.FolderExists(parent)) {
 		scan.push(parent);
-	} while(true);
+		parent = fso.GetParentFolderName(parent);
+	}
 
 	for(i=scan.length-1;i>=0;i--) {
-		if(!fso.FolderExists(scan[i]))
+		if(!fso.FolderExists(scan[i])) {
 			fso.CreateFolder(scan[i]);
+		}
 	}
 	return true;
 }
@@ -8374,24 +8433,20 @@ config.defaultAdaptor = FileAdaptor.serverType;
 
 function loadRemoteFile(url,callback,params)
 {
-	return doHttp("GET",url,null,null,null,null,callback,params,null);
+	return httpReq("GET",url,callback,params);
 }
 
-// HTTP status codes
-var httpStatus = {
-	OK: 200,
-	ContentCreated: 201,
-	NoContent: 204,
-	MultiStatus: 207,
-	Unauthorized: 401,
-	Forbidden: 403,
-	NotFound: 404,
-	MethodNotAllowed: 405
-};
-
-function doHttp(type,url,data,contentType,username,password,callback,params,headers,allowCache)
+function httpReq(type,url,callback,params,headers,data,contentType,username,password,allowCache)
 {
-	var x = getXMLHttpRequest();
+	var x = null;
+	try {
+		x = new XMLHttpRequest(); //# Modern
+	} catch(ex) {
+		try {
+			x = new ActiveXObject("Msxml2.XMLHTTP"); //# IE 6
+		} catch(ex2) {
+		}
+	}
 	if(!x)
 		return "Can't create XMLHttpRequest object";
 	x.onreadystatechange = function() {
@@ -8401,7 +8456,7 @@ function doHttp(type,url,data,contentType,username,password,callback,params,head
 			status = false;
 		}
 		if(x.readyState == 4 && callback && (status !== undefined)) {
-			if([0, httpStatus.OK, httpStatus.ContentCreated, httpStatus.NoContent, httpStatus.MultiStatus].contains(status))
+			if([0, 200, 201, 204, 207].contains(status))
 				callback(true,params,x.responseText,url,x);
 			else
 				callback(false,params,null,url,x);
@@ -8431,6 +8486,7 @@ function doHttp(type,url,data,contentType,username,password,callback,params,head
 	return x;
 }
 
+// included for compatibility
 function getXMLHttpRequest()
 {
 	try {
@@ -8443,6 +8499,12 @@ function getXMLHttpRequest()
 		}
 	}
 	return x;
+}
+
+// included for compatibility
+function  doHttp(type,url,data,contentType,username,password,callback,params,headers,allowCache)
+{
+	return httpReq(type,url,callback,params,headers,data,contentType,username,password,allowCache);
 }
 
 //--
@@ -8504,6 +8566,8 @@ function createTiddlyLink(place,title,includeText,className,isStatic,linkedFromT
 	var text = includeText ? title : null;
 	var i = getTiddlyLinkInfo(title,className);
 	var btn = isStatic ? createExternalLink(place,store.getTiddlerText("SiteUrl",null) + "#" + title) : createTiddlyButton(place,text,i.subTitle,onClickTiddlerLink,i.classes);
+	if(isStatic)
+		btn.className += ' ' + className;
 	btn.setAttribute("refresh","link");
 	btn.setAttribute("tiddlyLink",title);
 	if(noToggle)
@@ -8747,6 +8811,15 @@ function glyph(name)
 	if(!g.codes[name])
 		return "";
 	return g.codes[name][b];
+}
+
+function log(message)
+{
+	if(window.console) {
+		console.log.apply(this,arguments);
+	} else {
+		displayMessage(message);
+	}
 }
 
 //-

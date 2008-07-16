@@ -44,7 +44,6 @@ version.extensions.TTReportViewPlugin = {installed:true};
 	config.macros.TTReportView.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 				
 		var container = story.findContainingTiddler(place);
-		console.log("containing element", container);
 		var wrapper = createTiddlyElement(place,"span");
 		wrapper.setAttribute('refresh','content');
 		wrapper.setAttribute('tiddler',tiddler.title);
