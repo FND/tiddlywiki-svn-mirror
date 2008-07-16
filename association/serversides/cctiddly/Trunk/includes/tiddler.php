@@ -74,7 +74,7 @@
 		
 			global $tiddlyCfg;
 ?>
-<div tiddler="<?php print $tiddler["title"] ?>" modifier="<?php print $tiddler["modifier"] ?>" modified="<?php print $tiddler["modified"] ?>" created="<?php print $tiddler["created"] ?>" tags="<?php print $tiddler["tags"] ?>" server.page.revision="<?php print $tiddler["revision"] ?>" server.page.revision="<?php print $tiddler["revision"] ?>" server.type="ccTiddly" server.host="<?php echo getURL();?>" server.workspace="<?php print $tiddlyCfg['workspace_name'];?>" <?php print $tiddler["fields"] ?>><?php print $tiddler["body"] ?></div>
+<div tiddler="<?php print $tiddler["title"] ?>" modifier="<?php print $tiddler["modifier"] ?>" modified="<?php print $tiddler["modified"] ?>" created="<?php print $tiddler["created"] ?>" tags="<?php print $tiddler["tags"] ?>" server.page.revision="<?php print $tiddler["revision"] ?>"  server.type="ccTiddly" server.omodified="<?php print $tiddler["modified"];?>" server.host="<?php echo getURL();?>" server.workspace="<?php print $tiddlyCfg['workspace_name'];?>" <?php print $tiddler["fields"] ?>><?php print $tiddler["body"] ?></div>
 <?php
 		return;
 	}

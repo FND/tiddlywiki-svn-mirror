@@ -28,14 +28,6 @@ config.backstageTasks.push('create');
 merge(config.tasks,{create: {text: 'create', tooltip: 'Create new workspace', content:'&lt;&lt;ccCreateWorkspace&gt;&gt;'}});
 
 
-
-
-config.macros.ccCreateWorkspace2 = {};
-config.macros.ccCreateWorkspace2.handler =  function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
-}	
-	
-	
-	
 	
 config.macros.ccCreateWorkspace = {};
 config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
@@ -70,7 +62,28 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 		config.macros.ccRegister.workspaceNameKeyPress(this.value);
 	};
 	step.appendChild(workspaceName);
-	step.innerHTML = step.innerHTML + "<br /><table border=05><tr><td>"+url+"</td><td><input value="+workspaceName.value+"></td></tr><tr border=0><td  border=0><h3>Annonymous Users Can</h3></td><td></td></tr><tr><td  align='right'><input align='right' name='anonCreate' type='checkbox'></td><td>Create Tiddlers</td></tr><tr><td  align='right'><input name='anonRead' type='checkbox' checked=true></td><td>Read Tiddlers</td></tr><tr><td align='right'><input name='anonUpdate' type='checkbox'></td><td>Update Tiddlers</td></tr><tr><td  align='right'><input name='anonDelete' type='checkbox'></td><td>Delete Tiddlers</td></tr></table>";
+
+
+
+	var w = new Wizard();
+	w.createWizard(place,"Workspace Administration");
+	var step1 =  "<br /><table border=05><tr><td>"+url+"</td><td><input name=workspace_name value="+workspaceName.value+"></td></tr><tr border=0><td  border=0><h3>Annonymous Users Can</h3></td><td></td></tr><tr><td  align='right'><input align='right' name='anonCreate' type='checkbox'></td><td>Create Tiddlers</td></tr><tr><td  align='right'><input name='anonRead' type='checkbox' checked=true></td><td>Read Tiddlers</td></tr><tr><td align='right'><input name='anonUpdate' type='checkbox'></td><td>Update Tiddlers</td></tr><tr><td  align='right'><input name='anonDelete' type='checkbox'></td><td>Delete Tiddlers</td></tr></table>";
+
+
+
+	w.addStep("enter workspace name below",step1);
+console.log(w.formElem.workspace_name.value);
+	w.setButtons([
+		{caption: 'Create Workspace', tooltip: 'Create a new workspace here', onClick: function(w){ 
+			displayMessage("attmepting to create workspace"+this.formElem.workspace_name);
+		 	return false;
+		}}]);
+
+
+
+
+
+
 	createTiddlyElement(step,"span",'workspaceName_error','inlineError',null);
 
 	createTiddlyElement(step,'br');

@@ -3,6 +3,14 @@
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
+foreach ($_POST as $k => $v) {
+	debug("POST : ".$k." : ".$v, "params");
+}
+foreach ($_REQUEST as $k => $v) {
+	debug("REQUEST : ".$k." : ".$v, "params");
+}
+
+
 function returnResult($str)
 {
 	global $ccT_msg;
@@ -10,27 +18,29 @@ function returnResult($str)
 	switch($str) {
 		case "001":		//insert
 			sendHeader(201,$ccT_msg['notice']['TiddlerSaved'],"",1);
-			/*header("HTTP/1.0 201 Created");
-			exit($ccT_msg['notice']['TiddlerSaved']);
-			break;*/
+			debug("Tiddler Saved - returned :".$ccT_msg['notice']['TiddlerSaved'], "steps");
 		case "002":		//update
 			//mail ( "receiever@example.com", "TiddlyWiki changes (title:".$title.")", $body."\n\n".$tags);
 			sendHeader(200,$ccT_msg['notice']['TiddlerSaved'],"",1);
+			debug("Tiddler Updated - returned :".$ccT_msg['notice']['TiddlerSaved'], "steps");
 		case "004":		//update
 			//mail ( "receiever@example.com", "TiddlyWiki changes (title:".$title.")", $body."\n\n".$tags);
 			//logerror($ccT_msg['warning']['tiddler_overwritten'],0);			//alert user of warning
 			sendHeader(200,$ccT_msg['notice']['TiddlerSaved'].". ".$ccT_msg['warning']['tiddler_overwritten'],"",1);
+			debug("Tiddler overwritten - returned : ".$ccT_msg['notice']['TiddlerSaved'], "steps");
 		case "012":
 			//logerror($ccT_msg['warning']['tiddler_need_reload'],0);			//alert user of error and stop script
+			debug("Tiddlers need reloading - returned : ".$ccT_msg['warning']['tiddler_need_reload'], "steps");
 			sendHeader(403,$ccT_msg['warning']['tiddler_need_reload'],"",1);
-		case "013":		//no title passed
+		case "013":		//no title passed 
 			sendHeader(400,$ccT_msg['misc']['no_title'],"",1);
+			debug("No title was provided - returned ".$ccT_msg['misc']['no_title'], "steps");
 		case "020":
-			//logerror($ccT_msg['warning']['not_authorized'],0);			//alert user of error and stop script
 			sendHeader(401,$ccT_msg['warning']['not_authorized'],"",1);
+			debug("user was not authorized - returned : ".$ccT_msg['warning']['not_authorized'], "steps");
 		default:
-			logerror($ccT_msg['warning']['save_error']);
 			sendHeader(400,$ccT_msg['warning']['save_error'].": ".$str,"",1);
+			debug("Save Error (default) - returned : ".$ccT_msg['warning']['save_error']." : ".$str, "steps");
 	}
 }
 
@@ -58,18 +68,6 @@ $ntiddler = tiddler_create($ntiddler[0]['tiddler'],
 							"","","",//id, creator, created
 							$ntiddler[0]['fields']);
 
-//////////////////////////////////////////////////////preliminary data check and action//////////////////////////////////////////////////////////////
-//make connection to DB
-//db_connect_new();
-
-//get user and privilege and set variables
-/*if( strlen($username)==0 && strlen($password)==0 )
-{
-	$user = user_create();		//get username password from cookie
-}else{
-	$user = user_create($username,"",0,"",$password,1);
-}*/
-//$modifier = $user['username'];			//this is always true in local TW, set modifier = username
 
 //if anonymous and forceAnonymous is on, change username and modifier to $ccT_msg['loginpanel']['anoymous']
 if( $user['verified'] === FALSE && $tiddlyCfg['pref']['forceAnonymous']==1 )
@@ -84,7 +82,6 @@ if( $tiddlyCfg['pref']['tag_tiddler_with_modifier']==1 )
 	$modifier_add = (strpos($ntiddler['modifier']," ")?
 						"[[".$ntiddler['modifier']."]]":
 						$ntiddler['modifier']);
-	
 	if( strpos($ntiddler['tags'],$modifier_add)===FALSE )
 	{
 		$ntiddler['tags'] .= " ".$modifier_add;
@@ -97,7 +94,6 @@ if( !tiddler_markupCheck($user,$title) )
 	returnResult("020");
 }
 //check if empty title
-//echo "TITLE : ".$ntiddler['title'];
 if( strlen($ntiddler['title']) == 0 )
 {
 	returnResult("013");
@@ -159,7 +155,7 @@ if( $otiddler===FALSE ) {
 		$save_status = "update";
 
 	}else{		//END OF old tiddler exist, new tiddler not exist
-									//otiddler and ntiddler exist
+									//ccTiddly and ntiddler exist
 		if( $otiddler['id'] == $tiddler['id'] ) {
 			$save_status = "update";
 		}else{	//overwrite another tiddler
@@ -200,6 +196,8 @@ if( strcmp($save_status, "newOverwrite") == 0 ) {
 ///////////////////////////////////////////////////////////////update/////////////////////////////////////////////////////////
 //$saveResult = saveTiddly( $oldTitle, $oldModified, $ntiddler);
 if( strcmp($save_status, "update") == 0 ) {
+	debug("oldModified: ".$oldModified." - taken from $_POST[omodified]", "steps");
+	debug("otiddler['modified']: ".$otiddler['modified'], "steps");
 	if( strcmp($otiddler['modified'],$oldModified)!=0 ) {		//ask to reload if modified date differs
 		returnResult("012");
 	}
