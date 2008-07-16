@@ -4,11 +4,11 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.5.12|
+|''Version:''|0.5.13|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
-|''~CoreVersion:''|2.2.0|
+|''~CoreVersion:''|2.4.0|
 
 |''Max number of tiddlers to download''|<<option txtMediaAdaptorLimit>>|
 
@@ -36,7 +36,7 @@ version.extensions.MediaWikiAdaptorPlugin = {installed:true};
 
 fnLog = function(text)
 {
-//	if(window.console) console.log(text.substr(0,120)); else displayMessage(text.substr(0,120));
+//	if(window.console) console.log(text); else displayMessage(text.substr(0,120));
 };
 
 if(config.options.txtMediaWikiAdaptorLimit == undefined)
@@ -369,7 +369,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 //# http://tiddlywiki.org/api.php?action=query&list=allpages&format=jsonfm
 //# http://tiddlywiki.org/api.php?action=query&list=allpages&aplimit=50&format=jsonfm
 	if(!context.tiddlerLimit)
-		context.tiddlerLimit = config.options.txtMediaAdaptorLimit==0 ? null : config.options.txtMediaAdaptorLimit;
+		context.tiddlerLimit = config.options.txtMediaAdaptorLimit==0 ? config.maxTiddlerImportCount : config.options.txtMediaAdaptorLimit;
 
 	var limit = context.tiddlerLimit;
 	if(filter) {
@@ -407,7 +407,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 		}
 	} else {
 		context.responseType = 'query.allpages';
-		uriTemplate = '%0api.php?format=json&action=query&list=allpages';
+		uriTemplate = '%0api.php?format=json&action=query&list=allpages&prop=info&apfilterredir=nonredirects&apfrom=A';
 		if(this.workspaceId != 0)
 			uriTemplate += '&apnamespace=%1';
 		if(limit)
