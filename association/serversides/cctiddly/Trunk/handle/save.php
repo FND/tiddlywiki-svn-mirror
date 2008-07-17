@@ -3,12 +3,7 @@
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
-foreach ($_POST as $k => $v) {
-	debug("POST : ".$k." : ".$v, "params");
-}
-foreach ($_REQUEST as $k => $v) {
-	debug("REQUEST : ".$k." : ".$v, "params");
-}
+
 
 
 function returnResult($str)
@@ -57,9 +52,9 @@ $oldModified = formatParameters(isset($_POST['omodified'])?$_POST['omodified']:"
 $oldChangecount = formatParameters(isset($_POST['ochangecount'])?$_POST['ochangecount']:"");
 
 //explode tiddler DIV into array
-debug("BODY ::: ");
 $ntiddler = tiddler_htmlToArray($ntiddler);
-//echo "AAASASASAS:".$ntiddler[0]['title'];
+debug("NEW BODY ::: ".$ntiddler[0]['body'],'params');
+debug("NEW FIELDS ::: ".$ntiddler[0]['fields'],'params');
 $ntiddler = tiddler_create($ntiddler[0]['tiddler'], 
 							$ntiddler[0]['body'], 
 							$ntiddler[0]['modifier'], 

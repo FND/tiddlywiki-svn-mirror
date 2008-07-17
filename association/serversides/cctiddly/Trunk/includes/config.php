@@ -11,7 +11,7 @@ $tiddlyCfg['db']['name'] = "DATABASE";		//db name
 // Debugging Information 
 
 $tiddlyCfg['developing']=1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
-$tiddlyCfg['debug']['mysql']=1;	 // if set to 1 will output every sql query into the logfile 
+$tiddlyCfg['debug']['mysql']=0;	 // if set to 1 will output every sql query into the logfile 
 $tiddlyCfg['debug']['login']=1;
 $tiddlyCfg['debug']['handle']=0;
 $tiddlyCfg['debug']['config']=0;
@@ -303,7 +303,6 @@ $tiddlyCfg['table']['user'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table'][
 $tiddlyCfg['table']['group'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['group'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['table']['privilege'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['privilege'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['tiddlywiki_type'] = $cct_base."tiddlywiki/".$tiddlyCfg['tiddlywiki_type'].".js"; // plain TW file, $cct_base defined in config.php
-
 
 if ($tiddlyCfg['debug']['params']==1 || $tiddlyCfg['developing'] == 2)
 {

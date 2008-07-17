@@ -313,7 +313,7 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 		displayMessage('THIS IS A NEW TIDDLER');
 			// This is a new tiddler.
 		tiddler.fields['server.page.revision'] = 0;
-		var t=encodeURIComponent('<div tiddler="'+tiddler.title+'" modifier="username" created="200807141716" modified="200907121218" tags="" changecount="'+newRevision+'">'+tiddler.text+'</div>');
+		var t=encodeURIComponent('<div tiddler="'+tiddler.title+'" modifier="username" created="200807141716" modified="200907121218" tags="" >'+tiddler.text+'</div>');
 		var d = new Date();
 		d.setTime(Date.parse(tiddler['modified']));
 		d = d.convertToYYYYMMDDHHMM();

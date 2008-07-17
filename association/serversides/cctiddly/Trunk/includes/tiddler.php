@@ -169,17 +169,20 @@
 			$t = preg_replace($reg, "", $t);		//remove data from div string
 			$r['tags'] = trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
 
-			$reg = "!changecount=\"[^\"]*\"!";
+			$reg = "!server.page.revision=\"[^\"]*\"!";
 			preg_match($reg, $t, $tmp);				//obtain string from tiddler
 			$t = preg_replace($reg, "", $t);		//remove data from div string
 		 	$r['revision'] = trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
+			debug("t1 is : ".$t,"params");
 			
 			//remove "temp." fields as they are temporary
 			$t = preg_replace("!temp[.][^\"]*=\"[^\"]*\"!", "", $t);
 			$t = str_replace("  ", " ", $t);		//remove double-space
-			debug("setting fileds :".$r['fields'],"params");
+			debug("t2 is : ".$t,"params");
+			
 			//trim and put everything into fields
 			$r['fields'] = trim($t);
+			debug("setting fileds :".$r['fields'],"params");
 			
 			//$r = tiddler_create($r['title'], $r['body'], $r['modifier'], $r['modified'], $r['tags'], "", "", $r['created'], $r['fields'])
 			
