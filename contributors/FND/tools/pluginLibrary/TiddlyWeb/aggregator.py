@@ -4,8 +4,6 @@
 retrieve TiddlyWiki plugins from authors' repositories
 """
 
-from __future__ import with_statement
-
 import sys
 import os
 import shutil
@@ -36,7 +34,8 @@ def getRepositories(filepath):
 	@rtype : list
 	"""
 	repos = list()
-	with open(filepath, "r") as f:
+	f = open(filepath, "r") # DEBUG: use with-statement?
+	try:
 		for line in f:
 			if line.strip() and not line.startswith("#"): # skip blank and commented lines
 				repo = dict()
@@ -45,6 +44,8 @@ def getRepositories(filepath):
 				repo["type"] = components[1].strip()
 				repo["name"] = components[2].strip()
 				repos.append(repo)
+	finally:
+		f.close()
 	return repos
 
 def generateRecipe(bags):
@@ -96,7 +97,7 @@ def getPlugins(repo):
 	elif repo["type"] == "SVN":
 		pass # DEBUG: to be implemented
 	else:
-1		pass # DEBUG: TBD
+		pass # DEBUG: TBD
 
 # startup
 

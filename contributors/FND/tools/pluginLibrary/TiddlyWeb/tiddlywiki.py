@@ -1,5 +1,3 @@
-from __future__ import with_statement
-
 import re
 
 def normalizeURL(URL):
@@ -26,7 +24,7 @@ def unescapeLineBreaks(text):
 	"""
 	return text.replace("\\n", "\n").replace("\\b", " ").replace("\\s", "\\").replace("\r", "")
 
-class TiddlyWiki():
+class TiddlyWiki:
 	"""
 	utility functions for processing TiddlyWiki documents
 	"""
