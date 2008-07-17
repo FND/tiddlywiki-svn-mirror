@@ -27,6 +27,13 @@ config.macros.TTReportBuilder.handler = function(place,macroName,params,wikifier
 
 };
 
+// limit the number of results displayed.
+// limitResults(array, [integer])
+config.macros.TTReportBuilder.limitResults = function(results,limit) {
+	if(!limit && limit !== 0) return results;
+	return results.slice(0,limit);
+};
+
 
 	
 } //# end of 'install only once'

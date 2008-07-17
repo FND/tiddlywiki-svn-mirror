@@ -1,18 +1,61 @@
 // <![CDATA[
+
+
  
 describe('TTReportBuilder : Results limit', {
 
+	before_each: function(){
+		store = new TiddlyWiki();
+		store.loadFromDiv("storeArea","store",true);
+		loadPlugins();
+	},
+
 	'it should return no more results than specified' : function() {
-		var results;
+		var resultsBefore = ["1","2","3"];
 		var limit = 2;
+		var results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
 		value_of(results).should_have_at_most(limit, "items");
+		
+		limit = 8;
+		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
+		value_of(results).should_have_at_most(limit, "items");
+		
+		limit = 0;
+		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
+		value_of(results).should_have_at_most(limit, "items");
+		
+		limit = 3;
+		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
+		value_of(results).should_have_at_most(limit, "items");
+		
+		limit = null;
+		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
+		value_of(results).should_have_at_most(resultsBefore.length, "items");
+		
+		limit = undefined;
+		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
+		value_of(results).should_have_at_most(resultsBefore.length, "items");
+		
 	},
 	
 	'it should not limit results if no value is specified' : function() {
-		var resultsBefore;
-		var resultsAfter;
-		var limit = undefined;
-		value_of(resultsBefore.length).should_be(resultsAfter.length);
+		var resultsBefore = ["1","2","3"];
+		limit = null;
+		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
+		value_of(results).should_have_at_most(resultsBefore.length, "items");
+		
+		limit = undefined;
+		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
+		value_of(results).should_have_at_most(resultsBefore.length, "items");
+		
+		limit = '';
+		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
+		value_of(results).should_have_at_most(resultsBefore.length, "items");
+
+	},
+	
+	after_each: function(){
+		delete store;
 	}
 
 });
