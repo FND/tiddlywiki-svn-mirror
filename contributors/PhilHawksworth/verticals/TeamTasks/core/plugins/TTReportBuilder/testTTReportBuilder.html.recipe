@@ -1,0 +1,9 @@
+title=TTReportViewPlugin Tests
+recipe: $TW_ROOT/core/tests/html/testTeamTasksPlugins.recipe
+recipe: TTReportBuilderPlugin.recipe
+
+jsspecsrc=<script src="../../../../../../../core/tests/js/tiddlywiki.js" type="text/javascript"  charset="utf-8"></script>
+jsspecsrc=<script src="../../../../../../../core/tests/js/mock.js" type="text/javascript"  charset="utf-8"></script>
+jsspecsrc=<script src="../../../../../../../core/tests/js/xml.js" type="text/javascript" charset="utf-8"></script>
+
+jsspecsrc=<script src="./TTReportBuilder.jsspec.js" type="text/javascript" charset="utf-8"></script>

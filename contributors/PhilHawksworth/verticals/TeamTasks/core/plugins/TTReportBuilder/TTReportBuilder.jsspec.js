@@ -3,17 +3,16 @@
 describe('TTReportBuilder : Filtering results', {
 
 	'Providing a resultLimit value should modify the value of the resultsLimit parameter' : function() {
-		
+
 	},
 	
 	'the addShowFilter handler should create a new' : function() {
 		
-	},
+	}
 
-	
 
 });
-
+ 
 describe('TTReportBuilder : Results limit', {
 
 	'it should return no more results than specified' : function() {
@@ -21,7 +20,7 @@ describe('TTReportBuilder : Results limit', {
 	},
 	
 	'it should not limit results if no value is specified' : function() {
-		
+	
 	}
 
 });
