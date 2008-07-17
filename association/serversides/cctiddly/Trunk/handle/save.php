@@ -57,7 +57,7 @@ $oldModified = formatParameters(isset($_POST['omodified'])?$_POST['omodified']:"
 $oldChangecount = formatParameters(isset($_POST['ochangecount'])?$_POST['ochangecount']:"");
 
 //explode tiddler DIV into array
-
+debug("BODY ::: ");
 $ntiddler = tiddler_htmlToArray($ntiddler);
 //echo "AAASASASAS:".$ntiddler[0]['title'];
 $ntiddler = tiddler_create($ntiddler[0]['tiddler'], 
@@ -196,7 +196,7 @@ if( strcmp($save_status, "newOverwrite") == 0 ) {
 ///////////////////////////////////////////////////////////////update/////////////////////////////////////////////////////////
 //$saveResult = saveTiddly( $oldTitle, $oldModified, $ntiddler);
 if( strcmp($save_status, "update") == 0 ) {
-	debug("oldModified: ".$oldModified." - taken from $_POST[omodified]", "steps");
+	debug("oldModified: ".$oldModified." - taken from ", "steps");
 	debug("otiddler['modified']: ".$otiddler['modified'], "steps");
 	if( strcmp($otiddler['modified'],$oldModified)!=0 ) {		//ask to reload if modified date differs
 		returnResult("012");

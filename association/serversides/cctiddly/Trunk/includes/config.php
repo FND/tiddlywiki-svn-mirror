@@ -6,7 +6,7 @@ $tiddlyCfg['db']['type'] = "mysql";		//sql type
 $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "new164";		//db name
+$tiddlyCfg['db']['name'] = "DATABASE";		//db name
 
 // Debugging Information 
 
@@ -303,4 +303,16 @@ $tiddlyCfg['table']['user'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table'][
 $tiddlyCfg['table']['group'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['group'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['table']['privilege'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['privilege'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['tiddlywiki_type'] = $cct_base."tiddlywiki/".$tiddlyCfg['tiddlywiki_type'].".js"; // plain TW file, $cct_base defined in config.php
+
+
+if ($tiddlyCfg['debug']['params']==1 || $tiddlyCfg['developing'] == 2)
+{
+	foreach ($_POST as $k => $v) {
+		debug("POST : ".$k." : ".$v, "params");
+	}
+	foreach ($_REQUEST as $k => $v) {
+		debug("REQUEST : ".$k." : ".$v, "params");
+	}
+}
+
 ?>

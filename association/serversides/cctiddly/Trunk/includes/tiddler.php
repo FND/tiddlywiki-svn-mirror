@@ -69,14 +69,27 @@
 	//!	@fn tiddler_outputDIV($tiddler)
 	//!	@brief output tiddler in div form for TW
 	//!	@param $tiddler tiddler array
-	function tiddler_outputDIV($tiddler)
-	{
+	
+	
+	
+	/*
+	
+	
+		$body = str_replace("&quot;","\"",$body);
+		$body = str_replace("&#039;","'",$body);
+		$body = str_replace("&lt;","<",$body);
+		$body = str_replace("&gt;",">",$body);
+		$body = str_replace("&amp;","&",$body);
+		$body = str_replace("\\n","\n",$body);		//replace newline with '\n'
+		$body = str_replace('\\s',"\\",$body);		//replace'\' with '\s'
 		
-			global $tiddlyCfg;
-?>
-<div tiddler="<?php print $tiddler["title"] ?>" modifier="<?php print $tiddler["modifier"] ?>" modified="<?php print $tiddler["modified"] ?>" created="<?php print $tiddler["created"] ?>" tags="<?php print $tiddler["tags"] ?>" server.page.revision="<?php print $tiddler["revision"] ?>"  server.type="ccTiddly" server.omodified="<?php print $tiddler["modified"];?>" server.host="<?php echo getURL();?>" server.workspace="<?php print $tiddlyCfg['workspace_name'];?>" <?php print $tiddler["fields"] ?>><?php print $tiddler["body"] ?></div>
-<?php
-		return;
+		
+	*/
+	function tiddler_outputDIV($tiddler)
+	{	
+		global $tiddlyCfg;
+		echo  "<div tiddler='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision=".$tiddler["revision"]."  server.omodified='".$tiddler["modified"]."' server.host='".getURL()."' server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"]."</div>\n\r";	
+		return;	
 	}
 
 	//!	@fn array tiddler_breakTag($tagStr)
@@ -95,13 +108,6 @@
 			$array[] = $tag;
 			$tagStr = str_replace('[['.$tag.']]'," ",$tagStr);
 		}
-		/* similar using RegEx but does not work with space within bracket tags
-			$s = "one [[two for test]] [[th ree]] [[four with-dash]]";
-			$p = "!\[{2}([^\[]{2})*\]{2}!";
-			$a = preg_match_all($p,$s,$m);
-			$r = preg_replace($p,"",$s);
-		*/
-		
 		//obtain regular tags separate by space
 		//put in all tags into $array
 		$array = array_merge($array,explode(" ",$tagStr));
@@ -115,7 +121,6 @@
 				$return[] = trim($t);
 			}
 		}
-		
 		return $return;
 	}
 	
@@ -123,8 +128,9 @@
 	//!	@brief convert html codes into tiddler array to use with upload
 	//!	@param $html html code of storeArea, assume already strip slashes
 	function tiddler_htmlToArray($html)
-	{
-		$tiddlers=preg_grep("!<div.+tiddler=!",explode("\n",$html));		//only ones with "<div tiddler=" is accepted
+	{	
+		debug("HTML".$html);
+		$tiddlers=preg_grep("!<div.+tiddler=!",explode("</div>",$html));		//only ones with "<div tiddler=" is accepted
 		$result = array();
 		
 		foreach($tiddlers as $tid)		//for each line of tiddler
@@ -133,7 +139,7 @@
 			//first take body out
 			$r['body'] = trim(preg_replace("!(<div[^>]*>|</div>)!","",$t));
 			$t = preg_replace("!(<div |>.*</div>)!","",$t);		//take away body and begining <div tag
-		
+		debug("r body value is ".$r['body'], "params");
 			//define useful regex
 			$reg_remove = "!([^=]*=\"|\")!";		//reg ex for removing something=" and "
 
@@ -171,7 +177,7 @@
 			//remove "temp." fields as they are temporary
 			$t = preg_replace("!temp[.][^\"]*=\"[^\"]*\"!", "", $t);
 			$t = str_replace("  ", " ", $t);		//remove double-space
-			
+			debug("setting fileds :".$r['fields'],"params");
 			//trim and put everything into fields
 			$r['fields'] = trim($t);
 			
