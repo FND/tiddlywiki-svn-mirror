@@ -1,6 +1,6 @@
 <?php
 echo '
-<meta http-equiv="refresh" content="5"><font size="0.5em" face=arial>';
+<meta http-equiv="refresh" content="2"><font size="0.5em" face=arial>';
 
 $file = file_get_contents('/Applications/xampp/xamppfiles/logs/error_log');
 $lines = explode("\n", $file);

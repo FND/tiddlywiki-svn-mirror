@@ -11,13 +11,13 @@ $tiddlyCfg['db']['name'] = "DATABASE";		//db name
 // Debugging Information 
 
 $tiddlyCfg['developing']=1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
-$tiddlyCfg['debug']['mysql']=0;	 // if set to 1 will output every sql query into the logfile 
+$tiddlyCfg['debug']['mysql']=1;	 // if set to 1 will output every sql query into the logfile 
 $tiddlyCfg['debug']['login']=1;
 $tiddlyCfg['debug']['handle']=0;
 $tiddlyCfg['debug']['config']=0;
 $tiddlyCfg['debug']['params']=1;
 $tiddlyCfg['debug']['fail']=0;
-$tiddlyCfg['debug']['steps']=1;
+$tiddlyCfg['debug']['steps']=0;
 
 // User Managment Information 
 
@@ -310,7 +310,7 @@ if ($tiddlyCfg['debug']['params']==1 || $tiddlyCfg['developing'] == 2)
 		debug("POST : ".$k." : ".$v, "params");
 	}
 	foreach ($_REQUEST as $k => $v) {
-		debug("REQUEST : ".$k." : ".$v, "params");
+//		debug("REQUEST : ".$k." : ".$v, "params");
 	}
 }
 

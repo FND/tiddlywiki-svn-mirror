@@ -859,6 +859,7 @@ $db_var['error']['query'] = " query: ";*/
 		
 		if( $SQLR===FALSE )
 		{
+			
 			db_logerror( $db_var['error']['queryErr'], $db_var['settings']['defaultStop'],
 				$db_var['error']['queryErr']."(".$db_var['error']['query'].$sql.$db_var['error']['error'].mysql_error().")");
 			return FALSE;

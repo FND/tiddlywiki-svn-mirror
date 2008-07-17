@@ -85,12 +85,7 @@
 		
 		
 	*/
-	function tiddler_outputDIV($tiddler)
-	{	
-		global $tiddlyCfg;
-		echo  "<div tiddler='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision=".$tiddler["revision"]."  server.omodified='".$tiddler["modified"]."' server.host='".getURL()."' server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"]."</div>\n\r";	
-		return;	
-	}
+
 
 	//!	@fn array tiddler_breakTag($tagStr)
 	//!	@brief break tag into array
@@ -123,6 +118,14 @@
 		}
 		return $return;
 	}
+	
+	function tiddler_outputDIV($tiddler)
+	{	
+		global $tiddlyCfg;
+		echo  "<div tiddler='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision=".$tiddler["revision"]."  server.omodified='".$tiddler["modified"]."' server.host='".getURL()."' server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"].">".$tiddler['body']."</div>\n\r";	
+		return;	
+	}
+	
 	
 	//!	@fn array tiddler_htmlToArray($html)
 	//!	@brief convert html codes into tiddler array to use with upload
@@ -173,16 +176,13 @@
 			preg_match($reg, $t, $tmp);				//obtain string from tiddler
 			$t = preg_replace($reg, "", $t);		//remove data from div string
 		 	$r['revision'] = trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
-			debug("t1 is : ".$t,"params");
 			
 			//remove "temp." fields as they are temporary
 			$t = preg_replace("!temp[.][^\"]*=\"[^\"]*\"!", "", $t);
 			$t = str_replace("  ", " ", $t);		//remove double-space
-			debug("t2 is : ".$t,"params");
 			
 			//trim and put everything into fields
 			$r['fields'] = trim($t);
-			debug("setting fileds :".$r['fields'],"params");
 			
 			//$r = tiddler_create($r['title'], $r['body'], $r['modifier'], $r['modified'], $r['tags'], "", "", $r['created'], $r['fields'])
 			
