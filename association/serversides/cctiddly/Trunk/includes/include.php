@@ -57,7 +57,7 @@ if( sizeof($tiddlers)>0 )
 {
 	foreach( $tiddlers as $t )
 	{
-		debug('tiddler pre output : '.$t['body'], "params");
+//		debug('tiddler pre output : '.$t['body'], "params");
 		tiddler_outputDIV($t);
 	}
 }

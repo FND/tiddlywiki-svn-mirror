@@ -300,7 +300,7 @@ Story.prototype.displayDefaultTiddlers = function()
 };
 
 window.restart = function (){
-		story.displayDefaultTidders();
+		story.displayDefaultTiddlers();
 		invokeParamifier(params,"onstart");
 		window.scrollTo(0,0); 
 }

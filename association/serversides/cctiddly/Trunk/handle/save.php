@@ -24,8 +24,7 @@ if(isset($tiddler['title']))
 //		returnResult("012");
 	}
 			//require edit privilege on new and old tags
-	if( 	user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) 
-		&& 	user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$otiddler['tags'])) )
+	if(user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) && user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$otiddler['tags'])))
 	{
 		$ntiddler['creator'] = $otiddler['creator'];
 		$ntiddler['created'] = $otiddler['created'];
@@ -37,8 +36,7 @@ if(isset($tiddler['title']))
 		echo "permissions denied";
 ///		returnResult( "020" );
 	}
-}else
-{
+}else{
 	//This Tiddler does not exist in the database.
 	if( user_insertPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) ) {
 		$ntiddler['creator'] = $ntiddler['modifier'];

@@ -187,7 +187,7 @@ merge(config.commands.revisions,{
 	done: "Revision downloaded",
 	revisionTooltip: "View this revision",
 	popupNone: "No revisions",
-	revisionTemplate: "%0 r:%1 m: %2"	
+	revisionTemplate: "%0 r:%1 m:%2"	
 	});
 
 config.commands.revisions.isEnabled = function(tiddler)
