@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#WikispacesSoapAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js |
-|''Version:''|0.1.4|
+|''Version:''|0.1.5|
 |''Date:''|Feb 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -563,6 +563,7 @@ WikispacesSoapAdaptor.getTiddlerRevisionListCallback = function(r,x,context)//(s
 				tiddler.fields.wikiformat = 'wikispaces';
 				tiddler.fields['server.type'] = WikispacesSoapAdaptor.serverType;
 				tiddler.fields['server.host'] = WikispacesSoapAdaptor.minHostName(context.host);
+				tiddler.fields['server.locked'] = gev(p,i,'is_read_only');
 				list.push(tiddler);
 			}
 		} catch (ex) {
@@ -607,6 +608,8 @@ fnLog('createTiddlerComplete');
 	pl.add('name',t.title);
 	pl.add('content',t.text);
 	pl.add('comment',WikispacesSoapAdaptor.createdWithTiddlyWikiMessage);
+	if(tiddler.fields['server.locked'])
+		pl.add('is_read_only',true);
 	SOAPClient.invoke(uri,'createPage',pl,true,WikispacesSoapAdaptor.createTiddlerCallback,context);
 	return true;
 };
