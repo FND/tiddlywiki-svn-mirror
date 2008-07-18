@@ -1,6 +1,6 @@
 <?php
 echo '
-<meta http-equiv="refresh" content="20"><font size="0.5em" face=arial>';
+<body bgcolor="white"><meta http-equiv="refresh" content="20"><font size="0.5em" face=arial>';
 echo '<form action="">
 <input type="submit" value="Update Log" />
 </form>';

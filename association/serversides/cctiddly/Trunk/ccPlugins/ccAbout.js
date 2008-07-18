@@ -23,7 +23,7 @@
 config.backstageTasks.push("about");
 
 		
-merge(config.tasks,{about:{text: "about",tooltip: "Find out more about ccTiddly ",content: '&lt;&lt;ccAbout&gt;&gt;'}});
+merge(config.tasks,{about:{text: "about",tooltip: "Find out more about ccTiddly ",content: '<<ccAbout>>'}});
 
 config.macros.ccAbout={};
 config.macros.ccAbout.handler=function(place,macroName,params,wikifier,paramString,tiddler,errorMsg){

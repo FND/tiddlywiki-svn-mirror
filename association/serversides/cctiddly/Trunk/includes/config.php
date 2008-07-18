@@ -17,7 +17,7 @@ $tiddlyCfg['debug']['handle'] = 0;
 $tiddlyCfg['debug']['config'] = 0;
 $tiddlyCfg['debug']['params'] = 1;
 $tiddlyCfg['debug']['fail'] = 0;
-$tiddlyCfg['debug']['steps'] = 0;
+$tiddlyCfg['debug']['steps'] = 1;
 $tiddlyCfg['debug']['display_logs'] = 1;
 
 // User Managment Information 

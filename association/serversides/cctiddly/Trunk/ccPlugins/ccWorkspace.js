@@ -25,7 +25,7 @@ Allows users to create their own workspace.
 //{{{
 
 config.backstageTasks.push('create');
-merge(config.tasks,{create: {text: 'create', tooltip: 'Create new workspace', content:'&lt;&lt;ccCreateWorkspace&gt;&gt;'}});
+merge(config.tasks,{create: {text: 'create', tooltip: 'Create new workspace', content:'<<ccCreateWorkspace>>'}});
 
 
 	
@@ -67,18 +67,13 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 
 	var w = new Wizard();
 	w.createWizard(place,"Workspace Administration");
-	var step1 =  "<br /><table border=05><tr><td>"+url+"</td><td><input name=workspace_name value="+workspaceName.value+"></td></tr><tr border=0><td  border=0><h3>Annonymous Users Can</h3></td><td></td></tr><tr><td  align='right'><input align='right' name='anonCreate' type='checkbox'></td><td>Create Tiddlers</td></tr><tr><td  align='right'><input name='anonRead' type='checkbox' checked=true></td><td>Read Tiddlers</td></tr><tr><td align='right'><input name='anonUpdate' type='checkbox'></td><td>Update Tiddlers</td></tr><tr><td  align='right'><input name='anonDelete' type='checkbox'></td><td>Delete Tiddlers</td></tr></table>";
+	var step1 =  "<br /><table border=05><tr><td>"+url+"</td><td><input  name=ccWorkspaceName value="+workspaceName.value+" /></td></tr><tr border=0><td  border=0><h3>Annonymous Users Can</h3></td><td><span id=statusBox></span></td></tr><tr><td  align='right'><input align='right' name='anonCreate' type='checkbox'></td><td>Create Tiddlers</td></tr><tr><td  align='right'><input name='anonRead' type='checkbox' checked=true></td><td>Read Tiddlers</td></tr><tr><td align='right'><input name='anonUpdate' type='checkbox'></td><td>Update Tiddlers</td></tr><tr><td  align='right'><input name='anonDelete' type='checkbox'></td><td>Delete Tiddlers</td></tr></table>";
+w.addStep("enter workspace name below",step1);
 
+w.formElem.ccWorkspaceName.onkeyup = function() {config.macros.ccRegister.workspaceNameKeyPress(w);}
 
-
-	w.addStep("enter workspace name below",step1);
-console.log(w.formElem.workspace_name.value);
 	w.setButtons([
-		{caption: 'Create Workspace', tooltip: 'Create a new workspace here', onClick: function(w){ 
-			displayMessage("attmepting to create workspace"+this.formElem.workspace_name);
-		 	return false;
-		}}]);
-
+		{caption: 'Create Workspace', tooltip: 'Create a new workspace here', onClick:config.macros.ccCreateWorkspace.createWorkspaceOnSubmit }]);
 
 
 
@@ -143,26 +138,25 @@ console.log(w.formElem.workspace_name.value);
 	
 };
 config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function() {
+	var w = new Wizard(this);
+	var me = config.macros.login;
+	
 	var trueStr = "A";
 	var falseStr = "D";
 	// build up string with permissions values
-	var anon=(this.anR.checked?trueStr:falseStr);
-	anon+=(this.anC.checked?trueStr:falseStr);
-	anon+=(this.anU.checked?trueStr:falseStr);
-	anon+=(this.anD.checked?trueStr:falseStr);
+	var anon=(w.formElem.anonRead.checked?trueStr:falseStr);
+	anon+=(w.formElem.anonCreate.checked?trueStr:falseStr);
+	anon+=(w.formElem.anonUpdate.checked?trueStr:falseStr);
+	anon+=(w.formElem.anonDelete.checked?trueStr:falseStr);
 	var params = {}; 
-	params.url = url+'/'+this.ccWorkspaceName.value;
-	
+	params.url = url+'/'+w.formElem.ccWorkspaceName.value;
 	// disable create workspace button 
 	var submit=document.getElementById('createWorkspaceButton');
 	submit.disabled=true;
 	submit.setAttribute("class","buttonDisabled");
 	document.getElementById('workspaceStatus').innerHTML='Please wait, your workspace is being created.';
-	
-	
-	
 
-	var loginResp = doHttp('POST',url+'/'+this.ccWorkspaceName.value,'ccCreateWorkspace=' + encodeURIComponent(this.ccWorkspaceName.value)+'&ccAnonPerm='+encodeURIComponent(anon),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
+	var loginResp = doHttp('POST',url+'/'+w.formElem.ccWorkspaceName.value,'ccCreateWorkspace=' + encodeURIComponent(w.formElem.ccWorkspaceName.value)+'&ccAnonPerm='+encodeURIComponent(anon),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
 	return false; 
 };
 config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params,responseText,uri,xhr) {
@@ -179,13 +173,13 @@ config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params
 	}
 };
 
-config.macros.ccRegister.workspaceNameKeyPress=function(str){
-
-	doHttp('POST',url+'/handle/lookupWorkspaceName.php',"ccWorkspaceLookup="+str+"&amp;free=1",null,null,null,config.macros.ccRegister.workspaceNameCallback,null);
+config.macros.ccRegister.workspaceNameKeyPress=function(w){
+	doHttp('POST',url+'/handle/lookupWorkspaceName.php',"ccWorkspaceLookup="+w.formElem.ccWorkspaceName.value+"&free=1",null,null,null,config.macros.ccRegister.workspaceNameCallback,w);
 	return false;
 };
 
 config.macros.ccRegister.workspaceNameCallback=function(status,params,responseText,uri,xhr){
+	var w = params;
 	var field = "";
 	if(responseText>0){{
 		workspaceName_space=document.getElementById('workspaceName_error');
@@ -193,9 +187,10 @@ config.macros.ccRegister.workspaceNameCallback=function(status,params,responseTe
 		workspaceName_space.setAttribute("class","inlineError");
 	}
 	}else{
-		workspaceName_space=document.getElementById('workspaceName_error');
-		workspaceName_space.innerHTML="Workspace name is available";
-		workspaceName_space.setAttribute("class","inlineOk");
+		console.log(w.bodyElem);
+	//	workspaceName_space=getElementById('submitBox');
+	//	workspaceName_space.innerHTML="Workspace name is available";
+	//	workspaceName_space.setAttribute("class","inlineOk");
 	}
 };
 

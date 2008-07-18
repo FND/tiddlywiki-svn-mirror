@@ -248,54 +248,60 @@ ccTiddlyAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xh
 };
 
 
-
 ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,userParams,callback)
+// get a list of the revisions for a page
 {
 	context = this.setContext(context,userParams,callback);
-	var uriTemplate = '%0recipes/%1/tiddlers/%2/revisions';
-	// no support for limit
-	var uri = uriTemplate.format([context.host,context.workspace,ccTiddlyAdaptor.normalizedTitle(title)]);
+	context.title = title;
+	var tiddler = store.fetchTiddler(title);
+	var encodedTitle = encodeURIComponent(title);
+console.log('getTiddlerRevisionList:'+title);
+//# http://cctiddly.sourceforge.net/msghandle.php?action=revisionList&title=About
+//# http://wiki.osmosoft.com/alpha/handle/revisionlist.php?&workspace=martinstest&title=GettingStarted
+	var uriTemplate = '%0handle/revisionList.php?workspace=%1&title=%2';
+	var host = ccTiddlyAdaptor.fullHostName(this.host);
+	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
+	var uri = uriTemplate.format([host,workspace,encodedTitle]);
+console.log('uri: '+uri);
 	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerRevisionListCallback,context);
-	return typeof req == 'string' ? req : true;
+//#console.log("req:"+req);
 };
 
 ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,context,responseText,uri,xhr)
 {
+console.log('getTiddlerRevisionListCallback status:'+status);
+console.log('rt:'+responseText.substr(0,100));
+	if(responseText.indexOf('<!DOCTYPE html')==1)
+		status = false;
+//#fnLog('xhr:'+xhr);
 	context.status = false;
 	if(status) {
-		try {
-		eval('var info=' + responseText);
-		} catch (ex) {
-			context.statusText = exceptionText(ex,ccTiddlyAdaptor.serverParsingErrorMessage);
-			if(context.callback)
-				context.callback(context,context.userParams);
-			return;
+		list = [];
+		var r =  responseText;
+		if(r != '-' && r.trim() != 'revision not found') {
+			var revs = r.split('\n');
+			var list = [];
+			for(var i=0; i<revs.length; i++) {
+				var parts = revs[i].split(' ');
+				if(parts.length>1) {
+					var tiddler = new Tiddler(context.title);
+					//tiddler.modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
+					tiddler.fields['server.page.revision'] = String(parts[1]);
+					tiddler.modifier = String(parts[2]);
+					tiddler.fields['server.host'] = ccTiddlyAdaptor.minHostName(context.host);
+					tiddler.fields['server.type'] = ccTiddlyAdaptor.serverType;
+					list.push(tiddler);
+				}
+			}
 		}
-		var list = [];
-		for(var i=0; i<info.length; i++) {
-		var tiddler = new Tiddler(info[i]['title']);
-		tiddler.modifier = info[i]['modifier'];
-		tiddler.tags = info[i]['tags'];
-		tiddler.fields['server.page.revision'] = info[i]['revision'];
-		tiddler.modified = Date.convertFromYYYYMMDDHHMM(info[i]['modified']);
-		tiddler.created = Date.convertFromYYYYMMDDHHMM(info[i]['created']);
-		list.push(tiddler);
-	}
-	var sortField = 'server.page.revision';
-	list.sort(function(a,b) {
-		return a.fields[sortField] < b.fields[sortField]
-		? +1
-		: (a.fields[sortField] == b.fields[sortField] ? 0 : -1);
-	});
-	context.revisions = list;
-	context.status = true;
+		context.revisions = list;
+		context.status = true;
 	} else {
 		context.statusText = xhr.statusText;
 	}
 	if(context.callback)
 		context.callback(context,context.userParams);
 };
-
 
 
 

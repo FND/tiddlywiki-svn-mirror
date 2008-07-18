@@ -58,6 +58,7 @@
 	$output = "";
 	foreach($tiddler_list as $t) {
 		$output .= $t['modified']." ".$t['revision']." ".$t['modifier']."\n";
+	
 	}
 	
 	

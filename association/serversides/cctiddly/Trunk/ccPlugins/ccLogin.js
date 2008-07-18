@@ -29,10 +29,10 @@ To display a login prompt for your user simple type the following text into a ti
 
 if (isLoggedIn()){
 	config.backstageTasks.push("logout");
-	merge(config.tasks,{logout:{text: "logout",tooltip: "Logout from ccTiddly",content: '&lt;&lt;ccLogin&gt;&gt;'}});
+	merge(config.tasks,{logout:{text: "logout",tooltip: "Logout from ccTiddly",content: '<<ccLogin>>'}});
 }else{
 	config.backstageTasks.push("login");
-	merge(config.tasks,{login:{text: "login",tooltip: "Login to ccTiddly",content: '&lt;&lt;ccLogin&gt;&gt;'}});	
+	merge(config.tasks,{login:{text: "login",tooltip: "Login to ccTiddly",content: '<<ccLogin>>'}});	
 }
 config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){};
 var loginState=null;
@@ -282,21 +282,27 @@ config.macros.ccLogin.saveCookie=function(cookieValues){
 	}
 };
 
+Story.prototype.displayDefaultTiddlers = function()
+{
+    var tiddlers="";
+    if (isLoggedIn()) {        
+		var url = window.location;        
+		url = url.toString();        
+		var bits = url.split('#');        
+		if (bits.length == 1) {            
+			tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));            
+			story.displayTiddlers(null, tiddlers);
+		}
+	} else {        
+		tiddlers=store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));        
+		story.displayTiddlers(null, tiddlers);   
+	}    
+};
+
 window.restart = function (){
-	    var tiddlers="";
-	    if (isLoggedIn()) {        
-			var url = window.location;        
-			url = url.toString();        
-			var bits = url.split('#');        
-			if (bits.length == 1) {            
-				tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));            
-				story.displayTiddlers(null, tiddlers);
-			}
-		} else {        
-			tiddlers=store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));        
-			story.displayTiddlers(null, tiddlers);   
-		}    
-		invokeParamifier(params,"onstart");    window.scrollTo(0,0); 
+		story.displayDefaultTidders();
+		invokeParamifier(params,"onstart");
+		window.scrollTo(0,0); 
 }
 
 
