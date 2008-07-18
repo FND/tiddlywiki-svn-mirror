@@ -34,6 +34,26 @@ config.macros.TTReportBuilder.limitResults = function(results,limit) {
 	return results.slice(0,limit);
 };
 
+config.macros.TTReportBuilder.paramStringBuilder = function(paramString,name,value,action) {
+	var params = [];
+	switch(action) {
+		case "add":
+			params = paramString.parseParams("anon",null,false);
+			param = getParam(params,name,"");
+			if(param) {
+				if(param === value) {
+					return paramString;
+				}
+				
+			}
+		break;
+		case "amend":
+		break;
+		case "delete":
+		break;
+		default:
+	}
+};
 
 	
 } //# end of 'install only once'

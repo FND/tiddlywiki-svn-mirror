@@ -1,7 +1,87 @@
 // <![CDATA[
 
+describe('TTReportBuilder : paramStringBuilder', {
+	
+	before_each: function() {
+		store = new TiddlyWiki();
+		store.loadFromDiv("storeArea","store",true);
+		loadPlugins();
+		paramStrings = [
+			"foo:bar",
+			"foo:",
+			"",
+			"foo:boop"
+		];
+		name = 'foo';
+		value = 'bar';
+		newValue = 'boop';
+		paramStringBuilder = config.macros.TTReportBuilder.paramStringBuilder;
+	},
+	
+	after_each: function() {
+		delete store;
+		delete paramStrings;
+		delete name;
+		delete value;
+		delete newValue;
+		delete paramStringBuilder;
+	},
 
- 
+	'it should do nothing to the paramString if the behaviour is "add", the name exists and the value exists' : function() {
+		var actual = paramStringBuilder(paramStrings[0],name,value,"add");
+		var expected = paramStrings[0];
+		value_of(actual).should_be(expected);
+	},
+	
+	'it should append the value to the parameter in the paramString if the behaviour is "add", the name exists and the value does not exist' : function() {
+		var actual = paramStringBuilder(paramStrings[1],name,value,"add");
+		var expected = paramStrings[0];
+		value_of(actual).should_be(expected);
+	},
+	
+	'it should add the parameter to the paramString if the behaviour is "add" and the name does not exist' : function() {
+		var actual = paramStringBuilder(paramStrings[2],name,value,"add");
+		var expected = paramStrings[0];
+		value_of(actual).should_be(expected);
+	},
+
+	'it should change the value of the parameter in the paramString if the behaviour is "amend", the name exists and the value exists' : function() {
+		var actual = paramStringBuilder(paramStrings[0],name,newValue,"amend");
+		var expected = paramStrings[3];
+		value_of(actual).should_be(expected);
+	},
+	
+	'it should append the value to the parameter in the paramString if the behaviour is "amend", the name exists and the value does not exist' : function() {
+		var actual = paramStringBuilder(paramStrings[1],name,newValue,"amend");
+		var expected = paramStrings[3];
+		value_of(actual).should_be(expected);
+	},
+	
+	'it should add the parameter to the paramString if the behaviour is "amend" and the name does not exist' : function() {
+		var actual = paramStringBuilder(paramStrings[2],name,newValue,"amend");
+		var expected = paramStrings[3];
+		value_of(actual).should_be(expected);
+	},
+	
+	'it should remove the parameter from the paramString if the behaviour is "delete", the name exists and the value exists' : function() {
+		var actual = paramStringBuilder(paramStrings[0],name,value,"delete");
+		var expected = paramStrings[2];
+		value_of(actual).should_be(expected);
+	},
+	
+	'it should do nothing to the paramString if the behaviour is "delete", the name exists and the value does not exist' : function() {
+		var actual = paramStringBuilder(paramStrings[1],name,value,"delete");
+		var expected = paramStrings[2];
+		value_of(actual).should_be(expected);
+	},
+	
+	'it should do nothing to the paramString if the behaviour is "delete" and the name does not exist' : function() {
+		var actual = paramStringBuilder(paramStrings[2],name,value,"delete");
+		var expected = paramStrings[2];
+		value_of(actual).should_be(expected);
+	}
+});
+
 describe('TTReportBuilder : Results limit', {
 
 	before_each: function(){
@@ -35,7 +115,6 @@ describe('TTReportBuilder : Results limit', {
 		limit = undefined;
 		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
 		value_of(results).should_have_at_most(resultsBefore.length, "items");
-		
 	},
 	
 	'it should not limit results if no value is specified' : function() {
@@ -51,7 +130,6 @@ describe('TTReportBuilder : Results limit', {
 		limit = '';
 		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
 		value_of(results).should_have_at_most(resultsBefore.length, "items");
-
 	},
 	
 	after_each: function(){
@@ -68,7 +146,7 @@ describe('TTReportBuilder : Add column button', {
 		// do stuff
 		value_of(columnsAfter.length).should_be(columnsBefore.length + 1);
 	},
-	
+
 	'it should create a new column in edit mode' : function() {
 		var editMode = false;
 		value_of(editMode).should_be_true();
