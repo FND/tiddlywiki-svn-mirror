@@ -57,6 +57,9 @@ In order to target a different table, a CSS class wrapper can be used:
 !Code
 ***/
 //{{{
+if(!version.extensions.ConditionalTableFormattingMacro) {
+version.extensions.ConditionalTableFormattingMacro = { installed: true };
+
 config.macros.conditionalTableFormatting = {};
 
 config.macros.conditionalTableFormatting.handler = function(place, macroName, params, wikifier, paramString, tiddler) {
@@ -77,4 +80,6 @@ config.macros.conditionalTableFormatting.handler = function(place, macroName, pa
 		}
 	}
 };
+
+} //# end of "install only once"
 //}}}

@@ -13,6 +13,9 @@
 !Code
 ***/
 //{{{
+if(!version.extensions.EditNewTiddlersPlugin) {
+version.extensions.EditNewTiddlersPlugin = { installed: true };
+
 // hijack chooseTemplateForTiddler()
 Story.prototype.chooseTemplateForTiddler_editNewTiddlers = Story.prototype.chooseTemplateForTiddler;
 Story.prototype.chooseTemplateForTiddler = function(title,template) {
@@ -22,4 +25,6 @@ Story.prototype.chooseTemplateForTiddler = function(title,template) {
 		return config.tiddlerTemplates[DEFAULT_EDIT_TEMPLATE];
 	}
 };
+
+} //# end of "install only once"
 //}}}

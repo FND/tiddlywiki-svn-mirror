@@ -43,6 +43,9 @@ The styling can be adjusted by editing the [[StyleSheetDiff]] shadow tiddler.
 !Code
 ***/
 //{{{
+if(!version.extensions.DiffPlugin) {
+version.extensions.DiffPlugin = { installed: true };
+
 config.macros.diff = {};
 
 config.macros.diff.handler = function(place, macroName, params, wikifier, paramString, tiddler) {
@@ -117,4 +120,6 @@ config.shadowTiddlers.StyleSheetDiff = "/*{{{*/\n"
 	+ "}\n"
 	+ "/*}}}*/";
 store.addNotification("StyleSheetDiff", refreshStyles);
+
+} //# end of "install only once"
 //}}}
