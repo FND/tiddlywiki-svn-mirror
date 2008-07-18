@@ -78,11 +78,58 @@ config.macros.newTiddler.handler = function(place,macroName,params,wikifier,para
 } 
 ?>
 
-// PHP TO JAVASCRIPT VARIABLE ASSIGNMENT --- 
 window.workspace_delete = "<?php echo $workspace_delete;?>";
 window.workspace_udate = "<?php echo $workspace_udate;?>";
 window.can_create_account = "<?php echo $tiddlyCfg['can_create_account'];?>";
 window.openid_enabled = "<?php echo $tiddlyCfg['pref']['openid_enabled']; ?>";
+
+var serverside={
+	url:"<?php echo getURL();?>",		//server url, for use in local TW or TW hosted elsewhere
+	workspace:"<?php echo $tiddlyCfg['workspace_name'];?>",
+	queryString:"<?php echo queryString();?>",
+	debug:<?php print $tiddlyCfg['developing'] ?>,		//debug mode, display alert box for each action
+	passwordTime:0,		//defines how long password variable store in cookie. 0 = indefinite
+	messageDuration:5000,				//displayMessage autoclose duration (in milliseconds), 0=leave open
+
+	lingo:{		//message for different language
+		uploadStoreArea:"<?php print $ccT_msg['notice']['uploadStoreArea'] ?>",
+		rss:"<?php print $ccT_msg['notice']['uploadRSS'] ?>",
+		timeOut:"<?php print $ccT_msg['notice']['timeOut'] ?>",
+		error:"<?php print $ccT_msg['notice']['error'] ?>",
+		click4Details:"<?php print $ccT_msg['notice']['click4Details'] ?>",
+		returnedTextTitle:"<?php print $ccT_msg['notice']['returnedTextTitle'] ?>",
+		anonymous:"<?php print $ccT_msg['loginpanel']['anoymous'] ?>",
+		login:{
+			login:"<?php print $ccT_msg['loginpanel']['login'] ?>",
+			loginFailed:"<?php print $ccT_msg['loginpanel']['loginFailed'] ?>",
+			loginPrompt:"<?php print $ccT_msg['loginpanel']['loginPrompt'] ?>",
+			logout:"<?php print $ccT_msg['loginpanel']['logout'] ?>",
+			logoutPrompt:"<?php print $ccT_msg['loginpanel']['logoutPrompt'] ?>"
+		},
+		revision:{
+			text:"<?php print $ccT_msg['word']['revision'] ?>",
+			tooltip:"<?php print $ccT_msg['misc']['revision_tooltip'] ?>",
+			popupNone:"<?php print $ccT_msg['warning']['no_revision'] ?>",
+			error:"<?php print $ccT_msg['error']['revision_error'] ?>",
+			notExist:"<?php print $ccT_msg['error']['revision_not_found'] ?>"
+		}
+	},
+	loggedIn:<?php echo  $usr_val?user_session_validate():0;?>,
+	status:{		//require translation later
+		200: "OK",
+		201: "Created",
+		204: "Empty",
+		207: "MultiStatus",
+		401: "Unauthorized",
+		403: "Forbidden",
+		404: "Not found",
+		405: "Method not allowed"
+	},
+	fn:{}		//server-side function
+};
+
+
+
 
 setStylesheet(store.getRecursiveTiddlerText("ccStyleSheet",10),"ccStyleSheet");
 

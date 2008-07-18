@@ -610,5 +610,15 @@ if(useJavaSaver)
 </script>
 <!--POST-SCRIPT-START-->
 <!--POST-SCRIPT-END-->
+<?php
+if ($tiddlyCfg['developing'] == 2 || $tiddlyCfg['debug']['display_logs'] == 1)
+{
+	?>
+	<div style="width:100%; position:fixed; bottom:0px;">
+	<iframe width=100%  src="http://127.0.0.1/association/serversides/cctiddly/Trunk/includes/debug.php">
+	</div>
+	<?php
+}
+?>
 </body>
 </html>

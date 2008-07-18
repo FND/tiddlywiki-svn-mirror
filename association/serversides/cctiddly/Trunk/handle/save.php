@@ -9,7 +9,7 @@ $ntiddler['modifier'] = formatParametersPOST($_POST['modifier']);
 $ntiddler['modified'] = formatParametersPOST($_POST['modified']);
 $ntiddler['created'] = formatParametersPOST($_POST['created']); 
 $ntiddler['tags'] = formatParametersPOST($_POST['tags']);
-$ntiddler['body'] =  utf8RawUrlDecode(formatParametersPOST($_POST['body']));
+$ntiddler['body'] =  htmlspecialchars(utf8RawUrlDecode(formatParametersPOST($_POST['body'])));
 $ntiddler['revision'] = formatParametersPOST($_POST['revision']);
 $ntiddler['fields'] = formatParametersPOST($_POST['fields']);
 
