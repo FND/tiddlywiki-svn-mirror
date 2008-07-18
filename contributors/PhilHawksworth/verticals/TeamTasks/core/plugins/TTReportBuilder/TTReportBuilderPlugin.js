@@ -1,10 +1,10 @@
 /***
 |''Name:''|TTReportBuilderPlugin|
 |''Description:''|Provide a view of the ColorPalette that allows the user to see the color that they are specifying|
-|''Author:''|PhilHawksworth|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/Plugins/LiveColorPalettePlugin.js |
+|''Author:''|PhilHawksworth, Jon Lister|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/cores/plugins/TTReportBuilder/TTReportBuilderPlugin.js |
 |''Version:''|0.1|
-|''Date:''|Mar 11, 2008|
+|''Date:''|July 18, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
 
