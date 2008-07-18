@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js |
-|''Version:''|0.5.10|
+|''Version:''|0.5.11|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -186,7 +186,9 @@ merge(config.commands.revisions,{
 	loading: "loading...",
 	done: "Revision downloaded",
 	revisionTooltip: "View this revision",
-	popupNone: "No revisions"});
+	popupNone: "No revisions",
+	revisionTemplate: "%0 r:%1"
+	});
 
 config.commands.revisions.isEnabled = function(tiddler)
 {
@@ -223,10 +225,10 @@ config.commands.revisions.callback = function(context,userParams)
 		revisions.sort(function(a,b) {return a.modified < b.modified ? +1 : -1;});
 		for(var i=0; i<revisions.length; i++) {
 			var tiddler = revisions[i];
-			var modified = tiddler.modified;
+			var modified = tiddler.modified.formatString(context.dateFormat||userParams.dateFormat);
 			var revision = tiddler.fields['server.page.revision'];
 			var btn = createTiddlyButton(createTiddlyElement(popup,'li'),
-					modified.formatString(context.dateFormat||userParams.dateFormat) + ' r:' + revision,
+					config.commands.revisions.revisionTemplate.format([modified,revision,tiddler.modifier]),
 					tiddler.text||config.commands.revisions.revisionTooltip,
 					function() {
 						config.commands.revisions.getTiddlerRevision(this.getAttribute('tiddlerTitle'),this.getAttribute('tiddlerModified'),this.getAttribute('tiddlerRevision'),this);
@@ -235,7 +237,7 @@ config.commands.revisions.callback = function(context,userParams)
 					'tiddlyLinkExisting tiddlyLink');
 			btn.setAttribute('tiddlerTitle',userParams.tiddler.title);
 			btn.setAttribute('tiddlerRevision',revision);
-			btn.setAttribute('tiddlerModified',modified.convertToYYYYMMDDHHMM());
+			btn.setAttribute('tiddlerModified',tiddler.modified.convertToYYYYMMDDHHMM());
 			if(userParams.tiddler.fields['server.page.revision'] == revision || (!userParams.tiddler.fields['server.page.revision'] && i==0))
 				btn.className = 'revisionCurrent';
 		}
@@ -246,8 +248,7 @@ config.commands.revisions.getTiddlerRevision = function(title,modified,revision)
 {
 //#console.log("config.commands.getTiddlerRevision:"+title+" r:"+revision);
 	var tiddler = store.fetchTiddler(title);
-	var context = {};
-	context.modified = modified;
+	var context = {modified:modified};
 	return invokeAdaptor('getTiddlerRevision',title,revision,context,null,config.commands.revisions.getTiddlerRevisionCallback,tiddler.fields);
 };
 
@@ -307,5 +308,34 @@ config.commands.saveTiddlerHosted.callback = function(context,userParams)
 		displayMessage(context.statusText);
 	}
 };
+
+config.commands.deleteTiddlerHosted = {};
+merge(config.commands.deleteTiddlerHosted,{
+	text: "delete",
+	tooltip: "Delete this tiddler",
+	warning: "Are you sure you want to delete '%0'?",
+	hideReadOnly: true,
+	done: "done"
+	});
+	
+config.commands.deleteTiddlerHosted.handler = function(event,src,title)
+{
+//#displayMessage("config.commands.deleteTiddlerHosted.handler:"+title);
+	var tiddler = store.fetchTiddler(title);
+	if(!tiddler)
+		return false;
+	return invokeAdaptor('deleteTiddler',title,null,null,null,config.commands.deleteTiddlerHosted.callback,tiddler);
+};
+
+config.commands.deleteTiddlerHosted.callback = function(context,userParams)
+{
+//#displayMessage("config.commands.deleteTiddlerHosted.callback:"+context.tiddler.title);
+	if(context.status) {
+		displayMessage(config.commands.saveTiddlerHosted.done);
+	} else {
+		displayMessage(context.statusText);
+	}
+};
+
 }//# end of 'install only once'
 //}}}
