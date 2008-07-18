@@ -21,7 +21,7 @@ version.extensions.SearchTagPlugin = {
 	URL: "http://google.com/search?q=",
 	label: "[G]"
 };
- 
+
 // hijack createTiddlyLink() to prepend search link
 createTiddlyLink_SearchTag = window.createTiddlyLink;
 window.createTiddlyLink = function(place, title, includeText, className, isStatic, linkedFromTiddler, noToggle) {
