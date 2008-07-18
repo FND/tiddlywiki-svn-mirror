@@ -8,7 +8,6 @@ describe('TTReportBuilder : paramStringBuilder', {
 		loadPlugins();
 		paramStrings = [
 			"foo:bar",
-			"foo:",
 			"",
 			"foo:boop"
 		];
@@ -33,51 +32,33 @@ describe('TTReportBuilder : paramStringBuilder', {
 		value_of(actual).should_be(expected);
 	},
 	
-	'it should append the value to the parameter in the paramString if the behaviour is "add", the name exists and the value does not exist' : function() {
-		var actual = paramStringBuilder(paramStrings[1],name,value,"add");
-		var expected = paramStrings[0];
-		value_of(actual).should_be(expected);
-	},
-	
 	'it should add the parameter to the paramString if the behaviour is "add" and the name does not exist' : function() {
-		var actual = paramStringBuilder(paramStrings[2],name,value,"add");
+		var actual = paramStringBuilder(paramStrings[1],name,value,"add");
 		var expected = paramStrings[0];
 		value_of(actual).should_be(expected);
 	},
 
 	'it should change the value of the parameter in the paramString if the behaviour is "amend", the name exists and the value exists' : function() {
 		var actual = paramStringBuilder(paramStrings[0],name,newValue,"amend");
-		var expected = paramStrings[3];
-		value_of(actual).should_be(expected);
-	},
-	
-	'it should append the value to the parameter in the paramString if the behaviour is "amend", the name exists and the value does not exist' : function() {
-		var actual = paramStringBuilder(paramStrings[1],name,newValue,"amend");
-		var expected = paramStrings[3];
+		var expected = paramStrings[2];
 		value_of(actual).should_be(expected);
 	},
 	
 	'it should add the parameter to the paramString if the behaviour is "amend" and the name does not exist' : function() {
-		var actual = paramStringBuilder(paramStrings[2],name,newValue,"amend");
-		var expected = paramStrings[3];
+		var actual = paramStringBuilder(paramStrings[1],name,newValue,"amend");
+		var expected = paramStrings[2];
 		value_of(actual).should_be(expected);
 	},
 	
 	'it should remove the parameter from the paramString if the behaviour is "delete", the name exists and the value exists' : function() {
 		var actual = paramStringBuilder(paramStrings[0],name,value,"delete");
-		var expected = paramStrings[2];
-		value_of(actual).should_be(expected);
-	},
-	
-	'it should do nothing to the paramString if the behaviour is "delete", the name exists and the value does not exist' : function() {
-		var actual = paramStringBuilder(paramStrings[1],name,value,"delete");
-		var expected = paramStrings[2];
+		var expected = paramStrings[1];
 		value_of(actual).should_be(expected);
 	},
 	
 	'it should do nothing to the paramString if the behaviour is "delete" and the name does not exist' : function() {
-		var actual = paramStringBuilder(paramStrings[2],name,value,"delete");
-		var expected = paramStrings[2];
+		var actual = paramStringBuilder(paramStrings[1],name,value,"delete");
+		var expected = paramStrings[1];
 		value_of(actual).should_be(expected);
 	}
 });

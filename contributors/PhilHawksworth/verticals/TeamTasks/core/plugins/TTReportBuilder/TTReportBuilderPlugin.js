@@ -35,16 +35,19 @@ config.macros.TTReportBuilder.limitResults = function(results,limit) {
 };
 
 config.macros.TTReportBuilder.paramStringBuilder = function(paramString,name,value,action) {
-	var params = [];
+	var params = paramString.parseParams("anon",null,false);
 	switch(action) {
 		case "add":
-			params = paramString.parseParams("anon",null,false);
-			param = getParam(params,name,"");
+			param = getParam(params,name,null);
+			var values = [];
 			if(param) {
-				if(param === value) {
+				values = param.split(',');
+				if(values.contains(value)) {
 					return paramString;
 				}
-				
+			} else {
+				params[0][name] = [];
+				params[0][name].push(value);
 			}
 		break;
 		case "amend":
@@ -53,6 +56,11 @@ config.macros.TTReportBuilder.paramStringBuilder = function(paramString,name,val
 		break;
 		default:
 	}
+	var s = "";
+	for(var i in params[0]) {
+		s += i+":"+params[0][i].join(",");
+	}
+	return s;
 };
 
 	
