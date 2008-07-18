@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ImportWikispacesMessagesPlugin.js |
-|''Version:''|0.0.9|
+|''Version:''|0.0.10|
 |''Date:''|May 13, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -87,7 +87,6 @@ config.macros.importWikispacesMessages.createContext = function(title,fields)
 		context.title = title;
 		context.host = fields['server.host'];
 		context.workspace = fields['server.workspace'];
-		context.filter = filter;
 		context.adaptor = adaptor;
 		return context;
 	}
@@ -96,9 +95,8 @@ config.macros.importWikispacesMessages.createContext = function(title,fields)
 
 config.macros.importWikispacesMessages.getTopicList = function(context)
 {
-//#console.log("config.macros.importWikispacesMessages.getTopicList:"+context.tiddler.title);
+//#console.log("config.macros.importWikispacesMessages.getTopicList:"+context.title);
 	if(context) {
-		context.title = context.tiddler.title;
 		context.adaptor.openHost(context.host,context);
 		context.adaptor.openWorkspace(context.workspace,context,null,config.macros.importWikispacesMessages.openWorkspaceCallback);
 		return true;
@@ -202,7 +200,6 @@ config.macros.importWorkspace.onClick = function(e)
 	var userCallback = config.options.chkImportWikispacesDiscussion ? config.macros.importWikispacesMessages.getTopicList : null;
 	config.macros.importWorkspace.getTiddlersForContext(config.macros.importWorkspace.createContext(fields,null,userCallback));
 };
-
 
 } //# end of 'install only once'
 //}}}
