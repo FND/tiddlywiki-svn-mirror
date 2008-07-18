@@ -4,7 +4,7 @@
 |''Description:''|Wikispaces Formatter|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/WikispacesFormatterPlugin.js |
-|''Version:''|0.0.8|
+|''Version:''|0.0.9|
 |''Date:''|Nov 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -306,6 +306,39 @@ config.wikispacesFormatters = [
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart && lookaheadMatch[1]) {
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 			invokeMacro(w.output,lookaheadMatch[1],lookaheadMatch[2],w,w.tiddler);
+		}
+	}
+},
+/*
+*Basic Page Include [[include page="PAGENAME"]]
+
+Include Page With Section Title [[include page="PAGENAME" title="Section Title"]]
+Include Page With Direct Edit Button [[include page="PAGENAME" editable="true"]]
+Include a List of Pages [[include component="pageList"]]
+
+*Include a List of Pages with a Tag [[include component="pageList" tag="TAGNAME"]]
+
+Include a Tag Cloud [[include component="tagCloud" ]]
+Include a Discussion Page [[include page="PAGENAME" component="comments"]]
+Include a List of Links to this Page [[include page="PAGENAME" component="backlinks"]]
+*/
+{
+	name: 'wikispacesInclude',
+	match: '\\[\\[include ',
+	lookaheadRegExp: /\[\[include(?: +(.*?)=\"(.*?)")*\]\]/mg,
+	handler: function(w)
+	{
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+			if(lookaheadMatch[1]=='page') {
+				var title = lookaheadMatch[2]
+				invokeMacro(w.output,'tiddler','[['+title+']]',w,w.tiddler);
+			} else if(lookaheadMatch[1]=='tag') {
+				var tags = lookaheadMatch[2];
+				invokeMacro(w.output,'list','filter '+'[tag['+tags+']]',w,w.tiddler);
+			}
+			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
 	}
 },
