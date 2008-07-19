@@ -236,11 +236,10 @@ Cecily.prototype.createDisplay = function() {
 	addClass(this.frame,"cecily");
 	this.canvas = createTiddlyElement(null,"canvas",null,"cecilyCanvas");
 	this.frame.insertBefore(this.canvas,this.frame.firstChild);
-	this.setMapSize();
+	this.setViewSize();
 	this.setView(new Rect(0,0,25000,12000));
 	this.initScroller();
 	var me = this;
-	this.attachBackgroundDragger(this.canvas);
 	this.addEventHandler(window,"resize",this.onWindowResize,false);
 	this.addEventHandler(window,"mousewheel",this.onMouseWheel,true);
 	this.addEventHandler(document,"mousedown",this.onMouseDownCapture,true);
@@ -249,7 +248,7 @@ Cecily.prototype.createDisplay = function() {
 	this.addEventHandler(document,"mouseup",this.onMouseUpCapture,true);
 }
 
-Cecily.prototype.setMapSize = function() {
+Cecily.prototype.setViewSize = function() {
 	var h = findWindowHeight();
 	this.frame.style.height = h + "px";
 	this.canvas.width = this.frame.offsetWidth;
@@ -262,7 +261,7 @@ Cecily.prototype.addEventHandler = function(element,type,handler,capture) {
 }
 
 Cecily.prototype.onWindowResize = function(ev) {
-	this.setMapSize();
+	this.setViewSize();
 	this.drawBackground();
 	return false;
 }
@@ -276,11 +275,43 @@ Cecily.prototype.onMouseWheel = function(ev) {
 };
 
 Cecily.prototype.onMouseClickBubble = function(ev) {
-console.log("in onMouseClickBubble");
-	var target = ev.target;
-	var tiddler = story.findContainingTiddler(target);
-	if(tiddler && this.drag == null && !hasClass(target,"tiddlyLink"))
+	var tiddler = story.findContainingTiddler(ev.target);
+	if(tiddler && this.drag == null && !hasClass(ev.target,"tiddlyLink"))
 		this.scrollToTiddler(tiddler);
+};
+
+Cecily.prototype.onMouseDownCapture = function(ev) {
+	for(var d in Cecily.draggers) {
+		var dragger = Cecily.draggers[d];
+		if(dragger.isDrag(this,ev.target,ev)) {
+			this.drag = {dragger: dragger};
+			dragger.dragDown(this,ev.target,ev);
+		}
+	}
+	if(this.drag !== null) {
+		ev.stopPropagation();
+		ev.preventDefault();
+		return false;
+	}
+};
+
+Cecily.prototype.onMouseMoveCapture = function(ev) {
+	if(this.drag) {
+		this.drag.dragger.dragMove(this,ev.target,ev);
+		ev.stopPropagation();
+		ev.preventDefault();
+		return false;
+	}
+};
+
+Cecily.prototype.onMouseUpCapture = function(ev) {
+	if(this.drag) {
+		this.drag.dragger.dragUp(this,ev.target,ev);
+		this.drag = null;
+		ev.stopPropagation();
+		ev.preventDefault();
+		return false;
+	}
 };
 
 Cecily.draggers = {};
@@ -293,85 +324,38 @@ Cecily.draggers.tiddlerDragger = {
 		var tiddler = story.findContainingTiddler(target);
 		cecily.drag.tiddler = tiddler;
 		cecily.drag.tiddlerTitle = tiddler.getAttribute("tiddler");
+		cecily.drag.lastPoint = normalisePoint(cecily.frame,target,{x: ev.offsetX, y: ev.offsetY}),
 		addClass(tiddler,"drag");
 	},
 	dragMove: function(cecily,target,ev) {
-		var s = this.frame.offsetWidth/this.view.w;
-		this.drag.tiddler.style.left = (this.drag.tiddler.offsetLeft + (dragThis.x - this.drag.lastPoint.x) / s) + "px";
-		this.drag.tiddler.style.top = (this.drag.tiddler.offsetTop + (dragThis.y - this.drag.lastPoint.y) / s) + "px";
+		var dragThis = normalisePoint(cecily.frame,target,{x: ev.offsetX, y: ev.offsetY});
+		var s = cecily.frame.offsetWidth/cecily.view.w;
+		cecily.drag.tiddler.style.left = (cecily.drag.tiddler.offsetLeft + (dragThis.x - cecily.drag.lastPoint.x) / s) + "px";
+		cecily.drag.tiddler.style.top = (cecily.drag.tiddler.offsetTop + (dragThis.y - cecily.drag.lastPoint.y) / s) + "px";
+		cecily.drag.lastPoint = dragThis;
 	},
 	dragUp: function(cecily,target,ev) {
-		removeClass(this.drag.tiddler,"drag");
+		removeClass(cecily.drag.tiddler,"drag");
 	}
 };
 
-Cecily.prototype.onMouseDownCapture = function(ev) {
-console.log("in onMouseDownCapture");
-	var target = ev.target;
-	if(hasClass(target,"toolbar") || hasClass(target,"title")) {
-		this.drag = {};
-		var tiddler = story.findContainingTiddler(target);
-		this.drag.tiddler = tiddler;
-		this.drag.tiddlerTitle = this.drag.tiddler.getAttribute("tiddler");
-		this.drag.lastPoint = normalisePoint(this.frame,target,{x: ev.offsetX, y: ev.offsetY});
-		addClass(this.drag.tiddler,"drag");
-		ev.stopPropagation();
-		ev.preventDefault();
-		return false;
+Cecily.draggers.backgroundDragger = {
+	isDrag: function(cecily,target,ev) {
+		return target === cecily.canvas;
+	},
+	dragDown: function(cecily,target,ev) {
+		cecily.drag.lastPoint = {x: ev.offsetX, y: ev.offsetY};
+	},
+	dragMove: function(cecily,target,ev) {
+		var s = cecily.frame.offsetWidth/cecily.view.w;
+		var newView = new Rect(cecily.view);
+		newView.x -= (ev.offsetX - cecily.drag.lastPoint.x)/s;
+		newView.y -= (ev.offsetY - cecily.drag.lastPoint.y)/s;
+		cecily.drag.lastPoint = {x: ev.offsetX, y: ev.offsetY};
+		cecily.setView(newView);
+	},
+	dragUp: function(cecily,target,ev) {
 	}
-};
-
-Cecily.prototype.onMouseMoveCapture = function(ev) {
-	if(this.drag) {
-		var target = ev.target;
-		var dragThis = normalisePoint(this.frame,target,{x: ev.offsetX, y: ev.offsetY});
-		var s = this.frame.offsetWidth/this.view.w;
-		this.drag.tiddler.style.left = (this.drag.tiddler.offsetLeft + (dragThis.x - this.drag.lastPoint.x) / s) + "px";
-		this.drag.tiddler.style.top = (this.drag.tiddler.offsetTop + (dragThis.y - this.drag.lastPoint.y) / s) + "px";
-		this.drag.lastPoint = dragThis;
-		ev.stopPropagation();
-		ev.preventDefault();
-	}
-	return false;
-};
-
-Cecily.prototype.onMouseUpCapture = function(ev) {
-	if(this.drag) {
-		removeClass(this.drag.tiddler,"drag");
-		this.drag = null;
-		ev.stopPropagation();
-		ev.preventDefault();
-	}
-	return false;
-};
-
-Cecily.prototype.attachBackgroundDragger = function(background) {
-	var dragging = false;
-	var lastMousePos = {};
-	var me = this;
-	background.onmousedown = function(ev) {
-		var e = ev ? ev : window.event;
-		dragging = true;
-		lastMousePos = {x: ev.offsetX, y: ev.offsetY};
-		return false;
-	};
-	background.onmousemove = function(ev) {
-		var ev = ev ? ev : window.event;
-		if(dragging) {
-			var s = me.frame.offsetWidth/me.view.w;
-			var newView = new Rect(me.view);
-			newView.x -= (ev.offsetX - lastMousePos.x)/s;
-			newView.y -= (ev.offsetY - lastMousePos.y)/s;
-			lastMousePos = {x: ev.offsetX, y: ev.offsetY};
-			me.setView(newView);
-		}
-		return false;
-	};
-	background.onmouseup = function(ev) {
-		var e = ev ? ev : window.event;
-		dragging = false;
-		return false;
-	};
 };
 
 //# Display a given tiddler with a given template. If the tiddler is already displayed but with a different
