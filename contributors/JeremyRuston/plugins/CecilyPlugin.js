@@ -227,12 +227,15 @@ config.macros.cecilyBackground.handler = function(place,macroName,params,wikifie
 function Cecily()
 {
 	this.background = config.options.txtCecilyBackground ? config.options.txtCecilyBackground : "honeycomb";
+	this.mapTitle = config.options.txtCecilyMap ? config.options.txtCecilyMap : "MyMap";
 	this.drag = null;
+	this.map = null;
 }
 
 Cecily.prototype.createDisplay = function() {
-	this.map = document.getElementById(story.containerId());
-	this.frame = this.map.parentNode;
+	this.loadMap(this.mapTitle);
+	this.container = document.getElementById(story.containerId());
+	this.frame = this.container.parentNode;
 	addClass(this.frame,"cecily");
 	this.canvas = createTiddlyElement(null,"canvas",null,"cecilyCanvas");
 	this.frame.insertBefore(this.canvas,this.frame.firstChild);
@@ -393,25 +396,27 @@ Cecily.prototype.displayTiddler = function(superFunction,args) {
 		this.scrollToTiddler(title);
 };
 
-Cecily.tiddlerPositions = {
-	"ZoomingUserInterface from Wikipedia": {x:50,y:50,w:250,h:250},
-	WebKit: {x:320,y:50,w:150,h:150},
-	ZoomingUserInterfaces: {x:490,y:50,w:75,h:75},
-	ProjectCecily: {x:570,y:50,w:1250,h:250},
-	JefRaskin: {x:50,y:25,w:45,h:100},
-	JeremyRuston: {x:100,y:25,w:45,h:100},
-	AzaRaskin: {x:150,y:25,w:45,h:100},
-	Tiddlers: {x:200,y:25,w:45,h:100},
-	TiddlyWiki: {x:250,y:25,w:20,h:100},
-	Serializer: {x:10,y:15,w:5,h:10},
-	"Feature Requests": {x:20,y:15,w:5,h:100},
-	TODO: {x:30,y:15,w:5,h:100},
-	UrlMap: {x:40,y:15,w:5,h:100}
-};
+Cecily.prototype.loadMap = function(title) {
+	this.map = {};
+	var mapText = store.getTiddlerText(title,"");
+    var positionRE = /^(\S+)\s([0-9\.E]+)\s([0-9\.E]+)\s([0-9\.E]+)\s([0-9\.E]+)$/mg;
+    do {
+        var match = positionRE.exec(mapText);
+		if(match) {
+			var title = decodeURIComponent(match[1]);
+			this.map[title] = {
+				x: parseFloat(match[2]),
+				y: parseFloat(match[3]),
+				w: parseFloat(match[4]),
+				h: parseFloat(match[5])
+			};
+		}
+	} while(match);
+}
 
 // Gets the Rect() position of a named tiddler
 Cecily.prototype.getTiddlerPosition = function(title) {
-	var p = Cecily.tiddlerPositions[title];
+	var p = this.map[title];
 	var s = 10;
 	if(p)
 		return new Rect(p.x*s,p.y*s,p.w*s,p.h*s);
@@ -444,7 +449,7 @@ Cecily.prototype.setView = function(newView) {
 	this.view.y = centre.y - this.view.h/2;
 	var s = w/this.view.w;
 	var transform = "scale(" + s + ") translate(" + -this.view.x + "px," + -this.view.y + "px)";
-	this.map.style['-webkit-transform'] = transform;
+	this.container.style['-webkit-transform'] = transform;
 	config.macros.cecilyZoom.propagate(s);
 	this.drawBackground();
 };
@@ -492,7 +497,6 @@ Cecily.prototype.scrollToAllTiddlers = function() {
 // Highlight a particular tiddler and scroll it into view
 //  tiddler - title of tiddler or reference to tiddlers DOM element
 Cecily.prototype.scrollToTiddler = function(tiddler) {
-	console.log("Scrolling to " + tiddler);
 	var tiddlerElem = typeof tiddler == "string" ? story.getTiddler(tiddler) : tiddler;
 	if(tiddlerElem) {
 		this.startHightlight(tiddlerElem);
