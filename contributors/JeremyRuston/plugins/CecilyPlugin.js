@@ -190,7 +190,7 @@ config.macros.cecilyZoom.propagate = function(scale) {
 config.macros.cecilyZoomAll = {};
 
 config.macros.cecilyZoomAll.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	createTiddlyButton(place,"show all","Zoom out to see everything",function(ev) {
+	createTiddlyButton(place,"zoom everything","Zoom out to see everything",function(ev) {
 		if(cecily)
 			cecily.scrollToAllTiddlers();
 	});
@@ -327,7 +327,7 @@ Cecily.draggers.tiddlerDragger = {
 		var tiddler = story.findContainingTiddler(target);
 		cecily.drag.tiddler = tiddler;
 		cecily.drag.tiddlerTitle = tiddler.getAttribute("tiddler");
-		cecily.drag.lastPoint = normalisePoint(cecily.frame,target,{x: ev.offsetX, y: ev.offsetY}),
+		cecily.drag.lastPoint = normalisePoint(cecily.frame,target,{x: ev.offsetX, y: ev.offsetY});
 		addClass(tiddler,"drag");
 	},
 	dragMove: function(cecily,target,ev) {
@@ -339,6 +339,11 @@ Cecily.draggers.tiddlerDragger = {
 	},
 	dragUp: function(cecily,target,ev) {
 		removeClass(cecily.drag.tiddler,"drag");
+		var tiddlerRect = new Rect(cecily.drag.tiddler.offsetLeft,
+								cecily.drag.tiddler.offsetTop,
+								cecily.drag.tiddler.scaledWidth,
+								cecily.drag.tiddler.offsetHeight * (cecily.drag.tiddler.scaledWidth/cecily.drag.tiddler.offsetWidth));
+		cecily.updateTiddlerPosition(cecily.drag.tiddlerTitle,tiddlerRect);
 	}
 };
 
@@ -414,16 +419,40 @@ Cecily.prototype.loadMap = function(title) {
 	} while(match);
 }
 
+Cecily.prototype.saveMap = function(title) {
+	var mapTiddler = store.getTiddler(title);
+	if((mapTiddler == null) || (mapTiddler.isTagged("cecilyMap"))) {
+		var text = [];
+		for(var t in this.map) {
+			var m = this.map[t];
+			text.push(encodeURIComponent(t) + " " + Math.floor(m.x) + " " + Math.floor(m.y) + " " + Math.floor(m.w) + " " + Math.floor(m.h));
+		}
+		text.sort();
+		store.saveTiddler(title,title,text.join("\n"),"Cecily");
+		autoSaveChanges(null,[mapTiddler]);
+	}
+}
+
 // Gets the Rect() position of a named tiddler
 Cecily.prototype.getTiddlerPosition = function(title) {
 	var p = this.map[title];
-	var s = 10;
 	if(p)
-		return new Rect(p.x*s,p.y*s,p.w*s,p.h*s);
+		return new Rect(p.x,p.y,p.w,p.h);
 	else {
 		this.nextPos = this.nextPos ? this.nextPos + 250 : 250;
 		return new Rect(this.nextPos,500,225,250);
 	}
+}
+
+// Updates the position of a named tiddler into the current map
+Cecily.prototype.updateTiddlerPosition = function(title,pos) {
+	this.map[title] = {
+		x: pos.x,
+		y: pos.y,
+		w: pos.w,
+		h: pos.h
+	};
+	this.saveMap(this.mapTitle);
 }
 
 // Applies the tiddler transformation properties (rotate & enlarge) to the display

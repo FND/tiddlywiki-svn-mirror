@@ -1,15 +1,18 @@
-<div title="MyMap" modifier="JeremyRuston" created="200807181149">
-<pre>ZoomingUserInterface%20from%20Wikipedia 50 50 250 250
-WebKit 320 50 150 150
-ZoomingUserInterfaces 490 50 75 75
-ProjectCecily 570 50 1250 250
-JefRaskin 50 25 45 100
-JeremyRuston 100 25 45 100
-AzaRaskin 150 25 45 100
-Tiddlers 200 25 45 100
-TiddlyWiki 250 25 20 100
-Serializer 10 15 5 10
-Featur%20Requests 20 15 5 100
-TODO 30 15 5 100
-UrlMap 40 15 5 100</pre>
+<div title="MyMap" modifier="JeremyRuston" created="200807181149" tags="cecilyMap">
+<pre>AzaRaskin 1500 250 450 1000
+JefRaskin 500 250 450 1000
+JeremyRuston 1000 250 450 1000
+ProjectCecily 10392 2433 12500 7285
+Seagully 167 977 225 137
+Serializer 100 150 50 100
+Swampglade -96 843 225 173
+TODO 300 150 50 1000
+Tenerife 115 623 225 172
+Tiddlers 2000 250 450 1000
+TiddlyWiki 2500 250 200 1000
+UrlMap 400 150 50 1000
+WebKit 708 -1387 1500 1487
+Weyflection 549 857 225 173
+ZoomingUserInterface%20from%20Wikipedia -4192 1233 2500 3294
+ZoomingUserInterfaces 3765 -534 750 569</pre>
 </div>
