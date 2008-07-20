@@ -151,7 +151,7 @@ config.macros.cecilyZoom = {
 };
 
 config.macros.cecilyZoom.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	createTiddlyElement(place,"div",null,"cecilyLabel","zoom");
+	createTiddlyElement(place,"span",null,"cecilyLabel","zoom ");
 	var me = this;
 	config.macros.cecilyZoom.zoomers.push(new SliderControl({
 		place: place,
@@ -202,6 +202,7 @@ config.macros.cecilyBackground = {
 
 config.macros.cecilyBackground.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	if(cecily) {
+		createTiddlyElement(place,"span",null,"cecilyLabel","background ");
 		var onchange = function(ev) {
 			var sel = this.options[this.selectedIndex].value;
 			if(sel != cecily.background) {
@@ -214,7 +215,7 @@ config.macros.cecilyBackground.handler = function(place,macroName,params,wikifie
 		var defaultName = Cecily.backgrounds[cecily.background].title;
 		var options = [];
 		for(var t in Cecily.backgrounds) {
-			options.push({name: t, caption: Cecily.backgrounds[t].description});
+			options.push({name: t, caption: Cecily.backgrounds[t].title});
 		}
 		createTiddlyDropDown(place,onchange,options,cecily.background);
 	}
@@ -250,7 +251,8 @@ Cecily.prototype.createDisplay = function() {
 	this.addEventHandler(document,"mousemove",this.onMouseMoveCapture,true);
 	this.addEventHandler(document,"mouseup",this.onMouseUpCapture,true);
 	var cecily = this;
-	window.setTimeout(function() {cecily.scrollToAllTiddlers();},10);
+	this.defaultTiddler = null;
+	window.setTimeout(function() {cecily.scrollToTiddler(cecily.defaultTiddler);},10);
 }
 
 Cecily.prototype.setViewSize = function() {
@@ -425,6 +427,7 @@ Cecily.prototype.displayTiddler = function(superFunction,args) {
 	if(!startingUp) {
 		this.scrollToTiddler(title);
 	}
+	this.defaultTiddler = tiddlerElem;
 };
 
 Cecily.prototype.loadMap = function(title) {
@@ -623,7 +626,7 @@ Cecily.backgrounds = {};
 
 Cecily.backgrounds.plain = {
 		title: "Plain",
-		description: "Plain violet",
+		description: "Plain",
 		drawBackground: function(canvas,view) {
 			var w = canvas.width;
 			var h = canvas.height;
@@ -810,10 +813,48 @@ store.addNotification("PageTemplate",function () {cecily.createDisplay();});
 
 #displayArea.cecily {
 	float: none;
-	margin: 0em 15em 0em 0em;
+	margin: 0em 0em 0em 0em;
 	position: relative;
 	background-color: #8888ff;
 	overflow: hidden;
+}
+
+#overlayMenu {
+	z-index: 100;
+	bottom: 3em;
+	right: 1em;
+	width: 15em;
+	position: absolute;
+	padding: 0.5em 0.5em 0.5em 0.5em;
+	-webkit-border-radius: 7px;
+	border: 1px solid #222;
+	background-color: #444;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#222), to(#666), color-stop(0.3,#444), color-stop(0.1,#333));
+	opacity: 0.9;
+}
+
+#overlayMenu a {
+	text-decoration: none;
+	font-weight: bold;
+	font-style: normal;
+	color: #000;
+	background-color: transparent;
+	display: block;
+	border: none;
+}
+
+#overlayMenu a:hover {
+	text-decoration: none;
+	font-weight: bold;
+	font-style: normal;
+	color: #000;
+	background-color: #ff0;
+	display: block;
+	border: none;
+}
+
+div#backstageArea {
+	position: absolute;
 }
 
 .cecilyCanvas {
@@ -845,7 +886,7 @@ store.addNotification("PageTemplate",function () {cecily.createDisplay();});
 	position: absolute;
 	width: 360px;
 	padding: 0;
-	background-color: #666;
+	background-color: #fff;
 	overflow: hidden;
 	border: 1px solid black;
 }
@@ -858,40 +899,41 @@ store.addNotification("PageTemplate",function () {cecily.createDisplay();});
 	cursor: all-scroll;
 	font-size: 0.8em;
 	padding: 0 0.25em 0 0.25em;
-	background-color: #666;
-	color: #666;
+	background-color: #aaa;
+	color: #aaa;
 }
 
 .cecily .tiddler.selected .toolbar {
-	background-color: #666;
+	background-color: #aaa;
 	color: #fff;
 }
 
 .cecily .tiddler .toolbar a {
-	background-color: #666;
-	color: #666;
+	background-color: #aaa;
+	color: #aaa;
 	border: none;
 }
 
 .cecily .tiddler.selected .toolbar a {
-	background-color: #666;
+	background-color: #aaa;
 	color: #fff;
 }
 
 .cecily .tiddler .title {
 	cursor: all-scroll;
 	padding: 0 0.5em 0.25em 0.5em;
-	background-color: #666;
+	background-color: #aaa;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#aaa), to(#ccc), color-stop(0.3,#bbb));
 	color: #fff;
 }
 
 
 .cecily .tiddler .subtitle {
 	padding: 0.25em 0.5em 0.25em 0.5em;
-	background-color: #888;
-	color: #fff;
+	background-color: #ccc;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#fff), color-stop(0.9,#eee));
+	color: #444;
 	font-size: 0.6em;
-	border-bottom: 0.25em solid #ccc;
 }
 
 .cecily .tiddler .viewer {
@@ -902,7 +944,7 @@ store.addNotification("PageTemplate",function () {cecily.createDisplay();});
 .cecily .tiddler .tagging, .cecily .tiddler .tagged {
 	float: none;
 	border: none;
-	background-color: #ddd;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#888), to(#fff), color-stop(0.5,#ccc));
 	margin: auto;
 }
 

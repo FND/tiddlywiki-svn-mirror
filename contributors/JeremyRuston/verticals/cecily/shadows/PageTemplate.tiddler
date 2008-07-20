@@ -1,9 +1,6 @@
 <div title="PageTemplate" modifier="JeremyRuston" modified="200806162219">
 <pre><!--{{{-->
-<div id='sidebar'>
-<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
-<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
-</div>
+<div id='overlayMenu' refresh='content' tiddler='OverlayMenu'></div>
 <div id='displayArea'>
 <div id='messageArea'></div>
 <div id='tiddlerDisplay'></div>

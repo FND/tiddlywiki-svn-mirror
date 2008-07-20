@@ -1,0 +1,4 @@
+<div title="AntiPrinciples" modifier="JeremyRuston" created="200807202349">
+<pre>AntiPrinciples are things that have been consciously avoided in the design of ProjectCecily:
+* Automatic layout algorithms like GraphVis, because our brains are too prone to seeing extraneous patterns that are just artifacts of the algorithm</pre>
+</div>

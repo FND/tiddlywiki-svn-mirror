@@ -1,9 +1,11 @@
 <div title="ProjectCecily" modifier="JeremyRuston" created="200806112349" changecount="1">
 <pre>ProjectCecily is a user interface concept that combines the functionality of a wiki with a ZoomingUserInterface.
 
-I've been working on ProjectCecily for many years (it actually pre-dates TiddlyWiki). This latest implementation was built in pure HTML, JavaScript and CSS. The catch is that it exploits features that are currently only available in recent versions of WebKit (Safari version 3.1 and above).
+I've been working on ProjectCecily for many years (it actually pre-dates TiddlyWiki). This latest implementation was built in pure HTML, JavaScript and CSS. It only works on recent versions of WebKit (Safari version 3.1 and above, and [[iPhone]] 2.0+). It's still very experimental, and lots of things don't work as expected. Some of that is due to WebKitBugs, but it's mostly down to incompleteness.
 
-Principles
-* Tiddlers are boxes of text laid out on an infinite two dimenstional canvas 
-* </pre>
+ProjectCecily is based on some simple [[Principles]], mostly stolen from [[Wikis]] and ZoomingUserInterfaces, many of which have already been seen in TiddlyWiki.  There are also some AntiPrinciples, approaches that have been consciously avoided.
+
+More information:
+* ImplementationDetails
+</pre>
 </div>
