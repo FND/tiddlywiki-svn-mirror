@@ -2,14 +2,14 @@
 |''Name:''|CecilyPlugin|
 |''Description:''|A zooming user interface for TiddlyWiki|
 |''Author:''|Jeremy Ruston (jeremy (at) osmosoft (dot) com)|
-|''Source:''|n/a|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JeremyRuston/....|
-|''Version:''|0.0.1|
+|''Source:''|http://svn.tiddlywiki.org/Trunk/contributors/JeremyRuston/plugins/CecilyPlugin.js|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JeremyRuston/plugins/CecilyPlugin.js|
+|''Version:''|0.0.9|
 |''Status:''|Under Development|
-|''Date:''|May 25, 2008|
+|''Date:''|July 20, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|BSD|
-|''~CoreVersion:''||
+|''~CoreVersion:''|2.4.0|
 ***/
 
 //{{{
@@ -249,6 +249,8 @@ Cecily.prototype.createDisplay = function() {
 	this.addEventHandler(document,"click",this.onMouseClickBubble,false);
 	this.addEventHandler(document,"mousemove",this.onMouseMoveCapture,true);
 	this.addEventHandler(document,"mouseup",this.onMouseUpCapture,true);
+	var cecily = this;
+	window.setTimeout(function() {cecily.scrollToAllTiddlers();},10);
 }
 
 Cecily.prototype.setViewSize = function() {
@@ -339,11 +341,34 @@ Cecily.draggers.tiddlerDragger = {
 	},
 	dragUp: function(cecily,target,ev) {
 		removeClass(cecily.drag.tiddler,"drag");
-		var tiddlerRect = new Rect(cecily.drag.tiddler.offsetLeft,
-								cecily.drag.tiddler.offsetTop,
-								cecily.drag.tiddler.scaledWidth,
-								cecily.drag.tiddler.offsetHeight * (cecily.drag.tiddler.scaledWidth/cecily.drag.tiddler.offsetWidth));
-		cecily.updateTiddlerPosition(cecily.drag.tiddlerTitle,tiddlerRect);
+		cecily.updateTiddlerPosition(cecily.drag.tiddlerTitle,cecily.drag.tiddler);
+	}
+};
+
+Cecily.draggers.tiddlerResizer = {
+	isDrag: function(cecily,target,ev) {
+		return findRelated(target,"tagged","className","parentNode") !== null;
+	},
+	dragDown: function(cecily,target,ev) {
+		var tiddler = story.findContainingTiddler(target);
+		cecily.drag.tiddler = tiddler;
+		cecily.drag.tiddlerTitle = tiddler.getAttribute("tiddler");
+		cecily.drag.startPoint = normalisePoint(cecily.frame,target,{x: ev.offsetX, y: ev.offsetY});
+		cecily.drag.startWidth = tiddler.scaledWidth;
+		addClass(tiddler,"drag");
+	},
+	dragMove: function(cecily,target,ev) {
+		var s = cecily.frame.offsetWidth/cecily.view.w;
+		var dragThis = normalisePoint(cecily.frame,target,{x: ev.offsetX, y: ev.offsetY});
+		var newWidth = cecily.drag.startWidth + (dragThis.x - cecily.drag.startPoint.x) / s;
+		if(newWidth < 0.01)
+			newWidth = 0.01;
+		cecily.drag.tiddler.scaledWidth = newWidth;
+		cecily.transformTiddler(cecily.drag.tiddler);
+	},
+	dragUp: function(cecily,target,ev) {
+		removeClass(cecily.drag.tiddler,"drag");
+		cecily.updateTiddlerPosition(cecily.drag.tiddlerTitle,cecily.drag.tiddler);
 	}
 };
 
@@ -380,7 +405,7 @@ Cecily.draggers.backgroundDragger = {
 //# toggle - if true, causes the tiddler to be closed if it is already opened
 Cecily.prototype.displayTiddler = function(superFunction,args) {
 	var tiddler = args[1];
-	args[3] = false; // No animation
+	args[0] = null; // srcElement to disable animation and scrolling
 	var title = (tiddler instanceof Tiddler) ? tiddler.title : tiddler;
 	var tiddlerElemBefore = story.getTiddler(title);
 	superFunction.apply(story,args);
@@ -397,14 +422,15 @@ Cecily.prototype.displayTiddler = function(superFunction,args) {
 		tiddlerElem.enlarge = 1.0;
 		this.transformTiddler(tiddlerElem);
 	}
-	if(!startingUp)
+	if(!startingUp) {
 		this.scrollToTiddler(title);
+	}
 };
 
 Cecily.prototype.loadMap = function(title) {
 	this.map = {};
 	var mapText = store.getTiddlerText(title,"");
-    var positionRE = /^(\S+)\s([0-9\.E]+)\s([0-9\.E]+)\s([0-9\.E]+)\s([0-9\.E]+)$/mg;
+    var positionRE = /^(\S+)\s(-?[0-9\.E]+)\s(-?[0-9\.E]+)\s(-?[0-9\.E]+)\s(-?[0-9\.E]+)$/mg;
     do {
         var match = positionRE.exec(mapText);
 		if(match) {
@@ -445,13 +471,12 @@ Cecily.prototype.getTiddlerPosition = function(title) {
 }
 
 // Updates the position of a named tiddler into the current map
-Cecily.prototype.updateTiddlerPosition = function(title,pos) {
-	this.map[title] = {
-		x: pos.x,
-		y: pos.y,
-		w: pos.w,
-		h: pos.h
-	};
+Cecily.prototype.updateTiddlerPosition = function(title,tiddlerElem) {
+	var pos = new Rect(tiddlerElem.offsetLeft,
+						tiddlerElem.offsetTop,
+						tiddlerElem.scaledWidth,
+						tiddlerElem.offsetHeight * (tiddlerElem.scaledWidth/tiddlerElem.offsetWidth));
+	this.map[title] = pos;
 	this.saveMap(this.mapTitle);
 }
 
@@ -571,7 +596,7 @@ Cecily.prototype.startScroller = function(rectList,duration) { // One or more re
 	for(var r = 0; r < rectList.length; r++)
 		s.rectList.push(rectList[r]);
 	s.animationStart = new Date();
-	s.animationDuration = duration ? duration : 0.75 * 1000;
+	s.animationDuration = duration ? duration : 0.5 * 1000;
 	s.currRect = 0;
 	if(!s.scrolling) {
 		s.scrolling = true;
@@ -768,7 +793,7 @@ function overrideMethod(instance,method,override)
 // Initialisation code (executed during loading of plugin)
 //-----------------------------------------------------------------------------------
 
-setStylesheet(store.getTiddlerText(tiddler.title + "##StyleSheet"),"cecily");
+setStylesheet(store.getRecursiveTiddlerText(tiddler.title + "##StyleSheet"),"cecily");
 
 var cecily = new Cecily();
 
@@ -826,7 +851,7 @@ store.addNotification("PageTemplate",function () {cecily.createDisplay();});
 }
 
 .cecily .tiddler.drag {
--webkit-box-shadow: 2px 2px 13px #000;
+	-webkit-box-shadow: 2px 2px 13px #000;
 }
 
 .cecily .tiddler .toolbar {
@@ -872,6 +897,22 @@ store.addNotification("PageTemplate",function () {cecily.createDisplay();});
 .cecily .tiddler .viewer {
 	padding: 0.5em 0.5em 0.5em 0.5em;
 	background-color: #fff;
+}
+
+.cecily .tiddler .tagging, .cecily .tiddler .tagged {
+	float: none;
+	border: none;
+	background-color: #ddd;
+	margin: auto;
+}
+
+.cecily .tiddler .tagged {
+	cursor: nwse-resize;
+}
+
+.cecily .tiddler.selected .tagging, .cecily .tiddler.selected .tagged {
+	background-color: auto;
+	border: auto;
 }
 
 .cecilyButton {
