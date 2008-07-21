@@ -92,7 +92,7 @@ def getPlugins(repo):
 		# import plugins
 		tw = TiddlyWiki(html)
 		tw.convertStoreFormat() # DEBUG: extract plugins first?
-		import_wiki(tw.getPluginTiddlers(repo), repo["name"]) # DEBUG: creates a new revision per cycle
+		import_wiki(tw.getPluginTiddlers(repo), repo["name"]) # DEBUG: creates a new revision per cycle (see above)
 		return True
 	elif repo["type"] == "SVN":
 		pass # DEBUG: to be implemented
