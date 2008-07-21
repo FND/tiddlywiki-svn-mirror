@@ -1,5 +1,7 @@
 import re
 
+from BeautifulSoup import BeautifulSoup, Tag
+
 def normalizeURL(URL):
 	"""
 	strip non-essential trailing characters from URL
@@ -34,8 +36,6 @@ class TiddlyWiki:
 		@type  html: str
 		@return: None
 		"""
-		from BeautifulSoup import BeautifulSoup # DEBUG: move to top of module? use demandload (cf. bzr or snakeoil; http://www.pkgcore.org/trac/pkgcore/browser/snakeoil/snakeoil/demandload.py)?
-		self.html = html
 		self.dom = BeautifulSoup(html)
 		self.store = self.dom.find("div", id="storeArea")
 
@@ -50,11 +50,11 @@ class TiddlyWiki:
 		"""
 		tag = "systemConfig" # includes "systemConfigDisable" -- DEBUG: include systemTheme tiddlers?
 		# remove non-plugin tiddlers
-		[tiddler.extract() for tiddler in self.store.findAll("div", title=True) \
+		[tiddler.extract() for tiddler in self.store.findChildren("div", title=True) \
 			if (not tiddler.has_key("tags")) or (tag not in tiddler["tags"])]
 		# disable plugins -- DEBUG: move into separate function
 		pattern = re.compile(r"\b(systemConfig|excludeLists|excludeSearch)\b\s?")
-		for plugin in self.store.findAll("div", title=True, tags=True):
+		for plugin in self.store.findChildren("div", title=True, tags=True):
 			plugin["tags"] = re.sub(pattern, "", plugin["tags"]).strip()
 		# remove non-originating plugins
 		self.removeDuplicates(repo["URI"])
@@ -129,5 +129,9 @@ class TiddlyWiki:
 				tiddler["title"] = tiddler["tiddler"]
 				del(tiddler["tiddler"])
 				# unescape line breaks
-				tiddler.contents[0].replaceWith(unescapeLineBreaks(tiddler.contents[0]))
+				tiddler.contents[0].replaceWith(unescapeLineBreaks(tiddler.contents[0])) # DEBUG: use of contents[0] hacky?
+				# add PRE wrapper
+				pre = Tag(self.dom, "pre")
+				pre.contents = tiddler.contents
+				tiddler.contents = [pre]
 
