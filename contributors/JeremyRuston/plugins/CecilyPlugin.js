@@ -607,7 +607,7 @@ Cecily.prototype.startScroller = function(rectList,duration) { // One or more re
 	for(var r = 0; r < rectList.length; r++)
 		s.rectList.push(rectList[r]);
 	s.animationStart = new Date();
-	s.animationDuration = duration ? duration : 0.5 * 1000;
+	s.animationDuration = duration ? duration : 0.75 * 1000;
 	s.currRect = 0;
 	if(!s.scrolling) {
 		s.scrolling = true;
@@ -827,9 +827,36 @@ store.addNotification("PageTemplate",function () {cecily.createDisplay();});
 	overflow: hidden;
 }
 
+div#messageArea {
+	-webkit-border-radius: 7px;
+	border: 1px solid #222;
+	background-color: [[ColorPalette::SecondaryLight]];
+	background-image: -webkit-gradient(linear, left top, left bottom, from([[ColorPalette::SecondaryPale]]), to([[ColorPalette::SecondaryDark]]), color-stop(0.1,[[ColorPalette::SecondaryLight]]));
+	opacity: 0.7;
+}
+
+div#messageArea .button {
+	padding: 0 0.25em 0 0.25em;
+	text-decoration: none;
+	-webkit-transition: opacity 0.3s ease-in-out;
+	opacity: 0;
+	-webkit-border-radius: 3px;
+	background-color: #aaa;
+	background: -webkit-gradient(linear, left top, left bottom, from([[ColorPalette::PrimaryLight]]), to([[ColorPalette::PrimaryDark]]), color-stop(0.5,[[ColorPalette::PrimaryMid]]));
+	color: [[ColorPalette::TertiaryPale]];
+}
+
+div#messageArea:hover .button {
+	opacity: 1;
+}
+
+div#messageArea:hover .button:active {
+	background-color: [[ColorPalette::Foreground]];
+	color: [[ColorPalette::Background]];
+}
+
 #overlayMenu {
 	-webkit-transition: color 0.3s ease-in-out;
-	-webkit-transition: opacity 0.3s ease-in-out;
 	z-index: 100;
 	bottom: 3em;
 	right: 1em;

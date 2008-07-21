@@ -1,6 +1,10 @@
 <div title="ToDo" modifier="JeremyRuston" created="200806152349" changecount="1">
 <pre>Things to do:
 * Smoother
-* Proper fractal background
-* Add cursor key support for scrolling and zooming</pre>
+* Check whether we're running on a capable version of WebKit
+* Bug: Dragging sometimes judders
+* Improve the background canvas
+* Bug: Jerkiness of two distinct scrollTo phases
+* Style the message area
+* Bug: Some tiddlers don't like being opened in edit mode</pre>
 </div>
