@@ -856,7 +856,7 @@ div#messageArea:hover .button:active {
 }
 
 #overlayMenu {
-	-webkit-transition: color 0.3s ease-in-out;
+	-webkit-transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
 	z-index: 100;
 	bottom: 3em;
 	right: 1em;
@@ -866,7 +866,7 @@ div#messageArea:hover .button:active {
 	-webkit-border-radius: 7px;
 	border: 1px solid #222;
 	background-color: #444;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#3333), to(#666), color-stop(0.3,#4444));
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#666), color-stop(0.3,#444));
 	opacity: 0.4;
 }
 
