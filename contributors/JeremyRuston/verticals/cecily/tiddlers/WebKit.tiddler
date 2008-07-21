@@ -5,8 +5,7 @@ This implementation of ProjectCecily exploits several features of recent version
 * [[Canvas]]
 * [[CSS Transforms|http://webkit.org/blog/130/css-transforms/]]
 * [[CSS Gradients|http://webkit.org/blog/175/introducing-css-gradients/]]
-
-It doesn't yet use [[CSS Animation|http://webkit.org/blog/138/css-animation/]].
+* [[CSS Animation|http://webkit.org/blog/138/css-animation/]]
 
 <html><video src="jumps.mov" autoplay playcount="999"></video></html></pre>
 </div>
