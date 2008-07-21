@@ -283,8 +283,10 @@ Cecily.prototype.onMouseWheel = function(ev) {
 
 Cecily.prototype.onMouseClickBubble = function(ev) {
 	var tiddler = story.findContainingTiddler(ev.target);
-	if(tiddler && this.drag == null && !hasClass(ev.target,"tiddlyLink"))
+	if(tiddler && this.drag == null && !hasClass(ev.target,"tiddlyLink")) {
+		tiddler.parentNode.insertBefore(tiddler,null);
 		this.scrollToTiddler(tiddler);
+	}
 };
 
 Cecily.prototype.onMouseDownCapture = function(ev) {
@@ -329,6 +331,7 @@ Cecily.draggers.tiddlerDragger = {
 	},
 	dragDown: function(cecily,target,ev) {
 		var tiddler = story.findContainingTiddler(target);
+		tiddler.parentNode.insertBefore(tiddler,null);
 		cecily.drag.tiddler = tiddler;
 		cecily.drag.tiddlerTitle = tiddler.getAttribute("tiddler");
 		cecily.drag.lastPoint = normalisePoint(cecily.frame,target,{x: ev.offsetX, y: ev.offsetY});
@@ -353,6 +356,7 @@ Cecily.draggers.tiddlerResizer = {
 	},
 	dragDown: function(cecily,target,ev) {
 		var tiddler = story.findContainingTiddler(target);
+		tiddler.parentNode.insertBefore(tiddler,null);
 		cecily.drag.tiddler = tiddler;
 		cecily.drag.tiddlerTitle = tiddler.getAttribute("tiddler");
 		cecily.drag.startPoint = normalisePoint(cecily.frame,target,{x: ev.offsetX, y: ev.offsetY});
@@ -407,7 +411,8 @@ Cecily.draggers.backgroundDragger = {
 //# toggle - if true, causes the tiddler to be closed if it is already opened
 Cecily.prototype.displayTiddler = function(superFunction,args) {
 	var tiddler = args[1];
-	args[0] = null; // srcElement to disable animation and scrolling
+	var srcElement = args[0];
+	args[0] = "bottom"; // srcElement to disable animation and scrolling
 	var title = (tiddler instanceof Tiddler) ? tiddler.title : tiddler;
 	var tiddlerElemBefore = story.getTiddler(title);
 	superFunction.apply(story,args);
@@ -415,7 +420,7 @@ Cecily.prototype.displayTiddler = function(superFunction,args) {
 	if(!tiddlerElem)
 	 	return;
 	if(!tiddlerElemBefore) {
-		var pos = this.getTiddlerPosition(title);
+		var pos = this.getTiddlerPosition(title,srcElement);
 		tiddlerElem.title = tiddler.title;
 		tiddlerElem.style.left = pos.x + "px";
 		tiddlerElem.style.top = pos.y + "px";
@@ -425,6 +430,9 @@ Cecily.prototype.displayTiddler = function(superFunction,args) {
 		this.transformTiddler(tiddlerElem);
 	}
 	if(!startingUp) {
+		if(tiddlerElem.nextSibling) { // Move tiddler to the bottom of the Z-order if it's not already there
+			tiddlerElem.parentNode.insertBefore(tiddlerElem,null);
+		}
 		this.scrollToTiddler(title);
 	}
 	this.defaultTiddler = tiddlerElem;
@@ -463,7 +471,7 @@ Cecily.prototype.saveMap = function(title) {
 }
 
 // Gets the Rect() position of a named tiddler
-Cecily.prototype.getTiddlerPosition = function(title) {
+Cecily.prototype.getTiddlerPosition = function(title,srcElement) {
 	var p = this.map[title];
 	if(p)
 		return new Rect(p.x,p.y,p.w,p.h);
@@ -820,6 +828,8 @@ store.addNotification("PageTemplate",function () {cecily.createDisplay();});
 }
 
 #overlayMenu {
+	-webkit-transition: color 0.3s ease-in-out;
+	-webkit-transition: opacity 0.3s ease-in-out;
 	z-index: 100;
 	bottom: 3em;
 	right: 1em;
@@ -829,7 +839,11 @@ store.addNotification("PageTemplate",function () {cecily.createDisplay();});
 	-webkit-border-radius: 7px;
 	border: 1px solid #222;
 	background-color: #444;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#222), to(#666), color-stop(0.3,#444), color-stop(0.1,#333));
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#3333), to(#666), color-stop(0.3,#4444));
+	opacity: 0.4;
+}
+
+#overlayMenu:hover {
 	opacity: 0.9;
 }
 
@@ -841,6 +855,10 @@ store.addNotification("PageTemplate",function () {cecily.createDisplay();});
 	background-color: transparent;
 	display: block;
 	border: none;
+}
+
+#overlayMenu:hover a {
+	color: [[ColorPalette::Background]];
 }
 
 #overlayMenu a:hover {
@@ -882,7 +900,6 @@ div#backstageArea {
 }
 
 .cecily .tiddler {
-	-not-webkit-box-shadow: 2px 2px 13px #000;
 	position: absolute;
 	width: 360px;
 	padding: 0;
@@ -897,8 +914,7 @@ div#backstageArea {
 
 .cecily .tiddler .toolbar {
 	cursor: all-scroll;
-	font-size: 0.8em;
-	padding: 0 0.25em 0 0.25em;
+	padding: 0.5em 0.5em 0.5em 0.5em;
 	background-color: #aaa;
 	color: #aaa;
 }
@@ -909,14 +925,31 @@ div#backstageArea {
 }
 
 .cecily .tiddler .toolbar a {
-	background-color: #aaa;
-	color: #aaa;
+	-webkit-transition: opacity 0.3s ease-in-out;
+	opacity: 0;
+	font-size: 0.1em;
+	margin: 0 0.25em 0 0.25em;
 	border: none;
+	-webkit-border-radius: 3px;
 }
 
 .cecily .tiddler.selected .toolbar a {
+	opacity: 1;
 	background-color: #aaa;
-	color: #fff;
+	background: -webkit-gradient(linear, left top, left bottom, from([[ColorPalette::PrimaryLight]]), to([[ColorPalette::PrimaryDark]]), color-stop(0.5,[[ColorPalette::PrimaryMid]]));
+	color: [[ColorPalette::TertiaryPale]];
+}
+
+.cecily .tiddler.selected .toolbar a:hover {
+	background-color: [[ColorPalette::SecondaryMid]];
+	background-image: -webkit-gradient(linear, left bottom, left top, from([[ColorPalette::SecondaryLight]]), to([[ColorPalette::SecondaryDark]]), color-stop(0.5,[[ColorPalette::SecondaryMid]]));
+	color: [[ColorPalette::Foreground]];
+}
+
+.cecily .tiddler.selected .toolbar a:active {
+	background-color: [[ColorPalette::Foreground]];
+	background-image: none;
+	color: [[ColorPalette::Background]];
 }
 
 .cecily .tiddler .title {
