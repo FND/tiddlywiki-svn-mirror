@@ -1,21 +1,34 @@
 /***
 |''Name''|XMLRPCPlugin|
-|''Description''|XML-RPC library|
+|''Description''|XML-RPC library and macro|
 |''Author''|FND|
 |''Version''|0.1|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#XMLRPCPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+!Usage
+{{{
+<<XMLRPC URL methodName [username] [password]>>
+}}}
+!!Examples
+<<XMLRPC "http://trac.tiddlywiki.org/login/xmlrpc" "system.listMethods()">>
 !Revision History
 !!v0.1 (2008-08-22)
 * initial release
+!To Do
+* documentation
+* XML-RPC multi-call to combine multiple calls into a single HTTP request
+* code documentation
 !Code
 ***/
 //{{{
+if(!version.extensions.XMLRPCPlugin) {
+version.extensions.XMLRPCPlugin = { installed: true };
+
 xmlrpc = {
-	request: function(url, callback, params, methodCall, username, password, allowCache) { // DEBUG: rename?
-		doHttp("POST", url, methodCall, "text/xml", username, password, callback, params, null, allowCache); // DEBUG: no custom headers?
+	request: function(url, callback, methodCall, username, password, allowCache) { // DEBUG: rename?
+		doHttp("POST", url, methodCall, "text/xml", username, password, callback, null, null, allowCache); // DEBUG: no custom params or headers?
 	},
 	parseResponse: function(status, params, responseText, xhr) {
 		if(status && responseText.indexOf("<fault>") == -1) { // DEBUG: use proper XML parsing?
@@ -86,17 +99,30 @@ xmlrpc = {
 	}
 };
 
-/*
-** Trac-specifics (temporary)
-*/
-
-var URLs = {
-	anon: "http://trac.tiddlywiki.org/xmlrpc",
-	auth: "http://trac.tiddlywiki.org/login/xmlrpc"
+config.macros.XMLRPC = {
+	btnLabel: "XML-RPC",
+	btnTooltip: null,
+	btnClass: null,
+	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+		createTiddlyButton(place, this.btnLabel,
+			this.btnTooltip || params[0] + " - " + params[1],
+			this.onclick, this.btnClass, null, null, {
+				url: params[0],
+				method: params[1],
+				username: params[2] || "",
+				password: params[3] || "" // DEBUG: use of plain-text parameter for password is insecure
+			});
+	},
+	onclick: function() {
+		var url = this.getAttribute("url");
+		var method = this.getAttribute("method");
+		var username = this.getAttribute("username") || null;
+		var password = this.getAttribute("password") || null;
+		var methodCall = xmlrpc.generateMethodCall(method);
+		console.log(url, username, password, methodCall); // DEBUG
+		xmlrpc.request(url, xmlrpc.parseResponse, null, methodCall, username, password);
+	}
 };
 
-var username = null; // DEBUG: to be read from macro parameter?
-var password = null; // DEBUG: to be read from macro parameter?
-var methodCall = xmlrpc.generateMethodCall("system.listMethods()");
-xmlrpc.request(URLs.auth, xmlrpc.parseResponse, params, methodCall, username, password); // DEBUG: use URLs.auth on failure
+} //# end of "install only once"
 //}}}
