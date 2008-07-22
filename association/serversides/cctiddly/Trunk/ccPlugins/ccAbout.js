@@ -27,15 +27,15 @@ merge(config.tasks,{about:{text: "about",tooltip: "Find out more about ccTiddly 
 
 config.macros.ccAbout={};
 config.macros.ccAbout.handler=function(place,macroName,params,wikifier,paramString,tiddler,errorMsg){
-	createTiddlyElement(place,"h1","","","About ccTiddly");
-	createTiddlyElement(place,"br");
-	var str="You are running ccTiddly " + window.ccTiddlyVersion;
-	createTiddlyText(place,str);
-	createTiddlyElement(place,"br");
-	createTiddlyElement(place,"br");
-	var str="more info about ccTiddly can be found  at " ;
-	createTiddlyText(place,str);
-	var link=createExternalLink(place,'http://tiddlywiki.org/wiki/CcTiddly');
-	link.textContent='http://tiddlywiki.org/wiki/CcTiddly';
+
+	
+	var w = new Wizard();
+	w.createWizard(place,"About");
+	var str="You are running ccTiddly " + window.ccTiddlyVersion+"<br /><br />";
+	str+="More info about ccTiddly can be found  at <a  target=new  href=http://www.tiddlywiki.org/wiki/CcTiddly>http://www.tiddlywiki.org/wiki/CcTiddly</a><br/><br/>  More information about TiddlyWiki can be found at <a target=new href=http://www.tiddlywiki.com>http://www.tiddlywiki.com</a><br/>" ;
+	//var link=createExternalLink(str,'http://tiddlywiki.org/wiki/CcTiddly');
+	//link.textContent='http://tiddlywiki.org/wiki/CcTiddly';
+	w.addStep(null, str);
+	
 };
 //}}}

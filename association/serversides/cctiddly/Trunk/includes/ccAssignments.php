@@ -130,6 +130,28 @@ var serverside={
 
 
 
+merge(config.optionsDesc,{
+	txtUserName: "",
+	chkRegExpSearch: "Enable regular expressions for searches",
+	chkCaseSensitiveSearch: "Case-sensitive searching",
+	chkIncrementalSearch: "Incremental key-by-key searching",
+	chkAnimate: "Enable animations",
+	chkSaveBackups: "",
+	chkAutoSave: "",
+	chkGenerateAnRssFeed: "",
+	chkSaveEmptyTemplate: "",
+	chkOpenInNewWindow: "Open external links in a new window",
+	chkToggleLinks: "Clicking on links to open tiddlers causes them to close",
+	chkHttpReadOnly: "",
+	chkForceMinorUpdate: "",
+	chkConfirmDelete: "Require confirmation before deleting tiddlers",
+	chkInsertTabs: "Use the tab key to insert tab characters instead of moving between fields",
+	txtBackupFolder: "",
+	txtMaxEditRows: "Maximum number of rows in edit boxes",
+	txtFileSystemCharSet: "Default character set for saving changes (Firefox/Mozilla only)"});
+
+
+
 
 setStylesheet(store.getRecursiveTiddlerText("ccStyleSheet",10),"ccStyleSheet");
 

@@ -125,6 +125,10 @@ config.commands.putTiddler.isEnabled = function(tiddler)
 	return tiddler && tiddler.isTouched() && isAdaptorFunctionSupported('putTiddler',tiddler.fields);
 };
 
+
+
+
+/*
 config.commands.putTiddler.handler = function(event,src,title)
 {
 //#console.log("config.commands.putTiddler.handler:"+title);
@@ -144,6 +148,10 @@ config.commands.putTiddler.callback = function(context,userParams)
 		displayMessage(context.statusText);
 	}
 };
+
+
+
+*/
 
 config.commands.putTiddlerRevision = {};
 merge(config.commands.putTiddlerRevision,{

@@ -611,7 +611,7 @@ if(useJavaSaver)
 <!--POST-SCRIPT-START-->
 <!--POST-SCRIPT-END-->
 <?php
-if ($tiddlyCfg['developing'] == 2 || $tiddlyCfg['debug']['display_logs'] == 1)
+if ($tiddlyCfg['developing'] == 2 || $tiddlyCfg['debug']['display_logs'] == 1 ||  $_REQUEST['debug'] == $tiddlyCfg['debug']['secret'])
 {
 	?>
 	<div style="width:100%; position:fixed; bottom:0px;">

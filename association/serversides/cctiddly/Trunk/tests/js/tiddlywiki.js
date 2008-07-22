@@ -244,7 +244,6 @@ merge(config.optionsDesc,{
 	chkCaseSensitiveSearch: "Case-sensitive searching",
 	chkAnimate: "Enable animations",
 	chkSaveBackups: "Keep backup file when saving changes",
-	chkAutoSave: "Automatically save changes",
 	chkGenerateAnRssFeed: "Generate an RSS feed when saving changes",
 	chkSaveEmptyTemplate: "Generate an empty template when saving changes",
 	chkOpenInNewWindow: "Open external links in a new window",

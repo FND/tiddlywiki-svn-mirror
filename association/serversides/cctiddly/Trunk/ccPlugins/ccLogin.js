@@ -125,9 +125,18 @@ config.macros.ccLogin.refresh=function(place,errorMsg){
 	var frm="";
 	if (isLoggedIn()){
 		// user is logged in
-		var msg=createTiddlyElement(wrapper,"div");
-		// display the logout button
-		config.macros.ccLoginStatus.handler(msg);		
+		var msg=createTiddlyElement(null,"div");
+		if(workspace == "")
+			var str = wikify("You are viewing the default workspace",msg);
+		else
+			var str = wikify("You are viewing the workspace "+workspace,msg);	
+		var w = new Wizard();
+		w.createWizard(place,"Hello "+cookieString(document.cookie).txtUserName);
+		w.addStep(null,msg.innerHTML);
+		w.setButtons([
+			{caption: 'Logout', tooltip: 'Logout', onClick:function() { window.location=url+"/"+workspace+"?&logout=1";} }
+		]);
+		
 	}else{
 		//user not logged in.	
 		frm=createTiddlyElement(wrapper,"form",null,"wizard");

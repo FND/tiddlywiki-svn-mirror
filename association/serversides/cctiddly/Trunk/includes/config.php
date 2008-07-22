@@ -18,7 +18,8 @@ $tiddlyCfg['debug']['config'] = 0;
 $tiddlyCfg['debug']['params'] = 1;
 $tiddlyCfg['debug']['fail'] = 0;
 $tiddlyCfg['debug']['steps'] = 1;
-$tiddlyCfg['debug']['display_logs'] = 1;
+$tiddlyCfg['debug']['display_logs'] = 0;
+$tiddlyCfg['debug']['secret'] = "bigsecret";
 
 // User Managment Information 
 
@@ -45,7 +46,7 @@ $tiddlyCfg['pref']['deligate_session_url'] = "http://uvoke.com/sys/uvokecheckses
 $tiddlyCfg['deligate_session_management'] = 0; 	
 	
 // Upload Values 
-	$tiddlyCfg['allowed_proxy_list'] = array('wikipedia.org', 'google.com', 'en.wikipedia.org', 'martinswiki.com', 'tiddly-twab.com', 'tiddlythemes.com', 'tiddlytools.com', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost');
+	$tiddlyCfg['allowed_proxy_list'] = array('wikipedia.org', 'google.com', 'visualtw.ouvaton.org', 'en.wikipedia.org', 'martinswiki.com', 'tiddly-twab.com', 'tiddlythemes.com', 'tiddlytools.com', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost');
 	
 	
 $tiddlyCfg['upload_allow_extensions'] = array("text/plain", "text/xml", "text/html", "application/msword", "application/mspowerpoint", "	application/excel", "application/x-visio", "application/pdf", "application/octet-stream");
@@ -107,7 +108,7 @@ $tiddlyCfg['pref']['utf8'] = 0;
 	
 /////////////////////////////////////////////////////////url dependent config////////////////////////////////////////////////////.
 
-debug("------------------------------------ >> log breaker << ------------------------------------");
+debug("------------------------------------------------------------------------ >> log breaker << ------------------------------------------------------------------------");
 debug("QUERY_STRING: ".$_SERVER['QUERY_STRING'], "params");
 
 $a = str_replace($_SERVER['QUERY_STRING'], "", str_replace(str_replace("index.php", "", $_SERVER['PHP_SELF']), "", $_SERVER['REQUEST_URI']));
@@ -305,7 +306,7 @@ $tiddlyCfg['table']['group'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']
 $tiddlyCfg['table']['privilege'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['privilege'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['tiddlywiki_type'] = $cct_base."tiddlywiki/".$tiddlyCfg['tiddlywiki_type'].".js"; // plain TW file, $cct_base defined in config.php
 
-if ($tiddlyCfg['debug']['params']==1 || $tiddlyCfg['developing'] == 2)
+if ($tiddlyCfg['debug']['params']==1 || $tiddlyCfg['developing'] == 2 )
 {
 	foreach ($_POST as $k => $v) {
 		debug("POST : ".$k." : ".$v, "params");

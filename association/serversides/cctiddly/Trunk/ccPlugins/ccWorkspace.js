@@ -18,6 +18,7 @@ Allows users to create their own workspace.
 !Usage
 {{{
 <<ccCreateWorkspace>>
+<<ccEditWorkspace>>
 }}}
 
 !Code
@@ -26,121 +27,48 @@ Allows users to create their own workspace.
 
 config.backstageTasks.push('create');
 merge(config.tasks,{create: {text: 'create', tooltip: 'Create new workspace', content:'<<ccCreateWorkspace>>'}});
-
-
 	
 config.macros.ccCreateWorkspace = {};
 config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
-	// When we server this tiddler it need to know the URL of the server to post back to
-	//this value is currently set in index.php, should be index.php?action=createWorkspace to prepare for modulation
-	//form heading
-	if (workspacePermission.create!=1)
-	{
+	if (workspacePermission.create!=1){
 		createTiddlyElement(place,'div', null, "annotation",  'You do not have permissions to create a workspace.  You may need to log in.');
 		return null;
 	}
-	
-	var frm = createTiddlyElement(place,'form',null,"wizard");
-	frm.onsubmit = this.createWorkspaceOnSubmit;
-
-	createTiddlyElement(frm,'h1',null,null,"Create Workspace");
-	createTiddlyElement(frm, 'h2', null, null,  "Get your own TiddlyWiki workspace below");
-
-	var body = createTiddlyElement(frm,'div',null, "wizardBody");
-
-	//form content
-	var step = createTiddlyElement(body,'div',null, "wizardStep");
-	//createTiddlyElement(step, "br");
-	//form workspace name/url
-	var url_label = createTiddlyElement(step, "label", null, "label", url);
-	url_label.setAttribute("for","ccWorkspaceName");
-	var workspaceName = createTiddlyElement(step,'input','ccWorkspaceName', 'input');		
-	workspaceName.value = workspace;
-	workspaceName.size = 15;
-	workspaceName.name = 'ccWorkspaceName';
-	workspaceName.onkeyup=function() {
-		config.macros.ccRegister.workspaceNameKeyPress(this.value);
-	};
-	step.appendChild(workspaceName);
-
-
-
 	var w = new Wizard();
 	w.createWizard(place,"Workspace Administration");
-	var step1 =  "<br /><table border=05><tr><td>"+url+"</td><td><input  name=ccWorkspaceName value="+workspaceName.value+" /></td></tr><tr border=0><td  border=0><h3>Annonymous Users Can</h3></td><td><span id=statusBox></span></td></tr><tr><td  align='right'><input align='right' name='anonCreate' type='checkbox'></td><td>Create Tiddlers</td></tr><tr><td  align='right'><input name='anonRead' type='checkbox' checked=true></td><td>Read Tiddlers</td></tr><tr><td align='right'><input name='anonUpdate' type='checkbox'></td><td>Update Tiddlers</td></tr><tr><td  align='right'><input name='anonDelete' type='checkbox'></td><td>Delete Tiddlers</td></tr></table>";
-w.addStep("enter workspace name below",step1);
-
-w.formElem.ccWorkspaceName.onkeyup = function() {config.macros.ccRegister.workspaceNameKeyPress(w);}
-
+	var step1 =  "<table border=0	><tr><td>Please enter the workspace name: </td><td><input  name=ccWorkspaceName value="+workspace+" /></td></tr><tr><td colspan=2>"+url+"</td></tr></table>";
+	w.addStep("enter workspace name below",step1);
+	
+	//<tr border=0><td  border=0><h3>Anonymous users permissions:</h3></td><td></td></tr><tr><td  align='right'><input align='right' name='anonCreate' type='checkbox'></td><td>Create Tiddlers</td></tr><tr><td  align='right'><input name='anonRead' type='checkbox' checked=true></td><td>Read Tiddlers</td></tr><tr><td align='right'><input name='anonUpdate' type='checkbox'></td><td>Update Tiddlers</td></tr><tr><td  align='right'><input name='anonDelete' type='checkbox'></td><td>Delete Tiddlers</td></tr>
+	w.formElem.ccWorkspaceName.onkeyup = function() {config.macros.ccRegister.workspaceNameKeyPress(w);}
 	w.setButtons([
-		{caption: 'Create Workspace', tooltip: 'Create a new workspace here', onClick:config.macros.ccCreateWorkspace.createWorkspaceOnSubmit }]);
-
-
-
-
-
-	createTiddlyElement(step,"span",'workspaceName_error','inlineError',null);
-
-	createTiddlyElement(step,'br');
-
-	//privilege form
-	anonTitle = createTiddlyElement(step,'div', null, "checkTitle",  'Anonymous Users Can');
-	//var anC = createTiddlyCheckbox(null, 'Create Tiddlers', 0);
-	var span = createTiddlyElement(step, 'span', null, "checkContainer")
-	var anC = createTiddlyElement(null,'input', 'anC','checkInput');
-	anC.setAttribute('type','checkbox');
-	if (workspacePermission.anonC==1)
-	anC.setAttribute('checked','checked');    
-	span.appendChild(anC);
-	var anC_label = createTiddlyElement(step, "label", null, "checkLabel", "Create Tiddlers");
-	anC_label.setAttribute("for","anC");
-	createTiddlyElement(step,'br');
-
-	var span = createTiddlyElement(step, 'span', null, "checkContainer")
-	var anR = createTiddlyElement(null,'input', 'anR','checkInput');
-	anR.setAttribute('type','checkbox');
-	if (workspacePermission.anonR  == 1)
-	anR.setAttribute('checked','checked');
-	span.appendChild(anR);
-	var anR_label = createTiddlyElement(step, "label", null, "checkLabel", "Read Tiddlers");
-	anR_label.setAttribute("for","anR");
-	createTiddlyElement(step,'br');
-
-	var span = createTiddlyElement(step, 'span', null, "checkContainer")
-	var anU = createTiddlyElement(null,'input', 'anU','checkInput');
-	anU.setAttribute('type','checkbox');
-	
-	anU.setAttribute('value','1');
-	
-	if (workspacePermission.anonU  == 1)
-	anU.setAttribute('checked','checked');
-	span.appendChild(anU);
-	var anU_label = createTiddlyElement(step, "label", null, "checkLabel", "Update Tiddlers");
-	anU_label.setAttribute("for","anU");
-	createTiddlyElement(step,'br');
-
-	var span = createTiddlyElement(step, 'span', null, "checkContainer")
-	var anD = createTiddlyElement(null,'input', 'anD','checkInput');
-	anD.setAttribute('type','checkbox');
-	if (workspacePermission.anonD  == 1)
-	anD.setAttribute('checked','checked');
-	span.appendChild(anD);
-	var anD_label = createTiddlyElement(step, "label", null, "checkLabel", "Delete Tiddlers");
-	anD_label.setAttribute("for","anD");
-	createTiddlyElement(step,'br');
-
-	var a=createTiddlyElement(step, "div", "createWorkspaceButton", "submit")
-	var btn=createTiddlyElement(null,'input',this.prompt,'button');
-	btn.setAttribute('type','submit');
-	btn.value="Create Workspace";
-	a.appendChild(btn);
-	createTiddlyElement(a,"span",'workspaceStatus','',null);
-	
+		{caption: 'Create Workspace', tooltip: 'Advanced workspace configuration', onClick:config.macros.ccCreateWorkspace.setPerm }
+	]);	
 };
+
+config.macros.ccCreateWorkspace.setPerm = function(){
+	var w = new Wizard(this);
+	w.clear();
+	w.addStep("Configure Permissions for workspace: ","<table><tr border=2><th></th><th>A<br />n<br />o<br />n<br /> </th><th>U<br />s<br />e<br />r<br />s</th><th>A<br />d<br />m<br />i<br />n</th></tr><tr><th>Create</th><td><input align='right' name='adminCreate' type='checkbox' checked='true'></td><td><input align='right' name='adminCreate' type='checkbox' checked='true' ></td><td><input align='right' name='adminCreate' type='checkbox' checked='true' ></td></tr><tr><th>Read</th><td><input align='right' name='adminCreate' type='checkbox' checked='true' ></td><td><input align='right' name='adminCreate' type='checkbox' checked='true' ></td><td><input align='right' name='adminCreate' type='checkbox' checked='true' ></td></tr><tr><th>Update</th><td><input align='right' name='adminCreate' type='checkbox' checked='true' ></td><td><input align='right' name='adminCreate' type='checkbox' checked='true' ></td><td><input align='right' name='adminCreate' type='checkbox' checked='true' ></td></tr><tr><th>Delete</th><td><input align='right' name='adminCreate' type='checkbox' checked='true' ></td><td><input align='right' name='adminCreate' type='checkbox' checked='true' ></td><td><input align='right' name='adminCreate' type='checkbox' checked='true' ></td></tr></table>");
+	w.setButtons([
+		{caption: 'Next', tooltip: 'proceed', onClick:config.macros.ccCreateWorkspace.userPerm },
+		{caption: 'Advanced', tooltip: 'Advanced workspace configuration', onClick:config.macros.ccCreateWorkspace.adminPerm }
+	]);
+};
+
+config.macros.ccCreateWorkspace.userPerm = function(){
+	var w = new Wizard(this);
+	w.clear();
+	w.addStep("Logged in Users can : ","<table><tr border=0><td  border=0><h3>Logged In Users Can</h3></td><td><span id=statusBox></span></td></tr><tr><td  align='right'><input align='right' name='userCreate' type='checkbox' checked='true'></td><td>Create Tiddlers</td></tr><tr><td  align='right'><input name='userRead' type='checkbox' checked=true></td><td>Read Tiddlers</td></tr><tr><td align='right'><input name='userUpdate' type='checkbox'></td><td>Update Tiddlers</td></tr><tr><td  align='right'><input name='userDelete' type='checkbox'></td><td>Delete Tiddlers</td></tr></table>");
+	w.setButtons([
+		{caption: 'Next', tooltip: 'proceed', onClick:config.macros.ccCreateWorkspace.userPerm },
+		{caption: 'cancel', tooltip: 'Advanced workspace configuration', onClick:config.macros.ccCreateWorkspace.adminPerm }
+	]);
+};
+
 config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function() {
 	var w = new Wizard(this);
 	var me = config.macros.login;
-	
 	var trueStr = "A";
 	var falseStr = "D";
 	// build up string with permissions values
@@ -151,11 +79,6 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function() {
 	var params = {}; 
 	params.url = url+'/'+w.formElem.ccWorkspaceName.value;
 	// disable create workspace button 
-	var submit=document.getElementById('createWorkspaceButton');
-	submit.disabled=true;
-	submit.setAttribute("class","buttonDisabled");
-	document.getElementById('workspaceStatus').innerHTML='Please wait, your workspace is being created.';
-
 	var loginResp = doHttp('POST',url+'/'+w.formElem.ccWorkspaceName.value,'ccCreateWorkspace=' + encodeURIComponent(w.formElem.ccWorkspaceName.value)+'&ccAnonPerm='+encodeURIComponent(anon),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
 	return false; 
 };
@@ -187,14 +110,12 @@ config.macros.ccRegister.workspaceNameCallback=function(status,params,responseTe
 		workspaceName_space.setAttribute("class","inlineError");
 	}
 	}else{
-		console.log(w.bodyElem);
+	//	console.log(w.bodyElem);
 	//	workspaceName_space=getElementById('submitBox');
 	//	workspaceName_space.innerHTML="Workspace name is available";
 	//	workspaceName_space.setAttribute("class","inlineOk");
 	}
 };
-
-
 
 config.macros.ccEditWorkspace = {};
 config.macros.ccEditWorkspace.handler = function(place,macroName,params,wikifier,paramString,tiddler,errorMsg) {
@@ -219,8 +140,6 @@ config.macros.ccEditWorkspace.handler = function(place,macroName,params,wikifier
 	var anC_label = createTiddlyElement(step,"label",null,"checkLabel","Create Tiddlers");
  	anC_label.setAttribute("for","anC");
 	createTiddlyElement(step,'br');
-	
-	
 	var span = createTiddlyElement(step,'span',null,"checkContainer")
 	var  anR = createTiddlyCheckbox(span,null ,workspacePermission.anonR);
 	anR.id = 'anR';
@@ -229,7 +148,7 @@ config.macros.ccEditWorkspace.handler = function(place,macroName,params,wikifier
  	anR_label.setAttribute("for","anR");
 
 	createTiddlyElement(step,'br');
-			var span = createTiddlyElement(step,'span',null,"checkContainer")
+	var span = createTiddlyElement(step,'span',null,"checkContainer")
 	var anU = createTiddlyCheckbox(span,null,workspacePermission.anonU);
 	anU.id = 'anU';
 	anU.setAttribute("class","checkInput");
@@ -238,7 +157,7 @@ config.macros.ccEditWorkspace.handler = function(place,macroName,params,wikifier
 
 	createTiddlyElement(step,'br');
 	
-				var span = createTiddlyElement(step,'span',null,"checkContainer")
+	var span = createTiddlyElement(step,'span',null,"checkContainer")
 	var anD = createTiddlyCheckbox(span,null,workspacePermission.anonD);
 	anD.id = 'anD';
 	anD.setAttribute("class","checkInput");
@@ -248,8 +167,8 @@ config.macros.ccEditWorkspace.handler = function(place,macroName,params,wikifier
 	createTiddlyElement(step,'br');
 	createTiddlyElement(frm,'br');
 	var btn = createTiddlyElement(frm,'input',this.prompt,"button","button");
-	 btn.setAttribute('type','submit');
-	 btn.value = 'Edit Workspace Permissions'
+	btn.setAttribute('type','submit');
+	btn.value = 'Edit Workspace Permissions'
 	createTiddlyElement(frm,'br');
 	createTiddlyElement(frm,'br');
 };
