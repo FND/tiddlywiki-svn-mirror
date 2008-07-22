@@ -1,7 +1,42 @@
-// XML-RPC class
+/***
+|''Name''|XMLRPCPlugin|
+|''Description''|XML-RPC library|
+|''Author''|FND|
+|''Version''|0.1|
+|''Status''|@@experimental@@|
+|''Source''|http://devpad.tiddlyspot.com/#XMLRPCPlugin|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
+|''License''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+!Revision History
+!!v0.1 (2008-08-22)
+* initial release
+!Code
+***/
+//{{{
 xmlrpc = {
+	request: function(url, callback, params, methodCall, username, password, allowCache) { // DEBUG: rename?
+		doHttp("POST", url, methodCall, "text/xml", username, password, callback, params, null, allowCache); // DEBUG: no custom headers?
+	},
+	parseResponse: function(status, params, responseText, xhr) {
+		if(status && responseText.indexOf("<fault>") == -1) { // DEBUG: use proper XML parsing?
+			console.log(status, params, xhr); // DEBUG
+			console.log(responseText); // DEBUG
+			var match = responseText.match(/<value>(.*)<\/value>/i); // DEBUG: use proper XML parsing?
+			if(match && match.length > 0) {
+				return match[0];
+			}
+		} else {
+			console.log("error", arguments); // DEBUG
+			return false;
+		}
+	},
+	/**
+	 * generate method call
+	 * @param {String} methodName name of remote procedure
+	 * @param {Array} params objects with keys "type" and "value"
+	 */
 	generateMethodCall: function(methodName, params) {
-		var msg = "<methodCall>"
+		var msg = "<?xml version='1.0'?><methodCall>"
 			+ "<methodName>" + methodName + "</methodName>"
 			+ "<params>";
 		if(params) {
@@ -9,7 +44,7 @@ xmlrpc = {
 				msg += this.generateParamNode(params[i]);
 			}
 		}
-		msg += "</params></methodCall>";
+		return msg + "</params></methodCall>";
 	},
 	generateParamNode: function(param) {
 		switch(param.type) {
@@ -48,51 +83,20 @@ xmlrpc = {
 				break;
 		}
 		return "<param><value>" + value + "</value></param>"; // DEBUG: value tag for all types?
-	},
-	parseResponse: function(status, params, responseText, xhr) {
-		if(status && responseText.indexOf("<fault>") == -1) { // DEBUG: use proper XML parsing?
-			console.log(status, params, xhr); // DEBUG
-			console.log(responseText); // DEBUG
-			var match = responseText.match(/<value>(.*)<\/value>/i); // DEBUG: use proper XML parsing?
-			if(match && match.length > 0) {
-				return match[0];
-			}
-		} else {
-			console.log("error"); // DEBUG
-			return false;
-		}
 	}
 };
+
+/*
+** Trac-specifics (temporary)
+*/
 
 var URLs = {
 	anon: "http://trac.tiddlywiki.org/xmlrpc",
 	auth: "http://trac.tiddlywiki.org/login/xmlrpc"
 };
 
-var props = { // DEBUG: rename?
-	method: "ticket.query",
-	params: [
-		{
-			type: "int",
-			value: "lorem"
-		}, {
-			type: "str",
-			value: "ipsum"
-		}
-	]
-};
-
-xhr = { // DEBUG: review
-	url: URLs.auth,
-	data: xmlrpc.generateMethodCall(props.method, props.params),
-	contentType: "text/xml", // DEBUG: correct?
-	username: null,
-	password: null,
-	callback: xmlrpc.parseResponse,
-	params: null,
-	headers: null,
-	allowCache: true
-};
-
-doHttp("POST", xhr.url, xhr.data, xhr.contentType, xhr.username, xhr.password, // DEBUG: use URLs.auth on failure
-	xhr.callback, xhr.params, xhr.headers, xhr.allowCache);
+var username = null; // DEBUG: to be read from macro parameter?
+var password = null; // DEBUG: to be read from macro parameter?
+var methodCall = xmlrpc.generateMethodCall("system.listMethods()");
+xmlrpc.request(URLs.auth, xmlrpc.parseResponse, params, methodCall, username, password); // DEBUG: use URLs.auth on failure
+//}}}
