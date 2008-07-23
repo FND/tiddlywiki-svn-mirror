@@ -1,0 +1,7 @@
+RippleRap is a shared note taking tool for conferences. 
+For more information see http://ripplerap.com
+
+core - RippleRap code, tiddlers and styling
+editions - various specialisations of RippleRap
+server - code to host notes
+tests - collection of jsspec for dependencies and plugins

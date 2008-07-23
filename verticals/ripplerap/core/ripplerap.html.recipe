@@ -1,72 +1,110 @@
-# Core
+#
+#    RippleRap core recipe 
+#
+# recipe used by various specialisations - see ../editions
+#
+
+#
+# TiddlyWiki Core
+#
 recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 
-# Development helpers - remove before releasing.
+#
+# Development helpers 
+# - useful for debugging
+#
 tiddler: __dev_helper.tiddler
 tiddler: plugins/DevHelpPlugin.js
 
+#
 # Settings
+# - overridden by an edition
+#
 tiddler: settings.js
 tiddler: Edition.js
 tiddler: SiteUrl.tiddler
-
-# Theme
-tiddler: RippleRapSkin.tiddler
-tiddler: RippleRapColors.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteSubtitle.tiddler
 
-# RippleRap specific code
+#
+# Theme
+#
+tiddler: RippleRapSkin.tiddler
+tiddler: RippleRapColors.tiddler
+
+#
+# UI structure
+#
+tiddler: MainMenu.tiddler
+tiddler: DefaultTiddlers.tiddler
+tiddler: BackstageMod.tiddler
+
+# Documentation
+tiddler: Help.tiddler
+tiddler: Setup_Instructions.tiddler
+tiddler: FAQs.tiddler
+tiddler: CamelCase.tiddler
+tiddler: Double_square_brackets.tiddler
+tiddler: Formatting_TiddlyWikis.tiddler
+tiddler: Safari_and_Opera_configuration.tiddler
+tiddler: Sharing_settings.tiddler
+tiddler: TiddlyWiki.tiddler
+
+# empty tiddler for tags, automatically brings in tagging macro
+tiddler: speaker.tiddler
+
+#
+# RippleRap generic core code
+#
 tiddler: plugins/RippleRapPlugin.js
 
-# Generic plugins
-tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
-tiddler: ../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
-tiddler: ../../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
-tiddler: ../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
-tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
-tiddler: ../../../contributors/PaulDowney/plugins/RawViewMacroPlugin.js
-tiddler: ../../../contributors/PaulDowney/plugins/SingleMessagePlugin/SingleMessagePlugin.js
-tiddler: ../../../contributors/PaulDowney/plugins/LogMessagePlugin/_LogMessagePlugin.js
-tiddler: ../../../contributors/BidiX/plugins/PasswordOptionPlugin.js
-#tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
-tiddler: plugins/TaggedTemplateTweak.js
+#
+#  Plugins
+#
 
-# Agenda Tracks
+# manage agenda tracks
 recipe: ../../../contributors/PaulDowney/plugins/AgendaTrackPlugin/AgendaTrackPlugin.recipe
 
-
-# Sharing Notes
+# manage sharing of notes
 recipe: ../../../contributors/PaulDowney/plugins/SharedNotesPlugin/SharedNotesPlugin.recipe
 
-# Ticker timers
+# Ticker periodically runs tasks in the background 
 recipe: ../../../contributors/PaulDowney/plugins/TickerPlugin/TickerPlugin.recipe
+
+# Ticker tasks
 tiddler: TickerGetAgenda.tiddler
 tiddler: TickerGetNotes.tiddler
 tiddler: TickerPopulateNotes.tiddler
 tiddler: TickerPutNotes.tiddler
 
-# RippleRap UI structure
-tiddler: MainMenu.tiddler
-tiddler: DefaultTiddlers.tiddler
-tiddler: BackstageMod.tiddler
+# group notes tiddlers to an agenda session tiddler 
+# - groupings defined in settings.js
+tiddler: ../../../contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
 
-# Other content
+# insert links to notes into the Agenda
+tiddler: ../../../contributors/JeremyRuston/plugins/ListRelatedPlugin.js
 
-tiddler: CamelCase.tiddler
-tiddler: Double_square_brackets.tiddler
-tiddler: FAQs.tiddler
-tiddler: Formatting_TiddlyWikis.tiddler
-tiddler: Help.tiddler
-tiddler: How_sharing_works.tiddler
-tiddler: Safari_and_Opera_configuration.tiddler
-tiddler: Sharing_settings.tiddler
-tiddler: TiddlyWiki.tiddler
+# create links to "notes by PhilHawksworth" tiddlers from the Agenda 
+tiddler: ../../../contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
 
-tiddler: CommitteeViewTemplate.tiddler
+# add access to create new agenda items, etc from the backstage
+tiddler: ../../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
 
-tiddler: Setup_Instructions.tiddler
-tiddler: Share_notes.tiddler
-tiddler: speaker.tiddler
-tiddler: committee.tiddler
-tiddler: chair.tiddler
+# browser specific in help tiddlers
+tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
+
+# include raw HTML in a view template
+tiddler: ../../../contributors/PaulDowney/plugins/RawViewMacroPlugin.js
+
+# displayMessage first clears any existing messages
+tiddler: ../../../contributors/PaulDowney/plugins/SingleMessagePlugin/SingleMessagePlugin.js
+
+# password option support
+tiddler: ../../../contributors/BidiX/plugins/PasswordOptionPlugin.js
+
+# apply template by tag
+# fixed version of ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
+tiddler: plugins/TaggedTemplateTweak.js
+
+# optionally log messages optionally to console.log, separate window, etc
+tiddler: ../../../contributors/PaulDowney/plugins/LogMessagePlugin/_LogMessagePlugin.js
