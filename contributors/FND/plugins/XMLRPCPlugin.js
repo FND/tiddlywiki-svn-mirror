@@ -14,7 +14,7 @@
 !!Examples
 <<XMLRPC "http://trac.tiddlywiki.org/login/xmlrpc" "system.listMethods">>
 !Revision History
-!!v0.1 (2008-08-22)
+!!v0.1 (2008-07-22)
 * initial release
 !To Do
 * XML-RPC multi-call to combine multiple calls into a single HTTP request
