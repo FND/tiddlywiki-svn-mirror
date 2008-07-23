@@ -17,8 +17,8 @@
 !!v0.1 (2008-08-22)
 * initial release
 !To Do
-* documentation
 * XML-RPC multi-call to combine multiple calls into a single HTTP request
+* documentation
 * code documentation
 !Code
 ***/
@@ -32,15 +32,13 @@ xmlrpc = {
 	},
 	parseResponse: function(status, params, responseText, xhr) {
 		if(status && responseText.indexOf("<fault>") == -1) { // DEBUG: use proper XML parsing?
-			console.log(status, params, xhr); // DEBUG
-			console.log(responseText); // DEBUG
-			var match = responseText.match(/<value>(.*)<\/value>/i); // DEBUG: use proper XML parsing?
-			if(match && match.length > 0) {
+			var match = responseText.match(/<value>([\s\S]*)<\/value>/i); // DEBUG: use proper XML parsing?
+			if(match && match.length) {
 				return match[0];
 			}
 		} else {
-			console.log("error", arguments); // DEBUG
-			return false;
+			var error = responseText.match(/faultString<\/name>[\s\S]*?<string>([\s\S]*)<\/string>/i); // DEBUG: use proper XML parsing?
+			return (error && error.length) ? error[1] : false;
 		}
 	},
 	/**
@@ -117,8 +115,11 @@ config.macros.XMLRPC = {
 		var username = this.getAttribute("username") || null;
 		var password = this.getAttribute("password") || null;
 		var methodCall = xmlrpc.generateMethodCall(method);
-		console.log(url, username, password, methodCall); // DEBUG
-		xmlrpc.request(url, xmlrpc.parseResponse, null, methodCall, username, password);
+		xmlrpc.request(url, config.macros.XMLRPC.diplayResults, methodCall, username, password);
+	},
+	diplayResults: function(status, params, responseText, xhr) {
+		var response = xmlrpc.parseResponse(status, params, responseText, xhr);
+		displayMessage(response); // DEBUG
 	}
 };
 
