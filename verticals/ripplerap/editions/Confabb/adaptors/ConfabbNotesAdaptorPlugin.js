@@ -1,6 +1,6 @@
 /***
 |''Name:''|ConfabbNotesAdaptorPlugin|
-|''Description:''||
+|''Description:''|Adaptor to POST notes to the Confabb server|
 |''Author:''|Paul Downey|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/adaptors/ConfabbNotesAdaptorPlugin.js|
 |''Version:''|0.0.1|

@@ -1,0 +1,5 @@
+index.html.recipe - cooks Confabb production RippleRap, known as "NoteShare"
+
+adaptors - TiddlyWiki adaptors and tests to read a Confabb agenda and POST notes to the Confabb server
+plugins - setup conference specific configuation and authenticate with Confabb 
+tests - build a collection of Confabb plugin jsspec tests

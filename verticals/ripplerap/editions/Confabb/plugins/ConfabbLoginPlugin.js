@@ -16,7 +16,6 @@
 if(!version.extensions.ConfabbLoginPlugin) {
 version.extensions.ConfabbLoginPlugin = {installed:true};
 
-
 /*
  *  button to login to Confabb
  */

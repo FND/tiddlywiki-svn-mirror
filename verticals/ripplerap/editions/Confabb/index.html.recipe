@@ -1,6 +1,20 @@
+#
+#    Confabn 'NoteShare' RippleRap edition recipe 
+#
+
+#
+#  RippleRap core
+#
 recipe: ../../core/ripplerap.html.recipe
 
+#
+#  Override core with Confabb edition code
+#
 tiddler: Edition.js
+
+#
+#  Confabb edition content
+#
 tiddler: DefaultTiddlers.tiddler
 tiddler: Welcome.tiddler
 tiddler: Help.tiddler
@@ -8,10 +22,23 @@ tiddler: FAQs.tiddler
 tiddler: TiddlyWiki.tiddler
 tiddler: Sharing_settings.tiddler
 
+#
+#  Setup Confabb specific configuation based on the conference URI
+#
 tiddler: plugins/RippleRapConfabbPlugin.js
 
+#
+#  Confabb protects the Agenda and notes using cookie/session based authentication
+#
 tiddler: LoginToConfabb.tiddler
 tiddler: plugins/ConfabbLoginPlugin.js
 
+#
+#  Adaptor and dependencies to grab and parse the agenda from Confabb.com
+#
 recipe: adaptors/ConfabbAgendaAdaptorPlugin.recipe
+
+#
+#  Adaptor and dependencies to post the notes to Confabb.com
+#
 recipe: adaptors/ConfabbNotesAdaptorPlugin.recipe
