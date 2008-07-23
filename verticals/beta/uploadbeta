@@ -23,7 +23,7 @@ function setPermissions() {
 echo
 echo "uploading files"
 echo
-FILES="index.$RELEASE.html empty.$RELEASE.html"
+FILES="index.$RELEASE.html empty.$RELEASE.html TiddlySaver.jar"
 scp $FILES "$HOST:./tmp/"
 
 # transfer files to their respective folders
