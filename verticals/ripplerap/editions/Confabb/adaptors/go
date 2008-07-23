@@ -1,1 +1,1 @@
-cook testConfabbAgendaAdaptorPlugin && ff2 testConfabbAgendaAdaptorPlugin.html
+cook testConfabbAgendaAdaptorPlugin && ff testConfabbAgendaAdaptorPlugin.html

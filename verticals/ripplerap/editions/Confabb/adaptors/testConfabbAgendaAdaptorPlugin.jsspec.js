@@ -103,8 +103,8 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 	/*
 	 *  track
 	 */
-	'first tiddler should have the title "Day1:GrandBallroom"' : function() {
-		value_of(__tiddlers[0].title).should_be('Day1:GrandBallroom');
+	'first tiddler should have the title "Day1"' : function() {
+		value_of(__tiddlers[0].title).should_be('Day1');
 	},
 	'track tiddler should be tagged "track"' : function() {
 		value_of(typeof __tiddlers[0].tags).should_be('object');
@@ -115,7 +115,7 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 		value_of(__tiddlers[0].text).should_be('<<AgendaTrackSessions>>');
 	},
 	'track tiddler should have the field rr_session_tag set to the track id': function() {
-		value_of(__tiddlers[0].fields.rr_session_tag).should_be('Day1:GrandBallroom');
+		value_of(__tiddlers[0].fields.rr_session_tag).should_be('Day1');
 	},
 
 	/*
@@ -152,7 +152,7 @@ describe('ConfabbAgendaAdaptorPlugin parsing a simple document', {
 		value_of(__tiddlers[1].fields.rr_session_speakers).should_be('May Bore, John Doe');
 	},
 	'session tiddler should have the tags "session" and the track tag': function() {
-		value_of(__tiddlers[1].tags).should_be(['session','WorkshopsTutorials','GrandBallroom','Day1','Day1:GrandBallroom','MayBore','JohnDoe']);
+		value_of(__tiddlers[1].tags).should_be(['session','WorkshopsTutorials','GrandBallroom','Day1','MayBore','JohnDoe']);
 	},
 
 	/*
@@ -1400,126 +1400,6 @@ describe('ConfabbAgendaAdaptorPlugin parsing Web 2.0 Conference Agenda', {
 	'should result in tiddlers' : function() {
 		log("tiddlers:",__tiddlers);
 		value_of(__tiddlers.length).should_be(143);
-	}
-});
-
-describe('ConfabbAgendaAdaptorPlugin parsing a simple vcard', {
-
-        before_each : function() {
-		__doc = '<?xml version="1.0" encoding="UTF-8"?>'
-		    +'<conference>'
-			+'  <vcard user-id="9471">'
-			+'    <fn>First Speaker</fn>'
-			+'    <profile>http://confabb.com/users/profile/firstspeaker</profile>'
-			+'    <bio>First Speaker is a good egg</bio>'
-			+'    <photo>/user/photo/9471/first_speaker.jpg</photo>'
-			+'  </vcard>'
-		    +'</conference>';
-		__tiddlers = ConfabbAgendaAdaptor.parseAgenda(__doc);
-        },
-	after_each : function() {
-		__tiddlers = undefined;
-	},
-	'should result in tiddlers' : function() {
-		value_of(__tiddlers.length).should_be(1);
-	},
-	'speaker tiddler should have the title from fn' : function() {
-		value_of(__tiddlers[0].title).should_be('First Speaker');
-	},
-	'speaker tiddler should have the title "First Speaker"' : function() {
-		value_of(__tiddlers[0].text).should_be('<html>First Speaker is a good egg</html>');
-	},
-	'speaker tiddler should have link set to the profile URI' : function() {
-		value_of(__tiddlers[0].fields.rr_speaker_link).should_be('http://confabb.com/users/profile/firstspeaker');
-	},
-	'speaker tiddler should have photo set to an absolute URI' : function() {
-		value_of(__tiddlers[0].fields.rr_speaker_photo).should_be('http://confabb.com/user/photo/9471/first_speaker.jpg');
-	}
-});
-
-describe('ConfabbAgendaAdaptorPlugin parsing a vcard', {
-
-        before_each : function() {
-		__doc = '<?xml version="1.0" encoding="UTF-8"?>'
-		    +'<conference>'
-			+'  <vcard user-id="9471">'
-			+'    <fn>First Speaker</fn>'
-			+'    <profile>http://confabb.com/users/profile/lbrenner</profile>'
-			+'    <bio>First Speaker is "Executive Producer" of Political Programming and Director of &lt;stuff&gt;' + "\n"
-			+'   somewhere doing stuff where he\'s very important!</bio>'
-			+'    <photo>/user/photo/9471/lee_brenner.tiff.jpg</photo>'
-			+'    <employer>MySpace Impact Channel</employer>'
-			+'  </vcard>'
-		    +'</conference>';
-		__tiddlers = ConfabbAgendaAdaptor.parseAgenda(__doc);
-        },
-	after_each : function() {
-		__tiddlers = undefined;
-	},
-	'should result in tiddlers' : function() {
-		value_of(__tiddlers.length).should_be(1);
-	},
-	'speaker tiddler should have the title from fn': function() {
-		value_of(__tiddlers[0].title).should_be('First Speaker');
-	},
-	'speaker tiddler text' : function() {
-		value_of(__tiddlers[0].text).should_be('<html>First Speaker is "Executive Producer" of Political Programming and Director of <stuff>'+"\n"
-			+'   somewhere doing stuff where he\'s very important!</html>');
-	}
-});
-
-describe('ConfabbAgendaAdaptorPlugin parsing a simple document to create agenda tabs array', {
-
-        before_each : function() {
-		__doc = '<?xml version="1.0" encoding="UTF-8"?>'
-		    +'<conference>'
-		    +'    <title>The Conference Title</title>'
-		    +'    <link>http://confabb.com/conferences/foo/sessions</link>'
-		    +'    <description>The Conference Description</description>'
-		    +'    <session id="123456789">'
-		    +'      <title>The First Session</title>'
-		    +'      <link>http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessions/20/details</link>'
-		    +'      <description>The First Session Description.</description>'
-		    +'      <day>1</day>'
-		    +'      <starttime>20061107073019</starttime>'
-		    +'      <endtime>20061107083019</endtime>'
-		    +'      <track>Workshops / Tutorials</track>'
-		    +'      <location>Grand Ballroom</location>'
-		    +'      <speaker><title>May Bore</title></speaker>'
-		    +'      <speaker><title>John Doe</title></speaker>'
-		    +'    </session>'
-		    +'    <session id="123456788">'
-		    +'      <title>The Second Session</title>'
-		    +'      <link>http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessions/20/details</link>'
-		    +'      <description>The Second Session Description.</description>'
-		    +'      <day>1</day>'
-		    +'      <starttime>20061107073019</starttime>'
-		    +'      <endtime>20061107083019</endtime>'
-		    +'      <track>Workshops / Tutorials</track>'
-		    +'      <location>Little Ballroom</location>'
-		    +'      <speaker><title>May Bore</title></speaker>'
-		    +'      <speaker><title>John Doe</title></speaker>'
-		    +'    </session>'
-		    +'    <session id="123456787">'
-		    +'      <title>The Third Session</title>'
-		    +'      <link>http://staging.confabb.com/conferences/16074-web-2-0-conference-2006/sessions/20/details</link>'
-		    +'      <description>The Third Session Description.</description>'
-		    +'      <day>1</day>'
-		    +'      <starttime>20061107073019</starttime>'
-		    +'      <endtime>20061107083019</endtime>'
-		    +'      <track>Workshops / Tutorials</track>'
-		    +'      <location>Mini Ballroom</location>'
-		    +'      <speaker><title>May Bore</title></speaker>'
-		    +'      <speaker><title>John Doe</title></speaker>'
-		    +'    </session>'
-		    +'</conference>';
-		__tiddlers = ConfabbAgendaAdaptor.parseAgenda(__doc);
-        },
-	after_each : function() {
-		__tiddlers = undefined;
-	},
-	'should create six tiddlers' : function() {
-		value_of(__tiddlers.length).should_be(8);
 	}
 });
 

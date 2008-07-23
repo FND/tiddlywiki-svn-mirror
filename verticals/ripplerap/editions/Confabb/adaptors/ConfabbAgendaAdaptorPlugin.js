@@ -64,26 +64,10 @@ ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 			days["Day"+name.makeId()] = name;
 		}
 	}
-	
-	var locations = {};
-	var l = r.getElementsByTagName('location');
-	for(i=0;i<l.length;i++) {
-		name = l[i].textContent || l[i].text;
-		if (name && name != undefined){
-			locations[name.makeId()] = name;
-		}
-	}
-	
-	var tabs = [];
-	for(i in days) {
-		for(var j in locations) {
-			tabs.pushUnique("Day"+days[i]+":"+locations[j].makeId());
-		}
-	}
 
-	for(i=0;i<tabs.length;i++) {
+	for(var d in days) {
 		var tiddler = new Tiddler();
-		tiddler.assign(tabs[i],'<<AgendaTrackSessions>>',undefined,undefined,['track'],undefined,{rr_session_tag: tabs[i]});
+		tiddler.assign(d,'<<AgendaTrackSessions>>',undefined,undefined,['track'],undefined,{rr_session_tag: d});
 		tiddlers.push(tiddler);
 	}
 
@@ -112,7 +96,6 @@ ConfabbAgendaAdaptor.parseAgenda = function(responseText)
 		tags.push(track.makeId());
 		tags.push(location.makeId());
 		tags.push(day.makeId());
-		tags.push(day.makeId()+":"+location.makeId());
 
 		/* list of speakers */
 		var sessionSpeakers = [];
