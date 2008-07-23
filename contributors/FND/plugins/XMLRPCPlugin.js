@@ -12,12 +12,13 @@
 <<XMLRPC URL methodName [username] [password]>>
 }}}
 !!Examples
-<<XMLRPC "http://trac.tiddlywiki.org/login/xmlrpc" "system.listMethods()">>
+<<XMLRPC "http://trac.tiddlywiki.org/login/xmlrpc" "system.listMethods">>
 !Revision History
 !!v0.1 (2008-08-22)
 * initial release
 !To Do
 * XML-RPC multi-call to combine multiple calls into a single HTTP request
+* macro missing option for parameters
 * documentation
 * code documentation
 !Code
@@ -27,8 +28,9 @@ if(!version.extensions.XMLRPCPlugin) {
 version.extensions.XMLRPCPlugin = { installed: true };
 
 xmlrpc = {
-	request: function(url, callback, methodCall, username, password, allowCache) { // DEBUG: rename?
-		doHttp("POST", url, methodCall, "text/xml", username, password, callback, null, null, allowCache); // DEBUG: no custom params or headers?
+	request: function(url, callback, method, params, username, password, allowCache) { // DEBUG: rename?
+		doHttp("POST", url, this.generateMethodCall(method, params), "text/xml",
+			username, password, callback, null, null, allowCache); // DEBUG: no custom params or headers?
 	},
 	parseResponse: function(status, params, responseText, xhr) {
 		if(status && responseText.indexOf("<fault>") == -1) { // DEBUG: use proper XML parsing?
@@ -45,6 +47,7 @@ xmlrpc = {
 	 * generate method call
 	 * @param {String} methodName name of remote procedure
 	 * @param {Array} params objects with keys "type" and "value"
+	 * @return {String} method call
 	 */
 	generateMethodCall: function(methodName, params) {
 		var msg = "<?xml version='1.0'?><methodCall>"
@@ -55,6 +58,11 @@ xmlrpc = {
 		}
 		return msg + "</params></methodCall>";
 	},
+	/**
+	 * generate parameter node
+	 * @param {Object} param object with keys "type" (data type) and "value"
+	 * @return {String} parameter node
+	 */
 	generateParamNode: function(param) {
 		switch(param.type) {
 			case "array":
@@ -114,8 +122,7 @@ config.macros.XMLRPC = {
 		var method = this.getAttribute("method");
 		var username = this.getAttribute("username") || null;
 		var password = this.getAttribute("password") || null;
-		var methodCall = xmlrpc.generateMethodCall(method);
-		xmlrpc.request(url, config.macros.XMLRPC.diplayResults, methodCall, username, password);
+		xmlrpc.request(url, config.macros.XMLRPC.diplayResults, method, null, username, password);
 	},
 	diplayResults: function(status, params, responseText, xhr) {
 		var response = xmlrpc.parseResponse(status, params, responseText, xhr);
