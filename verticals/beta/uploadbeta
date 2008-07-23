@@ -41,7 +41,7 @@ setPermissions "$DIR/beta/empty.html"
 COMMANDS="$COMMANDS sudo mv ./tmp/empty.$RELEASE.html $DIR/upgrade/index.html;"
 setPermissions "$DIR/upgrade/index.html"
 # TiddlySaver
-COMMANDS="$COMMANDS sudo mv ./tmp/TiddlySaver.html $DIR/beta/TiddlySaver.jar;"
+COMMANDS="$COMMANDS sudo mv ./tmp/TiddlySaver.jar $DIR/beta/TiddlySaver.jar;"
 setPermissions "$DIR/beta/TiddlySaver.jar"
 # execute
 $COMMANDS
