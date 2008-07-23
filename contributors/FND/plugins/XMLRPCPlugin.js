@@ -52,10 +52,8 @@ xmlrpc = {
 		var msg = "<?xml version='1.0'?><methodCall>"
 			+ "<methodName>" + methodName + "</methodName>"
 			+ "<params>";
-		if(params) {
-			for(var i = 0; i < params.length; i++) {
-				msg += this.generateParamNode(params[i]);
-			}
+		for(var i = 0; i < (params ? params.length : 0); i++) {
+			msg += this.generateParamNode(params[i]);
 		}
 		return msg + "</params></methodCall>";
 	},
