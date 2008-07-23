@@ -42,8 +42,11 @@ TiddlyWiki.prototype.orig_saveTiddler = TiddlyWiki.prototype.saveTiddler;       
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created)
 {
     var tiddler = this.fetchTiddler(title);
+
     tiddler = store.orig_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,false,created);
-    var adaptor = new config.adaptors['ccTiddly'];
+
+    var adaptor = new config.adaptors['cctiddly'];
+
     // put the tiddler and deal with callback
     context = {};
     tiddler.fields = fields;

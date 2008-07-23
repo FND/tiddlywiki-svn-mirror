@@ -1,9 +1,9 @@
 
 function ccTiddlyAdaptor()
 {
-	this.host = null;
-	this.workspace = null;
-	return this;
+        this.host = null;
+        this.workspace = null;
+        return this;
 }
 
 // !!TODO set the variables below
@@ -14,53 +14,53 @@ ccTiddlyAdaptor.errorInFunctionMessage = "Error in function ccTiddlyAdaptor.%0";
 
 ccTiddlyAdaptor.prototype.setContext = function(context,userParams,callback)
 {
-	if(!context) context = {};
-	context.userParams = userParams;
-	if(callback) context.callback = callback;
-	context.adaptor = this;
-	if(!context.host)
-		context.host = this.host;
-	context.host = ccTiddlyAdaptor.fullHostName(context.host);
-	if(!context.workspace)
-		context.workspace = this.workspace;
-	return context;
+        if(!context) context = {};
+        context.userParams = userParams;
+        if(callback) context.callback = callback;
+        context.adaptor = this;
+        if(!context.host)
+                context.host = this.host;
+        context.host = ccTiddlyAdaptor.fullHostName(context.host);
+        if(!context.workspace)
+                context.workspace = this.workspace;
+        return context;
 };
 
 ccTiddlyAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
-	return doHttp('GET',uri,data,contentType,username,password,callback,params,headers,1);
+        return doHttp('GET',uri,data,contentType,username,password,callback,params,headers,1);
 };
 
 ccTiddlyAdaptor.doHttpPOST = function(uri,callback,params,headers,data,contentType,username,password)
 {
-	return doHttp('POST',uri,data,contentType,username,password,callback,params,headers,1);
+        return doHttp('POST',uri,data,contentType,username,password,callback,params,headers,1);
 };
 
 ccTiddlyAdaptor.doHttpPUT = function(uri,callback,params,headers,data,contentType,username,password)
 {
-	return doHttp('PUT',uri,data,contentType,username,password,callback,params,headers,1);
+        return doHttp('PUT',uri,data,contentType,username,password,callback,params,headers,1);
 };
 
 ccTiddlyAdaptor.fullHostName = function(host)
 {
-	if(!host)
-		return '';
-	if(!host.match(/:\/\//))
-		host = 'http://' + host;
-	if(host.substr(host.length-1) != '/')
-		host = host + '/';
-	return host;
+        if(!host)
+                return '';
+        if(!host.match(/:\/\//))
+                host = 'http://' + host;
+        if(host.substr(host.length-1) != '/')
+                host = host + '/';
+        return host;
 };
 
 ccTiddlyAdaptor.minHostName = function(host)
 {
-	return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
+        return host ? host.replace(/^http:\/\//,'').replace(/\/$/,'') : '';
 };
 
 // Convert a page title to the normalized form used in uris
 ccTiddlyAdaptor.normalizedTitle = function(title)
 {
-	return title;
+        return title;
 };
 
 // Convert a date in YYYY-MM-DD hh:mm format into a JavaScript Date object
@@ -196,8 +196,11 @@ ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callbac
 	if(title)
 		context.title = title;
 	var uriTemplate = '%0handle/getTiddler.php?title=%2&workspace=%1';
-	//if(context.revision) {
-	//	uriTemplate += '&revision=%3';
+	//   if(context.revision) {
+	//           var uriTemplate = '%0recipes/%1/tiddlers/%2/revisions/%3';
+	//  } else {
+	//           uriTemplate = '%0recipes/%1/tiddlers/%2';
+	//  }
 	
 	uri = uriTemplate.format([context.host,context.workspace,ccTiddlyAdaptor.normalizedTitle(title),context.revision]);
 	context.tiddler = new Tiddler(title);
@@ -208,38 +211,40 @@ ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callbac
 	return typeof req == 'string' ? req : true;
 };
 
+
+
 ccTiddlyAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
-	context.status = false;
-	context.statusText = ccTiddlyAdaptor.errorInFunctionMessage.format(['getTiddlerCallback']);
-	if(status) {
-		var info=[]
-		try {
-			eval('info=' + responseText);
-		} catch (ex) {
-			context.statusText = exceptionText(ex,ccTiddlyAdaptor.serverParsingErrorMessage);
-			if(context.callback)
-				context.callback(context,context.userParams);
-			return;
-		}
-		context.tiddler.text = info['text'];
-		context.tiddler.tags = info['tags'];
-		context.tiddler.fields['server.page.revision'] = info['revision'];
+        context.status = false;
+        context.statusText = ccTiddlyAdaptor.errorInFunctionMessage.format(['getTiddlerCallback']);
+        if(status) {
+                var info=[]
+                try {
+                    eval('info=' + responseText);
+                } catch (ex) {
+                        context.statusText = exceptionText(ex,ccTiddlyAdaptor.serverParsingErrorMessage);
+                        if(context.callback)
+                                context.callback(context,context.userParams);
+                        return;
+                }
+                context.tiddler.text = info['text'];
+                context.tiddler.tags = info['tags'];
+                context.tiddler.fields['server.page.revision'] = info['revision'];
 
-		context.tiddler.fields['omodified'] = info['modified'];
+                context.tiddler.fields['omodified'] = info['modified'];
 
-		context.tiddler.modifier = info['modifier'];
-		context.tiddler.modified = Date.convertFromYYYYMMDDHHMM(info['modified']);
-		context.tiddler.created = Date.convertFromYYYYMMDDHHMM(info['created']);
-		context.status = true;
-	} else {
-		context.statusText = xhr.statusText;
-		if(context.callback)
-			context.callback(context,context.userParams);
-		return;
-	}
-	if(context.callback)
-		context.callback(context,context.userParams);
+                context.tiddler.modifier = info['modifier'];
+                context.tiddler.modified = Date.convertFromYYYYMMDDHHMM(info['modified']);
+                context.tiddler.created = Date.convertFromYYYYMMDDHHMM(info['created']);
+                context.status = true;
+        } else {
+                context.statusText = xhr.statusText;
+                if(context.callback)
+                        context.callback(context,context.userParams);
+                return;
+        }
+        if(context.callback)
+                context.callback(context,context.userParams);
 };
 
 
@@ -250,9 +255,6 @@ ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,
 	context.title = title;
 	var tiddler = store.fetchTiddler(title);
 	var encodedTitle = encodeURIComponent(title);
-console.log('getTiddlerRevisionList:'+title);
-//# http://cctiddly.sourceforge.net/msghandle.php?action=revisionList&title=About
-//# http://wiki.osmosoft.com/alpha/handle/revisionlist.php?&workspace=martinstest&title=GettingStarted
 	var uriTemplate = '%0handle/revisionList.php?workspace=%1&title=%2';
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
 	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
@@ -304,37 +306,45 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 {
 	context = this.setContext(context,userParams,callback);
 	context.title = tiddler.title;
-//	var recipeuriTemplate = '%0handle/putTiddler.php';
-	var uriTemplate = '%0handle/save.php';
-	var host = context.host || ccTiddlyAdaptor.fullHostName(tiddler.fields['server.host']);
-	var uri = uriTemplate.format([host,context.workspace,tiddler.title]);
+	var recipeuriTemplate = '%0handle/save.php';
+	var host = context.host ? context.host : ccTiddlyAdaptor.fullHostName(tiddler.fields['server.host']);
+	var uri;
+	uri = recipeuriTemplate.format([host,context.workspace,tiddler.title]);
 
-	var d = new Date();
-	d.setTime(Date.parse(tiddler['modified']));
-	d = d.convertToYYYYMMDDHHMM();
-	var newRevision = tiddler.fields['server.page.revision']+1;
-	var payload="workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title)+"&omodified="+d+"&modifier=username&tags=&revision="+encodeURIComponent(tiddler.fields['server.page.revision'])+"&fields= &body="+encodeURIComponent(tiddler.text)+"";
-	var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
+		var d = new Date();
+		d.setTime(Date.parse(tiddler['modified']));
+		d = d.convertToYYYYMMDDHHMM();
+		if(tiddler.fields['server.page.revision']==1)
+			tiddler.fields['server.page.revision'] = 10000;
+		else
+			tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'])+1;
+		var payload="workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title)+"&omodified="+d+"&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier+"&tags=&revision="+encodeURIComponent(tiddler.fields['server.page.revision'])+"&fields= &body="+encodeURIComponent(tiddler.text)+"";
+		var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
 	return typeof req == 'string' ? req : true;
 };
 
+
+
+
 ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
-	displayMessage(responseText);
-	if(status) {
-		context.status = true;
-	} else {
-		displayMessage('putTiddler xhr status is' + xhr.status);
-		displayMessage('putTiddler xhr status text is' + xhr.statusText);
-		context.status = false;
-		context.statusText = xhr.statusText;
-	}
-	if(context.callback)
-		context.callback(context,context.userParams);
+
+        if(status) {
+                context.status = true;
+        } else {
+                displayMessage('putTiddler xhr status is' + xhr.status);
+                displayMessage('putTiddler xhr status text is' + xhr.statusText);
+                context.status = false;
+                context.statusText = xhr.statusText;
+        }
+        if(context.callback)
+                context.callback(context,context.userParams);
 };
 
 ccTiddlyAdaptor.prototype.deleteTiddler = function(title,context,userParams,callback)
 {
+	displayMessage('sasa');
+	
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
 	title = encodeURIComponent(tiddler.title);
@@ -368,7 +378,7 @@ ccTiddlyAdaptor.deleteTiddlerCallback = function(status,context,responseText,uri
 
 ccTiddlyAdaptor.prototype.close = function()
 {
-	return true;
+        return true;
 };
 
 

@@ -33,6 +33,7 @@ function getServerType(fields)
 function invokeAdaptor(fnName,param1,param2,context,userParams,callback,fields)
 {
 //#console.log("invokeAdaptor:"+fnName);
+
 	var serverType = getServerType(fields);
 	if(!serverType)
 		return null;
@@ -128,9 +129,10 @@ config.commands.putTiddler.isEnabled = function(tiddler)
 
 
 
-/*
+
 config.commands.putTiddler.handler = function(event,src,title)
 {
+	displayMessage("PUT Tiddle");
 //#console.log("config.commands.putTiddler.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
@@ -151,7 +153,7 @@ config.commands.putTiddler.callback = function(context,userParams)
 
 
 
-*/
+
 
 config.commands.putTiddlerRevision = {};
 merge(config.commands.putTiddlerRevision,{
@@ -283,6 +285,7 @@ merge(config.commands.saveTiddlerAndPut,{
 
 config.commands.saveTiddlerAndPut.handler = function(event,src,title)
 {
+	displayMessage("asdasdasd");
 	config.commands.putTiddlerRevision.handler(event,src,title);// save the old tiddler as a revision
 	var newTitle = story.saveTiddler(title,event.shiftKey);
 	if(newTitle)
